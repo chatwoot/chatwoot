@@ -139,7 +139,7 @@ export default {
       newConversationModalActive: false,
       showArticleSearchPopover: false,
       hasRecordedAudio: false,
-      copilotAcceptedMessage: '',
+      copilotAcceptedMessages: {},
     };
   },
   computed: {
@@ -429,7 +429,7 @@ export default {
         this.setCCAndToEmailsFromLastChat();
         // Reset Copilot editor state (includes cancelling ongoing generation)
         this.copilot.reset();
-        this.copilotAcceptedMessage = '';
+        this.copilotAcceptedMessages = {};
       }
 
       if (this.isOnPrivateNote) {
@@ -513,6 +513,24 @@ export default {
     emitter.off(CMD_AI_ASSIST, this.executeCopilotAction);
   },
   methods: {
+    getDraftKey(
+      conversationId = this.conversationIdByRoute,
+      replyType = this.replyType
+    ) {
+      return `draft-${conversationId}-${replyType}`;
+    },
+    getCopilotAcceptedMessage(replyType = this.replyType) {
+      const key = this.getDraftKey(this.conversationIdByRoute, replyType);
+      return this.copilotAcceptedMessages[key] || '';
+    },
+    setCopilotAcceptedMessage(message, replyType = this.replyType) {
+      const key = this.getDraftKey(this.conversationIdByRoute, replyType);
+      this.copilotAcceptedMessages[key] = trimContent(message || '');
+    },
+    clearCopilotAcceptedMessage(replyType = this.replyType) {
+      const key = this.getDraftKey(this.conversationIdByRoute, replyType);
+      delete this.copilotAcceptedMessages[key];
+    },
     handleInsert(article) {
       const { url, title } = article;
       // Removing empty lines from the title
@@ -564,7 +582,7 @@ export default {
     },
     saveDraft(conversationId, replyType) {
       if (this.message || this.message === '') {
-        const key = `draft-${conversationId}-${replyType}`;
+        const key = this.getDraftKey(conversationId, replyType);
         const draftToSave = trimContent(this.message || '');
 
         this.$store.dispatch('draftMessages/set', {
@@ -579,7 +597,7 @@ export default {
     },
     getFromDraft() {
       if (this.conversationIdByRoute) {
-        const key = `draft-${this.conversationIdByRoute}-${this.replyType}`;
+        const key = this.getDraftKey();
         const messageFromStore =
           this.$store.getters['draftMessages/get'](key) || '';
 
@@ -602,7 +620,7 @@ export default {
     },
     removeFromDraft() {
       if (this.conversationIdByRoute) {
-        const key = `draft-${this.conversationIdByRoute}-${this.replyType}`;
+        const key = this.getDraftKey();
         this.$store.dispatch('draftMessages/delete', { key });
       }
     },
@@ -713,7 +731,7 @@ export default {
         return;
       }
       if (!this.showMentions) {
-        const copilotAcceptedMessage = this.copilotAcceptedMessage;
+        const copilotAcceptedMessage = this.getCopilotAcceptedMessage();
         const isOnWhatsApp =
           this.isATwilioWhatsAppChannel ||
           this.isAWhatsAppCloudChannel ||
@@ -915,7 +933,7 @@ export default {
     },
     clearMessage() {
       this.message = '';
-      this.copilotAcceptedMessage = '';
+      this.clearCopilotAcceptedMessage();
       if (this.sendWithSignature && !this.isPrivate) {
         // if signature is enabled, append it to the message
         const effectiveChannelType = getEffectiveChannelType(
@@ -1182,7 +1200,7 @@ export default {
     onSubmitCopilotReply() {
       const acceptedMessage = this.copilot.accept();
       this.message = acceptedMessage;
-      this.copilotAcceptedMessage = trimContent(acceptedMessage || '');
+      this.setCopilotAcceptedMessage(acceptedMessage);
     },
   },
 };
