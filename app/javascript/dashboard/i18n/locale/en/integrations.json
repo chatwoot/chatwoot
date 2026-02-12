@@ -487,6 +487,18 @@
         "CONFIRM": "Yes, delete",
         "CANCEL": "Cancel"
       }
+    },
+    "CALENDLY": {
+      "DELETE": {
+        "TITLE": "Disconnect Calendly?",
+        "MESSAGE": "Disconnecting Calendly will stop booking notifications and remove scheduling link access from conversations."
+      },
+      "CTA": {
+        "TITLE": "Connect to Calendly",
+        "DESCRIPTION": "Calendly is not connected. Click the button below to connect your account and enable scheduling from conversations.",
+        "AGENT_DESCRIPTION": "Calendly is not connected. Request your administrator to connect an account to use this integration.",
+        "BUTTON_TEXT": "Connect Calendly"
+      }
     }
   },
   "CAPTAIN": {

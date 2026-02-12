@@ -14,6 +14,7 @@ class ConversationAgent < ApplicationAgent
   include Guardrails
   include ResponsePolicies
   include CatalogSupport
+  include CalendlySupport
 
   description 'Responds to customer messages using knowledge base and tools'
 
@@ -63,8 +64,7 @@ class ConversationAgent < ApplicationAgent
     end
 
     available_tools << ExecuteMacroTool if current_assistant&.feature_macros_enabled? && macros_available?
-
-    available_tools
+    available_tools.concat(calendly_tools)
   end
 
   private
@@ -228,9 +228,7 @@ class ConversationAgent < ApplicationAgent
       'our company'
   end
 
-  def macros_available?
-    available_macros.exists?
-  end
+  def macros_available? = available_macros.exists?
 
   def available_macros
     current_account&.macros&.ai_available || Macro.none

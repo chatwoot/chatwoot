@@ -400,6 +400,16 @@ Rails.application.routes.draw do
                 delete :destroy
               end
             end
+            resource :calendly, controller: 'calendly', only: [:destroy] do
+              collection do
+                get :event_types
+                post :scheduling_link, action: :create_scheduling_link
+                get :scheduled_events
+                post :cancel_event
+                get :available_times
+                patch :update_settings
+              end
+            end
           end
           resources :working_hours, only: [:update]
 
@@ -645,6 +655,7 @@ Rails.application.routes.draw do
   post 'webhooks/instagram', to: 'webhooks/instagram#events'
   post 'webhooks/clerk', to: 'api/v1/webhooks/clerk#create'
   post 'webhooks/tiktok', to: 'webhooks/tiktok#events'
+  post 'webhooks/calendly', to: 'webhooks/calendly#receive'
 
   namespace :twitter do
   end
@@ -673,6 +684,7 @@ Rails.application.routes.draw do
   get 'instagram/callback', to: 'instagram/callbacks#show'
   get 'tiktok/callback', to: 'tiktok/callbacks#show'
   get 'notion/callback', to: 'notion/callbacks#show'
+  get 'calendly/callback', to: 'calendly/callbacks#show'
   # ----------------------------------------------------------------------
   # Routes for external service verifications
   get '.well-known/assetlinks.json' => 'android_app#assetlinks'
