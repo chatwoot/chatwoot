@@ -14,7 +14,7 @@ defineProps({
 <template>
   <div class="w-full py-2 mb-2 [interpolate-size:allow-keywords]">
     <div
-      class="grid grid-cols-1 lg:grid-cols-8 gap-1 lg:gap-4 items-start lg:items-center"
+      class="grid grid-cols-1 lg:grid-cols-8 gap-1.5 lg:gap-4 items-start lg:items-center"
     >
       <label class="text-heading-3 text-n-slate-12 col-span-1 lg:col-span-2">
         {{ label }}

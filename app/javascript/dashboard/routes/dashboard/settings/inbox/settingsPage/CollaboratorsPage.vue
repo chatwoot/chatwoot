@@ -8,9 +8,11 @@ import { minValue } from '@vuelidate/validators';
 import { useAlert } from 'dashboard/composables';
 import { useConfig } from 'dashboard/composables/useConfig';
 import SettingsFieldSection from 'dashboard/components-next/Settings/SettingsFieldSection.vue';
+import SettingsAccordion from 'dashboard/components-next/Settings/SettingsAccordion.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
-import Switch from 'dashboard/components-next/switch/Switch.vue';
+import SettingsToggleSection from 'dashboard/components-next/Settings/SettingsToggleSection.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
 import assignmentPoliciesAPI from 'dashboard/api/assignmentPolicies';
 import { useI18n } from 'vue-i18n';
 
@@ -94,6 +96,18 @@ const rules = {
 };
 
 const v$ = useVuelidate(rules, { maxAssignmentLimit });
+
+const assignmentHeader = computed(() =>
+  hasAssignmentV2.value
+    ? t('INBOX_MGMT.ASSIGNMENT.ENABLE_AUTO_ASSIGNMENT')
+    : t('INBOX_MGMT.SETTINGS_POPUP.AUTO_ASSIGNMENT')
+);
+
+const assignmentDescription = computed(() =>
+  hasAssignmentV2.value
+    ? t('INBOX_MGMT.ASSIGNMENT.DESCRIPTION')
+    : t('INBOX_MGMT.SETTINGS_POPUP.AUTO_ASSIGNMENT_SUB_TEXT')
+);
 
 const maxAssignmentLimitErrors = computed(() => {
   if (v$.value.maxAssignmentLimit.$error) {
@@ -204,12 +218,13 @@ const closePolicyDropdown = () => {
   showPolicyDropdown.value = false;
 };
 
-const handleToggleAutoAssignment = async () => {
+const handleToggleAutoAssignment = async val => {
+  enableAutoAssignment.value = val;
   try {
     const payload = {
       id: props.inbox.id,
       formData: false,
-      enable_auto_assignment: enableAutoAssignment.value,
+      enable_auto_assignment: val,
     };
     await store.dispatch('inboxes/updateInbox', payload);
     useAlert(t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
@@ -354,56 +369,43 @@ onMounted(() => {
         </div>
       </template>
     </SettingsFieldSection>
-
-    <SettingsFieldSection
-      :label="$t('INBOX_MGMT.SETTINGS_POPUP.AGENT_ASSIGNMENT')"
-      class="[&>div]:!items-baseline"
+    <SettingsAccordion
+      :title="$t('INBOX_MGMT.SETTINGS_POPUP.AGENT_ASSIGNMENT')"
+      class="mt-6"
     >
-      <!-- New UI for assignment_v2 -->
-      <template v-if="hasAssignmentV2">
-        <div class="flex items-start gap-3">
-          <Switch
-            v-model="enableAutoAssignment"
-            class="flex-shrink-0 mt-0.5"
-            @change="handleToggleAutoAssignment"
-          />
-          <div class="flex-grow">
-            <label class="text-sm text-n-slate-12 font-medium mb-1">
-              {{ $t('INBOX_MGMT.ASSIGNMENT.ENABLE_AUTO_ASSIGNMENT') }}
-            </label>
-            <p class="text-sm text-n-slate-11">
-              {{ $t('INBOX_MGMT.ASSIGNMENT.DESCRIPTION') }}
-            </p>
-          </div>
-        </div>
-
-        <Transition
-          enter-active-class="transition-all duration-200 ease-out"
-          enter-from-class="opacity-0 -translate-y-2"
-          enter-to-class="opacity-100 translate-y-0"
-          leave-active-class="transition-all duration-150 ease-in"
-          leave-from-class="opacity-100 translate-y-0"
-          leave-to-class="opacity-0 -translate-y-2"
+      <SettingsToggleSection
+        v-model="enableAutoAssignment"
+        compact
+        :header="assignmentHeader"
+        :description="assignmentDescription"
+        @update:model-value="handleToggleAutoAssignment"
+      >
+        <template
+          v-if="enableAutoAssignment && (isEnterprise || hasAssignmentV2)"
+          #editor
         >
-          <div v-if="enableAutoAssignment" class="mt-6">
+          <!-- assignment_v2 UI -->
+          <template v-if="hasAssignmentV2">
             <!-- Policy Card - When policy is attached -->
             <div
               v-if="showAdvancedAssignmentUI && assignmentPolicy"
-              class="p-4 rounded-xl outline-1 outline-n-weak outline bg-n-solid-1 dark:bg-n-slate-1"
+              class="ltr:pr-0 rtl:pl-0 ltr:pl-4 rtl:pr-4 py-4"
             >
               <div class="flex items-start gap-4">
                 <div
-                  class="flex-shrink-0 size-12 rounded-xl bg-n-slate-3 flex items-center justify-center"
+                  class="flex-shrink-0 size-10 rounded-xl bg-n-slate-3 flex items-center justify-center"
                 >
                   <span class="i-lucide-zap text-xl text-n-slate-11" />
                 </div>
                 <div class="flex-grow">
-                  <div class="flex items-start justify-between gap-4 mb-4">
+                  <div
+                    class="flex items-start justify-between gap-4 mb-4 ltr:pr-4 rtl:pl-4"
+                  >
                     <div class="flex flex-col items-start">
-                      <span class="text-base font-medium text-n-slate-12 mb-1">
+                      <span class="text-heading-3 text-n-slate-12 mb-1">
                         {{ assignmentPolicy.name }}
                       </span>
-                      <p class="text-sm text-n-slate-11">
+                      <p class="text-body-main text-n-slate-11">
                         {{ $t('INBOX_MGMT.ASSIGNMENT.POLICY_LABEL') }}
                       </p>
                     </div>
@@ -421,7 +423,7 @@ onMounted(() => {
                       <span
                         class="w-1.5 h-1.5 rounded-full bg-n-slate-11 flex-shrink-0"
                       />
-                      <span class="text-sm text-n-slate-12">
+                      <span class="text-body-main text-n-slate-12">
                         {{ assignmentOrderLabel }}
                       </span>
                     </li>
@@ -429,7 +431,7 @@ onMounted(() => {
                       <span
                         class="w-1.5 h-1.5 rounded-full bg-n-slate-11 flex-shrink-0"
                       />
-                      <span class="text-sm text-n-slate-12">
+                      <span class="text-body-main text-n-slate-12">
                         {{ assignmentMethodLabel }}
                       </span>
                     </li>
@@ -456,21 +458,20 @@ onMounted(() => {
                 !assignmentPolicy &&
                 !isLoadingPolicy
               "
-              class="rounded-xl outline-1 outline-n-weak outline"
             >
               <!-- Default Policy Header -->
               <div class="p-4">
                 <div class="flex items-start gap-4">
                   <div
-                    class="flex-shrink-0 w-12 h-12 rounded-xl bg-n-slate-3 dark:bg-n-slate-4 flex items-center justify-center"
+                    class="flex-shrink-0 size-10 rounded-xl bg-n-slate-3 dark:bg-n-slate-4 flex items-center justify-center"
                   >
                     <i class="i-lucide-zap text-xl text-n-slate-11" />
                   </div>
                   <div class="flex-grow">
-                    <h4 class="text-base font-medium text-n-slate-12 mb-1">
+                    <h4 class="text-heading-3 text-n-slate-12 mb-0.5">
                       {{ $t('INBOX_MGMT.ASSIGNMENT.DEFAULT_POLICY_LINKED') }}
                     </h4>
-                    <p class="text-sm text-n-slate-11">
+                    <p class="text-body-main text-n-slate-11">
                       {{
                         $t('INBOX_MGMT.ASSIGNMENT.DEFAULT_POLICY_DESCRIPTION')
                       }}
@@ -485,45 +486,45 @@ onMounted(() => {
                     v-on-click-outside="closePolicyDropdown"
                     class="relative"
                   >
-                    <button
-                      type="button"
-                      class="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-white bg-n-brand hover:bg-n-brand/90 rounded-lg transition-colors"
+                    <NextButton
+                      icon="i-lucide-link"
+                      sm
                       @click="togglePolicyDropdown"
                     >
-                      <i class="i-lucide-link text-sm" />
                       {{ $t('INBOX_MGMT.ASSIGNMENT.LINK_EXISTING_POLICY') }}
-                      <i
-                        class="i-lucide-chevron-down text-sm transition-transform"
+                      <Icon
+                        icon="i-lucide-chevron-down"
+                        class="transition-transform flex-shrink-0"
                         :class="{ 'rotate-180': showPolicyDropdown }"
                       />
-                    </button>
+                    </NextButton>
 
                     <DropdownMenu
                       v-if="showPolicyDropdown"
-                      class="top-full left-0 mt-2 min-w-72"
+                      class="top-full ltr:left-0 rtl:right-0 mt-2 max-w-64 max-h-72 overflow-y-auto"
                       :menu-items="policyMenuItems"
                       :is-searching="isLoadingPolicies"
                       @action="handlePolicyMenuAction"
                     />
                   </div>
 
-                  <button
-                    type="button"
-                    class="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-n-slate-12 bg-n-slate-3 dark:bg-n-slate-4 hover:bg-n-slate-4 dark:hover:bg-n-slate-5 rounded-lg transition-colors"
+                  <NextButton
+                    icon="i-lucide-plus"
+                    :label="$t('INBOX_MGMT.ASSIGNMENT.CREATE_NEW_POLICY')"
+                    slate
+                    faded
+                    sm
                     @click="navigateToCreatePolicy"
-                  >
-                    <i class="i-lucide-plus text-sm" />
-                    {{ $t('INBOX_MGMT.ASSIGNMENT.CREATE_NEW_POLICY') }}
-                  </button>
+                  />
                 </div>
               </div>
 
               <!-- Default Rules Info -->
               <div class="px-4 py-4 border-t border-n-weak bg-n-slate-2">
                 <div class="flex items-start gap-3">
-                  <i class="i-lucide-info text-base text-n-slate-10 mt-0.5" />
+                  <Icon icon="i-lucide-info" class="mt-0.5 text-n-slate-11" />
                   <div>
-                    <p class="text-sm text-n-slate-11 mb-2">
+                    <p class="text-body-main text-n-slate-11 mb-2">
                       {{ $t('INBOX_MGMT.ASSIGNMENT.CURRENT_BEHAVIOR') }}
                     </p>
                     <ul class="space-y-1">
@@ -531,7 +532,7 @@ onMounted(() => {
                         <span
                           class="w-1 h-1 rounded-full bg-n-slate-10 flex-shrink-0"
                         />
-                        <span class="text-sm text-n-slate-11">
+                        <span class="text-body-main text-n-slate-11">
                           {{ $t('INBOX_MGMT.ASSIGNMENT.DEFAULT_RULE_1') }}
                         </span>
                       </li>
@@ -539,7 +540,7 @@ onMounted(() => {
                         <span
                           class="w-1 h-1 rounded-full bg-n-slate-10 flex-shrink-0"
                         />
-                        <span class="text-sm text-n-slate-11">
+                        <span class="text-body-main text-n-slate-11">
                           {{ $t('INBOX_MGMT.ASSIGNMENT.DEFAULT_RULE_2') }}
                         </span>
                       </li>
@@ -552,19 +553,19 @@ onMounted(() => {
             <!-- Default Rules Card - Feature not enabled (no advanced_assignment) -->
             <div
               v-else-if="!showAdvancedAssignmentUI"
-              class="p-4 rounded-xl outline outline-1 outline-n-weak -outline-offset-1"
+              class="ltr:pr-0 rtl:pl-0 ltr:pl-4 rtl:pr-4 py-4"
             >
               <div class="flex items-start gap-4">
                 <div
-                  class="flex-shrink-0 w-12 h-12 rounded-xl bg-n-slate-3 dark:bg-n-slate-4 flex items-center justify-center"
+                  class="flex-shrink-0 size-10 rounded-xl bg-n-slate-3 dark:bg-n-slate-4 flex items-center justify-center"
                 >
-                  <i class="i-lucide-zap text-xl text-n-slate-11" />
+                  <Icon icon="i-lucide-zap" class="text-xl text-n-slate-11" />
                 </div>
                 <div class="flex-grow">
-                  <h4 class="text-base font-medium text-n-slate-12 mb-1">
+                  <h4 class="text-heading-3 text-n-slate-12 mb-0.5">
                     {{ $t('INBOX_MGMT.ASSIGNMENT.DEFAULT_RULES_TITLE') }}
                   </h4>
-                  <p class="text-sm text-n-slate-11 mb-4">
+                  <p class="text-body-main text-n-slate-11 mb-4">
                     {{ $t('INBOX_MGMT.ASSIGNMENT.DEFAULT_RULES_DESCRIPTION') }}
                   </p>
 
@@ -573,7 +574,7 @@ onMounted(() => {
                       <span
                         class="w-1.5 h-1.5 rounded-full bg-n-slate-11 flex-shrink-0"
                       />
-                      <span class="text-sm font-medium text-n-slate-12">
+                      <span class="text-body-main text-n-slate-12">
                         {{ $t('INBOX_MGMT.ASSIGNMENT.DEFAULT_RULE_1') }}
                       </span>
                     </li>
@@ -581,7 +582,7 @@ onMounted(() => {
                       <span
                         class="w-1.5 h-1.5 rounded-full bg-n-slate-11 flex-shrink-0"
                       />
-                      <span class="text-sm font-medium text-n-slate-12">
+                      <span class="text-body-main text-n-slate-12">
                         {{ $t('INBOX_MGMT.ASSIGNMENT.DEFAULT_RULE_2') }}
                       </span>
                     </li>
@@ -591,7 +592,7 @@ onMounted(() => {
 
                   <!-- Upgrade prompt when advanced_assignment is not enabled -->
                   <div v-if="!hasAdvancedAssignment">
-                    <p class="text-sm text-n-slate-11 mb-1">
+                    <p class="text-body-main text-n-slate-11 mb-1">
                       {{ $t('INBOX_MGMT.ASSIGNMENT.UPGRADE_PROMPT') }}
                     </p>
                     <NextButton
@@ -605,64 +606,39 @@ onMounted(() => {
                 </div>
               </div>
             </div>
-          </div>
-        </Transition>
-      </template>
+          </template>
 
-      <!-- Old UI for non-assignment_v2 -->
-      <template v-else>
-        <div class="flex items-center gap-2 mt-1 lg:mt-0">
-          <input
-            id="enableAutoAssignment"
-            v-model="enableAutoAssignment"
-            type="checkbox"
-            @change="handleToggleAutoAssignment"
-          />
-          <label
-            for="enableAutoAssignment"
-            class="text-heading-3 text-n-slate-12"
-          >
-            {{ $t('INBOX_MGMT.SETTINGS_POPUP.AUTO_ASSIGNMENT') }}
-          </label>
-        </div>
+          <!-- Old UI for non-assignment_v2 -->
+          <template v-else-if="isEnterprise">
+            <div class="p-4">
+              <woot-input
+                v-model="maxAssignmentLimit"
+                type="number"
+                :class="{ error: v$.maxAssignmentLimit.$error }"
+                :error="maxAssignmentLimitErrors"
+                :label="$t('INBOX_MGMT.AUTO_ASSIGNMENT.MAX_ASSIGNMENT_LIMIT')"
+                class="[&>input]:!mb-0"
+                @blur="v$.maxAssignmentLimit.$touch"
+              />
 
-        <p class="text-body-main text-n-slate-11 mt-1">
-          {{ $t('INBOX_MGMT.SETTINGS_POPUP.AUTO_ASSIGNMENT_SUB_TEXT') }}
-        </p>
+              <p class="mt-1.5 text-label-small text-n-slate-11">
+                {{
+                  $t('INBOX_MGMT.AUTO_ASSIGNMENT.MAX_ASSIGNMENT_LIMIT_SUB_TEXT')
+                }}
+              </p>
 
-        <div v-if="enableAutoAssignment && isEnterprise" class="py-3">
-          <woot-input
-            v-model="maxAssignmentLimit"
-            type="number"
-            :class="{ error: v$.maxAssignmentLimit.$error }"
-            :error="maxAssignmentLimitErrors"
-            :label="$t('INBOX_MGMT.AUTO_ASSIGNMENT.MAX_ASSIGNMENT_LIMIT')"
-            class="[&>input]:!mb-0"
-            @blur="v$.maxAssignmentLimit.$touch"
-          />
-
-          <p class="mt-1.5 text-label-small text-n-slate-11">
-            {{ $t('INBOX_MGMT.AUTO_ASSIGNMENT.MAX_ASSIGNMENT_LIMIT_SUB_TEXT') }}
-          </p>
-        </div>
-      </template>
-
-      <template
-        v-if="enableAutoAssignment && isEnterprise && !hasAssignmentV2"
-        #extra
-      >
-        <div class="grid grid-cols-1 lg:grid-cols-8">
-          <div class="col-span-1 lg:col-span-2" />
-          <div class="col-span-1 lg:col-span-6 mt-4 justify-self-end">
-            <NextButton
-              :label="$t('INBOX_MGMT.SETTINGS_POPUP.UPDATE')"
-              :disabled="v$.maxAssignmentLimit.$invalid"
-              @click="updateInbox"
-            />
-          </div>
-        </div>
-      </template>
-    </SettingsFieldSection>
+              <div class="flex justify-end mt-4">
+                <NextButton
+                  :label="$t('INBOX_MGMT.SETTINGS_POPUP.UPDATE')"
+                  :disabled="v$.maxAssignmentLimit.$invalid"
+                  @click="updateInbox"
+                />
+              </div>
+            </div>
+          </template>
+        </template>
+      </SettingsToggleSection>
+    </SettingsAccordion>
 
     <woot-modal
       v-if="showDeleteConfirmModal"
