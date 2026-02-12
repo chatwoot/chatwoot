@@ -174,12 +174,30 @@ class MailPresenter < SimpleDelegator
   end
 
   def notification_email_from_chatwoot?
-    # notification emails are send via mailer sender email address. so it should match
-    configured_sender = Mail::Address.new(ENV.fetch('MAILER_SENDER_EMAIL', 'Chatwoot <accounts@chatwoot.com>')).address
-    original_sender.to_s.casecmp?(configured_sender)
+    sender_address = original_sender.to_s.downcase
+    return false if sender_address.blank?
+
+    # Notification emails are sent via mailer sender email address.
+    configured_sender = parse_mail_address(ENV.fetch('MAILER_SENDER_EMAIL', 'Chatwoot <accounts@chatwoot.com>'))&.address&.downcase
+    return true if configured_sender.present? && sender_address.casecmp?(configured_sender)
+
+    reply_thread_email_from_chatwoot?(sender_address)
   end
 
   private
+
+  REPLY_THREAD_SENDER_PATTERN = /^reply\+[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+
+  def reply_thread_email_from_chatwoot?(sender_address)
+    inbound_domain = @account&.inbound_email_domain.to_s.downcase
+    return false if inbound_domain.blank?
+
+    local_part, domain = sender_address.split('@', 2)
+    return false if local_part.blank? || domain.blank?
+    return false unless domain.casecmp?(inbound_domain)
+
+    local_part.match?(REPLY_THREAD_SENDER_PATTERN)
+  end
 
   def parse_mail_address(email)
     return if email.blank?

@@ -20,10 +20,15 @@ class Messages::SendEmailNotificationService
 
   def should_send_email_notification?
     return false unless message.email_notifiable_message?
+    return false if bot_sender_message?
     return false if message.conversation.contact.email.blank?
     return false unless message.account.within_email_rate_limit?
 
     email_reply_enabled?
+  end
+
+  def bot_sender_message?
+    message.sender_type.in?(%w[AgentBot Captain::Assistant])
   end
 
   def email_reply_enabled?

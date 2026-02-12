@@ -1,5 +1,7 @@
 class ReplyMailbox < ApplicationMailbox
-  attr_accessor :conversation, :processed_mail
+  include IncomingEmailValidityHelper
+
+  attr_accessor :conversation, :processed_mail, :account
 
   before_processing :find_conversation
 
@@ -7,12 +9,17 @@ class ReplyMailbox < ApplicationMailbox
     # Return early if no conversation was found (e.g., notification emails, suspended accounts)
     return unless @conversation
 
+    decorate_mail
+    unless incoming_email_from_valid_email?
+      Rails.logger.info "Email #{mail.message_id} rejected - failed incoming email validity checks"
+      return
+    end
+
     # Wrap everything in a transaction to ensure atomicity
     # This prevents orphan conversations if message/attachment creation fails
     # and ensures idempotency on job retry (conversation won't be duplicated)
     ActiveRecord::Base.transaction do
       persist_conversation_if_needed
-      decorate_mail
       create_message
       add_attachments_to_message
     end
@@ -22,6 +29,7 @@ class ReplyMailbox < ApplicationMailbox
 
   def find_conversation
     @conversation = Mailbox::ConversationFinder.new(mail).find
+    @account = @conversation&.account
     # Log when email is rejected
     Rails.logger.info "Email #{mail.message_id} rejected - no conversation found" unless @conversation
   end
@@ -36,6 +44,6 @@ class ReplyMailbox < ApplicationMailbox
   end
 
   def decorate_mail
-    @processed_mail = MailPresenter.new(mail, @conversation.account)
+    @processed_mail = MailPresenter.new(mail, @account)
   end
 end
