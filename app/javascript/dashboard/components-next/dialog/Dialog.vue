@@ -66,6 +66,7 @@ const { t } = useI18n();
 
 const dialogRef = ref(null);
 const dialogContentRef = ref(null);
+const isOpen = ref(false);
 
 const maxWidthClass = computed(() => {
   const classesMap = {
@@ -85,12 +86,14 @@ const positionClass = computed(() =>
 );
 
 const open = () => {
+  isOpen.value = true;
   dialogRef.value?.showModal();
 };
 
 const close = () => {
   emit('close');
   dialogRef.value?.close();
+  isOpen.value = false;
 };
 
 const confirm = () => {
@@ -129,7 +132,7 @@ defineExpose({ open, close });
               </p>
             </slot>
           </div>
-          <slot />
+          <slot v-if="isOpen" />
           <!-- Dialog content will be injected here -->
           <slot name="footer">
             <div
