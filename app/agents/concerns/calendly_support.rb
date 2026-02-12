@@ -9,7 +9,7 @@ module CalendlySupport
   def calendly_tools
     return [] unless calendly_access_enabled?
 
-    [CalendlyShareLinkTool, CalendlyCheckAvailabilityTool, CalendlyListEventsTool]
+    [CalendlyShareLinkTool, CalendlyCheckAvailabilityTool, CalendlyListEventsTool, CalendlyBookMeetingTool]
   end
 
   def calendly_access_enabled?
