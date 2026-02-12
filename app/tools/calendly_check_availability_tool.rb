@@ -62,11 +62,10 @@ class CalendlyCheckAvailabilityTool < BaseTool
 
   def fetch_available_slots(event_type_uri, date)
     base_date = date.present? ? Time.zone.parse(date) : Time.current
-    start_time = base_date.beginning_of_day.iso8601
-    end_time = 7.days.after(base_date).end_of_day.iso8601
+    start_time = base_date.beginning_of_day
+    end_time = 7.days.after(base_date).end_of_day
 
-    uuid = event_type_uri.split('/').last
-    slots = api_client.list_available_times(uuid, start_time: start_time, end_time: end_time)
+    slots = api_client.list_available_times(event_type_uri, start_time: start_time, end_time: end_time)
 
     slots.map do |slot|
       {
