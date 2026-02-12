@@ -68,11 +68,12 @@ class CalendlyCheckAvailabilityTool < BaseTool
     slots.map { |slot| { start_time: slot['start_time'], status: slot['status'] } }
   end
 
-  # Calendly requires start_time to be in the future
+  # Calendly requires start_time to be strictly in the future; add buffer to avoid race conditions
   def resolve_start_time(date)
-    return Time.current if date.blank?
+    earliest = 2.minutes.from_now
+    return earliest if date.blank?
 
-    [Time.zone.parse(date), Time.current].max
+    [Time.zone.parse(date), earliest].max
   end
 
   def calendly_hook
