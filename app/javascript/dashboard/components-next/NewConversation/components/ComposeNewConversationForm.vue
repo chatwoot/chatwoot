@@ -58,7 +58,13 @@ const showBccEmailsDropdown = ref(false);
 
 const isCreating = computed(() => props.contactConversationsUiFlags.isCreating);
 
-const state = props.formState;
+const state = props.formState || {
+  message: '',
+  subject: '',
+  ccEmails: '',
+  bccEmails: '',
+  attachedFiles: [],
+};
 
 const inboxTypes = computed(() => ({
   isEmail: props.targetInbox?.channelType === INBOX_TYPES.EMAIL,
