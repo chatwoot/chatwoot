@@ -13,6 +13,7 @@ import {
   timeZoneOptions,
 } from '../helpers/businessHour';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
 
 const DEFAULT_TIMEZONE = {
   label: 'Pacific Time (US & Canada) (GMT-07:00)',
@@ -26,6 +27,7 @@ export default {
     BusinessDay,
     NextButton,
     WootMessageEditor,
+    ComboBox,
   },
   mixins: [inboxMixin],
   props: {
@@ -59,6 +61,15 @@ export default {
     },
     timeZones() {
       return [...timeZoneOptions()];
+    },
+    timeZoneValue: {
+      get() {
+        return this.timeZone.value;
+      },
+      set(value) {
+        const match = this.timeZones.find(tz => tz.value === value);
+        if (match) this.timeZone = match;
+      },
     },
     isRichEditorEnabled() {
       if (
@@ -158,18 +169,11 @@ export default {
       v-if="isBusinessHoursEnabled"
       :label="$t('INBOX_MGMT.BUSINESS_HOURS.TIMEZONE_LABEL')"
     >
-      <multiselect
-        v-model="timeZone"
+      <ComboBox
+        v-model="timeZoneValue"
         :options="timeZones"
-        deselect-label=""
-        select-label=""
-        selected-label=""
-        track-by="value"
-        label="label"
-        close-on-select
         :placeholder="$t('INBOX_MGMT.BUSINESS_HOURS.DAY.CHOOSE')"
-        class="!mb-0"
-        :allow-empty="false"
+        class="[&>div>button]:!bg-n-alpha-black2"
       />
     </SettingsFieldSection>
 
