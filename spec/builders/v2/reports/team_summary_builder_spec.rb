@@ -70,7 +70,8 @@ RSpec.describe V2::Reports::TeamSummaryBuilder do
                 resolved_conversations_count: 0,
                 avg_resolution_time: nil,
                 avg_first_response_time: 20.0,
-                avg_reply_time: 35.0
+                avg_reply_time: 35.0,
+                csat_satisfaction_score: 0
               },
               {
                 id: team2.id,
@@ -78,7 +79,8 @@ RSpec.describe V2::Reports::TeamSummaryBuilder do
                 resolved_conversations_count: 1,
                 avg_resolution_time: 50.0,
                 avg_first_response_time: nil,
-                avg_reply_time: nil
+                avg_reply_time: nil,
+                csat_satisfaction_score: 0
               }
             ]
           )
@@ -99,7 +101,8 @@ RSpec.describe V2::Reports::TeamSummaryBuilder do
                 resolved_conversations_count: 0,
                 avg_resolution_time: nil,
                 avg_first_response_time: 10.0,
-                avg_reply_time: 20.0
+                avg_reply_time: 20.0,
+                csat_satisfaction_score: 0
               },
               {
                 id: team2.id,
@@ -107,7 +110,8 @@ RSpec.describe V2::Reports::TeamSummaryBuilder do
                 resolved_conversations_count: 1,
                 avg_resolution_time: 40.0,
                 avg_first_response_time: nil,
-                avg_reply_time: nil
+                avg_reply_time: nil,
+                csat_satisfaction_score: 0
               }
             ]
           )
@@ -129,7 +133,8 @@ RSpec.describe V2::Reports::TeamSummaryBuilder do
             resolved_conversations_count: 0,
             avg_resolution_time: nil,
             avg_first_response_time: nil,
-            avg_reply_time: nil
+            avg_reply_time: nil,
+            csat_satisfaction_score: 0
           }
         )
       end

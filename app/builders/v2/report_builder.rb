@@ -152,10 +152,10 @@ class V2::ReportBuilder
   end
 
   def bot_resolutions_count
-    get_grouped_values(bot_resolutions_base_scope)
+    get_grouped_values(bot_resolutions_base_scope).count
   end
 
   def bot_handoffs_count
-    get_grouped_values(bot_handoffs_base_scope)
+    get_grouped_values(bot_handoffs_base_scope).count
   end
 end

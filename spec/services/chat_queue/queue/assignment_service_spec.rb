@@ -12,7 +12,18 @@ RSpec.describe ChatQueue::Queue::AssignmentService do
   let(:notification_service) { instance_double(ChatQueue::Queue::NotificationService) }
   let(:limits_service) { instance_double(ChatQueue::Agents::LimitsService) }
 
+  shared_context 'with different account setup' do
+    let(:other_account) { create(:account) }
+    let(:other_inbox) { create(:inbox, account: other_account) }
+    let(:other_agent) { create(:user, account: other_account) }
+    let(:other_conversation) { create(:conversation, account: other_account, inbox: other_inbox, status: :pending) }
+    let(:other_entry) { create(:conversation_queue, conversation: other_conversation, status: :waiting) }
+    let(:other_service) { described_class.new(account: other_account, entry: other_entry, agent: other_agent) }
+  end
+
   before do
+    create(:inbox_member, inbox: inbox, user: agent)
+
     allow(ChatQueue::Queue::NotificationService).to receive(:new)
       .with(conversation: conversation).and_return(notification_service)
     allow(notification_service).to receive(:send_assigned_notification)
@@ -42,7 +53,10 @@ RSpec.describe ChatQueue::Queue::AssignmentService do
     context 'when conversation already has an assignee' do
       let(:existing_agent) { create(:user, account: account) }
 
-      before { conversation.update!(assignee: existing_agent) }
+      before do
+        create(:inbox_member, inbox: inbox, user: existing_agent)
+        conversation.update!(assignee: existing_agent)
+      end
 
       it 'does not reassign and returns the conversation' do
         result = service.assign!
@@ -64,7 +78,7 @@ RSpec.describe ChatQueue::Queue::AssignmentService do
       end
 
       it 'assigns successfully regardless of active conversations count' do
-        create_list(:conversation, 10, account: account, assignee: agent, status: :open)
+        create_list(:conversation, 10, account: account, inbox: inbox, assignee: agent, status: :open)
 
         result = service.assign!
 
@@ -79,7 +93,7 @@ RSpec.describe ChatQueue::Queue::AssignmentService do
     context 'when agent is at limit' do
       before do
         allow(limits_service).to receive(:limit_for).with(agent.id).and_return(2)
-        create_list(:conversation, 2, account: account, assignee: agent, status: :open)
+        create_list(:conversation, 2, account: account, inbox: inbox, assignee: agent, status: :open)
       end
 
       it 'does not assign and returns nil' do
@@ -99,7 +113,7 @@ RSpec.describe ChatQueue::Queue::AssignmentService do
     context 'when agent is below limit' do
       before do
         allow(limits_service).to receive(:limit_for).with(agent.id).and_return(3)
-        create_list(:conversation, 2, account: account, assignee: agent, status: :open)
+        create_list(:conversation, 2, account: account, inbox: inbox, assignee: agent, status: :open)
       end
 
       it 'assigns successfully' do
@@ -163,7 +177,7 @@ RSpec.describe ChatQueue::Queue::AssignmentService do
     context 'when only resolved conversations exist for agent' do
       before do
         allow(limits_service).to receive(:limit_for).with(agent.id).and_return(2)
-        create_list(:conversation, 5, account: account, assignee: agent, status: :resolved)
+        create_list(:conversation, 5, account: account, inbox: inbox, assignee: agent, status: :resolved)
       end
 
       it 'assigns successfully as resolved conversations do not count' do
@@ -176,24 +190,24 @@ RSpec.describe ChatQueue::Queue::AssignmentService do
     end
 
     context 'when conversation belongs to different account' do
-      let(:other_account) { create(:account) }
-      let(:other_conversation) { create(:conversation, account: other_account) }
-      let(:other_entry) { create(:conversation_queue, conversation: other_conversation, status: :waiting) }
-      let(:other_notification_service) { instance_double(ChatQueue::Queue::NotificationService) }
-      let(:other_limits_service) { instance_double(ChatQueue::Agents::LimitsService) }
-      let(:other_service) { described_class.new(account: other_account, entry: other_entry, agent: agent) }
+      include_context 'with different account setup'
 
       before do
+        create(:inbox_member, inbox: other_inbox, user: other_agent)
+
+        other_notification_service = instance_double(ChatQueue::Queue::NotificationService)
+        other_limits_service = instance_double(ChatQueue::Agents::LimitsService)
+
         allow(ChatQueue::Queue::NotificationService).to receive(:new)
           .with(conversation: other_conversation).and_return(other_notification_service)
         allow(other_notification_service).to receive(:send_assigned_notification)
 
         allow(ChatQueue::Agents::LimitsService).to receive(:new)
           .with(account: other_account).and_return(other_limits_service)
-        allow(other_limits_service).to receive(:limit_for).with(agent.id).and_return(2)
+        allow(other_limits_service).to receive(:limit_for).with(other_agent.id).and_return(5)
 
         allow(limits_service).to receive(:limit_for).with(agent.id).and_return(2)
-        create_list(:conversation, 2, account: account, assignee: agent, status: :open)
+        create_list(:conversation, 2, account: account, inbox: inbox, assignee: agent, status: :open)
       end
 
       it 'does not count conversations from different account' do
@@ -201,13 +215,14 @@ RSpec.describe ChatQueue::Queue::AssignmentService do
 
         expect(result).to eq(other_conversation)
         expect(other_entry.reload.status).to eq('assigned')
+        expect(other_conversation.reload.assignee).to eq(other_agent)
       end
     end
 
     context 'when transaction rollback occurs due to limit' do
       before do
         allow(limits_service).to receive(:limit_for).with(agent.id).and_return(1)
-        create(:conversation, account: account, assignee: agent, status: :open)
+        create(:conversation, account: account, inbox: inbox, assignee: agent, status: :open)
       end
 
       it 'does not persist any changes' do
@@ -227,6 +242,8 @@ RSpec.describe ChatQueue::Queue::AssignmentService do
       let(:service2) { described_class.new(account: account, entry: entry, agent: agent2) }
 
       before do
+        create(:inbox_member, inbox: inbox, user: agent2)
+
         allow(limits_service).to receive(:limit_for).with(agent.id).and_return(5)
         allow(limits_service).to receive(:limit_for).with(agent2.id).and_return(5)
       end

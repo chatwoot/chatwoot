@@ -81,7 +81,7 @@ RSpec.describe 'Api::V2::Accounts::LiveReports', type: :request do
 
         it 'returns metrics filtered by team' do
           get "/api/v2/accounts/#{account.id}/live_reports/conversation_metrics",
-              params: { team_id: team.id },
+              params: { team_ids: [team.id] },
               headers: admin.create_new_auth_token,
               as: :json
 
