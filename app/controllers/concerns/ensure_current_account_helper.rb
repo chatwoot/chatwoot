@@ -25,6 +25,9 @@ module EnsureCurrentAccountHelper
   end
 
   def account_accessible_for_bot?(account)
+    # CHATWIT: Global/system bots (account_id IS NULL) can access ANY account
+    # This enables the Socialwise Bot to send async messages to all accounts
+    return if @resource.account_id.nil?
     return if @resource.account_id == account.id
     return if @resource.agent_bot_inboxes.find_by(account_id: account.id)
 

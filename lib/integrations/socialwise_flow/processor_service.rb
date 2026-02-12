@@ -331,7 +331,8 @@ class Integrations::SocialwiseFlow::ProcessorService < Integrations::BotProcesso
       Rails.logger.warn "[SOCIALWISE-FLOW] Failed to log payload: #{e.class}: #{e.message}"
     end
 
-    response = HTTParty.post(url, headers: headers, body: payload.to_json, timeout: 30)
+    timeout_seconds = ENV.fetch('SOCIALWISE_FLOW_TIMEOUT', '30').to_i
+    response = HTTParty.post(url, headers: headers, body: payload.to_json, timeout: timeout_seconds)
 
     if response.success?
       Rails.logger.info "[SOCIALWISE-FLOW] Response received: #{response.parsed_response.inspect}"
@@ -358,6 +359,13 @@ class Integrations::SocialwiseFlow::ProcessorService < Integrations::BotProcesso
       Rails.logger.warn '[SOCIALWISE-FLOW] Empty or nil response received'
       Rails.logger.warn "[SOCIALWISE-FLOW] Message content: #{message.content}"
       Rails.logger.warn "[SOCIALWISE-FLOW] Hook settings: #{hook.settings.inspect}"
+      return
+    end
+
+    # Dual-Mode Async: Se o Socialwise indicou processamento async, não fazer nada.
+    # As mensagens virão via API REST do Agent Bot.
+    if response['status'] == 'accepted' && response['async'] == true
+      Rails.logger.info '[SOCIALWISE-FLOW] Async processing accepted - messages will arrive via Agent Bot API'
       return
     end
 
@@ -408,8 +416,13 @@ class Integrations::SocialwiseFlow::ProcessorService < Integrations::BotProcesso
         elsif response['text'].present?
           Rails.logger.info '[SOCIALWISE-FLOW] WhatsApp channel with simple text response'
           create_conversation(message, { content: response['text'] })
+        elsif response['content'].present?
+          # Universal fallback: aceita 'content' como chave global omnichannel
+          Rails.logger.info '[SOCIALWISE-FLOW] WhatsApp channel with universal content fallback'
+          create_conversation(message, { content: response['content'] })
         else
           Rails.logger.warn '[SOCIALWISE-FLOW] WhatsApp channel but no whatsapp payload in response'
+          Rails.logger.warn "[SOCIALWISE-FLOW] Available response keys: #{response.keys.inspect}"
         end
       when 'Channel::FacebookPage', 'Channel::Instagram'
         # Instagram pode usar Channel::FacebookPage ou Channel::Instagram
@@ -428,14 +441,23 @@ class Integrations::SocialwiseFlow::ProcessorService < Integrations::BotProcesso
         elsif response['text'].present?
           Rails.logger.info '[SOCIALWISE-FLOW] Instagram/FacebookPage channel with simple text response'
           create_conversation(message, { content: response['text'] })
+        elsif response['content'].present?
+          # Universal fallback: aceita 'content' como chave global omnichannel
+          Rails.logger.info '[SOCIALWISE-FLOW] Instagram/FacebookPage channel with universal content fallback'
+          create_conversation(message, { content: response['content'] })
         else
           Rails.logger.warn '[SOCIALWISE-FLOW] Instagram/FacebookPage channel but no instagram/facebook payload in response'
+          Rails.logger.warn "[SOCIALWISE-FLOW] Available response keys: #{response.keys.inspect}"
         end
       else
         # Fallback para texto simples
         if response['text'].present?
           Rails.logger.info "[SOCIALWISE-FLOW] Using text fallback for channel: #{channel_type}"
           create_conversation(message, { content: response['text'] })
+        elsif response['content'].present?
+          # Universal fallback: aceita 'content' como chave global omnichannel
+          Rails.logger.info "[SOCIALWISE-FLOW] Using universal content fallback for channel: #{channel_type}"
+          create_conversation(message, { content: response['content'] })
         else
           Rails.logger.warn "[SOCIALWISE-FLOW] No suitable payload found for channel: #{channel_type}"
           Rails.logger.warn "[SOCIALWISE-FLOW] Available response keys: #{response.keys.inspect}"
@@ -1523,6 +1545,9 @@ class Integrations::SocialwiseFlow::ProcessorService < Integrations::BotProcesso
     # Try text field first
     fallback_content = response['text'] if response['text'].present?
 
+    # Try content field (universal omnichannel fallback)
+    fallback_content = response['content'] if fallback_content.blank? && response['content'].present?
+
     # Try WhatsApp content
     fallback_content = extract_whatsapp_text(response['whatsapp']) if fallback_content.blank? && response['whatsapp'].present?
 
@@ -1588,9 +1613,15 @@ class Integrations::SocialwiseFlow::ProcessorService < Integrations::BotProcesso
       metadata: {
         event_name: event_name,
         conversation_id: conversation.id,
+        # CHATWIT: display_id é o que a API REST usa na URL (NÃO o id interno!)
+        conversation_display_id: conversation.display_id,
         message_id: message.id,
         account_id: conversation.account_id,
-        inbox_id: inbox.id
+        inbox_id: inbox.id,
+        # Dual-Mode Async: URL base para o SocialWise chamar a API do Chatwit
+        chatwit_base_url: ENV.fetch('FRONTEND_URL', nil),
+        # Dual-Mode Async: Token do Agent Bot global para entrega assíncrona
+        chatwit_agent_bot_token: Chatwit::SocialwiseBot.token
       }
     }
 

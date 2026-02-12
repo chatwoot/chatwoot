@@ -630,6 +630,54 @@ end
 
 ## Histórico de Alterações
 
+### 2026-02-11 (Atualização 9) - Flexibilização: Fallback Universal 'content'
+- **MODIFICADO:** `lib/integrations/socialwise_flow/processor_service.rb`
+  - Adicionado fallback para `response['content']` em todos os canais (WhatsApp, Instagram, Facebook, genéricos)
+  - Antes: Apenas `response['text']` era aceito como texto simples universal
+  - Depois: Aceita tanto `response['text']` quanto `response['content']`
+  - Adicionado log com `response.keys.inspect` quando nenhum payload é encontrado
+  - Método `extract_fallback_content_from_response` também verifica `response['content']`
+
+**Problema corrigido:** O log `WhatsApp channel but no whatsapp payload in response` era disparado quando o SocialWise enviava respostas no formato `{"content": "..."}` ao invés de `{"text": "..."}`. Agora ambos os formatos são aceitos.
+
+**Argumento técnico:**
+- O Chatwoot usa `content` como chave global para texto de mensagens
+- A flexibilização permite que integrações omnichannel enviem texto simples sem precisar envelopar por canal
+- Mantém compatibilidade retroativa com `text` (prioridade) e `whatsapp`/`instagram`/`facebook`
+
+**Ordem de verificação para texto simples (por canal):**
+1. `response.dig('mapped', '{canal}')` → Envelope rico do FlowExecutor
+2. `response['{canal}']` → Envelope direto do canal
+3. `response['text']` → Texto simples (prioridade)
+4. `response['content']` → **NOVO** Fallback universal
+5. `WARN` → Log de payload não encontrado (com keys disponíveis)
+
+### 2026-02-08 (Atualização 8) - Feature: Dual-Mode Async (Sync + Async)
+- **MODIFICADO:** `lib/integrations/socialwise_flow/processor_service.rb`
+  - Timeout configurável via `SOCIALWISE_FLOW_TIMEOUT` ENV (linha 334-335)
+  - Early return para resposta `{"status":"accepted","async":true}` (linhas 363-368)
+  - Adiciona `chatwit_base_url` no metadata do payload (linha 1602)
+- **MODIFICADO:** `app/services/whatsapp/providers/whatsapp_cloud_service.rb`
+  - Branch para rotear `content_type: integrations` + `interactive` para `send_interactive_payload()` (linhas 9-12)
+- **DOCUMENTAÇÃO:** `chatwitdocs/chatwit-contrato-async-30s.md`
+
+**Funcionalidade:** Permite que o SocialWise responda além do timeout de 30 segundos usando a API REST do Agent Bot nativo do Chatwoot. O fluxo Dual-Mode funciona assim:
+
+1. **Modo Sync** (< 28s): SocialWise retorna mensagens no body da resposta HTTP
+2. **Modo Async** (> 28s): SocialWise retorna `{"status":"accepted","async":true}` e envia mensagens via API Agent Bot
+
+**Variável de ambiente:**
+```env
+SOCIALWISE_FLOW_TIMEOUT=30  # Timeout em segundos (opcional, default: 30)
+```
+
+**API Agent Bot para mensagens async:**
+```http
+POST /api/v1/accounts/{account_id}/conversations/{conversation_id}/messages
+Headers: api_access_token: {token_do_agent_bot}
+Body: {"content":"...", "content_type":"integrations", "content_attributes":{"interactive":{...}}}
+```
+
 ### 2026-02-05 (Atualização 7) - Correção: Instagram quick_reply payload perdido
 - **CRIADO:** `lib/integrations/instagram/message_parser.rb` - Parser para extrair payload de quick_reply/postback
 - **ADICIONADO:** Métodos `postback_payload`, `quick_reply_payload`, `postback?`, `quick_reply?` em `lib/integrations/facebook/message_parser.rb`

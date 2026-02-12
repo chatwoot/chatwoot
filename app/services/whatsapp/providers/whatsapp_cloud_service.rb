@@ -6,6 +6,10 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
       send_attachment_message(phone_number, message)
     elsif message.content_type == 'input_select'
       send_interactive_text_message(phone_number, message)
+    elsif message.content_type == 'integrations' && message.content_attributes&.dig('interactive').present?
+      # SocialWise Async: mensagem interativa enviada via Agent Bot API
+      interactive_payload = message.content_attributes['interactive']
+      send_interactive_payload(phone_number, message, interactive_payload)
     else
       send_text_message(phone_number, message)
     end
