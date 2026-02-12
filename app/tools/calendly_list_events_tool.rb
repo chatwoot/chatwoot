@@ -39,7 +39,7 @@ class CalendlyListEventsTool < BaseTool
   end
 
   def fetch_upcoming_events
-    events = api_client.list_scheduled_events
+    events = api_client.list_scheduled_events(min_start_time: Time.current)
     events.first(10).map do |event|
       {
         name: event['name'],
