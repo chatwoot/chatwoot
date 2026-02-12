@@ -19,12 +19,18 @@ class Calendly::CallbacksController < ApplicationController
 
     webhook = register_webhook(api_client, user_info, signing_key)
     create_hook(token_data, user_info, webhook, signing_key)
+  rescue StandardError => e
+    # Webhook registration may fail in dev (non-HTTPS URL).
+    # Still create the hook so the integration is usable without webhooks.
+    Rails.logger.warn("Calendly webhook registration failed: #{e.message}")
+    create_hook(token_data, user_info, nil, signing_key)
   end
 
   def build_temp_api_client(token_data)
     temp_hook = Integrations::Hook.new(
-      access_token: token_data['access_token'],
-      settings: build_token_settings(token_data)
+      settings: build_token_settings(token_data).merge(
+        'calendly_access_token' => token_data['access_token']
+      )
     )
     Integrations::Calendly::ApiClient.new(temp_hook)
   end
@@ -45,13 +51,13 @@ class Calendly::CallbacksController < ApplicationController
   def create_hook(token_data, user_info, webhook, signing_key)
     destroy_existing_hook!
     account.hooks.create!(
-      access_token: token_data['access_token'],
       status: 'enabled',
       app_id: 'calendly',
       settings: build_token_settings(token_data).merge(
+        'calendly_access_token' => token_data['access_token'],
         'calendly_user_uri' => user_info['uri'],
         'calendly_organization_uri' => user_info['current_organization'],
-        'webhook_subscription_uri' => webhook['uri'],
+        'webhook_subscription_uri' => webhook&.dig('uri'),
         'signing_key' => signing_key
       )
     )

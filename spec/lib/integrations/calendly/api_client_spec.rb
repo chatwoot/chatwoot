@@ -6,8 +6,8 @@ RSpec.describe Integrations::Calendly::ApiClient do
     create(:integrations_hook,
            account: account,
            app_id: 'calendly',
-           access_token: 'test-access-token',
            settings: {
+             'calendly_access_token' => 'test-access-token',
              'calendly_user_uri' => 'https://api.calendly.com/users/ABC123',
              'calendly_organization_uri' => 'https://api.calendly.com/organizations/ORG123',
              'refresh_token' => 'test-refresh-token',
@@ -81,8 +81,8 @@ RSpec.describe Integrations::Calendly::ApiClient do
       create(:integrations_hook,
              account: account,
              app_id: 'calendly',
-             access_token: 'expired-token',
              settings: {
+               'calendly_access_token' => 'expired-token',
                'calendly_user_uri' => 'https://api.calendly.com/users/ABC123',
                'refresh_token' => 'test-refresh-token',
                'token_expires_at' => 1.hour.ago.iso8601,
@@ -111,7 +111,7 @@ RSpec.describe Integrations::Calendly::ApiClient do
 
       expired_client.current_user
       hook_with_expired_token.reload
-      expect(hook_with_expired_token.access_token).to eq('new-access-token')
+      expect(hook_with_expired_token.settings['calendly_access_token']).to eq('new-access-token')
     end
 
     it 'marks hook as unauthorized on refresh failure' do

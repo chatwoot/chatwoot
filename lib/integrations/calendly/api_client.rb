@@ -89,7 +89,7 @@ class Integrations::Calendly::ApiClient
 
   def access_token
     refresh_token_if_expired!
-    @hook.access_token
+    @hook.settings['calendly_access_token']
   end
 
   def refresh_token_if_expired!
@@ -126,8 +126,8 @@ class Integrations::Calendly::ApiClient
 
   def update_hook_tokens(data)
     @hook.update!(
-      access_token: data['access_token'],
       settings: @hook.settings.merge(
+        'calendly_access_token' => data['access_token'],
         'refresh_token' => data['refresh_token'],
         'token_expires_at' => data['expires_in'].seconds.from_now.iso8601
       )
