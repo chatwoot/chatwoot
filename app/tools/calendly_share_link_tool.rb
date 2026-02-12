@@ -30,9 +30,10 @@ class CalendlyShareLinkTool < BaseTool
     validate_calendly_enabled!
     event_type_uri = resolve_event_type_uri(event_type_name)
     link = api_client.create_scheduling_link(event_type_uri)
+    booking_url = prefill_booking_url(link['booking_url'])
 
     success_response(
-      booking_url: link['booking_url'],
+      booking_url: booking_url,
       message: 'Scheduling link created. Include the booking_url in your message to the customer.'
     )
   rescue StandardError => e
@@ -56,6 +57,24 @@ class CalendlyShareLinkTool < BaseTool
     raise ArgumentError, "No event type matching '#{name}' found." unless match
 
     match['uri']
+  end
+
+  def prefill_booking_url(url)
+    params = contact_prefill_params
+    return url if params.empty?
+
+    separator = url.include?('?') ? '&' : '?'
+    "#{url}#{separator}#{URI.encode_www_form(params)}"
+  end
+
+  def contact_prefill_params
+    contact = current_conversation&.contact
+    return {} unless contact
+
+    params = {}
+    params[:name] = contact.name if contact.name.present?
+    params[:email] = contact.email if contact.email.present?
+    params
   end
 
   def calendly_hook

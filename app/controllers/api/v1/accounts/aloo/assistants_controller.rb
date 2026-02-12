@@ -39,15 +39,15 @@ class Api::V1::Accounts::Aloo::AssistantsController < Api::V1::Accounts::BaseCon
 
   # GET /api/v1/accounts/:account_id/aloo/assistants/:id/stats
   def stats
-    # Scope executions by current account (tenant)
-    executions = RubyLLM::Agents::Execution
-                 .by_agent('ConversationAgent')
-                 .by_tenant(Current.account.id.to_s)
+    assistant_messages = @assistant.messages
 
     render json: {
-      total_conversations: executions.count,
-      total_messages: executions.count,
-      total_tokens: executions.total_tokens_sum,
+      total_conversations: assistant_messages.distinct.count(:conversation_id),
+      total_messages: assistant_messages.count,
+      total_tokens: assistant_messages.sum(
+        "COALESCE((content_attributes->>'input_tokens')::integer, 0) + " \
+        "COALESCE((content_attributes->>'output_tokens')::integer, 0)"
+      ),
       total_documents: @assistant.documents.available.count
     }
   end
@@ -55,40 +55,14 @@ class Api::V1::Accounts::Aloo::AssistantsController < Api::V1::Accounts::BaseCon
   # GET /api/v1/accounts/:account_id/aloo/assistants/:id/performance
   def performance
     days = parse_days_from_range(params[:range] || '7d')
-    # Scope executions by current account (tenant)
-    executions = RubyLLM::Agents::Execution
-                 .by_agent('ConversationAgent')
-                 .by_tenant(Current.account.id.to_s)
-                 .last_n_days(days)
-
-    total_conversations = executions.count
-    successful_responses = executions.successful.count
-    failed_responses = executions.failed.count
-    total_responses = successful_responses + failed_responses
-
-    # Calculate average response time from executions
-    avg_response_time = executions.avg_duration&.round(2) || 0
-
-    # Calculate handoff rate from tool calls in executions
-    handoff_count = executions.with_tool_calls
-                              .where('tool_calls::text LIKE ?', '%HandoffTool%')
-                              .count
-    handoff_rate = total_conversations.positive? ? (handoff_count.to_f / total_conversations * 100).round(2) : 0
-
-    # Token usage from executions
-    total_input_tokens = executions.sum(:input_tokens)
-    total_output_tokens = executions.sum(:output_tokens)
+    msg_metrics = message_performance_metrics(days)
+    exec_metrics = execution_performance_metrics(days)
 
     render json: {
-      response_rate: total_responses.positive? ? (successful_responses.to_f / total_responses * 100).round(2) : 100,
-      avg_response_time_ms: avg_response_time,
-      handoff_rate: handoff_rate,
-      total_conversations: total_conversations,
-      token_usage: {
-        total_input: total_input_tokens,
-        total_output: total_output_tokens,
-        total: total_input_tokens + total_output_tokens
-      },
+      **exec_metrics,
+      handoff_rate: msg_metrics[:handoff_rate],
+      total_conversations: msg_metrics[:total_conversations],
+      token_usage: msg_metrics[:token_usage],
       time_range: params[:range] || '7d'
     }
   end
@@ -319,6 +293,29 @@ class Api::V1::Accounts::Aloo::AssistantsController < Api::V1::Accounts::BaseCon
 
   def check_authorization
     authorize(Current.account, :update?)
+  end
+
+  def message_performance_metrics(days)
+    assistant_msgs = @assistant.messages.where('messages.created_at >= ?', days.days.ago)
+    total_conversations = assistant_msgs.distinct.count(:conversation_id)
+
+    total_input = assistant_msgs.sum("COALESCE((content_attributes->>'input_tokens')::integer, 0)")
+    total_output = assistant_msgs.sum("COALESCE((content_attributes->>'output_tokens')::integer, 0)")
+
+    handoff_count = assistant_msgs.where("content_attributes->>'tool_calls' LIKE ?", '%HandoffTool%').count
+    handoff_rate = total_conversations.positive? ? (handoff_count.to_f / total_conversations * 100).round(2) : 0
+
+    { total_conversations: total_conversations, handoff_rate: handoff_rate,
+      token_usage: { total_input: total_input, total_output: total_output, total: total_input + total_output } }
+  end
+
+  def execution_performance_metrics(days)
+    executions = RubyLLM::Agents::Execution.by_agent('ConversationAgent').by_tenant(Current.account.id.to_s).last_n_days(days)
+    successful = executions.successful.count
+    total = successful + executions.failed.count
+    avg_time = executions.avg_duration&.round(2) || 0
+
+    { response_rate: total.positive? ? (successful.to_f / total * 100).round(2) : 100, avg_response_time_ms: avg_time }
   end
 
   def parse_time_range(range)

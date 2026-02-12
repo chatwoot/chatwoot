@@ -31,12 +31,9 @@ class CalendlyBookMeetingTool < BaseTool
     event_type_uri = resolve_event_type_uri(event_type_name)
     slots = fetch_available_slots(event_type_uri, date, days_ahead || 7)
     link = api_client.create_scheduling_link(event_type_uri)
+    booking_url = prefill_booking_url(link['booking_url'], date)
 
-    success_response(
-      booking_url: link['booking_url'],
-      available_slots: slots,
-      message: build_message(slots)
-    )
+    success_response(booking_url: booking_url, available_slots: slots, message: build_message(slots))
   rescue StandardError => e
     error_response("Failed to book meeting: #{e.message}")
   end
@@ -76,6 +73,26 @@ class CalendlyBookMeetingTool < BaseTool
     return earliest if date.blank?
 
     [Time.zone.parse(date), earliest].max
+  end
+
+  def prefill_booking_url(url, date)
+    params = contact_prefill_params
+    params[:date] = date if date.present?
+    params[:month] = date[0..6] if date.present? && date.length >= 7
+    return url if params.empty?
+
+    separator = url.include?('?') ? '&' : '?'
+    "#{url}#{separator}#{URI.encode_www_form(params)}"
+  end
+
+  def contact_prefill_params
+    contact = current_conversation&.contact
+    return {} unless contact
+
+    params = {}
+    params[:name] = contact.name if contact.name.present?
+    params[:email] = contact.email if contact.email.present?
+    params
   end
 
   def playground_booking(event_type_name, date, days_ahead)

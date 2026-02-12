@@ -22,15 +22,7 @@ class Api::V1::Accounts::Aloo::ConversationsController < Api::V1::Accounts::Base
   end
 
   def fetch_ai_conversations
-    conversation_ids = Message
-                       .joins(:conversation)
-                       .where(conversations: { account_id: Current.account.id })
-                       .where("content_attributes->>'aloo_generated' = ?", 'true')
-                       .where("content_attributes->>'aloo_assistant_id' = ?", @assistant.id.to_s)
-                       .reorder(nil)
-                       .distinct
-                       .pluck(:conversation_id)
-
+    conversation_ids = @assistant.messages.reorder(nil).select(:conversation_id).distinct
     Conversation.where(id: conversation_ids).includes(:contact).order(updated_at: :desc)
   end
 
@@ -72,12 +64,12 @@ class Api::V1::Accounts::Aloo::ConversationsController < Api::V1::Accounts::Base
   end
 
   def assistant_messages(conversation)
-    conversation.messages.where("content_attributes->>'aloo_assistant_id' = ?", @assistant.id.to_s)
+    conversation.messages.where(sender: @assistant)
   end
 
   def calculate_token_usage(messages)
-    input_tokens = messages.sum { |m| m.content_attributes['input_tokens'].to_i }
-    output_tokens = messages.sum { |m| m.content_attributes['output_tokens'].to_i }
+    input_tokens = messages.sum { |m| m.content_attributes&.dig('input_tokens').to_i }
+    output_tokens = messages.sum { |m| m.content_attributes&.dig('output_tokens').to_i }
 
     {
       input_tokens: input_tokens,
