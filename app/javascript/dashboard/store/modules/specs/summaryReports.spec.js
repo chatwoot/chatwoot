@@ -8,6 +8,7 @@ vi.mock('dashboard/api/summaryReports', () => ({
     getAgentReports: vi.fn(),
     getTeamReports: vi.fn(),
     getLabelReports: vi.fn(),
+    getBotSummaryReports: vi.fn(),
   },
 }));
 
@@ -27,11 +28,13 @@ describe('Summary Reports Store', () => {
         agentSummaryReports: [],
         teamSummaryReports: [],
         labelSummaryReports: [],
+        botSummaryReports: [],
         uiFlags: {
           isFetchingInboxSummaryReports: false,
           isFetchingAgentSummaryReports: false,
           isFetchingTeamSummaryReports: false,
           isFetchingLabelSummaryReports: false,
+          isFetchingBotSummaryReports: false,
         },
       });
     });
@@ -43,6 +46,7 @@ describe('Summary Reports Store', () => {
       agentSummaryReports: [{ id: 2 }],
       teamSummaryReports: [{ id: 3 }],
       labelSummaryReports: [{ id: 4 }],
+      botSummaryReports: [{ id: 5 }],
       uiFlags: { isFetchingInboxSummaryReports: true },
     };
 
@@ -60,6 +64,10 @@ describe('Summary Reports Store', () => {
 
     it('should return label summary reports', () => {
       expect(store.getters.getLabelSummaryReports(state)).toEqual([{ id: 4 }]);
+    });
+
+    it('should return bot summary reports', () => {
+      expect(store.getters.getBotSummaryReports(state)).toEqual([{ id: 5 }]);
     });
 
     it('should return UI flags', () => {
@@ -100,6 +108,14 @@ describe('Summary Reports Store', () => {
 
       store.mutations.setLabelSummaryReport(state, data);
       expect(state.labelSummaryReports).toEqual(data);
+    });
+
+    it('should set bot summary report', () => {
+      const state = { ...initialState };
+      const data = [{ id: 5 }];
+
+      store.mutations.setBotSummaryReport(state, data);
+      expect(state.botSummaryReports).toEqual(data);
     });
 
     it('should merge UI flags with existing flags', () => {
@@ -222,6 +238,32 @@ describe('Summary Reports Store', () => {
         ]);
         expect(commit).toHaveBeenCalledWith('setUIFlags', {
           isFetchingLabelSummaryReports: false,
+        });
+      });
+    });
+
+    describe('fetchBotSummaryReports', () => {
+      it('should fetch bot reports successfully', async () => {
+        const params = { botId: 999 };
+        const mockResponse = {
+          data: [{ bot_id: 999, bot_name: 'Test Bot' }],
+        };
+
+        SummaryReportsAPI.getBotSummaryReports.mockResolvedValue(mockResponse);
+
+        await store.actions.fetchBotSummaryReports({ commit }, params);
+
+        expect(commit).toHaveBeenCalledWith('setUIFlags', {
+          isFetchingBotSummaryReports: true,
+        });
+        expect(SummaryReportsAPI.getBotSummaryReports).toHaveBeenCalledWith(
+          params
+        );
+        expect(commit).toHaveBeenCalledWith('setBotSummaryReport', [
+          { botId: 999, botName: 'Test Bot' },
+        ]);
+        expect(commit).toHaveBeenCalledWith('setUIFlags', {
+          isFetchingBotSummaryReports: false,
         });
       });
     });

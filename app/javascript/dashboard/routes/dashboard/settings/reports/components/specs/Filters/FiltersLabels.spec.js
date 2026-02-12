@@ -43,6 +43,7 @@ describe('ReportsFiltersLabels.vue', () => {
         ...mountParams.global,
       },
     });
+
     expect(labelsModule.actions.get).toHaveBeenCalled();
   });
 
@@ -55,13 +56,12 @@ describe('ReportsFiltersLabels.vue', () => {
     });
 
     const selectedLabel = { id: 1, title: 'Label 1', color: 'red' };
-    await wrapper.setData({ selectedOption: selectedLabel });
-
+    await wrapper.setData({ selectedOptions: [selectedLabel] });
     await wrapper.vm.handleInput();
 
     expect(wrapper.emitted('labelsFilterSelection')).toBeTruthy();
     expect(wrapper.emitted('labelsFilterSelection')[0]).toEqual([
-      selectedLabel,
+      [selectedLabel],
     ]);
   });
 });

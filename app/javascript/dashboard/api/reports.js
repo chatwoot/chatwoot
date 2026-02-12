@@ -301,18 +301,6 @@ class ReportsAPI extends ApiClient {
     return axios.get(`${this.url}/agents.${format}`, {
       params,
       responseType: format === 'xlsx' ? 'blob' : undefined,
-      paramsSerializer: requestParams => {
-        const searchParams = new URLSearchParams();
-        Object.keys(requestParams).forEach(key => {
-          const value = requestParams[key];
-          if (Array.isArray(value)) {
-            value.forEach(item => searchParams.append(`${key}[]`, item));
-          } else if (value !== undefined && value !== null) {
-            searchParams.append(key, value);
-          }
-        });
-        return searchParams.toString();
-      },
     });
   }
 
@@ -366,18 +354,6 @@ class ReportsAPI extends ApiClient {
     return axios.get(`${this.url}/labels.${format}`, {
       params,
       responseType: format === 'xlsx' ? 'blob' : undefined,
-      paramsSerializer: requestParams => {
-        const searchParams = new URLSearchParams();
-        Object.keys(requestParams).forEach(key => {
-          const value = requestParams[key];
-          if (Array.isArray(value)) {
-            value.forEach(item => searchParams.append(`${key}[]`, item));
-          } else if (value !== undefined && value !== null) {
-            searchParams.append(key, value);
-          }
-        });
-        return searchParams.toString();
-      },
     });
   }
 
@@ -421,18 +397,6 @@ class ReportsAPI extends ApiClient {
     return axios.get(`${this.url}/inboxes.${format}`, {
       params,
       responseType: format === 'xlsx' ? 'blob' : undefined,
-      paramsSerializer: requestParams => {
-        const searchParams = new URLSearchParams();
-        Object.keys(requestParams).forEach(key => {
-          const value = requestParams[key];
-          if (Array.isArray(value)) {
-            value.forEach(item => searchParams.append(`${key}[]`, item));
-          } else if (value !== undefined && value !== null) {
-            searchParams.append(key, value);
-          }
-        });
-        return searchParams.toString();
-      },
     });
   }
 
@@ -476,18 +440,6 @@ class ReportsAPI extends ApiClient {
     return axios.get(`${this.url}/teams.${format}`, {
       params,
       responseType: format === 'xlsx' ? 'blob' : undefined,
-      paramsSerializer: requestParams => {
-        const searchParams = new URLSearchParams();
-        Object.keys(requestParams).forEach(key => {
-          const value = requestParams[key];
-          if (Array.isArray(value)) {
-            value.forEach(item => searchParams.append(`${key}[]`, item));
-          } else if (value !== undefined && value !== null) {
-            searchParams.append(key, value);
-          }
-        });
-        return searchParams.toString();
-      },
     });
   }
 }
