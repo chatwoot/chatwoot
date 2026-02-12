@@ -39,6 +39,8 @@ const props = defineProps({
   // Skip label-based dedup when the consumer already filters menuItems by ID.
   // Prevents removing all same-name items when one is selected (e.g. duplicate agent names).
   skipLabelDedup: { type: Boolean, default: false },
+  // When false, the dropdown won't auto-open on mount; it opens only on click/focus.
+  autoOpenDropdown: { type: Boolean, default: true },
 });
 
 const emit = defineEmits([
@@ -59,7 +61,7 @@ const modelValue = defineModel({
 const tagInputRef = ref(null);
 const tags = ref(props.modelValue);
 const newTag = ref('');
-const isFocused = ref(true);
+const isFocused = ref(props.autoOpenDropdown);
 
 const rules = computed(() => getValidationRules(props.type));
 const v$ = useVuelidate(rules, { newTag });
