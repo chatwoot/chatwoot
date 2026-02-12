@@ -229,7 +229,7 @@ watch(
     <!-- Avatar Container -->
     <span
       role="img"
-      class="relative inline-flex items-center justify-center object-cover overflow-hidden font-medium"
+      class="relative inline-flex items-center justify-center object-cover overflow-hidden font-medium outline outline-1 -outline-offset-1 outline-[rgb(0_0_0_/_0.03)] dark:outline-[rgb(255_255_255_/_0.04)]"
       :class="[
         borderRadiusClass,
         {
