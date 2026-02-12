@@ -44,7 +44,7 @@ RSpec.describe AgentBots::WebhookJob do
 
     expect(Webhooks::Trigger).to receive(:execute).exactly(3).times
     expect(trigger_instance).to receive(:handle_failure).with(instance_of(RestClient::InternalServerError)).once
-    expect(Rails.logger).to receive(:warn).with(/AgentBots::WebhookJob/).twice
+    expect(Rails.logger).to receive(:warn).with(/AgentBots::WebhookJob/).exactly(3).times
 
     perform_enqueued_jobs { job }
   end
