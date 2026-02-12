@@ -33,6 +33,8 @@ module V2::Reports::Concerns::RollupConditions
   private
 
   def metric_covered?
+    return false if params[:metric].blank?
+
     COVERED_METRICS.key?(params[:metric].to_sym)
   end
 
@@ -62,6 +64,17 @@ module V2::Reports::Concerns::RollupConditions
 
   def metric_to_rollup_metric(metric)
     COVERED_METRICS[metric.to_sym]
+  end
+
+  def rollup_value_column
+    ActiveModel::Type::Boolean.new.cast(params[:business_hours]).present? ? :sum_value_business_hours : :sum_value
+  end
+
+  def rollup_date_range
+    tz = ActiveSupport::TimeZone[account.reporting_timezone]
+    start_date = range.first.in_time_zone(tz).to_date
+    end_date = range.last.in_time_zone(tz).to_date
+    start_date..end_date
   end
 
   def dimension_type_to_rollup

@@ -33,7 +33,7 @@ class V2::Reports::Timeseries::CountReportBuilder < V2::Reports::Timeseries::Bas
       metric: metric,
       dimension_type: dimension_type,
       dimension_id: dimension_id,
-      date: range.first..range.last
+      date: rollup_date_range
     )
 
     group_and_aggregate_rollup_counts(rollup_rows)
@@ -55,7 +55,7 @@ class V2::Reports::Timeseries::CountReportBuilder < V2::Reports::Timeseries::Bas
       metric: metric,
       dimension_type: dimension_type,
       dimension_id: dimension_id,
-      date: range.first..range.last
+      date: rollup_date_range
     ).sum(:count).to_i
   end
 

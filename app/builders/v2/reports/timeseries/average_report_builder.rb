@@ -32,7 +32,7 @@ class V2::Reports::Timeseries::AverageReportBuilder < V2::Reports::Timeseries::B
       metric: metric,
       dimension_type: dimension_type,
       dimension_id: dimension_id,
-      date: range.first..range.last
+      date: rollup_date_range
     )
 
     group_and_aggregate_rollup(rollup_rows)
@@ -47,14 +47,15 @@ class V2::Reports::Timeseries::AverageReportBuilder < V2::Reports::Timeseries::B
     dimension_id = dimension_id_for_rollup
     metric = metric_to_rollup_metric(params[:metric])
 
+    value_col = rollup_value_column
+
     result = ReportingEventsRollup.where(
       account_id: account.id,
       metric: metric,
       dimension_type: dimension_type,
       dimension_id: dimension_id,
-      date: range.first..range.last
-    ).pluck(Arel.sql('SUM(count), SUM(sum_value)'))
-                                  .first
+      date: rollup_date_range
+    ).pick(Arel.sql("SUM(count), SUM(#{value_col})"))
 
     return nil if result.blank? || result[0].to_i.zero?
 
@@ -76,6 +77,7 @@ class V2::Reports::Timeseries::AverageReportBuilder < V2::Reports::Timeseries::B
 
   def group_and_aggregate_rollup(rollup_rows)
     grouped_data = {}
+    value_col = rollup_value_column
 
     rollup_rows.each do |row|
       date_key = case group_by
@@ -93,7 +95,7 @@ class V2::Reports::Timeseries::AverageReportBuilder < V2::Reports::Timeseries::B
 
       grouped_data[date_key] ||= { count: 0, sum_value: 0.0 }
       grouped_data[date_key][:count] += row.count
-      grouped_data[date_key][:sum_value] += row.sum_value
+      grouped_data[date_key][:sum_value] += row.public_send(value_col)
     end
 
     grouped_data.each_with_object([]) do |(date_key, data), arr|

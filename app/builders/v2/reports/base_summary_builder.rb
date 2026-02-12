@@ -48,21 +48,22 @@ class V2::Reports::BaseSummaryBuilder
   def load_rollup_data
     group_by_key.to_s.split('.').last
     dimension_type = dimension_type_to_rollup
+    value_col = rollup_value_column
 
     # Fetch rollup data grouped by dimension_id
     rollup_rows = ReportingEventsRollup.where(
       account_id: account.id,
       dimension_type: dimension_type,
-      date: range.first..range.last
+      date: rollup_date_range
     ).group(:dimension_id).select(
       'dimension_id',
       'SUM(CASE WHEN metric = \'resolutions_count\' THEN count ELSE 0 END) as resolved_count',
-      'SUM(CASE WHEN metric = \'resolution_time\' THEN count ELSE 0 END) as resolution_count',
-      'SUM(CASE WHEN metric = \'resolution_time\' THEN sum_value ELSE 0 END) as resolution_sum_value',
-      'SUM(CASE WHEN metric = \'first_response\' THEN count ELSE 0 END) as first_response_count',
-      'SUM(CASE WHEN metric = \'first_response\' THEN sum_value ELSE 0 END) as first_response_sum_value',
-      'SUM(CASE WHEN metric = \'reply_time\' THEN count ELSE 0 END) as reply_count',
-      'SUM(CASE WHEN metric = \'reply_time\' THEN sum_value ELSE 0 END) as reply_sum_value'
+      "SUM(CASE WHEN metric = 'resolution_time' THEN count ELSE 0 END) as resolution_count",
+      "SUM(CASE WHEN metric = 'resolution_time' THEN #{value_col} ELSE 0 END) as resolution_sum_value",
+      "SUM(CASE WHEN metric = 'first_response' THEN count ELSE 0 END) as first_response_count",
+      "SUM(CASE WHEN metric = 'first_response' THEN #{value_col} ELSE 0 END) as first_response_sum_value",
+      "SUM(CASE WHEN metric = 'reply_time' THEN count ELSE 0 END) as reply_count",
+      "SUM(CASE WHEN metric = 'reply_time' THEN #{value_col} ELSE 0 END) as reply_sum_value"
     )
 
     # Convert to the expected format
