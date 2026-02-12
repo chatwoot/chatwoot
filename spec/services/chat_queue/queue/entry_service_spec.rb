@@ -19,7 +19,10 @@ RSpec.describe ChatQueue::Queue::EntryService do
     context 'when conversation has an assignee' do
       let(:agent) { create(:user, account: account) }
 
-      before { conversation.update!(assignee: agent) }
+      before do
+        create(:inbox_member, inbox: inbox, user: agent)
+        conversation.update!(assignee: agent)
+      end
 
       it 'clears the assignee' do
         service.prepare_for_queue!(conversation)
@@ -123,6 +126,7 @@ RSpec.describe ChatQueue::Queue::EntryService do
       let(:notification_service2) { instance_double(ChatQueue::Queue::NotificationService) }
 
       before do
+        create(:inbox_member, inbox: inbox, user: agent)
         conversation.update!(assignee: agent)
 
         allow(ChatQueue::Queue::NotificationService).to receive(:new)
@@ -245,6 +249,7 @@ RSpec.describe ChatQueue::Queue::EntryService do
     context 'when executing transaction' do
       it 'completes all operations successfully' do
         agent = create(:user, account: account)
+        create(:inbox_member, inbox: inbox, user: agent)
         conversation.update!(assignee: agent)
 
         service.prepare_for_queue!(conversation)

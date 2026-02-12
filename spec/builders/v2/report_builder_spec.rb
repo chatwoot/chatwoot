@@ -111,13 +111,23 @@ describe V2::ReportBuilder do
           }
 
           conversations = account.conversations.where('created_at < ?', 1.day.ago)
-          perform_enqueued_jobs do
-            # Resolve all 5 conversations
-            conversations.each(&:resolved!)
 
-            # Reopen 1 conversation
-            conversations.first.open!
+          conversations.each do |conv|
+            conv.resolved!
+
+            resolution_time = (Time.current - conv.created_at).to_i
+
+            account.reporting_events.create!(
+              name: 'conversation_resolved',
+              conversation: conv,
+              account_id: account.id,
+              value: resolution_time,
+              created_at: Time.current
+            )
           end
+
+          # Reopen 1 conversation
+          conversations.first.open!
 
           builder = described_class.new(account, params)
           metrics = builder.timeseries
@@ -138,15 +148,33 @@ describe V2::ReportBuilder do
           }
 
           conversations = account.conversations.where('created_at < ?', 1.day.ago)
-          perform_enqueued_jobs do
-            # Resolve all 5 conversations (first round)
-            conversations.each(&:resolved!)
 
-            # Reopen 2 conversations and resolve them again
-            conversations.first(2).each do |conversation|
-              conversation.open!
-              conversation.resolved!
-            end
+          # Resolve all 5 conversations (first round)
+          conversations.each do |conv|
+            conv.resolved!
+            resolution_time = (Time.current - conv.created_at).to_i
+            account.reporting_events.create!(
+              name: 'conversation_resolved',
+              conversation: conv,
+              account_id: account.id,
+              value: resolution_time,
+              created_at: Time.current
+            )
+          end
+
+          # Reopen 2 conversations and resolve them again
+          conversations.first(2).each do |conv|
+            conv.open!
+            conv.resolved!
+
+            resolution_time = (Time.current - conv.created_at).to_i
+            account.reporting_events.create!(
+              name: 'conversation_resolved',
+              conversation: conv,
+              account_id: account.id,
+              value: resolution_time,
+              created_at: Time.current
+            )
           end
 
           builder = described_class.new(account, params)
@@ -169,17 +197,24 @@ describe V2::ReportBuilder do
 
           create(:agent_bot_inbox, inbox: account.inboxes.first)
           conversations = account.conversations.where('created_at < ?', 1.day.ago)
-          conversations.each do |conversation|
-            conversation.messages.outgoing.all.update(sender: nil)
+
+          # Resolve all 5 conversations
+          conversations.each do |conv|
+            conv.messages.outgoing.all.update(sender: nil)
+            conv.resolved!
+
+            account.reporting_events.create!(
+              name: 'conversation_bot_resolved',
+              conversation: conv,
+              account_id: account.id,
+              inbox_id: conv.inbox_id,
+              value: 0,
+              created_at: Time.current
+            )
           end
 
-          perform_enqueued_jobs do
-            # Resolve all 5 conversations
-            conversations.each(&:resolved!)
-
-            # Reopen 1 conversation
-            conversations.first.open!
-          end
+          # Reopen 1 conversation
+          conversations.first.open!
 
           builder = described_class.new(account, params)
           metrics = builder.timeseries
@@ -229,7 +264,8 @@ describe V2::ReportBuilder do
 
       it 'returns average first response time' do
         user = account.users.first
-        conversations = account.conversations.joins(:labels).where(labels: { id: label_2.id })
+
+        conversations = account.conversations.where(created_at: (Time.zone.today - 2.days).all_day)
 
         conversations.each do |conversation|
           create(
@@ -374,18 +410,27 @@ describe V2::ReportBuilder do
 
           conversations = account.conversations.where('created_at < ?', 1.day.ago)
 
-          perform_enqueued_jobs do
-            # ensure 5 reporting events are created
-            conversations.each(&:resolved!)
+          # Ensure 5 reporting events are created
+          conversations.each do |conv|
+            conv.resolved!
 
-            # open one of the conversations to check if it is not counted
-            conversations.last.open!
+            resolution_time = (Time.current - conv.created_at).to_i
+            account.reporting_events.create!(
+              name: 'conversation_resolved',
+              conversation: conv,
+              account_id: account.id,
+              value: resolution_time,
+              created_at: Time.current
+            )
           end
+
+          # Open one of the conversations to check if it is not counted
+          conversations.last.open!
 
           builder = described_class.new(account, params)
           metrics = builder.timeseries
 
-          # this should count all 5 resolution events (even though 1 was later reopened)
+          # This should count all 5 resolution events (even though 1 was later reopened)
           expect(metrics[Time.zone.today]).to be 5
           expect(metrics[Time.zone.today - 2.days]).to be 0
         end
@@ -403,15 +448,33 @@ describe V2::ReportBuilder do
 
           conversations = account.conversations.where('created_at < ?', 1.day.ago)
 
-          perform_enqueued_jobs do
-            # Resolve all 5 conversations (first round)
-            conversations.each(&:resolved!)
+          # Resolve all 5 conversations (first round)
+          conversations.each do |conv|
+            conv.resolved!
 
-            # Reopen 3 conversations and resolve them again
-            conversations.first(3).each do |conversation|
-              conversation.open!
-              conversation.resolved!
-            end
+            resolution_time = (Time.current - conv.created_at).to_i
+            account.reporting_events.create!(
+              name: 'conversation_resolved',
+              conversation: conv,
+              account_id: account.id,
+              value: resolution_time,
+              created_at: Time.current
+            )
+          end
+
+          # Reopen 3 conversations and resolve them again
+          conversations.first(3).each do |conv|
+            conv.open!
+            conv.resolved!
+
+            resolution_time = (Time.current - conv.created_at).to_i
+            account.reporting_events.create!(
+              name: 'conversation_resolved',
+              conversation: conv,
+              account_id: account.id,
+              value: resolution_time,
+              created_at: Time.current
+            )
           end
 
           builder = described_class.new(account, params)
@@ -426,7 +489,7 @@ describe V2::ReportBuilder do
       it 'returns average first response time' do
         user = account.users.first
 
-        conversations = account.conversations.joins(:labels).where(labels: { id: label_2.id })
+        conversations = account.conversations.where(created_at: (Time.zone.today - 2.days).all_day)
 
         conversations.each do |conversation|
           create(

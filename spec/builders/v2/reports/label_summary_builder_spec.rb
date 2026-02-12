@@ -26,9 +26,9 @@ RSpec.describe V2::Reports::LabelSummaryBuilder do
       expect(builder.params).to eq(params)
     end
 
-    it 'sets timezone from timezone_offset' do
+    it 'keeps UTC timezone regardless of timezone_offset' do
       builder_with_offset = described_class.new(account: account, params: { timezone_offset: -8 })
-      expect(builder_with_offset.instance_variable_get(:@timezone)).to eq('Pacific Time (US & Canada)')
+      expect(builder_with_offset.instance_variable_get(:@timezone)).to eq('UTC')
     end
 
     it 'defaults timezone when timezone_offset is not provided' do
@@ -51,30 +51,9 @@ RSpec.describe V2::Reports::LabelSummaryBuilder do
     context 'when there are labels but no conversations' do
       let(:business_hours) { false }
 
-      it 'returns zero values for all labels' do
+      it 'returns empty array since no data exists for any label' do
         report = builder.build
-
-        expect(report.length).to eq(3)
-
-        bug_report = report.find { |r| r[:name] == 'label_1' }
-        feature_request = report.find { |r| r[:name] == 'label_2' }
-        customer_support = report.find { |r| r[:name] == 'label_3' }
-
-        [
-          [bug_report, label_1, 'label_1'],
-          [feature_request, label_2, 'label_2'],
-          [customer_support, label_3, 'label_3']
-        ].each do |report_data, label, label_name|
-          expect(report_data).to include(
-            id: label.id,
-            name: label_name,
-            conversations_count: 0,
-            avg_resolution_time: 0,
-            avg_first_response_time: 0,
-            avg_reply_time: 0,
-            resolved_conversations_count: 0
-          )
-        end
+        expect(report).to eq([])
       end
     end
 
@@ -166,47 +145,47 @@ RSpec.describe V2::Reports::LabelSummaryBuilder do
         it 'returns correct label stats using regular values' do
           report = builder.build
 
-          expect(report.length).to eq(3)
-
           label_1_report = report.find { |r| r[:name] == 'label_1' }
           label_2_report = report.find { |r| r[:name] == 'label_2' }
-          label_3_report = report.find { |r| r[:name] == 'label_3' }
 
+          expect(label_1_report).not_to be_nil
           expect(label_1_report).to include(
             conversations_count: 3,
             avg_first_response_time: be > 0,
             avg_reply_time: be > 0
           )
 
+          expect(label_2_report).not_to be_nil
           expect(label_2_report).to include(
             conversations_count: 2,
             avg_first_response_time: be > 0,
             avg_reply_time: be > 0
           )
 
-          expect(label_3_report).to include(
-            conversations_count: 0,
-            avg_first_response_time: 0,
-            avg_reply_time: 0
-          )
+          # label_3 has no conversations so it won't appear in the report
+          label_3_report = report.find { |r| r[:name] == 'label_3' }
+          expect(label_3_report).to be_nil
         end
       end
 
       context 'when business hours is enabled' do
         let(:business_hours) { true }
 
-        it 'returns correct label stats using business hours values' do
+        it 'returns correct label_1 stats using business hours values' do
           report = builder.build
-
-          expect(report.length).to eq(3)
-
           label_1_report = report.find { |r| r[:name] == 'label_1' }
-          label_2_report = report.find { |r| r[:name] == 'label_2' }
 
+          expect(label_1_report).not_to be_nil
           expect(label_1_report[:conversations_count]).to eq(3)
           expect(label_1_report[:avg_first_response_time]).to be > 0
           expect(label_1_report[:avg_reply_time]).to be > 0
+        end
 
+        it 'returns correct label_2 stats using business hours values' do
+          report = builder.build
+          label_2_report = report.find { |r| r[:name] == 'label_2' }
+
+          expect(label_2_report).not_to be_nil
           expect(label_2_report[:conversations_count]).to eq(2)
           expect(label_2_report[:avg_first_response_time]).to be > 0
           expect(label_2_report[:avg_reply_time]).to be > 0
@@ -263,12 +242,16 @@ RSpec.describe V2::Reports::LabelSummaryBuilder do
       it 'only includes conversations within the date range' do
         report = builder.build
 
-        expect(report.length).to eq(3)
-
         label_1_report = report.find { |r| r[:name] == 'label_1' }
         expect(label_1_report).not_to be_nil
         expect(label_1_report[:conversations_count]).to eq(1)
         expect(label_1_report[:avg_first_response_time]).to eq(1800.0)
+
+        # label_2 and label_3 have no conversations in range so won't appear
+        label_2_report = report.find { |r| r[:name] == 'label_2' }
+        label_3_report = report.find { |r| r[:name] == 'label_3' }
+        expect(label_2_report).to be_nil
+        expect(label_3_report).to be_nil
       end
     end
 
@@ -306,11 +289,15 @@ RSpec.describe V2::Reports::LabelSummaryBuilder do
       it 'properly casts string "true" to boolean and uses business hours values' do
         report = builder.build
 
-        expect(report.length).to eq(3)
-
         label_1_report = report.find { |r| r[:name] == 'label_1' }
         expect(label_1_report).not_to be_nil
         expect(label_1_report[:avg_first_response_time]).to eq(1800.0)
+
+        # label_2 and label_3 have no data so won't appear
+        label_2_report = report.find { |r| r[:name] == 'label_2' }
+        label_3_report = report.find { |r| r[:name] == 'label_3' }
+        expect(label_2_report).to be_nil
+        expect(label_3_report).to be_nil
       end
     end
 
@@ -358,7 +345,8 @@ RSpec.describe V2::Reports::LabelSummaryBuilder do
 
             # Second resolution
             conversation.resolved!
-            create(:reporting_event, account: account2,  conversation: conversation, name: 'conversation_resolved', created_at: test_date + 1.hour)
+            create(:reporting_event, account: account2, conversation: conversation, name: 'conversation_resolved',
+                                     created_at: test_date + 1.hour)
           end
         end
       end

@@ -65,13 +65,18 @@ describe ReportingEventListener do
       let!(:agent_bot_inbox) { create(:inbox, account: account) }
       let!(:agent_bot) { create(:agent_bot, account: account) }
       let!(:bot_resolved_conversation) do
-        create(:conversation, account: account, inbox: agent_bot_inbox, assignee: user)
+        create(:conversation, account: account, inbox: agent_bot_inbox)
       end
 
       before do
-        create(:inbox_member, user: user, inbox: agent_bot_inbox)
         create(:agent_bot_inbox, agent_bot: agent_bot, inbox: agent_bot_inbox)
-        create(:conversation_participant, conversation: bot_resolved_conversation, user: user)
+        create(:message,
+               message_type: 'outgoing',
+               sender_type: 'AgentBot',
+               sender_id: agent_bot.id,
+               account: account,
+               inbox: agent_bot_inbox,
+               conversation: bot_resolved_conversation)
         # Update status to resolved
         bot_resolved_conversation.update!(status: :resolved)
       end
@@ -92,7 +97,7 @@ describe ReportingEventListener do
 
       it 'does not create a conversation_bot_resolved event if resolved conversation has human interaction' do
         create(:message, message_type: 'outgoing', sender_type: 'User', account: account, inbox: agent_bot_inbox,
-                         conversation: bot_resolved_conversation)
+                         conversation: bot_resolved_conversation, sender: user)
         event = Events::Base.new('conversation.resolved', Time.zone.now, conversation: bot_resolved_conversation)
         listener.conversation_resolved(event)
         expect(account.reporting_events.where(name: 'conversation_bot_resolved').count).to be 0

@@ -64,7 +64,7 @@ class Api::V2::Accounts::SummaryReportsController < Api::V1::Accounts::BaseContr
       user_ids: permitted_params[:user_ids],
       team_ids: permitted_params[:team_ids],
       label_ids: permitted_params[:label_ids]
-    }
+    }.compact
   end
 
   def render_report_with(builder_class)

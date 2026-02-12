@@ -40,14 +40,16 @@ RSpec.describe V2::Reports::InboxSummaryBuilder do
                                             resolved_conversations_count: 0,
                                             avg_resolution_time: nil,
                                             avg_first_response_time: 50.0,
-                                            avg_reply_time: 35.0
+                                            avg_reply_time: 35.0,
+                                            csat_satisfaction_score: 0
                                           }, {
                                             id: i2.id,
                                             conversations_count: 1,
                                             resolved_conversations_count: 1,
                                             avg_resolution_time: 100.0,
                                             avg_first_response_time: nil,
-                                            avg_reply_time: nil
+                                            avg_reply_time: nil,
+                                            csat_satisfaction_score: 0
                                           })
       end
     end
@@ -62,14 +64,16 @@ RSpec.describe V2::Reports::InboxSummaryBuilder do
                                             resolved_conversations_count: 0,
                                             avg_resolution_time: nil,
                                             avg_first_response_time: 30.0,
-                                            avg_reply_time: 15.0
+                                            avg_reply_time: 15.0,
+                                            csat_satisfaction_score: 0
                                           }, {
                                             id: i2.id,
                                             conversations_count: 1,
                                             resolved_conversations_count: 1,
                                             avg_resolution_time: 60.0,
                                             avg_first_response_time: nil,
-                                            avg_reply_time: nil
+                                            avg_reply_time: nil,
+                                            csat_satisfaction_score: 0
                                           })
       end
     end
@@ -85,7 +89,8 @@ RSpec.describe V2::Reports::InboxSummaryBuilder do
           resolved_conversations_count: 0,
           avg_resolution_time: nil,
           avg_first_response_time: nil,
-          avg_reply_time: nil
+          avg_reply_time: nil,
+          csat_satisfaction_score: 0
         )
       end
     end

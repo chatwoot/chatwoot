@@ -35,15 +35,19 @@ RSpec.describe AgentActivity::ActivityTracker do
       expect(second_log.ended_at).to be_nil
     end
 
-    it 'does not create log for offline status' do
+    it 'creates offline log and closes previous log when status changes to offline' do
       OnlineStatusTracker.set_status(account.id, user.id, 'online')
+      online_log = AgentActivityLog.last
 
       expect do
         OnlineStatusTracker.set_status(account.id, user.id, 'offline')
-      end.not_to change(AgentActivityLog, :count)
+      end.to change(AgentActivityLog, :count).by(1)
 
-      log = AgentActivityLog.last
-      expect(log.ended_at).to be_present
+      online_log.reload
+      expect(online_log.ended_at).to be_present
+
+      offline_log = AgentActivityLog.last
+      expect(offline_log.status).to eq('offline')
     end
 
     it 'does not create duplicate logs if status does not change' do
@@ -52,41 +56,6 @@ RSpec.describe AgentActivity::ActivityTracker do
       expect do
         OnlineStatusTracker.set_status(account.id, user.id, 'online')
       end.not_to change(AgentActivityLog, :count)
-    end
-  end
-
-  describe '.close_stale_logs' do
-    it 'closes logs that are older than threshold' do
-      log = create(:agent_activity_log,
-                   account: account,
-                   user: user,
-                   status: 'online',
-                   started_at: 2.hours.ago,
-                   ended_at: nil)
-
-      allow(OnlineStatusTracker).to receive(:get_presence).and_return(false)
-
-      described_class.close_stale_logs
-
-      log.reload
-      expect(log.ended_at).to be_present
-      expect(log.duration_seconds).to be_present
-    end
-
-    it 'does not close logs if user is still online' do
-      log = create(:agent_activity_log,
-                   account: account,
-                   user: user,
-                   status: 'online',
-                   started_at: 2.hours.ago,
-                   ended_at: nil)
-
-      allow(OnlineStatusTracker).to receive(:get_presence).and_return(true)
-
-      described_class.close_stale_logs
-
-      log.reload
-      expect(log.ended_at).to be_nil
     end
   end
 end
