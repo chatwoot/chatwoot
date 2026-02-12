@@ -8,7 +8,7 @@ class AgentBots::WebhookJob < WebhookJob
   def perform(url, payload, webhook_type = :agent_bot_webhook)
     super(url, payload, webhook_type)
   rescue RestClient::TooManyRequests, RestClient::InternalServerError => e
-    Rails.logger.warn("[AgentBots::WebhookJob] retry #{executions + 1}/3 #{e.class.name}") if executions < 3
+    Rails.logger.warn("[AgentBots::WebhookJob] retry #{executions} #{e.class.name}") if executions < 3
     raise
   end
 end
