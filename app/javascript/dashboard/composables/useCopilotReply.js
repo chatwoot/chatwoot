@@ -52,6 +52,20 @@ function buildPayload(action, conversationId, followUpCount = undefined) {
   return payload;
 }
 
+function trackGenerationFailure({
+  action,
+  conversationId,
+  followUpCount = undefined,
+  stage,
+  reason,
+}) {
+  useTrack(CAPTAIN_EVENTS.GENERATION_FAILED, {
+    ...buildPayload(action, conversationId, followUpCount),
+    stage,
+    reason,
+  });
+}
+
 /**
  * Composable for managing Copilot reply generation state and actions.
  * Extracts copilot-related logic from ReplyBox for cleaner code organization.
@@ -170,11 +184,24 @@ export function useCopilotReply() {
             CAPTAIN_EVENTS[eventKey],
             buildPayload(action, trackedConversationId.value)
           );
+        } else {
+          trackGenerationFailure({
+            action,
+            conversationId: trackedConversationId.value,
+            stage: 'initial',
+            reason: 'empty_response',
+          });
         }
         isGenerating.value = false;
       }
-    } catch {
+    } catch (error) {
       if (!abortController.value?.signal.aborted) {
+        trackGenerationFailure({
+          action,
+          conversationId: trackedConversationId.value,
+          stage: 'initial',
+          reason: error?.name || 'exception',
+        });
         isGenerating.value = false;
       }
     }
@@ -210,11 +237,26 @@ export function useCopilotReply() {
           generatedContent.value = content;
           followUpContext.value = updatedContext;
           showEditor.value = true;
+        } else {
+          trackGenerationFailure({
+            action: currentAction.value,
+            conversationId: trackedConversationId.value,
+            followUpCount: followUpCount.value,
+            stage: 'follow_up',
+            reason: 'empty_response',
+          });
         }
         isGenerating.value = false;
       }
-    } catch {
+    } catch (error) {
       if (!abortController.value?.signal.aborted) {
+        trackGenerationFailure({
+          action: currentAction.value,
+          conversationId: trackedConversationId.value,
+          followUpCount: followUpCount.value,
+          stage: 'follow_up',
+          reason: error?.name || 'exception',
+        });
         isGenerating.value = false;
       }
     }
