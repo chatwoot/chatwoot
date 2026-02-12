@@ -376,7 +376,7 @@ onMounted(() => {
           :menu-items="agentMenuItems"
           show-dropdown
           skip-label-dedup
-          :focus-on-mount="false"
+          :auto-open-dropdown="false"
           @add="handleAgentAdd"
           @remove="handleAgentRemove"
         />
