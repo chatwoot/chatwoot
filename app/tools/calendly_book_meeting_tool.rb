@@ -20,7 +20,7 @@ class CalendlyBookMeetingTool < BaseTool
                desc: 'Preferred date to check availability (ISO 8601, e.g., "2025-05-20"). Defaults to today.',
                required: false
   param :days_ahead, type: :integer,
-                     desc: 'Number of days ahead to show availability (1-14). Defaults to 7.',
+                     desc: 'Number of days ahead to show availability (1-7). Defaults to 7.',
                      required: false
 
   def execute(event_type_name: nil, date: nil, days_ahead: nil)
@@ -29,9 +29,7 @@ class CalendlyBookMeetingTool < BaseTool
 
     validate_calendly_enabled!
     event_type_uri = resolve_event_type_uri(event_type_name)
-    days = (days_ahead || 7).clamp(1, 14)
-
-    slots = fetch_available_slots(event_type_uri, date, days)
+    slots = fetch_available_slots(event_type_uri, date, days_ahead || 7)
     link = api_client.create_scheduling_link(event_type_uri)
 
     success_response(
@@ -63,14 +61,20 @@ class CalendlyBookMeetingTool < BaseTool
   end
 
   def fetch_available_slots(event_type_uri, date, days)
-    base_date = date.present? ? Time.zone.parse(date) : Time.current
-    start_time = base_date.beginning_of_day
-    end_time = days.days.after(base_date).end_of_day
+    start_time = resolve_start_time(date)
+    end_time = start_time + days.clamp(1, 7).days
 
     slots = api_client.list_available_times(event_type_uri, start_time: start_time, end_time: end_time)
     slots.first(20).map do |slot|
       { start_time: slot['start_time'], status: slot['status'] }
     end
+  end
+
+  # Calendly requires start_time to be in the future
+  def resolve_start_time(date)
+    return Time.current if date.blank?
+
+    [Time.zone.parse(date), Time.current].max
   end
 
   def playground_booking(event_type_name, date, days_ahead)

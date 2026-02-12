@@ -61,18 +61,18 @@ class CalendlyCheckAvailabilityTool < BaseTool
   end
 
   def fetch_available_slots(event_type_uri, date)
-    base_date = date.present? ? Time.zone.parse(date) : Time.current
-    start_time = base_date.beginning_of_day
-    end_time = 7.days.after(base_date).end_of_day
+    start_time = resolve_start_time(date)
+    end_time = start_time + 7.days
 
     slots = api_client.list_available_times(event_type_uri, start_time: start_time, end_time: end_time)
+    slots.map { |slot| { start_time: slot['start_time'], status: slot['status'] } }
+  end
 
-    slots.map do |slot|
-      {
-        start_time: slot['start_time'],
-        status: slot['status']
-      }
-    end
+  # Calendly requires start_time to be in the future
+  def resolve_start_time(date)
+    return Time.current if date.blank?
+
+    [Time.zone.parse(date), Time.current].max
   end
 
   def calendly_hook
