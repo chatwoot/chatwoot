@@ -487,6 +487,12 @@
         "CONFIRM": "Yes, delete",
         "CANCEL": "Cancel"
       }
+    },
+    "CALENDLY": {
+      "DELETE": {
+        "TITLE": "Disconnect Calendly?",
+        "MESSAGE": "Disconnecting Calendly will stop booking notifications and remove scheduling link access from conversations."
+      }
     }
   },
   "CAPTAIN": {

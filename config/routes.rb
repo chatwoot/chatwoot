@@ -400,7 +400,7 @@ Rails.application.routes.draw do
                 delete :destroy
               end
             end
-            resource :calendly, controller: 'calendly', only: [] do
+            resource :calendly, controller: 'calendly', only: [:destroy] do
               collection do
                 get :event_types
                 post :scheduling_link, action: :create_scheduling_link
@@ -408,7 +408,6 @@ Rails.application.routes.draw do
                 post :cancel_event
                 get :available_times
                 patch :update_settings
-                delete :destroy
               end
             end
           end
