@@ -1,66 +1,108 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>We're sorry, but something went wrong (500)</title>
+  <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Something went wrong</title>
   <style>
-  body {
-    background-color: #EFEFEF;
-    color: #2E2F30;
-    text-align: center;
-    font-family: arial, sans-serif;
-    margin: 0;
-  }
-
-  div.dialog {
-    width: 95%;
-    max-width: 33em;
-    margin: 4em auto 0;
-  }
-
-  div.dialog > div {
-    border: 1px solid #CCC;
-    border-right-color: #999;
-    border-left-color: #999;
-    border-bottom-color: #BBB;
-    border-top: #B00100 solid 4px;
-    border-top-left-radius: 9px;
-    border-top-right-radius: 9px;
-    background-color: white;
-    padding: 7px 12% 0;
-    box-shadow: 0 3px 8px rgba(50, 50, 50, 0.17);
-  }
-
-  h1 {
-    font-size: 100%;
-    color: #730E15;
-    line-height: 1.5em;
-  }
-
-  div.dialog > p {
-    margin: 0 0 1em;
-    padding: 1em;
-    background-color: #F7F7F7;
-    border: 1px solid #CCC;
-    border-right-color: #999;
-    border-left-color: #999;
-    border-bottom-color: #999;
-    border-bottom-left-radius: 4px;
-    border-bottom-right-radius: 4px;
-    border-top-color: #DADADA;
-    color: #666;
-    box-shadow: 0 3px 8px rgba(50, 50, 50, 0.17);
-  }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Tahoma, Arial, sans-serif;
+      background: rgba(39, 129, 246, 0.05);
+      color: rgb(28, 32, 36);
+      padding: 2rem 1.5rem;
+      -webkit-font-smoothing: antialiased;
+    }
+    .page {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      max-width: 28rem;
+    }
+    .error-number {
+      font-size: 8rem;
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: -0.04em;
+      background: linear-gradient(180deg, rgb(207, 74, 34) 0%, rgb(247, 164, 120) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 1.5rem;
+    }
+    h1 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      line-height: 1.3;
+      text-align: center;
+      margin-bottom: 0.5rem;
+    }
+    .description {
+      font-size: 0.9375rem;
+      color: rgb(96, 100, 108);
+      line-height: 1.6;
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      background: rgb(39, 129, 246);
+      color: #fff;
+      font-size: 0.9375rem;
+      font-weight: 500;
+      padding: 0.75rem 2rem;
+      border-radius: 0.625rem;
+      text-decoration: none;
+      transition: background 0.15s ease;
+    }
+    .btn:hover { background: rgb(16, 115, 233); }
+    .btn svg { width: 1.125rem; height: 1.125rem; }
+    .divider {
+      width: 3rem;
+      height: 2px;
+      background: rgb(224, 225, 230);
+      border-radius: 1px;
+      margin: 2.5rem 0;
+    }
+    .help {
+      font-size: 0.8125rem;
+      color: rgb(139, 141, 152);
+      text-align: center;
+      line-height: 1.5;
+    }
+    @media (prefers-color-scheme: dark) {
+      body { background: rgb(17, 17, 19); color: rgb(237, 238, 240); }
+      .error-number { background: linear-gradient(180deg, rgb(255, 148, 114) 0%, rgb(148, 52, 27) 100%); -webkit-background-clip: text; background-clip: text; }
+      .description { color: rgb(176, 180, 186); }
+      .divider { background: rgb(46, 49, 53); }
+      .help { color: rgb(105, 110, 119); }
+    }
+    @media (max-width: 480px) {
+      .error-number { font-size: 5rem; }
+      h1 { font-size: 1.25rem; }
+    }
   </style>
 </head>
-
 <body>
-  <!-- This file lives in public/500.html -->
-  <div class="dialog">
-    <div>
-      <h1>We're sorry, but something went wrong.</h1>
-    </div>
-    <p>If you are the application owner check the logs for more information.</p>
+  <div class="page">
+    <div class="error-number">500</div>
+    <h1>Something went wrong</h1>
+    <p class="description">An unexpected error occurred. Please refresh the page or try again shortly.</p>
+    <a href="/" class="btn">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" /></svg>
+      Back to home
+    </a>
+    <div class="divider"></div>
+    <p class="help">If the problem persists, please try again in a few minutes.</p>
   </div>
 </body>
 </html>
