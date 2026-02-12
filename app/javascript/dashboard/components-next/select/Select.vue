@@ -4,10 +4,21 @@ import Icon from 'dashboard/components-next/icon/Icon.vue';
 defineProps({
   options: {
     type: Array,
-    required: true,
+    default: () => [],
     validator: options =>
       options.every(
         opt => typeof opt === 'object' && 'value' in opt && 'label' in opt
+      ),
+  },
+  groups: {
+    type: Array,
+    default: () => [],
+    validator: groups =>
+      groups.every(
+        group =>
+          'label' in group &&
+          Array.isArray(group.options) &&
+          group.options.every(opt => 'value' in opt && 'label' in opt)
       ),
   },
   placeholder: {
@@ -46,14 +57,32 @@ const modelValue = defineModel({
       <option v-if="placeholder" value="" disabled>
         {{ placeholder }}
       </option>
-      <option
-        v-for="option in options"
-        :key="option.value"
-        :value="option.value"
-        :disabled="option.disabled"
-      >
-        {{ option.label }}
-      </option>
+      <template v-if="groups.length">
+        <optgroup
+          v-for="group in groups"
+          :key="group.label"
+          :label="group.label"
+        >
+          <option
+            v-for="option in group.options"
+            :key="option.value"
+            :value="option.value"
+            :disabled="option.disabled"
+          >
+            {{ option.label }}
+          </option>
+        </optgroup>
+      </template>
+      <template v-else>
+        <option
+          v-for="option in options"
+          :key="option.value"
+          :value="option.value"
+          :disabled="option.disabled"
+        >
+          {{ option.label }}
+        </option>
+      </template>
     </select>
     <div
       class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none"

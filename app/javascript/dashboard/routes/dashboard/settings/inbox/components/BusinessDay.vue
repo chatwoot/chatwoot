@@ -3,12 +3,24 @@ import parse from 'date-fns/parse';
 import differenceInMinutes from 'date-fns/differenceInMinutes';
 import { generateTimeSlots } from '../helpers/businessHour';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
+import NextSelect from 'dashboard/components-next/select/Select.vue';
 
 const timeSlots = generateTimeSlots(30);
+
+const groupByPeriod = slots =>
+  ['AM', 'PM']
+    .map(period => ({
+      label: period,
+      options: slots
+        .filter(s => s.endsWith(period))
+        .map(s => ({ value: s, label: s })),
+    }))
+    .filter(g => g.options.length);
 
 export default {
   components: {
     Icon,
+    NextSelect,
   },
   props: {
     dayName: {
@@ -26,12 +38,10 @@ export default {
   emits: ['update'],
   computed: {
     fromTimeSlots() {
-      return timeSlots;
+      return groupByPeriod(timeSlots);
     },
     toTimeSlots() {
-      return timeSlots.filter(slot => {
-        return slot !== '12:00 AM';
-      });
+      return groupByPeriod(timeSlots.filter(slot => slot !== '12:00 AM'));
     },
     isDayEnabled: {
       get() {
@@ -168,27 +178,19 @@ export default {
               $t('INBOX_MGMT.BUSINESS_HOURS.ALL_DAY')
             }}</span>
           </div>
-          <multiselect
+          <NextSelect
             v-model="fromTime"
-            :options="fromTimeSlots"
-            deselect-label=""
-            select-label=""
-            selected-label=""
+            :groups="fromTimeSlots"
             :placeholder="$t('INBOX_MGMT.BUSINESS_HOURS.DAY.CHOOSE')"
-            :allow-empty="false"
             :disabled="isOpenAllDay"
           />
           <div class="flex items-center">
             <Icon icon="i-lucide-minus size-4" />
           </div>
-          <multiselect
+          <NextSelect
             v-model="toTime"
-            :options="toTimeSlots"
-            deselect-label=""
-            select-label=""
-            selected-label=""
+            :groups="toTimeSlots"
             :placeholder="$t('INBOX_MGMT.BUSINESS_HOURS.DAY.CHOOSE')"
-            :allow-empty="false"
             :disabled="isOpenAllDay"
           />
         </div>
@@ -210,17 +212,3 @@ export default {
     </td>
   </tr>
 </template>
-
-<style lang="scss" scoped>
-::v-deep .multiselect {
-  @apply m-0 w-[7.5rem];
-
-  > .multiselect__tags {
-    @apply pl-3;
-
-    .multiselect__single {
-      @apply text-sm leading-6 py-2 px-0;
-    }
-  }
-}
-</style>
