@@ -28,8 +28,7 @@ he:
       invalid_email: 'נא הכנס כתובת דוא"ל תקינה'
       authentication_failed: 'האימות נכשל. אנא בדוק את פרטי ההתחברות שלך ונסה שוב.'
   messages:
-    reset_password_success: וואו! הבקשה לאיפוס סיסמה בוצעה בהצלחה. בדוק את תיבת הדואר שלך להוראות.
-    reset_password_failure: אוי! לא מצאנו משתמש עם כתובת הדוא"ל שצוינה.
+    reset_password: Request for password reset is successful. A email with instructions will be sent to your email if it exists.
     reset_password_saml_user: חשבון זה משתמש באימות SAML. איפוס סיסמה אינו זמין. אנא צור קשר עם המנהל שלך.
     login_saml_user: חשבון זה משתמש באימות SAML. אנא התחבר דרך ספק SAML של הארגון שלך.
     saml_not_available: אימות SAML אינו זמין בהתקנה זו.
