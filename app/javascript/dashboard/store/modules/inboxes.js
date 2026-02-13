@@ -324,6 +324,8 @@ export const actions = {
     try {
       await InboxesAPI.delete(inboxId);
       commit(types.default.DELETE_INBOXES, inboxId);
+      // Clear IndexedDB so stale inbox data isn't served on page refresh
+      InboxesAPI.clearDataInCache();
       commit(types.default.SET_INBOXES_UI_FLAG, { isDeleting: false });
     } catch (error) {
       commit(types.default.SET_INBOXES_UI_FLAG, { isDeleting: false });
