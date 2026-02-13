@@ -1,30 +1,24 @@
 class Labels::DestroyService
-  pattr_initialize [:label_title!, :account_id!]
+  pattr_initialize [:label_title!, :account_id!, :tagging_ids!]
 
   def perform
-    tagged_conversations.find_in_batches do |conversation_batch|
-      conversation_batch.each do |conversation|
-        conversation.label_list.remove(label_title)
-        conversation.save!
-      end
-    end
+    label_taggings.find_in_batches do |tagging_batch|
+      tagging_batch.each do |tagging|
+        taggable = tagging.taggable
 
-    tagged_contacts.find_in_batches do |contact_batch|
-      contact_batch.each do |contact|
-        contact.label_list.remove(label_title)
-        contact.save!
+        next unless taggable
+        next unless taggable.account_id == account_id
+
+        taggable.label_list.remove(label_title)
+        taggable.save!
       end
     end
   end
 
   private
 
-  def tagged_conversations
-    account.conversations.tagged_with(label_title)
-  end
-
-  def tagged_contacts
-    account.contacts.tagged_with(label_title)
+  def label_taggings
+    @label_taggings ||= ActsAsTaggableOn::Tagging.where(id: tagging_ids)
   end
 
   def account

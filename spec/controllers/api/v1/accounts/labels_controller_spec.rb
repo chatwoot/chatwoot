@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe 'Label API', type: :request do
   let!(:account) { create(:account) }
   let!(:label) { create(:label, account: account) }
+  let!(:conversation) { create(:conversation, account: account) }
 
   describe 'GET /api/v1/accounts/{account.id}/labels' do
     context 'when it is an unauthenticated user' do
@@ -115,11 +116,26 @@ RSpec.describe 'Label API', type: :request do
       let(:admin) { create(:user, account: account, role: :administrator) }
 
       it 'deletes the label and enqueues label cleanup' do
+        conversation.label_list.add(label.title)
+        conversation.save!
+
+        existing_tagging_ids = ActsAsTaggableOn::Tagging.joins(:tag)
+                                                        .where(
+                                                          context: 'labels',
+                                                          taggable: conversation,
+                                                          tags: { name: label.title }
+                                                        )
+                                                        .pluck(:id)
+
         clear_enqueued_jobs
 
         expect do
           delete "/api/v1/accounts/#{account.id}/labels/#{label.id}", headers: admin.create_new_auth_token, as: :json
-        end.to have_enqueued_job(Labels::RemoveAssociationsJob).with(label_title: label.title, account_id: account.id)
+        end.to have_enqueued_job(Labels::RemoveAssociationsJob).with(
+          label_title: label.title,
+          account_id: account.id,
+          tagging_ids: existing_tagging_ids
+        )
 
         expect(response).to have_http_status(:ok)
         expect(Label.exists?(label.id)).to be(false)
