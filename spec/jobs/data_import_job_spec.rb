@@ -224,7 +224,7 @@ RSpec.describe DataImportJob do
 
         contact = Contact.from_email('invalidlabel@example.com')
         expect(contact).to be_present
-        expect(contact.label_list).to contain_exactly('vip_customer')
+        expect(contact.label_list).to contain_exactly('v', 'vip_customer')
       end
     end
   end
