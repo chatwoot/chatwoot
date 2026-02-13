@@ -73,7 +73,9 @@ module V2::Reports::Concerns::RollupConditions
   def rollup_date_range
     tz = ActiveSupport::TimeZone[account.reporting_timezone]
     start_date = range.first.in_time_zone(tz).to_date
-    end_date = range.last.in_time_zone(tz).to_date
+    # range is exclusive (since...until), so subtract a second to avoid
+    # including the until boundary day when it falls exactly at midnight.
+    end_date = (range.last - 1.second).in_time_zone(tz).to_date
     start_date..end_date
   end
 

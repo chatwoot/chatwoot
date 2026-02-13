@@ -20,7 +20,7 @@ describe V2::Reports::Concerns::RollupConditions do
 
   before do
     builder.account = account
-    account.enable_features!('reporting_events_rollup')
+    allow(account).to receive(:feature_enabled?).with('reporting_events_rollup').and_return(true)
   end
 
   describe '#use_rollup?' do
@@ -52,7 +52,7 @@ describe V2::Reports::Concerns::RollupConditions do
 
     context 'Condition 1: feature flag is disabled' do
       it 'returns false' do
-        account.disable_features!('reporting_events_rollup')
+        allow(account).to receive(:feature_enabled?).with('reporting_events_rollup').and_return(false)
         builder.params = valid_params
         builder._group_by = 'day'
         expect(builder.use_rollup?).to be false
@@ -204,6 +204,28 @@ describe V2::Reports::Concerns::RollupConditions do
         builder.params = valid_params.merge(timezone_offset: nil)
         builder._group_by = 'day'
         expect(builder.use_rollup?).to be true
+      end
+    end
+
+    context 'when used from BaseSummaryBuilder (no params[:metric])' do
+      it 'returns true because summary builders override metric_covered?' do
+        builder.params = { type: 'agent', timezone_offset: -5 }
+        builder._group_by = 'day'
+        # Without the override, this would return false since params[:metric] is blank
+        expect(builder.use_rollup?).to be false
+
+        # BaseSummaryBuilder overrides metric_covered? to always return true
+        summary_builder_class = Class.new(dummy_class) do
+          def metric_covered?
+            true
+          end
+        end
+
+        summary_builder = summary_builder_class.new
+        summary_builder.account = account
+        summary_builder.params = { type: 'agent', timezone_offset: -5 }
+        summary_builder._group_by = 'day'
+        expect(summary_builder.use_rollup?).to be true
       end
     end
   end
