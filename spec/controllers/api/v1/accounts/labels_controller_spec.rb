@@ -101,4 +101,29 @@ RSpec.describe 'Label API', type: :request do
       end
     end
   end
+
+  describe 'DELETE /api/v1/accounts/{account.id}/labels/:id' do
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        delete "/api/v1/accounts/#{account.id}/labels/#{label.id}"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let(:admin) { create(:user, account: account, role: :administrator) }
+
+      it 'deletes the label and enqueues label cleanup' do
+        clear_enqueued_jobs
+
+        expect do
+          delete "/api/v1/accounts/#{account.id}/labels/#{label.id}", headers: admin.create_new_auth_token, as: :json
+        end.to have_enqueued_job(Labels::RemoveAssociationsJob).with(label_title: label.title, account_id: account.id)
+
+        expect(response).to have_http_status(:ok)
+        expect(Label.exists?(label.id)).to be(false)
+      end
+    end
+  end
 end
