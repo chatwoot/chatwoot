@@ -519,12 +519,19 @@ export const getContentNode = (
 /**
  * Get the formatting configuration for a specific channel type.
  * Returns the appropriate marks, nodes, and menu items for the editor.
+ * TODO: We're hiding captain, enable it back when we add selection improvements
  *
  * @param {string} channelType - The channel type (e.g., 'Channel::FacebookPage', 'Channel::WebWidget')
  * @returns {Object} The formatting configuration with marks, nodes, and menu properties
  */
-export function getFormattingForEditor(channelType) {
-  return FORMATTING[channelType] || FORMATTING['Context::Default'];
+export function getFormattingForEditor(channelType, showCaptain = false) {
+  const formatting = FORMATTING[channelType] || FORMATTING['Context::Default'];
+  return {
+    ...formatting,
+    menu: showCaptain
+      ? formatting.menu
+      : formatting.menu.filter(item => item !== 'copilot'),
+  };
 }
 
 /**

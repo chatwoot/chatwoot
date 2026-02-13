@@ -234,3 +234,14 @@
   display_name: CSAT Review Notes
   enabled: false
   premium: true
+- name: captain_tasks
+  display_name: Captain Tasks
+  enabled: true
+- name: conversation_required_attributes
+  display_name: Required Conversation Attributes
+  enabled: false
+  premium: true
+- name: advanced_assignment
+  display_name: Advanced Assignment
+  enabled: false
+  premium: true

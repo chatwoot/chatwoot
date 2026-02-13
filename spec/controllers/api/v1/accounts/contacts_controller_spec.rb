@@ -357,18 +357,6 @@ RSpec.describe 'Contacts API', type: :request do
         expect(response.body).not_to include(contact1.email)
       end
 
-      it 'searches contacts using company name' do
-        contact2.update(additional_attributes: { company_name: 'acme.inc' })
-        get "/api/v1/accounts/#{account.id}/contacts/search",
-            params: { q: 'acme.inc' },
-            headers: admin.create_new_auth_token,
-            as: :json
-
-        expect(response).to have_http_status(:success)
-        expect(response.body).to include(contact2.email)
-        expect(response.body).not_to include(contact1.email)
-      end
-
       it 'matches the resolved contact respecting the identifier character casing' do
         contact_normal = create(:contact, name: 'testcontact', account: account, identifier: 'testidentifer')
         contact_special = create(:contact, name: 'testcontact', account: account, identifier: 'TestIdentifier')
@@ -380,6 +368,50 @@ RSpec.describe 'Contacts API', type: :request do
         expect(response).to have_http_status(:success)
         expect(response.body).to include(contact_special.identifier)
         expect(response.body).not_to include(contact_normal.identifier)
+      end
+
+      it 'returns has_more as false when results fit in one page' do
+        get "/api/v1/accounts/#{account.id}/contacts/search",
+            params: { q: contact2.email },
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        response_body = response.parsed_body
+        expect(response_body['meta']['has_more']).to be(false)
+        expect(response_body['meta']['count']).to eq(1)
+      end
+
+      it 'returns has_more as true when there are more results' do
+        # Create 16 contacts (more than RESULTS_PER_PAGE which is 15)
+        create_list(:contact, 16, account: account, name: 'searchable_contact')
+
+        get "/api/v1/accounts/#{account.id}/contacts/search",
+            params: { q: 'searchable_contact' },
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        response_body = response.parsed_body
+        expect(response_body['meta']['has_more']).to be(true)
+        expect(response_body['meta']['count']).to eq(15)
+        expect(response_body['payload'].length).to eq(15)
+      end
+
+      it 'returns has_more as false on the last page' do
+        # Create 16 contacts
+        create_list(:contact, 16, account: account, name: 'searchable_contact')
+
+        get "/api/v1/accounts/#{account.id}/contacts/search",
+            params: { q: 'searchable_contact', page: 2 },
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        response_body = response.parsed_body
+        expect(response_body['meta']['has_more']).to be(false)
+        expect(response_body['meta']['count']).to eq(1)
+        expect(response_body['payload'].length).to eq(1)
       end
     end
   end

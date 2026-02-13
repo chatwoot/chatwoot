@@ -22,7 +22,7 @@ class Enterprise::Billing::HandleStripeEventService
   ].freeze
 
   # Additional features available starting with the Business plan
-  BUSINESS_PLAN_FEATURES = %w[sla custom_roles csat_review_notes].freeze
+  BUSINESS_PLAN_FEATURES = %w[sla custom_roles csat_review_notes conversation_required_attributes advanced_assignment].freeze
 
   # Additional features available only in the Enterprise plan
   ENTERPRISE_PLAN_FEATURES = %w[audit_logs disable_branding saml].freeze
