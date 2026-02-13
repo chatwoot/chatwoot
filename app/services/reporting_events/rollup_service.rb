@@ -16,6 +16,8 @@ module ReportingEvents::RollupService
     def perform
       return unless rollup_enabled?
 
+      # NOTE: Each event produces individual upserts per dimension x metric (up to 8 calls).
+      # If this becomes a bottleneck, batch into a single upsert_all call.
       dimensions.each do |dimension_type, dimension_id|
         next if dimension_id.nil?
 
@@ -27,6 +29,9 @@ module ReportingEvents::RollupService
 
     private
 
+    # NOTE: This is intentionally not gated by the reporting_events_rollup feature flag.
+    # Rollup data is collected for all accounts with a reporting timezone (soft toggle).
+    # The feature flag only controls the read path — whether reports query rollups or raw events.
     def rollup_enabled?
       @account.reporting_timezone.present?
     end
