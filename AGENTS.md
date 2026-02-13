@@ -4,6 +4,11 @@
 
 - **Setup**: `bundle install && pnpm install`
 - **Run Dev**: `pnpm dev` or `overmind start -f ./Procfile.dev`
+- **Seed Local Test Data**: `bundle exec rails db:seed` (quickly populates minimal data for standard feature verification)
+- **Seed Search Test Data**: `bundle exec rails search:setup_test_data` (bulk fixture generation for search/performance/manual load scenarios)
+- **Seed Account Sample Data (richer test data)**: `Seeders::AccountSeeder` is available as an internal utility and is exposed through Super Admin `Accounts#seed`, but can be used directly in dev workflows too:
+  - UI path: Super Admin → Accounts → Seed (enqueues `Internal::SeedAccountJob`).
+  - CLI path: `bundle exec rails runner "Internal::SeedAccountJob.perform_now(Account.find(<id>))"` (or call `Seeders::AccountSeeder.new(account: Account.find(<id>)).perform!` directly).
 - **Lint JS/Vue**: `pnpm eslint` / `pnpm eslint:fix`
 - **Lint Ruby**: `bundle exec rubocop -a`
 - **Test JS**: `pnpm test` or `pnpm test:watch`
