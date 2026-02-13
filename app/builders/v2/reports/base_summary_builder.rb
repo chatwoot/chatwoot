@@ -9,6 +9,12 @@ class V2::Reports::BaseSummaryBuilder
 
   private
 
+  # Summary builders fetch all metrics in a single query, so the per-metric
+  # check from RollupConditions does not apply.
+  def metric_covered?
+    true
+  end
+
   def load_data
     @conversations_count = fetch_conversations_count
     use_rollup? ? load_rollup_data : load_reporting_events_data
