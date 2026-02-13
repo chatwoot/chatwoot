@@ -111,6 +111,40 @@ describe MessageTemplates::HookExecutionService do
     end
   end
 
+  context 'when conversation has a campaign' do
+    let(:campaign) { create(:campaign) }
+
+    it 'does not call ::MessageTemplates::Template::Greeting on campaign conversations' do
+      contact = create(:contact, email: nil)
+      conversation = create(:conversation, contact: contact, campaign: campaign)
+      conversation.inbox.update(greeting_enabled: true, greeting_message: 'Hi, this is a greeting message', enable_email_collect: false)
+
+      greeting_service = double
+      allow(MessageTemplates::Template::Greeting).to receive(:new).and_return(greeting_service)
+      allow(greeting_service).to receive(:perform).and_return(true)
+
+      create(:message, conversation: conversation)
+
+      expect(MessageTemplates::Template::Greeting).not_to have_received(:new)
+    end
+
+    it 'does not call ::MessageTemplates::Template::OutOfOffice on campaign conversations' do
+      contact = create(:contact)
+      conversation = create(:conversation, contact: contact, campaign: campaign)
+
+      conversation.inbox.update(working_hours_enabled: true, out_of_office_message: 'We are out of office')
+      conversation.inbox.working_hours.today.update!(closed_all_day: true)
+
+      out_of_office_service = double
+      allow(MessageTemplates::Template::OutOfOffice).to receive(:new).and_return(out_of_office_service)
+      allow(out_of_office_service).to receive(:perform).and_return(true)
+
+      create(:message, conversation: conversation)
+
+      expect(MessageTemplates::Template::OutOfOffice).not_to have_received(:new)
+    end
+  end
+
   context 'when message is an auto reply email' do
     it 'does not call any template hooks' do
       contact = create(:contact)
