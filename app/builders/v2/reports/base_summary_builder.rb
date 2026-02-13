@@ -9,15 +9,6 @@ class V2::Reports::BaseSummaryBuilder
 
   private
 
-  def use_rollup?
-    # TODO: Remove this override before merging. This is only for validation via comparison rake task.
-    # If use_rollup is explicitly set in params, respect that
-    return params[:use_rollup] if params.key?(:use_rollup)
-
-    # Otherwise, use the default rollup conditions
-    super
-  end
-
   def load_data
     @conversations_count = fetch_conversations_count
     use_rollup? ? load_rollup_data : load_reporting_events_data
