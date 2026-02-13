@@ -6,7 +6,8 @@ describe Whatsapp::WebhookSetupService do
            phone_number: '+1234567890',
            provider_config: {
              'phone_number_id' => '123456789',
-             'webhook_verify_token' => 'test_verify_token'
+             'webhook_verify_token' => 'test_verify_token',
+             'source' => 'embedded_signup'
            },
            provider: 'whatsapp_cloud',
            sync_templates: false,
@@ -261,7 +262,8 @@ describe Whatsapp::WebhookSetupService do
                  'phone_number_id' => '123456789',
                  'webhook_verify_token' => 'existing_verify_token',
                  'business_id' => 'existing_business_id',
-                 'waba_id' => 'existing_waba_id'
+                 'waba_id' => 'existing_waba_id',
+                 'source' => 'embedded_signup'
                },
                provider: 'whatsapp_cloud',
                sync_templates: false,
