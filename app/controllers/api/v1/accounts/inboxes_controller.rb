@@ -66,7 +66,12 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   end
 
   def destroy
-    ::DeleteObjectJob.perform_later(@inbox, Current.user, request.ip) if @inbox.present?
+    if @inbox.present?
+      # Invalidate cache immediately so frontends don't serve stale data
+      # while the async DeleteObjectJob is still in the queue.
+      Current.account.update_cache_key('inbox')
+      ::DeleteObjectJob.perform_later(@inbox, Current.user, request.ip)
+    end
     render status: :ok, json: { message: I18n.t('messages.inbox_deletetion_response') }
   end
 
