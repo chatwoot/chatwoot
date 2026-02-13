@@ -1,7 +1,7 @@
 class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::BaseController
   include Shopify::IntegrationHelper
   before_action :setup_shopify_context, only: [:orders]
-  before_action :fetch_hook, except: [:auth]
+  before_action :fetch_hook, except: [:auth, :complete_install]
   before_action :validate_contact, only: [:orders]
 
   def auth
@@ -29,6 +29,24 @@ class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::Ba
     render json: { orders: orders }
   rescue ShopifyAPI::Errors::HttpResponseError => e
     render json: { error: e.message }, status: :unprocessable_entity
+  end
+
+  def complete_install
+    pending_data = ::Redis::Alfred.get("shopify_pending_install:#{params[:pending_install_token]}")
+    return render json: { error: 'Invalid or expired install token' }, status: :unprocessable_entity if pending_data.blank?
+
+    data = JSON.parse(pending_data)
+
+    Current.account.hooks.create!(
+      app_id: 'shopify',
+      access_token: data['access_token'],
+      status: 'enabled',
+      reference_id: data['shop'],
+      settings: { scope: data['scope'] }
+    )
+
+    ::Redis::Alfred.delete("shopify_pending_install:#{params[:pending_install_token]}")
+    head :ok
   end
 
   def destroy

@@ -317,6 +317,7 @@ Rails.application.routes.draw do
               collection do
                 post :auth
                 get :orders
+                post :complete_install
               end
             end
             resource :linear, controller: 'linear', only: [] do

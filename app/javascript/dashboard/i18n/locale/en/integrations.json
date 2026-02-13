@@ -10,8 +10,17 @@
         "LABEL": "Store URL",
         "PLACEHOLDER": "your-store.myshopify.com",
         "HELP": "Enter your Shopify store's myshopify.com URL",
+        "INVALID_URL": "Please enter a valid Shopify store URL (e.g., your-store.myshopify.com)",
         "CANCEL": "Cancel",
         "SUBMIT": "Connect Store"
+      },
+      "PENDING_INSTALL": {
+        "SUCCESS": "Shopify integration connected successfully.",
+        "ERROR": "Failed to complete Shopify installation. The link may have expired."
+      },
+      "HELP_TEXT": {
+        "TITLE": "How to use the Shopify Integration?",
+        "BODY": "With this integration, your Shopify store ***{storeDomain}*** is connected to your Chatwoot workspace. Here's what you can do:\n\n**Track orders in conversations:** When you open a conversation, the Shopify sidebar will automatically display recent orders for the customer based on their email address. This gives your support team instant context without switching tabs.\n\n**Access order details:** View order status, fulfillment status, total amount, and individual line items directly within the conversation panel."
       },
       "ERROR": "There was an error connecting to Shopify. Please try again or contact support if the issue persists."
     },

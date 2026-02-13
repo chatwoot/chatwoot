@@ -21,6 +21,7 @@ const FEATURE_HELP_URLS = {
   billing: 'https://chwt.app/pricing',
   saml: 'https://chwt.app/hc/saml',
   captain_billing: 'https://chwt.app/hc/captain_billing',
+  shopify: 'https://chwt.app/hc/shopify',
 };
 
 export function getHelpUrlForFeature(featureName) {
