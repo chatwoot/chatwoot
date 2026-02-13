@@ -11,6 +11,7 @@ import { useAlert } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import TasksAPI from 'dashboard/api/captain/tasks';
+import { CAPTAIN_ERROR_TYPES } from 'dashboard/composables/captain/constants';
 
 export function useCaptain() {
   const store = useStore();
@@ -69,7 +70,10 @@ export function useCaptain() {
    * @param {Error} error - The error object from the API call.
    */
   const handleAPIError = error => {
-    if (error.name === 'AbortError' || error.name === 'CanceledError') {
+    if (
+      error.name === CAPTAIN_ERROR_TYPES.ABORT_ERROR ||
+      error.name === CAPTAIN_ERROR_TYPES.CANCELED_ERROR
+    ) {
       return;
     }
     const errorMessage =
@@ -84,13 +88,16 @@ export function useCaptain() {
    * @returns {string}
    */
   const getErrorType = error => {
-    if (error.name === 'AbortError' || error.name === 'CanceledError') {
-      return 'aborted';
+    if (
+      error.name === CAPTAIN_ERROR_TYPES.ABORT_ERROR ||
+      error.name === CAPTAIN_ERROR_TYPES.CANCELED_ERROR
+    ) {
+      return CAPTAIN_ERROR_TYPES.ABORTED;
     }
     if (error.response?.status) {
-      return `http_${error.response.status}`;
+      return `${CAPTAIN_ERROR_TYPES.HTTP_PREFIX}${error.response.status}`;
     }
-    return 'api_error';
+    return CAPTAIN_ERROR_TYPES.API_ERROR;
   };
 
   // === Task Methods ===

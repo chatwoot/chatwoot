@@ -3,6 +3,10 @@ import { useCaptain } from 'dashboard/composables/useCaptain';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useTrack } from 'dashboard/composables';
 import { CAPTAIN_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
+import {
+  CAPTAIN_ERROR_TYPES,
+  CAPTAIN_GENERATION_FAILURE_REASONS,
+} from 'dashboard/composables/captain/constants';
 
 // Actions that map to REWRITE events (with operation attribute)
 const REWRITE_ACTIONS = [
@@ -178,7 +182,7 @@ export function useCopilotReply() {
       });
 
       if (requestController.signal.aborted) return;
-      if (errorType === 'aborted') {
+      if (errorType === CAPTAIN_ERROR_TYPES.ABORTED) {
         if (abortController.value === requestController) {
           isGenerating.value = false;
         }
@@ -195,7 +199,7 @@ export function useCopilotReply() {
           CAPTAIN_EVENTS[eventKey],
           buildPayload(action, trackedConversationId.value)
         );
-      } else if (errorType && errorType !== 'aborted') {
+      } else if (errorType && errorType !== CAPTAIN_ERROR_TYPES.ABORTED) {
         trackGenerationFailure({
           action,
           conversationId: trackedConversationId.value,
@@ -207,15 +211,15 @@ export function useCopilotReply() {
           action,
           conversationId: trackedConversationId.value,
           stage: 'initial',
-          reason: 'empty_response',
+          reason: CAPTAIN_GENERATION_FAILURE_REASONS.EMPTY_RESPONSE,
         });
       }
       isGenerating.value = false;
     } catch (error) {
       if (
         requestController.signal.aborted ||
-        error?.name === 'AbortError' ||
-        error?.name === 'CanceledError'
+        error?.name === CAPTAIN_ERROR_TYPES.ABORT_ERROR ||
+        error?.name === CAPTAIN_ERROR_TYPES.CANCELED_ERROR
       ) {
         return;
       }
@@ -223,7 +227,7 @@ export function useCopilotReply() {
         action,
         conversationId: trackedConversationId.value,
         stage: 'initial',
-        reason: error?.name || 'exception',
+        reason: error?.name || CAPTAIN_GENERATION_FAILURE_REASONS.EXCEPTION,
       });
       isGenerating.value = false;
     } finally {
@@ -263,7 +267,7 @@ export function useCopilotReply() {
       });
 
       if (requestController.signal.aborted) return;
-      if (errorType === 'aborted') {
+      if (errorType === CAPTAIN_ERROR_TYPES.ABORTED) {
         if (abortController.value === requestController) {
           isGenerating.value = false;
         }
@@ -274,7 +278,7 @@ export function useCopilotReply() {
         generatedContent.value = content;
         followUpContext.value = updatedContext;
         showEditor.value = true;
-      } else if (errorType && errorType !== 'aborted') {
+      } else if (errorType && errorType !== CAPTAIN_ERROR_TYPES.ABORTED) {
         trackGenerationFailure({
           action: currentAction.value,
           conversationId: trackedConversationId.value,
@@ -288,15 +292,15 @@ export function useCopilotReply() {
           conversationId: trackedConversationId.value,
           followUpCount: followUpCount.value,
           stage: 'follow_up',
-          reason: 'empty_response',
+          reason: CAPTAIN_GENERATION_FAILURE_REASONS.EMPTY_RESPONSE,
         });
       }
       isGenerating.value = false;
     } catch (error) {
       if (
         requestController.signal.aborted ||
-        error?.name === 'AbortError' ||
-        error?.name === 'CanceledError'
+        error?.name === CAPTAIN_ERROR_TYPES.ABORT_ERROR ||
+        error?.name === CAPTAIN_ERROR_TYPES.CANCELED_ERROR
       ) {
         return;
       }
@@ -305,7 +309,7 @@ export function useCopilotReply() {
         conversationId: trackedConversationId.value,
         followUpCount: followUpCount.value,
         stage: 'follow_up',
-        reason: error?.name || 'exception',
+        reason: error?.name || CAPTAIN_GENERATION_FAILURE_REASONS.EXCEPTION,
       });
       isGenerating.value = false;
     } finally {
