@@ -28,28 +28,50 @@ namespace :reporting_events_rollup do
     puts "✓ Found account: #{account.name}"
     puts ''
 
-    # 3. PROMPT FOR TIMEZONE
-    print 'Enter Timezone (e.g., America/New_York, UTC): '
-    timezone = STDIN.gets.chomp
+    # 3. PROMPT FOR UTC OFFSET
+    print 'Enter UTC offset (e.g., +5:30, -4, 0): '
+    offset_input = STDIN.gets.chomp
 
-    if timezone.blank?
-      puts 'Error: Timezone is required'
+    if offset_input.blank?
+      puts 'Error: UTC offset is required'
       exit(1)
     end
 
-    # 4. TIMEZONE VALIDATION
-    unless ActiveSupport::TimeZone[timezone]
-      puts "Error: Invalid timezone '#{timezone}'"
-      puts ''
-      puts 'Must be a valid IANA timezone. Examples:'
-      puts '  America/New_York'
-      puts '  Asia/Kolkata'
-      puts '  Europe/London'
-      puts '  UTC'
-      puts ''
-      puts 'See: https://en.wikipedia.org/wiki/List_of_tz_database_time_zones'
+    # 4. FIND MATCHING TIMEZONES
+    matching_zones = ActiveSupport::TimeZone.all.select { |tz| tz.formatted_offset == ActiveSupport::TimeZone[tz.name].formatted_offset }
+                                                .select do |tz|
+      # Normalize input to match formatted_offset (e.g., "+05:30", "-04:00", "+00:00")
+      normalized = offset_input.gsub(/^(?!\+|-)/, '+') # add + if no sign
+      parts = normalized.split(':')
+      hours = parts[0].to_i
+      minutes = (parts[1] || '0').to_i
+      total_seconds = (hours * 3600) + (hours.negative? ? -minutes * 60 : minutes * 60)
+      tz.utc_offset == total_seconds
+    end
+
+    if matching_zones.empty?
+      puts "Error: No timezones found for offset '#{offset_input}'"
       exit(1)
     end
+
+    puts ''
+    puts "Timezones matching UTC#{offset_input}:"
+    puts ''
+    matching_zones.each_with_index do |tz, index|
+      puts "  #{index + 1}. #{tz.name} (#{tz.tzinfo.identifier})"
+    end
+    puts ''
+
+    print "Select timezone (1-#{matching_zones.size}): "
+    selection = STDIN.gets.chomp.to_i
+
+    if selection < 1 || selection > matching_zones.size
+      puts 'Error: Invalid selection'
+      exit(1)
+    end
+
+    timezone = matching_zones[selection - 1].tzinfo.identifier
+    puts "✓ Selected timezone: #{timezone}"
 
     # 5. DISCOVER DATE RANGE
     first_event = account.reporting_events.order(:created_at).first
