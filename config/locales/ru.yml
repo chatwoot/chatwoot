@@ -28,8 +28,7 @@ ru:
       invalid_email: 'Пожалуйста, введите действительный адрес электронной почты'
       authentication_failed: 'Ошибка аутентификации. Пожалуйста, проверьте ваши учетные данные и повторите попытку.'
   messages:
-    reset_password_success: Круто! Запрос на сброс пароля удался. Проверьте почту для получения инструкций.
-    reset_password_failure: Ой! Мы не смогли найти пользователя с указанным email.
+    reset_password: Request for password reset is successful. A email with instructions will be sent to your email if it exists.
     reset_password_saml_user: Эта учетная запись использует SAML-аутентификацию. Сброс пароля недоступен. Пожалуйста, обратитесь к администратору.
     login_saml_user: Эта учетная запись использует SAML аутентификацию. Пожалуйста, войдите через SAML провайдера вашей организации.
     saml_not_available: SAML аутентификация не доступна в этой установке.
