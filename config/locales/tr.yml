@@ -28,8 +28,7 @@ tr:
       invalid_email: 'Lütfen geçerli bir e-posta adresi girin'
       authentication_failed: 'Kimlik doğrulama başarısız oldu. Lütfen kimlik bilgilerinizi kontrol edin ve tekrar deneyin.'
   messages:
-    reset_password_success: Parola sıfırlama isteği başarılı. Talimatlar için postanızı kontrol edin.
-    reset_password_failure: Belirtilen e-postaya sahip herhangi bir kullanıcı bulamadık.
+    reset_password: Request for password reset is successful. A email with instructions will be sent to your email if it exists.
     reset_password_saml_user: Bu hesap SAML kimlik doğrulaması kullanmaktadır. Şifre sıfırlama mevcut değildir. Lütfen yöneticinizle iletişime geçin.
     login_saml_user: Bu hesap SAML kimlik doğrulaması kullanmaktadır. Lütfen kuruluşunuzun SAML sağlayıcısı aracılığıyla oturum açın.
     saml_not_available: SAML kimlik doğrulaması bu kurulumda mevcut değildir.
