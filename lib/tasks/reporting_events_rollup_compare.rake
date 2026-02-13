@@ -101,9 +101,12 @@ namespace :reporting_events_rollup do
 
       days.each_with_index do |day, day_index|
         # Build base params for this day
+        # DateRangeHelper#parse_date_time expects epoch seconds (DateTime.strptime(value, '%s'))
+        day_start = tz.parse(day[:start].to_s).to_i.to_s
+        day_end = (tz.parse(day[:end].to_s) + 1.day).to_i.to_s
         base_params = {
-          since: day[:start].to_s,
-          until: day[:end].to_s,
+          since: day_start,
+          until: day_end,
           type: dimension[:name],
           timezone_offset: tz.utc_offset / 3600.0,
           business_hours: false
