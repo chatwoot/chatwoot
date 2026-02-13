@@ -169,12 +169,21 @@ export function useCopilotReply() {
     trackedConversationId.value = conversationId.value;
 
     try {
-      const { message: content, followUpContext: newContext } =
-        await processEvent(action, data, {
-          signal: requestController.signal,
-        });
+      const {
+        message: content,
+        followUpContext: newContext,
+        errorType,
+      } = await processEvent(action, data, {
+        signal: requestController.signal,
+      });
 
       if (requestController.signal.aborted) return;
+      if (errorType === 'aborted') {
+        if (abortController.value === requestController) {
+          isGenerating.value = false;
+        }
+        return;
+      }
 
       generatedContent.value = content;
       followUpContext.value = newContext;
@@ -186,6 +195,13 @@ export function useCopilotReply() {
           CAPTAIN_EVENTS[eventKey],
           buildPayload(action, trackedConversationId.value)
         );
+      } else if (errorType && errorType !== 'aborted') {
+        trackGenerationFailure({
+          action,
+          conversationId: trackedConversationId.value,
+          stage: 'initial',
+          reason: errorType,
+        });
       } else {
         trackGenerationFailure({
           action,
@@ -236,19 +252,36 @@ export function useCopilotReply() {
     followUpCount.value += 1;
 
     try {
-      const { message: content, followUpContext: updatedContext } =
-        await followUp({
-          followUpContext: followUpContext.value,
-          message,
-          signal: requestController.signal,
-        });
+      const {
+        message: content,
+        followUpContext: updatedContext,
+        errorType,
+      } = await followUp({
+        followUpContext: followUpContext.value,
+        message,
+        signal: requestController.signal,
+      });
 
       if (requestController.signal.aborted) return;
+      if (errorType === 'aborted') {
+        if (abortController.value === requestController) {
+          isGenerating.value = false;
+        }
+        return;
+      }
 
       if (content) {
         generatedContent.value = content;
         followUpContext.value = updatedContext;
         showEditor.value = true;
+      } else if (errorType && errorType !== 'aborted') {
+        trackGenerationFailure({
+          action: currentAction.value,
+          conversationId: trackedConversationId.value,
+          followUpCount: followUpCount.value,
+          stage: 'follow_up',
+          reason: errorType,
+        });
       } else {
         trackGenerationFailure({
           action: currentAction.value,

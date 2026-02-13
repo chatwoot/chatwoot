@@ -78,6 +78,21 @@ export function useCaptain() {
     useAlert(errorMessage);
   };
 
+  /**
+   * Classifies API error types for downstream analytics.
+   * @param {Error} error
+   * @returns {string}
+   */
+  const getErrorType = error => {
+    if (error.name === 'AbortError' || error.name === 'CanceledError') {
+      return 'aborted';
+    }
+    if (error.response?.status) {
+      return `http_${error.response.status}`;
+    }
+    return 'api_error';
+  };
+
   // === Task Methods ===
   /**
    * Rewrites content with a specific operation.
@@ -103,7 +118,7 @@ export function useCaptain() {
       return { message: generatedMessage, followUpContext };
     } catch (error) {
       handleAPIError(error);
-      return { message: '' };
+      return { message: '', errorType: getErrorType(error) };
     }
   };
 
@@ -125,7 +140,7 @@ export function useCaptain() {
       return { message: generatedMessage, followUpContext };
     } catch (error) {
       handleAPIError(error);
-      return { message: '' };
+      return { message: '', errorType: getErrorType(error) };
     }
   };
 
@@ -147,7 +162,7 @@ export function useCaptain() {
       return { message: generatedMessage, followUpContext };
     } catch (error) {
       handleAPIError(error);
-      return { message: '' };
+      return { message: '', errorType: getErrorType(error) };
     }
   };
 
@@ -171,7 +186,11 @@ export function useCaptain() {
       return { message: generatedMessage, followUpContext: updatedContext };
     } catch (error) {
       handleAPIError(error);
-      return { message: '', followUpContext };
+      return {
+        message: '',
+        followUpContext,
+        errorType: getErrorType(error),
+      };
     }
   };
 
