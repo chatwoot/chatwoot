@@ -1,9 +1,9 @@
-id,name,email,identifier,phone_number,labels,custom_attribute_1,custom_attribute_2
-1,Clarice Uzzell,cuzzell0@mozilla.org,bb4e11cd-0f23-49da-a123-dcc1fec6852c,+498963648018,customer|vip,Random-value-1,Random-value-1
-2,Marieann Creegan,mcreegan1@cornell.edu,e60bab4c-9fbb-47eb-8f75-42025b789c47,+15417543010,lead,Random-value0,Random-value0
-3,Nancey Windibank,nwindibank2@bluehost.com,f793e813-4210-4bf3-a812-711418de25d2,+15417543011,,Random-value1,Random-value1
-4,Sibel Stennine,sstennine3@yellowbook.com,d6e35a2d-d093-4437-a577-7df76316b937,+15417543012,customer,Random-value2,Random-value2
-5,Tina O'Lunney,tolunney4@si.edu,3540d40a-5567-4f28-af98-5583a7ddbc56,+15417543013,prospect|newsletter,Random-value3,Random-value3
+id,name,email,identifier,phone_number,labels,ip_address,custom_attribute_1,custom_attribute_2
+1,Clarice Uzzell,cuzzell0@mozilla.org,bb4e11cd-0f23-49da-a123-dcc1fec6852c,+498963648018,customer|vip,70.61.11.201,Random-value-1,Random-value-1
+2,Marieann Creegan,mcreegan1@cornell.edu,e60bab4c-9fbb-47eb-8f75-42025b789c47,+15417543010,lead,168.186.4.241,Random-value0,Random-value0
+3,Nancey Windibank,nwindibank2@bluehost.com,f793e813-4210-4bf3-a812-711418de25d2,+15417543011,,73.44.41.59,Random-value1,Random-value1
+4,Sibel Stennine,sstennine3@yellowbook.com,d6e35a2d-d093-4437-a577-7df76316b937,+15417543011,customer,115.249.27.155,Random-value2,Random-value2
+5,Tina O'Lunney,tolunney4@si.edu,3540d40a-5567-4f28-af98-5583a7ddbc56,+15417543013,prospect|newsletter,219.181.212.8,Random-value3,Random-value3
 6,Quinn Neve,qneve5@army.mil,ba0e1bf0-c74b-41ce-8a2d-0b08fa0e5aa5,+15417543011,vip|refund,231.210.115.166,Random-value4,Random-value4
 7,Karylin Gaunson,kgaunson6@tripod.com,d24cac79-c81b-4b84-a33e-0441b7c6a981,+15417543011,vip,160.189.41.11,Random-value5,Random-value5
 8,Jamison Shenton,jshenton7@upenn.edu,29a7a8c0-c7f7-4af9-852f-761b1a784a7a,+15417543011,new,53.94.18.201,Random-value6,Random-value6
