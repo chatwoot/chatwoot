@@ -21,7 +21,7 @@ module V2::Reports::Concerns::RollupConditions
     return false unless metric_covered?
 
     # Condition 3: Not hourly granularity
-    return false if group_by == 'hour'
+    return false if params[:group_by] == 'hour'
 
     # Condition 4: Dimension must be supported
     return false unless dimension_supported?

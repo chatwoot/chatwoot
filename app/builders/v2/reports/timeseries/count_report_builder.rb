@@ -73,32 +73,49 @@ class V2::Reports::Timeseries::CountReportBuilder < V2::Reports::Timeseries::Bas
   end
 
   def group_and_aggregate_rollup_counts(rollup_rows)
-    grouped_data = {}
+    # Pre-fill all periods with zero to match raw path's default_value: 0 behavior
+    grouped_data = all_periods_in_range.index_with { 0 }
 
     rollup_rows.each do |row|
-      date_key = case group_by
-                 when 'day'
-                   row.date
-                 when 'week'
-                   row.date.beginning_of_week(:monday)
-                 when 'month'
-                   row.date.beginning_of_month
-                 when 'year'
-                   row.date.beginning_of_year
-                 else
-                   row.date
-                 end
-
+      date_key = date_key_for_period(row.date)
       grouped_data[date_key] ||= 0
       grouped_data[date_key] += row.count
     end
 
-    grouped_data.each_with_object([]) do |(date_key, count), arr|
-      arr << {
-        value: count,
-        timestamp: date_key.in_time_zone(timezone).to_i
-      }
+    grouped_data.map do |date_key, count|
+      { value: count, timestamp: date_key.in_time_zone(timezone).to_i }
     end.sort_by { |h| h[:timestamp] }
+  end
+
+  def date_key_for_period(date)
+    case group_by
+    when 'day' then date
+    when 'week' then date.beginning_of_week(:monday)
+    when 'month' then date.beginning_of_month
+    when 'year' then date.beginning_of_year
+    else date
+    end
+  end
+
+  def all_periods_in_range
+    date_range = rollup_date_range
+    dates = []
+    current = date_key_for_period(date_range.first)
+    while current <= date_range.last
+      dates << current
+      current = advance_period(current)
+    end
+    dates
+  end
+
+  def advance_period(date)
+    case group_by
+    when 'day' then date + 1.day
+    when 'week' then date + 1.week
+    when 'month' then date + 1.month
+    when 'year' then date + 1.year
+    else date + 1.day
+    end
   end
 
   def metric
