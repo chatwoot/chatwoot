@@ -28,8 +28,7 @@ fr:
       invalid_email: 'Veuillez saisir une adresse de courriel valide'
       authentication_failed: 'Authentication failed. Please check your credentials and try again.'
   messages:
-    reset_password_success: Super ! La demande de réinitialisation du mot de passe a réussi. Consultez vos e-mails pour obtenir des instructions.
-    reset_password_failure: Oh oh ! Nous n'avons trouvé aucun utilisateur avec le courriel spécifié.
+    reset_password: Request for password reset is successful. A email with instructions will be sent to your email if it exists.
     reset_password_saml_user: This account uses SAML authentication. Password reset is not available. Please contact your administrator.
     login_saml_user: This account uses SAML authentication. Please sign in through your organization's SAML provider.
     saml_not_available: SAML authentication is not available in this installation.
