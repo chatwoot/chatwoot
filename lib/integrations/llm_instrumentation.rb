@@ -37,6 +37,7 @@ module Integrations::LlmInstrumentation
       result = yield
       executed = true
       span.set_attribute(ATTR_LANGFUSE_OBSERVATION_OUTPUT, result.to_json)
+      set_error_attributes(span, result) if result.is_a?(Hash)
       result
     end
   rescue StandardError => e
@@ -53,6 +54,7 @@ module Integrations::LlmInstrumentation
       span.set_attribute(ATTR_LANGFUSE_OBSERVATION_INPUT, arguments.to_json)
       result = yield
       span.set_attribute(ATTR_LANGFUSE_OBSERVATION_OUTPUT, result.to_json)
+      set_error_attributes(span, result) if result.is_a?(Hash)
       result
     end
   end
