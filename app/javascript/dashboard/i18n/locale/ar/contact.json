@@ -18,8 +18,8 @@
     "CREATED_AT_LABEL": "تم إنشاؤها",
     "NEW_MESSAGE": "رسالة جديدة",
     "CALL": "Call",
-    "CALL_INITIATED": "Calling the contact…",
-    "CALL_FAILED": "Unable to start the call. Please try again.",
+    "CALL_INITIATED": "جار الاتصل بجهة الاتصال…",
+    "CALL_FAILED": "تعذر بدء المكالمة. الرجاء المحاولة مرة أخرى.",
     "VOICE_INBOX_PICKER": {
       "TITLE": "Choose a voice inbox"
     },
@@ -458,7 +458,7 @@
             "PLACEHOLDER": "Add Instagram"
           },
           "TIKTOK": {
-            "PLACEHOLDER": "Add TikTok"
+            "PLACEHOLDER": "إضافة TikTok"
           },
           "LINKEDIN": {
             "PLACEHOLDER": "Add LinkedIn"
