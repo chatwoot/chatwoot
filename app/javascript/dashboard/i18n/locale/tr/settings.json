@@ -154,7 +154,7 @@
         "TYPES": {
           "CONVERSATION_CREATED": "A new conversation is created",
           "CONVERSATION_ASSIGNED": "A conversation is assigned to you",
-          "CONVERSATION_MENTION": "You are mentioned in a conversation",
+          "CONVERSATION_MENTION": "Bir konuşmada sizden bahsedildi",
           "ASSIGNED_CONVERSATION_NEW_MESSAGE": "A new message is created in an assigned conversation",
           "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "A new message is created in a participating conversation",
           "SLA_MISSED_FIRST_RESPONSE": "A conversation misses first response SLA",
@@ -234,6 +234,7 @@
     "CONTACT_SUPPORT": "Contact support",
     "SELECTOR_SUBTITLE": "Listeden bir hesap seçin",
     "PROFILE_SETTINGS": "Profile settings",
+    "YEAR_IN_REVIEW": "Year in Review",
     "KEYBOARD_SHORTCUTS": "Keyboard shortcuts",
     "APPEARANCE": "Change appearance",
     "SUPER_ADMIN_CONSOLE": "SuperAdmin console",
@@ -297,7 +298,7 @@
     "SWITCH": "Değiştir",
     "INBOX_VIEW": "Inbox View",
     "CONVERSATIONS": "Konuşmalar",
-    "INBOX": "My Inbox",
+    "INBOX": "Gelen Kutusu",
     "ALL_CONVERSATIONS": "Tüm Görüşmeler",
     "MENTIONED_CONVERSATIONS": "Bahsedilmeler",
     "PARTICIPATING_CONVERSATIONS": "Katılımcılar",
@@ -306,10 +307,12 @@
     "SETTINGS": "Ayarlar",
     "CONTACTS": "Kişiler",
     "ACTIVE": "Aktif",
+    "COMPANIES": "Şirketler",
+    "ALL_COMPANIES": "Tüm Şirketler",
     "CAPTAIN": "Captain",
     "CAPTAIN_ASSISTANTS": "Assistants",
-    "CAPTAIN_DOCUMENTS": "Documents",
-    "CAPTAIN_RESPONSES": "FAQs",
+    "CAPTAIN_DOCUMENTS": "Belgeler",
+    "CAPTAIN_RESPONSES": "SSS",
     "CAPTAIN_TOOLS": "Araçlar",
     "CAPTAIN_SCENARIOS": "Scenarios",
     "CAPTAIN_PLAYGROUND": "Oyun Alanı",
@@ -357,15 +360,15 @@
     "SET_AVAILABILITY_TITLE": "Kendini şu şekilde ayarla",
     "SET_YOUR_AVAILABILITY": "Uygunluk Durumunuzu Ayarlayın",
     "SLA": "SLA",
-    "CUSTOM_ROLES": "Custom Roles",
+    "CUSTOM_ROLES": "Özel Roller",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Önizleme",
-    "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
+    "REAUTHORIZE": "Gelen kutusu bağlantınızın süresi doldu, lütfen yeniden bağlanarak\n mesaj almaya ve göndermeye devam edin",
     "HELP_CENTER": {
       "TITLE": "Yardım Merkezi",
-      "ARTICLES": "Articles",
+      "ARTICLES": "Makaleler",
       "CATEGORIES": "Kategoriler",
-      "LOCALES": "Yereller",
+      "LOCALES": "Diller",
       "SETTINGS": "Ayarlar"
     },
     "CHANNELS": "Kanallar",
@@ -396,21 +399,46 @@
       "TITLE": "Captain",
       "DESCRIPTION": "Manage usage and credits for Captain AI.",
       "BUTTON_TXT": "Buy more credits",
-      "DOCUMENTS": "Documents",
+      "DOCUMENTS": "Belgeler",
       "RESPONSES": "Responses",
-      "UPGRADE": "Captain is not available on the free plan, upgrade now to get access to assistants, copilot and more."
+      "UPGRADE": "Captain is not available on the free plan, upgrade now to get access to assistants, copilot and more.",
+      "REFRESH_CREDITS": "Yenile"
     },
     "CHAT_WITH_US": {
       "TITLE": "Yardıma mı ihtiyacınız var?",
       "DESCRIPTION": "Fatura konusunda herhangi bir sorunla karşılaşıyor musunuz? Yardımcı olmak için buradayız.",
       "BUTTON_TXT": "Sohbet et"
     },
-    "NO_BILLING_USER": "Fatura hesabınız yapılandırılıyor. Lütfen sayfayı yenileyip tekrar deneyin."
+    "NO_BILLING_USER": "Fatura hesabınız yapılandırılıyor. Lütfen sayfayı yenileyip tekrar deneyin.",
+    "TOPUP": {
+      "BUY_CREDITS": "Buy more credits",
+      "MODAL_TITLE": "Buy AI Credits",
+      "MODAL_DESCRIPTION": "Purchase additional credits for Captain AI.",
+      "CREDITS": "CREDITS",
+      "ONE_TIME": "one-time",
+      "POPULAR": "Most Popular",
+      "NOTE_TITLE": "Not:",
+      "NOTE_DESCRIPTION": "Credits are added immediately and expire in 6 months. An active subscription is required to use credits. Purchased credits are consumed after your monthly plan credits.",
+      "CANCEL": "İptal Et",
+      "PURCHASE": "Purchase Credits",
+      "LOADING": "Loading options...",
+      "FETCH_ERROR": "Failed to load credit options. Please try again.",
+      "PURCHASE_ERROR": "Failed to process purchase. Please try again.",
+      "PURCHASE_SUCCESS": "Successfully added {credits} credits to your account",
+      "CONFIRM": {
+        "TITLE": "Confirm Purchase",
+        "DESCRIPTION": "You are about to purchase {credits} credits for {amount}.",
+        "INSTANT_DEDUCTION_NOTE": "Kaydettiğiniz kart, onaylandıktan hemen sonra ücretlendirilecektir.",
+        "GO_BACK": "Geri Git",
+        "CONFIRM_PURCHASE": "Confirm Purchase"
+      }
+    }
   },
   "SECURITY_SETTINGS": {
     "TITLE": "Güvenlik",
     "DESCRIPTION": "Hesap güvenlik ayarlarınızı yönetin.",
     "LINK_TEXT": "Learn more about SAML SSO",
+    "SAML_DISABLED_MESSAGE": "SAML SSO is currently disabled. Please contact your administrator to enable this feature.",
     "SAML": {
       "TITLE": "SAML SSO",
       "NOTE": "Configure SAML single sign-on for your account. Users will authenticate through your identity provider instead of using email/password.",
@@ -599,7 +627,7 @@
         },
         "DESCRIPTION": {
           "LABEL": "Açıklama:",
-          "PLACEHOLDER": "Enter description"
+          "PLACEHOLDER": "Açıklama girin"
         },
         "STATUS": {
           "LABEL": "Durum:",
@@ -614,7 +642,7 @@
             "DESCRIPTION": "Assign conversations evenly among agents."
           },
           "BALANCED": {
-            "LABEL": "Balanced",
+            "LABEL": "Dengeli",
             "DESCRIPTION": "Assign conversations based on available capacity."
           }
         },
@@ -683,7 +711,7 @@
         },
         "EDIT_BUTTON": "Update policy",
         "CONFIRM_ADD_AGENT_DIALOG": {
-          "TITLE": "Add agent",
+          "TITLE": "Temsilci ekle",
           "DESCRIPTION": "{agentName} is already linked to another policy. Are you sure you want to link it to this policy? It will be unlinked from the other policy.",
           "CONFIRM_BUTTON_LABEL": "Devam et",
           "CANCEL_BUTTON_LABEL": "İptal Et"
@@ -710,13 +738,13 @@
         },
         "DESCRIPTION": {
           "LABEL": "Açıklama:",
-          "PLACEHOLDER": "Enter description"
+          "PLACEHOLDER": "Açıklama girin"
         },
         "INBOX_CAPACITY_LIMIT": {
-          "LABEL": "Inbox capacity limits",
-          "ADD_BUTTON": "Add inbox",
+          "LABEL": "Gelen Kutusu kapasite limiti",
+          "ADD_BUTTON": "Gelen Kutusu ekle",
           "FIELD": {
-            "SELECT_INBOX": "Select inbox",
+            "SELECT_INBOX": "Gelen Kutusu seç",
             "MAX_CONVERSATIONS": "Maksimum Konuşma",
             "SET_LIMIT": "Sınır belirle"
           },
@@ -759,8 +787,8 @@
       }
     },
     "DELETE_POLICY": {
-      "TITLE": "Delete policy",
-      "DESCRIPTION": "Are you sure you want to delete this policy? This action cannot be undone.",
+      "TITLE": "Politikayı sil",
+      "DESCRIPTION": "Bu politikayı silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.",
       "CONFIRM_BUTTON_LABEL": "Sil",
       "CANCEL_BUTTON_LABEL": "İptal Et"
     }

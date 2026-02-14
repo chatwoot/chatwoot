@@ -4,6 +4,11 @@
 
 - **Setup**: `bundle install && pnpm install`
 - **Run Dev**: `pnpm dev` or `overmind start -f ./Procfile.dev`
+- **Seed Local Test Data**: `bundle exec rails db:seed` (quickly populates minimal data for standard feature verification)
+- **Seed Search Test Data**: `bundle exec rails search:setup_test_data` (bulk fixture generation for search/performance/manual load scenarios)
+- **Seed Account Sample Data (richer test data)**: `Seeders::AccountSeeder` is available as an internal utility and is exposed through Super Admin `Accounts#seed`, but can be used directly in dev workflows too:
+  - UI path: Super Admin → Accounts → Seed (enqueues `Internal::SeedAccountJob`).
+  - CLI path: `bundle exec rails runner "Internal::SeedAccountJob.perform_now(Account.find(<id>))"` (or call `Seeders::AccountSeeder.new(account: Account.find(<id>)).perform!` directly).
 - **Lint JS/Vue**: `pnpm eslint` / `pnpm eslint:fix`
 - **Lint Ruby**: `bundle exec rubocop -a`
 - **Test JS**: `pnpm test` or `pnpm test:watch`
@@ -47,6 +52,20 @@
 - Avoid writing specs unless explicitly asked
 - Remove dead/unreachable/unused code
 - Don’t write multiple versions or backups for the same logic — pick the best approach and implement it
+- Prefer `with_modified_env` (from spec helpers) over stubbing `ENV` directly in specs
+- Specs in parallel/reloading environments: prefer comparing `error.class.name` over constant class equality when asserting raised errors
+
+## Codex Worktree Workflow
+
+- Use a separate git worktree + branch per task to keep changes isolated.
+- Keep Codex-specific local setup under `.codex/` and use `Procfile.worktree` for worktree process orchestration.
+- The setup workflow in `.codex/environments/environment.toml` should dynamically generate per-worktree DB/port values (Rails, Vite, Redis DB index) to avoid collisions.
+- Start each worktree with its own Overmind socket/title so multiple instances can run at the same time.
+
+## Commit Messages
+
+- Prefer Conventional Commits: `type(scope): subject` (scope optional)
+- Example: `feat(auth): add user authentication`
 - Don't reference Claude in commit messages
 
 ## Project-Specific
@@ -78,3 +97,8 @@ Practical checklist for any change impacting core logic or public APIs
 - Keep request/response contracts stable across OSS and Enterprise; update both sets of routes/controllers when introducing new APIs.
 - When renaming/moving shared code, mirror the change in `enterprise/` to prevent drift.
 - Tests: Add Enterprise-specific specs under `spec/enterprise`, mirroring OSS spec layout where applicable.
+- When modifying existing OSS features for Enterprise-only behavior, add an Enterprise module (via `prepend_mod_with`/`include_mod_with`) instead of editing OSS files directly—especially for policies, controllers, and services. For Enterprise-exclusive features, place code directly under `enterprise/`.
+
+## Branding / White-labeling note
+
+- For user-facing strings that currently contain "Chatwoot" but should adapt to branded/self-hosted installs, prefer applying `replaceInstallationName` from `shared/composables/useBranding` in the UI layer (for example tooltip and suggestion labels) instead of adding hardcoded brand-specific copy.

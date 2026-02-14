@@ -234,6 +234,7 @@
     "CONTACT_SUPPORT": "サポートに問い合わせる",
     "SELECTOR_SUBTITLE": "次のリストからアカウントを選択してください",
     "PROFILE_SETTINGS": "プロフィール設定",
+    "YEAR_IN_REVIEW": "Year in Review",
     "KEYBOARD_SHORTCUTS": "キーボードショートカット",
     "APPEARANCE": "外観を変更",
     "SUPER_ADMIN_CONSOLE": "SuperAdminコンソール",
@@ -306,6 +307,8 @@
     "SETTINGS": "設定",
     "CONTACTS": "連絡先",
     "ACTIVE": "有効",
+    "COMPANIES": "Companies",
+    "ALL_COMPANIES": "All Companies",
     "CAPTAIN": "キャプテン",
     "CAPTAIN_ASSISTANTS": "アシスタント",
     "CAPTAIN_DOCUMENTS": "ドキュメント",
@@ -398,19 +401,44 @@
       "BUTTON_TXT": "クレジットを追加購入する",
       "DOCUMENTS": "ドキュメント",
       "RESPONSES": "応答数",
-      "UPGRADE": "Captainは無料プランでは利用できません。アシスタント、Copilotなどの機能を利用するには、プランをアップグレードしてください。"
+      "UPGRADE": "Captainは無料プランでは利用できません。アシスタント、Copilotなどの機能を利用するには、プランをアップグレードしてください。",
+      "REFRESH_CREDITS": "再読み込み"
     },
     "CHAT_WITH_US": {
       "TITLE": "サポートが必要ですか？",
       "DESCRIPTION": "請求に関する問題がありますか？お手伝いします。",
       "BUTTON_TXT": "チャットをする"
     },
-    "NO_BILLING_USER": "請求アカウントを設定中です。ページを更新してもう一度お試しください。"
+    "NO_BILLING_USER": "請求アカウントを設定中です。ページを更新してもう一度お試しください。",
+    "TOPUP": {
+      "BUY_CREDITS": "クレジットを追加購入する",
+      "MODAL_TITLE": "Buy AI Credits",
+      "MODAL_DESCRIPTION": "Purchase additional credits for Captain AI.",
+      "CREDITS": "CREDITS",
+      "ONE_TIME": "one-time",
+      "POPULAR": "Most Popular",
+      "NOTE_TITLE": "Note:",
+      "NOTE_DESCRIPTION": "Credits are added immediately and expire in 6 months. An active subscription is required to use credits. Purchased credits are consumed after your monthly plan credits.",
+      "CANCEL": "キャンセル",
+      "PURCHASE": "Purchase Credits",
+      "LOADING": "Loading options...",
+      "FETCH_ERROR": "Failed to load credit options. Please try again.",
+      "PURCHASE_ERROR": "Failed to process purchase. Please try again.",
+      "PURCHASE_SUCCESS": "Successfully added {credits} credits to your account",
+      "CONFIRM": {
+        "TITLE": "Confirm Purchase",
+        "DESCRIPTION": "You are about to purchase {credits} credits for {amount}.",
+        "INSTANT_DEDUCTION_NOTE": "Your saved card will be charged immediately upon confirmation.",
+        "GO_BACK": "戻る",
+        "CONFIRM_PURCHASE": "Confirm Purchase"
+      }
+    }
   },
   "SECURITY_SETTINGS": {
     "TITLE": "Security",
     "DESCRIPTION": "Manage your account security settings.",
     "LINK_TEXT": "Learn more about SAML SSO",
+    "SAML_DISABLED_MESSAGE": "SAML SSO is currently disabled. Please contact your administrator to enable this feature.",
     "SAML": {
       "TITLE": "SAML SSO",
       "NOTE": "Configure SAML single sign-on for your account. Users will authenticate through your identity provider instead of using email/password.",

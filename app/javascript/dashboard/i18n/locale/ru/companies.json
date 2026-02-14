@@ -1,0 +1,33 @@
+{
+  "COMPANIES": {
+    "HEADER": "Компании",
+    "SORT_BY": {
+      "LABEL": "Сортировать по",
+      "OPTIONS": {
+        "NAME": "Имя",
+        "DOMAIN": "Домен",
+        "CREATED_AT": "Дата создания",
+        "CONTACTS_COUNT": "Contacts count"
+      }
+    },
+    "ORDER": {
+      "LABEL": "Сортировка",
+      "OPTIONS": {
+        "ASCENDING": "По возрастанию",
+        "DESCENDING": "По убыванию"
+      }
+    },
+    "SEARCH_PLACEHOLDER": "Поиск компаний...",
+    "LOADING": "Загрузка компаний...",
+    "UNNAMED": "Безымянная компания",
+    "CONTACTS_COUNT": "{n} контакт | {n} контакта(-ов)",
+    "EMPTY_STATE": {
+      "TITLE": "Компаний не найдено"
+    }
+  },
+  "COMPANIES_LAYOUT": {
+    "PAGINATION_FOOTER": {
+      "SHOWING": "Показано {startItem}–{endItem} из {totalItems} компании | Показано {startItem}–{endItem} из {totalItems} компаний"
+    }
+  }
+}

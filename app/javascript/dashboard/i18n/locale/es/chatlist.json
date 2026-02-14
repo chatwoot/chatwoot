@@ -102,6 +102,9 @@
       },
       "contact": {
         "CONTENT": "Contacto compartido"
+      },
+      "embed": {
+        "CONTENT": "Contenido incrustado"
       }
     },
     "CHAT_SORT_BY_FILTER": {

@@ -1,33 +1,34 @@
 {
   "CONTENT_TEMPLATES": {
     "MODAL": {
-      "TITLE": "Twilio Templates",
-      "SUBTITLE": "Select the Twilio template you want to send",
-      "TEMPLATE_SELECTED_SUBTITLE": "Configure template: {templateName}"
+      "TITLE": "תבניות Twilio",
+      "SUBTITLE": "בחר את תבנית Twilio שברצונך לשלוח",
+      "TEMPLATE_SELECTED_SUBTITLE": "הגדר תבנית: {templateName}"
     },
     "PICKER": {
       "SEARCH_PLACEHOLDER": "חפש תבניות",
       "NO_TEMPLATES_FOUND": "לא נמצאו תבניות עבור",
-      "NO_CONTENT": "No content",
-      "HEADER": "Header",
-      "BODY": "Body",
-      "FOOTER": "Footer",
-      "BUTTONS": "Buttons",
+      "NO_CONTENT": "אין תוכן",
+      "HEADER": "כותרת עליונה",
+      "BODY": "גוף",
+      "FOOTER": "כותרת תחתונה",
+      "BUTTONS": "כפתורים",
       "CATEGORY": "קטגוריה",
-      "MEDIA_CONTENT": "Media Content",
-      "MEDIA_CONTENT_FALLBACK": "media content",
-      "NO_TEMPLATES_AVAILABLE": "No Twilio templates available. Click refresh to sync templates from Twilio.",
-      "REFRESH_BUTTON": "Refresh templates",
-      "REFRESH_SUCCESS": "Templates refresh initiated. It may take a couple of minutes to update.",
-      "REFRESH_ERROR": "Failed to refresh templates. Please try again.",
+      "MEDIA_CONTENT": "תוכן מדיה",
+      "MEDIA_CONTENT_FALLBACK": "תוכן מדיה",
+      "NO_TEMPLATES_AVAILABLE": "אין תבניות Twilio זמינות. לחץ על רענן כדי לסנכרן תבניות מ-Twilio.",
+      "REFRESH_BUTTON": "רענן תבניות",
+      "REFRESH_SUCCESS": "רענון התבניות הופעל. העדכון עשוי להימשך כמה דקות.",
+      "REFRESH_ERROR": "רענון התבניות נכשל. אנא נסה שוב.",
       "LABELS": {
         "LANGUAGE": "שפה",
         "TEMPLATE_BODY": "גוף התבנית",
         "CATEGORY": "קטגוריה"
       },
       "TYPES": {
-        "MEDIA": "Media",
-        "QUICK_REPLY": "Quick Reply",
+        "MEDIA": "מדיה",
+        "QUICK_REPLY": "תגובה מהירה",
+        "CALL_TO_ACTION": "Call to Action",
         "TEXT": "טקסט"
       }
     },
@@ -39,8 +40,8 @@
       "GO_BACK_LABEL": "חזור",
       "SEND_MESSAGE_LABEL": "לשלוח הודעה",
       "FORM_ERROR_MESSAGE": "נא למלא את כל המשתנים לפני השליחה",
-      "MEDIA_HEADER_LABEL": "{type} Header",
-      "MEDIA_URL_LABEL": "Enter full media URL",
+      "MEDIA_HEADER_LABEL": "כותרת עליונה {type}",
+      "MEDIA_URL_LABEL": "הזן כתובת URL מלאה של מדיה",
       "MEDIA_URL_PLACEHOLDER": "https://example.com/image.jpg"
     },
     "FORM": {

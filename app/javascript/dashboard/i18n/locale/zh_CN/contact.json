@@ -18,7 +18,8 @@
     "CREATED_AT_LABEL": "创建时间",
     "NEW_MESSAGE": "新消息",
     "CALL": "呼叫",
-    "CALL_UNDER_DEVELOPMENT": "呼叫功能正在开发中",
+    "CALL_INITIATED": "Calling the contact…",
+    "CALL_FAILED": "Unable to start the call. Please try again.",
     "VOICE_INBOX_PICKER": {
       "TITLE": "选择一个语音收件箱"
     },
@@ -455,6 +456,9 @@
           },
           "INSTAGRAM": {
             "PLACEHOLDER": "添加 Instagram"
+          },
+          "TIKTOK": {
+            "PLACEHOLDER": "Add TikTok"
           },
           "LINKEDIN": {
             "PLACEHOLDER": "添加 LinkedIn"

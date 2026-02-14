@@ -1,0 +1,64 @@
+{
+  "YEAR_IN_REVIEW": {
+    "TITLE": "Retrospectiva do ano",
+    "LOADING": "Carregando sua retrospectiva do ano...",
+    "ERROR": "Falha ao carregar a retrospectiva do ano",
+    "CLOSE": "Fechar",
+    "CONVERSATIONS": {
+      "TITLE": "Você atendeu",
+      "SUBTITLE": "conversas",
+      "FALLBACK": "Este ano não foi sobre números. Foi sobre estar presente.",
+      "COMPARISON": {
+        "0_50": "Você esteve presente e é assim que toda boa caixa de entrada começa.",
+        "50_100": "Você manteve as respostas fluindo e as conversas vivas.",
+        "100_500": "Você lidou com um grande volume e manteve tudo em ordem.",
+        "500_2000": "Você manteve tudo em movimento enquanto o volume continuava crescendo.",
+        "2000_10000": "Você lidou com alto tráfego na sua caixa de entrada com tranquilidade.",
+        "10000_PLUS": "Era uma cidade inteira de clientes batendo à sua porta. E você fez parecer fácil."
+      }
+    },
+    "BUSIEST_DAY": {
+      "TITLE": "Seu dia mais movimentado foi",
+      "MESSAGE": "{count} conversas nesse dia.",
+      "COMPARISON": {
+        "0_5": "Só um aquecimento leve, mal deu tempo da caixa de entrada acordar.",
+        "5_10": "Movimento suficiente para justificar uma segunda xícara de café.",
+        "10_25": "A coisa começou a esquentar e a caixa de entrada teve que ficar ligada o tempo todo.",
+        "25_50": "Uma correria daquelas, mas sem nem suar.",
+        "50_100": "Caos controlado, resolvido como se fosse uma terça-feira qualquer.",
+        "100_500": "Um caos total, mas as respostas continuaram saindo mesmo assim.",
+        "500_PLUS": "A caixa de entrada perdeu totalmente a calma e não deu trégua em nenhum momento."
+      }
+    },
+    "PERSONALITY": {
+      "TITLE": "Seu estilo de atendimento é",
+      "MESSAGES": {
+        "SWIFT_HELPER": "Você respondia em média em {time}. Mais rápido que a maioria das notificações.",
+        "QUICK_RESPONDER": "Você respondia em média em {time}. A caixa de entrada mal teve tempo de esperar.",
+        "STEADY_SUPPORT": "Você respondia em média em {time}. Ritmo tranquilo, respostas bem feitas.",
+        "THOUGHTFUL_ADVISOR": "Você respondia em média em {time}. Sem pressa, mas com capricho."
+      }
+    },
+    "THANK_YOU": {
+      "TITLE": "Parabéns por sobreviver à caixa de entrada de {year}.",
+      "MESSAGE": "Obrigado pela sua dedicação incrível em apoiar os clientes ao longo deste ano. Seu trabalho árduo fez uma diferença real, e somos gratos por ter você nessa jornada. Que possamos tornar {nextYear} ainda melhor juntos!"
+    },
+    "SHARE_MODAL": {
+      "TITLE": "Compartilhe sua Retrospectiva",
+      "PREPARING": "Preparando sua imagem...",
+      "DOWNLOAD": "Baixar",
+      "SHARE_TITLE": "Minha retrospectiva de {year}",
+      "SHARE_TEXT": "Confira minha retrospectiva de {year} com o Chatwoot!",
+      "BRANDING": "Feito com Chatwoot"
+    },
+    "BANNER": {
+      "TITLE": "Sua retrospectiva de {year} chegou",
+      "BUTTON": "Veja seu impacto"
+    },
+    "NAVIGATION": {
+      "PREVIOUS": "Anterior",
+      "NEXT": "Próximo",
+      "SHARE": "Compartilhar"
+    }
+  }
+}

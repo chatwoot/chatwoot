@@ -234,6 +234,7 @@
     "CONTACT_SUPPORT": "Contatta il supporto",
     "SELECTOR_SUBTITLE": "Seleziona un account dall'elenco",
     "PROFILE_SETTINGS": "Impostazioni profilo",
+    "YEAR_IN_REVIEW": "Year in Review",
     "KEYBOARD_SHORTCUTS": "Scorciatoie da tastiera",
     "APPEARANCE": "Personalizza aspetto",
     "SUPER_ADMIN_CONSOLE": "Console SuperAdmin",
@@ -306,6 +307,8 @@
     "SETTINGS": "Impostazioni",
     "CONTACTS": "Contatti",
     "ACTIVE": "Attivi",
+    "COMPANIES": "Aziende",
+    "ALL_COMPANIES": "Tutte le Aziende",
     "CAPTAIN": "Captain",
     "CAPTAIN_ASSISTANTS": "Assistenti",
     "CAPTAIN_DOCUMENTS": "Documenti",
@@ -398,19 +401,44 @@
       "BUTTON_TXT": "Acquista più crediti",
       "DOCUMENTS": "Documenti",
       "RESPONSES": "Risposte",
-      "UPGRADE": "Captain non è disponibile sul piano gratuito, aggiorna ora per ottenere l'accesso agli assistenti, copilot e altro ancora."
+      "UPGRADE": "Captain non è disponibile sul piano gratuito, aggiorna ora per ottenere l'accesso agli assistenti, copilot e altro ancora.",
+      "REFRESH_CREDITS": "Aggiorna"
     },
     "CHAT_WITH_US": {
       "TITLE": "Hai bisogno di aiuto?",
       "DESCRIPTION": "Hai qualche problema di fatturazione? Siamo qui per aiutarti.",
       "BUTTON_TXT": "Chatta con noi"
     },
-    "NO_BILLING_USER": "Il tuo account di fatturazione è in fase di configurazione. Per favore aggiorna la pagina e riprova."
+    "NO_BILLING_USER": "Il tuo account di fatturazione è in fase di configurazione. Per favore aggiorna la pagina e riprova.",
+    "TOPUP": {
+      "BUY_CREDITS": "Acquista più crediti",
+      "MODAL_TITLE": "Acquista Crediti AI",
+      "MODAL_DESCRIPTION": "Acquista crediti aggiuntivi per Captain AI.",
+      "CREDITS": "CREDITI",
+      "ONE_TIME": "una tantum",
+      "POPULAR": "Più Popolare",
+      "NOTE_TITLE": "Nota:",
+      "NOTE_DESCRIPTION": "I crediti vengono aggiunti immediatamente e scadono in 6 mesi. È necessario un abbonamento attivo per utilizzare i crediti. I crediti acquistati vengono consumati dopo i crediti mensili del piano.",
+      "CANCEL": "Annulla",
+      "PURCHASE": "Acquista Crediti",
+      "LOADING": "Caricamento opzioni...",
+      "FETCH_ERROR": "Impossibile caricare le opzioni crediti. Riprova.",
+      "PURCHASE_ERROR": "Impossibile elaborare l'acquisto. Riprova.",
+      "PURCHASE_SUCCESS": "{credits} crediti aggiunti correttamente al tuo account",
+      "CONFIRM": {
+        "TITLE": "Conferma Acquisto",
+        "DESCRIPTION": "Stai per acquistare {credits} crediti per {amount}.",
+        "INSTANT_DEDUCTION_NOTE": "L'importo verrà addebitato immediatamente sulla tua carta salvata al momento della conferma.",
+        "GO_BACK": "Torna Indietro",
+        "CONFIRM_PURCHASE": "Conferma Acquisto"
+      }
+    }
   },
   "SECURITY_SETTINGS": {
     "TITLE": "Sicurezza",
     "DESCRIPTION": "Gestisci le impostazioni di sicurezza del tuo account.",
     "LINK_TEXT": "Ulteriori informazioni su SAML SSO",
+    "SAML_DISABLED_MESSAGE": "SAML SSO è attualmente disabilitato. Contatta l'amministratore per abilitare questa funzionalità.",
     "SAML": {
       "TITLE": "SAML SSO",
       "NOTE": "Configura SAML single sign-on per il tuo account. Gli utenti si autenticeranno tramite il tuo provider di identità invece di utilizzare email/password.",

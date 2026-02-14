@@ -126,6 +126,10 @@ class Inbox < ApplicationRecord
     channel_type == 'Channel::Instagram'
   end
 
+  def tiktok?
+    channel_type == 'Channel::Tiktok'
+  end
+
   def web_widget?
     channel_type == 'Channel::WebWidget'
   end
@@ -154,12 +158,19 @@ class Inbox < ApplicationRecord
     channel_type == 'Channel::Whatsapp'
   end
 
-  # Override lock_to_single_conversation to return false for email inboxes
-  # @return [Boolean] false if email inbox, otherwise the database value
+  # Compatibility behavior:
+  # - Email inboxes always create a new thread.
+  # - Website inboxes migrate from legacy `allow_messages_after_resolved`
+  #   where `false` means "reopen same conversation".
   def lock_to_single_conversation
     return false if email?
+    return !allow_messages_after_resolved if web_widget?
 
     self[:lock_to_single_conversation]
+  end
+
+  def twilio_whatsapp?
+    channel_type == 'Channel::TwilioSms' && channel.medium == 'whatsapp'
   end
 
   def assignable_agents

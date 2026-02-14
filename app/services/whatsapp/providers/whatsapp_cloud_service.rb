@@ -62,10 +62,27 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     { 'Authorization' => "Bearer #{whatsapp_channel.provider_config['api_key']}", 'Content-Type' => 'application/json' }
   end
 
-  def media_url(media_id, phone_number_id = nil)
-    url = "#{api_base_path}/v13.0/#{media_id}"
-    url += "?phone_number_id=#{phone_number_id}" if phone_number_id
-    url
+  def create_csat_template(template_config)
+    csat_template_service.create_template(template_config)
+  end
+
+  def delete_csat_template(template_name = nil)
+    template_name ||= CsatTemplateNameService.csat_template_name(whatsapp_channel.inbox.id)
+    csat_template_service.delete_template(template_name)
+  end
+
+  def get_template_status(template_name)
+    csat_template_service.get_template_status(template_name)
+  end
+
+  def media_url(media_id)
+    "#{api_base_path}/v13.0/#{media_id}"
+  end
+
+  private
+
+  def csat_template_service
+    @csat_template_service ||= Whatsapp::CsatTemplateService.new(whatsapp_channel)
   end
 
   def api_base_path

@@ -1,14 +1,22 @@
 <script>
+import { ref } from 'vue';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
+import { useCaptain } from 'dashboard/composables/useCaptain';
+import { vOnClickOutside } from '@vueuse/components';
 import { REPLY_EDITOR_MODES, CHAR_LENGTH_WARNING } from './constants';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import EditorModeToggle from './EditorModeToggle.vue';
+import CopilotMenuBar from './CopilotMenuBar.vue';
 
 export default {
   name: 'ReplyTopPanel',
   components: {
     NextButton,
     EditorModeToggle,
+    CopilotMenuBar,
+  },
+  directives: {
+    OnClickOutside: vOnClickOutside,
   },
   props: {
     mode: {
@@ -16,6 +24,10 @@ export default {
       default: REPLY_EDITOR_MODES.REPLY,
     },
     isReplyRestricted: {
+      type: Boolean,
+      default: false,
+    },
+    disabled: {
       type: Boolean,
       default: false,
     },
@@ -28,7 +40,7 @@ export default {
       default: () => 0,
     },
   },
-  emits: ['setReplyMode', 'togglePopout'],
+  emits: ['setReplyMode', 'togglePopout', 'executeCopilotAction'],
   setup(props, { emit }) {
     const setReplyMode = mode => {
       emit('setReplyMode', mode);
@@ -47,6 +59,23 @@ export default {
           : REPLY_EDITOR_MODES.REPLY;
       setReplyMode(newMode);
     };
+
+    const { captainTasksEnabled } = useCaptain();
+    const showCopilotMenu = ref(false);
+
+    const handleCopilotAction = actionKey => {
+      emit('executeCopilotAction', actionKey);
+      showCopilotMenu.value = false;
+    };
+
+    const toggleCopilotMenu = () => {
+      showCopilotMenu.value = !showCopilotMenu.value;
+    };
+
+    const handleClickOutside = () => {
+      showCopilotMenu.value = false;
+    };
+
     const keyboardEvents = {
       'Alt+KeyP': {
         action: () => handleNoteClick(),
@@ -64,6 +93,11 @@ export default {
       handleReplyClick,
       handleNoteClick,
       REPLY_EDITOR_MODES,
+      captainTasksEnabled,
+      handleCopilotAction,
+      showCopilotMenu,
+      toggleCopilotMenu,
+      handleClickOutside,
     };
   },
   computed: {
@@ -90,11 +124,13 @@ export default {
 </script>
 
 <template>
-  <div class="flex justify-between h-[3.25rem] gap-2 ltr:pl-3 rtl:pr-3">
+  <div
+    class="flex justify-between gap-2 h-[3.25rem] items-center ltr:pl-3 ltr:pr-2 rtl:pr-3 rtl:pl-2"
+  >
     <EditorModeToggle
       :mode="mode"
-      :disabled="isReplyRestricted"
-      class="mt-3"
+      :disabled="disabled"
+      :is-reply-restricted="isReplyRestricted"
       @toggle-mode="handleModeToggle"
     />
     <div class="flex items-center mx-4 my-0">
@@ -104,11 +140,34 @@ export default {
         </span>
       </div>
     </div>
-    <NextButton
-      ghost
-      class="ltr:rounded-bl-md rtl:rounded-br-md ltr:rounded-br-none rtl:rounded-bl-none ltr:rounded-tl-none rtl:rounded-tr-none text-n-slate-11 ltr:rounded-tr-[11px] rtl:rounded-tl-[11px]"
-      icon="i-lucide-maximize-2"
-      @click="$emit('togglePopout')"
-    />
+    <div v-if="captainTasksEnabled" class="flex items-center gap-2">
+      <div class="relative">
+        <NextButton
+          ghost
+          :disabled="disabled"
+          :class="{
+            'text-n-violet-9 hover:enabled:!bg-n-violet-3': !showCopilotMenu,
+            'text-n-violet-9 bg-n-violet-3': showCopilotMenu,
+          }"
+          sm
+          icon="i-ph-sparkle-fill"
+          @click="toggleCopilotMenu"
+        />
+        <CopilotMenuBar
+          v-if="showCopilotMenu"
+          v-on-click-outside="handleClickOutside"
+          :has-selection="false"
+          class="ltr:right-0 rtl:left-0 bottom-full mb-2"
+          @execute-copilot-action="handleCopilotAction"
+        />
+      </div>
+      <NextButton
+        ghost
+        class="text-n-slate-11"
+        sm
+        icon="i-lucide-maximize-2"
+        @click="$emit('togglePopout')"
+      />
+    </div>
   </div>
 </template>

@@ -6,7 +6,8 @@ import { INBOX_TYPES } from 'dashboard/helper/inbox';
 import {
   appendSignature,
   removeSignature,
-  extractTextFromMarkdown,
+  getEffectiveChannelType,
+  stripUnsupportedMarkdown,
 } from 'dashboard/helper/editorHelper';
 import {
   buildContactableInboxesList,
@@ -47,6 +48,8 @@ const emit = defineEmits([
   'createConversation',
 ]);
 
+const DEFAULT_FORMATTING = 'Context::Default';
+
 const showContactsDropdown = ref(false);
 const showInboxesDropdown = ref(false);
 const showCcEmailsDropdown = ref(false);
@@ -86,6 +89,12 @@ const whatsappMessageTemplates = computed(() =>
 );
 
 const inboxChannelType = computed(() => props.targetInbox?.channelType || '');
+
+const inboxMedium = computed(() => props.targetInbox?.medium || '');
+
+const effectiveChannelType = computed(() =>
+  getEffectiveChannelType(inboxChannelType.value, inboxMedium.value)
+);
 
 const validationRules = computed(() => ({
   selectedContact: { required },
@@ -192,9 +201,22 @@ const setSelectedContact = async ({ value, action, ...rest }) => {
   showInboxesDropdown.value = true;
 };
 
-const handleInboxAction = ({ value, action, ...rest }) => {
+const stripMessageFormatting = channelType => {
+  if (!state.message || !channelType) return;
+
+  state.message = stripUnsupportedMarkdown(state.message, channelType, false);
+};
+
+const handleInboxAction = ({ value, action, channelType, medium, ...rest }) => {
   v$.value.$reset();
-  emit('updateTargetInbox', { ...rest });
+
+  // Strip unsupported formatting when changing the target inbox
+  if (channelType) {
+    const newChannelType = getEffectiveChannelType(channelType, medium);
+    stripMessageFormatting(newChannelType);
+  }
+
+  emit('updateTargetInbox', { ...rest, channelType, medium });
   showInboxesDropdown.value = false;
   state.attachedFiles = [];
 };
@@ -202,25 +224,30 @@ const handleInboxAction = ({ value, action, ...rest }) => {
 const removeSignatureFromMessage = () => {
   // Always remove the signature from message content when inbox/contact is removed
   // to ensure no leftover signature content remains
-  const signatureToRemove = inboxTypes.value.isEmailOrWebWidget
-    ? props.messageSignature
-    : extractTextFromMarkdown(props.messageSignature);
-  if (signatureToRemove) {
-    state.message = removeSignature(state.message, signatureToRemove);
+  if (props.messageSignature) {
+    state.message = removeSignature(
+      state.message,
+      props.messageSignature,
+      effectiveChannelType.value
+    );
   }
 };
 
 const removeTargetInbox = value => {
   v$.value.$reset();
   removeSignatureFromMessage();
+
+  stripMessageFormatting(DEFAULT_FORMATTING);
+
   emit('updateTargetInbox', value);
   state.attachedFiles = [];
 };
 
 const clearSelectedContact = () => {
-  emit('clearSelectedContact');
-  state.attachedFiles = [];
   removeSignatureFromMessage();
+  emit('clearSelectedContact');
+  state.message = '';
+  state.attachedFiles = [];
 };
 
 const onClickInsertEmoji = emoji => {
@@ -228,11 +255,19 @@ const onClickInsertEmoji = emoji => {
 };
 
 const handleAddSignature = signature => {
-  state.message = appendSignature(state.message, signature);
+  state.message = appendSignature(
+    state.message,
+    signature,
+    effectiveChannelType.value
+  );
 };
 
 const handleRemoveSignature = signature => {
-  state.message = removeSignature(state.message, signature);
+  state.message = removeSignature(
+    state.message,
+    signature,
+    effectiveChannelType.value
+  );
 };
 
 const handleAttachFile = files => {
@@ -306,67 +341,68 @@ const shouldShowMessageEditor = computed(() => {
 
 <template>
   <div
-    class="w-[42rem] divide-y divide-n-strong overflow-visible transition-all duration-300 ease-in-out top-full justify-between flex flex-col bg-n-alpha-3 border border-n-strong shadow-sm backdrop-blur-[100px] rounded-xl min-w-0"
+    class="w-[42rem] divide-y divide-n-strong overflow-visible transition-all duration-300 ease-in-out top-full flex flex-col bg-n-alpha-3 border border-n-strong shadow-sm backdrop-blur-[100px] rounded-xl min-w-0 max-h-[calc(100vh-8rem)]"
   >
-    <ContactSelector
-      :contacts="contacts"
-      :selected-contact="selectedContact"
-      :show-contacts-dropdown="showContactsDropdown"
-      :is-loading="isLoading"
-      :is-creating-contact="isCreatingContact"
-      :contact-id="contactId"
-      :contactable-inboxes-list="contactableInboxesList"
-      :show-inboxes-dropdown="showInboxesDropdown"
-      :has-errors="validationStates.isContactInvalid"
-      @search-contacts="handleContactSearch"
-      @set-selected-contact="setSelectedContact"
-      @clear-selected-contact="clearSelectedContact"
-      @update-dropdown="handleDropdownUpdate"
-    />
-    <InboxEmptyState v-if="showNoInboxAlert" />
-    <InboxSelector
-      v-else
-      :target-inbox="targetInbox"
-      :selected-contact="selectedContact"
-      :show-inboxes-dropdown="showInboxesDropdown"
-      :contactable-inboxes-list="contactableInboxesList"
-      :has-errors="validationStates.isInboxInvalid"
-      @update-inbox="removeTargetInbox"
-      @toggle-dropdown="showInboxesDropdown = $event"
-      @handle-inbox-action="handleInboxAction"
-    />
+    <div class="flex-1 overflow-y-auto divide-y divide-n-strong">
+      <ContactSelector
+        :contacts="contacts"
+        :selected-contact="selectedContact"
+        :show-contacts-dropdown="showContactsDropdown"
+        :is-loading="isLoading"
+        :is-creating-contact="isCreatingContact"
+        :contact-id="contactId"
+        :contactable-inboxes-list="contactableInboxesList"
+        :show-inboxes-dropdown="showInboxesDropdown"
+        :has-errors="validationStates.isContactInvalid"
+        @search-contacts="handleContactSearch"
+        @set-selected-contact="setSelectedContact"
+        @clear-selected-contact="clearSelectedContact"
+        @update-dropdown="handleDropdownUpdate"
+      />
+      <InboxEmptyState v-if="showNoInboxAlert" />
+      <InboxSelector
+        v-else
+        :target-inbox="targetInbox"
+        :selected-contact="selectedContact"
+        :show-inboxes-dropdown="showInboxesDropdown"
+        :contactable-inboxes-list="contactableInboxesList"
+        :has-errors="validationStates.isInboxInvalid"
+        @update-inbox="removeTargetInbox"
+        @toggle-dropdown="showInboxesDropdown = $event"
+        @handle-inbox-action="handleInboxAction"
+      />
 
-    <EmailOptions
-      v-if="inboxTypes.isEmail"
-      v-model:cc-emails="state.ccEmails"
-      v-model:bcc-emails="state.bccEmails"
-      v-model:subject="state.subject"
-      :contacts="contacts"
-      :show-cc-emails-dropdown="showCcEmailsDropdown"
-      :show-bcc-emails-dropdown="showBccEmailsDropdown"
-      :is-loading="isLoading"
-      :has-errors="validationStates.isSubjectInvalid"
-      @search-cc-emails="searchCcEmails"
-      @search-bcc-emails="searchBccEmails"
-      @update-dropdown="handleDropdownUpdate"
-    />
+      <EmailOptions
+        v-if="inboxTypes.isEmail"
+        v-model:cc-emails="state.ccEmails"
+        v-model:bcc-emails="state.bccEmails"
+        v-model:subject="state.subject"
+        :contacts="contacts"
+        :show-cc-emails-dropdown="showCcEmailsDropdown"
+        :show-bcc-emails-dropdown="showBccEmailsDropdown"
+        :is-loading="isLoading"
+        :has-errors="validationStates.isSubjectInvalid"
+        @search-cc-emails="searchCcEmails"
+        @search-bcc-emails="searchBccEmails"
+        @update-dropdown="handleDropdownUpdate"
+      />
 
-    <MessageEditor
-      v-if="shouldShowMessageEditor"
-      v-model="state.message"
-      :message-signature="messageSignature"
-      :send-with-signature="sendWithSignature"
-      :is-email-or-web-widget-inbox="inboxTypes.isEmailOrWebWidget"
-      :has-errors="validationStates.isMessageInvalid"
-      :has-attachments="state.attachedFiles.length > 0"
-      :channel-type="inboxChannelType"
-    />
+      <MessageEditor
+        v-if="shouldShowMessageEditor"
+        v-model="state.message"
+        :message-signature="messageSignature"
+        :send-with-signature="sendWithSignature"
+        :has-errors="validationStates.isMessageInvalid"
+        :channel-type="inboxChannelType"
+        :medium="targetInbox?.medium || ''"
+      />
 
-    <AttachmentPreviews
-      v-if="state.attachedFiles.length > 0"
-      :attachments="state.attachedFiles"
-      @update:attachments="state.attachedFiles = $event"
-    />
+      <AttachmentPreviews
+        v-if="state.attachedFiles.length > 0"
+        :attachments="state.attachedFiles"
+        @update:attachments="state.attachedFiles = $event"
+      />
+    </div>
 
     <ActionButtons
       :attached-files="state.attachedFiles"
