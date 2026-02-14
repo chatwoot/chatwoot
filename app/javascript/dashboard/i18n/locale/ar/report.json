@@ -3,7 +3,7 @@
     "HEADER": "المحادثات",
     "LOADING_CHART": "تحميل بيانات الرسم البياني...",
     "NO_ENOUGH_DATA": "لم يتم جمع بيانات بقدر كافي لإنشاء التقرير، الرجاء المحاولة مرة أخرى لاحقاً.",
-    "DOWNLOAD_CONVERSATION_REPORTS": "Download conversation reports",
+    "DOWNLOAD_CONVERSATION_REPORTS": "تنزيل تقارير المحادثات",
     "DATA_FETCHING_FAILED": "Failed to fetch data, please try again later.",
     "SUMMARY_FETCHING_FAILED": "Failed to fetch summary, please try again later.",
     "METRICS": {
@@ -437,7 +437,7 @@
         "AGENTS": "البحث عن وكلاء",
         "INBOXES": "Search inboxes",
         "TEAMS": "البحث عن فريق",
-        "RATINGS": "Search ratings"
+        "RATINGS": "البحث في التقييمات"
       },
       "AGENTS": {
         "LABEL": "وكيل الدعم"
@@ -459,14 +459,14 @@
         "RATING": "التقييم",
         "FEEDBACK_TEXT": "تعليق الملاحظات",
         "CONVERSATION": "المحادثات",
-        "CUSTOMER": "Customer",
+        "CUSTOMER": "عميل",
         "RESPONSE": "Response",
         "HANDLED_BY": "Handled by"
       },
       "UNKNOWN_CUSTOMER": "Unknown customer"
     },
-    "NO_AGENT": "No assigned agent",
-    "NO_FEEDBACK": "No feedback provided",
+    "NO_AGENT": "لم يتم تعيين وكيل",
+    "NO_FEEDBACK": "لا توجد ملاحظات مقدمة",
     "METRIC": {
       "TOTAL_RESPONSES": {
         "LABEL": "إجمالي الردود",
@@ -480,15 +480,15 @@
         "LABEL": "معدل الاستجابة",
         "TOOLTIP": "العدد الإجمالي للردود / العدد الإجمالي لرسائل الاستقصاء التي أرسلتها CSAT * 100"
       },
-      "RATING_DISTRIBUTION": "Rating distribution"
+      "RATING_DISTRIBUTION": "توزيع التقييم"
     },
     "REVIEW_NOTES": {
-      "TITLE": "Review notes",
-      "PLACEHOLDER": "Add review notes about this rating...",
+      "TITLE": "ملاحظات المراجعة",
+      "PLACEHOLDER": "إضافة ملاحظات مراجعة حول هذا التقييم...",
       "SAVE": "حفظ",
       "CANCEL": "إلغاء",
       "SAVING": "جاري الحفظ...",
-      "SAVED": "Notes saved successfully",
+      "SAVED": "تم حفظ الملاحظات بنجاح",
       "SAVE_ERROR": "Failed to save notes",
       "UPDATED_BY": "Updated by {name} {time}",
       "UPDATED_BY_LABEL": "Updated by",
