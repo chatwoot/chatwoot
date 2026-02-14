@@ -43,7 +43,7 @@ describe Twilio::WebhookSetupService do
     end
 
     context 'with a messaging service sid' do
-      let(:channel_twilio_sms) { create(:channel_twilio_sms) }
+      let(:channel_twilio_sms) { create(:channel_twilio_sms, :whatsapp) }
 
       let(:messaging) { instance_double(Twilio::REST::Messaging) }
       let(:services) { instance_double(Twilio::REST::Messaging::V1::ServiceContext) }
@@ -52,12 +52,14 @@ describe Twilio::WebhookSetupService do
         allow(twilio_client).to receive(:messaging).and_return(messaging)
         allow(messaging).to receive(:services).with(channel_twilio_sms.messaging_service_sid).and_return(services)
         allow(services).to receive(:update)
+        allow(twilio_client).to receive(:incoming_phone_numbers)
       end
 
-      it 'updates the messaging service' do
+      it 'updates the messaging service webhook and skips phone number lookup' do
         described_class.new(inbox: channel_twilio_sms.inbox).perform
 
         expect(services).to have_received(:update)
+        expect(twilio_client).not_to have_received(:incoming_phone_numbers)
       end
     end
 

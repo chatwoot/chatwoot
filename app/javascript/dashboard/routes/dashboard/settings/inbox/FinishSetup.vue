@@ -29,13 +29,13 @@ const currentInbox = computed(() =>
 // Use useInbox composable with the inbox ID
 const {
   isAWhatsAppCloudChannel,
+  isAWhatsAppChannel,
   isATwilioChannel,
   isASmsInbox,
   isALineChannel,
   isAnEmailChannel,
   isAFacebookInbox,
   isATelegramChannel,
-  isATwilioWhatsAppChannel,
   isATwilioSMSChannel,
 } = useInbox(route.params.inbox_id);
 
@@ -66,17 +66,16 @@ const isTwilioSmsInbox = computed(() => {
   );
 });
 
-const isTwilioWhatsAppChannel = computed(() => {
-  const phoneNumber = currentInbox.value?.phone_number;
+const whatsappPhoneNumber = computed(() => {
+  return (currentInbox.value?.phone_number || '').replace('whatsapp:', '');
+});
 
-  return (
-    isATwilioWhatsAppChannel.value ||
-    (isATwilioChannel.value && (phoneNumber || '').startsWith('whatsapp:'))
-  );
+const shouldShowWhatsAppQr = computed(() => {
+  return isAWhatsAppChannel.value && Boolean(whatsappPhoneNumber.value);
 });
 
 const message = computed(() => {
-  if (isTwilioWhatsAppChannel.value) {
+  if (shouldShowWhatsAppQr.value) {
     return `${t('INBOX_MGMT.FINISH.MESSAGE')}. ${t(
       'INBOX_MGMT.FINISH.WHATSAPP_QR_INSTRUCTION'
     )}`;
@@ -144,14 +143,8 @@ async function generateQRCodes() {
   if (!currentInbox.value) return;
 
   // WhatsApp
-  if (currentInbox.value.phone_number && isTwilioWhatsAppChannel.value) {
-    // For Twilio WhatsApp, phone_number format is "whatsapp:+1234567890"
-    // Extract just the phone number part for QR code generation
-    const phoneNumber = currentInbox.value.phone_number.replace(
-      'whatsapp:',
-      ''
-    );
-    await generateQRCode('whatsapp', phoneNumber);
+  if (shouldShowWhatsAppQr.value) {
+    await generateQRCode('whatsapp', whatsappPhoneNumber.value);
   }
 
   if (isTwilioSmsInbox.value && currentInbox.value.phone_number) {
@@ -267,7 +260,7 @@ onMounted(() => {
           :inbox-id="$route.params.inbox_id"
         />
         <div
-          v-if="isTwilioWhatsAppChannel && qrCodes.whatsapp"
+          v-if="shouldShowWhatsAppQr && qrCodes.whatsapp"
           class="flex flex-col gap-3 items-center mt-8"
         >
           <p class="mt-2 text-sm text-n-slate-9">

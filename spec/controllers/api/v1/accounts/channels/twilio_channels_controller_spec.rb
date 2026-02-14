@@ -55,6 +55,8 @@ RSpec.describe '/api/v1/accounts/{account.id}/channels/twilio_channel', type: :r
         end
 
         it 'creates inbox with blank phone number and returns inbox object' do
+          expect(Twilio::WebhookSetupService).to receive(:new).and_return(twilio_webhook_setup_service)
+          expect(twilio_webhook_setup_service).to receive(:perform)
           params = {
             twilio_channel: {
               account_sid: 'sid-1',
