@@ -61,7 +61,7 @@
     "UNSUPPORTED_MESSAGE": "This message is unsupported. You can view this message on the Facebook / Instagram app.",
     "UNSUPPORTED_MESSAGE_FACEBOOK": "هذه الرسالة غير مدعومة، يمكنك مشاهدة هذه الرسالة على تطبيق فيسبوك (Messenger).",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "هذه الرسالة غير مدعومة، يمكنك عرض هذه الرسالة على تطبيق Instagram.",
-    "UNSUPPORTED_MESSAGE_TIKTOK": "This message is unsupported. You can view this message on the TikTok app.",
+    "UNSUPPORTED_MESSAGE_TIKTOK": "هذه الرسالة غير مدعومة. يمكنك مشاهدة هذه الرسالة على تطبيق تيكتوك.",
     "SUCCESS_DELETE_MESSAGE": "تم حذف الرسالة بنجاح",
     "FAIL_DELETE_MESSSAGE": "تعذر حذف الرسالة! حاول مرة أخرى",
     "NO_RESPONSE": "لا توجد استجابة",
@@ -287,9 +287,9 @@
       "CALL_IN_PROGRESS": "Call in progress",
       "NOT_ANSWERED_YET": "Not answered yet",
       "HANDLED_IN_ANOTHER_TAB": "Being handled in another tab",
-      "REJECT_CALL": "Reject",
-      "JOIN_CALL": "Join call",
-      "END_CALL": "End call"
+      "REJECT_CALL": "رفض",
+      "JOIN_CALL": "انضم إلى المكالمة",
+      "END_CALL": "إنهاء المكالمة"
     }
   },
   "EMAIL_TRANSCRIPT": {
