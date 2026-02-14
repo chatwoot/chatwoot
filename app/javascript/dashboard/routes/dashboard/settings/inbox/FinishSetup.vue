@@ -16,6 +16,7 @@ const route = useRoute();
 const store = useStore();
 
 const qrCodes = reactive({
+  sms: '',
   whatsapp: '',
   messenger: '',
   telegram: '',
@@ -36,6 +37,7 @@ const {
   isAFacebookInbox,
   isATelegramChannel,
   isATwilioWhatsAppChannel,
+  isATwilioSMSChannel,
 } = useInbox(route.params.inbox_id);
 
 const hasDuplicateInstagramInbox = computed(() => {
@@ -62,17 +64,44 @@ const isWhatsAppEmbeddedSignup = computed(() => {
   );
 });
 
+const isTwilioSmsInbox = computed(() => {
+  const phoneNumber = currentInbox.value?.phone_number;
+  const callbackUrl = currentInbox.value?.callback_webhook_url;
+
+  return (
+    (phoneNumber || '').startsWith('+') &&
+    Boolean(callbackUrl && callbackUrl.includes('/twilio/callback'))
+  );
+});
+
+const isTwilioWhatsAppChannel = computed(() => {
+  const phoneNumber = currentInbox.value?.phone_number;
+
+  return (
+    isATwilioWhatsAppChannel.value ||
+    (isATwilioChannel.value && (phoneNumber || '').startsWith('whatsapp:'))
+  );
+});
+
 const message = computed(() => {
-  if (isATwilioChannel.value) {
+  if (isTwilioWhatsAppChannel.value) {
     return `${t('INBOX_MGMT.FINISH.MESSAGE')}. ${t(
-      'INBOX_MGMT.ADD.TWILIO.API_CALLBACK.SUBTITLE'
+      'INBOX_MGMT.FINISH.WHATSAPP_QR_INSTRUCTION'
+    )}`;
+  }
+
+  if (isTwilioSmsInbox.value) {
+    return `${t('INBOX_MGMT.FINISH.MESSAGE')}. ${t(
+      'INBOX_MGMT.FINISH.SMS_QR_INSTRUCTION'
     )}`;
   }
 
   if (isASmsInbox.value) {
-    return `${t('INBOX_MGMT.FINISH.MESSAGE')}. ${t(
-      'INBOX_MGMT.ADD.SMS.BANDWIDTH.API_CALLBACK.SUBTITLE'
-    )}`;
+    return t('INBOX_MGMT.FINISH.MESSAGE');
+  }
+
+  if (isATwilioChannel.value) {
+    return t('INBOX_MGMT.FINISH.MESSAGE');
   }
 
   if (isALineChannel.value) {
@@ -109,6 +138,7 @@ async function generateQRCode(platform, identifier) {
 
   try {
     const platformUrls = {
+      sms: id => `sms:${id}`,
       whatsapp: id => `https://wa.me/${id}`,
       messenger: id => `https://m.me/${id}`,
       telegram: id => `https://t.me/${id}`,
@@ -128,7 +158,7 @@ async function generateQRCodes() {
   if (!currentInbox.value) return;
 
   // WhatsApp (both Cloud and Twilio)
-  if (currentInbox.value.phone_number && isAWhatsAppChannel.value) {
+  if (currentInbox.value.phone_number && isTwilioWhatsAppChannel.value) {
     // For Twilio WhatsApp, phone_number format is "whatsapp:+1234567890"
     // Extract just the phone number part for QR code generation
     const phoneNumber = currentInbox.value.phone_number.replace(
@@ -136,6 +166,10 @@ async function generateQRCodes() {
       ''
     );
     await generateQRCode('whatsapp', phoneNumber);
+  }
+
+  if (isTwilioSmsInbox.value && currentInbox.value.phone_number) {
+    await generateQRCode('sms', currentInbox.value.phone_number);
   }
 
   // Facebook Messenger
@@ -183,13 +217,6 @@ onMounted(() => {
             :script="currentInbox.web_widget_script"
           />
         </div>
-        <div class="w-[50%] max-w-[50%] ml-[25%]">
-          <woot-code
-            v-if="isATwilioWhatsAppChannel"
-            lang="html"
-            :script="currentInbox.callback_webhook_url"
-          />
-        </div>
         <div
           v-if="shouldShowWhatsAppWebhookDetails"
           class="w-[50%] max-w-[50%] ml-[25%]"
@@ -217,12 +244,36 @@ onMounted(() => {
             :script="currentInbox.callback_webhook_url"
           />
         </div>
-        <div class="w-[50%] max-w-[50%] ml-[25%]">
+        <div
+          v-if="isASmsInbox && !isATwilioSMSChannel && !isTwilioSmsInbox"
+          class="w-[50%] max-w-[50%] ml-[25%]"
+        >
+          <p class="mt-8 font-medium text-n-slate-11">
+            {{ $t('INBOX_MGMT.ADD.SMS.BANDWIDTH.API_CALLBACK.TITLE') }}
+          </p>
+          <p class="mt-2 text-sm text-n-slate-9">
+            {{ $t('INBOX_MGMT.ADD.SMS.BANDWIDTH.API_CALLBACK.SUBTITLE') }}
+          </p>
           <woot-code
-            v-if="isASmsInbox"
+            v-if="isASmsInbox && !isATwilioSMSChannel && !isTwilioSmsInbox"
             lang="html"
             :script="currentInbox.callback_webhook_url"
           />
+        </div>
+        <div
+          v-if="isTwilioSmsInbox && qrCodes.sms"
+          class="flex flex-col gap-3 items-center mt-8"
+        >
+          <p class="mt-2 text-sm text-n-slate-9">
+            {{ $t('INBOX_MGMT.FINISH.SMS_QR_INSTRUCTION') }}
+          </p>
+          <div class="rounded-lg shadow outline-1 outline-n-strong outline">
+            <img
+              :src="qrCodes.sms"
+              alt="SMS QR Code"
+              class="rounded-lg size-48 dark:invert"
+            />
+          </div>
         </div>
         <EmailInboxFinish
           v-if="isAnEmailChannel && !currentInbox.provider"

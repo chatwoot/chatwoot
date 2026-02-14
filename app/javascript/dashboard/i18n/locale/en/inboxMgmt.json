@@ -123,7 +123,7 @@
       },
       "TWILIO": {
         "TITLE": "Twilio SMS/WhatsApp Channel",
-        "DESC": "Integrate Twilio and start supporting your customers via SMS or WhatsApp.",
+        "DESC": "Integrate Twilio and start supporting your customers via SMS or WhatsApp. Chatwoot automatically configures the required callback URLs for you.",
         "ACCOUNT_SID": {
           "LABEL": "Account SID",
           "PLACEHOLDER": "Please enter your Twilio Account SID",
@@ -164,10 +164,6 @@
           "LABEL": "Phone Number",
           "PLACEHOLDER": "Please enter the phone number from which message will be sent.",
           "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
-        },
-        "API_CALLBACK": {
-          "TITLE": "Callback URL",
-          "SUBTITLE": "You have to configure the message callback URL in Twilio with the URL mentioned here."
         },
         "SUBMIT_BUTTON": "Create Twilio Channel",
         "API": {
@@ -216,15 +212,15 @@
             "PLACEHOLDER": "Please enter the phone number from which message will be sent.",
             "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
           },
-          "SUBMIT_BUTTON": "Create Bandwidth Channel",
-          "API": {
-            "ERROR_MESSAGE": "We were not able to authenticate Bandwidth credentials, please try again"
-          },
-          "API_CALLBACK": {
-            "TITLE": "Callback URL",
-            "SUBTITLE": "You have to configure the message callback URL in Bandwidth with the URL mentioned here."
-          }
+        "SUBMIT_BUTTON": "Create Bandwidth Channel",
+        "API": {
+          "ERROR_MESSAGE": "We were not able to authenticate Bandwidth credentials, please try again"
+        },
+        "API_CALLBACK": {
+          "TITLE": "Callback URL",
+          "SUBTITLE": "You have to configure the message callback URL in Bandwidth with the URL mentioned here."
         }
+      }
       },
       "WHATSAPP": {
         "TITLE": "WhatsApp Channel",
@@ -542,6 +538,7 @@
       "MORE_SETTINGS": "More settings",
       "WEBSITE_SUCCESS": "You have successfully finished creating a website channel. Copy the code shown below and paste it on your website. Next time a customer use the live chat, the conversation will automatically appear on your inbox.",
       "WHATSAPP_QR_INSTRUCTION": "Scan the QR code above to quickly test your WhatsApp inbox",
+      "SMS_QR_INSTRUCTION": "Scan the QR code above to quickly test your SMS inbox",
       "MESSENGER_QR_INSTRUCTION": "Scan the QR code above to quickly test your Facebook Messenger inbox",
       "TELEGRAM_QR_INSTRUCTION": "Scan the QR code above to quickly test your Telegram inbox"
     },
