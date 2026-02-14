@@ -60,6 +60,26 @@ describe Twilio::WebhookSetupService do
           sms_url: twilio_callback_index_url
         )
       end
+
+      it 'strips whatsapp prefix before looking up phone number' do
+        phone_channel = create(
+          :channel_twilio_sms,
+          :with_phone_number,
+          :whatsapp,
+          phone_number: 'whatsapp:+1234567890',
+          messaging_service_sid: nil
+        )
+
+        allow(twilio_client).to receive(:incoming_phone_numbers).and_return(phone_double)
+        allow(phone_double).to receive(:list).and_return([phone_record_double])
+        allow(phone_record_double).to receive(:sid).and_return('1234')
+
+        described_class.new(inbox: phone_channel.inbox).perform
+
+        expect(phone_double).to have_received(:list).with(
+          phone_number: '+1234567890'
+        )
+      end
     end
   end
 end

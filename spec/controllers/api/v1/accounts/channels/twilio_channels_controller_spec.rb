@@ -38,6 +38,8 @@ RSpec.describe '/api/v1/accounts/{account.id}/channels/twilio_channel', type: :r
     context 'when user is logged in' do
       context 'with user as administrator' do
         it 'creates inbox and returns inbox object' do
+          expect(Twilio::WebhookSetupService).to receive(:new).and_return(twilio_webhook_setup_service)
+          expect(twilio_webhook_setup_service).to receive(:perform)
           allow(twilio_client).to receive(:messages).and_return(message_double)
           allow(message_double).to receive(:list).and_return([])
 
@@ -131,6 +133,8 @@ RSpec.describe '/api/v1/accounts/{account.id}/channels/twilio_channel', type: :r
         end
 
         it 'return error if Twilio tokens are incorrect' do
+          expect(twilio_webhook_setup_service).not_to receive(:perform)
+          expect(Twilio::WebhookSetupService).not_to receive(:new)
           allow(twilio_client).to receive(:messages).and_return(message_double)
           allow(message_double).to receive(:list).and_raise(Twilio::REST::TwilioError)
 

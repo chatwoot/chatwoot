@@ -123,7 +123,6 @@
       },
       "TWILIO": {
         "TITLE": "Twilio SMS/WhatsApp Channel",
-        "DESC": "Integrate Twilio and start supporting your customers via SMS or WhatsApp. Chatwoot automatically configures the required callback URLs for you.",
         "ACCOUNT_SID": {
           "LABEL": "Account SID",
           "PLACEHOLDER": "Please enter your Twilio Account SID",
