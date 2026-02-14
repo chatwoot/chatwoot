@@ -58,8 +58,8 @@
         "DUPLICATE_INBOX_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. You won’t be able to send/receive Instagram messages from this inbox anymore."
       },
       "TIKTOK": {
-        "CONTINUE_WITH_TIKTOK": "Continue with TikTok",
-        "CONNECT_YOUR_TIKTOK_PROFILE": "Connect your TikTok Profile",
+        "CONTINUE_WITH_TIKTOK": "المتابعة مع تيكتوك",
+        "CONNECT_YOUR_TIKTOK_PROFILE": "الاتصال بحسابك في تيكتوك",
         "HELP": "To add your TikTok profile as a channel, you need to authenticate your TikTok Profile by clicking on 'Continue with TikTok' ",
         "ERROR_MESSAGE": "There was an error connecting to TikTok, please try again",
         "ERROR_AUTH": "There was an error connecting to TikTok, please try again"
@@ -806,12 +806,12 @@
       "LINK_ERROR": "Failed to link assignment policy"
     },
     "ASSIGNMENT_POLICY": {
-      "DELETE_CONFIRM_TITLE": "Delete assignment policy?",
-      "DELETE_CONFIRM_MESSAGE": "Are you sure you want to remove this assignment policy from this inbox? The inbox will revert to default assignment rules.",
+      "DELETE_CONFIRM_TITLE": "حذف سياسة التعيين؟",
+      "DELETE_CONFIRM_MESSAGE": "هل أنت متأكد من أنك تريد إزالة سياسة التعيين هذه من صندوق الوارد هذا؟ صندوق الوارد سوف يعود إلى قواعد التعيين الافتراضية.",
       "CANCEL": "إلغاء",
       "CONFIRM_DELETE": "حذف",
-      "DELETE_SUCCESS": "Assignment policy removed successfully",
-      "DELETE_ERROR": "Failed to remove assignment policy"
+      "DELETE_SUCCESS": "تمت إزالة سياسة التعيين بنجاح",
+      "DELETE_ERROR": "فشل في إزالة سياسة التعيين"
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "إعادة التصريح",
@@ -856,32 +856,32 @@
         "PLACEHOLDER": "Please enter a message to show users with the form"
       },
       "BUTTON_TEXT": {
-        "LABEL": "Button text",
-        "PLACEHOLDER": "Please rate us"
+        "LABEL": "نص الزر",
+        "PLACEHOLDER": "يرجى تقييمنا"
       },
       "LANGUAGE": {
         "LABEL": "اللغة",
-        "PLACEHOLDER": "Select template language"
+        "PLACEHOLDER": "اختر لغة القالب"
       },
       "MESSAGE_PREVIEW": {
-        "LABEL": "Message preview",
-        "TOOLTIP": "This may vary slightly when rendered on WhatsApp's platform."
+        "LABEL": "معاينة الرسالة",
+        "TOOLTIP": "قد يختلف هذا قليلاً عند تقديمه على منصة WhatsApp."
       },
       "TEMPLATE_STATUS": {
-        "APPROVED": "Approved by WhatsApp",
-        "PENDING": "Pending WhatsApp approval",
-        "REJECTED": "Meta rejected the template",
-        "DEFAULT": "Needs WhatsApp approval",
-        "NOT_FOUND": "The template does not exist in the Meta platform."
+        "APPROVED": "معتمد بواسطة WhatsApp",
+        "PENDING": "في انتظار موافقة WhatsApp",
+        "REJECTED": "Meta رفضت القالب",
+        "DEFAULT": "يحتاج موافقة WhatsApp",
+        "NOT_FOUND": "هذا القالب غير موجود في منصة ميتا."
       },
       "TEMPLATE_CREATION": {
-        "SUCCESS_MESSAGE": "WhatsApp template created successfully and sent for approval",
-        "ERROR_MESSAGE": "Failed to create WhatsApp template"
+        "SUCCESS_MESSAGE": "تم إنشاء قالب WhatsApp بنجاح وإرساله للموافقة عليه",
+        "ERROR_MESSAGE": "فشل إنشاء قالب WhatsApp"
       },
       "TEMPLATE_UPDATE_DIALOG": {
         "TITLE": "Edit survey details",
-        "DESCRIPTION": "We will delete the previous template and make a new one which will be sent again for WhatsApp approval",
-        "CONFIRM": "Create new template",
+        "DESCRIPTION": "سوف نقوم بحذف القالب السابق وقم بإنشاء قالب جديد سيتم إرساله مرة أخرى لموافقة واتساب",
+        "CONFIRM": "إنشاء قالب جديد",
         "CANCEL": "العودة للخلف"
       },
       "SURVEY_RULE": {
@@ -895,7 +895,7 @@
         "SELECT_PLACEHOLDER": "select labels"
       },
       "NOTE": "Note: CSAT surveys are sent only once per conversation",
-      "WHATSAPP_NOTE": "Note: We will create a template and send it for WhatsApp approval. After being approved, surveys will be sent only once per conversation as per the survey rule.",
+      "WHATSAPP_NOTE": "ملاحظة: سنقوم بإنشاء قالب وإرساله للحصول على موافقة واتسب. وبعد الموافقة على الاستقصاءات، لن ترسل الاستقصاءات إلا مرة واحدة في كل محادثة وفقا لقاعدة الاستقصاء.",
       "API": {
         "SUCCESS_MESSAGE": "CSAT settings updated successfully",
         "ERROR_MESSAGE": "We couldn't update CSAT settings. Please try again later."
