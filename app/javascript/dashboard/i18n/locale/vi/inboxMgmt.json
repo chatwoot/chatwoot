@@ -810,7 +810,7 @@
       "DELETE_CONFIRM_MESSAGE": "Are you sure you want to remove this assignment policy from this inbox? The inbox will revert to default assignment rules.",
       "CANCEL": "Huỷ",
       "CONFIRM_DELETE": "Xoá",
-      "DELETE_SUCCESS": "Assignment policy removed successfully",
+      "DELETE_SUCCESS": "Đã xóa chính sách phân công thành công",
       "DELETE_ERROR": "Failed to remove assignment policy"
     },
     "FACEBOOK_REAUTHORIZE": {
