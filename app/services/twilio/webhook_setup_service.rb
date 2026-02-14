@@ -50,6 +50,14 @@ class Twilio::WebhookSetupService
   end
 
   def twilio_client
-    @twilio_client ||= ::Twilio::REST::Client.new(channel.account_sid, channel.auth_token)
+    @twilio_client ||= if channel.api_key_sid.present?
+                         ::Twilio::REST::Client.new(
+                           channel.api_key_sid,
+                           channel.auth_token,
+                           channel.account_sid
+                         )
+                       else
+                         ::Twilio::REST::Client.new(channel.account_sid, channel.auth_token)
+                       end
   end
 end

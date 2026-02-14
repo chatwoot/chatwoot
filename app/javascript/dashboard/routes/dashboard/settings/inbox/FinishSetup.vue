@@ -33,7 +33,6 @@ const {
   isASmsInbox,
   isALineChannel,
   isAnEmailChannel,
-  isAWhatsAppChannel,
   isAFacebookInbox,
   isATelegramChannel,
   isATwilioWhatsAppChannel,
@@ -54,13 +53,6 @@ const shouldShowWhatsAppWebhookDetails = computed(() => {
   return (
     isAWhatsAppCloudChannel.value &&
     currentInbox.value.provider_config?.source !== 'embedded_signup'
-  );
-});
-
-const isWhatsAppEmbeddedSignup = computed(() => {
-  return (
-    isAWhatsAppCloudChannel.value &&
-    currentInbox.value.provider_config?.source === 'embedded_signup'
   );
 });
 
@@ -120,12 +112,6 @@ const message = computed(() => {
     return t('INBOX_MGMT.FINISH.WEBSITE_SUCCESS');
   }
 
-  if (isWhatsAppEmbeddedSignup.value) {
-    return `${t('INBOX_MGMT.FINISH.MESSAGE')}. ${t(
-      'INBOX_MGMT.FINISH.WHATSAPP_QR_INSTRUCTION'
-    )}`;
-  }
-
   return t('INBOX_MGMT.FINISH.MESSAGE');
 });
 
@@ -157,7 +143,7 @@ async function generateQRCode(platform, identifier) {
 async function generateQRCodes() {
   if (!currentInbox.value) return;
 
-  // WhatsApp (both Cloud and Twilio)
+  // WhatsApp
   if (currentInbox.value.phone_number && isTwilioWhatsAppChannel.value) {
     // For Twilio WhatsApp, phone_number format is "whatsapp:+1234567890"
     // Extract just the phone number part for QR code generation
@@ -281,7 +267,7 @@ onMounted(() => {
           :inbox-id="$route.params.inbox_id"
         />
         <div
-          v-if="isAWhatsAppChannel && qrCodes.whatsapp"
+          v-if="isTwilioWhatsAppChannel && qrCodes.whatsapp"
           class="flex flex-col gap-3 items-center mt-8"
         >
           <p class="mt-2 text-sm text-n-slate-9">
