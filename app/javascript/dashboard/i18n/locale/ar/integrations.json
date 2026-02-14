@@ -146,28 +146,28 @@
         "MAKE_FRIENDLY": "Change message tone to friendly",
         "MAKE_FORMAL": "Use formal tone",
         "SIMPLIFY": "تبسيط",
-        "CONFIDENT": "Use confident tone",
-        "PROFESSIONAL": "Use professional tone",
-        "CASUAL": "Use casual tone",
-        "STRAIGHTFORWARD": "Use straightforward tone"
+        "CONFIDENT": "استخدام نغمة لطيفة",
+        "PROFESSIONAL": "استخدام نغمة احترافية",
+        "CASUAL": "استخدم نعمة عادية",
+        "STRAIGHTFORWARD": "استخدام نغمة مباشرة"
       },
       "REPLY_OPTIONS": {
-        "IMPROVE_REPLY": "Improve reply",
-        "IMPROVE_REPLY_SELECTION": "Improve the selection",
+        "IMPROVE_REPLY": "تحسين الرد",
+        "IMPROVE_REPLY_SELECTION": "تحسين عملية الاختيار",
         "CHANGE_TONE": {
-          "TITLE": "Change tone",
+          "TITLE": "تغيير النغمة",
           "OPTIONS": {
-            "PROFESSIONAL": "Professional",
-            "CASUAL": "Casual",
-            "STRAIGHTFORWARD": "Straightforward",
-            "CONFIDENT": "Confident",
-            "FRIENDLY": "Friendly"
+            "PROFESSIONAL": "مهني",
+            "CASUAL": "عادية",
+            "STRAIGHTFORWARD": "مباشر",
+            "CONFIDENT": "لطيفة",
+            "FRIENDLY": "ودي"
           }
         },
-        "GRAMMAR": "Fix grammar & spelling",
-        "SUGGESTION": "Suggest a reply",
-        "SUMMARIZE": "Summarize the conversation",
-        "ASK_COPILOT": "Ask Copilot"
+        "GRAMMAR": "أصلاح القواعد النحوية والإملائية",
+        "SUGGESTION": "اقترح رداً",
+        "SUMMARIZE": "تلخيص المحادثة",
+        "ASK_COPILOT": "إسأل المساعد"
       },
       "ASSISTANCE_MODAL": {
         "DRAFT_TITLE": "Draft content",
@@ -428,7 +428,7 @@
       "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
     },
     "ENTERPRISE_PAYWALL": {
-      "AVAILABLE_ON": "Captain AI is only available in the Enterprise plans.",
+      "AVAILABLE_ON": "ولا يتوفر الكابتن AI إلا في خطط المؤسسة.",
       "UPGRADE_PROMPT": "Upgrade your plan to get access to our assistants, copilot and more.",
       "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
     },
