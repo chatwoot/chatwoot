@@ -30,16 +30,12 @@ FactoryBot.define do
       formality { 'high' }
     end
 
-    trait :with_faq_enabled do
-      admin_config { { 'feature_faq' => true } }
-    end
-
     trait :with_memory_enabled do
       admin_config { { 'feature_memory' => true } }
     end
 
     trait :with_all_features do
-      admin_config { { 'feature_faq' => true, 'feature_memory' => true } }
+      admin_config { { 'feature_memory' => true } }
     end
 
     trait :with_custom_model do

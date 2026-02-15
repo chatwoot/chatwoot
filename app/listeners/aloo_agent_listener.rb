@@ -25,20 +25,6 @@ class AlooAgentListener < BaseListener
     Aloo::ResponseJob.perform_later(message.conversation_id, message.id)
   end
 
-  # Triggered when a conversation is resolved
-  # Initiates FAQ generation if enabled
-  def conversation_resolved(event)
-    conversation, = extract_conversation_and_account(event)
-
-    assistant = conversation.inbox.aloo_assistant
-    return unless assistant&.active?
-
-    # Queue FAQ generation if enabled
-    return unless assistant.feature_faq_enabled?
-
-    Aloo::FaqGeneratorJob.perform_later(conversation.id)
-  end
-
   # Triggered when a conversation status changes
   # Resets conversation for AI handling when reopened from resolved
   def conversation_status_changed(event)

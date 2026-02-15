@@ -269,7 +269,6 @@ class Api::V1::Accounts::Aloo::AssistantsController < Api::V1::Accounts::BaseCon
         personality_description: assistant.personality_description
       },
       features: {
-        faq_enabled: assistant.feature_faq_enabled?,
         handoff_enabled: assistant.feature_handoff_enabled?,
         resolve_enabled: assistant.feature_resolve_enabled?,
         snooze_enabled: assistant.feature_snooze_enabled?,

@@ -118,23 +118,6 @@ RSpec.describe Aloo::Assistant do
     end
   end
 
-  describe '#feature_faq_enabled?' do
-    it 'returns true when enabled in admin_config' do
-      assistant.admin_config = { 'feature_faq' => true }
-      expect(assistant.feature_faq_enabled?).to be true
-    end
-
-    it 'returns false when not enabled' do
-      assistant.admin_config = {}
-      expect(assistant.feature_faq_enabled?).to be false
-    end
-
-    it 'returns false when explicitly disabled' do
-      assistant.admin_config = { 'feature_faq' => false }
-      expect(assistant.feature_faq_enabled?).to be false
-    end
-  end
-
   describe '#full_system_prompt' do
     before do
       assistant.system_prompt = 'Base prompt'

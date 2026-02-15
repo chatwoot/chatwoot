@@ -125,10 +125,6 @@ module Aloo
       admin_config['max_tokens'] || 1024
     end
 
-    def feature_faq_enabled?
-      admin_config['feature_faq'] == true
-    end
-
     # MCP tool feature flags (default to true for backward compatibility)
     def feature_handoff_enabled?
       admin_config['feature_handoff'] != false

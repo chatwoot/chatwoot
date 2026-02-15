@@ -123,11 +123,6 @@ RSpec.describe ConversationAgent, :aloo do
       expect(agent.tools).to include(KnowledgeLookupTool)
     end
 
-    it 'does not include deprecated FaqLookupTool' do
-      agent = described_class.new(message: 'test')
-      expect(agent.tools).not_to include(FaqLookupTool)
-    end
-
     it 'includes HandoffTool when enabled' do
       agent = described_class.new(message: 'test')
       expect(agent.tools).to include(HandoffTool)

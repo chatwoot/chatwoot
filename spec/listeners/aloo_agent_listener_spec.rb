@@ -106,53 +106,6 @@ RSpec.describe AlooAgentListener do
     end
   end
 
-  describe '#conversation_resolved' do
-    let(:event) do
-      Events::Base.new('conversation.resolved', Time.zone.now, conversation: conversation)
-    end
-
-    context 'when FAQ feature enabled' do
-      it 'enqueues FaqGeneratorJob' do
-        expect(Aloo::FaqGeneratorJob).to receive(:perform_later)
-          .with(conversation.id)
-
-        listener.conversation_resolved(event)
-      end
-    end
-
-    context 'when FAQ feature disabled' do
-      before { assistant.update!(admin_config: { 'feature_faq' => false }) }
-
-      it 'does not enqueue FaqGeneratorJob' do
-        expect(Aloo::FaqGeneratorJob).not_to receive(:perform_later)
-
-        listener.conversation_resolved(event)
-      end
-    end
-
-    context 'when assistant inactive' do
-      before { assistant.update!(active: false) }
-
-      it 'does not enqueue jobs' do
-        expect(Aloo::FaqGeneratorJob).not_to receive(:perform_later)
-
-        listener.conversation_resolved(event)
-      end
-    end
-
-    context 'when no assistant configured' do
-      before do
-        Aloo::AssistantInbox.where(inbox: inbox).destroy_all
-      end
-
-      it 'does not enqueue jobs' do
-        expect(Aloo::FaqGeneratorJob).not_to receive(:perform_later)
-
-        listener.conversation_resolved(event)
-      end
-    end
-  end
-
   describe '#conversation_status_changed' do
     context 'when reopened from resolved' do
       let(:agent) { create(:user, account: account) }
