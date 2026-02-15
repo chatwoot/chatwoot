@@ -45,7 +45,7 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
       end
 
       it 'returns resolved conversation when lock to single conversation is enabled' do
-        web_widget.inbox.update!(allow_messages_after_resolved: false)
+        web_widget.inbox.update!(lock_to_single_conversation: true)
         conversation.update!(status: :resolved)
 
         get '/api/v1/widget/conversations',

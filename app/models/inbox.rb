@@ -158,13 +158,9 @@ class Inbox < ApplicationRecord
     channel_type == 'Channel::Whatsapp'
   end
 
-  # Compatibility behavior:
-  # - Email inboxes always create a new thread.
-  # - Website inboxes migrate from legacy `allow_messages_after_resolved`
-  #   where `false` means "reopen same conversation".
+  # Email inboxes always create a new thread.
   def lock_to_single_conversation
     return false if email?
-    return !allow_messages_after_resolved if web_widget?
 
     self[:lock_to_single_conversation]
   end
