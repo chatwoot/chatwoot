@@ -102,7 +102,7 @@ class Tap::CreateInvoiceService
   end
 
   def format_amount(value)
-    value.to_i
+    value.to_f.round(3)
   end
 
   def redirect_url

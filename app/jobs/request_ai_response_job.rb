@@ -537,6 +537,8 @@ class RequestAiResponseJob < ApplicationJob
     human_agent = ai_agent&.human_agent
 
     {
+      # Account ID for payment gateway and other account-level feature checks
+      account_id: conversation.account_id,
       # IMPORTANT: Use conversation_id (actual database ID) for API calls, not display_id
       conversation_id: conversation.id, # Actual database ID - use this for API endpoints
       conversation_display_id: conversation.display_id, # Display ID - for UI/reference only
