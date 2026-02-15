@@ -5,7 +5,6 @@ class Messages::AudioTranscriptionJob < ApplicationJob
     log_context = {
       attachment_id: job.arguments.first,
       job_id: job.job_id,
-      error_message: error.message,
       status_code: error.response&.dig(:status)
     }
 
