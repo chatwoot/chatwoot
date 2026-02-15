@@ -18,7 +18,7 @@
     "CREATED_AT_LABEL": "تم إنشاؤها",
     "NEW_MESSAGE": "رسالة جديدة",
     "CALL": "Call",
-    "CALL_INITIATED": "جار الاتصل بجهة الاتصال…",
+    "CALL_INITIATED": "جار الاتصال بجهة الاتصال…",
     "CALL_FAILED": "تعذر بدء المكالمة. الرجاء المحاولة مرة أخرى.",
     "VOICE_INBOX_PICKER": {
       "TITLE": "Choose a voice inbox"
@@ -574,7 +574,7 @@
       "LIST_EMPTY_STATE_TITLE": "No contacts available in this view 📋",
       "ACTIVE_EMPTY_STATE_TITLE": "No contacts are active at the moment 🌙"
     },
-    "LOAD_MORE": "Load more"
+    "LOAD_MORE": "تحميل المزيد"
   },
   "CONTACTS_BULK_ACTIONS": {
     "ASSIGN_LABELS": "تعيين التسميات",
