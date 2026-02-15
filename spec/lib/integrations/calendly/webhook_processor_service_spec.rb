@@ -37,6 +37,7 @@ RSpec.describe Integrations::Calendly::WebhookProcessorService do
         'name' => 'Jane Smith',
         'event' => 'https://api.calendly.com/scheduled_events/EV123',
         'status' => 'active',
+        'uri' => 'https://api.calendly.com/scheduled_events/EV123/invitees/INV123',
         'old_invitee' => nil,
         'new_invitee' => nil
       }
@@ -55,6 +56,13 @@ RSpec.describe Integrations::Calendly::WebhookProcessorService do
         message = conversation.messages.last
         expect(message.content).to include('Meeting booked: 30-Minute Demo')
         expect(message.message_type).to eq('activity')
+      end
+
+      it 'deduplicates based on activity content' do
+        service = described_class.new(hook: hook, event: 'invitee.created', payload: payload)
+
+        expect { service.perform }.to change(Message, :count).by(1)
+        expect { service.perform }.not_to change(Message, :count)
       end
     end
 
@@ -84,6 +92,20 @@ RSpec.describe Integrations::Calendly::WebhookProcessorService do
         expect(contact.name).to eq('Jane Smith')
       end
     end
+
+    context 'when duplicate webhook is received' do
+      let!(:contact) { create(:contact, account: account, email: 'customer@example.com') }
+      let(:inbox) { create(:inbox, account: account) }
+      let!(:conversation) { create(:conversation, account: account, contact: contact, inbox: inbox, status: :open) }
+
+      it 'creates only one message for the same invitee URI' do
+        service1 = described_class.new(hook: hook, event: 'invitee.created', payload: payload)
+        service2 = described_class.new(hook: hook, event: 'invitee.created', payload: payload)
+
+        expect { service1.perform }.to change(Message, :count).by(1)
+        expect { service2.perform }.not_to change(Message, :count)
+      end
+    end
   end
 
   describe 'invitee.canceled' do
@@ -93,6 +115,7 @@ RSpec.describe Integrations::Calendly::WebhookProcessorService do
         'name' => 'Jane Smith',
         'event' => 'https://api.calendly.com/scheduled_events/EV123',
         'status' => 'canceled',
+        'uri' => 'https://api.calendly.com/scheduled_events/EV123/invitees/INV456',
         'old_invitee' => nil,
         'new_invitee' => nil
       }
@@ -130,6 +153,20 @@ RSpec.describe Integrations::Calendly::WebhookProcessorService do
         service = described_class.new(hook: hook, event: 'invitee.canceled', payload: payload)
 
         expect { service.perform }.not_to change(Message, :count)
+      end
+    end
+
+    context 'when duplicate webhook is received' do
+      let!(:contact) { create(:contact, account: account, email: 'customer@example.com') }
+      let(:inbox) { create(:inbox, account: account) }
+      let!(:conversation) { create(:conversation, account: account, contact: contact, inbox: inbox, status: :open) }
+
+      it 'creates only one message for the same invitee URI' do
+        service1 = described_class.new(hook: hook, event: 'invitee.canceled', payload: payload)
+        service2 = described_class.new(hook: hook, event: 'invitee.canceled', payload: payload)
+
+        expect { service1.perform }.to change(Message, :count).by(1)
+        expect { service2.perform }.not_to change(Message, :count)
       end
     end
   end

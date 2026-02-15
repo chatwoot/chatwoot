@@ -41,6 +41,10 @@ class CalendlyAPI extends ApiClient {
   updateSettings(settings) {
     return axios.patch(`${this.url}/update_settings`, settings);
   }
+
+  resubscribeWebhook() {
+    return axios.post(`${this.url}/resubscribe_webhook`);
+  }
 }
 
 export default new CalendlyAPI();

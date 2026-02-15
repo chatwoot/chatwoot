@@ -59,6 +59,24 @@ class Api::V1::Accounts::Integrations::CalendlyController < Api::V1::Accounts::B
     render json: { error: e.message }, status: :unprocessable_entity
   end
 
+  def resubscribe_webhook
+    delete_webhook_subscription
+    signing_key = @hook.settings['signing_key'].presence || SecureRandom.hex(32)
+    webhook = api_client.create_webhook_subscription(
+      url: "#{ENV.fetch('FRONTEND_URL', 'http://localhost:3000')}/webhooks/calendly",
+      events: %w[invitee.created invitee.canceled],
+      scope: 'user',
+      organization_uri: @hook.settings['calendly_organization_uri'],
+      user_uri: @hook.settings['calendly_user_uri'],
+      signing_key: signing_key
+    )
+    @hook.settings.merge!('webhook_subscription_uri' => webhook['uri'], 'signing_key' => signing_key)
+    @hook.save!
+    render json: { webhook_uri: webhook['uri'] }, status: :ok
+  rescue StandardError => e
+    render json: { error: e.message }, status: :unprocessable_entity
+  end
+
   def destroy
     delete_webhook_subscription
     @hook.reauthorized!

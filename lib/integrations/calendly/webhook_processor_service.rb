@@ -31,14 +31,14 @@ class Integrations::Calendly::WebhookProcessorService
     return if conversation.blank?
 
     activity_text = build_booking_message(event_details, is_reschedule)
-    create_activity_message(conversation, activity_text)
+    message = create_activity_message(conversation, activity_text)
+    return if message.nil?
 
     event_type = is_reschedule ? 'rescheduled' : 'booked'
     send_notification(conversation, event_type, event_details, contact)
   end
 
   def handle_invitee_canceled
-    # Skip if this is part of a reschedule (the created event handles the message)
     return if @payload['new_invitee'].present?
 
     contact = find_contact(@payload['email'])
@@ -48,11 +48,11 @@ class Integrations::Calendly::WebhookProcessorService
     conversation = find_or_create_conversation_for_contact(contact)
     return if conversation.blank?
 
-    event_name = event_details&.dig('name') || 'Meeting'
-    create_activity_message(conversation, "Meeting canceled: #{event_name} — #{format_time(event_details&.dig('start_time'))}")
+    message = create_activity_message(conversation, build_cancellation_message(event_details))
+    return if message.nil?
 
     send_notification(conversation, 'canceled', event_details, contact,
-                      cancellation_reason: @payload['cancellation']&.dig('reason'))
+                      cancellation_reason: @payload.dig('cancellation', 'reason'))
   end
 
   def find_or_create_contact(email, name)
@@ -84,26 +84,15 @@ class Integrations::Calendly::WebhookProcessorService
   end
 
   def find_or_create_conversation_for_contact(contact)
-    existing = @account.conversations
-                       .where(contact_id: contact.id)
-                       .where.not(status: :resolved)
-                       .order(last_activity_at: :desc)
-                       .first
+    existing = @account.conversations.where(contact_id: contact.id).where.not(status: :resolved).order(last_activity_at: :desc).first
     return existing if existing.present?
 
-    create_conversation_for_contact(contact)
-  end
-
-  def create_conversation_for_contact(contact)
     contact_inbox = contact.contact_inboxes.joins(:conversations)
-                           .order('conversations.last_activity_at DESC')
-                           .first || contact.contact_inboxes.last
+                           .order('conversations.last_activity_at DESC').first || contact.contact_inboxes.last
     return if contact_inbox.blank?
 
-    ::Conversation.create!(
-      account_id: @account.id, inbox_id: contact_inbox.inbox_id,
-      contact_id: contact.id, contact_inbox_id: contact_inbox.id
-    )
+    ::Conversation.create!(account_id: @account.id, inbox_id: contact_inbox.inbox_id,
+                           contact_id: contact.id, contact_inbox_id: contact_inbox.id)
   rescue ActiveRecord::RecordInvalid => e
     Rails.logger.error("Calendly: Failed to create conversation: #{e.message}")
     nil
@@ -199,7 +188,13 @@ class Integrations::Calendly::WebhookProcessorService
     "Meeting #{label}: #{event_details['name'] || 'Meeting'} — #{format_time(event_details['start_time'])}"
   end
 
+  def build_cancellation_message(event_details)
+    "Meeting canceled: #{event_details&.dig('name') || 'Meeting'} — #{format_time(event_details&.dig('start_time'))}"
+  end
+
   def create_activity_message(conversation, content)
+    return nil if conversation.messages.exists?(message_type: :activity, content: content)
+
     conversation.messages.create!(account_id: @account.id, inbox_id: conversation.inbox_id, message_type: :activity, content: content)
   end
 

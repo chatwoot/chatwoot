@@ -82,5 +82,48 @@ RSpec.describe Webhooks::CalendlyController, type: :controller do
       post :receive, body: body
       expect(response).to have_http_status(:unauthorized)
     end
+
+    context 'with stale timestamp' do
+      it 'rejects a webhook with a timestamp older than 5 minutes' do
+        stale_time = 10.minutes.ago
+        body = webhook_payload.to_json
+        signature = generate_signature(body, signing_key, stale_time.to_i.to_s)
+
+        request.headers['Calendly-Webhook-Signature'] = signature
+        request.headers['Content-Type'] = 'application/json'
+
+        post :receive, body: body
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'with future timestamp' do
+      it 'rejects a webhook with a timestamp more than 1 minute in the future' do
+        future_time = 2.minutes.from_now
+        body = webhook_payload.to_json
+        signature = generate_signature(body, signing_key, future_time.to_i.to_s)
+
+        request.headers['Calendly-Webhook-Signature'] = signature
+        request.headers['Content-Type'] = 'application/json'
+
+        post :receive, body: body
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when processing raises an error' do
+      it 'returns 500 so Calendly can retry' do
+        body = webhook_payload.to_json
+        signature = generate_signature(body, signing_key)
+
+        request.headers['Calendly-Webhook-Signature'] = signature
+        request.headers['Content-Type'] = 'application/json'
+
+        allow(Integrations::Calendly::WebhookJob).to receive(:perform_later).and_raise(StandardError, 'Redis down')
+
+        post :receive, body: body
+        expect(response).to have_http_status(:internal_server_error)
+      end
+    end
   end
 end

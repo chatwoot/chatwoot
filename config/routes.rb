@@ -408,6 +408,7 @@ Rails.application.routes.draw do
                 post :cancel_event
                 get :available_times
                 patch :update_settings
+                post :resubscribe_webhook
               end
             end
           end
