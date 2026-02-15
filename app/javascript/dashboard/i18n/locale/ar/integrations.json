@@ -146,16 +146,16 @@
         "MAKE_FRIENDLY": "Change message tone to friendly",
         "MAKE_FORMAL": "Use formal tone",
         "SIMPLIFY": "تبسيط",
-        "CONFIDENT": "استخدام نغمة لطيفة",
-        "PROFESSIONAL": "استخدام نغمة احترافية",
-        "CASUAL": "استخدم نعمة عادية",
-        "STRAIGHTFORWARD": "استخدام نغمة مباشرة"
+        "CONFIDENT": "استخدام نبرة لطيفة",
+        "PROFESSIONAL": "استخدام نبرة احترافية",
+        "CASUAL": "استخدم نبرة عادية",
+        "STRAIGHTFORWARD": "استخدام نبرة مباشرة"
       },
       "REPLY_OPTIONS": {
         "IMPROVE_REPLY": "تحسين الرد",
         "IMPROVE_REPLY_SELECTION": "تحسين عملية الاختيار",
         "CHANGE_TONE": {
-          "TITLE": "تغيير النغمة",
+          "TITLE": "تغيير النبرة",
           "OPTIONS": {
             "PROFESSIONAL": "مهني",
             "CASUAL": "عادية",
