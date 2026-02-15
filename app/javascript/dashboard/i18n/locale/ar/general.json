@@ -8,9 +8,9 @@
     "CLOSE": "أغلق",
     "BETA": "تجريبي",
     "BETA_DESCRIPTION": "This feature is in beta and may change as we improve it.",
-    "ACCEPT": "Accept",
+    "ACCEPT": "قبول",
     "DISCARD": "Discard",
-    "PREFERRED": "Preferred"
+    "PREFERRED": "المفضلة"
   },
   "CHOICE_TOGGLE": {
     "YES": "نعم",
