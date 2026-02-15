@@ -151,7 +151,7 @@
       "CHANGE_PRIORITY": "تغيير الأولوية",
       "ADD_SLA": "Add SLA",
       "OPEN_CONVERSATION": "فتح المحادثة",
-      "PENDING_CONVERSATION": "Mark conversation as pending"
+      "PENDING_CONVERSATION": "تحديد المحادثة كمعلق"
     },
     "MESSAGE_TYPES": {
       "INCOMING": "Incoming Message",
