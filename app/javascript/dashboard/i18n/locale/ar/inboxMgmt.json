@@ -60,9 +60,9 @@
       "TIKTOK": {
         "CONTINUE_WITH_TIKTOK": "المتابعة مع تيكتوك",
         "CONNECT_YOUR_TIKTOK_PROFILE": "الاتصال بحسابك في تيكتوك",
-        "HELP": "To add your TikTok profile as a channel, you need to authenticate your TikTok Profile by clicking on 'Continue with TikTok' ",
-        "ERROR_MESSAGE": "There was an error connecting to TikTok, please try again",
-        "ERROR_AUTH": "There was an error connecting to TikTok, please try again"
+        "HELP": "لإضافة ملفك الشخصي على TikTok كقناة، عليك مصادقة ملفك الشخصي على TikTok بالنقر على \"متابعة مع TikTok\".",
+        "ERROR_MESSAGE": "حدث خطأ أثناء الاتصال بـ TikTok، يرجى المحاولة مرة أخرى",
+        "ERROR_AUTH": "حدث خطأ أثناء الاتصال بـ TikTok، يرجى المحاولة مرة أخرى"
       },
       "TWITTER": {
         "HELP": "لإضافة حساب تويتر الخاص بك كقناة تواصل، تحتاج إلى مصادقة حسابك على تويتر بك بالنقر على زر \"تسجيل الدخول باستخدام تويتر\" ",
@@ -389,10 +389,10 @@
           "ERROR_MESSAGE": "لم نتمكن من حفظ قناة البريد الإلكتروني"
         },
         "FINISH_MESSAGE": "بدء إعادة توجيه رسائل البريد الإلكتروني الخاصة بك إلى عنوان البريد الإلكتروني التالي.",
-        "FINISH_MESSAGE_NO_FORWARDING": "Your email inbox has been created successfully! You need to configure SMTP and IMAP credentials to send and receive emails. Without these settings, no emails will be processed.",
-        "FORWARDING_ADDRESS_LABEL": "Forward emails to this address:",
+        "FINISH_MESSAGE_NO_FORWARDING": "تم إنشاء بريدك الإلكتروني بنجاح! تحتاج إلى تكوين بيانات اعتماد SMTP و IMAP لإرسال واستقبال رسائل البريد الإلكتروني. بدون هذه الإعدادات، لن يتم معالجة رسائل البريد الإلكتروني.",
+        "FORWARDING_ADDRESS_LABEL": "إعادة توجيه رسائل البريد الإلكتروني إلى هذا العنوان",
         "CONFIGURE_SMTP_IMAP_LINK": "اضغط هنا",
-        "CONFIGURE_SMTP_IMAP_TEXT": " to configure IMAP and SMTP settings"
+        "CONFIGURE_SMTP_IMAP_TEXT": " لتهيئة إعدادات IMAP و SMTP"
       },
       "LINE_CHANNEL": {
         "TITLE": "قناة LINE",
@@ -480,7 +480,7 @@
           },
           "TIKTOK": {
             "TITLE": "TikTok",
-            "DESCRIPTION": "Connect your TikTok account"
+            "DESCRIPTION": "ربط حسابك في TikTok"
           },
           "VOICE": {
             "TITLE": "Voice",
@@ -768,42 +768,42 @@
     },
     "ASSIGNMENT": {
       "TITLE": "تعيين المحادثة",
-      "DESCRIPTION": "Automatically assign incoming conversations to available agents based on assignment policies",
-      "ENABLE_AUTO_ASSIGNMENT": "Enable automatic conversation assignment",
-      "DEFAULT_RULES_TITLE": "Default assignment rules",
-      "DEFAULT_RULES_DESCRIPTION": "Using the default assignment behavior for all conversations",
-      "DEFAULT_RULE_1": "Earliest created conversations first",
-      "DEFAULT_RULE_2": "Round robin distribution",
+      "DESCRIPTION": "تعيين المحادثات الواردة تلقائياً إلى الوكلاء المتاحين استناداً إلى سياسات التعيين",
+      "ENABLE_AUTO_ASSIGNMENT": "تمكين تعيين المحادثة تلقائياً",
+      "DEFAULT_RULES_TITLE": "قواعد التعيين الافتراضية",
+      "DEFAULT_RULES_DESCRIPTION": "استخدام سلوك التعيين الافتراضي لجميع المحادثات",
+      "DEFAULT_RULE_1": "المحادثات التي تم إنشاؤها أولاً",
+      "DEFAULT_RULE_2": "توزيع الجدولة الدائرية (Round robin)",
       "CUSTOMIZE_WITH_POLICY": "Customize with assignment policy",
-      "USING_POLICY": "Using custom assignment policy for this inbox",
-      "CUSTOMIZE_POLICY": "Customize with assignment policy",
-      "DELETE_POLICY": "Delete policy",
-      "POLICY_LABEL": "Assignment policy",
-      "ASSIGNMENT_ORDER_LABEL": "Assignment Order",
-      "ASSIGNMENT_METHOD_LABEL": "Assignment Method",
+      "USING_POLICY": "استخدام سياسة التعيين المخصصة لهذه القناة",
+      "CUSTOMIZE_POLICY": "التخصيص وفقًا لسياسة التعيين",
+      "DELETE_POLICY": "حذف سياسة",
+      "POLICY_LABEL": "سياسة التعيين",
+      "ASSIGNMENT_ORDER_LABEL": "ترتيب التعيين",
+      "ASSIGNMENT_METHOD_LABEL": "طريقة التعيين",
       "POLICY_STATUS": {
         "ACTIVE": "مفعل",
-        "INACTIVE": "Inactive"
+        "INACTIVE": "غير نشط"
       },
       "PRIORITY": {
-        "EARLIEST_CREATED": "Earliest created",
-        "LONGEST_WAITING": "Longest waiting"
+        "EARLIEST_CREATED": "تم إنشاؤها في وقت سابق",
+        "LONGEST_WAITING": "أطول انتظار"
       },
       "METHOD": {
         "ROUND_ROBIN": "Round robin",
-        "BALANCED": "Balanced assignment"
+        "BALANCED": "تعيين متوازن"
       },
-      "UPGRADE_PROMPT": "Custom assignment policies are available on the Business plan",
-      "UPGRADE_TO_BUSINESS": "Upgrade to Business",
-      "DEFAULT_POLICY_LINKED": "Default policy linked",
-      "DEFAULT_POLICY_DESCRIPTION": "Link a custom assignment policy to customize how conversations are assigned to agents in this inbox.",
-      "LINK_EXISTING_POLICY": "Link existing policy",
-      "CREATE_NEW_POLICY": "Create new policy",
-      "NO_POLICIES": "No assignment policies found",
-      "VIEW_ALL_POLICIES": "View all policies",
-      "CURRENT_BEHAVIOR": "Currently using default assignment behavior:",
-      "LINK_SUCCESS": "Assignment policy linked successfully",
-      "LINK_ERROR": "Failed to link assignment policy"
+      "UPGRADE_PROMPT": "سياسة التعيين المخصصة متاحى في الخطة (Business) ",
+      "UPGRADE_TO_BUSINESS": "الترقية إلى (Business)",
+      "DEFAULT_POLICY_LINKED": "السياسة الافتراضية المرتبطة",
+      "DEFAULT_POLICY_DESCRIPTION": "ربط سياسة تعيين مخصصة لتخصيص كيفية تعيين المحادثات إلى الوكلاء في هذه القناه",
+      "LINK_EXISTING_POLICY": "ربط السياسة الحالية",
+      "CREATE_NEW_POLICY": "إنشاء سياسة جديدة",
+      "NO_POLICIES": "لم يتم العثور على سياسات التعيين",
+      "VIEW_ALL_POLICIES": "عرض جميع السياسات",
+      "CURRENT_BEHAVIOR": "حاليا يستخدم سلوك التعيين الافتراضي:",
+      "LINK_SUCCESS": "تم ربط سياسة التعيين بنجاح",
+      "LINK_ERROR": "فشل في ربط سياسة التعيين"
     },
     "ASSIGNMENT_POLICY": {
       "DELETE_CONFIRM_TITLE": "حذف سياسة التعيين؟",
@@ -879,8 +879,8 @@
         "ERROR_MESSAGE": "فشل إنشاء قالب WhatsApp"
       },
       "TEMPLATE_UPDATE_DIALOG": {
-        "TITLE": "Edit survey details",
-        "DESCRIPTION": "سوف نقوم بحذف القالب السابق وقم بإنشاء قالب جديد سيتم إرساله مرة أخرى لموافقة واتساب",
+        "TITLE": "تعديل تفاصيل الاستبيان",
+        "DESCRIPTION": "سوف نقوم بحذف القالب السابق ونقوم بإنشاء قالب جديد حيث سيتم إرساله مرة أخرى للاعتماد من قبل Whatsapp",
         "CONFIRM": "إنشاء قالب جديد",
         "CANCEL": "العودة للخلف"
       },
@@ -895,7 +895,7 @@
         "SELECT_PLACEHOLDER": "select labels"
       },
       "NOTE": "Note: CSAT surveys are sent only once per conversation",
-      "WHATSAPP_NOTE": "ملاحظة: سنقوم بإنشاء قالب وإرساله للحصول على موافقة واتسب. وبعد الموافقة على الاستقصاءات، لن ترسل الاستقصاءات إلا مرة واحدة في كل محادثة وفقا لقاعدة الاستقصاء.",
+      "WHATSAPP_NOTE": "ملاحظة: سنقوم بإنشاء قالب وإرساله للحصول على موافقة واتساب. وبعد الموافقة على الاستقصاءات، لن ترسل الاستقصاءات إلا مرة واحدة في كل محادثة وفقا لقاعدة الاستقصاء.",
       "API": {
         "SUCCESS_MESSAGE": "CSAT settings updated successfully",
         "ERROR_MESSAGE": "We couldn't update CSAT settings. Please try again later."
