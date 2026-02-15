@@ -204,12 +204,10 @@ const onAssignAgent = agent => {
 
 const onAssignLabel = label => {
   emit('assignLabel', [label.title], [props.chat.id]);
-  closeContextMenu();
 };
 
 const onRemoveLabel = label => {
   emit('removeLabel', [label.title], [props.chat.id]);
-  closeContextMenu();
 };
 
 const onAssignTeam = team => {
