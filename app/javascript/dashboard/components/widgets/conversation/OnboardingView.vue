@@ -65,7 +65,7 @@ const greetingMessage = computed(() => {
       v-if="!hasAlooAssistant"
       image-src="/assets/images/dashboard/captain/assistant-light.svg"
       image-alt="Aloo AI"
-      to="settings_aloo_new"
+      to="settings_aloo_list"
       :title="$t('ONBOARDING.ALOO_AI.TITLE')"
       :description="$t('ONBOARDING.ALOO_AI.DESCRIPTION')"
       :link-text="$t('ONBOARDING.ALOO_AI.NEW_LINK')"

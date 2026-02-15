@@ -5,13 +5,7 @@ import SettingsContent from '../Wrapper.vue';
 import SettingWrapper from '../SettingsWrapper.vue';
 
 const Index = () => import('./Index.vue');
-const AssistantWrapper = () => import('./AssistantWrapper.vue');
 const Settings = () => import('./Settings.vue');
-const StepBasicInfo = () => import('./components/wizard/StepBasicInfo.vue');
-const StepPersonality = () => import('./components/wizard/StepPersonality.vue');
-const StepKnowledgeBase = () =>
-  import('./components/wizard/StepKnowledgeBase.vue');
-const StepAssignInbox = () => import('./components/wizard/StepAssignInbox.vue');
 
 const meta = {
   featureFlag: FEATURE_FLAGS.ALOO,
@@ -52,36 +46,6 @@ export default {
         };
       },
       children: [
-        {
-          path: 'new',
-          component: AssistantWrapper,
-          children: [
-            {
-              path: '',
-              name: 'settings_aloo_new',
-              component: StepBasicInfo,
-              meta,
-            },
-            {
-              path: 'personality',
-              name: 'settings_aloo_new_personality',
-              component: StepPersonality,
-              meta,
-            },
-            {
-              path: 'knowledge',
-              name: 'settings_aloo_new_knowledge',
-              component: StepKnowledgeBase,
-              meta,
-            },
-            {
-              path: 'assign',
-              name: 'settings_aloo_new_assign',
-              component: StepAssignInbox,
-              meta,
-            },
-          ],
-        },
         {
           path: ':assistantId/:tab?',
           name: 'settings_aloo_edit',
