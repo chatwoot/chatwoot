@@ -43,6 +43,33 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
         expect(json_response['id']).to eq(conversation.display_id)
         expect(json_response['status']).to eq(conversation.status)
       end
+
+      it 'returns resolved conversation when lock to single conversation is enabled' do
+        web_widget.inbox.update!(allow_messages_after_resolved: false)
+        conversation.update!(status: :resolved)
+
+        get '/api/v1/widget/conversations',
+            headers: { 'X-Auth-Token' => token },
+            params: { website_token: web_widget.website_token },
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        json_response = response.parsed_body
+        expect(json_response['id']).to eq(conversation.reload.display_id)
+      end
+
+      it 'returns no conversation when lock to single conversation is disabled and last conversation is resolved' do
+        web_widget.inbox.update!(lock_to_single_conversation: false)
+        conversation.update!(status: :resolved)
+
+        get '/api/v1/widget/conversations',
+            headers: { 'X-Auth-Token' => token },
+            params: { website_token: web_widget.website_token },
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body).to be_empty
+      end
     end
 
     context 'with a conversation but invalid source id' do

@@ -36,6 +36,54 @@ RSpec.describe Tiktok::MessageService do
       expect(message.content_attributes['is_unsupported']).to be_nil
     end
 
+    it 'reopens the last resolved conversation if lock to single conversation is enabled' do
+      contact_inbox.update!(source_id: 'tt-conv-1')
+      resolved_conversation = create(:conversation, inbox: inbox, contact: contact, contact_inbox: contact_inbox, status: :resolved)
+      inbox.update!(lock_to_single_conversation: true)
+      content = {
+        type: 'text',
+        message_id: 'tt-msg-3',
+        timestamp: 1_700_000_000_000,
+        conversation_id: 'tt-conv-1',
+        text: { body: 'Hello again from TikTok' },
+        from: 'Alice',
+        from_user: { id: 'user-1' },
+        to: 'Biz',
+        to_user: { id: 'biz-123' }
+      }.deep_symbolize_keys
+
+      service = described_class.new(channel: channel, content: content)
+      allow(service).to receive(:create_contact_inbox).and_return(contact_inbox)
+      service.perform
+
+      expect(inbox.conversations.count).to eq(1)
+      expect(resolved_conversation.reload.messages.last.content).to eq('Hello again from TikTok')
+    end
+
+    it 'creates a new conversation if lock to single conversation is disabled and last is resolved' do
+      contact_inbox.update!(source_id: 'tt-conv-1')
+      create(:conversation, inbox: inbox, contact: contact, contact_inbox: contact_inbox, status: :resolved)
+      inbox.update!(lock_to_single_conversation: false)
+      content = {
+        type: 'text',
+        message_id: 'tt-msg-4',
+        timestamp: 1_700_000_000_000,
+        conversation_id: 'tt-conv-1',
+        text: { body: 'Hello again from TikTok' },
+        from: 'Alice',
+        from_user: { id: 'user-1' },
+        to: 'Biz',
+        to_user: { id: 'biz-123' }
+      }.deep_symbolize_keys
+
+      service = described_class.new(channel: channel, content: content)
+      allow(service).to receive(:create_contact_inbox).and_return(contact_inbox)
+      service.perform
+
+      expect(inbox.conversations.count).to eq(2)
+      expect(contact_inbox.reload.conversations.last.messages.last.content).to eq('Hello again from TikTok')
+    end
+
     it 'creates an incoming unsupported message for non-supported types' do
       content = {
         type: 'sticker',

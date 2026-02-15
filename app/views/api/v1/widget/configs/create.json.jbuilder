@@ -1,5 +1,5 @@
 json.website_channel_config do
-  json.allow_messages_after_resolved @web_widget.inbox.allow_messages_after_resolved
+  json.allow_messages_after_resolved !@web_widget.inbox.lock_to_single_conversation
   json.api_host ENV.fetch('FRONTEND_URL', nil)
   json.auth_token @token
   json.avatar_url @web_widget.inbox.avatar_url
