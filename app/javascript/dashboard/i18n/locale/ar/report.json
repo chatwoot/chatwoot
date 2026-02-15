@@ -356,8 +356,8 @@
     "FILTER_DROPDOWN_LABEL": "اختيار فريق",
     "FILTERS": {
       "ADD_FILTER": "إضافة تصفية",
-      "CLEAR_ALL": "Clear all",
-      "NO_FILTER": "No filters available",
+      "CLEAR_ALL": "مسح الكل",
+      "NO_FILTER": "لا توجد عوامل تصفية متوفرة",
       "INPUT_PLACEHOLDER": {
         "TEAMS": "البحث عن فريق"
       }
@@ -431,8 +431,8 @@
     "DOWNLOAD_FAILED": "Failed to download CSAT Reports",
     "FILTERS": {
       "ADD_FILTER": "إضافة تصفية",
-      "CLEAR_ALL": "Clear all",
-      "NO_FILTER": "No filters available",
+      "CLEAR_ALL": "مسح الكل",
+      "NO_FILTER": "لا توجد عوامل تصفية متوفرة",
       "INPUT_PLACEHOLDER": {
         "AGENTS": "البحث عن وكلاء",
         "INBOXES": "Search inboxes",
@@ -460,10 +460,10 @@
         "FEEDBACK_TEXT": "تعليق الملاحظات",
         "CONVERSATION": "المحادثات",
         "CUSTOMER": "عميل",
-        "RESPONSE": "Response",
-        "HANDLED_BY": "Handled by"
+        "RESPONSE": "الردود",
+        "HANDLED_BY": "تمت معالجتها بواسطة"
       },
-      "UNKNOWN_CUSTOMER": "Unknown customer"
+      "UNKNOWN_CUSTOMER": "عميل غير معروف"
     },
     "NO_AGENT": "لم يتم تعيين وكيل",
     "NO_FEEDBACK": "لا توجد ملاحظات مقدمة",
@@ -489,14 +489,14 @@
       "CANCEL": "إلغاء",
       "SAVING": "جاري الحفظ...",
       "SAVED": "تم حفظ الملاحظات بنجاح",
-      "SAVE_ERROR": "Failed to save notes",
-      "UPDATED_BY": "Updated by {name} {time}",
-      "UPDATED_BY_LABEL": "Updated by",
+      "SAVE_ERROR": "فشل في حفظ الملاحظات",
+      "UPDATED_BY": "تم التحديث بواسطة {name} {time}",
+      "UPDATED_BY_LABEL": "تم التحديث بواسطة",
       "PAYWALL": {
-        "TITLE": "Upgrade to add review notes",
-        "AVAILABLE_ON": "The review notes feature is only available in the Business and Enterprise plans.",
+        "TITLE": "قم بالترقية لإضافة ملاحظات المراجعة",
+        "AVAILABLE_ON": "ميزة مراجعة الملاحظات متاحة فقط في الخطط Business و Enterprise.",
         "UPGRADE_PROMPT": "Add internal context to every CSAT response with review notes. Capture what really happened, spot patterns faster, and make better decisions from your feedback.",
-        "UPGRADE_NOW": "Upgrade now",
+        "UPGRADE_NOW": "الترقية الآن",
         "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
       }
     }
