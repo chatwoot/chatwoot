@@ -26,10 +26,21 @@ class Twilio::IncomingMessageService
   def twilio_channel
     @twilio_channel ||= ::Channel::TwilioSms.find_by(messaging_service_sid: params[:MessagingServiceSid]) if params[:MessagingServiceSid].present?
     if params[:AccountSid].present? && params[:To].present?
-      @twilio_channel ||= ::Channel::TwilioSms.find_by!(account_sid: params[:AccountSid],
-                                                        phone_number: params[:To])
+      @twilio_channel ||= ::Channel::TwilioSms.find_by(account_sid: params[:AccountSid],
+                                                       phone_number: params[:To])
     end
+    log_channel_not_found if @twilio_channel.blank?
     @twilio_channel
+  end
+
+  def log_channel_not_found
+    Rails.logger.warn(
+      '[TWILIO] Incoming message channel lookup failed ' \
+      "account_sid=#{params[:AccountSid]} " \
+      "to=#{params[:To]} " \
+      "messaging_service_sid=#{params[:MessagingServiceSid]} " \
+      "sms_sid=#{params[:SmsSid]}"
+    )
   end
 
   def inbox
