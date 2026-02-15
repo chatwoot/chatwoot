@@ -310,12 +310,17 @@ class Api::V1::Accounts::Aloo::AssistantsController < Api::V1::Accounts::BaseCon
   end
 
   def execution_performance_metrics(days)
-    executions = RubyLLM::Agents::Execution.by_agent('ConversationAgent').by_tenant(Current.account.id.to_s).last_n_days(days)
-    successful = executions.successful.count
-    total = successful + executions.failed.count
-    avg_time = executions.avg_duration&.round(2) || 0
+    assistant_msgs = @assistant.messages.where('messages.created_at >= ?', days.days.ago)
+    total = assistant_msgs.count
 
-    { response_rate: total.positive? ? (successful.to_f / total * 100).round(2) : 100, avg_response_time_ms: avg_time }
+    return { response_rate: nil, avg_response_time_ms: nil } if total.zero?
+
+    avg_time = assistant_msgs
+               .where("content_attributes->>'response_time_ms' IS NOT NULL")
+               .average("(content_attributes->>'response_time_ms')::float")
+               &.round(2)
+
+    { response_rate: 100, avg_response_time_ms: avg_time }
   end
 
   def parse_time_range(range)

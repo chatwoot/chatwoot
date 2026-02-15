@@ -1,15 +1,22 @@
 <script setup>
 import { useAlert } from 'dashboard/composables';
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { useStoreGetters, useStore } from 'dashboard/composables/store';
 import { useAccount } from 'dashboard/composables/useAccount';
+import { useVuelidate } from '@vuelidate/core';
+import { required, maxLength } from '@vuelidate/validators';
+import { useDebounce } from '@vueuse/core';
+import AlooAssistant from 'dashboard/api/aloo/assistant';
 
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import SettingsLayout from '../SettingsLayout.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Switch from 'dashboard/components-next/switch/Switch.vue';
+import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
+import Input from 'dashboard/components-next/input/Input.vue';
+import TextArea from 'dashboard/components-next/textarea/TextArea.vue';
 
 const getters = useStoreGetters();
 const store = useStore();
@@ -42,8 +49,85 @@ const showAlertMessage = message => {
   useAlert(message);
 };
 
+// --- Create assistant dialog ---
+const createDialog = ref(null);
+const newName = ref('');
+const newDescription = ref('');
+const isSubmitting = ref(false);
+const isCheckingName = ref(false);
+const isNameTaken = ref(false);
+const debouncedName = useDebounce(newName, 300);
+
+const checkNameAvailability = async nameToCheck => {
+  if (!nameToCheck?.trim()) {
+    isNameTaken.value = false;
+    return;
+  }
+  isCheckingName.value = true;
+  try {
+    const { data } = await AlooAssistant.checkName(nameToCheck.trim());
+    isNameTaken.value = !data.available;
+  } catch {
+    isNameTaken.value = false;
+  } finally {
+    isCheckingName.value = false;
+  }
+};
+
+watch(debouncedName, newVal => {
+  checkNameAvailability(newVal);
+});
+
+const rules = { newName: { required, maxLength: maxLength(100) } };
+const v$ = useVuelidate(rules, { newName });
+
+const nameError = computed(() => {
+  if (isNameTaken.value) return t('ALOO.FORM.NAME.DUPLICATE_ERROR');
+  if (v$.value.newName.$error) return t('ALOO.FORM.NAME.ERROR');
+  return '';
+});
+
+const isCreateDisabled = computed(
+  () =>
+    !newName.value?.trim() ||
+    isNameTaken.value ||
+    isCheckingName.value ||
+    v$.value.newName.$error
+);
+
 const openNewAssistant = () => {
-  router.push(accountScopedRoute('settings_aloo_new'));
+  newName.value = '';
+  newDescription.value = '';
+  v$.value.$reset();
+  isNameTaken.value = false;
+  createDialog.value?.open();
+};
+
+const createAssistant = async () => {
+  v$.value.newName.$touch();
+  if (isCreateDisabled.value) return;
+
+  isSubmitting.value = true;
+  try {
+    const assistant = await store.dispatch('alooAssistants/create', {
+      name: newName.value.trim(),
+      description: newDescription.value,
+      active: true,
+    });
+    createDialog.value?.close();
+    useAlert(t('ALOO.MESSAGES.CREATED'));
+    router.push(
+      accountScopedRoute('settings_aloo_edit', {
+        assistantId: assistant.id,
+      })
+    );
+  } catch (error) {
+    const errorMessage =
+      error?.response?.data?.message || t('ALOO.MESSAGES.ERROR');
+    useAlert(errorMessage);
+  } finally {
+    isSubmitting.value = false;
+  }
 };
 
 const openEditAssistant = assistant => {
@@ -190,6 +274,33 @@ const getInboxCount = assistant => {
         </tbody>
       </table>
     </template>
+
+    <Dialog
+      ref="createDialog"
+      :title="$t('ALOO.WIZARD.TITLE')"
+      :description="$t('ALOO.WIZARD.STEP_1_DESCRIPTION')"
+      :confirm-button-label="$t('ALOO.EMPTY_STATE.ACTION')"
+      :cancel-button-label="$t('ALOO.ACTIONS.CANCEL')"
+      :is-loading="isSubmitting"
+      :disable-confirm-button="isCreateDisabled"
+      @confirm="createAssistant"
+    >
+      <div class="flex flex-col gap-4">
+        <Input
+          v-model="newName"
+          :label="$t('ALOO.FORM.NAME.LABEL')"
+          :placeholder="$t('ALOO.FORM.NAME.PLACEHOLDER')"
+          :message="nameError"
+          :message-type="nameError ? 'error' : 'info'"
+          @blur="v$.newName.$touch()"
+        />
+        <TextArea
+          v-model="newDescription"
+          :label="$t('ALOO.FORM.DESCRIPTION.LABEL')"
+          :placeholder="$t('ALOO.FORM.DESCRIPTION.PLACEHOLDER')"
+        />
+      </div>
+    </Dialog>
 
     <woot-delete-modal
       v-model:show="showDeletePopup"

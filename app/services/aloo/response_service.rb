@@ -5,6 +5,7 @@ class Aloo::ResponseService
     @conversation = conversation
     @message = message
     @assistant = conversation.aloo_assistant
+    @response_time_ms = nil
   end
 
   def call
@@ -81,7 +82,10 @@ class Aloo::ResponseService
     message_content = @message.content_for_llm
     return OpenStruct.new(success?: false) if message_content.blank?
 
-    ConversationAgent.call(message: message_content)
+    started_at = Process.clock_gettime(Process::CLOCK_MONOTONIC, :millisecond)
+    result = ConversationAgent.call(message: message_content)
+    @response_time_ms = Process.clock_gettime(Process::CLOCK_MONOTONIC, :millisecond) - started_at
+    result
   end
 
   def send_response(result)
@@ -112,6 +116,7 @@ class Aloo::ResponseService
           'aloo_assistant_id' => @assistant.id,
           'input_tokens' => result.input_tokens,
           'output_tokens' => result.output_tokens,
+          'response_time_ms' => @response_time_ms,
           'tool_calls' => result.tool_calls&.pluck('name')
         }
       }

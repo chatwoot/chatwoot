@@ -53,7 +53,7 @@ import userNotificationSettings from './modules/userNotificationSettings';
 import webhooks from './modules/webhooks';
 import alooAssistants from './aloo/assistant';
 import alooDocuments from './aloo/document';
-import alooWizard from './aloo/wizard';
+
 import alooConversations from './aloo/conversation';
 
 const plugins = [];
@@ -113,7 +113,7 @@ export default createStore({
     webhooks,
     alooAssistants,
     alooDocuments,
-    alooWizard,
+
     alooConversations,
   },
   plugins,
