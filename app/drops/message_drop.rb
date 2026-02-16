@@ -9,8 +9,4 @@ class MessageDrop < BaseDrop
     content = @obj.try(:content) || ''
     render_message_content(transform_user_mention_content(content))
   end
-
-  def attachments
-    @obj.attachments.map(&:file_url)
-  end
 end
