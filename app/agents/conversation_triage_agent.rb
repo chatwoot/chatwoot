@@ -13,10 +13,9 @@ class ConversationTriageAgent < ApplicationAgent
   description 'Analyzes conversations and suggests appropriae labels/team assignments'
   model 'gemini-2.5-flash'
   temperature 0.3
-  version '1.0'
 
-  reliability do
-    fallback_models ['gpt-4.1-nano', 'claude-haiku-4-5']
+  on_failure do
+    fallback to: ['gpt-4.1-nano', 'claude-haiku-4-5']
   end
 
   param :conversation_messages, required: true
@@ -27,11 +26,9 @@ class ConversationTriageAgent < ApplicationAgent
     build_triage_prompt
   end
 
-  def schema
-    RubyLLM::Schema.create do
-      integer :label_id, description: 'The ID of the most relevant label, or null if none fit'
-      integer :team_id, description: 'The ID of the most appropriate team, or null if none fit'
-    end
+  returns do
+    integer :label_id, description: 'The ID of the most relevant label, or null if none fit'
+    integer :team_id, description: 'The ID of the most appropriate team, or null if none fit'
   end
 
   private

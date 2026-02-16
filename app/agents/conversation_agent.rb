@@ -11,25 +11,36 @@
 #   result = ConversationAgent.call(message: "What is your refund policy?")
 #
 class ConversationAgent < ApplicationAgent
+  include PromptFormatting
   include Guardrails
   include ResponsePolicies
   include CatalogSupport
   include CalendlySupport
+  include LanguageSupport
+  include PersonalitySupport
+  include MacroSupport
 
   description 'Responds to customer messages using knowledge base and tools'
 
   model 'gpt-4.1'
   temperature 0.7
-  version '1.0'
   timeout 60
 
-  reliability do
-    fallback_models ['gemini-2.5-flash', 'claude-haiku-4-5']
+  on_failure do
+    fallback to: ['gemini-2.5-flash', 'claude-haiku-4-5']
   end
 
   param :message, required: true
 
   MAX_CONVERSATION_HISTORY = 20
+
+  # Declarative: feature flag → tool class
+  FEATURE_TOOLS = [
+    [:feature_handoff_enabled?, HandoffTool],
+    [:feature_resolve_enabled?, ResolveTool],
+    [:feature_snooze_enabled?,  SnoozeTool],
+    [:feature_labels_enabled?,  LabelsTool]
+  ].freeze
 
   def system_prompt
     (core_prompt_sections + policy_prompt_sections + content_prompt_sections).compact.join("\n\n")
@@ -53,31 +64,13 @@ class ConversationAgent < ApplicationAgent
 
   def tools
     available_tools = [KnowledgeLookupTool, PrivateNoteTool]
-    available_tools << HandoffTool if current_assistant&.feature_handoff_enabled?
-    available_tools << ResolveTool if current_assistant&.feature_resolve_enabled?
-    available_tools << SnoozeTool if current_assistant&.feature_snooze_enabled?
-    available_tools << LabelsTool if current_assistant&.feature_labels_enabled?
-
-    if catalog_access_enabled?
-      available_tools << ProductDetailsTool
-      available_tools << CreateCartTool
-    end
-
+    available_tools.concat(feature_gated_tools)
+    available_tools.concat(catalog_tools)
     available_tools << ExecuteMacroTool if current_assistant&.feature_macros_enabled? && macros_available?
     available_tools.concat(calendly_tools)
   end
 
   private
-
-  # ============================================
-  # System Prompt Sections
-  # ============================================
-
-  def section_header(title)
-    separator = '=' * 24
-    underline = '=' * title.length
-    "#{separator}\n#{title}\n#{underline}"
-  end
 
   def core_prompt_sections
     [base_instructions, priority_order_section, language_section,
@@ -129,77 +122,6 @@ class ConversationAgent < ApplicationAgent
     PROMPT
   end
 
-  def personality_section
-    return nil unless current_assistant
-
-    personality = Aloo::PersonalityBuilder.new(current_assistant).build
-    greeting = greeting_instructions
-
-    parts = []
-    parts << section_header('COMMUNICATION STYLE')
-    parts << ''
-    parts << personality
-    parts << greeting if greeting
-    parts.compact.join("\n")
-  end
-
-  def language_section
-    <<~PROMPT
-      #{section_header('LANGUAGE RULES (HIGHEST PRIORITY)')}
-
-      1. Detect the language of the user's LAST message
-      2. Respond entirely in the SAME language
-      3. If the user switches languages, switch immediately
-      4. Do NOT mix languages in a single response
-      5. Exceptions: brand names, product names, technical terms with no natural translation
-      #{preferred_language_instruction}
-    PROMPT
-  end
-
-  def preferred_language_instruction
-    parts = []
-
-    if current_assistant&.language.present? && current_assistant.language != 'en'
-      parts << "6. If the user's language is ambiguous, default to #{current_assistant.language_name}"
-    end
-
-    if current_assistant&.language == 'ar' && current_assistant&.dialect.present?
-      dialect_prompt = Aloo::Assistant::ARABIC_DIALECTS.dig(current_assistant.dialect, :prompt)
-      parts << "7. When responding in Arabic: #{dialect_prompt}" if dialect_prompt
-    end
-
-    return '' if parts.empty?
-
-    "\n#{parts.join("\n")}"
-  end
-
-  def greeting_instructions
-    return nil unless current_assistant
-
-    if first_message?
-      greeting_prompt_for_first_message
-    else
-      'Do not greet the customer - the conversation has already started. Continue naturally from the conversation history.'
-    end
-  end
-
-  def greeting_prompt_for_first_message
-    case current_assistant.greeting_style
-    when 'warm'
-      'Start with a warm, friendly greeting to welcome the customer.'
-    when 'direct'
-      "Skip any greeting and address the customer's needs directly."
-    when 'custom'
-      if current_assistant.custom_greeting.present?
-        "Start by saying: \"#{current_assistant.custom_greeting}\""
-      else
-        'Start with a brief greeting.'
-      end
-    else
-      'Start with a brief greeting.'
-    end
-  end
-
   def conversation_context_info
     return nil unless current_conversation
 
@@ -214,10 +136,6 @@ class ConversationAgent < ApplicationAgent
     parts.join(' | ')
   end
 
-  # ============================================
-  # Helper Methods
-  # ============================================
-
   def first_message?
     messages.empty?
   end
@@ -228,29 +146,7 @@ class ConversationAgent < ApplicationAgent
       'our company'
   end
 
-  def macros_available? = available_macros.exists?
-
-  def available_macros
-    current_account&.macros&.ai_available || Macro.none
-  end
-
-  def macros_section
-    return nil unless current_assistant&.feature_macros_enabled? && macros_available?
-
-    macro_list = available_macros.select(:id, :name, :description).map do |macro|
-      "* #{macro.id} | #{macro.name}: #{macro.description}"
-    end.join("\n")
-
-    <<~PROMPT
-      #{section_header('MACROS / AUTOMATIONS')}
-
-      * Trigger execute_macro ONLY when the user's intent is clear and unambiguous
-      * Never trigger macros on partial or unclear requests
-      * If intent is unclear, ask a short clarification question
-
-      Available Macros:
-
-      #{macro_list}
-    PROMPT
+  def feature_gated_tools
+    FEATURE_TOOLS.filter_map { |feature, tool| tool if current_assistant&.public_send(feature) }
   end
 end

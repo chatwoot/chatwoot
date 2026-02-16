@@ -28,6 +28,12 @@ module CatalogSupport
     PROMPT
   end
 
+  def catalog_tools
+    return [] unless catalog_access_enabled?
+
+    [ProductDetailsTool, CreateCartTool]
+  end
+
   def catalog_enabled?
     current_account&.catalog_settings&.enabled?
   end
