@@ -214,6 +214,7 @@ en:
     attachment: 'Attachment'
     no_content: 'No content'
   conversations:
+    closed_message: "Conversation is resolved. Please start a new conversation."
     captain:
       handoff: 'Transferring to another agent for further assistance.'
     messages:

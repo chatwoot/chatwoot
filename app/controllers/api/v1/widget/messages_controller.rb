@@ -1,5 +1,6 @@
 class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
   before_action :set_conversation, only: [:create]
+  before_action :check_conversation_status, only: [:create]
   before_action :set_message, only: [:update]
 
   def index
@@ -28,6 +29,33 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
   end
 
   private
+
+  def check_conversation_status
+    return if conversation.nil?
+    return unless conversation.resolved?
+    return if @web_widget.inbox.allow_messages_after_resolved
+
+    send_conversation_closed_message
+
+    render json: {
+      error: 'conversation_closed',
+      message: I18n.t('conversations.closed_message')
+    }, status: :forbidden
+  end
+
+  def send_conversation_closed_message
+    last_message = conversation.messages.where(message_type: :template).last
+    return if last_message&.content == I18n.t('conversations.closed_message')
+
+    conversation.messages.create!(
+      account_id: conversation.account_id,
+      inbox_id: conversation.inbox_id,
+      message_type: :template,
+      content: I18n.t('conversations.closed_message')
+    )
+  rescue StandardError => e
+    Rails.logger.error "Failed to send closed message: #{e.message}"
+  end
 
   def build_attachment
     return if params[:message][:attachments].blank?
