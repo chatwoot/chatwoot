@@ -68,6 +68,43 @@ const aclDescriptions = {
     'Quando esse checkbox está marcado, o usuário pode ver todas as conversas, mesmo as que não estão atribuidas a ele.',
 };
 
+const aclGroups = [
+  {
+    title: 'Menu lateral',
+    keys: ['pode_ver_menu_lateral_completo'],
+  },
+  {
+    title: 'Acoes de conversa',
+    keys: [
+      'pode_ver_menu_de_acoes_da_conversa',
+      'pode_ver_opcoes_de_atribuicao_no_menu_de_contexto',
+    ],
+  },
+  {
+    title: 'Filtros e escopo',
+    keys: [
+      'pode_filtrar_sem_times',
+      'pode_filtrar_por_qualquer_time',
+      'pode_filtrar_sem_agente_atribuido',
+      'pode_filtrar_por_qualquer_agente',
+    ],
+  },
+  {
+    title: 'Abas de conversa',
+    keys: ['pode_ver_aba_de_todas_conversas', 'pode_ver_aba_de_nao_atribuidas'],
+  },
+  {
+    title: 'Redirecionamento',
+    keys: ['nao_redirecionar_para_primeira_pasta'],
+  },
+];
+
+const openGroup = ref(aclGroups[0]?.title ?? null);
+
+const toggleGroup = title => {
+  openGroup.value = openGroup.value === title ? null : title;
+};
+
 function openEditPopup(agent) {
   selectedAgent.value = agent;
   showEditModal.value = true;
@@ -220,28 +257,48 @@ onMounted(() => {
         <p v-if="selectedAgent" class="text-sm text-n-slate-11">
           Editando permissões para: {{ selectedAgent.name }}
         </p>
-        <form>
+        <form class="grid gap-3">
           <div
-            v-for="(value, key) in userACL"
-            :key="key"
-            class="flex items-center space-x-3 py-1"
+            v-for="group in aclGroups"
+            :key="group.title"
+            class="rounded border border-n-weak"
           >
-            <input
-              v-if="key !== 'exibir_acl'"
-              type="checkbox"
-              :id="key"
-              v-model="editingACL[key]"
-              class="rounded text-indigo-600 focus:ring-indigo-500"
-            />
-            <label :for="key" v-if="key !== 'exibir_acl'">{{
-              aclLabels[key] || key.replace('_', ' ')
-            }}</label>
-            <span
-              v-if="key !== 'exibir_acl'"
-              v-tooltip="aclDescriptions[key] || 'Sem descrição'"
-              class="i-lucide-info text-xs text-n-slate-10 cursor-pointer"
+            <button
+              type="button"
+              class="w-full flex items-center justify-between p-3 text-sm font-medium text-n-slate-11"
+              @click="toggleGroup(group.title)"
             >
-            </span>
+              <span>{{ group.title }}</span>
+              <span
+                class="i-lucide-chevron-down text-sm transition-transform"
+                :class="openGroup === group.title ? 'rotate-180' : ''"
+              ></span>
+            </button>
+            <div
+              v-if="openGroup === group.title"
+              class="border-t border-n-weak px-3 pb-3"
+            >
+              <div
+                v-for="key in group.keys"
+                :key="key"
+                class="flex items-center space-x-3 py-1"
+              >
+                <input
+                  type="checkbox"
+                  :id="key"
+                  v-model="editingACL[key]"
+                  class="rounded text-indigo-600 focus:ring-indigo-500"
+                />
+                <label :for="key">{{
+                  aclLabels[key] || key.replace('_', ' ')
+                }}</label>
+                <span
+                  v-tooltip="aclDescriptions[key] || 'Sem descrição'"
+                  class="i-lucide-info text-xs text-n-slate-10 cursor-pointer"
+                >
+                </span>
+              </div>
+            </div>
           </div>
         </form>
       </div>
