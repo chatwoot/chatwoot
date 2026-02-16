@@ -15,10 +15,9 @@ class CalendlyNotificationAgent < ApplicationAgent
   description 'Generates friendly customer notifications for Calendly events'
   model 'gpt-4.1-nano'
   temperature 0.6
-  version '1.0'
 
-  reliability do
-    fallback_models ['gemini-2.5-flash']
+  on_failure do
+    fallback to: ['gemini-2.5-flash']
   end
 
   param :event_type, required: true # booked, rescheduled, canceled
@@ -27,20 +26,18 @@ class CalendlyNotificationAgent < ApplicationAgent
   param :contact_name, required: true
   param :cancellation_reason, default: nil
 
-  def system_prompt
-    <<~PROMPT
-      You are a friendly scheduling assistant. Generate a short customer-facing notification about a calendar event.
+  system <<~PROMPT
+    You are a friendly scheduling assistant. Generate a short customer-facing notification about a calendar event.
 
-      Rules:
-      - 1-2 sentences maximum
-      - Warm, professional tone
-      - No markdown formatting
-      - No emojis
-      - Include the event name and time
-      - Address the customer by first name
-      - For cancellations, be empathetic and brief
-    PROMPT
-  end
+    Rules:
+    - 1-2 sentences maximum
+    - Warm, professional tone
+    - No markdown formatting
+    - No emojis
+    - Include the event name and time
+    - Address the customer by first name
+    - For cancellations, be empathetic and brief
+  PROMPT
 
   def user_prompt
     parts = ["Event: #{event_name}", "Time: #{event_time}", "Customer: #{contact_name}", "Type: #{event_type}"]

@@ -1,47 +1,45 @@
 # frozen_string_literal: true
 
-# Base class for all Aloo AI agents
+# Base class for all Aloo AI agents (ruby_llm-agents v3 DSL)
 #
-# Example:
+# Example (static prompts — class-level template DSL):
 #   class MyAgent < ApplicationAgent
 #     param :query, required: true
 #
+#     system "You are a helpful assistant."
+#     user "Answer this: {query}"
+#
+#     returns do
+#       string :answer, description: 'The answer'
+#     end
+#   end
+#
+# Example (dynamic prompts — instance method overrides):
+#   class MyAgent < ApplicationAgent
+#     def system_prompt
+#       [base_instructions, context_section].compact.join("\n\n")
+#     end
+#
 #     def user_prompt
-#       query
+#       build_dynamic_prompt
 #     end
 #   end
 #
 # Usage:
 #   MyAgent.call(query: "hello")
+#   MyAgent.ask("freeform question")
 #
 class ApplicationAgent < RubyLLM::Agents::Base
   # Default model configuration for all agents
   model 'gpt-4o-mini'
   temperature 0.7
-  version '1.0'
   timeout 60
 
-  # Reliability settings
-  reliability do
-    retries max: 2, backoff: :exponential
+  on_failure do
+    retries times: 2, backoff: :exponential
   end
 
   protected
-
-  # Access personality prompt from current assistant
-  def personality_prompt
-    return nil unless Aloo::Current.assistant
-
-    Aloo::PersonalityBuilder.new(Aloo::Current.assistant).build
-  end
-
-  # Access language instructions from current assistant
-  def language_instructions
-    assistant = Aloo::Current.assistant
-    return nil if assistant&.language_instruction.blank?
-
-    "## Language Instructions\n#{assistant.language_instruction}"
-  end
 
   # Current context helpers for accessing request-scoped data
   def current_account

@@ -12,7 +12,6 @@ class Embedders::DocumentEmbedder < RubyLLM::Agents::Embedder
   cache_for 1.week
 
   description 'Generates embeddings for knowledge base documents and search queries'
-  version '1.0'
 
   def resolve_tenant
     tenant = @options[:tenant] || Current.account

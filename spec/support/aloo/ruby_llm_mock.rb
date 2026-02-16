@@ -64,8 +64,6 @@ module Aloo
         'Hello, how can I help you today?'
       when 'MemoryExtractorAgent'
         { memories: [] }
-      when 'FaqGeneratorAgent'
-        { faqs: [] }
       when 'ConversationTriageAgent'
         { label_id: nil, team_id: nil }
       else
