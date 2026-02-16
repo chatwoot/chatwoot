@@ -111,7 +111,6 @@ const advancedFilterTypes = ref(
   }))
 );
 
-
 const currentUser = useMapGetter('getCurrentUser');
 const chatLists = useMapGetter('getFilteredConversations');
 const mineChatsList = useMapGetter('getMineChats');
@@ -130,7 +129,7 @@ const labels = useMapGetter('labels/getLabels');
 const currentAccountId = useMapGetter('getCurrentAccountId');
 // We can't useFunctionGetter here since it needs to be called on setup?
 const getTeamFn = useMapGetter('teams/getTeam');
-const userACL = useMapGetter('acl/getUserACL')
+const userACL = useMapGetter('acl/getUserACL');
 
 useChatListKeyboardEvents(conversationListRef);
 const {
@@ -210,11 +209,15 @@ const assigneeTabItems = computed(() => {
     count: conversationStats.value[countKey] || 0,
   }));
 
-  const ver_conversas_nao_vinculadas_a_mim = userACL.value.ver_conversas_nao_vinculadas_a_mim
-  if (!ver_conversas_nao_vinculadas_a_mim) {
-    return allTabs.filter(tab => tab.key === wootConstants.ASSIGNEE_TYPE.ME)
-  }
-  return allTabs
+  const canViewAll = userACL.value.pode_ver_aba_de_todas_conversas;
+  const canViewUnassigned = userACL.value.pode_ver_aba_de_nao_atribuidas;
+  return allTabs.filter(tab => {
+    if (tab.key === wootConstants.ASSIGNEE_TYPE.ALL) return canViewAll;
+    if (tab.key === wootConstants.ASSIGNEE_TYPE.UNASSIGNED) {
+      return canViewUnassigned;
+    }
+    return true;
+  });
 });
 
 const showAssigneeInConversationCard = computed(() => {
@@ -814,7 +817,6 @@ provide('markAsRead', markAsRead);
 provide('assignPriority', assignPriority);
 provide('isConversationSelected', isConversationSelected);
 provide('deleteConversation', handleDelete);
-
 
 watch(activeTeam, () => resetAndFetchData());
 

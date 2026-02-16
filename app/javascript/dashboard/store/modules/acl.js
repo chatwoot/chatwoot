@@ -37,6 +37,8 @@ const state = {
     pode_filtrar_por_qualquer_time: true,
     pode_filtrar_sem_agente_atribuido: true,
     pode_filtrar_por_qualquer_agente: true,
+    pode_ver_aba_de_todas_conversas: true,
+    pode_ver_aba_de_nao_atribuidas: true,
   },
   editingACL: {},
 };
@@ -64,6 +66,8 @@ export const actions = {
         pode_filtrar_por_qualquer_time: true,
         pode_filtrar_sem_agente_atribuido: true,
         pode_filtrar_por_qualquer_agente: true,
+        pode_ver_aba_de_todas_conversas: true,
+        pode_ver_aba_de_nao_atribuidas: true,
         exibir_acl: false,
       });
     }

@@ -36,6 +36,8 @@ const aclLabels = {
   pode_filtrar_por_qualquer_time: 'filtrar por qualquer time',
   pode_filtrar_sem_agente_atribuido: 'filtrar sem agente atribuido',
   pode_filtrar_por_qualquer_agente: 'filtrar por qualquer agente',
+  pode_ver_aba_de_todas_conversas: 'ver aba de todas conversas',
+  pode_ver_aba_de_nao_atribuidas: 'ver aba de nao atribuidas',
   ver_conversas_nao_vinculadas_a_mim: 'ver conversas não vinculadas a mim',
 };
 const aclDescriptions = {
@@ -55,6 +57,10 @@ const aclDescriptions = {
     'Quando desmarcado, o filtro de agente atribuído se torna obrigatório.',
   pode_filtrar_por_qualquer_agente:
     'Quando desmarcado, o usuário só pode filtrar pelo próprio agente.',
+  pode_ver_aba_de_todas_conversas:
+    'Quando desmarcado, o usuário não pode acessar a aba de todas conversas.',
+  pode_ver_aba_de_nao_atribuidas:
+    'Quando desmarcado, o usuário não pode acessar a aba de não atribuidas.',
   ver_conversas_nao_vinculadas_a_mim:
     'Quando esse checkbox está marcado, o usuário pode ver todas as conversas, mesmo as que não estão atribuidas a ele.',
 };
