@@ -269,6 +269,7 @@ ru:
     attachment: 'Вложение'
     no_content: 'Нет содержимого'
   conversations:
+    closed_message: "Диалог завершён. Для нового обращения начните новый чат."
     captain:
       handoff: 'Передача другому агенту для дальнейшей помощи.'
     messages:
