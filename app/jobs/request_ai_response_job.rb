@@ -103,12 +103,6 @@ class RequestAiResponseJob < ApplicationJob
     Rails.logger.info "Messages Count: #{messages_for_payload.length}"
     Rails.logger.info "Messages JSON: #{messages_for_payload.to_json}"
 
-    headers = {
-      'x-api-token' => api_token,
-      'clerk-id' => clerk_id
-      # NOTE: Removed Content-Type header - RestClient will set it automatically for form data
-    }
-
     begin
       Rails.logger.info "Sending AI request for conversation #{conversation.id} to #{deployment_url}"
 
@@ -190,13 +184,27 @@ class RequestAiResponseJob < ApplicationJob
           end
         end
       else
-        # Regular form data request for text messages
-        Rails.logger.info "[AI_JOB] 📝 Sending regular form data request with fields: #{form_data.keys}"
-        response = HTTParty.post(
-          deployment_url,
-          body: form_data,
-          headers: headers,
-          timeout: 180 # 3 minutes for AI response
+        # Form data request for text messages (AI engine expects Form(...) parameters)
+        Rails.logger.info "[AI_JOB] 📝 Sending form data request with fields: #{form_data.keys}"
+
+        # Use RestClient for consistent multipart/form-data handling
+        require 'rest-client'
+
+        rest_response = RestClient::Request.execute(
+          method: :post,
+          url: deployment_url,
+          payload: form_data,
+          headers: {
+            'x-api-token' => api_token,
+            'clerk-id' => clerk_id
+          },
+          timeout: 180,
+          open_timeout: 30
+        )
+
+        response = OpenStruct.new(
+          code: rest_response.code,
+          body: rest_response.body
         )
       end
 
