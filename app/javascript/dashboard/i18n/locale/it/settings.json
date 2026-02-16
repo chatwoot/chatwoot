@@ -844,16 +844,16 @@
         },
         "INBOX_LIMIT_API": {
           "ADD": {
-            "SUCCESS_MESSAGE": "Inbox limit added successfully",
-            "ERROR_MESSAGE": "Failed to add inbox limit"
+            "SUCCESS_MESSAGE": "Limite inbox aggiunto con successo",
+            "ERROR_MESSAGE": "Impossibile aggiungere il limite inbox"
           },
           "UPDATE": {
-            "SUCCESS_MESSAGE": "Inbox limit updated successfully",
-            "ERROR_MESSAGE": "Failed to update inbox limit"
+            "SUCCESS_MESSAGE": "Limite inbox aggiornato con successo",
+            "ERROR_MESSAGE": "Impossibile aggiornare il limite inbox"
           },
           "DELETE": {
-            "SUCCESS_MESSAGE": "Inbox limit deleted successfully",
-            "ERROR_MESSAGE": "Failed to delete inbox limit"
+            "SUCCESS_MESSAGE": "Limite inbox eliminato con successo",
+            "ERROR_MESSAGE": "Impossibile eliminare il limite inbox"
           }
         }
       },
