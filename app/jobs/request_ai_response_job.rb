@@ -38,7 +38,9 @@ class RequestAiResponseJob < ApplicationJob
     clerk_id = human_agent&.clerk_user_id
 
     Rails.logger.info "AI Agent: #{ai_agent.id}, Human Agent: #{human_agent&.id}, Clerk ID: #{clerk_id || 'NOT_FOUND'}, Agent Key: #{ai_agent.agent_key}"
-    Rails.logger.info "Deployment URL: #{deployment_url}, API Token Present: #{api_token != 'TOKEN_NOT_SET'}"
+    Rails.logger.info "Deployment URL: #{deployment_url}, API Token Present: #{api_token != 'TOKEN_NOT_SET'} - #{api_token}"
+    Rails.logger.info "Clerk ID Present: #{clerk_id.present?} - #{clerk_id}"
+    Rails.logger.info "Agent Key Present: #{ai_agent.agent_key.present?} - #{ai_agent.agent_key}"
 
     unless deployment_url.present? && api_token.present? && clerk_id.present? && ai_agent.agent_key.present?
       error_message = "AI agent configuration is missing. URL, token, clerk_id, or agent_key not found for AI agent #{ai_agent.id}"
