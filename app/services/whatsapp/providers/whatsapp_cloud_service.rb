@@ -2,6 +2,12 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
   def send_message(phone_number, message)
     @message = message
 
+    # Support for Async Button Reaction (Emoji)
+    # If the message has a reaction_emoji, send it first
+    if message.content_attributes&.dig('reaction_emoji').present? && message.content_attributes&.dig('reaction_message_id').present?
+      send_reaction(phone_number, message.content_attributes['reaction_message_id'], message.content_attributes['reaction_emoji'])
+    end
+
     if message.attachments.present?
       send_attachment_message(phone_number, message)
     elsif message.content_type == 'input_select'
@@ -11,7 +17,7 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
       interactive_payload = message.content_attributes['interactive']
       send_interactive_payload(phone_number, message, interactive_payload)
     else
-      send_text_message(phone_number, message)
+      send_text_message(phone_number, message) unless message.content.blank?
     end
   end
 
@@ -63,6 +69,34 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     Rails.logger.info "[SOCIALWISE-FLOW-WHATSAPP] WhatsApp API response body: #{response.body}"
 
     process_response(response, message)
+  end
+
+  # Send a typing indicator to the user
+  # The typing status lasts ~25 seconds or until the next message is sent
+  # This is non-blocking: failures are logged but do not raise
+  def send_typing_indicator(phone_number)
+    response = HTTParty.post(
+      "#{phone_id_path}/messages",
+      headers: api_headers,
+      body: {
+        messaging_product: 'whatsapp',
+        recipient_type: 'individual',
+        to: phone_number,
+        type: 'typing',
+        typing: true
+      }.to_json
+    )
+
+    if response.success?
+      Rails.logger.info "[WhatsappCloudService] Typing indicator sent to #{phone_number}"
+    else
+      Rails.logger.warn "[WhatsappCloudService] Typing indicator failed: #{response.code} - #{response.body}"
+    end
+
+    response
+  rescue StandardError => e
+    Rails.logger.warn "[WhatsappCloudService] Typing indicator error (non-blocking): #{e.message}"
+    nil
   end
 
   def sync_templates
@@ -237,5 +271,30 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     )
 
     process_response(response, message)
+  end
+
+  def send_reaction(phone_number, message_id, emoji)
+    response = HTTParty.post(
+      "#{phone_id_path}/messages",
+      headers: api_headers,
+      body: {
+        messaging_product: 'whatsapp',
+        recipient_type: 'individual',
+        to: phone_number,
+        type: 'reaction',
+        reaction: {
+          message_id: message_id,
+          emoji: emoji
+        }
+      }.to_json
+    )
+
+    if response.success?
+      Rails.logger.info "[WhatsappCloudService] Reaction sent successfully: #{emoji} to #{message_id}"
+    else
+      Rails.logger.error "[WhatsappCloudService] Failed to send reaction: #{response.code} - #{response.body}"
+    end
+
+    response
   end
 end

@@ -287,7 +287,10 @@ class Integrations::SocialwiseFlow::ProcessorService < Integrations::BotProcesso
 
   def process_content(message)
     content = message_content(message)
-    response = get_response(conversation.contact_inbox.source_id, content) if content.present?
+    if content.present?
+      send_typing_indicator_to_user(message)
+      response = get_response(conversation.contact_inbox.source_id, content)
+    end
     process_response(message, response) if response.present?
   end
 
@@ -1832,6 +1835,36 @@ class Integrations::SocialwiseFlow::ProcessorService < Integrations::BotProcesso
     end
 
     response
+  end
+
+  # Send a typing indicator to the WhatsApp user before calling SocialWise
+  # Only applies to Channel::Whatsapp; no-op for other channels
+  # Non-blocking: failures are logged but do not raise
+  def send_typing_indicator_to_user(message)
+    conv = message.conversation
+    return unless conv.inbox.channel_type == 'Channel::Whatsapp'
+
+    inbox = conv.inbox
+    phone_number = conv.contact.get_source_id(inbox.id)
+    return if phone_number.blank?
+
+    payload = {
+      messaging_product: 'whatsapp',
+      recipient_type: 'individual',
+      to: phone_number,
+      type: 'typing',
+      typing: true
+    }
+
+    HTTParty.post(
+      "#{whatsapp_api_base_url(inbox)}/#{inbox.channel.provider_config['phone_number_id']}/messages",
+      headers: whatsapp_api_headers(inbox),
+      body: payload.to_json
+    )
+
+    Rails.logger.info "[SOCIALWISE-FLOW] Typing indicator sent to #{phone_number}"
+  rescue StandardError => e
+    Rails.logger.warn "[SOCIALWISE-FLOW] Typing indicator failed (non-blocking): #{e.message}"
   end
 
   # Helper methods for API configuration

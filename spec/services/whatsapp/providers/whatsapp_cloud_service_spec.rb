@@ -56,6 +56,35 @@ describe Whatsapp::Providers::WhatsappCloudService do
         expect(service.send_message('+123456789', message_with_reply)).to eq 'message_id'
       end
 
+      it 'calls reaction endpoint when reaction attributes are present' do
+        message.content_attributes = { 'reaction_emoji' => '👍', 'reaction_message_id' => 'wamid.123' }
+
+        # Stub reaction request
+        stub_request(:post, 'https://graph.facebook.com/v13.0/123456789/messages')
+          .with(
+            body: {
+              messaging_product: 'whatsapp',
+              recipient_type: 'individual',
+              to: '+123456789',
+              type: 'reaction',
+              reaction: {
+                message_id: 'wamid.123',
+                emoji: '👍'
+              }
+            }.to_json
+          )
+          .to_return(status: 200, body: { success: true }.to_json, headers: response_headers)
+
+        # Stub text message request (it still sends the text message)
+        stub_request(:post, 'https://graph.facebook.com/v13.0/123456789/messages')
+          .with(
+            body: hash_including(type: 'text')
+          )
+          .to_return(status: 200, body: whatsapp_response.to_json, headers: response_headers)
+
+        expect(service.send_message('+123456789', message)).to eq 'message_id'
+      end
+
       it 'calls message endpoints for image attachment message messages' do
         attachment = message.attachments.new(account_id: message.account_id, file_type: :image)
         attachment.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
@@ -398,6 +427,40 @@ describe Whatsapp::Providers::WhatsappCloudService do
         # Verify the service was only instantiated once
         expect(Whatsapp::CsatTemplateService).to have_received(:new).once
       end
+    end
+  end
+
+  describe '#send_typing_indicator' do
+    it 'sends typing indicator with correct payload' do
+      stub_request(:post, 'https://graph.facebook.com/v13.0/123456789/messages')
+        .with(
+          body: {
+            messaging_product: 'whatsapp',
+            recipient_type: 'individual',
+            to: '+123456789',
+            type: 'typing',
+            typing: true
+          }.to_json
+        )
+        .to_return(status: 200, body: { success: true }.to_json, headers: response_headers)
+
+      response = service.send_typing_indicator('+123456789')
+      expect(response.success?).to be(true)
+    end
+
+    it 'does not raise on API failure' do
+      stub_request(:post, 'https://graph.facebook.com/v13.0/123456789/messages')
+        .to_return(status: 500, body: { error: 'Internal error' }.to_json, headers: response_headers)
+
+      expect { service.send_typing_indicator('+123456789') }.not_to raise_error
+    end
+
+    it 'does not raise on network error' do
+      stub_request(:post, 'https://graph.facebook.com/v13.0/123456789/messages')
+        .to_raise(StandardError.new('Connection refused'))
+
+      expect { service.send_typing_indicator('+123456789') }.not_to raise_error
+      expect(service.send_typing_indicator('+123456789')).to be_nil
     end
   end
 end

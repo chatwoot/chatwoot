@@ -1,0 +1,143 @@
+# =============================================================================
+# Chatwit v4.10 - Docker Compose para Desenvolvimento
+# =============================================================================
+# Baseado no compose que já funcionava, adaptado para a v4.10
+#
+# Uso:
+#   ./dev.sh              → Builda e sobe tudo
+#   ./dev.sh -n            → Builda e sobe tudo + ngrok
+#   docker compose -f docker-compose.dev.yaml up -d
+#
+# URLs:
+#   Aplicação  → http://localhost:3000
+#   MailHog    → http://localhost:8025
+#   Ngrok UI   → http://localhost:4040 (quando ativado)
+# =============================================================================
+
+services:
+  base: &base
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+      args:
+        BUNDLE_WITHOUT: ''
+        EXECJS_RUNTIME: 'Node'
+        RAILS_ENV: 'development'
+        RAILS_SERVE_STATIC_FILES: 'false'
+    tty: true
+    stdin_open: true
+    image: chatwit:development
+    env_file: .env
+
+  rails:
+    <<: *base
+    image: chatwit:development
+    volumes:
+      - ./:/app:delegated
+      - node_modules:/app/node_modules
+      - packs:/app/public/packs
+      - cache:/app/tmp/cache
+      - bundle:/usr/local/bundle
+    depends_on:
+      - postgres
+      - redis
+      - vite
+      - mailhog
+      - sidekiq
+    ports:
+      - 3000:3000
+    env_file: .env
+    environment:
+      - VITE_DEV_SERVER_HOST=vite
+      - NODE_ENV=development
+      - RAILS_ENV=development
+    command: ["sh", "-c", "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b 0.0.0.0"]
+
+  sidekiq:
+    <<: *base
+    image: chatwit:development
+    volumes:
+      - ./:/app:delegated
+      - node_modules:/app/node_modules
+      - packs:/app/public/packs
+      - cache:/app/tmp/cache
+      - bundle:/usr/local/bundle
+    depends_on:
+      - postgres
+      - redis
+      - mailhog
+    environment:
+      - NODE_ENV=development
+      - RAILS_ENV=development
+    command: ["bundle", "exec", "sidekiq", "-C", "config/sidekiq.yml"]
+
+  vite:
+    <<: *base
+    image: chatwit:development
+    volumes:
+      - ./:/app:delegated
+      - node_modules:/app/node_modules
+      - packs:/app/public/packs
+      - cache:/app/tmp/cache
+      - bundle:/usr/local/bundle
+    ports:
+      - "3036:3036"
+    environment:
+      - VITE_DEV_SERVER_HOST=0.0.0.0
+      - NODE_ENV=development
+      - RAILS_ENV=development
+    command: ["sh", "-c", "pnpm exec vite dev --host 0.0.0.0 --port 3036"]
+
+  postgres:
+    image: pgvector/pgvector:pg16
+    restart: always
+    ports:
+      - '5433:5432'
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    env_file: .env
+    environment:
+      - POSTGRES_DB=chatwoot
+      - POSTGRES_USER=postgres
+
+  redis:
+    image: redis:alpine
+    restart: always
+    command: ["sh", "-c", "redis-server --requirepass \"$REDIS_PASSWORD\""]
+    env_file: .env
+    volumes:
+      - redis:/data
+    ports:
+      - '6380:6379'
+
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+      - 1025:1025
+      - 8025:8025
+
+  # ───────────────────────────────────────────────────────
+  # NGROK - Túnel público (só sobe com: ./dev.sh -n)
+  # UI: http://localhost:4040
+  # ───────────────────────────────────────────────────────
+  ngrok:
+    image: ngrok/ngrok:latest
+    container_name: chatwit-ngrok
+    profiles:
+      - ngrok
+    environment:
+      NGROK_AUTHTOKEN: ${NGROK_AUTHTOKEN:-31A71USAsfWBPiCJZc9Dw39a35k_2fUqtFQChZSDBMvwS1bxw}
+    command: http rails:3000 --domain=${NGROK_DOMAIN:-beagle-great-awfully.ngrok-free.app}
+    ports:
+      - "4040:4040"
+    depends_on:
+      - rails
+    restart: unless-stopped
+
+volumes:
+  postgres:
+  redis:
+  packs:
+  node_modules:
+  cache:
+  bundle:

@@ -112,12 +112,33 @@ lib/integrations/
 - **Lint JS/Vue**: `pnpm eslint` / `pnpm eslint:fix`
 - **Lint Ruby**: `bundle exec rubocop -a`
 - **Test JS**: `pnpm test` or `pnpm test:watch`
-- **Test Ruby**: `bundle exec rspec spec/path/to/file_spec.rb`
-- **Single Test**: `bundle exec rspec spec/path/to/file_spec.rb:LINE_NUMBER`
 - **Run Project**: `overmind start -f Procfile.dev`
 - **Ruby Version**: Manage Ruby via `rbenv` and install the version listed in `.ruby-version` (e.g., `rbenv install $(cat .ruby-version)`)
 - **rbenv setup**: Before running any `bundle` or `rspec` commands, init rbenv in your shell (`eval "$(rbenv init -)"`) so the correct Ruby/Bundler versions are used
 - Always prefer `bundle exec` for Ruby CLI tasks (rspec, rake, rubocop, etc.)
+
+### ⚠️ Testes Ruby (IMPORTANTE: rodar dentro do Docker)
+
+Os testes Ruby **devem ser executados dentro do container Docker**, nunca diretamente no host (o host não tem acesso ao PostgreSQL do container).
+
+```bash
+# 1. Verificar se os containers estão rodando
+docker ps
+# Deve mostrar containers: chatwitv410-rails-1, chatwitv410-postgres-1, chatwitv410-redis-1, etc.
+
+# 2. Se os containers NÃO estiverem rodando, iniciar:
+./dev.sh start
+
+# 3. Abrir shell no container Rails
+./dev.sh shell
+
+# 4. Dentro do container, rodar os testes
+bundle exec rspec spec/path/to/file_spec.rb
+# Teste individual por linha:
+bundle exec rspec spec/path/to/file_spec.rb:LINE_NUMBER
+```
+
+> **Nota:** Se aparecer erro `PG::ConnectionBad` ou `ActiveRecord::ConnectionNotEstablished`, significa que você está tentando rodar fora do container.
 
 ## Code Style
 
