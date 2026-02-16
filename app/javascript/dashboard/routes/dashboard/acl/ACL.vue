@@ -29,7 +29,9 @@ const editingACL = ref({});
 const aclLabels = {
   time_privado: 'time privado',
   pode_ver_menu_lateral_completo: 'menu lateral completo',
-  direcionar_conversa: 'direcionar conversa',
+  pode_ver_menu_de_acoes_da_conversa: 'menu de acoes da conversa',
+  pode_ver_opcoes_de_atribuicao_no_menu_de_contexto:
+    'opcoes de atribuicao no menu de contexto',
   ver_conversas_nao_vinculadas_a_mim: 'ver conversas não vinculadas a mim',
 };
 const aclDescriptions = {
@@ -37,8 +39,10 @@ const aclDescriptions = {
     'Quando esse checkbox está marcado, o usuário pode fazer filtros SEM que o filtro de time seja obrigatório.',
   pode_ver_menu_lateral_completo:
     'Habilita a visualização completa das opções no menu lateral esquerdo quando está marcado.',
-  direcionar_conversa:
-    'Habilita as ações de conversa para atribuição a equipes ou usuários quando está marcado.',
+  pode_ver_menu_de_acoes_da_conversa:
+    'Habilita a visualização do menu de ações da conversa quando está marcado.',
+  pode_ver_opcoes_de_atribuicao_no_menu_de_contexto:
+    'Habilita as opções de atribuição no menu de contexto quando está marcado.',
   ver_conversas_nao_vinculadas_a_mim:
     'Quando esse checkbox está marcado, o usuário pode ver todas as conversas, mesmo as que não estão atribuidas a ele.',
 };

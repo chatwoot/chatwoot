@@ -1,6 +1,6 @@
 <script>
 import { mapGetters } from 'vuex';
-import { computed } from 'vue'
+import { computed } from 'vue';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useAccount } from 'dashboard/composables/useAccount';
 import ChatList from '../../../components/ChatList.vue';
@@ -73,10 +73,10 @@ export default {
     ...mapGetters({
       chatList: 'getAllConversations',
       currentChat: 'getSelectedChat',
-      userACL: 'acl/getUserACL'
+      userACL: 'acl/getUserACL',
     }),
     direcionarConversa() {
-      return this.userACL.direcionar_conversa
+      return this.userACL.pode_ver_menu_de_acoes_da_conversa;
     },
     showConversationList() {
       return this.isOnExpandedLayout ? !this.conversationId : true;

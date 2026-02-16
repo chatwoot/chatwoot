@@ -179,7 +179,7 @@ export default {
       assignableAgentsUiFlags: 'inboxAssignableAgents/getUIFlags',
       currentUser: 'getCurrentUser',
       currentAccountId: 'getCurrentAccountId',
-      userACL: 'acl/getUserACL'
+      userACL: 'acl/getUserACL',
     }),
     filteredAgentOnAvailability() {
       const agents = this.$store.getters[
@@ -340,7 +340,10 @@ export default {
         />
       </MenuItemWithSubmenu>
       <MenuItemWithSubmenu
-        v-if="isAllowed([MENU.AGENT]) && userACL.direcionar_conversa"
+        v-if="
+          isAllowed([MENU.AGENT]) &&
+          userACL.pode_ver_opcoes_de_atribuicao_no_menu_de_contexto
+        "
         :option="agentMenuConfig"
         :sub-menu-available="!!assignableAgents.length"
       >
@@ -356,7 +359,10 @@ export default {
         </template>
       </MenuItemWithSubmenu>
       <MenuItemWithSubmenu
-        v-if="isAllowed([MENU.TEAM]) && userACL.direcionar_conversa"
+        v-if="
+          isAllowed([MENU.TEAM]) &&
+          userACL.pode_ver_opcoes_de_atribuicao_no_menu_de_contexto
+        "
         :option="teamMenuConfig"
         :sub-menu-available="!!teams.length"
       >
