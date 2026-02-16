@@ -886,7 +886,7 @@
       },
       "UTILITY_ANALYZER": {
         "ACTION": "Check utility fit",
-        "HELPER_NOTE": "Check this message before submission to improve the chances of Utility classification. System submits this as a Utility template. Meta may still reclassify it as Marketing based on message content.",
+        "HELPER_NOTE": "Check this message before submission to improve Utility fit. The system creates a dedicated CSAT template with buttons for reporting and submits it as Utility; Meta may still reclassify it as Marketing based on content.",
         "RESULT_LABEL": "Meta category prediction",
         "SCORE": "Utility fit score: %{score}/10",
         "SCORE_HELP": "Higher score means the message is more likely to fit Utility intent. This is a guidance check, not a guarantee of Meta approval.",
@@ -912,7 +912,7 @@
         "SELECT_PLACEHOLDER": "select labels"
       },
       "NOTE": "Note: CSAT surveys are sent only once per conversation",
-      "WHATSAPP_NOTE": "Note: We submit CSAT as a Utility template for WhatsApp approval. Meta may classify it differently based on message content. After approval, surveys are sent only once per conversation as per the survey rule.",
+      "WHATSAPP_NOTE": "Note: When you save, the system creates a dedicated CSAT template in WhatsApp (used to capture rating and feedback in reports) and submits it as Utility for approval. Meta may still classify it as Marketing based on content. After approval, surveys are sent only once per conversation as per the survey rule.",
       "API": {
         "SUCCESS_MESSAGE": "CSAT settings updated successfully",
         "ERROR_MESSAGE": "We couldn't update CSAT settings. Please try again later."
