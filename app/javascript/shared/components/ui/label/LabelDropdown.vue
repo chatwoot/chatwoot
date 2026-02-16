@@ -5,6 +5,7 @@ import AddLabelModal from 'dashboard/routes/dashboard/settings/labels/AddLabel.v
 import { picoSearch } from '@scmmishra/pico-search';
 import { sanitizeLabel } from 'shared/helpers/sanitizeData';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import { mapGetters } from 'vuex';
 
 export default {
   components: {
@@ -34,21 +35,28 @@ export default {
     return {
       search: '',
       createModalVisible: false,
+      openContextMenuId: null,
     };
   },
 
   computed: {
+    ...mapGetters({
+      isPinned: 'labels/isPinned',
+    }),
     createLabelPlaceholder() {
       const label = this.$t('CONTACT_PANEL.LABELS.LABEL_SELECT.CREATE_LABEL');
       return this.search ? `${label}:` : label;
     },
 
     filteredActiveLabels() {
-      if (!this.search) return this.accountLabels;
-
-      return picoSearch(this.accountLabels, this.search, ['title'], {
+      if (!this.search) {
+        return this.sortLabels(this.accountLabels);
+      }
+      const filtered = picoSearch(this.accountLabels, this.search, ['title'], {
         threshold: 0.9,
       });
+
+      return this.sortLabels(filtered);
     },
 
     noResult() {
@@ -75,6 +83,21 @@ export default {
   },
 
   methods: {
+    sortLabels(labels) {
+      const pinned = [];
+      const unpinned = [];
+      labels.forEach(label => {
+        if (this.isPinned(label.id)) {
+          pinned.push(label);
+        } else {
+          unpinned.push(label);
+        }
+      });
+      return [
+        ...pinned.sort((a, b) => a.title.localeCompare(b.title)),
+        ...unpinned.sort((a, b) => a.title.localeCompare(b.title)),
+      ];
+    },
     focusInput() {
       this.$refs.searchbar.focus();
     },
@@ -98,7 +121,19 @@ export default {
         this.onAdd(label);
       }
     },
-
+    async togglePin(labelId) {
+      try {
+        await this.$store.dispatch('labels/togglePin', labelId);
+      } catch (error) {
+        this.$toast.error(this.$t('CONTACT_PANEL.LABELS.TOGGLE_PIN_ERROR'));
+      }
+    },
+    handleOpenContextMenu(labelId) {
+      this.openContextMenuId = labelId;
+    },
+    handleCloseContextMenu() {
+      this.openContextMenuId = null;
+    },
     showCreateModal() {
       this.createModalVisible = true;
     },
@@ -141,11 +176,17 @@ export default {
         <woot-dropdown-menu>
           <LabelDropdownItem
             v-for="label in filteredActiveLabels"
-            :key="label.title"
+            :key="label.id"
+            :label-id="label.id"
             :title="label.title"
             :color="label.color"
             :selected="selectedLabels.includes(label.title)"
+            :pinned="isPinned(label.id)"
+            :show-context-menu="openContextMenuId === label.id"
             @select-label="onAddRemove(label)"
+            @toggle-pin="togglePin"
+            @open-context-menu="handleOpenContextMenu"
+            @close-context-menu="handleCloseContextMenu"
           />
         </woot-dropdown-menu>
         <div

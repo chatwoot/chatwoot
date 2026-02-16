@@ -110,6 +110,9 @@ class User < ApplicationRecord
   has_many :team_members, dependent: :destroy_async
   has_many :teams, through: :team_members
   has_many :articles, foreign_key: 'author_id', dependent: :nullify, inverse_of: :author
+  has_many :user_pinned_labels, dependent: :destroy_async
+  has_many :pinned_labels, through: :user_pinned_labels, source: :label
+
   # rubocop:disable Rails/HasManyOrHasOneDependent
   # we are handling this in `remove_macros` callback
   has_many :macros, foreign_key: 'created_by_id', inverse_of: :created_by
@@ -190,6 +193,20 @@ class User < ApplicationRecord
 
   def mfa_feature_available?
     Chatwoot.mfa_enabled?
+  end
+
+  def pin_label(label)
+    user_pinned_labels.find_or_create_by(label: label) do |upl|
+      upl.position = user_pinned_labels.maximum(:position).to_i + 1
+    end
+  end
+
+  def unpin_label(label)
+    user_pinned_labels.find_by(label: label)&.destroy
+  end
+
+  def label_pinned?(label_id)
+    user_pinned_labels.exists?(label_id: label_id)
   end
 
   private

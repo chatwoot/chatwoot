@@ -238,7 +238,9 @@ Rails.application.routes.draw do
               patch :update
             end
           end
-          resources :labels, only: [:index, :show, :create, :update, :destroy]
+          resources :labels, only: [:index, :show, :create, :update, :destroy] do
+            resource :pin, only: [:create, :destroy], controller: 'pinned_labels'
+          end
 
           resources :notifications, only: [:index, :update, :destroy] do
             collection do

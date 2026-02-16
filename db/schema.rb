@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_02_05_084253) do
+ActiveRecord::Schema[7.1].define(version: 2026_02_16_125946) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -1270,6 +1270,17 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_05_084253) do
     t.index ["name", "account_id"], name: "index_teams_on_name_and_account_id", unique: true
   end
 
+  create_table "user_pinned_labels", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "label_id", null: false
+    t.integer "position", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["label_id"], name: "index_user_pinned_labels_on_label_id"
+    t.index ["user_id", "label_id"], name: "index_user_pinned_labels_on_user_id_and_label_id", unique: true
+    t.index ["user_id"], name: "index_user_pinned_labels_on_user_id"
+  end
+
   create_table "users", id: :serial, force: :cascade do |t|
     t.string "provider", default: "email", null: false
     t.string "uid", default: "", null: false
@@ -1349,6 +1360,8 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_05_084253) do
   add_foreign_key "inboxes", "priority_groups"
   add_foreign_key "priority_groups", "accounts"
   add_foreign_key "queue_statistics", "accounts"
+  add_foreign_key "user_pinned_labels", "labels"
+  add_foreign_key "user_pinned_labels", "users"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
       on("accounts").
       after(:insert).
