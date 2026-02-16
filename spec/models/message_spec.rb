@@ -786,6 +786,53 @@ RSpec.describe Message do
     end
   end
 
+  describe '#send_reply' do
+    let(:account) { create(:account) }
+    let(:inbox) { create(:inbox, account: account) }
+    let(:conversation) { create(:conversation, account: account, inbox: inbox) }
+
+    context 'when sender is Aloo::Assistant' do
+      let(:assistant) { create(:aloo_assistant, account: account) }
+
+      it 'does not enqueue SendReplyJob' do
+        allow(SendReplyJob).to receive(:perform_later)
+
+        create(:message, conversation: conversation, message_type: :outgoing,
+                         sender: assistant, account: account, inbox: inbox)
+
+        expect(SendReplyJob).not_to have_received(:perform_later)
+      end
+    end
+
+    context 'when sender is AI User (is_ai?)' do
+      let(:ai_user) { create(:user, account: account) }
+
+      before { allow_any_instance_of(User).to receive(:is_ai?).and_return(true) } # rubocop:disable RSpec/AnyInstance
+
+      it 'does not enqueue SendReplyJob' do
+        allow(SendReplyJob).to receive(:perform_later)
+
+        create(:message, conversation: conversation, message_type: :outgoing,
+                         sender: ai_user, account: account, inbox: inbox)
+
+        expect(SendReplyJob).not_to have_received(:perform_later)
+      end
+    end
+
+    context 'when sender is a regular User' do
+      let(:agent) { create(:user, account: account) }
+
+      it 'enqueues SendReplyJob' do
+        allow(SendReplyJob).to receive(:perform_later).and_return(true)
+
+        message = create(:message, conversation: conversation, message_type: :outgoing,
+                                   sender: agent, account: account, inbox: inbox)
+
+        expect(SendReplyJob).to have_received(:perform_later).with(message.id)
+      end
+    end
+  end
+
   describe '#update_conversation_unread_status' do
     let(:conversation) { create(:conversation, has_unread_messages: false) }
 

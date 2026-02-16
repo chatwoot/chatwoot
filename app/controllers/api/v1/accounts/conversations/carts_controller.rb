@@ -5,7 +5,7 @@ class Api::V1::Accounts::Conversations::CartsController < Api::V1::Accounts::Con
   def create
     cart = Carts::CreateService.new(
       conversation: @conversation,
-      user: Current.user,
+      creator: Current.user,
       items: permitted_params[:items]
     ).perform
 

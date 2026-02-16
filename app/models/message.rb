@@ -215,7 +215,7 @@ class Message < ApplicationRecord
     return false unless human_response? && !private?
     return false if conversation.first_reply_created_at.present?
     return false if conversation.messages.outgoing
-                                .where.not(sender_type: ['AgentBot', 'Captain::Assistant'])
+                                .where.not(sender_type: ['AgentBot'])
                                 .where.not(private: true)
                                 .where("(additional_attributes->'campaign_id') is null").count > 1
 
@@ -383,9 +383,15 @@ class Message < ApplicationRecord
     Rails.logger.info '[MESSAGE] ✅ Passed nil sender check'
     Rails.logger.info "[MESSAGE]    - sender class: #{sender&.class&.name}, sender id: #{sender&.id}, is_ai: #{sender.is_a?(User) ? sender.is_ai? : 'N/A'}"
 
-    # Skip sending reply for AI-generated messages since they're handled by RequestAiResponseJob
+    # Skip sending reply for AI-generated messages since they're dispatched explicitly by ResponseService
     if sender.is_a?(User) && sender.is_ai?
-      Rails.logger.info "[MESSAGE] ⚠️ SKIPPING - AI-generated message #{id} from AI agent #{sender.id}"
+      Rails.logger.info "[MESSAGE] ⚠️ SKIPPING - AI-generated message #{id} from AI agent #{sender.id} (dispatched by ResponseService)"
+      return
+    end
+
+    # Skip for Aloo::Assistant - Aloo::ResponseService dispatches replies explicitly
+    if sender.is_a?(Aloo::Assistant)
+      Rails.logger.info "[MESSAGE] ⚠️ SKIPPING - Aloo::Assistant message #{id} from assistant #{sender.id} (dispatched by ResponseService)"
       return
     end
 
@@ -408,12 +414,23 @@ class Message < ApplicationRecord
     # mark resolved bot conversation as pending to be reopened by bot processor service
     if conversation.inbox.active_bot?
       conversation.pending!
+    elsif conversation.inbox.active_aloo_assistant?
+      # Reset AI state and set to pending so AI handles the reopened conversation
+      reset_for_aloo_ai_handling
+      conversation.pending!
     elsif conversation.inbox.api?
       Current.executed_by = sender if reopened_by_contact?
       conversation.open!
     else
       conversation.open!
     end
+  end
+
+  def reset_for_aloo_ai_handling
+    attrs = conversation.custom_attributes&.dup || {}
+    attrs.delete('aloo_handoff_active')
+    attrs['human_assistance_requested'] = false
+    conversation.update!(custom_attributes: attrs, assignee_id: nil)
   end
 
   def reopened_by_contact?

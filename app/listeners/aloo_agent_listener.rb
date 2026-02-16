@@ -1,0 +1,100 @@
+# frozen_string_literal: true
+
+# Listener for Aloo AI Agent events
+# Triggers AI responses and learning jobs based on conversation events
+class AlooAgentListener < BaseListener
+  # Triggered when a new message is created
+  # Initiates AI response for incoming messages (text or voice)
+  def message_created(event)
+    message, _account = extract_message_and_account(event)
+
+    # Check for audio attachments first (voice messages)
+    audio_attachment = find_audio_attachment(message)
+    if audio_attachment.present?
+      return unless should_transcribe_audio?(message)
+
+      # Trigger transcription job (chains to ResponseJob on success)
+      Aloo::AudioTranscriptionJob.perform_later(audio_attachment.id)
+      return
+    end
+
+    # Handle regular text messages
+    return unless should_respond_to_message?(message)
+
+    # Queue the AI response job
+    Aloo::ResponseJob.perform_later(message.conversation_id, message.id)
+  end
+
+  # Triggered when a conversation status changes
+  # Resets conversation for AI handling when reopened from resolved
+  def conversation_status_changed(event)
+    conversation = event.data[:conversation]
+    changed_attributes = event.data[:changed_attributes]
+
+    return unless changed_attributes&.key?('status')
+
+    previous_status = changed_attributes['status'][0]
+    current_status = changed_attributes['status'][1]
+
+    # Reset for AI when conversation reopened from resolved
+    return unless previous_status == 'resolved' && current_status == 'open'
+
+    reset_for_ai_handling(conversation)
+  end
+
+  private
+
+  def should_respond_to_message?(message)
+    # Only respond to incoming messages
+    return false unless message.incoming?
+
+    # Don't respond to private messages
+    return false if message.private?
+
+    # Must be a text message (not attachments only)
+    return false if message.content.blank?
+
+    # Check if inbox has an active Aloo assistant
+    assistant = message.inbox.aloo_assistant
+    return false unless assistant&.active?
+
+    # Check if conversation has a human assignee (don't interrupt)
+    conversation = message.conversation
+    return false if conversation.assignee.present? && !assignee_is_bot?(conversation)
+
+    true
+  end
+
+  def assignee_is_bot?(conversation)
+    conversation.assignee&.try(:is_ai?) || false
+  end
+
+  def reset_for_ai_handling(conversation)
+    assistant = conversation.inbox.aloo_assistant
+    return unless assistant&.active?
+
+    attrs = conversation.custom_attributes&.dup || {}
+    attrs.delete('aloo_handoff_active')
+    attrs['human_assistance_requested'] = false
+
+    conversation.update!(custom_attributes: attrs, assignee: nil)
+  end
+
+  def find_audio_attachment(message)
+    message.attachments.find { |a| a.file_type == 'audio' }
+  end
+
+  def should_transcribe_audio?(message)
+    return false unless message.incoming?
+    return false if message.private?
+
+    assistant = message.inbox.aloo_assistant
+    return false unless assistant&.active?
+    return false unless assistant.voice_transcription_enabled?
+
+    conversation = message.conversation
+    return false if conversation.assignee.present? && !assignee_is_bot?(conversation)
+
+    true
+  end
+end

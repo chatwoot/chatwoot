@@ -2,7 +2,7 @@ name: Deploy to Kubernetes (Staging)
 
 on:
   push:
-    branches: [ staging ]
+    branches: [staging]
   workflow_dispatch:
 
 env:
@@ -32,7 +32,7 @@ jobs:
           context: .
           file: ./docker/dockerfiles/rails.Dockerfile
           push: true
-          tags: ${{ env.DOCKER_REGISTRY }}/chatwoot-rails-staging:v1.0.85
+          tags: ${{ env.DOCKER_REGISTRY }}/chatwoot-rails-staging:v1.0.127
 
       - name: Build and push Vite image (staging)
         uses: docker/build-push-action@v4
@@ -40,7 +40,7 @@ jobs:
           context: .
           file: ./docker/dockerfiles/vite.Dockerfile
           push: true
-          tags: ${{ env.DOCKER_REGISTRY }}/chatwoot-vite-staging:v1.0.85
+          tags: ${{ env.DOCKER_REGISTRY }}/chatwoot-vite-staging:v1.0.127
 
   deploy:
     needs: build-and-push
@@ -57,7 +57,7 @@ jobs:
       - name: Set up Terraform
         uses: hashicorp/setup-terraform@v2
         with:
-          terraform_version: "1.5.0"
+          terraform_version: '1.5.0'
 
       - name: Set up kubectl
         uses: azure/setup-kubectl@v3
@@ -99,7 +99,7 @@ jobs:
         run: |
           # Ensure namespace exists
           kubectl apply -f k8s/staging/namespace.yaml
-          
+
           kubectl delete configmap chatwoot-config-staging --ignore-not-found=true -n chatwoot-staging
           cat > k8s/staging/configmap.yaml << EOF
           apiVersion: v1
@@ -126,6 +126,9 @@ jobs:
             AWS_SECRET_ACCESS_KEY: "${{ secrets.AWS_SECRET_ACCESS_KEY }}"
             AWS_REGION: "${{ secrets.AWS_REGION }}"
             OPENAI_API_KEY: "${{ secrets.OPENAI_API_KEY }}"
+            GEMINI_API_KEY: "${{ secrets.GEMINI_API_KEY }}"
+            ANTHROPIC_API_KEY: "${{ secrets.ANTHROPIC_API_KEY }}"
+            ELEVENLABS_API_KEY: "${{ secrets.ELEVENLABS_API_KEY }}"
             FORCE_SSL: "${{ secrets.FORCE_SSL }}"
             CLERK_WEBHOOK_SECRET: "${{ secrets.CLERK_WEBHOOK_SECRET }}"
             ALOOSTUDIO_API_TOKEN: "${{ secrets.ALOOSTUDIO_API_TOKEN }}"
@@ -165,7 +168,6 @@ jobs:
             POSTHOG_API_HOST: "${{ secrets.POSTHOG_API_HOST }}"
           EOF
           kubectl apply -f k8s/staging/configmap.yaml
-          
 
       - name: Create Kubernetes Secrets (staging)
         run: |

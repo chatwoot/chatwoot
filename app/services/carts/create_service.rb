@@ -1,12 +1,16 @@
 class Carts::CreateService
   include PaymentCustomerSanitizable
 
-  attr_reader :conversation, :user, :items, :currency, :account, :catalog_settings
+  attr_reader :conversation, :creator, :items, :currency, :account, :catalog_settings
 
-  def initialize(conversation:, items:, user: Current.user)
+  # @param conversation [Conversation] The conversation to create the cart for
+  # @param items [Array<Hash>] Array of {product_id:, quantity:} hashes
+  # @param creator [User, Aloo::Assistant] The user or assistant creating the cart
+  def initialize(conversation:, items:, creator: Current.user, send_message: true)
     @conversation = conversation
-    @user = user
+    @creator = creator
     @items = items
+    @send_message = send_message
     @account = conversation.account
     @catalog_settings = account.catalog_settings
     @currency = @catalog_settings&.currency || 'SAR'
@@ -29,8 +33,10 @@ class Carts::CreateService
         update_with_tap_data(cart, response)
       end
 
-      message = create_message(cart)
-      cart.update!(message: message)
+      if @send_message
+        message = create_message(cart)
+        cart.update!(message: message)
+      end
 
       Rails.logger.info("Cart created successfully: #{cart.id}")
       cart
@@ -66,6 +72,7 @@ class Carts::CreateService
       product = Product.find_by(id: item[:product_id], account_id: account.id)
       raise ArgumentError, "Product #{item[:product_id]} not found" unless product
       raise ArgumentError, 'Quantity must be positive' if item[:quantity].to_i <= 0
+      raise ArgumentError, I18n.t('errors.products.out_of_stock', title: product.title_en) unless product.in_stock?(item[:quantity].to_i)
     end
   end
 
@@ -74,7 +81,7 @@ class Carts::CreateService
       account: account,
       conversation: conversation,
       contact: conversation.contact,
-      created_by: user,
+      created_by: creator,
       currency: currency,
       status: :initiated,
       provider: payment_provider,
@@ -97,6 +104,7 @@ class Carts::CreateService
     end
 
     cart.save!
+    deduct_stock_for_items!
     cart
   end
 
@@ -145,7 +153,7 @@ class Carts::CreateService
   end
 
   def create_message(cart)
-    Messages::MessageBuilder.new(user, conversation, {
+    Messages::MessageBuilder.new(creator, conversation, {
                                    content: build_message_content(cart),
                                    message_type: :outgoing,
                                    content_type: :cart,
@@ -203,6 +211,13 @@ class Carts::CreateService
         }
       end
     }
+  end
+
+  def deduct_stock_for_items!
+    items.each do |item|
+      product = Product.find(item[:product_id])
+      product.deduct_stock!(item[:quantity].to_i) unless product.stock.nil?
+    end
   end
 
   def customer_data

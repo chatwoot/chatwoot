@@ -136,10 +136,6 @@
 - name: linear_integration
   display_name: Linear Integration
   enabled: false
-- name: captain_integration
-  display_name: Captain
-  enabled: false
-  premium: true
 - name: custom_roles
   display_name: Custom Roles
   enabled: false
@@ -176,10 +172,6 @@
 - name: notion_integration
   display_name: Notion Integration
   enabled: false
-- name: captain_integration_v2
-  display_name: Captain V2
-  enabled: false
-  premium: true
 - name: whatsapp_embedded_signup
   display_name: WhatsApp Embedded Signup
   enabled: false
@@ -229,4 +221,7 @@
   chatwoot_internal: true
 - name: channel_tiktok
   display_name: TikTok Channel
+  enabled: true
+- name: aloo
+  display_name: Aloo AI
   enabled: true

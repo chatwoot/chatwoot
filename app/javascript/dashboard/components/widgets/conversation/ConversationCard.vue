@@ -5,6 +5,7 @@ import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { getLastMessage } from 'dashboard/helper/conversationHelper';
 import { frontendURL, conversationUrl } from 'dashboard/helper/URLHelper';
 import Avatar from 'next/avatar/Avatar.vue';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
 import MessagePreview from './MessagePreview.vue';
 import InboxName from '../InboxName.vue';
 import ConversationContextMenu from './contextMenu/Index.vue';
@@ -114,6 +115,16 @@ const hasSlaPolicyId = computed(() => props.chat?.sla_policy_id);
 
 const showLabelsSection = computed(() => {
   return props.chat.labels?.length > 0 || hasSlaPolicyId.value;
+});
+
+// Human assistance requested indicator
+const isHumanAssistanceRequested = computed(
+  () => props.chat.custom_attributes?.human_assistance_requested === true
+);
+
+// Check if a human is handling the conversation (handoff active or has human assignee)
+const isHumanHandling = computed(() => {
+  return props.chat.meta?.assignee != null;
 });
 
 const messagePreviewClass = computed(() => {
@@ -302,6 +313,15 @@ const deleteConversation = () => {
           >
             <fluent-icon icon="person" size="12" class="text-n-slate-11" />
             {{ assignee.name }}
+          </span>
+          <span
+            v-if="isHumanAssistanceRequested && !isHumanHandling"
+            v-tooltip="
+              $t('CONVERSATION.ALOO.HUMAN_ASSISTANCE_REQUESTED_LIST_TOOLTIP')
+            "
+            class="flex items-center justify-center flex-shrink-0 rounded-full bg-n-amber-3 size-5"
+          >
+            <Icon icon="i-lucide-hand" class="text-n-amber-11 size-3" />
           </span>
           <PriorityMark :priority="chat.priority" class="flex-shrink-0" />
         </div>

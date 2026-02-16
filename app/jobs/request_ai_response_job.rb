@@ -11,7 +11,7 @@ class RequestAiResponseJob < ApplicationJob
 
     # Additional job-level deduplication check using same key strategy as trigger service
     dedup_key = (message.source_id.presence || "msg_#{message.id}")
-    job_redis_key = "ai_job_running:#{dedup_key}"
+    job_redis_key = "ai_response_lock:#{dedup_key}"
     job_lock_acquired = Redis::Alfred.set(job_redis_key, Time.current.iso8601, nx: true, ex: 300) # 5 min expiry
 
     unless job_lock_acquired
@@ -297,7 +297,7 @@ class RequestAiResponseJob < ApplicationJob
 
       # Clean up job lock using same key strategy
       dedup_key = (message.source_id.presence || "msg_#{message.id}")
-      job_redis_key = "ai_job_running:#{dedup_key}"
+      job_redis_key = "ai_response_lock:#{dedup_key}"
       Redis::Alfred.delete(job_redis_key)
       Rails.logger.info "[AI_JOB] 🧹 Cleaned up job lock for source_id #{message.source_id} (message #{message.id})"
     end

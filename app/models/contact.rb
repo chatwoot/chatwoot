@@ -45,7 +45,7 @@ class Contact < ApplicationRecord
   include Avatarable
   include AvailabilityStatusable
   include Labelable
-  include LlmFormattable
+  include LLMFormattable
 
   validates :account_id, presence: true
   validates :email, allow_blank: true, uniqueness: { scope: [:account_id], case_sensitive: false },
@@ -63,6 +63,7 @@ class Contact < ApplicationRecord
   has_many :inboxes, through: :contact_inboxes
   has_many :messages, as: :sender, dependent: :destroy_async
   has_many :notes, dependent: :destroy_async
+  has_many :storefront_tokens, dependent: :destroy_async
   before_validation :prepare_contact_attributes
   after_create_commit :dispatch_create_event, :ip_lookup
   after_update_commit :dispatch_update_event

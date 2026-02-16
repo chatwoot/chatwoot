@@ -7,9 +7,9 @@ ENV NODE_VERSION=${NODE_VERSION}
 ENV PNPM_VERSION=${PNPM_VERSION}
 ENV BUNDLER_VERSION=2.5.11
 
-# Install system dependencies (including libvips for ruby-vips)
+# Install system dependencies (including libvips for ruby-vips, ffmpeg for audio conversion)
 RUN apt-get update -qq && \
-    apt-get install -y build-essential libpq-dev nodejs npm git curl postgresql-client libvips libvips-dev && \
+    apt-get install -y build-essential libpq-dev nodejs npm git curl postgresql-client libvips libvips-dev ffmpeg && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 

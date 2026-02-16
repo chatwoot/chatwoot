@@ -19,6 +19,7 @@ const catalogSettings = ref(null);
 const isEnabled = ref(false);
 const paymentProvider = ref(null);
 const currency = ref('SAR');
+const orderNotificationEmail = ref('');
 
 const paymentProviders = [
   {
@@ -71,6 +72,7 @@ const loadSettings = async () => {
     isEnabled.value = response.data.enabled || false;
     paymentProvider.value = response.data.payment_provider || null;
     currency.value = response.data.currency || 'SAR';
+    orderNotificationEmail.value = response.data.order_notification_email || '';
   } catch {
     catalogSettings.value = null;
   } finally {
@@ -85,6 +87,7 @@ const saveSettings = async () => {
       enabled: isEnabled.value,
       payment_provider: paymentProvider.value,
       currency: currency.value,
+      order_notification_email: orderNotificationEmail.value,
     };
 
     if (catalogSettings.value?.id) {
@@ -189,6 +192,25 @@ onMounted(() => {
           >
             {{ t('CATALOG_SETTINGS.FORM.CURRENCY.PAYZAH_NOTE') }}
           </p>
+        </div>
+      </SectionLayout>
+
+      <SectionLayout
+        :title="t('CATALOG_SETTINGS.FORM.ORDER_NOTIFICATION_EMAIL.TITLE')"
+        :description="
+          t('CATALOG_SETTINGS.FORM.ORDER_NOTIFICATION_EMAIL.DESCRIPTION')
+        "
+        with-border
+      >
+        <div class="flex flex-col gap-3">
+          <input
+            v-model="orderNotificationEmail"
+            type="email"
+            class="w-64"
+            :placeholder="
+              t('CATALOG_SETTINGS.FORM.ORDER_NOTIFICATION_EMAIL.PLACEHOLDER')
+            "
+          />
         </div>
       </SectionLayout>
 

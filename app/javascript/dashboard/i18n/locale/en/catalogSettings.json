@@ -20,12 +20,24 @@
         "DESCRIPTION": "Select the currency for your catalog products.",
         "PAYZAH_NOTE": "Payzah only supports KWD currency."
       },
+      "ORDER_NOTIFICATION_EMAIL": {
+        "TITLE": "Order Notification Email",
+        "DESCRIPTION": "Enter email addresses (comma-separated) to receive a notification when an order is paid. Leave empty to disable.",
+        "PLACEHOLDER": "orders{'@'}example.com, admin{'@'}example.com"
+      },
       "SAVE": "Save Settings"
     },
     "API": {
       "SUCCESS": "Catalog settings updated successfully.",
       "ERROR": "Failed to update catalog settings. Please try again."
     }
+  },
+  "STOREFRONT_LINK": {
+    "BUTTON_TEXT": "Send storefront link",
+    "MESSAGE_PREFIX": "Browse our products and place your order here:",
+    "SUCCESS": "Storefront link sent successfully.",
+    "ERROR": "Failed to generate storefront link. Please try again.",
+    "NO_CONTACT": "No contact found for this conversation."
   },
   "CATALOG_SEND": {
     "TITLE": "Send Catalog Items",

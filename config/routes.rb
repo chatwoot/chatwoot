@@ -3,6 +3,8 @@ Rails.application.routes.draw do
   get '/health', to: 'kubernetes_health#health'
   get '/healthz', to: 'kubernetes_health#health'
 
+  mount RubyLLM::Agents::Engine => '/agents'
+
   # AUTH STARTS
   mount_devise_token_auth_for 'User', at: 'auth', controllers: {
     confirmations: 'devise_overrides/confirmations',
@@ -46,6 +48,20 @@ Rails.application.routes.draw do
   # Public cart preview page
   get 'cart/:id', to: 'cart#show', as: :cart_preview
 
+  # Public storefront
+  scope '/store/:account_id', as: :storefront, module: :storefront do
+    get '/', to: 'products#index', as: :products
+    get '/products/:id', to: 'products#show', as: :product
+
+    get '/cart', to: 'cart#show', as: :cart
+    post '/cart/items', to: 'cart#add_item', as: :cart_add_item
+    patch '/cart/items/:id', to: 'cart#update_item', as: :cart_update_item
+    delete '/cart/items/:id', to: 'cart#remove_item', as: :cart_remove_item
+
+    get '/checkout', to: 'checkout#show', as: :checkout
+    post '/checkout', to: 'checkout#create', as: :checkout_create
+  end
+
   get '/api', to: 'api#index'
   namespace :api, defaults: { format: 'json' } do
     namespace :v1 do
@@ -67,24 +83,38 @@ Rails.application.routes.draw do
             post :create_ai_agent, on: :collection
           end
           resources :aloostudio_agents, only: [:index]
-          namespace :captain do
+
+          # Aloo AI Agent routes
+          namespace :aloo do
             resources :assistants do
-              member do
-                post :playground
-              end
               collection do
-                get :tools
+                get :check_name
               end
-              resources :inboxes, only: [:index, :create, :destroy], param: :inbox_id
-              resources :scenarios
+              member do
+                get :stats
+                get :performance
+                post :assign_inbox
+                delete :unassign_inbox
+                post :playground
+                # Voice feature endpoints
+                get :voices
+                post :preview_voice
+                get :voice_usage
+              end
+              resources :documents, only: [:index, :show, :create, :update, :destroy] do
+                collection do
+                  post :discover_pages
+                end
+                member do
+                  post :reprocess
+                end
+              end
+              resources :conversations, only: [:index]
             end
-            resources :assistant_responses
-            resources :bulk_actions, only: [:create]
-            resources :copilot_threads, only: [:index, :create] do
-              resources :copilot_messages, only: [:index, :create]
+            # Account-wide voice usage statistics
+            resource :voice_usage, only: [:show], controller: 'voice_usage' do
+              get :summary, on: :collection
             end
-            resources :custom_tools
-            resources :documents, only: [:index, :show, :create, :destroy]
           end
           resource :saml_settings, only: [:show, :create, :update, :destroy]
           resource :whatsapp_settings, only: [:show, :create, :update, :destroy]
@@ -144,6 +174,13 @@ Rails.application.routes.draw do
                 member do
                   post :translate
                   post :retry
+                end
+                # Attachment transcription endpoints
+                resources :attachments, only: [], module: :messages do
+                  member do
+                    post :retranscribe
+                    get :transcription
+                  end
                 end
               end
               resources :assignments, only: [:create]
@@ -258,6 +295,9 @@ Rails.application.routes.draw do
           end
           resources :labels, only: [:index, :show, :create, :update, :destroy]
           resources :products, only: [:index, :show, :create, :update, :destroy]
+          resources :storefront_links, only: [:create] do
+            post :preview, on: :collection
+          end
 
           resources :notifications, only: [:index, :update, :destroy] do
             collection do
@@ -358,6 +398,17 @@ Rails.application.routes.draw do
             resource :notion, controller: 'notion', only: [] do
               collection do
                 delete :destroy
+              end
+            end
+            resource :calendly, controller: 'calendly', only: [:destroy] do
+              collection do
+                get :event_types
+                post :scheduling_link, action: :create_scheduling_link
+                get :scheduled_events
+                post :cancel_event
+                get :available_times
+                patch :update_settings
+                post :resubscribe_webhook
               end
             end
           end
@@ -524,7 +575,6 @@ Rails.application.routes.draw do
       end
 
       post 'webhooks/stripe', to: 'webhooks/stripe#process_payload'
-      post 'webhooks/firecrawl', to: 'webhooks/firecrawl#process_payload'
     end
   end
 
@@ -613,6 +663,7 @@ Rails.application.routes.draw do
   post 'webhooks/instagram', to: 'webhooks/instagram#events'
   post 'webhooks/clerk', to: 'api/v1/webhooks/clerk#create'
   post 'webhooks/tiktok', to: 'webhooks/tiktok#events'
+  post 'webhooks/calendly', to: 'webhooks/calendly#receive'
 
   namespace :twitter do
   end
@@ -641,6 +692,7 @@ Rails.application.routes.draw do
   get 'instagram/callback', to: 'instagram/callbacks#show'
   get 'tiktok/callback', to: 'tiktok/callbacks#show'
   get 'notion/callback', to: 'notion/callbacks#show'
+  get 'calendly/callback', to: 'calendly/callbacks#show'
   # ----------------------------------------------------------------------
   # Routes for external service verifications
   get '.well-known/assetlinks.json' => 'android_app#assetlinks'
@@ -681,6 +733,9 @@ Rails.application.routes.draw do
       resource :settings, only: [:show] do
         get :refresh, on: :collection
       end
+
+      # Aloo AI Analytics Dashboard
+      resource :aloo_analytics, only: [:show], controller: 'aloo_analytics', action: 'index'
 
       # resources that doesn't appear in primary navigation in super admin
       resources :account_users, only: [:new, :create, :show, :destroy]

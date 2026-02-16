@@ -29,6 +29,7 @@ class Product < ApplicationRecord
 
   validates :title_en, presence: true, uniqueness: { scope: :account_id }
   validates :price, presence: true, numericality: { greater_than: 0 }
+  validates :stock, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
 
   default_scope { order(created_at: :desc) }
 
@@ -36,5 +37,27 @@ class Product < ApplicationRecord
     return unless image.attached?
 
     Rails.application.routes.url_helpers.rails_blob_path(image, only_path: true)
+  end
+
+  def in_stock?(quantity = 1)
+    stock.nil? || stock >= quantity
+  end
+
+  def deduct_stock!(quantity)
+    with_lock do
+      reload
+      raise I18n.t('errors.products.out_of_stock', title: title_en) unless in_stock?(quantity)
+
+      update!(stock: stock - quantity)
+    end
+  end
+
+  def restore_stock!(quantity)
+    return if stock.nil?
+
+    with_lock do
+      reload
+      update!(stock: stock + quantity)
+    end
   end
 end

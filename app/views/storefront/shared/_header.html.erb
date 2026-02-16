@@ -1,0 +1,37 @@
+<header class="fixed top-0 left-0 right-0 z-50 bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 shadow-sm">
+  <div class="max-w-lg mx-auto px-4 h-14 flex items-center justify-between">
+    <%# Back button — only show on non-index pages %>
+    <% if action_name != 'index' || controller_name != 'products' %>
+      <a href="<%= storefront_products_path(@account, token: storefront_token_param) %>"
+         class="flex items-center gap-1 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+      </a>
+    <% else %>
+      <div class="w-5"></div>
+    <% end %>
+
+    <%# Store name %>
+    <h1 class="text-base font-semibold text-slate-900 dark:text-white truncate">
+      <%= @account&.name %>
+    </h1>
+
+    <%# Cart icon with badge %>
+    <a href="<%= storefront_cart_path(@account, token: storefront_token_param) %>"
+       class="relative flex items-center text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white"
+       id="cart-icon">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z" />
+      </svg>
+      <% cart_count = session["storefront_cart_#{@account&.id}_#{current_contact&.id}"]&.values&.sum(&:to_i) || 0 %>
+      <% if cart_count > 0 %>
+        <span id="cart-badge"
+              class="absolute -top-1.5 -right-1.5 bg-woot-500 text-white text-xs font-bold rounded-full h-5 min-w-[1.25rem] flex items-center justify-center px-1">
+          <%= cart_count %>
+        </span>
+      <% end %>
+    </a>
+  </div>
+</header>

@@ -8,6 +8,8 @@ import ThreeSixtyDialogWhatsapp from './360DialogWhatsapp.vue';
 import CloudWhatsapp from './CloudWhatsapp.vue';
 import WhatsappEmbeddedSignup from './WhatsappEmbeddedSignup.vue';
 import ChannelSelector from 'dashboard/components/ChannelSelector.vue';
+import Banner from 'dashboard/components-next/banner/Banner.vue';
+import Icon from 'next/icon/Icon.vue';
 
 const route = useRoute();
 const router = useRouter();
@@ -98,6 +100,38 @@ const handleManualLinkClick = () => {
 
 <template>
   <div class="overflow-auto col-span-6 p-6 w-full h-full">
+    <!-- Rate Limit Warning Banner -->
+    <Banner color="amber" class="mb-6">
+      <div class="flex items-start gap-3">
+        <Icon
+          icon="i-lucide-alert-triangle"
+          class="size-5 flex-shrink-0 mt-0.5"
+        />
+        <div>
+          <h4 class="font-medium mb-1">
+            {{ $t('INBOX_MGMT.ADD.WHATSAPP.RATE_LIMIT_WARNING.TITLE') }}
+          </h4>
+          <p class="text-sm mb-2">
+            {{ $t('INBOX_MGMT.ADD.WHATSAPP.RATE_LIMIT_WARNING.DESCRIPTION') }}
+          </p>
+          <ul class="text-sm list-disc list-inside mb-2 space-y-0.5">
+            <li>
+              {{ $t('INBOX_MGMT.ADD.WHATSAPP.RATE_LIMIT_WARNING.TIPS.TIP_1') }}
+            </li>
+            <li>
+              {{ $t('INBOX_MGMT.ADD.WHATSAPP.RATE_LIMIT_WARNING.TIPS.TIP_2') }}
+            </li>
+            <li>
+              {{ $t('INBOX_MGMT.ADD.WHATSAPP.RATE_LIMIT_WARNING.TIPS.TIP_3') }}
+            </li>
+          </ul>
+          <p class="text-xs opacity-80">
+            {{ $t('INBOX_MGMT.ADD.WHATSAPP.RATE_LIMIT_WARNING.FOOTER') }}
+          </p>
+        </div>
+      </div>
+    </Banner>
+
     <div v-if="showProviderSelection">
       <div class="mb-10 text-left">
         <h1 class="mb-2 text-lg font-medium text-n-slate-12">

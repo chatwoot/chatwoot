@@ -23,6 +23,8 @@ import ShopifyOrdersList from 'dashboard/components/widgets/conversation/Shopify
 import SidebarActionsHeader from 'dashboard/components-next/SidebarActionsHeader.vue';
 import LinearIssuesList from 'dashboard/components/widgets/conversation/linear/IssuesList.vue';
 import LinearSetupCTA from 'dashboard/components/widgets/conversation/linear/LinearSetupCTA.vue';
+import CalendlyEventsList from 'dashboard/components/widgets/conversation/calendly/CalendlyEventsList.vue';
+import CalendlySetupCTA from 'dashboard/components/widgets/conversation/calendly/CalendlySetupCTA.vue';
 
 const props = defineProps({
   conversationId: {
@@ -72,6 +74,17 @@ const isLinearClientIdConfigured = computed(() => {
 const isLinearConnected = computed(
   () => linearIntegration.value?.enabled || false
 );
+
+const calendlyIntegration = useFunctionGetter(
+  'integrations/getIntegration',
+  'calendly'
+);
+
+const isCalendlyConnected = computed(
+  () => calendlyIntegration.value?.enabled || false
+);
+
+const isCalendlyConfigured = computed(() => !!calendlyIntegration.value?.id);
 
 const store = useStore();
 const currentChat = useMapGetter('getSelectedChat');
@@ -125,8 +138,9 @@ onMounted(() => {
   conversationSidebarItems.value = conversationSidebarItemsOrder.value;
   getContactDetails();
   store.dispatch('attributes/get', 0);
-  // Load integrations to ensure linear integration state is available
+  // Load integrations to ensure integration states are available
   store.dispatch('integrations/get', 'linear');
+  store.dispatch('integrations/get', 'calendly');
 });
 </script>
 
@@ -283,6 +297,24 @@ onMounted(() => {
               "
             >
               <ShopifyOrdersList :contact-id="contactId" />
+            </AccordionItem>
+          </div>
+          <div
+            v-else-if="
+              element.name === 'calendly_meetings' && isCalendlyConfigured
+            "
+          >
+            <AccordionItem
+              :title="$t('CONVERSATION_SIDEBAR.ACCORDION.CALENDLY_MEETINGS')"
+              :is-open="isContactSidebarItemOpen('is_calendly_meetings_open')"
+              compact
+              @toggle="
+                value =>
+                  toggleSidebarUIState('is_calendly_meetings_open', value)
+              "
+            >
+              <CalendlySetupCTA v-if="!isCalendlyConnected" />
+              <CalendlyEventsList v-else :conversation-id="conversationId" />
             </AccordionItem>
           </div>
           <div v-else-if="element.name === 'contact_notes'">

@@ -42,7 +42,7 @@ class Cart < ApplicationRecord
   belongs_to :conversation
   belongs_to :message, optional: true
   belongs_to :contact
-  belongs_to :created_by, class_name: 'User', inverse_of: :created_carts
+  belongs_to :created_by, polymorphic: true
 
   has_many :cart_items, dependent: :destroy
   has_many :products, through: :cart_items
@@ -50,6 +50,8 @@ class Cart < ApplicationRecord
   before_validation :generate_external_payment_id
   before_validation :calculate_totals
   after_update :sync_message_status, if: :saved_change_to_status?
+  after_update :restore_stock_on_terminal_status, if: :saved_change_to_status?
+  after_update :send_order_notification_email, if: :became_paid?
 
   enum status: {
     initiated: 0,
@@ -166,6 +168,14 @@ class Cart < ApplicationRecord
     self.total = subtotal
   end
 
+  def restore_stock_on_terminal_status
+    return unless failed? || cancelled? || expired?
+
+    cart_items.includes(:product).find_each do |item|
+      item.product.restore_stock!(item.quantity)
+    end
+  end
+
   def sync_message_status
     return if message.blank?
 
@@ -175,5 +185,19 @@ class Cart < ApplicationRecord
     message.update!(
       content_attributes: message.content_attributes.merge('data' => updated_data)
     )
+  end
+
+  def became_paid?
+    saved_change_to_status? && paid?
+  end
+
+  def send_order_notification_email
+    emails = account.catalog_settings&.notification_email_list
+    return if emails.blank?
+
+    AdministratorNotifications::AccountNotificationMailer
+      .with(account: account)
+      .order_paid(self, emails)
+      .deliver_later
   end
 end

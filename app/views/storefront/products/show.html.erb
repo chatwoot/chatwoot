@@ -1,0 +1,102 @@
+<div class="max-w-lg mx-auto">
+  <%# Product image — full width %>
+  <div class="aspect-square bg-slate-100 dark:bg-slate-800 overflow-hidden">
+    <% if @product.image_url.present? %>
+      <img src="<%= @product.image_url %>"
+           alt="<%= @product.title_en %>"
+           class="w-full h-full object-cover" />
+    <% else %>
+      <div class="w-full h-full flex items-center justify-center">
+        <svg class="w-24 h-24 text-slate-300 dark:text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+        </svg>
+      </div>
+    <% end %>
+  </div>
+
+  <%# Product details %>
+  <div class="px-4 py-5">
+    <h2 class="text-xl font-bold text-slate-900 dark:text-white">
+      <%= @product.title_en %>
+    </h2>
+
+    <% if @product.title_ar.present? %>
+      <p class="text-base text-slate-500 dark:text-slate-400 mt-1" dir="rtl">
+        <%= @product.title_ar %>
+      </p>
+    <% end %>
+
+    <p class="text-2xl font-bold text-woot-600 dark:text-woot-400 mt-3">
+      <%= number_with_precision(@product.price, precision: 2) %> <%= @currency %>
+    </p>
+
+    <%# Stock indicator %>
+    <% if @product.stock.present? %>
+      <% if @product.stock <= 0 %>
+        <p class="mt-2 text-sm text-red-500 font-medium">Out of Stock</p>
+      <% elsif @product.stock <= 5 %>
+        <p class="mt-2 text-sm text-amber-500 font-medium">Only <%= @product.stock %> left in stock</p>
+      <% else %>
+        <p class="mt-2 text-sm text-green-600 dark:text-green-400">In Stock</p>
+      <% end %>
+    <% end %>
+
+    <%# Description %>
+    <% if @product.description_en.present? %>
+      <div class="mt-4 text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+        <%= simple_format(@product.description_en) %>
+      </div>
+    <% end %>
+
+    <% if @product.description_ar.present? %>
+      <div class="mt-3 text-sm text-slate-500 dark:text-slate-400 leading-relaxed" dir="rtl">
+        <%= simple_format(@product.description_ar) %>
+      </div>
+    <% end %>
+
+    <%# Add to cart form %>
+    <% if @product.in_stock? %>
+      <%= form_tag storefront_cart_add_item_path(@account, token: storefront_token_param),
+                   method: :post,
+                   class: 'mt-6',
+                   data: { add_to_cart: true } do %>
+        <input type="hidden" name="product_id" value="<%= @product.id %>" />
+
+        <%# Quantity selector %>
+        <div class="flex items-center gap-3 mb-4">
+          <span class="text-sm font-medium text-slate-700 dark:text-slate-300">Quantity:</span>
+          <div class="flex items-center border border-slate-300 dark:border-slate-600 rounded-lg overflow-hidden" data-qty-stepper>
+            <button type="button"
+                    class="w-10 h-10 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
+                    data-qty-dec>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4" />
+              </svg>
+            </button>
+            <input type="number" name="quantity" value="1" min="1" max="99"
+                   class="w-12 h-10 text-center text-sm font-medium text-slate-900 dark:text-white bg-transparent border-x border-slate-300 dark:border-slate-600 focus:outline-none"
+                   data-qty-input />
+            <button type="button"
+                    class="w-10 h-10 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
+                    data-qty-inc>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <button type="submit"
+                class="w-full py-3.5 px-6 text-base font-semibold text-white bg-woot-500 hover:bg-woot-600 rounded-xl transition-colors active:scale-[0.98]">
+          Add to Cart
+        </button>
+      <% end %>
+    <% else %>
+      <button disabled
+              class="mt-6 w-full py-3.5 px-6 text-base font-semibold text-slate-400 bg-slate-100 dark:bg-slate-700 dark:text-slate-500 rounded-xl cursor-not-allowed">
+        Out of Stock
+      </button>
+    <% end %>
+  </div>
+</div>

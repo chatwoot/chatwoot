@@ -4,6 +4,7 @@ json.title_ar product.title_ar
 json.description_en product.description_en
 json.description_ar product.description_ar
 json.price product.price.to_f
+json.stock product.stock
 json.image_url product.image_url if product.image.attached?
 json.created_at product.created_at
 json.updated_at product.updated_at

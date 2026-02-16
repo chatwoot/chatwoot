@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Integrations::LlmInstrumentationConstants
+module Integrations::LLMInstrumentationConstants
   # OpenTelemetry attribute names following GenAI semantic conventions
   # https://opentelemetry.io/docs/specs/semconv/gen-ai/
   ATTR_GEN_AI_PROVIDER = 'gen_ai.provider.name'

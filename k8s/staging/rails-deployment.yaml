@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
       - name: rails
-        image: wavai/chatwoot-rails-staging:v1.0.85
+        image: wavai/chatwoot-rails-staging:v1.0.127
         imagePullPolicy: Always
         command: ["/bin/sh"]
         args: ["-c", "docker/entrypoints/rails.sh && bundle exec rails server -b 0.0.0.0"]
@@ -68,10 +68,10 @@ spec:
             path: /healthz
             port: 3000
             scheme: HTTP
-          initialDelaySeconds: 30
-          periodSeconds: 10
-          timeoutSeconds: 5
-          failureThreshold: 30
+          initialDelaySeconds: 60
+          periodSeconds: 15
+          timeoutSeconds: 10
+          failureThreshold: 40
         readinessProbe:
           httpGet:
             path: /healthz

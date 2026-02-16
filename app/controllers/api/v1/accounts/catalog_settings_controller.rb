@@ -32,7 +32,8 @@ class Api::V1::Accounts::CatalogSettingsController < Api::V1::Accounts::BaseCont
     params.require(:catalog_settings).permit(
       :enabled,
       :payment_provider,
-      :currency
+      :currency,
+      :order_notification_email
     )
   end
 

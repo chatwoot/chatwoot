@@ -1,13 +1,22 @@
 <script setup>
 import OnboardingFeatureCard from './OnboardingFeatureCard.vue';
-import { computed } from 'vue';
+import { computed, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useStoreGetters } from 'dashboard/composables/store';
+import { useStoreGetters, useStore } from 'dashboard/composables/store';
 
+const store = useStore();
 const getters = useStoreGetters();
 const { t } = useI18n();
-// const globalConfig = computed(() => getters['globalConfig/get'].value);
+
 const currentUser = computed(() => getters.getCurrentUser.value);
+const alooAssistants = computed(
+  () => getters['alooAssistants/getRecords'].value
+);
+const hasAlooAssistant = computed(() => alooAssistants.value.length > 0);
+
+onMounted(() => {
+  store.dispatch('alooAssistants/get');
+});
 
 const greetingMessage = computed(() => {
   const hours = new Date().getHours();
@@ -51,6 +60,15 @@ const greetingMessage = computed(() => {
       :title="$t('ONBOARDING.ALL_CONVERSATION.TITLE')"
       :description="$t('ONBOARDING.ALL_CONVERSATION.DESCRIPTION')"
       :link-text="$t('ONBOARDING.ALL_CONVERSATION.NEW_LINK')"
+    />
+    <OnboardingFeatureCard
+      v-if="!hasAlooAssistant"
+      image-src="/assets/images/dashboard/captain/assistant-light.svg"
+      image-alt="Aloo AI"
+      to="settings_aloo_list"
+      :title="$t('ONBOARDING.ALOO_AI.TITLE')"
+      :description="$t('ONBOARDING.ALOO_AI.DESCRIPTION')"
+      :link-text="$t('ONBOARDING.ALOO_AI.NEW_LINK')"
     />
     <OnboardingFeatureCard
       image-src="/dashboard/images/onboarding/teams.png"

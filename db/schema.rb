@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_01_06_200933) do
+ActiveRecord::Schema[7.1].define(version: 2026_02_16_184516) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -35,6 +35,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_06_200933) do
     t.string "currency", default: "SAR"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "order_notification_email"
     t.index ["account_id"], name: "index_account_catalog_settings_on_account_id", unique: true
   end
 
@@ -184,6 +185,109 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_06_200933) do
     t.index ["account_id"], name: "index_agent_capacity_policies_on_account_id"
   end
 
+  create_table "aloo_assistant_inboxes", force: :cascade do |t|
+    t.bigint "aloo_assistant_id", null: false
+    t.bigint "inbox_id", null: false
+    t.boolean "active", default: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["aloo_assistant_id"], name: "index_aloo_assistant_inboxes_on_aloo_assistant_id"
+    t.index ["inbox_id"], name: "index_aloo_assistant_inboxes_on_inbox_unique", unique: true
+  end
+
+  create_table "aloo_assistants", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.string "name", null: false
+    t.text "description"
+    t.string "tone", default: "friendly"
+    t.string "formality", default: "medium"
+    t.string "empathy_level", default: "medium"
+    t.string "verbosity", default: "balanced"
+    t.string "emoji_usage", default: "minimal"
+    t.string "greeting_style", default: "warm"
+    t.text "custom_greeting"
+    t.string "language", default: "en"
+    t.string "dialect"
+    t.text "personality_description"
+    t.text "system_prompt"
+    t.text "response_guidelines"
+    t.text "guardrails"
+    t.jsonb "admin_config", default: {}
+    t.boolean "active", default: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "voice_enabled", default: false
+    t.boolean "voice_input_enabled", default: false
+    t.boolean "voice_output_enabled", default: false
+    t.jsonb "voice_config", default: {}
+    t.text "custom_instructions"
+    t.index ["account_id", "name"], name: "index_aloo_assistants_on_account_id_and_name"
+    t.index ["account_id"], name: "index_aloo_assistants_on_account_id"
+    t.index ["voice_enabled"], name: "index_aloo_assistants_on_voice_enabled"
+    t.index ["voice_input_enabled"], name: "index_aloo_assistants_on_voice_input_enabled"
+    t.index ["voice_output_enabled"], name: "index_aloo_assistants_on_voice_output_enabled"
+  end
+
+  create_table "aloo_documents", force: :cascade do |t|
+    t.bigint "aloo_assistant_id", null: false
+    t.bigint "account_id", null: false
+    t.string "title"
+    t.string "source_type", null: false
+    t.string "source_url"
+    t.jsonb "metadata", default: {}
+    t.integer "status", default: 0
+    t.string "error_message"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.text "text_content"
+    t.jsonb "selected_pages", default: []
+    t.boolean "auto_refresh", default: false, null: false
+    t.datetime "last_refreshed_at"
+    t.datetime "next_refresh_at"
+    t.index ["account_id"], name: "index_aloo_documents_on_account_id"
+    t.index ["aloo_assistant_id"], name: "index_aloo_documents_on_aloo_assistant_id"
+    t.index ["auto_refresh"], name: "index_aloo_documents_on_auto_refresh"
+    t.index ["next_refresh_at"], name: "index_aloo_documents_on_next_refresh_at", where: "(auto_refresh = true)"
+  end
+
+  create_table "aloo_embeddings", force: :cascade do |t|
+    t.bigint "aloo_assistant_id", null: false
+    t.bigint "aloo_document_id"
+    t.bigint "account_id", null: false
+    t.text "content", null: false
+    t.vector "embedding", limit: 1536
+    t.jsonb "metadata", default: {}
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_aloo_embeddings_on_account_id"
+    t.index ["aloo_assistant_id"], name: "index_aloo_embeddings_on_aloo_assistant_id"
+    t.index ["aloo_document_id"], name: "index_aloo_embeddings_on_aloo_document_id"
+    t.index ["embedding"], name: "aloo_embeddings_embedding_idx", opclass: :vector_cosine_ops, using: :hnsw
+  end
+
+  create_table "aloo_voice_usage_records", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "aloo_assistant_id", null: false
+    t.bigint "message_id"
+    t.string "operation_type", null: false
+    t.string "provider", null: false
+    t.integer "characters_used", default: 0
+    t.integer "audio_duration_seconds", default: 0
+    t.decimal "estimated_cost", precision: 10, scale: 6
+    t.string "model_used"
+    t.string "voice_id"
+    t.string "status", default: "success"
+    t.jsonb "metadata", default: {}
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "created_at"], name: "index_aloo_voice_usage_records_on_account_id_and_created_at"
+    t.index ["account_id", "operation_type"], name: "index_aloo_voice_usage_records_on_account_id_and_operation_type"
+    t.index ["account_id"], name: "index_aloo_voice_usage_records_on_account_id"
+    t.index ["aloo_assistant_id"], name: "index_aloo_voice_usage_records_on_aloo_assistant_id"
+    t.index ["created_at"], name: "index_aloo_voice_usage_records_on_created_at"
+    t.index ["message_id"], name: "index_aloo_voice_usage_records_on_message_id"
+  end
+
   create_table "applied_slas", force: :cascade do |t|
     t.bigint "account_id", null: false
     t.bigint "sla_policy_id", null: false
@@ -195,15 +299,6 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_06_200933) do
     t.index ["account_id"], name: "index_applied_slas_on_account_id"
     t.index ["conversation_id"], name: "index_applied_slas_on_conversation_id"
     t.index ["sla_policy_id"], name: "index_applied_slas_on_sla_policy_id"
-  end
-
-  create_table "article_embeddings", force: :cascade do |t|
-    t.bigint "article_id", null: false
-    t.text "term", null: false
-    t.vector "embedding", limit: 1536
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["embedding"], name: "index_article_embeddings_on_embedding", using: :ivfflat
   end
 
   create_table "articles", force: :cascade do |t|
@@ -333,97 +428,6 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_06_200933) do
     t.datetime "updated_at", precision: nil, null: false
   end
 
-  create_table "captain_assistant_responses", force: :cascade do |t|
-    t.string "question", null: false
-    t.text "answer", null: false
-    t.vector "embedding", limit: 1536
-    t.bigint "assistant_id", null: false
-    t.bigint "documentable_id"
-    t.bigint "account_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "status", default: 1, null: false
-    t.string "documentable_type"
-    t.index ["account_id"], name: "index_captain_assistant_responses_on_account_id"
-    t.index ["assistant_id"], name: "index_captain_assistant_responses_on_assistant_id"
-    t.index ["documentable_id", "documentable_type"], name: "idx_cap_asst_resp_on_documentable"
-    t.index ["embedding"], name: "vector_idx_knowledge_entries_embedding", using: :ivfflat
-    t.index ["status"], name: "index_captain_assistant_responses_on_status"
-  end
-
-  create_table "captain_assistants", force: :cascade do |t|
-    t.string "name", null: false
-    t.bigint "account_id", null: false
-    t.string "description"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.jsonb "config", default: {}, null: false
-    t.jsonb "response_guidelines", default: []
-    t.jsonb "guardrails", default: []
-    t.index ["account_id"], name: "index_captain_assistants_on_account_id"
-  end
-
-  create_table "captain_custom_tools", force: :cascade do |t|
-    t.bigint "account_id", null: false
-    t.string "slug", null: false
-    t.string "title", null: false
-    t.text "description"
-    t.string "http_method", default: "GET", null: false
-    t.text "endpoint_url", null: false
-    t.text "request_template"
-    t.text "response_template"
-    t.string "auth_type", default: "none"
-    t.jsonb "auth_config", default: {}
-    t.jsonb "param_schema", default: []
-    t.boolean "enabled", default: true, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["account_id", "slug"], name: "index_captain_custom_tools_on_account_id_and_slug", unique: true
-    t.index ["account_id"], name: "index_captain_custom_tools_on_account_id"
-  end
-
-  create_table "captain_documents", force: :cascade do |t|
-    t.string "name"
-    t.string "external_link", null: false
-    t.text "content"
-    t.bigint "assistant_id", null: false
-    t.bigint "account_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "status", default: 0, null: false
-    t.jsonb "metadata", default: {}
-    t.index ["account_id"], name: "index_captain_documents_on_account_id"
-    t.index ["assistant_id", "external_link"], name: "index_captain_documents_on_assistant_id_and_external_link", unique: true
-    t.index ["assistant_id"], name: "index_captain_documents_on_assistant_id"
-    t.index ["status"], name: "index_captain_documents_on_status"
-  end
-
-  create_table "captain_inboxes", force: :cascade do |t|
-    t.bigint "captain_assistant_id", null: false
-    t.bigint "inbox_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["captain_assistant_id", "inbox_id"], name: "index_captain_inboxes_on_captain_assistant_id_and_inbox_id", unique: true
-    t.index ["captain_assistant_id"], name: "index_captain_inboxes_on_captain_assistant_id"
-    t.index ["inbox_id"], name: "index_captain_inboxes_on_inbox_id"
-  end
-
-  create_table "captain_scenarios", force: :cascade do |t|
-    t.string "title"
-    t.text "description"
-    t.text "instruction"
-    t.jsonb "tools", default: []
-    t.boolean "enabled", default: true, null: false
-    t.bigint "assistant_id", null: false
-    t.bigint "account_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["account_id"], name: "index_captain_scenarios_on_account_id"
-    t.index ["assistant_id", "enabled"], name: "index_captain_scenarios_on_assistant_id_and_enabled"
-    t.index ["assistant_id"], name: "index_captain_scenarios_on_assistant_id"
-    t.index ["enabled"], name: "index_captain_scenarios_on_enabled"
-  end
-
   create_table "cart_items", force: :cascade do |t|
     t.bigint "cart_id", null: false
     t.bigint "product_id", null: false
@@ -442,7 +446,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_06_200933) do
     t.bigint "conversation_id", null: false
     t.bigint "message_id"
     t.bigint "contact_id", null: false
-    t.bigint "created_by_id", null: false
+    t.bigint "created_by_id"
     t.string "external_payment_id"
     t.string "payment_url"
     t.string "provider", null: false
@@ -453,10 +457,12 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_06_200933) do
     t.jsonb "payload", default: {}, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "created_by_type", default: "User"
     t.index ["account_id"], name: "index_carts_on_account_id"
     t.index ["contact_id"], name: "index_carts_on_contact_id"
     t.index ["conversation_id"], name: "index_carts_on_conversation_id"
     t.index ["created_by_id"], name: "index_carts_on_created_by_id"
+    t.index ["created_by_type", "created_by_id"], name: "index_carts_on_created_by"
     t.index ["external_payment_id"], name: "index_carts_on_external_payment_id", unique: true
     t.index ["message_id"], name: "index_carts_on_message_id"
     t.index ["status"], name: "index_carts_on_status"
@@ -760,6 +766,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_06_200933) do
     t.text "cached_label_list"
     t.bigint "assignee_agent_bot_id"
     t.boolean "has_unread_messages", default: false, null: false
+    t.datetime "last_triaged_at"
     t.index ["account_id", "display_id"], name: "index_conversations_on_account_id_and_display_id", unique: true
     t.index ["account_id", "has_unread_messages"], name: "index_conversations_on_account_has_unread", where: "(has_unread_messages = true)"
     t.index ["account_id", "id"], name: "index_conversations_on_id_and_account_id"
@@ -779,29 +786,6 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_06_200933) do
     t.index ["team_id"], name: "index_conversations_on_team_id"
     t.index ["uuid"], name: "index_conversations_on_uuid", unique: true
     t.index ["waiting_since"], name: "index_conversations_on_waiting_since"
-  end
-
-  create_table "copilot_messages", force: :cascade do |t|
-    t.bigint "copilot_thread_id", null: false
-    t.bigint "account_id", null: false
-    t.jsonb "message", default: {}, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "message_type", default: 0
-    t.index ["account_id"], name: "index_copilot_messages_on_account_id"
-    t.index ["copilot_thread_id"], name: "index_copilot_messages_on_copilot_thread_id"
-  end
-
-  create_table "copilot_threads", force: :cascade do |t|
-    t.string "title", null: false
-    t.bigint "user_id", null: false
-    t.bigint "account_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "assistant_id"
-    t.index ["account_id"], name: "index_copilot_threads_on_account_id"
-    t.index ["assistant_id"], name: "index_copilot_threads_on_assistant_id"
-    t.index ["user_id"], name: "index_copilot_threads_on_user_id"
   end
 
   create_table "csat_survey_responses", force: :cascade do |t|
@@ -1023,6 +1007,9 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_06_200933) do
     t.jsonb "actions", default: {}, null: false
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
+    t.text "description"
+    t.boolean "ai_enabled", default: false, null: false
+    t.index ["account_id", "ai_enabled"], name: "index_macros_on_account_id_ai_enabled", where: "(ai_enabled = true)"
     t.index ["account_id"], name: "index_macros_on_account_id"
   end
 
@@ -1207,6 +1194,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_06_200933) do
     t.decimal "price", precision: 10, scale: 2, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "stock"
     t.index ["account_id", "title_en"], name: "index_products_on_account_id_and_title_en", unique: true
     t.index ["account_id"], name: "index_products_on_account_id"
   end
@@ -1241,6 +1229,97 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_06_200933) do
     t.index ["user_id"], name: "index_reporting_events_on_user_id"
   end
 
+  create_table "ruby_llm_agents_execution_details", force: :cascade do |t|
+    t.bigint "execution_id", null: false
+    t.text "error_message"
+    t.text "system_prompt"
+    t.text "user_prompt"
+    t.json "response", default: {}
+    t.json "messages_summary", default: {}, null: false
+    t.json "tool_calls", default: [], null: false
+    t.json "attempts", default: [], null: false
+    t.json "fallback_chain"
+    t.json "parameters", default: {}, null: false
+    t.string "routed_to"
+    t.json "classification_result"
+    t.datetime "cached_at"
+    t.integer "cache_creation_tokens", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.text "assistant_prompt"
+    t.index ["execution_id"], name: "index_ruby_llm_agents_execution_details_on_execution_id", unique: true
+  end
+
+  create_table "ruby_llm_agents_executions", force: :cascade do |t|
+    t.string "agent_type", null: false
+    t.string "model_id", null: false
+    t.string "model_provider"
+    t.decimal "temperature", precision: 3, scale: 2
+    t.datetime "started_at", null: false
+    t.datetime "completed_at"
+    t.integer "duration_ms"
+    t.boolean "streaming", default: false
+    t.string "finish_reason"
+    t.string "request_id"
+    t.string "trace_id"
+    t.bigint "parent_execution_id"
+    t.bigint "root_execution_id"
+    t.boolean "cache_hit", default: false
+    t.string "status", default: "success", null: false
+    t.integer "input_tokens"
+    t.integer "output_tokens"
+    t.integer "total_tokens"
+    t.integer "cached_tokens", default: 0
+    t.decimal "input_cost", precision: 12, scale: 6
+    t.decimal "output_cost", precision: 12, scale: 6
+    t.decimal "total_cost", precision: 12, scale: 6
+    t.jsonb "metadata", default: {}, null: false
+    t.string "error_class"
+    t.integer "tool_calls_count", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "attempts_count", default: 0, null: false
+    t.string "chosen_model_id"
+    t.string "tenant_id"
+    t.string "execution_type", default: "chat"
+    t.integer "messages_count", default: 0, null: false
+    t.index ["agent_type", "created_at"], name: "index_ruby_llm_agents_executions_on_agent_type_and_created_at"
+    t.index ["agent_type", "status"], name: "index_ruby_llm_agents_executions_on_agent_type_and_status"
+    t.index ["created_at"], name: "index_ruby_llm_agents_executions_on_created_at"
+    t.index ["parent_execution_id"], name: "index_ruby_llm_agents_executions_on_parent_execution_id"
+    t.index ["request_id"], name: "index_ruby_llm_agents_executions_on_request_id"
+    t.index ["root_execution_id"], name: "index_ruby_llm_agents_executions_on_root_execution_id"
+    t.index ["status"], name: "index_ruby_llm_agents_executions_on_status"
+    t.index ["tenant_id", "agent_type"], name: "index_ruby_llm_agents_executions_on_tenant_id_and_agent_type"
+    t.index ["tenant_id", "created_at"], name: "index_ruby_llm_agents_executions_on_tenant_id_and_created_at"
+    t.index ["tenant_id", "status"], name: "index_ruby_llm_agents_executions_on_tenant_id_and_status"
+    t.index ["trace_id"], name: "index_ruby_llm_agents_executions_on_trace_id"
+  end
+
+  create_table "ruby_llm_agents_tenants", force: :cascade do |t|
+    t.string "tenant_id", null: false
+    t.decimal "daily_limit", precision: 12, scale: 6
+    t.decimal "monthly_limit", precision: 12, scale: 6
+    t.jsonb "per_agent_daily", default: {}
+    t.jsonb "per_agent_monthly", default: {}
+    t.string "enforcement", default: "soft"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "tenant_record_type"
+    t.bigint "tenant_record_id"
+    t.string "name"
+    t.integer "daily_token_limit"
+    t.integer "monthly_token_limit"
+    t.integer "daily_execution_limit"
+    t.integer "monthly_execution_limit"
+    t.boolean "inherit_global_defaults", default: true
+    t.boolean "active", default: true
+    t.json "metadata", default: {}, null: false
+    t.index ["active"], name: "index_ruby_llm_agents_tenants_on_active"
+    t.index ["tenant_id"], name: "index_ruby_llm_agents_tenants_on_tenant_id", unique: true
+    t.index ["tenant_record_type", "tenant_record_id"], name: "idx_tenant_budgets_on_tenant_record"
+  end
+
   create_table "sla_events", force: :cascade do |t|
     t.bigint "applied_sla_id", null: false
     t.bigint "conversation_id", null: false
@@ -1269,6 +1348,22 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_06_200933) do
     t.string "description"
     t.float "resolution_time_threshold"
     t.index ["account_id"], name: "index_sla_policies_on_account_id"
+  end
+
+  create_table "storefront_tokens", force: :cascade do |t|
+    t.string "token", null: false
+    t.bigint "account_id", null: false
+    t.bigint "contact_id", null: false
+    t.bigint "conversation_id"
+    t.datetime "expires_at"
+    t.datetime "last_used_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "contact_id"], name: "index_storefront_tokens_on_account_id_and_contact_id"
+    t.index ["account_id"], name: "index_storefront_tokens_on_account_id"
+    t.index ["contact_id"], name: "index_storefront_tokens_on_contact_id"
+    t.index ["conversation_id"], name: "index_storefront_tokens_on_conversation_id"
+    t.index ["token"], name: "index_storefront_tokens_on_token", unique: true
   end
 
   create_table "taggings", id: :serial, force: :cascade do |t|
@@ -1398,13 +1493,23 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_06_200933) do
   add_foreign_key "account_whatsapp_settings", "accounts"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "aloo_assistant_inboxes", "aloo_assistants"
+  add_foreign_key "aloo_assistant_inboxes", "inboxes"
+  add_foreign_key "aloo_assistants", "accounts"
+  add_foreign_key "aloo_documents", "accounts"
+  add_foreign_key "aloo_documents", "aloo_assistants"
+  add_foreign_key "aloo_embeddings", "accounts"
+  add_foreign_key "aloo_embeddings", "aloo_assistants"
+  add_foreign_key "aloo_embeddings", "aloo_documents"
+  add_foreign_key "aloo_voice_usage_records", "accounts"
+  add_foreign_key "aloo_voice_usage_records", "aloo_assistants"
+  add_foreign_key "aloo_voice_usage_records", "messages"
   add_foreign_key "cart_items", "carts"
   add_foreign_key "cart_items", "products"
   add_foreign_key "carts", "accounts"
   add_foreign_key "carts", "contacts"
   add_foreign_key "carts", "conversations"
   add_foreign_key "carts", "messages"
-  add_foreign_key "carts", "users", column: "created_by_id"
   add_foreign_key "inboxes", "portals"
   add_foreign_key "payment_links", "accounts"
   add_foreign_key "payment_links", "contacts"
@@ -1412,6 +1517,12 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_06_200933) do
   add_foreign_key "payment_links", "messages"
   add_foreign_key "payment_links", "users", column: "created_by_id"
   add_foreign_key "products", "accounts"
+  add_foreign_key "ruby_llm_agents_execution_details", "ruby_llm_agents_executions", column: "execution_id", on_delete: :cascade
+  add_foreign_key "ruby_llm_agents_executions", "ruby_llm_agents_executions", column: "parent_execution_id", on_delete: :nullify
+  add_foreign_key "ruby_llm_agents_executions", "ruby_llm_agents_executions", column: "root_execution_id", on_delete: :nullify
+  add_foreign_key "storefront_tokens", "accounts"
+  add_foreign_key "storefront_tokens", "contacts"
+  add_foreign_key "storefront_tokens", "conversations"
   add_foreign_key "users", "users", column: "human_agent_id"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
       on("accounts").

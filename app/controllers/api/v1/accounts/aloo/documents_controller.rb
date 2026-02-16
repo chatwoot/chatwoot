@@ -1,0 +1,211 @@
+# frozen_string_literal: true
+
+class Api::V1::Accounts::Aloo::DocumentsController < Api::V1::Accounts::BaseController
+  before_action :check_authorization
+  before_action :set_assistant
+  before_action :set_document, except: %i[index create discover_pages]
+
+  # Allowed file types for upload
+  ALLOWED_CONTENT_TYPES = %w[
+    application/pdf
+    text/plain
+    text/markdown
+    text/csv
+    application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+    application/vnd.ms-excel
+    application/vnd.openxmlformats-officedocument.wordprocessingml.document
+    application/msword
+    application/vnd.openxmlformats-officedocument.presentationml.presentation
+  ].freeze
+
+  MAX_FILE_SIZE = 10.megabytes
+
+  def index
+    @documents = @assistant.documents.order(created_at: :desc)
+    render json: @documents.map { |d| document_json(d) }
+  end
+
+  def show
+    render json: document_json(@document)
+  end
+
+  def create
+    if document_params[:text_content].present?
+      create_text_document
+    elsif document_params[:source_url].present?
+      create_website_document
+    else
+      create_file_document
+    end
+  end
+
+  def discover_pages
+    url = params[:url]
+    raise ActionController::BadRequest, 'URL is required' if url.blank?
+
+    render json: { pages: Aloo::SitemapDiscoveryService.new(url).discover }
+  rescue URI::InvalidURIError
+    raise ActionController::BadRequest, 'Invalid URL format'
+  end
+
+  def update
+    case @document.source_type
+    when 'text'
+      update_text_document
+    when 'website'
+      update_website_document
+    else
+      render json: { error: 'This document type cannot be edited' }, status: :unprocessable_entity
+    end
+  end
+
+  def destroy
+    @document.destroy!
+    head :ok
+  end
+
+  def reprocess
+    @document.update!(status: 'pending')
+    Aloo::ProcessDocumentJob.perform_later(@document.id)
+    render json: { message: 'Document queued for reprocessing' }
+  end
+
+  private
+
+  def create_file_document
+    validate_file!
+    @document = @assistant.documents.create!(
+      account: Current.account, title: document_params[:title] || file_title,
+      source_type: 'file', file: document_params[:file],
+      metadata: { original_filename: document_params[:file].original_filename, content_type: document_params[:file].content_type }
+    )
+    Aloo::ProcessDocumentJob.perform_later(@document.id)
+    render json: document_json(@document), status: :created
+  end
+
+  def create_text_document
+    raise ActionController::BadRequest, 'Title is required' if document_params[:title].blank?
+    raise ActionController::BadRequest, 'Content is required' if document_params[:text_content].blank?
+
+    @document = @assistant.documents.create!(
+      account: Current.account, title: document_params[:title], source_type: 'text',
+      text_content: document_params[:text_content],
+      metadata: { character_count: document_params[:text_content].length }
+    )
+    Aloo::ProcessDocumentJob.perform_later(@document.id)
+    render json: document_json(@document), status: :created
+  end
+
+  def create_website_document
+    validate_url!
+    selected_pages = document_params[:selected_pages]
+    auto_refresh = ActiveModel::Type::Boolean.new.cast(document_params[:auto_refresh]) || false
+    @document = @assistant.documents.create!(
+      account: Current.account, title: document_params[:title] || extract_title_from_url,
+      source_type: 'website', source_url: document_params[:source_url],
+      selected_pages: selected_pages.presence || [],
+      auto_refresh: auto_refresh,
+      metadata: { crawl_full_site: selected_pages.blank? && ActiveModel::Type::Boolean.new.cast(document_params[:crawl_full_site]) }
+    )
+    @document.schedule_next_refresh! if auto_refresh
+    Aloo::ProcessDocumentJob.perform_later(@document.id)
+    render json: document_json(@document), status: :created
+  end
+
+  def update_text_document
+    new_title = document_params[:title].presence || @document.title
+    new_content = document_params[:text_content].presence || @document.text_content
+    @document.update!(title: new_title, text_content: new_content,
+                      metadata: @document.metadata.merge('character_count' => new_content.length))
+    @document.reprocess!
+    render json: document_json(@document)
+  end
+
+  def update_website_document
+    attrs = {}
+    attrs[:title] = document_params[:title] if document_params[:title].present?
+    attrs[:auto_refresh] = ActiveModel::Type::Boolean.new.cast(document_params[:auto_refresh]) if params.key?(:auto_refresh)
+    attrs[:selected_pages] = document_params[:selected_pages] if document_params[:selected_pages].present?
+    @document.update!(attrs) if attrs.any?
+    @document.auto_refresh ? @document.schedule_next_refresh! : @document.update!(next_refresh_at: nil)
+    @document.reprocess!
+    render json: document_json(@document)
+  end
+
+  def validate_url!
+    url = document_params[:source_url]
+    raise ActionController::BadRequest.new('URL is required') if url.blank?
+
+    uri = URI.parse(url)
+    raise ActionController::BadRequest.new('Invalid URL format') unless uri.is_a?(URI::HTTP) || uri.is_a?(URI::HTTPS)
+
+    # Check for duplicate URL
+    normalized_url = normalize_url(url)
+    existing = @assistant.documents.where(source_type: 'website').find do |doc|
+      normalize_url(doc.source_url) == normalized_url
+    end
+    raise ActionController::BadRequest.new('This URL has already been added') if existing
+  rescue URI::InvalidURIError
+    raise ActionController::BadRequest.new('Invalid URL format')
+  end
+
+  def normalize_url(url)
+    uri = URI.parse(url)
+    host = uri.host&.downcase&.gsub(/^www\./, '')
+    path = uri.path&.gsub(%r{/+$}, '').presence || '/'
+    "#{host}#{path}"
+  rescue URI::InvalidURIError
+    url
+  end
+
+  def extract_title_from_url
+    URI.parse(document_params[:source_url]).host&.gsub(/^www\./, '') || 'Website'
+  rescue URI::InvalidURIError
+    'Website'
+  end
+
+  def set_assistant = (@assistant = Current.account.aloo_assistants.find(params[:assistant_id]))
+  def set_document = (@document = @assistant.documents.find(params[:id]))
+  def document_params = params.permit(:title, :file, :source_url, :crawl_full_site, :text_content, :auto_refresh, selected_pages: [])
+
+  def validate_file!
+    file = document_params[:file]
+    raise ActionController::ParameterMissing, 'file is required' unless file.is_a?(ActionDispatch::Http::UploadedFile)
+    raise ActionController::BadRequest.new("Unsupported file type: #{file.content_type}") unless ALLOWED_CONTENT_TYPES.include?(file.content_type)
+    return unless file.size > MAX_FILE_SIZE
+
+    raise ActionController::BadRequest.new("File too large. Maximum size is #{MAX_FILE_SIZE / 1.megabyte}MB")
+  end
+
+  def file_title = File.basename(document_params[:file].original_filename, File.extname(document_params[:file].original_filename)).titleize
+
+  def document_json(document) = base_document_json(document).merge(file_json(document)).merge(extended_document_json(document))
+
+  def base_document_json(document)
+    {
+      id: document.id, title: document.title, source_type: document.source_type,
+      source_url: document.source_url, status: document.status,
+      chunk_count: document.embeddings.count,
+      created_at: document.created_at, updated_at: document.updated_at
+    }
+  end
+
+  def file_json(doc) = doc.file.attached? ? { filename: doc.file.filename.to_s, file_size: doc.file.byte_size } : {}
+
+  def extended_document_json(document)
+    {
+      content_type: document.metadata&.dig('content_type'),
+      pages_scraped: document.metadata&.dig('pages_scraped'),
+      crawl_full_site: document.metadata&.dig('crawl_full_site'),
+      text_content: document.text_content,
+      text_content_preview: document.text_content&.truncate(200),
+      character_count: document.metadata&.dig('character_count'),
+      selected_pages: document.selected_pages,
+      auto_refresh: document.auto_refresh,
+      last_refreshed_at: document.last_refreshed_at,
+      next_refresh_at: document.next_refresh_at
+    }
+  end
+
+  def check_authorization = authorize(Current.account, :update?)
+end

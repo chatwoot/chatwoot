@@ -8,6 +8,9 @@ import InboxName from '../InboxName.vue';
 import MoreActions from './MoreActions.vue';
 import Avatar from 'next/avatar/Avatar.vue';
 import SLACardLabel from './components/SLACardLabel.vue';
+import AIAgentBadge from './AIAgentBadge.vue';
+import AIAssignmentToggle from './AIAssignmentToggle.vue';
+import HumanAssistanceRequestedBadge from './HumanAssistanceRequestedBadge.vue';
 import wootConstants from 'dashboard/constants/globals';
 import { conversationListPageURL } from 'dashboard/helper/URLHelper';
 import { snoozedReopenTime } from 'dashboard/helper/snoozeHelpers';
@@ -90,6 +93,24 @@ const hasMultipleInboxes = computed(
 );
 
 const hasSlaPolicyId = computed(() => props.chat?.sla_policy_id);
+
+const assignedAgent = computed(() => props.chat.meta?.assignee);
+const isAssignedToAI = computed(() => assignedAgent.value?.is_ai === true);
+
+// Aloo AI Assistant handling
+const alooAssistant = computed(() => props.chat.aloo_assistant);
+const isAlooAIHandling = computed(() => {
+  // AI is handling if: inbox has active Aloo assistant AND no human assignee
+  return alooAssistant.value?.active && !assignedAgent.value;
+});
+
+// Human assistance requested (customer asked for human, AI still responding)
+const isHumanAssistanceRequested = computed(
+  () => props.chat.custom_attributes?.human_assistance_requested === true
+);
+const humanAssistanceReason = computed(
+  () => props.chat.custom_attributes?.human_assistance_reason || ''
+);
 </script>
 
 <template>
@@ -127,6 +148,22 @@ const hasSlaPolicyId = computed(() => props.chat?.sla_policy_id);
           >
             #{{ chat.id }}
           </span>
+          <AIAgentBadge
+            v-if="isAssignedToAI || isAlooAIHandling"
+            :agent-name="
+              isAlooAIHandling ? alooAssistant?.name : assignedAgent?.name
+            "
+          />
+          <HumanAssistanceRequestedBadge
+            v-if="isHumanAssistanceRequested && !assignedAgent"
+            :reason="humanAssistanceReason"
+          />
+          <AIAssignmentToggle
+            v-if="alooAssistant?.active"
+            :chat="chat"
+            variant="ghost"
+            size="xs"
+          />
           <fluent-icon
             v-if="!isHMACVerified"
             v-tooltip="$t('CONVERSATION.UNVERIFIED_SESSION')"

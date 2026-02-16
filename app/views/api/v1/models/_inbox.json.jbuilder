@@ -135,3 +135,11 @@ if resource.channel_type == 'Channel::Voice'
   json.voice_call_webhook_url resource.channel.try(:voice_call_webhook_url)
   json.voice_status_webhook_url resource.channel.try(:voice_status_webhook_url)
 end
+
+## ALOO Assistant Assignment
+json.aloo_assistant do
+  if resource.aloo_assistant.present?
+    json.id resource.aloo_assistant.id
+    json.name resource.aloo_assistant.name
+  end
+end

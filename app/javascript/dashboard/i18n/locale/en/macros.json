@@ -15,6 +15,16 @@
           "PLACEHOLDER": "Enter a name for your macro",
           "ERROR": "Name is required for creating a macro"
         },
+        "DESCRIPTION": {
+          "LABEL": "Description",
+          "PLACEHOLDER": "Describe what this macro does and when it should be used",
+          "HELP_TEXT": "This description helps the AI understand when to trigger this macro",
+          "ERROR": "Description is required for public macros"
+        },
+        "AI_ENABLED": {
+          "LABEL": "Enable for AI Agent",
+          "HELP_TEXT": "Allow the Aloo AI agent to trigger this macro automatically during conversations"
+        },
         "ACTIONS": {
           "LABEL": "Actions"
         }
@@ -31,7 +41,8 @@
         "LAST_UPDATED_BY": "Last updated by",
         "VISIBILITY": "Visibility"
       },
-      "404": "No macros found"
+      "404": "No macros found",
+      "AI_BADGE": "AI"
     },
     "DELETE": {
       "TOOLTIP": "Delete macro",

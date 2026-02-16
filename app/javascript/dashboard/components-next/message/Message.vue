@@ -164,7 +164,10 @@ const variant = computed(() => {
   if (props.contentAttributes?.isUnsupported)
     return MESSAGE_VARIANTS.UNSUPPORTED;
 
-  const isBot = !props.sender || props.sender.type === SENDER_TYPES.AGENT_BOT;
+  const isBot =
+    !props.sender ||
+    props.sender.type === SENDER_TYPES.AGENT_BOT ||
+    props.sender.type === SENDER_TYPES.ALOO_ASSISTANT;
   if (isBot && props.messageType === MESSAGE_TYPES.OUTGOING) {
     return MESSAGE_VARIANTS.BOT;
   }
@@ -199,9 +202,7 @@ const isBotOrAgentMessage = computed(() => {
   }
 
   if (
-    [SENDER_TYPES.AGENT_BOT, SENDER_TYPES.CAPTAIN_ASSISTANT].includes(
-      senderType
-    )
+    [SENDER_TYPES.AGENT_BOT, SENDER_TYPES.ALOO_ASSISTANT].includes(senderType)
   ) {
     return true;
   }
@@ -444,8 +445,8 @@ const avatarInfo = computed(() => {
   const { sender } = props;
   const { name, type, avatarUrl, thumbnail } = sender || {};
 
-  // If sender type is agent bot, use avatarUrl
-  if ([SENDER_TYPES.AGENT_BOT, SENDER_TYPES.CAPTAIN_ASSISTANT].includes(type)) {
+  // If sender type is agent bot or AI assistant, use avatarUrl
+  if ([SENDER_TYPES.AGENT_BOT, SENDER_TYPES.ALOO_ASSISTANT].includes(type)) {
     return {
       name: name ?? '',
       src: avatarUrl ?? '',

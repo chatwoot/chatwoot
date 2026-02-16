@@ -15,7 +15,6 @@ import CannedResponse from '../conversation/CannedResponse.vue';
 import KeyboardEmojiSelector from './keyboardEmojiSelector.vue';
 import TagAgents from '../conversation/TagAgents.vue';
 import VariableList from '../conversation/VariableList.vue';
-import TagTools from '../conversation/TagTools.vue';
 
 import { useEmitter } from 'dashboard/composables/emitter';
 import { useI18n } from 'vue-i18n';
@@ -75,7 +74,6 @@ const props = defineProps({
   updateSelectionWith: { type: String, default: '' },
   enableVariables: { type: Boolean, default: false },
   enableCannedResponses: { type: Boolean, default: true },
-  enableCaptainTools: { type: Boolean, default: false },
   variables: { type: Object, default: () => ({}) },
   signature: { type: String, default: '' },
   // allowSignature is a kill switch, ensuring no signature methods
@@ -93,7 +91,6 @@ const emit = defineEmits([
   'toggleUserMention',
   'toggleCannedMenu',
   'toggleVariablesMenu',
-  'toggleToolsMenu',
   'clearSelection',
   'blur',
   'focus',
@@ -163,9 +160,7 @@ const showUserMentions = ref(false);
 const showCannedMenu = ref(false);
 const showVariables = ref(false);
 const showEmojiMenu = ref(false);
-const showToolsMenu = ref(false);
 const mentionSearchKey = ref('');
-const toolSearchKey = ref('');
 const cannedSearchTerm = ref('');
 const variableSearchTerm = ref('');
 const emojiSearchTerm = ref('');
@@ -239,15 +234,9 @@ const plugins = computed(() => {
   return [
     createSuggestionPlugin({
       trigger: '@',
-      showMenu: showToolsMenu,
-      searchTerm: toolSearchKey,
-      isAllowed: () => props.enableCaptainTools,
-    }),
-    createSuggestionPlugin({
-      trigger: '@',
       showMenu: showUserMentions,
       searchTerm: mentionSearchKey,
-      isAllowed: () => props.isPrivate || !props.enableCaptainTools,
+      isAllowed: () => props.isPrivate,
     }),
     createSuggestionPlugin({
       trigger: '/',
@@ -288,9 +277,6 @@ watch(showCannedMenu, updatedValue => {
 });
 watch(showVariables, updatedValue => {
   emit('toggleVariablesMenu', !props.isPrivate && updatedValue);
-});
-watch(showToolsMenu, updatedValue => {
-  emit('toggleToolsMenu', props.enableCaptainTools && updatedValue);
 });
 
 function focusEditorInputField(pos = 'end') {
@@ -793,11 +779,6 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
       v-if="showEmojiMenu"
       :search-key="emojiSearchTerm"
       @select-emoji="emoji => insertSpecialContent('emoji', emoji)"
-    />
-    <TagTools
-      v-if="showToolsMenu"
-      :search-key="toolSearchKey"
-      @select-tool="content => insertSpecialContent('tool', content)"
     />
     <input
       ref="imageUpload"

@@ -60,6 +60,10 @@ class Integrations::Hook < ApplicationRecord
     app_id == 'notion'
   end
 
+  def calendly?
+    app_id == 'calendly'
+  end
+
   def disable
     update(status: 'disabled')
   end

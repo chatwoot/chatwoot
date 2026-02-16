@@ -72,6 +72,8 @@ class Inbox < ApplicationRecord
   has_one :assignment_policy, through: :inbox_assignment_policy
   has_one :agent_bot_inbox, dependent: :destroy_async
   has_one :agent_bot, through: :agent_bot_inbox
+  has_one :aloo_assistant_inbox, class_name: 'Aloo::AssistantInbox', dependent: :destroy
+  has_one :aloo_assistant, through: :aloo_assistant_inbox, source: :assistant
   has_many :webhooks, dependent: :destroy_async
   has_many :hooks, dependent: :destroy_async, class_name: 'Integrations::Hook'
 
@@ -165,6 +167,10 @@ class Inbox < ApplicationRecord
   def active_bot?
     agent_bot_inbox&.active? || hooks.where(app_id: %w[dialogflow],
                                             status: 'enabled').count.positive?
+  end
+
+  def active_aloo_assistant?
+    aloo_assistant_inbox&.active? && aloo_assistant&.active?
   end
 
   def inbox_type

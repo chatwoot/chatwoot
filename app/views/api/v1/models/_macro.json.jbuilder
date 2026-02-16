@@ -1,6 +1,8 @@
 json.id macro.id
 json.name macro.name
 json.visibility macro.visibility
+json.description macro.description
+json.ai_enabled macro.ai_enabled
 
 if macro.created_by.present?
   json.created_by do

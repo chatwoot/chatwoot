@@ -487,6 +487,40 @@
         "CONFIRM": "Yes, delete",
         "CANCEL": "Cancel"
       }
+    },
+    "CALENDLY": {
+      "DELETE": {
+        "TITLE": "Disconnect Calendly?",
+        "MESSAGE": "Disconnecting Calendly will stop booking notifications and remove scheduling link access from conversations."
+      },
+      "CTA": {
+        "TITLE": "Connect to Calendly",
+        "DESCRIPTION": "Calendly is not connected. Click the button below to connect your account and enable scheduling from conversations.",
+        "AGENT_DESCRIPTION": "Calendly is not connected. Request your administrator to connect an account to use this integration.",
+        "BUTTON_TEXT": "Connect Calendly"
+      },
+      "WEBHOOK": {
+        "ACTIVE": "Webhook active — Calendly events are being received.",
+        "INACTIVE": "Webhook not registered — Calendly booking events will not be received.",
+        "RESUBSCRIBE": "Register webhook",
+        "RESUBSCRIBE_SUCCESS": "Webhook registered successfully. Calendly events will now be received.",
+        "RESUBSCRIBE_ERROR": "Failed to register webhook. Please check your Calendly connection and try again."
+      },
+      "TEMPLATES": {
+        "TITLE": "WhatsApp Notification Templates",
+        "DESCRIPTION": "Map approved WhatsApp templates to Calendly booking events. These are used to notify customers outside the 24-hour messaging window.",
+        "HELP_TEXT": "Each template should include these body variables:",
+        "VAR_NAME": "{{1}} — Customer first name",
+        "VAR_EVENT": "{{2}} — Event name",
+        "VAR_TIME": "{{3}} — Scheduled date and time",
+        "BOOKED_LABEL": "Booking confirmed template",
+        "RESCHEDULED_LABEL": "Booking rescheduled template",
+        "CANCELED_LABEL": "Booking canceled template",
+        "SELECT_PLACEHOLDER": "None (no notification)",
+        "SAVE_BUTTON": "Save template mapping",
+        "SAVE_SUCCESS": "Template mapping saved successfully.",
+        "SAVE_ERROR": "Failed to save template mapping. Please try again."
+      }
     }
   },
   "CAPTAIN": {

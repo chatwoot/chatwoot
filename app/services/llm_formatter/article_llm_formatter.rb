@@ -1,4 +1,4 @@
-class LlmFormatter::ArticleLlmFormatter
+class LLMFormatter::ArticleLLMFormatter
   attr_reader :article
 
   def initialize(article)

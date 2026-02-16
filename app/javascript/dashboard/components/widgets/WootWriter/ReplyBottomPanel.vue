@@ -13,6 +13,8 @@ import AIAssistanceButton from '../AIAssistanceButton.vue';
 import PaymentLinkButton from '../PaymentLinkButton.vue';
 import CartButton from '../CartButton.vue';
 import CatalogButton from '../CatalogButton.vue';
+import StorefrontLinkButton from '../StorefrontLinkButton.vue';
+import CalendlyScheduleButton from '../CalendlyScheduleButton.vue';
 import { INBOX_TYPES } from 'dashboard/helper/inbox';
 import { mapGetters } from 'vuex';
 import NextButton from 'dashboard/components-next/button/Button.vue';
@@ -30,6 +32,8 @@ export default {
     PaymentLinkButton,
     CartButton,
     CatalogButton,
+    StorefrontLinkButton,
+    CalendlyScheduleButton,
   },
   mixins: [inboxMixin],
   props: {
@@ -438,6 +442,14 @@ export default {
       />
       <CatalogButton
         v-if="!isOnPrivateNote && showCatalogSendButton"
+        :conversation-id="conversationId"
+      />
+      <StorefrontLinkButton
+        v-if="!isOnPrivateNote && catalogSettings?.enabled"
+        :conversation-id="conversationId"
+      />
+      <CalendlyScheduleButton
+        v-if="!isOnPrivateNote"
         :conversation-id="conversationId"
       />
       <AIAssistanceButton

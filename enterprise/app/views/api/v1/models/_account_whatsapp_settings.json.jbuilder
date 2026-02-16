@@ -1,9 +1,0 @@
-json.id account_whatsapp_settings.id
-json.account_id account_whatsapp_settings.account_id
-json.app_id account_whatsapp_settings.app_id
-json.app_secret account_whatsapp_settings.app_secret
-json.configuration_id account_whatsapp_settings.configuration_id
-json.verify_token account_whatsapp_settings.verify_token
-json.api_version account_whatsapp_settings.api_version
-json.created_at account_whatsapp_settings.created_at
-json.updated_at account_whatsapp_settings.updated_at

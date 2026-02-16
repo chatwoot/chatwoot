@@ -59,3 +59,10 @@ periodic_assignment_job:
   cron: '*/30 * * * *'
   class: 'AutoAssignment::PeriodicAssignmentJob'
   queue: scheduled_jobs
+
+# executed weekly on Sunday at 3:00 AM UTC
+# to refresh website documents with auto_refresh enabled
+aloo_refresh_website_documents_job:
+  cron: '0 3 * * 0'
+  class: 'Aloo::RefreshWebsiteDocumentsJob'
+  queue: low

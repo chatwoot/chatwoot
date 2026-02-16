@@ -11,6 +11,7 @@ export const DEFAULT_CONVERSATION_SIDEBAR_ITEMS_ORDER = Object.freeze([
   { name: 'conversation_participants' },
   { name: 'linear_issues' },
   { name: 'shopify_orders' },
+  { name: 'calendly_meetings' },
 ]);
 
 export const DEFAULT_CONTACT_SIDEBAR_ITEMS_ORDER = Object.freeze([

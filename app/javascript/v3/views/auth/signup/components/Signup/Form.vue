@@ -9,13 +9,11 @@ import SimpleDivider from '../../../../../components/Divider/SimpleDivider.vue';
 import FormInput from '../../../../../components/Form/Input.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
-import { isValidPassword } from 'shared/helpers/Validators';
 import GoogleOAuthButton from '../../../../../components/GoogleOauth/Button.vue';
 import { register } from '../../../../../api/auth';
 import * as CompanyEmailValidator from 'company-email-validator';
 
 const MIN_PASSWORD_LENGTH = 6;
-const SPECIAL_CHAR_REGEX = /[!@#$%^&*()_+\-=[\]{}|'"/\\.,`<>:;?~]/;
 
 export default {
   components: {
@@ -64,7 +62,6 @@ export default {
         },
         password: {
           required,
-          isValidPassword,
           minLength: minLength(MIN_PASSWORD_LENGTH),
         },
         confirmPassword: {
@@ -111,50 +108,9 @@ export default {
     isFormValid() {
       return !this.v$.$invalid && this.hasAValidCaptcha;
     },
-    passwordRequirements() {
+    passwordLengthMet() {
       const password = this.credentials.password || '';
-      return {
-        length: password.length >= MIN_PASSWORD_LENGTH,
-        uppercase: /[A-Z]/.test(password),
-        lowercase: /[a-z]/.test(password),
-        number: /[0-9]/.test(password),
-        special: SPECIAL_CHAR_REGEX.test(password),
-      };
-    },
-    passwordRequirementItems() {
-      const reqs = this.passwordRequirements;
-      return [
-        {
-          id: 'length',
-          met: reqs.length,
-          label: this.$t('REGISTER.PASSWORD.REQUIREMENTS_LENGTH', {
-            min: MIN_PASSWORD_LENGTH,
-          }),
-        },
-        {
-          id: 'uppercase',
-          met: reqs.uppercase,
-          label: this.$t('REGISTER.PASSWORD.REQUIREMENTS_UPPERCASE'),
-        },
-        {
-          id: 'lowercase',
-          met: reqs.lowercase,
-          label: this.$t('REGISTER.PASSWORD.REQUIREMENTS_LOWERCASE'),
-        },
-        {
-          id: 'number',
-          met: reqs.number,
-          label: this.$t('REGISTER.PASSWORD.REQUIREMENTS_NUMBER'),
-        },
-        {
-          id: 'special',
-          met: reqs.special,
-          label: this.$t('REGISTER.PASSWORD.REQUIREMENTS_SPECIAL'),
-        },
-      ];
-    },
-    passwordRequirementsMet() {
-      return Object.values(this.passwordRequirements).every(Boolean);
+      return password.length >= MIN_PASSWORD_LENGTH;
     },
   },
   methods: {
@@ -245,23 +201,26 @@ export default {
         id="password-requirements"
         class="text-xs rounded-md px-4 py-3 outline outline-1 outline-n-weak bg-n-alpha-black2"
       >
-        <ul role="list" class="grid grid-cols-2 gap-1">
-          <li
-            v-for="item in passwordRequirementItems"
-            :key="item.id"
-            class="inline-flex gap-1 items-start"
+        <div class="inline-flex gap-1 items-center">
+          <Icon
+            class="flex-none flex-shrink-0 w-3"
+            :icon="
+              passwordLengthMet
+                ? 'i-lucide-circle-check-big'
+                : 'i-lucide-circle'
+            "
+            :class="passwordLengthMet ? 'text-n-teal-10' : 'text-n-slate-10'"
+          />
+          <span
+            :class="passwordLengthMet ? 'text-n-slate-11' : 'text-n-slate-10'"
           >
-            <Icon
-              class="flex-none flex-shrink-0 w-3 mt-0.5"
-              :icon="item.met ? 'i-lucide-circle-check-big' : 'i-lucide-circle'"
-              :class="item.met ? 'text-n-teal-10' : 'text-n-slate-10'"
-            />
-
-            <span :class="item.met ? 'text-n-slate-11' : 'text-n-slate-10'">
-              {{ item.label }}
-            </span>
-          </li>
-        </ul>
+            {{
+              $t('REGISTER.PASSWORD.REQUIREMENTS_LENGTH', {
+                min: 6,
+              })
+            }}
+          </span>
+        </div>
       </div>
       <FormInput
         v-model="credentials.confirmPassword"

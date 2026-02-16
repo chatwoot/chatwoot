@@ -16,6 +16,8 @@ class Conversations::AutoAssignService
   def perform
     return unless should_process?
 
+    conversation.update_column(:last_triaged_at, Time.current)
+
     suggestions = fetch_suggestions
     return if suggestions.nil?
 
@@ -30,20 +32,27 @@ class Conversations::AutoAssignService
 
   def should_process?
     return false unless conversation.open?
-    return false unless message_count_in_range?
+    return false unless threshold_met?
+    return false if recently_triaged?
     return false if labels.empty? && teams.empty?
-    return false if already_labeled_and_assigned?
 
     true
   end
 
-  def message_count_in_range?
-    count = conversation.messages.incoming.count
-    count >= MIN_MESSAGES && count <= MAX_MESSAGES
+  def recently_triaged?
+    return false if conversation.last_triaged_at.nil?
+
+    conversation.last_triaged_at > 30.minutes.ago
   end
 
-  def already_labeled_and_assigned?
-    conversation.label_list.any? && conversation.team_id.present?
+  def threshold_met?
+    message_threshold = 3
+    time_threshold = 5.minutes
+
+    message_count = conversation.messages.incoming.count
+    conversation_age = Time.current - conversation.created_at
+
+    message_count >= message_threshold || (conversation_age >= time_threshold && conversation.label_list.empty?)
   end
 
   def should_apply_label?
@@ -55,7 +64,19 @@ class Conversations::AutoAssignService
   end
 
   def fetch_suggestions
-    ConversationTriageAgent.run(conversation: conversation, teams: teams, labels: labels)
+    conversation_messages = conversation.messages.last(20).map do |msg|
+      { incoming: msg.incoming?, content: msg.content }
+    end
+
+    result = ConversationTriageAgent.call(
+      conversation_messages: conversation_messages,
+      available_labels: labels,
+      available_teams: teams
+    )
+
+    return nil unless result.success?
+
+    result.content
   end
 
   def apply_label(label_id)

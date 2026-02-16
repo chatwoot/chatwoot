@@ -10,6 +10,7 @@ import SettingsContent from '../Wrapper.vue';
 import Linear from './Linear.vue';
 import Notion from './Notion.vue';
 import Shopify from './Shopify.vue';
+import Calendly from './Calendly.vue';
 import WhatsappSettings from './WhatsappSettings.vue';
 import PayzahSettings from './PayzahSettings.vue';
 import TapSettings from './TapSettings.vue';
@@ -102,6 +103,14 @@ export default {
             permissions: ['administrator'],
           },
           props: route => ({ code: route.query.code }),
+        },
+        {
+          path: 'calendly',
+          name: 'settings_integrations_calendly',
+          component: Calendly,
+          meta: {
+            permissions: ['administrator'],
+          },
         },
         {
           path: 'shopify',
