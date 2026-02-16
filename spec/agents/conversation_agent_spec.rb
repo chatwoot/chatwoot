@@ -35,9 +35,9 @@ RSpec.describe ConversationAgent, :aloo do
   end
 
   describe '#model' do
-    it 'uses gemini-2.5-flash for cost-effective tool calling' do
+    it 'uses gpt-4.1 for tool calling' do
       agent = described_class.new(message: 'test')
-      expect(agent.model).to eq('gemini-2.5-flash')
+      expect(agent.model).to eq('gpt-4.1')
     end
   end
 
