@@ -17,6 +17,15 @@ RSpec.describe CsatTemplateUtilityAnalysisService do
         result = described_class.new(account: account, inbox: inbox, message: message, language: 'en').perform
 
         expect(result[:classification]).to eq('LIKELY_UTILITY')
+        expect(result[:criteria]).to include(
+          trigger: true,
+          transactional_content: true,
+          marketing_prohibition: true,
+          prohibited_content: true,
+          clarity_and_utility: true
+        )
+        expect(result[:positive_points]).not_to be_empty
+        expect(result[:score_justification]).to be_present
         expect(result[:optimized_message]).to eq(message)
       end
     end
@@ -27,6 +36,7 @@ RSpec.describe CsatTemplateUtilityAnalysisService do
         result = described_class.new(account: account, inbox: inbox, message: message, language: 'en').perform
 
         expect(result[:classification]).to eq('LIKELY_MARKETING')
+        expect(result[:non_compliance_points]).not_to be_empty
         expect(result[:optimized_message]).to include('support request')
         expect(result[:optimized_message]).to include('reply to this message')
       end

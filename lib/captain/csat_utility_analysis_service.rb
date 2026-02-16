@@ -2,7 +2,7 @@ class Captain::CsatUtilityAnalysisService < Captain::BaseTaskService
   pattr_initialize [:account!, :message!, { button_text: nil, language: 'en', context: nil, baseline: {} }]
 
   def perform
-    response = make_api_call(
+    api_response = make_api_call(
       model: GPT_MODEL,
       messages: [
         { role: 'system', content: system_prompt },
@@ -10,11 +10,21 @@ class Captain::CsatUtilityAnalysisService < Captain::BaseTaskService
       ]
     )
 
-    return response if response[:error]
+    return api_response if api_response[:error]
 
-    parsed = parse_json_response(response[:message])
+    build_result(api_response[:message])
+  end
+
+  private
+
+  def build_result(response_message)
+    parsed = parse_json_response(response_message)
     return { error: 'Invalid LLM response format' } if parsed.blank?
 
+    core_result(parsed).merge(rubric_result(parsed))
+  end
+
+  def core_result(parsed)
     {
       classification: normalize_classification(parsed['classification']),
       score: parsed['score'].to_i.clamp(0, 10),
@@ -24,7 +34,14 @@ class Captain::CsatUtilityAnalysisService < Captain::BaseTaskService
     }
   end
 
-  private
+  def rubric_result(parsed)
+    {
+      positive_points: Array(parsed['positive_points']).compact.first(5),
+      non_compliance_points: Array(parsed['non_compliance_points']).compact.first(5),
+      score_justification: parsed['score_justification'].to_s,
+      criteria: normalize_criteria(parsed['criteria'])
+    }
+  end
 
   def system_prompt
     template = prompt_from_file('csat_utility_analysis')
@@ -63,6 +80,25 @@ class Captain::CsatUtilityAnalysisService < Captain::BaseTaskService
     return normalized if %w[HIGH MEDIUM LOW].include?(normalized)
 
     'MEDIUM'
+  end
+
+  def normalize_criteria(value)
+    data = value.is_a?(Hash) ? value : {}
+
+    {
+      trigger: to_boolean(data['trigger'], fallback: baseline.dig(:criteria, :trigger)),
+      transactional_content: to_boolean(data['transactional_content'], fallback: baseline.dig(:criteria, :transactional_content)),
+      marketing_prohibition: to_boolean(data['marketing_prohibition'], fallback: baseline.dig(:criteria, :marketing_prohibition)),
+      prohibited_content: to_boolean(data['prohibited_content'], fallback: baseline.dig(:criteria, :prohibited_content)),
+      clarity_and_utility: to_boolean(data['clarity_and_utility'], fallback: baseline.dig(:criteria, :clarity_and_utility))
+    }
+  end
+
+  def to_boolean(value, fallback:)
+    return true if value == true
+    return false if value == false
+
+    fallback == true
   end
 
   def event_name
