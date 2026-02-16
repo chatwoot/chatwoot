@@ -28,8 +28,6 @@ class AclAPI extends ApiClient {
 
 const state = {
   currentUserACL: {
-    time_privado: false,
-    ver_conversas_nao_vinculadas_a_mim: false,
     pode_ver_menu_lateral_completo: true,
     pode_ver_menu_de_acoes_da_conversa: true,
     pode_ver_opcoes_de_atribuicao_no_menu_de_contexto: true,
@@ -58,8 +56,6 @@ export const actions = {
     } catch (e) {
       console.error(e);
       commit(types.default.SET_ACL, {
-        time_privado: true,
-        ver_conversas_nao_vinculadas_a_mim: true,
         pode_ver_menu_lateral_completo: true,
         pode_ver_menu_de_acoes_da_conversa: true,
         pode_ver_opcoes_de_atribuicao_no_menu_de_contexto: true,

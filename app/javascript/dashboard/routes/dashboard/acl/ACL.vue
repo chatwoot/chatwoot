@@ -27,7 +27,6 @@ const paginatedAgents = computed(() => {
 
 const editingACL = ref({});
 const aclLabels = {
-  time_privado: 'time privado',
   pode_ver_menu_lateral_completo: 'menu lateral completo',
   pode_ver_menu_de_acoes_da_conversa: 'menu de acoes da conversa',
   pode_ver_opcoes_de_atribuicao_no_menu_de_contexto:
@@ -39,11 +38,8 @@ const aclLabels = {
   pode_ver_aba_de_todas_conversas: 'ver aba de todas conversas',
   pode_ver_aba_de_nao_atribuidas: 'ver aba de nao atribuidas',
   nao_redirecionar_para_primeira_pasta: 'nao redirecionar para primeira pasta',
-  ver_conversas_nao_vinculadas_a_mim: 'ver conversas não vinculadas a mim',
 };
 const aclDescriptions = {
-  time_privado:
-    'Quando esse checkbox está marcado, o usuário pode fazer filtros SEM que o filtro de time seja obrigatório.',
   pode_ver_menu_lateral_completo:
     'Habilita a visualização completa das opções no menu lateral esquerdo quando está marcado.',
   pode_ver_menu_de_acoes_da_conversa:
@@ -64,8 +60,6 @@ const aclDescriptions = {
     'Quando desmarcado, o usuário não pode acessar a aba de não atribuidas.',
   nao_redirecionar_para_primeira_pasta:
     'Quando marcado, o usuário não é redirecionado para a primeira pasta ao entrar.',
-  ver_conversas_nao_vinculadas_a_mim:
-    'Quando esse checkbox está marcado, o usuário pode ver todas as conversas, mesmo as que não estão atribuidas a ele.',
 };
 
 const aclGroups = [
