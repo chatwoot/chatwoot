@@ -768,19 +768,19 @@
     },
     "ASSIGNMENT": {
       "TITLE": "Assegnazione Conversazione",
-      "DESCRIPTION": "Automatically assign incoming conversations to available agents based on assignment policies",
-      "ENABLE_AUTO_ASSIGNMENT": "Enable automatic conversation assignment",
-      "DEFAULT_RULES_TITLE": "Default assignment rules",
+      "DESCRIPTION": "Assegna automaticamente le conversazioni in entrata agli operatori disponibili in base ai criteri di assegnazione",
+      "ENABLE_AUTO_ASSIGNMENT": "Abilita assegnazione automatica delle conversazioni",
+      "DEFAULT_RULES_TITLE": "Regole di assegnazione predefinite",
       "DEFAULT_RULES_DESCRIPTION": "Using the default assignment behavior for all conversations",
       "DEFAULT_RULE_1": "Earliest created conversations first",
-      "DEFAULT_RULE_2": "Round robin distribution",
-      "CUSTOMIZE_WITH_POLICY": "Customize with assignment policy",
+      "DEFAULT_RULE_2": "Distribuzione round robin",
+      "CUSTOMIZE_WITH_POLICY": "Personalizza con policy di assegnazione",
       "USING_POLICY": "Using custom assignment policy for this inbox",
-      "CUSTOMIZE_POLICY": "Customize with assignment policy",
+      "CUSTOMIZE_POLICY": "Personalizza con policy di assegnazione",
       "DELETE_POLICY": "Elimina policy",
       "POLICY_LABEL": "Policy di assegnazione",
-      "ASSIGNMENT_ORDER_LABEL": "Assignment Order",
-      "ASSIGNMENT_METHOD_LABEL": "Assignment Method",
+      "ASSIGNMENT_ORDER_LABEL": "Ordine di assegnazione",
+      "ASSIGNMENT_METHOD_LABEL": "Metodo di assegnazione",
       "POLICY_STATUS": {
         "ACTIVE": "Attiva",
         "INACTIVE": "Inattive"
@@ -791,16 +791,16 @@
       },
       "METHOD": {
         "ROUND_ROBIN": "Round robin",
-        "BALANCED": "Balanced assignment"
+        "BALANCED": "Assegnazione bilanciata"
       },
       "UPGRADE_PROMPT": "Custom assignment policies are available on the Business plan",
-      "UPGRADE_TO_BUSINESS": "Upgrade to Business",
+      "UPGRADE_TO_BUSINESS": "Aggiorna a Business",
       "DEFAULT_POLICY_LINKED": "Default policy linked",
       "DEFAULT_POLICY_DESCRIPTION": "Link a custom assignment policy to customize how conversations are assigned to agents in this inbox.",
       "LINK_EXISTING_POLICY": "Link existing policy",
-      "CREATE_NEW_POLICY": "Create new policy",
+      "CREATE_NEW_POLICY": "Crea nuova policy",
       "NO_POLICIES": "Nessuna policy di assegnazione trovata",
-      "VIEW_ALL_POLICIES": "View all policies",
+      "VIEW_ALL_POLICIES": "Mostra tutte le policy",
       "CURRENT_BEHAVIOR": "Currently using default assignment behavior:",
       "LINK_SUCCESS": "Assignment policy linked successfully",
       "LINK_ERROR": "Failed to link assignment policy"
