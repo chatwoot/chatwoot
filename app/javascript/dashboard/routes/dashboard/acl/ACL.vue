@@ -38,6 +38,7 @@ const aclLabels = {
   pode_filtrar_por_qualquer_agente: 'filtrar por qualquer agente',
   pode_ver_aba_de_todas_conversas: 'ver aba de todas conversas',
   pode_ver_aba_de_nao_atribuidas: 'ver aba de nao atribuidas',
+  nao_redirecionar_para_primeira_pasta: 'nao redirecionar para primeira pasta',
   ver_conversas_nao_vinculadas_a_mim: 'ver conversas não vinculadas a mim',
 };
 const aclDescriptions = {
@@ -61,6 +62,8 @@ const aclDescriptions = {
     'Quando desmarcado, o usuário não pode acessar a aba de todas conversas.',
   pode_ver_aba_de_nao_atribuidas:
     'Quando desmarcado, o usuário não pode acessar a aba de não atribuidas.',
+  nao_redirecionar_para_primeira_pasta:
+    'Quando marcado, o usuário não é redirecionado para a primeira pasta ao entrar.',
   ver_conversas_nao_vinculadas_a_mim:
     'Quando esse checkbox está marcado, o usuário pode ver todas as conversas, mesmo as que não estão atribuidas a ele.',
 };

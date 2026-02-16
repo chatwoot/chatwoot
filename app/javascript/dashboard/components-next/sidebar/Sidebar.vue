@@ -102,9 +102,12 @@ watch(
     if (!newAcl || Object.keys(newAcl).length === 0) return;
     const customFolders = Array.from(conversationCustomViews.value);
     // se o usuario nao tem folders, sai
-    if (customFolders.length === 0) return;
-    // se o usuario TEM a acl de time_privado, sai
-    if (newAcl.time_privado) return;
+    if (customFolders.length === 0) {
+      console.warn("Usuário não tem nenhuma pasta criada para redirecionarmos.")
+      return;
+    }
+    // se o usuario NAO deve redirecionar para a primeira pasta, sai
+    if (newAcl.nao_redirecionar_para_primeira_pasta) return;
     // se chegou aqui, o user TEM folders e NAO TEM a acl, pega a primeira folder dele e redireciona pra ela
     const firstFolder = customFolders[0];
     router.push(
