@@ -276,7 +276,7 @@ class Message < ApplicationRecord
   def check_conversation_status
     return unless conversation&.resolved?
     return if conversation.inbox.allow_messages_after_resolved
-    return if template? || activity?
+    return unless incoming?
 
     errors.add(:base, 'Conversation is resolved. Please start a new conversation.')
   end
