@@ -33,6 +33,10 @@ const state = {
     pode_ver_menu_lateral_completo: true,
     pode_ver_menu_de_acoes_da_conversa: true,
     pode_ver_opcoes_de_atribuicao_no_menu_de_contexto: true,
+    pode_filtrar_sem_times: true,
+    pode_filtrar_por_qualquer_time: true,
+    pode_filtrar_sem_agente_atribuido: true,
+    pode_filtrar_por_qualquer_agente: true,
   },
   editingACL: {},
 };
@@ -56,6 +60,10 @@ export const actions = {
         pode_ver_menu_lateral_completo: true,
         pode_ver_menu_de_acoes_da_conversa: true,
         pode_ver_opcoes_de_atribuicao_no_menu_de_contexto: true,
+        pode_filtrar_sem_times: true,
+        pode_filtrar_por_qualquer_time: true,
+        pode_filtrar_sem_agente_atribuido: true,
+        pode_filtrar_por_qualquer_agente: true,
         exibir_acl: false,
       });
     }

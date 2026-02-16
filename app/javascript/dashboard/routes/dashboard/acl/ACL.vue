@@ -32,6 +32,10 @@ const aclLabels = {
   pode_ver_menu_de_acoes_da_conversa: 'menu de acoes da conversa',
   pode_ver_opcoes_de_atribuicao_no_menu_de_contexto:
     'opcoes de atribuicao no menu de contexto',
+  pode_filtrar_sem_times: 'filtrar sem times',
+  pode_filtrar_por_qualquer_time: 'filtrar por qualquer time',
+  pode_filtrar_sem_agente_atribuido: 'filtrar sem agente atribuido',
+  pode_filtrar_por_qualquer_agente: 'filtrar por qualquer agente',
   ver_conversas_nao_vinculadas_a_mim: 'ver conversas não vinculadas a mim',
 };
 const aclDescriptions = {
@@ -43,6 +47,14 @@ const aclDescriptions = {
     'Habilita a visualização do menu de ações da conversa quando está marcado.',
   pode_ver_opcoes_de_atribuicao_no_menu_de_contexto:
     'Habilita as opções de atribuição no menu de contexto quando está marcado.',
+  pode_filtrar_sem_times:
+    'Quando desmarcado, o filtro de time se torna obrigatório.',
+  pode_filtrar_por_qualquer_time:
+    'Quando desmarcado, o usuário só pode filtrar pelos próprios times.',
+  pode_filtrar_sem_agente_atribuido:
+    'Quando desmarcado, o filtro de agente atribuído se torna obrigatório.',
+  pode_filtrar_por_qualquer_agente:
+    'Quando desmarcado, o usuário só pode filtrar pelo próprio agente.',
   ver_conversas_nao_vinculadas_a_mim:
     'Quando esse checkbox está marcado, o usuário pode ver todas as conversas, mesmo as que não estão atribuidas a ele.',
 };
