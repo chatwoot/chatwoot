@@ -499,6 +499,13 @@
         "AGENT_DESCRIPTION": "Calendly is not connected. Request your administrator to connect an account to use this integration.",
         "BUTTON_TEXT": "Connect Calendly"
       },
+      "WEBHOOK": {
+        "ACTIVE": "Webhook active — Calendly events are being received.",
+        "INACTIVE": "Webhook not registered — Calendly booking events will not be received.",
+        "RESUBSCRIBE": "Register webhook",
+        "RESUBSCRIBE_SUCCESS": "Webhook registered successfully. Calendly events will now be received.",
+        "RESUBSCRIBE_ERROR": "Failed to register webhook. Please check your Calendly connection and try again."
+      },
       "TEMPLATES": {
         "TITLE": "WhatsApp Notification Templates",
         "DESCRIPTION": "Map approved WhatsApp templates to Calendly booking events. These are used to notify customers outside the 24-hour messaging window.",

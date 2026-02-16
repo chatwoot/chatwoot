@@ -20,7 +20,9 @@ const { t: $t } = useI18n();
 
 const integrationLoaded = ref(false);
 const isSubmitting = ref(false);
+const isResubscribing = ref(false);
 const hasWhatsAppInboxes = ref(false);
+const webhookActive = ref(false);
 
 const formState = reactive({
   booked: '',
@@ -58,6 +60,10 @@ const integrationAction = computed(() => {
   return integration.value.action;
 });
 
+const showWebhookBanner = computed(
+  () => integration.value.enabled && integrationLoaded.value
+);
+
 const showTemplateSection = computed(
   () =>
     integration.value.enabled &&
@@ -83,8 +89,23 @@ const initializeCalendlyIntegration = async () => {
   await store.dispatch('integrations/get', 'calendly');
   await store.dispatch('inboxes/get');
   hasWhatsAppInboxes.value = (whatsAppInboxes.value || []).length > 0;
+  const hook = integration.value.hooks?.[0];
+  webhookActive.value = !!hook?.settings?.webhook_subscription_uri;
   await loadCurrentSettings();
   integrationLoaded.value = true;
+};
+
+const handleResubscribe = async () => {
+  isResubscribing.value = true;
+  try {
+    await calendlyAPI.resubscribeWebhook();
+    webhookActive.value = true;
+    useAlert($t('INTEGRATION_SETTINGS.CALENDLY.WEBHOOK.RESUBSCRIBE_SUCCESS'));
+  } catch {
+    useAlert($t('INTEGRATION_SETTINGS.CALENDLY.WEBHOOK.RESUBSCRIBE_ERROR'));
+  } finally {
+    isResubscribing.value = false;
+  }
 };
 
 const handleSubmit = async () => {
@@ -125,6 +146,32 @@ onMounted(() => {
           message: $t('INTEGRATION_SETTINGS.CALENDLY.DELETE.MESSAGE'),
         }"
       />
+
+      <div
+        v-if="showWebhookBanner"
+        class="mt-4 flex items-center justify-between rounded-lg border p-4"
+        :class="
+          webhookActive
+            ? 'border-green-200 bg-green-50 text-green-800'
+            : 'border-amber-200 bg-amber-50 text-amber-800'
+        "
+      >
+        <span class="text-sm">
+          {{
+            webhookActive
+              ? $t('INTEGRATION_SETTINGS.CALENDLY.WEBHOOK.ACTIVE')
+              : $t('INTEGRATION_SETTINGS.CALENDLY.WEBHOOK.INACTIVE')
+          }}
+        </span>
+        <NextButton
+          v-if="!webhookActive"
+          xs
+          amber
+          :is-loading="isResubscribing"
+          :label="$t('INTEGRATION_SETTINGS.CALENDLY.WEBHOOK.RESUBSCRIBE')"
+          @click="handleResubscribe"
+        />
+      </div>
 
       <div v-if="showTemplateSection" class="mt-6">
         <SectionLayout
