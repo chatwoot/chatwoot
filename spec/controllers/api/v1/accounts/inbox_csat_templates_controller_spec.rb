@@ -10,10 +10,12 @@ RSpec.describe Api::V1::Accounts::InboxCsatTemplatesController, type: :request d
   let(:whatsapp_inbox) { create(:inbox, channel: whatsapp_channel, account: account) }
   let(:web_widget_inbox) { create(:inbox, account: account) }
   let(:mock_service) { instance_double(Whatsapp::CsatTemplateService) }
+  let(:analysis_service) { instance_double(CsatTemplateUtilityAnalysisService) }
 
   before do
     create(:inbox_member, user: agent, inbox: whatsapp_inbox)
     allow(Whatsapp::CsatTemplateService).to receive(:new).and_return(mock_service)
+    allow(CsatTemplateUtilityAnalysisService).to receive(:new).and_return(analysis_service)
   end
 
   describe 'GET /api/v1/accounts/{account.id}/inboxes/{inbox.id}/csat_template' do
@@ -377,6 +379,75 @@ RSpec.describe Api::V1::Accounts::InboxCsatTemplatesController, type: :request d
              as: :json
 
         expect(response).to have_http_status(:created)
+      end
+    end
+  end
+
+  describe 'POST /api/v1/accounts/{account.id}/inboxes/{inbox.id}/csat_template/analyze' do
+    let(:valid_template_params) do
+      {
+        template: {
+          message: 'How would you rate your experience?',
+          button_text: 'Rate Us',
+          language: 'en'
+        }
+      }
+    end
+
+    context 'when captain_integration feature is disabled' do
+      before do
+        account.disable_features!('captain_integration')
+      end
+
+      it 'returns forbidden' do
+        post "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_inbox.id}/csat_template/analyze",
+             headers: admin.create_new_auth_token,
+             params: valid_template_params,
+             as: :json
+
+        expect(response).to have_http_status(:forbidden)
+        expect(response.parsed_body['error']).to eq('Captain is required for template analysis')
+      end
+    end
+
+    context 'when captain_integration feature is enabled' do
+      before do
+        account.enable_features('captain_integration')
+      end
+
+      it 'returns analysis response' do
+        allow(analysis_service).to receive(:perform).and_return({
+                                                                  classification: 'LIKELY_UTILITY',
+                                                                  score: 9,
+                                                                  confidence: 'HIGH',
+                                                                  reasons: ['Message is transactional and support-focused'],
+                                                                  optimized_message: 'Your support request has been closed.',
+                                                                  disclaimer: 'Prediction only',
+                                                                  source: 'rules'
+                                                                })
+
+        post "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_inbox.id}/csat_template/analyze",
+             headers: admin.create_new_auth_token,
+             params: valid_template_params,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        response_data = response.parsed_body
+        expect(response_data['classification']).to eq('LIKELY_UTILITY')
+        expect(response_data['score']).to eq(9)
+        expect(response_data['optimized_message']).to eq('Your support request has been closed.')
+      end
+
+      it 'returns error when message is missing' do
+        invalid_params = { template: { button_text: 'Rate Us', language: 'en' } }
+
+        post "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_inbox.id}/csat_template/analyze",
+             headers: admin.create_new_auth_token,
+             params: invalid_params,
+             as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['error']).to eq('Message is required')
       end
     end
   end
