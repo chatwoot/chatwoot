@@ -102,6 +102,15 @@ class Whatsapp::FacebookApiClient
     handle_response(response, 'Webhook unsubscription failed')
   end
 
+  def fetch_waba_webhook_config(waba_id)
+    response = HTTParty.get(
+      "#{BASE_URI}/#{@api_version}/#{waba_id}/subscribed_apps",
+      headers: request_headers
+    )
+
+    handle_response(response, 'Failed to fetch webhook configuration')
+  end
+
   private
 
   def request_headers

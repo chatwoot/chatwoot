@@ -12,6 +12,18 @@ class Whatsapp::HealthService
     fetch_phone_health_data
   end
 
+  def fetch_webhook_status
+    validate_channel!
+    waba_id = @channel.provider_config['business_account_id']
+    api_client = Whatsapp::FacebookApiClient.new(@access_token)
+    webhook_config = api_client.fetch_waba_webhook_config(waba_id)
+
+    {
+      webhook_configured: webhook_configured?(webhook_config),
+      webhook_url: extract_webhook_url(webhook_config)
+    }
+  end
+
   private
 
   def validate_channel!
@@ -80,5 +92,23 @@ class Whatsapp::HealthService
       platform_type: response['platform_type'],
       business_id: @channel.provider_config['business_account_id']
     }
+  end
+
+  def webhook_configured?(webhook_config)
+    return false if webhook_config.blank? || webhook_config['data'].blank?
+
+    webhook_config['data'].any? do |app|
+      app['subscribed_fields']&.include?('messages')
+    end
+  end
+
+  def extract_webhook_url(webhook_config)
+    return nil if webhook_config.blank? || webhook_config['data'].blank?
+
+    app_with_webhook = webhook_config['data'].find do |app|
+      app['subscribed_fields']&.include?('messages')
+    end
+
+    app_with_webhook&.dig('whatsapp_business_api_data', 'callback_url')
   end
 end

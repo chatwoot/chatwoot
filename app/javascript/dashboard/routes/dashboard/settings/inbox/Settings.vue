@@ -85,6 +85,9 @@ export default {
       healthData: null,
       isLoadingHealth: false,
       healthError: null,
+      isRegisteringWebhook: false,
+      isCheckingWebhookStatus: false,
+      webhookStatus: null,
     };
   },
   computed: {
@@ -342,6 +345,40 @@ export default {
         this.healthError = error.message || 'Failed to fetch health data';
       } finally {
         this.isLoadingHealth = false;
+      }
+    },
+    async checkWebhookStatus() {
+      if (!this.inbox) return;
+
+      try {
+        this.isCheckingWebhookStatus = true;
+        const response = await InboxHealthAPI.getWebhookStatus(this.inbox.id);
+        this.webhookStatus = response.data;
+      } catch (error) {
+        useAlert(
+          error.message ||
+            this.$t('INBOX_MGMT.ACCOUNT_HEALTH.WEBHOOK.CHECK_STATUS_ERROR')
+        );
+      } finally {
+        this.isCheckingWebhookStatus = false;
+      }
+    },
+    async registerWebhook() {
+      if (!this.inbox) return;
+
+      try {
+        this.isRegisteringWebhook = true;
+        await InboxHealthAPI.registerWebhook(this.inbox.id);
+        useAlert(this.$t('INBOX_MGMT.ACCOUNT_HEALTH.WEBHOOK.REGISTER_SUCCESS'));
+        // Refresh webhook status after registration
+        await this.checkWebhookStatus();
+      } catch (error) {
+        useAlert(
+          error.message ||
+            this.$t('INBOX_MGMT.ACCOUNT_HEALTH.WEBHOOK.REGISTER_ERROR')
+        );
+      } finally {
+        this.isRegisteringWebhook = false;
       }
     },
     handleFeatureFlag(e) {
@@ -945,7 +982,17 @@ export default {
         <BotConfiguration :inbox="inbox" />
       </div>
       <div v-if="selectedTabKey === 'whatsapp-health'">
-        <AccountHealth :health-data="healthData" />
+        <AccountHealth
+          :health-data="healthData"
+          :is-registering-webhook="isRegisteringWebhook"
+          :is-checking-webhook-status="isCheckingWebhookStatus"
+          :webhook-status="webhookStatus"
+          :is-embedded-signup="
+            inbox.provider_config?.source === 'embedded_signup'
+          "
+          @register-webhook="registerWebhook"
+          @check-webhook-status="checkWebhookStatus"
+        />
       </div>
     </section>
   </div>
