@@ -295,4 +295,131 @@ RSpec.describe Api::V2::Accounts::ReportsController, type: :request do
       end
     end
   end
+
+  describe 'GET /api/v2/accounts/{account.id}/reports/outgoing_messages_count' do
+    let(:since_epoch) { 1.week.ago.to_i.to_s }
+    let(:until_epoch) { 1.day.from_now.to_i.to_s }
+
+    context 'when unauthenticated' do
+      it 'returns unauthorized' do
+        get "/api/v2/accounts/#{account.id}/reports/outgoing_messages_count",
+            params: { group_by: 'agent', since: since_epoch, until: until_epoch }
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when authenticated as agent' do
+      it 'returns unauthorized' do
+        get "/api/v2/accounts/#{account.id}/reports/outgoing_messages_count",
+            params: { group_by: 'agent', since: since_epoch, until: until_epoch },
+            headers: agent.create_new_auth_token, as: :json
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when authenticated as admin' do
+      let(:agent2) { create(:user, account: account, role: :agent) }
+      let(:team) { create(:team, account: account) }
+      let(:inbox2) { create(:inbox, account: account) }
+
+      # Separate conversations for agent and team grouping because
+      # model callbacks clear assignee_id when team is set.
+      before do
+        conv_agent = create(:conversation, account: account, inbox: inbox, assignee: agent)
+        conv_agent2 = create(:conversation, account: account, inbox: inbox2, assignee: agent2)
+        conv_team = create(:conversation, account: account, inbox: inbox, team: team)
+
+        create_list(:message, 3, account: account, conversation: conv_agent, inbox: inbox, message_type: :outgoing, sender: agent)
+        create_list(:message, 2, account: account, conversation: conv_agent2, inbox: inbox2, message_type: :outgoing, sender: agent2)
+        create_list(:message, 4, account: account, conversation: conv_team, inbox: inbox, message_type: :outgoing)
+        # incoming message should not be counted
+        create(:message, account: account, conversation: conv_agent, inbox: inbox, message_type: :incoming)
+      end
+
+      it 'returns unprocessable_entity for invalid group_by' do
+        get "/api/v2/accounts/#{account.id}/reports/outgoing_messages_count",
+            params: { group_by: 'invalid', since: since_epoch, until: until_epoch },
+            headers: admin.create_new_auth_token, as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+
+      it 'returns outgoing message counts grouped by agent' do
+        get "/api/v2/accounts/#{account.id}/reports/outgoing_messages_count",
+            params: { group_by: 'agent', since: since_epoch, until: until_epoch },
+            headers: admin.create_new_auth_token, as: :json
+
+        expect(response).to have_http_status(:success)
+        data = response.parsed_body
+        expect(data).to be_an(Array)
+
+        agent_entry = data.find { |e| e['id'] == agent.id }
+        agent2_entry = data.find { |e| e['id'] == agent2.id }
+        expect(agent_entry['outgoing_messages_count']).to eq(3)
+        expect(agent2_entry['outgoing_messages_count']).to eq(2)
+      end
+
+      it 'returns outgoing message counts grouped by team' do
+        get "/api/v2/accounts/#{account.id}/reports/outgoing_messages_count",
+            params: { group_by: 'team', since: since_epoch, until: until_epoch },
+            headers: admin.create_new_auth_token, as: :json
+
+        expect(response).to have_http_status(:success)
+        data = response.parsed_body
+        expect(data).to be_an(Array)
+        expect(data.length).to eq(1)
+        expect(data.first['id']).to eq(team.id)
+        expect(data.first['outgoing_messages_count']).to eq(4)
+      end
+
+      it 'returns outgoing message counts grouped by inbox' do
+        get "/api/v2/accounts/#{account.id}/reports/outgoing_messages_count",
+            params: { group_by: 'inbox', since: since_epoch, until: until_epoch },
+            headers: admin.create_new_auth_token, as: :json
+
+        expect(response).to have_http_status(:success)
+        data = response.parsed_body
+        expect(data).to be_an(Array)
+
+        inbox_entry = data.find { |e| e['id'] == inbox.id }
+        inbox2_entry = data.find { |e| e['id'] == inbox2.id }
+        expect(inbox_entry['outgoing_messages_count']).to eq(7)
+        expect(inbox2_entry['outgoing_messages_count']).to eq(2)
+      end
+
+      it 'returns outgoing message counts grouped by label' do
+        label = create(:label, account: account, title: 'support')
+        conversation = account.conversations.first
+        conversation.label_list.add('support')
+        conversation.save!
+
+        get "/api/v2/accounts/#{account.id}/reports/outgoing_messages_count",
+            params: { group_by: 'label', since: since_epoch, until: until_epoch },
+            headers: admin.create_new_auth_token, as: :json
+
+        expect(response).to have_http_status(:success)
+        data = response.parsed_body
+        expect(data).to be_an(Array)
+        expect(data.length).to eq(1)
+        expect(data.first['id']).to eq(label.id)
+        expect(data.first['name']).to eq('support')
+      end
+
+      it 'excludes bot messages when grouped by agent' do
+        bot = create(:agent_bot)
+        bot_conversation = create(:conversation, account: account, inbox: inbox)
+        create(:message, account: account, conversation: bot_conversation, inbox: inbox,
+                         message_type: :outgoing, sender: bot)
+
+        get "/api/v2/accounts/#{account.id}/reports/outgoing_messages_count",
+            params: { group_by: 'agent', since: since_epoch, until: until_epoch },
+            headers: admin.create_new_auth_token, as: :json
+
+        data = response.parsed_body
+        agent_entry = data.find { |e| e['id'] == agent.id }
+        # 3 from before block; bot message excluded (sender_type != 'User')
+        expect(agent_entry['outgoing_messages_count']).to eq(3)
+      end
+    end
+  end
 end
