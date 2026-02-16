@@ -27,7 +27,20 @@ const paginatedAgents = computed(() => {
 
 const editingACL = ref({});
 const aclLabels = {
-  pode_ver_menu_lateral_completo: 'menu lateral completo',
+  pode_ver_menu_kanban: 'menu kanban',
+  pode_ver_menu_inbox: 'menu inbox',
+  pode_ver_menu_contatos: 'menu contatos',
+  pode_ver_menu_captain: 'menu captain',
+  pode_ver_menu_portais: 'menu portais',
+  pode_ver_menu_relatorios: 'menu relatorios',
+  pode_ver_menu_configuracoes: 'menu configuracoes',
+  pode_ver_barra_de_busca: 'menu barra de busca',
+  menu_conversas_exibir_canais: 'conversas exibir canais',
+  menu_conversas_exibir_etiquetas: 'conversas exibir etiquetas',
+  menu_conversas_exibir_mencoes: 'conversas exibir mencoes',
+  menu_conversas_exibir_nao_atendidas: 'conversas exibir nao atendidas',
+  menu_conversas_exibir_times: 'conversas exibir times',
+  menu_conversas_exibir_todas_conversas: 'conversas exibir todas conversas',
   pode_ver_menu_de_acoes_da_conversa: 'menu de acoes da conversa',
   pode_ver_opcoes_de_atribuicao_no_menu_de_contexto:
     'opcoes de atribuicao no menu de contexto',
@@ -40,8 +53,30 @@ const aclLabels = {
   nao_redirecionar_para_primeira_pasta: 'nao redirecionar para primeira pasta',
 };
 const aclDescriptions = {
-  pode_ver_menu_lateral_completo:
-    'Habilita a visualização completa das opções no menu lateral esquerdo quando está marcado.',
+  pode_ver_menu_kanban: 'Habilita a visualização do menu Kanban na sidebar.',
+  pode_ver_menu_inbox: 'Habilita a visualização do menu Inbox na sidebar.',
+  pode_ver_menu_contatos:
+    'Habilita a visualização do menu Contatos na sidebar.',
+  pode_ver_menu_captain: 'Habilita a visualização do menu Captain na sidebar.',
+  pode_ver_menu_portais: 'Habilita a visualização do menu Portais na sidebar.',
+  pode_ver_menu_relatorios:
+    'Habilita a visualização do menu Relatórios na sidebar.',
+  pode_ver_menu_configuracoes:
+    'Habilita a visualização do menu Configurações na sidebar.',
+  pode_ver_barra_de_busca:
+    'Habilita a visualização da barra de busca na sidebar.',
+  menu_conversas_exibir_canais:
+    'Habilita a visualização de Canais dentro de Conversas.',
+  menu_conversas_exibir_etiquetas:
+    'Habilita a visualização de Etiquetas dentro de Conversas.',
+  menu_conversas_exibir_mencoes:
+    'Habilita a visualização de Menções dentro de Conversas.',
+  menu_conversas_exibir_nao_atendidas:
+    'Habilita a visualização de Não Atendidas dentro de Conversas.',
+  menu_conversas_exibir_times:
+    'Habilita a visualização de Times dentro de Conversas.',
+  menu_conversas_exibir_todas_conversas:
+    'Habilita a visualização de Todas Conversas dentro de Conversas.',
   pode_ver_menu_de_acoes_da_conversa:
     'Habilita a visualização do menu de ações da conversa quando está marcado.',
   pode_ver_opcoes_de_atribuicao_no_menu_de_contexto:
@@ -65,7 +100,29 @@ const aclDescriptions = {
 const aclGroups = [
   {
     title: 'Menu lateral',
-    keys: ['pode_ver_menu_lateral_completo'],
+    keys: [
+      'pode_ver_menu_inbox',
+      'pode_ver_menu_kanban',
+      'pode_ver_menu_contatos',
+      'pode_ver_menu_captain',
+      'pode_ver_menu_portais',
+      'pode_ver_menu_relatorios',
+      'pode_ver_menu_configuracoes',
+      'pode_ver_barra_de_busca',
+    ],
+    subGroups: [
+      {
+        title: 'Conversas',
+        keys: [
+          'menu_conversas_exibir_todas_conversas',
+          'menu_conversas_exibir_mencoes',
+          'menu_conversas_exibir_nao_atendidas',
+          'menu_conversas_exibir_times',
+          'menu_conversas_exibir_canais',
+          'menu_conversas_exibir_etiquetas',
+        ],
+      },
+    ],
   },
   {
     title: 'Acoes de conversa',
@@ -94,9 +151,14 @@ const aclGroups = [
 ];
 
 const openGroup = ref(aclGroups[0]?.title ?? null);
+const openSubGroup = ref(null);
 
 const toggleGroup = title => {
   openGroup.value = openGroup.value === title ? null : title;
+};
+
+const toggleSubGroup = title => {
+  openSubGroup.value = openSubGroup.value === title ? null : title;
 };
 
 function openEditPopup(agent) {
@@ -233,7 +295,9 @@ onMounted(() => {
     v-if="showEditModal"
     class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
   >
-    <div class="bg-n-solid-1 rounded-lg p-6 w-96 shadow-lg">
+    <div
+      class="bg-n-solid-1 rounded-lg p-6 w-96 shadow-lg max-h-[80vh] flex flex-col"
+    >
       <div class="flex justify-between items-center mb-4">
         <h2 class="text-lg font-medium">Editar ACL</h2>
         <button
@@ -247,7 +311,7 @@ onMounted(() => {
         Quando uma opção está marcada, o usuário tem a permissão correspondente.
         Para remover a permissão, basta desmarcar a caixa.
       </p>
-      <div class="mb-4">
+      <div class="mb-4 flex-1 overflow-y-auto">
         <p v-if="selectedAgent" class="text-sm text-n-slate-11">
           Editando permissões para: {{ selectedAgent.name }}
         </p>
@@ -292,11 +356,57 @@ onMounted(() => {
                 >
                 </span>
               </div>
+              <template v-if="group.subGroups?.length">
+                <div
+                  v-for="subGroup in group.subGroups"
+                  :key="subGroup.title"
+                  class="mt-2 rounded border border-n-weak"
+                >
+                  <button
+                    type="button"
+                    class="w-full flex items-center justify-between px-3 py-2 text-sm font-medium text-n-slate-11"
+                    @click="toggleSubGroup(subGroup.title)"
+                  >
+                    <span>{{ subGroup.title }}</span>
+                    <span
+                      class="i-lucide-chevron-down text-sm transition-transform"
+                      :class="
+                        openSubGroup === subGroup.title ? 'rotate-180' : ''
+                      "
+                    ></span>
+                  </button>
+                  <div
+                    v-if="openSubGroup === subGroup.title"
+                    class="border-t border-n-weak px-3 pb-2"
+                  >
+                    <div
+                      v-for="key in subGroup.keys"
+                      :key="key"
+                      class="flex items-center space-x-3 py-1"
+                    >
+                      <input
+                        type="checkbox"
+                        :id="key"
+                        v-model="editingACL[key]"
+                        class="rounded text-indigo-600 focus:ring-indigo-500"
+                      />
+                      <label :for="key">{{
+                        aclLabels[key] || key.replace('_', ' ')
+                      }}</label>
+                      <span
+                        v-tooltip="aclDescriptions[key] || 'Sem descrição'"
+                        class="i-lucide-info text-xs text-n-slate-10 cursor-pointer"
+                      >
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </template>
             </div>
           </div>
         </form>
       </div>
-      <div class="flex justify-end gap-2">
+      <div class="flex justify-end gap-2 sticky bottom-0 bg-n-solid-1 pt-3">
         <Button @click="closeEditModal" slate>Cancelar</Button>
         <Button primary @click="saveACL">Salvar</Button>
       </div>

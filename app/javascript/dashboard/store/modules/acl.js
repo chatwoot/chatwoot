@@ -28,7 +28,20 @@ class AclAPI extends ApiClient {
 
 const state = {
   currentUserACL: {
-    pode_ver_menu_lateral_completo: true,
+    pode_ver_menu_kanban: true,
+    pode_ver_menu_inbox: true,
+    pode_ver_menu_contatos: true,
+    pode_ver_menu_captain: true,
+    pode_ver_menu_portais: true,
+    pode_ver_menu_relatorios: true,
+    pode_ver_menu_configuracoes: true,
+    pode_ver_barra_de_busca: true,
+    menu_conversas_exibir_canais: true,
+    menu_conversas_exibir_etiquetas: true,
+    menu_conversas_exibir_mencoes: true,
+    menu_conversas_exibir_nao_atendidas: true,
+    menu_conversas_exibir_times: true,
+    menu_conversas_exibir_todas_conversas: true,
     pode_ver_menu_de_acoes_da_conversa: true,
     pode_ver_opcoes_de_atribuicao_no_menu_de_contexto: true,
     pode_filtrar_sem_times: true,
@@ -56,7 +69,20 @@ export const actions = {
     } catch (e) {
       console.error(e);
       commit(types.default.SET_ACL, {
-        pode_ver_menu_lateral_completo: true,
+        pode_ver_menu_kanban: true,
+        pode_ver_menu_inbox: true,
+        pode_ver_menu_contatos: true,
+        pode_ver_menu_captain: true,
+        pode_ver_menu_portais: true,
+        pode_ver_menu_relatorios: true,
+        pode_ver_menu_configuracoes: true,
+        pode_ver_barra_de_busca: true,
+        menu_conversas_exibir_canais: true,
+        menu_conversas_exibir_etiquetas: true,
+        menu_conversas_exibir_mencoes: true,
+        menu_conversas_exibir_nao_atendidas: true,
+        menu_conversas_exibir_times: true,
+        menu_conversas_exibir_todas_conversas: true,
         pode_ver_menu_de_acoes_da_conversa: true,
         pode_ver_opcoes_de_atribuicao_no_menu_de_contexto: true,
         pode_filtrar_sem_times: true,

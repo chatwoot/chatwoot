@@ -91,8 +91,60 @@ const exibirAcl = computed(() => {
 });
 
 //let partnerUser = ref(false)
-const canViewSidePanel = computed(() => {
-  return userACL.value?.pode_ver_menu_lateral_completo ?? true;
+const canSeeKanban = computed(() => {
+  return userACL.value?.pode_ver_menu_kanban ?? true;
+});
+
+const canSeeInbox = computed(() => {
+  return userACL.value?.pode_ver_menu_inbox ?? true;
+});
+
+const canSeeConversationChannels = computed(() => {
+  return userACL.value?.menu_conversas_exibir_canais ?? true;
+});
+
+const canSeeConversationLabels = computed(() => {
+  return userACL.value?.menu_conversas_exibir_etiquetas ?? true;
+});
+
+const canSeeConversationMentions = computed(() => {
+  return userACL.value?.menu_conversas_exibir_mencoes ?? true;
+});
+
+const canSeeConversationUnattended = computed(() => {
+  return userACL.value?.menu_conversas_exibir_nao_atendidas ?? true;
+});
+
+const canSeeConversationTeams = computed(() => {
+  return userACL.value?.menu_conversas_exibir_times ?? true;
+});
+
+const canSeeConversationAll = computed(() => {
+  return userACL.value?.menu_conversas_exibir_todas_conversas ?? true;
+});
+
+const canSeeContacts = computed(() => {
+  return userACL.value?.pode_ver_menu_contatos ?? true;
+});
+
+const canSeeCaptain = computed(() => {
+  return userACL.value?.pode_ver_menu_captain ?? true;
+});
+
+const canSeePortals = computed(() => {
+  return userACL.value?.pode_ver_menu_portais ?? true;
+});
+
+const canSeeReports = computed(() => {
+  return userACL.value?.pode_ver_menu_relatorios ?? true;
+});
+
+const canSeeSettings = computed(() => {
+  return userACL.value?.pode_ver_menu_configuracoes ?? true;
+});
+
+const canSeeSearchBar = computed(() => {
+  return userACL.value?.pode_ver_barra_de_busca ?? true;
 });
 
 watch(
@@ -103,7 +155,9 @@ watch(
     const customFolders = Array.from(conversationCustomViews.value);
     // se o usuario nao tem folders, sai
     if (customFolders.length === 0) {
-      console.warn("Usuário não tem nenhuma pasta criada para redirecionarmos.")
+      console.warn(
+        'Usuário não tem nenhuma pasta criada para redirecionarmos.'
+      );
       return;
     }
     // se o usuario NAO deve redirecionar para a primeira pasta, sai
@@ -190,35 +244,6 @@ const newReportRoutes = () => [
 
 const reportRoutes = computed(() => newReportRoutes());
 
-const partnerMenuItems = computed(() => {
-  // const userPrivateTeams = teams.value.filter(t => /\bprivado\b/i.test(t.name))
-  // if (userPrivateTeams.length === 0) return []
-  return [
-    {
-      name: 'Teams',
-      label: t('SIDEBAR.TEAMS'),
-      icon: 'i-lucide-users',
-      activeOn: ['conversations_through_team'],
-      children: teams.value.map(team => ({
-        name: `${team.name}-${team.id}`,
-        label: team.name,
-        to: accountScopedRoute('team_conversations', { teamId: team.id }),
-      })),
-    },
-    {
-      name: 'Folders',
-      label: t('SIDEBAR.CUSTOM_VIEWS_FOLDER'),
-      icon: 'i-lucide-folder',
-      activeOn: ['conversations_through_folders'],
-      children: conversationCustomViews.value.map(view => ({
-        name: `${view.name}-${view.id}`,
-        label: view.name,
-        to: accountScopedRoute('folder_conversations', { id: view.id }),
-      })),
-    },
-  ];
-});
-
 const menuItems = computed(() => {
   const items = [
     {
@@ -241,6 +266,7 @@ const menuItems = computed(() => {
       name: 'Conversation',
       label: t('SIDEBAR.CONVERSATIONS'),
       icon: 'i-lucide-message-circle',
+      showWhenEmpty: true,
       children: [
         {
           name: 'All',
@@ -681,15 +707,38 @@ const menuItems = computed(() => {
       ],
     },
   ];
+  const filteredItems = items.filter(item => {
+    if (item.name === 'Kanban') return canSeeKanban.value;
+    if (item.name === 'Inbox') return canSeeInbox.value;
+    if (item.name === 'Conversation') {
+      item.children = item.children.filter(child => {
+        if (child.name === 'All') return canSeeConversationAll.value;
+        if (child.name === 'Mentions') return canSeeConversationMentions.value;
+        if (child.name === 'Unattended') {
+          return canSeeConversationUnattended.value;
+        }
+        if (child.name === 'Teams') return canSeeConversationTeams.value;
+        if (child.name === 'Channels') return canSeeConversationChannels.value;
+        if (child.name === 'Labels') return canSeeConversationLabels.value;
+        return true;
+      });
+    }
+    if (item.name === 'Contacts') return canSeeContacts.value;
+    if (item.name === 'Captain') return canSeeCaptain.value;
+    if (item.name === 'Portals') return canSeePortals.value;
+    if (item.name === 'Reports') return canSeeReports.value;
+    if (item.name === 'Settings') return canSeeSettings.value;
+    return true;
+  });
   if (exibirAcl) {
-    items.unshift({
+    filteredItems.unshift({
       name: 'acl',
       label: 'ACL',
       icon: 'i-lucide-list',
       to: accountScopedRoute('acl'),
     });
   }
-  return items;
+  return filteredItems;
 });
 </script>
 
@@ -720,6 +769,7 @@ const menuItems = computed(() => {
       </div>
       <div class="flex gap-2 px-2">
         <RouterLink
+          v-if="canSeeSearchBar"
           :to="{ name: 'search' }"
           class="flex gap-2 items-center px-2 py-1 w-full h-7 rounded-lg outline outline-1 outline-n-weak bg-n-solid-3 dark:bg-n-black/30"
         >
@@ -733,7 +783,11 @@ const menuItems = computed(() => {
             {{ searchShortcut }}
           </span>
         </RouterLink>
-        <ComposeConversation align-position="right" @close="onComposeClose">
+        <ComposeConversation
+          v-if="canSeeSearchBar"
+          align-position="right"
+          @close="onComposeClose"
+        >
           <template #trigger="{ toggle }">
             <Button
               icon="i-lucide-pen-line"
@@ -748,16 +802,9 @@ const menuItems = computed(() => {
     </section>
 
     <nav class="grid flex-grow gap-2 px-2 pb-5 overflow-y-scroll no-scrollbar">
-      <ul class="flex flex-col gap-1.5 m-0 list-none" v-if="canViewSidePanel">
+      <ul class="flex flex-col gap-1.5 m-0 list-none">
         <SidebarGroup
           v-for="item in menuItems"
-          :key="item.name"
-          v-bind="item"
-        />
-      </ul>
-      <ul class="flex flex-col gap-1.5 m-0 list-none" v-else>
-        <SidebarGroup
-          v-for="item in partnerMenuItems"
           :key="item.name"
           v-bind="item"
         />
