@@ -92,7 +92,7 @@ const exibirAcl = computed(() => {
 
 //let partnerUser = ref(false)
 const canViewSidePanel = computed(() => {
-  return userACL.value?.side_panel ?? true;
+  return userACL.value?.pode_ver_menu_lateral_completo ?? true;
 });
 
 watch(
