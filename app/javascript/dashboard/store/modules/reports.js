@@ -22,7 +22,6 @@ const state = {
       incoming_messages_count: false,
       outgoing_messages_count: false,
       avg_first_response_time: false,
-      avg_first_response_from_open_time: false,
       avg_resolution_time: false,
       avg_resolution_time_without_bot: false,
       resolutions_count: false,
@@ -36,7 +35,6 @@ const state = {
       incoming_messages_count: [],
       outgoing_messages_count: [],
       avg_first_response_time: [],
-      avg_first_response_from_open_time: [],
       avg_resolution_time: [],
       avg_resolution_time_without_bot: [],
       resolutions_count: [],
@@ -48,7 +46,6 @@ const state = {
   },
   accountSummary: {
     avg_first_response_time: 0,
-    avg_first_response_from_open_time: 0,
     avg_resolution_time: 0,
     avg_resolution_time_without_bot: 0,
     conversations_count: 0,

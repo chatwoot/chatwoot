@@ -173,7 +173,6 @@ export const METRIC_CHART = {
   incoming_messages_count: DEFAULT_CHART,
   outgoing_messages_count: DEFAULT_CHART,
   avg_first_response_time: TIME_CHART_CONFIG,
-  avg_first_response_from_open_time: TIME_CHART_CONFIG,
   reply_time: TIME_CHART_CONFIG,
   avg_resolution_time: TIME_CHART_CONFIG,
   avg_resolution_time_without_bot: TIME_CHART_CONFIG,

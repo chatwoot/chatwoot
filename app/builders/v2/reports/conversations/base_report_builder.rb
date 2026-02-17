@@ -3,7 +3,7 @@ class V2::Reports::Conversations::BaseReportBuilder
 
   private
 
-  AVG_METRICS = %w[avg_first_response_from_open_time avg_resolution_time avg_resolution_time_without_bot reply_time agent_chat_duration].freeze
+  AVG_METRICS = %w[avg_first_response_time avg_resolution_time avg_resolution_time_without_bot reply_time agent_chat_duration].freeze
 
   COUNT_METRICS = %w[
     conversations_count
