@@ -102,6 +102,28 @@ export function useBulkActions() {
     }
   }
 
+  // Only used in context menu
+  async function onRemoveLabels(labelsToRemove, conversationId = null) {
+    try {
+      await store.dispatch('bulkActions/process', {
+        type: 'Conversation',
+        ids: conversationId || selectedConversations.value,
+        labels: {
+          remove: labelsToRemove,
+        },
+      });
+
+      useAlert(
+        t('CONVERSATION.CARD_CONTEXT_MENU.API.LABEL_REMOVAL.SUCCESFUL', {
+          labelName: labelsToRemove[0],
+          conversationId,
+        })
+      );
+    } catch (err) {
+      useAlert(t('CONVERSATION.CARD_CONTEXT_MENU.API.LABEL_REMOVAL.FAILED'));
+    }
+  }
+
   async function onAssignTeamsForBulk(team) {
     try {
       await store.dispatch('bulkActions/process', {
@@ -189,6 +211,7 @@ export function useBulkActions() {
     isConversationSelected,
     onAssignAgent,
     onAssignLabels,
+    onRemoveLabels,
     onAssignTeamsForBulk,
     onUpdateConversations,
   };
