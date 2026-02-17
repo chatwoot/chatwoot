@@ -117,7 +117,9 @@ class Shopify::CallbacksController < ApplicationController
 
     # Shopify signs callback parameters with HMAC to prevent tampering
     hmac = params[:hmac]
-    query_params = params.except(:hmac, :controller, :action).to_query
+    # Convert to unsafe hash to avoid strong parameters restriction, then build query string
+    # Shopify expects parameters to be sorted alphabetically when computing HMAC
+    query_params = params.except(:hmac, :controller, :action).to_unsafe_h.sort.to_h.to_query
     computed_hmac = OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new('SHA256'), client_secret, query_params)
 
     ActiveSupport::SecurityUtils.secure_compare(computed_hmac, hmac)
