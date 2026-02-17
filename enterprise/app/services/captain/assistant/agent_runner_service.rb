@@ -3,7 +3,7 @@ require 'agents/instrumentation'
 
 class Captain::Assistant::AgentRunnerService
   include Integrations::LlmInstrumentationConstants
-
+  HUMAN_HANDOFF_TOOL_NAME = 'captain--tools--handoff'.freeze
   CONVERSATION_STATE_ATTRIBUTES = %i[
     id display_id inbox_id contact_id status priority
     label_list custom_attributes additional_attributes
@@ -25,6 +25,7 @@ class Captain::Assistant::AgentRunnerService
     context = build_context(message_history)
     message_to_process = extract_last_user_message(message_history)
     runner = Agents::Runner.with_agents(*agents)
+    runner = add_usage_metadata_callback(runner)
     runner = add_callbacks_to_runner(runner) if @callbacks.any?
     install_instrumentation(runner)
     result = runner.run(message_to_process, context: context, max_turns: 100)
@@ -160,6 +161,34 @@ class Captain::Assistant::AgentRunnerService
     runner = add_tool_complete_callback(runner) if @callbacks[:on_tool_complete]
     runner = add_agent_handoff_callback(runner) if @callbacks[:on_agent_handoff]
     runner
+  end
+
+  def add_usage_metadata_callback(runner)
+    return runner unless ChatwootApp.otel_enabled?
+
+    runner.on_tool_complete do |tool_name, _tool_result, context_wrapper|
+      track_handoff_usage(tool_name, context_wrapper)
+    end
+
+    runner.on_run_complete do |_agent_name, _result, context_wrapper|
+      write_credits_used_metadata(context_wrapper)
+    end
+    runner
+  end
+
+  def track_handoff_usage(tool_name, context_wrapper)
+    return unless context_wrapper&.context
+    return unless tool_name.to_s == HUMAN_HANDOFF_TOOL_NAME
+
+    context_wrapper.context[:captain_v2_handoff_tool_called] = true
+  end
+
+  def write_credits_used_metadata(context_wrapper)
+    root_span = context_wrapper&.context&.dig(:__otel_tracing, :root_span)
+    return unless root_span
+
+    credits_used = !context_wrapper.context[:captain_v2_handoff_tool_called]
+    root_span.set_attribute(format(ATTR_LANGFUSE_METADATA, 'credits_used'), credits_used)
   end
 
   def add_agent_thinking_callback(runner)
