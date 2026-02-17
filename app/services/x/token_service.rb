@@ -87,7 +87,7 @@ class X::TokenService
     {
       access_token: new_token.token,
       refresh_token: new_token.refresh_token,
-      expires_at: Time.at(new_token.expires_at)
+      expires_at: Time.zone.at(new_token.expires_at)
     }
   end
 

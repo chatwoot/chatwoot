@@ -45,17 +45,11 @@ shared_examples_for 'reauthorizable' do
 
   def setup_channel_mailer(_obj)
     channel_mailer = instance_double(AdministratorNotifications::ChannelNotificationsMailer)
-    facebook_mailer_response = instance_double(ActionMailer::MessageDelivery, deliver_later: true)
-    whatsapp_mailer_response = instance_double(ActionMailer::MessageDelivery, deliver_later: true)
-    email_mailer_response = instance_double(ActionMailer::MessageDelivery, deliver_later: true)
-    instagram_mailer_response = instance_double(ActionMailer::MessageDelivery, deliver_later: true)
-    x_mailer_response = instance_double(ActionMailer::MessageDelivery, deliver_later: true)
+    delivery = instance_double(ActionMailer::MessageDelivery, deliver_later: true)
     allow(AdministratorNotifications::ChannelNotificationsMailer).to receive(:with).and_return(channel_mailer)
-    allow(channel_mailer).to receive(:facebook_disconnect).and_return(facebook_mailer_response)
-    allow(channel_mailer).to receive(:whatsapp_disconnect).and_return(whatsapp_mailer_response)
-    allow(channel_mailer).to receive(:email_disconnect).and_return(email_mailer_response)
-    allow(channel_mailer).to receive(:instagram_disconnect).and_return(instagram_mailer_response)
-    allow(channel_mailer).to receive(:x_disconnect).and_return(x_mailer_response)
+    %i[facebook_disconnect whatsapp_disconnect email_disconnect instagram_disconnect x_disconnect].each do |method|
+      allow(channel_mailer).to receive(method).and_return(delivery)
+    end
   end
 
   describe 'prompt_reauthorization!' do

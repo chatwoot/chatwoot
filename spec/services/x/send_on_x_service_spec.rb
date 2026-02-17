@@ -48,7 +48,7 @@ RSpec.describe X::SendOnXService do
       it 'sends DM with attachments' do
         allow(x_client).to receive(:upload_media).and_return({ 'media_id_string' => 'media-123' })
         allow(x_client).to receive(:send_direct_message).and_return({ 'id' => 'dm-124' })
-        allow(Down).to receive(:download).and_return(double(read: 'file-data'))
+        allow(Down).to receive(:download).and_return(instance_double(Tempfile, read: 'file-data'))
 
         message = build(:message, message_type: :outgoing, inbox: inbox, conversation: conversation, account: inbox.account, content: 'Check this')
         attachment = message.attachments.new(account_id: message.account_id, file_type: :image)
@@ -114,7 +114,7 @@ RSpec.describe X::SendOnXService do
       end
     end
 
-    context 'error handling' do
+    context 'when errors occur' do
       it 'marks message as failed on API error' do
         allow(x_client).to receive(:send_direct_message).and_raise(X::Errors::ApiError, 'API error')
 

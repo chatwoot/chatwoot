@@ -86,8 +86,7 @@ RSpec.describe 'Webhooks::XController', type: :request do
       end
 
       expect(response).to have_http_status(:success)
-      response_json = JSON.parse(response.body)
-      expect(response_json['response_token']).to eq("sha256=#{expected_encoded}")
+      expect(response.parsed_body['response_token']).to eq("sha256=#{expected_encoded}")
     end
 
     it 'returns bad request when crc_token is missing' do

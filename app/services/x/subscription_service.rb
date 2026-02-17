@@ -37,18 +37,7 @@ class X::SubscriptionService
       "https://api.x.com/2/account_activity/webhooks/#{webhook_id}/subscriptions/all",
       headers: auth_headers
     )
-
-    if [200, 201, 204].include?(response.code)
-      Rails.logger.info "Account Activity subscription created for user #{channel.profile_id} (webhook #{webhook_id})"
-      true
-    elsif response.code == 409 || (response.code == 400 && response.body&.include?('DuplicateSubscription'))
-      Rails.logger.info "Account Activity subscription already exists for user #{channel.profile_id}"
-      true
-    else
-      error_msg = extract_error_message(response)
-      Rails.logger.error "Account Activity subscription failed (#{response.code}): #{error_msg}"
-      false
-    end
+    handle_subscription_response(response, "Account Activity for user #{channel.profile_id}")
   end
 
   def unsubscribe_account_activity(webhook_id)
@@ -75,18 +64,7 @@ class X::SubscriptionService
         tag: "chatwoot_#{channel.id}"
       }.to_json
     )
-
-    if [200, 201].include?(response.code)
-      Rails.logger.info "XAA subscribed to #{event_type} for user #{channel.profile_id}"
-      true
-    elsif response.code == 400 && response.body&.include?('DuplicateSubscription')
-      Rails.logger.info "XAA subscription already exists for #{event_type}, skipping"
-      true
-    else
-      error_msg = extract_error_message(response)
-      Rails.logger.error "XAA failed to subscribe to #{event_type} (#{response.code}): #{error_msg}"
-      false
-    end
+    handle_subscription_response(response, "XAA #{event_type} for user #{channel.profile_id}")
   end
 
   def list_xaa_subscriptions
@@ -123,6 +101,23 @@ class X::SubscriptionService
 
   def ensure_webhook_exists
     X::WebhookSetupService.ensure_webhook_registered
+  end
+
+  def handle_subscription_response(response, label)
+    if [200, 201, 204].include?(response.code)
+      Rails.logger.info "#{label} subscription created"
+      true
+    elsif duplicate_subscription?(response)
+      Rails.logger.info "#{label} subscription already exists"
+      true
+    else
+      Rails.logger.error "#{label} subscription failed (#{response.code}): #{extract_error_message(response)}"
+      false
+    end
+  end
+
+  def duplicate_subscription?(response)
+    response.code == 409 || (response.code == 400 && response.body&.include?('DuplicateSubscription'))
   end
 
   def extract_error_message(response)

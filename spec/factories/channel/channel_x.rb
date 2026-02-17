@@ -14,9 +14,9 @@ FactoryBot.define do
     before :create do |_channel|
       # Stub X API webhook setup calls
       WebMock::API.stub_request(:post, %r{api\.x\.com/2/webhooks})
-        .to_return(status: 200, body: { data: { id: 'webhook_123' } }.to_json, headers: { 'Content-Type' => 'application/json' })
+                  .to_return(status: 200, body: { data: { id: 'webhook_123' } }.to_json, headers: { 'Content-Type' => 'application/json' })
       WebMock::API.stub_request(:post, %r{api\.x\.com/2/account_activity/webhooks/.*/subscriptions})
-        .to_return(status: 204, body: '', headers: {})
+                  .to_return(status: 204, body: '', headers: {})
     end
 
     after(:create) do |channel|

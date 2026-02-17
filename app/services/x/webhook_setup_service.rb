@@ -21,32 +21,28 @@ class X::WebhookSetupService
 
   def register_webhook
     webhook_url = "#{ENV.fetch('FRONTEND_URL', nil)}/webhooks/x"
-
     Rails.logger.info "Registering X webhook: #{webhook_url}"
 
     response = HTTParty.post(
       'https://api.x.com/2/webhooks',
-      headers: {
-        'Authorization' => "Bearer #{app_bearer_token}",
-        'Content-Type' => 'application/json'
-      },
+      headers: { 'Authorization' => "Bearer #{app_bearer_token}", 'Content-Type' => 'application/json' },
       body: { url: webhook_url }.to_json
     )
+    raise "X webhook registration failed (#{response.code}): #{extract_error_message(response)}" unless [200, 201].include?(response.code)
 
-    if response.code == 200 || response.code == 201
-      webhook_data = response.parsed_response
-      webhook_id = webhook_data.is_a?(Hash) ? (webhook_data.dig('data', 'id') || webhook_data['id']) : nil
-      raise 'No webhook ID returned from X API' unless webhook_id
-
-      Rails.logger.info "Successfully registered X webhook with ID: #{webhook_id}"
-      webhook_id
-    else
-      error_msg = extract_error_message(response)
-      raise "X webhook registration failed (#{response.code}): #{error_msg}"
-    end
+    extract_webhook_id(response)
   rescue StandardError => e
     Rails.logger.error "X webhook registration failed: #{e.message}"
     raise
+  end
+
+  def extract_webhook_id(response)
+    data = response.parsed_response
+    webhook_id = data.is_a?(Hash) ? (data.dig('data', 'id') || data['id']) : nil
+    raise 'No webhook ID returned from X API' unless webhook_id
+
+    Rails.logger.info "Successfully registered X webhook with ID: #{webhook_id}"
+    webhook_id
   end
 
   def app_bearer_token

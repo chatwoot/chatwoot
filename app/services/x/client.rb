@@ -135,21 +135,28 @@ class X::Client
   def handle_response(response)
     case response.code
     when 200..202
-      body = response.parsed_response
-      return {} if body.nil? || (body.is_a?(String) && body.empty?)
-
-      body.is_a?(String) ? JSON.parse(body) : body
+      parse_success_body(response)
     when 401
       raise X::Errors::UnauthorizedError, 'Token expired or invalid'
     when 429
       retry_after = response.headers['x-rate-limit-reset']
       raise X::Errors::RateLimitError, "Rate limit exceeded. Reset at: #{Time.zone.at(retry_after.to_i)}"
     else
-      parsed = response.parsed_response
-      parsed = JSON.parse(parsed) if parsed.is_a?(String) && parsed.start_with?('{')
-      error_msg = parsed.is_a?(Hash) ? (parsed.dig('errors', 0, 'message') || parsed['detail']) : response.body
-      raise X::Errors::ApiError, "X API error (#{response.code}): #{error_msg}"
+      raise X::Errors::ApiError, "X API error (#{response.code}): #{extract_error_message(response)}"
     end
+  end
+
+  def parse_success_body(response)
+    body = response.parsed_response
+    return {} if body.nil? || (body.is_a?(String) && body.empty?)
+
+    body.is_a?(String) ? JSON.parse(body) : body
+  end
+
+  def extract_error_message(response)
+    parsed = response.parsed_response
+    parsed = JSON.parse(parsed) if parsed.is_a?(String) && parsed.start_with?('{')
+    parsed.is_a?(Hash) ? (parsed.dig('errors', 0, 'message') || parsed['detail']) : response.body
   end
 
   def media_category_from_mime(mime_type, context = :dm)
