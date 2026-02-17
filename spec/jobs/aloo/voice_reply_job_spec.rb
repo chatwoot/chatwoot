@@ -62,7 +62,7 @@ RSpec.describe Aloo::VoiceReplyJob, type: :job do
 
     context 'when voice reply is not enabled' do
       before do
-        assistant.update!(voice_output_enabled: false)
+        assistant.update!(voice_enabled: false)
       end
 
       it 'returns early' do

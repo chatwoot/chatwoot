@@ -86,7 +86,6 @@ module Aloo
     validates :dialect, inclusion: { in: ARABIC_DIALECTS.keys }, allow_blank: true
     validates :language, inclusion: { in: Aloo::SUPPORTED_LANGUAGES.keys }
     validate :validate_voice_config, if: :voice_enabled?
-
     scope :active, -> { where(active: true) }
 
     # Build the personality prompt based on user settings
@@ -214,7 +213,7 @@ module Aloo
     end
 
     def voice_reply_enabled?
-      return false unless voice_enabled? && voice_output_enabled?
+      return false unless voice_enabled?
 
       case tts_provider
       when 'openai'
@@ -225,7 +224,7 @@ module Aloo
     end
 
     def voice_transcription_enabled?
-      voice_enabled? && voice_input_enabled?
+      voice_enabled?
     end
 
     private

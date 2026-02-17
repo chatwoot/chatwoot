@@ -234,8 +234,6 @@ class Api::V1::Accounts::Aloo::AssistantsController < Api::V1::Accounts::BaseCon
       :personality_description,
       :custom_instructions,
       :voice_enabled,
-      :voice_input_enabled,
-      :voice_output_enabled,
       voice_config: %i[
         transcription_provider
         transcription_model
@@ -286,8 +284,6 @@ class Api::V1::Accounts::Aloo::AssistantsController < Api::V1::Accounts::BaseCon
       },
       voice: {
         enabled: assistant.voice_enabled?,
-        input_enabled: assistant.voice_input_enabled?,
-        output_enabled: assistant.voice_output_enabled?,
         config: assistant.voice_config || {},
         transcription_enabled: assistant.voice_transcription_enabled?,
         reply_enabled: assistant.voice_reply_enabled?
