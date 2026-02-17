@@ -16,7 +16,7 @@ class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::Ba
 
   def complete_install
     token_key = "shopify_pending_install:#{params[:pending_install_token]}"
-    data = claim_pending_install_token(token_key)
+    data = claim_pending_install_token(token_key, Current.account.id)
     return render json: { error: data[:error] }, status: :unprocessable_entity if data[:error]
 
     Current.account.hooks.create!(
@@ -105,7 +105,7 @@ class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::Ba
            status: :unprocessable_entity
   end
 
-  def claim_pending_install_token(token_key)
+  def claim_pending_install_token(token_key, account_id)
     pending_data = ::Redis::Alfred.get(token_key)
     return { error: 'Invalid or expired install token' } if pending_data.blank?
 
@@ -116,8 +116,12 @@ class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::Ba
       return { error: 'Install token already used' }
     end
 
-    # Mark as claimed to prevent replay
+    # Check if already bound to a different account (prevents token theft)
+    return { error: 'Install token cannot be used by this account' } if data['account_id'].present? && data['account_id'] != account_id
+
+    # Bind to this account and mark as claimed to prevent replay
     data['claimed'] = true
+    data['account_id'] = account_id
     ttl = ::Redis::Alfred.ttl(token_key)
     ::Redis::Alfred.setex(token_key, data.to_json, [ttl, 60].max) if ttl.positive?
 

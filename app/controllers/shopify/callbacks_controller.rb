@@ -41,7 +41,7 @@ class Shopify::CallbacksController < ApplicationController
     }.to_json
     ::Redis::Alfred.setex("shopify_pending_install:#{token_key}", pending_data, 10.minutes)
 
-    redirect_url = "settings/integrations/shopify?shopify_pending_install=#{token_key}"
+    redirect_url = "settings/integrations/shopify?shopify_pending_install=#{CGI.escape(token_key)}"
     redirect_to "#{frontend_url}/app/login?redirect_url=#{CGI.escape(redirect_url)}", allow_other_host: true
   end
 
