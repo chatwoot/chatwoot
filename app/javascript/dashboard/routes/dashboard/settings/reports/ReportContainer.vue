@@ -66,30 +66,57 @@ export default {
     },
   },
   methods: {
+    formatUTC(timestamp, pattern) {
+      const date = fromUnixTime(timestamp);
+      const utcDate = new Date(
+        date.getUTCFullYear(),
+        date.getUTCMonth(),
+        date.getUTCDate(),
+        date.getUTCHours(),
+        date.getUTCMinutes(),
+        date.getUTCSeconds()
+      );
+      return format(utcDate, pattern);
+    },
     getCollection(metric) {
       if (!this.accountReport.data[metric.KEY]) {
         return {};
       }
       const data = this.accountReport.data[metric.KEY];
       const labels = data.map(element => {
+        if (this.groupBy?.period === GROUP_BY_FILTER[5].period) {
+          const date = fromUnixTime(element.timestamp);
+          const hour = date.getUTCHours();
+          return `${String(hour).padStart(2, '0')}:00`;
+        }
         if (this.groupBy?.period === GROUP_BY_FILTER[2].period) {
-          let week_date = new Date(fromUnixTime(element.timestamp));
-          const first_day = week_date.getDate() - week_date.getDay();
-          const last_day = first_day + 6;
-          const week_first_date = new Date(week_date.setDate(first_day));
-          const week_last_date = new Date(week_date.setDate(last_day));
-          return `${format(week_first_date, 'dd-MMM')} - ${format(
-            week_last_date,
-            'dd-MMM'
-          )}`;
+          const date = fromUnixTime(element.timestamp);
+          const utcDay = date.getUTCDay();
+          const utcDate = date.getUTCDate();
+
+          const weekStart = new Date(
+            Date.UTC(
+              date.getUTCFullYear(),
+              date.getUTCMonth(),
+              utcDate - utcDay
+            )
+          );
+          const weekEnd = new Date(
+            Date.UTC(
+              date.getUTCFullYear(),
+              date.getUTCMonth(),
+              utcDate - utcDay + 6
+            )
+          );
+          return `${format(weekStart, 'dd-MMM')} - ${format(weekEnd, 'dd-MMM')}`;
         }
         if (this.groupBy?.period === GROUP_BY_FILTER[3].period) {
-          return format(fromUnixTime(element.timestamp), 'MMM-yyyy');
+          return this.formatUTC(element.timestamp, 'MMM-yyyy');
         }
         if (this.groupBy?.period === GROUP_BY_FILTER[4].period) {
-          return format(fromUnixTime(element.timestamp), 'yyyy');
+          return this.formatUTC(element.timestamp, 'yyyy');
         }
-        return format(fromUnixTime(element.timestamp), 'dd-MMM');
+        return this.formatUTC(element.timestamp, 'dd-MMM');
       });
       const datasets = METRIC_CHART[metric.KEY].datasets.map(dataset => {
         switch (dataset.type) {
@@ -121,7 +148,6 @@ export default {
         scales: METRIC_CHART[metric.KEY].scales,
       };
 
-      // Only add tooltip configuration for time-based metrics
       if (this.isAverageMetricType(metric.KEY)) {
         options.plugins = {
           tooltip: {

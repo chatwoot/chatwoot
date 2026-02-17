@@ -103,6 +103,7 @@ export const DATE_RANGE_OPTIONS = {
     translationKey: 'REPORT.DATE_RANGE_OPTIONS.CUSTOM_DATE_RANGE',
     offset: null,
     groupByOptions: [
+      GROUP_BY_OPTIONS.HOUR,
       GROUP_BY_OPTIONS.DAY,
       GROUP_BY_OPTIONS.WEEK,
       GROUP_BY_OPTIONS.MONTH,

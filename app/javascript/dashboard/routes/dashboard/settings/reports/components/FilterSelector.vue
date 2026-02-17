@@ -138,14 +138,12 @@ export default {
   methods: {
     getUnixWithTime(date, time) {
       const [hours, minutes] = time.split(':').map(Number);
-
-      const year = date.getFullYear();
-      const month = date.getMonth();
-      const day = date.getDate();
+      const year = date.getUTCFullYear();
+      const month = date.getUTCMonth();
+      const day = date.getUTCDate();
       const utcDate = new Date(
         Date.UTC(year, month, day, hours, minutes, 0, 0)
       );
-
       return Math.floor(utcDate.getTime() / 1000);
     },
 
