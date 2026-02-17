@@ -42,8 +42,27 @@ if (isLibraryMode) {
   plugins = [vue(vueOptions)];
 }
 
+const REMOTE_BACKEND = 'https://chatwoot.dev.konko.ai';
+
 export default defineConfig({
   plugins: plugins,
+  server: {
+    proxy: {
+      '/api': { target: REMOTE_BACKEND, changeOrigin: true },
+      '/auth': { target: REMOTE_BACKEND, changeOrigin: true },
+      '/cable': { target: 'wss://chatwoot.dev.konko.ai', ws: true, changeOrigin: true },
+      '/rails': { target: REMOTE_BACKEND, changeOrigin: true },
+      '/app': { target: REMOTE_BACKEND, changeOrigin: true },
+      '/': {
+        target: REMOTE_BACKEND,
+        changeOrigin: true,
+        bypass(req) {
+          const url = req.url ?? '';
+          if (url.startsWith('/vite-dev/') || url.startsWith('/@')) return url;
+        },
+      },
+    },
+  },
   build: {
     rollupOptions: {
       output: {

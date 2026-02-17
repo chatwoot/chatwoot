@@ -4,7 +4,7 @@ RAILS_ENV ?= development
 
 # Targets
 setup:
-	gem install bundler
+	gem install bundler --user-install
 	bundle install
 	pnpm install
 
@@ -56,7 +56,7 @@ debug:
 debug_worker:
 	overmind connect worker
 
-docker: 
+docker:
 	docker build -t $(APP_NAME) -f ./docker/Dockerfile .
 
 .PHONY: setup db_create db_migrate db_seed db_reset db console server burn docker run force_run force_run_tunnel debug debug_worker
