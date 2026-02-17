@@ -42,9 +42,14 @@ module Enterprise::SuperAdmin::AppConfigsController
 
   def captain_config_options
     %w[
+      CAPTAIN_AI_PROVIDER
       CAPTAIN_OPEN_AI_API_KEY
       CAPTAIN_OPEN_AI_MODEL
       CAPTAIN_OPEN_AI_ENDPOINT
+      CAPTAIN_GEMINI_API_KEY
+      CAPTAIN_GEMINI_MODEL
+      CAPTAIN_DEEPSEEK_API_KEY
+      CAPTAIN_DEEPSEEK_MODEL
       CAPTAIN_EMBEDDING_MODEL
       CAPTAIN_FIRECRAWL_API_KEY
     ]

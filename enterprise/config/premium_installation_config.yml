@@ -1,22 +1,25 @@
 # ------- Branding Related Config ------- #
 - name: INSTALLATION_NAME
-  value: 'Chatwoot'
+  value: 'convertoChat'
 - name: LOGO_THUMBNAIL
-  value: '/brand-assets/logo_thumbnail.svg'
+  value: '/chat.png'
 - name: LOGO
-  value: '/brand-assets/logo.svg'
+  value: '/chat.png'
 - name: LOGO_DARK
-  value: '/brand-assets/logo_dark.svg'
+  value: '/chat.png'
 - name: BRAND_URL
-  value: 'https://www.chatwoot.com'
+  value: 'https://www.convertochat.com'
 - name: WIDGET_BRAND_URL
-  value: 'https://www.chatwoot.com'
+  value: 'https://www.convertochat.com'
 - name: BRAND_NAME
-  value: 'Chatwoot'
+  value: 'convertoChat'
 - name: TERMS_URL
   value: 'https://www.chatwoot.com/terms-of-service'
 - name: PRIVACY_URL
   value: 'https://www.chatwoot.com/privacy-policy'
 - name: DISPLAY_MANIFEST
   value: true
+- name: INSTALLATION_PRICING_PLAN
+  value: 'enterprise'
+  description: 'The pricing plan for the installation, retrieved from the billing API'
 # ------- End of Branding Related Config ------- #
