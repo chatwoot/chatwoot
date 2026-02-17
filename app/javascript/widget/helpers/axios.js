@@ -3,7 +3,7 @@ import { APP_BASE_URL } from 'widget/helpers/constants';
 
 export const API = axios.create({
   baseURL: APP_BASE_URL,
-  withCredentials: false,
+  withCredentials: true,
 });
 
 export const setHeader = (value, key = 'X-Auth-Token') => {

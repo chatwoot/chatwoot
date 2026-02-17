@@ -1,4 +1,4 @@
-export const APP_BASE_URL = '';
+export const APP_BASE_URL = 'https://chatwoot.dev.konko.ai';
 
 export const MESSAGE_STATUS = {
   FAILED: 'failed',

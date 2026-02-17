@@ -1,6 +1,10 @@
 import axios from 'axios';
 
-const { apiHost = '' } = window.chatwootConfig || {};
-const wootAPI = axios.create({ baseURL: `${apiHost}/` });
+const { apiHost = 'https://chatwoot.dev.konko.ai' } =
+  window.chatwootConfig || {};
+const wootAPI = axios.create({
+  baseURL: `${apiHost}/`,
+  withCredentials: true,
+});
 
 export default wootAPI;
