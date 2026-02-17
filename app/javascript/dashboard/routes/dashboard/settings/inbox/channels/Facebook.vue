@@ -12,6 +12,7 @@ import PageHeader from '../../SettingsSubPageHeader.vue';
 import router from '../../../../index';
 import { useBranding } from 'shared/composables/useBranding';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
 
 import { loadScript } from 'dashboard/helper/DOMHelpers';
 import * as Sentry from '@sentry/vue';
@@ -21,6 +22,7 @@ export default {
     LoadingState,
     PageHeader,
     NextButton,
+    ComboBox,
   },
   setup() {
     const { accountId } = useAccount();
@@ -67,6 +69,12 @@ export default {
     getSelectablePages() {
       return this.pageList.filter(item => !item.exists);
     },
+    comboBoxPageOptions() {
+      return this.getSelectablePages.map(({ id, name }) => ({
+        value: id,
+        label: name,
+      }));
+    },
   },
 
   mounted() {
@@ -94,9 +102,16 @@ export default {
       }
     },
 
-    setPageName({ name }) {
+    setPageName(pageId) {
+      const page = this.pageList.find(p => p.id === pageId);
+      if (page) {
+        this.selectedPage = page;
+        this.pageName = page.name;
+      } else {
+        this.selectedPage = { name: null, id: null };
+        this.pageName = '';
+      }
       this.v$.selectedPage.$touch();
-      this.pageName = name;
     },
 
     initChannelAuth(channel) {
@@ -245,23 +260,20 @@ export default {
           />
         </div>
         <div class="w-3/5">
-          <div class="w-full">
+          <div class="w-full mb-2">
             <div class="input-wrap" :class="{ error: v$.selectedPage.$error }">
-              {{ $t('INBOX_MGMT.ADD.FB.CHOOSE_PAGE') }}
-              <multiselect
-                v-model="selectedPage"
-                close-on-select
-                allow-empty
-                :options="getSelectablePages"
-                track-by="id"
-                label="name"
-                :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
-                :deselect-label="$t('FORMS.MULTISELECT.ENTER_TO_REMOVE')"
+              <span class="text-n-slate-12 text-start">
+                {{ $t('INBOX_MGMT.ADD.FB.CHOOSE_PAGE') }}
+              </span>
+              <ComboBox
+                :model-value="selectedPage.id"
+                :options="comboBoxPageOptions"
                 :placeholder="$t('INBOX_MGMT.ADD.FB.PICK_A_VALUE')"
-                selected-label
-                @select="setPageName"
+                :has-error="v$.selectedPage.$error"
+                class="[&>div>button]:!bg-n-alpha-black2 mt-1"
+                @update:model-value="setPageName"
               />
-              <span v-if="v$.selectedPage.$error" class="message">
+              <span v-if="v$.selectedPage.$error" class="message mt-0.5">
                 {{ $t('INBOX_MGMT.ADD.FB.CHOOSE_PLACEHOLDER') }}
               </span>
             </div>
