@@ -42,7 +42,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   end
 
   def process_response
-    ActiveRecord::Base.transaction(requires_new: true) do
+    ActiveRecord::Base.transaction do
       if handoff_requested?
         process_action('handoff')
       else
