@@ -7,7 +7,7 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
   let(:captain_inbox_association) { create(:captain_inbox, captain_assistant: assistant, inbox: inbox) }
 
   describe '#perform' do
-    let(:conversation) { create(:conversation, inbox: inbox, account: account) }
+    let(:conversation) { create(:conversation, inbox: inbox, account: account, status: :pending) }
     let(:mock_llm_chat_service) { instance_double(Captain::Llm::AssistantChatService) }
     let(:mock_agent_runner_service) { instance_double(Captain::Assistant::AgentRunnerService) }
 
@@ -119,7 +119,7 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
   end
 
   describe 'retry mechanisms for image processing' do
-    let(:conversation) { create(:conversation, inbox: inbox, account: account) }
+    let(:conversation) { create(:conversation, inbox: inbox, account: account, status: :pending) }
     let(:mock_llm_chat_service) { instance_double(Captain::Llm::AssistantChatService) }
     let(:mock_message_builder) { instance_double(Captain::OpenAiMessageBuilderService) }
 
@@ -132,15 +132,14 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
     end
 
     context 'when ActiveStorage::FileNotFoundError occurs' do
-      it 'handles file errors and triggers handoff' do
+      it 'retries and does not trigger handoff' do
         allow(mock_message_builder).to receive(:generate_content)
           .and_raise(ActiveStorage::FileNotFoundError, 'Image file not found')
 
-        # For retryable errors, the job should handle them and proceed with handoff
+        # Retryable errors are re-raised to retry_on, bypassing handle_error/handoff
         described_class.perform_now(conversation, assistant)
 
-        # Verify handoff occurred due to repeated failures
-        expect(conversation.reload.status).to eq('open')
+        expect(conversation.reload.status).to eq('pending')
       end
 
       it 'succeeds when no error occurs' do
@@ -156,12 +155,13 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
     end
 
     context 'when Faraday::BadRequestError occurs' do
-      it 'handles API errors and triggers handoff' do
+      it 'retries and does not trigger handoff' do
         allow(mock_llm_chat_service).to receive(:generate_response)
           .and_raise(Faraday::BadRequestError, 'Bad request to image service')
 
+        # Retryable errors are re-raised to retry_on, bypassing handle_error/handoff
         described_class.perform_now(conversation, assistant)
-        expect(conversation.reload.status).to eq('open')
+        expect(conversation.reload.status).to eq('pending')
       end
 
       it 'succeeds when no error occurs' do
