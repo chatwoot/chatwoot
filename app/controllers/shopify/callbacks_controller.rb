@@ -21,6 +21,7 @@ class Shopify::CallbacksController < ApplicationController
   def handle_chatwoot_initiated_flow
     @account_id = verify_shopify_token(params[:state])
     raise StandardError, 'Invalid state parameter' if account.blank?
+    raise StandardError, 'Invalid HMAC signature' unless valid_hmac?
 
     @response = oauth_client.auth_code.get_token(params[:code], redirect_uri: redirect_callback_uri)
     create_hook
@@ -29,7 +30,11 @@ class Shopify::CallbacksController < ApplicationController
 
   def handle_shopify_initiated_flow
     raise StandardError, 'Invalid shop domain' unless valid_shop_domain?
+    raise StandardError, 'Invalid HMAC signature' unless valid_hmac?
 
+    # Security: HMAC validation ensures params (including shop) haven't been tampered with.
+    # Additionally, the OAuth code is cryptographically bound to the shop that issued it.
+    # Shopify will reject any attempt to exchange a code at a different shop's endpoint.
     @response = oauth_client.auth_code.get_token(params[:code], redirect_uri: redirect_callback_uri)
 
     token_key = SecureRandom.hex(16)
@@ -38,8 +43,9 @@ class Shopify::CallbacksController < ApplicationController
       shop: params[:shop],
       scope: parsed_body['scope'],
       claimed: false
-    }.to_json
-    ::Redis::Alfred.setex("shopify_pending_install:#{token_key}", pending_data, 10.minutes)
+    }
+
+    Redis::SecureStorage.set("shopify_pending_install:#{token_key}", pending_data, 10.minutes)
 
     redirect_url = "settings/integrations/shopify?shopify_pending_install=#{CGI.escape(token_key)}"
     redirect_to "#{frontend_url}/app/login?redirect_url=#{CGI.escape(redirect_url)}", allow_other_host: true
@@ -104,5 +110,16 @@ class Shopify::CallbacksController < ApplicationController
 
     # Shopify shop domains must match: *.myshopify.com or *.myshopify.io (for dev shops)
     params[:shop].match?(/\A[a-zA-Z0-9][a-zA-Z0-9\-]*\.myshopify\.(com|io)\z/)
+  end
+
+  def valid_hmac?
+    return false if params[:hmac].blank?
+
+    # Shopify signs callback parameters with HMAC to prevent tampering
+    hmac = params[:hmac]
+    query_params = params.except(:hmac, :controller, :action).to_query
+    computed_hmac = OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new('SHA256'), client_secret, query_params)
+
+    ActiveSupport::SecurityUtils.secure_compare(computed_hmac, hmac)
   end
 end

@@ -106,13 +106,17 @@ class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::Ba
   end
 
   def claim_pending_install_token(token_key, account_id)
-    pending_data = ::Redis::Alfred.get(token_key)
-    return { error: 'Invalid or expired install token' } if pending_data.blank?
+    json_data = Redis::SecureStorage.get(token_key)
+    return { error: 'Invalid or expired install token' } if json_data.blank?
 
-    data = JSON.parse(pending_data)
+    begin
+      data = JSON.parse(json_data)
+    rescue JSON::ParserError
+      return { error: 'Invalid or corrupted install token' }
+    end
 
     if data['claimed']
-      ::Redis::Alfred.delete(token_key)
+      Redis::SecureStorage.delete(token_key)
       return { error: 'Install token already used' }
     end
 
@@ -123,7 +127,7 @@ class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::Ba
     data['claimed'] = true
     data['account_id'] = account_id
     ttl = ::Redis::Alfred.ttl(token_key)
-    ::Redis::Alfred.setex(token_key, data.to_json, [ttl, 60].max) if ttl.positive?
+    Redis::SecureStorage.set(token_key, data, [ttl, 60].max) if ttl.positive?
 
     data
   end
