@@ -11,7 +11,7 @@ module Aloo
     VALID_TTS_PROVIDERS = %w[elevenlabs openai].freeze
     VALID_TRANSCRIPTION_PROVIDERS = %w[openai].freeze
     DEFAULT_TRANSCRIPTION_MODEL = 'whisper-1'
-    DEFAULT_TTS_MODEL = 'eleven_multilingual_v2'
+    DEFAULT_TTS_MODEL = 'eleven_v3'
 
     # Voice config store accessors for convenient access
     store_accessor :voice_config,

@@ -3,7 +3,7 @@
 module Aloo
   class ElevenlabsClient
     BASE_URL = 'https://api.elevenlabs.io/v1'
-    DEFAULT_MODEL = 'eleven_multilingual_v2'
+    DEFAULT_MODEL = 'eleven_v3'
     DEFAULT_OUTPUT_FORMAT = 'mp3_44100_128'
     REQUEST_TIMEOUT = 60
 

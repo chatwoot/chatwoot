@@ -12,7 +12,7 @@
 #
 class Audio::AlooSpeaker < Audio::ApplicationSpeaker
   provider :elevenlabs
-  model 'eleven_multilingual_v2'
+  model 'eleven_v3'
 
   voice_settings do
     stability 0.5
@@ -21,7 +21,7 @@ class Audio::AlooSpeaker < Audio::ApplicationSpeaker
 
   reliability do
     retries max: 3, backoff: :exponential
-    fallback_models 'eleven_turbo_v2'
+    fallback_models 'eleven_multilingual_v2'
     total_timeout 60
   end
 end

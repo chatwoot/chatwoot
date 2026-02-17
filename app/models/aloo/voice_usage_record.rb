@@ -22,6 +22,7 @@ module Aloo
         'whisper-1' => 0.006 # per minute
       },
       'elevenlabs' => {
+        'eleven_v3' => 0.00003, # per character
         'eleven_multilingual_v2' => 0.00003, # per character
         'eleven_turbo_v2' => 0.000018 # per character
       }
@@ -129,7 +130,7 @@ module Aloo
     def calculate_synthesis_cost
       return 0 unless characters_used.positive?
 
-      rate = PRICING.dig('elevenlabs', model_used) || PRICING.dig('elevenlabs', 'eleven_multilingual_v2')
+      rate = PRICING.dig('elevenlabs', model_used) || PRICING.dig('elevenlabs', 'eleven_v3')
       characters_used * rate
     end
   end
