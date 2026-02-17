@@ -174,6 +174,10 @@
           "SUCCESFUL": "تعيين تسمية ##{labelName} لمعرف المحادثة {conversationId}",
           "FAILED": "تعذر تعيين التسمية. الرجاء المحاولة مرة أخرى."
         },
+        "LABEL_REMOVAL": {
+          "SUCCESFUL": "Removed label #{labelName} from conversation id {conversationId}",
+          "FAILED": "Couldn't remove label. Please try again."
+        },
         "TEAM_ASSIGNMENT": {
           "SUCCESFUL": "الفريق المعين \"{team}\" لمعرف المحادثة {conversationId}",
           "FAILED": "تعذر تعيين الفريق. الرجاء المحاولة مرة أخرى."
@@ -186,6 +190,8 @@
       "DISABLE_SIGN_TOOLTIP": "تعطيل التوقيع",
       "MSG_INPUT": "زر Shift + Enter لإضافة سطر جديد. ابدأ بزر / للاختيار من الردود الجاهزة.",
       "PRIVATE_MSG_INPUT": "زر Shift + Enter لإضافة سطر جديد. سيكون هذا مرئياً للوكلاء فقط",
+      "MESSAGING_RESTRICTED": "You cannot reply to this conversation",
+      "MESSAGING_RESTRICTED_WHATSAPP": "You can only reply using a template message due to 24-hour message window restriction",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "لم يتم تكوين توقيع الرسالة، الرجاء تكوينه في إعدادات الملف الشخصي.",
       "COPILOT_MSG_INPUT": "إعطاء copilot أوامر إضافية، أو السؤال عن أي شيء آخر... اضغط على مفتاح الإدخال لإرسال المتابعة",
       "CLICK_HERE": "انقر هنا للتحديث",
