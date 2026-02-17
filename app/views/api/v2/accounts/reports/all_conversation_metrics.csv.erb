@@ -47,7 +47,11 @@ all_chat_custom_attrs.each     { |attr| headers << t('reports.conversation_detai
 all_contact_custom_attrs.each  { |attr| headers << t('reports.conversation_details_csv.contact_custom', attr: attr) }
 all_contact_attrs.each         { |attr| headers << t('reports.conversation_details_csv.contact_additional', attr: attr) }
 
-csv_data = CSV.generate(force_quotes: true) do |csv|
+csv_data = CSV.generate(
+  force_quotes: true,
+  col_sep: ';'
+) do |csv|
+
   csv << headers
 
   @report_data.each do |row|
@@ -84,6 +88,8 @@ csv_data = CSV.generate(force_quotes: true) do |csv|
     ]
   end
 end
+
+csv_data = "\uFEFF" + csv_data
 %>
 
 <%= raw csv_data %>
