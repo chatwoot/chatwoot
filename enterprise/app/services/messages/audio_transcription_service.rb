@@ -31,12 +31,20 @@ class Messages::AudioTranscriptionService< Llm::LegacyBaseOpenAiService
   end
 
   def fetch_audio_file
+    blob = attachment.file.blob
     temp_dir = Rails.root.join('tmp/uploads/audio-transcriptions')
     FileUtils.mkdir_p(temp_dir)
-    temp_file_path = File.join(temp_dir, "#{attachment.file.blob.key}-#{attachment.file.filename}")
+    temp_file_name = "#{blob.key}-#{blob.filename}"
+
+    if blob.filename.extension_without_delimiter.blank?
+      extension = extension_from_content_type(blob.content_type)
+      temp_file_name = "#{temp_file_name}.#{extension}" if extension.present?
+    end
+
+    temp_file_path = File.join(temp_dir, temp_file_name)
 
     File.open(temp_file_path, 'wb') do |file|
-      attachment.file.blob.open do |blob_file|
+      blob.open do |blob_file|
         IO.copy_stream(blob_file, file)
       end
     end
@@ -49,13 +57,12 @@ class Messages::AudioTranscriptionService< Llm::LegacyBaseOpenAiService
     return transcribed_text if transcribed_text.present?
 
     temp_file_path = fetch_audio_file
-
     transcribed_text = nil
 
     File.open(temp_file_path, 'rb') do |file|
       response = @client.audio.transcribe(
         parameters: {
-          model: 'whisper-1',
+          model: WHISPER_MODEL,
           file: file,
           temperature: 0.4
         }
@@ -63,10 +70,10 @@ class Messages::AudioTranscriptionService< Llm::LegacyBaseOpenAiService
       transcribed_text = response['text']
     end
 
-    FileUtils.rm_f(temp_file_path)
-
     update_transcription(transcribed_text)
     transcribed_text
+  ensure
+    FileUtils.rm_f(temp_file_path) if temp_file_path.present?
   end
 
   def instrumentation_params(file_path)
@@ -89,5 +96,16 @@ class Messages::AudioTranscriptionService< Llm::LegacyBaseOpenAiService
     return unless ChatwootApp.advanced_search_allowed?
 
     message.reindex
+  end
+
+  def extension_from_content_type(content_type)
+    subtype = content_type.to_s.downcase.split(';').first.to_s.split('/').last.to_s
+    return if subtype.blank?
+
+    {
+      'x-m4a' => 'm4a',
+      'x-wav' => 'wav',
+      'x-mp3' => 'mp3'
+    }.fetch(subtype, subtype)
   end
 end
