@@ -174,6 +174,10 @@
           "SUCCESFUL": "Assigned label #{labelName} to conversation id {conversationId}",
           "FAILED": "Не вдалося призначити мітку. Будь-ласка, спробуйте ще раз."
         },
+        "LABEL_REMOVAL": {
+          "SUCCESFUL": "Removed label #{labelName} from conversation id {conversationId}",
+          "FAILED": "Couldn't remove label. Please try again."
+        },
         "TEAM_ASSIGNMENT": {
           "SUCCESFUL": "Призначено команду \"#{team}\" до ID розмови {conversationId}",
           "FAILED": "Не вдалося призначити команду. Будь ласка, спробуйте ще раз."
@@ -186,6 +190,8 @@
       "DISABLE_SIGN_TOOLTIP": "Вимкнути підпис",
       "MSG_INPUT": "Shift + Enter для нового рядка. Для вибору швидкої відповіді, уведіть '/'.",
       "PRIVATE_MSG_INPUT": "Shift + Enter для нового рядка. Видиме лише для співробітників",
+      "MESSAGING_RESTRICTED": "You cannot reply to this conversation",
+      "MESSAGING_RESTRICTED_WHATSAPP": "You can only reply using a template message due to 24-hour message window restriction",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Не налаштовано підпис повідомлення, будь ласка, налаштуйте його в налаштуваннях профілю.",
       "COPILOT_MSG_INPUT": "Give copilot additional prompts, or ask anything else... Press enter to send follow-up",
       "CLICK_HERE": "Натисніть тут для оновлення",
