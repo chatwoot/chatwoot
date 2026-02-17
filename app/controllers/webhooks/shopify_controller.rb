@@ -23,7 +23,7 @@ class Webhooks::ShopifyController < ActionController::API
     return head :unauthorized if hmac_header.blank?
 
     computed = Base64.strict_encode64(OpenSSL::HMAC.digest('SHA256', secret, data))
-    head :unauthorized unless ActiveSupport::SecurityUtils.secure_compare(computed, hmac_header)
+    return head :unauthorized unless ActiveSupport::SecurityUtils.secure_compare(computed, hmac_header)
   end
 
   def handle_shop_redact
