@@ -563,10 +563,10 @@ onUnmounted(() => {
             @click.self="showCategoryForm = false"
           >
             <div
-              class="w-full max-w-md bg-n-solid-1 rounded-xl border border-n-weak shadow-xl flex flex-col max-h-[90vh] overflow-hidden"
+              class="w-full max-w-md bg-n-alpha-3 backdrop-blur-[100px] rounded-xl border border-n-weak shadow-md flex flex-col max-h-[90vh] overflow-hidden"
               @click.stop
             >
-              <div class="flex items-center justify-between p-4 sm:p-6 border-b border-n-weak shrink-0">
+              <div class="flex items-center justify-between p-4 sm:p-6 shrink-0">
                 <h3 class="text-base font-medium text-n-slate-12">
                   {{ editingCategory ? t('KNOWLEDGE_BASE.FAQ.CATEGORIES.EDIT') : t('KNOWLEDGE_BASE.FAQ.CATEGORIES.NEW') }}
                 </h3>
@@ -574,7 +574,7 @@ onUnmounted(() => {
                   <i class="i-lucide-x w-5 h-5" />
                 </button>
               </div>
-              <div class="flex-1 overflow-y-auto p-4 sm:p-6 flex flex-col gap-4">
+              <div class="flex-1 overflow-y-auto px-4 sm:px-6 flex flex-col gap-4">
                 <Input v-model="categoryForm.name" :label="t('KNOWLEDGE_BASE.FAQ.CATEGORIES.NAME')" :placeholder="t('KNOWLEDGE_BASE.FAQ.CATEGORIES.NAME_PLACEHOLDER')" />
                 <Input v-model="categoryForm.description" :label="t('KNOWLEDGE_BASE.FAQ.CATEGORIES.DESCRIPTION')" :placeholder="t('KNOWLEDGE_BASE.FAQ.CATEGORIES.DESCRIPTION_PLACEHOLDER')" />
                 <div>
@@ -585,7 +585,7 @@ onUnmounted(() => {
                   </select>
                 </div>
               </div>
-              <div class="flex gap-3 p-4 sm:p-6 border-t border-n-weak shrink-0">
+              <div class="flex gap-3 p-4 sm:p-6 shrink-0">
                 <Button variant="outline" :label="t('KNOWLEDGE_BASE.FAQ.CANCEL')" class="flex-1" @click="showCategoryForm = false" />
                 <Button :label="t('KNOWLEDGE_BASE.FAQ.SAVE')" :is-loading="isSaving" :disabled="!categoryForm.name" class="flex-1" @click="saveCategory" />
               </div>
@@ -612,10 +612,10 @@ onUnmounted(() => {
             @click.self="showFaqForm = false"
           >
             <div
-              class="w-full max-w-lg bg-n-solid-1 rounded-xl border border-n-weak shadow-xl flex flex-col max-h-[90vh] overflow-hidden"
+              class="w-full max-w-lg bg-n-alpha-3 backdrop-blur-[100px] rounded-xl border border-n-weak shadow-md flex flex-col max-h-[90vh] overflow-hidden"
               @click.stop
             >
-              <div class="flex items-center justify-between p-4 sm:p-6 border-b border-n-weak shrink-0">
+              <div class="flex items-center justify-between p-4 sm:p-6 shrink-0">
                 <h3 class="text-base font-medium text-n-slate-12">
                   {{ editingFaq ? t('KNOWLEDGE_BASE.FAQ.ITEMS.EDIT') : t('KNOWLEDGE_BASE.FAQ.ITEMS.NEW') }}
                 </h3>
@@ -623,7 +623,7 @@ onUnmounted(() => {
                   <i class="i-lucide-x w-5 h-5" />
                 </button>
               </div>
-              <div class="flex-1 overflow-y-auto p-4 sm:p-6 flex flex-col gap-4">
+              <div class="flex-1 overflow-y-auto px-4 sm:px-6 flex flex-col gap-4">
                 <div>
                   <label class="block text-sm font-medium text-n-slate-12 mb-1">
                     {{ t('KNOWLEDGE_BASE.FAQ.ITEMS.CATEGORY') }}
@@ -652,7 +652,7 @@ onUnmounted(() => {
                   </p>
                 </div>
               </div>
-              <div class="flex gap-3 p-4 sm:p-6 border-t border-n-weak shrink-0">
+              <div class="flex gap-3 p-4 sm:p-6 shrink-0">
                 <Button variant="outline" :label="t('KNOWLEDGE_BASE.FAQ.CANCEL')" class="flex-1" @click="showFaqForm = false" />
                 <Button :label="t('KNOWLEDGE_BASE.FAQ.SAVE')" :is-loading="isSaving" :disabled="!faqForm.faq_category_id || (!faqForm.translations.es?.question && !faqForm.translations.en?.question) || currentQuestion.length > 256 || currentAnswer.length > 2048" class="flex-1" @click="saveFaq" />
               </div>

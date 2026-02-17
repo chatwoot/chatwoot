@@ -5,6 +5,7 @@ const KnowledgeBasePageRouteView = () =>
 const ProductCatalogPage = () => import('./pages/ProductCatalogPage.vue');
 const UploadHistoryPage = () => import('./pages/UploadHistoryPage.vue');
 const FaqPage = () => import('./pages/FaqPage.vue');
+const ResourcesPage = () => import('./pages/ResourcesPage.vue');
 
 export default {
   routes: [
@@ -35,6 +36,14 @@ export default {
             permissions: ['administrator'],
           },
           component: FaqPage,
+        },
+        {
+          path: 'resources',
+          name: 'knowledge_base_resources',
+          meta: {
+            permissions: ['administrator'],
+          },
+          component: ResourcesPage,
         },
       ],
     },

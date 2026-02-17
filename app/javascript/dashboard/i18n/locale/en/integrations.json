@@ -46,7 +46,8 @@
             "CONVERSATION_TYPING_OFF": "Conversation Typing Off",
             "AGENT_ADDED": "Agent Created",
             "FAQ_CATALOG_UPDATED": "FAQ Catalog Updated",
-            "PRODUCT_CATALOG_UPDATED": "Product Catalog Updated"
+            "PRODUCT_CATALOG_UPDATED": "Product Catalog Updated",
+            "KB_RESOURCE_UPDATED": "Knowledge Base Resource Updated"
           }
         },
         "NAME": {

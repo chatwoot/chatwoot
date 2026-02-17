@@ -69,6 +69,10 @@ module Chatwoot
     # Disable PDF/video preview generation as we don't use them
     config.active_storage.previewers = []
 
+    # Middleware to limit request size for kb_resources uploads
+    require_relative '../app/middleware/request_size_limiter'
+    config.middleware.use RequestSizeLimiter
+
     # Active Record Encryption configuration
     # Required for MFA/2FA features - skip if not using encryption
     if ENV['ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY'].present?

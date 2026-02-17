@@ -1,17 +1,21 @@
 <template>
-  <!-- Backdrop overlay -->
-  <div
-    v-if="product"
-    class="fixed inset-0 z-40 bg-black bg-opacity-50 transition-opacity"
-    @click="emit('close')"
-  />
+  <Teleport to="body">
+    <!-- Backdrop overlay -->
+    <Transition name="fade">
+      <div
+        v-if="product"
+        class="fixed inset-0 z-40 bg-black bg-opacity-50"
+        @click="emit('close')"
+      />
+    </Transition>
 
-  <!-- Drawer -->
-  <div
-    v-if="product"
-    class="fixed inset-y-0 right-0 z-50 w-full max-w-2xl bg-n-background border-l border-n-weak shadow-2xl flex flex-col"
-    @click.stop
-  >
+    <!-- Drawer -->
+    <Transition name="slide-right">
+      <div
+        v-if="product"
+        class="fixed inset-y-0 right-0 z-50 w-full max-w-2xl bg-n-background border-l border-n-weak shadow-2xl flex flex-col"
+        @click.stop
+      >
     <!-- Header -->
     <div class="flex items-start justify-between p-6 border-b border-n-weak">
       <div class="flex-1 min-w-0">
@@ -138,15 +142,37 @@
     </div>
 
     <!-- Media Detail Modal -->
-    <Teleport to="body">
-      <MediaDetailModal
-        v-if="selectedMedia"
-        :media="selectedMedia"
-        @close="selectedMedia = null"
-      />
-    </Teleport>
-  </div>
+    <MediaDetailModal
+      v-if="selectedMedia"
+      :media="selectedMedia"
+      @close="selectedMedia = null"
+    />
+    </div>
+    </Transition>
+  </Teleport>
 </template>
+
+<style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.2s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+.slide-right-enter-active,
+.slide-right-leave-active {
+  transition: transform 0.3s ease;
+}
+
+.slide-right-enter-from,
+.slide-right-leave-to {
+  transform: translateX(100%);
+}
+</style>
 
 <script setup>
 import { computed, ref, onMounted, onUnmounted } from 'vue';

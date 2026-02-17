@@ -16,12 +16,12 @@ class Api::V1::Accounts::ProductCatalogsController < Api::V1::Accounts::BaseCont
     # Apply search if query parameter is present
     @product_catalogs = if search_query.present?
                           base_query.search_by_text(search_query)
-                                    .includes(:product_media)
+                                    .includes(:product_media, :kb_resources)
                                     .order('product_catalogs.created_at DESC')
                                     .page(page)
                                     .per(per_page)
                         else
-                          base_query.includes(:product_media)
+                          base_query.includes(:product_media, :kb_resources)
                                     .order(created_at: :desc)
                                     .page(page)
                                     .per(per_page)
@@ -35,15 +35,36 @@ class Api::V1::Accounts::ProductCatalogsController < Api::V1::Accounts::BaseCont
   def show; end
 
   def create
-    @product_catalog = Current.account.product_catalogs.create!(product_catalog_params)
+    @product_catalog = Current.account.product_catalogs.create!(product_catalog_params.except(:kb_resource_ids))
+
+    # Handle KB resource associations
+    if params[:product_catalog].key?(:kb_resource_ids)
+      kb_resource_ids = Array(params[:product_catalog][:kb_resource_ids]).map(&:to_i).uniq
+      @product_catalog.kb_resource_ids = kb_resource_ids
+    end
   end
 
   def update
-    @product_catalog.update!(product_catalog_params)
+    @product_catalog.update!(product_catalog_params.except(:kb_resource_ids))
+
+    # Handle KB resource associations if provided
+    if params[:product_catalog].key?(:kb_resource_ids)
+      kb_resource_ids = Array(params[:product_catalog][:kb_resource_ids]).map(&:to_i).uniq
+      @product_catalog.kb_resource_ids = kb_resource_ids
+    end
   end
 
   def destroy
+    # Store affected kb_resources and their current product_ids before deletion
+    affected_resources = @product_catalog.kb_resources.map do |resource|
+      { resource: resource, old_product_ids: resource.product_catalogs.pluck(:product_id) }
+    end
+
     @product_catalog.destroy!
+
+    # Notify each affected kb_resource about the removal
+    notify_kb_resources_of_product_removal(affected_resources)
+
     head :ok
   end
 
@@ -161,8 +182,11 @@ class Api::V1::Accounts::ProductCatalogsController < Api::V1::Accounts::BaseCont
       return
     end
 
-    deleted_product_ids, deleted_count = destroy_products_with_skip_callbacks(ids)
+    deleted_product_ids, deleted_count, affected_resources = destroy_products_with_skip_callbacks(ids)
     dispatch_bulk_delete_event(deleted_product_ids, deleted_count)
+
+    # Notify each affected kb_resource about the removal (one webhook per resource with all removed products)
+    notify_kb_resources_of_product_removal(affected_resources)
 
     head :ok
   end
@@ -342,7 +366,8 @@ class Api::V1::Accounts::ProductCatalogsController < Api::V1::Accounts::BaseCont
       :model,
       :year,
       :is_visible,
-      metadata: {}
+      metadata: {},
+      kb_resource_ids: []
     ).merge(
       created_by: current_user,
       updated_by: current_user
@@ -380,8 +405,16 @@ class Api::V1::Accounts::ProductCatalogsController < Api::V1::Accounts::BaseCont
   end
 
   def destroy_products_with_skip_callbacks(ids)
-    products_to_delete = Current.account.product_catalogs.where(id: ids)
+    products_to_delete = Current.account.product_catalogs.where(id: ids).includes(:kb_resources)
     deleted_product_ids = products_to_delete.pluck(:product_id)
+
+    # Collect affected kb_resources before deletion: { resource_id => { resource:, old_product_ids: } }
+    affected_resources_map = {}
+    products_to_delete.each do |product|
+      product.kb_resources.each do |resource|
+        affected_resources_map[resource.id] ||= { resource: resource, old_product_ids: resource.product_catalogs.pluck(:product_id) }
+      end
+    end
 
     deleted_count = 0
     products_to_delete.find_each do |product|
@@ -390,7 +423,7 @@ class Api::V1::Accounts::ProductCatalogsController < Api::V1::Accounts::BaseCont
       deleted_count += 1
     end
 
-    [deleted_product_ids, deleted_count]
+    [deleted_product_ids, deleted_count, affected_resources_map.values]
   end
 
   def dispatch_bulk_delete_event(deleted_product_ids, deleted_count)
@@ -405,5 +438,26 @@ class Api::V1::Accounts::ProductCatalogsController < Api::V1::Accounts::BaseCont
       updated_product_ids: [],
       deleted_product_ids: deleted_product_ids
     )
+  end
+
+  def notify_kb_resources_of_product_removal(affected_resources)
+    return if affected_resources.blank?
+
+    affected_resources.each do |data|
+      resource = data[:resource]
+      old_product_ids = data[:old_product_ids]
+
+      # Reload to get current state after deletion
+      resource.reload
+      current_product_ids = resource.product_catalogs.pluck(:product_id)
+
+      # Calculate which products were removed from this resource
+      removed_ids = old_product_ids - current_product_ids
+
+      next if removed_ids.empty?
+
+      changed_attrs = { 'product_ids' => [old_product_ids.sort, current_product_ids.sort] }
+      resource.dispatch_update_event!(changed_attrs)
+    end
   end
 end

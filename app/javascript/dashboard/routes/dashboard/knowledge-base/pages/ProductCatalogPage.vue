@@ -257,7 +257,6 @@
     />
 
     <MediaDrawer
-      v-if="selectedProductForMedia"
       :product="selectedProductForMedia"
       @close="selectedProductForMedia = null"
     />

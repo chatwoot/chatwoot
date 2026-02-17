@@ -306,6 +306,142 @@
         "PREV": "Previous",
         "NEXT": "Next"
       }
+    },
+    "RESOURCES": {
+      "HEADER_TITLE": "Resources",
+      "UPLOAD_BUTTON": "Upload File",
+      "SEARCH_PLACEHOLDER": "Search resources...",
+      "RESULTS": "results",
+      "NO_SEARCH_RESULTS": "No resources found matching your search",
+      "HIDDEN": "Hidden",
+      "OPEN_FILE": "Open file",
+      "SHOW": "Show resource",
+      "HIDE": "Hide resource",
+      "EDIT_TOOLTIP": "Edit resource",
+      "DELETE_TOOLTIP": "Delete resource",
+      "CANCEL": "Cancel",
+      "SAVE": "Save",
+      "EMPTY_STATE": {
+        "TITLE": "No resources yet",
+        "SUBTITLE": "Upload files like PDFs, documents, or spreadsheets to provide additional context for your AI agent."
+      },
+      "UPLOAD": {
+        "TITLE": "Upload Resource",
+        "SELECT_FILE": "File",
+        "DROP_OR_CLICK": "Click to select a file",
+        "FILE_TYPES": "Documents, Images, Audio (max 200MB)",
+        "SUBMIT": "Upload",
+        "SUCCESS": "Resource uploaded successfully",
+        "ERROR": "Failed to upload resource"
+      },
+      "EDIT": {
+        "TITLE": "Edit Resource",
+        "SUCCESS": "Resource updated successfully",
+        "ERROR": "Failed to update resource"
+      },
+      "DELETE": {
+        "TITLE": "Delete Resource",
+        "CONFIRM": "Are you sure you want to delete this resource? This action cannot be undone.",
+        "BUTTON": "Delete",
+        "SUCCESS": "Resource deleted successfully",
+        "ERROR": "Failed to delete resource"
+      },
+      "FORM": {
+        "NAME": "Name",
+        "NAME_PLACEHOLDER": "Enter resource name",
+        "DESCRIPTION": "Description",
+        "DESCRIPTION_PLACEHOLDER": "Enter description (optional)",
+        "ASSOCIATIONS": "Associations",
+        "PRODUCT_CATALOG": "Associated Product",
+        "PRODUCT_CATALOGS": "Products",
+        "NO_PRODUCT": "No product association"
+      },
+      "STORAGE": {
+        "USED": "Storage used"
+      },
+      "VISIBILITY": {
+        "HIDDEN": "Resource hidden successfully",
+        "SHOWN": "Resource shown successfully",
+        "ERROR": "Failed to toggle visibility"
+      },
+      "PRODUCT_SEARCH": {
+        "PLACEHOLDER": "Search products by ID or name...",
+        "NO_RESULTS": "No products found",
+        "AVAILABLE": "products available",
+        "SELECT_ALL": "Select all",
+        "DESELECT_ALL": "Deselect all",
+        "SELECTED": "selected"
+      },
+      "VIEW": {
+        "LIST": "List view",
+        "TREE": "Tree view",
+        "DOCUMENTS": "Documents",
+        "SPREADSHEETS": "Spreadsheets",
+        "DATA_FILES": "Data Files",
+        "OTHER": "Other",
+        "EXPAND_ALL": "Expand all",
+        "COLLAPSE_ALL": "Collapse all"
+      },
+      "DRAWER": {
+        "FILE_TYPE": "File Type",
+        "FILE_SIZE": "File Size",
+        "CREATED_AT": "Created",
+        "VISIBILITY": "Visibility",
+        "VISIBLE": "Visible",
+        "HIDDEN": "Hidden",
+        "DESCRIPTION": "Description",
+        "ASSOCIATED_PRODUCTS": "Associated Products",
+        "NO_PRODUCTS": "No products associated with this resource",
+        "OPEN_FILE": "Open File",
+        "EDIT": "Edit",
+        "DELETE": "Delete",
+        "MOVE": "Move"
+      },
+      "FOLDER": {
+        "LABEL": "Folder",
+        "NEW": "New Folder",
+        "NEW_TITLE": "Create New Folder",
+        "NAME": "Folder Name",
+        "NAME_PLACEHOLDER": "Enter folder name",
+        "LOCATION": "Location",
+        "CREATE": "Create",
+        "CREATED": "Folder created successfully",
+        "CREATE_ERROR": "Failed to create folder",
+        "DELETE_TITLE": "Delete Folder",
+        "DELETE_CONFIRM": "Are you sure you want to delete this folder?",
+        "DELETE_CONFIRM_FORCE": "This will permanently delete all contents. Type the phrase below to confirm.",
+        "DELETE_WARNING": "The folder must be empty to be deleted.",
+        "NOT_EMPTY_WARNING": "This folder is not empty!",
+        "CONTENTS_INFO": "Contains {resources} file(s) and {subfolders} subfolder(s)",
+        "TYPE_TO_CONFIRM": "Type to confirm:",
+        "DELETED": "Folder deleted successfully",
+        "DELETED_WITH_CONTENTS": "Folder deleted with {resources} file(s) and {subfolders} subfolder(s)",
+        "DELETE_ERROR": "Failed to delete folder"
+      },
+      "ACTIONS": {
+        "OPEN_FOLDER": "Open folder",
+        "NEW_SUBFOLDER": "New subfolder"
+      },
+      "MOVE": {
+        "TITLE": "Move",
+        "TOOLTIP": "Move to folder",
+        "MOVING": "Moving",
+        "DESTINATION": "Destination Folder",
+        "BUTTON": "Move",
+        "SUCCESS": "Resource moved successfully",
+        "ERROR": "Failed to move resource",
+        "CHOOSE_DESTINATION": "Choose a new home for your file(s)/folder(s):",
+        "CURRENT_LOCATION": "Currently in",
+        "NEW_FOLDER": "New Folder"
+      },
+      "VALIDATION": {
+        "INVALID_NAME": "Name contains invalid characters",
+        "INVALID_DESCRIPTION": "Description contains invalid characters",
+        "INVALID_FOLDER_NAME": "Folder name cannot contain special characters, start with a dot, or include path separators",
+        "NAME_TOO_LONG": "Name is too long",
+        "DESCRIPTION_TOO_LONG": "Description is too long",
+        "FILE_TOO_LARGE": "File exceeds maximum size of {max}. Please select a smaller file."
+      }
     }
   }
 }

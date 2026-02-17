@@ -29,3 +29,17 @@ json.product_media @product_catalog.product_media.ordered do |media|
   json.created_at media.created_at
   json.updated_at media.updated_at
 end
+
+json.kb_resources @product_catalog.kb_resources do |resource|
+  json.id resource.id
+  json.name resource.name
+  json.description resource.description
+  json.file_name resource.file_name
+  json.folder_path resource.folder_path
+  json.content_type resource.content_type
+  json.file_size resource.file_size
+  json.is_visible resource.is_visible
+  json.s3_url resource.presigned_url
+  json.created_at resource.created_at
+  json.updated_at resource.updated_at
+end

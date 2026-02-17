@@ -181,6 +181,19 @@ Rails.application.routes.draw do
               post :bulk_delete
             end
           end
+          resources :kb_resources, only: [:index, :show, :create, :update, :destroy] do
+            member do
+              post :toggle_visibility
+              post :move
+            end
+            collection do
+              get :storage_info
+              get :tree
+              post :bulk_move
+              post :create_folder
+              delete :delete_folder
+            end
+          end
           resources :appointments, only: [:index, :create, :show, :update, :destroy] do
             collection do
               get :search

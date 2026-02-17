@@ -29,6 +29,19 @@ json.data @product_catalogs do |product_catalog|
     json.display_order media.display_order
     json.created_at media.created_at
   end
+
+  json.kb_resources product_catalog.kb_resources do |resource|
+    json.id resource.id
+    json.name resource.name
+    json.description resource.description
+    json.file_name resource.file_name
+    json.folder_path resource.folder_path
+    json.content_type resource.content_type
+    json.file_size resource.file_size
+    json.is_visible resource.is_visible
+    json.s3_url resource.presigned_url
+    json.created_at resource.created_at
+  end
 end
 
 json.meta do

@@ -306,6 +306,142 @@
         "PREV": "Anterior",
         "NEXT": "Siguiente"
       }
+    },
+    "RESOURCES": {
+      "HEADER_TITLE": "Recursos",
+      "UPLOAD_BUTTON": "Subir Archivo",
+      "SEARCH_PLACEHOLDER": "Buscar recursos...",
+      "RESULTS": "resultados",
+      "NO_SEARCH_RESULTS": "No se encontraron recursos que coincidan con tu búsqueda",
+      "HIDDEN": "Oculto",
+      "OPEN_FILE": "Abrir archivo",
+      "SHOW": "Mostrar recurso",
+      "HIDE": "Ocultar recurso",
+      "EDIT_TOOLTIP": "Editar recurso",
+      "DELETE_TOOLTIP": "Eliminar recurso",
+      "CANCEL": "Cancelar",
+      "SAVE": "Guardar",
+      "EMPTY_STATE": {
+        "TITLE": "Aún no hay recursos",
+        "SUBTITLE": "Sube archivos como PDFs, documentos u hojas de cálculo para proporcionar contexto adicional a tu agente de IA."
+      },
+      "UPLOAD": {
+        "TITLE": "Subir Recurso",
+        "SELECT_FILE": "Archivo",
+        "DROP_OR_CLICK": "Haz clic para seleccionar un archivo",
+        "FILE_TYPES": "Documentos, Imágenes, Audio (máx 200MB)",
+        "SUBMIT": "Subir",
+        "SUCCESS": "Recurso subido exitosamente",
+        "ERROR": "Error al subir recurso"
+      },
+      "EDIT": {
+        "TITLE": "Editar Recurso",
+        "SUCCESS": "Recurso actualizado exitosamente",
+        "ERROR": "Error al actualizar recurso"
+      },
+      "DELETE": {
+        "TITLE": "Eliminar Recurso",
+        "CONFIRM": "¿Estás seguro de que quieres eliminar este recurso? Esta acción no se puede deshacer.",
+        "BUTTON": "Eliminar",
+        "SUCCESS": "Recurso eliminado exitosamente",
+        "ERROR": "Error al eliminar recurso"
+      },
+      "FORM": {
+        "NAME": "Nombre",
+        "NAME_PLACEHOLDER": "Ingresa el nombre del recurso",
+        "DESCRIPTION": "Descripción",
+        "DESCRIPTION_PLACEHOLDER": "Ingresa una descripción (opcional)",
+        "ASSOCIATIONS": "Asociaciones",
+        "PRODUCT_CATALOG": "Producto Asociado",
+        "PRODUCT_CATALOGS": "Productos",
+        "NO_PRODUCT": "Sin asociación de producto"
+      },
+      "STORAGE": {
+        "USED": "Almacenamiento usado"
+      },
+      "VISIBILITY": {
+        "HIDDEN": "Recurso ocultado exitosamente",
+        "SHOWN": "Recurso mostrado exitosamente",
+        "ERROR": "Error al cambiar la visibilidad"
+      },
+      "PRODUCT_SEARCH": {
+        "PLACEHOLDER": "Buscar productos por ID o nombre...",
+        "NO_RESULTS": "No se encontraron productos",
+        "AVAILABLE": "productos disponibles",
+        "SELECT_ALL": "Seleccionar todos",
+        "DESELECT_ALL": "Deseleccionar todos",
+        "SELECTED": "seleccionados"
+      },
+      "VIEW": {
+        "LIST": "Vista de lista",
+        "TREE": "Vista de árbol",
+        "DOCUMENTS": "Documentos",
+        "SPREADSHEETS": "Hojas de cálculo",
+        "DATA_FILES": "Archivos de datos",
+        "OTHER": "Otros",
+        "EXPAND_ALL": "Expandir todo",
+        "COLLAPSE_ALL": "Colapsar todo"
+      },
+      "DRAWER": {
+        "FILE_TYPE": "Tipo de archivo",
+        "FILE_SIZE": "Tamaño del archivo",
+        "CREATED_AT": "Creado",
+        "VISIBILITY": "Visibilidad",
+        "VISIBLE": "Visible",
+        "HIDDEN": "Oculto",
+        "DESCRIPTION": "Descripción",
+        "ASSOCIATED_PRODUCTS": "Productos Asociados",
+        "NO_PRODUCTS": "No hay productos asociados con este recurso",
+        "OPEN_FILE": "Abrir Archivo",
+        "EDIT": "Editar",
+        "DELETE": "Eliminar",
+        "MOVE": "Mover"
+      },
+      "FOLDER": {
+        "LABEL": "Carpeta",
+        "NEW": "Nueva Carpeta",
+        "NEW_TITLE": "Crear Nueva Carpeta",
+        "NAME": "Nombre de Carpeta",
+        "NAME_PLACEHOLDER": "Ingresa el nombre de la carpeta",
+        "LOCATION": "Ubicación",
+        "CREATE": "Crear",
+        "CREATED": "Carpeta creada exitosamente",
+        "CREATE_ERROR": "Error al crear carpeta",
+        "DELETE_TITLE": "Eliminar Carpeta",
+        "DELETE_CONFIRM": "¿Estás seguro de que deseas eliminar esta carpeta?",
+        "DELETE_CONFIRM_FORCE": "Esto eliminará permanentemente todo el contenido. Escribe la frase de abajo para confirmar.",
+        "DELETE_WARNING": "La carpeta debe estar vacía para poder eliminarla.",
+        "NOT_EMPTY_WARNING": "¡Esta carpeta no está vacía!",
+        "CONTENTS_INFO": "Contiene {resources} archivo(s) y {subfolders} subcarpeta(s)",
+        "TYPE_TO_CONFIRM": "Escribe para confirmar:",
+        "DELETED": "Carpeta eliminada exitosamente",
+        "DELETED_WITH_CONTENTS": "Carpeta eliminada con {resources} archivo(s) y {subfolders} subcarpeta(s)",
+        "DELETE_ERROR": "Error al eliminar carpeta"
+      },
+      "ACTIONS": {
+        "OPEN_FOLDER": "Abrir carpeta",
+        "NEW_SUBFOLDER": "Nueva subcarpeta"
+      },
+      "MOVE": {
+        "TITLE": "Mover",
+        "TOOLTIP": "Mover a carpeta",
+        "MOVING": "Moviendo",
+        "DESTINATION": "Carpeta de Destino",
+        "BUTTON": "Mover",
+        "SUCCESS": "Recurso movido exitosamente",
+        "ERROR": "Error al mover recurso",
+        "CHOOSE_DESTINATION": "Elige una nueva casa para tus archivo(s)/carpeta(s):",
+        "CURRENT_LOCATION": "Actualmente estás en",
+        "NEW_FOLDER": "Nueva Carpeta"
+      },
+      "VALIDATION": {
+        "INVALID_NAME": "El nombre contiene caracteres inválidos",
+        "INVALID_DESCRIPTION": "La descripción contiene caracteres inválidos",
+        "INVALID_FOLDER_NAME": "El nombre de carpeta no puede contener caracteres especiales, empezar con punto, o incluir separadores de ruta",
+        "NAME_TOO_LONG": "El nombre es demasiado largo",
+        "DESCRIPTION_TOO_LONG": "La descripción es demasiado larga",
+        "FILE_TOO_LARGE": "El archivo excede el tamaño máximo de {max}. Por favor selecciona un archivo más pequeño."
+      }
     }
   }
 }

@@ -160,6 +160,24 @@ class WebhookListener < BaseListener
     deliver_account_webhooks(payload, account, idempotency_key)
   end
 
+  # KB Resource event
+  def kb_resource_updated(event)
+    account = event.data[:account]
+    action = event.data[:action]
+    resource = event.data[:resource]
+
+    idempotency_key = SecureRandom.uuid
+    payload = {
+      event: __method__.to_s,
+      timestamp: Time.zone.now.iso8601,
+      account: account.webhook_data,
+      action: action,
+      resource: resource,
+      idempotency_key: idempotency_key
+    }
+    deliver_account_webhooks(payload, account, idempotency_key)
+  end
+
   private
 
   def handle_typing_status(event_name, event)

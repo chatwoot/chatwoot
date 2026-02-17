@@ -407,7 +407,8 @@
       "TITLE": "Knowledge Base",
       "PRODUCT_CATALOG": "Product Catalog",
       "UPLOAD_HISTORY": "Upload History",
-      "FAQS": "FAQs"
+      "FAQS": "FAQs",
+      "RESOURCES": "Resources"
     },
     "CHANNELS": "Channels",
     "SET_AUTO_OFFLINE": {

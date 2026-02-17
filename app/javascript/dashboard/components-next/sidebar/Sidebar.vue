@@ -482,6 +482,11 @@ const menuItems = computed(() => {
           label: t('SIDEBAR.KNOWLEDGE_BASE.FAQS'),
           to: accountScopedRoute('knowledge_base_faqs'),
         },
+        {
+          name: 'Resources',
+          label: t('SIDEBAR.KNOWLEDGE_BASE.RESOURCES'),
+          to: accountScopedRoute('knowledge_base_resources'),
+        },
       ],
     },
     {
