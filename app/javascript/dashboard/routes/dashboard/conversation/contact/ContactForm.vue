@@ -11,11 +11,13 @@ import { isPhoneNumberValid } from 'shared/helpers/Validators';
 import parsePhoneNumber from 'libphonenumber-js';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import Avatar from 'next/avatar/Avatar.vue';
+import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
 
 export default {
   components: {
     NextButton,
     Avatar,
+    ComboBox,
   },
   props: {
     contact: {
@@ -132,6 +134,12 @@ export default {
       if (!id) return name;
       if (!name && !id) return '';
       return `${name} (${id})`;
+    },
+    onCountryChange(value) {
+      const selected = this.countries.find(c => c.id === value);
+      this.country = selected
+        ? { id: selected.id, name: selected.name }
+        : { id: '', name: '' };
     },
     setDialCode() {
       if (
@@ -363,26 +371,23 @@ export default {
       :label="$t('CONTACT_FORM.FORM.COMPANY_NAME.LABEL')"
       :placeholder="$t('CONTACT_FORM.FORM.COMPANY_NAME.PLACEHOLDER')"
     />
-    <div>
-      <div class="w-full">
-        <label>
-          {{ $t('CONTACT_FORM.FORM.COUNTRY.LABEL') }}
-        </label>
-        <multiselect
-          v-model="country"
-          track-by="id"
-          label="name"
-          :placeholder="$t('CONTACT_FORM.FORM.COUNTRY.PLACEHOLDER')"
-          selected-label
-          :select-label="$t('CONTACT_FORM.FORM.COUNTRY.SELECT_PLACEHOLDER')"
-          :deselect-label="$t('CONTACT_FORM.FORM.COUNTRY.REMOVE')"
-          :custom-label="countryNameWithCode"
-          :max-height="160"
-          :options="countries"
-          allow-empty
-          :option-height="104"
-        />
-      </div>
+    <div class="w-full mb-4">
+      <label>
+        {{ $t('CONTACT_FORM.FORM.COUNTRY.LABEL') }}
+      </label>
+      <ComboBox
+        :model-value="country.id"
+        :options="
+          countries.map(c => ({
+            value: c.id,
+            label: countryNameWithCode(c),
+          }))
+        "
+        class="[&>div>button]:!bg-n-alpha-black2"
+        :placeholder="$t('CONTACT_FORM.FORM.COUNTRY.PLACEHOLDER')"
+        :search-placeholder="$t('CONTACT_FORM.FORM.COUNTRY.SELECT_PLACEHOLDER')"
+        @update:model-value="onCountryChange"
+      />
     </div>
     <woot-input
       v-model="city"
@@ -426,11 +431,3 @@ export default {
     </div>
   </form>
 </template>
-
-<style scoped lang="scss">
-::v-deep {
-  .multiselect .multiselect__tags .multiselect__single {
-    @apply pl-0;
-  }
-}
-</style>
