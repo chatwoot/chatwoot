@@ -431,6 +431,31 @@
   type: secret
 # ------- End of TikTok Channel Related Config ------- #
 
+# ------- X Channel Related Config ------- #
+- name: X_CLIENT_ID
+  display_title: 'X OAuth 2.0 Client ID'
+  description: 'OAuth 2.0 Client ID from X Developer Portal - used for user authorization (PKCE flow)'
+  locked: false
+- name: X_CLIENT_SECRET
+  display_title: 'X OAuth 2.0 Client Secret'
+  description: 'OAuth 2.0 Client Secret from X Developer Portal - used for token exchange and JWT signing'
+  locked: false
+  type: secret
+- name: X_API_KEY
+  display_title: 'X API Key'
+  description: 'API Key (Consumer Key) from X Developer Portal - used for dynamic app bearer token fetch'
+  locked: false
+- name: X_API_SECRET
+  display_title: 'X API Secret'
+  description: 'API Secret (Consumer Secret) from X Developer Portal - used for CRC webhook verification and signature validation'
+  locked: false
+  type: secret
+- name: X_WEBHOOK_ID
+  display_title: 'X Webhook ID'
+  description: 'Registered webhook ID for Account Activity API v2 (auto-populated, do not edit manually)'
+  locked: false
+# ------- End of X Channel Related Config ------- #
+
 # ------- OG Image Related Config ------- #
 - name: OG_IMAGE_CDN_URL
   display_title: 'OG Image CDN URL'
