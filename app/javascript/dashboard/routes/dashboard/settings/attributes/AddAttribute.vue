@@ -7,10 +7,12 @@ import { convertToAttributeSlug } from 'dashboard/helper/commons.js';
 import { ATTRIBUTE_MODELS, ATTRIBUTE_TYPES } from './constants';
 
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import TagInput from 'dashboard/components-next/taginput/TagInput.vue';
 
 export default {
   components: {
     NextButton,
+    TagInput,
   },
   props: {
     onClose: {
@@ -41,9 +43,8 @@ export default {
       regexCue: null,
       regexEnabled: false,
       values: [],
-      options: [],
       show: true,
-      isTouched: false,
+      tagInputTouched: false,
     };
   },
 
@@ -63,21 +64,21 @@ export default {
         option: this.$t(`ATTRIBUTES_MGMT.ATTRIBUTE_TYPES.${item.key}`),
       }));
     },
-    isMultiselectInvalid() {
-      return this.isTouched && this.values.length === 0;
-    },
-    isTagInputInvalid() {
+    isTagInputEmpty() {
       return this.isAttributeTypeList && this.values.length === 0;
     },
+    isTagInputInvalid() {
+      return this.tagInputTouched && this.isTagInputEmpty;
+    },
     attributeListValues() {
-      return this.values.map(item => item.name);
+      return this.values;
     },
     isButtonDisabled() {
       return (
         this.v$.displayName.$invalid ||
         this.v$.description.$invalid ||
         this.uiFlags.isCreating ||
-        this.isTagInputInvalid
+        this.isTagInputEmpty
       );
     },
     keyErrorMessage() {
@@ -119,17 +120,14 @@ export default {
     },
   },
 
+  watch: {
+    attributeType() {
+      this.tagInputTouched = false;
+      this.values = [];
+    },
+  },
+
   methods: {
-    addTagValue(tagValue) {
-      const tag = {
-        name: tagValue,
-      };
-      this.values.push(tag);
-      this.$refs.tagInput.$el.focus();
-    },
-    onTouch() {
-      this.isTouched = true;
-    },
     onDisplayNameChange() {
       this.attributeKey = convertToAttributeSlug(this.displayName);
     },
@@ -237,27 +235,25 @@ export default {
               {{ $t('ATTRIBUTES_MGMT.ADD.FORM.TYPE.ERROR') }}
             </span>
           </label>
-          <div v-if="isAttributeTypeList" class="multiselect--wrap">
-            <label>
+          <div v-if="isAttributeTypeList" class="mb-4">
+            <label class="mb-1 block">
               {{ $t('ATTRIBUTES_MGMT.ADD.FORM.TYPE.LIST.LABEL') }}
             </label>
-            <multiselect
-              ref="tagInput"
-              v-model="values"
-              :placeholder="
-                $t('ATTRIBUTES_MGMT.ADD.FORM.TYPE.LIST.PLACEHOLDER')
-              "
-              label="name"
-              track-by="name"
-              :class="{ invalid: isMultiselectInvalid }"
-              :options="options"
-              multiple
-              taggable
-              @close="onTouch"
-              @tag="addTagValue"
-            />
+            <div
+              class="rounded-xl border px-3 py-2"
+              :class="isTagInputInvalid ? 'border-n-ruby-9' : 'border-n-weak'"
+            >
+              <TagInput
+                v-model="values"
+                :placeholder="
+                  $t('ATTRIBUTES_MGMT.ADD.FORM.TYPE.LIST.PLACEHOLDER')
+                "
+                allow-create
+                @blur="tagInputTouched = true"
+              />
+            </div>
             <label
-              v-show="isMultiselectInvalid"
+              v-show="isTagInputInvalid"
               class="text-n-ruby-9 dark:text-n-ruby-9 text-sm font-normal mt-1"
             >
               {{ $t('ATTRIBUTES_MGMT.ADD.FORM.TYPE.LIST.ERROR') }}
@@ -311,23 +307,5 @@ export default {
 .key-value {
   padding: 0 0.5rem 0.5rem 0;
   font-family: monospace;
-}
-
-.multiselect--wrap {
-  margin-bottom: 1rem;
-}
-
-::v-deep {
-  .multiselect {
-    margin-bottom: 0;
-  }
-
-  .multiselect__content-wrapper {
-    display: none;
-  }
-
-  .multiselect--active .multiselect__tags {
-    border-radius: 0.3125rem;
-  }
 }
 </style>
