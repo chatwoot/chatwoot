@@ -174,6 +174,10 @@
           "SUCCESFUL": "Assigned label #{labelName} to conversation id {conversationId}",
           "FAILED": "Nu s-a putut atribui eticheta. Vă rugăm încercați din nou."
         },
+        "LABEL_REMOVAL": {
+          "SUCCESFUL": "Removed label #{labelName} from conversation id {conversationId}",
+          "FAILED": "Couldn't remove label. Please try again."
+        },
         "TEAM_ASSIGNMENT": {
           "SUCCESFUL": "Echipa atribuită #{team} la conversația cu id {conversationId}",
           "FAILED": "Nu s-a putut atribui echipa. Vă rugăm să încercaţi din nou."
@@ -186,6 +190,8 @@
       "DISABLE_SIGN_TOOLTIP": "Dezactivarea semnăturii",
       "MSG_INPUT": "Shift + enter pentru linie nouă. Începe cu '/' pentru a selecta un răspuns predeterminat.",
       "PRIVATE_MSG_INPUT": "Shift + enter pentru linie nouă. Acest lucru va fi vizibil doar pentru Agenți",
+      "MESSAGING_RESTRICTED": "You cannot reply to this conversation",
+      "MESSAGING_RESTRICTED_WHATSAPP": "You can only reply using a template message due to 24-hour message window restriction",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Semnătura mesajului nu este configurată, vă rugăm să o configurați în setările profilului.",
       "COPILOT_MSG_INPUT": "Give copilot additional prompts, or ask anything else... Press enter to send follow-up",
       "CLICK_HERE": "Click aici pentru a actualiza",
