@@ -144,7 +144,7 @@ jobs:
   # Backend tests with parallelization
   backend-tests:
     <<: *defaults
-    parallelism: 16
+    parallelism: 18
     steps:
       - checkout
       - node/install:
@@ -350,12 +350,12 @@ jobs:
           destination: coverage
 
   build:
-      <<: *defaults
-      steps:
-        - run:
-            name: Legacy build aggregator
-            command: |
-              echo "All main jobs passed; build job kept only for GitHub required check compatibility."
+    <<: *defaults
+    steps:
+      - run:
+          name: Legacy build aggregator
+          command: |
+            echo "All main jobs passed; build job kept only for GitHub required check compatibility."
 
 workflows:
   version: 2
