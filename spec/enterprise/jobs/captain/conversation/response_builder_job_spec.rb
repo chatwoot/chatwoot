@@ -132,7 +132,7 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
     end
 
     context 'when ActiveStorage::FileNotFoundError occurs' do
-      it 'retries and does not trigger handoff' do
+      it 'handles file errors and triggers handoff' do
         allow(mock_message_builder).to receive(:generate_content)
           .and_raise(ActiveStorage::FileNotFoundError, 'Image file not found')
 
@@ -155,7 +155,7 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
     end
 
     context 'when Faraday::BadRequestError occurs' do
-      it 'retries and does not trigger handoff' do
+      it 'handles API errors and triggers handoff' do
         allow(mock_llm_chat_service).to receive(:generate_response)
           .and_raise(Faraday::BadRequestError, 'Bad request to image service')
 
