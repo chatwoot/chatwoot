@@ -830,7 +830,13 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
 </script>
 
 <template>
-  <div ref="editorRoot" class="relative w-full">
+  <div
+    ref="editorRoot"
+    class="relative w-full"
+    :class="{
+      'opacity-50 cursor-not-allowed pointer-events-none': disabled,
+    }"
+  >
     <TagAgents
       v-if="showUserMentions && isPrivate"
       :search-key="mentionSearchKey"
