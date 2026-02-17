@@ -2,6 +2,7 @@ module Captain::ChatHelper
   include Integrations::LlmInstrumentation
   include Captain::ChatResponseHelper
   include Captain::ChatGenerationRecorder
+  include Captain::ChatContextResolver
 
   def request_chat_completion
     log_chat_completion_request
@@ -53,7 +54,6 @@ module Captain::ChatHelper
     chat.on_end_message { |message| record_llm_generation(chat, message) }
     chat.on_tool_call { |tool_call| handle_tool_call(tool_call) }
     chat.on_tool_result { |result| handle_tool_result(result) }
-
     chat
   end
 
@@ -87,8 +87,9 @@ module Captain::ChatHelper
       messages: chat ? chat.messages.map { |m| { role: m.role.to_s, content: m.content.to_s } } : @messages,
       temperature: temperature,
       metadata: {
-        assistant_id: @assistant&.id
-      }
+        assistant_id: @assistant&.id,
+        channel_type: resolved_channel_type
+      }.compact
     }
   end
 
@@ -98,10 +99,6 @@ module Captain::ChatHelper
 
   def temperature
     @assistant&.config&.[]('temperature').to_f || 1
-  end
-
-  def resolved_account_id
-    @account&.id || @assistant&.account_id
   end
 
   # Ensures all LLM calls and tool executions within an agentic loop
@@ -127,10 +124,7 @@ module Captain::ChatHelper
   end
 
   def log_chat_completion_request
-    Rails.logger.info(
-      "#{self.class.name} Assistant: #{@assistant.id}, Requesting chat completion
-      for messages #{@messages} with #{@tools&.length || 0} tools
-      "
-    )
+    Rails.logger.info("#{self.class.name} Assistant: #{@assistant.id}, Requesting chat completion " \
+                      "for messages #{@messages} with #{@tools&.length || 0} tools")
   end
 end
