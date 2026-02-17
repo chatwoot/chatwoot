@@ -109,6 +109,13 @@ class Attachment < ApplicationRecord
   end
 
   def file_metadata
+    unless file.attached?
+      return {
+        data_url: external_url,
+        thumb_url: external_url
+      }
+    end
+
     metadata = {
       extension: extension,
       data_url: file_url,

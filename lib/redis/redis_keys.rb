@@ -41,6 +41,8 @@ module Redis::RedisKeys
   IG_MESSAGE_MUTEX = 'IG_MESSAGE_CREATE_LOCK::%<sender_id>s::%<ig_account_id>s'.freeze
   TIKTOK_MESSAGE_MUTEX = 'TIKTOK_MESSAGE_CREATE_LOCK::%<business_id>s::%<conversation_id>s'.freeze
   TIKTOK_REFRESH_TOKEN_MUTEX = 'TIKTOK_REFRESH_TOKEN_LOCK::%<channel_id>s'.freeze
+  X_MESSAGE_MUTEX = 'X_MESSAGE_CREATE_LOCK::%<sender_id>s::%<recipient_id>s'.freeze
+  X_REFRESH_TOKEN_MUTEX = 'X_REFRESH_TOKEN_LOCK::%<channel_id>s'.freeze
   SLACK_MESSAGE_MUTEX = 'SLACK_MESSAGE_LOCK::%<conversation_id>s::%<reference_id>s'.freeze
   EMAIL_MESSAGE_MUTEX = 'EMAIL_CHANNEL_LOCK::%<inbox_id>s'.freeze
   CRM_PROCESS_MUTEX = 'CRM_PROCESS_MUTEX::%<hook_id>s'.freeze
