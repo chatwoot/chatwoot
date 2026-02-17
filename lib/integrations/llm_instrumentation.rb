@@ -51,6 +51,7 @@ module Integrations::LlmInstrumentation
     return yield unless ChatwootApp.otel_enabled?
 
     tracer.in_span(format(TOOL_SPAN_NAME, tool_name)) do |span|
+      span.set_attribute(ATTR_LANGFUSE_OBSERVATION_TYPE, 'tool')
       span.set_attribute(ATTR_LANGFUSE_OBSERVATION_INPUT, arguments.to_json)
       result = yield
       span.set_attribute(ATTR_LANGFUSE_OBSERVATION_OUTPUT, result.to_json)
