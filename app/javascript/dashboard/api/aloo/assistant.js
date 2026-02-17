@@ -69,12 +69,6 @@ class AlooAssistant extends ApiClient {
       { responseType: 'blob' }
     );
   }
-
-  getVoiceUsage(assistantId, periodStart, periodEnd) {
-    return axios.get(`${this.url}/${assistantId}/voice_usage`, {
-      params: { period_start: periodStart, period_end: periodEnd },
-    });
-  }
 }
 
 export default new AlooAssistant();

@@ -22,17 +22,14 @@ module Aloo
       return error_result('Text is blank after sanitization') if sanitized_text.blank?
 
       generate_voice(sanitized_text)
-    rescue Aloo::ElevenlabsClient::Error => e
-      Rails.logger.error("[Aloo::VoiceSynthesis] ElevenLabs error: #{e.message}")
-      record_usage(success: false, error: e.message)
+    rescue RubyLLM::Error => e
+      Rails.logger.error("[Aloo::VoiceSynthesis] Provider error: #{e.message}")
       error_result(e.message)
     rescue Aloo::AudioConversionService::ConversionError => e
       Rails.logger.error("[Aloo::VoiceSynthesis] Conversion error: #{e.message}")
-      record_usage(success: false, error: e.message)
       error_result(e.message)
     rescue StandardError => e
       Rails.logger.error("[Aloo::VoiceSynthesis] Unexpected error: #{e.message}")
-      record_usage(success: false, error: e.message)
       error_result(e.message)
     end
 
@@ -41,35 +38,39 @@ module Aloo
     def generate_voice(sanitized_text)
       start_time = Process.clock_gettime(Process::CLOCK_MONOTONIC)
 
-      # Generate MP3 from ElevenLabs
-      client = Aloo::ElevenlabsClient.new
-      audio_data = client.text_to_speech(
-        text: sanitized_text,
-        voice_id: effective_voice_id,
-        model_id: assistant.effective_tts_model,
-        voice_settings: voice_settings
-      )
+      speech = speaker_class.call(**speaker_params(sanitized_text))
+      raise speech.error_message if speech.error?
 
       # Convert to OGG for WhatsApp compatibility
-      ogg_path = Aloo::AudioConversionService.convert_data_to_whatsapp(audio_data)
-
-      # Record usage
-      record_usage(success: true, characters: sanitized_text.length)
+      ogg_path = Aloo::AudioConversionService.convert_data_to_whatsapp(speech.audio)
 
       log_success(sanitized_text, start_time)
 
-      success_result(ogg_path, audio_data)
+      success_result(ogg_path, speech.audio)
+    end
+
+    def speaker_class
+      assistant.tts_provider == 'openai' ? Audio::AlooOpenaiSpeaker : Audio::AlooSpeaker
+    end
+
+    def speaker_params(text)
+      base = { text: text, model: assistant.effective_tts_model, tenant: assistant.account }
+
+      if assistant.tts_provider == 'openai'
+        base.merge(voice: assistant.openai_voice.presence || 'alloy')
+      else
+        base.merge(
+          voice_id: effective_voice_id,
+          voice_settings: {
+            stability: assistant.elevenlabs_stability&.to_f || 0.5,
+            similarity_boost: assistant.elevenlabs_similarity_boost&.to_f || 0.75
+          }
+        )
+      end
     end
 
     def effective_voice_id
       voice_id_override.presence || assistant.elevenlabs_voice_id
-    end
-
-    def voice_settings
-      {
-        stability: assistant.elevenlabs_stability&.to_f || 0.5,
-        similarity_boost: assistant.elevenlabs_similarity_boost&.to_f || 0.75
-      }
     end
 
     def sanitize_text(input)
@@ -91,21 +92,6 @@ module Aloo
       result
     end
 
-    def record_usage(success:, characters: 0, error: nil)
-      return unless assistant
-
-      Aloo::VoiceUsageRecord.record_synthesis(
-        account: assistant.account,
-        assistant: assistant,
-        message: message,
-        characters: characters,
-        voice_id: effective_voice_id,
-        model: assistant.effective_tts_model,
-        success: success,
-        error: error
-      )
-    end
-
     def log_success(text, start_time)
       elapsed_ms = ((Process.clock_gettime(Process::CLOCK_MONOTONIC) - start_time) * 1000).round
 
@@ -123,7 +109,7 @@ module Aloo
         success: true,
         audio_path: ogg_path,
         audio_data: mp3_data,
-        content_type: 'audio/ogg',
+        content_type: 'audio/ogg; codecs=opus',
         format: 'ogg'
       }
     end

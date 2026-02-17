@@ -10,6 +10,7 @@ RubyLLM::Agents.configure do |config|
   # ============================================
   config.openai_api_key = ENV.fetch('OPENAI_API_KEY', nil)
   config.gemini_api_key = ENV.fetch('GEMINI_API_KEY', nil)
+  config.elevenlabs_api_key = ENV.fetch('ELEVENLABS_API_KEY', nil)
 
   # Enable multi-tenancy to isolate budget tracking, execution logging,
   # and circuit breakers by account (tenant)
@@ -40,6 +41,21 @@ RubyLLM::Agents.configure do |config|
   # Cache store for agent response caching (defaults to Rails.cache)
   # config.cache_store = Rails.cache
   # config.cache_store = ActiveSupport::Cache::MemoryStore.new
+
+  # ============================================
+  # Audio Tracking (Speaker/Transcriber)
+  # ============================================
+
+  # Track Speaker and Transcriber executions in the Execution table
+  config.track_audio = true
+
+  # Don't store large base64 audio blobs in execution records
+  config.persist_audio_data = false
+
+  # Audio defaults
+  config.default_tts_provider = :elevenlabs
+  config.default_tts_model = 'eleven_v3'
+  config.default_transcription_model = 'whisper-1'
 
   # ============================================
   # Execution Logging
