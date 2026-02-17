@@ -33,6 +33,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    isEditorDisabled: {
+      type: Boolean,
+      default: false,
+    },
     conversationId: {
       type: Number,
       default: null,
@@ -157,7 +161,7 @@ export default {
       <div class="relative">
         <NextButton
           ghost
-          :disabled="disabled"
+          :disabled="disabled || isEditorDisabled"
           :class="{
             'text-n-violet-9 hover:enabled:!bg-n-violet-3': !showCopilotMenu,
             'text-n-violet-9 bg-n-violet-3': showCopilotMenu,
