@@ -8,7 +8,7 @@ module Aloo
 
     # Voice configuration constants
     VALID_REPLY_MODES = %w[text_only voice_only text_and_voice].freeze
-    VALID_TTS_PROVIDERS = %w[elevenlabs].freeze
+    VALID_TTS_PROVIDERS = %w[elevenlabs openai].freeze
     VALID_TRANSCRIPTION_PROVIDERS = %w[openai].freeze
     DEFAULT_TRANSCRIPTION_MODEL = 'whisper-1'
     DEFAULT_TTS_MODEL = 'eleven_multilingual_v2'
@@ -22,6 +22,8 @@ module Aloo
                    :elevenlabs_model_id,
                    :elevenlabs_stability,
                    :elevenlabs_similarity_boost,
+                   :openai_voice,
+                   :openai_model_id,
                    :reply_mode
 
     has_many :assistant_inboxes,
@@ -204,7 +206,12 @@ module Aloo
     end
 
     def effective_tts_model
-      elevenlabs_model_id.presence || DEFAULT_TTS_MODEL
+      case tts_provider
+      when 'openai'
+        openai_model_id.presence || 'tts-1'
+      else
+        elevenlabs_model_id.presence || DEFAULT_TTS_MODEL
+      end
     end
 
     def effective_reply_mode
@@ -212,7 +219,14 @@ module Aloo
     end
 
     def voice_reply_enabled?
-      voice_enabled? && voice_output_enabled? && elevenlabs_voice_id.present?
+      return false unless voice_enabled? && voice_output_enabled?
+
+      case tts_provider
+      when 'openai'
+        true # OpenAI uses named voices (alloy, nova, etc.), always available
+      else
+        elevenlabs_voice_id.present?
+      end
     end
 
     def voice_transcription_enabled?
