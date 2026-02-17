@@ -80,7 +80,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   end
 
   def handoff_requested?
-    @response['response'] == 'conversation_handoff'
+    @response['response'].blank? || @response['response'] == 'conversation_handoff'
   end
 
   def process_action(action)
@@ -109,12 +109,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   end
 
   def create_messages
-    validate_message_content!(@response['response'])
     create_outgoing_message(@response['response'], agent_name: @response['agent_name'])
-  end
-
-  def validate_message_content!(content)
-    raise ArgumentError, 'Message content cannot be blank' if content.blank?
   end
 
   def create_outgoing_message(message_content, agent_name: nil)

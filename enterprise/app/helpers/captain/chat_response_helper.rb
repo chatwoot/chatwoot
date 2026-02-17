@@ -19,7 +19,7 @@ module Captain::ChatResponseHelper
     JSON.parse(content)
   rescue JSON::ParserError => e
     Rails.logger.error "#{self.class.name} Assistant: #{@assistant.id}, Error parsing JSON response: #{e.message}"
-    { 'content' => content }
+    { 'response' => content, 'content' => content }
   end
 
   def apply_credit_usage_metadata(parsed_response)
