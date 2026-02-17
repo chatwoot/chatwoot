@@ -15,14 +15,14 @@ module Redis::SecureStorage
     # @param expiry [Integer, ActiveSupport::Duration] TTL in seconds
     def set(key, data, expiry)
       encrypted = encrypt(data)
-      Alfred.setex(key, encrypted, expiry)
+      Redis::Alfred.setex(key, encrypted, expiry)
     end
 
     # Retrieve and decrypt data from Redis
     # @param key [String] Redis key
     # @return [Hash, nil] Decrypted data or nil if not found/invalid
     def get(key)
-      encrypted = Alfred.get(key)
+      encrypted = Redis::Alfred.get(key)
       return nil if encrypted.blank?
 
       decrypt(encrypted)
@@ -33,16 +33,18 @@ module Redis::SecureStorage
     # Delete data from Redis
     # @param key [String] Redis key
     def delete(key)
-      Alfred.delete(key)
+      Redis::Alfred.delete(key)
     end
 
     private
 
     def encryptor
-      @encryptor ||= ActiveSupport::MessageEncryptor.new(
-        Rails.application.credentials.secret_key_base[0..31],
-        cipher: 'aes-256-gcm'
-      )
+      @encryptor ||= begin
+        # Derive a proper 32-byte key from secret_key_base
+        key_generator = ActiveSupport::KeyGenerator.new(Rails.application.secret_key_base)
+        key = key_generator.generate_key('redis_secure_storage', 32)
+        ActiveSupport::MessageEncryptor.new(key, cipher: 'aes-256-gcm')
+      end
     end
 
     def encrypt(data)

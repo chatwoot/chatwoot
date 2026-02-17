@@ -9,6 +9,7 @@ class Shopify::CallbacksController < ApplicationController
     end
   rescue StandardError => e
     Rails.logger.error("Shopify callback error: #{e.message}")
+    Rails.logger.error("Shopify callback error backtrace: #{e.backtrace.first(10).join("\n")}")
     redirect_to error_redirect_url
   end
 
@@ -37,6 +38,12 @@ class Shopify::CallbacksController < ApplicationController
     # Shopify will reject any attempt to exchange a code at a different shop's endpoint.
     @response = oauth_client.auth_code.get_token(params[:code], redirect_uri: redirect_callback_uri)
 
+    Rails.logger.info("OAuth Debug - Response present: #{@response.present?}")
+    Rails.logger.info("OAuth Debug - Response class: #{@response.class}")
+    Rails.logger.info("OAuth Debug - Parsed body: #{parsed_body.inspect}")
+
+    raise StandardError, 'Failed to parse OAuth response' if parsed_body.blank?
+
     token_key = SecureRandom.hex(16)
     pending_data = {
       access_token: parsed_body['access_token'],
@@ -62,7 +69,15 @@ class Shopify::CallbacksController < ApplicationController
   end
 
   def parsed_body
-    @parsed_body ||= @response.response.parsed
+    @parsed_body ||= begin
+      parsed = @response.response.parsed
+      # SnakyHash may not behave like a regular hash for all operations
+      # Convert to a regular hash to ensure compatibility
+      {
+        'access_token' => parsed.access_token || parsed['access_token'],
+        'scope' => parsed.scope || parsed['scope']
+      }
+    end
   end
 
   def oauth_client
@@ -115,12 +130,25 @@ class Shopify::CallbacksController < ApplicationController
   def valid_hmac?
     return false if params[:hmac].blank?
 
-    # Shopify signs callback parameters with HMAC to prevent tampering
+    # Shopify HMAC validation
+    # Reference: https://shopify.dev/docs/apps/build/authentication-authorization/get-access-tokens
     hmac = params[:hmac]
-    # Convert to unsafe hash to avoid strong parameters restriction, then build query string
-    # Shopify expects parameters to be sorted alphabetically when computing HMAC
-    query_params = params.except(:hmac, :controller, :action).to_unsafe_h.sort.to_h.to_query
-    computed_hmac = OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new('SHA256'), client_secret, query_params)
+
+    # Build query string from params, excluding hmac and Rails-added params
+    query_params = params.except(:hmac, :controller, :action).to_unsafe_h
+    query_string = query_params.sort.map { |k, v| "#{k}=#{v}" }.join('&')
+
+    # Compute HMAC-SHA256
+    computed_hmac = OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new('SHA256'), client_secret, query_string)
+
+    # Debug logging
+    Rails.logger.info("HMAC Debug - Query params: #{query_params.inspect}")
+    Rails.logger.info("HMAC Debug - Query string for validation: #{query_string}")
+    Rails.logger.info("HMAC Debug - Shopify HMAC: #{hmac}")
+    Rails.logger.info("HMAC Debug - Computed HMAC: #{computed_hmac}")
+    Rails.logger.info("HMAC Debug - Client secret present: #{client_secret.present?}")
+    Rails.logger.info("HMAC Debug - Client secret length: #{client_secret&.length}")
+    Rails.logger.info("HMAC Debug - Client secret starts with: #{client_secret&.first(10)}")
 
     ActiveSupport::SecurityUtils.secure_compare(computed_hmac, hmac)
   end
