@@ -87,7 +87,7 @@ class CacheEnabledApiClient extends ApiClient {
   async clearDataInCache() {
     try {
       await this.dataManager.initDb();
-      this.dataManager.db.clear(this.cacheModelName);
+      await this.dataManager.db.clear(this.cacheModelName);
     } catch {
       // Ignore error
     }
