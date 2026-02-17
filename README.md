@@ -85,6 +85,65 @@ Publish help articles, FAQs, and guides through the built-in Help Center Portal.
 - Downloadable Reports for offline analysis and reporting.
 
 
+## Local Development Setup
+
+### Prerequisites
+
+- Ruby (version specified in `.ruby-version`, managed via `rbenv`)
+- Node.js and pnpm
+- Docker and Docker Compose (for PostgreSQL and Redis)
+
+### 1. Install dependencies
+
+```bash
+rbenv install $(cat .ruby-version)
+eval "$(rbenv init -)"
+bundle install
+pnpm install
+```
+
+### 2. Configure environment
+
+```bash
+cp .env.example .env
+```
+
+Edit `.env` and set the following values for local development:
+
+```
+POSTGRES_HOST=localhost
+POSTGRES_USERNAME=postgres
+POSTGRES_PASSWORD=postgres
+REDIS_URL=redis://localhost:6379
+RAILS_ENV=development
+```
+
+### 3. Start PostgreSQL and Redis via Docker
+
+```bash
+docker compose up -d postgres redis
+```
+
+> Make sure `docker-compose.yaml` has `POSTGRES_PASSWORD=postgres` set for the postgres service.
+
+### 4. Setup the database
+
+```bash
+bundle exec rails db:create
+bundle exec rails db:schema:load
+bundle exec rails db:seed
+```
+
+> Use `db:schema:load` instead of `db:migrate` on a fresh database to avoid compatibility issues with older migrations.
+
+### 5. Start the application
+
+```bash
+overmind start -f Procfile.dev
+```
+
+The app will be available at `http://localhost:3000`. Seed credentials are printed in the console output of `db:seed`.
+
 ## Documentation
 
 Detailed documentation is available at [chatwoot.com/help-center](https://www.chatwoot.com/help-center).
