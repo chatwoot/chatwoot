@@ -695,7 +695,7 @@
         "API": {
           "SUCCESS_MESSAGE": "Policy di assegnazione creata con successo",
           "ERROR_MESSAGE": "Impossibile creare la policy di assegnazione",
-          "INBOX_LINKED": "Inbox has been linked to the policy"
+          "INBOX_LINKED": "La inbox è stata collegata alla policy"
         }
       },
       "EDIT": {
@@ -710,10 +710,10 @@
           "CANCEL_BUTTON_LABEL": "Annulla"
         },
         "INBOX_LINK_PROMPT": {
-          "TITLE": "Link inbox to policy",
-          "DESCRIPTION": "Would you like to link this inbox to the assignment policy?",
-          "LINK_BUTTON": "Link inbox",
-          "CANCEL_BUTTON": "Skip"
+          "TITLE": "Collega inbox alla policy",
+          "DESCRIPTION": "Vuoi collegare questa inbox alla policy di assegnazione?",
+          "LINK_BUTTON": "Collega inbox",
+          "CANCEL_BUTTON": "Salta"
         },
         "API": {
           "SUCCESS_MESSAGE": "Policy di assegnazione aggiornata con successo",
@@ -754,7 +754,7 @@
           "BALANCED": {
             "LABEL": "Bilanciato",
             "DESCRIPTION": "Assegna le conversazioni in base alla capacità disponibile.",
-            "PREMIUM_MESSAGE": "Upgrade to access balanced assignment and agent capacity management.",
+            "PREMIUM_MESSAGE": "Fai l’upgrade per accedere all’assegnazione bilanciata e alla gestione della capacità degli operatori.",
             "PREMIUM_BADGE": "Premium"
           }
         },
