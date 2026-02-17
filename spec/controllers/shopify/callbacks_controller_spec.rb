@@ -5,6 +5,7 @@ RSpec.describe Shopify::CallbacksController, type: :request do
   let(:code) { SecureRandom.hex(10) }
   let(:state) { SecureRandom.hex(10) }
   let(:shop) { 'my-store.myshopify.com' }
+  let(:client_secret) { 'test_secret_key_1234567890' }
   let(:frontend_url) { 'http://www.example.com' }
   let(:shopify_redirect_uri) { "#{frontend_url}/app/accounts/#{account.id}/settings/integrations/shopify" }
   let(:oauth_client) { instance_double(OAuth2::Client) }
@@ -15,6 +16,12 @@ RSpec.describe Shopify::CallbacksController, type: :request do
       response: instance_double(OAuth2::Response, parsed: response_body),
       token: access_token
     )
+  end
+
+  # Helper to compute HMAC for test requests (matches Shopify's algorithm)
+  def compute_hmac(params, secret)
+    query_string = params.except(:hmac).sort.map { |k, v| "#{k}=#{v}" }.join('&')
+    OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new('SHA256'), secret, query_string)
   end
 
   describe 'GET /shopify/callback' do
@@ -36,6 +43,7 @@ RSpec.describe Shopify::CallbacksController, type: :request do
           controller = original.call(*args)
           allow(controller).to receive(:verify_shopify_token).and_return(account.id)
           allow(controller).to receive(:oauth_client).and_return(oauth_client)
+          allow(controller).to receive(:client_secret).and_return(client_secret)
           controller
         end
         allow(Account).to receive(:find).and_return(account)
@@ -57,8 +65,11 @@ RSpec.describe Shopify::CallbacksController, type: :request do
       end
 
       it 'creates a new integration hook' do
+        params = { code: code, state: state, shop: shop }
+        params[:hmac] = compute_hmac(params, client_secret)
+
         expect do
-          get shopify_callback_path, params: { code: code, state: state, shop: shop }
+          get shopify_callback_path, params: params
         end.to change(Integrations::Hook, :count).by(1)
 
         hook = Integrations::Hook.last
@@ -82,7 +93,10 @@ RSpec.describe Shopify::CallbacksController, type: :request do
       end
 
       it 'redirects to the shopify_redirect_uri with error' do
-        get shopify_callback_path, params: { state: state, shop: shop }
+        params = { state: state, shop: shop }
+        params[:hmac] = compute_hmac(params, client_secret)
+
+        get shopify_callback_path, params: params
         expect(response).to redirect_to("#{shopify_redirect_uri}?error=true")
       end
     end
@@ -104,7 +118,10 @@ RSpec.describe Shopify::CallbacksController, type: :request do
       end
 
       it 'redirects to the shopify_redirect_uri with error' do
-        get shopify_callback_path, params: { code: code, state: state, shop: shop }
+        params = { code: code, state: state, shop: shop }
+        params[:hmac] = compute_hmac(params, client_secret)
+
+        get shopify_callback_path, params: params
         expect(response).to redirect_to("#{shopify_redirect_uri}?error=true")
       end
     end
@@ -115,13 +132,17 @@ RSpec.describe Shopify::CallbacksController, type: :request do
         # Explicit class name and any_instance required for parallel CI stability
         allow_any_instance_of(Shopify::CallbacksController).to receive(:verify_shopify_token).and_return(nil)
         allow_any_instance_of(Shopify::CallbacksController).to receive(:oauth_client).and_return(oauth_client)
+        allow_any_instance_of(Shopify::CallbacksController).to receive(:client_secret).and_return(client_secret)
         # rubocop:enable RSpec/AnyInstance, RSpec/DescribedClass
         allow(oauth_client).to receive(:auth_code).and_return(auth_code_strategy)
         allow(auth_code_strategy).to receive(:get_token).and_return(token_response)
       end
 
       it 'handles as Shopify-initiated install and redirects to login with pending install token' do
-        get shopify_callback_path, params: { code: code, state: state, shop: shop }
+        params = { code: code, state: state, shop: shop }
+        params[:hmac] = compute_hmac(params, client_secret)
+
+        get shopify_callback_path, params: params
         expect(response).to redirect_to(%r{#{Regexp.escape(frontend_url)}/app/login\?redirect_url=})
         expect(CGI.unescape(response.location)).to include('shopify_pending_install=')
       end
