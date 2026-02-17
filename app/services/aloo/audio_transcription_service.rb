@@ -20,11 +20,9 @@ module Aloo
       transcribe_and_store
     rescue RubyLLM::Error => e
       Rails.logger.error("[Aloo::AudioTranscription] RubyLLM error: #{e.message}")
-      record_usage(success: false, error: e.message)
       error_result(e.message)
     rescue StandardError => e
       Rails.logger.error("[Aloo::AudioTranscription] Unexpected error: #{e.message}")
-      record_usage(success: false, error: e.message)
       error_result(e.message)
     end
 
@@ -46,7 +44,6 @@ module Aloo
       transcription = result.text
 
       store_transcription(transcription)
-      record_usage(success: true, duration_seconds: duration_seconds, execution_cost: result.total_cost)
       notify_message_updated
 
       log_success(transcription, duration_seconds, start_time)
@@ -106,21 +103,6 @@ module Aloo
 
     def notify_message_updated
       message.reload.send_update_event
-    end
-
-    def record_usage(success:, duration_seconds: 0, error: nil, execution_cost: nil)
-      return unless assistant
-
-      Aloo::VoiceUsageRecord.record_transcription(
-        account: assistant.account,
-        assistant: assistant,
-        message: message,
-        duration_seconds: duration_seconds.to_i,
-        model: transcription_model,
-        success: success,
-        error: error,
-        execution_cost: execution_cost
-      )
     end
 
     def estimate_duration(file_path)

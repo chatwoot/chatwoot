@@ -145,25 +145,13 @@ class Api::V1::Accounts::Aloo::AssistantsController < Api::V1::Accounts::BaseCon
   def voice_usage
     period_start = parse_date_param(:period_start, Time.current.beginning_of_month)
     period_end = parse_date_param(:period_end, Time.current.end_of_month)
-
-    usage = @assistant.voice_usage_records.for_period(period_start, period_end)
-
-    transcription_stats = usage.transcriptions.successful
-    synthesis_stats = usage.synthesis.successful
+    usage = assistant_executions_scope.where(started_at: period_start..period_end)
 
     render json: {
       period: { start: period_start.iso8601, end: period_end.iso8601 },
-      transcription: {
-        count: transcription_stats.count,
-        total_duration_seconds: transcription_stats.sum(:audio_duration_seconds),
-        estimated_cost: transcription_stats.sum(:estimated_cost).to_f.round(4)
-      },
-      synthesis: {
-        count: synthesis_stats.count,
-        total_characters: synthesis_stats.sum(:characters_used),
-        estimated_cost: synthesis_stats.sum(:estimated_cost).to_f.round(4)
-      },
-      total_estimated_cost: usage.successful.sum(:estimated_cost).to_f.round(4),
+      transcription: transcription_summary(usage),
+      synthesis: synthesis_summary(usage),
+      total_estimated_cost: usage.successful.sum(:total_cost).to_f.round(4),
       failed_operations: usage.failed.count
     }
   end
@@ -207,6 +195,26 @@ class Api::V1::Accounts::Aloo::AssistantsController < Api::V1::Accounts::BaseCon
 
   def set_assistant
     @assistant = Current.account.aloo_assistants.find(params[:id])
+  end
+
+  def assistant_executions_scope
+    audio_agents = %w[Audio::AlooSpeaker Audio::AlooOpenaiSpeaker Audio::AlooTranscriber]
+    RubyLLM::Agents::Execution
+      .by_tenant(Current.account.id.to_s)
+      .where(agent_type: audio_agents)
+      .metadata_value('aloo_assistant_id', @assistant.id.to_s)
+  end
+
+  def transcription_summary(usage)
+    stats = usage.successful.where(agent_type: 'Audio::AlooTranscriber')
+    { count: stats.count, total_duration_seconds: stats.sum(:duration_ms).to_i / 1000,
+      estimated_cost: stats.sum(:total_cost).to_f.round(4) }
+  end
+
+  def synthesis_summary(usage)
+    stats = usage.successful.where(agent_type: %w[Audio::AlooSpeaker Audio::AlooOpenaiSpeaker])
+    { count: stats.count, total_characters: stats.sum(:input_tokens),
+      estimated_cost: stats.sum(:total_cost).to_f.round(4) }
   end
 
   def assistant_params

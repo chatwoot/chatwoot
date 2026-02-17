@@ -102,3 +102,4 @@ plans/
 .histoire
 .pnpm-store/*
 local/
+.mcp.json

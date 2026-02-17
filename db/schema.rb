@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_02_16_184516) do
+ActiveRecord::Schema[7.1].define(version: 2026_02_17_172150) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -263,29 +263,6 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_16_184516) do
     t.index ["aloo_assistant_id"], name: "index_aloo_embeddings_on_aloo_assistant_id"
     t.index ["aloo_document_id"], name: "index_aloo_embeddings_on_aloo_document_id"
     t.index ["embedding"], name: "aloo_embeddings_embedding_idx", opclass: :vector_cosine_ops, using: :hnsw
-  end
-
-  create_table "aloo_voice_usage_records", force: :cascade do |t|
-    t.bigint "account_id", null: false
-    t.bigint "aloo_assistant_id", null: false
-    t.bigint "message_id"
-    t.string "operation_type", null: false
-    t.string "provider", null: false
-    t.integer "characters_used", default: 0
-    t.integer "audio_duration_seconds", default: 0
-    t.decimal "estimated_cost", precision: 10, scale: 6
-    t.string "model_used"
-    t.string "voice_id"
-    t.string "status", default: "success"
-    t.jsonb "metadata", default: {}
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["account_id", "created_at"], name: "index_aloo_voice_usage_records_on_account_id_and_created_at"
-    t.index ["account_id", "operation_type"], name: "index_aloo_voice_usage_records_on_account_id_and_operation_type"
-    t.index ["account_id"], name: "index_aloo_voice_usage_records_on_account_id"
-    t.index ["aloo_assistant_id"], name: "index_aloo_voice_usage_records_on_aloo_assistant_id"
-    t.index ["created_at"], name: "index_aloo_voice_usage_records_on_created_at"
-    t.index ["message_id"], name: "index_aloo_voice_usage_records_on_message_id"
   end
 
   create_table "applied_slas", force: :cascade do |t|
@@ -1501,9 +1478,6 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_16_184516) do
   add_foreign_key "aloo_embeddings", "accounts"
   add_foreign_key "aloo_embeddings", "aloo_assistants"
   add_foreign_key "aloo_embeddings", "aloo_documents"
-  add_foreign_key "aloo_voice_usage_records", "accounts"
-  add_foreign_key "aloo_voice_usage_records", "aloo_assistants"
-  add_foreign_key "aloo_voice_usage_records", "messages"
   add_foreign_key "cart_items", "carts"
   add_foreign_key "cart_items", "products"
   add_foreign_key "carts", "accounts"

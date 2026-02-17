@@ -6,6 +6,21 @@ RSpec.describe 'Aloo Assistants Voice API', type: :request do
   let(:account) { create(:account) }
   let(:admin) { create(:user, account: account, role: :administrator) }
   let(:assistant) { create(:aloo_assistant, :with_voice_features, account: account) }
+  let(:tenant_id) { account.id.to_s }
+
+  def create_execution(agent_type:, status: 'success', started_at: Time.current, cost: 0.001, duration_ms: 500, metadata: {})
+    RubyLLM::Agents::Execution.create!(
+      agent_type: agent_type,
+      model_id: agent_type.include?('Transcriber') ? 'whisper-1' : 'eleven_v3',
+      status: status,
+      started_at: started_at,
+      completed_at: started_at + (duration_ms / 1000.0).seconds,
+      duration_ms: duration_ms,
+      total_cost: cost,
+      tenant_id: tenant_id,
+      metadata: metadata
+    )
+  end
 
   describe 'GET /api/v1/accounts/:account_id/aloo/assistants/:id/voices' do
     let(:voices_response) do
@@ -199,17 +214,12 @@ RSpec.describe 'Aloo Assistants Voice API', type: :request do
 
     context 'when it is an authenticated user' do
       before do
-        create(:aloo_voice_usage_record, :transcription,
-               account: account,
-               assistant: assistant,
-               audio_duration_seconds: 60)
-        create(:aloo_voice_usage_record, :synthesis,
-               account: account,
-               assistant: assistant,
-               characters_used: 500)
-        create(:aloo_voice_usage_record, :failed,
-               account: account,
-               assistant: assistant)
+        create_execution(agent_type: 'Audio::AlooTranscriber', duration_ms: 60_000,
+                         metadata: { 'aloo_assistant_id' => assistant.id.to_s })
+        create_execution(agent_type: 'Audio::AlooSpeaker', cost: 0.015,
+                         metadata: { 'aloo_assistant_id' => assistant.id.to_s })
+        create_execution(agent_type: 'Audio::AlooTranscriber', status: 'error',
+                         metadata: { 'aloo_assistant_id' => assistant.id.to_s })
       end
 
       it 'returns usage statistics' do

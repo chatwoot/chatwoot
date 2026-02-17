@@ -43,6 +43,21 @@ RubyLLM::Agents.configure do |config|
   # config.cache_store = ActiveSupport::Cache::MemoryStore.new
 
   # ============================================
+  # Audio Tracking (Speaker/Transcriber)
+  # ============================================
+
+  # Track Speaker and Transcriber executions in the Execution table
+  config.track_audio = true
+
+  # Don't store large base64 audio blobs in execution records
+  config.persist_audio_data = false
+
+  # Audio defaults
+  config.default_tts_provider = :elevenlabs
+  config.default_tts_model = 'eleven_v3'
+  config.default_transcription_model = 'whisper-1'
+
+  # ============================================
   # Execution Logging
   # ============================================
 

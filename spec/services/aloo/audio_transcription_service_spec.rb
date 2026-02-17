@@ -145,17 +145,11 @@ RSpec.describe Aloo::AudioTranscriptionService, type: :service do
         expect(attachment.meta['transcription_status']).to eq('completed')
       end
 
-      it 'records voice usage' do
+      it 'returns the transcription text' do
         service = described_class.new(attachment)
+        result = service.perform
 
-        expect do
-          service.perform
-        end.to change(Aloo::VoiceUsageRecord, :count).by(1)
-
-        record = Aloo::VoiceUsageRecord.last
-        expect(record.operation_type).to eq('transcription')
-        expect(record.status).to eq('success')
-        expect(record.audio_duration_seconds).to eq(15)
+        expect(result[:transcription]).to eq('Hello, this is a test')
       end
 
       it 'calls AlooTranscriber with correct parameters' do
@@ -203,16 +197,11 @@ RSpec.describe Aloo::AudioTranscriptionService, type: :service do
         expect(result[:error]).to eq('API error')
       end
 
-      it 'records failed usage' do
+      it 'does not raise an error' do
         service = described_class.new(attachment)
+        result = service.perform
 
-        expect do
-          service.perform
-        end.to change(Aloo::VoiceUsageRecord, :count).by(1)
-
-        record = Aloo::VoiceUsageRecord.last
-        expect(record.status).to eq('failed')
-        expect(record.metadata['error']).to eq('API error')
+        expect(result[:success]).to be false
       end
     end
 

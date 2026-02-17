@@ -137,17 +137,11 @@ RSpec.describe Aloo::VoiceSynthesisService, type: :service do
         service.perform
       end
 
-      it 'records voice usage' do
+      it 'returns audio data in the result' do
         service = described_class.new(text: text, assistant: assistant, message: message)
+        result = service.perform
 
-        expect do
-          service.perform
-        end.to change(Aloo::VoiceUsageRecord, :count).by(1)
-
-        record = Aloo::VoiceUsageRecord.last
-        expect(record.operation_type).to eq('synthesis')
-        expect(record.status).to eq('success')
-        expect(record.characters_used).to eq(text.length)
+        expect(result[:audio_data]).to eq(audio_binary)
       end
     end
 
@@ -172,16 +166,11 @@ RSpec.describe Aloo::VoiceSynthesisService, type: :service do
         expect(result[:error]).to eq('API quota exceeded')
       end
 
-      it 'records failed usage' do
+      it 'does not raise an error' do
         service = described_class.new(text: text, assistant: assistant)
+        result = service.perform
 
-        expect do
-          service.perform
-        end.to change(Aloo::VoiceUsageRecord, :count).by(1)
-
-        record = Aloo::VoiceUsageRecord.last
-        expect(record.status).to eq('failed')
-        expect(record.metadata['error']).to eq('API quota exceeded')
+        expect(result[:success]).to be false
       end
     end
 

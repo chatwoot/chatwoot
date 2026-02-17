@@ -44,11 +44,6 @@ module Aloo
              inverse_of: :assistant
     has_many :messages, as: :sender, dependent: :nullify
     has_many :created_carts, as: :created_by, class_name: 'Cart', dependent: :nullify
-    has_many :voice_usage_records,
-             class_name: 'Aloo::VoiceUsageRecord',
-             foreign_key: 'aloo_assistant_id',
-             dependent: :destroy,
-             inverse_of: :assistant
     # Deferred to v2: has_many :custom_tools
 
     # Personality settings (user-configurable)

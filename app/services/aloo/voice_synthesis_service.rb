@@ -24,15 +24,12 @@ module Aloo
       generate_voice(sanitized_text)
     rescue RubyLLM::Error => e
       Rails.logger.error("[Aloo::VoiceSynthesis] Provider error: #{e.message}")
-      record_usage(success: false, error: e.message)
       error_result(e.message)
     rescue Aloo::AudioConversionService::ConversionError => e
       Rails.logger.error("[Aloo::VoiceSynthesis] Conversion error: #{e.message}")
-      record_usage(success: false, error: e.message)
       error_result(e.message)
     rescue StandardError => e
       Rails.logger.error("[Aloo::VoiceSynthesis] Unexpected error: #{e.message}")
-      record_usage(success: false, error: e.message)
       error_result(e.message)
     end
 
@@ -47,7 +44,6 @@ module Aloo
       # Convert to OGG for WhatsApp compatibility
       ogg_path = Aloo::AudioConversionService.convert_data_to_whatsapp(speech.audio)
 
-      record_usage(success: true, characters: sanitized_text.length, execution_cost: speech.total_cost)
       log_success(sanitized_text, start_time)
 
       success_result(ogg_path, speech.audio)
@@ -94,22 +90,6 @@ module Aloo
       result = result[0...(MAX_TEXT_LENGTH - TRUNCATION_SUFFIX.length)] + TRUNCATION_SUFFIX if result.length > MAX_TEXT_LENGTH
 
       result
-    end
-
-    def record_usage(success:, characters: 0, error: nil, execution_cost: nil)
-      return unless assistant
-
-      Aloo::VoiceUsageRecord.record_synthesis(
-        account: assistant.account,
-        assistant: assistant,
-        message: message,
-        characters: characters,
-        voice_id: effective_voice_id,
-        model: assistant.effective_tts_model,
-        success: success,
-        error: error,
-        execution_cost: execution_cost
-      )
     end
 
     def log_success(text, start_time)
