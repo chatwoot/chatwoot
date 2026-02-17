@@ -174,6 +174,10 @@
           "SUCCESFUL": "Assigned label #{labelName} to conversation id {conversationId}",
           "FAILED": "Αποτυχία στην εκχώρηση ετικέτας, παρακαλώ δοκιμάστε αργότερα."
         },
+        "LABEL_REMOVAL": {
+          "SUCCESFUL": "Removed label #{labelName} from conversation id {conversationId}",
+          "FAILED": "Couldn't remove label. Please try again."
+        },
         "TEAM_ASSIGNMENT": {
           "SUCCESFUL": "Η συνομιλία με αριθμό {conversationId} ανατέθηκε στην ομάδα \"{team}\"",
           "FAILED": "Αδυναμία αντιστοίχισης ομάδας. Παρακαλώ δοκιμάστε ξανά."
@@ -186,6 +190,8 @@
       "DISABLE_SIGN_TOOLTIP": "Απενεργοποίηση υπογραφής",
       "MSG_INPUT": "Shift + enter για νέα γραμμή. Ξεκινήστε με '/' για να επιλέξτε Τυποποιημένη Απάντηση.",
       "PRIVATE_MSG_INPUT": "Shift + enter για νέα γραμμή. Το κείμενο θα μπορούν να το δουν μόνο οι υπόλοιποι πράκτορες.",
+      "MESSAGING_RESTRICTED": "You cannot reply to this conversation",
+      "MESSAGING_RESTRICTED_WHATSAPP": "You can only reply using a template message due to 24-hour message window restriction",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Δεν έχει ρυθμιστεί η υπογραφή μηνύματος, παρακαλώ ρυθμίστε την στις ρυθμίσεις προφίλ.",
       "COPILOT_MSG_INPUT": "Give copilot additional prompts, or ask anything else... Press enter to send follow-up",
       "CLICK_HERE": "Πατήστε εδώ για ενημέρωση",
