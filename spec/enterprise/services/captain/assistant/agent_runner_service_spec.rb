@@ -308,7 +308,7 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
   end
 
   describe '#add_usage_metadata_callback' do
-    it 'sets credits_used=false when handoff tool is used' do
+    it 'sets credit_used=false when handoff tool is used' do
       service = described_class.new(assistant: assistant, conversation: conversation)
       runner = instance_double(Agents::AgentRunner)
       tool_complete_callback = nil
@@ -333,11 +333,11 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
 
       tool_complete_callback.call(Captain::Tools::HandoffTool.new(assistant).name, 'ok', context_wrapper)
 
-      expect(root_span).to receive(:set_attribute).with('langfuse.trace.metadata.credits_used', false)
+      expect(root_span).to receive(:set_attribute).with('langfuse.trace.metadata.credit_used', 'false')
       run_complete_callback.call('assistant', nil, context_wrapper)
     end
 
-    it 'sets credits_used=true when handoff tool is not used' do
+    it 'sets credit_used=true when handoff tool is not used' do
       service = described_class.new(assistant: assistant, conversation: conversation)
       runner = instance_double(Agents::AgentRunner)
       run_complete_callback = nil
@@ -356,7 +356,7 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
 
       service.send(:add_usage_metadata_callback, runner)
 
-      expect(root_span).to receive(:set_attribute).with('langfuse.trace.metadata.credits_used', true)
+      expect(root_span).to receive(:set_attribute).with('langfuse.trace.metadata.credit_used', 'true')
       run_complete_callback.call('assistant', nil, context_wrapper)
     end
   end
