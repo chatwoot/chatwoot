@@ -77,10 +77,14 @@ class Shopify::CallbacksController < ApplicationController
   end
 
   def error_redirect_url
-    if @account_id && account
-      "#{shopify_integration_url}?error=true"
+    if @account_id
+      begin
+        "#{shopify_integration_url}?error=true"
+      rescue ActiveRecord::RecordNotFound
+        "#{frontend_url}?error=true"
+      end
     else
-      "#{frontend_url}/app/login"
+      "#{frontend_url}?error=true"
     end
   end
 

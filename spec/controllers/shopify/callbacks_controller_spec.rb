@@ -114,13 +114,16 @@ RSpec.describe Shopify::CallbacksController, type: :request do
         # rubocop:disable RSpec/AnyInstance, RSpec/DescribedClass
         # Explicit class name and any_instance required for parallel CI stability
         allow_any_instance_of(Shopify::CallbacksController).to receive(:verify_shopify_token).and_return(nil)
-        allow_any_instance_of(Shopify::CallbacksController).to receive(:account).and_return(nil)
+        allow_any_instance_of(Shopify::CallbacksController).to receive(:oauth_client).and_return(oauth_client)
         # rubocop:enable RSpec/AnyInstance, RSpec/DescribedClass
+        allow(oauth_client).to receive(:auth_code).and_return(auth_code_strategy)
+        allow(auth_code_strategy).to receive(:get_token).and_return(token_response)
       end
 
-      it 'redirects to the frontend URL with error' do
+      it 'handles as Shopify-initiated install and redirects to login with pending install token' do
         get shopify_callback_path, params: { code: code, state: state, shop: shop }
-        expect(response).to redirect_to("#{frontend_url}?error=true")
+        expect(response).to redirect_to(%r{#{Regexp.escape(frontend_url)}/app/login\?redirect_url=})
+        expect(CGI.unescape(response.location)).to include('shopify_pending_install=')
       end
     end
   end
