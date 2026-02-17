@@ -174,6 +174,10 @@
           "SUCCESFUL": "Label #{labelName} der Konversations-ID {conversationId} zugewiesen",
           "FAILED": "Label konnte nicht zugewiesen werden. Bitte versuche es erneut."
         },
+        "LABEL_REMOVAL": {
+          "SUCCESFUL": "Removed label #{labelName} from conversation id {conversationId}",
+          "FAILED": "Couldn't remove label. Please try again."
+        },
         "TEAM_ASSIGNMENT": {
           "SUCCESFUL": "Das Team\"{team}\" wurde der Konversations-ID {conversationId} zugewiesen",
           "FAILED": "Team konnte nicht zugewiesen werden. Bitte versuche es erneut."
@@ -186,6 +190,8 @@
       "DISABLE_SIGN_TOOLTIP": "Signatur deaktivieren",
       "MSG_INPUT": "Umschalt + Eingabetaste für neue Zeile. Beginnen Sie mit '/', um eine vordefinierte Antwort auszuwählen.",
       "PRIVATE_MSG_INPUT": "Umschalt + Eingabetaste für neue Zeile. Dies ist nur für Agenten sichtbar",
+      "MESSAGING_RESTRICTED": "You cannot reply to this conversation",
+      "MESSAGING_RESTRICTED_WHATSAPP": "You can only reply using a template message due to 24-hour message window restriction",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Die Nachrichtensignatur ist nicht konfiguriert, bitte konfigurieren Sie sie in den Profileinstellungen.",
       "COPILOT_MSG_INPUT": "Give copilot additional prompts, or ask anything else... Press enter to send follow-up",
       "CLICK_HERE": "Klicken Sie hier, um zu aktualisieren",
