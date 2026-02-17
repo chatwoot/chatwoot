@@ -174,6 +174,10 @@
           "SUCCESFUL": "Assigned label #{labelName} to conversation id {conversationId}",
           "FAILED": "Kunne ikke tildele etiket. Prøv venligst igen."
         },
+        "LABEL_REMOVAL": {
+          "SUCCESFUL": "Removed label #{labelName} from conversation id {conversationId}",
+          "FAILED": "Couldn't remove label. Please try again."
+        },
         "TEAM_ASSIGNMENT": {
           "SUCCESFUL": "Tildelt team \"{team}\" til samtale-id {conversationId}",
           "FAILED": "Kunne ikke tildele team. Prøv venligst igen."
@@ -186,6 +190,8 @@
       "DISABLE_SIGN_TOOLTIP": "Deaktivér signatur",
       "MSG_INPUT": "Shift + enter for ny linje. Start med '/' for at vælge et standardsvar.",
       "PRIVATE_MSG_INPUT": "Shift + enter for ny linje. Dette vil kun være synligt for Agenter",
+      "MESSAGING_RESTRICTED": "You cannot reply to this conversation",
+      "MESSAGING_RESTRICTED_WHATSAPP": "You can only reply using a template message due to 24-hour message window restriction",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Beskedsignatur er ikke konfigureret, konfigurer den i profilindstillinger.",
       "COPILOT_MSG_INPUT": "Give copilot additional prompts, or ask anything else... Press enter to send follow-up",
       "CLICK_HERE": "Klik her for at opdatere",
