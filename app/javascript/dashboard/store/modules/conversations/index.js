@@ -129,6 +129,16 @@ export const mutations = {
       chat.last_activity_at = lastActivityAt;
     }
   },
+  [types.UPDATE_CONVERSATION_CACHED_SUMMARY](
+    _state,
+    { conversationId, cachedSummary, cachedSummaryAt }
+  ) {
+    const [chat] = _state.allConversations.filter(c => c.id === conversationId);
+    if (chat) {
+      chat.cached_summary = cachedSummary;
+      chat.cached_summary_at = cachedSummaryAt;
+    }
+  },
   [types.ASSIGN_PRIORITY](_state, { priority, conversationId }) {
     const [chat] = _state.allConversations.filter(c => c.id === conversationId);
     chat.priority = priority;

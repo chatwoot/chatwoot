@@ -415,6 +415,17 @@ const actions = {
     });
   },
 
+  updateConversationCachedSummary(
+    { commit },
+    { conversationId, cachedSummary, cachedSummaryAt }
+  ) {
+    commit(types.UPDATE_CONVERSATION_CACHED_SUMMARY, {
+      conversationId,
+      cachedSummary,
+      cachedSummaryAt,
+    });
+  },
+
   setChatStatusFilter({ commit }, data) {
     commit(types.CHANGE_CHAT_STATUS_FILTER, data);
   },

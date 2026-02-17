@@ -15,7 +15,8 @@ class Api::V1::Accounts::Captain::TasksController < Api::V1::Accounts::BaseContr
   def summarize
     result = Captain::SummaryService.new(
       account: Current.account,
-      conversation_display_id: params[:conversation_display_id]
+      conversation_display_id: params[:conversation_display_id],
+      force_regenerate: params[:force_regenerate].present?
     ).perform
 
     render_result(result)

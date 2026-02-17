@@ -34,10 +34,20 @@ function getEventPrefix(action) {
  * @param {string} action - The action type
  * @param {number} conversationId - The conversation ID
  * @param {number} [followUpCount] - Optional follow-up count
+ * @param {string} [uiFrom] - Optional UI source identifier
  * @returns {Object} The payload object
  */
-function buildPayload(action, conversationId, followUpCount = undefined) {
+function buildPayload(
+  action,
+  conversationId,
+  followUpCount = undefined,
+  uiFrom = undefined
+) {
   const payload = { conversationId };
+
+  if (uiFrom) {
+    payload.uiFrom = uiFrom;
+  }
 
   // Add operation for rewrite actions
   if (REWRITE_ACTIONS.includes(action)) {
@@ -75,6 +85,7 @@ export function useCopilotReply() {
   const trackedConversationId = ref(null);
 
   const conversationId = computed(() => currentChat.value?.id);
+  const uiFrom = 'editor';
 
   const isActive = computed(() => showEditor.value || isGenerating.value);
   const isButtonDisabled = computed(
@@ -97,7 +108,8 @@ export function useCopilotReply() {
         buildPayload(
           currentAction.value,
           trackedConversationId.value,
-          followUpCount.value
+          followUpCount.value,
+          uiFrom
         )
       );
     }
@@ -168,7 +180,7 @@ export function useCopilotReply() {
           const eventKey = `${getEventPrefix(action)}_USED`;
           useTrack(
             CAPTAIN_EVENTS[eventKey],
-            buildPayload(action, trackedConversationId.value)
+            buildPayload(action, trackedConversationId.value, undefined, uiFrom)
           );
         }
         isGenerating.value = false;
@@ -194,6 +206,7 @@ export function useCopilotReply() {
     // Track follow-up sent event
     useTrack(CAPTAIN_EVENTS.FOLLOW_UP_SENT, {
       conversationId: trackedConversationId.value,
+      uiFrom,
     });
     followUpCount.value += 1;
 
@@ -237,7 +250,8 @@ export function useCopilotReply() {
         buildPayload(
           currentAction.value,
           trackedConversationId.value,
-          followUpCount.value
+          followUpCount.value,
+          uiFrom
         )
       );
     }

@@ -1,6 +1,7 @@
 <script setup>
 import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { useI18n } from 'vue-i18n';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { getLastMessage } from 'dashboard/helper/conversationHelper';
 import { frontendURL, conversationUrl } from 'dashboard/helper/URLHelper';
@@ -14,6 +15,8 @@ import PriorityMark from './PriorityMark.vue';
 import SLACardLabel from './components/SLACardLabel.vue';
 import ContextMenu from 'dashboard/components/ui/ContextMenu.vue';
 import VoiceCallStatus from './VoiceCallStatus.vue';
+import ConversationSummary from './ConversationSummary.vue';
+import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 
 const props = defineProps({
   activeLabel: { type: String, default: '' },
@@ -46,8 +49,10 @@ const emit = defineEmits([
 
 const router = useRouter();
 const store = useStore();
+const { t } = useI18n();
 
 const hovered = ref(false);
+const summaryRef = ref(null);
 const showContextMenu = ref(false);
 const contextMenu = ref({
   x: null,
@@ -344,12 +349,15 @@ const deleteConversation = () => {
         class="absolute flex flex-col ltr:right-3 rtl:left-3"
         :class="showMetaSection ? 'top-8' : 'top-4'"
       >
-        <span class="ml-auto font-normal leading-4 text-xxs">
-          <TimeAgo
-            :last-activity-timestamp="chat.timestamp"
-            :created-at-timestamp="chat.created_at"
-          />
-        </span>
+        <div class="flex items-center gap-1 ml-auto">
+          <ConversationSummary ref="summaryRef" :chat="chat" />
+          <span class="font-normal leading-4 text-xxs">
+            <TimeAgo
+              :last-activity-timestamp="chat.timestamp"
+              :created-at-timestamp="chat.created_at"
+            />
+          </span>
+        </div>
         <span
           class="shadow-lg rounded-full text-xxs font-semibold h-4 leading-4 ltr:ml-auto rtl:mr-auto mt-1 min-w-[1rem] px-1 py-0 text-center text-white bg-n-teal-9"
           :class="hasUnread ? 'block' : 'hidden'"
@@ -366,6 +374,26 @@ const deleteConversation = () => {
           <SLACardLabel :chat="chat" class="ltr:mr-1 rtl:ml-1" />
         </template>
       </CardLabels>
+      <!-- Expanded Summary Section -->
+      <div
+        v-if="summaryRef?.isExpanded"
+        class="mt-2 mx-2 mb-1 p-3 bg-n-alpha-1 dark:bg-n-alpha-2 rounded-lg"
+      >
+        <div v-if="summaryRef?.isLoading" class="flex items-center gap-2">
+          <Spinner :size="16" class="text-n-slate-10" />
+          <span class="text-xs text-n-slate-11">
+            {{ t('CHAT_LIST.SUMMARY.LOADING') }}
+          </span>
+        </div>
+        <div v-else-if="summaryRef?.error" class="text-xs text-n-ruby-11">
+          {{ summaryRef.error }}
+        </div>
+        <div
+          v-else-if="summaryRef?.formattedSummary"
+          class="text-xs text-n-slate-11 [&_ul]:list-disc [&_ul]:pl-4 [&_ol]:list-decimal [&_ol]:pl-4 [&_li]:my-0.5 [&_p]:my-1 [&_p:first-child]:mt-0 [&_p:last-child]:mb-0 [&_strong]:text-n-slate-12"
+          v-html="summaryRef.formattedSummary"
+        />
+      </div>
     </div>
     <ContextMenu
       v-if="showContextMenu"

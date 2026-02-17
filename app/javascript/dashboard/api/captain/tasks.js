@@ -37,14 +37,17 @@ class TasksAPI extends ApiClient {
   /**
    * Summarizes a conversation.
    * @param {string} conversationId - The conversation ID to summarize.
-   * @param {AbortSignal} [signal] - AbortSignal to cancel the request.
+   * @param {Object} [options] - Additional options.
+   * @param {boolean} [options.forceRegenerate] - Force regeneration of cached summary.
+   * @param {AbortSignal} [options.signal] - AbortSignal to cancel the request.
    * @returns {Promise} A promise that resolves with the summary.
    */
-  summarize(conversationId, signal) {
+  summarize(conversationId, { forceRegenerate = false, signal } = {}) {
     return axios.post(
       `${this.url}/summarize`,
       {
         conversation_display_id: conversationId,
+        force_regenerate: forceRegenerate,
       },
       { signal }
     );

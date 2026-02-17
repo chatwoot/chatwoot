@@ -349,12 +349,23 @@
       "CONVERSATION_ACTIONS": "Conversation Actions",
       "CONVERSATION_LABELS": "Conversation Labels",
       "CONVERSATION_INFO": "Conversation Information",
+      "CONVERSATION_SUMMARY": "AI Summary",
       "CONTACT_NOTES": "Contact Notes",
       "CONTACT_ATTRIBUTES": "Contact Attributes",
       "PREVIOUS_CONVERSATION": "Previous Conversations",
       "MACROS": "Macros",
       "LINEAR_ISSUES": "Linked Linear Issues",
       "SHOPIFY_ORDERS": "Shopify Orders"
+    },
+    "SUMMARY": {
+      "DESCRIPTION": "Generate an AI-powered summary of this conversation",
+      "GENERATE": "Generate Summary",
+      "REGENERATE": "Regenerate",
+      "REFRESH": "Refresh",
+      "RETRY": "Retry",
+      "STALE": "Summary may be outdated",
+      "ERROR": "Failed to generate summary",
+      "EMPTY": "No summary available"
     },
     "SHOPIFY": {
       "ORDER_ID": "Order #{id}",

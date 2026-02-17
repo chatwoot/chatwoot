@@ -13,6 +13,7 @@ import AccordionItem from 'dashboard/components/Accordion/AccordionItem.vue';
 import ContactConversations from './ContactConversations.vue';
 import ConversationAction from './ConversationAction.vue';
 import ConversationParticipant from './ConversationParticipant.vue';
+import ConversationSummary from './ConversationSummary.vue';
 import ContactInfo from './contact/ContactInfo.vue';
 import ContactNotes from './contact/ContactNotes.vue';
 import ConversationInfo from './ConversationInfo.vue';
@@ -44,6 +45,7 @@ const {
 
 const dragging = ref(false);
 const conversationSidebarItems = ref([]);
+const summaryRef = ref(null);
 
 const shopifyIntegration = useFunctionGetter(
   'integrations/getIntegration',
@@ -58,6 +60,10 @@ const { isCloudFeatureEnabled } = useAccount();
 
 const isLinearFeatureEnabled = computed(() =>
   isCloudFeatureEnabled(FEATURE_FLAGS.LINEAR)
+);
+
+const isCaptainTasksEnabled = computed(() =>
+  isCloudFeatureEnabled(FEATURE_FLAGS.CAPTAIN_TASKS)
 );
 
 const linearIntegration = useFunctionGetter(
@@ -150,7 +156,31 @@ onMounted(() => {
       >
         <template #item="{ element }">
           <div
-            v-if="element.name === 'conversation_actions'"
+            v-if="
+              element.name === 'conversation_summary' && isCaptainTasksEnabled
+            "
+          >
+            <AccordionItem
+              :title="$t('CONVERSATION_SIDEBAR.ACCORDION.CONVERSATION_SUMMARY')"
+              :is-open="isContactSidebarItemOpen('is_conv_summary_open')"
+              compact
+              @toggle="
+                value => {
+                  toggleSidebarUIState('is_conv_summary_open', value);
+                  if (value && summaryRef) {
+                    summaryRef.fetchSummary();
+                  }
+                }
+              "
+            >
+              <ConversationSummary
+                ref="summaryRef"
+                :conversation-id="conversationId"
+              />
+            </AccordionItem>
+          </div>
+          <div
+            v-else-if="element.name === 'conversation_actions'"
             class="conversation--actions"
           >
             <AccordionItem
