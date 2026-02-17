@@ -2,7 +2,7 @@ version: '3'
 
 services:
   base: &base
-    image: convertochat:v4.10.1
+    image: ghcr.io/valter-tonon/chatwoot:latest
     env_file: .env
     volumes:
       - storage_data:/app/storage
