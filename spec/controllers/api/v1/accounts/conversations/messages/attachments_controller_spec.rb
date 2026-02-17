@@ -82,7 +82,7 @@ RSpec.describe 'Attachments API', type: :request do
 
       context 'when voice transcription is not enabled' do
         before do
-          assistant.update!(voice_input_enabled: false)
+          assistant.update!(voice_enabled: false)
         end
 
         it 'returns unprocessable entity' do

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_02_17_172150) do
+ActiveRecord::Schema[7.1].define(version: 2026_02_17_183607) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -217,15 +217,11 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_17_172150) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "voice_enabled", default: false
-    t.boolean "voice_input_enabled", default: false
-    t.boolean "voice_output_enabled", default: false
     t.jsonb "voice_config", default: {}
     t.text "custom_instructions"
     t.index ["account_id", "name"], name: "index_aloo_assistants_on_account_id_and_name"
     t.index ["account_id"], name: "index_aloo_assistants_on_account_id"
     t.index ["voice_enabled"], name: "index_aloo_assistants_on_voice_enabled"
-    t.index ["voice_input_enabled"], name: "index_aloo_assistants_on_voice_input_enabled"
-    t.index ["voice_output_enabled"], name: "index_aloo_assistants_on_voice_output_enabled"
   end
 
   create_table "aloo_documents", force: :cascade do |t|
