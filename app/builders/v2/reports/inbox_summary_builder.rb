@@ -30,7 +30,7 @@ class V2::Reports::InboxSummaryBuilder < V2::Reports::BaseSummaryBuilder
   def inbox_reporting_events_select_fields
     [
       'reporting_events.inbox_id as inbox_id',
-      "COUNT(CASE WHEN reporting_events.name = 'conversation_resolved' THEN 1 END) as resolved_count",
+      "COUNT(DISTINCT CASE WHEN reporting_events.name = 'conversation_resolved' THEN reporting_events.conversation_id END) as resolved_count",
       inbox_avg_resolution_time_sql,
       inbox_avg_first_response_time_sql,
       inbox_avg_reply_time_sql

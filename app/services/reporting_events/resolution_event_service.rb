@@ -10,8 +10,12 @@ class ReportingEvents::ResolutionEventService
   def create_conversation_resolved_events(start_time, end_time, time_to_resolve)
     user_ids = conversation.conversation_participants.where.not(user_id: nil).distinct.pluck(:user_id)
 
-    user_ids.each do |user_id|
-      build_conversation_resolved_event(user_id, start_time, end_time, time_to_resolve)
+    if user_ids.empty?
+      build_conversation_resolved_event(nil, start_time, end_time, time_to_resolve)
+    else
+      user_ids.each do |user_id|
+        build_conversation_resolved_event(user_id, start_time, end_time, time_to_resolve)
+      end
     end
 
     bot_service.create_bot_resolved_event
