@@ -17,8 +17,8 @@ module Aloo
       raise AuthenticationError, 'ElevenLabs API key not configured' if @api_key.blank?
     end
 
-    # Generate speech from text
-    # Returns binary audio data (MP3)
+    # @deprecated Use Audio::AlooSpeaker.call(text:, voice_id:, ...) instead.
+    #   The ruby_llm-agents Speaker DSL handles retries, fallbacks, and cost tracking.
     def text_to_speech(text:, voice_id:, model_id: nil, voice_settings: {})
       validate_text!(text)
 

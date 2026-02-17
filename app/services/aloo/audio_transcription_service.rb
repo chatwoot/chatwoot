@@ -34,17 +34,19 @@ module Aloo
       start_time = Process.clock_gettime(Process::CLOCK_MONOTONIC)
 
       temp_file = download_to_tempfile
-      result = RubyLLM.transcribe(
-        temp_file.path,
+      result = Audio::AlooTranscriber.call(
+        audio: temp_file.path,
+        language: language_hint,
         model: transcription_model,
-        language: language_hint
+        tenant: assistant.account
       )
+      raise result.error_message if result.error?
 
-      duration_seconds = result.duration || estimate_duration(temp_file.path)
+      duration_seconds = result.audio_duration || estimate_duration(temp_file.path)
       transcription = result.text
 
       store_transcription(transcription)
-      record_usage(success: true, duration_seconds: duration_seconds)
+      record_usage(success: true, duration_seconds: duration_seconds, execution_cost: result.total_cost)
       notify_message_updated
 
       log_success(transcription, duration_seconds, start_time)
@@ -106,7 +108,7 @@ module Aloo
       message.reload.send_update_event
     end
 
-    def record_usage(success:, duration_seconds: 0, error: nil)
+    def record_usage(success:, duration_seconds: 0, error: nil, execution_cost: nil)
       return unless assistant
 
       Aloo::VoiceUsageRecord.record_transcription(
@@ -116,7 +118,8 @@ module Aloo
         duration_seconds: duration_seconds.to_i,
         model: transcription_model,
         success: success,
-        error: error
+        error: error,
+        execution_cost: execution_cost
       )
     end
 

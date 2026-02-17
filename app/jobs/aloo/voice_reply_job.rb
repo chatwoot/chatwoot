@@ -3,7 +3,7 @@
 module Aloo
   class VoiceReplyJob < ApplicationJob
     queue_as :default
-    retry_on Aloo::ElevenlabsClient::Error, wait: :polynomially_longer, attempts: 3
+    retry_on RubyLLM::Error, wait: :polynomially_longer, attempts: 3
     retry_on StandardError, wait: :polynomially_longer, attempts: 2
 
     def perform(message_id)

@@ -10,6 +10,16 @@ RSpec.describe Aloo::VoiceSynthesisService, type: :service do
   let(:audio_binary) { 'fake-mp3-binary-data' }
   let(:ogg_path) { '/tmp/voice_output_123.ogg' }
 
+  let(:speech_result) do
+    instance_double(
+      'SpeechResult',
+      audio: audio_binary,
+      error?: false,
+      total_cost: 0.001,
+      error_message: nil
+    )
+  end
+
   describe '#initialize' do
     it 'sets text, assistant, and optional message' do
       service = described_class.new(text: text, assistant: assistant, message: message)
@@ -75,11 +85,8 @@ RSpec.describe Aloo::VoiceSynthesisService, type: :service do
     end
 
     context 'with successful synthesis' do
-      let(:elevenlabs_client) { instance_double(Aloo::ElevenlabsClient) }
-
       before do
-        allow(Aloo::ElevenlabsClient).to receive(:new).and_return(elevenlabs_client)
-        allow(elevenlabs_client).to receive(:text_to_speech).and_return(audio_binary)
+        allow(Audio::AlooSpeaker).to receive(:call).and_return(speech_result)
         allow(Aloo::AudioConversionService).to receive(:convert_data_to_whatsapp).and_return(ogg_path)
       end
 
@@ -94,15 +101,16 @@ RSpec.describe Aloo::VoiceSynthesisService, type: :service do
         expect(result[:format]).to eq('ogg')
       end
 
-      it 'calls ElevenLabs client with correct parameters' do
+      it 'calls AlooSpeaker with correct parameters' do
         service = described_class.new(text: text, assistant: assistant)
 
-        expect(elevenlabs_client).to receive(:text_to_speech).with(
+        expect(Audio::AlooSpeaker).to receive(:call).with(
           text: text,
           voice_id: assistant.elevenlabs_voice_id,
-          model_id: assistant.effective_tts_model,
-          voice_settings: hash_including(:stability, :similarity_boost)
-        )
+          model: assistant.effective_tts_model,
+          voice_settings: hash_including(:stability, :similarity_boost),
+          tenant: assistant.account
+        ).and_return(speech_result)
 
         service.perform
       end
@@ -114,12 +122,9 @@ RSpec.describe Aloo::VoiceSynthesisService, type: :service do
           voice_id_override: 'custom-voice-id'
         )
 
-        expect(elevenlabs_client).to receive(:text_to_speech).with(
-          text: text,
-          voice_id: 'custom-voice-id',
-          model_id: anything,
-          voice_settings: anything
-        )
+        expect(Audio::AlooSpeaker).to receive(:call).with(
+          hash_including(voice_id: 'custom-voice-id')
+        ).and_return(speech_result)
 
         service.perform
       end
@@ -146,11 +151,17 @@ RSpec.describe Aloo::VoiceSynthesisService, type: :service do
       end
     end
 
-    context 'when ElevenLabs returns an error' do
-      before do
-        allow(Aloo::ElevenlabsClient).to receive(:new).and_raise(
-          Aloo::ElevenlabsClient::Error.new('API quota exceeded')
+    context 'when speaker returns an error' do
+      let(:error_result) do
+        instance_double(
+          'SpeechResult',
+          error?: true,
+          error_message: 'API quota exceeded'
         )
+      end
+
+      before do
+        allow(Audio::AlooSpeaker).to receive(:call).and_return(error_result)
       end
 
       it 'returns error result' do
@@ -174,12 +185,30 @@ RSpec.describe Aloo::VoiceSynthesisService, type: :service do
       end
     end
 
-    context 'when audio conversion fails' do
-      let(:elevenlabs_client) { instance_double(Aloo::ElevenlabsClient) }
+    context 'when provider raises RubyLLM::Error' do
+      let(:ruby_llm_error) do
+        response = double('Response', body: '{"error": "Connection refused"}')
+        error = RubyLLM::Error.new(response)
+        allow(error).to receive(:message).and_return('Connection refused')
+        error
+      end
 
       before do
-        allow(Aloo::ElevenlabsClient).to receive(:new).and_return(elevenlabs_client)
-        allow(elevenlabs_client).to receive(:text_to_speech).and_return(audio_binary)
+        allow(Audio::AlooSpeaker).to receive(:call).and_raise(ruby_llm_error)
+      end
+
+      it 'returns error result' do
+        service = described_class.new(text: text, assistant: assistant)
+        result = service.perform
+
+        expect(result[:success]).to be false
+        expect(result[:error]).to eq('Connection refused')
+      end
+    end
+
+    context 'when audio conversion fails' do
+      before do
+        allow(Audio::AlooSpeaker).to receive(:call).and_return(speech_result)
         allow(Aloo::AudioConversionService).to receive(:convert_data_to_whatsapp).and_raise(
           Aloo::AudioConversionService::ConversionError.new('FFmpeg not found')
         )
@@ -196,23 +225,17 @@ RSpec.describe Aloo::VoiceSynthesisService, type: :service do
   end
 
   describe 'text sanitization' do
-    let(:elevenlabs_client) { instance_double(Aloo::ElevenlabsClient) }
-
     before do
-      allow(Aloo::ElevenlabsClient).to receive(:new).and_return(elevenlabs_client)
-      allow(elevenlabs_client).to receive(:text_to_speech).and_return(audio_binary)
+      allow(Audio::AlooSpeaker).to receive(:call).and_return(speech_result)
       allow(Aloo::AudioConversionService).to receive(:convert_data_to_whatsapp).and_return(ogg_path)
     end
 
     it 'removes markdown formatting' do
       markdown_text = '**Bold** and *italic* and `code`'
 
-      expect(elevenlabs_client).to receive(:text_to_speech).with(
-        text: 'Bold and italic and code',
-        voice_id: anything,
-        model_id: anything,
-        voice_settings: anything
-      )
+      expect(Audio::AlooSpeaker).to receive(:call).with(
+        hash_including(text: 'Bold and italic and code')
+      ).and_return(speech_result)
 
       described_class.new(text: markdown_text, assistant: assistant).perform
     end
@@ -220,12 +243,9 @@ RSpec.describe Aloo::VoiceSynthesisService, type: :service do
     it 'removes URLs from text' do
       text_with_url = 'Visit https://example.com for more info'
 
-      expect(elevenlabs_client).to receive(:text_to_speech).with(
-        text: 'Visit for more info',
-        voice_id: anything,
-        model_id: anything,
-        voice_settings: anything
-      )
+      expect(Audio::AlooSpeaker).to receive(:call).with(
+        hash_including(text: 'Visit for more info')
+      ).and_return(speech_result)
 
       described_class.new(text: text_with_url, assistant: assistant).perform
     end
@@ -233,12 +253,9 @@ RSpec.describe Aloo::VoiceSynthesisService, type: :service do
     it 'converts markdown links to text' do
       text_with_link = 'Click [here](https://example.com) for help'
 
-      expect(elevenlabs_client).to receive(:text_to_speech).with(
-        text: 'Click here for help',
-        voice_id: anything,
-        model_id: anything,
-        voice_settings: anything
-      )
+      expect(Audio::AlooSpeaker).to receive(:call).with(
+        hash_including(text: 'Click here for help')
+      ).and_return(speech_result)
 
       described_class.new(text: text_with_link, assistant: assistant).perform
     end
@@ -246,12 +263,9 @@ RSpec.describe Aloo::VoiceSynthesisService, type: :service do
     it 'normalizes whitespace' do
       text_with_spaces = "Hello   world\n\ntest"
 
-      expect(elevenlabs_client).to receive(:text_to_speech).with(
-        text: 'Hello world test',
-        voice_id: anything,
-        model_id: anything,
-        voice_settings: anything
-      )
+      expect(Audio::AlooSpeaker).to receive(:call).with(
+        hash_including(text: 'Hello world test')
+      ).and_return(speech_result)
 
       described_class.new(text: text_with_spaces, assistant: assistant).perform
     end
@@ -259,10 +273,10 @@ RSpec.describe Aloo::VoiceSynthesisService, type: :service do
     it 'truncates text exceeding max length' do
       long_text = 'a' * 6000
 
-      expect(elevenlabs_client).to receive(:text_to_speech) do |args|
+      expect(Audio::AlooSpeaker).to receive(:call) do |args|
         expect(args[:text].length).to be <= described_class::MAX_TEXT_LENGTH
         expect(args[:text]).to end_with('...')
-        audio_binary
+        speech_result
       end
 
       described_class.new(text: long_text, assistant: assistant).perform
@@ -270,11 +284,8 @@ RSpec.describe Aloo::VoiceSynthesisService, type: :service do
   end
 
   describe 'voice settings' do
-    let(:elevenlabs_client) { instance_double(Aloo::ElevenlabsClient) }
-
     before do
-      allow(Aloo::ElevenlabsClient).to receive(:new).and_return(elevenlabs_client)
-      allow(elevenlabs_client).to receive(:text_to_speech).and_return(audio_binary)
+      allow(Audio::AlooSpeaker).to receive(:call).and_return(speech_result)
       allow(Aloo::AudioConversionService).to receive(:convert_data_to_whatsapp).and_return(ogg_path)
     end
 
@@ -283,12 +294,9 @@ RSpec.describe Aloo::VoiceSynthesisService, type: :service do
       assistant.voice_config['elevenlabs_similarity_boost'] = 0.9
       assistant.save!
 
-      expect(elevenlabs_client).to receive(:text_to_speech).with(
-        text: text,
-        voice_id: anything,
-        model_id: anything,
-        voice_settings: { stability: 0.8, similarity_boost: 0.9 }
-      )
+      expect(Audio::AlooSpeaker).to receive(:call).with(
+        hash_including(voice_settings: { stability: 0.8, similarity_boost: 0.9 })
+      ).and_return(speech_result)
 
       described_class.new(text: text, assistant: assistant).perform
     end
@@ -298,12 +306,9 @@ RSpec.describe Aloo::VoiceSynthesisService, type: :service do
       assistant.voice_config.delete('elevenlabs_similarity_boost')
       assistant.save!
 
-      expect(elevenlabs_client).to receive(:text_to_speech).with(
-        text: text,
-        voice_id: anything,
-        model_id: anything,
-        voice_settings: { stability: 0.5, similarity_boost: 0.75 }
-      )
+      expect(Audio::AlooSpeaker).to receive(:call).with(
+        hash_including(voice_settings: { stability: 0.5, similarity_boost: 0.75 })
+      ).and_return(speech_result)
 
       described_class.new(text: text, assistant: assistant).perform
     end

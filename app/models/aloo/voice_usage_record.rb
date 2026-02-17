@@ -42,7 +42,9 @@ module Aloo
     scope :for_period, ->(start_date, end_date) { where(created_at: start_date..end_date) }
 
     class << self
-      def record_transcription(account:, assistant:, duration_seconds:, model:, message: nil, success: true, error: nil)
+      def record_transcription(account:, assistant:, duration_seconds:, model:, message: nil, success: true, error: nil,
+                               execution_cost: nil)
+        meta = { error: error, gem_tracked_cost: execution_cost }.compact
         create!(
           account: account,
           assistant: assistant,
@@ -52,11 +54,13 @@ module Aloo
           audio_duration_seconds: duration_seconds,
           model_used: model,
           status: success ? 'success' : 'failed',
-          metadata: error ? { error: error } : {}
+          metadata: meta
         )
       end
 
-      def record_synthesis(account:, assistant:, characters:, voice_id:, model:, message: nil, success: true, error: nil)
+      def record_synthesis(account:, assistant:, characters:, voice_id:, model:, message: nil, success: true, error: nil,
+                           execution_cost: nil)
+        meta = { error: error, gem_tracked_cost: execution_cost }.compact
         create!(
           account: account,
           assistant: assistant,
@@ -67,7 +71,7 @@ module Aloo
           voice_id: voice_id,
           model_used: model,
           status: success ? 'success' : 'failed',
-          metadata: error ? { error: error } : {}
+          metadata: meta
         )
       end
 

@@ -22,8 +22,8 @@ module Aloo
       return error_result('Text is blank after sanitization') if sanitized_text.blank?
 
       generate_voice(sanitized_text)
-    rescue Aloo::ElevenlabsClient::Error => e
-      Rails.logger.error("[Aloo::VoiceSynthesis] ElevenLabs error: #{e.message}")
+    rescue RubyLLM::Error => e
+      Rails.logger.error("[Aloo::VoiceSynthesis] Provider error: #{e.message}")
       record_usage(success: false, error: e.message)
       error_result(e.message)
     rescue Aloo::AudioConversionService::ConversionError => e
@@ -41,24 +41,23 @@ module Aloo
     def generate_voice(sanitized_text)
       start_time = Process.clock_gettime(Process::CLOCK_MONOTONIC)
 
-      # Generate MP3 from ElevenLabs
-      client = Aloo::ElevenlabsClient.new
-      audio_data = client.text_to_speech(
+      # Generate MP3 via ruby_llm-agents Speaker
+      speech = Audio::AlooSpeaker.call(
         text: sanitized_text,
         voice_id: effective_voice_id,
-        model_id: assistant.effective_tts_model,
-        voice_settings: voice_settings
+        model: assistant.effective_tts_model,
+        voice_settings: voice_settings,
+        tenant: assistant.account
       )
+      raise speech.error_message if speech.error?
 
       # Convert to OGG for WhatsApp compatibility
-      ogg_path = Aloo::AudioConversionService.convert_data_to_whatsapp(audio_data)
+      ogg_path = Aloo::AudioConversionService.convert_data_to_whatsapp(speech.audio)
 
-      # Record usage
-      record_usage(success: true, characters: sanitized_text.length)
-
+      record_usage(success: true, characters: sanitized_text.length, execution_cost: speech.total_cost)
       log_success(sanitized_text, start_time)
 
-      success_result(ogg_path, audio_data)
+      success_result(ogg_path, speech.audio)
     end
 
     def effective_voice_id
@@ -91,7 +90,7 @@ module Aloo
       result
     end
 
-    def record_usage(success:, characters: 0, error: nil)
+    def record_usage(success:, characters: 0, error: nil, execution_cost: nil)
       return unless assistant
 
       Aloo::VoiceUsageRecord.record_synthesis(
@@ -102,7 +101,8 @@ module Aloo
         voice_id: effective_voice_id,
         model: assistant.effective_tts_model,
         success: success,
-        error: error
+        error: error,
+        execution_cost: execution_cost
       )
     end
 
