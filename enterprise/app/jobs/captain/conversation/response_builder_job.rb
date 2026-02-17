@@ -13,9 +13,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
     if captain_v2_enabled?
       generate_response_with_v2
     else
-      ActiveRecord::Base.transaction do
-        generate_and_process_response
-      end
+      generate_and_process_response
     end
   rescue StandardError => e
     raise e if e.is_a?(ActiveStorage::FileNotFoundError) || e.is_a?(Faraday::BadRequestError)
