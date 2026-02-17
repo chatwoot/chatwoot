@@ -9,7 +9,7 @@ import SingleSelect from './inputs/SingleSelect.vue';
 
 import { useSnakeCase } from 'dashboard/composables/useTransformKeys';
 import { validateSingleFilter } from 'dashboard/helper/validations.js';
-import { useMapGetter } from 'dashboard/composables/store'
+import { useMapGetter } from 'dashboard/composables/store';
 
 // filterTypes: import('vue').ComputedRef<FilterType[]>
 const { filterTypes, partnerFilter } = defineProps({
@@ -21,8 +21,14 @@ const emit = defineEmits(['remove']);
 const { t } = useI18n();
 const showErrors = ref(false);
 
-const userACL = useMapGetter('acl/getUserACL')
-const isPartnerFilter = computed(() => userACL.value.time_privado)
+const userACL = useMapGetter('acl/getUserACL');
+const currentUser = useMapGetter('getCurrentUser');
+const canFilterAnyTeam = computed(
+  () => userACL.value.pode_filtrar_por_qualquer_time
+);
+const canFilterAnyAssignee = computed(
+  () => userACL.value.pode_filtrar_por_qualquer_agente
+);
 
 const attributeKey = defineModel('attributeKey', {
   type: String,
@@ -142,30 +148,50 @@ const validate = () => {
   return !validationError.value;
 };
 
+const shouldRestrictTeamFilter = computed(() => {
+  return !canFilterAnyTeam.value;
+});
+
+const shouldRestrictAssigneeFilter = computed(() => {
+  return !canFilterAnyAssignee.value;
+});
+
 const operatorOptionsPartnerTeam = computed(() => {
-  if (!isPartnerFilter.value && attributeKey.value === 'team_id') {
-    console.log("Vai filtrar so pros times do user ", !isPartnerFilter.value, attributeKey.value)
-    return currentFilter.value.filterOperators.filter(op => op.value === 'equal_to')
+  if (shouldRestrictTeamFilter.value && attributeKey.value === 'team_id') {
+    return currentFilter.value.filterOperators.filter(
+      op => op.value === 'equal_to'
+    );
   }
-  return currentFilter.value.filterOperators
-})
+  if (
+    shouldRestrictAssigneeFilter.value &&
+    attributeKey.value === 'assignee_id'
+  ) {
+    return currentFilter.value.filterOperators.filter(
+      op => op.value === 'equal_to'
+    );
+  }
+  return currentFilter.value.filterOperators;
+});
 
 // Filter options to only show teams the user is a member of
 const filteredOptions = computed(() => {
   if (attributeKey.value === 'team_id') {
-    return currentFilter.value.options.filter(team => team.is_member === true)
+    return currentFilter.value.options.filter(team => team.is_member === true);
   }
-  return currentFilter.value.options
-})
+  if (attributeKey.value === 'assignee_id') {
+    const user = currentUser.value;
+    return user ? [{ id: user.id, name: user.name }] : [];
+  }
+  return currentFilter.value.options;
+});
 
 const queryOperatorOptionsPartnerUser = [
-    {
-      label: t(`FILTER.QUERY_DROPDOWN_LABELS.AND`),
-      value: 'and',
-      icon: h('span', { class: 'i-lucide-ampersands !text-n-blue-text' }),
-    }
-  ];
-
+  {
+    label: t(`FILTER.QUERY_DROPDOWN_LABELS.AND`),
+    value: 'and',
+    icon: h('span', { class: 'i-lucide-ampersands !text-n-blue-text' }),
+  },
+];
 
 defineExpose({ validate });
 </script>
@@ -182,7 +208,11 @@ defineExpose({ validate });
         v-model="queryOperator"
         variant="faded"
         class="text-sm"
-        :options="(!isPartnerFilter && attributeKey === 'team_id') ? queryOperatorOptionsPartnerUser : queryOperatorOptions"
+        :options="
+          shouldRestrictTeamFilter && attributeKey === 'team_id'
+            ? queryOperatorOptionsPartnerUser
+            : queryOperatorOptions
+        "
       />
 
       <FilterSelect
@@ -195,19 +225,31 @@ defineExpose({ validate });
       <FilterSelect
         v-model="filterOperator"
         variant="ghost"
-        :options="(!isPartnerFilter && attributeKey === 'team_id') ?  operatorOptionsPartnerTeam : currentFilter.filterOperators"
+        :options="operatorOptionsPartnerTeam"
       />
 
       <template v-if="currentOperator.hasInput">
         <MultiSelect
           v-if="inputType === 'multiSelect'"
           v-model="values"
-          :options="(!isPartnerFilter && attributeKey === 'team_id') ? filteredOptions : currentFilter.options"
+          :options="
+            attributeKey === 'team_id' && shouldRestrictTeamFilter
+              ? filteredOptions
+              : attributeKey === 'assignee_id' && shouldRestrictAssigneeFilter
+                ? filteredOptions
+                : currentFilter.options
+          "
         />
         <SingleSelect
           v-else-if="inputType === 'searchSelect'"
           v-model="values"
-          :options="(!isPartnerFilter && attributeKey === 'team_id') ? filteredOptions : currentFilter.options"
+          :options="
+            attributeKey === 'team_id' && shouldRestrictTeamFilter
+              ? filteredOptions
+              : attributeKey === 'assignee_id' && shouldRestrictAssigneeFilter
+                ? filteredOptions
+                : currentFilter.options
+          "
         />
         <SingleSelect
           v-else-if="inputType === 'booleanSelect'"
@@ -237,5 +279,4 @@ defineExpose({ validate });
       {{ t(`FILTER.ERRORS.${validationError}`) }}
     </span>
   </li>
-
 </template>

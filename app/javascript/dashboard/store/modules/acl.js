@@ -1,107 +1,143 @@
 /* global axios */
 
-import * as types from '../mutation-types'
+import * as types from '../mutation-types';
 import * as MutationHelpers from 'shared/helpers/vuex/mutationHelpers';
 
 import ApiClient from '../../api/ApiClient';
 // Classe para chamarmos a API. TODO: Mudar ela para o proprio arquivo.
 class AclAPI extends ApiClient {
-    constructor() {
-        super('acl', { accountScoped: true })
-    }
+  constructor() {
+    super('acl', { accountScoped: true });
+  }
 
-    baseUrl() {
-        return ``;
-    }
+  baseUrl() {
+    return ``;
+  }
 
-    get(id) {
-        if (!id) {
-            return axios.get(`${this.url}`)
-        }
-        return axios.get(`${this.url}/${id}`)
+  get(id) {
+    if (!id) {
+      return axios.get(`${this.url}`);
     }
+    return axios.get(`${this.url}/${id}`);
+  }
 
-    update(id, data) {
-        return axios.patch(`${this.url}/${id}`, data)
-    }
-
+  update(id, data) {
+    return axios.patch(`${this.url}/${id}`, data);
+  }
 }
 
 const state = {
-    currentUserACL: {
-        time_privado: false,
-        direcionar_conversa: false,
-        side_panel: false,
-        ver_conversas_nao_vinculadas_a_mim: false
-    },
-    editingACL: {
-
-    }
-}
+  currentUserACL: {
+    pode_ver_menu_kanban: true,
+    pode_ver_menu_inbox: true,
+    pode_ver_menu_contatos: true,
+    pode_ver_menu_captain: true,
+    pode_ver_menu_portais: true,
+    pode_ver_menu_relatorios: true,
+    pode_ver_menu_configuracoes: true,
+    pode_ver_barra_de_busca: true,
+    menu_conversas_exibir_canais: true,
+    menu_conversas_exibir_etiquetas: true,
+    menu_conversas_exibir_mencoes: true,
+    menu_conversas_exibir_nao_atendidas: true,
+    menu_conversas_exibir_times: true,
+    menu_conversas_exibir_todas_conversas: true,
+    pode_ver_menu_de_acoes_da_conversa: true,
+    pode_ver_opcoes_de_atribuicao_no_menu_de_contexto: true,
+    pode_filtrar_sem_times: true,
+    pode_filtrar_por_qualquer_time: true,
+    pode_filtrar_sem_agente_atribuido: true,
+    pode_filtrar_por_qualquer_agente: true,
+    pode_ver_aba_de_todas_conversas: true,
+    pode_ver_aba_de_nao_atribuidas: true,
+    nao_redirecionar_para_primeira_pasta: true,
+  },
+  editingACL: {},
+};
 
 export const getters = {
-    getUserACL: $state => $state.currentUserACL,
-    getEditingACL: $state => $state.editingACL
-}
+  getUserACL: $state => $state.currentUserACL,
+  getEditingACL: $state => $state.editingACL,
+};
 
 export const actions = {
-    fetchAcl: async ({ commit }) => {
-        try {
-            const aclapi = new AclAPI()
-            const result = await aclapi.get()
-            commit(types.default.SET_ACL, { ...result.data, exibir_acl: true })
-        } catch (e) {
-            console.error(e)
-            commit(types.default.SET_ACL, {
-                "time_privado": true,
-                "direcionar_conversa": true,
-                "side_panel": true,
-                "exibir_acl": false
-            })
-        }
-
-    },
-
-    fetchEditingAcl: async ({ commit }, userId) => {
-        console.log("CHAMOU A ACTION fetchEditingACL COM USERID = ", userId)
-        const aclapi = new AclAPI()
-        const result = await aclapi.get(userId)
-        console.log({ result })
-        commit(types.default.SET_EDITING_ACL, result.data)
-    },
-
-    updateAcl: async ({ commit }, { userId, newAcl }) => {
-        console.log(`Update ACL chamada com ${userId} e ${JSON.stringify(newAcl)}`)
-        const aclapi = new AclAPI()
-        const result = await aclapi.update(userId, newAcl)
-        console.log({ result })
+  fetchAcl: async ({ commit }) => {
+    try {
+      const aclapi = new AclAPI();
+      const result = await aclapi.get();
+      commit(types.default.SET_ACL, { ...result.data, exibir_acl: true });
+    } catch (e) {
+      console.error(e);
+      commit(types.default.SET_ACL, {
+        pode_ver_menu_kanban: true,
+        pode_ver_menu_inbox: true,
+        pode_ver_menu_contatos: true,
+        pode_ver_menu_captain: true,
+        pode_ver_menu_portais: true,
+        pode_ver_menu_relatorios: true,
+        pode_ver_menu_configuracoes: true,
+        pode_ver_barra_de_busca: true,
+        menu_conversas_exibir_canais: true,
+        menu_conversas_exibir_etiquetas: true,
+        menu_conversas_exibir_mencoes: true,
+        menu_conversas_exibir_nao_atendidas: true,
+        menu_conversas_exibir_times: true,
+        menu_conversas_exibir_todas_conversas: true,
+        pode_ver_menu_de_acoes_da_conversa: true,
+        pode_ver_opcoes_de_atribuicao_no_menu_de_contexto: true,
+        pode_filtrar_sem_times: true,
+        pode_filtrar_por_qualquer_time: true,
+        pode_filtrar_sem_agente_atribuido: true,
+        pode_filtrar_por_qualquer_agente: true,
+        pode_ver_aba_de_todas_conversas: true,
+        pode_ver_aba_de_nao_atribuidas: true,
+        nao_redirecionar_para_primeira_pasta: true,
+        exibir_acl: false,
+      });
     }
-}
+  },
+
+  fetchEditingAcl: async ({ commit }, userId) => {
+    console.log('CHAMOU A ACTION fetchEditingACL COM USERID = ', userId);
+    const aclapi = new AclAPI();
+    const result = await aclapi.get(userId);
+    console.log({ result });
+    commit(types.default.SET_EDITING_ACL, result.data);
+  },
+
+  updateAcl: async ({ commit }, { userId, newAcl }) => {
+    console.log(`Update ACL chamada com ${userId} e ${JSON.stringify(newAcl)}`);
+    const aclapi = new AclAPI();
+    const result = await aclapi.update(userId, newAcl);
+    console.log({ result });
+  },
+};
 
 export const mutations = {
-    [types.default.SET_ACL]($state, data) { // Troca cada membro do state individualmente
-        const { userId, ...aclData } = data
-        $state.currentUserACL = { ...aclData }
-        // Object.keys(data).forEach(key => {
-        //     $state[key] = data[key]
-        // })
-    },
+  [types.default.SET_ACL]($state, data) {
+    // Troca cada membro do state individualmente
+    const { userId, ...aclData } = data;
+    $state.currentUserACL = { ...aclData };
+    // Object.keys(data).forEach(key => {
+    //     $state[key] = data[key]
+    // })
+  },
 
-    [types.default.SET_EDITING_ACL]($state, data) {
-        const { userId, ...aclData } = data
-        $state.editingACL = { ...aclData }
-    },
+  [types.default.SET_EDITING_ACL]($state, data) {
+    const { userId, ...aclData } = data;
+    $state.editingACL = { ...aclData };
+  },
 
-    [types.default.UPDATE_ACL]($state, aclData) {
-        console.log("Trocando o state para ", aclData)
-        $state.editingACL = { ...aclData }
-    }
-}
+  [types.default.UPDATE_ACL]($state, aclData) {
+    console.log('Trocando o state para ', aclData);
+    $state.editingACL = { ...aclData };
+  },
+};
 
 export default {
-    namespaced: true,
-    state,
-    getters,
-    actions,
-    mutations
-}
+  namespaced: true,
+  state,
+  getters,
+  actions,
+  mutations,
+};
