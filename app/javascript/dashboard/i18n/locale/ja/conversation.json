@@ -174,6 +174,10 @@
           "SUCCESFUL": "会話ID {conversationId} に ラベル #{labelName} を割り当てました",
           "FAILED": "ラベルを割り当てることができませんでした。もう一度やり直してください。"
         },
+        "LABEL_REMOVAL": {
+          "SUCCESFUL": "Removed label #{labelName} from conversation id {conversationId}",
+          "FAILED": "Couldn't remove label. Please try again."
+        },
         "TEAM_ASSIGNMENT": {
           "SUCCESFUL": "会話ID {conversationId} に \"{team}\" チームを割り当てました",
           "FAILED": "チームを割り当てることができませんでした。もう一度お試しください。"
@@ -186,6 +190,8 @@
       "DISABLE_SIGN_TOOLTIP": "署名を無効化",
       "MSG_INPUT": "Shift + Enter で新しい行を作成します。「/」で開始すると、定型文回答を選択できます。",
       "PRIVATE_MSG_INPUT": "Shift + Enter で新しい行を作成します。これは担当者にのみ表示されます。",
+      "MESSAGING_RESTRICTED": "You cannot reply to this conversation",
+      "MESSAGING_RESTRICTED_WHATSAPP": "You can only reply using a template message due to 24-hour message window restriction",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "メッセージ署名が構成されていません。プロフィール設定で構成してください。",
       "COPILOT_MSG_INPUT": "Give copilot additional prompts, or ask anything else... Press enter to send follow-up",
       "CLICK_HERE": "ここをクリックして更新",
