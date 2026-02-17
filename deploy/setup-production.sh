@@ -7,9 +7,7 @@ set -euo pipefail
 # Execute APENAS UMA VEZ no servidor Contabo antes do primeiro deploy via pipeline.
 #
 # Uso:
-#   curl -sSL https://raw.githubusercontent.com/valter-tonon/chatwoot/upgrade/v4.10.1/deploy/setup-production.sh | bash
-#   OU
-#   git clone --branch upgrade/v4.10.1 --depth 1 https://github.com/valter-tonon/chatwoot.git /tmp/convertochat-setup
+#   git clone --branch master --depth 1 https://github.com/valter-tonon/chatwoot.git /tmp/convertochat-setup
 #   bash /tmp/convertochat-setup/deploy/setup-production.sh
 # =============================================================================
 
@@ -24,6 +22,9 @@ log_error() { echo -e "${RED}[ERROR]${NC} $1"; }
 
 WORK_DIR="/root"
 COMPOSE_FILE="${WORK_DIR}/docker-compose.yaml"
+REPO_URL="https://github.com/valter-tonon/chatwoot.git"
+BUILD_DIR="/tmp/convertochat-build"
+IMAGE_NAME="ghcr.io/valter-tonon/chatwoot:latest"
 
 log_info "=== Setup convertoChat - Producao ==="
 echo ""
@@ -40,7 +41,7 @@ if ! docker compose version > /dev/null 2>&1; then
 fi
 
 # --- Backup ---
-log_info "[1/5] Fazendo backup do estado atual..."
+log_info "[1/6] Fazendo backup do estado atual..."
 
 TIMESTAMP=$(date +%Y%m%d_%H%M%S)
 cp "$COMPOSE_FILE" "${COMPOSE_FILE}.backup_pre_convertochat_${TIMESTAMP}"
@@ -58,31 +59,46 @@ fi
 log_info "Backup do banco: ${WORK_DIR}/backup_pre_convertochat_${TIMESTAMP}.sql (${BACKUP_SIZE} bytes)"
 
 # --- Atualizar docker-compose.yaml ---
-log_info "[2/5] Atualizando docker-compose.yaml para usar imagem convertoChat..."
+log_info "[2/6] Atualizando docker-compose.yaml para usar imagem convertoChat..."
 
 if grep -q "chatwoot/chatwoot" "$COMPOSE_FILE"; then
-    sed -i 's|image: chatwoot/chatwoot:.*|image: ghcr.io/valter-tonon/chatwoot:latest|g' "$COMPOSE_FILE"
-    log_info "Imagem atualizada para ghcr.io/valter-tonon/chatwoot:latest"
+    sed -i "s|image: chatwoot/chatwoot:.*|image: ${IMAGE_NAME}|g" "$COMPOSE_FILE"
+    log_info "Imagem atualizada para ${IMAGE_NAME}"
 elif grep -q "ghcr.io/valter-tonon/chatwoot" "$COMPOSE_FILE"; then
     log_info "Imagem ja esta configurada para ghcr.io/valter-tonon/chatwoot"
 else
-    log_error "Nao foi possivel identificar a imagem no docker-compose.yaml"
-    exit 1
+    log_warn "Nao identificou padrao de imagem. Tentando adicionar..."
 fi
 
-# --- Pull e restart ---
-log_info "[3/5] Baixando imagem e reiniciando..."
+# --- Build local da imagem ---
+log_info "[3/6] Buildando imagem localmente (isso leva ~15min)..."
 
-docker pull ghcr.io/valter-tonon/chatwoot:latest
+rm -rf "$BUILD_DIR"
+git clone --branch master --depth 1 "$REPO_URL" "$BUILD_DIR"
+
+cd "$BUILD_DIR"
+docker build \
+    -f docker/Dockerfile \
+    --build-arg RAILS_ENV=production \
+    --build-arg BUNDLE_WITHOUT=development:test \
+    -t "$IMAGE_NAME" \
+    .
+
+log_info "Imagem buildada com sucesso: ${IMAGE_NAME}"
+cd "$WORK_DIR"
+rm -rf "$BUILD_DIR"
+
+# --- Restart ---
+log_info "[4/6] Reiniciando containers com nova imagem..."
 
 docker compose -f "$COMPOSE_FILE" down
 docker compose -f "$COMPOSE_FILE" up -d
 
-log_info "Aguardando Rails iniciar (60s)..."
-sleep 60
+log_info "Aguardando Rails iniciar (90s)..."
+sleep 90
 
 # --- Migrations ---
-log_info "[4/5] Rodando migrations..."
+log_info "[5/6] Rodando migrations..."
 
 docker compose -f "$COMPOSE_FILE" exec -T rails \
     bundle exec rails db:chatwoot_prepare 2>&1 || {
@@ -92,7 +108,7 @@ docker compose -f "$COMPOSE_FILE" exec -T rails \
     }
 
 # --- Branding ---
-log_info "[5/5] Aplicando branding convertoChat..."
+log_info "[6/6] Aplicando branding convertoChat..."
 
 docker compose -f "$COMPOSE_FILE" exec -T rails \
     bundle exec rails runner '
@@ -159,7 +175,7 @@ echo "     - SERVER_USER: root"
 echo "     - SERVER_PASSWORD: sua senha SSH"
 echo "     - SERVER_PORT: 22"
 echo ""
-echo "  2. A partir de agora, todo push na branch fara deploy automatico."
+echo "  2. A partir de agora, todo push na branch master fara deploy automatico."
 echo ""
 echo "  Rollback (se necessario):"
 echo "     cp ${COMPOSE_FILE}.backup_pre_convertochat_${TIMESTAMP} ${COMPOSE_FILE}"

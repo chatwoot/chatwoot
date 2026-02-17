@@ -3,8 +3,11 @@ name: Build and Deploy convertoChat
 on:
   push:
     branches:
-      - upgrade/v4.10.1
-      - main
+      - master
+    paths-ignore:
+      - '*.md'
+      - 'docs/**'
+  workflow_dispatch:
 
 env:
   REGISTRY: ghcr.io
@@ -63,40 +66,47 @@ jobs:
     name: Deploy to Production
     needs: build-and-push
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/upgrade/v4.10.1' || github.ref == 'refs/heads/main'
 
     steps:
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1.2.0
+        env:
+          GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GHCR_USER: ${{ github.actor }}
+          GHCR_IMAGE: ghcr.io/${{ github.repository }}
         with:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
           password: ${{ secrets.SERVER_PASSWORD }}
           port: ${{ secrets.SERVER_PORT }}
+          envs: GHCR_TOKEN,GHCR_USER,GHCR_IMAGE
           script_stop: true
           script: |
             set -e
             cd /root
 
-            echo "=== [1/6] Backup do banco ==="
+            echo "=== [1/7] Backup do banco ==="
             docker compose exec -T postgres \
               pg_dump -U postgres chatwoot_production \
               > backup_pre_deploy_$(date +%Y%m%d_%H%M%S).sql
             echo "Backup concluido"
 
-            echo "=== [2/6] Pull da nova imagem ==="
-            docker pull ghcr.io/${{ github.repository }}:latest
+            echo "=== [2/7] Login no GHCR ==="
+            echo "$GHCR_TOKEN" | docker login ghcr.io -u "$GHCR_USER" --password-stdin
 
-            echo "=== [3/6] Parando containers ==="
+            echo "=== [3/7] Pull da nova imagem ==="
+            docker pull "$GHCR_IMAGE:latest"
+
+            echo "=== [4/7] Parando containers ==="
             docker compose down
 
-            echo "=== [4/6] Subindo com nova imagem ==="
+            echo "=== [5/7] Subindo com nova imagem ==="
             docker compose up -d
 
-            echo "=== [5/6] Aguardando Rails iniciar (60s) ==="
+            echo "=== [6/7] Aguardando Rails iniciar (60s) ==="
             sleep 60
 
-            echo "=== [6/6] Rodando migrations ==="
+            echo "=== [7/7] Rodando migrations ==="
             docker compose exec -T rails bundle exec rails db:chatwoot_prepare || \
               docker compose exec -T rails bundle exec rails db:migrate
 
