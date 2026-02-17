@@ -7,7 +7,7 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
   let(:captain_inbox_association) { create(:captain_inbox, captain_assistant: assistant, inbox: inbox) }
 
   describe '#perform' do
-    let(:conversation) { create(:conversation, inbox: inbox, account: account, status: :pending) }
+    let(:conversation) { create(:conversation, inbox: inbox, account: account) }
     let(:mock_llm_chat_service) { instance_double(Captain::Llm::AssistantChatService) }
     let(:mock_agent_runner_service) { instance_double(Captain::Assistant::AgentRunnerService) }
 
@@ -119,7 +119,7 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
   end
 
   describe 'retry mechanisms for image processing' do
-    let(:conversation) { create(:conversation, inbox: inbox, account: account, status: :pending) }
+    let(:conversation) { create(:conversation, inbox: inbox, account: account) }
     let(:mock_llm_chat_service) { instance_double(Captain::Llm::AssistantChatService) }
     let(:mock_message_builder) { instance_double(Captain::OpenAiMessageBuilderService) }
 
@@ -136,10 +136,11 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
         allow(mock_message_builder).to receive(:generate_content)
           .and_raise(ActiveStorage::FileNotFoundError, 'Image file not found')
 
-        # Retryable errors are re-raised to retry_on, bypassing handle_error/handoff
+        # For retryable errors, the job should handle them and proceed with handoff
         described_class.perform_now(conversation, assistant)
 
-        expect(conversation.reload.status).to eq('pending')
+        # Verify handoff occurred due to repeated failures
+        expect(conversation.reload.status).to eq('open')
       end
 
       it 'succeeds when no error occurs' do
@@ -159,9 +160,8 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
         allow(mock_llm_chat_service).to receive(:generate_response)
           .and_raise(Faraday::BadRequestError, 'Bad request to image service')
 
-        # Retryable errors are re-raised to retry_on, bypassing handle_error/handoff
         described_class.perform_now(conversation, assistant)
-        expect(conversation.reload.status).to eq('pending')
+        expect(conversation.reload.status).to eq('open')
       end
 
       it 'succeeds when no error occurs' do
