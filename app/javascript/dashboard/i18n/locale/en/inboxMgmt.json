@@ -64,6 +64,13 @@
         "ERROR_MESSAGE": "There was an error connecting to TikTok, please try again",
         "ERROR_AUTH": "There was an error connecting to TikTok, please try again"
       },
+      "X": {
+        "CONTINUE_WITH_X": "Continue with X",
+        "CONNECT_YOUR_X_PROFILE": "Connect your X Profile",
+        "HELP": "To add your X profile as a channel, you need to authenticate your X Profile by clicking on 'Continue with X' ",
+        "ERROR_MESSAGE": "There was an error connecting to X, please try again",
+        "ERROR_AUTH": "There was an error connecting to X, please try again"
+      },
       "TWITTER": {
         "HELP": "To add your Twitter profile as a channel, you need to authenticate your Twitter Profile by clicking on 'Sign in with Twitter' ",
         "ERROR_MESSAGE": "There was an error connecting to Twitter, please try again",
@@ -481,6 +488,10 @@
           "TIKTOK": {
             "TITLE": "TikTok",
             "DESCRIPTION": "Connect your TikTok account"
+          },
+          "X": {
+            "TITLE": "X",
+            "DESCRIPTION": "Connect your X account"
           },
           "VOICE": {
             "TITLE": "Voice",
@@ -1098,6 +1109,7 @@
       "API": "API Channel",
       "INSTAGRAM": "Instagram",
       "TIKTOK": "TikTok",
+      "X": "X",
       "VOICE": "Voice"
     }
   }
