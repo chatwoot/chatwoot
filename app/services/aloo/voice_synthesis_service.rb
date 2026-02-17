@@ -123,7 +123,7 @@ module Aloo
         success: true,
         audio_path: ogg_path,
         audio_data: mp3_data,
-        content_type: 'audio/ogg',
+        content_type: 'audio/ogg; codecs=opus',
         format: 'ogg'
       }
     end

@@ -90,7 +90,7 @@ RSpec.describe Aloo::VoiceSynthesisService, type: :service do
         expect(result[:success]).to be true
         expect(result[:audio_path]).to eq(ogg_path)
         expect(result[:audio_data]).to eq(audio_binary)
-        expect(result[:content_type]).to eq('audio/ogg')
+        expect(result[:content_type]).to eq('audio/ogg; codecs=opus')
         expect(result[:format]).to eq('ogg')
       end
 

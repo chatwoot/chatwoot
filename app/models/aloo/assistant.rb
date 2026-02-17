@@ -212,11 +212,11 @@ module Aloo
     end
 
     def voice_reply_enabled?
-      voice_enabled? && elevenlabs_voice_id.present?
+      voice_enabled? && voice_output_enabled? && elevenlabs_voice_id.present?
     end
 
     def voice_transcription_enabled?
-      voice_enabled?
+      voice_enabled? && voice_input_enabled?
     end
 
     private
