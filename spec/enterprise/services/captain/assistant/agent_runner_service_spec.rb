@@ -331,7 +331,7 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
 
       service.send(:add_usage_metadata_callback, runner)
 
-      tool_complete_callback.call(described_class::HUMAN_HANDOFF_TOOL_NAME, 'ok', context_wrapper)
+      tool_complete_callback.call(Captain::Tools::HandoffTool.new(assistant).name, 'ok', context_wrapper)
 
       expect(root_span).to receive(:set_attribute).with('langfuse.trace.metadata.credits_used', false)
       run_complete_callback.call('assistant', nil, context_wrapper)

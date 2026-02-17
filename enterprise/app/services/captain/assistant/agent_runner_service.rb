@@ -3,7 +3,7 @@ require 'agents/instrumentation'
 
 class Captain::Assistant::AgentRunnerService
   include Integrations::LlmInstrumentationConstants
-  HUMAN_HANDOFF_TOOL_NAME = 'captain--tools--handoff'.freeze
+
   CONVERSATION_STATE_ATTRIBUTES = %i[
     id display_id inbox_id contact_id status priority
     label_list custom_attributes additional_attributes
@@ -166,8 +166,10 @@ class Captain::Assistant::AgentRunnerService
   def add_usage_metadata_callback(runner)
     return runner unless ChatwootApp.otel_enabled?
 
+    handoff_tool_name = Captain::Tools::HandoffTool.new(@assistant).name
+
     runner.on_tool_complete do |tool_name, _tool_result, context_wrapper|
-      track_handoff_usage(tool_name, context_wrapper)
+      track_handoff_usage(tool_name, handoff_tool_name, context_wrapper)
     end
 
     runner.on_run_complete do |_agent_name, _result, context_wrapper|
@@ -176,9 +178,9 @@ class Captain::Assistant::AgentRunnerService
     runner
   end
 
-  def track_handoff_usage(tool_name, context_wrapper)
+  def track_handoff_usage(tool_name, handoff_tool_name, context_wrapper)
     return unless context_wrapper&.context
-    return unless tool_name.to_s == HUMAN_HANDOFF_TOOL_NAME
+    return unless tool_name.to_s == handoff_tool_name
 
     context_wrapper.context[:captain_v2_handoff_tool_called] = true
   end
