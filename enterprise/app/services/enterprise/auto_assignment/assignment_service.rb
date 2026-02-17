@@ -14,12 +14,16 @@ module Enterprise::AutoAssignment::AssignmentService
   end
 
   # Extend agent finding to add capacity checks
-  def find_available_agent
-    agents = filter_agents_by_rate_limit(inbox.available_agents)
+  def find_available_agent(conversation = nil)
+    agents = filter_agents_by_team(inbox.available_agents, conversation)
+    return nil if agents.nil?
+
+    agents = filter_agents_by_rate_limit(agents)
     agents = filter_agents_by_capacity(agents) if capacity_filtering_enabled?
     return nil if agents.empty?
 
-    selector = policy&.balanced? ? balanced_selector : round_robin_selector
+    # Use balanced selector only if advanced_assignment feature is enabled
+    selector = policy&.balanced? && account.feature_enabled?('advanced_assignment') ? balanced_selector : round_robin_selector
     selector.select_agent(agents)
   end
 
@@ -31,7 +35,7 @@ module Enterprise::AutoAssignment::AssignmentService
   end
 
   def capacity_filtering_enabled?
-    account.feature_enabled?('assignment_v2') &&
+    account.feature_enabled?('advanced_assignment') &&
       account.account_users.joins(:agent_capacity_policy).exists?
   end
 
