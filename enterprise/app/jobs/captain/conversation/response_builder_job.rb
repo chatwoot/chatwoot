@@ -5,6 +5,8 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
 
   def perform(conversation, assistant)
     @conversation = conversation
+    return unless @conversation.pending?
+
     @inbox = conversation.inbox
     @assistant = assistant
 
