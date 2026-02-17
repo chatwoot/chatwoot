@@ -28,7 +28,10 @@ import { useAlert } from 'dashboard/composables';
 import { vOnClickOutside } from '@vueuse/components';
 
 import { BUS_EVENTS } from 'shared/constants/busEvents';
-import { CONVERSATION_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
+import {
+  CONVERSATION_EVENTS,
+  CAPTAIN_EVENTS,
+} from 'dashboard/helper/AnalyticsHelper/events';
 import { MESSAGE_EDITOR_IMAGE_RESIZES } from 'dashboard/constants/editor';
 
 import {
@@ -86,6 +89,7 @@ const props = defineProps({
   // are triggered except when this flag is true
   allowSignature: { type: Boolean, default: false },
   channelType: { type: String, default: '' },
+  conversationId: { type: Number, default: null },
   medium: { type: String, default: '' },
   showImageResizeToolbar: { type: Boolean, default: false }, // A kill switch to show or hide the image toolbar
   focusOnMount: { type: Boolean, default: true },
@@ -396,7 +400,14 @@ function openFileBrowser() {
 }
 
 function handleCopilotClick() {
-  showSelectionMenu.value = !showSelectionMenu.value;
+  const isOpening = !showSelectionMenu.value;
+  if (isOpening) {
+    useTrack(CAPTAIN_EVENTS.EDITOR_AI_MENU_OPENED, {
+      conversationId: props.conversationId,
+      entryPoint: 'inline',
+    });
+  }
+  showSelectionMenu.value = isOpening;
 }
 
 function handleClickOutside(event) {
