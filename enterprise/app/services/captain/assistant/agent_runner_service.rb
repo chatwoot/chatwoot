@@ -189,8 +189,8 @@ class Captain::Assistant::AgentRunnerService
     root_span = context_wrapper&.context&.dig(:__otel_tracing, :root_span)
     return unless root_span
 
-    credits_used = !context_wrapper.context[:captain_v2_handoff_tool_called]
-    root_span.set_attribute(format(ATTR_LANGFUSE_METADATA, 'credits_used'), credits_used)
+    credit_used = !context_wrapper.context[:captain_v2_handoff_tool_called]
+    root_span.set_attribute(format(ATTR_LANGFUSE_METADATA, 'credit_used'), credit_used.to_s)
   end
 
   def add_agent_thinking_callback(runner)
