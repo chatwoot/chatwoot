@@ -85,6 +85,11 @@ export const PORTALS_EVENTS = Object.freeze({
 });
 
 export const CAPTAIN_EVENTS = Object.freeze({
+  // Editor funnel events
+  EDITOR_AI_MENU_OPENED: 'Captain: Editor AI menu opened',
+  GENERATION_FAILED: 'Captain: Generation failed',
+  AI_ASSISTED_MESSAGE_SENT: 'Captain: AI-assisted message sent',
+
   // Rewrite events (with operation attribute in payload)
   REWRITE_USED: 'Captain: Rewrite used',
   REWRITE_APPLIED: 'Captain: Rewrite applied',

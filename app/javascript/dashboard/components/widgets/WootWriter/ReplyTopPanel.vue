@@ -2,8 +2,10 @@
 import { ref } from 'vue';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import { useCaptain } from 'dashboard/composables/useCaptain';
+import { useTrack } from 'dashboard/composables';
 import { vOnClickOutside } from '@vueuse/components';
 import { REPLY_EDITOR_MODES, CHAR_LENGTH_WARNING } from './constants';
+import { CAPTAIN_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import EditorModeToggle from './EditorModeToggle.vue';
 import CopilotMenuBar from './CopilotMenuBar.vue';
@@ -30,6 +32,10 @@ export default {
     disabled: {
       type: Boolean,
       default: false,
+    },
+    conversationId: {
+      type: Number,
+      default: null,
     },
     isMessageLengthReachingThreshold: {
       type: Boolean,
@@ -69,7 +75,14 @@ export default {
     };
 
     const toggleCopilotMenu = () => {
-      showCopilotMenu.value = !showCopilotMenu.value;
+      const isOpening = !showCopilotMenu.value;
+      if (isOpening) {
+        useTrack(CAPTAIN_EVENTS.EDITOR_AI_MENU_OPENED, {
+          conversationId: props.conversationId,
+          entryPoint: 'top_panel',
+        });
+      }
+      showCopilotMenu.value = isOpening;
     };
 
     const handleClickOutside = () => {
