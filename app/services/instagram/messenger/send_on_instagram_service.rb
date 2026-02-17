@@ -15,7 +15,8 @@ class Instagram::Messenger::SendOnInstagramService < Instagram::BaseSendService
 
     response = HTTParty.post(
       'https://graph.facebook.com/v22.0/me/messages',
-      body: message_content,
+      body: message_content.to_json,
+      headers: { 'Content-Type' => 'application/json' },
       query: query
     )
 
