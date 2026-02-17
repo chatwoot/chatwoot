@@ -28,10 +28,17 @@ class Shopify::CallbacksController < ApplicationController
   end
 
   def handle_shopify_initiated_flow
+    raise StandardError, 'Invalid shop domain' unless valid_shop_domain?
+
     @response = oauth_client.auth_code.get_token(params[:code], redirect_uri: redirect_callback_uri)
 
     token_key = SecureRandom.hex(16)
-    pending_data = { access_token: parsed_body['access_token'], shop: params[:shop], scope: parsed_body['scope'] }.to_json
+    pending_data = {
+      access_token: parsed_body['access_token'],
+      shop: params[:shop],
+      scope: parsed_body['scope'],
+      claimed: false
+    }.to_json
     ::Redis::Alfred.setex("shopify_pending_install:#{token_key}", pending_data, 10.minutes)
 
     redirect_url = "settings/integrations/shopify?shopify_pending_install=#{token_key}"
@@ -90,5 +97,12 @@ class Shopify::CallbacksController < ApplicationController
 
   def frontend_url
     ENV.fetch('FRONTEND_URL', '')
+  end
+
+  def valid_shop_domain?
+    return false if params[:shop].blank?
+
+    # Shopify shop domains must match: *.myshopify.com or *.myshopify.io (for dev shops)
+    params[:shop].match?(/\A[a-zA-Z0-9][a-zA-Z0-9\-]*\.myshopify\.(com|io)\z/)
   end
 end

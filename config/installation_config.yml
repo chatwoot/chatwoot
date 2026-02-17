@@ -387,6 +387,10 @@
   description: 'The Client Secret (API Secret Key) from your Shopify Partner account'
   locked: false
   type: secret
+- name: SHOPIFY_APP_STORE_URL
+  display_title: 'Shopify App Store URL'
+  description: 'The Shopify App Store listing URL (e.g., https://apps.shopify.com/your-app)'
+  locked: false
 # ------- End of Shopify Related Config ------- #
 
 # ------- Instagram Channel Related Config ------- #

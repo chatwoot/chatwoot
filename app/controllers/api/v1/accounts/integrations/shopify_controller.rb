@@ -1,25 +1,8 @@
 class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::BaseController
   include Shopify::IntegrationHelper
   before_action :setup_shopify_context, only: [:orders]
-  before_action :fetch_hook, except: [:auth, :complete_install]
+  before_action :fetch_hook, except: [:complete_install]
   before_action :validate_contact, only: [:orders]
-
-  def auth
-    shop_domain = params[:shop_domain]
-    return render json: { error: 'Shop domain is required' }, status: :unprocessable_entity if shop_domain.blank?
-
-    state = generate_shopify_token(Current.account.id)
-
-    auth_url = "https://#{shop_domain}/admin/oauth/authorize?"
-    auth_url += URI.encode_www_form(
-      client_id: client_id,
-      scope: REQUIRED_SCOPES.join(','),
-      redirect_uri: redirect_uri,
-      state: state
-    )
-
-    render json: { redirect_url: auth_url }
-  end
 
   def orders
     customers = fetch_customers
@@ -32,10 +15,9 @@ class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::Ba
   end
 
   def complete_install
-    pending_data = ::Redis::Alfred.get("shopify_pending_install:#{params[:pending_install_token]}")
-    return render json: { error: 'Invalid or expired install token' }, status: :unprocessable_entity if pending_data.blank?
-
-    data = JSON.parse(pending_data)
+    token_key = "shopify_pending_install:#{params[:pending_install_token]}"
+    data = claim_pending_install_token(token_key)
+    return render json: { error: data[:error] }, status: :unprocessable_entity if data[:error]
 
     Current.account.hooks.create!(
       app_id: 'shopify',
@@ -45,7 +27,7 @@ class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::Ba
       settings: { scope: data['scope'] }
     )
 
-    ::Redis::Alfred.delete("shopify_pending_install:#{params[:pending_install_token]}")
+    ::Redis::Alfred.delete(token_key)
     head :ok
   end
 
@@ -57,10 +39,6 @@ class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::Ba
   end
 
   private
-
-  def redirect_uri
-    "#{ENV.fetch('FRONTEND_URL', '')}/shopify/callback"
-  end
 
   def contact
     @contact ||= Current.account.contacts.find_by(id: params[:contact_id])
@@ -125,5 +103,24 @@ class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::Ba
 
     render json: { error: 'Contact information missing' },
            status: :unprocessable_entity
+  end
+
+  def claim_pending_install_token(token_key)
+    pending_data = ::Redis::Alfred.get(token_key)
+    return { error: 'Invalid or expired install token' } if pending_data.blank?
+
+    data = JSON.parse(pending_data)
+
+    if data['claimed']
+      ::Redis::Alfred.delete(token_key)
+      return { error: 'Install token already used' }
+    end
+
+    # Mark as claimed to prevent replay
+    data['claimed'] = true
+    ttl = ::Redis::Alfred.ttl(token_key)
+    ::Redis::Alfred.setex(token_key, data.to_json, [ttl, 60].max) if ttl.positive?
+
+    data
   end
 end

@@ -11,11 +11,8 @@ import { useAlert } from 'dashboard/composables';
 import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 import Integration from './Integration.vue';
 import Spinner from 'shared/components/Spinner.vue';
-import integrationAPI from 'dashboard/api/integrations';
 import shopifyAPI from 'dashboard/api/integrations/shopify';
 
-import Input from 'dashboard/components-next/input/Input.vue';
-import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 
 defineProps({
@@ -30,11 +27,7 @@ const route = useRoute();
 const router = useRouter();
 const { t } = useI18n();
 const { formatMessage } = useMessageFormatter();
-const dialogRef = ref(null);
 const integrationLoaded = ref(false);
-const storeUrl = ref('');
-const isSubmitting = ref(false);
-const storeUrlError = ref('');
 const integration = useFunctionGetter('integrations/getIntegration', 'shopify');
 const uiFlags = useMapGetter('integrations/getUIFlags');
 
@@ -61,48 +54,6 @@ const formattedHelpText = computed(() => {
     false
   );
 });
-
-const hideStoreUrlModal = () => {
-  storeUrl.value = '';
-  storeUrlError.value = '';
-  isSubmitting.value = false;
-};
-
-const validateStoreUrl = url => {
-  const pattern = /^[a-zA-Z0-9][a-zA-Z0-9-]*\.myshopify\.com$/;
-  return pattern.test(url);
-};
-
-const openStoreUrlDialog = () => {
-  if (dialogRef.value) {
-    dialogRef.value.open();
-  }
-};
-
-const handleStoreUrlSubmit = async () => {
-  try {
-    storeUrlError.value = '';
-    if (!validateStoreUrl(storeUrl.value)) {
-      storeUrlError.value = t(
-        'INTEGRATION_SETTINGS.SHOPIFY.STORE_URL.INVALID_URL'
-      );
-      return;
-    }
-
-    isSubmitting.value = true;
-    const { data } = await integrationAPI.connectShopify({
-      shopDomain: storeUrl.value,
-    });
-
-    if (data.redirect_url) {
-      window.location.href = data.redirect_url;
-    }
-  } catch (error) {
-    storeUrlError.value = error.message;
-  } finally {
-    isSubmitting.value = false;
-  }
-};
 
 const completePendingInstall = async token => {
   try {
@@ -150,11 +101,16 @@ onMounted(() => {
         }"
       >
         <template #action>
-          <Button
-            teal
-            :label="$t('INTEGRATION_SETTINGS.CONNECT.BUTTON_TEXT')"
-            @click="openStoreUrlDialog"
-          />
+          <a
+            :href="integration.action"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Button
+              teal
+              :label="$t('INTEGRATION_SETTINGS.CONNECT.BUTTON_TEXT')"
+            />
+          </a>
         </template>
       </Integration>
 
@@ -178,27 +134,6 @@ onMounted(() => {
           {{ $t('INTEGRATION_SETTINGS.SHOPIFY.ERROR') }}
         </p>
       </div>
-      <Dialog
-        ref="dialogRef"
-        :title="$t('INTEGRATION_SETTINGS.SHOPIFY.STORE_URL.TITLE')"
-        :is-loading="isSubmitting"
-        @confirm="handleStoreUrlSubmit"
-        @close="hideStoreUrlModal"
-      >
-        <Input
-          v-model="storeUrl"
-          :label="$t('INTEGRATION_SETTINGS.SHOPIFY.STORE_URL.LABEL')"
-          :placeholder="
-            $t('INTEGRATION_SETTINGS.SHOPIFY.STORE_URL.PLACEHOLDER')
-          "
-          :message="
-            !storeUrlError
-              ? $t('INTEGRATION_SETTINGS.SHOPIFY.STORE_URL.HELP')
-              : storeUrlError
-          "
-          :message-type="storeUrlError ? 'error' : 'info'"
-        />
-      </Dialog>
     </div>
 
     <div v-else class="flex flex-1 justify-center items-center">
