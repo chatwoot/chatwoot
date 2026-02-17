@@ -2,6 +2,8 @@ require 'ruby_llm'
 
 module Llm::Config
   DEFAULT_MODEL = 'gpt-4.1-mini'.freeze
+  REGISTRY_TTL = 1.hour
+  REGISTRY_PATH = Rails.root.join('tmp/ruby_llm_models.json').to_s
 
   class << self
     def initialized?
@@ -12,6 +14,7 @@ module Llm::Config
       return if @initialized
 
       configure_ruby_llm
+      refresh_model_registry
       @initialized = true
     end
 
@@ -29,6 +32,21 @@ module Llm::Config
     end
 
     private
+
+    def refresh_model_registry
+      if fresh_registry_file?
+        RubyLLM.models.load_from_json!(REGISTRY_PATH)
+      else
+        RubyLLM.models.refresh!
+        RubyLLM.models.save_to_json(REGISTRY_PATH)
+      end
+    rescue StandardError => e
+      Rails.logger.warn "Failed to refresh RubyLLM model registry: #{e.message}"
+    end
+
+    def fresh_registry_file?
+      File.exist?(REGISTRY_PATH) && File.mtime(REGISTRY_PATH) > REGISTRY_TTL.ago
+    end
 
     def configure_ruby_llm
       RubyLLM.configure do |config|
