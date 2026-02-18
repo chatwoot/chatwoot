@@ -58,13 +58,19 @@ RSpec.describe CsatTemplateUtilityAnalysisService do
       end
     end
 
-    context 'when rules classify as marketing but llm returns unclear' do
-      it 'keeps likely marketing classification from baseline rules' do
-        allow(llm_service).to receive(:perform).and_return({
-                                                             classification: 'UNCLEAR',
-                                                             optimized_message: 'Your support request has been closed.'
-                                                           })
+    context 'when rules classify as marketing' do
+      it 'short-circuits without calling llm' do
+        expect(llm_service).not_to receive(:perform)
 
+        message = 'Your request is closed. Special offer: subscribe now and save.'
+        result = described_class.new(account: account, inbox: inbox, message: message, language: 'en').perform
+
+        expect(result[:classification]).to eq('LIKELY_MARKETING')
+      end
+    end
+
+    context 'when rules classify as marketing for plural promo terms' do
+      it 'keeps likely marketing classification from baseline rules' do
         message = 'Thanks for contacting us. Rate us and check out our new plans with special discounts.'
         result = described_class.new(account: account, inbox: inbox, message: message, language: 'en').perform
 

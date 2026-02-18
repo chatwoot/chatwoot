@@ -55,7 +55,7 @@ const state = reactive({
   message: '',
   templateButtonText: 'Please rate us',
   surveyRuleOperator: 'contains',
-  templateLanguage: '',
+  templateLanguage: 'en',
 });
 
 const templateStatus = ref(null);

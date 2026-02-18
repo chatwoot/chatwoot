@@ -5,6 +5,8 @@ class CsatTemplateUtilityAnalysisService
 
   def perform
     baseline = rule_based_result
+    return baseline if baseline[:classification] == 'LIKELY_MARKETING'
+
     llm_result = llm_result_or_nil(baseline)
     llm_result || baseline
   end

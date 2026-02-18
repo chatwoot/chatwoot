@@ -16,11 +16,13 @@ Input:
 Baseline heuristic:
 - Classification: {{ baseline_classification }}
 
-Return ONLY valid JSON with this shape:
+Return ONLY valid JSON with this shape (example):
 {
-  "classification": "LIKELY_UTILITY" | "LIKELY_MARKETING" | "UNCLEAR",
+  "classification": "LIKELY_UTILITY",
   "optimized_message": "rewritten utility-safe message"
 }
+
+Allowed values for "classification": "LIKELY_UTILITY", "LIKELY_MARKETING", or "UNCLEAR".
 
 Important:
 - Write `optimized_message` in the same language as `Language code`.
