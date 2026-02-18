@@ -93,6 +93,10 @@ class X::SendOnXService < Base::SendOnChannelService
   end
 
   def find_reply_to_tweet_id
+    message.content_attributes&.dig('in_reply_to_external_id') || latest_conversation_tweet_id
+  end
+
+  def latest_conversation_tweet_id
     latest_tweet = message.conversation.messages
                           .where.not(source_id: [nil, ''])
                           .order(created_at: :desc)

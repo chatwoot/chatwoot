@@ -59,6 +59,8 @@ class X::CallbacksController < ApplicationController
       code: error_info['code'],
       error_message: error_info['error_message']
     )
+  rescue StandardError
+    redirect_to '/'
   end
 
   def parse_oauth_error(error)
@@ -146,6 +148,8 @@ class X::CallbacksController < ApplicationController
   def account_id
     @account_id ||= begin
       decoded_state = jwt_decode(params[:state])
+      raise 'Invalid or expired OAuth state' if decoded_state.blank?
+
       decoded_state['sub']
     end
   end

@@ -94,23 +94,15 @@ RSpec.describe X::TokenService do
       expect(channel).to have_received(:authorization_error!)
     end
 
-    it 'sends notification email when reauthorization is required' do
+    it 'delegates notification to authorization_error! via reauthorizable concern' do
       lock_manager = instance_double(Redis::LockManager, lock: true, unlock: true)
       allow(Redis::LockManager).to receive(:new).and_return(lock_manager)
 
-      mailer = instance_double(AdministratorNotifications::ChannelNotificationsMailer)
-      delivery = instance_double(ActionMailer::MessageDelivery, deliver_later: true)
-      allow(AdministratorNotifications::ChannelNotificationsMailer).to receive(:with).and_return(mailer)
-      allow(mailer).to receive(:x_disconnect).and_return(delivery)
-
       allow(service).to receive(:attempt_refresh_token).and_raise(OAuth2::Error.new('error'))
       allow(channel).to receive(:authorization_error!)
-      allow(channel).to receive(:reauthorization_required?).and_return(true)
 
       expect { service.refresh_access_token }.to raise_error(OAuth2::Error)
-
-      expect(mailer).to have_received(:x_disconnect).with(channel.inbox)
-      expect(delivery).to have_received(:deliver_later)
+      expect(channel).to have_received(:authorization_error!)
     end
   end
 end

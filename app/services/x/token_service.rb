@@ -94,14 +94,6 @@ class X::TokenService
   def handle_refresh_error(error)
     Rails.logger.error("X token refresh failed for channel #{channel.id}: #{error.message}")
     channel.authorization_error!
-
-    if channel.reauthorization_required?
-      AdministratorNotifications::ChannelNotificationsMailer
-        .with(account: channel.account)
-        .x_disconnect(channel.inbox)
-        .deliver_later
-    end
-
     raise error
   end
 end
