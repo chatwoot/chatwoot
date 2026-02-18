@@ -16,8 +16,8 @@ const { t } = useI18n();
 const confirmDialog = ref(null);
 
 const loading = ref({});
-const showAddPopup = ref(false);
-const showEditPopup = ref(false);
+const addDialogRef = ref(null);
+const editDialogRef = ref(null);
 const showDeleteConfirmationPopup = ref(false);
 const selectedAutomation = ref({});
 const toggleModalTitle = ref(t('AUTOMATION.TOGGLE.ACTIVATION_TITLE'));
@@ -57,18 +57,18 @@ onMounted(() => {
 });
 
 const openAddPopup = () => {
-  showAddPopup.value = true;
+  addDialogRef.value?.open();
 };
 const hideAddPopup = () => {
-  showAddPopup.value = false;
+  addDialogRef.value?.close();
 };
 
 const openEditPopup = response => {
-  selectedAutomation.value = response;
-  showEditPopup.value = true;
+  selectedAutomation.value = { ...response };
+  editDialogRef.value?.open();
 };
 const hideEditPopup = () => {
-  showEditPopup.value = false;
+  editDialogRef.value?.close();
 };
 
 const openDeletePopup = response => {
@@ -221,17 +221,7 @@ const tableHeaders = computed(() => {
       </table>
     </template>
 
-    <woot-modal
-      v-model:show="showAddPopup"
-      size="medium"
-      :on-close="hideAddPopup"
-    >
-      <AddAutomationRule
-        v-if="showAddPopup"
-        :on-close="hideAddPopup"
-        @save-automation="submitAutomation"
-      />
-    </woot-modal>
+    <AddAutomationRule ref="addDialogRef" @save-automation="submitAutomation" />
 
     <woot-delete-modal
       v-model:show="showDeleteConfirmationPopup"
@@ -244,18 +234,11 @@ const tableHeaders = computed(() => {
       :reject-text="deleteRejectText"
     />
 
-    <woot-modal
-      v-model:show="showEditPopup"
-      size="medium"
-      :on-close="hideEditPopup"
-    >
-      <EditAutomationRule
-        v-if="showEditPopup"
-        :on-close="hideEditPopup"
-        :selected-response="selectedAutomation"
-        @save-automation="submitAutomation"
-      />
-    </woot-modal>
+    <EditAutomationRule
+      ref="editDialogRef"
+      :selected-response="selectedAutomation"
+      @save-automation="submitAutomation"
+    />
     <woot-confirm-modal
       ref="confirmDialog"
       :title="toggleModalTitle"
