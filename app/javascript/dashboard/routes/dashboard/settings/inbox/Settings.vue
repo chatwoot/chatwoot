@@ -26,9 +26,9 @@ import BotConfiguration from './components/BotConfiguration.vue';
 import AccountHealth from './components/AccountHealth.vue';
 import { FEATURE_FLAGS } from '../../../../featureFlags';
 import SenderNameExamplePreview from './components/SenderNameExamplePreview.vue';
+import LockToSingleConversationPreview from './components/LockToSingleConversationPreview.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import { INBOX_TYPES } from 'dashboard/helper/inbox';
-import LockToSingleConversationPreview from './components/LockToSingleConversationPreview.vue';
 import { getInboxIconByType } from 'dashboard/helper/inbox';
 import Editor from 'dashboard/components-next/Editor/Editor.vue';
 
@@ -221,12 +221,12 @@ export default {
     },
     canLocktoSingleConversation() {
       return (
-        this.isASmsInbox ||
         this.isAWhatsAppChannel ||
         this.isAFacebookInbox ||
-        this.isAPIInbox ||
-        this.isATelegramChannel ||
-        this.isALineChannel
+        this.isAnInstagramChannel ||
+        this.isALineChannel ||
+        this.isATiktokChannel ||
+        this.isATelegramChannel
       );
     },
     inboxNameLabel() {
