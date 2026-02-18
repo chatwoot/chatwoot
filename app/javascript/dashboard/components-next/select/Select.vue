@@ -46,7 +46,7 @@ const modelValue = defineModel({
     <select
       v-model="modelValue"
       :disabled="disabled"
-      class="custom-select rounded-lg border-0 outline-1 outline -outline-offset-1 transition-all duration-200 bg-n-surface-1 !mb-0 py-2 px-3 pr-10 text-sm"
+      class="appearance-none bg-none rounded-lg border-0 outline-1 outline -outline-offset-1 transition-all duration-200 bg-n-surface-1 !mb-0 py-2 px-3 pr-10 text-sm"
       :class="{
         'outline-n-weak hover:outline-n-slate-6 focus:outline-n-blue-9':
           !error && !disabled,
@@ -95,16 +95,3 @@ const modelValue = defineModel({
     </div>
   </div>
 </template>
-
-<style scoped>
-.custom-select {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background-image: none;
-}
-
-.custom-select::-ms-expand {
-  display: none;
-}
-</style>
