@@ -46,6 +46,7 @@ class PaymentLink < ApplicationRecord
 
   before_validation :generate_external_payment_id
   after_update :sync_message_status, if: :saved_change_to_status?
+  after_update :send_payment_notification_email, if: :became_paid?
 
   enum status: {
     initiated: 0,
@@ -149,6 +150,20 @@ class PaymentLink < ApplicationRecord
   end
 
   private
+
+  def became_paid?
+    saved_change_to_status? && paid?
+  end
+
+  def send_payment_notification_email
+    emails = account.payment_link_settings&.notification_email_list
+    return if emails.blank?
+
+    AdministratorNotifications::AccountNotificationMailer
+      .with(account: account)
+      .payment_link_paid(self, emails)
+      .deliver_later
+  end
 
   def generate_external_payment_id
     return if external_payment_id.present?
