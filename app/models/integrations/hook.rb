@@ -16,10 +16,12 @@
 #
 class Integrations::Hook < ApplicationRecord
   include Reauthorizable
+  include CrmTokenRefreshable
 
   attr_readonly :app_id, :account_id, :inbox_id, :hook_type
   before_validation :ensure_hook_type
   after_create :trigger_setup_if_crm
+  after_update :trigger_setup_if_crm, if: :desk_soid_changed?
 
   # TODO: Remove guard once encryption keys become mandatory (target 3-4 releases out).
   encrypts :access_token, deterministic: true if Chatwoot.encryption_configured?
@@ -43,6 +45,7 @@ class Integrations::Hook < ApplicationRecord
 
   scope :account_hooks, -> { where(hook_type: 'account') }
   scope :inbox_hooks, -> { where(hook_type: 'inbox') }
+  scope :crm_hooks, -> { where(app_id: CrmTokenRefreshable::CRM_PROVIDERS) }
 
   def app
     @app ||= Integrations::App.find(id: app_id)
@@ -105,6 +108,14 @@ class Integrations::Hook < ApplicationRecord
   end
 
   def crm_integration?
-    %w[leadsquared].include?(app_id)
+    %w[leadsquared zoho salesforce hubspot kommo].include?(app_id)
+  end
+
+  def desk_soid_changed?
+    return false unless saved_change_to_settings?
+
+    previous_desk_soid = settings_previously_was&.dig('desk_soid')
+    current_desk_soid = settings&.dig('desk_soid')
+    previous_desk_soid != current_desk_soid
   end
 end

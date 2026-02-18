@@ -59,6 +59,7 @@ import teamMembers from './modules/teamMembers';
 import teams from './modules/teams';
 import userNotificationSettings from './modules/userNotificationSettings';
 import webhooks from './modules/webhooks';
+import crmFlows from './modules/crmFlows';
 import captainAssistants from './captain/assistant';
 import captainDocuments from './captain/document';
 import captainResponses from './captain/response';
@@ -133,6 +134,7 @@ export default createStore({
     teams,
     userNotificationSettings,
     webhooks,
+    crmFlows,
     captainAssistants,
     captainDocuments,
     captainResponses,

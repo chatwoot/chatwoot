@@ -114,6 +114,7 @@ docker-compose.yaml
 # Local documentation
 SERVICIOS.md
 CLAUDE.md
+AGENTS.md
 ESTRUCTURA.md
 DEVELOPMENT_FLOW.md
 BASE-DE-DATOS.md

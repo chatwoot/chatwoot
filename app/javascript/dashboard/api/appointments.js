@@ -14,18 +14,18 @@ class AppointmentsAPI extends ApiClient {
     super('appointments', { accountScoped: true });
   }
 
-  get(page = 1, sortAttr = '-start_time') {
+  get(page = 1, sortAttr = '-scheduled_at') {
     const requestURL = `${this.url}?${buildAppointmentParams(page, sortAttr, '')}`;
 
     return axios.get(requestURL);
   }
 
-  search(search = '', page = 1, sortAttr = '-start_time') {
+  search(search = '', page = 1, sortAttr = '-scheduled_at') {
     const requestURL = `${this.url}/search?${buildAppointmentParams(page, sortAttr, search)}`;
     return axios.get(requestURL);
   }
 
-  filter(payload, page = 1, sortAttr = '-start_time') {
+  filter(payload, page = 1, sortAttr = '-scheduled_at') {
     const requestURL = `${this.url}/filter?${buildAppointmentParams(page, sortAttr, '')}`;
     return axios.post(requestURL, {
       payload,

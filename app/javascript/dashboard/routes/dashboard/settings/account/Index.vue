@@ -17,6 +17,7 @@ import AccountDelete from './components/AccountDelete.vue';
 import AudioTranscription from './components/AudioTranscription.vue';
 import AccountAddress from './components/AccountAddress.vue';
 import AccountBusinessHours from './components/AccountBusinessHours.vue';
+import AppointmentTypes from './components/AppointmentTypes.vue';
 import SectionLayout from './components/SectionLayout.vue';
 
 export default {
@@ -29,6 +30,7 @@ export default {
     AudioTranscription,
     AccountAddress,
     AccountBusinessHours,
+    AppointmentTypes,
     SectionLayout,
     WithLabel,
     NextInput,
@@ -248,6 +250,7 @@ export default {
     <AudioTranscription v-if="showAudioTranscriptionConfig" />
     <AccountAddress v-if="isAdministrator" />
     <AccountBusinessHours v-if="isAdministrator" />
+    <AppointmentTypes v-if="isAdministrator" />
     <AccountId />
     <div v-if="!uiFlags.isFetchingItem && isOnChatwootCloud">
       <AccountDelete />

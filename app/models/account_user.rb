@@ -42,7 +42,7 @@ class AccountUser < ApplicationRecord
 
   accepts_nested_attributes_for :account
 
-  after_create_commit :notify_creation, :create_notification_setting
+  after_create_commit :notify_creation, :create_notification_setting, :enqueue_crm_sync
   after_destroy :notify_deletion, :remove_user_from_account
   after_save :update_presence_in_redis, if: :saved_change_to_availability?
 
@@ -117,6 +117,38 @@ class AccountUser < ApplicationRecord
     return if responsible.account_id == account_id
 
     errors.add(:responsible_id, 'must be from the same account')
+  end
+
+  # Enqueue CRM sync job after creating account user
+  def enqueue_crm_sync
+    return unless account.hooks.crm_hooks.enabled.exists?
+
+    Crm::SyncAgentJob.perform_later(id)
+  end
+
+  # CRM sync methods
+  public
+
+  # Check if the account user is synced with CRM
+  #
+  # @return [Boolean] True if synced with CRM
+  def crm_synced?
+    crm_external_id.present?
+  end
+
+  # Check if the account user needs CRM sync (hasn't been synced recently)
+  #
+  # @param threshold [ActiveSupport::Duration] Time threshold for considering sync stale
+  # @return [Boolean] True if needs sync
+  def needs_crm_sync?(threshold: 6.hours)
+    crm_synced_at.nil? || crm_synced_at < threshold.ago
+  end
+
+  # Get CRM hook for this account user's account
+  #
+  # @return [Integrations::Hook, nil] Active CRM hook or nil
+  def crm_hook
+    account.hooks.crm_hooks.enabled.first
   end
 end
 

@@ -3,6 +3,7 @@ import { ref, computed } from 'vue';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
+import { useAccount } from 'dashboard/composables/useAccount';
 import { useVuelidate } from '@vuelidate/core';
 import { required, email } from '@vuelidate/validators';
 import Button from 'dashboard/components-next/button/Button.vue';
@@ -15,6 +16,7 @@ const emit = defineEmits(['close']);
 
 const store = useStore();
 const { t } = useI18n();
+const { currentAccount } = useAccount();
 
 const agentName = ref('');
 const agentEmail = ref('');
@@ -132,6 +134,16 @@ const selectedRole = computed(() =>
       role.id === selectedRoleId.value || role.name === selectedRoleId.value
   )
 );
+
+const accountDefaults = computed(() => {
+  if (!currentAccount.value) {
+    return { timezone: null, working_hours: [] };
+  }
+  return {
+    timezone: currentAccount.value.business_hours_timezone || null,
+    working_hours: currentAccount.value.business_hours || [],
+  };
+});
 
 const childRef = ref(null);
 
@@ -282,7 +294,11 @@ const addAgent = async () => {
       </div>
 
       <div>
-        <WeeklyAvailabilitySection ref="childRef" :user="agent" />
+        <WeeklyAvailabilitySection
+          ref="childRef"
+          :user="{}"
+          :account-defaults="accountDefaults"
+        />
       </div>
 
       <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">

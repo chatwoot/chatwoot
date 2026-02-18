@@ -171,41 +171,36 @@ const getStepTypeName = type => {
   return typeNames[type] || type;
 };
 
-const getStopReason = (status, metadata) => {
-  if (!metadata) return null;
+const getStopReason = (item) => {
+  const { status, completion_reason: completionReason, metadata } = item;
 
-  if (status === 'completed' && metadata.completion_reason) {
-    const reasons = {
+  if (status === 'completed' || status === 'cancelled') {
+    if (!completionReason) return null;
+
+    const exactReasons = {
       'Contact replied': t('LEAD_RETARGETING.SHOW.STOP_REASONS.CONTACT_REPLIED'),
-      'Conversation resolved': t(
-        'LEAD_RETARGETING.SHOW.STOP_REASONS.CONVERSATION_RESOLVED'
-      ),
-      'All steps completed': t(
-        'LEAD_RETARGETING.SHOW.STOP_REASONS.ALL_STEPS_COMPLETED'
-      ),
-      'Condition branch: complete': t(
-        'LEAD_RETARGETING.SHOW.STOP_REASONS.CONDITION_MET'
-      ),
+      'Conversation resolved': t('LEAD_RETARGETING.SHOW.STOP_REASONS.CONVERSATION_RESOLVED'),
+      'All steps completed': t('LEAD_RETARGETING.SHOW.STOP_REASONS.ALL_STEPS_COMPLETED'),
+      'Condition branch: complete': t('LEAD_RETARGETING.SHOW.STOP_REASONS.CONDITION_MET'),
+      'Copilot deactivated': t('LEAD_RETARGETING.SHOW.STOP_REASONS.COPILOT_DEACTIVATED'),
+      'Manually cancelled by user': t('LEAD_RETARGETING.SHOW.STOP_REASONS.MANUALLY_CANCELLED'),
     };
-    return reasons[metadata.completion_reason] || metadata.completion_reason;
+
+    if (exactReasons[completionReason]) return exactReasons[completionReason];
+
+    // Razones dinámicas (incluyen nombre del agente)
+    if (completionReason.startsWith('Agent assigned:')) {
+      return t('LEAD_RETARGETING.SHOW.STOP_REASONS.AGENT_ASSIGNED', { name: completionReason.replace('Agent assigned: ', '') });
+    }
+    if (completionReason.startsWith('Agent replied:')) {
+      return t('LEAD_RETARGETING.SHOW.STOP_REASONS.AGENT_REPLIED', { name: completionReason.replace('Agent replied: ', '') });
+    }
+
+    return completionReason;
   }
 
-  if (status === 'cancelled' && metadata.cancellation_reason) {
-    const reasons = {
-      'Sequence deactivated': t(
-        'LEAD_RETARGETING.SHOW.STOP_REASONS.COPILOT_DEACTIVATED'
-      ),
-      'Manually cancelled by user': t(
-        'LEAD_RETARGETING.SHOW.STOP_REASONS.MANUALLY_CANCELLED'
-      ),
-    };
-    return (
-      reasons[metadata.cancellation_reason] || metadata.cancellation_reason
-    );
-  }
-
-  if (status === 'failed' && metadata.failure_reason) {
-    return metadata.failure_reason;
+  if (status === 'failed') {
+    return metadata?.failure_reason || null;
   }
 
   return null;
@@ -349,6 +344,13 @@ onBeforeUnmount(() => {
             </div>
           </div>
           <div class="flex gap-2">
+            <Button
+              slate
+              faded
+              icon="i-lucide-refresh-cw"
+              :class="{ 'animate-spin': enrolledLoading }"
+              @click="fetchEnrolledConversations"
+            />
             <Button
               slate
               faded
@@ -625,10 +627,10 @@ onBeforeUnmount(() => {
                   </td>
                   <td class="px-4 py-3">
                     <p
-                      v-if="getStopReason(item.status, item.metadata)"
+                      v-if="getStopReason(item)"
                       class="text-xs text-n-slate-11"
                     >
-                      {{ getStopReason(item.status, item.metadata) }}
+                      {{ getStopReason(item) }}
                     </p>
                     <span v-else class="text-xs text-n-slate-11">-</span>
                   </td>

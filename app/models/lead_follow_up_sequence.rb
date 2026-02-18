@@ -45,6 +45,35 @@ class LeadFollowUpSequence < ApplicationRecord
     custom_attr: :dynamic
   }.freeze
 
+  # Configuraciones disponibles para detener el copilot automáticamente
+  # Estas se manejan via event-driven en LeadFollowUpListener
+  STOP_CONDITIONS = {
+    stop_on_contact_reply: {
+      label: 'Stop when contact replies',
+      description: 'Automatically stop when the contact sends a message',
+      default: false,
+      event_trigger: :message_created
+    },
+    stop_on_conversation_resolved: {
+      label: 'Stop when conversation is resolved',
+      description: 'Stop when the conversation status changes to resolved',
+      default: false,
+      event_trigger: :conversation_updated
+    },
+    stop_on_agent_assigned: {
+      label: 'Stop when agent is assigned',
+      description: 'Stop when a human agent is assigned to the conversation',
+      default: false,
+      event_trigger: :conversation_updated
+    },
+    stop_on_agent_reply: {
+      label: 'Stop when agent replies',
+      description: 'Stop when a human agent sends a message',
+      default: false,
+      event_trigger: :message_created
+    }
+  }.freeze
+
   def activate!
     update!(active: true)
   end

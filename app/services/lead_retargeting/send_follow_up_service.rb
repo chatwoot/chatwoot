@@ -10,15 +10,14 @@ class LeadRetargeting::SendFollowUpService
   end
 
   def execute
+    # Verificar que el copilot general siga activo
     return cancel_follow_up('Sequence deactivated') unless @sequence.active?
 
-    if @sequence.settings.dig('stop_on_contact_reply') && conversation_responded_recently?
-      return complete_follow_up('Contact replied')
-    end
-
-    if @sequence.settings.dig('stop_on_conversation_resolved') && @conversation.resolved?
-      return complete_follow_up('Conversation resolved')
-    end
+    # ✅ MIGRADO A EVENT-DRIVEN: Las condiciones stop_on_* ahora se manejan en LeadFollowUpListener
+    # - stop_on_contact_reply → manejado en message_created event
+    # - stop_on_conversation_resolved → manejado en conversation_updated event
+    # - stop_on_agent_assigned → manejado en conversation_updated event
+    # - stop_on_agent_reply → manejado en message_created event
 
     current_step = @sequence.enabled_steps[@follow_up.current_step]
     return complete_follow_up('All steps completed') unless current_step
@@ -399,13 +398,6 @@ class LeadRetargeting::SendFollowUpService
     channel = @inbox.channel
     @template_cache ||= channel.message_templates.index_by { |t| "#{t['name']}:#{t['language']}" }
     @template_cache["#{template_name}:#{language}"]
-  end
-
-  def conversation_responded_recently?
-    @conversation.messages
-                 .incoming
-                 .where('created_at > ?', @follow_up.updated_at)
-                 .exists?
   end
 
   def within_messaging_window?

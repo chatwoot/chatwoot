@@ -26,6 +26,7 @@ import LinearIssuesList from 'dashboard/components/widgets/conversation/linear/I
 import LinearSetupCTA from 'dashboard/components/widgets/conversation/linear/LinearSetupCTA.vue';
 import ConversationSumary from './ConversationSumary.vue';
 import CopilotTimeline from './CopilotTimeline.vue';
+import CrmSyncPanel from './CrmSyncPanel.vue';
 
 const props = defineProps({
   conversationId: {
@@ -78,6 +79,22 @@ const isLinearClientIdConfigured = computed(() => {
 
 const isLinearConnected = computed(
   () => linearIntegration.value?.enabled || false
+);
+
+const salesforceIntegration = useFunctionGetter(
+  'integrations/getIntegration',
+  'salesforce'
+);
+const zohoIntegration = useFunctionGetter(
+  'integrations/getIntegration',
+  'zoho'
+);
+const hubspotIntegration = useFunctionGetter(
+  'integrations/getIntegration',
+  'hubspot'
+);
+const hasCrmIntegration = computed(
+  () => salesforceIntegration.value?.enabled || zohoIntegration.value?.enabled || hubspotIntegration.value?.enabled
 );
 
 const store = useStore();
@@ -354,6 +371,17 @@ onMounted(() => {
           </div>
         </template>
       </Draggable>
+
+      <!-- CRM Sync (fuera del Draggable, no reordenable) -->
+      <AccordionItem
+        v-if="hasCrmIntegration"
+        :title="$t('CONVERSATION_SIDEBAR.ACCORDION.CRM_SYNC')"
+        :is-open="isContactSidebarItemOpen('is_crm_sync_open')"
+        compact
+        @toggle="value => toggleSidebarUIState('is_crm_sync_open', value)"
+      >
+        <CrmSyncPanel :conversation-id="conversationId" />
+      </AccordionItem>
     </div>
   </div>
 </template>

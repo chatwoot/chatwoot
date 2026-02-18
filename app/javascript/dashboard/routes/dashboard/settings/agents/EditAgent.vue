@@ -5,6 +5,7 @@ import { required, minLength } from '@vuelidate/validators';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
+import { useAccount } from 'dashboard/composables/useAccount';
 import Button from 'dashboard/components-next/button/Button.vue';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
 import Auth from '../../../../api/auth';
@@ -68,6 +69,7 @@ const { AVAILABILITY_STATUS_KEYS } = wootConstants;
 
 const store = useStore();
 const { t } = useI18n();
+const { currentAccount } = useAccount();
 
 const agentName = ref(props.name);
 const agentPhoneNumber = ref('');
@@ -140,6 +142,16 @@ const v$ = useVuelidate(rules, {
 const pageTitle = computed(
   () => `${t('AGENT_MGMT.EDIT.TITLE')} - ${props.name}`
 );
+
+const accountDefaults = computed(() => {
+  if (!currentAccount.value) {
+    return { timezone: null, working_hours: [] };
+  }
+  return {
+    timezone: currentAccount.value.business_hours_timezone || null,
+    working_hours: currentAccount.value.business_hours || [],
+  };
+});
 
 const uiFlags = useMapGetter('agents/getUIFlags');
 const getCustomRoles = useMapGetter('customRole/getCustomRoles');
@@ -361,7 +373,11 @@ const resetPassword = async () => {
       </div>
 
       <div>
-        <WeeklyAvailabilitySection ref="childRef" :user="agent" />
+        <WeeklyAvailabilitySection
+          ref="childRef"
+          :user="agent"
+          :account-defaults="accountDefaults"
+        />
       </div>
 
       <div class="flex flex-row justify-start w-full gap-2 px-0 py-2">

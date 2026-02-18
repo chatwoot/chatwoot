@@ -5,7 +5,7 @@ class PurgeExpiredAppointmentQrCodesJob < ApplicationJob
 
   def perform
     appointments_to_purge = Appointment
-                            .where('DATE(end_time) = ?', Date.current)
+                            .where('DATE(ended_at) = ?', Date.current)
                             .where.associated(:qr_code_attachment)
 
     appointments_to_purge.find_each do |appointment|

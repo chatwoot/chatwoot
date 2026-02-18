@@ -319,6 +319,22 @@ es:
       name: 'LeadSquared'
       short_description: 'Sync your contacts and conversations with LeadSquared CRM.'
       description: 'Sync your contacts and conversations with LeadSquared CRM. This integration automatically creates leads in LeadSquared when new contacts are added, and logs conversation activity to provide your sales team with complete context.'
+    zoho:
+      name: 'Zoho CRM'
+      short_description: 'Sincroniza tus contactos, leads y actividades con Zoho CRM automáticamente.'
+      description: 'Conecta Zoho CRM para sincronizar automáticamente contactos como leads, crear tareas y eventos, agregar etiquetas y notas. Esta integración proporciona a tu equipo de ventas el contexto completo y optimiza el flujo de trabajo de tu CRM.'
+    salesforce:
+      name: 'Salesforce'
+      short_description: 'Sincroniza tus contactos, leads y oportunidades con Salesforce CRM.'
+      description: 'Conecta Salesforce para sincronizar automáticamente contactos como leads, crear oportunidades y tareas, y gestionar tu pipeline de ventas. Esta integración proporciona a tu equipo de ventas visibilidad completa de las interacciones con clientes.'
+    hubspot:
+      name: 'HubSpot'
+      short_description: 'Sincroniza tus contactos, deals y actividades con HubSpot CRM.'
+      description: 'Conecta HubSpot CRM para sincronizar automáticamente contactos, crear deals y tareas, programar reuniones y agregar notas. Esta integración proporciona a tu equipo de ventas el contexto completo y optimiza el flujo de trabajo de tu CRM.'
+    crm_flows:
+      name: 'CRM Flows'
+      short_description: 'Configura secuencias de acciones automatizadas disparadas por tu agente de IA.'
+      description: 'CRM Flows te permite definir qué sucede cuando tu agente de IA lanza un evento. Configura disparadores, encadena acciones de CRM y Chatwoot, establece campos requeridos y habilita idempotencia — todo sin código.'
   captain:
     copilot_message_required: El mensaje es obligatorio
     copilot_error: 'Conecte un asistente a esta bandeja de entrada para utilizar Copilot'
@@ -447,3 +463,8 @@ es:
       contacted: contactado
       proposal_sent: propuesta enviada
       closed: cerrado
+  appointments:
+    types:
+      physical_visit: Visita Física
+      digital_meeting: Reunión Digital
+      phone_call: Llamada Telefónica

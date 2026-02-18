@@ -190,7 +190,9 @@ class Contact < ApplicationRecord
       name: name,
       phone_number: phone_number,
       thumbnail: avatar_url,
-      blocked: blocked
+      blocked: blocked,
+      contact_type: contact_type,
+      crm_metadata: additional_attributes&.dig('crm_metadata')
     }
   end
 

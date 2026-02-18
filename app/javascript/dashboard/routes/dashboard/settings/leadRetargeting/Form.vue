@@ -149,6 +149,8 @@ const defaultSequence = {
   settings: {
     stop_on_contact_reply: true,
     stop_on_conversation_resolved: true,
+    stop_on_agent_assigned: false,
+    stop_on_agent_reply: false,
     respect_business_hours: false,
     business_hours: {
       start: '09:00',
@@ -1924,6 +1926,28 @@ const saveSequence = async () => {
               />
               <span class="text-sm text-n-slate-11">
                 {{ t('LEAD_RETARGETING.FORM.STOP_ON_RESOLVED') }}
+              </span>
+            </label>
+
+            <label class="flex items-center gap-2 cursor-pointer">
+              <input
+                v-model="sequence.settings.stop_on_agent_assigned"
+                type="checkbox"
+                class="rounded"
+              />
+              <span class="text-sm text-n-slate-11">
+                {{ t('LEAD_RETARGETING.FORM.STOP_ON_AGENT_ASSIGNED') }}
+              </span>
+            </label>
+
+            <label class="flex items-center gap-2 cursor-pointer">
+              <input
+                v-model="sequence.settings.stop_on_agent_reply"
+                type="checkbox"
+                class="rounded"
+              />
+              <span class="text-sm text-n-slate-11">
+                {{ t('LEAD_RETARGETING.FORM.STOP_ON_AGENT_REPLY') }}
               </span>
             </label>
 

@@ -175,6 +175,21 @@
           "SUCCESS": "Account address updated successfully",
           "ERROR": "Failed to update account address"
         }
+      },
+      "APPOINTMENT_TYPES": {
+        "TITLE": "Appointment types",
+        "NOTE": "Configure which appointment types are available for your establishment. AI agents will only offer the types you enable here.",
+        "PHYSICAL_VISIT": "Physical visit",
+        "PHYSICAL_VISIT_DESCRIPTION": "In-person appointments at your location",
+        "DIGITAL_MEETING": "Digital meeting",
+        "DIGITAL_MEETING_DESCRIPTION": "Virtual appointments via video call",
+        "PHONE_CALL": "Phone call",
+        "PHONE_CALL_DESCRIPTION": "Appointments via phone call",
+        "UPDATE_BUTTON": "Save appointment types",
+        "API": {
+          "SUCCESS": "Appointment types updated successfully",
+          "ERROR": "Failed to update appointment types"
+        }
       }
     },
     "UPDATE_CHATWOOT": "An update {latestChatwootVersion} for Nauto Console is available. Please update your instance.",

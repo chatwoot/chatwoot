@@ -1,9 +1,16 @@
 {
   "APPOINTMENTS": {
     "HEADER": {
-      "TITLE": "Appointments"
+      "TITLE": "Appointments",
+      "DESCRIPTION": "Manage and track all appointments with your contacts",
+      "LEARN_MORE": "Learn about appointments",
+      "NEW_APPOINTMENT": "New Appointment"
     },
+    "LOADING": "Loading appointments...",
     "EMPTY_STATE": "No appointments found",
+    "EMPTY_STATE_TITLE": "No appointments yet",
+    "EMPTY_STATE_DESCRIPTION": "Create your first appointment to get started",
+    "NO_DESCRIPTION": "No description",
     "TABLE": {
       "CONTACT": "Contact",
       "START_TIME": "Start Time",
@@ -25,8 +32,8 @@
       "APPOINTMENT_FILTERS": "Appointment Filters",
       "LOCATION": "Location",
       "DESCRIPTION": "Description",
-      "START_TIME": "Start Time",
-      "END_TIME": "End Time",
+      "SCHEDULED_AT": "Scheduled Date",
+      "ENDED_AT": "End Date",
       "ASSISTED": "Assisted",
       "CONTACT_NAME": "Contact Name",
       "CONTACT_EMAIL": "Contact Email",
@@ -38,6 +45,76 @@
     },
     "ERRORS": {
       "APPOINTMENT_NOT_FOUND": "The appointment QR code has expired or is no longer available"
+    },
+    "STATUS": {
+      "SCHEDULED": "Scheduled",
+      "IN_PROGRESS": "In Progress",
+      "COMPLETED": "Completed",
+      "CANCELLED": "Cancelled",
+      "NO_SHOW": "No Show"
+    },
+    "TYPE": {
+      "PHYSICAL_VISIT": "Physical Visit",
+      "DIGITAL_MEETING": "Digital Meeting",
+      "PHONE_CALL": "Phone Call"
+    },
+    "ACTIONS": {
+      "EDIT": "Edit",
+      "DELETE": "Delete",
+      "VIEW": "View",
+      "START": "Start",
+      "COMPLETE": "Complete",
+      "CANCEL": "Cancel",
+      "MARK_NO_SHOW": "Mark No Show"
+    },
+    "UNKNOWN_CONTACT": "Unknown Contact",
+    "NO_LOCATION": "No location specified",
+    "NO_MEETING_URL": "No meeting URL",
+    "NO_PHONE_NUMBER": "No phone number",
+    "MODAL": {
+      "CREATE_TITLE": "Create Appointment",
+      "EDIT_TITLE": "Edit Appointment",
+      "CONTACT": "Contact",
+      "SELECT_CONTACT": "Select a contact",
+      "APPOINTMENT_TYPE": "Appointment Type",
+      "TYPE_LOCKED": "Appointment type cannot be changed after creation",
+      "SCHEDULED_AT": "Scheduled Date & Time",
+      "ENDED_AT": "End Date & Time (Optional)",
+      "OWNER": "Responsible Agent",
+      "SELECT_OWNER": "Select an agent",
+      "PHONE_NUMBER": "Phone Number",
+      "PHONE_PLACEHOLDER": "+1234567890",
+      "PHONE_FROM_CONTACT": "Auto-filled from contact's phone number",
+      "MEETING_URL": "Meeting URL",
+      "MEETING_URL_PLACEHOLDER": "https://meet.example.com/abc123",
+      "LOCATION": "Location",
+      "LOCATION_PLACEHOLDER": "Office address or meeting point",
+      "LOCATION_FROM_ACCOUNT": "Auto-filled from account address",
+      "DESCRIPTION": "Description",
+      "DESCRIPTION_PLACEHOLDER": "Add notes or details about this appointment",
+      "STATUS": "Status",
+      "CANCEL": "Cancel",
+      "SAVE": "Save",
+      "VALIDATION_ERROR": "Please fill in all required fields"
+    },
+    "CREATE": {
+      "SUCCESS": "Appointment created successfully",
+      "ERROR": "Failed to create appointment"
+    },
+    "EDIT": {
+      "SUCCESS": "Appointment updated successfully",
+      "ERROR": "Failed to update appointment"
+    },
+    "DELETE": {
+      "CONFIRM_TITLE": "Delete Appointment",
+      "CONFIRM_MESSAGE": "Are you sure you want to delete this appointment? This action cannot be undone.",
+      "YES": "Delete",
+      "NO": "Cancel",
+      "SUCCESS": "Appointment deleted successfully",
+      "ERROR": "Failed to delete appointment"
+    },
+    "PAGINATION_FOOTER": {
+      "SHOWING": "Showing {startItem} to {endItem} of {totalItems} appointment | Showing {startItem} to {endItem} of {totalItems} appointments"
     }
   }
 }

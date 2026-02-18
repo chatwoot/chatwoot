@@ -22,6 +22,10 @@ export default {
       type: Object,
       default: () => ({}),
     },
+    accountDefaults: {
+      type: Object,
+      default: () => ({}),
+    },
   },
   data() {
     return {
@@ -54,16 +58,51 @@ export default {
     },
   },
   watch: {
-    user() {
-      this.setDefaults();
+    user: {
+      handler() {
+        this.$nextTick(() => {
+          this.setDefaults();
+        });
+      },
+      deep: true,
+    },
+    accountDefaults: {
+      handler(newVal) {
+        if (newVal && (newVal.timezone || newVal.working_hours?.length)) {
+          this.$nextTick(() => {
+            this.setDefaults();
+          });
+        }
+      },
+      deep: true,
+      immediate: true,
     },
   },
   mounted() {
-    this.setDefaults();
+    this.$nextTick(() => {
+      this.setDefaults();
+    });
   },
   methods: {
     setDefaults() {
-      const { working_hours: timeSlots = [], timezone: timeZone } = this.user;
+      const user = this.user || {};
+      const accountDef = this.accountDefaults || {};
+
+      const userTimeSlots = user.working_hours;
+      const userTimeZone = user.timezone;
+      const accountTimeSlots = accountDef.working_hours || [];
+      const accountTimeZone = accountDef.timezone;
+
+      // Check if user has actual data configured
+      // If no working_hours are set, the agent hasn't configured their schedule,
+      // so treat timezone as unset too (API returns "UTC" as DB default)
+      const hasUserTimeSlots = Array.isArray(userTimeSlots) && userTimeSlots.length > 0;
+      const hasUserTimeZone = hasUserTimeSlots && userTimeZone != null && userTimeZone !== '';
+
+      // Use user data first, fallback to account defaults, then to defaults
+      const timeSlots = hasUserTimeSlots ? userTimeSlots : (accountTimeSlots.length > 0 ? accountTimeSlots : []);
+      const timeZone = hasUserTimeZone ? userTimeZone : (accountTimeZone || null);
+
       const slots = timeSlotParse(timeSlots).length
         ? timeSlotParse(timeSlots)
         : defaultTimeSlot;

@@ -118,3 +118,11 @@ cleanup_stale_bulk_requests_job:
   cron: '*/5 * * * *'
   class: 'CleanupStaleBulkRequestsJob'
   queue: scheduled_jobs
+
+# executed every 6 hours
+# to sync agents with CRM users (Zoho, Salesforce, HubSpot, etc.)
+crm_agent_sync_job:
+  cron: '0 */6 * * *'
+  class: 'Crm::AgentSyncJob'
+  queue: low
+

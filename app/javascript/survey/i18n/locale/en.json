@@ -8,7 +8,8 @@
     "FEEDBACK": {
       "LABEL": "Do you have any thoughts you'd like to share?",
       "PLACEHOLDER": "Your feedback (optional)",
-      "BUTTON_TEXT": "Submit feedback"
+      "BUTTON_TEXT": "Submit feedback",
+      "SUCCESS_MESSAGE": "Thank you for your feedback!"
     },
     "API": {
       "SUCCESS_MESSAGE": "Survey updated successfully",

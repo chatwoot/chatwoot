@@ -373,7 +373,8 @@
       "MACROS": "Macros",
       "LINEAR_ISSUES": "Problemas lineales vinculados",
       "SHOPIFY_ORDERS": "Shopify Orders",
-      "SURVEY_RESPONSES": "Respuestas de Encuesta"
+      "SURVEY_RESPONSES": "Respuestas de Encuesta",
+      "CRM_SYNC": "Sincronización CRM"
     },
     "SHOPIFY": {
       "ORDER_ID": "Order #{id}",

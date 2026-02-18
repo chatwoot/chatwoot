@@ -1,6 +1,7 @@
 import advancedFilters from './advancedFilters.json';
 import agentBots from './agentBots.json';
 import agentMgmt from './agentMgmt.json';
+import appointments from './appointments.json';
 import attributesMgmt from './attributesMgmt.json';
 import auditLogs from './auditLogs.json';
 import automation from './automation.json';
@@ -39,11 +40,13 @@ import sla from './sla.json';
 import surveys from './surveys.json';
 import teamsSettings from './teamsSettings.json';
 import whatsappTemplates from './whatsappTemplates.json';
+import crmFlows from './crmFlows.json';
 
 export default {
   ...advancedFilters,
   ...agentBots,
   ...agentMgmt,
+  ...appointments,
   ...attributesMgmt,
   ...auditLogs,
   ...automation,
@@ -82,4 +85,5 @@ export default {
   ...surveys,
   ...teamsSettings,
   ...whatsappTemplates,
+  ...crmFlows,
 };

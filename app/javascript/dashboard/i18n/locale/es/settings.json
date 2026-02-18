@@ -948,6 +948,8 @@
       "SETTINGS_SUBTITLE": "Controla cuándo y cómo debe ejecutarse el copilot",
       "STOP_ON_REPLY": "Detener copilot cuando el contacto responda",
       "STOP_ON_RESOLVED": "Detener copilot cuando la conversación se resuelva",
+      "STOP_ON_AGENT_ASSIGNED": "Detener copilot cuando se asigne un asesor",
+      "STOP_ON_AGENT_REPLY": "Detener copilot cuando un asesor responda",
       "ACTIVATE": "Activar copilot",
       "STEPS": "Pasos del Copilot",
       "STEPS_SUBTITLE": "Define las acciones que se ejecutarán en orden",
@@ -1026,7 +1028,9 @@
         "CONDITION_MET": "Condición cumplida",
         "COPILOT_DEACTIVATED": "Copilot desactivado",
         "MANUALLY_CANCELLED": "Cancelado manualmente",
-        "MANUALLY_STOPPED": "Detenido manualmente"
+        "MANUALLY_STOPPED": "Detenido manualmente",
+        "AGENT_ASSIGNED": "Asesor asignado: {name}",
+        "AGENT_REPLIED": "Asesor respondió: {name}"
       },
       "ENROLLMENT": {
         "NO_PHONE": "Sin número",

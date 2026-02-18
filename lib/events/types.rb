@@ -46,7 +46,15 @@ module Events::Types
   CONTACT_DISCARDED = 'contact.discarded'
   CONVERSATION_DISCARDED = 'conversation.discarded'
 
-  # contact events
+  # appointment events
+  APPOINTMENT_CREATED = 'appointment.created'
+  APPOINTMENT_UPDATED = 'appointment.updated'
+  APPOINTMENT_STARTED = 'appointment.started'
+  APPOINTMENT_COMPLETED = 'appointment.completed'
+  APPOINTMENT_CANCELLED = 'appointment.cancelled'
+  APPOINTMENT_DISCARDED = 'appointment.discarded'
+
+  # inbox events
   INBOX_CREATED = 'inbox.created'
   INBOX_UPDATED = 'inbox.updated'
 

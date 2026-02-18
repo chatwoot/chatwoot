@@ -33,7 +33,7 @@ export const getters = {
 };
 
 export const actions = {
-  get: async ({ commit }, { page = 1, sortAttr = '-start_time' } = {}) => {
+  get: async ({ commit }, { page = 1, sortAttr = '-scheduled_at' } = {}) => {
     commit(types.default.SET_APPOINTMENTS_FETCHING_STATUS, true);
     try {
       const {
@@ -51,7 +51,7 @@ export const actions = {
 
   search: async (
     { commit },
-    { search, page = 1, sortAttr = '-start_time' } = {}
+    { search, page = 1, sortAttr = '-scheduled_at' } = {}
   ) => {
     commit(types.default.SET_APPOINTMENTS_FETCHING_STATUS, true);
 
@@ -71,7 +71,7 @@ export const actions = {
 
   filter: async (
     { commit },
-    { queryPayload, page = 1, sortAttr = '-start_time' } = {}
+    { queryPayload, page = 1, sortAttr = '-scheduled_at' } = {}
   ) => {
     commit(types.default.SET_APPOINTMENTS_FETCHING_STATUS, true);
 
@@ -98,6 +98,18 @@ export const actions = {
     commit(types.default.SET_APPLIED_APPOINTMENT_FILTERS, filters);
   },
 
+  create: async ({ commit }, appointmentData) => {
+    commit(types.default.SET_APPOINTMENT_CREATING_STATUS, true);
+    try {
+      const response = await AppointmentsAPI.create(appointmentData);
+      commit(types.default.SET_APPOINTMENT_CREATING_STATUS, false);
+      return response.data;
+    } catch (error) {
+      commit(types.default.SET_APPOINTMENT_CREATING_STATUS, false);
+      throw error;
+    }
+  },
+
   update: async ({ commit }, { id, ...appointmentParams }) => {
     commit(types.default.SET_APPOINTMENT_UPDATING_STATUS, true);
     try {
@@ -105,6 +117,17 @@ export const actions = {
       commit(types.default.SET_APPOINTMENT_UPDATING_STATUS, false);
     } catch (error) {
       commit(types.default.SET_APPOINTMENT_UPDATING_STATUS, false);
+      throw error;
+    }
+  },
+
+  delete: async ({ commit }, id) => {
+    commit(types.default.SET_APPOINTMENT_DELETING_STATUS, true);
+    try {
+      await AppointmentsAPI.delete(id);
+      commit(types.default.SET_APPOINTMENT_DELETING_STATUS, false);
+    } catch (error) {
+      commit(types.default.SET_APPOINTMENT_DELETING_STATUS, false);
       throw error;
     }
   },
@@ -132,8 +155,14 @@ export const mutations = {
   [types.default.SET_APPOINTMENTS_FETCHING_STATUS]($state, status) {
     $state.uiFlags.isFetching = status;
   },
+  [types.default.SET_APPOINTMENT_CREATING_STATUS]($state, status) {
+    $state.uiFlags.isCreating = status;
+  },
   [types.default.SET_APPOINTMENT_UPDATING_STATUS]($state, status) {
     $state.uiFlags.isUpdating = status;
+  },
+  [types.default.SET_APPOINTMENT_DELETING_STATUS]($state, status) {
+    $state.uiFlags.isDeleting = status;
   },
   [types.default.SET_APPLIED_APPOINTMENT_FILTERS]($state, filters) {
     $state.appliedFilters = filters;

@@ -43,6 +43,13 @@ class Account < ApplicationRecord
           'type': %w[array null],
           'items': { 'type': 'string' }
         },
+        'enabled_appointment_types': {
+          'type': %w[array null],
+          'items': {
+            'type': 'string',
+            'enum': %w[physical_visit digital_meeting phone_call]
+          }
+        },
         'captain_models': {
           'type': %w[object null],
           'properties': {
@@ -88,6 +95,7 @@ class Account < ApplicationRecord
   store_accessor :settings, :audio_transcriptions, :auto_resolve_label
   store_accessor :settings, :captain_models, :captain_features
   store_accessor :settings, :business_hours_enabled, :business_hours_timezone
+  store_accessor :settings, :enabled_appointment_types
 
   has_many :account_users, dependent: :destroy_async
   has_many :agent_bot_inboxes, dependent: :destroy_async
@@ -241,6 +249,15 @@ class Account < ApplicationRecord
         open_all_day: wh.open_all_day
       }
     end
+  end
+
+  def available_appointment_types
+    # Si no está configurado, devolver todos los tipos disponibles
+    enabled_appointment_types.presence || %w[physical_visit digital_meeting phone_call]
+  end
+
+  def appointment_type_enabled?(type)
+    available_appointment_types.include?(type.to_s)
   end
 
   private

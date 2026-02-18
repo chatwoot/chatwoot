@@ -6,12 +6,14 @@ import { useIntegrationHook } from 'dashboard/composables/useIntegrationHook';
 import NewHook from './NewHook.vue';
 import SingleIntegrationHooks from './SingleIntegrationHooks.vue';
 import MultipleIntegrationHooks from './MultipleIntegrationHooks.vue';
+import ZohoDeskHooks from './ZohoDeskHooks.vue';
 
 export default {
   components: {
     NewHook,
     SingleIntegrationHooks,
     MultipleIntegrationHooks,
+    ZohoDeskHooks,
   },
   props: {
     integrationId: {
@@ -51,6 +53,9 @@ export default {
     },
     showAddButton() {
       return this.showIntegrationHooks && this.isIntegrationMultiple;
+    },
+    isZoho() {
+      return this.integrationId === 'zoho';
     },
     deleteTitle() {
       return this.isHookTypeInbox
@@ -126,6 +131,12 @@ export default {
           @delete="openDeletePopup"
         />
       </div>
+
+      <ZohoDeskHooks
+        v-if="isZoho"
+        :integration-id="integrationId"
+        class="mt-4"
+      />
     </div>
 
     <woot-modal v-model:show="showAddHookModal" :on-close="hideAddHookModal">

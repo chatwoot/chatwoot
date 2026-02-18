@@ -58,6 +58,8 @@ class Integrations::App
       shopify_enabled?(account)
     when 'leadsquared'
       account.feature_enabled?('crm_integration')
+    when 'crm_flows'
+      account.hooks.exists?(app_id: %w[salesforce zoho])
     when 'notion'
       notion_enabled?(account)
     else
@@ -84,6 +86,8 @@ class Integrations::App
       account.webhooks.exists?
     when 'dashboard_apps'
       account.dashboard_apps.exists?
+    when 'crm_flows'
+      CrmFlow.where(account_id: account.id).exists?
     else
       account.hooks.exists?(app_id: id)
     end

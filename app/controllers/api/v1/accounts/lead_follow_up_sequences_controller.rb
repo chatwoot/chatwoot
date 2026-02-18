@@ -179,23 +179,38 @@ class Api::V1::Accounts::LeadFollowUpSequencesController < Api::V1::Accounts::Ba
         # Skip enrollments with missing conversations
         next unless enrollment.conversation
 
-        # Get active_follow_up for next_action_at if exists
+        # El follow_up es la fuente de verdad del estado actual
         follow_up = enrollment.active_follow_up
-        current_step_data = @sequence.enabled_steps[enrollment.current_step]
+
+        # Si el follow_up está en estado terminal, tiene prioridad sobre el enrollment
+        terminal_statuses = %w[completed cancelled failed]
+        effective_status = if follow_up && terminal_statuses.include?(follow_up.status)
+                             follow_up.status
+                           else
+                             enrollment.status
+                           end
+
+        effective_step = follow_up&.current_step || enrollment.current_step
+        effective_completion_reason = enrollment.completion_reason ||
+                                      follow_up&.metadata&.dig('completion_reason') ||
+                                      follow_up&.metadata&.dig('cancellation_reason')
+        effective_completed_at = enrollment.completed_at || follow_up&.completed_at
+
+        current_step_data = @sequence.enabled_steps[effective_step]
 
         {
           id: enrollment.id,
           enrollment_id: enrollment.id,
           conversation_id: enrollment.conversation.id,
           display_id: enrollment.conversation.display_id,
-          status: enrollment.status,
-          current_step: enrollment.current_step,
+          status: effective_status,
+          current_step: effective_step,
           current_step_type: current_step_data&.dig('type'),
           current_step_name: current_step_data&.dig('name'),
           next_action_at: follow_up&.next_action_at,
           enrolled_at: enrollment.enrolled_at,
-          completed_at: enrollment.completed_at,
-          completion_reason: enrollment.completion_reason,
+          completed_at: effective_completed_at,
+          completion_reason: effective_completion_reason,
           created_at: enrollment.created_at,
           updated_at: enrollment.updated_at,
           metadata: enrollment.metadata,

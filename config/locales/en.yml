@@ -344,6 +344,26 @@ en:
       name: 'LeadSquared'
       short_description: 'Sync your contacts and conversations with LeadSquared CRM.'
       description: 'Sync your contacts and conversations with LeadSquared CRM. This integration automatically creates leads in LeadSquared when new contacts are added, and logs conversation activity to provide your sales team with complete context.'
+    zoho:
+      name: 'Zoho CRM'
+      short_description: 'Sync your contacts, leads, and activities with Zoho CRM automatically.'
+      description: 'Connect Zoho CRM to automatically sync contacts as leads, create tasks and events, add tags and notes. This integration provides your sales team with complete context and streamlines your CRM workflow.'
+    test:
+      name: 'test'
+      short_description: 'test'
+      description: 'test'
+    salesforce:
+      name: 'Salesforce'
+      short_description: 'Sync your contacts, leads, and opportunities with Salesforce CRM.'
+      description: 'Connect Salesforce to automatically sync contacts as leads, create opportunities and tasks, and manage your sales pipeline. This integration provides your sales team with complete visibility into customer interactions.'
+    hubspot:
+      name: 'HubSpot'
+      short_description: 'Sync your contacts, deals, and activities with HubSpot CRM.'
+      description: 'Connect HubSpot CRM to automatically sync contacts, create deals and tasks, schedule meetings, and add notes. This integration provides your sales team with complete context and streamlines your CRM workflow.'
+    crm_flows:
+      name: 'CRM Flows'
+      short_description: 'Configure automated action sequences triggered by your AI agent.'
+      description: 'CRM Flows let you define what happens when your AI agent fires an event. Configure triggers, chain CRM and Chatwoot actions, set required fields, and enable idempotency — all without code.'
   captain:
     copilot_message_required: Message is required
     copilot_error: 'Please connect an assistant to this inbox to use Copilot'
@@ -475,3 +495,8 @@ en:
       contacted: contacted
       proposal_sent: proposal sent
       closed: closed
+  appointments:
+    types:
+      physical_visit: Physical Visit
+      digital_meeting: Digital Meeting
+      phone_call: Phone Call

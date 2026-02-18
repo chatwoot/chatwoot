@@ -1,9 +1,16 @@
 {
   "APPOINTMENTS": {
     "HEADER": {
-      "TITLE": "Citas"
+      "TITLE": "Citas",
+      "DESCRIPTION": "Administra y da seguimiento a todas las citas con tus contactos",
+      "LEARN_MORE": "Aprende sobre citas",
+      "NEW_APPOINTMENT": "Nueva Cita"
     },
+    "LOADING": "Cargando citas...",
     "EMPTY_STATE": "No se encontraron citas",
+    "EMPTY_STATE_TITLE": "No hay citas aún",
+    "EMPTY_STATE_DESCRIPTION": "Crea tu primera cita para comenzar",
+    "NO_DESCRIPTION": "Sin descripción",
     "TABLE": {
       "CONTACT": "Contacto",
       "START_TIME": "Hora de Inicio",
@@ -25,8 +32,8 @@
       "APPOINTMENT_FILTERS": "Filtros de Citas",
       "LOCATION": "Ubicación",
       "DESCRIPTION": "Descripción",
-      "START_TIME": "Hora de Inicio",
-      "END_TIME": "Hora de Fin",
+      "SCHEDULED_AT": "Fecha Programada",
+      "ENDED_AT": "Fecha de Fin",
       "ASSISTED": "Asistió",
       "CONTACT_NAME": "Nombre del Contacto",
       "CONTACT_EMAIL": "Email del Contacto",
@@ -38,6 +45,76 @@
     },
     "ERRORS": {
       "APPOINTMENT_NOT_FOUND": "El código QR de la cita ha expirado o ya no está disponible"
+    },
+    "STATUS": {
+      "SCHEDULED": "Programada",
+      "IN_PROGRESS": "En Progreso",
+      "COMPLETED": "Completada",
+      "CANCELLED": "Cancelada",
+      "NO_SHOW": "No Asistió"
+    },
+    "TYPE": {
+      "PHYSICAL_VISIT": "Visita Física",
+      "DIGITAL_MEETING": "Reunión Digital",
+      "PHONE_CALL": "Llamada Telefónica"
+    },
+    "ACTIONS": {
+      "EDIT": "Editar",
+      "DELETE": "Eliminar",
+      "VIEW": "Ver",
+      "START": "Iniciar",
+      "COMPLETE": "Completar",
+      "CANCEL": "Cancelar",
+      "MARK_NO_SHOW": "Marcar como No Asistió"
+    },
+    "UNKNOWN_CONTACT": "Contacto Desconocido",
+    "NO_LOCATION": "Sin ubicación especificada",
+    "NO_MEETING_URL": "Sin URL de reunión",
+    "NO_PHONE_NUMBER": "Sin número de teléfono",
+    "MODAL": {
+      "CREATE_TITLE": "Crear Cita",
+      "EDIT_TITLE": "Editar Cita",
+      "CONTACT": "Contacto",
+      "SELECT_CONTACT": "Selecciona un contacto",
+      "APPOINTMENT_TYPE": "Tipo de Cita",
+      "TYPE_LOCKED": "El tipo de cita no puede cambiarse después de crearla",
+      "SCHEDULED_AT": "Fecha y Hora Programada",
+      "ENDED_AT": "Fecha y Hora de Fin (Opcional)",
+      "OWNER": "Agente Responsable",
+      "SELECT_OWNER": "Selecciona un agente",
+      "PHONE_NUMBER": "Número de Teléfono",
+      "PHONE_PLACEHOLDER": "+5491123456789",
+      "PHONE_FROM_CONTACT": "Auto-completado desde el teléfono del contacto",
+      "MEETING_URL": "URL de Reunión",
+      "MEETING_URL_PLACEHOLDER": "https://meet.ejemplo.com/abc123",
+      "LOCATION": "Ubicación",
+      "LOCATION_PLACEHOLDER": "Dirección de oficina o punto de encuentro",
+      "LOCATION_FROM_ACCOUNT": "Auto-completado desde la dirección de la cuenta",
+      "DESCRIPTION": "Descripción",
+      "DESCRIPTION_PLACEHOLDER": "Añade notas o detalles sobre esta cita",
+      "STATUS": "Estado",
+      "CANCEL": "Cancelar",
+      "SAVE": "Guardar",
+      "VALIDATION_ERROR": "Por favor completa todos los campos requeridos"
+    },
+    "CREATE": {
+      "SUCCESS": "Cita creada exitosamente",
+      "ERROR": "Error al crear la cita"
+    },
+    "EDIT": {
+      "SUCCESS": "Cita actualizada exitosamente",
+      "ERROR": "Error al actualizar la cita"
+    },
+    "DELETE": {
+      "CONFIRM_TITLE": "Eliminar Cita",
+      "CONFIRM_MESSAGE": "¿Estás seguro de que deseas eliminar esta cita? Esta acción no se puede deshacer.",
+      "YES": "Eliminar",
+      "NO": "Cancelar",
+      "SUCCESS": "Cita eliminada exitosamente",
+      "ERROR": "Error al eliminar la cita"
+    },
+    "PAGINATION_FOOTER": {
+      "SHOWING": "Mostrando {startItem} a {endItem} de {totalItems} cita | Mostrando {startItem} a {endItem} de {totalItems} citas"
     }
   }
 }

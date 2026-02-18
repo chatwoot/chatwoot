@@ -122,6 +122,7 @@ class User < ApplicationRecord
   before_validation :set_password_and_uid, on: :create
   before_validation :phone_number_format
   after_destroy :remove_macros
+  after_update :enqueue_crm_sync_if_email_changed, if: :saved_change_to_email?
 
   scope :order_by_full_name, -> { order('lower(name) ASC') }
 
@@ -217,6 +218,15 @@ class User < ApplicationRecord
 
   def remove_macros
     macros.personal.destroy_all
+  end
+
+  # Enqueue CRM sync for all account_users when email changes
+  def enqueue_crm_sync_if_email_changed
+    account_users.each do |account_user|
+      next unless account_user.account.hooks.crm_hooks.enabled.exists?
+
+      Crm::SyncAgentJob.perform_later(account_user.id)
+    end
   end
 end
 

@@ -1,7 +1,6 @@
 import { frontendURL } from '../../../helper/URLHelper';
 import ContactsIndex from './pages/ContactsIndex.vue';
 import ContactManageView from './pages/ContactManageView.vue';
-import AppointmentsIndex from './pages/AppointmentsIndex.vue';
 import { FEATURE_FLAGS } from '../../../featureFlags';
 
 const commonMeta = {
@@ -65,11 +64,5 @@ export const routes = [
         meta: commonMeta,
       },
     ],
-  },
-  {
-    path: frontendURL('accounts/:accountId/contacts/appointments'),
-    name: 'contacts_dashboard_appointments',
-    component: AppointmentsIndex,
-    meta: commonMeta,
   },
 ];

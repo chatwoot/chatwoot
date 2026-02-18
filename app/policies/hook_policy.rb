@@ -11,6 +11,10 @@ class HookPolicy < ApplicationPolicy
     true
   end
 
+  def test_crm_action?
+    @account_user.administrator?
+  end
+
   def destroy?
     @account_user.administrator?
   end

@@ -22,16 +22,16 @@ const filterTypes = [
     attribute_type: 'standard',
   },
   {
-    attributeKey: 'start_time',
-    attributeI18nKey: 'START_TIME',
+    attributeKey: 'scheduled_at',
+    attributeI18nKey: 'SCHEDULED_AT',
     inputType: 'date',
     dataType: 'text',
     filterOperators: OPERATOR_TYPES_5,
     attributeModel: 'standard',
   },
   {
-    attributeKey: 'end_time',
-    attributeI18nKey: 'END_TIME',
+    attributeKey: 'ended_at',
+    attributeI18nKey: 'ENDED_AT',
     inputType: 'date',
     dataType: 'text',
     filterOperators: OPERATOR_TYPES_5,
@@ -77,12 +77,12 @@ export const filterAttributeGroups = [
         i18nKey: 'DESCRIPTION',
       },
       {
-        key: 'start_time',
-        i18nKey: 'START_TIME',
+        key: 'scheduled_at',
+        i18nKey: 'SCHEDULED_AT',
       },
       {
-        key: 'end_time',
-        i18nKey: 'END_TIME',
+        key: 'ended_at',
+        i18nKey: 'ENDED_AT',
       },
       {
         key: 'assisted',

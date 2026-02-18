@@ -1004,6 +1004,58 @@
         "TITLE": "No Connected Inboxes",
         "SUBTITLE": "Connecting an inbox allows the assistant to handle initial questions from your customers before transferring them to you."
       }
+    },
+    "ZOHO": {
+      "TITLE": "Zoho CRM",
+      "DESCRIPTION": "Integrate Zoho CRM to sync contacts, leads, and activities automatically.",
+      "CONFIGURE": "Configure Zoho CRM",
+      "DELETE": {
+        "TITLE": "Delete Zoho CRM Integration",
+        "MESSAGE": "Are you sure you want to delete the Zoho CRM integration? This action cannot be undone."
+      },
+      "FORM": {
+        "SUBMIT": "Connect Zoho CRM",
+        "CANCEL": "Cancel"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Zoho CRM integration configured successfully",
+        "ERROR_MESSAGE": "Failed to configure Zoho CRM integration. Please check your credentials and try again."
+      }
+    },
+    "ZOHO_DESK": {
+      "TITLE": "Zoho Desk",
+      "DESCRIPTION": "Integrate Zoho Desk to sync tickets, contacts, and activities automatically.",
+      "INHERITED_FROM_CRM": "Inherited from Zoho CRM configuration",
+      "FORM": {
+        "DESK_SOID_LABEL": "Zoho Desk Organization ID (SOID)",
+        "DESK_SOID_PLACEHOLDER": "123456789",
+        "DESK_SOID_HELP": "Your Zoho Desk Organization ID",
+        "SUBMIT": "Connect Zoho Desk",
+        "CANCEL": "Cancel",
+        "EDIT": "Edit"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Zoho Desk configured successfully",
+        "ERROR_MESSAGE": "Failed to configure Zoho Desk. Please try again.",
+        "DISCONNECT_MESSAGE": "Zoho Desk disconnected successfully"
+      }
+    },
+    "SALESFORCE": {
+      "TITLE": "Salesforce",
+      "DESCRIPTION": "Integrate Salesforce to sync contacts, leads, and opportunities automatically.",
+      "CONFIGURE": "Configure Salesforce",
+      "DELETE": {
+        "TITLE": "Delete Salesforce Integration",
+        "MESSAGE": "Are you sure you want to delete the Salesforce integration? This action cannot be undone."
+      },
+      "FORM": {
+        "SUBMIT": "Connect Salesforce",
+        "CANCEL": "Cancel"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Salesforce integration configured successfully",
+        "ERROR_MESSAGE": "Failed to configure Salesforce integration. Please check your credentials and try again."
+      }
     }
   }
 }

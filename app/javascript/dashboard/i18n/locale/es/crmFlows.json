@@ -1,0 +1,134 @@
+{
+  "CRM_FLOWS": {
+    "HEADER": "CRM Flows",
+    "DESCRIPTION": "Configura secuencias de acciones que se ejecutan en tus CRMs cuando el agente de IA lanza un evento.",
+    "LOADING": "Cargando CRM Flows...",
+    "LIST": {
+      "404": "No hay CRM Flows configurados. Crea uno para comenzar.",
+      "TABLE_HEADER": {
+        "NAME": "Nombre",
+        "TRIGGER": "Disparador",
+        "SCOPE": "Alcance",
+        "ACTIONS": "Acciones",
+        "STATUS": "Estado"
+      },
+      "ACTIVE": "Activo",
+      "INACTIVE": "Inactivo",
+      "GLOBAL": "Global",
+      "ACTIONS_COUNT": "{count} acción(es)"
+    },
+    "CREATE": {
+      "BUTTON": "Crear Flow",
+      "SUCCESS": "CRM Flow creado exitosamente",
+      "ERROR": "Error al crear el CRM Flow"
+    },
+    "EDIT": {
+      "SUCCESS": "CRM Flow actualizado exitosamente",
+      "ERROR": "Error al actualizar el CRM Flow"
+    },
+    "DELETE": {
+      "CONFIRM_TITLE": "Eliminar CRM Flow",
+      "CONFIRM_MESSAGE": "¿Estás seguro de que quieres eliminar este flow? Esta acción no se puede deshacer.",
+      "SUCCESS": "CRM Flow eliminado exitosamente",
+      "ERROR": "Error al eliminar el CRM Flow",
+      "YES": "Eliminar",
+      "NO": "Cancelar"
+    },
+    "MODAL": {
+      "NAME_LABEL": "Nombre del Flow",
+      "NAME_PLACEHOLDER": "Ej.: Cuando se solicita una cotización",
+      "TRIGGER_LABEL": "Disparador",
+      "SCOPE_LABEL": "Alcance",
+      "SCOPE_GLOBAL": "Global (todos los inboxes)",
+      "SCOPE_INBOX": "Inbox específico",
+      "INBOX_LABEL": "Seleccionar Inbox",
+      "SAVE": "Guardar Flow",
+      "CANCEL": "Cancelar",
+      "ADVANCED": "Configuración avanzada",
+      "DEDUP_WINDOW_LABEL": "Ventana de deduplicación (minutos)",
+      "DEDUP_WINDOW_HELP": "Si el mismo flow ya se ejecutó para esta conversación dentro de esta ventana, se considerará un duplicado.",
+      "NAME_REQUIRED": "El nombre del Flow es obligatorio",
+      "ACTIONS_REQUIRED": "Se requiere al menos una acción"
+    },
+    "TRIGGERS": {
+      "QUOTE_REQUEST": "Solicitud de cotización",
+      "ADVISOR_TRANSFER": "Transferencia a asesor",
+      "APPOINTMENT_SCHEDULING": "Programación de cita",
+      "LEAD_CREATION": "Creación de lead",
+      "CUSTOMER_CREATION": "Creación de cliente",
+      "CONTACT_TYPE_CHANGED": "Cambio de tipo de contacto"
+    },
+    "ACTIONS_BUILDER": {
+      "TITLE": "Acciones",
+      "ADD_ACTION": "+ Añadir acción",
+      "CRM_ACTIONS": "Acciones CRM",
+      "CHATWOOT_ACTIONS": "Acciones Nauto Console",
+      "REMOVE": "Eliminar",
+      "CREATE_LEAD": "Crear Lead",
+      "CREATE_CONTACT": "Crear Contacto",
+      "UPDATE_LEAD": "Actualizar Lead",
+      "UPDATE_CONTACT": "Actualizar Contacto",
+      "CREATE_OPPORTUNITY": "Crear Oportunidad",
+      "CREATE_TASK": "Crear Tarea",
+      "CREATE_CALL": "Programar Llamada",
+      "CREATE_EVENT": "Crear Evento",
+      "ADD_CRM_TAG": "Añadir Etiqueta CRM",
+      "ADD_NOTE": "Añadir Nota",
+      "CREATE_TICKET": "Crear Ticket",
+      "DESK_ACTIONS": "Acciones Zoho Desk",
+      "ASSIGN_AGENT": "Asignar Asesor",
+      "ADD_LABEL": "Añadir Label",
+      "PARAMS": {
+        "TAG_NAME": "Nombre de etiqueta",
+        "AGENT": "Seleccionar asesor",
+        "LABEL": "Nombre del label",
+        "SUBJECT": "Asunto",
+        "DESCRIPTION": "Descripción",
+        "TITLE": "Título",
+        "CONTENT": "Contenido"
+      },
+      "COMPATIBILITY": {
+        "SUPPORTED": "Soportado",
+        "UNSUPPORTED": "No soportado"
+      }
+    },
+    "FIELDS_BUILDER": {
+      "TITLE": "Campos requeridos",
+      "BASE_FIELDS_LABEL": "Campos del contacto (automáticos)",
+      "CUSTOM_FIELDS_LABEL": "Campos que debe recopilar el agente de IA",
+      "ADD_FIELD": "+ Añadir campo",
+      "FIELD_LABEL": "Etiqueta",
+      "FIELD_TYPE": "Tipo",
+      "FIELD_REQUIRED": "Req.",
+      "REMOVE": "Eliminar",
+      "SUGGESTIONS_BANNER": "{count} campo(s) sugerido(s) según las acciones configuradas",
+      "ADD_ALL_SUGGESTIONS": "Añadir todos",
+      "OPTION_PLACEHOLDER": "Opción...",
+      "TYPES": {
+        "TEXT": "Texto",
+        "NUMBER": "Número",
+        "DATE": "Fecha",
+        "SELECT": "Lista",
+        "BOOLEAN": "Booleano"
+      },
+      "OPTIONS_LABEL": "Opciones",
+      "ADD_OPTION": "Añadir opción",
+      "FIELD_NEEDED_BY": "Este campo es necesario por: {actions}. Eliminarlo puede causar errores.",
+      "YES": "Sí",
+      "NO": "No"
+    },
+    "CRM_SYNC": {
+      "TITLE": "Sincronización CRM",
+      "EMPTY": "No hay sincronizaciones CRM para esta conversación.",
+      "STATUS": {
+        "SUCCESS": "Exitoso",
+        "FAILED": "Error",
+        "PARTIAL": "Parcial",
+        "SKIPPED": "Ya existía"
+      },
+      "EXECUTED_AT": "Ejecutado: {time}",
+      "IN_CRM": "en {crm}",
+      "OPEN_LINK": "Abrir"
+    }
+  }
+}

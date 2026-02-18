@@ -199,10 +199,15 @@ Rails.application.routes.draw do
               get :search
               post :filter
               post :validate_appointment_token
+              get :available_types
             end
 
             member do
               get :show_qr
+              post :start
+              post :complete
+              post :cancel
+              post :mark_no_show
             end
           end
           resources :locations, only: [:index, :create, :show, :update, :destroy] do
@@ -408,11 +413,23 @@ Rails.application.routes.draw do
           end
 
           resources :webhooks, only: [:index, :create, :update, :destroy]
+          resources :crm_flows, only: [:index, :show, :create, :update, :destroy] do
+            collection do
+              post :trigger
+              get :trigger_schema
+              get :agent_schema
+              get :executions_by_conversation
+            end
+            member do
+              get :executions
+            end
+          end
           namespace :integrations do
             resources :apps, only: [:index, :show]
             resources :hooks, only: [:show, :create, :update, :destroy] do
               member do
                 post :process_event
+                post :test_crm_action
               end
             end
             resource :slack, only: [:create, :update, :destroy], controller: 'slack' do

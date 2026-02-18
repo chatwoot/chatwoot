@@ -175,6 +175,21 @@
           "SUCCESS": "Dirección de la cuenta actualizada correctamente",
           "ERROR": "Error al actualizar la dirección de la cuenta"
         }
+      },
+      "APPOINTMENT_TYPES": {
+        "TITLE": "Tipos de citas",
+        "NOTE": "Configura qué tipos de citas están disponibles para tu establecimiento. Los agentes de IA solo ofrecerán los tipos que habilites aquí.",
+        "PHYSICAL_VISIT": "Visita física",
+        "PHYSICAL_VISIT_DESCRIPTION": "Citas presenciales en tu ubicación",
+        "DIGITAL_MEETING": "Reunión digital",
+        "DIGITAL_MEETING_DESCRIPTION": "Citas virtuales por videollamada",
+        "PHONE_CALL": "Llamada telefónica",
+        "PHONE_CALL_DESCRIPTION": "Citas por llamada telefónica",
+        "UPDATE_BUTTON": "Guardar tipos de citas",
+        "API": {
+          "SUCCESS": "Tipos de citas actualizados correctamente",
+          "ERROR": "Error al actualizar los tipos de citas"
+        }
       }
     },
     "UPDATE_CHATWOOT": "Hay una actualización {latestChatwootVersion} para Nauto Console disponible. Por favor, actualiza tu instancia.",

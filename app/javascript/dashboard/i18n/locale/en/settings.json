@@ -1000,6 +1000,8 @@
       "SETTINGS_SUBTITLE": "Control when and how the copilot should execute",
       "STOP_ON_REPLY": "Stop copilot when contact replies",
       "STOP_ON_RESOLVED": "Stop copilot when conversation is resolved",
+      "STOP_ON_AGENT_ASSIGNED": "Stop copilot when agent is assigned",
+      "STOP_ON_AGENT_REPLY": "Stop copilot when agent replies",
       "ACTIVATE": "Activate copilot",
       "STEPS": "Copilot Steps",
       "STEPS_SUBTITLE": "Define the actions that will be executed in order",
@@ -1078,7 +1080,9 @@
         "CONDITION_MET": "Condition met",
         "COPILOT_DEACTIVATED": "Copilot deactivated",
         "MANUALLY_CANCELLED": "Manually cancelled",
-        "MANUALLY_STOPPED": "Manually stopped"
+        "MANUALLY_STOPPED": "Manually stopped",
+        "AGENT_ASSIGNED": "Agent assigned: {name}",
+        "AGENT_REPLIED": "Agent replied: {name}"
       },
       "ENROLLMENT": {
         "NO_PHONE": "No number",

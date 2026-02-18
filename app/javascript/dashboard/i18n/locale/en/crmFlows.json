@@ -1,0 +1,135 @@
+{
+  "CRM_FLOWS": {
+    "HEADER": "CRM Flows",
+    "DESCRIPTION": "Configure action sequences that run in your CRMs when the AI agent fires an event.",
+    "LOADING": "Loading CRM Flows...",
+    "LIST": {
+      "404": "No CRM Flows configured. Create one to get started.",
+      "TABLE_HEADER": {
+        "NAME": "Name",
+        "TRIGGER": "Trigger",
+        "SCOPE": "Scope",
+        "ACTIONS": "Actions",
+        "STATUS": "Status"
+      },
+      "ACTIVE": "Active",
+      "INACTIVE": "Inactive",
+      "GLOBAL": "Global",
+      "ACTIONS_COUNT": "{count} action(s)"
+    },
+    "CREATE": {
+      "BUTTON": "Create Flow",
+      "SUCCESS": "CRM Flow created successfully",
+      "ERROR": "Error creating CRM Flow"
+    },
+    "EDIT": {
+      "SUCCESS": "CRM Flow updated successfully",
+      "ERROR": "Error updating CRM Flow"
+    },
+    "DELETE": {
+      "CONFIRM_TITLE": "Delete CRM Flow",
+      "CONFIRM_MESSAGE": "Are you sure you want to delete this flow? This action cannot be undone.",
+      "SUCCESS": "CRM Flow deleted successfully",
+      "ERROR": "Error deleting CRM Flow",
+      "YES": "Delete",
+      "NO": "Cancel"
+    },
+    "MODAL": {
+      "NAME_LABEL": "Flow Name",
+      "NAME_PLACEHOLDER": "E.g.: When a quote is requested",
+      "TRIGGER_LABEL": "Trigger",
+      "SCOPE_LABEL": "Scope",
+      "SCOPE_GLOBAL": "Global (all inboxes)",
+      "SCOPE_INBOX": "Specific inbox",
+      "INBOX_LABEL": "Select Inbox",
+      "SAVE": "Save Flow",
+      "CANCEL": "Cancel",
+      "ADVANCED": "Advanced settings",
+      "DEDUP_WINDOW_LABEL": "Deduplication window (minutes)",
+      "DEDUP_WINDOW_HELP": "If the same flow already ran for this conversation within this window, it will be considered a duplicate.",
+      "NAME_REQUIRED": "Flow Name is required",
+      "ACTIONS_REQUIRED": "At least one action is required"
+    },
+    "TRIGGERS": {
+      "QUOTE_REQUEST": "Quote request",
+      "ADVISOR_TRANSFER": "Advisor transfer",
+      "APPOINTMENT_SCHEDULING": "Appointment scheduling",
+      "LEAD_CREATION": "Lead creation",
+      "CUSTOMER_CREATION": "Customer creation",
+      "CONTACT_TYPE_CHANGED": "Contact type changed",
+      "TICKET_CREATED": "Ticket created"
+    },
+    "ACTIONS_BUILDER": {
+      "TITLE": "Actions",
+      "ADD_ACTION": "+ Add action",
+      "CRM_ACTIONS": "CRM Actions",
+      "CHATWOOT_ACTIONS": "Nauto Console Actions",
+      "REMOVE": "Remove",
+      "CREATE_LEAD": "Create Lead",
+      "CREATE_CONTACT": "Create Contact",
+      "UPDATE_LEAD": "Update Lead",
+      "UPDATE_CONTACT": "Update Contact",
+      "CREATE_OPPORTUNITY": "Create Opportunity",
+      "CREATE_TASK": "Create Task",
+      "CREATE_CALL": "Schedule Call",
+      "CREATE_EVENT": "Create Event",
+      "ADD_CRM_TAG": "Add CRM Tag",
+      "ADD_NOTE": "Add Note",
+      "CREATE_TICKET": "Create Ticket",
+      "DESK_ACTIONS": "Zoho Desk Actions",
+      "ASSIGN_AGENT": "Assign Agent",
+      "ADD_LABEL": "Add Label",
+      "PARAMS": {
+        "TAG_NAME": "Tag name",
+        "AGENT": "Select agent",
+        "LABEL": "Label name",
+        "SUBJECT": "Subject",
+        "DESCRIPTION": "Description",
+        "TITLE": "Title",
+        "CONTENT": "Content"
+      },
+      "COMPATIBILITY": {
+        "SUPPORTED": "Supported",
+        "UNSUPPORTED": "Not supported"
+      }
+    },
+    "FIELDS_BUILDER": {
+      "TITLE": "Required fields",
+      "BASE_FIELDS_LABEL": "Contact fields (automatic)",
+      "CUSTOM_FIELDS_LABEL": "Fields the AI agent must collect",
+      "ADD_FIELD": "+ Add field",
+      "FIELD_LABEL": "Label",
+      "FIELD_TYPE": "Type",
+      "FIELD_REQUIRED": "Req.",
+      "REMOVE": "Remove",
+      "TYPES": {
+        "TEXT": "Text",
+        "NUMBER": "Number",
+        "DATE": "Date",
+        "SELECT": "List",
+        "BOOLEAN": "Boolean"
+      },
+      "SUGGESTIONS_BANNER": "{count} suggested field(s) based on configured actions",
+      "ADD_ALL_SUGGESTIONS": "Add all",
+      "OPTION_PLACEHOLDER": "Option...",
+      "OPTIONS_LABEL": "Options",
+      "ADD_OPTION": "Add option",
+      "FIELD_NEEDED_BY": "This field is needed by: {actions}. Removing it may cause errors.",
+      "YES": "Yes",
+      "NO": "No"
+    },
+    "CRM_SYNC": {
+      "TITLE": "CRM Sync",
+      "EMPTY": "No CRM syncs for this conversation.",
+      "STATUS": {
+        "SUCCESS": "Success",
+        "FAILED": "Error",
+        "PARTIAL": "Partial",
+        "SKIPPED": "Already existed"
+      },
+      "EXECUTED_AT": "Executed: {time}",
+      "IN_CRM": "in {crm}",
+      "OPEN_LINK": "Open"
+    }
+  }
+}

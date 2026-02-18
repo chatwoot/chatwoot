@@ -70,6 +70,9 @@ export default {
       if (this.errorMessage) {
         return this.errorMessage;
       }
+      if (this.isFeedbackSubmitted) {
+        return this.$t('SURVEY.FEEDBACK.SUCCESS_MESSAGE');
+      }
       return this.$t('SURVEY.RATING.SUCCESS_MESSAGE');
     },
   },

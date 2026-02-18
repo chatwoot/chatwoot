@@ -8,7 +8,8 @@
     "FEEDBACK": {
       "LABEL": "¿Tienes alguna idea que te gustaría compartir?",
       "PLACEHOLDER": "Tus comentarios (opcional)",
-      "BUTTON_TEXT": "Enviar comentarios"
+      "BUTTON_TEXT": "Enviar comentarios",
+      "SUCCESS_MESSAGE": "¡Gracias por tus comentarios!"
     },
     "API": {
       "SUCCESS_MESSAGE": "Encuesta actualizada correctamente",
