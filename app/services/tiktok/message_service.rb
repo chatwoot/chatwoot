@@ -23,7 +23,12 @@ class Tiktok::MessageService
   end
 
   def conversation
-    @conversation ||= contact_inbox.conversations.first || create_conversation(channel, contact_inbox, tt_conversation_id)
+    @conversation ||= if channel.inbox.lock_to_single_conversation
+                        contact_inbox.conversations.last
+                      else
+                        contact_inbox.conversations.where.not(status: :resolved).last
+                      end
+    @conversation ||= create_conversation(channel, contact_inbox, tt_conversation_id)
   end
 
   def create_message
