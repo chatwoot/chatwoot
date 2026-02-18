@@ -2,7 +2,6 @@ module Captain::ChatHelper
   include Integrations::LlmInstrumentation
   include Captain::ChatResponseHelper
   include Captain::ChatGenerationRecorder
-  include Captain::ChatContextResolver
 
   def request_chat_completion
     log_chat_completion_request
@@ -60,8 +59,7 @@ module Captain::ChatHelper
   def handle_tool_call(tool_call)
     persist_thinking_message(tool_call)
     start_tool_span(tool_call)
-    @pending_tool_calls ||= []
-    @pending_tool_calls.push(tool_call)
+    (@pending_tool_calls ||= []).push(tool_call)
   end
 
   def handle_tool_result(result)
@@ -99,6 +97,14 @@ module Captain::ChatHelper
 
   def temperature
     @assistant&.config&.[]('temperature').to_f || 1
+  end
+
+  def resolved_account_id
+    @account&.id || @assistant&.account_id
+  end
+
+  def resolved_channel_type
+    Conversation.find_by(account_id: resolved_account_id, display_id: @conversation_id)&.inbox&.channel_type if @conversation_id
   end
 
   # Ensures all LLM calls and tool executions within an agentic loop
