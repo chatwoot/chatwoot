@@ -25,7 +25,7 @@ module Crm
 
       def refresh!
         response = HTTParty.post(
-          "#{ENV.fetch('ZOHO_API_DOMAIN', 'https://accounts.zoho.com')}/oauth/v2/token",
+          "#{ENV.fetch('ZOHO_API_TOKEN_REFRESH', 'https://accounts.zoho.com')}/oauth/v2/token",
           query: build_query_params,
           headers: { 'Content-Type' => 'application/x-www-form-urlencoded' }
         )
