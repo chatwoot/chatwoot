@@ -173,9 +173,15 @@ const filteredAttributes = computed(() => {
         :search-placeholder="$t('ATTRIBUTES_MGMT.SEARCH_PLACEHOLDER')"
         feature-name="custom_attributes"
       >
+        <template v-if="attributes?.length" #count>
+          <span class="text-body-main text-n-slate-11">
+            {{ $t('ATTRIBUTES_MGMT.COUNT', { n: attributes.length }) }}
+          </span>
+        </template>
         <template #actions>
           <Button
             :label="$t('ATTRIBUTES_MGMT.HEADER_BTN_TXT')"
+            size="sm"
             @click="openAddPopup"
           />
         </template>
@@ -196,7 +202,7 @@ const filteredAttributes = computed(() => {
         </span>
         <div
           v-else-if="filteredAttributes.length"
-          class="flex flex-col divide-y divide-n-weak"
+          class="flex flex-col divide-y divide-n-weak border-t border-n-weak"
         >
           <AttributeListItem
             v-for="attribute in filteredAttributes"

@@ -95,9 +95,14 @@ const openDelete = inbox => {
         :search-placeholder="$t('INBOX_MGMT.SEARCH_PLACEHOLDER')"
         feature-name="inboxes"
       >
+        <template v-if="inboxesList?.length" #count>
+          <span class="text-body-main text-n-slate-11">
+            {{ $t('INBOX_MGMT.COUNT', { n: inboxesList.length }) }}
+          </span>
+        </template>
         <template #actions>
           <router-link v-if="isAdmin" :to="{ name: 'settings_inbox_new' }">
-            <Button :label="$t('SETTINGS.INBOXES.NEW_INBOX')" />
+            <Button :label="$t('SETTINGS.INBOXES.NEW_INBOX')" size="sm" />
           </router-link>
         </template>
       </BaseSettingsHeader>
@@ -109,7 +114,7 @@ const openDelete = inbox => {
       >
         {{ $t('INBOX_MGMT.NO_RESULTS') }}
       </span>
-      <div v-else class="divide-y divide-n-weak">
+      <div v-else class="divide-y divide-n-weak border-t border-n-weak">
         <div
           v-for="inbox in filteredInboxesList"
           :key="inbox.id"

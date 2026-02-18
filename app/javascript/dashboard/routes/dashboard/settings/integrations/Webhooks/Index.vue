@@ -122,10 +122,18 @@ export default {
         feature-name="webhook"
         :back-button-label="$t('INTEGRATION_SETTINGS.HEADER')"
       >
+        <template v-if="records?.length" #count>
+          <span class="text-body-main text-n-slate-11">
+            {{
+              $t('INTEGRATION_SETTINGS.WEBHOOK.COUNT', { n: records.length })
+            }}
+          </span>
+        </template>
         <template #actions>
           <NextButton
             blue
             :label="$t('INTEGRATION_SETTINGS.WEBHOOK.HEADER_BTN_TXT')"
+            size="sm"
             @click="openAddPopup"
           />
         </template>

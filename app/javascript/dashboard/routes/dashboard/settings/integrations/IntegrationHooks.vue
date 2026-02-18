@@ -32,6 +32,7 @@ export default {
       isIntegrationSingle,
       isHookTypeInbox,
     } = useIntegrationHook(integrationId);
+
     return {
       integration,
       isIntegrationMultiple,
@@ -74,6 +75,9 @@ export default {
     cancelText() {
       return this.$t('INTEGRATION_APPS.DELETE.CANCEL_BUTTON_TEXT');
     },
+  },
+  mounted() {
+    this.$store.dispatch('integrations/get');
   },
   methods: {
     openAddHookModal() {

@@ -110,9 +110,15 @@ onBeforeMount(() => {
         :search-placeholder="$t('LABEL_MGMT.SEARCH_PLACEHOLDER')"
         feature-name="labels"
       >
+        <template v-if="records?.length" #count>
+          <span class="text-body-main text-n-slate-11">
+            {{ $t('LABEL_MGMT.COUNT', { n: records.length }) }}
+          </span>
+        </template>
         <template #actions>
           <Button
             :label="$t('LABEL_MGMT.HEADER_BTN_TXT')"
+            size="sm"
             @click="openAddPopup"
           />
         </template>

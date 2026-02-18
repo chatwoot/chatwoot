@@ -1,5 +1,5 @@
 <script setup>
-import { computed, useSlots } from 'vue';
+import { useSlots } from 'vue';
 import CustomBrandPolicyWrapper from 'dashboard/components/CustomBrandPolicyWrapper.vue';
 import { getHelpUrlForFeature } from '../../../../helper/featureHelper';
 import BackButton from '../../../../components/widgets/BackButton.vue';
@@ -37,10 +37,6 @@ const slots = useSlots();
 
 const searchQuery = defineModel('searchQuery', { type: String, default: '' });
 
-const hasHeaderActions = computed(
-  () => props.searchPlaceholder || slots.actions
-);
-
 const helpURL = getHelpUrlForFeature(props.featureName);
 </script>
 
@@ -54,36 +50,15 @@ const helpURL = getHelpUrlForFeature(props.featureName);
     />
     <div
       v-if="title"
-      class="flex items-end justify-between w-full gap-4 min-h-10"
-      :class="!hasHeaderActions ? 'mb-1' : 'mb-2'"
+      class="flex items-center justify-between w-full gap-4 min-h-8 mb-2"
     >
       <h1 class="text-heading-1 text-n-slate-12">
         {{ title }}
       </h1>
-      <div v-if="searchPlaceholder || slots.actions" class="gap-3 flex">
-        <Input
-          v-if="searchPlaceholder"
-          v-model="searchQuery"
-          :placeholder="searchPlaceholder"
-          class="w-56 min-w-0 hidden sm:flex [&>input]:ltr:!pl-8 [&>input]:rtl:!pr-8 [&>input]:!rounded-[0.625rem]"
-          size="md"
-          type="search"
-        >
-          <template #prefix>
-            <Icon
-              icon="i-lucide-search"
-              class="absolute -translate-y-1/2 text-n-slate-11 size-4 top-1/2 ltr:left-2.5 rtl:right-2.5"
-            />
-          </template>
-        </Input>
-        <div class="md:block hidden">
-          <slot name="actions" />
-        </div>
-      </div>
     </div>
     <div
       v-if="description || $slots.description || linkText || helpURL"
-      class="flex flex-col w-full gap-1.5 text-n-slate-11 my-1"
+      class="flex flex-col w-full gap-1.5 text-n-slate-11"
     >
       <p
         v-if="description || $slots.description"
@@ -97,7 +72,7 @@ const helpURL = getHelpUrlForFeature(props.featureName);
           :href="helpURL"
           target="_blank"
           rel="noopener noreferrer"
-          class="items-center hidden gap-1 text-sm font-medium sm:inline-flex w-fit text-n-blue-11 hover:underline"
+          class="items-center hidden gap-1 text-sm font-medium sm:inline-flex w-fit text-n-blue-11 hover:underline mb-2"
         >
           {{ linkText }}
           <Icon
@@ -107,7 +82,32 @@ const helpURL = getHelpUrlForFeature(props.featureName);
         </a>
       </CustomBrandPolicyWrapper>
     </div>
-    <div class="md:hidden block">
+  </div>
+  <div
+    v-if="searchPlaceholder || slots.actions"
+    class="gap-3 flex justify-between sm:mt-4"
+  >
+    <Input
+      v-if="searchPlaceholder"
+      v-model="searchQuery"
+      :placeholder="searchPlaceholder"
+      class="group w-56 min-w-0 hidden sm:flex [&>input]:ltr:!pl-8 [&>input]:rtl:!pr-8 [&>input]:!rounded-[0.625rem]"
+      size="sm"
+      type="search"
+    >
+      <template #prefix>
+        <Icon
+          icon="i-lucide-search"
+          class="absolute top-1/2 -translate-y-1/2 text-n-slate-11 group-focus-within:text-n-brand size-3.5 ltr:left-2.5 rtl:right-2.5"
+        />
+      </template>
+    </Input>
+    <div class="flex items-center gap-3">
+      <slot name="count" />
+      <div
+        v-if="slots.count"
+        class="w-px h-3 rounded-lg bg-n-weak ltr:ml-1 ltr:mr-2 rtl:ml-2 rtl:mr-1"
+      />
       <slot name="actions" />
     </div>
   </div>

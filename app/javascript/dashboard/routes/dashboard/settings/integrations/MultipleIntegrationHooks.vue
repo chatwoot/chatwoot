@@ -71,7 +71,7 @@ const inboxName = hook => (hook.inbox ? hook.inbox.name : '');
 </script>
 
 <template>
-  <div class="flex flex-col flex-1 gap-8 overflow-auto">
+  <div class="flex flex-col flex-1 gap-4 overflow-auto">
     <BaseSettingsHeader
       v-model:search-query="searchQuery"
       :title="integration.name || ''"
@@ -85,10 +85,16 @@ const inboxName = hook => (hook.inbox ? hook.inbox.name : '');
       :back-button-label="$t('INTEGRATION_SETTINGS.HEADER')"
       :search-placeholder="$t('INTEGRATION_APPS.SEARCH_PLACEHOLDER')"
     >
+      <template v-if="hooks?.length" #count>
+        <span class="text-body-main text-n-slate-11">
+          {{ $t('INTEGRATION_APPS.COUNT', { n: hooks.length }) }}
+        </span>
+      </template>
       <template #actions>
         <NextButton
           v-if="showAddButton"
           :label="$t('INTEGRATION_APPS.ADD_BUTTON')"
+          size="sm"
           @click="$emit('add')"
         />
       </template>

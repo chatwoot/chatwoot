@@ -29,7 +29,7 @@ const showHeaders = computed(
 <template>
   <div class="w-full">
     <table class="min-w-full table-auto divide-y divide-n-weak">
-      <thead v-if="showHeaders">
+      <thead v-if="showHeaders" class="border-t border-n-weak">
         <tr>
           <th
             v-for="(header, index) in headers"

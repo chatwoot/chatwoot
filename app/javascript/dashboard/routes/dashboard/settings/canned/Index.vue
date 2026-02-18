@@ -151,9 +151,15 @@ const tableHeaders = computed(() => {
         :search-placeholder="$t('CANNED_MGMT.SEARCH_PLACEHOLDER')"
         feature-name="canned_responses"
       >
+        <template v-if="records?.length" #count>
+          <span class="text-body-main text-n-slate-11">
+            {{ $t('CANNED_MGMT.COUNT', { n: records.length }) }}
+          </span>
+        </template>
         <template #actions>
           <Button
             :label="$t('CANNED_MGMT.HEADER_BTN_TXT')"
+            size="sm"
             @click="openAddPopup"
           />
         </template>
