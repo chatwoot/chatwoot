@@ -11,6 +11,7 @@ export default {
       socialMediaLinks: [
         { key: 'facebook', icon: 'facebook', link: 'https://facebook.com/' },
         { key: 'twitter', icon: 'twitter', link: 'https://twitter.com/' },
+        { key: 'x', icon: 'twitter', link: 'https://x.com/' },
         { key: 'linkedin', icon: 'linkedin', link: 'https://linkedin.com/' },
         { key: 'github', icon: 'github', link: 'https://github.com/' },
         { key: 'instagram', icon: 'instagram', link: 'https://instagram.com/' },

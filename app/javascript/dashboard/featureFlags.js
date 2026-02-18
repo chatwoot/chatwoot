@@ -39,6 +39,7 @@ export const FEATURE_FLAGS = {
   REPORT_V4: 'report_v4',
   CHANNEL_INSTAGRAM: 'channel_instagram',
   CHANNEL_TIKTOK: 'channel_tiktok',
+  CHANNEL_X: 'channel_x',
   CONTACT_CHATWOOT_SUPPORT_TEAM: 'contact_chatwoot_support_team',
   CAPTAIN_V2: 'captain_integration_v2',
   CAPTAIN_TASKS: 'captain_tasks',

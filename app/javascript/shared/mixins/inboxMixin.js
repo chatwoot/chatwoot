@@ -15,6 +15,7 @@ export const INBOX_FEATURE_MAP = {
     INBOX_TYPES.WHATSAPP,
     INBOX_TYPES.TELEGRAM,
     INBOX_TYPES.TIKTOK,
+    INBOX_TYPES.X,
     INBOX_TYPES.API,
   ],
   [INBOX_FEATURES.REPLY_TO_OUTGOING]: [
@@ -23,6 +24,7 @@ export const INBOX_FEATURE_MAP = {
     INBOX_TYPES.WHATSAPP,
     INBOX_TYPES.TELEGRAM,
     INBOX_TYPES.TIKTOK,
+    INBOX_TYPES.X,
     INBOX_TYPES.API,
   ],
 };
@@ -119,6 +121,8 @@ export default {
         badgeKey = 'whatsapp';
       } else if (this.isATiktokChannel) {
         badgeKey = 'tiktok';
+      } else if (this.isAXChannel) {
+        badgeKey = 'x';
       }
       return badgeKey || this.channelType;
     },
@@ -133,6 +137,9 @@ export default {
     },
     isATiktokChannel() {
       return this.channelType === INBOX_TYPES.TIKTOK;
+    },
+    isAXChannel() {
+      return this.channelType === INBOX_TYPES.X;
     },
   },
   methods: {

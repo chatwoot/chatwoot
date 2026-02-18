@@ -20,6 +20,10 @@ const hasTiktokConfigured = computed(() => {
   return window.chatwootConfig?.tiktokAppId;
 });
 
+const hasXConfigured = computed(() => {
+  return window.chatwootConfig?.xClientId;
+});
+
 const channelList = computed(() => {
   const { apiChannelName } = globalConfig.value;
   const channels = [
@@ -85,6 +89,15 @@ const channelList = computed(() => {
       title: t('INBOX_MGMT.ADD.AUTH.CHANNEL.TIKTOK.TITLE'),
       description: t('INBOX_MGMT.ADD.AUTH.CHANNEL.TIKTOK.DESCRIPTION'),
       icon: 'i-woot-tiktok',
+    });
+  }
+
+  if (hasXConfigured.value) {
+    channels.push({
+      key: 'x',
+      title: t('INBOX_MGMT.ADD.AUTH.CHANNEL.X.TITLE'),
+      description: t('INBOX_MGMT.ADD.AUTH.CHANNEL.X.DESCRIPTION'),
+      icon: 'i-ri-twitter-x-fill',
     });
   }
 

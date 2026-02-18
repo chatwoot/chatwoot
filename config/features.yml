@@ -230,6 +230,10 @@
 - name: channel_tiktok
   display_name: TikTok Channel
   enabled: true
+- name: channel_x
+  display_name: X Channel
+  description: Connect your X account to receive and send messages
+  enabled: true
 - name: csat_review_notes
   display_name: CSAT Review Notes
   enabled: false

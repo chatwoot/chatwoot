@@ -23,4 +23,9 @@ class AdministratorNotifications::ChannelNotificationsMailer < AdministratorNoti
     subject = 'Your email inbox has been disconnected. Please update the credentials for SMTP/IMAP'
     send_notification(subject, action_url: inbox_url(inbox))
   end
+
+  def x_disconnect(inbox)
+    subject = 'Your X connection has expired'
+    send_notification(subject, action_url: inbox_url(inbox))
+  end
 end

@@ -22,4 +22,8 @@ export const MESSAGE_MAX_LENGTH = {
   TELEGRAM: 4096,
   LINE: 2000,
   EMAIL: 25000,
+  // https://developer.x.com/en/docs/x-api/tweets/manage-tweets/api-reference/post-tweets
+  X_TWEET: 280,
+  // https://developer.x.com/en/docs/x-api/direct-messages/manage/api-reference/post-dm-conversation-with-user
+  X_DM: 10000,
 };

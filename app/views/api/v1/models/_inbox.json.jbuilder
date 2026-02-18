@@ -63,6 +63,9 @@ json.instagram_id resource.channel.try(:instagram_id) if resource.instagram?
 ## Tiktok Attributes
 json.reauthorization_required resource.channel.try(:reauthorization_required?) if resource.tiktok?
 
+## X Attributes
+json.reauthorization_required resource.channel.try(:reauthorization_required?) if resource.x?
+
 ## Twilio Attributes
 json.messaging_service_sid resource.channel.try(:messaging_service_sid)
 json.phone_number resource.channel.try(:phone_number)

@@ -27,6 +27,10 @@ const hasTiktokConfigured = computed(() => {
   return window.chatwootConfig?.tiktokAppId;
 });
 
+const hasXConfigured = computed(() => {
+  return window.chatwootConfig?.xClientId;
+});
+
 const isActive = computed(() => {
   const { key } = props.channel;
   if (Object.keys(props.enabledFeatures).length === 0) {
@@ -52,6 +56,10 @@ const isActive = computed(() => {
     return props.enabledFeatures.channel_tiktok && hasTiktokConfigured.value;
   }
 
+  if (key === 'x') {
+    return props.enabledFeatures.channel_x && hasXConfigured.value;
+  }
+
   if (key === 'voice') {
     return props.enabledFeatures.channel_voice;
   }
@@ -66,6 +74,7 @@ const isActive = computed(() => {
     'line',
     'instagram',
     'tiktok',
+    'x',
     'voice',
   ].includes(key);
 });
