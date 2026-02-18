@@ -204,11 +204,13 @@ const assigneeTabItems = computed(() => {
     ASSIGNEE_TYPE_TAB_PERMISSIONS,
     userPermissions.value,
     item => item.permissions
-  ).map(({ key, count: countKey }) => ({
-    key,
-    name: t(`CHAT_LIST.ASSIGNEE_TYPE_TABS.${key}`),
-    count: conversationStats.value[countKey] || 0,
-  }));
+  )
+    .map(({ key, count: countKey }) => ({
+      key,
+      name: t(`CHAT_LIST.ASSIGNEE_TYPE_TABS.${key}`),
+      count: conversationStats.value[countKey] || 0,
+    }))
+    .filter(item => item.key !== 'help_needed' || item.count > 0);
 });
 
 const showAssigneeInConversationCard = computed(() => {
@@ -840,6 +842,15 @@ watch(activeFolder, (newVal, oldVal) => {
 
 watch(chatLists, () => {
   chatsOnView.value = conversationList.value;
+});
+
+watch(assigneeTabItems, items => {
+  const isHelpNeededTabGone =
+    activeAssigneeTab.value === wootConstants.ASSIGNEE_TYPE.HELP_NEEDED &&
+    !items.some(item => item.key === 'help_needed');
+  if (isHelpNeededTabGone) {
+    activeAssigneeTab.value = wootConstants.ASSIGNEE_TYPE.ALL;
+  }
 });
 
 watch(conversationFilters, (newVal, oldVal) => {
