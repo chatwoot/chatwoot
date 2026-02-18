@@ -33,12 +33,16 @@ class Twilio::WebhookSetupService
     end
   end
 
+  def twilio_phone_number
+    channel.phone_number.delete_prefix('whatsapp:')
+  end
+
   def phonenumber_sid
     phone_numbers.first.sid
   end
 
   def phone_numbers
-    @phone_numbers ||= twilio_client.incoming_phone_numbers.list(phone_number: channel.phone_number)
+    @phone_numbers ||= twilio_client.incoming_phone_numbers.list(phone_number: twilio_phone_number)
   end
 
   def channel
@@ -46,6 +50,14 @@ class Twilio::WebhookSetupService
   end
 
   def twilio_client
-    @twilio_client ||= ::Twilio::REST::Client.new(channel.account_sid, channel.auth_token)
+    @twilio_client ||= if channel.api_key_sid.present?
+                         ::Twilio::REST::Client.new(
+                           channel.api_key_sid,
+                           channel.auth_token,
+                           channel.account_sid
+                         )
+                       else
+                         ::Twilio::REST::Client.new(channel.account_sid, channel.auth_token)
+                       end
   end
 end

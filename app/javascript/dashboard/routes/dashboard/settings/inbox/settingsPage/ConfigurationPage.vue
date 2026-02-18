@@ -151,12 +151,6 @@ export default {
 <template>
   <div v-if="isATwilioChannel" class="mx-8">
     <SettingsSection
-      :title="$t('INBOX_MGMT.ADD.TWILIO.API_CALLBACK.TITLE')"
-      :sub-title="$t('INBOX_MGMT.ADD.TWILIO.API_CALLBACK.SUBTITLE')"
-    >
-      <woot-code :script="inbox.callback_webhook_url" lang="html" />
-    </SettingsSection>
-    <SettingsSection
       v-if="isATwilioWhatsAppChannel"
       :title="$t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_TEMPLATES_SYNC_TITLE')"
       :sub-title="
