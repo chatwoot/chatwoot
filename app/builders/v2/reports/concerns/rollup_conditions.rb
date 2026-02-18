@@ -47,18 +47,8 @@ module V2::Reports::Concerns::RollupConditions
   def timezone_matches_account?
     return true if params[:timezone_offset].blank?
 
-    account_timezone = account.reporting_timezone
     offset_in_seconds = params[:timezone_offset].to_f * 3600
-
-    # Find the timezone that matches the offset
-    matching_zone = ActiveSupport::TimeZone.all.find do |zone|
-      zone.now.utc_offset == offset_in_seconds
-    end
-
-    return false if matching_zone.blank?
-
-    # Convert account timezone to current UTC offset and compare
-    account_zone = ActiveSupport::TimeZone[account_timezone]
+    account_zone = ActiveSupport::TimeZone[account.reporting_timezone]
     account_zone&.now&.utc_offset == offset_in_seconds
   end
 
