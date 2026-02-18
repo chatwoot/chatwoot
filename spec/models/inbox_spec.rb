@@ -60,12 +60,12 @@ RSpec.describe Inbox do
       expect(email_inbox.reload[:lock_to_single_conversation]).to be(true)
     end
 
-    it 'returns configured value for web widget inboxes' do
+    it 'migrates web widget behavior from allow_messages_after_resolved' do
       web_widget_inbox = create(:inbox, account: account)
-      web_widget_inbox.update!(lock_to_single_conversation: true)
+      web_widget_inbox.update!(allow_messages_after_resolved: false, lock_to_single_conversation: false)
       expect(web_widget_inbox.reload.lock_to_single_conversation).to be(true)
 
-      web_widget_inbox.update!(lock_to_single_conversation: false)
+      web_widget_inbox.update!(allow_messages_after_resolved: true, lock_to_single_conversation: true)
       expect(web_widget_inbox.reload.lock_to_single_conversation).to be(false)
     end
 

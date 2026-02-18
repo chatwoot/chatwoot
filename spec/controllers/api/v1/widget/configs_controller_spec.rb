@@ -49,7 +49,7 @@ RSpec.describe '/api/v1/widget/config', type: :request do
       end
 
       it 'derives allow_messages_after_resolved from lock to single conversation flag' do
-        web_widget.inbox.update!(lock_to_single_conversation: true)
+        web_widget.inbox.update!(allow_messages_after_resolved: false)
 
         post '/api/v1/widget/config',
              params: params,
@@ -62,7 +62,7 @@ RSpec.describe '/api/v1/widget/config', type: :request do
       end
 
       it 'derives allow_messages_after_resolved as true when lock to single conversation is disabled' do
-        web_widget.inbox.update!(lock_to_single_conversation: false)
+        web_widget.inbox.update!(allow_messages_after_resolved: true)
 
         post '/api/v1/widget/config',
              params: params,

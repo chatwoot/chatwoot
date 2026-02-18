@@ -410,13 +410,17 @@ export default {
         this.emailCollectEnabled = this.inbox.enable_email_collect;
         this.senderNameType = this.inbox.sender_name_type;
         this.businessName = this.inbox.business_name;
+        this.allowMessagesAfterResolved =
+          this.inbox.allow_messages_after_resolved;
         this.continuityViaEmail = this.inbox.continuity_via_email;
         this.channelWebsiteUrl = this.inbox.website_url;
         this.channelWelcomeTitle = this.inbox.welcome_title;
         this.channelWelcomeTagline = this.inbox.welcome_tagline || '';
         this.selectedFeatureFlags = this.inbox.selected_feature_flags || [];
         this.replyTime = this.inbox.reply_time;
-        this.locktoSingleConversation = this.inbox.lock_to_single_conversation;
+        this.locktoSingleConversation = this.isAWebWidgetInbox
+          ? !this.inbox.allow_messages_after_resolved
+          : this.inbox.lock_to_single_conversation;
         this.selectedPortalSlug = this.inbox.help_center
           ? this.inbox.help_center.slug
           : '';
@@ -431,6 +435,9 @@ export default {
           id: this.currentInboxId,
           name: this.selectedInboxName?.trim(),
           enable_email_collect: this.emailCollectEnabled,
+          allow_messages_after_resolved: this.isAWebWidgetInbox
+            ? !this.locktoSingleConversation
+            : this.allowMessagesAfterResolved,
           greeting_enabled: this.greetingEnabled,
           greeting_message: this.greetingMessage || '',
           portal_id: this.selectedPortalSlug
@@ -498,6 +505,9 @@ export default {
     },
     toggleLockToSingleConversation(value) {
       this.locktoSingleConversation = value;
+      if (this.isAWebWidgetInbox) {
+        this.allowMessagesAfterResolved = !value;
+      }
     },
   },
   validations: {

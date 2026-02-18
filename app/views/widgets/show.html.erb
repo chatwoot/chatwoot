@@ -26,7 +26,7 @@
         outOfOfficeMessage: <%= @web_widget.inbox.out_of_office_message.to_json.html_safe %>,
         utcOffset: '<%= ActiveSupport::TimeZone[@web_widget.inbox.timezone].now.formatted_offset %>',
         timezone: '<%= @web_widget.inbox.timezone %>',
-        allowMessagesAfterResolved: <%= !@web_widget.inbox.lock_to_single_conversation %>,
+        allowMessagesAfterResolved: <%= @web_widget.inbox.allow_messages_after_resolved %>,
         disableBranding: <%= @web_widget.inbox.account.feature_enabled?('disable_branding') %>,
       }
       window.chatwootPubsubToken = '<%= @contact_inbox.pubsub_token %>'
