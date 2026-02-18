@@ -15,28 +15,12 @@ Input:
 
 Baseline heuristic:
 - Classification: {{ baseline_classification }}
-- Score: {{ baseline_score }}
-- Reasons: {{ baseline_reasons }}
 
 Return ONLY valid JSON with this shape:
 {
   "classification": "LIKELY_UTILITY" | "LIKELY_MARKETING" | "UNCLEAR",
-  "score": 0-10,
-  "confidence": "HIGH" | "MEDIUM" | "LOW",
-  "reasons": ["short reason 1", "short reason 2"],
-  "positive_points": ["point 1", "point 2"],
-  "non_compliance_points": ["issue 1", "issue 2"],
-  "score_justification": "brief technical justification",
-  "criteria": {
-    "trigger": true | false,
-    "transactional_content": true | false,
-    "marketing_prohibition": true | false,
-    "prohibited_content": true | false,
-    "clarity_and_utility": true | false
-  },
   "optimized_message": "rewritten utility-safe message"
 }
 
 Important:
 - Write `optimized_message` in the same language as `Language code`.
-- Keep reasons concise and in the same language as `Language code`.

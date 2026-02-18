@@ -418,12 +418,7 @@ RSpec.describe Api::V1::Accounts::InboxCsatTemplatesController, type: :request d
       it 'returns analysis response' do
         allow(analysis_service).to receive(:perform).and_return({
                                                                   classification: 'LIKELY_UTILITY',
-                                                                  score: 9,
-                                                                  confidence: 'HIGH',
-                                                                  reasons: ['Message is transactional and support-focused'],
-                                                                  optimized_message: 'Your support request has been closed.',
-                                                                  disclaimer: 'Prediction only',
-                                                                  source: 'rules'
+                                                                  optimized_message: 'Your support request has been closed.'
                                                                 })
 
         post "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_inbox.id}/csat_template/analyze",
@@ -434,7 +429,6 @@ RSpec.describe Api::V1::Accounts::InboxCsatTemplatesController, type: :request d
         expect(response).to have_http_status(:success)
         response_data = response.parsed_body
         expect(response_data['classification']).to eq('LIKELY_UTILITY')
-        expect(response_data['score']).to eq(9)
         expect(response_data['optimized_message']).to eq('Your support request has been closed.')
       end
 

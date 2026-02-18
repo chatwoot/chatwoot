@@ -17,16 +17,8 @@ RSpec.describe CsatTemplateUtilityAnalysisService do
         result = described_class.new(account: account, inbox: inbox, message: message, language: 'en').perform
 
         expect(result[:classification]).to eq('LIKELY_UTILITY')
-        expect(result[:criteria]).to include(
-          trigger: true,
-          transactional_content: true,
-          marketing_prohibition: true,
-          prohibited_content: true,
-          clarity_and_utility: true
-        )
-        expect(result[:positive_points]).not_to be_empty
-        expect(result[:score_justification]).to be_present
         expect(result[:optimized_message]).to eq(message)
+        expect(result.keys).to contain_exactly(:classification, :optimized_message)
       end
     end
 
@@ -36,9 +28,9 @@ RSpec.describe CsatTemplateUtilityAnalysisService do
         result = described_class.new(account: account, inbox: inbox, message: message, language: 'en').perform
 
         expect(result[:classification]).to eq('LIKELY_MARKETING')
-        expect(result[:non_compliance_points]).not_to be_empty
         expect(result[:optimized_message]).to include('support request')
         expect(result[:optimized_message]).to include('reply to this message')
+        expect(result.keys).to contain_exactly(:classification, :optimized_message)
       end
     end
 
@@ -52,31 +44,31 @@ RSpec.describe CsatTemplateUtilityAnalysisService do
       end
     end
 
-    context 'when llm returns inconsistent marketing classification and high score' do
-      it 'normalizes score to avoid misleading utility fit' do
+    context 'when llm returns inconsistent marketing classification' do
+      it 'keeps likely marketing classification' do
         allow(llm_service).to receive(:perform).and_return({
-                                                              classification: 'LIKELY_MARKETING',
-                                                              score: 8,
-                                                              confidence: 'HIGH',
-                                                              reasons: ['Promotional wording detected'],
-                                                              optimized_message: 'Your support request has been closed.',
-                                                              positive_points: [],
-                                                              non_compliance_points: ['Promotional wording may cause Meta to classify this as Marketing.'],
-                                                              score_justification: 'Promotional wording present',
-                                                              criteria: {
-                                                                trigger: true,
-                                                                transactional_content: true,
-                                                                marketing_prohibition: false,
-                                                                prohibited_content: true,
-                                                                clarity_and_utility: true
-                                                              }
-                                                            })
+                                                             classification: 'LIKELY_MARKETING',
+                                                             optimized_message: 'Your support request has been closed.'
+                                                           })
 
         message = 'Your case is closed. Don’t miss our limited-time premium offer. Rate us below.'
         result = described_class.new(account: account, inbox: inbox, message: message, language: 'en').perform
 
         expect(result[:classification]).to eq('LIKELY_MARKETING')
-        expect(result[:score]).to be <= 4
+      end
+    end
+
+    context 'when rules classify as marketing but llm returns unclear' do
+      it 'keeps likely marketing classification from baseline rules' do
+        allow(llm_service).to receive(:perform).and_return({
+                                                             classification: 'UNCLEAR',
+                                                             optimized_message: 'Your support request has been closed.'
+                                                           })
+
+        message = 'Thanks for contacting us. Rate us and check out our new plans with special discounts.'
+        result = described_class.new(account: account, inbox: inbox, message: message, language: 'en').perform
+
+        expect(result[:classification]).to eq('LIKELY_MARKETING')
       end
     end
   end

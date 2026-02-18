@@ -561,16 +561,9 @@ const handleConfirmTemplateUpdate = async () => {
                       )
                     }}
                   </span>
-                  <span class="text-xs text-n-slate-11">
-                    {{
-                      $t('INBOX_MGMT.CSAT.UTILITY_ANALYZER.SCORE', {
-                        score: utilityAnalysisResult.score,
-                      })
-                    }}
-                  </span>
                 </div>
                 <p class="text-xs text-n-slate-11">
-                  {{ $t('INBOX_MGMT.CSAT.UTILITY_ANALYZER.SCORE_HELP') }}
+                  {{ $t('INBOX_MGMT.CSAT.UTILITY_ANALYZER.GUIDANCE_NOTE') }}
                 </p>
                 <div
                   v-if="

@@ -28,10 +28,10 @@ module CsatTemplateUtilityRubric
   }.freeze
 
   MARKETING_PATTERNS = [
-    /\b(discount|offer|promo|promotion|deal|sale|buy|shop|subscribe)\b/i,
+    /\b(discounts?|offers?|promos?|promotions?|deals?|sales?|buy|shop|subscribe)\b/i,
     /\b(limited\s*time|don't\s*miss|exclusive|special\s*offer)\b/i,
     /\b(click\s*(here|below)\s*to\s*(buy|get|shop))\b/i,
-    /\b(new\s*(plan|product|service))\b/i
+    /\b(new\s*(plans?|products?|services?))\b/i
   ].freeze
 
   TRANSACTION_TRIGGER_PATTERNS = [
@@ -151,16 +151,6 @@ module CsatTemplateUtilityRubric
     points << 'Content may include prohibited or sensitive-request indicators.' unless criteria[:prohibited_content]
     points << 'Utility intent is unclear; the message should be more direct and support-focused.' unless criteria[:clarity_and_utility]
     points
-  end
-
-  def score_justification_for(score, criteria:)
-    if score >= 9 && criteria.values.all?
-      'High utility fit: transactional trigger is clear, wording is non-promotional, and intent is support-focused.'
-    elsif score >= 6
-      'Moderate utility fit: message has utility signals but needs clearer transactional framing or less ambiguous wording.'
-    else
-      'Low utility fit: message lacks clear transactional utility context or includes language that may be treated as Marketing.'
-    end
   end
 end
 # rubocop:enable Metrics/ModuleLength

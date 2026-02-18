@@ -21,25 +21,13 @@ class Captain::CsatUtilityAnalysisService < Captain::BaseTaskService
     parsed = parse_json_response(response_message)
     return { error: 'Invalid LLM response format' } if parsed.blank?
 
-    core_result(parsed).merge(rubric_result(parsed))
+    core_result(parsed)
   end
 
   def core_result(parsed)
     {
       classification: normalize_classification(parsed['classification']),
-      score: parsed['score'].to_i.clamp(0, 10),
-      confidence: normalize_confidence(parsed['confidence']),
-      reasons: Array(parsed['reasons']).compact.first(4),
       optimized_message: parsed['optimized_message'].presence || baseline[:optimized_message]
-    }
-  end
-
-  def rubric_result(parsed)
-    {
-      positive_points: Array(parsed['positive_points']).compact.first(5),
-      non_compliance_points: Array(parsed['non_compliance_points']).compact.first(5),
-      score_justification: parsed['score_justification'].to_s,
-      criteria: normalize_criteria(parsed['criteria'])
     }
   end
 
@@ -54,9 +42,7 @@ class Captain::CsatUtilityAnalysisService < Captain::BaseTaskService
       'button_text' => button_text.to_s,
       'language' => language.to_s,
       'context' => context.to_s,
-      'baseline_classification' => baseline[:classification].to_s,
-      'baseline_score' => baseline[:score].to_s,
-      'baseline_reasons' => Array(baseline[:reasons]).join('; ')
+      'baseline_classification' => baseline[:classification].to_s
     }
   end
 
@@ -73,32 +59,6 @@ class Captain::CsatUtilityAnalysisService < Captain::BaseTaskService
     return normalized if %w[LIKELY_UTILITY LIKELY_MARKETING UNCLEAR].include?(normalized)
 
     baseline[:classification].presence || 'UNCLEAR'
-  end
-
-  def normalize_confidence(value)
-    normalized = value.to_s.upcase
-    return normalized if %w[HIGH MEDIUM LOW].include?(normalized)
-
-    'MEDIUM'
-  end
-
-  def normalize_criteria(value)
-    data = value.is_a?(Hash) ? value : {}
-
-    {
-      trigger: to_boolean(data['trigger'], fallback: baseline.dig(:criteria, :trigger)),
-      transactional_content: to_boolean(data['transactional_content'], fallback: baseline.dig(:criteria, :transactional_content)),
-      marketing_prohibition: to_boolean(data['marketing_prohibition'], fallback: baseline.dig(:criteria, :marketing_prohibition)),
-      prohibited_content: to_boolean(data['prohibited_content'], fallback: baseline.dig(:criteria, :prohibited_content)),
-      clarity_and_utility: to_boolean(data['clarity_and_utility'], fallback: baseline.dig(:criteria, :clarity_and_utility))
-    }
-  end
-
-  def to_boolean(value, fallback:)
-    return true if value == true
-    return false if value == false
-
-    fallback == true
   end
 
   def event_name
