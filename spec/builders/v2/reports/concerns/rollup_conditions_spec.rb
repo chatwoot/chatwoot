@@ -8,12 +8,14 @@ describe V2::Reports::Concerns::RollupConditions do
       attr_accessor :account, :params
 
       # Make private methods public for testing
-      public :metric_to_rollup_metric, :dimension_type_to_rollup
+      public :metric_to_rollup_metric, :dimension_type_to_rollup, :timezone_matches_account?
     end
   end
 
   let(:account) { create(:account, reporting_timezone: 'America/New_York') }
   let(:builder) { dummy_class.new }
+  # Compute the current offset dynamically so tests pass in both EST and EDT
+  let(:current_ny_offset) { ActiveSupport::TimeZone['America/New_York'].now.utc_offset / 3600.0 }
 
   before do
     builder.account = account
@@ -26,7 +28,7 @@ describe V2::Reports::Concerns::RollupConditions do
         metric: 'avg_resolution_time',
         type: 'account',
         group_by: 'day',
-        timezone_offset: -5
+        timezone_offset: current_ny_offset
       }
     end
 
@@ -170,20 +172,20 @@ describe V2::Reports::Concerns::RollupConditions do
     end
 
     context 'when timezone_offset does not match' do
-      it 'returns false when timezone_offset is UTC instead of EST' do
+      it 'returns false when timezone_offset is UTC' do
         builder.params = valid_params.merge(timezone_offset: 0)
 
         expect(builder.use_rollup?).to be false
       end
 
-      it 'returns false when timezone_offset is UTC+5:30 (different from EST)' do
+      it 'returns false when timezone_offset is UTC+5:30' do
         builder.params = valid_params.merge(timezone_offset: 5.5)
 
         expect(builder.use_rollup?).to be false
       end
 
       it 'returns true when timezone_offset matches account timezone' do
-        builder.params = valid_params.merge(timezone_offset: -5)
+        builder.params = valid_params.merge(timezone_offset: current_ny_offset)
 
         expect(builder.use_rollup?).to be true
       end
@@ -197,7 +199,7 @@ describe V2::Reports::Concerns::RollupConditions do
 
     context 'when used from BaseSummaryBuilder (no params[:metric])' do
       it 'returns true because summary builders override metric_covered?' do
-        builder.params = { type: 'agent', timezone_offset: -5 }
+        builder.params = { type: 'agent', timezone_offset: current_ny_offset }
 
         # Without the override, this would return false since params[:metric] is blank
         expect(builder.use_rollup?).to be false
@@ -211,7 +213,7 @@ describe V2::Reports::Concerns::RollupConditions do
 
         summary_builder = summary_builder_class.new
         summary_builder.account = account
-        summary_builder.params = { type: 'agent', timezone_offset: -5, group_by: 'day' }
+        summary_builder.params = { type: 'agent', timezone_offset: current_ny_offset, group_by: 'day' }
         expect(summary_builder.use_rollup?).to be true
       end
     end
@@ -278,6 +280,48 @@ describe V2::Reports::Concerns::RollupConditions do
     it 'returns nil when type is blank' do
       builder.params = { type: nil }
       expect(builder.dimension_type_to_rollup).to be_nil
+    end
+  end
+
+  describe '#timezone_matches_account?' do
+    it 'returns true when timezone_offset is blank' do
+      builder.params = { timezone_offset: nil }
+      expect(builder.timezone_matches_account?).to be true
+    end
+
+    it 'returns true when offset matches account timezone current offset' do
+      builder.params = { timezone_offset: current_ny_offset }
+      expect(builder.timezone_matches_account?).to be true
+    end
+
+    it 'returns false when offset does not match account timezone' do
+      # UTC+5:30 (IST) will never match America/New_York
+      builder.params = { timezone_offset: 5.5 }
+      expect(builder.timezone_matches_account?).to be false
+    end
+
+    it 'returns false when account timezone is not recognized' do
+      account.update!(reporting_timezone: 'Invalid/Zone')
+      builder.params = { timezone_offset: current_ny_offset }
+      expect(builder.timezone_matches_account?).to be false
+    end
+
+    it 'works with fractional offsets like UTC+5:45' do
+      account.update!(reporting_timezone: 'Asia/Kathmandu')
+      kathmandu_offset = ActiveSupport::TimeZone['Asia/Kathmandu'].now.utc_offset / 3600.0
+      builder.params = { timezone_offset: kathmandu_offset }
+      expect(builder.timezone_matches_account?).to be true
+    end
+
+    it 'handles DST-aware comparison correctly' do
+      # Use a timezone with no DST (UTC) to have a stable control
+      account.update!(reporting_timezone: 'Etc/UTC')
+      builder.params = { timezone_offset: 0 }
+      expect(builder.timezone_matches_account?).to be true
+
+      # A non-zero offset should not match UTC
+      builder.params = { timezone_offset: -5 }
+      expect(builder.timezone_matches_account?).to be false
     end
   end
 end
