@@ -2,11 +2,11 @@ class Webhooks::Trigger
   SUPPORTED_ERROR_HANDLE_EVENTS = %w[message_created message_updated].freeze
 
   def initialize(url, payload, webhook_type, secret: nil, delivery_id: nil)
-    @url          = url
-    @payload      = payload
+    @url = url
+    @payload = payload
     @webhook_type = webhook_type
-    @secret       = secret
-    @delivery_id  = delivery_id
+    @secret = secret
+    @delivery_id = delivery_id
   end
 
   def self.execute(url, payload, webhook_type, secret: nil, delivery_id: nil)
@@ -86,7 +86,11 @@ class Webhooks::Trigger
   def message
     return if message_id.blank?
 
-    @message ||= Message.find_by(id: message_id)
+    if defined?(@message)
+      @message
+    else
+      @message = Message.find_by(id: message_id)
+    end
   end
 
   def message_id
