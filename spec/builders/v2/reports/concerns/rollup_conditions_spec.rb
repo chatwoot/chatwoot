@@ -37,7 +37,7 @@ describe V2::Reports::Concerns::RollupConditions do
       end
     end
 
-    context 'Condition 0: reporting_timezone is blank' do
+    context 'when reporting_timezone is blank' do
       it 'returns false' do
         account.update!(reporting_timezone: nil)
         builder.params = valid_params
@@ -45,7 +45,7 @@ describe V2::Reports::Concerns::RollupConditions do
       end
     end
 
-    context 'Condition 1: feature flag is disabled' do
+    context 'when feature flag is disabled' do
       it 'returns false' do
         allow(account).to receive(:feature_enabled?).with('reporting_events_rollup').and_return(false)
         builder.params = valid_params
@@ -53,7 +53,7 @@ describe V2::Reports::Concerns::RollupConditions do
       end
     end
 
-    context 'Condition 2: metric is not covered' do
+    context 'when metric is not covered' do
       it 'returns false for conversations_count' do
         builder.params = valid_params.merge(metric: 'conversations_count')
 
@@ -73,7 +73,7 @@ describe V2::Reports::Concerns::RollupConditions do
       end
     end
 
-    context 'Condition 2: metric is covered' do
+    context 'when metric is covered' do
       it 'returns true for avg_first_response_time' do
         builder.params = valid_params.merge(metric: 'avg_first_response_time')
 
@@ -110,7 +110,7 @@ describe V2::Reports::Concerns::RollupConditions do
       end
     end
 
-    context 'Condition 3: group_by is hourly' do
+    context 'when group_by is hourly' do
       it 'returns false when group_by is hour' do
         builder.params = valid_params.merge(group_by: 'hour')
         expect(builder.use_rollup?).to be false
@@ -137,7 +137,7 @@ describe V2::Reports::Concerns::RollupConditions do
       end
     end
 
-    context 'Condition 4: dimension is not supported' do
+    context 'when dimension is not supported' do
       it 'returns false for label dimension' do
         builder.params = valid_params.merge(type: 'label')
 
@@ -169,7 +169,7 @@ describe V2::Reports::Concerns::RollupConditions do
       end
     end
 
-    context 'Condition 5: timezone_offset does not match' do
+    context 'when timezone_offset does not match' do
       it 'returns false when timezone_offset is UTC instead of EST' do
         builder.params = valid_params.merge(timezone_offset: 0)
 
