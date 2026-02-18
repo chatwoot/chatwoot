@@ -28,6 +28,7 @@ import AccountHealth from './components/AccountHealth.vue';
 import { FEATURE_FLAGS } from '../../../../featureFlags';
 import SenderNameExamplePreview from './components/SenderNameExamplePreview.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import SpinnerLoader from 'dashboard/components-next/spinner/Spinner.vue';
 import { INBOX_TYPES } from 'dashboard/helper/inbox';
 import { getInboxIconByType } from 'dashboard/helper/inbox';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
@@ -55,6 +56,7 @@ export default {
     MicrosoftReauthorize,
     GoogleReauthorize,
     NextButton,
+    SpinnerLoader,
     InstagramReauthorize,
     TiktokReauthorize,
     WhatsappReauthorize,
@@ -534,6 +536,13 @@ export default {
 
 <template>
   <div
+    v-if="uiFlags.isFetching"
+    class="flex items-center justify-center h-full w-full"
+  >
+    <SpinnerLoader :size="28" class="text-n-blue-9" />
+  </div>
+  <div
+    v-else
     class="grid grid-rows-[auto_1fr] h-full flex-grow flex-shrink pr-0 pl-0 w-full min-w-0 settings"
   >
     <SettingIntroBanner
