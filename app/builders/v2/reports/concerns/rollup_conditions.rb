@@ -70,15 +70,6 @@ module V2::Reports::Concerns::RollupConditions
   end
 
   def dimension_type_to_rollup
-    case params[:type].to_s
-    when 'account'
-      :account
-    when 'agent'
-      :agent
-    when 'inbox'
-      :inbox
-    when 'team'
-      :team
-    end
+    { 'account' => :account, 'agent' => :agent, 'inbox' => :inbox, 'team' => :team }[params[:type].to_s]
   end
 end
