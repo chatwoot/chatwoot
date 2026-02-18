@@ -9,6 +9,8 @@
 #   response = chat.ask("Transfer to human, I cannot process refunds")
 #
 class HandoffTool < BaseTool
+  include Events::Types
+
   description 'Transfer this conversation to a human agent. Use this when: ' \
               '1) The customer explicitly requests to speak with a human, ' \
               '2) The issue is too complex or outside your capabilities, ' \
@@ -78,6 +80,13 @@ class HandoffTool < BaseTool
       'human_assistance_reason' => reason,
       'human_assistance_priority' => priority
     ))
+
+    # Dispatch event so NotificationListener can alert agents
+    Rails.configuration.dispatcher.dispatch(
+      CONVERSATION_HUMAN_ASSISTANCE_REQUESTED,
+      Time.zone.now,
+      conversation: current_conversation
+    )
   end
 
   def add_handoff_note(reason:, summary:, priority:)

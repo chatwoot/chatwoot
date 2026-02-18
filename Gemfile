@@ -201,7 +201,7 @@ gem 'docx', '~> 0.8'
 gem 'iso-639'
 gem 'ruby-openai'
 gem 'ruby_llm', '>= 1.8.2'
-gem 'ruby_llm-agents', '~> 3.4.0'
+gem 'ruby_llm-agents', '~> 3.5.1'
 gem 'ruby_llm-schema'
 
 # OpenTelemetry for LLM observability

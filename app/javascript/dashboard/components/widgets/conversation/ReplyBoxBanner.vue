@@ -206,6 +206,23 @@ const onClickTakeOverFromAssistanceRequest = async () => {
     useAlert(t('CONVERSATION.ALOO.TAKE_OVER_ERROR'));
   }
 };
+
+// Dismiss/ignore help request: clears assistance flag, AI continues handling
+const onClickDismissAssistanceRequest = async () => {
+  try {
+    await store.dispatch('updateCustomAttributes', {
+      conversationId: currentChat.value?.id,
+      customAttributes: {
+        ...currentChat.value?.custom_attributes,
+        human_assistance_requested: false,
+        human_assistance_dismissed_at: new Date().toISOString(),
+      },
+    });
+    useAlert(t('CONVERSATION.ALOO.DISMISS_ASSISTANCE_SUCCESS'));
+  } catch (error) {
+    useAlert(t('CONVERSATION.ALOO.DISMISS_ASSISTANCE_ERROR'));
+  }
+};
 </script>
 
 <template>
@@ -225,7 +242,9 @@ const onClickTakeOverFromAssistanceRequest = async () => {
     :action-button-label="
       $t('CONVERSATION.ALOO.HUMAN_ASSISTANCE_TAKE_OVER_BUTTON')
     "
+    has-close-button
     @primary-action="onClickTakeOverFromAssistanceRequest"
+    @close="onClickDismissAssistanceRequest"
   />
   <!-- Aloo: Informational banner when AI is handling and user starts typing -->
   <Banner

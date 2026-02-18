@@ -3,6 +3,7 @@ export default {
   ASSIGNEE_TYPE: {
     ME: 'me',
     UNASSIGNED: 'unassigned',
+    HELP_NEEDED: 'help_needed',
     ALL: 'all',
   },
   STATUS_TYPE: {

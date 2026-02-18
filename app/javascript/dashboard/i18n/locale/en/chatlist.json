@@ -10,6 +10,7 @@
     "TAB_HEADING": "Conversations",
     "MENTION_HEADING": "Mentions",
     "UNATTENDED_HEADING": "Unattended",
+    "HELP_NEEDED_HEADING": "Help Needed",
     "SEARCH": {
       "INPUT": "Search for People, Chats, Saved Replies .."
     },
@@ -17,6 +18,7 @@
     "ASSIGNEE_TYPE_TABS": {
       "me": "Mine",
       "unassigned": "Unassigned",
+      "help_needed": "Help Needed",
       "all": "All"
     },
     "CHAT_STATUS_FILTER_ITEMS": {

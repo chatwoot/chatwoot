@@ -178,6 +178,29 @@ export default {
       }),
     },
     {
+      path: frontendURL('accounts/:accountId/help-needed/conversations'),
+      name: 'conversation_help_needed',
+      meta: {
+        permissions: CONVERSATION_PERMISSIONS,
+      },
+      component: ConversationView,
+      props: () => ({ conversationType: 'help_needed' }),
+    },
+    {
+      path: frontendURL(
+        'accounts/:accountId/help-needed/conversations/:conversationId'
+      ),
+      name: 'conversation_through_help_needed',
+      meta: {
+        permissions: CONVERSATION_PERMISSIONS,
+      },
+      component: ConversationView,
+      props: route => ({
+        conversationId: route.params.conversationId,
+        conversationType: 'help_needed',
+      }),
+    },
+    {
       path: frontendURL('accounts/:accountId/participating/conversations'),
       name: 'conversation_participating',
       meta: {

@@ -80,6 +80,7 @@ class Conversation < ApplicationRecord
   scope :assigned_to, ->(agent) { where(assignee_id: agent.id) }
   scope :with_unread_messages, -> { where(has_unread_messages: true) }
   scope :unattended, -> { where(first_reply_created_at: nil).or(where.not(waiting_since: nil)) }
+  scope :human_assistance_requested, -> { where("custom_attributes->>'human_assistance_requested' = 'true'").where(assignee_id: nil) }
   scope :resolvable_not_waiting, lambda { |auto_resolve_after|
     return none if auto_resolve_after.to_i.zero?
 

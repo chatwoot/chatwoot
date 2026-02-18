@@ -59,6 +59,7 @@ import { conversationListPageURL } from '../helper/URLHelper';
 import {
   isOnMentionsView,
   isOnUnattendedView,
+  isOnHelpNeededView,
 } from '../store/modules/conversations/helpers/actionHelpers';
 import {
   getUserPermissions,
@@ -116,6 +117,7 @@ const chatLists = useMapGetter('getFilteredConversations');
 const mineChatsList = useMapGetter('getMineChats');
 const allChatList = useMapGetter('getAllStatusChats');
 const unAssignedChatsList = useMapGetter('getUnAssignedChats');
+const helpNeededChatsList = useMapGetter('getHelpNeededChats');
 const chatListLoading = useMapGetter('getChatListLoadingStatus');
 const activeInbox = useMapGetter('getSelectedInbox');
 const conversationStats = useMapGetter('conversationStats/getStats');
@@ -202,11 +204,13 @@ const assigneeTabItems = computed(() => {
     ASSIGNEE_TYPE_TAB_PERMISSIONS,
     userPermissions.value,
     item => item.permissions
-  ).map(({ key, count: countKey }) => ({
-    key,
-    name: t(`CHAT_LIST.ASSIGNEE_TYPE_TABS.${key}`),
-    count: conversationStats.value[countKey] || 0,
-  }));
+  )
+    .map(({ key, count: countKey }) => ({
+      key,
+      name: t(`CHAT_LIST.ASSIGNEE_TYPE_TABS.${key}`),
+      count: conversationStats.value[countKey] || 0,
+    }))
+    .filter(item => item.key !== 'help_needed' || item.count > 0);
 });
 
 const showAssigneeInConversationCard = computed(() => {
@@ -310,6 +314,9 @@ const pageTitle = computed(() => {
   if (props.conversationType === 'unattended') {
     return t('CHAT_LIST.UNATTENDED_HEADING');
   }
+  if (props.conversationType === 'help_needed') {
+    return t('CHAT_LIST.HELP_NEEDED_HEADING');
+  }
   if (hasActiveFolders.value) {
     return activeFolder.value.name;
   }
@@ -325,6 +332,8 @@ const conversationList = computed(() => {
       localConversationList = [...mineChatsList.value(filters)];
     } else if (activeAssigneeTab.value === 'unassigned') {
       localConversationList = [...unAssignedChatsList.value(filters)];
+    } else if (activeAssigneeTab.value === 'help_needed') {
+      localConversationList = [...helpNeededChatsList.value(filters)];
     } else {
       localConversationList = [...allChatList.value(filters)];
     }
@@ -660,6 +669,8 @@ function redirectToConversationList() {
     conversationType = 'mention';
   } else if (isOnUnattendedView({ route: { name } })) {
     conversationType = 'unattended';
+  } else if (isOnHelpNeededView({ route: { name } })) {
+    conversationType = 'help_needed';
   }
   router.push(
     conversationListPageURL({
@@ -831,6 +842,15 @@ watch(activeFolder, (newVal, oldVal) => {
 
 watch(chatLists, () => {
   chatsOnView.value = conversationList.value;
+});
+
+watch(assigneeTabItems, items => {
+  const isHelpNeededTabGone =
+    activeAssigneeTab.value === wootConstants.ASSIGNEE_TYPE.HELP_NEEDED &&
+    !items.some(item => item.key === 'help_needed');
+  if (isHelpNeededTabGone) {
+    activeAssigneeTab.value = wootConstants.ASSIGNEE_TYPE.ALL;
+  }
 });
 
 watch(conversationFilters, (newVal, oldVal) => {

@@ -83,19 +83,20 @@ RubyLLM::Agents.configure do |config|
   # Dashboard Authentication
   # ============================================
 
-  # Option 1: HTTP Basic Auth (simple username/password protection)
-  # Both username and password must be set to enable Basic Auth
-  # config.basic_auth_username = "admin"
-  # config.basic_auth_password = Rails.application.credentials.agents_password
+  # Only SuperAdmin users (via Devise) can access the agents dashboard.
+  # Unauthenticated visitors are redirected to the super admin sign-in page
+  # via Warden's failure app (Devise handles the redirect automatically).
+  config.dashboard_auth = lambda { |controller|
+    warden = controller.request.env['warden']
+    super_admin = warden&.user(:super_admin)
 
-  # Option 2: Custom authentication (advanced)
-  # Return true to allow access, false to deny
-  # Note: If basic_auth is set, it takes precedence over dashboard_auth
-  # config.dashboard_auth = ->(controller) { controller.current_user&.admin? }
+    # If already authenticated as super_admin, allow access
+    return true if super_admin
 
-  # Parent controller for dashboard (for authentication/layout inheritance)
-  # config.dashboard_parent_controller = "ApplicationController"
-  # config.dashboard_parent_controller = "AdminController"
+    # Trigger Devise's failure app — it redirects to /super_admin/sign_in
+    # and short-circuits before the gem can render its own 401
+    throw(:warden, scope: :super_admin)
+  }
 
   # ============================================
   # Dashboard Display
