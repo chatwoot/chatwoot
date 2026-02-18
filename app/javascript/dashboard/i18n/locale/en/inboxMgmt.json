@@ -590,7 +590,9 @@
       },
       "LOCK_TO_SINGLE_CONVERSATION": {
         "ENABLED": "Reopen same conversation",
-        "DISABLED": "Create new conversations"
+        "DISABLED": "Create new conversations",
+        "ENABLED_DESCRIPTION": "When a contact messages again, the previous conversation will be reopened.",
+        "DISABLED_DESCRIPTION": "A new conversation will be created each time after the previous one is resolved."
       },
       "ENABLE_HMAC": {
         "LABEL": "Enable"

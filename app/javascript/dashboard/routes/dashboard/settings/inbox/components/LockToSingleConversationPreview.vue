@@ -16,7 +16,9 @@ defineEmits(['update']);
     <ConversationWorkflowCard
       :active="!lockToSingleConversation"
       :title="$t('INBOX_MGMT.EDIT.LOCK_TO_SINGLE_CONVERSATION.DISABLED')"
-      description="A new conversation will be created each time after the previous one is resolved."
+      :description="
+        $t('INBOX_MGMT.EDIT.LOCK_TO_SINGLE_CONVERSATION.DISABLED_DESCRIPTION')
+      "
       radio-name="conversation-workflow"
       @click="$emit('update', false)"
     />
@@ -24,7 +26,9 @@ defineEmits(['update']);
     <ConversationWorkflowCard
       :active="lockToSingleConversation"
       :title="$t('INBOX_MGMT.EDIT.LOCK_TO_SINGLE_CONVERSATION.ENABLED')"
-      description="When a contact messages again, the previous conversation will be reopened."
+      :description="
+        $t('INBOX_MGMT.EDIT.LOCK_TO_SINGLE_CONVERSATION.ENABLED_DESCRIPTION')
+      "
       radio-name="conversation-workflow"
       @click="$emit('update', true)"
     />
