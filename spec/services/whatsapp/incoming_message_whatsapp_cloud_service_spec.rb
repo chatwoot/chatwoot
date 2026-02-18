@@ -2,6 +2,10 @@ require 'rails_helper'
 
 describe Whatsapp::IncomingMessageWhatsappCloudService do
   describe '#perform' do
+    after do
+      Redis::Alfred.scan_each(match: 'MESSAGE_SOURCE_KEY::*') { |key| Redis::Alfred.delete(key) }
+    end
+
     let!(:whatsapp_channel) { create(:channel_whatsapp, provider: 'whatsapp_cloud', sync_templates: false, validate_provider_config: false) }
     let(:params) do
       {
@@ -100,6 +104,65 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
         expect(whatsapp_channel.inbox.conversations.count).to eq(0)
         expect(Contact.all.first).to be_nil
         expect(whatsapp_channel.inbox.messages.count).to eq(0)
+      end
+    end
+
+    context 'when message is a reply (has context)' do
+      let(:reply_params) do
+        {
+          phone_number: whatsapp_channel.phone_number,
+          object: 'whatsapp_business_account',
+          entry: [{
+            changes: [{
+              value: {
+                contacts: [{ profile: { name: 'Pranav' }, wa_id: '16503071063' }],
+                messages: [{
+                  context: {
+                    from: '16503071063',
+                    id: 'wamid.ORIGINAL_MESSAGE_ID'
+                  },
+                  from: '16503071063',
+                  id: 'wamid.REPLY_MESSAGE_ID',
+                  timestamp: '1770407829',
+                  text: { body: 'This is a reply' },
+                  type: 'text'
+                }]
+              }
+            }]
+          }]
+        }.with_indifferent_access
+      end
+
+      context 'when the original message exists in Chatwoot' do
+        it 'sets in_reply_to to reference the existing message' do
+          # Create a conversation and the original message that will be replied to first
+          contact = create(:contact, phone_number: '+16503071063', account: whatsapp_channel.account)
+          contact_inbox = create(:contact_inbox, contact: contact, inbox: whatsapp_channel.inbox, source_id: '16503071063')
+          conversation = create(:conversation, contact: contact, inbox: whatsapp_channel.inbox, contact_inbox: contact_inbox)
+
+          original_message = create(:message,
+                                    conversation: conversation,
+                                    source_id: 'wamid.ORIGINAL_MESSAGE_ID',
+                                    content: 'Original message')
+
+          described_class.new(inbox: whatsapp_channel.inbox, params: reply_params).perform
+
+          reply_message = whatsapp_channel.inbox.messages.last
+          expect(reply_message.content).to eq('This is a reply')
+          expect(reply_message.content_attributes['in_reply_to']).to eq(original_message.id)
+          expect(reply_message.content_attributes['in_reply_to_external_id']).to eq('wamid.ORIGINAL_MESSAGE_ID')
+        end
+      end
+
+      context 'when the original message does not exist in Chatwoot' do
+        it 'does not set in_reply_to (discards the reply reference)' do
+          described_class.new(inbox: whatsapp_channel.inbox, params: reply_params).perform
+
+          reply_message = whatsapp_channel.inbox.messages.last
+          expect(reply_message.content).to eq('This is a reply')
+          expect(reply_message.content_attributes['in_reply_to']).to be_nil
+          expect(reply_message.content_attributes['in_reply_to_external_id']).to be_nil
+        end
       end
     end
   end

@@ -229,6 +229,8 @@ first_response_time_distribution:
   $ref: './resource/reports/first_response_time_distribution.yml'
 inbox_label_matrix:
   $ref: './resource/reports/inbox_label_matrix.yml'
+outgoing_messages_count:
+  $ref: './resource/reports/outgoing_messages_count.yml'
 inbox_summary:
   $ref: './resource/reports/inbox_summary.yml'
 agent_summary:

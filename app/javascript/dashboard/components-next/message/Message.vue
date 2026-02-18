@@ -43,6 +43,7 @@ import VoiceCallBubble from './bubbles/VoiceCall.vue';
 
 import MessageError from './MessageError.vue';
 import ContextMenu from 'dashboard/modules/conversations/components/MessageContextMenu.vue';
+import { useBranding } from 'shared/composables/useBranding';
 
 /**
  * @typedef {Object} Attachment
@@ -143,6 +144,7 @@ const { t } = useI18n();
 const route = useRoute();
 const inboxGetter = useMapGetter('inboxes/getInbox');
 const inbox = computed(() => inboxGetter.value(props.inboxId) || {});
+const { replaceInstallationName } = useBranding();
 
 /**
  * Computes the message variant based on props
@@ -389,13 +391,17 @@ const shouldRenderMessage = computed(() => {
   const isUnsupported = props.contentAttributes?.isUnsupported;
   const isAnIntegrationMessage =
     props.contentType === CONTENT_TYPES.INTEGRATIONS;
+  const isFailedMessage = props.status === MESSAGE_STATUS.FAILED;
+  const hasExternalError = !!props.contentAttributes?.externalError;
 
   return (
     hasAttachments ||
     props.content ||
     isEmailContentType ||
     isUnsupported ||
-    isAnIntegrationMessage
+    isAnIntegrationMessage ||
+    isFailedMessage ||
+    hasExternalError
   );
 });
 
@@ -472,7 +478,7 @@ const avatarInfo = computed(() => {
 
 const avatarTooltip = computed(() => {
   if (props.contentAttributes?.externalEcho) {
-    return t('CONVERSATION.NATIVE_APP_ADVISORY');
+    return replaceInstallationName(t('CONVERSATION.NATIVE_APP_ADVISORY'));
   }
   if (avatarInfo.value.name === '') return '';
   return `${t('CONVERSATION.SENT_BY')} ${avatarInfo.value.name}`;

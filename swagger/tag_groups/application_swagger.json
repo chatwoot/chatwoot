@@ -6816,6 +6816,81 @@
           }
         }
       }
+    },
+    "/api/v2/accounts/{account_id}/reports/outgoing_messages_count": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/account_id"
+        },
+        {
+          "in": "query",
+          "name": "since",
+          "schema": {
+            "type": "string"
+          },
+          "description": "The timestamp from where report should start (Unix timestamp)."
+        },
+        {
+          "in": "query",
+          "name": "until",
+          "schema": {
+            "type": "string"
+          },
+          "description": "The timestamp from where report should stop (Unix timestamp)."
+        }
+      ],
+      "get": {
+        "tags": [
+          "Reports"
+        ],
+        "operationId": "get-outgoing-messages-count",
+        "summary": "Get outgoing messages count grouped by entity",
+        "security": [
+          {
+            "userApiKey": []
+          }
+        ],
+        "description": "Get the count of outgoing messages grouped by a specified entity (agent, team, inbox, or label).\nWhen grouped by agent, messages sent by bots (AgentBot, Captain::Assistant) are excluded.\n\n**Note:** This API endpoint is available only in Chatwoot version 4.11.0 and above.\n",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "group_by",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "agent",
+                "team",
+                "inbox",
+                "label"
+              ]
+            },
+            "description": "The entity to group outgoing message counts by."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/outgoing_messages_count"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -10749,6 +10824,39 @@
             ]
           ]
         }
+      },
+      "outgoing_messages_count": {
+        "type": "array",
+        "description": "Outgoing messages count report grouped by entity (agent, team, inbox, or label).",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "number",
+              "description": "The ID of the grouped entity (agent, team, inbox, or label)."
+            },
+            "name": {
+              "type": "string",
+              "description": "The name of the grouped entity."
+            },
+            "outgoing_messages_count": {
+              "type": "number",
+              "description": "The total number of outgoing messages for this entity in the given time range."
+            }
+          }
+        },
+        "example": [
+          {
+            "id": 1,
+            "name": "Agent One",
+            "outgoing_messages_count": 42
+          },
+          {
+            "id": 2,
+            "name": "Agent Two",
+            "outgoing_messages_count": 18
+          }
+        ]
       },
       "inbox_summary": {
         "type": "array",

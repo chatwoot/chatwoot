@@ -75,6 +75,7 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
 
     it 'runs agent with extracted user message and context' do
       expected_context = {
+        session_id: "#{account.id}_#{conversation.display_id}",
         conversation_history: [
           { role: :user, content: 'Hello there', agent_name: nil },
           { role: :assistant, content: 'Hi! How can I help you?', agent_name: 'Assistant' },
@@ -303,6 +304,60 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
         expect(state).not_to have_key(:conversation)
         expect(state).not_to have_key(:contact)
       end
+    end
+  end
+
+  describe '#add_usage_metadata_callback' do
+    it 'sets credit_used=false when handoff tool is used' do
+      service = described_class.new(assistant: assistant, conversation: conversation)
+      runner = instance_double(Agents::AgentRunner)
+      tool_complete_callback = nil
+      run_complete_callback = nil
+      span_class = Class.new do
+        def set_attribute(*); end
+      end
+      root_span = instance_double(span_class)
+      context_wrapper = Struct.new(:context).new({ __otel_tracing: { root_span: root_span } })
+
+      allow(ChatwootApp).to receive(:otel_enabled?).and_return(true)
+      allow(runner).to receive(:on_tool_complete) do |&block|
+        tool_complete_callback = block
+        runner
+      end
+      allow(runner).to receive(:on_run_complete) do |&block|
+        run_complete_callback = block
+        runner
+      end
+
+      service.send(:add_usage_metadata_callback, runner)
+
+      tool_complete_callback.call(Captain::Tools::HandoffTool.new(assistant).name, 'ok', context_wrapper)
+
+      expect(root_span).to receive(:set_attribute).with('langfuse.trace.metadata.credit_used', 'false')
+      run_complete_callback.call('assistant', nil, context_wrapper)
+    end
+
+    it 'sets credit_used=true when handoff tool is not used' do
+      service = described_class.new(assistant: assistant, conversation: conversation)
+      runner = instance_double(Agents::AgentRunner)
+      run_complete_callback = nil
+      span_class = Class.new do
+        def set_attribute(*); end
+      end
+      root_span = instance_double(span_class)
+      context_wrapper = Struct.new(:context).new({ __otel_tracing: { root_span: root_span } })
+
+      allow(ChatwootApp).to receive(:otel_enabled?).and_return(true)
+      allow(runner).to receive(:on_tool_complete).and_return(runner)
+      allow(runner).to receive(:on_run_complete) do |&block|
+        run_complete_callback = block
+        runner
+      end
+
+      service.send(:add_usage_metadata_callback, runner)
+
+      expect(root_span).to receive(:set_attribute).with('langfuse.trace.metadata.credit_used', 'true')
+      run_complete_callback.call('assistant', nil, context_wrapper)
     end
   end
 
