@@ -243,7 +243,7 @@ group :test do
   # test profiling
   gem 'test-prof'
   gem 'simplecov_json_formatter', require: false
-end 
+end
 
 group :development, :test do
   gem 'active_record_query_trace'
