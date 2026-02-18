@@ -1,4 +1,4 @@
-# Chatwoot UI — Local Development
+# Chatwoot
 
 This repo is a fork of [Chatwoot](README.chatwoot.md).
 
