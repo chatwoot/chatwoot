@@ -102,6 +102,15 @@ const getters = {
       return isUnAssigned && shouldFilter;
     });
   },
+  getHelpNeededChats: _state => activeFilters => {
+    return _state.allConversations.filter(conversation => {
+      const needsHelp =
+        conversation.custom_attributes?.human_assistance_requested === true;
+      const isUnAssigned = !conversation.meta.assignee;
+      const shouldFilter = applyPageFilters(conversation, activeFilters);
+      return needsHelp && isUnAssigned && shouldFilter;
+    });
+  },
   getAllStatusChats: (_state, _, __, rootGetters) => activeFilters => {
     const currentUser = rootGetters.getCurrentUser;
     const currentUserId = rootGetters.getCurrentUser.id;
