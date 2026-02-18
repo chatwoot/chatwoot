@@ -106,19 +106,46 @@ class Webhooks::WhatsappEventsJob < ApplicationJob
   end
 
   def ycloud_payload?(params)
-    params[:type]&.start_with?('whatsapp.')
+    event_type = params[:type].to_s
+    # YCloud events: whatsapp.*, contact.* (CRM + unsubscribe events)
+    event_type.start_with?('whatsapp.') || event_type.start_with?('contact.')
   end
 
   def find_channel_from_ycloud_payload(params)
-    phone_number = if params[:whatsappInboundMessage].present?
-                     params.dig(:whatsappInboundMessage, :to)
-                   elsif params[:whatsappMessage].present?
-                     params.dig(:whatsappMessage, :from)
-                   end
+    # Try to extract phone number from various YCloud event payload structures
+    phone_number = extract_ycloud_phone_number(params)
+
+    # For contact.* events, fall back to URL param since payload may not contain phone numbers
+    phone_number ||= params[:phone_number] if params[:type].to_s.start_with?('contact.')
+
     return unless phone_number
 
     # YCloud phone numbers may or may not include the '+' prefix
     phone_number = "+#{phone_number}" unless phone_number.start_with?('+')
     Channel::Whatsapp.find_by(phone_number: phone_number)
+  end
+
+  def extract_ycloud_phone_number(params)
+    if params[:whatsappInboundMessage].present?
+      params.dig(:whatsappInboundMessage, :to)
+    elsif params[:whatsappMessage].present?
+      params.dig(:whatsappMessage, :from)
+    elsif params[:whatsappTemplate].present?
+      params[:phone_number] # Template events use URL param
+    elsif params[:whatsappPhoneNumber].present?
+      params.dig(:whatsappPhoneNumber, :phoneNumber)
+    elsif params[:whatsappBusinessAccount].present?
+      params[:phone_number] # WABA events use URL param
+    elsif params[:whatsappCall].present?
+      params.dig(:whatsappCall, :to) || params.dig(:whatsappCall, :from)
+    elsif params[:whatsappFlow].present?
+      params[:phone_number] # Flow events use URL param
+    elsif params[:whatsappPayment].present?
+      params[:phone_number]
+    elsif params[:whatsappUserPreferences].present?
+      params[:phone_number]
+    else
+      params[:phone_number]
+    end
   end
 end

@@ -8,6 +8,13 @@ class Webhooks::WhatsappController < ActionController::API
       return
     end
 
+    # Verify YCloud webhook signature (HMAC-SHA256) if the channel uses YCloud and has a webhook secret
+    if ycloud_channel? && !verify_ycloud_signature
+      Rails.logger.warn("YCloud webhook signature verification failed for #{params[:phone_number]}")
+      head :unauthorized
+      return
+    end
+
     Webhooks::WhatsappEventsJob.perform_later(params.to_unsafe_hash)
     head :ok
   end
@@ -29,5 +36,23 @@ class Webhooks::WhatsappController < ActionController::API
 
     inactive_numbers_array = inactive_numbers.split(',').map(&:strip)
     inactive_numbers_array.include?(phone_number)
+  end
+
+  def ycloud_channel?
+    channel = Channel::Whatsapp.find_by(phone_number: params[:phone_number])
+    channel&.provider == 'ycloud'
+  end
+
+  def verify_ycloud_signature
+    channel = Channel::Whatsapp.find_by(phone_number: params[:phone_number])
+    return true if channel.blank?
+
+    webhook_secret = channel.provider_config['webhook_secret']
+    return true if webhook_secret.blank? # Skip verification if no secret configured
+
+    signature_header = request.headers['YCloud-Signature']
+    return false if signature_header.blank?
+
+    Whatsapp::Ycloud::ApiClient.verify_signature(request.raw_post, signature_header, webhook_secret)
   end
 end

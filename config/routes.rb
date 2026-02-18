@@ -121,6 +121,82 @@ Rails.application.routes.draw do
           resources :dashboard_apps, only: [:index, :show, :create, :update, :destroy]
           namespace :channels do
             resource :twilio_channel, only: [:create]
+
+            # YCloud WhatsApp management API
+            namespace :whatsapp do
+              resources :ycloud, only: [] do
+                member do
+                  # Templates
+                  post 'templates', action: :create_template
+                  get 'templates', action: :list_templates
+                  get 'templates/:name/:language', action: :show_template
+                  patch 'templates/:name/:language', action: :update_template
+                  delete 'templates/:name(/:language)', action: :delete_template
+
+                  # Flows
+                  post 'flows', action: :create_flow
+                  get 'flows', action: :list_flows
+                  get 'flows/:flow_id', action: :show_flow
+                  patch 'flows/:flow_id/metadata', action: :update_flow_metadata
+                  patch 'flows/:flow_id/structure', action: :update_flow_structure
+                  delete 'flows/:flow_id', action: :delete_flow
+                  post 'flows/:flow_id/publish', action: :publish_flow
+                  post 'flows/:flow_id/deprecate', action: :deprecate_flow
+                  get 'flows/:flow_id/preview', action: :preview_flow
+
+                  # Business Profile
+                  get 'profile', action: :show_profile
+                  patch 'profile', action: :update_profile
+                  get 'phone_numbers', action: :list_phone_numbers
+                  get 'commerce_settings', action: :show_commerce_settings
+                  patch 'commerce_settings', action: :update_commerce_settings
+
+                  # Calling
+                  post 'calls/connect', action: :connect_call
+                  post 'calls/pre_accept', action: :pre_accept_call
+                  post 'calls/accept', action: :accept_call
+                  post 'calls/terminate', action: :terminate_call
+                  post 'calls/reject', action: :reject_call
+
+                  # Messaging actions
+                  post 'mark_as_read', action: :mark_as_read
+                  post 'typing_indicator', action: :typing_indicator
+                  post 'upload_media', action: :upload_media
+
+                  # YCloud CRM Contacts
+                  post 'ycloud_contacts', action: :create_ycloud_contact
+                  get 'ycloud_contacts', action: :list_ycloud_contacts
+                  get 'ycloud_contacts/:contact_id', action: :show_ycloud_contact
+                  patch 'ycloud_contacts/:contact_id', action: :update_ycloud_contact
+                  delete 'ycloud_contacts/:contact_id', action: :delete_ycloud_contact
+
+                  # Custom Events
+                  post 'custom_events/definitions', action: :create_event_definition
+                  post 'custom_events', action: :send_custom_event
+
+                  # Multi-channel
+                  post 'sms', action: :send_sms
+                  post 'email', action: :send_email
+                  post 'voice', action: :send_voice
+                  post 'verification/start', action: :start_verification
+                  post 'verification/check', action: :check_verification
+
+                  # Unsubscribers
+                  post 'unsubscribers', action: :create_unsubscriber
+                  get 'unsubscribers', action: :list_unsubscribers
+                  get 'unsubscribers/:customer/:channel', action: :check_unsubscriber
+                  delete 'unsubscribers/:customer/:channel', action: :delete_unsubscriber
+
+                  # Webhook endpoints
+                  get 'webhook_endpoints', action: :list_webhook_endpoints
+                  post 'webhook_endpoints/:endpoint_id/rotate_secret', action: :rotate_webhook_secret
+
+                  # Account
+                  get 'balance', action: :balance
+                  get 'business_accounts', action: :list_business_accounts
+                end
+              end
+            end
           end
           resources :conversations, only: [:index, :create, :show, :update, :destroy] do
             collection do
