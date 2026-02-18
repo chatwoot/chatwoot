@@ -45,7 +45,7 @@ const { height } = useWindowSize();
 const { height: dropdownHeight } = useElementBounding(dropdownRef);
 
 const selectedOption = computed(() => {
-  return props.options.find(o => o.value === selected.value) || {};
+  return props.options?.find(o => o.value === selected.value) || {};
 });
 
 const iconToRender = computed(() => {
@@ -87,18 +87,25 @@ const updateSelected = newValue => {
     </template>
     <DropdownBody
       ref="dropdownRef"
-      class="min-w-48 z-50"
+      class="min-w-56 z-50"
       :class="dropdownPosition"
       strong
     >
-      <DropdownSection class="[&>ul]:max-h-80">
-        <DropdownItem
-          v-for="option in options"
-          :key="option.value"
-          :label="option.label"
-          :icon="option.icon"
-          @click="updateSelected(option.value)"
-        />
+      <DropdownSection class="[&>ul]:max-h-72">
+        <template v-for="option in options" :key="option.value">
+          <li
+            v-if="option.disabled"
+            class="px-2 py-1.5 text-xs font-medium text-n-slate-10 select-none"
+          >
+            {{ option.label }}
+          </li>
+          <DropdownItem
+            v-else
+            :label="option.label"
+            :icon="option.icon"
+            @click="updateSelected(option.value)"
+          />
+        </template>
       </DropdownSection>
     </DropdownBody>
   </DropdownContainer>
