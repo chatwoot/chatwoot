@@ -40,7 +40,10 @@ class Whatsapp::Providers::WhatsappYcloudService < Whatsapp::Providers::BaseServ
       "#{api_base_path}/whatsapp/templates?limit=1",
       headers: api_headers
     )
-    response.success?
+    return false unless response.success?
+
+    register_webhook
+    true
   end
 
   def api_headers
@@ -65,8 +68,9 @@ class Whatsapp::Providers::WhatsappYcloudService < Whatsapp::Providers::BaseServ
         from: whatsapp_channel.phone_number,
         to: phone_number,
         type: 'text',
-        text: { body: message.content }
-      }.to_json
+        text: { body: message.content },
+        context: whatsapp_reply_context(message)
+      }.compact.to_json
     )
 
     process_response(response)
@@ -88,8 +92,9 @@ class Whatsapp::Providers::WhatsappYcloudService < Whatsapp::Providers::BaseServ
         'from' => whatsapp_channel.phone_number,
         'to' => phone_number,
         'type' => type,
+        'context' => whatsapp_reply_context(message),
         type.to_s => type_content
-      }.to_json
+      }.compact.to_json
     )
 
     process_response(response)
@@ -105,11 +110,34 @@ class Whatsapp::Providers::WhatsappYcloudService < Whatsapp::Providers::BaseServ
         from: whatsapp_channel.phone_number,
         to: phone_number,
         type: 'interactive',
-        interactive: payload
-      }.to_json
+        interactive: payload,
+        context: whatsapp_reply_context(message)
+      }.compact.to_json
     )
 
     process_response(response)
+  end
+
+  def whatsapp_reply_context(message)
+    reply_to = message.content_attributes[:in_reply_to_external_id]
+    return nil if reply_to.blank?
+
+    { message_id: reply_to }
+  end
+
+  def register_webhook
+    webhook_url = "#{ENV.fetch('FRONTEND_URL', nil)}/webhooks/whatsapp/#{whatsapp_channel.phone_number}"
+    HTTParty.post(
+      "#{api_base_path}/webhookEndpoints",
+      headers: api_headers,
+      body: {
+        url: webhook_url,
+        events: ['whatsapp.inbound_message.received', 'whatsapp.message.updated'],
+        status: 'active'
+      }.to_json
+    )
+  rescue StandardError => e
+    Rails.logger.warn "YCloud webhook registration failed: #{e.message}"
   end
 
   def error_message(response)

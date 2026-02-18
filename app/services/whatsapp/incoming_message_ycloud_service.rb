@@ -81,8 +81,11 @@ class Whatsapp::IncomingMessageYcloudService < Whatsapp::IncomingMessageBaseServ
   end
 
   def download_attachment_file(attachment_payload)
-    # YCloud provides direct download links for media
     url = attachment_payload[:link] || inbox.channel.media_url(attachment_payload[:id])
+    response = HTTParty.head(url, headers: inbox.channel.api_headers)
+    inbox.channel.authorization_error! if response.unauthorized? || response.forbidden?
+    return unless response.success?
+
     Down.download(url, headers: inbox.channel.api_headers)
   end
 end
