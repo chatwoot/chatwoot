@@ -62,6 +62,8 @@ class Webhooks::WhatsappEventsJob < ApplicationJob
     case channel.provider
     when 'whatsapp_cloud'
       Whatsapp::IncomingMessageWhatsappCloudService.new(inbox: channel.inbox, params: params).perform
+    when 'ycloud'
+      Whatsapp::IncomingMessageYcloudService.new(inbox: channel.inbox, params: params).perform
     else
       Whatsapp::IncomingMessageService.new(inbox: channel.inbox, params: params).perform
     end
@@ -89,6 +91,9 @@ class Webhooks::WhatsappEventsJob < ApplicationJob
     # we will give priority to the phone_number in the payload
     return get_channel_from_wb_payload(params) if params[:object] == 'whatsapp_business_account'
 
+    # YCloud webhook payloads have a different structure
+    return find_channel_from_ycloud_payload(params) if ycloud_payload?(params)
+
     find_channel_by_url_param(params)
   end
 
@@ -98,5 +103,22 @@ class Webhooks::WhatsappEventsJob < ApplicationJob
     channel = Channel::Whatsapp.find_by(phone_number: phone_number)
     # validate to ensure the phone number id matches the whatsapp channel
     return channel if channel && channel.provider_config['phone_number_id'] == phone_number_id
+  end
+
+  def ycloud_payload?(params)
+    params[:type]&.start_with?('whatsapp.')
+  end
+
+  def find_channel_from_ycloud_payload(params)
+    phone_number = if params[:whatsappInboundMessage].present?
+                     params.dig(:whatsappInboundMessage, :to)
+                   elsif params[:whatsappMessage].present?
+                     params.dig(:whatsappMessage, :from)
+                   end
+    return unless phone_number
+
+    # YCloud phone numbers may or may not include the '+' prefix
+    phone_number = "+#{phone_number}" unless phone_number.start_with?('+')
+    Channel::Whatsapp.find_by(phone_number: phone_number)
   end
 end
