@@ -51,5 +51,33 @@ RSpec.describe CsatTemplateUtilityAnalysisService do
         expect(result[:optimized_message]).to include('Si aún necesitas ayuda')
       end
     end
+
+    context 'when llm returns inconsistent marketing classification and high score' do
+      it 'normalizes score to avoid misleading utility fit' do
+        allow(llm_service).to receive(:perform).and_return({
+                                                              classification: 'LIKELY_MARKETING',
+                                                              score: 8,
+                                                              confidence: 'HIGH',
+                                                              reasons: ['Promotional wording detected'],
+                                                              optimized_message: 'Your support request has been closed.',
+                                                              positive_points: [],
+                                                              non_compliance_points: ['Promotional wording may cause Meta to classify this as Marketing.'],
+                                                              score_justification: 'Promotional wording present',
+                                                              criteria: {
+                                                                trigger: true,
+                                                                transactional_content: true,
+                                                                marketing_prohibition: false,
+                                                                prohibited_content: true,
+                                                                clarity_and_utility: true
+                                                              }
+                                                            })
+
+        message = 'Your case is closed. Don’t miss our limited-time premium offer. Rate us below.'
+        result = described_class.new(account: account, inbox: inbox, message: message, language: 'en').perform
+
+        expect(result[:classification]).to eq('LIKELY_MARKETING')
+        expect(result[:score]).to be <= 4
+      end
+    end
   end
 end

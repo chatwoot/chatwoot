@@ -25,11 +25,32 @@ class CsatTemplateUtilityAnalysisService
 
     return nil if llm_output[:error]
 
-    llm_output.merge(disclaimer: DISCLAIMER, source: 'captain')
+    normalized_output = normalize_llm_score(llm_output, baseline: baseline)
+    normalized_output.merge(disclaimer: DISCLAIMER, source: 'captain')
   rescue StandardError => e
     Rails.logger.error("CSAT utility LLM analysis failed for inbox #{inbox.id}: #{e.message}")
     nil
   end
+
+  def normalize_llm_score(result, baseline:)
+    classification = result[:classification].to_s
+    score = result[:score].to_i.clamp(0, 10)
+    baseline_score = baseline[:score].to_i.clamp(0, 10)
+
+    normalized_score =
+      case classification
+      when 'LIKELY_MARKETING'
+        [score, 4, baseline_score].min
+      when 'LIKELY_UTILITY'
+        [score, 6, baseline_score].max
+      else
+        score.clamp(4, 6)
+      end
+
+    result.merge(score: normalized_score)
+  end
+
+  private :normalize_llm_score
 
   def rule_based_result
     text = sanitized_message
