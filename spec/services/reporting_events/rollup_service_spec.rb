@@ -328,7 +328,7 @@ describe ReportingEvents::RollupService do
       end
     end
 
-    context 'unknown event name' do
+    context 'when event name in unknown' do
       let(:reporting_event) do
         create(:reporting_event,
                account: account,
