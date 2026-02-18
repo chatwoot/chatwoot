@@ -26,7 +26,6 @@ import BotConfiguration from './components/BotConfiguration.vue';
 import AccountHealth from './components/AccountHealth.vue';
 import { FEATURE_FLAGS } from '../../../../featureFlags';
 import SenderNameExamplePreview from './components/SenderNameExamplePreview.vue';
-import LockToSingleConversationPreview from './components/LockToSingleConversationPreview.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import { INBOX_TYPES } from 'dashboard/helper/inbox';
 import LockToSingleConversationPreview from './components/LockToSingleConversationPreview.vue';
@@ -73,6 +72,7 @@ export default {
       senderNameType: 'friendly',
       businessName: '',
       locktoSingleConversation: false,
+      allowMessagesAfterResolved: true,
       continuityViaEmail: true,
       selectedInboxName: '',
       channelWebsiteUrl: '',
@@ -224,12 +224,9 @@ export default {
         this.isASmsInbox ||
         this.isAWhatsAppChannel ||
         this.isAFacebookInbox ||
-        this.isAnInstagramChannel ||
-        this.isALineChannel ||
         this.isAPIInbox ||
-        this.isATiktokChannel ||
         this.isATelegramChannel ||
-        this.isAWebWidgetInbox
+        this.isALineChannel
       );
     },
     inboxNameLabel() {
@@ -418,9 +415,7 @@ export default {
         this.channelWelcomeTagline = this.inbox.welcome_tagline || '';
         this.selectedFeatureFlags = this.inbox.selected_feature_flags || [];
         this.replyTime = this.inbox.reply_time;
-        this.locktoSingleConversation = this.isAWebWidgetInbox
-          ? !this.inbox.allow_messages_after_resolved
-          : this.inbox.lock_to_single_conversation;
+        this.locktoSingleConversation = this.inbox.lock_to_single_conversation;
         this.selectedPortalSlug = this.inbox.help_center
           ? this.inbox.help_center.slug
           : '';
@@ -435,9 +430,7 @@ export default {
           id: this.currentInboxId,
           name: this.selectedInboxName?.trim(),
           enable_email_collect: this.emailCollectEnabled,
-          allow_messages_after_resolved: this.isAWebWidgetInbox
-            ? !this.locktoSingleConversation
-            : this.allowMessagesAfterResolved,
+          allow_messages_after_resolved: this.allowMessagesAfterResolved,
           greeting_enabled: this.greetingEnabled,
           greeting_message: this.greetingMessage || '',
           portal_id: this.selectedPortalSlug
@@ -492,9 +485,6 @@ export default {
     toggleSenderNameType(key) {
       this.senderNameType = key;
     },
-    toggleLockToSingleConversation(value) {
-      this.locktoSingleConversation = value;
-    },
     onClickShowBusinessNameInput() {
       this.showBusinessNameInput = !this.showBusinessNameInput;
       if (this.showBusinessNameInput) {
@@ -505,9 +495,6 @@ export default {
     },
     toggleLockToSingleConversation(value) {
       this.locktoSingleConversation = value;
-      if (this.isAWebWidgetInbox) {
-        this.allowMessagesAfterResolved = !value;
-      }
     },
   },
   validations: {
@@ -751,6 +738,29 @@ export default {
           </label>
 
           <label v-if="isAWebWidgetInbox" class="pb-4">
+            {{ $t('INBOX_MGMT.SETTINGS_POPUP.ALLOW_MESSAGES_AFTER_RESOLVED') }}
+            <select v-model="allowMessagesAfterResolved">
+              <option :value="true">
+                {{
+                  $t('INBOX_MGMT.EDIT.ALLOW_MESSAGES_AFTER_RESOLVED.ENABLED')
+                }}
+              </option>
+              <option :value="false">
+                {{
+                  $t('INBOX_MGMT.EDIT.ALLOW_MESSAGES_AFTER_RESOLVED.DISABLED')
+                }}
+              </option>
+            </select>
+            <p class="pb-1 text-sm not-italic text-n-slate-11">
+              {{
+                $t(
+                  'INBOX_MGMT.SETTINGS_POPUP.ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT'
+                )
+              }}
+            </p>
+          </label>
+
+          <label v-if="isAWebWidgetInbox" class="pb-4">
             {{ $t('INBOX_MGMT.SETTINGS_POPUP.ENABLE_CONTINUITY_VIA_EMAIL') }}
             <select v-model="continuityViaEmail">
               <option :value="true">
@@ -784,6 +794,7 @@ export default {
               {{ $t('INBOX_MGMT.HELP_CENTER.SUB_TEXT') }}
             </p>
           </div>
+
           <label v-if="isAWebWidgetInbox">
             {{ $t('INBOX_MGMT.FEATURES.LABEL') }}
           </label>
@@ -833,19 +844,6 @@ export default {
           </div>
         </SettingsSection>
         <SettingsSection
-          v-if="canLocktoSingleConversation"
-          :title="$t('INBOX_MGMT.SETTINGS_POPUP.LOCK_TO_SINGLE_CONVERSATION')"
-          :sub-title="
-            $t('INBOX_MGMT.SETTINGS_POPUP.LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT')
-          "
-          :show-border="isAWebWidgetInbox || isAnEmailChannel"
-        >
-          <LockToSingleConversationPreview
-            :lock-to-single-conversation="locktoSingleConversation"
-            @update="toggleLockToSingleConversation"
-          />
-        </SettingsSection>
-        <SettingsSection
           v-if="isAWebWidgetInbox || isAnEmailChannel"
           :title="$t('INBOX_MGMT.EDIT.SENDER_NAME_SECTION.TITLE')"
           :sub-title="$t('INBOX_MGMT.EDIT.SENDER_NAME_SECTION.SUB_TEXT')"
@@ -891,6 +889,21 @@ export default {
                 />
               </div>
             </div>
+          </div>
+        </SettingsSection>
+        <SettingsSection
+          v-if="canLocktoSingleConversation"
+          :title="$t('INBOX_MGMT.SETTINGS_POPUP.LOCK_TO_SINGLE_CONVERSATION')"
+          :sub-title="
+            $t('INBOX_MGMT.SETTINGS_POPUP.LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT')
+          "
+          :show-border="false"
+        >
+          <div class="pb-4">
+            <LockToSingleConversationPreview
+              :lock-to-single-conversation="locktoSingleConversation"
+              @update="toggleLockToSingleConversation"
+            />
           </div>
         </SettingsSection>
         <SettingsSection :show-border="false">

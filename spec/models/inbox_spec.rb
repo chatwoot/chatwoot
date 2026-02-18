@@ -42,39 +42,33 @@ RSpec.describe Inbox do
   end
 
   describe '#lock_to_single_conversation' do
-    let(:account) { create(:account) }
+    let(:email_channel) { create(:channel_email) }
+    let(:email_inbox) { create(:inbox, channel: email_channel) }
+    let(:web_widget_inbox) { create(:inbox) }
 
-    it 'returns false for email inboxes regardless of stored value' do
-      email_channel = create(:channel_email, account: account)
-      email_inbox = create(:inbox, channel: email_channel, account: account)
-      email_inbox.update!(lock_to_single_conversation: true)
+    context 'when inbox is an email inbox' do
+      it 'returns false regardless of the database value' do
+        email_inbox.update(lock_to_single_conversation: true)
+        expect(email_inbox.reload.lock_to_single_conversation).to be(false)
+      end
 
-      expect(email_inbox.lock_to_single_conversation).to be(false)
+      it 'preserves the actual value in the database' do
+        email_inbox.update(lock_to_single_conversation: true)
+        # Access the raw attribute value using self[]
+        expect(email_inbox.reload[:lock_to_single_conversation]).to be(true)
+      end
     end
 
-    it 'preserves the raw stored value for email inboxes' do
-      email_channel = create(:channel_email, account: account)
-      email_inbox = create(:inbox, channel: email_channel, account: account)
-      email_inbox.update!(lock_to_single_conversation: true)
+    context 'when inbox is not an email inbox' do
+      it 'returns the actual database value when true' do
+        web_widget_inbox.update(lock_to_single_conversation: true)
+        expect(web_widget_inbox.reload.lock_to_single_conversation).to be(true)
+      end
 
-      expect(email_inbox.reload[:lock_to_single_conversation]).to be(true)
-    end
-
-    it 'migrates web widget behavior from allow_messages_after_resolved' do
-      web_widget_inbox = create(:inbox, account: account)
-      web_widget_inbox.update!(allow_messages_after_resolved: false, lock_to_single_conversation: false)
-      expect(web_widget_inbox.reload.lock_to_single_conversation).to be(true)
-
-      web_widget_inbox.update!(allow_messages_after_resolved: true, lock_to_single_conversation: true)
-      expect(web_widget_inbox.reload.lock_to_single_conversation).to be(false)
-    end
-
-    it 'returns configured value for non-email, non-web-widget inboxes' do
-      api_channel = create(:channel_api, account: account)
-      api_inbox = create(:inbox, account: account, channel: api_channel)
-      api_inbox.update!(lock_to_single_conversation: true)
-
-      expect(api_inbox.reload.lock_to_single_conversation).to be(true)
+      it 'returns the actual database value when false' do
+        web_widget_inbox.update(lock_to_single_conversation: false)
+        expect(web_widget_inbox.reload.lock_to_single_conversation).to be(false)
+      end
     end
   end
 

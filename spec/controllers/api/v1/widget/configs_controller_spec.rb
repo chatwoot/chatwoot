@@ -48,32 +48,6 @@ RSpec.describe '/api/v1/widget/config', type: :request do
         expect(response_data['contact']['pubsub_token']).to eq(contact_inbox.pubsub_token)
       end
 
-      it 'derives allow_messages_after_resolved from lock to single conversation flag' do
-        web_widget.inbox.update!(allow_messages_after_resolved: false)
-
-        post '/api/v1/widget/config',
-             params: params,
-             headers: { 'X-Auth-Token' => token },
-             as: :json
-
-        expect(response).to have_http_status(:success)
-        response_data = response.parsed_body
-        expect(response_data['website_channel_config']['allow_messages_after_resolved']).to be false
-      end
-
-      it 'derives allow_messages_after_resolved as true when lock to single conversation is disabled' do
-        web_widget.inbox.update!(allow_messages_after_resolved: true)
-
-        post '/api/v1/widget/config',
-             params: params,
-             headers: { 'X-Auth-Token' => token },
-             as: :json
-
-        expect(response).to have_http_status(:success)
-        response_data = response.parsed_body
-        expect(response_data['website_channel_config']['allow_messages_after_resolved']).to be true
-      end
-
       it 'returns 401 if account is suspended' do
         account.update!(status: :suspended)
 

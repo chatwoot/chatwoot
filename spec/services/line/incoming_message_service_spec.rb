@@ -275,30 +275,6 @@ describe Line::IncomingMessageService do
         expect(line_channel.inbox.messages.first.content).to eq('Hello, world')
       end
 
-      it 'reopens the last resolved conversation if lock to single conversation is enabled' do
-        line_channel.inbox.update!(lock_to_single_conversation: true)
-        contact = create(:contact, account: line_channel.account)
-        contact_inbox = create(:contact_inbox, inbox: line_channel.inbox, contact: contact, source_id: 'U4af4980629')
-        resolved_conversation = create(:conversation, inbox: line_channel.inbox, contact_inbox: contact_inbox, contact: contact, status: :resolved)
-
-        described_class.new(inbox: line_channel.inbox, params: params).perform
-
-        expect(line_channel.inbox.conversations.count).to eq(1)
-        expect(resolved_conversation.reload.messages.last.content).to eq('Hello, world')
-      end
-
-      it 'creates a new conversation if lock to single conversation is disabled and last is resolved' do
-        line_channel.inbox.update!(lock_to_single_conversation: false)
-        contact = create(:contact, account: line_channel.account)
-        contact_inbox = create(:contact_inbox, inbox: line_channel.inbox, contact: contact, source_id: 'U4af4980629')
-        create(:conversation, inbox: line_channel.inbox, contact_inbox: contact_inbox, contact: contact, status: :resolved)
-
-        described_class.new(inbox: line_channel.inbox, params: params).perform
-
-        expect(line_channel.inbox.conversations.count).to eq(2)
-        expect(contact_inbox.reload.conversations.last.messages.last.content).to eq('Hello, world')
-      end
-
       it 'creates appropriate conversations, message and contacts for multi user' do
         line_user_profile2 = double
         allow(line_bot).to receive(:get_profile).with('U4af49806292').and_return(line_user_profile2)

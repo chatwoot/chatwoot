@@ -1,11 +1,11 @@
 <script>
+import PreviewCard from 'dashboard/components/ui/PreviewCard.vue';
 import Avatar from 'next/avatar/Avatar.vue';
-import ConversationWorkflowCard from './ConversationWorkflowCard.vue';
 
 export default {
   components: {
+    PreviewCard,
     Avatar,
-    ConversationWorkflowCard,
   },
   props: {
     senderNameType: {
@@ -69,18 +69,22 @@ export default {
 </script>
 
 <template>
-  <div class="grid grid-cols-1 items-stretch gap-4 w-full sm:grid-cols-2">
-    <ConversationWorkflowCard
+  <div class="flex flex-col lg:flex-row items-start lg:items-center gap-4">
+    <button
       v-for="keyOption in senderNameKeyOptions"
       :key="keyOption.key"
-      :active="keyOption.key === senderNameType"
-      :title="keyOption.heading"
-      :description="keyOption.content"
-      radio-name="sender-name-style"
-      description-min-height-class="sm:min-h-[4.5rem]"
+      class="text-n-slate-12 cursor-pointer p-0"
       @click="toggleSenderNameType(keyOption.key)"
     >
-      <template #footer>
+      <PreviewCard
+        :heading="keyOption.heading"
+        :content="keyOption.content"
+        :active="keyOption.key === senderNameType"
+      >
+        <div class="flex flex-col items-start p-3 gap-2">
+          <span class="text-xs">
+            {{ $t('INBOX_MGMT.EDIT.SENDER_NAME_SECTION.FOR_EG') }}
+          </span>
           <div class="flex flex-row items-center gap-2">
             <Avatar :name="userName(keyOption)" :size="32" rounded-full />
             <div class="flex flex-col items-start gap-1">
@@ -103,7 +107,8 @@ export default {
               <span class="text-xs">{{ keyOption.preview.email }}</span>
             </div>
           </div>
-      </template>
-    </ConversationWorkflowCard>
+        </div>
+      </PreviewCard>
+    </button>
   </div>
 </template>
