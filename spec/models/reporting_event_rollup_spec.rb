@@ -90,7 +90,7 @@ RSpec.describe ReportingEventsRollup do
         create(:reporting_events_rollup, account: account, date: '2026-02-10'.to_date)
         create(:reporting_events_rollup, account: account, date: '2026-02-12'.to_date)
 
-        results = ReportingEventsRollup.for_date_range('2026-02-10'.to_date, '2026-02-11'.to_date)
+        results = described_class.for_date_range('2026-02-10'.to_date, '2026-02-11'.to_date)
 
         expect(results.count).to eq(1)
         expect(results.first.date).to eq('2026-02-10'.to_date)
@@ -99,7 +99,7 @@ RSpec.describe ReportingEventsRollup do
       it 'returns empty array when no records match' do
         create(:reporting_events_rollup, account: account, date: '2026-02-08'.to_date)
 
-        results = ReportingEventsRollup.for_date_range('2026-02-20'.to_date, '2026-02-25'.to_date)
+        results = described_class.for_date_range('2026-02-20'.to_date, '2026-02-25'.to_date)
 
         expect(results).to be_empty
       end
@@ -111,7 +111,7 @@ RSpec.describe ReportingEventsRollup do
         create(:reporting_events_rollup, account: account, dimension_type: 'agent', dimension_id: 1)
         create(:reporting_events_rollup, account: account, dimension_type: 'agent', dimension_id: 2)
 
-        results = ReportingEventsRollup.for_dimension('agent', 1)
+        results = described_class.for_dimension('agent', 1)
 
         expect(results.count).to eq(1)
         expect(results.first.dimension_type).to eq('agent')
@@ -121,7 +121,7 @@ RSpec.describe ReportingEventsRollup do
       it 'returns empty array when no records match' do
         create(:reporting_events_rollup, account: account, dimension_type: 'account', dimension_id: 1)
 
-        results = ReportingEventsRollup.for_dimension('agent', 1)
+        results = described_class.for_dimension('agent', 1)
 
         expect(results).to be_empty
       end
@@ -133,7 +133,7 @@ RSpec.describe ReportingEventsRollup do
         create(:reporting_events_rollup, account: account, metric: 'resolution_time', dimension_id: 2)
         create(:reporting_events_rollup, account: account, metric: 'first_response', dimension_id: 3)
 
-        results = ReportingEventsRollup.for_metric('first_response')
+        results = described_class.for_metric('first_response')
 
         expect(results.count).to eq(2)
         expect(results.all? { |r| r.metric == 'first_response' }).to be true
@@ -142,7 +142,7 @@ RSpec.describe ReportingEventsRollup do
       it 'returns empty array when no records match' do
         create(:reporting_events_rollup, account: account, metric: 'first_response')
 
-        results = ReportingEventsRollup.for_metric('resolution_time')
+        results = described_class.for_metric('resolution_time')
 
         expect(results).to be_empty
       end
@@ -174,7 +174,7 @@ RSpec.describe ReportingEventsRollup do
 
     it 'stores enum values as strings in database' do
       rollup
-      db_record = ReportingEventsRollup.find(rollup.id)
+      db_record = described_class.find(rollup.id)
       expect(db_record.dimension_type).to eq('account')
       expect(db_record.metric).to eq('first_response')
     end
