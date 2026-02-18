@@ -21,7 +21,7 @@ class Captain::CsatUtilityAnalysisService < Captain::BaseTaskService
     parsed = parse_json_response(response_message)
     return { error: 'Invalid LLM response format' } if parsed.blank?
 
-    core_result(parsed)
+    core_result(parsed).merge(message: response_message)
   end
 
   def core_result(parsed)
