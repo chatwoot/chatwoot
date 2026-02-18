@@ -346,7 +346,11 @@ class Api::V1::Accounts::ProductCatalogsController < Api::V1::Accounts::BaseCont
   end
 
   def product_catalog
-    @product_catalog ||= Current.account.product_catalogs.find(params[:id])
+    @product_catalog ||= if params[:by_product_id].to_s == 'true'
+                           Current.account.product_catalogs.find_by!(product_id: params[:id])
+                         else
+                           Current.account.product_catalogs.find(params[:id])
+                         end
   end
 
   def product_catalog_params
