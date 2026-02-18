@@ -208,7 +208,9 @@
         "DURATION": "Time",
         "TOKENS_UNIT": "tokens",
         "MS_UNIT": "ms",
-        "TOOLS_LABEL": "Tools"
+        "TOOLS_LABEL": "Tools",
+        "TOOL_ARGUMENTS": "Arguments",
+        "TOOL_RESULT": "Result"
       }
     },
     "SETTINGS": {

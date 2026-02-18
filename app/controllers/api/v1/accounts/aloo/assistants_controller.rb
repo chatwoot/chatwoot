@@ -166,25 +166,17 @@ class Api::V1::Accounts::Aloo::AssistantsController < Api::V1::Accounts::BaseCon
     Aloo::Current.assistant = @assistant
     Aloo::Current.request_id = SecureRandom.uuid
     Aloo::Current.playground_mode = true
+    Aloo::Current.conversation_history = parse_playground_history
 
     start_time = Process.clock_gettime(Process::CLOCK_MONOTONIC)
 
     result = ConversationAgent.call(
-      message: message,
-      conversation_history: params[:conversation_history]
+      message: message
     )
 
     duration_ms = ((Process.clock_gettime(Process::CLOCK_MONOTONIC) - start_time) * 1000).round
 
-    render json: {
-      response: result.content,
-      success: result.success?,
-      input_tokens: result.input_tokens,
-      output_tokens: result.output_tokens,
-      total_tokens: (result.input_tokens || 0) + (result.output_tokens || 0),
-      duration_ms: duration_ms,
-      tool_calls: result.tool_calls&.map { |tc| { name: tc.try(:name) || tc[:name], arguments: tc.try(:arguments) || tc[:arguments] } }
-    }
+    render json: playground_response_json(result, duration_ms)
   rescue RubyLLM::Error => e
     render json: { error: e.message, success: false }, status: :unprocessable_entity
   ensure
@@ -195,6 +187,38 @@ class Api::V1::Accounts::Aloo::AssistantsController < Api::V1::Accounts::BaseCon
 
   def set_assistant
     @assistant = Current.account.aloo_assistants.find(params[:id])
+  end
+
+  def playground_response_json(result, duration_ms)
+    {
+      response: result.content,
+      success: result.success?,
+      input_tokens: result.input_tokens,
+      output_tokens: result.output_tokens,
+      total_tokens: (result.input_tokens || 0) + (result.output_tokens || 0),
+      duration_ms: duration_ms,
+      tool_calls: result.tool_calls&.map do |tc|
+        {
+          name: tc.try(:name) || tc[:name],
+          arguments: tc.try(:arguments) || tc[:arguments],
+          result: tc.try(:result) || tc[:result],
+          status: tc.try(:status) || tc[:status]
+        }
+      end
+    }
+  end
+
+  def parse_playground_history
+    raw = params[:conversation_history]
+    return [] if raw.blank? || !raw.is_a?(Array)
+
+    raw.first(ConversationAgent::MAX_CONVERSATION_HISTORY).filter_map do |entry|
+      role = entry[:role].to_s
+      content = entry[:content].to_s.strip
+      next if content.blank? || %w[user assistant].exclude?(role)
+
+      { role: role, content: content }
+    end
   end
 
   def assistant_executions_scope

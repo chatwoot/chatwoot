@@ -47,7 +47,7 @@ class AlooAssistant extends ApiClient {
     });
   }
 
-  playground(assistantId, message, conversationHistory = '') {
+  playground(assistantId, message, conversationHistory = []) {
     return axios.post(`${this.url}/${assistantId}/playground`, {
       message,
       conversation_history: conversationHistory,

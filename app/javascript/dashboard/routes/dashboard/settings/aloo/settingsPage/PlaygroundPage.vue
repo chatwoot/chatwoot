@@ -20,13 +20,35 @@ const isLoading = ref(false);
 const error = ref(null);
 const lastMetrics = ref(null);
 
-const formattedHistory = computed(() => {
+const MAX_HISTORY = 20;
+const expandedToolCalls = ref(new Set());
+
+const structuredHistory = computed(() => {
   return conversationHistory.value
-    .map(
-      msg => `${msg.role === 'user' ? 'Customer' : 'Assistant'}: ${msg.content}`
-    )
-    .join('\n\n');
+    .filter(msg => msg.role === 'user' || msg.role === 'assistant')
+    .slice(-MAX_HISTORY)
+    .map(({ role, content }) => ({ role, content }));
 });
+
+const toolCallKey = (msgIdx, tcIdx) => `${msgIdx}-${tcIdx}`;
+
+const toggleToolCall = (msgIdx, tcIdx) => {
+  const key = toolCallKey(msgIdx, tcIdx);
+  if (expandedToolCalls.value.has(key)) {
+    expandedToolCalls.value.delete(key);
+  } else {
+    expandedToolCalls.value.add(key);
+  }
+};
+
+const isToolCallExpanded = (msgIdx, tcIdx) =>
+  expandedToolCalls.value.has(toolCallKey(msgIdx, tcIdx));
+
+const formatJSON = obj => {
+  if (!obj) return '';
+  if (typeof obj === 'string') return obj;
+  return JSON.stringify(obj, null, 2);
+};
 
 const sendMessage = async () => {
   if (!userMessage.value.trim() || isLoading.value) return;
@@ -34,6 +56,9 @@ const sendMessage = async () => {
   const message = userMessage.value.trim();
   userMessage.value = '';
   error.value = null;
+
+  // Capture history before adding current message (so LLM sees prior turns only)
+  const historySnapshot = structuredHistory.value;
 
   // Add user message to history
   conversationHistory.value.push({
@@ -47,7 +72,7 @@ const sendMessage = async () => {
     const response = await AlooAssistantAPI.playground(
       props.assistantId,
       message,
-      formattedHistory.value
+      historySnapshot
     );
 
     const data = response.data;
@@ -89,6 +114,7 @@ const clearConversation = () => {
   conversationHistory.value = [];
   lastMetrics.value = null;
   error.value = null;
+  expandedToolCalls.value.clear();
 };
 
 const handleKeydown = event => {
@@ -156,9 +182,54 @@ const handleKeydown = event => {
                   <span class="text-slate-300">·</span>
                   <span>
                     {{ $t('ALOO.PLAYGROUND.METRICS.TOOLS_LABEL') }}:
-                    {{ msg.metrics.toolCalls.map(t => t.name).join(', ') }}
+                    {{ msg.metrics.toolCalls.map(tc => tc.name).join(', ') }}
                   </span>
                 </template>
+              </div>
+              <!-- Tool Calls (expandable) -->
+              <div v-if="msg.metrics?.toolCalls?.length" class="mt-2 space-y-1">
+                <div
+                  v-for="(tc, tcIdx) in msg.metrics.toolCalls"
+                  :key="tcIdx"
+                  class="border border-slate-200 dark:border-slate-600 rounded-md overflow-hidden"
+                >
+                  <button
+                    class="w-full flex items-center justify-between px-3 py-1.5 text-xs bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors text-left"
+                    @click="toggleToolCall(index, tcIdx)"
+                  >
+                    <span
+                      class="font-medium text-slate-700 dark:text-slate-200"
+                    >
+                      {{ tc.name }}
+                    </span>
+                    <span class="text-slate-400">
+                      {{ isToolCallExpanded(index, tcIdx) ? '▾' : '▸' }}
+                    </span>
+                  </button>
+                  <div
+                    v-if="isToolCallExpanded(index, tcIdx)"
+                    class="px-3 py-2 text-xs bg-white dark:bg-slate-800 space-y-2"
+                  >
+                    <div>
+                      <div class="font-medium text-slate-500 mb-0.5">
+                        {{ $t('ALOO.PLAYGROUND.METRICS.TOOL_ARGUMENTS') }}
+                      </div>
+                      <pre
+                        class="whitespace-pre-wrap text-slate-700 dark:text-slate-300 bg-slate-50 dark:bg-slate-900 p-2 rounded"
+                        >{{ formatJSON(tc.arguments) }}</pre
+                      >
+                    </div>
+                    <div v-if="tc.result">
+                      <div class="font-medium text-slate-500 mb-0.5">
+                        {{ $t('ALOO.PLAYGROUND.METRICS.TOOL_RESULT') }}
+                      </div>
+                      <pre
+                        class="whitespace-pre-wrap text-slate-700 dark:text-slate-300 bg-slate-50 dark:bg-slate-900 p-2 rounded max-h-40 overflow-y-auto"
+                        >{{ tc.result }}</pre
+                      >
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

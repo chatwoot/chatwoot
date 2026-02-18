@@ -39,6 +39,22 @@ class ApplicationAgent < RubyLLM::Agents::Base
     retries times: 2, backoff: :exponential
   end
 
+  private
+
+  # Override to include tracked tool calls in the Result.
+  # BaseAgent#build_result omits tool_calls/tool_calls_count,
+  # so result.tool_calls always defaults to [].
+  def build_result(content, response, context)
+    result = super
+    return result if @tracked_tool_calls.empty?
+
+    RubyLLM::Agents::Result.new(
+      **result.to_h,
+      tool_calls: @tracked_tool_calls,
+      tool_calls_count: @tracked_tool_calls.size
+    )
+  end
+
   protected
 
   # Current context helpers for accessing request-scoped data
