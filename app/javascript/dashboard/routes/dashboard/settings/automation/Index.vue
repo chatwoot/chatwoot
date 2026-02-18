@@ -197,9 +197,15 @@ const tableHeaders = computed(() => {
         :search-placeholder="$t('AUTOMATION.SEARCH_PLACEHOLDER')"
         feature-name="automation"
       >
+        <template v-if="records?.length" #count>
+          <span class="text-body-main text-n-slate-11">
+            {{ $t('AUTOMATION.COUNT', { n: records.length }) }}
+          </span>
+        </template>
         <template #actions>
           <Button
             :label="$t('AUTOMATION.HEADER_BTN_TXT')"
+            size="sm"
             @click="openAddPopup"
           />
         </template>

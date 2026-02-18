@@ -10,7 +10,7 @@ import {
 } from 'dashboard/components-next/table';
 import WootLabel from 'dashboard/components-next/label/Label.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
-import WootButton from 'dashboard/components-next/button/Button.vue';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 
 import { mapGetters } from 'vuex';
 import { convertSecondsToTimeUnit } from '@chatwoot/utils';
@@ -28,7 +28,7 @@ export default {
     BaseTableCell,
     WootLabel,
     Icon,
-    WootButton,
+    NextButton,
   },
   data() {
     return {
@@ -152,8 +152,17 @@ export default {
         "
         feature-name="sla"
       >
+        <template v-if="!isBehindAPaywall && records?.length" #count>
+          <span class="text-body-main text-n-slate-11">
+            {{ $t('SLA.COUNT', { n: records.length }) }}
+          </span>
+        </template>
         <template v-if="!isBehindAPaywall" #actions>
-          <WootButton :label="$t('SLA.ADD_ACTION')" @click="openAddPopup" />
+          <NextButton
+            :label="$t('SLA.ADD_ACTION')"
+            size="sm"
+            @click="openAddPopup"
+          />
         </template>
       </BaseSettingsHeader>
     </template>
@@ -274,7 +283,7 @@ export default {
 
               <BaseTableCell align="end" class="w-12">
                 <div class="flex justify-end">
-                  <WootButton
+                  <NextButton
                     v-tooltip.top="$t('SLA.FORM.DELETE')"
                     icon="i-woot-bin"
                     slate

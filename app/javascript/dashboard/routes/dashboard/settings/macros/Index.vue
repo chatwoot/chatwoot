@@ -84,9 +84,14 @@ const tableHeaders = computed(() => {
         :search-placeholder="$t('MACROS.SEARCH_PLACEHOLDER')"
         feature-name="macros"
       >
+        <template v-if="records?.length" #count>
+          <span class="text-body-main text-n-slate-11">
+            {{ $t('MACROS.COUNT', { n: records.length }) }}
+          </span>
+        </template>
         <template #actions>
           <router-link :to="{ name: 'macros_new' }">
-            <Button :label="$t('MACROS.HEADER_BTN_TXT')" />
+            <Button :label="$t('MACROS.HEADER_BTN_TXT')" size="sm" />
           </router-link>
         </template>
       </BaseSettingsHeader>

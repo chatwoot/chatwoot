@@ -145,9 +145,15 @@ const confirmDeletion = () => {
         :search-placeholder="$t('CUSTOM_ROLE.SEARCH_PLACEHOLDER')"
         feature-name="canned_responses"
       >
+        <template v-if="records?.length" #count>
+          <span class="text-body-main text-n-slate-11">
+            {{ $t('CUSTOM_ROLE.COUNT', { n: records.length }) }}
+          </span>
+        </template>
         <template #actions>
           <Button
             :label="$t('CUSTOM_ROLE.HEADER_BTN_TXT')"
+            size="sm"
             :disabled="isBehindAPaywall"
             @click="openAddModal"
           />

@@ -160,9 +160,15 @@ const confirmDeletion = () => {
         :search-placeholder="$t('AGENT_MGMT.SEARCH_PLACEHOLDER')"
         feature-name="agents"
       >
+        <template v-if="agentList?.length" #count>
+          <span class="text-body-main text-n-slate-11">
+            {{ $t('AGENT_MGMT.COUNT', { n: agentList.length }) }}
+          </span>
+        </template>
         <template #actions>
           <Button
             :label="$t('AGENT_MGMT.HEADER_BTN_TXT')"
+            size="sm"
             @click="openAddPopup"
           />
         </template>
@@ -175,7 +181,7 @@ const confirmDeletion = () => {
       >
         {{ $t('AGENT_MGMT.NO_RESULTS') }}
       </span>
-      <div v-else class="divide-y divide-n-weak">
+      <div v-else class="divide-y divide-n-weak border-t border-n-weak">
         <div
           v-for="(agent, index) in filteredAgentList"
           :key="agent.email"

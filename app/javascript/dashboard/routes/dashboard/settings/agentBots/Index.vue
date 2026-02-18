@@ -107,8 +107,17 @@ onMounted(() => {
         :search-placeholder="t('AGENT_BOTS.SEARCH_PLACEHOLDER')"
         feature-name="agent_bots"
       >
+        <template v-if="agentBots?.length" #count>
+          <span class="text-body-main text-n-slate-11">
+            {{ $t('AGENT_BOTS.COUNT', { n: agentBots.length }) }}
+          </span>
+        </template>
         <template #actions>
-          <Button :label="$t('AGENT_BOTS.ADD.TITLE')" @click="openAddModal" />
+          <Button
+            :label="$t('AGENT_BOTS.ADD.TITLE')"
+            size="sm"
+            @click="openAddModal"
+          />
         </template>
       </BaseSettingsHeader>
     </template>

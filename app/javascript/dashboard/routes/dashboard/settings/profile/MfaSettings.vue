@@ -138,7 +138,7 @@ const regenerateBackupCodes = async ({ otpCode }) => {
       :back-button-label="$t('PROFILE_SETTINGS.TITLE')"
     />
 
-    <div class="grid gap-4 w-full">
+    <div class="grid gap-4 w-full mt-4">
       <!-- MFA Status Card -->
       <MfaStatusCard
         :mfa-enabled="mfaEnabled"

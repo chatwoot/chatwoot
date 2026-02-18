@@ -95,9 +95,14 @@ const confirmPlaceHolderText = computed(() =>
         :search-placeholder="$t('TEAMS_SETTINGS.SEARCH_PLACEHOLDER')"
         feature-name="team_management"
       >
+        <template v-if="teamsList?.length" #count>
+          <span class="text-body-main text-n-slate-11">
+            {{ $t('TEAMS_SETTINGS.COUNT', { n: teamsList.length }) }}
+          </span>
+        </template>
         <template #actions>
           <router-link v-if="isAdmin" :to="{ name: 'settings_teams_new' }">
-            <Button :label="$t('TEAMS_SETTINGS.NEW_TEAM')" />
+            <Button :label="$t('TEAMS_SETTINGS.NEW_TEAM')" size="sm" />
           </router-link>
         </template>
       </BaseSettingsHeader>
@@ -110,7 +115,7 @@ const confirmPlaceHolderText = computed(() =>
         {{ $t('TEAMS_SETTINGS.NO_RESULTS') }}
       </span>
 
-      <div v-else class="divide-y divide-n-weak">
+      <div v-else class="divide-y divide-n-weak border-t border-n-weak">
         <div
           v-for="team in filteredTeamsList"
           :key="team.id"
