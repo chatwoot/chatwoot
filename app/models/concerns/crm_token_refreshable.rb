@@ -18,6 +18,8 @@ module CrmTokenRefreshable
   end
 
   def token_expired?
+    # Sin token es equivalente a expirado: necesita obtenerlo
+    return true unless credentials['access_token'].present?
     return false unless credentials['token_expires_at'].present?
 
     expires_at = Time.zone.parse(credentials['token_expires_at'])

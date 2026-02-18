@@ -64,7 +64,13 @@ module Crm
       # ============================================================================
 
       def authenticated?
-        # Verificar si tiene access_token
+        # Si no hay token, intentar setup inicial (el job pudo no haberse ejecutado aún)
+        if @hook.credentials['access_token'].blank?
+          Rails.logger.info "Zoho hook ##{@hook.id}: no access_token found, attempting initial setup..."
+          Crm::Zoho::SetupService.new(@hook).setup
+          @hook.reload
+        end
+
         return false unless @hook.credentials['access_token'].present?
 
         # Si el token está expirado, intentar refrescarlo
