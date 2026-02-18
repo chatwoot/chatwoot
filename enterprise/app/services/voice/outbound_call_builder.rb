@@ -20,7 +20,7 @@ class Voice::OutboundCallBuilder
 
     ActiveRecord::Base.transaction do
       contact_inbox = ensure_contact_inbox!
-      conversation = find_existing_conversation(contact_inbox) || create_conversation!(contact_inbox)
+      conversation = create_conversation!(contact_inbox)
       conversation.reload
       conference_sid = Voice::Conference::Name.for(conversation)
       call_sid = initiate_call!
@@ -48,14 +48,6 @@ class Voice::OutboundCallBuilder
       contact_id: contact.id,
       status: :open
     )
-  end
-
-  def find_existing_conversation(contact_inbox)
-    if inbox.lock_to_single_conversation
-      contact_inbox.conversations.last
-    else
-      contact_inbox.conversations.where.not(status: :resolved).last
-    end
   end
 
   def initiate_call!
