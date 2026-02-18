@@ -2,7 +2,6 @@ require 'ruby_llm'
 
 module Llm::Config
   DEFAULT_MODEL = 'gpt-4.1-mini'.freeze
-  INIT_MUTEX = Mutex.new
 
   class << self
     def initialized?
@@ -12,13 +11,9 @@ module Llm::Config
     def initialize!
       return if @initialized
 
-      INIT_MUTEX.synchronize do
-        return if @initialized
-
-        configure_ruby_llm
-        refresh_model_registry
-        @initialized = true
-      end
+      configure_ruby_llm
+      refresh_model_registry
+      @initialized = true
     end
 
     def reset!
@@ -37,12 +32,10 @@ module Llm::Config
     private
 
     def refresh_model_registry
-      Thread.new do
-        RubyLLM.models.refresh!
-        RubyLLM.models.save_to_json
-      rescue StandardError => e
-        Rails.logger.warn "Failed to refresh RubyLLM model registry: #{e.message}"
-      end
+      RubyLLM.models.refresh!
+      RubyLLM.models.save_to_json
+    rescue StandardError => e
+      Rails.logger.warn "Failed to refresh RubyLLM model registry: #{e.message}"
     end
 
     def configure_ruby_llm
