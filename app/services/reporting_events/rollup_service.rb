@@ -118,27 +118,30 @@ module ReportingEvents::RollupService
     def upsert_rollup(dimension_type, dimension_id, metric, metric_data)
       # rubocop:disable Rails/SkipsModelValidations
       ReportingEventsRollup.upsert(
-        {
-          account_id: @account.id,
-          date: event_date,
-          dimension_type: dimension_type,
-          dimension_id: dimension_id,
-          metric: metric,
-          count: metric_data[:count],
-          sum_value: metric_data[:sum_value],
-          sum_value_business_hours: metric_data[:sum_value_business_hours],
-          created_at: Time.current,
-          updated_at: Time.current
-        },
+        rollup_attributes(dimension_type, dimension_id, metric, metric_data),
         unique_by: [:account_id, :date, :dimension_type, :dimension_id, :metric],
-        on_duplicate: Arel.sql(
-          'count = reporting_events_rollups.count + EXCLUDED.count, ' \
-          'sum_value = reporting_events_rollups.sum_value + EXCLUDED.sum_value, ' \
-          'sum_value_business_hours = reporting_events_rollups.sum_value_business_hours + EXCLUDED.sum_value_business_hours, ' \
-          'updated_at = EXCLUDED.updated_at'
-        )
+        on_duplicate: upsert_on_duplicate_sql
       )
       # rubocop:enable Rails/SkipsModelValidations
+    end
+
+    def rollup_attributes(dimension_type, dimension_id, metric, metric_data)
+      {
+        account_id: @account.id, date: event_date,
+        dimension_type: dimension_type, dimension_id: dimension_id, metric: metric,
+        count: metric_data[:count], sum_value: metric_data[:sum_value],
+        sum_value_business_hours: metric_data[:sum_value_business_hours],
+        created_at: Time.current, updated_at: Time.current
+      }
+    end
+
+    def upsert_on_duplicate_sql
+      Arel.sql(
+        'count = reporting_events_rollups.count + EXCLUDED.count, ' \
+        'sum_value = reporting_events_rollups.sum_value + EXCLUDED.sum_value, ' \
+        'sum_value_business_hours = reporting_events_rollups.sum_value_business_hours + EXCLUDED.sum_value_business_hours, ' \
+        'updated_at = EXCLUDED.updated_at'
+      )
     end
   end
 end
