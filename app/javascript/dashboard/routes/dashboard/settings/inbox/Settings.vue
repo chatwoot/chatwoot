@@ -30,6 +30,7 @@ import NextButton from 'dashboard/components-next/button/Button.vue';
 import { INBOX_TYPES } from 'dashboard/helper/inbox';
 import { getInboxIconByType } from 'dashboard/helper/inbox';
 import Editor from 'dashboard/components-next/Editor/Editor.vue';
+import YCloudSettingsPage from './settingsPage/ycloud/YCloudSettingsPage.vue';
 
 export default {
   components: {
@@ -55,6 +56,7 @@ export default {
     Editor,
     Avatar,
     AccountHealth,
+    YCloudSettingsPage,
   },
   mixins: [inboxMixin],
   setup() {
@@ -190,6 +192,16 @@ export default {
           {
             key: 'whatsapp-health',
             name: this.$t('INBOX_MGMT.TABS.ACCOUNT_HEALTH'),
+          },
+        ];
+      }
+
+      if (this.isYCloudWhatsAppChannel) {
+        visibleToAllChannelTabs = [
+          ...visibleToAllChannelTabs,
+          {
+            key: 'ycloud_settings',
+            name: this.$t('INBOX_MGMT.TABS.YCLOUD_SETTINGS'),
           },
         ];
       }
@@ -949,6 +961,9 @@ export default {
       </div>
       <div v-if="selectedTabKey === 'whatsapp-health'">
         <AccountHealth :health-data="healthData" />
+      </div>
+      <div v-if="selectedTabKey === 'ycloud_settings'" class="mx-8">
+        <YCloudSettingsPage :inbox="inbox" />
       </div>
     </section>
   </div>

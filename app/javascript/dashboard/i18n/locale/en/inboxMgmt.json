@@ -625,6 +625,7 @@
       "WIDGET_BUILDER": "Widget Builder",
       "BOT_CONFIGURATION": "Bot Configuration",
       "ACCOUNT_HEALTH": "Account Health",
+      "YCLOUD_SETTINGS": "YCloud",
       "CSAT": "CSAT"
     },
     "ACCOUNT_HEALTH": {
