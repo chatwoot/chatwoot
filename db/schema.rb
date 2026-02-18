@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_01_30_061021) do
+ActiveRecord::Schema[7.1].define(version: 2026_02_18_075101) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -589,7 +589,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_30_061021) do
     t.bigint "account_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "contacts_count"
+    t.integer "contacts_count", default: 0, null: false
     t.index ["account_id", "domain"], name: "index_companies_on_account_and_domain", unique: true, where: "(domain IS NOT NULL)"
     t.index ["account_id"], name: "index_companies_on_account_id"
     t.index ["name", "account_id"], name: "index_companies_on_name_and_account_id"
@@ -1124,6 +1124,22 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_30_061021) do
     t.index ["user_id"], name: "index_reporting_events_on_user_id"
   end
 
+  create_table "reporting_events_rollups", force: :cascade do |t|
+    t.integer "account_id", null: false
+    t.date "date", null: false
+    t.string "dimension_type", null: false
+    t.bigint "dimension_id", null: false
+    t.string "metric", null: false
+    t.bigint "count", default: 0, null: false
+    t.float "sum_value", default: 0.0, null: false
+    t.float "sum_value_business_hours", default: 0.0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "date", "dimension_type", "dimension_id", "metric"], name: "index_rollup_unique_key", unique: true
+    t.index ["account_id", "dimension_type", "date"], name: "index_rollup_summary"
+    t.index ["account_id", "metric", "date"], name: "index_rollup_timeseries"
+  end
+
   create_table "sla_events", force: :cascade do |t|
     t.bigint "applied_sla_id", null: false
     t.bigint "conversation_id", null: false
@@ -1250,6 +1266,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_30_061021) do
     t.integer "webhook_type", default: 0
     t.jsonb "subscriptions", default: ["conversation_status_changed", "conversation_updated", "conversation_created", "contact_created", "contact_updated", "message_created", "message_updated", "webwidget_triggered"]
     t.string "name"
+    t.string "secret"
     t.index ["account_id", "url"], name: "index_webhooks_on_account_id_and_url", unique: true
   end
 
