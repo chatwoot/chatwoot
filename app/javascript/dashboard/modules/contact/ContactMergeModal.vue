@@ -1,91 +1,101 @@
-<script>
+<script setup>
+import { ref, watch } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useStore } from 'vuex';
 import { useAlert, useTrack } from 'dashboard/composables';
+import { useMapGetter } from 'dashboard/composables/store';
+
 import MergeContact from 'dashboard/modules/contact/components/MergeContact.vue';
-
+import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import ContactAPI from 'dashboard/api/contacts';
-
-import { mapGetters } from 'vuex';
 import { CONTACTS_EVENTS } from '../../helper/AnalyticsHelper/events';
 
-export default {
-  components: { MergeContact },
-  props: {
-    show: {
-      type: Boolean,
-      default: false,
-    },
-    primaryContact: {
-      type: Object,
-      required: true,
-    },
+const props = defineProps({
+  primaryContact: {
+    type: Object,
+    required: true,
   },
-  emits: ['close', 'update:show'],
-  data() {
-    return {
-      isSearching: false,
-      searchResults: [],
-    };
-  },
-  computed: {
-    ...mapGetters({
-      uiFlags: 'contacts/getUIFlags',
-    }),
-    localShow: {
-      get() {
-        return this.show;
-      },
-      set(value) {
-        this.$emit('update:show', value);
-      },
-    },
-  },
+});
 
-  methods: {
-    onClose() {
-      this.$emit('close');
-    },
-    async onContactSearch(query) {
-      this.isSearching = true;
-      this.searchResults = [];
+const emit = defineEmits(['close']);
 
-      try {
-        const {
-          data: { payload },
-        } = await ContactAPI.search(query);
-        this.searchResults = payload.filter(
-          contact => contact.id !== this.primaryContact.id
-        );
-      } catch (error) {
-        useAlert(this.$t('MERGE_CONTACTS.SEARCH.ERROR_MESSAGE'));
-      } finally {
-        this.isSearching = false;
-      }
-    },
-    async onMergeContacts(parentContactId) {
-      useTrack(CONTACTS_EVENTS.MERGED_CONTACTS);
-      try {
-        await this.$store.dispatch('contacts/merge', {
-          childId: this.primaryContact.id,
-          parentId: parentContactId,
-        });
-        useAlert(this.$t('MERGE_CONTACTS.FORM.SUCCESS_MESSAGE'));
-        this.onClose();
-      } catch (error) {
-        useAlert(this.$t('MERGE_CONTACTS.FORM.ERROR_MESSAGE'));
-      }
-    },
-  },
+const { t } = useI18n();
+const store = useStore();
+const uiFlags = useMapGetter('contacts/getUIFlags');
+
+const dialogRef = ref(null);
+const isSearching = ref(false);
+const searchResults = ref([]);
+
+watch(
+  () => props.primaryContact.id,
+  () => {
+    isSearching.value = false;
+    searchResults.value = [];
+  }
+);
+
+const open = () => {
+  dialogRef.value?.open();
+};
+
+const close = () => {
+  dialogRef.value?.close();
+};
+
+defineExpose({ open, close });
+
+const onClose = () => {
+  close();
+  emit('close');
+};
+
+const onContactSearch = async query => {
+  isSearching.value = true;
+  searchResults.value = [];
+
+  try {
+    const {
+      data: { payload },
+    } = await ContactAPI.search(query);
+    searchResults.value = payload.filter(
+      contact => contact.id !== props.primaryContact.id
+    );
+  } catch (error) {
+    useAlert(t('MERGE_CONTACTS.SEARCH.ERROR_MESSAGE'));
+  } finally {
+    isSearching.value = false;
+  }
+};
+
+const onMergeContacts = async parentContactId => {
+  useTrack(CONTACTS_EVENTS.MERGED_CONTACTS);
+  try {
+    await store.dispatch('contacts/merge', {
+      childId: props.primaryContact.id,
+      parentId: parentContactId,
+    });
+    useAlert(t('MERGE_CONTACTS.FORM.SUCCESS_MESSAGE'));
+    close();
+    emit('close');
+  } catch (error) {
+    useAlert(t('MERGE_CONTACTS.FORM.ERROR_MESSAGE'));
+  }
 };
 </script>
 
 <template>
-  <woot-modal v-model:show="localShow" :on-close="onClose">
-    <woot-modal-header
-      :header-title="$t('MERGE_CONTACTS.TITLE')"
-      :header-content="$t('MERGE_CONTACTS.DESCRIPTION')"
-    />
-
+  <Dialog
+    ref="dialogRef"
+    type="edit"
+    width="2xl"
+    :title="$t('MERGE_CONTACTS.TITLE')"
+    :description="$t('MERGE_CONTACTS.DESCRIPTION')"
+    :show-cancel-button="false"
+    :show-confirm-button="false"
+  >
     <MergeContact
+      :key="primaryContact.id"
       :primary-contact="primaryContact"
       :is-searching="isSearching"
       :is-merging="uiFlags.isMerging"
@@ -94,5 +104,5 @@ export default {
       @cancel="onClose"
       @submit="onMergeContacts"
     />
-  </woot-modal>
+  </Dialog>
 </template>
