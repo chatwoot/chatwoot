@@ -3,8 +3,6 @@
 module Crm
   module Zoho
     class TokenRefresher
-      OAUTH_TOKEN_URL = 'https://accounts.zoho.eu/oauth/v2/token'
-
       # Scopes necesarios para Zoho CRM
       DEFAULT_SCOPES = [
         'ZohoCRM.org.ALL',
@@ -27,7 +25,7 @@ module Crm
 
       def refresh!
         response = HTTParty.post(
-          OAUTH_TOKEN_URL,
+          "#{ENV.fetch('ZOHO_API_DOMAIN', 'https://accounts.zoho.com')}/oauth/v2/token",
           query: build_query_params,
           headers: { 'Content-Type' => 'application/x-www-form-urlencoded' }
         )
