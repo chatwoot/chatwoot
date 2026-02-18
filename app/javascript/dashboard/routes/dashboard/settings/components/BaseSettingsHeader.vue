@@ -84,29 +84,41 @@ const helpURL = getHelpUrlForFeature(props.featureName);
     </div>
   </div>
   <div
-    v-if="searchPlaceholder || slots.actions"
-    class="gap-3 flex justify-between sm:mt-4"
+    v-if="searchPlaceholder || slots.actions || slots.tabs"
+    class="gap-3 flex justify-between sm:mt-4 min-w-0"
   >
-    <Input
-      v-if="searchPlaceholder"
-      v-model="searchQuery"
-      :placeholder="searchPlaceholder"
-      class="group w-56 min-w-0 hidden sm:flex [&>input]:ltr:!pl-8 [&>input]:rtl:!pr-8 [&>input]:!rounded-[0.625rem]"
-      size="sm"
-      type="search"
+    <div
+      v-if="slots.tabs || searchPlaceholder"
+      class="flex items-center gap-3"
+      :class="{
+        'hidden sm:flex': !slots.tabs,
+      }"
     >
-      <template #prefix>
-        <Icon
-          icon="i-lucide-search"
-          class="absolute top-1/2 -translate-y-1/2 text-n-slate-11 group-focus-within:text-n-brand size-3.5 ltr:left-2.5 rtl:right-2.5"
-        />
-      </template>
-    </Input>
-    <div class="flex items-center gap-3">
+      <slot name="tabs" />
+      <Input
+        v-if="searchPlaceholder"
+        v-model="searchQuery"
+        :placeholder="searchPlaceholder"
+        class="group w-56 min-w-0 hidden sm:flex [&>input]:ltr:!pl-8 [&>input]:rtl:!pr-8 [&>input]:!rounded-[0.625rem]"
+        size="sm"
+        type="search"
+      >
+        <template #prefix>
+          <Icon
+            icon="i-lucide-search"
+            class="absolute top-1/2 -translate-y-1/2 text-n-slate-11 group-focus-within:text-n-brand size-3.5 ltr:left-2.5 rtl:right-2.5"
+          />
+        </template>
+      </Input>
+    </div>
+    <div
+      class="flex items-center gap-3 min-w-0"
+      :class="{ 'flex-row-reverse sm:flex-row': !slots.tabs }"
+    >
       <slot name="count" />
       <div
         v-if="slots.count"
-        class="w-px h-3 rounded-lg bg-n-weak ltr:ml-1 ltr:mr-2 rtl:ml-2 rtl:mr-1"
+        class="w-px h-3 rounded-lg bg-n-weak ltr:ml-1 ltr:mr-2 rtl:ml-2 rtl:mr-1 flex-shrink-0"
       />
       <slot name="actions" />
     </div>

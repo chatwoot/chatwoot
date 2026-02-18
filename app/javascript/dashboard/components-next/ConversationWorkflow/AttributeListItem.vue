@@ -35,7 +35,7 @@ const attributeIcon = computed(() => {
 </script>
 
 <template>
-  <div class="flex flex-col py-4">
+  <div class="flex flex-col py-4 min-w-0">
     <div class="flex justify-between flex-row items-center gap-4 min-w-0">
       <div class="flex items-center gap-4 min-w-0">
         <div
@@ -43,9 +43,9 @@ const attributeIcon = computed(() => {
         >
           <Icon :icon="attributeIcon" class="size-4 text-n-slate-11" />
         </div>
-        <div class="flex flex-col gap-1.5 items-start min-w-0">
-          <div class="flex items-center gap-2">
-            <h4 class="text-heading-3 truncate text-n-slate-12">
+        <div class="flex flex-col gap-1.5 items-start min-w-0 overflow-hidden">
+          <div class="flex items-center gap-2 min-w-0">
+            <h4 class="text-heading-3 truncate text-n-slate-12 min-w-0">
               {{ attribute.label }}
             </h4>
             <div class="flex items-center gap-1.5">

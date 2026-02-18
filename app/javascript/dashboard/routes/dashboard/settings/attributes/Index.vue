@@ -174,9 +174,16 @@ const filteredAttributes = computed(() => {
         feature-name="custom_attributes"
       >
         <template v-if="attributes?.length" #count>
-          <span class="text-body-main text-n-slate-11">
+          <span class="text-body-main text-n-slate-11 truncate min-w-0">
             {{ $t('ATTRIBUTES_MGMT.COUNT', { n: attributes.length }) }}
           </span>
+        </template>
+        <template #tabs>
+          <TabBar
+            :tabs="tabsForTabBar"
+            :initial-active-tab="selectedTabIndex"
+            @tab-changed="onClickTabChange"
+          />
         </template>
         <template #actions>
           <Button
@@ -189,11 +196,6 @@ const filteredAttributes = computed(() => {
     </template>
     <template #body>
       <div class="flex flex-col gap-4">
-        <TabBar
-          :tabs="tabsForTabBar"
-          :initial-active-tab="selectedTabIndex"
-          @tab-changed="onClickTabChange"
-        />
         <span
           v-if="!filteredAttributes.length && searchQuery"
           class="flex-1 flex items-center justify-center py-20 text-center text-body-main !text-base text-n-slate-11"
