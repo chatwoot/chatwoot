@@ -546,7 +546,9 @@ onMounted(() => {
               </div>
 
               <!-- Default Rules Info -->
-              <div class="px-4 py-4 border-t border-n-weak bg-n-slate-2">
+              <div
+                class="px-4 py-4 border-t border-n-weak bg-n-slate-2 rounded-b-xl"
+              >
                 <div class="flex items-start gap-3">
                   <Icon icon="i-lucide-info" class="mt-0.5 text-n-slate-11" />
                   <div>

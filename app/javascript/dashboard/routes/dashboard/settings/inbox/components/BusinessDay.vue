@@ -149,8 +149,8 @@ export default {
 
 <template>
   <tr>
-    <td class="py-3 ltr:pl-4 ltr:pr-3 rtl:pl-3 rtl:pr-4">
-      <div class="flex items-center gap-2">
+    <td class="ltr:pl-4 ltr:pr-3 rtl:pl-3 rtl:pr-4">
+      <div class="flex items-center gap-2 min-h-16">
         <input
           v-model="isDayEnabled"
           name="enable-day"
