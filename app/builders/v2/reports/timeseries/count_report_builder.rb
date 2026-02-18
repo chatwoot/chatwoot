@@ -60,16 +60,7 @@ class V2::Reports::Timeseries::CountReportBuilder < V2::Reports::Timeseries::Bas
   end
 
   def dimension_id_for_rollup
-    case params[:type].to_s
-    when 'account'
-      account.id
-    when 'agent'
-      params[:id].to_i
-    when 'inbox'
-      params[:id].to_i
-    when 'team'
-      params[:id].to_i
-    end
+    params[:type].to_s == 'account' ? account.id : params[:id].to_i
   end
 
   def group_and_aggregate_rollup_counts(rollup_rows)
@@ -82,14 +73,14 @@ class V2::Reports::Timeseries::CountReportBuilder < V2::Reports::Timeseries::Bas
       grouped_data[date_key] += row.count
     end
 
-    grouped_data.map do |date_key, count|
+    results = grouped_data.map do |date_key, count|
       { value: count, timestamp: date_key.in_time_zone(timezone).to_i }
-    end.sort_by { |h| h[:timestamp] }
+    end
+    results.sort_by { |h| h[:timestamp] }
   end
 
   def date_key_for_period(date)
     case group_by
-    when 'day' then date
     when 'week' then date.beginning_of_week(:monday)
     when 'month' then date.beginning_of_month
     when 'year' then date.beginning_of_year
@@ -110,7 +101,6 @@ class V2::Reports::Timeseries::CountReportBuilder < V2::Reports::Timeseries::Bas
 
   def advance_period(date)
     case group_by
-    when 'day' then date + 1.day
     when 'week' then date + 1.week
     when 'month' then date + 1.month
     when 'year' then date + 1.year

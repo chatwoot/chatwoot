@@ -63,50 +63,37 @@ class V2::Reports::Timeseries::AverageReportBuilder < V2::Reports::Timeseries::B
   end
 
   def dimension_id_for_rollup
-    case params[:type].to_s
-    when 'account'
-      account.id
-    when 'agent'
-      params[:id].to_i
-    when 'inbox'
-      params[:id].to_i
-    when 'team'
-      params[:id].to_i
-    end
+    params[:type].to_s == 'account' ? account.id : params[:id].to_i
   end
 
   def group_and_aggregate_rollup(rollup_rows)
-    grouped_data = {}
+    grouped_data = aggregate_rollup_rows(rollup_rows)
+
+    results = grouped_data.filter_map do |date_key, data|
+      next if data[:count].zero?
+
+      { value: data[:sum_value] / data[:count], timestamp: date_key.in_time_zone(timezone).to_i, count: data[:count] }
+    end
+    results.sort_by { |h| h[:timestamp] }
+  end
+
+  def aggregate_rollup_rows(rollup_rows)
     value_col = rollup_value_column
-
-    rollup_rows.each do |row|
-      date_key = case group_by
-                 when 'day'
-                   row.date
-                 when 'week'
-                   row.date.beginning_of_week(:monday)
-                 when 'month'
-                   row.date.beginning_of_month
-                 when 'year'
-                   row.date.beginning_of_year
-                 else
-                   row.date
-                 end
-
+    rollup_rows.each_with_object({}) do |row, grouped_data|
+      date_key = date_key_for_group(row.date)
       grouped_data[date_key] ||= { count: 0, sum_value: 0.0 }
       grouped_data[date_key][:count] += row.count
       grouped_data[date_key][:sum_value] += row.public_send(value_col)
     end
+  end
 
-    grouped_data.each_with_object([]) do |(date_key, data), arr|
-      next if data[:count].zero?
-
-      arr << {
-        value: data[:sum_value] / data[:count],
-        timestamp: date_key.in_time_zone(timezone).to_i,
-        count: data[:count]
-      }
-    end.sort_by { |h| h[:timestamp] }
+  def date_key_for_group(date)
+    case group_by
+    when 'week' then date.beginning_of_week(:monday)
+    when 'month' then date.beginning_of_month
+    when 'year' then date.beginning_of_year
+    else date
+    end
   end
 
   def event_name
