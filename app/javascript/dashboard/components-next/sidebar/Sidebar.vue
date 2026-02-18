@@ -286,7 +286,7 @@ const menuItems = computed(() => {
           children: sortedInboxes.value.map(inbox => ({
             name: `${inbox.name}-${inbox.id}`,
             label: inbox.name,
-            icon: h(ChannelIcon, { inbox, class: 'size-[12px]' }),
+            icon: h(ChannelIcon, { inbox, class: 'size-[16px]' }),
             to: accountScopedRoute('inbox_dashboard', { inbox_id: inbox.id }),
             component: leafProps =>
               h(ChannelLeaf, {
@@ -595,6 +595,16 @@ const menuItems = computed(() => {
           name: 'Settings Teams',
           label: t('SIDEBAR.TEAMS'),
           icon: 'i-lucide-users',
+          activeOn: [
+            'settings_teams_list',
+            'settings_teams_new',
+            'settings_teams_finish',
+            'settings_teams_add_agents',
+            'settings_teams_show',
+            'settings_teams_edit',
+            'settings_teams_edit_members',
+            'settings_teams_edit_finish',
+          ],
           to: accountScopedRoute('settings_teams_list'),
         },
         ...(hasAdvancedAssignment.value
@@ -603,6 +613,15 @@ const menuItems = computed(() => {
                 name: 'Settings Agent Assignment',
                 label: t('SIDEBAR.AGENT_ASSIGNMENT'),
                 icon: 'i-lucide-user-cog',
+                activeOn: [
+                  'assignment_policy_index',
+                  'agent_assignment_policy_index',
+                  'agent_assignment_policy_create',
+                  'agent_assignment_policy_edit',
+                  'agent_capacity_policy_index',
+                  'agent_capacity_policy_create',
+                  'agent_capacity_policy_edit',
+                ],
                 to: accountScopedRoute('assignment_policy_index'),
               },
             ]
@@ -611,6 +630,14 @@ const menuItems = computed(() => {
           name: 'Settings Inboxes',
           label: t('SIDEBAR.INBOXES'),
           icon: 'i-lucide-inbox',
+          activeOn: [
+            'settings_inbox_list',
+            'settings_inbox_show',
+            'settings_inbox_new',
+            'settings_inbox_finish',
+            'settings_inboxes_page_channel',
+            'settings_inboxes_add_agents',
+          ],
           to: accountScopedRoute('settings_inbox_list'),
         },
         {

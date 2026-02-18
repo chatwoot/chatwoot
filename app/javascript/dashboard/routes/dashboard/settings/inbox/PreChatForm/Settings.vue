@@ -8,7 +8,7 @@ import PreChatFields from './PreChatFields.vue';
 import { getPreChatFields } from 'dashboard/helper/preChat';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
-import SettingsSection from 'dashboard/components-next/Settings/SettingsSection.vue';
+import SettingsToggleSection from 'dashboard/components-next/Settings/SettingsToggleSection.vue';
 
 const props = defineProps({
   inbox: {
@@ -94,8 +94,8 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="mx-6 pb-2 pt-8 text-base">
-    <SettingsSection
+  <div class="mx-6">
+    <SettingsToggleSection
       v-model="preChatFormEnabled"
       :header="$t('INBOX_MGMT.PRE_CHAT_FORM.ENABLE.LABEL')"
       :description="$t('INBOX_MGMT.PRE_CHAT_FORM.DESCRIPTION')"
@@ -108,7 +108,7 @@ onMounted(() => {
           "
         />
       </template>
-    </SettingsSection>
+    </SettingsToggleSection>
     <div v-if="preChatFormEnabled" class="flex items-center my-8 py-1">
       <div class="flex-1 h-px bg-n-weak" />
       <span class="text-body-main text-n-slate-11 px-2">
@@ -141,7 +141,7 @@ onMounted(() => {
           </table>
         </div>
       </div>
-      <div class="w-auto my-4">
+      <div class="w-full flex justify-end items-center py-4 mt-2">
         <Button
           type="submit"
           :label="$t('INBOX_MGMT.SETTINGS_POPUP.UPDATE_PRE_CHAT_FORM_SETTINGS')"
