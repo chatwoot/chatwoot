@@ -51,6 +51,7 @@ class ConversationAgent < ApplicationAgent
   end
 
   def messages
+    return playground_messages if Aloo::Current.playground_mode
     return [] unless current_conversation
 
     recent_messages = current_conversation.recent_messages_for_llm(limit: MAX_CONVERSATION_HISTORY)
@@ -144,6 +145,15 @@ class ConversationAgent < ApplicationAgent
     current_assistant&.description.presence ||
       current_conversation&.inbox&.business_name.presence ||
       'our company'
+  end
+
+  def playground_messages
+    history = Aloo::Current.conversation_history
+    return [] if history.blank?
+
+    history.map do |entry|
+      { role: entry[:role].to_sym, content: entry[:content] }
+    end
   end
 
   def feature_gated_tools
