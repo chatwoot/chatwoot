@@ -95,7 +95,8 @@ Rails.application.configure do
   # config.action_mailer.raise_delivery_errors = false
 
   # Set this to appropriate ingress service for which the options are :
-  # :relay for Exim, Postfix, Qmail
+  # :relay for Exim, Postfix, Qmail, or custom HTTP pipelines
+  #   (Cloudflare Email Workers, AWS Lambda, etc.)
   # :mailgun for Mailgun
   # :mandrill for Mandrill
   # :postmark for Postmark
