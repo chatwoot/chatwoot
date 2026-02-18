@@ -11,7 +11,7 @@ namespace :reporting_events_rollup do
     puts ''
 
     print 'Enter Account ID: '
-    account_id = STDIN.gets.chomp
+    account_id = $stdin.gets.chomp
 
     if account_id.blank?
       puts 'Error: Account ID is required'
@@ -30,7 +30,7 @@ namespace :reporting_events_rollup do
 
     # 3. PROMPT FOR UTC OFFSET
     print 'Enter UTC offset (e.g., +5:30, -4, 0): '
-    offset_input = STDIN.gets.chomp
+    offset_input = $stdin.gets.chomp
 
     if offset_input.blank?
       puts 'Error: UTC offset is required'
@@ -39,14 +39,14 @@ namespace :reporting_events_rollup do
 
     # 4. FIND MATCHING TIMEZONES
     matching_zones = ActiveSupport::TimeZone.all.select { |tz| tz.formatted_offset == ActiveSupport::TimeZone[tz.name].formatted_offset }
-                                                .select do |tz|
-      # Normalize input to match formatted_offset (e.g., "+05:30", "-04:00", "+00:00")
-      normalized = offset_input.gsub(/^(?!\+|-)/, '+') # add + if no sign
-      parts = normalized.split(':')
-      hours = parts[0].to_i
-      minutes = (parts[1] || '0').to_i
-      total_seconds = (hours * 3600) + (hours.negative? ? -minutes * 60 : minutes * 60)
-      tz.utc_offset == total_seconds
+                                            .select do |tz|
+                                              # Normalize input to match formatted_offset (e.g., "+05:30", "-04:00", "+00:00")
+                                              normalized = offset_input.gsub(/^(?!\+|-)/, '+') # add + if no sign
+                                              parts = normalized.split(':')
+                                              hours = parts[0].to_i
+                                              minutes = (parts[1] || '0').to_i
+                                              total_seconds = (hours * 3600) + (hours.negative? ? -minutes * 60 : minutes * 60)
+                                              tz.utc_offset == total_seconds
     end
 
     if matching_zones.empty?
@@ -63,7 +63,7 @@ namespace :reporting_events_rollup do
     puts ''
 
     print "Select timezone (1-#{matching_zones.size}): "
-    selection = STDIN.gets.chomp.to_i
+    selection = $stdin.gets.chomp.to_i
 
     if selection < 1 || selection > matching_zones.size
       puts 'Error: Invalid selection'
@@ -95,15 +95,15 @@ namespace :reporting_events_rollup do
 
     # 6. PROMPT FOR DATE RANGE OVERRIDE
     print 'Override date range? (y/N): '
-    override_range = STDIN.gets.chomp.downcase
+    override_range = $stdin.gets.chomp.downcase
 
     if override_range == 'y' || override_range == 'yes'
       print 'Enter start date (YYYY-MM-DD): '
-      start_date_input = STDIN.gets.chomp
+      start_date_input = $stdin.gets.chomp
       start_date = start_date_input.present? ? start_date_input.to_date : discovered_start_date
 
       print 'Enter end date (YYYY-MM-DD): '
-      end_date_input = STDIN.gets.chomp
+      end_date_input = $stdin.gets.chomp
       end_date = end_date_input.present? ? end_date_input.to_date : discovered_end_date
     else
       start_date = discovered_start_date
@@ -115,7 +115,7 @@ namespace :reporting_events_rollup do
 
     # 7. PROMPT FOR DRY RUN
     print 'Dry run? (y/N): '
-    dry_run_input = STDIN.gets.chomp.downcase
+    dry_run_input = $stdin.gets.chomp.downcase
     dry_run = (dry_run_input == 'y' || dry_run_input == 'yes')
     puts ''
 
@@ -146,7 +146,7 @@ namespace :reporting_events_rollup do
     end
 
     print 'Proceed with backfill? (y/N): '
-    confirm = STDIN.gets.chomp.downcase
+    confirm = $stdin.gets.chomp.downcase
 
     unless confirm == 'y' || confirm == 'yes'
       puts 'Backfill cancelled'
