@@ -9,6 +9,7 @@
       "ADMINISTRATOR": "Διαχειριστής",
       "AGENT": "Πράκτορας"
     },
+    "COUNT": "{n} agent | {n} agents",
     "LIST": {
       "404": "Δεν υπάρχουν πράκτορες σε αυτόν τον λογαριασμό",
       "TITLE": "Διαχείριση πρακτόρων της ομάδας σας",
@@ -96,6 +97,8 @@
         "ERROR_MESSAGE": "Αδυναμία σύνδεσης με τον Woot Server, Παρακαλώ προσπαθήστε αργότερα"
       }
     },
+    "SEARCH_PLACEHOLDER": "Αναζήτηση πράκτορων...",
+    "NO_RESULTS": "No agents found matching your search",
     "SEARCH": {
       "NO_RESULTS": "Δεν βρέθηκαν αποτελέσματα."
     },
