@@ -60,6 +60,8 @@ module Aloo
 
       if whatsapp_media_id.present?
         download_from_whatsapp(temp_file)
+      elsif telegram_file_id.present?
+        download_from_telegram(temp_file)
       else
         download_from_storage(temp_file)
       end
@@ -87,6 +89,18 @@ module Aloo
       download_from_storage(temp_file)
     end
 
+    def download_from_telegram(temp_file)
+      channel = message.inbox.channel
+      download_url = channel.get_telegram_file_path(telegram_file_id)
+      raise "Telegram file path is blank for #{telegram_file_id}" if download_url.blank?
+
+      downloaded = Down.download(download_url)
+      IO.copy_stream(downloaded, temp_file)
+    rescue StandardError => e
+      Rails.logger.warn("[Aloo::AudioTranscription] Telegram download failed (#{e.message}), falling back to S3")
+      download_from_storage(temp_file)
+    end
+
     def download_from_storage(temp_file)
       attachment.file.blob.open do |blob_file|
         IO.copy_stream(blob_file, temp_file)
@@ -95,6 +109,10 @@ module Aloo
 
     def whatsapp_media_id
       attachment.meta&.dig('whatsapp_media_id')
+    end
+
+    def telegram_file_id
+      attachment.meta&.dig('telegram_file_id')
     end
 
     def transcription_model
