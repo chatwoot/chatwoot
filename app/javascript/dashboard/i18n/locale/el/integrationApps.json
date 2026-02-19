@@ -3,6 +3,9 @@
     "FETCHING": "Λήψη Indegrations",
     "NO_HOOK_CONFIGURED": "Δεν υπάρχουν {integrationId} integrations ρυθμισμένες σε αυτόν το λογαριασμό.",
     "HEADER": "Εφαρμογές",
+    "COUNT": "{n} integration | {n} integrations",
+    "SEARCH_PLACEHOLDER": "Search...",
+    "NO_RESULTS": "No results found matching your search",
     "STATUS": {
       "ENABLED": "Ενεργό",
       "DISABLED": "Ανενεργό"
@@ -31,6 +34,7 @@
     "LIST": {
       "FETCHING": "Λήψη Integrations",
       "INBOX": "Εισερχόμενα",
+      "ACTIONS": "Ενέργειες",
       "DELETE": {
         "BUTTON_TEXT": "Διαγραφή"
       }
