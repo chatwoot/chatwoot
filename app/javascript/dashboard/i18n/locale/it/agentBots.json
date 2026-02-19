@@ -4,6 +4,9 @@
     "LOADING_EDITOR": "Caricamento editor...",
     "DESCRIPTION": "Gli Agent Bot sono membri virtuali del tuo team: gestiscono le attività di routine, lasciandoti più tempo per ciò che conta. Puoi gestirli da questa pagina o crearne di nuovi con il pulsante “Aggiungi Bot”.",
     "LEARN_MORE": "Informazioni sugli agent bot",
+    "COUNT": "{n} bot | {n} bots",
+    "SEARCH_PLACEHOLDER": "Search bots...",
+    "NO_RESULTS": "No bots found matching your search",
     "GLOBAL_BOT": "System bot",
     "GLOBAL_BOT_BADGE": "System",
     "AVATAR": {
@@ -34,7 +37,8 @@
       "LOADING": "Caricamento bot...",
       "TABLE_HEADER": {
         "DETAILS": "Dettagli Bot",
-        "URL": "URL Webhook"
+        "URL": "URL Webhook",
+        "ACTIONS": "Azioni"
       }
     },
     "DELETE": {
