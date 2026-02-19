@@ -3,8 +3,11 @@
     "HEADER": "Automatizacija",
     "DESCRIPTION": "Automation can replace and streamline existing processes that require manual effort, such as adding labels and assigning conversations to the most suitable agent. This allows the team to focus on their strengths while reducing time spent on routine tasks.",
     "LEARN_MORE": "Learn more about automation",
-    "HEADER_BTN_TXT": "Pridėti automatizavimo taisyklę",
+    "COUNT": "{n} automation | {n} automations",
+    "HEADER_BTN_TXT": "Create Automation",
     "LOADING": "Gaunamos automatizavimo taisyklės",
+    "SEARCH_PLACEHOLDER": "Search automation rules...",
+    "NO_RESULTS": "No automation rules found matching your search",
     "ADD": {
       "TITLE": "Pridėti automatizavimo taisyklę",
       "SUBMIT": "Sukurti",
@@ -42,9 +45,9 @@
     "LIST": {
       "TABLE_HEADER": {
         "NAME": "Vardas",
-        "DESCRIPTION": "Aprašymas",
         "ACTIVE": "Aktyvus",
-        "CREATED_ON": "Sukurta"
+        "CREATED_ON": "Sukurta",
+        "ACTIONS": "Veiksmai"
       },
       "404": "Nerasta jokių automatizavimo taisyklių"
     },
