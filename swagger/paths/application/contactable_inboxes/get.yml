@@ -14,6 +14,24 @@ get:
         type: number
       description: ID of the contact
       required: true
+  x-codeSamples:
+    - lang: python
+      label: "Get contactable inboxes"
+      source: |
+        from chatwoot import ChatwootClient
+
+        client = ChatwootClient(
+            base_url="https://app.chatwoot.com",
+            api_token="your-api-token"
+        )
+
+        inboxes = client.contacts.contactable_inboxes(
+            account_id=1,
+            contact_id=100
+        )
+
+        for item in inboxes:
+            print(item["source_id"], item["inbox"]["name"])
   responses:
     '200':
       description: Success
