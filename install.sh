@@ -76,6 +76,19 @@ warn()    { log "WARN: $*";    echo -e "${YELLOW}[WARN]${NC}    $*"; }
 error()   { log "ERROR: $*";   echo -e "${RED}[ERROR]${NC}   $*"; }
 fatal()   { log "FATAL: $*";   echo -e "${RED}[FATAL]${NC}   $*"; exit 1; }
 
+# Run a command as the chatwoot user with RVM loaded
+run_as_cw() {
+  local rvm_src=""
+  if [[ -f /usr/local/rvm/scripts/rvm ]]; then
+    rvm_src="source /usr/local/rvm/scripts/rvm;"
+  elif [[ -f /etc/profile.d/rvm.sh ]]; then
+    rvm_src="source /etc/profile.d/rvm.sh;"
+  elif [[ -f "${CW_HOME}/.rvm/scripts/rvm" ]]; then
+    rvm_src="source ${CW_HOME}/.rvm/scripts/rvm;"
+  fi
+  sudo -i -u "$CW_USER" bash -c "${rvm_src} $*"
+}
+
 step() {
   STEP_CURRENT=$((STEP_CURRENT + 1))
   echo ""
@@ -563,7 +576,7 @@ install_ruby() {
 
   # Install Ruby + Bundler
   info "Installing Ruby ${RUBY_VERSION} (this takes several minutes)..."
-  sudo -i -u "$CW_USER" bash -lc "
+  run_as_cw "
     rvm autolibs disable
     rvm install 'ruby-${RUBY_VERSION}' --quiet-curl 2>&1 || true
     rvm use ${RUBY_VERSION} --default
@@ -572,7 +585,7 @@ install_ruby() {
 
   # Verify
   local installed_ruby
-  installed_ruby=$(sudo -i -u "$CW_USER" bash -lc "ruby --version" 2>/dev/null || echo "unknown")
+  installed_ruby=$(run_as_cw "ruby --version" 2>/dev/null || echo "unknown")
   if echo "$installed_ruby" | grep -q "${RUBY_VERSION}"; then
     success "Ruby ${RUBY_VERSION} + Bundler ${BUNDLER_VERSION}"
   else
@@ -589,7 +602,7 @@ clone_or_update_repo() {
   if [[ -d "$CW_APP" ]]; then
     if [[ "$UPGRADE_MODE" == true ]]; then
       info "Updating existing repository..."
-      sudo -i -u "$CW_USER" bash -lc "
+      run_as_cw "
         cd chatwoot
         git fetch origin
         git checkout '${GIT_BRANCH}' 2>/dev/null || git checkout -b '${GIT_BRANCH}' 'origin/${GIT_BRANCH}'
@@ -601,7 +614,7 @@ clone_or_update_repo() {
     fi
   else
     info "Cloning repository..."
-    sudo -i -u "$CW_USER" bash -lc "
+    run_as_cw "
       git clone '${GIT_REPO}' chatwoot
       cd chatwoot
       git checkout '${GIT_BRANCH}'
@@ -614,7 +627,7 @@ install_app_dependencies() {
   step "Installing application dependencies"
 
   info "bundle install (this takes several minutes)..."
-  sudo -i -u "$CW_USER" bash -lc "
+  run_as_cw "
     cd chatwoot
     bundle config set --local deployment false
     bundle config set --local without 'development test'
@@ -623,7 +636,7 @@ install_app_dependencies() {
   success "Ruby gems installed"
 
   info "pnpm install..."
-  sudo -i -u "$CW_USER" bash -lc "
+  run_as_cw "
     cd chatwoot
     pnpm install --frozen-lockfile 2>/dev/null || pnpm install
   " >> "$LOG_FILE" 2>&1
@@ -739,7 +752,7 @@ ENVFILE
 prepare_directories() {
   step "Preparing application directories"
 
-  sudo -i -u "$CW_USER" bash -lc "
+  run_as_cw "
     cd chatwoot
     mkdir -p tmp/pids tmp/cache tmp/sockets log storage
   " >> "$LOG_FILE" 2>&1
@@ -754,7 +767,7 @@ compile_assets() {
   step "Compiling assets (this takes several minutes)"
 
   info "rake assets:precompile..."
-  sudo -i -u "$CW_USER" bash -lc "
+  run_as_cw "
     cd chatwoot
     RAILS_ENV=production \
     NODE_OPTIONS='--max-old-space-size=4096' \
@@ -779,7 +792,7 @@ run_database_migrations() {
   step "Running database migrations"
 
   info "db:chatwoot_prepare (create + migrate + seed)..."
-  sudo -i -u "$CW_USER" bash -lc "
+  run_as_cw "
     cd chatwoot
     RAILS_ENV=production \
     POSTGRES_STATEMENT_TIMEOUT=600s \
@@ -1071,7 +1084,7 @@ run_status_check() {
   echo -e "  ${CYAN}OS:${NC}         ${PRETTY_NAME:-unknown}"
 
   local ruby_ver node_ver pnpm_ver pg_ver redis_ver cw_ver
-  ruby_ver=$(sudo -i -u "$CW_USER" bash -lc "ruby --version" 2>/dev/null || echo "not installed")
+  ruby_ver=$(run_as_cw "ruby --version" 2>/dev/null || echo "not installed")
   node_ver=$(node --version 2>/dev/null || echo "not installed")
   pnpm_ver=$(pnpm --version 2>/dev/null || echo "not installed")
   pg_ver=$(psql --version 2>/dev/null || echo "not installed")
@@ -1175,7 +1188,7 @@ run_upgrade() {
   compile_assets
 
   step "Running database migrations"
-  sudo -i -u "$CW_USER" bash -lc "
+  run_as_cw "
     cd chatwoot
     RAILS_ENV=production \
     POSTGRES_STATEMENT_TIMEOUT=600s \
