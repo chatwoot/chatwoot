@@ -3,6 +3,9 @@
     "HEADER": "Gelen kutuları",
     "DESCRIPTION": "Kanal, müşterinizin sizinle iletişim kurmak için seçtiği yöntemdir. Gelen kutusu (inbox) ise belirli bir kanal üzerinden gerçekleşen etkileşimleri yönettiğiniz yerdir. Gelen kutusu; e-posta, canlı sohbet ve sosyal medya gibi farklı kaynaklardan gelen iletişimleri içerebilir.",
     "LEARN_MORE": "Learn more about inboxes",
+    "COUNT": "{n} inbox | {n} inboxes",
+    "SEARCH_PLACEHOLDER": "Gelen kutularını ara...",
+    "NO_RESULTS": "No inboxes found matching your search",
     "RECONNECTION_REQUIRED": "Your inbox is disconnected. You won't receive new messages until you reauthorize it.",
     "CLICK_TO_RECONNECT": "Click here to reconnect.",
     "WHATSAPP_REGISTRATION_INCOMPLETE": "WhatsApp Business kaydınız tamamlanmadı. Yeniden bağlanmadan önce lütfen Meta Business Manager'da görünen adınızın (display name) durumunu kontrol edin.",
@@ -575,7 +578,7 @@
           "SUBTITLE": "E-posta başlığında gönderen adı olarak yalnızca yapılandırılmış iş adını kullanın."
         },
         "BUSINESS_NAME": {
-          "BUTTON_TEXT": "+ İş adınızı yapılandırın",
+          "BUTTON_TEXT": "İş adınızı yapılandırın",
           "PLACEHOLDER": "İş adınızı girin",
           "SAVE_BUTTON_TEXT": "Kaydet"
         }
@@ -625,6 +628,8 @@
       "ACCOUNT_HEALTH": "Hesap Sağlığı",
       "CSAT": "CSAT"
     },
+    "CHANNEL_PREFERENCES": "Channel Preferences",
+    "WIDGET_FEATURES": "Widget features",
     "ACCOUNT_HEALTH": {
       "TITLE": "WhatsApp hesabınızı yönetin",
       "DESCRIPTION": "WhatsApp hesap durumunuzu, mesajlaşma limitlerinizi ve kalitesini inceleyin. Gerekirse ayarları güncelleyin veya sorunları çözün",
@@ -758,6 +763,7 @@
       "LABEL": "Yardım Merkezi",
       "PLACEHOLDER": "Yardım Merkezi Seçin",
       "SELECT_PLACEHOLDER": "Yardım Merkezi Seçin",
+      "NONE": "Hiç",
       "REMOVE": "Yardım Merkezini Kaldır",
       "SUB_TEXT": "Yardım Merkezini gelen kutusuna ekleyin"
     },
@@ -911,9 +917,11 @@
       "UNAVAILABLE_MESSAGE_LABEL": "Ziyaretçiler için uygun değil mesajı",
       "TOGGLE_HELP": "İşletme erişilebilirliğini etkinleştirmek, tüm temsilciler çevrimdışı olsa bile canlı sohbet ekranında mevcut saatleri gösterecektir. Mevcut saatler dışında ziyaretçiler bir mesaj ve ön sohbet formu ile uyarılabilir.",
       "DAY": {
+        "DAY": "Gün",
+        "AVAILABILITY": "Uygunluk",
+        "HOURS": "Saat",
         "ENABLE": "Bu gün için uygunluğu etkinleştir",
         "UNAVAILABLE": "Uygun Değil",
-        "HOURS": "saat",
         "VALIDATION_ERROR": "Başlangıç saati kapanış saatinden önce olmalıdır.",
         "CHOOSE": "Seçin"
       },
@@ -1020,11 +1028,12 @@
           "IN_A_DAY": "Bir gün içinde"
         },
         "WIDGET_COLOR_LABEL": "Widget Rengi",
-        "WIDGET_BUBBLE_POSITION_LABEL": "Widget Kabarcık Pozisyonu",
-        "WIDGET_BUBBLE_TYPE_LABEL": "Widget Kabarcık Türü",
+        "WIDGET_BUBBLE": "Bubble",
+        "WIDGET_BUBBLE_POSITION_LABEL": "Position:",
+        "WIDGET_BUBBLE_TYPE_LABEL": "Tip:",
         "WIDGET_BUBBLE_LAUNCHER_TITLE": {
           "DEFAULT": "Sohbet et",
-          "LABEL": "Widget Kabarcık Başlatıcı Başlığı",
+          "LABEL": "Launcher Title",
           "PLACE_HOLDER": "Sohbet et"
         },
         "UPDATE": {
@@ -1049,7 +1058,7 @@
       },
       "WIDGET_SCREEN": {
         "DEFAULT": "Varsayılan",
-        "CHAT": "Sohbet"
+        "CHAT": "Chat mode"
       },
       "REPLY_TIME": {
         "IN_A_FEW_MINUTES": "Genellikle birkaç dakika içinde yanıt verir",
