@@ -4,6 +4,7 @@ class Conversations::AutoAssignService
   MIN_CONTENT_LENGTH = 60
   MIN_CONTENT_LENGTH_MULTI = 30
   MIN_MESSAGES_MULTI = 2
+  MAX_AUTO_LABELS = 2
 
   attr_reader :conversation, :account, :labels, :teams
 
@@ -51,7 +52,7 @@ class Conversations::AutoAssignService
 
   def apply_suggestions(suggestions)
     suggestions = suggestions.with_indifferent_access if suggestions.is_a?(Hash)
-    apply_label(suggestions['label_id']) if suggestions['label_id'].present? && should_apply_label?
+    apply_labels(suggestions['label_ids']) if suggestions['label_ids'].present? && should_apply_label?
     apply_team(suggestions['team_id']) if suggestions['team_id'].present? && should_apply_team?
   end
 
@@ -79,7 +80,7 @@ class Conversations::AutoAssignService
   end
 
   def should_apply_label?
-    conversation.label_list.empty?
+    conversation.label_list.size < MAX_AUTO_LABELS
   end
 
   def should_apply_team?
@@ -105,12 +106,20 @@ class Conversations::AutoAssignService
     result.content
   end
 
-  def apply_label(label_id)
-    label = account.labels.find_by(id: label_id)
-    return unless label
+  def apply_labels(label_ids)
+    label_ids = Array(label_ids).compact.uniq
+    return if label_ids.empty?
 
-    conversation.add_labels([label.title])
-    Rails.logger.info("Auto-labeled conversation #{conversation.id} with: #{label.title}")
+    current_count = conversation.label_list.size
+    slots_available = MAX_AUTO_LABELS - current_count
+    return if slots_available <= 0
+
+    labels_to_add = account.labels.where(id: label_ids.first(slots_available))
+    return if labels_to_add.empty?
+
+    titles = labels_to_add.map(&:title)
+    conversation.add_labels(titles)
+    Rails.logger.info("Auto-labeled conversation #{conversation.id} with: #{titles.join(', ')}")
   end
 
   def apply_team(team_id)

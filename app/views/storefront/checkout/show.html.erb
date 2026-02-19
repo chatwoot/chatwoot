@@ -1,9 +1,12 @@
 <div class="max-w-lg mx-auto px-4 py-6">
-  <%= form_tag storefront_checkout_create_path(@account, token: storefront_token_param), method: :post do %>
+  <%# Page header %>
+  <h2 class="text-base font-semibold text-slate-900 dark:text-white mb-4">Checkout</h2>
+
+  <%= form_tag storefront_checkout_create_path(@account, token: storefront_token_param), method: :post, id: "checkout-form" do %>
 
     <%# Contact Information %>
     <div class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 p-4 mb-4">
-      <h2 class="text-base font-semibold text-slate-900 dark:text-white mb-3">Contact Information</h2>
+      <h3 class="text-base font-semibold text-slate-900 dark:text-white mb-3">Contact Information</h3>
 
       <div class="space-y-3">
         <div>
@@ -27,7 +30,7 @@
 
     <%# Delivery Address %>
     <div class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 p-4 mb-4">
-      <h2 class="text-base font-semibold text-slate-900 dark:text-white mb-3">Delivery Address</h2>
+      <h3 class="text-base font-semibold text-slate-900 dark:text-white mb-3">Delivery Address</h3>
 
       <div class="space-y-3">
         <div>
@@ -62,45 +65,43 @@
       </div>
     </div>
 
-    <%# Order Summary %>
-    <div class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 p-4 mb-6">
-      <h2 class="text-base font-semibold text-slate-900 dark:text-white mb-3">Order Summary</h2>
-
-      <div class="space-y-2">
-        <% @cart_items.each do |item| %>
-          <div class="flex justify-between items-center text-sm">
-            <span class="text-slate-600 dark:text-slate-400">
-              <%= item.quantity %>x <%= item.product.title_en %>
-            </span>
-            <span class="text-slate-900 dark:text-white font-medium">
-              <%= number_with_precision(item.total_price, precision: 2) %> <%= @currency %>
-            </span>
-          </div>
-        <% end %>
-      </div>
-
-      <div class="mt-3 pt-3 border-t border-slate-200 dark:border-slate-700">
-        <div class="flex justify-between items-center">
-          <span class="text-base font-semibold text-slate-900 dark:text-white">Total</span>
-          <span class="text-lg font-bold text-slate-900 dark:text-white">
-            <%= number_with_precision(@cart_subtotal, precision: 2) %> <%= @currency %>
-          </span>
-        </div>
-      </div>
-    </div>
-
-    <%# Place Order button %>
-    <button type="submit"
-            class="w-full py-3.5 px-6 text-base font-semibold text-white bg-woot-500 hover:bg-woot-600 rounded-xl transition-colors active:scale-[0.98]">
-      Place Order & Pay
-    </button>
-
-    <%# Back to cart %>
-    <div class="mt-4 text-center">
-      <a href="<%= storefront_cart_path(@account, token: storefront_token_param) %>"
-         class="text-sm text-woot-500 hover:text-woot-600 dark:text-woot-400 font-medium">
-        Back to Cart
-      </a>
-    </div>
   <% end %>
+
+  <%# Order Summary — compact line-item list %>
+  <div class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 divide-y divide-slate-200 dark:divide-slate-700 mb-4">
+    <div class="p-4">
+      <h3 class="text-base font-semibold text-slate-900 dark:text-white">
+        Order Summary (<%= @cart_items.sum(&:quantity) %>)
+      </h3>
+    </div>
+    <% @cart_items.each do |item| %>
+      <div class="px-4 py-3 flex justify-between items-center text-sm">
+        <span class="text-slate-600 dark:text-slate-400">
+          <%= item.quantity %> &times; <%= item.product.title_en %>
+        </span>
+        <span class="text-slate-900 dark:text-white font-medium whitespace-nowrap">
+          <%= number_with_precision(item.total_price, precision: 2) %> <%= @currency %>
+        </span>
+      </div>
+    <% end %>
+  </div>
+
+  <%# Spacer for sticky footer %>
+  <div class="h-28"></div>
+
+  <%# Sticky checkout footer %>
+  <div class="fixed bottom-0 left-0 right-0 z-40 bg-white dark:bg-slate-800 border-t border-slate-200 dark:border-slate-700 shadow-lg">
+    <div class="max-w-lg mx-auto px-4 py-3">
+      <div class="flex justify-between items-center mb-2">
+        <span class="text-sm text-slate-600 dark:text-slate-400">Total</span>
+        <span class="text-lg font-bold text-slate-900 dark:text-white">
+          <%= number_with_precision(@cart_subtotal, precision: 2) %> <%= @currency %>
+        </span>
+      </div>
+      <button type="submit" form="checkout-form"
+              class="w-full py-3 text-center text-base font-semibold text-white bg-woot-500 hover:bg-woot-600 rounded-xl transition-colors active:scale-[0.98]">
+        Place Order &amp; Pay
+      </button>
+    </div>
+  </div>
 </div>

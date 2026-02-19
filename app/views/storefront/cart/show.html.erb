@@ -1,19 +1,25 @@
 <div class="max-w-lg mx-auto px-4 py-6">
   <% if @cart_items.any? %>
-    <%# Cart items list %>
-    <div class="space-y-3">
+    <%# Cart header with item count %>
+    <h2 class="text-base font-semibold text-slate-900 dark:text-white mb-3" data-cart-header>
+      Cart (<%= @cart_items.sum(&:quantity) %>)
+    </h2>
+
+    <%# Single card container with dividers %>
+    <div class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 divide-y divide-slate-200 dark:divide-slate-700"
+         data-cart-container data-currency="<%= @currency %>">
       <% @cart_items.each do |item| %>
-        <div class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 p-4">
+        <div class="p-4 transition-all duration-300" data-cart-item data-product-id="<%= item.product.id %>" data-unit-price="<%= item.product.price %>">
           <div class="flex gap-3">
-            <%# Product image %>
-            <div class="w-20 h-20 flex-shrink-0 rounded-lg overflow-hidden bg-slate-100 dark:bg-slate-700">
+            <%# Product image — compact thumbnail %>
+            <div class="w-16 h-16 flex-shrink-0 rounded-lg overflow-hidden bg-slate-100 dark:bg-slate-700">
               <% if item.product.image_url.present? %>
                 <img src="<%= item.product.image_url %>"
                      alt="<%= item.product.title_en %>"
                      class="w-full h-full object-cover" />
               <% else %>
                 <div class="w-full h-full flex items-center justify-center">
-                  <svg class="w-8 h-8 text-slate-300 dark:text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg class="w-6 h-6 text-slate-300 dark:text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                           d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
                   </svg>
@@ -26,78 +32,54 @@
               <h3 class="text-sm font-medium text-slate-900 dark:text-white truncate">
                 <%= item.product.title_en %>
               </h3>
-              <p class="text-sm text-slate-500 dark:text-slate-400 mt-0.5">
-                <%= number_with_precision(item.product.price, precision: 2) %> <%= @currency %>
+              <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                <%= number_with_precision(item.product.price, precision: 2) %> <%= @currency %> each
               </p>
 
               <%# Quantity controls + remove %>
               <div class="flex items-center justify-between mt-2">
-                <div class="flex items-center border border-slate-300 dark:border-slate-600 rounded-lg overflow-hidden"
+                <%# Pill stepper — matches product card style %>
+                <div class="flex items-center bg-woot-500 rounded-full"
                      data-cart-qty
-                     data-cart-qty-url="<%= storefront_cart_update_item_path(@account, item.product.id, token: storefront_token_param) %>">
+                     data-cart-qty-url="<%= storefront_cart_update_item_path(@account, item.product.id, token: storefront_token_param) %>"
+                     data-cart-qty-remove-url="<%= storefront_cart_remove_item_path(@account, item.product.id, token: storefront_token_param) %>">
                   <button type="button"
-                          class="w-8 h-8 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700"
+                          class="w-7 h-7 rounded-full text-white flex items-center justify-center hover:bg-woot-600 transition-colors active:scale-95"
                           data-cart-qty-dec>
-                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4" />
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12h-15" />
                     </svg>
                   </button>
-                  <span class="w-8 text-center text-sm font-medium text-slate-900 dark:text-white"
+                  <span class="text-white text-xs font-bold min-w-[1.25rem] text-center"
                         data-cart-qty-display><%= item.quantity %></span>
                   <button type="button"
-                          class="w-8 h-8 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700"
+                          class="w-7 h-7 rounded-full text-white flex items-center justify-center hover:bg-woot-600 transition-colors active:scale-95"
                           data-cart-qty-inc>
-                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                     </svg>
                   </button>
                 </div>
 
-                <%# Remove button %>
-                <%= form_tag storefront_cart_remove_item_path(@account, item.product.id, token: storefront_token_param),
-                             method: :delete, class: 'inline' do %>
-                  <button type="submit"
-                          class="p-1.5 text-slate-400 hover:text-red-500 dark:hover:text-red-400 transition-colors">
-                    <svg class="w-4.5 h-4.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                    </svg>
-                  </button>
-                <% end %>
+                <%# Remove button — AJAX, no form %>
+                <button type="button" data-cart-remove
+                        data-remove-url="<%= storefront_cart_remove_item_path(@account, item.product.id, token: storefront_token_param) %>"
+                        class="p-1.5 text-slate-400 hover:text-red-500 dark:hover:text-red-400 transition-colors">
+                  <svg class="w-4.5 h-4.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                  </svg>
+                </button>
               </div>
             </div>
 
             <%# Line total %>
-            <div class="text-sm font-semibold text-slate-900 dark:text-white whitespace-nowrap">
-              <%= number_with_precision(item.total_price, precision: 2) %> <%= @currency %>
+            <div class="text-sm font-semibold text-slate-900 dark:text-white whitespace-nowrap self-center">
+              <span data-line-total><%= number_with_precision(item.total_price, precision: 2) %></span> <%= @currency %>
             </div>
           </div>
         </div>
       <% end %>
-    </div>
-
-    <%# Totals %>
-    <div class="mt-6 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 p-4">
-      <div class="flex justify-between items-center mb-2">
-        <span class="text-sm text-slate-600 dark:text-slate-400">Subtotal</span>
-        <span class="text-sm text-slate-900 dark:text-white">
-          <%= number_with_precision(@cart_subtotal, precision: 2) %> <%= @currency %>
-        </span>
-      </div>
-      <div class="flex justify-between items-center pt-2 border-t border-slate-200 dark:border-slate-700">
-        <span class="text-base font-semibold text-slate-900 dark:text-white">Total</span>
-        <span class="text-lg font-bold text-slate-900 dark:text-white">
-          <%= number_with_precision(@cart_subtotal, precision: 2) %> <%= @currency %>
-        </span>
-      </div>
-    </div>
-
-    <%# Checkout button %>
-    <div class="mt-6">
-      <a href="<%= storefront_checkout_path(@account, token: storefront_token_param) %>"
-         class="block w-full py-3.5 px-6 text-center text-base font-semibold text-white bg-woot-500 hover:bg-woot-600 rounded-xl transition-colors active:scale-[0.98]">
-        Proceed to Checkout
-      </a>
     </div>
 
     <%# Continue shopping link %>
@@ -108,17 +90,39 @@
       </a>
     </div>
 
+    <%# Spacer for sticky footer %>
+    <div class="h-28"></div>
+
+    <%# Sticky checkout footer %>
+    <div class="fixed bottom-0 left-0 right-0 z-40 bg-white dark:bg-slate-800 border-t border-slate-200 dark:border-slate-700 shadow-lg"
+         data-cart-footer>
+      <div class="max-w-lg mx-auto px-4 py-3">
+        <div class="flex justify-between items-center mb-2">
+          <span class="text-sm text-slate-600 dark:text-slate-400">Total</span>
+          <span class="text-lg font-bold text-slate-900 dark:text-white" data-cart-total>
+            <%= number_with_precision(@cart_subtotal, precision: 2) %> <%= @currency %>
+          </span>
+        </div>
+        <a href="<%= storefront_checkout_path(@account, token: storefront_token_param) %>"
+           class="block w-full py-3 text-center text-base font-semibold text-white bg-woot-500 hover:bg-woot-600 rounded-xl transition-colors active:scale-[0.98]">
+          Proceed to Checkout
+        </a>
+      </div>
+    </div>
+
   <% else %>
     <%# Empty cart %>
     <div class="text-center py-16">
-      <svg class="w-20 h-20 mx-auto text-slate-300 dark:text-slate-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-              d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z" />
-      </svg>
+      <div class="w-20 h-20 mx-auto mb-4 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center">
+        <svg class="w-10 h-10 text-slate-300 dark:text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z" />
+        </svg>
+      </div>
       <h2 class="text-lg font-semibold text-slate-900 dark:text-white mb-2">Your cart is empty</h2>
       <p class="text-sm text-slate-500 dark:text-slate-400 mb-6">Browse products and add items to your cart.</p>
       <a href="<%= storefront_products_path(@account, token: storefront_token_param) %>"
-         class="inline-block py-2.5 px-6 text-sm font-medium text-white bg-woot-500 hover:bg-woot-600 rounded-lg transition-colors">
+         class="inline-block py-2.5 px-6 text-sm font-medium text-white bg-woot-500 hover:bg-woot-600 rounded-xl transition-colors active:scale-[0.98]">
         Browse Products
       </a>
     </div>

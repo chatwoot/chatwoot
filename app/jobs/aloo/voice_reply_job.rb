@@ -111,7 +111,7 @@ module Aloo
       when 'Channel::FacebookPage'
         Facebook::SendOnFacebookService.new(message: message).perform
       when 'Channel::Telegram'
-        ::SendReplyJob.perform_later(message.id)
+        send_telegram_audio(message)
       else
         # For API channels and web widget, message is already saved
         # WebSocket will handle delivery
@@ -155,6 +155,74 @@ module Aloo
         Rails.logger.error("[Aloo::VoiceReplyJob] WhatsApp audio send failed for message #{message.id}: #{response.body}")
         nil
       end
+    end
+
+    # Send audio directly via Telegram sendVoice API, bypassing SendReplyJob
+    # which blocks re-sends due to the source_id guard in Base::SendOnChannelService
+    def send_telegram_audio(message)
+      channel = @conversation.inbox.channel
+      attachment = message.attachments.find_by(file_type: 'audio')
+      return unless attachment
+
+      temp_path = download_telegram_attachment(attachment, message.id)
+      return unless temp_path
+
+      tg_message_id = post_telegram_voice(channel, message, temp_path)
+      message.update!(source_id: tg_message_id) if tg_message_id.present? && message.source_id.blank?
+    ensure
+      cleanup_telegram_temp(temp_path)
+    end
+
+    def post_telegram_voice(channel, message, temp_path)
+      body = telegram_voice_body(channel, message)
+
+      response = File.open(temp_path, 'rb') do |file|
+        HTTParty.post(
+          "#{channel.telegram_api_url}/sendVoice",
+          body: body.merge(voice: file),
+          multipart: true
+        )
+      end
+
+      if response.success?
+        msg_id = response.parsed_response.dig('result', 'message_id')
+        Rails.logger.info("[Aloo::VoiceReplyJob] Telegram voice sent for message #{message.id}, tg_id=#{msg_id}")
+        msg_id
+      else
+        Rails.logger.error("[Aloo::VoiceReplyJob] Telegram voice send failed for message #{message.id}: #{response.body}")
+        nil
+      end
+    end
+
+    def telegram_voice_body(channel, message)
+      body = { chat_id: channel.chat_id(message), reply_to_message_id: channel.reply_to_message_id(message) }
+      biz_id = channel.business_connection_id(message)
+      body[:business_connection_id] = biz_id if biz_id
+      body
+    end
+
+    def download_telegram_attachment(attachment, message_id)
+      temp_dir = Rails.root.join('tmp/uploads', "telegram-voice-#{message_id}")
+      FileUtils.mkdir_p(temp_dir)
+      temp_path = File.join(temp_dir, attachment.file.filename.to_s)
+
+      File.open(temp_path, 'wb') do |file|
+        attachment.file.blob.open do |blob_file|
+          IO.copy_stream(blob_file, file)
+        end
+      end
+
+      temp_path
+    end
+
+    def cleanup_telegram_temp(temp_path)
+      return unless temp_path && File.exist?(temp_path)
+
+      dir = File.dirname(temp_path)
+      File.delete(temp_path)
+      FileUtils.rm_rf(dir) if Dir.empty?(dir)
+    rescue Errno::ENOENT
+      # Already cleaned up
     end
 
     def cleanup_temp_file(path)

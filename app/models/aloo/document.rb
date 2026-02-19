@@ -24,7 +24,7 @@ module Aloo
     # V2: website, text
     validates :source_type, inclusion: { in: Aloo::SUPPORTED_SOURCE_TYPES }
     validates :title, presence: true, if: :available?
-    validates :text_content, presence: true, if: -> { source_type == 'text' }
+    validates :text_content, presence: true, length: { maximum: 50_000 }, if: -> { source_type == 'text' }
     validate :validate_selected_pages_for_website
 
     scope :available, -> { where(status: :available) }
