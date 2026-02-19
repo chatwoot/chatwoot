@@ -5,6 +5,9 @@
     "LOADING": "Obteniendo equipos",
     "DESCRIPTION": "Los equipos te permiten organizar a los agentes en grupos basados en sus responsabilidades. Un agente puede pertenecer a varios equipos. Cuando trabajas en colaboración, puedes asignar conversaciones a equipos específicos.",
     "LEARN_MORE": "Aprende más sobre los equipos",
+    "COUNT": "{n} team | {n} teams",
+    "SEARCH_PLACEHOLDER": "Buscar equipos...",
+    "NO_RESULTS": "No teams found matching your search",
     "LIST": {
       "404": "No hay equipos creados en ésta cuenta.",
       "EDIT_TEAM": "Editar equipo",
@@ -64,8 +67,8 @@
       "ERROR_MESSAGE": "No se han podido guardar los detalles del equipo. Intente nuevamente."
     },
     "AGENTS": {
-      "AGENT": "AGENTE",
-      "EMAIL": "Correo electrónico",
+      "AGENT": "Agente",
+      "EMAIL": "E-mail",
       "BUTTON_TEXT": "Añadir agentes",
       "ADD_AGENTS": "Añadiendo agentes a su equipo...",
       "SELECT": "seleccionar",
