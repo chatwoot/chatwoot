@@ -81,6 +81,24 @@ export const CALENDAR_PERIODS = {
   YEAR: 'year',
 };
 
+export const TIME_COLUMNS = {
+  HOUR: 'hour',
+  HOUR_12: 'hour12',
+  MINUTE: 'minute',
+  SECOND: 'second',
+  PERIOD: 'period',
+};
+
+export const TIME_PERIODS = {
+  AM: 'AM',
+  PM: 'PM',
+};
+
+export const TIME_FORMATS = {
+  H24: '24h',
+  H12: '12h',
+};
+
 // Utility functions for date operations
 export const monthName = currentDate => format(currentDate, 'MMMM');
 export const yearName = currentDate => format(currentDate, 'yyyy');

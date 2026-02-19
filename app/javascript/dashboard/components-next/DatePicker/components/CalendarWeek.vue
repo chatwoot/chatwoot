@@ -1,4 +1,5 @@
 <script setup>
+import { startOfDay } from 'date-fns';
 import {
   monthName,
   yearName,
@@ -28,6 +29,10 @@ const props = defineProps({
   selectingEndDate: Boolean,
   selectedEndDate: Date,
   hoveredEndDate: Date,
+  minDate: {
+    type: Date,
+    default: null,
+  },
 });
 
 const emit = defineEmits([
@@ -41,11 +46,18 @@ const emit = defineEmits([
 const { START_CALENDAR } = CALENDAR_TYPES;
 const { MONTH } = CALENDAR_PERIODS;
 
+const isDayDisabled = day => {
+  if (!props.minDate) return false;
+  return startOfDay(day) < startOfDay(props.minDate);
+};
+
 const emitHoveredEndDate = day => {
+  if (isDayDisabled(day)) return;
   emit('updateHoveredEndDate', day);
 };
 
 const emitSelectDate = day => {
+  if (isDayDisabled(day)) return;
   emit('selectDate', day);
 };
 const onClickPrev = () => {
@@ -108,8 +120,10 @@ const isNextDayInRange = day => {
 
 const dayClasses = day => ({
   'text-n-slate-10 pointer-events-none': !isInCurrentMonth(day),
+  'text-n-slate-10 pointer-events-none opacity-40':
+    isInCurrentMonth(day) && isDayDisabled(day),
   'text-n-slate-12 hover:text-n-slate-12 hover:bg-n-blue-6 dark:hover:bg-n-blue-7':
-    isInCurrentMonth(day),
+    isInCurrentMonth(day) && !isDayDisabled(day),
   'bg-n-brand text-white':
     isSelectedStartOrEndDate(day) && isInCurrentMonth(day),
   'bg-n-blue-4 dark:bg-n-blue-5':

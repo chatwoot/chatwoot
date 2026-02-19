@@ -3,13 +3,13 @@ import { ref, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { getUnixStartOfDay, getUnixEndOfDay } from 'helpers/DateHelper';
 import subDays from 'date-fns/subDays';
-import WootDatePicker from 'dashboard/components/ui/DatePicker/DatePicker.vue';
+import DateRangePicker from 'dashboard/components-next/DatePicker/DateRangePicker.vue';
 import ToggleSwitch from 'dashboard/components-next/switch/Switch.vue';
 import {
   generateReportURLParams,
   parseReportURLParams,
 } from '../helpers/reportFilterHelper';
-import { DATE_RANGE_TYPES } from 'dashboard/components/ui/DatePicker/helpers/DatePickerHelper';
+import { DATE_RANGE_TYPES } from 'dashboard/components-next/DatePicker/helpers/DatePickerHelper.js';
 
 defineProps({
   disabled: {
@@ -91,7 +91,7 @@ onMounted(() => {
     :class="{ 'pointer-events-none opacity-50': disabled }"
   >
     <div class="flex flex-col flex-wrap items-start gap-2 md:flex-row">
-      <WootDatePicker
+      <DateRangePicker
         v-model:date-range="customDateRange"
         v-model:range-type="selectedDateRange"
         @date-range-changed="onDateRangeChange"

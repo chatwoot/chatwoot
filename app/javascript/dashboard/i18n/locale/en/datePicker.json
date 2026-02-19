@@ -5,6 +5,11 @@
     "WEEK_NUMBER": "Week #{weekNumber}",
     "APPLY_BUTTON": "Apply",
     "CLEAR_BUTTON": "Clear",
+    "HOUR": "Hour",
+    "MINUTE": "Min",
+    "SECOND": "Sec",
+    "FORMAT_12H": "12h",
+    "FORMAT_24H": "24h",
     "DATE_RANGE_INPUT": {
       "START": "Start Date",
       "END": "End Date"

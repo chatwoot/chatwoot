@@ -211,9 +211,6 @@ importers:
       vue-chartjs:
         specifier: 5.3.1
         version: 5.3.1(chart.js@4.4.4)(vue@3.5.12(typescript@5.6.2))
-      vue-datepicker-next:
-        specifier: ^1.0.3
-        version: 1.0.3(vue@3.5.12(typescript@5.6.2))
       vue-dompurify-html:
         specifier: ^5.1.0
         version: 5.1.0(vue@3.5.12(typescript@5.6.2))
@@ -2041,9 +2038,6 @@ packages:
   date-fns@2.30.0:
     resolution: {integrity: sha512-fnULvOpxnC5/Vg3NCiWelDsLiUc9bRwAPs/+LfTLNvetFCtCTN+yQz15C/fs4AwX1R9K5GLtLfn8QW+dWisaAw==}
     engines: {node: '>=0.11'}
-
-  date-format-parse@0.2.7:
-    resolution: {integrity: sha512-/+lyMUKoRogMuTeOVii6lUwjbVlesN9YRYLzZT/g3TEZ3uD9QnpjResujeEqUW+OSNbT7T1+SYdyEkTcRv+KDQ==}
 
   debug@2.6.9:
     resolution: {integrity: sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==}
@@ -4589,11 +4583,6 @@ packages:
   vue-component-type-helpers@2.1.2:
     resolution: {integrity: sha512-URuxnrOhO9lUG4LOAapGWBaa/WOLDzzyAbL+uKZqT7RS+PFy0cdXI2mUSh7GaMts6vtHaeVbGk7trd0FPJi65Q==}
 
-  vue-datepicker-next@1.0.3:
-    resolution: {integrity: sha512-Brqjh896BJGVxP7d6tGDsPMu0SDAB8hAdtG7zWF8VIHJB21dk1VB9KgdajD9Y9uXbg+wHN0vmL7sbMPIyehQVQ==}
-    peerDependencies:
-      vue: ^3.0.0
-
   vue-demi@0.13.11:
     resolution: {integrity: sha512-IR8HoEEGM65YY3ZJYAjMlKygDQn25D5ajNFNoKh9RSDMQtlzCxtfQjdQgv9jjK+m3377SsJXY8ysq8kLCZL25A==}
     engines: {node: '>=12'}
@@ -6751,8 +6740,6 @@ snapshots:
   date-fns@2.30.0:
     dependencies:
       '@babel/runtime': 7.26.7
-
-  date-format-parse@0.2.7: {}
 
   debug@2.6.9:
     dependencies:
@@ -9653,11 +9640,6 @@ snapshots:
       vue: 3.5.12(typescript@5.6.2)
 
   vue-component-type-helpers@2.1.2: {}
-
-  vue-datepicker-next@1.0.3(vue@3.5.12(typescript@5.6.2)):
-    dependencies:
-      date-format-parse: 0.2.7
-      vue: 3.5.12(typescript@5.6.2)
 
   vue-demi@0.13.11(vue@3.5.12(typescript@5.6.2)):
     dependencies:

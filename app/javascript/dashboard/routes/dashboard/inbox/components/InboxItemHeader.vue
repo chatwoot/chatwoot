@@ -34,9 +34,6 @@ export default {
     },
   },
   emits: ['next', 'prev'],
-  data() {
-    return { showCustomSnoozeModal: false };
-  },
   computed: {
     ...mapGetters({ meta: 'notifications/getMeta' }),
   },
@@ -50,9 +47,6 @@ export default {
     openSnoozeNotificationModal() {
       const ninja = document.querySelector('ninja-keys');
       ninja.open({ parent: 'snooze_notification' });
-    },
-    hideCustomSnoozeModal() {
-      this.showCustomSnoozeModal = false;
     },
     async snoozeNotification(snoozedUntil) {
       try {
@@ -68,7 +62,7 @@ export default {
     },
     onCmdSnoozeNotification(snoozeType) {
       if (snoozeType === wootConstants.SNOOZE_OPTIONS.UNTIL_CUSTOM_TIME) {
-        this.showCustomSnoozeModal = true;
+        this.$refs.snoozeModalRef?.open();
       } else if (typeof snoozeType === 'number') {
         this.snoozeNotification(snoozeType);
       } else {
@@ -77,7 +71,6 @@ export default {
       }
     },
     scheduleCustomSnooze(customSnoozeTime) {
-      this.showCustomSnoozeModal = false;
       if (customSnoozeTime) {
         const snoozedUntil = getUnixTime(customSnoozeTime) || null;
         this.snoozeNotification(snoozedUntil);
@@ -147,14 +140,9 @@ export default {
         @click="deleteNotification"
       />
     </div>
-    <woot-modal
-      v-model:show="showCustomSnoozeModal"
-      :on-close="hideCustomSnoozeModal"
-    >
-      <CustomSnoozeModal
-        @close="hideCustomSnoozeModal"
-        @choose-time="scheduleCustomSnooze"
-      />
-    </woot-modal>
+    <CustomSnoozeModal
+      ref="snoozeModalRef"
+      @choose-time="scheduleCustomSnooze"
+    />
   </div>
 </template>

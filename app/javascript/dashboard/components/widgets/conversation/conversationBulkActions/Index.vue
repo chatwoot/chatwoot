@@ -65,7 +65,6 @@ export default {
       showLabelActions: false,
       showTeamsList: false,
       popoverPositions: {},
-      showCustomTimeSnoozeModal: false,
     };
   },
   mounted() {
@@ -99,7 +98,7 @@ export default {
   methods: {
     onCmdSnoozeConversation(snoozeType) {
       if (snoozeType === wootConstants.SNOOZE_OPTIONS.UNTIL_CUSTOM_TIME) {
-        this.showCustomTimeSnoozeModal = true;
+        this.$refs.snoozeModalRef?.open();
       } else if (typeof snoozeType === 'number') {
         this.updateConversations('snoozed', snoozeType);
       } else {
@@ -113,13 +112,9 @@ export default {
       this.updateConversations('resolved', null);
     },
     customSnoozeTime(customSnoozedTime) {
-      this.showCustomTimeSnoozeModal = false;
       if (customSnoozedTime) {
         this.updateConversations('snoozed', getUnixTime(customSnoozedTime));
       }
-    },
-    hideCustomSnoozeModal() {
-      this.showCustomTimeSnoozeModal = false;
     },
     selectAll(e) {
       this.$emit('selectAllConversations', e.target.checked);
@@ -251,15 +246,7 @@ export default {
     <div v-if="allConversationsSelected" class="bulk-action__alert">
       {{ $t('BULK_ACTION.ALL_CONVERSATIONS_SELECTED_ALERT') }}
     </div>
-    <woot-modal
-      v-model:show="showCustomTimeSnoozeModal"
-      :on-close="hideCustomSnoozeModal"
-    >
-      <CustomSnoozeModal
-        @close="hideCustomSnoozeModal"
-        @choose-time="customSnoozeTime"
-      />
-    </woot-modal>
+    <CustomSnoozeModal ref="snoozeModalRef" @choose-time="customSnoozeTime" />
   </div>
 </template>
 

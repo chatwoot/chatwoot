@@ -14,13 +14,13 @@ import {
 import FilterButton from 'dashboard/components/ui/Dropdown/DropdownButton.vue';
 import ActiveFilterChip from '../Filters/v3/ActiveFilterChip.vue';
 import AddFilterChip from '../Filters/v3/AddFilterChip.vue';
-import WootDatePicker from 'dashboard/components/ui/DatePicker/DatePicker.vue';
+import DateRangePicker from 'dashboard/components-next/DatePicker/DateRangePicker.vue';
 import {
   parseReportURLParams,
   parseFilterURLParams,
   generateCompleteURLParams,
 } from '../../helpers/reportFilterHelper';
-import { DATE_RANGE_TYPES } from 'dashboard/components/ui/DatePicker/helpers/DatePickerHelper';
+import { DATE_RANGE_TYPES } from 'dashboard/components-next/DatePicker/helpers/DatePickerHelper.js';
 
 const props = defineProps({
   showTeamFilter: {
@@ -254,7 +254,7 @@ onMounted(() => {
 
 <template>
   <div class="flex flex-col flex-wrap w-full gap-3 md:flex-row">
-    <WootDatePicker
+    <DateRangePicker
       v-model:date-range="customDateRange"
       v-model:range-type="selectedDateRange"
       @date-range-changed="onDateRangeChange"

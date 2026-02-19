@@ -13,7 +13,7 @@ import CustomSnoozeModal from 'dashboard/components/CustomSnoozeModal.vue';
 const store = useStore();
 const getters = useStoreGetters();
 const { t } = useI18n();
-const showCustomSnoozeModal = ref(false);
+const snoozeModalRef = ref(null);
 
 const selectedChat = computed(() => getters.getSelectedChat.value);
 const contextMenuChatId = computed(() => getters.getContextMenuChatId.value);
@@ -30,7 +30,7 @@ const toggleStatus = async (status, snoozedUntil) => {
 
 const onCmdSnoozeConversation = snoozeType => {
   if (snoozeType === wootConstants.SNOOZE_OPTIONS.UNTIL_CUSTOM_TIME) {
-    showCustomSnoozeModal.value = true;
+    snoozeModalRef.value?.open();
   } else if (typeof snoozeType === 'number') {
     toggleStatus(wootConstants.STATUS_TYPE.SNOOZED, snoozeType);
   } else {
@@ -42,7 +42,7 @@ const onCmdSnoozeConversation = snoozeType => {
 };
 
 const chooseSnoozeTime = customSnoozeTime => {
-  showCustomSnoozeModal.value = false;
+  store.dispatch('setContextMenuChatId', null);
   if (customSnoozeTime) {
     toggleStatus(
       wootConstants.STATUS_TYPE.SNOOZED,
@@ -51,24 +51,9 @@ const chooseSnoozeTime = customSnoozeTime => {
   }
 };
 
-const hideCustomSnoozeModal = () => {
-  // if we select custom snooze and the custom snooze modal is open
-  // Then if the custom snooze modal is closed then set the context menu chat id to null
-  store.dispatch('setContextMenuChatId', null);
-  showCustomSnoozeModal.value = false;
-};
-
 useEmitter(CMD_SNOOZE_CONVERSATION, onCmdSnoozeConversation);
 </script>
 
 <template>
-  <woot-modal
-    v-model:show="showCustomSnoozeModal"
-    :on-close="hideCustomSnoozeModal"
-  >
-    <CustomSnoozeModal
-      @close="hideCustomSnoozeModal"
-      @choose-time="chooseSnoozeTime"
-    />
-  </woot-modal>
+  <CustomSnoozeModal ref="snoozeModalRef" @choose-time="chooseSnoozeTime" />
 </template>
