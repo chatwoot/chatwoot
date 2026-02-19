@@ -5,6 +5,26 @@ summary: Add Labels
 security:
   - userApiKey: []
 description: Add labels to a conversation. Note that this API would overwrite the existing list of labels associated to the conversation.
+x-codeSamples:
+  - lang: python
+    label: "Add labels to conversation"
+    source: |
+      from chatwoot import ChatwootClient
+
+      client = ChatwootClient(
+          base_url="https://app.chatwoot.com",
+          api_token="your-api-token"
+      )
+
+      # Note: this overwrites existing labels
+      labels = client.conversations.labels.add(
+          account_id=1,
+          conversation_id=42,
+          labels=["support", "billing"]
+      )
+
+      print(labels)
+      # ['support', 'billing']
 requestBody:
   required: true
   content:

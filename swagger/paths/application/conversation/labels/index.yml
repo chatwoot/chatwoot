@@ -5,6 +5,24 @@ summary: List Labels
 security:
   - userApiKey: []
 description: Lists all the labels of a conversation
+x-codeSamples:
+  - lang: python
+    label: "List conversation labels"
+    source: |
+      from chatwoot import ChatwootClient
+
+      client = ChatwootClient(
+          base_url="https://app.chatwoot.com",
+          api_token="your-api-token"
+      )
+
+      labels = client.conversations.labels.list(
+          account_id=1,
+          conversation_id=42
+      )
+
+      print(labels)
+      # ['support', 'billing', 'urgent']
 responses:
   '200':
     description: Success
