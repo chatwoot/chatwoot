@@ -5,6 +5,22 @@ summary: Remove an Agent from Team
 description: Remove an Agent from Team
 security:
   - userApiKey: []
+x-codeSamples:
+  - lang: python
+    label: "Remove agents from team"
+    source: |
+      from chatwoot import ChatwootClient
+
+      client = ChatwootClient(
+          base_url="https://app.chatwoot.com",
+          api_token="your-api-token"
+      )
+
+      client.teams.agents.remove(
+          account_id=1,
+          team_id=5,
+          agent_ids=[10]
+      )
 requestBody:
   required: true
   content:
