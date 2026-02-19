@@ -676,23 +676,49 @@ rvm cleanup all 2>/dev/null || true
     fatal "Ruby ${RUBY_VERSION} OBLIGATORIO no está activo. Ver ${LOG_FILE}"
   fi
 
-  # ── VERIFICACIÓN DE BUNDLER ──
-  # Bundler viene INTEGRADO en Ruby 3.4.4 como default gem (2.6.7).
-  # Es inseparable de Ruby — eliminarlo rompe RubyGems/gem install.
-  # BUNDLED WITH 2.5.16 en Gemfile.lock es solo informativo;
-  # Bundler 2.x es compatible hacia atrás sin problemas.
+  # ── INSTALAR BUNDLER REQUERIDO POR EL GEMFILE ──
+  # El Gemfile puede especificar una versión exacta de bundler (ej: gem 'bundler', '~> 2.6.6')
+  # Si no la especifica, usamos el bundler que viene con Ruby.
+  local gemfile="${CW_APP}/Gemfile"
+  local required_bundler=""
+
+  if [[ -f "$gemfile" ]]; then
+    # Extraer constraint de bundler del Gemfile (ej: '~> 2.6.6' → instalar última compatible)
+    required_bundler=$(grep -oP "gem ['\"]bundler['\"],\s*['\"]~>\s*\K[0-9.]+" "$gemfile" 2>/dev/null || echo "")
+  fi
+
   local installed_bundler
   installed_bundler=$(run_as_cw "bundle version 2>&1 | grep -oP 'Bundler version \K[\d.]+'" 2>/dev/null || echo "FALLO")
-  local bundler_major
-  bundler_major=$(echo "$installed_bundler" | cut -d'.' -f1)
 
-  if [[ "$bundler_major" -ge $BUNDLER_MIN_VERSION ]] 2>/dev/null; then
-    success "Ruby ${RUBY_VERSION} + Bundler ${installed_bundler} — VERIFICADO"
+  if [[ -n "$required_bundler" ]]; then
+    # Comparar: si el bundler instalado no satisface el requerimiento, instalar el requerido
+    local req_major req_minor
+    req_major=$(echo "$required_bundler" | cut -d'.' -f1)
+    req_minor=$(echo "$required_bundler" | cut -d'.' -f2)
+    local inst_major inst_minor
+    inst_major=$(echo "$installed_bundler" | cut -d'.' -f1)
+    inst_minor=$(echo "$installed_bundler" | cut -d'.' -f2)
+
+    if [[ "$inst_major" -ne "$req_major" ]] || [[ "$inst_minor" -lt "$req_minor" ]] 2>/dev/null; then
+      info "Gemfile requiere bundler ~> ${required_bundler} pero se tiene ${installed_bundler}. Instalando..."
+      run_as_cw "gem install bundler -v '~> ${required_bundler}'" >> "$LOG_FILE" 2>&1
+      installed_bundler=$(run_as_cw "bundle version 2>&1 | grep -oP 'Bundler version \K[\d.]+'" 2>/dev/null || echo "FALLO")
+      success "Bundler actualizado a ${installed_bundler}"
+    else
+      success "Ruby ${RUBY_VERSION} + Bundler ${installed_bundler} — VERIFICADO (satisface ~> ${required_bundler})"
+    fi
   else
-    error "Bundler no funciona. Detectado: ${installed_bundler}"
-    info "Diagnóstico — gem list bundler:"
-    run_as_cw "gem list bundler && which bundle" 2>&1 | tee -a "$LOG_FILE" || true
-    fatal "Bundler no disponible. Ver ${LOG_FILE}"
+    # Sin constraint en Gemfile, solo verificar que bundler funcione
+    local bundler_major
+    bundler_major=$(echo "$installed_bundler" | cut -d'.' -f1)
+    if [[ "$bundler_major" -ge $BUNDLER_MIN_VERSION ]] 2>/dev/null; then
+      success "Ruby ${RUBY_VERSION} + Bundler ${installed_bundler} — VERIFICADO"
+    else
+      error "Bundler no funciona. Detectado: ${installed_bundler}"
+      info "Diagnóstico — gem list bundler:"
+      run_as_cw "gem list bundler && which bundle" 2>&1 | tee -a "$LOG_FILE" || true
+      fatal "Bundler no disponible. Ver ${LOG_FILE}"
+    fi
   fi
 }
 
@@ -742,6 +768,20 @@ git checkout '${GIT_BRANCH}'
 ###############################################################################
 install_app_dependencies() {
   step "Instalando dependencias de la aplicación"
+
+  # Detectar si el Gemfile pide una versión específica de bundler
+  local gemfile="${CW_APP}/Gemfile"
+  local bundler_constraint=""
+  if [[ -f "$gemfile" ]]; then
+    bundler_constraint=$(grep -oP "gem ['\"]bundler['\"],\s*['\"]~>\s*\K[0-9.]+" "$gemfile" 2>/dev/null || echo "")
+  fi
+
+  # Si hay constraint, actualizar BUNDLED WITH en el lockfile para evitar conflictos
+  if [[ -n "$bundler_constraint" ]]; then
+    info "Gemfile requiere bundler ~> ${bundler_constraint}. Preparando lockfile..."
+    # Actualizar el lockfile para que coincida con el bundler instalado
+    run_as_cw "cd chatwoot && bundle update --bundler" >> "$LOG_FILE" 2>&1 || true
+  fi
 
   info "bundle install (esto toma varios minutos)..."
   if ! run_as_cw "
