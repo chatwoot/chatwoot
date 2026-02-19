@@ -16,10 +16,9 @@ set -euo pipefail
 readonly INSTALLER_VERSION="2.0.0"
 readonly CHATWOOT_VERSION="4.11.0"
 
-readonly RUBY_VERSION="3.4.4"
-# Bundler 2.6.7 viene INTEGRADO en Ruby 3.4.4 como default gem.
-# Es inseparable de Ruby — eliminar uno rompe el otro.
-# BUNDLED WITH 2.5.16 en Gemfile.lock es compatible con 2.6.x.
+# RUBY_VERSION se lee dinámicamente de .ruby-version del repo clonado.
+# No se hardcodea aquí — el código fuente manda.
+RUBY_VERSION=""
 readonly BUNDLER_MIN_VERSION=2
 readonly NODE_MAJOR=24
 readonly PNPM_VERSION="10.2.0"
@@ -78,7 +77,7 @@ banner() {
   echo -e "${BOLD}|     Chatwoot v${CHATWOOT_VERSION} — Instalador Dictatorial v${INSTALLER_VERSION}       |${NC}"
   echo -e "${BOLD}+--------------------------------------------------------------+${NC}"
   echo ""
-  echo -e "  ${CYAN}Ruby:${NC}       ${RUBY_VERSION}       ${CYAN}Bundler:${NC}  ${BUNDLER_MIN_VERSION}.x (default gem)"
+  echo -e "  ${CYAN}Ruby:${NC}       (desde .ruby-version)  ${CYAN}Bundler:${NC}  (default gem)"
   echo -e "  ${CYAN}Node.js:${NC}    ${NODE_MAJOR}.x          ${CYAN}pnpm:${NC}     ${PNPM_VERSION}"
   echo -e "  ${CYAN}PostgreSQL:${NC} ${PG_VERSION} + pgvector  ${CYAN}Redis:${NC}    ${REDIS_MIN_VERSION}+"
   echo ""
@@ -538,16 +537,42 @@ ensure_redis_running() {
 }
 
 ###############################################################################
-# PASO 6: RUBY — Via RVM — VERSIÓN EXACTA — Sin tolerancia
+# CREAR USUARIO SISTEMA (debe existir antes de clone_or_update_repo)
 ###############################################################################
-install_ruby() {
-  step "Instalando Ruby ${RUBY_VERSION} via RVM (obligatorio)"
-
-  # ── CREAR USUARIO SISTEMA ──
+ensure_cw_user() {
   if ! id -u "$CW_USER" &>/dev/null; then
     adduser --disabled-password --gecos "" "$CW_USER" >> "$LOG_FILE" 2>&1
     info "Usuario ${CW_USER} creado"
   fi
+}
+
+###############################################################################
+# DETECCIÓN DE VERSIÓN DE RUBY — Lee .ruby-version del repo clonado
+###############################################################################
+detect_ruby_version() {
+  local ruby_version_file="${CW_APP}/.ruby-version"
+
+  if [[ ! -f "$ruby_version_file" ]]; then
+    fatal ".ruby-version no encontrado en ${CW_APP}. El repo debe incluir este archivo."
+  fi
+
+  RUBY_VERSION=$(tr -d '[:space:]' < "$ruby_version_file")
+
+  if [[ -z "$RUBY_VERSION" ]]; then
+    fatal ".ruby-version está vacío en ${CW_APP}"
+  fi
+
+  info "Versión de Ruby requerida por el código: ${RUBY_VERSION} (de .ruby-version)"
+}
+
+###############################################################################
+# RUBY — Via RVM — VERSIÓN EXACTA — Sin tolerancia
+###############################################################################
+install_ruby() {
+  step "Instalando Ruby ${RUBY_VERSION} via RVM (obligatorio)"
+
+  # Usuario ya creado por ensure_cw_user()
+  ensure_cw_user
 
   # ── CONFIRMAR QUE NO HAY RUBY DEL SISTEMA ──
   # Si /usr/bin/ruby existe y NO es de RVM, eliminarlo
@@ -625,6 +650,9 @@ rvm cleanup all 2>/dev/null || true
 ###############################################################################
 clone_or_update_repo() {
   step "Configurando código de la aplicación"
+
+  # Asegurar que el usuario existe antes de clonar (run_as_cw lo necesita)
+  ensure_cw_user
 
   if [[ -d "$CW_APP" ]]; then
     if [[ "$UPGRADE_MODE" == true ]]; then
@@ -1188,11 +1216,12 @@ print_completion() {
 # FLUJO DE UPGRADE
 ###############################################################################
 run_upgrade() {
-  STEP_TOTAL=10
+  STEP_TOTAL=11
 
   info "Iniciando upgrade a Chatwoot v${CHATWOOT_VERSION}..."
   purge_conflicting_software
   clone_or_update_repo
+  detect_ruby_version
   install_system_dependencies
   install_nodejs
   install_ruby
@@ -1225,8 +1254,9 @@ run_install() {
   install_nodejs
   install_postgresql
   install_redis
-  install_ruby
   clone_or_update_repo
+  detect_ruby_version
+  install_ruby
   install_app_dependencies
   configure_environment
   prepare_directories
