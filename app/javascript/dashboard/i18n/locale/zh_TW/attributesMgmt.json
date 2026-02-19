@@ -5,6 +5,9 @@
     "LOADING": "正在取得自訂屬性",
     "DESCRIPTION": "自定義屬性可用於追蹤有關聯絡人或對話的額外詳情，例如訂閱方案或首次購買的日期。您可以添加不同類型的自定義屬性，如文字、清單或數字，以捕捉您所需的特定資訊。",
     "LEARN_MORE": "Learn more about custom attributes",
+    "COUNT": "{n} attribute | {n} attributes",
+    "SEARCH_PLACEHOLDER": "Search attributes...",
+    "NO_RESULTS": "No attributes found matching your search",
     "ATTRIBUTE_MODELS": {
       "CONVERSATION": "對話",
       "CONTACT": "聯絡人"
