@@ -3,6 +3,9 @@
     "FETCHING": "Preuzimanje integracija",
     "NO_HOOK_CONFIGURED": "Nema {integrationId} integracija podešenih na ovom nalogu.",
     "HEADER": "Aplikacije",
+    "COUNT": "{n} integration | {n} integrations",
+    "SEARCH_PLACEHOLDER": "Search...",
+    "NO_RESULTS": "No results found matching your search",
     "STATUS": {
       "ENABLED": "Omogućeno",
       "DISABLED": "Onemogućeno"
@@ -31,6 +34,7 @@
     "LIST": {
       "FETCHING": "Preuzimanje zakački integracija",
       "INBOX": "Prijemno sanduče",
+      "ACTIONS": "Akcije",
       "DELETE": {
         "BUTTON_TEXT": "Izbriši"
       }
