@@ -10,6 +10,24 @@
 #
 set -euo pipefail
 
+# Trap global: si CUALQUIER comando falla (set -e), mostrar contexto antes de morir
+trap '_on_error $LINENO "${BASH_COMMAND}"' ERR
+
+_on_error() {
+  local lineno="$1" cmd="$2"
+  local log="${LOG_FILE:-/var/log/chatwoot-install.log}"
+  echo ""
+  echo -e "\033[0;31m[FATAL]\033[0m   Comando falló en línea ${lineno}: ${cmd}"
+  echo -e "\033[0;31m[FATAL]\033[0m   Últimas 30 líneas del log (${log}):"
+  if [[ -f "$log" ]]; then
+    tail -30 "$log" 2>/dev/null | while IFS= read -r line; do
+      echo -e "  \033[0;31m>\033[0m $line"
+    done
+  fi
+  echo ""
+  echo -e "\033[0;31m[FATAL]\033[0m   Instalación abortada. Revisa ${log} para detalles completos."
+}
+
 ###############################################################################
 # VERSIONES OBLIGATORIAS — Extraídas del codebase. NO negociables.
 ###############################################################################
@@ -83,6 +101,22 @@ banner() {
   echo ""
   echo -e "  ${YELLOW}Modo: IMPOSICIÓN TOTAL de versiones exactas${NC}"
   echo ""
+}
+
+###############################################################################
+# EJECUTAR COMANDO CON LOG Y MANEJO DE ERRORES
+# Uso: run_logged "descripción" comando arg1 arg2...
+# Si el comando falla, muestra las últimas líneas del log y aborta.
+###############################################################################
+run_logged() {
+  local desc="$1"; shift
+  if ! "$@" >> "$LOG_FILE" 2>&1; then
+    error "${desc} — falló. Últimas líneas del log:"
+    tail -25 "$LOG_FILE" 2>/dev/null | while IFS= read -r line; do
+      echo -e "  ${RED}>${NC} $line"
+    done
+    fatal "${desc} — Ver ${LOG_FILE} para detalles completos."
+  fi
 }
 
 ###############################################################################
@@ -292,13 +326,13 @@ install_system_dependencies() {
   export DEBIAN_FRONTEND=noninteractive
 
   info "Actualizando paquetes..."
-  apt-get update -qq >> "$LOG_FILE" 2>&1
-  apt-get upgrade -y -qq >> "$LOG_FILE" 2>&1
+  run_logged "apt-get update" apt-get update -qq
+  run_logged "apt-get upgrade" apt-get upgrade -y -qq
 
   # LISTA CERRADA — Solo lo que Chatwoot necesita para compilar gems nativos
   # SIN ruby-dev, SIN ruby, SIN nada que traiga Ruby del sistema
   info "Instalando dependencias de compilación..."
-  apt-get install -y -qq \
+  run_logged "apt-get install dependencias" apt-get install -y -qq \
     git curl wget gnupg2 ca-certificates lsb-release \
     software-properties-common apt-transport-https \
     build-essential g++ gcc autoconf make cmake pkg-config \
@@ -306,8 +340,7 @@ install_system_dependencies() {
     libxml2-dev libxslt1-dev zlib1g-dev liblzma-dev \
     libgmp-dev libncurses5-dev libgdbm-dev \
     libpq-dev libvips imagemagick \
-    file patch sudo \
-    >> "$LOG_FILE" 2>&1
+    file patch sudo
 
   # ── VERIFICAR que NO se coló Ruby del sistema ──
   if dpkg -l ruby 2>/dev/null | grep -q "^ii"; then
@@ -340,13 +373,13 @@ install_nodejs() {
   # Instalar Node.js desde NodeSource
   mkdir -p /etc/apt/keyrings
   curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key \
-    | gpg --dearmor --yes -o /etc/apt/keyrings/nodesource.gpg >> "$LOG_FILE" 2>&1
+    | gpg --dearmor --yes -o /etc/apt/keyrings/nodesource.gpg 2>> "$LOG_FILE"
 
   echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_${NODE_MAJOR}.x nodistro main" \
     > /etc/apt/sources.list.d/nodesource.list
 
-  apt-get update -qq >> "$LOG_FILE" 2>&1
-  apt-get install -y -qq nodejs >> "$LOG_FILE" 2>&1
+  run_logged "apt-get update (nodesource)" apt-get update -qq
+  run_logged "apt-get install nodejs" apt-get install -y -qq nodejs
 
   # ── VERIFICACIÓN OBLIGATORIA ──
   if ! command -v node &>/dev/null; then
@@ -376,7 +409,7 @@ install_pnpm() {
     npm uninstall -g pnpm 2>/dev/null >> "$LOG_FILE" 2>&1 || true
   fi
 
-  npm install -g "pnpm@${PNPM_VERSION}" >> "$LOG_FILE" 2>&1
+  run_logged "npm install pnpm@${PNPM_VERSION}" npm install -g "pnpm@${PNPM_VERSION}"
 
   # ── VERIFICACIÓN OBLIGATORIA ──
   local final_pnpm
@@ -415,15 +448,14 @@ install_postgresql() {
 
   echo "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -cs)-pgdg main" \
     > /etc/apt/sources.list.d/pgdg.list
-  wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - >> "$LOG_FILE" 2>&1
+  wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - 2>> "$LOG_FILE"
 
-  apt-get update -qq >> "$LOG_FILE" 2>&1
-  apt-get install -y -qq \
+  run_logged "apt-get update (postgresql)" apt-get update -qq
+  run_logged "apt-get install postgresql-${PG_VERSION}" apt-get install -y -qq \
     "postgresql-${PG_VERSION}" \
     "postgresql-${PG_VERSION}-pgvector" \
     "postgresql-client-${PG_VERSION}" \
-    postgresql-contrib \
-    >> "$LOG_FILE" 2>&1
+    postgresql-contrib
 
   # ── VERIFICACIÓN OBLIGATORIA ──
   local final_pg
@@ -438,8 +470,8 @@ install_postgresql() {
 }
 
 ensure_postgresql_running() {
-  systemctl enable postgresql >> "$LOG_FILE" 2>&1
-  systemctl start postgresql >> "$LOG_FILE" 2>&1
+  run_logged "systemctl enable postgresql" systemctl enable postgresql
+  run_logged "systemctl start postgresql" systemctl start postgresql
   local retries=0
   while ! pg_isready -q 2>/dev/null; do
     retries=$((retries + 1))
@@ -466,9 +498,9 @@ configure_postgresql() {
   local user_exists
   user_exists=$(sudo -u postgres psql -tAc "SELECT 1 FROM pg_roles WHERE rolname='${CW_USER}'" 2>/dev/null || echo "0")
   if [[ "$user_exists" != "1" ]]; then
-    sudo -u postgres psql -c "CREATE USER ${CW_USER} CREATEDB SUPERUSER PASSWORD '${PG_PASS}';" >> "$LOG_FILE" 2>&1
+    run_logged "crear usuario PostgreSQL ${CW_USER}" sudo -u postgres psql -c "CREATE USER ${CW_USER} CREATEDB SUPERUSER PASSWORD '${PG_PASS}';"
   else
-    sudo -u postgres psql -c "ALTER USER ${CW_USER} PASSWORD '${PG_PASS}';" >> "$LOG_FILE" 2>&1
+    run_logged "actualizar password PostgreSQL ${CW_USER}" sudo -u postgres psql -c "ALTER USER ${CW_USER} PASSWORD '${PG_PASS}';"
   fi
 
   # Asegurar template1 UTF-8
@@ -506,12 +538,12 @@ install_redis() {
   fi
 
   curl -fsSL https://packages.redis.io/gpg \
-    | gpg --dearmor --yes -o /usr/share/keyrings/redis-archive-keyring.gpg >> "$LOG_FILE" 2>&1
+    | gpg --dearmor --yes -o /usr/share/keyrings/redis-archive-keyring.gpg 2>> "$LOG_FILE"
   echo "deb [signed-by=/usr/share/keyrings/redis-archive-keyring.gpg] https://packages.redis.io/deb $(lsb_release -cs) main" \
     > /etc/apt/sources.list.d/redis.list
 
-  apt-get update -qq >> "$LOG_FILE" 2>&1
-  apt-get install -y -qq redis-server >> "$LOG_FILE" 2>&1
+  run_logged "apt-get update (redis)" apt-get update -qq
+  run_logged "apt-get install redis-server" apt-get install -y -qq redis-server
 
   # ── VERIFICACIÓN OBLIGATORIA ──
   local final_redis
@@ -525,8 +557,8 @@ install_redis() {
 }
 
 ensure_redis_running() {
-  systemctl enable redis-server.service >> "$LOG_FILE" 2>&1
-  systemctl start redis-server.service >> "$LOG_FILE" 2>&1
+  run_logged "systemctl enable redis-server" systemctl enable redis-server.service
+  run_logged "systemctl start redis-server" systemctl start redis-server.service
   local retries=0
   while ! redis-cli ping 2>/dev/null | grep -q PONG; do
     retries=$((retries + 1))
@@ -541,7 +573,7 @@ ensure_redis_running() {
 ###############################################################################
 ensure_cw_user() {
   if ! id -u "$CW_USER" &>/dev/null; then
-    adduser --disabled-password --gecos "" "$CW_USER" >> "$LOG_FILE" 2>&1
+    run_logged "crear usuario ${CW_USER}" adduser --disabled-password --gecos "" "$CW_USER"
     info "Usuario ${CW_USER} creado"
   fi
 }
@@ -592,7 +624,7 @@ install_ruby() {
     gpg2 --keyserver hkp://keyserver.ubuntu.com --recv-keys \
       409B6B1796C275462A1703113804BB82D39DC0E3 \
       7D2BAF1CF37B13E2069D6956105BD0E739499BDB >> "$LOG_FILE" 2>&1 || true
-    curl -sSL https://get.rvm.io | bash -s stable >> "$LOG_FILE" 2>&1
+    run_logged "instalar RVM" bash -c "curl -sSL https://get.rvm.io | bash -s stable"
     # Agregar usuario al grupo rvm
     usermod -aG rvm "$CW_USER" 2>/dev/null || adduser "$CW_USER" rvm >> "$LOG_FILE" 2>&1 || true
     success "RVM instalado"
@@ -604,12 +636,12 @@ install_ruby() {
   # Usar --force-reinstall para reparar si una instalación previa quedó corrupta
   # (ej: si se eliminaron archivos de bundler default gem manualmente).
   info "Instalando Ruby ${RUBY_VERSION} (esto toma varios minutos)..."
-  run_as_cw "
+  run_logged "rvm install ruby-${RUBY_VERSION}" run_as_cw "
 rvm autolibs disable
 rvm reinstall 'ruby-${RUBY_VERSION}' --no-docs 2>/dev/null || rvm install 'ruby-${RUBY_VERSION}' --no-docs
 rvm use 'ruby-${RUBY_VERSION}' --default
 rvm cleanup all 2>/dev/null || true
-" >> "$LOG_FILE" 2>&1
+"
 
   # ── VERIFICACIÓN DE RUBY ──
   local installed_ruby
@@ -804,10 +836,10 @@ ENVFILE
 prepare_directories() {
   step "Preparando directorios"
 
-  run_as_cw "
+  run_logged "crear directorios de la app" run_as_cw "
 cd chatwoot
 mkdir -p tmp/pids tmp/cache tmp/sockets log storage
-" >> "$LOG_FILE" 2>&1
+"
 
   success "Directorios creados"
 }
@@ -818,13 +850,13 @@ mkdir -p tmp/pids tmp/cache tmp/sockets log storage
 compile_assets() {
   step "Compilando assets (esto toma varios minutos)"
 
-  run_as_cw "
+  run_logged "rake assets:precompile" run_as_cw "
 cd chatwoot
 RAILS_ENV=production \
 NODE_OPTIONS='--max-old-space-size=4096' \
 SECRET_KEY_BASE=precompile_placeholder \
 bundle exec rake assets:precompile
-" >> "$LOG_FILE" 2>&1
+"
 
   success "Assets compilados"
 }
@@ -842,12 +874,12 @@ run_database_migrations() {
 
   step "Ejecutando migraciones de base de datos"
 
-  run_as_cw "
+  run_logged "rails db:chatwoot_prepare" run_as_cw "
 cd chatwoot
 RAILS_ENV=production \
 POSTGRES_STATEMENT_TIMEOUT=600s \
 bundle exec rails db:chatwoot_prepare
-" >> "$LOG_FILE" 2>&1
+"
 
   success "Base de datos lista"
 }
@@ -863,11 +895,11 @@ install_nginx_ssl() {
 
   step "Instalando Nginx + SSL para ${DOMAIN}"
 
-  apt-get install -y -qq nginx certbot python3-certbot-nginx >> "$LOG_FILE" 2>&1
+  run_logged "apt-get install nginx/certbot" apt-get install -y -qq nginx certbot python3-certbot-nginx
 
   info "Obteniendo certificado SSL..."
-  certbot certonly --non-interactive --agree-tos --nginx \
-    -m "${LE_EMAIL}" -d "${DOMAIN}" >> "$LOG_FILE" 2>&1
+  run_logged "certbot SSL para ${DOMAIN}" certbot certonly --non-interactive --agree-tos --nginx \
+    -m "${LE_EMAIL}" -d "${DOMAIN}"
   success "Certificado SSL obtenido"
 
   [[ -f /etc/ssl/dhparam ]] || curl -s https://ssl-config.mozilla.org/ffdhe4096.txt >> /etc/ssl/dhparam 2>/dev/null || true
@@ -930,9 +962,9 @@ NGINX_CONF
   rm -f /etc/nginx/sites-enabled/default
   ln -sf /etc/nginx/sites-available/chatwoot /etc/nginx/sites-enabled/chatwoot
 
-  nginx -t >> "$LOG_FILE" 2>&1
-  systemctl enable nginx >> "$LOG_FILE" 2>&1
-  systemctl restart nginx >> "$LOG_FILE" 2>&1
+  run_logged "nginx -t (verificar config)" nginx -t
+  run_logged "systemctl enable nginx" systemctl enable nginx
+  run_logged "systemctl restart nginx" systemctl restart nginx
 
   success "Nginx configurado con SSL para ${DOMAIN}"
 }
@@ -1038,8 +1070,8 @@ SUDOERS
   fi
 
   systemctl daemon-reload
-  systemctl enable chatwoot.target >> "$LOG_FILE" 2>&1
-  systemctl start chatwoot.target >> "$LOG_FILE" 2>&1
+  run_logged "systemctl enable chatwoot.target" systemctl enable chatwoot.target
+  run_logged "systemctl start chatwoot.target" systemctl start chatwoot.target
 
   success "Servicios systemd configurados e iniciados"
 }
@@ -1230,12 +1262,12 @@ run_upgrade() {
   compile_assets
 
   step "Ejecutando migraciones"
-  run_as_cw "
+  run_logged "rails db:migrate" run_as_cw "
 cd chatwoot
 RAILS_ENV=production \
 POSTGRES_STATEMENT_TIMEOUT=600s \
 bundle exec rails db:migrate
-" >> "$LOG_FILE" 2>&1
+"
   success "Migraciones completas"
 
   configure_systemd
