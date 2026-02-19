@@ -74,7 +74,7 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
     end
 
     it 'runs agent with extracted user message and context' do
-      expected_context = {
+      expected_context = hash_including(
         session_id: "#{account.id}_#{conversation.display_id}",
         conversation_history: [
           { role: :user, content: 'Hello there', agent_name: nil },
@@ -86,7 +86,7 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
           conversation: hash_including(id: conversation.id),
           contact: hash_including(id: contact.id)
         )
-      }
+      )
 
       expect(mock_runner).to receive(:run).with(
         'I need help with my account',
@@ -117,6 +117,8 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
           expect(input.text).to eq('What does this error mean?')
           expect(input.attachments.first.source.to_s).to eq('https://example.com/error.png')
           expect(context[:conversation_history]).to eq([{ role: :assistant, content: 'Please share a screenshot', agent_name: nil }])
+          expect(context[:captain_v2_trace_input]).to include('image_url')
+          expect(context[:captain_v2_trace_current_input]).to include('image_url')
           expect(max_turns).to eq(100)
         end
 
@@ -297,6 +299,28 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
       result = service.send(:extract_text_from_content, content)
 
       expect(result).to eq('First part Second part')
+    end
+  end
+
+  describe '#dynamic_trace_attributes' do
+    subject(:service) { described_class.new(assistant: assistant, conversation: conversation) }
+
+    it 'adds serialized trace input attributes when present in context' do
+      context = {
+        state: {
+          account_id: account.id,
+          assistant_id: assistant.id,
+          conversation: { id: conversation.id, display_id: conversation.display_id }
+        },
+        captain_v2_trace_input: '[{"role":"user","content":[{"type":"image_url","image_url":{"url":"https://example.com/image.jpg"}}]}]'
+      }
+      context_wrapper = Struct.new(:context).new(context)
+
+      attributes = service.send(:dynamic_trace_attributes, context_wrapper)
+
+      expect(attributes['langfuse.trace.input']).to include('image_url')
+      expect(attributes['langfuse.observation.input']).to include('image_url')
+      expect(attributes['langfuse.user.id']).to eq(account.id.to_s)
     end
   end
 

@@ -22,8 +22,10 @@ class Captain::Assistant::AgentRunnerService
 
   def generate_response(message_history: [])
     agents = build_and_wire_agents
-    context = build_context(message_history_without_last_user_message(message_history))
     message_to_process = extract_last_user_message(message_history)
+    context = build_context(message_history_without_last_user_message(message_history))
+    context[:captain_v2_trace_input] = serialize_trace_messages(message_history)
+    context[:captain_v2_trace_current_input] = serialize_trace_content(message_to_process)
     runner = Agents::Runner.with_agents(*agents)
     runner = add_usage_metadata_callback(runner)
     runner = add_callbacks_to_runner(runner) if @callbacks.any?
@@ -156,16 +158,28 @@ class Captain::Assistant::AgentRunnerService
       },
       attribute_provider: ->(context_wrapper) { dynamic_trace_attributes(context_wrapper) }
     )
+
+    runner.on_agent_thinking do |_agent_name, _input, context_wrapper|
+      tracing = context_wrapper&.context&.dig(:__otel_tracing)
+      next unless tracing
+
+      trace_input = context_wrapper.context[:captain_v2_trace_current_input]
+      tracing[:pending_llm_input] = trace_input if trace_input.present?
+    end
   end
 
   def dynamic_trace_attributes(context_wrapper)
     state = context_wrapper&.context&.dig(:state) || {}
     conversation = state[:conversation] || {}
+    trace_input = context_wrapper&.context&.dig(:captain_v2_trace_input)
+
     {
       ATTR_LANGFUSE_USER_ID => state[:account_id],
       format(ATTR_LANGFUSE_METADATA, 'assistant_id') => state[:assistant_id],
       format(ATTR_LANGFUSE_METADATA, 'conversation_id') => conversation[:id],
-      format(ATTR_LANGFUSE_METADATA, 'conversation_display_id') => conversation[:display_id]
+      format(ATTR_LANGFUSE_METADATA, 'conversation_display_id') => conversation[:display_id],
+      ATTR_LANGFUSE_TRACE_INPUT => trace_input,
+      ATTR_LANGFUSE_OBSERVATION_INPUT => trace_input
     }.compact.transform_values(&:to_s)
   end
 
@@ -190,6 +204,49 @@ class Captain::Assistant::AgentRunnerService
       write_credits_used_metadata(context_wrapper)
     end
     runner
+  end
+
+  def serialize_trace_messages(message_history)
+    message_history.map do |message|
+      {
+        role: message[:role].to_s,
+        content: trace_content_payload(message[:content])
+      }
+    end.to_json
+  end
+
+  def serialize_trace_content(content)
+    payload = trace_content_payload(content)
+    return '' if payload.blank?
+
+    payload.is_a?(String) ? payload : payload.to_json
+  end
+
+  def trace_content_payload(content)
+    case content
+    when RubyLLM::Content
+      trace_parts_from_ruby_llm_content(content)
+    when Array, Hash
+      content
+    when NilClass
+      ''
+    else
+      content.to_s
+    end
+  end
+
+  def trace_parts_from_ruby_llm_content(content)
+    parts = []
+    parts << { type: 'text', text: content.text } if content.text.present?
+
+    content.attachments.each do |attachment|
+      parts << { type: 'image_url', image_url: { url: attachment.source.to_s } }
+    end
+
+    return '' if parts.blank?
+    return parts.first[:text] if parts.one? && parts.first[:type] == 'text'
+
+    parts
   end
 
   def track_handoff_usage(tool_name, handoff_tool_name, context_wrapper)
