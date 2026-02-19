@@ -10,6 +10,21 @@ get:
     - $ref: '#/components/parameters/account_id'
     - $ref: '#/components/parameters/contact_sort_param'
     - $ref: '#/components/parameters/page'
+  x-codeSamples:
+    - lang: python
+      label: "List all contacts"
+      source: |
+        from chatwoot import ChatwootClient
+
+        client = ChatwootClient(
+            base_url="https://app.chatwoot.com",
+            api_token="your-api-token"
+        )
+
+        contacts = client.contacts.list(account_id=1, page=1)
+
+        for contact in contacts:
+            print(contact.name, contact.email)
   responses:
     '200':
       description: Success
@@ -34,6 +49,26 @@ post:
     - userApiKey: []
   parameters:
     - $ref: '#/components/parameters/account_id'
+  x-codeSamples:
+    - lang: python
+      label: "Create a contact"
+      source: |
+        from chatwoot import ChatwootClient
+
+        client = ChatwootClient(
+            base_url="https://app.chatwoot.com",
+            api_token="your-api-token"
+        )
+
+        result = client.contacts.create(
+            account_id=1,
+            inbox_id=5,
+            name="John Doe",
+            email="john@example.com",
+            phone_number="+1234567890"
+        )
+
+        print(result.contact.id, result.contact_inbox.source_id)
   requestBody:
     required: true
     content:
