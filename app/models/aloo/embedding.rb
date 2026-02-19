@@ -8,7 +8,7 @@ module Aloo
 
     has_neighbors :embedding
 
-    EMBEDDING_MODEL = 'gemini-embedding-001'
+    EMBEDDING_MODEL = 'text-embedding-3-large'
     BATCH_SIZE = 100
     MAX_TEXT_LENGTH = 8000
     MIN_CONTENT_LENGTH = 20

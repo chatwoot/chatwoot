@@ -8,8 +8,8 @@
 class Embedders::DocumentEmbedder < RubyLLM::Agents::Embedder
   description 'Generates embeddings for knowledge base documents and search queries'
 
-  model 'gemini-embedding-001'
-  dimensions 3072
+  model 'text-embedding-3-large'
+  dimensions 1536
   batch_size 100
   cache_for 1.week
 
