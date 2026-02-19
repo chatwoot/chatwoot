@@ -1217,6 +1217,13 @@
             "$ref": "#/components/parameters/page"
           }
         ],
+        "x-codeSamples": [
+          {
+            "lang": "python",
+            "label": "List all contacts",
+            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\ncontacts = client.contacts.list(account_id=1, page=1)\n\nfor contact in contacts:\n    print(contact.name, contact.email)\n"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -1255,6 +1262,13 @@
         "parameters": [
           {
             "$ref": "#/components/parameters/account_id"
+          }
+        ],
+        "x-codeSamples": [
+          {
+            "lang": "python",
+            "label": "Create a contact",
+            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\nresult = client.contacts.create(\n    account_id=1,\n    inbox_id=5,\n    name=\"John Doe\",\n    email=\"john@example.com\",\n    phone_number=\"+1234567890\"\n)\n\nprint(result.contact.id, result.contact_inbox.source_id)\n"
           }
         ],
         "requestBody": {
@@ -1318,6 +1332,13 @@
           }
         ],
         "description": "Get a contact belonging to the account using ID",
+        "x-codeSamples": [
+          {
+            "lang": "python",
+            "label": "Get contact details",
+            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\ncontact = client.contacts.get(account_id=1, contact_id=100)\n\nprint(contact.name, contact.email, contact.phone_number)\n"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -1363,6 +1384,13 @@
           }
         ],
         "description": "Update a contact belonging to the account using ID",
+        "x-codeSamples": [
+          {
+            "lang": "python",
+            "label": "Update a contact",
+            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\ncontact = client.contacts.update(\n    account_id=1,\n    contact_id=100,\n    name=\"Jane Doe\",\n    email=\"jane@example.com\",\n    custom_attributes={\"plan\": \"premium\"}\n)\n\nprint(contact.id, contact.name)\n"
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -1418,6 +1446,13 @@
           }
         ],
         "description": "Delete a contact belonging to the account using ID",
+        "x-codeSamples": [
+          {
+            "lang": "python",
+            "label": "Delete a contact",
+            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\nclient.contacts.delete(account_id=1, contact_id=100)\n"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success"
@@ -1483,6 +1518,13 @@
             "userApiKey": []
           }
         ],
+        "x-codeSamples": [
+          {
+            "lang": "python",
+            "label": "Get contact conversations",
+            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\nconversations = client.contacts.conversations(\n    account_id=1,\n    contact_id=100\n)\n\nfor conversation in conversations:\n    print(conversation.id, conversation.status)\n"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -1544,6 +1586,13 @@
             "userApiKey": []
           }
         ],
+        "x-codeSamples": [
+          {
+            "lang": "python",
+            "label": "List contact labels",
+            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\nlabels = client.contacts.labels.list(\n    account_id=1,\n    contact_id=100\n)\n\nprint(labels)\n# ['vip', 'enterprise']\n"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -1587,6 +1636,13 @@
         "security": [
           {
             "userApiKey": []
+          }
+        ],
+        "x-codeSamples": [
+          {
+            "lang": "python",
+            "label": "Add labels to contact",
+            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\n# Note: this overwrites existing labels\nlabels = client.contacts.labels.add(\n    account_id=1,\n    contact_id=100,\n    labels=[\"vip\", \"enterprise\"]\n)\n\nprint(labels)\n# ['vip', 'enterprise']\n"
           }
         ],
         "requestBody": {
@@ -1681,6 +1737,18 @@
             "$ref": "#/components/parameters/page"
           }
         ],
+        "x-codeSamples": [
+          {
+            "lang": "python",
+            "label": "Search by email",
+            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\ncontacts = client.contacts.search(\n    account_id=1,\n    query=\"john@example.com\"\n)\n\nfor contact in contacts:\n    print(contact.name, contact.email)\n"
+          },
+          {
+            "lang": "python",
+            "label": "Search by name",
+            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\ncontacts = client.contacts.search(account_id=1, query=\"John Doe\")\n"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -1716,6 +1784,13 @@
         "security": [
           {
             "userApiKey": []
+          }
+        ],
+        "x-codeSamples": [
+          {
+            "lang": "python",
+            "label": "Filter contacts",
+            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\n# Use search to find contacts by name, email, or phone\ncontacts = client.contacts.search(\n    account_id=1,\n    query=\"example.com\"\n)\n"
           }
         ],
         "parameters": [

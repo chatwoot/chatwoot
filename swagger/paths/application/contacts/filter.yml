@@ -6,6 +6,22 @@ post:
   summary: Contact Filter
   security:
     - userApiKey: []
+  x-codeSamples:
+    - lang: python
+      label: "Filter contacts"
+      source: |
+        from chatwoot import ChatwootClient
+
+        client = ChatwootClient(
+            base_url="https://app.chatwoot.com",
+            api_token="your-api-token"
+        )
+
+        # Use search to find contacts by name, email, or phone
+        contacts = client.contacts.search(
+            account_id=1,
+            query="example.com"
+        )
   parameters:
     - $ref: '#/components/parameters/account_id'
     - name: page
