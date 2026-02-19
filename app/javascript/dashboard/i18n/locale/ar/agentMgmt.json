@@ -9,6 +9,7 @@
       "ADMINISTRATOR": "المدير",
       "AGENT": "وكيل الدعم"
     },
+    "COUNT": "{n} agent | {n} agents",
     "LIST": {
       "404": "لا يوجد وكلاء دعم مرتبطين بهذا الحساب",
       "TITLE": "إدارة وكلاء الدعم في فريقك",
@@ -96,6 +97,8 @@
         "ERROR_MESSAGE": "تعذر الاتصال بالخادم، الرجاء المحاولة مرة أخرى لاحقاً"
       }
     },
+    "SEARCH_PLACEHOLDER": "البحث عن وكلاء...",
+    "NO_RESULTS": "No agents found matching your search",
     "SEARCH": {
       "NO_RESULTS": "لم يتم العثور على النتائج."
     },
