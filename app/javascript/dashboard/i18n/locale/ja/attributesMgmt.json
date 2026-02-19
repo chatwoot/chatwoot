@@ -5,6 +5,9 @@
     "LOADING": "カスタム属性を取得中",
     "DESCRIPTION": "カスタム属性は、連絡先や会話に関する追加の詳細（例：サブスクリプションプランや初回購入日など）を記録します。必要な情報をキャプチャするために、テキスト、リスト、数値など、さまざまなタイプのカスタム属性を追加できます。",
     "LEARN_MORE": "カスタム属性について詳しく学ぶ",
+    "COUNT": "{n} attribute | {n} attributes",
+    "SEARCH_PLACEHOLDER": "属性を検索...",
+    "NO_RESULTS": "No attributes found matching your search",
     "ATTRIBUTE_MODELS": {
       "CONVERSATION": "会話",
       "CONTACT": "連絡先"
