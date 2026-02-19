@@ -104,7 +104,7 @@ export default {
 
 <template>
   <div class="h-full w-full p-8 col-span-6 overflow-auto">
-    <form class="grid grid-cols-1 gap-4 mx-0" @submit.prevent="addAgents">
+    <form class="flex flex-col gap-4 mx-0" @submit.prevent="addAgents">
       <PageHeader
         :header-title="headerTitle"
         :header-content="$t('TEAMS_SETTINGS.EDIT_FLOW.AGENTS.DESC')"
