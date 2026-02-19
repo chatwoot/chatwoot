@@ -1,5 +1,4 @@
 <script setup>
-import BaseEmptyState from './BaseEmptyState.vue';
 import BasePaywallModal from 'dashboard/routes/dashboard/settings/components/BasePaywallModal.vue';
 
 const props = defineProps({
@@ -18,7 +17,7 @@ const i18nKey = props.isOnChatwootCloud ? 'PAYWALL' : 'ENTERPRISE_PAYWALL';
 </script>
 
 <template>
-  <BaseEmptyState>
+  <div class="pb-6 pt-10 flex justify-center">
     <BasePaywallModal
       feature-prefix="SLA"
       :i18n-key="i18nKey"
@@ -26,5 +25,5 @@ const i18nKey = props.isOnChatwootCloud ? 'PAYWALL' : 'ENTERPRISE_PAYWALL';
       :is-super-admin="isSuperAdmin"
       @upgrade="emit('upgrade')"
     />
-  </BaseEmptyState>
+  </div>
 </template>

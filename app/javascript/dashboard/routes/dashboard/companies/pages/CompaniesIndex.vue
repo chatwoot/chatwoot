@@ -154,7 +154,7 @@ onMounted(() => {
         t('COMPANIES.EMPTY_STATE.TITLE')
       }}</span>
     </div>
-    <div v-else class="flex flex-col gap-4 p-4">
+    <div v-else class="flex flex-col gap-4">
       <CompaniesCard
         v-for="company in companies"
         :id="company.id"
