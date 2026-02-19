@@ -2,7 +2,9 @@
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import { useBranding } from 'shared/composables/useBranding';
+import { picoSearch } from '@scmmishra/pico-search';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import { BaseTable } from 'dashboard/components-next/table';
 import NewWebhook from './NewWebHook.vue';
 import EditWebhook from './EditWebHook.vue';
 import WebhookRow from './WebhookRow.vue';
@@ -14,6 +16,7 @@ export default {
     SettingsLayout,
     NextButton,
     BaseSettingsHeader,
+    BaseTable,
     NewWebhook,
     EditWebhook,
     WebhookRow,
@@ -29,6 +32,7 @@ export default {
       showEditPopup: false,
       showDeleteConfirmationPopup: false,
       selectedWebHook: {},
+      searchQuery: '',
     };
   },
   computed: {
@@ -38,6 +42,11 @@ export default {
     }),
     integration() {
       return this.$store.getters['integrations/getIntegration']('webhook');
+    },
+    filteredRecords() {
+      const query = this.searchQuery.trim();
+      if (!query) return this.records;
+      return picoSearch(this.records, query, ['name', 'url']);
     },
     tableHeaders() {
       return [
@@ -103,44 +112,52 @@ export default {
     <template #header>
       <BaseSettingsHeader
         v-if="integration.name"
+        v-model:search-query="searchQuery"
         :title="integration.name"
         :description="replaceInstallationName(integration.description)"
         :link-text="$t('INTEGRATION_SETTINGS.WEBHOOK.LEARN_MORE')"
+        :search-placeholder="
+          $t('INTEGRATION_SETTINGS.WEBHOOK.SEARCH_PLACEHOLDER')
+        "
         feature-name="webhook"
         :back-button-label="$t('INTEGRATION_SETTINGS.HEADER')"
       >
+        <template v-if="records?.length" #count>
+          <span class="text-body-main text-n-slate-11">
+            {{
+              $t('INTEGRATION_SETTINGS.WEBHOOK.COUNT', { n: records.length })
+            }}
+          </span>
+        </template>
         <template #actions>
           <NextButton
             blue
-            icon="i-lucide-circle-plus"
             :label="$t('INTEGRATION_SETTINGS.WEBHOOK.HEADER_BTN_TXT')"
+            size="sm"
             @click="openAddPopup"
           />
         </template>
       </BaseSettingsHeader>
     </template>
     <template #body>
-      <table class="min-w-full divide-y divide-n-weak">
-        <thead>
-          <th
-            v-for="thHeader in tableHeaders"
-            :key="thHeader"
-            class="py-4 ltr:pr-4 rtl:pl-4 text-left font-semibold text-n-slate-11 last:text-right last:pr-4"
-          >
-            {{ thHeader }}
-          </th>
-        </thead>
-        <tbody class="divide-y divide-n-weak flex-1 text-n-slate-12">
+      <BaseTable
+        :headers="tableHeaders"
+        :items="filteredRecords"
+        :no-data-message="
+          searchQuery ? $t('INTEGRATION_SETTINGS.WEBHOOK.NO_RESULTS') : ''
+        "
+      >
+        <template #row="{ items }">
           <WebhookRow
-            v-for="(webHookItem, index) in records"
+            v-for="(webHookItem, index) in items"
             :key="webHookItem.id"
             :index="index"
             :webhook="webHookItem"
             @edit="openEditPopup"
             @delete="openDeletePopup"
           />
-        </tbody>
-      </table>
+        </template>
+      </BaseTable>
     </template>
     <woot-modal v-model:show="showAddPopup" :on-close="hideAddPopup">
       <NewWebhook v-if="showAddPopup" :on-close="hideAddPopup" />
