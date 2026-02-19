@@ -44,4 +44,14 @@ class CalendlyNotificationAgent < ApplicationAgent
     parts << "Cancellation reason: #{cancellation_reason}" if cancellation_reason.present?
     parts.join("\n")
   end
+
+  def metadata
+    {
+      account_id: current_account&.id&.to_s,
+      conversation_id: current_conversation&.id&.to_s,
+      contact_id: current_contact&.id&.to_s,
+      assistant_id: current_assistant&.id&.to_s,
+      inbox_id: current_inbox&.id&.to_s
+    }.compact
+  end
 end

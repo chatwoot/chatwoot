@@ -71,6 +71,20 @@ class ConversationAgent < ApplicationAgent
     available_tools.concat(calendly_tools)
   end
 
+  def metadata
+    {
+      account_id: current_account&.id&.to_s,
+      conversation_id: current_conversation&.id&.to_s,
+      contact_id: current_contact&.id&.to_s,
+      assistant_id: current_assistant&.id&.to_s,
+      inbox_id: current_inbox&.id&.to_s,
+      inbox_channel_type: current_inbox&.channel_type,
+      conversation_status: current_conversation&.status,
+      assistant_name: current_assistant&.name,
+      playground_mode: Aloo::Current.playground_mode.present?
+    }.compact
+  end
+
   private
 
   def core_prompt_sections

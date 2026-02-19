@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
 class Conversations::AutoAssignService
-  MIN_MESSAGES = 3
-  MAX_MESSAGES = 10
+  MIN_CONTENT_LENGTH = 60
+  MIN_CONTENT_LENGTH_MULTI = 30
+  MIN_MESSAGES_MULTI = 2
 
   attr_reader :conversation, :account, :labels, :teams
 
@@ -16,13 +17,10 @@ class Conversations::AutoAssignService
   def perform
     return unless should_process?
 
-    conversation.update_column(:last_triaged_at, Time.current)
+    conversation.update_column(:last_triaged_at, Time.current) # rubocop:disable Rails/SkipsModelValidations
 
     suggestions = fetch_suggestions
-    return if suggestions.nil?
-
-    apply_label(suggestions['label_id']) if suggestions['label_id'].present? && should_apply_label?
-    apply_team(suggestions['team_id']) if suggestions['team_id'].present? && should_apply_team?
+    apply_suggestions(suggestions) if suggestions
   rescue StandardError => e
     Rails.logger.error("Auto-classification failed for conversation #{conversation.id}: #{e.message}")
     raise
@@ -31,28 +29,43 @@ class Conversations::AutoAssignService
   private
 
   def should_process?
-    return false unless conversation.open?
-    return false unless threshold_met?
-    return false if recently_triaged?
-    return false if labels.empty? && teams.empty?
+    conversation.open? && threshold_met? && !recently_triaged? && has_auto_assign_options? && needs_assignment?
+  end
 
-    true
+  def has_auto_assign_options? # rubocop:disable Naming/PredicateName
+    labels.any? || teams.any?
+  end
+
+  def needs_assignment?
+    should_apply_label? || should_apply_team?
+  end
+
+  def apply_suggestions(suggestions)
+    apply_label(suggestions['label_id']) if suggestions['label_id'].present? && should_apply_label?
+    apply_team(suggestions['team_id']) if suggestions['team_id'].present? && should_apply_team?
   end
 
   def recently_triaged?
     return false if conversation.last_triaged_at.nil?
 
-    conversation.last_triaged_at > 30.minutes.ago
+    conversation.last_triaged_at > 30.minutes.ago && !new_messages_since_triage?
+  end
+
+  def new_messages_since_triage?
+    conversation.messages.incoming.exists?(['created_at > ?', conversation.last_triaged_at])
   end
 
   def threshold_met?
-    message_threshold = 3
-    time_threshold = 5.minutes
+    incoming = conversation.messages.incoming
+    message_count = incoming.count
+    return false if message_count.zero?
 
-    message_count = conversation.messages.incoming.count
-    conversation_age = Time.current - conversation.created_at
+    total_length = incoming.sum("LENGTH(COALESCE(content, ''))")
 
-    message_count >= message_threshold || (conversation_age >= time_threshold && conversation.label_list.empty?)
+    return true if message_count == 1 && total_length >= MIN_CONTENT_LENGTH
+    return true if message_count >= MIN_MESSAGES_MULTI && total_length >= MIN_CONTENT_LENGTH_MULTI
+
+    false
   end
 
   def should_apply_label?
@@ -71,7 +84,10 @@ class Conversations::AutoAssignService
     result = ConversationTriageAgent.call(
       conversation_messages: conversation_messages,
       available_labels: labels,
-      available_teams: teams
+      available_teams: teams,
+      account_id: account.id,
+      conversation_id: conversation.id,
+      inbox_id: conversation.inbox_id
     )
 
     return nil unless result.success?

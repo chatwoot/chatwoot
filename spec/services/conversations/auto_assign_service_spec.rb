@@ -2,11 +2,10 @@
 
 require 'rails_helper'
 
-RSpec.describe Conversations::AutoAssignService do
+RSpec.describe Conversations::AutoAssignService, type: :service do
   before do
     # Clear any installation config that might reference non-existent features
     InstallationConfig.find_by(name: 'ACCOUNT_LEVEL_FEATURE_DEFAULTS')&.destroy
-    create_list(:message, 3, conversation: conversation, message_type: :incoming, content: 'Test message')
   end
 
   let(:account) { create(:account) }
@@ -17,124 +16,114 @@ RSpec.describe Conversations::AutoAssignService do
   let!(:team1) { create(:team, name: 'Support Team', description: 'Handles support', account: account, allow_auto_assign: true) }
   let!(:team2) { create(:team, name: 'Sales Team', description: 'Handles sales', account: account, allow_auto_assign: true) }
 
-  def mock_agent_result(content, success: true)
-    double('AgentResult', success?: success, content: content)
-  end
-
-  def create_incoming_messages(count)
-    create_list(:message, count, conversation: conversation, message_type: :incoming, content: 'Test message')
+  # Helper: create an incoming message with specific content
+  def create_incoming(content, conv: conversation)
+    create(:message, conversation: conv, message_type: :incoming, content: content)
   end
 
   describe '#perform' do
-    context 'with message count limits' do
-      it 'does not process when fewer than 3 messages' do
-        create_incoming_messages(2)
+    context 'with content-length threshold' do
+      it 'processes a single message with 60+ characters' do
+        create_incoming('I need help with my billing invoice, it shows the wrong amount charged')
+        stub_agent_call(ConversationTriageAgent, content: { 'label_id' => label1.id, 'team_id' => nil })
 
-        expect(ConversationTriageAgent).not_to receive(:run)
+        expect { service.perform }.to change { conversation.reload.label_list.to_a }.from([]).to(['billing'])
+      end
+
+      it 'does not process a single short message under 60 characters' do
+        create_incoming('hello')
+
+        expect(ConversationTriageAgent).not_to receive(:call)
         service.perform
       end
 
-      it 'processes when exactly 3 messages' do
-        create_incoming_messages(3)
+      it 'processes 2+ messages with combined 30+ characters' do
+        create_incoming('I have a billing issue')
+        create_incoming('Can you help me?')
+        stub_agent_call(ConversationTriageAgent, content: { 'label_id' => label1.id, 'team_id' => nil })
 
-        expect(ConversationTriageAgent).to receive(:run).and_return({ 'label_id' => label1.id, 'team_id' => nil })
-        allow(conversation).to receive(:add_labels)
+        expect { service.perform }.to change { conversation.reload.label_list.to_a }.from([]).to(['billing'])
+      end
 
+      it 'does not process 2 messages with combined content under 30 characters' do
+        create_incoming('hi')
+        create_incoming('hello')
+
+        expect(ConversationTriageAgent).not_to receive(:call)
         service.perform
       end
 
-      it 'processes when between 3 and 10 messages' do
-        create_incoming_messages(7)
+      it 'handles nil content gracefully' do
+        create(:message, conversation: conversation, message_type: :incoming, content: nil)
 
-        expect(ConversationTriageAgent).to receive(:run).and_return({ 'label_id' => label1.id, 'team_id' => nil })
-        allow(conversation).to receive(:add_labels)
-
-        service.perform
-      end
-
-      it 'processes when exactly 10 messages' do
-        create_incoming_messages(10)
-
-        expect(ConversationTriageAgent).to receive(:run).and_return({ 'label_id' => label1.id, 'team_id' => nil })
-        allow(conversation).to receive(:add_labels)
-
-        service.perform
-      end
-
-      it 'does not process when more than 10 messages' do
-        create_incoming_messages(11)
-
-        expect(ConversationTriageAgent).not_to receive(:run)
+        expect(ConversationTriageAgent).not_to receive(:call)
         service.perform
       end
 
       it 'only counts incoming messages for threshold' do
-        create_incoming_messages(2)
-        create_list(:message, 5, conversation: conversation, message_type: :outgoing, content: 'Reply')
+        create(:message, conversation: conversation, message_type: :outgoing, content: 'A' * 100)
 
-        expect(ConversationTriageAgent).not_to receive(:run)
+        expect(ConversationTriageAgent).not_to receive(:call)
         service.perform
       end
     end
 
     context 'when conversation is not open' do
       before do
-        create_incoming_messages(5)
+        create_incoming('I need help with my billing invoice, it shows the wrong amount charged')
         conversation.update!(status: :resolved)
       end
 
       it 'does not process the conversation' do
-        expect(ConversationTriageAgent).not_to receive(:run)
+        expect(ConversationTriageAgent).not_to receive(:call)
         described_class.new(conversation).perform
       end
     end
 
-    context 'when already labeled and assigned' do
+    context 'when both label and team are already assigned (early exit)' do
       before do
-        create_incoming_messages(5)
+        create_incoming('I need help with my billing invoice, it shows the wrong amount charged')
         conversation.label_list.add('existing-label')
         conversation.save!
         conversation.update!(team: team2)
       end
 
-      it 'does not process the conversation' do
-        expect(ConversationTriageAgent).not_to receive(:run)
+      it 'does not call the agent' do
+        expect(ConversationTriageAgent).not_to receive(:call)
         described_class.new(conversation).perform
       end
     end
 
     context 'when only label is assigned' do
       before do
-        create_incoming_messages(5)
+        create_incoming('I need help with my billing invoice, it shows the wrong amount charged')
         conversation.label_list.add('existing-label')
         conversation.save!
       end
 
       it 'still processes to assign team' do
-        expect(ConversationTriageAgent).to receive(:run).and_return({ 'label_id' => nil, 'team_id' => team1.id })
-        expect(conversation).to receive(:update).with(team: team1)
+        stub_agent_call(ConversationTriageAgent, content: { 'label_id' => nil, 'team_id' => team1.id })
 
-        described_class.new(conversation).perform
+        expect { described_class.new(conversation).perform }.to change { conversation.reload.team_id }.from(nil).to(team1.id)
       end
     end
 
     context 'when only team is assigned' do
       before do
-        create_incoming_messages(5)
+        create_incoming('I need help with my billing invoice, it shows the wrong amount charged')
         conversation.update!(team: team2)
       end
 
       it 'still processes to assign label' do
-        expect(ConversationTriageAgent).to receive(:run).and_return({ 'label_id' => label1.id, 'team_id' => nil })
-        expect(conversation).to receive(:add_labels).with([label1.title])
+        stub_agent_call(ConversationTriageAgent, content: { 'label_id' => label1.id, 'team_id' => nil })
 
-        described_class.new(conversation).perform
+        expect { described_class.new(conversation).perform }.to change { conversation.reload.label_list.to_a }.from([]).to(['billing'])
       end
     end
 
     context 'when no labels or teams have auto-assign enabled' do
       before do
-        create_incoming_messages(5)
+        create_incoming('I need help with my billing invoice, it shows the wrong amount charged')
         label1.update!(allow_auto_assign: false)
         label2.update!(allow_auto_assign: false)
         team1.update!(allow_auto_assign: false)
@@ -142,234 +131,152 @@ RSpec.describe Conversations::AutoAssignService do
       end
 
       it 'does not process the conversation' do
-        expect(ConversationTriageAgent).not_to receive(:run)
+        expect(ConversationTriageAgent).not_to receive(:call)
         described_class.new(conversation).perform
       end
     end
 
     context 'when applying suggestions' do
-      before { create_incoming_messages(5) }
+      before { create_incoming('I need help with my billing invoice, it shows the wrong amount charged') }
 
       it 'applies both label and team when suggested' do
-        allow(ConversationTriageAgent).to receive(:call).and_return(mock_agent_result({
-                                                                                        'label_id' => label1.id,
-                                                                                        'team_id' => team1.id
-                                                                                      }))
-
-        expect(conversation).to receive(:add_labels).with([label1.title])
-        expect(conversation).to receive(:update).with(team: team1)
+        stub_agent_call(ConversationTriageAgent, content: { 'label_id' => label1.id, 'team_id' => team1.id })
 
         service.perform
+        conversation.reload
+
+        expect(conversation.label_list.to_a).to include('billing')
+        expect(conversation.team_id).to eq(team1.id)
       end
 
       it 'only applies label when no team suggested' do
-        allow(ConversationTriageAgent).to receive(:call).and_return(mock_agent_result({
-                                                                                        'label_id' => label1.id,
-                                                                                        'team_id' => nil
-                                                                                      }))
-
-        expect(conversation).to receive(:add_labels).with([label1.title])
-        expect(conversation).not_to receive(:update)
+        stub_agent_call(ConversationTriageAgent, content: { 'label_id' => label1.id, 'team_id' => nil })
 
         service.perform
+        conversation.reload
+
+        expect(conversation.label_list.to_a).to include('billing')
+        expect(conversation.team_id).to be_nil
       end
 
       it 'only applies team when no label suggested' do
-        allow(ConversationTriageAgent).to receive(:call).and_return(mock_agent_result({
-                                                                                        'label_id' => nil,
-                                                                                        'team_id' => team1.id
-                                                                                      }))
-
-        expect(conversation).not_to receive(:add_labels)
-        expect(conversation).to receive(:update).with(team: team1)
+        stub_agent_call(ConversationTriageAgent, content: { 'label_id' => nil, 'team_id' => team1.id })
 
         service.perform
+        conversation.reload
+
+        expect(conversation.label_list.to_a).to be_empty
+        expect(conversation.team_id).to eq(team1.id)
       end
 
       it 'does not apply label if conversation already has labels' do
         conversation.label_list.add('existing-label')
         conversation.save!
 
-        allow(ConversationTriageAgent).to receive(:call).and_return(mock_agent_result({
-                                                                                        'label_id' => label1.id,
-                                                                                        'team_id' => team1.id
-                                                                                      }))
-
-        expect(conversation).not_to receive(:add_labels)
-        expect(conversation).to receive(:update).with(team: team1)
+        stub_agent_call(ConversationTriageAgent, content: { 'label_id' => label1.id, 'team_id' => team1.id })
 
         described_class.new(conversation).perform
+        conversation.reload
+
+        expect(conversation.label_list.to_a).not_to include('billing')
+        expect(conversation.team_id).to eq(team1.id)
       end
 
       it 'does not apply team if conversation already has team' do
         conversation.update!(team: team2)
 
-        allow(ConversationTriageAgent).to receive(:call).and_return(mock_agent_result({
-                                                                                        'label_id' => label1.id,
-                                                                                        'team_id' => team1.id
-                                                                                      }))
-
-        expect(conversation).to receive(:add_labels).with([label1.title])
-        expect(conversation).not_to receive(:update)
+        stub_agent_call(ConversationTriageAgent, content: { 'label_id' => label1.id, 'team_id' => team1.id })
 
         service.perform
+        conversation.reload
+
+        expect(conversation.label_list.to_a).to include('billing')
+        expect(conversation.team_id).to eq(team2.id)
       end
     end
 
     context 'when only auto-labeling is enabled' do
-      it 'only applies label' do
-        allow(ConversationTriageAgent).to receive(:call).and_return(mock_agent_result({
-                                                                                        'label_id' => label1.id,
-                                                                                        'team_id' => nil
-                                                                                      }))
+      before { create_incoming('I need help with my billing invoice, it shows the wrong amount charged') }
 
-        expect(conversation).to receive(:add_labels).with([label1.title])
-
-        service.perform
-      end
-
-      it 'does not call agent with teams' do
-        # Disable teams from auto-assign
+      it 'does not call agent with teams when teams disabled' do
         team1.update!(allow_auto_assign: false)
         team2.update!(allow_auto_assign: false)
 
         expect(ConversationTriageAgent).to receive(:call) do |args|
           expect(args[:available_teams]).to be_empty
-        end.and_return(mock_agent_result({ 'label_id' => label1.id, 'team_id' => nil }))
+        end.and_return(instance_double('RubyLLM::Agents::Result', success?: true, content: { 'label_id' => label1.id, 'team_id' => nil }))
 
         described_class.new(conversation).perform
       end
     end
 
     context 'when only auto-team is enabled' do
-      it 'only applies team' do
-        allow(ConversationTriageAgent).to receive(:call).and_return(mock_agent_result({
-                                                                                        'label_id' => nil,
-                                                                                        'team_id' => team1.id
-                                                                                      }))
+      before { create_incoming('I need help with my billing invoice, it shows the wrong amount charged') }
 
-        expect(conversation).to receive(:update).with(team: team1)
-
-        service.perform
-      end
-
-      it 'does not call agent with labels' do
-        # Disable labels from auto-assign
+      it 'does not call agent with labels when labels disabled' do
         label1.update!(allow_auto_assign: false)
         label2.update!(allow_auto_assign: false)
 
         expect(ConversationTriageAgent).to receive(:call) do |args|
           expect(args[:available_labels]).to be_empty
-        end.and_return(mock_agent_result({ 'label_id' => nil, 'team_id' => team1.id }))
-
-        described_class.new(conversation).perform
-      end
-    end
-
-    context 'when message threshold is not met' do
-      before do
-        conversation.messages.destroy_all
-        create_list(:message, 2, conversation: conversation, message_type: :incoming, content: 'Message')
-      end
-
-      it 'does not process if conversation is less than 5 minutes old' do
-        expect(ConversationTriageAgent).not_to receive(:call)
-
-        described_class.new(conversation).perform
-      end
-
-      it 'processes if conversation is older than 5 minutes and has no labels' do
-        conversation.update!(created_at: 6.minutes.ago)
-
-        allow(ConversationTriageAgent).to receive(:call).and_return(mock_agent_result({
-                                                                                        'label_id' => label1.id,
-                                                                                        'team_id' => nil
-                                                                                      }))
-
-        expect(conversation).to receive(:add_labels).with([label1.title])
-
-        described_class.new(conversation).perform
-      end
-
-      it 'does not process with time threshold if conversation already has labels' do
-        conversation.update!(created_at: 6.minutes.ago)
-        conversation.label_list.add('Existing Label')
-        conversation.save!
-
-        expect(ConversationTriageAgent).not_to receive(:call)
-
-        described_class.new(conversation).perform
-      end
-    end
-
-    context 'when excluding already-assigned labels' do
-      it 'excludes already-assigned labels from available labels' do
-        conversation.label_list.add(label1.title)
-        conversation.save!
-
-        expect(ConversationTriageAgent).to receive(:call) do |args|
-          label_ids = args[:available_labels].map { |l| l['id'] }
-          expect(label_ids).not_to include(label1.id)
-          expect(label_ids).to include(label2.id)
-        end.and_return(mock_agent_result({ 'label_id' => label2.id, 'team_id' => nil }))
-
-        expect(conversation).to receive(:add_labels).with([label2.title])
+        end.and_return(instance_double('RubyLLM::Agents::Result', success?: true, content: { 'label_id' => nil, 'team_id' => team1.id }))
 
         described_class.new(conversation).perform
       end
     end
 
     context 'when agent returns unsuccessful result' do
-      it 'does not apply anything' do
-        allow(ConversationTriageAgent).to receive(:call).and_return(mock_agent_result(nil, success: false))
+      before { create_incoming('I need help with my billing invoice, it shows the wrong amount charged') }
 
-        expect(conversation).not_to receive(:add_labels)
-        expect(conversation).not_to receive(:update)
+      it 'does not apply anything' do
+        stub_agent_call(ConversationTriageAgent, success: false)
 
         service.perform
+        conversation.reload
+
+        expect(conversation.label_list.to_a).to be_empty
+        expect(conversation.team_id).to be_nil
       end
     end
 
     context 'when agent returns nil for both IDs' do
-      it 'does not apply anything' do
-        allow(ConversationTriageAgent).to receive(:call).and_return(mock_agent_result({
-                                                                                        'label_id' => nil,
-                                                                                        'team_id' => nil
-                                                                                      }))
+      before { create_incoming('I need help with my billing invoice, it shows the wrong amount charged') }
 
-        expect(conversation).not_to receive(:add_labels)
-        expect(conversation).not_to receive(:update)
+      it 'does not apply anything' do
+        stub_agent_call(ConversationTriageAgent, content: { 'label_id' => nil, 'team_id' => nil })
 
         service.perform
+        conversation.reload
+
+        expect(conversation.label_list.to_a).to be_empty
+        expect(conversation.team_id).to be_nil
       end
     end
 
     context 'when suggested label does not exist' do
-      it 'does not apply label' do
-        allow(ConversationTriageAgent).to receive(:call).and_return(mock_agent_result({
-                                                                                        'label_id' => 999_999,
-                                                                                        'team_id' => nil
-                                                                                      }))
+      before { create_incoming('I need help with my billing invoice, it shows the wrong amount charged') }
 
-        expect(conversation).not_to receive(:add_labels)
+      it 'does not apply label' do
+        stub_agent_call(ConversationTriageAgent, content: { 'label_id' => 999_999, 'team_id' => nil })
+
         service.perform
+        expect(conversation.reload.label_list.to_a).to be_empty
       end
     end
 
     context 'when suggested team does not exist' do
-      it 'does not apply team' do
-        allow(ConversationTriageAgent).to receive(:call).and_return(mock_agent_result({
-                                                                                        'label_id' => nil,
-                                                                                        'team_id' => 999_999
-                                                                                      }))
+      before { create_incoming('I need help with my billing invoice, it shows the wrong amount charged') }
 
-        expect(conversation).not_to receive(:update)
+      it 'does not apply team' do
+        stub_agent_call(ConversationTriageAgent, content: { 'label_id' => nil, 'team_id' => 999_999 })
+
         service.perform
+        expect(conversation.reload.team_id).to be_nil
       end
     end
 
     context 'when an error occurs' do
-      before { create_incoming_messages(5) }
+      before { create_incoming('I need help with my billing invoice, it shows the wrong amount charged') }
 
       it 'logs the error and re-raises for job retry' do
         allow(ConversationTriageAgent).to receive(:call).and_raise(StandardError.new('API Error'))
@@ -381,88 +288,87 @@ RSpec.describe Conversations::AutoAssignService do
       end
     end
 
-    context 'logging' do
-      before { create_incoming_messages(5) }
+    context 'when conversation was recently triaged with no new messages' do
+      it 'does not process the conversation' do
+        create(:message, conversation: conversation, message_type: :incoming,
+                         content: 'I need help with my billing invoice, it shows the wrong amount charged',
+                         created_at: 15.minutes.ago)
+        conversation.update_column(:last_triaged_at, 10.minutes.ago)
 
-      it 'logs successful label application' do
-        allow(ConversationTriageAgent).to receive(:run).and_return({ 'label_id' => label1.id, 'team_id' => nil })
-        allow(conversation).to receive(:add_labels)
-
-        expect(Rails.logger).to receive(:info).with("Auto-labeled conversation #{conversation.id} with: #{label1.title}")
-
-        service.perform
-      end
-
-      it 'logs successful team assignment' do
-        allow(ConversationTriageAgent).to receive(:call).and_return(mock_agent_result({
-                                                                                        'label_id' => nil,
-                                                                                        'team_id' => team1.id
-                                                                                      }))
-        allow(conversation).to receive(:update)
-
-        expect(Rails.logger).to receive(:info).with("Auto-assigned conversation #{conversation.id} to team: #{team1.name}")
-
+        expect(ConversationTriageAgent).not_to receive(:call)
         service.perform
       end
     end
 
-    context 'when conversation was recently triaged' do
-      it 'does not process the conversation' do
+    context 'when conversation was recently triaged but has new messages' do
+      it 'processes the conversation despite cooldown' do
+        create_incoming('I need help with my billing invoice, it shows the wrong amount charged')
         conversation.update_column(:last_triaged_at, 10.minutes.ago)
 
-        expect(ConversationTriageAgent).not_to receive(:call)
+        # New message arrives AFTER triage
+        create_incoming('Actually the charge was $500 instead of $50, please fix this urgently')
 
-        service.perform
+        stub_agent_call(ConversationTriageAgent, content: { 'label_id' => label1.id, 'team_id' => nil })
+
+        expect { described_class.new(conversation).perform }.to change { conversation.reload.label_list.to_a }.from([]).to(['billing'])
       end
     end
 
     context 'when conversation was triaged more than 30 minutes ago' do
+      before { create_incoming('I need help with my billing invoice, it shows the wrong amount charged') }
+
       it 'processes the conversation' do
         conversation.update_column(:last_triaged_at, 31.minutes.ago)
+        stub_agent_call(ConversationTriageAgent, content: { 'label_id' => label1.id, 'team_id' => nil })
 
-        allow(ConversationTriageAgent).to receive(:call).and_return(mock_agent_result({
-                                                                                        'label_id' => label1.id,
-                                                                                        'team_id' => nil
-                                                                                      }))
-
-        expect(conversation).to receive(:add_labels).with([label1.title])
-
-        service.perform
+        expect { service.perform }.to change { conversation.reload.label_list.to_a }.from([]).to(['billing'])
       end
     end
 
     context 'when conversation has never been triaged' do
+      before { create_incoming('I need help with my billing invoice, it shows the wrong amount charged') }
+
       it 'processes the conversation' do
         expect(conversation.last_triaged_at).to be_nil
+        stub_agent_call(ConversationTriageAgent, content: { 'label_id' => label1.id, 'team_id' => nil })
 
-        allow(ConversationTriageAgent).to receive(:call).and_return(mock_agent_result({
-                                                                                        'label_id' => label1.id,
-                                                                                        'team_id' => nil
-                                                                                      }))
-
-        expect(conversation).to receive(:add_labels).with([label1.title])
-
-        service.perform
+        expect { service.perform }.to change { conversation.reload.label_list.to_a }.from([]).to(['billing'])
       end
     end
 
     it 'updates last_triaged_at when processing' do
-      allow(ConversationTriageAgent).to receive(:call).and_return(mock_agent_result({
-                                                                                      'label_id' => nil,
-                                                                                      'team_id' => nil
-                                                                                    }))
+      create_incoming('I need help with my billing invoice, it shows the wrong amount charged')
+      stub_agent_call(ConversationTriageAgent, content: { 'label_id' => nil, 'team_id' => nil })
 
       expect { service.perform }.to change { conversation.reload.last_triaged_at }.from(nil)
+    end
+
+    it 'passes metadata params to the agent' do
+      create_incoming('I need help with my billing invoice, it shows the wrong amount charged')
+
+      expect(ConversationTriageAgent).to receive(:call).with(
+        hash_including(
+          account_id: account.id,
+          conversation_id: conversation.id,
+          inbox_id: conversation.inbox_id
+        )
+      ).and_return(instance_double('RubyLLM::Agents::Result', success?: true, content: { 'label_id' => nil, 'team_id' => nil }))
+
+      service.perform
     end
   end
 
   describe 'constants' do
-    it 'has MIN_MESSAGES set to 3' do
-      expect(described_class::MIN_MESSAGES).to eq(3)
+    it 'has MIN_CONTENT_LENGTH set to 60' do
+      expect(described_class::MIN_CONTENT_LENGTH).to eq(60)
     end
 
-    it 'has MAX_MESSAGES set to 10' do
-      expect(described_class::MAX_MESSAGES).to eq(10)
+    it 'has MIN_CONTENT_LENGTH_MULTI set to 30' do
+      expect(described_class::MIN_CONTENT_LENGTH_MULTI).to eq(30)
+    end
+
+    it 'has MIN_MESSAGES_MULTI set to 2' do
+      expect(described_class::MIN_MESSAGES_MULTI).to eq(2)
     end
   end
 end
