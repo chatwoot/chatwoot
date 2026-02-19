@@ -6,12 +6,17 @@
 #   Embedders::DocumentEmbedder.call(text: "single text", tenant: account)
 #   Embedders::DocumentEmbedder.call(texts: ["text1", "text2"], tenant: account)
 class Embedders::DocumentEmbedder < RubyLLM::Agents::Embedder
-  model 'text-embedding-3-small'
-  dimensions 1536
+  description 'Generates embeddings for knowledge base documents and search queries'
+
+  model 'gemini-embedding-001'
+  dimensions 3072
   batch_size 100
   cache_for 1.week
 
-  description 'Generates embeddings for knowledge base documents and search queries'
+  on_failure do
+    retries times: 3, backoff: :exponential
+    timeout 30.seconds
+  end
 
   def metadata
     {

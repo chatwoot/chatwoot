@@ -2,8 +2,8 @@
 
 module Aloo
   # CRITICAL: Do not change dimension without migration!
-  # text-embedding-3-small uses 1536 dimensions
-  EMBEDDING_DIMENSION = 1536
+  # gemini-embedding-001 uses 3072 dimensions
+  EMBEDDING_DIMENSION = 3072
 
   SUPPORTED_SOURCE_TYPES = %w[file website text].freeze
 
