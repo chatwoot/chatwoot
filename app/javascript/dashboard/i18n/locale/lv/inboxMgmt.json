@@ -3,6 +3,9 @@
     "HEADER": "Iesūtnes",
     "DESCRIPTION": "Kanāls ir saziņas veids, ko klients izvēlas saziņai ar jums. Iesūtne ir vieta, kur pārvaldāt mijiedarbības ar noteiktu kanālu. Tas var ietvert saziņu no dažādiem avotiem, piemēram, e-pasta, tiešsaistes tērzēšanas un sociālajiem medijiem.",
     "LEARN_MORE": "Uzzināt vairāk par iesūtnēm",
+    "COUNT": "{n} inbox | {n} inboxes",
+    "SEARCH_PLACEHOLDER": "Search inboxes...",
+    "NO_RESULTS": "No inboxes found matching your search",
     "RECONNECTION_REQUIRED": "Jūsu iesūtne ir atvienota. Jūs nesaņemsiet jaunus ziņojumus, kamēr nebūsiet tos atkārtoti autorizējis.",
     "CLICK_TO_RECONNECT": "Noklikšķiniet šeit, lai atkārtoti izveidotu savienojumu.",
     "WHATSAPP_REGISTRATION_INCOMPLETE": "Your WhatsApp Business registration isn’t complete. Please check your display name status in Meta Business Manager before reconnecting.",
@@ -575,7 +578,7 @@
           "SUBTITLE": "Izmantot tikai konfigurēto uzņēmuma nosaukumu kā sūtītāja vārdu e-pasta galvenē."
         },
         "BUSINESS_NAME": {
-          "BUTTON_TEXT": "+ Konfigurēt uzņēmuma nosaukumu",
+          "BUTTON_TEXT": "Konfigurēt uzņēmuma nosaukumu",
           "PLACEHOLDER": "Ievadiet uzņēmuma nosaukumu",
           "SAVE_BUTTON_TEXT": "Saglabāt"
         }
@@ -625,6 +628,8 @@
       "ACCOUNT_HEALTH": "Account Health",
       "CSAT": "CSAT"
     },
+    "CHANNEL_PREFERENCES": "Channel Preferences",
+    "WIDGET_FEATURES": "Widget features",
     "ACCOUNT_HEALTH": {
       "TITLE": "Manage your WhatsApp account",
       "DESCRIPTION": "Review your WhatsApp account status, messaging limits, and quality. Update settings or resolve issues if needed",
@@ -758,6 +763,7 @@
       "LABEL": "Palīdzības centrs",
       "PLACEHOLDER": "Izvēlēties Palīdzības Centru",
       "SELECT_PLACEHOLDER": "Izvēlēties Palīdzības Centru",
+      "NONE": "Nav",
       "REMOVE": "Noņemt Palīdzības Centru",
       "SUB_TEXT": "Pievienot Palīdzības Centru ar iesūtni"
     },
@@ -911,9 +917,11 @@
       "UNAVAILABLE_MESSAGE_LABEL": "Ziņojums nav pieejams priekš apmeklētājiem",
       "TOGGLE_HELP": "Iespējojot uzņēmuma pieejamību, tiešraides tērzēšanas logrīkā tiks rādīts darba laiks, pat ja visi aģenti būs bezsaistē. Ārpus darba laika apmeklētājus var brīdināt ar ziņojumu un pirms tērzēšanas veidlapu.",
       "DAY": {
+        "DAY": "Diena",
+        "AVAILABILITY": "Pieejamība",
+        "HOURS": "Hours",
         "ENABLE": "Iespējot pieejamību šai dienai",
         "UNAVAILABLE": "Nav pieejams",
-        "HOURS": "darba laiks",
         "VALIDATION_ERROR": "Sākuma laikam jābūt pirms slēgšanas laika.",
         "CHOOSE": "Izvēlēties"
       },
@@ -1020,11 +1028,12 @@
           "IN_A_DAY": "Dienas laikā"
         },
         "WIDGET_COLOR_LABEL": "Logrīka Krāsa",
-        "WIDGET_BUBBLE_POSITION_LABEL": "Logrīka Burbuļa Pozīcija",
-        "WIDGET_BUBBLE_TYPE_LABEL": "Logrīka Burbuļa Tips",
+        "WIDGET_BUBBLE": "Bubble",
+        "WIDGET_BUBBLE_POSITION_LABEL": "Position:",
+        "WIDGET_BUBBLE_TYPE_LABEL": "Tips:",
         "WIDGET_BUBBLE_LAUNCHER_TITLE": {
           "DEFAULT": "Tērzējiet ar mums",
-          "LABEL": "Logrīka Burbuļa Palaidēja Nosaukums",
+          "LABEL": "Launcher Title",
           "PLACE_HOLDER": "Tērzējiet ar mums"
         },
         "UPDATE": {
@@ -1049,7 +1058,7 @@
       },
       "WIDGET_SCREEN": {
         "DEFAULT": "Noklusējums",
-        "CHAT": "Tērzēšana"
+        "CHAT": "Chat mode"
       },
       "REPLY_TIME": {
         "IN_A_FEW_MINUTES": "Parasti atbild dažu minūšu laikā",
