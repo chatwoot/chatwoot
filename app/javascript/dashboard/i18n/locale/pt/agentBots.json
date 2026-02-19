@@ -4,6 +4,9 @@
     "LOADING_EDITOR": "A carregar editor...",
     "DESCRIPTION": "Os Agentes Bots são como os membros mais fabulosos da sua equipa. Tratam das pequenas coisas, para que se possa concentrar no que realmente importa. Experimente. Pode gerir os seus bots nesta página ou criar novos, utilizando o botão \"Adicionar Bot\".",
     "LEARN_MORE": "Learn about agent bots",
+    "COUNT": "{n} bot | {n} bots",
+    "SEARCH_PLACEHOLDER": "Search bots...",
+    "NO_RESULTS": "No bots found matching your search",
     "GLOBAL_BOT": "Bot do sistema",
     "GLOBAL_BOT_BADGE": "Sistema",
     "AVATAR": {
@@ -34,7 +37,8 @@
       "LOADING": "A carregar bots...",
       "TABLE_HEADER": {
         "DETAILS": "Detalhes do bot",
-        "URL": "URL do Webhook"
+        "URL": "URL do Webhook",
+        "ACTIONS": "Ações"
       }
     },
     "DELETE": {
