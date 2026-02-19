@@ -3,6 +3,9 @@
     "FETCHING": "กำลังโหลดการเชื่อมต่อ",
     "NO_HOOK_CONFIGURED": "ไม่มี {integrationId} ที่ตั้งค่าไว้กับบัญชีนี้",
     "HEADER": "โปรแกรม",
+    "COUNT": "{n} integration | {n} integrations",
+    "SEARCH_PLACEHOLDER": "Search...",
+    "NO_RESULTS": "No results found matching your search",
     "STATUS": {
       "ENABLED": "เปิด",
       "DISABLED": "ปิด"
@@ -31,6 +34,7 @@
     "LIST": {
       "FETCHING": "กำลังโหลด Hook",
       "INBOX": "กล่องข้อความ",
+      "ACTIONS": "การกระทำ",
       "DELETE": {
         "BUTTON_TEXT": "ลบ"
       }
