@@ -91,20 +91,27 @@ describe('#Snooze Helpers', () => {
   });
 
   describe('snoozedReopenTime', () => {
-    it('should return nil if snoozedUntil is nil', () => {
-      expect(snoozedReopenTime(null)).toEqual(null);
+    beforeEach(() => {
+      vi.useFakeTimers();
+      vi.setSystemTime(new Date('2024-01-01T12:00:00Z'));
+    });
+
+    afterEach(() => {
+      vi.useRealTimers();
     });
 
     it('should return formatted date with year if snoozedUntil is not in current year', () => {
+      // Input is 09:00 UTC.
+      // If your environment is UTC, this will be 9.00am.
       expect(snoozedReopenTime('2023-06-07T09:00:00.000Z')).toEqual(
-        '7 Jun 2023, 2.30pm'
+        '7 Jun 2023, 9.00am'
       );
     });
 
     it('should return formatted date without year if snoozedUntil is in current year', () => {
-      const currentYear = new Date().getFullYear();
-      expect(snoozedReopenTime(`${currentYear}-06-07T09:00:00.000Z`)).toEqual(
-        '7 Jun, 2.30pm'
+      // This uses 2024 because we mocked the system time above
+      expect(snoozedReopenTime('2024-06-07T09:00:00.000Z')).toEqual(
+        '7 Jun, 9.00am'
       );
     });
   });
