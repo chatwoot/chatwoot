@@ -573,40 +573,68 @@ install_ruby() {
   fi
 
   # ── INSTALAR RUBY EXACTO + BUNDLER EXACTO ──
+  # Ruby 3.4.4 trae Bundler 2.6.x incluido como default gem.
+  # Hay que ELIMINAR todas las versiones de bundler excepto la que necesitamos.
   info "Instalando Ruby ${RUBY_VERSION} (esto toma varios minutos)..."
   run_as_cw "
 rvm autolibs disable
 rvm install 'ruby-${RUBY_VERSION}' --no-docs
 rvm use 'ruby-${RUBY_VERSION}' --default
 rvm cleanup all 2>/dev/null || true
-gem install bundler -v '${BUNDLER_VERSION}' --no-document
+
+# ELIMINAR todas las versiones de bundler que NO sean ${BUNDLER_VERSION}
+# Primero instalar la versión correcta
+gem install bundler -v '${BUNDLER_VERSION}' --no-document --force
+
+# Listar todas las versiones de bundler instaladas y eliminar las incorrectas
+for bv in \$(gem list bundler --versions 2>/dev/null | grep -oP '[\d.]+' || true); do
+  if [[ \"\$bv\" != '${BUNDLER_VERSION}' ]]; then
+    echo \"Eliminando bundler \$bv (solo se permite ${BUNDLER_VERSION})...\"
+    gem uninstall bundler -v \"\$bv\" --force 2>/dev/null || true
+  fi
+done
+
+# Establecer la versión exacta como default
+gem install bundler -v '${BUNDLER_VERSION}' --default --no-document 2>/dev/null || true
 " >> "$LOG_FILE" 2>&1
 
   # ── VERIFICACIÓN OBLIGATORIA — TRIPLE CHECK ──
+  # Usar 'ruby -v' en vez de 'ruby --version' y filtrar solo la línea relevante
+  # para evitar que las líneas "Using /usr/local/rvm/..." contaminen el resultado
   local installed_ruby
-  installed_ruby=$(run_as_cw "ruby --version" 2>/dev/null || echo "FALLO")
+  installed_ruby=$(run_as_cw "ruby -v 2>&1 | grep -oP 'ruby \K[\d.]+'" 2>/dev/null || echo "FALLO")
   info "Ruby detectado: ${installed_ruby}"
 
-  if ! echo "$installed_ruby" | grep -q "${RUBY_VERSION}"; then
+  if [[ "$installed_ruby" != "${RUBY_VERSION}" ]]; then
     error "Ruby ${RUBY_VERSION} NO está activo. Se detectó: ${installed_ruby}"
 
-    # Diagnóstico: ¿qué ruby está en el PATH?
+    # Diagnóstico
     info "Diagnóstico — which ruby:"
-    run_as_cw "which ruby && ruby --version && echo PATH=\$PATH" 2>&1 | tee -a "$LOG_FILE" || true
-
-    # Diagnóstico: ¿existe el ruby de RVM?
+    run_as_cw "which ruby && ruby -v && echo PATH=\$PATH" 2>&1 | tee -a "$LOG_FILE" || true
     info "Diagnóstico — RVM rubies:"
     run_as_cw "rvm list" 2>&1 | tee -a "$LOG_FILE" || true
 
     fatal "Ruby ${RUBY_VERSION} OBLIGATORIO no está activo. No se puede continuar. Ver ${LOG_FILE}"
   fi
 
-  # Verificar bundler
+  # Verificar bundler — extraer SOLO el número de versión, ignorando líneas de RVM
   local installed_bundler
-  installed_bundler=$(run_as_cw "bundle --version" 2>/dev/null || echo "FALLO")
-  if ! echo "$installed_bundler" | grep -q "${BUNDLER_VERSION}"; then
-    warn "Bundler esperado: ${BUNDLER_VERSION}. Detectado: ${installed_bundler}. Reinstalando..."
-    run_as_cw "gem install bundler -v '${BUNDLER_VERSION}' --no-document --force" >> "$LOG_FILE" 2>&1
+  installed_bundler=$(run_as_cw "bundle version 2>&1 | grep -oP 'Bundler version \K[\d.]+'" 2>/dev/null || echo "FALLO")
+  if [[ "$installed_bundler" != "${BUNDLER_VERSION}" ]]; then
+    error "Bundler ${BUNDLER_VERSION} NO está activo. Se detectó: ${installed_bundler}"
+    info "Forzando reinstalación de bundler ${BUNDLER_VERSION}..."
+    run_as_cw "
+# Nuclear: eliminar TODOS los bundler
+gem uninstall bundler --all --force 2>/dev/null || true
+# Reinstalar SOLO el correcto
+gem install bundler -v '${BUNDLER_VERSION}' --no-document --force --default
+" >> "$LOG_FILE" 2>&1
+
+    # Re-verificar
+    installed_bundler=$(run_as_cw "bundle version 2>&1 | grep -oP 'Bundler version \K[\d.]+'" 2>/dev/null || echo "FALLO")
+    if [[ "$installed_bundler" != "${BUNDLER_VERSION}" ]]; then
+      fatal "Bundler ${BUNDLER_VERSION} IMPOSIBLE de instalar. Detectado: ${installed_bundler}. Inaceptable."
+    fi
   fi
 
   success "Ruby ${RUBY_VERSION} + Bundler ${BUNDLER_VERSION} — VERIFICADO"
