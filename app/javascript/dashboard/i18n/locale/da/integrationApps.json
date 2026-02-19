@@ -3,6 +3,9 @@
     "FETCHING": "Henter Integrationer",
     "NO_HOOK_CONFIGURED": "Der er ingen {integrationId} integrationer konfigureret på denne konto.",
     "HEADER": "Applikationer",
+    "COUNT": "{n} integration | {n} integrations",
+    "SEARCH_PLACEHOLDER": "Search...",
+    "NO_RESULTS": "No results found matching your search",
     "STATUS": {
       "ENABLED": "Aktiveret",
       "DISABLED": "Deaktiveret"
@@ -31,6 +34,7 @@
     "LIST": {
       "FETCHING": "Henter integrationshoks",
       "INBOX": "Indbakke",
+      "ACTIONS": "Handlinger",
       "DELETE": {
         "BUTTON_TEXT": "Slet"
       }
