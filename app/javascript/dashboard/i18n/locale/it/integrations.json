@@ -1,6 +1,7 @@
 {
   "INTEGRATION_SETTINGS": {
     "SHOPIFY": {
+      "HEADER": "Shopify",
       "DELETE": {
         "TITLE": "Elimina Integrazione Shopify",
         "MESSAGE": "Sei sicuro di voler eliminare l'integrazione Shopify?"
@@ -19,6 +20,8 @@
     "DESCRIPTION": "Chatwoot si integra con più strumenti e servizi per migliorare l'efficienza del tuo team. Esplora l'elenco qui sotto per configurare le tue app preferite.",
     "LEARN_MORE": "Scopri di più sulle integrazioni",
     "LOADING": "Caricamento integrazioni",
+    "SEARCH_PLACEHOLDER": "Cerca integrazioni...",
+    "NO_RESULTS": "Nessuna integrazione trovata corrispondente alla tua ricerca",
     "CAPTAIN": {
       "DISABLED": "Captain non è abilitato sul tuo account.",
       "CLICK_HERE_TO_CONFIGURE": "Clicca qui per configurare",
@@ -28,6 +31,9 @@
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Eventi Sottoscritti",
       "LEARN_MORE": "Scopri di più sui webhooks",
+      "COUNT": "{n} webhook | {n} webhook",
+      "SEARCH_PLACEHOLDER": "Cerca webhook...",
+      "NO_RESULTS": "Nessun webhook trovato corrispondente alla tua ricerca",
       "FORM": {
         "CANCEL": "Annulla",
         "DESC": "Gli eventi Webhook ti forniscono le informazioni in tempo reale su ciò che sta accadendo nel tuo account Chatwoot. Per favore inserisci un URL valido per configurare un callback.",
@@ -104,6 +110,7 @@
       }
     },
     "SLACK": {
+      "HEADER": "Slack",
       "DELETE": "Elimina",
       "DELETE_CONFIRMATION": {
         "TITLE": "Elimina l'integrazione",
@@ -223,12 +230,16 @@
       "SIDEBAR_TXT": "<p><b>App dashboard</b></p><p>Le app dashboard consentono alle organizzazioni di incorporare un'applicazione all'interno di Chatwoot per fornire informazioni aggiuntive agli operatorii. Questa funzione consente di creare un'applicazione in modo indipendente e incorporata all'interno della dashboard per fornire informazioni degli utenti, ad esempio ordini o pagamenti effettuati.</p><p>Quando integri la tua applicazione usando la dashboard Chatwoot, la tua applicazione avrà il context della conversazione e del contatto come evento window. Implementa un listener per l'evento del messaggio sulla tua pagina per ricevere i dati.</p><p>Per aggiungere una nuova app dashboard, clicca sul pulsante 'Aggiungi una nuova app dashboard'.</p>",
       "DESCRIPTION": "Le app dashboard consentono alle organizzazioni di incorporare un'applicazione all'interno della dashboard per fornire dati aggiuntivi agli operatori. Questa funzione consente di creare un'applicazione in modo indipendente e incorporarla per fornire informazioni sull'utente, i suoi ordini o la loro cronologia di pagamento precedente.",
       "LEARN_MORE": "Scopri di più sulle App Dashboard",
+      "COUNT": "{n} dashboard app | {n} dashboard apps",
+      "SEARCH_PLACEHOLDER": "Search dashboard apps...",
+      "NO_RESULTS": "No dashboard apps found matching your search",
       "LIST": {
         "404": "Non ci sono ancora app dashboard configurate su questo account",
         "LOADING": "Caricamento app dashboard...",
         "TABLE_HEADER": {
           "NAME": "Nome",
-          "ENDPOINT": "Endpoint"
+          "ENDPOINT": "Endpoint",
+          "ACTIONS": "Azioni"
         },
         "EDIT_TOOLTIP": "Modifica app",
         "DELETE_TOOLTIP": "Elimina app"
@@ -265,6 +276,7 @@
       }
     },
     "LINEAR": {
+      "HEADER": "Linear",
       "ADD_OR_LINK_BUTTON": "Crea/collega issue Linear",
       "LOADING": "Caricamento issue Linear...",
       "LOADING_ERROR": "Si è verificato un errore nel recupero delle issue Linear, si prega di riprovare",
@@ -359,6 +371,7 @@
       }
     },
     "NOTION": {
+      "HEADER": "Notion",
       "DELETE": {
         "TITLE": "Sei sicuro di voler eliminare l'integrazione di Notion?",
         "MESSAGE": "L'eliminazione di questa integrazione rimuoverà l'accesso al tuo workspace Notion e interromperà tutte le funzionalità correlate.",
