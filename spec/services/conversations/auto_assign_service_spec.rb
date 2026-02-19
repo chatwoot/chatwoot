@@ -387,6 +387,101 @@ RSpec.describe Conversations::AutoAssignService, type: :service do
     end
   end
 
+  describe '#apply_suggestions (private, tested directly)' do
+    # These specs call the private method directly to verify key-indifferent access
+    # without mocking the agent. This catches the symbol-vs-string key mismatch bug
+    # where process_response returns symbol keys but the service expected string keys.
+
+    it 'applies label and team from symbol-keyed hash (real agent output)' do
+      service.send(:apply_suggestions, { label_id: label1.id, team_id: team1.id })
+      conversation.reload
+
+      expect(conversation.label_list.to_a).to include('billing')
+      expect(conversation.team_id).to eq(team1.id)
+    end
+
+    it 'applies label and team from string-keyed hash' do
+      service.send(:apply_suggestions, { 'label_id' => label2.id, 'team_id' => team2.id })
+      conversation.reload
+
+      expect(conversation.label_list.to_a).to include('support')
+      expect(conversation.team_id).to eq(team2.id)
+    end
+
+    it 'handles nil label_id with symbol keys' do
+      service.send(:apply_suggestions, { label_id: nil, team_id: team1.id })
+      conversation.reload
+
+      expect(conversation.label_list.to_a).to be_empty
+      expect(conversation.team_id).to eq(team1.id)
+    end
+
+    it 'handles nil team_id with symbol keys' do
+      service.send(:apply_suggestions, { label_id: label1.id, team_id: nil })
+      conversation.reload
+
+      expect(conversation.label_list.to_a).to include('billing')
+      expect(conversation.team_id).to be_nil
+    end
+
+    it 'ignores non-existent label_id' do
+      service.send(:apply_suggestions, { label_id: 999_999, team_id: team1.id })
+      conversation.reload
+
+      expect(conversation.label_list.to_a).to be_empty
+      expect(conversation.team_id).to eq(team1.id)
+    end
+
+    it 'ignores non-existent team_id' do
+      service.send(:apply_suggestions, { label_id: label1.id, team_id: 999_999 })
+      conversation.reload
+
+      expect(conversation.label_list.to_a).to include('billing')
+      expect(conversation.team_id).to be_nil
+    end
+
+    it 'ignores negative team_id returned by agent' do
+      service.send(:apply_suggestions, { label_id: label1.id, team_id: -1 })
+      conversation.reload
+
+      expect(conversation.label_list.to_a).to include('billing')
+      expect(conversation.team_id).to be_nil
+    end
+
+    it 'does not apply label when conversation already has labels' do
+      conversation.label_list.add('existing')
+      conversation.save!
+      svc = described_class.new(conversation)
+
+      svc.send(:apply_suggestions, { label_id: label1.id, team_id: team1.id })
+      conversation.reload
+
+      expect(conversation.label_list.to_a).to eq(['existing'])
+      expect(conversation.team_id).to eq(team1.id)
+    end
+
+    it 'does not apply team when conversation already has team' do
+      conversation.update!(team: team2)
+      svc = described_class.new(conversation)
+
+      svc.send(:apply_suggestions, { label_id: label1.id, team_id: team1.id })
+      conversation.reload
+
+      expect(conversation.label_list.to_a).to include('billing')
+      expect(conversation.team_id).to eq(team2.id)
+    end
+
+    it 'handles a real RubyLLM::Agents::Result content structure with symbol keys' do
+      # Simulate what process_response actually returns: symbol keys
+      result = RubyLLM::Agents::Result.new(content: { label_id: label1.id, team_id: team1.id })
+      service.send(:apply_suggestions, result.content)
+      conversation.reload
+
+      expect(conversation.label_list.to_a).to include('billing')
+      expect(conversation.team_id).to eq(team1.id)
+    end
+  end
+
   describe 'constants' do
     it 'has MIN_CONTENT_LENGTH set to 60' do
       expect(described_class::MIN_CONTENT_LENGTH).to eq(60)

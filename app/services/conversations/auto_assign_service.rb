@@ -50,6 +50,7 @@ class Conversations::AutoAssignService
   end
 
   def apply_suggestions(suggestions)
+    suggestions = suggestions.with_indifferent_access if suggestions.is_a?(Hash)
     apply_label(suggestions['label_id']) if suggestions['label_id'].present? && should_apply_label?
     apply_team(suggestions['team_id']) if suggestions['team_id'].present? && should_apply_team?
   end
