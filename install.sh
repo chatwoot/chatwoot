@@ -1,47 +1,34 @@
 #!/usr/bin/env bash
 #
-# Chatwoot v4.11.0 — Intelligent Installer
-# Single-script automated deployment for Ubuntu 20.04 / 22.04 / 24.04 LTS
+# Chatwoot v4.11.0 — Instalador Dictatorial
+# IMPONE las versiones exactas. Elimina todo lo que estorbe. Sin excepciones.
 #
 # Usage:
-#   sudo bash install.sh                    # Interactive install
-#   sudo bash install.sh --auto             # Fully automatic (no prompts)
 #   sudo bash install.sh --auto --domain chat.example.com --email admin@example.com
-#   sudo bash install.sh --upgrade          # Upgrade existing installation
-#   sudo bash install.sh --status           # Check installation health
-#
-# Repository: GtrhSystems/chatwoot (custom fork)
+#   sudo bash install.sh --upgrade
+#   sudo bash install.sh --status
 #
 set -euo pipefail
 
 ###############################################################################
-# CONFIGURATION — Exact versions extracted from codebase analysis
+# VERSIONES OBLIGATORIAS — Extraídas del codebase. NO negociables.
 ###############################################################################
-readonly INSTALLER_VERSION="1.0.0"
+readonly INSTALLER_VERSION="2.0.0"
 readonly CHATWOOT_VERSION="4.11.0"
 
-# Runtime versions (from .ruby-version, .nvmrc, package.json, Gemfile.lock)
 readonly RUBY_VERSION="3.4.4"
 readonly BUNDLER_VERSION="2.5.16"
 readonly NODE_MAJOR=24
-readonly NODE_VERSION="24.13.0"
 readonly PNPM_VERSION="10.2.0"
-
-# Database versions (from docker-compose.production.yaml, deployment/setup_20.04.sh)
 readonly PG_VERSION=16
 readonly REDIS_MIN_VERSION=7
 
-# Application paths
 readonly CW_USER="chatwoot"
 readonly CW_HOME="/home/${CW_USER}"
 readonly CW_APP="${CW_HOME}/chatwoot"
 readonly CW_CONFIG="/opt/chatwoot/config"
-
-# Repository
 readonly GIT_REPO="https://github.com/GtrhSystems/chatwoot.git"
 readonly GIT_BRANCH="master"
-
-# Logging
 readonly LOG_FILE="/var/log/chatwoot-install.log"
 
 # Colors
@@ -66,52 +53,52 @@ STEP_CURRENT=0
 STEP_TOTAL=0
 
 ###############################################################################
-# LOGGING & OUTPUT
+# LOGGING
 ###############################################################################
-log() { echo "[$(date '+%Y-%m-%d %H:%M:%S')] $*" >> "$LOG_FILE"; }
-
+log()     { echo "[$(date '+%Y-%m-%d %H:%M:%S')] $*" >> "$LOG_FILE"; }
 info()    { log "INFO: $*";    echo -e "${BLUE}[INFO]${NC}    $*"; }
-success() { log "SUCCESS: $*"; echo -e "${GREEN}[OK]${NC}      $*"; }
+success() { log "OK: $*";      echo -e "${GREEN}[OK]${NC}      $*"; }
 warn()    { log "WARN: $*";    echo -e "${YELLOW}[WARN]${NC}    $*"; }
 error()   { log "ERROR: $*";   echo -e "${RED}[ERROR]${NC}   $*"; }
 fatal()   { log "FATAL: $*";   echo -e "${RED}[FATAL]${NC}   $*"; exit 1; }
 
-# Run a command as the chatwoot user with RVM loaded.
-# Uses heredoc via stdin to avoid $* quoting issues with multiline commands.
-run_as_cw() {
-  local rvm_src=""
-  if [[ -f /usr/local/rvm/scripts/rvm ]]; then
-    rvm_src="source /usr/local/rvm/scripts/rvm"
-  elif [[ -f /etc/profile.d/rvm.sh ]]; then
-    rvm_src="source /etc/profile.d/rvm.sh"
-  elif [[ -f "${CW_HOME}/.rvm/scripts/rvm" ]]; then
-    rvm_src="source ${CW_HOME}/.rvm/scripts/rvm"
-  fi
-  sudo -i -u "$CW_USER" bash <<RUNCMD
-${rvm_src}
-$1
-RUNCMD
-}
-
 step() {
   STEP_CURRENT=$((STEP_CURRENT + 1))
   echo ""
-  echo -e "${CYAN}${BOLD}--- Step ${STEP_CURRENT}/${STEP_TOTAL}: $* ---${NC}"
+  echo -e "${CYAN}${BOLD}--- Paso ${STEP_CURRENT}/${STEP_TOTAL}: $* ---${NC}"
   log "STEP ${STEP_CURRENT}/${STEP_TOTAL}: $*"
 }
 
 banner() {
   echo ""
   echo -e "${BOLD}+--------------------------------------------------------------+${NC}"
-  echo -e "${BOLD}|          Chatwoot v${CHATWOOT_VERSION} - Intelligent Installer             |${NC}"
-  echo -e "${BOLD}|          Installer v${INSTALLER_VERSION}                                   |${NC}"
+  echo -e "${BOLD}|     Chatwoot v${CHATWOOT_VERSION} — Instalador Dictatorial v${INSTALLER_VERSION}       |${NC}"
   echo -e "${BOLD}+--------------------------------------------------------------+${NC}"
   echo ""
   echo -e "  ${CYAN}Ruby:${NC}       ${RUBY_VERSION}       ${CYAN}Bundler:${NC}  ${BUNDLER_VERSION}"
-  echo -e "  ${CYAN}Node.js:${NC}    ${NODE_VERSION}    ${CYAN}pnpm:${NC}     ${PNPM_VERSION}"
+  echo -e "  ${CYAN}Node.js:${NC}    ${NODE_MAJOR}.x          ${CYAN}pnpm:${NC}     ${PNPM_VERSION}"
   echo -e "  ${CYAN}PostgreSQL:${NC} ${PG_VERSION} + pgvector  ${CYAN}Redis:${NC}    ${REDIS_MIN_VERSION}+"
-  echo -e "  ${CYAN}Rails:${NC}      7.1.x          ${CYAN}Puma:${NC}     6.4.x"
   echo ""
+  echo -e "  ${YELLOW}Modo: IMPOSICIÓN TOTAL de versiones exactas${NC}"
+  echo ""
+}
+
+###############################################################################
+# EJECUTAR COMO USUARIO CHATWOOT — Con RVM forzado
+###############################################################################
+run_as_cw() {
+  sudo -i -u "$CW_USER" bash <<RUNCMD
+# Forzar carga de RVM — buscar en TODOS los posibles paths
+for rvm_script in /usr/local/rvm/scripts/rvm /etc/profile.d/rvm.sh "${CW_HOME}/.rvm/scripts/rvm"; do
+  if [[ -f "\$rvm_script" ]]; then
+    source "\$rvm_script"
+    break
+  fi
+done
+# Forzar la versión de Ruby (si RVM está disponible)
+type rvm &>/dev/null && rvm use ${RUBY_VERSION} --default 2>/dev/null || true
+$1
+RUNCMD
 }
 
 ###############################################################################
@@ -128,7 +115,7 @@ parse_args() {
       --upgrade)    UPGRADE_MODE=true; shift ;;
       --status)     STATUS_MODE=true; shift ;;
       --help|-h)    usage; exit 0 ;;
-      *) fatal "Unknown option: $1. Use --help for usage." ;;
+      *) fatal "Opción desconocida: $1. Usa --help." ;;
     esac
   done
 }
@@ -137,252 +124,218 @@ usage() {
   cat <<'USAGE'
 Usage: sudo bash install.sh [OPTIONS]
 
-Installation:
-  --auto              Fully automated mode (no interactive prompts)
-  --domain DOMAIN     Domain name for SSL (e.g., chat.example.com)
-  --email EMAIL       Email for Let's Encrypt SSL certificate
-  --skip-db           Skip PostgreSQL & Redis installation (external services)
-  --skip-web          Skip Nginx & SSL setup
+  --auto              Modo automático (sin prompts)
+  --domain DOMAIN     Dominio para SSL
+  --email EMAIL       Email para Let's Encrypt
+  --skip-db           No instalar PostgreSQL/Redis (servicios externos)
+  --skip-web          No instalar Nginx/SSL
+  --upgrade           Actualizar instalación existente
+  --status            Verificar salud de la instalación
 
-Management:
-  --upgrade           Upgrade existing installation to latest
-  --status            Check health of current installation
-
-Examples:
-  sudo bash install.sh                                    # Interactive
-  sudo bash install.sh --auto                             # Auto, no SSL
+Ejemplo:
   sudo bash install.sh --auto --domain chat.example.com --email admin@example.com
-  sudo bash install.sh --upgrade
-  sudo bash install.sh --status
 USAGE
 }
 
 ###############################################################################
-# PRE-FLIGHT CHECKS
+# VERIFICACIONES PREVIAS
 ###############################################################################
 check_root() {
-  if [[ $EUID -ne 0 ]]; then
-    fatal "This script must be run as root. Use: sudo bash install.sh"
-  fi
+  [[ $EUID -eq 0 ]] || fatal "Ejecuta como root: sudo bash install.sh"
 }
 
 check_os() {
-  if [[ ! -f /etc/os-release ]]; then
-    fatal "Cannot detect OS. /etc/os-release not found."
-  fi
-
+  [[ -f /etc/os-release ]] || fatal "No se detecta el OS."
   # shellcheck source=/dev/null
   source /etc/os-release
-
-  if [[ "$ID" != "ubuntu" ]]; then
-    fatal "Unsupported OS: $ID. Only Ubuntu is supported."
-  fi
-
+  [[ "$ID" == "ubuntu" ]] || fatal "Solo Ubuntu soportado. Detectado: $ID"
   case "$VERSION_ID" in
-    20.04|22.04|24.04)
-      success "OS: Ubuntu ${VERSION_ID} LTS (${VERSION_CODENAME})"
-      ;;
-    *)
-      fatal "Unsupported Ubuntu version: ${VERSION_ID}. Supported: 20.04, 22.04, 24.04"
-      ;;
-  esac
-}
-
-check_architecture() {
-  local arch
-  arch=$(uname -m)
-  case "$arch" in
-    x86_64|amd64)
-      success "Architecture: x86_64"
-      ;;
-    aarch64|arm64)
-      success "Architecture: ARM64"
-      ;;
-    *)
-      fatal "Unsupported architecture: $arch"
-      ;;
+    20.04|22.04|24.04) success "OS: Ubuntu ${VERSION_ID} LTS" ;;
+    *) fatal "Ubuntu ${VERSION_ID} no soportado. Solo: 20.04, 22.04, 24.04" ;;
   esac
 }
 
 check_resources() {
-  local ram_mb disk_gb cpu_cores
+  local ram_mb disk_gb
   ram_mb=$(free -m | awk '/^Mem:/{print $2}')
   disk_gb=$(df -BG / | awk 'NR==2{print $4}' | tr -d 'G')
-  cpu_cores=$(nproc)
-
-  info "System: ${cpu_cores} CPU, ${ram_mb}MB RAM, ${disk_gb}GB disk free"
-
-  if [[ $ram_mb -lt 1800 ]]; then
-    fatal "Insufficient RAM: ${ram_mb}MB. Minimum: 2048MB (2GB)."
-  elif [[ $ram_mb -lt 3800 ]]; then
-    warn "Low RAM: ${ram_mb}MB. Recommended: 4096MB (4GB) for production."
-  fi
-
-  if [[ $disk_gb -lt 8 ]]; then
-    fatal "Insufficient disk: ${disk_gb}GB free. Minimum: 10GB."
-  elif [[ $disk_gb -lt 20 ]]; then
-    warn "Low disk: ${disk_gb}GB free. Recommended: 25GB+."
-  fi
-}
-
-check_ports() {
-  local ports_in_use=()
-  for port in 3000 80 443 5432 6379; do
-    if ss -tlnp 2>/dev/null | grep -q ":${port} "; then
-      ports_in_use+=("$port")
-    fi
-  done
-
-  if [[ ${#ports_in_use[@]} -gt 0 ]]; then
-    warn "Ports in use: ${ports_in_use[*]} (may be existing services)"
-  fi
+  info "Sistema: $(nproc) CPU, ${ram_mb}MB RAM, ${disk_gb}GB disco libre"
+  [[ $ram_mb -ge 1800 ]] || fatal "RAM insuficiente: ${ram_mb}MB. Mínimo: 2GB."
+  [[ $disk_gb -ge 8 ]] || fatal "Disco insuficiente: ${disk_gb}GB libre. Mínimo: 10GB."
 }
 
 check_existing_installation() {
   if [[ -d "$CW_APP" ]]; then
     if [[ "$UPGRADE_MODE" == true ]]; then
-      info "Existing installation found. Proceeding with upgrade."
+      info "Instalación existente encontrada. Modo upgrade."
       return 0
     fi
-    warn "Existing Chatwoot installation found at ${CW_APP}."
     if [[ "$AUTO_MODE" == true ]]; then
-      info "Auto mode: switching to upgrade."
+      info "Instalación existente encontrada. Auto-switch a upgrade."
       UPGRADE_MODE=true
     else
-      read -rp "Existing installation found. Upgrade it? (yes/no): " answer
-      if [[ "$answer" == "yes" ]]; then
-        UPGRADE_MODE=true
-      else
-        fatal "Aborted. Remove ${CW_APP} first or use --upgrade."
-      fi
+      read -rp "Instalación existente encontrada. ¿Actualizar? (si/no): " answer
+      [[ "$answer" == "si" ]] && UPGRADE_MODE=true || fatal "Abortado."
     fi
   fi
 }
 
-###############################################################################
-# INTERACTIVE PROMPTS (skipped in --auto mode)
-###############################################################################
 prompt_configuration() {
-  if [[ "$AUTO_MODE" == true ]]; then
-    return 0
-  fi
-
+  if [[ "$AUTO_MODE" == true ]]; then return 0; fi
   echo ""
-  echo -e "${BOLD}Configuration${NC}"
+  echo -e "${BOLD}Configuración${NC}"
   echo "------------------------------------"
-
   if [[ "$SKIP_DB" != true ]]; then
-    read -rp "Install PostgreSQL & Redis locally? (yes/no) [yes]: " db_answer
-    db_answer=${db_answer:-yes}
-    if [[ "$db_answer" == "no" ]]; then
-      SKIP_DB=true
-    fi
+    read -rp "¿Instalar PostgreSQL y Redis localmente? (si/no) [si]: " db_answer
+    [[ "${db_answer:-si}" == "no" ]] && SKIP_DB=true
   fi
-
   if [[ "$SKIP_WEBSERVER" != true ]]; then
-    read -rp "Configure domain & SSL with Nginx? (yes/no) [no]: " web_answer
-    web_answer=${web_answer:-no}
-    if [[ "$web_answer" == "yes" ]]; then
-      if [[ -z "$DOMAIN" ]]; then
-        read -rp "  Domain (e.g., chat.example.com): " DOMAIN
-      fi
-      if [[ -z "$LE_EMAIL" ]]; then
-        read -rp "  Email for Let's Encrypt: " LE_EMAIL
-      fi
+    read -rp "¿Configurar dominio y SSL con Nginx? (si/no) [no]: " web_answer
+    if [[ "${web_answer:-no}" == "si" ]]; then
+      [[ -z "$DOMAIN" ]] && read -rp "  Dominio: " DOMAIN
+      [[ -z "$LE_EMAIL" ]] && read -rp "  Email para Let's Encrypt: " LE_EMAIL
     else
       SKIP_WEBSERVER=true
     fi
   fi
-
-  echo ""
-  echo -e "${BOLD}Summary${NC}"
-  echo "------------------------------------"
-  echo -e "  Database:   $([ "$SKIP_DB" == true ] && echo "External" || echo "Local PG${PG_VERSION} + Redis")"
-  echo -e "  Webserver:  $([ "$SKIP_WEBSERVER" == true ] && echo "Skip" || echo "Nginx + SSL (${DOMAIN})")"
-  echo -e "  Repository: ${GIT_REPO}"
-  echo -e "  Branch:     ${GIT_BRANCH}"
-  echo ""
-
-  read -rp "Proceed? (yes/no): " confirm
-  if [[ "$confirm" != "yes" ]]; then
-    fatal "Installation cancelled."
-  fi
+  read -rp "¿Continuar? (si/no): " confirm
+  [[ "$confirm" == "si" ]] || fatal "Instalación cancelada."
 }
 
 ###############################################################################
-# SYSTEM DEPENDENCIES
+# PASO 1: PURGAR TODO LO QUE ESTORBE
 #
-# Required by (analysis of Gemfile native gems):
-#   build-essential, g++, gcc, autoconf, make  -> grpc, cld3, nokogiri compilation
-#   libssl-dev       -> puma (nio4r), bcrypt, openssl bindings
-#   libyaml-dev      -> psych gem (YAML parsing)
-#   libreadline-dev  -> Ruby readline support
-#   libffi-dev       -> ffi gem (llhttp-ffi, ruby-vips FFI)
-#   libxml2-dev      -> nokogiri (HTML/XML parsing, sanitization)
-#   libxslt1-dev     -> nokogiri XSLT support
-#   zlib1g-dev       -> nokogiri, various compression
-#   liblzma-dev      -> Ruby LZMA support
-#   libgmp-dev       -> Ruby bignum operations
-#   libncurses5-dev  -> Ruby readline/curses
-#   libgdbm-dev      -> Ruby GDBM database support
-#   libpq-dev        -> pg gem (PostgreSQL adapter)
-#   libvips          -> ruby-vips / image_processing gem (thumbnail generation)
-#   imagemagick      -> mini_magick gem (image processing fallback)
-#   patch            -> RVM ruby installation
-#   file             -> MIME type detection for attachments
+# Filosofía: Este instalador SABE qué necesita. Todo lo demás SOBRA.
+# Elimina: system ruby, rbenv, versiones antiguas de node, etc.
 ###############################################################################
-install_system_dependencies() {
-  step "Installing system dependencies"
+purge_conflicting_software() {
+  step "Eliminando software conflictivo"
 
   export DEBIAN_FRONTEND=noninteractive
 
-  info "Updating package lists..."
-  apt-get update -qq >> "$LOG_FILE" 2>&1
+  # ── ELIMINAR RUBY DEL SISTEMA ──
+  # El paquete ruby-dev/ruby instala Ruby del sistema (ej: 3.2.3 en Ubuntu 24.04)
+  # que luego 'ruby --version' encuentra ANTES que el de RVM.
+  # Lo eliminamos SIN piedad.
+  info "Eliminando Ruby del sistema (si existe)..."
+  apt-get purge -y ruby ruby-dev ruby-full ruby-bundler ruby3.* 2>/dev/null >> "$LOG_FILE" 2>&1 || true
+  apt-get autoremove -y 2>/dev/null >> "$LOG_FILE" 2>&1 || true
 
-  info "Upgrading existing packages..."
+  # Eliminar rbenv si existe (solo usamos RVM)
+  if [[ -d "${CW_HOME}/.rbenv" ]]; then
+    info "Eliminando rbenv..."
+    rm -rf "${CW_HOME}/.rbenv"
+  fi
+  if [[ -d "/root/.rbenv" ]]; then
+    rm -rf "/root/.rbenv"
+  fi
+
+  # Eliminar cualquier binario ruby suelto del sistema que NO sea de RVM
+  for ruby_bin in /usr/bin/ruby /usr/local/bin/ruby /usr/bin/ruby3*; do
+    if [[ -f "$ruby_bin" ]] || [[ -L "$ruby_bin" ]]; then
+      # No tocar si es symlink a RVM
+      if ! readlink -f "$ruby_bin" 2>/dev/null | grep -q rvm; then
+        info "Eliminando $ruby_bin (no es de RVM)"
+        rm -f "$ruby_bin"
+      fi
+    fi
+  done
+
+  # Eliminar binarios de bundler del sistema
+  for bundler_bin in /usr/bin/bundler /usr/local/bin/bundler /usr/bin/bundle /usr/local/bin/bundle; do
+    if [[ -f "$bundler_bin" ]] || [[ -L "$bundler_bin" ]]; then
+      if ! readlink -f "$bundler_bin" 2>/dev/null | grep -q rvm; then
+        rm -f "$bundler_bin"
+      fi
+    fi
+  done
+
+  # ── ELIMINAR NODE.JS ANTIGUO ──
+  # Si existe node pero no es la versión correcta, eliminarlo
+  if command -v node &>/dev/null; then
+    local current_node_major
+    current_node_major=$(node --version 2>/dev/null | cut -d'.' -f1 | tr -d 'v' || echo "0")
+    if [[ "$current_node_major" -ne $NODE_MAJOR ]]; then
+      info "Eliminando Node.js v${current_node_major} (necesitamos v${NODE_MAJOR})..."
+      apt-get purge -y nodejs npm 2>/dev/null >> "$LOG_FILE" 2>&1 || true
+      rm -f /etc/apt/sources.list.d/nodesource*.list 2>/dev/null || true
+      rm -f /usr/local/bin/node /usr/local/bin/npm /usr/local/bin/npx 2>/dev/null || true
+    fi
+  fi
+
+  # ── ELIMINAR pnpm global viejo ──
+  if command -v pnpm &>/dev/null; then
+    local current_pnpm
+    current_pnpm=$(pnpm --version 2>/dev/null || echo "0.0.0")
+    if [[ "$current_pnpm" != "$PNPM_VERSION" ]]; then
+      info "Eliminando pnpm ${current_pnpm} (necesitamos ${PNPM_VERSION})..."
+      npm uninstall -g pnpm 2>/dev/null >> "$LOG_FILE" 2>&1 || true
+      rm -f /usr/local/bin/pnpm /usr/local/bin/pnpx 2>/dev/null || true
+    fi
+  fi
+
+  # ── LIMPIAR CACHÉ DE APT ──
+  apt-get autoremove -y 2>/dev/null >> "$LOG_FILE" 2>&1 || true
+
+  success "Software conflictivo eliminado"
+}
+
+###############################################################################
+# PASO 2: DEPENDENCIAS DEL SISTEMA
+# NOTA: NO incluye ruby-dev ni ningún paquete que instale Ruby del sistema
+###############################################################################
+install_system_dependencies() {
+  step "Instalando dependencias del sistema"
+
+  export DEBIAN_FRONTEND=noninteractive
+
+  info "Actualizando paquetes..."
+  apt-get update -qq >> "$LOG_FILE" 2>&1
   apt-get upgrade -y -qq >> "$LOG_FILE" 2>&1
 
-  info "Installing build tools and libraries..."
+  # LISTA CERRADA — Solo lo que Chatwoot necesita para compilar gems nativos
+  # SIN ruby-dev, SIN ruby, SIN nada que traiga Ruby del sistema
+  info "Instalando dependencias de compilación..."
   apt-get install -y -qq \
     git curl wget gnupg2 ca-certificates lsb-release \
     software-properties-common apt-transport-https \
-    build-essential g++ gcc autoconf make \
+    build-essential g++ gcc autoconf make cmake pkg-config \
     libssl-dev libyaml-dev libreadline-dev libffi-dev \
     libxml2-dev libxslt1-dev zlib1g-dev liblzma-dev \
     libgmp-dev libncurses5-dev libgdbm-dev \
     libpq-dev libvips imagemagick \
-    file patch sudo python3-pip \
+    file patch sudo \
     >> "$LOG_FILE" 2>&1
 
-  # python3-packaging (needed for version comparison in cwctl)
-  # shellcheck source=/dev/null
-  source /etc/os-release
-  if [[ "$VERSION_ID" == "24.04" ]]; then
-    apt-get install -y -qq python3-packaging >> "$LOG_FILE" 2>&1
-  else
-    python3 -m pip install packaging >> "$LOG_FILE" 2>&1 || true
+  # ── VERIFICAR que NO se coló Ruby del sistema ──
+  if dpkg -l ruby 2>/dev/null | grep -q "^ii"; then
+    warn "ruby del sistema se coló como dependencia. Eliminando..."
+    apt-get purge -y ruby ruby-dev 2>/dev/null >> "$LOG_FILE" 2>&1 || true
   fi
 
-  success "System dependencies installed"
+  success "Dependencias del sistema instaladas (sin Ruby del sistema)"
 }
 
 ###############################################################################
-# NODE.JS
+# PASO 3: NODE.JS — Versión EXACTA
 ###############################################################################
 install_nodejs() {
-  step "Installing Node.js ${NODE_MAJOR}.x"
+  step "Instalando Node.js v${NODE_MAJOR} (obligatorio)"
 
+  # Verificar si ya está la versión correcta
   if command -v node &>/dev/null; then
     local current_major
     current_major=$(node --version | cut -d'.' -f1 | tr -d 'v')
-    if [[ "$current_major" -ge $NODE_MAJOR ]]; then
-      success "Node.js $(node --version) already installed"
-      ensure_pnpm
+    if [[ "$current_major" -eq $NODE_MAJOR ]]; then
+      success "Node.js $(node --version) — versión correcta confirmada"
+      install_pnpm
       return 0
     fi
-    info "Upgrading Node.js from v${current_major} to v${NODE_MAJOR}..."
+    # Versión incorrecta: ya fue purgada en purge_conflicting_software
+    fatal "Node.js versión incorrecta persiste: v${current_major}. Algo falló en la purga."
   fi
 
+  # Instalar Node.js desde NodeSource
   mkdir -p /etc/apt/keyrings
   curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key \
     | gpg --dearmor --yes -o /etc/apt/keyrings/nodesource.gpg >> "$LOG_FILE" 2>&1
@@ -393,45 +346,69 @@ install_nodejs() {
   apt-get update -qq >> "$LOG_FILE" 2>&1
   apt-get install -y -qq nodejs >> "$LOG_FILE" 2>&1
 
-  success "Node.js $(node --version) installed"
-  ensure_pnpm
-}
-
-ensure_pnpm() {
-  if command -v pnpm &>/dev/null; then
-    local pnpm_major
-    pnpm_major=$(pnpm --version 2>/dev/null | cut -d'.' -f1)
-    if [[ "$pnpm_major" -ge 10 ]]; then
-      success "pnpm $(pnpm --version) already installed"
-      return 0
-    fi
+  # ── VERIFICACIÓN OBLIGATORIA ──
+  if ! command -v node &>/dev/null; then
+    fatal "Node.js no se instaló. Revisa ${LOG_FILE}"
+  fi
+  local installed_major
+  installed_major=$(node --version | cut -d'.' -f1 | tr -d 'v')
+  if [[ "$installed_major" -ne $NODE_MAJOR ]]; then
+    fatal "Node.js se instaló pero es v${installed_major}, necesitamos v${NODE_MAJOR}. Inaceptable."
   fi
 
-  info "Installing pnpm ${PNPM_VERSION}..."
+  success "Node.js $(node --version) instalado y VERIFICADO"
+  install_pnpm
+}
+
+install_pnpm() {
+  # Verificar si ya es la versión exacta
+  if command -v pnpm &>/dev/null; then
+    local current_pnpm
+    current_pnpm=$(pnpm --version 2>/dev/null || echo "0.0.0")
+    if [[ "$current_pnpm" == "$PNPM_VERSION" ]]; then
+      success "pnpm ${PNPM_VERSION} — versión exacta confirmada"
+      return 0
+    fi
+    # Versión incorrecta: eliminar
+    info "pnpm ${current_pnpm} encontrado, necesitamos ${PNPM_VERSION}. Reemplazando..."
+    npm uninstall -g pnpm 2>/dev/null >> "$LOG_FILE" 2>&1 || true
+  fi
+
   npm install -g "pnpm@${PNPM_VERSION}" >> "$LOG_FILE" 2>&1
-  success "pnpm $(pnpm --version) installed"
+
+  # ── VERIFICACIÓN OBLIGATORIA ──
+  local final_pnpm
+  final_pnpm=$(pnpm --version 2>/dev/null || echo "FALLO")
+  if [[ "$final_pnpm" != "$PNPM_VERSION" ]]; then
+    fatal "pnpm se instaló como ${final_pnpm}, necesitamos ${PNPM_VERSION}. Inaceptable."
+  fi
+  success "pnpm ${PNPM_VERSION} instalado y VERIFICADO"
 }
 
 ###############################################################################
-# POSTGRESQL 16 + pgvector
+# PASO 4: POSTGRESQL — Versión EXACTA + pgvector
 ###############################################################################
 install_postgresql() {
   if [[ "$SKIP_DB" == true ]]; then
-    step "Skipping PostgreSQL (external database)"
+    step "PostgreSQL omitido (base de datos externa)"
     return 0
   fi
 
-  step "Installing PostgreSQL ${PG_VERSION} with pgvector"
+  step "Instalando PostgreSQL ${PG_VERSION} + pgvector (obligatorio)"
 
+  # Verificar si ya está instalado con versión correcta
   if command -v psql &>/dev/null; then
     local pg_installed
     pg_installed=$(psql --version 2>/dev/null | grep -oP '\d+' | head -1 || echo "0")
-    if [[ "$pg_installed" -ge $PG_VERSION ]]; then
-      success "PostgreSQL ${pg_installed} already installed"
+    if [[ "$pg_installed" -eq $PG_VERSION ]]; then
+      success "PostgreSQL ${PG_VERSION} — versión correcta confirmada"
       ensure_postgresql_running
       configure_postgresql
       return 0
     fi
+    # Versión incorrecta: no es responsabilidad nuestra migrar datos de PG
+    warn "PostgreSQL ${pg_installed} encontrado pero necesitamos ${PG_VERSION}."
+    info "Instalando PostgreSQL ${PG_VERSION} en paralelo..."
   fi
 
   echo "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -cs)-pgdg main" \
@@ -446,7 +423,14 @@ install_postgresql() {
     postgresql-contrib \
     >> "$LOG_FILE" 2>&1
 
-  success "PostgreSQL ${PG_VERSION} with pgvector installed"
+  # ── VERIFICACIÓN OBLIGATORIA ──
+  local final_pg
+  final_pg=$(psql --version 2>/dev/null | grep -oP '\d+' | head -1 || echo "0")
+  if [[ "$final_pg" -ne $PG_VERSION ]]; then
+    fatal "PostgreSQL se instaló como v${final_pg}, necesitamos v${PG_VERSION}. Inaceptable."
+  fi
+
+  success "PostgreSQL ${PG_VERSION} + pgvector instalado y VERIFICADO"
   ensure_postgresql_running
   configure_postgresql
 }
@@ -454,16 +438,13 @@ install_postgresql() {
 ensure_postgresql_running() {
   systemctl enable postgresql >> "$LOG_FILE" 2>&1
   systemctl start postgresql >> "$LOG_FILE" 2>&1
-
   local retries=0
   while ! pg_isready -q 2>/dev/null; do
     retries=$((retries + 1))
-    if [[ $retries -ge 30 ]]; then
-      fatal "PostgreSQL failed to start within 30 seconds."
-    fi
+    [[ $retries -ge 30 ]] && fatal "PostgreSQL no arrancó en 30 segundos."
     sleep 1
   done
-  success "PostgreSQL is running"
+  success "PostgreSQL corriendo"
 }
 
 configure_postgresql() {
@@ -472,25 +453,23 @@ configure_postgresql() {
 
   if [[ -f "$pg_pass_file" ]]; then
     PG_PASS=$(cat "$pg_pass_file")
-    info "Using existing PostgreSQL password"
+    info "Usando contraseña PostgreSQL existente"
   else
     PG_PASS=$(head /dev/urandom | tr -dc 'A-Za-z0-9' | head -c 32)
     echo "$PG_PASS" > "$pg_pass_file"
     chmod 600 "$pg_pass_file"
-    info "Generated PostgreSQL password"
+    info "Contraseña PostgreSQL generada"
   fi
 
-  # Create user (idempotent)
   local user_exists
   user_exists=$(sudo -u postgres psql -tAc "SELECT 1 FROM pg_roles WHERE rolname='${CW_USER}'" 2>/dev/null || echo "0")
   if [[ "$user_exists" != "1" ]]; then
     sudo -u postgres psql -c "CREATE USER ${CW_USER} CREATEDB SUPERUSER PASSWORD '${PG_PASS}';" >> "$LOG_FILE" 2>&1
-    info "Created PostgreSQL user: ${CW_USER}"
   else
     sudo -u postgres psql -c "ALTER USER ${CW_USER} PASSWORD '${PG_PASS}';" >> "$LOG_FILE" 2>&1
   fi
 
-  # Ensure template1 is UTF-8
+  # Asegurar template1 UTF-8
   sudo -u postgres psql <<-PGSQL >> "$LOG_FILE" 2>&1 || true
     UPDATE pg_database SET datistemplate = FALSE WHERE datname = 'template1';
     DROP DATABASE IF EXISTS template1;
@@ -498,29 +477,30 @@ configure_postgresql() {
     UPDATE pg_database SET datistemplate = TRUE WHERE datname = 'template1';
 PGSQL
 
-  success "PostgreSQL configured"
+  success "PostgreSQL configurado"
 }
 
 ###############################################################################
-# REDIS
+# PASO 5: REDIS
 ###############################################################################
 install_redis() {
   if [[ "$SKIP_DB" == true ]]; then
-    step "Skipping Redis (external service)"
+    step "Redis omitido (servicio externo)"
     return 0
   fi
 
-  step "Installing Redis"
+  step "Instalando Redis ${REDIS_MIN_VERSION}+ (obligatorio)"
 
   if command -v redis-server &>/dev/null; then
     local redis_major
     redis_major=$(redis-server --version | grep -oP 'v=\K\d+' || echo "0")
     if [[ "$redis_major" -ge $REDIS_MIN_VERSION ]]; then
-      success "Redis $(redis-server --version | grep -oP 'v=\K[\d.]+') already installed"
+      success "Redis $(redis-server --version | grep -oP 'v=\K[\d.]+') — versión correcta"
       ensure_redis_running
       return 0
     fi
-    info "Upgrading Redis to v${REDIS_MIN_VERSION}+..."
+    info "Redis v${redis_major} encontrado, necesitamos v${REDIS_MIN_VERSION}+. Actualizando..."
+    apt-get purge -y redis-server redis-tools 2>/dev/null >> "$LOG_FILE" 2>&1 || true
   fi
 
   curl -fsSL https://packages.redis.io/gpg \
@@ -531,40 +511,53 @@ install_redis() {
   apt-get update -qq >> "$LOG_FILE" 2>&1
   apt-get install -y -qq redis-server >> "$LOG_FILE" 2>&1
 
-  success "Redis $(redis-server --version | grep -oP 'v=\K[\d.]+') installed"
+  # ── VERIFICACIÓN OBLIGATORIA ──
+  local final_redis
+  final_redis=$(redis-server --version | grep -oP 'v=\K\d+' || echo "0")
+  if [[ "$final_redis" -lt $REDIS_MIN_VERSION ]]; then
+    fatal "Redis se instaló como v${final_redis}, necesitamos v${REDIS_MIN_VERSION}+. Inaceptable."
+  fi
+
+  success "Redis $(redis-server --version | grep -oP 'v=\K[\d.]+') instalado y VERIFICADO"
   ensure_redis_running
 }
 
 ensure_redis_running() {
   systemctl enable redis-server.service >> "$LOG_FILE" 2>&1
   systemctl start redis-server.service >> "$LOG_FILE" 2>&1
-
   local retries=0
   while ! redis-cli ping 2>/dev/null | grep -q PONG; do
     retries=$((retries + 1))
-    if [[ $retries -ge 15 ]]; then
-      fatal "Redis failed to start within 15 seconds."
-    fi
+    [[ $retries -ge 15 ]] && fatal "Redis no arrancó en 15 segundos."
     sleep 1
   done
-  success "Redis is running"
+  success "Redis corriendo"
 }
 
 ###############################################################################
-# RUBY via RVM
+# PASO 6: RUBY — Via RVM — VERSIÓN EXACTA — Sin tolerancia
 ###############################################################################
 install_ruby() {
-  step "Installing Ruby ${RUBY_VERSION} via RVM"
+  step "Instalando Ruby ${RUBY_VERSION} via RVM (obligatorio)"
 
-  # Create system user
+  # ── CREAR USUARIO SISTEMA ──
   if ! id -u "$CW_USER" &>/dev/null; then
     adduser --disabled-password --gecos "" "$CW_USER" >> "$LOG_FILE" 2>&1
-    info "Created system user: ${CW_USER}"
+    info "Usuario ${CW_USER} creado"
   fi
 
-  # Install RVM
+  # ── CONFIRMAR QUE NO HAY RUBY DEL SISTEMA ──
+  # Si /usr/bin/ruby existe y NO es de RVM, eliminarlo
+  if [[ -f /usr/bin/ruby ]] || [[ -L /usr/bin/ruby ]]; then
+    if ! readlink -f /usr/bin/ruby 2>/dev/null | grep -q rvm; then
+      info "Eliminando /usr/bin/ruby residual (no es RVM)..."
+      rm -f /usr/bin/ruby /usr/bin/ruby3* /usr/bin/erb /usr/bin/gem /usr/bin/irb /usr/bin/rdoc /usr/bin/ri
+    fi
+  fi
+
+  # ── INSTALAR RVM (si no existe) ──
   if [[ ! -d "/usr/local/rvm" ]] && [[ ! -d "${CW_HOME}/.rvm" ]]; then
-    info "Installing RVM..."
+    info "Instalando RVM..."
     gpg --keyserver hkp://keyserver.ubuntu.com --recv-keys \
       409B6B1796C275462A1703113804BB82D39DC0E3 \
       7D2BAF1CF37B13E2069D6956105BD0E739499BDB >> "$LOG_FILE" 2>&1 || true
@@ -572,110 +565,127 @@ install_ruby() {
       409B6B1796C275462A1703113804BB82D39DC0E3 \
       7D2BAF1CF37B13E2069D6956105BD0E739499BDB >> "$LOG_FILE" 2>&1 || true
     curl -sSL https://get.rvm.io | bash -s stable >> "$LOG_FILE" 2>&1
+    # Agregar usuario al grupo rvm
     usermod -aG rvm "$CW_USER" 2>/dev/null || adduser "$CW_USER" rvm >> "$LOG_FILE" 2>&1 || true
-    success "RVM installed"
+    success "RVM instalado"
   else
-    success "RVM already present"
+    success "RVM ya presente"
   fi
 
-  # Install Ruby + Bundler
-  info "Installing Ruby ${RUBY_VERSION} (this takes several minutes)..."
+  # ── INSTALAR RUBY EXACTO + BUNDLER EXACTO ──
+  info "Instalando Ruby ${RUBY_VERSION} (esto toma varios minutos)..."
   run_as_cw "
 rvm autolibs disable
-rvm install 'ruby-${RUBY_VERSION}'
-rvm use ${RUBY_VERSION} --default
+rvm install 'ruby-${RUBY_VERSION}' --no-docs
+rvm use 'ruby-${RUBY_VERSION}' --default
+rvm cleanup all 2>/dev/null || true
 gem install bundler -v '${BUNDLER_VERSION}' --no-document
 " >> "$LOG_FILE" 2>&1
 
-  # Verify
+  # ── VERIFICACIÓN OBLIGATORIA — TRIPLE CHECK ──
   local installed_ruby
-  installed_ruby=$(run_as_cw "ruby --version" 2>/dev/null || echo "unknown")
-  info "Ruby detected: ${installed_ruby}"
-  if echo "$installed_ruby" | grep -q "${RUBY_VERSION}"; then
-    success "Ruby ${RUBY_VERSION} + Bundler ${BUNDLER_VERSION}"
-  else
-    fatal "Ruby installation failed. Got: ${installed_ruby}. See ${LOG_FILE}"
+  installed_ruby=$(run_as_cw "ruby --version" 2>/dev/null || echo "FALLO")
+  info "Ruby detectado: ${installed_ruby}"
+
+  if ! echo "$installed_ruby" | grep -q "${RUBY_VERSION}"; then
+    error "Ruby ${RUBY_VERSION} NO está activo. Se detectó: ${installed_ruby}"
+
+    # Diagnóstico: ¿qué ruby está en el PATH?
+    info "Diagnóstico — which ruby:"
+    run_as_cw "which ruby && ruby --version && echo PATH=\$PATH" 2>&1 | tee -a "$LOG_FILE" || true
+
+    # Diagnóstico: ¿existe el ruby de RVM?
+    info "Diagnóstico — RVM rubies:"
+    run_as_cw "rvm list" 2>&1 | tee -a "$LOG_FILE" || true
+
+    fatal "Ruby ${RUBY_VERSION} OBLIGATORIO no está activo. No se puede continuar. Ver ${LOG_FILE}"
   fi
+
+  # Verificar bundler
+  local installed_bundler
+  installed_bundler=$(run_as_cw "bundle --version" 2>/dev/null || echo "FALLO")
+  if ! echo "$installed_bundler" | grep -q "${BUNDLER_VERSION}"; then
+    warn "Bundler esperado: ${BUNDLER_VERSION}. Detectado: ${installed_bundler}. Reinstalando..."
+    run_as_cw "gem install bundler -v '${BUNDLER_VERSION}' --no-document --force" >> "$LOG_FILE" 2>&1
+  fi
+
+  success "Ruby ${RUBY_VERSION} + Bundler ${BUNDLER_VERSION} — VERIFICADO"
 }
 
 ###############################################################################
-# APPLICATION CODE
+# PASO 7: CÓDIGO DE LA APLICACIÓN
 ###############################################################################
 clone_or_update_repo() {
-  step "Setting up application code"
+  step "Configurando código de la aplicación"
 
   if [[ -d "$CW_APP" ]]; then
     if [[ "$UPGRADE_MODE" == true ]]; then
-      info "Updating existing repository..."
+      info "Actualizando repositorio..."
       run_as_cw "
-        cd chatwoot
-        git fetch origin
-        git checkout '${GIT_BRANCH}' 2>/dev/null || git checkout -b '${GIT_BRANCH}' 'origin/${GIT_BRANCH}'
-        git reset --hard 'origin/${GIT_BRANCH}'
-      " >> "$LOG_FILE" 2>&1
-      success "Repository updated: ${GIT_BRANCH}"
+cd chatwoot
+git fetch origin
+git checkout '${GIT_BRANCH}' 2>/dev/null || git checkout -b '${GIT_BRANCH}' 'origin/${GIT_BRANCH}'
+git reset --hard 'origin/${GIT_BRANCH}'
+" >> "$LOG_FILE" 2>&1
+      success "Repositorio actualizado: ${GIT_BRANCH}"
     else
-      success "Repository already exists"
+      success "Repositorio ya existe"
     fi
   else
-    info "Cloning repository..."
+    info "Clonando repositorio..."
     run_as_cw "
-      git clone '${GIT_REPO}' chatwoot
-      cd chatwoot
-      git checkout '${GIT_BRANCH}'
-    " >> "$LOG_FILE" 2>&1
-    success "Repository cloned: ${GIT_BRANCH}"
+git clone '${GIT_REPO}' chatwoot
+cd chatwoot
+git checkout '${GIT_BRANCH}'
+" >> "$LOG_FILE" 2>&1
+    success "Repositorio clonado: ${GIT_BRANCH}"
   fi
 }
 
+###############################################################################
+# PASO 8: DEPENDENCIAS DE LA APLICACIÓN
+###############################################################################
 install_app_dependencies() {
-  step "Installing application dependencies"
+  step "Instalando dependencias de la aplicación"
 
-  info "bundle install (this takes several minutes)..."
+  info "bundle install (esto toma varios minutos)..."
   run_as_cw "
-    cd chatwoot
-    bundle config set --local deployment false
-    bundle config set --local without 'development test'
-    bundle install --jobs $(nproc)
-  " >> "$LOG_FILE" 2>&1
-  success "Ruby gems installed"
+cd chatwoot
+bundle config set --local deployment false
+bundle config set --local without 'development test'
+bundle install --jobs $(nproc)
+" >> "$LOG_FILE" 2>&1
+  success "Gems de Ruby instalados"
 
   info "pnpm install..."
   run_as_cw "
-    cd chatwoot
-    pnpm install --frozen-lockfile 2>/dev/null || pnpm install
-  " >> "$LOG_FILE" 2>&1
-  success "JavaScript packages installed"
+cd chatwoot
+pnpm install --frozen-lockfile 2>/dev/null || pnpm install
+" >> "$LOG_FILE" 2>&1
+  success "Paquetes JavaScript instalados"
 }
 
 ###############################################################################
-# ENVIRONMENT CONFIGURATION
-#
-# Generates all secrets automatically:
-# - SECRET_KEY_BASE (64-char hex for Rails signed cookies)
-# - ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY (32-char for MFA/2FA encryption)
-# - ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY (32-char for deterministic encryption)
-# - ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT (32-char salt)
+# PASO 9: CONFIGURACIÓN DEL ENTORNO (.env)
 ###############################################################################
 configure_environment() {
-  step "Configuring environment"
+  step "Configurando entorno"
 
   local env_file="${CW_APP}/.env"
 
-  # Preserve existing config on upgrade
+  # En upgrade, preservar .env existente (solo arreglar defaults)
   if [[ "$UPGRADE_MODE" == true ]] && [[ -f "$env_file" ]]; then
-    # Only fix defaults that should have been replaced
     if grep -q "replace_with_lengthy_secure_hex" "$env_file" 2>/dev/null; then
       local new_secret
       new_secret=$(head /dev/urandom | tr -dc 'A-Za-z0-9' | head -c 64)
       sed -i "s/SECRET_KEY_BASE=.*/SECRET_KEY_BASE=${new_secret}/" "$env_file"
-      info "Fixed default SECRET_KEY_BASE"
+      info "SECRET_KEY_BASE default reemplazado"
     fi
-    success "Existing .env preserved (upgrade mode)"
+    success ".env existente preservado (modo upgrade)"
     return 0
   fi
 
-  # Generate all secrets
+  # Generar todos los secretos
   local secret_key encryption_pk encryption_dk encryption_salt
   secret_key=$(head /dev/urandom | tr -dc 'A-Za-z0-9' | head -c 64)
   encryption_pk=$(head /dev/urandom | tr -dc 'A-Za-z0-9' | head -c 32)
@@ -683,21 +693,18 @@ configure_environment() {
   encryption_salt=$(head /dev/urandom | tr -dc 'A-Za-z0-9' | head -c 32)
 
   local frontend_url="http://0.0.0.0:3000"
-  if [[ -n "$DOMAIN" ]]; then
-    frontend_url="https://${DOMAIN}"
-  fi
+  [[ -n "$DOMAIN" ]] && frontend_url="https://${DOMAIN}"
 
   local pg_host="localhost" pg_user="${CW_USER}" pg_pass_val="${PG_PASS}" redis_url="redis://localhost:6379"
   if [[ "$SKIP_DB" == true ]]; then
     pg_host="" pg_user="" pg_pass_val="" redis_url=""
-    warn "Database settings empty. Configure .env manually for external services."
+    warn "Configuración de base de datos vacía. Configura .env manualmente."
   fi
 
   sudo -i -u "$CW_USER" bash -c "cat > '${env_file}'" <<ENVFILE
-# Chatwoot v${CHATWOOT_VERSION} - Generated $(date -Iseconds)
-# Installer v${INSTALLER_VERSION}
+# Chatwoot v${CHATWOOT_VERSION} — Generado $(date -Iseconds)
+# Instalador v${INSTALLER_VERSION}
 
-# === CORE ===
 SECRET_KEY_BASE=${secret_key}
 FRONTEND_URL=${frontend_url}
 RAILS_ENV=production
@@ -705,22 +712,18 @@ RAILS_LOG_TO_STDOUT=true
 LOG_LEVEL=info
 FORCE_SSL=false
 
-# === Active Record Encryption (MFA/2FA) ===
 ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY=${encryption_pk}
 ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY=${encryption_dk}
 ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT=${encryption_salt}
 
-# === DATABASE ===
 POSTGRES_HOST=${pg_host}
 POSTGRES_USERNAME=${pg_user}
 POSTGRES_PASSWORD=${pg_pass_val}
 RAILS_MAX_THREADS=5
 
-# === REDIS ===
 REDIS_URL=${redis_url}
 REDIS_PASSWORD=
 
-# === EMAIL (configure for production) ===
 MAILER_SENDER_EMAIL=Chatwoot <noreply@${DOMAIN:-localhost}>
 SMTP_DOMAIN=${DOMAIN:-localhost}
 SMTP_ADDRESS=
@@ -731,106 +734,92 @@ SMTP_AUTHENTICATION=login
 SMTP_ENABLE_STARTTLS_AUTO=true
 SMTP_OPENSSL_VERIFY_MODE=peer
 
-# === STORAGE ===
 ACTIVE_STORAGE_SERVICE=local
-
-# === FEATURES ===
 ENABLE_ACCOUNT_SIGNUP=false
 ENABLE_PUSH_RELAY_SERVER=false
-
-# === SIDEKIQ ===
 SIDEKIQ_CONCURRENCY=10
-
-# === INSTALLATION ===
 INSTALLATION_ENV=linux_script
 ENVFILE
 
   chmod 600 "$env_file"
   chown "${CW_USER}:${CW_USER}" "$env_file"
-  success "Environment configured (all secrets auto-generated)"
+  success "Entorno configurado (secretos auto-generados)"
 }
 
 ###############################################################################
-# DIRECTORIES
-# Creates tmp/pids (fixes Puma Errno::ENOENT on server.pid)
+# PASO 10: DIRECTORIOS
 ###############################################################################
 prepare_directories() {
-  step "Preparing application directories"
+  step "Preparando directorios"
 
   run_as_cw "
-    cd chatwoot
-    mkdir -p tmp/pids tmp/cache tmp/sockets log storage
-  " >> "$LOG_FILE" 2>&1
+cd chatwoot
+mkdir -p tmp/pids tmp/cache tmp/sockets log storage
+" >> "$LOG_FILE" 2>&1
 
-  success "Directories ready (tmp/pids, tmp/cache, log, storage)"
+  success "Directorios creados"
 }
 
 ###############################################################################
-# ASSET COMPILATION
+# PASO 11: COMPILAR ASSETS
 ###############################################################################
 compile_assets() {
-  step "Compiling assets (this takes several minutes)"
+  step "Compilando assets (esto toma varios minutos)"
 
-  info "rake assets:precompile..."
   run_as_cw "
-    cd chatwoot
-    RAILS_ENV=production \
-    NODE_OPTIONS='--max-old-space-size=4096' \
-    SECRET_KEY_BASE=precompile_placeholder \
-    bundle exec rake assets:precompile
-  " >> "$LOG_FILE" 2>&1
+cd chatwoot
+RAILS_ENV=production \
+NODE_OPTIONS='--max-old-space-size=4096' \
+SECRET_KEY_BASE=precompile_placeholder \
+bundle exec rake assets:precompile
+" >> "$LOG_FILE" 2>&1
 
-  success "Assets compiled"
+  success "Assets compilados"
 }
 
 ###############################################################################
-# DATABASE MIGRATIONS
+# PASO 12: MIGRACIONES DE BASE DE DATOS
 ###############################################################################
 run_database_migrations() {
   if [[ "$SKIP_DB" == true ]]; then
-    step "Skipping database migrations (external database)"
-    warn "After configuring .env, run:"
-    warn "  cd ${CW_APP} && RAILS_ENV=production POSTGRES_STATEMENT_TIMEOUT=600s bundle exec rails db:chatwoot_prepare"
+    step "Migraciones omitidas (base de datos externa)"
+    warn "Después de configurar .env, ejecuta:"
+    warn "  cd ${CW_APP} && RAILS_ENV=production bundle exec rails db:chatwoot_prepare"
     return 0
   fi
 
-  step "Running database migrations"
+  step "Ejecutando migraciones de base de datos"
 
-  info "db:chatwoot_prepare (create + migrate + seed)..."
   run_as_cw "
-    cd chatwoot
-    RAILS_ENV=production \
-    POSTGRES_STATEMENT_TIMEOUT=600s \
-    bundle exec rails db:chatwoot_prepare
-  " >> "$LOG_FILE" 2>&1
+cd chatwoot
+RAILS_ENV=production \
+POSTGRES_STATEMENT_TIMEOUT=600s \
+bundle exec rails db:chatwoot_prepare
+" >> "$LOG_FILE" 2>&1
 
-  success "Database ready"
+  success "Base de datos lista"
 }
 
 ###############################################################################
-# NGINX & SSL
+# PASO 13: NGINX + SSL
 ###############################################################################
 install_nginx_ssl() {
   if [[ "$SKIP_WEBSERVER" == true ]] || [[ -z "$DOMAIN" ]]; then
-    step "Skipping Nginx & SSL"
+    step "Nginx/SSL omitido"
     return 0
   fi
 
-  step "Installing Nginx & SSL for ${DOMAIN}"
+  step "Instalando Nginx + SSL para ${DOMAIN}"
 
-  apt-get install -y -qq nginx nginx-full certbot python3-certbot-nginx >> "$LOG_FILE" 2>&1
-  success "Nginx & Certbot installed"
+  apt-get install -y -qq nginx certbot python3-certbot-nginx >> "$LOG_FILE" 2>&1
 
-  info "Obtaining SSL certificate..."
+  info "Obteniendo certificado SSL..."
   certbot certonly --non-interactive --agree-tos --nginx \
     -m "${LE_EMAIL}" -d "${DOMAIN}" >> "$LOG_FILE" 2>&1
-  success "SSL certificate obtained"
+  success "Certificado SSL obtenido"
 
-  if [[ ! -f /etc/ssl/dhparam ]]; then
-    curl -s https://ssl-config.mozilla.org/ffdhe4096.txt >> /etc/ssl/dhparam 2>/dev/null || true
-  fi
+  [[ -f /etc/ssl/dhparam ]] || curl -s https://ssl-config.mozilla.org/ffdhe4096.txt >> /etc/ssl/dhparam 2>/dev/null || true
 
-  # Write nginx config (uses heredoc with variable expansion)
   cat > /etc/nginx/sites-available/chatwoot <<NGINX_CONF
 upstream chatwoot_backend {
   zone upstreams 64K;
@@ -893,20 +882,16 @@ NGINX_CONF
   systemctl enable nginx >> "$LOG_FILE" 2>&1
   systemctl restart nginx >> "$LOG_FILE" 2>&1
 
-  success "Nginx configured with SSL for ${DOMAIN}"
+  success "Nginx configurado con SSL para ${DOMAIN}"
 }
 
 ###############################################################################
-# SYSTEMD SERVICES
-#
-# Paths are computed from RUBY_VERSION to ensure they match the installed ruby.
-# The web service runs: bin/rails server -p 3000 -e production
-# The worker runs: dotenv bundle exec sidekiq -C config/sidekiq.yml
-# Worker has MemoryMax=1.2G to prevent OOM.
+# PASO 14: SERVICIOS SYSTEMD
 ###############################################################################
 configure_systemd() {
-  step "Configuring systemd services"
+  step "Configurando servicios systemd"
 
+  # Paths calculados desde RUBY_VERSION — coinciden exactamente con lo instalado por RVM
   local ruby_bin="${CW_HOME}/.rvm/gems/ruby-${RUBY_VERSION}/bin"
   local ruby_global="${CW_HOME}/.rvm/gems/ruby-${RUBY_VERSION}@global/bin"
   local ruby_base="${CW_HOME}/.rvm/rubies/ruby-${RUBY_VERSION}/bin"
@@ -995,7 +980,6 @@ SVCFILE
 SUDOERS
   chmod 440 /etc/sudoers.d/chatwoot
 
-  # Install cwctl
   if [[ -f "${CW_APP}/deployment/setup_20.04.sh" ]]; then
     cp "${CW_APP}/deployment/setup_20.04.sh" /usr/local/bin/cwctl
     chmod +x /usr/local/bin/cwctl
@@ -1005,72 +989,87 @@ SUDOERS
   systemctl enable chatwoot.target >> "$LOG_FILE" 2>&1
   systemctl start chatwoot.target >> "$LOG_FILE" 2>&1
 
-  success "Systemd services configured and started"
+  success "Servicios systemd configurados e iniciados"
 }
 
 ###############################################################################
-# POST-INSTALL VERIFICATION
+# VERIFICACIÓN FINAL
 ###############################################################################
 verify_installation() {
-  step "Verifying installation"
+  step "Verificación final"
 
   sleep 5
-
   local all_ok=true
 
-  if systemctl is-active --quiet chatwoot-web.1.service; then
-    success "Puma web server: running"
+  # ── VERIFICAR VERSIONES EXACTAS EN PRODUCCIÓN ──
+  info "Verificando versiones en producción..."
+
+  local prod_ruby
+  prod_ruby=$(run_as_cw "ruby --version" 2>/dev/null || echo "NO ENCONTRADO")
+  if echo "$prod_ruby" | grep -q "${RUBY_VERSION}"; then
+    success "Ruby: ${prod_ruby}"
   else
-    error "Puma web server: NOT running"
-    warn "  Check: journalctl -u chatwoot-web.1.service --no-pager -n 30"
+    error "Ruby INCORRECTO: ${prod_ruby} (esperado: ${RUBY_VERSION})"
+    all_ok=false
+  fi
+
+  local prod_node
+  prod_node=$(node --version 2>/dev/null || echo "NO ENCONTRADO")
+  local prod_node_major
+  prod_node_major=$(echo "$prod_node" | cut -d'.' -f1 | tr -d 'v')
+  if [[ "$prod_node_major" -eq $NODE_MAJOR ]]; then
+    success "Node.js: ${prod_node}"
+  else
+    error "Node.js INCORRECTO: ${prod_node} (esperado: v${NODE_MAJOR}.x)"
+    all_ok=false
+  fi
+
+  local prod_pnpm
+  prod_pnpm=$(pnpm --version 2>/dev/null || echo "NO ENCONTRADO")
+  if [[ "$prod_pnpm" == "$PNPM_VERSION" ]]; then
+    success "pnpm: ${prod_pnpm}"
+  else
+    error "pnpm INCORRECTO: ${prod_pnpm} (esperado: ${PNPM_VERSION})"
+    all_ok=false
+  fi
+
+  # ── VERIFICAR SERVICIOS ──
+  if systemctl is-active --quiet chatwoot-web.1.service; then
+    success "Puma web server: corriendo"
+  else
+    error "Puma web server: NO corriendo"
     all_ok=false
   fi
 
   if systemctl is-active --quiet chatwoot-worker.1.service; then
-    success "Sidekiq worker: running"
+    success "Sidekiq worker: corriendo"
   else
-    error "Sidekiq worker: NOT running"
-    warn "  Check: journalctl -u chatwoot-worker.1.service --no-pager -n 30"
+    error "Sidekiq worker: NO corriendo"
     all_ok=false
   fi
 
-  # Wait a bit more then check HTTP
   sleep 5
   local http_code
   http_code=$(curl -s -o /dev/null -w "%{http_code}" --max-time 10 http://localhost:3000 2>/dev/null || echo "000")
-
   if [[ "$http_code" -ge 200 ]] && [[ "$http_code" -lt 500 ]]; then
-    success "HTTP response: ${http_code}"
+    success "HTTP: ${http_code}"
   elif [[ "$http_code" == "000" ]]; then
-    warn "HTTP: no response yet (server may still be booting)"
+    warn "HTTP: sin respuesta aún (servidor arrancando)"
   else
-    warn "HTTP: ${http_code} (may still be initializing)"
+    warn "HTTP: ${http_code}"
   fi
 
   if [[ "$SKIP_DB" != true ]]; then
-    if pg_isready -q 2>/dev/null; then
-      success "PostgreSQL: running"
-    else
-      error "PostgreSQL: NOT running"; all_ok=false
-    fi
-
-    if redis-cli ping 2>/dev/null | grep -q PONG; then
-      success "Redis: running"
-    else
-      error "Redis: NOT running"; all_ok=false
-    fi
+    pg_isready -q 2>/dev/null && success "PostgreSQL: corriendo" || { error "PostgreSQL: NO corriendo"; all_ok=false; }
+    redis-cli ping 2>/dev/null | grep -q PONG && success "Redis: corriendo" || { error "Redis: NO corriendo"; all_ok=false; }
   fi
 
   if [[ "$SKIP_WEBSERVER" != true ]] && [[ -n "$DOMAIN" ]]; then
-    if systemctl is-active --quiet nginx; then
-      success "Nginx: running"
-    else
-      error "Nginx: NOT running"; all_ok=false
-    fi
+    systemctl is-active --quiet nginx && success "Nginx: corriendo" || { error "Nginx: NO corriendo"; all_ok=false; }
   fi
 
   if [[ "$all_ok" != true ]]; then
-    warn "Some services failed. See: ${LOG_FILE}"
+    warn "Algunos servicios fallaron. Ver: ${LOG_FILE}"
   fi
 }
 
@@ -1079,21 +1078,20 @@ verify_installation() {
 ###############################################################################
 run_status_check() {
   banner
-
-  echo -e "${BOLD}Health Check${NC}"
+  echo -e "${BOLD}Verificación de Salud${NC}"
   echo "------------------------------------"
   echo ""
 
   # shellcheck source=/dev/null
   source /etc/os-release 2>/dev/null || true
-  echo -e "  ${CYAN}OS:${NC}         ${PRETTY_NAME:-unknown}"
+  echo -e "  ${CYAN}OS:${NC}         ${PRETTY_NAME:-desconocido}"
 
   local ruby_ver node_ver pnpm_ver pg_ver redis_ver cw_ver
-  ruby_ver=$(run_as_cw "ruby --version" 2>/dev/null || echo "not installed")
-  node_ver=$(node --version 2>/dev/null || echo "not installed")
-  pnpm_ver=$(pnpm --version 2>/dev/null || echo "not installed")
-  pg_ver=$(psql --version 2>/dev/null || echo "not installed")
-  redis_ver=$(redis-server --version 2>/dev/null | grep -oP 'v=\K[\d.]+' || echo "not installed")
+  ruby_ver=$(run_as_cw "ruby --version" 2>/dev/null || echo "no instalado")
+  node_ver=$(node --version 2>/dev/null || echo "no instalado")
+  pnpm_ver=$(pnpm --version 2>/dev/null || echo "no instalado")
+  pg_ver=$(psql --version 2>/dev/null || echo "no instalado")
+  redis_ver=$(redis-server --version 2>/dev/null | grep -oP 'v=\K[\d.]+' || echo "no instalado")
 
   echo -e "  ${CYAN}Ruby:${NC}       ${ruby_ver}"
   echo -e "  ${CYAN}Node.js:${NC}    ${node_ver}"
@@ -1102,21 +1100,21 @@ run_status_check() {
   echo -e "  ${CYAN}Redis:${NC}      ${redis_ver}"
 
   if [[ -f "${CW_APP}/package.json" ]]; then
-    cw_ver=$(grep '"version"' "${CW_APP}/package.json" 2>/dev/null | head -1 | grep -oP '"\K[\d.]+' || echo "unknown")
+    cw_ver=$(grep '"version"' "${CW_APP}/package.json" 2>/dev/null | head -1 | grep -oP '"\K[\d.]+' || echo "desconocido")
     echo -e "  ${CYAN}Chatwoot:${NC}   ${cw_ver}"
   fi
 
   echo ""
-  echo -e "${BOLD}Services${NC}"
+  echo -e "${BOLD}Servicios${NC}"
   echo "------------------------------------"
   echo ""
 
   for svc in chatwoot-web.1 chatwoot-worker.1 postgresql redis-server nginx; do
     local status
     if systemctl is-active --quiet "${svc}.service" 2>/dev/null || systemctl is-active --quiet "${svc}" 2>/dev/null; then
-      status="${GREEN}running${NC}"
+      status="${GREEN}corriendo${NC}"
     else
-      status="${RED}stopped${NC}"
+      status="${RED}detenido${NC}"
     fi
     printf "  %-28s %b\n" "${svc}:" "$status"
   done
@@ -1126,12 +1124,11 @@ run_status_check() {
   http_code=$(curl -s -o /dev/null -w "%{http_code}" --max-time 5 http://localhost:3000 2>/dev/null || echo "000")
   echo -e "  ${CYAN}HTTP localhost:3000:${NC} ${http_code}"
   echo ""
-
   exit 0
 }
 
 ###############################################################################
-# COMPLETION MESSAGE
+# MENSAJE FINAL
 ###############################################################################
 print_completion() {
   local access_url
@@ -1139,51 +1136,38 @@ print_completion() {
     access_url="https://${DOMAIN}"
   else
     local public_ip
-    public_ip=$(curl -s --max-time 5 http://checkip.amazonaws.com 2>/dev/null || echo "YOUR_SERVER_IP")
+    public_ip=$(curl -s --max-time 5 http://checkip.amazonaws.com 2>/dev/null || echo "TU_IP")
     access_url="http://${public_ip}:3000"
   fi
 
   echo ""
   echo -e "${GREEN}${BOLD}+--------------------------------------------------------------+${NC}"
-  echo -e "${GREEN}${BOLD}|              Installation Complete!                           |${NC}"
+  echo -e "${GREEN}${BOLD}|              Instalación Completa!                            |${NC}"
   echo -e "${GREEN}${BOLD}+--------------------------------------------------------------+${NC}"
   echo ""
-  echo -e "  ${BOLD}Access:${NC}  ${access_url}"
-  echo -e "  ${BOLD}Version:${NC} Chatwoot v${CHATWOOT_VERSION}"
-  echo -e "  ${BOLD}App:${NC}     ${CW_APP}"
-  echo -e "  ${BOLD}Config:${NC}  ${CW_APP}/.env"
-  echo -e "  ${BOLD}Log:${NC}     ${LOG_FILE}"
+  echo -e "  ${BOLD}Acceso:${NC}   ${access_url}"
+  echo -e "  ${BOLD}Versión:${NC}  Chatwoot v${CHATWOOT_VERSION}"
+  echo -e "  ${BOLD}App:${NC}      ${CW_APP}"
+  echo -e "  ${BOLD}Config:${NC}   ${CW_APP}/.env"
+  echo -e "  ${BOLD}Log:${NC}      ${LOG_FILE}"
   echo ""
-  echo -e "  ${BOLD}Commands:${NC}"
-  echo -e "    systemctl status chatwoot.target            # Status"
-  echo -e "    systemctl restart chatwoot.target           # Restart"
-  echo -e "    journalctl -u chatwoot-web.1.service -f     # Web logs"
-  echo -e "    journalctl -u chatwoot-worker.1.service -f  # Worker logs"
-  echo -e "    sudo bash install.sh --status               # Health check"
+  echo -e "  ${BOLD}Comandos:${NC}"
+  echo -e "    systemctl status chatwoot.target            # Estado"
+  echo -e "    systemctl restart chatwoot.target           # Reiniciar"
+  echo -e "    journalctl -u chatwoot-web.1.service -f     # Logs web"
+  echo -e "    journalctl -u chatwoot-worker.1.service -f  # Logs worker"
+  echo -e "    sudo bash install.sh --status               # Verificar salud"
   echo ""
-
-  if [[ "$SKIP_DB" == true ]]; then
-    echo -e "  ${YELLOW}NOTE: Configure database in ${CW_APP}/.env, then:${NC}"
-    echo -e "    cd ${CW_APP} && RAILS_ENV=production POSTGRES_STATEMENT_TIMEOUT=600s bundle exec rails db:chatwoot_prepare"
-    echo ""
-  fi
-
-  if [[ -z "$DOMAIN" ]]; then
-    echo -e "  ${YELLOW}To add SSL:${NC}"
-    echo -e "    sudo bash install.sh --auto --domain YOUR_DOMAIN --email YOUR_EMAIL"
-    echo ""
-  fi
 }
 
 ###############################################################################
-# UPGRADE FLOW
+# FLUJO DE UPGRADE
 ###############################################################################
 run_upgrade() {
-  STEP_TOTAL=9
+  STEP_TOTAL=10
 
-  info "Starting upgrade to Chatwoot v${CHATWOOT_VERSION}..."
-  echo ""
-
+  info "Iniciando upgrade a Chatwoot v${CHATWOOT_VERSION}..."
+  purge_conflicting_software
   clone_or_update_repo
   install_system_dependencies
   install_nodejs
@@ -1192,14 +1176,14 @@ run_upgrade() {
   prepare_directories
   compile_assets
 
-  step "Running database migrations"
+  step "Ejecutando migraciones"
   run_as_cw "
-    cd chatwoot
-    RAILS_ENV=production \
-    POSTGRES_STATEMENT_TIMEOUT=600s \
-    bundle exec rails db:migrate
-  " >> "$LOG_FILE" 2>&1
-  success "Migrations complete"
+cd chatwoot
+RAILS_ENV=production \
+POSTGRES_STATEMENT_TIMEOUT=600s \
+bundle exec rails db:migrate
+" >> "$LOG_FILE" 2>&1
+  success "Migraciones completas"
 
   configure_systemd
   verify_installation
@@ -1207,11 +1191,12 @@ run_upgrade() {
 }
 
 ###############################################################################
-# FRESH INSTALL FLOW
+# FLUJO DE INSTALACIÓN NUEVA
 ###############################################################################
 run_install() {
-  STEP_TOTAL=13
+  STEP_TOTAL=15
 
+  purge_conflicting_software
   install_system_dependencies
   install_nodejs
   install_postgresql
@@ -1244,12 +1229,10 @@ main() {
 
   check_root
   banner
-  echo -e "${BOLD}Pre-flight Checks${NC}"
+  echo -e "${BOLD}Verificaciones Previas${NC}"
   echo "------------------------------------"
   check_os
-  check_architecture
   check_resources
-  check_ports
   check_existing_installation
 
   if [[ "$UPGRADE_MODE" == true ]]; then
