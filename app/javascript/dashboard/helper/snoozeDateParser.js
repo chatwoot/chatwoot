@@ -190,7 +190,7 @@ const WORD_NUMBERS = Object.keys(WORD_NUMBER_MAP).join('|');
 const RELATIVE_DAYS = Object.keys(RELATIVE_DAY_MAP).join('|');
 const TIME_OF_DAY_NAMES = 'morning|afternoon|evening|night|noon|midnight';
 
-const NUM_RE = `(\\d+|${WORD_NUMBERS})`;
+const NUM_RE = `(\\d+(?:\\.5)?|${WORD_NUMBERS})`;
 const UNIT_RE = `(${UNIT_NAMES})`;
 const TIME_SUFFIX_RE =
   '(?:\\s+(?:at\\s+)?(\\d{1,2}(?::\\d{2})?\\s*(?:am|pm|a\\.m\\.?|p\\.m\\.?)?|\\d{1,2}:\\d{2}))?';
@@ -297,12 +297,38 @@ const resolveTimeOfDay = (text, now) => {
 
 // ─── Pattern Matchers ────────────────────────────────────────────────────────
 
+const FRACTIONAL_CONVERT = {
+  hours: { unit: 'minutes', factor: 60 },
+  days: { unit: 'hours', factor: 24 },
+  weeks: { unit: 'days', factor: 7 },
+  months: { unit: 'days', factor: 30 },
+  years: { unit: 'months', factor: 12 },
+  minutes: { unit: 'seconds', factor: 60 },
+};
+
+const addFractionalSafe = (date, unit, amount) => {
+  if (Number.isInteger(amount)) return add(date, { [unit]: amount });
+  if (amount % 1 !== 0.5) return null;
+  const conv = FRACTIONAL_CONVERT[unit];
+  if (conv) return add(date, { [conv.unit]: Math.round(amount * conv.factor) });
+  return add(date, { [unit]: Math.round(amount) });
+};
+
+const HALF_UNIT_DURATIONS = {
+  hour: { minutes: 30 },
+  day: { hours: 12 },
+  week: { days: 3, hours: 12 },
+  month: { days: 15 },
+  year: { months: 6 },
+};
+
 const matchRelativeDuration = (text, now) => {
-  if (text.match(/^(?:in\s+)?half\s+(?:an?\s+)?hour$/)) {
-    return add(now, { minutes: 30 });
-  }
-  if (text.match(/^(?:in\s+)?half\s+(?:an?\s+)?day$/)) {
-    return add(now, { hours: 12 });
+  const halfMatch = text.match(
+    /^(?:in\s+)?half\s+(?:an?\s+)?(hour|day|week|month|year)$/
+  );
+  if (halfMatch) {
+    const duration = HALF_UNIT_DURATIONS[halfMatch[1]];
+    return duration ? add(now, duration) : null;
   }
 
   const match = text.match(new RegExp(`^(?:in\\s+)?${NUM_RE}\\s+${UNIT_RE}$`));
@@ -312,7 +338,7 @@ const matchRelativeDuration = (text, now) => {
   const unit = UNIT_MAP[match[2]];
   if (amount == null || !unit) return null;
 
-  return add(now, { [unit]: amount });
+  return addFractionalSafe(now, unit, amount);
 };
 
 const matchDurationFromNow = (text, now) => {
@@ -325,7 +351,7 @@ const matchDurationFromNow = (text, now) => {
   const unit = UNIT_MAP[match[2]];
   if (amount == null || !unit) return null;
 
-  return add(now, { [unit]: amount });
+  return addFractionalSafe(now, unit, amount);
 };
 
 const matchRelativeDay = (text, now) => {
@@ -792,7 +818,9 @@ export const parseDateFromText = (text, referenceDate = new Date()) => {
 
 // ─── Suggestion Candidates (uses maps already defined above) ─────────────────
 
-const CANONICAL_UNITS = [...new Set(Object.values(UNIT_MAP))];
+const SUGGESTION_UNITS = [...new Set(Object.values(UNIT_MAP))].filter(
+  u => u !== 'seconds'
+);
 
 const MONTH_NAMES_LONG = Object.keys(MONTH_MAP).filter(k => k.length > 3);
 
@@ -827,9 +855,19 @@ const matchesPrefix = (candidate, text) => {
 
 const buildSuggestionCandidates = text => {
   if (/^\d/.test(text)) {
-    const num = text.match(/^\d+/)[0];
-    return CANONICAL_UNITS.map(u => `${num} ${u}`);
+    const num = text.match(/^\d+(?:\.5)?/)[0];
+    return SUGGESTION_UNITS.map(u => `${num} ${u}`);
   }
+
+  if ('half'.startsWith(text)) {
+    return Object.keys(HALF_UNIT_DURATIONS).map(u => `half ${u}`);
+  }
+
+  const wordNum = WORD_NUMBER_MAP[text];
+  if (wordNum != null && wordNum >= 1) {
+    return SUGGESTION_UNITS.map(u => `${wordNum} ${u}`);
+  }
+
   return PHRASE_CANDIDATES.filter(c => matchesPrefix(c, text));
 };
 

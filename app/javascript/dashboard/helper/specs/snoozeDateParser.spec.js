@@ -1,4 +1,7 @@
-import { parseDateFromText } from '../snoozeDateParser';
+import {
+  parseDateFromText,
+  generateDateSuggestions,
+} from '../snoozeDateParser';
 
 const now = new Date('2023-06-16T10:00:00');
 
@@ -728,5 +731,190 @@ describe('regression: contradictory time-of-day + time rejected', () => {
     const result = parseDateFromText('afternoon at 2pm', now);
     expect(result).not.toBeNull();
     expect(result.date.getHours()).toEqual(14);
+  });
+});
+
+describe('generateDateSuggestions', () => {
+  describe('half suggestions', () => {
+    it('"half" returns half hour/day/week/month/year suggestions', () => {
+      const results = generateDateSuggestions('half', now);
+      const labels = results.map(r => r.label);
+      expect(labels).toContain('half hour');
+      expect(labels).toContain('half day');
+      expect(labels).toContain('half week');
+      expect(labels).toContain('half month');
+      expect(labels).toContain('half year');
+    });
+
+    it('"ha" returns half suggestions (partial match)', () => {
+      const results = generateDateSuggestions('ha', now);
+      const labels = results.map(r => r.label);
+      expect(labels).toContain('half hour');
+      expect(labels).toContain('half day');
+    });
+
+    it('"hal" returns half suggestions (partial match)', () => {
+      const results = generateDateSuggestions('hal', now);
+      expect(results.length).toBeGreaterThan(0);
+      expect(results[0].label).toMatch(/^half /);
+    });
+  });
+
+  describe('word number suggestions', () => {
+    it('"two" returns duration suggestions', () => {
+      const results = generateDateSuggestions('two', now);
+      const labels = results.map(r => r.label);
+      expect(labels).toContain('2 minutes');
+      expect(labels).toContain('2 hours');
+      expect(labels).toContain('2 days');
+    });
+
+    it('"ten" returns duration suggestions', () => {
+      const results = generateDateSuggestions('ten', now);
+      const labels = results.map(r => r.label);
+      expect(labels).toContain('10 minutes');
+      expect(labels).toContain('10 hours');
+    });
+
+    it('"five" returns duration suggestions', () => {
+      const results = generateDateSuggestions('five', now);
+      const labels = results.map(r => r.label);
+      expect(labels).toContain('5 minutes');
+      expect(labels).toContain('5 hours');
+      expect(labels).toContain('5 days');
+    });
+  });
+
+  describe('no seconds in suggestions', () => {
+    it('"2" does not suggest seconds', () => {
+      const results = generateDateSuggestions('2', now);
+      const labels = results.map(r => r.label);
+      expect(labels).not.toContain('2 seconds');
+      expect(labels).toContain('2 minutes');
+    });
+
+    it('"100" does not suggest seconds', () => {
+      const results = generateDateSuggestions('100', now);
+      const labels = results.map(r => r.label);
+      const hasSeconds = labels.some(l => l.includes('seconds'));
+      expect(hasSeconds).toBe(false);
+    });
+  });
+
+  describe('decimal number suggestions', () => {
+    it('"1.5" returns duration suggestions', () => {
+      const results = generateDateSuggestions('1.5', now);
+      const labels = results.map(r => r.label);
+      expect(labels).toContain('1.5 hours');
+      expect(labels).toContain('1.5 days');
+    });
+  });
+
+  describe('caps at MAX_SUGGESTIONS', () => {
+    it('returns at most 5 results', () => {
+      const results = generateDateSuggestions('2', now);
+      expect(results.length).toBeLessThanOrEqual(5);
+    });
+  });
+});
+
+describe('dot-delimited dates', () => {
+  it('"12.12.2034" parses to Dec 12 2034', () => {
+    const result = parseDateFromText('12.12.2034', now);
+    expect(result).not.toBeNull();
+    expect(result.date.getFullYear()).toEqual(2034);
+    expect(result.date.getMonth()).toEqual(11);
+    expect(result.date.getDate()).toEqual(12);
+  });
+
+  it('"01.06.2025" parses correctly', () => {
+    const result = parseDateFromText('01.06.2025', now);
+    expect(result).not.toBeNull();
+    expect(result.date.getFullYear()).toEqual(2025);
+  });
+});
+
+describe('noise word stripping', () => {
+  it('"snooze this for 5 minutes" parses', () => {
+    const result = parseDateFromText('snooze this for 5 minutes', now);
+    expect(result).not.toBeNull();
+  });
+
+  it('"please snooze this for half a day" parses', () => {
+    const result = parseDateFromText('please snooze this for half a day', now);
+    expect(result).not.toBeNull();
+  });
+
+  it('"snooze this until tomorrow" parses', () => {
+    const result = parseDateFromText('snooze this until tomorrow', now);
+    expect(result).not.toBeNull();
+  });
+
+  it('"schedule this for 2025-01-15" parses', () => {
+    const result = parseDateFromText('schedule this for 2025-01-15', now);
+    expect(result).not.toBeNull();
+    expect(result.date.getFullYear()).toEqual(2025);
+    expect(result.date.getMonth()).toEqual(0);
+    expect(result.date.getDate()).toEqual(15);
+  });
+});
+
+describe('half unit parsing', () => {
+  it('"half hour" adds 30 minutes', () => {
+    const result = parseDateFromText('half hour', now);
+    expect(result).not.toBeNull();
+    expect(result.date.getMinutes()).toEqual(30);
+  });
+
+  it('"half day" adds 12 hours', () => {
+    const result = parseDateFromText('half day', now);
+    expect(result).not.toBeNull();
+    expect(result.date.getHours()).toEqual(22);
+  });
+
+  it('"half week" parses to a future date', () => {
+    const result = parseDateFromText('half week', now);
+    expect(result).not.toBeNull();
+    expect(result.date > now).toBe(true);
+  });
+
+  it('"half month" parses to a future date', () => {
+    const result = parseDateFromText('half month', now);
+    expect(result).not.toBeNull();
+    expect(result.date > now).toBe(true);
+  });
+
+  it('"half year" parses to ~6 months ahead', () => {
+    const result = parseDateFromText('half year', now);
+    expect(result).not.toBeNull();
+    expect(result.date.getMonth()).toEqual(11);
+  });
+});
+
+describe('decimal duration parsing (only .5 allowed)', () => {
+  it('"1.5 hours" parses correctly', () => {
+    const result = parseDateFromText('1.5 hours', now);
+    expect(result).not.toBeNull();
+    expect(result.date > now).toBe(true);
+  });
+
+  it('"1.5 days" parses correctly', () => {
+    const result = parseDateFromText('1.5 days', now);
+    expect(result).not.toBeNull();
+    expect(result.date > now).toBe(true);
+  });
+
+  it('"0.5 hours" parses correctly', () => {
+    const result = parseDateFromText('0.5 hours', now);
+    expect(result).not.toBeNull();
+    expect(result.date > now).toBe(true);
+  });
+
+  it('"1.3 hours" returns null (only .5 allowed)', () => {
+    expect(parseDateFromText('1.3 hours', now)).toBeNull();
+  });
+
+  it('"2.7 days" returns null (only .5 allowed)', () => {
+    expect(parseDateFromText('2.7 days', now)).toBeNull();
   });
 });
