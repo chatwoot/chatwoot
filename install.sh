@@ -96,7 +96,7 @@ for rvm_script in /usr/local/rvm/scripts/rvm /etc/profile.d/rvm.sh "${CW_HOME}/.
   fi
 done
 # Forzar la versión de Ruby (si RVM está disponible)
-type rvm &>/dev/null && rvm use ${RUBY_VERSION} --default 2>/dev/null || true
+type rvm &>/dev/null && rvm use ${RUBY_VERSION} --default &>/dev/null || true
 $1
 RUNCMD
 }
