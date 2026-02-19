@@ -53,12 +53,12 @@ const placeholder = computed(() =>
 );
 
 const hotKeys = computed(() => [
+  ...dynamicSnoozeActions.value,
   ...inboxHotKeys.value,
   ...goToCommandHotKeys.value,
   ...goToAppearanceHotKeys.value,
   ...bulkActionsHotKeys.value,
   ...conversationHotKeys.value,
-  ...dynamicSnoozeActions.value,
 ]);
 
 const setCommandBarData = () => {
@@ -156,7 +156,7 @@ const onCommandBarChange = item => {
     ];
     if (uniqueParents.length === 1) {
       currentCommandRoot.value = uniqueParents[0];
-    } else if (uniqueParents.length > 1) {
+    } else {
       currentCommandRoot.value = null;
     }
   }
