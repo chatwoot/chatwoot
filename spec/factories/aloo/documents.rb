@@ -92,5 +92,25 @@ FactoryBot.define do
         )
       end
     end
+
+    trait :with_csv do
+      after(:build) do |document|
+        document.file.attach(
+          io: Rails.root.join('spec/fixtures/files/test_document.csv').open,
+          filename: 'test_document.csv',
+          content_type: 'text/csv'
+        )
+      end
+    end
+
+    trait :with_windows1252_csv do
+      after(:build) do |document|
+        document.file.attach(
+          io: Rails.root.join('spec/fixtures/files/test_document_windows1252.csv').open('rb'),
+          filename: 'test_document_windows1252.csv',
+          content_type: 'text/csv'
+        )
+      end
+    end
   end
 end

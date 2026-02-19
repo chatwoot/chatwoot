@@ -3,7 +3,7 @@
 module Aloo
   class VoiceReplyJob < ApplicationJob
     queue_as :default
-    retry_on Aloo::ElevenlabsClient::Error, wait: :polynomially_longer, attempts: 3
+    retry_on RubyLLM::Error, wait: :polynomially_longer, attempts: 3
     retry_on StandardError, wait: :polynomially_longer, attempts: 2
 
     def perform(message_id)
@@ -94,7 +94,7 @@ module Aloo
           file: {
             io: audio_file,
             filename: "voice_reply_#{Time.current.to_i}.ogg",
-            content_type: 'audio/ogg'
+            content_type: 'audio/ogg; codecs=opus'
           }
         )
       end
@@ -107,7 +107,7 @@ module Aloo
 
       case inbox.channel_type
       when 'Channel::Whatsapp'
-        Whatsapp::SendOnWhatsappService.new(message: message).perform
+        send_whatsapp_audio(message)
       when 'Channel::FacebookPage'
         Facebook::SendOnFacebookService.new(message: message).perform
       when 'Channel::Telegram'
@@ -116,6 +116,44 @@ module Aloo
         # For API channels and web widget, message is already saved
         # WebSocket will handle delivery
         Rails.logger.info("[Aloo::VoiceReplyJob] Message #{message.id} saved for #{inbox.channel_type}")
+      end
+    end
+
+    # Send audio directly via WhatsApp Cloud API, bypassing SendOnWhatsappService
+    # which blocks re-sends due to the source_id guard in Base::SendOnChannelService
+    def send_whatsapp_audio(message)
+      channel = @conversation.inbox.channel
+      phone_number = @conversation.contact_inbox.source_id
+      attachment = message.attachments.find_by(file_type: 'audio')
+      return unless attachment
+
+      media_id = channel.provider_service.upload_media(attachment)
+      unless media_id
+        Rails.logger.error("[Aloo::VoiceReplyJob] Failed to upload audio to WhatsApp for message #{message.id}")
+        return
+      end
+
+      wa_message_id = post_whatsapp_audio(channel, phone_number, media_id, message)
+      message.update!(source_id: wa_message_id) if wa_message_id.present? && message.source_id.blank?
+    end
+
+    def post_whatsapp_audio(channel, phone_number, media_id, message)
+      phone_number_id = channel.provider_config['phone_number_id']
+      base_url = ENV.fetch('WHATSAPP_CLOUD_BASE_URL', 'https://graph.facebook.com')
+
+      response = HTTParty.post(
+        "#{base_url}/v13.0/#{phone_number_id}/messages",
+        headers: channel.api_headers,
+        body: { messaging_product: 'whatsapp', to: phone_number, type: 'audio', audio: { id: media_id } }.to_json
+      )
+
+      if response.success?
+        wa_id = response.parsed_response.dig('messages', 0, 'id')
+        Rails.logger.info("[Aloo::VoiceReplyJob] WhatsApp audio sent for message #{message.id}, wa_id=#{wa_id}")
+        wa_id
+      else
+        Rails.logger.error("[Aloo::VoiceReplyJob] WhatsApp audio send failed for message #{message.id}: #{response.body}")
+        nil
       end
     end
 

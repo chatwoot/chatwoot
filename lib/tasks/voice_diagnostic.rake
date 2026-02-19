@@ -222,7 +222,11 @@ def check_recent_jobs
   # Check Sidekiq for recent VoiceReplyJob executions
   puts "  Checking recent voice usage records...\n"
 
-  records = Aloo::VoiceUsageRecord.where(operation_type: 'synthesis').order(created_at: :desc).limit(10)
+  synthesis_agents = %w[Audio::AlooSpeaker Audio::AlooOpenaiSpeaker]
+  records = RubyLLM::Agents::Execution
+            .where(agent_type: synthesis_agents)
+            .order(started_at: :desc)
+            .limit(10)
 
   if records.empty?
     puts '  ⚠️  No voice synthesis records found.'
@@ -230,12 +234,13 @@ def check_recent_jobs
   else
     puts "  Found #{records.count} recent synthesis attempts:\n\n"
     records.each do |record|
-      status_icon = record.success? ? '✅' : '❌'
-      puts "  #{status_icon} #{record.created_at.strftime('%Y-%m-%d %H:%M:%S')}"
-      puts "     Assistant: #{record.assistant&.name || 'N/A'} (ID: #{record.aloo_assistant_id})"
-      puts "     Characters: #{record.characters_used}"
-      puts "     Voice ID: #{record.voice_id}"
-      puts "     Error: #{record.error_message}" if record.error_message.present?
+      status_icon = record.status == 'success' ? '✅' : '❌'
+      puts "  #{status_icon} #{record.started_at.strftime('%Y-%m-%d %H:%M:%S')}"
+      puts "     Agent: #{record.agent_type}"
+      puts "     Model: #{record.model_id}"
+      puts "     Cost: $#{record.total_cost&.to_f&.round(6)}"
+      puts "     Duration: #{record.duration_ms}ms"
+      puts "     Error: #{record.detail&.error_message}" if record.status != 'success'
       puts
     end
   end

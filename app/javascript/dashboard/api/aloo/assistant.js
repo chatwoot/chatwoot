@@ -47,7 +47,7 @@ class AlooAssistant extends ApiClient {
     });
   }
 
-  playground(assistantId, message, conversationHistory = '') {
+  playground(assistantId, message, conversationHistory = []) {
     return axios.post(`${this.url}/${assistantId}/playground`, {
       message,
       conversation_history: conversationHistory,
@@ -68,12 +68,6 @@ class AlooAssistant extends ApiClient {
       { voice_id: voiceId, text },
       { responseType: 'blob' }
     );
-  }
-
-  getVoiceUsage(assistantId, periodStart, periodEnd) {
-    return axios.get(`${this.url}/${assistantId}/voice_usage`, {
-      params: { period_start: periodStart, period_end: periodEnd },
-    });
   }
 }
 

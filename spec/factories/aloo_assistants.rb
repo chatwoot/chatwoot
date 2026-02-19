@@ -44,13 +44,11 @@ FactoryBot.define do
 
     trait :with_voice_input do
       voice_enabled { true }
-      voice_input_enabled { true }
       voice_config { { 'transcription_provider' => 'openai', 'transcription_model' => 'whisper-1' } }
     end
 
     trait :with_voice_output do
       voice_enabled { true }
-      voice_output_enabled { true }
       voice_config do
         {
           'tts_provider' => 'elevenlabs',
@@ -65,8 +63,6 @@ FactoryBot.define do
 
     trait :with_voice_features do
       voice_enabled { true }
-      voice_input_enabled { true }
-      voice_output_enabled { true }
       voice_config do
         {
           'transcription_provider' => 'openai',

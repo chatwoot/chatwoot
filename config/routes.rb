@@ -121,6 +121,7 @@ Rails.application.routes.draw do
           resource :payzah_settings, only: [:show, :create, :update, :destroy]
           resource :tap_settings, only: [:show, :create, :update, :destroy]
           resource :catalog_settings, only: [:show, :create, :update]
+          resource :payment_link_settings, only: [:show, :create, :update]
           resources :agent_bots, only: [:index, :create, :show, :update, :destroy] do
             delete :avatar, on: :member
             post :reset_access_token, on: :member

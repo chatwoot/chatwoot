@@ -6,12 +6,24 @@
 #   Embedders::DocumentEmbedder.call(text: "single text", tenant: account)
 #   Embedders::DocumentEmbedder.call(texts: ["text1", "text2"], tenant: account)
 class Embedders::DocumentEmbedder < RubyLLM::Agents::Embedder
-  model 'text-embedding-3-small'
+  description 'Generates embeddings for knowledge base documents and search queries'
+
+  model 'text-embedding-3-large'
   dimensions 1536
   batch_size 100
   cache_for 1.week
 
-  description 'Generates embeddings for knowledge base documents and search queries'
+  on_failure do
+    retries times: 3, backoff: :exponential
+    timeout 30.seconds
+  end
+
+  def metadata
+    {
+      account_id: (Current.account&.id || @options.dig(:tenant, :id))&.to_s,
+      assistant_id: Aloo::Current.assistant&.id&.to_s
+    }.compact
+  end
 
   def resolve_tenant
     tenant = @options[:tenant] || Current.account

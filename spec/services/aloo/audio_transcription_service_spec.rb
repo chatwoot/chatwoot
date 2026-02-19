@@ -83,10 +83,10 @@ RSpec.describe Aloo::AudioTranscriptionService, type: :service do
         attachment.update!(meta: { 'transcribed_text' => 'Cached transcription text' })
       end
 
-      it 'returns cached transcription without calling RubyLLM' do
+      it 'returns cached transcription without calling transcriber' do
         service = described_class.new(attachment)
 
-        expect(RubyLLM).not_to receive(:transcribe)
+        expect(Audio::AlooTranscriber).not_to receive(:call)
 
         result = service.perform
 
@@ -111,13 +111,20 @@ RSpec.describe Aloo::AudioTranscriptionService, type: :service do
 
     context 'with successful transcription' do
       let(:transcription_result) do
-        double('TranscriptionResult', text: 'Hello, this is a test', duration: 15.0)
+        instance_double(
+          'TranscriptionResult',
+          text: 'Hello, this is a test',
+          audio_duration: 15.0,
+          error?: false,
+          total_cost: 0.0015,
+          error_message: nil
+        )
       end
 
       before do
         stub_attachment_file(attachment)
         allow_any_instance_of(described_class).to receive(:download_to_tempfile).and_return(temp_file)
-        allow(RubyLLM).to receive(:transcribe).and_return(transcription_result)
+        allow(Audio::AlooTranscriber).to receive(:call).and_return(transcription_result)
         allow(message).to receive(:send_update_event)
       end
 
@@ -138,26 +145,21 @@ RSpec.describe Aloo::AudioTranscriptionService, type: :service do
         expect(attachment.meta['transcription_status']).to eq('completed')
       end
 
-      it 'records voice usage' do
+      it 'returns the transcription text' do
         service = described_class.new(attachment)
+        result = service.perform
 
-        expect do
-          service.perform
-        end.to change(Aloo::VoiceUsageRecord, :count).by(1)
-
-        record = Aloo::VoiceUsageRecord.last
-        expect(record.operation_type).to eq('transcription')
-        expect(record.status).to eq('success')
-        expect(record.audio_duration_seconds).to eq(15)
+        expect(result[:transcription]).to eq('Hello, this is a test')
       end
 
-      it 'calls RubyLLM.transcribe with correct parameters' do
+      it 'calls AlooTranscriber with correct parameters' do
         service = described_class.new(attachment)
 
-        expect(RubyLLM).to receive(:transcribe).with(
-          anything,
+        expect(Audio::AlooTranscriber).to receive(:call).with(
+          audio: anything,
+          language: 'en',
           model: 'whisper-1',
-          language: 'en'
+          tenant: assistant.account
         ).and_return(transcription_result)
 
         service.perform
@@ -172,19 +174,19 @@ RSpec.describe Aloo::AudioTranscriptionService, type: :service do
       end
     end
 
-    context 'when RubyLLM raises an error' do
-      let(:ruby_llm_error) do
-        # Create a mock response object for RubyLLM::Error
-        response = double('Response', body: '{"error": "API error"}')
-        error = RubyLLM::Error.new(response)
-        allow(error).to receive(:message).and_return('API error')
-        error
+    context 'when transcriber returns an error result' do
+      let(:error_result) do
+        instance_double(
+          'TranscriptionResult',
+          error?: true,
+          error_message: 'API error'
+        )
       end
 
       before do
         stub_attachment_file(attachment)
         allow_any_instance_of(described_class).to receive(:download_to_tempfile).and_return(temp_file)
-        allow(RubyLLM).to receive(:transcribe).and_raise(ruby_llm_error)
+        allow(Audio::AlooTranscriber).to receive(:call).and_return(error_result)
       end
 
       it 'returns error result' do
@@ -195,16 +197,34 @@ RSpec.describe Aloo::AudioTranscriptionService, type: :service do
         expect(result[:error]).to eq('API error')
       end
 
-      it 'records failed usage' do
+      it 'does not raise an error' do
         service = described_class.new(attachment)
+        result = service.perform
 
-        expect do
-          service.perform
-        end.to change(Aloo::VoiceUsageRecord, :count).by(1)
+        expect(result[:success]).to be false
+      end
+    end
 
-        record = Aloo::VoiceUsageRecord.last
-        expect(record.status).to eq('failed')
-        expect(record.metadata['error']).to eq('API error')
+    context 'when RubyLLM raises an error' do
+      let(:ruby_llm_error) do
+        response = double('Response', body: '{"error": "API error"}')
+        error = RubyLLM::Error.new(response)
+        allow(error).to receive(:message).and_return('API error')
+        error
+      end
+
+      before do
+        stub_attachment_file(attachment)
+        allow_any_instance_of(described_class).to receive(:download_to_tempfile).and_return(temp_file)
+        allow(Audio::AlooTranscriber).to receive(:call).and_raise(ruby_llm_error)
+      end
+
+      it 'returns error result' do
+        service = described_class.new(attachment)
+        result = service.perform
+
+        expect(result[:success]).to be false
+        expect(result[:error]).to eq('API error')
       end
     end
 
@@ -212,7 +232,7 @@ RSpec.describe Aloo::AudioTranscriptionService, type: :service do
       before do
         stub_attachment_file(attachment)
         allow_any_instance_of(described_class).to receive(:download_to_tempfile).and_return(temp_file)
-        allow(RubyLLM).to receive(:transcribe).and_raise(StandardError.new('Unexpected error'))
+        allow(Audio::AlooTranscriber).to receive(:call).and_raise(StandardError.new('Unexpected error'))
       end
 
       it 'returns error result' do
@@ -237,23 +257,28 @@ RSpec.describe Aloo::AudioTranscriptionService, type: :service do
     context 'when assistant is configured for Arabic' do
       let(:assistant) { create(:aloo_assistant, :with_voice_input, :arabic, account: account) }
       let(:transcription_result) do
-        double('TranscriptionResult', text: 'مرحبا', duration: 5.0)
+        instance_double(
+          'TranscriptionResult',
+          text: 'مرحبا',
+          audio_duration: 5.0,
+          error?: false,
+          total_cost: 0.0005,
+          error_message: nil
+        )
       end
 
       before do
         stub_attachment_file(attachment)
         allow_any_instance_of(described_class).to receive(:download_to_tempfile).and_return(temp_file)
-        allow(RubyLLM).to receive(:transcribe).and_return(transcription_result)
+        allow(Audio::AlooTranscriber).to receive(:call).and_return(transcription_result)
         allow(message).to receive(:send_update_event)
       end
 
-      it 'passes Arabic language hint to RubyLLM' do
+      it 'passes Arabic language hint to transcriber' do
         service = described_class.new(attachment)
 
-        expect(RubyLLM).to receive(:transcribe).with(
-          anything,
-          model: 'whisper-1',
-          language: 'ar'
+        expect(Audio::AlooTranscriber).to receive(:call).with(
+          hash_including(language: 'ar')
         ).and_return(transcription_result)
 
         service.perform

@@ -138,8 +138,7 @@ module Aloo
 
     def process_text
       content = @document.file.download
-      content.force_encoding('UTF-8')
-      content.encode('UTF-8', invalid: :replace, undef: :replace, replace: '')
+      ensure_utf8(content)
     rescue StandardError => e
       Rails.logger.error("[Aloo::ProcessDocumentJob] Text processing failed: #{e.message}")
       nil
@@ -148,7 +147,7 @@ module Aloo
     def process_csv
       require 'csv'
 
-      content = @document.file.download
+      content = ensure_utf8(@document.file.download)
       csv = CSV.parse(content, headers: true)
 
       # Convert each row to a readable format
@@ -329,6 +328,19 @@ module Aloo
         metadata: @document.metadata.merge('error' => error_message)
       )
       Rails.logger.error("[Aloo::ProcessDocumentJob] Document #{@document.id} failed: #{error_message}")
+    end
+
+    def ensure_utf8(content)
+      return content if content.encoding == Encoding::UTF_8 && content.valid_encoding?
+
+      # Try detecting from common encodings (Windows-1252 is typical for Excel-exported CSVs)
+      [Encoding::UTF_8, Encoding::Windows_1252, Encoding::ISO_8859_1].each do |enc|
+        trial = content.dup.force_encoding(enc)
+        return trial.encode(Encoding::UTF_8) if trial.valid_encoding?
+      end
+
+      # Fallback: force UTF-8 and replace invalid bytes
+      content.dup.force_encoding(Encoding::UTF_8).encode(Encoding::UTF_8, invalid: :replace, undef: :replace, replace: "\uFFFD")
     end
   end
 end

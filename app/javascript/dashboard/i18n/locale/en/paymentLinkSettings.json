@@ -1,0 +1,31 @@
+{
+  "PAYMENT_LINK_SETTINGS": {
+    "TITLE": "Payment Link Settings",
+    "DESCRIPTION": "Configure default options and notifications for payment links.",
+    "FORM": {
+      "DEFAULT_PROVIDER": {
+        "TITLE": "Default Payment Provider",
+        "DESCRIPTION": "Select the default payment provider for new payment links.",
+        "OPTIONS": {
+          "NONE": "None (Select manually)"
+        },
+        "NO_PROVIDER_NOTE": "Without a default provider, agents will need to select a provider each time they create a payment link."
+      },
+      "DEFAULT_CURRENCY": {
+        "TITLE": "Default Currency",
+        "DESCRIPTION": "Select the default currency for new payment links.",
+        "PAYZAH_NOTE": "Payzah only supports KWD currency."
+      },
+      "NOTIFICATION_EMAIL": {
+        "TITLE": "Payment Notification Email",
+        "DESCRIPTION": "Enter email addresses (comma-separated) to receive a notification when a payment link is paid. Leave empty to disable.",
+        "PLACEHOLDER": "payments{'@'}example.com, admin{'@'}example.com"
+      },
+      "SAVE": "Save Settings"
+    },
+    "API": {
+      "SUCCESS": "Payment link settings updated successfully.",
+      "ERROR": "Failed to update payment link settings. Please try again."
+    }
+  }
+}

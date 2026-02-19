@@ -159,6 +159,65 @@ RSpec.describe Aloo::Assistant do
     end
   end
 
+  describe '#voice_transcription_enabled?' do
+    it 'returns true when voice is enabled' do
+      assistant.voice_enabled = true
+      expect(assistant.voice_transcription_enabled?).to be true
+    end
+
+    it 'returns false when voice is disabled' do
+      assistant.voice_enabled = false
+      expect(assistant.voice_transcription_enabled?).to be false
+    end
+  end
+
+  describe '#voice_reply_enabled?' do
+    context 'when voice is disabled' do
+      it 'returns false regardless of config' do
+        assistant.voice_enabled = false
+        assistant.voice_config = { 'tts_provider' => 'elevenlabs', 'elevenlabs_voice_id' => 'abc123' }
+        expect(assistant.voice_reply_enabled?).to be false
+      end
+    end
+
+    context 'when voice is enabled with ElevenLabs' do
+      before { assistant.voice_enabled = true }
+
+      it 'returns true when elevenlabs_voice_id is set' do
+        assistant.voice_config = { 'tts_provider' => 'elevenlabs', 'elevenlabs_voice_id' => 'abc123' }
+        expect(assistant.voice_reply_enabled?).to be true
+      end
+
+      it 'returns false when elevenlabs_voice_id is blank' do
+        assistant.voice_config = { 'tts_provider' => 'elevenlabs' }
+        expect(assistant.voice_reply_enabled?).to be false
+      end
+    end
+
+    context 'when voice is enabled with OpenAI' do
+      before { assistant.voice_enabled = true }
+
+      it 'returns true without needing a specific voice ID' do
+        assistant.voice_config = { 'tts_provider' => 'openai' }
+        expect(assistant.voice_reply_enabled?).to be true
+      end
+    end
+
+    context 'when voice is enabled with no tts_provider (defaults to ElevenLabs)' do
+      before { assistant.voice_enabled = true }
+
+      it 'returns true when elevenlabs_voice_id is set' do
+        assistant.voice_config = { 'elevenlabs_voice_id' => 'abc123' }
+        expect(assistant.voice_reply_enabled?).to be true
+      end
+
+      it 'returns false when elevenlabs_voice_id is missing' do
+        assistant.voice_config = {}
+        expect(assistant.voice_reply_enabled?).to be false
+      end
+    end
+  end
+
   describe '#language_name' do
     it 'returns language name from SUPPORTED_LANGUAGES' do
       assistant.language = 'fr'

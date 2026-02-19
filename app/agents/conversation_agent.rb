@@ -51,6 +51,7 @@ class ConversationAgent < ApplicationAgent
   end
 
   def messages
+    return playground_messages if Aloo::Current.playground_mode
     return [] unless current_conversation
 
     recent_messages = current_conversation.recent_messages_for_llm(limit: MAX_CONVERSATION_HISTORY)
@@ -68,6 +69,20 @@ class ConversationAgent < ApplicationAgent
     available_tools.concat(catalog_tools)
     available_tools << ExecuteMacroTool if current_assistant&.feature_macros_enabled? && macros_available?
     available_tools.concat(calendly_tools)
+  end
+
+  def metadata
+    {
+      account_id: current_account&.id&.to_s,
+      conversation_id: current_conversation&.id&.to_s,
+      contact_id: current_contact&.id&.to_s,
+      assistant_id: current_assistant&.id&.to_s,
+      inbox_id: current_inbox&.id&.to_s,
+      inbox_channel_type: current_inbox&.channel_type,
+      conversation_status: current_conversation&.status,
+      assistant_name: current_assistant&.name,
+      playground_mode: Aloo::Current.playground_mode.present?
+    }.compact
   end
 
   private
@@ -144,6 +159,15 @@ class ConversationAgent < ApplicationAgent
     current_assistant&.description.presence ||
       current_conversation&.inbox&.business_name.presence ||
       'our company'
+  end
+
+  def playground_messages
+    history = Aloo::Current.conversation_history
+    return [] if history.blank?
+
+    history.map do |entry|
+      { role: entry[:role].to_sym, content: entry[:content] }
+    end
   end
 
   def feature_gated_tools

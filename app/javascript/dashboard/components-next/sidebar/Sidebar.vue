@@ -573,6 +573,12 @@ const menuItems = computed(() => {
           to: accountScopedRoute('catalog_settings_index'),
         },
         {
+          name: 'Settings Payment Links',
+          label: t('SIDEBAR.PAYMENT_LINK_SETTINGS'),
+          icon: 'i-lucide-link',
+          to: accountScopedRoute('payment_link_settings_index'),
+        },
+        {
           name: 'Settings Audit Logs',
           label: t('SIDEBAR.AUDIT_LOGS'),
           icon: 'i-lucide-briefcase',

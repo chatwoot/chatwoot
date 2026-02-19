@@ -60,7 +60,9 @@
       "HUMAN_ASSISTANCE_REQUESTED_TOOLTIP": "Customer requested human assistance: {reason}",
       "HUMAN_ASSISTANCE_REQUESTED_LIST_TOOLTIP": "Customer requested human assistance",
       "HUMAN_ASSISTANCE_BANNER_MESSAGE": "Customer requested human assistance. {assistantName} is still responding.",
-      "HUMAN_ASSISTANCE_TAKE_OVER_BUTTON": "Take Over & Help"
+      "HUMAN_ASSISTANCE_TAKE_OVER_BUTTON": "Take Over & Help",
+      "DISMISS_ASSISTANCE_SUCCESS": "Help request dismissed. AI will continue handling.",
+      "DISMISS_ASSISTANCE_ERROR": "Failed to dismiss help request."
     },
     "TWILIO_WHATSAPP_CAN_REPLY": "You can only reply to this conversation using a template message due to",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 hour message window restriction",

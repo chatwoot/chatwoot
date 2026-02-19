@@ -14,8 +14,9 @@ class Instagram::Messenger::SendOnInstagramService < Instagram::BaseSendService
     query[:appsecret_proof] = app_secret_proof if app_secret_proof
 
     response = HTTParty.post(
-      'https://graph.facebook.com/v11.0/me/messages',
-      body: message_content,
+      'https://graph.facebook.com/v22.0/me/messages',
+      body: message_content.to_json,
+      headers: { 'Content-Type' => 'application/json' },
       query: query
     )
 

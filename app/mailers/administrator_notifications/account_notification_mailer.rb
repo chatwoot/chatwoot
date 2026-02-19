@@ -70,6 +70,13 @@ class AdministratorNotifications::AccountNotificationMailer < AdministratorNotif
     send_notification(subject, to: to_email, action_url: action_url, meta: order_paid_meta(cart))
   end
 
+  def payment_link_paid(payment_link, to_email)
+    subject = "Payment Received - ##{payment_link.external_payment_id}"
+    action_url = "#{ENV.fetch('FRONTEND_URL', nil)}/app/accounts/#{Current.account.id}/payment-links"
+
+    send_notification(subject, to: to_email, action_url: action_url, meta: payment_link_paid_meta(payment_link))
+  end
+
   private
 
   def order_paid_meta(cart)
@@ -88,6 +95,26 @@ class AdministratorNotifications::AccountNotificationMailer < AdministratorNotif
     cart.cart_items.includes(:product).map do |item|
       "#{item.quantity}x #{item.product.title_en} — #{item.unit_price} #{cart.currency}"
     end.join(', ')
+  end
+
+  def payment_link_paid_meta(payment_link)
+    {
+      'payment_id' => payment_link.external_payment_id,
+      'amount' => payment_link.amount.to_s,
+      'currency' => payment_link.currency,
+      'provider' => payment_link.provider.titleize,
+      'paid_at' => payment_link.paid_at&.strftime('%B %d, %Y %H:%M') || Time.current.strftime('%B %d, %Y %H:%M')
+    }.merge(payment_link_contact_meta(payment_link))
+  end
+
+  def payment_link_contact_meta(payment_link)
+    {
+      'contact_name' => payment_link.contact&.name.to_s,
+      'contact_email' => payment_link.contact&.email.to_s,
+      'contact_phone' => payment_link.contact&.phone_number.to_s,
+      'conversation_id' => payment_link.conversation&.display_id.to_s,
+      'created_by' => payment_link.created_by&.name.to_s
+    }
   end
 
   def format_deletion_date(deletion_date_str)

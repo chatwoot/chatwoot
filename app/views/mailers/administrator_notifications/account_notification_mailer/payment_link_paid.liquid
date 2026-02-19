@@ -1,0 +1,26 @@
+<p>Hello,</p>
+
+<p>A payment has been successfully completed!</p>
+
+<p><b>Payment Details</b></p>
+<p><b>Payment ID:</b> #{{meta['payment_id']}}</p>
+<p><b>Amount:</b> {{meta['amount']}} {{meta['currency']}}</p>
+<p><b>Provider:</b> {{meta['provider']}}</p>
+<p><b>Paid at:</b> {{meta['paid_at']}}</p>
+
+<p><b>Customer Details</b></p>
+<p><b>Name:</b> {{meta['contact_name']}}</p>
+{% if meta['contact_email'] != blank %}
+<p><b>Email:</b> {{meta['contact_email']}}</p>
+{% endif %}
+{% if meta['contact_phone'] != blank %}
+<p><b>Phone:</b> {{meta['contact_phone']}}</p>
+{% endif %}
+
+<p><b>Context</b></p>
+<p><b>Conversation:</b> #{{meta['conversation_id']}}</p>
+<p><b>Created by:</b> {{meta['created_by']}}</p>
+
+<p>
+  Click <a href="{{action_url}}">here</a> to view payment links in your dashboard.
+</p>

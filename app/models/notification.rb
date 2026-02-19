@@ -43,7 +43,8 @@ class Notification < ApplicationRecord
     participating_conversation_new_message: 5,
     sla_missed_first_response: 6,
     sla_missed_next_response: 7,
-    sla_missed_resolution: 8
+    sla_missed_resolution: 8,
+    ai_human_assistance_requested: 9
   }.freeze
 
   enum notification_type: NOTIFICATION_TYPES
@@ -95,7 +96,8 @@ class Notification < ApplicationRecord
       'conversation_mention' => 'notifications.notification_title.conversation_mention',
       'sla_missed_first_response' => 'notifications.notification_title.sla_missed_first_response',
       'sla_missed_next_response' => 'notifications.notification_title.sla_missed_next_response',
-      'sla_missed_resolution' => 'notifications.notification_title.sla_missed_resolution'
+      'sla_missed_resolution' => 'notifications.notification_title.sla_missed_resolution',
+      'ai_human_assistance_requested' => 'notifications.notification_title.ai_human_assistance_requested'
     }
 
     i18n_key = notification_title_map[notification_type]
@@ -104,7 +106,7 @@ class Notification < ApplicationRecord
     if notification_type == 'conversation_creation'
       I18n.t(i18n_key, display_id: conversation.display_id, inbox_name: primary_actor.inbox.name)
     elsif %w[conversation_assignment assigned_conversation_new_message participating_conversation_new_message
-             conversation_mention].include?(notification_type)
+             conversation_mention ai_human_assistance_requested].include?(notification_type)
       I18n.t(i18n_key, display_id: conversation.display_id)
     else
       I18n.t(i18n_key, display_id: primary_actor.display_id)
@@ -120,6 +122,8 @@ class Notification < ApplicationRecord
       message_body(secondary_actor)
     when 'conversation_assignment', 'sla_missed_next_response', 'sla_missed_resolution'
       message_body((conversation.messages.incoming.last || conversation.messages.outgoing.last))
+    when 'ai_human_assistance_requested'
+      human_assistance_body
     else
       ''
     end
@@ -130,6 +134,11 @@ class Notification < ApplicationRecord
   end
 
   private
+
+  def human_assistance_body
+    reason = conversation.custom_attributes&.dig('human_assistance_reason')
+    reason.presence || I18n.t('notifications.no_content')
+  end
 
   def message_body(actor)
     sender_name = sender_name(actor)

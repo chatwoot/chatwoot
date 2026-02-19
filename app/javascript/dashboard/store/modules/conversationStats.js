@@ -6,6 +6,7 @@ const state = {
   mineCount: 0,
   unAssignedCount: 0,
   allCount: 0,
+  helpNeededCount: 0,
   unreadCounts: {
     byInbox: {},
     byLabel: {},
@@ -88,11 +89,13 @@ export const mutations = {
       mine_count: mineCount,
       unassigned_count: unAssignedCount,
       all_count: allCount,
+      help_needed_count: helpNeededCount,
     } = {}
   ) {
     $state.mineCount = mineCount;
     $state.allCount = allCount;
     $state.unAssignedCount = unAssignedCount;
+    $state.helpNeededCount = helpNeededCount || 0;
     $state.updatedOn = new Date();
   },
   [types.SET_UNREAD_COUNTS]($state, payload = {}) {
