@@ -31,7 +31,7 @@ readonly CW_HOME="/home/${CW_USER}"
 readonly CW_APP="${CW_HOME}/chatwoot"
 readonly CW_CONFIG="/opt/chatwoot/config"
 readonly GIT_REPO="https://github.com/GtrhSystems/chatwoot.git"
-readonly GIT_BRANCH="master"
+readonly GIT_BRANCH="develop"
 readonly LOG_FILE="/var/log/chatwoot-install.log"
 
 # Colors
@@ -629,23 +629,31 @@ clone_or_update_repo() {
   if [[ -d "$CW_APP" ]]; then
     if [[ "$UPGRADE_MODE" == true ]]; then
       info "Actualizando repositorio..."
-      run_as_cw "
+      if ! run_as_cw "
 cd chatwoot
 git fetch origin
 git checkout '${GIT_BRANCH}' 2>/dev/null || git checkout -b '${GIT_BRANCH}' 'origin/${GIT_BRANCH}'
 git reset --hard 'origin/${GIT_BRANCH}'
-" >> "$LOG_FILE" 2>&1
+" >> "$LOG_FILE" 2>&1; then
+        error "git update falló. Últimas líneas del log:"
+        tail -20 "$LOG_FILE" 2>/dev/null || true
+        fatal "No se pudo actualizar ${GIT_REPO} (rama ${GIT_BRANCH}). Ver ${LOG_FILE}"
+      fi
       success "Repositorio actualizado: ${GIT_BRANCH}"
     else
       success "Repositorio ya existe"
     fi
   else
     info "Clonando repositorio..."
-    run_as_cw "
+    if ! run_as_cw "
 git clone '${GIT_REPO}' chatwoot
 cd chatwoot
 git checkout '${GIT_BRANCH}'
-" >> "$LOG_FILE" 2>&1
+" >> "$LOG_FILE" 2>&1; then
+      error "git clone falló. Últimas líneas del log:"
+      tail -20 "$LOG_FILE" 2>/dev/null || true
+      fatal "No se pudo clonar ${GIT_REPO} (rama ${GIT_BRANCH}). Ver ${LOG_FILE}"
+    fi
     success "Repositorio clonado: ${GIT_BRANCH}"
   fi
 }
@@ -657,19 +665,27 @@ install_app_dependencies() {
   step "Instalando dependencias de la aplicación"
 
   info "bundle install (esto toma varios minutos)..."
-  run_as_cw "
+  if ! run_as_cw "
 cd chatwoot
 bundle config set --local deployment false
 bundle config set --local without 'development test'
 bundle install --jobs $(nproc)
-" >> "$LOG_FILE" 2>&1
+" >> "$LOG_FILE" 2>&1; then
+    error "bundle install falló. Últimas líneas del log:"
+    tail -30 "$LOG_FILE" 2>/dev/null || true
+    fatal "bundle install falló. Ver ${LOG_FILE}"
+  fi
   success "Gems de Ruby instalados"
 
   info "pnpm install..."
-  run_as_cw "
+  if ! run_as_cw "
 cd chatwoot
 pnpm install --frozen-lockfile 2>/dev/null || pnpm install
-" >> "$LOG_FILE" 2>&1
+" >> "$LOG_FILE" 2>&1; then
+    error "pnpm install falló. Últimas líneas del log:"
+    tail -30 "$LOG_FILE" 2>/dev/null || true
+    fatal "pnpm install falló. Ver ${LOG_FILE}"
+  fi
   success "Paquetes JavaScript instalados"
 }
 
