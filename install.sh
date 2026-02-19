@@ -76,17 +76,21 @@ warn()    { log "WARN: $*";    echo -e "${YELLOW}[WARN]${NC}    $*"; }
 error()   { log "ERROR: $*";   echo -e "${RED}[ERROR]${NC}   $*"; }
 fatal()   { log "FATAL: $*";   echo -e "${RED}[FATAL]${NC}   $*"; exit 1; }
 
-# Run a command as the chatwoot user with RVM loaded
+# Run a command as the chatwoot user with RVM loaded.
+# Uses heredoc via stdin to avoid $* quoting issues with multiline commands.
 run_as_cw() {
   local rvm_src=""
   if [[ -f /usr/local/rvm/scripts/rvm ]]; then
-    rvm_src="source /usr/local/rvm/scripts/rvm;"
+    rvm_src="source /usr/local/rvm/scripts/rvm"
   elif [[ -f /etc/profile.d/rvm.sh ]]; then
-    rvm_src="source /etc/profile.d/rvm.sh;"
+    rvm_src="source /etc/profile.d/rvm.sh"
   elif [[ -f "${CW_HOME}/.rvm/scripts/rvm" ]]; then
-    rvm_src="source ${CW_HOME}/.rvm/scripts/rvm;"
+    rvm_src="source ${CW_HOME}/.rvm/scripts/rvm"
   fi
-  sudo -i -u "$CW_USER" bash -c "${rvm_src} $*"
+  sudo -i -u "$CW_USER" bash <<RUNCMD
+${rvm_src}
+$1
+RUNCMD
 }
 
 step() {
@@ -347,7 +351,7 @@ install_system_dependencies() {
     libxml2-dev libxslt1-dev zlib1g-dev liblzma-dev \
     libgmp-dev libncurses5-dev libgdbm-dev \
     libpq-dev libvips imagemagick \
-    file patch sudo ruby-dev python3-pip \
+    file patch sudo python3-pip \
     >> "$LOG_FILE" 2>&1
 
   # python3-packaging (needed for version comparison in cwctl)
@@ -577,15 +581,16 @@ install_ruby() {
   # Install Ruby + Bundler
   info "Installing Ruby ${RUBY_VERSION} (this takes several minutes)..."
   run_as_cw "
-    rvm autolibs disable
-    rvm install 'ruby-${RUBY_VERSION}' --quiet-curl 2>&1 || true
-    rvm use ${RUBY_VERSION} --default
-    gem install bundler -v '${BUNDLER_VERSION}' --no-document
-  " >> "$LOG_FILE" 2>&1
+rvm autolibs disable
+rvm install 'ruby-${RUBY_VERSION}'
+rvm use ${RUBY_VERSION} --default
+gem install bundler -v '${BUNDLER_VERSION}' --no-document
+" >> "$LOG_FILE" 2>&1
 
   # Verify
   local installed_ruby
   installed_ruby=$(run_as_cw "ruby --version" 2>/dev/null || echo "unknown")
+  info "Ruby detected: ${installed_ruby}"
   if echo "$installed_ruby" | grep -q "${RUBY_VERSION}"; then
     success "Ruby ${RUBY_VERSION} + Bundler ${BUNDLER_VERSION}"
   else
