@@ -579,22 +579,41 @@ ensure_cw_user() {
 }
 
 ###############################################################################
-# DETECCIÓN DE VERSIÓN DE RUBY — Lee .ruby-version del repo clonado
+# DETECCIÓN DE VERSIÓN DE RUBY — El Gemfile MANDA, .ruby-version se adapta
 ###############################################################################
 detect_ruby_version() {
   local ruby_version_file="${CW_APP}/.ruby-version"
+  local gemfile="${CW_APP}/Gemfile"
 
-  if [[ ! -f "$ruby_version_file" ]]; then
-    fatal ".ruby-version no encontrado en ${CW_APP}. El repo debe incluir este archivo."
+  # 1. Leer versión del Gemfile (es la que Bundler impone)
+  local gemfile_ruby=""
+  if [[ -f "$gemfile" ]]; then
+    gemfile_ruby=$(grep -oP "^ruby ['\"]\\K[0-9.]+" "$gemfile" 2>/dev/null || echo "")
   fi
 
-  RUBY_VERSION=$(tr -d '[:space:]' < "$ruby_version_file")
-
-  if [[ -z "$RUBY_VERSION" ]]; then
-    fatal ".ruby-version está vacío en ${CW_APP}"
+  # 2. Leer versión de .ruby-version
+  local dotfile_ruby=""
+  if [[ -f "$ruby_version_file" ]]; then
+    dotfile_ruby=$(tr -d '[:space:]' < "$ruby_version_file")
   fi
 
-  info "Versión de Ruby requerida por el código: ${RUBY_VERSION} (de .ruby-version)"
+  # 3. Decidir cuál usar (Gemfile manda)
+  if [[ -n "$gemfile_ruby" ]]; then
+    RUBY_VERSION="$gemfile_ruby"
+    info "Versión de Ruby requerida por Gemfile: ${RUBY_VERSION}"
+
+    # Si .ruby-version no coincide, corregirlo (Opción A automática)
+    if [[ "$dotfile_ruby" != "$gemfile_ruby" ]]; then
+      warn ".ruby-version dice ${dotfile_ruby:-VACÍO} pero Gemfile dice ${gemfile_ruby}. Corrigiendo..."
+      run_as_cw "echo '${gemfile_ruby}' > chatwoot/.ruby-version"
+      success ".ruby-version actualizado a ${gemfile_ruby} (Gemfile manda)"
+    fi
+  elif [[ -n "$dotfile_ruby" ]]; then
+    RUBY_VERSION="$dotfile_ruby"
+    info "Versión de Ruby requerida por .ruby-version: ${RUBY_VERSION} (Gemfile no especifica)"
+  else
+    fatal "No se pudo determinar la versión de Ruby. Ni Gemfile ni .ruby-version la especifican."
+  fi
 }
 
 ###############################################################################
