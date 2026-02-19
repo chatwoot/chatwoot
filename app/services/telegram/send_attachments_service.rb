@@ -74,7 +74,8 @@ class Telegram::SendAttachmentsService
                     **business_connection_body,
                     media: attachments.map { |hash| hash.except(:attachment) }.to_json,
                     reply_to_message_id: reply_to_message_id
-                  })
+                  },
+                  headers: Channel::Telegram::TELEGRAM_HEADERS)
   end
 
   def send_individual_attachments(attachments)

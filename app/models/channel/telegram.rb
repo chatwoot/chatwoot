@@ -22,6 +22,7 @@ class Channel::Telegram < ApplicationRecord
 
   self.table_name = 'channel_telegram'
   EDITABLE_ATTRS = [:bot_token].freeze
+  TELEGRAM_HEADERS = { 'Content-Type' => 'application/x-www-form-urlencoded' }.freeze
 
   before_validation :ensure_valid_bot_token, on: :create
   validates :bot_token, presence: true, uniqueness: true
@@ -93,11 +94,12 @@ class Channel::Telegram < ApplicationRecord
   end
 
   def setup_telegram_webhook
-    HTTParty.post("#{telegram_api_url}/deleteWebhook")
+    HTTParty.post("#{telegram_api_url}/deleteWebhook", headers: TELEGRAM_HEADERS)
     response = HTTParty.post("#{telegram_api_url}/setWebhook",
                              body: {
                                url: "#{ENV.fetch('FRONTEND_URL', nil)}/webhooks/telegram/#{bot_token}"
-                             })
+                             },
+                             headers: TELEGRAM_HEADERS)
     errors.add(:bot_token, 'error setting up the webook') unless response.success?
   end
 
@@ -166,6 +168,7 @@ class Channel::Telegram < ApplicationRecord
                     reply_markup: reply_markup,
                     parse_mode: 'HTML',
                     reply_to_message_id: reply_to_message_id
-                  }.merge(business_body))
+                  }.merge(business_body),
+                  headers: TELEGRAM_HEADERS)
   end
 end
