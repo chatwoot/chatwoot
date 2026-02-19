@@ -5,6 +5,9 @@
     "LOADING": "Etiketler getiriliyor",
     "DESCRIPTION": "Etiketler, konuşmaları ve potansiyel müşterileri kategorize etmenize ve önceliklendirmenize yardımcı olur. Yan paneli kullanarak bir konuşmaya veya kişiye etiket atayabilirsiniz.",
     "LEARN_MORE": "Learn more about labels",
+    "COUNT": "{n} label | {n} labels",
+    "SEARCH_PLACEHOLDER": "Etiketleri ara...",
+    "NO_RESULTS": "No labels found matching your search",
     "SEARCH_404": "Bu sorgu ile eşleşen öğe yok",
     "LIST": {
       "404": "Bu hesapta mevcut etiket yok.",
@@ -13,7 +16,8 @@
       "TABLE_HEADER": {
         "NAME": "İsim",
         "DESCRIPTION": "Açıklama",
-        "COLOR": "Renk"
+        "COLOR": "Renk",
+        "ACTION": "Hareketler"
       }
     },
     "FORM": {
