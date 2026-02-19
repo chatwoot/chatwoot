@@ -5,6 +5,9 @@
     "LOADING": "Caricamento attributi personalizzati",
     "DESCRIPTION": "Un attributo personalizzato tiene traccia di informazioni aggiuntive sui tuoi contatti o sulle conversazioni — ad esempio il piano di abbonamento o la data del primo acquisto. Puoi aggiungere diversi tipi di attributi personalizzati, come testo, elenchi o numeri, per raccogliere le informazioni specifiche di cui hai bisogno.",
     "LEARN_MORE": "Scopri di più sugli attributi personalizzati",
+    "COUNT": "{n} attribute | {n} attributes",
+    "SEARCH_PLACEHOLDER": "Cerca attributi...",
+    "NO_RESULTS": "No attributes found matching your search",
     "ATTRIBUTE_MODELS": {
       "CONVERSATION": "Conversazione",
       "CONTACT": "Contatto"
