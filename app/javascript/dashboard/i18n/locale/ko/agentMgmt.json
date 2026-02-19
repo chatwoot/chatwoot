@@ -9,6 +9,7 @@
       "ADMINISTRATOR": "관리자",
       "AGENT": "에이전트"
     },
+    "COUNT": "{n} agent | {n} agents",
     "LIST": {
       "404": "이 계정에 연결된 에이전트가 없음",
       "TITLE": "팀 내 에이전트 관리",
@@ -96,6 +97,8 @@
         "ERROR_MESSAGE": "Woot 서버에 연결할 수 없음. 나중에 다시 시도하십시오."
       }
     },
+    "SEARCH_PLACEHOLDER": "에이전트 찾기...",
+    "NO_RESULTS": "No agents found matching your search",
     "SEARCH": {
       "NO_RESULTS": "검색 결과가 없습니다."
     },
