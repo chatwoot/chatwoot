@@ -9,6 +9,7 @@
       "ADMINISTRATOR": "Администратор",
       "AGENT": "Оператор"
     },
+    "COUNT": "{n} agent | {n} agents",
     "LIST": {
       "404": "Нет связанных с этим аккаунтом операторов",
       "TITLE": "Управляйте операторами вашей команды",
@@ -96,6 +97,8 @@
         "ERROR_MESSAGE": "Не удается соединиться с сервером Woot, попробуйте позже"
       }
     },
+    "SEARCH_PLACEHOLDER": "Поиск агентов...",
+    "NO_RESULTS": "No agents found matching your search",
     "SEARCH": {
       "NO_RESULTS": "Результаты не найдены."
     },
