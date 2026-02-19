@@ -3,6 +3,9 @@
     "HEADER": "قنوات التواصل",
     "DESCRIPTION": "القناة هي وضع الاتصال الذي يختاره العميل للتفاعل معك. صندوق الوارد هو المكان الذي تدير فيه التفاعلات لقناة معينة. ويمكن أن تشمل الاتصالات من مصادر مختلفة مثل البريد الإلكتروني، والمحادثة الحية، ووسائط الإعلام الاجتماعية.",
     "LEARN_MORE": "تعلم المزيد عن صناديق البريد",
+    "COUNT": "{n} inbox | {n} inboxes",
+    "SEARCH_PLACEHOLDER": "Search inboxes...",
+    "NO_RESULTS": "No inboxes found matching your search",
     "RECONNECTION_REQUIRED": "Your inbox is disconnected. You won't receive new messages until you reauthorize it.",
     "CLICK_TO_RECONNECT": "Click here to reconnect.",
     "WHATSAPP_REGISTRATION_INCOMPLETE": "Your WhatsApp Business registration isn’t complete. Please check your display name status in Meta Business Manager before reconnecting.",
@@ -575,7 +578,7 @@
           "SUBTITLE": "Use only the configured business name as the sender name in the email header."
         },
         "BUSINESS_NAME": {
-          "BUTTON_TEXT": "+ Configure your business name",
+          "BUTTON_TEXT": "Configure your business name",
           "PLACEHOLDER": "Enter your business name",
           "SAVE_BUTTON_TEXT": "حفظ"
         }
@@ -625,6 +628,8 @@
       "ACCOUNT_HEALTH": "Account Health",
       "CSAT": "تقييم رضاء العملاء"
     },
+    "CHANNEL_PREFERENCES": "Channel Preferences",
+    "WIDGET_FEATURES": "Widget features",
     "ACCOUNT_HEALTH": {
       "TITLE": "Manage your WhatsApp account",
       "DESCRIPTION": "Review your WhatsApp account status, messaging limits, and quality. Update settings or resolve issues if needed",
@@ -758,6 +763,7 @@
       "LABEL": "مركز المساعدة",
       "PLACEHOLDER": "Select Help Center",
       "SELECT_PLACEHOLDER": "Select Help Center",
+      "NONE": "لا شيء",
       "REMOVE": "Remove Help Center",
       "SUB_TEXT": "Attach a Help Center with the inbox"
     },
@@ -911,9 +917,11 @@
       "UNAVAILABLE_MESSAGE_LABEL": "رسالة غير متاح للزائرين",
       "TOGGLE_HELP": "تمكين توفر العمل سيظهر الساعات المتاحة على أداة الدردشة المباشرة حتى لو كان جميع الوكلاء غير متصلين بالإنترنت. خارج الساعات المتاحة يمكن تحذير الزوار برسالة ونموذج ما قبل الدردشة.",
       "DAY": {
+        "DAY": "اليوم",
+        "AVAILABILITY": "التوفر",
+        "HOURS": "Hours",
         "ENABLE": "تمكين التوفر لهذا اليوم",
         "UNAVAILABLE": "غير متوفر",
-        "HOURS": "ساعات",
         "VALIDATION_ERROR": "يجب أن يكون وقت البدء قبل وقت الإغلاق.",
         "CHOOSE": "اختر"
       },
@@ -1020,11 +1028,12 @@
           "IN_A_DAY": "خلال يوم"
         },
         "WIDGET_COLOR_LABEL": "لون صندوق الدردشة",
-        "WIDGET_BUBBLE_POSITION_LABEL": "موقع شعار اللايف شات",
-        "WIDGET_BUBBLE_TYPE_LABEL": "شكل عرض اللايف شات",
+        "WIDGET_BUBBLE": "Bubble",
+        "WIDGET_BUBBLE_POSITION_LABEL": "Position:",
+        "WIDGET_BUBBLE_TYPE_LABEL": "النوع:",
         "WIDGET_BUBBLE_LAUNCHER_TITLE": {
           "DEFAULT": "تحدث الينا",
-          "LABEL": "عنوان ايقونة اللايف شات",
+          "LABEL": "Launcher Title",
           "PLACE_HOLDER": "تحدث الينا"
         },
         "UPDATE": {
@@ -1049,7 +1058,7 @@
       },
       "WIDGET_SCREEN": {
         "DEFAULT": "افتراضي",
-        "CHAT": "محادثة"
+        "CHAT": "Chat mode"
       },
       "REPLY_TIME": {
         "IN_A_FEW_MINUTES": "عادة نقوم بالرد خلال بضع دقائق",
