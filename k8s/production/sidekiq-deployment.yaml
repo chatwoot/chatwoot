@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: sidekiq
-        image: wavai/chatwoot-rails:v1.0.100
+        image: wavai/chatwoot-rails:v1.0.101
         imagePullPolicy: Always
         command: ["/bin/sh"]
         args: ["-c", "bundle exec sidekiq -C config/sidekiq.yml"]
