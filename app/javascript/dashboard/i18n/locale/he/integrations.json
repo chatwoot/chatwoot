@@ -1,6 +1,7 @@
 {
   "INTEGRATION_SETTINGS": {
     "SHOPIFY": {
+      "HEADER": "Shopify",
       "DELETE": {
         "TITLE": "מחק אינטגרציה של Shopify",
         "MESSAGE": "האם אתה בטוח שברצונך למחוק את האינטגרציה של Shopify?"
@@ -19,6 +20,8 @@
     "DESCRIPTION": "Chatwoot משתלב עם כלים ושירותים מרובים כדי לשפר את יעילות הצוות שלך. חקור את הרשימה למטה כדי להגדיר את האפליקציות המועדפות עליך.",
     "LEARN_MORE": "למד עוד על אינטגרציות",
     "LOADING": "מאחזר אינטגרציות",
+    "SEARCH_PLACEHOLDER": "Search integrations...",
+    "NO_RESULTS": "No integrations found matching your search",
     "CAPTAIN": {
       "DISABLED": "Captain אינו מופעל בחשבונך.",
       "CLICK_HERE_TO_CONFIGURE": "לחץ כאן כדי להגדיר",
@@ -28,6 +31,9 @@
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "אירועים מנויים",
       "LEARN_MORE": "למד עוד על Webhooks",
+      "COUNT": "{n} webhook | {n} webhooks",
+      "SEARCH_PLACEHOLDER": "Search webhooks...",
+      "NO_RESULTS": "No webhooks found matching your search",
       "FORM": {
         "CANCEL": "ביטול",
         "DESC": "אירועי Webhook מספקים לך מידע בזמן אמת על מה שקורה בחשבון Chatwoot שלך. אנא הזן כתובת אתר חוקית כדי להגדיר התקשרות חוזרת.",
@@ -104,6 +110,7 @@
       }
     },
     "SLACK": {
+      "HEADER": "Slack",
       "DELETE": "מחק",
       "DELETE_CONFIRMATION": {
         "TITLE": "מחק את האינטגרציה",
@@ -223,12 +230,16 @@
       "SIDEBAR_TXT": "<p><b>אפליקציות לוח מחוונים</b></p><p>אפליקציות לוח מחוונים מאפשרות לארגונים להטמיע אפליקציה בתוך לוח המחוונים של Chatwoot כדי לספק את ההקשר לסוכני תמיכת לקוחות. תכונה זו מאפשרת לך ליצור אפליקציה באופן עצמאי ולהטמיע אותה בתוך לוח המחוונים כדי לספק מידע על המשתמש, ההזמנות שלו או היסטוריית התשלומים הקודמת שלו.</p><p>כאשר תטמיע את האפליקציה שלך באמצעות לוח המחוונים ב-Chatwoot, האפליקציה שלך תהיה קבל את ההקשר של השיחה והקשר כאירוע חלון. הטמיע מאזין לאירוע ההודעה בדף שלך כדי לקבל את ההקשר.</p><p>כדי להוסיף אפליקציית לוח מחוונים חדשה, לחץ על הלחצן 'הוסף אפליקציית לוח מחוונים חדשה'.</p>",
       "DESCRIPTION": "אפליקציות לוח מחוונים מאפשרות לארגונים להטמיע אפליקציה בתוך לוח המחוונים כדי לספק את ההקשר לסוכני תמיכת לקוחות. תכונה זו מאפשרת לך ליצור אפליקציה באופן עצמאי ולהטמיע אותה כדי לספק מידע על המשתמש, ההזמנות שלהם או היסטוריית התשלומים הקודמת שלהם.",
       "LEARN_MORE": "למד עוד על אפליקציות לוח מחוונים",
+      "COUNT": "{n} dashboard app | {n} dashboard apps",
+      "SEARCH_PLACEHOLDER": "Search dashboard apps...",
+      "NO_RESULTS": "No dashboard apps found matching your search",
       "LIST": {
         "404": "אין עדיין אפליקציות לוח מחוונים מוגדרות בחשבון זה",
         "LOADING": "מביא אפליקציות לוח מחוונים...",
         "TABLE_HEADER": {
           "NAME": "שם",
-          "ENDPOINT": "נקודת קצה"
+          "ENDPOINT": "נקודת קצה",
+          "ACTIONS": "פעולות"
         },
         "EDIT_TOOLTIP": "ערוך אפליקציה",
         "DELETE_TOOLTIP": "מחק אפליקציה"
@@ -265,6 +276,7 @@
       }
     },
     "LINEAR": {
+      "HEADER": "Linear",
       "ADD_OR_LINK_BUTTON": "Create/Link Linear Issue",
       "LOADING": "מאחזר בעיות Linear...",
       "LOADING_ERROR": "אירעה שגיאה באחזור בעיות Linear, אנא נסה שוב",
@@ -359,6 +371,7 @@
       }
     },
     "NOTION": {
+      "HEADER": "Notion",
       "DELETE": {
         "TITLE": "האם אתה בטוח שברצונך למחוק את האינטגרציה של Notion?",
         "MESSAGE": "מחיקת אינטגרציה זו תסיר את הגישה למרחב העבודה שלך ב-Notion ותפסיק את כל הפונקציונליות הקשורה.",
