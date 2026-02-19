@@ -3,8 +3,11 @@
     "HEADER": "Özel Roller",
     "LEARN_MORE": "Özel roller hakkında daha fazla bilgi edinin",
     "DESCRIPTION": "Özel roller, hesap sahibi veya yöneticiler tarafından oluşturulan rollerdir. Bu roller, temsilcilere hesabın içinde hangi erişim ve yetkilere sahip olacaklarını belirlemek için atanabilir. Özel roller, organizasyonun ihtiyaçlarına uygun olarak belirli izinler ve erişim seviyeleriyle oluşturulabilir.",
+    "COUNT": "{n} custom role | {n} custom roles",
     "HEADER_BTN_TXT": "Add custom role",
     "LOADING": "Özel roller alınıyor...",
+    "SEARCH_PLACEHOLDER": "Search custom roles...",
+    "NO_RESULTS": "No custom roles found matching your search",
     "SEARCH_404": "Bu sorgu ile eşleşen öğe yok.",
     "PAYWALL": {
       "TITLE": "Özel roller oluşturmak için yükseltin",
