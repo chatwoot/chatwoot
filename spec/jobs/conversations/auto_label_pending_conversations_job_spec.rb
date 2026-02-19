@@ -21,8 +21,22 @@ RSpec.describe Conversations::AutoLabelPendingConversationsJob do
     end
   end
 
-  context 'when conversation already has labels' do
-    it 'does not enqueue job for conversations with labels' do
+  context 'when conversation already has max labels' do
+    it 'does not enqueue job for conversations with 2 labels' do
+      account = create(:account)
+      create(:label, account: account, allow_auto_assign: true)
+      conversation = create(:conversation, account: account, status: :open, created_at: 10.minutes.ago,
+                                           cached_label_list: 'label1, label2')
+      create(:message, conversation: conversation, message_type: :incoming)
+
+      expect { described_class.perform_now }
+        .not_to have_enqueued_job(AutoAssignConversationJob)
+        .with(conversation.id)
+    end
+  end
+
+  context 'when conversation has only 1 label' do
+    it 'enqueues job for conversations that can still receive another label' do
       account = create(:account)
       create(:label, account: account, allow_auto_assign: true)
       conversation = create(:conversation, account: account, status: :open, created_at: 10.minutes.ago,
@@ -30,7 +44,7 @@ RSpec.describe Conversations::AutoLabelPendingConversationsJob do
       create(:message, conversation: conversation, message_type: :incoming)
 
       expect { described_class.perform_now }
-        .not_to have_enqueued_job(AutoAssignConversationJob)
+        .to have_enqueued_job(AutoAssignConversationJob)
         .with(conversation.id)
     end
   end
