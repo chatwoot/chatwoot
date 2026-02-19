@@ -19,11 +19,14 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
   def process_update_contact
     @contact = ContactIdentifyAction.new(
       contact: @contact,
-      params: { email: contact_email, phone_number: contact_phone_number, name: contact_name },
+      params: { identifier: @contact.identifier,
+                email: contact_email, phone_number: contact_phone_number, name: contact_name },
       retain_original_contact_name: true,
       discard_invalid_attrs: true,
       inbox_id: @web_widget.inbox.id
     ).perform
+
+    @contact_inbox = @contact.contact_inboxes.find_by!(inbox_id: @web_widget.inbox.id)
   end
 
   def update_last_seen
