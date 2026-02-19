@@ -3,6 +3,9 @@
     "HEADER": "Caixas de Entrada",
     "DESCRIPTION": "Um canal é o modo de comunicação que seu cliente escolhe para interagir com você. Uma caixa de entrada é onde você gerencia interações para um canal específico. Pode incluir comunicações de várias fontes, como e-mail, chat ao vivo e mídia social.",
     "LEARN_MORE": "Saiba mais sobre as caixas de entrada",
+    "COUNT": "{n} caixa de entrada | {n} caixas de entrada",
+    "SEARCH_PLACEHOLDER": "Pesquisar caixas de entrada...",
+    "NO_RESULTS": "Nenhuma caixa de entrada encontrada correspondente à sua busca",
     "RECONNECTION_REQUIRED": "Sua caixa de entrada está desconectada. Você não receberá novas mensagens até reautorizar.",
     "CLICK_TO_RECONNECT": "Clique aqui para reconectar.",
     "WHATSAPP_REGISTRATION_INCOMPLETE": "Seu registro no WhatsApp Business não foi concluído. Verifique o status do seu nome de exibição no Meta Business Manager antes de reconectar.",
@@ -625,6 +628,8 @@
       "ACCOUNT_HEALTH": "Saúde da conta",
       "CSAT": "CSAT"
     },
+    "CHANNEL_PREFERENCES": "Preferências do Canal",
+    "WIDGET_FEATURES": "Recursos do widget",
     "ACCOUNT_HEALTH": {
       "TITLE": "Gerencie sua conta do WhatsApp",
       "DESCRIPTION": "Revise o status da sua conta do WhatsApp, os limites de mensagens e a qualidade. Atualize as configurações ou resolva problemas, se necessário",
@@ -758,6 +763,7 @@
       "LABEL": "Centro de Ajuda",
       "PLACEHOLDER": "Selecionar Centro de Ajuda",
       "SELECT_PLACEHOLDER": "Selecionar Centro de Ajuda",
+      "NONE": "Nenhuma",
       "REMOVE": "Remover Centro de Ajuda",
       "SUB_TEXT": "Anexe um Centro de Ajuda com a caixa de entrada"
     },
@@ -911,9 +917,11 @@
       "UNAVAILABLE_MESSAGE_LABEL": "Mensagem indisponível para visitantes",
       "TOGGLE_HELP": "Permitir a disponibilidade de negócios mostrará as horas disponíveis no widget de bate-papo ao vivo, mesmo que todos os agentes estejam offline. Os vistores disponíveis horários externos podem ser avisados com uma mensagem e um formulário de pré-bate-papo.",
       "DAY": {
+        "DAY": "Dia",
+        "AVAILABILITY": "Disponibilidade",
+        "HOURS": "Horas",
         "ENABLE": "Permitir a disponibilidade para este dia",
         "UNAVAILABLE": "Indisponível",
-        "HOURS": "horas",
         "VALIDATION_ERROR": "Hora inicial deve ser antes de hora de fechamento.",
         "CHOOSE": "Selecione"
       },
@@ -1020,11 +1028,12 @@
           "IN_A_DAY": "Em um dia"
         },
         "WIDGET_COLOR_LABEL": "Cor do Widget",
-        "WIDGET_BUBBLE_POSITION_LABEL": "Posição do Balão do Widget",
-        "WIDGET_BUBBLE_TYPE_LABEL": "Tipo de Balão do Widget",
+        "WIDGET_BUBBLE": "Bolha",
+        "WIDGET_BUBBLE_POSITION_LABEL": "Posição:",
+        "WIDGET_BUBBLE_TYPE_LABEL": "Tipo:",
         "WIDGET_BUBBLE_LAUNCHER_TITLE": {
           "DEFAULT": "Fale conosco no chat",
-          "LABEL": "Título do disparador da Bolha do Widget",
+          "LABEL": "Título do Iniciador",
           "PLACE_HOLDER": "Fale conosco no chat"
         },
         "UPDATE": {
@@ -1049,7 +1058,7 @@
       },
       "WIDGET_SCREEN": {
         "DEFAULT": "Padrão",
-        "CHAT": "Chat"
+        "CHAT": "Modo do chat"
       },
       "REPLY_TIME": {
         "IN_A_FEW_MINUTES": "Normalmente responde em alguns minutos",
