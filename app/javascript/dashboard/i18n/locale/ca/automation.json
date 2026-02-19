@@ -3,8 +3,11 @@
     "HEADER": "Automatització",
     "DESCRIPTION": "Automation can replace and streamline existing processes that require manual effort, such as adding labels and assigning conversations to the most suitable agent. This allows the team to focus on their strengths while reducing time spent on routine tasks.",
     "LEARN_MORE": "Learn more about automation",
-    "HEADER_BTN_TXT": "Afegeix una regla d'automatització",
+    "COUNT": "{n} automation | {n} automations",
+    "HEADER_BTN_TXT": "Create Automation",
     "LOADING": "S'estan recollint regles d'automatització",
+    "SEARCH_PLACEHOLDER": "Search automation rules...",
+    "NO_RESULTS": "No automation rules found matching your search",
     "ADD": {
       "TITLE": "Afegeix una regla d'automatització",
       "SUBMIT": "Crear",
@@ -42,9 +45,9 @@
     "LIST": {
       "TABLE_HEADER": {
         "NAME": "Nom",
-        "DESCRIPTION": "Descripció",
         "ACTIVE": "Actiu",
-        "CREATED_ON": "Creat el"
+        "CREATED_ON": "Creat el",
+        "ACTIONS": "Accions"
       },
       "404": "No s'han trobat regles d'automatització"
     },
