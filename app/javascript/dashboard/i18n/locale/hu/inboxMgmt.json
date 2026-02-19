@@ -3,6 +3,9 @@
     "HEADER": "Fiókok",
     "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
     "LEARN_MORE": "Learn more about inboxes",
+    "COUNT": "{n} inbox | {n} inboxes",
+    "SEARCH_PLACEHOLDER": "Search inboxes...",
+    "NO_RESULTS": "No inboxes found matching your search",
     "RECONNECTION_REQUIRED": "Your inbox is disconnected. You won't receive new messages until you reauthorize it.",
     "CLICK_TO_RECONNECT": "Click here to reconnect.",
     "WHATSAPP_REGISTRATION_INCOMPLETE": "Your WhatsApp Business registration isn’t complete. Please check your display name status in Meta Business Manager before reconnecting.",
@@ -575,7 +578,7 @@
           "SUBTITLE": "Csak a konfigurált cégnevet használja feladói névként az e-mail fejlécében."
         },
         "BUSINESS_NAME": {
-          "BUTTON_TEXT": "Üzleti nevének konfigurálása",
+          "BUTTON_TEXT": "Configure your business name",
           "PLACEHOLDER": "Adja meg vállalkozásának nevét",
           "SAVE_BUTTON_TEXT": "Mentés"
         }
@@ -625,6 +628,8 @@
       "ACCOUNT_HEALTH": "Account Health",
       "CSAT": "CSAT"
     },
+    "CHANNEL_PREFERENCES": "Channel Preferences",
+    "WIDGET_FEATURES": "Widget features",
     "ACCOUNT_HEALTH": {
       "TITLE": "Manage your WhatsApp account",
       "DESCRIPTION": "Review your WhatsApp account status, messaging limits, and quality. Update settings or resolve issues if needed",
@@ -758,6 +763,7 @@
       "LABEL": "Súgóközpont",
       "PLACEHOLDER": "Súgóközpont kiválasztása",
       "SELECT_PLACEHOLDER": "Súgóközpont kiválasztása",
+      "NONE": "Nincs",
       "REMOVE": "Súgóközpont eltávolítása",
       "SUB_TEXT": "Súgóközpont csatolása a fiókhoz"
     },
@@ -911,9 +917,11 @@
       "UNAVAILABLE_MESSAGE_LABEL": "Nem elérhető üzenetek a vendégek számára",
       "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours visitors can be warned with a message and a pre-chat form.",
       "DAY": {
+        "DAY": "Nap",
+        "AVAILABILITY": "Elérhetőség",
+        "HOURS": "Hours",
         "ENABLE": "Elérhetőség bekapcsolása erre a napra",
         "UNAVAILABLE": "Nem elérhető",
-        "HOURS": "óra",
         "VALIDATION_ERROR": "A kezés idejének a zárás ideje előttinek kell lennie.",
         "CHOOSE": "Kiválasztás"
       },
@@ -1020,11 +1028,12 @@
           "IN_A_DAY": "Egy napon belül"
         },
         "WIDGET_COLOR_LABEL": "Widget szín",
-        "WIDGET_BUBBLE_POSITION_LABEL": "Widget buborék pozíciója",
-        "WIDGET_BUBBLE_TYPE_LABEL": "Widget buborék típusa",
+        "WIDGET_BUBBLE": "Bubble",
+        "WIDGET_BUBBLE_POSITION_LABEL": "Position:",
+        "WIDGET_BUBBLE_TYPE_LABEL": "Típus:",
         "WIDGET_BUBBLE_LAUNCHER_TITLE": {
           "DEFAULT": "Chatelj velünk",
-          "LABEL": "Widget buborék indító címe",
+          "LABEL": "Launcher Title",
           "PLACE_HOLDER": "Chatelj velünk"
         },
         "UPDATE": {
@@ -1049,7 +1058,7 @@
       },
       "WIDGET_SCREEN": {
         "DEFAULT": "Alapértelmezett",
-        "CHAT": "Chat"
+        "CHAT": "Chat mode"
       },
       "REPLY_TIME": {
         "IN_A_FEW_MINUTES": "Néhány percen belül válaszol",
