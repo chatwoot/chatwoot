@@ -5,7 +5,12 @@
     "ADD_ACTION_LONG": "Create a new SLA Policy",
     "DESCRIPTION": "Hizmet Seviyesi Anlaşmaları (SLA’lar), ekibiniz ile müşterileriniz arasındaki beklentileri net bir şekilde tanımlayan sözleşmelerdir. Yanıt ve çözüm süreleri için standartlar belirleyerek sorumluluk çerçevesi oluşturur ve tutarlı, yüksek kaliteli bir deneyim sağlar.",
     "LEARN_MORE": "SLA hakkında daha fazla bilgi edinin",
+    "COUNT": "{n} SLA | {n} SLAs",
     "LOADING": "Fetching SLAs",
+    "SEARCH_PLACEHOLDER": "Search SLA...",
+    "SEARCH": {
+      "NO_RESULTS": "No SLA found matching your search"
+    },
     "PAYWALL": {
       "TITLE": "SLA oluşturmak için yükseltin",
       "AVAILABLE_ON": "The SLA feature is only available in the Business and Enterprise plans.",
@@ -20,14 +25,18 @@
     },
     "LIST": {
       "404": "There are no SLAs available in this account.",
+      "TABLE_HEADER": {
+        "SLA": "SLA",
+        "BUSINESS_HOURS": "Business hours"
+      },
       "EMPTY": {
         "TITLE_1": "Enterprise P0",
         "DESC_1": "Issues raised by enterprise customers, that require immediate attention.",
         "TITLE_2": "Enterprise P1",
         "DESC_2": "Issues raised by enterprise customers, that needs to be acknowledged quickly."
       },
-      "BUSINESS_HOURS_ON": "Business hours on",
-      "BUSINESS_HOURS_OFF": "Business hours off",
+      "BUSINESS_HOURS_ON": "Turned on",
+      "BUSINESS_HOURS_OFF": "Turned off",
       "RESPONSE_TYPES": {
         "FRT": "First response time threshold",
         "NRT": "Next response time threshold",
