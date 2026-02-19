@@ -3,8 +3,11 @@
     "HEADER": "Automatizācija",
     "DESCRIPTION": "Automatizācija var aizstāt un racionalizēt esošos procesus, kuriem nepieciešama manuāla piepūle, piemēram, etiķešu pievienošana un sarunu piešķiršana vispiemērotākajam aģentam. Tas ļauj komandai koncentrēties uz savām stiprajām pusēm, vienlaikus samazinot laiku, kas pavadīts ikdienas uzdevumiem.",
     "LEARN_MORE": "Uzzināt vairāk par automatizāciju",
-    "HEADER_BTN_TXT": "Pievienot Automatizācijas Noteikumu",
+    "COUNT": "{n} automation | {n} automations",
+    "HEADER_BTN_TXT": "Create Automation",
     "LOADING": "Notiek automatizācijas noteikumu iegūšana",
+    "SEARCH_PLACEHOLDER": "Search automation rules...",
+    "NO_RESULTS": "No automation rules found matching your search",
     "ADD": {
       "TITLE": "Pievienot Automatizācijas Noteikumu",
       "SUBMIT": "Izveidot",
@@ -42,9 +45,9 @@
     "LIST": {
       "TABLE_HEADER": {
         "NAME": "Nosaukums",
-        "DESCRIPTION": "Apraksts",
         "ACTIVE": "Aktīvs",
-        "CREATED_ON": "Izveidots"
+        "CREATED_ON": "Izveidots",
+        "ACTIONS": "Darbības"
       },
       "404": "Automatizācijas noteikumi nav atrasti"
     },
