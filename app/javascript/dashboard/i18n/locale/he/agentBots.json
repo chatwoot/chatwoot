@@ -4,6 +4,9 @@
     "LOADING_EDITOR": "טוען עורך...",
     "DESCRIPTION": "בוטים של סוכנים הם כמו החברים הכי נפלאים בצוות שלכם. הם יכולים להתמודד עם הדברים הקטנים, כך שאתם יכולים להתמקד בדברים החשובים. נסו אותם. אתם יכולים לנהל את הבוטים שלכם מדף זה או ליצור חדשים באמצעות כפתור 'הוסף בוט'.",
     "LEARN_MORE": "למד על בוטי סוכנים",
+    "COUNT": "{n} bot | {n} bots",
+    "SEARCH_PLACEHOLDER": "Search bots...",
+    "NO_RESULTS": "No bots found matching your search",
     "GLOBAL_BOT": "בוט מערכת",
     "GLOBAL_BOT_BADGE": "מערכת",
     "AVATAR": {
@@ -34,7 +37,8 @@
       "LOADING": "טוען בוטים...",
       "TABLE_HEADER": {
         "DETAILS": "פרטי בוט",
-        "URL": "כתובת URL של ווב הוק"
+        "URL": "כתובת URL של ווב הוק",
+        "ACTIONS": "פעולות"
       }
     },
     "DELETE": {
