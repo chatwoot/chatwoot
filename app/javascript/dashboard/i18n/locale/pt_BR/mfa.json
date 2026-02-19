@@ -1,7 +1,7 @@
 {
   "MFA_SETTINGS": {
     "TITLE": "Autenticação em Dois Fatores",
-    "SUBTITLE": "Proteja sua conta com autenticação baseada em TOTP",
+    "SUBTITLE": "Proteja sua conta contra acessos não autorizados com autenticação baseada em TOTP. Isso adiciona uma camada extra de segurança à sua conta.",
     "DESCRIPTION": "Adicione uma camada extra de segurança à sua conta usando uma senha temporária baseada em tempo (TOTP)",
     "STATUS_TITLE": "Estado da Autenticação",
     "STATUS_DESCRIPTION": "Gerencie as configurações de autenticação em dois fatores e os códigos de recuperação",
