@@ -198,7 +198,7 @@ const TIME_SUFFIX_RE =
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
 const NOISE_RE =
-  /^(?:(?:please|pls|plz|kindly)\s+)?(?:(?:snooze|remind(?:\s+me)?|set(?:\s+(?:a|the))?(?:\s+(?:reminder|deadline|snooze|timer))?|add(?:\s+(?:a|the))?(?:\s+(?:reminder|deadline|snooze))?|schedule|postpone|defer|delay|push(?:\s+(?:it|this))?)\s+)?(?:(?:on|to|for|at|until|till|by)\s+)?/;
+  /^(?:(?:please|pls|plz|kindly)\s+)?(?:(?:snooze|remind(?:\s+me)?|set(?:\s+(?:a|the))?(?:\s+(?:reminder|deadline|snooze|timer))?|add(?:\s+(?:a|the))?(?:\s+(?:reminder|deadline|snooze))?|schedule|postpone|defer|delay|push(?:\s+(?:it|this))?)\s+)?(?:(?:it|this)\s+(?=(?:on|to|for|at|until|till|by|from)\s))?(?:(?:on|to|for|at|until|till|by|from)\s+)?/;
 
 const APPROX_RE = /^(?:approx(?:imately)?|around|about|roughly|~)\s+/;
 
@@ -627,6 +627,9 @@ const SLASH_DATE_RE = new RegExp(
 const DASH_DATE_RE = new RegExp(
   `^(\\d{1,2})-(\\d{1,2})-(\\d{4})${TIME_SUFFIX.source}`
 );
+const DOT_DATE_RE = new RegExp(
+  `^(\\d{1,2})\\.(\\d{1,2})\\.(\\d{4})${TIME_SUFFIX.source}`
+);
 
 const disambiguateDayMonth = (a, b) => {
   if (a > 12) return { day: a, month: b - 1 };
@@ -666,6 +669,9 @@ const matchFormalDate = (text, now) => {
   if (match) return parseAmbiguous(match);
 
   match = text.match(DASH_DATE_RE);
+  if (match) return parseAmbiguous(match);
+
+  match = text.match(DOT_DATE_RE);
   if (match) return parseAmbiguous(match);
 
   return null;
