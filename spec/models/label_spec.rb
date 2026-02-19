@@ -26,6 +26,11 @@ RSpec.describe Label do
       expect(label.valid?).to be true
     end
 
+    it 'allows emoji characters' do
+      label = FactoryBot.build(:label, title: '🤮spam')
+      expect(label.valid?).to be true
+    end
+
     it 'converts uppercase letters to lowercase' do
       label = FactoryBot.build(:label, title: 'Hello_World')
       expect(label.valid?).to be true

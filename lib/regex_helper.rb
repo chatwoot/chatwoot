@@ -1,10 +1,10 @@
 module RegexHelper
   # user https://rubular.com/ to quickly validate your regex
 
-  # the following regext needs atleast one character which should be
-  # valid unicode letter, unicode number, underscore, hyphen
-  # shouldn't start with a underscore or hyphen
-  UNICODE_CHARACTER_NUMBER_HYPHEN_UNDERSCORE = Regexp.new('\A[\p{L}\p{N}]+[\p{L}\p{N}_-]+\Z')
+  # the following regex needs at least one character which should be
+  # valid unicode letter, unicode number, emoji, underscore, hyphen
+  # shouldn't start with an underscore or hyphen
+  UNICODE_CHARACTER_NUMBER_HYPHEN_UNDERSCORE = Regexp.new('\A[\p{L}\p{N}\p{So}]+[\p{L}\p{N}\p{So}_-]+\Z')
   # Regex to match mention markdown links and extract display names
   # Matches: [@display name](mention://user|team/id/url_encoded_name)
   # Captures: 1) @display name (including emojis), 2) url_encoded_name
