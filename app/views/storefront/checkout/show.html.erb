@@ -1,15 +1,6 @@
 <div class="max-w-lg mx-auto px-4 py-6">
   <%# Page header %>
-  <h2 class="text-base font-semibold text-slate-900 dark:text-white mb-1">Checkout</h2>
-
-  <%# Back to cart link %>
-  <a href="<%= storefront_cart_path(@account, token: storefront_token_param) %>"
-     class="inline-flex items-center gap-1 text-sm text-woot-500 hover:text-woot-600 dark:text-woot-400 font-medium mb-4">
-    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
-    </svg>
-    Back to Cart
-  </a>
+  <h2 class="text-base font-semibold text-slate-900 dark:text-white mb-4">Checkout</h2>
 
   <%= form_tag storefront_checkout_create_path(@account, token: storefront_token_param), method: :post, id: "checkout-form" do %>
 
