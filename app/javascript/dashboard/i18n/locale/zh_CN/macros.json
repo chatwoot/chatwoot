@@ -3,9 +3,12 @@
     "HEADER": "宏",
     "DESCRIPTION": "宏是一组预设操作，帮助客服人员快速完成任务。客服人员可以定义诸如标记对话、发送邮件记录、更新自定义属性等操作，并一键执行。",
     "LEARN_MORE": "了解更多关于宏的信息",
+    "COUNT": "{n} macro | {n} macros",
     "HEADER_BTN_TXT": "添加一个新宏文件",
     "HEADER_BTN_TXT_SAVE": "保存宏文件",
     "LOADING": "获取宏中",
+    "SEARCH_PLACEHOLDER": "Search macros...",
+    "NO_RESULTS": "No macros found matching your search",
     "ERROR": "出错了。请重试",
     "ORDER_INFO": "宏将按照您添加操作的顺序运行。您可以通过拖动每个节点旁边的手柄来重新排列它们。",
     "ADD": {
@@ -29,7 +32,8 @@
         "NAME": "姓名：",
         "CREATED BY": "创建者",
         "LAST_UPDATED_BY": "最后更新者",
-        "VISIBILITY": "可视性"
+        "VISIBILITY": "可视性",
+        "ACTIONS": "操作"
       },
       "404": "未找到宏"
     },
