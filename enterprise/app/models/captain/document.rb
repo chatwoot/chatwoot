@@ -65,6 +65,7 @@ class Captain::Document < ApplicationRecord
   after_create_commit :update_document_usage
   after_destroy :update_document_usage
   after_commit :enqueue_response_builder_job
+  after_commit :enqueue_chunk_builder_job
   scope :ordered, -> { order(created_at: :desc) }
 
   scope :for_account, ->(account_id) { where(account_id: account_id) }
@@ -116,6 +117,12 @@ class Captain::Document < ApplicationRecord
     Captain::Documents::ResponseBuilderJob.perform_later(self)
   end
 
+  def enqueue_chunk_builder_job
+    return unless should_enqueue_chunk_builder_job?
+
+    Captain::Documents::ChunkBuilderJob.perform_later(self)
+  end
+
   def should_enqueue_response_builder?
     return false if destroyed?
     return false unless available?
@@ -123,6 +130,20 @@ class Captain::Document < ApplicationRecord
     return saved_change_to_status? if pdf_document?
 
     (saved_change_to_status? || saved_change_to_content?) && content.present?
+  end
+
+  def should_enqueue_chunk_builder_job?
+    return false unless chunk_builder_enabled?
+    return false if destroyed?
+    return false unless available?
+    return false if pdf_document?
+
+    (saved_change_to_status? || saved_change_to_content?) && content.present?
+  end
+
+  def chunk_builder_enabled?
+    value = InstallationConfig.find_by(name: 'CAPTAIN_DOCUMENT_CHUNKING_ENABLED')&.value
+    ActiveModel::Type::Boolean.new.cast(value)
   end
 
   def update_document_usage
