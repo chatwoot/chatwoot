@@ -377,6 +377,22 @@ RSpec.describe 'Enterprise Billing APIs', type: :request do
           expect(cancellation_service).to have_received(:perform)
         end
 
+        it 'returns success even if stripe cancellation fails' do
+          cancellation_service = instance_double(Enterprise::Billing::CancelCloudSubscriptionsService)
+          allow(Enterprise::Billing::CancelCloudSubscriptionsService).to receive(:new).with(account: account)
+                                                                                      .and_return(cancellation_service)
+          allow(cancellation_service).to receive(:perform).and_raise(Stripe::APIError.new('stripe unavailable'))
+
+          post "/enterprise/api/v1/accounts/#{account.id}/toggle_deletion",
+               headers: admin.create_new_auth_token,
+               params: { action_type: 'delete' },
+               as: :json
+
+          expect(response).to have_http_status(:ok)
+          expect(account.reload.custom_attributes['marked_for_deletion_at']).to be_present
+          expect(account.custom_attributes['marked_for_deletion_reason']).to eq('manual_deletion')
+        end
+
         it 'unmarks the account for deletion when action is undelete' do
           # First mark the account for deletion
           account.update!(
