@@ -18,10 +18,6 @@ module Aloo
       return error_result('File too large for transcription') if file_too_large?
 
       transcribe_and_store
-    rescue ActiveStorage::FileNotFoundError => e
-      # Re-raise so the job can retry — file may not be in S3 yet (race condition)
-      Rails.logger.error("[Aloo::AudioTranscription] File not found in storage (will retry): #{e.message}")
-      raise
     rescue RubyLLM::Error => e
       Rails.logger.error("[Aloo::AudioTranscription] RubyLLM error: #{e.message}")
       error_result(e.message)
@@ -62,23 +58,33 @@ module Aloo
       temp_file = Tempfile.new(['aloo_audio', extension], Rails.root.join('tmp'))
       temp_file.binmode
 
-      # Inline retry for S3 propagation delay — avoids costly Sidekiq re-enqueue
-      attempts = 0
-      begin
-        attachment.file.blob.open do |blob_file|
-          IO.copy_stream(blob_file, temp_file)
-        end
-      rescue ActiveStorage::FileNotFoundError
-        attempts += 1
-        if attempts < 4
-          sleep 0.5
-          retry
-        end
-        raise
+      if whatsapp_media_id.present?
+        download_from_whatsapp(temp_file)
+      else
+        download_from_storage(temp_file)
       end
 
       temp_file.rewind
       temp_file
+    end
+
+    def download_from_whatsapp(temp_file)
+      channel = message.inbox.channel
+      downloaded = Down.download(channel.media_url(whatsapp_media_id), headers: channel.api_headers)
+      IO.copy_stream(downloaded, temp_file)
+    rescue StandardError => e
+      Rails.logger.warn("[Aloo::AudioTranscription] WhatsApp download failed (#{e.message}), falling back to S3")
+      download_from_storage(temp_file)
+    end
+
+    def download_from_storage(temp_file)
+      attachment.file.blob.open do |blob_file|
+        IO.copy_stream(blob_file, temp_file)
+      end
+    end
+
+    def whatsapp_media_id
+      attachment.meta&.dig('whatsapp_media_id')
     end
 
     def transcription_model
