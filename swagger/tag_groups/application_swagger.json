@@ -2095,6 +2095,13 @@
           }
         ],
         "description": "Merge two contacts into a single contact. The base contact remains and receives all\ndata from the mergee contact. After the merge, the mergee contact is permanently deleted.\n\nThis action is irreversible. All conversations, labels, and custom attributes from the\nmergee contact will be moved to the base contact.\n",
+        "x-codeSamples": [
+          {
+            "lang": "python",
+            "label": "Merge two contacts",
+            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\n# base_contact_id is kept; mergee_contact_id is deleted\ncontact = client.contacts.merge(\n    account_id=1,\n    base_contact_id=100,\n    mergee_contact_id=200\n)\n\nprint(contact.id, contact.name)\n"
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -4328,6 +4335,13 @@
             "userApiKey": []
           }
         ],
+        "x-codeSamples": [
+          {
+            "lang": "python",
+            "label": "Get inbox agent bot",
+            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\nbot = client.inboxes.get_agent_bot(account_id=1, inbox_id=5)\n\nif bot:\n    print(bot[\"id\"], bot[\"name\"])\n"
+          }
+        ],
         "parameters": [
           {
             "$ref": "#/components/parameters/account_id"
@@ -4389,6 +4403,18 @@
           }
         ],
         "description": "To add an agent bot pass agent_bot id, to remove agent bot from an inbox pass null",
+        "x-codeSamples": [
+          {
+            "lang": "python",
+            "label": "Assign an agent bot",
+            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\nclient.inboxes.set_agent_bot(account_id=1, inbox_id=5, agent_bot_id=2)\n"
+          },
+          {
+            "lang": "python",
+            "label": "Remove agent bot",
+            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\nclient.inboxes.set_agent_bot(account_id=1, inbox_id=5, agent_bot_id=None)\n"
+          }
+        ],
         "parameters": [
           {
             "$ref": "#/components/parameters/account_id"
@@ -4646,6 +4672,13 @@
             "userApiKey": []
           }
         ],
+        "x-codeSamples": [
+          {
+            "lang": "python",
+            "label": "Replace all agents in inbox",
+            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\n# Replaces ALL current agents — agents not in this list are removed\nagents = client.inboxes.agents.update(\n    account_id=1,\n    inbox_id=5,\n    agent_ids=[10, 11]\n)\n\nprint(f\"Inbox now has {len(agents)} agents\")\n"
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -4739,6 +4772,13 @@
         "security": [
           {
             "userApiKey": []
+          }
+        ],
+        "x-codeSamples": [
+          {
+            "lang": "python",
+            "label": "Remove agents from inbox",
+            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\nclient.inboxes.agents.remove(\n    account_id=1,\n    inbox_id=5,\n    agent_ids=[10]\n)\n"
           }
         ],
         "requestBody": {
