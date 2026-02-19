@@ -3,8 +3,11 @@
     "HEADER": "Hazır Yanıtlar",
     "LEARN_MORE": "Learn more about canned responses",
     "DESCRIPTION": "Hazır Yanıtlar, bir konuşmaya hızlı yanıt vermenizi sağlayan önceden hazırlanmış şablonlardır. Temsilciler, bir konuşma sırasında hazır yanıt eklemek için '/' karakterini ve ardından kısa kodu yazabilirler. ",
+    "COUNT": "{n} canned response | {n} canned responses",
     "HEADER_BTN_TXT": "Hazır yanıt ekle",
     "LOADING": "Hazır yanıtlar getiriliyor...",
+    "SEARCH_PLACEHOLDER": "Search canned responses...",
+    "NO_RESULTS": "No canned responses found matching your search",
     "SEARCH_404": "Bu sorgu ile eşleşen öğe yok.",
     "LIST": {
       "404": "Bu hesapta hazır yanıt yok.",
