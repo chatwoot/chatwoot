@@ -60,9 +60,10 @@ class ContactInboxWithContactBuilder
   end
 
   def find_contact
-    contact = find_contact_by_identifier(contact_attributes[:identifier])
-    contact ||= find_contact_by_email(contact_attributes[:email])
-    contact ||= find_contact_by_phone_number(contact_attributes[:phone_number])
+    return find_contact_by_identifier(contact_attributes[:identifier]) if contact_attributes[:identifier].present?
+
+    contact ||= find_contact_by_email(contact_attributes[:email]) if contact_attributes[:identifier].blank?
+    contact ||= find_contact_by_phone_number(contact_attributes[:phone_number]) if contact_attributes[:identifier].blank?
     contact ||= find_contact_by_instagram_source_id(source_id) if instagram_channel?
 
     contact
@@ -99,12 +100,12 @@ class ContactInboxWithContactBuilder
   def find_contact_by_email(email)
     return if email.blank?
 
-    account.contacts.from_email(email)
+    account.contacts.in_inbox(inbox.id).from_email(email)
   end
 
   def find_contact_by_phone_number(phone_number)
     return if phone_number.blank?
 
-    account.contacts.find_by(phone_number: phone_number)
+    account.contacts.in_inbox(inbox.id).find_by(phone_number: phone_number)
   end
 end
