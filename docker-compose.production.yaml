@@ -2,8 +2,16 @@ version: '3'
 
 services:
   base: &base
-    image: chatwoot/chatwoot:latest
-    env_file: .env ## Change this file for customized env variables
+    # Build from local repository instead of pulling from chatwoot/chatwoot
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+      args:
+        - RAILS_ENV=production
+        - NODE_ENV=production
+    # Alternatively, set your own image registry:
+    # image: ghcr.io/gtrhsystems/chatwoot:latest
+    env_file: .env
     volumes:
       - storage_data:/app/storage
 

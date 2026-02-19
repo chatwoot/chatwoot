@@ -99,12 +99,8 @@ class Notification::PushNotificationService
     remove_subscription_if_error(subscription, response)
   end
 
-  def send_push_via_chatwoot_hub(subscription)
-    return if firebase_credentials_present?
-    return unless chatwoot_hub_enabled?
-    return unless subscription.fcm?
-
-    ChatwootHub.send_push(fcm_options(subscription))
+  def send_push_via_chatwoot_hub(_subscription)
+    # Disabled - no external push relay via Chatwoot hub
   end
 
   def firebase_credentials_present?

@@ -1,9 +1,2 @@
-# List of the premium features in EE edition
-- disable_branding
-- audit_logs
-- response_bot
-- sla
-- custom_roles
-- captain_integration
-- csat_review_notes
-- conversation_required_attributes
+# No premium feature restrictions - all features are enabled
+# This file is intentionally empty to prevent any feature from being disabled

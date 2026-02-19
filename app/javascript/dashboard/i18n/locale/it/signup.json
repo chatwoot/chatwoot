@@ -4,7 +4,7 @@
     "TITLE": "Registrati",
     "TESTIMONIAL_HEADER": "Basta uno step per proseguire",
     "TESTIMONIAL_CONTENT": "Sei a un passo dal coinvolgere i tuoi clienti, fidelizzarli e trovarne di nuovi.",
-    "TERMS_ACCEPT": "Creando un account, accetti <a href=\"https://www.chatwoot.com/terms\">Termini e Condizioni</a> e <a href=\"https://www.chatwoot.com/privacy-policy\">Privacy policy</a>",
+    "TERMS_ACCEPT": "By creating an account, you agree to our <a href=\"/terms\">T & C</a> and <a href=\"/privacy\">Privacy policy</a>",
     "OAUTH": {
       "GOOGLE_SIGNUP": "Registrati con Google"
     },

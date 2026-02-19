@@ -20,9 +20,7 @@ import { createPinia } from 'pinia';
 import router, { initalizeRouter } from 'dashboard/routes';
 import store from 'dashboard/store';
 import constants from 'dashboard/constants/globals';
-import * as Sentry from '@sentry/vue';
 import {
-  initializeAnalyticsEvents,
   initializeChatwootEvents,
 } from 'dashboard/helper/scriptHelpers.js';
 import FluentIcon from 'shared/components/FluentIcon/DashboardIcon.vue';
@@ -50,30 +48,7 @@ app.use(store);
 app.use(pinia);
 app.use(router);
 
-// [VITE] Disabled this, need to renable later
-if (window.errorLoggingConfig) {
-  Sentry.init({
-    app,
-    dsn: window.errorLoggingConfig,
-    denyUrls: [
-      // Chrome extensions
-      /^chrome:\/\//i,
-      /chrome-extension:/i,
-      /extensions\//i,
-
-      // Locally saved copies
-      /file:\/\//i,
-
-      // Safari extensions.
-      /safari-web-extension:/i,
-      /safari-extension:/i,
-    ],
-    integrations: [Sentry.browserTracingIntegration({ router })],
-    ignoreErrors: [
-      'ResizeObserver loop completed with undelivered notifications',
-    ],
-  });
-}
+// Sentry error tracking disabled
 
 app.use(VueDOMPurifyHTML, domPurifyConfig);
 app.use(WootUiKit);
@@ -107,7 +82,6 @@ window.axios = createAxios(axios);
 // app.prototype.$emitter = emitter;
 
 initializeChatwootEvents();
-initializeAnalyticsEvents();
 initalizeRouter();
 
 window.onload = () => {

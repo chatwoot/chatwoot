@@ -1,12 +1,13 @@
-# TODO: lets use HTTParty instead of RestClient
+# All connections to external Chatwoot servers have been disabled.
+# This instance operates fully independently.
 class ChatwootHub
-  BASE_URL = ENV.fetch('CHATWOOT_HUB_URL', 'https://hub.2.chatwoot.com')
-  PING_URL = "#{BASE_URL}/ping".freeze
-  REGISTRATION_URL = "#{BASE_URL}/instances".freeze
-  PUSH_NOTIFICATION_URL = "#{BASE_URL}/send_push".freeze
-  EVENTS_URL = "#{BASE_URL}/events".freeze
-  BILLING_URL = "#{BASE_URL}/billing".freeze
-  CAPTAIN_ACCOUNTS_URL = "#{BASE_URL}/instance_captain_accounts".freeze
+  BASE_URL = ''.freeze
+  PING_URL = ''.freeze
+  REGISTRATION_URL = ''.freeze
+  PUSH_NOTIFICATION_URL = ''.freeze
+  EVENTS_URL = ''.freeze
+  BILLING_URL = ''.freeze
+  CAPTAIN_ACCOUNTS_URL = ''.freeze
 
   def self.installation_identifier
     identifier = InstallationConfig.find_by(name: 'INSTALLATION_IDENTIFIER')&.value
@@ -15,26 +16,22 @@ class ChatwootHub
   end
 
   def self.billing_url
-    "#{BILLING_URL}?installation_identifier=#{installation_identifier}"
+    ''
   end
 
   def self.pricing_plan
-    return 'community' unless ChatwootApp.enterprise?
-
-    InstallationConfig.find_by(name: 'INSTALLATION_PRICING_PLAN')&.value || 'community'
+    'enterprise'
   end
 
   def self.pricing_plan_quantity
-    return 0 unless ChatwootApp.enterprise?
-
-    InstallationConfig.find_by(name: 'INSTALLATION_PRICING_PLAN_QUANTITY')&.value || 0
+    100_000
   end
 
   def self.support_config
     {
-      support_website_token: InstallationConfig.find_by(name: 'CHATWOOT_SUPPORT_WEBSITE_TOKEN')&.value,
-      support_script_url: InstallationConfig.find_by(name: 'CHATWOOT_SUPPORT_SCRIPT_URL')&.value,
-      support_identifier_hash: InstallationConfig.find_by(name: 'CHATWOOT_SUPPORT_IDENTIFIER_HASH')&.value
+      support_website_token: nil,
+      support_script_url: nil,
+      support_identifier_hash: nil
     }
   end
 
@@ -44,77 +41,40 @@ class ChatwootHub
       installation_version: Chatwoot.config[:version],
       installation_host: URI.parse(ENV.fetch('FRONTEND_URL', '')).host,
       installation_env: ENV.fetch('INSTALLATION_ENV', ''),
-      edition: ENV.fetch('CW_EDITION', '')
+      edition: 'enterprise'
     }
   end
 
   def self.instance_metrics
-    {
-      accounts_count: fetch_count(Account),
-      users_count: fetch_count(User),
-      inboxes_count: fetch_count(Inbox),
-      conversations_count: fetch_count(Conversation),
-      incoming_messages_count: fetch_count(Message.incoming),
-      outgoing_messages_count: fetch_count(Message.outgoing),
-      additional_information: {}
-    }
+    {}
   end
 
-  def self.fetch_count(model)
-    model.last&.id || 0
+  def self.fetch_count(_model)
+    0
   end
 
+  # Disabled - no external connections
   def self.sync_with_hub
-    begin
-      info = instance_config
-      info = info.merge(instance_metrics) unless ENV['DISABLE_TELEMETRY']
-      response = RestClient.post(PING_URL, info.to_json, { content_type: :json, accept: :json })
-      parsed_response = JSON.parse(response)
-    rescue *ExceptionList::REST_CLIENT_EXCEPTIONS => e
-      Rails.logger.error "Exception: #{e.message}"
-    rescue StandardError => e
-      ChatwootExceptionTracker.new(e).capture_exception
-    end
-    parsed_response
+    nil
   end
 
-  def self.register_instance(company_name, owner_name, owner_email)
-    info = { company_name: company_name, owner_name: owner_name, owner_email: owner_email, subscribed_to_mailers: true }
-    RestClient.post(REGISTRATION_URL, info.merge(instance_config).to_json, { content_type: :json, accept: :json })
-  rescue *ExceptionList::REST_CLIENT_EXCEPTIONS => e
-    Rails.logger.error "Exception: #{e.message}"
-  rescue StandardError => e
-    ChatwootExceptionTracker.new(e).capture_exception
+  # Disabled - no external connections
+  def self.register_instance(_company_name, _owner_name, _owner_email)
+    nil
   end
 
-  def self.send_push(fcm_options)
-    info = { fcm_options: fcm_options }
-    RestClient.post(PUSH_NOTIFICATION_URL, info.merge(instance_config).to_json, { content_type: :json, accept: :json })
-  rescue *ExceptionList::REST_CLIENT_EXCEPTIONS => e
-    Rails.logger.error "Exception: #{e.message}"
-  rescue StandardError => e
-    ChatwootExceptionTracker.new(e).capture_exception
+  # Disabled - no external connections
+  def self.send_push(_fcm_options)
+    nil
   end
 
-  def self.get_captain_settings(account)
-    info = {
-      installation_identifier: installation_identifier,
-      chatwoot_account_id: account.id,
-      account_name: account.name
-    }
-    HTTParty.post(CAPTAIN_ACCOUNTS_URL,
-                  body: info.to_json,
-                  headers: { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
+  # Disabled - no external connections
+  def self.get_captain_settings(_account)
+    nil
   end
 
-  def self.emit_event(event_name, event_data)
-    return if ENV['DISABLE_TELEMETRY']
-
-    info = { event_name: event_name, event_data: event_data }
-    RestClient.post(EVENTS_URL, info.merge(instance_config).to_json, { content_type: :json, accept: :json })
-  rescue *ExceptionList::REST_CLIENT_EXCEPTIONS => e
-    Rails.logger.error "Exception: #{e.message}"
-  rescue StandardError => e
-    ChatwootExceptionTracker.new(e).capture_exception
+  # Disabled - no external connections
+  def self.emit_event(_event_name, _event_data)
+    nil
   end
 end

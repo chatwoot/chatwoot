@@ -21,7 +21,7 @@ LONGOPTS=console,debug,help,install,Install:,logs:,restart,ssl,upgrade,Upgrade:,
 OPTIONS=cdhiI:l:rsuU:wvWK
 CWCTL_VERSION="3.5.0"
 pg_pass=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 15 ; echo '')
-CHATWOOT_HUB_URL="https://hub.2.chatwoot.com/events"
+CHATWOOT_HUB_URL=""  # Telemetry disabled
 
 # if user does not specify an option
 if [ "$#" -eq 0 ]; then
@@ -1142,19 +1142,8 @@ function webserver() {
 #   None
 ##############################################################################
 function report_event() {
-  local event_name="$1"
-  local event_data="$2"
-
-  CHATWOOT_HUB_URL="https://hub.2.chatwoot.com/events"
-
-  # get installation identifier
-  local installation_identifier=$(get_installation_identifier)
-
-  # Prepare the data for the request
-  local data="{\"installation_identifier\":\"$installation_identifier\",\"event_name\":\"$event_name\",\"event_data\":{\"action\":\"$event_data\"}}"
-
-  # Make the curl request to report the event
-  curl -X POST -H "Content-Type: application/json" -d "$data" "$CHATWOOT_HUB_URL" -s -o /dev/null
+  # Telemetry disabled - no external event reporting
+  return 0
 }
 
 

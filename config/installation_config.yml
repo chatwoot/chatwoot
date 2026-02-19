@@ -31,29 +31,29 @@
   display_title: 'Logo Dark Mode'
   description: 'The logo that would be used on the dashboard, login page etc. for dark mode'
 - name: BRAND_URL
-  value: 'https://www.chatwoot.com'
+  value: ''
   display_title: 'Brand URL'
-  description: 'The URL that would be used in emails under the section “Powered By”'
+  description: 'The URL that would be used in emails under the section "Powered By". Set to your domain.'
 - name: WIDGET_BRAND_URL
-  value: 'https://www.chatwoot.com'
+  value: ''
   display_title: 'Widget Brand URL'
-  description: 'The URL that would be used in the widget under the section “Powered By”'
+  description: 'The URL that would be used in the widget under the section "Powered By". Set to your domain.'
 - name: BRAND_NAME
-  value: 'Chatwoot'
+  value: ''
   display_title: 'Brand Name'
   description: 'The name that would be used in emails and the widget'
 - name: TERMS_URL
-  value: 'https://www.chatwoot.com/terms-of-service'
+  value: '/terms'
   display_title: 'Terms URL'
   description: 'The terms of service URL displayed in Signup Page'
 - name: PRIVACY_URL
-  value: 'https://www.chatwoot.com/privacy-policy'
+  value: '/privacy'
   display_title: 'Privacy URL'
   description: 'The privacy policy URL displayed in the app'
 - name: DISPLAY_MANIFEST
   value: true
-  display_title: 'Chatwoot Metadata'
-  description: 'Display default Chatwoot metadata like favicons and upgrade warnings'
+  display_title: 'Installation Metadata'
+  description: 'Display metadata like favicons'
   type: boolean
 # ------- End of Branding Related Config ------- #
 
@@ -173,7 +173,7 @@
 # MARK: Microsoft Email Channel Config
 - name: AZURE_APP_ID
   display_title: 'Azure App ID'
-  description: 'The App ID that will be used to authenticate with customer Microsoft accounts. Find more details on setting up Azure here: https://chwt.app/dev/ms'
+  description: 'The App ID that will be used to authenticate with customer Microsoft accounts.'
   locked: false
 - name: AZURE_APP_SECRET
   display_title: 'Azure App Secret'
@@ -238,7 +238,7 @@
 - name: CLOUD_ANALYTICS_TOKEN
   value:
   display_title: 'Analytics Token'
-  description: 'The Amplitude analytics API key for Chatwoot cloud'
+  description: 'Analytics token (disabled)'
   type: secret
 - name: CLEARBIT_API_KEY
   value:
@@ -268,26 +268,26 @@
 
 # ------- Chatwoot Internal Config for Self Hosted ----#
 - name: INSTALLATION_PRICING_PLAN
-  value: 'community'
-  description: 'The pricing plan for the installation, retrieved from the billing API'
+  value: 'enterprise'
+  description: 'Enterprise plan - all features enabled'
 - name: INSTALLATION_PRICING_PLAN_QUANTITY
-  value: 0
-  description: 'The number of licenses purchased for the installation, retrieved from the billing API'
+  value: 100000
+  description: 'Unlimited agents'
 - name: CHATWOOT_SUPPORT_WEBSITE_TOKEN
   value:
-  description: 'The Chatwoot website token, used to identify the Chatwoot inbox and display the "Contact Support" option on the billing page'
+  description: 'Disabled - no external support widget'
   type: secret
 - name: CHATWOOT_SUPPORT_SCRIPT_URL
   value:
-  description: 'The Chatwoot script base URL, to display the "Contact Support" option on the billing page'
+  description: 'Disabled - no external support widget'
 - name: CHATWOOT_SUPPORT_IDENTIFIER_HASH
   value:
-  description: 'The Chatwoot identifier hash, to validate the contact in the live chat window.'
+  description: 'Disabled - no external support widget'
   type: secret
 - name: ACCOUNT_SECURITY_NOTIFICATION_WEBHOOK_URL
   display_title: Webhook URL to post security analysis
   value:
-  description: Used to notify Chatwoot about account abuses, potential threads (Should be a Discord Webhook URL)
+  description: 'Webhook URL for security notifications (Discord Webhook URL)'
 # ------- End of Chatwoot Internal Config for Self Hosted ----#
 
 # ------- Compliance Related Config ----#

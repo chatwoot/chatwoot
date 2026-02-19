@@ -12,7 +12,7 @@ class ChatwootExceptionTracker
   end
 
   def capture_exception
-    capture_exception_with_sentry if ENV['SENTRY_DSN'].present?
+    # Sentry disabled - only log locally
     Rails.logger.error @exception
   end
 

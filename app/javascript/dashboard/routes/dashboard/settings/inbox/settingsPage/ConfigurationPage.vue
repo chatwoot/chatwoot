@@ -244,7 +244,7 @@ export default {
           <a
             target="_blank"
             rel="noopener noreferrer"
-            href="https://www.chatwoot.com/docs/product/channels/live-chat/sdk/identity-validation/"
+            href="/support"
           >
             {{ $t('INBOX_MGMT.SETTINGS_POPUP.HMAC_LINK_TO_DOCS') }}
           </a>
