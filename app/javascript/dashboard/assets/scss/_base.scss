@@ -78,7 +78,7 @@ textarea {
   }
 }
 
-$form-input-selector: "input[type]:not([type='file']):not([type='checkbox']):not([type='radio']):not([type='range']):not([type='button']):not([type='submit']):not([type='reset']):not([type='color']):not([type='image']):not([type='hidden']):not(.reset-base):not(.multiselect__input):not(.no-margin)";
+$form-input-selector: "input[type]:not([type='file']):not([type='checkbox']):not([type='radio']):not([type='range']):not([type='button']):not([type='submit']):not([type='reset']):not([type='color']):not([type='image']):not([type='hidden']):not(.reset-base):not(.no-margin)";
 
 #{$form-input-selector} {
   @apply field-base h-10;
@@ -92,7 +92,7 @@ $form-input-selector: "input[type]:not([type='file']):not([type='checkbox']):not
   }
 }
 
-input[type='file']:not(.multiselect__input) {
+input[type='file'] {
   @apply leading-[1.15] mb-4 border-0 bg-transparent text-sm;
 }
 
@@ -126,13 +126,6 @@ label:has(.help-text) {
   }
 }
 
-// Error handling
-.has-multi-select-error {
-  div.multiselect {
-    @apply mb-1;
-  }
-}
-
 // FormKit support
 .formkit-outer[data-invalid='true'] {
   #{$form-input-selector},
@@ -150,9 +143,7 @@ label:has(.help-text) {
   #{$form-input-selector},
   input:not([type]),
   textarea,
-  select,
-  .multiselect > .multiselect__tags,
-  .multiselect:not(.no-margin) {
+  select {
     @apply field-error;
   }
 

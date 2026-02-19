@@ -101,7 +101,6 @@
     "vue-dompurify-html": "^5.1.0",
     "vue-i18n": "9.14.5",
     "vue-letter": "^0.2.1",
-    "vue-multiselect": "3.1.0",
     "vue-router": "~4.4.5",
     "vue-upload-component": "^3.1.17",
     "vue-virtual-scroller": "^2.0.0-beta.8",

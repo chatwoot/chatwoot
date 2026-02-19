@@ -223,9 +223,6 @@ importers:
       vue-letter:
         specifier: ^0.2.1
         version: 0.2.1
-      vue-multiselect:
-        specifier: 3.1.0
-        version: 3.1.0
       vue-router:
         specifier: ~4.4.5
         version: 4.4.5(vue@3.5.12(typescript@5.6.2))
@@ -4627,10 +4624,6 @@ packages:
 
   vue-letter@0.2.1:
     resolution: {integrity: sha512-IYWp47XUikjKfEniWYlFxeJFKABZwAE5IEjz866qCBytBr2dzqVDdjoMDpBP//krxkzN/QZYyHe6C09y/IODYg==}
-
-  vue-multiselect@3.1.0:
-    resolution: {integrity: sha512-+i/fjTqFBpaay9NP+lU7obBeNaw2DdFDFs4mqhsM0aEtKRdvIf7CfREAx2o2B4XDmPrBt1r7x1YCM3BOMLaUgQ==}
-    engines: {node: '>= 14.18.1', npm: '>= 6.14.15'}
 
   vue-observe-visibility@2.0.0-alpha.1:
     resolution: {integrity: sha512-flFbp/gs9pZniXR6fans8smv1kDScJ8RS7rEpMjhVabiKeq7Qz3D9+eGsypncjfIyyU84saU88XZ0zjbD6Gq/g==}
@@ -9698,8 +9691,6 @@ snapshots:
   vue-letter@0.2.1:
     dependencies:
       lettersanitizer: 1.0.6
-
-  vue-multiselect@3.1.0: {}
 
   vue-observe-visibility@2.0.0-alpha.1(vue@3.5.12(typescript@5.6.2)):
     dependencies:
