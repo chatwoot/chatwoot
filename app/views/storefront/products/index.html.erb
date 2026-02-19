@@ -1,6 +1,6 @@
 <div class="max-w-lg mx-auto px-4 py-6">
   <% if @products.any? %>
-    <div class="grid grid-cols-2 gap-3">
+    <div class="space-y-3">
       <% @products.each do |product| %>
         <%= render 'storefront/shared/product_card', product: product, currency: @currency %>
       <% end %>

@@ -36,5 +36,29 @@
 
       <%= yield %>
     </main>
+
+    <% unless controller_name == 'cart' || controller_name == 'checkout' %>
+      <% cart_count = session["storefront_cart_#{@account&.id}_#{current_contact&.id}"]&.values&.sum(&:to_i) || 0 %>
+      <div id="floating-cart"
+           class="fixed bottom-6 left-4 right-4 z-50 max-w-lg mx-auto transition-all duration-300 <%= cart_count > 0 ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0 pointer-events-none' %>">
+        <a href="<%= storefront_cart_path(@account, token: storefront_token_param) %>"
+           class="flex items-center justify-between bg-woot-500 hover:bg-woot-600 text-white rounded-2xl shadow-lg px-5 py-3.5 transition-colors">
+          <div class="flex items-center gap-3">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z" />
+            </svg>
+            <span class="font-semibold text-sm">View Cart</span>
+            <span id="floating-cart-count"
+                  class="bg-white/20 text-white text-xs font-bold rounded-full h-5 min-w-[1.25rem] flex items-center justify-center px-1.5">
+              <%= cart_count %>
+            </span>
+          </div>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+          </svg>
+        </a>
+      </div>
+    <% end %>
   </body>
 </html>

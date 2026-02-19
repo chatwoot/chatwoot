@@ -2,11 +2,31 @@ import '../storefront/application.scss';
 
 /**
  * Storefront JavaScript — vanilla JS, no framework dependencies.
- * Handles: add-to-cart, quantity stepper, cart badge updates.
+ * Handles: add-to-cart, quantity stepper, cart badge updates, floating cart.
  */
 
 const csrfToken = () =>
   document.querySelector('meta[name="csrf-token"]')?.content;
+
+// ─── Floating Cart Bar ──────────────────────────────────────
+function updateFloatingCart(count) {
+  const bar = document.getElementById('floating-cart');
+  const countEl = document.getElementById('floating-cart-count');
+  if (!bar) return;
+
+  if (count > 0) {
+    bar.classList.remove(
+      'translate-y-full',
+      'opacity-0',
+      'pointer-events-none'
+    );
+    bar.classList.add('translate-y-0', 'opacity-100');
+    if (countEl) countEl.textContent = count;
+  } else {
+    bar.classList.add('translate-y-full', 'opacity-0', 'pointer-events-none');
+    bar.classList.remove('translate-y-0', 'opacity-100');
+  }
+}
 
 // ─── Cart Badge ──────────────────────────────────────────────
 function updateCartBadge(count) {
@@ -25,6 +45,8 @@ function updateCartBadge(count) {
       cartIcon.appendChild(span);
     }
   }
+
+  updateFloatingCart(count);
 }
 
 // ─── Add to Cart (product cards & detail page) ──────────────
@@ -46,9 +68,26 @@ function initAddToCart() {
         .then(data => {
           updateCartBadge(data.cart_count);
 
-          // Button feedback
+          // Button feedback — detect icon-only "+" button vs text "Add to Cart"
           const btn = form.querySelector('button[type="submit"]');
-          if (btn) {
+          if (!btn) return;
+
+          const isIconOnly = btn.textContent.trim().length === 0;
+
+          if (isIconOnly) {
+            // Icon-only: swap to checkmark + green bg
+            const originalSvg = btn.innerHTML;
+            btn.innerHTML =
+              '<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>';
+            btn.classList.add('bg-green-500');
+            btn.classList.remove('bg-woot-500');
+            setTimeout(() => {
+              btn.innerHTML = originalSvg;
+              btn.classList.remove('bg-green-500');
+              btn.classList.add('bg-woot-500');
+            }, 1200);
+          } else {
+            // Text button: existing "Added!" text swap
             const original = btn.textContent;
             btn.textContent = 'Added!';
             btn.classList.add('bg-green-500');
