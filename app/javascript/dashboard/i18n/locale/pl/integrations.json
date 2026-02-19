@@ -1,6 +1,7 @@
 {
   "INTEGRATION_SETTINGS": {
     "SHOPIFY": {
+      "HEADER": "Shopify",
       "DELETE": {
         "TITLE": "Delete Shopify Integration",
         "MESSAGE": "Are you sure you want to delete the Shopify integration?"
@@ -19,6 +20,8 @@
     "DESCRIPTION": "Chatwoot integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
     "LEARN_MORE": "Learn more about integrations",
     "LOADING": "Fetching integrations",
+    "SEARCH_PLACEHOLDER": "Search integrations...",
+    "NO_RESULTS": "No integrations found matching your search",
     "CAPTAIN": {
       "DISABLED": "Captain is not enabled on your account.",
       "CLICK_HERE_TO_CONFIGURE": "Click here to configure",
@@ -28,6 +31,9 @@
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Subskrybowane wydarzenia",
       "LEARN_MORE": "Learn more about webhooks",
+      "COUNT": "{n} webhook | {n} webhooks",
+      "SEARCH_PLACEHOLDER": "Search webhooks...",
+      "NO_RESULTS": "No webhooks found matching your search",
       "FORM": {
         "CANCEL": "Anuluj",
         "DESC": "Webhooki dostarczają informacje o tym, co dzieje się w Twoim koncie Chatwoot. Wprowadź poprawny adres URL, aby skonfigurować webhook.",
@@ -104,6 +110,7 @@
       }
     },
     "SLACK": {
+      "HEADER": "Slack",
       "DELETE": "Usuń",
       "DELETE_CONFIRMATION": {
         "TITLE": "Delete the integration",
@@ -223,12 +230,16 @@
       "SIDEBAR_TXT": "<p><b>Aplikacje na pulpicie</b></p><p>Aplikacje na pulpicie umożliwiają organizacjom osadzenie aplikacji wewnątrz panelu Chatwoot w celu dostarczenia kontekstu dla agentów obsługi klienta. Ta funkcja umożliwia tworzenie niezależnej aplikacji i osadzanie jej w celu dostarczania informacji o użytkowniku, jego zamówieniach lub historii płatności.</p><p>Kiedy osadzisz swoją aplikację za pomocą pulpitu Chatwoot, Twoja aplikacja otrzyma kontekst rozmowy i kontaktu jako zdarzenie okna. W swojej stronie zaimplementuj nasłuchiwanie zdarzenia wiadomości, aby otrzymać kontekst.</p><p>Aby dodać nową aplikację na pulpicie, kliknij przycisk 'Dodaj nową aplikację na pulpicie'.</p>",
       "DESCRIPTION": "Aplikacje na pulpicie umożliwiają organizacjom osadzenie aplikacji wewnątrz panelu w celu dostarczenia kontekstu dla agentów obsługi klienta. Ta funkcja umożliwia tworzenie niezależnej aplikacji i osadzanie jej w celu dostarczania informacji o użytkowniku, jego zamówieniach lub historii płatności.",
       "LEARN_MORE": "Learn more about Dashboard Apps",
+      "COUNT": "{n} dashboard app | {n} dashboard apps",
+      "SEARCH_PLACEHOLDER": "Search dashboard apps...",
+      "NO_RESULTS": "No dashboard apps found matching your search",
       "LIST": {
         "404": "Na tym koncie nie skonfigurowano jeszcze aplikacji na pulpicie",
         "LOADING": "Pobieranie aplikacji na pulpicie...",
         "TABLE_HEADER": {
           "NAME": "Imię",
-          "ENDPOINT": "Punkt końcowy"
+          "ENDPOINT": "Punkt końcowy",
+          "ACTIONS": "Akcje"
         },
         "EDIT_TOOLTIP": "Edytuj aplikację",
         "DELETE_TOOLTIP": "Usuń aplikację"
@@ -265,6 +276,7 @@
       }
     },
     "LINEAR": {
+      "HEADER": "Linear",
       "ADD_OR_LINK_BUTTON": "Create/Link Linear Issue",
       "LOADING": "Fetching linear issues...",
       "LOADING_ERROR": "There was an error fetching the linear issues, please try again",
@@ -359,6 +371,7 @@
       }
     },
     "NOTION": {
+      "HEADER": "Notion",
       "DELETE": {
         "TITLE": "Are you sure you want to delete the Notion integration?",
         "MESSAGE": "Deleting this integration will remove access to your Notion workspace and stop all related functionality.",
