@@ -117,6 +117,14 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
           expect(input.text).to eq('What does this error mean?')
           expect(input.attachments.first.source.to_s).to eq('https://example.com/error.png')
           expect(context[:conversation_history]).to eq([{ role: :assistant, content: 'Please share a screenshot', agent_name: nil }])
+          expect(max_turns).to eq(100)
+        end
+
+        service.generate_response(message_history: multimodal_message_history)
+      end
+
+      it 'stores multimodal trace payloads in runner context' do
+        expect(mock_runner).to receive(:run) do |_input, context:, max_turns:|
           expect(context[:captain_v2_trace_input]).to include('image_url')
           expect(context[:captain_v2_trace_current_input]).to include('image_url')
           expect(max_turns).to eq(100)
