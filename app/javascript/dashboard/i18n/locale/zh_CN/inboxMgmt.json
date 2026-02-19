@@ -3,6 +3,9 @@
     "HEADER": "收件箱",
     "DESCRIPTION": "频道是客户选择与您互动的方式。收件箱则是您用来管理特定频道互动的地方，它可以整合来自不同来源的通信，比如电子邮件、即时聊天和社交媒体等。",
     "LEARN_MORE": "了解更多关于收件箱的信息",
+    "COUNT": "{n} inbox | {n} inboxes",
+    "SEARCH_PLACEHOLDER": "Search inboxes...",
+    "NO_RESULTS": "No inboxes found matching your search",
     "RECONNECTION_REQUIRED": "您的收件箱已断开连接。在您重新授权之前，您不会收到新消息。",
     "CLICK_TO_RECONNECT": "点击此处重新连接。",
     "WHATSAPP_REGISTRATION_INCOMPLETE": "Your WhatsApp Business registration isn’t complete. Please check your display name status in Meta Business Manager before reconnecting.",
@@ -575,7 +578,7 @@
           "SUBTITLE": "仅在电子邮件标题中使用配置的业务名称作为发件人姓名。"
         },
         "BUSINESS_NAME": {
-          "BUTTON_TEXT": "+ 配置您的业务名称",
+          "BUTTON_TEXT": "配置您的业务名称",
           "PLACEHOLDER": "输入您的业务名称",
           "SAVE_BUTTON_TEXT": "保存"
         }
@@ -625,6 +628,8 @@
       "ACCOUNT_HEALTH": "Account Health",
       "CSAT": "客户满意度"
     },
+    "CHANNEL_PREFERENCES": "Channel Preferences",
+    "WIDGET_FEATURES": "Widget features",
     "ACCOUNT_HEALTH": {
       "TITLE": "Manage your WhatsApp account",
       "DESCRIPTION": "Review your WhatsApp account status, messaging limits, and quality. Update settings or resolve issues if needed",
@@ -758,6 +763,7 @@
       "LABEL": "帮助中心",
       "PLACEHOLDER": "选择帮助中心",
       "SELECT_PLACEHOLDER": "选择帮助中心",
+      "NONE": "啥都没有",
       "REMOVE": "移除帮助中心",
       "SUB_TEXT": "将帮助中心附加到收件箱"
     },
@@ -911,9 +917,11 @@
       "UNAVAILABLE_MESSAGE_LABEL": "对访客的不可用消息",
       "TOGGLE_HELP": "启用业务可用性将在实时聊天小部件上显示可用时间，即使所有代理都离线。在可用时间之外，访客将收到一条消息和预聊天表单的警告。",
       "DAY": {
+        "DAY": "日",
+        "AVAILABILITY": "有效的",
+        "HOURS": "小时",
         "ENABLE": "为此天启用可用性",
         "UNAVAILABLE": "不可用",
-        "HOURS": "小时",
         "VALIDATION_ERROR": "起始时间应在结束时间之前。",
         "CHOOSE": "选择"
       },
@@ -1020,11 +1028,12 @@
           "IN_A_DAY": "通常在一天之内回复您"
         },
         "WIDGET_COLOR_LABEL": "窗口小部件颜色",
-        "WIDGET_BUBBLE_POSITION_LABEL": "小部件气泡位置",
-        "WIDGET_BUBBLE_TYPE_LABEL": "小部件气泡类型",
+        "WIDGET_BUBBLE": "Bubble",
+        "WIDGET_BUBBLE_POSITION_LABEL": "Position:",
+        "WIDGET_BUBBLE_TYPE_LABEL": "类型:",
         "WIDGET_BUBBLE_LAUNCHER_TITLE": {
           "DEFAULT": "联系我们",
-          "LABEL": "小部件气泡启动器标题",
+          "LABEL": "Launcher Title",
           "PLACE_HOLDER": "联系我们"
         },
         "UPDATE": {
@@ -1049,7 +1058,7 @@
       },
       "WIDGET_SCREEN": {
         "DEFAULT": "默认",
-        "CHAT": "聊天"
+        "CHAT": "Chat mode"
       },
       "REPLY_TIME": {
         "IN_A_FEW_MINUTES": "通常在几分钟内回复您",
