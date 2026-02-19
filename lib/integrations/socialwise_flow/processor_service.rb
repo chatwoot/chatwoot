@@ -18,6 +18,10 @@ class Integrations::SocialwiseFlow::ProcessorService < Integrations::BotProcesso
 
     Rails.logger.info '[SOCIALWISE-FLOW] should_run_processor? returned true, continuing'
 
+    # IMMEDIATELY send mark as read + typing indicator
+    # This must happen BEFORE debounce to provide instant feedback to the user
+    send_typing_indicator_to_user(message)
+
     # Check if this is an interactive reply (button click or list selection)
     # Interactive replies should ALWAYS be processed immediately, never debounced
     if interactive_reply?(message)
@@ -288,7 +292,7 @@ class Integrations::SocialwiseFlow::ProcessorService < Integrations::BotProcesso
   def process_content(message)
     content = message_content(message)
     if content.present?
-      send_typing_indicator_to_user(message)
+      # Note: typing indicator is sent earlier in perform() before debounce
       response = get_response(conversation.contact_inbox.source_id, content)
     end
     process_response(message, response) if response.present?
@@ -1837,34 +1841,27 @@ class Integrations::SocialwiseFlow::ProcessorService < Integrations::BotProcesso
     response
   end
 
-  # Send a typing indicator to the WhatsApp user before calling SocialWise
-  # Only applies to Channel::Whatsapp; no-op for other channels
+  # Mark message as read and show typing indicator to the WhatsApp user before calling SocialWise
+  # Uses the combined API for better UX (mark as read + typing in one call)
+  # Only applies to Channel::Whatsapp with whatsapp_cloud provider; no-op for other channels
   # Non-blocking: failures are logged but do not raise
   def send_typing_indicator_to_user(message)
     conv = message.conversation
     return unless conv.inbox.channel_type == 'Channel::Whatsapp'
 
     inbox = conv.inbox
-    phone_number = conv.contact.get_source_id(inbox.id)
-    return if phone_number.blank?
+    return unless inbox.channel.provider == 'whatsapp_cloud'
 
-    payload = {
-      messaging_product: 'whatsapp',
-      recipient_type: 'individual',
-      to: phone_number,
-      type: 'typing',
-      typing: true
-    }
+    whatsapp_message_id = message.source_id
+    return if whatsapp_message_id.blank?
 
-    HTTParty.post(
-      "#{whatsapp_api_base_url(inbox)}/#{inbox.channel.provider_config['phone_number_id']}/messages",
-      headers: whatsapp_api_headers(inbox),
-      body: payload.to_json
-    )
+    Whatsapp::Providers::WhatsappCloudService
+      .new(whatsapp_channel: inbox.channel)
+      .mark_read_with_typing(whatsapp_message_id)
 
-    Rails.logger.info "[SOCIALWISE-FLOW] Typing indicator sent to #{phone_number}"
+    Rails.logger.info "[SOCIALWISE-FLOW] Mark read + typing sent for #{whatsapp_message_id}"
   rescue StandardError => e
-    Rails.logger.warn "[SOCIALWISE-FLOW] Typing indicator failed (non-blocking): #{e.message}"
+    Rails.logger.warn "[SOCIALWISE-FLOW] Mark read + typing failed (non-blocking): #{e.message}"
   end
 
   # Helper methods for API configuration

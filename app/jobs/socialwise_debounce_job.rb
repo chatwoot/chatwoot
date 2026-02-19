@@ -3,7 +3,7 @@
 # - Each new message resets the silence timer
 # - Processing happens after X ms of silence OR after max timeout (whichever comes first)
 class SocialwiseDebounceJob < ApplicationJob
-  queue_as :medium
+  queue_as :critical
 
   def perform(conversation_id, hook_id, event_name, debounce_ms = 5000, max_timeout_ms = 30_000)
     Rails.logger.info "[SOCIALWISE-DEBOUNCE] Job triggered for conversation #{conversation_id}"

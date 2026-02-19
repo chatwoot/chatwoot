@@ -54,7 +54,7 @@ class Integrations::SocialwiseFlow::DebounceProcessorService < Integrations::Soc
 
   def process_concatenated_content(message)
     Rails.logger.info '[SOCIALWISE-DEBOUNCE-PROCESSOR] === process_concatenated_content called ==='
-    send_typing_indicator_to_user(message)
+    # Note: typing indicator was already sent earlier when first message arrived (before debounce)
     response = get_response(message.conversation.contact_inbox.source_id, concatenated_content)
 
     if response.present?

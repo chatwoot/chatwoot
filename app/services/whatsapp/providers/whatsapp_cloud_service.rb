@@ -71,31 +71,34 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     process_response(response, message)
   end
 
-  # Send a typing indicator to the user
-  # The typing status lasts ~25 seconds or until the next message is sent
-  # This is non-blocking: failures are logged but do not raise
-  def send_typing_indicator(phone_number)
+  # Mark message as read and show typing indicator
+  # Uses the combined API endpoint for better UX (mark as read + typing in one call)
+  # The typing indicator lasts ~25 seconds or until the next message is sent
+  # Non-blocking: failures are logged but do not raise
+  # @param whatsapp_message_id [String] The WhatsApp message ID (wamid.xxx)
+  def mark_read_with_typing(whatsapp_message_id)
+    return if whatsapp_message_id.blank?
+
     response = HTTParty.post(
       "#{phone_id_path}/messages",
       headers: api_headers,
       body: {
         messaging_product: 'whatsapp',
-        recipient_type: 'individual',
-        to: phone_number,
-        type: 'typing',
-        typing: true
+        status: 'read',
+        message_id: whatsapp_message_id,
+        typing_indicator: { type: 'text' }
       }.to_json
     )
 
     if response.success?
-      Rails.logger.info "[WhatsappCloudService] Typing indicator sent to #{phone_number}"
+      Rails.logger.info "[WhatsappCloudService] Mark read + typing sent for #{whatsapp_message_id}"
     else
-      Rails.logger.warn "[WhatsappCloudService] Typing indicator failed: #{response.code} - #{response.body}"
+      Rails.logger.warn "[WhatsappCloudService] Mark read + typing failed: #{response.code} - #{response.body}"
     end
 
     response
   rescue StandardError => e
-    Rails.logger.warn "[WhatsappCloudService] Typing indicator error (non-blocking): #{e.message}"
+    Rails.logger.warn "[WhatsappCloudService] Mark read + typing error (non-blocking): #{e.message}"
     nil
   end
 

@@ -430,37 +430,43 @@ describe Whatsapp::Providers::WhatsappCloudService do
     end
   end
 
-  describe '#send_typing_indicator' do
-    it 'sends typing indicator with correct payload' do
+  describe '#mark_read_with_typing' do
+    let(:whatsapp_message_id) { 'wamid.HBgLMTY1MDM4Nzk0MzkVAgARGBJDQjZCMzlEQUE4OTJBMTE4RTUA' }
+
+    it 'sends mark as read + typing indicator with correct payload' do
       stub_request(:post, 'https://graph.facebook.com/v13.0/123456789/messages')
         .with(
           body: {
             messaging_product: 'whatsapp',
-            recipient_type: 'individual',
-            to: '+123456789',
-            type: 'typing',
-            typing: true
+            status: 'read',
+            message_id: whatsapp_message_id,
+            typing_indicator: { type: 'text' }
           }.to_json
         )
         .to_return(status: 200, body: { success: true }.to_json, headers: response_headers)
 
-      response = service.send_typing_indicator('+123456789')
+      response = service.mark_read_with_typing(whatsapp_message_id)
       expect(response.success?).to be(true)
+    end
+
+    it 'returns nil when message_id is blank' do
+      expect(service.mark_read_with_typing(nil)).to be_nil
+      expect(service.mark_read_with_typing('')).to be_nil
     end
 
     it 'does not raise on API failure' do
       stub_request(:post, 'https://graph.facebook.com/v13.0/123456789/messages')
         .to_return(status: 500, body: { error: 'Internal error' }.to_json, headers: response_headers)
 
-      expect { service.send_typing_indicator('+123456789') }.not_to raise_error
+      expect { service.mark_read_with_typing(whatsapp_message_id) }.not_to raise_error
     end
 
     it 'does not raise on network error' do
       stub_request(:post, 'https://graph.facebook.com/v13.0/123456789/messages')
         .to_raise(StandardError.new('Connection refused'))
 
-      expect { service.send_typing_indicator('+123456789') }.not_to raise_error
-      expect(service.send_typing_indicator('+123456789')).to be_nil
+      expect { service.mark_read_with_typing(whatsapp_message_id) }.not_to raise_error
+      expect(service.mark_read_with_typing(whatsapp_message_id)).to be_nil
     end
   end
 end
