@@ -3,8 +3,11 @@
     "HEADER": "Ruoli Personalizzati",
     "LEARN_MORE": "Scopri di più sui ruoli personalizzati",
     "DESCRIPTION": "I ruoli personalizzati sono ruoli creati dal proprietario o amministratore dell'account. Questi ruoli possono essere assegnati agli operatori per definire i loro accessi e i loro permessi all'interno dell'account. I ruoli personalizzati possono essere creati con permessi e livelli di accesso specifici per soddisfare le esigenze dell'organizzazione.",
+    "COUNT": "{n} custom role | {n} custom roles",
     "HEADER_BTN_TXT": "Aggiungi ruolo personalizzato",
     "LOADING": "Caricamento ruoli personalizzati...",
+    "SEARCH_PLACEHOLDER": "Search custom roles...",
+    "NO_RESULTS": "No custom roles found matching your search",
     "SEARCH_404": "Non ci sono elementi che corrispondono a questa richiesta.",
     "PAYWALL": {
       "TITLE": "Aggiorna per creare ruoli personalizzati",
