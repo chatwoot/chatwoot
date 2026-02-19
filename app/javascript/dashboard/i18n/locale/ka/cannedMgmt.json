@@ -3,8 +3,11 @@
     "HEADER": "Canned Responses",
     "LEARN_MORE": "Learn more about canned responses",
     "DESCRIPTION": "Canned Responses are pre-written reply templates that help you quickly respond to a conversation. Agents can type the '/' character followed by the shortcode to insert a canned response during a conversation. ",
+    "COUNT": "{n} canned response | {n} canned responses",
     "HEADER_BTN_TXT": "Add canned response",
     "LOADING": "Fetching canned responses...",
+    "SEARCH_PLACEHOLDER": "Search canned responses...",
+    "NO_RESULTS": "No canned responses found matching your search",
     "SEARCH_404": "There are no items matching this query.",
     "LIST": {
       "404": "There are no canned responses available in this account.",
