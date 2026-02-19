@@ -44,9 +44,30 @@ function updateCartBadge(count) {
       span.textContent = count;
       cartIcon.appendChild(span);
     }
+  } else if (badge) {
+    badge.remove();
   }
 
   updateFloatingCart(count);
+}
+
+// ─── Card Stepper Toggle ────────────────────────────────────
+function showStepper(control, qty) {
+  const stepper = control.querySelector('[data-stepper]');
+  const singleAdd = control.querySelector('[data-single-add]');
+  const qtyDisplay = control.querySelector('[data-qty-display]');
+
+  if (stepper) stepper.classList.remove('hidden');
+  if (singleAdd) singleAdd.classList.add('hidden');
+  if (qtyDisplay) qtyDisplay.textContent = qty;
+}
+
+function hideStepper(control) {
+  const stepper = control.querySelector('[data-stepper]');
+  const singleAdd = control.querySelector('[data-single-add]');
+
+  if (stepper) stepper.classList.add('hidden');
+  if (singleAdd) singleAdd.classList.remove('hidden');
 }
 
 // ─── Add to Cart (product cards & detail page) ──────────────
@@ -68,26 +89,18 @@ function initAddToCart() {
         .then(data => {
           updateCartBadge(data.cart_count);
 
-          // Button feedback — detect icon-only "+" button vs text "Add to Cart"
+          const control = form.closest('[data-cart-control]');
+          if (control) {
+            // Card button — update stepper
+            const qtyDisplay = control.querySelector('[data-qty-display]');
+            const currentQty = parseInt(qtyDisplay?.textContent, 10) || 0;
+            showStepper(control, currentQty + 1);
+            return;
+          }
+
+          // Detail page text button — "Added!" feedback
           const btn = form.querySelector('button[type="submit"]');
-          if (!btn) return;
-
-          const isIconOnly = btn.textContent.trim().length === 0;
-
-          if (isIconOnly) {
-            // Icon-only: swap to checkmark + green bg
-            const originalSvg = btn.innerHTML;
-            btn.innerHTML =
-              '<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>';
-            btn.classList.add('bg-green-500');
-            btn.classList.remove('bg-woot-500');
-            setTimeout(() => {
-              btn.innerHTML = originalSvg;
-              btn.classList.remove('bg-green-500');
-              btn.classList.add('bg-woot-500');
-            }, 1200);
-          } else {
-            // Text button: existing "Added!" text swap
+          if (btn && btn.textContent.trim().length > 0) {
             const original = btn.textContent;
             btn.textContent = 'Added!';
             btn.classList.add('bg-green-500');
@@ -100,6 +113,48 @@ function initAddToCart() {
           }
         })
         .catch(() => form.submit());
+    });
+  });
+}
+
+// ─── Decrement / Remove from Cart (product cards) ───────────
+function initDecrement() {
+  document.querySelectorAll('[data-decrement]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const control = btn.closest('[data-cart-control]');
+      if (!control) return;
+
+      const qtyDisplay = control.querySelector('[data-qty-display]');
+      const currentQty = parseInt(qtyDisplay?.textContent, 10) || 0;
+      if (currentQty <= 0) return;
+
+      const isRemove = currentQty === 1;
+      const url = isRemove
+        ? control.dataset.removeUrl
+        : control.dataset.updateUrl;
+      const method = isRemove ? 'DELETE' : 'PATCH';
+      const headers = {
+        Accept: 'application/json',
+        'X-CSRF-Token': csrfToken(),
+      };
+
+      const fetchOpts = { method, headers };
+      if (!isRemove) {
+        headers['Content-Type'] = 'application/json';
+        fetchOpts.body = JSON.stringify({ quantity: currentQty - 1 });
+      }
+
+      // Optimistic UI update
+      if (isRemove) {
+        hideStepper(control);
+      } else {
+        qtyDisplay.textContent = currentQty - 1;
+      }
+
+      fetch(url, fetchOpts)
+        .then(r => r.json())
+        .then(data => updateCartBadge(data.cart_count))
+        .catch(() => window.location.reload());
     });
   });
 }
@@ -172,6 +227,7 @@ function initCartQuantity() {
 // ─── Init ────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
   initAddToCart();
+  initDecrement();
   initQuantityStepper();
   initCartQuantity();
 });

@@ -12,7 +12,7 @@
 class ConversationTriageAgent < ApplicationAgent
   description 'Analyzes conversations and suggests appropriae labels/team assignments'
   model 'gemini-2.5-flash'
-  temperature 0.3
+  temperature 0.8
 
   on_failure do
     fallback to: ['gpt-4.1-nano', 'claude-haiku-4-5']
