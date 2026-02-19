@@ -3,8 +3,11 @@
     "HEADER": "Automatización",
     "DESCRIPTION": "La automatización puede reemplazar y agilizar los procesos existentes que requieren esfuerzo manual, como añadir etiquetas y asignar conversaciones al agente más adecuado. Esto permite al equipo concentrarse en sus fortalezas, mientras que reduce el tiempo dedicado a las tareas de rutina.",
     "LEARN_MORE": "Aprende más sobre automatización",
-    "HEADER_BTN_TXT": "Añadir regla de automatización",
+    "COUNT": "{n} automation | {n} automations",
+    "HEADER_BTN_TXT": "Create Automation",
     "LOADING": "Obteniendo reglas de automatización",
+    "SEARCH_PLACEHOLDER": "Search automation rules...",
+    "NO_RESULTS": "No automation rules found matching your search",
     "ADD": {
       "TITLE": "Añadir regla de automatización",
       "SUBMIT": "Crear",
@@ -42,9 +45,9 @@
     "LIST": {
       "TABLE_HEADER": {
         "NAME": "Nombre",
-        "DESCRIPTION": "Descripción",
         "ACTIVE": "Activo",
-        "CREATED_ON": "Creado el"
+        "CREATED_ON": "Creado el",
+        "ACTIONS": "Acciones"
       },
       "404": "No se encontraron reglas de automatización"
     },
