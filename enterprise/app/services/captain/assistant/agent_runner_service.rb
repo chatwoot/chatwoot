@@ -22,7 +22,7 @@ class Captain::Assistant::AgentRunnerService
 
   def generate_response(message_history: [])
     agents = build_and_wire_agents
-    context = build_context(message_history)
+    context = build_context(message_history_without_last_user_message(message_history))
     message_to_process = extract_last_user_message(message_history)
     runner = Agents::Runner.with_agents(*agents)
     runner = add_usage_metadata_callback(runner)
@@ -63,8 +63,22 @@ class Captain::Assistant::AgentRunnerService
 
   def extract_last_user_message(message_history)
     last_user_msg = message_history.reverse.find { |msg| msg[:role] == 'user' }
+    return '' if last_user_msg.blank?
 
-    extract_text_from_content(last_user_msg[:content])
+    content = last_user_msg[:content]
+    return extract_text_from_content(content) unless content.is_a?(Array)
+
+    text, attachments = Captain::OpenAiMessageBuilderService.extract_text_and_attachments(content)
+    return text if attachments.blank?
+
+    RubyLLM::Content.new(text, attachments)
+  end
+
+  def message_history_without_last_user_message(message_history)
+    last_user_index = message_history.rindex { |msg| msg[:role] == 'user' }
+    return message_history if last_user_index.nil?
+
+    message_history.reject.with_index { |_msg, index| index == last_user_index }
   end
 
   def extract_text_from_content(content)

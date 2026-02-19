@@ -78,8 +78,7 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
         session_id: "#{account.id}_#{conversation.display_id}",
         conversation_history: [
           { role: :user, content: 'Hello there', agent_name: nil },
-          { role: :assistant, content: 'Hi! How can I help you?', agent_name: 'Assistant' },
-          { role: :user, content: 'I need help with my account', agent_name: nil }
+          { role: :assistant, content: 'Hi! How can I help you?', agent_name: 'Assistant' }
         ],
         state: hash_including(
           account_id: account.id,
@@ -96,6 +95,33 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
       )
 
       service.generate_response(message_history: message_history)
+    end
+
+    context 'when the latest user message is multimodal' do
+      let(:multimodal_message_history) do
+        [
+          { role: 'assistant', content: 'Please share a screenshot' },
+          {
+            role: 'user',
+            content: [
+              { type: 'text', text: 'What does this error mean?' },
+              { type: 'image_url', image_url: { url: 'https://example.com/error.png' } }
+            ]
+          }
+        ]
+      end
+
+      it 'passes image attachments to the runner input' do
+        expect(mock_runner).to receive(:run) do |input, context:, max_turns:|
+          expect(input).to be_a(RubyLLM::Content)
+          expect(input.text).to eq('What does this error mean?')
+          expect(input.attachments.first.source.to_s).to eq('https://example.com/error.png')
+          expect(context[:conversation_history]).to eq([{ role: :assistant, content: 'Please share a screenshot', agent_name: nil }])
+          expect(max_turns).to eq(100)
+        end
+
+        service.generate_response(message_history: multimodal_message_history)
+      end
     end
 
     it 'processes and formats agent result' do
@@ -224,6 +250,24 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
       result = service.send(:extract_last_user_message, message_history)
 
       expect(result).to eq('I need help with my account')
+    end
+
+    it 'returns multimodal content with image attachments for the runner input' do
+      multimodal_message_history = [
+        {
+          role: 'user',
+          content: [
+            { type: 'text', text: 'Can you check this screenshot?' },
+            { type: 'image_url', image_url: { url: 'https://example.com/image.jpg' } }
+          ]
+        }
+      ]
+
+      result = service.send(:extract_last_user_message, multimodal_message_history)
+
+      expect(result).to be_a(RubyLLM::Content)
+      expect(result.text).to eq('Can you check this screenshot?')
+      expect(result.attachments.first.source.to_s).to eq('https://example.com/image.jpg')
     end
   end
 
