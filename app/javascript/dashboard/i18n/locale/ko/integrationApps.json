@@ -3,6 +3,9 @@
     "FETCHING": "Fetching Integrations",
     "NO_HOOK_CONFIGURED": "There are no {integrationId} integrations configured in this account.",
     "HEADER": "Applications",
+    "COUNT": "{n} integration | {n} integrations",
+    "SEARCH_PLACEHOLDER": "Search...",
+    "NO_RESULTS": "No results found matching your search",
     "STATUS": {
       "ENABLED": "사용함",
       "DISABLED": "사용 안 함"
@@ -31,6 +34,7 @@
     "LIST": {
       "FETCHING": "Fetching integration hooks",
       "INBOX": "받은 메시지함",
+      "ACTIONS": "액션",
       "DELETE": {
         "BUTTON_TEXT": "삭제"
       }
