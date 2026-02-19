@@ -11,6 +11,14 @@ import { useBulkActionsHotKeys } from 'dashboard/composables/commands/useBulkAct
 import { useConversationHotKeys } from 'dashboard/composables/commands/useConversationHotKeys';
 import wootConstants from 'dashboard/constants/globals';
 import { GENERAL_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
+import { generateSnoozeSuggestions } from 'dashboard/helper/snoozeHelpers';
+import { ICON_SNOOZE_CONVERSATION } from 'dashboard/helper/commandbar/icons';
+import {
+  CMD_SNOOZE_CONVERSATION,
+  CMD_SNOOZE_NOTIFICATION,
+  CMD_BULK_ACTION_SNOOZE_CONVERSATION,
+} from 'dashboard/helper/commandbar/events';
+import { emitter } from 'shared/helpers/mitt';
 
 const store = useStore();
 const { t } = useI18n();
@@ -28,7 +36,21 @@ const { goToCommandHotKeys } = useGoToCommandHotKeys();
 const { bulkActionsHotKeys } = useBulkActionsHotKeys();
 const { conversationHotKeys } = useConversationHotKeys();
 
-const placeholder = computed(() => t('COMMAND_BAR.SEARCH_PLACEHOLDER'));
+const SNOOZE_PARENT_IDS = [
+  'snooze_conversation',
+  'snooze_notification',
+  'bulk_action_snooze_conversation',
+];
+const DYNAMIC_SNOOZE_PREFIX = 'dynamic_snooze_';
+
+const dynamicSnoozeActions = ref([]);
+const currentCommandRoot = ref(null);
+
+const placeholder = computed(() =>
+  SNOOZE_PARENT_IDS.includes(currentCommandRoot.value)
+    ? t('COMMAND_BAR.SNOOZE_PLACEHOLDER')
+    : t('COMMAND_BAR.SEARCH_PLACEHOLDER')
+);
 
 const hotKeys = computed(() => [
   ...inboxHotKeys.value,
@@ -36,15 +58,73 @@ const hotKeys = computed(() => [
   ...goToAppearanceHotKeys.value,
   ...bulkActionsHotKeys.value,
   ...conversationHotKeys.value,
+  ...dynamicSnoozeActions.value,
 ]);
 
 const setCommandBarData = () => {
   ninjakeys.value.data = hotKeys.value;
 };
 
+const SNOOZE_EVENT_MAP = {
+  snooze_conversation: CMD_SNOOZE_CONVERSATION,
+  snooze_notification: CMD_SNOOZE_NOTIFICATION,
+  bulk_action_snooze_conversation: CMD_BULK_ACTION_SNOOZE_CONVERSATION,
+};
+
+const SNOOZE_SECTION_MAP = {
+  snooze_conversation: 'COMMAND_BAR.SECTIONS.SNOOZE_CONVERSATION',
+  snooze_notification: 'COMMAND_BAR.SECTIONS.SNOOZE_NOTIFICATION',
+  bulk_action_snooze_conversation: 'COMMAND_BAR.SECTIONS.BULK_ACTIONS',
+};
+
+const buildDynamicSnoozeActions = (search, parentId) => {
+  const suggestions = generateSnoozeSuggestions(search);
+  if (!suggestions.length) return [];
+
+  const busEvent = SNOOZE_EVENT_MAP[parentId];
+  const section = t(SNOOZE_SECTION_MAP[parentId]);
+
+  return suggestions.map((parsed, index) => ({
+    id: `${DYNAMIC_SNOOZE_PREFIX}${index}`,
+    title:
+      parsed.label !== parsed.formattedDate
+        ? `${parsed.label} — ${parsed.formattedDate}`
+        : parsed.formattedDate,
+    parent: parentId,
+    section,
+    icon: ICON_SNOOZE_CONVERSATION,
+    keywords: search,
+    handler: () => emitter.emit(busEvent, parsed.unixTime),
+  }));
+};
+
+const patchNinjaKeysOpenClose = el => {
+  if (!el || typeof el.open !== 'function' || typeof el.close !== 'function') {
+    return;
+  }
+
+  const originalOpen = el.open.bind(el);
+  const originalClose = el.close.bind(el);
+
+  el.open = (...args) => {
+    const [options = {}] = args;
+    currentCommandRoot.value = options.parent || null;
+    dynamicSnoozeActions.value = [];
+    return originalOpen(...args);
+  };
+
+  el.close = (...args) => {
+    currentCommandRoot.value = null;
+    dynamicSnoozeActions.value = [];
+    return originalClose(...args);
+  };
+};
+
 const onSelected = item => {
   const {
-    detail: { action: { title = null, section = null, id = null } = {} } = {},
+    detail: {
+      action: { title = null, section = null, id = null, children = null } = {},
+    } = {},
   } = item;
   // Added this condition to prevent setting the selectedSnoozeType to null
   // When we select the "custom snooze" (CMD bar will close and the custom snooze modal will open)
@@ -52,6 +132,10 @@ const onSelected = item => {
     selectedSnoozeType.value = wootConstants.SNOOZE_OPTIONS.UNTIL_CUSTOM_TIME;
   } else {
     selectedSnoozeType.value = null;
+  }
+
+  if (Array.isArray(children) && children.length) {
+    currentCommandRoot.value = id;
   }
 
   useTrack(GENERAL_EVENTS.COMMAND_BAR, {
@@ -62,6 +146,35 @@ const onSelected = item => {
   setCommandBarData();
 };
 
+const onCommandBarChange = item => {
+  const { detail: { search = '', actions = [] } = {} } = item;
+  const normalizedSearch = search.trim();
+
+  if (actions.length > 0) {
+    const uniqueParents = [
+      ...new Set(actions.map(action => action.parent).filter(Boolean)),
+    ];
+    if (uniqueParents.length === 1) {
+      currentCommandRoot.value = uniqueParents[0];
+    } else if (uniqueParents.length > 1) {
+      currentCommandRoot.value = null;
+    }
+  }
+
+  if (
+    !normalizedSearch ||
+    !SNOOZE_PARENT_IDS.includes(currentCommandRoot.value || '')
+  ) {
+    dynamicSnoozeActions.value = [];
+    return;
+  }
+
+  dynamicSnoozeActions.value = buildDynamicSnoozeActions(
+    normalizedSearch,
+    currentCommandRoot.value
+  );
+};
+
 const onClosed = () => {
   // If the selectedSnoozeType is not "SNOOZE_OPTIONS.UNTIL_CUSTOM_TIME (custom snooze)" then we set the context menu chat id to null
   // Else we do nothing and its handled in the ChatList.vue hideCustomSnoozeModal() method
@@ -70,6 +183,8 @@ const onClosed = () => {
   ) {
     store.dispatch('setContextMenuChatId', null);
   }
+  currentCommandRoot.value = null;
+  dynamicSnoozeActions.value = [];
 };
 
 watchEffect(() => {
@@ -78,7 +193,10 @@ watchEffect(() => {
   }
 });
 
-onMounted(setCommandBarData);
+onMounted(() => {
+  setCommandBarData();
+  patchNinjaKeysOpenClose(ninjakeys.value);
+});
 </script>
 
 <!-- eslint-disable vue/attribute-hyphenation -->
@@ -88,6 +206,7 @@ onMounted(setCommandBarData);
     noAutoLoadMdIcons
     hideBreadcrumbs
     :placeholder="placeholder"
+    @change="onCommandBarChange"
     @selected="onSelected"
     @closed="onClosed"
   />

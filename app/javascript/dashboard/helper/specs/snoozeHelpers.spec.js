@@ -95,9 +95,16 @@ describe('#Snooze Helpers', () => {
       expect(snoozedReopenTime(null)).toEqual(null);
     });
 
-    it('should return formatted date if snoozedUntil is not nil', () => {
+    it('should return formatted date with year if snoozedUntil is not in current year', () => {
       expect(snoozedReopenTime('2023-06-07T09:00:00.000Z')).toEqual(
-        '7 Jun, 9.00am'
+        '7 Jun 2023, 2.30pm'
+      );
+    });
+
+    it('should return formatted date without year if snoozedUntil is in current year', () => {
+      const currentYear = new Date().getFullYear();
+      expect(snoozedReopenTime(`${currentYear}-06-07T09:00:00.000Z`)).toEqual(
+        '7 Jun, 2.30pm'
       );
     });
   });

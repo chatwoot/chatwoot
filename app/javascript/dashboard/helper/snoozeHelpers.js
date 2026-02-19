@@ -7,11 +7,13 @@ import {
   startOfMonth,
   isMonday,
   isToday,
+  isSameYear,
   setHours,
   setMinutes,
   setSeconds,
 } from 'date-fns';
 import wootConstants from 'dashboard/constants/globals';
+import { generateDateSuggestions } from 'dashboard/helper/snoozeDateParser';
 
 const SNOOZE_OPTIONS = wootConstants.SNOOZE_OPTIONS;
 
@@ -64,12 +66,36 @@ export const snoozedReopenTime = snoozedUntil => {
   if (isToday(date)) {
     return format(date, 'h.mmaaa');
   }
+  if (!isSameYear(date, new Date())) {
+    return format(date, 'd MMM yyyy, h.mmaaa');
+  }
   return snoozedUntil ? format(date, 'd MMM, h.mmaaa') : null;
 };
 
 export const snoozedReopenTimeToTimestamp = snoozedUntil => {
   return snoozedUntil ? getUnixTime(new Date(snoozedUntil)) : null;
 };
+const formatSnoozeDate = (snoozeDate, currentDate) => {
+  return isSameYear(snoozeDate, currentDate)
+    ? format(snoozeDate, 'EEE, d MMM, h:mm a')
+    : format(snoozeDate, 'EEE, d MMM yyyy, h:mm a');
+};
+
+const capitalizeLabel = text => text.replace(/^\w/, c => c.toUpperCase());
+
+export const generateSnoozeSuggestions = (
+  searchText,
+  currentDate = new Date()
+) => {
+  const suggestions = generateDateSuggestions(searchText, currentDate);
+  return suggestions.map(s => ({
+    date: s.date,
+    unixTime: s.unix,
+    label: capitalizeLabel(s.label),
+    formattedDate: formatSnoozeDate(s.date, currentDate),
+  }));
+};
+
 export const shortenSnoozeTime = snoozedUntil => {
   if (!snoozedUntil) {
     return null;
