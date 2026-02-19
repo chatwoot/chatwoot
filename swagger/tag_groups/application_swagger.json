@@ -2036,6 +2036,13 @@
             "required": true
           }
         ],
+        "x-codeSamples": [
+          {
+            "lang": "python",
+            "label": "Get contactable inboxes",
+            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\ninboxes = client.contacts.contactable_inboxes(\n    account_id=1,\n    contact_id=100\n)\n\nfor item in inboxes:\n    print(item[\"source_id\"], item[\"inbox\"][\"name\"])\n"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -4464,6 +4471,13 @@
             "userApiKey": []
           }
         ],
+        "x-codeSamples": [
+          {
+            "lang": "python",
+            "label": "List agents in inbox",
+            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\nagents = client.inboxes.agents.list(account_id=1, inbox_id=5)\n\nfor agent in agents:\n    print(agent.name, agent.email)\n"
+          }
+        ],
         "parameters": [
           {
             "$ref": "#/components/parameters/inbox_id"
@@ -4528,6 +4542,13 @@
         "security": [
           {
             "userApiKey": []
+          }
+        ],
+        "x-codeSamples": [
+          {
+            "lang": "python",
+            "label": "Add agents to inbox",
+            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\nagents = client.inboxes.agents.add(\n    account_id=1,\n    inbox_id=5,\n    agent_ids=[10, 11, 12]\n)\n\nprint(f\"Inbox now has {len(agents)} agents\")\n"
           }
         ],
         "requestBody": {

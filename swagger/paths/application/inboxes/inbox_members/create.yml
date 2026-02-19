@@ -5,6 +5,24 @@ summary: Add a New Agent
 description: Add a new Agent to Inbox
 security:
   - userApiKey: []
+x-codeSamples:
+  - lang: python
+    label: "Add agents to inbox"
+    source: |
+      from chatwoot import ChatwootClient
+
+      client = ChatwootClient(
+          base_url="https://app.chatwoot.com",
+          api_token="your-api-token"
+      )
+
+      agents = client.inboxes.agents.add(
+          account_id=1,
+          inbox_id=5,
+          agent_ids=[10, 11, 12]
+      )
+
+      print(f"Inbox now has {len(agents)} agents")
 requestBody:
   required: true
   content:
