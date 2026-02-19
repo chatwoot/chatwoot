@@ -3,6 +3,9 @@
     "HEADER": "صندوق‌های ورودی",
     "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
     "LEARN_MORE": "Learn more about inboxes",
+    "COUNT": "{n} inbox | {n} inboxes",
+    "SEARCH_PLACEHOLDER": "Search inboxes...",
+    "NO_RESULTS": "No inboxes found matching your search",
     "RECONNECTION_REQUIRED": "Your inbox is disconnected. You won't receive new messages until you reauthorize it.",
     "CLICK_TO_RECONNECT": "Click here to reconnect.",
     "WHATSAPP_REGISTRATION_INCOMPLETE": "Your WhatsApp Business registration isn’t complete. Please check your display name status in Meta Business Manager before reconnecting.",
@@ -575,7 +578,7 @@
           "SUBTITLE": "فقط از نام تجاری پیکربندی شده به عنوان نام فرستنده در هدر ایمیل استفاده کنید."
         },
         "BUSINESS_NAME": {
-          "BUTTON_TEXT": "+ نام کسب و کار خود را وارد کنید",
+          "BUTTON_TEXT": "نام کسب و کار خود را وارد کنید",
           "PLACEHOLDER": "نام کسب و کار خود را وارد کنید",
           "SAVE_BUTTON_TEXT": "ذخیره"
         }
@@ -625,6 +628,8 @@
       "ACCOUNT_HEALTH": "Account Health",
       "CSAT": "رضایت مشتری"
     },
+    "CHANNEL_PREFERENCES": "Channel Preferences",
+    "WIDGET_FEATURES": "Widget features",
     "ACCOUNT_HEALTH": {
       "TITLE": "Manage your WhatsApp account",
       "DESCRIPTION": "Review your WhatsApp account status, messaging limits, and quality. Update settings or resolve issues if needed",
@@ -758,6 +763,7 @@
       "LABEL": "مرکز راهنما",
       "PLACEHOLDER": "مرکز راهنما را انتخاب کنید",
       "SELECT_PLACEHOLDER": "مرکز راهنما را انتخاب کنید",
+      "NONE": "هیچکدام",
       "REMOVE": "مرکز راهنما را حذف کنید",
       "SUB_TEXT": "یک مرکز راهنما را با صندوق ورودی پیوست کنید"
     },
@@ -911,9 +917,11 @@
       "UNAVAILABLE_MESSAGE_LABEL": "پیامی برای بازدیدکنندگان در دسترس نیست",
       "TOGGLE_HELP": "فعال کردن در دسترس بودن کسب کار ، ساعات موجود در ویجت چت زنده را نشان می دهد حتی اگر همه اپراتور ها آفلاین باشند. خارج از ساعات موجود می توان با پیام و فرم قبل از چت ، به کاربران هشدار داد.",
       "DAY": {
+        "DAY": "روز",
+        "AVAILABILITY": "در دسترس",
+        "HOURS": "Hours",
         "ENABLE": "در دسترس بودن را برای این روز فعال کنید",
         "UNAVAILABLE": "غیر قابل دسترسی",
-        "HOURS": "ساعت",
         "VALIDATION_ERROR": "زمان شروع باید قبل از زمان بسته شدن باشد.",
         "CHOOSE": "انتخاب کنید"
       },
@@ -1020,11 +1028,12 @@
           "IN_A_DAY": "در یک روز"
         },
         "WIDGET_COLOR_LABEL": "رنگ ویجت",
-        "WIDGET_BUBBLE_POSITION_LABEL": "موقعیت حباب ابزارک",
-        "WIDGET_BUBBLE_TYPE_LABEL": "نوع حباب ابزارک",
+        "WIDGET_BUBBLE": "Bubble",
+        "WIDGET_BUBBLE_POSITION_LABEL": "Position:",
+        "WIDGET_BUBBLE_TYPE_LABEL": "نوع:",
         "WIDGET_BUBBLE_LAUNCHER_TITLE": {
           "DEFAULT": "با ما گفتگو کنید",
-          "LABEL": "عنوان ویجت Bubble",
+          "LABEL": "Launcher Title",
           "PLACE_HOLDER": "با ما گفتگو کنید"
         },
         "UPDATE": {
@@ -1049,7 +1058,7 @@
       },
       "WIDGET_SCREEN": {
         "DEFAULT": "پیش‌فرض",
-        "CHAT": "گفتگو"
+        "CHAT": "Chat mode"
       },
       "REPLY_TIME": {
         "IN_A_FEW_MINUTES": "معمولاً در عرض چند دقیقه پاسخ می‌دهیم",
