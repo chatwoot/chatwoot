@@ -193,6 +193,14 @@ RSpec.describe Captain::Document, type: :model do
           document.update!(metadata: { 'title' => 'Updated' })
         end.not_to have_enqueued_job(Captain::Documents::ResponseBuilderJob)
       end
+
+      it 'does not enqueue when document FAQ generation is disabled for the assistant' do
+        assistant.update!(config: (assistant.config || {}).merge('feature_document_faq_generation' => false))
+
+        expect do
+          create(:captain_document, assistant: assistant, account: account, status: :available, content: 'Doc content')
+        end.not_to have_enqueued_job(Captain::Documents::ResponseBuilderJob)
+      end
     end
 
     describe 'PDF documents' do

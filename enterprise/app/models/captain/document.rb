@@ -126,6 +126,7 @@ class Captain::Document < ApplicationRecord
   def should_enqueue_response_builder?
     return false if destroyed?
     return false unless available?
+    return false unless document_faq_generation_enabled?
 
     return saved_change_to_status? if pdf_document?
 
@@ -143,6 +144,11 @@ class Captain::Document < ApplicationRecord
 
   def chunk_builder_enabled?
     value = InstallationConfig.find_by(name: 'CAPTAIN_DOCUMENT_CHUNKING_ENABLED')&.value
+    ActiveModel::Type::Boolean.new.cast(value)
+  end
+
+  def document_faq_generation_enabled?
+    value = assistant&.config&.fetch('feature_document_faq_generation', true)
     ActiveModel::Type::Boolean.new.cast(value)
   end
 
