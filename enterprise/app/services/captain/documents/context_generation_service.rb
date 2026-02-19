@@ -3,14 +3,14 @@ class Captain::Documents::ContextGenerationService < Llm::BaseAiService
 
   MAX_DOCUMENT_CHARACTERS = 20_000
   MAX_CHUNK_CHARACTERS = 6_000
-  DEFAULT_MODEL = 'gpt-4.1-mini'.freeze
+  DEFAULT_MODEL = 'gpt-4.1'.freeze
 
-  def initialize(document_content:, chunk_content:, account_id:, model: DEFAULT_MODEL)
+  def initialize(document_content:, chunk_content:, account_id:, model: nil)
     super()
     @document_content = document_content.to_s
     @chunk_content = chunk_content.to_s
     @account_id = account_id
-    @model = model
+    @model = resolve_model(model)
   end
 
   def generate
@@ -73,5 +73,13 @@ class Captain::Documents::ContextGenerationService < Llm::BaseAiService
         { role: 'user', content: user_prompt }
       ]
     }
+  end
+
+  def resolve_model(model)
+    return model if model.present?
+
+    context_model = InstallationConfig.find_by(name: 'CAPTAIN_CONTEXT_GENERATION_MODEL')&.value.presence
+    open_ai_model = InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_MODEL')&.value.presence
+    context_model || open_ai_model || DEFAULT_MODEL
   end
 end
