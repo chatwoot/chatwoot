@@ -183,6 +183,93 @@ function initQuantityStepper() {
   });
 }
 
+// ─── Cart Page: Recalculate Totals ──────────────────────────
+function recalcTotals() {
+  const container = document.querySelector('[data-cart-container]');
+  if (!container) return;
+
+  const currency = container.dataset.currency || '';
+  let subtotal = 0;
+
+  container.querySelectorAll('[data-cart-item]').forEach(item => {
+    const unitPrice = parseFloat(item.dataset.unitPrice) || 0;
+    const qtyDisplay = item.querySelector('[data-cart-qty-display]');
+    const qty = parseInt(qtyDisplay?.textContent, 10) || 0;
+    const lineTotal = unitPrice * qty;
+    subtotal += lineTotal;
+
+    const lineTotalEl = item.querySelector('[data-line-total]');
+    if (lineTotalEl) lineTotalEl.textContent = lineTotal.toFixed(2);
+  });
+
+  const cartTotalEl = document.querySelector('[data-cart-total]');
+  if (cartTotalEl)
+    cartTotalEl.textContent = `${subtotal.toFixed(2)} ${currency}`;
+}
+
+// ─── Cart Page: Update Header Count ─────────────────────────
+function updateCartHeader() {
+  const header = document.querySelector('[data-cart-header]');
+  if (!header) return;
+
+  let totalQty = 0;
+  document
+    .querySelectorAll('[data-cart-item] [data-cart-qty-display]')
+    .forEach(el => {
+      totalQty += parseInt(el.textContent, 10) || 0;
+    });
+  header.textContent = `Cart (${totalQty})`;
+}
+
+// ─── Cart Page: Remove Item (fade + delete) ─────────────────
+function removeCartItem(itemEl) {
+  const removeUrl =
+    itemEl.querySelector('[data-cart-remove]')?.dataset.removeUrl ||
+    itemEl.querySelector('[data-cart-qty]')?.dataset.cartQtyRemoveUrl;
+  if (!removeUrl) return;
+
+  // Fade out
+  itemEl.style.opacity = '0';
+  itemEl.style.maxHeight = itemEl.scrollHeight + 'px';
+  requestAnimationFrame(() => {
+    itemEl.style.maxHeight = '0';
+    itemEl.style.padding = '0';
+    itemEl.style.overflow = 'hidden';
+  });
+
+  fetch(removeUrl, {
+    method: 'DELETE',
+    headers: {
+      Accept: 'application/json',
+      'X-CSRF-Token': csrfToken(),
+    },
+  })
+    .then(r => r.json())
+    .then(data => {
+      updateCartBadge(data.cart_count);
+      setTimeout(() => {
+        itemEl.remove();
+        recalcTotals();
+        updateCartHeader();
+        // If no items left, reload to show empty state
+        if (!document.querySelector('[data-cart-item]')) {
+          window.location.reload();
+        }
+      }, 300);
+    })
+    .catch(() => window.location.reload());
+}
+
+// ─── Cart Page: Remove Buttons ──────────────────────────────
+function initCartRemove() {
+  document.querySelectorAll('[data-cart-remove]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const itemEl = btn.closest('[data-cart-item]');
+      if (itemEl) removeCartItem(itemEl);
+    });
+  });
+}
+
 // ─── Cart Page Quantity Controls ─────────────────────────────
 function initCartQuantity() {
   document.querySelectorAll('[data-cart-qty]').forEach(wrapper => {
@@ -194,7 +281,11 @@ function initCartQuantity() {
     if (!display || !url) return;
 
     const update = quantity => {
+      // Optimistic UI — update display immediately
       display.textContent = quantity;
+      recalcTotals();
+      updateCartHeader();
+
       fetch(url, {
         method: 'PATCH',
         headers: {
@@ -205,14 +296,20 @@ function initCartQuantity() {
         body: JSON.stringify({ quantity }),
       })
         .then(r => r.json())
-        .then(() => window.location.reload())
+        .then(data => updateCartBadge(data.cart_count))
         .catch(() => window.location.reload());
     };
 
     if (decBtn) {
       decBtn.addEventListener('click', () => {
         const val = parseInt(display.textContent, 10) || 1;
-        if (val > 1) update(val - 1);
+        if (val <= 1) {
+          // Decrement to zero — remove the item
+          const itemEl = wrapper.closest('[data-cart-item]');
+          if (itemEl) removeCartItem(itemEl);
+        } else {
+          update(val - 1);
+        }
       });
     }
     if (incBtn) {
@@ -230,4 +327,5 @@ document.addEventListener('DOMContentLoaded', () => {
   initDecrement();
   initQuantityStepper();
   initCartQuantity();
+  initCartRemove();
 });
