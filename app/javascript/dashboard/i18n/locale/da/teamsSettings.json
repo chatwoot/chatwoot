@@ -5,6 +5,9 @@
     "LOADING": "Henter hold",
     "DESCRIPTION": "Teams giver dig mulighed for at organisere agenter i grupper baseret på deres ansvar. En agent kan tilhøre flere hold. Når du arbejder sammen, kan du tildele samtaler til bestemte teams.",
     "LEARN_MORE": "Få flere oplysninger om hold funktionen",
+    "COUNT": "{n} team | {n} teams",
+    "SEARCH_PLACEHOLDER": "Søg i teams...",
+    "NO_RESULTS": "No teams found matching your search",
     "LIST": {
       "404": "Der er ingen teams oprettet på denne konto.",
       "EDIT_TEAM": "Rediger team",
@@ -64,8 +67,8 @@
       "ERROR_MESSAGE": "Kunne ikke gemme teamdetaljerne. Prøv igen."
     },
     "AGENTS": {
-      "AGENT": "AGENT",
-      "EMAIL": "E-MAIL",
+      "AGENT": "Agent",
+      "EMAIL": "E-mail",
       "BUTTON_TEXT": "Tilføj agenter",
       "ADD_AGENTS": "Tilføjer agenter til dit Team...",
       "SELECT": "vælg",
