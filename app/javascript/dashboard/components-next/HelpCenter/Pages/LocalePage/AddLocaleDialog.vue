@@ -62,6 +62,7 @@ const onCreate = async () => {
       from: route.name,
     });
 
+    selectedLocale.value = '';
     dialogRef.value?.close();
     useAlert(
       t('HELP_CENTER.LOCALES_PAGE.ADD_LOCALE_DIALOG.API.SUCCESS_MESSAGE')

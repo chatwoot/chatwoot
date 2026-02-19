@@ -20,10 +20,7 @@ const greetingsMessage = computed({
 
 <template>
   <section>
-    <div
-      v-if="richtext"
-      class="px-4 py-0 mx-0 mt-0 mb-4 rounded-lg outline outline-1 outline-n-weak hover:outline-n-slate-6 dark:hover:outline-n-slate-6 bg-n-alpha-black2"
-    >
+    <div v-if="richtext">
       <WootMessageEditor
         v-model="greetingsMessage"
         is-format-mode
@@ -36,8 +33,9 @@ const greetingsMessage = computed({
       v-else
       v-model="greetingsMessage"
       :rows="4"
+      :min-height="4"
       type="text"
-      class="greetings--textarea"
+      class="bg-transparent p-0 !outline-0 !outline-none !mb-0 mt-1 text-sm"
       :label="label"
       :placeholder="placeholder"
       @input="handleInput"

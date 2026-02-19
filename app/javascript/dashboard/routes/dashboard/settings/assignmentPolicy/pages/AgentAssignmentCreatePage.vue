@@ -88,9 +88,9 @@ const handleSubmit = async formState => {
 </script>
 
 <template>
-  <SettingsLayout class="xl:px-44">
+  <SettingsLayout class="w-full max-w-2xl ltr:mr-auto rtl:ml-auto">
     <template #header>
-      <div class="flex items-center gap-2 w-full justify-between">
+      <div class="flex items-center gap-2 w-full justify-between mb-4 min-h-10">
         <Breadcrumb :items="breadcrumbItems" @click="handleBreadcrumbClick" />
       </div>
     </template>

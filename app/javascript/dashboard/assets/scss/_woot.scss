@@ -66,4 +66,84 @@ body {
     -ms-overflow-style: none; /* IE and Edge */
     scrollbar-width: none; /* Firefox */
   }
+
+  /**
+   * ============================================================================
+   * TYPOGRAPHY UTILITIES
+   * ============================================================================
+   *
+   * | Class              | Use Case                                           |
+   * |--------------------|----------------------------------------------------|
+   * | .text-body-main    | <p>, <span>, general body text                     |
+   * | .text-body-para    | <p> for paragraphs, larger text blocks             |
+   * | .text-heading-1    | <h1>, page titles, panel headers                   |
+   * | .text-heading-2    | <h2>, section headings, card titles                |
+   * | .text-heading-3    | <h3>, card headings, breadcrumbs, subsections      |
+   * | .text-label        | <label>, form labels, field names                  |
+   * | .text-label-small  | <small>, footnotes, tags, badges, captions         |
+   * | .text-button       | <button>, standard button text                     |
+   * | .text-button-small | <button>, small/compact button text                |
+   */
+
+  /* body-text-main: Main text style for general body text */
+  .text-body-main {
+    @apply font-inter text-sm font-420;
+    line-height: 21px; /* 150% */
+    letter-spacing: -0.28px;
+  }
+
+  /* body-text-paragraph: For paragraphs or larger blocks of text */
+  .text-body-para {
+    @apply font-inter text-sm font-420;
+    line-height: 21px; /* 150% */
+    letter-spacing: -0.21px;
+  }
+
+  /* heading-1: Large heading for pages and panels */
+  .text-heading-1 {
+    @apply font-inter text-lg font-520;
+    line-height: 24px; /* 133.333% */
+    letter-spacing: -0.27px;
+  }
+
+  /* heading-2: Secondary heading for sections */
+  .text-heading-2 {
+    @apply font-inter text-base font-medium;
+    line-height: 24px; /* 133.333% */
+    letter-spacing: -0.27px;
+  }
+
+  /* heading-3: For card headings, breadcrumbs, subsections */
+  .text-heading-3 {
+    @apply font-inter text-sm font-medium;
+    line-height: 21px; /* 150% */
+    letter-spacing: -0.27px;
+  }
+
+  /* label: Standard label text for form fields */
+  .text-label {
+    @apply font-inter text-sm font-medium;
+    line-height: 21px; /* 150% */
+  }
+
+  /* label-small: Smallest font for labels, footnotes, tags */
+  .text-label-small {
+    @apply font-inter text-xs font-440;
+    line-height: 16px; /* 133.333% */
+    letter-spacing: -0.24px;
+  }
+
+  /* button-text: Text for standard size buttons */
+  .text-button {
+    @apply font-inter text-sm font-460;
+    line-height: 21px; /* 150% */
+    letter-spacing: -0.28px;
+  }
+
+  /* button-text-small: Text for smaller buttons */
+  .text-button-small {
+    @apply font-inter text-xs font-440;
+    line-height: 18px; /* 150% */
+    letter-spacing: -0.24px;
+  }
 }

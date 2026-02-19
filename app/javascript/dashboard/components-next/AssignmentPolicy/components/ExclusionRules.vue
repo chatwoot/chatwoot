@@ -2,7 +2,7 @@
 import { computed, ref, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import AddDataDropdown from 'dashboard/components-next/AssignmentPolicy/components/AddDataDropdown.vue';
-import LabelItem from 'dashboard/components-next/Label/LabelItem.vue';
+import LabelItem from 'dashboard/components-next/label/LabelItem.vue';
 import DurationInput from 'dashboard/components-next/input/DurationInput.vue';
 import { DURATION_UNITS } from 'dashboard/components-next/input/constants';
 

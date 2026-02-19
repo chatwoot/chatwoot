@@ -3,8 +3,11 @@
     "HEADER": "Automation",
     "DESCRIPTION": "Automation can replace and streamline existing processes that require manual effort, such as adding labels and assigning conversations to the most suitable agent. This allows the team to focus on their strengths while reducing time spent on routine tasks.",
     "LEARN_MORE": "Learn more about automation",
-    "HEADER_BTN_TXT": "Add Automation Rule",
+    "COUNT": "{n} automation | {n} automations",
+    "HEADER_BTN_TXT": "Create Automation",
     "LOADING": "Fetching automation rules",
+    "SEARCH_PLACEHOLDER": "Search automation rules...",
+    "NO_RESULTS": "No automation rules found matching your search",
     "ADD": {
       "TITLE": "Add Automation Rule",
       "SUBMIT": "Create",
@@ -42,9 +45,9 @@
     "LIST": {
       "TABLE_HEADER": {
         "NAME": "Name",
-        "DESCRIPTION": "Description",
         "ACTIVE": "Active",
-        "CREATED_ON": "Created on"
+        "CREATED_ON": "Created on",
+        "ACTIONS": "Actions"
       },
       "404": "No automation rules found"
     },
