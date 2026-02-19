@@ -71,20 +71,20 @@ const automationActive = computed({
             @click="$emit('edit', automation)"
           />
           <Button
-            v-tooltip.top="$t('AUTOMATION.FORM.DELETE')"
-            :is-loading="loading"
-            icon="i-woot-bin"
-            slate
-            sm
-            @click="$emit('delete', automation)"
-          />
-          <Button
             v-tooltip.top="$t('AUTOMATION.CLONE.TOOLTIP')"
             icon="i-woot-clone"
             sm
             slate
             :is-loading="loading"
             @click="$emit('clone', automation)"
+          />
+          <Button
+            v-tooltip.top="$t('AUTOMATION.FORM.DELETE')"
+            :is-loading="loading"
+            icon="i-woot-bin"
+            slate
+            sm
+            @click="$emit('delete', automation)"
           />
         </div>
       </BaseTableCell>
