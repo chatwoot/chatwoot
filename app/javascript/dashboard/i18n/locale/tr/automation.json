@@ -3,8 +3,11 @@
     "HEADER": "Otomasyon",
     "DESCRIPTION": "Otomasyon, etiket ekleme veya konuşmaları en uygun temsilciye atama gibi manuel çaba gerektiren mevcut süreçleri kolaylaştırabilir ve onların yerine geçebilir. Bu sayede ekip, rutin işlere harcanan zamanı azaltarak güçlü yönlerine odaklanabilir.",
     "LEARN_MORE": "Learn more about automation",
-    "HEADER_BTN_TXT": "Otomasyon Kuralı Ekle",
+    "COUNT": "{n} automation | {n} automations",
+    "HEADER_BTN_TXT": "Create Automation",
     "LOADING": "Otomasyon kuralları getiriliyor",
+    "SEARCH_PLACEHOLDER": "Search automation rules...",
+    "NO_RESULTS": "No automation rules found matching your search",
     "ADD": {
       "TITLE": "Otomasyon Kuralı Ekle",
       "SUBMIT": "Yarat",
@@ -42,9 +45,9 @@
     "LIST": {
       "TABLE_HEADER": {
         "NAME": "İsim",
-        "DESCRIPTION": "Açıklama",
         "ACTIVE": "Aktif",
-        "CREATED_ON": "Oluşturma"
+        "CREATED_ON": "Oluşturma",
+        "ACTIONS": "Hareketler"
       },
       "404": "Otomasyon kuralı bulunamadı"
     },
