@@ -1,6 +1,7 @@
 {
   "INTEGRATION_SETTINGS": {
     "SHOPIFY": {
+      "HEADER": "Shopify",
       "DELETE": {
         "TITLE": "Delete Shopify Integration",
         "MESSAGE": "Are you sure you want to delete the Shopify integration?"
@@ -19,6 +20,8 @@
     "DESCRIPTION": "Chatwoot integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
     "LEARN_MORE": "Learn more about integrations",
     "LOADING": "Fetching integrations",
+    "SEARCH_PLACEHOLDER": "Search integrations...",
+    "NO_RESULTS": "No integrations found matching your search",
     "CAPTAIN": {
       "DISABLED": "Captain is not enabled on your account.",
       "CLICK_HERE_TO_CONFIGURE": "Click here to configure",
@@ -28,6 +31,9 @@
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Події з підпискою",
       "LEARN_MORE": "Learn more about webhooks",
+      "COUNT": "{n} webhook | {n} webhooks",
+      "SEARCH_PLACEHOLDER": "Search webhooks...",
+      "NO_RESULTS": "No webhooks found matching your search",
       "FORM": {
         "CANCEL": "Скасувати",
         "DESC": "Вебхуки автоматично повідомляють про те, що відбувається у вашому обліковому записі Chatwoot. Будь ласка, введіть дійсний URL для налаштування зворотного виклику.",
@@ -104,6 +110,7 @@
       }
     },
     "SLACK": {
+      "HEADER": "Slack",
       "DELETE": "Видалити",
       "DELETE_CONFIRMATION": {
         "TITLE": "Видалити інтеграцію",
@@ -223,12 +230,16 @@
       "SIDEBAR_TXT": "<p><b>Панель управління</b></p><p>Додатки дозволяють організаціям вставляти в панель керування Chatwoot інформацію, щоб надати контекст агентам підтримки клієнтів. Ця функція дозволяє створювати додаток незалежно і вставляти його в панелі управління відомості про користувача, їхні замовлення або історію попередніх платежів.</p><p>Коли ви вставляєте свій застосунок за допомогою панелі керування в Chatwoot, ваша програма отримає контекст розмови і зв'яжеться як віконна подія. Налаштуйте слухача для заходу повідомлення на вашій сторінці, щоб отримати контекст.</p><p>Щоб додати нову панель керування, натисніть кнопку 'Додати нову програму'.</p>",
       "DESCRIPTION": "Додатки дозволяють організаціям вбудовувати інформаційну панель керування і надавати контекст для агентів підтримки клієнтів. Ця функція дозволяє створювати додаток незалежно і додавати інформацію, що надавали про користувача, його замовлення або історію платежів.",
       "LEARN_MORE": "Learn more about Dashboard Apps",
+      "COUNT": "{n} dashboard app | {n} dashboard apps",
+      "SEARCH_PLACEHOLDER": "Search dashboard apps...",
+      "NO_RESULTS": "No dashboard apps found matching your search",
       "LIST": {
         "404": "Поки що немає налаштованих додатків в цьому акаунті",
         "LOADING": "Отримання додатків панелі керування...",
         "TABLE_HEADER": {
           "NAME": "Ім'я",
-          "ENDPOINT": "Endpoint"
+          "ENDPOINT": "Endpoint",
+          "ACTIONS": "Дії"
         },
         "EDIT_TOOLTIP": "Редагувати додаток",
         "DELETE_TOOLTIP": "Видалити додаток"
@@ -265,6 +276,7 @@
       }
     },
     "LINEAR": {
+      "HEADER": "Linear",
       "ADD_OR_LINK_BUTTON": "Create/Link Linear Issue",
       "LOADING": "Fetching linear issues...",
       "LOADING_ERROR": "There was an error fetching the linear issues, please try again",
@@ -359,6 +371,7 @@
       }
     },
     "NOTION": {
+      "HEADER": "Notion",
       "DELETE": {
         "TITLE": "Are you sure you want to delete the Notion integration?",
         "MESSAGE": "Deleting this integration will remove access to your Notion workspace and stop all related functionality.",
