@@ -3,6 +3,7 @@ import { computed } from 'vue';
 import { messageStamp } from 'shared/helpers/timeHelper';
 import Button from 'dashboard/components-next/button/Button.vue';
 import ToggleSwitch from 'dashboard/components-next/switch/Switch.vue';
+import { BaseTableRow, BaseTableCell } from 'dashboard/components-next/table';
 
 const props = defineProps({
   automation: {
@@ -35,47 +36,58 @@ const automationActive = computed({
 </script>
 
 <template>
-  <tr>
-    <td class="py-4 ltr:pr-4 rtl:pl-4 min-w-[200px]">{{ automation.name }}</td>
-    <td class="py-4 ltr:pr-4 rtl:pl-4">{{ automation.description }}</td>
-    <td class="py-4 ltr:pr-4 rtl:pl-4">
-      <ToggleSwitch v-model="automationActive" />
-    </td>
-    <td
-      class="py-4 ltr:pr-4 rtl:pl-4 min-w-[12px]"
-      :title="readableDateWithTime(automation.created_on)"
-    >
-      {{ readableDate(automation.created_on) }}
-    </td>
-    <td class="py-4 min-w-xs">
-      <div class="flex gap-1 justify-end flex-shrink-0">
-        <Button
-          v-tooltip.top="$t('AUTOMATION.FORM.EDIT')"
-          icon="i-lucide-pen"
-          slate
-          xs
-          faded
-          :is-loading="loading"
-          @click="$emit('edit', automation)"
-        />
-        <Button
-          v-tooltip.top="$t('AUTOMATION.CLONE.TOOLTIP')"
-          icon="i-lucide-copy-plus"
-          xs
-          faded
-          :is-loading="loading"
-          @click="$emit('clone', automation)"
-        />
-        <Button
-          v-tooltip.top="$t('AUTOMATION.FORM.DELETE')"
-          :is-loading="loading"
-          icon="i-lucide-trash-2"
-          xs
-          ruby
-          faded
-          @click="$emit('delete', automation)"
-        />
-      </div>
-    </td>
-  </tr>
+  <BaseTableRow :item="automation">
+    <template #default>
+      <BaseTableCell class="max-w-0 w-full">
+        <div class="flex items-center gap-2 min-w-0">
+          <span class="text-body-main text-n-slate-12 truncate">
+            {{ automation.name }}
+          </span>
+          <div class="w-px h-3 rounded-lg bg-n-weak flex-shrink-0" />
+          <span class="text-body-main text-n-slate-11 truncate">
+            {{ automation.description }}
+          </span>
+        </div>
+      </BaseTableCell>
+
+      <BaseTableCell>
+        <ToggleSwitch v-model="automationActive" />
+      </BaseTableCell>
+
+      <BaseTableCell :title="readableDateWithTime(automation.created_on)">
+        <span class="text-body-main text-n-slate-12 whitespace-nowrap">
+          {{ readableDate(automation.created_on) }}
+        </span>
+      </BaseTableCell>
+
+      <BaseTableCell align="end">
+        <div class="flex gap-3 justify-end flex-shrink-0">
+          <Button
+            v-tooltip.top="$t('AUTOMATION.FORM.EDIT')"
+            icon="i-woot-edit-pen"
+            slate
+            sm
+            :is-loading="loading"
+            @click="$emit('edit', automation)"
+          />
+          <Button
+            v-tooltip.top="$t('AUTOMATION.FORM.DELETE')"
+            :is-loading="loading"
+            icon="i-woot-bin"
+            slate
+            sm
+            @click="$emit('delete', automation)"
+          />
+          <Button
+            v-tooltip.top="$t('AUTOMATION.CLONE.TOOLTIP')"
+            icon="i-woot-clone"
+            sm
+            slate
+            :is-loading="loading"
+            @click="$emit('clone', automation)"
+          />
+        </div>
+      </BaseTableCell>
+    </template>
+  </BaseTableRow>
 </template>
