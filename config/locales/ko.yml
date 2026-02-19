@@ -17,241 +17,251 @@
 #To learn more, please read the Rails Internationalization guide
 #available at https://guides.rubyonrails.org/i18n.html.
 ko:
-  hello: 'Hello world'
+  hello: '안녕하세요'
   inbox:
     reauthorization:
-      success: 'Channel reauthorized successfully'
-      not_required: 'Reauthorization is not required for this inbox'
-      invalid_channel: 'Invalid channel type for reauthorization'
+      success: '채널이 성공적으로 재인증되었습니다'
+      not_required: '이 받은 메시지함은 재인증이 필요하지 않습니다'
+      invalid_channel: '재인증에 유효하지 않은 채널 유형입니다'
   auth:
     saml:
-      invalid_email: '올바른 전자 메일 주소를 입력하십시오.'
-      authentication_failed: 'Authentication failed. Please check your credentials and try again.'
+      invalid_email: '올바른 이메일 주소를 입력하십시오.'
+      authentication_failed: '인증에 실패했습니다. 자격 증명을 확인하고 다시 시도하십시오.'
   messages:
-    reset_password_success: Woot! Request for password reset is successful. Check your mail for instructions.
-    reset_password_failure: Uh ho! We could not find any user with the specified email.
-    reset_password_saml_user: This account uses SAML authentication. Password reset is not available. Please contact your administrator.
-    login_saml_user: This account uses SAML authentication. Please sign in through your organization's SAML provider.
-    saml_not_available: SAML authentication is not available in this installation.
-    inbox_deletetion_response: Your inbox deletion request will be processed in some time.
+    reset_password: 비밀번호 재설정 요청이 성공적으로 처리되었습니다. 해당 이메일이 존재하는 경우 안내 이메일이 발송됩니다.
+    reset_password_saml_user: 이 계정은 SAML 인증을 사용합니다. 비밀번호 재설정을 사용할 수 없습니다. 관리자에게 문의하십시오.
+    login_saml_user: 이 계정은 SAML 인증을 사용합니다. 조직의 SAML 제공자를 통해 로그인하십시오.
+    saml_not_available: 이 설치에서는 SAML 인증을 사용할 수 없습니다.
+    inbox_deletetion_response: 받은 메시지함 삭제 요청이 곧 처리될 예정입니다.
   errors:
     validations:
-      presence: must not be blank
+      presence: 비어 있을 수 없습니다
     webhook:
-      invalid: Invalid events
+      invalid: 유효하지 않은 이벤트
     signup:
-      disposable_email: We do not allow disposable emails
-      blocked_domain: This domain is not allowed. If you believe this is a mistake, please contact support.
-      invalid_email: You have entered an invalid email
-      email_already_exists: 'You have already signed up for an account with %{email}'
-      invalid_params: 'Invalid, please check the signup paramters and try again'
-      failed: Signup failed
+      disposable_email: 일회용 이메일은 허용되지 않습니다
+      blocked_domain: 이 도메인은 허용되지 않습니다. 오류라고 생각되시면 지원팀에 문의하십시오.
+      invalid_email: 유효하지 않은 이메일을 입력하셨습니다
+      email_already_exists: '이미 %{email}로 계정이 등록되어 있습니다'
+      invalid_params: '유효하지 않습니다. 가입 정보를 확인하고 다시 시도하십시오'
+      failed: 가입에 실패했습니다
     assignment_policy:
-      not_found: Assignment policy not found
+      not_found: 배정 정책을 찾을 수 없습니다
     attachments:
-      invalid: Invalid attachment
+      invalid: 유효하지 않은 첨부 파일
     saml:
-      feature_not_enabled: SAML feature not enabled for this account
-      sso_not_enabled: SAML SSO is not enabled for this installation
+      feature_not_enabled: 이 계정에서는 SAML 기능이 활성화되지 않았습니다
+      sso_not_enabled: 이 설치에서는 SAML SSO가 활성화되지 않았습니다
     data_import:
       data_type:
-        invalid: Invalid data type
+        invalid: 유효하지 않은 데이터 유형
     contacts:
       import:
-        failed: File is blank
+        failed: 파일이 비어 있습니다
       export:
-        success: We will notify you once contacts export file is ready to view.
+        success: 연락처 내보내기 파일이 준비되면 알려드리겠습니다.
       email:
-        invalid: Invalid email
+        invalid: 유효하지 않은 이메일
       phone_number:
-        invalid: should be in e164 format
+        invalid: e164 형식이어야 합니다
     companies:
       domain:
-        invalid: must be a valid domain name
+        invalid: 유효한 도메인 이름이어야 합니다
       search:
-        query_missing: Specify search string with parameter q
+        query_missing: 매개변수 q로 검색 문자열을 지정하십시오
     messages:
       search:
-        time_range_limit_exceeded: 'Search is limited to the last %{days} days'
+        time_range_limit_exceeded: '검색은 최근 %{days}일로 제한됩니다'
     categories:
       locale:
-        unique: should be unique in the category and portal
+        unique: 카테고리와 포털에서 고유해야 합니다
     dyte:
-      invalid_message_type: 'Invalid message type. Action not permitted'
+      invalid_message_type: '유효하지 않은 메시지 유형입니다. 작업이 허용되지 않습니다'
     slack:
-      invalid_channel_id: 'Invalid slack channel. Please try again'
+      invalid_channel_id: '유효하지 않은 Slack 채널입니다. 다시 시도하십시오'
     whatsapp:
-      token_exchange_failed: 'Failed to exchange code for access token. Please try again.'
-      invalid_token_permissions: 'The access token does not have the required permissions for WhatsApp.'
-      phone_info_fetch_failed: 'Failed to fetch phone number information. Please try again.'
-      phone_number_already_exists: 'Channel already exists for this phone number: %{phone_number}, please contact support if the error persists'
+      token_exchange_failed: '액세스 토큰 교환에 실패했습니다. 다시 시도하십시오.'
+      invalid_token_permissions: '액세스 토큰에 WhatsApp에 필요한 권한이 없습니다.'
+      phone_info_fetch_failed: '전화번호 정보를 가져오지 못했습니다. 다시 시도하십시오.'
+      phone_number_already_exists: '이 전화번호(%{phone_number})에 대한 채널이 이미 존재합니다. 오류가 계속되면 지원팀에 문의하십시오'
       reauthorization:
-        generic: 'Failed to reauthorize WhatsApp. Please try again.'
-        not_supported: 'Reauthorization is not supported for this type of WhatsApp channel.'
+        generic: 'WhatsApp 재인증에 실패했습니다. 다시 시도하십시오.'
+        not_supported: '이 유형의 WhatsApp 채널은 재인증을 지원하지 않습니다.'
     inboxes:
       imap:
-        socket_error: Please check the network connection, IMAP address and try again.
-        no_response_error: Please check the IMAP credentials and try again.
-        host_unreachable_error: Host unreachable, Please check the IMAP address, IMAP port and try again.
-        connection_timed_out_error: Connection timed out for %{address}:%{port}
-        connection_closed_error: Connection closed.
+        socket_error: 네트워크 연결, IMAP 주소를 확인하고 다시 시도하십시오.
+        no_response_error: IMAP 자격 증명을 확인하고 다시 시도하십시오.
+        host_unreachable_error: 호스트에 연결할 수 없습니다. IMAP 주소, IMAP 포트를 확인하고 다시 시도하십시오.
+        connection_timed_out_error: '%{address}:%{port} 연결 시간이 초과되었습니다'
+        connection_closed_error: 연결이 종료되었습니다.
       validations:
-        name: should not start or end with symbols, and it should not have < > / \ @ characters.
+        name: 기호로 시작하거나 끝나서는 안 되며, < > / \ @ 문자를 포함할 수 없습니다.
     custom_filters:
-      number_of_records: Limit reached. The maximum number of allowed custom filters for a user per account is 1000.
-      invalid_attribute: Invalid attribute key - [%{key}]. The key should be one of [%{allowed_keys}] or a custom attribute defined in the account.
-      invalid_operator: Invalid operator. The allowed operators for %{attribute_name} are [%{allowed_keys}].
-      invalid_query_operator: Query operator must be either "AND" or "OR".
-      invalid_value: Invalid value. The values provided for %{attribute_name} are invalid
+      number_of_records: 한도에 도달했습니다. 사용자당 계정별 허용되는 최대 사용자 정의 필터 수는 1000개입니다.
+      invalid_attribute: 유효하지 않은 속성 키 - [%{key}]. 키는 [%{allowed_keys}] 중 하나이거나 계정에 정의된 사용자 정의 속성이어야 합니다.
+      invalid_operator: 유효하지 않은 연산자입니다. %{attribute_name}에 허용되는 연산자는 [%{allowed_keys}]입니다.
+      invalid_query_operator: 쿼리 연산자는 "AND" 또는 "OR"이어야 합니다.
+      invalid_value: 유효하지 않은 값입니다. %{attribute_name}에 제공된 값이 유효하지 않습니다
     custom_attribute_definition:
-      key_conflict: The provided key is not allowed as it might conflict with default attributes.
+      key_conflict: 제공된 키는 기본 속성과 충돌할 수 있으므로 허용되지 않습니다.
     mfa:
-      already_enabled: MFA is already enabled
-      not_enabled: MFA is not enabled
-      invalid_code: Invalid verification code
-      invalid_backup_code: Invalid backup code
-      invalid_token: Invalid or expired MFA token
-      invalid_credentials: Invalid credentials or verification code
-      feature_unavailable: MFA feature is not available. Please configure encryption keys.
+      already_enabled: MFA가 이미 활성화되어 있습니다
+      not_enabled: MFA가 활성화되지 않았습니다
+      invalid_code: 유효하지 않은 인증 코드
+      invalid_backup_code: 유효하지 않은 백업 코드
+      invalid_token: 유효하지 않거나 만료된 MFA 토큰
+      invalid_credentials: 유효하지 않은 자격 증명 또는 인증 코드
+      feature_unavailable: MFA 기능을 사용할 수 없습니다. 암호화 키를 구성하십시오.
     topup:
-      credits_required: Credits amount is required
-      invalid_credits: Invalid credits amount
-      invalid_option: Invalid topup option
-      plan_not_eligible: Top-ups are only available for paid plans. Please upgrade your plan first.
-      stripe_customer_not_configured: Stripe customer not configured
-      no_payment_method: No payment methods found. Please add a payment method before making a purchase.
+      credits_required: 크레딧 금액이 필요합니다
+      invalid_credits: 유효하지 않은 크레딧 금액
+      invalid_option: 유효하지 않은 충전 옵션
+      plan_not_eligible: 충전은 유료 플랜에서만 사용할 수 있습니다. 먼저 플랜을 업그레이드하십시오.
+      stripe_customer_not_configured: Stripe 고객이 구성되지 않았습니다
+      no_payment_method: 결제 수단을 찾을 수 없습니다. 구매하기 전에 결제 수단을 추가하십시오.
+    reports:
+      date_range_too_long: 날짜 범위는 6개월을 초과할 수 없습니다
   profile:
     mfa:
-      enabled: MFA enabled successfully
-      disabled: MFA disabled successfully
+      enabled: MFA가 성공적으로 활성화되었습니다
+      disabled: MFA가 성공적으로 비활성화되었습니다
     account_saml_settings:
-      invalid_certificate: must be a valid X.509 certificate in PEM format
+      invalid_certificate: 유효한 PEM 형식의 X.509 인증서여야 합니다
   reports:
-    period: 보고 기간 %{since} - %{until}
-    utc_warning: The report generated is in UTC timezone
+    period: '보고 기간 %{since} - %{until}'
+    utc_warning: 생성된 보고서는 UTC 시간대 기준입니다
     agent_csv:
-      agent_name: Agent name
-      conversations_count: Assigned conversations
-      avg_first_response_time: Avg first response time
-      avg_resolution_time: Avg resolution time
+      agent_name: 에이전트 이름
+      conversations_count: 배정된 대화
+      avg_first_response_time: 평균 첫 응답 시간
+      avg_resolution_time: 평균 해결 시간
       resolution_count: 해결 수
-      avg_customer_waiting_time: Avg customer waiting time
+      avg_customer_waiting_time: 평균 고객 대기 시간
     inbox_csv:
-      inbox_name: Inbox name
-      inbox_type: Inbox type
-      conversations_count: No. of conversations
-      avg_first_response_time: Avg first response time
-      avg_resolution_time: Avg resolution time
+      inbox_name: 받은 메시지함 이름
+      inbox_type: 받은 메시지함 유형
+      conversations_count: 대화 수
+      avg_first_response_time: 평균 첫 응답 시간
+      avg_resolution_time: 평균 해결 시간
     label_csv:
-      label_title: Label
-      conversations_count: No. of conversations
-      avg_first_response_time: Avg first response time
-      avg_resolution_time: Avg resolution time
-      avg_reply_time: Avg reply time
+      label_title: 라벨
+      conversations_count: 대화 수
+      avg_first_response_time: 평균 첫 응답 시간
+      avg_resolution_time: 평균 해결 시간
+      avg_reply_time: 평균 답변 시간
       resolution_count: 해결 수
     team_csv:
-      team_name: Team name
-      conversations_count: Conversations count
-      avg_first_response_time: Avg first response time
-      avg_resolution_time: Avg resolution time
+      team_name: 팀 이름
+      conversations_count: 대화 수
+      avg_first_response_time: 평균 첫 응답 시간
+      avg_resolution_time: 평균 해결 시간
       resolution_count: 해결 수
-      avg_customer_waiting_time: Avg customer waiting time
+      avg_customer_waiting_time: 평균 고객 대기 시간
+    conversation_csv:
+      conversations_count: 대화 수
+      incoming_messages_count: 수신 메시지
+      outgoing_messages_count: 발신 메시지
+      avg_first_response_time: 평균 첫 응답 시간
+      avg_resolution_time: 평균 해결 시간
+      resolution_count: 해결 수
+      avg_customer_waiting_time: 평균 고객 대기 시간
     conversation_traffic_csv:
-      timezone: Timezone
+      timezone: 시간대
     sla_csv:
-      conversation_id: Conversation ID
-      sla_policy_breached: SLA Policy
-      assignee: Assignee
-      team: Team
+      conversation_id: 대화 ID
+      sla_policy_breached: SLA 정책
+      assignee: 담당자
+      team: 팀
       inbox: 받은 메시지함
       labels: 라벨
-      conversation_link: Link to the Conversation
-      breached_events: Breached Events
+      conversation_link: 대화 링크
+      breached_events: 위반된 이벤트
     default_group_by: day
     csat:
       headers:
-        contact_name: Contact Name
-        contact_email_address: Contact Email Address
-        contact_phone_number: Contact Phone Number
-        link_to_the_conversation: Link to the conversation
+        contact_name: 연락처 이름
+        contact_email_address: 연락처 이메일 주소
+        contact_phone_number: 연락처 전화번호
+        link_to_the_conversation: 대화 링크
         agent_name: 에이전트 이름
-        rating: Rating
-        feedback: Feedback Comment
-        recorded_at: Recorded date
+        rating: 평점
+        feedback: 피드백 의견
+        recorded_at: 기록 날짜
+        review_notes: 리뷰 메모
   notifications:
     notification_title:
-      conversation_creation: 'A conversation (#%{display_id}) has been created in %{inbox_name}'
-      conversation_assignment: 'A conversation (#%{display_id}) has been assigned to you'
-      assigned_conversation_new_message: 'A new message is created in conversation (#%{display_id})'
-      conversation_mention: 'You have been mentioned in conversation (#%{display_id})'
-      sla_missed_first_response: 'SLA target first response missed for conversation (#%{display_id})'
-      sla_missed_next_response: 'SLA target next response missed for conversation (#%{display_id})'
-      sla_missed_resolution: 'SLA target resolution missed for conversation (#%{display_id})'
-    attachment: 'Attachment'
-    no_content: 'No content'
+      conversation_creation: '%{inbox_name}에 대화(#%{display_id})가 생성되었습니다'
+      conversation_assignment: '대화(#%{display_id})가 회원님에게 배정되었습니다'
+      assigned_conversation_new_message: '대화(#%{display_id})에 새 메시지가 생성되었습니다'
+      conversation_mention: '대화(#%{display_id})에서 회원님이 언급되었습니다'
+      sla_missed_first_response: '대화(#%{display_id})의 SLA 목표 첫 응답 시간이 초과되었습니다'
+      sla_missed_next_response: '대화(#%{display_id})의 SLA 목표 다음 응답 시간이 초과되었습니다'
+      sla_missed_resolution: '대화(#%{display_id})의 SLA 목표 해결 시간이 초과되었습니다'
+    attachment: '첨부 파일'
+    no_content: '내용 없음'
   conversations:
     captain:
-      handoff: 'Transferring to another agent for further assistance.'
+      handoff: '추가 지원을 위해 다른 에이전트로 전환합니다.'
     messages:
-      instagram_story_content: '%{story_sender} mentioned you in the story: '
-      instagram_deleted_story_content: This story is no longer available.
-      instagram_shared_story_content: 'Shared story'
-      instagram_shared_post_content: 'Shared post'
-      deleted: This message was deleted
+      instagram_story_content: '%{story_sender}님이 스토리에서 회원님을 언급했습니다: '
+      instagram_deleted_story_content: 이 스토리는 더 이상 사용할 수 없습니다.
+      instagram_shared_story_content: '공유된 스토리'
+      instagram_shared_post_content: '공유된 게시물'
+      deleted: 이 메시지는 삭제되었습니다
       whatsapp:
-        list_button_label: 'Choose an item'
+        list_button_label: '항목 선택'
       delivery_status:
-        error_code: 'Error code: %{error_code}'
+        error_code: '오류 코드: %{error_code}'
     activity:
       captain:
-        resolved: 'Conversation was marked resolved by %{user_name} due to inactivity'
-        open: 'Conversation was marked open by %{user_name}'
+        resolved: '%{user_name}님이 비활성으로 인해 대화를 해결됨으로 표시했습니다'
+        open: '%{user_name}님이 대화를 열림으로 표시했습니다'
       agent_bot:
-        error_moved_to_open: 'Conversation was marked open by system due to an error with the agent bot.'
+        error_moved_to_open: '에이전트 봇 오류로 인해 시스템이 대화를 열림으로 표시했습니다.'
       status:
-        resolved: 'Conversation was marked resolved by %{user_name}'
-        contact_resolved: 'Conversation was resolved by %{contact_name}'
-        open: 'Conversation was reopened by %{user_name}'
-        pending: 'Conversation was marked as pending by %{user_name}'
-        snoozed: 'Conversation was snoozed by %{user_name}'
-        auto_resolved_days: 'Conversation was marked resolved by system due to %{count} days of inactivity'
-        auto_resolved_hours: 'Conversation was marked resolved by system due to %{count} hours of inactivity'
-        auto_resolved_minutes: 'Conversation was marked resolved by system due to %{count} minutes of inactivity'
-        system_auto_open: System reopened the conversation due to a new incoming message.
+        resolved: '%{user_name}님이 대화를 해결됨으로 표시했습니다'
+        contact_resolved: '%{contact_name}님이 대화를 해결했습니다'
+        open: '%{user_name}님이 대화를 다시 열었습니다'
+        pending: '%{user_name}님이 대화를 보류 중으로 표시했습니다'
+        snoozed: '%{user_name}님이 대화를 일시 중단했습니다'
+        auto_resolved_days: '%{count}일간 비활성으로 인해 시스템이 대화를 해결됨으로 표시했습니다'
+        auto_resolved_hours: '%{count}시간 비활성으로 인해 시스템이 대화를 해결됨으로 표시했습니다'
+        auto_resolved_minutes: '%{count}분간 비활성으로 인해 시스템이 대화를 해결됨으로 표시했습니다'
+        system_auto_open: 새 수신 메시지로 인해 시스템이 대화를 다시 열었습니다.
       priority:
-        added: '%{user_name} set the priority to %{new_priority}'
-        updated: '%{user_name} changed the priority from %{old_priority} to %{new_priority}'
-        removed: '%{user_name} removed the priority'
+        added: '%{user_name}님이 우선순위를 %{new_priority}(으)로 설정했습니다'
+        updated: '%{user_name}님이 우선순위를 %{old_priority}에서 %{new_priority}(으)로 변경했습니다'
+        removed: '%{user_name}님이 우선순위를 제거했습니다'
       assignee:
-        self_assigned: '%{user_name} self-assigned this conversation'
-        assigned: 'Assigned to %{assignee_name} by %{user_name}'
-        removed: 'Conversation unassigned by %{user_name}'
+        self_assigned: '%{user_name}님이 이 대화를 자기 자신에게 배정했습니다'
+        assigned: '%{user_name}님이 %{assignee_name}에게 배정했습니다'
+        removed: '%{user_name}님이 대화 배정을 해제했습니다'
       team:
-        assigned: 'Assigned to %{team_name} by %{user_name}'
-        assigned_with_assignee: 'Assigned to %{assignee_name} via %{team_name} by %{user_name}'
-        removed: 'Unassigned from %{team_name} by %{user_name}'
+        assigned: '%{user_name}님이 %{team_name}에 배정했습니다'
+        assigned_with_assignee: '%{user_name}님이 %{team_name}을(를) 통해 %{assignee_name}에게 배정했습니다'
+        removed: '%{user_name}님이 %{team_name}에서 배정을 해제했습니다'
       labels:
-        added: '%{user_name} added %{labels}'
-        removed: '%{user_name} removed %{labels}'
+        added: '%{user_name}님이 %{labels}을(를) 추가했습니다'
+        removed: '%{user_name}님이 %{labels}을(를) 제거했습니다'
       sla:
-        added: '%{user_name} added SLA policy %{sla_name}'
-        removed: '%{user_name} removed SLA policy %{sla_name}'
+        added: '%{user_name}님이 SLA 정책 %{sla_name}을(를) 추가했습니다'
+        removed: '%{user_name}님이 SLA 정책 %{sla_name}을(를) 제거했습니다'
       linear:
-        issue_created: 'Linear issue %{issue_id} was created by %{user_name}'
-        issue_linked: 'Linear issue %{issue_id} was linked by %{user_name}'
-        issue_unlinked: 'Linear issue %{issue_id} was unlinked by %{user_name}'
+        issue_created: '%{user_name}님이 Linear 이슈 %{issue_id}을(를) 생성했습니다'
+        issue_linked: '%{user_name}님이 Linear 이슈 %{issue_id}을(를) 연결했습니다'
+        issue_unlinked: '%{user_name}님이 Linear 이슈 %{issue_id}의 연결을 해제했습니다'
       csat:
-        not_sent_due_to_messaging_window: 'CSAT survey not sent due to outgoing message restrictions'
+        not_sent_due_to_messaging_window: '발신 메시지 제한으로 인해 CSAT 설문이 전송되지 않았습니다'
       auto_resolve:
-        not_sent_due_to_messaging_window: 'Auto-resolve message not sent due to outgoing message restrictions'
-      muted: '%{user_name} has muted the conversation'
-      unmuted: '%{user_name} has unmuted the conversation'
-      auto_resolution_message: 'Resolving the conversation as it has been inactive for a while. Please start a new conversation if you need further assistance.'
+        not_sent_due_to_messaging_window: '발신 메시지 제한으로 인해 자동 해결 메시지가 전송되지 않았습니다'
+      muted: '%{user_name}님이 대화를 음소거했습니다'
+      unmuted: '%{user_name}님이 대화 음소거를 해제했습니다'
+      auto_resolution_message: '한동안 활동이 없어 대화를 종료합니다. 추가 도움이 필요하시면 새 대화를 시작해 주십시오.'
     templates:
-      greeting_message_body: '%{account_name} typically replies in a few hours.'
+      greeting_message_body: '%{account_name}은(는) 보통 몇 시간 내에 답변합니다.'
       ways_to_reach_you_message_body: '저희가 연락드릴 방법을 알려주세요.'
       email_input_box_message_body: '이메일로 연락받기'
-      csat_input_message_body: 'Please rate the conversation'
+      csat_input_message_body: '대화를 평가해 주십시오'
     reply:
       email:
         header:
@@ -264,96 +274,99 @@ ko:
         header:
           reply_with_name: '%{assignee_name} from %{inbox_name} <%{from_email}>'
           reply_with_inbox_name: '%{inbox_name} <%{from_email}>'
-      email_subject: 'New messages on this conversation'
-      transcript_subject: 'Conversation Transcript'
+      email_subject: '이 대화에 새 메시지가 있습니다'
+      transcript_subject: '대화 기록'
     survey:
-      response: 'Please rate this conversation, %{link}'
+      response: '이 대화를 평가해 주십시오, %{link}'
   contacts:
     online:
-      delete: '%{contact_name} is Online, please try again later'
+      delete: '%{contact_name}님이 온라인 상태입니다. 나중에 다시 시도하십시오'
   integration_apps:
     #Note: webhooks and dashboard_apps don't need short_description as they use different modal components
     dashboard_apps:
-      name: 'Dashboard Apps'
-      description: 'Dashboard Apps allow you to create and embed applications that display user information, orders, or payment history, providing more context to your customer support agents.'
+      name: '대시보드 앱'
+      description: '대시보드 앱을 사용하면 사용자 정보, 주문 또는 결제 내역을 표시하는 애플리케이션을 만들고 포함하여 고객 지원 에이전트에게 더 많은 컨텍스트를 제공할 수 있습니다.'
     dyte:
       name: 'Dyte'
-      short_description: 'Start video/voice calls with customers directly from Chatwoot.'
-      description: 'Dyte is a product that integrates audio and video functionalities into your application. With this integration, your agents can start video/voice calls with your customers directly from Chatwoot.'
-      meeting_name: '%{agent_name} has started a meeting'
+      short_description: 'Chatwoot에서 직접 고객과 영상/음성 통화를 시작합니다.'
+      description: 'Dyte는 애플리케이션에 오디오 및 비디오 기능을 통합하는 제품입니다. 이 통합을 사용하면 에이전트가 Chatwoot에서 직접 고객과 영상/음성 통화를 시작할 수 있습니다.'
+      meeting_name: '%{agent_name}님이 회의를 시작했습니다'
     slack:
       name: 'Slack'
-      short_description: 'Receive notifications and respond to conversations directly in Slack.'
-      description: "Integrate Chatwoot with Slack to keep your team in sync. This integration allows you to receive notifications for new conversations and respond to them directly within Slack's interface."
+      short_description: 'Slack에서 직접 알림을 받고 대화에 응답합니다.'
+      description: "Chatwoot을 Slack과 통합하여 팀의 동기화를 유지합니다. 이 통합을 통해 새 대화에 대한 알림을 받고 Slack 인터페이스에서 직접 응답할 수 있습니다."
     webhooks:
       name: 'Webhooks'
-      description: 'Webhook events provide real-time updates about activities in your Chatwoot account. You can subscribe to your preferred events, and Chatwoot will send you HTTP callbacks with the updates.'
+      description: 'Webhook 이벤트는 Chatwoot 계정의 활동에 대한 실시간 업데이트를 제공합니다. 원하는 이벤트를 구독하면 Chatwoot이 업데이트와 함께 HTTP 콜백을 전송합니다.'
     dialogflow:
       name: 'Dialogflow'
-      short_description: 'Build chatbots to handle initial queries before transferring to agents.'
-      description: 'Build chatbots with Dialogflow and easily integrate them into your inbox. These bots can handle initial queries before transferring them to a customer service agent.'
+      short_description: '에이전트에게 전달하기 전에 초기 문의를 처리할 챗봇을 구축합니다.'
+      description: 'Dialogflow로 챗봇을 구축하고 받은 메시지함에 쉽게 통합할 수 있습니다. 이 봇은 초기 문의를 처리한 후 고객 서비스 에이전트에게 전달합니다.'
     google_translate:
       name: 'Google Translate'
-      short_description: 'Automatically translate customer messages for agents.'
-      description: "Integrate Google Translate to help agents easily translate customer messages. This integration automatically detects the language and converts it to the agent's or admin's preferred language."
+      short_description: '에이전트를 위해 고객 메시지를 자동으로 번역합니다.'
+      description: "Google Translate를 통합하여 에이전트가 고객 메시지를 쉽게 번역할 수 있도록 합니다. 이 통합은 언어를 자동으로 감지하여 에이전트 또는 관리자가 선호하는 언어로 변환합니다."
     openai:
       name: 'OpenAI'
-      short_description: 'AI-powered reply suggestions, summarization, and message enhancement.'
-      description: 'Leverage the power of large language models from OpenAI with the features such as reply suggestions, summarization, message rephrasing, spell-checking, and label classification.'
+      short_description: 'AI 기반 답변 제안, 요약 및 메시지 개선.'
+      description: '답변 제안, 요약, 메시지 재구성, 맞춤법 검사 및 라벨 분류 등의 기능으로 OpenAI의 대규모 언어 모델의 성능을 활용합니다.'
     linear:
       name: 'Linear'
-      short_description: 'Create and link Linear issues directly from conversations.'
-      description: 'Create issues in Linear directly from your conversation window. Alternatively, link existing Linear issues for a more streamlined and efficient issue tracking process.'
+      short_description: '대화에서 직접 Linear 이슈를 생성하고 연결합니다.'
+      description: '대화 창에서 직접 Linear에 이슈를 생성합니다. 또는 기존 Linear 이슈를 연결하여 더 효율적인 이슈 추적 프로세스를 구현할 수 있습니다.'
     notion:
       name: 'Notion'
-      short_description: 'Integrate databases, documents and pages directly with Captain.'
-      description: 'Connect your Notion workspace to enable Captain to access and generate intelligent responses using content from your databases, documents, and pages to provide more contextual customer support.'
+      short_description: '데이터베이스, 문서 및 페이지를 Captain과 직접 통합합니다.'
+      description: 'Notion 워크스페이스를 연결하여 Captain이 데이터베이스, 문서 및 페이지의 콘텐츠를 사용하여 지능적인 응답을 생성하고 더 맥락에 맞는 고객 지원을 제공할 수 있도록 합니다.'
     shopify:
       name: 'Shopify'
-      short_description: 'Access order details and customer data from your Shopify store.'
-      description: 'Connect your Shopify store to access order details, customer information, and product data directly within your conversations and helps your support team provide faster, more contextual assistance to your customers.'
+      short_description: 'Shopify 스토어에서 주문 정보와 고객 데이터에 접근합니다.'
+      description: 'Shopify 스토어를 연결하여 대화 내에서 직접 주문 세부 정보, 고객 정보 및 제품 데이터에 접근하고 지원 팀이 더 빠르고 맥락에 맞는 지원을 제공할 수 있도록 합니다.'
     leadsquared:
       name: 'LeadSquared'
-      short_description: 'Sync your contacts and conversations with LeadSquared CRM.'
-      description: 'Sync your contacts and conversations with LeadSquared CRM. This integration automatically creates leads in LeadSquared when new contacts are added, and logs conversation activity to provide your sales team with complete context.'
+      short_description: '연락처와 대화를 LeadSquared CRM과 동기화합니다.'
+      description: '연락처와 대화를 LeadSquared CRM과 동기화합니다. 이 통합은 새 연락처가 추가되면 자동으로 LeadSquared에 리드를 생성하고, 영업 팀에 완전한 컨텍스트를 제공하기 위해 대화 활동을 기록합니다.'
   captain:
-    copilot_message_required: Message is required
-    copilot_error: 'Please connect an assistant to this inbox to use Copilot'
-    copilot_limit: 'You are out of Copilot credits. You can buy more credits from the billing section.'
+    copilot_message_required: 메시지가 필요합니다
+    copilot_error: '이 받은 메시지함에 어시스턴트를 연결하여 Copilot을 사용하십시오'
+    copilot_limit: 'Copilot 크레딧이 부족합니다. 청구 섹션에서 추가 크레딧을 구매할 수 있습니다.'
+    upgrade: 'Captain AI를 활성화하려면 플랜을 업그레이드하십시오'
+    disabled: '이 계정에서 Captain AI가 비활성화되어 있습니다.'
+    api_key_missing: 'Captain AI API 키가 구성되지 않았습니다.'
     copilot:
-      using_tool: 'Using tool %{function_name}'
-      completed_tool_call: 'Completed %{function_name} tool call'
-      invalid_tool_call: 'Invalid tool call'
-      tool_not_available: 'Tool not available'
+      using_tool: '도구 %{function_name} 사용 중'
+      completed_tool_call: '%{function_name} 도구 호출 완료'
+      invalid_tool_call: '유효하지 않은 도구 호출'
+      tool_not_available: '도구를 사용할 수 없습니다'
     documents:
-      limit_exceeded: 'Document limit exceeded'
-      pdf_format_error: 'must be a PDF file'
-      pdf_size_error: 'must be less than 10MB'
-      pdf_upload_failed: 'Failed to upload PDF to OpenAI'
-      pdf_upload_success: 'PDF uploaded successfully with file_id: %{file_id}'
-      pdf_processing_failed: 'Failed to process PDF document %{document_id}: %{error}'
-      pdf_processing_success: 'Successfully processed PDF document %{document_id}'
-      faq_generation_complete: 'FAQ generation complete. Total FAQs created: %{count}'
-      using_paginated_faq: 'Using paginated FAQ generation for document %{document_id}'
-      using_standard_faq: 'Using standard FAQ generation for document %{document_id}'
-      response_creation_error: 'Error in creating response document: %{error}'
-      missing_openai_file_id: 'Document must have openai_file_id for paginated processing'
-      openai_api_error: 'OpenAI API Error: %{error}'
-      starting_paginated_faq: 'Starting paginated FAQ generation (%{pages_per_chunk} pages per chunk)'
-      stopping_faq_generation: 'Stopping processing. Reason: %{reason}'
-      paginated_faq_complete: 'Paginated generation complete. Total FAQs: %{total_faqs}, Pages processed: %{pages_processed}'
-      processing_pages: 'Processing pages %{start}-%{end} (iteration %{iteration})'
-      chunk_generated: 'Chunk generated %{chunk_faqs} FAQs. Total so far: %{total_faqs}'
-      page_processing_error: 'Error processing pages %{start}-%{end}: %{error}'
+      limit_exceeded: '문서 한도 초과'
+      pdf_format_error: 'PDF 파일이어야 합니다'
+      pdf_size_error: '10MB 미만이어야 합니다'
+      pdf_upload_failed: 'OpenAI에 PDF 업로드 실패'
+      pdf_upload_success: 'file_id: %{file_id}로 PDF가 성공적으로 업로드되었습니다'
+      pdf_processing_failed: 'PDF 문서 %{document_id} 처리 실패: %{error}'
+      pdf_processing_success: 'PDF 문서 %{document_id}이(가) 성공적으로 처리되었습니다'
+      faq_generation_complete: 'FAQ 생성 완료. 생성된 총 FAQ 수: %{count}'
+      using_paginated_faq: '문서 %{document_id}에 대해 페이지별 FAQ 생성 사용'
+      using_standard_faq: '문서 %{document_id}에 대해 표준 FAQ 생성 사용'
+      response_creation_error: '응답 문서 생성 오류: %{error}'
+      missing_openai_file_id: '페이지별 처리를 위해 문서에 openai_file_id가 있어야 합니다'
+      openai_api_error: 'OpenAI API 오류: %{error}'
+      starting_paginated_faq: '페이지별 FAQ 생성 시작 (청크당 %{pages_per_chunk}페이지)'
+      stopping_faq_generation: '처리 중지. 사유: %{reason}'
+      paginated_faq_complete: '페이지별 생성 완료. 총 FAQ: %{total_faqs}, 처리된 페이지: %{pages_processed}'
+      processing_pages: '페이지 %{start}-%{end} 처리 중 (반복 %{iteration})'
+      chunk_generated: '청크에서 %{chunk_faqs}개의 FAQ 생성. 현재까지 총: %{total_faqs}'
+      page_processing_error: '페이지 %{start}-%{end} 처리 오류: %{error}'
     custom_tool:
-      slug_generation_failed: 'Unable to generate unique slug after 5 attempts'
+      slug_generation_failed: '5회 시도 후에도 고유 슬러그를 생성할 수 없습니다'
   public_portal:
     search:
       search_placeholder: 게시물을 제목이나 내용으로 검색하세요...
       empty_placeholder: 검색 결과가 없습니다.
       loading_placeholder: 검색중...
       results_title: 검색 결과
-    toc_header: 'On this page'
+    toc_header: '이 페이지에서'
     hero:
       sub_title: 게시물을 여기서 검색하거나 아래에서 카테고리를 탐색해보세요.
     common:
@@ -364,15 +377,15 @@ ko:
       articles: 게시물
       author: 작성자
       authors: 작성자
-      other: other
-      others: others
-      by: By
+      other: 기타
+      others: 기타
+      by: 작성자
       no_articles: 게시물이 없습니다.
     footer:
-      made_with: Made with
+      made_with: 제작 도구
     header:
       go_to_homepage: 홈페이지
-      visit_website: Visit website
+      visit_website: 웹사이트 방문
       appearance:
         system: 시스템
         light: 밝게
@@ -387,50 +400,54 @@ ko:
     fields:
       name: 이름
       email: 이메일
-      phone_number: Phone
+      phone_number: 전화번호
       company_name: 회사
       inbox_name: 받은 메시지함
-      inbox_type: Inbox Type
-    button: Open conversation
+      inbox_type: 받은 메시지함 유형
+    button: 대화 열기
   time_units:
     days:
-      other: '%{count} days'
+      one: '%{count}일'
+      other: '%{count}일'
     hours:
-      other: '%{count} hours'
+      one: '%{count}시간'
+      other: '%{count}시간'
     minutes:
-      other: '%{count} minutes'
+      one: '%{count}분'
+      other: '%{count}분'
     seconds:
-      other: '%{count} seconds'
+      one: '%{count}초'
+      other: '%{count}초'
   automation:
-    system_name: 'Automation System'
+    system_name: '자동화 시스템'
   crm:
-    no_message: 'No messages in conversation'
-    attachment: '[Attachment: %{type}]'
-    no_content: '[No content]'
+    no_message: '대화에 메시지가 없습니다'
+    attachment: '[첨부 파일: %{type}]'
+    no_content: '[내용 없음]'
     created_activity: |
-      New conversation started on %{brand_name}
+      %{brand_name}에서 새 대화가 시작되었습니다
 
-      Channel: %{channel_info}
-      Created: %{formatted_creation_time}
-      Conversation ID: %{display_id}
-      View in %{brand_name}: %{url}
+      채널: %{channel_info}
+      생성일: %{formatted_creation_time}
+      대화 ID: %{display_id}
+      %{brand_name}에서 보기: %{url}
     transcript_activity: |
-      Conversation Transcript from %{brand_name}
+      %{brand_name}의 대화 기록
 
-      Channel: %{channel_info}
-      Conversation ID: %{display_id}
-      View in %{brand_name}: %{url}
+      채널: %{channel_info}
+      대화 ID: %{display_id}
+      %{brand_name}에서 보기: %{url}
 
-      Transcript:
+      기록:
       %{format_messages}
   agent_capacity_policy:
-    inbox_already_assigned: 'Inbox has already been assigned to this policy'
+    inbox_already_assigned: '받은 메시지함이 이미 이 정책에 배정되어 있습니다'
   portals:
     send_instructions:
       email_required: '이메일이 필요합니다'
-      invalid_email_format: 'Invalid email format'
-      custom_domain_not_configured: 'Custom domain is not configured'
-      instructions_sent_successfully: 'Instructions sent successfully'
-      subject: 'Finish setting up %{custom_domain}'
+      invalid_email_format: '유효하지 않은 이메일 형식'
+      custom_domain_not_configured: '사용자 정의 도메인이 구성되지 않았습니다'
+      instructions_sent_successfully: '안내가 성공적으로 전송되었습니다'
+      subject: '%{custom_domain} 설정 완료하기'
     ssl_status:
-      custom_domain_not_configured: 'Custom domain is not configured'
+      custom_domain_not_configured: '사용자 정의 도메인이 구성되지 않았습니다'

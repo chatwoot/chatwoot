@@ -3,17 +3,17 @@
     "HEADER": "라벨",
     "HEADER_BTN_TXT": "라벨 추가",
     "LOADING": "라벨을 가져오는 중",
-    "DESCRIPTION": "Labels help you categorize and prioritize conversations and leads. You can assign a label to a conversation or contact using the side panel.",
-    "LEARN_MORE": "Learn more about labels",
-    "SEARCH_404": "이 쿼리와 일치하는 항목이 없음",
+    "DESCRIPTION": "라벨은 대화와 리드를 분류하고 우선순위를 지정하는 데 도움이 됩니다. 사이드 패널을 사용하여 대화 또는 연락처에 라벨을 할당할 수 있습니다.",
+    "LEARN_MORE": "라벨에 대해 자세히 알아보기",
+    "SEARCH_404": "이 쿼리와 일치하는 항목이 없습니다",
     "LIST": {
-      "404": "이 계정에는 사용 가능한 라벨이 없다.",
+      "404": "이 계정에는 사용 가능한 라벨이 없습니다.",
       "TITLE": "라벨 관리",
-      "DESC": "라벨을 사용하여 대화를 그룹화할 수 있다.",
+      "DESC": "라벨을 사용하여 대화를 그룹화할 수 있습니다.",
       "TABLE_HEADER": {
         "NAME": "이름",
-        "DESCRIPTION": "내용",
-        "COLOR": "색깔"
+        "DESCRIPTION": "설명",
+        "COLOR": "색상"
       }
     },
     "FORM": {
@@ -25,11 +25,11 @@
         "VALID_ERROR": "영어나, 숫자, - 와 _ 만 사용 가능합니다"
       },
       "DESCRIPTION": {
-        "LABEL": "내용",
-        "PLACEHOLDER": "라벨 내용"
+        "LABEL": "설명",
+        "PLACEHOLDER": "라벨 설명"
       },
       "COLOR": {
-        "LABEL": "색깔"
+        "LABEL": "색상"
       },
       "SHOW_ON_SIDEBAR": {
         "LABEL": "사이드바에 라벨 표시"
@@ -41,37 +41,37 @@
     },
     "SUGGESTIONS": {
       "TOOLTIP": {
-        "SINGLE_SUGGESTION": "Add label to conversation",
-        "MULTIPLE_SUGGESTION": "Select this label",
-        "DESELECT": "Deselect label",
-        "DISMISS": "Dismiss suggestion"
+        "SINGLE_SUGGESTION": "대화에 라벨 추가",
+        "MULTIPLE_SUGGESTION": "이 라벨 선택",
+        "DESELECT": "라벨 선택 해제",
+        "DISMISS": "제안 닫기"
       },
       "POWERED_BY": "Chatwoot AI",
-      "DISMISS": "Dismiss",
-      "ADD_SELECTED_LABELS": "Add selected labels",
-      "ADD_SELECTED_LABEL": "Add selected label",
-      "ADD_ALL_LABELS": "Add all labels",
-      "SUGGESTED_LABELS": "Suggested labels"
+      "DISMISS": "닫기",
+      "ADD_SELECTED_LABELS": "선택한 라벨 추가",
+      "ADD_SELECTED_LABEL": "선택한 라벨 추가",
+      "ADD_ALL_LABELS": "모든 라벨 추가",
+      "SUGGESTED_LABELS": "제안된 라벨"
     },
     "ADD": {
       "TITLE": "라벨 추가",
-      "DESC": "라벨을 사용하여 대화를 그룹화할 수 있다.",
+      "DESC": "라벨을 사용하여 대화를 그룹화할 수 있습니다.",
       "API": {
-        "SUCCESS_MESSAGE": "라벨이 성공적으로 추가됨",
+        "SUCCESS_MESSAGE": "라벨이 성공적으로 추가되었습니다",
         "ERROR_MESSAGE": "오류가 발생했습니다. 다시 시도하십시오."
       }
     },
     "EDIT": {
       "TITLE": "라벨 수정",
       "API": {
-        "SUCCESS_MESSAGE": "라벨이 성공적으로 업데이트됨",
+        "SUCCESS_MESSAGE": "라벨이 성공적으로 업데이트되었습니다",
         "ERROR_MESSAGE": "오류가 발생했습니다. 다시 시도하십시오."
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "삭제",
       "API": {
-        "SUCCESS_MESSAGE": "라벨이 성공적으로 삭제됨.",
+        "SUCCESS_MESSAGE": "라벨이 성공적으로 삭제되었습니다",
         "ERROR_MESSAGE": "오류가 발생했습니다. 다시 시도하십시오."
       },
       "CONFIRM": {

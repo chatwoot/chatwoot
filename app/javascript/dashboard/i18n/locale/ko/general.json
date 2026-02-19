@@ -1,12 +1,19 @@
 {
   "GENERAL": {
-    "SHOWING_RESULTS": "Showing {firstIndex}-{lastIndex} of {totalCount} items",
+    "SHOWING_RESULTS": "{totalCount}개 항목 중 {firstIndex}-{lastIndex} 표시",
     "PHONE_INPUT": {
       "PLACEHOLDER": "검색",
       "EMPTY_STATE": "검색 결과가 없습니다"
     },
     "CLOSE": "닫기",
     "BETA": "Beta",
-    "BETA_DESCRIPTION": "This feature is in beta and may change as we improve it."
+    "BETA_DESCRIPTION": "이 기능은 베타 버전이며 개선하면서 변경될 수 있습니다.",
+    "ACCEPT": "수락",
+    "DISCARD": "취소",
+    "PREFERRED": "선호"
+  },
+  "CHOICE_TOGGLE": {
+    "YES": "예",
+    "NO": "아니오"
   }
 }

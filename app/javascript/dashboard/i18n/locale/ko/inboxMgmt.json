@@ -1,12 +1,12 @@
 {
   "INBOX_MGMT": {
     "HEADER": "받은 메시지함",
-    "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
-    "LEARN_MORE": "Learn more about inboxes",
-    "RECONNECTION_REQUIRED": "Your inbox is disconnected. You won't receive new messages until you reauthorize it.",
-    "CLICK_TO_RECONNECT": "Click here to reconnect.",
-    "WHATSAPP_REGISTRATION_INCOMPLETE": "Your WhatsApp Business registration isn’t complete. Please check your display name status in Meta Business Manager before reconnecting.",
-    "COMPLETE_REGISTRATION": "Complete Registration",
+    "DESCRIPTION": "채널은 고객이 귀하와 상호작용하기 위해 선택하는 커뮤니케이션 방식입니다. 받은 메시지함은 특정 채널에 대한 상호작용을 관리하는 곳입니다. 이메일, 라이브 채팅, 소셜 미디어 등 다양한 소스의 커뮤니케이션을 포함할 수 있습니다.",
+    "LEARN_MORE": "받은 메시지함에 대해 자세히 알아보기",
+    "RECONNECTION_REQUIRED": "받은 메시지함의 연결이 끊어졌습니다. 재인증하기 전까지 새 메시지를 받을 수 없습니다.",
+    "CLICK_TO_RECONNECT": "다시 연결하려면 여기를 클릭하십시오.",
+    "WHATSAPP_REGISTRATION_INCOMPLETE": "WhatsApp Business 등록이 완료되지 않았습니다. 다시 연결하기 전에 Meta Business Manager에서 표시 이름 상태를 확인하십시오.",
+    "COMPLETE_REGISTRATION": "등록 완료",
     "LIST": {
       "404": "이 계정에는 첨부된 받은 메시지함이 없습니다."
     },
@@ -31,44 +31,44 @@
     "ADD": {
       "CHANNEL_NAME": {
         "LABEL": "받은 메시지함 이름",
-        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)",
-        "ERROR": "Please enter a valid inbox name"
+        "PLACEHOLDER": "받은 메시지함 이름을 입력하십시오 (예: Acme Inc)",
+        "ERROR": "올바른 받은 메시지함 이름을 입력하십시오."
       },
       "WEBSITE_NAME": {
         "LABEL": "웹사이트 이름",
         "PLACEHOLDER": "웹사이트 이름 입력 (예: Acme Inc)"
       },
       "FB": {
-        "HELP": "추신: 로그인을 함으로써, 우리는 오직 당신의 페이지의 메시지에 접근할 수 있다. 당신의 사적인 메시지에 Chatwoot는 절대 접근할 수 없습니다.",
+        "HELP": "추신: 로그인을 함으로써, 우리는 오직 당신의 페이지의 메시지에 접근할 수 있습니다. 당신의 개인 메시지에 Chatwoot는 절대 접근할 수 없습니다.",
         "CHOOSE_PAGE": "페이지 선택",
         "CHOOSE_PLACEHOLDER": "목록에서 페이지 선택",
         "INBOX_NAME": "받은 메시지함 이름",
         "ADD_NAME": "받은 메시지함의 이름 추가",
-        "PICK_NAME": "Pick a Name for your Inbox",
+        "PICK_NAME": "받은 메시지함의 이름을 선택하십시오",
         "PICK_A_VALUE": "값 선택",
         "CREATE_INBOX": "받은 메시지함 만들기"
       },
       "INSTAGRAM": {
-        "CONTINUE_WITH_INSTAGRAM": "Continue with Instagram",
-        "CONNECT_YOUR_INSTAGRAM_PROFILE": "Connect your Instagram Profile",
-        "HELP": "To add your Instagram profile as a channel, you need to authenticate your Instagram Profile by clicking on 'Continue with Instagram' ",
-        "ERROR_MESSAGE": "There was an error connecting to Instagram, please try again",
-        "ERROR_AUTH": "There was an error connecting to Instagram, please try again",
-        "NEW_INBOX_SUGGESTION": "This Instagram account was previously linked to a different inbox and has now been migrated here. All new messages will appear here. The old inbox will no longer be able to send or receive messages for this account.",
-        "DUPLICATE_INBOX_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. You won’t be able to send/receive Instagram messages from this inbox anymore."
+        "CONTINUE_WITH_INSTAGRAM": "Instagram으로 계속하기",
+        "CONNECT_YOUR_INSTAGRAM_PROFILE": "Instagram 프로필 연결",
+        "HELP": "Instagram 프로필을 채널로 추가하려면 'Instagram으로 계속하기'를 클릭하여 Instagram 프로필을 인증해야 합니다.",
+        "ERROR_MESSAGE": "Instagram에 연결하는 동안 오류가 발생했습니다. 다시 시도하십시오.",
+        "ERROR_AUTH": "Instagram에 연결하는 동안 오류가 발생했습니다. 다시 시도하십시오.",
+        "NEW_INBOX_SUGGESTION": "이 Instagram 계정은 이전에 다른 받은 메시지함에 연결되어 있었으며 현재 이곳으로 마이그레이션되었습니다. 모든 새 메시지가 여기에 표시됩니다. 이전 받은 메시지함에서는 더 이상 이 계정의 메시지를 보내거나 받을 수 없습니다.",
+        "DUPLICATE_INBOX_BANNER": "이 Instagram 계정은 새로운 Instagram 채널 받은 메시지함으로 마이그레이션되었습니다. 이 받은 메시지함에서는 더 이상 Instagram 메시지를 보내거나 받을 수 없습니다."
       },
       "TIKTOK": {
-        "CONTINUE_WITH_TIKTOK": "Continue with TikTok",
-        "CONNECT_YOUR_TIKTOK_PROFILE": "Connect your TikTok Profile",
-        "HELP": "To add your TikTok profile as a channel, you need to authenticate your TikTok Profile by clicking on 'Continue with TikTok' ",
-        "ERROR_MESSAGE": "There was an error connecting to TikTok, please try again",
-        "ERROR_AUTH": "There was an error connecting to TikTok, please try again"
+        "CONTINUE_WITH_TIKTOK": "TikTok으로 계속하기",
+        "CONNECT_YOUR_TIKTOK_PROFILE": "TikTok 프로필 연결",
+        "HELP": "TikTok 프로필을 채널로 추가하려면 'TikTok으로 계속하기'를 클릭하여 TikTok 프로필을 인증해야 합니다.",
+        "ERROR_MESSAGE": "TikTok에 연결하는 동안 오류가 발생했습니다. 다시 시도하십시오.",
+        "ERROR_AUTH": "TikTok에 연결하는 동안 오류가 발생했습니다. 다시 시도하십시오."
       },
       "TWITTER": {
-        "HELP": "트위터 프로필을 채널로 추가하려면 '트위터로 로그인'을 클릭하여 트위터 프로필을 인증해야 합니다. ",
-        "ERROR_MESSAGE": "트위터에 연결하는 동안 오류가 발생했습니다. 다시 시도해주세요.",
+        "HELP": "트위터 프로필을 채널로 추가하려면 '트위터로 로그인'을 클릭하여 트위터 프로필을 인증해야 합니다.",
+        "ERROR_MESSAGE": "트위터에 연결하는 동안 오류가 발생했습니다. 다시 시도하십시오.",
         "TWEETS": {
-          "ENABLE": "Create conversations from mentioned Tweets"
+          "ENABLE": "멘션된 트윗에서 대화 만들기"
         }
       },
       "WEBSITE_CHANNEL": {
@@ -80,7 +80,7 @@
         },
         "CHANNEL_WEBHOOK_URL": {
           "LABEL": "웹훅 URL",
-          "PLACEHOLDER": "Please enter your Webhook URL",
+          "PLACEHOLDER": "웹훅 URL을 입력하십시오.",
           "ERROR": "올바른 URL을 입력하십시오."
         },
         "CHANNEL_DOMAIN": {
@@ -101,7 +101,7 @@
         },
         "CHANNEL_GREETING_TOGGLE": {
           "LABEL": "채널 인사말 사용",
-          "HELP_TEXT": "Automatically send a greeting message when a new conversation is created.",
+          "HELP_TEXT": "고객이 대화를 시작하고 첫 메시지를 보낼 때 인사말 메시지를 자동으로 전송합니다.",
           "ENABLED": "사용함",
           "DISABLED": "사용 안 함"
         },
@@ -110,7 +110,7 @@
           "IN_A_FEW_MINUTES": "몇 분 후에",
           "IN_A_FEW_HOURS": "몇 시간 안에",
           "IN_A_DAY": "며칠 안에",
-          "HELP_TEXT": "이 응답 시간은 라이브 채팅 위젯에 표시됨"
+          "HELP_TEXT": "이 응답 시간은 라이브 채팅 위젯에 표시됩니다."
         },
         "WIDGET_COLOR": {
           "LABEL": "위젯 색깔",
@@ -118,33 +118,33 @@
         },
         "SUBMIT_BUTTON": "받은 메시지함 만들기",
         "API": {
-          "ERROR_MESSAGE": "We were not able to create a website channel, please try again"
+          "ERROR_MESSAGE": "웹사이트 채널을 만들 수 없습니다. 다시 시도하십시오."
         }
       },
       "TWILIO": {
-        "TITLE": "Twilio SMS/WhatsApp Channel",
-        "DESC": "Integrate Twilio and start supporting your customers via SMS or WhatsApp.",
+        "TITLE": "Twilio SMS/WhatsApp 채널",
+        "DESC": "Twilio를 통합하여 SMS 또는 WhatsApp으로 고객 지원을 시작하십시오.",
         "ACCOUNT_SID": {
           "LABEL": "계정 SID",
           "PLACEHOLDER": "Twilio 계정 SID를 입력하십시오.",
           "ERROR": "해당 입력란은 필수 입력 사항입니다."
         },
         "API_KEY": {
-          "USE_API_KEY": "Use API Key Authentication",
+          "USE_API_KEY": "API Key 인증 사용",
           "LABEL": "API Key SID",
-          "PLACEHOLDER": "Please enter your API Key SID",
+          "PLACEHOLDER": "API Key SID를 입력하십시오.",
           "ERROR": "해당 입력란은 필수 입력 사항입니다."
         },
         "API_KEY_SECRET": {
           "LABEL": "API Key Secret",
-          "PLACEHOLDER": "Please enter your API Key Secret",
+          "PLACEHOLDER": "API Key Secret을 입력하십시오.",
           "ERROR": "해당 입력란은 필수 입력 사항입니다."
         },
         "MESSAGING_SERVICE_SID": {
           "LABEL": "Messaging Service SID",
-          "PLACEHOLDER": "Please enter your Twilio Messaging Service SID",
+          "PLACEHOLDER": "Twilio Messaging Service SID를 입력하십시오.",
           "ERROR": "해당 입력란은 필수 입력 사항입니다.",
-          "USE_MESSAGING_SERVICE": "Use a Twilio Messaging Service"
+          "USE_MESSAGING_SERVICE": "Twilio Messaging Service 사용"
         },
         "CHANNEL_TYPE": {
           "LABEL": "채널 유형",
@@ -157,13 +157,13 @@
         },
         "CHANNEL_NAME": {
           "LABEL": "받은 메시지함 이름",
-          "PLACEHOLDER": "Please enter a inbox name",
+          "PLACEHOLDER": "받은 메시지함 이름을 입력하십시오.",
           "ERROR": "해당 입력란은 필수 입력 사항입니다."
         },
         "PHONE_NUMBER": {
           "LABEL": "전화 번호",
           "PLACEHOLDER": "메시지를 보낼 전화 번호를 입력하십시오.",
-          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
+          "ERROR": "`+` 기호로 시작하고 공백이 없는 올바른 전화 번호를 입력하십시오."
         },
         "API_CALLBACK": {
           "TITLE": "콜백 URL",
@@ -175,182 +175,182 @@
         }
       },
       "SMS": {
-        "TITLE": "SMS Channel",
-        "DESC": "Start supporting your customers via SMS.",
+        "TITLE": "SMS 채널",
+        "DESC": "SMS를 통해 고객 지원을 시작하십시오.",
         "PROVIDERS": {
-          "LABEL": "API Provider",
+          "LABEL": "API 공급자",
           "TWILIO": "Twilio",
           "BANDWIDTH": "Bandwidth"
         },
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the SMS channel"
+          "ERROR_MESSAGE": "SMS 채널을 저장할 수 없습니다."
         },
         "BANDWIDTH": {
           "ACCOUNT_ID": {
-            "LABEL": "Account ID",
-            "PLACEHOLDER": "Please enter your Bandwidth Account ID",
+            "LABEL": "계정 ID",
+            "PLACEHOLDER": "Bandwidth 계정 ID를 입력하십시오.",
             "ERROR": "해당 입력란은 필수 입력 사항입니다."
           },
           "API_KEY": {
             "LABEL": "API Key",
-            "PLACEHOLDER": "Please enter your Bandwidth API Key",
+            "PLACEHOLDER": "Bandwidth API Key를 입력하십시오.",
             "ERROR": "해당 입력란은 필수 입력 사항입니다."
           },
           "API_SECRET": {
             "LABEL": "API Secret",
-            "PLACEHOLDER": "Please enter your Bandwidth API Secret",
+            "PLACEHOLDER": "Bandwidth API Secret을 입력하십시오.",
             "ERROR": "해당 입력란은 필수 입력 사항입니다."
           },
           "APPLICATION_ID": {
-            "LABEL": "Application ID",
-            "PLACEHOLDER": "Please enter your Bandwidth Application ID",
+            "LABEL": "애플리케이션 ID",
+            "PLACEHOLDER": "Bandwidth 애플리케이션 ID를 입력하십시오.",
             "ERROR": "해당 입력란은 필수 입력 사항입니다."
           },
           "INBOX_NAME": {
             "LABEL": "받은 메시지함 이름",
-            "PLACEHOLDER": "Please enter a inbox name",
+            "PLACEHOLDER": "받은 메시지함 이름을 입력하십시오.",
             "ERROR": "해당 입력란은 필수 입력 사항입니다."
           },
           "PHONE_NUMBER": {
-            "LABEL": "휴대폰 번호",
+            "LABEL": "전화 번호",
             "PLACEHOLDER": "메시지를 보낼 전화 번호를 입력하십시오.",
-            "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
+            "ERROR": "`+` 기호로 시작하고 공백이 없는 올바른 전화 번호를 입력하십시오."
           },
-          "SUBMIT_BUTTON": "Create Bandwidth Channel",
+          "SUBMIT_BUTTON": "Bandwidth 채널 만들기",
           "API": {
-            "ERROR_MESSAGE": "We were not able to authenticate Bandwidth credentials, please try again"
+            "ERROR_MESSAGE": "Bandwidth 자격 증명을 인증할 수 없습니다. 다시 시도하십시오."
           },
           "API_CALLBACK": {
             "TITLE": "콜백 URL",
-            "SUBTITLE": "You have to configure the message callback URL in Bandwidth with the URL mentioned here."
+            "SUBTITLE": "여기에 표시된 URL로 Bandwidth에서 메시지 콜백 URL을 구성해야 합니다."
           }
         }
       },
       "WHATSAPP": {
-        "TITLE": "WhatsApp Channel",
-        "DESC": "Start supporting your customers via WhatsApp.",
+        "TITLE": "WhatsApp 채널",
+        "DESC": "WhatsApp을 통해 고객 지원을 시작하십시오.",
         "PROVIDERS": {
-          "LABEL": "API Provider",
+          "LABEL": "API 공급자",
           "WHATSAPP_EMBEDDED": "WhatsApp Business",
           "TWILIO": "Twilio",
           "WHATSAPP_CLOUD": "WhatsApp Cloud",
-          "WHATSAPP_CLOUD_DESC": "Quick setup through Meta",
-          "TWILIO_DESC": "Connect via Twilio credentials",
+          "WHATSAPP_CLOUD_DESC": "Meta를 통한 빠른 설정",
+          "TWILIO_DESC": "Twilio 자격 증명으로 연결",
           "360_DIALOG": "360Dialog"
         },
         "SELECT_PROVIDER": {
-          "TITLE": "Select your API provider",
-          "DESCRIPTION": "Choose your WhatsApp provider. You can connect directly through Meta which requires no setup, or connect through Twilio using your account credentials."
+          "TITLE": "API 공급자를 선택하십시오",
+          "DESCRIPTION": "WhatsApp 공급자를 선택하십시오. Meta를 통해 설정 없이 직접 연결하거나, Twilio 계정 자격 증명을 사용하여 연결할 수 있습니다."
         },
         "INBOX_NAME": {
           "LABEL": "받은 메시지함 이름",
-          "PLACEHOLDER": "Please enter an inbox name",
+          "PLACEHOLDER": "받은 메시지함 이름을 입력하십시오.",
           "ERROR": "해당 입력란은 필수 입력 사항입니다."
         },
         "PHONE_NUMBER": {
-          "LABEL": "휴대폰 번호",
+          "LABEL": "전화 번호",
           "PLACEHOLDER": "메시지를 보낼 전화 번호를 입력하십시오.",
-          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
+          "ERROR": "`+` 기호로 시작하고 공백이 없는 올바른 전화 번호를 입력하십시오."
         },
         "PHONE_NUMBER_ID": {
-          "LABEL": "Phone number ID",
-          "PLACEHOLDER": "Please enter the Phone number ID obtained from Facebook developer dashboard.",
-          "ERROR": "Please enter a valid value."
+          "LABEL": "전화 번호 ID",
+          "PLACEHOLDER": "Facebook 개발자 대시보드에서 받은 전화 번호 ID를 입력하십시오.",
+          "ERROR": "올바른 값을 입력하십시오."
         },
         "BUSINESS_ACCOUNT_ID": {
-          "LABEL": "Business Account ID",
-          "PLACEHOLDER": "Please enter the Business Account ID obtained from Facebook developer dashboard.",
-          "ERROR": "Please enter a valid value."
+          "LABEL": "비즈니스 계정 ID",
+          "PLACEHOLDER": "Facebook 개발자 대시보드에서 받은 비즈니스 계정 ID를 입력하십시오.",
+          "ERROR": "올바른 값을 입력하십시오."
         },
         "WEBHOOK_VERIFY_TOKEN": {
-          "LABEL": "Webhook Verify Token",
-          "PLACEHOLDER": "Enter a verify token which you want to configure for Facebook webhooks.",
-          "ERROR": "Please enter a valid value."
+          "LABEL": "웹훅 인증 토큰",
+          "PLACEHOLDER": "Facebook 웹훅에 구성할 인증 토큰을 입력하십시오.",
+          "ERROR": "올바른 값을 입력하십시오."
         },
         "API_KEY": {
           "LABEL": "API key",
-          "SUBTITLE": "Configure the WhatsApp API key.",
+          "SUBTITLE": "WhatsApp API key를 구성하십시오.",
           "PLACEHOLDER": "API key",
-          "ERROR": "Please enter a valid value."
+          "ERROR": "올바른 값을 입력하십시오."
         },
         "API_CALLBACK": {
           "TITLE": "콜백 URL",
-          "SUBTITLE": "You have to configure the webhook URL and the verification token in the Facebook Developer portal with the values shown below.",
+          "SUBTITLE": "아래에 표시된 값으로 Facebook 개발자 포털에서 웹훅 URL과 인증 토큰을 구성해야 합니다.",
           "WEBHOOK_URL": "웹훅 URL",
-          "WEBHOOK_VERIFICATION_TOKEN": "Webhook Verification Token"
+          "WEBHOOK_VERIFICATION_TOKEN": "웹훅 인증 토큰"
         },
-        "SUBMIT_BUTTON": "Create WhatsApp Channel",
+        "SUBMIT_BUTTON": "WhatsApp 채널 만들기",
         "EMBEDDED_SIGNUP": {
-          "TITLE": "Quick setup with Meta",
-          "DESC": "Use the WhatsApp Embedded Signup flow to quickly connect new numbers. You will be redirected to Meta to log into your WhatsApp Business account. Having admin access will help make the setup smooth and easy.",
+          "TITLE": "Meta를 통한 빠른 설정",
+          "DESC": "WhatsApp 임베디드 가입 플로우를 사용하여 새 번호를 빠르게 연결하십시오. Meta로 리디렉션되어 WhatsApp Business 계정에 로그인하게 됩니다. 관리자 액세스 권한이 있으면 설정이 원활하고 쉽게 진행됩니다.",
           "BENEFITS": {
-            "TITLE": "Benefits of Embedded Signup:",
-            "EASY_SETUP": "No manual configuration required",
-            "SECURE_AUTH": "Secure OAuth based authentication",
-            "AUTO_CONFIG": "Automatic webhook and phone number configuration"
+            "TITLE": "임베디드 가입의 장점:",
+            "EASY_SETUP": "수동 구성이 필요 없습니다",
+            "SECURE_AUTH": "안전한 OAuth 기반 인증",
+            "AUTO_CONFIG": "자동 웹훅 및 전화 번호 구성"
           },
           "LEARN_MORE": {
-            "TEXT": "To learn more about integrated signup, pricing, and limitations, visit {link}.",
-            "LINK_TEXT": "this link"
+            "TEXT": "통합 가입, 요금 및 제한 사항에 대해 자세히 알아보려면 {link}을 방문하십시오.",
+            "LINK_TEXT": "이 링크"
           },
-          "SUBMIT_BUTTON": "Connect with WhatsApp Business",
-          "AUTH_PROCESSING": "Authenticating with Meta",
-          "WAITING_FOR_BUSINESS_INFO": "Please complete business setup in the Meta window...",
-          "PROCESSING": "Setting up your WhatsApp Business Account",
-          "LOADING_SDK": "Loading Facebook SDK...",
-          "CANCELLED": "WhatsApp Signup was cancelled",
-          "SUCCESS_TITLE": "WhatsApp Business Account Connected!",
-          "WAITING_FOR_AUTH": "Waiting for authentication...",
-          "INVALID_BUSINESS_DATA": "Invalid business data received from Facebook. Please try again.",
-          "SIGNUP_ERROR": "Signup error occurred",
-          "AUTH_NOT_COMPLETED": "Authentication not completed. Please restart the process.",
-          "SUCCESS_FALLBACK": "WhatsApp Business Account has been successfully configured",
-          "MANUAL_FALLBACK": "If your number is already connected to the WhatsApp Business Platform (API), or if you’re a tech provider onboarding your own number, please use the {link} flow",
-          "MANUAL_LINK_TEXT": "manual setup flow"
+          "SUBMIT_BUTTON": "WhatsApp Business에 연결",
+          "AUTH_PROCESSING": "Meta로 인증 중",
+          "WAITING_FOR_BUSINESS_INFO": "Meta 창에서 비즈니스 설정을 완료하십시오...",
+          "PROCESSING": "WhatsApp Business 계정을 설정하는 중",
+          "LOADING_SDK": "Facebook SDK를 로드하는 중...",
+          "CANCELLED": "WhatsApp 가입이 취소되었습니다",
+          "SUCCESS_TITLE": "WhatsApp Business 계정이 연결되었습니다!",
+          "WAITING_FOR_AUTH": "인증 대기 중...",
+          "INVALID_BUSINESS_DATA": "Facebook에서 잘못된 비즈니스 데이터를 수신했습니다. 다시 시도하십시오.",
+          "SIGNUP_ERROR": "가입 오류가 발생했습니다",
+          "AUTH_NOT_COMPLETED": "인증이 완료되지 않았습니다. 프로세스를 다시 시작하십시오.",
+          "SUCCESS_FALLBACK": "WhatsApp Business 계정이 성공적으로 구성되었습니다",
+          "MANUAL_FALLBACK": "번호가 이미 WhatsApp Business Platform (API)에 연결되어 있거나, 자체 번호를 온보딩하는 기술 공급자인 경우 {link}을 사용하십시오",
+          "MANUAL_LINK_TEXT": "수동 설정 플로우"
         },
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the WhatsApp channel"
+          "ERROR_MESSAGE": "WhatsApp 채널을 저장할 수 없습니다."
         }
       },
       "VOICE": {
-        "TITLE": "Voice Channel",
-        "DESC": "Integrate Twilio Voice and start supporting your customers via phone calls.",
+        "TITLE": "음성 채널",
+        "DESC": "Twilio Voice를 통합하여 전화 통화로 고객 지원을 시작하십시오.",
         "PHONE_NUMBER": {
           "LABEL": "전화 번호",
-          "PLACEHOLDER": "Enter your phone number (e.g. +1234567890)",
-          "ERROR": "Please provide a valid phone number in E.164 format (e.g. +1234567890)"
+          "PLACEHOLDER": "전화 번호를 입력하십시오 (예: +1234567890)",
+          "ERROR": "E.164 형식의 올바른 전화 번호를 입력하십시오 (예: +1234567890)"
         },
         "TWILIO": {
           "ACCOUNT_SID": {
             "LABEL": "계정 SID",
-            "PLACEHOLDER": "Enter your Twilio Account SID",
-            "REQUIRED": "Account SID is required"
+            "PLACEHOLDER": "Twilio 계정 SID를 입력하십시오.",
+            "REQUIRED": "계정 SID는 필수입니다."
           },
           "AUTH_TOKEN": {
             "LABEL": "인증 토큰",
-            "PLACEHOLDER": "Enter your Twilio Auth Token",
-            "REQUIRED": "Auth Token is required"
+            "PLACEHOLDER": "Twilio 인증 토큰을 입력하십시오.",
+            "REQUIRED": "인증 토큰은 필수입니다."
           },
           "API_KEY_SID": {
             "LABEL": "API Key SID",
-            "PLACEHOLDER": "Enter your Twilio API Key SID",
-            "REQUIRED": "API Key SID is required"
+            "PLACEHOLDER": "Twilio API Key SID를 입력하십시오.",
+            "REQUIRED": "API Key SID는 필수입니다."
           },
           "API_KEY_SECRET": {
             "LABEL": "API Key Secret",
-            "PLACEHOLDER": "Enter your Twilio API Key Secret",
-            "REQUIRED": "API Key Secret is required"
+            "PLACEHOLDER": "Twilio API Key Secret을 입력하십시오.",
+            "REQUIRED": "API Key Secret은 필수입니다."
           }
         },
         "CONFIGURATION": {
-          "TWILIO_VOICE_URL_TITLE": "Twilio Voice URL",
-          "TWILIO_VOICE_URL_SUBTITLE": "Configure this URL as the Voice URL on your Twilio phone number and TwiML App.",
-          "TWILIO_STATUS_URL_TITLE": "Twilio Status Callback URL",
-          "TWILIO_STATUS_URL_SUBTITLE": "Configure this URL as the Status Callback URL on your Twilio phone number."
+          "TWILIO_VOICE_URL_TITLE": "Twilio 음성 URL",
+          "TWILIO_VOICE_URL_SUBTITLE": "이 URL을 Twilio 전화 번호 및 TwiML 앱의 음성 URL로 구성하십시오.",
+          "TWILIO_STATUS_URL_TITLE": "Twilio 상태 콜백 URL",
+          "TWILIO_STATUS_URL_SUBTITLE": "이 URL을 Twilio 전화 번호의 상태 콜백 URL로 구성하십시오."
         },
-        "SUBMIT_BUTTON": "Create Voice Channel",
+        "SUBMIT_BUTTON": "음성 채널 만들기",
         "API": {
-          "ERROR_MESSAGE": "We were not able to create the voice channel"
+          "ERROR_MESSAGE": "음성 채널을 만들 수 없습니다."
         }
       },
       "API_CHANNEL": {
@@ -363,17 +363,17 @@
         },
         "WEBHOOK_URL": {
           "LABEL": "웹훅 URL",
-          "SUBTITLE": "Configure the URL where you want to receive callbacks on events.",
+          "SUBTITLE": "이벤트 콜백을 받을 URL을 구성하십시오.",
           "PLACEHOLDER": "웹훅 URL"
         },
         "SUBMIT_BUTTON": "API 채널 만들기",
         "API": {
-          "ERROR_MESSAGE": "우리는 API 채널을 저장할 수 없습니다."
+          "ERROR_MESSAGE": "API 채널을 저장할 수 없습니다."
         }
       },
       "EMAIL_CHANNEL": {
         "TITLE": "이메일 채널",
-        "DESC": "Integrate your email inbox.",
+        "DESC": "이메일 받은 메시지함을 통합하십시오.",
         "CHANNEL_NAME": {
           "LABEL": "채널 이름",
           "PLACEHOLDER": "채널 이름을 입력하십시오.",
@@ -381,117 +381,117 @@
         },
         "EMAIL": {
           "LABEL": "이메일",
-          "SUBTITLE": "고객이 지원 티켓을 보내는 이메일",
+          "SUBTITLE": "고객이 지원 요청을 보내는 이메일 주소를 입력하십시오.",
           "PLACEHOLDER": "이메일"
         },
         "SUBMIT_BUTTON": "이메일 채널 만들기",
         "API": {
           "ERROR_MESSAGE": "이메일 채널을 저장할 수 없습니다."
         },
-        "FINISH_MESSAGE": "당신의 이메일 주소로 이메일 전달을 시작하십시오.",
-        "FINISH_MESSAGE_NO_FORWARDING": "Your email inbox has been created successfully! You need to configure SMTP and IMAP credentials to send and receive emails. Without these settings, no emails will be processed.",
-        "FORWARDING_ADDRESS_LABEL": "Forward emails to this address:",
+        "FINISH_MESSAGE": "이메일 받은 메시지함이 성공적으로 생성되었습니다! 아래 주소로 이메일 전달을 시작하거나, SMTP 및 IMAP 자격 증명을 구성하여 이메일을 직접 보내고 받을 수 있습니다.",
+        "FINISH_MESSAGE_NO_FORWARDING": "이메일 받은 메시지함이 성공적으로 생성되었습니다! 이메일을 보내고 받으려면 SMTP 및 IMAP 자격 증명을 구성해야 합니다. 이 설정이 없으면 이메일이 처리되지 않습니다.",
+        "FORWARDING_ADDRESS_LABEL": "이 주소로 이메일 전달:",
         "CONFIGURE_SMTP_IMAP_LINK": "여기를 클릭하세요",
-        "CONFIGURE_SMTP_IMAP_TEXT": " to configure IMAP and SMTP settings"
+        "CONFIGURE_SMTP_IMAP_TEXT": " IMAP 및 SMTP 설정을 구성하십시오"
       },
       "LINE_CHANNEL": {
-        "TITLE": "LINE Channel",
-        "DESC": "Integrate with LINE channel and start supporting your customers.",
+        "TITLE": "LINE 채널",
+        "DESC": "LINE 채널과 통합하여 고객 지원을 시작하십시오.",
         "CHANNEL_NAME": {
           "LABEL": "채널 이름",
           "PLACEHOLDER": "채널 이름을 입력하십시오.",
           "ERROR": "해당 입력란은 필수 입력 사항입니다."
         },
         "LINE_CHANNEL_ID": {
-          "LABEL": "LINE Channel ID",
-          "PLACEHOLDER": "LINE Channel ID"
+          "LABEL": "LINE 채널 ID",
+          "PLACEHOLDER": "LINE 채널 ID"
         },
         "LINE_CHANNEL_SECRET": {
-          "LABEL": "LINE Channel Secret",
-          "PLACEHOLDER": "LINE Channel Secret"
+          "LABEL": "LINE 채널 Secret",
+          "PLACEHOLDER": "LINE 채널 Secret"
         },
         "LINE_CHANNEL_TOKEN": {
-          "LABEL": "LINE Channel Token",
-          "PLACEHOLDER": "LINE Channel Token"
+          "LABEL": "LINE 채널 Token",
+          "PLACEHOLDER": "LINE 채널 Token"
         },
-        "SUBMIT_BUTTON": "Create LINE Channel",
+        "SUBMIT_BUTTON": "LINE 채널 만들기",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the LINE channel"
+          "ERROR_MESSAGE": "LINE 채널을 저장할 수 없습니다."
         },
         "API_CALLBACK": {
           "TITLE": "콜백 URL",
-          "SUBTITLE": "You have to configure the webhook URL in LINE application with the URL mentioned here."
+          "SUBTITLE": "여기에 표시된 URL로 LINE 애플리케이션에서 웹훅 URL을 구성해야 합니다."
         }
       },
       "TELEGRAM_CHANNEL": {
-        "TITLE": "Telegram Channel",
-        "DESC": "Integrate with Telegram channel and start supporting your customers.",
+        "TITLE": "Telegram 채널",
+        "DESC": "Telegram 채널과 통합하여 고객 지원을 시작하십시오.",
         "BOT_TOKEN": {
-          "LABEL": "Bot Token",
-          "SUBTITLE": "Configure the bot token you have obtained from Telegram BotFather.",
-          "PLACEHOLDER": "Bot Token"
+          "LABEL": "봇 토큰",
+          "SUBTITLE": "Telegram BotFather에서 받은 봇 토큰을 구성하십시오.",
+          "PLACEHOLDER": "봇 토큰"
         },
-        "SUBMIT_BUTTON": "Create Telegram Channel",
+        "SUBMIT_BUTTON": "Telegram 채널 만들기",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the telegram channel"
+          "ERROR_MESSAGE": "Telegram 채널을 저장할 수 없습니다."
         }
       },
       "AUTH": {
-        "TITLE": "Choose a channel",
-        "DESC": "Chatwoot supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below.",
-        "TITLE_NEXT": "Complete the setup",
+        "TITLE": "채널 선택",
+        "DESC": "Chatwoot는 라이브 채팅 위젯, Facebook Messenger, WhatsApp, 이메일 등을 채널로 지원합니다. 사용자 정의 채널을 만들려면 API 채널을 사용하여 만들 수 있습니다. 시작하려면 아래에서 채널을 선택하십시오.",
+        "TITLE_NEXT": "설정 완료",
         "TITLE_FINISH": "Voilà!",
         "CHANNEL": {
           "WEBSITE": {
-            "TITLE": "홈페이지",
-            "DESCRIPTION": "Create a live-chat widget"
+            "TITLE": "웹사이트",
+            "DESCRIPTION": "라이브 채팅 위젯 만들기"
           },
           "FACEBOOK": {
-            "TITLE": "페이스북",
-            "DESCRIPTION": "Connect your Facebook page"
+            "TITLE": "Facebook",
+            "DESCRIPTION": "Facebook 페이지 연결"
           },
           "WHATSAPP": {
             "TITLE": "WhatsApp",
-            "DESCRIPTION": "Support your customers on WhatsApp"
+            "DESCRIPTION": "WhatsApp으로 고객 지원"
           },
           "EMAIL": {
             "TITLE": "이메일",
-            "DESCRIPTION": "Connect with Gmail, Outlook, or other providers"
+            "DESCRIPTION": "Gmail, Outlook 또는 기타 공급자와 연결"
           },
           "SMS": {
             "TITLE": "SMS",
-            "DESCRIPTION": "Integrate SMS channel with Twilio or bandwidth"
+            "DESCRIPTION": "Twilio 또는 Bandwidth로 SMS 채널 통합"
           },
           "API": {
             "TITLE": "API",
-            "DESCRIPTION": "Make a custom channel using our API"
+            "DESCRIPTION": "API를 사용하여 사용자 정의 채널 만들기"
           },
           "TELEGRAM": {
             "TITLE": "Telegram",
-            "DESCRIPTION": "Configure Telegram channel using Bot token"
+            "DESCRIPTION": "봇 토큰을 사용하여 Telegram 채널 구성"
           },
           "LINE": {
             "TITLE": "Line",
-            "DESCRIPTION": "Integrate your Line channel"
+            "DESCRIPTION": "Line 채널 통합"
           },
           "INSTAGRAM": {
             "TITLE": "Instagram",
-            "DESCRIPTION": "Connect your instagram account"
+            "DESCRIPTION": "Instagram 계정 연결"
           },
           "TIKTOK": {
             "TITLE": "TikTok",
-            "DESCRIPTION": "Connect your TikTok account"
+            "DESCRIPTION": "TikTok 계정 연결"
           },
           "VOICE": {
-            "TITLE": "Voice",
-            "DESCRIPTION": "Integrate with Twilio Voice"
+            "TITLE": "음성",
+            "DESCRIPTION": "Twilio Voice와 통합"
           }
         }
       },
       "AGENTS": {
         "TITLE": "에이전트",
-        "DESC": "여기서 에이전트를 추가하여 새로 만든 받은 메시지함을 관리할 수 있습니다. 선택된 에이전트만 받은 메시지함에 엑세스할 수 있습니다. 해당 받은 메시지함에 선택되지 않은 에이전트는 메시지를 보거나 응답할 수 없습니다. <br> <b>추신:</b> 관리자로서 모든 받은 문서에 대한 액세스 권한이 필요한 경우, 자신이 만든 모든 받은 문서에 자신을 에이전트로 추가해야 합니다.",
-        "VALIDATION_ERROR": "Add at least one agent to your new Inbox",
+        "DESC": "여기서 에이전트를 추가하여 새로 만든 받은 메시지함을 관리할 수 있습니다. 선택된 에이전트만 받은 메시지함에 액세스할 수 있습니다. 해당 받은 메시지함에 선택되지 않은 에이전트는 메시지를 보거나 응답할 수 없습니다. <br> <b>추신:</b> 관리자로서 모든 받은 메시지함에 대한 액세스 권한이 필요한 경우, 자신이 만든 모든 받은 메시지함에 자신을 에이전트로 추가해야 합니다.",
+        "VALIDATION_ERROR": "새 받은 메시지함에 에이전트를 한 명 이상 추가하십시오.",
         "PICK_AGENTS": "받은 메시지함에 대한 에이전트 선택"
       },
       "DETAILS": {
@@ -499,34 +499,34 @@
         "DESC": "아래 드롭다운에서 Chatwoot에 연결할 Facebook 페이지를 선택하십시오. 더 나은 식별을 위해 받은 메시지함에 사용자 정의 이름을 지정할 수 있습니다."
       },
       "FINISH": {
-        "TITLE": "못 박았다!",
-        "DESC": "Facebook 페이지를 Chatwoot와 성공적으로 통합하셨습니다. 다음부터 고객이 페이지에 메시지를 보낼 때, 대화는 받은 메시지함에 자동으로 나타납니다.<br>웹사이트에 쉽게 추가할 수 있는 위젯 스크립트도 제공하고 있습니다. 일단 당신의 웹사이트에 생방송으로 접속하면, 고객들은 어떠한 외부 도구의 도움 없이도 당신의 웹사이트에서 바로 당신에게 메시지를 보낼 수 있고, 대화는 바로 여기 Chatwoot에 나타납니다.<<br> 멋지죠? 음, 우리는 그럴려고 노력합니다 :)"
+        "TITLE": "완료되었습니다!",
+        "DESC": "Facebook 페이지를 Chatwoot와 성공적으로 통합하셨습니다. 다음부터 고객이 페이지에 메시지를 보낼 때, 대화는 받은 메시지함에 자동으로 나타납니다.<br>웹사이트에 쉽게 추가할 수 있는 위젯 스크립트도 제공하고 있습니다. 일단 당신의 웹사이트에 생방송으로 접속하면, 고객들은 어떠한 외부 도구의 도움 없이도 당신의 웹사이트에서 바로 당신에게 메시지를 보낼 수 있고, 대화는 바로 여기 Chatwoot에 나타납니다.<br>멋지죠? 음, 우리는 그럴려고 노력합니다 :)"
       },
       "EMAIL_PROVIDER": {
-        "TITLE": "Select your email provider",
-        "DESCRIPTION": "Select an email provider from the list below. If you don't see your email provider in the list, you can select the other provider option and provide the IMAP and SMTP Credentials."
+        "TITLE": "이메일 공급자를 선택하십시오",
+        "DESCRIPTION": "아래 목록에서 이메일 공급자를 선택하십시오. 목록에 이메일 공급자가 없는 경우, 기타 공급자 옵션을 선택하고 IMAP 및 SMTP 자격 증명을 입력하십시오."
       },
       "MICROSOFT": {
-        "TITLE": "Microsoft Email",
-        "DESCRIPTION": "Click on the Sign in with Microsoft button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
-        "EMAIL_PLACEHOLDER": "Enter email address",
-        "SIGN_IN": "Sign in with Microsoft",
-        "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
+        "TITLE": "Microsoft 이메일",
+        "DESCRIPTION": "시작하려면 Microsoft로 로그인 버튼을 클릭하십시오. 이메일 로그인 페이지로 리디렉션됩니다. 요청된 권한을 수락하면 받은 메시지함 생성 단계로 다시 리디렉션됩니다.",
+        "EMAIL_PLACEHOLDER": "이메일 주소 입력",
+        "SIGN_IN": "Microsoft로 로그인",
+        "ERROR_MESSAGE": "Microsoft에 연결하는 동안 오류가 발생했습니다. 다시 시도하십시오."
       },
       "GOOGLE": {
-        "TITLE": "Google Email",
-        "DESCRIPTION": "Click on the Sign in with Google button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
-        "SIGN_IN": "Sign in with Google",
-        "EMAIL_PLACEHOLDER": "Enter email address",
-        "ERROR_MESSAGE": "There was an error connecting to Google, please try again"
+        "TITLE": "Google 이메일",
+        "DESCRIPTION": "시작하려면 Google로 로그인 버튼을 클릭하십시오. 이메일 로그인 페이지로 리디렉션됩니다. 요청된 권한을 수락하면 받은 메시지함 생성 단계로 다시 리디렉션됩니다.",
+        "SIGN_IN": "Google로 로그인",
+        "EMAIL_PLACEHOLDER": "이메일 주소 입력",
+        "ERROR_MESSAGE": "Google에 연결하는 동안 오류가 발생했습니다. 다시 시도하십시오."
       }
     },
     "DETAILS": {
-      "LOADING_FB": "페이스북 인증하는 중...",
-      "ERROR_FB_LOADING": "Error loading Facebook SDK. Please disable any ad-blockers and try again from a different browser.",
-      "ERROR_FB_AUTH": "문제가 발생했습니다 페이지를 새로 고치십시오...",
-      "ERROR_FB_UNAUTHORIZED": "You're not authorized to perform this action. ",
-      "ERROR_FB_UNAUTHORIZED_HELP": "Please ensure you have access to the Facebook page with full control. You can read more about Facebook roles <a href=\" https://www.facebook.com/help/187316341316631\">here</a>.",
+      "LOADING_FB": "Facebook 인증하는 중...",
+      "ERROR_FB_LOADING": "Facebook SDK 로드 오류. 광고 차단기를 비활성화하고 다른 브라우저에서 다시 시도하십시오.",
+      "ERROR_FB_AUTH": "문제가 발생했습니다. 페이지를 새로 고치십시오...",
+      "ERROR_FB_UNAUTHORIZED": "이 작업을 수행할 권한이 없습니다.",
+      "ERROR_FB_UNAUTHORIZED_HELP": "전체 제어 권한으로 Facebook 페이지에 액세스할 수 있는지 확인하십시오. Facebook 역할에 대한 자세한 내용은 <a href=\" https://www.facebook.com/help/187316341316631\">여기</a>에서 확인할 수 있습니다.",
       "CREATING_CHANNEL": "받은 메시지함을 만드는 중...",
       "TITLE": "받은 메시지함 세부 구성",
       "DESC": ""
@@ -536,22 +536,22 @@
       "ADD_AGENTS": "받은 메시지함에 에이전트를 추가하는 중..."
     },
     "FINISH": {
-      "TITLE": "받은 메시지함이 준비됨!",
-      "MESSAGE": "이제 새로운 채널을 통해 고객과 대화할 수 있습니다. 행복한 지원",
-      "BUTTON_TEXT": "나를 그곳으로 데려주세요.",
-      "MORE_SETTINGS": "More settings",
-      "WEBSITE_SUCCESS": "웹사이트 채널 만들기를 완료하셨습니다. 아래 표시된 코드를 복사하여 웹사이트에 붙여 넣으십시오. 다음에 고객이 라이브 채팅을 사용할 때 대화는 받은 편지함에 자동으로 표시됩니다.",
-      "WHATSAPP_QR_INSTRUCTION": "Scan the QR code above to quickly test your WhatsApp inbox",
-      "MESSENGER_QR_INSTRUCTION": "Scan the QR code above to quickly test your Facebook Messenger inbox",
-      "TELEGRAM_QR_INSTRUCTION": "Scan the QR code above to quickly test your Telegram inbox"
+      "TITLE": "받은 메시지함이 준비되었습니다!",
+      "MESSAGE": "이제 새로운 채널을 통해 고객과 대화할 수 있습니다. 즐거운 지원 되십시오",
+      "BUTTON_TEXT": "이동하기",
+      "MORE_SETTINGS": "추가 설정",
+      "WEBSITE_SUCCESS": "웹사이트 채널 만들기를 완료하셨습니다. 아래 표시된 코드를 복사하여 웹사이트에 붙여 넣으십시오. 다음에 고객이 라이브 채팅을 사용할 때 대화는 받은 메시지함에 자동으로 표시됩니다.",
+      "WHATSAPP_QR_INSTRUCTION": "위의 QR 코드를 스캔하여 WhatsApp 받은 메시지함을 빠르게 테스트하십시오",
+      "MESSENGER_QR_INSTRUCTION": "위의 QR 코드를 스캔하여 Facebook Messenger 받은 메시지함을 빠르게 테스트하십시오",
+      "TELEGRAM_QR_INSTRUCTION": "위의 QR 코드를 스캔하여 Telegram 받은 메시지함을 빠르게 테스트하십시오"
     },
     "REAUTH": "재승인",
     "VIEW": "보기",
     "EDIT": {
       "API": {
-        "SUCCESS_MESSAGE": "받은 메시지함 설정이 성공적으로 업데이트됨",
-        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "자동 할당 업데이트 완료",
-        "ERROR_MESSAGE": "We couldn't update inbox settings. Please try again later."
+        "SUCCESS_MESSAGE": "받은 메시지함 설정이 성공적으로 업데이트되었습니다.",
+        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "자동 할당이 성공적으로 업데이트되었습니다.",
+        "ERROR_MESSAGE": "받은 메시지함 설정을 업데이트할 수 없습니다. 나중에 다시 시도하십시오."
       },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "사용함",
@@ -562,22 +562,22 @@
         "DISABLED": "사용 안 함"
       },
       "SENDER_NAME_SECTION": {
-        "TITLE": "Sender name",
-        "SUB_TEXT": "Select the name shown to your customer when they receive emails from your agents.",
-        "FOR_EG": "For eg:",
+        "TITLE": "발신자 이름",
+        "SUB_TEXT": "에이전트로부터 이메일을 받을 때 고객에게 표시되는 이름을 선택하십시오.",
+        "FOR_EG": "예시:",
         "FRIENDLY": {
-          "TITLE": "Friendly",
+          "TITLE": "친근한",
           "FROM": "에서",
-          "SUBTITLE": "Add the name of the agent who sent the reply in the sender name to make it friendly."
+          "SUBTITLE": "발신자 이름에 답장을 보낸 에이전트의 이름을 추가하여 친근하게 만드십시오."
         },
         "PROFESSIONAL": {
-          "TITLE": "Professional",
-          "SUBTITLE": "Use only the configured business name as the sender name in the email header."
+          "TITLE": "전문적인",
+          "SUBTITLE": "이메일 헤더에서 구성된 비즈니스 이름만 발신자 이름으로 사용합니다."
         },
         "BUSINESS_NAME": {
-          "BUTTON_TEXT": "+ Configure your business name",
-          "PLACEHOLDER": "Enter your business name",
-          "SAVE_BUTTON_TEXT": "Save"
+          "BUTTON_TEXT": "+ 비즈니스 이름 구성",
+          "PLACEHOLDER": "비즈니스 이름을 입력하십시오.",
+          "SAVE_BUTTON_TEXT": "저장"
         }
       },
       "ALLOW_MESSAGES_AFTER_RESOLVED": {
@@ -593,195 +593,242 @@
         "DISABLED": "사용 안 함"
       },
       "ENABLE_HMAC": {
-        "LABEL": "Enable"
+        "LABEL": "사용"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "삭제",
-      "AVATAR_DELETE_BUTTON_TEXT": "Delete Avatar",
+      "AVATAR_DELETE_BUTTON_TEXT": "아바타 삭제",
       "CONFIRM": {
         "TITLE": "삭제 확인",
         "MESSAGE": "삭제하시겠습니까? ",
-        "PLACE_HOLDER": "Please type {inboxName} to confirm",
+        "PLACE_HOLDER": "확인하려면 {inboxName}을 입력하십시오.",
         "YES": "예, 삭제합니다. ",
-        "NO": "아니요, 유지해주세요. "
+        "NO": "아니요, 유지합니다. "
       },
       "API": {
-        "SUCCESS_MESSAGE": "받은 메시지함이 성공적으로 삭제됨.",
-        "ERROR_MESSAGE": "받은 편지함을 삭제할 수 없음. 나중에 다시 시도해 주십시오.",
-        "AVATAR_SUCCESS_MESSAGE": "Inbox avatar deleted successfully",
-        "AVATAR_ERROR_MESSAGE": "Could not delete the inbox avatar. Please try again later."
+        "SUCCESS_MESSAGE": "받은 메시지함이 성공적으로 삭제되었습니다.",
+        "ERROR_MESSAGE": "받은 메시지함을 삭제할 수 없습니다. 나중에 다시 시도하십시오.",
+        "AVATAR_SUCCESS_MESSAGE": "받은 메시지함 아바타가 성공적으로 삭제되었습니다.",
+        "AVATAR_ERROR_MESSAGE": "받은 메시지함 아바타를 삭제할 수 없습니다. 나중에 다시 시도하십시오."
       }
     },
     "TABS": {
       "SETTINGS": "설정",
       "COLLABORATORS": "협력자",
-      "CONFIGURATION": "설치",
-      "CAMPAIGN": "Campaigns",
+      "CONFIGURATION": "구성",
+      "CAMPAIGN": "캠페인",
       "PRE_CHAT_FORM": "대화 전 설문",
       "BUSINESS_HOURS": "영업시간",
-      "WIDGET_BUILDER": "Widget Builder",
-      "BOT_CONFIGURATION": "Bot Configuration",
-      "ACCOUNT_HEALTH": "Account Health",
+      "WIDGET_BUILDER": "위젯 빌더",
+      "BOT_CONFIGURATION": "봇 구성",
+      "ACCOUNT_HEALTH": "계정 상태",
       "CSAT": "CSAT"
     },
     "ACCOUNT_HEALTH": {
-      "TITLE": "Manage your WhatsApp account",
-      "DESCRIPTION": "Review your WhatsApp account status, messaging limits, and quality. Update settings or resolve issues if needed",
-      "GO_TO_SETTINGS": "Go to Meta Business Manager",
-      "NO_DATA": "Health data is not available",
+      "TITLE": "WhatsApp 계정 관리",
+      "DESCRIPTION": "WhatsApp 계정 상태, 메시지 제한 및 품질을 검토하십시오. 필요한 경우 설정을 업데이트하거나 문제를 해결하십시오.",
+      "GO_TO_SETTINGS": "Meta Business Manager로 이동",
+      "NO_DATA": "상태 데이터를 사용할 수 없습니다",
       "FIELDS": {
         "DISPLAY_PHONE_NUMBER": {
-          "LABEL": "Display phone number",
-          "TOOLTIP": "Phone number displayed to customers"
+          "LABEL": "표시 전화 번호",
+          "TOOLTIP": "고객에게 표시되는 전화 번호"
         },
         "VERIFIED_NAME": {
-          "LABEL": "Business name",
-          "TOOLTIP": "Business name verified by WhatsApp"
+          "LABEL": "비즈니스 이름",
+          "TOOLTIP": "WhatsApp에서 인증된 비즈니스 이름"
         },
         "DISPLAY_NAME_STATUS": {
-          "LABEL": "Display name status",
-          "TOOLTIP": "Status of your business name verification"
+          "LABEL": "표시 이름 상태",
+          "TOOLTIP": "비즈니스 이름 인증 상태"
         },
         "QUALITY_RATING": {
-          "LABEL": "Quality rating",
-          "TOOLTIP": "WhatsApp quality rating for your account"
+          "LABEL": "품질 등급",
+          "TOOLTIP": "계정의 WhatsApp 품질 등급"
         },
         "MESSAGING_LIMIT_TIER": {
-          "LABEL": "Messaging limit tier",
-          "TOOLTIP": "Daily messaging limit for your account"
+          "LABEL": "메시지 제한 등급",
+          "TOOLTIP": "계정의 일일 메시지 제한"
         },
         "ACCOUNT_MODE": {
-          "LABEL": "Account mode",
-          "TOOLTIP": "Current operating mode of your WhatsApp account"
+          "LABEL": "계정 모드",
+          "TOOLTIP": "WhatsApp 계정의 현재 운영 모드"
         }
       },
       "VALUES": {
         "TIERS": {
-          "TIER_250": "250 customers per 24h",
-          "TIER_1000": "1K customers per 24h",
-          "TIER_1K": "1K customers per 24h",
-          "TIER_10K": "10K customers per 24h",
-          "TIER_100K": "100K customers per 24h",
-          "TIER_UNLIMITED": "Unlimited customers per 24h",
-          "UNKNOWN": "Rating not available"
+          "TIER_250": "24시간당 고객 250명",
+          "TIER_1000": "24시간당 고객 1,000명",
+          "TIER_1K": "24시간당 고객 1,000명",
+          "TIER_10K": "24시간당 고객 10,000명",
+          "TIER_100K": "24시간당 고객 100,000명",
+          "TIER_UNLIMITED": "24시간당 무제한 고객",
+          "UNKNOWN": "등급을 사용할 수 없습니다"
         },
         "STATUSES": {
-          "APPROVED": "Approved",
-          "PENDING_REVIEW": "Pending Review",
-          "AVAILABLE_WITHOUT_REVIEW": "Available Without Review",
-          "REJECTED": "Rejected",
-          "DECLINED": "Declined",
-          "NON_EXISTS": "Non exists"
+          "APPROVED": "승인됨",
+          "PENDING_REVIEW": "검토 대기 중",
+          "AVAILABLE_WITHOUT_REVIEW": "검토 없이 사용 가능",
+          "REJECTED": "거부됨",
+          "DECLINED": "거절됨",
+          "NON_EXISTS": "존재하지 않음"
         },
         "MODES": {
-          "SANDBOX": "Sandbox",
-          "LIVE": "Live"
+          "SANDBOX": "샌드박스",
+          "LIVE": "라이브"
         }
       }
     },
     "SETTINGS": "설정",
     "FEATURES": {
-      "LABEL": "특징",
+      "LABEL": "기능",
       "DISPLAY_FILE_PICKER": "위젯에 파일 선택기 표시",
       "DISPLAY_EMOJI_PICKER": "위젯에 이모지 선택기 표시",
-      "ALLOW_END_CONVERSATION": "Allow users to end conversation from the widget",
-      "USE_INBOX_AVATAR_FOR_BOT": "Use inbox name and avatar for the bot"
+      "ALLOW_END_CONVERSATION": "사용자가 위젯에서 대화를 종료할 수 있도록 허용",
+      "USE_INBOX_AVATAR_FOR_BOT": "봇에 받은 메시지함 이름 및 아바타 사용"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "메신저 스크립트",
-      "MESSENGER_SUB_HEAD": "이 버튼을 당신의 body 태그 안에 넣으세요.",
+      "MESSENGER_SUB_HEAD": "이 버튼을 body 태그 안에 넣으십시오.",
       "ALLOWED_DOMAINS": {
-        "TITLE": "Allowed Domains",
-        "SUBTITLE": "Add wildcard or regular domains separated by commas (leave blank to allow all), e.g. *.chatwoot.dev, chatwoot.com.",
-        "PLACEHOLDER": "Enter domains separated by commas (eg: *.chatwoot.dev, chatwoot.com)"
+        "TITLE": "허용된 도메인",
+        "SUBTITLE": "쉼표로 구분된 와일드카드 또는 일반 도메인을 추가하십시오 (모두 허용하려면 비워 두십시오). 예: *.chatwoot.dev, chatwoot.com.",
+        "PLACEHOLDER": "쉼표로 구분된 도메인을 입력하십시오 (예: *.chatwoot.dev, chatwoot.com)"
       },
       "INBOX_AGENTS": "에이전트",
       "INBOX_AGENTS_SUB_TEXT": "받은 메시지함에서 에이전트 추가 또는 제거",
-      "AGENT_ASSIGNMENT": "Conversation Assignment",
-      "AGENT_ASSIGNMENT_SUB_TEXT": "Update conversation assignment settings",
+      "AGENT_ASSIGNMENT": "대화 할당",
+      "AGENT_ASSIGNMENT_SUB_TEXT": "대화 할당 설정 업데이트",
       "UPDATE": "업데이트",
-      "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
-      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
+      "ENABLE_EMAIL_COLLECT_BOX": "이메일 수집 박스 사용",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "새 대화에서 이메일 수집 박스 사용 또는 사용 안 함",
       "AUTO_ASSIGNMENT": "자동 할당 사용",
-      "SENDER_NAME_SECTION": "Enable Agent Name in Email",
-      "SENDER_NAME_SECTION_TEXT": "Enable/Disable showing Agent's name in email, if disabled it will show business name",
-      "ENABLE_CONTINUITY_VIA_EMAIL": "Enable conversation continuity via email",
-      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Conversations will continue over email if the contact email address is available.",
-      "LOCK_TO_SINGLE_CONVERSATION": "Lock to single conversation",
-      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Enable or disable multiple conversations for the same contact in this inbox",
+      "SENDER_NAME_SECTION": "이메일에 에이전트 이름 표시",
+      "SENDER_NAME_SECTION_TEXT": "이메일에 에이전트 이름 표시를 사용 또는 사용 안 함으로 설정합니다. 사용 안 함 시 비즈니스 이름이 표시됩니다.",
+      "ENABLE_CONTINUITY_VIA_EMAIL": "이메일을 통한 대화 연속성 사용",
+      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "연락처 이메일 주소가 있는 경우 이메일을 통해 대화가 계속됩니다.",
+      "LOCK_TO_SINGLE_CONVERSATION": "단일 대화로 제한",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "이 받은 메시지함에서 동일한 연락처에 대한 다중 대화를 사용 또는 사용 안 함으로 설정",
       "INBOX_UPDATE_TITLE": "받은 메시지함 설정",
       "INBOX_UPDATE_SUB_TEXT": "받은 메시지함 설정 업데이트",
-      "AUTO_ASSIGNMENT_SUB_TEXT": "받은 메시지에 추가된 에이전트에 새 대화를 자동으로 할당하거나 할당하지 않도록 설정하십시오.",
+      "AUTO_ASSIGNMENT_SUB_TEXT": "받은 메시지함에 추가된 에이전트에 새 대화를 자동으로 할당하거나 할당하지 않도록 설정하십시오.",
       "HMAC_VERIFICATION": "사용자 신원 검증",
-      "HMAC_DESCRIPTION": "In order to validate the user's identity, you can pass an `identifier_hash` for each user. You can generate a HMAC sha256 hash using the `identifier` with the key shown here.",
-      "HMAC_LINK_TO_DOCS": "You can read more here.",
-      "HMAC_MANDATORY_VERIFICATION": "Enforce User Identity Validation",
-      "HMAC_MANDATORY_DESCRIPTION": "If enabled, requests missing the `identifier_hash` will be rejected.",
-      "INBOX_IDENTIFIER": "Inbox Identifier",
-      "INBOX_IDENTIFIER_SUB_TEXT": "Use the `inbox_identifier` token shown here to authentication your API clients.",
-      "FORWARD_EMAIL_TITLE": "Forward to Email",
-      "FORWARD_EMAIL_SUB_TEXT": "당신의 이메일 주소로 이메일 전달을 시작하십시오.",
-      "FORWARD_EMAIL_NOT_CONFIGURED": "Forwarding emails to your inbox is currently disabled on this installation. To use this feature, it must be enabled by your administrator. Please get in touch with them to proceed.",
-      "ALLOW_MESSAGES_AFTER_RESOLVED": "Allow messages after conversation resolved",
-      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Allow the end-users to send messages even after the conversation is resolved.",
-      "WHATSAPP_SECTION_SUBHEADER": "This API Key is used for the integration with the WhatsApp APIs.",
-      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the new API key to be used for the integration with the WhatsApp APIs.",
+      "HMAC_DESCRIPTION": "이 키를 사용하여 사용자의 신원을 확인하는 데 사용할 수 있는 비밀 토큰을 생성할 수 있습니다.",
+      "HMAC_LINK_TO_DOCS": "자세한 내용은 여기에서 확인할 수 있습니다.",
+      "HMAC_MANDATORY_VERIFICATION": "사용자 신원 검증 강제 적용",
+      "HMAC_MANDATORY_DESCRIPTION": "사용 시, 검증할 수 없는 요청은 거부됩니다.",
+      "INBOX_IDENTIFIER": "받은 메시지함 식별자",
+      "INBOX_IDENTIFIER_SUB_TEXT": "여기에 표시된 `inbox_identifier` 토큰을 사용하여 API 클라이언트를 인증하십시오.",
+      "FORWARD_EMAIL_TITLE": "이메일 전달",
+      "FORWARD_EMAIL_SUB_TEXT": "다음 이메일 주소로 이메일 전달을 시작하십시오.",
+      "FORWARD_EMAIL_NOT_CONFIGURED": "이 설치에서 받은 메시지함으로의 이메일 전달이 현재 비활성화되어 있습니다. 이 기능을 사용하려면 관리자가 활성화해야 합니다. 관리자에게 문의하십시오.",
+      "ALLOW_MESSAGES_AFTER_RESOLVED": "대화 해결 후 메시지 허용",
+      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "대화가 해결된 후에도 최종 사용자가 메시지를 보낼 수 있도록 허용합니다.",
+      "WHATSAPP_SECTION_SUBHEADER": "이 API Key는 WhatsApp API와의 통합에 사용됩니다.",
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "WhatsApp API와의 통합에 사용할 새 API key를 입력하십시오.",
       "WHATSAPP_SECTION_TITLE": "API Key",
-      "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
-      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
+      "WHATSAPP_SECTION_UPDATE_TITLE": "API Key 업데이트",
+      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "여기에 새 API Key를 입력하십시오.",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "업데이트",
-      "WHATSAPP_EMBEDDED_SIGNUP_TITLE": "WhatsApp Embedded Signup",
-      "WHATSAPP_EMBEDDED_SIGNUP_SUBHEADER": "This inbox is connected through WhatsApp embedded signup.",
-      "WHATSAPP_EMBEDDED_SIGNUP_DESCRIPTION": "You can reconfigure this inbox to update your WhatsApp Business settings.",
-      "WHATSAPP_RECONFIGURE_BUTTON": "Reconfigure",
-      "WHATSAPP_CONNECT_TITLE": "Connect to WhatsApp Business",
-      "WHATSAPP_CONNECT_SUBHEADER": "Upgrade to WhatsApp embedded signup for easier management.",
-      "WHATSAPP_CONNECT_DESCRIPTION": "Connect this inbox to WhatsApp Business for enhanced features and easier management.",
+      "WHATSAPP_EMBEDDED_SIGNUP_TITLE": "WhatsApp 임베디드 가입",
+      "WHATSAPP_EMBEDDED_SIGNUP_SUBHEADER": "이 받은 메시지함은 WhatsApp 임베디드 가입을 통해 연결되었습니다.",
+      "WHATSAPP_EMBEDDED_SIGNUP_DESCRIPTION": "이 받은 메시지함을 다시 구성하여 WhatsApp Business 설정을 업데이트할 수 있습니다.",
+      "WHATSAPP_RECONFIGURE_BUTTON": "다시 구성",
+      "WHATSAPP_CONNECT_TITLE": "WhatsApp Business에 연결",
+      "WHATSAPP_CONNECT_SUBHEADER": "더 쉬운 관리를 위해 WhatsApp 임베디드 가입으로 업그레이드하십시오.",
+      "WHATSAPP_CONNECT_DESCRIPTION": "향상된 기능과 더 쉬운 관리를 위해 이 받은 메시지함을 WhatsApp Business에 연결하십시오.",
       "WHATSAPP_CONNECT_BUTTON": "연결",
-      "WHATSAPP_CONNECT_SUCCESS": "Successfully connected to WhatsApp Business!",
-      "WHATSAPP_CONNECT_ERROR": "Failed to connect to WhatsApp Business. Please try again.",
-      "WHATSAPP_RECONFIGURE_SUCCESS": "Successfully reconfigured WhatsApp Business!",
-      "WHATSAPP_RECONFIGURE_ERROR": "Failed to reconfigure WhatsApp Business. Please try again.",
-      "WHATSAPP_APP_ID_MISSING": "WhatsApp App ID is not configured. Please contact your administrator.",
-      "WHATSAPP_CONFIG_ID_MISSING": "WhatsApp Configuration ID is not configured. Please contact your administrator.",
-      "WHATSAPP_LOGIN_CANCELLED": "WhatsApp login was cancelled. Please try again.",
-      "WHATSAPP_WEBHOOK_TITLE": "Webhook Verification Token",
-      "WHATSAPP_WEBHOOK_SUBHEADER": "This token is used to verify the authenticity of the webhook endpoint.",
-      "WHATSAPP_TEMPLATES_SYNC_TITLE": "Sync Templates",
-      "WHATSAPP_TEMPLATES_SYNC_SUBHEADER": "Manually sync message templates from WhatsApp to update your available templates.",
-      "WHATSAPP_TEMPLATES_SYNC_BUTTON": "Sync Templates",
-      "WHATSAPP_TEMPLATES_SYNC_SUCCESS": "Templates sync initiated successfully. It may take a couple of minutes to update.",
-      "UPDATE_PRE_CHAT_FORM_SETTINGS": "Update Pre Chat Form Settings"
+      "WHATSAPP_CONNECT_SUCCESS": "WhatsApp Business에 성공적으로 연결되었습니다!",
+      "WHATSAPP_CONNECT_ERROR": "WhatsApp Business에 연결하지 못했습니다. 다시 시도하십시오.",
+      "WHATSAPP_RECONFIGURE_SUCCESS": "WhatsApp Business가 성공적으로 다시 구성되었습니다!",
+      "WHATSAPP_RECONFIGURE_ERROR": "WhatsApp Business를 다시 구성하지 못했습니다. 다시 시도하십시오.",
+      "WHATSAPP_APP_ID_MISSING": "WhatsApp 앱 ID가 구성되지 않았습니다. 관리자에게 문의하십시오.",
+      "WHATSAPP_CONFIG_ID_MISSING": "WhatsApp 구성 ID가 구성되지 않았습니다. 관리자에게 문의하십시오.",
+      "WHATSAPP_LOGIN_CANCELLED": "WhatsApp 로그인이 취소되었습니다. 다시 시도하십시오.",
+      "WHATSAPP_WEBHOOK_TITLE": "웹훅 인증 토큰",
+      "WHATSAPP_WEBHOOK_SUBHEADER": "이 토큰은 웹훅 엔드포인트의 진위를 확인하는 데 사용됩니다.",
+      "WHATSAPP_TEMPLATES_SYNC_TITLE": "템플릿 동기화",
+      "WHATSAPP_TEMPLATES_SYNC_SUBHEADER": "WhatsApp에서 메시지 템플릿을 수동으로 동기화하여 사용 가능한 템플릿을 업데이트하십시오.",
+      "WHATSAPP_TEMPLATES_SYNC_BUTTON": "템플릿 동기화",
+      "WHATSAPP_TEMPLATES_SYNC_SUCCESS": "템플릿 동기화가 성공적으로 시작되었습니다. 업데이트되기까지 몇 분 정도 걸릴 수 있습니다.",
+      "UPDATE_PRE_CHAT_FORM_SETTINGS": "대화 전 설문 설정 업데이트"
     },
     "HELP_CENTER": {
-      "LABEL": "Help Center",
-      "PLACEHOLDER": "Select Help Center",
-      "SELECT_PLACEHOLDER": "Select Help Center",
-      "REMOVE": "Remove Help Center",
-      "SUB_TEXT": "Attach a Help Center with the inbox"
+      "LABEL": "도움말 센터",
+      "PLACEHOLDER": "도움말 센터 선택",
+      "SELECT_PLACEHOLDER": "도움말 센터 선택",
+      "REMOVE": "도움말 센터 제거",
+      "SUB_TEXT": "받은 메시지함에 도움말 센터 연결"
     },
     "AUTO_ASSIGNMENT": {
-      "MAX_ASSIGNMENT_LIMIT": "Auto assignment limit",
-      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Please enter a value greater than 0",
-      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Limit the maximum number of conversations from this inbox that can be auto assigned to an agent"
+      "MAX_ASSIGNMENT_LIMIT": "자동 할당 제한",
+      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "0보다 큰 값을 입력하십시오.",
+      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "이 받은 메시지함에서 에이전트에게 자동 할당될 수 있는 최대 대화 수를 제한합니다."
+    },
+    "ASSIGNMENT": {
+      "TITLE": "대화 할당",
+      "DESCRIPTION": "할당 정책에 따라 수신 대화를 사용 가능한 에이전트에게 자동으로 할당합니다.",
+      "ENABLE_AUTO_ASSIGNMENT": "자동 대화 할당 사용",
+      "DEFAULT_RULES_TITLE": "기본 할당 규칙",
+      "DEFAULT_RULES_DESCRIPTION": "모든 대화에 기본 할당 동작을 사용합니다.",
+      "DEFAULT_RULE_1": "가장 먼저 생성된 대화 우선",
+      "DEFAULT_RULE_2": "라운드 로빈 배분",
+      "CUSTOMIZE_WITH_POLICY": "할당 정책으로 사용자 정의",
+      "USING_POLICY": "이 받은 메시지함에 사용자 정의 할당 정책을 사용 중",
+      "CUSTOMIZE_POLICY": "할당 정책으로 사용자 정의",
+      "DELETE_POLICY": "정책 삭제",
+      "POLICY_LABEL": "할당 정책",
+      "ASSIGNMENT_ORDER_LABEL": "할당 순서",
+      "ASSIGNMENT_METHOD_LABEL": "할당 방법",
+      "POLICY_STATUS": {
+        "ACTIVE": "활성",
+        "INACTIVE": "비활성"
+      },
+      "PRIORITY": {
+        "EARLIEST_CREATED": "가장 먼저 생성됨",
+        "LONGEST_WAITING": "가장 오래 대기 중"
+      },
+      "METHOD": {
+        "ROUND_ROBIN": "라운드 로빈",
+        "BALANCED": "균형 할당"
+      },
+      "UPGRADE_PROMPT": "사용자 정의 할당 정책은 Business 플랜에서 사용할 수 있습니다.",
+      "UPGRADE_TO_BUSINESS": "Business로 업그레이드",
+      "DEFAULT_POLICY_LINKED": "기본 정책이 연결됨",
+      "DEFAULT_POLICY_DESCRIPTION": "이 받은 메시지함에서 대화가 에이전트에게 할당되는 방식을 사용자 정의하려면 사용자 정의 할당 정책을 연결하십시오.",
+      "LINK_EXISTING_POLICY": "기존 정책 연결",
+      "CREATE_NEW_POLICY": "새 정책 만들기",
+      "NO_POLICIES": "할당 정책을 찾을 수 없습니다.",
+      "VIEW_ALL_POLICIES": "모든 정책 보기",
+      "CURRENT_BEHAVIOR": "현재 기본 할당 동작을 사용 중:",
+      "LINK_SUCCESS": "할당 정책이 성공적으로 연결되었습니다.",
+      "LINK_ERROR": "할당 정책을 연결하지 못했습니다."
+    },
+    "ASSIGNMENT_POLICY": {
+      "DELETE_CONFIRM_TITLE": "할당 정책을 삭제하시겠습니까?",
+      "DELETE_CONFIRM_MESSAGE": "이 받은 메시지함에서 이 할당 정책을 제거하시겠습니까? 받은 메시지함은 기본 할당 규칙으로 돌아갑니다.",
+      "CANCEL": "취소",
+      "CONFIRM_DELETE": "삭제",
+      "DELETE_SUCCESS": "할당 정책이 성공적으로 제거되었습니다.",
+      "DELETE_ERROR": "할당 정책을 제거하지 못했습니다."
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "재승인",
-      "SUBTITLE": "페이스북 연결이 만료되었습니다. 서비스를 계속하려면 페이스북 페이지를 다시 연결하십시오.",
+      "SUBTITLE": "Facebook 연결이 만료되었습니다. 서비스를 계속하려면 Facebook 페이지를 다시 연결하십시오.",
       "MESSAGE_SUCCESS": "다시 연결 성공",
       "MESSAGE_ERROR": "오류가 발생했습니다. 다시 시도하십시오."
     },
     "PRE_CHAT_FORM": {
       "DESCRIPTION": "대화 전 설문을 통해, 실제 대화 전에 사용자 정보를 확보할 수 있습니다.",
-      "SET_FIELDS": "Pre chat form fields",
+      "SET_FIELDS": "대화 전 설문 필드",
       "SET_FIELDS_HEADER": {
-        "FIELDS": "Fields",
-        "LABEL": "Label",
-        "PLACE_HOLDER": "Placeholder",
-        "KEY": "Key",
-        "TYPE": "Type",
-        "REQUIRED": "Required"
+        "FIELDS": "필드",
+        "LABEL": "레이블",
+        "PLACE_HOLDER": "플레이스홀더",
+        "KEY": "키",
+        "TYPE": "유형",
+        "REQUIRED": "필수"
       },
       "ENABLE": {
         "LABEL": "대화 전 설문 사용하기",
@@ -791,78 +838,78 @@
         }
       },
       "PRE_CHAT_MESSAGE": {
-        "LABEL": "Pre chat message",
-        "PLACEHOLDER": "이 메시지가 대화전 설문과 함께 사용자에게 보여집니다."
+        "LABEL": "대화 전 메시지",
+        "PLACEHOLDER": "이 메시지가 대화 전 설문과 함께 사용자에게 보여집니다."
       },
       "REQUIRE_EMAIL": {
         "LABEL": "대화 전 사용자들에게 이름과 이메일 주소를 요구합니다."
       }
     },
     "CSAT": {
-      "TITLE": "Enable CSAT",
-      "SUBTITLE": "Automatically trigger CSAT surveys at the end of conversations to understand how customers feel about their support experience. Track satisfaction trends and identify areas for improvement over time.",
+      "TITLE": "CSAT 사용",
+      "SUBTITLE": "대화가 끝날 때 자동으로 CSAT 설문조사를 발송하여 고객이 지원 경험에 대해 어떻게 느끼는지 파악합니다. 만족도 추이를 추적하고 시간이 지남에 따라 개선할 영역을 식별합니다.",
       "DISPLAY_TYPE": {
-        "LABEL": "Display type"
+        "LABEL": "표시 유형"
       },
       "MESSAGE": {
         "LABEL": "메시지",
-        "PLACEHOLDER": "Please enter a message to show users with the form"
+        "PLACEHOLDER": "사용자에게 설문과 함께 표시할 메시지를 입력하십시오."
       },
       "BUTTON_TEXT": {
-        "LABEL": "Button text",
-        "PLACEHOLDER": "Please rate us"
+        "LABEL": "버튼 텍스트",
+        "PLACEHOLDER": "평가해 주십시오"
       },
       "LANGUAGE": {
         "LABEL": "언어",
-        "PLACEHOLDER": "Select template language"
+        "PLACEHOLDER": "템플릿 언어 선택"
       },
       "MESSAGE_PREVIEW": {
-        "LABEL": "Message preview",
-        "TOOLTIP": "This may vary slightly when rendered on WhatsApp's platform."
+        "LABEL": "메시지 미리보기",
+        "TOOLTIP": "WhatsApp 플랫폼에서 렌더링될 때 약간 다를 수 있습니다."
       },
       "TEMPLATE_STATUS": {
-        "APPROVED": "Approved by WhatsApp",
-        "PENDING": "Pending WhatsApp approval",
-        "REJECTED": "Meta rejected the template",
-        "DEFAULT": "Needs WhatsApp approval",
-        "NOT_FOUND": "The template does not exist in the Meta platform."
+        "APPROVED": "WhatsApp에서 승인됨",
+        "PENDING": "WhatsApp 승인 대기 중",
+        "REJECTED": "Meta에서 템플릿을 거부했습니다",
+        "DEFAULT": "WhatsApp 승인이 필요합니다",
+        "NOT_FOUND": "Meta 플랫폼에 해당 템플릿이 존재하지 않습니다."
       },
       "TEMPLATE_CREATION": {
-        "SUCCESS_MESSAGE": "WhatsApp template created successfully and sent for approval",
-        "ERROR_MESSAGE": "Failed to create WhatsApp template"
+        "SUCCESS_MESSAGE": "WhatsApp 템플릿이 성공적으로 생성되어 승인을 위해 전송되었습니다.",
+        "ERROR_MESSAGE": "WhatsApp 템플릿을 생성하지 못했습니다."
       },
       "TEMPLATE_UPDATE_DIALOG": {
-        "TITLE": "Edit survey details",
-        "DESCRIPTION": "We will delete the previous template and make a new one which will be sent again for WhatsApp approval",
-        "CONFIRM": "Create new template",
-        "CANCEL": "Go back"
+        "TITLE": "설문 세부 정보 편집",
+        "DESCRIPTION": "이전 템플릿을 삭제하고 WhatsApp 승인을 위해 다시 전송될 새 템플릿을 만듭니다.",
+        "CONFIRM": "새 템플릿 만들기",
+        "CANCEL": "돌아가기"
       },
       "SURVEY_RULE": {
-        "LABEL": "Survey rule",
-        "DESCRIPTION_PREFIX": "Send the survey if the conversation",
-        "DESCRIPTION_SUFFIX": "any of the labels",
+        "LABEL": "설문 규칙",
+        "DESCRIPTION_PREFIX": "대화가 다음 레이블 중 하나를",
+        "DESCRIPTION_SUFFIX": "경우 설문을 전송합니다",
         "OPERATOR": {
-          "CONTAINS": "포함된",
-          "DOES_NOT_CONTAINS": "포함되지 않은"
+          "CONTAINS": "포함하는",
+          "DOES_NOT_CONTAINS": "포함하지 않는"
         },
-        "SELECT_PLACEHOLDER": "select labels"
+        "SELECT_PLACEHOLDER": "레이블 선택"
       },
-      "NOTE": "Note: CSAT surveys are sent only once per conversation",
-      "WHATSAPP_NOTE": "Note: We will create a template and send it for WhatsApp approval. After being approved, surveys will be sent only once per conversation as per the survey rule.",
+      "NOTE": "참고: CSAT 설문조사는 대화당 한 번만 전송됩니다.",
+      "WHATSAPP_NOTE": "참고: 템플릿을 생성하여 WhatsApp 승인을 위해 전송합니다. 승인된 후 설문 규칙에 따라 대화당 한 번만 설문조사가 전송됩니다.",
       "API": {
-        "SUCCESS_MESSAGE": "CSAT settings updated successfully",
-        "ERROR_MESSAGE": "We couldn't update CSAT settings. Please try again later."
+        "SUCCESS_MESSAGE": "CSAT 설정이 성공적으로 업데이트되었습니다.",
+        "ERROR_MESSAGE": "CSAT 설정을 업데이트할 수 없습니다. 나중에 다시 시도하십시오."
       }
     },
     "BUSINESS_HOURS": {
       "TITLE": "영업시간 설정",
-      "SUBTITLE": "라이브챗 위젯의 대화용 영업시간을 설정하세요.",
+      "SUBTITLE": "라이브챗 위젯의 대화용 영업시간을 설정하십시오.",
       "WEEKLY_TITLE": "일주일 중 영업시간 설정",
       "TIMEZONE_LABEL": "표준시간대 선택",
       "UPDATE": "변경된 영업시간 적용",
       "TOGGLE_AVAILABILITY": "이 받은 메시지함에 대해 영업시간 설정 적용",
-      "UNAVAILABLE_MESSAGE_LABEL": "Unavailable message for visitors",
-      "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours visitors can be warned with a message and a pre-chat form.",
+      "UNAVAILABLE_MESSAGE_LABEL": "방문자에게 표시할 부재 메시지",
+      "TOGGLE_HELP": "영업시간 설정을 사용하면 모든 에이전트가 오프라인이더라도 라이브 채팅 위젯에 근무 가능 시간이 표시됩니다. 근무 가능 시간 외에는 방문자에게 메시지와 대화 전 설문으로 안내할 수 있습니다.",
       "DAY": {
         "ENABLE": "아래 날짜에 대해 영업시간 설정 적용",
         "UNAVAILABLE": "영업 종료",
@@ -870,26 +917,26 @@
         "VALIDATION_ERROR": "영업시작 시간은 영업종료 시간보다 빨라야 합니다.",
         "CHOOSE": "선택"
       },
-      "ALL_DAY": "All-Day"
+      "ALL_DAY": "종일"
     },
     "IMAP": {
       "TITLE": "IMAP",
-      "SUBTITLE": "Set your IMAP details",
-      "NOTE_TEXT": "To enable SMTP, please configure IMAP.",
-      "UPDATE": "Update IMAP settings",
-      "TOGGLE_AVAILABILITY": "Enable IMAP configuration for this inbox",
-      "TOGGLE_HELP": "Enabling IMAP will help the user to receive email",
+      "SUBTITLE": "IMAP 세부 정보를 설정하십시오.",
+      "NOTE_TEXT": "SMTP를 사용하려면 먼저 IMAP을 구성하십시오.",
+      "UPDATE": "IMAP 설정 업데이트",
+      "TOGGLE_AVAILABILITY": "이 받은 메시지함에 대해 IMAP 구성 사용",
+      "TOGGLE_HELP": "IMAP을 사용하면 이메일을 수신할 수 있습니다.",
       "EDIT": {
-        "SUCCESS_MESSAGE": "IMAP settings updated successfully",
-        "ERROR_MESSAGE": "Unable to update IMAP settings"
+        "SUCCESS_MESSAGE": "IMAP 설정이 성공적으로 업데이트되었습니다.",
+        "ERROR_MESSAGE": "IMAP 설정을 업데이트할 수 없습니다."
       },
       "ADDRESS": {
-        "LABEL": "Address",
-        "PLACE_HOLDER": "Address (Eg: imap.gmail.com)"
+        "LABEL": "주소",
+        "PLACE_HOLDER": "주소 (예: imap.gmail.com)"
       },
       "PORT": {
-        "LABEL": "Port",
-        "PLACE_HOLDER": "Port"
+        "LABEL": "포트",
+        "PLACE_HOLDER": "포트"
       },
       "LOGIN": {
         "LABEL": "로그인",
@@ -899,29 +946,29 @@
         "LABEL": "비밀번호",
         "PLACE_HOLDER": "비밀번호"
       },
-      "ENABLE_SSL": "Enable SSL"
+      "ENABLE_SSL": "SSL 사용"
     },
     "MICROSOFT": {
       "TITLE": "Microsoft",
-      "SUBTITLE": "Reauthorize your MICROSOFT account"
+      "SUBTITLE": "Microsoft 계정을 재인증하십시오."
     },
     "SMTP": {
       "TITLE": "SMTP",
-      "SUBTITLE": "Set your SMTP details",
-      "UPDATE": "Update SMTP settings",
-      "TOGGLE_AVAILABILITY": "Enable SMTP configuration for this inbox",
-      "TOGGLE_HELP": "Enabling SMTP will help the user to send email",
+      "SUBTITLE": "SMTP 세부 정보를 설정하십시오.",
+      "UPDATE": "SMTP 설정 업데이트",
+      "TOGGLE_AVAILABILITY": "이 받은 메시지함에 대해 SMTP 구성 사용",
+      "TOGGLE_HELP": "SMTP를 사용하면 이메일을 발송할 수 있습니다.",
       "EDIT": {
-        "SUCCESS_MESSAGE": "SMTP settings updated successfully",
-        "ERROR_MESSAGE": "Unable to update SMTP settings"
+        "SUCCESS_MESSAGE": "SMTP 설정이 성공적으로 업데이트되었습니다.",
+        "ERROR_MESSAGE": "SMTP 설정을 업데이트할 수 없습니다."
       },
       "ADDRESS": {
-        "LABEL": "Address",
-        "PLACE_HOLDER": "Address (Eg: smtp.gmail.com)"
+        "LABEL": "주소",
+        "PLACE_HOLDER": "주소 (예: smtp.gmail.com)"
       },
       "PORT": {
-        "LABEL": "Port",
-        "PLACE_HOLDER": "Port"
+        "LABEL": "포트",
+        "PLACE_HOLDER": "포트"
       },
       "LOGIN": {
         "LABEL": "로그인",
@@ -932,23 +979,23 @@
         "PLACE_HOLDER": "비밀번호"
       },
       "DOMAIN": {
-        "LABEL": "Domain",
-        "PLACE_HOLDER": "Domain"
+        "LABEL": "도메인",
+        "PLACE_HOLDER": "도메인"
       },
-      "ENCRYPTION": "Encryption",
+      "ENCRYPTION": "암호화",
       "SSL_TLS": "SSL/TLS",
       "START_TLS": "STARTTLS",
-      "OPEN_SSL_VERIFY_MODE": "Open SSL Verify Mode",
-      "AUTH_MECHANISM": "Authentication"
+      "OPEN_SSL_VERIFY_MODE": "Open SSL 인증 모드",
+      "AUTH_MECHANISM": "인증"
     },
-    "NOTE": "Note: ",
+    "NOTE": "참고: ",
     "WIDGET_BUILDER": {
       "WIDGET_OPTIONS": {
         "AVATAR": {
-          "LABEL": "Website Avatar",
+          "LABEL": "웹사이트 아바타",
           "DELETE": {
             "API": {
-              "SUCCESS_MESSAGE": "Avatar deleted successfully",
+              "SUCCESS_MESSAGE": "아바타가 성공적으로 삭제되었습니다.",
               "ERROR_MESSAGE": "오류가 발생했습니다. 다시 시도하십시오."
             }
           }
@@ -956,53 +1003,53 @@
         "WEBSITE_NAME": {
           "LABEL": "웹사이트 이름",
           "PLACE_HOLDER": "웹사이트 이름 입력 (예: Acme Inc)",
-          "ERROR": "Please enter a valid website name"
+          "ERROR": "올바른 웹사이트 이름을 입력하십시오."
         },
         "WELCOME_HEADING": {
-          "LABEL": "헤드라인 입력",
-          "PLACE_HOLDER": "Hi there!"
+          "LABEL": "환영 헤드라인",
+          "PLACE_HOLDER": "안녕하세요!"
         },
         "WELCOME_TAGLINE": {
-          "LABEL": "태그라인 입력",
+          "LABEL": "환영 태그라인",
           "PLACE_HOLDER": "우리는 간단하게 우리와 연결되도록 합니다. 우리에게 무엇이든 물어보거나 피드백을 공유하십시오."
         },
         "REPLY_TIME": {
-          "LABEL": "Reply Time",
+          "LABEL": "응답 시간",
           "IN_A_FEW_MINUTES": "몇 분 후에",
           "IN_A_FEW_HOURS": "몇 시간 안에",
-          "IN_A_DAY": "며칠 안에"
+          "IN_A_DAY": "하루 안에"
         },
         "WIDGET_COLOR_LABEL": "위젯 색깔",
-        "WIDGET_BUBBLE_POSITION_LABEL": "Widget Bubble Position",
-        "WIDGET_BUBBLE_TYPE_LABEL": "Widget Bubble Type",
+        "WIDGET_BUBBLE_POSITION_LABEL": "위젯 버블 위치",
+        "WIDGET_BUBBLE_TYPE_LABEL": "위젯 버블 유형",
         "WIDGET_BUBBLE_LAUNCHER_TITLE": {
           "DEFAULT": "채팅하기",
-          "LABEL": "Widget Bubble Launcher Title",
+          "LABEL": "위젯 버블 런처 제목",
           "PLACE_HOLDER": "채팅하기"
         },
         "UPDATE": {
-          "BUTTON_TEXT": "Update Widget Settings",
+          "BUTTON_TEXT": "위젯 설정 업데이트",
           "API": {
-            "SUCCESS_MESSAGE": "Widget settings updated successfully",
-            "ERROR_MESSAGE": "Unable to update widget settings"
+            "SUCCESS_MESSAGE": "위젯 설정이 성공적으로 업데이트되었습니다.",
+            "ERROR_MESSAGE": "위젯 설정을 업데이트할 수 없습니다."
           }
         },
         "WIDGET_VIEW_OPTION": {
-          "PREVIEW": "Preview",
-          "SCRIPT": "Script"
+          "PREVIEW": "미리보기",
+          "SCRIPT": "스크립트"
         },
         "WIDGET_BUBBLE_POSITION": {
-          "LEFT": "Left",
-          "RIGHT": "Right"
+          "LEFT": "왼쪽",
+          "RIGHT": "오른쪽"
         },
         "WIDGET_BUBBLE_TYPE": {
-          "STANDARD": "Standard",
-          "EXPANDED_BUBBLE": "Expanded Bubble"
+          "STANDARD": "표준",
+          "EXPANDED_BUBBLE": "확장 버블"
         }
       },
       "WIDGET_SCREEN": {
-        "DEFAULT": "Default",
-        "CHAT": "Chat"
+        "DEFAULT": "기본",
+        "CHAT": "채팅"
       },
       "REPLY_TIME": {
         "IN_A_FEW_MINUTES": "보통 몇 분 안에 응답",
@@ -1015,11 +1062,11 @@
       },
       "BODY": {
         "TEAM_AVAILABILITY": {
-          "ONLINE": "We are Online",
-          "OFFLINE": "부재중"
+          "ONLINE": "현재 온라인입니다",
+          "OFFLINE": "현재 부재 중입니다"
         },
-        "USER_MESSAGE": "Hi",
-        "AGENT_MESSAGE": "Hello"
+        "USER_MESSAGE": "안녕하세요",
+        "AGENT_MESSAGE": "안녕하십니까"
       },
       "BRANDING_TEXT": "Chatwoot 작동중",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
@@ -1027,20 +1074,20 @@
     "EMAIL_PROVIDERS": {
       "MICROSOFT": {
         "TITLE": "Microsoft",
-        "DESCRIPTION": "Connect with Microsoft"
+        "DESCRIPTION": "Microsoft에 연결"
       },
       "GOOGLE": {
         "TITLE": "Google",
-        "DESCRIPTION": "Connect with Google"
+        "DESCRIPTION": "Google에 연결"
       },
       "OTHER_PROVIDERS": {
-        "TITLE": "Other Providers",
-        "DESCRIPTION": "Connect with Other Providers"
+        "TITLE": "기타 공급자",
+        "DESCRIPTION": "기타 공급자에 연결"
       }
     },
     "CHANNELS": {
       "MESSENGER": "Messenger",
-      "WEB_WIDGET": "홈페이지",
+      "WEB_WIDGET": "웹사이트",
       "TWITTER_PROFILE": "트위터",
       "TWILIO_SMS": "Twilio SMS",
       "WHATSAPP": "WhatsApp",
@@ -1051,7 +1098,7 @@
       "API": "API 채널",
       "INSTAGRAM": "Instagram",
       "TIKTOK": "TikTok",
-      "VOICE": "Voice"
+      "VOICE": "음성"
     }
   }
 }
