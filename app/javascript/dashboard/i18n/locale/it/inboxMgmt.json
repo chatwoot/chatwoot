@@ -3,6 +3,9 @@
     "HEADER": "Inbox",
     "DESCRIPTION": "Un canale è il mezzo di comunicazione che il cliente usa per interagire con te. Una Inbox è lo spazio in cui gestisci le interazioni di uno specifico canale. Può includere comunicazioni provenienti da diverse fonti, come email, live chat e social media.",
     "LEARN_MORE": "Scopri di più sulle Inbox",
+    "COUNT": "{n} inbox | {n} inbox",
+    "SEARCH_PLACEHOLDER": "Ricerca Inbox...",
+    "NO_RESULTS": "Nessuna inbox trovata corrispondente alla tua ricerca",
     "RECONNECTION_REQUIRED": "La tua Inbox è disconnessa. Non riceverai nuovi messaggi finché non la autorizzerai nuovamente.",
     "CLICK_TO_RECONNECT": "Clicca qui per riconnetterti.",
     "WHATSAPP_REGISTRATION_INCOMPLETE": "La registrazione di WhatsApp Business non è completa. Si prega di controllare lo stato del nome visualizzato in Meta Business Manager prima di riconnettersi.",
@@ -575,7 +578,7 @@
           "SUBTITLE": "Utilizza solo il nome dell'azienda come nome mittente nell'intestazione dell'email."
         },
         "BUSINESS_NAME": {
-          "BUTTON_TEXT": "+ Configura il tuo nome azienda",
+          "BUTTON_TEXT": "Configura il tuo nome azienda",
           "PLACEHOLDER": "Inserisci il nome della tua azienda",
           "SAVE_BUTTON_TEXT": "Salva"
         }
@@ -625,6 +628,8 @@
       "ACCOUNT_HEALTH": "Account Health",
       "CSAT": "CSAT"
     },
+    "CHANNEL_PREFERENCES": "Preferenze Canali",
+    "WIDGET_FEATURES": "Funzionalità Widget",
     "ACCOUNT_HEALTH": {
       "TITLE": "Gestisci il tuo account WhatsApp",
       "DESCRIPTION": "Controlla lo stato del tuo account WhatsApp, i limiti di messaggi e la qualità. Aggiorna le impostazioni o risolvi i problemi se necessario",
@@ -758,6 +763,7 @@
       "LABEL": "Help Center",
       "PLACEHOLDER": "Seleziona Help Center",
       "SELECT_PLACEHOLDER": "Seleziona Help Center",
+      "NONE": "Nessuno",
       "REMOVE": "Rimuovi Help Center",
       "SUB_TEXT": "Allega un Help Center con la Inbox"
     },
@@ -911,9 +917,11 @@
       "UNAVAILABLE_MESSAGE_LABEL": "Messaggio non disponibile per i visitatori",
       "TOGGLE_HELP": "Abilitare la disponibilità aziendale mostrerà le ore disponibili sul widget live chat anche se tutti gli operatori sono offline. Al di fuori delle ore di disponibilità gli utenti possono essere avvisati con un messaggio ed un modulo pre-chat.",
       "DAY": {
+        "DAY": "Giorno",
+        "AVAILABILITY": "Disponibilità",
+        "HOURS": "Ore",
         "ENABLE": "Abilita disponibilità per questo giorno",
         "UNAVAILABLE": "Non disponibile",
-        "HOURS": "ore",
         "VALIDATION_ERROR": "L'orario di inizio deve essere prima dell'orario di chiusura.",
         "CHOOSE": "Scegli"
       },
@@ -1020,11 +1028,12 @@
           "IN_A_DAY": "In un giorno"
         },
         "WIDGET_COLOR_LABEL": "Colore del widget",
-        "WIDGET_BUBBLE_POSITION_LABEL": "Posizione della bubble del widget",
-        "WIDGET_BUBBLE_TYPE_LABEL": "Tipo di bubble del widget",
+        "WIDGET_BUBBLE": "Bubble",
+        "WIDGET_BUBBLE_POSITION_LABEL": "Posizione:",
+        "WIDGET_BUBBLE_TYPE_LABEL": "Tipo:",
         "WIDGET_BUBBLE_LAUNCHER_TITLE": {
           "DEFAULT": "Chatta con noi",
-          "LABEL": "Titolo del launcher della bubble del widget",
+          "LABEL": "Titolo del Launcher",
           "PLACE_HOLDER": "Chatta con noi"
         },
         "UPDATE": {
@@ -1049,7 +1058,7 @@
       },
       "WIDGET_SCREEN": {
         "DEFAULT": "Predefinito",
-        "CHAT": "Chat"
+        "CHAT": "Modalità Chat"
       },
       "REPLY_TIME": {
         "IN_A_FEW_MINUTES": "In genere risponde in pochi minuti",
