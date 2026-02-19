@@ -58,12 +58,43 @@ module Aloo
       temp_file = Tempfile.new(['aloo_audio', extension], Rails.root.join('tmp'))
       temp_file.binmode
 
-      attachment.file.blob.open do |blob_file|
-        IO.copy_stream(blob_file, temp_file)
+      if whatsapp_media_id.present?
+        download_from_whatsapp(temp_file)
+      else
+        download_from_storage(temp_file)
       end
 
       temp_file.rewind
       temp_file
+    end
+
+    def download_from_whatsapp(temp_file)
+      channel = message.inbox.channel
+      phone_number_id = channel.provider_config['phone_number_id']
+
+      # Step 1: Get the temporary download URL from WhatsApp media endpoint
+      url_response = HTTParty.get(
+        channel.media_url(whatsapp_media_id, phone_number_id),
+        headers: channel.api_headers
+      )
+      raise "WhatsApp media API returned #{url_response.code}" unless url_response.success?
+
+      # Step 2: Download the actual audio file from the temporary URL
+      downloaded = Down.download(url_response.parsed_response['url'], headers: channel.api_headers)
+      IO.copy_stream(downloaded, temp_file)
+    rescue StandardError => e
+      Rails.logger.warn("[Aloo::AudioTranscription] WhatsApp download failed (#{e.message}), falling back to S3")
+      download_from_storage(temp_file)
+    end
+
+    def download_from_storage(temp_file)
+      attachment.file.blob.open do |blob_file|
+        IO.copy_stream(blob_file, temp_file)
+      end
+    end
+
+    def whatsapp_media_id
+      attachment.meta&.dig('whatsapp_media_id')
     end
 
     def transcription_model
