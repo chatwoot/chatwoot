@@ -5,7 +5,7 @@ class V2::Reports::Conversations::MetricBuilder < V2::Reports::Conversations::Ba
       incoming_messages_count: count('incoming_messages_count'),
       outgoing_messages_count: count('outgoing_messages_count'),
       avg_first_response_time: count('avg_first_response_time'),
-      avg_resolution_time: count('avg_resolution_time_without_bot'),
+      avg_resolution_time: count('avg_resolution_time'),
       avg_resolution_time_without_bot: count('avg_resolution_time_without_bot'),
       resolutions_count: count('resolutions_count'),
       reply_time: count('reply_time'),

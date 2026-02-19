@@ -13,7 +13,16 @@ class ReportingEventListener < BaseListener
     return if time_to_resolve <= 0
 
     service.create_conversation_resolved_events(start_time, end_time, time_to_resolve)
-    service.create_resolution_without_bot_events(start_time)
+
+    if conversation.inbox.active_bot?
+      bot_svc = bot_service(conversation)
+      without_bot_start_time = bot_svc.bot_handoff_time || first_operator_assigned_at(conversation)
+      return if without_bot_start_time.nil?
+    else
+      without_bot_start_time = start_time
+    end
+
+    service.create_resolution_without_bot_events(without_bot_start_time)
   end
 
   def first_reply_created(event)
@@ -90,6 +99,36 @@ class ReportingEventListener < BaseListener
   end
 
   private
+
+  def first_operator_assigned_at(conversation)
+    bot_svc = bot_service(conversation)
+    handoff_time = bot_svc.bot_handoff_time
+
+    after_time = handoff_time || last_bot_message_time(conversation)
+
+    return nil if after_time.nil?
+
+    ConversationParticipant
+      .where(conversation_id: conversation.id)
+      .where.not(user_id: nil)
+      .where('created_at >= ?', after_time)
+      .order(created_at: :asc)
+      .first&.created_at
+  end
+
+  def last_bot_message_time(conversation)
+    conversation.messages
+                .where(message_type: :outgoing, sender_type: ['AgentBot', 'Captain::Assistant'])
+                .order(created_at: :desc)
+                .first&.created_at
+  end
+
+  def bot_handoff_time
+    ReportingEvent.where(
+      conversation_id: conversation.id,
+      name: 'bot_handoff'
+    ).order(created_at: :asc).first&.event_end_time
+  end
 
   def find_active_participant(conversation, user_id)
     ConversationParticipant.find_by(
