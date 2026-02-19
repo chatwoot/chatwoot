@@ -3,9 +3,12 @@
     "HEADER": "Makrokomandos",
     "DESCRIPTION": "A macro is a set of saved actions that help customer service agents easily complete tasks. The agents can define a set of actions like tagging a conversation with a label, sending an email transcript, updating a custom attribute, etc., and they can run these actions in a single click.",
     "LEARN_MORE": "Learn more about macros",
+    "COUNT": "{n} macro | {n} macros",
     "HEADER_BTN_TXT": "Pridėti naują makrokomandą",
     "HEADER_BTN_TXT_SAVE": "Išsaugoti makrokomandą",
     "LOADING": "Gaunama makrokomanda",
+    "SEARCH_PLACEHOLDER": "Search macros...",
+    "NO_RESULTS": "No macros found matching your search",
     "ERROR": "Kažkas nepavyko. Bandykite dar kartą",
     "ORDER_INFO": "Makrokomandos bus paleistos ta tvarka, kuria pridėsite veiksmus. Galite juos pertvarkyti vilkdami už rankenos šalia kiekvieno mazgo.",
     "ADD": {
@@ -29,7 +32,8 @@
         "NAME": "Vardas",
         "CREATED BY": "Sukurtas",
         "LAST_UPDATED_BY": "Paskutinį kartą atnaujino",
-        "VISIBILITY": "Matomumas"
+        "VISIBILITY": "Matomumas",
+        "ACTIONS": "Veiksmai"
       },
       "404": "Nerasta makrokomandų"
     },
