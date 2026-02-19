@@ -356,6 +356,35 @@ RSpec.describe Conversations::AutoAssignService, type: :service do
 
       service.perform
     end
+
+    context 'with Aloo::Current tenant context' do
+      before { create_incoming('I need help with my billing invoice, it shows the wrong amount charged') }
+
+      it 'sets Aloo::Current.account while calling the agent' do
+        captured_account = nil
+        allow(ConversationTriageAgent).to receive(:call) do
+          captured_account = Aloo::Current.account
+          instance_double('RubyLLM::Agents::Result', success?: true, content: { 'label_id' => nil, 'team_id' => nil })
+        end
+
+        service.perform
+        expect(captured_account).to eq(account)
+      end
+
+      it 'resets Aloo::Current.account after execution' do
+        stub_agent_call(ConversationTriageAgent, content: { 'label_id' => nil, 'team_id' => nil })
+
+        service.perform
+        expect(Aloo::Current.account).to be_nil
+      end
+
+      it 'resets Aloo::Current.account even when an error occurs' do
+        allow(ConversationTriageAgent).to receive(:call).and_raise(StandardError.new('boom'))
+
+        expect { service.perform }.to raise_error(StandardError, 'boom')
+        expect(Aloo::Current.account).to be_nil
+      end
+    end
   end
 
   describe 'constants' do

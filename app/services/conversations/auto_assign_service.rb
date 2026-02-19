@@ -17,16 +17,25 @@ class Conversations::AutoAssignService
   def perform
     return unless should_process?
 
-    conversation.update_column(:last_triaged_at, Time.current) # rubocop:disable Rails/SkipsModelValidations
+    with_context do
+      conversation.update_column(:last_triaged_at, Time.current) # rubocop:disable Rails/SkipsModelValidations
 
-    suggestions = fetch_suggestions
-    apply_suggestions(suggestions) if suggestions
+      suggestions = fetch_suggestions
+      apply_suggestions(suggestions) if suggestions
+    end
   rescue StandardError => e
     Rails.logger.error("Auto-classification failed for conversation #{conversation.id}: #{e.message}")
     raise
   end
 
   private
+
+  def with_context
+    Aloo::Current.account = account
+    yield
+  ensure
+    Aloo::Current.reset
+  end
 
   def should_process?
     conversation.open? && threshold_met? && !recently_triaged? && has_auto_assign_options? && needs_assignment?
