@@ -63,7 +63,7 @@ class Cart < ApplicationRecord
   }
 
   validates :external_payment_id, uniqueness: true, presence: true
-  validates :payment_url, presence: true, unless: :initiated?
+  validates :payment_url, presence: true, unless: -> { initiated? || failed? }
   validates :provider, presence: true
   validates :subtotal, presence: true, numericality: { greater_than_or_equal_to: 0 }
   validates :total, presence: true, numericality: { greater_than: 0 }
