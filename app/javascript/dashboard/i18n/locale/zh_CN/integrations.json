@@ -1,6 +1,7 @@
 {
   "INTEGRATION_SETTINGS": {
     "SHOPIFY": {
+      "HEADER": "Shopify",
       "DELETE": {
         "TITLE": "Delete Shopify Integration",
         "MESSAGE": "Are you sure you want to delete the Shopify integration?"
@@ -19,6 +20,8 @@
     "DESCRIPTION": "Chatwoot 集成了多种工具和服务，以提高团队效率。浏览以下列表以配置您喜欢的应用程序。",
     "LEARN_MORE": "了解更多关于集成的信息",
     "LOADING": "正在获取集成",
+    "SEARCH_PLACEHOLDER": "Search integrations...",
+    "NO_RESULTS": "No integrations found matching your search",
     "CAPTAIN": {
       "DISABLED": "您的账户未启用 Captain。",
       "CLICK_HERE_TO_CONFIGURE": "点击此处配置",
@@ -28,6 +31,9 @@
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "订阅事件",
       "LEARN_MORE": "了解更多关于 Webhooks 的信息",
+      "COUNT": "{n} webhook | {n} webhooks",
+      "SEARCH_PLACEHOLDER": "Search webhooks...",
+      "NO_RESULTS": "No webhooks found matching your search",
       "FORM": {
         "CANCEL": "取消",
         "DESC": "Webhook 事件为您提供了有关 Chatwoot 账户中发生的事情的实时信息。请输入一个有效的 URL 来配置回调。",
@@ -104,6 +110,7 @@
       }
     },
     "SLACK": {
+      "HEADER": "Slack",
       "DELETE": "删除",
       "DELETE_CONFIRMATION": {
         "TITLE": "删除集成",
@@ -223,12 +230,16 @@
       "SIDEBAR_TXT": "<p><b>仪表板应用</b></p><p>仪表板应用允许组织将应用程序嵌入 Chatwoot 仪表板中，以便为客服人员提供上下文信息。此功能允许您独立创建应用程序并将其嵌入仪表板中，以提供用户信息、他们的订单或以前的付款历史记录。</p><p>当您使用 Chatwoot 仪表板嵌入应用程序时，您的应用程序将作为窗口事件获取对话和联系人的上下文信息。在您的页面上实现消息事件的监听器以接收上下文信息。</p><p>要添加新的仪表板应用，请点击“添加新的仪表板应用”按钮。</p>",
       "DESCRIPTION": "仪表板应用允许组织将应用程序嵌入仪表板中，以便为客服人员提供上下文信息。此功能允许您独立创建应用程序并将其嵌入仪表板中，以提供用户信息、他们的订单或以前的付款历史记录。",
       "LEARN_MORE": "了解更多关于仪表板应用的信息",
+      "COUNT": "{n} dashboard app | {n} dashboard apps",
+      "SEARCH_PLACEHOLDER": "Search dashboard apps...",
+      "NO_RESULTS": "No dashboard apps found matching your search",
       "LIST": {
         "404": "此账户尚未配置任何仪表板应用",
         "LOADING": "正在获取仪表板应用...",
         "TABLE_HEADER": {
           "NAME": "姓名",
-          "ENDPOINT": "端点"
+          "ENDPOINT": "端点",
+          "ACTIONS": "操作"
         },
         "EDIT_TOOLTIP": "编辑应用",
         "DELETE_TOOLTIP": "删除应用"
@@ -265,6 +276,7 @@
       }
     },
     "LINEAR": {
+      "HEADER": "Linear",
       "ADD_OR_LINK_BUTTON": "创建/链接 Linear 问题",
       "LOADING": "正在获取 Linear 问题...",
       "LOADING_ERROR": "获取 Linear 问题时出错，请重试",
@@ -359,6 +371,7 @@
       }
     },
     "NOTION": {
+      "HEADER": "Notion",
       "DELETE": {
         "TITLE": "Are you sure you want to delete the Notion integration?",
         "MESSAGE": "Deleting this integration will remove access to your Notion workspace and stop all related functionality.",
