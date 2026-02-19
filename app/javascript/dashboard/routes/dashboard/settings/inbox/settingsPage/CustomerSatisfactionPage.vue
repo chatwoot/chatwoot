@@ -526,77 +526,76 @@ const handleConfirmTemplateUpdate = async () => {
                   :placeholder="$t('INBOX_MGMT.CSAT.BUTTON_TEXT.PLACEHOLDER')"
                   class="w-full"
                 />
-              </WithLabel>
-              <div v-if="showUtilityAnalyzer" class="flex flex-col gap-2">
-                <NextButton
-                  sm
-                  slate
-                  :label="$t('INBOX_MGMT.CSAT.UTILITY_ANALYZER.ACTION')"
-                  :is-loading="utilityAnalysisLoading"
-                  :disabled="!state.message?.trim()"
-                  @click="analyzeTemplateUtility"
-                />
-                <p class="text-xs text-n-slate-11">
-                  {{ $t('INBOX_MGMT.CSAT.UTILITY_ANALYZER.HELPER_NOTE') }}
-                </p>
-              </div>
-
-              <div
-                v-if="utilityAnalysisResult"
-                class="flex flex-col gap-3 p-3 rounded-xl outline outline-1 outline-n-weak bg-n-alpha-1"
-              >
-                <div class="flex gap-2 items-center">
-                  <span class="text-sm font-medium text-n-slate-12">
-                    {{ $t('INBOX_MGMT.CSAT.UTILITY_ANALYZER.RESULT_LABEL') }}
-                  </span>
-                  <span
-                    class="px-2 py-0.5 text-xs font-medium rounded-full"
-                    :class="
-                      getUtilityClassificationClass(
-                        utilityAnalysisResult.classification
-                      )
-                    "
-                  >
-                    {{
-                      getUtilityClassificationLabel(
-                        utilityAnalysisResult.classification
-                      )
-                    }}
-                  </span>
-                </div>
-                <p class="text-xs text-n-slate-11">
-                  {{ $t('INBOX_MGMT.CSAT.UTILITY_ANALYZER.GUIDANCE_NOTE') }}
-                </p>
-                <div
-                  v-if="
-                    utilityAnalysisResult.optimized_message &&
-                    utilityAnalysisResult.classification !== 'LIKELY_UTILITY'
-                  "
-                  class="flex flex-col gap-2"
-                >
-                  <p class="text-xs font-medium text-n-slate-12">
-                    {{
-                      $t('INBOX_MGMT.CSAT.UTILITY_ANALYZER.SUGGESTION_LABEL')
-                    }}
-                  </p>
-                  <p class="text-sm text-n-slate-12">
-                    {{ utilityAnalysisResult.optimized_message }}
-                  </p>
+                <div v-if="showUtilityAnalyzer" class="flex flex-col gap-2">
                   <NextButton
                     sm
-                    faded
                     slate
-                    :label="$t('INBOX_MGMT.CSAT.UTILITY_ANALYZER.APPLY')"
-                    @click="applyUtilitySuggestion"
+                    :label="$t('INBOX_MGMT.CSAT.UTILITY_ANALYZER.ACTION')"
+                    :is-loading="utilityAnalysisLoading"
+                    :disabled="!state.message?.trim()"
+                    @click="analyzeTemplateUtility"
                   />
+                  <p class="text-xs text-n-slate-11">
+                    {{ $t('INBOX_MGMT.CSAT.UTILITY_ANALYZER.HELPER_NOTE') }}
+                  </p>
                 </div>
-              </div>
-              <Input
-                v-model="state.templateButtonText"
-                :label="$t('INBOX_MGMT.CSAT.BUTTON_TEXT.LABEL')"
-                :placeholder="$t('INBOX_MGMT.CSAT.BUTTON_TEXT.PLACEHOLDER')"
-                class="w-full"
-              />
+
+                <div
+                  v-if="utilityAnalysisResult"
+                  class="flex flex-col gap-3 p-3 rounded-xl outline outline-1 outline-n-weak bg-n-alpha-1"
+                >
+                  <div class="flex gap-2 items-center">
+                    <span class="text-sm font-medium text-n-slate-12">
+                      {{ $t('INBOX_MGMT.CSAT.UTILITY_ANALYZER.RESULT_LABEL') }}
+                    </span>
+                    <span
+                      class="px-2 py-0.5 text-xs font-medium rounded-full"
+                      :class="
+                        getUtilityClassificationClass(
+                          utilityAnalysisResult.classification
+                        )
+                      "
+                    >
+                      {{
+                        getUtilityClassificationLabel(
+                          utilityAnalysisResult.classification
+                        )
+                      }}
+                    </span>
+                  </div>
+                  <p class="text-xs text-n-slate-11">
+                    {{ $t('INBOX_MGMT.CSAT.UTILITY_ANALYZER.GUIDANCE_NOTE') }}
+                  </p>
+                  <div
+                    v-if="
+                      utilityAnalysisResult.optimized_message &&
+                      utilityAnalysisResult.classification !== 'LIKELY_UTILITY'
+                    "
+                    class="flex flex-col gap-2"
+                  >
+                    <p class="text-xs font-medium text-n-slate-12">
+                      {{
+                        $t('INBOX_MGMT.CSAT.UTILITY_ANALYZER.SUGGESTION_LABEL')
+                      }}
+                    </p>
+                    <p class="text-sm text-n-slate-12">
+                      {{ utilityAnalysisResult.optimized_message }}
+                    </p>
+                    <NextButton
+                      sm
+                      faded
+                      slate
+                      :label="$t('INBOX_MGMT.CSAT.UTILITY_ANALYZER.APPLY')"
+                      @click="applyUtilitySuggestion"
+                    />
+                  </div>
+                </div>
+                <Input
+                  v-model="state.templateButtonText"
+                  :label="$t('INBOX_MGMT.CSAT.BUTTON_TEXT.LABEL')"
+                  :placeholder="$t('INBOX_MGMT.CSAT.BUTTON_TEXT.PLACEHOLDER')"
+                  class="w-full"
+                />
 
                 <WithLabel
                   :label="$t('INBOX_MGMT.CSAT.LANGUAGE.LABEL')"
