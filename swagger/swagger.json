@@ -4282,6 +4282,13 @@
             }
           }
         ],
+        "x-codeSamples": [
+          {
+            "lang": "python",
+            "label": "Get conversation counts",
+            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\ncounts = client.conversations.get_counts(\n    account_id=1,\n    status=\"open\"\n)\n\nprint(counts)\n# {'mine_count': 5, 'unassigned_count': 12, 'assigned_count': 8, 'all_count': 25}\n"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -4417,6 +4424,18 @@
             "description": "paginate through conversations"
           }
         ],
+        "x-codeSamples": [
+          {
+            "lang": "python",
+            "label": "List open conversations",
+            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\nconversations = client.conversations.list(\n    account_id=1,\n    status=\"open\",\n    assignee_type=\"me\",\n    page=1\n)\n\nfor conversation in conversations:\n    print(conversation.id, conversation.status)\n"
+          },
+          {
+            "lang": "python",
+            "label": "Search conversations",
+            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\nconversations = client.conversations.list(\n    account_id=1,\n    q=\"billing issue\",\n    inbox_id=5,\n    labels=[\"support\"]\n)\n"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -4465,6 +4484,13 @@
             }
           }
         },
+        "x-codeSamples": [
+          {
+            "lang": "python",
+            "label": "Create a conversation",
+            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\nconversation = client.conversations.create(\n    account_id=1,\n    source_id=\"user-123\",\n    inbox_id=5,\n    contact_id=100\n)\n\nprint(conversation.id, conversation.inbox_id)\n"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -4519,6 +4545,13 @@
         "security": [
           {
             "userApiKey": []
+          }
+        ],
+        "x-codeSamples": [
+          {
+            "lang": "python",
+            "label": "Filter conversations",
+            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\n# Use the list method with built-in filters\nconversations = client.conversations.list(\n    account_id=1,\n    status=\"pending\",\n    assignee_type=\"unassigned\",\n    inbox_id=5\n)\n"
           }
         ],
         "parameters": [
@@ -4642,6 +4675,13 @@
           }
         ],
         "description": "Get all details regarding a conversation with all messages in the conversation",
+        "x-codeSamples": [
+          {
+            "lang": "python",
+            "label": "Get conversation details",
+            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\nconversation = client.conversations.get(\n    account_id=1,\n    conversation_id=42\n)\n\nprint(conversation.id, conversation.status)\nprint(conversation.meta)\nprint(conversation.messages)\n"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -4719,6 +4759,13 @@
             }
           }
         },
+        "x-codeSamples": [
+          {
+            "lang": "python",
+            "label": "Update conversation priority",
+            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\nconversation = client.conversations.update(\n    account_id=1,\n    conversation_id=42,\n    priority=\"high\"\n)\n"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success"
@@ -4801,6 +4848,18 @@
             }
           }
         },
+        "x-codeSamples": [
+          {
+            "lang": "python",
+            "label": "Resolve a conversation",
+            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\nresult = client.conversations.toggle_status(\n    account_id=1,\n    conversation_id=42,\n    status=\"resolved\"\n)\n\nprint(result.success, result.current_status)\n"
+          },
+          {
+            "lang": "python",
+            "label": "Reopen a conversation",
+            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\nresult = client.conversations.toggle_status(\n    account_id=1,\n    conversation_id=42,\n    status=\"open\"\n)\n"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -4911,6 +4970,13 @@
             }
           }
         },
+        "x-codeSamples": [
+          {
+            "lang": "python",
+            "label": "Set conversation priority",
+            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\nconversation = client.conversations.update(\n    account_id=1,\n    conversation_id=42,\n    priority=\"urgent\"\n)\n"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success"
@@ -5068,6 +5134,18 @@
             }
           }
         },
+        "x-codeSamples": [
+          {
+            "lang": "python",
+            "label": "Assign to an agent",
+            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\nconversation = client.conversations.assign(\n    account_id=1,\n    conversation_id=42,\n    assignee_id=10\n)\n"
+          },
+          {
+            "lang": "python",
+            "label": "Assign to a team",
+            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\nconversation = client.conversations.update(\n    account_id=1,\n    conversation_id=42,\n    team_id=5\n)\n"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -5123,6 +5201,13 @@
           }
         ],
         "description": "Lists all the labels of a conversation",
+        "x-codeSamples": [
+          {
+            "lang": "python",
+            "label": "List conversation labels",
+            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\nlabels = client.conversations.labels.list(\n    account_id=1,\n    conversation_id=42\n)\n\nprint(labels)\n# ['support', 'billing', 'urgent']\n"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -5168,6 +5253,13 @@
           }
         ],
         "description": "Add labels to a conversation. Note that this API would overwrite the existing list of labels associated to the conversation.",
+        "x-codeSamples": [
+          {
+            "lang": "python",
+            "label": "Add labels to conversation",
+            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\n# Note: this overwrites existing labels\nlabels = client.conversations.labels.add(\n    account_id=1,\n    conversation_id=42,\n    labels=[\"support\", \"billing\"]\n)\n\nprint(labels)\n# ['support', 'billing']\n"
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -6039,6 +6131,13 @@
           }
         ],
         "description": "List all messages of a conversation",
+        "x-codeSamples": [
+          {
+            "lang": "python",
+            "label": "List messages",
+            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\nmessages = client.messages.list(\n    account_id=1,\n    conversation_id=42\n)\n\nfor message in messages:\n    print(message.content, message.message_type)\n"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -6124,6 +6223,18 @@
             "agentBotApiKey": []
           }
         ],
+        "x-codeSamples": [
+          {
+            "lang": "python",
+            "label": "Send a message",
+            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\nmessage = client.messages.create(\n    account_id=1,\n    conversation_id=42,\n    content=\"Hello, how can I help you today?\"\n)\n\nprint(message.id, message.content)\n"
+          },
+          {
+            "lang": "python",
+            "label": "Send a private note",
+            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\nnote = client.messages.create(\n    account_id=1,\n    conversation_id=42,\n    content=\"Internal note: Customer needs follow-up\",\n    private=True\n)\n"
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -6199,6 +6310,13 @@
           }
         ],
         "description": "Delete a message and it's attachments from the conversation.",
+        "x-codeSamples": [
+          {
+            "lang": "python",
+            "label": "Delete a message",
+            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\nclient.messages.delete(\n    account_id=1,\n    message_id=123\n)\n"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success"

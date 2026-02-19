@@ -33,6 +33,39 @@ requestBody:
               customer reply. The conversation always reopens when the
               customer replies.
             example: 1757506877
+x-codeSamples:
+  - lang: python
+    label: "Resolve a conversation"
+    source: |
+      from chatwoot import ChatwootClient
+
+      client = ChatwootClient(
+          base_url="https://app.chatwoot.com",
+          api_token="your-api-token"
+      )
+
+      result = client.conversations.toggle_status(
+          account_id=1,
+          conversation_id=42,
+          status="resolved"
+      )
+
+      print(result.success, result.current_status)
+  - lang: python
+    label: "Reopen a conversation"
+    source: |
+      from chatwoot import ChatwootClient
+
+      client = ChatwootClient(
+          base_url="https://app.chatwoot.com",
+          api_token="your-api-token"
+      )
+
+      result = client.conversations.toggle_status(
+          account_id=1,
+          conversation_id=42,
+          status="open"
+      )
 responses:
   '200':
     description: Success

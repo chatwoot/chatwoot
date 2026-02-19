@@ -20,6 +20,22 @@ requestBody:
             enum: ['urgent', 'high', 'medium', 'low', 'none']
             description: 'The priority of the conversation'
             example: 'high'
+x-codeSamples:
+  - lang: python
+    label: "Set conversation priority"
+    source: |
+      from chatwoot import ChatwootClient
+
+      client = ChatwootClient(
+          base_url="https://app.chatwoot.com",
+          api_token="your-api-token"
+      )
+
+      conversation = client.conversations.update(
+          account_id=1,
+          conversation_id=42,
+          priority="urgent"
+      )
 responses:
   '200':
     description: Success
