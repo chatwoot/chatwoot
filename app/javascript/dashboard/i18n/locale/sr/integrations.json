@@ -1,6 +1,7 @@
 {
   "INTEGRATION_SETTINGS": {
     "SHOPIFY": {
+      "HEADER": "Shopify",
       "DELETE": {
         "TITLE": "Delete Shopify Integration",
         "MESSAGE": "Are you sure you want to delete the Shopify integration?"
@@ -19,6 +20,8 @@
     "DESCRIPTION": "Chatwoot integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
     "LEARN_MORE": "Learn more about integrations",
     "LOADING": "Fetching integrations",
+    "SEARCH_PLACEHOLDER": "Search integrations...",
+    "NO_RESULTS": "No integrations found matching your search",
     "CAPTAIN": {
       "DISABLED": "Captain is not enabled on your account.",
       "CLICK_HERE_TO_CONFIGURE": "Click here to configure",
@@ -28,6 +31,9 @@
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Pretplaćeni događaji",
       "LEARN_MORE": "Learn more about webhooks",
+      "COUNT": "{n} webhook | {n} webhooks",
+      "SEARCH_PLACEHOLDER": "Search webhooks...",
+      "NO_RESULTS": "No webhooks found matching your search",
       "FORM": {
         "CANCEL": "Otkaži",
         "DESC": "Događaji veb zakački vam omogućavaju informacije u realnom vremenu o onome šta se događa na vašem Chatwoot nalogu. Molim vas unesite ispravnu adresu da bi ste podesili povratni poziv.",
@@ -104,6 +110,7 @@
       }
     },
     "SLACK": {
+      "HEADER": "Slack",
       "DELETE": "Izbriši",
       "DELETE_CONFIRMATION": {
         "TITLE": "Delete the integration",
@@ -223,12 +230,16 @@
       "SIDEBAR_TXT": "<p><b>Aplikacije radne table</b></p><p>Aplikacije radne table omogućavaju organizacijama da integrišu aplikaciju unutar Chatwoot radne table da dostave kontekst agentima podrške. Ova mogućnosti vam omogućava da napravite aplikaciju nezavisno i integrišete je unutar radne table da bi ste dostavili informacije o korisniku, njihovim narudžbama ili istoriji prethodnih plaćanja.</p><p>Kada integrišete vašu aplikaciju koristeći radnu tablu u Chatwoot-u, vaša aplikacija će dobiti kontakst razgovora i kontakta kao window događaj. Implementirajte osluškivač događaj poruke na vašoj stranici da bi ste primili kontakst.</p><p>Da bi ste dodali novu aplikaciju radne table, kliknite na dugme 'Dodaj novu aplikaciju radne table'.</p>",
       "DESCRIPTION": "Aplikacije radne table omogućavaju organizacijama da integrišu aplikaciju unutar radne table da bi omogućili kontekst agentima podrške. Ova mogućnost omogućava da nezavisno napravite aplikaciju i integrišete je da bi ste dostavili informacije o korisniku, njihovim narudžbama ili njihovoj istoriji plaćanja.",
       "LEARN_MORE": "Learn more about Dashboard Apps",
+      "COUNT": "{n} dashboard app | {n} dashboard apps",
+      "SEARCH_PLACEHOLDER": "Search dashboard apps...",
+      "NO_RESULTS": "No dashboard apps found matching your search",
       "LIST": {
         "404": "Još uvek nema aplikacija radne table podešenih za ovaj nalog",
         "LOADING": "Prikupljanje aplikacija radne table...",
         "TABLE_HEADER": {
           "NAME": "Ime",
-          "ENDPOINT": "Krajnja tačka"
+          "ENDPOINT": "Krajnja tačka",
+          "ACTIONS": "Akcije"
         },
         "EDIT_TOOLTIP": "Uredi aplikaciju",
         "DELETE_TOOLTIP": "Obriši aplikaciju"
@@ -265,6 +276,7 @@
       }
     },
     "LINEAR": {
+      "HEADER": "Linear",
       "ADD_OR_LINK_BUTTON": "Create/Link Linear Issue",
       "LOADING": "Fetching linear issues...",
       "LOADING_ERROR": "There was an error fetching the linear issues, please try again",
@@ -359,6 +371,7 @@
       }
     },
     "NOTION": {
+      "HEADER": "Notion",
       "DELETE": {
         "TITLE": "Are you sure you want to delete the Notion integration?",
         "MESSAGE": "Deleting this integration will remove access to your Notion workspace and stop all related functionality.",
