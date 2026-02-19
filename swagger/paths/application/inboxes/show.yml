@@ -14,6 +14,20 @@ get:
         type: number
       description: ID of the inbox
       required: true
+  x-codeSamples:
+    - lang: python
+      label: "Get an inbox"
+      source: |
+        from chatwoot import ChatwootClient
+
+        client = ChatwootClient(
+            base_url="https://app.chatwoot.com",
+            api_token="your-api-token"
+        )
+
+        inbox = client.inboxes.get(account_id=1, inbox_id=5)
+
+        print(inbox.name, inbox.channel_type)
   responses:
     '200':
       description: Success

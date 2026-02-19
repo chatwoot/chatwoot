@@ -5,6 +5,20 @@ summary: Get a team details
 security:
   - userApiKey: []
 description: Get the details of a team in the account
+x-codeSamples:
+  - lang: python
+    label: "Get a team"
+    source: |
+      from chatwoot import ChatwootClient
+
+      client = ChatwootClient(
+          base_url="https://app.chatwoot.com",
+          api_token="your-api-token"
+      )
+
+      team = client.teams.get(account_id=1, team_id=5)
+
+      print(team.name, team.description)
 responses:
   '200':
     description: Success

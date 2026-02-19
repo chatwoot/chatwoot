@@ -5,6 +5,25 @@ summary: Update Agent in Account
 description: Update an Agent in Account
 security:
   - userApiKey: []
+x-codeSamples:
+  - lang: python
+    label: "Update an agent"
+    source: |
+      from chatwoot import ChatwootClient
+
+      client = ChatwootClient(
+          base_url="https://app.chatwoot.com",
+          api_token="your-api-token"
+      )
+
+      agent = client.agents.update(
+          account_id=1,
+          agent_id=10,
+          name="Jane Doe",
+          role="administrator"
+      )
+
+      print(agent.id, agent.role)
 parameters:
   - in: path
     name: id

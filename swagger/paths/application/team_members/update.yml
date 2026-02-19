@@ -5,6 +5,23 @@ summary: Update Agents in Team
 description: All agents except the one passed in params will be removed
 security:
   - userApiKey: []
+x-codeSamples:
+  - lang: python
+    label: "Replace team agents"
+    source: |
+      from chatwoot import ChatwootClient
+
+      client = ChatwootClient(
+          base_url="https://app.chatwoot.com",
+          api_token="your-api-token"
+      )
+
+      # Replaces all current agents with the ones provided
+      client.teams.agents.add(
+          account_id=1,
+          team_id=5,
+          agent_ids=[10, 11]
+      )
 requestBody:
   required: true
   content:

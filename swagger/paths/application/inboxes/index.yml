@@ -8,6 +8,21 @@ get:
     - userApiKey: []
   parameters:
     - $ref: '#/components/parameters/account_id'
+  x-codeSamples:
+    - lang: python
+      label: "List all inboxes"
+      source: |
+        from chatwoot import ChatwootClient
+
+        client = ChatwootClient(
+            base_url="https://app.chatwoot.com",
+            api_token="your-api-token"
+        )
+
+        inboxes = client.inboxes.list(account_id=1)
+
+        for inbox in inboxes:
+            print(inbox.id, inbox.name)
   responses:
     '200':
       description: Success

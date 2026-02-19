@@ -7,6 +7,25 @@ security:
 description: Create a team in the account
 parameters:
   - $ref: '#/components/parameters/account_id'
+x-codeSamples:
+  - lang: python
+    label: "Create a team"
+    source: |
+      from chatwoot import ChatwootClient
+
+      client = ChatwootClient(
+          base_url="https://app.chatwoot.com",
+          api_token="your-api-token"
+      )
+
+      team = client.teams.create(
+          account_id=1,
+          name="Support Team",
+          description="Customer support team",
+          allow_auto_assign=True
+      )
+
+      print(team.id, team.name)
 requestBody:
   required: true
   content:

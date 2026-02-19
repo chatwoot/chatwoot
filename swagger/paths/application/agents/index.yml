@@ -5,6 +5,21 @@ summary: List Agents in Account
 description: Get Details of Agents in an Account
 security:
   - userApiKey: []
+x-codeSamples:
+  - lang: python
+    label: "List all agents"
+    source: |
+      from chatwoot import ChatwootClient
+
+      client = ChatwootClient(
+          base_url="https://app.chatwoot.com",
+          api_token="your-api-token"
+      )
+
+      agents = client.agents.list(account_id=1)
+
+      for agent in agents:
+          print(agent.name, agent.role)
 responses:
   200:
     description: Success

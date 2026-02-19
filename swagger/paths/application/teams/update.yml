@@ -5,6 +5,24 @@ summary: Update a team
 security:
   - userApiKey: []
 description: Update a team's attributes
+x-codeSamples:
+  - lang: python
+    label: "Update a team"
+    source: |
+      from chatwoot import ChatwootClient
+
+      client = ChatwootClient(
+          base_url="https://app.chatwoot.com",
+          api_token="your-api-token"
+      )
+
+      team = client.teams.update(
+          account_id=1,
+          team_id=5,
+          name="New Team Name"
+      )
+
+      print(team.id, team.name)
 requestBody:
   required: true
   content:
