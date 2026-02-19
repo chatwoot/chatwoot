@@ -3,9 +3,12 @@
     "HEADER": "Macros",
     "DESCRIPTION": "Makro ir saglabātu darbību kopa, kas palīdz klientu apkalpošanas aģentiem viegli veikt uzdevumus. Aģenti var definēt darbību kopu, piemēram, sarunas marķēšanu ar etiķeti, sarunas transkripta nosūtīšanu uz e-pastu, pielāgota atribūta atjaunināšanu utt., un viņi var veikt šīs darbības ar vienu klikšķi.",
     "LEARN_MORE": "Uzzināt vairāk par makro",
+    "COUNT": "{n} macro | {n} macros",
     "HEADER_BTN_TXT": "Pievienot jaunu makro",
     "HEADER_BTN_TXT_SAVE": "Saglabāt makro",
     "LOADING": "Notiek makro iegūšana",
+    "SEARCH_PLACEHOLDER": "Search macros...",
+    "NO_RESULTS": "No macros found matching your search",
     "ERROR": "Radās kļūda. Lūdzu, mēģiniet vēlreiz",
     "ORDER_INFO": "Makro darbosies tādā secībā, kādā Jūs pievienosit savas darbības. Jūs varat tos pārkārtot, velkot tos aiz roktura kas atrodas blakus katram mezglam.",
     "ADD": {
@@ -29,7 +32,8 @@
         "NAME": "Nosaukums",
         "CREATED BY": "Izveidoja",
         "LAST_UPDATED_BY": "Pēdējo reizi atjaunināja",
-        "VISIBILITY": "Redzamība"
+        "VISIBILITY": "Redzamība",
+        "ACTIONS": "Darbības"
       },
       "404": "Nav atrasts neviens makro"
     },
