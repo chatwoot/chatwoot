@@ -11,7 +11,13 @@ class Audio::ApplicationTranscriber < RubyLLM::Agents::Transcriber
   protected
 
   def metadata
-    { aloo_assistant_id: current_assistant&.id&.to_s }.compact
+    {
+      account_id: current_account&.id&.to_s,
+      assistant_id: current_assistant&.id&.to_s,
+      conversation_id: Aloo::Current.conversation&.id&.to_s,
+      contact_id: Aloo::Current.contact&.id&.to_s,
+      inbox_id: Aloo::Current.inbox&.id&.to_s
+    }.compact
   end
 
   def current_account

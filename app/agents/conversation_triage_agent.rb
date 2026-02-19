@@ -21,6 +21,18 @@ class ConversationTriageAgent < ApplicationAgent
   param :conversation_messages, required: true
   param :available_labels
   param :available_teams
+  param :account_id
+  param :conversation_id
+  param :inbox_id
+
+  def metadata
+    {
+      account_id: account_id&.to_s,
+      conversation_id: conversation_id&.to_s,
+      inbox_id: inbox_id&.to_s,
+      message_count: conversation_messages&.size&.to_s
+    }.compact
+  end
 
   def user_prompt
     build_triage_prompt

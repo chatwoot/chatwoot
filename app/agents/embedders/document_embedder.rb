@@ -13,6 +13,13 @@ class Embedders::DocumentEmbedder < RubyLLM::Agents::Embedder
 
   description 'Generates embeddings for knowledge base documents and search queries'
 
+  def metadata
+    {
+      account_id: (Current.account&.id || @options.dig(:tenant, :id))&.to_s,
+      assistant_id: Aloo::Current.assistant&.id&.to_s
+    }.compact
+  end
+
   def resolve_tenant
     tenant = @options[:tenant] || Current.account
     return nil unless tenant
