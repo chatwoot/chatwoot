@@ -1,15 +1,17 @@
 <script>
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
-import SettingsSection from 'dashboard/components/SettingsSection.vue';
+import SettingsFieldSection from 'dashboard/components-next/Settings/SettingsFieldSection.vue';
 import LoadingState from 'dashboard/components/widgets/LoadingState.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import SelectInput from 'dashboard/components-next/select/Select.vue';
 
 export default {
   components: {
     LoadingState,
-    SettingsSection,
+    SettingsFieldSection,
     NextButton,
+    SelectInput,
   },
   props: {
     inbox: {
@@ -27,8 +29,13 @@ export default {
       agentBots: 'agentBots/getBots',
       uiFlags: 'agentBots/getUIFlags',
     }),
+    currentInboxId() {
+      return this.inbox?.id || this.$route.params.inboxId;
+    },
     activeAgentBot() {
-      return this.$store.getters['agentBots/getActiveAgentBot'](this.inbox.id);
+      return this.$store.getters['agentBots/getActiveAgentBot'](
+        this.currentInboxId
+      );
     },
   },
   watch: {
@@ -37,11 +44,14 @@ export default {
     },
   },
   mounted() {
-    this.$store.dispatch('agentBots/get');
-    this.$store.dispatch('agentBots/fetchAgentBotInbox', this.inbox.id);
+    this.fetchBotData();
   },
 
   methods: {
+    fetchBotData() {
+      this.$store.dispatch('agentBots/get');
+      this.$store.dispatch('agentBots/fetchAgentBotInbox', this.currentInboxId);
+    },
     async updateActiveAgentBot() {
       try {
         await this.$store.dispatch('agentBots/setAgentBotInbox', {
@@ -74,51 +84,42 @@ export default {
 </script>
 
 <template>
-  <div class="mx-8">
+  <div class="mx-6 max-w-3xl">
     <LoadingState v-if="uiFlags.isFetching || uiFlags.isFetchingAgentBot" />
-    <form
-      v-else
-      class="flex flex-wrap mx-0"
-      @submit.prevent="updateActiveAgentBot"
-    >
-      <SettingsSection
-        :title="$t('AGENT_BOTS.BOT_CONFIGURATION.TITLE')"
-        :sub-title="$t('AGENT_BOTS.BOT_CONFIGURATION.DESC')"
+    <form v-else @submit.prevent="updateActiveAgentBot">
+      <SettingsFieldSection
+        :label="$t('AGENT_BOTS.BOT_CONFIGURATION.TITLE')"
+        :help-text="$t('AGENT_BOTS.BOT_CONFIGURATION.DESC')"
+        class="[&>div]:!items-start"
       >
-        <div>
-          <label>
-            <select v-model="selectedAgentBotId">
-              <option value="" disabled selected>
-                {{ $t('AGENT_BOTS.BOT_CONFIGURATION.SELECT_PLACEHOLDER') }}
-              </option>
-              <option
-                v-for="agentBot in agentBots"
-                :key="agentBot.id"
-                :value="agentBot.id"
+        <SelectInput
+          v-model="selectedAgentBotId"
+          :placeholder="$t('AGENT_BOTS.BOT_CONFIGURATION.SELECT_PLACEHOLDER')"
+          :options="agentBots.map(bot => ({ value: bot.id, label: bot.name }))"
+        />
+        <template #extra>
+          <div class="grid grid-cols-1 lg:grid-cols-8 mt-3">
+            <div class="col-span-1 lg:col-span-2 invisible" />
+            <div class="col-span-1 lg:col-span-6 flex gap-2 mx-1">
+              <NextButton
+                type="submit"
+                :label="$t('AGENT_BOTS.BOT_CONFIGURATION.SUBMIT')"
+                :is-loading="uiFlags.isSettingAgentBot"
+              />
+              <NextButton
+                type="button"
+                :disabled="!selectedAgentBotId"
+                :is-loading="uiFlags.isDisconnecting"
+                faded
+                ruby
+                @click="disconnectBot"
               >
-                {{ agentBot.name }}
-              </option>
-            </select>
-          </label>
-          <div class="button-container space-x-2">
-            <NextButton
-              type="submit"
-              :label="$t('AGENT_BOTS.BOT_CONFIGURATION.SUBMIT')"
-              :is-loading="uiFlags.isSettingAgentBot"
-            />
-            <NextButton
-              type="button"
-              :disabled="!selectedAgentBotId"
-              :is-loading="uiFlags.isDisconnecting"
-              faded
-              ruby
-              @click="disconnectBot"
-            >
-              {{ $t('AGENT_BOTS.BOT_CONFIGURATION.DISCONNECT') }}
-            </NextButton>
+                {{ $t('AGENT_BOTS.BOT_CONFIGURATION.DISCONNECT') }}
+              </NextButton>
+            </div>
           </div>
-        </div>
-      </SettingsSection>
+        </template>
+      </SettingsFieldSection>
     </form>
   </div>
 </template>
