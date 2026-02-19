@@ -9,6 +9,7 @@
       "ADMINISTRATOR": "Stjórnandi",
       "AGENT": "Þjónustufulltrúi"
     },
+    "COUNT": "{n} agent | {n} agents",
     "LIST": {
       "404": "Það eru engir þjónustufulltrúar tengdir við þennan reikning",
       "TITLE": "Umsýsla þjónustufulltrúa í þínu teymi",
@@ -96,6 +97,8 @@
         "ERROR_MESSAGE": "Náði ekki að tengjast við netþjóna Woot, vinsamlegast reynið aftur"
       }
     },
+    "SEARCH_PLACEHOLDER": "Leita að þjónustufulltrúum...",
+    "NO_RESULTS": "No agents found matching your search",
     "SEARCH": {
       "NO_RESULTS": "Engar niðurstöður fundust."
     },
