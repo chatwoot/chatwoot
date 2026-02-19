@@ -10,6 +10,25 @@ description: |
 
   This action is irreversible. All conversations, labels, and custom attributes from the
   mergee contact will be moved to the base contact.
+x-codeSamples:
+  - lang: python
+    label: "Merge two contacts"
+    source: |
+      from chatwoot import ChatwootClient
+
+      client = ChatwootClient(
+          base_url="https://app.chatwoot.com",
+          api_token="your-api-token"
+      )
+
+      # base_contact_id is kept; mergee_contact_id is deleted
+      contact = client.contacts.merge(
+          account_id=1,
+          base_contact_id=100,
+          mergee_contact_id=200
+      )
+
+      print(contact.id, contact.name)
 requestBody:
   required: true
   content:
