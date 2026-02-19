@@ -12,7 +12,7 @@ import {
   setMonth,
   setYear,
 } from 'date-fns';
-import { CALENDAR_TYPES, CALENDAR_PERIODS } from './helpers/DatePickerHelper';
+import { CALENDAR_PERIODS } from './helpers/DatePickerHelper';
 import CalendarYear from './components/CalendarYear.vue';
 import CalendarMonth from './components/CalendarMonth.vue';
 import CalendarWeek from './components/CalendarWeek.vue';
@@ -28,7 +28,6 @@ defineProps({
 
 const emit = defineEmits(['apply', 'clear']);
 
-const { START_CALENDAR } = CALENDAR_TYPES;
 const { WEEK, MONTH, YEAR } = CALENDAR_PERIODS;
 
 const currentDate = ref(new Date());
@@ -89,11 +88,11 @@ const moveCalendar = (direction, period = MONTH) => {
   calendarDate.value = adjust[direction](calendarDate.value, 1);
 };
 
-const setViewMode = (_calendar, mode) => {
+const setViewMode = (_type, mode) => {
   calendarView.value = mode;
 };
 
-const openCalendar = (index, _calendarType, period = MONTH) => {
+const openCalendar = (index, _type, period = MONTH) => {
   calendarDate.value =
     period === MONTH
       ? setMonth(startOfMonth(calendarDate.value), index)
@@ -136,31 +135,23 @@ defineExpose({ resetState });
         <div class="flex flex-col items-center gap-2 min-w-[300px]">
           <CalendarYear
             v-if="calendarView === YEAR"
-            :calendar-type="START_CALENDAR"
             :start-current-date="calendarDate"
-            :end-current-date="addMonths(calendarDate, 1)"
-            @select-year="openCalendar($event, START_CALENDAR, YEAR)"
+            @select-year="openCalendar($event, null, YEAR)"
           />
           <CalendarMonth
             v-else-if="calendarView === MONTH"
-            :calendar-type="START_CALENDAR"
             :start-current-date="calendarDate"
-            :end-current-date="addMonths(calendarDate, 1)"
-            @select-month="openCalendar($event, START_CALENDAR)"
+            @select-month="openCalendar($event)"
             @set-view="setViewMode"
             @prev="moveCalendar('prev', YEAR)"
             @next="moveCalendar('next', YEAR)"
           />
           <CalendarWeek
             v-else
-            :calendar-type="START_CALENDAR"
             :current-date="currentDate"
             :start-current-date="calendarDate"
-            :end-current-date="addMonths(calendarDate, 1)"
             :selected-start-date="selectedDate"
             :selected-end-date="selectedDate"
-            :selecting-end-date="false"
-            :hovered-end-date="null"
             :min-date="minDate"
             @select-date="selectDate"
             @set-view="setViewMode"
