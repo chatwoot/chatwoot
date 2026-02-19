@@ -32,7 +32,7 @@ RSpec.describe Enterprise::Billing::CancelCloudSubscriptionsService do
     end
 
     context 'when account is cloud with active subscriptions' do
-      let(:subscription_response) { double(data: [sub_1, sub_2]) }
+      let(:subscription_response) { Struct.new(:data).new([sub_1, sub_2]) }
       let(:sub_1) { instance_double(Stripe::Subscription, id: 'sub_1', cancel_at_period_end: false) }
       let(:sub_2) { instance_double(Stripe::Subscription, id: 'sub_2', cancel_at_period_end: true) }
 
