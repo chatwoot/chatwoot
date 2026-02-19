@@ -66,6 +66,20 @@ module Guardrails
         - If the customer writes in English, translate the query to Arabic
         - For any other language, translate the query to English
         This ensures the knowledge base is searched regardless of what language its content is in
+
+      ## Multi-Attempt Knowledge Lookup
+
+      * If the first knowledge_lookup call returns no relevant results, you MUST retry with a rephrased query before giving up
+      * Retry strategies (try in order):
+        1. Rephrase using synonyms or alternative terms (e.g., "refund" → "return policy", "cost" → "pricing")
+        2. Broaden the query by removing specific details (e.g., "iPhone 15 Pro warranty" → "warranty policy")
+        3. Try a different angle on the topic (e.g., "how to cancel" → "cancellation process")
+      * You may call knowledge_lookup up to 3 times per customer question
+      * Only conclude that information is unavailable after at least 2 different query attempts have returned no relevant results
+      * Do NOT repeat the exact same query — each attempt must use meaningfully different wording
+
+      ## General Tool Rules
+
       * BEFORE refusing a request, ensure all relevant tools have been checked
       * If all tools are exhausted, offer a human handoff
       * NEVER mention tool names, internal logic, or execution steps

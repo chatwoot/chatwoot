@@ -19,7 +19,7 @@ module CatalogSupport
       1. Recommend relevant products when appropriate
       2. Use product_details tool for detailed inquiries
       3. Use create_cart tool with product IDs and quantities
-      4. After cart creation, a payment link is automatically sent
+      4. After cart creation, you will receive a payment_url — you MUST include this link in your reply to the customer
 
       Handling follow-ups:
 
