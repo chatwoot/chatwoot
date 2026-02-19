@@ -43,7 +43,7 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
   end
 
   def bot_summary_download
-    @report_data = generate_bots_report  # <-- Вызов helper метода
+    @report_data = generate_bots_report
     @date_range = report_service.format_date_range
 
     respond_with_report_download('bot_summary', 'api/v2/accounts/reports/bot_summary')
@@ -61,32 +61,32 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
   end
 
   def agents
-    @report_data = generate_agents_report  # <-- Вызов helper метода
+    @report_data = generate_agents_report
     respond_with_report_download('agents_report', 'api/v2/accounts/reports/agents')
   end
 
   def inboxes
-    @report_data = generate_inboxes_report  # <-- Вызов helper метода
+    @report_data = generate_inboxes_report
     respond_with_report_download('inboxes_report', 'api/v2/accounts/reports/inboxes')
   end
 
   def labels
-    @report_data = generate_labels_report  # <-- Вызов helper метода
+    @report_data = generate_labels_report
     respond_with_report_download('labels_report', 'api/v2/accounts/reports/labels')
   end
 
   def teams
-    @report_data = generate_teams_report  # <-- Вызов helper метода
+    @report_data = generate_teams_report
     respond_with_report_download('teams_report', 'api/v2/accounts/reports/teams')
   end
 
   def conversations_summary
-    @report_data = generate_conversations_report  # <-- Вызов helper метода
+    @report_data = generate_conversations_report
     respond_with_report_download('conversations_summary_report', 'api/v2/accounts/reports/conversations_summary')
   end
 
   def conversation_traffic
-    @report_data = generate_conversations_heatmap_report  # <-- Вызов helper метода
+    @report_data = generate_conversations_heatmap_report
     timezone_offset = (params[:timezone_offset] || 0).to_f
     @timezone = ActiveSupport::TimeZone[timezone_offset]
 

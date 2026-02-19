@@ -30,8 +30,12 @@ class ReportingEvents::ResolutionEventService
 
     user_ids = conversation.conversation_participants.where.not(user_id: nil).distinct.pluck(:user_id)
 
-    user_ids.each do |user_id|
-      build_resolution_without_bot_event(user_id, start_time, end_time, resolution_time)
+    if user_ids.empty?
+      build_resolution_without_bot_event(nil, start_time, end_time, resolution_time)
+    else
+      user_ids.each do |user_id|
+        build_resolution_without_bot_event(user_id, start_time, end_time, resolution_time)
+      end
     end
   end
 

@@ -65,6 +65,13 @@ class ReportingEvents::BotEventService
     ReportingEvent.exists?(conversation_id: conversation.id, name: 'conversation_bot_handoff')
   end
 
+  def bot_handoff_time
+    ReportingEvent.where(
+      conversation_id: conversation.id,
+      name: 'conversation_bot_handoff'
+    ).order(created_at: :asc).first&.event_end_time
+  end
+
   private
 
   def should_create_bot_resolved_event?
