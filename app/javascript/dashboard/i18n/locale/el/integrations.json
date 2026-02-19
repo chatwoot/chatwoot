@@ -1,6 +1,7 @@
 {
   "INTEGRATION_SETTINGS": {
     "SHOPIFY": {
+      "HEADER": "Shopify",
       "DELETE": {
         "TITLE": "Delete Shopify Integration",
         "MESSAGE": "Are you sure you want to delete the Shopify integration?"
@@ -19,6 +20,8 @@
     "DESCRIPTION": "Chatwoot integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
     "LEARN_MORE": "Learn more about integrations",
     "LOADING": "Fetching integrations",
+    "SEARCH_PLACEHOLDER": "Search integrations...",
+    "NO_RESULTS": "No integrations found matching your search",
     "CAPTAIN": {
       "DISABLED": "Captain is not enabled on your account.",
       "CLICK_HERE_TO_CONFIGURE": "Click here to configure",
@@ -28,6 +31,9 @@
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Εγγεγραμμένα Συμβάντα",
       "LEARN_MORE": "Learn more about webhooks",
+      "COUNT": "{n} webhook | {n} webhooks",
+      "SEARCH_PLACEHOLDER": "Search webhooks...",
+      "NO_RESULTS": "No webhooks found matching your search",
       "FORM": {
         "CANCEL": "Άκυρο",
         "DESC": "Τα συμβάντα Webhook μας εφοδιάζουν με πληροφορίες πραγματικού χρόνου σχετικά με το τι συμβαίνει στο λογαριασμό σας στο Chatwoot. Παρακαλώ εισάγετε ένα έγκυρο URL στην σχετική ρύθμιση.",
@@ -104,6 +110,7 @@
       }
     },
     "SLACK": {
+      "HEADER": "Slack",
       "DELETE": "Διαγραφή",
       "DELETE_CONFIRMATION": {
         "TITLE": "Delete the integration",
@@ -223,12 +230,16 @@
       "SIDEBAR_TXT": "<p><b>Εφαρμογές Dashboard</b></p><p>Οι εφαρμογές Dashboard επιτρέπουν σε οργανισμούς να ενσωματώσουν μια εφαρμογή μέσα στο ταμπλό Chatwoot για να παρέχουν το πλαίσιο για τους πράκτορες υποστήριξης πελατών. Αυτό το χαρακτηριστικό σας επιτρέπει να δημιουργήσετε μια εφαρμογή ανεξάρτητα και ενσωματωμένη που μέσα στον πίνακα ελέγχου για να παρέχει πληροφορίες χρήστη, τις παραγγελίες τους, ή το ιστορικό προηγούμενων πληρωμών τους.</p><p>Όταν ενσωματώσετε την εφαρμογή σας χρησιμοποιώντας το Dashboard στο Chatwoot, η εφαρμογή σας θα πάρει το πλαίσιο της συνομιλίας και θα επικοινωνήσει ως ένα παράθυρο εκδήλωσης. Εφαρμόστε έναν ακροατή για το γεγονός του μηνύματος στη σελίδα σας για να λάβετε το πλαίσιο.</p><p>Για να προσθέσετε μια νέα εφαρμογή ταμπλό, κάντε κλικ στο κουμπί 'Προσθήκη μιας νέας εφαρμογής Dashboard'.</p>",
       "DESCRIPTION": "Οι εφαρμογές Dashboard επιτρέπουν στους οργανισμούς να ενσωματώσουν μια εφαρμογή μέσα στον πίνακα ελέγχου για να παρέχουν το περιεχόμενο για τους πράκτορες υποστήριξης πελατών. Αυτή η λειτουργία σας επιτρέπει να δημιουργήσετε μια εφαρμογή ανεξάρτητα και ενσωματωμένη που θα παρέχει πληροφορίες χρήστη, τις παραγγελίες τους, ή το ιστορικό προηγούμενων πληρωμών τους.",
       "LEARN_MORE": "Learn more about Dashboard Apps",
+      "COUNT": "{n} dashboard app | {n} dashboard apps",
+      "SEARCH_PLACEHOLDER": "Search dashboard apps...",
+      "NO_RESULTS": "No dashboard apps found matching your search",
       "LIST": {
         "404": "Δεν έχουν δημιουργηθεί εφαρμογές Dashboard για αυτόν το λογαριασμό",
         "LOADING": "Λήψη εφαρμογών dashboard ...",
         "TABLE_HEADER": {
           "NAME": "Όνομα",
-          "ENDPOINT": "Endpoint"
+          "ENDPOINT": "Endpoint",
+          "ACTIONS": "Ενέργειες"
         },
         "EDIT_TOOLTIP": "Επεξεργασία εφαρμογής",
         "DELETE_TOOLTIP": "Διαγραφή εφαρμογής"
@@ -265,6 +276,7 @@
       }
     },
     "LINEAR": {
+      "HEADER": "Linear",
       "ADD_OR_LINK_BUTTON": "Create/Link Linear Issue",
       "LOADING": "Fetching linear issues...",
       "LOADING_ERROR": "There was an error fetching the linear issues, please try again",
@@ -359,6 +371,7 @@
       }
     },
     "NOTION": {
+      "HEADER": "Notion",
       "DELETE": {
         "TITLE": "Are you sure you want to delete the Notion integration?",
         "MESSAGE": "Deleting this integration will remove access to your Notion workspace and stop all related functionality.",
