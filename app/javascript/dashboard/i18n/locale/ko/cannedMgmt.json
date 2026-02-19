@@ -3,8 +3,11 @@
     "HEADER": "미리 준비된 답변",
     "LEARN_MORE": "Learn more about canned responses",
     "DESCRIPTION": "미리 준비된 응답은 대화에 신속하게 응답할 수 있도록 도와주는 미리 작성된 응답입니다. 상담원은 대화 중에 '/' 문자 뒤에 단축 코드를 입력하여 미리 준비된 응답을 삽입할 수 있습니다. ",
+    "COUNT": "{n} canned response | {n} canned responses",
     "HEADER_BTN_TXT": "미리 준비된 응답 추가",
     "LOADING": "Fetching canned responses...",
+    "SEARCH_PLACEHOLDER": "Search canned responses...",
+    "NO_RESULTS": "No canned responses found matching your search",
     "SEARCH_404": "이 쿼리와 일치하는 항목이 없음.",
     "LIST": {
       "404": "이 계정에는 미리 준비된 답변이 없습니다.",
