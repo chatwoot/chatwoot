@@ -586,43 +586,62 @@ rvm cleanup all 2>/dev/null || true
 
   # ── ELIMINAR BUNDLER DEFAULT GEM FÍSICAMENTE ──
   # Los default gems viven dentro del directorio de Ruby, no en GEM_HOME.
-  # gem uninstall no los toca. Hay que borrar los archivos a mano.
-  info "Eliminando Bundler default gem de Ruby (físicamente)..."
+  # gem uninstall NO puede eliminarlos. Hay que borrar los archivos a mano.
+  # Cubrimos TODAS las posibles ubicaciones de RVM (system-wide y user).
+  info "Eliminando TODO rastro de Bundler (físicamente)..."
 
-  # Determinar el directorio base de Ruby en RVM
-  local rvm_ruby_dir=""
-  if [[ -d "/usr/local/rvm/rubies/ruby-${RUBY_VERSION}" ]]; then
-    rvm_ruby_dir="/usr/local/rvm/rubies/ruby-${RUBY_VERSION}"
-  elif [[ -d "${CW_HOME}/.rvm/rubies/ruby-${RUBY_VERSION}" ]]; then
-    rvm_ruby_dir="${CW_HOME}/.rvm/rubies/ruby-${RUBY_VERSION}"
-  fi
+  local ruby_gem_minor="${RUBY_VERSION%.*}"  # 3.4
+  local ruby_gem_dir="${ruby_gem_minor}.0"    # 3.4.0
 
-  if [[ -n "$rvm_ruby_dir" ]]; then
-    # Ruby 3.4.4 usa directorio de gems 3.4.0 (major.minor.0)
-    local ruby_gem_minor="${RUBY_VERSION%.*}"  # 3.4
-    local ruby_gem_dir="${ruby_gem_minor}.0"    # 3.4.0
+  # Buscar en TODAS las posibles rutas de RVM
+  local rvm_base_dirs=()
+  [[ -d "/usr/local/rvm" ]] && rvm_base_dirs+=("/usr/local/rvm")
+  [[ -d "${CW_HOME}/.rvm" ]] && rvm_base_dirs+=("${CW_HOME}/.rvm")
 
-    # 1. Eliminar gemspec del default bundler
-    rm -f "${rvm_ruby_dir}/lib/ruby/gems/${ruby_gem_dir}/specifications/default/bundler-"*.gemspec 2>/dev/null || true
+  for rvm_base in "${rvm_base_dirs[@]}"; do
+    local rvm_ruby_dir="${rvm_base}/rubies/ruby-${RUBY_VERSION}"
 
-    # 2. Eliminar librería bundler de Ruby stdlib
-    rm -rf "${rvm_ruby_dir}/lib/ruby/${ruby_gem_dir}/bundler" 2>/dev/null || true
-    rm -f "${rvm_ruby_dir}/lib/ruby/${ruby_gem_dir}/bundler.rb" 2>/dev/null || true
+    if [[ -d "$rvm_ruby_dir" ]]; then
+      # A. Default gems dentro del directorio de Ruby
+      rm -f "${rvm_ruby_dir}/lib/ruby/gems/${ruby_gem_dir}/specifications/default/bundler-"*.gemspec 2>/dev/null || true
+      rm -rf "${rvm_ruby_dir}/lib/ruby/${ruby_gem_dir}/bundler" 2>/dev/null || true
+      rm -f "${rvm_ruby_dir}/lib/ruby/${ruby_gem_dir}/bundler.rb" 2>/dev/null || true
+      rm -f "${rvm_ruby_dir}/bin/bundle" "${rvm_ruby_dir}/bin/bundler" 2>/dev/null || true
+      rm -f "${rvm_ruby_dir}/lib/ruby/gems/${ruby_gem_dir}/specifications/bundler-"*.gemspec 2>/dev/null || true
+      rm -rf "${rvm_ruby_dir}/lib/ruby/gems/${ruby_gem_dir}/gems/bundler-"* 2>/dev/null || true
+      info "  Limpiado: ${rvm_ruby_dir}"
+    fi
 
-    # 3. Eliminar ejecutables bundle/bundler del bin de Ruby
-    rm -f "${rvm_ruby_dir}/bin/bundle" "${rvm_ruby_dir}/bin/bundler" 2>/dev/null || true
+    # B. GEM_HOME: /usr/local/rvm/gems/ruby-3.4.4/
+    local gem_home="${rvm_base}/gems/ruby-${RUBY_VERSION}"
+    if [[ -d "$gem_home" ]]; then
+      rm -f "${gem_home}/specifications/bundler-"*.gemspec 2>/dev/null || true
+      rm -f "${gem_home}/specifications/default/bundler-"*.gemspec 2>/dev/null || true
+      rm -rf "${gem_home}/gems/bundler-"* 2>/dev/null || true
+      rm -f "${gem_home}/bin/bundle" "${gem_home}/bin/bundler" 2>/dev/null || true
+      rm -rf "${gem_home}/cache/bundler-"*.gem 2>/dev/null || true
+      info "  Limpiado: ${gem_home}"
+    fi
 
-    # 4. Eliminar también de gems instaladas (por si quedó de intentos previos)
-    rm -f "${rvm_ruby_dir}/lib/ruby/gems/${ruby_gem_dir}/specifications/bundler-"*.gemspec 2>/dev/null || true
-    rm -rf "${rvm_ruby_dir}/lib/ruby/gems/${ruby_gem_dir}/gems/bundler-"* 2>/dev/null || true
+    # C. Global gemset: /usr/local/rvm/gems/ruby-3.4.4@global/
+    local gem_global="${rvm_base}/gems/ruby-${RUBY_VERSION}@global"
+    if [[ -d "$gem_global" ]]; then
+      rm -f "${gem_global}/specifications/bundler-"*.gemspec 2>/dev/null || true
+      rm -f "${gem_global}/specifications/default/bundler-"*.gemspec 2>/dev/null || true
+      rm -rf "${gem_global}/gems/bundler-"* 2>/dev/null || true
+      rm -f "${gem_global}/bin/bundle" "${gem_global}/bin/bundler" 2>/dev/null || true
+      rm -rf "${gem_global}/cache/bundler-"*.gem 2>/dev/null || true
+      info "  Limpiado: ${gem_global}"
+    fi
+  done
 
-    info "Bundler default gem eliminado físicamente de ${rvm_ruby_dir}"
-  fi
+  # D. Último recurso: buscar y eliminar CUALQUIER bundler que no sea 2.5.16 en todo RVM
+  for rvm_base in "${rvm_base_dirs[@]}"; do
+    find "$rvm_base" -name "bundler-*.gemspec" ! -name "bundler-${BUNDLER_VERSION}.gemspec" -delete 2>/dev/null || true
+    find "$rvm_base" -type d -name "bundler-*" ! -name "bundler-${BUNDLER_VERSION}" -exec rm -rf {} + 2>/dev/null || true
+  done
 
-  # También limpiar en GEM_HOME (gems del usuario)
-  run_as_cw "
-gem uninstall bundler --all --force 2>/dev/null || true
-" >> "$LOG_FILE" 2>&1
+  info "Todo rastro de Bundler eliminado"
 
   # ── INSTALAR BUNDLER EXACTO ──
   info "Instalando Bundler ${BUNDLER_VERSION} como ÚNICO bundler..."
