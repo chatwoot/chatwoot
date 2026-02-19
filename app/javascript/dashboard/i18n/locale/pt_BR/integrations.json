@@ -1,6 +1,7 @@
 {
   "INTEGRATION_SETTINGS": {
     "SHOPIFY": {
+      "HEADER": "Shopify",
       "DELETE": {
         "TITLE": "Excluir Integração com o Shopify",
         "MESSAGE": "Tem certeza que você deseja excluir a integração com o Shopify?"
@@ -19,6 +20,8 @@
     "DESCRIPTION": "Chatwoot se integra com várias ferramentas e serviços para melhorar a eficiência de seu time. Explore a lista abaixo para configurar seus aplicativos favoritos.",
     "LEARN_MORE": "Aprenda mais sobre integrações",
     "LOADING": "Obtendo integrações",
+    "SEARCH_PLACEHOLDER": "Pesquisar integrações...",
+    "NO_RESULTS": "Nenhuma integração encontrada correspondente à sua busca",
     "CAPTAIN": {
       "DISABLED": "O capitão não está ativado na sua conta.",
       "CLICK_HERE_TO_CONFIGURE": "Clique aqui para configurar",
@@ -28,6 +31,9 @@
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Eventos Inscritos",
       "LEARN_MORE": "Saiba mais sobre webhooks",
+      "COUNT": "{n} webhook | {n} webhooks",
+      "SEARCH_PLACEHOLDER": "Pesquisar webhooks...",
+      "NO_RESULTS": "Nenhum webhook encontrado correspondente à sua busca",
       "FORM": {
         "CANCEL": "Cancelar",
         "DESC": "Webhook Os eventos fornecem informações em tempo real sobre o que está acontecendo na sua conta do Chatwoot. Digite um URL válido para configurar um retorno de chamada.",
@@ -104,6 +110,7 @@
       }
     },
     "SLACK": {
+      "HEADER": "Slack",
       "DELETE": "Excluir",
       "DELETE_CONFIRMATION": {
         "TITLE": "Excluir integração",
@@ -223,12 +230,16 @@
       "SIDEBAR_TXT": "<p><b>Painel de Aplicativos</b></p><p>O Painel de Aplicativos permite que as organizações incorporem um aplicativo dentro do Painel de Aplicativos do Chatwoot para fornecer o contexto para agentes de suporte ao cliente. Este recurso permite-lhe criar uma aplicação independente e incorporá-la dentro da dashboard para fornecer informações do usuário, seus pedidos ou seu histórico de pagamentos anteriores.</p><p>Quando você incorpora seu aplicativo usando o Painel de Aplicativos do Chatwoot, sua aplicação irá obter o contexto da conversa e entrar em contato como um evento de janela. Implementar um ouvinte para o evento de mensagem em sua página receber o contexto.</p><p>Para adicionar um novo aplicativo no Painel de Aplicativos, clique no botão 'Adicionar um novo aplicativo'.</p>",
       "DESCRIPTION": "O Painel de Aplicativos permite que organizações incorporem um aplicativo dentro do painel para fornecer o contexto para agentes de suporte ao cliente. Este recurso permite que você crie uma aplicação independente e incorpore para fornecer informações de usuário, seus pedidos ou seu histórico de pagamentos anteriores.",
       "LEARN_MORE": "Saiba mais sobre o Painel de Aplicativos",
+      "COUNT": "{n} painel de aplicativo | {n} painéis de aplicativos",
+      "SEARCH_PLACEHOLDER": "Pesquisar painéis de aplicativos...",
+      "NO_RESULTS": "Nenhum painel de aplicativo encontrado correspondente à sua busca",
       "LIST": {
         "404": "Ainda não há aplicativos nesta conta",
         "LOADING": "Buscando aplicativos...",
         "TABLE_HEADER": {
           "NAME": "Nome",
-          "ENDPOINT": "Endpoint"
+          "ENDPOINT": "Endpoint",
+          "ACTIONS": "Ações"
         },
         "EDIT_TOOLTIP": "Alterar aplicativo",
         "DELETE_TOOLTIP": "Excluir aplicativo"
@@ -265,6 +276,7 @@
       }
     },
     "LINEAR": {
+      "HEADER": "Linear",
       "ADD_OR_LINK_BUTTON": "Criar/Ligar Issue Linear",
       "LOADING": "Buscando problemas lineares...",
       "LOADING_ERROR": "Houve um erro ao buscar as entidades do time, por favor, tente novamente",
@@ -359,6 +371,7 @@
       }
     },
     "NOTION": {
+      "HEADER": "Notion",
       "DELETE": {
         "TITLE": "Você tem certeza que deseja excluir a integração com Notion?",
         "MESSAGE": "Excluir essa integração removerá o acesso ao seu espaço de trabalho Notion e encerrará todas as funcionalidades relacionadas.",
