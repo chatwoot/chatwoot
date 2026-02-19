@@ -3,6 +3,7 @@ import { useAlert } from 'dashboard/composables';
 import { computed, onMounted, ref } from 'vue';
 import Avatar from 'next/avatar/Avatar.vue';
 import { useI18n } from 'vue-i18n';
+import { picoSearch } from '@scmmishra/pico-search';
 import {
   useStoreGetters,
   useStore,
@@ -25,6 +26,7 @@ const showDeletePopup = ref(false);
 const showEditPopup = ref(false);
 const agentAPI = ref({ message: '' });
 const currentAgent = ref({});
+const searchQuery = ref('');
 
 const deleteConfirmText = computed(
   () => `${t('AGENT_MGMT.DELETE.CONFIRM.YES')} ${currentAgent.value.name}`
@@ -37,6 +39,13 @@ const deleteMessage = computed(() => {
 });
 
 const agentList = computed(() => getters['agents/getAgents'].value);
+
+const filteredAgentList = computed(() => {
+  const query = searchQuery.value.trim();
+  if (!query) return agentList.value;
+  return picoSearch(agentList.value, query, ['name', 'email']);
+});
+
 const uiFlags = computed(() => getters['agents/getUIFlags'].value);
 const currentUserId = computed(() => getters.getCurrentUserID.value);
 const customRoles = useMapGetter('customRole/getCustomRoles');
@@ -144,112 +153,127 @@ const confirmDeletion = () => {
   >
     <template #header>
       <BaseSettingsHeader
+        v-model:search-query="searchQuery"
         :title="$t('AGENT_MGMT.HEADER')"
         :description="$t('AGENT_MGMT.DESCRIPTION')"
         :link-text="$t('AGENT_MGMT.LEARN_MORE')"
+        :search-placeholder="$t('AGENT_MGMT.SEARCH_PLACEHOLDER')"
         feature-name="agents"
       >
+        <template v-if="agentList?.length" #count>
+          <span class="text-body-main text-n-slate-11">
+            {{ $t('AGENT_MGMT.COUNT', { n: agentList.length }) }}
+          </span>
+        </template>
         <template #actions>
           <Button
-            icon="i-lucide-circle-plus"
             :label="$t('AGENT_MGMT.HEADER_BTN_TXT')"
+            size="sm"
             @click="openAddPopup"
           />
         </template>
       </BaseSettingsHeader>
     </template>
     <template #body>
-      <table class="divide-y divide-n-weak">
-        <tbody class="divide-y divide-n-weak text-n-slate-11">
-          <tr v-for="(agent, index) in agentList" :key="agent.email">
-            <td class="py-4 ltr:pr-4 rtl:pl-4">
-              <div class="flex flex-row items-center gap-4">
-                <Avatar
-                  :src="agent.thumbnail"
-                  :name="agent.name"
-                  :status="agent.availability_status"
-                  :size="40"
-                  hide-offline-status
-                  rounded-full
-                />
-                <div>
-                  <span class="block font-medium capitalize">
-                    {{ agent.name }}
-                  </span>
-                  <span>{{ agent.email }}</span>
-                </div>
-              </div>
-            </td>
-
-            <td class="relative py-4 ltr:pr-4 rtl:pl-4">
-              <span
-                class="block font-medium w-fit"
-                :class="{
-                  'hover:text-gray-900 group cursor-pointer':
-                    agent.custom_role_id,
-                }"
-              >
-                {{ getAgentRoleName(agent) }}
-
-                <div
-                  class="absolute left-0 z-10 hidden max-w-[300px] w-auto bg-white rounded-xl border border-n-weak shadow-lg top-14 md:top-12 dark:bg-n-solid-2"
-                  :class="{ 'group-hover:block': agent.custom_role_id }"
+      <span
+        v-if="!filteredAgentList.length && searchQuery"
+        class="flex-1 flex items-center justify-center py-20 text-center text-body-main !text-base text-n-slate-11"
+      >
+        {{ $t('AGENT_MGMT.NO_RESULTS') }}
+      </span>
+      <div v-else class="divide-y divide-n-weak border-t border-n-weak">
+        <div
+          v-for="(agent, index) in filteredAgentList"
+          :key="agent.email"
+          class="flex justify-between flex-row items-start gap-4 py-4"
+        >
+          <div class="flex items-center gap-4">
+            <Avatar
+              :src="agent.thumbnail"
+              :name="agent.name"
+              :status="agent.availability_status"
+              :size="40"
+              hide-offline-status
+            />
+            <div class="flex flex-col gap-1.5 items-start">
+              <span class="block text-heading-3 text-n-slate-12 capitalize">
+                {{ agent.name }}
+              </span>
+              <div class="flex items-center gap-2">
+                <span class="text-body-main text-n-slate-11">
+                  {{ agent.email }}
+                </span>
+                <div class="w-px h-3 bg-n-strong rounded-lg" />
+                <span
+                  class="block w-fit text-body-main text-n-slate-11 relative"
+                  :class="{
+                    'hover:text-n-slate-12 group cursor-pointer':
+                      agent.custom_role_id,
+                  }"
                 >
-                  <div class="flex flex-col gap-1 p-4">
-                    <span class="font-semibold">
-                      {{ $t('AGENT_MGMT.LIST.AVAILABLE_CUSTOM_ROLE') }}
-                    </span>
-                    <ul class="pl-4 mb-0 list-disc">
-                      <li
-                        v-for="permission in getAgentRolePermissions(agent)"
-                        :key="permission"
-                        class="font-normal"
-                      >
-                        {{
-                          $t(
-                            `CUSTOM_ROLE.PERMISSIONS.${permission.toUpperCase()}`
-                          )
-                        }}
-                      </li>
-                    </ul>
+                  {{ getAgentRoleName(agent) }}
+
+                  <div
+                    class="absolute ltr:left-0 rtl:right-0 z-10 hidden w-[300px] bg-n-alpha-3 backdrop-blur-[100px] rounded-xl outline outline-1 outline-n-container shadow-lg top-14 md:top-12"
+                    :class="{ 'group-hover:block': agent.custom_role_id }"
+                  >
+                    <div class="flex flex-col gap-1 p-4">
+                      <span class="text-heading-3 text-n-slate-12">
+                        {{ $t('AGENT_MGMT.LIST.AVAILABLE_CUSTOM_ROLE') }}
+                      </span>
+                      <ul class="ltr:pl-4 rtl:pr-4 mb-0 list-disc">
+                        <li
+                          v-for="permission in getAgentRolePermissions(agent)"
+                          :key="permission"
+                          class="text-body-main text-n-slate-11"
+                        >
+                          {{
+                            $t(
+                              `CUSTOM_ROLE.PERMISSIONS.${permission.toUpperCase()}`
+                            )
+                          }}
+                        </li>
+                      </ul>
+                    </div>
                   </div>
-                </div>
-              </span>
-            </td>
-            <td class="py-4 ltr:pr-4 rtl:pl-4">
-              <span v-if="agent.confirmed">
-                {{ $t('AGENT_MGMT.LIST.VERIFIED') }}
-              </span>
-              <span v-if="!agent.confirmed">
-                {{ $t('AGENT_MGMT.LIST.VERIFICATION_PENDING') }}
-              </span>
-            </td>
-            <td class="py-4">
-              <div class="flex justify-end gap-1">
-                <Button
-                  v-if="showEditAction(agent)"
-                  v-tooltip.top="$t('AGENT_MGMT.EDIT.BUTTON_TEXT')"
-                  icon="i-lucide-pen"
-                  slate
-                  xs
-                  faded
-                  @click="openEditPopup(agent)"
-                />
-                <Button
-                  v-if="showDeleteAction(agent)"
-                  v-tooltip.top="$t('AGENT_MGMT.DELETE.BUTTON_TEXT')"
-                  icon="i-lucide-trash-2"
-                  xs
-                  ruby
-                  faded
-                  :is-loading="loading[agent.id]"
-                  @click="openDeletePopup(agent, index)"
-                />
+                </span>
+                <div class="w-px h-3 bg-n-strong rounded-lg" />
+                <span
+                  v-if="agent.confirmed"
+                  class="text-body-main text-n-slate-11"
+                >
+                  {{ $t('AGENT_MGMT.LIST.VERIFIED') }}
+                </span>
+                <span
+                  v-if="!agent.confirmed"
+                  class="text-body-main text-n-slate-11"
+                >
+                  {{ $t('AGENT_MGMT.LIST.VERIFICATION_PENDING') }}
+                </span>
               </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+            </div>
+          </div>
+          <div class="flex justify-end gap-3">
+            <Button
+              v-if="showEditAction(agent)"
+              v-tooltip.top="$t('AGENT_MGMT.EDIT.BUTTON_TEXT')"
+              icon="i-woot-edit-pen"
+              slate
+              sm
+              @click="openEditPopup(agent)"
+            />
+            <Button
+              v-if="showDeleteAction(agent)"
+              v-tooltip.top="$t('AGENT_MGMT.DELETE.BUTTON_TEXT')"
+              icon="i-woot-bin"
+              slate
+              sm
+              :is-loading="loading[agent.id]"
+              @click="openDeletePopup(agent, index)"
+            />
+          </div>
+        </div>
+      </div>
     </template>
 
     <woot-modal v-model:show="showAddPopup" :on-close="hideAddPopup">
