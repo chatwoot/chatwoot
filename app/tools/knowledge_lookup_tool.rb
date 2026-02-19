@@ -9,16 +9,22 @@
 #
 class KnowledgeLookupTool < BaseTool
   description 'Search the knowledge base for information about products, policies, procedures, FAQs, and documentation. ' \
-              'Use this tool when you need to find specific information to answer a customer question accurately.'
+              'Use this tool when you need to find specific information to answer a customer question accurately. ' \
+              'ALWAYS provide a translated_query to ensure cross-lingual search coverage.'
 
   param :query, type: :string, desc: 'The search query - what information are you looking for?', required: true
-  param :source_types, type: :array, desc: 'Optional filter by source types (e.g., ["file"], ["webpage"], or ["file", "webpage"])',
-                       required: false
+  param :translated_query,
+        type: :string,
+        desc: 'A translation of the query into a different language to enable cross-lingual search. ' \
+              'ALWAYS provide this. If the query is in Arabic, translate to English. ' \
+              'If the query is in English, translate to Arabic. ' \
+              'For other languages, translate to English.',
+        required: false
 
-  def execute(query:, source_types: nil)
+  def execute(query:, translated_query: nil)
     validate_context!
 
-    results = search_knowledge_base(query, source_types)
+    results = search_with_fallback(query, translated_query)
     format_response(results)
   rescue StandardError => e
     error_response("Knowledge search failed: #{e.message}")
@@ -26,12 +32,28 @@ class KnowledgeLookupTool < BaseTool
 
   private
 
-  def search_knowledge_base(query, source_types)
+  def search_with_fallback(query, translated_query)
+    primary = search_knowledge_base(query)
+    return primary if translated_query.blank? || translated_query.strip.downcase == query.strip.downcase
+
+    translated_results = search_knowledge_base(translated_query)
+    merge_results(primary, translated_results)
+  end
+
+  def merge_results(primary, secondary)
+    (primary + secondary)
+      .group_by(&:id)
+      .values
+      .map { |dupes| dupes.max_by { |e| e.similarity || 0 } }
+      .sort_by { |e| -(e.similarity || 0) }
+      .first(5)
+  end
+
+  def search_knowledge_base(query)
     Aloo::Embedding.search(
       query,
       assistant: current_assistant,
-      limit: 5,
-      source_types: source_types
+      limit: 5
     )
   end
 
