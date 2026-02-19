@@ -4,6 +4,9 @@
     "LOADING_EDITOR": "Загрузка редактора...",
     "DESCRIPTION": "Боты — это ваши незаменимые помощники. Они берут на себя рутину, чтобы вы могли сосредоточиться на важном. Попробуйте! Управлять ботами можно на этой странице, а новых — создавать с помощью кнопки «Добавить бота».",
     "LEARN_MORE": "Learn about agent bots",
+    "COUNT": "{n} bot | {n} bots",
+    "SEARCH_PLACEHOLDER": "Search bots...",
+    "NO_RESULTS": "No bots found matching your search",
     "GLOBAL_BOT": "Система",
     "GLOBAL_BOT_BADGE": "Система",
     "AVATAR": {
@@ -34,7 +37,8 @@
       "LOADING": "Получение ботов...",
       "TABLE_HEADER": {
         "DETAILS": "Детали бота",
-        "URL": "URL вебхука"
+        "URL": "URL вебхука",
+        "ACTIONS": "Действия"
       }
     },
     "DELETE": {
