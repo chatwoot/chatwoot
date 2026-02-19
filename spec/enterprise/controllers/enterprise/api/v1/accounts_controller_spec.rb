@@ -357,10 +357,14 @@ RSpec.describe 'Enterprise Billing APIs', type: :request do
       context 'when it is an admin' do
         before do
           # Create the installation config for cloud environment
-          InstallationConfig.where(name: 'DEPLOYMENT_ENV').first_or_create(value: 'cloud')
+          InstallationConfig.where(name: 'DEPLOYMENT_ENV').first_or_initialize.update!(value: 'cloud')
         end
 
         it 'marks the account for deletion when action is delete' do
+          cancellation_service = instance_double(Enterprise::Billing::CancelCloudSubscriptionsService, perform: true)
+          allow(Enterprise::Billing::CancelCloudSubscriptionsService).to receive(:new).with(account: account)
+                                                                                      .and_return(cancellation_service)
+
           post "/enterprise/api/v1/accounts/#{account.id}/toggle_deletion",
                headers: admin.create_new_auth_token,
                params: { action_type: 'delete' },
@@ -369,6 +373,8 @@ RSpec.describe 'Enterprise Billing APIs', type: :request do
           expect(response).to have_http_status(:ok)
           expect(account.reload.custom_attributes['marked_for_deletion_at']).to be_present
           expect(account.custom_attributes['marked_for_deletion_reason']).to eq('manual_deletion')
+          expect(Enterprise::Billing::CancelCloudSubscriptionsService).to have_received(:new).with(account: account)
+          expect(cancellation_service).to have_received(:perform)
         end
 
         it 'unmarks the account for deletion when action is undelete' do

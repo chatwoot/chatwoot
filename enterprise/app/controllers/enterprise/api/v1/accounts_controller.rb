@@ -102,6 +102,8 @@ class Enterprise::Api::V1::AccountsController < Api::BaseController
     reason = 'manual_deletion'
 
     if @account.mark_for_deletion(reason)
+      Enterprise::Billing::CancelCloudSubscriptionsService.new(account: @account).perform
+
       render json: { message: 'Account marked for deletion' }, status: :ok
     else
       render json: { message: @account.errors.full_messages.join(', ') }, status: :unprocessable_entity
