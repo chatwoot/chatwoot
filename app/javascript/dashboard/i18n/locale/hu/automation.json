@@ -3,8 +3,11 @@
     "HEADER": "Automatizáció",
     "DESCRIPTION": "Automation can replace and streamline existing processes that require manual effort, such as adding labels and assigning conversations to the most suitable agent. This allows the team to focus on their strengths while reducing time spent on routine tasks.",
     "LEARN_MORE": "Learn more about automation",
-    "HEADER_BTN_TXT": "Automatikus szabály hozzáadása",
+    "COUNT": "{n} automation | {n} automations",
+    "HEADER_BTN_TXT": "Create Automation",
     "LOADING": "Automatizálási szabályok betöltése",
+    "SEARCH_PLACEHOLDER": "Search automation rules...",
+    "NO_RESULTS": "No automation rules found matching your search",
     "ADD": {
       "TITLE": "Automatikus szabály hozzáadása",
       "SUBMIT": "Létrehozás",
@@ -42,9 +45,9 @@
     "LIST": {
       "TABLE_HEADER": {
         "NAME": "Név",
-        "DESCRIPTION": "Leírás",
         "ACTIVE": "Aktív",
-        "CREATED_ON": "Létrehozva"
+        "CREATED_ON": "Létrehozva",
+        "ACTIONS": "Műveletek"
       },
       "404": "Nem található automatizált szabály"
     },
