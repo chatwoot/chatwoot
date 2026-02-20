@@ -221,6 +221,19 @@ class Rack::Attack
     match_data[:account_id] if match_data.present?
   end
 
+  ## Prevent increased use of conversations meta API per user
+  throttle('/api/v1/accounts/:account_id/conversations/meta/user',
+           limit: ENV.fetch('RATE_LIMIT_CONVERSATIONS_META', '30').to_i, period: 1.minute) do |req|
+    match_data = %r{/api/v1/accounts/(?<account_id>\d+)/conversations/meta}.match(req.path)
+    next unless match_data.present? && req.get?
+
+    user_uid = req.get_header('HTTP_UID')
+    api_access_token = req.get_header('HTTP_API_ACCESS_TOKEN') || req.get_header('api_access_token')
+    user_identifier = user_uid.presence || api_access_token.presence
+
+    "#{user_identifier}:#{match_data[:account_id]}" if user_identifier.present?
+  end
+
   ## ----------------------------------------------- ##
 end
 
