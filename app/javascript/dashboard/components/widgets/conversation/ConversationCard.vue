@@ -243,7 +243,7 @@ const deleteConversation = () => {
       'active animate-card-select bg-n-background border-n-weak': isActiveChat,
       'bg-n-slate-2': selected,
       'px-0': compact,
-      'px-3': !compact,
+      'px-2 rounded-lg': !compact,
     }"
     @click="onCardClick"
     @contextmenu="openContextMenu($event)"

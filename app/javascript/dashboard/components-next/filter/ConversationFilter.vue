@@ -1,12 +1,14 @@
 <script setup>
 import { useTemplateRef, onBeforeUnmount, computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useBreakpoints } from '@vueuse/core';
 import { useTrack } from 'dashboard/composables';
 import { useStore } from 'dashboard/composables/store';
 import { vOnClickOutside } from '@vueuse/components';
 import { CONVERSATION_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import { useConversationFilterContext } from './provider.js';
 import { useSnakeCase } from 'dashboard/composables/useTransformKeys';
+import wootConstants from 'dashboard/constants/globals';
 
 import Button from 'next/button/Button.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
@@ -41,6 +43,13 @@ const DEFAULT_FILTER = {
 
 const { t } = useI18n();
 const store = useStore();
+
+const breakpoints = useBreakpoints({
+  mobile: wootConstants.SMALL_SCREEN_BREAKPOINT,
+});
+
+const isSmallScreen = breakpoints.smaller('mobile');
+const viewInModal = computed(() => isSmallScreen.value);
 
 const resetFilter = () => {
   filters.value = [{ ...DEFAULT_FILTER }];
@@ -104,69 +113,80 @@ const outsideClickHandler = [
 
 <template>
   <div
-    v-on-click-outside="outsideClickHandler"
-    class="z-40 max-w-3xl lg:w-[750px] overflow-visible w-full border border-n-weak bg-n-alpha-3 backdrop-blur-[100px] shadow-lg rounded-xl p-6 grid gap-6"
+    :class="{
+      'fixed z-50 bg-n-alpha-black1 backdrop-blur-[4px] flex items-start justify-center inset-0 px-2 pt-14 pb-8 overflow-y-auto overflow-x-hidden':
+        viewInModal,
+    }"
+    @click.self="viewInModal && emit('close')"
   >
-    <h3 class="text-base font-medium leading-6 text-n-slate-12">
-      {{ filterModalHeaderTitle }}
-    </h3>
-    <div v-if="props.isFolderView">
-      <div class="border-b border-n-weak pb-6">
-        <Input
-          v-model="folderNameLocal"
-          :label="t('FILTER.FOLDER_LABEL')"
-          :placeholder="t('FILTER.INPUT_PLACEHOLDER')"
-        />
+    <div
+      v-on-click-outside="viewInModal ? [] : outsideClickHandler"
+      class="z-40 max-w-3xl xl:w-[750px] w-full border border-n-weak bg-n-alpha-3 backdrop-blur-[100px] shadow-lg rounded-xl py-6 grid gap-6"
+      :class="{ 'overflow-x-auto': viewInModal }"
+    >
+      <h3 class="text-base font-medium leading-6 text-n-slate-12 px-6">
+        {{ filterModalHeaderTitle }}
+      </h3>
+      <div v-if="props.isFolderView" class="px-6">
+        <div class="border-b border-n-strong pb-6">
+          <Input
+            v-model="folderNameLocal"
+            :label="t('FILTER.FOLDER_LABEL')"
+            :placeholder="t('FILTER.INPUT_PLACEHOLDER')"
+          />
+        </div>
       </div>
-    </div>
-    <ul class="grid gap-4 list-none">
-      <template v-for="(filter, index) in filters" :key="filter.id">
-        <ConditionRow
-          v-if="index === 0"
-          ref="conditionsRef"
-          :key="`filter-${filter.attributeKey}-0`"
-          v-model:attribute-key="filter.attributeKey"
-          v-model:filter-operator="filter.filterOperator"
-          v-model:values="filter.values"
-          :filter-types="filterTypes"
-          :show-query-operator="false"
-          @remove="removeFilter(index)"
-        />
-        <ConditionRow
-          v-else
-          :key="`filter-${filter.attributeKey}-${index}`"
-          ref="conditionsRef"
-          v-model:attribute-key="filter.attributeKey"
-          v-model:filter-operator="filter.filterOperator"
-          v-model:query-operator="filters[index - 1].queryOperator"
-          v-model:values="filter.values"
-          show-query-operator
-          :filter-types="filterTypes"
-          @remove="removeFilter(index)"
-        />
-      </template>
-    </ul>
-    <div class="flex gap-2 justify-between">
-      <Button sm ghost blue @click="addFilter">
-        {{ $t('FILTER.ADD_NEW_FILTER') }}
-      </Button>
-      <div class="flex gap-2">
-        <Button sm faded slate @click="resetFilter">
-          {{ t('FILTER.CLEAR_BUTTON_LABEL') }}
+      <ul class="grid gap-4 list-none px-6">
+        <template v-for="(filter, index) in filters" :key="filter.id">
+          <ConditionRow
+            v-if="index === 0"
+            ref="conditionsRef"
+            :key="`filter-${filter.attributeKey}-0`"
+            v-model:attribute-key="filter.attributeKey"
+            v-model:filter-operator="filter.filterOperator"
+            v-model:values="filter.values"
+            :filter-types="filterTypes"
+            :show-query-operator="false"
+            @remove="removeFilter(index)"
+          />
+          <ConditionRow
+            v-else
+            :key="`filter-${filter.attributeKey}-${index}`"
+            ref="conditionsRef"
+            v-model:attribute-key="filter.attributeKey"
+            v-model:filter-operator="filter.filterOperator"
+            v-model:query-operator="filters[index - 1].queryOperator"
+            v-model:values="filter.values"
+            show-query-operator
+            :filter-types="filterTypes"
+            @remove="removeFilter(index)"
+          />
+        </template>
+      </ul>
+      <div
+        class="flex gap-2 justify-between ltr:pl-3 ltr:pr-6 rtl:pr-3 rtl:pl-6"
+      >
+        <Button sm ghost blue class="px-0" @click="addFilter">
+          {{ $t('FILTER.ADD_NEW_FILTER') }}
         </Button>
-        <Button
-          v-if="isFolderView"
-          sm
-          solid
-          blue
-          :disabled="!folderNameLocal"
-          @click="updateSavedCustomViews"
-        >
-          {{ t('FILTER.UPDATE_BUTTON_LABEL') }}
-        </Button>
-        <Button v-else sm solid blue @click="validateAndSubmit">
-          {{ t('FILTER.SUBMIT_BUTTON_LABEL') }}
-        </Button>
+        <div class="flex gap-2">
+          <Button sm solid slate @click="resetFilter">
+            {{ t('FILTER.CLEAR_BUTTON_LABEL') }}
+          </Button>
+          <Button
+            v-if="isFolderView"
+            sm
+            solid
+            blue
+            :disabled="!folderNameLocal"
+            @click="updateSavedCustomViews"
+          >
+            {{ t('FILTER.UPDATE_BUTTON_LABEL') }}
+          </Button>
+          <Button v-else sm solid blue @click="validateAndSubmit">
+            {{ t('FILTER.SUBMIT_BUTTON_LABEL') }}
+          </Button>
+        </div>
       </div>
     </div>
   </div>

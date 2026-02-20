@@ -1,5 +1,6 @@
 <script setup>
 import { computed, inject } from 'vue';
+import { useNumberFormatter } from 'shared/composables/useNumberFormatter';
 
 const props = defineProps({
   index: {
@@ -28,11 +29,14 @@ const props = defineProps({
   },
 });
 
+const { formatCompactWithDecimal } = useNumberFormatter();
+
 const activeIndex = inject('activeIndex');
 const updateActiveIndex = inject('updateActiveIndex');
 
 const active = computed(() => props.index === activeIndex.value);
-const getItemCount = computed(() => props.count);
+const count = computed(() => props.count);
+const getItemCount = computed(() => formatCompactWithDecimal(count.value));
 
 const onTabClick = event => {
   event.preventDefault();
@@ -59,7 +63,11 @@ const onTabClick = event => {
       {{ name }}
       <div
         v-if="showBadge"
-        class="rounded-full h-5 flex items-center justify-center text-xs font-medium my-0 ltr:ml-1 rtl:mr-1 px-1.5 py-0 min-w-[20px]"
+        v-tooltip.top="{
+          content: count,
+          delay: { show: 500, hide: 0 },
+        }"
+        class="rounded-full h-5 flex items-center justify-center font-interDisplay text-xs font-medium my-0 ltr:ml-1 rtl:mr-1 px-1.5 py-0 min-w-[20px]"
         :class="[
           active
             ? 'bg-n-blue-3 text-n-blue-11'
