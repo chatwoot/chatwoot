@@ -78,5 +78,28 @@ RSpec.describe Captain::Documents::ChunkingService do
       expect(combined_content).not_to include('How to block someone')
       expect(combined_content).not_to include('Related articles')
     end
+
+    it 'removes single-line navigation and language selector blobs before chunking' do
+      content = <<~TEXT
+        [![Bumble Support Help Center home page](https://support.bumble.com/hc/theming_assets/logo.svg)] [Date](https://bumble.com/en-us/date) [Friends](https://bumble.com/en-us/bff) [Bizz](https://bumble.com/en-us/bizz) [Safety](https://bumble.com/en-us/the-buzz/category/safety) [Dansk](https://support.bumble.com/hc/change_language/da?return_to=%2Fhc%2Fen-us) [Deutsch](https://support.bumble.com/hc/change_language/de?return_to=%2Fhc%2Fen-us) [Espanol](https://support.bumble.com/hc/change_language/es?return_to=%2Fhc%2Fen-us)
+
+        # How to delete my account
+        Open Settings and select Delete account.
+      TEXT
+
+      result = described_class.new(
+        content,
+        target_tokens: 30,
+        min_tokens: 10,
+        max_tokens: 50,
+        overlap_tokens: 0
+      ).chunk
+
+      combined_content = result.map { |chunk| chunk[:content] }.join("\n")
+      expect(combined_content).to include('Open Settings and select Delete account')
+      expect(combined_content).not_to include('Help Center home page')
+      expect(combined_content).not_to include('change_language')
+      expect(combined_content).not_to include('[Date](')
+    end
   end
 end
