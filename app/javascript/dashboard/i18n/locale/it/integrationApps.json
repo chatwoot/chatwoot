@@ -3,9 +3,9 @@
     "FETCHING": "Caricamento Integrazioni",
     "NO_HOOK_CONFIGURED": "Non ci sono integrazioni {integrationId} configurate in questo account.",
     "HEADER": "Applicazioni",
-    "COUNT": "{n} integration | {n} integrations",
+    "COUNT": "{n} integrazione | {n} integrazioni",
     "SEARCH_PLACEHOLDER": "Cerca...",
-    "NO_RESULTS": "No results found matching your search",
+    "NO_RESULTS": "Nessun risultato trovato corrispondente alla tua ricerca",
     "STATUS": {
       "ENABLED": "Abilitato",
       "DISABLED": "Disabilitato"
