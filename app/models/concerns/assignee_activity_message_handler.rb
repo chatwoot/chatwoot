@@ -23,7 +23,7 @@ module AssigneeActivityMessageHandler
     if !user_name && Current.executed_by.present?
       user_name = case Current.executed_by
                   when AssignmentPolicy
-                    "#{I18n.t('automation.system_name')} via #{Current.executed_by.name}"
+                    I18n.t('auto_assignment.policy_actor', policy_name: Current.executed_by.name)
                   when Inbox
                     I18n.t('auto_assignment.default_policy_name')
                   else
