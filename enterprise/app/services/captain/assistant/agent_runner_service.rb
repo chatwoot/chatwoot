@@ -124,6 +124,7 @@ class Captain::Assistant::AgentRunnerService
 
     if @conversation
       state[:conversation] = @conversation.attributes.symbolize_keys.slice(*CONVERSATION_STATE_ATTRIBUTES)
+      state[:channel_type] = @conversation.inbox&.channel_type
       state[:contact] = @conversation.contact.attributes.symbolize_keys.slice(*CONTACT_STATE_ATTRIBUTES) if @conversation.contact
     end
 
@@ -165,6 +166,7 @@ class Captain::Assistant::AgentRunnerService
       format(ATTR_LANGFUSE_METADATA, 'assistant_id') => state[:assistant_id],
       format(ATTR_LANGFUSE_METADATA, 'conversation_id') => conversation[:id],
       format(ATTR_LANGFUSE_METADATA, 'conversation_display_id') => conversation[:display_id],
+      format(ATTR_LANGFUSE_METADATA, 'channel_type') => state[:channel_type],
       ATTR_LANGFUSE_TRACE_INPUT => trace_input,
       ATTR_LANGFUSE_OBSERVATION_INPUT => trace_input
     }.compact.transform_values(&:to_s)
