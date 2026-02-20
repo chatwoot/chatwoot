@@ -84,6 +84,7 @@ const automationActive = computed({
             icon="i-woot-bin"
             slate
             sm
+            class="hover:enabled:text-n-ruby-11 hover:enabled:bg-n-ruby-2"
             @click="$emit('delete', automation)"
           />
         </div>
