@@ -215,6 +215,7 @@ sq:
     activity:
       captain:
         resolved: 'Biseda u shënua si e zgjidhur nga %{user_name} për shkak të mungesës së aktivitetit'
+        resolved_by_tool: 'Conversation was marked resolved by %{user_name}: %{reason}'
         open: 'Biseda u shënua si e hapur nga %{user_name}'
       agent_bot:
         error_moved_to_open: 'Conversation was marked open by system due to an error with the agent bot.'
