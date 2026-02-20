@@ -146,6 +146,8 @@ class Integrations::LlmBaseService
       usage: {
         'prompt_tokens' => response.input_tokens,
         'completion_tokens' => response.output_tokens,
+        'cached_tokens' => response.respond_to?(:cached_tokens) ? response.cached_tokens : nil,
+        'cache_creation_tokens' => response.respond_to?(:cache_creation_tokens) ? response.cache_creation_tokens : nil,
         'total_tokens' => (response.input_tokens || 0) + (response.output_tokens || 0)
       },
       request_messages: messages
