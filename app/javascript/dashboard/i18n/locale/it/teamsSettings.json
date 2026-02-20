@@ -5,9 +5,9 @@
     "LOADING": "Caricamento team",
     "DESCRIPTION": "I Team ti permettono di organizzare gli operatori in gruppi in base alle loro responsabilità. Un operatore può appartenere a più team. Quando si lavora in collaborazione, è possibile assegnare conversazioni a team specifici.",
     "LEARN_MORE": "Scopri di più sui team",
-    "COUNT": "{n} team | {n} teams",
+    "COUNT": "{n} team | {n} team",
     "SEARCH_PLACEHOLDER": "Cerca team...",
-    "NO_RESULTS": "No teams found matching your search",
+    "NO_RESULTS": "Nessun team trovato corrispondente alla tua ricerca",
     "LIST": {
       "404": "Non ci sono team creati su questo account.",
       "EDIT_TEAM": "Modifica team",
