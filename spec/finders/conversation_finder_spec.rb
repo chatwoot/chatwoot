@@ -190,6 +190,32 @@ describe ConversationFinder do
       end
     end
 
+    context 'with perform_meta_only' do
+      let(:params) { { assignee_type: 'assigned' } }
+
+      it 'returns only count without conversations' do
+        result = conversation_finder.perform_meta_only
+        expect(result).to have_key(:count)
+        expect(result).not_to have_key(:conversations)
+      end
+
+      it 'returns the correct counts' do
+        result = conversation_finder.perform_meta_only
+        expect(result[:count]).to eq({
+                                       mine_count: 2,
+                                       assigned_count: 3,
+                                       unassigned_count: 1,
+                                       all_count: 4
+                                     })
+      end
+
+      it 'returns same counts as perform' do
+        meta_result = conversation_finder.perform_meta_only
+        full_result = conversation_finder.perform
+        expect(meta_result[:count]).to eq(full_result[:count])
+      end
+    end
+
     context 'with unattended' do
       let(:params) { { status: 'open', assignee_type: 'me', conversation_type: 'unattended' } }
 
