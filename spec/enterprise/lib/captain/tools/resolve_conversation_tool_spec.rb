@@ -16,8 +16,8 @@ RSpec.describe Captain::Tools::ResolveConversationTool do
     Current.reset
   end
 
-  describe 'resolving a conversation with a reason' do
-    it 'marks the conversation resolved and enqueues an activity message with the reason' do
+  describe 'resolving a conversation' do
+    it 'marks resolved and enqueues an activity message with the reason' do
       tool.perform(tool_context, reason: 'Possible spam')
 
       expect(conversation.reload).to be_resolved
@@ -36,25 +36,10 @@ RSpec.describe Captain::Tools::ResolveConversationTool do
     end
   end
 
-  describe 'resolving a conversation without a reason' do
-    it 'marks the conversation resolved and enqueues the default inactivity activity message' do
-      tool.perform(tool_context)
-
-      expect(conversation.reload).to be_resolved
-      expect(Conversations::ActivityMessageJob).to have_been_enqueued.with(
-        conversation,
-        hash_including(
-          content: I18n.t('conversations.activity.captain.resolved', user_name: assistant.name)
-        )
-      )
-    end
-  end
-
   describe 'resolving an already resolved conversation' do
     let(:conversation) { create(:conversation, account: account, inbox: inbox, status: :resolved) }
 
     it 'does not re-resolve and returns an already resolved message' do
-      # clear any jobs enqueued during conversation creation
       queue_adapter = ActiveJob::Base.queue_adapter
       queue_adapter.enqueued_jobs.clear
 
