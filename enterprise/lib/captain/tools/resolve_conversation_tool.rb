@@ -9,6 +9,7 @@ class Captain::Tools::ResolveConversationTool < Captain::Tools::BasePublicTool
 
     log_tool_usage('resolve_conversation', { conversation_id: conversation.id, reason: reason })
 
+    Current.captain_resolve_reason = reason.presence
     conversation.resolved!
 
     "Conversation ##{conversation.display_id} resolved#{" (Reason: #{reason})" if reason}"
