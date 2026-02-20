@@ -72,7 +72,9 @@ class AutoAssignment::AssignmentService
   end
 
   def assign_conversation(conversation, agent)
+    Current.executed_by = inbox.assignment_policy || inbox
     conversation.update!(assignee: agent)
+    Current.executed_by = nil
 
     rate_limiter = build_rate_limiter(agent)
     rate_limiter.track_assignment(conversation)
