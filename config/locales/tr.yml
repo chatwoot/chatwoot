@@ -215,6 +215,7 @@ tr:
     activity:
       captain:
         resolved: 'Konuşma, %{user_name} tarafından etkinlik olmadığı için çözüldü olarak işaretlendi'
+        resolved_by_tool: 'Conversation was marked resolved by %{user_name}: %{reason}'
         open: 'Konuşma, %{user_name} tarafından açık olarak işaretlendi'
       agent_bot:
         error_moved_to_open: 'Temsilci botta meydana gelen bir hata nedeniyle konuşma, sistem tarafından açık olarak işaretlendi.'
