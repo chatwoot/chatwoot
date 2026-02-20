@@ -81,6 +81,8 @@ class AutoAssignment::AssignmentService
 
     dispatch_assignment_event(conversation, agent)
     true
+  ensure
+    Current.executed_by = nil
   end
 
   def dispatch_assignment_event(conversation, agent)
