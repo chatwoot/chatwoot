@@ -173,8 +173,13 @@ module Crm
         end
 
         # Map contact to Zoho lead format
+        # Merge lead_custom_fields from both metadata and promoted params (params takes priority)
+        metadata = params[:metadata] || {}
+        meta_custom = metadata.with_indifferent_access[:lead_custom_fields] || {}
+        custom_fields = meta_custom.merge(params[:lead_custom_fields] || {})
+
         mapper = Crm::Zoho::Mappers::ContactMapper.new(contact)
-        lead_data = mapper.map_to_lead(custom_fields: params[:lead_custom_fields] || {})
+        lead_data = mapper.map_to_lead(custom_fields: custom_fields)
 
         # Create lead in Zoho
         response = @lead_client.create_lead(lead_data)

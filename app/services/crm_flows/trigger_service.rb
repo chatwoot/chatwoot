@@ -59,11 +59,16 @@ module CrmFlows
 
     def duplicate?(flow)
       window = flow.dedup_window_minutes.minutes.ago
-      CrmFlowExecution.where(
-        crm_flow_id: flow.id,
-        conversation_id: @conversation_id,
-        status: 'success'
-      ).where('created_at > ?', window).exists?
+      scope = CrmFlowExecution.where(crm_flow_id: flow.id, status: 'success')
+                               .where('created_at > ?', window)
+
+      if @conversation_id.present?
+        scope = scope.where(conversation_id: @conversation_id)
+      else
+        scope = scope.where(conversation_id: nil, contact_id: @contact_id)
+      end
+
+      scope.exists?
     end
 
     def validate_fields(flow)
