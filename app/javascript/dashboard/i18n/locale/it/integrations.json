@@ -230,9 +230,9 @@
       "SIDEBAR_TXT": "<p><b>App dashboard</b></p><p>Le app dashboard consentono alle organizzazioni di incorporare un'applicazione all'interno di Chatwoot per fornire informazioni aggiuntive agli operatorii. Questa funzione consente di creare un'applicazione in modo indipendente e incorporata all'interno della dashboard per fornire informazioni degli utenti, ad esempio ordini o pagamenti effettuati.</p><p>Quando integri la tua applicazione usando la dashboard Chatwoot, la tua applicazione avrà il context della conversazione e del contatto come evento window. Implementa un listener per l'evento del messaggio sulla tua pagina per ricevere i dati.</p><p>Per aggiungere una nuova app dashboard, clicca sul pulsante 'Aggiungi una nuova app dashboard'.</p>",
       "DESCRIPTION": "Le app dashboard consentono alle organizzazioni di incorporare un'applicazione all'interno della dashboard per fornire dati aggiuntivi agli operatori. Questa funzione consente di creare un'applicazione in modo indipendente e incorporarla per fornire informazioni sull'utente, i suoi ordini o la loro cronologia di pagamento precedente.",
       "LEARN_MORE": "Scopri di più sulle App Dashboard",
-      "COUNT": "{n} dashboard app | {n} dashboard apps",
-      "SEARCH_PLACEHOLDER": "Search dashboard apps...",
-      "NO_RESULTS": "No dashboard apps found matching your search",
+      "COUNT": "{n} app dashboard | {n} app dashboard",
+      "SEARCH_PLACEHOLDER": "Cerca app dashboard...",
+      "NO_RESULTS": "Nessuna app dashboard trovata corrispondente alla tua ricerca",
       "LIST": {
         "404": "Non ci sono ancora app dashboard configurate su questo account",
         "LOADING": "Caricamento app dashboard...",
