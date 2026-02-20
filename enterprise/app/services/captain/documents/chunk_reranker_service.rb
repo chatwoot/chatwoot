@@ -9,7 +9,10 @@ class Captain::Documents::ChunkRerankerService
     @account_id = account_id
     @model = resolve_model
     @api_key = InstallationConfig.find_by(name: 'CAPTAIN_COHERE_API_KEY')&.value.to_s
-    @endpoint = InstallationConfig.find_by(name: 'CAPTAIN_COHERE_API_BASE')&.value.to_s.presence || DEFAULT_ENDPOINT
+    @endpoint =
+      InstallationConfig.find_by(name: 'CAPTAIN_COHERE_RERANK_ENDPOINT')&.value.to_s.presence ||
+      InstallationConfig.find_by(name: 'CAPTAIN_COHERE_API_BASE')&.value.to_s.presence ||
+      DEFAULT_ENDPOINT
   end
 
   def rerank(query:, candidates:, limit:)
