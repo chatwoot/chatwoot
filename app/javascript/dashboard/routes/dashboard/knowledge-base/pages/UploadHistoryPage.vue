@@ -364,6 +364,8 @@ const getStatusClass = (status) => {
   switch (statusUpper) {
     case 'COMPLETED':
       return 'bg-n-green-2 text-n-green-11 border border-n-green-6';
+    case 'COMPLETED_WITH_WARNINGS':
+      return 'bg-n-orange-2 text-n-orange-11 border border-n-orange-6';
     case 'FAILED':
       return 'bg-n-red-2 text-n-red-11 border border-n-red-6';
     case 'PROCESSING':
@@ -384,6 +386,8 @@ const getStatusIcon = (status) => {
   switch (statusUpper) {
     case 'COMPLETED':
       return 'i-lucide-check-circle';
+    case 'COMPLETED_WITH_WARNINGS':
+      return 'i-lucide-alert-triangle';
     case 'FAILED':
       return 'i-lucide-x-circle';
     case 'PROCESSING':
@@ -412,7 +416,7 @@ const formatDate = (dateString) => {
 
 const hasErrors = (request) => {
   const statusUpper = request.status?.toUpperCase();
-  if (!['FAILED', 'PARTIALLY_COMPLETED'].includes(statusUpper)) {
+  if (!['FAILED', 'PARTIALLY_COMPLETED', 'COMPLETED_WITH_WARNINGS'].includes(statusUpper)) {
     return false;
   }
 

@@ -149,14 +149,17 @@ class ProductCatalog < ApplicationRecord
   end
 
   def dispatch_create_event
+    account.increment_product_catalog_version!
     dispatch_product_event(target_account: account, added: 1, added_ids: [product_id])
   end
 
   def dispatch_update_event
+    account.increment_product_catalog_version!
     dispatch_product_event(target_account: account, updated: 1, updated_ids: [product_id])
   end
 
   def dispatch_destroy_event
+    account.increment_product_catalog_version!
     dispatch_product_event(target_account: account, deleted: 1, deleted_ids: [product_id])
   end
 

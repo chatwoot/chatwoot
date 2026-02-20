@@ -144,17 +144,23 @@ class WebhookListener < BaseListener
     updated_product_ids = event.data[:updated_product_ids] || []
     deleted_product_ids = event.data[:deleted_product_ids] || []
 
+    total_changes = added_count + updated_count + deleted_count
+    full_sync_required = total_changes >= account.product_catalog_full_sync_threshold
+
     idempotency_key = SecureRandom.uuid
     payload = {
       event: __method__.to_s,
       timestamp: Time.zone.now.iso8601,
       account: account.webhook_data,
+      catalog_version: account.product_catalog_version,
+      full_sync_required: full_sync_required,
+      total_changes: total_changes,
       added_count: added_count,
       updated_count: updated_count,
       deleted_count: deleted_count,
-      added_product_ids: added_product_ids,
-      updated_product_ids: updated_product_ids,
-      deleted_product_ids: deleted_product_ids,
+      added_product_ids: full_sync_required ? [] : added_product_ids,
+      updated_product_ids: full_sync_required ? [] : updated_product_ids,
+      deleted_product_ids: full_sync_required ? [] : deleted_product_ids,
       idempotency_key: idempotency_key
     }
     deliver_account_webhooks(payload, account, idempotency_key)

@@ -431,6 +431,7 @@ class Api::V1::Accounts::ProductCatalogsController < Api::V1::Accounts::BaseCont
   end
 
   def dispatch_bulk_delete_event(deleted_product_ids, deleted_count)
+    Current.account.increment_product_catalog_version!
     Rails.configuration.dispatcher.dispatch(
       PRODUCT_CATALOG_UPDATED,
       Time.zone.now,

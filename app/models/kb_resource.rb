@@ -142,6 +142,7 @@ class KbResource < ApplicationRecord
     payload = {
       id: id,
       name: name,
+      description: description,
       s3_url: presigned_url
     }
     # Only include product_ids for create (no changed_attributes), for update it's in changed_attributes
@@ -173,7 +174,7 @@ class KbResource < ApplicationRecord
   end
 
   def dispatch_destroy_event
-    dispatch_resource_event(action: 'deleted', resource_data: { id: id, name: name })
+    dispatch_resource_event(action: 'deleted', resource_data: { id: id, name: name, description: description })
   end
 end
 

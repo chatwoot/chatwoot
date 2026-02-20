@@ -487,7 +487,7 @@ const checkActiveProcessing = async () => {
     active = bulkRequests.find(req => {
       const createdAt = new Date(req.created_at);
       return req.entity_type === 'ProductCatalog' &&
-        ['COMPLETED', 'FAILED', 'PARTIALLY_COMPLETED', 'CANCELLED'].includes(req.status?.toUpperCase()) &&
+        ['COMPLETED', 'COMPLETED_WITH_WARNINGS', 'FAILED', 'PARTIALLY_COMPLETED', 'CANCELLED'].includes(req.status?.toUpperCase()) &&
         !req.dismissed_at &&
         createdAt > twentyFourHoursAgo;
     });
@@ -528,7 +528,7 @@ const startPolling = () => {
       }
 
       // Stop polling if completed or failed
-      if (['COMPLETED', 'FAILED', 'PARTIALLY_COMPLETED'].includes(statusUpper)) {
+      if (['COMPLETED', 'COMPLETED_WITH_WARNINGS', 'FAILED', 'PARTIALLY_COMPLETED'].includes(statusUpper)) {
         // Always refresh product list at the end FIRST, regardless of status
         await store.dispatch('productCatalogs/get', { page: meta.value.current_page, per_page: 50 });
 
@@ -556,8 +556,8 @@ const startPolling = () => {
         } else if (statusUpper === 'FAILED') {
           useAlert(updated.error_message || t('KNOWLEDGE_BASE.PRODUCT_CATALOG.UPLOAD.ERROR'));
           // Keep activeProcessing so user can download errors
-        } else if (statusUpper === 'PARTIALLY_COMPLETED') {
-          // Keep activeProcessing so user can download errors
+        } else if (statusUpper === 'PARTIALLY_COMPLETED' || statusUpper === 'COMPLETED_WITH_WARNINGS') {
+          // Keep activeProcessing so user can download errors/warnings
         }
       }
     }
@@ -674,7 +674,7 @@ const handleCloseProcessingStatus = async () => {
   // Only allow closing if status is final (not PENDING or PROCESSING)
   if (activeProcessing.value) {
     const statusUpper = activeProcessing.value.status?.toUpperCase();
-    if (['COMPLETED', 'FAILED', 'PARTIALLY_COMPLETED', 'CANCELLED'].includes(statusUpper)) {
+    if (['COMPLETED', 'COMPLETED_WITH_WARNINGS', 'FAILED', 'PARTIALLY_COMPLETED', 'CANCELLED'].includes(statusUpper)) {
       const requestId = activeProcessing.value.id;
 
       // Refresh products first to show latest data

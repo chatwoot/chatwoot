@@ -434,20 +434,30 @@ class ProductCatalogs::ProcessBulkUploadJob < ApplicationJob
   end
 
   def update_final_status(excel_result, media_result)
-    if excel_result[:success] && media_result[:success]
-      handle_successful_processing
+    if excel_result[:success]
+      # Excel was successful - always dispatch webhook even if media failed
+      # Products were created successfully, media errors are just warnings
+      handle_successful_processing(media_result)
     else
+      # Excel processing failed - no products were created
       handle_failed_processing(excel_result, media_result)
     end
   end
 
-  def handle_successful_processing
+  def handle_successful_processing(media_result)
     added_product_ids, updated_product_ids = categorize_processed_products
 
+    has_media_errors = !media_result[:success]
+
     if @bulk_request.failed_records.zero? && @bulk_request.processed_records.positive?
-      complete_bulk_request(added_product_ids, updated_product_ids)
+      if has_media_errors
+        # Products created successfully but some media URLs failed
+        complete_with_media_warnings(added_product_ids, updated_product_ids, media_result[:error])
+      else
+        complete_bulk_request(added_product_ids, updated_product_ids)
+      end
     elsif @bulk_request.failed_records.positive? && @bulk_request.processed_records.positive?
-      partially_complete_bulk_request(added_product_ids, updated_product_ids)
+      partially_complete_bulk_request(added_product_ids, updated_product_ids, media_result[:error])
     else
       fail_bulk_request('No records were processed successfully')
     end
@@ -481,11 +491,30 @@ class ProductCatalogs::ProcessBulkUploadJob < ApplicationJob
     )
   end
 
-  def partially_complete_bulk_request(added_product_ids, updated_product_ids)
+  def complete_with_media_warnings(added_product_ids, updated_product_ids, media_error)
+    @bulk_request.update!(
+      status: 'COMPLETED_WITH_WARNINGS',
+      progress: 100.0,
+      error_message: "Products created successfully. Media warnings: #{media_error}"
+    )
+    dispatch_catalog_updated_event(
+      added_count: added_product_ids.size,
+      updated_count: updated_product_ids.size,
+      deleted_count: 0,
+      added_product_ids: added_product_ids,
+      updated_product_ids: updated_product_ids,
+      deleted_product_ids: []
+    )
+  end
+
+  def partially_complete_bulk_request(added_product_ids, updated_product_ids, media_error = nil)
+    error_parts = ["Processed #{@bulk_request.processed_records} of #{@bulk_request.total_records} records. #{@bulk_request.failed_records} failed."]
+    error_parts << "Media: #{media_error}" if media_error.present?
+
     @bulk_request.update!(
       status: 'PARTIALLY_COMPLETED',
       progress: 100.0,
-      error_message: "Processed #{@bulk_request.processed_records} of #{@bulk_request.total_records} records. #{@bulk_request.failed_records} failed."
+      error_message: error_parts.join(' ')
     )
     dispatch_catalog_updated_event(
       added_count: added_product_ids.size,
@@ -510,6 +539,7 @@ class ProductCatalogs::ProcessBulkUploadJob < ApplicationJob
   end
 
   def dispatch_catalog_updated_event(added_count:, updated_count:, deleted_count:, added_product_ids:, updated_product_ids:, deleted_product_ids:)
+    @account.increment_product_catalog_version!
     Rails.configuration.dispatcher.dispatch(
       PRODUCT_CATALOG_UPDATED,
       Time.zone.now,

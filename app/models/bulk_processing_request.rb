@@ -51,6 +51,7 @@ class BulkProcessingRequest < ApplicationRecord
     pending: 'PENDING',
     processing: 'PROCESSING',
     completed: 'COMPLETED',
+    completed_with_warnings: 'COMPLETED_WITH_WARNINGS',
     failed: 'FAILED',
     partially_completed: 'PARTIALLY_COMPLETED',
     cancelled: 'CANCELLED'

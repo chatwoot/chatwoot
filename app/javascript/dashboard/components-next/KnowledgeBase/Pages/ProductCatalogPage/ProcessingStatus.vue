@@ -9,6 +9,7 @@
           :class="{
             'i-lucide-loader-circle animate-spin text-n-blue-11': statusUpper === 'PROCESSING',
             'i-lucide-check-circle text-n-green-11': statusUpper === 'COMPLETED',
+            'i-lucide-alert-triangle text-n-orange-11': statusUpper === 'COMPLETED_WITH_WARNINGS',
             'i-lucide-x-circle text-n-red-11': statusUpper === 'FAILED',
             'i-lucide-clock text-n-orange-11': statusUpper === 'PENDING',
             'i-lucide-ban text-n-slate-11': statusUpper === 'CANCELLED'
@@ -26,7 +27,7 @@
           <i class="i-lucide-x w-5 h-5" />
         </button>
         <button
-          v-else-if="['COMPLETED', 'FAILED', 'PARTIALLY_COMPLETED', 'CANCELLED'].includes(statusUpper)"
+          v-else-if="['COMPLETED', 'COMPLETED_WITH_WARNINGS', 'FAILED', 'PARTIALLY_COMPLETED', 'CANCELLED'].includes(statusUpper)"
           class="flex-shrink-0 p-2 text-n-slate-11 hover:text-n-slate-12 hover:bg-n-slate-3 rounded-lg transition-colors"
           @click="$emit('close')"
         >
@@ -49,6 +50,7 @@
             :class="{
               'bg-n-blue-9': statusUpper === 'PROCESSING' || statusUpper === 'PENDING',
               'bg-n-green-9': statusUpper === 'COMPLETED',
+              'bg-n-orange-9': statusUpper === 'COMPLETED_WITH_WARNINGS',
               'bg-n-red-9': statusUpper === 'FAILED',
               'bg-n-slate-9': statusUpper === 'CANCELLED'
             }"
@@ -117,6 +119,7 @@
           :class="{
             'i-lucide-loader-circle animate-spin text-n-blue-11': statusUpper === 'PROCESSING',
             'i-lucide-check-circle text-n-green-11': statusUpper === 'COMPLETED',
+            'i-lucide-alert-triangle text-n-orange-11': statusUpper === 'COMPLETED_WITH_WARNINGS',
             'i-lucide-x-circle text-n-red-11': statusUpper === 'FAILED',
             'i-lucide-clock text-n-orange-11': statusUpper === 'PENDING',
             'i-lucide-ban text-n-slate-11': statusUpper === 'CANCELLED'
@@ -136,7 +139,7 @@
             </span>
             <!-- Close button for completed/failed/cancelled statuses -->
             <button
-              v-if="['COMPLETED', 'FAILED', 'PARTIALLY_COMPLETED', 'CANCELLED'].includes(statusUpper)"
+              v-if="['COMPLETED', 'COMPLETED_WITH_WARNINGS', 'FAILED', 'PARTIALLY_COMPLETED', 'CANCELLED'].includes(statusUpper)"
               class="text-n-slate-11 hover:text-n-slate-12 transition-colors"
               @click="$emit('close')"
             >
@@ -161,6 +164,7 @@
               :class="{
                 'bg-n-blue-9': statusUpper === 'PROCESSING' || statusUpper === 'PENDING',
                 'bg-n-green-9': statusUpper === 'COMPLETED',
+                'bg-n-orange-9': statusUpper === 'COMPLETED_WITH_WARNINGS',
                 'bg-n-red-9': statusUpper === 'FAILED',
                 'bg-n-slate-9': statusUpper === 'CANCELLED'
               }"
@@ -246,7 +250,7 @@ const props = defineProps({
   status: {
     type: String,
     required: true,
-    validator: value => ['PENDING', 'PROCESSING', 'COMPLETED', 'FAILED', 'PARTIALLY_COMPLETED', 'CANCELLED', 'pending', 'processing', 'completed', 'failed', 'partially_completed', 'cancelled'].includes(value)
+    validator: value => ['PENDING', 'PROCESSING', 'COMPLETED', 'COMPLETED_WITH_WARNINGS', 'FAILED', 'PARTIALLY_COMPLETED', 'CANCELLED', 'pending', 'processing', 'completed', 'completed_with_warnings', 'failed', 'partially_completed', 'cancelled'].includes(value)
   },
   fileName: {
     type: String,
@@ -320,6 +324,8 @@ const statusMessage = computed(() => {
       return isExport
         ? t('KNOWLEDGE_BASE.PRODUCT_CATALOG.EXPORT_ALL.SUCCESS_MESSAGE')
         : t('KNOWLEDGE_BASE.PRODUCT_CATALOG.UPLOAD.SUCCESS_MESSAGE');
+    case 'COMPLETED_WITH_WARNINGS':
+      return props.errorMessage || t('KNOWLEDGE_BASE.PRODUCT_CATALOG.UPLOAD.SUCCESS_MESSAGE');
     case 'PARTIALLY_COMPLETED':
       return `${props.processedRecords} of ${props.totalRecords} records processed successfully`;
     case 'FAILED':
@@ -340,7 +346,7 @@ const showProgress = computed(() => {
 });
 
 const showStats = computed(() => {
-  return props.totalRecords > 0 && ['PROCESSING', 'COMPLETED', 'PARTIALLY_COMPLETED', 'FAILED'].includes(statusUpper.value);
+  return props.totalRecords > 0 && ['PROCESSING', 'COMPLETED', 'COMPLETED_WITH_WARNINGS', 'PARTIALLY_COMPLETED', 'FAILED'].includes(statusUpper.value);
 });
 
 const canCancel = computed(() => {
@@ -349,7 +355,7 @@ const canCancel = computed(() => {
 
 // Check if there are errors (for showing success message or not)
 const hasErrors = computed(() => {
-  if (!['FAILED', 'PARTIALLY_COMPLETED'].includes(statusUpper.value)) {
+  if (!['FAILED', 'PARTIALLY_COMPLETED', 'COMPLETED_WITH_WARNINGS'].includes(statusUpper.value)) {
     return false;
   }
   return props.failedRecords > 0 || !!props.errorMessage;
@@ -357,7 +363,7 @@ const hasErrors = computed(() => {
 
 // Check if there are downloadable error details (for showing download button)
 const hasDownloadableErrors = computed(() => {
-  if (!['FAILED', 'PARTIALLY_COMPLETED'].includes(statusUpper.value)) {
+  if (!['FAILED', 'PARTIALLY_COMPLETED', 'COMPLETED_WITH_WARNINGS'].includes(statusUpper.value)) {
     return false;
   }
 

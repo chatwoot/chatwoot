@@ -203,6 +203,7 @@
         "PENDING": "Pendiente",
         "PROCESSING": "Procesando",
         "COMPLETED": "Completado",
+        "COMPLETED_WITH_WARNINGS": "Completado con Advertencias",
         "FAILED": "Fallido",
         "PARTIALLY_COMPLETED": "Parcialmente Completado",
         "CANCELLED": "Cancelado"
