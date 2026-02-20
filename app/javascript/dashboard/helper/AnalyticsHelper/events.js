@@ -84,21 +84,33 @@ export const PORTALS_EVENTS = Object.freeze({
   PREVIEW_ARTICLE: 'Previewed article',
 });
 
-export const OPEN_AI_EVENTS = Object.freeze({
-  SUMMARIZE: 'OpenAI: Used summarize',
-  REPLY_SUGGESTION: 'OpenAI: Used reply suggestion',
-  REPHRASE: 'OpenAI: Used rephrase',
-  FIX_SPELLING_AND_GRAMMAR: 'OpenAI: Used fix spelling and grammar',
-  SHORTEN: 'OpenAI: Used shorten',
-  EXPAND: 'OpenAI: Used expand',
-  MAKE_FRIENDLY: 'OpenAI: Used make friendly',
-  MAKE_FORMAL: 'OpenAI: Used make formal',
-  SIMPLIFY: 'OpenAI: Used simplify',
-  APPLY_LABEL_SUGGESTION: 'OpenAI: Apply label from suggestion',
-  DISMISS_LABEL_SUGGESTION: 'OpenAI: Dismiss label suggestions',
-  ADDED_AI_INTEGRATION_VIA_CTA_BUTTON:
-    'OpenAI: Added AI integration via CTA button',
-  DISMISS_AI_SUGGESTION: 'OpenAI: Dismiss AI suggestions',
+export const CAPTAIN_EVENTS = Object.freeze({
+  // Editor funnel events
+  EDITOR_AI_MENU_OPENED: 'Captain: Editor AI menu opened',
+  GENERATION_FAILED: 'Captain: Generation failed',
+  AI_ASSISTED_MESSAGE_SENT: 'Captain: AI-assisted message sent',
+
+  // Rewrite events (with operation attribute in payload)
+  REWRITE_USED: 'Captain: Rewrite used',
+  REWRITE_APPLIED: 'Captain: Rewrite applied',
+  REWRITE_DISMISSED: 'Captain: Rewrite dismissed',
+
+  // Summarize events
+  SUMMARIZE_USED: 'Captain: Summarize used',
+  SUMMARIZE_APPLIED: 'Captain: Summarize applied',
+  SUMMARIZE_DISMISSED: 'Captain: Summarize dismissed',
+
+  // Reply suggestion events
+  REPLY_SUGGESTION_USED: 'Captain: Reply suggestion used',
+  REPLY_SUGGESTION_APPLIED: 'Captain: Reply suggestion applied',
+  REPLY_SUGGESTION_DISMISSED: 'Captain: Reply suggestion dismissed',
+
+  // Follow-up events
+  FOLLOW_UP_SENT: 'Captain: Follow-up sent',
+
+  // Label suggestions
+  LABEL_SUGGESTION_APPLIED: 'Captain: Label suggestion applied',
+  LABEL_SUGGESTION_DISMISSED: 'Captain: Label suggestion dismissed',
 });
 
 export const COPILOT_EVENTS = Object.freeze({

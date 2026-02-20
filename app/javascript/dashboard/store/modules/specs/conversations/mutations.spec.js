@@ -239,14 +239,14 @@ describe('#mutations', () => {
     describe('#UPDATE_CONVERSATION_CUSTOM_ATTRIBUTES', () => {
       it('update conversation custom attributes', () => {
         const custom_attributes = { order_id: 1001 };
-        const state = { allConversations: [{ id: 1 }], selectedChatId: 1 };
+        const state = { allConversations: [{ id: 1, custom_attributes: {} }] };
         mutations[types.UPDATE_CONVERSATION_CUSTOM_ATTRIBUTES](state, {
           conversationId: 1,
-          custom_attributes,
+          customAttributes: custom_attributes,
         });
-        expect(
-          state.allConversations[0].custom_attributes.custom_attributes
-        ).toEqual(custom_attributes);
+        expect(state.allConversations[0].custom_attributes).toEqual(
+          custom_attributes
+        );
       });
     });
   });
@@ -570,25 +570,84 @@ describe('#mutations', () => {
     });
   });
 
-  describe('#SET_ALL_MESSAGES_LOADED', () => {
-    it('should set allMessagesLoaded to true on selected chat', () => {
+  describe('#SET_CHAT_DATA_FETCHED', () => {
+    it('should set dataFetched to true on the conversation by ID', () => {
       const state = {
-        allConversations: [{ id: 1, allMessagesLoaded: false }],
+        allConversations: [{ id: 1 }, { id: 2 }],
+      };
+      mutations[types.SET_CHAT_DATA_FETCHED](state, 1);
+      expect(state.allConversations[0].dataFetched).toBe(true);
+      expect(state.allConversations[1].dataFetched).toBeUndefined();
+    });
+
+    it('should do nothing if conversation is not found', () => {
+      const state = { allConversations: [{ id: 1 }] };
+      mutations[types.SET_CHAT_DATA_FETCHED](state, 999);
+      expect(state.allConversations[0].dataFetched).toBeUndefined();
+    });
+
+    it('should survive the race: SET_ALL_CONVERSATION replaces the object, then SET_CHAT_DATA_FETCHED still works', () => {
+      // 1. Initial state: conversation exists with dataFetched undefined
+      const state = {
+        allConversations: [{ id: 1, messages: [{ id: 'm1' }] }],
         selectedChatId: 1,
       };
-      mutations[types.SET_ALL_MESSAGES_LOADED](state);
+      const originalRef = state.allConversations[0];
+
+      // 2. Simulate SET_ALL_CONVERSATION replacing the object (WebSocket/polling)
+      //    This copies dataFetched from the old object (still undefined)
+      mutations[types.SET_ALL_CONVERSATION](state, [
+        { id: 1, name: 'refreshed', messages: [{ id: 'm2' }] },
+      ]);
+
+      // The store now holds a NEW object, old reference is detached
+      const newRef = state.allConversations[0];
+      expect(newRef).not.toBe(originalRef);
+      expect(newRef.dataFetched).toBeUndefined();
+
+      // 3. SET_CHAT_DATA_FETCHED finds by ID — works on the current store object
+      mutations[types.SET_CHAT_DATA_FETCHED](state, 1);
+      expect(state.allConversations[0].dataFetched).toBe(true);
+
+      // Old detached reference is unaffected
+      expect(originalRef.dataFetched).toBeUndefined();
+    });
+  });
+
+  describe('#SET_ALL_MESSAGES_LOADED', () => {
+    it('should set allMessagesLoaded to true on the conversation by ID', () => {
+      const state = {
+        allConversations: [{ id: 1, allMessagesLoaded: false }, { id: 2 }],
+      };
+      mutations[types.SET_ALL_MESSAGES_LOADED](state, 1);
       expect(state.allConversations[0].allMessagesLoaded).toBe(true);
+      expect(state.allConversations[1].allMessagesLoaded).toBeUndefined();
+    });
+
+    it('should do nothing if conversation is not found', () => {
+      const state = { allConversations: [{ id: 1 }] };
+      mutations[types.SET_ALL_MESSAGES_LOADED](state, 999);
+      expect(state.allConversations[0].allMessagesLoaded).toBeUndefined();
     });
   });
 
   describe('#CLEAR_ALL_MESSAGES_LOADED', () => {
-    it('should set allMessagesLoaded to false on selected chat', () => {
+    it('should set allMessagesLoaded to false on the conversation by ID', () => {
       const state = {
-        allConversations: [{ id: 1, allMessagesLoaded: true }],
-        selectedChatId: 1,
+        allConversations: [
+          { id: 1, allMessagesLoaded: true },
+          { id: 2, allMessagesLoaded: true },
+        ],
       };
-      mutations[types.CLEAR_ALL_MESSAGES_LOADED](state);
+      mutations[types.CLEAR_ALL_MESSAGES_LOADED](state, 1);
       expect(state.allConversations[0].allMessagesLoaded).toBe(false);
+      expect(state.allConversations[1].allMessagesLoaded).toBe(true);
+    });
+
+    it('should do nothing if conversation is not found', () => {
+      const state = { allConversations: [{ id: 1, allMessagesLoaded: true }] };
+      mutations[types.CLEAR_ALL_MESSAGES_LOADED](state, 999);
+      expect(state.allConversations[0].allMessagesLoaded).toBe(true);
     });
   });
 
@@ -640,15 +699,22 @@ describe('#mutations', () => {
   });
 
   describe('#ASSIGN_AGENT', () => {
-    it('should assign agent to selected conversation', () => {
+    it('should assign agent to the correct conversation by ID', () => {
       const assignee = { id: 1, name: 'Agent' };
       const state = {
-        allConversations: [{ id: 1, meta: {} }],
-        selectedChatId: 1,
+        allConversations: [
+          { id: 1, meta: {} },
+          { id: 2, meta: {} },
+        ],
+        selectedChatId: 2,
       };
 
-      mutations[types.ASSIGN_AGENT](state, assignee);
+      mutations[types.ASSIGN_AGENT](state, {
+        conversationId: 1,
+        assignee,
+      });
       expect(state.allConversations[0].meta.assignee).toEqual(assignee);
+      expect(state.allConversations[1].meta.assignee).toBeUndefined();
     });
   });
 
@@ -796,6 +862,34 @@ describe('#mutations', () => {
 
       mutations[types.UPDATE_CONVERSATION](state, conversation);
       expect(state.allConversations[0].status).toEqual('resolved');
+    });
+
+    it('should preserve dataFetched and allMessagesLoaded during update', () => {
+      const state = {
+        allConversations: [
+          {
+            id: 1,
+            status: 'open',
+            updated_at: 100,
+            messages: [{ id: 'msg1' }],
+            dataFetched: true,
+            allMessagesLoaded: true,
+          },
+        ],
+      };
+
+      const conversation = {
+        id: 1,
+        status: 'resolved',
+        updated_at: 200,
+        messages: [{ id: 'msg2' }],
+      };
+
+      mutations[types.UPDATE_CONVERSATION](state, conversation);
+      expect(state.allConversations[0].status).toEqual('resolved');
+      expect(state.allConversations[0].dataFetched).toBe(true);
+      expect(state.allConversations[0].allMessagesLoaded).toBe(true);
+      expect(state.allConversations[0].messages).toEqual([{ id: 'msg1' }]);
     });
   });
 
