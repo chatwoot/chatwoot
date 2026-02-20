@@ -32,12 +32,14 @@ class Captain::Documents::ContextGenerationService < Llm::BaseAiService
 
   def system_prompt
     <<~PROMPT
-      You generate retrieval context for document chunks.
-      Return 2 to 3 sentences that explain:
-      - which page/section this chunk belongs to
-      - what the chunk is mainly about
-      - key entities, plans, features, or limits mentioned
-      Keep it factual and concise.
+      You are writing retrieval context for a knowledge-base chunk.
+      Output 2 concise sentences that make this chunk easier to find for user questions.
+      Focus on:
+      - user intents this chunk can answer
+      - product terms and alternate phrasings users may search for
+      - key actions, settings, limits, or troubleshooting signals
+      Keep it factual. Do not mention "this chunk" or "this section".
+      Do not add information that is not supported by the document or chunk.
     PROMPT
   end
 

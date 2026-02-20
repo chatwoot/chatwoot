@@ -3,6 +3,19 @@ class Captain::Documents::ChunkingService
   DEFAULT_MIN_TOKENS = 400
   DEFAULT_MAX_TOKENS = 800
   DEFAULT_OVERLAP_TOKENS = 120
+  BOILERPLATE_SECTION_PATTERNS = [
+    /skip to main content/i,
+    /table of contents/i,
+    /related articles/i,
+    /recommended articles/i,
+    /need more help/i,
+    /contact support/i,
+    /cookie/i,
+    /privacy policy/i,
+    /terms of service/i,
+    /all rights reserved/i,
+    /back to top/i
+  ].freeze
 
   def initialize(content, target_tokens: DEFAULT_TARGET_TOKENS, min_tokens: DEFAULT_MIN_TOKENS,
                  max_tokens: DEFAULT_MAX_TOKENS, overlap_tokens: DEFAULT_OVERLAP_TOKENS)
@@ -34,9 +47,10 @@ class Captain::Documents::ChunkingService
   Section = Struct.new(:content, :heading_path, keyword_init: true)
 
   def split_into_sections(content)
+    cleaned_content = remove_boilerplate_sections(content)
     heading_path = []
 
-    content
+    cleaned_content
       .split(/\n{2,}/)
       .map(&:strip)
       .reject(&:blank?)
@@ -44,6 +58,57 @@ class Captain::Documents::ChunkingService
       heading_path = update_heading_path_from_section(heading_path, section_content)
       Section.new(content: section_content, heading_path: heading_path.dup)
     end
+  end
+
+  def remove_boilerplate_sections(content)
+    content
+      .split(/\n{2,}/)
+      .map(&:strip)
+      .reject(&:blank?)
+      .reject { |section| boilerplate_section?(section) }
+      .join("\n\n")
+  end
+
+  def boilerplate_section?(section)
+    normalized = section.downcase.strip
+    return true if BOILERPLATE_SECTION_PATTERNS.any? { |pattern| normalized.match?(pattern) }
+
+    link_heavy_navigation_section?(section)
+  end
+
+  def link_heavy_navigation_section?(section)
+    lines = non_blank_lines(section)
+    return false unless navigation_candidate?(lines)
+
+    markdown_links = markdown_link_count(section)
+    linked_lines = linked_line_count(lines)
+    return false unless dense_link_cluster?(markdown_links, linked_lines)
+
+    short_section?(section)
+  end
+
+  def non_blank_lines(section)
+    section.lines.map(&:strip).reject(&:blank?)
+  end
+
+  def navigation_candidate?(lines)
+    lines.size >= 3
+  end
+
+  def markdown_link_count(section)
+    section.scan(/\[[^\]]+\]\([^)]+\)/).size
+  end
+
+  def linked_line_count(lines)
+    lines.count { |line| line.match?(/\[[^\]]+\]\([^)]+\)/) || line.start_with?('* [', '- [') }
+  end
+
+  def dense_link_cluster?(markdown_links, linked_lines)
+    markdown_links >= 2 && linked_lines >= 3
+  end
+
+  def short_section?(section)
+    section.scan(/\b[\w']+\b/).size <= 180
   end
 
   def build_chunks(sections)

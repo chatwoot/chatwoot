@@ -53,5 +53,30 @@ RSpec.describe Captain::Documents::ChunkingService do
       expect(result.size).to eq(2)
       expect(result.last[:content]).to include('nine ten')
     end
+
+    it 'removes obvious boilerplate navigation sections before chunking' do
+      content = <<~TEXT
+        # Account deletion
+        You can delete your account from Settings.
+
+        ## Related articles
+        - [How to block someone](https://example.com/block)
+        - [How to report someone](https://example.com/report)
+        - [How to update profile](https://example.com/profile)
+      TEXT
+
+      result = described_class.new(
+        content,
+        target_tokens: 30,
+        min_tokens: 10,
+        max_tokens: 50,
+        overlap_tokens: 0
+      ).chunk
+
+      combined_content = result.map { |chunk| chunk[:content] }.join("\n")
+      expect(combined_content).to include('You can delete your account from Settings')
+      expect(combined_content).not_to include('How to block someone')
+      expect(combined_content).not_to include('Related articles')
+    end
   end
 end

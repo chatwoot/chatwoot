@@ -28,6 +28,19 @@ RSpec.describe Captain::Documents::ContextGenerationService do
       expect(result).to eq('Pricing page context.')
     end
 
+    it 'uses retrieval-oriented context instructions' do
+      service = described_class.new(
+        document_content: 'Document text',
+        chunk_content: 'Chunk text',
+        account_id: 1
+      )
+
+      service.generate
+
+      expect(chat).to have_received(:with_instructions).with(include('user intents this chunk can answer'))
+      expect(chat).to have_received(:with_instructions).with(include('make this chunk easier to find'))
+    end
+
     it 'uses explicit model when provided' do
       service = described_class.new(
         document_content: 'Doc text',
