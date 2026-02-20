@@ -28,6 +28,19 @@ RSpec.describe Captain::Llm::AssistantChatService do
     allow(mock_chat).to receive(:messages).and_return([])
   end
 
+  describe 'instrumentation metadata' do
+    it 'passes channel_type to the agent session instrumentation' do
+      service = described_class.new(assistant: assistant, conversation_id: conversation.display_id)
+
+      expect(service).to receive(:instrument_agent_session).with(
+        hash_including(metadata: hash_including(channel_type: conversation.inbox.channel_type))
+      ).and_yield
+
+      allow(mock_chat).to receive(:ask).and_return(mock_response)
+      service.generate_response(message_history: [{ role: 'user', content: 'Hello' }])
+    end
+  end
+
   describe 'image analysis' do
     context 'when user sends a message with an image attachment' do
       let(:message_history) do
