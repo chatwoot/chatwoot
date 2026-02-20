@@ -55,6 +55,22 @@ class ConversationFinder
     }
   end
 
+  def perform_meta_only
+    set_up
+
+    mine_count, unassigned_count, all_count, = set_count_for_all_conversations
+    assigned_count = all_count - unassigned_count
+
+    {
+      count: {
+        mine_count: mine_count,
+        assigned_count: assigned_count,
+        unassigned_count: unassigned_count,
+        all_count: all_count
+      }
+    }
+  end
+
   private
 
   def set_up

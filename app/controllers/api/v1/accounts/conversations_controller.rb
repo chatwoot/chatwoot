@@ -15,7 +15,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   end
 
   def meta
-    result = conversation_finder.perform
+    result = conversation_finder.perform_meta_only
     @conversations_count = result[:count]
   end
 
