@@ -175,7 +175,7 @@ export default {
         <woot-input
           v-model="address"
           :class="{ error: v$.address.$error }"
-          class="max-w-[75%] w-full"
+          class="w-full"
           :label="$t('INBOX_MGMT.SMTP.ADDRESS.LABEL')"
           :placeholder="$t('INBOX_MGMT.SMTP.ADDRESS.PLACE_HOLDER')"
           @blur="v$.address.$touch"
@@ -184,7 +184,7 @@ export default {
           v-model="port"
           type="number"
           :class="{ error: v$.port.$error }"
-          class="max-w-[75%] w-full"
+          class="w-full"
           :label="$t('INBOX_MGMT.SMTP.PORT.LABEL')"
           :placeholder="$t('INBOX_MGMT.SMTP.PORT.PLACE_HOLDER')"
           @blur="v$.port.$touch"
@@ -192,7 +192,7 @@ export default {
         <woot-input
           v-model="login"
           :class="{ error: v$.login.$error }"
-          class="max-w-[75%] w-full"
+          class="w-full"
           :label="$t('INBOX_MGMT.SMTP.LOGIN.LABEL')"
           :placeholder="$t('INBOX_MGMT.SMTP.LOGIN.PLACE_HOLDER')"
           @blur="v$.login.$touch"
@@ -200,7 +200,7 @@ export default {
         <woot-input
           v-model="password"
           :class="{ error: v$.password.$error }"
-          class="max-w-[75%] w-full"
+          class="w-full"
           :label="$t('INBOX_MGMT.SMTP.PASSWORD.LABEL')"
           :placeholder="$t('INBOX_MGMT.SMTP.PASSWORD.PLACE_HOLDER')"
           type="password"
@@ -209,7 +209,7 @@ export default {
         <woot-input
           v-model="domain"
           :class="{ error: v$.domain.$error }"
-          class="max-w-[75%] w-full"
+          class="w-full"
           :label="$t('INBOX_MGMT.SMTP.DOMAIN.LABEL')"
           :placeholder="$t('INBOX_MGMT.SMTP.DOMAIN.PLACE_HOLDER')"
           @blur="v$.domain.$touch"
@@ -220,14 +220,14 @@ export default {
           :action="handleEncryptionChange"
         />
         <SingleSelectDropdown
-          class="max-w-[75%] w-full"
+          class="w-full"
           :label="$t('INBOX_MGMT.SMTP.OPEN_SSL_VERIFY_MODE')"
           :selected="openSSLVerifyMode"
           :options="openSSLVerifyModes"
           :action="handleSSLModeChange"
         />
         <SingleSelectDropdown
-          class="max-w-[75%] w-full"
+          class="w-full"
           :label="$t('INBOX_MGMT.SMTP.AUTH_MECHANISM')"
           :selected="authMechanism"
           :options="authMechanisms"

@@ -84,7 +84,7 @@ export default {
 </script>
 
 <template>
-  <div class="mx-6 max-w-3xl">
+  <div class="mx-6 max-w-4xl">
     <LoadingState v-if="uiFlags.isFetching || uiFlags.isFetchingAgentBot" />
     <form v-else @submit.prevent="updateActiveAgentBot">
       <SettingsFieldSection

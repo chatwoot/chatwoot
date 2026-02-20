@@ -214,6 +214,18 @@ export default {
       const { medium, channel_type: type } = this.inbox;
       return getInboxIconByType(type, medium, 'line');
     },
+    bannerMaxWidth() {
+      const narrowTabs = [
+        'collaborators',
+        'configuration',
+        'bot-configuration',
+      ];
+      if (narrowTabs.includes(this.selectedTabKey)) return 'max-w-4xl';
+      if (this.selectedTabKey === 'inbox-settings') {
+        return this.isAWebWidgetInbox ? 'max-w-7xl' : 'max-w-4xl';
+      }
+      return 'max-w-7xl';
+    },
     inboxName() {
       if (this.isATwilioSMSChannel || this.isATwilioWhatsAppChannel) {
         return `${this.inbox.name} (${
@@ -571,44 +583,57 @@ export default {
           v-if="microsoftUnauthorized"
           :inbox="inbox"
           class="mb-4"
+          :class="bannerMaxWidth"
         />
         <FacebookReauthorize
           v-if="facebookUnauthorized"
           :inbox="inbox"
           class="mb-4"
+          :class="bannerMaxWidth"
         />
         <GoogleReauthorize
           v-if="googleUnauthorized"
           :inbox="inbox"
           class="mb-4"
+          :class="bannerMaxWidth"
         />
         <InstagramReauthorize
           v-if="instagramUnauthorized"
           :inbox="inbox"
           class="mb-4"
+          :class="bannerMaxWidth"
         />
         <TiktokReauthorize
           v-if="tiktokUnauthorized"
           :inbox="inbox"
           class="mb-4"
+          :class="bannerMaxWidth"
         />
         <WhatsappReauthorize
           v-if="whatsappUnauthorized"
           :whatsapp-registration-incomplete="whatsappRegistrationIncomplete"
           :inbox="inbox"
           class="mb-4"
+          :class="bannerMaxWidth"
         />
         <DuplicateInboxBanner
           v-if="hasDuplicateInstagramInbox"
           :content="$t('INBOX_MGMT.ADD.INSTAGRAM.DUPLICATE_INBOX_BANNER')"
           class="mx-6 mb-4"
+          :class="bannerMaxWidth"
         />
 
         <div
           v-if="selectedTabKey === 'inbox-settings'"
           class="flex flex-col md:flex-row items-center lg:items-start justify-between gap-5 lg:gap-10 mx-6"
         >
-          <div class="max-w-2xl flex-1 flex flex-col min-w-0">
+          <div
+            class="flex-1 flex flex-col min-w-0"
+            :class="{
+              'max-w-2xl': isAWebWidgetInbox,
+              'max-w-4xl': !isAWebWidgetInbox,
+            }"
+          >
             <div class="flex flex-col gap-1 items-start mb-4">
               <label class="text-heading-3 text-n-slate-12">
                 {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_AVATAR.LABEL') }}
@@ -755,6 +780,7 @@ export default {
                 <SenderNameExamplePreview
                   :sender-name-type="senderNameType"
                   :business-name="businessName"
+                  :is-website-channel="isAWebWidgetInbox"
                   @update="toggleSenderNameType"
                 />
               </template>
@@ -1107,10 +1133,10 @@ export default {
           </div>
         </div>
 
-        <div v-if="selectedTabKey === 'collaborators'" class="mx-6 max-w-3xl">
+        <div v-if="selectedTabKey === 'collaborators'" class="mx-6 max-w-4xl">
           <CollaboratorsPage :inbox="inbox" />
         </div>
-        <div v-if="selectedTabKey === 'configuration'">
+        <div v-if="selectedTabKey === 'configuration'" class="mx-6 max-w-4xl">
           <ConfigurationPage :inbox="inbox" />
         </div>
         <div v-if="selectedTabKey === 'csat'">

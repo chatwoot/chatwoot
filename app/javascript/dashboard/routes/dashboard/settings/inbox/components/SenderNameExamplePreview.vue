@@ -13,6 +13,10 @@ const props = defineProps({
     type: String,
     default: '',
   },
+  isWebsiteChannel: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const emit = defineEmits(['update']);
@@ -56,7 +60,10 @@ const toggleSenderNameType = key => {
 
 <template>
   <div
-    class="flex flex-col sm:flex-row md:flex-col xl:flex-row items-start gap-4 mt-3 min-w-0"
+    class="flex flex-col items-start gap-4 mt-3 min-w-0"
+    :class="
+      isWebsiteChannel ? 'sm:flex-row md:flex-col xl:flex-row' : 'sm:flex-row'
+    "
   >
     <RadioCard
       v-for="keyOption in senderNameKeyOptions"

@@ -82,7 +82,13 @@ const attributeIcon = computed(() => {
           sm
           @click="emit('edit', attribute)"
         />
-        <Button icon="i-woot-bin" slate sm @click="emit('delete', attribute)" />
+        <Button
+          icon="i-woot-bin"
+          slate
+          sm
+          class="hover:enabled:text-n-ruby-11 hover:enabled:bg-n-ruby-2"
+          @click="emit('delete', attribute)"
+        />
       </div>
     </div>
   </div>
