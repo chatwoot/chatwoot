@@ -240,7 +240,7 @@ leadsquared:
           'transcript_activity_code': { 'type': 'integer' },
         },
       'required': ['access_key', 'secret_key'],
-      'additionalProperties': false,
+      'additionalProperties': true,
     }
   settings_form_schema:
     [
@@ -308,16 +308,18 @@ zoho:
           'client_secret': { 'type': 'string' },
           'soid': { 'type': 'string' },
           'access_token': { 'type': 'string' },
+          'refresh_token': { 'type': 'string' },
           'token_expires_at': { 'type': 'string' },
           'api_domain': { 'type': 'string' },
           'token_type': { 'type': 'string' },
-          'expires_in': { 'type': 'integer' },
+          'expires_in': { 'type': ['integer', 'string'] },
           'triggers': { 'type': 'object' },
           'desk_soid': { 'type': 'string' },
           'desk_department_id': { 'type': 'string' },
+          'scopes': { 'type': 'array' },
         },
       'required': ['client_id', 'client_secret', 'soid'],
-      'additionalProperties': false,
+      'additionalProperties': true,
     }
   settings_form_schema:
     [
@@ -367,13 +369,18 @@ salesforce:
           'password': { 'type': 'string' },
           'is_sandbox': { 'type': 'boolean' },
           'access_token': { 'type': 'string' },
+          'refresh_token': { 'type': 'string' },
           'token_expires_at': { 'type': 'string' },
           'instance_url': { 'type': 'string' },
           'token_type': { 'type': 'string' },
+          'issued_at': { 'type': ['string', 'integer'] },
+          'signature': { 'type': 'string' },
+          'id': { 'type': 'string' },
+          'expires_in': { 'type': 'integer' },
           'triggers': { 'type': 'object' },
         },
       'required': ['client_id', 'client_secret', 'username', 'password'],
-      'additionalProperties': false,
+      'additionalProperties': true,
     }
   settings_form_schema:
     [
@@ -430,11 +437,14 @@ hubspot:
       'properties':
         {
           'access_token': { 'type': 'string' },
+          'refresh_token': { 'type': 'string' },
+          'token_expires_at': { 'type': 'string' },
           'token_type': { 'type': 'string' },
+          'expires_in': { 'type': 'integer' },
           'triggers': { 'type': 'object' },
         },
       'required': ['access_token'],
-      'additionalProperties': false,
+      'additionalProperties': true,
     }
   settings_form_schema:
     [
