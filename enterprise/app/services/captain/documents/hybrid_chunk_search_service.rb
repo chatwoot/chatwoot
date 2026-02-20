@@ -1,8 +1,10 @@
 class Captain::Documents::HybridChunkSearchService
-  DEFAULT_VECTOR_LIMIT = 10
-  DEFAULT_BM25_LIMIT = 10
+  DEFAULT_VECTOR_LIMIT = 20
+  DEFAULT_BM25_LIMIT = 20
   DEFAULT_BM25_CANDIDATE_LIMIT = 200
+  DEFAULT_RRF_LIMIT = 20
   DEFAULT_RESULT_LIMIT = 5
+  DEFAULT_RERANKER_ENABLED = true
   RRF_K = 60
   BM25_K1 = 1.2
   BM25_B = 0.75
@@ -19,6 +21,7 @@ class Captain::Documents::HybridChunkSearchService
   def initialize(assistant:)
     @assistant = assistant
     @embedding_service = Captain::Llm::EmbeddingService.new(account_id: assistant.account_id)
+    @reranker = Captain::Documents::ChunkRerankerService.new(account_id: assistant.account_id)
   end
 
   def search(query, limit: DEFAULT_RESULT_LIMIT)
@@ -26,7 +29,8 @@ class Captain::Documents::HybridChunkSearchService
 
     vector_results = vector_search(query)
     bm25_results = bm25_search(query)
-    rank_results(vector_results, bm25_results, limit)
+    rrf_results = rank_results(vector_results, bm25_results, DEFAULT_RRF_LIMIT)
+    rerank_results(query, rrf_results, limit)
   end
 
   private
@@ -78,6 +82,19 @@ class Captain::Documents::HybridChunkSearchService
       .sort_by { |(_id, score)| -score }
       .first(limit)
       .filter_map { |(id, _score)| records_by_id[id] }
+  end
+
+  def rerank_results(query, candidates, limit)
+    return candidates.first(limit) unless reranking_enabled?
+    return candidates.first(limit) if candidates.blank?
+
+    reranked_results = @reranker.rerank(query: query, candidates: candidates, limit: limit)
+    return candidates.first(limit) if reranked_results.blank?
+
+    reranked_results
+  rescue StandardError => e
+    Rails.logger.warn "Hybrid chunk rerank failed: #{e.message}"
+    candidates.first(limit)
   end
 
   def bm25_candidates(query_terms)
@@ -184,5 +201,12 @@ class Captain::Documents::HybridChunkSearchService
 
   def sanitize_tsquery_term(term)
     term.to_s.gsub(/[^a-z0-9]/, '')
+  end
+
+  def reranking_enabled?
+    value = InstallationConfig.find_by(name: 'CAPTAIN_CHUNK_RERANKING_ENABLED')&.value
+    return DEFAULT_RERANKER_ENABLED if value.blank?
+
+    ActiveModel::Type::Boolean.new.cast(value)
   end
 end
