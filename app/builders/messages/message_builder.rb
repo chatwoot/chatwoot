@@ -134,7 +134,7 @@ class Messages::MessageBuilder
       account_id: @conversation.account_id,
       inbox_id: @conversation.inbox_id,
       message_type: message_type,
-      content: @params[:content],
+      content: normalized_content,
       private: @private,
       sender: sender,
       content_type: @params[:content_type],
@@ -221,6 +221,23 @@ class Messages::MessageBuilder
     message_drops(@conversation).merge({
                                          'agent' => UserDrop.new(sender)
                                        })
+  end
+
+  def normalized_content
+    content = @params[:content]
+    return content unless should_normalize_outgoing_content?(content)
+
+    content
+      .gsub(/\\\r?\n/, "\n")     # remove "\" antes do newline
+      .gsub(/\r\n?/, "\n")       # normaliza CRLF pra \n
+  end
+
+  def should_normalize_outgoing_content?(content)
+    return false unless content.is_a?(String)
+    return false unless @message_type == 'outgoing'
+    return false if email_inbox? # não mexe com Email inbox
+
+    true
   end
 end
 
