@@ -1,4 +1,4 @@
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useRoute } from 'vue-router';
@@ -31,22 +31,25 @@ import {
 
 import {
   OPEN_CONVERSATION_ACTIONS,
-  SNOOZE_CONVERSATION_ACTIONS,
   RESOLVED_CONVERSATION_ACTIONS,
   SEND_TRANSCRIPT_ACTION,
   UNMUTE_ACTION,
   MUTE_ACTION,
+  createSnoozeHandlers,
 } from 'dashboard/helper/commandbar/actions';
 import {
   isAConversationRoute,
   isAInboxViewRoute,
 } from 'dashboard/helper/routeHelpers';
+import { CMD_SNOOZE_CONVERSATION } from 'dashboard/helper/commandbar/events';
+import { ICON_SNOOZE_CONVERSATION } from 'dashboard/helper/commandbar/icons';
 
 const prepareActions = (actions, t) => {
   return actions.map(action => ({
     ...action,
-    title: t(action.title),
-    section: t(action.section),
+    title: typeof action.title === 'string' ? t(action.title) : action.title,
+    section:
+      typeof action.section === 'string' ? t(action.section) : action.section,
   }));
 };
 
@@ -139,6 +142,14 @@ export function useConversationHotKeys() {
   const store = useStore();
   const route = useRoute();
 
+  // Create a reactive trigger for localStorage changes
+  const localStorageTrigger = ref(0);
+
+  // Watch for localStorage changes (we'll trigger this manually when needed)
+  const forceSnoozeActionsUpdate = () => {
+    localStorageTrigger.value += 1;
+  };
+
   const {
     activeLabels,
     inactiveLabels,
@@ -192,6 +203,28 @@ export function useConversationHotKeys() {
     });
   };
 
+  // Create reactive snooze conversation actions that update when localStorage changes
+  const snoozeConversationActions = computed(() => {
+    // This computed will re-run when localStorageTrigger changes
+    // eslint-disable-next-line no-unused-expressions
+    localStorageTrigger.value; // Access to make it reactive
+
+    return [
+      {
+        id: 'snooze_conversation',
+        title: 'COMMAND_BAR.COMMANDS.SNOOZE_CONVERSATION',
+        section: 'COMMAND_BAR.SECTIONS.CONVERSATION',
+        icon: ICON_SNOOZE_CONVERSATION,
+        children: Object.values(wootConstants.SNOOZE_OPTIONS),
+      },
+      ...createSnoozeHandlers(
+        CMD_SNOOZE_CONVERSATION,
+        'snooze_conversation',
+        'COMMAND_BAR.SECTIONS.SNOOZE_CONVERSATION'
+      ),
+    ];
+  });
+
   const statusActions = computed(() => {
     const isOpen = currentChat.value?.status === wootConstants.STATUS_TYPE.OPEN;
     const isSnoozed =
@@ -201,7 +234,10 @@ export function useConversationHotKeys() {
 
     let actions = [];
     if (isOpen) {
-      actions = [...OPEN_CONVERSATION_ACTIONS, ...SNOOZE_CONVERSATION_ACTIONS];
+      actions = [
+        ...OPEN_CONVERSATION_ACTIONS,
+        ...snoozeConversationActions.value,
+      ];
     } else if (isResolved || isSnoozed) {
       actions = RESOLVED_CONVERSATION_ACTIONS;
     }
@@ -389,7 +425,7 @@ export function useConversationHotKeys() {
 
   const conversationHotKeys = computed(() => {
     if (shouldShowSnoozeOption.value) {
-      return prepareActions(SNOOZE_CONVERSATION_ACTIONS, t);
+      return prepareActions(snoozeConversationActions.value, t);
     }
     if (isConversationOrInboxRoute.value) {
       return getDefaultConversationHotKeys.value;
@@ -399,5 +435,6 @@ export function useConversationHotKeys() {
 
   return {
     conversationHotKeys,
+    forceSnoozeActionsUpdate,
   };
 }

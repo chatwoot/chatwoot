@@ -32,14 +32,97 @@ export const OPEN_CONVERSATION_ACTIONS = [
 ];
 
 export const createSnoozeHandlers = (busEventName, parentId, section) => {
-  return Object.values(SNOOZE_OPTIONS).map(option => ({
-    id: option,
-    title: `COMMAND_BAR.COMMANDS.${option.toUpperCase()}`,
-    parent: parentId,
-    section: section,
-    icon: ICON_SNOOZE_CONVERSATION,
-    handler: () => emitter.emit(busEventName, option),
-  }));
+  // Import the helper functions inline to avoid import issues
+  const LAST_CUSTOM_SNOOZE_KEY = 'chatwoot_last_custom_snooze_time';
+
+  const getLastCustomSnoozeTime = () => {
+    try {
+      const stored = localStorage.getItem(LAST_CUSTOM_SNOOZE_KEY);
+      if (!stored) return null;
+
+      const data = JSON.parse(stored);
+      const now = Date.now();
+      const nowUnix = Math.floor(now / 1000);
+      const savedAt = data.savedAt;
+      const sevenDaysInMs = 7 * 24 * 60 * 60 * 1000;
+
+      // Check if the saved time has already passed OR if it was saved more than 7 days ago
+      const timeHasPassed = data.timestamp <= nowUnix;
+      const tooOld = now - savedAt > sevenDaysInMs;
+
+      if (timeHasPassed || tooOld) {
+        localStorage.removeItem(LAST_CUSTOM_SNOOZE_KEY);
+        return null;
+      }
+
+      return data.timestamp;
+    } catch (error) {
+      localStorage.removeItem(LAST_CUSTOM_SNOOZE_KEY);
+      return null;
+    }
+  };
+
+  const formatLastCustomSnoozeTime = () => {
+    const timestamp = getLastCustomSnoozeTime();
+    if (!timestamp) return null;
+
+    try {
+      const date = new Date(timestamp * 1000);
+
+      // Format as "Sat, 23 Aug, 8.16pm"
+      const dayOfWeek = date.toLocaleDateString('en-US', { weekday: 'short' });
+      const day = date.getDate();
+      const month = date.toLocaleDateString('en-US', { month: 'short' });
+
+      // Format time as 8.16pm (with dots instead of colons)
+      let hours = date.getHours();
+      const minutes = date.getMinutes().toString().padStart(2, '0');
+      const ampm = hours >= 12 ? 'pm' : 'am';
+
+      // Convert to 12-hour format
+      hours %= 12;
+      if (hours === 0) hours = 12; // 12am/12pm instead of 0am/0pm
+
+      const timeString = `${hours}.${minutes}${ampm}`;
+
+      return `${dayOfWeek}, ${day} ${month}, ${timeString}`;
+    } catch (error) {
+      return null;
+    }
+  };
+
+  const hasLastCustomSnoozeTime = () => {
+    return getLastCustomSnoozeTime() !== null;
+  };
+
+  const availableOptions = Object.values(SNOOZE_OPTIONS);
+  const snoozeOptions = availableOptions.filter(option => {
+    if (option === SNOOZE_OPTIONS.UNTIL_LAST_CUSTOM_TIME) {
+      return hasLastCustomSnoozeTime();
+    }
+    return true;
+  });
+
+  return snoozeOptions.map(option => {
+    let title = `COMMAND_BAR.COMMANDS.${option.toUpperCase()}`;
+
+    // For the last custom time option, show the formatted time instead of using translation
+    if (option === SNOOZE_OPTIONS.UNTIL_LAST_CUSTOM_TIME) {
+      const formattedTime = formatLastCustomSnoozeTime();
+      if (formattedTime) {
+        title = `Last snoozed ${formattedTime}`;
+      }
+    }
+
+    return {
+      id: option,
+      title: title,
+      parent: parentId,
+      section: section,
+      icon: ICON_SNOOZE_CONVERSATION,
+      handler: () => emitter.emit(busEventName, option),
+    };
+  });
 };
 
 export const SNOOZE_CONVERSATION_ACTIONS = [

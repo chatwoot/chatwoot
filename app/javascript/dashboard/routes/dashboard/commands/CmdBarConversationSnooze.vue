@@ -6,6 +6,7 @@ import { useI18n } from 'vue-i18n';
 import { useEmitter } from 'dashboard/composables/emitter';
 import { getUnixTime } from 'date-fns';
 import { findSnoozeTime } from 'dashboard/helper/snoozeHelpers';
+import { getLastCustomSnoozeTime } from 'dashboard/helper/customSnoozeStorage';
 import { CMD_SNOOZE_CONVERSATION } from 'dashboard/helper/commandbar/events';
 import wootConstants from 'dashboard/constants/globals';
 import CustomSnoozeModal from 'dashboard/components/CustomSnoozeModal.vue';
@@ -31,6 +32,17 @@ const toggleStatus = async (status, snoozedUntil) => {
 const onCmdSnoozeConversation = snoozeType => {
   if (snoozeType === wootConstants.SNOOZE_OPTIONS.UNTIL_CUSTOM_TIME) {
     showCustomSnoozeModal.value = true;
+  } else if (
+    snoozeType === wootConstants.SNOOZE_OPTIONS.UNTIL_LAST_CUSTOM_TIME
+  ) {
+    // Use the saved custom time
+    const lastCustomTime = getLastCustomSnoozeTime();
+    if (lastCustomTime) {
+      toggleStatus(wootConstants.STATUS_TYPE.SNOOZED, lastCustomTime);
+    } else {
+      // Fallback to showing custom modal if no saved time exists
+      showCustomSnoozeModal.value = true;
+    }
   } else {
     toggleStatus(
       wootConstants.STATUS_TYPE.SNOOZED,
