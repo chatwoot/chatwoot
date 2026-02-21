@@ -54,6 +54,18 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
     render json: { content: translated_content }
   end
 
+  def pin
+    @conversation.update!(pinned_message: message)
+  rescue ActiveRecord::RecordInvalid => e
+    render json: { error: e.message }, status: :unprocessable_entity
+  end
+
+  def unpin
+    return render json: { error: 'This message is not pinned' }, status: :unprocessable_entity unless @conversation.pinned_message_id == message.id
+
+    @conversation.update!(pinned_message: nil)
+  end
+
   private
 
   def message

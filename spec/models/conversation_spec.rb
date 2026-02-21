@@ -18,6 +18,7 @@ RSpec.describe Conversation do
     it { is_expected.to belong_to(:assignee).optional }
     it { is_expected.to belong_to(:team).optional }
     it { is_expected.to belong_to(:campaign).optional }
+    it { is_expected.to belong_to(:pinned_message).class_name('Message').optional }
   end
 
   describe 'concerns' do
@@ -101,6 +102,33 @@ RSpec.describe Conversation do
       error_messages = conversation.errors.messages
       expect(error_messages[:custom_attributes][0]).to eq('company_name length should be < 1500')
       expect(error_messages[:custom_attributes][1]).to eq('contact_number value should be < 9999999999')
+    end
+  end
+
+  describe '.validate pinned_message' do
+    let(:account) { create(:account) }
+    let(:inbox) { create(:inbox, account: account) }
+    let(:conversation) { create(:conversation, account: account, inbox: inbox) }
+    let(:message) { create(:message, conversation: conversation, account: account) }
+    let(:other_conversation) { create(:conversation, account: account, inbox: inbox) }
+    let(:other_message) { create(:message, conversation: other_conversation, account: account) }
+
+    it 'allows pinning a message that belongs to the conversation' do
+      conversation.pinned_message = message
+      expect(conversation).to be_valid
+    end
+
+    it 'prevents pinning a message from a different conversation' do
+      conversation.pinned_message = other_message
+      expect(conversation).not_to be_valid
+      expect(conversation.errors[:pinned_message]).to include('must belong to this conversation')
+    end
+
+    it 'allows clearing the pinned message' do
+      conversation.pinned_message = message
+      conversation.save!
+      conversation.pinned_message = nil
+      expect(conversation).to be_valid
     end
   end
 

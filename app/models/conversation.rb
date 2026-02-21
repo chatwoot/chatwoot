@@ -71,6 +71,7 @@ class Conversation < ApplicationRecord
   validates :custom_attributes, jsonb_attributes_length: true
   validates :uuid, uniqueness: true
   validate :validate_referer_url
+  validate :validate_pinned_message_belongs_to_conversation
 
   enum status: { open: 0, resolved: 1, pending: 2, snoozed: 3 }
   enum priority: { low: 0, medium: 1, high: 2, urgent: 3 }
@@ -105,6 +106,7 @@ class Conversation < ApplicationRecord
   belongs_to :contact_inbox
   belongs_to :team, optional: true
   belongs_to :campaign, optional: true
+  belongs_to :pinned_message, class_name: 'Message', optional: true
 
   has_many :mentions, dependent: :destroy_async
   has_many :messages, dependent: :destroy_async, autosave: true
@@ -277,7 +279,7 @@ class Conversation < ApplicationRecord
 
   def list_of_keys
     %w[team_id assignee_id assignee_agent_bot_id status snoozed_until custom_attributes label_list waiting_since
-       first_reply_created_at priority]
+       first_reply_created_at priority pinned_message_id]
   end
 
   def allowed_keys?
@@ -334,6 +336,15 @@ class Conversation < ApplicationRecord
     return unless additional_attributes['referer']
 
     self['additional_attributes']['referer'] = nil unless url_valid?(additional_attributes['referer'])
+  end
+
+  def validate_pinned_message_belongs_to_conversation
+    return if pinned_message_id.blank?
+
+    msg = pinned_message_id_changed? ? Message.find_by(id: pinned_message_id) : pinned_message
+    return if msg&.conversation_id == id
+
+    errors.add(:pinned_message, 'must belong to this conversation')
   end
 
   # creating db triggers

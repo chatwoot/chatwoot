@@ -14,6 +14,7 @@ import {
 import MenuItem from '../../../components/widgets/conversation/contextMenu/menuItem.vue';
 import { useTrack } from 'dashboard/composables';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import messageAPI from 'dashboard/api/inbox/message';
 
 export default {
   components: {
@@ -152,6 +153,28 @@ export default {
     closeDeleteModal() {
       this.showDeleteModal = false;
     },
+    async handlePinMessage() {
+      try {
+        await messageAPI.pinMessage(this.conversationId, this.messageId);
+        // Reload conversation to get updated pinned_message
+        await this.$store.dispatch('getConversation', this.conversationId);
+        useAlert(this.$t('CONVERSATION.CONTEXT_MENU.PIN_SUCCESS'));
+        this.handleClose();
+      } catch (error) {
+        useAlert(this.$t('CONVERSATION.CONTEXT_MENU.PIN_ERROR'));
+      }
+    },
+    async handleUnpinMessage() {
+      try {
+        await messageAPI.unpinMessage(this.conversationId, this.messageId);
+        // Reload conversation to get updated pinned_message
+        await this.$store.dispatch('getConversation', this.conversationId);
+        useAlert(this.$t('CONVERSATION.CONTEXT_MENU.UNPIN_SUCCESS'));
+        this.handleClose();
+      } catch (error) {
+        useAlert(this.$t('CONVERSATION.CONTEXT_MENU.UNPIN_ERROR'));
+      }
+    },
   },
 };
 </script>
@@ -242,6 +265,25 @@ export default {
           }"
           variant="icon"
           @click.stop="showCannedResponseModal"
+        />
+        <hr v-if="enabledOptions['pin'] || enabledOptions['unpin']" />
+        <MenuItem
+          v-if="enabledOptions['pin']"
+          :option="{
+            icon: 'attach',
+            label: $t('CONVERSATION.CONTEXT_MENU.PIN_MESSAGE'),
+          }"
+          variant="icon"
+          @click.stop="handlePinMessage"
+        />
+        <MenuItem
+          v-if="enabledOptions['unpin']"
+          :option="{
+            icon: 'dismiss',
+            label: $t('CONVERSATION.CONTEXT_MENU.UNPIN_MESSAGE'),
+          }"
+          variant="icon"
+          @click.stop="handleUnpinMessage"
         />
         <hr v-if="enabledOptions['delete']" />
         <MenuItem
