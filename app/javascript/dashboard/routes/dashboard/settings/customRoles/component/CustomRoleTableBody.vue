@@ -66,6 +66,7 @@ const getFormattedPermissions = role => {
             icon="i-woot-bin"
             slate
             sm
+            class="hover:enabled:text-n-ruby-11 hover:enabled:bg-n-ruby-2"
             :is-loading="loading[customRole.id]"
             @click="emit('delete', customRole)"
           />
