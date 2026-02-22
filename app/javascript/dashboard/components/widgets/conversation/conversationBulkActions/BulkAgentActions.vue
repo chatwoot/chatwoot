@@ -29,8 +29,8 @@ const containerRef = useTemplateRef('containerRef');
 const [showDropdown, toggleDropdown] = useToggle(false);
 const selectedAgent = ref(null);
 
-const assignableAgentsUiFlags = computed(
-  () => store.getters['inboxAssignableAgents/getUIFlags']
+const assignableAgentsUiFlags = useMapGetter(
+  'inboxAssignableAgents/getUIFlags'
 );
 
 const isLoading = computed(() => assignableAgentsUiFlags.value.isFetching);

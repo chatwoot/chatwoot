@@ -22,6 +22,7 @@ const props = defineProps({
   showInboxName: { type: Boolean, default: false },
   hideThumbnail: { type: Boolean, default: false },
   enableSelection: { type: Boolean, default: true },
+  isInboxView: { type: Boolean, default: false },
 });
 
 const emit = defineEmits(['selectConversation', 'click', 'contextmenu']);
@@ -48,7 +49,7 @@ const showLabelsSection = computed(
 
 const showMetaSection = computed(
   () =>
-    props.showInboxName ||
+    (!props.isInboxView && props.showInboxName) ||
     (props.showAssignee && props.assignee?.name) ||
     props.chat.priority
 );
@@ -93,11 +94,16 @@ const onSelectConversation = checked => {
           'mx-2': compact,
         }"
       >
-        <InboxName v-if="showInboxName" :inbox="inbox" class="flex-1 min-w-0" />
+        <InboxName
+          v-if="showInboxName && !isInboxView"
+          :inbox="inbox"
+          class="flex-1 min-w-0"
+        />
         <div
+          v-if="showAssignee || chat.priority"
           class="flex items-center gap-2 flex-shrink-0 h-4"
           :class="{
-            'flex-1 justify-between': !showInboxName,
+            'flex-1 justify-between': isInboxView || !showInboxName,
           }"
         >
           <span

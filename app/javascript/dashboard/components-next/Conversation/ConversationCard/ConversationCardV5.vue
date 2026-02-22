@@ -21,7 +21,6 @@ const props = defineProps({
   compact: { type: Boolean, default: false },
   enableContextMenu: { type: Boolean, default: false },
   allowedContextMenuOptions: { type: Array, default: () => [] },
-  // eslint-disable-next-line vue/no-unused-properties
   enableSelection: { type: Boolean, default: true },
   isExpandedLayout: { type: Boolean, default: false },
   isPreviousConversations: { type: Boolean, default: false },
@@ -196,7 +195,7 @@ const deleteConversation = () => {
     @contextmenu="openContextMenu"
   />
 
-  <!-- Compact: All other cases (mobile OR isExpandedLayout=false) - Using older ConversationCard -->
+  <!-- Compact: All other cases (mobile OR isExpandedLayout=false) -->
   <ConversationCardCompact
     v-else
     :chat="chat"

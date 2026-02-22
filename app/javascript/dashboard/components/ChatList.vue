@@ -52,10 +52,6 @@ const chatsOnView = ref([]);
 const isContextMenuOpen = ref(false);
 const chatListFiltersRef = ref(null);
 
-// Provide trigger for label recalculation (parent → child pattern)
-const recalculateLabelsKey = ref(0);
-provide('recalculateLabelsKey', recalculateLabelsKey);
-
 const currentUser = useMapGetter('getCurrentUser');
 const chatLists = useMapGetter('getFilteredConversations');
 const mineChatsList = useMapGetter('getMineChats');
@@ -375,8 +371,6 @@ function updateAssigneeTab(selectedTab) {
     if (!currentPage.value) {
       fetchConversations();
     }
-    // Trigger label position recalculation
-    recalculateLabelsKey.value += 1;
   }
 }
 

@@ -1,13 +1,5 @@
 <script setup>
-import {
-  ref,
-  computed,
-  inject,
-  nextTick,
-  useSlots,
-  watch,
-  useAttrs,
-} from 'vue';
+import { ref, computed, nextTick, useSlots, watch, useAttrs } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useThrottleFn } from '@vueuse/core';
 import { useMapGetter } from 'dashboard/composables/store';
@@ -89,14 +81,6 @@ const computeVisibleLabelPosition = () => {
 const throttledCalculate = useThrottleFn(computeVisibleLabelPosition, 16);
 
 watch(activeLabels, () => nextTick(throttledCalculate), { immediate: true });
-
-// Recalculate when parent triggers (e.g., tab changes in ChatList)
-// Needed because inbox conversation view shows metadata inside CardLabels, affecting available width
-const recalculateKey = inject('recalculateLabelsKey', null);
-
-if (recalculateKey) {
-  watch(recalculateKey, () => nextTick(throttledCalculate));
-}
 
 const hiddenLabelsCount = computed(() => {
   if (!showExpandLabelButton.value || showAllLabels.value) return 0;
