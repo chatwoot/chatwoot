@@ -1,5 +1,5 @@
 # Build and push Chatwoot image with WhatsApp media download fix.
-# Image: mikelito859/chatwoot:fix-whatsapp-media-download
+# Image: mikelito85/chatwoot:fix-whatsapp-media-download
 #
 # Required repo secret: DOCKERHUB_TOKEN (Docker Hub Access Token from https://hub.docker.com/settings/security)
 
@@ -12,7 +12,7 @@ on:
   workflow_dispatch:
 
 env:
-  DOCKER_REPO: mikelito859/chatwoot
+  DOCKER_REPO: mikelito85/chatwoot
   DOCKER_TAG: fix-whatsapp-media-download
 
 jobs:
@@ -33,7 +33,7 @@ jobs:
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
-          username: mikelito859
+          username: mikelito85
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build and push
