@@ -2,7 +2,7 @@
 import { provide, useTemplateRef, shallowRef, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore } from 'vuex';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 import { Virtualizer } from 'virtua/vue';
 import { useInfiniteScroll, useBreakpoints } from '@vueuse/core';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
@@ -13,6 +13,11 @@ import Icon from 'dashboard/components-next/icon/Icon.vue';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import ConversationResolveAttributesModal from 'dashboard/components-next/ConversationWorkflow/ConversationResolveAttributesModal.vue';
 import wootConstants from 'dashboard/constants/globals';
+import {
+  isOnMentionsView,
+  isOnUnattendedView,
+} from 'dashboard/store/modules/conversations/helpers/actionHelpers';
+import { conversationListPageURL } from 'dashboard/helper/URLHelper';
 
 const props = defineProps({
   items: { type: Array, default: () => [] },
@@ -31,6 +36,7 @@ const emit = defineEmits(['loadMore']);
 const { t } = useI18n();
 const store = useStore();
 const router = useRouter();
+const route = useRoute();
 
 const parentRef = useTemplateRef('parentRef');
 const virtualizerRef = shallowRef(null);
@@ -112,27 +118,27 @@ function handleDeleteConversation(conversationId) {
 }
 
 function redirectToConversationList() {
-  const accountId = store.getters.getCurrentAccountId;
-  const conversationType = props.conversationType || '';
-  const inboxId = store.getters.getSelectedInbox?.id;
+  const {
+    params: { accountId, inbox_id: inboxId, label, teamId },
+    name,
+  } = route;
 
-  let path = `/app/accounts/${accountId}/conversations`;
-
-  if (conversationType === 'mention') {
-    path = `/app/accounts/${accountId}/mentions/conversations`;
-  } else if (conversationType === 'unattended') {
-    path = `/app/accounts/${accountId}/unattended/conversations`;
-  } else if (props.foldersId) {
-    path = `/app/accounts/${accountId}/custom_view/${props.foldersId}`;
-  } else if (props.teamId) {
-    path = `/app/accounts/${accountId}/team/${props.teamId}`;
-  } else if (props.label) {
-    path = `/app/accounts/${accountId}/label/${props.label}`;
-  } else if (inboxId) {
-    path = `/app/accounts/${accountId}/inbox/${inboxId}`;
+  let conversationType = '';
+  if (isOnMentionsView({ route: { name } })) {
+    conversationType = 'mention';
+  } else if (isOnUnattendedView({ route: { name } })) {
+    conversationType = 'unattended';
   }
-
-  router.push(path);
+  router.push(
+    conversationListPageURL({
+      accountId,
+      conversationType: conversationType,
+      customViewId: props.foldersId,
+      inboxId,
+      label,
+      teamId,
+    })
+  );
 }
 
 async function deleteConversation() {

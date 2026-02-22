@@ -6,8 +6,8 @@ import { frontendURL, conversationUrl } from 'dashboard/helper/URLHelper';
 import ContextMenu from 'dashboard/components/ui/ContextMenu.vue';
 import ConversationContextMenu from 'dashboard/components/widgets/conversation/contextMenu/Index.vue';
 import ConversationCardExpanded from './ConversationCardExpanded.vue';
-// import ConversationCardCompact from './ConversationCardCompact.vue';
-import ConversationCard from 'dashboard/components/widgets/conversation/ConversationCard.vue';
+import ConversationCardCompact from './ConversationCardCompact.vue';
+// import ConversationCard from 'dashboard/components/widgets/conversation/ConversationCard.vue';
 
 const props = defineProps({
   activeLabel: { type: String, default: '' },
@@ -197,53 +197,6 @@ const deleteConversation = () => {
   />
 
   <!-- Compact: All other cases (mobile OR isExpandedLayout=false) - Using older ConversationCard -->
-  <ConversationCard
-    v-else
-    :active-label="activeLabel"
-    :team-id="teamId"
-    :folders-id="foldersId"
-    :chat="chat"
-    :conversation-type="conversationType"
-    :selected="selected"
-    :show-assignee="showAssignee"
-    :hide-thumbnail="hideThumbnail"
-    :compact="compact"
-    :enable-context-menu="enableContextMenu"
-    :allowed-context-menu-options="allowedContextMenuOptions"
-    @select-conversation="
-      (chatId, inboxId) => emit('selectConversation', chatId, inboxId)
-    "
-    @de-select-conversation="
-      (chatId, inboxId) => emit('deSelectConversation', chatId, inboxId)
-    "
-    @assign-agent="
-      (agent, conversationIds) => emit('assignAgent', agent, conversationIds)
-    "
-    @assign-label="
-      (labels, conversationIds) => emit('assignLabel', labels, conversationIds)
-    "
-    @remove-label="
-      (labels, conversationIds) => emit('removeLabel', labels, conversationIds)
-    "
-    @assign-team="
-      (team, conversationId) => emit('assignTeam', team, conversationId)
-    "
-    @mark-as-unread="conversationId => emit('markAsUnread', conversationId)"
-    @mark-as-read="conversationId => emit('markAsRead', conversationId)"
-    @assign-priority="
-      (priority, conversationId) =>
-        emit('assignPriority', priority, conversationId)
-    "
-    @update-conversation-status="
-      (conversationId, status, snoozedUntil) =>
-        emit('updateConversationStatus', conversationId, status, snoozedUntil)
-    "
-    @delete-conversation="
-      conversationId => emit('deleteConversation', conversationId)
-    "
-    @context-menu-toggle="state => emit('contextMenuToggle', state)"
-  />
-  <!-- New ConversationCardCompact 
   <ConversationCardCompact
     v-else
     :chat="chat"
@@ -262,7 +215,6 @@ const deleteConversation = () => {
     @click="onCardClick"
     @contextmenu="openContextMenu"
   />
-  -->
 
   <ContextMenu
     v-if="showContextMenu"

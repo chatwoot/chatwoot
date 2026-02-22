@@ -143,10 +143,10 @@ async function assignPriority(priority, conversationId = null) {
 
 async function markAsUnread(conversationId) {
   try {
+    emit('redirectToList');
     await store.dispatch('markMessagesUnread', {
       id: conversationId,
     });
-    emit('redirectToList');
   } catch (error) {
     // Ignore error
   }
