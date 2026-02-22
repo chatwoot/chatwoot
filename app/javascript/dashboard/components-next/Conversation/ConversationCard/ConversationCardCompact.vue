@@ -1,7 +1,7 @@
 <script setup>
 import { computed, useTemplateRef } from 'vue';
 import { getLastMessage } from 'dashboard/helper/conversationHelper';
-import Icon from 'dashboard/components-next/Icon/Icon.vue';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
 import TimeAgo from 'dashboard/components/ui/TimeAgo.vue';
 import InboxName from 'dashboard/components-next/Conversation/InboxName.vue';
 import CardAvatar from './CardAvatar.vue';
