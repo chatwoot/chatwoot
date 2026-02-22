@@ -54,7 +54,11 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
         expect(whatsapp_channel.inbox.conversations.count).not_to eq(0)
         expect(Contact.all.first.name).to eq('Sojan Jose')
         expect(whatsapp_channel.inbox.messages.first.content).to eq('Check out my product!')
-        expect(whatsapp_channel.inbox.messages.first.attachments.present?).to be false
+        # Message still has a fallback attachment when download fails (e.g. 401)
+        attachment = whatsapp_channel.inbox.messages.first.attachments.first
+        expect(attachment).to be_present
+        expect(attachment.file_type).to eq('fallback')
+        expect(attachment.fallback_title).to eq(I18n.t('errors.whatsapp.media_download_failed'))
         expect(whatsapp_channel.authorization_error_count).to eq(1)
       end
     end
