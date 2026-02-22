@@ -42,7 +42,6 @@ const onCmdSnoozeConversation = snoozeType => {
 };
 
 const chooseSnoozeTime = customSnoozeTime => {
-  store.dispatch('setContextMenuChatId', null);
   if (customSnoozeTime) {
     toggleStatus(
       wootConstants.STATUS_TYPE.SNOOZED,
@@ -51,9 +50,17 @@ const chooseSnoozeTime = customSnoozeTime => {
   }
 };
 
+const clearContextMenu = () => {
+  store.dispatch('setContextMenuChatId', null);
+};
+
 useEmitter(CMD_SNOOZE_CONVERSATION, onCmdSnoozeConversation);
 </script>
 
 <template>
-  <CustomSnoozeModal ref="snoozeModalRef" @choose-time="chooseSnoozeTime" />
+  <CustomSnoozeModal
+    ref="snoozeModalRef"
+    @choose-time="chooseSnoozeTime"
+    @close="clearContextMenu"
+  />
 </template>

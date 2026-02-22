@@ -3,7 +3,7 @@ import { ref } from 'vue';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import DatePicker from 'dashboard/components-next/DatePicker/DatePicker.vue';
 
-const emit = defineEmits(['chooseTime']);
+const emit = defineEmits(['chooseTime', 'close']);
 
 const dialogRef = ref(null);
 const datePickerRef = ref(null);
@@ -20,6 +20,7 @@ const onClear = () => {
 
 const onDialogClose = () => {
   datePickerRef.value?.resetState();
+  emit('close');
 };
 
 const open = () => {
