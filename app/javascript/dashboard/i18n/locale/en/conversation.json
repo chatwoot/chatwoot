@@ -252,6 +252,7 @@
     "FILE_TYPE_NOT_SUPPORTED": "This {fileName} file type is not supported in this conversation",
     "MESSAGE_ERROR": "Unable to send this message, please try again later",
     "SENT_BY": "Sent by:",
+    "PINNED_MESSAGE": "Pinned Message",
     "BOT": "Bot",
     "NATIVE_APP": "Native app",
     "NATIVE_APP_ADVISORY": "This message was sent from the native app. Reply from Chatwoot to maintain the message window.",
@@ -263,6 +264,8 @@
       "ASSIGN": "Assign"
     },
     "CONTEXT_MENU": {
+      "PIN": "Pin",
+      "UNPIN": "Unpin",
       "COPY": "Copy",
       "REPLY_TO": "Reply to this message",
       "DELETE": "Delete",

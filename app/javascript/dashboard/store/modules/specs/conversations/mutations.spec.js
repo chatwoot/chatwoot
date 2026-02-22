@@ -891,6 +891,35 @@ describe('#mutations', () => {
       expect(state.allConversations[0].allMessagesLoaded).toBe(true);
       expect(state.allConversations[0].messages).toEqual([{ id: 'msg1' }]);
     });
+
+    it('should update pinned message details', () => {
+      const state = {
+        allConversations: [
+          {
+            id: 1,
+            status: 'open',
+            updated_at: 100,
+            pinned_message_id: null,
+            pinned_message: null,
+          },
+        ],
+      };
+
+      const conversation = {
+        id: 1,
+        status: 'open',
+        updated_at: 200,
+        pinned_message_id: 123,
+        pinned_message: { id: 123, content: 'pinned' },
+      };
+
+      mutations[types.UPDATE_CONVERSATION](state, conversation);
+      expect(state.allConversations[0].pinned_message_id).toEqual(123);
+      expect(state.allConversations[0].pinned_message).toEqual({
+        id: 123,
+        content: 'pinned',
+      });
+    });
   });
 
   describe('#UPDATE_CONVERSATION_CONTACT', () => {

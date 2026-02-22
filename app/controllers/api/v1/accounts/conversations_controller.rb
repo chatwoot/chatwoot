@@ -68,6 +68,17 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
     head :ok
   end
 
+  def pin
+    message = @conversation.messages.find(params[:message_id])
+    @conversation.pin_message!(message)
+    head :ok
+  end
+
+  def unpin
+    @conversation.unpin_message!
+    head :ok
+  end
+
   def transcript
     render json: { error: 'email param missing' }, status: :unprocessable_entity and return if params[:email].blank?
     return render_payment_required('Email transcript is not available on your plan') unless @conversation.account.email_transcript_enabled?

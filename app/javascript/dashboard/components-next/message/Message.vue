@@ -371,6 +371,7 @@ const contextMenuEnabledOptions = computed(() => {
 
   return {
     copy: hasText,
+    pin: !isFailedOrProcessing && !isMessageDeleted.value,
     delete:
       (hasText || hasAttachments) &&
       !isFailedOrProcessing &&

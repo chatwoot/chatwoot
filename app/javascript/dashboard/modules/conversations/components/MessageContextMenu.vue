@@ -63,6 +63,7 @@ export default {
       getAccount: 'accounts/getAccount',
       currentAccountId: 'getCurrentAccountId',
       getUISettings: 'getUISettings',
+      getSelectedChat: 'getSelectedChat',
     }),
     plainTextContent() {
       return this.getPlainText(this.messageContent);
@@ -80,6 +81,9 @@ export default {
       return useSnakeCase(
         this.message.content_attributes ?? this.message.contentAttributes
       );
+    },
+    isPinned() {
+      return this.getSelectedChat?.pinned_message_id === this.messageId;
     },
   },
   methods: {
@@ -101,6 +105,17 @@ export default {
     async handleCopy() {
       await copyTextToClipboard(this.plainTextContent);
       useAlert(this.$t('CONTACT_PANEL.COPY_SUCCESSFUL'));
+      this.handleClose();
+    },
+    handlePin() {
+      if (this.isPinned) {
+        this.$store.dispatch('unpinMessage', this.conversationId);
+      } else {
+        this.$store.dispatch('pinMessage', {
+          conversationId: this.conversationId,
+          messageId: this.messageId,
+        });
+      }
       this.handleClose();
     },
     showCannedResponseModal() {
@@ -205,6 +220,17 @@ export default {
           }"
           variant="icon"
           @click.stop="handleReplyTo"
+        />
+        <MenuItem
+          v-if="enabledOptions['pin']"
+          :option="{
+            icon: 'pin',
+            label: isPinned
+              ? $t('CONVERSATION.CONTEXT_MENU.UNPIN')
+              : $t('CONVERSATION.CONTEXT_MENU.PIN'),
+          }"
+          variant="icon"
+          @click.stop="handlePin"
         />
         <MenuItem
           v-if="enabledOptions['copy']"

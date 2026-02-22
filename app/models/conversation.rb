@@ -61,6 +61,7 @@ class Conversation < ApplicationRecord
   include SortHandler
   include PushDataHelper
   include ConversationMuteHelpers
+  include ConversationPinHelpers
 
   validates :account_id, presence: true
   validates :inbox_id, presence: true
@@ -277,7 +278,7 @@ class Conversation < ApplicationRecord
 
   def list_of_keys
     %w[team_id assignee_id assignee_agent_bot_id status snoozed_until custom_attributes label_list waiting_since
-       first_reply_created_at priority]
+       first_reply_created_at priority pinned_message_id]
   end
 
   def allowed_keys?

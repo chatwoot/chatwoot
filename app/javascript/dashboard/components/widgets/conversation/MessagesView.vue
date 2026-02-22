@@ -11,6 +11,7 @@ import MessageList from 'next/message/MessageList.vue';
 import ConversationLabelSuggestion from './conversation/LabelSuggestion.vue';
 import Banner from 'dashboard/components/ui/Banner.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
+import PinnedMessage from './PinnedMessage.vue';
 
 // stores and apis
 import { mapGetters } from 'vuex';
@@ -43,6 +44,7 @@ export default {
     Banner,
     ConversationLabelSuggestion,
     Spinner,
+    PinnedMessage,
   },
   mixins: [inboxMixin],
   setup() {
@@ -437,12 +439,24 @@ export default {
       const payload = useSnakeCase(message);
       await this.$store.dispatch('sendMessageWithData', payload);
     },
+    handleUnpinMessage() {
+      this.$store.dispatch('unpinMessage', this.currentChat.id);
+    },
+    handleJumpToMessage(messageId) {
+      this.onScrollToMessage({ messageId });
+    },
   },
 };
 </script>
 
 <template>
   <div class="flex flex-col justify-between flex-grow h-full min-w-0 m-0">
+    <PinnedMessage
+      v-if="currentChat.pinned_message"
+      :message="currentChat.pinned_message"
+      @unpin="handleUnpinMessage"
+      @click="handleJumpToMessage"
+    />
     <Banner
       v-if="!currentChat.can_reply"
       color-scheme="alert"

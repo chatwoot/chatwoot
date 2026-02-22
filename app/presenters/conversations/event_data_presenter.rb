@@ -16,6 +16,8 @@ class Conversations::EventDataPresenter < SimpleDelegator
       unread_count: unread_incoming_messages.count,
       first_reply_created_at: first_reply_created_at,
       priority: priority,
+      pinned_message_id: pinned_message_id,
+      pinned_message: pinned_message.try(:push_event_data),
       waiting_since: waiting_since.to_i,
       **push_timestamps
     }

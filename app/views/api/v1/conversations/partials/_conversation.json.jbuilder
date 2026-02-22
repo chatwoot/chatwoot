@@ -47,6 +47,8 @@ json.custom_attributes conversation.custom_attributes
 json.inbox_id conversation.inbox_id
 json.labels conversation.cached_label_list_array
 json.muted conversation.muted?
+json.pinned_message_id conversation.pinned_message_id
+json.pinned_message conversation.pinned_message.try(:push_event_data)
 json.snoozed_until conversation.snoozed_until
 json.status conversation.status
 json.created_at conversation.created_at.to_i

@@ -144,6 +144,8 @@ Rails.application.routes.draw do
             member do
               post :mute
               post :unmute
+              post :pin
+              post :unpin
               post :transcript
               post :toggle_status
               post :toggle_priority

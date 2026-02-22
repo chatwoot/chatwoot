@@ -456,6 +456,24 @@ const actions = {
     }
   },
 
+  pinMessage: async ({ commit }, { conversationId, messageId }) => {
+    try {
+      await ConversationApi.pin({ conversationId, messageId });
+      commit(types.PIN_MESSAGE, { conversationId, messageId });
+    } catch (error) {
+      //
+    }
+  },
+
+  unpinMessage: async ({ commit }, conversationId) => {
+    try {
+      await ConversationApi.unpin({ conversationId });
+      commit(types.UNPIN_MESSAGE, conversationId);
+    } catch (error) {
+      //
+    }
+  },
+
   sendEmailTranscript: async (_, { conversationId, email }) => {
     try {
       await ConversationApi.sendEmailTranscript({ conversationId, email });

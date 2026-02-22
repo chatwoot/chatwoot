@@ -169,6 +169,25 @@ export const mutations = {
     chat.muted = false;
   },
 
+  [types.PIN_MESSAGE](_state, { conversationId, messageId }) {
+    const [chat] = _state.allConversations.filter(c => c.id === conversationId);
+    if (chat) {
+      chat.pinned_message_id = messageId;
+      const message = chat.messages.find(m => m.id === messageId);
+      if (message) {
+        chat.pinned_message = message;
+      }
+    }
+  },
+
+  [types.UNPIN_MESSAGE](_state, conversationId) {
+    const [chat] = _state.allConversations.filter(c => c.id === conversationId);
+    if (chat) {
+      chat.pinned_message_id = null;
+      chat.pinned_message = null;
+    }
+  },
+
   [types.ADD_CONVERSATION_ATTACHMENTS](_state, message) {
     // early return if the message has not been sent, or has no attachments
     if (

@@ -1058,4 +1058,69 @@ RSpec.describe 'Conversations API', type: :request do
       end
     end
   end
+
+  describe 'POST /api/v1/accounts/{account.id}/conversations/:id/pin' do
+    let(:conversation) { create(:conversation, account: account) }
+    let(:message) { create(:message, conversation: conversation, account: account) }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/pin", params: { message_id: message.id }
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let(:agent) { create(:user, account: account, role: :agent) }
+
+      before do
+        create(:inbox_member, user: agent, inbox: conversation.inbox)
+      end
+
+      it 'pins the message' do
+        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/pin",
+             headers: agent.create_new_auth_token,
+             params: { message_id: message.id },
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(conversation.reload.pinned_message_id).to eq(message.id)
+      end
+    end
+  end
+
+  describe 'POST /api/v1/accounts/{account.id}/conversations/:id/unpin' do
+    let(:conversation) { create(:conversation, account: account) }
+    let(:message) { create(:message, conversation: conversation, account: account) }
+
+    before do
+      conversation.pin_message!(message)
+    end
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/unpin"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let(:agent) { create(:user, account: account, role: :agent) }
+
+      before do
+        create(:inbox_member, user: agent, inbox: conversation.inbox)
+      end
+
+      it 'unpins the message' do
+        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/unpin",
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(conversation.reload.pinned_message_id).to be_nil
+      end
+    end
+  end
 end
