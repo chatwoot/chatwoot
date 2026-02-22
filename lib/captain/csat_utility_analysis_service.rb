@@ -1,5 +1,5 @@
 class Captain::CsatUtilityAnalysisService < Captain::BaseTaskService
-  pattr_initialize [:account!, :message!, { button_text: nil, language: 'en', context: nil, baseline: {} }]
+  pattr_initialize [:account!, :message!, { button_text: nil, language: 'en', baseline: {} }]
 
   def perform
     api_response = make_api_call(
@@ -41,7 +41,6 @@ class Captain::CsatUtilityAnalysisService < Captain::BaseTaskService
       'message' => message.to_s,
       'button_text' => button_text.to_s,
       'language' => language.to_s,
-      'context' => context.to_s,
       'baseline_classification' => baseline[:classification].to_s
     }
   end

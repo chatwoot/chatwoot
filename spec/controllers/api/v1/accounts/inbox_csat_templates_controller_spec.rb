@@ -443,6 +443,31 @@ RSpec.describe Api::V1::Accounts::InboxCsatTemplatesController, type: :request d
         expect(response).to have_http_status(:unprocessable_entity)
         expect(response.parsed_body['error']).to eq('Message is required')
       end
+
+      it 'returns unauthorized when agent is not assigned to inbox' do
+        other_agent = create(:user, account: account, role: :agent)
+
+        post "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_inbox.id}/csat_template/analyze",
+             headers: other_agent.create_new_auth_token,
+             params: valid_template_params,
+             as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+
+      it 'allows access when agent is assigned to inbox' do
+        allow(analysis_service).to receive(:perform).and_return({
+                                                                  classification: 'LIKELY_UTILITY',
+                                                                  optimized_message: 'Your support request has been closed.'
+                                                                })
+
+        post "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_inbox.id}/csat_template/analyze",
+             headers: agent.create_new_auth_token,
+             params: valid_template_params,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+      end
     end
   end
 end

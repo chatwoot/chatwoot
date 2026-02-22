@@ -4,9 +4,8 @@ import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useInbox } from 'dashboard/composables/useInbox';
-import { useAccount } from 'dashboard/composables/useAccount';
+import { useCaptain } from 'dashboard/composables/useCaptain';
 import { CSAT_DISPLAY_TYPES } from 'shared/constants/messages';
-import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import WithLabel from 'v3/components/Form/WithLabel.vue';
@@ -28,7 +27,7 @@ const props = defineProps({
 const { t } = useI18n();
 const store = useStore();
 const labels = useMapGetter('labels/getLabels');
-const { isCloudFeatureEnabled } = useAccount();
+const { captainEnabled } = useCaptain();
 
 const { isAWhatsAppChannel, isATwilioWhatsAppChannel } = useInbox(
   props.inbox?.id
@@ -37,9 +36,6 @@ const { isAWhatsAppChannel, isATwilioWhatsAppChannel } = useInbox(
 // Computed to check if it's any type of WhatsApp channel (Cloud or Twilio)
 const isAnyWhatsAppChannel = computed(
   () => isAWhatsAppChannel.value || isATwilioWhatsAppChannel.value
-);
-const captainEnabled = computed(() =>
-  isCloudFeatureEnabled(FEATURE_FLAGS.CAPTAIN)
 );
 
 const isUpdating = ref(false);
@@ -520,12 +516,6 @@ const handleConfirmTemplateUpdate = async () => {
                     class="w-full"
                   />
                 </WithLabel>
-                <Input
-                  v-model="state.templateButtonText"
-                  :label="$t('INBOX_MGMT.CSAT.BUTTON_TEXT.LABEL')"
-                  :placeholder="$t('INBOX_MGMT.CSAT.BUTTON_TEXT.PLACEHOLDER')"
-                  class="w-full"
-                />
                 <div v-if="showUtilityAnalyzer" class="flex flex-col gap-2">
                   <NextButton
                     sm

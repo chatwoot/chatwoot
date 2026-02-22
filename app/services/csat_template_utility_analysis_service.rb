@@ -1,7 +1,7 @@
 class CsatTemplateUtilityAnalysisService
   include CsatTemplateUtilityRubric
 
-  pattr_initialize [:account!, :inbox!, :message!, { button_text: nil, language: 'en', context: nil }]
+  pattr_initialize [:account!, :inbox!, :message!, { button_text: nil, language: 'en' }]
 
   def perform
     baseline = rule_based_result
@@ -19,7 +19,6 @@ class CsatTemplateUtilityAnalysisService
       message: message,
       button_text: button_text,
       language: language,
-      context: context,
       baseline: baseline
     ).perform
 
@@ -49,8 +48,6 @@ class CsatTemplateUtilityAnalysisService
     raw
   end
 
-  private :normalize_llm_result, :normalized_classification
-
   def rule_based_result
     text = sanitized_message
     marketing_hits_count = MARKETING_PATTERNS.count { |pattern| pattern.match?(text) }
@@ -68,8 +65,6 @@ class CsatTemplateUtilityAnalysisService
       optimized_message: optimized_message_for(payload[:classification])
     }
   end
-
-  private :build_rule_payload
 
   def sanitized_message
     message.to_s.squish

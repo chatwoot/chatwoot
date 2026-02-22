@@ -1,7 +1,5 @@
 # rubocop:disable Metrics/ModuleLength
 module CsatTemplateUtilityRubric
-  extend ActiveSupport::Concern
-
   LANGUAGE_FALLBACKS = {
     'en' => {
       support_request: 'support request',
@@ -118,28 +116,10 @@ module CsatTemplateUtilityRubric
 
   def clear_utility_intent?(text)
     has_support_context = text.match?(/\b(support|ticket|request|case|conversation)\b/i)
-    has_actionable_next_step = text.match?(/\b(reply|rate|califica|calificar)\b/i)
+    has_actionable_next_step = text.match?(/\b(reply\s+to\s+this\s+message)\b/i) ||
+                               text.match?(/\b(if\s+you\s+still\s+need\s+help)\b/i) ||
+                               text.match?(/\b(rate\s+this\s+(support|interaction|conversation))\b/i)
     has_support_context && has_actionable_next_step
-  end
-
-  def positive_points_for(criteria)
-    points = []
-    points << 'The message clearly references a support interaction lifecycle event.' if criteria[:trigger]
-    points << 'The message content is transactional and relevant to an existing support interaction.' if criteria[:transactional_content]
-    points << 'No promotional wording was detected.' if criteria[:marketing_prohibition]
-    points << 'No prohibited or sensitive-request content was detected.' if criteria[:prohibited_content]
-    points << 'The user can clearly understand why they received this message and what to do next.' if criteria[:clarity_and_utility]
-    points
-  end
-
-  def non_compliance_points_for(criteria)
-    points = []
-    points << 'Trigger context is not explicit enough (for example, support request closed/resolved).' unless criteria[:trigger]
-    points << 'Transactional details are insufficient or too generic for utility classification.' unless criteria[:transactional_content]
-    points << 'Promotional wording may cause Meta to classify this as Marketing.' unless criteria[:marketing_prohibition]
-    points << 'Content may include prohibited or sensitive-request indicators.' unless criteria[:prohibited_content]
-    points << 'Utility intent is unclear; the message should be more direct and support-focused.' unless criteria[:clarity_and_utility]
-    points
   end
 end
 # rubocop:enable Metrics/ModuleLength

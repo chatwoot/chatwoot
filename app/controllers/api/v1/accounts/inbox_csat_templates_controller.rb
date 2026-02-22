@@ -34,8 +34,7 @@ class Api::V1::Accounts::InboxCsatTemplatesController < Api::V1::Accounts::BaseC
       inbox: @inbox,
       message: template_params[:message],
       button_text: template_params[:button_text],
-      language: template_params[:language],
-      context: template_params[:context]
+      language: template_params[:language]
     ).perform
 
     render json: result
@@ -58,7 +57,7 @@ class Api::V1::Accounts::InboxCsatTemplatesController < Api::V1::Accounts::BaseC
   end
 
   def extract_template_params
-    params.require(:template).permit(:message, :button_text, :language, :context)
+    params.require(:template).permit(:message, :button_text, :language)
   end
 
   def render_missing_message_error

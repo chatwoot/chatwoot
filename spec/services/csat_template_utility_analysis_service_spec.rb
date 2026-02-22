@@ -51,7 +51,7 @@ RSpec.describe CsatTemplateUtilityAnalysisService do
                                                              optimized_message: 'Your support request has been closed.'
                                                            })
 
-        message = 'Your case is closed. Don’t miss our limited-time premium offer. Rate us below.'
+        message = "Your case is closed. Don't miss our limited-time premium offer. Rate us below."
         result = described_class.new(account: account, inbox: inbox, message: message, language: 'en').perform
 
         expect(result[:classification]).to eq('LIKELY_MARKETING')
