@@ -13,17 +13,6 @@ module CsatTemplateUtilityRubric
       line_status: 'Your %<subject>s has been %<status>s.',
       line_help: 'If you still need help, simply reply to this message.',
       line_rate: 'To rate this support interaction, please use the button below.'
-    },
-    'es' => {
-      support_request: 'solicitud de soporte',
-      support_ticket: 'ticket de soporte',
-      support_conversation: 'conversación de soporte',
-      status_closed: 'cerrada',
-      status_resolved: 'resuelta',
-      status_completed: 'completada',
-      line_status: 'Tu %<subject>s ha sido %<status>s.',
-      line_help: 'Si aún necesitas ayuda, responde a este mensaje.',
-      line_rate: 'Para calificar esta interacción de soporte, usa el botón de abajo.'
     }
   }.freeze
 

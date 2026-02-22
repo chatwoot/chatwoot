@@ -34,13 +34,13 @@ RSpec.describe CsatTemplateUtilityAnalysisService do
       end
     end
 
-    context 'when language is Spanish and fallback rewrite is used' do
-      it 'returns Spanish rewrite content' do
+    context 'when language is non-English and fallback rewrite is used' do
+      it 'returns English rewrite content' do
         message = 'Tu caso está cerrado. Califícanos y no te pierdas nuestra oferta.'
         result = described_class.new(account: account, inbox: inbox, message: message, language: 'es').perform
 
-        expect(result[:optimized_message]).to include('Tu solicitud de soporte ha sido cerrada.')
-        expect(result[:optimized_message]).to include('Si aún necesitas ayuda')
+        expect(result[:optimized_message]).to include('Your support request has been closed.')
+        expect(result[:optimized_message]).to include('If you still need help')
       end
     end
 
