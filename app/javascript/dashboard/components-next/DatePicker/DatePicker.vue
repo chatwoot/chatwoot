@@ -19,7 +19,7 @@ import CalendarWeek from './components/CalendarWeek.vue';
 import CalendarFooter from './components/CalendarFooter.vue';
 import TimePicker from './components/TimePicker.vue';
 
-defineProps({
+const props = defineProps({
   minDate: {
     type: Date,
     default: null,
@@ -48,9 +48,16 @@ const calendarDate = ref(startOfMonth(currentDate.value));
 
 const getMinTimeForToday = () => addHours(new Date(), 1);
 
+const effectiveMinDate = computed(() => {
+  const thresholdDay = startOfDay(getMinTimeForToday());
+  if (!props.minDate) return thresholdDay;
+  const propDay = startOfDay(props.minDate);
+  return propDay > thresholdDay ? propDay : thresholdDay;
+});
+
 const minTime = computed(() => {
   if (!selectedDate.value) return null;
-  if (!isSameDay(selectedDate.value, currentDate.value)) return null;
+  if (!isSameDay(selectedDate.value, effectiveMinDate.value)) return null;
   return getMinTimeForToday();
 });
 
@@ -68,11 +75,11 @@ const selectedDateTime = computed(() => {
 
 const selectDate = day => {
   selectedDate.value = startOfDay(day);
-  if (isSameDay(day, currentDate.value)) {
-    const minDate = getMinTimeForToday();
+  if (isSameDay(day, effectiveMinDate.value)) {
+    const threshold = getMinTimeForToday();
     selectedTime.value = {
-      hour: minDate.getHours(),
-      minute: minDate.getMinutes(),
+      hour: threshold.getHours(),
+      minute: threshold.getMinutes(),
       second: 0,
     };
   } else {
@@ -152,7 +159,7 @@ defineExpose({ resetState });
             :start-current-date="calendarDate"
             :selected-start-date="selectedDate"
             :selected-end-date="selectedDate"
-            :min-date="minDate"
+            :min-date="effectiveMinDate"
             @select-date="selectDate"
             @set-view="setViewMode"
             @prev="moveCalendar('prev')"
