@@ -177,13 +177,14 @@ export default {
       const {
         social_profiles: socialProfiles = {},
         screen_name: twitterScreenName,
+        social_telegram_user_name: telegramUserName,
       } = additionalAttributes;
       this.socialProfileUserNames = {
         twitter: socialProfiles.twitter || twitterScreenName || '',
         facebook: socialProfiles.facebook || '',
         linkedin: socialProfiles.linkedin || '',
         github: socialProfiles.github || '',
-        telegram: socialProfiles.telegram,
+        telegram: socialProfiles.telegram || telegramUserName || '',
         instagram: socialProfiles.instagram || '',
         tiktok: socialProfiles.tiktok || '',
       };

@@ -106,8 +106,17 @@ const prepareStateBasedOnProps = () => {
     country = '',
     city = '',
     socialTelegramUserName = '',
+    social_telegram_user_name: socialTelegramUserNameLegacy = '',
     socialProfiles = {},
+    social_profiles: socialProfilesLegacy = {},
   } = additionalAttributes || {};
+
+  const telegramUsername =
+    socialProfiles?.telegram ||
+    socialProfilesLegacy?.telegram ||
+    socialTelegramUserName ||
+    socialTelegramUserNameLegacy ||
+    '';
 
   Object.assign(state, {
     id,
@@ -123,8 +132,9 @@ const prepareStateBasedOnProps = () => {
       country,
       city,
       socialProfiles: {
-        telegram: socialTelegramUserName || '',
+        ...(socialProfilesLegacy || {}),
         ...(socialProfiles || {}),
+        telegram: telegramUsername,
       },
     },
   });
