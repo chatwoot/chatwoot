@@ -284,7 +284,8 @@
     },
     "MEDIA": {
       "IMAGE_UNAVAILABLE": "This image is no longer available.",
-      "LOADING_FAILED": "Loading failed"
+      "LOADING_FAILED": "Loading failed",
+      "MEDIA_DOWNLOAD_FAILED": "Media could not be downloaded."
     }
   },
   "CONFIRM_EMAIL": "Verifying...",

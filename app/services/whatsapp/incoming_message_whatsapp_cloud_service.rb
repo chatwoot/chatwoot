@@ -37,6 +37,14 @@ class Whatsapp::IncomingMessageWhatsappCloudService < Whatsapp::IncomingMessageB
     nil
   end
 
+  def attach_media_download_failed(_attachment_payload)
+    @message.attachments.new(
+      account_id: @message.account_id,
+      file_type: :fallback,
+      fallback_title: I18n.t('errors.whatsapp.media_download_failed')
+    )
+  end
+
   def fetch_media_url_from_graph(media_id)
     response = HTTParty.get(
       inbox.channel.media_url(media_id),

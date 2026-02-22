@@ -81,6 +81,7 @@ he:
     slack:
       invalid_channel_id: 'ערוץ Slack לא תקין. אנא נסה שוב'
     whatsapp:
+      media_download_failed: 'לא ניתן להוריד את הקובץ.'
       token_exchange_failed: 'החלפת קוד לאסימון גישה נכשלה. אנא נסה שוב.'
       invalid_token_permissions: 'לאסימון הגישה אין את ההרשאות הנדרשות עבור WhatsApp.'
       phone_info_fetch_failed: 'הבאת מידע מספר טלפון נכשלה. אנא נסה שוב.'
