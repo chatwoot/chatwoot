@@ -1,12 +1,16 @@
 # Job to process debounced messages for SocialWise Flow integration
-# This job implements a "reset timer" debounce with max timeout:
-# - Each new message resets the silence timer
+# This job implements a "reset timer" debounce with max timeout using inline sleep:
+# - Job executes immediately and sleeps for the debounce period
+# - Each new message resets the silence timer (tracked in Redis)
+# - Job wakes up, checks if silence achieved, sleeps again if not
 # - Processing happens after X ms of silence OR after max timeout (whichever comes first)
+#
+# This approach avoids Sidekiq's scheduled job polling delay (~5s) for precise timing.
 class SocialwiseDebounceJob < ApplicationJob
   queue_as :critical
 
   def perform(conversation_id, hook_id, event_name, debounce_ms = 5000, max_timeout_ms = 30_000)
-    Rails.logger.info "[SOCIALWISE-DEBOUNCE] Job triggered for conversation #{conversation_id}"
+    Rails.logger.info "[SOCIALWISE-DEBOUNCE] Job started for conversation #{conversation_id}"
 
     conversation = Conversation.find_by(id: conversation_id)
     hook = Integrations::Hook.find_by(id: hook_id)
@@ -16,40 +20,67 @@ class SocialwiseDebounceJob < ApplicationJob
       return
     end
 
-    # Check if we should process now or skip
-    unless should_process_now?(conversation_id, debounce_ms, max_timeout_ms)
-      Rails.logger.info '[SOCIALWISE-DEBOUNCE] Not ready to process yet, skipping (another job will handle it)'
-      return
-    end
-
-    # Acquire lock to prevent race conditions
-    lock_key = format(Redis::Alfred::SOCIALWISE_DEBOUNCE_LOCK, conversation_id: conversation_id)
-    unless acquire_lock(lock_key)
-      Rails.logger.info "[SOCIALWISE-DEBOUNCE] Could not acquire lock for conversation #{conversation_id}, skipping"
-      return
-    end
+    # Mark this debounce job as active (prevents duplicate jobs from being enqueued)
+    active_key = format(Redis::Alfred::SOCIALWISE_DEBOUNCE_ACTIVE, conversation_id: conversation_id)
+    Redis::Alfred.set(active_key, '1', ex: (max_timeout_ms / 1000.0).ceil + 30)
 
     begin
-      # Double-check after acquiring lock (another job might have processed)
-      messages_key = format(Redis::Alfred::SOCIALWISE_DEBOUNCE_MESSAGES, conversation_id: conversation_id)
-      if Redis::Alfred.lrange(messages_key, 0, -1).blank?
-        Rails.logger.info '[SOCIALWISE-DEBOUNCE] Messages already processed by another job'
+      debounce_seconds = debounce_ms / 1000.0
+      max_timeout_seconds = max_timeout_ms / 1000.0
+      start_time = Time.current.to_f
+
+      # Sleep-check loop until silence achieved or max timeout
+      loop do
+        Rails.logger.info "[SOCIALWISE-DEBOUNCE] Sleeping for #{debounce_seconds}s..."
+        sleep(debounce_seconds)
+
+        # Check if we should process now
+        if should_process_now?(conversation_id, debounce_seconds, max_timeout_seconds)
+          Rails.logger.info '[SOCIALWISE-DEBOUNCE] Ready to process, exiting sleep loop'
+          break
+        end
+
+        # Safety: max timeout check (in case Redis data is inconsistent)
+        elapsed = Time.current.to_f - start_time
+        if elapsed >= max_timeout_seconds
+          Rails.logger.info "[SOCIALWISE-DEBOUNCE] Max timeout reached after #{elapsed.round(2)}s, forcing process"
+          break
+        end
+
+        Rails.logger.info '[SOCIALWISE-DEBOUNCE] New messages detected during sleep, looping...'
+      end
+
+      # Acquire lock to prevent race conditions during processing
+      lock_key = format(Redis::Alfred::SOCIALWISE_DEBOUNCE_LOCK, conversation_id: conversation_id)
+      unless acquire_lock(lock_key)
+        Rails.logger.info "[SOCIALWISE-DEBOUNCE] Could not acquire lock for conversation #{conversation_id}, skipping"
         return
       end
 
-      process_debounced_messages(conversation, hook, event_name)
+      begin
+        # Double-check after acquiring lock (another job might have processed)
+        messages_key = format(Redis::Alfred::SOCIALWISE_DEBOUNCE_MESSAGES, conversation_id: conversation_id)
+        if Redis::Alfred.lrange(messages_key, 0, -1).blank?
+          Rails.logger.info '[SOCIALWISE-DEBOUNCE] Messages already processed by another job'
+          return
+        end
+
+        process_debounced_messages(conversation, hook, event_name)
+      ensure
+        release_lock(lock_key)
+      end
     ensure
-      release_lock(lock_key)
+      # Always clean up the active marker
+      Redis::Alfred.delete(active_key)
+      Rails.logger.info "[SOCIALWISE-DEBOUNCE] Active marker cleared for conversation #{conversation_id}"
     end
   end
 
   private
 
   # Determine if this job should process now based on silence time and max timeout
-  def should_process_now?(conversation_id, debounce_ms, max_timeout_ms)
+  def should_process_now?(conversation_id, debounce_seconds, max_timeout_seconds)
     current_time = Time.current.to_f
-    debounce_seconds = debounce_ms / 1000.0
-    max_timeout_seconds = max_timeout_ms / 1000.0
 
     first_at_key = format(Redis::Alfred::SOCIALWISE_DEBOUNCE_FIRST_AT, conversation_id: conversation_id)
     last_at_key = format(Redis::Alfred::SOCIALWISE_DEBOUNCE_LAST_AT, conversation_id: conversation_id)
@@ -66,23 +97,21 @@ class SocialwiseDebounceJob < ApplicationJob
     time_since_first = current_time - first_at
     time_since_last = current_time - last_at
 
-    Rails.logger.info "[SOCIALWISE-DEBOUNCE] Time since first: #{time_since_first.round(2)}s, Time since last: #{time_since_last.round(2)}s"
-    Rails.logger.info "[SOCIALWISE-DEBOUNCE] Required silence: #{debounce_seconds}s, Max timeout: #{max_timeout_seconds}s"
+    Rails.logger.info "[SOCIALWISE-DEBOUNCE] Silence: #{time_since_last.round(2)}s, Total: #{time_since_first.round(2)}s"
 
     # Check 1: Has max timeout been reached? Process immediately
     if time_since_first >= max_timeout_seconds
-      Rails.logger.info "[SOCIALWISE-DEBOUNCE] MAX TIMEOUT reached (#{time_since_first.round(2)}s >= #{max_timeout_seconds}s) - processing now"
+      Rails.logger.info "[SOCIALWISE-DEBOUNCE] MAX TIMEOUT reached (#{time_since_first.round(2)}s >= #{max_timeout_seconds}s)"
       return true
     end
 
     # Check 2: Has enough silence passed since last message?
     if time_since_last >= debounce_seconds
-      Rails.logger.info "[SOCIALWISE-DEBOUNCE] SILENCE reached (#{time_since_last.round(2)}s >= #{debounce_seconds}s) - processing now"
+      Rails.logger.info "[SOCIALWISE-DEBOUNCE] SILENCE reached (#{time_since_last.round(2)}s >= #{debounce_seconds}s)"
       return true
     end
 
     # Not ready yet - a newer message reset the timer
-    Rails.logger.info "[SOCIALWISE-DEBOUNCE] Not ready: silence=#{time_since_last.round(2)}s < #{debounce_seconds}s, timeout=#{time_since_first.round(2)}s < #{max_timeout_seconds}s"
     false
   end
 
@@ -146,8 +175,8 @@ class SocialwiseDebounceJob < ApplicationJob
   end
 
   def acquire_lock(key)
-    # Try to acquire lock with 30 second expiry
-    Redis::Alfred.set(key, '1', nx: true, ex: 30)
+    # Try to acquire lock with 60 second expiry (longer than debounce to be safe)
+    Redis::Alfred.set(key, '1', nx: true, ex: 60)
   end
 
   def release_lock(key)

@@ -1,6 +1,6 @@
 # Contrato Chatwit: Respostas Assíncronas Além de 30 Segundos
 
-> **Versão**: 1.4.0
+> **Versão**: 1.8.0
 > **Data**: 12 de Fevereiro de 2026
 > **Escopo**: Tudo que precisa mudar no Chatwit (fork Chatwoot v4.10) + integrações Socialwise
 > **Referência**: `docs/interative_message_flow_builder.md` §14 e §17
@@ -260,6 +260,10 @@ async function deliverMedia(
 9. [Tabela Resumo de Mudanças](#9-tabela-resumo-de-mudanças)
 10. [Checklist de Validação](#10-checklist-de-validação)
 11. [Troubleshooting](#11-troubleshooting)
+12. [Campanhas em Massa](#12-campanhas-em-massa-flow-campaigns--informativo-para-o-chatwit)
+13. [Dispatch de Templates via Agent Bot](#13-dispatch-de-templates-whatsapp-via-api-agent-bot-necessário)
+14. [Adicionar contacts ao BOT_ACCESSIBLE_ENDPOINTS](#14-adicionar-contacts-ao-bot_accessible_endpoints-necessário)
+15. [Init do Agent Bot — Registrar token no Socialwise](#15-init-do-agent-bot--registrar-token-no-socialwise-necessário)
 
 ---
 
@@ -1068,13 +1072,367 @@ Se não aparece, verificar `extract_interactive_data` em `incoming_message_base_
 
 ---
 
-**Última atualização**: 08 de Fevereiro de 2026
-**Versão**: 1.1.0
+**Última atualização**: 22 de Fevereiro de 2026
+**Versão**: 1.5.0
 **Mantido por**: Equipe Socialwise / Chatwit
 
 ---
 
+## 12. Campanhas em Massa (Flow Campaigns) — Informativo para o Chatwit
+
+### Contexto
+
+O Socialwise implementou um sistema de campanhas em massa que executa Flows para listas de contatos. A orquestração é 100% do lado Socialwise (BullMQ + Prisma). O Chatwit **não precisa implementar nada novo** — campanhas usam a mesma API Agent Bot já documentada nas seções anteriores.
+
+### Como funciona
+
+```
+Socialwise (CampaignOrchestrator)
+  ├─ Chunka contatos em batches de 50
+  ├─ Enfileira no BullMQ (fila "flow-campaign")
+  ├─ Worker executa FlowOrchestrator.executeFlowById() por contato
+  └─ Flow entrega mensagens via API Agent Bot do Chatwit
+      └─ POST /api/v1/accounts/{account_id}/conversations/.../messages
+```
+
+### O que o Chatwit vai receber
+
+Campanhas enviam **muitas mensagens via API Agent Bot** em sequência. Para uma campanha de 500 contatos, o Chatwit receberá ~500+ chamadas à API de mensagens, espaçadas pelo rate limiting:
+
+| Canal | Rate Limit | Msgs/hora |
+|-------|-----------|-----------|
+| WhatsApp | 30/min | 1000 |
+| Instagram | 20/min | 500 |
+| Facebook | 25/min | 800 |
+
+### O que verificar no Chatwit
+
+1. **Sidekiq não engargalar**: Cada mensagem criada via API dispara `SendReplyJob`. Com campanhas grandes (500+ contatos), garantir que o Sidekiq consegue processar a fila sem acumular
+2. **Rate limiting do WhatsApp Cloud API**: O Chatwit deve respeitar os limites da Meta (80 msgs/seg para tier 4). Se o Chatwit já tem throttling próprio, não precisa mudar nada
+3. **Conversações novas**: Campanhas podem enviar para contatos sem conversa prévia. O `conversationId: 0` no contexto Socialwise significa que **não há conversa pré-existente** — o Socialwise precisará criar/buscar a conversa via API antes de enviar
+
+### Ponto de atenção: Conversas sem ID prévio
+
+Hoje a campanha executa `FlowOrchestrator.executeFlowById()` com `conversationId: 0` (sem conversa). Para campanhas funcionarem, o Socialwise precisa:
+1. Buscar/criar conversa no Chatwit antes de enviar mensagens
+2. Ou usar um endpoint Chatwit que crie conversa + envie mensagem atomicamente
+
+**Pergunta para a equipe Chatwit**: Existe um endpoint que cria conversa + envia primeira mensagem para um `contactPhone` novo, ou precisa de 2 chamadas separadas (criar conversa → enviar mensagem)?
+
+### Nenhuma mudança necessária no Chatwit (por agora)
+
+Tudo que as campanhas usam já está implementado:
+- API Agent Bot para envio de mensagens
+- Dispatcher interactive para botões
+- Upload de mídia via blob_id
+
+---
+
+## 13. Dispatch de Templates WhatsApp via API Agent Bot (NECESSÁRIO)
+
+### Contexto
+
+O Socialwise envia templates WhatsApp oficiais (aprovados pela Meta) via API Agent Bot, usando `content_type: "template"`. Hoje o `send_message()` no `whatsapp_cloud_service.rb` **não tem branch para `content_type: 'template'`**, então o template cai no `else` e é enviado como texto puro.
+
+### O que o Socialwise envia
+
+```http
+POST {chatwit_base_url}/api/v1/accounts/{account_id}/conversations/{conversation_display_id}/messages
+Headers:
+  api_access_token: {metadata.chatwit_agent_bot_token}
+  Content-Type: application/json
+Body:
+  {
+    "content": "[Template: satisfacao_oab]",
+    "content_type": "template",
+    "content_attributes": {
+      "template_payload": {
+        "messaging_product": "whatsapp",
+        "to": "+558597550136",
+        "type": "template",
+        "template": {
+          "name": "satisfacao_oab",
+          "language": { "code": "pt_BR" },
+          "components": [
+            {
+              "type": "body",
+              "parameters": [
+                { "type": "text", "parameter_name": "nome_lead", "text": "João" }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "message_type": "outgoing"
+  }
+```
+
+### O que o Chatwit precisa implementar
+
+Adicionar um branch em `send_message()` no `whatsapp_cloud_service.rb` para rotear `content_type: 'template'` para o `send_template()` que **já existe** (linha 24):
+
+```ruby
+# app/services/whatsapp/providers/whatsapp_cloud_service.rb — PROPOSTA
+def send_message(phone_number, message)
+  @message = message
+
+  # Support for Async Button Reaction (Emoji) — já existe
+  if message.content_attributes&.dig('reaction_emoji').present? && message.content_attributes&.dig('reaction_message_id').present?
+    send_reaction(phone_number, message.content_attributes['reaction_message_id'], message.content_attributes['reaction_emoji'])
+  end
+
+  if message.attachments.present?
+    send_attachment_message(phone_number, message)
+  elsif message.content_type == 'input_select'
+    send_interactive_text_message(phone_number, message)
+  elsif message.content_type == 'integrations' && message.content_attributes&.dig('interactive').present?
+    interactive_payload = message.content_attributes['interactive']
+    send_interactive_payload(phone_number, message, interactive_payload)
+  elsif message.content_type == 'template' && message.content_attributes&.dig('template_payload').present?
+    # ✅ NOVO: SocialWise Flow — template oficial enviado via Agent Bot API
+    template_payload = message.content_attributes['template_payload']
+    send_template_from_payload(phone_number, message, template_payload)
+  else
+    send_text_message(phone_number, message) unless message.content.blank?
+  end
+end
+
+# NOVO método — envia template usando payload completo do Socialwise
+def send_template_from_payload(phone_number, message, template_payload)
+  @message = message
+
+  # O payload já vem pronto no formato WhatsApp Cloud API
+  # Só precisa substituir o phone_number pelo número real (o Chatwit sabe o correto)
+  request_body = template_payload.deep_symbolize_keys
+  request_body[:to] = phone_number
+
+  Rails.logger.info "[SOCIALWISE-FLOW-WHATSAPP] send_template_from_payload: #{request_body[:template][:name]} → #{phone_number}"
+
+  response = HTTParty.post(
+    "#{phone_id_path}/messages",
+    headers: api_headers,
+    body: request_body.to_json
+  )
+
+  process_response(response, message)
+end
+```
+
+### Resumo
+
+| O quê | Arquivo | Complexidade |
+|-------|---------|--------------|
+| Branch `content_type: 'template'` no `send_message()` | `whatsapp_cloud_service.rb` L2-22 | Baixa (~3 linhas) |
+| Método `send_template_from_payload()` | `whatsapp_cloud_service.rb` (novo) | Baixa (~15 linhas) |
+
+### Benefício
+
+Templates enviados pelo Flow Builder/Campanhas do Socialwise:
+1. Aparecem como mensagem **outgoing** no chat do Chatwit
+2. São enviados ao WhatsApp pelo pipeline padrão do Chatwit (retry, tracking, etc.)
+3. Ficam registrados no histórico da conversa
+
+---
+
+## 14. Adicionar `contacts` ao BOT_ACCESSIBLE_ENDPOINTS (NECESSÁRIO)
+
+### Contexto
+
+O Socialwise precisa **buscar e criar contatos** via Agent Bot para campanhas em massa. Hoje o Agent Bot só tem acesso a `conversations` e `messages`, mas para campanhas com **contatos novos** (que nunca tiveram conversa no Chatwit), é necessário:
+
+1. Buscar contato por `phone_number` (`contacts/search`)
+2. Criar contato se não existe (`contacts` create)
+3. Criar conversa para esse contato (já funciona)
+
+Atualmente usamos o **token do UsuarioChatwit** (user token) como workaround, mas o ideal é tudo pelo bot token.
+
+### O que o Chatwit precisa implementar
+
+Adicionar endpoints de `contacts` ao `BOT_ACCESSIBLE_ENDPOINTS` em `app/controllers/concerns/access_token_auth_helper.rb`:
+
+```ruby
+# ANTES:
+BOT_ACCESSIBLE_ENDPOINTS = {
+  'api/v1/accounts/conversations/messages' => ['create'],
+  'api/v1/accounts/conversations' => %w[toggle_status toggle_priority create update custom_attributes],
+  'api/v1/accounts/conversations/assignments' => ['create']
+}.freeze
+
+# DEPOIS:
+BOT_ACCESSIBLE_ENDPOINTS = {
+  'api/v1/accounts/conversations/messages' => ['create'],
+  'api/v1/accounts/conversations' => %w[toggle_status toggle_priority create update custom_attributes],
+  'api/v1/accounts/conversations/assignments' => ['create'],
+  'api/v1/accounts/contacts' => %w[search create],           # ✅ NOVO: campanhas em massa
+  'api/v1/accounts/contacts/search' => ['index'],             # ✅ NOVO: buscar contato por phone
+}.freeze
+```
+
+### Endpoints que o Socialwise usará
+
+**Buscar contato por telefone:**
+```http
+GET /api/v1/accounts/{account_id}/contacts/search?q=%2B5585999001234&include_contacts=true
+Headers:
+  api_access_token: {metadata.chatwit_agent_bot_token}
+```
+
+**Criar contato novo:**
+```http
+POST /api/v1/accounts/{account_id}/contacts
+Headers:
+  api_access_token: {metadata.chatwit_agent_bot_token}
+  Content-Type: application/json
+Body:
+  {
+    "name": "João Silva",
+    "phone_number": "+5585999001234",
+    "inbox_id": 1
+  }
+```
+
+### Resumo
+
+| O quê | Arquivo | Complexidade |
+|-------|---------|--------------|
+| Adicionar `contacts` search/create ao `BOT_ACCESSIBLE_ENDPOINTS` | `access_token_auth_helper.rb` | Muito baixa (~2 linhas) |
+
+### Benefício
+
+- Bot token como **único token** para toda operação do Socialwise (mensagens, conversas, contatos)
+- Elimina dependência do token do UsuarioChatwit para campanhas
+- Segurança melhor: bot tem escopo limitado vs user token tem acesso total
+
+### Workaround temporário (Socialwise)
+
+Enquanto o Chatwit não implementar, o Socialwise usa `UsuarioChatwit.chatwitAccessToken` (user token) para buscar/criar contatos. O `ChatwitConversationResolver` já suporta trocar para bot token quando disponível — basta mudar o token passado no construtor.
+
+---
+
+## 15. Init do Agent Bot — Registrar token no Socialwise (NECESSÁRIO)
+
+### Contexto
+
+O Agent Bot do Chatwit é global (`account_id=NULL`) e seu token é auto-provisionado no startup (`config/initializers/socialwise_bot.rb`). O Socialwise precisa desse token e da base URL para:
+- Campanhas em massa (não têm webhook, não recebem metadata)
+- Qualquer operação assíncrona iniciada pelo Socialwise
+
+Atualmente o token vem no `metadata` de cada webhook, mas campanhas não passam por webhook.
+
+### O que o Chatwit precisa implementar
+
+No `config/initializers/socialwise_bot.rb`, **após** auto-provisionar o bot, fazer uma chamada HTTP para registrar o token no Socialwise:
+
+```ruby
+# config/initializers/socialwise_bot.rb — ADICIONAR APÓS auto-provisionar
+
+# Registrar token no Socialwise para campanhas em massa
+socialwise_webhook_url = ENV.fetch('SOCIALWISE_WEBHOOK_URL', nil)
+chatwit_webhook_secret = ENV.fetch('CHATWIT_WEBHOOK_SECRET', nil)
+
+if socialwise_webhook_url.present? && chatwit_webhook_secret.present?
+  begin
+    response = HTTParty.post(
+      "#{socialwise_webhook_url}/api/integrations/webhooks/socialwiseflow/init",
+      headers: { 'Content-Type' => 'application/json' },
+      body: {
+        agent_bot_token: Chatwit::SocialwiseBot.token,
+        base_url: ENV.fetch('FRONTEND_URL', 'https://chatwit.witdev.com.br'),
+        secret: chatwit_webhook_secret
+      }.to_json,
+      timeout: 10
+    )
+    Rails.logger.info "[SOCIALWISE-INIT] Bot token registrado no Socialwise: #{response.code}"
+  rescue StandardError => e
+    Rails.logger.warn "[SOCIALWISE-INIT] Falha ao registrar bot token: #{e.message}"
+    # Não bloqueia o startup — o Socialwise tem fallback para ENV
+  end
+end
+```
+
+### Endpoint do Socialwise (já implementado)
+
+```http
+POST {SOCIALWISE_WEBHOOK_URL}/api/integrations/webhooks/socialwiseflow/init
+Headers:
+  Content-Type: application/json
+Body:
+  {
+    "agent_bot_token": "5rxTkF7gs9H9E9jqEW4fqeas",
+    "base_url": "https://chatwit.witdev.com.br",
+    "secret": "<CHATWIT_WEBHOOK_SECRET>"
+  }
+Response: 200 { "status": "ok" }
+```
+
+### Validação
+
+O Socialwise valida o `secret` contra `CHATWIT_WEBHOOK_SECRET` (mesma variável já usada no webhook principal). Se inválido, retorna 401.
+
+### Resumo
+
+| O quê | Arquivo | Complexidade |
+|-------|---------|--------------|
+| Chamar init do Socialwise após provisionar bot | `config/initializers/socialwise_bot.rb` | Baixa (~15 linhas) |
+
+### Fallback
+
+O Socialwise tem 3 camadas de fallback:
+1. **SystemConfig** (banco) — atualizado pelo init e por cada webhook recebido
+2. **ENV** — `CHATWIT_AGENT_BOT_TOKEN` e `CHATWIT_BASE_URL`
+3. **Webhook metadata** — cada chamada do Chatwit traz os valores
+
+O init garante que o SystemConfig esteja populado **antes** de qualquer campanha ser disparada.
+
+### Variável de ambiente necessária no Chatwit
+
+```env
+SOCIALWISE_WEBHOOK_URL=https://app.socialwise.com.br  # URL base do Socialwise (sem /api/...)
+```
+
+Se já existir (usado pelo webhook), não precisa adicionar.
+
+---
+
 ## Changelog
+
+### v1.8.0 (2026-02-22) - Init do Agent Bot no Socialwise — ✅ IMPLEMENTADO
+
+**Seção 15 — Implementado em 22/02/2026.**
+
+No startup do bot, o Chatwit agora chama `POST /api/integrations/webhooks/socialwiseflow/init` enviando `agent_bot_token` + `base_url` + `secret`. O Socialwise persiste em `SystemConfig` para uso em campanhas em massa (sem depender de webhook).
+
+**Arquivo modificado:**
+- `config/initializers/socialwise_bot.rb`: Adicionada chamada HTTP ao Socialwise após auto-provisionamento do bot. Usa `SOCIALWISE_WEBHOOK_URL`, `CHATWIT_WEBHOOK_SECRET` e `FRONTEND_URL`. Falha silenciosa (warn no log) — não bloqueia startup
+
+### v1.7.0 (2026-02-22) - BOT_ACCESSIBLE_ENDPOINTS: contacts — ✅ IMPLEMENTADO
+
+**Seção 14 — Implementado em 22/02/2026.**
+
+Adicionado `contacts` (search, create, show) ao `BOT_ACCESSIBLE_ENDPOINTS` para que o Agent Bot possa buscar/criar contatos em campanhas em massa. Elimina workaround com user token.
+
+**Arquivo modificado:**
+- `app/controllers/concerns/access_token_auth_helper.rb`: Adicionado `'api/v1/accounts/contacts' => %w[search create show]` ao hash `BOT_ACCESSIBLE_ENDPOINTS`
+
+### v1.6.0 (2026-02-22) - Dispatch de Templates via Agent Bot — ✅ IMPLEMENTADO
+
+**Seção 13 — Implementado em 22/02/2026.**
+
+O Chatwit agora roteia `content_type: "template"` no `send_message()` para envio direto de templates WhatsApp oficiais via API Agent Bot.
+
+**Arquivo modificado:**
+- `app/services/whatsapp/providers/whatsapp_cloud_service.rb`:
+  - Branch `elsif message.content_type == 'template'` adicionado ao `send_message()`
+  - Novo método `send_template_from_payload()` que envia o payload completo do SocialWise para a WhatsApp Cloud API
+
+### v1.5.0 (2026-02-22) - Campanhas em Massa (Informativo)
+
+**Nenhuma mudança no Chatwit** — apenas documentação informativa (Seção 12).
+
+O Socialwise implementou campanhas em massa que disparam Flows para listas de contatos via BullMQ. As campanhas usam a API Agent Bot já existente para entregar mensagens. Rate limiting é controlado pelo Socialwise (30 msgs/min WhatsApp).
+
+**Resposta à pergunta da Seção 12**: Não existe endpoint atômico para criar conversa + enviar primeira mensagem. São 2 chamadas separadas: `POST /api/v1/accounts/{id}/conversations` (criar conversa) → `POST /api/v1/accounts/{id}/conversations/{conv_id}/messages` (enviar mensagem). Com a v1.7.0, ambas as operações podem ser feitas via bot token.
 
 ### v1.1.0 (2026-02-08) - Implementação Chatwit
 

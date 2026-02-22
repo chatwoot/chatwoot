@@ -59,4 +59,6 @@ module Redis::RedisKeys
   SOCIALWISE_DEBOUNCE_LAST_AT = 'SOCIALWISE_DEBOUNCE::%<conversation_id>d::LAST_AT'.freeze
   # Lock for processing debounced messages
   SOCIALWISE_DEBOUNCE_LOCK = 'SOCIALWISE_DEBOUNCE::%<conversation_id>d::LOCK'.freeze
+  # Track if a debounce job is already active (sleeping) for this conversation
+  SOCIALWISE_DEBOUNCE_ACTIVE = 'SOCIALWISE_DEBOUNCE::%<conversation_id>d::ACTIVE'.freeze
 end

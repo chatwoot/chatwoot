@@ -62,6 +62,29 @@ Rails.application.config.to_prepare do
 
     # Reset cache so it picks up the latest
     Chatwit::SocialwiseBot.reset!
+
+    # Registrar token no Socialwise para campanhas em massa (não depende de webhook)
+    socialwise_webhook_url = ENV.fetch('SOCIALWISE_WEBHOOK_URL', nil)
+    chatwit_webhook_secret = ENV.fetch('CHATWIT_WEBHOOK_SECRET', nil)
+    bot_token = bot.access_token&.token
+
+    if socialwise_webhook_url.present? && chatwit_webhook_secret.present? && bot_token.present?
+      begin
+        response = HTTParty.post(
+          "#{socialwise_webhook_url}/api/integrations/webhooks/socialwiseflow/init",
+          headers: { 'Content-Type' => 'application/json' },
+          body: {
+            agent_bot_token: bot_token,
+            base_url: ENV.fetch('FRONTEND_URL', 'https://chatwit.witdev.com.br'),
+            secret: chatwit_webhook_secret
+          }.to_json,
+          timeout: 10
+        )
+        Rails.logger.info "[SOCIALWISE-INIT] Bot token registrado no Socialwise: #{response.code}"
+      rescue StandardError => e
+        Rails.logger.warn "[SOCIALWISE-INIT] Falha ao registrar bot token: #{e.message}"
+      end
+    end
   rescue ActiveRecord::ConnectionNotEstablished
     Rails.logger.info '[SOCIALWISE-BOT] Skipping — database not available'
   rescue StandardError => e

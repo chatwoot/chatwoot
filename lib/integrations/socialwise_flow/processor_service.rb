@@ -145,9 +145,16 @@ class Integrations::SocialwiseFlow::ProcessorService < Integrations::BotProcesso
       conn.expire(last_at_key, expiry_seconds)
     end
 
-    # Schedule the debounce job
-    # The job will check if enough silence has passed OR if max timeout reached
-    SocialwiseDebounceJob.set(wait: (debounce_ms / 1000.0).seconds).perform_later(
+    # Check if a debounce job is already active (sleeping) for this conversation
+    # If so, don't enqueue another - the active job will handle all pending messages
+    active_key = format(Redis::Alfred::SOCIALWISE_DEBOUNCE_ACTIVE, conversation_id: conversation.id)
+    if Redis::Alfred.get(active_key).present?
+      Rails.logger.info "[SOCIALWISE-DEBOUNCE] Active job exists for conversation #{conversation.id}, skipping enqueue"
+      return
+    end
+
+    # Enqueue the debounce job immediately (job will sleep internally for precise timing)
+    SocialwiseDebounceJob.perform_later(
       conversation.id,
       hook.id,
       event_name,
@@ -155,7 +162,7 @@ class Integrations::SocialwiseFlow::ProcessorService < Integrations::BotProcesso
       max_timeout_ms
     )
 
-    Rails.logger.info "[SOCIALWISE-DEBOUNCE] Message #{message.id} enqueued, job scheduled in #{debounce_ms}ms (max timeout: #{max_timeout_ms}ms)"
+    Rails.logger.info "[SOCIALWISE-DEBOUNCE] Message #{message.id} enqueued, job will sleep for #{debounce_ms}ms (max timeout: #{max_timeout_ms}ms)"
   end
 
   # Expose should_run_processor? and process_content for use by DebounceProcessorService

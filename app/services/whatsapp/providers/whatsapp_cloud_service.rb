@@ -16,6 +16,10 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
       # SocialWise Async: mensagem interativa enviada via Agent Bot API
       interactive_payload = message.content_attributes['interactive']
       send_interactive_payload(phone_number, message, interactive_payload)
+    elsif message.content_type == 'template' && message.content_attributes&.dig('template_payload').present?
+      # SocialWise Flow: template oficial WhatsApp enviado via Agent Bot API
+      template_payload = message.content_attributes['template_payload']
+      send_template_from_payload(phone_number, message, template_payload)
     else
       send_text_message(phone_number, message) unless message.content.blank?
     end
@@ -67,6 +71,25 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
 
     Rails.logger.info "[SOCIALWISE-FLOW-WHATSAPP] WhatsApp API response code: #{response.code}"
     Rails.logger.info "[SOCIALWISE-FLOW-WHATSAPP] WhatsApp API response body: #{response.body}"
+
+    process_response(response, message)
+  end
+
+  # SocialWise Flow: Sends a WhatsApp template using the complete payload from SocialWise
+  # Used for official templates sent via Agent Bot API (campaigns, flow builder)
+  def send_template_from_payload(phone_number, message, template_payload)
+    @message = message
+
+    request_body = template_payload.deep_symbolize_keys
+    request_body[:to] = phone_number
+
+    Rails.logger.info "[SOCIALWISE-FLOW-WHATSAPP] send_template_from_payload: #{request_body.dig(:template, :name)} → #{phone_number}"
+
+    response = HTTParty.post(
+      "#{phone_id_path}/messages",
+      headers: api_headers,
+      body: request_body.to_json
+    )
 
     process_response(response, message)
   end
