@@ -24,13 +24,12 @@ class Whatsapp::IncomingMessageWhatsappCloudService < Whatsapp::IncomingMessageB
     return if media_url.blank?
 
     # 2) Download from lookaside URL; Cloud API requires Authorization header on this request too.
-    tempfile = Down.download(
+    Down.download(
       media_url,
       headers: inbox.channel.api_headers,
       open_timeout: DOWNLOAD_OPEN_TIMEOUT,
       read_timeout: DOWNLOAD_READ_TIMEOUT
     )
-    tempfile
   rescue Down::Error, IOError => e
     Rails.logger.warn(
       "WhatsApp media download failed for media_id=#{media_id}: #{e.class} - #{e.message}"
