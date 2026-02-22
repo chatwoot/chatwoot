@@ -118,7 +118,7 @@ const onSelectConversation = checked => {
       <div class="inline-flex items-center justify-between w-full">
         <h4
           class="text-heading-3 mx-2 capitalize pt-0.5 truncate flex-1 min-w-0 text-n-slate-12"
-          :class="hasUnread ? 'font-semibold' : ''"
+          :class="hasUnread ? '!font-520' : ''"
         >
           {{ currentContact.name }}
         </h4>
@@ -131,7 +131,7 @@ const onSelectConversation = checked => {
         </span>
       </div>
 
-      <div class="mx-2 leading-6 h-6 min-w-0">
+      <div class="ltr:ml-2 rtl:mr-2 leading-6 h-6 min-w-0">
         <CardContent
           :last-message="lastMessageInChat"
           :voice-call-status="voiceCallData.status"

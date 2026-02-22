@@ -65,40 +65,23 @@ useInfiniteScroll(
 
 // Keyboard navigation for conversation list
 const handleConversationNavigation = direction => {
-  if (!parentRef.value || props.items.length === 0) return;
+  if (!parentRef.value) return;
 
-  const activeElement = parentRef.value.querySelector('.active');
-  if (!activeElement) {
-    // No active conversation, select first one
-    const firstWrapper = parentRef.value.querySelector('[data-id]');
-    firstWrapper?.firstElementChild?.click();
-    return;
-  }
+  // Get all wrapper divs with data-id
+  const allWrappers = Array.from(parentRef.value.querySelectorAll('[data-id]'));
+  if (allWrappers.length === 0) return;
 
-  // Find current conversation ID from active element
-  const currentWrapper = activeElement.closest('[data-id]');
-  const currentId = currentWrapper?.dataset.id;
-  if (!currentId) return;
-
-  // Find index in data array
-  const currentIndex = props.items.findIndex(
-    item => String(item.id) === currentId
+  const activeIndex = allWrappers.findIndex(wrapper =>
+    wrapper.querySelector('.active')
   );
-  if (currentIndex === -1) return;
 
-  // Calculate target index
   const delta = direction === 'previous' ? -1 : 1;
-  const targetIndex = currentIndex + delta;
+  const newIndex = activeIndex + delta;
+  // Clamp index to valid range [0, length-1]
+  const targetIndex = Math.max(0, Math.min(newIndex, allWrappers.length - 1));
 
-  // Clamp to valid range
-  if (targetIndex < 0 || targetIndex >= props.items.length) return;
-
-  // Find and click target conversation
-  const targetId = props.items[targetIndex].id;
-  const targetWrapper = parentRef.value.querySelector(
-    `[data-id="${targetId}"]`
-  );
-  targetWrapper?.firstElementChild?.click();
+  // Click the first child (ConversationItem root element)
+  allWrappers[targetIndex]?.firstElementChild?.click();
 };
 
 useKeyboardEvents({
