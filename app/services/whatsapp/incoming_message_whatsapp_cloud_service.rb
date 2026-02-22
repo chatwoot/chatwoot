@@ -23,6 +23,10 @@ class Whatsapp::IncomingMessageWhatsappCloudService < Whatsapp::IncomingMessageB
     media_url = fetch_media_url_from_graph(media_id)
     return if media_url.blank?
 
+    Rails.logger.info(
+      "WhatsApp media download: media_id=#{media_id} url=#{media_url}"
+    )
+
     # 2) Download from lookaside URL; Cloud API requires Authorization header on this request too.
     Down.download(
       media_url,
@@ -49,6 +53,9 @@ class Whatsapp::IncomingMessageWhatsappCloudService < Whatsapp::IncomingMessageB
     response = HTTParty.get(
       inbox.channel.media_url(media_id),
       headers: inbox.channel.api_headers
+    )
+    Rails.logger.info(
+      "WhatsApp Graph media metadata: media_id=#{media_id} status=#{response.code} body=#{response.body}"
     )
     inbox.channel.authorization_error! if response.unauthorized?
     return unless response.success?
