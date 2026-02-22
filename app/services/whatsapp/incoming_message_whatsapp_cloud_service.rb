@@ -6,6 +6,7 @@
 class Whatsapp::IncomingMessageWhatsappCloudService < Whatsapp::IncomingMessageBaseService
   DOWNLOAD_OPEN_TIMEOUT = 20
   DOWNLOAD_READ_TIMEOUT = 20
+  DOWNLOAD_MAX_RETRIES = 2 # retry connection resets / transient network errors
 
   private
 
@@ -27,18 +28,36 @@ class Whatsapp::IncomingMessageWhatsappCloudService < Whatsapp::IncomingMessageB
       "WhatsApp media download: media_id=#{media_id} url=#{media_url}"
     )
 
-    # 2) Download from lookaside URL; Cloud API requires Authorization header on this request too.
-    Down.download(
-      media_url,
-      headers: inbox.channel.api_headers,
-      open_timeout: DOWNLOAD_OPEN_TIMEOUT,
-      read_timeout: DOWNLOAD_READ_TIMEOUT
-    )
+    # 2) Download; Cloud API requires Authorization header. Retry on connection resets (transient).
+    download_with_retries(media_url, media_id)
   rescue Down::Error, IOError => e
     Rails.logger.warn(
       "WhatsApp media download failed for media_id=#{media_id}: #{e.class} - #{e.message}"
     )
     nil
+  end
+
+  def download_with_retries(media_url, media_id)
+    attempt = 0
+    begin
+      Down.download(
+        media_url,
+        headers: inbox.channel.api_headers,
+        open_timeout: DOWNLOAD_OPEN_TIMEOUT,
+        read_timeout: DOWNLOAD_READ_TIMEOUT
+      )
+    rescue Down::ConnectionError, IOError => e
+      attempt += 1
+      retryable = e.is_a?(Down::ConnectionError) || e.message.to_s.include?('reset')
+      if retryable && attempt <= DOWNLOAD_MAX_RETRIES
+        Rails.logger.warn(
+          "WhatsApp media download retry #{attempt}/#{DOWNLOAD_MAX_RETRIES} media_id=#{media_id}: #{e.message}"
+        )
+        sleep(1 * attempt)
+        retry
+      end
+      raise
+    end
   end
 
   def attach_media_download_failed(_attachment_payload)
