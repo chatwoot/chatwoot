@@ -116,17 +116,15 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="w-full p-8 overflow-auto">
-    <div
-      class="grid max-w-3xl grid-cols-1 xs:grid-cols-2 mx-0 gap-6 sm:grid-cols-3"
-    >
-      <ChannelItem
-        v-for="channel in channelList"
-        :key="channel.key"
-        :channel="channel"
-        :enabled-features="enabledFeatures"
-        @channel-item-click="initChannelAuth"
-      />
-    </div>
+  <div
+    class="grid max-w-3xl grid-cols-1 xs:grid-cols-2 mx-0 gap-6 sm:grid-cols-3 p-8"
+  >
+    <ChannelItem
+      v-for="channel in channelList"
+      :key="channel.key"
+      :channel="channel"
+      :enabled-features="enabledFeatures"
+      @channel-item-click="initChannelAuth"
+    />
   </div>
 </template>

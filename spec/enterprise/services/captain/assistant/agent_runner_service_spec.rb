@@ -278,6 +278,7 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
         contact_id: contact.id,
         status: conversation.status
       )
+      expect(state[:channel_type]).to eq(inbox.channel_type)
     end
 
     it 'includes contact attributes when contact is present' do
