@@ -45,7 +45,7 @@ describe Enterprise::Billing::TopupCheckoutService do
 
     it 'raises error for invalid credits' do
       error = nil
-      expect { service.create_checkout_session(credits: 500) }.to raise_error { |e| error = e }
+      expect { service.create_checkout_session(credits: 500) }.to(raise_error { |e| error = e })
       expect(error.class.name).to eq('Enterprise::Billing::TopupCheckoutService::Error')
     end
 
@@ -53,7 +53,7 @@ describe Enterprise::Billing::TopupCheckoutService do
       account.update!(custom_attributes: { plan_name: 'Hacker', stripe_customer_id: stripe_customer_id })
 
       error = nil
-      expect { service.create_checkout_session(credits: 1000) }.to raise_error { |e| error = e }
+      expect { service.create_checkout_session(credits: 1000) }.to(raise_error { |e| error = e })
       expect(error.class.name).to eq('Enterprise::Billing::TopupCheckoutService::Error')
     end
   end
