@@ -81,7 +81,7 @@ ca:
     slack:
       invalid_channel_id: 'Canal slack no vàlid. Torna-ho a provar'
     whatsapp:
-      media_download_failed: 'No s\'ha pogut descarregar el fitxer.'
+      media_download_failed: 'No s''ha pogut descarregar el fitxer.'
       token_exchange_failed: 'Failed to exchange code for access token. Please try again.'
       invalid_token_permissions: 'The access token does not have the required permissions for WhatsApp.'
       phone_info_fetch_failed: 'Failed to fetch phone number information. Please try again.'
