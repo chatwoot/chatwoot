@@ -81,6 +81,7 @@ tr:
     slack:
       invalid_channel_id: 'Geçersiz Slack kanalı. Lütfen tekrar deneyin'
     whatsapp:
+      media_download_failed: 'Medya indirilemedi.'
       token_exchange_failed: 'Erişim tokeni için kod değişimi başarısız oldu. Lütfen tekrar deneyin.'
       invalid_token_permissions: 'Erişim tokeni WhatsApp için gerekli izinlere sahip değildir.'
       phone_info_fetch_failed: 'Telefon numarası bilgisi alınamadı. Lütfen tekrar deneyin.'

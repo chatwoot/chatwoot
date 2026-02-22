@@ -81,6 +81,7 @@ ru:
     slack:
       invalid_channel_id: 'Неправильный канал slack - попробуйте еще раз'
     whatsapp:
+      media_download_failed: 'Не удалось загрузить файл.'
       token_exchange_failed: 'Не удалось обменять код на токена доступа. Пожалуйста, попробуйте еще раз.'
       invalid_token_permissions: 'Токен доступа не имеет необходимых прав для WhatsApp.'
       phone_info_fetch_failed: 'Не удалось получить информацию о номере телефона. Пожалуйста, попробуйте еще раз.'

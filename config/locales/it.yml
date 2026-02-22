@@ -81,6 +81,7 @@ it:
     slack:
       invalid_channel_id: 'Canale slack non valido. Riprova'
     whatsapp:
+      media_download_failed: 'Impossibile scaricare il file.'
       token_exchange_failed: 'Impossibile scambiare il codice con il token di accesso. Riprova.'
       invalid_token_permissions: 'Il token di accesso non dispone dei permessi richiesti per WhatsApp.'
       phone_info_fetch_failed: 'Impossibile recuperare le informazioni sul numero di telefono. Riprova.'

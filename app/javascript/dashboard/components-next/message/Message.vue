@@ -37,6 +37,7 @@ import UnsupportedBubble from './bubbles/Unsupported.vue';
 import ContactBubble from './bubbles/Contact.vue';
 import DyteBubble from './bubbles/Dyte.vue';
 import LocationBubble from './bubbles/Location.vue';
+import FallbackBubble from './bubbles/Fallback.vue';
 import CSATBubble from './bubbles/CSAT.vue';
 import FormBubble from './bubbles/Form.vue';
 import VoiceCallBubble from './bubbles/VoiceCall.vue';
@@ -331,9 +332,11 @@ const componentToRender = computed(() => {
       if (fileType === ATTACHMENT_TYPES.IG_REEL) return VideoBubble;
       if (fileType === ATTACHMENT_TYPES.EMBED) return EmbedBubble;
       if (fileType === ATTACHMENT_TYPES.LOCATION) return LocationBubble;
+      if (fileType === ATTACHMENT_TYPES.FALLBACK) return FallbackBubble;
     }
     // Attachment content is the name of the contact
     if (fileType === ATTACHMENT_TYPES.CONTACT) return ContactBubble;
+    if (fileType === ATTACHMENT_TYPES.FALLBACK) return FallbackBubble;
   }
 
   return TextBubble;
