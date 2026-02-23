@@ -457,6 +457,9 @@
           "INSTAGRAM": {
             "PLACEHOLDER": "הוסף אינסטגרם"
           },
+          "TELEGRAM": {
+            "PLACEHOLDER": "Add Telegram"
+          },
           "TIKTOK": {
             "PLACEHOLDER": "Add TikTok"
           },
