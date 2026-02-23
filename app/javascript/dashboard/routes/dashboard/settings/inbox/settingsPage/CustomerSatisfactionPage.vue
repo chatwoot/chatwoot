@@ -225,11 +225,15 @@ const updateDisplayType = type => {
   state.displayType = type;
 };
 
+const resetUtilityAnalysis = () => {
+  utilityAnalysisResult.value = null;
+};
+
 const analyzeTemplateUtility = async () => {
   if (!showUtilityAnalyzer.value || !state.message?.trim()) return;
 
   utilityAnalysisLoading.value = true;
-  utilityAnalysisResult.value = null;
+  resetUtilityAnalysis();
 
   try {
     const response = await store.dispatch(
@@ -259,8 +263,24 @@ const applyUtilitySuggestion = () => {
   if (!suggestion) return;
 
   state.message = suggestion;
-  utilityAnalysisResult.value = null;
+  resetUtilityAnalysis();
 };
+
+watch(
+  () => [state.message, state.templateButtonText, state.templateLanguage],
+  (newValues, oldValues) => {
+    if (!oldValues || !utilityAnalysisResult.value) {
+      return;
+    }
+
+    const changed = newValues.some(
+      (value, index) => value !== oldValues[index]
+    );
+    if (changed) {
+      resetUtilityAnalysis();
+    }
+  }
+);
 
 const getUtilityClassificationLabel = classification => {
   if (classification === 'LIKELY_UTILITY') {
