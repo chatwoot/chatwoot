@@ -126,8 +126,7 @@ const prepareStateBasedOnProps = () => {
       country,
       city,
       socialProfiles: {
-        ...(socialProfilesLegacy || {}),
-        ...(socialProfiles || {}),
+        ...socialProfiles,
         telegram: telegramUsername,
       },
     },
