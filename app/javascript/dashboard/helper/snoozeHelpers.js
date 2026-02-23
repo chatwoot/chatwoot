@@ -13,7 +13,10 @@ import {
   setSeconds,
 } from 'date-fns';
 import wootConstants from 'dashboard/constants/globals';
-import { generateDateSuggestions } from 'dashboard/helper/snoozeDateParser';
+import {
+  generateDateSuggestions,
+  parseDateFromText,
+} from 'dashboard/helper/snoozeDateParser';
 
 const SNOOZE_OPTIONS = wootConstants.SNOOZE_OPTIONS;
 
@@ -98,8 +101,10 @@ export const generateSnoozeSuggestions = (
   return suggestions.map(s => ({
     date: s.date,
     unixTime: s.unix,
+    query: s.query,
     label: capitalizeLabel(s.label),
     formattedDate: formatSnoozeDate(s.date, currentDate, locale),
+    resolve: () => parseDateFromText(s.query)?.unix ?? s.unix,
   }));
 };
 

@@ -107,7 +107,7 @@ const buildDynamicSnoozeActions = (search, parentId) => {
     section,
     icon: ICON_SNOOZE_CONVERSATION,
     keywords: search,
-    handler: () => emitter.emit(busEvent, parsed.unixTime),
+    handler: () => emitter.emit(busEvent, parsed.resolve()),
   }));
 };
 
