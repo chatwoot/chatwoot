@@ -11,18 +11,12 @@ FactoryBot.define do
     verbosity { 'balanced' }
     emoji_usage { 'minimal' }
     greeting_style { 'warm' }
-    language { 'en' }
     active { true }
     system_prompt { 'You are a helpful customer support assistant.' }
     admin_config { {} }
 
     trait :inactive do
       active { false }
-    end
-
-    trait :arabic do
-      language { 'ar' }
-      dialect { 'EG' }
     end
 
     trait :professional do

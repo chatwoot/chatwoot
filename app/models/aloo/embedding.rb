@@ -57,7 +57,7 @@ module Aloo
 
       sanitized_chunks.each_slice(BATCH_SIZE) do |batch_with_indices|
         texts = batch_with_indices.map(&:first)
-        result = Embedders::DocumentEmbedder.call(texts: texts, tenant: account)
+        result = with_retry { Embedders::DocumentEmbedder.call(texts: texts, tenant: account) }
 
         batch_with_indices.each_with_index do |(text, original_index), batch_index|
           truncated = truncate_text(text)
@@ -98,7 +98,7 @@ module Aloo
     # @param min_similarity [Float] Minimum similarity threshold (0.0-1.0)
     # @param source_types [Array<String>] Optional filter by document source types
     # @return [Array<Aloo::Embedding>] Matching embeddings sorted by similarity
-    def self.search(query, assistant:, limit: 10, min_similarity: 0.3, source_types: nil)
+    def self.search(query, assistant:, limit: 10, min_similarity: 0.2, source_types: nil)
       return [] if query.blank?
 
       vector = embed_text(query, account: assistant.account)
@@ -145,6 +145,21 @@ module Aloo
       title = document&.title || 'Unknown Source'
       "Source: #{title}\n#{content}"
     end
+
+    # Retry transient API errors (503 overloaded, rate limits, etc.)
+    def self.with_retry(max_attempts: 3)
+      attempts = 0
+      begin
+        attempts += 1
+        yield
+      rescue RubyLLM::ServiceUnavailableError, RubyLLM::RateLimitError
+        raise if attempts >= max_attempts
+
+        sleep(attempts * 2)
+        retry
+      end
+    end
+    private_class_method :with_retry
 
     def self.truncate_text(text)
       return '' if text.blank?

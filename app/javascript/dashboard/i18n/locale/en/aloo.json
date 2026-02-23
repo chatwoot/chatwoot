@@ -87,47 +87,6 @@
         "LABEL": "Custom Greeting",
         "PLACEHOLDER": "Enter your custom greeting message"
       },
-      "LANGUAGE": {
-        "LABEL": "Language",
-        "OPTIONS": {
-          "EN": "English",
-          "AR": "Arabic",
-          "FR": "French",
-          "ES": "Spanish",
-          "DE": "German",
-          "PT": "Portuguese",
-          "IT": "Italian",
-          "NL": "Dutch",
-          "RU": "Russian",
-          "JA": "Japanese",
-          "KO": "Korean",
-          "ZH": "Chinese"
-        }
-      },
-      "DIALECT": {
-        "LABEL": "Dialect",
-        "PLACEHOLDER": "Select dialect",
-        "OPTIONS": {
-          "EG": "Egyptian",
-          "SA": "Saudi",
-          "AE": "Emirati",
-          "KW": "Kuwaiti",
-          "QA": "Qatari",
-          "BH": "Bahraini",
-          "OM": "Omani",
-          "JO": "Jordanian",
-          "LB": "Lebanese",
-          "SY": "Syrian",
-          "IQ": "Iraqi",
-          "MA": "Moroccan",
-          "TN": "Tunisian",
-          "DZ": "Algerian",
-          "LY": "Libyan",
-          "SD": "Sudanese",
-          "PS": "Palestinian",
-          "MSA": "Modern Standard Arabic"
-        }
-      },
       "PERSONALITY_DESCRIPTION": {
         "LABEL": "Personality Description",
         "PLACEHOLDER": "Describe the personality traits and behavior of your assistant"

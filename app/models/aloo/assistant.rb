@@ -54,28 +54,6 @@ module Aloo
     EMOJI_USAGE_LEVELS = %w[none minimal moderate].freeze
     GREETING_STYLES = %w[warm direct custom].freeze
 
-    # Arabic dialects by country
-    ARABIC_DIALECTS = {
-      'EG' => { name: 'Egyptian', prompt: 'Respond in Egyptian Arabic (مصري). Use Egyptian expressions and phrases.' },
-      'SA' => { name: 'Saudi', prompt: 'Respond in Saudi Arabic (سعودي). Use Saudi expressions and phrases.' },
-      'AE' => { name: 'Emirati', prompt: 'Respond in Emirati Arabic (إماراتي). Use Emirati expressions and phrases.' },
-      'KW' => { name: 'Kuwaiti', prompt: 'Respond in Kuwaiti Arabic (كويتي). Use Kuwaiti expressions and phrases.' },
-      'QA' => { name: 'Qatari', prompt: 'Respond in Qatari Arabic (قطري). Use Qatari expressions and phrases.' },
-      'BH' => { name: 'Bahraini', prompt: 'Respond in Bahraini Arabic (بحريني). Use Bahraini expressions and phrases.' },
-      'OM' => { name: 'Omani', prompt: 'Respond in Omani Arabic (عماني). Use Omani expressions and phrases.' },
-      'JO' => { name: 'Jordanian', prompt: 'Respond in Jordanian Arabic (أردني). Use Jordanian expressions and phrases.' },
-      'LB' => { name: 'Lebanese', prompt: 'Respond in Lebanese Arabic (لبناني). Use Lebanese expressions and phrases.' },
-      'SY' => { name: 'Syrian', prompt: 'Respond in Syrian Arabic (سوري). Use Syrian expressions and phrases.' },
-      'IQ' => { name: 'Iraqi', prompt: 'Respond in Iraqi Arabic (عراقي). Use Iraqi expressions and phrases.' },
-      'MA' => { name: 'Moroccan', prompt: 'Respond in Moroccan Arabic (مغربي/دارجة). Use Moroccan expressions.' },
-      'DZ' => { name: 'Algerian', prompt: 'Respond in Algerian Arabic (جزائري). Use Algerian expressions and phrases.' },
-      'TN' => { name: 'Tunisian', prompt: 'Respond in Tunisian Arabic (تونسي). Use Tunisian expressions and phrases.' },
-      'LY' => { name: 'Libyan', prompt: 'Respond in Libyan Arabic (ليبي). Use Libyan expressions and phrases.' },
-      'SD' => { name: 'Sudanese', prompt: 'Respond in Sudanese Arabic (سوداني). Use Sudanese expressions and phrases.' },
-      'PS' => { name: 'Palestinian', prompt: 'Respond in Palestinian Arabic (فلسطيني). Use Palestinian expressions and phrases.' },
-      'MSA' => { name: 'Modern Standard', prompt: 'Respond in Modern Standard Arabic (فصحى). Use formal Arabic.' }
-    }.freeze
-
     validates :name, presence: true
     validates :tone, inclusion: { in: TONES }
     validates :formality, inclusion: { in: FORMALITY_LEVELS }
@@ -83,29 +61,12 @@ module Aloo
     validates :verbosity, inclusion: { in: VERBOSITY_LEVELS }
     validates :emoji_usage, inclusion: { in: EMOJI_USAGE_LEVELS }
     validates :greeting_style, inclusion: { in: GREETING_STYLES }
-    validates :dialect, inclusion: { in: ARABIC_DIALECTS.keys }, allow_blank: true
-    validates :language, inclusion: { in: Aloo::SUPPORTED_LANGUAGES.keys }
     validate :validate_voice_config, if: :voice_enabled?
     scope :active, -> { where(active: true) }
 
     # Build the personality prompt based on user settings
     def personality_prompt
       Aloo::PersonalityBuilder.new(self).build
-    end
-
-    # Get the language instruction for the LLM
-    def language_instruction
-      return '' if language == 'en' && dialect.blank?
-
-      if language == 'ar' && dialect.present?
-        ARABIC_DIALECTS.dig(dialect, :prompt) || ''
-      else
-        "Respond in #{language_name}."
-      end
-    end
-
-    def language_name
-      Aloo::SUPPORTED_LANGUAGES.dig(language, :name) || 'English'
     end
 
     # Admin config accessors with defaults
@@ -157,8 +118,7 @@ module Aloo
         system_prompt,
         personality_prompt,
         response_guidelines,
-        guardrails,
-        language_instruction
+        guardrails
       ].compact_blank.join("\n\n")
     end
 

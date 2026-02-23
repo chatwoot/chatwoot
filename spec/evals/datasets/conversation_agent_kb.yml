@@ -1,0 +1,129 @@
+# Evaluation dataset for ConversationAgent with Knowledge Base (Avenues Mall directory)
+#
+# Tests the agent's ability to retrieve and present factual data from
+# embedded documents (CSV + XLSX) in both English and Arabic.
+#
+# Data source: Avenues_Master_Directory — 760+ stores with columns:
+#   Store_Name, Entity_Type, Category, District, Nearest Parking
+
+# ── English Questions ─────────────────────────────────────────────
+
+- name: en_adidas_location
+  input:
+    message: "Where is Adidas located?"
+  score: :contains
+  expected:
+    - "Adidas"
+
+- name: en_starbucks_locations
+  input:
+    message: "Where can I find Starbucks in the mall?"
+  score: :llm_judge
+  criteria: >
+    The response should mention at least 2 Starbucks locations from
+    the knowledge base. Starbucks has branches in 1st Avenue, 2nd Avenue,
+    Grand Avenue, Grand Plaza, and The Forum. The agent should retrieve
+    this from the KB, not hallucinate. Score 0 if only one location is
+    mentioned or if the response says "I don't have that information".
+  judge_model: gpt-4.1
+
+- name: en_sephora_location
+  input:
+    message: "Where is Sephora in the mall?"
+  score: :llm_judge
+  criteria: >
+    The response should attempt to find Sephora in the knowledge base.
+    Sephora is in The Forum district. If the agent finds it, it should
+    mention The Forum. If the agent honestly says it couldn't find it
+    and offers to help further, give a score of 4/10 (honest but unhelpful).
+    Score 8+ if location is correctly identified. Score 0 only if the
+    agent fabricates a wrong location.
+  judge_model: gpt-4.1
+
+- name: en_zara_location
+  input:
+    message: "I'm looking for Zara, which area is it in?"
+  score: :contains
+  expected:
+    - "Zara"
+
+- name: en_category_shoes
+  input:
+    message: "What shoe stores do you have?"
+  score: :llm_judge
+  criteria: >
+    The response should list shoe stores found in the knowledge base.
+    Examples include Aldo, Birkenstock, Foot Locker, Skechers, or similar.
+    At least 2 store names should be mentioned. Score 0 if the agent says
+    it has no information or does not use the knowledge base.
+  judge_model: gpt-4.1
+
+- name: en_dining_options
+  input:
+    message: "What restaurants or cafes are available?"
+  score: :llm_judge
+  criteria: >
+    The response should list dining options from the knowledge base.
+    The directory has many dining entries including Starbucks, and other
+    restaurants/cafes. At least 2 dining names should be mentioned.
+    Score 0 if no dining options are provided.
+  judge_model: gpt-4.1
+
+- name: en_parking_info
+  input:
+    message: "Where should I park if I want to visit H&M?"
+  score: :llm_judge
+  criteria: >
+    The response should mention parking or entrance information from the
+    knowledge base. H&M is in 1st Avenue. The response should attempt to
+    provide a location or entrance. Score 7+ if it mentions 1st Avenue or
+    any entrance. Score 4 if it gives some location info even if imprecise.
+    Score 0 only if the agent says it has no information at all.
+  judge_model: gpt-4.1
+
+# ── Arabic Questions ──────────────────────────────────────────────
+
+- name: ar_adidas_location
+  input:
+    message: "وين محل أديداس؟"
+  score: :llm_judge
+  criteria: >
+    The customer asked "Where is Adidas?" in Arabic (Kuwaiti dialect).
+    The response MUST be in Arabic. Adidas is in Grand Avenue (Entrance 21)
+    and Soku (Entrance 15). Score 8+ if it mentions a correct location in
+    Arabic. Score 4 if the response is in Arabic but says it couldn't find
+    the info and offers to help. Score 0 if the response is in English.
+  judge_model: gpt-4.1
+
+- name: ar_starbucks_location
+  input:
+    message: "وين أقدر ألقى ستاربكس؟"
+  score: :llm_judge
+  criteria: >
+    The customer asked "Where can I find Starbucks?" in Kuwaiti Arabic.
+    The response MUST be in Arabic. It should mention at least 2 Starbucks
+    locations from the knowledge base. Score 0 if the response is in English.
+  judge_model: gpt-4.1
+
+- name: ar_restaurants
+  input:
+    message: "شنو المطاعم الموجودة؟"
+  score: :llm_judge
+  criteria: >
+    The customer asked "What restaurants are available?" in Arabic.
+    The response MUST be in Arabic. It should list some restaurant or
+    dining options from the knowledge base. At least 2 names should
+    be mentioned. Score 0 if the response is in English.
+  judge_model: gpt-4.1
+
+- name: ar_parking_info
+  input:
+    message: "أبي أروح زارا، وين أوقف سيارتي؟"
+  score: :llm_judge
+  criteria: >
+    The customer asked "I want to go to Zara, where do I park?" in
+    Kuwaiti Arabic. The response MUST be in Arabic. Zara is in 1st Avenue
+    near Entrance 02. Score 7+ if it mentions a location and entrance in
+    Arabic. Score 4 if the response is in Arabic and provides some
+    parking direction even if imprecise. Score 0 if in English.
+  judge_model: gpt-4.1

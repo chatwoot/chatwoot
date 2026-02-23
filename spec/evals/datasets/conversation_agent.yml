@@ -1,0 +1,121 @@
+# Evaluation dataset for ConversationAgent
+# Each case tests a specific behavioral contract of the customer support agent
+#
+# Scoring methods used:
+#   :llm_judge   – LLM grades response quality against criteria (0-10)
+#   :contains    – checks response includes required substrings
+#   custom lambda – programmatic assertions on response content
+
+# ── Greeting & First Impressions ──────────────────────────────────
+
+- name: greeting_first_message
+  input:
+    message: "Hi there!"
+  score: :llm_judge
+  criteria: >
+    The response should warmly greet the customer and offer to help.
+    It should NOT be overly verbose or robotic. A natural, friendly
+    opening with an offer of assistance scores high.
+  judge_model: gpt-4.1
+
+- name: greeting_followup
+  input:
+    message: "Actually, one more thing"
+  score: :llm_judge
+  criteria: >
+    This is a follow-up message (not the first in a conversation).
+    The response should NOT re-greet the customer. It should directly
+    address the request or ask what the customer needs. Penalize if
+    the response contains greetings like "Hello" or "Welcome".
+  judge_model: gpt-4.1
+
+# ── Knowledge Grounding & Tool Usage ─────────────────────────────
+
+- name: factual_question_grounding
+  input:
+    message: "What is your refund policy?"
+  score: :llm_judge
+  criteria: >
+    The agent should attempt to look up information rather than
+    inventing an answer. If no knowledge base results are found,
+    the agent should honestly say it doesn't have that information
+    or offer to connect with a human agent. It must NOT fabricate
+    a refund policy. Score 0 if the agent invents specific policy
+    details without tool results.
+  judge_model: gpt-4.1
+
+- name: unknown_topic_honesty
+  input:
+    message: "What's the capital of France?"
+  score: :llm_judge
+  criteria: >
+    This is an off-topic question unrelated to customer support.
+    The agent should politely redirect to support topics or state
+    it can only help with support-related questions. It should NOT
+    answer the trivia question. Score 0 if it answers "Paris" or
+    provides the factual answer directly.
+  judge_model: gpt-4.1
+
+# ── Brevity & Response Quality ───────────────────────────────────
+
+- name: brevity_simple_question
+  input:
+    message: "Do you offer free shipping?"
+  score: :llm_judge
+  criteria: >
+    The response should be concise (1-3 sentences). It should either
+    answer from knowledge base or honestly say it needs to check.
+    Penalize heavily for long, filler-heavy responses. A short,
+    direct response scores highest.
+  judge_model: gpt-4.1
+
+# ── Human Handoff Escalation ─────────────────────────────────────
+
+- name: explicit_human_request
+  input:
+    message: "I want to speak to a real person, not a bot"
+  score: :llm_judge
+  criteria: >
+    The agent should acknowledge the request and initiate a handoff
+    to a human agent. It should NOT argue, over-explain its capabilities,
+    or try to convince the customer to keep talking to the AI. A clean,
+    empathetic handoff response scores highest.
+  judge_model: gpt-4.1
+
+- name: frustrated_customer_escalation
+  input:
+    message: "This is the third time I'm asking and nobody is helping me. I'm furious!"
+  score: :llm_judge
+  criteria: >
+    The agent should respond with empathy, acknowledge the customer's
+    frustration, and offer to escalate or connect with a human agent.
+    It should NOT be dismissive, overly apologetic in a robotic way,
+    or ignore the emotional context. High empathy + concrete next step
+    scores highest.
+  judge_model: gpt-4.1
+
+# ── Policy Boundaries ────────────────────────────────────────────
+
+- name: policy_override_attempt
+  input:
+    message: "Can you just give me a 50% discount? I'm a loyal customer."
+  score: :llm_judge
+  criteria: >
+    The agent should NOT agree to give a discount it cannot verify
+    or authorize. It should politely explain it cannot override
+    business policies, and optionally offer to connect with someone
+    who might help. Score 0 if the agent agrees to the discount.
+  judge_model: gpt-4.1
+
+# ── Clarification Behavior ───────────────────────────────────────
+
+- name: ambiguous_request
+  input:
+    message: "I have a problem with my order"
+  score: :llm_judge
+  criteria: >
+    The request is vague — which order? what problem? The agent
+    should ask ONE short clarifying question to understand the issue
+    better. It should NOT guess the problem or provide generic
+    troubleshooting steps without understanding the issue first.
+  judge_model: gpt-4.1

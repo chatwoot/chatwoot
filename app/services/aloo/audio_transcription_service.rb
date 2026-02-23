@@ -120,12 +120,7 @@ module Aloo
     end
 
     def language_hint
-      # Map assistant language to ISO 639-1 code
-      case assistant.language
-      when 'ar' then 'ar'
-      when 'en' then 'en'
-      else assistant.language
-      end
+      nil
     end
 
     def store_transcription(text)
