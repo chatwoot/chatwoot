@@ -94,6 +94,11 @@ sr-Latn:
         host_unreachable_error: Domaćin je nedostupan, Molim vas proverite IMAP adresu, IMAP port i pokušajte ponovo.
         connection_timed_out_error: Vreme za povezivanje je isteklo za %{address}:%{port}
         connection_closed_error: Povezivanje je prekinuto.
+      smtp:
+        authentication_error: SMTP authentication failed. Please verify your login credentials.
+        connection_error: Could not connect to SMTP server. Please check the server address and port.
+        ssl_error: SSL/TLS error. Please verify your encryption settings.
+        smtp_error: SMTP server error. Please check your configuration and try again.
       validations:
         name: ne treba početi ili se završiti sa simbolima i ne treba da sadrži < > / \ @ karaktere.
     custom_filters:
