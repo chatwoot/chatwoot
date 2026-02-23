@@ -108,6 +108,11 @@ en:
         host_unreachable_error: Host unreachable, Please check the IMAP address, IMAP port and try again.
         connection_timed_out_error: Connection timed out for %{address}:%{port}
         connection_closed_error: Connection closed.
+      smtp:
+        authentication_error: SMTP authentication failed. Please verify your login credentials.
+        connection_error: Could not connect to SMTP server. Please check the server address and port.
+        ssl_error: SSL/TLS error. Please verify your encryption settings.
+        smtp_error: SMTP server error. Please check your configuration and try again.
       validations:
         name: should not start or end with symbols, and it should not have < > / \ @ characters.
     custom_filters:
@@ -229,6 +234,7 @@ en:
     activity:
       captain:
         resolved: 'Conversation was marked resolved by %{user_name} due to inactivity'
+        resolved_by_tool: 'Conversation was marked resolved by %{user_name}: %{reason}'
         open: 'Conversation was marked open by %{user_name}'
       agent_bot:
         error_moved_to_open: 'Conversation was marked open by system due to an error with the agent bot.'
