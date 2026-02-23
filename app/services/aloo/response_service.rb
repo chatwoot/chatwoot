@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Aloo::ResponseService
+  include Aloo::TypingIndicatable
+
   def initialize(conversation, message)
     @conversation = conversation
     @message = message
@@ -41,41 +43,10 @@ class Aloo::ResponseService
 
   def with_typing_indicator
     dispatch_typing(Events::Types::CONVERSATION_TYPING_ON)
-    send_whatsapp_typing_indicator
+    send_channel_typing_indicator
     yield
   ensure
     dispatch_typing(Events::Types::CONVERSATION_TYPING_OFF)
-  end
-
-  def dispatch_typing(event)
-    Rails.configuration.dispatcher.dispatch(
-      event, Time.zone.now,
-      conversation: @conversation, user: @assistant, is_private: false
-    )
-  end
-
-  def send_whatsapp_typing_indicator
-    channel = whatsapp_cloud_channel
-    return unless channel
-
-    phone_number = @conversation.contact_inbox.source_id
-    return if phone_number.blank?
-
-    Rails.logger.info "[ALOO] Sending WhatsApp typing indicator to #{phone_number}"
-    service = Whatsapp::Providers::WhatsappCloudService.new(whatsapp_channel: channel)
-    service.send_typing_indicator(phone_number, message_id: @message.source_id)
-  rescue StandardError => e
-    Rails.logger.error "[ALOO] Failed to send WhatsApp typing indicator: #{e.message}"
-  end
-
-  def whatsapp_cloud_channel
-    inbox = @conversation.inbox
-    return unless inbox.channel_type == 'Channel::Whatsapp'
-
-    channel = inbox.channel
-    return unless channel.provider == 'whatsapp_cloud'
-
-    channel
   end
 
   def generate_response
