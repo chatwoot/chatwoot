@@ -303,6 +303,17 @@ const DOT_DATE_RE = new RegExp(
 );
 const AMBIGUOUS_DATE_RES = [SLASH_DATE_RE, DASH_DATE_RE, DOT_DATE_RE];
 
+const MONTH_NAME_RE = new RegExp(`\\b(?:${MONTH_NAMES})\\b`, 'i');
+const NUM_TOD_RE =
+  /\b(\d{1,2}(?::\d{2})?)\s+(morning|noon|afternoon|evening|night)\b/g;
+const TOD_TO_MERIDIEM = {
+  morning: 'am',
+  noon: 'pm',
+  afternoon: 'pm',
+  evening: 'pm',
+  night: 'pm',
+};
+
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
 const NOISE_RE =
@@ -336,23 +347,23 @@ const toAsciiDigit = char => {
 
 const normalizeDigits = text => text.replace(/\p{Nd}/gu, toAsciiDigit);
 
+const ARABIC_PUNCT_MAP = {
+  '\u061f': '?',
+  '\u060c': ',',
+  '\u061b': ';',
+  '\u066b': '.',
+};
+
 const sanitize = text =>
-  text
-    .normalize('NFKC')
-    .toLowerCase()
-    .replace(/\u200f|\u200e/g, '')
-    .replace(/\u00a0/g, ' ')
-    .replace(/\u061f/g, '?')
-    .replace(/\u060c/g, ',')
-    .replace(/\u061b/g, ';')
-    .replace(/\u066b/g, '.')
-    .replace(/\u066c/g, '')
-    .replace(/\u0640/g, '')
-    .replace(/[\u064b-\u065f]/g, '')
-    .replace(
-      /[\u0660-\u0669\u06f0-\u06f9\u0966-\u096f\u09e6-\u09ef\u0a66-\u0a6f\u0ae6-\u0aef\u0b66-\u0b6f\u0be6-\u0bef\u0c66-\u0c6f\u0ce6-\u0cef\u0d66-\u0d6f]/g,
-      toAsciiDigit
-    )
+  normalizeDigits(
+    text
+      .normalize('NFKC')
+      .toLowerCase()
+      .replace(/[\u200f\u200e\u066c\u0640]/g, '')
+      .replace(/[\u064b-\u065f]/g, '')
+      .replace(/\u00a0/g, ' ')
+      .replace(/[\u061f\u060c\u061b\u066b]/g, c => ARABIC_PUNCT_MAP[c])
+  )
     .replace(/[,!?;]+/g, ' ')
     .replace(/\.+$/g, '')
     .replace(/\s+/g, ' ')
@@ -450,12 +461,9 @@ const inferHoursFromTOD = (todLabel, rawHour, rawMinutes) => {
   // Try both am and pm interpretations, pick the one in range
   const am = h === 12 ? 0 : h;
   const pm = h === 12 ? 12 : h + 12;
-  const amInRange = am >= range[0] && am < range[1];
-  const pmInRange = pm >= range[0] && pm < range[1];
-  if (amInRange && !pmInRange) return { hours: am, minutes: m };
-  if (pmInRange && !amInRange) return { hours: pm, minutes: m };
-  if (amInRange && pmInRange) return { hours: am, minutes: m };
-  // Neither fits — use whichever is closer to the range midpoint
+  const inRange = v => v >= range[0] && v < range[1];
+  if (inRange(am)) return { hours: am, minutes: m };
+  if (inRange(pm)) return { hours: pm, minutes: m };
   const mid = (range[0] + range[1]) / 2;
   return {
     hours: Math.abs(am - mid) <= Math.abs(pm - mid) ? am : pm,
@@ -843,6 +851,7 @@ const buildDateWithOptionalTime = (year, month, day, timeStr) => {
   return applyTimeOrDefault(date, timeStr);
 };
 
+// When both values are ≤ 12 (ambiguous), defaults to M/D (US format).
 const disambiguateDayMonth = (a, b) => {
   if (a > 12) return { day: a, month: b - 1 };
   if (b > 12) return { month: a - 1, day: b };
@@ -992,7 +1001,6 @@ const TOD_NAMES = Object.keys(TIME_OF_DAY_MAP).filter(k => !k.includes(' '));
 const MONTH_NAMES_LONG = Object.keys(MONTH_MAP).filter(k => k.length > 3);
 
 const ALL_SUGGESTION_PHRASES = [
-  // Static phrases first (simpler matches rank higher)
   ...Object.keys(RELATIVE_DAY_MAP),
   ...FULL_WEEKDAYS,
   ...TOD_NAMES,
@@ -1005,18 +1013,12 @@ const ALL_SUGGESTION_PHRASES = [
   'end of day',
   'end of week',
   'end of month',
-  // Compositional: tomorrow + time-of-day ("tomorrow morning")
   ...TOD_NAMES.map(tod => `tomorrow ${tod}`),
   ...TOD_NAMES.map(tod => `tomorrow at ${tod}`),
-  // next + weekday ("next monday")
   ...FULL_WEEKDAYS.map(wd => `next ${wd}`),
-  // this + weekday ("this friday")
   ...FULL_WEEKDAYS.map(wd => `this ${wd}`),
-  // Compositional: weekday + time-of-day ("monday morning", "friday afternoon")
   ...FULL_WEEKDAYS.flatMap(wd => TOD_NAMES.map(tod => `${wd} ${tod}`)),
-  // Compositional: next + weekday + time-of-day ("next monday morning")
   ...FULL_WEEKDAYS.flatMap(wd => TOD_NAMES.map(tod => `next ${wd} ${tod}`)),
-  // Month dates
   ...MONTH_NAMES_LONG.map(m => `${m} 1`),
 ];
 
@@ -1190,9 +1192,11 @@ const ENGLISH_VOCAB = new Set([
   ...STRUCTURAL_WORDS,
 ]);
 const ENGLISH_VOCAB_LIST = [...ENGLISH_VOCAB];
+const hasVocabPrefix = w => ENGLISH_VOCAB_LIST.some(v => v.startsWith(w));
 
 const safeString = v => (v == null ? '' : String(v));
 
+const MAX_PAIRS_CACHE = 20;
 const pairsCache = new Map();
 const CACHE_SECTIONS = [
   'UNITS',
@@ -1201,25 +1205,29 @@ const CACHE_SECTIONS = [
   'WORD_NUMBERS',
   'MERIDIEM',
 ];
+const SINGLE_KEYS = [
+  'HALF',
+  'NEXT',
+  'THIS',
+  'AT',
+  'IN',
+  'FROM_NOW',
+  'NEXT_YEAR',
+];
 
 const translationSignature = translations => {
   if (!translations || typeof translations !== 'object') return 'none';
-  const sections = CACHE_SECTIONS.flatMap(section => {
-    const values = translations[section] || {};
-    return Object.keys(values)
-      .sort()
-      .map(key => `${section}.${key}:${safeString(values[key]).toLowerCase()}`);
-  });
-  const singles = [
-    'HALF',
-    'NEXT',
-    'THIS',
-    'AT',
-    'IN',
-    'FROM_NOW',
-    'NEXT_YEAR',
-  ].map(key => `${key}:${safeString(translations[key]).toLowerCase()}`);
-  return `${sections.join('|')}|${singles.join('|')}`;
+  return [
+    ...CACHE_SECTIONS.flatMap(section => {
+      const values = translations[section] || {};
+      return Object.keys(values)
+        .sort()
+        .map(k => `${section}.${k}:${safeString(values[k]).toLowerCase()}`);
+    }),
+    ...SINGLE_KEYS.map(
+      k => `${k}:${safeString(translations[k]).toLowerCase()}`
+    ),
+  ].join('|');
 };
 
 const buildReplacementPairsUncached = (translations, locale) => {
@@ -1236,14 +1244,7 @@ const buildReplacementPairsUncached = (translations, locale) => {
     }
   };
 
-  const sections = [
-    'UNITS',
-    'RELATIVE',
-    'TIME_OF_DAY',
-    'WORD_NUMBERS',
-    'MERIDIEM',
-  ];
-  sections.forEach(section => {
+  CACHE_SECTIONS.forEach(section => {
     const localSection = t[section] || {};
     const enSection = EN_DEFAULTS[section] || {};
     Object.keys(enSection).forEach(key => {
@@ -1251,11 +1252,11 @@ const buildReplacementPairsUncached = (translations, locale) => {
     });
   });
 
-  const singles = ['HALF', 'NEXT', 'THIS', 'AT', 'IN', 'FROM_NOW', 'NEXT_YEAR'];
-  singles.forEach(key => addPair(t[key], EN_DEFAULTS[key]));
+  SINGLE_KEYS.forEach(key => addPair(t[key], EN_DEFAULTS[key]));
 
   try {
     const wdFmt = new Intl.DateTimeFormat(locale, { weekday: 'long' });
+    // Jan 1, 2024 is a Monday — aligns with EN_WEEKDAYS_LIST[0]='monday'
     EN_WEEKDAYS_LIST.forEach((en, i) => {
       addPair(wdFmt.format(new Date(2024, 0, i + 1)), en);
     });
@@ -1280,6 +1281,8 @@ const buildReplacementPairs = (translations, locale) => {
   const cacheKey = `${locale || ''}:${translationSignature(translations)}`;
   if (pairsCache.has(cacheKey)) return pairsCache.get(cacheKey);
   const pairs = buildReplacementPairsUncached(translations, locale);
+  if (pairsCache.size >= MAX_PAIRS_CACHE)
+    pairsCache.delete(pairsCache.keys().next().value);
   pairsCache.set(cacheKey, pairs);
   return pairs;
 };
@@ -1305,6 +1308,7 @@ const filterToEnglishVocab = text =>
     .trim();
 
 const repositionNextYear = text => {
+  if (!MONTH_NAME_RE.test(text)) return text;
   let r = text.replace(/\b(?:next\s+)?year\b/i, m =>
     /next/i.test(m) ? m : 'next year'
   );
@@ -1324,8 +1328,11 @@ const repositionNextYear = text => {
 const replaceTokens = (text, pairs) => {
   const substituted = substituteLocalTokens(text, pairs);
   const filtered = filterToEnglishVocab(substituted);
-  const repositioned = repositionNextYear(filtered);
-  return stripNoise(repositioned);
+  const fixed = filtered.replace(
+    NUM_TOD_RE,
+    (_, t, tod) => `${t}${TOD_TO_MERIDIEM[tod]}`
+  );
+  return stripNoise(repositionNextYear(fixed));
 };
 
 const reverseTokens = (text, pairs) =>
@@ -1371,11 +1378,7 @@ export const generateDateSuggestions = (
     stripped
       .split(/\s+/)
       .filter(w => !/^\d/.test(w))
-      .some(
-        w =>
-          ENGLISH_VOCAB.has(w) ||
-          (w.length >= 2 && ENGLISH_VOCAB_LIST.some(v => v.startsWith(w)))
-      );
+      .some(w => ENGLISH_VOCAB.has(w) || (w.length >= 2 && hasVocabPrefix(w)));
   const useEnglish = !pairs.length || looksEnglish;
 
   const englishInput = useEnglish ? stripped : replaceTokens(normalized, pairs);
