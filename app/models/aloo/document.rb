@@ -7,6 +7,7 @@ module Aloo
     include Aloo::AccountScoped
 
     belongs_to :assistant, class_name: 'Aloo::Assistant', foreign_key: 'aloo_assistant_id', inverse_of: :documents
+    belongs_to :article, class_name: 'Article', optional: true
     has_many :embeddings, class_name: 'Aloo::Embedding', foreign_key: 'aloo_document_id', dependent: :destroy, inverse_of: :document
 
     has_one_attached :file
@@ -28,6 +29,7 @@ module Aloo
     validate :validate_selected_pages_for_website
 
     scope :available, -> { where(status: :available) }
+    scope :for_article, ->(article_id) { where(article_id: article_id) }
     scope :by_source_type, ->(type) { where(source_type: type) }
     scope :due_for_refresh, -> { where(auto_refresh: true).where('next_refresh_at <= ?', Time.current) }
     scope :websites_with_auto_refresh, -> { where(source_type: 'website', auto_refresh: true) }
