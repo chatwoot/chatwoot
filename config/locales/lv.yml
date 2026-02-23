@@ -94,6 +94,11 @@ lv:
         host_unreachable_error: Resursdators nav pieejams. Lūdzu, pārbaudiet IMAP adresi, IMAP portu un mēģiniet vēlreiz.
         connection_timed_out_error: Savienojumam %{address}:%{port} iestājās taimauts
         connection_closed_error: Savienojums slēgts.
+      smtp:
+        authentication_error: SMTP authentication failed. Please verify your login credentials.
+        connection_error: Could not connect to SMTP server. Please check the server address and port.
+        ssl_error: SSL/TLS error. Please verify your encryption settings.
+        smtp_error: SMTP server error. Please check your configuration and try again.
       validations:
         name: nevajadzētu sākties vai beigties ar simboliem, un nevajadzētu saturēt <> / \ @ rakstzīmes.
     custom_filters:
