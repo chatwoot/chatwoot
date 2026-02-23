@@ -457,6 +457,9 @@
           "INSTAGRAM": {
             "PLACEHOLDER": "Instagramを追加"
           },
+          "TELEGRAM": {
+            "PLACEHOLDER": "Add Telegram"
+          },
           "TIKTOK": {
             "PLACEHOLDER": "Add TikTok"
           },
