@@ -142,7 +142,15 @@ export const convertAudio = async (inputBlob, outputFormat, bitrate = 128) => {
   } else if (outputFormat === 'audio/mp3') {
     audio = await convertToMp3(inputBlob, bitrate);
   } else if (outputFormat === 'audio/ogg') {
-    audio = await remuxWebmToOgg(inputBlob);
+    const inputType = inputBlob.type.split(';')[0].trim();
+    if (inputType === 'audio/webm' || inputType === 'video/webm') {
+      audio = await remuxWebmToOgg(inputBlob);
+    } else if (inputType === 'audio/ogg') {
+      audio = inputBlob;
+    } else {
+      // Fallback for browsers that don't record in WebM
+      audio = await convertToMp3(inputBlob, bitrate);
+    }
   } else {
     throw new Error('Unsupported output format');
   }
