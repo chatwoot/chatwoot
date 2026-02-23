@@ -473,6 +473,12 @@ GEM
       hana (~> 1.3)
       regexp_parser (~> 2.0)
       uri_template (~> 0.7)
+    json_skooma (0.2.5)
+      bigdecimal
+      hana (~> 1.3)
+      regexp_parser (~> 2.0)
+      uri-idna (~> 0.2)
+      zeitwerk (~> 2.6)
     judoscale-rails (1.8.2)
       judoscale-ruby (= 1.8.2)
       railties
@@ -910,6 +916,9 @@ GEM
       simplecov_json_formatter (~> 0.1)
     simplecov-html (0.13.2)
     simplecov_json_formatter (0.1.4)
+    skooma (0.3.7)
+      json_skooma (~> 0.2.5)
+      zeitwerk (~> 2.6)
     slack-ruby-client (2.7.0)
       faraday (>= 2.0.1)
       faraday-mashify
@@ -970,6 +979,7 @@ GEM
     unicode-emoji (4.0.4)
     uniform_notifier (1.17.0)
     uri (1.1.1)
+    uri-idna (0.3.1)
     uri_template (0.7.0)
     valid_email2 (5.2.6)
       activemodel (>= 3.2)
@@ -1143,6 +1153,7 @@ DEPENDENCIES
   sidekiq_alive
   simplecov (>= 0.21)
   simplecov_json_formatter
+  skooma
   slack-ruby-client (~> 2.7.0)
   spring
   spring-watcher-listen
