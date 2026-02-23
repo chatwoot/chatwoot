@@ -94,6 +94,11 @@ tr:
         host_unreachable_error: Host ulaşılamaz, Lütfen IMAP adresini, IMAP portunu kontrol edin ve tekrar deneyin.
         connection_timed_out_error: '%{address}:%{port} için bağlantı zaman aşımına uğradı.'
         connection_closed_error: Bağlantı kapalı.
+      smtp:
+        authentication_error: SMTP authentication failed. Please verify your login credentials.
+        connection_error: Could not connect to SMTP server. Please check the server address and port.
+        ssl_error: SSL/TLS error. Please verify your encryption settings.
+        smtp_error: SMTP server error. Please check your configuration and try again.
       validations:
         name: sembollerle başlamamalı veya bitmemeli, < > / \ @ karakterlerini içermemeli.
     custom_filters:
