@@ -887,7 +887,11 @@ const matchSpecial = (text, now) => {
   const eof = text.match(END_OF_RE);
   if (eof) {
     if (eof[1] === 'day') return applyTimeToDate(now, 17, 0);
-    if (eof[1] === 'week') return applyTimeToDate(nextFriday(now), 17, 0);
+    if (eof[1] === 'week') {
+      const fri = applyTimeToDate(now, 17, 0);
+      if (getDay(now) === 5 && isAfter(fri, now)) return fri;
+      return applyTimeToDate(nextFriday(now), 17, 0);
+    }
     if (eof[1] === 'month') return applyTimeToDate(endOfMonth(now), 17, 0);
   }
 
@@ -906,14 +910,23 @@ const matchSpecial = (text, now) => {
       return applyTimeOrDefault(d, timeStr);
     }
 
-    if (isSaturday(now) && !timeStr) {
-      if (now.getHours() < 10) return applyTimeToDate(now, 10, 0);
-      if (now.getHours() < 18) return add(now, { hours: 2 });
-      return applyTimeToDate(add(startOfDay(now), { days: 1 }), 10, 0);
+    if (isSaturday(now)) {
+      if (!timeStr) {
+        if (now.getHours() < 10) return applyTimeToDate(now, 10, 0);
+        if (now.getHours() < 18) return add(now, { hours: 2 });
+        return applyTimeToDate(add(startOfDay(now), { days: 1 }), 10, 0);
+      }
+      const today = applyTimeOrDefault(now, timeStr);
+      if (today && isAfter(today, now)) return today;
+      return applyTimeOrDefault(add(startOfDay(now), { days: 1 }), timeStr);
     }
-    if (isSunday(now) && !timeStr) {
-      if (now.getHours() < 10) return applyTimeToDate(now, 10, 0);
-      return add(now, { hours: 2 });
+    if (isSunday(now)) {
+      if (!timeStr) {
+        if (now.getHours() < 10) return applyTimeToDate(now, 10, 0);
+        return add(now, { hours: 2 });
+      }
+      const today = applyTimeOrDefault(now, timeStr);
+      if (today && isAfter(today, now)) return today;
     }
     return applyTimeOrDefault(nextSaturday(now), timeStr);
   }
