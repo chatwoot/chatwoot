@@ -955,6 +955,80 @@ describe('bare number + time-of-day context inference', () => {
   });
 });
 
+// Pin exact output for ~35 common phrases so any matcher reorder or refactor
+// that changes behavior will fail loudly. Reference: 2023-06-16T10:00:00 (Fri).
+
+describe('golden tests: pinned phrase → exact date/time', () => {
+  // [input, expectedYear, expectedMonth(0-based), expectedDay, expectedHour, expectedMinute]
+  const golden = [
+    // ── Durations ──
+    ['in 30 minutes', 2023, 5, 16, 10, 30],
+    ['in 2 hours', 2023, 5, 16, 12, 0],
+    ['in 3 days', 2023, 5, 19, 10, 0],
+    ['a week', 2023, 5, 23, 10, 0],
+    ['two months', 2023, 7, 16, 10, 0],
+    ['half hour', 2023, 5, 16, 10, 30],
+    ['half day', 2023, 5, 16, 22, 0],
+    ['1.5 hours', 2023, 5, 16, 11, 30],
+    ['1h30m', 2023, 5, 16, 11, 30],
+    ['couple hours', 2023, 5, 16, 12, 0],
+    ['few hours', 2023, 5, 16, 13, 0],
+
+    // ── Relative days ──
+    ['tomorrow', 2023, 5, 17, 9, 0],
+    ['tomorrow at 3pm', 2023, 5, 17, 15, 0],
+    ['tomorrow at 14:30', 2023, 5, 17, 14, 30],
+    ['tonight', 2023, 5, 16, 20, 0],
+    ['today at 3pm', 2023, 5, 16, 15, 0],
+    ['tomorrow morning', 2023, 5, 17, 9, 0],
+    ['tomorrow evening', 2023, 5, 17, 18, 0],
+    ['day after tomorrow', 2023, 5, 18, 9, 0],
+
+    // ── Time-of-day ──
+    ['morning', 2023, 5, 17, 9, 0],
+    ['this afternoon', 2023, 5, 16, 14, 0],
+    ['eod', 2023, 5, 16, 17, 0],
+    ['later today', 2023, 5, 16, 13, 0],
+
+    // ── Standalone time ──
+    ['at 3pm', 2023, 5, 16, 15, 0],
+
+    // ── Next patterns ──
+    ['next hour', 2023, 5, 16, 11, 0],
+    ['next week', 2023, 5, 19, 9, 0],
+    ['next month', 2023, 6, 16, 9, 0],
+
+    // ── Weekdays ──
+    ['friday', 2023, 5, 23, 9, 0],
+    ['monday 3pm', 2023, 5, 19, 15, 0],
+
+    // ── Named dates ──
+    ['jan 15', 2024, 0, 15, 9, 0],
+    ['march 5 at 2pm', 2024, 2, 5, 14, 0],
+    ['dec 25 2025', 2025, 11, 25, 9, 0],
+
+    // ── Formal dates ──
+    ['2025-01-15', 2025, 0, 15, 9, 0],
+    ['01/15/2025', 2025, 0, 15, 9, 0],
+
+    // ── Special ──
+    ['this weekend', 2023, 5, 17, 9, 0],
+    ['end of month', 2023, 5, 30, 17, 0],
+  ];
+
+  golden.forEach(([input, yr, mo, day, hr, min]) => {
+    it(`"${input}" → ${yr}-${String(mo + 1).padStart(2, '0')}-${String(day).padStart(2, '0')} ${String(hr).padStart(2, '0')}:${String(min).padStart(2, '0')}`, () => {
+      const result = parseDateFromText(input, now);
+      expect(result).not.toBeNull();
+      expect(result.date.getFullYear()).toBe(yr);
+      expect(result.date.getMonth()).toBe(mo);
+      expect(result.date.getDate()).toBe(day);
+      expect(result.date.getHours()).toBe(hr);
+      expect(result.date.getMinutes()).toBe(min);
+    });
+  });
+});
+
 describe('localized suggestions with Malayalam translations', () => {
   const mlTranslations = {
     UNITS: {
