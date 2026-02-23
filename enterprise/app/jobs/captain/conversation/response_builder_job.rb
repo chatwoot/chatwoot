@@ -42,14 +42,30 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   end
 
   def process_response
+    handoff = false
+
     ActiveRecord::Base.transaction do
       if handoff_requested?
-        process_action('handoff')
+        I18n.with_locale(@assistant.account.locale) { create_handoff_message }
+        handoff = true
       else
         create_messages
         Rails.logger.info("[CAPTAIN][ResponseBuilderJob] Incrementing response usage for #{account.id}")
         account.increment_response_usage
       end
+    end
+
+    # bot_handoff! must run AFTER the transaction commits so that the handoff
+    # message's after_create_commit (Message#update_waiting_since) fires first.
+    # That callback correctly clears waiting_since (the bot did reply), and then
+    # bot_handoff! re-sets it to track human response time. If bot_handoff! ran
+    # inside the transaction, the deferred after_create_commit would clear the
+    # value bot_handoff! just wrote, leaving waiting_since nil. See PR #13417.
+    return unless handoff
+
+    I18n.with_locale(@assistant.account.locale) do
+      @conversation.bot_handoff!
+      send_out_of_office_message_if_applicable
     end
   end
 
