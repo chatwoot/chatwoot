@@ -94,6 +94,11 @@ sk:
         host_unreachable_error: Host unreachable, Please check the IMAP address, IMAP port and try again.
         connection_timed_out_error: Connection timed out for %{address}:%{port}
         connection_closed_error: Connection closed.
+      smtp:
+        authentication_error: SMTP authentication failed. Please verify your login credentials.
+        connection_error: Could not connect to SMTP server. Please check the server address and port.
+        ssl_error: SSL/TLS error. Please verify your encryption settings.
+        smtp_error: SMTP server error. Please check your configuration and try again.
       validations:
         name: should not start or end with symbols, and it should not have < > / \ @ characters.
     custom_filters:
