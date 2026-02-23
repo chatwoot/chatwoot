@@ -94,6 +94,11 @@ nl:
         host_unreachable_error: Host onbereikbaar, controleer het IMAP-adres, IMAP-poort en probeer het opnieuw.
         connection_timed_out_error: Verbinding time-out voor %{address}:%{port}
         connection_closed_error: Verbinding verbroken.
+      smtp:
+        authentication_error: SMTP authentication failed. Please verify your login credentials.
+        connection_error: Could not connect to SMTP server. Please check the server address and port.
+        ssl_error: SSL/TLS error. Please verify your encryption settings.
+        smtp_error: SMTP server error. Please check your configuration and try again.
       validations:
         name: mag niet beginnen of eindigen met symbolen, en mag geen < > / \ @ karakters hebben.
     custom_filters:
