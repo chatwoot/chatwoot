@@ -631,6 +631,7 @@ RSpec.describe 'Inboxes API', type: :request do
 
       it 'updates smtp configuration with starttls encryption' do
         smtp_connection = double
+        allow(smtp_connection).to receive(:open_timeout=).and_return(10)
         allow(smtp_connection).to receive(:start).and_return(true)
         allow(smtp_connection).to receive(:finish).and_return(true)
         allow(smtp_connection).to receive(:respond_to?).and_return(true)
@@ -661,6 +662,7 @@ RSpec.describe 'Inboxes API', type: :request do
 
       it 'updates smtp configuration with ssl/tls encryption' do
         smtp_connection = double
+        allow(smtp_connection).to receive(:open_timeout=).and_return(10)
         allow(smtp_connection).to receive(:start).and_return(true)
         allow(smtp_connection).to receive(:finish).and_return(true)
         allow(smtp_connection).to receive(:respond_to?).and_return(true)
@@ -691,6 +693,7 @@ RSpec.describe 'Inboxes API', type: :request do
 
       it 'updates smtp configuration with authentication mechanism' do
         smtp_connection = double
+        allow(smtp_connection).to receive(:open_timeout=).and_return(10)
         allow(smtp_connection).to receive(:start).and_return(true)
         allow(smtp_connection).to receive(:finish).and_return(true)
         allow(smtp_connection).to receive(:respond_to?).and_return(true)
