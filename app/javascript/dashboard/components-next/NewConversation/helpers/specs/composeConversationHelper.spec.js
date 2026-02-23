@@ -70,7 +70,7 @@ describe('composeConversationHelper', () => {
       const result = helpers.buildContactableInboxesList(inboxes);
       expect(result[0]).toMatchObject({
         id: 1,
-        icon: 'i-ri-mail-line',
+        icon: 'i-woot-mail',
         label: 'Email Inbox (support@example.com)',
         action: 'inbox',
         value: 1,
