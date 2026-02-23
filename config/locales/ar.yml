@@ -94,6 +94,11 @@ ar:
         host_unreachable_error: المضيف لا يمكن الوصول إليه، الرجاء التحقق من عنوان IMAP ومنفذ IMAP ثم حاول مرة أخرى.
         connection_timed_out_error: انتهت مهلة الاتصال لـ %{address}:%{port}
         connection_closed_error: تم إغلاق الاتصال.
+      smtp:
+        authentication_error: SMTP authentication failed. Please verify your login credentials.
+        connection_error: Could not connect to SMTP server. Please check the server address and port.
+        ssl_error: SSL/TLS error. Please verify your encryption settings.
+        smtp_error: SMTP server error. Please check your configuration and try again.
       validations:
         name: لا ينبغي أن تبدأ أو تنتهي بالرموز، ولا ينبغي أن يكون أقل من > / \ أحرف @ .
     custom_filters:
