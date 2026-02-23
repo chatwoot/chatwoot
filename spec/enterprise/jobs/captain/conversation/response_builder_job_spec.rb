@@ -92,6 +92,32 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
       end
     end
 
+    # Regression: the handoff message (bot outgoing) and bot_handoff! both run inside
+    # one ActiveRecord::Base.transaction in process_response. The message's after_create_commit
+    # (Message#update_waiting_since) is deferred until the transaction commits, at which point
+    # it clears waiting_since because the message is a bot_response. This wipes out the value
+    # bot_handoff! just wrote, leaving waiting_since nil and breaking human reply-time tracking.
+    context 'when handoff is requested it should track waiting_since for human reply time' do
+      let(:conversation) { create(:conversation, inbox: inbox, account: account, status: :pending) }
+
+      before do
+        allow(account).to receive(:feature_enabled?).and_return(false)
+        allow(account).to receive(:feature_enabled?).with('captain_integration_v2').and_return(false)
+        allow(mock_llm_chat_service).to receive(:generate_response).and_return({ 'response' => 'conversation_handoff' })
+      end
+
+      it 'sets waiting_since after handoff so human reply time is tracked' do
+        # Pending conversation already has waiting_since set (ensure_waiting_since callback)
+        expect(conversation.reload.waiting_since).not_to be_nil
+
+        described_class.perform_now(conversation, assistant)
+
+        conversation.reload
+        expect(conversation.status).to eq('open')
+        expect(conversation.waiting_since).not_to be_nil
+      end
+    end
+
     context 'when message contains an image' do
       let(:message_with_image) { create(:message, conversation: conversation, message_type: :incoming, content: 'Can you help with this error?') }
       let(:image_attachment) { message_with_image.attachments.create!(account: account, file_type: :image, external_url: 'https://example.com/error.jpg') }
