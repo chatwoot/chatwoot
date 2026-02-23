@@ -94,6 +94,11 @@ ca:
         host_unreachable_error: Amfitrió inaccessible. Comprova l'adreça IMAP, el port IMAP i torna-ho a provar.
         connection_timed_out_error: S'ha esgotat el temps d'espera de la connexió per a %{address}:%{port}
         connection_closed_error: Connexió tancada.
+      smtp:
+        authentication_error: SMTP authentication failed. Please verify your login credentials.
+        connection_error: Could not connect to SMTP server. Please check the server address and port.
+        ssl_error: SSL/TLS error. Please verify your encryption settings.
+        smtp_error: SMTP server error. Please check your configuration and try again.
       validations:
         name: no hauria de començar ni acabar amb símbols, i no hauria de tenir caràcters < > / \ @.
     custom_filters:
