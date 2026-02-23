@@ -63,12 +63,14 @@ module Api::V1::InboxesHelper
     smtp.finish
   rescue Net::SMTPAuthenticationError
     raise StandardError, I18n.t('errors.inboxes.smtp.authentication_error')
-  rescue SocketError, Errno::ECONNREFUSED, Errno::EHOSTUNREACH, Net::OpenTimeout
+  rescue SocketError, Errno::ECONNREFUSED, Errno::EHOSTUNREACH, Errno::ENETUNREACH, Net::OpenTimeout
     raise StandardError, I18n.t('errors.inboxes.smtp.connection_error')
   rescue OpenSSL::SSL::SSLError
     raise StandardError, I18n.t('errors.inboxes.smtp.ssl_error')
   rescue Net::SMTPServerBusy, Net::SMTPSyntaxError, Net::SMTPFatalError
     raise StandardError, I18n.t('errors.inboxes.smtp.smtp_error')
+  rescue StandardError => e
+    raise StandardError, e.message
   end
 
   def set_smtp_encryption(channel_data, smtp)
