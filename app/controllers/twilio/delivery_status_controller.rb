@@ -1,4 +1,6 @@
 class Twilio::DeliveryStatusController < ApplicationController
+  include TwilioSignatureVerifyConcern
+
   def create
     Webhooks::TwilioDeliveryStatusJob.perform_later(permitted_params.to_unsafe_hash)
 
