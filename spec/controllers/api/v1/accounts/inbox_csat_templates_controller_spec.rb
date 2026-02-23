@@ -412,7 +412,8 @@ RSpec.describe Api::V1::Accounts::InboxCsatTemplatesController, type: :request d
 
     context 'when captain_integration feature is enabled' do
       before do
-        account.enable_features('captain_integration')
+        account.enable_features!('captain_integration')
+        account.reload
       end
 
       it 'returns analysis response' do
