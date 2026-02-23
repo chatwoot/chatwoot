@@ -94,6 +94,11 @@ zh_CN:
         host_unreachable_error: 主机无法访问。请检查 IMAP 地址，然后重试。
         connection_timed_out_error: 连接超时 %{address}:%{port}
         connection_closed_error: 连接已关闭。
+      smtp:
+        authentication_error: SMTP authentication failed. Please verify your login credentials.
+        connection_error: Could not connect to SMTP server. Please check the server address and port.
+        ssl_error: SSL/TLS error. Please verify your encryption settings.
+        smtp_error: SMTP server error. Please check your configuration and try again.
       validations:
         name: 不应该以符号开头或结尾，它不应该有 < > / \ @ 字符。
     custom_filters:
