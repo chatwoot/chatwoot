@@ -51,16 +51,8 @@ const toggleSort = () => {
   sortOrder.value = sortOrder.value === 'asc' ? 'desc' : 'asc';
 };
 
-const fetchCannedResponses = async () => {
-  try {
-    await store.dispatch('getCannedResponse');
-  } catch (error) {
-    // Ignore Error
-  }
-};
-
 onMounted(() => {
-  fetchCannedResponses();
+  store.dispatch('getCannedResponse', { all: true });
 });
 
 const showAlertMessage = message => {
@@ -115,6 +107,7 @@ const tableHeaders = computed(() => {
   return [
     t('CANNED_MGMT.LIST.TABLE_HEADER.SHORT_CODE'),
     t('CANNED_MGMT.LIST.TABLE_HEADER.CONTENT'),
+    t('CANNED_MGMT.LIST.TABLE_HEADER.VISIBILITY'),
     t('CANNED_MGMT.LIST.TABLE_HEADER.ACTIONS'),
   ];
 });
@@ -187,6 +180,22 @@ const tableHeaders = computed(() => {
             <td class="py-4 ltr:pr-4 rtl:pl-4 md:break-all whitespace-normal">
               {{ getPlainText(cannedItem.content) }}
             </td>
+            <td class="py-4 ltr:pr-4 rtl:pl-4">
+              <span
+                class="px-2 py-0.5 rounded-full text-xs font-medium"
+                :class="
+                  cannedItem.visibility === 'public_response'
+                    ? 'bg-n-teal-2 text-n-teal-11'
+                    : 'bg-n-amber-2 text-n-amber-11'
+                "
+              >
+                {{
+                  cannedItem.visibility === 'public_response'
+                    ? $t('CANNED_MGMT.VISIBILITY.PUBLIC')
+                    : $t('CANNED_MGMT.VISIBILITY.PRIVATE')
+                }}
+              </span>
+            </td>
             <td class="py-4 flex justify-end gap-1">
               <Button
                 v-tooltip.top="$t('CANNED_MGMT.EDIT.BUTTON_TEXT')"
@@ -221,6 +230,8 @@ const tableHeaders = computed(() => {
         :id="activeResponse.id"
         :edshort-code="activeResponse.short_code"
         :edcontent="activeResponse.content"
+        :edvisibility="activeResponse.visibility"
+        :edscopes="activeResponse.canned_response_scopes || []"
         :on-close="hideEditPopup"
       />
     </woot-modal>

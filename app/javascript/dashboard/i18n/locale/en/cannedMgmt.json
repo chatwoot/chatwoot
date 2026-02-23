@@ -13,6 +13,7 @@
       "TABLE_HEADER": {
         "SHORT_CODE": "Short code",
         "CONTENT": "Content",
+        "VISIBILITY": "Visibility",
         "ACTIONS": "Actions"
       }
     },
@@ -21,6 +22,24 @@
       "DESC": "Canned Responses are predefined reply templates which can be used to quickly send out replies to conversations.",
       "CANCEL_BUTTON_TEXT": "Cancel",
       "FORM": {
+        "VISIBILITY": {
+          "LABEL": "Visibility",
+          "PUBLIC": {
+            "LABEL": "Public",
+            "DESCRIPTION": "Available to all account operators"
+            },
+          "PRIVATE": {
+            "LABEL": "Individual",
+            "DESCRIPTION": "Available only to the selected operator, team, or inbox"
+          }
+        },
+        "SCOPE": {
+          "LABEL": "Assign for",
+          "USER": "Operator",
+          "TEAM": "Team",
+          "INBOX": "Inbox",
+          "PLACEHOLDER": "Choose..."
+        },
         "SHORT_CODE": {
           "LABEL": "Short code",
           "PLACEHOLDER": "Please enter a short code.",
@@ -59,6 +78,10 @@
         "SUCCESS_MESSAGE": "Canned response is updated successfully.",
         "ERROR_MESSAGE": "Could not connect to Woot server. Please try again."
       }
+    },
+    "VISIBILITY": {
+      "PUBLIC": "Public",
+      "PRIVATE": "Individual"
     },
     "DELETE": {
       "BUTTON_TEXT": "Delete",

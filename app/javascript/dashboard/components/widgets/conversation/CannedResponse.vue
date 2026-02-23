@@ -14,6 +14,7 @@ export default {
   computed: {
     ...mapGetters({
       cannedMessages: 'getCannedResponses',
+      currentChat: 'getSelectedChat',
     }),
     items() {
       return this.cannedMessages.map(cannedMessage => ({
@@ -33,7 +34,10 @@ export default {
   },
   methods: {
     fetchCannedResponses() {
-      this.$store.dispatch('getCannedResponse', { searchKey: this.searchKey });
+      this.$store.dispatch('getCannedResponse', {
+        searchKey: this.searchKey,
+        inboxId: this.currentChat?.inbox_id,
+      });
     },
     handleMentionClick(item = {}) {
       this.$emit('replace', item.description);
