@@ -94,6 +94,11 @@ da:
         host_unreachable_error: Vært utilgængeligt, tjek venligst IMAP-adressen, IMAP-porten og prøv igen.
         connection_timed_out_error: Forbindelsen fik timeout for %{address}:%{port}
         connection_closed_error: Forbindelsen er lukket.
+      smtp:
+        authentication_error: SMTP authentication failed. Please verify your login credentials.
+        connection_error: Could not connect to SMTP server. Please check the server address and port.
+        ssl_error: SSL/TLS error. Please verify your encryption settings.
+        smtp_error: SMTP server error. Please check your configuration and try again.
       validations:
         name: bør ikke starte eller slutte med symboler, og det skal ikke have < > / \ @ tegn.
     custom_filters:
