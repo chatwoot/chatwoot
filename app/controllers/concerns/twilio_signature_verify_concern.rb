@@ -44,9 +44,7 @@ module TwilioSignatureVerifyConcern
 
   def reconstruct_url
     url = request.original_url
-    if request.headers['X-Forwarded-Proto'] == 'https' && url.start_with?('http://')
-      url = url.sub('http://', 'https://')
-    end
+    url = url.sub('http://', 'https://') if request.headers['X-Forwarded-Proto'] == 'https' && url.start_with?('http://')
     url
   end
 end
