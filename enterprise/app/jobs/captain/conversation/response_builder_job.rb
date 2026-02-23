@@ -13,9 +13,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
     if captain_v2_enabled?
       generate_response_with_v2
     else
-      ActiveRecord::Base.transaction do
-        generate_and_process_response
-      end
+      generate_and_process_response
     end
   rescue StandardError => e
     raise e if e.is_a?(ActiveStorage::FileNotFoundError) || e.is_a?(Faraday::BadRequestError)
@@ -44,11 +42,15 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   end
 
   def process_response
-    return process_action('handoff') if handoff_requested?
-
-    create_messages
-    Rails.logger.info("[CAPTAIN][ResponseBuilderJob] Incrementing response usage for #{account.id}")
-    account.increment_response_usage
+    ActiveRecord::Base.transaction do
+      if handoff_requested?
+        process_action('handoff')
+      else
+        create_messages
+        Rails.logger.info("[CAPTAIN][ResponseBuilderJob] Incrementing response usage for #{account.id}")
+        account.increment_response_usage
+      end
+    end
   end
 
   def collect_previous_messages
@@ -93,6 +95,10 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   end
 
   def send_out_of_office_message_if_applicable
+    # Campaign conversations should never receive OOO templates — the campaign itself
+    # serves as the initial outreach, and OOO would be confusing in that context.
+    return if @conversation.campaign.present?
+
     ::MessageTemplates::Template::OutOfOffice.perform_if_applicable(@conversation)
   end
 

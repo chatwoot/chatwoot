@@ -34,6 +34,7 @@ const emit = defineEmits([
   'contextMenuToggle',
   'assignAgent',
   'assignLabel',
+  'removeLabel',
   'assignTeam',
   'markAsUnread',
   'markAsRead',
@@ -203,7 +204,10 @@ const onAssignAgent = agent => {
 
 const onAssignLabel = label => {
   emit('assignLabel', [label.title], [props.chat.id]);
-  closeContextMenu();
+};
+
+const onRemoveLabel = label => {
+  emit('removeLabel', [label.title], [props.chat.id]);
 };
 
 const onAssignTeam = team => {
@@ -236,9 +240,8 @@ const deleteConversation = () => {
   <div
     class="relative flex items-start flex-grow-0 flex-shrink-0 w-auto max-w-full py-0 border-t-0 border-b-0 border-l-0 border-r-0 border-transparent border-solid cursor-pointer conversation hover:bg-n-alpha-1 dark:hover:bg-n-alpha-3 group"
     :class="{
-      'active animate-card-select bg-n-alpha-1 dark:bg-n-alpha-3 border-n-weak':
-        isActiveChat,
-      'bg-n-slate-2 dark:bg-n-slate-3': selected,
+      'active animate-card-select bg-n-background border-n-weak': isActiveChat,
+      'bg-n-slate-2': selected,
       'px-0': compact,
       'px-3': !compact,
     }"
@@ -380,11 +383,13 @@ const deleteConversation = () => {
         :priority="chat.priority"
         :chat-id="chat.id"
         :has-unread-messages="hasUnread"
+        :conversation-labels="chat.labels"
         :conversation-url="conversationPath"
         :allowed-options="allowedContextMenuOptions"
         @update-conversation="onUpdateConversation"
         @assign-agent="onAssignAgent"
         @assign-label="onAssignLabel"
+        @remove-label="onRemoveLabel"
         @assign-team="onAssignTeam"
         @mark-as-unread="markAsUnread"
         @mark-as-read="markAsRead"

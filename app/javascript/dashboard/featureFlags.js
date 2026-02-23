@@ -2,6 +2,7 @@ export const FEATURE_FLAGS = {
   AGENT_BOTS: 'agent_bots',
   AGENT_MANAGEMENT: 'agent_management',
   ASSIGNMENT_V2: 'assignment_v2',
+  ADVANCED_ASSIGNMENT: 'advanced_assignment',
   AUTO_RESOLVE_CONVERSATIONS: 'auto_resolve_conversations',
   AUTOMATIONS: 'automations',
   CAMPAIGNS: 'campaigns',
@@ -45,6 +46,7 @@ export const FEATURE_FLAGS = {
   QUOTED_EMAIL_REPLY: 'quoted_email_reply',
   COMPANIES: 'companies',
   ADVANCED_SEARCH: 'advanced_search',
+  CONVERSATION_REQUIRED_ATTRIBUTES: 'conversation_required_attributes',
 };
 
 export const PREMIUM_FEATURES = [
@@ -54,4 +56,6 @@ export const PREMIUM_FEATURES = [
   FEATURE_FLAGS.AUDIT_LOGS,
   FEATURE_FLAGS.HELP_CENTER,
   FEATURE_FLAGS.SAML,
+  FEATURE_FLAGS.CONVERSATION_REQUIRED_ATTRIBUTES,
+  FEATURE_FLAGS.ADVANCED_ASSIGNMENT,
 ];

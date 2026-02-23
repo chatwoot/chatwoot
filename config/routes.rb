@@ -35,6 +35,7 @@ Rails.application.routes.draw do
     resource :slack_uploads, only: [:show]
   end
 
+  get '/health', to: 'health#show'
   get '/api', to: 'api#index'
   namespace :api, defaults: { format: 'json' } do
     namespace :v1 do
@@ -443,6 +444,9 @@ Rails.application.routes.draw do
               get :conversations_summary
               get :conversation_traffic
               get :bot_metrics
+              get :inbox_label_matrix
+              get :first_response_time_distribution
+              get :outgoing_messages_count
             end
           end
           resource :year_in_review, only: [:show]
@@ -560,6 +564,7 @@ Rails.application.routes.draw do
   get 'webhooks/instagram', to: 'webhooks/instagram#verify'
   post 'webhooks/instagram', to: 'webhooks/instagram#events'
   post 'webhooks/tiktok', to: 'webhooks/tiktok#events'
+  post 'webhooks/shopify', to: 'webhooks/shopify#events'
 
   namespace :twitter do
     resource :callback, only: [:show]
