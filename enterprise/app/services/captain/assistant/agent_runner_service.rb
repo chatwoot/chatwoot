@@ -41,7 +41,10 @@ class Captain::Assistant::AgentRunnerService
 
   def build_context(message_history)
     conversation_history = message_history.map do |msg|
-      content = extract_text_from_content(msg[:content])
+      content = msg[:content]
+      # Preserve multimodal arrays (with image_url entries) as-is for the runner to restore with attachments.
+      # Only extract text from non-array formats (hashes from agent structured output, plain strings).
+      content = extract_text_from_content(content) unless content.is_a?(Array)
 
       {
         role: msg[:role].to_sym,

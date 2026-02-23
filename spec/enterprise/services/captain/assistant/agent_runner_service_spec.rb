@@ -123,6 +123,34 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
         service.generate_response(message_history: multimodal_message_history)
       end
 
+      it 'preserves multimodal content in earlier history messages' do
+        history_with_prior_image = [
+          {
+            role: 'user',
+            content: [
+              { type: 'text', text: 'Here is my error screenshot' },
+              { type: 'image_url', image_url: { url: 'https://example.com/error.png' } }
+            ]
+          },
+          { role: 'assistant', content: 'I see the error. Try restarting.' },
+          { role: 'user', content: 'It still does not work' }
+        ]
+
+        expect(mock_runner).to receive(:run) do |input, context:, max_turns:|
+          expect(input).to eq('It still does not work')
+          # The earlier user message with the image should preserve the multimodal array
+          first_history_msg = context[:conversation_history].first
+          expect(first_history_msg[:content]).to be_a(Array)
+          expect(first_history_msg[:content]).to include(
+            { type: 'text', text: 'Here is my error screenshot' },
+            { type: 'image_url', image_url: { url: 'https://example.com/error.png' } }
+          )
+          expect(max_turns).to eq(100)
+        end
+
+        service.generate_response(message_history: history_with_prior_image)
+      end
+
       it 'stores multimodal trace payloads in runner context' do
         expect(mock_runner).to receive(:run) do |_input, context:, max_turns:|
           expect(context[:captain_v2_trace_input]).to include('image_url')
@@ -233,22 +261,21 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
     end
 
     context 'with multimodal content' do
-      let(:multimodal_message_history) do
+      let(:multimodal_content) do
         [
-          {
-            role: 'user',
-            content: [
-              { type: 'text', text: 'Can you help with this image?' },
-              { type: 'image_url', image_url: { url: 'https://example.com/image.jpg' } }
-            ]
-          }
+          { type: 'text', text: 'Can you help with this image?' },
+          { type: 'image_url', image_url: { url: 'https://example.com/image.jpg' } }
         ]
       end
 
-      it 'extracts text content from multimodal messages' do
+      let(:multimodal_message_history) do
+        [{ role: 'user', content: multimodal_content }]
+      end
+
+      it 'preserves multimodal arrays in conversation history for image context retention' do
         context = service.send(:build_context, multimodal_message_history)
 
-        expect(context[:conversation_history].first[:content]).to eq('Can you help with this image?')
+        expect(context[:conversation_history].first[:content]).to eq(multimodal_content)
       end
     end
   end
