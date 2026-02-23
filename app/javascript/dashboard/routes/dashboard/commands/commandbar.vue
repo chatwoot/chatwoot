@@ -13,6 +13,7 @@ import { useConversationHotKeys } from 'dashboard/composables/commands/useConver
 import wootConstants from 'dashboard/constants/globals';
 import { GENERAL_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import { generateSnoozeSuggestions } from 'dashboard/helper/snoozeHelpers';
+import { parseDateFromText } from 'dashboard/helper/snoozeDateParser';
 import { ICON_SNOOZE_CONVERSATION } from 'dashboard/helper/commandbar/icons';
 import {
   CMD_SNOOZE_CONVERSATION,
@@ -107,7 +108,10 @@ const buildDynamicSnoozeActions = (search, parentId) => {
     section,
     icon: ICON_SNOOZE_CONVERSATION,
     keywords: search,
-    handler: () => emitter.emit(busEvent, parsed.unixTime),
+    handler: () => {
+      const fresh = parseDateFromText(parsed.label.toLowerCase());
+      emitter.emit(busEvent, fresh?.unix ?? parsed.unixTime);
+    },
   }));
 };
 

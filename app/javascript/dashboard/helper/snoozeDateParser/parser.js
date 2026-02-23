@@ -266,10 +266,14 @@ const matchRelativeDay = (text, now) => {
 
   const dayAtTimeMatch = text.match(RELATIVE_DAY_AT_TIME_RE);
   if (dayAtTimeMatch) {
-    const time = parseTimeString(dayAtTimeMatch[2]);
+    const [, dayKey, timeRaw] = dayAtTimeMatch;
+    const bare = /^(tonight|tonite)$/.test(dayKey) && !/[ap]m/i.test(timeRaw);
+    const time = bare
+      ? inferHoursFromTOD('tonight', ...timeRaw.split(':'))
+      : parseTimeString(timeRaw);
     if (!time) return null;
     return applyTimeWithRollover(
-      RELATIVE_DAY_MAP[dayAtTimeMatch[1]],
+      RELATIVE_DAY_MAP[dayKey],
       time.hours,
       time.minutes,
       now

@@ -1011,6 +1011,12 @@ describe('golden tests: pinned phrase → exact date/time', () => {
     ['2025-01-15', 2025, 0, 15, 9, 0],
     ['01/15/2025', 2025, 0, 15, 9, 0],
 
+    // ── Tonight bare-hour (must infer PM, not AM) ──
+    ['tonight 8', 2023, 5, 16, 20, 0],
+    ['tonite 7', 2023, 5, 16, 19, 0],
+    ['tonight 11', 2023, 5, 16, 23, 0],
+    ['today 8', 2023, 5, 17, 8, 0], // 8am is past → rolls to next day
+
     // ── Special ──
     ['this weekend', 2023, 5, 17, 9, 0],
     ['end of month', 2023, 5, 30, 17, 0],

@@ -198,8 +198,9 @@ const buildReplacementPairsUncached = (translations, locale) => {
   const addPair = (local, en) => {
     const l = sanitize(safeString(local));
     const e = safeString(en).toLowerCase();
-    if (l && e && l !== e && !seen.has(l)) {
-      seen.add(l);
+    const key = `${l}\0${e}`;
+    if (l && e && l !== e && !seen.has(key)) {
+      seen.add(key);
       pairs.push([l, e]);
     }
   };
