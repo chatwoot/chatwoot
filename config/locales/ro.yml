@@ -94,6 +94,11 @@ ro:
         host_unreachable_error: Gazdă imposibil de găsit, Verificați adresa IMAP, portul IMAP și încercați din nou.
         connection_timed_out_error: Conexiunea a expirat pentru %{address}:%{port}
         connection_closed_error: Conexiune închisă.
+      smtp:
+        authentication_error: SMTP authentication failed. Please verify your login credentials.
+        connection_error: Could not connect to SMTP server. Please check the server address and port.
+        ssl_error: SSL/TLS error. Please verify your encryption settings.
+        smtp_error: SMTP server error. Please check your configuration and try again.
       validations:
         name: nu ar trebui să înceapă sau să se termine cu simboluri și nu ar trebui să aibă < > / \ @ caractere.
     custom_filters:
