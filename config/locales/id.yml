@@ -94,6 +94,11 @@ id:
         host_unreachable_error: Host tidak dapat dijangkau, Harap periksa alamat IMAP, port IMAP, dan coba lagi.
         connection_timed_out_error: Waktu koneksi habis untuk %{address}:%{port}
         connection_closed_error: Koneksi terputus.
+      smtp:
+        authentication_error: SMTP authentication failed. Please verify your login credentials.
+        connection_error: Could not connect to SMTP server. Please check the server address and port.
+        ssl_error: SSL/TLS error. Please verify your encryption settings.
+        smtp_error: SMTP server error. Please check your configuration and try again.
       validations:
         name: tidak boleh dimulai atau diakhiri dengan simbol, dan tidak boleh memiliki karakter < > / \ @.
     custom_filters:
