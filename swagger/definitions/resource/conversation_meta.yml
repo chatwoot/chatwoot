@@ -46,10 +46,12 @@ properties:
     $ref: '#/components/schemas/contact_detail'
     description: Contact details
   agent_last_seen_at:
-    type: string
+    type:
+      - string
+      - 'null'
     description: Timestamp when the agent last saw the conversation
-    nullable: true
   assignee_last_seen_at:
-    type: string
+    type:
+      - string
+      - 'null'
     description: Timestamp when the assignee last saw the conversation
-    nullable: true 

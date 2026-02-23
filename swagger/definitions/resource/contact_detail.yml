@@ -26,16 +26,18 @@ properties:
     type: integer
     description: The ID of the contact
   identifier:
-    type: string
+    type:
+      - string
+      - 'null'
     description: The identifier of the contact
-    nullable: true
   name:
     type: string
     description: The name of the contact
   phone_number:
-    type: string
+    type:
+      - string
+      - 'null'
     description: The phone number of the contact
-    nullable: true
   thumbnail:
     type: string
     description: The thumbnail of the contact

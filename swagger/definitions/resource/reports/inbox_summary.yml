@@ -13,16 +13,19 @@ items:
       type: number
       description: Number of conversations resolved in the inbox during the date range
     avg_resolution_time:
-      type: number
-      nullable: true
+      type:
+        - number
+        - 'null'
       description: Average time (in seconds) to resolve conversations. Null if no data available.
     avg_first_response_time:
-      type: number
-      nullable: true
+      type:
+        - number
+        - 'null'
       description: Average time (in seconds) for the first response. Null if no data available.
     avg_reply_time:
-      type: number
-      nullable: true
+      type:
+        - number
+        - 'null'
       description: Average time (in seconds) between replies. Null if no data available.
 example:
   - id: 1

@@ -21,9 +21,10 @@ properties:
     description: Availability status of the contact
     enum: ["online", "offline"]
   email:
-    type: string
+    type:
+      - string
+      - 'null'
     description: The email address of the contact
-    nullable: true
   id:
     type: integer
     description: The ID of the contact
@@ -31,16 +32,18 @@ properties:
     type: string
     description: The name of the contact
   phone_number:
-    type: string
+    type:
+      - string
+      - 'null'
     description: The phone number of the contact
-    nullable: true
   blocked:
     type: boolean
     description: Whether the contact is blocked
   identifier:
-    type: string
+    type:
+      - string
+      - 'null'
     description: The identifier of the contact
-    nullable: true
   thumbnail:
     type: string
     description: The thumbnail of the contact
@@ -48,9 +51,10 @@ properties:
     type: object
     description: The custom attributes of the contact
   last_activity_at:
-    type: integer
+    type:
+      - integer
+      - 'null'
     description: Timestamp of last activity
-    nullable: true
   created_at:
     type: integer
     description: Timestamp when contact was created

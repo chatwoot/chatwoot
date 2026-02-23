@@ -13,11 +13,13 @@ properties:
   confirmed:
     type: boolean
   display_name:
-    type: string
-    nullable: true
+    type:
+      - string
+      - 'null'
   message_signature:
-    type: string
-    nullable: true
+    type:
+      - string
+      - 'null'
   email:
     type: string
   hmac_identifier:
@@ -38,8 +40,9 @@ properties:
   uid:
     type: string
   type:
-    type: string
-    nullable: true
+    type:
+      - string
+      - 'null'
   custom_attributes:
     type: object
     description: Available for users who are created through platform APIs and has custom attributes associated.
@@ -71,8 +74,10 @@ properties:
         auto_offline:
           type: boolean
         custom_role_id:
-          type: number
-          nullable: true
+          type:
+            - number
+            - 'null'
         custom_role:
-          type: object
-          nullable: true
+          type:
+            - object
+            - 'null'
