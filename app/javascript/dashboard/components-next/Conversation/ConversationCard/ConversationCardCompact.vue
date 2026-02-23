@@ -6,7 +6,7 @@ import TimeAgo from 'dashboard/components/ui/TimeAgo.vue';
 import InboxName from 'dashboard/components-next/Conversation/InboxName.vue';
 import CardAvatar from './CardAvatar.vue';
 import CardContent from './CardContent.vue';
-import CardLabels from './CardLabels.vue';
+import CardLabels from './CardLabelsV5.vue';
 import CardPriorityIcon from './CardPriorityIcon.vue';
 import SLACardLabel from 'dashboard/components-next/Conversation/Sla/SLACardLabel.vue';
 

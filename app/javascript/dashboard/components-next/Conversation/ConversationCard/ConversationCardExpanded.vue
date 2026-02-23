@@ -3,7 +3,7 @@ import { computed, useTemplateRef } from 'vue';
 import { getLastMessage } from 'dashboard/helper/conversationHelper';
 import CardAvatar from './CardAvatar.vue';
 import CardContent from './CardContent.vue';
-import CardLabels from './CardLabels.vue';
+import CardLabels from './CardLabelsV5.vue';
 import CardPriorityIcon from './CardPriorityIcon.vue';
 import InboxName from 'dashboard/components-next/Conversation/InboxName.vue';
 import Avatar from 'next/avatar/Avatar.vue';
