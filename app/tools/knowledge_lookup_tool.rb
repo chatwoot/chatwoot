@@ -24,6 +24,7 @@ class KnowledgeLookupTool < BaseTool
   def execute(query:, translated_query: nil)
     validate_context!
 
+    translated_query = auto_translate(query) if translated_query.blank?
     results = search_with_fallback(query, translated_query)
     format_response(results)
   rescue StandardError => e
@@ -46,15 +47,27 @@ class KnowledgeLookupTool < BaseTool
       .values
       .map { |dupes| dupes.max_by { |e| e.similarity || 0 } }
       .sort_by { |e| -(e.similarity || 0) }
-      .first(5)
+      .first(8)
   end
 
   def search_knowledge_base(query)
     Aloo::Embedding.search(
       query,
       assistant: current_assistant,
-      limit: 5
+      limit: 8
     )
+  end
+
+  # Automatically translate the query for cross-lingual KB search.
+  # Falls back to nil if translation fails — search proceeds with original query only.
+  def auto_translate(query)
+    target = query.match?(/[\u0600-\u06FF]/) ? 'English' : 'Arabic'
+    response = RubyLLM.chat(model: 'gpt-4.1-mini').ask("Translate to #{target}. Reply ONLY with the translation: #{query}")
+    translation = response.content.to_s.strip
+    translation.presence
+  rescue StandardError => e
+    Rails.logger.warn("[KnowledgeLookupTool] Auto-translation failed: #{e.message}")
+    nil
   end
 
   def format_response(embeddings)

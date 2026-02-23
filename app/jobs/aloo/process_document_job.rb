@@ -9,7 +9,7 @@ module Aloo
 
     # Chunk size for splitting documents
     CHUNK_SIZE = 1000
-    CHUNK_OVERLAP = 100
+    CHUNK_OVERLAP = 200
 
     # Supported file types
     SUPPORTED_TYPES = {
@@ -38,10 +38,16 @@ module Aloo
 
         # Extract and process content
         content = extract_content
-        return mark_failed('No content extracted') if content.blank?
 
-        # Chunk the content
-        chunks = chunk_content(content)
+        # Tabular processors (CSV/XLSX) return pre-chunked arrays with headers per chunk;
+        # prose processors return a single string for generic chunking.
+        if content.is_a?(Array)
+          chunks = content
+        else
+          return mark_failed('No content extracted') if content.blank?
+
+          chunks = chunk_content(content)
+        end
         return mark_failed('No chunks created') if chunks.empty?
 
         # Create embeddings for each chunk
@@ -149,13 +155,16 @@ module Aloo
 
       content = ensure_utf8(@document.file.download)
       csv = CSV.parse(content, headers: true)
+      return nil if csv.empty?
 
-      # Convert each row to a readable format
-      rows = csv.map do |row|
-        row.to_h.map { |k, v| "#{k}: #{v}" }.join(', ')
+      # Return pre-chunked array: small batches of 3 rows in key-value format.
+      # Each row is fully self-descriptive (e.g. "Store_Name: Sephora, Category: Beauty")
+      # so every chunk has high semantic signal for embedding search.
+      csv.each_slice(3).filter_map do |batch|
+        rows = batch.map { |row| row.to_h.compact.map { |k, v| "#{k}: #{v}" }.join(', ') }
+        chunk = rows.join("\n")
+        (chunk.presence)
       end
-
-      rows.join("\n")
     rescue StandardError => e
       Rails.logger.error("[Aloo::ProcessDocumentJob] CSV processing failed: #{e.message}")
       nil
@@ -190,22 +199,37 @@ module Aloo
       tempfile&.unlink
     end
 
+    # Returns pre-chunked Array: small batches of 3 data rows in key-value format.
+    # First row is treated as column headers; each data row becomes self-descriptive
+    # (e.g. "Store_Name: Sephora, Category: Beauty") for better embedding search.
     def extract_spreadsheet_text(spreadsheet)
-      sheets = []
+      chunks = []
+
       spreadsheet.sheets.each do |sheet_name|
         spreadsheet.default_sheet = sheet_name
-        rows = []
         first_row = spreadsheet.first_row
         last_row = spreadsheet.last_row
         next unless first_row && last_row
 
-        (first_row..last_row).each do |row_idx|
-          row = (spreadsheet.first_column..spreadsheet.last_column).map { |col_idx| spreadsheet.cell(row_idx, col_idx).to_s }
-          rows << row.join(' | ')
+        cols = spreadsheet.first_column..spreadsheet.last_column
+        headers = cols.map { |col| spreadsheet.cell(first_row, col).to_s }
+
+        data_range = (first_row + 1)..last_row
+        unless data_range.any?
+          chunks << "Sheet: #{sheet_name}\n#{headers.join(' | ')}"
+          next
         end
-        sheets << "## Sheet: #{sheet_name}\n#{rows.join("\n")}" if rows.any?
+
+        data_range.each_slice(3) do |row_indices|
+          rows = row_indices.map do |row_idx|
+            values = cols.map { |col_idx| spreadsheet.cell(row_idx, col_idx).to_s }
+            headers.zip(values).map { |h, v| "#{h}: #{v}" }.join(', ')
+          end
+          chunks << "Sheet: #{sheet_name}\n#{rows.join("\n")}"
+        end
       end
-      sheets.join("\n\n---\n\n")
+
+      chunks.presence
     end
 
     def process_docx
