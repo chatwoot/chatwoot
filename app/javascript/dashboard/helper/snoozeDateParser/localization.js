@@ -359,7 +359,7 @@ export const generateDateSuggestions = (
   const exact = directParse || parseDateFromText(englishInput, referenceDate);
   if (exact) {
     seen.add(exact.unix);
-    results.push({ label: normalized, ...exact });
+    results.push({ label: normalized, query: englishInput, ...exact });
   }
 
   buildSuggestionCandidates(englishInput).some(candidate => {
@@ -371,7 +371,7 @@ export const generateDateSuggestions = (
         !useEnglish && pairs.length
           ? reverseTokens(candidate, pairs)
           : candidate;
-      results.push({ label, ...result });
+      results.push({ label, query: candidate, ...result });
     }
     return false;
   });
