@@ -35,89 +35,93 @@ export const findStartOfNextMonth = currentDate => {
       });
 };
 
-export const findNextDay = currentDate => {
-  return add(currentDate, { days: 1 });
-};
+export const findNextDay = currentDate => add(currentDate, { days: 1 });
 
-export const setHoursToNine = date => {
-  return setSeconds(setMinutes(setHours(date, 9), 0), 0);
+export const setHoursToNine = date =>
+  setSeconds(setMinutes(setHours(date, 9), 0), 0);
+
+const SNOOZE_RESOLVERS = {
+  [SNOOZE_OPTIONS.AN_HOUR_FROM_NOW]: d => add(d, { hours: 1 }),
+  [SNOOZE_OPTIONS.UNTIL_TOMORROW]: d => setHoursToNine(findNextDay(d)),
+  [SNOOZE_OPTIONS.UNTIL_NEXT_WEEK]: d => setHoursToNine(findStartOfNextWeek(d)),
+  [SNOOZE_OPTIONS.UNTIL_NEXT_MONTH]: d =>
+    setHoursToNine(findStartOfNextMonth(d)),
 };
 
 export const findSnoozeTime = (snoozeType, currentDate = new Date()) => {
-  let parsedDate = null;
-  if (snoozeType === SNOOZE_OPTIONS.AN_HOUR_FROM_NOW) {
-    parsedDate = add(currentDate, { hours: 1 });
-  } else if (snoozeType === SNOOZE_OPTIONS.UNTIL_TOMORROW) {
-    parsedDate = setHoursToNine(findNextDay(currentDate));
-  } else if (snoozeType === SNOOZE_OPTIONS.UNTIL_NEXT_WEEK) {
-    parsedDate = setHoursToNine(findStartOfNextWeek(currentDate));
-  } else if (snoozeType === SNOOZE_OPTIONS.UNTIL_NEXT_MONTH) {
-    parsedDate = setHoursToNine(findStartOfNextMonth(currentDate));
-  }
-
-  return parsedDate ? getUnixTime(parsedDate) : null;
+  const resolve = SNOOZE_RESOLVERS[snoozeType];
+  return resolve ? getUnixTime(resolve(currentDate)) : null;
 };
+
 export const snoozedReopenTime = snoozedUntil => {
-  if (!snoozedUntil) {
-    return null;
-  }
+  if (!snoozedUntil) return null;
   const date = new Date(snoozedUntil);
-
-  if (isToday(date)) {
-    return format(date, 'h.mmaaa');
-  }
-  if (!isSameYear(date, new Date())) {
-    return format(date, 'd MMM yyyy, h.mmaaa');
-  }
-  return snoozedUntil ? format(date, 'd MMM, h.mmaaa') : null;
+  if (isToday(date)) return format(date, 'h.mmaaa');
+  if (!isSameYear(date, new Date())) return format(date, 'd MMM yyyy, h.mmaaa');
+  return format(date, 'd MMM, h.mmaaa');
 };
 
-export const snoozedReopenTimeToTimestamp = snoozedUntil => {
-  return snoozedUntil ? getUnixTime(new Date(snoozedUntil)) : null;
-};
-const formatSnoozeDate = (snoozeDate, currentDate) => {
-  return isSameYear(snoozeDate, currentDate)
-    ? format(snoozeDate, 'EEE, d MMM, h:mm a')
-    : format(snoozeDate, 'EEE, d MMM yyyy, h:mm a');
+export const snoozedReopenTimeToTimestamp = snoozedUntil =>
+  snoozedUntil ? getUnixTime(new Date(snoozedUntil)) : null;
+
+const formatSnoozeDate = (snoozeDate, currentDate, locale = 'en') => {
+  const sameYear = isSameYear(snoozeDate, currentDate);
+  try {
+    const opts = {
+      weekday: 'short',
+      day: 'numeric',
+      month: 'short',
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: true,
+      ...(sameYear ? {} : { year: 'numeric' }),
+    };
+    return new Intl.DateTimeFormat(locale, opts).format(snoozeDate);
+  } catch {
+    return sameYear
+      ? format(snoozeDate, 'EEE, d MMM, h:mm a')
+      : format(snoozeDate, 'EEE, d MMM yyyy, h:mm a');
+  }
 };
 
 const capitalizeLabel = text => text.replace(/^\w/, c => c.toUpperCase());
 
 export const generateSnoozeSuggestions = (
   searchText,
-  currentDate = new Date()
+  currentDate = new Date(),
+  { translations, locale } = {}
 ) => {
-  const suggestions = generateDateSuggestions(searchText, currentDate);
+  const suggestions = generateDateSuggestions(searchText, currentDate, {
+    translations,
+    locale,
+  });
   return suggestions.map(s => ({
     date: s.date,
     unixTime: s.unix,
     label: capitalizeLabel(s.label),
-    formattedDate: formatSnoozeDate(s.date, currentDate),
+    formattedDate: formatSnoozeDate(s.date, currentDate, locale),
   }));
 };
 
+const UNIT_SHORT = {
+  minute: 'm',
+  minutes: 'm',
+  hour: 'h',
+  hours: 'h',
+  day: 'd',
+  days: 'd',
+  month: 'mo',
+  months: 'mo',
+  year: 'y',
+  years: 'y',
+};
+
 export const shortenSnoozeTime = snoozedUntil => {
-  if (!snoozedUntil) {
-    return null;
-  }
-  const unitMap = {
-    minutes: 'm',
-    minute: 'm',
-    hours: 'h',
-    hour: 'h',
-    days: 'd',
-    day: 'd',
-    months: 'mo',
-    month: 'mo',
-    years: 'y',
-    year: 'y',
-  };
-  const shortenTime = snoozedUntil
+  if (!snoozedUntil) return null;
+  return snoozedUntil
     .replace(/^in\s+/i, '')
     .replace(
       /\s(minute|hour|day|month|year)s?\b/gi,
-      (match, unit) => unitMap[unit.toLowerCase()] || match
+      (match, unit) => UNIT_SHORT[unit.toLowerCase()] || match
     );
-
-  return shortenTime;
 };

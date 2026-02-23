@@ -816,6 +816,378 @@ describe('generateDateSuggestions', () => {
       expect(results.length).toBeLessThanOrEqual(5);
     });
   });
+
+  describe('smart compositional suggestions', () => {
+    it('"mon" suggests monday + time-of-day variants (noon, afternoon, evening, night)', () => {
+      const results = generateDateSuggestions('mon', now);
+      const labels = results.map(r => r.label);
+      // "monday morning" (9am) is deduped with "monday" (default 9am), so noon+ appear
+      expect(labels.some(l => /monday\s+afternoon/.test(l))).toBe(true);
+      expect(labels.some(l => /monday\s+evening/.test(l))).toBe(true);
+    });
+
+    it('"monday" suggests multiple time-of-day variants', () => {
+      const results = generateDateSuggestions('monday', now);
+      const labels = results.map(r => r.label);
+      expect(labels.some(l => l.includes('monday afternoon'))).toBe(true);
+      expect(labels.some(l => l.includes('monday evening'))).toBe(true);
+      expect(results.length).toBeGreaterThanOrEqual(3);
+    });
+
+    it('"fri" suggests friday + time-of-day variants', () => {
+      const results = generateDateSuggestions('fri', now);
+      const labels = results.map(r => r.label);
+      expect(labels.some(l => /friday/.test(l))).toBe(true);
+      expect(results.length).toBeGreaterThanOrEqual(3);
+    });
+
+    it('"tomorrow m" suggests tomorrow morning', () => {
+      const results = generateDateSuggestions('tomorrow m', now);
+      const labels = results.map(r => r.label);
+      expect(labels.some(l => l.includes('tomorrow morning'))).toBe(true);
+    });
+
+    it('"tomorrow a" suggests tomorrow afternoon', () => {
+      const results = generateDateSuggestions('tomorrow a', now);
+      const labels = results.map(r => r.label);
+      expect(labels.some(l => l.includes('tomorrow afternoon'))).toBe(true);
+    });
+
+    it('"next mon" suggests next monday and next month', () => {
+      const results = generateDateSuggestions('next mon', now);
+      const labels = results.map(r => r.label);
+      expect(labels.some(l => l.includes('next mon'))).toBe(true);
+    });
+
+    it('"next monday m" suggests next monday morning', () => {
+      const results = generateDateSuggestions('next monday m', now);
+      const labels = results.map(r => r.label);
+      expect(labels.some(l => l.includes('next monday morning'))).toBe(true);
+    });
+
+    it('"t" suggests today, tonight, tomorrow', () => {
+      const results = generateDateSuggestions('t', now);
+      const labels = results.map(r => r.label);
+      expect(
+        labels.some(l => l === 'today' || l === 'tonight' || l === 'tomorrow')
+      ).toBe(true);
+    });
+
+    it('"n" suggests next week, next month, next weekdays', () => {
+      const results = generateDateSuggestions('n', now);
+      const labels = results.map(r => r.label);
+      expect(labels.some(l => l.includes('next'))).toBe(true);
+    });
+
+    it('all suggestions parse to valid future dates', () => {
+      const inputs = ['mon', 'monday', 'fri', 'tomorrow m', 'next mon', 't'];
+      inputs.forEach(input => {
+        const results = generateDateSuggestions(input, now);
+        results.forEach(r => {
+          expect(r.date).toBeInstanceOf(Date);
+          expect(r.date > now).toBe(true);
+          expect(typeof r.unix).toBe('number');
+        });
+      });
+    });
+  });
+});
+
+describe('bare number + time-of-day context inference', () => {
+  it('"morning 6" parses to 6am', () => {
+    const result = parseDateFromText('morning 6', now);
+    expect(result).not.toBeNull();
+    expect(result.date.getHours()).toBe(6);
+  });
+
+  it('"evening 7" parses to 7pm (19:00)', () => {
+    const result = parseDateFromText('evening 7', now);
+    expect(result).not.toBeNull();
+    expect(result.date.getHours()).toBe(19);
+  });
+
+  it('"afternoon 3" parses to 3pm (15:00)', () => {
+    const result = parseDateFromText('afternoon 3', now);
+    expect(result).not.toBeNull();
+    expect(result.date.getHours()).toBe(15);
+  });
+
+  it('"night 9" parses to 9pm (21:00)', () => {
+    const result = parseDateFromText('night 9', now);
+    expect(result).not.toBeNull();
+    expect(result.date.getHours()).toBe(21);
+  });
+
+  it('"tomorrow morning 6" parses to tomorrow 6am', () => {
+    const result = parseDateFromText('tomorrow morning 6', now);
+    expect(result).not.toBeNull();
+    expect(result.date.getDate()).toBe(17);
+    expect(result.date.getHours()).toBe(6);
+  });
+
+  it('"tomorrow evening 7" parses to tomorrow 7pm', () => {
+    const result = parseDateFromText('tomorrow evening 7', now);
+    expect(result).not.toBeNull();
+    expect(result.date.getDate()).toBe(17);
+    expect(result.date.getHours()).toBe(19);
+  });
+
+  it('"monday morning 6" parses to next monday 6am', () => {
+    const result = parseDateFromText('monday morning 6', now);
+    expect(result).not.toBeNull();
+    expect(result.date.getHours()).toBe(6);
+  });
+
+  it('"friday evening 8" parses to friday 8pm', () => {
+    const result = parseDateFromText('friday evening 8', now);
+    expect(result).not.toBeNull();
+    expect(result.date.getHours()).toBe(20);
+  });
+
+  it('explicit meridiem still works: "morning 6am" → 6am', () => {
+    const result = parseDateFromText('morning 6am', now);
+    expect(result).not.toBeNull();
+    expect(result.date.getHours()).toBe(6);
+  });
+
+  it('contradictory meridiem still rejected: "morning 7pm" → null', () => {
+    expect(parseDateFromText('morning 7pm', now)).toBeNull();
+  });
+});
+
+describe('localized suggestions with Malayalam translations', () => {
+  const mlTranslations = {
+    UNITS: {
+      MINUTE: 'മിനിറ്റ്',
+      MINUTES: 'മിനിറ്റ്',
+      HOUR: 'മണിക്കൂർ',
+      HOURS: 'മണിക്കൂർ',
+      DAY: 'ദിവസം',
+      DAYS: 'ദിവസം',
+      WEEK: 'ആഴ്ച',
+      WEEKS: 'ആഴ്ച',
+      MONTH: 'മാസം',
+      MONTHS: 'മാസം',
+      YEAR: 'വർഷം',
+      YEARS: 'വർഷം',
+    },
+    HALF: 'അര',
+    NEXT: 'അടുത്ത',
+    THIS: 'ഈ',
+    AT: 'സമയം',
+    IN: 'കഴിഞ്ഞ്',
+    FROM_NOW: 'ഇപ്പോൾ മുതൽ',
+    NEXT_YEAR: 'അടുത്ത വർഷം',
+    MERIDIEM: { AM: 'രാവിലെ', PM: 'വൈകുന്നേരം' },
+    RELATIVE: {
+      TOMORROW: 'നാളെ',
+      DAY_AFTER_TOMORROW: 'മറ്റന്നാൾ',
+      NEXT_WEEK: 'അടുത്ത ആഴ്ച',
+      NEXT_MONTH: 'അടുത്ത മാസം',
+      THIS_WEEKEND: 'ഈ വാരാന്ത്യം',
+      NEXT_WEEKEND: 'അടുത്ത വാരാന്ത്യം',
+    },
+    TIME_OF_DAY: {
+      MORNING: 'രാവിലെ',
+      AFTERNOON: 'ഉച്ചയ്ക്ക്',
+      EVENING: 'വൈകുന്നേരം',
+      NIGHT: 'രാത്രി',
+      NOON: 'ഉച്ച',
+      MIDNIGHT: 'അർദ്ധരാത്രി',
+    },
+    WORD_NUMBERS: {
+      ONE: 'ഒന്ന്',
+      TWO: 'രണ്ട്',
+      THREE: 'മൂന്ന്',
+      FOUR: 'നാല്',
+      FIVE: 'അഞ്ച്',
+      SIX: 'ആറ്',
+      SEVEN: 'ഏഴ്',
+      EIGHT: 'എട്ട്',
+      NINE: 'ഒൻപത്',
+      TEN: 'പത്ത്',
+      TWELVE: 'പന്ത്രണ്ട്',
+      FIFTEEN: 'പതിനഞ്ച്',
+      TWENTY: 'ഇരുപത്',
+      THIRTY: 'മുപ്പത്',
+    },
+  };
+
+  it('Malayalam "നാളെ രാവിലെ 6" parses to tomorrow 6am', () => {
+    const results = generateDateSuggestions('നാളെ രാവിലെ 6', now, {
+      translations: mlTranslations,
+      locale: 'ml',
+    });
+    expect(results.length).toBeGreaterThan(0);
+    expect(results[0].date.getDate()).toBe(17);
+    expect(results[0].date.getHours()).toBe(6);
+  });
+
+  it('Malayalam "നാളെ" (tomorrow) generates multiple suggestions', () => {
+    const results = generateDateSuggestions('നാളെ', now, {
+      translations: mlTranslations,
+      locale: 'ml',
+    });
+    expect(results.length).toBeGreaterThanOrEqual(3);
+    expect(results[0].date.getDate()).toBe(17);
+  });
+
+  it('Malayalam suggestion labels are in Malayalam, not English', () => {
+    const results = generateDateSuggestions('നാളെ', now, {
+      translations: mlTranslations,
+      locale: 'ml',
+    });
+    const labels = results.map(r => r.label);
+    expect(labels.some(l => /നാളെ/.test(l))).toBe(true);
+    expect(labels.every(l => !/\btomorrow\b/.test(l))).toBe(true);
+  });
+});
+
+describe('chrono-level patterns', () => {
+  describe('tomorrow at TOD', () => {
+    it('"tomorrow at noon" parses to tomorrow 12pm', () => {
+      const result = parseDateFromText('tomorrow at noon', now);
+      expect(result).not.toBeNull();
+      expect(result.date.getDate()).toBe(17);
+      expect(result.date.getHours()).toBe(12);
+    });
+
+    it('"tomorrow at midnight" parses to tomorrow 0am', () => {
+      const result = parseDateFromText('tomorrow at midnight', now);
+      expect(result).not.toBeNull();
+      expect(result.date.getHours()).toBe(0);
+    });
+
+    it('"tomorrow at evening" parses to tomorrow 6pm', () => {
+      const result = parseDateFromText('tomorrow at evening', now);
+      expect(result).not.toBeNull();
+      expect(result.date.getHours()).toBe(18);
+    });
+  });
+
+  describe('duration at time', () => {
+    it('"in 2 days at 3pm" parses correctly', () => {
+      const result = parseDateFromText('in 2 days at 3pm', now);
+      expect(result).not.toBeNull();
+      expect(result.date.getDate()).toBe(18);
+      expect(result.date.getHours()).toBe(15);
+    });
+
+    it('"in 1 week at 9am" parses correctly', () => {
+      const result = parseDateFromText('in 1 week at 9am', now);
+      expect(result).not.toBeNull();
+      expect(result.date.getHours()).toBe(9);
+    });
+  });
+
+  describe('end of period', () => {
+    it('"end of day" parses to today 5pm', () => {
+      const result = parseDateFromText('end of day', now);
+      expect(result).not.toBeNull();
+      expect(result.date.getHours()).toBe(17);
+    });
+
+    it('"end of the week" parses to next friday 5pm', () => {
+      const result = parseDateFromText('end of the week', now);
+      expect(result).not.toBeNull();
+      expect(result.date.getDay()).toBe(5);
+      expect(result.date.getHours()).toBe(17);
+    });
+
+    it('"end of month" parses to last day of month 5pm', () => {
+      const result = parseDateFromText('end of month', now);
+      expect(result).not.toBeNull();
+      expect(result.date.getDate()).toBe(30);
+      expect(result.date.getHours()).toBe(17);
+    });
+  });
+
+  describe('later today', () => {
+    it('"later today" parses to +3 hours from now', () => {
+      const result = parseDateFromText('later today', now);
+      expect(result).not.toBeNull();
+      expect(result.date.getHours()).toBe(13);
+    });
+  });
+
+  describe('compound durations', () => {
+    it('"1 hour 30 minutes" parses correctly', () => {
+      const result = parseDateFromText('1 hour 30 minutes', now);
+      expect(result).not.toBeNull();
+      expect(result.date.getHours()).toBe(11);
+      expect(result.date.getMinutes()).toBe(30);
+    });
+
+    it('"1h30m" parses correctly', () => {
+      const result = parseDateFromText('1h30m', now);
+      expect(result).not.toBeNull();
+      expect(result.date.getHours()).toBe(11);
+      expect(result.date.getMinutes()).toBe(30);
+    });
+
+    it('"2 hours and 30 minutes" parses correctly', () => {
+      const result = parseDateFromText('2 hours and 30 minutes', now);
+      expect(result).not.toBeNull();
+      expect(result.date.getHours()).toBe(12);
+      expect(result.date.getMinutes()).toBe(30);
+    });
+  });
+
+  describe('aliases and shortcuts', () => {
+    it('"tonite" parses to tonight (8pm)', () => {
+      const result = parseDateFromText('tonite', now);
+      expect(result).not.toBeNull();
+      expect(result.date.getHours()).toBe(20);
+    });
+
+    it('"couple hours" parses to +2 hours', () => {
+      const result = parseDateFromText('couple hours', now);
+      expect(result).not.toBeNull();
+      expect(result.date.getHours()).toBe(12);
+    });
+
+    it('"couple of hours" parses to +2 hours', () => {
+      const result = parseDateFromText('couple of hours', now);
+      expect(result).not.toBeNull();
+      expect(result.date.getHours()).toBe(12);
+    });
+
+    it('"few hours" parses to +3 hours', () => {
+      const result = parseDateFromText('few hours', now);
+      expect(result).not.toBeNull();
+      expect(result.date.getHours()).toBe(13);
+    });
+
+    it('"nxt week" parses like "next week"', () => {
+      const result = parseDateFromText('nxt week', now);
+      expect(result).not.toBeNull();
+    });
+
+    it('"nxt monday" parses like "next monday"', () => {
+      const result = parseDateFromText('nxt monday', now);
+      expect(result).not.toBeNull();
+    });
+  });
+
+  describe('weekday bare hour defaults to PM', () => {
+    it('"monday at 3" parses to 3pm', () => {
+      const result = parseDateFromText('monday at 3', now);
+      expect(result).not.toBeNull();
+      expect(result.date.getHours()).toBe(15);
+    });
+
+    it('"friday at 5" parses to 5pm', () => {
+      const result = parseDateFromText('friday at 5', now);
+      expect(result).not.toBeNull();
+      expect(result.date.getHours()).toBe(17);
+    });
+
+    it('"monday at 9" stays 9am (hour >= 8)', () => {
+      const result = parseDateFromText('monday at 9', now);
+      expect(result).not.toBeNull();
+      expect(result.date.getHours()).toBe(9);
+    });
+  });
 });
 
 describe('dot-delimited dates', () => {
@@ -916,5 +1288,219 @@ describe('decimal duration parsing (only .5 allowed)', () => {
 
   it('"2.7 days" returns null (only .5 allowed)', () => {
     expect(parseDateFromText('2.7 days', now)).toBeNull();
+  });
+});
+
+// ─── Multilingual / Localized Input Regressions ─────────────────────────────
+
+describe('generateDateSuggestions — localized input regressions', () => {
+  const arTranslations = {
+    UNITS: {
+      MINUTE: 'دقيقة',
+      MINUTES: 'دقائق',
+      HOUR: 'ساعة',
+      HOURS: 'ساعات',
+      DAY: 'يوم',
+      DAYS: 'أيام',
+      WEEK: 'أسبوع',
+      WEEKS: 'أسابيع',
+      MONTH: 'شهر',
+      MONTHS: 'أشهر',
+      YEAR: 'سنة',
+      YEARS: 'سنوات',
+    },
+    HALF: 'نصف',
+    NEXT: 'القادم',
+    THIS: 'هذا',
+    AT: 'الساعة',
+    IN: 'في',
+    FROM_NOW: 'من الآن',
+    NEXT_YEAR: 'العام المقبل',
+    MERIDIEM: { AM: 'صباحاً', PM: 'مساءً' },
+    RELATIVE: {
+      TOMORROW: 'غداً',
+      DAY_AFTER_TOMORROW: 'بعد غد',
+      NEXT_WEEK: 'الأسبوع القادم',
+      NEXT_MONTH: 'الشهر القادم',
+      THIS_WEEKEND: 'نهاية هذا الأسبوع',
+      NEXT_WEEKEND: 'نهاية الأسبوع القادم',
+    },
+    TIME_OF_DAY: {
+      MORNING: 'صباحاً',
+      AFTERNOON: 'بعد الظهر',
+      EVENING: 'مساءً',
+      NIGHT: 'ليلاً',
+      NOON: 'ظهراً',
+      MIDNIGHT: 'منتصف الليل',
+    },
+    WORD_NUMBERS: {
+      ONE: 'واحد',
+      TWO: 'اثنان',
+      THREE: 'ثلاثة',
+      FOUR: 'أربعة',
+      FIVE: 'خمسة',
+      SIX: 'ستة',
+      SEVEN: 'سبعة',
+      EIGHT: 'ثمانية',
+      NINE: 'تسعة',
+      TEN: 'عشرة',
+      TWELVE: 'اثنا عشر',
+      FIFTEEN: 'خمسة عشر',
+      TWENTY: 'عشرون',
+      THIRTY: 'ثلاثون',
+    },
+  };
+
+  const hiTranslations = {
+    UNITS: {
+      MINUTE: 'मिनट',
+      MINUTES: 'मिनट',
+      HOUR: 'घंटा',
+      HOURS: 'घंटे',
+      DAY: 'दिन',
+      DAYS: 'दिन',
+      WEEK: 'सप्ताह',
+      WEEKS: 'सप्ताह',
+      MONTH: 'महीना',
+      MONTHS: 'महीने',
+      YEAR: 'साल',
+      YEARS: 'साल',
+    },
+    HALF: 'आधा',
+    NEXT: 'अगला',
+    THIS: 'यह',
+    AT: 'बजे',
+    IN: 'में',
+    FROM_NOW: 'अब से',
+    NEXT_YEAR: 'अगले साल',
+    MERIDIEM: { AM: 'सुबह', PM: 'शाम' },
+    RELATIVE: {
+      TOMORROW: 'कल',
+      DAY_AFTER_TOMORROW: 'परसों',
+      NEXT_WEEK: 'अगले सप्ताह',
+      NEXT_MONTH: 'अगले महीने',
+      THIS_WEEKEND: 'इस सप्ताहांत',
+      NEXT_WEEKEND: 'अगले सप्ताहांत',
+    },
+    TIME_OF_DAY: {
+      MORNING: 'सुबह',
+      AFTERNOON: 'दोपहर',
+      EVENING: 'शाम',
+      NIGHT: 'रात',
+      NOON: 'दोपहर',
+      MIDNIGHT: 'आधी रात',
+    },
+    WORD_NUMBERS: {
+      ONE: 'एक',
+      TWO: 'दो',
+      THREE: 'तीन',
+      FOUR: 'चार',
+      FIVE: 'पाँच',
+      SIX: 'छह',
+      SEVEN: 'सात',
+      EIGHT: 'आठ',
+      NINE: 'नौ',
+      TEN: 'दस',
+      TWELVE: 'बारह',
+      FIFTEEN: 'पंद्रह',
+      TWENTY: 'बीस',
+      THIRTY: 'तीस',
+    },
+  };
+
+  describe('P1: short non-English tokens must NOT produce spurious half-duration suggestions', () => {
+    it('Arabic "غد" does not produce half-duration suggestions', () => {
+      const results = generateDateSuggestions('غد', now, {
+        translations: arTranslations,
+        locale: 'ar',
+      });
+      const halfLabels = results.filter(r => /half/i.test(r.label));
+      expect(halfLabels).toHaveLength(0);
+    });
+
+    it('Hindi "सु" does not produce half-duration suggestions', () => {
+      const results = generateDateSuggestions('सु', now, {
+        translations: hiTranslations,
+        locale: 'hi',
+      });
+      const halfLabels = results.filter(r => /half/i.test(r.label));
+      expect(halfLabels).toHaveLength(0);
+    });
+  });
+
+  describe('P1: MERIDIEM vs TIME_OF_DAY — "tomorrow morning" must parse in locales where AM = morning', () => {
+    it('Arabic "غداً صباحاً" (tomorrow morning) parses correctly', () => {
+      const results = generateDateSuggestions('غداً صباحاً', now, {
+        translations: arTranslations,
+        locale: 'ar',
+      });
+      expect(results.length).toBeGreaterThan(0);
+      const first = results[0];
+      expect(first.date.getDate()).toBe(17);
+      expect(first.date.getHours()).toBe(9);
+    });
+
+    it('Hindi "कल सुबह" (tomorrow morning) parses correctly', () => {
+      const results = generateDateSuggestions('कल सुबह', now, {
+        translations: hiTranslations,
+        locale: 'hi',
+      });
+      expect(results.length).toBeGreaterThan(0);
+      const first = results[0];
+      expect(first.date.getDate()).toBe(17);
+      expect(first.date.getHours()).toBe(9);
+    });
+  });
+
+  describe('basic localized parsing still works', () => {
+    it('Arabic "غداً" (tomorrow) parses to tomorrow 9am', () => {
+      const results = generateDateSuggestions('غداً', now, {
+        translations: arTranslations,
+        locale: 'ar',
+      });
+      expect(results.length).toBeGreaterThan(0);
+      expect(results[0].date.getDate()).toBe(17);
+    });
+
+    it('Hindi "कल" (tomorrow) parses to tomorrow', () => {
+      const results = generateDateSuggestions('कल', now, {
+        translations: hiTranslations,
+        locale: 'hi',
+      });
+      expect(results.length).toBeGreaterThan(0);
+      expect(results[0].date.getDate()).toBe(17);
+    });
+
+    it('Arabic "غداً،" (tomorrow with attached Arabic comma) parses correctly', () => {
+      const results = generateDateSuggestions('غداً،', now, {
+        translations: arTranslations,
+        locale: 'ar',
+      });
+      expect(results.length).toBeGreaterThan(0);
+      expect(results[0].date.getDate()).toBe(17);
+    });
+  });
+
+  describe('localized Unicode digits', () => {
+    it('Arabic-Indic digits parse in time expressions', () => {
+      const results = generateDateSuggestions('غداً الساعة ١٢:٣٠', now, {
+        translations: arTranslations,
+        locale: 'ar',
+      });
+      expect(results.length).toBeGreaterThan(0);
+      expect(results[0].date.getDate()).toBe(17);
+      expect(results[0].date.getHours()).toBe(12);
+      expect(results[0].date.getMinutes()).toBe(30);
+    });
+
+    it('Devanagari digits parse in time-of-day expressions', () => {
+      const results = generateDateSuggestions('कल सुबह ६', now, {
+        translations: hiTranslations,
+        locale: 'hi',
+      });
+      expect(results.length).toBeGreaterThan(0);
+      expect(results[0].date.getDate()).toBe(17);
+      expect(results[0].date.getHours()).toBe(6);
+    });
   });
 });

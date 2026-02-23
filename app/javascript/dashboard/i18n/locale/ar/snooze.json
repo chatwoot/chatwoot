@@ -1,0 +1,61 @@
+{
+  "SNOOZE_PARSER": {
+    "UNITS": {
+      "MINUTE": "دقيقة",
+      "MINUTES": "دقائق",
+      "HOUR": "ساعة",
+      "HOURS": "ساعات",
+      "DAY": "يوم",
+      "DAYS": "أيام",
+      "WEEK": "أسبوع",
+      "WEEKS": "أسابيع",
+      "MONTH": "شهر",
+      "MONTHS": "أشهر",
+      "YEAR": "سنة",
+      "YEARS": "سنوات"
+    },
+    "HALF": "نصف",
+    "NEXT": "القادم",
+    "THIS": "هذا",
+    "AT": "الساعة",
+    "IN": "في",
+    "FROM_NOW": "من الآن",
+    "NEXT_YEAR": "العام المقبل",
+    "MERIDIEM": {
+      "AM": "صباحاً",
+      "PM": "مساءً"
+    },
+    "RELATIVE": {
+      "TOMORROW": "غداً",
+      "DAY_AFTER_TOMORROW": "بعد غد",
+      "NEXT_WEEK": "الأسبوع القادم",
+      "NEXT_MONTH": "الشهر القادم",
+      "THIS_WEEKEND": "نهاية هذا الأسبوع",
+      "NEXT_WEEKEND": "نهاية الأسبوع القادم"
+    },
+    "TIME_OF_DAY": {
+      "MORNING": "صباحاً",
+      "AFTERNOON": "بعد الظهر",
+      "EVENING": "مساءً",
+      "NIGHT": "ليلاً",
+      "NOON": "ظهراً",
+      "MIDNIGHT": "منتصف الليل"
+    },
+    "WORD_NUMBERS": {
+      "ONE": "واحد",
+      "TWO": "اثنان",
+      "THREE": "ثلاثة",
+      "FOUR": "أربعة",
+      "FIVE": "خمسة",
+      "SIX": "ستة",
+      "SEVEN": "سبعة",
+      "EIGHT": "ثمانية",
+      "NINE": "تسعة",
+      "TEN": "عشرة",
+      "TWELVE": "اثنا عشر",
+      "FIFTEEN": "خمسة عشر",
+      "TWENTY": "عشرون",
+      "THIRTY": "ثلاثون"
+    }
+  }
+}
