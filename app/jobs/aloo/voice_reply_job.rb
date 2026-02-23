@@ -2,6 +2,9 @@
 
 module Aloo
   class VoiceReplyJob < ApplicationJob
+    include Events::Types
+    include Aloo::TypingIndicatable
+
     queue_as :default
     retry_on RubyLLM::Error, wait: :polynomially_longer, attempts: 3
     retry_on StandardError, wait: :polynomially_longer, attempts: 2
@@ -40,32 +43,22 @@ module Aloo
     end
 
     def generate_and_send_voice
-      # Generate voice using synthesis service
-      result = Aloo::VoiceSynthesisService.new(
-        text: @message.content,
-        assistant: @assistant,
-        message: @message
-      ).perform
-
+      dispatch_typing(CONVERSATION_TYPING_ON)
+      send_whatsapp_typing_indicator
+      result = Aloo::VoiceSynthesisService.new(text: @message.content, assistant: @assistant, message: @message).perform
       unless result[:success]
         Rails.logger.warn("[Aloo::VoiceReplyJob] Synthesis failed: #{result[:error]}")
         return
       end
-
-      # Handle based on reply mode
-      reply_mode = @assistant.effective_reply_mode
-
-      case reply_mode
+      case @assistant.effective_reply_mode
       when 'voice_only'
-        # Create a new message with only audio
         create_voice_only_message(result)
       when 'text_and_voice'
-        # Add audio attachment to existing message
         attach_audio_to_message(result)
         send_to_channel(@message)
       end
     ensure
-      # Clean up temp file
+      dispatch_typing(CONVERSATION_TYPING_OFF)
       cleanup_temp_file(result[:audio_path]) if result&.dig(:audio_path)
     end
 
