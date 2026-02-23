@@ -75,6 +75,10 @@ RSpec.configure do |config|
   config.include ActiveSupport::Testing::TimeHelpers
   config.include ActionCable::TestHelper
   config.include ActiveJob::TestHelper
+
+  # OpenAPI response validation via Skooma
+  path_to_openapi = Rails.root.join('swagger/swagger.json')
+  config.include Skooma::RSpec[path_to_openapi], type: :request
 end
 
 Shoulda::Matchers.configure do |config|
