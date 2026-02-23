@@ -44,9 +44,7 @@ describe Enterprise::Billing::TopupCheckoutService do
     end
 
     it 'raises error for invalid credits' do
-      expect do
-        service.create_checkout_session(credits: 500)
-      end.to raise_error do |error|
+      expect { service.create_checkout_session(credits: 500) }.to raise_error do |error|
         expect(error.class.name).to eq('Enterprise::Billing::TopupCheckoutService::Error')
         expect(error.message).to eq(I18n.t('errors.topup.invalid_option'))
       end
@@ -55,9 +53,7 @@ describe Enterprise::Billing::TopupCheckoutService do
     it 'raises error when account is on free plan' do
       account.update!(custom_attributes: { plan_name: 'Hacker', stripe_customer_id: stripe_customer_id })
 
-      expect do
-        service.create_checkout_session(credits: 1000)
-      end.to raise_error do |error|
+      expect { service.create_checkout_session(credits: 1000) }.to raise_error do |error|
         expect(error.class.name).to eq('Enterprise::Billing::TopupCheckoutService::Error')
         expect(error.message).to eq(I18n.t('errors.topup.plan_not_eligible'))
       end
