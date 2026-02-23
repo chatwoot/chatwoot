@@ -94,6 +94,11 @@ ja:
         host_unreachable_error: ホストに接続できません。IMAPアドレス、ポートを確認の上、再度お試しください。
         connection_timed_out_error: '%{address}:%{port} への接続がタイムアウトしました'
         connection_closed_error: 接続が閉じられました。
+      smtp:
+        authentication_error: SMTP authentication failed. Please verify your login credentials.
+        connection_error: Could not connect to SMTP server. Please check the server address and port.
+        ssl_error: SSL/TLS error. Please verify your encryption settings.
+        smtp_error: SMTP server error. Please check your configuration and try again.
       validations:
         name: 記号で開始または終了しないでください。< > / \ @ を使用しないでください。
     custom_filters:
