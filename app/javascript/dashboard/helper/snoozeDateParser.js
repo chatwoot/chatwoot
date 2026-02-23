@@ -901,7 +901,11 @@ const matchSpecial = (text, now) => {
       if (getDay(now) === 5 && isAfter(fri, now)) return fri;
       return applyTimeToDate(nextFriday(now), 17, 0);
     }
-    if (eof[1] === 'month') return applyTimeToDate(endOfMonth(now), 17, 0);
+    if (eof[1] === 'month') {
+      const eom = applyTimeToDate(endOfMonth(now), 17, 0);
+      if (isAfter(eom, now)) return eom;
+      return applyTimeToDate(endOfMonth(add(now, { months: 1 })), 17, 0);
+    }
   }
 
   if (LATER_TODAY_RE.test(text)) return add(now, { hours: 3 });

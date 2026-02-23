@@ -1100,6 +1100,15 @@ describe('chrono-level patterns', () => {
       expect(result.date.getDate()).toBe(30);
       expect(result.date.getHours()).toBe(17);
     });
+
+    it('"end of month" on last day after 5pm rolls to next month-end', () => {
+      const lastDayLate = new Date('2025-06-30T18:00:00');
+      const result = parseDateFromText('end of month', lastDayLate);
+      expect(result).not.toBeNull();
+      expect(result.date.getMonth()).toBe(6);
+      expect(result.date.getDate()).toBe(31);
+      expect(result.date.getHours()).toBe(17);
+    });
   });
 
   describe('later today', () => {
