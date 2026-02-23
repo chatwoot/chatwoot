@@ -46,7 +46,10 @@ describe Enterprise::Billing::TopupCheckoutService do
     it 'raises error for invalid credits' do
       expect do
         service.create_checkout_session(credits: 500)
-      end.to raise_error { |error| expect(error.class.name).to eq('Enterprise::Billing::TopupCheckoutService::Error') }
+      end.to raise_error do |error|
+        expect(error.class.name).to eq('Enterprise::Billing::TopupCheckoutService::Error')
+        expect(error.message).to eq(I18n.t('errors.topup.invalid_option'))
+      end
     end
 
     it 'raises error when account is on free plan' do
@@ -54,7 +57,10 @@ describe Enterprise::Billing::TopupCheckoutService do
 
       expect do
         service.create_checkout_session(credits: 1000)
-      end.to raise_error { |error| expect(error.class.name).to eq('Enterprise::Billing::TopupCheckoutService::Error') }
+      end.to raise_error do |error|
+        expect(error.class.name).to eq('Enterprise::Billing::TopupCheckoutService::Error')
+        expect(error.message).to eq(I18n.t('errors.topup.plan_not_eligible'))
+      end
     end
   end
 end
