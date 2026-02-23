@@ -32,8 +32,6 @@ const assistant = ref({
   emoji_usage: 'minimal',
   greeting_style: 'warm',
   custom_greeting: '',
-  language: 'en',
-  dialect: '',
   personality_description: '',
   custom_instructions: '',
   active: true,
@@ -207,13 +205,6 @@ const emojiOptions = [
   { value: 'none', label: t('ALOO.FORM.EMOJI_USAGE.OPTIONS.NONE') },
   { value: 'minimal', label: t('ALOO.FORM.EMOJI_USAGE.OPTIONS.MINIMAL') },
   { value: 'moderate', label: t('ALOO.FORM.EMOJI_USAGE.OPTIONS.MODERATE') },
-];
-
-const languageOptions = [
-  { value: 'en', label: t('ALOO.FORM.LANGUAGE.OPTIONS.EN') },
-  { value: 'ar', label: t('ALOO.FORM.LANGUAGE.OPTIONS.AR') },
-  { value: 'fr', label: t('ALOO.FORM.LANGUAGE.OPTIONS.FR') },
-  { value: 'es', label: t('ALOO.FORM.LANGUAGE.OPTIONS.ES') },
 ];
 
 const getInboxIcon = inbox => {
@@ -427,23 +418,6 @@ const getStatusClass = status => {
             >
               <option
                 v-for="option in emojiOptions"
-                :key="option.value"
-                :value="option.value"
-              >
-                {{ option.label }}
-              </option>
-            </select>
-          </div>
-          <div>
-            <label class="block text-sm font-medium text-n-slate-12 mb-1.5">
-              {{ $t('ALOO.FORM.LANGUAGE.LABEL') }}
-            </label>
-            <select
-              v-model="assistant.language"
-              class="w-full px-3 py-2 text-sm border rounded-lg border-n-weak bg-n-alpha-1 text-n-slate-12 focus:outline-none focus:ring-2 focus:ring-n-blue-7"
-            >
-              <option
-                v-for="option in languageOptions"
                 :key="option.value"
                 :value="option.value"
               >

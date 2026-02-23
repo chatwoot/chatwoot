@@ -26,7 +26,7 @@ RSpec.describe ConversationAgent, :aloo do
 
   describe 'configuration' do
     it 'has expected temperature' do
-      expect(described_class.temperature).to eq(0.7)
+      expect(described_class.temperature).to eq(0.6)
     end
 
     it 'has expected timeout' do

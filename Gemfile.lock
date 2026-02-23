@@ -868,22 +868,22 @@ GEM
     ruby2ruby (2.5.0)
       ruby_parser (~> 3.1)
       sexp_processor (~> 4.6)
-    ruby_llm (1.12.0)
+    ruby_llm (1.12.1)
       base64
       event_stream_parser (~> 1)
       faraday (>= 2.0)
       faraday-multipart (>= 1)
       faraday-net_http (>= 1)
       faraday-retry (>= 2.0)
-      marcel (~> 1.0)
-      ruby_llm-schema (~> 0.2.1)
+      marcel (~> 1)
+      ruby_llm-schema (~> 0)
       zeitwerk (~> 2)
-    ruby_llm-agents (3.5.5)
+    ruby_llm-agents (3.7.0)
       csv
       ostruct
       rails (>= 7.0)
       ruby_llm (>= 1.12.0)
-    ruby_llm-schema (0.2.5)
+    ruby_llm-schema (0.3.0)
     ruby_parser (3.20.0)
       sexp_processor (~> 4.16)
     rubyzip (2.4.1)
@@ -1065,7 +1065,7 @@ GEM
     working_hours (1.4.1)
       activesupport (>= 3.2)
       tzinfo
-    zeitwerk (2.7.4)
+    zeitwerk (2.7.5)
 
 PLATFORMS
   arm64-darwin-20
@@ -1193,7 +1193,7 @@ DEPENDENCIES
   rubocop-rspec
   ruby-openai
   ruby_llm (>= 1.8.2)
-  ruby_llm-agents (~> 3.5.5)
+  ruby_llm-agents (~> 3.7.0)
   ruby_llm-schema
   scout_apm
   scss_lint

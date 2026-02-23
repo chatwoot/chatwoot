@@ -22,26 +22,6 @@ RSpec.describe Aloo::Assistant do
     it { is_expected.to validate_inclusion_of(:verbosity).in_array(described_class::VERBOSITY_LEVELS) }
     it { is_expected.to validate_inclusion_of(:emoji_usage).in_array(described_class::EMOJI_USAGE_LEVELS) }
     it { is_expected.to validate_inclusion_of(:greeting_style).in_array(described_class::GREETING_STYLES) }
-    it { is_expected.to validate_inclusion_of(:language).in_array(Aloo::SUPPORTED_LANGUAGES.keys) }
-
-    context 'with valid dialect' do
-      let(:account) { create(:account) }
-
-      it 'validates arabic dialects' do
-        assistant.account = account
-        assistant.language = 'ar'
-        assistant.dialect = 'EG'
-        expect(assistant).to be_valid
-      end
-    end
-
-    context 'with invalid dialect' do
-      it 'rejects invalid dialect codes' do
-        assistant.language = 'ar'
-        assistant.dialect = 'INVALID'
-        expect(assistant).not_to be_valid
-      end
-    end
   end
 
   describe 'scopes' do
@@ -62,31 +42,6 @@ RSpec.describe Aloo::Assistant do
       allow(Aloo::PersonalityBuilder).to receive(:new).with(assistant).and_return(builder)
 
       expect(assistant.personality_prompt).to eq('personality prompt')
-    end
-  end
-
-  describe '#language_instruction' do
-    context 'when language is English without dialect' do
-      it 'returns empty string' do
-        assistant.language = 'en'
-        assistant.dialect = nil
-        expect(assistant.language_instruction).to eq('')
-      end
-    end
-
-    context 'when language is Arabic with dialect' do
-      it 'returns dialect-specific instruction' do
-        assistant.language = 'ar'
-        assistant.dialect = 'EG'
-        expect(assistant.language_instruction).to include('Egyptian Arabic')
-      end
-    end
-
-    context 'when language is not English' do
-      it 'returns language instruction' do
-        assistant.language = 'fr'
-        expect(assistant.language_instruction).to eq('Respond in French.')
-      end
     end
   end
 
@@ -215,19 +170,6 @@ RSpec.describe Aloo::Assistant do
         assistant.voice_config = {}
         expect(assistant.voice_reply_enabled?).to be false
       end
-    end
-  end
-
-  describe '#language_name' do
-    it 'returns language name from SUPPORTED_LANGUAGES' do
-      assistant.language = 'fr'
-      expect(assistant.language_name).to eq('French')
-    end
-
-    it 'returns English as default' do
-      assistant.language = 'unknown'
-      # Will fail validation but test the fallback
-      expect(assistant.language_name).to eq('English')
     end
   end
 end

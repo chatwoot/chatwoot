@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_02_18_210736) do
+ActiveRecord::Schema[7.1].define(version: 2026_02_22_152353) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -216,8 +216,6 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_18_210736) do
     t.string "emoji_usage", default: "minimal"
     t.string "greeting_style", default: "warm"
     t.text "custom_greeting"
-    t.string "language", default: "en"
-    t.string "dialect"
     t.text "personality_description"
     t.text "system_prompt"
     t.text "response_guidelines"

@@ -157,7 +157,7 @@ RSpec.describe Aloo::AudioTranscriptionService, type: :service do
 
         expect(Audio::AlooTranscriber).to receive(:call).with(
           audio: anything,
-          language: 'en',
+          language: nil,
           model: 'whisper-1',
           tenant: assistant.account
         ).and_return(transcription_result)
@@ -314,39 +314,6 @@ RSpec.describe Aloo::AudioTranscriptionService, type: :service do
 
         temp_file.close
         temp_file.unlink
-      end
-    end
-  end
-
-  describe 'language hint' do
-    context 'when assistant is configured for Arabic' do
-      let(:assistant) { create(:aloo_assistant, :with_voice_input, :arabic, account: account) }
-      let(:transcription_result) do
-        instance_double(
-          'TranscriptionResult',
-          text: 'مرحبا',
-          audio_duration: 5.0,
-          error?: false,
-          total_cost: 0.0005,
-          error_message: nil
-        )
-      end
-
-      before do
-        stub_attachment_file(attachment)
-        allow_any_instance_of(described_class).to receive(:download_to_tempfile).and_return(temp_file)
-        allow(Audio::AlooTranscriber).to receive(:call).and_return(transcription_result)
-        allow(message).to receive(:send_update_event)
-      end
-
-      it 'passes Arabic language hint to transcriber' do
-        service = described_class.new(attachment)
-
-        expect(Audio::AlooTranscriber).to receive(:call).with(
-          hash_including(language: 'ar')
-        ).and_return(transcription_result)
-
-        service.perform
       end
     end
   end
