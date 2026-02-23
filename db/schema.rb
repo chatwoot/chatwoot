@@ -306,12 +306,26 @@ ActiveRecord::Schema[7.1].define(version: 2026_03_20_074636) do
     t.index ["scheduled_at"], name: "index_campaigns_on_scheduled_at"
   end
 
+  create_table "canned_response_scopes", force: :cascade do |t|
+    t.bigint "canned_response_id", null: false
+    t.integer "user_ids", default: [], array: true
+    t.integer "team_ids", default: [], array: true
+    t.integer "inbox_ids", default: [], array: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["canned_response_id"], name: "index_canned_response_scopes_on_canned_response_id"
+  end
+
   create_table "canned_responses", id: :serial, force: :cascade do |t|
     t.integer "account_id", null: false
     t.string "short_code"
     t.text "content"
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
+    t.integer "visibility", default: 0, null: false
+    t.integer "created_by_id"
+    t.index ["created_by_id"], name: "index_canned_responses_on_created_by_id"
+    t.index ["visibility"], name: "index_canned_responses_on_visibility"
   end
 
   create_table "captain_assistant_responses", force: :cascade do |t|
@@ -1371,6 +1385,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_03_20_074636) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "agent_activity_logs", "accounts"
   add_foreign_key "agent_activity_logs", "users"
+  add_foreign_key "canned_response_scopes", "canned_responses"
   add_foreign_key "conversation_queues", "accounts"
   add_foreign_key "conversation_queues", "conversations"
   add_foreign_key "conversation_queues", "inboxes"
