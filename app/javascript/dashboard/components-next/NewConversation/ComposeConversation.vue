@@ -15,7 +15,6 @@ import {
   searchContacts,
   createNewContact,
   fetchContactableInboxes,
-  processContactableInboxes,
   mergeInboxDetails,
 } from 'dashboard/components-next/NewConversation/helpers/composeConversationHelper';
 import wootConstants from 'dashboard/constants/globals';
@@ -190,20 +189,28 @@ const toggle = () => {
 
 watch(
   activeContact,
-  (currentContact, previousContact) => {
+  async (currentContact, previousContact) => {
     if (currentContact && props.contactId) {
       // Reset on contact change
       if (currentContact?.id !== previousContact?.id) clearSelectedContact();
 
-      // First process the contactable inboxes to get the right structure
-      const processedInboxes = processContactableInboxes(
-        currentContact.contactInboxes || []
-      );
-      // Then Merge processedInboxes with the inboxes list
-      selectedContact.value = {
-        ...currentContact,
-        contactInboxes: mergeInboxDetails(processedInboxes, inboxesList.value),
-      };
+      // Contacts list endpoints often skip `contact_inboxes` for performance.
+      // Always fetch contactable inboxes to ensure "Start conversation" works.
+      isFetchingInboxes.value = true;
+      try {
+        const contactableInboxes = await fetchContactableInboxes(
+          currentContact.id
+        );
+        selectedContact.value = {
+          ...currentContact,
+          contactInboxes: mergeInboxDetails(
+            contactableInboxes,
+            inboxesList.value
+          ),
+        };
+      } finally {
+        isFetchingInboxes.value = false;
+      }
     }
   },
   { immediate: true, deep: true }

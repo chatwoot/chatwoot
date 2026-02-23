@@ -43,7 +43,7 @@ export default {
       <div
         class="flex items-center justify-center flex-shrink-0 w-8 h-8 rounded bg-n-alpha-2 text-n-slate-11 dark:bg-n-solid-2"
       >
-        <fluent-icon icon="pin" size="16" />
+        <fluent-icon icon="star-emphasis" size="16" />
       </div>
       <div class="flex flex-col overflow-hidden">
         <div class="flex items-center gap-2">

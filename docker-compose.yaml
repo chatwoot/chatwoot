@@ -1,26 +1,20 @@
-version: '3'
+x-app: &app
+  build:
+    context: .
+    dockerfile: ./docker/Dockerfile
+    args:
+      BUNDLE_WITHOUT: ''
+      EXECJS_RUNTIME: 'Node'
+      RAILS_ENV: 'development'
+      RAILS_SERVE_STATIC_FILES: 'false'
+  tty: true
+  stdin_open: true
+  image: chatwoot:development
+  env_file: .env
 
 services:
-  base: &base
-    build:
-      context: .
-      dockerfile: ./docker/Dockerfile
-      args:
-        BUNDLE_WITHOUT: ''
-        EXECJS_RUNTIME: 'Node'
-        RAILS_ENV: 'development'
-        RAILS_SERVE_STATIC_FILES: 'false'
-    tty: true
-    stdin_open: true
-    image: chatwoot:development
-    env_file: .env
-
   rails:
-    <<: *base
-    build:
-      context: .
-      dockerfile: ./docker/dockerfiles/rails.Dockerfile
-    image: chatwoot-rails:development
+    <<: *app
     volumes:
       - ./:/app:delegated
       - node_modules:/app/node_modules
@@ -40,12 +34,11 @@ services:
       - VITE_DEV_SERVER_HOST=vite
       - NODE_ENV=development
       - RAILS_ENV=development
-    entrypoint: docker/entrypoints/rails.sh
+    entrypoint: ["sh", "docker/entrypoints/rails.sh"]
     command: ["bundle", "exec", "rails", "s", "-p", "3000", "-b", "0.0.0.0"]
 
   sidekiq:
-    <<: *base
-    image: chatwoot-rails:development
+    <<: *app
     volumes:
       - ./:/app:delegated
       - node_modules:/app/node_modules
@@ -62,11 +55,7 @@ services:
     command: ["bundle", "exec", "sidekiq", "-C", "config/sidekiq.yml"]
 
   vite:
-    <<: *base
-    build:
-      context: .
-      dockerfile: ./docker/dockerfiles/vite.Dockerfile
-    image: chatwoot-vite:development
+    <<: *app
     volumes:
       - ./:/app:delegated
       - node_modules:/app/node_modules
@@ -76,11 +65,10 @@ services:
     ports:
       - "3036:3036" # Vite dev server
     environment:
-      - VITE_DEV_SERVER_HOST=0.0.0.0
       - NODE_ENV=development
       - RAILS_ENV=development
-    entrypoint: docker/entrypoints/vite.sh
-    command: bin/vite dev
+    entrypoint: ["sh", "docker/entrypoints/vite.sh"]
+    command: ["bin/vite", "dev", "--host", "0.0.0.0", "--port", "3036"]
 
   postgres:
     image: pgvector/pgvector:pg16
@@ -90,14 +78,19 @@ services:
     volumes:
       - postgres:/data/postgres
     environment:
-      - POSTGRES_DB=chatwoot
+      - POSTGRES_DB=${POSTGRES_DATABASE:-chatwoot_dev}
       - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
 
   redis:
     image: redis:alpine
     restart: always
-    command: ["sh", "-c", "redis-server --requirepass \"$REDIS_PASSWORD\""]
+    command:
+      [
+        "sh",
+        "-c",
+        "if [ -n \"$REDIS_PASSWORD\" ]; then redis-server --requirepass \"$REDIS_PASSWORD\"; else redis-server; fi",
+      ]
     env_file: .env
     volumes:
       - redis:/data/redis
