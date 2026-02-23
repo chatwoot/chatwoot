@@ -94,6 +94,11 @@ de:
         host_unreachable_error: Host nicht erreichbar. Bitte überprüfen Sie die IMAP-Adresse und den IMAP-Port und versuchen Sie es erneut.
         connection_timed_out_error: Zeitüberschreitung der Verbindung für %{address}:%{port}
         connection_closed_error: Verbindung geschlossen.
+      smtp:
+        authentication_error: SMTP authentication failed. Please verify your login credentials.
+        connection_error: Could not connect to SMTP server. Please check the server address and port.
+        ssl_error: SSL/TLS error. Please verify your encryption settings.
+        smtp_error: SMTP server error. Please check your configuration and try again.
       validations:
         name: Sollte nicht mit Symbolen beginnen oder enden, und es sollte keine < > / \ @ Zeichen enthalten.
     custom_filters:
