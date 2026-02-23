@@ -1,0 +1,58 @@
+{
+  "SNOOZE_PARSER": {
+    "UNITS": {
+      "MINUTE": "മിനിറ്റ്",
+      "MINUTES": "മിനിറ്റ്",
+      "HOUR": "മണിക്കൂർ",
+      "HOURS": "മണിക്കൂർ",
+      "DAY": "ദിവസം",
+      "DAYS": "ദിവസം",
+      "WEEK": "ആഴ്ച",
+      "WEEKS": "ആഴ്ച",
+      "MONTH": "മാസം",
+      "MONTHS": "മാസം",
+      "YEAR": "വർഷം",
+      "YEARS": "വർഷം"
+    },
+    "HALF": "അര",
+    "NEXT": "അടുത്ത",
+    "THIS": "ഈ",
+    "AT": "സമയം",
+    "IN": "കഴിഞ്ഞ്",
+    "FROM_NOW": "ഇപ്പോൾ മുതൽ",
+    "NEXT_YEAR": "അടുത്ത വർഷം",
+    "MERIDIEM": { "AM": "രാവിലെ", "PM": "വൈകുന്നേരം" },
+    "RELATIVE": {
+      "TOMORROW": "നാളെ",
+      "DAY_AFTER_TOMORROW": "മറ്റന്നാൾ",
+      "NEXT_WEEK": "അടുത്ത ആഴ്ച",
+      "NEXT_MONTH": "അടുത്ത മാസം",
+      "THIS_WEEKEND": "ഈ വാരാന്ത്യം",
+      "NEXT_WEEKEND": "അടുത്ത വാരാന്ത്യം"
+    },
+    "TIME_OF_DAY": {
+      "MORNING": "രാവിലെ",
+      "AFTERNOON": "ഉച്ചയ്ക്ക്",
+      "EVENING": "വൈകുന്നേരം",
+      "NIGHT": "രാത്രി",
+      "NOON": "ഉച്ച",
+      "MIDNIGHT": "അർദ്ധരാത്രി"
+    },
+    "WORD_NUMBERS": {
+      "ONE": "ഒന്ന്",
+      "TWO": "രണ്ട്",
+      "THREE": "മൂന്ന്",
+      "FOUR": "നാല്",
+      "FIVE": "അഞ്ച്",
+      "SIX": "ആറ്",
+      "SEVEN": "ഏഴ്",
+      "EIGHT": "എട്ട്",
+      "NINE": "ഒൻപത്",
+      "TEN": "പത്ത്",
+      "TWELVE": "പന്ത്രണ്ട്",
+      "FIFTEEN": "പതിനഞ്ച്",
+      "TWENTY": "ഇരുപത്",
+      "THIRTY": "മുപ്പത്"
+    }
+  }
+}
