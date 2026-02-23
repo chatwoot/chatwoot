@@ -94,6 +94,11 @@ sl:
         host_unreachable_error: Gostitelj nedosegljiv. Preverite naslov IMAP, vrata IMAP in poskusite znova.
         connection_timed_out_error: Povezava je potekla za %{address}:%{port}
         connection_closed_error: Povezava zaprta.
+      smtp:
+        authentication_error: SMTP authentication failed. Please verify your login credentials.
+        connection_error: Could not connect to SMTP server. Please check the server address and port.
+        ssl_error: SSL/TLS error. Please verify your encryption settings.
+        smtp_error: SMTP server error. Please check your configuration and try again.
       validations:
         name: se ne sme začeti ali končati s simboli in ne sme vsebovati znakov < > / \ @.
     custom_filters:
