@@ -147,7 +147,9 @@ export default {
         await this.$store.dispatch('inboxes/updateInboxSMTP', payload);
         useAlert(this.$t('INBOX_MGMT.SMTP.EDIT.SUCCESS_MESSAGE'));
       } catch (error) {
-        useAlert(this.$t('INBOX_MGMT.SMTP.EDIT.ERROR_MESSAGE'));
+        useAlert(
+          error.message || this.$t('INBOX_MGMT.SMTP.EDIT.ERROR_MESSAGE')
+        );
       }
     },
   },
