@@ -94,6 +94,11 @@ hu:
         host_unreachable_error: A host nem érhető el, kérlek ellenőrizd az IMAP címet és portot, majd próbáld újra.
         connection_timed_out_error: A kapcsolódás timeoutolt a %{address}:%{port}-n
         connection_closed_error: Kapcsolódás bezárva.
+      smtp:
+        authentication_error: SMTP authentication failed. Please verify your login credentials.
+        connection_error: Could not connect to SMTP server. Please check the server address and port.
+        ssl_error: SSL/TLS error. Please verify your encryption settings.
+        smtp_error: SMTP server error. Please check your configuration and try again.
       validations:
         name: nem kezdődhet vagy végződhet szimbólummal, és nem tartalmazhat < > / \ @ karaktereket.
     custom_filters:
