@@ -94,6 +94,11 @@
         host_unreachable_error: Verten er ikke tilgjengelig. Vennligst kontroller IMAP-adressen, IMAP-porten og prøv på nytt.
         connection_timed_out_error: Tilkobling ble tidsavbrutt for %{address}:%{port}
         connection_closed_error: Forbindelsen ble lukket.
+      smtp:
+        authentication_error: SMTP authentication failed. Please verify your login credentials.
+        connection_error: Could not connect to SMTP server. Please check the server address and port.
+        ssl_error: SSL/TLS error. Please verify your encryption settings.
+        smtp_error: SMTP server error. Please check your configuration and try again.
       validations:
         name: ikke kan starte eller slutte med symboler, og den kan ikke ha < > / \ @ tegn.
     custom_filters:
