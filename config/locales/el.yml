@@ -94,6 +94,11 @@ el:
         host_unreachable_error: Μη προσβάσιμος διακομιστής, ελέγξτε τη διεύθυνση IMAP, τη θύρα IMAP και προσπαθήστε ξανά.
         connection_timed_out_error: Λήξη χρονικού ορίου σύνδεσης για %{address}:%{port}
         connection_closed_error: Η σύνδεση έκλεισε.
+      smtp:
+        authentication_error: SMTP authentication failed. Please verify your login credentials.
+        connection_error: Could not connect to SMTP server. Please check the server address and port.
+        ssl_error: SSL/TLS error. Please verify your encryption settings.
+        smtp_error: SMTP server error. Please check your configuration and try again.
       validations:
         name: δεν πρέπει να ξεκινά ή να τελειώνει με σύμβολα, και δεν πρέπει να περιέχει τους χαρακτήρες < > / \ @
     custom_filters:
