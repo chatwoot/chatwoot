@@ -42,9 +42,12 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   end
 
   def process_response
+    handoff = false
+
     ActiveRecord::Base.transaction do
       if handoff_requested?
-        process_action('handoff')
+        I18n.with_locale(@assistant.account.locale) { create_handoff_message }
+        handoff = true
       else
         create_messages
         Rails.logger.info("[CAPTAIN][ResponseBuilderJob] Incrementing response usage for #{account.id}")
