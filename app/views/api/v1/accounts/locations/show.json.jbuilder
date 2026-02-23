@@ -2,15 +2,11 @@ json.id @location.id
 json.name @location.name
 json.description @location.description
 json.type_name @location.type_name
-json.parent_location_id @location.parent_location_id
 
-if @location.parent_location.present?
-  json.parent_location do
-    json.id @location.parent_location.id
-    json.name @location.parent_location.name
-  end
-else
-  json.parent_location nil
+json.parent_location_ids @location.parent_locations.map(&:id)
+json.parent_locations @location.parent_locations do |p|
+  json.id p.id
+  json.name p.name
 end
 
 if @location.address.present?
@@ -33,8 +29,6 @@ else
 end
 
 json.has_children @location.children?
-json.depth @location.depth
-json.full_path @location.full_path
 json.created_at @location.created_at
 json.updated_at @location.updated_at
 

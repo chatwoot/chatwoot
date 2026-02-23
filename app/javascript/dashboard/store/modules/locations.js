@@ -35,12 +35,16 @@ export const getters = {
     return $state.meta;
   },
   getRootLocations($state) {
-    return $state.records.filter(loc => !loc.parent_location_id);
+    return $state.records.filter(loc => !loc.parent_location_ids?.length);
   },
   getLocationTree($state) {
     const buildTree = (parentId = null) => {
       return $state.records
-        .filter(loc => loc.parent_location_id === parentId)
+        .filter(loc =>
+          parentId === null
+            ? !loc.parent_location_ids?.length
+            : loc.parent_location_ids?.includes(parentId)
+        )
         .map(loc => ({
           ...loc,
           children: buildTree(loc.id),

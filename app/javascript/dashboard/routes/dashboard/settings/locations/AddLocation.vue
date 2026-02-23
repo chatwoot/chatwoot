@@ -13,7 +13,7 @@ export default {
       name: '',
       description: '',
       typeName: '',
-      parentLocationId: null,
+      parentLocations: [],
       hasAddress: false,
       street: '',
       exteriorNumber: '',
@@ -34,18 +34,7 @@ export default {
       locations: 'locations/getLocations',
     }),
     parentLocationOptions() {
-      const options = [
-        { value: null, label: this.$t('LOCATIONS.FORM.NO_PARENT') },
-      ];
-
-      this.locations.forEach(loc => {
-        options.push({
-          value: loc.id,
-          label: loc.name,
-        });
-      });
-
-      return options;
+      return this.locations;
     },
     isAddressValid() {
       if (!this.hasAddress) return true;
@@ -74,7 +63,7 @@ export default {
         name: this.name,
         description: this.description || null,
         type_name: this.typeName || null,
-        parent_location_id: this.parentLocationId || null,
+        parent_location_ids: this.parentLocations.map(l => l.id),
       };
 
       if (this.hasAddress) {
@@ -148,18 +137,22 @@ export default {
 
       <!-- Parent Location -->
       <div class="w-full">
-        <label>
+        <label class="mb-1 block">
           {{ $t('LOCATIONS.FORM.PARENT_LOCATION') }}
-          <select v-model="parentLocationId" class="w-full">
-            <option
-              v-for="option in parentLocationOptions"
-              :key="option.value"
-              :value="option.value"
-            >
-              {{ option.label }}
-            </option>
-          </select>
         </label>
+        <multiselect
+          v-model="parentLocations"
+          :options="parentLocationOptions"
+          track-by="id"
+          label="name"
+          multiple
+          :close-on-select="false"
+          :clear-on-select="false"
+          hide-selected
+          :placeholder="$t('LOCATIONS.FORM.PARENT_LOCATION_PLACEHOLDER')"
+          :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
+          :deselect-label="$t('FORMS.MULTISELECT.ENTER_TO_REMOVE')"
+        />
       </div>
 
       <!-- Has Address Toggle -->
