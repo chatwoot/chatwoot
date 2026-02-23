@@ -94,6 +94,11 @@ he:
         host_unreachable_error: מארח לא נגיש, אנא בדוק את כתובת ה-IMAP, יציאת ה-IMAP ונסה שוב.
         connection_timed_out_error: חיבור פג זמן עבור %{address}:%{port}
         connection_closed_error: החיבור נסגר.
+      smtp:
+        authentication_error: SMTP authentication failed. Please verify your login credentials.
+        connection_error: Could not connect to SMTP server. Please check the server address and port.
+        ssl_error: SSL/TLS error. Please verify your encryption settings.
+        smtp_error: SMTP server error. Please check your configuration and try again.
       validations:
         name: לא יכול להתחיל או להסתיים בסמלים, וזה לא צריך להכיל תווים < > / \ @
     custom_filters:
