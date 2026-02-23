@@ -39,6 +39,8 @@ class Channel::Email < ApplicationRecord
   include Reauthorizable
 
   AUTHORIZATION_ERROR_THRESHOLD = 10
+  MAX_IMAP_RETRIES = 5
+  IMAP_BACKOFF_BASE_SECONDS = 60
 
   # TODO: Remove guard once encryption keys become mandatory (target 3-4 releases out).
   if Chatwoot.encryption_configured?
@@ -70,6 +72,27 @@ class Channel::Email < ApplicationRecord
 
   def legacy_google?
     imap_enabled && imap_address == 'imap.gmail.com'
+  end
+
+  def in_backoff?
+    imap_retry_after.present? && imap_retry_after > Time.current
+  end
+
+  def apply_imap_backoff!
+    new_count = imap_retry_count + 1
+    if new_count >= MAX_IMAP_RETRIES
+      update!(imap_retry_count: 0, imap_retry_after: nil)
+      prompt_reauthorization!
+    else
+      backoff_seconds = IMAP_BACKOFF_BASE_SECONDS * (2**new_count)
+      update!(imap_retry_count: new_count, imap_retry_after: backoff_seconds.seconds.from_now)
+    end
+  end
+
+  def clear_imap_backoff!
+    return unless imap_retry_count.positive? || imap_retry_after.present?
+
+    update!(imap_retry_count: 0, imap_retry_after: nil)
   end
 
   private
