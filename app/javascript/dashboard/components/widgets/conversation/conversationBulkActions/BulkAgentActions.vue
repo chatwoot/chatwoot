@@ -90,6 +90,11 @@ const handleCancel = () => {
   selectedAgent.value = null;
 };
 
+const handleDismiss = () => {
+  selectedAgent.value = null;
+  toggleDropdown(false);
+};
+
 const handleToggleDropdown = () => {
   const willOpen = !showDropdown.value;
   toggleDropdown();
@@ -122,10 +127,7 @@ const handleToggleDropdown = () => {
     >
       <DropdownMenu
         v-if="showDropdown"
-        v-on-click-outside="[
-          () => toggleDropdown(false),
-          { ignore: [containerRef] },
-        ]"
+        v-on-click-outside="[handleDismiss, { ignore: [containerRef] }]"
         :menu-items="agentMenuItems"
         :is-loading="isLoading"
         show-search

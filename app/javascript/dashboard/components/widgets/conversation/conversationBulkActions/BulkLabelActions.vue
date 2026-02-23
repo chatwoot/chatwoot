@@ -72,6 +72,11 @@ const handleAssign = () => {
     selectedLabels.value = [];
   }
 };
+
+const handleDismiss = () => {
+  selectedLabels.value = [];
+  toggleDropdown(false);
+};
 </script>
 
 <template>
@@ -102,10 +107,7 @@ const handleAssign = () => {
     >
       <DropdownMenu
         v-if="showDropdown"
-        v-on-click-outside="[
-          () => toggleDropdown(false),
-          { ignore: [containerRef] },
-        ]"
+        v-on-click-outside="[handleDismiss, { ignore: [containerRef] }]"
         :menu-items="labelMenuItems"
         show-search
         :search-placeholder="t('BULK_ACTION.SEARCH_INPUT_PLACEHOLDER')"
