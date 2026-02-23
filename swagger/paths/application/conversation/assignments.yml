@@ -71,3 +71,28 @@ responses:
       application/json:
         schema:
           $ref: '#/components/schemas/bad_request_error'
+x-codeSamples:
+  - lang: Python
+    label: Assign to an agent
+    source: |
+      from chatwoot import ChatwootClient
+
+      client = ChatwootClient(url="https://app.chatwoot.com", api_key="your-api-key")
+
+      conversation = client.conversations.assign(
+          account_id=1,
+          conversation_id=42,
+          assignee_id=10
+      )
+  - lang: Python
+    label: Assign to a team
+    source: |
+      from chatwoot import ChatwootClient
+
+      client = ChatwootClient(url="https://app.chatwoot.com", api_key="your-api-key")
+
+      conversation = client.conversations.assign(
+          account_id=1,
+          conversation_id=42,
+          team_id=5
+      )
