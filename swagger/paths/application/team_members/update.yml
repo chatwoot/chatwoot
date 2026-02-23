@@ -17,7 +17,7 @@ x-codeSamples:
       )
 
       # Replaces all current agents with the ones provided
-      client.teams.agents.add(
+      agents = client.teams.agents.update(
           account_id=1,
           team_id=5,
           agent_ids=[10, 11]
