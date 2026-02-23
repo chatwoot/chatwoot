@@ -45,6 +45,7 @@ class Message < ApplicationRecord
   include MessageFilterHelpers
   include Liquidable
   NUMBER_OF_PERMITTED_ATTACHMENTS = 15
+  LLM_ATTACHMENT_TYPES = %i[image file].freeze
 
   TEMPLATE_PARAMS_SCHEMA = {
     'type': 'object',
@@ -270,7 +271,18 @@ class Message < ApplicationRecord
                           .presence
     return "[Voice Message] #{audio_transcription}" if audio_transcription.present?
 
+    return '[The customer sent an image]' if attachments.exists?(file_type: :image)
+    return '[The customer sent a file]' if attachments.exists?(file_type: :file)
+
     '[Attachment]' if attachments.any?
+  end
+
+  # Returns URLs for image/file attachments suitable for LLM vision/document analysis
+  # Prefers external_url (channel-native, stable) over download_url (signed S3, short-lived)
+  def attachment_urls_for_llm
+    attachments
+      .where(file_type: LLM_ATTACHMENT_TYPES)
+      .filter_map { |att| att.external_url.presence || att.download_url.presence }
   end
 
   private
