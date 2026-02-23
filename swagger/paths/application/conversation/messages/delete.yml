@@ -18,6 +18,7 @@ x-codeSamples:
 
       client.messages.delete(
           account_id=1,
+          conversation_id=42,
           message_id=123
       )
 responses:
