@@ -94,6 +94,11 @@ vi:
         host_unreachable_error: Máy chủ không thể truy cập được, Vui lòng kiểm tra địa chỉ IMAP, cổng IMAP và thử lại.
         connection_timed_out_error: Kết nối đã hết thời gian chờ %{address}:%{port}
         connection_closed_error: Kêt nối bị đóng.
+      smtp:
+        authentication_error: SMTP authentication failed. Please verify your login credentials.
+        connection_error: Could not connect to SMTP server. Please check the server address and port.
+        ssl_error: SSL/TLS error. Please verify your encryption settings.
+        smtp_error: SMTP server error. Please check your configuration and try again.
       validations:
         name: không nên bắt đầu hoặc kết thúc bằng các ký hiệu và không nên có kí tự < > / \ @.
     custom_filters:
