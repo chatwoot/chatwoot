@@ -15,8 +15,8 @@ RSpec.describe 'Twilio::DeliveryStatusController', type: :request do
       }
     end
 
-    def post_with_signature(url, params:)
-      validator = Twilio::Security::RequestValidator.new(twilio_channel.auth_token)
+    def post_with_signature(url, params:, channel: twilio_channel)
+      validator = Twilio::Security::RequestValidator.new(channel.auth_token)
       signature = validator.build_signature_for(url, params)
       post url, params: params, headers: { 'X-Twilio-Signature' => signature }
     end
@@ -105,6 +105,30 @@ RSpec.describe 'Twilio::DeliveryStatusController', type: :request do
         end.to have_enqueued_job(Webhooks::TwilioDeliveryStatusJob)
 
         expect(response).to have_http_status(:no_content)
+      end
+    end
+
+    context 'when To maps to an API-key channel but From maps to a different channel' do
+      let!(:api_key_channel) do
+        create(:channel_twilio_sms, :with_phone_number, account: account, account_sid: 'AC123', api_key_sid: 'SK123')
+      end
+      let!(:from_channel) { create(:channel_twilio_sms, :with_phone_number, account: account, account_sid: 'AC123') }
+      let(:params) do
+        {
+          'MessageSid' => 'SM123',
+          'MessageStatus' => 'delivered',
+          'AccountSid' => 'AC123',
+          'To' => api_key_channel.phone_number,
+          'From' => from_channel.phone_number
+        }
+      end
+
+      it 'rejects invalid signatures instead of skipping verification' do
+        expect do
+          post twilio_delivery_status_index_url, params: params, headers: { 'X-Twilio-Signature' => 'invalid' }
+        end.not_to have_enqueued_job(Webhooks::TwilioDeliveryStatusJob)
+
+        expect(response).to have_http_status(:forbidden)
       end
     end
   end

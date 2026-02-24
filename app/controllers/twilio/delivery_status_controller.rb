@@ -20,4 +20,8 @@ class Twilio::DeliveryStatusController < ApplicationController
       :ErrorMessage
     )
   end
+
+  def channel_lookup_phone_numbers
+    [params[:From]].compact_blank
+  end
 end

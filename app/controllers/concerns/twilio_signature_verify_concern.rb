@@ -66,11 +66,15 @@ module TwilioSignatureVerifyConcern
   end
 
   def find_channel_by_phone_number
-    [params[:To], params[:From]].compact_blank.each do |phone|
+    channel_lookup_phone_numbers.each do |phone|
       channel = ::Channel::TwilioSms.find_by(account_sid: params[:AccountSid], phone_number: phone)
       return channel if channel
     end
     nil
+  end
+
+  def channel_lookup_phone_numbers
+    [params[:To], params[:From]].compact_blank
   end
 
   def reconstruct_url
