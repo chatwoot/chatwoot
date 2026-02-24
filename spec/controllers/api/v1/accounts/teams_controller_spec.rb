@@ -46,6 +46,7 @@ RSpec.describe 'Teams API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
+        expect(response).to conform_schema(200)
         expect(response.parsed_body['id']).to eq(team.id)
       end
     end
