@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_02_17_011526) do
+ActiveRecord::Schema[7.1].define(version: 2026_02_23_000001) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -105,6 +105,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_17_011526) do
     t.jsonb "settings", default: {}
     t.string "pinecone_index"
     t.bigint "feature_flags_2", default: 0, null: false
+    t.bigint "product_catalog_version", default: 0, null: false
     t.index ["status"], name: "index_accounts_on_status"
   end
 
@@ -1187,6 +1188,52 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_17_011526) do
     t.jsonb "settings", default: {}
   end
 
+  create_table "kb_folders", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.string "name", null: false
+    t.string "parent_path", default: "/", null: false
+    t.string "full_path", null: false
+    t.bigint "created_by_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "full_path"], name: "index_kb_folders_on_account_id_and_full_path", unique: true
+    t.index ["account_id", "parent_path"], name: "index_kb_folders_on_account_id_and_parent_path"
+    t.index ["account_id"], name: "index_kb_folders_on_account_id"
+    t.index ["created_by_id"], name: "index_kb_folders_on_created_by_id"
+  end
+
+  create_table "kb_resource_product_catalogs", force: :cascade do |t|
+    t.bigint "kb_resource_id", null: false
+    t.bigint "product_catalog_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["kb_resource_id", "product_catalog_id"], name: "idx_kb_res_prod_cat_unique", unique: true
+    t.index ["kb_resource_id"], name: "index_kb_resource_product_catalogs_on_kb_resource_id"
+    t.index ["product_catalog_id"], name: "index_kb_resource_product_catalogs_on_product_catalog_id"
+  end
+
+  create_table "kb_resources", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.string "name", null: false
+    t.text "description"
+    t.string "folder_path", default: "/", null: false
+    t.string "file_name", null: false
+    t.string "s3_key", null: false
+    t.string "content_type"
+    t.bigint "file_size"
+    t.boolean "is_visible", default: true, null: false
+    t.bigint "created_by_id"
+    t.bigint "updated_by_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "folder_path"], name: "index_kb_resources_on_account_id_and_folder_path"
+    t.index ["account_id"], name: "index_kb_resources_on_account_id"
+    t.index ["created_by_id"], name: "index_kb_resources_on_created_by_id"
+    t.index ["is_visible"], name: "index_kb_resources_on_is_visible"
+    t.index ["s3_key"], name: "index_kb_resources_on_s3_key", unique: true
+    t.index ["updated_by_id"], name: "index_kb_resources_on_updated_by_id"
+  end
+
   create_table "labels", force: :cascade do |t|
     t.string "title"
     t.text "description"
@@ -1243,18 +1290,26 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_17_011526) do
     t.index ["user_id"], name: "index_leaves_on_user_id"
   end
 
+  create_table "location_hierarchies", force: :cascade do |t|
+    t.bigint "parent_location_id", null: false
+    t.bigint "child_location_id", null: false
+    t.bigint "account_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_location_hierarchies_on_account_id"
+    t.index ["child_location_id"], name: "index_location_hierarchies_on_child_location_id"
+    t.index ["parent_location_id", "child_location_id"], name: "index_loc_hierarchies_on_parent_and_child", unique: true
+  end
+
   create_table "locations", force: :cascade do |t|
     t.string "name", null: false
     t.text "description"
     t.string "type_name"
-    t.bigint "parent_location_id"
     t.bigint "account_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["account_id", "name"], name: "index_locations_on_account_id_and_name"
     t.index ["account_id"], name: "index_locations_on_account_id"
-    t.index ["parent_location_id", "account_id"], name: "index_locations_on_parent_and_account"
-    t.index ["parent_location_id"], name: "index_locations_on_parent_location_id"
   end
 
   create_table "macros", force: :cascade do |t|
@@ -1692,6 +1747,23 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_17_011526) do
     t.index ["name", "account_id"], name: "index_teams_on_name_and_account_id", unique: true
   end
 
+  create_table "tickets", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "contact_id"
+    t.bigint "conversation_id"
+    t.string "subject", null: false
+    t.text "description"
+    t.string "priority"
+    t.string "classification"
+    t.jsonb "external_ids", default: {}
+    t.jsonb "metadata", default: {}
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_tickets_on_account_id"
+    t.index ["contact_id"], name: "index_tickets_on_contact_id"
+    t.index ["conversation_id"], name: "index_tickets_on_conversation_id"
+  end
+
   create_table "users", id: :serial, force: :cascade do |t|
     t.string "provider", default: "email", null: false
     t.string "uid", default: "", null: false
@@ -1805,10 +1877,19 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_17_011526) do
   add_foreign_key "inbox_faq_categories", "inboxes"
   add_foreign_key "inboxes", "portals"
   add_foreign_key "inboxes", "surveys"
+  add_foreign_key "kb_folders", "accounts"
+  add_foreign_key "kb_folders", "users", column: "created_by_id"
+  add_foreign_key "kb_resource_product_catalogs", "kb_resources"
+  add_foreign_key "kb_resource_product_catalogs", "product_catalogs"
+  add_foreign_key "kb_resources", "accounts"
+  add_foreign_key "kb_resources", "users", column: "created_by_id"
+  add_foreign_key "kb_resources", "users", column: "updated_by_id"
   add_foreign_key "lead_follow_up_sequences", "accounts"
   add_foreign_key "lead_follow_up_sequences", "inboxes"
+  add_foreign_key "location_hierarchies", "accounts"
+  add_foreign_key "location_hierarchies", "locations", column: "child_location_id"
+  add_foreign_key "location_hierarchies", "locations", column: "parent_location_id"
   add_foreign_key "locations", "accounts"
-  add_foreign_key "locations", "locations", column: "parent_location_id"
   add_foreign_key "marketing_campaigns", "accounts"
   add_foreign_key "meta_campaign_interactions", "accounts"
   add_foreign_key "meta_campaign_interactions", "conversations"
@@ -1830,6 +1911,9 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_17_011526) do
   add_foreign_key "survey_question_options", "survey_questions"
   add_foreign_key "survey_questions", "surveys"
   add_foreign_key "surveys", "accounts"
+  add_foreign_key "tickets", "accounts"
+  add_foreign_key "tickets", "contacts"
+  add_foreign_key "tickets", "conversations"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
       on("accounts").
       after(:insert).
