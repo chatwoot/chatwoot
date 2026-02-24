@@ -1,0 +1,10 @@
+# Sudoers rules for chatwoot user — deployment operations
+# Install to /etc/sudoers.d/chatwoot
+chatwoot ALL=(ALL) NOPASSWD: /bin/systemctl restart chatwoot.target
+chatwoot ALL=(ALL) NOPASSWD: /bin/systemctl restart chatwoot-web.service
+chatwoot ALL=(ALL) NOPASSWD: /bin/systemctl restart chatwoot-worker.service
+chatwoot ALL=(ALL) NOPASSWD: /bin/systemctl stop chatwoot.target
+chatwoot ALL=(ALL) NOPASSWD: /bin/systemctl start chatwoot.target
+chatwoot ALL=(ALL) NOPASSWD: /bin/systemctl status chatwoot.target
+chatwoot ALL=(ALL) NOPASSWD: /bin/systemctl status chatwoot-web.service
+chatwoot ALL=(ALL) NOPASSWD: /bin/systemctl status chatwoot-worker.service

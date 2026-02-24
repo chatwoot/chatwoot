@@ -1,0 +1,33 @@
+[Unit]
+Description=Chatwoot Sidekiq Worker (crm.framky.com)
+Requires=network.target
+After=network.target postgresql.service redis-server.service
+PartOf=chatwoot.target
+
+[Service]
+Type=simple
+User=chatwoot
+WorkingDirectory=/srv/chatwoot/chatwoot
+
+ExecStart=/bin/bash -lc 'eval "$(/srv/chatwoot/.rbenv/bin/rbenv init -)" && bundle exec sidekiq -C config/sidekiq.yml'
+
+Restart=always
+RestartSec=3
+TimeoutStopSec=30
+KillMode=mixed
+StandardInput=null
+SyslogIdentifier=%p
+
+MemoryMax=1.2G
+MemoryHigh=infinity
+MemorySwapMax=0
+OOMPolicy=stop
+
+Environment="PATH=/srv/chatwoot/.rbenv/shims:/srv/chatwoot/.rbenv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+Environment="RBENV_ROOT=/srv/chatwoot/.rbenv"
+Environment="RAILS_ENV=production"
+Environment="NODE_ENV=production"
+Environment="RAILS_LOG_TO_STDOUT=true"
+
+[Install]
+WantedBy=chatwoot.target

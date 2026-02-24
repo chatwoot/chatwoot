@@ -1,0 +1,6 @@
+[Unit]
+Description=Chatwoot Application (crm.framky.com)
+Wants=chatwoot-web.service chatwoot-worker.service
+
+[Install]
+WantedBy=multi-user.target

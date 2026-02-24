@@ -1,0 +1,29 @@
+[Unit]
+Description=Chatwoot Web Server (crm.framky.com)
+Requires=network.target
+After=network.target postgresql.service redis-server.service
+PartOf=chatwoot.target
+
+[Service]
+Type=simple
+User=chatwoot
+WorkingDirectory=/srv/chatwoot/chatwoot
+
+ExecStart=/bin/bash -lc 'eval "$(/srv/chatwoot/.rbenv/bin/rbenv init -)" && bin/rails server -p $PORT -e $RAILS_ENV'
+
+Restart=always
+RestartSec=3
+TimeoutStopSec=30
+KillMode=mixed
+StandardInput=null
+SyslogIdentifier=%p
+
+Environment="PATH=/srv/chatwoot/.rbenv/shims:/srv/chatwoot/.rbenv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+Environment="RBENV_ROOT=/srv/chatwoot/.rbenv"
+Environment="PORT=5000"
+Environment="RAILS_ENV=production"
+Environment="NODE_ENV=production"
+Environment="RAILS_LOG_TO_STDOUT=true"
+
+[Install]
+WantedBy=chatwoot.target
