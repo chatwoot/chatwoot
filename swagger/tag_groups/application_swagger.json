@@ -3264,7 +3264,14 @@
         },
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/conversation"
+                }
+              }
+            }
           },
           "401": {
             "description": "Unauthorized",
@@ -7728,7 +7735,10 @@
             "description": "The time at which message was created"
           },
           "updated_at": {
-            "type": "integer",
+            "type": [
+              "integer",
+              "string"
+            ],
             "description": "The time at which message was updated"
           },
           "private": {
@@ -7777,9 +7787,9 @@
           "sender_type": {
             "type": "string",
             "enum": [
-              "contact",
-              "agent",
-              "agent_bot"
+              "Contact",
+              "User",
+              "AgentBot"
             ],
             "description": "The type of the sender"
           },
@@ -11283,7 +11293,10 @@
                 "description": "Country of the contact"
               },
               "country_code": {
-                "type": "string",
+                "type": [
+                  "string",
+                  "null"
+                ],
                 "description": "Country code of the contact"
               },
               "created_at_ip": {
@@ -11526,7 +11539,10 @@
             "description": "Total number of contacts"
           },
           "current_page": {
-            "type": "string",
+            "type": [
+              "string",
+              "integer"
+            ],
             "description": "Current page number"
           }
         }
@@ -11588,7 +11604,10 @@
                 "description": "Country of the contact"
               },
               "country_code": {
-                "type": "string",
+                "type": [
+                  "string",
+                  "null"
+                ],
                 "description": "Country code of the contact"
               },
               "created_at_ip": {

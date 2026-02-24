@@ -204,6 +204,7 @@ RSpec.describe 'Accounts API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
+        expect(response).to conform_schema(200)
         expect(account.reload.name).to eq(params[:name])
         expect(account.reload.locale).to eq(params[:locale])
         expect(account.reload.domain).to eq(params[:domain])

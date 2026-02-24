@@ -11,7 +11,9 @@ properties:
         type: string
         description: Country of the contact
       country_code:
-        type: string
+        type:
+          - string
+          - 'null'
         description: Country code of the contact
       created_at_ip:
         type: string

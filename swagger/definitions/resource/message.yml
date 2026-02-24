@@ -23,7 +23,9 @@ properties:
     type: integer
     description: The time at which message was created
   updated_at:
-    type: integer
+    type:
+      - integer
+      - string
     description: The time at which message was updated
   private:
     type: boolean
@@ -50,7 +52,7 @@ properties:
     description: The content attributes for each content_type
   sender_type:
     type: string
-    enum: ["contact", "agent", "agent_bot"]
+    enum: ["Contact", "User", "AgentBot"]
     description: The type of the sender
   sender_id:
     type: number
