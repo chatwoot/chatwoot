@@ -420,6 +420,9 @@ zh_CN:
       other: '%{count} 分钟'
     seconds:
       other: '%{count} 秒'
+  auto_assignment:
+    default_policy_name: 'Default Policy'
+    policy_actor: 'Automation System via %{policy_name}'
   automation:
     system_name: '自动化系统'
   crm:
