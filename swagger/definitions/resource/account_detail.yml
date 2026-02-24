@@ -26,9 +26,7 @@ properties:
     type: object
     description: Cache keys for the account
   features:
-    type: array
-    items:
-      type: string
+    type: object
     description: Enabled features for the account
   settings:
     type: object

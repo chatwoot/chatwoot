@@ -1547,10 +1547,7 @@
             "description": "Cache keys for the account"
           },
           "features": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
+            "type": "object",
             "description": "Enabled features for the account"
           },
           "settings": {
@@ -1634,7 +1631,10 @@
             "type": "object",
             "properties": {
               "latest_chatwoot_version": {
-                "type": "string",
+                "type": [
+                  "string",
+                  "null"
+                ],
                 "description": "Latest version of Chatwoot available",
                 "example": "3.0.0"
               },

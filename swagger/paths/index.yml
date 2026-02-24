@@ -167,7 +167,7 @@
 # ------------  Application API routes  ------------#
 
 # Accounts
-/api/v1/accounts/{id}:
+/api/v1/accounts/{account_id}:
   parameters:
     - $ref: '#/components/parameters/account_id'
   get:

@@ -126,6 +126,7 @@ RSpec.describe 'Accounts API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
+        expect(response).to conform_schema(200)
         expect(response.body).to include(account.name)
         expect(response.body).to include(account.locale)
         expect(response.body).to include(account.domain)
