@@ -6,6 +6,10 @@ set -euo pipefail
 APP_DIR="/srv/chatwoot/chatwoot"
 BRANCH="framky/main"
 
+# Load rbenv
+export PATH="/srv/chatwoot/.rbenv/bin:${PATH}"
+eval "$(rbenv init -)"
+
 echo "=== Deploying Chatwoot (${BRANCH}) ==="
 
 cd "${APP_DIR}"
