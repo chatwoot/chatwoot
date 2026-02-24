@@ -85,6 +85,9 @@ class Whatsapp::GroupService
     group_conversation = setup_group_conversation(group_id, parsed_response['participants'] || [])
     return nil unless group_conversation
 
+    unprocessed = parsed_response['unprocessed_participants'].presence
+    send_group_invites(group_id, unprocessed) if unprocessed
+
     { group_id: group_id, conversation: group_conversation }
   end
 
@@ -276,6 +279,49 @@ class Whatsapp::GroupService
   rescue StandardError => e
     Rails.logger.error "[WHATSAPP GROUP] Error saving welcome message: #{e.message}"
     Rails.logger.error e.backtrace.join("\n")
+  end
+
+  def send_group_invites(group_id, unprocessed_participants)
+    invite_code = fetch_group_invite_code(group_id)
+    return unless invite_code
+
+    unprocessed_participants.each { |phone| send_invite_message(invite_code, phone) }
+  end
+
+  def fetch_group_invite_code(group_id)
+    response = HTTParty.get(
+      "#{whapi_api_url}/groups/#{group_id}/invite",
+      headers: whapi_headers
+    )
+
+    unless response&.success?
+      Rails.logger.error "[WHATSAPP GROUP] Failed to fetch invite code for group #{group_id}: #{response&.body}"
+      return nil
+    end
+
+    JSON.parse(response.body)['invite_code']
+  rescue StandardError => e
+    Rails.logger.error "[WHATSAPP GROUP] Error fetching invite code for group #{group_id}: #{e.message}"
+    nil
+  end
+
+  def send_invite_message(invite_code, phone)
+    agent_name = conversation.assignee&.name || 'Agente'
+    message_payload = {
+      to: phone,
+      body: "En este grupo serás atendido por #{agent_name}",
+      preview_type: 'none'
+    }
+
+    response = HTTParty.post(
+      "#{whapi_api_url}/groups/link/#{invite_code}",
+      headers: whapi_headers,
+      body: message_payload.to_json
+    )
+
+    Rails.logger.info "[WHATSAPP GROUP] Invite sent to #{phone}, code: #{invite_code}, response: #{response.body}"
+  rescue StandardError => e
+    Rails.logger.error "[WHATSAPP GROUP] Error sending invite to #{phone}: #{e.message}"
   end
 
   def inbox
