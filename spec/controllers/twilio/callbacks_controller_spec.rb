@@ -120,5 +120,28 @@ RSpec.describe 'Twilio::CallbacksController', type: :request do
         expect(response).to have_http_status(:no_content)
       end
     end
+
+    context 'when MessagingServiceSid is present but does not match a channel' do
+      let(:params) do
+        {
+          'From' => '+1234567890',
+          'To' => twilio_channel.phone_number,
+          'Body' => 'Test message',
+          'AccountSid' => 'AC123',
+          'SmsSid' => 'SM123',
+          'MessagingServiceSid' => 'MG_UNKNOWN'
+        }
+      end
+
+      it 'falls back to account and phone number lookup' do
+        url = twilio_callback_index_url
+
+        expect do
+          post_with_signature(url, params: params)
+        end.to have_enqueued_job(Webhooks::TwilioEventsJob)
+
+        expect(response).to have_http_status(:no_content)
+      end
+    end
   end
 end
