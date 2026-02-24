@@ -56,6 +56,7 @@ jobs:
 
   build-image:
     if: |
+      always() &&
       github.event_name == 'push' &&
       (needs.test-frontend.result == 'success' || needs.test-frontend.result == 'skipped') &&
       (needs.test-all.result == 'success' || needs.test-all.result == 'skipped')
@@ -101,7 +102,7 @@ jobs:
           file: docker/Dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.image-meta.outputs.image_tag }}
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.semver.outputs.version }}
           cache-from: type=gha,scope=konko-chatwoot-image
           cache-to: type=gha,mode=max,scope=konko-chatwoot-image
 
