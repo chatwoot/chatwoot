@@ -33,7 +33,7 @@ const {
 } = useMessageContext();
 
 const readableTime = computed(() =>
-  messageTimestamp(createdAt.value, 'dd/MM/yyyy hh:mm')
+  messageTimestamp(createdAt.value, 'dd/MM/yyyy HH:mm')
 );
 
 const showStatusIndicator = computed(() => {
