@@ -21,6 +21,7 @@ class Label < ApplicationRecord
   include AccountCacheRevalidator
 
   belongs_to :account
+  has_many :pipeline_stages, -> { order(:position) }, dependent: :destroy
 
   validates :title,
             presence: { message: I18n.t('errors.validations.presence') },

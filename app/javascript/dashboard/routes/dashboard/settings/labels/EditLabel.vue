@@ -5,10 +5,12 @@ import validations, { getLabelTitleErrorMessage } from './validations';
 import { useVuelidate } from '@vuelidate/core';
 
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import PipelineStagesEditor from './PipelineStagesEditor.vue';
 
 export default {
   components: {
     NextButton,
+    PipelineStagesEditor,
   },
   props: {
     selectedResponse: {
@@ -113,6 +115,10 @@ export default {
           {{ $t('LABEL_MGMT.FORM.SHOW_ON_SIDEBAR.LABEL') }}
         </label>
       </div>
+      <PipelineStagesEditor
+        v-if="selectedResponse.id"
+        :label-id="selectedResponse.id"
+      />
       <div class="flex items-center justify-end w-full gap-2 px-0 py-2">
         <NextButton
           faded

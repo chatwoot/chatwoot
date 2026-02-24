@@ -211,6 +211,7 @@
       "TIP_AUDIORECORDER_PERMISSION": "Allow access to audio",
       "TIP_AUDIORECORDER_ERROR": "Could not open the audio",
       "DRAG_DROP": "Drag and drop here to attach",
+      "AUTO_TRANSLATE_BANNER": "Message will be auto-translated to {language}",
       "START_AUDIO_RECORDING": "Start audio recording",
       "STOP_AUDIO_RECORDING": "Stop audio recording",
       "COPILOT_THINKING": "Copilot is thinking",

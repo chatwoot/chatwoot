@@ -40,6 +40,10 @@ export default {
       type: Boolean,
       default: true,
     },
+    conversationLanguage: {
+      type: String,
+      default: '',
+    },
   },
   emits: ['panelClose'],
   setup() {
@@ -90,6 +94,11 @@ export default {
         twitter,
         telegram,
       };
+    },
+    contactLocaleCode() {
+      return (
+        this.additionalAttributes.locale || this.conversationLanguage || ''
+      );
     },
     // Delete Modal
     confirmDeleteMessage() {
@@ -199,6 +208,12 @@ export default {
           >
             {{ contact.name }}
           </h3>
+          <span
+            v-if="contactLocaleCode"
+            class="inline-flex items-center px-1.5 py-0.5 text-xs font-medium uppercase rounded bg-n-alpha-black2 text-n-slate-11"
+          >
+            {{ contactLocaleCode }}
+          </span>
           <div class="flex flex-row items-center gap-2">
             <span
               v-if="contact.created_at"
@@ -233,11 +248,12 @@ export default {
             show-copy
           />
           <ContactInfoRow
-            :href="contact.phone_number ? `tel:${contact.phone_number}` : ''"
-            :value="contact.phone_number"
-            icon="call"
-            emoji="📞"
-            :title="$t('CONTACT_PANEL.PHONE_NUMBER')"
+            v-if="additionalAttributes.website"
+            :href="additionalAttributes.website"
+            :value="additionalAttributes.website"
+            icon="globe"
+            emoji="🌐"
+            :title="$t('CONTACT_PANEL.WEBSITE')"
             show-copy
           />
           <ContactInfoRow
@@ -246,12 +262,6 @@ export default {
             icon="contact-identify"
             emoji="🪪"
             :title="$t('CONTACT_PANEL.IDENTIFIER')"
-          />
-          <ContactInfoRow
-            :value="additionalAttributes.company_name"
-            icon="building-bank"
-            emoji="🏢"
-            :title="$t('CONTACT_PANEL.COMPANY')"
           />
           <ContactInfoRow
             v-if="location || additionalAttributes.location"

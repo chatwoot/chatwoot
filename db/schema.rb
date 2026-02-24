@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_01_30_061021) do
+ActiveRecord::Schema[7.1].define(version: 2026_02_24_100001) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -610,6 +610,18 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_30_061021) do
     t.index ["source_id"], name: "index_contact_inboxes_on_source_id"
   end
 
+  create_table "contact_pipeline_stages", force: :cascade do |t|
+    t.bigint "contact_id", null: false
+    t.bigint "pipeline_stage_id", null: false
+    t.bigint "account_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_contact_pipeline_stages_on_account_id"
+    t.index ["contact_id", "pipeline_stage_id"], name: "idx_contact_pipeline_stages_unique", unique: true
+    t.index ["contact_id"], name: "index_contact_pipeline_stages_on_contact_id"
+    t.index ["pipeline_stage_id"], name: "index_contact_pipeline_stages_on_pipeline_stage_id"
+  end
+
   create_table "contacts", id: :serial, force: :cascade do |t|
     t.string "name", default: ""
     t.string "email"
@@ -1048,6 +1060,17 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_30_061021) do
     t.index ["user_id"], name: "index_notifications_on_user_id"
   end
 
+  create_table "pipeline_stages", force: :cascade do |t|
+    t.bigint "label_id", null: false
+    t.string "title", null: false
+    t.integer "position", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["label_id", "position"], name: "index_pipeline_stages_on_label_id_and_position"
+    t.index ["label_id", "title"], name: "index_pipeline_stages_on_label_id_and_title", unique: true
+    t.index ["label_id"], name: "index_pipeline_stages_on_label_id"
+  end
+
   create_table "platform_app_permissibles", force: :cascade do |t|
     t.bigint "platform_app_id", null: false
     t.string "permissible_type", null: false
@@ -1271,7 +1294,11 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_30_061021) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "contact_pipeline_stages", "accounts"
+  add_foreign_key "contact_pipeline_stages", "contacts"
+  add_foreign_key "contact_pipeline_stages", "pipeline_stages"
   add_foreign_key "inboxes", "portals"
+  add_foreign_key "pipeline_stages", "labels"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
       on("accounts").
       after(:insert).

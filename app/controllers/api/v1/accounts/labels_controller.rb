@@ -4,7 +4,7 @@ class Api::V1::Accounts::LabelsController < Api::V1::Accounts::BaseController
   before_action :check_authorization
 
   def index
-    @labels = policy_scope(Current.account.labels)
+    @labels = policy_scope(Current.account.labels).includes(:pipeline_stages)
   end
 
   def show; end

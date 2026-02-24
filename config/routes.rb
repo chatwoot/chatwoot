@@ -189,6 +189,7 @@ Rails.application.routes.draw do
               resources :contact_inboxes, only: [:create]
               resources :labels, only: [:create, :index]
               resources :notes
+              resources :pipeline_stages, only: [:index, :update]
               post :call, on: :member, to: 'calls#create' if ChatwootApp.enterprise?
             end
           end
@@ -233,7 +234,13 @@ Rails.application.routes.draw do
               patch :update
             end
           end
-          resources :labels, only: [:index, :show, :create, :update, :destroy]
+          resources :labels, only: [:index, :show, :create, :update, :destroy] do
+            scope module: :labels do
+              resources :pipeline_stages, only: [:index, :create, :update, :destroy] do
+                post :reorder, on: :collection
+              end
+            end
+          end
 
           resources :notifications, only: [:index, :update, :destroy] do
             collection do

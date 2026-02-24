@@ -31,6 +31,14 @@ class Integrations::GoogleTranslate::DetectLanguageService
     conversation_language = response.languages.first.language_code
     additional_attributes = conversation.additional_attributes.merge({ conversation_language: conversation_language })
     conversation.update!(additional_attributes: additional_attributes)
+    save_contact_locale(conversation_language)
+  end
+
+  def save_contact_locale(language)
+    contact = conversation.contact
+    return if contact.additional_attributes&.dig('locale').present?
+
+    contact.update!(additional_attributes: (contact.additional_attributes || {}).merge('locale' => language))
   end
 
   def client

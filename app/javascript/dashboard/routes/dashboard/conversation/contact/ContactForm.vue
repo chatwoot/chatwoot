@@ -7,8 +7,6 @@ import {
 import { required, email } from '@vuelidate/validators';
 import { useVuelidate } from '@vuelidate/core';
 import countries from 'shared/constants/countries.js';
-import { isPhoneNumberValid } from 'shared/helpers/Validators';
-import parsePhoneNumber from 'libphonenumber-js';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import Avatar from 'next/avatar/Avatar.vue';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
@@ -40,12 +38,10 @@ export default {
   data() {
     return {
       countries: countries,
-      companyName: '',
       description: '',
       email: '',
       name: '',
-      phoneNumber: '',
-      activeDialCode: '',
+      website: '',
       avatarFile: null,
       avatarUrl: '',
       country: {
@@ -61,6 +57,7 @@ export default {
         telegram: '',
       },
       socialProfileKeys: [
+        { key: 'instagram', prefixURL: 'https://instagram.com/' },
         { key: 'facebook', prefixURL: 'https://facebook.com/' },
         { key: 'twitter', prefixURL: 'https://twitter.com/' },
         { key: 'linkedin', prefixURL: 'https://linkedin.com/' },
@@ -78,44 +75,9 @@ export default {
     email: {
       email,
     },
-    companyName: {},
-    phoneNumber: {},
-    bio: {},
+    website: {},
   },
-  computed: {
-    parsePhoneNumber() {
-      return parsePhoneNumber(this.phoneNumber);
-    },
-    isPhoneNumberNotValid() {
-      if (this.phoneNumber !== '') {
-        return (
-          !isPhoneNumberValid(this.phoneNumber, this.activeDialCode) ||
-          (this.phoneNumber !== '' ? this.activeDialCode === '' : false)
-        );
-      }
-      return false;
-    },
-    phoneNumberError() {
-      if (this.activeDialCode === '') {
-        return this.$t('CONTACT_FORM.FORM.PHONE_NUMBER.DIAL_CODE_ERROR');
-      }
-      if (!isPhoneNumberValid(this.phoneNumber, this.activeDialCode)) {
-        return this.$t('CONTACT_FORM.FORM.PHONE_NUMBER.ERROR');
-      }
-      return '';
-    },
-    setPhoneNumber() {
-      if (this.parsePhoneNumber && this.parsePhoneNumber.countryCallingCode) {
-        return this.phoneNumber;
-      }
-      if (this.phoneNumber === '' && this.activeDialCode !== '') {
-        return '';
-      }
-      return this.activeDialCode
-        ? `${this.activeDialCode}${this.phoneNumber}`
-        : '';
-    },
-  },
+  computed: {},
   watch: {
     contact() {
       this.setContactObject();
@@ -123,7 +85,6 @@ export default {
   },
   mounted() {
     this.setContactObject();
-    this.setDialCode();
   },
   methods: {
     onCancel() {
@@ -143,28 +104,13 @@ export default {
         ? { id: selected.id, name: selected.name }
         : { id: '', name: '' };
     },
-    setDialCode() {
-      if (
-        this.phoneNumber !== '' &&
-        this.parsePhoneNumber &&
-        this.parsePhoneNumber.countryCallingCode
-      ) {
-        const dialCode = this.parsePhoneNumber.countryCallingCode;
-        this.activeDialCode = `+${dialCode}`;
-      }
-    },
     setContactObject() {
-      const {
-        email: emailAddress,
-        phone_number: phoneNumber,
-        name,
-      } = this.contact;
+      const { email: emailAddress, name } = this.contact;
       const additionalAttributes = this.contact.additional_attributes || {};
 
       this.name = name || '';
       this.email = emailAddress || '';
-      this.phoneNumber = phoneNumber || '';
-      this.companyName = additionalAttributes.company_name || '';
+      this.website = additionalAttributes.website || '';
       this.country = {
         id: additionalAttributes.country_code || '',
         name:
@@ -200,11 +146,10 @@ export default {
         id: this.contact.id,
         name: this.name,
         email: this.email,
-        phone_number: this.setPhoneNumber,
         additional_attributes: {
           ...this.contact.additional_attributes,
           description: this.description,
-          company_name: this.companyName,
+          website: this.website,
           country_code: this.country.id,
           country:
             this.country.name ===
@@ -221,25 +166,9 @@ export default {
       }
       return contactObject;
     },
-    setPhoneCode(code) {
-      if (this.phoneNumber !== '' && this.parsePhoneNumber) {
-        const dialCode = this.parsePhoneNumber.countryCallingCode;
-        if (dialCode === code) {
-          return;
-        }
-        this.activeDialCode = `+${dialCode}`;
-        const newPhoneNumber = this.phoneNumber.replace(
-          `+${dialCode}`,
-          `${code}`
-        );
-        this.phoneNumber = newPhoneNumber;
-      } else {
-        this.activeDialCode = code;
-      }
-    },
     async handleSubmit() {
       this.v$.$touch();
-      if (this.v$.$invalid || this.isPhoneNumberNotValid) {
+      if (this.v$.$invalid) {
         return;
       }
       try {
@@ -250,8 +179,6 @@ export default {
         if (error instanceof DuplicateContactException) {
           if (error.data.includes('email')) {
             useAlert(this.$t('CONTACT_FORM.FORM.EMAIL_ADDRESS.DUPLICATE'));
-          } else if (error.data.includes('phone_number')) {
-            useAlert(this.$t('CONTACT_FORM.FORM.PHONE_NUMBER.DUPLICATE'));
           }
         } else if (error instanceof ExceptionWithMessage) {
           useAlert(error.data);
@@ -272,7 +199,6 @@ export default {
         }
         this.avatarFile = null;
         this.avatarUrl = '';
-        this.activeDialCode = '';
       } catch (error) {
         useAlert(
           error.message
@@ -341,39 +267,11 @@ export default {
         />
       </label>
     </div>
-    <div>
-      <div class="w-full">
-        <label
-          :class="{
-            error: isPhoneNumberNotValid,
-          }"
-        >
-          {{ $t('CONTACT_FORM.FORM.PHONE_NUMBER.LABEL') }}
-          <woot-phone-input
-            v-model="phoneNumber"
-            :value="phoneNumber"
-            :error="isPhoneNumberNotValid"
-            :placeholder="$t('CONTACT_FORM.FORM.PHONE_NUMBER.PLACEHOLDER')"
-            @blur="v$.phoneNumber.$touch"
-            @set-code="setPhoneCode"
-          />
-          <span v-if="isPhoneNumberNotValid" class="message">
-            {{ phoneNumberError }}
-          </span>
-        </label>
-        <div
-          v-if="isPhoneNumberNotValid || !phoneNumber"
-          class="relative mx-0 mt-0 mb-2.5 p-2 rounded-md text-sm border border-solid border-n-amber-5 text-n-amber-12 bg-n-amber-3"
-        >
-          {{ $t('CONTACT_FORM.FORM.PHONE_NUMBER.HELP') }}
-        </div>
-      </div>
-    </div>
     <woot-input
-      v-model="companyName"
+      v-model="website"
       class="w-full"
-      :label="$t('CONTACT_FORM.FORM.COMPANY_NAME.LABEL')"
-      :placeholder="$t('CONTACT_FORM.FORM.COMPANY_NAME.PLACEHOLDER')"
+      :label="$t('CONTACT_PANEL.WEBSITE')"
+      placeholder="https://example.com"
     />
     <div class="w-full mb-4">
       <label>

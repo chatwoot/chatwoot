@@ -25,6 +25,12 @@ const { t } = useI18n();
 const currentChat = useMapGetter('getSelectedChat');
 const currentUser = useMapGetter('getCurrentUser');
 
+const contact = computed(() => {
+  const senderId = currentChat.value?.meta?.sender?.id;
+  if (!senderId) return {};
+  return store.getters['contacts/getContact'](senderId) || {};
+});
+
 const assignedAgent = computed({
   get() {
     return currentChat.value?.meta?.assignee;
@@ -54,6 +60,37 @@ const showSelfAssignBanner = computed(() => {
   return (
     isUserTyping.value && (isUnassigned.value || isAssignedToOtherAgent.value)
   );
+});
+
+const contactLocale = computed(() => {
+  return (
+    contact.value?.additional_attributes?.locale ||
+    currentChat.value?.additional_attributes?.conversation_language ||
+    ''
+  );
+});
+
+const agentLocale = computed(() => {
+  return currentUser.value?.ui_settings?.locale || 'en';
+});
+
+const autoTranslateLanguageName = computed(() => {
+  const locale = contactLocale.value;
+  if (!locale || locale === agentLocale.value || props.isOnPrivateNote) {
+    return '';
+  }
+  try {
+    const displayNames = new Intl.DisplayNames([agentLocale.value], {
+      type: 'language',
+    });
+    return displayNames.of(locale) || locale;
+  } catch {
+    return locale;
+  }
+});
+
+const showAutoTranslateBanner = computed(() => {
+  return autoTranslateLanguageName.value !== '';
 });
 
 const showBotHandoffBanner = computed(
@@ -109,6 +146,16 @@ const onClickBotHandoff = async () => {
 </script>
 
 <template>
+  <Banner
+    v-if="showAutoTranslateBanner"
+    color-scheme="secondary"
+    class="mx-2 mb-2 rounded-lg !py-2"
+    :banner-message="
+      $t('CONVERSATION.REPLYBOX.AUTO_TRANSLATE_BANNER', {
+        language: autoTranslateLanguageName,
+      })
+    "
+  />
   <Banner
     v-if="showSelfAssignBanner && !showBotHandoffBanner"
     action-button-variant="ghost"

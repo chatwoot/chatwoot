@@ -1,4 +1,4 @@
-class Messages::MessageBuilder
+class Messages::MessageBuilder # rubocop:disable Metrics/ClassLength
   include ::FileTypeHelper
   include ::EmailHelper
   include ::DataHelper
@@ -27,6 +27,7 @@ class Messages::MessageBuilder
     # When the message has no quoted content, it will just be rendered as a regular message
     # The frontend is equipped to handle this case
     process_email_content
+    auto_translate_outgoing
     @message.save!
     @message
   end
@@ -45,6 +46,26 @@ class Messages::MessageBuilder
     return content_attributes if content_attributes.is_a?(Hash)
 
     {}
+  end
+
+  def auto_translate_outgoing # rubocop:disable Metrics/AbcSize,Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
+    return unless @message.outgoing? && !@private && @message.content.present?
+
+    hook = @account.hooks.find_by(app_id: 'google_translate')
+    return if hook.blank? || hook.disabled?
+
+    target = @conversation.contact.additional_attributes&.dig('locale')
+    source = @user&.ui_settings&.dig('locale') || 'en'
+    return if target.blank? || target == source
+
+    translated = Integrations::GoogleTranslate::ProcessorService.new(message: @message, target_language: target).perform
+    return if translated.blank?
+
+    original = @message.content
+    @message.content = translated
+    @message.content_attributes = (@message.content_attributes || {}).merge('translations' => { source => original })
+  rescue StandardError => e
+    Rails.logger.error "Auto-translate outgoing failed for conversation #{@conversation.id}: #{e.message}"
   end
 
   def process_attachments
