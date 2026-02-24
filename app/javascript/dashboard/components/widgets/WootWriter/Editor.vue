@@ -570,10 +570,6 @@ useKeyboardEvents({
     action: focusEditorInputField,
     allowOnFocusedInput: true,
   },
-  'Alt+KeyL': {
-    action: focusEditorInputField,
-    allowOnFocusedInput: true,
-  },
 });
 
 function onImageInsertInEditor(fileUrl) {

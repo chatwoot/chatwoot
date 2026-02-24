@@ -3,11 +3,16 @@ require 'google/cloud/translate/v3'
 class Integrations::GoogleTranslate::ProcessorService
   pattr_initialize [:message!, :target_language!]
 
+  # Google Translate API v3 limit: 30k codepoints per request
+  MAX_CONTENT_LENGTH = 30_000
+
   def perform
     return if hook.blank?
 
     content = translation_content
     return if content.blank?
+
+    content = content.truncate(MAX_CONTENT_LENGTH) if content.length > MAX_CONTENT_LENGTH
 
     response = client.translate_text(
       contents: [content],
@@ -19,6 +24,14 @@ class Integrations::GoogleTranslate::ProcessorService
     return if response.translations.first.blank?
 
     response.translations.first.translated_text
+  rescue Google::Cloud::InvalidArgumentError => e
+    # Fallback: if HTML is too long, retry with plain text content only
+    if email_channel? && mime_type == 'text/html' && message.content.present?
+      @fallback_to_plain_text = true
+      retry
+    end
+    Rails.logger.error "Google Translate error for message #{message.id}: #{e.message}"
+    nil
   end
 
   private
@@ -50,6 +63,7 @@ class Integrations::GoogleTranslate::ProcessorService
 
   def translation_content
     return message.content unless email_channel?
+    return message.content if @fallback_to_plain_text
     return email_content[:html] if html_content_available?
     return email_content[:text] if plain_text_content_available?
 
@@ -57,7 +71,7 @@ class Integrations::GoogleTranslate::ProcessorService
   end
 
   def mime_type
-    if email_channel? && html_content_available?
+    if email_channel? && html_content_available? && !@fallback_to_plain_text
       'text/html'
     else
       'text/plain'

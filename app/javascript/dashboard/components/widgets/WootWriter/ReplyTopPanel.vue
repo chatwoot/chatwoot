@@ -98,10 +98,6 @@ export default {
         action: () => handleNoteClick(),
         allowOnFocusedInput: true,
       },
-      'Alt+KeyL': {
-        action: () => handleReplyClick(),
-        allowOnFocusedInput: true,
-      },
     };
     useKeyboardEvents(keyboardEvents);
 
