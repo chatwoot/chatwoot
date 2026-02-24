@@ -8,7 +8,7 @@ class LeadFollowUpSequence < ApplicationRecord
   validates :name, presence: true
   validates :source_type, presence: true, inclusion: { in: %w[existing_conversations notion_database] }
   validate :inbox_validation
-  validate :inbox_must_be_whatsapp
+  validate :inbox_must_be_messaging_channel
   validate :one_active_sequence_per_inbox
   validate :steps_structure
   validate :validate_templates_exist
@@ -188,11 +188,12 @@ class LeadFollowUpSequence < ApplicationRecord
     errors.add(:inbox, 'is required for existing conversations') if inbox_id.blank?
   end
 
-  def inbox_must_be_whatsapp
+  def inbox_must_be_messaging_channel
     return unless inbox
     return if source_type == 'notion_database' # For notion, inbox is in first_contact_config
 
-    errors.add(:inbox, 'must be a WhatsApp inbox') unless inbox.inbox_type == 'Whatsapp'
+    supported = %w[Channel::Whatsapp Channel::TwilioSms Channel::Email]
+    errors.add(:inbox, 'must be a WhatsApp, SMS, or Email inbox') unless supported.include?(inbox.channel_type)
   end
 
   def one_active_sequence_per_inbox
@@ -243,7 +244,18 @@ class LeadFollowUpSequence < ApplicationRecord
   end
 
   def validate_email_step(step, index)
-    # Both subject and content are optional, AI can generate them if blank
+    config = step['config'] || {}
+    return if config['email_inbox_id'].blank?
+
+    email_inbox = account.inboxes.find_by(id: config['email_inbox_id'])
+    unless email_inbox
+      errors.add(:steps, "send_email step at index #{index} email_inbox_id references non-existent inbox")
+      return
+    end
+
+    return if email_inbox.channel_type == 'Channel::Email'
+
+    errors.add(:steps, "send_email step at index #{index} email_inbox_id must reference an Email inbox")
   end
 
   def validate_wait_step(step, index)
@@ -277,7 +289,6 @@ class LeadFollowUpSequence < ApplicationRecord
 
     case closed_action
     when 'send_template'
-      # Validar template_config
       if config['template_config'].present?
         template = config['template_config']
         unless template['template_name'].present? && template['language'].present?
@@ -287,12 +298,28 @@ class LeadFollowUpSequence < ApplicationRecord
         errors.add(:steps, "message step at index #{index} requires template_config when closed_window_action is send_template")
       end
 
+      validate_step_inbox_type(config['whatsapp_inbox_id'], 'Channel::Whatsapp', "whatsapp_inbox_id at step #{index}") if config['whatsapp_inbox_id'].present?
+
     when 'send_sms'
-      # SMS config: el agent_bot se obtiene automáticamente del inbox
-      # Context es OPCIONAL - no validar su presencia
+      validate_step_inbox_type(config['sms_inbox_id'], %w[Channel::TwilioSms Channel::Sms], "sms_inbox_id at step #{index}") if config['sms_inbox_id'].present?
+
+    when 'send_email'
+      validate_step_inbox_type(config['email_inbox_id'], 'Channel::Email', "email_inbox_id at step #{index}") if config['email_inbox_id'].present?
+
     else
       errors.add(:steps, "message step at index #{index} has invalid closed_window_action: #{closed_action}")
     end
+  end
+
+  def validate_step_inbox_type(inbox_id, expected_types, field_label)
+    inbox = account.inboxes.find_by(id: inbox_id)
+    unless inbox
+      errors.add(:steps, "#{field_label} references non-existent inbox")
+      return
+    end
+
+    allowed = Array(expected_types)
+    errors.add(:steps, "#{field_label} must reference a #{allowed.map { |t| t.split('::').last }.join(' or ')} inbox") unless allowed.include?(inbox.channel_type)
   end
 
   def validate_templates_exist
@@ -471,8 +498,8 @@ class LeadFollowUpSequence < ApplicationRecord
     config = first_contact_step['config'] || {}
 
     # Validate channel
-    unless %w[whatsapp sms].include?(config['channel'])
-      errors.add(:steps, 'first_contact step must have a valid channel (whatsapp or sms)')
+    unless %w[whatsapp sms email].include?(config['channel'])
+      errors.add(:steps, 'first_contact step must have a valid channel (whatsapp, sms, or email)')
       return
     end
 
@@ -482,19 +509,28 @@ class LeadFollowUpSequence < ApplicationRecord
     end
 
     # Validate WhatsApp configuration
-    if config['channel'] == 'whatsapp'
-      if config['template_name'].blank?
-        errors.add(:steps, 'first_contact step must have template_name when channel is whatsapp')
-      end
+    if config['channel'] == 'whatsapp' && config['template_name'].blank?
+      errors.add(:steps, 'first_contact step must have template_name when channel is whatsapp')
     end
 
-    # Validate inbox exists
-    if config['inbox_id'].present?
-      inbox = account.inboxes.find_by(id: config['inbox_id'])
-      unless inbox
-        errors.add(:steps, 'first_contact step inbox_id references non-existent inbox')
-      end
+    # Validate inbox exists and matches the configured channel type
+    return if config['inbox_id'].blank?
+
+    inbox = account.inboxes.find_by(id: config['inbox_id'])
+    unless inbox
+      errors.add(:steps, 'first_contact step inbox_id references non-existent inbox')
+      return
     end
+
+    expected_channel_type = case config['channel']
+                            when 'whatsapp' then 'Channel::Whatsapp'
+                            when 'sms'      then 'Channel::TwilioSms'
+                            when 'email'    then 'Channel::Email'
+                            end
+
+    return if inbox.channel_type == expected_channel_type
+
+    errors.add(:steps, "first_contact step inbox must be a #{config['channel'].upcase} inbox")
   end
 
   def should_auto_enroll?
