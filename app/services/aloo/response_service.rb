@@ -51,12 +51,12 @@ class Aloo::ResponseService
 
   def generate_response
     message_content = @message.content_for_llm
-    attachment_urls = @message.attachment_urls_for_llm
-    return OpenStruct.new(success?: false) if message_content.blank? && attachment_urls.blank?
+    blobs = @message.attachments_for_llm
+    return OpenStruct.new(success?: false) if message_content.blank? && blobs.blank?
 
     started_at = Process.clock_gettime(Process::CLOCK_MONOTONIC, :millisecond)
     agent_params = { message: message_content || '' }
-    agent_params[:with] = attachment_urls if attachment_urls.present?
+    agent_params[:with] = blobs if blobs.present?
     result = ConversationAgent.call(**agent_params)
     @response_time_ms = Process.clock_gettime(Process::CLOCK_MONOTONIC, :millisecond) - started_at
     result
