@@ -144,6 +144,7 @@ class Account < ApplicationRecord
   before_validation :validate_limit_keys
   after_create_commit :notify_creation
   after_destroy :remove_account_sequences
+  after_save :backfill_conversation_counters_if_needed
 
   def agents
     users.where(account_users: { role: :agent })
@@ -206,6 +207,13 @@ class Account < ApplicationRecord
 
   trigger.name('camp_dpid_before_insert').after(:insert).for_each(:row) do
     "execute format('create sequence IF NOT EXISTS camp_dpid_seq_%s', NEW.id);"
+  end
+
+  def backfill_conversation_counters_if_needed
+    return unless saved_change_to_feature_flags?
+    return unless feature_counter_cache_optimization?
+
+    Internal::BackfillConversationCountersJob.perform_later(self)
   end
 
   def validate_limit_keys
