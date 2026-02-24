@@ -44,7 +44,7 @@ module Aloo
 
     def generate_and_send_voice
       dispatch_typing(CONVERSATION_TYPING_ON)
-      send_whatsapp_typing_indicator
+      send_channel_typing_indicator
       result = Aloo::VoiceSynthesisService.new(text: @message.content, assistant: @assistant, message: @message).perform
       unless result[:success]
         Rails.logger.warn("[Aloo::VoiceReplyJob] Synthesis failed: #{result[:error]}")

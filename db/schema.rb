@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_02_22_152353) do
+ActiveRecord::Schema[7.1].define(version: 2026_02_23_120000) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -248,8 +248,11 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_22_152353) do
     t.boolean "auto_refresh", default: false, null: false
     t.datetime "last_refreshed_at"
     t.datetime "next_refresh_at"
+    t.bigint "article_id"
     t.index ["account_id"], name: "index_aloo_documents_on_account_id"
+    t.index ["aloo_assistant_id", "article_id"], name: "index_aloo_documents_on_assistant_and_article", unique: true, where: "(article_id IS NOT NULL)"
     t.index ["aloo_assistant_id"], name: "index_aloo_documents_on_aloo_assistant_id"
+    t.index ["article_id"], name: "index_aloo_documents_on_article_id"
     t.index ["auto_refresh"], name: "index_aloo_documents_on_auto_refresh"
     t.index ["next_refresh_at"], name: "index_aloo_documents_on_next_refresh_at", where: "(auto_refresh = true)"
   end

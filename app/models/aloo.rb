@@ -5,5 +5,5 @@ module Aloo
   # text-embedding-3-large with dimensions truncated to 1536 (MRL)
   EMBEDDING_DIMENSION = 1536
 
-  SUPPORTED_SOURCE_TYPES = %w[file website text].freeze
+  SUPPORTED_SOURCE_TYPES = %w[file website text article].freeze
 end

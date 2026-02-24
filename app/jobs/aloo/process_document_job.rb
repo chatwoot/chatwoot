@@ -74,7 +74,7 @@ module Aloo
         extract_file_content
       when 'website'
         extract_website_content
-      when 'text'
+      when 'text', 'article'
         extract_text_content
       end
     end
