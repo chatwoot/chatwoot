@@ -1134,7 +1134,12 @@
         "CLOSED_WINDOW": {
           "TITLE": "Closed Window Action (>24h)",
           "SEND_TEMPLATE": "Send WhatsApp Template",
-          "SEND_SMS": "Send SMS via AI"
+          "SEND_SMS": "Send SMS via AI",
+          "SEND_EMAIL": "Send Email via AI",
+          "WHATSAPP_INBOX": "WhatsApp Inbox (optional)",
+          "SMS_INBOX": "SMS Inbox (optional)",
+          "EMAIL_INBOX": "Email Inbox (optional)",
+          "USE_CONVERSATION_INBOX": "Use conversation inbox (default)..."
         },
         "SMS_CONFIG": {
           "AGENT_BOT": "SMS AI Agent Bot",
@@ -1206,6 +1211,9 @@
         "PARAMS": "Template Parameters",
         "SMS_CONTEXT": "SMS Context",
         "SMS_CONTEXT_HELP": "The AI will generate an SMS message based on this context and contact data.",
+        "EMAIL_CONTEXT": "Email Context",
+        "EMAIL_CONTEXT_PLACEHOLDER": "Describe the context so the AI can generate a personalized email...",
+        "EMAIL_CONTEXT_HELP": "The AI will generate an email based on this context and contact data.",
         "PREVIEW": "Message Preview"
       },
       "CONDITION": {
@@ -1215,6 +1223,8 @@
       "SEND_EMAIL": {
         "ADD": "Send Email",
         "DEFAULT_NAME": "Send email message",
+        "EMAIL_INBOX": "Email Inbox (optional)",
+        "SELECT_EMAIL_INBOX": "Use conversation inbox (default)...",
         "SENDER_EMAIL": "Sender Email (optional)",
         "SENDER_EMAIL_PLACEHOLDER": "e.g., support@yourcompany.com",
         "SUBJECT": "Email Subject (optional)",
