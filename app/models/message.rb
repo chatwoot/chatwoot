@@ -277,12 +277,12 @@ class Message < ApplicationRecord
     '[Attachment]' if attachments.any?
   end
 
-  # Returns URLs for image/file attachments suitable for LLM vision/document analysis
-  # Prefers external_url (channel-native, stable) over download_url (signed S3, short-lived)
-  def attachment_urls_for_llm
+  # Returns ActiveStorage blobs for image/file attachments suitable for LLM vision/document analysis.
+  # Passing blobs directly avoids URL expiration (Instagram CDN) and unreachable host issues (localhost signed URLs).
+  def attachments_for_llm
     attachments
       .where(file_type: LLM_ATTACHMENT_TYPES)
-      .filter_map { |att| att.external_url.presence || att.download_url.presence }
+      .filter_map { |att| att.file.blob if att.file.attached? }
   end
 
   private
