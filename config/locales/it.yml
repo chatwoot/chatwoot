@@ -95,10 +95,10 @@ it:
         connection_timed_out_error: Connessione scaduta per %{address}:%{port}
         connection_closed_error: Connessione chiusa.
       smtp:
-        authentication_error: SMTP authentication failed. Please verify your login credentials.
-        connection_error: Could not connect to SMTP server. Please check the server address and port.
-        ssl_error: SSL/TLS error. Please verify your encryption settings.
-        smtp_error: SMTP server error. Please check your configuration and try again.
+        authentication_error: Autenticazione SMTP non riuscita. Verifica le tue credenziali di accesso.
+        connection_error: Impossibile connettersi al server SMTP. Controlla l'indirizzo e la porta del server.
+        ssl_error: Errore SSL/TLS. Verifica le impostazioni di crittografia.
+        smtp_error: Errore del server SMTP. Controlla la configurazione e riprova.
       validations:
         name: non dovrebbe iniziare o terminare con simboli, e non dovrebbe avere i caratteri < > / \ @
     custom_filters:
@@ -424,6 +424,9 @@ it:
     seconds:
       one: '%{count} secondo'
       other: '%{count} secondi'
+  auto_assignment:
+    default_policy_name: 'Policy Predefinita'
+    policy_actor: 'Automation System via %{policy_name}'
   automation:
     system_name: 'Automation System'
   crm:
