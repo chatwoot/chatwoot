@@ -24,10 +24,11 @@ module Integrations::LlmInstrumentationHelpers
     set_metadata_attributes(span, params)
   end
 
-  def record_completion(span, result)
+  def record_completion(span, result, params)
     if result.respond_to?(:content)
       span.set_attribute(ATTR_GEN_AI_COMPLETION_ROLE, result.role.to_s) if result.respond_to?(:role)
       span.set_attribute(ATTR_GEN_AI_COMPLETION_CONTENT, result.content.to_s)
+      set_message_usage_metrics(span, result, provider: determine_provider(params[:model]))
     elsif result.is_a?(Hash)
       set_completion_attributes(span, result)
     end

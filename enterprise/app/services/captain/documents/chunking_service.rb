@@ -3,6 +3,24 @@ class Captain::Documents::ChunkingService
   DEFAULT_MIN_TOKENS = 400
   DEFAULT_MAX_TOKENS = 800
   DEFAULT_OVERLAP_TOKENS = 120
+  BOILERPLATE_SECTION_PATTERNS = [
+    /skip to main content/i,
+    /table of contents/i,
+    /related articles/i,
+    /recommended articles/i,
+    /need more help/i,
+    /contact support/i,
+    /cookie/i,
+    /privacy policy/i,
+    /terms of service/i,
+    /all rights reserved/i,
+    /back to top/i
+  ].freeze
+  BOILERPLATE_LINE_PATTERNS = [
+    /help center home page/i,
+    /theming_assets/i,
+    %r{hc/change_language/}i
+  ].freeze
 
   def initialize(content, target_tokens: DEFAULT_TARGET_TOKENS, min_tokens: DEFAULT_MIN_TOKENS,
                  max_tokens: DEFAULT_MAX_TOKENS, overlap_tokens: DEFAULT_OVERLAP_TOKENS)
@@ -34,9 +52,10 @@ class Captain::Documents::ChunkingService
   Section = Struct.new(:content, :heading_path, keyword_init: true)
 
   def split_into_sections(content)
+    cleaned_content = remove_boilerplate_sections(remove_boilerplate_lines(content))
     heading_path = []
 
-    content
+    cleaned_content
       .split(/\n{2,}/)
       .map(&:strip)
       .reject(&:blank?)
@@ -45,6 +64,60 @@ class Captain::Documents::ChunkingService
       Section.new(content: section_content, heading_path: heading_path.dup)
     end
   end
+
+  def remove_boilerplate_sections(content)
+    content
+      .split(/\n{2,}/)
+      .map(&:strip)
+      .reject(&:blank?)
+      .reject { |section| boilerplate_section?(section) }
+      .join("\n\n")
+  end
+
+  def remove_boilerplate_lines(content)
+    content
+      .lines
+      .reject { |line| boilerplate_line?(line) }
+      .join
+  end
+
+  def boilerplate_section?(section)
+    normalized = section.downcase.strip
+    return true if BOILERPLATE_SECTION_PATTERNS.any? { |pattern| normalized.match?(pattern) }
+
+    link_heavy_navigation_section?(section)
+  end
+
+  def boilerplate_line?(line)
+    normalized = line.to_s.downcase.strip
+    return false if normalized.blank?
+    return true if BOILERPLATE_LINE_PATTERNS.any? { |pattern| normalized.match?(pattern) }
+
+    markdown_links = normalized.scan(/\[[^\]]+\]\([^)]+\)/).size
+    return true if normalized.include?('change_language/') && markdown_links >= 3
+    return false unless markdown_links >= 6
+
+    non_link_tokens = normalized
+                      .gsub(/\[[^\]]+\]\([^)]+\)/, ' ')
+                      .gsub(/[^a-z0-9\s]/, ' ')
+                      .squeeze(' ')
+                      .strip
+                      .split
+    non_link_tokens.length <= 12
+  end
+
+  def link_heavy_navigation_section?(section)
+    lines = section.lines.map(&:strip).reject(&:blank?)
+    return false if lines.size < 3
+
+    markdown_links = section.scan(/\[[^\]]+\]\([^)]+\)/).size
+    linked_lines = lines.count { |line| link_line?(line) }
+    return false unless markdown_links >= 2 && linked_lines >= 3
+
+    section.scan(/\b[\w']+\b/).size <= 180
+  end
+
+  def link_line?(line) = line.match?(/\[[^\]]+\]\([^)]+\)/) || line.start_with?('* [', '- [')
 
   def build_chunks(sections)
     state = { chunks: [], current_chunk: +'', current_tokens: 0 }

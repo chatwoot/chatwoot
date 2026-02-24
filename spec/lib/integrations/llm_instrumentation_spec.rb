@@ -176,6 +176,7 @@ RSpec.describe Integrations::LlmInstrumentation do
           {
             usage: {
               'prompt_tokens' => 150,
+              'prompt_tokens_details' => { 'cached_tokens' => 20 },
               'completion_tokens' => 200,
               'total_tokens' => 350
             }
@@ -183,9 +184,41 @@ RSpec.describe Integrations::LlmInstrumentation do
         end
 
         expect(result[:usage]['prompt_tokens']).to eq(150)
-        expect(mock_span).to have_received(:set_attribute).with('gen_ai.usage.input_tokens', 150)
+        expect(mock_span).to have_received(:set_attribute).with('gen_ai.usage.input_tokens', 130)
         expect(mock_span).to have_received(:set_attribute).with('gen_ai.usage.output_tokens', 200)
         expect(mock_span).to have_received(:set_attribute).with('gen_ai.usage.total_tokens', 350)
+        expect(mock_span).to have_received(:set_attribute)
+          .with('langfuse.observation.usage_details', '{"input":130,"output":200,"total":350,"cache_read_input_tokens":20}')
+      end
+
+      it 'sets usage metrics for RubyLLM message responses with cached tokens' do
+        mock_span = instance_double(OpenTelemetry::Trace::Span)
+        allow(mock_span).to receive(:set_attribute)
+        allow(mock_span).to receive(:status=)
+        mock_tracer = instance_double(OpenTelemetry::Trace::Tracer)
+        allow(instance).to receive(:tracer).and_return(mock_tracer)
+        allow(mock_tracer).to receive(:in_span).and_yield(mock_span)
+
+        llm_message = instance_double(
+          RubyLLM::Message,
+          role: :assistant,
+          content: 'AI response',
+          input_tokens: 150,
+          output_tokens: 50,
+          cached_tokens: 40,
+          cache_creation_tokens: nil
+        )
+
+        result = instance.instrument_llm_call(params) do
+          llm_message
+        end
+
+        expect(result).to eq(llm_message)
+        expect(mock_span).to have_received(:set_attribute).with('gen_ai.usage.input_tokens', 110)
+        expect(mock_span).to have_received(:set_attribute).with('gen_ai.usage.output_tokens', 50)
+        expect(mock_span).to have_received(:set_attribute).with('gen_ai.usage.total_tokens', 200)
+        expect(mock_span).to have_received(:set_attribute)
+          .with('langfuse.observation.usage_details', '{"input":110,"output":50,"total":200,"cache_read_input_tokens":40}')
       end
 
       it 'sets error attributes when result contains error' do

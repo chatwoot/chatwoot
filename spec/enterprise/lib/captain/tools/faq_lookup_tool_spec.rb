@@ -110,6 +110,48 @@ RSpec.describe Captain::Tools::FaqLookupTool, type: :model do
         expect(result).to eq('No relevant FAQs found for: ')
       end
     end
+
+    context 'when chunk retrieval mode is enabled for assistant' do
+      let(:document) do
+        create(
+          :captain_document,
+          assistant: assistant,
+          account: account,
+          chunking_status: :ready,
+          status: :available,
+          external_link: 'https://help.example.com/pricing',
+          name: 'Pricing'
+        )
+      end
+      let(:chunk) do
+        create(
+          :captain_document_chunk,
+          document: document,
+          assistant: assistant,
+          account: account,
+          content: 'Business plan starts at $19.',
+          context: 'Pricing page details'
+        )
+      end
+      let(:chunk_search_service) { instance_double(Captain::Documents::HybridChunkSearchService) }
+
+      before do
+        assistant.update!(config: (assistant.config || {}).merge('feature_document_faq_generation' => false))
+        InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_DOCUMENT_CHUNKING_ENABLED').update!(value: 'true')
+        allow(Captain::Documents::HybridChunkSearchService).to receive(:new).with(assistant: assistant).and_return(chunk_search_service)
+        allow(chunk_search_service).to receive(:search).with('pricing').and_return([chunk])
+        allow(Captain::AssistantResponse).to receive(:nearest_neighbors).and_return(Captain::AssistantResponse.none)
+      end
+
+      it 'returns chunk content for knowledge lookup' do
+        result = tool.perform(tool_context, query: 'pricing')
+
+        expect(result).to include('Article: Pricing')
+        expect(result).to include('Context: Pricing page details')
+        expect(result).to include('Content: Business plan starts at $19.')
+        expect(result).to include('Source: https://help.example.com/pricing')
+      end
+    end
   end
 
   describe '#active?' do

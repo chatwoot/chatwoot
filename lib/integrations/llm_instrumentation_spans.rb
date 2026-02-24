@@ -4,6 +4,7 @@ require 'opentelemetry_config'
 
 module Integrations::LlmInstrumentationSpans
   include Integrations::LlmInstrumentationConstants
+  include Integrations::LlmUsageDetailsBuilder
 
   def tracer
     @tracer ||= OpentelemetryConfig.tracer
@@ -86,7 +87,29 @@ module Integrations::LlmInstrumentationSpans
   end
 
   def set_llm_turn_usage_attributes(span, message)
-    span.set_attribute(ATTR_GEN_AI_USAGE_INPUT_TOKENS, message.input_tokens) if message.respond_to?(:input_tokens) && message.input_tokens
-    span.set_attribute(ATTR_GEN_AI_USAGE_OUTPUT_TOKENS, message.output_tokens) if message.respond_to?(:output_tokens) && message.output_tokens
+    usage_details = llm_turn_usage_details(message)
+    return if usage_details.blank?
+
+    span.set_attribute(ATTR_GEN_AI_USAGE_INPUT_TOKENS, usage_details[:input]) if usage_details[:input]
+    span.set_attribute(ATTR_GEN_AI_USAGE_OUTPUT_TOKENS, usage_details[:output]) if usage_details[:output]
+    span.set_attribute(ATTR_GEN_AI_USAGE_TOTAL_TOKENS, usage_details[:total]) if usage_details[:total]
+    span.set_attribute(ATTR_LANGFUSE_OBSERVATION_USAGE_DETAILS, usage_details.to_json)
+  end
+
+  def llm_turn_usage_details(message)
+    usage_details_from_message(message, provider: llm_turn_provider(message))
+  end
+
+  def llm_turn_provider(message)
+    model_name = message.respond_to?(:model_id) ? message.model_id : nil
+    return 'openai' if model_name.blank?
+
+    model = model_name.to_s.downcase
+
+    LlmConstants::PROVIDER_PREFIXES.each do |provider, prefixes|
+      return provider if prefixes.any? { |prefix| model.start_with?(prefix) }
+    end
+
+    'openai'
   end
 end

@@ -1,6 +1,7 @@
 module Captain::ChatGenerationRecorder
   extend ActiveSupport::Concern
   include Integrations::LlmInstrumentationConstants
+  include Integrations::LlmUsageDetailsBuilder
 
   private
 
@@ -30,12 +31,16 @@ module Captain::ChatGenerationRecorder
   end
 
   def generation_attributes(chat, message)
+    usage_details = generation_usage_details(message)
+
     {
       ATTR_GEN_AI_PROVIDER => determine_provider(model),
       ATTR_GEN_AI_REQUEST_MODEL => model,
       ATTR_GEN_AI_REQUEST_TEMPERATURE => temperature,
-      ATTR_GEN_AI_USAGE_INPUT_TOKENS => message.input_tokens,
+      ATTR_GEN_AI_USAGE_INPUT_TOKENS => usage_details[:input],
       ATTR_GEN_AI_USAGE_OUTPUT_TOKENS => message.respond_to?(:output_tokens) ? message.output_tokens : nil,
+      ATTR_GEN_AI_USAGE_TOTAL_TOKENS => usage_details[:total],
+      ATTR_LANGFUSE_OBSERVATION_USAGE_DETAILS => usage_details.to_json.presence,
       ATTR_LANGFUSE_OBSERVATION_INPUT => format_input_messages(chat),
       ATTR_LANGFUSE_OBSERVATION_OUTPUT => message.respond_to?(:content) ? message.content.to_s : nil
     }
@@ -43,5 +48,9 @@ module Captain::ChatGenerationRecorder
 
   def format_input_messages(chat)
     chat.messages[0...-1].map { |m| { role: m.role.to_s, content: m.content.to_s } }.to_json
+  end
+
+  def generation_usage_details(message)
+    usage_details_from_message(message, provider: determine_provider(model))
   end
 end

@@ -2,6 +2,7 @@
 
 module Integrations::LlmInstrumentationCompletionHelpers
   include Integrations::LlmInstrumentationConstants
+  include Integrations::LlmUsageDetailsBuilder
 
   private
 
@@ -73,9 +74,13 @@ module Integrations::LlmInstrumentationCompletionHelpers
     usage = result[:usage] || result['usage']
     return if usage.blank?
 
-    span.set_attribute(ATTR_GEN_AI_USAGE_INPUT_TOKENS, usage['prompt_tokens']) if usage['prompt_tokens']
-    span.set_attribute(ATTR_GEN_AI_USAGE_OUTPUT_TOKENS, usage['completion_tokens']) if usage['completion_tokens']
-    span.set_attribute(ATTR_GEN_AI_USAGE_TOTAL_TOKENS, usage['total_tokens']) if usage['total_tokens']
+    usage_details = usage_details_from_hash(usage)
+    return if usage_details.blank?
+
+    span.set_attribute(ATTR_GEN_AI_USAGE_INPUT_TOKENS, usage_details[:input]) if usage_details[:input]
+    span.set_attribute(ATTR_GEN_AI_USAGE_OUTPUT_TOKENS, usage_details[:output]) if usage_details[:output]
+    span.set_attribute(ATTR_GEN_AI_USAGE_TOTAL_TOKENS, usage_details[:total]) if usage_details[:total]
+    span.set_attribute(ATTR_LANGFUSE_OBSERVATION_USAGE_DETAILS, usage_details.to_json)
   end
 
   def set_error_attributes(span, result)
@@ -84,5 +89,15 @@ module Integrations::LlmInstrumentationCompletionHelpers
 
     span.set_attribute(ATTR_GEN_AI_RESPONSE_ERROR, error.to_json)
     span.status = OpenTelemetry::Trace::Status.error(error.to_s.truncate(1000))
+  end
+
+  def set_message_usage_metrics(span, message, provider: nil)
+    usage_details = usage_details_from_message(message, provider: provider)
+    return if usage_details.blank?
+
+    span.set_attribute(ATTR_GEN_AI_USAGE_INPUT_TOKENS, usage_details[:input]) if usage_details[:input]
+    span.set_attribute(ATTR_GEN_AI_USAGE_OUTPUT_TOKENS, usage_details[:output]) if usage_details[:output]
+    span.set_attribute(ATTR_GEN_AI_USAGE_TOTAL_TOKENS, usage_details[:total]) if usage_details[:total]
+    span.set_attribute(ATTR_LANGFUSE_OBSERVATION_USAGE_DETAILS, usage_details.to_json)
   end
 end
