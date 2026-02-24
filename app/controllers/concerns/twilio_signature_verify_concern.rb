@@ -43,14 +43,8 @@ module TwilioSignatureVerifyConcern
   end
 
   def validate_signature!(channel, signature)
-    auth_token = channel.auth_token
-    if auth_token.blank?
-      Rails.logger.error(
-        '[TWILIO] Cannot validate signature: auth_token is blank. ' \
-        "account_sid=#{params[:AccountSid]} channel_id=#{channel.id}"
-      )
-      return head :forbidden
-    end
+    auth_token = resolve_auth_token(channel)
+    return head :forbidden if auth_token.nil?
 
     validator = Twilio::Security::RequestValidator.new(auth_token)
     request_url = reconstruct_url
@@ -65,12 +59,24 @@ module TwilioSignatureVerifyConcern
       "ip=#{request.remote_ip}"
     )
     head :forbidden
+  end
+
+  def resolve_auth_token(channel)
+    token = channel.auth_token
+    if token.blank?
+      Rails.logger.error(
+        '[TWILIO] Cannot validate signature: auth_token is blank. ' \
+        "account_sid=#{params[:AccountSid]} channel_id=#{channel.id}"
+      )
+      return nil
+    end
+    token
   rescue ActiveRecord::Encryption::Errors::Decryption => e
     Rails.logger.error(
       '[TWILIO] Failed to decrypt auth_token for signature validation. ' \
       "account_sid=#{params[:AccountSid]} channel_id=#{channel.id} error=#{e.message}"
     )
-    head :forbidden
+    nil
   end
 
   def find_twilio_channel

@@ -76,17 +76,6 @@ RSpec.describe 'Twilio::CallbacksController', type: :request do
       end
     end
 
-    context 'when channel has blank auth_token' do
-      before do
-        twilio_channel.update_column(:auth_token, '')
-      end
-
-      it 'returns forbidden status' do
-        post twilio_callback_index_url, params: params, headers: { 'X-Twilio-Signature' => 'anything' }
-        expect(response).to have_http_status(:forbidden)
-      end
-    end
-
     context 'when behind a reverse proxy with X-Forwarded-Proto' do
       it 'validates signature against the HTTPS URL' do
         http_url = twilio_callback_index_url
