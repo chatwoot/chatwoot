@@ -890,6 +890,20 @@
         "CONFIRM": "Create new template",
         "CANCEL": "Retour"
       },
+      "UTILITY_ANALYZER": {
+        "ACTION": "Check utility fit",
+        "HELPER_NOTE": "Check this message before submission to improve Utility fit. The system creates a dedicated CSAT template with buttons for reporting and submits it as Utility; Meta may still reclassify it as Marketing based on content.",
+        "RESULT_LABEL": "Meta category prediction",
+        "GUIDANCE_NOTE": "This is a guidance check, not a guarantee of Meta approval.",
+        "SUGGESTION_LABEL": "Suggested utility-safe rewrite",
+        "APPLY": "Use this rewrite",
+        "ERROR_MESSAGE": "Couldn't analyze the message. Please try again.",
+        "CLASSIFICATION": {
+          "LIKELY_UTILITY": "Likely Utility",
+          "LIKELY_MARKETING": "Likely Marketing",
+          "UNCLEAR": "Needs clarification"
+        }
+      },
       "SURVEY_RULE": {
         "LABEL": "Survey rule",
         "DESCRIPTION_PREFIX": "Send the survey if the conversation",
@@ -901,7 +915,7 @@
         "SELECT_PLACEHOLDER": "select labels"
       },
       "NOTE": "Note: CSAT surveys are sent only once per conversation",
-      "WHATSAPP_NOTE": "Note: We will create a template and send it for WhatsApp approval. After being approved, surveys will be sent only once per conversation as per the survey rule.",
+      "WHATSAPP_NOTE": "Note: When you save, the system creates a dedicated CSAT template in WhatsApp (used to capture rating and feedback in reports) and submits it as Utility for approval. Meta may still classify it as Marketing based on content. After approval, surveys are sent only once per conversation as per the survey rule.",
       "API": {
         "SUCCESS_MESSAGE": "CSAT settings updated successfully",
         "ERROR_MESSAGE": "We couldn't update CSAT settings. Please try again later."
