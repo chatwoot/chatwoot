@@ -1,5 +1,7 @@
 require 'net/imap'
 
+class Imap::AuthenticationError < StandardError; end
+
 module ExceptionList
   REST_CLIENT_EXCEPTIONS = [RestClient::NotFound, RestClient::GatewayTimeout, RestClient::BadRequest,
                             RestClient::MethodNotAllowed, RestClient::Forbidden, RestClient::InternalServerError,
@@ -14,6 +16,12 @@ module ExceptionList
   IMAP_EXCEPTIONS = [
     Errno::ECONNREFUSED, Net::OpenTimeout,
     Errno::ECONNRESET, Errno::ENETUNREACH, Net::IMAP::ByeResponseError,
-    Net::IMAP::NoResponseError, SocketError
+    SocketError
   ].freeze
+
+  IMAP_TRANSIENT_EXCEPTIONS = (IMAP_EXCEPTIONS + [
+    EOFError, OpenSSL::SSL::SSLError, Net::IMAP::NoResponseError, Net::IMAP::BadResponseError,
+    Net::IMAP::InvalidResponseError, Net::IMAP::ResponseParseError,
+    Net::IMAP::ResponseReadError, Net::IMAP::ResponseTooLargeError
+  ]).freeze
 end

@@ -17,11 +17,10 @@ class Inboxes::FetchImapEmailsJob < MutexApplicationJob
     key = format(::Redis::Alfred::EMAIL_MESSAGE_MUTEX, inbox_id: channel.inbox.id)
     with_lock(key, 5.minutes) { process_email_for_channel(channel, interval) }
     channel.clear_imap_backoff!
-  rescue *ExceptionList::IMAP_EXCEPTIONS => e
-    Rails.logger.error "Authorization error for email channel - #{channel.inbox.id} : #{e.message}"
-    channel.apply_imap_backoff!
-  rescue EOFError, OpenSSL::SSL::SSLError, Net::IMAP::BadResponseError, Net::IMAP::InvalidResponseError,
-         Net::IMAP::ResponseParseError, Net::IMAP::ResponseReadError, Net::IMAP::ResponseTooLargeError => e
+  rescue Imap::AuthenticationError => e
+    Rails.logger.error "Authentication error for email channel - #{channel.inbox.id} : #{e.message}"
+    channel.authorization_error!
+  rescue *ExceptionList::IMAP_TRANSIENT_EXCEPTIONS => e
     Rails.logger.error "Error for email channel - #{channel.inbox.id} : #{e.message}"
     channel.apply_imap_backoff!
   rescue LockAcquisitionError
