@@ -97,6 +97,8 @@ yarn-debug.log*
 .codex/
 .claude/
 CLAUDE.local.md
+.overmind.env
+.superset/
 
 # Histoire deployment
 .netlify

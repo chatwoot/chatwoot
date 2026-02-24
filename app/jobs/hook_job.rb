@@ -50,21 +50,23 @@ class HookJob < MutexApplicationJob
   def auto_translate_message(message)
     return unless message.incoming? && message.content.present?
 
-    account = message.account
-    target_languages = account.users.filter_map { |u| u.ui_settings&.dig('locale') }.uniq.compact
-    target_languages = ['en'] if target_languages.empty?
-
-    translations = message.translations || {}
-    target_languages.each do |lang|
-      next if translations[lang].present?
-
-      translated = Integrations::GoogleTranslate::ProcessorService.new(
-        message: message,
-        target_language: lang
-      ).perform
-      translations[lang] = translated if translated.present?
-    end
+    translations = build_translations(message, agent_locales(message.account))
     message.update!(translations: translations) if translations.present?
+  end
+
+  def agent_locales(account)
+    locales = account.users.filter_map { |u| u.ui_settings&.dig('locale') }.uniq
+    locales.presence || ['en']
+  end
+
+  def build_translations(message, target_languages)
+    translations = message.translations || {}
+    target_languages.each_with_object(translations) do |lang, result|
+      next if result[lang].present?
+
+      translated = Integrations::GoogleTranslate::ProcessorService.new(message: message, target_language: lang).perform
+      result[lang] = translated if translated.present?
+    end
   end
 
   def process_leadsquared_integration_with_lock(hook, event_name, event_data)
