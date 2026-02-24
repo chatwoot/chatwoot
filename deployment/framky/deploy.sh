@@ -22,7 +22,9 @@ git pull origin "${BRANCH}"
 
 # Ruby dependencies
 echo "Installing Ruby dependencies..."
-bundle install --deployment --without development test
+bundle config set --local deployment true
+bundle config set --local without "development test"
+bundle install
 
 # Node dependencies
 echo "Installing Node dependencies..."
@@ -30,6 +32,7 @@ pnpm install --frozen-lockfile
 
 # Assets
 echo "Precompiling assets..."
+export NODE_OPTIONS="--max-old-space-size=4096"
 RAILS_ENV=production NODE_ENV=production bundle exec rails assets:precompile
 
 # Database migrations
