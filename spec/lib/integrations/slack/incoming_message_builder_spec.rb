@@ -174,32 +174,29 @@ describe Integrations::Slack::IncomingMessageBuilder do
 
     context 'when resolving slack sender' do
       let(:builder) { described_class.new(message_params) }
-      let(:slack_user_id) { message_params[:event][:user] }
-      let(:slack_profile) do
-        {
-          user: {
-            profile: {
-              email: 'agent@example.com',
-              display_name: 'Muhsin K',
-              image_192: 'https://avatars.slack-edge.com/avatar.png'
-            },
-            real_name: 'Muhsin K',
-            name: 'muhsink'
-          }
-        }
-      end
 
       before do
         allow(builder).to receive(:slack_client).and_return(slack_client)
-        allow(slack_client).to receive(:users_info).with(user: slack_user_id).and_return(slack_profile)
       end
 
       context 'when slack user email matches a chatwoot agent' do
-        let!(:agent) { create(:user, account: conversation.account, email: 'agent@example.com') }
+        before do
+          create(:user, account: conversation.account, email: 'agent@example.com')
+          slack_response = {
+            user: {
+              profile: { email: 'agent@example.com', display_name: 'Muhsin K', image_192: 'https://avatars.slack-edge.com/avatar.png' },
+              real_name: 'Muhsin K',
+              name: 'muhsink'
+            }
+          }
+          allow(slack_client).to receive(:users_info)
+            .with(user: message_params[:event][:user])
+            .and_return(slack_response)
+        end
 
         it 'sets the matched agent as message sender' do
           builder.perform
-          expect(conversation.messages.last.sender).to eq(agent)
+          expect(conversation.messages.last.sender).to eq(conversation.account.users.from_email('agent@example.com'))
         end
 
         it 'does not store sender_name in additional_attributes' do
@@ -209,6 +206,19 @@ describe Integrations::Slack::IncomingMessageBuilder do
       end
 
       context 'when slack user email does not match any chatwoot agent' do
+        before do
+          slack_response = {
+            user: {
+              profile: { email: 'unknown@example.com', display_name: 'Muhsin K', image_192: 'https://avatars.slack-edge.com/avatar.png' },
+              real_name: 'Muhsin K',
+              name: 'muhsink'
+            }
+          }
+          allow(slack_client).to receive(:users_info)
+            .with(user: message_params[:event][:user])
+            .and_return(slack_response)
+        end
+
         it 'saves sender_name from slack display_name in additional_attributes' do
           builder.perform
           expect(conversation.messages.last.sender).to be_nil
@@ -221,38 +231,26 @@ describe Integrations::Slack::IncomingMessageBuilder do
             .to eq('https://avatars.slack-edge.com/avatar.png')
         end
 
-        context 'when display_name is blank' do
-          let(:slack_profile) do
-            {
-              user: {
-                profile: { email: 'unknown@example.com', display_name: '', image_192: nil },
-                real_name: 'Muhsin K',
-                name: 'muhsink'
-              }
-            }
-          end
-
-          it 'falls back to real_name' do
-            builder.perform
-            expect(conversation.messages.last.additional_attributes['sender_name']).to eq('Muhsin K')
-          end
+        it 'falls back to real_name when display_name is blank' do
+          allow(slack_client).to receive(:users_info).and_return({
+                                                                   user: {
+                                                                     profile: { email: 'unknown@example.com', display_name: '',
+                                                                                image_192: nil }, real_name: 'Muhsin K', name: 'muhsink'
+                                                                   }
+                                                                 })
+          builder.perform
+          expect(conversation.messages.last.additional_attributes['sender_name']).to eq('Muhsin K')
         end
 
-        context 'when display_name and real_name are both blank' do
-          let(:slack_profile) do
-            {
-              user: {
-                profile: { email: 'unknown@example.com', display_name: '', image_192: nil },
-                real_name: '',
-                name: 'muhsink'
-              }
-            }
-          end
-
-          it 'falls back to slack username' do
-            builder.perform
-            expect(conversation.messages.last.additional_attributes['sender_name']).to eq('muhsink')
-          end
+        it 'falls back to slack username when display_name and real_name are both blank' do
+          allow(slack_client).to receive(:users_info).and_return({
+                                                                   user: {
+                                                                     profile: { email: 'unknown@example.com', display_name: '',
+                                                                                image_192: nil }, real_name: '', name: 'muhsink'
+                                                                   }
+                                                                 })
+          builder.perform
+          expect(conversation.messages.last.additional_attributes['sender_name']).to eq('muhsink')
         end
       end
 
