@@ -10,74 +10,74 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  # test:
-  #   name: Run Tests
-  #   runs-on: [self-hosted, chatwoot]
-  #   timeout-minutes: 60
-  #
-  #   env:
-  #     RAILS_ENV: test
-  #     NODE_ENV: test
-  #     RBENV_ROOT: /srv/gh-runner/.rbenv
-  #     POSTGRES_HOST: localhost
-  #     POSTGRES_PORT: 5432
-  #     POSTGRES_USERNAME: chatwoot_test
-  #     POSTGRES_PASSWORD: chatwoot_test
-  #     POSTGRES_DATABASE: chatwoot_test
-  #     REDIS_URL: redis://localhost:6379/3
-  #     SECRET_KEY_BASE: test_secret_key_base_for_ci_only
-  #
-  #   steps:
-  #     - name: Checkout code
-  #       uses: actions/checkout@v4
-  #
-  #     - name: Setup Ruby
-  #       run: |
-  #         eval "$($RBENV_ROOT/bin/rbenv init -)"
-  #         ruby --version
-  #         bundle --version
-  #
-  #     - name: Cache Ruby gems
-  #       uses: actions/cache@v4
-  #       with:
-  #         path: vendor/bundle
-  #         key: ${{ runner.os }}-gems-${{ hashFiles('Gemfile.lock') }}
-  #         restore-keys: |
-  #           ${{ runner.os }}-gems-
-  #
-  #     - name: Install Ruby dependencies
-  #       run: |
-  #         eval "$($RBENV_ROOT/bin/rbenv init -)"
-  #         bundle config path vendor/bundle
-  #         bundle install --jobs 4 --retry 3
-  #
-  #     - name: Cache pnpm store
-  #       uses: actions/cache@v4
-  #       with:
-  #         path: ~/.local/share/pnpm/store
-  #         key: ${{ runner.os }}-pnpm-${{ hashFiles('pnpm-lock.yaml') }}
-  #         restore-keys: |
-  #           ${{ runner.os }}-pnpm-
-  #
-  #     - name: Install Node dependencies
-  #       run: pnpm install --frozen-lockfile
-  #
-  #     - name: Setup test database
-  #       run: |
-  #         eval "$($RBENV_ROOT/bin/rbenv init -)"
-  #         bundle exec rails db:create db:schema:load
-  #
-  #     - name: Run backend tests
-  #       run: |
-  #         eval "$($RBENV_ROOT/bin/rbenv init -)"
-  #         bundle exec rspec --format progress
-  #
-  #     - name: Run frontend tests
-  #       run: pnpm test
+  test:
+    name: Run Tests
+    runs-on: [self-hosted, chatwoot]
+    timeout-minutes: 60
+
+    env:
+      RAILS_ENV: test
+      NODE_ENV: test
+      RBENV_ROOT: /srv/gh-runner/.rbenv
+      POSTGRES_HOST: localhost
+      POSTGRES_PORT: 5432
+      POSTGRES_USERNAME: chatwoot_test
+      POSTGRES_PASSWORD: chatwoot_test
+      POSTGRES_DATABASE: chatwoot_test
+      REDIS_URL: redis://localhost:6379/3
+      SECRET_KEY_BASE: test_secret_key_base_for_ci_only
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Ruby
+        run: |
+          eval "$($RBENV_ROOT/bin/rbenv init -)"
+          ruby --version
+          bundle --version
+
+      - name: Cache Ruby gems
+        uses: actions/cache@v4
+        with:
+          path: vendor/bundle
+          key: ${{ runner.os }}-gems-${{ hashFiles('Gemfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-gems-
+
+      - name: Install Ruby dependencies
+        run: |
+          eval "$($RBENV_ROOT/bin/rbenv init -)"
+          bundle config path vendor/bundle
+          bundle install --jobs 4 --retry 3
+
+      - name: Cache pnpm store
+        uses: actions/cache@v4
+        with:
+          path: ~/.local/share/pnpm/store
+          key: ${{ runner.os }}-pnpm-${{ hashFiles('pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-
+
+      - name: Install Node dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Setup test database
+        run: |
+          eval "$($RBENV_ROOT/bin/rbenv init -)"
+          bundle exec rails db:create db:schema:load
+
+      - name: Run backend tests
+        run: |
+          eval "$($RBENV_ROOT/bin/rbenv init -)"
+          bundle exec rspec --format progress
+
+      - name: Run frontend tests
+        run: pnpm test
 
   deploy:
     name: Deploy to Production
-    # needs: test
+    needs: test
     runs-on: [self-hosted, chatwoot]
     timeout-minutes: 15
     if: github.ref == 'refs/heads/framky/main'

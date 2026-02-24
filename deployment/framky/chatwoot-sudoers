@@ -8,3 +8,6 @@ chatwoot ALL=(ALL) NOPASSWD: /bin/systemctl start chatwoot.target
 chatwoot ALL=(ALL) NOPASSWD: /bin/systemctl status chatwoot.target
 chatwoot ALL=(ALL) NOPASSWD: /bin/systemctl status chatwoot-web.service
 chatwoot ALL=(ALL) NOPASSWD: /bin/systemctl status chatwoot-worker.service
+chatwoot ALL=(ALL) NOPASSWD: /bin/systemctl is-active chatwoot-web.service
+chatwoot ALL=(ALL) NOPASSWD: /bin/systemctl is-active --quiet chatwoot-web.service
+gh-runner ALL=(chatwoot) NOPASSWD: /bin/bash /srv/chatwoot/chatwoot/deployment/framky/deploy.sh

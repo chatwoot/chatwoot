@@ -32,8 +32,7 @@ pnpm install --frozen-lockfile
 
 # Assets
 echo "Precompiling assets..."
-export NODE_OPTIONS="--max-old-space-size=4096"
-RAILS_ENV=production NODE_ENV=production bundle exec rails assets:precompile
+NODE_OPTIONS="--max-old-space-size=4096" RAILS_ENV=production NODE_ENV=production bundle exec rails assets:precompile
 
 # Database migrations
 echo "Running database migrations..."
