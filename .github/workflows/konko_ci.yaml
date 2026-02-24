@@ -58,7 +58,7 @@ jobs:
     if: |
       github.event_name == 'push' &&
       (needs.test-frontend.result == 'success' || needs.test-frontend.result == 'skipped') &&
-      (needs.test-est-all.result == 'success' || needs.test-est-all.result == 'skipped')
+      (needs.test-all.result == 'success' || needs.test-all.result == 'skipped')
     needs: [test-frontend, test-all]
     runs-on: ubuntu-latest
     permissions:
