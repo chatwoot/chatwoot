@@ -18,7 +18,7 @@ and build it separately using Vite itself, toggled by an ENV variable.
 
 We need to edit the `asset:precompile` rake task to include the SDK in the precompile list.
 */
-import { defineConfig } from 'vite';
+import { defineConfig, loadEnv } from 'vite';
 import ruby from 'vite-plugin-ruby';
 import path from 'path';
 import vue from '@vitejs/plugin-vue';
@@ -42,76 +42,123 @@ if (isLibraryMode) {
   plugins = [vue(vueOptions)];
 }
 
-export default defineConfig({
-  plugins: plugins,
-  build: {
-    rollupOptions: {
-      output: {
-        // [NOTE] when not in library mode, no new keys will be addedd or overwritten
-        // setting dir: isLibraryMode ? 'public/packs' : undefined will not work
-        ...(isLibraryMode
-          ? {
-              dir: 'public/packs',
-              entryFileNames: chunkInfo => {
-                if (chunkInfo.name === 'sdk') {
-                  return 'js/sdk.js';
-                }
-                return '[name].js';
-              },
+export default defineConfig(({ mode }) => {
+  const env = loadEnv(mode, process.cwd(), '');
+  const PROXY_SERVER_API_URL = env.VITE_PROXY_SERVER_API_URL || '';
+  const PROXY_SERVER_WS_URL = env.VITE_PROXY_SERVER_WS_URL || '';
+
+  if (
+    (PROXY_SERVER_API_URL && !PROXY_SERVER_WS_URL) ||
+    (PROXY_SERVER_WS_URL && !PROXY_SERVER_API_URL)
+  ) {
+    throw new Error(
+      'PROXY_SERVER_API_URL and PROXY_SERVER_WS_URL must be set together'
+    );
+  }
+
+  const proxyServer = PROXY_SERVER_API_URL
+    ? {
+        '/api': { target: PROXY_SERVER_API_URL, changeOrigin: true },
+        '/auth': { target: PROXY_SERVER_API_URL, changeOrigin: true },
+        '/cable': {
+          target: PROXY_SERVER_WS_URL,
+          ws: true,
+          changeOrigin: true,
+        },
+        '/rails': { target: PROXY_SERVER_API_URL, changeOrigin: true },
+        '/app': { target: PROXY_SERVER_API_URL, changeOrigin: true },
+        '/': {
+          target: PROXY_SERVER_API_URL,
+          changeOrigin: true,
+          bypass(req) {
+            const url = req.url ?? '';
+            if (url.startsWith('/vite-dev/') || url.startsWith('/@')) {
+              return url;
             }
-          : {}),
-        inlineDynamicImports: isLibraryMode, // Disable code-splitting for SDK
-      },
-    },
-    lib: isLibraryMode
-      ? {
-          entry: path.resolve(__dirname, './app/javascript/entrypoints/sdk.js'),
-          formats: ['iife'], // IIFE format for single file
-          name: 'sdk',
-        }
-      : undefined,
-  },
-  resolve: {
-    alias: {
-      vue: 'vue/dist/vue.esm-bundler.js',
-      components: path.resolve('./app/javascript/dashboard/components'),
-      next: path.resolve('./app/javascript/dashboard/components-next'),
-      v3: path.resolve('./app/javascript/v3'),
-      dashboard: path.resolve('./app/javascript/dashboard'),
-      helpers: path.resolve('./app/javascript/shared/helpers'),
-      shared: path.resolve('./app/javascript/shared'),
-      survey: path.resolve('./app/javascript/survey'),
-      widget: path.resolve('./app/javascript/widget'),
-      assets: path.resolve('./app/javascript/dashboard/assets'),
-    },
-  },
-  test: {
-    environment: 'jsdom',
-    include: ['app/**/*.{test,spec}.?(c|m)[jt]s?(x)'],
-    coverage: {
-      reporter: ['lcov', 'text'],
-      include: ['app/**/*.js', 'app/**/*.vue'],
-      exclude: [
-        'app/**/*.@(spec|stories|routes).js',
-        '**/specs/**/*',
-        '**/i18n/**/*',
-      ],
-    },
-    globals: true,
-    outputFile: 'coverage/sonar-report.xml',
-    pool: 'threads',
-    poolOptions: {
-      threads: {
-        singleThread: false,
-      },
-    },
+
+            return null;
+          },
+        },
+      }
+    : undefined;
+
+  return {
+    plugins: plugins,
     server: {
-      deps: {
-        inline: ['tinykeys', '@material/mwc-icon'],
+      proxy: proxyServer,
+    },
+    build: {
+      rollupOptions: {
+        output: {
+          // [NOTE] when not in library mode, no new keys will be addedd or overwritten
+          // setting dir: isLibraryMode ? 'public/packs' : undefined will not work
+          ...(isLibraryMode
+            ? {
+                dir: 'public/packs',
+                entryFileNames: chunkInfo => {
+                  if (chunkInfo.name === 'sdk') {
+                    return 'js/sdk.js';
+                  }
+                  return '[name].js';
+                },
+              }
+            : {}),
+          inlineDynamicImports: isLibraryMode, // Disable code-splitting for SDK
+        },
+      },
+      lib: isLibraryMode
+        ? {
+            entry: path.resolve(
+              __dirname,
+              './app/javascript/entrypoints/sdk.js'
+            ),
+            formats: ['iife'], // IIFE format for single file
+            name: 'sdk',
+          }
+        : undefined,
+    },
+    resolve: {
+      alias: {
+        vue: 'vue/dist/vue.esm-bundler.js',
+        components: path.resolve('./app/javascript/dashboard/components'),
+        next: path.resolve('./app/javascript/dashboard/components-next'),
+        v3: path.resolve('./app/javascript/v3'),
+        dashboard: path.resolve('./app/javascript/dashboard'),
+        helpers: path.resolve('./app/javascript/shared/helpers'),
+        shared: path.resolve('./app/javascript/shared'),
+        survey: path.resolve('./app/javascript/survey'),
+        widget: path.resolve('./app/javascript/widget'),
+        assets: path.resolve('./app/javascript/dashboard/assets'),
       },
     },
-    setupFiles: ['fake-indexeddb/auto', 'vitest.setup.js'],
-    mockReset: true,
-    clearMocks: true,
-  },
+    test: {
+      environment: 'jsdom',
+      include: ['app/**/*.{test,spec}.?(c|m)[jt]s?(x)'],
+      coverage: {
+        reporter: ['lcov', 'text'],
+        include: ['app/**/*.js', 'app/**/*.vue'],
+        exclude: [
+          'app/**/*.@(spec|stories|routes).js',
+          '**/specs/**/*',
+          '**/i18n/**/*',
+        ],
+      },
+      globals: true,
+      outputFile: 'coverage/sonar-report.xml',
+      pool: 'threads',
+      poolOptions: {
+        threads: {
+          singleThread: false,
+        },
+      },
+      server: {
+        deps: {
+          inline: ['tinykeys', '@material/mwc-icon'],
+        },
+      },
+      setupFiles: ['fake-indexeddb/auto', 'vitest.setup.js'],
+      mockReset: true,
+      clearMocks: true,
+    },
+  };
 });
