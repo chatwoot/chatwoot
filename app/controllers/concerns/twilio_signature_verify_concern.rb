@@ -9,7 +9,14 @@ module TwilioSignatureVerifyConcern
 
   def verify_twilio_signature!
     channel = find_twilio_channel
-    return head :forbidden if channel.blank?
+    if channel.blank?
+      Rails.logger.warn(
+        '[TWILIO] Channel not found for webhook ' \
+        "account_sid=#{params[:AccountSid]} messaging_service_sid=#{params[:MessagingServiceSid]} " \
+        "to=#{params[:To]} from=#{params[:From]}"
+      )
+      return head :forbidden
+    end
     return if skip_signature_validation?(channel)
 
     signature = request.headers['X-Twilio-Signature']
@@ -36,7 +43,8 @@ module TwilioSignatureVerifyConcern
   end
 
   def validate_signature!(channel, signature)
-    if channel.auth_token.blank?
+    auth_token = channel.auth_token
+    if auth_token.blank?
       Rails.logger.error(
         '[TWILIO] Cannot validate signature: auth_token is blank. ' \
         "account_sid=#{params[:AccountSid]} channel_id=#{channel.id}"
@@ -44,7 +52,7 @@ module TwilioSignatureVerifyConcern
       return head :forbidden
     end
 
-    validator = Twilio::Security::RequestValidator.new(channel.auth_token)
+    validator = Twilio::Security::RequestValidator.new(auth_token)
     request_url = reconstruct_url
 
     return if validator.validate(request_url, request.request_parameters, signature)
@@ -52,14 +60,24 @@ module TwilioSignatureVerifyConcern
     Rails.logger.warn(
       '[TWILIO] Signature validation failed ' \
       "account_sid=#{params[:AccountSid]} " \
-      "url=#{request_url}"
+      "channel_id=#{channel.id} " \
+      "url=#{request_url} " \
+      "ip=#{request.remote_ip}"
+    )
+    head :forbidden
+  rescue ActiveRecord::Encryption::Errors::Decryption => e
+    Rails.logger.error(
+      '[TWILIO] Failed to decrypt auth_token for signature validation. ' \
+      "account_sid=#{params[:AccountSid]} channel_id=#{channel.id} error=#{e.message}"
     )
     head :forbidden
   end
 
   def find_twilio_channel
-    channel = ::Channel::TwilioSms.find_by(messaging_service_sid: params[:MessagingServiceSid]) if params[:MessagingServiceSid].present?
-    return channel if channel.present?
+    if params[:MessagingServiceSid].present?
+      channel = ::Channel::TwilioSms.find_by(messaging_service_sid: params[:MessagingServiceSid])
+      return channel if channel.present? && (params[:AccountSid].blank? || channel.account_sid == params[:AccountSid])
+    end
     return if params[:AccountSid].blank?
 
     find_channel_by_phone_number
