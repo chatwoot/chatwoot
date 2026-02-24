@@ -420,6 +420,9 @@ ja:
       other: '%{count} 分'
     seconds:
       other: '%{count} 秒'
+  auto_assignment:
+    default_policy_name: 'Default Policy'
+    policy_actor: 'Automation System via %{policy_name}'
   automation:
     system_name: 'Automation System'
   crm:
