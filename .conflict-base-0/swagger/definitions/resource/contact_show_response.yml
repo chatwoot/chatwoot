@@ -1,5 +1,0 @@
-type: object
-properties:
-  payload:
-    $ref: '#/components/schemas/contact_list_item'
-    description: Contact details 

@@ -1,3 +1,0 @@
-ancestorEntries = ["enterprise/app/services/captain/assistant/agent_runner_service.rb", "spec/enterprise/services/captain/assistant/agent_runner_service_spec.rb"]
-ourEntries = ["enterprise/app/services/captain/assistant/agent_runner_service.rb", "spec/enterprise/services/captain/assistant/agent_runner_service_spec.rb"]
-theirEntries = ["enterprise/app/services/captain/assistant/agent_runner_service.rb", "spec/enterprise/services/captain/assistant/agent_runner_service_spec.rb"]
