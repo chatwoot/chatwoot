@@ -128,7 +128,7 @@ const saveMacro = async macroData => {
 </script>
 
 <template>
-  <div class="flex flex-col flex-1 h-full overflow-auto">
+  <div class="flex flex-col gap-6 mb-8 max-w-7xl mx-auto w-full !px-6">
     <woot-loading-state
       v-if="uiFlags.isFetchingItem"
       :message="t('MACROS.EDITOR.LOADING')"
