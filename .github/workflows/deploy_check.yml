@@ -3,8 +3,8 @@
 ## deployment url will be of the form chatwoot-pr-<pr_number>.herokuapp.com
 name: Deploy Check
 
-on:
-  pull_request:
+# on:
+#   pull_request:
 
 # If two pushes happen within a short time in the same PR, cancel the run of the oldest push
 concurrency:

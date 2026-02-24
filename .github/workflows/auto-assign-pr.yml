@@ -1,8 +1,8 @@
 name: Auto-assign PR to Author
 
-on:
-  pull_request:
-    types: [opened]
+# on:
+#   pull_request:
+#     types: [opened]
 
 jobs:
   auto-assign:

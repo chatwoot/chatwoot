@@ -1,9 +1,9 @@
 name: Run Size Limit Check
 
-on:
-  pull_request:
-    branches:
-      - develop
+# on:
+#   pull_request:
+#     branches:
+#       - develop
 
 # If two pushes happen within a short time in the same PR, cancel the run of the oldest push
 concurrency:

@@ -2,12 +2,12 @@ name: Run Chatwoot CE spec
 permissions:
   contents: read
 on:
-  push:
-    branches:
-      - develop
-      - master
-  pull_request:
-  workflow_dispatch:
+  # push:
+  #   branches:
+  #     - develop
+  #     - master
+  # pull_request:
+  # workflow_dispatch:
   workflow_call:
 
 jobs:
