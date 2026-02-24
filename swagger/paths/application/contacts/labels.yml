@@ -15,24 +15,6 @@ get:
   description: Lists all the labels of a contact
   security:
     - userApiKey: []
-  x-codeSamples:
-    - lang: python
-      label: "List contact labels"
-      source: |
-        from chatwoot import ChatwootClient
-
-        client = ChatwootClient(
-            base_url="https://app.chatwoot.com",
-            api_token="your-api-token"
-        )
-
-        labels = client.contacts.labels.list(
-            account_id=1,
-            contact_id=100
-        )
-
-        print(labels)
-        # ['vip', 'enterprise']
   responses:
     '200':
       description: Success
@@ -61,26 +43,6 @@ post:
   description: Add labels to a contact. Note that this API would overwrite the existing list of labels associated to the conversation.
   security:
     - userApiKey: []
-  x-codeSamples:
-    - lang: python
-      label: "Add labels to contact"
-      source: |
-        from chatwoot import ChatwootClient
-
-        client = ChatwootClient(
-            base_url="https://app.chatwoot.com",
-            api_token="your-api-token"
-        )
-
-        # Note: this overwrites existing labels
-        labels = client.contacts.labels.add(
-            account_id=1,
-            contact_id=100,
-            labels=["vip", "enterprise"]
-        )
-
-        print(labels)
-        # ['vip', 'enterprise']
   requestBody:
     required: true
     content:

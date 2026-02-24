@@ -5,24 +5,6 @@ description: Filter conversations with custom filter options and pagination
 summary: Conversations Filter
 security:
   - userApiKey: []
-x-codeSamples:
-  - lang: python
-    label: "Filter conversations"
-    source: |
-      from chatwoot import ChatwootClient
-
-      client = ChatwootClient(
-          base_url="https://app.chatwoot.com",
-          api_token="your-api-token"
-      )
-
-      # Use the list method with built-in filters
-      conversations = client.conversations.list(
-          account_id=1,
-          status="pending",
-          assignee_type="unassigned",
-          inbox_id=5
-      )
 parameters:
   - name: page
     in: query

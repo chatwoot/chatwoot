@@ -5,18 +5,6 @@ summary: Delete a team
 security:
   - userApiKey: []
 description: Delete a team from the account
-x-codeSamples:
-  - lang: python
-    label: "Delete a team"
-    source: |
-      from chatwoot import ChatwootClient
-
-      client = ChatwootClient(
-          base_url="https://app.chatwoot.com",
-          api_token="your-api-token"
-      )
-
-      client.teams.delete(account_id=1, team_id=5)
 responses:
   '200':
     description: Success

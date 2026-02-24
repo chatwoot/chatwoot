@@ -6,20 +6,6 @@ get:
   description: Get the user profile details
   security:
     - userApiKey: []
-  x-codeSamples:
-    - lang: python
-      label: "Fetch profile"
-      source: |
-        from chatwoot import ChatwootClient
-
-        client = ChatwootClient(
-            base_url="https://app.chatwoot.com",
-            api_token="your-api-token"
-        )
-
-        profile = client.profile.get()
-
-        print(profile.name, profile.email)
   responses:
     '200':
       description: Success

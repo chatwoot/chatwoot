@@ -5,24 +5,6 @@ summary: Get messages
 security:
   - userApiKey: []
 description: List all messages of a conversation
-x-codeSamples:
-  - lang: python
-    label: "List messages"
-    source: |
-      from chatwoot import ChatwootClient
-
-      client = ChatwootClient(
-          base_url="https://app.chatwoot.com",
-          api_token="your-api-token"
-      )
-
-      messages = client.messages.list(
-          account_id=1,
-          conversation_id=42
-      )
-
-      for message in messages:
-          print(message.content, message.message_type)
 responses:
   '200':
     description: Success

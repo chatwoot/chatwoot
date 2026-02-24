@@ -1943,13 +1943,6 @@
             "userApiKey": []
           }
         ],
-        "x-codeSamples": [
-          {
-            "lang": "python",
-            "label": "List all agents",
-            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\nagents = client.agents.list(account_id=1)\n\nfor agent in agents:\n    print(agent.name, agent.role)\n"
-          }
-        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -1987,13 +1980,6 @@
         "security": [
           {
             "userApiKey": []
-          }
-        ],
-        "x-codeSamples": [
-          {
-            "lang": "python",
-            "label": "Add a new agent",
-            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\nagent = client.agents.add(\n    account_id=1,\n    name=\"John Doe\",\n    email=\"john@example.com\",\n    role=\"agent\"\n)\n\nprint(agent.id, agent.name)\n"
           }
         ],
         "requestBody": {
@@ -2046,13 +2032,6 @@
         "security": [
           {
             "userApiKey": []
-          }
-        ],
-        "x-codeSamples": [
-          {
-            "lang": "python",
-            "label": "Update an agent",
-            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\nagent = client.agents.update(\n    account_id=1,\n    agent_id=10,\n    name=\"Jane Doe\",\n    role=\"administrator\"\n)\n\nprint(agent.id, agent.role)\n"
           }
         ],
         "parameters": [
@@ -2119,13 +2098,6 @@
         "security": [
           {
             "userApiKey": []
-          }
-        ],
-        "x-codeSamples": [
-          {
-            "lang": "python",
-            "label": "Remove an agent",
-            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\nclient.agents.remove(account_id=1, agent_id=10)\n"
           }
         ],
         "parameters": [
@@ -2702,13 +2674,6 @@
             "$ref": "#/components/parameters/page"
           }
         ],
-        "x-codeSamples": [
-          {
-            "lang": "python",
-            "label": "List all contacts",
-            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\ncontacts = client.contacts.list(account_id=1, page=1)\n\nfor contact in contacts:\n    print(contact.name, contact.email)\n"
-          }
-        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -2747,13 +2712,6 @@
         "parameters": [
           {
             "$ref": "#/components/parameters/account_id"
-          }
-        ],
-        "x-codeSamples": [
-          {
-            "lang": "python",
-            "label": "Create a contact",
-            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\nresult = client.contacts.create(\n    account_id=1,\n    inbox_id=5,\n    name=\"John Doe\",\n    email=\"john@example.com\",\n    phone_number=\"+1234567890\"\n)\n\nprint(result.contact.id, result.contact_inbox.source_id)\n"
           }
         ],
         "requestBody": {
@@ -2817,13 +2775,6 @@
           }
         ],
         "description": "Get a contact belonging to the account using ID",
-        "x-codeSamples": [
-          {
-            "lang": "python",
-            "label": "Get contact details",
-            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\ncontact = client.contacts.get(account_id=1, contact_id=100)\n\nprint(contact.name, contact.email, contact.phone_number)\n"
-          }
-        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -2869,13 +2820,6 @@
           }
         ],
         "description": "Update a contact belonging to the account using ID",
-        "x-codeSamples": [
-          {
-            "lang": "python",
-            "label": "Update a contact",
-            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\ncontact = client.contacts.update(\n    account_id=1,\n    contact_id=100,\n    name=\"Jane Doe\",\n    email=\"jane@example.com\",\n    custom_attributes={\"plan\": \"premium\"}\n)\n\nprint(contact.id, contact.name)\n"
-          }
-        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -2931,13 +2875,6 @@
           }
         ],
         "description": "Delete a contact belonging to the account using ID",
-        "x-codeSamples": [
-          {
-            "lang": "python",
-            "label": "Delete a contact",
-            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\nclient.contacts.delete(account_id=1, contact_id=100)\n"
-          }
-        ],
         "responses": {
           "200": {
             "description": "Success"
@@ -3003,13 +2940,6 @@
             "userApiKey": []
           }
         ],
-        "x-codeSamples": [
-          {
-            "lang": "python",
-            "label": "Get contact conversations",
-            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\nconversations = client.contacts.conversations(\n    account_id=1,\n    contact_id=100\n)\n\nfor conversation in conversations:\n    print(conversation.id, conversation.status)\n"
-          }
-        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -3071,13 +3001,6 @@
             "userApiKey": []
           }
         ],
-        "x-codeSamples": [
-          {
-            "lang": "python",
-            "label": "List contact labels",
-            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\nlabels = client.contacts.labels.list(\n    account_id=1,\n    contact_id=100\n)\n\nprint(labels)\n# ['vip', 'enterprise']\n"
-          }
-        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -3121,13 +3044,6 @@
         "security": [
           {
             "userApiKey": []
-          }
-        ],
-        "x-codeSamples": [
-          {
-            "lang": "python",
-            "label": "Add labels to contact",
-            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\n# Note: this overwrites existing labels\nlabels = client.contacts.labels.add(\n    account_id=1,\n    contact_id=100,\n    labels=[\"vip\", \"enterprise\"]\n)\n\nprint(labels)\n# ['vip', 'enterprise']\n"
           }
         ],
         "requestBody": {
@@ -3222,18 +3138,6 @@
             "$ref": "#/components/parameters/page"
           }
         ],
-        "x-codeSamples": [
-          {
-            "lang": "python",
-            "label": "Search by email",
-            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\ncontacts = client.contacts.search(\n    account_id=1,\n    query=\"john@example.com\"\n)\n\nfor contact in contacts:\n    print(contact.name, contact.email)\n"
-          },
-          {
-            "lang": "python",
-            "label": "Search by name",
-            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\ncontacts = client.contacts.search(account_id=1, query=\"John Doe\")\n"
-          }
-        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -3269,13 +3173,6 @@
         "security": [
           {
             "userApiKey": []
-          }
-        ],
-        "x-codeSamples": [
-          {
-            "lang": "python",
-            "label": "Filter contacts",
-            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\n# Use search to find contacts by name, email, or phone\ncontacts = client.contacts.search(\n    account_id=1,\n    query=\"example.com\"\n)\n"
           }
         ],
         "parameters": [
@@ -3493,13 +3390,6 @@
             "required": true
           }
         ],
-        "x-codeSamples": [
-          {
-            "lang": "python",
-            "label": "Get contactable inboxes",
-            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\ninboxes = client.contacts.contactable_inboxes(\n    account_id=1,\n    contact_id=100\n)\n\nfor item in inboxes:\n    print(item[\"source_id\"], item[\"inbox\"][\"name\"])\n"
-          }
-        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -3552,13 +3442,6 @@
           }
         ],
         "description": "Merge two contacts into a single contact. The base contact remains and receives all\ndata from the mergee contact. After the merge, the mergee contact is permanently deleted.\n\nThis action is irreversible. All conversations, labels, and custom attributes from the\nmergee contact will be moved to the base contact.\n",
-        "x-codeSamples": [
-          {
-            "lang": "python",
-            "label": "Merge two contacts",
-            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\n# base_contact_id is kept; mergee_contact_id is deleted\ncontact = client.contacts.merge(\n    account_id=1,\n    base_contact_id=100,\n    mergee_contact_id=200\n)\n\nprint(contact.id, contact.name)\n"
-          }
-        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -4399,13 +4282,6 @@
             }
           }
         ],
-        "x-codeSamples": [
-          {
-            "lang": "python",
-            "label": "Get conversation counts",
-            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\ncounts = client.conversations.get_counts(\n    account_id=1,\n    status=\"open\"\n)\n\nprint(counts)\n# {'mine_count': 5, 'unassigned_count': 12, 'assigned_count': 8, 'all_count': 25}\n"
-          }
-        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -4541,18 +4417,6 @@
             "description": "paginate through conversations"
           }
         ],
-        "x-codeSamples": [
-          {
-            "lang": "python",
-            "label": "List open conversations",
-            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\nconversations = client.conversations.list(\n    account_id=1,\n    status=\"open\",\n    assignee_type=\"me\",\n    page=1\n)\n\nfor conversation in conversations:\n    print(conversation.id, conversation.status)\n"
-          },
-          {
-            "lang": "python",
-            "label": "Search conversations",
-            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\nconversations = client.conversations.list(\n    account_id=1,\n    q=\"billing issue\",\n    inbox_id=5,\n    labels=[\"support\"]\n)\n"
-          }
-        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -4601,13 +4465,6 @@
             }
           }
         },
-        "x-codeSamples": [
-          {
-            "lang": "python",
-            "label": "Create a conversation",
-            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\nconversation = client.conversations.create(\n    account_id=1,\n    source_id=\"user-123\",\n    inbox_id=5,\n    contact_id=100\n)\n\nprint(conversation.id, conversation.inbox_id)\n"
-          }
-        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -4662,13 +4519,6 @@
         "security": [
           {
             "userApiKey": []
-          }
-        ],
-        "x-codeSamples": [
-          {
-            "lang": "python",
-            "label": "Filter conversations",
-            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\n# Use the list method with built-in filters\nconversations = client.conversations.list(\n    account_id=1,\n    status=\"pending\",\n    assignee_type=\"unassigned\",\n    inbox_id=5\n)\n"
           }
         ],
         "parameters": [
@@ -4792,13 +4642,6 @@
           }
         ],
         "description": "Get all details regarding a conversation with all messages in the conversation",
-        "x-codeSamples": [
-          {
-            "lang": "python",
-            "label": "Get conversation details",
-            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\nconversation = client.conversations.get(\n    account_id=1,\n    conversation_id=42\n)\n\nprint(conversation.id, conversation.status)\nprint(conversation.meta)\nprint(conversation.messages)\n"
-          }
-        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -4876,13 +4719,6 @@
             }
           }
         },
-        "x-codeSamples": [
-          {
-            "lang": "python",
-            "label": "Update conversation priority",
-            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\nconversation = client.conversations.update(\n    account_id=1,\n    conversation_id=42,\n    priority=\"high\"\n)\n"
-          }
-        ],
         "responses": {
           "200": {
             "description": "Success"
@@ -4965,18 +4801,6 @@
             }
           }
         },
-        "x-codeSamples": [
-          {
-            "lang": "python",
-            "label": "Resolve a conversation",
-            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\nresult = client.conversations.toggle_status(\n    account_id=1,\n    conversation_id=42,\n    status=\"resolved\"\n)\n\nprint(result.success, result.current_status)\n"
-          },
-          {
-            "lang": "python",
-            "label": "Reopen a conversation",
-            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\nresult = client.conversations.toggle_status(\n    account_id=1,\n    conversation_id=42,\n    status=\"open\"\n)\n"
-          }
-        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -5087,13 +4911,6 @@
             }
           }
         },
-        "x-codeSamples": [
-          {
-            "lang": "python",
-            "label": "Set conversation priority",
-            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\nconversation = client.conversations.update(\n    account_id=1,\n    conversation_id=42,\n    priority=\"urgent\"\n)\n"
-          }
-        ],
         "responses": {
           "200": {
             "description": "Success"
@@ -5282,19 +5099,7 @@
               }
             }
           }
-        },
-        "x-codeSamples": [
-          {
-            "lang": "python",
-            "label": "Assign to an agent",
-            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\nconversation = client.conversations.assign(\n    account_id=1,\n    conversation_id=42,\n    assignee_id=10\n)\n"
-          },
-          {
-            "lang": "python",
-            "label": "Assign to a team",
-            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\nconversation = client.conversations.assign(\n    account_id=1,\n    conversation_id=42,\n    team_id=5\n)\n"
-          }
-        ]
+        }
       }
     },
     "/api/v1/accounts/{account_id}/conversations/{conversation_id}/labels": {
@@ -5318,13 +5123,6 @@
           }
         ],
         "description": "Lists all the labels of a conversation",
-        "x-codeSamples": [
-          {
-            "lang": "python",
-            "label": "List conversation labels",
-            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\nlabels = client.conversations.labels.list(\n    account_id=1,\n    conversation_id=42\n)\n\nprint(labels)\n# ['support', 'billing', 'urgent']\n"
-          }
-        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -5370,13 +5168,6 @@
           }
         ],
         "description": "Add labels to a conversation. Note that this API would overwrite the existing list of labels associated to the conversation.",
-        "x-codeSamples": [
-          {
-            "lang": "python",
-            "label": "Add labels to conversation",
-            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\n# Note: this overwrites existing labels\nlabels = client.conversations.labels.add(\n    account_id=1,\n    conversation_id=42,\n    labels=[\"support\", \"billing\"]\n)\n\nprint(labels)\n# ['support', 'billing']\n"
-          }
-        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -5514,13 +5305,6 @@
             "$ref": "#/components/parameters/account_id"
           }
         ],
-        "x-codeSamples": [
-          {
-            "lang": "python",
-            "label": "List all inboxes",
-            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\ninboxes = client.inboxes.list(account_id=1)\n\nfor inbox in inboxes:\n    print(inbox.id, inbox.name)\n"
-          }
-        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -5578,13 +5362,6 @@
         "parameters": [
           {
             "$ref": "#/components/parameters/account_id"
-          }
-        ],
-        "x-codeSamples": [
-          {
-            "lang": "python",
-            "label": "Create an API inbox",
-            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\ninbox = client.inboxes.create(\n    account_id=1,\n    name=\"Support Inbox\",\n    channel_type=\"api\"\n)\n\nprint(inbox.id, inbox.name)\n"
           }
         ],
         "requestBody": {
@@ -5658,13 +5435,6 @@
             "required": true
           }
         ],
-        "x-codeSamples": [
-          {
-            "lang": "python",
-            "label": "Get an inbox",
-            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\ninbox = client.inboxes.get(account_id=1, inbox_id=5)\n\nprint(inbox.name, inbox.channel_type)\n"
-          }
-        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -5724,13 +5494,6 @@
             "required": true
           }
         ],
-        "x-codeSamples": [
-          {
-            "lang": "python",
-            "label": "Update an inbox",
-            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\ninbox = client.inboxes.update(\n    account_id=1,\n    inbox_id=5,\n    name=\"Updated Inbox Name\",\n    enable_auto_assignment=True\n)\n\nprint(inbox.id, inbox.name)\n"
-          }
-        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -5786,13 +5549,6 @@
         "security": [
           {
             "userApiKey": []
-          }
-        ],
-        "x-codeSamples": [
-          {
-            "lang": "python",
-            "label": "Get inbox agent bot",
-            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\nbot = client.inboxes.get_agent_bot(account_id=1, inbox_id=5)\n\nif bot:\n    print(bot[\"id\"], bot[\"name\"])\n"
           }
         ],
         "parameters": [
@@ -5856,18 +5612,6 @@
           }
         ],
         "description": "To add an agent bot pass agent_bot id, to remove agent bot from an inbox pass null",
-        "x-codeSamples": [
-          {
-            "lang": "python",
-            "label": "Assign an agent bot",
-            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\nclient.inboxes.set_agent_bot(account_id=1, inbox_id=5, agent_bot_id=2)\n"
-          },
-          {
-            "lang": "python",
-            "label": "Remove agent bot",
-            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\nclient.inboxes.set_agent_bot(account_id=1, inbox_id=5, agent_bot_id=None)\n"
-          }
-        ],
         "parameters": [
           {
             "$ref": "#/components/parameters/account_id"
@@ -5950,13 +5694,6 @@
             "userApiKey": []
           }
         ],
-        "x-codeSamples": [
-          {
-            "lang": "python",
-            "label": "List agents in inbox",
-            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\nagents = client.inboxes.agents.list(account_id=1, inbox_id=5)\n\nfor agent in agents:\n    print(agent.name, agent.email)\n"
-          }
-        ],
         "parameters": [
           {
             "$ref": "#/components/parameters/inbox_id"
@@ -6021,13 +5758,6 @@
         "security": [
           {
             "userApiKey": []
-          }
-        ],
-        "x-codeSamples": [
-          {
-            "lang": "python",
-            "label": "Add agents to inbox",
-            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\nagents = client.inboxes.agents.add(\n    account_id=1,\n    inbox_id=5,\n    agent_ids=[10, 11, 12]\n)\n\nprint(f\"Inbox now has {len(agents)} agents\")\n"
           }
         ],
         "requestBody": {
@@ -6125,13 +5855,6 @@
             "userApiKey": []
           }
         ],
-        "x-codeSamples": [
-          {
-            "lang": "python",
-            "label": "Replace all agents in inbox",
-            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\n# Replaces ALL current agents — agents not in this list are removed\nagents = client.inboxes.agents.update(\n    account_id=1,\n    inbox_id=5,\n    agent_ids=[10, 11]\n)\n\nprint(f\"Inbox now has {len(agents)} agents\")\n"
-          }
-        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -6227,13 +5950,6 @@
             "userApiKey": []
           }
         ],
-        "x-codeSamples": [
-          {
-            "lang": "python",
-            "label": "Remove agents from inbox",
-            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\nclient.inboxes.agents.remove(\n    account_id=1,\n    inbox_id=5,\n    agent_ids=[10]\n)\n"
-          }
-        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -6319,13 +6035,6 @@
           }
         ],
         "description": "List all messages of a conversation",
-        "x-codeSamples": [
-          {
-            "lang": "python",
-            "label": "List messages",
-            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\nmessages = client.messages.list(\n    account_id=1,\n    conversation_id=42\n)\n\nfor message in messages:\n    print(message.content, message.message_type)\n"
-          }
-        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -6417,18 +6126,6 @@
             "agentBotApiKey": []
           }
         ],
-        "x-codeSamples": [
-          {
-            "lang": "python",
-            "label": "Send a message",
-            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\nmessage = client.messages.create(\n    account_id=1,\n    conversation_id=42,\n    content=\"Hello, how can I help you today?\"\n)\n\nprint(message.id, message.content)\n"
-          },
-          {
-            "lang": "python",
-            "label": "Send a private note",
-            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\nnote = client.messages.create(\n    account_id=1,\n    conversation_id=42,\n    content=\"Internal note: Customer needs follow-up\",\n    private=True\n)\n"
-          }
-        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -6504,13 +6201,6 @@
           }
         ],
         "description": "Delete a message and it's attachments from the conversation.",
-        "x-codeSamples": [
-          {
-            "lang": "python",
-            "label": "Delete a message",
-            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\nclient.messages.delete(\n    account_id=1,\n    conversation_id=42,\n    message_id=123\n)\n"
-          }
-        ],
         "responses": {
           "200": {
             "description": "Success"
@@ -6765,13 +6455,6 @@
             "userApiKey": []
           }
         ],
-        "x-codeSamples": [
-          {
-            "lang": "python",
-            "label": "Fetch profile",
-            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\nprofile = client.profile.get()\n\nprint(profile.name, profile.email)\n"
-          }
-        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -6872,13 +6555,6 @@
           }
         ],
         "description": "List all teams available in the current account",
-        "x-codeSamples": [
-          {
-            "lang": "python",
-            "label": "List all teams",
-            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\nteams = client.teams.list(account_id=1)\n\nfor team in teams:\n    print(team.id, team.name)\n"
-          }
-        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -6921,13 +6597,6 @@
         "parameters": [
           {
             "$ref": "#/components/parameters/account_id"
-          }
-        ],
-        "x-codeSamples": [
-          {
-            "lang": "python",
-            "label": "Create a team",
-            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\nteam = client.teams.create(\n    account_id=1,\n    name=\"Support Team\",\n    description=\"Customer support team\",\n    allow_auto_assign=True\n)\n\nprint(team.id, team.name)\n"
           }
         ],
         "requestBody": {
@@ -6985,13 +6654,6 @@
           }
         ],
         "description": "Get the details of a team in the account",
-        "x-codeSamples": [
-          {
-            "lang": "python",
-            "label": "Get a team",
-            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\nteam = client.teams.get(account_id=1, team_id=5)\n\nprint(team.name, team.description)\n"
-          }
-        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -7037,13 +6699,6 @@
           }
         ],
         "description": "Update a team's attributes",
-        "x-codeSamples": [
-          {
-            "lang": "python",
-            "label": "Update a team",
-            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\nteam = client.teams.update(\n    account_id=1,\n    team_id=5,\n    name=\"New Team Name\"\n)\n\nprint(team.id, team.name)\n"
-          }
-        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -7089,13 +6744,6 @@
           }
         ],
         "description": "Delete a team from the account",
-        "x-codeSamples": [
-          {
-            "lang": "python",
-            "label": "Delete a team",
-            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\nclient.teams.delete(account_id=1, team_id=5)\n"
-          }
-        ],
         "responses": {
           "200": {
             "description": "Success"
@@ -7142,13 +6790,6 @@
         "security": [
           {
             "userApiKey": []
-          }
-        ],
-        "x-codeSamples": [
-          {
-            "lang": "python",
-            "label": "List agents in team",
-            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\nagents = client.teams.agents.list(account_id=1, team_id=5)\n\nfor agent in agents:\n    print(agent.name, agent.email)\n"
           }
         ],
         "parameters": [
@@ -7206,13 +6847,6 @@
         "security": [
           {
             "userApiKey": []
-          }
-        ],
-        "x-codeSamples": [
-          {
-            "lang": "python",
-            "label": "Add agents to team",
-            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\nclient.teams.agents.add(\n    account_id=1,\n    team_id=5,\n    agent_ids=[10, 11, 12]\n)\n"
           }
         ],
         "requestBody": {
@@ -7299,13 +6933,6 @@
             "userApiKey": []
           }
         ],
-        "x-codeSamples": [
-          {
-            "lang": "python",
-            "label": "Replace team agents",
-            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\n# Replaces all current agents with the ones provided\nagents = client.teams.agents.update(\n    account_id=1,\n    team_id=5,\n    agent_ids=[10, 11]\n)\n"
-          }
-        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -7388,13 +7015,6 @@
         "security": [
           {
             "userApiKey": []
-          }
-        ],
-        "x-codeSamples": [
-          {
-            "lang": "python",
-            "label": "Remove agents from team",
-            "source": "from chatwoot import ChatwootClient\n\nclient = ChatwootClient(\n    base_url=\"https://app.chatwoot.com\",\n    api_token=\"your-api-token\"\n)\n\nclient.teams.agents.remove(\n    account_id=1,\n    team_id=5,\n    agent_ids=[10]\n)\n"
           }
         ],
         "requestBody": {

@@ -15,20 +15,6 @@ get:
   security:
     - userApiKey: []
   description: Get a contact belonging to the account using ID
-  x-codeSamples:
-    - lang: python
-      label: "Get contact details"
-      source: |
-        from chatwoot import ChatwootClient
-
-        client = ChatwootClient(
-            base_url="https://app.chatwoot.com",
-            api_token="your-api-token"
-        )
-
-        contact = client.contacts.get(account_id=1, contact_id=100)
-
-        print(contact.name, contact.email, contact.phone_number)
   responses:
     '200':
       description: Success
@@ -57,26 +43,6 @@ put:
   security:
     - userApiKey: []
   description: Update a contact belonging to the account using ID
-  x-codeSamples:
-    - lang: python
-      label: "Update a contact"
-      source: |
-        from chatwoot import ChatwootClient
-
-        client = ChatwootClient(
-            base_url="https://app.chatwoot.com",
-            api_token="your-api-token"
-        )
-
-        contact = client.contacts.update(
-            account_id=1,
-            contact_id=100,
-            name="Jane Doe",
-            email="jane@example.com",
-            custom_attributes={"plan": "premium"}
-        )
-
-        print(contact.id, contact.name)
   requestBody:
     required: true
     content:
@@ -111,18 +77,6 @@ delete:
   security:
     - userApiKey: []
   description: Delete a contact belonging to the account using ID
-  x-codeSamples:
-    - lang: python
-      label: "Delete a contact"
-      source: |
-        from chatwoot import ChatwootClient
-
-        client = ChatwootClient(
-            base_url="https://app.chatwoot.com",
-            api_token="your-api-token"
-        )
-
-        client.contacts.delete(account_id=1, contact_id=100)
   responses:
     '200':
       description: Success

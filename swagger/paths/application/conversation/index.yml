@@ -50,43 +50,6 @@ get:
         default: 1
       description: paginate through conversations
 
-  x-codeSamples:
-    - lang: python
-      label: "List open conversations"
-      source: |
-        from chatwoot import ChatwootClient
-
-        client = ChatwootClient(
-            base_url="https://app.chatwoot.com",
-            api_token="your-api-token"
-        )
-
-        conversations = client.conversations.list(
-            account_id=1,
-            status="open",
-            assignee_type="me",
-            page=1
-        )
-
-        for conversation in conversations:
-            print(conversation.id, conversation.status)
-    - lang: python
-      label: "Search conversations"
-      source: |
-        from chatwoot import ChatwootClient
-
-        client = ChatwootClient(
-            base_url="https://app.chatwoot.com",
-            api_token="your-api-token"
-        )
-
-        conversations = client.conversations.list(
-            account_id=1,
-            q="billing issue",
-            inbox_id=5,
-            labels=["support"]
-        )
-
   responses:
     '200':
       description: Success
@@ -116,25 +79,6 @@ post:
       application/json:
         schema:
           $ref: '#/components/schemas/conversation_create_payload'
-  x-codeSamples:
-    - lang: python
-      label: "Create a conversation"
-      source: |
-        from chatwoot import ChatwootClient
-
-        client = ChatwootClient(
-            base_url="https://app.chatwoot.com",
-            api_token="your-api-token"
-        )
-
-        conversation = client.conversations.create(
-            account_id=1,
-            source_id="user-123",
-            inbox_id=5,
-            contact_id=100
-        )
-
-        print(conversation.id, conversation.inbox_id)
   responses:
     '200':
       description: Success

@@ -5,22 +5,6 @@ summary: Delete a message
 security:
   - userApiKey: []
 description: Delete a message and it's attachments from the conversation.
-x-codeSamples:
-  - lang: python
-    label: "Delete a message"
-    source: |
-      from chatwoot import ChatwootClient
-
-      client = ChatwootClient(
-          base_url="https://app.chatwoot.com",
-          api_token="your-api-token"
-      )
-
-      client.messages.delete(
-          account_id=1,
-          conversation_id=42,
-          message_id=123
-      )
 responses:
   '200':
     description: Success

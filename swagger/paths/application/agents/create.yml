@@ -5,25 +5,6 @@ summary: Add a New Agent
 description: Add a new Agent to Account
 security:
   - userApiKey: []
-x-codeSamples:
-  - lang: python
-    label: "Add a new agent"
-    source: |
-      from chatwoot import ChatwootClient
-
-      client = ChatwootClient(
-          base_url="https://app.chatwoot.com",
-          api_token="your-api-token"
-      )
-
-      agent = client.agents.add(
-          account_id=1,
-          name="John Doe",
-          email="john@example.com",
-          role="agent"
-      )
-
-      print(agent.id, agent.name)
 requestBody:
   required: true
   content:

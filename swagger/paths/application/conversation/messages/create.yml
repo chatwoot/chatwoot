@@ -56,40 +56,6 @@ description: |
 security:
   - userApiKey: []
   - agentBotApiKey: []
-x-codeSamples:
-  - lang: python
-    label: "Send a message"
-    source: |
-      from chatwoot import ChatwootClient
-
-      client = ChatwootClient(
-          base_url="https://app.chatwoot.com",
-          api_token="your-api-token"
-      )
-
-      message = client.messages.create(
-          account_id=1,
-          conversation_id=42,
-          content="Hello, how can I help you today?"
-      )
-
-      print(message.id, message.content)
-  - lang: python
-    label: "Send a private note"
-    source: |
-      from chatwoot import ChatwootClient
-
-      client = ChatwootClient(
-          base_url="https://app.chatwoot.com",
-          api_token="your-api-token"
-      )
-
-      note = client.messages.create(
-          account_id=1,
-          conversation_id=42,
-          content="Internal note: Customer needs follow-up",
-          private=True
-      )
 requestBody:
   required: true
   content:

@@ -5,21 +5,6 @@ summary: List all teams
 security:
   - userApiKey: []
 description: List all teams available in the current account
-x-codeSamples:
-  - lang: python
-    label: "List all teams"
-    source: |
-      from chatwoot import ChatwootClient
-
-      client = ChatwootClient(
-          base_url="https://app.chatwoot.com",
-          api_token="your-api-token"
-      )
-
-      teams = client.teams.list(account_id=1)
-
-      for team in teams:
-          print(team.id, team.name)
 responses:
   '200':
     description: Success

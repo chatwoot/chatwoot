@@ -5,25 +5,6 @@ summary: Conversation Details
 security:
   - userApiKey: []
 description: Get all details regarding a conversation with all messages in the conversation
-x-codeSamples:
-  - lang: python
-    label: "Get conversation details"
-    source: |
-      from chatwoot import ChatwootClient
-
-      client = ChatwootClient(
-          base_url="https://app.chatwoot.com",
-          api_token="your-api-token"
-      )
-
-      conversation = client.conversations.get(
-          account_id=1,
-          conversation_id=42
-      )
-
-      print(conversation.id, conversation.status)
-      print(conversation.meta)
-      print(conversation.messages)
 responses:
   '200':
     description: Success

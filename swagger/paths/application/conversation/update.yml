@@ -22,22 +22,6 @@ requestBody:
             type: number
             description: 'The ID of the SLA policy (Available only in Enterprise edition)'
             example: 1
-x-codeSamples:
-  - lang: python
-    label: "Update conversation priority"
-    source: |
-      from chatwoot import ChatwootClient
-
-      client = ChatwootClient(
-          base_url="https://app.chatwoot.com",
-          api_token="your-api-token"
-      )
-
-      conversation = client.conversations.update(
-          account_id=1,
-          conversation_id=42,
-          priority="high"
-      )
 responses:
   '200':
     description: Success

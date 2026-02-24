@@ -6,29 +6,6 @@ post:
   security:
     - userApiKey: []
   description: To add an agent bot pass agent_bot id, to remove agent bot from an inbox pass null
-  x-codeSamples:
-    - lang: python
-      label: "Assign an agent bot"
-      source: |
-        from chatwoot import ChatwootClient
-
-        client = ChatwootClient(
-            base_url="https://app.chatwoot.com",
-            api_token="your-api-token"
-        )
-
-        client.inboxes.set_agent_bot(account_id=1, inbox_id=5, agent_bot_id=2)
-    - lang: python
-      label: "Remove agent bot"
-      source: |
-        from chatwoot import ChatwootClient
-
-        client = ChatwootClient(
-            base_url="https://app.chatwoot.com",
-            api_token="your-api-token"
-        )
-
-        client.inboxes.set_agent_bot(account_id=1, inbox_id=5, agent_bot_id=None)
   parameters:
     - $ref: '#/components/parameters/account_id'
     - name: id

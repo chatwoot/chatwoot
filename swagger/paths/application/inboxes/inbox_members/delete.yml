@@ -5,22 +5,6 @@ summary: Remove an Agent from Inbox
 description: Remove an Agent from Inbox
 security:
   - userApiKey: []
-x-codeSamples:
-  - lang: python
-    label: "Remove agents from inbox"
-    source: |
-      from chatwoot import ChatwootClient
-
-      client = ChatwootClient(
-          base_url="https://app.chatwoot.com",
-          api_token="your-api-token"
-      )
-
-      client.inboxes.agents.remove(
-          account_id=1,
-          inbox_id=5,
-          agent_ids=[10]
-      )
 requestBody:
   required: true
   content:

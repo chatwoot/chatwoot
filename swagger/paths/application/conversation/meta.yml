@@ -37,25 +37,6 @@ get:
         items:
           type: string
 
-  x-codeSamples:
-    - lang: python
-      label: "Get conversation counts"
-      source: |
-        from chatwoot import ChatwootClient
-
-        client = ChatwootClient(
-            base_url="https://app.chatwoot.com",
-            api_token="your-api-token"
-        )
-
-        counts = client.conversations.get_counts(
-            account_id=1,
-            status="open"
-        )
-
-        print(counts)
-        # {'mine_count': 5, 'unassigned_count': 12, 'assigned_count': 8, 'all_count': 25}
-
   responses:
     '200':
       description: Success

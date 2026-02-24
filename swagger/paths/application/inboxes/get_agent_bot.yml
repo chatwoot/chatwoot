@@ -6,21 +6,6 @@ get:
   description: See if an agent bot is associated to the Inbox
   security:
     - userApiKey: []
-  x-codeSamples:
-    - lang: python
-      label: "Get inbox agent bot"
-      source: |
-        from chatwoot import ChatwootClient
-
-        client = ChatwootClient(
-            base_url="https://app.chatwoot.com",
-            api_token="your-api-token"
-        )
-
-        bot = client.inboxes.get_agent_bot(account_id=1, inbox_id=5)
-
-        if bot:
-            print(bot["id"], bot["name"])
   parameters:
     - $ref: '#/components/parameters/account_id'
     - name: id

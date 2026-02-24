@@ -5,22 +5,6 @@ summary: Add a New Agent
 description: Add a new Agent to Team
 security:
   - userApiKey: []
-x-codeSamples:
-  - lang: python
-    label: "Add agents to team"
-    source: |
-      from chatwoot import ChatwootClient
-
-      client = ChatwootClient(
-          base_url="https://app.chatwoot.com",
-          api_token="your-api-token"
-      )
-
-      client.teams.agents.add(
-          account_id=1,
-          team_id=5,
-          agent_ids=[10, 11, 12]
-      )
 requestBody:
   required: true
   content:
