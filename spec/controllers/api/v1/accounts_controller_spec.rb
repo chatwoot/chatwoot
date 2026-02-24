@@ -197,6 +197,15 @@ RSpec.describe 'Accounts API', type: :request do
         company_size: '1-10'
       }
 
+      it 'returns a valid schema' do
+        put "/api/v1/accounts/#{account.id}",
+            params: params,
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to conform_schema(200)
+      end
+
       it 'modifies an account' do
         put "/api/v1/accounts/#{account.id}",
             params: params,
@@ -204,7 +213,6 @@ RSpec.describe 'Accounts API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
-        expect(response).to conform_schema(200)
         expect(account.reload.name).to eq(params[:name])
         expect(account.reload.locale).to eq(params[:locale])
         expect(account.reload.domain).to eq(params[:domain])
