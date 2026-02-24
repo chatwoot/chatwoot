@@ -8,6 +8,7 @@ on:
       - master
   pull_request:
   workflow_dispatch:
+  workflow_call:
 
 jobs:
   # Separate linting jobs for faster feedback

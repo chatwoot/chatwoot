@@ -1,0 +1,78 @@
+name: konko-ci
+
+on:
+  push:
+    branches: [develop-konko]
+    tags: ['v*']
+  pull_request:
+    branches: [develop-konko]
+
+jobs:
+  test-frontent:
+    uses: ./.github/workflows/frontend-fe.yml
+
+  test-backend:
+    uses: ./.github/workflows/run_foss_spec.yml
+
+  build-image:
+    if: github.event_name == 'push'
+    needs: [test-frontent, test-backend]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    env:
+      REGISTRY: ghcr.io
+      IMAGE_NAME: konko-ai/chatwoot
+    outputs:
+      image_tag: ${{ steps.semver.outputs.version }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Compute version
+        id: semver
+        uses: paulhatch/semantic-version@v6.0.1
+        with:
+          version_format: '${major}.${minor}.${patch}-dev.${increment}'
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to container registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: docker/Dockerfile
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.image-meta.outputs.image_tag }}
+          cache-from: type=gha,scope=konko-chatwoot-image
+          cache-to: type=gha,mode=max,scope=konko-chatwoot-image
+
+  deploy:
+    if: github.event_name == 'push'
+    needs: build-image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger infra deploy workflow
+        env:
+          GH_TOKEN: ${{ secrets.GH_ACTIONS_TOKEN }}
+          IMAGE_TAG: ${{ needs.build-image.outputs.image_tag }}
+        run: |
+          gh workflow run chatwoot-deploy.yaml \
+            --repo konko-ai/konko-iac \
+            --ref main \
+            -f image_tag="$IMAGE_TAG"
