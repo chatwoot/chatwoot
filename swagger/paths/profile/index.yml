@@ -32,20 +32,25 @@ put:
       application/json:
         schema:
           type: object
+          required:
+            - profile
           properties:
-            name:
-              type: string
-            email:
-              type: string
-            display_name:
-              type: string
-            message_signature:
-              type: string
-            avatar:
-              type: string
-              format: binary
-            ui_settings:
+            profile:
               type: object
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+                display_name:
+                  type: string
+                message_signature:
+                  type: string
+                avatar:
+                  type: string
+                  format: binary
+                ui_settings:
+                  type: object
   responses:
     '200':
       description: Success
