@@ -4,6 +4,7 @@ import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useInbox } from 'dashboard/composables/useInbox';
+import { useCaptain } from 'dashboard/composables/useCaptain';
 import { CSAT_DISPLAY_TYPES } from 'shared/constants/messages';
 
 import Icon from 'dashboard/components-next/icon/Icon.vue';
@@ -26,6 +27,7 @@ const props = defineProps({
 const { t } = useI18n();
 const store = useStore();
 const labels = useMapGetter('labels/getLabels');
+const { captainEnabled } = useCaptain();
 
 const { isAWhatsAppChannel, isATwilioWhatsAppChannel } = useInbox(
   props.inbox?.id
@@ -37,6 +39,8 @@ const isAnyWhatsAppChannel = computed(
 );
 
 const isUpdating = ref(false);
+const utilityAnalysisLoading = ref(false);
+const utilityAnalysisResult = ref(null);
 const selectedLabelValues = ref([]);
 const currentLabel = ref('');
 
@@ -46,7 +50,7 @@ const state = reactive({
   message: '',
   templateButtonText: 'Please rate us',
   surveyRuleOperator: 'contains',
-  templateLanguage: '',
+  templateLanguage: 'en',
 });
 
 const templateStatus = ref(null);
@@ -88,6 +92,9 @@ const messagePreviewData = computed(() => ({
 
 const shouldShowTemplateStatus = computed(
   () => templateStatus.value && !templateLoading.value
+);
+const showUtilityAnalyzer = computed(
+  () => isAnyWhatsAppChannel.value && captainEnabled.value
 );
 
 const templateApprovalStatus = computed(() => {
@@ -216,6 +223,85 @@ const handleLabelSelect = value => {
 
 const updateDisplayType = type => {
   state.displayType = type;
+};
+
+const resetUtilityAnalysis = () => {
+  utilityAnalysisResult.value = null;
+};
+
+const analyzeTemplateUtility = async () => {
+  if (!showUtilityAnalyzer.value || !state.message?.trim()) return;
+
+  utilityAnalysisLoading.value = true;
+  resetUtilityAnalysis();
+
+  try {
+    const response = await store.dispatch(
+      'inboxes/analyzeCSATTemplateUtility',
+      {
+        inboxId: props.inbox.id,
+        template: {
+          message: state.message,
+          button_text: state.templateButtonText,
+          language: state.templateLanguage,
+        },
+      }
+    );
+    utilityAnalysisResult.value = response;
+  } catch (error) {
+    const errorMessage =
+      error.response?.data?.error ||
+      t('INBOX_MGMT.CSAT.UTILITY_ANALYZER.ERROR_MESSAGE');
+    useAlert(errorMessage);
+  } finally {
+    utilityAnalysisLoading.value = false;
+  }
+};
+
+const applyUtilitySuggestion = () => {
+  const suggestion = utilityAnalysisResult.value?.optimized_message;
+  if (!suggestion) return;
+
+  state.message = suggestion;
+  resetUtilityAnalysis();
+};
+
+watch(
+  () => [state.message, state.templateButtonText, state.templateLanguage],
+  (newValues, oldValues) => {
+    if (!oldValues || !utilityAnalysisResult.value) {
+      return;
+    }
+
+    const changed = newValues.some(
+      (value, index) => value !== oldValues[index]
+    );
+    if (changed) {
+      resetUtilityAnalysis();
+    }
+  }
+);
+
+const getUtilityClassificationLabel = classification => {
+  if (classification === 'LIKELY_UTILITY') {
+    return t('INBOX_MGMT.CSAT.UTILITY_ANALYZER.CLASSIFICATION.LIKELY_UTILITY');
+  }
+  if (classification === 'LIKELY_MARKETING') {
+    return t(
+      'INBOX_MGMT.CSAT.UTILITY_ANALYZER.CLASSIFICATION.LIKELY_MARKETING'
+    );
+  }
+  return t('INBOX_MGMT.CSAT.UTILITY_ANALYZER.CLASSIFICATION.UNCLEAR');
+};
+
+const getUtilityClassificationClass = classification => {
+  if (classification === 'LIKELY_UTILITY') {
+    return 'bg-n-teal-3 text-n-teal-11';
+  }
+  if (classification === 'LIKELY_MARKETING') {
+    return 'bg-n-ruby-3 text-n-ruby-11';
+  }
+  return 'bg-n-amber-3 text-n-amber-11';
 };
 
 const updateSurveyRuleOperator = operator => {
@@ -450,6 +536,70 @@ const handleConfirmTemplateUpdate = async () => {
                     class="w-full"
                   />
                 </WithLabel>
+                <div v-if="showUtilityAnalyzer" class="flex flex-col gap-2">
+                  <NextButton
+                    sm
+                    slate
+                    :label="$t('INBOX_MGMT.CSAT.UTILITY_ANALYZER.ACTION')"
+                    :is-loading="utilityAnalysisLoading"
+                    :disabled="!state.message?.trim()"
+                    @click="analyzeTemplateUtility"
+                  />
+                  <p class="text-xs text-n-slate-11">
+                    {{ $t('INBOX_MGMT.CSAT.UTILITY_ANALYZER.HELPER_NOTE') }}
+                  </p>
+                </div>
+
+                <div
+                  v-if="utilityAnalysisResult"
+                  class="flex flex-col gap-3 p-3 rounded-xl outline outline-1 outline-n-weak bg-n-alpha-1"
+                >
+                  <div class="flex gap-2 items-center">
+                    <span class="text-sm font-medium text-n-slate-12">
+                      {{ $t('INBOX_MGMT.CSAT.UTILITY_ANALYZER.RESULT_LABEL') }}
+                    </span>
+                    <span
+                      class="px-2 py-0.5 text-xs font-medium rounded-full"
+                      :class="
+                        getUtilityClassificationClass(
+                          utilityAnalysisResult.classification
+                        )
+                      "
+                    >
+                      {{
+                        getUtilityClassificationLabel(
+                          utilityAnalysisResult.classification
+                        )
+                      }}
+                    </span>
+                  </div>
+                  <p class="text-xs text-n-slate-11">
+                    {{ $t('INBOX_MGMT.CSAT.UTILITY_ANALYZER.GUIDANCE_NOTE') }}
+                  </p>
+                  <div
+                    v-if="
+                      utilityAnalysisResult.optimized_message &&
+                      utilityAnalysisResult.classification !== 'LIKELY_UTILITY'
+                    "
+                    class="flex flex-col gap-2"
+                  >
+                    <p class="text-xs font-medium text-n-slate-12">
+                      {{
+                        $t('INBOX_MGMT.CSAT.UTILITY_ANALYZER.SUGGESTION_LABEL')
+                      }}
+                    </p>
+                    <p class="text-sm text-n-slate-12">
+                      {{ utilityAnalysisResult.optimized_message }}
+                    </p>
+                    <NextButton
+                      sm
+                      faded
+                      slate
+                      :label="$t('INBOX_MGMT.CSAT.UTILITY_ANALYZER.APPLY')"
+                      @click="applyUtilitySuggestion"
+                    />
+                  </div>
+                </div>
                 <Input
                   v-model="state.templateButtonText"
                   :label="$t('INBOX_MGMT.CSAT.BUTTON_TEXT.LABEL')"
