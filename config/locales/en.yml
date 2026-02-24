@@ -438,6 +438,9 @@ en:
     seconds:
       one: '%{count} second'
       other: '%{count} seconds'
+  auto_assignment:
+    default_policy_name: 'Default Policy'
+    policy_actor: 'Automation System via %{policy_name}'
   automation:
     system_name: 'Automation System'
   crm:
