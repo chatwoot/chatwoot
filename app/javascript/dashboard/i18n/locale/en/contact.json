@@ -6,6 +6,9 @@
     "IDENTIFIER": "Identifier",
     "COPY_SUCCESSFUL": "Copied to clipboard successfully",
     "COMPANY": "Company",
+    "WEBSITE": "Website",
+    "INSTAGRAM": "Instagram",
+    "LANGUAGE": "Language",
     "LOCATION": "Location",
     "BROWSER_LANGUAGE": "Browser Language",
     "CONVERSATION_TITLE": "Conversation Details",
@@ -472,6 +475,8 @@
           }
         }
       },
+      "FOLLOWERS": "Followers",
+      "ENGAGEMENT_RATE": "ER",
       "DELETE_CONTACT": {
         "MESSAGE": "This action is permanent and irreversible.",
         "BUTTON": "Delete now"
@@ -656,6 +661,33 @@
         "DISCARD": "Discard",
         "SEND": "Send ({keyCode})"
       }
+    }
+  },
+  "PIPELINE": {
+    "TITLE": "Pipeline Stages",
+    "NO_STAGES": "No pipeline stages configured for this label.",
+    "NO_PIPELINES": "No pipeline stages assigned.",
+    "STAGE_LABEL": "Stage",
+    "ADD_STAGE": "Add stage",
+    "STAGE_PLACEHOLDER": "Enter stage name",
+    "SAVE": "Save",
+    "CANCEL": "Cancel",
+    "DELETE_CONFIRM": "Are you sure you want to delete this stage?",
+    "EDITOR": {
+      "TITLE": "Pipeline Stages",
+      "DESCRIPTION": "Define pipeline stages for this label. Contacts with this label will be tracked through these stages.",
+      "EMPTY": "No stages defined yet. Add your first stage below."
+    },
+    "KANBAN": {
+      "MOVE_SUCCESS": "Contact moved successfully.",
+      "MOVE_ERROR": "Failed to move contact."
+    },
+    "API": {
+      "CREATE_SUCCESS": "Pipeline stage created successfully.",
+      "UPDATE_SUCCESS": "Pipeline stage updated successfully.",
+      "DELETE_SUCCESS": "Pipeline stage deleted successfully.",
+      "REORDER_SUCCESS": "Pipeline stages reordered successfully.",
+      "ERROR": "Something went wrong. Please try again."
     }
   }
 }

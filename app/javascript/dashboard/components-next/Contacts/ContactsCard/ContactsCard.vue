@@ -16,6 +16,7 @@ const props = defineProps({
   name: { type: String, default: '' },
   email: { type: String, default: '' },
   additionalAttributes: { type: Object, default: () => ({}) },
+  customAttributes: { type: Object, default: () => ({}) },
   phoneNumber: { type: String, default: '' },
   thumbnail: { type: String, default: '' },
   availabilityStatus: { type: String, default: null },
@@ -81,6 +82,25 @@ const formattedLocation = computed(() => {
   return [countryDetails.value.city, countryDetails.value.name]
     .filter(Boolean)
     .join(' ');
+});
+
+const formatNumber = value => {
+  if (value >= 1_000_000) return `${(value / 1_000_000).toFixed(1)}M`;
+  if (value >= 1_000)
+    return `${(value / 1_000).toFixed(value >= 10_000 ? 0 : 1)}k`;
+  return String(value);
+};
+
+const formattedFollowers = computed(() => {
+  const val = props.customAttributes?.followers;
+  if (!val) return null;
+  return formatNumber(Number(val));
+});
+
+const formattedEngagementRate = computed(() => {
+  const val = props.customAttributes?.engagementRate;
+  if (val == null) return null;
+  return `${Number(val).toFixed(2)}%`;
 });
 
 const handleFormUpdate = updatedData => {
@@ -183,6 +203,28 @@ const handleAvatarHover = isHovered => {
               {{ formattedLocation }}
             </span>
             <div v-if="countryDetails" class="w-px h-3 truncate bg-n-slate-6" />
+            <span
+              v-if="formattedFollowers"
+              class="inline-flex items-center gap-1 text-sm text-n-slate-11"
+            >
+              <span class="i-lucide-users size-3.5 text-n-slate-10" />
+              {{ formattedFollowers }}
+            </span>
+            <div
+              v-if="formattedFollowers"
+              class="w-px h-3 truncate bg-n-slate-6"
+            />
+            <span
+              v-if="formattedEngagementRate"
+              class="inline-flex items-center gap-1 text-sm text-n-slate-11"
+            >
+              <span class="i-lucide-percent size-3.5 text-n-slate-10" />
+              {{ formattedEngagementRate }}
+            </span>
+            <div
+              v-if="formattedEngagementRate"
+              class="w-px h-3 truncate bg-n-slate-6"
+            />
             <Button
               :label="t('CONTACTS_LAYOUT.CARD.VIEW_DETAILS')"
               variant="link"

@@ -99,9 +99,7 @@ watch(
   }
 );
 onMounted(() => {
-  if (route.params.contactId) {
-    fetchLabels(route.params.contactId);
-  }
+  fetchLabels(props.contactId || route.params.contactId);
 });
 
 const handleMouseLeave = () => {

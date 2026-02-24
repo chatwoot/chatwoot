@@ -1,5 +1,12 @@
 <script setup>
-import { onMounted, computed, ref, reactive, watch } from 'vue';
+import {
+  defineAsyncComponent,
+  onMounted,
+  computed,
+  ref,
+  reactive,
+  watch,
+} from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
@@ -15,6 +22,26 @@ import ContactsList from 'dashboard/components-next/Contacts/Pages/ContactsList.
 import ContactsBulkActionBar from '../components/ContactsBulkActionBar.vue';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import BulkActionsAPI from 'dashboard/api/bulkActions';
+import NextButton from 'dashboard/components-next/button/Button.vue';
+import PipelineStagesAPI from 'dashboard/api/pipelineStages';
+import SidebarActionsHeader from 'dashboard/components-next/SidebarActionsHeader.vue';
+import ContactInfo from 'dashboard/routes/dashboard/conversation/contact/ContactInfo.vue';
+import CustomAttributes from 'dashboard/routes/dashboard/conversation/customAttributes/CustomAttributes.vue';
+import ContactLabels from 'dashboard/components-next/Contacts/ContactLabels/ContactLabels.vue';
+
+const ContactPipelineStages = defineAsyncComponent(
+  () =>
+    import(
+      'dashboard/components-next/Contacts/Pipeline/ContactPipelineStages.vue'
+    )
+);
+
+const PipelineKanbanBoard = defineAsyncComponent(
+  () =>
+    import(
+      'dashboard/components-next/Contacts/Pipeline/PipelineKanbanBoard.vue'
+    )
+);
 
 const DEFAULT_SORT_FIELD = 'last_activity_at';
 const DEBOUNCE_DELAY = 300;
@@ -59,6 +86,47 @@ const sortState = reactive({
 });
 
 const activeLabel = computed(() => route.params.label);
+const showKanban = ref(false);
+const sidebarContactId = ref(null);
+const contactGetter = useMapGetter('contacts/getContact');
+const sidebarContact = computed(() =>
+  sidebarContactId.value ? contactGetter.value(sidebarContactId.value) : {}
+);
+
+const openContactSidebar = id => {
+  sidebarContactId.value = id;
+  store.dispatch('contacts/show', { id });
+};
+const closeContactSidebar = () => {
+  sidebarContactId.value = null;
+};
+const allLabels = useMapGetter('labels/getLabels');
+const activeLabelRecord = computed(() => {
+  if (!activeLabel.value) return null;
+  return allLabels.value.find(l => l.title === activeLabel.value);
+});
+const activeLabelPipelineStages = ref([]);
+const hasPipelineStages = computed(
+  () => activeLabelPipelineStages.value.length > 0
+);
+
+const fetchLabelPipelineStages = async () => {
+  if (!activeLabelRecord.value?.id) {
+    activeLabelPipelineStages.value = [];
+    showKanban.value = false;
+    return;
+  }
+  try {
+    const response = await PipelineStagesAPI.getStages(
+      activeLabelRecord.value.id
+    );
+    activeLabelPipelineStages.value = response.data.payload || [];
+    showKanban.value = activeLabelPipelineStages.value.length > 0;
+  } catch {
+    activeLabelPipelineStages.value = [];
+    showKanban.value = false;
+  }
+};
 const activeSegmentId = computed(() => route.params.segmentId);
 const isFetchingList = computed(
   () => uiFlags.value.isFetching || customViewsUiFlags.value.isFetching
@@ -393,9 +461,14 @@ watch(
   [activeLabel, activeSegment, isActiveView],
   () => {
     fetchContactsBasedOnContext(pageNumber.value);
+    fetchLabelPipelineStages();
   },
   { deep: true }
 );
+
+watch(activeLabelRecord, () => {
+  fetchLabelPipelineStages();
+});
 
 watch(searchQuery, value => {
   if (isFetchingList.value) return;
@@ -414,6 +487,8 @@ watch(searchQuery, value => {
 });
 
 onMounted(async () => {
+  fetchLabelPipelineStages();
+  store.dispatch('attributes/get', 0);
   if (!activeSegmentId.value) {
     if (searchQuery.value) {
       await searchContacts(searchQuery.value, pageNumber.value);
@@ -434,83 +509,156 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div
-    class="flex flex-col justify-between flex-1 h-full m-0 overflow-auto bg-n-surface-1"
-  >
-    <ContactsListLayout
-      :search-value="searchValue"
-      :header-title="headerTitle"
-      :current-page="currentPage"
-      :total-items="totalItems"
-      :show-pagination-footer="!isFetchingList && hasContacts && !isSearchView"
-      :active-sort="sortState.activeSort"
-      :active-ordering="sortState.activeOrdering"
-      :active-segment="activeSegment"
-      :segments-id="activeSegmentId"
-      :is-fetching-list="isFetchingList"
-      :has-applied-filters="hasAppliedFilters"
-      :use-infinite-scroll="isSearchView"
-      :has-more="hasMore"
-      :is-loading-more="isLoadingMore"
-      @update:current-page="fetchContactsBasedOnContext"
-      @search="searchContacts"
-      @update:sort="handleSort"
-      @apply-filter="fetchSavedOrAppliedFilteredContact"
-      @clear-filters="fetchContacts"
-      @load-more="loadMoreSearchResults"
-    >
+  <div class="flex flex-1 h-full m-0 overflow-hidden bg-n-surface-1">
+    <template v-if="showKanban && hasPipelineStages">
+      <div class="flex flex-col flex-1 min-w-0 overflow-auto">
+        <PipelineKanbanBoard
+          class="flex-1"
+          :stages="activeLabelPipelineStages"
+          :contacts="contacts"
+          @show-contact="openContactSidebar"
+        >
+          <template #header-actions>
+            <div class="flex items-center gap-2">
+              <NextButton
+                icon="i-lucide-list"
+                variant="ghost"
+                size="xs"
+                color="slate"
+                @click="showKanban = false"
+              />
+              <NextButton
+                icon="i-lucide-columns-3"
+                variant="faded"
+                size="xs"
+                color="slate"
+                @click="showKanban = true"
+              />
+            </div>
+          </template>
+        </PipelineKanbanBoard>
+      </div>
       <div
-        v-if="isFetchingList && !(isSearchView && hasContacts)"
-        class="flex items-center justify-center py-10 text-n-slate-11"
+        v-if="sidebarContactId"
+        class="w-[360px] shrink-0 border-l border-n-weak overflow-y-auto bg-n-background"
       >
-        <Spinner />
+        <SidebarActionsHeader
+          :title="sidebarContact.name || ''"
+          @close="closeContactSidebar"
+        />
+        <ContactInfo :contact="sidebarContact" show-avatar />
+        <div class="px-4 pb-3">
+          <ContactLabels :contact-id="sidebarContactId" />
+        </div>
+        <ContactPipelineStages :contact-id="sidebarContactId" compact />
+        <div class="px-2 pb-4">
+          <CustomAttributes
+            attribute-type="contact_attribute"
+            attribute-from="contact_kanban_sidebar"
+            :contact-id="sidebarContactId"
+          />
+        </div>
+      </div>
+    </template>
+
+    <div v-else class="flex flex-col flex-1 min-w-0 overflow-auto">
+      <div
+        v-if="hasPipelineStages"
+        class="flex items-center justify-end gap-2 px-4 pt-3"
+      >
+        <NextButton
+          icon="i-lucide-list"
+          variant="faded"
+          size="xs"
+          color="slate"
+          @click="showKanban = false"
+        />
+        <NextButton
+          icon="i-lucide-columns-3"
+          variant="ghost"
+          size="xs"
+          color="slate"
+          @click="showKanban = true"
+        />
       </div>
 
-      <template v-else>
-        <ContactsBulkActionBar
-          v-if="hasSelection"
-          :visible-contact-ids="visibleContactIds"
-          :selected-contact-ids="selectedContactIds"
-          :is-loading="isBulkActionLoading"
-          @toggle-all="toggleSelectAll"
-          @clear-selection="clearSelection"
-          @assign-labels="assignLabels"
-          @delete-selected="openBulkDeleteDialog"
-        />
-        <ContactEmptyState
-          v-if="showEmptyStateLayout"
-          class="pt-14"
-          :title="t('CONTACTS_LAYOUT.EMPTY_STATE.TITLE')"
-          :subtitle="t('CONTACTS_LAYOUT.EMPTY_STATE.SUBTITLE')"
-          :button-label="t('CONTACTS_LAYOUT.EMPTY_STATE.BUTTON_LABEL')"
-          @create="createContact"
-        />
+      <ContactsListLayout
+        :search-value="searchValue"
+        :header-title="headerTitle"
+        :current-page="currentPage"
+        :total-items="totalItems"
+        :show-pagination-footer="
+          !isFetchingList && hasContacts && !isSearchView
+        "
+        :active-sort="sortState.activeSort"
+        :active-ordering="sortState.activeOrdering"
+        :active-segment="activeSegment"
+        :segments-id="activeSegmentId"
+        :is-fetching-list="isFetchingList"
+        :has-applied-filters="hasAppliedFilters"
+        :use-infinite-scroll="isSearchView"
+        :has-more="hasMore"
+        :is-loading-more="isLoadingMore"
+        @update:current-page="fetchContactsBasedOnContext"
+        @search="searchContacts"
+        @update:sort="handleSort"
+        @apply-filter="fetchSavedOrAppliedFilteredContact"
+        @clear-filters="fetchContacts"
+        @load-more="loadMoreSearchResults"
+      >
         <div
-          v-else-if="showEmptyText"
-          class="flex items-center justify-center py-10"
+          v-if="isFetchingList && !(isSearchView && hasContacts)"
+          class="flex items-center justify-center py-10 text-n-slate-11"
         >
-          <span class="text-base text-n-slate-11">
-            {{ emptyStateMessage }}
-          </span>
+          <Spinner />
         </div>
-        <div v-else class="flex flex-col gap-4 pt-4 pb-6">
-          <ContactsList
-            :contacts="contacts"
+
+        <template v-else>
+          <ContactsBulkActionBar
+            v-if="hasSelection"
+            :visible-contact-ids="visibleContactIds"
             :selected-contact-ids="selectedContactIds"
-            @toggle-contact="toggleContactSelection"
-          />
-          <Dialog
-            v-if="selectedCount"
-            ref="bulkDeleteDialogRef"
-            type="alert"
-            :title="bulkDeleteDialogTitle"
-            :description="bulkDeleteDialogDescription"
-            :confirm-button-label="bulkDeleteDialogConfirmLabel"
             :is-loading="isBulkActionLoading"
-            @confirm="deleteContacts"
+            @toggle-all="toggleSelectAll"
+            @clear-selection="clearSelection"
+            @assign-labels="assignLabels"
+            @delete-selected="openBulkDeleteDialog"
           />
-        </div>
-      </template>
-    </ContactsListLayout>
+          <ContactEmptyState
+            v-if="showEmptyStateLayout"
+            class="pt-14"
+            :title="t('CONTACTS_LAYOUT.EMPTY_STATE.TITLE')"
+            :subtitle="t('CONTACTS_LAYOUT.EMPTY_STATE.SUBTITLE')"
+            :button-label="t('CONTACTS_LAYOUT.EMPTY_STATE.BUTTON_LABEL')"
+            @create="createContact"
+          />
+          <div
+            v-else-if="showEmptyText"
+            class="flex items-center justify-center py-10"
+          >
+            <span class="text-base text-n-slate-11">
+              {{ emptyStateMessage }}
+            </span>
+          </div>
+          <div v-else class="flex flex-col gap-4 pt-4 pb-6">
+            <ContactsList
+              :contacts="contacts"
+              :selected-contact-ids="selectedContactIds"
+              @toggle-contact="toggleContactSelection"
+            />
+            <Dialog
+              v-if="selectedCount"
+              ref="bulkDeleteDialogRef"
+              type="alert"
+              :title="bulkDeleteDialogTitle"
+              :description="bulkDeleteDialogDescription"
+              :confirm-button-label="bulkDeleteDialogConfirmLabel"
+              :is-loading="isBulkActionLoading"
+              @confirm="deleteContacts"
+            />
+          </div>
+        </template>
+      </ContactsListLayout>
+    </div>
   </div>
 </template>

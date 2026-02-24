@@ -1,5 +1,5 @@
 <script setup>
-import { computed, watch, onMounted, ref } from 'vue';
+import { computed, defineAsyncComponent, watch, onMounted, ref } from 'vue';
 import {
   useMapGetter,
   useFunctionGetter,
@@ -21,6 +21,7 @@ import Draggable from 'vuedraggable';
 import MacrosList from './Macros/List.vue';
 import ShopifyOrdersList from 'dashboard/components/widgets/conversation/ShopifyOrdersList.vue';
 import SidebarActionsHeader from 'dashboard/components-next/SidebarActionsHeader.vue';
+import ContactLabels from 'dashboard/components-next/Contacts/ContactLabels/ContactLabels.vue';
 import LinearIssuesList from 'dashboard/components/widgets/conversation/linear/IssuesList.vue';
 import LinearSetupCTA from 'dashboard/components/widgets/conversation/linear/LinearSetupCTA.vue';
 
@@ -34,6 +35,13 @@ const props = defineProps({
     default: undefined,
   },
 });
+
+const ContactPipelineStages = defineAsyncComponent(
+  () =>
+    import(
+      'dashboard/components-next/Contacts/Pipeline/ContactPipelineStages.vue'
+    )
+);
 
 const {
   updateUISettings,
@@ -136,7 +144,17 @@ onMounted(() => {
       :title="$t('CONVERSATION.SIDEBAR.CONTACT')"
       @close="closeContactPanel"
     />
-    <ContactInfo :contact="contact" :channel-type="channelType" />
+    <ContactInfo
+      :contact="contact"
+      :channel-type="channelType"
+      :conversation-language="
+        conversationAdditionalAttributes.conversation_language
+      "
+    />
+    <div v-if="contact.id" class="px-4 pb-3">
+      <ContactLabels :contact-id="contact.id" />
+    </div>
+    <ContactPipelineStages v-if="contact.id" :contact-id="contact.id" compact />
     <div class="px-2 pb-8 list-group">
       <Draggable
         :list="conversationSidebarItems"
