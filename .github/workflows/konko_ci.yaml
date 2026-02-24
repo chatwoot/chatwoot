@@ -107,7 +107,10 @@ jobs:
           cache-to: type=gha,mode=max,scope=konko-chatwoot-image
 
   deploy:
-    if: github.event_name == 'push'
+    if: |
+      always() &&
+      github.event_name == 'push' &&
+      needs.build-image.result == 'success'
     needs: build-image
     runs-on: ubuntu-latest
     steps:
