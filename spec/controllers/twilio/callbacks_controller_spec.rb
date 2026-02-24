@@ -76,6 +76,20 @@ RSpec.describe 'Twilio::CallbacksController', type: :request do
       end
     end
 
+    context 'when behind a reverse proxy with X-Forwarded-Proto' do
+      it 'validates signature against the HTTPS URL' do
+        http_url = twilio_callback_index_url
+        https_url = http_url.sub('http://', 'https://')
+        validator = Twilio::Security::RequestValidator.new(twilio_channel.auth_token)
+        signature = validator.build_signature_for(https_url, params)
+        post http_url, params: params, headers: {
+          'X-Twilio-Signature' => signature,
+          'X-Forwarded-Proto' => 'https'
+        }
+        expect(response).to have_http_status(:no_content)
+      end
+    end
+
     context 'with MessagingServiceSid lookup' do
       let(:twilio_channel) { create(:channel_twilio_sms, account: account, account_sid: 'AC123') }
       let(:params) do
