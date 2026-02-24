@@ -25,7 +25,9 @@ properties:
   hmac_identifier:
     type: string
   inviter_id:
-    type: number
+    type:
+      - number
+      - 'null'
   name:
     type: string
   provider:
@@ -58,7 +60,9 @@ properties:
         status:
           type: string
         active_at:
-          type: string
+          type:
+            - string
+            - 'null'
           format: date-time
         role:
           type: string

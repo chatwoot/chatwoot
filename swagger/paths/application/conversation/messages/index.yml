@@ -45,10 +45,14 @@ responses:
                 assignee:
                   $ref: '#/components/schemas/agent'
                 agent_last_seen_at:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                   format: date-time
                 assignee_last_seen_at:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                   format: date-time
             payload:
               type: array

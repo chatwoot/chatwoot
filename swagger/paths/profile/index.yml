@@ -33,3 +33,39 @@ get:
         application/json:
           schema:
             $ref: '#/components/schemas/bad_request_error'
+put:
+  tags:
+    - Profile
+  operationId: updateProfile
+  summary: Update user profile
+  description: Update the user profile details
+  security:
+    - userApiKey: []
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            name:
+              type: string
+            email:
+              type: string
+            display_name:
+              type: string
+            message_signature:
+              type: string
+            avatar:
+              type: string
+              format: binary
+            ui_settings:
+              type: object
+  responses:
+    '200':
+      description: Success
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/user'
+    '401':
+      description: Unauthorized

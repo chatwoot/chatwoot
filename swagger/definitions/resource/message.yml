@@ -29,15 +29,21 @@ properties:
     type: boolean
     description: The flags which shows whether the message is private or not
   status:
-    type: string
-    enum: ["sent", "delivered", "read", "failed"]
+    type:
+      - string
+      - 'null'
+    enum: ["sent", "delivered", "read", "failed", null]
     description: The status of the message
   source_id:
-    type: string
+    type:
+      - string
+      - 'null'
     description: The source ID of the message
   content_type:
-    type: string
-    enum: ["text", "input_select", "cards", "form"]
+    type:
+      - string
+      - 'null'
+    enum: ["text", "input_select", "cards", "form", null]
     description: The type of the template message
   content_attributes:
     type: object
@@ -56,16 +62,24 @@ properties:
     type: object
     description: The additional attributes of the message
   processed_message_content:
-    type: string
+    type:
+      - string
+      - 'null'
     description: The processed message content
   sentiment:
-    type: object
+    type:
+      - object
+      - 'null'
     description: The sentiment of the message
   conversation:
-    type: object
+    type:
+      - object
+      - 'null'
     description: The conversation object
   attachment:
-    type: object
+    type:
+      - object
+      - 'null'
     description: The file object attached to the image
   sender:
     type: object

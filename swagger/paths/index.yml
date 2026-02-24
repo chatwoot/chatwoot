@@ -407,10 +407,6 @@
 # Inboxes
 /api/v1/accounts/{account_id}/inboxes:
   $ref: ./application/inboxes/index.yml
-/api/v1/accounts/{account_id}/inboxes/{id}/:
-  $ref: ./application/inboxes/show.yml
-/api/v1/accounts/{account_id}/inboxes/:
-  $ref: ./application/inboxes/create.yml
 /api/v1/accounts/{account_id}/inboxes/{id}:
   $ref: ./application/inboxes/update.yml
 /api/v1/accounts/{account_id}/inboxes/{id}/agent_bot:
