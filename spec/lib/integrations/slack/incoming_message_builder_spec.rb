@@ -69,7 +69,7 @@ describe Integrations::Slack::IncomingMessageBuilder do
         expect(hook).not_to be_nil
         messages_count = conversation.messages.count
         builder = described_class.new(message_params)
-        allow(builder).to receive(:sender).and_return(nil)
+        allow(builder).to receive(:resolve_slack_sender).and_return([nil, nil, nil])
         2.times.each { builder.perform }
         expect(conversation.messages.count).to eql(messages_count + 1)
         expect(conversation.messages.last.content).to eql('this is test https://chatwoot.com Hey @Sojan Test again')
@@ -79,7 +79,7 @@ describe Integrations::Slack::IncomingMessageBuilder do
         expect(hook).not_to be_nil
         messages_count = conversation.messages.count
         builder = described_class.new(message_params)
-        allow(builder).to receive(:sender).and_return(nil)
+        allow(builder).to receive(:resolve_slack_sender).and_return([nil, nil, nil])
         builder.perform
         expect(conversation.messages.count).to eql(messages_count + 1)
         expect(conversation.messages.last.content).to eql('this is test https://chatwoot.com Hey @Sojan Test again')
@@ -89,7 +89,7 @@ describe Integrations::Slack::IncomingMessageBuilder do
         expect(hook).not_to be_nil
         messages_count = conversation.messages.count
         builder = described_class.new(private_message_params)
-        allow(builder).to receive(:sender).and_return(nil)
+        allow(builder).to receive(:resolve_slack_sender).and_return([nil, nil, nil])
         builder.perform
         expect(conversation.messages.count).to eql(messages_count + 1)
         expect(conversation.messages.last.content).to eql('pRivate: A private note message')
@@ -130,7 +130,7 @@ describe Integrations::Slack::IncomingMessageBuilder do
         messages_count = conversation.messages.count
         message_with_attachments[:event][:files] = nil
         builder = described_class.new(message_with_attachments)
-        allow(builder).to receive(:sender).and_return(nil)
+        allow(builder).to receive(:resolve_slack_sender).and_return([nil, nil, nil])
         builder.perform
         expect(conversation.messages.count).to eql(messages_count)
       end
@@ -139,7 +139,7 @@ describe Integrations::Slack::IncomingMessageBuilder do
         expect(hook).not_to be_nil
         messages_count = conversation.messages.count
         builder = described_class.new(message_with_attachments)
-        allow(builder).to receive(:sender).and_return(nil)
+        allow(builder).to receive(:resolve_slack_sender).and_return([nil, nil, nil])
         builder.perform
         expect(conversation.messages.count).to eql(messages_count + 1)
         expect(conversation.messages.last.content).to eql('this is test https://chatwoot.com Hey @Sojan Test again')
@@ -152,7 +152,7 @@ describe Integrations::Slack::IncomingMessageBuilder do
         message_with_attachments[:event][:text] = 'Attached File!'
         builder = described_class.new(message_with_attachments)
 
-        allow(builder).to receive(:sender).and_return(nil)
+        allow(builder).to receive(:resolve_slack_sender).and_return([nil, nil, nil])
         builder.perform
 
         expect(conversation.messages.count).to eql(messages_count)
@@ -165,10 +165,112 @@ describe Integrations::Slack::IncomingMessageBuilder do
         video_attachment_params[:event][:files][0][:mimetype] = 'video/mp4'
 
         builder = described_class.new(video_attachment_params)
-        allow(builder).to receive(:sender).and_return(nil)
+        allow(builder).to receive(:resolve_slack_sender).and_return([nil, nil, nil])
 
         expect { builder.perform }.not_to raise_error
         expect(conversation.messages.last.attachments).to be_any
+      end
+    end
+
+    context 'when resolving slack sender' do
+      let(:builder) { described_class.new(message_params) }
+      let(:slack_user_id) { message_params[:event][:user] }
+      let(:slack_profile) do
+        {
+          user: {
+            profile: {
+              email: 'agent@example.com',
+              display_name: 'Muhsin K',
+              image_192: 'https://avatars.slack-edge.com/avatar.png'
+            },
+            real_name: 'Muhsin K',
+            name: 'muhsink'
+          }
+        }
+      end
+
+      before do
+        allow(builder).to receive(:slack_client).and_return(slack_client)
+        allow(slack_client).to receive(:users_info).with(user: slack_user_id).and_return(slack_profile)
+      end
+
+      context 'when slack user email matches a chatwoot agent' do
+        let!(:agent) { create(:user, account: conversation.account, email: 'agent@example.com') }
+
+        it 'sets the matched agent as message sender' do
+          builder.perform
+          expect(conversation.messages.last.sender).to eq(agent)
+        end
+
+        it 'does not store sender_name in additional_attributes' do
+          builder.perform
+          expect(conversation.messages.last.additional_attributes).not_to have_key('sender_name')
+        end
+      end
+
+      context 'when slack user email does not match any chatwoot agent' do
+        it 'saves sender_name from slack display_name in additional_attributes' do
+          builder.perform
+          expect(conversation.messages.last.sender).to be_nil
+          expect(conversation.messages.last.additional_attributes['sender_name']).to eq('Muhsin K')
+        end
+
+        it 'saves sender_avatar_url from slack profile image in additional_attributes' do
+          builder.perform
+          expect(conversation.messages.last.additional_attributes['sender_avatar_url'])
+            .to eq('https://avatars.slack-edge.com/avatar.png')
+        end
+
+        context 'when display_name is blank' do
+          let(:slack_profile) do
+            {
+              user: {
+                profile: { email: 'unknown@example.com', display_name: '', image_192: nil },
+                real_name: 'Muhsin K',
+                name: 'muhsink'
+              }
+            }
+          end
+
+          it 'falls back to real_name' do
+            builder.perform
+            expect(conversation.messages.last.additional_attributes['sender_name']).to eq('Muhsin K')
+          end
+        end
+
+        context 'when display_name and real_name are both blank' do
+          let(:slack_profile) do
+            {
+              user: {
+                profile: { email: 'unknown@example.com', display_name: '', image_192: nil },
+                real_name: '',
+                name: 'muhsink'
+              }
+            }
+          end
+
+          it 'falls back to slack username' do
+            builder.perform
+            expect(conversation.messages.last.additional_attributes['sender_name']).to eq('muhsink')
+          end
+        end
+      end
+
+      context 'when the slack API call raises an error' do
+        before do
+          allow(slack_client).to receive(:users_info).and_raise(StandardError, 'API error')
+        end
+
+        it 'creates the message with nil sender' do
+          expect { builder.perform }.not_to raise_error
+          expect(conversation.messages.last.sender).to be_nil
+        end
+
+        it 'does not store sender info in additional_attributes' do
+          builder.perform
+          expect(conversation.messages.last.additional_attributes).not_to have_key('sender_name')
+          expect(conversation.messages.last.additional_attributes).not_to have_key('sender_avatar_url')
+        end
       end
     end
 
