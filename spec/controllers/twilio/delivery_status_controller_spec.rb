@@ -85,5 +85,27 @@ RSpec.describe 'Twilio::DeliveryStatusController', type: :request do
         expect(response).to have_http_status(:no_content)
       end
     end
+
+    context 'when To does not map to a channel but From does' do
+      let(:params) do
+        {
+          'MessageSid' => 'SM123',
+          'MessageStatus' => 'delivered',
+          'AccountSid' => 'AC123',
+          'To' => '+19999999999',
+          'From' => twilio_channel.phone_number
+        }
+      end
+
+      it 'falls back to From lookup and enqueues the delivery status job' do
+        url = twilio_delivery_status_index_url
+
+        expect do
+          post_with_signature(url, params: params)
+        end.to have_enqueued_job(Webhooks::TwilioDeliveryStatusJob)
+
+        expect(response).to have_http_status(:no_content)
+      end
+    end
   end
 end

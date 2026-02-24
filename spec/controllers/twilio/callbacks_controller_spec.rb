@@ -88,6 +88,18 @@ RSpec.describe 'Twilio::CallbacksController', type: :request do
         }
         expect(response).to have_http_status(:no_content)
       end
+
+      it 'validates signature when forwarded proto is a comma-separated chain' do
+        http_url = twilio_callback_index_url
+        https_url = http_url.sub('http://', 'https://')
+        validator = Twilio::Security::RequestValidator.new(twilio_channel.auth_token)
+        signature = validator.build_signature_for(https_url, params)
+        post http_url, params: params, headers: {
+          'X-Twilio-Signature' => signature,
+          'X-Forwarded-Proto' => 'https,http'
+        }
+        expect(response).to have_http_status(:no_content)
+      end
     end
 
     context 'with MessagingServiceSid lookup' do
