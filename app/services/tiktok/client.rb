@@ -1,3 +1,5 @@
+require 'net/http/post/multipart'
+
 class Tiktok::Client
   # Always use Tiktok::TokenService to get a valid access token
   pattr_initialize [:business_id!, :access_token!]
@@ -37,7 +39,7 @@ class Tiktok::Client
 
   def send_media_message(conversation_id, attachment, referenced_message_id: nil)
     # As of now, only IMAGE media type is supported
-    media_id = upload_media(attachment.file, 'IMAGE')
+    media_id = upload_media(attachment.file.blob, 'IMAGE')
     send_message(conversation_id, 'IMAGE', media_id, referenced_message_id: referenced_message_id)
   end
 
@@ -69,18 +71,20 @@ class Tiktok::Client
     json['data']['message']['message_id']
   end
 
-  def upload_media(file, media_type = 'IMAGE')
+  def upload_media(blob, media_type = 'IMAGE')
     endpoint = "#{api_base_url}/business/message/media/upload/"
-    headers = { 'Access-Token': access_token, 'Content-Type': 'multipart/form-data' }
+    uri = URI.parse(endpoint)
 
-    file.open do |temp_file|
+    blob.open do |temp_file|
+      temp_file.rewind
       body = {
         business_id: business_id,
         media_type: media_type,
-        file: temp_file
+        file: UploadIO.new(temp_file, blob.content_type || 'application/octet-stream', blob.filename.to_s)
       }
 
-      response = HTTParty.post(endpoint, body: body, headers: headers)
+      request = Net::HTTP::Post::Multipart.new(uri.request_uri, body, { 'Access-Token' => access_token })
+      response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: uri.scheme == 'https') { |http| http.request(request) }
       json = process_json_response(response, 'Failed to upload TikTok media')
       json['data']['media_id']
     end
@@ -91,7 +95,8 @@ class Tiktok::Client
   end
 
   def process_json_response(response, error_prefix)
-    unless response.success?
+    success = response.respond_to?(:success?) ? response.success? : response.is_a?(Net::HTTPSuccess)
+    unless success
       Rails.logger.error "#{error_prefix}. Status: #{response.code}, Body: #{response.body}"
       raise "#{response.code}: #{response.body}"
     end
