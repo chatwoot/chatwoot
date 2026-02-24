@@ -1,0 +1,153 @@
+{
+  "COMPONENTS": {
+    "FILE_BUBBLE": {
+      "DOWNLOAD": "دانلود",
+      "UPLOADING": "در حال آپلود..."
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "ثبت"
+    },
+    "MESSAGE_BUBBLE": {
+      "RETRY": "دوباره پیام بدید",
+      "ERROR_MESSAGE": "ارسال نشد، دوباره امتحان کنید"
+    }
+  },
+  "THUMBNAIL": {
+    "AUTHOR": {
+      "NOT_AVAILABLE": "خارج از دسترس"
+    }
+  },
+  "TEAM_AVAILABILITY": {
+    "ONLINE": "ما آنلاین هستیم",
+    "OFFLINE": "در حال حاضر دردسترس نیستیم",
+    "BACK_AS_SOON_AS_POSSIBLE": "در سریعترین زمان ممکن باز خواهیم گشت"
+  },
+  "REPLY_TIME": {
+    "IN_A_FEW_MINUTES": "معمولاً در عرض چند دقیقه پاسخ می دهند",
+    "IN_A_FEW_HOURS": "معمولاً در عرض چند ساعت پاسخ می دهند",
+    "IN_A_DAY": "به طور معمول در یک روز پاسخ می دهند",
+    "BACK_IN_HOURS": "تا {n} ساعت دیگر باز خواهیم گشت | تا {n} ساعت دیگر باز خواهیم گشت",
+    "BACK_IN_MINUTES": "تا {time} دقیقه دیگر باز خواهیم گشت",
+    "BACK_AT_TIME": "در {time} باز خواهیم گشت",
+    "BACK_ON_DAY": "در روز {day} باز خواهیم گشت",
+    "BACK_TOMORROW": "فردا باز خواهیم گشت",
+    "BACK_IN_SOME_TIME": "مدتی دیگر باز خواهیم گشت"
+  },
+  "DAY_NAMES": {
+    "SUNDAY": "یک‌شنبه",
+    "MONDAY": "دوشنبه",
+    "TUESDAY": "سه‌شنبه",
+    "WEDNESDAY": "چهارشنبه",
+    "THURSDAY": "پنج‌شنبه",
+    "FRIDAY": "جمعه",
+    "SATURDAY": "شنبه"
+  },
+  "START_CONVERSATION": "شروع گفتگو",
+  "END_CONVERSATION": "پایان گفتگو",
+  "CONTINUE_CONVERSATION": "ادامه گفتگو",
+  "YOU": "شما",
+  "START_NEW_CONVERSATION": "یک مکالمه جدید را شروع کنید",
+  "VIEW_UNREAD_MESSAGES": "شما پیام خوانده نشده دارید",
+  "UNREAD_VIEW": {
+    "VIEW_MESSAGES_BUTTON": "مشاهده پیام‌های جدید",
+    "CLOSE_MESSAGES_BUTTON": "بستن",
+    "COMPANY_FROM": "از",
+    "BOT": "ربات"
+  },
+  "BUBBLE": {
+    "LABEL": "با ما گفتگو کنید"
+  },
+  "POWERED_BY": "قدرت گرفته از چت ووت",
+  "EMAIL_PLACEHOLDER": "لطفا ایمیل خود را وارد کنید",
+  "CHAT_PLACEHOLDER": "پیام خود را وارد کنید",
+  "TODAY": "امروز",
+  "YESTERDAY": "دیروز",
+  "PRE_CHAT_FORM": {
+    "FIELDS": {
+      "FULL_NAME": {
+        "LABEL": "نام کامل",
+        "PLACEHOLDER": "لطفا نام کامل خود را وارد کنید",
+        "REQUIRED_ERROR": "نام کامل مورد نیاز است"
+      },
+      "EMAIL_ADDRESS": {
+        "LABEL": "ایمیل",
+        "PLACEHOLDER": "لطفا ایمیل خود را وارد کنید",
+        "REQUIRED_ERROR": "آدرس ایمیل مورد نیاز است",
+        "VALID_ERROR": "لطفا ایمیل خود را به شکل صحیح وارد کنید"
+      },
+      "PHONE_NUMBER": {
+        "LABEL": "شماره موبایل",
+        "PLACEHOLDER": "لطفا شماره تلفن خود را وارد کنید",
+        "REQUIRED_ERROR": "شماره تلفن مورد نیاز است",
+        "DIAL_CODE_VALID_ERROR": "لطفا\" یک کد کشور انتخاب کنید",
+        "VALID_ERROR": "لطفا\" یک شماره موبایل معتبر وارد نمایید",
+        "DROPDOWN_EMPTY": "نتیجه‌ای یافت نشد",
+        "DROPDOWN_SEARCH": "جستجوی کشور"
+      },
+      "MESSAGE": {
+        "LABEL": "پیام",
+        "PLACEHOLDER": "لطفا پیام خود را وارد کنید",
+        "ERROR": "پیام بسیار کوتاه است"
+      }
+    },
+    "CAMPAIGN_HEADER": "لطفا قبل از شروع گفتگو نام و ایمیل خود را وارد کنید",
+    "IS_REQUIRED": "مورد نیاز است",
+    "REQUIRED": "ضروری",
+    "REGEX_ERROR": "لطفا یک ورودی معتبر ارائه دهید"
+  },
+  "FILE_SIZE_LIMIT": "فایل ضمیمه شده بیشتر از {MAXIMUM_FILE_UPLOAD_SIZE} است",
+  "CHAT_FORM": {
+    "INVALID": {
+      "FIELD": "فیلد نامتعارف"
+    }
+  },
+  "EMOJI": {
+    "PLACEHOLDER": "جستجوی اموجی",
+    "NOT_FOUND": "هیچ اموجی با جستجوی شما مطابقت ندارد",
+    "ARIA_LABEL": "انتخاب اموجی"
+  },
+  "CSAT": {
+    "TITLE": "به گفتگوی خود امتیاز دهید",
+    "SUBMITTED_TITLE": "با تشکر از شما برای ثبت امتیاز",
+    "PLACEHOLDER": "بیشتر به ما بگویید..."
+  },
+  "EMAIL_TRANSCRIPT": {
+    "BUTTON_TEXT": "درخواست رونوشت گفتگو",
+    "SEND_EMAIL_SUCCESS": "رونوشت گفتگو با موفقیت ارسال شد",
+    "SEND_EMAIL_ERROR": "خطایی پیش آمد. لطفا دوباره امتحان کنید"
+  },
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "برای ملحق شدن اینجا را کلیک کنید",
+      "LEAVE_THE_ROOM": "تماس را ترک کنید"
+    }
+  },
+  "PORTAL": {
+    "POPULAR_ARTICLES": "مقالات محبوب",
+    "VIEW_ALL_ARTICLES": "مشاهده همه مقالات",
+    "IFRAME_LOAD_ERROR": "در لود مقاله خطایی رخ داده است، لطفا\" صفحه را رفرش و دوباره تلاش نمایید."
+  },
+  "ATTACHMENTS": {
+    "image": {
+      "CONTENT": "پیام تصویری"
+    },
+    "audio": {
+      "CONTENT": "پیام صوتی"
+    },
+    "video": {
+      "CONTENT": "پیام ویدیویی"
+    },
+    "file": {
+      "CONTENT": "ضمیمه فایل"
+    },
+    "location": {
+      "CONTENT": "موقعیت جغرافیایی"
+    },
+    "fallback": {
+      "CONTENT": "یک آدرس URL به اشتراک گذاشته شده"
+    }
+  },
+  "FOOTER_REPLY_TO": {
+    "REPLY_TO": "در حال پاسخ دهی به:"
+  }
+}

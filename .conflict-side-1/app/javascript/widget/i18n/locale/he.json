@@ -1,0 +1,153 @@
+{
+  "COMPONENTS": {
+    "FILE_BUBBLE": {
+      "DOWNLOAD": "הורד",
+      "UPLOADING": "מעלה..."
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "שלח"
+    },
+    "MESSAGE_BUBBLE": {
+      "RETRY": "שלח שוב הודעה",
+      "ERROR_MESSAGE": "לא ניתן לשלוח, נסה שוב"
+    }
+  },
+  "THUMBNAIL": {
+    "AUTHOR": {
+      "NOT_AVAILABLE": "לא זמין"
+    }
+  },
+  "TEAM_AVAILABILITY": {
+    "ONLINE": "אנחנו אונליין",
+    "OFFLINE": "אנחנו לא זמינים כרגע",
+    "BACK_AS_SOON_AS_POSSIBLE": "נחזור בהקדם האפשרי"
+  },
+  "REPLY_TIME": {
+    "IN_A_FEW_MINUTES": "זמן מענה טיפוסי תוך כמה דקות",
+    "IN_A_FEW_HOURS": "מענה ממוצע תוך כמה שעות",
+    "IN_A_DAY": "מענה ממוצע לאחר יום",
+    "BACK_IN_HOURS": "נחזור לאונליין בעוד {n} שעה | נחזור לאונליין בעוד {n} שעות",
+    "BACK_IN_MINUTES": "נחזור לאונליין בעוד {time} דקות",
+    "BACK_AT_TIME": "נחזור לאונליין בשעה {time}",
+    "BACK_ON_DAY": "נחזור לאונליין ביום {day}",
+    "BACK_TOMORROW": "נחזור לאונליין מחר",
+    "BACK_IN_SOME_TIME": "נחזור לאונליין בעוד זמן מה"
+  },
+  "DAY_NAMES": {
+    "SUNDAY": "יום ראשון",
+    "MONDAY": "יום שני",
+    "TUESDAY": "יום שלישי",
+    "WEDNESDAY": "יום רביעי",
+    "THURSDAY": "יום חמישי",
+    "FRIDAY": "שישי",
+    "SATURDAY": "יום שבת"
+  },
+  "START_CONVERSATION": "התחל שיחה",
+  "END_CONVERSATION": "סיים שיחה",
+  "CONTINUE_CONVERSATION": "המשך שיחה",
+  "YOU": "אתה",
+  "START_NEW_CONVERSATION": "התחל שיחה חדשה",
+  "VIEW_UNREAD_MESSAGES": "יש לך הודעות לא נקראו",
+  "UNREAD_VIEW": {
+    "VIEW_MESSAGES_BUTTON": "ראה הודעות חדשות",
+    "CLOSE_MESSAGES_BUTTON": "סגור",
+    "COMPANY_FROM": "מ",
+    "BOT": "בוט"
+  },
+  "BUBBLE": {
+    "LABEL": "דבר איתנו"
+  },
+  "POWERED_BY": "מופעל על ידי Chatwoot",
+  "EMAIL_PLACEHOLDER": "הזן בבקשה את האימייל שלך",
+  "CHAT_PLACEHOLDER": "הקלד הודעה",
+  "TODAY": "היום",
+  "YESTERDAY": "אתמול",
+  "PRE_CHAT_FORM": {
+    "FIELDS": {
+      "FULL_NAME": {
+        "LABEL": "שם מלא",
+        "PLACEHOLDER": "הכנס שם מלא בבקשה",
+        "REQUIRED_ERROR": "שם מלא שדה חובה"
+      },
+      "EMAIL_ADDRESS": {
+        "LABEL": "כתובת מייל",
+        "PLACEHOLDER": "הכנס כתובת מייל בבקשה",
+        "REQUIRED_ERROR": "נדרשת כתובת אימייל",
+        "VALID_ERROR": "בבקשה הכנס כתובת אימייל תקינה"
+      },
+      "PHONE_NUMBER": {
+        "LABEL": "מספר טלפון",
+        "PLACEHOLDER": "אנא הזן את מספר הטלפון שלך",
+        "REQUIRED_ERROR": "נדרש מספר טלפון",
+        "DIAL_CODE_VALID_ERROR": "אנא בחר קוד מדינה",
+        "VALID_ERROR": "אנא הזן מספר טלפון תקין",
+        "DROPDOWN_EMPTY": "לא נמצאו תוצאות",
+        "DROPDOWN_SEARCH": "חפש מדינה"
+      },
+      "MESSAGE": {
+        "LABEL": "הודעה",
+        "PLACEHOLDER": "הקלד הודעה בבקשה",
+        "ERROR": "הודעה קצרה מדי"
+      }
+    },
+    "CAMPAIGN_HEADER": "אנא ספק את שמך ואת הדוא\"ל שלך לפני תחילת השיחה",
+    "IS_REQUIRED": "נדרש",
+    "REQUIRED": "נדרש",
+    "REGEX_ERROR": "אנא ספק קלט תקין"
+  },
+  "FILE_SIZE_LIMIT": "קובץ חורג ממגבלת גודל מקסימלי {MAXIMUM_FILE_UPLOAD_SIZE}",
+  "CHAT_FORM": {
+    "INVALID": {
+      "FIELD": "שדה לא חוקי"
+    }
+  },
+  "EMOJI": {
+    "PLACEHOLDER": "חפש אימוג'י",
+    "NOT_FOUND": "אין אמוג'י שתואם את החיפוש שלך",
+    "ARIA_LABEL": "בוחר אימוג'י"
+  },
+  "CSAT": {
+    "TITLE": "דרג את השיחה שלך",
+    "SUBMITTED_TITLE": "תודה על שליחת הדירוג",
+    "PLACEHOLDER": "ספר לנו עוד..."
+  },
+  "EMAIL_TRANSCRIPT": {
+    "BUTTON_TEXT": "בקש תמליל שיחה",
+    "SEND_EMAIL_SUCCESS": "תמליל הצ'אט נשלח בהצלחה",
+    "SEND_EMAIL_ERROR": "היתה שגיאה, בקשה נסה שוב"
+  },
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "לחץ כאן בשביל להצטרף",
+      "LEAVE_THE_ROOM": "עזוב את השיחה"
+    }
+  },
+  "PORTAL": {
+    "POPULAR_ARTICLES": "מאמרים פופולריים",
+    "VIEW_ALL_ARTICLES": "הצג את כל המאמרים",
+    "IFRAME_LOAD_ERROR": "אירעה שגיאה בטעינת המאמר, אנא רענן את הדף ונסה שוב."
+  },
+  "ATTACHMENTS": {
+    "image": {
+      "CONTENT": "הודעת תמונה"
+    },
+    "audio": {
+      "CONTENT": "הודעות קוליות"
+    },
+    "video": {
+      "CONTENT": "הודעות וידאו"
+    },
+    "file": {
+      "CONTENT": "קובץ מצורף"
+    },
+    "location": {
+      "CONTENT": "מיקום"
+    },
+    "fallback": {
+      "CONTENT": "שיתף קישור"
+    }
+  },
+  "FOOTER_REPLY_TO": {
+    "REPLY_TO": "משיב ל:"
+  }
+}

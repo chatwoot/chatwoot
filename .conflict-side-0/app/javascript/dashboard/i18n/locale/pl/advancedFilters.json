@@ -1,0 +1,119 @@
+{
+  "FILTER": {
+    "TITLE": "Filtruj konwersacje",
+    "SUBTITLE": "Dodaj swoje filtry poniżej i kliknij 'Zastosuj filtry', aby przefiltrować nieporządek w rozmowach.",
+    "EDIT_CUSTOM_FILTER": "Edytuj folder",
+    "CUSTOM_VIEWS_SUBTITLE": "Dodaj lub usuń filtry i zaktualizuj swój folder.",
+    "ADD_NEW_FILTER": "Dodaj filtr",
+    "FILTER_DELETE_ERROR": "Ups, wygląda na to, że nic nie możemy zapisać! Proszę dodać co najmniej jeden filtr, aby go zapisać.",
+    "SUBMIT_BUTTON_LABEL": "Zastosuj filtry",
+    "UPDATE_BUTTON_LABEL": "Zaktualizuj folder",
+    "CANCEL_BUTTON_LABEL": "Anuluj",
+    "CLEAR_BUTTON_LABEL": "Wyczyść filtry",
+    "FOLDER_LABEL": "Nazwa Folderu",
+    "FOLDER_QUERY_LABEL": "Zapytanie do Folderu",
+    "EMPTY_VALUE_ERROR": "Wartość jest wymagana.",
+    "TOOLTIP_LABEL": "Filtruj konwersacje",
+    "QUERY_DROPDOWN_LABELS": {
+      "AND": "i",
+      "OR": "lub"
+    },
+    "INPUT_PLACEHOLDER": "Enter value",
+    "OPERATOR_LABELS": {
+      "equal_to": "Równe",
+      "not_equal_to": "Nierówne",
+      "does_not_contain": "Nie zawiera",
+      "is_present": "Jest obecny",
+      "is_not_present": "Nie jest obecny",
+      "is_greater_than": "Jest większy niż",
+      "is_less_than": "Jest mniejszy niż",
+      "days_before": "Jest x dni przed",
+      "starts_with": "Zaczyna się od",
+      "equalTo": "Równe",
+      "notEqualTo": "Nierówne",
+      "contains": "Zawiera",
+      "doesNotContain": "Nie zawiera",
+      "isPresent": "Jest obecny",
+      "isNotPresent": "Nie jest obecny",
+      "isGreaterThan": "Jest większy niż",
+      "isLessThan": "Jest mniejsze niż",
+      "daysBefore": "Jest x dni przed",
+      "startsWith": "Zaczyna się od"
+    },
+    "ATTRIBUTE_LABELS": {
+      "TRUE": "Prawda",
+      "FALSE": "Fałsz"
+    },
+    "ATTRIBUTES": {
+      "STATUS": "Status",
+      "ASSIGNEE_NAME": "Imię przydzielonej osoby",
+      "INBOX_NAME": "Nazwa skrzynki odbiorczej",
+      "TEAM_NAME": "Nazwa zespołu",
+      "CONVERSATION_IDENTIFIER": "Identyfikator konwersacji",
+      "CAMPAIGN_NAME": "Nazwa kampanii",
+      "LABELS": "Etykiety",
+      "BROWSER_LANGUAGE": "Język przeglądarki",
+      "PRIORITY": "Priorytet",
+      "COUNTRY_NAME": "Nazwa kraju",
+      "REFERER_LINK": "Link odsyłający",
+      "CUSTOM_ATTRIBUTE_LIST": "Lista",
+      "CUSTOM_ATTRIBUTE_TEXT": "Tekst",
+      "CUSTOM_ATTRIBUTE_NUMBER": "Numer",
+      "CUSTOM_ATTRIBUTE_LINK": "Link",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "Pole Wyboru",
+      "CREATED_AT": "Utworzono",
+      "LAST_ACTIVITY": "Ostatnia aktywność"
+    },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Wartość jest wymagana",
+      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
+      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Wartość musi zawierać się w przedziale od 1 do 998"
+    },
+    "GROUPS": {
+      "STANDARD_FILTERS": "Standardowe filtry",
+      "ADDITIONAL_FILTERS": "Dodatkowe filtry",
+      "CUSTOM_ATTRIBUTES": "Atrybuty niestandardowe"
+    },
+    "CUSTOM_VIEWS": {
+      "ADD": {
+        "TITLE": "Czy chcesz zapisać ten filtr?",
+        "LABEL": "Nazwij ten filtr",
+        "PLACEHOLDER": "Nazwij swój filtr, aby móc do niego później się odwołać.",
+        "ERROR_MESSAGE": "Nazwa jest wymagana.",
+        "SAVE_BUTTON": "Zapisz filtr",
+        "CANCEL_BUTTON": "Anuluj",
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "Folder został pomyślnie utworzony.",
+          "ERROR_MESSAGE": "Wystąpił błąd podczas tworzenia folderu."
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "Segment został pomyślnie utworzony.",
+          "ERROR_MESSAGE": "Wystąpił błąd podczas tworzenia segmentu."
+        }
+      },
+      "EDIT": {
+        "EDIT_BUTTON": "Edytuj folder"
+      },
+      "DELETE": {
+        "DELETE_BUTTON": "Usuń filtr",
+        "MODAL": {
+          "CONFIRM": {
+            "TITLE": "Potwierdzenie usunięcia",
+            "MESSAGE": "Czy na pewno chcesz usunąć ten filtr ",
+            "YES": "Tak, usuń",
+            "NO": "Nie, zostaw"
+          }
+        },
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "Folder został pomyślnie usunięty.",
+          "ERROR_MESSAGE": "Wystąpił błąd podczas usuwania folderu."
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "Segment został pomyślnie usunięty.",
+          "ERROR_MESSAGE": "Wystąpił błąd podczas usuwania segmentu."
+        }
+      }
+    }
+  }
+}

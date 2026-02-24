@@ -1,0 +1,62 @@
+{
+  "INTEGRATION_APPS": {
+    "FETCHING": "Integrációk lekérése",
+    "NO_HOOK_CONFIGURED": "Ebben a fiókban nincs beállítva {integrationId} integráció",
+    "HEADER": "Alkalmazások",
+    "STATUS": {
+      "ENABLED": "Engedélyezve",
+      "DISABLED": "Letiltva"
+    },
+    "CONFIGURE": "Beállítások",
+    "ADD_BUTTON": "Új hook hozzáadása",
+    "DELETE": {
+      "TITLE": {
+        "INBOX": "Törlés megerősítése",
+        "ACCOUNT": "Leválasztás"
+      },
+      "MESSAGE": {
+        "INBOX": "Biztos abban, hogy törli?",
+        "ACCOUNT": "Biztosan leválasztja?"
+      },
+      "CONFIRM_BUTTON_TEXT": {
+        "INBOX": "Igen, Törlés",
+        "ACCOUNT": "Igen, leválasztás"
+      },
+      "CANCEL_BUTTON_TEXT": "Mégse",
+      "API": {
+        "SUCCESS_MESSAGE": "Hook törlésre került",
+        "ERROR_MESSAGE": "Nem sikerült csatlakozni a Woot szerverhez, kérjük próbáld később"
+      }
+    },
+    "LIST": {
+      "FETCHING": "Integrációs hookok betöltése",
+      "INBOX": "Fiók",
+      "DELETE": {
+        "BUTTON_TEXT": "Törlés"
+      }
+    },
+    "ADD": {
+      "FORM": {
+        "INBOX": {
+          "LABEL": "Válassz fiókot",
+          "PLACEHOLDER": "Válassz fiókot"
+        },
+        "SUBMIT": "Létrehozás",
+        "CANCEL": "Mégse"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Integrációs hookok hozzáadásra kerültek",
+        "ERROR_MESSAGE": "Nem sikerült csatlakozni a Woot szerverhez, kérjük próbáld később"
+      }
+    },
+    "CONNECT": {
+      "BUTTON_TEXT": "Kapcsolódás"
+    },
+    "DISCONNECT": {
+      "BUTTON_TEXT": "Leválasztás"
+    },
+    "SIDEBAR_DESCRIPTION": {
+      "DIALOGFLOW": "Dialogflow is a natural language processing platform for building conversational interfaces. Integrating it with {installationName} lets bots handle queries first and transfer them to agents when needed. It helps qualify leads and reduce agent workload by answering FAQs. To add Dialogflow, create a Service Account in Google Console and share the credentials. Refer to the docs for details"
+    }
+  }
+}

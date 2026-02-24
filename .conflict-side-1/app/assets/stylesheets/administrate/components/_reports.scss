@@ -1,0 +1,15 @@
+.report--list {
+  display: flex;
+  padding: 0 $space-two $space-larger;
+}
+
+.report-card {
+  flex: 1;
+  font-size: $font-size-small;
+  text-align: center;
+
+  .metric {
+    font-size: $font-size-bigger;
+    font-weight: 200;
+  }
+}

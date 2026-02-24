@@ -1,0 +1,440 @@
+#Files in the config/locales directory are used for internationalization
+#and are automatically loaded by Rails. If you want to use locales other
+#than English, add the necessary files in this directory.
+#To use the locales, use `I18n.t`:
+#I18n.t 'hello'
+#In views, this is aliased to just `t`:
+#<%= t('hello') %>
+#To use a different locale, set it with `I18n.locale`:
+#I18n.locale = :es
+#This would use the information in config/locales/es.yml.
+#The following keys must be escaped otherwise they will not be retrieved by
+#the default I18n backend:
+#true, false, on, off, yes, no
+#Instead, surround them with single quotes.
+#en:
+#'true': 'foo'
+#To learn more, please read the Rails Internationalization guide
+#available at https://guides.rubyonrails.org/i18n.html.
+"no":
+  hello: 'Hallo, verden'
+  inbox:
+    reauthorization:
+      success: 'Channel reauthorized successfully'
+      not_required: 'Reauthorization is not required for this inbox'
+      invalid_channel: 'Invalid channel type for reauthorization'
+  auth:
+    saml:
+      invalid_email: 'Vennligst skriv inn en gyldig e-postadresse'
+      authentication_failed: 'Authentication failed. Please check your credentials and try again.'
+  messages:
+    reset_password_success: Woot! Forespørsel om tilbakestilling av passord er vellykket. Sjekk innboksen for instruksjoner.
+    reset_password_failure: Uff da! Vi fant ingen bruker med den angitte eposten.
+    reset_password_saml_user: This account uses SAML authentication. Password reset is not available. Please contact your administrator.
+    login_saml_user: This account uses SAML authentication. Please sign in through your organization's SAML provider.
+    saml_not_available: SAML authentication is not available in this installation.
+    inbox_deletetion_response: Innboksen din slettingsforespørsel vil bli behandlet i løpet av en periode.
+  errors:
+    validations:
+      presence: kan ikke være tom
+    webhook:
+      invalid: ugyldige hendelser
+    signup:
+      disposable_email: Vi tillater ikke engangs e-poster
+      blocked_domain: Dette domenet er ikke tillatt. Hvis du tror dette er en feil, vennligst kontakt kundestøtte.
+      invalid_email: Du har angitt en ugyldig e-post
+      email_already_exists: 'Du har allerede registrert en konto med %{email}'
+      invalid_params: 'Ugyldig registrering, sjekk registrerings-parametere og prøv på nytt'
+      failed: Registrering mislyktes
+    assignment_policy:
+      not_found: Assignment policy not found
+    attachments:
+      invalid: Invalid attachment
+    saml:
+      feature_not_enabled: SAML feature not enabled for this account
+      sso_not_enabled: SAML SSO is not enabled for this installation
+    data_import:
+      data_type:
+        invalid: Ugyldig datatype
+    contacts:
+      import:
+        failed: Filen er blank
+      export:
+        success: Vi varsler deg når kontaktene tar eksport er klar til visning.
+      email:
+        invalid: Ugyldig epost
+      phone_number:
+        invalid: skal være i e164-format
+    companies:
+      domain:
+        invalid: must be a valid domain name
+      search:
+        query_missing: Specify search string with parameter q
+    messages:
+      search:
+        time_range_limit_exceeded: 'Search is limited to the last %{days} days'
+    categories:
+      locale:
+        unique: må være unikt i kategorien og portalen
+    dyte:
+      invalid_message_type: 'Ugyldig meldingstype. Handlingen er ikke tillatt'
+    slack:
+      invalid_channel_id: 'Ugyldig slack kanal. Vennligst prøv på nytt'
+    whatsapp:
+      token_exchange_failed: 'Failed to exchange code for access token. Please try again.'
+      invalid_token_permissions: 'The access token does not have the required permissions for WhatsApp.'
+      phone_info_fetch_failed: 'Failed to fetch phone number information. Please try again.'
+      phone_number_already_exists: 'Channel already exists for this phone number: %{phone_number}, please contact support if the error persists'
+      reauthorization:
+        generic: 'Failed to reauthorize WhatsApp. Please try again.'
+        not_supported: 'Reauthorization is not supported for this type of WhatsApp channel.'
+    inboxes:
+      imap:
+        socket_error: Kontroller nettverkstilkoblingen, IMAP-adressen og prøv på nytt.
+        no_response_error: Vennligst sjekk IMAP påloggingsinformasjonen, og prøv på nytt.
+        host_unreachable_error: Verten er ikke tilgjengelig. Vennligst kontroller IMAP-adressen, IMAP-porten og prøv på nytt.
+        connection_timed_out_error: Tilkobling ble tidsavbrutt for %{address}:%{port}
+        connection_closed_error: Forbindelsen ble lukket.
+      validations:
+        name: ikke kan starte eller slutte med symboler, og den kan ikke ha < > / \ @ tegn.
+    custom_filters:
+      number_of_records: Grense nådd. Maksimalt antall tillatte filtre for en bruker per konto er 1000.
+      invalid_attribute: Ugyldig attributtnøkkel - [%{key}]. Nøkkelen bør være en av [%{allowed_keys}] eller en egendefinert attributt definert på kontoen.
+      invalid_operator: Ugyldig operatør. De tillatte operatørene for %{attribute_name} er [%{allowed_keys}].
+      invalid_query_operator: Spørrings-operatør må være enten "AND" eller "OR".
+      invalid_value: Ugyldig verdi. Verdiene angitt for %{attribute_name} er ugyldige
+    custom_attribute_definition:
+      key_conflict: The provided key is not allowed as it might conflict with default attributes.
+    mfa:
+      already_enabled: MFA is already enabled
+      not_enabled: MFA is not enabled
+      invalid_code: Invalid verification code
+      invalid_backup_code: Invalid backup code
+      invalid_token: Invalid or expired MFA token
+      invalid_credentials: Invalid credentials or verification code
+      feature_unavailable: MFA feature is not available. Please configure encryption keys.
+    topup:
+      credits_required: Credits amount is required
+      invalid_credits: Invalid credits amount
+      invalid_option: Invalid topup option
+      plan_not_eligible: Top-ups are only available for paid plans. Please upgrade your plan first.
+      stripe_customer_not_configured: Stripe customer not configured
+      no_payment_method: No payment methods found. Please add a payment method before making a purchase.
+  profile:
+    mfa:
+      enabled: MFA enabled successfully
+      disabled: MFA disabled successfully
+    account_saml_settings:
+      invalid_certificate: must be a valid X.509 certificate in PEM format
+  reports:
+    period: Rapporteringsperiode %{since} til %{until}
+    utc_warning: Rapporten generert er i UTC tidssone
+    agent_csv:
+      agent_name: Agent navn
+      conversations_count: Tilordnet samtaler
+      avg_first_response_time: Første svartid
+      avg_resolution_time: Gjennomsnittstid for løsning
+      resolution_count: Antall løsninger
+      avg_customer_waiting_time: Kunden i snitt venter
+    inbox_csv:
+      inbox_name: Navn på innboks
+      inbox_type: Innboks type
+      conversations_count: Antall samtaler
+      avg_first_response_time: Første svartid
+      avg_resolution_time: Gjennomsnittstid for løsning
+    label_csv:
+      label_title: Etiketter
+      conversations_count: Antall samtaler
+      avg_first_response_time: Første svartid
+      avg_resolution_time: Gjennomsnittstid for løsning
+      avg_reply_time: Avg reply time
+      resolution_count: Antall løsninger
+    team_csv:
+      team_name: Gruppe navn
+      conversations_count: Antall samtaler
+      avg_first_response_time: Første svartid
+      avg_resolution_time: Gjennomsnittstid for løsning
+      resolution_count: Antall løsninger
+      avg_customer_waiting_time: Gjennomsnittlig ventetid for kunde
+    conversation_traffic_csv:
+      timezone: Tidssone
+    sla_csv:
+      conversation_id: Samtale ID
+      sla_policy_breached: SLA Policy
+      assignee: Agent
+      team: Gruppe
+      inbox: Innboks
+      labels: Etiketter
+      conversation_link: Lenke til samtalen
+      breached_events: Brytte hendelser
+    default_group_by: dag
+    csat:
+      headers:
+        contact_name: Navn på kontakt
+        contact_email_address: E-postadresse for kontakt
+        contact_phone_number: Kontakt telefonnummer
+        link_to_the_conversation: Lenke til samtalen
+        agent_name: Agent navn
+        rating: Vurdering
+        feedback: Tilbakemelding
+        recorded_at: Registrert dato
+  notifications:
+    notification_title:
+      conversation_creation: 'En samtale (#%{display_id}) har blitt opprettet i %{inbox_name}'
+      conversation_assignment: 'En samtale (#%{display_id}) er tildelt deg'
+      assigned_conversation_new_message: 'En ny melding er opprettet i samtale (#%{display_id})'
+      conversation_mention: 'Du har blitt nevnt i samtale (#%{display_id})'
+      sla_missed_first_response: 'SLA mål brutt: første svar for samtale (#%{display_id})'
+      sla_missed_next_response: 'SLA mål brutt: neste svar for samtale (#%{display_id})'
+      sla_missed_resolution: 'SLA mål brutt: løsning for samtale (#%{display_id})'
+    attachment: 'Vedlegg'
+    no_content: 'Ingen innhold'
+  conversations:
+    captain:
+      handoff: 'Transferring to another agent for further assistance.'
+    messages:
+      instagram_story_content: '%{story_sender} nevnte deg i historien: '
+      instagram_deleted_story_content: Denne historien er ikke lenger tilgjengelig.
+      instagram_shared_story_content: 'Shared story'
+      instagram_shared_post_content: 'Shared post'
+      deleted: Denne meldingen er slettet
+      whatsapp:
+        list_button_label: 'Choose an item'
+      delivery_status:
+        error_code: 'Feilkode: %{error_code}'
+    activity:
+      captain:
+        resolved: 'Conversation was marked resolved by %{user_name} due to inactivity'
+        open: 'Conversation was marked open by %{user_name}'
+      agent_bot:
+        error_moved_to_open: 'Conversation was marked open by system due to an error with the agent bot.'
+      status:
+        resolved: 'Samtale ble løst av %{user_name}'
+        contact_resolved: 'Conversation was resolved by %{contact_name}'
+        open: 'Samtalen ble gjenåpnet av %{user_name}'
+        pending: 'Conversation was marked as pending by %{user_name}'
+        snoozed: 'Conversation was snoozed by %{user_name}'
+        auto_resolved_days: 'Samtale ble automatisk merket løst på grunn av %{count} dager med inaktivitet'
+        auto_resolved_hours: 'Conversation was marked resolved by system due to %{count} hours of inactivity'
+        auto_resolved_minutes: 'Conversation was marked resolved by system due to %{count} minutes of inactivity'
+        system_auto_open: System reopened the conversation due to a new incoming message.
+      priority:
+        added: '%{user_name} set the priority to %{new_priority}'
+        updated: '%{user_name} changed the priority from %{old_priority} to %{new_priority}'
+        removed: '%{user_name} removed the priority'
+      assignee:
+        self_assigned: '%{user_name} tilordnet seg denne samtalen'
+        assigned: 'Tildelt til %{assignee_name} av %{user_name}'
+        removed: '%{user_name} fjernet tildelingen til samtalen'
+      team:
+        assigned: 'Tildelt til %{team_name} av %{user_name}'
+        assigned_with_assignee: 'Assigned to %{assignee_name} via %{team_name} by %{user_name}'
+        removed: 'Unassigned from %{team_name} by %{user_name}'
+      labels:
+        added: '%{user_name} la til %{labels}'
+        removed: '%{user_name} fjernet %{labels}'
+      sla:
+        added: '%{user_name} added SLA policy %{sla_name}'
+        removed: '%{user_name} removed SLA policy %{sla_name}'
+      linear:
+        issue_created: 'Linear issue %{issue_id} was created by %{user_name}'
+        issue_linked: 'Linear issue %{issue_id} was linked by %{user_name}'
+        issue_unlinked: 'Linear issue %{issue_id} was unlinked by %{user_name}'
+      csat:
+        not_sent_due_to_messaging_window: 'CSAT survey not sent due to outgoing message restrictions'
+      auto_resolve:
+        not_sent_due_to_messaging_window: 'Auto-resolve message not sent due to outgoing message restrictions'
+      muted: '%{user_name} har dempet samtalen'
+      unmuted: '%{user_name} har opphevet dempingen av samtalen'
+      auto_resolution_message: 'Resolving the conversation as it has been inactive for a while. Please start a new conversation if you need further assistance.'
+    templates:
+      greeting_message_body: '%{account_name} svarer vanligvis innen et par timer.'
+      ways_to_reach_you_message_body: 'Gi oss en måte å ta kontakt med deg på.'
+      email_input_box_message_body: 'Få beskjed via e-post'
+      csat_input_message_body: 'Please rate the conversation'
+    reply:
+      email:
+        header:
+          notifications: 'Varsler'
+          from_with_name: '%{assignee_name} from %{inbox_name} <%{from_email}>'
+          reply_with_name: '%{assignee_name} from %{inbox_name} <reply+%{reply_email}>'
+          friendly_name: '%{sender_name} from %{business_name} <%{from_email}>'
+          professional_name: '%{business_name} <%{from_email}>'
+      channel_email:
+        header:
+          reply_with_name: '%{assignee_name} from %{inbox_name} <%{from_email}>'
+          reply_with_inbox_name: '%{inbox_name} <%{from_email}>'
+      email_subject: 'Nye meldinger i denne samtalen'
+      transcript_subject: 'Kopi av samtale'
+    survey:
+      response: 'Please rate this conversation, %{link}'
+  contacts:
+    online:
+      delete: '%{contact_name} is Online, please try again later'
+  integration_apps:
+    #Note: webhooks and dashboard_apps don't need short_description as they use different modal components
+    dashboard_apps:
+      name: 'Dashboard Apps'
+      description: 'Dashboard Apps allow you to create and embed applications that display user information, orders, or payment history, providing more context to your customer support agents.'
+    dyte:
+      name: 'Dyte'
+      short_description: 'Start video/voice calls with customers directly from Chatwoot.'
+      description: 'Dyte is a product that integrates audio and video functionalities into your application. With this integration, your agents can start video/voice calls with your customers directly from Chatwoot.'
+      meeting_name: '%{agent_name} has started a meeting'
+    slack:
+      name: 'Slack'
+      short_description: 'Receive notifications and respond to conversations directly in Slack.'
+      description: "Integrate Chatwoot with Slack to keep your team in sync. This integration allows you to receive notifications for new conversations and respond to them directly within Slack's interface."
+    webhooks:
+      name: 'Webhooks'
+      description: 'Webhook events provide real-time updates about activities in your Chatwoot account. You can subscribe to your preferred events, and Chatwoot will send you HTTP callbacks with the updates.'
+    dialogflow:
+      name: 'Dialogflow'
+      short_description: 'Build chatbots to handle initial queries before transferring to agents.'
+      description: 'Build chatbots with Dialogflow and easily integrate them into your inbox. These bots can handle initial queries before transferring them to a customer service agent.'
+    google_translate:
+      name: 'Google Translate'
+      short_description: 'Automatically translate customer messages for agents.'
+      description: "Integrate Google Translate to help agents easily translate customer messages. This integration automatically detects the language and converts it to the agent's or admin's preferred language."
+    openai:
+      name: 'OpenAI'
+      short_description: 'AI-powered reply suggestions, summarization, and message enhancement.'
+      description: 'Leverage the power of large language models from OpenAI with the features such as reply suggestions, summarization, message rephrasing, spell-checking, and label classification.'
+    linear:
+      name: 'Linear'
+      short_description: 'Create and link Linear issues directly from conversations.'
+      description: 'Create issues in Linear directly from your conversation window. Alternatively, link existing Linear issues for a more streamlined and efficient issue tracking process.'
+    notion:
+      name: 'Notion'
+      short_description: 'Integrate databases, documents and pages directly with Captain.'
+      description: 'Connect your Notion workspace to enable Captain to access and generate intelligent responses using content from your databases, documents, and pages to provide more contextual customer support.'
+    shopify:
+      name: 'Shopify'
+      short_description: 'Access order details and customer data from your Shopify store.'
+      description: 'Connect your Shopify store to access order details, customer information, and product data directly within your conversations and helps your support team provide faster, more contextual assistance to your customers.'
+    leadsquared:
+      name: 'LeadSquared'
+      short_description: 'Sync your contacts and conversations with LeadSquared CRM.'
+      description: 'Sync your contacts and conversations with LeadSquared CRM. This integration automatically creates leads in LeadSquared when new contacts are added, and logs conversation activity to provide your sales team with complete context.'
+  captain:
+    copilot_message_required: Message is required
+    copilot_error: 'Please connect an assistant to this inbox to use Copilot'
+    copilot_limit: 'You are out of Copilot credits. You can buy more credits from the billing section.'
+    copilot:
+      using_tool: 'Using tool %{function_name}'
+      completed_tool_call: 'Completed %{function_name} tool call'
+      invalid_tool_call: 'Invalid tool call'
+      tool_not_available: 'Tool not available'
+    documents:
+      limit_exceeded: 'Document limit exceeded'
+      pdf_format_error: 'must be a PDF file'
+      pdf_size_error: 'must be less than 10MB'
+      pdf_upload_failed: 'Failed to upload PDF to OpenAI'
+      pdf_upload_success: 'PDF uploaded successfully with file_id: %{file_id}'
+      pdf_processing_failed: 'Failed to process PDF document %{document_id}: %{error}'
+      pdf_processing_success: 'Successfully processed PDF document %{document_id}'
+      faq_generation_complete: 'FAQ generation complete. Total FAQs created: %{count}'
+      using_paginated_faq: 'Using paginated FAQ generation for document %{document_id}'
+      using_standard_faq: 'Using standard FAQ generation for document %{document_id}'
+      response_creation_error: 'Error in creating response document: %{error}'
+      missing_openai_file_id: 'Document must have openai_file_id for paginated processing'
+      openai_api_error: 'OpenAI API Error: %{error}'
+      starting_paginated_faq: 'Starting paginated FAQ generation (%{pages_per_chunk} pages per chunk)'
+      stopping_faq_generation: 'Stopping processing. Reason: %{reason}'
+      paginated_faq_complete: 'Paginated generation complete. Total FAQs: %{total_faqs}, Pages processed: %{pages_processed}'
+      processing_pages: 'Processing pages %{start}-%{end} (iteration %{iteration})'
+      chunk_generated: 'Chunk generated %{chunk_faqs} FAQs. Total so far: %{total_faqs}'
+      page_processing_error: 'Error processing pages %{start}-%{end}: %{error}'
+    custom_tool:
+      slug_generation_failed: 'Unable to generate unique slug after 5 attempts'
+  public_portal:
+    search:
+      search_placeholder: Search for article by title or body...
+      empty_placeholder: No results found.
+      loading_placeholder: Searching...
+      results_title: Search results
+    toc_header: 'On this page'
+    hero:
+      sub_title: Search for the articles here or browse the categories below.
+    common:
+      home: Hjem
+      last_updated_on: Last updated on %{last_updated_on}
+      view_all_articles: View all
+      article: article
+      articles: articles
+      author: author
+      authors: authors
+      other: other
+      others: others
+      by: By
+      no_articles: There are no articles here
+    footer:
+      made_with: Made with
+    header:
+      go_to_homepage: Website
+      visit_website: Visit website
+      appearance:
+        system: System
+        light: Light
+        dark: Dark
+      featured_articles: Featured Articles
+      uncategorized: Uncategorized
+    404:
+      title: Page not found
+      description: We couldn't find the page you were looking for.
+      back_to_home: Go to home page
+  slack_unfurl:
+    fields:
+      name: Navn
+      email: E-post
+      phone_number: Phone
+      company_name: Firma
+      inbox_name: Inbox
+      inbox_type: Inbox Type
+    button: Open conversation
+  time_units:
+    days:
+      one: '%{count} day'
+      other: '%{count} days'
+    hours:
+      one: '%{count} hour'
+      other: '%{count} hours'
+    minutes:
+      one: '%{count} minute'
+      other: '%{count} minutes'
+    seconds:
+      one: '%{count} second'
+      other: '%{count} seconds'
+  automation:
+    system_name: 'Automation System'
+  crm:
+    no_message: 'No messages in conversation'
+    attachment: '[Attachment: %{type}]'
+    no_content: '[Ingen innhold]'
+    created_activity: |
+      New conversation started on %{brand_name}
+
+      Channel: %{channel_info}
+      Created: %{formatted_creation_time}
+      Conversation ID: %{display_id}
+      View in %{brand_name}: %{url}
+    transcript_activity: |
+      Conversation Transcript from %{brand_name}
+
+      Channel: %{channel_info}
+      Conversation ID: %{display_id}
+      View in %{brand_name}: %{url}
+
+      Transcript:
+      %{format_messages}
+  agent_capacity_policy:
+    inbox_already_assigned: 'Inbox has already been assigned to this policy'
+  portals:
+    send_instructions:
+      email_required: 'Email is required'
+      invalid_email_format: 'Invalid email format'
+      custom_domain_not_configured: 'Custom domain is not configured'
+      instructions_sent_successfully: 'Instructions sent successfully'
+      subject: 'Finish setting up %{custom_domain}'
+    ssl_status:
+      custom_domain_not_configured: 'Custom domain is not configured'

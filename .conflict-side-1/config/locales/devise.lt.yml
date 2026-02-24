@@ -1,0 +1,63 @@
+#Additional translations at https://github.com/plataformatec/devise/wiki/I18n
+lt:
+  devise:
+    confirmations:
+      confirmed: "Jūsų el. pašto adresas sėkmingai patvirtintas."
+      send_instructions: "Po kelių minučių gausite el. laišką su instrukcijomis, kaip patvirtinti jūsų el. pašto adresą."
+      send_paranoid_instructions: "Jei jūsų el. pašto adresas yra mūsų duomenų bazėje, po kelių minučių į savo el. pašto adresą gausite el. pašto adresą patvirtinimo instrukciją."
+    failure:
+      already_authenticated: "Jūs jau prisijungėte."
+      inactive: "Tavo prisijungimo paskyra dar neaktyvuota."
+      invalid: "Neteisingas %{authentication_keys}/slaptažodis arba paskyra dar nepatvirtinta."
+      locked: "Tavo prisijungimo paskyra užrakinta."
+      last_attempt: "Turite dar vieną bandymą, kol jūsų paskyra bus užrakinta."
+      not_found_in_database: "Neteisingas %{authentication_keys} arba slaptažodis."
+      timeout: "Jūsų sesija baigėsi. Prisijunkite dar kartą, kad galėtumėte tęsti."
+      unauthenticated: "Prieš tęsdami turite prisijungti arba užsiregistruoti."
+      unconfirmed: "Prieš tęsdami turite patvirtinti savo el. pašto adresą."
+    mailer:
+      confirmation_instructions:
+        subject: "Patvirtinimo instrukcijos"
+      reset_password_instructions:
+        subject: "Slaptažodžio atkūrimo instrukcijos"
+      unlock_instructions:
+        subject: "Atrakinimo instrukcija"
+      password_change:
+        subject: "Slaptažodis pakeistas"
+    omniauth_callbacks:
+      failure: "Nepavyko jūsų autentifikuoti iš %{kind}, nes \"%{reason}\"."
+      success: "Sėkmingai autentifikuota naudojant %{kind} paskyrą."
+    passwords:
+      no_token: "Negalite pasiekti šio puslapio neišsiuntę slaptažodžio nustatymo iš naujo el. laiško. Jei gavote el. laišką dėl slaptažodžio nustatymo iš naujo, įsitikinkite, kad naudojote visą URL."
+      send_instructions: "Po kelių minučių gausite el. laišką su instrukcijomis, kaip iš naujo nustatyti slaptažodį."
+      send_paranoid_instructions: "Jei jūsų el. pašto adresas yra mūsų duomenų bazėje, po kelių minučių į savo el. pašto adresą gausite slaptažodžio atkūrimo nuorodą."
+      updated: "Jūsų slaptažodis buvo sėkmingai pakeistas. Dabar esate prisijungę."
+      updated_not_active: "Jūsų slaptažodis buvo sėkmingai pakeistas."
+    registrations:
+      destroyed: "Ate! Jūsų paskyra buvo sėkmingai atšaukta. Tikimės, kad greitu metu vėl pasimatysime."
+      signed_up: "Sveiki! Jūs sėkmingai užsiregistravote."
+      signed_up_but_inactive: "Jūs sėkmingai užsiregistravote. Tačiau negalėjome jūsų prijungti, nes jūsų paskyra dar nesuaktyvinta."
+      signed_up_but_locked: "Jūs sėkmingai užsiregistravote. Tačiau negalėjome jūsų prijungti, nes jūsų paskyra užrakinta."
+      signed_up_but_unconfirmed: "Jūsų el. pašto adresu išsiųstas pranešimas su patvirtinimo nuoroda. Norėdami aktyvuoti paskyrą, spustelėkite nuorodą."
+      update_needs_confirmation: "Sėkmingai atnaujinote paskyrą, bet turime patvirtinti naują el. pašto adresą. Patikrinkite savo el. paštą ir spustelėkite patvirtinimo nuorodą, kad patvirtintumėte naują el. pašto adresą."
+      updated: "Jūsų paskyra sėkmingai atnaujinta."
+    sessions:
+      signed_in: "Prisijungta sėkmingai."
+      signed_out: "Atsijungta sėkmingai."
+      already_signed_out: "Atsijungta sėkmingai."
+    unlocks:
+      send_instructions: "Po kelių minučių gausite el. laišką su instrukcijomis, kaip atrakinti paskyrą."
+      send_paranoid_instructions: "Jei jūsų paskyra egzistuoja, po kelių minučių gausite el. laišką su instrukcijomis, kaip ją atrakinti."
+      unlocked: "Jūsų paskyra buvo sėkmingai atrakinta. Prisijunkite, kad galėtumėte tęsti."
+  errors:
+    messages:
+      already_confirmed: "jau buvo patvirtinta, pabandykite prisijungti"
+      confirmation_period_expired: "turi būti patvirtintas per %{period}, prašome paprašyti naujo"
+      expired: "galiojimo laikas baigėsi, prašykite naujo"
+      not_found: "nerasta"
+      not_locked: "nebuvo užrakintas"
+      not_saved:
+        one: "1 klaida neleido išsaugoti šio %{resource}:"
+        few: "%{count} klaidos neleido išsaugoti šio %{resource}:"
+        many: "%{count} klaidų neleido išsaugoti šio %{resource}:"
+        other: "%{count} klaidos neleido išsaugoti šio %{resource}:"

@@ -1,0 +1,41 @@
+{
+  "BULK_ACTION": {
+    "CONVERSATIONS_SELECTED": "Izvēlētas {conversationCount} sarunas",
+    "AGENT_SELECT_LABEL": "Izvēlieties aģentu",
+    "ASSIGN_CONFIRMATION_LABEL": "Vai patiešām vēlaties piesaistīt {conversationCount} {conversationLabel} pie",
+    "UNASSIGN_CONFIRMATION_LABEL": "Vai patiešām vēlaties atsaistīt {conversationCount} {conversationLabel}?",
+    "GO_BACK_LABEL": "Atgriezties",
+    "ASSIGN_LABEL": "Piešķirt",
+    "YES": "Jā",
+    "SEARCH_INPUT_PLACEHOLDER": "Meklēt",
+    "ASSIGN_AGENT_TOOLTIP": "Piešķirt aģentu",
+    "ASSIGN_TEAM_TOOLTIP": "Piešķirt komandu",
+    "ASSIGN_SUCCESFUL": "Sarunas ir veiksmīgi piešķirtas.",
+    "ASSIGN_FAILED": "Neizdevās piešķirt sarunas. Lūdzu mēģiniet vēlreiz.",
+    "RESOLVE_SUCCESFUL": "Sarunas ir veiksmīgi atrisinātas.",
+    "RESOLVE_FAILED": "Neizdevās atrisināt sarunas. Lūdzu mēģiniet vēlreiz.",
+    "ALL_CONVERSATIONS_SELECTED_ALERT": "Šajā lapā redzamās sarunas ir tikai izvēlētas.",
+    "AGENT_LIST_LOADING": "Notiek aģentu ielāde",
+    "UPDATE": {
+      "CHANGE_STATUS": "Mainīt statusu",
+      "SNOOZE_UNTIL": "Atlikt",
+      "UPDATE_SUCCESFUL": "Sarunas statuss ir veiksmīgi atjaunināts.",
+      "UPDATE_FAILED": "Neizdevās atjaunināt sarunas. Lūdzu mēģiniet vēlreiz."
+    },
+    "LABELS": {
+      "ASSIGN_LABELS": "Piešķirt etiķetes",
+      "NO_LABELS_FOUND": "Etiķetes nav atrastas",
+      "ASSIGN_SELECTED_LABELS": "Piešķirt izvēlētās etiķetes",
+      "ASSIGN_SUCCESFUL": "Etiķetes ir veiksmīgi piešķirtas.",
+      "ASSIGN_FAILED": "Neizdevās piešķirt etiķetes. Lūdzu mēģiniet vēlreiz."
+    },
+    "TEAMS": {
+      "TEAM_SELECT_LABEL": "Izvēlieties komandu",
+      "NONE": "Nav",
+      "NO_TEAMS_AVAILABLE": "Šim kontam vēl nav pievienota neviena komanda.",
+      "ASSIGN_SELECTED_TEAMS": "Piešķirt izvēlēto komandu.",
+      "ASSIGN_SUCCESFUL": "Komandas ir veiksmīgi piešķirtas.",
+      "ASSIGN_FAILED": "Neizdevās piešķirt komandu. Lūdzu mēģiniet vēlreiz."
+    }
+  }
+}

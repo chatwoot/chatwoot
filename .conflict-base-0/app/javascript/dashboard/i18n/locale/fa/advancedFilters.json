@@ -1,0 +1,119 @@
+{
+  "FILTER": {
+    "TITLE": "فیلتر گفتگو‌ ها",
+    "SUBTITLE": "فیلترهای خود را در زیر اضافه کنید و روی «اعمال فیلترها» بزنید تا از شلوغی لیست بکاهید.",
+    "EDIT_CUSTOM_FILTER": "ویرایش فولدر",
+    "CUSTOM_VIEWS_SUBTITLE": "فیلترها را اضافه یا حذف کنید و پوشه خود را به روز کنید.",
+    "ADD_NEW_FILTER": "افزودن فیلتر",
+    "FILTER_DELETE_ERROR": "اوه، به نظر می رسد ما نمی توانیم چیزی را ذخیره کنیم! لطفاً حداقل یک فیلتر برای ذخیره آن اضافه کنید.",
+    "SUBMIT_BUTTON_LABEL": "اعمال فیلترها",
+    "UPDATE_BUTTON_LABEL": "بروز رسانی فولدر",
+    "CANCEL_BUTTON_LABEL": "انصراف",
+    "CLEAR_BUTTON_LABEL": "پاک کردن فیلترها",
+    "FOLDER_LABEL": "نام فولدر",
+    "FOLDER_QUERY_LABEL": "کوئری پوشه",
+    "EMPTY_VALUE_ERROR": "مقدار الزامی است.",
+    "TOOLTIP_LABEL": "فیلتر گفتگو‌ ها",
+    "QUERY_DROPDOWN_LABELS": {
+      "AND": "و",
+      "OR": "یا"
+    },
+    "INPUT_PLACEHOLDER": "Enter value",
+    "OPERATOR_LABELS": {
+      "equal_to": "مساوی با",
+      "not_equal_to": "مساوی نیست با",
+      "does_not_contain": "شامل نمی‌شود",
+      "is_present": "در حال حاضر وجود دارد",
+      "is_not_present": "در حال حاضر وجود ندارد",
+      "is_greater_than": "بزرگتر از",
+      "is_less_than": "کوچکتر از",
+      "days_before": "x روز قبل است",
+      "starts_with": "شروع می‌‌شود با",
+      "equalTo": "مساوی با",
+      "notEqualTo": "مساوی نیست با",
+      "contains": "شامل",
+      "doesNotContain": "شامل نمی‌شود",
+      "isPresent": "در حال حاضر وجود دارد",
+      "isNotPresent": "در حال حاضر وجود ندارد",
+      "isGreaterThan": "بزرگتر از",
+      "isLessThan": "کوچکتر از",
+      "daysBefore": "x روز قبل است",
+      "startsWith": "شروع می‌‌شود با"
+    },
+    "ATTRIBUTE_LABELS": {
+      "TRUE": "درست",
+      "FALSE": "نادرست"
+    },
+    "ATTRIBUTES": {
+      "STATUS": "وضعیت",
+      "ASSIGNEE_NAME": "نام مسئول",
+      "INBOX_NAME": "نام صندوق ورودی",
+      "TEAM_NAME": "نام تیم",
+      "CONVERSATION_IDENTIFIER": "شناسه گفتگو",
+      "CAMPAIGN_NAME": "نام کمپین",
+      "LABELS": "برچسب‌ها",
+      "BROWSER_LANGUAGE": "مرور زبان",
+      "PRIORITY": "اولویت",
+      "COUNTRY_NAME": "نام کشور",
+      "REFERER_LINK": "پیوند ارجاع‌دهنده",
+      "CUSTOM_ATTRIBUTE_LIST": "فهرست",
+      "CUSTOM_ATTRIBUTE_TEXT": "متن",
+      "CUSTOM_ATTRIBUTE_NUMBER": "شماره",
+      "CUSTOM_ATTRIBUTE_LINK": "پیوند",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "چک باکس",
+      "CREATED_AT": "ایجاد شده در",
+      "LAST_ACTIVITY": "آخرین فعالیت"
+    },
+    "ERRORS": {
+      "VALUE_REQUIRED": "مقدار الزامی است",
+      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
+      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998"
+    },
+    "GROUPS": {
+      "STANDARD_FILTERS": "فیلترهای استاندارد",
+      "ADDITIONAL_FILTERS": "فیلترهای اضافی",
+      "CUSTOM_ATTRIBUTES": "ویژگی‌های سفارشی"
+    },
+    "CUSTOM_VIEWS": {
+      "ADD": {
+        "TITLE": "آیا می‌خواهید این فیلتر را ذخیره کنید ؟",
+        "LABEL": "نام این فیلتر",
+        "PLACEHOLDER": "برای فیلتر خود یک نام انتخاب کنید تا بعدا بتوانید آن را پیدا کنید.",
+        "ERROR_MESSAGE": "نام الزامی است.",
+        "SAVE_BUTTON": "ذخیره فیلتر",
+        "CANCEL_BUTTON": "انصراف",
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "پوشه با موفقیت ایجاد شد.",
+          "ERROR_MESSAGE": "در هنگام ایجاد پوشه خطایی رخ داد."
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "بخش با موفقیت ایجاد شد.",
+          "ERROR_MESSAGE": "خطا هنگام ایجاد بخش."
+        }
+      },
+      "EDIT": {
+        "EDIT_BUTTON": "ویرایش فولدر"
+      },
+      "DELETE": {
+        "DELETE_BUTTON": "حذف فیلتر",
+        "MODAL": {
+          "CONFIRM": {
+            "TITLE": "تاییدیه حذف",
+            "MESSAGE": "آیا مطمئن هستید که فیلتر را حذف می‌کنید ",
+            "YES": "بله، حذف شود",
+            "NO": "خیر، بماند"
+          }
+        },
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "پوشه با موفقیت حذف شد.",
+          "ERROR_MESSAGE": "در هنگام حذف پوشه خطایی رخ داد."
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "بخش با موفقیت حذف شد.",
+          "ERROR_MESSAGE": "خطا هنگام حذف بخش."
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,95 @@
+{
+  "INBOX": {
+    "LIST": {
+      "TITLE": "My Inbox",
+      "DISPLAY_DROPDOWN": "Anzeigen",
+      "LOADING": "Benachrichtigungen werden abgerufen",
+      "404": "Es gibt keine aktiven Benachrichtigungen in dieser Gruppe.",
+      "NO_NOTIFICATIONS": "Keine Benachrichtigungen",
+      "NOTE": "Benachrichtigungen aus allen abonnierten Posteingängen",
+      "NO_MESSAGES_AVAILABLE": "Hoppla! Nachrichten konnten nicht abgerufen werden",
+      "SNOOZED_UNTIL": "Stummschalten bis",
+      "SNOOZED_UNTIL_TOMORROW": "Schlummern bis morgen",
+      "SNOOZED_UNTIL_NEXT_WEEK": "Schlummern bis nächste Woche"
+    },
+    "ACTION_HEADER": {
+      "SNOOZE": "Schlummerbenachrichtigung",
+      "DELETE": "Benachrichtigung löschen",
+      "BACK": "Zurück"
+    },
+    "TYPES": {
+      "CONVERSATION_MENTION": "Sie wurden in einer Unterhaltung erwähnt",
+      "CONVERSATION_CREATION": "Neue Unterhaltung erstellt",
+      "CONVERSATION_ASSIGNMENT": "Eine Unterhaltung wurde Ihnen zugewiesen",
+      "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Neue Nachricht in einer zugewiesenen Unterhaltung",
+      "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Neue Nachricht in einer Unterhaltung, an dem Sie teilnehmen",
+      "SLA_MISSED_FIRST_RESPONSE": "SLA-Ziel für die erste Antwort in der Unterhaltung verpasst",
+      "SLA_MISSED_NEXT_RESPONSE": "SLA-Ziel für die nächste Antwort in der Unterhaltung verpasst",
+      "SLA_MISSED_RESOLUTION": "SLA-Ziel zur Lösung der Unterhaltung verpasst"
+    },
+    "TYPES_NEXT": {
+      "CONVERSATION_MENTION": "Mentioned",
+      "CONVERSATION_ASSIGNMENT": "Assigned to you",
+      "CONVERSATION_CREATION": "New Conversation",
+      "SLA_MISSED_FIRST_RESPONSE": "SLA breach",
+      "SLA_MISSED_NEXT_RESPONSE": "SLA breach",
+      "SLA_MISSED_RESOLUTION": "SLA breach",
+      "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Neue Nachricht",
+      "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Neue Nachricht",
+      "SNOOZED_UNTIL": "Snoozed for {time}",
+      "SNOOZED_ENDS": "Snooze ended"
+    },
+    "NO_CONTENT": "Kein Inhalt verfügbar",
+    "MENU_ITEM": {
+      "MARK_AS_READ": "Als gelesen markieren",
+      "MARK_AS_UNREAD": "Als ungelesen markieren",
+      "SNOOZE": "Erinnern",
+      "DELETE": "Löschen",
+      "MARK_ALL_READ": "Alle als gelesen markieren",
+      "DELETE_ALL": "Alles löschen",
+      "DELETE_ALL_READ": "Alle gelesenen löschen"
+    },
+    "DISPLAY_MENU": {
+      "SORT": "Sortieren",
+      "DISPLAY": "Anzeigen:",
+      "SORT_OPTIONS": {
+        "NEWEST": "Neuste",
+        "OLDEST": "Älteste",
+        "PRIORITY": "Priorität"
+      },
+      "DISPLAY_OPTIONS": {
+        "SNOOZED": "Erinnern",
+        "READ": "Lesen",
+        "LABELS": "Labels",
+        "CONVERSATION_ID": "Konversations-ID"
+      }
+    },
+    "ALERTS": {
+      "MARK_AS_READ": "Benachrichtigung als gelesen markiert",
+      "MARK_AS_UNREAD": "Benachrichtigung als ungelesen markiert",
+      "SNOOZE": "Benachrichtigung schlummern gestellt",
+      "DELETE": "Benachrichtigung gelöscht",
+      "MARK_ALL_READ": "Alle Benachrichtigungen als gelesen markiert",
+      "DELETE_ALL": "Alle Benachrichtigungen gelöscht",
+      "DELETE_ALL_READ": "Alle gelesenen Benachrichtigungen gelöscht"
+    },
+    "REAUTHORIZE": {
+      "TITLE": "Reauthorization Required",
+      "DESCRIPTION": "Your WhatsApp connection has expired. Please reconnect to continue receiving and sending messages.",
+      "BUTTON_TEXT": "Reconnect WhatsApp",
+      "LOADING_FACEBOOK": "Loading Facebook SDK...",
+      "SUCCESS": "WhatsApp reconnected successfully",
+      "ERROR": "Failed to reconnect WhatsApp. Please try again.",
+      "WHATSAPP_APP_ID_MISSING": "WhatsApp App ID is not configured. Please contact your administrator.",
+      "WHATSAPP_CONFIG_ID_MISSING": "WhatsApp Configuration ID is not configured. Please contact your administrator.",
+      "CONFIGURATION_ERROR": "Configuration error occurred during reauthorization.",
+      "FACEBOOK_LOAD_ERROR": "Failed to load Facebook SDK. Please try again.",
+      "TROUBLESHOOTING": {
+        "TITLE": "Troubleshooting",
+        "POPUP_BLOCKED": "Ensure pop-ups are allowed for this site",
+        "COOKIES": "Third-party cookies must be enabled",
+        "ADMIN_ACCESS": "You need admin access to the WhatsApp Business Account"
+      }
+    }
+  }
+}

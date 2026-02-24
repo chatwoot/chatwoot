@@ -1,0 +1,119 @@
+{
+  "FILTER": {
+    "TITLE": "篩選對話",
+    "SUBTITLE": "添加你的條件，並按下同意後，可以讓你的聊天更加簡潔",
+    "EDIT_CUSTOM_FILTER": "編輯資料夾",
+    "CUSTOM_VIEWS_SUBTITLE": "添加或移除一些條件與更新你的資料夾",
+    "ADD_NEW_FILTER": "添加查詢條件",
+    "FILTER_DELETE_ERROR": "哎呀，我們無法存檔！ 請添加至少一個條件來保存。",
+    "SUBMIT_BUTTON_LABEL": "篩選",
+    "UPDATE_BUTTON_LABEL": "更新資料夾",
+    "CANCEL_BUTTON_LABEL": "取消",
+    "CLEAR_BUTTON_LABEL": "清除查詢條件",
+    "FOLDER_LABEL": "資料夾名稱",
+    "FOLDER_QUERY_LABEL": "快速資料夾",
+    "EMPTY_VALUE_ERROR": "此欄位為必填項目.",
+    "TOOLTIP_LABEL": "篩選對話",
+    "QUERY_DROPDOWN_LABELS": {
+      "AND": "且",
+      "OR": "或"
+    },
+    "INPUT_PLACEHOLDER": "輸入文字或數值",
+    "OPERATOR_LABELS": {
+      "equal_to": "等於",
+      "not_equal_to": "不等於",
+      "does_not_contain": "不包含",
+      "is_present": "存在",
+      "is_not_present": "不存在",
+      "is_greater_than": "大於",
+      "is_less_than": "小於",
+      "days_before": "x 天前",
+      "starts_with": "從這開始",
+      "equalTo": "等於",
+      "notEqualTo": "不等於",
+      "contains": "包含",
+      "doesNotContain": "不包含",
+      "isPresent": "存在",
+      "isNotPresent": "不存在",
+      "isGreaterThan": "大於",
+      "isLessThan": "小於",
+      "daysBefore": "x 天前",
+      "startsWith": "從這開始"
+    },
+    "ATTRIBUTE_LABELS": {
+      "TRUE": "是",
+      "FALSE": "否"
+    },
+    "ATTRIBUTES": {
+      "STATUS": "狀態",
+      "ASSIGNEE_NAME": "指派客服",
+      "INBOX_NAME": "收件匣名稱",
+      "TEAM_NAME": "團隊名稱",
+      "CONVERSATION_IDENTIFIER": "對話ID",
+      "CAMPAIGN_NAME": "活動名稱",
+      "LABELS": "標籤",
+      "BROWSER_LANGUAGE": "瀏覽器語言",
+      "PRIORITY": "優先程度",
+      "COUNTRY_NAME": "國家名稱",
+      "REFERER_LINK": "推薦人連結",
+      "CUSTOM_ATTRIBUTE_LIST": "列表",
+      "CUSTOM_ATTRIBUTE_TEXT": "文字",
+      "CUSTOM_ATTRIBUTE_NUMBER": "數字",
+      "CUSTOM_ATTRIBUTE_LINK": "連結",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "勾選框",
+      "CREATED_AT": "建立於",
+      "LAST_ACTIVITY": "最後活動"
+    },
+    "ERRORS": {
+      "VALUE_REQUIRED": "此欄位為必填項目",
+      "ATTRIBUTE_KEY_REQUIRED": "必填項",
+      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "數值必須介於1-998之間"
+    },
+    "GROUPS": {
+      "STANDARD_FILTERS": "一般查詢條件",
+      "ADDITIONAL_FILTERS": "添加查詢條件",
+      "CUSTOM_ATTRIBUTES": "自訂屬性"
+    },
+    "CUSTOM_VIEWS": {
+      "ADD": {
+        "TITLE": "你要儲存這個篩選條件嗎？",
+        "LABEL": "為這個篩選條件命名",
+        "PLACEHOLDER": "給你的查詢條件命名，以便後面查看",
+        "ERROR_MESSAGE": "名稱為必填.",
+        "SAVE_BUTTON": "儲存篩選條件",
+        "CANCEL_BUTTON": "取消",
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "成功建立資料夾.",
+          "ERROR_MESSAGE": "建立資料夾時出現錯誤."
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "成功建立帳戶",
+          "ERROR_MESSAGE": "建立時出錯"
+        }
+      },
+      "EDIT": {
+        "EDIT_BUTTON": "編輯資料夾"
+      },
+      "DELETE": {
+        "DELETE_BUTTON": "刪除篩選條件",
+        "MODAL": {
+          "CONFIRM": {
+            "TITLE": "刪除確認",
+            "MESSAGE": "你確定要刪除此篩選條件嗎",
+            "YES": "是的，刪除",
+            "NO": "否，保留"
+          }
+        },
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "成功刪除資料夾.",
+          "ERROR_MESSAGE": "刪除資料夾時出現錯誤."
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "刪除成功",
+          "ERROR_MESSAGE": "刪除時出錯"
+        }
+      }
+    }
+  }
+}

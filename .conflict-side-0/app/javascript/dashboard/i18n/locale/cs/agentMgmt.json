@@ -1,0 +1,124 @@
+{
+  "AGENT_MGMT": {
+    "HEADER": "Agenti",
+    "HEADER_BTN_TXT": "Přidat agenta",
+    "LOADING": "Načítání seznamu agentů",
+    "DESCRIPTION": "An agent is a member of your customer support team who can view and respond to user messages. The list below shows all the agents in your account.",
+    "LEARN_MORE": "Learn about user roles",
+    "AGENT_TYPES": {
+      "ADMINISTRATOR": "Administrátor",
+      "AGENT": "Agent"
+    },
+    "LIST": {
+      "404": "K tomuto účtu nejsou přiřazeni žádní agenti",
+      "TITLE": "Spravujte agenty ve vašem týmu",
+      "DESC": "Můžete přidat/odebrat agenty do vašeho týmu.",
+      "NAME": "Název",
+      "EMAIL": "E-MAIL",
+      "STATUS": "Stav",
+      "ACTIONS": "Akce",
+      "VERIFIED": "Ověřeno",
+      "VERIFICATION_PENDING": "Probíhá ověření",
+      "AVAILABLE_CUSTOM_ROLE": "Available custom role permissions"
+    },
+    "ADD": {
+      "TITLE": "Přidat agenta do vašeho týmu",
+      "DESC": "Můžete přidat lidi, kteří budou schopni zvládnout podporu pro vaše schránky.",
+      "CANCEL_BUTTON_TEXT": "Zrušit",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Název agenta",
+          "PLACEHOLDER": "Zadejte název agenta"
+        },
+        "AGENT_TYPE": {
+          "LABEL": "Typ agenta",
+          "PLACEHOLDER": "Vyberte typ",
+          "ERROR": "Je vyžadován typ agenta"
+        },
+        "EMAIL": {
+          "LABEL": "E-mailová adresa",
+          "PLACEHOLDER": "Zadejte prosím e-mailovou adresu agenta"
+        },
+        "SUBMIT": "Přidat agenta"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Agent byl úspěšně přidán",
+        "EXIST_MESSAGE": "E-mail agenta je již používán, zkuste prosím jinou e-mailovou adresu",
+        "ERROR_MESSAGE": "Nelze se připojit k Woot serveru, opakujte akci později"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Vymazat",
+      "API": {
+        "SUCCESS_MESSAGE": "Agent byl úspěšně odstraněn",
+        "ERROR_MESSAGE": "Nelze se připojit k Woot serveru, opakujte akci později"
+      },
+      "CONFIRM": {
+        "TITLE": "Potvrdit odstranění",
+        "MESSAGE": "Opravdu chcete odstranit ",
+        "YES": "Ano, odstranit ",
+        "NO": "Ne, zachovat "
+      }
+    },
+    "EDIT": {
+      "TITLE": "Upravit agenta",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Název agenta",
+          "PLACEHOLDER": "Zadejte název agenta"
+        },
+        "AGENT_TYPE": {
+          "LABEL": "Typ agenta",
+          "PLACEHOLDER": "Vyberte typ",
+          "ERROR": "Je vyžadován typ agenta"
+        },
+        "EMAIL": {
+          "LABEL": "E-mailová adresa",
+          "PLACEHOLDER": "Zadejte prosím e-mailovou adresu agenta"
+        },
+        "AGENT_AVAILABILITY": {
+          "LABEL": "Dostupnost",
+          "PLACEHOLDER": "Please select an availability status",
+          "ERROR": "Availability is required"
+        },
+        "SUBMIT": "Upravit agenta"
+      },
+      "BUTTON_TEXT": "Upravit",
+      "CANCEL_BUTTON_TEXT": "Zrušit",
+      "API": {
+        "SUCCESS_MESSAGE": "Agent úspěšně aktualizován",
+        "ERROR_MESSAGE": "Nelze se připojit k Woot serveru, opakujte akci později"
+      },
+      "PASSWORD_RESET": {
+        "ADMIN_RESET_BUTTON": "Obnovit heslo",
+        "ADMIN_SUCCESS_MESSAGE": "E-mail s instrukcemi pro obnovení hesla byl odeslán agentovi",
+        "SUCCESS_MESSAGE": "Heslo agenta bylo úspěšně obnoveno",
+        "ERROR_MESSAGE": "Nelze se připojit k Woot serveru, opakujte akci později"
+      }
+    },
+    "SEARCH": {
+      "NO_RESULTS": "Žádné výsledky."
+    },
+    "MULTI_SELECTOR": {
+      "PLACEHOLDER": "Nic",
+      "TITLE": {
+        "AGENT": "Vybrat agenta",
+        "TEAM": "Vybrat tým"
+      },
+      "LIST": {
+        "NONE": "Nic"
+      },
+      "SEARCH": {
+        "NO_RESULTS": {
+          "AGENT": "Nenalezeni žádní agenti",
+          "TEAM": "Nenalezeny žádné týmy"
+        },
+        "PLACEHOLDER": {
+          "AGENT": "Hledat agenty",
+          "TEAM": "Hledat týmy",
+          "INPUT": "Search for agents"
+        }
+      }
+    }
+  }
+}

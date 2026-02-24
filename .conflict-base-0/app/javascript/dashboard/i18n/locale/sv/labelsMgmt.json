@@ -1,0 +1,85 @@
+{
+  "LABEL_MGMT": {
+    "HEADER": "Etiketter",
+    "HEADER_BTN_TXT": "Lägg till etikett",
+    "LOADING": "Hämtar etiketter",
+    "DESCRIPTION": "Labels help you categorize and prioritize conversations and leads. You can assign a label to a conversation or contact using the side panel.",
+    "LEARN_MORE": "Learn more about labels",
+    "SEARCH_404": "Det finns inga objekt som matchar denna fråga",
+    "LIST": {
+      "404": "Det finns inga etiketter tillgängliga på detta konto.",
+      "TITLE": "Hantera etiketter",
+      "DESC": "Etiketter låter dig gruppera ihop konversationer.",
+      "TABLE_HEADER": {
+        "NAME": "Namn",
+        "DESCRIPTION": "Beskrivning",
+        "COLOR": "Färg"
+      }
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "Etikettnamn",
+        "PLACEHOLDER": "Etikettnamn",
+        "REQUIRED_ERROR": "Label name is required",
+        "MINIMUM_LENGTH_ERROR": "Minimum length 2 is required",
+        "VALID_ERROR": "Only Alphabets, Numbers, Hyphen and Underscore are allowed"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Beskrivning",
+        "PLACEHOLDER": "Etikettbeskrivning"
+      },
+      "COLOR": {
+        "LABEL": "Färg"
+      },
+      "SHOW_ON_SIDEBAR": {
+        "LABEL": "Visa etikett i sidofältet"
+      },
+      "EDIT": "Redigera",
+      "CREATE": "Skapa",
+      "DELETE": "Radera",
+      "CANCEL": "Avbryt"
+    },
+    "SUGGESTIONS": {
+      "TOOLTIP": {
+        "SINGLE_SUGGESTION": "Add label to conversation",
+        "MULTIPLE_SUGGESTION": "Select this label",
+        "DESELECT": "Deselect label",
+        "DISMISS": "Dismiss suggestion"
+      },
+      "POWERED_BY": "Chatwoot AI",
+      "DISMISS": "Dismiss",
+      "ADD_SELECTED_LABELS": "Add selected labels",
+      "ADD_SELECTED_LABEL": "Add selected label",
+      "ADD_ALL_LABELS": "Add all labels",
+      "SUGGESTED_LABELS": "Suggested labels"
+    },
+    "ADD": {
+      "TITLE": "Lägg till etikett",
+      "DESC": "Etiketter låter dig gruppera ihop konversationer.",
+      "API": {
+        "SUCCESS_MESSAGE": "Etiketten har lagts till",
+        "ERROR_MESSAGE": "Ett fel uppstod, vänligen försök igen"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Redigera etikett",
+      "API": {
+        "SUCCESS_MESSAGE": "Etiketten har uppdaterats",
+        "ERROR_MESSAGE": "Ett fel uppstod, vänligen försök igen"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Radera",
+      "API": {
+        "SUCCESS_MESSAGE": "Etiketten har tagits bort",
+        "ERROR_MESSAGE": "Ett fel uppstod, vänligen försök igen"
+      },
+      "CONFIRM": {
+        "TITLE": "Bekräfta borttagning",
+        "MESSAGE": "Är du säker på att ta bort ",
+        "YES": "Ja, ta bort ",
+        "NO": "Nej, behåll "
+      }
+    }
+  }
+}

@@ -1,0 +1,44 @@
+post:
+  tags:
+    - Inboxes
+  operationId: updateAgentBot
+  summary: Add or remove agent bot
+  security:
+    - userApiKey: []
+  description: To add an agent bot pass agent_bot id, to remove agent bot from an inbox pass null
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+    - name: id
+      in: path
+      schema:
+        type: number
+      description: ID of the inbox
+      required: true
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - agent_bot
+          properties:
+            agent_bot:
+              type: number
+              description: 'Agent bot ID'
+              example: 1
+  responses:
+    '204':
+      description: Success
+    '404':
+      description: Inbox not found, Agent bot not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/bad_request_error'
+    '403':
+      description: Access denied
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/bad_request_error'

@@ -1,0 +1,103 @@
+{
+  "AGENT_BOTS": {
+    "HEADER": "机器人",
+    "LOADING_EDITOR": "正在加载编辑器...",
+    "DESCRIPTION": "客服机器人就像您团队中最出色的成员。它们可以处理琐事，让您专注于重要的事情。试试看吧。您可以在此页面管理您的机器人，或使用“配置新机器人”按钮创建新的机器人。",
+    "LEARN_MORE": "了解客服机器人",
+    "GLOBAL_BOT": "系统级机器人",
+    "GLOBAL_BOT_BADGE": "系统",
+    "AVATAR": {
+      "SUCCESS_DELETE": "机器人头像删除成功",
+      "ERROR_DELETE": "删除机器人头像时出错，请重试"
+    },
+    "BOT_CONFIGURATION": {
+      "TITLE": "选择一个客服机器人",
+      "DESC": "将代理机器人分配到您的收件箱。他们可以处理初始对话，并在必要时将其转移给真人客服。",
+      "SUBMIT": "更新",
+      "DISCONNECT": "断开机器人",
+      "SUCCESS_MESSAGE": "成功更新代理机器人。",
+      "DISCONNECTED_SUCCESS_MESSAGE": "成功断开代理机器人。",
+      "ERROR_MESSAGE": "无法更新代理机器人。请再试一次。",
+      "DISCONNECTED_ERROR_MESSAGE": "无法断开客服机器人。请再试一次。",
+      "SELECT_PLACEHOLDER": "选择机器人"
+    },
+    "ADD": {
+      "TITLE": "添加机器人",
+      "CANCEL_BUTTON_TEXT": "取消",
+      "API": {
+        "SUCCESS_MESSAGE": "机器人添加成功.",
+        "ERROR_MESSAGE": "无法添加机器人。请稍后再试。"
+      }
+    },
+    "LIST": {
+      "404": "未找到机器人。您可以通过点击「添加机器人」按钮来创建一个机器人。",
+      "LOADING": "正在获取机器人...",
+      "TABLE_HEADER": {
+        "DETAILS": "机器人详情",
+        "URL": "Webhook 网址"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "删除",
+      "TITLE": "删除机器人",
+      "CONFIRM": {
+        "TITLE": "确认删除",
+        "MESSAGE": "您确定要删除 {name}？",
+        "YES": "是，删除",
+        "NO": "不，保留"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "成功删除机器人.",
+        "ERROR_MESSAGE": "无法删除机器人。请再试一次。"
+      }
+    },
+    "EDIT": {
+      "BUTTON_TEXT": "编辑",
+      "TITLE": "编辑机器人",
+      "API": {
+        "SUCCESS_MESSAGE": "机器人更新成功.",
+        "ERROR_MESSAGE": "无法更新机器人。请再试一次。"
+      }
+    },
+    "ACCESS_TOKEN": {
+      "TITLE": "访问令牌",
+      "DESCRIPTION": "复制访问令牌并安全保存",
+      "COPY_SUCCESSFUL": "访问令牌已复制到剪贴板",
+      "RESET_SUCCESS": "成功重新生成访问令牌",
+      "RESET_ERROR": "无法重新生成访问令牌。请重试"
+    },
+    "FORM": {
+      "AVATAR": {
+        "LABEL": "机器人头像"
+      },
+      "NAME": {
+        "LABEL": "机器人名称",
+        "PLACEHOLDER": "输入机器人名称",
+        "REQUIRED": "机器人名称是必需的"
+      },
+      "DESCRIPTION": {
+        "LABEL": "描述信息",
+        "PLACEHOLDER": "这个机器人的用途是？"
+      },
+      "WEBHOOK_URL": {
+        "LABEL": "Webhook 网址",
+        "PLACEHOLDER": "https://example.com/webhook",
+        "REQUIRED": "Webhook URL 是必需的"
+      },
+      "ERRORS": {
+        "NAME": "机器人名称是必需的",
+        "URL": "Webhook URL 是必需的",
+        "VALID_URL": "请输入一个以 http:// 或 https:// 开头的有效URL"
+      },
+      "CANCEL": "取消",
+      "CREATE": "创建机器人",
+      "UPDATE": "更新机器人"
+    },
+    "WEBHOOK": {
+      "DESCRIPTION": "配置Webhook 机器人与您的自定义服务集成。机器人将接收和处理会话中的事件，并且能够响应这些事件。"
+    },
+    "TYPES": {
+      "WEBHOOK": "Webhook 机器人"
+    }
+  }
+}

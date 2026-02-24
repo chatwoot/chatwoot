@@ -1,0 +1,41 @@
+{
+  "LOGIN": {
+    "TITLE": "Entra a Chatwoot",
+    "EMAIL": {
+      "LABEL": "Correu electrònic",
+      "PLACEHOLDER": "example{'@'}companyname.com",
+      "ERROR": "Introduïu una adreça de correu electrònic vàlida"
+    },
+    "PASSWORD": {
+      "LABEL": "Contrasenya",
+      "PLACEHOLDER": "Contrasenya"
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Iniciada la sessió amb èxit",
+      "ERROR_MESSAGE": "No s'ha pogut connectar amb el servidor Woot. Torna-ho a provar més endavant",
+      "UNAUTH": "Nom d'usuari / contrasenya incorrecte. Torna-ho a provar-ho"
+    },
+    "OAUTH": {
+      "GOOGLE_LOGIN": "Inicieu sessió amb Google",
+      "BUSINESS_ACCOUNTS_ONLY": "Si us plau, utilitzeu l'adreça de correu electrònic de la vostra empresa per iniciar sessió",
+      "NO_ACCOUNT_FOUND": "No hem trobat cap compte per a la vostra adreça de correu electrònic."
+    },
+    "FORGOT_PASSWORD": "Has oblidat la contrasenya?",
+    "CREATE_NEW_ACCOUNT": "Crear un nou compte",
+    "SUBMIT": "Inicia la sessió",
+    "SAML": {
+      "LABEL": "Login via SSO",
+      "TITLE": "Initiate Single Sign-on (SSO)",
+      "SUBTITLE": "Enter your work email to access your organization",
+      "BACK_TO_LOGIN": "Login via Password",
+      "WORK_EMAIL": {
+        "LABEL": "Work Email",
+        "PLACEHOLDER": "Enter your work email"
+      },
+      "SUBMIT": "Continue with SSO",
+      "API": {
+        "ERROR_MESSAGE": "SSO authentication failed. Please check your credentials and try again."
+      }
+    }
+  }
+}

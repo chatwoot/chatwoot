@@ -1,0 +1,184 @@
+{
+  "AUTOMATION": {
+    "HEADER": "Automation",
+    "DESCRIPTION": "자동화를 통해 라벨을 추가하고 가장 적합한 상담원에게 대화를 배정하는 등 수작업이 필요한 기존 프로세스를 대체하고 간소화할 수 있습니다. 이를 통해 팀은 일상적인 업무에 소요되는 시간을 줄이면서 자신의 강점에 집중할 수 있습니다.",
+    "LEARN_MORE": "Learn more about automation",
+    "HEADER_BTN_TXT": "Add Automation Rule",
+    "LOADING": "Fetching automation rules",
+    "ADD": {
+      "TITLE": "Add Automation Rule",
+      "SUBMIT": "만들기",
+      "CANCEL_BUTTON_TEXT": "취소",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Rule Name",
+          "PLACEHOLDER": "Enter rule name",
+          "ERROR": "이름이 필요합니다"
+        },
+        "DESC": {
+          "LABEL": "내용",
+          "PLACEHOLDER": "Enter rule description",
+          "ERROR": "설명이 필요합니다"
+        },
+        "EVENT": {
+          "LABEL": "Event",
+          "PLACEHOLDER": "Please select one",
+          "ERROR": "Event is required"
+        },
+        "CONDITIONS": {
+          "LABEL": "Conditions"
+        },
+        "ACTIONS": {
+          "LABEL": "액션"
+        }
+      },
+      "CONDITION_BUTTON_LABEL": "Add Condition",
+      "ACTION_BUTTON_LABEL": "Add Action",
+      "API": {
+        "SUCCESS_MESSAGE": "Automation rule added successfully",
+        "ERROR_MESSAGE": "Could not able to create a automation rule, Please try again later"
+      }
+    },
+    "LIST": {
+      "TABLE_HEADER": {
+        "NAME": "이름",
+        "DESCRIPTION": "내용",
+        "ACTIVE": "Active",
+        "CREATED_ON": "Created on"
+      },
+      "404": "No automation rules found"
+    },
+    "DELETE": {
+      "TITLE": "Delete Automation Rule",
+      "SUBMIT": "삭제",
+      "CANCEL_BUTTON_TEXT": "취소",
+      "CONFIRM": {
+        "TITLE": "삭제 확인",
+        "MESSAGE": "삭제하시겠습니까? ",
+        "YES": "예, 삭제합니다. ",
+        "NO": "아니요, 유지해주세요. "
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Automation rule deleted successfully",
+        "ERROR_MESSAGE": "Could not able to delete a automation rule, Please try again later"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Edit Automation Rule",
+      "SUBMIT": "업데이트",
+      "CANCEL_BUTTON_TEXT": "취소",
+      "API": {
+        "SUCCESS_MESSAGE": "Automation rule updated successfully",
+        "ERROR_MESSAGE": "Could not update automation rule, Please try again later"
+      }
+    },
+    "CLONE": {
+      "TOOLTIP": "Clone",
+      "API": {
+        "SUCCESS_MESSAGE": "Automation cloned successfully",
+        "ERROR_MESSAGE": "Could not clone automation rule, Please try again later"
+      }
+    },
+    "FORM": {
+      "EDIT": "수정",
+      "CREATE": "만들기",
+      "DELETE": "삭제",
+      "CANCEL": "취소",
+      "RESET_MESSAGE": "Changing event type will reset the conditions and events you have added below"
+    },
+    "CONDITION": {
+      "DELETE_MESSAGE": "You need to have atleast one condition to save",
+      "CONTACT_CUSTOM_ATTR_LABEL": "Contact Custom Attributes",
+      "CONVERSATION_CUSTOM_ATTR_LABEL": "Conversation Custom Attributes"
+    },
+    "ACTION": {
+      "DELETE_MESSAGE": "You need to have atleast one action to save",
+      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Enter your message here",
+      "TEAM_DROPDOWN_PLACEHOLDER": "Select teams",
+      "EMAIL_INPUT_PLACEHOLDER": "Enter email",
+      "URL_INPUT_PLACEHOLDER": "Enter URL"
+    },
+    "TOGGLE": {
+      "ACTIVATION_TITLE": "Activate Automation Rule",
+      "DEACTIVATION_TITLE": "Deactivate Automation Rule",
+      "ACTIVATION_DESCRIPTION": "This action will activate the automation rule '{automationName}'. Are you sure you want to proceed?",
+      "DEACTIVATION_DESCRIPTION": "This action will deactivate the automation rule '{automationName}'. Are you sure you want to proceed?",
+      "ACTIVATION_SUCCESFUL": "Automation Rule Activated Successfully",
+      "DEACTIVATION_SUCCESFUL": "Automation Rule Deactivated Successfully",
+      "ACTIVATION_ERROR": "Could not Activate Automation, Please try again later",
+      "DEACTIVATION_ERROR": "Could not Deactivate Automation, Please try again later",
+      "CONFIRMATION_LABEL": "예",
+      "CANCEL_LABEL": "아니오"
+    },
+    "ATTACHMENT": {
+      "UPLOAD_ERROR": "Could not upload attachment, Please try again",
+      "LABEL_IDLE": "Upload Attachment",
+      "LABEL_UPLOADING": "업로드 중...",
+      "LABEL_UPLOADED": "Successfully Uploaded",
+      "LABEL_UPLOAD_FAILED": "Upload Failed"
+    },
+    "ERRORS": {
+      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
+      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "VALUE_REQUIRED": "값이 필요합니다.",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998",
+      "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
+      "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
+      "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
+    },
+    "NONE_OPTION": "없음",
+    "EVENTS": {
+      "CONVERSATION_CREATED": "Conversation Created",
+      "CONVERSATION_UPDATED": "Conversation Updated",
+      "MESSAGE_CREATED": "Message Created",
+      "CONVERSATION_RESOLVED": "Conversation Resolved",
+      "CONVERSATION_OPENED": "Conversation Opened"
+    },
+    "ACTIONS": {
+      "ASSIGN_AGENT": "Assign to Agent",
+      "ASSIGN_TEAM": "Assign a Team",
+      "ADD_LABEL": "Add a Label",
+      "REMOVE_LABEL": "Remove a Label",
+      "SEND_EMAIL_TO_TEAM": "Send an Email to Team",
+      "SEND_EMAIL_TRANSCRIPT": "Send an Email Transcript",
+      "MUTE_CONVERSATION": "대화 음소거",
+      "SNOOZE_CONVERSATION": "Snooze Conversation",
+      "RESOLVE_CONVERSATION": "Resolve Conversation",
+      "SEND_WEBHOOK_EVENT": "Send Webhook Event",
+      "SEND_ATTACHMENT": "Send Attachment",
+      "SEND_MESSAGE": "Send a Message",
+      "ADD_PRIVATE_NOTE": "Add a Private Note",
+      "CHANGE_PRIORITY": "Change Priority",
+      "ADD_SLA": "Add SLA",
+      "OPEN_CONVERSATION": "Open conversation"
+    },
+    "MESSAGE_TYPES": {
+      "INCOMING": "Incoming Message",
+      "OUTGOING": "Outgoing Message"
+    },
+    "PRIORITY_TYPES": {
+      "NONE": "없음",
+      "LOW": "Low",
+      "MEDIUM": "Medium",
+      "HIGH": "High",
+      "URGENT": "Urgent"
+    },
+    "ATTRIBUTES": {
+      "MESSAGE_TYPE": "Message Type",
+      "MESSAGE_CONTAINS": "Message Contains",
+      "EMAIL": "이메일",
+      "INBOX": "받은 메시지함",
+      "CONVERSATION_LANGUAGE": "Conversation Language",
+      "PHONE_NUMBER": "전화 번호",
+      "STATUS": "상태",
+      "BROWSER_LANGUAGE": "언어 표시",
+      "MAIL_SUBJECT": "Email Subject",
+      "COUNTRY_NAME": "국가",
+      "REFERER_LINK": "Referrer Link",
+      "ASSIGNEE_NAME": "Assignee",
+      "TEAM_NAME": "Team",
+      "PRIORITY": "Priority",
+      "LABELS": "라벨"
+    }
+  }
+}

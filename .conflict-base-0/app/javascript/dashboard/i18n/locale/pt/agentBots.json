@@ -1,0 +1,103 @@
+{
+  "AGENT_BOTS": {
+    "HEADER": "Bots",
+    "LOADING_EDITOR": "A carregar editor...",
+    "DESCRIPTION": "Os Agentes Bots são como os membros mais fabulosos da sua equipa. Tratam das pequenas coisas, para que se possa concentrar no que realmente importa. Experimente. Pode gerir os seus bots nesta página ou criar novos, utilizando o botão \"Adicionar Bot\".",
+    "LEARN_MORE": "Learn about agent bots",
+    "GLOBAL_BOT": "Bot do sistema",
+    "GLOBAL_BOT_BADGE": "Sistema",
+    "AVATAR": {
+      "SUCCESS_DELETE": "Avatar do bot apagado",
+      "ERROR_DELETE": "Erro ao apagar avatar do bot, por favor tente novamente"
+    },
+    "BOT_CONFIGURATION": {
+      "TITLE": "Selecione um agente bot",
+      "DESC": "Atribua um agente bot à sua caixa de entrada. Eles podem lidar com conversas iniciais e transferi-las para um agente humano quando necessário.",
+      "SUBMIT": "Atualização",
+      "DISCONNECT": "Desligar bot",
+      "SUCCESS_MESSAGE": "Agente bot atualizado com sucesso.",
+      "DISCONNECTED_SUCCESS_MESSAGE": "O agente bot foi desligado com sucesso.",
+      "ERROR_MESSAGE": "Não foi possível atualizar o agente bot. Por favor, tente novamente.",
+      "DISCONNECTED_ERROR_MESSAGE": "Não foi possível desligar o agente bot. Por favor, tente novamente.",
+      "SELECT_PLACEHOLDER": "Selecionar bot"
+    },
+    "ADD": {
+      "TITLE": "Adicionar Bot",
+      "CANCEL_BUTTON_TEXT": "Cancelar",
+      "API": {
+        "SUCCESS_MESSAGE": "Bot adicionado com sucesso.",
+        "ERROR_MESSAGE": "Não foi possível adicionar o bot. Por favor, tente novamente mais tarde."
+      }
+    },
+    "LIST": {
+      "404": "Nenhum bot encontrado. Pode criar um bot clicando no botão \"Adicionar Bot\".",
+      "LOADING": "A carregar bots...",
+      "TABLE_HEADER": {
+        "DETAILS": "Detalhes do bot",
+        "URL": "URL do Webhook"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Excluir",
+      "TITLE": "Apagar bot",
+      "CONFIRM": {
+        "TITLE": "Confirmar exclusão",
+        "MESSAGE": "Tem a certeza que pretende apagar o {name}?",
+        "YES": "Sim, excluir",
+        "NO": "Não, manter"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Bot apagado com sucesso.",
+        "ERROR_MESSAGE": "Não foi possível apagar o bot. Por favor, tente novamente."
+      }
+    },
+    "EDIT": {
+      "BUTTON_TEXT": "Editar",
+      "TITLE": "Editar bot",
+      "API": {
+        "SUCCESS_MESSAGE": "Bot atualizado com sucesso.",
+        "ERROR_MESSAGE": "Não foi possível atualizar o bot. Por favor, tente novamente."
+      }
+    },
+    "ACCESS_TOKEN": {
+      "TITLE": "Token de acesso",
+      "DESCRIPTION": "Copie o token de acesso e guarde-o de forma segura",
+      "COPY_SUCCESSFUL": "Token de acesso copiado para área de transferência",
+      "RESET_SUCCESS": "O token de acesso voltou a ser gerado",
+      "RESET_ERROR": "Não foi possível voltar a gerar o token de acesso, por favor tente novamente"
+    },
+    "FORM": {
+      "AVATAR": {
+        "LABEL": "Bot avatar"
+      },
+      "NAME": {
+        "LABEL": "Nome do bot",
+        "PLACEHOLDER": "Insira o nome do bot",
+        "REQUIRED": "O nome do bot é obrigatório"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Descrição",
+        "PLACEHOLDER": "O que faz este bot?"
+      },
+      "WEBHOOK_URL": {
+        "LABEL": "URL do Webhook",
+        "PLACEHOLDER": "https://exemplo.com/webhook",
+        "REQUIRED": "O URL do Webhook é obrigatório"
+      },
+      "ERRORS": {
+        "NAME": "O nome do bot é obrigatório",
+        "URL": "O URL do Webhook é obrigatório",
+        "VALID_URL": "Por favor, insira um URL válido que comece por http:// ou https://"
+      },
+      "CANCEL": "Cancelar",
+      "CREATE": "Criar Bot",
+      "UPDATE": "Atualizar Bot"
+    },
+    "WEBHOOK": {
+      "DESCRIPTION": "Configure um webhook para o bot integrar com os seus serviços personalizados. O bot receberá e processará eventos de conversas e pode respondê-los."
+    },
+    "TYPES": {
+      "WEBHOOK": "Webhook bot"
+    }
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "INTEGRATION_APPS": {
+    "FETCHING": "Buscando integrações",
+    "NO_HOOK_CONFIGURED": "Não há integrações {integrationId} configuradas nesta conta.",
+    "HEADER": "Aplicações",
+    "STATUS": {
+      "ENABLED": "Ativado",
+      "DISABLED": "Desativado"
+    },
+    "CONFIGURE": "Configurar",
+    "ADD_BUTTON": "Adicionar um novo hook",
+    "DELETE": {
+      "TITLE": {
+        "INBOX": "Confirmar exclusão",
+        "ACCOUNT": "Desconectado"
+      },
+      "MESSAGE": {
+        "INBOX": "Você tem certeza que deseja excluir?",
+        "ACCOUNT": "Tem certeza que deseja desconectar?"
+      },
+      "CONFIRM_BUTTON_TEXT": {
+        "INBOX": "Sim, excluir",
+        "ACCOUNT": "Sim, Desconectar"
+      },
+      "CANCEL_BUTTON_TEXT": "Cancelar",
+      "API": {
+        "SUCCESS_MESSAGE": "Webhook excluído com sucesso",
+        "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot, por favor tente novamente mais tarde"
+      }
+    },
+    "LIST": {
+      "FETCHING": "Buscando integrações",
+      "INBOX": "Caixa de Entrada",
+      "DELETE": {
+        "BUTTON_TEXT": "Excluir"
+      }
+    },
+    "ADD": {
+      "FORM": {
+        "INBOX": {
+          "LABEL": "Selecionar caixa de entrada",
+          "PLACEHOLDER": "Selecionar caixa de entrada"
+        },
+        "SUBMIT": "Criar",
+        "CANCEL": "Cancelar"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Integração adicionada com sucesso",
+        "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot, por favor tente novamente mais tarde"
+      }
+    },
+    "CONNECT": {
+      "BUTTON_TEXT": "Conectar"
+    },
+    "DISCONNECT": {
+      "BUTTON_TEXT": "Desconectado"
+    },
+    "SIDEBAR_DESCRIPTION": {
+      "DIALOGFLOW": "Dialogflow é uma plataforma de processamento de linguagem natural para a construção de interfaces conversais. Integrá-lo com {installationName} permite que os bots lidem primeiro com consultas e transfiram para os agentes quando necessário. Ele ajuda a qualificar leads e reduzir a carga de trabalho dos agentes respondendo às FAQ. Para adicionar um fluxo de diálogo (Dialogflow), crie uma Conta de Serviço no Google Console e compartilhe as credenciais. Consulte sua documentação para obter detalhes"
+    }
+  }
+}

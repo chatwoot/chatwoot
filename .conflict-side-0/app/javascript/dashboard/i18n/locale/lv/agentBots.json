@@ -1,0 +1,103 @@
+{
+  "AGENT_BOTS": {
+    "HEADER": "Roboti",
+    "LOADING_EDITOR": "Notiek redaktora ielāde...",
+    "DESCRIPTION": "Agent Bots are like the most fabulous members of your team. They can handle the small stuff, so you can focus on the stuff that matters. Give them a try. You can manage your bots from this page or create new ones using the 'Add Bot' button.",
+    "LEARN_MORE": "Uzzināt vairāk par aģentiem robotiem",
+    "GLOBAL_BOT": "System bot",
+    "GLOBAL_BOT_BADGE": "Sistēma",
+    "AVATAR": {
+      "SUCCESS_DELETE": "Bot avatar deleted successfully",
+      "ERROR_DELETE": "Error deleting bot avatar, please try again"
+    },
+    "BOT_CONFIGURATION": {
+      "TITLE": "Izvēlieties aģentu robotu",
+      "DESC": "Piešķiriet savai iesūtnei Aģentu Robotu. Viņi var apstrādāt sākotnējās sarunas un vajadzības gadījumā tās pārsūtīt tiešajam aģentam.",
+      "SUBMIT": "Atjaunināt",
+      "DISCONNECT": "Atvienot robotu",
+      "SUCCESS_MESSAGE": "Aģents robots ir veiksmīgi atjaunināts.",
+      "DISCONNECTED_SUCCESS_MESSAGE": "Aģenta robots ir veiksmīgi atvienots.",
+      "ERROR_MESSAGE": "Nevarēja atjaunināt aģenta robotu. Lūdzu mēģiniet vēlreiz.",
+      "DISCONNECTED_ERROR_MESSAGE": "Nevarēja atvienot aģenta robotu. Lūdzu mēģiniet vēlreiz.",
+      "SELECT_PLACEHOLDER": "Izvēlieties robotu"
+    },
+    "ADD": {
+      "TITLE": "Add Bot",
+      "CANCEL_BUTTON_TEXT": "Atcelt",
+      "API": {
+        "SUCCESS_MESSAGE": "Robots ir veiksmīgi pievienots.",
+        "ERROR_MESSAGE": "Nevarēja pievienot robotu. Lūdzu, pamēģiniet vēlāk vēlreiz."
+      }
+    },
+    "LIST": {
+      "404": "No bots found. You can create a bot by clicking the 'Add Bot' button.",
+      "LOADING": "Notiek robotu iegūšana...",
+      "TABLE_HEADER": {
+        "DETAILS": "Bot Details",
+        "URL": "Webhook URL"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Dzēst",
+      "TITLE": "Dzēst robotu",
+      "CONFIRM": {
+        "TITLE": "Apstiprināt Dzēšanu",
+        "MESSAGE": "Are you sure you want to delete {name}?",
+        "YES": "Jā, Dzēst",
+        "NO": "Nē, Paturēt"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Robots ir veiksmīgi izdzēsts.",
+        "ERROR_MESSAGE": "Nevarēja izdzēst robotu. Lūdzu mēģiniet vēlreiz."
+      }
+    },
+    "EDIT": {
+      "BUTTON_TEXT": "Rediģēt",
+      "TITLE": "Rediģēt robotu",
+      "API": {
+        "SUCCESS_MESSAGE": "Robots ir veiksmīgi atjaunināts.",
+        "ERROR_MESSAGE": "Nevarēja atjaunināt robotu. Lūdzu mēģiniet vēlreiz."
+      }
+    },
+    "ACCESS_TOKEN": {
+      "TITLE": "Piekļuves Token",
+      "DESCRIPTION": "Copy the access token and save it securely",
+      "COPY_SUCCESSFUL": "Access token copied to clipboard",
+      "RESET_SUCCESS": "Access token regenerated successfully",
+      "RESET_ERROR": "Unable to regenerate access token. Please try again"
+    },
+    "FORM": {
+      "AVATAR": {
+        "LABEL": "Bot avatar"
+      },
+      "NAME": {
+        "LABEL": "Robota nosaukums",
+        "PLACEHOLDER": "Enter bot name",
+        "REQUIRED": "Jānorāda robota nosaukums"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Apraksts",
+        "PLACEHOLDER": "Ko dara šis robots?"
+      },
+      "WEBHOOK_URL": {
+        "LABEL": "Webhook URL",
+        "PLACEHOLDER": "https://example.com/webhook",
+        "REQUIRED": "Webhook URL is required"
+      },
+      "ERRORS": {
+        "NAME": "Jānorāda robota nosaukums",
+        "URL": "Webhook URL is required",
+        "VALID_URL": "Please enter a valid URL starting with http:// or https://"
+      },
+      "CANCEL": "Atcelt",
+      "CREATE": "Create Bot",
+      "UPDATE": "Update Bot"
+    },
+    "WEBHOOK": {
+      "DESCRIPTION": "Configure a webhook bot to integrate with your custom services. The bot will receive and process events from conversations and can respond to them."
+    },
+    "TYPES": {
+      "WEBHOOK": "Webhook robots"
+    }
+  }
+}

@@ -1,0 +1,77 @@
+{
+  "CANNED_MGMT": {
+    "HEADER": "Balasan Canned",
+    "LEARN_MORE": "Learn more about canned responses",
+    "DESCRIPTION": "Canned Responses are pre-written reply templates that help you quickly respond to a conversation. Agents can type the '/' character followed by the shortcode to insert a canned response during a conversation. ",
+    "HEADER_BTN_TXT": "Add canned response",
+    "LOADING": "Fetching canned responses...",
+    "SEARCH_404": "Tidak ada item yang cocok dengan kueri ini.",
+    "LIST": {
+      "404": "Tidak ada balasan canned yang tersedia di akun ini.",
+      "TITLE": "Kelola Balasan Canned",
+      "DESC": "Canned Responses are predefined reply templates which can be used to quickly send out replies to conversations.",
+      "TABLE_HEADER": {
+        "SHORT_CODE": "Short code",
+        "CONTENT": "Konten",
+        "ACTIONS": "Aksi"
+      }
+    },
+    "ADD": {
+      "TITLE": "Add canned response",
+      "DESC": "Canned Responses are predefined reply templates which can be used to quickly send out replies to conversations.",
+      "CANCEL_BUTTON_TEXT": "Batalkan",
+      "FORM": {
+        "SHORT_CODE": {
+          "LABEL": "Short code",
+          "PLACEHOLDER": "Please enter a short code.",
+          "ERROR": "Short Code is required."
+        },
+        "CONTENT": {
+          "LABEL": "Pesan",
+          "PLACEHOLDER": "Please write the message you want to save as a template to use later.",
+          "ERROR": "Message is required."
+        },
+        "SUBMIT": "Kirim"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Canned response added successfully.",
+        "ERROR_MESSAGE": "Tidak dapat terhubung ke Server Woot, Silahkan coba lagi nanti"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Edit canned response",
+      "CANCEL_BUTTON_TEXT": "Batalkan",
+      "FORM": {
+        "SHORT_CODE": {
+          "LABEL": "Short code",
+          "PLACEHOLDER": "Please enter a shortcode.",
+          "ERROR": "Short code is required."
+        },
+        "CONTENT": {
+          "LABEL": "Pesan",
+          "PLACEHOLDER": "Please write the message you want to save as a template to use later.",
+          "ERROR": "Pesan wajib diisi."
+        },
+        "SUBMIT": "Kirim"
+      },
+      "BUTTON_TEXT": "Edit",
+      "API": {
+        "SUCCESS_MESSAGE": "Canned response is updated successfully.",
+        "ERROR_MESSAGE": "Tidak dapat terhubung ke Server Woot, Silahkan coba lagi nanti"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Hapus",
+      "API": {
+        "SUCCESS_MESSAGE": "Canned response deleted successfully.",
+        "ERROR_MESSAGE": "Tidak dapat terhubung ke Server Woot, Silahkan coba lagi nanti"
+      },
+      "CONFIRM": {
+        "TITLE": "Konfirmasi penghapusan",
+        "MESSAGE": "Apakah Anda yakin untuk menghapus ",
+        "YES": "Yes, delete ",
+        "NO": "No, keep "
+      }
+    }
+  }
+}

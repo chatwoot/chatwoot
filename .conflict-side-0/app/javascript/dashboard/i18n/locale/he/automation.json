@@ -1,0 +1,184 @@
+{
+  "AUTOMATION": {
+    "HEADER": "אוטומציה",
+    "DESCRIPTION": "אוטומציה יכולה להחליף ולזרז תהליכים קיימים שדורשים מאמץ ידני, כגון הוספת תוויות והקצאת שיחות לסוכן המתאים ביותר. זה מאפשר לצוות להתמקד בחוזקות שלו תוך כדי הפחתת הזמן המושקע במשימות שגרתיות.",
+    "LEARN_MORE": "למד עוד על אוטומציה",
+    "HEADER_BTN_TXT": "הוסף כלל אוטומציה",
+    "LOADING": "טוען כללי אוטומציה",
+    "ADD": {
+      "TITLE": "הוסף כלל אוטומציה",
+      "SUBMIT": "צור",
+      "CANCEL_BUTTON_TEXT": "ביטול",
+      "FORM": {
+        "NAME": {
+          "LABEL": "שם כלל",
+          "PLACEHOLDER": "הכנס שם כלל",
+          "ERROR": "שם נדרש"
+        },
+        "DESC": {
+          "LABEL": "תיאור",
+          "PLACEHOLDER": "הכנס תיאור כלל",
+          "ERROR": "תיאור נדרש"
+        },
+        "EVENT": {
+          "LABEL": "אירוע",
+          "PLACEHOLDER": "אנא בחר אחד",
+          "ERROR": "אירוע נדרש"
+        },
+        "CONDITIONS": {
+          "LABEL": "תנאים"
+        },
+        "ACTIONS": {
+          "LABEL": "פעולות"
+        }
+      },
+      "CONDITION_BUTTON_LABEL": "הוסף תנאי",
+      "ACTION_BUTTON_LABEL": "הוסף פעולה",
+      "API": {
+        "SUCCESS_MESSAGE": "כלל אוטומציה נוסף בהצלחה",
+        "ERROR_MESSAGE": "לא ניתן ליצור כלל אוטומציה, אנא נסה שוב מאוחר יותר"
+      }
+    },
+    "LIST": {
+      "TABLE_HEADER": {
+        "NAME": "שם",
+        "DESCRIPTION": "תיאור",
+        "ACTIVE": "פעיל",
+        "CREATED_ON": "נוצר ב"
+      },
+      "404": "לא נמצאו כללי אוטומציה"
+    },
+    "DELETE": {
+      "TITLE": "מחק כלל אוטומציה",
+      "SUBMIT": "מחק",
+      "CANCEL_BUTTON_TEXT": "ביטול",
+      "CONFIRM": {
+        "TITLE": "אשר מחיקה",
+        "MESSAGE": "האם אתה בטוח למחוק ",
+        "YES": "כן, מחק ",
+        "NO": "לא, השאר "
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "כלל אוטומציה נמחק בהצלחה",
+        "ERROR_MESSAGE": "לא ניתן למחוק כלל אוטומציה, אנא נסה שוב מאוחר יותר"
+      }
+    },
+    "EDIT": {
+      "TITLE": "ערוך כלל אוטומציה",
+      "SUBMIT": "עדכן",
+      "CANCEL_BUTTON_TEXT": "ביטול",
+      "API": {
+        "SUCCESS_MESSAGE": "כלל אוטומציה עודכן בהצלחה",
+        "ERROR_MESSAGE": "לא ניתן לעדכן כלל אוטומציה, אנא נסה שוב מאוחר יותר"
+      }
+    },
+    "CLONE": {
+      "TOOLTIP": "שכפל",
+      "API": {
+        "SUCCESS_MESSAGE": "אוטומציה שוכפלה בהצלחה",
+        "ERROR_MESSAGE": "לא ניתן לשכפל כלל אוטומציה, אנא נסה שוב מאוחר יותר"
+      }
+    },
+    "FORM": {
+      "EDIT": "ערוך",
+      "CREATE": "צור",
+      "DELETE": "מחק",
+      "CANCEL": "ביטול",
+      "RESET_MESSAGE": "שינוי סוג אירוע יאפס את התנאים והפעולות שהוספת למטה"
+    },
+    "CONDITION": {
+      "DELETE_MESSAGE": "אתה צריך לפחות תנאי אחד כדי לשמור",
+      "CONTACT_CUSTOM_ATTR_LABEL": "מאפיינים מותאמים אישית של איש קשר",
+      "CONVERSATION_CUSTOM_ATTR_LABEL": "מאפיינים מותאמים אישית של שיחה"
+    },
+    "ACTION": {
+      "DELETE_MESSAGE": "אתה צריך לפחות פעולה אחת כדי לשמור",
+      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "הכנס את ההודעה שלך כאן",
+      "TEAM_DROPDOWN_PLACEHOLDER": "בחר צוותים",
+      "EMAIL_INPUT_PLACEHOLDER": "הכנס דוא\"ל",
+      "URL_INPUT_PLACEHOLDER": "הכנס URL"
+    },
+    "TOGGLE": {
+      "ACTIVATION_TITLE": "הפעל כלל אוטומציה",
+      "DEACTIVATION_TITLE": "השהה כלל אוטומציה",
+      "ACTIVATION_DESCRIPTION": "פעולה זו תפעיל את כלל האוטומציה '{automationName}'. האם אתה בטוח שברצונך להמשיך?",
+      "DEACTIVATION_DESCRIPTION": "פעולה זו תשהה את כלל האוטומציה '{automationName}'. האם אתה בטוח שברצונך להמשיך?",
+      "ACTIVATION_SUCCESFUL": "כלל האוטומציה הופעל בהצלחה",
+      "DEACTIVATION_SUCCESFUL": "כלל האוטומציה הושהה בהצלחה",
+      "ACTIVATION_ERROR": "לא ניתן להפעיל אוטומציה, אנא נסה שוב מאוחר יותר",
+      "DEACTIVATION_ERROR": "לא ניתן להשהות אוטומציה, אנא נסה שוב מאוחר יותר",
+      "CONFIRMATION_LABEL": "כן",
+      "CANCEL_LABEL": "לא"
+    },
+    "ATTACHMENT": {
+      "UPLOAD_ERROR": "לא ניתן להעלות קובץ מצורף, אנא נסה שוב",
+      "LABEL_IDLE": "העלה קובץ מצורף",
+      "LABEL_UPLOADING": "מעלה...",
+      "LABEL_UPLOADED": "הועלה בהצלחה",
+      "LABEL_UPLOAD_FAILED": "העלאה נכשלה"
+    },
+    "ERRORS": {
+      "ATTRIBUTE_KEY_REQUIRED": "מפתח מאפיין נדרש",
+      "FILTER_OPERATOR_REQUIRED": "אופרטור מסנן נדרש",
+      "VALUE_REQUIRED": "ערך נדרש",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "הערך חייב להיות בין 1 ל-998",
+      "ACTION_PARAMETERS_REQUIRED": "פרמטרי פעולה נדרשים",
+      "ATLEAST_ONE_CONDITION_REQUIRED": "נדרש לפחות תנאי אחד",
+      "ATLEAST_ONE_ACTION_REQUIRED": "נדרשת לפחות פעולה אחת"
+    },
+    "NONE_OPTION": "אין",
+    "EVENTS": {
+      "CONVERSATION_CREATED": "שיחה נוצרה",
+      "CONVERSATION_UPDATED": "שיחה עודכנה",
+      "MESSAGE_CREATED": "הודעה נוצרה",
+      "CONVERSATION_RESOLVED": "שיחה נפתרה",
+      "CONVERSATION_OPENED": "שיחה נפתחה"
+    },
+    "ACTIONS": {
+      "ASSIGN_AGENT": "הקצה לסוכן",
+      "ASSIGN_TEAM": "הקצה צוות",
+      "ADD_LABEL": "הוסף תווית",
+      "REMOVE_LABEL": "הסר תווית",
+      "SEND_EMAIL_TO_TEAM": "שלח דוא\"ל לצוות",
+      "SEND_EMAIL_TRANSCRIPT": "שלח תמליל דוא\"ל",
+      "MUTE_CONVERSATION": "השתק שיחה",
+      "SNOOZE_CONVERSATION": "נודניק שיחה",
+      "RESOLVE_CONVERSATION": "פתור שיחה",
+      "SEND_WEBHOOK_EVENT": "שלח אירוע Webhook",
+      "SEND_ATTACHMENT": "שלח קובץ מצורף",
+      "SEND_MESSAGE": "שלח הודעה",
+      "ADD_PRIVATE_NOTE": "הוסף הערה פרטית",
+      "CHANGE_PRIORITY": "שנה עדיפות",
+      "ADD_SLA": "הוסף SLA",
+      "OPEN_CONVERSATION": "פתח שיחה"
+    },
+    "MESSAGE_TYPES": {
+      "INCOMING": "הודעה נכנסת",
+      "OUTGOING": "הודעה יוצאת"
+    },
+    "PRIORITY_TYPES": {
+      "NONE": "אין",
+      "LOW": "נמוכה",
+      "MEDIUM": "בינונית",
+      "HIGH": "גבוהה",
+      "URGENT": "דחופה"
+    },
+    "ATTRIBUTES": {
+      "MESSAGE_TYPE": "סוג הודעה",
+      "MESSAGE_CONTAINS": "ההודעה מכילה",
+      "EMAIL": "דוא\"ל",
+      "INBOX": "תיבת דואר נכנס",
+      "CONVERSATION_LANGUAGE": "שפת שיחה",
+      "PHONE_NUMBER": "מספר טלפון",
+      "STATUS": "סטטוס",
+      "BROWSER_LANGUAGE": "שפת דפדפן",
+      "MAIL_SUBJECT": "נושא דוא\"ל",
+      "COUNTRY_NAME": "מדינה",
+      "REFERER_LINK": "קישור מפנה",
+      "ASSIGNEE_NAME": "מוקצה",
+      "TEAM_NAME": "צוות",
+      "PRIORITY": "עדיפות",
+      "LABELS": "תוויות"
+    }
+  }
+}

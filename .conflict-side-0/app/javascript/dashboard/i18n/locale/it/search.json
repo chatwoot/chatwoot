@@ -1,0 +1,68 @@
+{
+  "SEARCH": {
+    "TABS": {
+      "ALL": "Tutti i risultati",
+      "CONTACTS": "Contatti",
+      "CONVERSATIONS": "Conversazioni",
+      "MESSAGES": "Messaggi",
+      "ARTICLES": "Articoli"
+    },
+    "SECTION": {
+      "CONTACTS": "Contatti",
+      "CONVERSATIONS": "Conversazioni",
+      "MESSAGES": "Messaggi",
+      "ARTICLES": "Articoli"
+    },
+    "VIEW_MORE": "Mostra di più",
+    "LOAD_MORE": "Carica altro",
+    "SEARCHING_DATA": "Ricerca",
+    "LOADING_DATA": "Caricamento",
+    "EMPTY_STATE": "Nessun {item} trovato per la ricerca '{query}'",
+    "EMPTY_STATE_FULL": "Nessun risultato trovato per la ricerca '{query}'",
+    "PLACEHOLDER_KEYBINDING": "/per evidenziare",
+    "INPUT_PLACEHOLDER": "Digita 3 o più caratteri da cercare",
+    "RECENT_SEARCHES": "Ricerche recenti",
+    "CLEAR_ALL": "Rimuovi tutto",
+    "MOST_RECENT": "Più recenti",
+    "EMPTY_STATE_DEFAULT": "Ricerca per id conversazione, email, numero di telefono, messaggi per risultati di ricerca migliori. ",
+    "BOT_LABEL": "Bot",
+    "READ_MORE": "Leggi di più",
+    "READ_LESS": "Leggi meno",
+    "WROTE": "ha scritto:",
+    "FROM": "Da",
+    "EMAIL": "Email",
+    "EMAIL_SUBJECT": "Oggetto",
+    "PRIVATE": "Nota Privata",
+    "TRANSCRIPT": "Trascrizione",
+    "CREATED_AT": "creato {time}",
+    "UPDATED_AT": "aggiornato {time}",
+    "SORT_BY": {
+      "RELEVANCE": "Rilevanza"
+    },
+    "DATE_RANGE": {
+      "LAST_7_DAYS": "Ultimi 7 giorni",
+      "LAST_30_DAYS": "Ultimi 30 giorni",
+      "LAST_60_DAYS": "Ultimi 60 giorni",
+      "LAST_90_DAYS": "Ultimi 90 giorni",
+      "CUSTOM_RANGE": "Range personalizzato:",
+      "CREATED_BETWEEN": "Creato tra",
+      "AND": "e",
+      "APPLY": "Applica",
+      "BEFORE_DATE": "Prima del {date}",
+      "AFTER_DATE": "Dopo il {date}",
+      "TIME_RANGE": "Filtra per orario",
+      "CLEAR_FILTER": "Rimuovi filtro"
+    },
+    "FILTERS": {
+      "FILTER_MESSAGE": "Filtra i messaggi per:",
+      "FROM": "Mittente",
+      "IN": "Inbox",
+      "AGENTS": "Operatori",
+      "CONTACTS": "Contatti",
+      "INBOXES": "Inbox",
+      "NO_AGENTS": "Nessun operatore trovato",
+      "NO_CONTACTS": "Avvia una ricerca per vedere risultati",
+      "NO_INBOXES": "Nessuna Inbox trovata"
+    }
+  }
+}

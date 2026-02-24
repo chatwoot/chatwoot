@@ -1,0 +1,91 @@
+{
+  "CUSTOM_ROLE": {
+    "HEADER": "Roles personalizados",
+    "LEARN_MORE": "Obtenga más información sobre los roles personalizados",
+    "DESCRIPTION": "Custom roles are roles that are created by the account owner or admin. These roles can be assigned to agents to define their access and permissions within the account. Custom roles can be created with specific permissions and access levels to suit the requirements of the organization.",
+    "HEADER_BTN_TXT": "Add custom role",
+    "LOADING": "Fetching custom roles...",
+    "SEARCH_404": "No hay elementos que coincidan con esta consulta.",
+    "PAYWALL": {
+      "TITLE": "Upgrade to create custom roles",
+      "AVAILABLE_ON": "The custom role feature is only available in the Business and Enterprise plans.",
+      "UPGRADE_PROMPT": "Actualiza tu plan para tener acceso a funciones avanzadas como gestión de equipos, automatizaciones, atributos personalizados y más.",
+      "UPGRADE_NOW": "Actualizar ahora",
+      "CANCEL_ANYTIME": "Puede cambiar o cancelar su plan en cualquier momento"
+    },
+    "ENTERPRISE_PAYWALL": {
+      "AVAILABLE_ON": "The custom role feature is only available in the paid plans.",
+      "UPGRADE_PROMPT": "Actualice a un plan pago para acceder a funciones avanzadas como registros de auditoría, capacidad de agente y más.",
+      "ASK_ADMIN": "Por favor, comuníquese con su administrador para la actualización."
+    },
+    "LIST": {
+      "404": "There are no custom roles available in this account.",
+      "TITLE": "Manage custom roles",
+      "DESC": "Custom roles are roles that are created by the account owner or admin. These roles can be assigned to agents to define their access and permissions within the account. Custom roles can be created with specific permissions and access levels to suit the requirements of the organization.",
+      "TABLE_HEADER": {
+        "NAME": "Nombre",
+        "DESCRIPTION": "Descripción",
+        "PERMISSIONS": "Permissions",
+        "ACTIONS": "Acciones"
+      }
+    },
+    "PERMISSIONS": {
+      "CONVERSATION_MANAGE": "Manage all conversations",
+      "CONVERSATION_UNASSIGNED_MANAGE": "Manage unassigned conversations and those assigned to them",
+      "CONVERSATION_PARTICIPATING_MANAGE": "Manage participating conversations and those assigned to them",
+      "CONTACT_MANAGE": "Administrar contactos",
+      "REPORT_MANAGE": "Administrar informes",
+      "KNOWLEDGE_BASE_MANAGE": "Administrar base de conocimiento"
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "Nombre",
+        "PLACEHOLDER": "Por favor, introduzca el nombre.",
+        "ERROR": "El nombre es requerido."
+      },
+      "DESCRIPTION": {
+        "LABEL": "Descripción",
+        "PLACEHOLDER": "Por favor, introduzca una descripción.",
+        "ERROR": "Descripción requerida."
+      },
+      "PERMISSIONS": {
+        "LABEL": "Permisos",
+        "ERROR": "Permisos requeridos."
+      },
+      "CANCEL_BUTTON_TEXT": "Cancelar",
+      "API": {
+        "ERROR_MESSAGE": "No se pudo conectar al servidor Woot, por favor inténtalo de nuevo más tarde"
+      }
+    },
+    "ADD": {
+      "TITLE": "Añadir rol personalizado",
+      "DESC": " Los roles personalizados le permiten crear roles con permisos específicos y niveles de acceso para adaptarse a los requerimientos de la organización.",
+      "SUBMIT": "Enviar",
+      "API": {
+        "SUCCESS_MESSAGE": "Rol personalizado añadido con éxito."
+      }
+    },
+    "EDIT": {
+      "BUTTON_TEXT": "Editar",
+      "TITLE": "Editar rol personalizado",
+      "DESC": " Los roles personalizados le permiten crear roles con permisos específicos y niveles de acceso para adaptarse a los requerimientos de la organización.",
+      "SUBMIT": "Actualizar",
+      "API": {
+        "SUCCESS_MESSAGE": "Rol personalizado actualizado con éxito."
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Eliminar",
+      "API": {
+        "SUCCESS_MESSAGE": "Rol personalizado eliminado con éxito.",
+        "ERROR_MESSAGE": "No se pudo conectar al servidor Woot, por favor inténtalo de nuevo más tarde"
+      },
+      "CONFIRM": {
+        "TITLE": "Confirme eliminación",
+        "MESSAGE": "¿Está seguro de eliminar ",
+        "YES": "Sí, eliminar ",
+        "NO": "No, mantenerlo "
+      }
+    }
+  }
+}

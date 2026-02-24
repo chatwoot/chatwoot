@@ -1,0 +1,62 @@
+{
+  "INTEGRATION_APPS": {
+    "FETCHING": "واکشی ادغام ها",
+    "NO_HOOK_CONFIGURED": "هیچ {integrationId} ادغامی در این اکانت انجام نشده است.",
+    "HEADER": "برنامه های کاربردی",
+    "STATUS": {
+      "ENABLED": "فعال",
+      "DISABLED": "غیرفعال"
+    },
+    "CONFIGURE": "تنظیمات",
+    "ADD_BUTTON": "هوک جدیدی اضافه کنید",
+    "DELETE": {
+      "TITLE": {
+        "INBOX": "تاییدیه حذف",
+        "ACCOUNT": "قعط کردن"
+      },
+      "MESSAGE": {
+        "INBOX": "مطمئن هستید که حذف شود?",
+        "ACCOUNT": "آیا مطمئناً قطع می کنید؟"
+      },
+      "CONFIRM_BUTTON_TEXT": {
+        "INBOX": "بله، حذف شود",
+        "ACCOUNT": "بله ، قطع ارتباط کنید"
+      },
+      "CANCEL_BUTTON_TEXT": "انصراف",
+      "API": {
+        "SUCCESS_MESSAGE": "هوک با موفقیت حذف شد",
+        "ERROR_MESSAGE": "متاسفانه ارتباط با سرور برقرار نشد، مجددا امتحان کنید"
+      }
+    },
+    "LIST": {
+      "FETCHING": "واکشی ادغام های هوک",
+      "INBOX": "صندوق ورودی",
+      "DELETE": {
+        "BUTTON_TEXT": "حذف"
+      }
+    },
+    "ADD": {
+      "FORM": {
+        "INBOX": {
+          "LABEL": "انتخاب صندوق ورودی",
+          "PLACEHOLDER": "انتخاب صندوق ورودی"
+        },
+        "SUBMIT": "ايجاد كردن",
+        "CANCEL": "انصراف"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "هوک ادغام با موفقیت اضافه شد",
+        "ERROR_MESSAGE": "متاسفانه ارتباط با سرور برقرار نشد، مجددا امتحان کنید"
+      }
+    },
+    "CONNECT": {
+      "BUTTON_TEXT": "اتصال"
+    },
+    "DISCONNECT": {
+      "BUTTON_TEXT": "قعط کردن"
+    },
+    "SIDEBAR_DESCRIPTION": {
+      "DIALOGFLOW": "Dialogflow is a natural language processing platform for building conversational interfaces. Integrating it with {installationName} lets bots handle queries first and transfer them to agents when needed. It helps qualify leads and reduce agent workload by answering FAQs. To add Dialogflow, create a Service Account in Google Console and share the credentials. Refer to the docs for details"
+    }
+  }
+}

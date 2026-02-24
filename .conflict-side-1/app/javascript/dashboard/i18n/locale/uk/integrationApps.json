@@ -1,0 +1,62 @@
+{
+  "INTEGRATION_APPS": {
+    "FETCHING": "Отримання інтеграцій",
+    "NO_HOOK_CONFIGURED": "Немає сконфігурованих інтеграцій {integrationId} в цьому обліковому записі.",
+    "HEADER": "Додатки",
+    "STATUS": {
+      "ENABLED": "Увімкнено",
+      "DISABLED": "Вимкнено"
+    },
+    "CONFIGURE": "Настроїти",
+    "ADD_BUTTON": "Додати новий хук",
+    "DELETE": {
+      "TITLE": {
+        "INBOX": "Підтвердіть видалення",
+        "ACCOUNT": "Від'єднатись"
+      },
+      "MESSAGE": {
+        "INBOX": "Справді бажаєте видалити?",
+        "ACCOUNT": "Ви дійсно бажаєте відключитися?"
+      },
+      "CONFIRM_BUTTON_TEXT": {
+        "INBOX": "Так, видалити",
+        "ACCOUNT": "Так, відключити"
+      },
+      "CANCEL_BUTTON_TEXT": "Скасувати",
+      "API": {
+        "SUCCESS_MESSAGE": "Хук успішно видалено",
+        "ERROR_MESSAGE": "Не вдалося підключитися до Woot Server, спробуйте ще раз пізніше"
+      }
+    },
+    "LIST": {
+      "FETCHING": "Отримання інтеграційних хуків",
+      "INBOX": "Вхідні",
+      "DELETE": {
+        "BUTTON_TEXT": "Видалити"
+      }
+    },
+    "ADD": {
+      "FORM": {
+        "INBOX": {
+          "LABEL": "Вибрати \"Вхідний\" канал",
+          "PLACEHOLDER": "Виділити \"Вхідні\""
+        },
+        "SUBMIT": "Створити",
+        "CANCEL": "Скасувати"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Хук інтеграції успішно додано",
+        "ERROR_MESSAGE": "Не вдалося підключитися до Woot Server, спробуйте ще раз пізніше"
+      }
+    },
+    "CONNECT": {
+      "BUTTON_TEXT": "Підключитися"
+    },
+    "DISCONNECT": {
+      "BUTTON_TEXT": "Від'єднатись"
+    },
+    "SIDEBAR_DESCRIPTION": {
+      "DIALOGFLOW": "Dialogflow is a natural language processing platform for building conversational interfaces. Integrating it with {installationName} lets bots handle queries first and transfer them to agents when needed. It helps qualify leads and reduce agent workload by answering FAQs. To add Dialogflow, create a Service Account in Google Console and share the credentials. Refer to the docs for details"
+    }
+  }
+}

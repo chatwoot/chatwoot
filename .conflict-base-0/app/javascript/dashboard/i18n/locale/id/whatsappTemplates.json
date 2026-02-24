@@ -1,0 +1,47 @@
+{
+  "WHATSAPP_TEMPLATES": {
+    "MODAL": {
+      "TITLE": "Templat Whatsapp",
+      "SUBTITLE": "Pilih templat Whatsapp yang ingin Anda kirim",
+      "TEMPLATE_SELECTED_SUBTITLE": "Configure template: {templateName}"
+    },
+    "PICKER": {
+      "SEARCH_PLACEHOLDER": "Cari Templat",
+      "NO_TEMPLATES_FOUND": "Tidak ditemukan templat untuk",
+      "HEADER": "Header",
+      "BODY": "Body",
+      "FOOTER": "Footer",
+      "BUTTONS": "Buttons",
+      "CATEGORY": "Kategori",
+      "MEDIA_CONTENT": "Media Content",
+      "MEDIA_CONTENT_FALLBACK": "media content",
+      "NO_TEMPLATES_AVAILABLE": "No WhatsApp templates available. Click refresh to sync templates from WhatsApp.",
+      "REFRESH_BUTTON": "Refresh templates",
+      "REFRESH_SUCCESS": "Templates refresh initiated. It may take a couple of minutes to update.",
+      "REFRESH_ERROR": "Failed to refresh templates. Please try again.",
+      "LABELS": {
+        "LANGUAGE": "Bahasa",
+        "TEMPLATE_BODY": "Isi Templat",
+        "CATEGORY": "Kategori"
+      }
+    },
+    "PARSER": {
+      "VARIABLES_LABEL": "Variabel",
+      "LANGUAGE": "Bahasa",
+      "CATEGORY": "Kategori",
+      "VARIABLE_PLACEHOLDER": "Masukkan nilai {variable}",
+      "GO_BACK_LABEL": "Kembali",
+      "SEND_MESSAGE_LABEL": "Kirim Pesan",
+      "FORM_ERROR_MESSAGE": "Harap isi semua variabel sebelum mengirim",
+      "MEDIA_HEADER_LABEL": "{type} Header",
+      "OTP_CODE": "Enter 4-8 digit OTP",
+      "EXPIRY_MINUTES": "Enter expiry minutes",
+      "BUTTON_PARAMETERS": "Button Parameters",
+      "BUTTON_LABEL": "Button {index}",
+      "COUPON_CODE": "Enter coupon code (max 15 chars)",
+      "MEDIA_URL_LABEL": "Enter {type} URL",
+      "DOCUMENT_NAME_PLACEHOLDER": "Enter document filename (e.g., Invoice_2025.pdf)",
+      "BUTTON_PARAMETER": "Enter button parameter"
+    }
+  }
+}

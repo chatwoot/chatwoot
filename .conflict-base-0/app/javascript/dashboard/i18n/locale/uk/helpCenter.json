@@ -1,0 +1,865 @@
+{
+  "HELP_CENTER": {
+    "TITLE": "Довідковий центр",
+    "NEW_PAGE": {
+      "DESCRIPTION": "Create self-service help center portals for your customers. Help them find answers quickly, without waiting. Streamline inquiries, boost agent efficiency, and elevate customer support.",
+      "CREATE_PORTAL_BUTTON": "Створити портал"
+    },
+    "HEADER": {
+      "FILTER": "Фільтрувати за",
+      "SORT": "Сортувати за",
+      "LOCALE": "Локаль",
+      "SETTINGS_BUTTON": "Налаштування",
+      "NEW_BUTTON": "Нова стаття",
+      "DROPDOWN_OPTIONS": {
+        "PUBLISHED": "Опубліковано",
+        "DRAFT": "Чернетка",
+        "ARCHIVED": "Архівовано"
+      },
+      "TITLES": {
+        "ALL_ARTICLES": "Всі статті",
+        "MINE": "Мої статті",
+        "DRAFT": "Чернетки статтей",
+        "ARCHIVED": "Архівовані статті"
+      },
+      "LOCALE_SELECT": {
+        "TITLE": "Виберіть мову",
+        "PLACEHOLDER": "Виберіть мову",
+        "NO_RESULT": "Міток не знайдено",
+        "SEARCH_PLACEHOLDER": "Виберіть мову"
+      }
+    },
+    "EDIT_HEADER": {
+      "ALL_ARTICLES": "Всі статті",
+      "PUBLISH_BUTTON": "Опублікувати",
+      "MOVE_TO_ARCHIVE_BUTTON": "Перемістити в архів",
+      "PREVIEW": "Попередній перегляд",
+      "ADD_TRANSLATION": "Додати переклад",
+      "OPEN_SIDEBAR": "Відкрити бічну панель",
+      "CLOSE_SIDEBAR": "Закрити бічну панель",
+      "SAVING": "Збереження...",
+      "SAVED": "Збережено"
+    },
+    "ARTICLE_EDITOR": {
+      "IMAGE_UPLOAD": {
+        "TITLE": "Завантажити зображення",
+        "UPLOADING": "Завантажується...",
+        "SUCCESS": "Зображення успішно завантажено",
+        "ERROR": "Помилка при завантаженні зображення",
+        "UN_AUTHORIZED_ERROR": "You are not authorized to upload images",
+        "ERROR_FILE_SIZE": "Зображення має бути менше {size}Мб",
+        "ERROR_FILE_FORMAT": "Формат зображення повинен бути jpg, jpeg або png",
+        "ERROR_FILE_DIMENSIONS": "Розміри зображення повинні бути менші ніж 2000 х 2000"
+      }
+    },
+    "ARTICLE_SETTINGS": {
+      "TITLE": "Налаштування статей",
+      "FORM": {
+        "CATEGORY": {
+          "LABEL": "Категорія",
+          "TITLE": "Виберіть категорію",
+          "PLACEHOLDER": "Виберіть категорію",
+          "NO_RESULT": "Категорію не знайдено",
+          "SEARCH_PLACEHOLDER": "Пошук категорії"
+        },
+        "AUTHOR": {
+          "LABEL": "Автор",
+          "TITLE": "Виберіть автора",
+          "PLACEHOLDER": "Виберіть автора",
+          "NO_RESULT": "Авторів не знайдено",
+          "SEARCH_PLACEHOLDER": "Пошук автора"
+        },
+        "META_TITLE": {
+          "LABEL": "Мета-заголовок",
+          "PLACEHOLDER": "Додати мета-заголовок"
+        },
+        "META_DESCRIPTION": {
+          "LABEL": "Мета-опис",
+          "PLACEHOLDER": "Додати мета-опис для кращих SEO результатів..."
+        },
+        "META_TAGS": {
+          "LABEL": "Meta tags",
+          "PLACEHOLDER": "Додавайте мета-теги, розділені комами..."
+        }
+      },
+      "BUTTONS": {
+        "ARCHIVE": "Архівна стаття",
+        "DELETE": "Видалити статтю"
+      }
+    },
+    "ARTICLE_SEARCH_RESULT": {
+      "UNCATEGORIZED": "Без категорії",
+      "SEARCH_RESULTS": "Результати пошуку для {query}",
+      "EMPTY_TEXT": "Пошук статей для вставки у відповіді.",
+      "SEARCH_LOADER": "Шукаємо...",
+      "INSERT_ARTICLE": "Вставка",
+      "NO_RESULT": "Статей не знайдено",
+      "COPY_LINK": "Скопіювати посилання на статтю в буфер обміну",
+      "OPEN_LINK": "Відкрити статтю в новій вкладці",
+      "PREVIEW_LINK": "Перегляд статті"
+    },
+    "PORTAL": {
+      "HEADER": "Портали",
+      "DEFAULT": "За замовчуванням",
+      "NEW_BUTTON": "Новий портал",
+      "ACTIVE_BADGE": "активний",
+      "CHOOSE_LOCALE_LABEL": "Виберіть мову",
+      "LOADING_MESSAGE": "Завантаження порталів...",
+      "ARTICLES_LABEL": "статті",
+      "NO_PORTALS_MESSAGE": "Немає доступних порталів",
+      "ADD_NEW_LOCALE": "Додати нову локаль",
+      "POPOVER": {
+        "TITLE": "Портали",
+        "PORTAL_SETTINGS": "Налаштування порталу",
+        "SUBTITLE": "У вас є кілька порталів і можна мати різні локалі для кожного порталу.",
+        "CANCEL_BUTTON_LABEL": "Скасувати",
+        "CHOOSE_LOCALE_BUTTON": "Виберіть локаль"
+      },
+      "PORTAL_SETTINGS": {
+        "LIST_ITEM": {
+          "HEADER": {
+            "COUNT_LABEL": "статті",
+            "ADD": "Додати локаль",
+            "VISIT": "Відвідати сайт",
+            "SETTINGS": "Налаштування",
+            "DELETE": "Видалити"
+          },
+          "PORTAL_CONFIG": {
+            "TITLE": "Конфігурації порталу",
+            "ITEMS": {
+              "NAME": "Ім'я",
+              "DOMAIN": "Користувацький домен",
+              "SLUG": "Мітка",
+              "TITLE": "Заголовок порталу",
+              "THEME": "Колір теми",
+              "SUB_TEXT": "Додатковий текст порталу"
+            }
+          },
+          "AVAILABLE_LOCALES": {
+            "TITLE": "Доступні локалі",
+            "TABLE": {
+              "NAME": "Назва локалі",
+              "CODE": "Код локалі",
+              "ARTICLE_COUNT": "Кількість статей",
+              "CATEGORIES": "Кількість категорій",
+              "SWAP": "Поміняти",
+              "DELETE": "Видалити",
+              "DEFAULT_LOCALE": "За замовчуванням"
+            }
+          }
+        },
+        "DELETE_PORTAL": {
+          "TITLE": "Видалити портал",
+          "MESSAGE": "Ви дійсно бажаєте видалити цей портал",
+          "YES": "Так, видалити",
+          "NO": "Ні, зберегти портал",
+          "API": {
+            "DELETE_SUCCESS": "Портал успішно видалено",
+            "DELETE_ERROR": "Помилка під час видалення"
+          }
+        },
+        "SEND_CNAME_INSTRUCTIONS": {
+          "API": {
+            "SUCCESS_MESSAGE": "CNAME instructions sent successfully",
+            "ERROR_MESSAGE": "Error while sending CNAME instructions"
+          }
+        }
+      },
+      "EDIT": {
+        "HEADER_TEXT": "Редагувати портал",
+        "TABS": {
+          "BASIC_SETTINGS": {
+            "TITLE": "Основна інформація"
+          },
+          "CUSTOMIZATION_SETTINGS": {
+            "TITLE": "Керування порталом"
+          },
+          "CATEGORY_SETTINGS": {
+            "TITLE": "Категорії"
+          },
+          "LOCALE_SETTINGS": {
+            "TITLE": "Locales"
+          }
+        },
+        "CATEGORIES": {
+          "TITLE": "Категорії в",
+          "NEW_CATEGORY": "Нова категорія",
+          "TABLE": {
+            "NAME": "Ім'я",
+            "DESCRIPTION": "Опис",
+            "LOCALE": "Локаль",
+            "ARTICLE_COUNT": "Кількість статей",
+            "ACTION_BUTTON": {
+              "EDIT": "Редагувати категорію",
+              "DELETE": "Видалити категорію"
+            },
+            "EMPTY_TEXT": "Категорій не знайдено"
+          }
+        },
+        "EDIT_BASIC_INFO": {
+          "BUTTON_TEXT": "Оновити основні налаштування"
+        }
+      },
+      "ADD": {
+        "CREATE_FLOW": {
+          "BASIC": {
+            "TITLE": "Інформація по центру допомоги",
+            "BODY": "Основна інформація про портал"
+          },
+          "CUSTOMIZATION": {
+            "TITLE": "Інформація по центру допомоги",
+            "BODY": "Настройка порталу"
+          },
+          "FINISH": {
+            "TITLE": "Ура! 🎉",
+            "BODY": "Все готово!"
+          }
+        },
+        "CREATE_FLOW_PAGE": {
+          "BACK_BUTTON": "Назад",
+          "BASIC_SETTINGS_PAGE": {
+            "HEADER": "Створити портал",
+            "TITLE": "Інформація по центру допомоги",
+            "CREATE_BASIC_SETTING_BUTTON": "Створити базові налаштування порталу"
+          },
+          "CUSTOMIZATION_PAGE": {
+            "HEADER": "Налаштування порталу",
+            "TITLE": "Інформація по центру допомоги",
+            "UPDATE_PORTAL_BUTTON": "Оновити налаштування порталу"
+          },
+          "FINISH_PAGE": {
+            "TITLE": "Ура!🎉 Все готово!",
+            "MESSAGE": "Тепер ви можете побачити цей портал на вашій сторінці порталів.",
+            "FINISH": "Перейти на сторінку всіх порталів"
+          }
+        },
+        "LOGO": {
+          "LABEL": "Логотип",
+          "UPLOAD_BUTTON": "Завантажити логотип",
+          "HELP_TEXT": "Цей логотип буде показано у заголовку порталу.",
+          "IMAGE_UPLOAD_SUCCESS": "Логотип успішно завантажено",
+          "IMAGE_UPLOAD_ERROR": "Логотип успішно видалено",
+          "IMAGE_DELETE_ERROR": "Помилка при видаленні логотипу"
+        },
+        "NAME": {
+          "LABEL": "Ім'я",
+          "PLACEHOLDER": "Назва порталу",
+          "HELP_TEXT": "Ім'я буде використовуватися в публічному інтерфейсі порталу всередині.",
+          "ERROR": "Назва обов'язкова"
+        },
+        "SLUG": {
+          "LABEL": "Мітка",
+          "PLACEHOLDER": "Портал slug для URL-адрес",
+          "ERROR": "Необхідно вказати мітку"
+        },
+        "DOMAIN": {
+          "LABEL": "Домен для користувача",
+          "PLACEHOLDER": "Власний домен порталу",
+          "HELP_TEXT": "Add only If you want to use a custom domain for your portals. Eg: {exampleURL}",
+          "ERROR": "Введіть дійсну URL-адресу домену"
+        },
+        "HOME_PAGE_LINK": {
+          "LABEL": "Посилання на головну сторінку",
+          "PLACEHOLDER": "Посилання на головну сторінку порталу",
+          "HELP_TEXT": "The link used to return from the portal to the home page. Eg: {exampleURL}",
+          "ERROR": "Введіть дійсний URL домашньої сторінки"
+        },
+        "THEME_COLOR": {
+          "LABEL": "Колір теми порталу",
+          "HELP_TEXT": "Цей колір буде показуватися як колір теми для порталу."
+        },
+        "PAGE_TITLE": {
+          "LABEL": "Заголовок сторінки",
+          "PLACEHOLDER": "Заголовок сторінки порталу",
+          "HELP_TEXT": "Ім'я буде використане в публічному порталу.",
+          "ERROR": "Необхідно вказати заголовок сторінки"
+        },
+        "HEADER_TEXT": {
+          "LABEL": "Текст заголовку",
+          "PLACEHOLDER": "Текст заголовку порталу",
+          "HELP_TEXT": "Ім'я буде використане в публічному порталу.",
+          "ERROR": "Потрібен текст заголовка портала"
+        },
+        "API": {
+          "SUCCESS_MESSAGE_FOR_BASIC": "Портал успішно створено.",
+          "ERROR_MESSAGE_FOR_BASIC": "Не вдалося створити портал. Повторіть спробу.",
+          "SUCCESS_MESSAGE_FOR_UPDATE": "Портал успішно оновлено.",
+          "ERROR_MESSAGE_FOR_UPDATE": "Не вдалося оновити портал. Спробуйте ще раз."
+        }
+      },
+      "ADD_LOCALE": {
+        "TITLE": "Додати нову локаль",
+        "SUB_TITLE": "Це додасть нову локалізацію до вашого списку перекладів.",
+        "PORTAL": "Портал",
+        "LOCALE": {
+          "LABEL": "Локаль",
+          "PLACEHOLDER": "Виберіть мову",
+          "ERROR": "Потрібна локаль"
+        },
+        "BUTTONS": {
+          "CREATE": "Створити локаль",
+          "CANCEL": "Скасувати"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Локаль успішно додано",
+          "ERROR_MESSAGE": "Не вдалося додати локаль. Спробуйте ще раз."
+        }
+      },
+      "CHANGE_DEFAULT_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Локаль за замовчуванням успішно оновлено",
+          "ERROR_MESSAGE": "Не вдалося оновити локаль за замовчуванням. Спробуйте ще раз."
+        }
+      },
+      "DELETE_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Локаль видалена з порталу",
+          "ERROR_MESSAGE": "Не вдалося видалити локаль з порталу. Спробуйте ще раз."
+        }
+      }
+    },
+    "TABLE": {
+      "LOADING_MESSAGE": "Завантаження статей...",
+      "404": "Немає статей, які відповідають вашому пошуку 🔍",
+      "NO_ARTICLES": "Немає доступних статей",
+      "HEADERS": {
+        "TITLE": "Назва",
+        "CATEGORY": "Категорія",
+        "READ_COUNT": "Перегляди",
+        "STATUS": "Статус",
+        "LAST_EDITED": "Останній раз відредагований"
+      },
+      "COLUMNS": {
+        "BY": "від",
+        "AUTHOR_NOT_AVAILABLE": "Автор недоступний"
+      }
+    },
+    "EDIT_ARTICLE": {
+      "LOADING": "Завантаження статей...",
+      "TITLE_PLACEHOLDER": "Заголовок статті іде тут",
+      "CONTENT_PLACEHOLDER": "Напишіть свою статтю тут",
+      "API": {
+        "ERROR": "Помилка при збереженні статті"
+      }
+    },
+    "PUBLISH_ARTICLE": {
+      "API": {
+        "ERROR": "Помилка під час публікації статті",
+        "SUCCESS": "Стаття успішно опублікована"
+      }
+    },
+    "ARCHIVE_ARTICLE": {
+      "API": {
+        "ERROR": "Помилка при збереженні статті",
+        "SUCCESS": "Статтю успішно архівовано"
+      }
+    },
+    "DRAFT_ARTICLE": {
+      "API": {
+        "ERROR": "Error while drafting article",
+        "SUCCESS": "Article drafted successfully"
+      }
+    },
+    "DELETE_ARTICLE": {
+      "MODAL": {
+        "CONFIRM": {
+          "TITLE": "Підтвердження видалення",
+          "MESSAGE": "Ви дійсно бажаєте видалити статтю?",
+          "YES": "Так, видалити",
+          "NO": "Ні, залиште"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Стаття успішно видалена",
+        "ERROR_MESSAGE": "Помилка при видаленні статті"
+      }
+    },
+    "CREATE_ARTICLE": {
+      "ERROR_MESSAGE": "Будь ласка, додайте заголовок і вміст статті. Лише потім можна оновити налаштування"
+    },
+    "SIDEBAR": {
+      "SEARCH": {
+        "PLACEHOLDER": "Пошук статей"
+      }
+    },
+    "CATEGORY": {
+      "ADD": {
+        "TITLE": "Створити категорію",
+        "SUB_TITLE": "Категорія буде використовуватися в публічному інтерфейсі порталу для категоризації статей.",
+        "PORTAL": "Портал",
+        "LOCALE": "Локаль",
+        "NAME": {
+          "LABEL": "Ім'я",
+          "PLACEHOLDER": "Назва категорії",
+          "HELP_TEXT": "Назва категорії буде використовуватися в публічному інтерфейсі порталу для категоризації статей.",
+          "ERROR": "Назва обов'язкова"
+        },
+        "SLUG": {
+          "LABEL": "Мітка",
+          "PLACEHOLDER": "Мітка категорії для URL-адрес",
+          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
+          "ERROR": "Необхідно вказати мітку"
+        },
+        "DESCRIPTION": {
+          "LABEL": "Опис",
+          "PLACEHOLDER": "Залиште короткий опис категорії.",
+          "ERROR": "Необхідний опис"
+        },
+        "BUTTONS": {
+          "CREATE": "Створити категорію",
+          "CANCEL": "Скасувати"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Категорію успішно створено",
+          "ERROR_MESSAGE": "Не вдалося створити категорію"
+        }
+      },
+      "EDIT": {
+        "TITLE": "Редагувати категорію",
+        "SUB_TITLE": "Редагування категорії оновить категорію в порталі.",
+        "PORTAL": "Портал",
+        "LOCALE": "Локаль",
+        "NAME": {
+          "LABEL": "Ім'я",
+          "PLACEHOLDER": "Назва категорії",
+          "HELP_TEXT": "Назва категорії буде використовуватися в публічному інтерфейсі порталу для категоризації статей.",
+          "ERROR": "Назва обов'язкова"
+        },
+        "SLUG": {
+          "LABEL": "Мітка",
+          "PLACEHOLDER": "Мітка категорії для URL-адрес",
+          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
+          "ERROR": "Необхідно вказати мітку"
+        },
+        "DESCRIPTION": {
+          "LABEL": "Опис",
+          "PLACEHOLDER": "Залиште короткий опис категорії.",
+          "ERROR": "Необхідний опис"
+        },
+        "BUTTONS": {
+          "CREATE": "Оновити категорію",
+          "CANCEL": "Скасувати"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Категорію успішно оновлено",
+          "ERROR_MESSAGE": "Не вдалося оновити категорію"
+        }
+      },
+      "DELETE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Категорію успішно видалено",
+          "ERROR_MESSAGE": "Не вдалося видалити категорію"
+        }
+      }
+    },
+    "ARTICLE_SEARCH": {
+      "TITLE": "Пошук статей",
+      "PLACEHOLDER": "Пошук статей",
+      "NO_RESULT": "Статей не знайдено",
+      "SEARCHING": "Шукаємо...",
+      "SEARCH_BUTTON": "Пошук",
+      "INSERT_ARTICLE": "Insert link",
+      "IFRAME_ERROR": "URL-адреса є пустою або недійсною. Неможливо показати вміст.",
+      "OPEN_ARTICLE_SEARCH": "Вставити статтю з довідкового центру",
+      "SUCCESS_ARTICLE_INSERTED": "Стаття успішно додана",
+      "PREVIEW_LINK": "Перегляд статті",
+      "CANCEL": "Закрити",
+      "BACK": "Назад",
+      "BACK_RESULTS": "Назад до результатів"
+    },
+    "UPGRADE_PAGE": {
+      "TITLE": "Довідковий центр",
+      "DESCRIPTION": "Створіть зручні портали самообслуговування. Допоможіть вашим користувачам отримати доступ до статей та отримайте підтримку 24/7. Оновіть підписку, щоб увімкнути цю функцію.",
+      "SELF_HOSTED_DESCRIPTION": "Створіть зручні портали самообслуговування. Допоможіть вашим користувачам отримати доступ до статей та отримати підтримку 24/7. Будь ласка, зверніться до адміністратора, щоб увімкнути цю функцію.",
+      "BUTTON": {
+        "LEARN_MORE": "Детальніше",
+        "UPGRADE": "Оновити"
+      },
+      "FEATURES": {
+        "PORTALS": {
+          "TITLE": "Кілька порталів",
+          "DESCRIPTION": "Створення кількох порталів довідки для різних продуктів за допомогою одного облікового запису."
+        },
+        "LOCALES": {
+          "TITLE": "Повна підтримка локалей мовою",
+          "DESCRIPTION": "Локалізуйте портал вашою мовою. Ми підтримуємо всі мови та дозволяємо переклади для кожної статті."
+        },
+        "SEO": {
+          "TITLE": "SEO дружній дизайн",
+          "DESCRIPTION": "Налаштуйте теги мета, щоб покращити свою видимість на пошукових системах за допомогою наших сторінок, які є зручними для пошуку."
+        },
+        "API": {
+          "TITLE": "Повна підтримка API",
+          "DESCRIPTION": "Use the portal as a headless CMS with third party front-end frameworks using our APIs."
+        }
+      }
+    },
+    "LOADING": "Loading...",
+    "ARTICLES_PAGE": {
+      "ARTICLE_CARD": {
+        "CARD": {
+          "VIEWS": "{count} view | {count} views",
+          "DROPDOWN_MENU": {
+            "PUBLISH": "Опублікувати",
+            "DRAFT": "Чернетка",
+            "ARCHIVE": "Archive",
+            "DELETE": "Видалити"
+          },
+          "STATUS": {
+            "DRAFT": "Чернетка",
+            "PUBLISHED": "Опубліковано",
+            "ARCHIVED": "Архівовано"
+          },
+          "CATEGORY": {
+            "UNCATEGORISED": "Uncategorised"
+          }
+        }
+      },
+      "ARTICLES_HEADER": {
+        "TABS": {
+          "ALL": "All articles",
+          "MINE": "Мої",
+          "DRAFT": "Чернетка",
+          "PUBLISHED": "Опубліковано",
+          "ARCHIVED": "Архівовано"
+        },
+        "CATEGORY": {
+          "ALL": "All categories"
+        },
+        "LOCALE": {
+          "ALL": "All locales"
+        },
+        "NEW_ARTICLE": "New article"
+      },
+      "EMPTY_STATE": {
+        "ALL": {
+          "TITLE": "Write an article",
+          "SUBTITLE": "Write a rich article, let’s get started!",
+          "BUTTON_LABEL": "New article"
+        },
+        "MINE": {
+          "TITLE": "You haven't written any articles here",
+          "SUBTITLE": "All articles written by you show up here for quick access."
+        },
+        "DRAFT": {
+          "TITLE": "There are no articles in drafts",
+          "SUBTITLE": "Draft articles will appear here"
+        },
+        "PUBLISHED": {
+          "TITLE": "There are no published articles",
+          "SUBTITLE": "Published articles will appear here"
+        },
+        "ARCHIVED": {
+          "TITLE": "There are no articles in the archive",
+          "SUBTITLE": "Archived articles don't show up on the portal, you can use it to mark deprecated or outdated pages"
+        },
+        "CATEGORY": {
+          "TITLE": "There are no articles in this category",
+          "SUBTITLE": "Articles in this category will appear here"
+        }
+      }
+    },
+    "CATEGORY_PAGE": {
+      "CATEGORY_HEADER": {
+        "NEW_CATEGORY": "Нова категорія",
+        "EDIT_CATEGORY": "Редагувати категорію",
+        "CATEGORIES_COUNT": "{n} category | {n} categories",
+        "BREADCRUMB": {
+          "CATEGORY_LOCALE": "Categories ({localeCode})",
+          "ACTIVE_CATEGORY": "{categoryName} ({categoryCount} articles) | {categoryName} ({categoryCount} article)"
+        }
+      },
+      "CATEGORY_EMPTY_STATE": {
+        "TITLE": "Категорій не знайдено",
+        "SUBTITLE": "Categories will appear here. You can add a category by clicking the 'New Category' button."
+      },
+      "CATEGORY_CARD": {
+        "ARTICLES_COUNT": "{count} article | {count} articles"
+      },
+      "CATEGORY_DIALOG": {
+        "CREATE": {
+          "API": {
+            "SUCCESS_MESSAGE": "Категорію успішно створено",
+            "ERROR_MESSAGE": "Не вдалося створити категорію"
+          }
+        },
+        "EDIT": {
+          "API": {
+            "SUCCESS_MESSAGE": "Категорію успішно оновлено",
+            "ERROR_MESSAGE": "Не вдалося оновити категорію"
+          }
+        },
+        "DELETE": {
+          "API": {
+            "SUCCESS_MESSAGE": "Категорію успішно видалено",
+            "ERROR_MESSAGE": "Не вдалося видалити категорію"
+          }
+        },
+        "HEADER": {
+          "CREATE": "Створити категорію",
+          "EDIT": "Редагувати категорію",
+          "DESCRIPTION": "Редагування категорії оновить категорію в порталі.",
+          "PORTAL": "Портал",
+          "LOCALE": "Локаль"
+        },
+        "FORM": {
+          "NAME": {
+            "LABEL": "Ім'я",
+            "PLACEHOLDER": "Назва категорії",
+            "ERROR": "Назва обов'язкова"
+          },
+          "SLUG": {
+            "LABEL": "Мітка",
+            "PLACEHOLDER": "Мітка категорії для URL-адрес",
+            "ERROR": "Необхідно вказати мітку",
+            "HELP_TEXT": "app.chatwoot.com/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
+          },
+          "DESCRIPTION": {
+            "LABEL": "Опис",
+            "PLACEHOLDER": "Залиште короткий опис категорії.",
+            "ERROR": "Необхідний опис"
+          }
+        },
+        "BUTTONS": {
+          "CREATE": "Створити",
+          "EDIT": "Оновити",
+          "CANCEL": "Скасувати"
+        }
+      }
+    },
+    "LOCALES_PAGE": {
+      "LOCALES_COUNT": "No locales available | {n} locale | {n} locales",
+      "NEW_LOCALE_BUTTON_TEXT": "New locale",
+      "LOCALE_CARD": {
+        "ARTICLES_COUNT": "{count} article | {count} articles",
+        "CATEGORIES_COUNT": "{count} category | {count} categories",
+        "DEFAULT": "За замовчуванням",
+        "DROPDOWN_MENU": {
+          "MAKE_DEFAULT": "Make default",
+          "DELETE": "Видалити"
+        }
+      },
+      "ADD_LOCALE_DIALOG": {
+        "TITLE": "Додати нову локаль",
+        "DESCRIPTION": "Select the language in which this article will be written. This will be added to your list of translations, and you can add more later.",
+        "COMBOBOX": {
+          "PLACEHOLDER": "Виберіть мову..."
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Локаль успішно додано",
+          "ERROR_MESSAGE": "Не вдалося додати локаль. Спробуйте ще раз."
+        }
+      }
+    },
+    "EDIT_ARTICLE_PAGE": {
+      "HEADER": {
+        "STATUS": {
+          "SAVING": "Збереження...",
+          "SAVED": "Збережено"
+        },
+        "PREVIEW": "Попередній перегляд",
+        "PUBLISH": "Опублікувати",
+        "DRAFT": "Чернетка",
+        "ARCHIVE": "Archive",
+        "BACK_TO_ARTICLES": "Back to articles"
+      },
+      "EDIT_ARTICLE": {
+        "MORE_PROPERTIES": "More properties",
+        "UNCATEGORIZED": "Без категорії",
+        "EDITOR_PLACEHOLDER": "Write something..."
+      },
+      "ARTICLE_PROPERTIES": {
+        "ARTICLE_PROPERTIES": "Article properties",
+        "META_DESCRIPTION": "Мета-опис",
+        "META_DESCRIPTION_PLACEHOLDER": "Add meta description",
+        "META_TITLE": "Мета-заголовок",
+        "META_TITLE_PLACEHOLDER": "Add meta title",
+        "META_TAGS": "Meta tags",
+        "META_TAGS_PLACEHOLDER": "Add meta tags"
+      },
+      "API": {
+        "ERROR": "Помилка при збереженні статті"
+      }
+    },
+    "PORTAL_SWITCHER": {
+      "NEW_PORTAL": "New portal",
+      "PORTALS": "Портали",
+      "CREATE_PORTAL": "Create and manage multiple portals",
+      "ARTICLES": "статті",
+      "DOMAIN": "домен",
+      "PORTAL_NAME": "Назва порталу"
+    },
+    "CREATE_PORTAL_DIALOG": {
+      "TITLE": "Create new portal",
+      "DESCRIPTION": "Give your portal a name and create a user-friendly URL slug. You can modify both later in the settings.",
+      "CONFIRM_BUTTON_LABEL": "Створити",
+      "NAME": {
+        "LABEL": "Ім'я",
+        "PLACEHOLDER": "User Guide | Chatwoot",
+        "MESSAGE": "Choose an name for your portal.",
+        "ERROR": "Назва обов'язкова"
+      },
+      "SLUG": {
+        "LABEL": "Мітка",
+        "PLACEHOLDER": "user-guide",
+        "ERROR": "Необхідно вказати мітку",
+        "FORMAT_ERROR": "Please enter a valid slug, for eg: user-guide"
+      }
+    },
+    "PORTAL_SETTINGS": {
+      "FORM": {
+        "AVATAR": {
+          "LABEL": "Логотип",
+          "IMAGE_UPLOAD_ERROR": "Не вдалося завантажити зображення! Повторіть спробу",
+          "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save changes to save the logo",
+          "IMAGE_DELETE_SUCCESS": "Логотип успішно видалено",
+          "IMAGE_DELETE_ERROR": "Unable to delete logo",
+          "IMAGE_UPLOAD_SIZE_ERROR": "Зображення має бути менше {size}Мб"
+        },
+        "NAME": {
+          "LABEL": "Ім'я",
+          "PLACEHOLDER": "Назва порталу",
+          "ERROR": "Назва обов'язкова"
+        },
+        "HEADER_TEXT": {
+          "LABEL": "Header text",
+          "PLACEHOLDER": "Текст заголовку порталу"
+        },
+        "PAGE_TITLE": {
+          "LABEL": "Page title",
+          "PLACEHOLDER": "Заголовок сторінки порталу"
+        },
+        "HOME_PAGE_LINK": {
+          "LABEL": "Home page link",
+          "PLACEHOLDER": "Посилання на головну сторінку порталу",
+          "ERROR": "Enter a valid URL. The Home page link must start with 'http://' or 'https://'."
+        },
+        "SLUG": {
+          "LABEL": "Мітка",
+          "PLACEHOLDER": "Portal slug"
+        },
+        "LIVE_CHAT_WIDGET": {
+          "LABEL": "Live chat widget",
+          "PLACEHOLDER": "Select live chat widget",
+          "HELP_TEXT": "Select a live chat widget that will appear on your help center",
+          "NONE_OPTION": "No widget"
+        },
+        "BRAND_COLOR": {
+          "LABEL": "Brand color"
+        },
+        "SAVE_CHANGES": "Save changes"
+      },
+      "CONFIGURATION_FORM": {
+        "CUSTOM_DOMAIN": {
+          "HEADER": "Користувацький домен",
+          "LABEL": "Користувацький домен:",
+          "DESCRIPTION": "You can host your portal on a custom domain. For instance, if your website is yourdomain.com and you want your portal available at docs.yourdomain.com, simply enter that in this field.",
+          "STATUS_DESCRIPTION": "Your custom portal will start working as soon as it is verified.",
+          "PLACEHOLDER": "Власний домен порталу",
+          "EDIT_BUTTON": "Редагувати",
+          "ADD_BUTTON": "Add custom domain",
+          "STATUS": {
+            "LIVE": "Онлайн",
+            "PENDING": "Awaiting verification",
+            "ERROR": "Verification failed"
+          },
+          "DIALOG": {
+            "ADD_HEADER": "Add custom domain",
+            "EDIT_HEADER": "Edit custom domain",
+            "ADD_CONFIRM_BUTTON_LABEL": "Add domain",
+            "EDIT_CONFIRM_BUTTON_LABEL": "Update domain",
+            "LABEL": "Користувацький домен",
+            "PLACEHOLDER": "Власний домен порталу",
+            "ERROR": "Custom domain is required",
+            "FORMAT_ERROR": "Please enter a valid domain URL e.g. docs.yourdomain.com"
+          },
+          "DNS_CONFIGURATION_DIALOG": {
+            "HEADER": "DNS configuration",
+            "DESCRIPTION": "Log in to the account you have with your DNS provider, and add a CNAME record for subdomain pointing to chatwoot.help",
+            "COPY": "Successfully copied CNAME",
+            "SEND_INSTRUCTIONS": {
+              "HEADER": "Send instructions",
+              "DESCRIPTION": "If you would prefer to have someone from your development team to handle this step, you can enter email address below, and we will send them the required instructions.",
+              "PLACEHOLDER": "Enter their email",
+              "ERROR": "Enter a valid email address",
+              "SEND_BUTTON": "Надіслати"
+            }
+          }
+        },
+        "DELETE_PORTAL": {
+          "BUTTON": "Delete {portalName}",
+          "HEADER": "Видалити портал",
+          "DESCRIPTION": "Permanently delete this portal. This action is irreversible",
+          "DIALOG": {
+            "HEADER": "Sure you want to delete {portalName}?",
+            "DESCRIPTION": "This is a permanent action that cannot be reversed.",
+            "CONFIRM_BUTTON_LABEL": "Видалити"
+          }
+        },
+        "EDIT_CONFIGURATION": "Edit configuration"
+      },
+      "API": {
+        "CREATE_PORTAL": {
+          "SUCCESS_MESSAGE": "Портал успішно створено",
+          "ERROR_MESSAGE": "Unable to create portal"
+        },
+        "UPDATE_PORTAL": {
+          "SUCCESS_MESSAGE": "Портал успішно оновлено",
+          "ERROR_MESSAGE": "Unable to update portal"
+        }
+      }
+    },
+    "PDF_UPLOAD": {
+      "TITLE": "Upload PDF Document",
+      "DESCRIPTION": "Upload a PDF document to automatically generate FAQs using AI",
+      "DRAG_DROP_TEXT": "Drag and drop your PDF file here, or click to select",
+      "SELECT_FILE": "Select PDF File",
+      "ADDITIONAL_CONTEXT_LABEL": "Additional Context (Optional)",
+      "ADDITIONAL_CONTEXT_PLACEHOLDER": "Provide any additional context or instructions for FAQ generation...",
+      "UPLOADING": "Завантажується...",
+      "UPLOAD": "Upload & Process",
+      "CANCEL": "Скасувати",
+      "ERROR_INVALID_TYPE": "Please select a valid PDF file",
+      "ERROR_FILE_TOO_LARGE": "File size must be less than 512MB",
+      "ERROR_UPLOAD_FAILED": "Failed to upload PDF. Please try again."
+    },
+    "PDF_DOCUMENTS": {
+      "TITLE": "PDF Documents",
+      "DESCRIPTION": "Manage uploaded PDF documents and generate FAQs from them",
+      "UPLOAD_PDF": "Upload PDF",
+      "UPLOAD_FIRST_PDF": "Upload your first PDF",
+      "UPLOADED_BY": "Uploaded by",
+      "GENERATE_FAQS": "Generate FAQs",
+      "GENERATING": "Генерація...",
+      "CONFIRM_DELETE": "Are you sure you want to delete {filename}?",
+      "EMPTY_STATE": {
+        "TITLE": "No PDF documents yet",
+        "DESCRIPTION": "Upload PDF documents to automatically generate FAQs using AI"
+      },
+      "STATUS": {
+        "UPLOADED": "Ready",
+        "PROCESSING": "Processing",
+        "PROCESSED": "Завершено",
+        "FAILED": "Failed"
+      }
+    },
+    "CONTENT_GENERATION": {
+      "TITLE": "Content Generation",
+      "DESCRIPTION": "Upload PDF documents to automatically generate FAQ content using AI",
+      "UPLOAD_TITLE": "Upload PDF Document",
+      "DRAG_DROP": "Drag and drop your PDF file here, or click to select",
+      "SELECT_FILE": "Select PDF File",
+      "UPLOADING": "Processing document...",
+      "UPLOAD_SUCCESS": "Document processed successfully!",
+      "UPLOAD_ERROR": "Failed to upload document. Please try again.",
+      "INVALID_FILE_TYPE": "Please select a valid PDF file",
+      "FILE_TOO_LARGE": "File size must be less than 512MB",
+      "GENERATED_CONTENT": "Generated FAQ Content",
+      "PUBLISH_SELECTED": "Publish Selected",
+      "PUBLISHING": "Publishing...",
+      "FROM_DOCUMENT": "From document",
+      "NO_CONTENT": "No generated content available. Upload a PDF document to get started.",
+      "LOADING": "Loading generated content..."
+    }
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "CONTACTS_FILTER": {
+    "TITLE": "連絡先をフィルター",
+    "SUBTITLE": "以下にフィルターを追加し、「送信」をクリックして連絡先を絞り込みます。",
+    "EDIT_CUSTOM_SEGMENT": "セグメントを編集",
+    "CUSTOM_VIEWS_SUBTITLE": "フィルターを追加または削除し、セグメントを更新します。",
+    "ADD_NEW_FILTER": "フィルターを追加",
+    "CLEAR_ALL_FILTERS": "すべてのフィルターをクリア",
+    "FILTER_DELETE_ERROR": "保存するには少なくとも1つのフィルターが必要です。",
+    "SUBMIT_BUTTON_LABEL": "送信",
+    "UPDATE_BUTTON_LABEL": "セグメントを更新",
+    "CANCEL_BUTTON_LABEL": "キャンセル",
+    "CLEAR_BUTTON_LABEL": "フィルターをクリア",
+    "EMPTY_VALUE_ERROR": "値は必須です",
+    "SEGMENT_LABEL": "セグメント名",
+    "SEGMENT_QUERY_LABEL": "セグメントクエリ",
+    "TOOLTIP_LABEL": "連絡先をフィルター",
+    "QUERY_DROPDOWN_LABELS": {
+      "AND": "AND",
+      "OR": "OR"
+    },
+    "OPERATOR_LABELS": {
+      "equal_to": "等しい",
+      "not_equal_to": "等しくない",
+      "contains": "含む",
+      "does_not_contain": "含まない",
+      "is_present": "存在する",
+      "is_not_present": "存在しない",
+      "is_greater_than": "より大きい",
+      "is_lesser_than": "より小さい",
+      "days_before": "x日前"
+    },
+    "ERRORS": {
+      "VALUE_REQUIRED": "値は必須です"
+    },
+    "ATTRIBUTES": {
+      "NAME": "名前",
+      "EMAIL": "Eメール",
+      "PHONE_NUMBER": "電話番号",
+      "IDENTIFIER": "識別子",
+      "CITY": "都市",
+      "COUNTRY": "国",
+      "CUSTOM_ATTRIBUTE_LIST": "リスト",
+      "CUSTOM_ATTRIBUTE_TEXT": "テキスト",
+      "CUSTOM_ATTRIBUTE_NUMBER": "数値",
+      "CUSTOM_ATTRIBUTE_LINK": "リンク",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "チェックボックス",
+      "CREATED_AT": "作成日",
+      "LAST_ACTIVITY": "最終アクティビティ",
+      "REFERER_LINK": "リファラーリンク",
+      "BLOCKED": "ブロック済み",
+      "LABELS": "ラベル"
+    },
+    "GROUPS": {
+      "STANDARD_FILTERS": "標準フィルター",
+      "ADDITIONAL_FILTERS": "追加フィルター",
+      "CUSTOM_ATTRIBUTES": "カスタム属性"
+    }
+  }
+}

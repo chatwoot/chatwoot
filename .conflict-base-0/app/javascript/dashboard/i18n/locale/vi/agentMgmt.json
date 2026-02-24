@@ -1,0 +1,124 @@
+{
+  "AGENT_MGMT": {
+    "HEADER": "Nhà cung cấp",
+    "HEADER_BTN_TXT": "Thêm nhà cung cấp / đại lý",
+    "LOADING": "Tải danh sách nhà cung cấp",
+    "DESCRIPTION": "An agent is a member of your customer support team who can view and respond to user messages. The list below shows all the agents in your account.",
+    "LEARN_MORE": "Learn about user roles",
+    "AGENT_TYPES": {
+      "ADMINISTRATOR": "Quản trị viên",
+      "AGENT": "Nhà cung cấp"
+    },
+    "LIST": {
+      "404": "Không có tác nhân nào được liên kết với tài khoản này",
+      "TITLE": "Quản lý các đại lý trong nhóm của bạn",
+      "DESC": "Bạn có thể thêm / bớt đại lý vào / trong nhóm của mình.",
+      "NAME": "Tên",
+      "EMAIL": "EMAIL",
+      "STATUS": "Trạng thái",
+      "ACTIONS": "Hành động",
+      "VERIFIED": "Đã xác minh",
+      "VERIFICATION_PENDING": "Đang chờ xác minh",
+      "AVAILABLE_CUSTOM_ROLE": "Available custom role permissions"
+    },
+    "ADD": {
+      "TITLE": "Thêm đại lý vào nhóm của bạn",
+      "DESC": "Bạn có thể thêm những người có thể xử lý hỗ trợ cho hộp thư đến của bạn.",
+      "CANCEL_BUTTON_TEXT": "Huỷ",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Tên nhà cung cấp",
+          "PLACEHOLDER": "Vui lòng nhập tên nhà cung cấp"
+        },
+        "AGENT_TYPE": {
+          "LABEL": "Loại nhà cung cấp",
+          "PLACEHOLDER": "Vui lòng chọn loại",
+          "ERROR": "Loại nhà cung cấp là bắt buộc"
+        },
+        "EMAIL": {
+          "LABEL": "Email",
+          "PLACEHOLDER": "Vui lòng nhập email"
+        },
+        "SUBMIT": "Thêm nhà cung cấp"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Nhà cung cấp được thêm thành công",
+        "EXIST_MESSAGE": "Email đã được sử dung, vui lòng chọn email khác.",
+        "ERROR_MESSAGE": "Không thể kết nối với Máy chủ Woot, Vui lòng thử lại sau"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Xoá",
+      "API": {
+        "SUCCESS_MESSAGE": "Nhà cung cấp được xoá thành công",
+        "ERROR_MESSAGE": "Không thể kết nối với Máy chủ Woot, Vui lòng thử lại sau"
+      },
+      "CONFIRM": {
+        "TITLE": "Xác nhận xoá",
+        "MESSAGE": "Bạn có muốn xoá? ",
+        "YES": "Có, xoá ",
+        "NO": "Không, giữ "
+      }
+    },
+    "EDIT": {
+      "TITLE": "Chỉnh sửa nhà cung cấp",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Tên nhà cung cấp",
+          "PLACEHOLDER": "Vui lòng nhập tên nhà cung cấp"
+        },
+        "AGENT_TYPE": {
+          "LABEL": "Loại nhà cung cấp",
+          "PLACEHOLDER": "Vui lòng chọn loại",
+          "ERROR": "Loại nhà cung cấp là bắt buộc"
+        },
+        "EMAIL": {
+          "LABEL": "Emails",
+          "PLACEHOLDER": "Vui lòng nhập email"
+        },
+        "AGENT_AVAILABILITY": {
+          "LABEL": "Khả dụng",
+          "PLACEHOLDER": "Please select an availability status",
+          "ERROR": "Availability is required"
+        },
+        "SUBMIT": "Chỉnh sửa nhà cung cấp"
+      },
+      "BUTTON_TEXT": "Chỉnh sửa",
+      "CANCEL_BUTTON_TEXT": "Huỷ",
+      "API": {
+        "SUCCESS_MESSAGE": "Nhà cung cấp được cập nhật thành công",
+        "ERROR_MESSAGE": "Không thể kết nối với Máy chủ Woot, Vui lòng thử lại sau"
+      },
+      "PASSWORD_RESET": {
+        "ADMIN_RESET_BUTTON": "Đặt lại mật khẩu",
+        "ADMIN_SUCCESS_MESSAGE": "Một email với hướng dẫn đặt lại mật khẩu đã được gửi đến đại lý",
+        "SUCCESS_MESSAGE": "Đặt lại mật khẩu đại lý thành công",
+        "ERROR_MESSAGE": "Không thể kết nối với Máy chủ Woot, Vui lòng thử lại sau"
+      }
+    },
+    "SEARCH": {
+      "NO_RESULTS": "Không tìm thấy kết quả."
+    },
+    "MULTI_SELECTOR": {
+      "PLACEHOLDER": "Không có",
+      "TITLE": {
+        "AGENT": "Chọn thành viên",
+        "TEAM": "Chọn nhóm"
+      },
+      "LIST": {
+        "NONE": "Không có"
+      },
+      "SEARCH": {
+        "NO_RESULTS": {
+          "AGENT": "Không tìm thấy nhà cung cấp",
+          "TEAM": "Không tìm thấy nhóm nào"
+        },
+        "PLACEHOLDER": {
+          "AGENT": "Tìm kiếm nhân viên",
+          "TEAM": "Tìm kiếm nhóm",
+          "INPUT": "Tìm nhân viên"
+        }
+      }
+    }
+  }
+}

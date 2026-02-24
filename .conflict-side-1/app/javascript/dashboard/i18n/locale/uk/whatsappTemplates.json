@@ -1,0 +1,47 @@
+{
+  "WHATSAPP_TEMPLATES": {
+    "MODAL": {
+      "TITLE": "Шаблони Whatsapp",
+      "SUBTITLE": "Виберіть шаблон whatsApp, який Ви хочете надіслати",
+      "TEMPLATE_SELECTED_SUBTITLE": "Configure template: {templateName}"
+    },
+    "PICKER": {
+      "SEARCH_PLACEHOLDER": "Знайти шаблони",
+      "NO_TEMPLATES_FOUND": "Шаблонів не знайдено для",
+      "HEADER": "Header",
+      "BODY": "Body",
+      "FOOTER": "Footer",
+      "BUTTONS": "Buttons",
+      "CATEGORY": "Категорія",
+      "MEDIA_CONTENT": "Media Content",
+      "MEDIA_CONTENT_FALLBACK": "media content",
+      "NO_TEMPLATES_AVAILABLE": "No WhatsApp templates available. Click refresh to sync templates from WhatsApp.",
+      "REFRESH_BUTTON": "Refresh templates",
+      "REFRESH_SUCCESS": "Templates refresh initiated. It may take a couple of minutes to update.",
+      "REFRESH_ERROR": "Failed to refresh templates. Please try again.",
+      "LABELS": {
+        "LANGUAGE": "Мова",
+        "TEMPLATE_BODY": "Тіло шаблона",
+        "CATEGORY": "Категорія"
+      }
+    },
+    "PARSER": {
+      "VARIABLES_LABEL": "Змінні",
+      "LANGUAGE": "Мова",
+      "CATEGORY": "Категорія",
+      "VARIABLE_PLACEHOLDER": "Введіть значення {variable}",
+      "GO_BACK_LABEL": "Повернутися",
+      "SEND_MESSAGE_LABEL": "Надіслати повідомлення",
+      "FORM_ERROR_MESSAGE": "Будь ласка, заповніть всі змінні перед надсиланням",
+      "MEDIA_HEADER_LABEL": "{type} Header",
+      "OTP_CODE": "Enter 4-8 digit OTP",
+      "EXPIRY_MINUTES": "Enter expiry minutes",
+      "BUTTON_PARAMETERS": "Button Parameters",
+      "BUTTON_LABEL": "Button {index}",
+      "COUPON_CODE": "Enter coupon code (max 15 chars)",
+      "MEDIA_URL_LABEL": "Enter {type} URL",
+      "DOCUMENT_NAME_PLACEHOLDER": "Enter document filename (e.g., Invoice_2025.pdf)",
+      "BUTTON_PARAMETER": "Enter button parameter"
+    }
+  }
+}

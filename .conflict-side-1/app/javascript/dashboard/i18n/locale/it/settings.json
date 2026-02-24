@@ -1,0 +1,796 @@
+{
+  "PROFILE_SETTINGS": {
+    "LINK": "Impostazioni Profilo",
+    "TITLE": "Impostazioni Profilo",
+    "BTN_TEXT": "Aggiorna Profilo",
+    "DELETE_AVATAR": "Elimina Avatar",
+    "AVATAR_DELETE_SUCCESS": "L'avatar è stato eliminato con successo",
+    "AVATAR_DELETE_FAILED": "C'è un errore durante l'eliminazione dell'avatar, si prega di riprovare",
+    "UPDATE_SUCCESS": "Il tuo profilo è stato aggiornato con successo",
+    "PASSWORD_UPDATE_SUCCESS": "La tua password è stata modificata con successo",
+    "AFTER_EMAIL_CHANGED": "Il tuo profilo è stato aggiornato correttamente, effettua nuovamente l'accesso visto che le credenziali di accesso sono state modificate",
+    "FORM": {
+      "PICTURE": "Immagine del Profilo",
+      "AVATAR": "Immagine del Profilo",
+      "ERROR": "Correggi gli errori del modulo",
+      "REMOVE_IMAGE": "Rimuovi",
+      "UPLOAD_IMAGE": "Carica immagine",
+      "UPDATE_IMAGE": "Aggiorna immagine",
+      "PROFILE_SECTION": {
+        "TITLE": "Profilo",
+        "NOTE": "Il tuo indirizzo email è la tua identità e viene utilizzato per l'accesso."
+      },
+      "SEND_MESSAGE": {
+        "TITLE": "Tasto per inviare messaggi",
+        "NOTE": "Puoi selezionare un tasto di scelta rapida (Invio o Cmd/Ctrl+Invio) in base alle tue preferenze di scrittura.",
+        "UPDATE_SUCCESS": "Impostazioni aggiornate con successo",
+        "CARD": {
+          "ENTER_KEY": {
+            "HEADING": "Invio (↵)",
+            "CONTENT": "Invia messaggi premendo il tasto Invio invece di fare clic sul pulsante Invia."
+          },
+          "CMD_ENTER_KEY": {
+            "HEADING": "Cmd/Ctrl + Invio (⌘ + ↵)",
+            "CONTENT": "Invia messaggi premendo Cmd/Ctrl + Invio invece di dover cliccare sul pulsante Invia."
+          }
+        }
+      },
+      "INTERFACE_SECTION": {
+        "TITLE": "Interfaccia",
+        "NOTE": "Personalizza l'aspetto della tua dashboard.",
+        "FONT_SIZE": {
+          "TITLE": "Grandezza font",
+          "NOTE": "Regola la dimensione del testo sulla dashboard in base alle tue preferenze.",
+          "UPDATE_SUCCESS": "Le impostazioni del font sono state aggiornate con successo",
+          "UPDATE_ERROR": "C'è stato un errore durante l'aggiornamento del font, si prega di riprovare",
+          "OPTIONS": {
+            "SMALLER": "Più piccolo",
+            "SMALL": "Piccolo",
+            "DEFAULT": "Predefinito",
+            "LARGE": "Grande",
+            "LARGER": "Più Grande",
+            "EXTRA_LARGE": "Molto Grande"
+          }
+        },
+        "LANGUAGE": {
+          "TITLE": "Lingua Preferita",
+          "NOTE": "Scegli la lingua che vuoi utilizzare.",
+          "UPDATE_SUCCESS": "Le impostazioni della lingua sono state aggiornate con successo",
+          "UPDATE_ERROR": "C'è stato un errore durante l'aggiornamento della lingua, si prega di riprovare",
+          "USE_ACCOUNT_DEFAULT": "Predefinita account"
+        }
+      },
+      "MESSAGE_SIGNATURE_SECTION": {
+        "TITLE": "Firma del messaggio",
+        "NOTE": "Crea una firma di messaggio univoca da visualizzare alla fine di ogni messaggio che invii da qualsiasi Inbox. È anche possibile includere un'immagine inline, che è supportata in live-chat, e-mail e API.",
+        "BTN_TEXT": "Salva firma del messaggio",
+        "API_ERROR": "Impossibile salvare la firma! Riprova",
+        "API_SUCCESS": "Firma salvata con successo",
+        "IMAGE_UPLOAD_ERROR": "Impossibile caricare l'immagine! Riprova",
+        "IMAGE_UPLOAD_SUCCESS": "Immagine aggiunta con successo. Clicca su Salva per salvare la firma",
+        "IMAGE_UPLOAD_SIZE_ERROR": "La dimensione dell'immagine deve essere inferiore a {size}MB"
+      },
+      "MESSAGE_SIGNATURE": {
+        "LABEL": "Firma del messaggio",
+        "ERROR": "La firma del messaggio non può essere vuota",
+        "PLACEHOLDER": "Inserisci qui la firma del tuo messaggio personale."
+      },
+      "PASSWORD_SECTION": {
+        "TITLE": "Password",
+        "NOTE": "Aggiornare la tua password reimposterà i tuoi accessi in più dispositivi.",
+        "BTN_TEXT": "Cambia password"
+      },
+      "SECURITY_SECTION": {
+        "TITLE": "Sicurezza",
+        "NOTE": "Gestisci funzionalità di sicurezza aggiuntive per il tuo account.",
+        "MFA_BUTTON": "Gestisci Autenticazione A Due Fattori"
+      },
+      "ACCESS_TOKEN": {
+        "TITLE": "Token di accesso",
+        "NOTE": "Questo token può essere usato se stai costruendo un'integrazione basata su API",
+        "COPY": "Copia",
+        "RESET": "Reset",
+        "CONFIRM_RESET": "Sei sicuro?",
+        "CONFIRM_HINT": "Clicca di nuovo per confermare",
+        "RESET_SUCCESS": "Token di accesso rigenerato correttamente",
+        "RESET_ERROR": "Impossibile rigenerare il token di accesso. Riprova"
+      },
+      "AUDIO_NOTIFICATIONS_SECTION": {
+        "TITLE": "Avvisi Audio",
+        "NOTE": "Abilita gli avvisi audio nella dashboard per nuovi messaggi e conversazioni.",
+        "PLAY": "Riproduci suono",
+        "ALERT_TYPES": {
+          "NONE": "Nessuno",
+          "MINE": "Assegnate",
+          "ALL": "Tutti",
+          "ASSIGNED": "Le conversazioni assegnate a me",
+          "UNASSIGNED": "Conversazioni non assegnate",
+          "NOTME": "Conversazioni aperte assegnate ad altri"
+        },
+        "ALERT_COMBINATIONS": {
+          "NONE": "Non hai selezionato nessuna opzione, non riceverai alcun avviso audio.",
+          "ASSIGNED": "Riceverai avvisi per le conversazioni assegnate a te.",
+          "UNASSIGNED": "Riceverai avvisi per qualsiasi conversazione non assegnata.",
+          "NOTME": "Riceverai avvisi per le conversazioni assegnate ad altri.",
+          "ASSIGNED+UNASSIGNED": "Riceverai avvisi per le conversazioni assegnate a te e per quelle non risposte.",
+          "ASSIGNED+NOTME": "Riceverai avvisi per le conversazioni assegnate a te e agli altri, ma non per quelle non assegnate.",
+          "NOTME+UNASSIGNED": "Riceverai avvisi per conversazioni non risposte e per quelle assegnate ad altri.",
+          "ASSIGNED+NOTME+UNASSIGNED": "Riceverai avvisi per tutte le conversazioni."
+        },
+        "ALERT_TYPE": {
+          "TITLE": "Eventi di avviso per le conversazioni",
+          "NONE": "Nessuno",
+          "ASSIGNED": "Conversazioni Assegnate",
+          "ALL_CONVERSATIONS": "Tutte le Conversazioni"
+        },
+        "DEFAULT_TONE": {
+          "TITLE": "Tono avviso:"
+        },
+        "CONDITIONS": {
+          "TITLE": "Condizioni di avviso:",
+          "CONDITION_ONE": "Invia avvisi audio solo se la finestra del browser non è attiva",
+          "CONDITION_TWO": "Invia avvisi ogni 30s fino alla lettura di tutte le conversazioni assegnate"
+        },
+        "SOUND_PERMISSION_ERROR": "La riproduzione automatica è disabilitata nel tuo browser. Per sentire gli avvisi automaticamente, abilita i permessi audio nelle impostazioni del tuo browser o interagisci con la pagina.",
+        "READ_MORE": "Leggi di più"
+      },
+      "EMAIL_NOTIFICATIONS_SECTION": {
+        "TITLE": "Notifiche email",
+        "NOTE": "Aggiorna qui le tue preferenze di notifica email",
+        "CONVERSATION_ASSIGNMENT": "Invia notifiche email quando viene assegnata una conversazione a me",
+        "CONVERSATION_CREATION": "Invia notifiche email quando viene creata una nuova conversazione",
+        "CONVERSATION_MENTION": "Invia notifiche email quando sei menzionato in una conversazione",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Invia notifiche email quando viene creato un nuovo messaggio in una conversazione assegnata",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Invia notifiche email quando un nuovo messaggio viene creato in una conversazione partecipata",
+        "SLA_MISSED_FIRST_RESPONSE": "Invia notifiche email quando una conversazione manca il tempo di risposta SLA",
+        "SLA_MISSED_NEXT_RESPONSE": "Invia notifiche email quando una conversazione manca il tempo di prossima risposta SLA",
+        "SLA_MISSED_RESOLUTION": "Invia notifiche email quando una conversazione manca il tempo di risoluzione SLA"
+      },
+      "NOTIFICATIONS": {
+        "TITLE": "Preferenze di notifica",
+        "TYPE_TITLE": "Tipo di notifica",
+        "EMAIL": "Email",
+        "PUSH": "Notifica push",
+        "TYPES": {
+          "CONVERSATION_CREATED": "Una nuova conversazione è stata creata",
+          "CONVERSATION_ASSIGNED": "Una conversazione ti viene assegnata",
+          "CONVERSATION_MENTION": "Vieni menzionato in una conversazione",
+          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Un nuovo messaggio è stato creato in una conversazione assegnata",
+          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Un nuovo messaggio è stato creato in una conversazione partecipata",
+          "SLA_MISSED_FIRST_RESPONSE": "Una conversazione manca il tempo di prima risposta SLA",
+          "SLA_MISSED_NEXT_RESPONSE": "Una conversazione manca il tempo di risposta successiva SLA",
+          "SLA_MISSED_RESOLUTION": "Una conversazione manca il tempo di risoluzione SLA"
+        },
+        "BROWSER_PERMISSION": "Abilita le notifiche push per il browser in modo da poterle ricevere"
+      },
+      "API": {
+        "UPDATE_SUCCESS": "Le preferenze per le notifiche sono state aggiornate con successo",
+        "UPDATE_ERROR": "C'è stato un errore durante l'aggiornamento delle preferenze, si prega di riprovare"
+      },
+      "PUSH_NOTIFICATIONS_SECTION": {
+        "TITLE": "Notifiche Push",
+        "NOTE": "Aggiorna qui le tue preferenze di notifiche push",
+        "CONVERSATION_ASSIGNMENT": "Invia notifiche push quando una conversazione mi viene assegnata",
+        "CONVERSATION_CREATION": "Invia notifiche push quando viene creata una nuova conversazione",
+        "CONVERSATION_MENTION": "Invia notifiche push quando sei menzionato in una conversazione",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Invia notifiche push quando viene creato un nuovo messaggio in una conversazione assegnata",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Invia notifiche push quando viene creato un nuovo messaggio in una conversazione partecipata",
+        "HAS_ENABLED_PUSH": "Hai abilitato notifiche push per questo browser.",
+        "REQUEST_PUSH": "Abilita notifiche push",
+        "SLA_MISSED_FIRST_RESPONSE": "Invia notifiche push quando una conversazione manca il tempo di prima risposta SLA",
+        "SLA_MISSED_NEXT_RESPONSE": "Invia notifiche push quando una conversazione manca il tempo di risposta successiva SLA",
+        "SLA_MISSED_RESOLUTION": "Invia notifiche push quando una conversazione manca il tempo di risoluzione SLA"
+      },
+      "PROFILE_IMAGE": {
+        "LABEL": "Immagine del Profilo"
+      },
+      "NAME": {
+        "LABEL": "Il tuo nome completo",
+        "ERROR": "Inserisci un nome completo valido",
+        "PLACEHOLDER": "Inserisci il tuo nome completo"
+      },
+      "DISPLAY_NAME": {
+        "LABEL": "Nome visualizzato",
+        "ERROR": "Inserisci un nome visualizzato valido",
+        "PLACEHOLDER": "Inserisci un nome visualizzato, questo verrà mostrato nelle conversazioni"
+      },
+      "AVAILABILITY": {
+        "LABEL": "Disponibilità",
+        "STATUS": {
+          "ONLINE": "Online",
+          "BUSY": "Occupato",
+          "OFFLINE": "Offline"
+        },
+        "SET_AVAILABILITY_SUCCESS": "Disponibilità impostata correttamente",
+        "SET_AVAILABILITY_ERROR": "Impossibile impostare la disponibilità, riprova",
+        "IMPERSONATING_ERROR": "Impossibile modificare la disponibilità durante l'impersonazione di un utente"
+      },
+      "EMAIL": {
+        "LABEL": "Il tuo indirizzo email",
+        "ERROR": "Inserisci un indirizzo email valido",
+        "PLACEHOLDER": "Inserisci il tuo indirizzo email, questo verrà mostrato nelle conversazioni"
+      },
+      "CURRENT_PASSWORD": {
+        "LABEL": "Password attuale",
+        "ERROR": "Inserisci la password attuale",
+        "PLACEHOLDER": "Inserisci la password attuale"
+      },
+      "PASSWORD": {
+        "LABEL": "Nuova password",
+        "ERROR": "Inserisci una password di lunghezza 6 o più",
+        "PLACEHOLDER": "Inserisci una nuova password"
+      },
+      "PASSWORD_CONFIRMATION": {
+        "LABEL": "Conferma nuova password",
+        "ERROR": "La password di conferma deve corrispondere alla password",
+        "PLACEHOLDER": "Inserisci nuovamente la nuova password"
+      }
+    }
+  },
+  "SIDEBAR_ITEMS": {
+    "CHANGE_AVAILABILITY_STATUS": "Cambia",
+    "CHANGE_ACCOUNTS": "Cambia account",
+    "SWITCH_ACCOUNT": "Cambia account",
+    "CONTACT_SUPPORT": "Contatta il supporto",
+    "SELECTOR_SUBTITLE": "Seleziona un account dall'elenco",
+    "PROFILE_SETTINGS": "Impostazioni profilo",
+    "YEAR_IN_REVIEW": "Year in Review",
+    "KEYBOARD_SHORTCUTS": "Scorciatoie da tastiera",
+    "APPEARANCE": "Personalizza aspetto",
+    "SUPER_ADMIN_CONSOLE": "Console SuperAdmin",
+    "DOCS": "Leggi la documentazione",
+    "CHANGELOG": "Changelog",
+    "LOGOUT": "Disconnetti"
+  },
+  "APP_GLOBAL": {
+    "TRIAL_MESSAGE": "giorni di prova rimanenti.",
+    "TRAIL_BUTTON": "Acquista Ora",
+    "DELETED_USER": "Utente Eliminato",
+    "EMAIL_VERIFICATION_PENDING": "Sembra che tu non abbia ancora verificato il tuo indirizzo email. Controlla la tua casella di posta per l'email di verifica.",
+    "RESEND_VERIFICATION_MAIL": "Invia nuovamente email di verifica",
+    "EMAIL_VERIFICATION_SENT": "L'email di verifica è stata inviata. Controlla la tua casella di posta.",
+    "ACCOUNT_SUSPENDED": {
+      "TITLE": "Account Sospeso",
+      "MESSAGE": "Il tuo account è sospeso. Contatta il team di supporto per ulteriori informazioni."
+    },
+    "NO_ACCOUNTS": {
+      "TITLE": "Nessun account trovato",
+      "MESSAGE_CLOUD": "Non fai parte di nessun account al momento. Se pensi che sia un errore, contatta il nostro team di supporto.",
+      "MESSAGE_SELF_HOSTED": "Non fai parte di nessun account al momento. Per favore contatta il tuo amministratore.",
+      "LOGOUT": "Disconnetti"
+    }
+  },
+  "COMPONENTS": {
+    "CODE": {
+      "BUTTON_TEXT": "Copia",
+      "CODEPEN": "Apri in CodePen",
+      "COPY_SUCCESSFUL": "Copiato negli appunti"
+    },
+    "SHOW_MORE_BLOCK": {
+      "SHOW_MORE": "Mostra di più",
+      "SHOW_LESS": "Mostra meno"
+    },
+    "FILE_BUBBLE": {
+      "DOWNLOAD": "Scarica",
+      "UPLOADING": "Caricamento...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "Questa storia non è più disponibile."
+    },
+    "LOCATION_BUBBLE": {
+      "SEE_ON_MAP": "Vedi sulla mappa"
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "Invia"
+    },
+    "MEDIA": {
+      "IMAGE_UNAVAILABLE": "Questa immagine non è più disponibile.",
+      "LOADING_FAILED": "Caricamento non riuscito"
+    }
+  },
+  "CONFIRM_EMAIL": "Verifica...",
+  "SETTINGS": {
+    "INBOXES": {
+      "NEW_INBOX": "Aggiungi Inbox"
+    }
+  },
+  "SIDEBAR": {
+    "NO_ITEMS": "Nessun elemento",
+    "CURRENTLY_VIEWING_ACCOUNT": "Visualizzazione attuale:",
+    "SWITCH": "Cambia",
+    "INBOX_VIEW": "Vista Inbox",
+    "CONVERSATIONS": "Conversazioni",
+    "INBOX": "La mia Inbox",
+    "ALL_CONVERSATIONS": "Tutte le Conversazioni",
+    "MENTIONED_CONVERSATIONS": "Menzioni",
+    "PARTICIPATING_CONVERSATIONS": "Partecipate",
+    "UNATTENDED_CONVERSATIONS": "Non partecipate",
+    "REPORTS": "Report",
+    "SETTINGS": "Impostazioni",
+    "CONTACTS": "Contatti",
+    "ACTIVE": "Attivi",
+    "COMPANIES": "Aziende",
+    "ALL_COMPANIES": "Tutte le Aziende",
+    "CAPTAIN": "Captain",
+    "CAPTAIN_ASSISTANTS": "Assistenti",
+    "CAPTAIN_DOCUMENTS": "Documenti",
+    "CAPTAIN_RESPONSES": "FAQ",
+    "CAPTAIN_TOOLS": "Strumenti",
+    "CAPTAIN_SCENARIOS": "Scenari",
+    "CAPTAIN_PLAYGROUND": "Playground",
+    "CAPTAIN_INBOXES": "Inbox",
+    "CAPTAIN_SETTINGS": "Impostazioni",
+    "HOME": "Home",
+    "AGENTS": "Operatori",
+    "AGENT_BOTS": "Bots",
+    "AUDIT_LOGS": "Audit Logs",
+    "INBOXES": "Inbox",
+    "NOTIFICATIONS": "Notifiche",
+    "CANNED_RESPONSES": "Risposte Predefinite",
+    "INTEGRATIONS": "Integrazioni",
+    "PROFILE_SETTINGS": "Impostazioni Profilo",
+    "ACCOUNT_SETTINGS": "Impostazioni Account",
+    "APPLICATIONS": "Applicazioni",
+    "LABELS": "Etichette",
+    "CUSTOM_ATTRIBUTES": "Attributi Personalizzati",
+    "AUTOMATION": "Automazioni",
+    "MACROS": "Macro",
+    "TEAMS": "Team",
+    "BILLING": "Fatturazione",
+    "CUSTOM_VIEWS_FOLDER": "Cartelle",
+    "CUSTOM_VIEWS_SEGMENTS": "Segmenti",
+    "ALL_CONTACTS": "Tutti i Contatti",
+    "TAGGED_WITH": "Etichettato con",
+    "NEW_LABEL": "Nuova etichetta",
+    "NEW_TEAM": "Nuovo team",
+    "NEW_INBOX": "Nuova Inbox",
+    "REPORTS_CONVERSATION": "Conversazioni",
+    "CSAT": "CSAT",
+    "LIVE_CHAT": "Live Chat",
+    "SMS": "SMS",
+    "WHATSAPP": "WhatsApp",
+    "CAMPAIGNS": "Campagne",
+    "ONGOING": "In corso",
+    "ONE_OFF": "Una-tantum",
+    "REPORTS_SLA": "SLA",
+    "REPORTS_BOT": "Bot",
+    "REPORTS_AGENT": "Operatori",
+    "REPORTS_LABEL": "Etichette",
+    "REPORTS_INBOX": "Inbox",
+    "REPORTS_TEAM": "Team",
+    "AGENT_ASSIGNMENT": "Assegnazione Operatori",
+    "SET_AVAILABILITY_TITLE": "Impostati come",
+    "SET_YOUR_AVAILABILITY": "Imposta la tua disponibilità",
+    "SLA": "SLA",
+    "CUSTOM_ROLES": "Ruoli Personalizzati",
+    "BETA": "Beta",
+    "REPORTS_OVERVIEW": "Panoramica",
+    "REAUTHORIZE": "La tua connessione alla Inbox è scaduta, ricollegati per continuare a ricevere e inviare messaggi",
+    "HELP_CENTER": {
+      "TITLE": "Help Center",
+      "ARTICLES": "Articoli",
+      "CATEGORIES": "Categorie",
+      "LOCALES": "Lingue",
+      "SETTINGS": "Impostazioni"
+    },
+    "CHANNELS": "Canali",
+    "SET_AUTO_OFFLINE": {
+      "TEXT": "Imposta offline automaticamente",
+      "INFO_TEXT": "Consenti al sistema di impostarti automaticamente offline quando non utilizzi l'app o la dashboard.",
+      "INFO_SHORT": "Imposta automaticamente offline quando non stai usando l'app."
+    },
+    "DOCS": "Leggi i documenti",
+    "SECURITY": "Sicurezza"
+  },
+  "BILLING_SETTINGS": {
+    "TITLE": "Fatturazione",
+    "DESCRIPTION": "Gestisci qui il tuo abbonamento, aggiorna il tuo piano e ottieni di più per il tuo team.",
+    "CURRENT_PLAN": {
+      "TITLE": "Piano attuale",
+      "PLAN_NOTE": "Sei attualmente abbonato al piano **{plan}** con **{quantity}** licenze",
+      "SEAT_COUNT": "Numero di seat",
+      "RENEWS_ON": "Si rinnova il"
+    },
+    "VIEW_PRICING": "Visualizza Prezzi",
+    "MANAGE_SUBSCRIPTION": {
+      "TITLE": "Gestisci il tuo abbonamento",
+      "DESCRIPTION": "Visualizza le tue fatture precedenti, modifica i tuoi dati di fatturazione o annulla il tuo abbonamento.",
+      "BUTTON_TXT": "Vai al portale di fatturazione"
+    },
+    "CAPTAIN": {
+      "TITLE": "Captain",
+      "DESCRIPTION": "Gestisci utilizzo e crediti per Captain AI.",
+      "BUTTON_TXT": "Acquista più crediti",
+      "DOCUMENTS": "Documenti",
+      "RESPONSES": "Risposte",
+      "UPGRADE": "Captain non è disponibile sul piano gratuito, aggiorna ora per ottenere l'accesso agli assistenti, copilot e altro ancora.",
+      "REFRESH_CREDITS": "Aggiorna"
+    },
+    "CHAT_WITH_US": {
+      "TITLE": "Hai bisogno di aiuto?",
+      "DESCRIPTION": "Hai qualche problema di fatturazione? Siamo qui per aiutarti.",
+      "BUTTON_TXT": "Chatta con noi"
+    },
+    "NO_BILLING_USER": "Il tuo account di fatturazione è in fase di configurazione. Per favore aggiorna la pagina e riprova.",
+    "TOPUP": {
+      "BUY_CREDITS": "Acquista più crediti",
+      "MODAL_TITLE": "Acquista Crediti AI",
+      "MODAL_DESCRIPTION": "Acquista crediti aggiuntivi per Captain AI.",
+      "CREDITS": "CREDITI",
+      "ONE_TIME": "una tantum",
+      "POPULAR": "Più Popolare",
+      "NOTE_TITLE": "Nota:",
+      "NOTE_DESCRIPTION": "I crediti vengono aggiunti immediatamente e scadono in 6 mesi. È necessario un abbonamento attivo per utilizzare i crediti. I crediti acquistati vengono consumati dopo i crediti mensili del piano.",
+      "CANCEL": "Annulla",
+      "PURCHASE": "Acquista Crediti",
+      "LOADING": "Caricamento opzioni...",
+      "FETCH_ERROR": "Impossibile caricare le opzioni crediti. Riprova.",
+      "PURCHASE_ERROR": "Impossibile elaborare l'acquisto. Riprova.",
+      "PURCHASE_SUCCESS": "{credits} crediti aggiunti correttamente al tuo account",
+      "CONFIRM": {
+        "TITLE": "Conferma Acquisto",
+        "DESCRIPTION": "Stai per acquistare {credits} crediti per {amount}.",
+        "INSTANT_DEDUCTION_NOTE": "L'importo verrà addebitato immediatamente sulla tua carta salvata al momento della conferma.",
+        "GO_BACK": "Torna Indietro",
+        "CONFIRM_PURCHASE": "Conferma Acquisto"
+      }
+    }
+  },
+  "SECURITY_SETTINGS": {
+    "TITLE": "Sicurezza",
+    "DESCRIPTION": "Gestisci le impostazioni di sicurezza del tuo account.",
+    "LINK_TEXT": "Ulteriori informazioni su SAML SSO",
+    "SAML_DISABLED_MESSAGE": "SAML SSO è attualmente disabilitato. Contatta l'amministratore per abilitare questa funzionalità.",
+    "SAML": {
+      "TITLE": "SAML SSO",
+      "NOTE": "Configura SAML single sign-on per il tuo account. Gli utenti si autenticeranno tramite il tuo provider di identità invece di utilizzare email/password.",
+      "ACS_URL": {
+        "LABEL": "URL ACS",
+        "TOOLTIP": "URL Assertion Consumer Service - Configura questo URL nel tuo IdP come destinazione per le risposte SAML"
+      },
+      "SSO_URL": {
+        "LABEL": "URL SSO",
+        "HELP": "L'URL dove verranno inviate le richieste di autenticazione SAML",
+        "PLACEHOLDER": "https://your-idp.com/saml/sso"
+      },
+      "CERTIFICATE": {
+        "LABEL": "Certificato di firma in formato PEM",
+        "HELP": "Il certificato pubblico del provider di identità utilizzato per verificare le risposte SAML",
+        "PLACEHOLDER": "-----BEGIN CERTIFICATE-----\nMIIC..."
+      },
+      "FINGERPRINT": {
+        "LABEL": "Fingerprint",
+        "TOOLTIP": "Fingerprint SHA-1 del certificato — utilizzala per verificare il certificato nella configurazione del tuo IdP"
+      },
+      "COPY_SUCCESS": "Copiato negli appunti",
+      "SP_ENTITY_ID": {
+        "LABEL": "SP Entity ID",
+        "HELP": "Identificatore univoco per questa applicazione come Service Provider (generato automaticamente).",
+        "TOOLTIP": "Identificatore univoco di Chatwoot come Service Provider — configuralo nelle impostazioni del tuo IdP"
+      },
+      "IDP_ENTITY_ID": {
+        "LABEL": "Identity Provider Entity ID",
+        "HELP": "Identificatore univoco del tuo Identity Provider (di solito presente nella configurazione dell’IdP)",
+        "PLACEHOLDER": "https://your-idp.com/saml"
+      },
+      "UPDATE_BUTTON": "Aggiorna Impostazioni SAML",
+      "API": {
+        "SUCCESS": "Impostazioni SAML aggiornate correttamente",
+        "ERROR": "Impossibile aggiornare le impostazioni SAML",
+        "ERROR_LOADING": "Impossibile caricare le impostazioni SAML",
+        "DISABLED": "Impostazioni SAML disabilitate correttamente"
+      },
+      "VALIDATION": {
+        "REQUIRED_FIELDS": "SSO URL, Identity Provider Entity ID e Certificate sono campi obbligatori",
+        "SSO_URL_ERROR": "Inserisci un URL SSO valido",
+        "CERTIFICATE_ERROR": "Certificato richiesto",
+        "IDP_ENTITY_ID_ERROR": "Identity Provider Entity ID è richiesto"
+      },
+      "ENTERPRISE_PAYWALL": {
+        "AVAILABLE_ON": "La funzionalità SAML SSO è disponibile solo nei piani Enterprise.",
+        "UPGRADE_PROMPT": "Passa a un piano Enterprise per accedere a SAML single sign-on e ad altre funzionalità di sicurezza avanzate.",
+        "ASK_ADMIN": "Contatta il tuo amministratore per l'aggiornamento."
+      },
+      "PAYWALL": {
+        "TITLE": "Aggiorna per abilitare SAML SSO",
+        "AVAILABLE_ON": "La funzionalità SAML SSO è disponibile solo nei piani Enterprise.",
+        "UPGRADE_PROMPT": "Aggiorna il tuo piano per ottenere l'accesso a SAML single sign-on e altre funzionalità avanzate.",
+        "UPGRADE_NOW": "Aggiorna ora",
+        "CANCEL_ANYTIME": "Puoi modificare o annullare il tuo piano in qualsiasi momento"
+      },
+      "ATTRIBUTE_MAPPING": {
+        "TITLE": "Impostazioni Attributi SAML",
+        "DESCRIPTION": "I seguenti mapping degli attributi devono essere configurati nel tuo Identity Provider"
+      },
+      "INFO_SECTION": {
+        "TITLE": "Informazioni sul Service Provider",
+        "TOOLTIP": "Copia questi valori e configurali nel tuo Identity Provider per stabilire la connessione SAML"
+      }
+    }
+  },
+  "CREATE_ACCOUNT": {
+    "NO_ACCOUNT_WARNING": "Uh oh! Non abbiamo trovato alcun account Chatwoot. Si prega di creare un nuovo account per continuare.",
+    "NEW_ACCOUNT": "Nuovo account",
+    "SELECTOR_SUBTITLE": "Crea un nuovo account",
+    "API": {
+      "SUCCESS_MESSAGE": "Account creato con successo",
+      "EXIST_MESSAGE": "Account già esistente",
+      "ERROR_MESSAGE": "Impossibile connettersi al server Woot, riprova più tardi"
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "Nome Azienda",
+        "PLACEHOLDER": "Wayne Enterprises"
+      },
+      "SUBMIT": "Invia",
+      "CANCEL": "Annulla"
+    }
+  },
+  "KEYBOARD_SHORTCUTS": {
+    "TOGGLE_MODAL": "View all shortcuts",
+    "TITLE": {
+      "OPEN_CONVERSATION": "Apri conversazione",
+      "RESOLVE_AND_NEXT": "Risolvi e vai alla prossima",
+      "NAVIGATE_DROPDOWN": "Naviga con gli elementi a discesa",
+      "RESOLVE_CONVERSATION": "Risolvi Conversazione",
+      "GO_TO_CONVERSATION_DASHBOARD": "Vai alla Dashboard Conversazioni",
+      "ADD_ATTACHMENT": "Aggiungi allegato",
+      "GO_TO_CONTACTS_DASHBOARD": "Vai alla Dashboard Contatti",
+      "TOGGLE_SIDEBAR": "Attiva/Disattiva barra laterale",
+      "GO_TO_REPORTS_SIDEBAR": "Vai alla barra laterale dei Report",
+      "MOVE_TO_NEXT_TAB": "Vai alla scheda successiva nell'elenco delle conversazioni",
+      "GO_TO_SETTINGS": "Vai alle Impostazioni",
+      "SWITCH_TO_PRIVATE_NOTE": "Passa alle Note Private",
+      "SWITCH_TO_REPLY": "Passa a Risposta",
+      "TOGGLE_SNOOZE_DROPDOWN": "Attiva/Disattiva menu a discesa per la Sospensione"
+    }
+  },
+  "ASSIGNMENT_POLICY": {
+    "INDEX": {
+      "HEADER": {
+        "TITLE": "Assegnazione operatori",
+        "DESCRIPTION": "Definisci delle policy per gestire al meglio il carico di lavoro e indirizzare le conversazioni in base alle esigenze delle Inbox e degli operatori. Scopri di più qui"
+      },
+      "ASSIGNMENT_POLICY": {
+        "TITLE": "Policy di assegnazione",
+        "DESCRIPTION": "Gestisci come vengono assegnate le conversazioni nelle Inbox.",
+        "FEATURES": [
+          "Assegna le conversazioni in modo uniforme o in base al limite di conversazioni per operatore",
+          "Aggiungi regole di distribuzione equa per evitare di sovraccaricare gli operatori",
+          "Aggiungi le inbox a una policy — una policy per ogni inbox"
+        ]
+      },
+      "AGENT_CAPACITY_POLICY": {
+        "TITLE": "Policy sul limite di conversazioni per operatore",
+        "DESCRIPTION": "Gestisci il carico di lavoro degli operatori.",
+        "FEATURES": [
+          "Definisci il numero massimo di conversazioni per inbox",
+          "Crea eccezioni basate su etichette e tempo",
+          "Aggiungi gli operatori a una policy — una policy per ogni operatore"
+        ]
+      }
+    },
+    "AGENT_ASSIGNMENT_POLICY": {
+      "INDEX": {
+        "HEADER": {
+          "TITLE": "Policy di assegnazione",
+          "CREATE_POLICY": "Nuova policy"
+        },
+        "CARD": {
+          "ORDER": "Ordina",
+          "PRIORITY": "Priorità",
+          "ACTIVE": "Attiva",
+          "INACTIVE": "Inattive",
+          "POPOVER": "Inbox aggiunte",
+          "EDIT": "Modifica"
+        },
+        "NO_RECORDS_FOUND": "Nessuna policy di assegnazione trovata"
+      },
+      "CREATE": {
+        "HEADER": {
+          "TITLE": "Crea policy di assegnazione"
+        },
+        "CREATE_BUTTON": "Crea policy",
+        "API": {
+          "SUCCESS_MESSAGE": "Policy di assegnazione creata con successo",
+          "ERROR_MESSAGE": "Impossibile creare la policy di assegnazione"
+        }
+      },
+      "EDIT": {
+        "HEADER": {
+          "TITLE": "Modifica policy di assegnazione"
+        },
+        "EDIT_BUTTON": "Aggiorna policy",
+        "CONFIRM_ADD_INBOX_DIALOG": {
+          "TITLE": "Aggiungi Inbox",
+          "DESCRIPTION": "La Inbox {inboxName} è già collegata ad un'altra policy. Sei sicuro di volerla collegare a questa policy? Sarà scollegata dall'altra policy.",
+          "CONFIRM_BUTTON_LABEL": "Continua",
+          "CANCEL_BUTTON_LABEL": "Annulla"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Policy di assegnazione aggiornata con successo",
+          "ERROR_MESSAGE": "Aggiornamento della policy di assegnazione non riuscito"
+        },
+        "INBOX_API": {
+          "ADD": {
+            "SUCCESS_MESSAGE": "Inbox aggiunta con successo alla policy",
+            "ERROR_MESSAGE": "Impossibile aggiungere la Inbox alla policy"
+          },
+          "REMOVE": {
+            "SUCCESS_MESSAGE": "Inbox rimossa dalla policy correttamente",
+            "ERROR_MESSAGE": "Impossibile rimuovere la Inbox dalla policy"
+          }
+        }
+      },
+      "FORM": {
+        "NAME": {
+          "LABEL": "Nome policy:",
+          "PLACEHOLDER": "Inserisci il nome della policy"
+        },
+        "DESCRIPTION": {
+          "LABEL": "Descrizione:",
+          "PLACEHOLDER": "Inserisci descrizione"
+        },
+        "STATUS": {
+          "LABEL": "Stato:",
+          "PLACEHOLDER": "Seleziona stato",
+          "ACTIVE": "Policy attiva",
+          "INACTIVE": "Policy inattiva"
+        },
+        "ASSIGNMENT_ORDER": {
+          "LABEL": "Ordine di assegnazione",
+          "ROUND_ROBIN": {
+            "LABEL": "Round robin",
+            "DESCRIPTION": "Assegna le conversazioni in modo uniforme tra gli operatori."
+          },
+          "BALANCED": {
+            "LABEL": "Bilanciato",
+            "DESCRIPTION": "Assegna le conversazioni in base alla capacità disponibile."
+          }
+        },
+        "ASSIGNMENT_PRIORITY": {
+          "LABEL": "Priorità di assegnazione",
+          "EARLIEST_CREATED": {
+            "LABEL": "Creata prima",
+            "DESCRIPTION": "La conversazione che è stata creata per prima viene assegnata per prima."
+          },
+          "LONGEST_WAITING": {
+            "LABEL": "Attesa più lunga",
+            "DESCRIPTION": "La conversazione con il tempo di attesa più lungo viene assegnata per prima."
+          }
+        },
+        "FAIR_DISTRIBUTION": {
+          "LABEL": "Policy di distribuzione equa",
+          "DESCRIPTION": "Imposta il numero massimo di conversazioni che possono essere assegnate per operatore in una finestra temporale per evitare di sovraccaricarlo. Questo campo obbligatorio è impostato di default a 100 conversazioni l'ora.",
+          "INPUT_MAX": "Assegna max",
+          "DURATION": "Conversazioni per operatore ogni"
+        },
+        "INBOXES": {
+          "LABEL": "Inbox aggiunte",
+          "DESCRIPTION": "Aggiungi le inbox a cui applicare questa policy.",
+          "ADD_BUTTON": "Aggiungi Inbox",
+          "DROPDOWN": {
+            "SEARCH_PLACEHOLDER": "Cerca e seleziona le inbox da aggiungere",
+            "ADD_BUTTON": "Aggiungi"
+          },
+          "EMPTY_STATE": "Nessuna inbox aggiunta a questa policy, aggiungine una per iniziare",
+          "API": {
+            "SUCCESS_MESSAGE": "Inbox aggiunta correttamente alla policy",
+            "ERROR_MESSAGE": "Impossibile aggiungere la Inbox alla policy"
+          }
+        }
+      },
+      "DELETE_POLICY": {
+        "SUCCESS_MESSAGE": "Policy di assegnazione eliminata correttamente",
+        "ERROR_MESSAGE": "Impossibile eliminare la policy di assegnazione"
+      }
+    },
+    "AGENT_CAPACITY_POLICY": {
+      "INDEX": {
+        "HEADER": {
+          "TITLE": "Limite di conversazioni per operatore",
+          "CREATE_POLICY": "Nuova policy"
+        },
+        "CARD": {
+          "POPOVER": "Operatori aggiunti",
+          "EDIT": "Modifica"
+        },
+        "NO_RECORDS_FOUND": "Nessuna policy sul limite di conversazioni per operatore trovata"
+      },
+      "CREATE": {
+        "HEADER": {
+          "TITLE": "Crea una policy sul limite di conversazioni per operatore"
+        },
+        "CREATE_BUTTON": "Crea policy",
+        "API": {
+          "SUCCESS_MESSAGE": "Policy sul limite di conversazioni per operatore creata correttamente",
+          "ERROR_MESSAGE": "Impossibile eliminare la policy di assegnazione"
+        }
+      },
+      "EDIT": {
+        "HEADER": {
+          "TITLE": "Modifica la policy sul limite di conversazioni per operatore"
+        },
+        "EDIT_BUTTON": "Aggiorna policy",
+        "CONFIRM_ADD_AGENT_DIALOG": {
+          "TITLE": "Aggiungi operatore",
+          "DESCRIPTION": "{agentName} è già collegato a un’altra policy. Vuoi davvero collegarlo a questa policy? Verrà scollegato dall’altra.",
+          "CONFIRM_BUTTON_LABEL": "Continua",
+          "CANCEL_BUTTON_LABEL": "Annulla"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Policy sul limite conversazioni per operatore aggiornata correttamente",
+          "ERROR_MESSAGE": "Impossibile aggiornare la policy sul limite conversazioni per operatore"
+        },
+        "AGENT_API": {
+          "ADD": {
+            "SUCCESS_MESSAGE": "Operatore aggiunto correttamente alla policy",
+            "ERROR_MESSAGE": "Impossibile aggiungere l’operatore alla policy"
+          },
+          "REMOVE": {
+            "SUCCESS_MESSAGE": "Operatore rimosso correttamente dalla policy",
+            "ERROR_MESSAGE": "Impossibile rimuovere l’operatore dalla policy"
+          }
+        }
+      },
+      "FORM": {
+        "NAME": {
+          "LABEL": "Nome policy:",
+          "PLACEHOLDER": "Inserisci il nome della policy"
+        },
+        "DESCRIPTION": {
+          "LABEL": "Descrizione:",
+          "PLACEHOLDER": "Inserisci descrizione"
+        },
+        "INBOX_CAPACITY_LIMIT": {
+          "LABEL": "Limiti di conversazioni per inbox",
+          "ADD_BUTTON": "Aggiungi Inbox",
+          "FIELD": {
+            "SELECT_INBOX": "Seleziona Inbox",
+            "MAX_CONVERSATIONS": "Max conversazioni",
+            "SET_LIMIT": "Imposta limite"
+          },
+          "EMPTY_STATE": "Nessun limite Inbox impostato"
+        },
+        "EXCLUSION_RULES": {
+          "LABEL": "Regole di esclusione",
+          "DESCRIPTION": "Le conversazioni che soddisfano le seguenti condizioni non verranno conteggiate nel limite di conversazioni per operatore",
+          "TAGS": {
+            "LABEL": "Escludi conversazioni taggate con etichette specifiche",
+            "ADD_TAG": "aggiungi tag",
+            "DROPDOWN": {
+              "SEARCH_PLACEHOLDER": "Cerca e seleziona i tag da aggiungere"
+            },
+            "EMPTY_STATE": "Nessun tag aggiunto a questa policy."
+          },
+          "DURATION": {
+            "LABEL": "Escludi conversazioni più vecchie di una durata specificata",
+            "PLACEHOLDER": "Imposta tempo"
+          }
+        },
+        "USERS": {
+          "LABEL": "Operatori assegnati",
+          "DESCRIPTION": "Aggiungi operatori per i quali questa policy verrà applicata.",
+          "ADD_BUTTON": "Aggiungi operatore",
+          "DROPDOWN": {
+            "SEARCH_PLACEHOLDER": "Cerca e seleziona operatori da aggiungere",
+            "ADD_BUTTON": "Aggiungi"
+          },
+          "EMPTY_STATE": "Nessun operatore aggiunto",
+          "API": {
+            "SUCCESS_MESSAGE": "Operatore aggiunto correttamente alla policy",
+            "ERROR_MESSAGE": "Impossibile aggiungere l’operatore alla policy"
+          }
+        }
+      },
+      "DELETE_POLICY": {
+        "SUCCESS_MESSAGE": "La policy sul limite di conversazioni per operatore è stata eliminata correttamente",
+        "ERROR_MESSAGE": "Impossibile eliminare la policy sul limite di conversazioni per operatore"
+      }
+    },
+    "DELETE_POLICY": {
+      "TITLE": "Elimina policy",
+      "DESCRIPTION": "Sei sicuro di voler eliminare questa policy? Questa azione non può essere annullata.",
+      "CONFIRM_BUTTON_LABEL": "Elimina",
+      "CANCEL_BUTTON_LABEL": "Annulla"
+    }
+  }
+}

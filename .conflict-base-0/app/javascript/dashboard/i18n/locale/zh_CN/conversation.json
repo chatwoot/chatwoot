@@ -1,0 +1,439 @@
+{
+  "CONVERSATION": {
+    "SELECT_A_CONVERSATION": "请从左侧窗格选择一个对话",
+    "CSAT_REPLY_MESSAGE": "请为会话评分",
+    "404": "抱歉，我们找不到对话。请重试",
+    "SWITCH_VIEW_LAYOUT": "切换布局",
+    "DASHBOARD_APP_TAB_MESSAGES": "消息",
+    "UNVERIFIED_SESSION": "未验证此用户的身份",
+    "NO_MESSAGE_1": "您的收件箱中似乎没有客户的消息。",
+    "NO_MESSAGE_2": " 向您的页面发送一条消息！",
+    "NO_INBOX_1": "看来你还没有添加任何收件箱。",
+    "NO_INBOX_2": " 开始吧",
+    "NO_INBOX_AGENT": "看起来您还没有分配到收件箱。请联系您的管理员",
+    "SEARCH_MESSAGES": "搜索对话中的消息",
+    "VIEW_ORIGINAL": "查看原始内容",
+    "VIEW_TRANSLATED": "查看翻译",
+    "EMPTY_STATE": {
+      "CMD_BAR": "打开命令菜单",
+      "KEYBOARD_SHORTCUTS": "查看键盘快捷键"
+    },
+    "SEARCH": {
+      "TITLE": "搜索消息",
+      "RESULT_TITLE": "搜索结果",
+      "LOADING_MESSAGE": "正在处理数据",
+      "PLACEHOLDER": "输入任何文本来搜索消息",
+      "NO_MATCHING_RESULTS": "未找到结果。"
+    },
+    "UNREAD_MESSAGES": "未读消息",
+    "UNREAD_MESSAGE": "未读消息",
+    "CLICK_HERE": "点击这里",
+    "LOADING_INBOXES": "正在加载收件箱",
+    "LOADING_CONVERSATIONS": "加载更多对话",
+    "CANNOT_REPLY": "您不能回复，原因是：",
+    "24_HOURS_WINDOW": "24 小时消息窗口限制",
+    "48_HOURS_WINDOW": "48 小时消息窗口限制",
+    "API_HOURS_WINDOW": "您只能在 {hours} 小时内回复此对话",
+    "NOT_ASSIGNED_TO_YOU": "此对话未分配给您。您想要将此对话分配给自己吗？",
+    "ASSIGN_TO_ME": "分配给我",
+    "BOT_HANDOFF_MESSAGE": "您正在回复目前由助手或机器人处理的对话。",
+    "BOT_HANDOFF_ACTION": "标记打开并分配给自己",
+    "BOT_HANDOFF_REOPEN_ACTION": "标记对话已打开",
+    "BOT_HANDOFF_SUCCESS": "对话已分配给您",
+    "BOT_HANDOFF_ERROR": "接管对话失败，请再试一次。",
+    "TWILIO_WHATSAPP_CAN_REPLY": "您只能使用模板信息回复此会话，原因是",
+    "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 小时消息窗口限制",
+    "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "此 Instagram 帐户已迁移到新的 Instagram 通道收件箱。 所有新消息都将在这里显示。您将无法从这个对话中发送消息。",
+    "REPLYING_TO": "您正在回复到：",
+    "REMOVE_SELECTION": "移除选择",
+    "DOWNLOAD": "下载",
+    "UNKNOWN_FILE_TYPE": "未知文件",
+    "SAVE_CONTACT": "保存联系人",
+    "NO_CONTENT": "没有要显示的内容",
+    "SHARED_ATTACHMENT": {
+      "CONTACT": "{sender} 分享了一个联系人",
+      "LOCATION": "{sender} 分享了一个地址",
+      "FILE": "{sender} 分享了一个文件",
+      "MEETING": "{sender} 已开始会议"
+    },
+    "UPLOADING_ATTACHMENTS": "正在上传附件...",
+    "REPLIED_TO_STORY": "回复您的故事",
+    "UNSUPPORTED_MESSAGE": "不支持此消息。您可以在 Facebook Messenger 应用上查看此消息。",
+    "UNSUPPORTED_MESSAGE_FACEBOOK": "不支持此消息。您可以在 Facebook Messenger 应用上查看此消息。",
+    "UNSUPPORTED_MESSAGE_INSTAGRAM": "不支持此消息。您可以在 Instagram 应用上查看此消息。",
+    "SUCCESS_DELETE_MESSAGE": "已成功删除消息",
+    "FAIL_DELETE_MESSSAGE": "无法删除消息，请重试！",
+    "NO_RESPONSE": "无响应",
+    "RESPONSE": "回复",
+    "RATING_TITLE": "评分",
+    "FEEDBACK_TITLE": "Feedback",
+    "REPLY_MESSAGE_NOT_FOUND": "消息不可用",
+    "CARD": {
+      "SHOW_LABELS": "显示标签",
+      "HIDE_LABELS": "隐藏标签"
+    },
+    "VOICE_CALL": {
+      "INCOMING_CALL": "来电",
+      "OUTGOING_CALL": "已拨出电话",
+      "CALL_IN_PROGRESS": "呼叫进行中",
+      "NO_ANSWER": "无应答",
+      "MISSED_CALL": "未接来电",
+      "CALL_ENDED": "通话结束",
+      "NOT_ANSWERED_YET": "尚未回复",
+      "THEY_ANSWERED": "对方已回复",
+      "YOU_ANSWERED": "你已回复"
+    },
+    "HEADER": {
+      "RESOLVE_ACTION": "已解决",
+      "REOPEN_ACTION": "重新打开",
+      "OPEN_ACTION": "打开",
+      "MORE_ACTIONS": "更多操作",
+      "OPEN": "详细信息",
+      "CLOSE": "关闭",
+      "DETAILS": "详情",
+      "SNOOZED_UNTIL": "推迟到",
+      "SNOOZED_UNTIL_TOMORROW": "推迟到明天",
+      "SNOOZED_UNTIL_NEXT_WEEK": "推迟到下周",
+      "SNOOZED_UNTIL_NEXT_REPLY": "推迟至下一个回复",
+      "SLA_STATUS": {
+        "FRT": "第一响应时间 {status}",
+        "NRT": "净响应时间 {status}",
+        "RT": "响应时间 {status}",
+        "MISSED": "遗漏",
+        "DUE": "过期"
+      }
+    },
+    "RESOLVE_DROPDOWN": {
+      "MARK_PENDING": "标记为待处理",
+      "SNOOZE_UNTIL": "推迟",
+      "SNOOZE": {
+        "TITLE": "推迟到",
+        "NEXT_REPLY": "下一个回复",
+        "TOMORROW": "明天",
+        "NEXT_WEEK": "下周"
+      }
+    },
+    "MENTION": {
+      "AGENTS": "客服",
+      "TEAMS": "团队"
+    },
+    "CUSTOM_SNOOZE": {
+      "TITLE": "推迟到",
+      "APPLY": "推迟",
+      "CANCEL": "取消"
+    },
+    "PRIORITY": {
+      "TITLE": "优先级",
+      "OPTIONS": {
+        "NONE": "啥都没有",
+        "URGENT": "紧急的",
+        "HIGH": "高",
+        "MEDIUM": "中",
+        "LOW": "低"
+      },
+      "CHANGE_PRIORITY": {
+        "SELECT_PLACEHOLDER": "啥都没有",
+        "INPUT_PLACEHOLDER": "选择优先级",
+        "NO_RESULTS": "没有检索到相关信息",
+        "SUCCESSFUL": "已将对话 Id {conversationId} 的优先级更改为 {priority}",
+        "FAILED": "无法更改优先级。请重试。"
+      }
+    },
+    "DELETE_CONVERSATION": {
+      "TITLE": "删除对话 #{conversationId}",
+      "DESCRIPTION": "您确定要删除此对话吗？",
+      "CONFIRM": "删除"
+    },
+    "CARD_CONTEXT_MENU": {
+      "PENDING": "标记为待处理",
+      "RESOLVED": "标记为已解决",
+      "MARK_AS_UNREAD": "标记为未读",
+      "MARK_AS_READ": "标记为已读",
+      "REOPEN": "重新打开会话",
+      "SNOOZE": {
+        "TITLE": "推迟",
+        "NEXT_REPLY": "直到下次回复",
+        "TOMORROW": "直到明天",
+        "NEXT_WEEK": "直到下周"
+      },
+      "ASSIGN_AGENT": "分配客服代表",
+      "ASSIGN_LABEL": "分配标签",
+      "AGENTS_LOADING": "正在加载客服代表...",
+      "ASSIGN_TEAM": "分配一个团队",
+      "DELETE": "删除对话",
+      "OPEN_IN_NEW_TAB": "在新标签页中打开",
+      "COPY_LINK": "复制对话链接",
+      "COPY_LINK_SUCCESS": "对话链接已复制到剪贴板",
+      "API": {
+        "AGENT_ASSIGNMENT": {
+          "SUCCESFUL": "对话 ID {conversationId} 已分配给 \"{agentName}\"",
+          "FAILED": "无法分配客服，请再试。"
+        },
+        "LABEL_ASSIGNMENT": {
+          "SUCCESFUL": "已为对话 Id {conversationId} 分配标签 #{labelName}",
+          "FAILED": "无法分配标签。请再试。"
+        },
+        "TEAM_ASSIGNMENT": {
+          "SUCCESFUL": "将团队 \"{team}\" 分配给对话 ID {conversationId}",
+          "FAILED": "无法分配团队。请重试。"
+        }
+      }
+    },
+    "FOOTER": {
+      "MESSAGE_SIGN_TOOLTIP": "消息签名",
+      "ENABLE_SIGN_TOOLTIP": "启用签名",
+      "DISABLE_SIGN_TOOLTIP": "禁用签名",
+      "MSG_INPUT": "输入“/”开始选择快捷回复",
+      "PRIVATE_MSG_INPUT": "Shift + 输入新行。这只对客服可见",
+      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "未设置消息签名，请在个人资料中进行设置。",
+      "CLICK_HERE": "点击此处更新",
+      "WHATSAPP_TEMPLATES": "Whatsapp 模板列表"
+    },
+    "REPLYBOX": {
+      "REPLY": "回复",
+      "PRIVATE_NOTE": "私人便笺",
+      "SEND": "发送",
+      "CREATE": "添加便笺",
+      "INSERT_READ_MORE": "查看更多",
+      "DISMISS_REPLY": "忽略回复",
+      "REPLYING_TO": "回复：",
+      "TIP_EMOJI_ICON": "显示表情选择器",
+      "TIP_ATTACH_ICON": "附加文件",
+      "TIP_AUDIORECORDER_ICON": "录制音频",
+      "TIP_AUDIORECORDER_PERMISSION": "允许访问音频",
+      "TIP_AUDIORECORDER_ERROR": "无法打开音频",
+      "DRAG_DROP": "拖放到此处添加附件",
+      "START_AUDIO_RECORDING": "开始录音",
+      "STOP_AUDIO_RECORDING": "停止录音",
+      "": "",
+      "EMAIL_HEAD": {
+        "TO": "发给",
+        "ADD_BCC": "添加密送",
+        "CC": {
+          "LABEL": "抄送",
+          "PLACEHOLDER": "多个电子邮件地址之间用逗号隔开",
+          "ERROR": "请输入有效的电子邮件地址"
+        },
+        "BCC": {
+          "LABEL": "密送",
+          "PLACEHOLDER": "多个电子邮件地址之间用逗号隔开",
+          "ERROR": "请输入有效的电子邮件地址"
+        }
+      },
+      "UNDEFINED_VARIABLES": {
+        "TITLE": "未定义的变量",
+        "MESSAGE": "你的消息中有 {undefinedVariablesCount} 个未定义的变量：{undefinedVariables}。是否仍然要发送该消息？",
+        "CONFIRM": {
+          "YES": "发送",
+          "CANCEL": "取消"
+        }
+      },
+      "QUOTED_REPLY": {
+        "ENABLE_TOOLTIP": "Include quoted email thread",
+        "DISABLE_TOOLTIP": "Don't include quoted email thread",
+        "REMOVE_PREVIEW": "Remove quoted email thread",
+        "COLLAPSE": "Collapse preview",
+        "EXPAND": "Expand preview"
+      }
+    },
+    "VISIBLE_TO_AGENTS": "私人便签：仅对您和您的团队可见",
+    "CHANGE_STATUS": "对话状态已更改",
+    "CHANGE_STATUS_FAILED": "更改对话状态失败",
+    "CHANGE_AGENT": "对话分配人已更改",
+    "CHANGE_AGENT_FAILED": "更改分配失败",
+    "ASSIGN_LABEL_SUCCESFUL": "已成功分配标签",
+    "ASSIGN_LABEL_FAILED": "分配标签失败",
+    "CHANGE_TEAM": "对话团队已更改",
+    "SUCCESS_DELETE_CONVERSATION": "对话成功删除",
+    "FAIL_DELETE_CONVERSATION": "无法删除对话！请重试",
+    "FILE_SIZE_LIMIT": "文件超过了 {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB 的附件限制",
+    "MESSAGE_ERROR": "无法发送此消息，请稍后再试",
+    "SENT_BY": "发送人：",
+    "BOT": "机器人",
+    "SEND_FAILED": "无法发送消息，请重试！",
+    "TRY_AGAIN": "重试",
+    "ASSIGNMENT": {
+      "SELECT_AGENT": "选择代理",
+      "REMOVE": "删除",
+      "ASSIGN": "分配"
+    },
+    "CONTEXT_MENU": {
+      "COPY": "复制",
+      "REPLY_TO": "对这条消息进行回复",
+      "DELETE": "删除",
+      "CREATE_A_CANNED_RESPONSE": "添加到预定义回复",
+      "TRANSLATE": "翻译",
+      "COPY_PERMALINK": "复制消息链接",
+      "LINK_COPIED": "消息链接已复制到剪贴板",
+      "DELETE_CONFIRMATION": {
+        "TITLE": "您确定要删除这条消息吗？",
+        "MESSAGE": "此操作无法撤销。",
+        "DELETE": "删除",
+        "CANCEL": "取消"
+      }
+    },
+    "SIDEBAR": {
+      "CONTACT": "联系人",
+      "COPILOT": "Copilot"
+    },
+    "VOICE_WIDGET": {
+      "INCOMING_CALL": "来电",
+      "OUTGOING_CALL": "已拨出电话",
+      "CALL_IN_PROGRESS": "呼叫进行中",
+      "NOT_ANSWERED_YET": "尚未回复",
+      "HANDLED_IN_ANOTHER_TAB": "Being handled in another tab",
+      "REJECT_CALL": "Reject",
+      "JOIN_CALL": "Join call",
+      "END_CALL": "End call"
+    }
+  },
+  "EMAIL_TRANSCRIPT": {
+    "TITLE": "发送对话记录",
+    "DESC": "将对话记录副本发送到指定的电子邮件地址",
+    "SUBMIT": "提交",
+    "CANCEL": "取消操作",
+    "SEND_EMAIL_SUCCESS": "对话记录已成功发送",
+    "SEND_EMAIL_ERROR": "出错了，请重试",
+    "FORM": {
+      "SEND_TO_CONTACT": "发送对话记录给客户",
+      "SEND_TO_AGENT": "发送对话记录给指定的代理",
+      "SEND_TO_OTHER_EMAIL_ADDRESS": "将对话记录发送到另一个电子邮件地址",
+      "EMAIL": {
+        "PLACEHOLDER": "输入一个电子邮件地址",
+        "ERROR": "请输入一个有效的电子邮件"
+      }
+    }
+  },
+  "ONBOARDING": {
+    "TITLE": "您好 👋, 欢迎来到 {installationName}!",
+    "DESCRIPTION": "感谢您注册。我们希望您能够充分使用 {installationName}。 这里有几件您可以在 {installationName} 做的事情，让体验变得愉快。",
+    "GREETING_MORNING": "👋 早上好，{name}。欢迎来到 {installationName}。",
+    "GREETING_AFTERNOON": "👋 下午好，{name}。欢迎来到 {installationName}。",
+    "GREETING_EVENING": "👋 晚上好，{name}。欢迎来到 {installationName}。",
+    "READ_LATEST_UPDATES": "阅读我们的最新升级日志",
+    "ALL_CONVERSATION": {
+      "TITLE": "您的所有对话都在一个地方",
+      "DESCRIPTION": "在单个面板中查看您客户的所有对话。您可以通过通道、标签和状态筛选对话。",
+      "NEW_LINK": "点击此处创建收件箱"
+    },
+    "TEAM_MEMBERS": {
+      "TITLE": "邀请您的团队成员",
+      "DESCRIPTION": "当您准备好与您的客户交谈时，带上您的队友来协助您。 您可以通过添加他们的电子邮件地址到客服代表列表来邀请您的队友。",
+      "NEW_LINK": "点击此处邀请一位请团队成员"
+    },
+    "LABELS": {
+      "TITLE": "使用标签组织对话",
+      "DESCRIPTION": "标签提供了一种简单的方法来让您归类对话。创建一些类似 #价格、#问题反馈 这样的标签，之后您可以在对话中使用它们。",
+      "NEW_LINK": "点击此处创建标签"
+    },
+    "CANNED_RESPONSES": {
+      "TITLE": "创建预设回复",
+      "DESCRIPTION": "预定义的快捷回复模板可以帮助您快速响应对话。客服人员只需输入“/”符号，后跟快捷代码，即可插入回复。",
+      "NEW_LINK": "点击这里创建预设回复"
+    }
+  },
+  "CONVERSATION_SIDEBAR": {
+    "ASSIGNEE_LABEL": "已分配的客服代表",
+    "SELF_ASSIGN": "分配给我",
+    "TEAM_LABEL": "已分配的团队",
+    "SELECT": {
+      "PLACEHOLDER": "啥都没有"
+    },
+    "ACCORDION": {
+      "CONTACT_DETAILS": "联系人详细信息",
+      "CONVERSATION_ACTIONS": "对话操作",
+      "CONVERSATION_LABELS": "对话标记",
+      "CONVERSATION_INFO": "对话信息",
+      "CONTACT_NOTES": "联系人备注",
+      "CONTACT_ATTRIBUTES": "联系人属性",
+      "PREVIOUS_CONVERSATION": "上一次对话",
+      "MACROS": "宏",
+      "LINEAR_ISSUES": "已链接的 Linear 问题",
+      "SHOPIFY_ORDERS": "Shopify Orders"
+    },
+    "SHOPIFY": {
+      "ORDER_ID": "Order #{id}",
+      "ERROR": "Error loading orders",
+      "NO_SHOPIFY_ORDERS": "No orders found",
+      "FINANCIAL_STATUS": {
+        "PENDING": "等待中",
+        "AUTHORIZED": "Authorized",
+        "PARTIALLY_PAID": "Partially Paid",
+        "PAID": "Paid",
+        "PARTIALLY_REFUNDED": "Partially Refunded",
+        "REFUNDED": "Refunded",
+        "VOIDED": "Voided"
+      },
+      "FULFILLMENT_STATUS": {
+        "FULFILLED": "Fulfilled",
+        "PARTIALLY_FULFILLED": "Partially Fulfilled",
+        "UNFULFILLED": "Unfulfilled"
+      }
+    }
+  },
+  "CONVERSATION_CUSTOM_ATTRIBUTES": {
+    "ADD_BUTTON_TEXT": "创建属性",
+    "NO_RECORDS_FOUND": "未找到属性",
+    "UPDATE": {
+      "SUCCESS": "已成功更新属性",
+      "ERROR": "无法更新属性，请稍后再试。"
+    },
+    "ADD": {
+      "TITLE": "添加",
+      "SUCCESS": "已成功添加属性",
+      "ERROR": "无法添加属性，请稍后再试。"
+    },
+    "DELETE": {
+      "SUCCESS": "已成功删除属性",
+      "ERROR": "无法删除属性，请稍后再试。"
+    },
+    "ATTRIBUTE_SELECT": {
+      "TITLE": "添加属性",
+      "PLACEHOLDER": "搜索属性",
+      "NO_RESULT": "未找到属性"
+    }
+  },
+  "EMAIL_HEADER": {
+    "FROM": "来自",
+    "TO": "发送至",
+    "BCC": "密送",
+    "CC": "抄送",
+    "SUBJECT": "主题",
+    "EXPAND": "展开邮箱"
+  },
+  "CONVERSATION_PARTICIPANTS": {
+    "SIDEBAR_MENU_TITLE": "参与者",
+    "SIDEBAR_TITLE": "对话参与者",
+    "NO_RECORDS_FOUND": "没有检索到相关信息",
+    "ADD_PARTICIPANTS": "选择参与者",
+    "REMANING_PARTICIPANTS_TEXT": "+{count} 其他人",
+    "REMANING_PARTICIPANT_TEXT": "+{count} 其他",
+    "TOTAL_PARTICIPANTS_TEXT": "有{count}人参与。",
+    "TOTAL_PARTICIPANT_TEXT": "有{count}人参与。",
+    "NO_PARTICIPANTS_TEXT": "没有人参与！",
+    "WATCH_CONVERSATION": "加入对话",
+    "YOU_ARE_WATCHING": "你正在参与",
+    "API": {
+      "ERROR_MESSAGE": "无法更新，请重试！",
+      "SUCCESS_MESSAGE": "参与者已更新！"
+    }
+  },
+  "TRANSLATE_MODAL": {
+    "TITLE": "查看翻译内容",
+    "DESC": "您可以查看每种语言的翻译内容。",
+    "ORIGINAL_CONTENT": "原文内容",
+    "TRANSLATED_CONTENT": "译文",
+    "NO_TRANSLATIONS_AVAILABLE": "此内容暂无翻译"
+  },
+  "TYPING": {
+    "ONE": "{user} 正在输入",
+    "TWO": "{user} 和 {secondUser} 正在输入",
+    "MULTIPLE": "{user} 等 {count} 人正在输入"
+  },
+  "COPILOT": {
+    "TRY_THESE_PROMPTS": "尝试这些提示信息"
+  },
+  "GALLERY_VIEW": {
+    "ERROR_DOWNLOADING": "无法上传附件。请重试"
+  }
+}

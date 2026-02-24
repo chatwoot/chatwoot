@@ -1,0 +1,60 @@
+<% category_link_params = {
+      portal_slug: portal.slug,
+      category_locale: category.locale,
+      category_slug: category.slug,
+      theme: @theme_from_params,
+      is_plain_layout_enabled: @is_plain_layout_enabled
+    }
+%>
+
+<section class="flex flex-col w-full h-full lg:container">
+   <div id="<%= !@is_plain_layout_enabled ? 'category-block' : '' %>" class="flex flex-col gap-8 h-full <%= !@is_plain_layout_enabled ? 'border border-solid border-slate-100 dark:border-slate-800 py-5 px-3 rounded-lg' : '' %>">
+      <div class="flex items-center justify-between w-full">
+         <div class="flex flex-col items-start gap-1">
+            <div class="flex flex-row items-center gap-2 <%= !@is_plain_layout_enabled && 'px-1' %>">
+               <% if category.icon.present? %>
+               <span class="text-lg rounded-md cursor-pointer <%= !@is_plain_layout_enabled && 'pl-1' %>"><%= category.icon %></span>
+               <% end %>
+               <h3 id="<%= !@is_plain_layout_enabled ? 'category-name' : '' %>" class="text-xl text-slate-800 dark:text-slate-50 font-semibold leading-relaxed hover:cursor-pointer <%= @is_plain_layout_enabled ? 'hover:underline' : '' %> <%= category.icon.blank? && !@is_plain_layout_enabled ? 'pl-1' : '' %>">
+                  <a href="<%= generate_category_link(category_link_params) %>">
+                  <%= category.name %>
+                  </a>
+               </h3>
+            </div>
+            <% if category.description.present? %>
+            <span class="text-base text-slate-600 dark:text-slate-400 <%= !@is_plain_layout_enabled && 'px-2' %>"><%= category.description %></span>
+            <% end %>
+         </div>
+      </div>
+      <div class="flex flex-col gap-2 flex-grow <%= category.description.blank? && '-mt-4' %>">
+         <% if category.articles.published.size==0 %>
+         <div class="flex items-center justify-center h-full mb-4 bg-slate-50 dark:bg-slate-800 rounded-xl">
+            <p class="text-sm text-slate-500"><%= I18n.t('public_portal.common.no_articles') %></p>
+         </div>
+         <% else %>
+         <% category.articles.published.order(position: :asc).take(5).each do |article| %>
+         <a class="leading-7 text-slate-700 dark:text-slate-100" href="<%= generate_article_link(portal.slug, article.slug, @theme_from_params, @is_plain_layout_enabled) %>">
+            <div id="<%= !@is_plain_layout_enabled ? 'category-item' : '' %>" class="flex justify-between hover:cursor-pointer items-start py-1 rounded-lg gap-6 <%= !@is_plain_layout_enabled ? 'px-2' : 'hover:underline' %>">
+               <%= article.title %>
+               <span class="flex items-center font-normal mt-1.5">
+                  <%= render partial: 'icons/chevron-right' %>
+               </span>
+            </div>
+         </a>
+         <% end %>
+         <% end %>
+      </div>
+      <div class="flex justify-between flex-row items-center <%= !@is_plain_layout_enabled && 'px-2' %>">
+         <div class="flex flex-row items-center gap-1">
+           <%= render "public/api/v1/portals/authors", category: category, show_expanded: false %>
+           <span class="text-slate-600 dark:text-slate-400">•</span>
+           <span class="text-sm font-medium text-slate-600 dark:text-slate-400"><%= render 'public/api/v1/portals/article_count', article_count: category.articles.published.order(position: :asc).size %></span>
+         </div>
+         <div>
+            <a href="<%= generate_category_link(category_link_params) %>" class="flex flex-row items-center text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-100">
+            <%= I18n.t('public_portal.common.view_all_articles') %>
+            </a>
+         </div>
+      </div>
+   </div>
+</section>

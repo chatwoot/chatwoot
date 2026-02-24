@@ -1,0 +1,655 @@
+{
+  "CONTACT_PANEL": {
+    "NOT_AVAILABLE": "No disponible",
+    "EMAIL_ADDRESS": "Adreça de correu electrònic",
+    "PHONE_NUMBER": "Número de telèfon",
+    "IDENTIFIER": "Identificador",
+    "COPY_SUCCESSFUL": "S'ha copiat al porta-retalls amb èxit",
+    "COMPANY": "Companyia",
+    "LOCATION": "Ubicació",
+    "BROWSER_LANGUAGE": "Idioma del navegador",
+    "CONVERSATION_TITLE": "Detalls de les converses",
+    "VIEW_PROFILE": "Veure perfil",
+    "BROWSER": "Navegador",
+    "OS": "Sistema operatiu",
+    "INITIATED_FROM": "Iniciada des de",
+    "INITIATED_AT": "Iniciada a les",
+    "IP_ADDRESS": "Adreça IP",
+    "CREATED_AT_LABEL": "Creat",
+    "NEW_MESSAGE": "Nou missatge",
+    "CALL": "Call",
+    "CALL_INITIATED": "Calling the contact…",
+    "CALL_FAILED": "Unable to start the call. Please try again.",
+    "VOICE_INBOX_PICKER": {
+      "TITLE": "Choose a voice inbox"
+    },
+    "CONVERSATIONS": {
+      "NO_RECORDS_FOUND": "No hi han converses prèvies associades a aquest contacte.",
+      "TITLE": "Converses prèvies"
+    },
+    "LABELS": {
+      "CONTACT": {
+        "TITLE": "Etiquetes de contactes",
+        "ERROR": "No s'han pogut actualitzar les etiquetes"
+      },
+      "CONVERSATION": {
+        "TITLE": "Etiquetes de converses",
+        "ADD_BUTTON": "Afegir etiquetes"
+      },
+      "LABEL_SELECT": {
+        "TITLE": "Afegir etiquetes",
+        "PLACEHOLDER": "Cerca etiquetes",
+        "NO_RESULT": "No s'han trobat etiquetes",
+        "CREATE_LABEL": "Crea una etiqueta nova"
+      }
+    },
+    "MERGE_CONTACT": "Reagrupa contacte",
+    "CONTACT_ACTIONS": "Accions de contacte",
+    "MUTE_CONTACT": "Bloqueja el contacte",
+    "UNMUTE_CONTACT": "Desbloqueja el contacte",
+    "MUTED_SUCCESS": "Aquest contacte s'ha bloquejat correctament. No se us notificarà cap conversa futura.",
+    "UNMUTED_SUCCESS": "Aquest contacte s'ha desbloquejat correctament.",
+    "SEND_TRANSCRIPT": "Envia la transcripció",
+    "EDIT_LABEL": "Edita",
+    "SIDEBAR_SECTIONS": {
+      "CUSTOM_ATTRIBUTES": "Atributs personalitzats",
+      "CONTACT_LABELS": "Etiquetes de contactes",
+      "PREVIOUS_CONVERSATIONS": "Converses prèvies",
+      "NO_RECORDS_FOUND": "No s'han trobat atributs"
+    }
+  },
+  "EDIT_CONTACT": {
+    "BUTTON_LABEL": "Edita el contacte",
+    "TITLE": "Edita el contacte",
+    "DESC": "Edita els detalls de contacte"
+  },
+  "DELETE_CONTACT": {
+    "BUTTON_LABEL": "Contacte esborrat",
+    "TITLE": "Contacte esborrat",
+    "DESC": "Detalls del contacte esborrat",
+    "CONFIRM": {
+      "TITLE": "Confirma l'esborrat",
+      "MESSAGE": "N'estas segur? ",
+      "YES": "Si, esborra",
+      "NO": "No, segueix"
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Contacte esborrat correctament",
+      "ERROR_MESSAGE": "No s'ha pogut esborrar el contacte. Torneu-ho a provar."
+    }
+  },
+  "CONTACT_FORM": {
+    "FORM": {
+      "SUBMIT": "Envia",
+      "CANCEL": "Cancel·la",
+      "AVATAR": {
+        "LABEL": "Avatar del contacte"
+      },
+      "NAME": {
+        "PLACEHOLDER": "Introdueix el nom complet del contacte",
+        "LABEL": "Nom complet"
+      },
+      "BIO": {
+        "PLACEHOLDER": "Introdueix la biografia del contacte",
+        "LABEL": "Bio"
+      },
+      "EMAIL_ADDRESS": {
+        "PLACEHOLDER": "Introdueix l'adreça de correu electrònic del contacte",
+        "LABEL": "Adreça de correu electrònic",
+        "DUPLICATE": "Aquesta adreça de correu electrònic s’utilitza per a un altre contacte.",
+        "ERROR": "Introduïu una adreça de correu electrònic vàlida."
+      },
+      "PHONE_NUMBER": {
+        "PLACEHOLDER": "Introdueix el número de telèfon del contacte",
+        "LABEL": "Número de telèfon",
+        "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]",
+        "ERROR": "El número de telèfon ha d'estar buit o en format E.164",
+        "DIAL_CODE_ERROR": "Selecciona un codi de marcatge de la llista",
+        "DUPLICATE": "Aquest número de telèfon està en ús per a un altre contacte."
+      },
+      "LOCATION": {
+        "PLACEHOLDER": "Introdueix la ubicació del contacte",
+        "LABEL": "Ubicació"
+      },
+      "COMPANY_NAME": {
+        "PLACEHOLDER": "Introdueix el nom de la companyia",
+        "LABEL": "Nom de la companyia"
+      },
+      "COUNTRY": {
+        "PLACEHOLDER": "Introdueix el nom del país",
+        "LABEL": "Nom del país",
+        "SELECT_PLACEHOLDER": "Selecciona",
+        "REMOVE": "Suprimeix",
+        "SELECT_COUNTRY": "Selecciona país"
+      },
+      "CITY": {
+        "PLACEHOLDER": "Introdueix el nom de la ciutat",
+        "LABEL": "Nom de la ciutat"
+      },
+      "SOCIAL_PROFILES": {
+        "FACEBOOK": {
+          "PLACEHOLDER": "Introduïu el nom d'usuari de Facebook",
+          "LABEL": "Facebook"
+        },
+        "TWITTER": {
+          "PLACEHOLDER": "Introduïu el nom d'usuari de Twitter",
+          "LABEL": "Twitter"
+        },
+        "LINKEDIN": {
+          "PLACEHOLDER": "Introduïu el nom d'usuari de LinkedIn",
+          "LABEL": "LinkedIn"
+        },
+        "GITHUB": {
+          "PLACEHOLDER": "Introdueix el nom d'usuari de Github",
+          "LABEL": "Github"
+        }
+      }
+    },
+    "DELETE_AVATAR": {
+      "API": {
+        "SUCCESS_MESSAGE": "L'avatar del contacte s'ha suprimit correctament",
+        "ERROR_MESSAGE": "No s'ha pogut esborrar l'avatar de contacte. Torneu-ho a provar."
+      }
+    },
+    "SUCCESS_MESSAGE": "Contacte guardat correctament",
+    "ERROR_MESSAGE": "S'ha produït un error; tornau-ho a provar"
+  },
+  "NEW_CONVERSATION": {
+    "BUTTON_LABEL": "Inicia la conversa",
+    "TITLE": "Nova conversació",
+    "DESC": "Inicia una conversa nova enviant un missatge nou.",
+    "NO_INBOX": "No s'ha pogut trobar una safata d'entrada per iniciar una conversa nova amb aquest contacte.",
+    "FORM": {
+      "TO": {
+        "LABEL": "Per"
+      },
+      "INBOX": {
+        "LABEL": "Inbox",
+        "PLACEHOLDER": "Trieu la safata d'entrada d'origen",
+        "ERROR": "Selecciona una Safata d'entrada"
+      },
+      "SUBJECT": {
+        "LABEL": "Assumpte",
+        "PLACEHOLDER": "Assumpte",
+        "ERROR": "L'assumpte no pot estar buit"
+      },
+      "MESSAGE": {
+        "LABEL": "Missatge",
+        "PLACEHOLDER": "Escriu el teu missatge aquí",
+        "ERROR": "El missatge no pot estar buit"
+      },
+      "ATTACHMENTS": {
+        "SELECT": "Trieu fitxers",
+        "HELP_TEXT": "Arrossegueu i deixeu anar fitxers aquí o trieu fitxers per adjuntar"
+      },
+      "SUBMIT": "Envia missatge",
+      "CANCEL": "Cancel·la",
+      "SUCCESS_MESSAGE": "Missatges enviat!",
+      "GO_TO_CONVERSATION": "Veure",
+      "ERROR_MESSAGE": "No s'ha pogut enviar! torna-ho a provar"
+    }
+  },
+  "CONTACTS_PAGE": {
+    "LIST": {
+      "TABLE_HEADER": {
+        "SOCIAL_PROFILES": "Perfils socials"
+      }
+    }
+  },
+  "CUSTOM_ATTRIBUTES": {
+    "BUTTON": "Afegir atributs personalitzats",
+    "COPY_SUCCESSFUL": "S'ha copiat al porta-retalls amb èxit",
+    "SHOW_MORE": "Mostra tots els atributs",
+    "SHOW_LESS": "Mostra menys atributs",
+    "ACTIONS": {
+      "COPY": "Copia l'atribut",
+      "DELETE": "Suprimeix l'atribut",
+      "EDIT": "Edita l'atribut"
+    },
+    "ADD": {
+      "TITLE": "Crear atribut personalitzat",
+      "DESC": "Afegeix informació personalitzada a aquest contacte."
+    },
+    "FORM": {
+      "CREATE": "Afegir atribut",
+      "CANCEL": "Cancel·la",
+      "NAME": {
+        "LABEL": "Personalitza el nom de l'atribut",
+        "PLACEHOLDER": "P. ex.: identificador de Shopify",
+        "ERROR": "El nom de l'atribut personalitzat no és vàlid"
+      },
+      "VALUE": {
+        "LABEL": "Valor de l'atribut",
+        "PLACEHOLDER": "Ex: 11901 "
+      },
+      "ADD": {
+        "TITLE": "Crear nou atribut ",
+        "SUCCESS": "Atribut afegit correctament",
+        "ERROR": "No es pot afegir l'atribut. Si us plau, intenta-ho més tard"
+      },
+      "UPDATE": {
+        "SUCCESS": "Atribut actualitzat correctament",
+        "ERROR": "No es pot actualitzar l'atribut. Si us plau, intenta-ho més tard"
+      },
+      "DELETE": {
+        "SUCCESS": "Atribut esborrat correctament",
+        "ERROR": "No es pot esborrar l'atribut. Si us plau, intenta-ho més tard"
+      },
+      "ATTRIBUTE_SELECT": {
+        "TITLE": "Afegir atributs",
+        "PLACEHOLDER": "Cerca atributs",
+        "NO_RESULT": "No s'han trobat atributs"
+      },
+      "ATTRIBUTE_TYPE": {
+        "LIST": {
+          "PLACEHOLDER": "Selecciona valor",
+          "SEARCH_INPUT_PLACEHOLDER": "Cerca valor",
+          "NO_RESULT": "No s'ha trobat cap resultat"
+        }
+      }
+    },
+    "VALIDATIONS": {
+      "REQUIRED": "Un valor vàlid és necessari",
+      "INVALID_URL": "URL no vàlid",
+      "INVALID_INPUT": "Entrada incorrecta"
+    }
+  },
+  "MERGE_CONTACTS": {
+    "TITLE": "Fusiona contactes",
+    "DESCRIPTION": "Merge contacts to combine two profiles into one, including all attributes and conversations. In case of conflict, the Primary contact’ s attributes will take precedence.",
+    "PRIMARY": {
+      "TITLE": "Contacte principal",
+      "HELP_LABEL": "Per esborrar"
+    },
+    "PARENT": {
+      "TITLE": "Contacte per fusionar",
+      "PLACEHOLDER": "Cerca un contacte",
+      "HELP_LABEL": "S'ha de mantenir"
+    },
+    "SUMMARY": {
+      "TITLE": "Resum",
+      "DELETE_WARNING": "El contacte de <strong>{primaryContactName}</strong> es suprimirà.",
+      "ATTRIBUTE_WARNING": "Les dades de contacte de <strong>{primaryContactName}</strong> es copiaran a <strong>{parentContactName}</strong>."
+    },
+    "SEARCH": {
+      "ERROR_MESSAGE": "Something went wrong. Please try again later."
+    },
+    "FORM": {
+      "SUBMIT": " Fusiona contactes",
+      "CANCEL": "Cancel·la",
+      "CHILD_CONTACT": {
+        "ERROR": "Seleccioneu un contacte fill per fusionar"
+      },
+      "SUCCESS_MESSAGE": "Contacte fusionat correctament",
+      "ERROR_MESSAGE": "No s'ha pogut fusionar els contactes, torna-ho a provar!"
+    },
+    "DROPDOWN_ITEM": {
+      "ID": "(ID: {identifier})"
+    }
+  },
+  "CONTACTS_LAYOUT": {
+    "HEADER": {
+      "TITLE": "Contactes",
+      "SEARCH_TITLE": "Search contacts",
+      "ACTIVE_TITLE": "Active contacts",
+      "SEARCH_PLACEHOLDER": "Search...",
+      "MESSAGE_BUTTON": "Missatge",
+      "SEND_MESSAGE": "Envia missatge",
+      "BLOCK_CONTACT": "Block contact",
+      "UNBLOCK_CONTACT": "Unblock contact",
+      "BREADCRUMB": {
+        "CONTACTS": "Contactes"
+      },
+      "ACTIONS": {
+        "CONTACT_CREATION": {
+          "ADD_CONTACT": "Add contact",
+          "EXPORT_CONTACT": "Export contacts",
+          "IMPORT_CONTACT": "Import contacts",
+          "SAVE_CONTACT": "Save contact",
+          "EMAIL_ADDRESS_DUPLICATE": "Aquesta adreça de correu electrònic s’utilitza per a un altre contacte.",
+          "PHONE_NUMBER_DUPLICATE": "Aquest número de telèfon està en ús per a un altre contacte.",
+          "SUCCESS_MESSAGE": "Contacte guardat correctament",
+          "ERROR_MESSAGE": "Unable to save contact. Please try again later."
+        },
+        "BLOCK_SUCCESS_MESSAGE": "This contact is blocked successfully",
+        "BLOCK_ERROR_MESSAGE": "Unable to block contact. Please try again later.",
+        "UNBLOCK_SUCCESS_MESSAGE": "Aquest contacte s'ha desbloquejat correctament",
+        "UNBLOCK_ERROR_MESSAGE": "Unable to unblock contact. Please try again later.",
+        "IMPORT_CONTACT": {
+          "TITLE": "Import contacts",
+          "DESCRIPTION": "Importa contactes a través d'un fitxer CSV.",
+          "DOWNLOAD_LABEL": "Descarrega un csv d'exemple.",
+          "LABEL": "Fitxer CSV:",
+          "CHOOSE_FILE": "Choose file",
+          "CHANGE": "Canvia",
+          "CANCEL": "Cancel·la",
+          "IMPORT": "Importa",
+          "SUCCESS_MESSAGE": "Es notificarà per correu electrònic quan s'hagi completat la importació.",
+          "ERROR_MESSAGE": "S'ha produït un error; tornau-ho a provar"
+        },
+        "EXPORT_CONTACT": {
+          "TITLE": "Export contacts",
+          "DESCRIPTION": "Quickly export a csv file with comprehensive details of your contacts",
+          "CONFIRM": "Exporta",
+          "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
+          "ERROR_MESSAGE": "S'ha produït un error; tornau-ho a provar"
+        },
+        "SORT_BY": {
+          "LABEL": "Ordenat per",
+          "OPTIONS": {
+            "NAME": "Nom",
+            "EMAIL": "Correu electrònic",
+            "PHONE_NUMBER": "Número de telèfon",
+            "COMPANY": "Companyia",
+            "COUNTRY": "País",
+            "CITY": "Ciutat",
+            "LAST_ACTIVITY": "Darrera activitat",
+            "CREATED_AT": "Creat per"
+          }
+        },
+        "ORDER": {
+          "LABEL": "Ordering",
+          "OPTIONS": {
+            "ASCENDING": "Ascending",
+            "DESCENDING": "Descending"
+          }
+        },
+        "FILTERS": {
+          "CREATE_SEGMENT": {
+            "TITLE": "Vols desar aquest filtre?",
+            "CONFIRM": "Desa el filtre",
+            "LABEL": "Nom",
+            "PLACEHOLDER": "Enter the name of the filter",
+            "ERROR": "Enter a valid name",
+            "SUCCESS_MESSAGE": "Filter saved successfully",
+            "ERROR_MESSAGE": "Unable to save filter. Please try again later."
+          },
+          "DELETE_SEGMENT": {
+            "TITLE": "Confirma l'esborrat",
+            "DESCRIPTION": "Are you sure you want to delete this filter?",
+            "CONFIRM": "Si, esborra",
+            "CANCEL": "No, cancel·la",
+            "SUCCESS_MESSAGE": "Filter deleted successfully",
+            "ERROR_MESSAGE": "Unable to delete filter. Please try again later."
+          }
+        }
+      }
+    },
+    "PAGINATION_FOOTER": {
+      "SHOWING": "Showing {startItem} - {endItem} of {totalItems} contacts"
+    },
+    "FILTER": {
+      "NAME": "Nom",
+      "EMAIL": "Correu electrònic",
+      "PHONE_NUMBER": "Número de telèfon",
+      "IDENTIFIER": "Identificador",
+      "COUNTRY": "País",
+      "CITY": "Ciutat",
+      "CREATED_AT": "Creat per",
+      "LAST_ACTIVITY": "Darrera activitat",
+      "REFERER_LINK": "Enllaç de referència",
+      "BLOCKED": "Blocat",
+      "BLOCKED_TRUE": "Cert",
+      "BLOCKED_FALSE": "Fals",
+      "BUTTONS": {
+        "CLEAR_FILTERS": "Esborra els filtres",
+        "UPDATE_SEGMENT": "Update segment",
+        "APPLY_FILTERS": "Aplicar filtres",
+        "ADD_FILTER": "Afegeix un filtre"
+      },
+      "TITLE": "Filtra els contactes",
+      "EDIT_SEGMENT": "Edita segment",
+      "SEGMENT": {
+        "LABEL": "Segment name",
+        "INPUT_PLACEHOLDER": "Enter the name of the segment"
+      },
+      "ACTIVE_FILTERS": {
+        "MORE_FILTERS": "+ {count} more filters",
+        "CLEAR_FILTERS": "Esborra els filtres"
+      }
+    },
+    "CARD": {
+      "OF": "of",
+      "VIEW_DETAILS": "Veure detalls",
+      "EDIT_DETAILS_FORM": {
+        "TITLE": "Edita els detalls de contacte",
+        "FORM": {
+          "FIRST_NAME": {
+            "PLACEHOLDER": "Enter the first name"
+          },
+          "LAST_NAME": {
+            "PLACEHOLDER": "Enter the last name"
+          },
+          "EMAIL_ADDRESS": {
+            "PLACEHOLDER": "Enter the email address",
+            "DUPLICATE": "Aquesta adreça de correu electrònic s’utilitza per a un altre contacte."
+          },
+          "PHONE_NUMBER": {
+            "PLACEHOLDER": "Enter the phone number",
+            "DUPLICATE": "Aquest número de telèfon està en ús per a un altre contacte."
+          },
+          "CITY": {
+            "PLACEHOLDER": "Introdueix el nom de la ciutat"
+          },
+          "COUNTRY": {
+            "PLACEHOLDER": "Select country"
+          },
+          "BIO": {
+            "PLACEHOLDER": "Enter the bio"
+          },
+          "COMPANY_NAME": {
+            "PLACEHOLDER": "Introdueix el nom de la companyia"
+          }
+        },
+        "UPDATE_BUTTON": "Update contact",
+        "SUCCESS_MESSAGE": "Contact updated successfully",
+        "ERROR_MESSAGE": "Unable to update contact. Please try again later."
+      },
+      "SOCIAL_MEDIA": {
+        "TITLE": "Edit social links",
+        "FORM": {
+          "FACEBOOK": {
+            "PLACEHOLDER": "Add Facebook"
+          },
+          "GITHUB": {
+            "PLACEHOLDER": "Add Github"
+          },
+          "INSTAGRAM": {
+            "PLACEHOLDER": "Add Instagram"
+          },
+          "TIKTOK": {
+            "PLACEHOLDER": "Add TikTok"
+          },
+          "LINKEDIN": {
+            "PLACEHOLDER": "Add LinkedIn"
+          },
+          "TWITTER": {
+            "PLACEHOLDER": "Add Twitter"
+          }
+        }
+      },
+      "DELETE_CONTACT": {
+        "MESSAGE": "This action is permanent and irreversible.",
+        "BUTTON": "Delete now"
+      }
+    },
+    "DETAILS": {
+      "CREATED_AT": "Created {date}",
+      "LAST_ACTIVITY": "Last active {date}",
+      "DELETE_CONTACT_DESCRIPTION": "Permanently delete this contact. This action is irreversible",
+      "DELETE_CONTACT": "Contacte esborrat",
+      "DELETE_DIALOG": {
+        "TITLE": "Confirma l'esborrat",
+        "DESCRIPTION": "Are you sure you want to delete this contact?",
+        "CONFIRM": "Si, esborra",
+        "API": {
+          "SUCCESS_MESSAGE": "Contacte esborrat correctament",
+          "ERROR_MESSAGE": "No s'ha pogut esborrar el contacte. Torneu-ho a provar."
+        }
+      },
+      "AVATAR": {
+        "UPLOAD": {
+          "ERROR_MESSAGE": "Could not upload avatar. Please try again later.",
+          "SUCCESS_MESSAGE": "Avatar uploaded successfully"
+        },
+        "DELETE": {
+          "SUCCESS_MESSAGE": "Avatar esborrat correctament",
+          "ERROR_MESSAGE": "Could not delete avatar. Please try again later."
+        }
+      }
+    },
+    "SIDEBAR": {
+      "TABS": {
+        "ATTRIBUTES": "Attributes",
+        "HISTORY": "History",
+        "NOTES": "Notes",
+        "MERGE": "Merge"
+      },
+      "HISTORY": {
+        "EMPTY_STATE": "No hi han converses prèvies associades a aquest contacte"
+      },
+      "ATTRIBUTES": {
+        "SEARCH_PLACEHOLDER": "Search for attributes",
+        "UNUSED_ATTRIBUTES": "{count} Used attribute | {count} Unused attributes",
+        "EMPTY_STATE": "There are no contact custom attributes available in this account. You can create a custom attribute in settings.",
+        "YES": "Si",
+        "NO": "No",
+        "TRIGGER": {
+          "SELECT": "Selecciona valor",
+          "INPUT": "Enter value"
+        },
+        "VALIDATIONS": {
+          "INVALID_NUMBER": "Invalid number",
+          "REQUIRED": "Un valor vàlid és necessari",
+          "INVALID_INPUT": "Invalid input",
+          "INVALID_URL": "URL no vàlid",
+          "INVALID_DATE": "Invalid date"
+        },
+        "NO_ATTRIBUTES": "No s'han trobat atributs",
+        "API": {
+          "SUCCESS_MESSAGE": "Atribut actualitzat correctament",
+          "DELETE_SUCCESS_MESSAGE": "Atribut esborrat correctament",
+          "UPDATE_ERROR": "No es pot actualitzar l'atribut. Si us plau, intenta-ho més tard",
+          "DELETE_ERROR": "No es pot esborrar l'atribut. Si us plau, intenta-ho més tard"
+        }
+      },
+      "MERGE": {
+        "TITLE": "Reagrupa contacte",
+        "DESCRIPTION": "Combine two profiles into one, including all attributes and conversations. In case of conflict, the primary contact’s attributes will take precedence.",
+        "PRIMARY": "Contacte principal",
+        "PRIMARY_HELP_LABEL": "To be saved",
+        "PRIMARY_REQUIRED_ERROR": "Please select a contact to merge with before proceeding",
+        "PARENT": "To be merged",
+        "PARENT_HELP_LABEL": "Per esborrar",
+        "EMPTY_STATE": "No contacts found",
+        "PLACEHOLDER": "Search for primary contact",
+        "SEARCH_PLACEHOLDER": "Cerca un contacte",
+        "SEARCH_ERROR_MESSAGE": "Could not search for contacts. Please try again later.",
+        "SUCCESS_MESSAGE": "Contacte fusionat correctament",
+        "ERROR_MESSAGE": "No s'ha pogut fusionar els contactes, torna-ho a provar!",
+        "IS_SEARCHING": "S'està cercant...",
+        "BUTTONS": {
+          "CANCEL": "Cancel·la",
+          "CONFIRM": "Reagrupa contacte"
+        }
+      },
+      "NOTES": {
+        "PLACEHOLDER": "Afegeix una nota",
+        "WROTE": "va escriure",
+        "YOU": "Tu",
+        "SAVE": "Save note",
+        "ADD_NOTE": "Add contact note",
+        "EXPAND": "Expandeix",
+        "COLLAPSE": "Collapse",
+        "NO_NOTES": "No notes, you can add notes from the contact details page.",
+        "EMPTY_STATE": "There are no notes associated to this contact. You can add a note by typing in the box above.",
+        "CONVERSATION_EMPTY_STATE": "There are no notes yet. Use the Add note button to create one."
+      }
+    },
+    "EMPTY_STATE": {
+      "TITLE": "No contacts found in this account",
+      "SUBTITLE": "Start adding new contacts by clicking on the button below",
+      "BUTTON_LABEL": "Add contact",
+      "SEARCH_EMPTY_STATE_TITLE": "No hi ha cap contacte que coincideixi amb la vostra cerca 🔍",
+      "LIST_EMPTY_STATE_TITLE": "No contacts available in this view 📋",
+      "ACTIVE_EMPTY_STATE_TITLE": "No contacts are active at the moment 🌙"
+    }
+  },
+  "CONTACTS_BULK_ACTIONS": {
+    "ASSIGN_LABELS": "Assign Labels",
+    "ASSIGN_LABELS_SUCCESS": "L'etiqueta s'ha assignat correctament.",
+    "ASSIGN_LABELS_FAILED": "Failed to assign labels",
+    "DESCRIPTION": "Select the labels you want to add to the selected contacts.",
+    "NO_LABELS_FOUND": "No labels available yet.",
+    "SELECTED_COUNT": "{count} selected",
+    "CLEAR_SELECTION": "Clear selection",
+    "SELECT_ALL": "Select all ({count})",
+    "DELETE_CONTACTS": "Esborrar",
+    "DELETE_SUCCESS": "Contacts deleted successfully.",
+    "DELETE_FAILED": "Failed to delete contacts.",
+    "DELETE_DIALOG": {
+      "TITLE": "Delete selected contacts",
+      "SINGULAR_TITLE": "Delete selected contact",
+      "DESCRIPTION": "This will permanently delete {count} selected contacts. This action cannot be undone.",
+      "SINGULAR_DESCRIPTION": "This will permanently delete the selected contact. This action cannot be undone.",
+      "CONFIRM_MULTIPLE": "Delete contacts",
+      "CONFIRM_SINGLE": "Contacte esborrat"
+    }
+  },
+  "COMPOSE_NEW_CONVERSATION": {
+    "CONTACT_SEARCH": {
+      "ERROR_MESSAGE": "We couldn’t complete the search. Please try again."
+    },
+    "FORM": {
+      "GO_TO_CONVERSATION": "Veure",
+      "SUCCESS_MESSAGE": "The message was sent successfully!",
+      "ERROR_MESSAGE": "An error occurred while creating the conversation. Please try again later.",
+      "NO_INBOX_ALERT": "There are no available inboxes to start a conversation with this contact.",
+      "CONTACT_SELECTOR": {
+        "LABEL": "Per:",
+        "TAG_INPUT_PLACEHOLDER": "Search for a contact with name, email or phone number",
+        "CONTACT_CREATING": "Creating contact..."
+      },
+      "INBOX_SELECTOR": {
+        "LABEL": "Via:",
+        "BUTTON": "Show inboxes"
+      },
+      "EMAIL_OPTIONS": {
+        "SUBJECT_LABEL": "Assumpte :",
+        "SUBJECT_PLACEHOLDER": "Enter your email subject here",
+        "CC_LABEL": "Cc:",
+        "CC_PLACEHOLDER": "Search for a contact with their email address",
+        "BCC_LABEL": "Cco:",
+        "BCC_PLACEHOLDER": "Search for a contact with their email address",
+        "BCC_BUTTON": "Cco"
+      },
+      "MESSAGE_EDITOR": {
+        "PLACEHOLDER": "Escriu el teu missatge aquí..."
+      },
+      "WHATSAPP_OPTIONS": {
+        "LABEL": "Select template",
+        "SEARCH_PLACEHOLDER": "Search templates",
+        "EMPTY_STATE": "No templates found",
+        "TEMPLATE_PARSER": {
+          "TEMPLATE_NAME": "WhatsApp template: {templateName}",
+          "VARIABLES": "Variables",
+          "BACK": "Torna",
+          "SEND_MESSAGE": "Envia missatge"
+        }
+      },
+      "TWILIO_OPTIONS": {
+        "LABEL": "Select template",
+        "SEARCH_PLACEHOLDER": "Search templates",
+        "EMPTY_STATE": "No templates found",
+        "TEMPLATE_PARSER": {
+          "BACK": "Torna",
+          "SEND_MESSAGE": "Envia missatge"
+        }
+      },
+      "ACTION_BUTTONS": {
+        "DISCARD": "Discard",
+        "SEND": "Send ({keyCode})"
+      }
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "SURVEY": {
+    "DESCRIPTION": "Gerbiamas kliente 👋, skirkite kelias minutes ir pasidalykite atsiliepimais apie pokalbį su {inboxName}.",
+    "RATING": {
+      "LABEL": "Įvertinkite savo pokalbį",
+      "SUCCESS_MESSAGE": "Dėkojame, kad pateikėte įvertinimą"
+    },
+    "FEEDBACK": {
+      "LABEL": "Ar turite kokių nors minčių, kuriomis norėtumėte pasidalinti?",
+      "PLACEHOLDER": "Jūsų atsiliepimas (neprivaloma)",
+      "BUTTON_TEXT": "Pateikite atsiliepimą"
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Apklausa sėkmingai atnaujinta",
+      "ERROR_MESSAGE": "Nepavyko prisijungti prie Woot serverio, bandykite dar kartą vėliau"
+    }
+  },
+  "POWERED_BY": "Parengta pagal Chatwoot"
+}

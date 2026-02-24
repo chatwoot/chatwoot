@@ -1,0 +1,85 @@
+{
+  "LABEL_MGMT": {
+    "HEADER": "ป้ายกำกับ",
+    "HEADER_BTN_TXT": "เพิ่มป้ายกำกับ",
+    "LOADING": "กำลังโหลดป้ายกำกับ",
+    "DESCRIPTION": "Labels help you categorize and prioritize conversations and leads. You can assign a label to a conversation or contact using the side panel.",
+    "LEARN_MORE": "Learn more about labels",
+    "SEARCH_404": "ไม่มีรายการที่ตรงกับเนื้อหานี้",
+    "LIST": {
+      "404": "ไม่มีป้ายกำกับในบัญชีนี้",
+      "TITLE": "จัดการป้ายกำกับ",
+      "DESC": "ป้ายกำกับช่วยให้คุณจัดกลุ่มการสนทนาได้",
+      "TABLE_HEADER": {
+        "NAME": "ชื่อ",
+        "DESCRIPTION": "คำอธิบาย",
+        "COLOR": "สี"
+      }
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "ชื่อป้ายกำกับ",
+        "PLACEHOLDER": "ชื่อป้ายกำกับ",
+        "REQUIRED_ERROR": "โปรดใส่ชื่อป้ายกำกับ",
+        "MINIMUM_LENGTH_ERROR": "ชื่อป้ายกำกับต้องยาวอย่างน้อย 2 ตัวอักษร",
+        "VALID_ERROR": "ชื่อป้ายกำกับต้องเป็นตัวอักษรภาษาอังกฤษ ตัวเลข ขีดกลาง'-' และ ขีดล่าง'_' เท่านั้น"
+      },
+      "DESCRIPTION": {
+        "LABEL": "คำอธิบาย",
+        "PLACEHOLDER": "คำอธิบายป้ายกำกับ"
+      },
+      "COLOR": {
+        "LABEL": "สี"
+      },
+      "SHOW_ON_SIDEBAR": {
+        "LABEL": "แสดงป้ายกำกับบนเมนูข้าง"
+      },
+      "EDIT": "เเก้ไข",
+      "CREATE": "สร้าง",
+      "DELETE": "ลบ",
+      "CANCEL": "ยกเลิก"
+    },
+    "SUGGESTIONS": {
+      "TOOLTIP": {
+        "SINGLE_SUGGESTION": "Add label to conversation",
+        "MULTIPLE_SUGGESTION": "Select this label",
+        "DESELECT": "Deselect label",
+        "DISMISS": "Dismiss suggestion"
+      },
+      "POWERED_BY": "Chatwoot AI",
+      "DISMISS": "Dismiss",
+      "ADD_SELECTED_LABELS": "Add selected labels",
+      "ADD_SELECTED_LABEL": "Add selected label",
+      "ADD_ALL_LABELS": "Add all labels",
+      "SUGGESTED_LABELS": "Suggested labels"
+    },
+    "ADD": {
+      "TITLE": "เพิ่มป้ายกำกับ",
+      "DESC": "ป้ายกำกับช่วยให้คุณจัดกลุ่มการสนทนาได้",
+      "API": {
+        "SUCCESS_MESSAGE": "เพิ่มป้ายกำกับสำเร็จแล้ว",
+        "ERROR_MESSAGE": "เกิดข้อผิดพลาดกรุณาลองใหม่อีกครั้ง"
+      }
+    },
+    "EDIT": {
+      "TITLE": "แก้ไขป้ายกำกับ",
+      "API": {
+        "SUCCESS_MESSAGE": "อัปเดตป้ายกำกับสำเร็จแล้ว",
+        "ERROR_MESSAGE": "เกิดข้อผิดพลาดกรุณาลองใหม่อีกครั้ง"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "ลบ",
+      "API": {
+        "SUCCESS_MESSAGE": "ลบป้ายกำกับสำเร็จแล้ว",
+        "ERROR_MESSAGE": "เกิดข้อผิดพลาดกรุณาลองใหม่อีกครั้ง"
+      },
+      "CONFIRM": {
+        "TITLE": "ยืนยันการลบ",
+        "MESSAGE": "คุณต้องการที่จะลบไหม ",
+        "YES": "เอาเลย ",
+        "NO": "ไม่อะเก็บไว้ "
+      }
+    }
+  }
+}

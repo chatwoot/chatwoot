@@ -1,0 +1,68 @@
+{
+  "SEARCH": {
+    "TABS": {
+      "ALL": "All results",
+      "CONTACTS": "جهات الاتصال",
+      "CONVERSATIONS": "المحادثات",
+      "MESSAGES": "الرسائل",
+      "ARTICLES": "Articles"
+    },
+    "SECTION": {
+      "CONTACTS": "جهات الاتصال",
+      "CONVERSATIONS": "المحادثات",
+      "MESSAGES": "الرسائل",
+      "ARTICLES": "Articles"
+    },
+    "VIEW_MORE": "View more",
+    "LOAD_MORE": "Load more",
+    "SEARCHING_DATA": "جاري البحث",
+    "LOADING_DATA": "جار التحميل",
+    "EMPTY_STATE": "لم يتم العثور على {item} للطلب '{query}'",
+    "EMPTY_STATE_FULL": "لم يتم العثور على نتائج للطلب '{query}'",
+    "PLACEHOLDER_KEYBINDING": "/للتركيز",
+    "INPUT_PLACEHOLDER": "أكتب 3 أحرف أو أكثر للبحث",
+    "RECENT_SEARCHES": "Recent searches",
+    "CLEAR_ALL": "Clear all",
+    "MOST_RECENT": "Most recent",
+    "EMPTY_STATE_DEFAULT": "البحث عن طريق معرف المحادثة أو البريد الإلكتروني أو رقم الهاتف أو الرسائل للحصول على نتائج بحث أفضل. ",
+    "BOT_LABEL": "رد آلي",
+    "READ_MORE": "اقرأ المزيد",
+    "READ_LESS": "Read less",
+    "WROTE": "كتب:",
+    "FROM": "من",
+    "EMAIL": "البريد الإلكتروني",
+    "EMAIL_SUBJECT": "الموضوع",
+    "PRIVATE": "Private note",
+    "TRANSCRIPT": "Transcript",
+    "CREATED_AT": "created {time}",
+    "UPDATED_AT": "updated {time}",
+    "SORT_BY": {
+      "RELEVANCE": "Relevance"
+    },
+    "DATE_RANGE": {
+      "LAST_7_DAYS": "آخر 7 أيام",
+      "LAST_30_DAYS": "آخر 30 يوماً",
+      "LAST_60_DAYS": "آخر 60 يوماً",
+      "LAST_90_DAYS": "آخر 90 يوماً",
+      "CUSTOM_RANGE": "Custom range:",
+      "CREATED_BETWEEN": "Created between",
+      "AND": "و",
+      "APPLY": "تطبيق",
+      "BEFORE_DATE": "Before {date}",
+      "AFTER_DATE": "After {date}",
+      "TIME_RANGE": "Filter by time",
+      "CLEAR_FILTER": "Clear filter"
+    },
+    "FILTERS": {
+      "FILTER_MESSAGE": "Filter messages by:",
+      "FROM": "المرسل",
+      "IN": "صندوق الوارد",
+      "AGENTS": "الوكلاء",
+      "CONTACTS": "جهات الاتصال",
+      "INBOXES": "قنوات التواصل",
+      "NO_AGENTS": "لم يتم العثور على وكلاء",
+      "NO_CONTACTS": "Start by searching to see results",
+      "NO_INBOXES": "No inboxes found"
+    }
+  }
+}

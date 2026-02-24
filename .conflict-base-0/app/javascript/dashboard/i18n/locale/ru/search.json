@@ -1,0 +1,68 @@
+{
+  "SEARCH": {
+    "TABS": {
+      "ALL": "All results",
+      "CONTACTS": "Контакты",
+      "CONVERSATIONS": "Диалоги",
+      "MESSAGES": "Сообщения",
+      "ARTICLES": "Статьи"
+    },
+    "SECTION": {
+      "CONTACTS": "Контакты",
+      "CONVERSATIONS": "Диалоги",
+      "MESSAGES": "Сообщения",
+      "ARTICLES": "Статьи"
+    },
+    "VIEW_MORE": "Посмотреть больше",
+    "LOAD_MORE": "Загрузить ещё",
+    "SEARCHING_DATA": "Идёт поиск",
+    "LOADING_DATA": "Загрузка",
+    "EMPTY_STATE": "Не найдено {item} для запроса '{query}'",
+    "EMPTY_STATE_FULL": "Ничего не найдено по запросу '{query}'",
+    "PLACEHOLDER_KEYBINDING": "/фокусироваться",
+    "INPUT_PLACEHOLDER": "Введите 3 или более символов для поиска",
+    "RECENT_SEARCHES": "Recent searches",
+    "CLEAR_ALL": "Очистить всё",
+    "MOST_RECENT": "Most recent",
+    "EMPTY_STATE_DEFAULT": "Поиск по идентификатору разговора, электронной почте, номеру телефона, сообщениям для улучшения результатов поиска. ",
+    "BOT_LABEL": "Бот",
+    "READ_MORE": "Читать далее",
+    "READ_LESS": "Read less",
+    "WROTE": "написал:",
+    "FROM": "От",
+    "EMAIL": "Email",
+    "EMAIL_SUBJECT": "Тема",
+    "PRIVATE": "Private note",
+    "TRANSCRIPT": "Transcript",
+    "CREATED_AT": "создано {time}",
+    "UPDATED_AT": "updated {time}",
+    "SORT_BY": {
+      "RELEVANCE": "Relevance"
+    },
+    "DATE_RANGE": {
+      "LAST_7_DAYS": "Последние 7 дней",
+      "LAST_30_DAYS": "Последние 30 дней",
+      "LAST_60_DAYS": "Последние 60 дней",
+      "LAST_90_DAYS": "Последние 90 дней",
+      "CUSTOM_RANGE": "Custom range:",
+      "CREATED_BETWEEN": "Created between",
+      "AND": "и",
+      "APPLY": "Применить",
+      "BEFORE_DATE": "Before {date}",
+      "AFTER_DATE": "After {date}",
+      "TIME_RANGE": "Filter by time",
+      "CLEAR_FILTER": "Очистить фильтр"
+    },
+    "FILTERS": {
+      "FILTER_MESSAGE": "Filter messages by:",
+      "FROM": "Отправитель",
+      "IN": "Электронная почта",
+      "AGENTS": "Операторы",
+      "CONTACTS": "Контакты",
+      "INBOXES": "Источники",
+      "NO_AGENTS": "Операторы не найдены",
+      "NO_CONTACTS": "Start by searching to see results",
+      "NO_INBOXES": "No inboxes found"
+    }
+  }
+}

@@ -1,0 +1,77 @@
+{
+  "CANNED_MGMT": {
+    "HEADER": "Vorgefertigte Antworten",
+    "LEARN_MORE": "Erfahren Sie mehr über vorgefertigte Antworten",
+    "DESCRIPTION": "Vorgefertigte Antworten sind vorgeschriebene Antwortvorlagen, die Ihnen helfen, schnell auf eine Konversation zu reagieren. Agenten können das Zeichen '/' gefolgt von dem Kurzbefehl eingeben, um während einer Konversation eine vorgefertigte Antwort einzufügen. ",
+    "HEADER_BTN_TXT": "Vorgefertigte Antwort hinzufügen",
+    "LOADING": "Lade vorgefertigte Antworten...",
+    "SEARCH_404": "Es existieren keine Elemente, die dieser Abfrage entsprechen.",
+    "LIST": {
+      "404": "In diesem Konto sind keine gespeicherten Antworten verfügbar.",
+      "TITLE": "Verwalten Sie vordefinierte Antworten",
+      "DESC": "Vorgefertigte Antworten sind vorgeschriebene Antwortvorlagen, die verwendet werden können, um schnell auf Gespräche zu antworten.",
+      "TABLE_HEADER": {
+        "SHORT_CODE": "Short-Code",
+        "CONTENT": "Inhalt",
+        "ACTIONS": "Aktionen"
+      }
+    },
+    "ADD": {
+      "TITLE": "Vorgefertigte Antwort hinzufügen",
+      "DESC": "Vorgefertigte Antworten sind vorgeschriebene Antwortvorlagen, die verwendet werden können, um schnell auf Gespräche zu antworten.",
+      "CANCEL_BUTTON_TEXT": "Abbrechen",
+      "FORM": {
+        "SHORT_CODE": {
+          "LABEL": "Short-Code",
+          "PLACEHOLDER": "Bitte geben Sie einen Short-Code ein.",
+          "ERROR": "Short-Code ist erforderlich."
+        },
+        "CONTENT": {
+          "LABEL": "Nachricht",
+          "PLACEHOLDER": "Bitte schreiben Sie die Nachricht, die Sie als Vorlage speichern möchten, um sie später zu verwenden.",
+          "ERROR": "Nachricht ist erforderlich."
+        },
+        "SUBMIT": "Einreichen"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Vorgefertigte Antwort erfolgreich hinzugefügt.",
+        "ERROR_MESSAGE": "Es konnte keine Verbindung zum Woot Server hergestellt werden. Bitte versuchen Sie es später erneut"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Vorgefertigte Antwort bearbeiten",
+      "CANCEL_BUTTON_TEXT": "Abbrechen",
+      "FORM": {
+        "SHORT_CODE": {
+          "LABEL": "Short-Code",
+          "PLACEHOLDER": "Bitte geben Sie einen Short-Code ein.",
+          "ERROR": "Short-Code ist erforderlich."
+        },
+        "CONTENT": {
+          "LABEL": "Nachricht",
+          "PLACEHOLDER": "Bitte schreiben Sie die Nachricht, die Sie als Antwortvorlage speichern möchten, um sie später zu verwenden.",
+          "ERROR": "Nachricht ist erforderlich."
+        },
+        "SUBMIT": "Einreichen"
+      },
+      "BUTTON_TEXT": "Bearbeiten",
+      "API": {
+        "SUCCESS_MESSAGE": "Vorgefertigte Antwort wurde erfolgreich aktualisiert.",
+        "ERROR_MESSAGE": "Es konnte keine Verbindung zum Woot Server hergestellt werden. Bitte versuchen Sie es später erneut"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Löschen",
+      "API": {
+        "SUCCESS_MESSAGE": "Vorgefertigte Antwort wurde erfolgreich gelöscht.",
+        "ERROR_MESSAGE": "Es konnte keine Verbindung zum Woot Server hergestellt werden. Bitte versuchen Sie es später erneut"
+      },
+      "CONFIRM": {
+        "TITLE": "Löschen bestätigen",
+        "MESSAGE": "Bist du sicher, das du das löschen möchtest",
+        "YES": "Ja, löschen ",
+        "NO": "Nein, behalten "
+      }
+    }
+  }
+}

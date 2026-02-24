@@ -1,0 +1,61 @@
+#Additional translations at https://github.com/plataformatec/devise/wiki/I18n
+da:
+  devise:
+    confirmations:
+      confirmed: "Din e-mailadresse er blevet bekræftet."
+      send_instructions: "Du vil modtage en e-mail med instruktioner til, hvordan du bekræfter din e-mail-adresse om et par minutter."
+      send_paranoid_instructions: "Hvis din e-mailadresse findes i vores database, du vil modtage en e-mail med instruktioner til, hvordan du bekræfter din e-mail-adresse om et par minutter."
+    failure:
+      already_authenticated: "Du er allerede logget ind."
+      inactive: "Din konto er ikke aktiveret endnu."
+      invalid: "Ugyldig %{authentication_keys}/password eller konto er ikke bekræftet endnu."
+      locked: "Din konto er låst."
+      last_attempt: "Du har et forsøg mere, før din konto er låst."
+      not_found_in_database: "Ugyldig %{authentication_keys} eller adgangskode."
+      timeout: "Din session er udløbet. Log ind igen for at fortsætte."
+      unauthenticated: "Du skal logge ind eller tilmelde dig, før du fortsætter."
+      unconfirmed: "Du skal bekræfte din e-mailadresse, før du fortsætter."
+    mailer:
+      confirmation_instructions:
+        subject: "Bekræftelsesinstruktioner"
+      reset_password_instructions:
+        subject: "Nulstil adgangskodeinstruktioner"
+      unlock_instructions:
+        subject: "Lås instruktioner op"
+      password_change:
+        subject: "Adgangskode Ændret"
+    omniauth_callbacks:
+      failure: "Kunne ikke godkende dig fra %{kind} fordi \"%{reason}\"."
+      success: "Godkendt fra %{kind} -kontoen."
+    passwords:
+      no_token: "Du kan ikke få adgang til denne side uden at komme fra en e-mailen til nulstilling af adgangskoden. Hvis du kommer fra en e-mail til nulstilling af adgangskoden, skal du sørge for at bruge den fulde URL, der er angivet."
+      send_instructions: "Du vil om få minutter modtage en e-mail med instruktioner om, hvordan du nulstiller din adgangskode."
+      send_paranoid_instructions: "Hvis din e-mailadresse findes i vores database, vil du om få minutter modtage et link til genoprettelse af adgangskoden på din e-mailadresse."
+      updated: "Din adgangskode er blevet ændret. Du er nu logget ind."
+      updated_not_active: "Din adgangskode er blevet ændret."
+    registrations:
+      destroyed: "Farvel! Din konto er blevet annulleret. Vi håber snart at se dig igen."
+      signed_up: "Velkommen! Du er nu tilmeldt."
+      signed_up_but_inactive: "Du har tilmeldt dig. Vi kunne dog ikke logge dig på, fordi din konto endnu ikke er aktiveret."
+      signed_up_but_locked: "Du har tilmeldt dig. Vi kunne dog ikke logge dig ind, fordi din konto er låst."
+      signed_up_but_unconfirmed: "En besked med et bekræftelseslink er blevet sendt til din e-mailadresse. Følg linket for at aktivere din konto."
+      update_needs_confirmation: "Din konto er opdateret, men vi er nødt til at bekræfte din nye e-mailadresse. Tjek venligst din e-mail og følg linket for at bekræfte din nye e-mailadresse."
+      updated: "Din konto er blevet opdateret."
+    sessions:
+      signed_in: "Logget ind."
+      signed_out: "Logget ud."
+      already_signed_out: "Logget ud."
+    unlocks:
+      send_instructions: "Du vil modtage en e-mail med instruktioner til, hvordan du låser din konto op om et par minutter."
+      send_paranoid_instructions: "Hvis din konto findes, vil du modtage en e-mail med instruktioner til, hvordan du låser den op om et par minutter."
+      unlocked: "Din konto er blevet låst op. Log venligst ind for at fortsætte."
+  errors:
+    messages:
+      already_confirmed: "var allerede bekræftet, prøv venligst at logge ind"
+      confirmation_period_expired: "skal bekræftes inden for %{period}, anmod venligst om en ny"
+      expired: "er udløbet, anmod venligst om en ny"
+      not_found: "ikke fundet"
+      not_locked: "var ikke låst"
+      not_saved:
+        one: "1 fejl forhindrede denne %{resource} i at blive gemt:"
+        other: "%{count} fejl forhindrede denne %{resource} i at blive gemt:"

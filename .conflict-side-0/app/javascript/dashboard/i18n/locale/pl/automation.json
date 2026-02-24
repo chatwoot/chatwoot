@@ -1,0 +1,184 @@
+{
+  "AUTOMATION": {
+    "HEADER": "Automatyzacja",
+    "DESCRIPTION": "Automation can replace and streamline existing processes that require manual effort, such as adding labels and assigning conversations to the most suitable agent. This allows the team to focus on their strengths while reducing time spent on routine tasks.",
+    "LEARN_MORE": "Learn more about automation",
+    "HEADER_BTN_TXT": "Dodaj regułę automatyzacji",
+    "LOADING": "Pobieranie reguł automatyzacji",
+    "ADD": {
+      "TITLE": "Dodaj regułę automatyzacji",
+      "SUBMIT": "Stwórz",
+      "CANCEL_BUTTON_TEXT": "Anuluj",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Nazwa reguły",
+          "PLACEHOLDER": "Wprowadź nazwę reguły",
+          "ERROR": "Nazwa jest wymagana"
+        },
+        "DESC": {
+          "LABEL": "Opis",
+          "PLACEHOLDER": "Wprowadź opis reguły",
+          "ERROR": "Opis jest wymagany"
+        },
+        "EVENT": {
+          "LABEL": "Zdarzenie",
+          "PLACEHOLDER": "Wybierz jedno",
+          "ERROR": "Zdarzenie jest wymagane"
+        },
+        "CONDITIONS": {
+          "LABEL": "Warunki"
+        },
+        "ACTIONS": {
+          "LABEL": "Akcje"
+        }
+      },
+      "CONDITION_BUTTON_LABEL": "Dodaj warunek",
+      "ACTION_BUTTON_LABEL": "Dodaj akcję",
+      "API": {
+        "SUCCESS_MESSAGE": "Reguła automatyzacji została dodana",
+        "ERROR_MESSAGE": "Nie udało się utworzyć reguły automatyzacji, spróbuj ponownie później"
+      }
+    },
+    "LIST": {
+      "TABLE_HEADER": {
+        "NAME": "Imię",
+        "DESCRIPTION": "Opis",
+        "ACTIVE": "Aktywne",
+        "CREATED_ON": "Utworzona dnia"
+      },
+      "404": "Nie znaleziono reguł automatyzacji"
+    },
+    "DELETE": {
+      "TITLE": "Usuń regułę automatyzacji",
+      "SUBMIT": "Usuń",
+      "CANCEL_BUTTON_TEXT": "Anuluj",
+      "CONFIRM": {
+        "TITLE": "Potwierdź usunięcie",
+        "MESSAGE": "Czy na pewno chcesz usunąć ",
+        "YES": "Tak, usuń ",
+        "NO": "Nie, zachowaj "
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Reguła automatyzacji została usunięta",
+        "ERROR_MESSAGE": "Nie udało się usunąć reguły automatyzacji, spróbuj ponownie później"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Edytuj regułę automatyzacji",
+      "SUBMIT": "Aktualizuj",
+      "CANCEL_BUTTON_TEXT": "Anuluj",
+      "API": {
+        "SUCCESS_MESSAGE": "Reguła automatyzacji została zaktualizowana",
+        "ERROR_MESSAGE": "Nie udało się zaktualizować reguły automatyzacji, spróbuj ponownie później"
+      }
+    },
+    "CLONE": {
+      "TOOLTIP": "Klonuj",
+      "API": {
+        "SUCCESS_MESSAGE": "Reguła automatyzacji została sklonowana pomyślnie",
+        "ERROR_MESSAGE": "Nie udało się sklonować reguły automatyzacji, spróbuj ponownie później"
+      }
+    },
+    "FORM": {
+      "EDIT": "Edytuj",
+      "CREATE": "Stwórz",
+      "DELETE": "Usuń",
+      "CANCEL": "Anuluj",
+      "RESET_MESSAGE": "Zmiana typu zdarzenia spowoduje zresetowanie dodanych warunków i zdarzeń poniżej"
+    },
+    "CONDITION": {
+      "DELETE_MESSAGE": "Musisz mieć co najmniej jeden warunek, aby zapisać",
+      "CONTACT_CUSTOM_ATTR_LABEL": "Niestandardowe atrybuty kontaktu",
+      "CONVERSATION_CUSTOM_ATTR_LABEL": "Niestandardowe atrybuty rozmowy"
+    },
+    "ACTION": {
+      "DELETE_MESSAGE": "Musisz mieć co najmniej jedną akcję, aby zapisać",
+      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Wprowadź swoją wiadomość tutaj",
+      "TEAM_DROPDOWN_PLACEHOLDER": "Wybierz zespoły",
+      "EMAIL_INPUT_PLACEHOLDER": "Enter email",
+      "URL_INPUT_PLACEHOLDER": "Enter URL"
+    },
+    "TOGGLE": {
+      "ACTIVATION_TITLE": "Aktywuj regułę automatyzacji",
+      "DEACTIVATION_TITLE": "Wyłącz regułę automatyzacji",
+      "ACTIVATION_DESCRIPTION": "Ta akcja spowoduje aktywację reguły automatyzacji '{automationName}'. Czy na pewno chcesz kontynuować?",
+      "DEACTIVATION_DESCRIPTION": "Ta akcja spowoduje deaktywację reguły automatyzacji '{automationName}'. Czy na pewno chcesz kontynuować?",
+      "ACTIVATION_SUCCESFUL": "Reguła automatyzacji została pomyślnie aktywowana",
+      "DEACTIVATION_SUCCESFUL": "Reguła automatyzacji została pomyślnie wyłączona",
+      "ACTIVATION_ERROR": "Nie można aktywować reguły automatyzacji, spróbuj ponownie później",
+      "DEACTIVATION_ERROR": "Nie można wyłączyć reguły automatyzacji, spróbuj ponownie później",
+      "CONFIRMATION_LABEL": "Tak",
+      "CANCEL_LABEL": "Nie"
+    },
+    "ATTACHMENT": {
+      "UPLOAD_ERROR": "Nie udało się przesłać załącznika, spróbuj ponownie",
+      "LABEL_IDLE": "Prześlij załącznik",
+      "LABEL_UPLOADING": "Przesyłanie...",
+      "LABEL_UPLOADED": "Przesłano pomyślnie",
+      "LABEL_UPLOAD_FAILED": "Nie udało się przesłać załącznika"
+    },
+    "ERRORS": {
+      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
+      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "VALUE_REQUIRED": "Wartość jest wymagana",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998",
+      "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
+      "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
+      "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
+    },
+    "NONE_OPTION": "Brak",
+    "EVENTS": {
+      "CONVERSATION_CREATED": "Rozpoczęcie rozmowy",
+      "CONVERSATION_UPDATED": "Aktualizacja rozmowy",
+      "MESSAGE_CREATED": "Message Created",
+      "CONVERSATION_RESOLVED": "Conversation Resolved",
+      "CONVERSATION_OPENED": "Conversation Opened"
+    },
+    "ACTIONS": {
+      "ASSIGN_AGENT": "Assign to Agent",
+      "ASSIGN_TEAM": "Assign a Team",
+      "ADD_LABEL": "Add a Label",
+      "REMOVE_LABEL": "Remove a Label",
+      "SEND_EMAIL_TO_TEAM": "Send an Email to Team",
+      "SEND_EMAIL_TRANSCRIPT": "Send an Email Transcript",
+      "MUTE_CONVERSATION": "Wycisz kontakt",
+      "SNOOZE_CONVERSATION": "Zatrzymaj rozmowę",
+      "RESOLVE_CONVERSATION": "Zamknij rozmowę",
+      "SEND_WEBHOOK_EVENT": "Send Webhook Event",
+      "SEND_ATTACHMENT": "Send Attachment",
+      "SEND_MESSAGE": "Send a Message",
+      "ADD_PRIVATE_NOTE": "Add a Private Note",
+      "CHANGE_PRIORITY": "Zmień priorytet",
+      "ADD_SLA": "Add SLA",
+      "OPEN_CONVERSATION": "Otwórz rozmowę"
+    },
+    "MESSAGE_TYPES": {
+      "INCOMING": "Incoming Message",
+      "OUTGOING": "Outgoing Message"
+    },
+    "PRIORITY_TYPES": {
+      "NONE": "Brak",
+      "LOW": "Niski",
+      "MEDIUM": "Średni",
+      "HIGH": "Wysoki",
+      "URGENT": "Pilne"
+    },
+    "ATTRIBUTES": {
+      "MESSAGE_TYPE": "Message Type",
+      "MESSAGE_CONTAINS": "Message Contains",
+      "EMAIL": "E-mail",
+      "INBOX": "Skrzynka odbiorcza",
+      "CONVERSATION_LANGUAGE": "Conversation Language",
+      "PHONE_NUMBER": "Numer telefonu",
+      "STATUS": "Status",
+      "BROWSER_LANGUAGE": "Język przeglądarki",
+      "MAIL_SUBJECT": "Email Subject",
+      "COUNTRY_NAME": "Kraj",
+      "REFERER_LINK": "Referrer Link",
+      "ASSIGNEE_NAME": "Assignee",
+      "TEAM_NAME": "Zespół",
+      "PRIORITY": "Priorytet",
+      "LABELS": "Etykiety"
+    }
+  }
+}

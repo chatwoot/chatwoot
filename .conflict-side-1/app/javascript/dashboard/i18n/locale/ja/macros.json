@@ -1,0 +1,111 @@
+{
+  "MACROS": {
+    "HEADER": "マクロ",
+    "DESCRIPTION": "マクロは、カスタマーサービス担当者がタスクを簡単に完了できるようにする保存されたアクションのセットです。会話にラベルを付ける、メール記録を送信する、カスタム属性を更新するなどのアクションを定義でき、それらのアクションをワンクリックで実行できます。",
+    "LEARN_MORE": "マクロについて詳しく知る",
+    "HEADER_BTN_TXT": "新しいマクロを追加",
+    "HEADER_BTN_TXT_SAVE": "マクロを保存",
+    "LOADING": "マクロを取得中",
+    "ERROR": "問題が発生しました。もう一度お試しください。",
+    "ORDER_INFO": "マクロは追加したアクションの順序で実行されます。各ノード横のハンドルをドラッグして並べ替えることができます。",
+    "ADD": {
+      "FORM": {
+        "NAME": {
+          "LABEL": "マクロ名",
+          "PLACEHOLDER": "マクロ名を入力してください",
+          "ERROR": "マクロを作成するには名前が必要です"
+        },
+        "ACTIONS": {
+          "LABEL": "操作"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "マクロが正常に追加されました",
+        "ERROR_MESSAGE": "マクロを作成できませんでした。後でもう一度お試しください。"
+      }
+    },
+    "LIST": {
+      "TABLE_HEADER": {
+        "NAME": "名前",
+        "CREATED BY": "作成者",
+        "LAST_UPDATED_BY": "最終更新者",
+        "VISIBILITY": "可視性"
+      },
+      "404": "マクロが見つかりませんでした"
+    },
+    "DELETE": {
+      "TOOLTIP": "マクロを削除",
+      "CONFIRM": {
+        "MESSAGE": "削除してもよろしいですか？",
+        "YES": "削除する",
+        "NO": "いいえ"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "マクロが正常に削除されました",
+        "ERROR_MESSAGE": "マクロを削除する際にエラーが発生しました。後でもう一度お試しください。"
+      }
+    },
+    "EDIT": {
+      "TOOLTIP": "マクロを編集",
+      "API": {
+        "SUCCESS_MESSAGE": "マクロが正常に更新されました",
+        "ERROR_MESSAGE": "マクロを更新できませんでした。後でもう一度お試しください。"
+      }
+    },
+    "EDITOR": {
+      "START_FLOW": "フローの開始",
+      "END_FLOW": "フローの終了",
+      "LOADING": "マクロを取得中",
+      "ADD_BTN_TOOLTIP": "新しいアクションを追加",
+      "DELETE_BTN_TOOLTIP": "アクションを削除",
+      "VISIBILITY": {
+        "LABEL": "マクロの可視性",
+        "GLOBAL": {
+          "LABEL": "公開",
+          "DESCRIPTION": "このマクロは、このアカウント内のすべての担当者に公開されます。"
+        },
+        "PERSONAL": {
+          "LABEL": "非公開",
+          "DESCRIPTION": "このマクロは自分専用で、他の人には表示されません。"
+        }
+      }
+    },
+    "EXECUTE": {
+      "BUTTON_TOOLTIP": "実行",
+      "PREVIEW": "マクロをプレビュー",
+      "EXECUTED_SUCCESSFULLY": "マクロが正常に実行されました"
+    },
+    "ERRORS": {
+      "ATTRIBUTE_KEY_REQUIRED": "属性キーが必須です",
+      "FILTER_OPERATOR_REQUIRED": "フィルター演算子が必須です",
+      "VALUE_REQUIRED": "値は必須です",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "値は1から998の間である必要があります",
+      "ACTION_PARAMETERS_REQUIRED": "アクションパラメータが必須です",
+      "ATLEAST_ONE_CONDITION_REQUIRED": "少なくとも1つの条件が必要です",
+      "ATLEAST_ONE_ACTION_REQUIRED": "少なくとも1つのアクションが必要です"
+    },
+    "ACTIONS": {
+      "ASSIGN_TEAM": "Assign a Team",
+      "ASSIGN_AGENT": "Assign an Agent",
+      "ADD_LABEL": "Add a Label",
+      "REMOVE_LABEL": "Remove a Label",
+      "REMOVE_ASSIGNED_TEAM": "Remove Assigned Team",
+      "SEND_EMAIL_TRANSCRIPT": "Send an Email Transcript",
+      "MUTE_CONVERSATION": "会話をミュート",
+      "SNOOZE_CONVERSATION": "会話をスヌーズ",
+      "RESOLVE_CONVERSATION": "会話を解決",
+      "SEND_ATTACHMENT": "Send Attachment",
+      "SEND_MESSAGE": "Send a Message",
+      "CHANGE_PRIORITY": "優先度を変更",
+      "ADD_PRIVATE_NOTE": "Add a Private Note",
+      "SEND_WEBHOOK_EVENT": "Send Webhook Event"
+    },
+    "PRIORITY_TYPES": {
+      "NONE": "なし",
+      "LOW": "低",
+      "MEDIUM": "中",
+      "HIGH": "高",
+      "URGENT": "緊急"
+    }
+  }
+}

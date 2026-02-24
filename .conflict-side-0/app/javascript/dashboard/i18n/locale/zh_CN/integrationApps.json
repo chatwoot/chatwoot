@@ -1,0 +1,62 @@
+{
+  "INTEGRATION_APPS": {
+    "FETCHING": "正在获取集成",
+    "NO_HOOK_CONFIGURED": "此账户中未配置任何 {integrationId} 集成。",
+    "HEADER": "应用程序",
+    "STATUS": {
+      "ENABLED": "已启用",
+      "DISABLED": "已禁用"
+    },
+    "CONFIGURE": "配置",
+    "ADD_BUTTON": "添加一个新钩子",
+    "DELETE": {
+      "TITLE": {
+        "INBOX": "确认删除",
+        "ACCOUNT": "断开连接"
+      },
+      "MESSAGE": {
+        "INBOX": "确定删除吗？",
+        "ACCOUNT": "您确定要断开连接吗？"
+      },
+      "CONFIRM_BUTTON_TEXT": {
+        "INBOX": "是，删除",
+        "ACCOUNT": "是，断开连接"
+      },
+      "CANCEL_BUTTON_TEXT": "取消",
+      "API": {
+        "SUCCESS_MESSAGE": "钩子成功删除",
+        "ERROR_MESSAGE": "无法连接服务器，请稍后再试"
+      }
+    },
+    "LIST": {
+      "FETCHING": "正在获取集成",
+      "INBOX": "收件箱",
+      "DELETE": {
+        "BUTTON_TEXT": "删除"
+      }
+    },
+    "ADD": {
+      "FORM": {
+        "INBOX": {
+          "LABEL": "选择收件箱",
+          "PLACEHOLDER": "选择收件箱"
+        },
+        "SUBMIT": "创建",
+        "CANCEL": "取消"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "成功添加集成钩子",
+        "ERROR_MESSAGE": "无法连接服务器，请稍后再试"
+      }
+    },
+    "CONNECT": {
+      "BUTTON_TEXT": "连接"
+    },
+    "DISCONNECT": {
+      "BUTTON_TEXT": "断开连接"
+    },
+    "SIDEBAR_DESCRIPTION": {
+      "DIALOGFLOW": "Dialogflow 是一个用于构建对话界面的自然语言处理平台。将其与 {installationName} 集成可以让机器人优先处理查询，并在需要时转接给客服代理。它通过回答常见问题来帮助筛选潜在客户并减少客服代理工作量。要添加 Dialogflow，请在 Google 控制台中创建服务帐户并共享凭据。详情请参阅文档"
+    }
+  }
+}

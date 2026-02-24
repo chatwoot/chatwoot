@@ -1,0 +1,121 @@
+{
+  "TEAMS_SETTINGS": {
+    "NEW_TEAM": "Створити нову команду",
+    "HEADER": "Команди",
+    "LOADING": "Fetching teams",
+    "DESCRIPTION": "Teams allow you to organize agents into groups based on their responsibilities. An agent can belong to multiple teams. When working collaboratively, you can assign conversations to specific teams.",
+    "LEARN_MORE": "Learn more about teams",
+    "LIST": {
+      "404": "В цьому обліковому запису не створено жодної команди.",
+      "EDIT_TEAM": "Редагувати команду",
+      "NONE": "Нiчого"
+    },
+    "CREATE_FLOW": {
+      "CREATE": {
+        "TITLE": "Створити нову команду",
+        "DESC": "Додати заголовок та опис до вашої нової команди."
+      },
+      "AGENTS": {
+        "BUTTON_TEXT": "Додати агентів до команди",
+        "TITLE": "Додати агентів до команди - {teamName}",
+        "DESC": "Додати співробітників до новоствореної команди. Це дозволить вам співпрацювати як команда в розмовах, отримувати повідомлення про нові події в тій самій розмові."
+      },
+      "WIZARD_CREATE": {
+        "TITLE": "Створити",
+        "BODY": "Створіть нову команду агентів."
+      },
+      "WIZARD_ADD_AGENTS": {
+        "TITLE": "Додати агентів",
+        "BODY": "Додати агентів до команди."
+      },
+      "WIZARD_FINISH": {
+        "TITLE": "Закінчити",
+        "BODY": "Все готово!"
+      }
+    },
+    "EDIT_FLOW": {
+      "CREATE": {
+        "TITLE": "Редагувати деталі вашої команди",
+        "DESC": "Редагуйте назву та опис вашої команди.",
+        "BUTTON_TEXT": "Оновити команду"
+      },
+      "AGENTS": {
+        "BUTTON_TEXT": "Оновити агентів у команді",
+        "TITLE": "Додати агентів до команди - {teamName}",
+        "DESC": "Додати агентів до щойно створеної команди. Всі додані агенти будуть повідомлені, коли буде присвоєна розмова в цій команді."
+      },
+      "EDIT_WIZARD_DETAILS": {
+        "TITLE": "Інформація про команду",
+        "ROUTE": "settings_teams_edit",
+        "BODY": "Змінити ім'я, опис та інші деталі."
+      },
+      "EDIT_WIZARD_AGENTS": {
+        "TITLE": "Редагувати агентів",
+        "ROUTE": "settings_teams_edit_members",
+        "BODY": "Редагувати агентів у вашій команді."
+      },
+      "EDIT_WIZARD_FINISH": {
+        "TITLE": "Закінчити",
+        "ROUTE": "settings_teams_edit_finish",
+        "BODY": "Все готово!"
+      }
+    },
+    "TEAM_FORM": {
+      "ERROR_MESSAGE": "Не вдалося зберегти деталі команди. Повторіть спробу."
+    },
+    "AGENTS": {
+      "AGENT": "АГЕНТ",
+      "EMAIL": "ПОШТА",
+      "BUTTON_TEXT": "Додати агентів",
+      "ADD_AGENTS": "Додавання агентів до команди...",
+      "SELECT": "вибрати",
+      "SELECT_ALL": "вибрати всіх агентів",
+      "SELECTED_COUNT": "{selected} з {total} агентів вибрано."
+    },
+    "ADD": {
+      "TITLE": "Додати агентів до команди - {teamName}",
+      "DESC": "Додати співробітників до новоствореної команди. Це дозволить вам співпрацювати як команда в розмовах, отримувати повідомлення про нові події в тій самій розмові.",
+      "SELECT": "вибрати",
+      "SELECT_ALL": "вибрати всіх агентів",
+      "SELECTED_COUNT": "{selected} з {total} агентів вибрано.",
+      "BUTTON_TEXT": "Додати агентів",
+      "AGENT_VALIDATION_ERROR": "Виберіть принаймні одного агента."
+    },
+    "FINISH": {
+      "TITLE": "Ваша команда готова!",
+      "MESSAGE": "Тепер ви можете співпрацювати як команда у розмовах. Вдалої вам підтримки ",
+      "BUTTON_TEXT": "Закінчити"
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Видалити",
+      "API": {
+        "SUCCESS_MESSAGE": "Команда успішно видалена.",
+        "ERROR_MESSAGE": "Не вдалося видалити команду. Повторіть спробу."
+      },
+      "CONFIRM": {
+        "TITLE": "Are you sure you want to delete the team?",
+        "PLACE_HOLDER": "Будь ласка, введіть {teamName} щоб підтвердити",
+        "MESSAGE": "Видалення команди призведе до видалення призначення команди з розмов.",
+        "YES": "Видалити ",
+        "NO": "Скасувати"
+      }
+    },
+    "SETTINGS": "Налаштування",
+    "FORM": {
+      "UPDATE": "Оновити команду",
+      "CREATE": "Створити команду",
+      "NAME": {
+        "LABEL": "Назва команди",
+        "PLACEHOLDER": "Приклад: продажі, підтримка клієнтів"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Опис команди",
+        "PLACEHOLDER": "Короткий опис цієї команди."
+      },
+      "AUTO_ASSIGN": {
+        "LABEL": "Дозволити автоматичне призначити для цієї команди."
+      },
+      "SUBMIT_CREATE": "Створити команду"
+    }
+  }
+}

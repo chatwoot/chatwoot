@@ -1,0 +1,184 @@
+{
+  "AUTOMATION": {
+    "HEADER": "เงื่อนไขอัตโนมัติ",
+    "DESCRIPTION": "Automation can replace and streamline existing processes that require manual effort, such as adding labels and assigning conversations to the most suitable agent. This allows the team to focus on their strengths while reducing time spent on routine tasks.",
+    "LEARN_MORE": "Learn more about automation",
+    "HEADER_BTN_TXT": "เพิ่มเงื่อนไขอัตโนมัติ",
+    "LOADING": "กำลังโหลดเงื่อนไขอัตโนมัติ",
+    "ADD": {
+      "TITLE": "เพิ่มเงื่อนไขอัตโนมัติ",
+      "SUBMIT": "สร้าง",
+      "CANCEL_BUTTON_TEXT": "ยกเลิก",
+      "FORM": {
+        "NAME": {
+          "LABEL": "ชื่อเงื่อนไขอัตโนมัติ",
+          "PLACEHOLDER": "ใส่ชื่อเงื่อนไขอัตโนมัติ",
+          "ERROR": "โปรดระบุชื่อ"
+        },
+        "DESC": {
+          "LABEL": "คำอธิบาย",
+          "PLACEHOLDER": "ใส่คำอธิบาย",
+          "ERROR": "โปรดระบุคำอธิบาย"
+        },
+        "EVENT": {
+          "LABEL": "เหตุการณ์",
+          "PLACEHOLDER": "โปรดเลือก",
+          "ERROR": "โปรดระบุเหตุการณ์"
+        },
+        "CONDITIONS": {
+          "LABEL": "เงื่อนไข"
+        },
+        "ACTIONS": {
+          "LABEL": "การกระทำ"
+        }
+      },
+      "CONDITION_BUTTON_LABEL": "เพิ่มเงื่อนไข",
+      "ACTION_BUTTON_LABEL": "เพื่มการกระทำ",
+      "API": {
+        "SUCCESS_MESSAGE": "เพิ่มเงื่อนไขอัตโนมัติสำเร็จแล้ว",
+        "ERROR_MESSAGE": "ไม่สามารถสร้างเงื่อนไขอัตโนมัติได้ โปรดลองใหม่อีกครั้ง"
+      }
+    },
+    "LIST": {
+      "TABLE_HEADER": {
+        "NAME": "ชื่อ",
+        "DESCRIPTION": "คำอธิบาย",
+        "ACTIVE": "ใช้งานอยู่",
+        "CREATED_ON": "สร้างเมื่อ"
+      },
+      "404": "ไม่พบเงื่อนไขอัตโนมัติ"
+    },
+    "DELETE": {
+      "TITLE": "ลบเงื่อนไขอัตโนมัติ",
+      "SUBMIT": "ลบ",
+      "CANCEL_BUTTON_TEXT": "ยกเลิก",
+      "CONFIRM": {
+        "TITLE": "ยืนยันการลบ",
+        "MESSAGE": "คุณต้องการที่จะลบไหม ",
+        "YES": "เอาเลย ",
+        "NO": "ไม่อะเก็บไว้ "
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "ลบเงื่อนไขอัตโนมัติสำเร็จแล้ว",
+        "ERROR_MESSAGE": "ไม่สามารถลบเงื่อนไขอัตโนมัติได้ โปรดลองใหม่อีกครั้ง"
+      }
+    },
+    "EDIT": {
+      "TITLE": "แก้ไขเงื่อนไขอัตโนมัติ",
+      "SUBMIT": "อัพเดท",
+      "CANCEL_BUTTON_TEXT": "ยกเลิก",
+      "API": {
+        "SUCCESS_MESSAGE": "แก้ไขเงื่อนไขอัตโนมัติสำเร็จแล้ว",
+        "ERROR_MESSAGE": "ไม่สามารถอัปเดตเงื่อนไขอัตโนมัติได้ โปรดลองใหม่อีกครั้ง"
+      }
+    },
+    "CLONE": {
+      "TOOLTIP": "คัดลอก",
+      "API": {
+        "SUCCESS_MESSAGE": "คัดลอกเงื่อนไขอัตโนมัติสำเร็จแล้ว",
+        "ERROR_MESSAGE": "ไม่สามารถคัดลอกเงื่อนไขอัตโนมัติได้ โปรดลองใหม่อีกครั้ง"
+      }
+    },
+    "FORM": {
+      "EDIT": "เเก้ไข",
+      "CREATE": "สร้าง",
+      "DELETE": "ลบ",
+      "CANCEL": "ยกเลิก",
+      "RESET_MESSAGE": "การเปลี่ยนประเภทเหตุการณ์ จะรีเช็ทเงื่อนไขและเหตุการณ์ที่คุณเพิ่มไว้ด้านล่าง"
+    },
+    "CONDITION": {
+      "DELETE_MESSAGE": "คุณต้องมีอย่างน้อย 1 เงื่อนไขเพื่อบันทึก",
+      "CONTACT_CUSTOM_ATTR_LABEL": "Contact Custom Attributes",
+      "CONVERSATION_CUSTOM_ATTR_LABEL": "Conversation Custom Attributes"
+    },
+    "ACTION": {
+      "DELETE_MESSAGE": "คุณต้องมีเงื่อนไขอย่างน้อย 1 การกระทำเพื่อบันทึก",
+      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Geben Sie hier Ihre Nachricht ein",
+      "TEAM_DROPDOWN_PLACEHOLDER": "Teams auswählen",
+      "EMAIL_INPUT_PLACEHOLDER": "Enter email",
+      "URL_INPUT_PLACEHOLDER": "Enter URL"
+    },
+    "TOGGLE": {
+      "ACTIVATION_TITLE": "เปิดใช้เงื่อนไขอัตโนมัติ",
+      "DEACTIVATION_TITLE": "ปิดการใช้เงื่อนไขอัตโนมัติ",
+      "ACTIVATION_DESCRIPTION": "การกระทำนี้จะทำให้เปิดใช้เงื่อนไขอัตโนมัติ '{automationName}' คุณต้องการดำเนินการต่อหรือไม่?",
+      "DEACTIVATION_DESCRIPTION": "การกระทำนี้จะทำให้ปิดการใช้เงื่อนไขอัตโนมัติ '{automationName}' คุณต้องการดำเนินการต่อหรือไม่?",
+      "ACTIVATION_SUCCESFUL": "เปิดใช้เงื่อนไขอัตโนมัติสำเร็จแล้ว",
+      "DEACTIVATION_SUCCESFUL": "ปิดการใช้เงื่อนไขอัตโนมัติสำเร็จแล้ว",
+      "ACTIVATION_ERROR": "ไม่สามารถเปิดใช้เงื่อนไขอัตโนมัติได้ โปรดลองใหม่อีกครั้ง",
+      "DEACTIVATION_ERROR": "ไม่สามารถปิดการใช้เงื่อนไขอัตโนมัติได้ โปรดลองใหม่อีกครั้ง",
+      "CONFIRMATION_LABEL": "ใช่",
+      "CANCEL_LABEL": "ไม่"
+    },
+    "ATTACHMENT": {
+      "UPLOAD_ERROR": "ไม่สามารถอัปโหลดไฟล์แนบได้ โปรดลองใหม่อีกครั้ง",
+      "LABEL_IDLE": "อัปโหลดไฟล์แนบ",
+      "LABEL_UPLOADING": "กำลังอัปโหลด",
+      "LABEL_UPLOADED": "การอัปโหลดเสร็จสมบูรณ์",
+      "LABEL_UPLOAD_FAILED": "อัปโหลดไม่สำเร็จ"
+    },
+    "ERRORS": {
+      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
+      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "VALUE_REQUIRED": "โปรดระบุค่า",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998",
+      "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
+      "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
+      "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
+    },
+    "NONE_OPTION": "ไม่มี",
+    "EVENTS": {
+      "CONVERSATION_CREATED": "การสนทนาที่ถูกสร้าง",
+      "CONVERSATION_UPDATED": "อัปเดตการสนทนาแล้ว",
+      "MESSAGE_CREATED": "Message Created",
+      "CONVERSATION_RESOLVED": "Conversation Resolved",
+      "CONVERSATION_OPENED": "Conversation Opened"
+    },
+    "ACTIONS": {
+      "ASSIGN_AGENT": "Assign to Agent",
+      "ASSIGN_TEAM": "Assign a Team",
+      "ADD_LABEL": "Add a Label",
+      "REMOVE_LABEL": "Remove a Label",
+      "SEND_EMAIL_TO_TEAM": "Send an Email to Team",
+      "SEND_EMAIL_TRANSCRIPT": "Send an Email Transcript",
+      "MUTE_CONVERSATION": "ระงับการสนทนา",
+      "SNOOZE_CONVERSATION": "พักการสนทนา",
+      "RESOLVE_CONVERSATION": "เสร็จสิ้นการสนทนา",
+      "SEND_WEBHOOK_EVENT": "Send Webhook Event",
+      "SEND_ATTACHMENT": "Send Attachment",
+      "SEND_MESSAGE": "Send a Message",
+      "ADD_PRIVATE_NOTE": "Add a Private Note",
+      "CHANGE_PRIORITY": "Change Priority",
+      "ADD_SLA": "Add SLA",
+      "OPEN_CONVERSATION": "เปิดดูการสนทนา"
+    },
+    "MESSAGE_TYPES": {
+      "INCOMING": "Incoming Message",
+      "OUTGOING": "Outgoing Message"
+    },
+    "PRIORITY_TYPES": {
+      "NONE": "ไม่มี",
+      "LOW": "Low",
+      "MEDIUM": "Medium",
+      "HIGH": "High",
+      "URGENT": "Urgent"
+    },
+    "ATTRIBUTES": {
+      "MESSAGE_TYPE": "Message Type",
+      "MESSAGE_CONTAINS": "Message Contains",
+      "EMAIL": "อีเมล์",
+      "INBOX": "กล่องข้อความ",
+      "CONVERSATION_LANGUAGE": "Conversation Language",
+      "PHONE_NUMBER": "หมายเลขโทรศัพท์",
+      "STATUS": "สถานะ",
+      "BROWSER_LANGUAGE": "ภาษาของเบราว์เซอร์",
+      "MAIL_SUBJECT": "Email Subject",
+      "COUNTRY_NAME": "ประเทศ",
+      "REFERER_LINK": "Referrer Link",
+      "ASSIGNEE_NAME": "Assignee",
+      "TEAM_NAME": "ทีม",
+      "PRIORITY": "Priority",
+      "LABELS": "ป้ายกำกับ"
+    }
+  }
+}

@@ -1,0 +1,23 @@
+type: object
+properties:
+  id:
+    type: number
+    description: The ID of the custom filter
+  name:
+    type: string
+    description: The name of the custom filter
+  type:
+    type: string
+    enum: ["conversation", "contact", "report"]
+    description: The description about the custom filter
+  query:
+    type: object
+    description: A query that needs to be saved as a custom filter
+  created_at:
+    type: string
+    format: date-time
+    description: The time at which the custom filter was created
+  updated_at:
+    type: string
+    format: date-time
+    description: The time at which the custom filter was updated

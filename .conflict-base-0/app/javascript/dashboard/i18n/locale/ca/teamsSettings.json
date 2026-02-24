@@ -1,0 +1,121 @@
+{
+  "TEAMS_SETTINGS": {
+    "NEW_TEAM": "Cea un nou equip",
+    "HEADER": "Equips",
+    "LOADING": "Fetching teams",
+    "DESCRIPTION": "Teams allow you to organize agents into groups based on their responsibilities. An agent can belong to multiple teams. When working collaboratively, you can assign conversations to specific teams.",
+    "LEARN_MORE": "Learn more about teams",
+    "LIST": {
+      "404": "No hi ha cap equip creat en aquest compte.",
+      "EDIT_TEAM": "Edita l'equip",
+      "NONE": "Ningú"
+    },
+    "CREATE_FLOW": {
+      "CREATE": {
+        "TITLE": "Cea un nou equip",
+        "DESC": "Afegeix un títol i una descripció al teu nou equip."
+      },
+      "AGENTS": {
+        "BUTTON_TEXT": "Afegir agents a l'equip",
+        "TITLE": "Afegeix agents a l'equip - {teamName}",
+        "DESC": "Afegeix agents al teu equip acabat de crear. Això et permet col·laborar com a equip en converses, rebre notificacions sobre esdeveniments nous a la mateixa conversa."
+      },
+      "WIZARD_CREATE": {
+        "TITLE": "Crear",
+        "BODY": "Crea un nou equip d'agents."
+      },
+      "WIZARD_ADD_AGENTS": {
+        "TITLE": "Afegir agents",
+        "BODY": "Afegeix agents a l'equip."
+      },
+      "WIZARD_FINISH": {
+        "TITLE": "Finalitza",
+        "BODY": "Ja estàs preparat!"
+      }
+    },
+    "EDIT_FLOW": {
+      "CREATE": {
+        "TITLE": "Edita els detalls del teu equip",
+        "DESC": "Edita un títol i una descripció al teu equip.",
+        "BUTTON_TEXT": "Actualitza l'equip"
+      },
+      "AGENTS": {
+        "BUTTON_TEXT": "Actualitza els agents de l'equip",
+        "TITLE": "Afegeix agents a l'equip - {teamName}",
+        "DESC": "Afegeix agents al teu equip acabat de crear. Tots els agents afegits rebran una notificació quan s'assigni una conversa a aquest equip."
+      },
+      "EDIT_WIZARD_DETAILS": {
+        "TITLE": "Detalls de l'equip",
+        "ROUTE": "settings_teams_edit",
+        "BODY": "Canvia el nom, la descripció i altres detalls."
+      },
+      "EDIT_WIZARD_AGENTS": {
+        "TITLE": "Edita agents",
+        "ROUTE": "settings_teams_edit_members",
+        "BODY": "Edita agents en el teu equip."
+      },
+      "EDIT_WIZARD_FINISH": {
+        "TITLE": "Finalitza",
+        "ROUTE": "settings_teams_edit_finish",
+        "BODY": "Ja estàs preparat!"
+      }
+    },
+    "TEAM_FORM": {
+      "ERROR_MESSAGE": "No s'han pogut desar els detalls de l'equip. Torna-ho a provar."
+    },
+    "AGENTS": {
+      "AGENT": "AGENT",
+      "EMAIL": "Correu electrònic",
+      "BUTTON_TEXT": "Afegir agents",
+      "ADD_AGENTS": "S'estan afegint agents al teu equip...",
+      "SELECT": "selecciona",
+      "SELECT_ALL": "selecciona tots els agents",
+      "SELECTED_COUNT": "{selected} de {total} agents seleccionats."
+    },
+    "ADD": {
+      "TITLE": "Afegeix agents a l'equip - {teamName}",
+      "DESC": "Afegeix agents al teu equip acabat de crear. Això et permet col·laborar com a equip en converses, rebre notificacions sobre esdeveniments nous a la mateixa conversa.",
+      "SELECT": "selecciona",
+      "SELECT_ALL": "selecciona tots els agents",
+      "SELECTED_COUNT": "{selected} de {total} agents seleccionats.",
+      "BUTTON_TEXT": "Afegir agents",
+      "AGENT_VALIDATION_ERROR": "Selecciona almenys un agent."
+    },
+    "FINISH": {
+      "TITLE": "El teu equip està preparat!",
+      "MESSAGE": "Ara pots col·laborar com un equip en les converses. Feliç suport ",
+      "BUTTON_TEXT": "Finalitza"
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Esborrar",
+      "API": {
+        "SUCCESS_MESSAGE": "Equip esborrat correctament.",
+        "ERROR_MESSAGE": "No s'ha pogut suprimir l'equip. Torna-ho a provar."
+      },
+      "CONFIRM": {
+        "TITLE": "Are you sure you want to delete the team?",
+        "PLACE_HOLDER": "Escriu {teamName} per confirmar",
+        "MESSAGE": "En suprimir l'equip, se suprimirà l'assignació d'equip de les converses assignades a aquest equip.",
+        "YES": "Suprimeix ",
+        "NO": "Cancel·la"
+      }
+    },
+    "SETTINGS": "Configuracions",
+    "FORM": {
+      "UPDATE": "Actualitza l'equip",
+      "CREATE": "Crea l'equip",
+      "NAME": {
+        "LABEL": "Nom de l'equip",
+        "PLACEHOLDER": "Exemple: Vendes, Atenció al client"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Descripció de l’equip",
+        "PLACEHOLDER": "Breu descripció d'aquest equip."
+      },
+      "AUTO_ASSIGN": {
+        "LABEL": "Permet l'assignació automàtica d'aquest equip."
+      },
+      "SUBMIT_CREATE": "Crea l'equip"
+    }
+  }
+}

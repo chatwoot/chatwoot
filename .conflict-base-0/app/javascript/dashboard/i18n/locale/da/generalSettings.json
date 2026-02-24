@@ -1,0 +1,251 @@
+{
+  "GENERAL_SETTINGS": {
+    "LIMIT_MESSAGES": {
+      "CONVERSATION": "You have exceeded the conversation limit. Hacker plan allows only 500 conversations.",
+      "INBOXES": "You have exceeded the inbox limit. Hacker plan only supports website live-chat. Additional inboxes like email, WhatsApp etc. require a paid plan.",
+      "AGENTS": "You have exceeded the agent limit. Your plan only allows {allowedAgents} agents.",
+      "NON_ADMIN": "Please contact your administrator to upgrade the plan and continue using all features."
+    },
+    "TITLE": "Kontoindstillinger",
+    "SUBMIT": "Opdater indstillinger",
+    "BACK": "Tilbage",
+    "DISMISS": "Dismiss",
+    "UPDATE": {
+      "ERROR": "Kunne ikke opdatere indstillinger, prøv igen!",
+      "SUCCESS": "Kontoindstillinger blev opdateret"
+    },
+    "ACCOUNT_DELETE_SECTION": {
+      "TITLE": "Delete your Account",
+      "NOTE": "Once you delete your account, all your data will be deleted.",
+      "BUTTON_TEXT": "Delete Your Account",
+      "CONFIRM": {
+        "TITLE": "Delete Account",
+        "MESSAGE": "Deleting your Account is irreversible. Enter your account name below to confirm you want to permanently delete it.",
+        "BUTTON_TEXT": "Slet",
+        "DISMISS": "Annuller",
+        "PLACE_HOLDER": "Skriv venligst {accountName} for at bekræfte"
+      },
+      "SUCCESS": "Account marked for deletion",
+      "FAILURE": "Could not delete account, try again!",
+      "SCHEDULED_DELETION": {
+        "TITLE": "Account Scheduled for Deletion",
+        "MESSAGE_MANUAL": "This account is scheduled for deletion on {deletionDate}. This was requested by an administrator. You can cancel the deletion before this date.",
+        "MESSAGE_INACTIVITY": "This account is scheduled for deletion on {deletionDate} due to account inactivity. You can cancel the deletion before this date.",
+        "CLEAR_BUTTON": "Cancel Scheduled Deletion"
+      }
+    },
+    "FORM": {
+      "ERROR": "Ret venligst formularfejl",
+      "GENERAL_SECTION": {
+        "TITLE": "Generelle indstillinger",
+        "NOTE": ""
+      },
+      "ACCOUNT_ID": {
+        "TITLE": "Konto SID",
+        "NOTE": "Dette ID er påkrævet, hvis du bygger en API-baseret integration"
+      },
+      "AUTO_RESOLVE": {
+        "TITLE": "Auto-resolve conversations",
+        "NOTE": "This configuration would allow you to automatically resolve the conversation after a certain period of inactivity.",
+        "DURATION": {
+          "LABEL": "Inactivity duration",
+          "HELP": "Time period of inactivity after which conversation is auto-resolved",
+          "PLACEHOLDER": "30",
+          "ERROR": "Auto resolve duration should be between 10 minutes and 999 days",
+          "API": {
+            "SUCCESS": "Auto resolve settings updated successfully",
+            "ERROR": "Failed to update auto resolve settings"
+          }
+        },
+        "MESSAGE": {
+          "LABEL": "Custom auto-resolution message",
+          "PLACEHOLDER": "Conversation was marked resolved by system due to 15 days of inactivity",
+          "HELP": "Message sent to the customer after conversation is auto-resolved"
+        },
+        "PREFERENCES": "Preferences",
+        "LABEL": {
+          "LABEL": "Add label after auto-resolution",
+          "PLACEHOLDER": "Select a label"
+        },
+        "IGNORE_WAITING": {
+          "LABEL": "Skip conversations waiting for agent’s reply"
+        },
+        "UPDATE_BUTTON": "Save Changes"
+      },
+      "NAME": {
+        "LABEL": "Kontonavn",
+        "PLACEHOLDER": "Dit kontonavn",
+        "ERROR": "Angiv et gyldigt kontonavn"
+      },
+      "LANGUAGE": {
+        "LABEL": "Site language",
+        "PLACEHOLDER": "Dit kontonavn",
+        "ERROR": ""
+      },
+      "DOMAIN": {
+        "LABEL": "Indkommende E-Mail Domæne",
+        "PLACEHOLDER": "Domænet, hvor du vil modtage e-mails",
+        "ERROR": ""
+      },
+      "SUPPORT_EMAIL": {
+        "LABEL": "Support E-Mail",
+        "PLACEHOLDER": "Din virksomheds support e-mail",
+        "ERROR": ""
+      },
+      "AUTO_RESOLVE_IGNORE_WAITING": {
+        "LABEL": "Exclude unattended conversations",
+        "HELP": "When enabled, the system will skip resolving conversations that are still waiting for an agent's reply."
+      },
+      "AUDIO_TRANSCRIPTION": {
+        "TITLE": "Transcribe Audio Messages",
+        "NOTE": "Automatically transcribe audio messages in conversations. Generate a text transcript whenever an audio message is sent or received, and display it alongside the message.",
+        "API": {
+          "SUCCESS": "Audio transcription setting updated successfully",
+          "ERROR": "Failed to update audio transcription setting"
+        }
+      },
+      "AUTO_RESOLVE_DURATION": {
+        "LABEL": "Inactivity duration for resolution",
+        "HELP": "Duration after a conversation should auto resolve if there is no activity",
+        "PLACEHOLDER": "30",
+        "ERROR": "Auto resolve duration should be between 10 minutes and 999 days",
+        "API": {
+          "SUCCESS": "Auto resolve settings updated successfully",
+          "ERROR": "Failed to update auto resolve settings"
+        },
+        "UPDATE_BUTTON": "Opdater",
+        "MESSAGE_LABEL": "Custom resolution message",
+        "MESSAGE_PLACEHOLDER": "Conversation was marked resolved by system due to 15 days of inactivity",
+        "MESSAGE_HELP": "This message is sent to the customer when a conversation is automatically resolved by the system due to inactivity."
+      },
+      "FEATURES": {
+        "INBOUND_EMAIL_ENABLED": "Samtale kontinuitet med e-mails er aktiveret for din konto.",
+        "CUSTOM_EMAIL_DOMAIN_ENABLED": "Du kan modtage e-mails på dit brugerdefinerede domæne nu."
+      }
+    },
+    "UPDATE_CHATWOOT": "En opdatering {latestChatwootVersion} til Chatwoot er tilgængelig. Opdater venligst din instans.",
+    "LEARN_MORE": "Lær mere",
+    "PAYMENT_PENDING": "Your payment is pending. Please update your payment information to continue using Chatwoot",
+    "UPGRADE": "Upgrade to continue using Chatwoot",
+    "LIMITS_UPGRADE": "Your account has exceeded the usage limits, please upgrade your plan to continue using Chatwoot",
+    "OPEN_BILLING": "Open billing"
+  },
+  "FORMS": {
+    "MULTISELECT": {
+      "ENTER_TO_SELECT": "Tryk enter for at vælge",
+      "ENTER_TO_REMOVE": "Tryk enter for at fjerne",
+      "NO_OPTIONS": "List is empty",
+      "SELECT_ONE": "Vælg en",
+      "SELECT": "Vælg"
+    }
+  },
+  "NOTIFICATIONS_PAGE": {
+    "HEADER": "Notifikationer",
+    "MARK_ALL_DONE": "Markér Alle Udførte",
+    "DELETE_TITLE": "slettet",
+    "UNREAD_NOTIFICATION": {
+      "TITLE": "Ulæste Notifikationer",
+      "ALL_NOTIFICATIONS": "Se alle notifikationer",
+      "LOADING_UNREAD_MESSAGE": "Indlæser ulæste notifikationer...",
+      "EMPTY_MESSAGE": "Du har ingen ulæste notifikationer"
+    },
+    "LIST": {
+      "LOADING_MESSAGE": "Indlæser notifikationer...",
+      "404": "Ingen Notifikationer",
+      "TABLE_HEADER": [
+        "Navn",
+        "Telefonnummer",
+        "Samtaler",
+        "Sidst Kontaktet"
+      ]
+    },
+    "TYPE_LABEL": {
+      "conversation_creation": "Ny samtale",
+      "conversation_assignment": "Samtale Tildelt",
+      "assigned_conversation_new_message": "Ny Besked",
+      "participating_conversation_new_message": "Ny Besked",
+      "conversation_mention": "Omtale",
+      "sla_missed_first_response": "SLA Missed",
+      "sla_missed_next_response": "SLA Missed",
+      "sla_missed_resolution": "SLA Missed"
+    }
+  },
+  "NETWORK": {
+    "NOTIFICATION": {
+      "OFFLINE": "Offline",
+      "RECONNECTING": "Reconnecting...",
+      "RECONNECT_SUCCESS": "Reconnected"
+    },
+    "BUTTON": {
+      "REFRESH": "Opdater"
+    }
+  },
+  "COMMAND_BAR": {
+    "SEARCH_PLACEHOLDER": "Søg eller hop til",
+    "SECTIONS": {
+      "GENERAL": "Generelt",
+      "REPORTS": "Rapporter",
+      "CONVERSATION": "Samtale",
+      "BULK_ACTIONS": "Bulk Actions",
+      "CHANGE_ASSIGNEE": "Skift Modtager",
+      "CHANGE_PRIORITY": "Change Priority",
+      "CHANGE_TEAM": "Skift Team",
+      "SNOOZE_CONVERSATION": "Udsæt Samtale",
+      "ADD_LABEL": "Tilføj etiket til samtalen",
+      "REMOVE_LABEL": "Fjern etiket fra samtalen",
+      "SETTINGS": "Indstillinger",
+      "AI_ASSIST": "AI Assist",
+      "APPEARANCE": "Appearance",
+      "SNOOZE_NOTIFICATION": "Snooze Notification"
+    },
+    "COMMANDS": {
+      "GO_TO_CONVERSATION_DASHBOARD": "Gå til Konversationspanel",
+      "GO_TO_CONTACTS_DASHBOARD": "Gå til Contacts Dashboard",
+      "GO_TO_REPORTS_OVERVIEW": "Gå til Oversigt over rapporter",
+      "GO_TO_CONVERSATION_REPORTS": "Gå til Konversationsrapporter",
+      "GO_TO_AGENT_REPORTS": "Gå til Agent rapporter",
+      "GO_TO_LABEL_REPORTS": "Gå til Label rapporter",
+      "GO_TO_INBOX_REPORTS": "Gå til Indbakke Rapporter",
+      "GO_TO_TEAM_REPORTS": "Gå til holdrapporter",
+      "GO_TO_SETTINGS_AGENTS": "Gå til Agent indstillinger",
+      "GO_TO_SETTINGS_TEAMS": "Gå til teamindstillinger",
+      "GO_TO_SETTINGS_INBOXES": "Gå til Indbakkeindstillinger",
+      "GO_TO_SETTINGS_LABELS": "Gå til Label indstillinger",
+      "GO_TO_SETTINGS_CANNED_RESPONSES": "Gå til Indstillinger for scannede svar",
+      "GO_TO_SETTINGS_APPLICATIONS": "Gå til programindstillinger",
+      "GO_TO_SETTINGS_ACCOUNT": "Gå til kontoindstillinger",
+      "GO_TO_SETTINGS_PROFILE": "Gå til profilindstillinger",
+      "GO_TO_NOTIFICATIONS": "Gå til Notifikationer",
+      "ADD_LABELS_TO_CONVERSATION": "Tilføj etiket til samtalen",
+      "ASSIGN_AN_AGENT": "Tildel en agent",
+      "AI_ASSIST": "AI Assist",
+      "ASSIGN_PRIORITY": "Assign priority",
+      "ASSIGN_A_TEAM": "Tildel et team",
+      "MUTE_CONVERSATION": "Gør samtale lydløs",
+      "UNMUTE_CONVERSATION": "Fjern samtale",
+      "REMOVE_LABEL_FROM_CONVERSATION": "Fjern etiket fra samtalen",
+      "REOPEN_CONVERSATION": "Genåbn samtale",
+      "RESOLVE_CONVERSATION": "Løs samtale",
+      "SEND_TRANSCRIPT": "Send en e-mail udskrift",
+      "SNOOZE_CONVERSATION": "Udsæt Samtale",
+      "UNTIL_NEXT_REPLY": "Indtil næste svar",
+      "UNTIL_NEXT_WEEK": "Indtil næste uge",
+      "UNTIL_TOMORROW": "Indtil i morgen",
+      "UNTIL_NEXT_MONTH": "Until next month",
+      "AN_HOUR_FROM_NOW": "Until an hour from now",
+      "UNTIL_CUSTOM_TIME": "Custom...",
+      "CHANGE_APPEARANCE": "Change Appearance",
+      "LIGHT_MODE": "Light",
+      "DARK_MODE": "Dark",
+      "SYSTEM_MODE": "System",
+      "SNOOZE_NOTIFICATION": "Snooze Notification"
+    }
+  },
+  "DASHBOARD_APPS": {
+    "LOADING_MESSAGE": "Indlæser Dashboard App..."
+  },
+  "COMMON": {
+    "OR": "Or",
+    "CLICK_HERE": "klik her"
+  }
+}

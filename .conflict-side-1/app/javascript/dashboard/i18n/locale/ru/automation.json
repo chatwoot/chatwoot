@@ -1,0 +1,184 @@
+{
+  "AUTOMATION": {
+    "HEADER": "Автоматизация",
+    "DESCRIPTION": "Автоматизация может заменить и упростить существующие процессы, которые требуют ручной работы, такие как добавление меток и распределение разговоров на наиболее подходящего агента. Это позволяет команде сосредоточиться на своих сильных сторонах, сокращая время, затраченное на рутинные задачи.",
+    "LEARN_MORE": "Узнайте больше об автоматизации",
+    "HEADER_BTN_TXT": "Добавить правило автоматизации",
+    "LOADING": "Получение правил автоматизации",
+    "ADD": {
+      "TITLE": "Добавить правило автоматизации",
+      "SUBMIT": "Создать",
+      "CANCEL_BUTTON_TEXT": "Отменить",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Название правила",
+          "PLACEHOLDER": "Введите название правила",
+          "ERROR": "Необходимо указать имя"
+        },
+        "DESC": {
+          "LABEL": "Описание",
+          "PLACEHOLDER": "Введите описание правила",
+          "ERROR": "Необходимо описание"
+        },
+        "EVENT": {
+          "LABEL": "Событие",
+          "PLACEHOLDER": "Пожалуйста, выберите один",
+          "ERROR": "Необходимо указать событие"
+        },
+        "CONDITIONS": {
+          "LABEL": "Условия"
+        },
+        "ACTIONS": {
+          "LABEL": "Действия"
+        }
+      },
+      "CONDITION_BUTTON_LABEL": "Добавить условие",
+      "ACTION_BUTTON_LABEL": "Добавить действие",
+      "API": {
+        "SUCCESS_MESSAGE": "Правило автоматизации успешно добавлено",
+        "ERROR_MESSAGE": "Не удалось создать правило автоматизации, пожалуйста, повторите попытку позже"
+      }
+    },
+    "LIST": {
+      "TABLE_HEADER": {
+        "NAME": "Имя",
+        "DESCRIPTION": "Описание",
+        "ACTIVE": "Активно",
+        "CREATED_ON": "Создано"
+      },
+      "404": "Правила автоматизации не найдены"
+    },
+    "DELETE": {
+      "TITLE": "Удалить правило автоматизации",
+      "SUBMIT": "Удалить",
+      "CANCEL_BUTTON_TEXT": "Отменить",
+      "CONFIRM": {
+        "TITLE": "Подтвердите удаление",
+        "MESSAGE": "Вы точно хотите удалить ",
+        "YES": "Да, удалить ",
+        "NO": "Нет, не удалять "
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Правило автоматизации успешно удалено",
+        "ERROR_MESSAGE": "Не удалось удалить правило автоматизации, пожалуйста, повторите попытку позже"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Изменить правило автоматизации",
+      "SUBMIT": "Обновить",
+      "CANCEL_BUTTON_TEXT": "Отменить",
+      "API": {
+        "SUCCESS_MESSAGE": "Правило автоматизации успешно обновлено",
+        "ERROR_MESSAGE": "Не удалось обновить правило автоматизации, повторите попытку позже"
+      }
+    },
+    "CLONE": {
+      "TOOLTIP": "Копировать",
+      "API": {
+        "SUCCESS_MESSAGE": "Правило автоматизации успешно скопировано",
+        "ERROR_MESSAGE": "Не удалось скопировать правило автоматизации, повторите попытку позже"
+      }
+    },
+    "FORM": {
+      "EDIT": "Редактировать",
+      "CREATE": "Создать",
+      "DELETE": "Удалить",
+      "CANCEL": "Отменить",
+      "RESET_MESSAGE": "Изменение типа события сбросит условия и события, добавленные вами ниже"
+    },
+    "CONDITION": {
+      "DELETE_MESSAGE": "Вам нужно иметь по крайней мере одно условие для сохранения",
+      "CONTACT_CUSTOM_ATTR_LABEL": "Контактные пользовательские атрибуты",
+      "CONVERSATION_CUSTOM_ATTR_LABEL": "Пользовательские атрибуты разговора"
+    },
+    "ACTION": {
+      "DELETE_MESSAGE": "Вам нужно иметь по крайней мере одно условие для сохранения",
+      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Напишите здесь ваше сообщение",
+      "TEAM_DROPDOWN_PLACEHOLDER": "Выберите команды",
+      "EMAIL_INPUT_PLACEHOLDER": "Введите адрес электронной почты",
+      "URL_INPUT_PLACEHOLDER": "Введите URL-адрес"
+    },
+    "TOGGLE": {
+      "ACTIVATION_TITLE": "Включить правило автоматизации",
+      "DEACTIVATION_TITLE": "Выключить правило автоматизации",
+      "ACTIVATION_DESCRIPTION": "Это действие запустит правило автоматизации '{automationName}'. Вы уверены, что хотите продолжить?",
+      "DEACTIVATION_DESCRIPTION": "Это действие отключит правило автоматизации '{automationName}'. Вы уверены, что хотите продолжить?",
+      "ACTIVATION_SUCCESFUL": "Правило автоматизации успешно включено",
+      "DEACTIVATION_SUCCESFUL": "Правило автоматизации успешно отключено",
+      "ACTIVATION_ERROR": "Не удалось включить правило автоматизации, пожалуйста, повторите попытку позже",
+      "DEACTIVATION_ERROR": "Не удалось отключить правило автоматизации, пожалуйста, повторите попытку позже",
+      "CONFIRMATION_LABEL": "Да",
+      "CANCEL_LABEL": "Нет"
+    },
+    "ATTACHMENT": {
+      "UPLOAD_ERROR": "Не удалось загрузить вложение, попробуйте еще раз",
+      "LABEL_IDLE": "Загрузка вложений",
+      "LABEL_UPLOADING": "Загружаем...",
+      "LABEL_UPLOADED": "Успешно загружено",
+      "LABEL_UPLOAD_FAILED": "Загрузка не удалась"
+    },
+    "ERRORS": {
+      "ATTRIBUTE_KEY_REQUIRED": "Необходимо ввести ключ атрибута",
+      "FILTER_OPERATOR_REQUIRED": "Требуется оператор фильтра",
+      "VALUE_REQUIRED": "Необходимо указать значение",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Значение должно быть между 1 и 998",
+      "ACTION_PARAMETERS_REQUIRED": "Требуются параметры действий",
+      "ATLEAST_ONE_CONDITION_REQUIRED": "Требуется хотя бы одно условие",
+      "ATLEAST_ONE_ACTION_REQUIRED": "Требуется хотя бы одно действие"
+    },
+    "NONE_OPTION": "Ничего",
+    "EVENTS": {
+      "CONVERSATION_CREATED": "Диалог создан",
+      "CONVERSATION_UPDATED": "Диалог обновлён",
+      "MESSAGE_CREATED": "Сообщение создано",
+      "CONVERSATION_RESOLVED": "Диалог решён",
+      "CONVERSATION_OPENED": "Диалог открыт"
+    },
+    "ACTIONS": {
+      "ASSIGN_AGENT": "Назначить агента",
+      "ASSIGN_TEAM": "Назначить команду",
+      "ADD_LABEL": "Добавить метку",
+      "REMOVE_LABEL": "Удалить метку",
+      "SEND_EMAIL_TO_TEAM": "Отправить Email команде",
+      "SEND_EMAIL_TRANSCRIPT": "Отправить историю переписки на email",
+      "MUTE_CONVERSATION": "Заглушить диалог",
+      "SNOOZE_CONVERSATION": "Включить звук диалога",
+      "RESOLVE_CONVERSATION": "Решить диалог",
+      "SEND_WEBHOOK_EVENT": "Отправить событие Webhook",
+      "SEND_ATTACHMENT": "Отправить вложение",
+      "SEND_MESSAGE": "Отправить сообщение",
+      "ADD_PRIVATE_NOTE": "Добавить личную заметку",
+      "CHANGE_PRIORITY": "Изменить приоритет",
+      "ADD_SLA": "Добавить SLA",
+      "OPEN_CONVERSATION": "Открыть беседу"
+    },
+    "MESSAGE_TYPES": {
+      "INCOMING": "Входящее сообщение",
+      "OUTGOING": "Исходящее сообщение"
+    },
+    "PRIORITY_TYPES": {
+      "NONE": "Ничего",
+      "LOW": "Низкая",
+      "MEDIUM": "Средняя",
+      "HIGH": "Высокая",
+      "URGENT": "Срочность"
+    },
+    "ATTRIBUTES": {
+      "MESSAGE_TYPE": "Тип сообщения",
+      "MESSAGE_CONTAINS": "Сообщение содержит",
+      "EMAIL": "Email",
+      "INBOX": "Электронная почта",
+      "CONVERSATION_LANGUAGE": "Язык сообщения",
+      "PHONE_NUMBER": "Номер телефона",
+      "STATUS": "Статус",
+      "BROWSER_LANGUAGE": "Язык браузера",
+      "MAIL_SUBJECT": "Тема письма",
+      "COUNTRY_NAME": "Страна",
+      "REFERER_LINK": "Реферальная ссылка",
+      "ASSIGNEE_NAME": "Назначено",
+      "TEAM_NAME": "Команда",
+      "PRIORITY": "Приоритет",
+      "LABELS": "Категории"
+    }
+  }
+}

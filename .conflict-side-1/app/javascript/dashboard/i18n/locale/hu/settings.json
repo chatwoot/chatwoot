@@ -1,0 +1,796 @@
+{
+  "PROFILE_SETTINGS": {
+    "LINK": "Profilbeállítások",
+    "TITLE": "Profilbeállítások",
+    "BTN_TEXT": "Profil frissítése",
+    "DELETE_AVATAR": "Avatár Törlése",
+    "AVATAR_DELETE_SUCCESS": "Az avatár sikeresen törlésre került",
+    "AVATAR_DELETE_FAILED": "Hiba lépett fel az avatár törlése során, kérjük próbáld újra",
+    "UPDATE_SUCCESS": "A fiókod sikeresen frissítetted",
+    "PASSWORD_UPDATE_SUCCESS": "A jelszavad sikeresen megváltoztattad",
+    "AFTER_EMAIL_CHANGED": "A profilod sikeresen frissítésre került, kérjük lépj be újra, mivel megváltoztak a belépési adataid",
+    "FORM": {
+      "PICTURE": "Profile Picture",
+      "AVATAR": "Profilkép",
+      "ERROR": "Kérjük javítsd ki az űrlaphibákat",
+      "REMOVE_IMAGE": "Eltávolítás",
+      "UPLOAD_IMAGE": "Kép feltöltése",
+      "UPDATE_IMAGE": "Kép frissítése",
+      "PROFILE_SECTION": {
+        "TITLE": "Profil",
+        "NOTE": "Az e-mailcímed az identitásod és a belépésre használhatod."
+      },
+      "SEND_MESSAGE": {
+        "TITLE": "Üzenet küldése gyorsbillentyűvel",
+        "NOTE": "Kiválaszthatod a gyorsbillentyű kombinációdat a preferenciáid alapján.",
+        "UPDATE_SUCCESS": "A beállításaid sikeresen frissültek.",
+        "CARD": {
+          "ENTER_KEY": {
+            "HEADING": "Enter (↵)",
+            "CONTENT": "Küldj üzenetet az Enter gomb megnyomásával a \"Küldés gomb\" használata helyett"
+          },
+          "CMD_ENTER_KEY": {
+            "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
+            "CONTENT": "Küldj üzenetet az Cmd/Ctrl + enter billentyűkombinációval a \"Küldés gomb\" használata helyett"
+          }
+        }
+      },
+      "INTERFACE_SECTION": {
+        "TITLE": "Interface",
+        "NOTE": "Customize the look and feel of your Chatwoot dashboard.",
+        "FONT_SIZE": {
+          "TITLE": "Font size",
+          "NOTE": "Adjust the text size across the dashboard based on your preference.",
+          "UPDATE_SUCCESS": "Your font settings have been updated successfully",
+          "UPDATE_ERROR": "There is an error while updating the font settings, please try again",
+          "OPTIONS": {
+            "SMALLER": "Smaller",
+            "SMALL": "Small",
+            "DEFAULT": "Alapértelmezett",
+            "LARGE": "Large",
+            "LARGER": "Larger",
+            "EXTRA_LARGE": "Extra Large"
+          }
+        },
+        "LANGUAGE": {
+          "TITLE": "Preferred Language",
+          "NOTE": "Choose the language you want to use.",
+          "UPDATE_SUCCESS": "Your Language settings have been updated successfully",
+          "UPDATE_ERROR": "There is an error while updating the language settings, please try again",
+          "USE_ACCOUNT_DEFAULT": "Use account default"
+        }
+      },
+      "MESSAGE_SIGNATURE_SECTION": {
+        "TITLE": "Személyes üzenet aláírás",
+        "NOTE": "Hozzon létre egyedi üzenetaláírást, amely bármelyik postafiókból küldött üzenet végén megjelenik. Beilleszthet egy soron belüli képet is, amelyet az élő chat, az e-mail és az API bejövő üzenetek támogatnak.",
+        "BTN_TEXT": "Üzenet aláírás mentése",
+        "API_ERROR": "Nem sikerült menteni az aláírást! Próbáld újra",
+        "API_SUCCESS": "Aláírás sikeresen mentve",
+        "IMAGE_UPLOAD_ERROR": "A képet nem lehet betölteni! Próbálja újra",
+        "IMAGE_UPLOAD_SUCCESS": "A kép sikeresen hozzáadva. Az aláírás mentéséhez kattintson a mentésre",
+        "IMAGE_UPLOAD_SIZE_ERROR": "A kép mérete kevesebb, mint {size} MB"
+      },
+      "MESSAGE_SIGNATURE": {
+        "LABEL": "Üzenet aláírás",
+        "ERROR": "Az üzenet aláírása nem maradhat üres",
+        "PLACEHOLDER": "Ide írd a személyes üzeneteid aláírását."
+      },
+      "PASSWORD_SECTION": {
+        "TITLE": "Jelszó",
+        "NOTE": "A jelszó frissítása minden beléptetett eszközt kiléptet.",
+        "BTN_TEXT": "Jelszó megváltoztatása"
+      },
+      "SECURITY_SECTION": {
+        "TITLE": "Security",
+        "NOTE": "Manage additional security features for your account.",
+        "MFA_BUTTON": "Manage Two-Factor Authentication"
+      },
+      "ACCESS_TOKEN": {
+        "TITLE": "Hozzáférési kulcs",
+        "NOTE": "Ez a kulcs akkor használható, ha API-alapú integrációt építesz",
+        "COPY": "Másolás",
+        "RESET": "Reset",
+        "CONFIRM_RESET": "Are you sure?",
+        "CONFIRM_HINT": "Click again to confirm",
+        "RESET_SUCCESS": "Access token regenerated successfully",
+        "RESET_ERROR": "Unable to regenerate access token. Please try again"
+      },
+      "AUDIO_NOTIFICATIONS_SECTION": {
+        "TITLE": "Audio Alerts",
+        "NOTE": "Enable audio alerts in dashboard for new messages and conversations.",
+        "PLAY": "Play sound",
+        "ALERT_TYPES": {
+          "NONE": "Nincs",
+          "MINE": "Assigned",
+          "ALL": "Mind",
+          "ASSIGNED": "My assigned conversations",
+          "UNASSIGNED": "Unassigned conversations",
+          "NOTME": "Open conversations assigned to others"
+        },
+        "ALERT_COMBINATIONS": {
+          "NONE": "You haven't selected any options, you won't receive any audio alerts.",
+          "ASSIGNED": "You'll receive alerts for conversations assigned to you.",
+          "UNASSIGNED": "You'll receive alerts for any unassigned conversations.",
+          "NOTME": "You'll receive alerts for conversations assigned to others.",
+          "ASSIGNED+UNASSIGNED": "You'll receive alerts for your assigned conversations and any unattended ones.",
+          "ASSIGNED+NOTME": "You'll receive alerts for conversations assigned to you and to others, but not for unassigned ones.",
+          "NOTME+UNASSIGNED": "You'll receive alerts for unattended conversations and those assigned to others.",
+          "ASSIGNED+NOTME+UNASSIGNED": "You'll receive alerts for all conversations."
+        },
+        "ALERT_TYPE": {
+          "TITLE": "Alert events for conversations",
+          "NONE": "Nincs",
+          "ASSIGNED": "Hozzárendelt Beszélgetések",
+          "ALL_CONVERSATIONS": "Beszélgetések"
+        },
+        "DEFAULT_TONE": {
+          "TITLE": "Hang figyelmeztetés:"
+        },
+        "CONDITIONS": {
+          "TITLE": "Figyelmeztető feltételek:",
+          "CONDITION_ONE": "Csak akkor küldjön hangjelzést, ha a böngészőablak nem aktív",
+          "CONDITION_TWO": "Figyelmeztetések küldése 30 másodpercenként, amíg az összes hozzárendelt beszélgetést elolvasta"
+        },
+        "SOUND_PERMISSION_ERROR": "Autoplay is disabled in your browser. To hear alerts automatically, enable sound permission in your browser settings or interact with the page.",
+        "READ_MORE": "Tudj meg többet"
+      },
+      "EMAIL_NOTIFICATIONS_SECTION": {
+        "TITLE": "E-mail értesítések",
+        "NOTE": "Frissítsd az e-mail értesítési beállításaidat itt",
+        "CONVERSATION_ASSIGNMENT": "Küldj e-mail értesítéseket, amikor a beszélgetést hozzám rendelik",
+        "CONVERSATION_CREATION": "Küldj e-mail értesítéseket, amikor egy új beszélgetés létrejön",
+        "CONVERSATION_MENTION": "Küldj e-mail értesítéseket, amikor egy beszélgetésben megemlítenek",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Küldj e-mail értesítéseket, amikor egy hozzám rendelt beszélgetésben új üzenet érkezik",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Kapj e-mailt amikor egy üzenet létrejön egy hozzád rendelt beszélgetésben",
+        "SLA_MISSED_FIRST_RESPONSE": "Send email notifications when a conversation misses first response SLA",
+        "SLA_MISSED_NEXT_RESPONSE": "Send email notifications when a conversation misses next response SLA",
+        "SLA_MISSED_RESOLUTION": "Send email notifications when a conversation misses resolution SLA"
+      },
+      "NOTIFICATIONS": {
+        "TITLE": "Notification preferences",
+        "TYPE_TITLE": "Notification type",
+        "EMAIL": "E-mail",
+        "PUSH": "Push notification",
+        "TYPES": {
+          "CONVERSATION_CREATED": "A new conversation is created",
+          "CONVERSATION_ASSIGNED": "A conversation is assigned to you",
+          "CONVERSATION_MENTION": "You are mentioned in a conversation",
+          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "A new message is created in an assigned conversation",
+          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "A new message is created in a participating conversation",
+          "SLA_MISSED_FIRST_RESPONSE": "A conversation misses first response SLA",
+          "SLA_MISSED_NEXT_RESPONSE": "A conversation misses next response SLA",
+          "SLA_MISSED_RESOLUTION": "A conversation misses resolution SLA"
+        },
+        "BROWSER_PERMISSION": "Enable push notifications for your browser so you’re able to receive them"
+      },
+      "API": {
+        "UPDATE_SUCCESS": "Az értesítési beállításaid sikeresen frissítve",
+        "UPDATE_ERROR": "Egy hiba lépett fel a beállítások frissítése során, kérjük próbáld újra"
+      },
+      "PUSH_NOTIFICATIONS_SECTION": {
+        "TITLE": "Push üzenetek",
+        "NOTE": "Frissítsd az push üzenet beállításaidat itt",
+        "CONVERSATION_ASSIGNMENT": "Küldj push üzeneteket, amikor a beszélgetést hozzám rendelik",
+        "CONVERSATION_CREATION": "Küldj push üzeneteket, amikor egy új beszélgetés létrejön",
+        "CONVERSATION_MENTION": "Küldj push üzeneteket, amikor egy beszélgetésben megemlítenek",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Küldj push üzeneteket, amikor egy hozzám rendelt beszélgetésben új üzenet érkezik",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Kapj push értesítést amikor egy üzenet létrejön egy hozzád rendelt beszélgetésben",
+        "HAS_ENABLED_PUSH": "Engedélyezted a push üzeneteket ezen a böngészőn.",
+        "REQUEST_PUSH": "Push üznetek engedélyezése",
+        "SLA_MISSED_FIRST_RESPONSE": "Send push notifications when a conversation misses first response SLA",
+        "SLA_MISSED_NEXT_RESPONSE": "Send push notifications when a conversation misses next response SLA",
+        "SLA_MISSED_RESOLUTION": "Send push notifications when a conversation misses resolution SLA"
+      },
+      "PROFILE_IMAGE": {
+        "LABEL": "Profilkép"
+      },
+      "NAME": {
+        "LABEL": "A teljes neved",
+        "ERROR": "Kérjük helyes nevet adj meg",
+        "PLACEHOLDER": "Kérjük a teljes nevedet add meg"
+      },
+      "DISPLAY_NAME": {
+        "LABEL": "Rövidnév",
+        "ERROR": "Kérjük helyes rövidnevet adj meg",
+        "PLACEHOLDER": "Kérjük add meg a rövidnevet amit a beszélgetésekben szeretnél megjeleníteni"
+      },
+      "AVAILABILITY": {
+        "LABEL": "Elérhetőség",
+        "STATUS": {
+          "ONLINE": "Online",
+          "BUSY": "Foglalt",
+          "OFFLINE": "Offline"
+        },
+        "SET_AVAILABILITY_SUCCESS": "Elérhetőség beállítása sikeres",
+        "SET_AVAILABILITY_ERROR": "Nem sikerült beállítani az elérhetőséget, kérlek, próbáld újra",
+        "IMPERSONATING_ERROR": "Cannot change availability while impersonating a user"
+      },
+      "EMAIL": {
+        "LABEL": "Az e-mailcímed",
+        "ERROR": "Kérjük helyes e-mailcímet adj meg",
+        "PLACEHOLDER": "Kérjük add meg az e-mailcímet amit a beszélgetésekben szeretnél megjeleníteni"
+      },
+      "CURRENT_PASSWORD": {
+        "LABEL": "Jelenlegi jelszó",
+        "ERROR": "Kérjük add meg a jelenlegi jelszavad",
+        "PLACEHOLDER": "Kérjük add meg a jelenlegi jelszavad"
+      },
+      "PASSWORD": {
+        "LABEL": "Új jelszó",
+        "ERROR": "Kérjük 6 karakternél hosszabb jelszót adj meg",
+        "PLACEHOLDER": "Kérjük adj meg egy új jelszót"
+      },
+      "PASSWORD_CONFIRMATION": {
+        "LABEL": "Jelszó megerősítése",
+        "ERROR": "A két jelszónak egyeznie kell",
+        "PLACEHOLDER": "Kérjük add meg egy ismét új jelszavad"
+      }
+    }
+  },
+  "SIDEBAR_ITEMS": {
+    "CHANGE_AVAILABILITY_STATUS": "Megváltoztatás",
+    "CHANGE_ACCOUNTS": "Switch account",
+    "SWITCH_ACCOUNT": "Switch account",
+    "CONTACT_SUPPORT": "Contact support",
+    "SELECTOR_SUBTITLE": "Fiók kiválasztása az alábbi listából",
+    "PROFILE_SETTINGS": "Profile settings",
+    "YEAR_IN_REVIEW": "Year in Review",
+    "KEYBOARD_SHORTCUTS": "Keyboard shortcuts",
+    "APPEARANCE": "Change appearance",
+    "SUPER_ADMIN_CONSOLE": "SuperAdmin console",
+    "DOCS": "Read documentation",
+    "CHANGELOG": "Changelog",
+    "LOGOUT": "Log out"
+  },
+  "APP_GLOBAL": {
+    "TRIAL_MESSAGE": "nap van hátra a próbaidőszakból.",
+    "TRAIL_BUTTON": "Előfizetés",
+    "DELETED_USER": "Törölt Felhasználó",
+    "EMAIL_VERIFICATION_PENDING": "It seems that you haven't verified your email address yet. Please check your inbox for the verification email.",
+    "RESEND_VERIFICATION_MAIL": "Resend verification email",
+    "EMAIL_VERIFICATION_SENT": "Verification email has been sent. Please check your inbox.",
+    "ACCOUNT_SUSPENDED": {
+      "TITLE": "Felfüggesztett Fiók",
+      "MESSAGE": "A fiókod felfüggesztés alatt van. Bővebb információkért, kérlek, lépj kapcsolatba az ügfyélszolgálattal."
+    },
+    "NO_ACCOUNTS": {
+      "TITLE": "No account found",
+      "MESSAGE_CLOUD": "You are not part of any accounts right now. If you think this is a mistake, please reach out to our support team.",
+      "MESSAGE_SELF_HOSTED": "You are not part of any accounts right now. Please reach out to your administrator.",
+      "LOGOUT": "Log out"
+    }
+  },
+  "COMPONENTS": {
+    "CODE": {
+      "BUTTON_TEXT": "Másolás",
+      "CODEPEN": "Megnyitás CodePen-ben",
+      "COPY_SUCCESSFUL": "Vágólapra másolva"
+    },
+    "SHOW_MORE_BLOCK": {
+      "SHOW_MORE": "Mutass többet",
+      "SHOW_LESS": "Mutass kevesebbet"
+    },
+    "FILE_BUBBLE": {
+      "DOWNLOAD": "Letöltés",
+      "UPLOADING": "Feltöltés...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "Ez a story már nem érhető el."
+    },
+    "LOCATION_BUBBLE": {
+      "SEE_ON_MAP": "Mutasd térképen"
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "Elküldés"
+    },
+    "MEDIA": {
+      "IMAGE_UNAVAILABLE": "This image is no longer available.",
+      "LOADING_FAILED": "Loading failed"
+    }
+  },
+  "CONFIRM_EMAIL": "Ellenőrzés...",
+  "SETTINGS": {
+    "INBOXES": {
+      "NEW_INBOX": "Inboxhoz adás"
+    }
+  },
+  "SIDEBAR": {
+    "NO_ITEMS": "No items",
+    "CURRENTLY_VIEWING_ACCOUNT": "Jelenleg nézi:",
+    "SWITCH": "Váltás",
+    "INBOX_VIEW": "Inbox View",
+    "CONVERSATIONS": "Beszélgetések",
+    "INBOX": "My Inbox",
+    "ALL_CONVERSATIONS": "Beszélgetések",
+    "MENTIONED_CONVERSATIONS": "Megemlítések",
+    "PARTICIPATING_CONVERSATIONS": "Részvétel",
+    "UNATTENDED_CONVERSATIONS": "Figyelmen kívül hagyott",
+    "REPORTS": "Jelentések",
+    "SETTINGS": "Beállítások",
+    "CONTACTS": "Kontaktok",
+    "ACTIVE": "Aktív",
+    "COMPANIES": "Companies",
+    "ALL_COMPANIES": "All Companies",
+    "CAPTAIN": "Captain",
+    "CAPTAIN_ASSISTANTS": "Assistants",
+    "CAPTAIN_DOCUMENTS": "Documents",
+    "CAPTAIN_RESPONSES": "FAQs",
+    "CAPTAIN_TOOLS": "Tools",
+    "CAPTAIN_SCENARIOS": "Scenarios",
+    "CAPTAIN_PLAYGROUND": "Playground",
+    "CAPTAIN_INBOXES": "Fiókok",
+    "CAPTAIN_SETTINGS": "Beállítások",
+    "HOME": "Nyitólap",
+    "AGENTS": "Ügynökök",
+    "AGENT_BOTS": "Botok",
+    "AUDIT_LOGS": "Audit logok",
+    "INBOXES": "Bejövők",
+    "NOTIFICATIONS": "Értesítések",
+    "CANNED_RESPONSES": "Mentett válaszok",
+    "INTEGRATIONS": "Integrációk",
+    "PROFILE_SETTINGS": "Profilbeállítások",
+    "ACCOUNT_SETTINGS": "Fiókbeállítások",
+    "APPLICATIONS": "Alkalmazások",
+    "LABELS": "Cimkék",
+    "CUSTOM_ATTRIBUTES": "Egyedi atribútumok",
+    "AUTOMATION": "Automatizáció",
+    "MACROS": "Makrók",
+    "TEAMS": "Csapatok",
+    "BILLING": "Számlázás",
+    "CUSTOM_VIEWS_FOLDER": "Mappák",
+    "CUSTOM_VIEWS_SEGMENTS": "Szegmensek",
+    "ALL_CONTACTS": "Összes kontakt",
+    "TAGGED_WITH": "Megjelölés",
+    "NEW_LABEL": "Új cimke",
+    "NEW_TEAM": "Új csapat",
+    "NEW_INBOX": "Új fiók",
+    "REPORTS_CONVERSATION": "Beszélgetések",
+    "CSAT": "CSAT",
+    "LIVE_CHAT": "Live Chat",
+    "SMS": "SMS",
+    "WHATSAPP": "WhatsApp",
+    "CAMPAIGNS": "Kampányok",
+    "ONGOING": "Folyamatban",
+    "ONE_OFF": "Egyszeri",
+    "REPORTS_SLA": "SLA",
+    "REPORTS_BOT": "Bot",
+    "REPORTS_AGENT": "Ügynökök",
+    "REPORTS_LABEL": "Cimkék",
+    "REPORTS_INBOX": "Fiók",
+    "REPORTS_TEAM": "Csapat",
+    "AGENT_ASSIGNMENT": "Agent Assignment",
+    "SET_AVAILABILITY_TITLE": "Ugrás a Beszélgetések Irányítópultjához",
+    "SET_YOUR_AVAILABILITY": "Elérhetőség beállítása",
+    "SLA": "SLA",
+    "CUSTOM_ROLES": "Custom Roles",
+    "BETA": "Béta",
+    "REPORTS_OVERVIEW": "Áttekintés",
+    "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
+    "HELP_CENTER": {
+      "TITLE": "Súgóközpont",
+      "ARTICLES": "Articles",
+      "CATEGORIES": "Kategóriák",
+      "LOCALES": "Nyelvek",
+      "SETTINGS": "Beállítások"
+    },
+    "CHANNELS": "Csatornák",
+    "SET_AUTO_OFFLINE": {
+      "TEXT": "Offline állapot automatikusan",
+      "INFO_TEXT": "Hagyd, hogy a rendszer automatikusan offline módban jelöljön meg, amikor nem használod az alkalmazást vagy az irányítópultot.",
+      "INFO_SHORT": "Automatically mark offline when you aren't using the app."
+    },
+    "DOCS": "Dokumentum olvasása",
+    "SECURITY": "Security"
+  },
+  "BILLING_SETTINGS": {
+    "TITLE": "Számlázás",
+    "DESCRIPTION": "Manage your subscription here, upgrade your plan and get more for your team.",
+    "CURRENT_PLAN": {
+      "TITLE": "Aktuális előfizetés",
+      "PLAN_NOTE": "Jelenleg előfizetett a **{plan}** csomagra **{quantity}** licensszel",
+      "SEAT_COUNT": "Number of seats",
+      "RENEWS_ON": "Renews on"
+    },
+    "VIEW_PRICING": "View Pricing",
+    "MANAGE_SUBSCRIPTION": {
+      "TITLE": "Előfizetés kezelése",
+      "DESCRIPTION": "Korábbi számlák nézete, fizetési részletek szerkesztése, vagy az előfizetés törlése",
+      "BUTTON_TXT": "Ugrás a számlázási felületre"
+    },
+    "CAPTAIN": {
+      "TITLE": "Captain",
+      "DESCRIPTION": "Manage usage and credits for Captain AI.",
+      "BUTTON_TXT": "Buy more credits",
+      "DOCUMENTS": "Documents",
+      "RESPONSES": "Responses",
+      "UPGRADE": "Captain is not available on the free plan, upgrade now to get access to assistants, copilot and more.",
+      "REFRESH_CREDITS": "Frissítés"
+    },
+    "CHAT_WITH_US": {
+      "TITLE": "Kell segítség?",
+      "DESCRIPTION": "Számlázási problémád akadt? Azért vagyunk itt, hogy segítsünk.",
+      "BUTTON_TXT": "Chatelj velünk"
+    },
+    "NO_BILLING_USER": "Számlázási fiókod konfigurálás alatt áll. Kérjük, frissítsd az oldalt, és próbáld újra.",
+    "TOPUP": {
+      "BUY_CREDITS": "Buy more credits",
+      "MODAL_TITLE": "Buy AI Credits",
+      "MODAL_DESCRIPTION": "Purchase additional credits for Captain AI.",
+      "CREDITS": "CREDITS",
+      "ONE_TIME": "one-time",
+      "POPULAR": "Most Popular",
+      "NOTE_TITLE": "Megjegyzés:",
+      "NOTE_DESCRIPTION": "Credits are added immediately and expire in 6 months. An active subscription is required to use credits. Purchased credits are consumed after your monthly plan credits.",
+      "CANCEL": "Mégse",
+      "PURCHASE": "Purchase Credits",
+      "LOADING": "Loading options...",
+      "FETCH_ERROR": "Failed to load credit options. Please try again.",
+      "PURCHASE_ERROR": "Failed to process purchase. Please try again.",
+      "PURCHASE_SUCCESS": "Successfully added {credits} credits to your account",
+      "CONFIRM": {
+        "TITLE": "Confirm Purchase",
+        "DESCRIPTION": "You are about to purchase {credits} credits for {amount}.",
+        "INSTANT_DEDUCTION_NOTE": "Your saved card will be charged immediately upon confirmation.",
+        "GO_BACK": "Vissza",
+        "CONFIRM_PURCHASE": "Confirm Purchase"
+      }
+    }
+  },
+  "SECURITY_SETTINGS": {
+    "TITLE": "Security",
+    "DESCRIPTION": "Manage your account security settings.",
+    "LINK_TEXT": "Learn more about SAML SSO",
+    "SAML_DISABLED_MESSAGE": "SAML SSO is currently disabled. Please contact your administrator to enable this feature.",
+    "SAML": {
+      "TITLE": "SAML SSO",
+      "NOTE": "Configure SAML single sign-on for your account. Users will authenticate through your identity provider instead of using email/password.",
+      "ACS_URL": {
+        "LABEL": "ACS URL",
+        "TOOLTIP": "Assertion Consumer Service URL - Configure this URL in your IdP as the destination for SAML responses"
+      },
+      "SSO_URL": {
+        "LABEL": "SSO URL",
+        "HELP": "The URL where SAML authentication requests will be sent",
+        "PLACEHOLDER": "https://your-idp.com/saml/sso"
+      },
+      "CERTIFICATE": {
+        "LABEL": "Signing certificate in PEM format",
+        "HELP": "The public certificate from your identity provider used to verify SAML responses",
+        "PLACEHOLDER": "-----BEGIN CERTIFICATE-----\nMIIC..."
+      },
+      "FINGERPRINT": {
+        "LABEL": "Fingerprint",
+        "TOOLTIP": "SHA-1 fingerprint of the certificate - Use this to verify the certificate in your IdP configuration"
+      },
+      "COPY_SUCCESS": "Vágólapra másolva",
+      "SP_ENTITY_ID": {
+        "LABEL": "SP Entity ID",
+        "HELP": "Unique identifier for this application as a service provider (auto-generated).",
+        "TOOLTIP": "Unique identifier for Chatwoot as the Service Provider - Configure this in your IdP settings"
+      },
+      "IDP_ENTITY_ID": {
+        "LABEL": "Identity Provider Entity ID",
+        "HELP": "Unique identifier for your identity provider (usually found in IdP configuration)",
+        "PLACEHOLDER": "https://your-idp.com/saml"
+      },
+      "UPDATE_BUTTON": "Update SAML Settings",
+      "API": {
+        "SUCCESS": "SAML settings updated successfully",
+        "ERROR": "Failed to update SAML settings",
+        "ERROR_LOADING": "Failed to load SAML settings",
+        "DISABLED": "SAML settings disabled successfully"
+      },
+      "VALIDATION": {
+        "REQUIRED_FIELDS": "SSO URL, Identity Provider Entity ID, and Certificate are required fields",
+        "SSO_URL_ERROR": "Please enter a valid SSO URL",
+        "CERTIFICATE_ERROR": "Certificate is required",
+        "IDP_ENTITY_ID_ERROR": "Identity Provider Entity ID is required"
+      },
+      "ENTERPRISE_PAYWALL": {
+        "AVAILABLE_ON": "The SAML SSO feature is only available in the Enterprise plans.",
+        "UPGRADE_PROMPT": "Upgrade to an Enterprise plan to access SAML single sign-on and other advanced security features.",
+        "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
+      },
+      "PAYWALL": {
+        "TITLE": "Upgrade to enable SAML SSO",
+        "AVAILABLE_ON": "The SAML SSO feature is only available in the Enterprise plans.",
+        "UPGRADE_PROMPT": "Upgrade your plan to get access to SAML single sign-on and other advanced features.",
+        "UPGRADE_NOW": "Upgrade now",
+        "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
+      },
+      "ATTRIBUTE_MAPPING": {
+        "TITLE": "SAML Attribute Setup",
+        "DESCRIPTION": "The following attribute mappings must be configured in your identity provider"
+      },
+      "INFO_SECTION": {
+        "TITLE": "Service Provider Information",
+        "TOOLTIP": "Copy these values and configure them in your Identity Provider to establish the SAML connection"
+      }
+    }
+  },
+  "CREATE_ACCOUNT": {
+    "NO_ACCOUNT_WARNING": "Uppsz! Nem találtunk egyetlen Chatwoot-fiókot sem. A folytatáshoz kérlek hozz létre egy új fiókot.",
+    "NEW_ACCOUNT": "Új fiók",
+    "SELECTOR_SUBTITLE": "Új fiók létrehozása",
+    "API": {
+      "SUCCESS_MESSAGE": "Ügynök sikeresen létrehozva",
+      "EXIST_MESSAGE": "A fiók már létezik",
+      "ERROR_MESSAGE": "Nem sikerült csatlakozni a Woot szerverhez, kérjük próbáld később"
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "Cégnév",
+        "PLACEHOLDER": "Kovács Kft."
+      },
+      "SUBMIT": "Elküldés",
+      "CANCEL": "Mégse"
+    }
+  },
+  "KEYBOARD_SHORTCUTS": {
+    "TOGGLE_MODAL": "Összes parancsikon nézete",
+    "TITLE": {
+      "OPEN_CONVERSATION": "Beszélgetés megnyitása",
+      "RESOLVE_AND_NEXT": "Feloldás és ugrás a következőre",
+      "NAVIGATE_DROPDOWN": "Ugrás a legördülő elemekhez",
+      "RESOLVE_CONVERSATION": "Beszélgetés megoldása",
+      "GO_TO_CONVERSATION_DASHBOARD": "Ugrás a beszélgetések kezdőoldalára",
+      "ADD_ATTACHMENT": "Csatolmány hozzáadása",
+      "GO_TO_CONTACTS_DASHBOARD": "Ugrás a kapcsolatok kezdőoldalára",
+      "TOGGLE_SIDEBAR": "Oldalsáv bekapcsolása",
+      "GO_TO_REPORTS_SIDEBAR": "Ugrás a jelentések oldalsávra",
+      "MOVE_TO_NEXT_TAB": "Ugrás a beszélgetéslista következő lapjára",
+      "GO_TO_SETTINGS": "Beállítások megnyitása",
+      "SWITCH_TO_PRIVATE_NOTE": "Válts privát jegyzetre",
+      "SWITCH_TO_REPLY": "Válts a válasz fülre",
+      "TOGGLE_SNOOZE_DROPDOWN": "Alvómód bekapcsolása a legördülő menüben"
+    }
+  },
+  "ASSIGNMENT_POLICY": {
+    "INDEX": {
+      "HEADER": {
+        "TITLE": "Agent assignment",
+        "DESCRIPTION": "Define policies to effectively manage workload and route conversations based on the needs of inboxes and agents. Learn more here"
+      },
+      "ASSIGNMENT_POLICY": {
+        "TITLE": "Assignment policy",
+        "DESCRIPTION": "Manage how conversations get assigned in inboxes.",
+        "FEATURES": [
+          "Assign by conversations evenly or by available capacity",
+          "Add fair distribution rules to avoid overloading any agent",
+          "Add inboxes to a policy - one policy per inbox"
+        ]
+      },
+      "AGENT_CAPACITY_POLICY": {
+        "TITLE": "Agent capacity policy",
+        "DESCRIPTION": "Manage workload for agents.",
+        "FEATURES": [
+          "Define maximum conversations per inbox",
+          "Create exceptions based on labels and time",
+          "Add agents to a policy - one policy per agent"
+        ]
+      }
+    },
+    "AGENT_ASSIGNMENT_POLICY": {
+      "INDEX": {
+        "HEADER": {
+          "TITLE": "Assignment policy",
+          "CREATE_POLICY": "New policy"
+        },
+        "CARD": {
+          "ORDER": "Order",
+          "PRIORITY": "Prioritás",
+          "ACTIVE": "Aktív",
+          "INACTIVE": "Inactive",
+          "POPOVER": "Added inboxes",
+          "EDIT": "Szerkesztés"
+        },
+        "NO_RECORDS_FOUND": "No assignment policies found"
+      },
+      "CREATE": {
+        "HEADER": {
+          "TITLE": "Create assignment policy"
+        },
+        "CREATE_BUTTON": "Create policy",
+        "API": {
+          "SUCCESS_MESSAGE": "Assignment policy created successfully",
+          "ERROR_MESSAGE": "Failed to create assignment policy"
+        }
+      },
+      "EDIT": {
+        "HEADER": {
+          "TITLE": "Edit assignment policy"
+        },
+        "EDIT_BUTTON": "Update policy",
+        "CONFIRM_ADD_INBOX_DIALOG": {
+          "TITLE": "Add inbox",
+          "DESCRIPTION": "{inboxName} inbox is already linked to another policy. Are you sure you want to link it to this policy? It will be unlinked from the other policy.",
+          "CONFIRM_BUTTON_LABEL": "Continue",
+          "CANCEL_BUTTON_LABEL": "Mégse"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Assignment policy updated successfully",
+          "ERROR_MESSAGE": "Failed to update assignment policy"
+        },
+        "INBOX_API": {
+          "ADD": {
+            "SUCCESS_MESSAGE": "Inbox added to policy successfully",
+            "ERROR_MESSAGE": "Failed to add inbox to policy"
+          },
+          "REMOVE": {
+            "SUCCESS_MESSAGE": "Inbox removed from policy successfully",
+            "ERROR_MESSAGE": "Failed to remove inbox from policy"
+          }
+        }
+      },
+      "FORM": {
+        "NAME": {
+          "LABEL": "Policy name:",
+          "PLACEHOLDER": "Enter policy name"
+        },
+        "DESCRIPTION": {
+          "LABEL": "Leírás:",
+          "PLACEHOLDER": "Enter description"
+        },
+        "STATUS": {
+          "LABEL": "Státusz:",
+          "PLACEHOLDER": "Select status",
+          "ACTIVE": "Policy is active",
+          "INACTIVE": "Policy is inactive"
+        },
+        "ASSIGNMENT_ORDER": {
+          "LABEL": "Assignment order",
+          "ROUND_ROBIN": {
+            "LABEL": "Round robin",
+            "DESCRIPTION": "Assign conversations evenly among agents."
+          },
+          "BALANCED": {
+            "LABEL": "Balanced",
+            "DESCRIPTION": "Assign conversations based on available capacity."
+          }
+        },
+        "ASSIGNMENT_PRIORITY": {
+          "LABEL": "Assignment priority",
+          "EARLIEST_CREATED": {
+            "LABEL": "Earliest created",
+            "DESCRIPTION": "The conversation that was created first gets assigned first."
+          },
+          "LONGEST_WAITING": {
+            "LABEL": "Longest waiting",
+            "DESCRIPTION": "The conversation waiting the longest gets assigned first."
+          }
+        },
+        "FAIR_DISTRIBUTION": {
+          "LABEL": "Fair distribution policy",
+          "DESCRIPTION": "Set the maximum number of conversations that can be assigned per agent within a time window to avoid overloading any one agent. This required field defaults to 100 conversations per hour.",
+          "INPUT_MAX": "Assign max",
+          "DURATION": "Conversations per agent in every"
+        },
+        "INBOXES": {
+          "LABEL": "Added inboxes",
+          "DESCRIPTION": "Add inboxes for which this policy will be applicable.",
+          "ADD_BUTTON": "Add inbox",
+          "DROPDOWN": {
+            "SEARCH_PLACEHOLDER": "Search and select inboxes to add",
+            "ADD_BUTTON": "Hozzáadás"
+          },
+          "EMPTY_STATE": "No inboxes added to this policy, add an inbox to get started",
+          "API": {
+            "SUCCESS_MESSAGE": "Inbox successfully added to policy",
+            "ERROR_MESSAGE": "Failed to add inbox to policy"
+          }
+        }
+      },
+      "DELETE_POLICY": {
+        "SUCCESS_MESSAGE": "Assignment policy deleted successfully",
+        "ERROR_MESSAGE": "Failed to delete assignment policy"
+      }
+    },
+    "AGENT_CAPACITY_POLICY": {
+      "INDEX": {
+        "HEADER": {
+          "TITLE": "Agent capacity",
+          "CREATE_POLICY": "New policy"
+        },
+        "CARD": {
+          "POPOVER": "Added agents",
+          "EDIT": "Szerkesztés"
+        },
+        "NO_RECORDS_FOUND": "No agent capacity policies found"
+      },
+      "CREATE": {
+        "HEADER": {
+          "TITLE": "Create agent capacity policy"
+        },
+        "CREATE_BUTTON": "Create policy",
+        "API": {
+          "SUCCESS_MESSAGE": "Agent capacity policy created successfully",
+          "ERROR_MESSAGE": "Failed to create agent capacity policy"
+        }
+      },
+      "EDIT": {
+        "HEADER": {
+          "TITLE": "Edit agent capacity policy"
+        },
+        "EDIT_BUTTON": "Update policy",
+        "CONFIRM_ADD_AGENT_DIALOG": {
+          "TITLE": "Add agent",
+          "DESCRIPTION": "{agentName} is already linked to another policy. Are you sure you want to link it to this policy? It will be unlinked from the other policy.",
+          "CONFIRM_BUTTON_LABEL": "Continue",
+          "CANCEL_BUTTON_LABEL": "Mégse"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Agent capacity policy updated successfully",
+          "ERROR_MESSAGE": "Failed to update agent capacity policy"
+        },
+        "AGENT_API": {
+          "ADD": {
+            "SUCCESS_MESSAGE": "Agent added to policy successfully",
+            "ERROR_MESSAGE": "Failed to add agent to policy"
+          },
+          "REMOVE": {
+            "SUCCESS_MESSAGE": "Agent removed from policy successfully",
+            "ERROR_MESSAGE": "Failed to remove agent from policy"
+          }
+        }
+      },
+      "FORM": {
+        "NAME": {
+          "LABEL": "Policy name:",
+          "PLACEHOLDER": "Enter policy name"
+        },
+        "DESCRIPTION": {
+          "LABEL": "Leírás:",
+          "PLACEHOLDER": "Enter description"
+        },
+        "INBOX_CAPACITY_LIMIT": {
+          "LABEL": "Inbox capacity limits",
+          "ADD_BUTTON": "Add inbox",
+          "FIELD": {
+            "SELECT_INBOX": "Select inbox",
+            "MAX_CONVERSATIONS": "Max conversations",
+            "SET_LIMIT": "Set limit"
+          },
+          "EMPTY_STATE": "No inbox limit set"
+        },
+        "EXCLUSION_RULES": {
+          "LABEL": "Exclusion rules",
+          "DESCRIPTION": "Conversations that satisfy the following conditions would not count towards agent capacity",
+          "TAGS": {
+            "LABEL": "Exclude conversations tagged with specific labels",
+            "ADD_TAG": "add tag",
+            "DROPDOWN": {
+              "SEARCH_PLACEHOLDER": "Search and select tags to add"
+            },
+            "EMPTY_STATE": "No tags added to this policy."
+          },
+          "DURATION": {
+            "LABEL": "Exclude conversations older than a specified duration",
+            "PLACEHOLDER": "Set time"
+          }
+        },
+        "USERS": {
+          "LABEL": "Assigned agents",
+          "DESCRIPTION": "Add agents for which this policy will be applicable.",
+          "ADD_BUTTON": "Add agent",
+          "DROPDOWN": {
+            "SEARCH_PLACEHOLDER": "Search and select agents to add",
+            "ADD_BUTTON": "Hozzáadás"
+          },
+          "EMPTY_STATE": "No agents added",
+          "API": {
+            "SUCCESS_MESSAGE": "Agent successfully added to policy",
+            "ERROR_MESSAGE": "Failed to add agent to policy"
+          }
+        }
+      },
+      "DELETE_POLICY": {
+        "SUCCESS_MESSAGE": "Agent capacity policy deleted successfully",
+        "ERROR_MESSAGE": "Failed to delete agent capacity policy"
+      }
+    },
+    "DELETE_POLICY": {
+      "TITLE": "Delete policy",
+      "DESCRIPTION": "Are you sure you want to delete this policy? This action cannot be undone.",
+      "CONFIRM_BUTTON_LABEL": "Törlés",
+      "CANCEL_BUTTON_LABEL": "Mégse"
+    }
+  }
+}

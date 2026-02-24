@@ -1,0 +1,12 @@
+{
+  "GENERAL": {
+    "SHOWING_RESULTS": "Showing {firstIndex}-{lastIndex} of {totalCount} items",
+    "PHONE_INPUT": {
+      "PLACEHOLDER": "Ieškoti",
+      "EMPTY_STATE": "Nieko nerasta"
+    },
+    "CLOSE": "Uždaryti",
+    "BETA": "Beta",
+    "BETA_DESCRIPTION": "This feature is in beta and may change as we improve it."
+  }
+}

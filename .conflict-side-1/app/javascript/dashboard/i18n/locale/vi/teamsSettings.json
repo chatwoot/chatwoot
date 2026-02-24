@@ -1,0 +1,121 @@
+{
+  "TEAMS_SETTINGS": {
+    "NEW_TEAM": "Tạo nhóm mới",
+    "HEADER": "Nhóm",
+    "LOADING": "Fetching teams",
+    "DESCRIPTION": "Teams allow you to organize agents into groups based on their responsibilities. An agent can belong to multiple teams. When working collaboratively, you can assign conversations to specific teams.",
+    "LEARN_MORE": "Learn more about teams",
+    "LIST": {
+      "404": "Không có nhóm nào được tạo đối với tài khoản này.",
+      "EDIT_TEAM": "Sửa nhóm",
+      "NONE": "Không có"
+    },
+    "CREATE_FLOW": {
+      "CREATE": {
+        "TITLE": "Tạo nhóm mới",
+        "DESC": "Thêm tiêu đề và mô tả cho nhóm mới."
+      },
+      "AGENTS": {
+        "BUTTON_TEXT": "Thêm đại lý vào nhóm",
+        "TITLE": "Thêm đại lý vào nhóm - {teamName}",
+        "DESC": "Thêm Đại lý vào nhóm mới tạo của bạn. Điều này cho phép bạn cộng tác như một nhóm trong các cuộc trò chuyện, nhận thông báo về các sự kiện mới trong cùng một cuộc trò chuyện."
+      },
+      "WIZARD_CREATE": {
+        "TITLE": "Tạo",
+        "BODY": "Tạo ra một nhóm đại lý mới."
+      },
+      "WIZARD_ADD_AGENTS": {
+        "TITLE": "Thêm đại lý",
+        "BODY": "Thêm đại lý vào nhóm."
+      },
+      "WIZARD_FINISH": {
+        "TITLE": "Hoàn tất",
+        "BODY": "Bạn đã sẵn sàng để đi!"
+      }
+    },
+    "EDIT_FLOW": {
+      "CREATE": {
+        "TITLE": "Sửa chi tiết nhóm",
+        "DESC": "Sửa tiêu đề và mô tả cho nhóm.",
+        "BUTTON_TEXT": "Cập nhật nhóm"
+      },
+      "AGENTS": {
+        "BUTTON_TEXT": "Cập nhật đại lý trong nhóm",
+        "TITLE": "Thêm đại lý vào nhóm - {teamName}",
+        "DESC": "Thêm Đại lý vào nhóm mới tạo của bạn. Tất cả các đại lý được thêm vào sẽ nhận được thông báo khi có cuộc trò chuyện được phân công cho nhóm này."
+      },
+      "EDIT_WIZARD_DETAILS": {
+        "TITLE": "Chi tiết nhóm",
+        "ROUTE": "settings_teams_edit",
+        "BODY": "Đổi tên, mô tả và các chi tiết khác."
+      },
+      "EDIT_WIZARD_AGENTS": {
+        "TITLE": "Sửa đại lý",
+        "ROUTE": "settings_teams_edit_members",
+        "BODY": "Sửa đại lý trong nhóm của bạn."
+      },
+      "EDIT_WIZARD_FINISH": {
+        "TITLE": "Hoàn tất",
+        "ROUTE": "settings_teams_edit_finish",
+        "BODY": "Bạn đã sẵn sàng để đi!"
+      }
+    },
+    "TEAM_FORM": {
+      "ERROR_MESSAGE": "Không thể lưu chi tiết nhóm. Thử lại."
+    },
+    "AGENTS": {
+      "AGENT": "ĐẠI LÝ",
+      "EMAIL": "EMAIL",
+      "BUTTON_TEXT": "Thêm các nhà cung cấp",
+      "ADD_AGENTS": "Thêm đại lý vào nhóm của bạn...",
+      "SELECT": "chọn",
+      "SELECT_ALL": "chọn tất cả đại lý",
+      "SELECTED_COUNT": "{selected} trên {total} đại lý được chọn."
+    },
+    "ADD": {
+      "TITLE": "Thêm đại lý vào nhóm - {teamName}",
+      "DESC": "Thêm Đại lý vào nhóm mới tạo của bạn. Điều này cho phép bạn cộng tác như một nhóm trong các cuộc trò chuyện, nhận thông báo về các sự kiện mới trong cùng một cuộc trò chuyện.",
+      "SELECT": "chọn",
+      "SELECT_ALL": "chọn tất cả đại lý",
+      "SELECTED_COUNT": "{selected} trên {total} đại lý được chọn.",
+      "BUTTON_TEXT": "Thêm các nhà cung cấp",
+      "AGENT_VALIDATION_ERROR": "Chọn ít nhật một tổng đài viên."
+    },
+    "FINISH": {
+      "TITLE": "Nhóm của bạn đã sẵn sàng!",
+      "MESSAGE": "Giờ đây, bạn có thể cộng tác với tư cách là một nhóm trong các cuộc trò chuyện. Chúc ủng hộ vui vẻ ",
+      "BUTTON_TEXT": "Hoàn tất"
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Xoá",
+      "API": {
+        "SUCCESS_MESSAGE": "Nhóm được xoá thành công.",
+        "ERROR_MESSAGE": "Không thể xoá nhóm. Thử lại."
+      },
+      "CONFIRM": {
+        "TITLE": "Are you sure you want to delete the team?",
+        "PLACE_HOLDER": "Vui lòng điền {teamName} để xác nhận",
+        "MESSAGE": "Xóa nhóm sẽ xóa phân công nhóm khỏi các cuộc trò chuyện được phân công cho nhóm này.",
+        "YES": "Xoá ",
+        "NO": "Huỷ"
+      }
+    },
+    "SETTINGS": "Cài đặt",
+    "FORM": {
+      "UPDATE": "Cập nhật nhóm",
+      "CREATE": "Tạo nhóm",
+      "NAME": {
+        "LABEL": "Tên nhóm",
+        "PLACEHOLDER": "Ví dụ: Bán hàng, Hỗ trợ khách hàng"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Mô tả nhóm",
+        "PLACEHOLDER": "Mô tả ngắn về nhóm này."
+      },
+      "AUTO_ASSIGN": {
+        "LABEL": "Cho phép tự động phân công đối với nhóm này."
+      },
+      "SUBMIT_CREATE": "Tạo nhóm"
+    }
+  }
+}

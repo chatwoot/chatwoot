@@ -1,0 +1,62 @@
+{
+  "INTEGRATION_APPS": {
+    "FETCHING": "Fetching Integrations",
+    "NO_HOOK_CONFIGURED": "There are no {integrationId} integrations configured in this account.",
+    "HEADER": "Applications",
+    "STATUS": {
+      "ENABLED": "사용함",
+      "DISABLED": "사용 안 함"
+    },
+    "CONFIGURE": "구성",
+    "ADD_BUTTON": "Add a new hook",
+    "DELETE": {
+      "TITLE": {
+        "INBOX": "Confirm deletion",
+        "ACCOUNT": "Disconnect"
+      },
+      "MESSAGE": {
+        "INBOX": "Are you sure to delete?",
+        "ACCOUNT": "Are you sure to disconnect?"
+      },
+      "CONFIRM_BUTTON_TEXT": {
+        "INBOX": "Yes, Delete",
+        "ACCOUNT": "Yes, Disconnect"
+      },
+      "CANCEL_BUTTON_TEXT": "취소",
+      "API": {
+        "SUCCESS_MESSAGE": "Hook deleted successfully",
+        "ERROR_MESSAGE": "Woot 서버에 연결할 수 없음. 나중에 다시 시도하십시오."
+      }
+    },
+    "LIST": {
+      "FETCHING": "Fetching integration hooks",
+      "INBOX": "받은 메시지함",
+      "DELETE": {
+        "BUTTON_TEXT": "삭제"
+      }
+    },
+    "ADD": {
+      "FORM": {
+        "INBOX": {
+          "LABEL": "Select Inbox",
+          "PLACEHOLDER": "Select Inbox"
+        },
+        "SUBMIT": "만들기",
+        "CANCEL": "취소"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Integration hook added successfully",
+        "ERROR_MESSAGE": "Woot 서버에 연결할 수 없음. 나중에 다시 시도하십시오."
+      }
+    },
+    "CONNECT": {
+      "BUTTON_TEXT": "연결"
+    },
+    "DISCONNECT": {
+      "BUTTON_TEXT": "Disconnect"
+    },
+    "SIDEBAR_DESCRIPTION": {
+      "DIALOGFLOW": "Dialogflow is a natural language processing platform for building conversational interfaces. Integrating it with {installationName} lets bots handle queries first and transfer them to agents when needed. It helps qualify leads and reduce agent workload by answering FAQs. To add Dialogflow, create a Service Account in Google Console and share the credentials. Refer to the docs for details"
+    }
+  }
+}

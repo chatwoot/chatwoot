@@ -1,0 +1,52 @@
+tags:
+  - Audit Logs
+operationId: get-account-audit-logs
+summary: List Audit Logs in Account
+description: Get Details of Audit Log entries for an Account. This endpoint is only available in Enterprise editions and requires the audit_logs feature to be enabled.
+security:
+  - userApiKey: []
+parameters:
+  - name: page
+    in: query
+    description: Page number for pagination
+    required: false
+    schema:
+      type: integer
+      default: 1
+responses:
+  200:
+    description: Success
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            per_page:
+              type: integer
+              description: Number of items per page
+              example: 15
+            total_entries:
+              type: integer
+              description: Total number of audit log entries
+              example: 150
+            current_page:
+              type: integer
+              description: Current page number
+              example: 1
+            audit_logs:
+              type: array
+              description: Array of audit log entries
+              items:
+                $ref: '#/components/schemas/audit_log'
+  403:
+    description: Access denied
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  422:
+    description: Feature not enabled or not available in current plan
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

@@ -1,0 +1,796 @@
+{
+  "PROFILE_SETTINGS": {
+    "LINK": "Profil ayarları",
+    "TITLE": "Profil ayarları",
+    "BTN_TEXT": "Profili Güncelle",
+    "DELETE_AVATAR": "Profil Resmini Sil",
+    "AVATAR_DELETE_SUCCESS": "Profil resmi başarıyla silindi",
+    "AVATAR_DELETE_FAILED": "Profil resmi silinirken hata oluştu, lütfen tekrar deneyin",
+    "UPDATE_SUCCESS": "Profiliniz başarıyla güncellendi",
+    "PASSWORD_UPDATE_SUCCESS": "Şifreniz başarıyla değiştirildi",
+    "AFTER_EMAIL_CHANGED": "Profiliniz başarıyla güncellendi, lütfen giriş bilgileriniz değiştiği için tekrar giriş yapın",
+    "FORM": {
+      "PICTURE": "Profil Resmi",
+      "AVATAR": "Profil Resmi",
+      "ERROR": "Lütfen form hatalarını düzeltin",
+      "REMOVE_IMAGE": "Kaldır",
+      "UPLOAD_IMAGE": "Resim yükleniyor",
+      "UPDATE_IMAGE": "Resmi güncelle",
+      "PROFILE_SECTION": {
+        "TITLE": "Profil",
+        "NOTE": "E-posta adresiniz kimliğinizdir ve oturum açmak için kullanılır."
+      },
+      "SEND_MESSAGE": {
+        "TITLE": "Mesaj göndermek için kısayol",
+        "NOTE": "Tercihinize bağlı olarak Enter veya Cmd/Ctrl+Enter tuşlarından birini seçebilirsiniz.",
+        "UPDATE_SUCCESS": "Ayarlarınız başarıyla güncellendi",
+        "CARD": {
+          "ENTER_KEY": {
+            "HEADING": "Enter (↵)",
+            "CONTENT": "Mesajları göndermek için Gönder düğmesine tıklamak yerine Enter tuşuna basarak gönderin."
+          },
+          "CMD_ENTER_KEY": {
+            "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
+            "CONTENT": "Mesajları göndermek için Gönder düğmesine tıklamak yerine Cmd/Ctrl + Enter tuşuna basarak gönderin."
+          }
+        }
+      },
+      "INTERFACE_SECTION": {
+        "TITLE": "Interface",
+        "NOTE": "Customize the look and feel of your Chatwoot dashboard.",
+        "FONT_SIZE": {
+          "TITLE": "Font size",
+          "NOTE": "Adjust the text size across the dashboard based on your preference.",
+          "UPDATE_SUCCESS": "Your font settings have been updated successfully",
+          "UPDATE_ERROR": "There is an error while updating the font settings, please try again",
+          "OPTIONS": {
+            "SMALLER": "Smaller",
+            "SMALL": "Small",
+            "DEFAULT": "Varsayılan",
+            "LARGE": "Large",
+            "LARGER": "Larger",
+            "EXTRA_LARGE": "Extra Large"
+          }
+        },
+        "LANGUAGE": {
+          "TITLE": "Tercih Edilen Dil",
+          "NOTE": "Kullanmak istediğiniz dili seçin.",
+          "UPDATE_SUCCESS": "Dil ayarlarınız başarıyla güncellendi",
+          "UPDATE_ERROR": "Dil ayarlarını güncellerken bir hata oluştu, lütfen tekrar deneyin",
+          "USE_ACCOUNT_DEFAULT": "Hesap varsayılanını kullan"
+        }
+      },
+      "MESSAGE_SIGNATURE_SECTION": {
+        "TITLE": "İmzanız",
+        "NOTE": "Her gönderdiğiniz mesajın sonunda görünen benzersiz bir mesaj imzası oluşturun. Ayrıca, canlı sohbet, e-posta ve API gelen kutularında desteklenen iç içe bir resim ekleyebilirsiniz.",
+        "BTN_TEXT": "İmzanızı kaydedin",
+        "API_ERROR": "İmza kaydedilemedi! Tekrar deneyin",
+        "API_SUCCESS": "İmza başarıyla kaydedildi",
+        "IMAGE_UPLOAD_ERROR": "Resim yüklenemedi! Tekrar deneyin",
+        "IMAGE_UPLOAD_SUCCESS": "Resim başarıyla eklendi. İmzayı kaydetmek için lütfen kaydet'e tıklayın",
+        "IMAGE_UPLOAD_SIZE_ERROR": "Resim boyutu %{size}MB'dan küçük olmalıdır"
+      },
+      "MESSAGE_SIGNATURE": {
+        "LABEL": "İmzanız",
+        "ERROR": "İmza boş bırakılamaz",
+        "PLACEHOLDER": "Kişisel mesaj imzanızı buraya ekleyin."
+      },
+      "PASSWORD_SECTION": {
+        "TITLE": "Parola",
+        "NOTE": "Parolanızı güncellemek, giriş bilgilerinizi birden fazla cihazda sıfırlar.",
+        "BTN_TEXT": "Şifre değiştir"
+      },
+      "SECURITY_SECTION": {
+        "TITLE": "Güvenlik",
+        "NOTE": "Hesabınız için ek güvenlik özelliklerini yönetin.",
+        "MFA_BUTTON": "İki Faktörlü Kimlik Doğrulamayı Yönet"
+      },
+      "ACCESS_TOKEN": {
+        "TITLE": "Erişim Jetonu",
+        "NOTE": "Bu simge, API tabanlı bir entegrasyon oluşturuyorsanız kullanılabilir",
+        "COPY": "Kopyala",
+        "RESET": "Reset",
+        "CONFIRM_RESET": "Emin misiniz?",
+        "CONFIRM_HINT": "Onaylamak için tekrar tıklayın",
+        "RESET_SUCCESS": "Erişim anahtarı başarıyla yeniden oluşturuldu",
+        "RESET_ERROR": "Erişim anahtarı yeniden oluşturulamadı. Lütfen tekrar deneyin"
+      },
+      "AUDIO_NOTIFICATIONS_SECTION": {
+        "TITLE": "Sesli Uyarılar",
+        "NOTE": "Enable audio alerts in dashboard for new messages and conversations.",
+        "PLAY": "Sesi oynat",
+        "ALERT_TYPES": {
+          "NONE": "Hiç",
+          "MINE": "Atanmış",
+          "ALL": "Hepsi",
+          "ASSIGNED": "Bana atanmış konuşmalar",
+          "UNASSIGNED": "Atanmamış konuşmalar",
+          "NOTME": "Başkalarına atanmış açık konuşmalar"
+        },
+        "ALERT_COMBINATIONS": {
+          "NONE": "You haven't selected any options, you won't receive any audio alerts.",
+          "ASSIGNED": "You'll receive alerts for conversations assigned to you.",
+          "UNASSIGNED": "You'll receive alerts for any unassigned conversations.",
+          "NOTME": "You'll receive alerts for conversations assigned to others.",
+          "ASSIGNED+UNASSIGNED": "You'll receive alerts for your assigned conversations and any unattended ones.",
+          "ASSIGNED+NOTME": "You'll receive alerts for conversations assigned to you and to others, but not for unassigned ones.",
+          "NOTME+UNASSIGNED": "You'll receive alerts for unattended conversations and those assigned to others.",
+          "ASSIGNED+NOTME+UNASSIGNED": "You'll receive alerts for all conversations."
+        },
+        "ALERT_TYPE": {
+          "TITLE": "Alert events for conversations",
+          "NONE": "Hiçbiri",
+          "ASSIGNED": "Atanmış Konuşmalar",
+          "ALL_CONVERSATIONS": "Tüm Konuşmalar"
+        },
+        "DEFAULT_TONE": {
+          "TITLE": "Uyarı tonu:"
+        },
+        "CONDITIONS": {
+          "TITLE": "Uyarı koşulları:",
+          "CONDITION_ONE": "Tarayıcı penceresi etkin değilse sadece sesli uyarı gönder",
+          "CONDITION_TWO": "Atanmış konuşmaların hepsi okunana kadar her 30 saniyede bir uyarı gönder"
+        },
+        "SOUND_PERMISSION_ERROR": "Autoplay is disabled in your browser. To hear alerts automatically, enable sound permission in your browser settings or interact with the page.",
+        "READ_MORE": "Daha fazla bilgi edinin"
+      },
+      "EMAIL_NOTIFICATIONS_SECTION": {
+        "TITLE": "E-posta Bildirimleri",
+        "NOTE": "E-posta bildirim tercihlerinizi buradan güncelleyin",
+        "CONVERSATION_ASSIGNMENT": "Bir konuşma bana atanınca e-posta bildirimleri gönder",
+        "CONVERSATION_CREATION": "Yeni bir konuşma oluşturulduğunda e-posta bildirimleri gönder",
+        "CONVERSATION_MENTION": "Bir konuşmada adım geçtiğinde e-posta bildirimleri gönder",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Atanmış bir konuşmada yeni bir mesaj oluşturulduğunda e-posta bildirimleri gönder",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Katıldığım bir konuşmada yeni bir mesaj oluşturulduğunda e-posta bildirimleri gönder",
+        "SLA_MISSED_FIRST_RESPONSE": "Send email notifications when a conversation misses first response SLA",
+        "SLA_MISSED_NEXT_RESPONSE": "Send email notifications when a conversation misses next response SLA",
+        "SLA_MISSED_RESOLUTION": "Send email notifications when a conversation misses resolution SLA"
+      },
+      "NOTIFICATIONS": {
+        "TITLE": "Notification preferences",
+        "TYPE_TITLE": "Notification type",
+        "EMAIL": "E-Posta",
+        "PUSH": "Push notification",
+        "TYPES": {
+          "CONVERSATION_CREATED": "A new conversation is created",
+          "CONVERSATION_ASSIGNED": "A conversation is assigned to you",
+          "CONVERSATION_MENTION": "Bir konuşmada sizden bahsedildi",
+          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "A new message is created in an assigned conversation",
+          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "A new message is created in a participating conversation",
+          "SLA_MISSED_FIRST_RESPONSE": "A conversation misses first response SLA",
+          "SLA_MISSED_NEXT_RESPONSE": "A conversation misses next response SLA",
+          "SLA_MISSED_RESOLUTION": "A conversation misses resolution SLA"
+        },
+        "BROWSER_PERMISSION": "Enable push notifications for your browser so you’re able to receive them"
+      },
+      "API": {
+        "UPDATE_SUCCESS": "Bildirim tercihleriniz başarıyla güncellendi",
+        "UPDATE_ERROR": "Tercihler güncellenirken bir hata oluştu, lütfen tekrar deneyin"
+      },
+      "PUSH_NOTIFICATIONS_SECTION": {
+        "TITLE": "Bildirimler",
+        "NOTE": "Bildirim tercihlerinizi buradan güncelleyin",
+        "CONVERSATION_ASSIGNMENT": "Bana bir konuşma atandığında anında bildirim gönder",
+        "CONVERSATION_CREATION": "Yeni bir konuşma oluşturulduğunda anlık bildirimler gönderin",
+        "CONVERSATION_MENTION": "Bir konuşmada adım geçtiğinde anlık bildirimler gönder",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Atanmış bir konuşmada yeni bir mesaj oluşturulduğunda anlık bildirimler gönderin",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Katıldığım bir konuşmada yeni bir mesaj oluşturulduğunda anlık bildirimler gönderin",
+        "HAS_ENABLED_PUSH": "Bu tarayıcı için bildirim özelliğini etkinleştirdiniz.",
+        "REQUEST_PUSH": "Bildirimlerini etkinleştirin",
+        "SLA_MISSED_FIRST_RESPONSE": "Send push notifications when a conversation misses first response SLA",
+        "SLA_MISSED_NEXT_RESPONSE": "Send push notifications when a conversation misses next response SLA",
+        "SLA_MISSED_RESOLUTION": "Send push notifications when a conversation misses resolution SLA"
+      },
+      "PROFILE_IMAGE": {
+        "LABEL": "Profil Resmi"
+      },
+      "NAME": {
+        "LABEL": "Tam adınız",
+        "ERROR": "Lütfen geçerli bir tam ad girin",
+        "PLACEHOLDER": "Lütfen tam adınızı giriniz"
+      },
+      "DISPLAY_NAME": {
+        "LABEL": "Ekran adı",
+        "ERROR": "Lütfen geçerli bir tam ad girin",
+        "PLACEHOLDER": "Lütfen bir görünen ad girin, bu görüşmelerde görüntülenecektir"
+      },
+      "AVAILABILITY": {
+        "LABEL": "Uygunluk",
+        "STATUS": {
+          "ONLINE": "Çevrimiçi",
+          "BUSY": "Meşgul",
+          "OFFLINE": "Çevrimdışı"
+        },
+        "SET_AVAILABILITY_SUCCESS": "Uygunluk başarıyla ayarlandı",
+        "SET_AVAILABILITY_ERROR": "Uygunluk ayarlanamadı, lütfen tekrar deneyin",
+        "IMPERSONATING_ERROR": "Bir kullanıcıyı taklit ederken kullanılabilirlik değiştirilemez"
+      },
+      "EMAIL": {
+        "LABEL": "E-posta Adresiniz",
+        "ERROR": "Lütfen geçerli bir e-posta adresi girin",
+        "PLACEHOLDER": "Lütfen e-posta adresinizi girin, bu görüşmelerde görüntülenecektir"
+      },
+      "CURRENT_PASSWORD": {
+        "LABEL": "Şu anki şifreniz",
+        "ERROR": "Lütfen mevcut şifrenizi giriniz",
+        "PLACEHOLDER": "Lütfen mevcut şifrenizi giriniz"
+      },
+      "PASSWORD": {
+        "LABEL": "Yeni şifre",
+        "ERROR": "Lütfen 6 veya daha uzun bir şifre girin",
+        "PLACEHOLDER": "Lütfen yeni bir şifre girin"
+      },
+      "PASSWORD_CONFIRMATION": {
+        "LABEL": "Yeni şifreyi onayla",
+        "ERROR": "Onay parolası, parolayla eşleşmelidir",
+        "PLACEHOLDER": "Lütfen yeni şifrenizi tekrar giriniz"
+      }
+    }
+  },
+  "SIDEBAR_ITEMS": {
+    "CHANGE_AVAILABILITY_STATUS": "Durumu Değiştir",
+    "CHANGE_ACCOUNTS": "Switch account",
+    "SWITCH_ACCOUNT": "Switch account",
+    "CONTACT_SUPPORT": "Contact support",
+    "SELECTOR_SUBTITLE": "Listeden bir hesap seçin",
+    "PROFILE_SETTINGS": "Profile settings",
+    "YEAR_IN_REVIEW": "Year in Review",
+    "KEYBOARD_SHORTCUTS": "Keyboard shortcuts",
+    "APPEARANCE": "Change appearance",
+    "SUPER_ADMIN_CONSOLE": "SuperAdmin console",
+    "DOCS": "Read documentation",
+    "CHANGELOG": "Değişiklik Günlüğü",
+    "LOGOUT": "Log out"
+  },
+  "APP_GLOBAL": {
+    "TRIAL_MESSAGE": "gün deneme kaldı.",
+    "TRAIL_BUTTON": "Şimdi satın al",
+    "DELETED_USER": "Silinmiş Kullanıcı",
+    "EMAIL_VERIFICATION_PENDING": "Görünüşe göre E-Posta adresinizi henüz doğrulamadınız. Lütfen doğrulama e-postası için gelen kutunuzu kontrol edin.",
+    "RESEND_VERIFICATION_MAIL": "Doğrulama E-Postasını tekrar gönder",
+    "EMAIL_VERIFICATION_SENT": "Doğrulama E-Postası gönderildi. Lütfen gelen kutunuzu kontrol edin.",
+    "ACCOUNT_SUSPENDED": {
+      "TITLE": "Hesap Askıya Alındı",
+      "MESSAGE": "Hesabınız askıya alındı. Daha fazla bilgi için lütfen destek ekibine ulaşın."
+    },
+    "NO_ACCOUNTS": {
+      "TITLE": "Hesap bulunamadı",
+      "MESSAGE_CLOUD": "Şu anda herhangi bir hesabın parçası değilsiniz. Bunun bir hata olduğunu düşünüyorsanız, lütfen destek ekibimizle iletişime geçin.",
+      "MESSAGE_SELF_HOSTED": "Şu anda herhangi bir hesabın parçası değilsiniz. Lütfen yöneticinizle iletişime geçin.",
+      "LOGOUT": "Log out"
+    }
+  },
+  "COMPONENTS": {
+    "CODE": {
+      "BUTTON_TEXT": "Kopyala",
+      "CODEPEN": "CodePen'de Aç",
+      "COPY_SUCCESSFUL": "Kod başarıyla panoya kopyalandı"
+    },
+    "SHOW_MORE_BLOCK": {
+      "SHOW_MORE": "Daha Fazla Göster",
+      "SHOW_LESS": "Daha Az Göster"
+    },
+    "FILE_BUBBLE": {
+      "DOWNLOAD": "İndir",
+      "UPLOADING": "Yükleniyor...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "Bu hikaye artık mevcut değil."
+    },
+    "LOCATION_BUBBLE": {
+      "SEE_ON_MAP": "Haritada Görüntüle"
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "Gönder"
+    },
+    "MEDIA": {
+      "IMAGE_UNAVAILABLE": "This image is no longer available.",
+      "LOADING_FAILED": "Loading failed"
+    }
+  },
+  "CONFIRM_EMAIL": "Doğrulama yapılıyor...",
+  "SETTINGS": {
+    "INBOXES": {
+      "NEW_INBOX": "Yeni Gelen Kutusu"
+    }
+  },
+  "SIDEBAR": {
+    "NO_ITEMS": "No items",
+    "CURRENTLY_VIEWING_ACCOUNT": "Şu an görüntülüyor:",
+    "SWITCH": "Değiştir",
+    "INBOX_VIEW": "Inbox View",
+    "CONVERSATIONS": "Konuşmalar",
+    "INBOX": "Gelen Kutusu",
+    "ALL_CONVERSATIONS": "Tüm Görüşmeler",
+    "MENTIONED_CONVERSATIONS": "Bahsedilmeler",
+    "PARTICIPATING_CONVERSATIONS": "Katılımcılar",
+    "UNATTENDED_CONVERSATIONS": "İlgisiz",
+    "REPORTS": "Raporlar",
+    "SETTINGS": "Ayarlar",
+    "CONTACTS": "Kişiler",
+    "ACTIVE": "Aktif",
+    "COMPANIES": "Şirketler",
+    "ALL_COMPANIES": "Tüm Şirketler",
+    "CAPTAIN": "Captain",
+    "CAPTAIN_ASSISTANTS": "Assistants",
+    "CAPTAIN_DOCUMENTS": "Belgeler",
+    "CAPTAIN_RESPONSES": "SSS",
+    "CAPTAIN_TOOLS": "Araçlar",
+    "CAPTAIN_SCENARIOS": "Scenarios",
+    "CAPTAIN_PLAYGROUND": "Oyun Alanı",
+    "CAPTAIN_INBOXES": "Gelen kutuları",
+    "CAPTAIN_SETTINGS": "Ayarlar",
+    "HOME": "Anasayfa",
+    "AGENTS": "Kullanıcılar",
+    "AGENT_BOTS": "Botlar",
+    "AUDIT_LOGS": "Denetim Kayıtları",
+    "INBOXES": "Gelen kutuları",
+    "NOTIFICATIONS": "Bildirimler",
+    "CANNED_RESPONSES": "Hazır Yanıtlar",
+    "INTEGRATIONS": "Entegrasyonlar",
+    "PROFILE_SETTINGS": "Profil ayarları",
+    "ACCOUNT_SETTINGS": "Hesap ayarları",
+    "APPLICATIONS": "Uygulamalar",
+    "LABELS": "Etiketler",
+    "CUSTOM_ATTRIBUTES": "Özel Nitelikler",
+    "AUTOMATION": "Otomasyon",
+    "MACROS": "Kısayollar",
+    "TEAMS": "Ekipler",
+    "BILLING": "Fatura",
+    "CUSTOM_VIEWS_FOLDER": "Klasörler",
+    "CUSTOM_VIEWS_SEGMENTS": "Segmentler",
+    "ALL_CONTACTS": "Tüm Kişiler",
+    "TAGGED_WITH": "Etiketlendi",
+    "NEW_LABEL": "Yeni etiket",
+    "NEW_TEAM": "Yeni ekip",
+    "NEW_INBOX": "Yeni gelen kutusu",
+    "REPORTS_CONVERSATION": "Konuşmalar",
+    "CSAT": "CSAT",
+    "LIVE_CHAT": "Live Chat",
+    "SMS": "SMS",
+    "WHATSAPP": "WhatsApp",
+    "CAMPAIGNS": "Kampanyalar",
+    "ONGOING": "Devam Eden",
+    "ONE_OFF": "Tek Seferlik",
+    "REPORTS_SLA": "SLA",
+    "REPORTS_BOT": "Bot",
+    "REPORTS_AGENT": "Kullanıcılar",
+    "REPORTS_LABEL": "Etiketler",
+    "REPORTS_INBOX": "Gelen kutusu",
+    "REPORTS_TEAM": "Ekip",
+    "AGENT_ASSIGNMENT": "Temsilci Atama",
+    "SET_AVAILABILITY_TITLE": "Kendini şu şekilde ayarla",
+    "SET_YOUR_AVAILABILITY": "Uygunluk Durumunuzu Ayarlayın",
+    "SLA": "SLA",
+    "CUSTOM_ROLES": "Özel Roller",
+    "BETA": "Beta",
+    "REPORTS_OVERVIEW": "Önizleme",
+    "REAUTHORIZE": "Gelen kutusu bağlantınızın süresi doldu, lütfen yeniden bağlanarak\n mesaj almaya ve göndermeye devam edin",
+    "HELP_CENTER": {
+      "TITLE": "Yardım Merkezi",
+      "ARTICLES": "Makaleler",
+      "CATEGORIES": "Kategoriler",
+      "LOCALES": "Diller",
+      "SETTINGS": "Ayarlar"
+    },
+    "CHANNELS": "Kanallar",
+    "SET_AUTO_OFFLINE": {
+      "TEXT": "Otomatik olarak çevrimdışı olarak işaretle",
+      "INFO_TEXT": "Sistem sizi otomatik olarak çevrimdışı işaretlesin, uygulamayı veya gösterge tablosunu kullanmıyorsanız.",
+      "INFO_SHORT": "Automatically mark offline when you aren't using the app."
+    },
+    "DOCS": "Dokümantasyonu oku",
+    "SECURITY": "Güvenlik"
+  },
+  "BILLING_SETTINGS": {
+    "TITLE": "Fatura",
+    "DESCRIPTION": "Manage your subscription here, upgrade your plan and get more for your team.",
+    "CURRENT_PLAN": {
+      "TITLE": "Mevcut Plan",
+      "PLAN_NOTE": "Şu anda **{plan}** planına **{quantity}** lisans abonesisiniz",
+      "SEAT_COUNT": "Number of seats",
+      "RENEWS_ON": "Renews on"
+    },
+    "VIEW_PRICING": "View Pricing",
+    "MANAGE_SUBSCRIPTION": {
+      "TITLE": "Aboneliğinizi yönetin",
+      "DESCRIPTION": "Önceki faturalarınızı görüntüleyin, fatura detaylarınızı düzenleyin veya aboneliğinizi iptal edin.",
+      "BUTTON_TXT": "Fatura portalına git"
+    },
+    "CAPTAIN": {
+      "TITLE": "Captain",
+      "DESCRIPTION": "Manage usage and credits for Captain AI.",
+      "BUTTON_TXT": "Buy more credits",
+      "DOCUMENTS": "Belgeler",
+      "RESPONSES": "Responses",
+      "UPGRADE": "Captain is not available on the free plan, upgrade now to get access to assistants, copilot and more.",
+      "REFRESH_CREDITS": "Yenile"
+    },
+    "CHAT_WITH_US": {
+      "TITLE": "Yardıma mı ihtiyacınız var?",
+      "DESCRIPTION": "Fatura konusunda herhangi bir sorunla karşılaşıyor musunuz? Yardımcı olmak için buradayız.",
+      "BUTTON_TXT": "Sohbet et"
+    },
+    "NO_BILLING_USER": "Fatura hesabınız yapılandırılıyor. Lütfen sayfayı yenileyip tekrar deneyin.",
+    "TOPUP": {
+      "BUY_CREDITS": "Buy more credits",
+      "MODAL_TITLE": "Buy AI Credits",
+      "MODAL_DESCRIPTION": "Purchase additional credits for Captain AI.",
+      "CREDITS": "CREDITS",
+      "ONE_TIME": "one-time",
+      "POPULAR": "Most Popular",
+      "NOTE_TITLE": "Not:",
+      "NOTE_DESCRIPTION": "Credits are added immediately and expire in 6 months. An active subscription is required to use credits. Purchased credits are consumed after your monthly plan credits.",
+      "CANCEL": "İptal Et",
+      "PURCHASE": "Purchase Credits",
+      "LOADING": "Loading options...",
+      "FETCH_ERROR": "Failed to load credit options. Please try again.",
+      "PURCHASE_ERROR": "Failed to process purchase. Please try again.",
+      "PURCHASE_SUCCESS": "Successfully added {credits} credits to your account",
+      "CONFIRM": {
+        "TITLE": "Confirm Purchase",
+        "DESCRIPTION": "You are about to purchase {credits} credits for {amount}.",
+        "INSTANT_DEDUCTION_NOTE": "Kaydettiğiniz kart, onaylandıktan hemen sonra ücretlendirilecektir.",
+        "GO_BACK": "Geri Git",
+        "CONFIRM_PURCHASE": "Confirm Purchase"
+      }
+    }
+  },
+  "SECURITY_SETTINGS": {
+    "TITLE": "Güvenlik",
+    "DESCRIPTION": "Hesap güvenlik ayarlarınızı yönetin.",
+    "LINK_TEXT": "Learn more about SAML SSO",
+    "SAML_DISABLED_MESSAGE": "SAML SSO is currently disabled. Please contact your administrator to enable this feature.",
+    "SAML": {
+      "TITLE": "SAML SSO",
+      "NOTE": "Configure SAML single sign-on for your account. Users will authenticate through your identity provider instead of using email/password.",
+      "ACS_URL": {
+        "LABEL": "ACS URL",
+        "TOOLTIP": "Assertion Consumer Service URL - Configure this URL in your IdP as the destination for SAML responses"
+      },
+      "SSO_URL": {
+        "LABEL": "SSO URL",
+        "HELP": "The URL where SAML authentication requests will be sent",
+        "PLACEHOLDER": "https://your-idp.com/saml/sso"
+      },
+      "CERTIFICATE": {
+        "LABEL": "Signing certificate in PEM format",
+        "HELP": "The public certificate from your identity provider used to verify SAML responses",
+        "PLACEHOLDER": "-----BEGIN CERTIFICATE-----\nMIIC..."
+      },
+      "FINGERPRINT": {
+        "LABEL": "Parmak izi",
+        "TOOLTIP": "Sertifikanın SHA-1 parmak izi – Bunu, Kimlik Sağlayıcısı (IdP) yapılandırmanızda sertifikayı doğrulamak için kullanın"
+      },
+      "COPY_SUCCESS": "Kod başarıyla panoya kopyalandı",
+      "SP_ENTITY_ID": {
+        "LABEL": "SP Entity ID",
+        "HELP": "Unique identifier for this application as a service provider (auto-generated).",
+        "TOOLTIP": "Unique identifier for Chatwoot as the Service Provider - Configure this in your IdP settings"
+      },
+      "IDP_ENTITY_ID": {
+        "LABEL": "Identity Provider Entity ID",
+        "HELP": "Unique identifier for your identity provider (usually found in IdP configuration)",
+        "PLACEHOLDER": "https://your-idp.com/saml"
+      },
+      "UPDATE_BUTTON": "Update SAML Settings",
+      "API": {
+        "SUCCESS": "SAML settings updated successfully",
+        "ERROR": "Failed to update SAML settings",
+        "ERROR_LOADING": "Failed to load SAML settings",
+        "DISABLED": "SAML settings disabled successfully"
+      },
+      "VALIDATION": {
+        "REQUIRED_FIELDS": "SSO URL, Identity Provider Entity ID, and Certificate are required fields",
+        "SSO_URL_ERROR": "Please enter a valid SSO URL",
+        "CERTIFICATE_ERROR": "Sertifika gereklidir",
+        "IDP_ENTITY_ID_ERROR": "Identity Provider Entity ID is required"
+      },
+      "ENTERPRISE_PAYWALL": {
+        "AVAILABLE_ON": "The SAML SSO feature is only available in the Enterprise plans.",
+        "UPGRADE_PROMPT": "Upgrade to an Enterprise plan to access SAML single sign-on and other advanced security features.",
+        "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
+      },
+      "PAYWALL": {
+        "TITLE": "Upgrade to enable SAML SSO",
+        "AVAILABLE_ON": "The SAML SSO feature is only available in the Enterprise plans.",
+        "UPGRADE_PROMPT": "Upgrade your plan to get access to SAML single sign-on and other advanced features.",
+        "UPGRADE_NOW": "Şimdi yükselt",
+        "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
+      },
+      "ATTRIBUTE_MAPPING": {
+        "TITLE": "SAML Attribute Setup",
+        "DESCRIPTION": "The following attribute mappings must be configured in your identity provider"
+      },
+      "INFO_SECTION": {
+        "TITLE": "Service Provider Information",
+        "TOOLTIP": "Copy these values and configure them in your Identity Provider to establish the SAML connection"
+      }
+    }
+  },
+  "CREATE_ACCOUNT": {
+    "NO_ACCOUNT_WARNING": "Eyvah! Hiçbir Chatwoot hesabı bulunamadı. Devam etmek için yeni bir hesap oluşturun.",
+    "NEW_ACCOUNT": "Yeni hesap",
+    "SELECTOR_SUBTITLE": "Yeni bir hesap oluştur",
+    "API": {
+      "SUCCESS_MESSAGE": "Hesap başarıyla oluşturuldu",
+      "EXIST_MESSAGE": "Bu Hesap Zaten Mevcut",
+      "ERROR_MESSAGE": "Woot Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "Şirket Adı",
+        "PLACEHOLDER": "Şirketiniz"
+      },
+      "SUBMIT": "Gönder",
+      "CANCEL": "İptal Et"
+    }
+  },
+  "KEYBOARD_SHORTCUTS": {
+    "TOGGLE_MODAL": "Tüm kısayolları görüntüle",
+    "TITLE": {
+      "OPEN_CONVERSATION": "Görüşmeyi aç",
+      "RESOLVE_AND_NEXT": "Çöz ve bir sonrakine geç",
+      "NAVIGATE_DROPDOWN": "Açılır menü öğelerine git",
+      "RESOLVE_CONVERSATION": "Görüşmeyi çöz",
+      "GO_TO_CONVERSATION_DASHBOARD": "Konuşma Gösterge Tablosuna git",
+      "ADD_ATTACHMENT": "Eklenti ekle",
+      "GO_TO_CONTACTS_DASHBOARD": "Kişiler Gösterge Tablosuna git",
+      "TOGGLE_SIDEBAR": "Kenar çubuğunu aç/kapat",
+      "GO_TO_REPORTS_SIDEBAR": "Raporlar kenar çubuğuna git",
+      "MOVE_TO_NEXT_TAB": "Konuşma listesinde bir sonraki sekmeye git",
+      "GO_TO_SETTINGS": "Ayarlar'a git",
+      "SWITCH_TO_PRIVATE_NOTE": "Özel Not'a geç",
+      "SWITCH_TO_REPLY": "Yanıt'a geç",
+      "TOGGLE_SNOOZE_DROPDOWN": "Snooze açılır menüsünü aç/kapat"
+    }
+  },
+  "ASSIGNMENT_POLICY": {
+    "INDEX": {
+      "HEADER": {
+        "TITLE": "Agent assignment",
+        "DESCRIPTION": "Define policies to effectively manage workload and route conversations based on the needs of inboxes and agents. Learn more here"
+      },
+      "ASSIGNMENT_POLICY": {
+        "TITLE": "Assignment policy",
+        "DESCRIPTION": "Manage how conversations get assigned in inboxes.",
+        "FEATURES": [
+          "Assign by conversations evenly or by available capacity",
+          "Add fair distribution rules to avoid overloading any agent",
+          "Add inboxes to a policy - one policy per inbox"
+        ]
+      },
+      "AGENT_CAPACITY_POLICY": {
+        "TITLE": "Agent capacity policy",
+        "DESCRIPTION": "Manage workload for agents.",
+        "FEATURES": [
+          "Define maximum conversations per inbox",
+          "Create exceptions based on labels and time",
+          "Add agents to a policy - one policy per agent"
+        ]
+      }
+    },
+    "AGENT_ASSIGNMENT_POLICY": {
+      "INDEX": {
+        "HEADER": {
+          "TITLE": "Assignment policy",
+          "CREATE_POLICY": "New policy"
+        },
+        "CARD": {
+          "ORDER": "Order",
+          "PRIORITY": "Öncelik",
+          "ACTIVE": "Aktif",
+          "INACTIVE": "Inactive",
+          "POPOVER": "Added inboxes",
+          "EDIT": "Düzenle"
+        },
+        "NO_RECORDS_FOUND": "No assignment policies found"
+      },
+      "CREATE": {
+        "HEADER": {
+          "TITLE": "Create assignment policy"
+        },
+        "CREATE_BUTTON": "Create policy",
+        "API": {
+          "SUCCESS_MESSAGE": "Assignment policy created successfully",
+          "ERROR_MESSAGE": "Failed to create assignment policy"
+        }
+      },
+      "EDIT": {
+        "HEADER": {
+          "TITLE": "Edit assignment policy"
+        },
+        "EDIT_BUTTON": "Update policy",
+        "CONFIRM_ADD_INBOX_DIALOG": {
+          "TITLE": "Add inbox",
+          "DESCRIPTION": "{inboxName} inbox is already linked to another policy. Are you sure you want to link it to this policy? It will be unlinked from the other policy.",
+          "CONFIRM_BUTTON_LABEL": "Devam et",
+          "CANCEL_BUTTON_LABEL": "İptal Et"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Assignment policy updated successfully",
+          "ERROR_MESSAGE": "Failed to update assignment policy"
+        },
+        "INBOX_API": {
+          "ADD": {
+            "SUCCESS_MESSAGE": "Inbox added to policy successfully",
+            "ERROR_MESSAGE": "Failed to add inbox to policy"
+          },
+          "REMOVE": {
+            "SUCCESS_MESSAGE": "Inbox removed from policy successfully",
+            "ERROR_MESSAGE": "Failed to remove inbox from policy"
+          }
+        }
+      },
+      "FORM": {
+        "NAME": {
+          "LABEL": "Policy name:",
+          "PLACEHOLDER": "Enter policy name"
+        },
+        "DESCRIPTION": {
+          "LABEL": "Açıklama:",
+          "PLACEHOLDER": "Açıklama girin"
+        },
+        "STATUS": {
+          "LABEL": "Durum:",
+          "PLACEHOLDER": "Select status",
+          "ACTIVE": "Policy is active",
+          "INACTIVE": "Policy is inactive"
+        },
+        "ASSIGNMENT_ORDER": {
+          "LABEL": "Assignment order",
+          "ROUND_ROBIN": {
+            "LABEL": "Round robin",
+            "DESCRIPTION": "Assign conversations evenly among agents."
+          },
+          "BALANCED": {
+            "LABEL": "Dengeli",
+            "DESCRIPTION": "Assign conversations based on available capacity."
+          }
+        },
+        "ASSIGNMENT_PRIORITY": {
+          "LABEL": "Assignment priority",
+          "EARLIEST_CREATED": {
+            "LABEL": "Earliest created",
+            "DESCRIPTION": "The conversation that was created first gets assigned first."
+          },
+          "LONGEST_WAITING": {
+            "LABEL": "Longest waiting",
+            "DESCRIPTION": "The conversation waiting the longest gets assigned first."
+          }
+        },
+        "FAIR_DISTRIBUTION": {
+          "LABEL": "Fair distribution policy",
+          "DESCRIPTION": "Belirli bir zaman diliminde her bir temsilciye atanabilecek maksimum konuşma sayısını ayarlayarak herhangi bir temsilcinin aşırı yüklenmesini önleyin. Bu zorunlu alanın varsayılan değeri saat başına 100 konuşmadır.",
+          "INPUT_MAX": "Assign max",
+          "DURATION": "Conversations per agent in every"
+        },
+        "INBOXES": {
+          "LABEL": "Added inboxes",
+          "DESCRIPTION": "Add inboxes for which this policy will be applicable.",
+          "ADD_BUTTON": "Add inbox",
+          "DROPDOWN": {
+            "SEARCH_PLACEHOLDER": "Search and select inboxes to add",
+            "ADD_BUTTON": "Ekle"
+          },
+          "EMPTY_STATE": "No inboxes added to this policy, add an inbox to get started",
+          "API": {
+            "SUCCESS_MESSAGE": "Inbox successfully added to policy",
+            "ERROR_MESSAGE": "Failed to add inbox to policy"
+          }
+        }
+      },
+      "DELETE_POLICY": {
+        "SUCCESS_MESSAGE": "Assignment policy deleted successfully",
+        "ERROR_MESSAGE": "Failed to delete assignment policy"
+      }
+    },
+    "AGENT_CAPACITY_POLICY": {
+      "INDEX": {
+        "HEADER": {
+          "TITLE": "Agent capacity",
+          "CREATE_POLICY": "New policy"
+        },
+        "CARD": {
+          "POPOVER": "Added agents",
+          "EDIT": "Düzenle"
+        },
+        "NO_RECORDS_FOUND": "No agent capacity policies found"
+      },
+      "CREATE": {
+        "HEADER": {
+          "TITLE": "Create agent capacity policy"
+        },
+        "CREATE_BUTTON": "Create policy",
+        "API": {
+          "SUCCESS_MESSAGE": "Agent capacity policy created successfully",
+          "ERROR_MESSAGE": "Failed to create agent capacity policy"
+        }
+      },
+      "EDIT": {
+        "HEADER": {
+          "TITLE": "Edit agent capacity policy"
+        },
+        "EDIT_BUTTON": "Update policy",
+        "CONFIRM_ADD_AGENT_DIALOG": {
+          "TITLE": "Temsilci ekle",
+          "DESCRIPTION": "{agentName} is already linked to another policy. Are you sure you want to link it to this policy? It will be unlinked from the other policy.",
+          "CONFIRM_BUTTON_LABEL": "Devam et",
+          "CANCEL_BUTTON_LABEL": "İptal Et"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Agent capacity policy updated successfully",
+          "ERROR_MESSAGE": "Failed to update agent capacity policy"
+        },
+        "AGENT_API": {
+          "ADD": {
+            "SUCCESS_MESSAGE": "Agent added to policy successfully",
+            "ERROR_MESSAGE": "Failed to add agent to policy"
+          },
+          "REMOVE": {
+            "SUCCESS_MESSAGE": "Agent removed from policy successfully",
+            "ERROR_MESSAGE": "Failed to remove agent from policy"
+          }
+        }
+      },
+      "FORM": {
+        "NAME": {
+          "LABEL": "Policy name:",
+          "PLACEHOLDER": "Enter policy name"
+        },
+        "DESCRIPTION": {
+          "LABEL": "Açıklama:",
+          "PLACEHOLDER": "Açıklama girin"
+        },
+        "INBOX_CAPACITY_LIMIT": {
+          "LABEL": "Gelen Kutusu kapasite limiti",
+          "ADD_BUTTON": "Gelen Kutusu ekle",
+          "FIELD": {
+            "SELECT_INBOX": "Gelen Kutusu seç",
+            "MAX_CONVERSATIONS": "Maksimum Konuşma",
+            "SET_LIMIT": "Sınır belirle"
+          },
+          "EMPTY_STATE": "Gelen kutusu sınırı belirlenmemiş"
+        },
+        "EXCLUSION_RULES": {
+          "LABEL": "Hariç tutma kuralları",
+          "DESCRIPTION": "Conversations that satisfy the following conditions would not count towards agent capacity",
+          "TAGS": {
+            "LABEL": "Exclude conversations tagged with specific labels",
+            "ADD_TAG": "etiket ekle",
+            "DROPDOWN": {
+              "SEARCH_PLACEHOLDER": "Eklemek için etiketleri arayın ve seçin"
+            },
+            "EMPTY_STATE": "No tags added to this policy."
+          },
+          "DURATION": {
+            "LABEL": "Exclude conversations older than a specified duration",
+            "PLACEHOLDER": "Set time"
+          }
+        },
+        "USERS": {
+          "LABEL": "Assigned agents",
+          "DESCRIPTION": "Add agents for which this policy will be applicable.",
+          "ADD_BUTTON": "Add agent",
+          "DROPDOWN": {
+            "SEARCH_PLACEHOLDER": "Search and select agents to add",
+            "ADD_BUTTON": "Ekle"
+          },
+          "EMPTY_STATE": "No agents added",
+          "API": {
+            "SUCCESS_MESSAGE": "Agent successfully added to policy",
+            "ERROR_MESSAGE": "Failed to add agent to policy"
+          }
+        }
+      },
+      "DELETE_POLICY": {
+        "SUCCESS_MESSAGE": "Agent capacity policy deleted successfully",
+        "ERROR_MESSAGE": "Failed to delete agent capacity policy"
+      }
+    },
+    "DELETE_POLICY": {
+      "TITLE": "Politikayı sil",
+      "DESCRIPTION": "Bu politikayı silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.",
+      "CONFIRM_BUTTON_LABEL": "Sil",
+      "CANCEL_BUTTON_LABEL": "İptal Et"
+    }
+  }
+}

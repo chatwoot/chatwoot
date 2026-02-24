@@ -1,0 +1,796 @@
+{
+  "PROFILE_SETTINGS": {
+    "LINK": "个人资料设置",
+    "TITLE": "个人资料设置",
+    "BTN_TEXT": "更新个人资料",
+    "DELETE_AVATAR": "删除头像",
+    "AVATAR_DELETE_SUCCESS": "头像已成功删除",
+    "AVATAR_DELETE_FAILED": "删除头像时出现错误，请重试",
+    "UPDATE_SUCCESS": "您的个人资料已更新成功",
+    "PASSWORD_UPDATE_SUCCESS": "您的密码已成功更改。",
+    "AFTER_EMAIL_CHANGED": "您的个人资料已成功更新，请在您的登录凭据更改后重新登录",
+    "FORM": {
+      "PICTURE": "个人资料图片",
+      "AVATAR": "头像",
+      "ERROR": "请修正表单错误",
+      "REMOVE_IMAGE": "删除",
+      "UPLOAD_IMAGE": "上传头像",
+      "UPDATE_IMAGE": "更新头像",
+      "PROFILE_SECTION": {
+        "TITLE": "个人信息",
+        "NOTE": "您的电子邮件地址是您的身份并用于登录。"
+      },
+      "SEND_MESSAGE": {
+        "TITLE": "发送消息的快捷键",
+        "NOTE": "您可以根据您的写入偏好选择一个快捷键 (输入或 Cmd/Ctrl+Enter)。",
+        "UPDATE_SUCCESS": "您的设置已经更新成功",
+        "CARD": {
+          "ENTER_KEY": {
+            "HEADING": "Enter (↵)",
+            "CONTENT": "按 Enter 键发送消息，而不是单击发送按钮。"
+          },
+          "CMD_ENTER_KEY": {
+            "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
+            "CONTENT": "按下 Cmd/Ctrl + Enter 发送消息，而不是点击发送按钮。"
+          }
+        }
+      },
+      "INTERFACE_SECTION": {
+        "TITLE": "界面",
+        "NOTE": "自定义您的 Chatwoot 仪表板的外观和感觉。",
+        "FONT_SIZE": {
+          "TITLE": "字体大小",
+          "NOTE": "根据您的偏好调整仪表板中的文本大小。",
+          "UPDATE_SUCCESS": "您的字体设置已成功更新",
+          "UPDATE_ERROR": "更新字体设置时出错，请重试",
+          "OPTIONS": {
+            "SMALLER": "较小",
+            "SMALL": "小",
+            "DEFAULT": "默认",
+            "LARGE": "大",
+            "LARGER": "较大",
+            "EXTRA_LARGE": "特大"
+          }
+        },
+        "LANGUAGE": {
+          "TITLE": "首选语言",
+          "NOTE": "选择您想要使用的语言。",
+          "UPDATE_SUCCESS": "您的语言设置已成功更新",
+          "UPDATE_ERROR": "更新语言设置时出错，请重试",
+          "USE_ACCOUNT_DEFAULT": "使用账户默认值"
+        }
+      },
+      "MESSAGE_SIGNATURE_SECTION": {
+        "TITLE": "个人消息签名",
+        "NOTE": "创建一个唯一的消息签名来显示在您从任何收件箱发送的消息的末尾。 您也可以包含一个内联图片，它支持在直播聊天、电子邮件和API收件箱中。",
+        "BTN_TEXT": "保存消息签名",
+        "API_ERROR": "无法保存签名！请重试",
+        "API_SUCCESS": "签名保存成功",
+        "IMAGE_UPLOAD_ERROR": "无法上传图片！请再试一次",
+        "IMAGE_UPLOAD_SUCCESS": "图片添加成功。请点击保存签名。",
+        "IMAGE_UPLOAD_SIZE_ERROR": "图片大小应该小于{size}MB"
+      },
+      "MESSAGE_SIGNATURE": {
+        "LABEL": "消息签名",
+        "ERROR": "消息签名不能为空",
+        "PLACEHOLDER": "在此插入您的个人消息签名。"
+      },
+      "PASSWORD_SECTION": {
+        "TITLE": "密码",
+        "NOTE": "更新您的密码会在多个设备中重置您的登录信息。",
+        "BTN_TEXT": "更改密码"
+      },
+      "SECURITY_SECTION": {
+        "TITLE": "安全",
+        "NOTE": "Manage additional security features for your account.",
+        "MFA_BUTTON": "Manage Two-Factor Authentication"
+      },
+      "ACCESS_TOKEN": {
+        "TITLE": "访问令牌",
+        "NOTE": "如果您正在构建基于 API 的集成，这个令牌可以被使用",
+        "COPY": "复制",
+        "RESET": "重置",
+        "CONFIRM_RESET": "您确定吗？",
+        "CONFIRM_HINT": "再次点击以确认",
+        "RESET_SUCCESS": "成功重新生成访问令牌",
+        "RESET_ERROR": "无法重新生成访问令牌。请重试"
+      },
+      "AUDIO_NOTIFICATIONS_SECTION": {
+        "TITLE": "音频提醒",
+        "NOTE": "在仪表板中为新消息和会话启用音频提醒。",
+        "PLAY": "播放声音",
+        "ALERT_TYPES": {
+          "NONE": "无",
+          "MINE": "分配给我的",
+          "ALL": "所有",
+          "ASSIGNED": "分配给我的会话",
+          "UNASSIGNED": "未分配的会话",
+          "NOTME": "分配给其他人的开放会话"
+        },
+        "ALERT_COMBINATIONS": {
+          "NONE": "您尚未选择任何选项，您不会收到任何音频提醒。",
+          "ASSIGNED": "您将收到分配给您的会话的提醒。",
+          "UNASSIGNED": "您将收到任何未分配会话的提醒。",
+          "NOTME": "您将收到分配给其他人的会话的提醒。",
+          "ASSIGNED+UNASSIGNED": "您将收到分配给您的会话和任何未处理会话的提醒。",
+          "ASSIGNED+NOTME": "您将收到分配给您的会话和分配给其他人的会话的提醒，但不会收到未分配会话的提醒。",
+          "NOTME+UNASSIGNED": "您将收到未处理会话和分配给其他人的会话的提醒。",
+          "ASSIGNED+NOTME+UNASSIGNED": "您将收到所有会话的提醒。"
+        },
+        "ALERT_TYPE": {
+          "TITLE": "会话提醒事件",
+          "NONE": "无",
+          "ASSIGNED": "分配会话",
+          "ALL_CONVERSATIONS": "所有会话"
+        },
+        "DEFAULT_TONE": {
+          "TITLE": "提醒音调："
+        },
+        "CONDITIONS": {
+          "TITLE": "提醒条件：",
+          "CONDITION_ONE": "仅在浏览器窗口未激活时发送音频提醒",
+          "CONDITION_TWO": "每30秒发送一次提醒，直到所有分配的会话被阅读"
+        },
+        "SOUND_PERMISSION_ERROR": "您的浏览器中禁用了自动播放。要自动听到提醒，请在浏览器设置中启用声音权限或与页面进行交互。",
+        "READ_MORE": "阅读更多"
+      },
+      "EMAIL_NOTIFICATIONS_SECTION": {
+        "TITLE": "电子邮件通知",
+        "NOTE": "在此更新您的电子邮件通知设置",
+        "CONVERSATION_ASSIGNMENT": "当对话分配给我时发送电子邮件通知",
+        "CONVERSATION_CREATION": "当对话分配给我时发送电子邮件通知",
+        "CONVERSATION_MENTION": "当您在会话中被提及时发送电子邮件通知",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "在已分配的会话中创建新消息时发送电子邮件通知",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "当参与会话中创建新消息时发送电子邮件通知",
+        "SLA_MISSED_FIRST_RESPONSE": "当会话错过首次响应 SLA 时发送电子邮件通知",
+        "SLA_MISSED_NEXT_RESPONSE": "当会话错过下次响应 SLA 时发送电子邮件通知",
+        "SLA_MISSED_RESOLUTION": "当会话错过解决 SLA 时发送电子邮件通知"
+      },
+      "NOTIFICATIONS": {
+        "TITLE": "通知偏好",
+        "TYPE_TITLE": "通知类型",
+        "EMAIL": "电子邮件",
+        "PUSH": "推送通知",
+        "TYPES": {
+          "CONVERSATION_CREATED": "新会话已创建",
+          "CONVERSATION_ASSIGNED": "会话已分配给您",
+          "CONVERSATION_MENTION": "您在会话中被提及",
+          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "在分配的会话中创建了新消息",
+          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "在参与的会话中创建了新消息",
+          "SLA_MISSED_FIRST_RESPONSE": "会话错过了首次响应 SLA",
+          "SLA_MISSED_NEXT_RESPONSE": "会话错过了下次响应 SLA",
+          "SLA_MISSED_RESOLUTION": "会话错过了解决 SLA"
+        },
+        "BROWSER_PERMISSION": "为您的浏览器启用推送通知，以便您能够接收它们"
+      },
+      "API": {
+        "UPDATE_SUCCESS": "您的通知设置已成功更新",
+        "UPDATE_ERROR": "更新配置时出错，请再试一次"
+      },
+      "PUSH_NOTIFICATIONS_SECTION": {
+        "TITLE": "推送通知",
+        "NOTE": "在此更新您的推送通知设置",
+        "CONVERSATION_ASSIGNMENT": "当对话被分配给我时发送推送通知",
+        "CONVERSATION_CREATION": "创建新对话时发送推送通知",
+        "CONVERSATION_MENTION": "当您在会话中被提及时发送推送通知",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "在已分配的会话中创建新消息时发送推送通知",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "当参与会话中创建新消息时发送推送通知",
+        "HAS_ENABLED_PUSH": "您已启用此浏览器的推送。",
+        "REQUEST_PUSH": "启用推送通知",
+        "SLA_MISSED_FIRST_RESPONSE": "当会话错过首次响应 SLA 时发送推送通知",
+        "SLA_MISSED_NEXT_RESPONSE": "当会话错过下次响应 SLA 时发送推送通知",
+        "SLA_MISSED_RESOLUTION": "当会话错过解决 SLA 时发送推送通知"
+      },
+      "PROFILE_IMAGE": {
+        "LABEL": "头像"
+      },
+      "NAME": {
+        "LABEL": "您的全名",
+        "ERROR": "请输入一个有效的全名",
+        "PLACEHOLDER": "请输入您的姓名"
+      },
+      "DISPLAY_NAME": {
+        "LABEL": "展示名",
+        "ERROR": "请输入一个有效的全名",
+        "PLACEHOLDER": "请输入显示名称，将会在对话中显示"
+      },
+      "AVAILABILITY": {
+        "LABEL": "有效的",
+        "STATUS": {
+          "ONLINE": "在线",
+          "BUSY": "忙碌中",
+          "OFFLINE": "离线"
+        },
+        "SET_AVAILABILITY_SUCCESS": "可用性已成功设置",
+        "SET_AVAILABILITY_ERROR": "无法设置可用性，请重试",
+        "IMPERSONATING_ERROR": "当您处于模拟用户状态时，无法更改其在线状态"
+      },
+      "EMAIL": {
+        "LABEL": "您的电子邮件地址",
+        "ERROR": "请输入一个有效的电子邮件",
+        "PLACEHOLDER": "请输入您的名字，这将会在对话中显示"
+      },
+      "CURRENT_PASSWORD": {
+        "LABEL": "当前密码",
+        "ERROR": "请输入当前密码",
+        "PLACEHOLDER": "请输入当前密码"
+      },
+      "PASSWORD": {
+        "LABEL": "新密码",
+        "ERROR": "请输入长度6或更长的密码",
+        "PLACEHOLDER": "请输入新密码"
+      },
+      "PASSWORD_CONFIRMATION": {
+        "LABEL": "重新输入一次密码",
+        "ERROR": "两次密码不一致",
+        "PLACEHOLDER": "请重新输入您的新密码"
+      }
+    }
+  },
+  "SIDEBAR_ITEMS": {
+    "CHANGE_AVAILABILITY_STATUS": "更改",
+    "CHANGE_ACCOUNTS": "切换账户",
+    "SWITCH_ACCOUNT": "切换账户",
+    "CONTACT_SUPPORT": "联系支持",
+    "SELECTOR_SUBTITLE": "从以下列表中选择一个账户",
+    "PROFILE_SETTINGS": "个人资料设置",
+    "YEAR_IN_REVIEW": "Year in Review",
+    "KEYBOARD_SHORTCUTS": "键盘快捷键",
+    "APPEARANCE": "更改外观",
+    "SUPER_ADMIN_CONSOLE": "超级管理员控制台",
+    "DOCS": "阅读文档",
+    "CHANGELOG": "更新日志",
+    "LOGOUT": "注销"
+  },
+  "APP_GLOBAL": {
+    "TRIAL_MESSAGE": "剩余试用期天数",
+    "TRAIL_BUTTON": "立即购买",
+    "DELETED_USER": "已删除用户",
+    "EMAIL_VERIFICATION_PENDING": "您似乎尚未验证您的电子邮件地址。请检查您的收件箱以获取验证邮件。",
+    "RESEND_VERIFICATION_MAIL": "重新发送验证邮件",
+    "EMAIL_VERIFICATION_SENT": "验证邮件已发送。请检查您的收件箱。",
+    "ACCOUNT_SUSPENDED": {
+      "TITLE": "账户已暂停",
+      "MESSAGE": "您的账户已被暂停。请联系支持团队以获取更多信息。"
+    },
+    "NO_ACCOUNTS": {
+      "TITLE": "No account found",
+      "MESSAGE_CLOUD": "You are not part of any accounts right now. If you think this is a mistake, please reach out to our support team.",
+      "MESSAGE_SELF_HOSTED": "You are not part of any accounts right now. Please reach out to your administrator.",
+      "LOGOUT": "注销"
+    }
+  },
+  "COMPONENTS": {
+    "CODE": {
+      "BUTTON_TEXT": "复制",
+      "CODEPEN": "在 CodePen 中打开",
+      "COPY_SUCCESSFUL": "已复制到剪贴板"
+    },
+    "SHOW_MORE_BLOCK": {
+      "SHOW_MORE": "显示更多",
+      "SHOW_LESS": "显示更少"
+    },
+    "FILE_BUBBLE": {
+      "DOWNLOAD": "下载",
+      "UPLOADING": "上传中...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "本信息不存在"
+    },
+    "LOCATION_BUBBLE": {
+      "SEE_ON_MAP": "在地图上查看"
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "提交"
+    },
+    "MEDIA": {
+      "IMAGE_UNAVAILABLE": "此图片不再可用。",
+      "LOADING_FAILED": "加载失败"
+    }
+  },
+  "CONFIRM_EMAIL": "正在验证...",
+  "SETTINGS": {
+    "INBOXES": {
+      "NEW_INBOX": "添加收件箱"
+    }
+  },
+  "SIDEBAR": {
+    "NO_ITEMS": "无项目",
+    "CURRENTLY_VIEWING_ACCOUNT": "当前查看：",
+    "SWITCH": "切换",
+    "INBOX_VIEW": "收件箱视图",
+    "CONVERSATIONS": "会话",
+    "INBOX": "我的收件箱",
+    "ALL_CONVERSATIONS": "所有会话",
+    "MENTIONED_CONVERSATIONS": "提及",
+    "PARTICIPATING_CONVERSATIONS": "参与者",
+    "UNATTENDED_CONVERSATIONS": "未处理",
+    "REPORTS": "报告",
+    "SETTINGS": "设置",
+    "CONTACTS": "联系人",
+    "ACTIVE": "状态",
+    "COMPANIES": "Companies",
+    "ALL_COMPANIES": "All Companies",
+    "CAPTAIN": "Captain",
+    "CAPTAIN_ASSISTANTS": "助手",
+    "CAPTAIN_DOCUMENTS": "文档",
+    "CAPTAIN_RESPONSES": "常见问题",
+    "CAPTAIN_TOOLS": "工具",
+    "CAPTAIN_SCENARIOS": "Scenarios",
+    "CAPTAIN_PLAYGROUND": "试验场",
+    "CAPTAIN_INBOXES": "收件箱",
+    "CAPTAIN_SETTINGS": "设置",
+    "HOME": "首页",
+    "AGENTS": "客服代理",
+    "AGENT_BOTS": "机器人",
+    "AUDIT_LOGS": "审计日志",
+    "INBOXES": "收件箱",
+    "NOTIFICATIONS": "消息通知",
+    "CANNED_RESPONSES": "预设回复",
+    "INTEGRATIONS": "集成方式",
+    "PROFILE_SETTINGS": "个人资料设置",
+    "ACCOUNT_SETTINGS": "账户设置",
+    "APPLICATIONS": "应用程序",
+    "LABELS": "标签",
+    "CUSTOM_ATTRIBUTES": "自定义属性",
+    "AUTOMATION": "自动化",
+    "MACROS": "宏",
+    "TEAMS": "团队",
+    "BILLING": "计费",
+    "CUSTOM_VIEWS_FOLDER": "文件夹",
+    "CUSTOM_VIEWS_SEGMENTS": "分段",
+    "ALL_CONTACTS": "所有联系人",
+    "TAGGED_WITH": "标记为",
+    "NEW_LABEL": "新标签",
+    "NEW_TEAM": "新团队",
+    "NEW_INBOX": "新收件箱",
+    "REPORTS_CONVERSATION": "会话",
+    "CSAT": "客户满意度",
+    "LIVE_CHAT": "在线聊天",
+    "SMS": "短信",
+    "WHATSAPP": "WhatsApp",
+    "CAMPAIGNS": "活动",
+    "ONGOING": "进行中",
+    "ONE_OFF": "一次性",
+    "REPORTS_SLA": "SLA",
+    "REPORTS_BOT": "机器人",
+    "REPORTS_AGENT": "客服",
+    "REPORTS_LABEL": "标签",
+    "REPORTS_INBOX": "收件箱",
+    "REPORTS_TEAM": "团队",
+    "AGENT_ASSIGNMENT": "Agent Assignment",
+    "SET_AVAILABILITY_TITLE": "将自己设置为",
+    "SET_YOUR_AVAILABILITY": "设置您的可用性",
+    "SLA": "SLA",
+    "CUSTOM_ROLES": "自定义角色",
+    "BETA": "测试版",
+    "REPORTS_OVERVIEW": "概览",
+    "REAUTHORIZE": "您的收件箱连接已过期，请重新连接以继续接收和发送消息",
+    "HELP_CENTER": {
+      "TITLE": "帮助中心",
+      "ARTICLES": "文章",
+      "CATEGORIES": "类别",
+      "LOCALES": "语言",
+      "SETTINGS": "设置"
+    },
+    "CHANNELS": "频道",
+    "SET_AUTO_OFFLINE": {
+      "TEXT": "自动标记离线状态",
+      "INFO_TEXT": "当您不使用应用程序或仪表板时，让系统自动标记您离线。",
+      "INFO_SHORT": "当您不使用应用程序时自动标记离线。"
+    },
+    "DOCS": "阅读文档",
+    "SECURITY": "安全"
+  },
+  "BILLING_SETTINGS": {
+    "TITLE": "计费方式",
+    "DESCRIPTION": "在此管理您的订阅，升级您的计划并为您的团队获取更多功能。",
+    "CURRENT_PLAN": {
+      "TITLE": "当前计划",
+      "PLAN_NOTE": "您当前订阅的是 **{plan}** 计划，拥有 **{quantity}** 个许可证",
+      "SEAT_COUNT": "座位数",
+      "RENEWS_ON": "续订于"
+    },
+    "VIEW_PRICING": "查看价格",
+    "MANAGE_SUBSCRIPTION": {
+      "TITLE": "管理您的订阅",
+      "DESCRIPTION": "查看您之前的发票，编辑您的账单详细信息或取消您的订阅。",
+      "BUTTON_TXT": "前往账单门户"
+    },
+    "CAPTAIN": {
+      "TITLE": "Captain",
+      "DESCRIPTION": "管理 Captain AI 的使用和积分。",
+      "BUTTON_TXT": "购买更多积分",
+      "DOCUMENTS": "文档",
+      "RESPONSES": "常见问题",
+      "UPGRADE": "Captain 在免费计划中不可用，立即升级以获取助手、副驾驶等更多功能。",
+      "REFRESH_CREDITS": "刷新"
+    },
+    "CHAT_WITH_US": {
+      "TITLE": "需要帮助吗？",
+      "DESCRIPTION": "您在计费方面遇到任何问题吗？我们在此为您提供帮助。",
+      "BUTTON_TXT": "联系我们"
+    },
+    "NO_BILLING_USER": "您的计费账户正在配置中。请刷新页面并重试。",
+    "TOPUP": {
+      "BUY_CREDITS": "购买更多积分",
+      "MODAL_TITLE": "Buy AI Credits",
+      "MODAL_DESCRIPTION": "Purchase additional credits for Captain AI.",
+      "CREDITS": "CREDITS",
+      "ONE_TIME": "one-time",
+      "POPULAR": "Most Popular",
+      "NOTE_TITLE": "Note:",
+      "NOTE_DESCRIPTION": "Credits are added immediately and expire in 6 months. An active subscription is required to use credits. Purchased credits are consumed after your monthly plan credits.",
+      "CANCEL": "取消",
+      "PURCHASE": "Purchase Credits",
+      "LOADING": "Loading options...",
+      "FETCH_ERROR": "Failed to load credit options. Please try again.",
+      "PURCHASE_ERROR": "Failed to process purchase. Please try again.",
+      "PURCHASE_SUCCESS": "Successfully added {credits} credits to your account",
+      "CONFIRM": {
+        "TITLE": "Confirm Purchase",
+        "DESCRIPTION": "You are about to purchase {credits} credits for {amount}.",
+        "INSTANT_DEDUCTION_NOTE": "Your saved card will be charged immediately upon confirmation.",
+        "GO_BACK": "返回",
+        "CONFIRM_PURCHASE": "Confirm Purchase"
+      }
+    }
+  },
+  "SECURITY_SETTINGS": {
+    "TITLE": "安全",
+    "DESCRIPTION": "管理您的账户安全设置。",
+    "LINK_TEXT": "了解更多关于 SAML SSO 的信息",
+    "SAML_DISABLED_MESSAGE": "SAML SSO is currently disabled. Please contact your administrator to enable this feature.",
+    "SAML": {
+      "TITLE": "SAML SSO",
+      "NOTE": "Configure SAML single sign-on for your account. Users will authenticate through your identity provider instead of using email/password.",
+      "ACS_URL": {
+        "LABEL": "ACS URL",
+        "TOOLTIP": "Assertion Consumer Service URL - Configure this URL in your IdP as the destination for SAML responses"
+      },
+      "SSO_URL": {
+        "LABEL": "SSO URL",
+        "HELP": "The URL where SAML authentication requests will be sent",
+        "PLACEHOLDER": "https://your-idp.com/saml/sso"
+      },
+      "CERTIFICATE": {
+        "LABEL": "Signing certificate in PEM format",
+        "HELP": "The public certificate from your identity provider used to verify SAML responses",
+        "PLACEHOLDER": "-----BEGIN CERTIFICATE-----\nMIIC..."
+      },
+      "FINGERPRINT": {
+        "LABEL": "Fingerprint",
+        "TOOLTIP": "SHA-1 fingerprint of the certificate - Use this to verify the certificate in your IdP configuration"
+      },
+      "COPY_SUCCESS": "已复制到剪贴板",
+      "SP_ENTITY_ID": {
+        "LABEL": "SP Entity ID",
+        "HELP": "Unique identifier for this application as a service provider (auto-generated).",
+        "TOOLTIP": "Unique identifier for Chatwoot as the Service Provider - Configure this in your IdP settings"
+      },
+      "IDP_ENTITY_ID": {
+        "LABEL": "Identity Provider Entity ID",
+        "HELP": "Unique identifier for your identity provider (usually found in IdP configuration)",
+        "PLACEHOLDER": "https://your-idp.com/saml"
+      },
+      "UPDATE_BUTTON": "更新 SAML 设置",
+      "API": {
+        "SUCCESS": "SAML settings updated successfully",
+        "ERROR": "Failed to update SAML settings",
+        "ERROR_LOADING": "Failed to load SAML settings",
+        "DISABLED": "SAML settings disabled successfully"
+      },
+      "VALIDATION": {
+        "REQUIRED_FIELDS": "SSO URL, Identity Provider Entity ID, and Certificate are required fields",
+        "SSO_URL_ERROR": "Please enter a valid SSO URL",
+        "CERTIFICATE_ERROR": "Certificate is required",
+        "IDP_ENTITY_ID_ERROR": "Identity Provider Entity ID is required"
+      },
+      "ENTERPRISE_PAYWALL": {
+        "AVAILABLE_ON": "The SAML SSO feature is only available in the Enterprise plans.",
+        "UPGRADE_PROMPT": "Upgrade to an Enterprise plan to access SAML single sign-on and other advanced security features.",
+        "ASK_ADMIN": "请联系您的管理员进行升级。"
+      },
+      "PAYWALL": {
+        "TITLE": "Upgrade to enable SAML SSO",
+        "AVAILABLE_ON": "The SAML SSO feature is only available in the Enterprise plans.",
+        "UPGRADE_PROMPT": "Upgrade your plan to get access to SAML single sign-on and other advanced features.",
+        "UPGRADE_NOW": "立即升级",
+        "CANCEL_ANYTIME": "您可以随时更改或取消您的计划"
+      },
+      "ATTRIBUTE_MAPPING": {
+        "TITLE": "SAML Attribute Setup",
+        "DESCRIPTION": "The following attribute mappings must be configured in your identity provider"
+      },
+      "INFO_SECTION": {
+        "TITLE": "Service Provider Information",
+        "TOOLTIP": "Copy these values and configure them in your Identity Provider to establish the SAML connection"
+      }
+    }
+  },
+  "CREATE_ACCOUNT": {
+    "NO_ACCOUNT_WARNING": "哦，糟糕！我们找不到任何 Chatwoot 账户。请创建一个新账户以继续。",
+    "NEW_ACCOUNT": "新账户",
+    "SELECTOR_SUBTITLE": "创建一个新账户",
+    "API": {
+      "SUCCESS_MESSAGE": "账户创建成功",
+      "EXIST_MESSAGE": "账户已存在",
+      "ERROR_MESSAGE": "无法连接服务器，请稍后再试"
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "公司名称",
+        "PLACEHOLDER": "Wayne企业"
+      },
+      "SUBMIT": "提交",
+      "CANCEL": "取消"
+    }
+  },
+  "KEYBOARD_SHORTCUTS": {
+    "TOGGLE_MODAL": "查看所有快捷键",
+    "TITLE": {
+      "OPEN_CONVERSATION": "打开对话",
+      "RESOLVE_AND_NEXT": "解决并移动到下一个",
+      "NAVIGATE_DROPDOWN": "导航下拉项",
+      "RESOLVE_CONVERSATION": "解决对话",
+      "GO_TO_CONVERSATION_DASHBOARD": "前往对话仪表板",
+      "ADD_ATTACHMENT": "添加附件",
+      "GO_TO_CONTACTS_DASHBOARD": "前往联系人仪表板",
+      "TOGGLE_SIDEBAR": "切换侧边栏",
+      "GO_TO_REPORTS_SIDEBAR": "前往报告侧边栏",
+      "MOVE_TO_NEXT_TAB": "移动到对话列表中的下一个标签",
+      "GO_TO_SETTINGS": "前往设置",
+      "SWITCH_TO_PRIVATE_NOTE": "切换到私人笔记",
+      "SWITCH_TO_REPLY": "切换到回复",
+      "TOGGLE_SNOOZE_DROPDOWN": "切换暂停下拉菜单"
+    }
+  },
+  "ASSIGNMENT_POLICY": {
+    "INDEX": {
+      "HEADER": {
+        "TITLE": "Agent assignment",
+        "DESCRIPTION": "Define policies to effectively manage workload and route conversations based on the needs of inboxes and agents. Learn more here"
+      },
+      "ASSIGNMENT_POLICY": {
+        "TITLE": "Assignment policy",
+        "DESCRIPTION": "Manage how conversations get assigned in inboxes.",
+        "FEATURES": [
+          "Assign by conversations evenly or by available capacity",
+          "Add fair distribution rules to avoid overloading any agent",
+          "Add inboxes to a policy - one policy per inbox"
+        ]
+      },
+      "AGENT_CAPACITY_POLICY": {
+        "TITLE": "Agent capacity policy",
+        "DESCRIPTION": "Manage workload for agents.",
+        "FEATURES": [
+          "Define maximum conversations per inbox",
+          "Create exceptions based on labels and time",
+          "Add agents to a policy - one policy per agent"
+        ]
+      }
+    },
+    "AGENT_ASSIGNMENT_POLICY": {
+      "INDEX": {
+        "HEADER": {
+          "TITLE": "Assignment policy",
+          "CREATE_POLICY": "New policy"
+        },
+        "CARD": {
+          "ORDER": "Order",
+          "PRIORITY": "优先级",
+          "ACTIVE": "状态",
+          "INACTIVE": "Inactive",
+          "POPOVER": "Added inboxes",
+          "EDIT": "编辑"
+        },
+        "NO_RECORDS_FOUND": "No assignment policies found"
+      },
+      "CREATE": {
+        "HEADER": {
+          "TITLE": "Create assignment policy"
+        },
+        "CREATE_BUTTON": "Create policy",
+        "API": {
+          "SUCCESS_MESSAGE": "Assignment policy created successfully",
+          "ERROR_MESSAGE": "Failed to create assignment policy"
+        }
+      },
+      "EDIT": {
+        "HEADER": {
+          "TITLE": "Edit assignment policy"
+        },
+        "EDIT_BUTTON": "Update policy",
+        "CONFIRM_ADD_INBOX_DIALOG": {
+          "TITLE": "Add inbox",
+          "DESCRIPTION": "{inboxName} inbox is already linked to another policy. Are you sure you want to link it to this policy? It will be unlinked from the other policy.",
+          "CONFIRM_BUTTON_LABEL": "Continue",
+          "CANCEL_BUTTON_LABEL": "取消"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Assignment policy updated successfully",
+          "ERROR_MESSAGE": "Failed to update assignment policy"
+        },
+        "INBOX_API": {
+          "ADD": {
+            "SUCCESS_MESSAGE": "Inbox added to policy successfully",
+            "ERROR_MESSAGE": "Failed to add inbox to policy"
+          },
+          "REMOVE": {
+            "SUCCESS_MESSAGE": "Inbox removed from policy successfully",
+            "ERROR_MESSAGE": "Failed to remove inbox from policy"
+          }
+        }
+      },
+      "FORM": {
+        "NAME": {
+          "LABEL": "Policy name:",
+          "PLACEHOLDER": "Enter policy name"
+        },
+        "DESCRIPTION": {
+          "LABEL": "描述:",
+          "PLACEHOLDER": "输入描述"
+        },
+        "STATUS": {
+          "LABEL": "状态:",
+          "PLACEHOLDER": "选择状态",
+          "ACTIVE": "Policy is active",
+          "INACTIVE": "Policy is inactive"
+        },
+        "ASSIGNMENT_ORDER": {
+          "LABEL": "Assignment order",
+          "ROUND_ROBIN": {
+            "LABEL": "Round robin",
+            "DESCRIPTION": "Assign conversations evenly among agents."
+          },
+          "BALANCED": {
+            "LABEL": "Balanced",
+            "DESCRIPTION": "Assign conversations based on available capacity."
+          }
+        },
+        "ASSIGNMENT_PRIORITY": {
+          "LABEL": "Assignment priority",
+          "EARLIEST_CREATED": {
+            "LABEL": "Earliest created",
+            "DESCRIPTION": "The conversation that was created first gets assigned first."
+          },
+          "LONGEST_WAITING": {
+            "LABEL": "Longest waiting",
+            "DESCRIPTION": "The conversation waiting the longest gets assigned first."
+          }
+        },
+        "FAIR_DISTRIBUTION": {
+          "LABEL": "Fair distribution policy",
+          "DESCRIPTION": "Set the maximum number of conversations that can be assigned per agent within a time window to avoid overloading any one agent. This required field defaults to 100 conversations per hour.",
+          "INPUT_MAX": "Assign max",
+          "DURATION": "Conversations per agent in every"
+        },
+        "INBOXES": {
+          "LABEL": "Added inboxes",
+          "DESCRIPTION": "Add inboxes for which this policy will be applicable.",
+          "ADD_BUTTON": "Add inbox",
+          "DROPDOWN": {
+            "SEARCH_PLACEHOLDER": "Search and select inboxes to add",
+            "ADD_BUTTON": "添加"
+          },
+          "EMPTY_STATE": "No inboxes added to this policy, add an inbox to get started",
+          "API": {
+            "SUCCESS_MESSAGE": "Inbox successfully added to policy",
+            "ERROR_MESSAGE": "Failed to add inbox to policy"
+          }
+        }
+      },
+      "DELETE_POLICY": {
+        "SUCCESS_MESSAGE": "Assignment policy deleted successfully",
+        "ERROR_MESSAGE": "Failed to delete assignment policy"
+      }
+    },
+    "AGENT_CAPACITY_POLICY": {
+      "INDEX": {
+        "HEADER": {
+          "TITLE": "Agent capacity",
+          "CREATE_POLICY": "New policy"
+        },
+        "CARD": {
+          "POPOVER": "Added agents",
+          "EDIT": "编辑"
+        },
+        "NO_RECORDS_FOUND": "No agent capacity policies found"
+      },
+      "CREATE": {
+        "HEADER": {
+          "TITLE": "Create agent capacity policy"
+        },
+        "CREATE_BUTTON": "Create policy",
+        "API": {
+          "SUCCESS_MESSAGE": "Agent capacity policy created successfully",
+          "ERROR_MESSAGE": "Failed to create agent capacity policy"
+        }
+      },
+      "EDIT": {
+        "HEADER": {
+          "TITLE": "Edit agent capacity policy"
+        },
+        "EDIT_BUTTON": "Update policy",
+        "CONFIRM_ADD_AGENT_DIALOG": {
+          "TITLE": "Add agent",
+          "DESCRIPTION": "{agentName} is already linked to another policy. Are you sure you want to link it to this policy? It will be unlinked from the other policy.",
+          "CONFIRM_BUTTON_LABEL": "Continue",
+          "CANCEL_BUTTON_LABEL": "取消"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Agent capacity policy updated successfully",
+          "ERROR_MESSAGE": "Failed to update agent capacity policy"
+        },
+        "AGENT_API": {
+          "ADD": {
+            "SUCCESS_MESSAGE": "Agent added to policy successfully",
+            "ERROR_MESSAGE": "Failed to add agent to policy"
+          },
+          "REMOVE": {
+            "SUCCESS_MESSAGE": "Agent removed from policy successfully",
+            "ERROR_MESSAGE": "Failed to remove agent from policy"
+          }
+        }
+      },
+      "FORM": {
+        "NAME": {
+          "LABEL": "Policy name:",
+          "PLACEHOLDER": "Enter policy name"
+        },
+        "DESCRIPTION": {
+          "LABEL": "描述:",
+          "PLACEHOLDER": "输入描述"
+        },
+        "INBOX_CAPACITY_LIMIT": {
+          "LABEL": "Inbox capacity limits",
+          "ADD_BUTTON": "Add inbox",
+          "FIELD": {
+            "SELECT_INBOX": "Select inbox",
+            "MAX_CONVERSATIONS": "Max conversations",
+            "SET_LIMIT": "Set limit"
+          },
+          "EMPTY_STATE": "没有设置收件箱限制"
+        },
+        "EXCLUSION_RULES": {
+          "LABEL": "Exclusion rules",
+          "DESCRIPTION": "Conversations that satisfy the following conditions would not count towards agent capacity",
+          "TAGS": {
+            "LABEL": "Exclude conversations tagged with specific labels",
+            "ADD_TAG": "添加标签",
+            "DROPDOWN": {
+              "SEARCH_PLACEHOLDER": "Search and select tags to add"
+            },
+            "EMPTY_STATE": "No tags added to this policy."
+          },
+          "DURATION": {
+            "LABEL": "Exclude conversations older than a specified duration",
+            "PLACEHOLDER": "Set time"
+          }
+        },
+        "USERS": {
+          "LABEL": "Assigned agents",
+          "DESCRIPTION": "Add agents for which this policy will be applicable.",
+          "ADD_BUTTON": "Add agent",
+          "DROPDOWN": {
+            "SEARCH_PLACEHOLDER": "Search and select agents to add",
+            "ADD_BUTTON": "添加"
+          },
+          "EMPTY_STATE": "No agents added",
+          "API": {
+            "SUCCESS_MESSAGE": "Agent successfully added to policy",
+            "ERROR_MESSAGE": "Failed to add agent to policy"
+          }
+        }
+      },
+      "DELETE_POLICY": {
+        "SUCCESS_MESSAGE": "Agent capacity policy deleted successfully",
+        "ERROR_MESSAGE": "Failed to delete agent capacity policy"
+      }
+    },
+    "DELETE_POLICY": {
+      "TITLE": "Delete policy",
+      "DESCRIPTION": "Are you sure you want to delete this policy? This action cannot be undone.",
+      "CONFIRM_BUTTON_LABEL": "删除",
+      "CANCEL_BUTTON_LABEL": "取消"
+    }
+  }
+}

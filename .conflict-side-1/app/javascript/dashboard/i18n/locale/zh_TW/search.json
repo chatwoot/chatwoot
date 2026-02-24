@@ -1,0 +1,68 @@
+{
+  "SEARCH": {
+    "TABS": {
+      "ALL": "All results",
+      "CONTACTS": "聯絡人",
+      "CONVERSATIONS": "對話",
+      "MESSAGES": "訊息",
+      "ARTICLES": "Articles"
+    },
+    "SECTION": {
+      "CONTACTS": "聯絡人",
+      "CONVERSATIONS": "對話",
+      "MESSAGES": "訊息",
+      "ARTICLES": "Articles"
+    },
+    "VIEW_MORE": "View more",
+    "LOAD_MORE": "Load more",
+    "SEARCHING_DATA": "Searching",
+    "LOADING_DATA": "Loading",
+    "EMPTY_STATE": "No {item} found for query '{query}'",
+    "EMPTY_STATE_FULL": "查無 {query} 條件的結果",
+    "PLACEHOLDER_KEYBINDING": "/to focus",
+    "INPUT_PLACEHOLDER": "Type 3 or more characters to search",
+    "RECENT_SEARCHES": "Recent searches",
+    "CLEAR_ALL": "Clear all",
+    "MOST_RECENT": "Most recent",
+    "EMPTY_STATE_DEFAULT": "Search by conversation id, email, phone number, messages for better search results. ",
+    "BOT_LABEL": "機器人",
+    "READ_MORE": "Read more",
+    "READ_LESS": "Read less",
+    "WROTE": "wrote:",
+    "FROM": "From",
+    "EMAIL": "Email",
+    "EMAIL_SUBJECT": "主旨",
+    "PRIVATE": "Private note",
+    "TRANSCRIPT": "Transcript",
+    "CREATED_AT": "created {time}",
+    "UPDATED_AT": "updated {time}",
+    "SORT_BY": {
+      "RELEVANCE": "Relevance"
+    },
+    "DATE_RANGE": {
+      "LAST_7_DAYS": "最近7天",
+      "LAST_30_DAYS": "最近30天",
+      "LAST_60_DAYS": "最近60天",
+      "LAST_90_DAYS": "最近90天",
+      "CUSTOM_RANGE": "Custom range:",
+      "CREATED_BETWEEN": "Created between",
+      "AND": "and",
+      "APPLY": "套用",
+      "BEFORE_DATE": "Before {date}",
+      "AFTER_DATE": "After {date}",
+      "TIME_RANGE": "Filter by time",
+      "CLEAR_FILTER": "Clear filter"
+    },
+    "FILTERS": {
+      "FILTER_MESSAGE": "Filter messages by:",
+      "FROM": "發送者",
+      "IN": "收件匣",
+      "AGENTS": "客服",
+      "CONTACTS": "聯絡人",
+      "INBOXES": "收件匣",
+      "NO_AGENTS": "查無客服",
+      "NO_CONTACTS": "Start by searching to see results",
+      "NO_INBOXES": "No inboxes found"
+    }
+  }
+}

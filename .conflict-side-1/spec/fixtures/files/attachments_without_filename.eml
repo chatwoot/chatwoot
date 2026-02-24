@@ -1,0 +1,43 @@
+From: test@gmail.com
+Date: Thu, 4 May 2023 10:35:52 +0530
+Message-ID: <6215d536e0484_10bc6191402183@tejaswinis-MacBook-Pro.local.mail>
+Subject: multiple attachments
+To: test@outlook.com
+Content-Type: multipart/mixed; boundary="0000000000002488f405fad721cc"
+
+--0000000000002488f405fad721cc
+Content-Type: multipart/alternative; boundary="0000000000002488f205fad721ca"
+
+--0000000000002488f205fad721ca
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Hi people!
+
+We are excited to inform you that we have recently released some new
+features and several updates to our platform. These features and updates
+are designed to enhance your experience and make your trading journey
+seamless and efficient.
+
+
+
+> Okay noted
+
+
+--0000000000002488f205fad721ca--
+--0000000000002488f405fad721cc
+Content-Type: image/png; name=""
+Content-Disposition: attachment; filename=""
+Content-Transfer-Encoding: base64
+Content-ID: <f_lh8nwk8l3>
+X-Attachment-Id: f_lh8nwk8l3
+
+
+--0000000000002488f405fad721cc
+Content-Type: image/png; name=""
+Content-Disposition: attachment; filename=""
+Content-Transfer-Encoding: base64
+Content-ID: <f_lh8nwk8l2>
+X-Attachment-Id: f_lh8nwk8l2
+
+
+--0000000000002488f405fad721cc--

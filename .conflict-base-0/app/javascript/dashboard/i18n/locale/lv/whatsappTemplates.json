@@ -1,0 +1,47 @@
+{
+  "WHATSAPP_TEMPLATES": {
+    "MODAL": {
+      "TITLE": "WhatsApp Veidnes",
+      "SUBTITLE": "Izvēlieties WhatsApp veidni, kuru vēlaties nosūtīt",
+      "TEMPLATE_SELECTED_SUBTITLE": "Configure template: {templateName}"
+    },
+    "PICKER": {
+      "SEARCH_PLACEHOLDER": "Meklēt Veidnes",
+      "NO_TEMPLATES_FOUND": "Veidnes nav atrastas",
+      "HEADER": "Header",
+      "BODY": "Body",
+      "FOOTER": "Footer",
+      "BUTTONS": "Buttons",
+      "CATEGORY": "Kategorija",
+      "MEDIA_CONTENT": "Media Content",
+      "MEDIA_CONTENT_FALLBACK": "media content",
+      "NO_TEMPLATES_AVAILABLE": "No WhatsApp templates available. Click refresh to sync templates from WhatsApp.",
+      "REFRESH_BUTTON": "Refresh templates",
+      "REFRESH_SUCCESS": "Templates refresh initiated. It may take a couple of minutes to update.",
+      "REFRESH_ERROR": "Failed to refresh templates. Please try again.",
+      "LABELS": {
+        "LANGUAGE": "Valoda",
+        "TEMPLATE_BODY": "Veidnes Pamatteksts",
+        "CATEGORY": "Kategorija"
+      }
+    },
+    "PARSER": {
+      "VARIABLES_LABEL": "Mainīgie",
+      "LANGUAGE": "Valoda",
+      "CATEGORY": "Kategorija",
+      "VARIABLE_PLACEHOLDER": "Ievadiet {variable} vērtību",
+      "GO_BACK_LABEL": "Atgriezties",
+      "SEND_MESSAGE_LABEL": "Sūtīt Ziņojumu",
+      "FORM_ERROR_MESSAGE": "Lūdzu, pirms nosūtīšanas aizpildiet visus mainīgos",
+      "MEDIA_HEADER_LABEL": "{type} Header",
+      "OTP_CODE": "Enter 4-8 digit OTP",
+      "EXPIRY_MINUTES": "Enter expiry minutes",
+      "BUTTON_PARAMETERS": "Button Parameters",
+      "BUTTON_LABEL": "Button {index}",
+      "COUPON_CODE": "Enter coupon code (max 15 chars)",
+      "MEDIA_URL_LABEL": "Enter {type} URL",
+      "DOCUMENT_NAME_PLACEHOLDER": "Enter document filename (e.g., Invoice_2025.pdf)",
+      "BUTTON_PARAMETER": "Enter button parameter"
+    }
+  }
+}

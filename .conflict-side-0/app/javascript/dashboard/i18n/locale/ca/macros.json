@@ -1,0 +1,111 @@
+{
+  "MACROS": {
+    "HEADER": "Macros",
+    "DESCRIPTION": "A macro is a set of saved actions that help customer service agents easily complete tasks. The agents can define a set of actions like tagging a conversation with a label, sending an email transcript, updating a custom attribute, etc., and they can run these actions in a single click.",
+    "LEARN_MORE": "Learn more about macros",
+    "HEADER_BTN_TXT": "Afegeix una nova macro",
+    "HEADER_BTN_TXT_SAVE": "Desa la macro",
+    "LOADING": "Obtenció de macros",
+    "ERROR": "Alguna cosa ha anat malament, torna-ho a provar",
+    "ORDER_INFO": "Les macros s'executaran en l'ordre en què afegeixis les teves accions. Pots reorganitzar-los arrossegant-los per l'identificador al costat de cada node.",
+    "ADD": {
+      "FORM": {
+        "NAME": {
+          "LABEL": "Nom de la macro",
+          "PLACEHOLDER": "Introdueix un nom per la teva macro",
+          "ERROR": "El nom és necessari per crear una macro"
+        },
+        "ACTIONS": {
+          "LABEL": "Accions"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "La macro s'ha afegit correctament",
+        "ERROR_MESSAGE": "No es pot crear la macro. Intenta-ho més tard"
+      }
+    },
+    "LIST": {
+      "TABLE_HEADER": {
+        "NAME": "Nom",
+        "CREATED BY": "Creat per",
+        "LAST_UPDATED_BY": "Última actualització per",
+        "VISIBILITY": "Visibilitat"
+      },
+      "404": "No s'han trobat macros"
+    },
+    "DELETE": {
+      "TOOLTIP": "Suprimeix la macro",
+      "CONFIRM": {
+        "MESSAGE": "N'estas segur? ",
+        "YES": "Si, esborra",
+        "NO": "No"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "La macro s'ha suprimit correctament",
+        "ERROR_MESSAGE": "S'ha produït un error suprimint la macro. Torna-ho a provar"
+      }
+    },
+    "EDIT": {
+      "TOOLTIP": "Edita la macro",
+      "API": {
+        "SUCCESS_MESSAGE": "La macro s'ha actualitzat correctament",
+        "ERROR_MESSAGE": "No s'ha pogut actualitzar la macro. Torna-ho a provar més tard"
+      }
+    },
+    "EDITOR": {
+      "START_FLOW": "Inicia el flux",
+      "END_FLOW": "Finalitza el flux",
+      "LOADING": "S'està obtenint la macro",
+      "ADD_BTN_TOOLTIP": "Afegeix nova acció",
+      "DELETE_BTN_TOOLTIP": "Suprimeix l'acció",
+      "VISIBILITY": {
+        "LABEL": "Visibilitat de la macro",
+        "GLOBAL": {
+          "LABEL": "Públic",
+          "DESCRIPTION": "Aquesta macro està disponible públicament per a tots els agents d'aquest compte."
+        },
+        "PERSONAL": {
+          "LABEL": "Privat",
+          "DESCRIPTION": "Aquesta macro serà privada per a tu i no estarà disponible per als altres."
+        }
+      }
+    },
+    "EXECUTE": {
+      "BUTTON_TOOLTIP": "Executa",
+      "PREVIEW": "Vista prèvia de la macro",
+      "EXECUTED_SUCCESSFULLY": "La macro s'ha executat correctament"
+    },
+    "ERRORS": {
+      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
+      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "VALUE_REQUIRED": "El valor és necessari",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998",
+      "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
+      "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
+      "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
+    },
+    "ACTIONS": {
+      "ASSIGN_TEAM": "Assign a Team",
+      "ASSIGN_AGENT": "Assign an Agent",
+      "ADD_LABEL": "Add a Label",
+      "REMOVE_LABEL": "Remove a Label",
+      "REMOVE_ASSIGNED_TEAM": "Remove Assigned Team",
+      "SEND_EMAIL_TRANSCRIPT": "Send an Email Transcript",
+      "MUTE_CONVERSATION": "Silencia la conversa",
+      "SNOOZE_CONVERSATION": "Posposa la conversa",
+      "RESOLVE_CONVERSATION": "Resol la conversa",
+      "SEND_ATTACHMENT": "Send Attachment",
+      "SEND_MESSAGE": "Send a Message",
+      "CHANGE_PRIORITY": "Canvia la prioritat",
+      "ADD_PRIVATE_NOTE": "Add a Private Note",
+      "SEND_WEBHOOK_EVENT": "Send Webhook Event"
+    },
+    "PRIORITY_TYPES": {
+      "NONE": "Ningú",
+      "LOW": "Baixa",
+      "MEDIUM": "Mitjana",
+      "HIGH": "Alta",
+      "URGENT": "Urgent"
+    }
+  }
+}

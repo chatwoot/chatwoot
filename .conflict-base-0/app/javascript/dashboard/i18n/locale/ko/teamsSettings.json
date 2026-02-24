@@ -1,0 +1,121 @@
+{
+  "TEAMS_SETTINGS": {
+    "NEW_TEAM": "팀 생성하기",
+    "HEADER": "팀",
+    "LOADING": "Fetching teams",
+    "DESCRIPTION": "Teams allow you to organize agents into groups based on their responsibilities. An agent can belong to multiple teams. When working collaboratively, you can assign conversations to specific teams.",
+    "LEARN_MORE": "Learn more about teams",
+    "LIST": {
+      "404": "계정에 연결된 에이전트가 없습니다.",
+      "EDIT_TEAM": "팀 수정하기",
+      "NONE": "없음"
+    },
+    "CREATE_FLOW": {
+      "CREATE": {
+        "TITLE": "팀 생성하기",
+        "DESC": "팀명 및 소개를 입력하세요."
+      },
+      "AGENTS": {
+        "BUTTON_TEXT": "팀에 에이전트 추가",
+        "TITLE": "{teamName}팀에 에이전트 추가",
+        "DESC": "생성된 팀에 에이전트를 추가해서 대화에 협업하여 대응하고, 해당 대화에 발생한 새 이벤트에 대해 알림도 받으세요."
+      },
+      "WIZARD_CREATE": {
+        "TITLE": "만들기",
+        "BODY": "에이전트들로 구성된 새 팀을 만드세요."
+      },
+      "WIZARD_ADD_AGENTS": {
+        "TITLE": "에이전트 추가",
+        "BODY": "팀에 에이전트 추가"
+      },
+      "WIZARD_FINISH": {
+        "TITLE": "완료",
+        "BODY": "준비가 완료되었습니다."
+      }
+    },
+    "EDIT_FLOW": {
+      "CREATE": {
+        "TITLE": "팀 내용 수정",
+        "DESC": "팀명 및 소개를 수정하세요.",
+        "BUTTON_TEXT": "팀 내용 업데이트"
+      },
+      "AGENTS": {
+        "BUTTON_TEXT": "에이전트 업데이트",
+        "TITLE": "{teamName}팀에 에이전트 추가",
+        "DESC": "생성된 팀에 에이전트들을 추가하세요. 본 팀에 대화가 할당되면 추가된 에이전트들에게 알림이 갈 것입니다."
+      },
+      "EDIT_WIZARD_DETAILS": {
+        "TITLE": "팀 내용",
+        "ROUTE": "settings_teams_edit",
+        "BODY": "팀명, 소개 등 내용을 수정하세요."
+      },
+      "EDIT_WIZARD_AGENTS": {
+        "TITLE": "에이전트 수정",
+        "ROUTE": "settings_teams_edit_members",
+        "BODY": "팀 내 에이전트들을 수정하세요."
+      },
+      "EDIT_WIZARD_FINISH": {
+        "TITLE": "완료",
+        "ROUTE": "settings_teams_edit_finish",
+        "BODY": "준비가 완료되었습니다."
+      }
+    },
+    "TEAM_FORM": {
+      "ERROR_MESSAGE": "팀 내용을 저장할 수 없습니다. 다시 시도해주세요."
+    },
+    "AGENTS": {
+      "AGENT": "에이전트",
+      "EMAIL": "이메일",
+      "BUTTON_TEXT": "에이전트 추가",
+      "ADD_AGENTS": "팀에 에이전트를 추가하는 중...",
+      "SELECT": "선택",
+      "SELECT_ALL": "모든 에이전트 선택",
+      "SELECTED_COUNT": "{total} 에이전트 중 {selected} 선택됨."
+    },
+    "ADD": {
+      "TITLE": "{teamName}팀에 에이전트 추가",
+      "DESC": "생성된 팀에 에이전트를 추가해서 대화에 협업하여 대응하고, 해당 대화에 발생한 새 이벤트에 대해 알림도 받으세요.",
+      "SELECT": "선택",
+      "SELECT_ALL": "모든 에이전트 선택",
+      "SELECTED_COUNT": "{total} 에이전트 중 {selected} 선택됨.",
+      "BUTTON_TEXT": "에이전트 추가",
+      "AGENT_VALIDATION_ERROR": "Select at least one agent."
+    },
+    "FINISH": {
+      "TITLE": "준비가 완료되었습니다!",
+      "MESSAGE": "이제 대화들을 팀으로 협업할 수 있게 되었습니다. 즐거운 고객지원 되세요 ",
+      "BUTTON_TEXT": "완료"
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "삭제",
+      "API": {
+        "SUCCESS_MESSAGE": "팀이 성공적으로 삭제되었습니다.",
+        "ERROR_MESSAGE": "팀을 삭제할 수 없습니다. 다시 시도해주세요."
+      },
+      "CONFIRM": {
+        "TITLE": "Are you sure you want to delete the team?",
+        "PLACE_HOLDER": "Please type {teamName} to confirm",
+        "MESSAGE": "팀을 삭제하면 팀에 할당된 대화들에 대한 할당이 모두 해제됩니다.",
+        "YES": "삭제 ",
+        "NO": "취소"
+      }
+    },
+    "SETTINGS": "설정",
+    "FORM": {
+      "UPDATE": "팀 내용 업데이트",
+      "CREATE": "팀 생성",
+      "NAME": {
+        "LABEL": "Team name",
+        "PLACEHOLDER": "Example: Sales, Customer Support"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Team Description",
+        "PLACEHOLDER": "Short description about this team."
+      },
+      "AUTO_ASSIGN": {
+        "LABEL": "Allow auto assign for this team."
+      },
+      "SUBMIT_CREATE": "팀 생성"
+    }
+  }
+}

@@ -1,0 +1,103 @@
+{
+  "AGENT_BOTS": {
+    "HEADER": "Bots",
+    "LOADING_EDITOR": "Caricamento editor...",
+    "DESCRIPTION": "Gli Agent Bot sono membri virtuali del tuo team: gestiscono le attività di routine, lasciandoti più tempo per ciò che conta. Puoi gestirli da questa pagina o crearne di nuovi con il pulsante “Aggiungi Bot”.",
+    "LEARN_MORE": "Informazioni sugli agent bot",
+    "GLOBAL_BOT": "System bot",
+    "GLOBAL_BOT_BADGE": "System",
+    "AVATAR": {
+      "SUCCESS_DELETE": "Avatar del bot eliminato con successo",
+      "ERROR_DELETE": "Errore nell'eliminare l'avatar del bot, riprova"
+    },
+    "BOT_CONFIGURATION": {
+      "TITLE": "Select an agent bot",
+      "DESC": "Assegna un agent bot alla tua inbox. Potrà gestire le nuove conversazioni e trasferirle a un operatore umano quando necessario.",
+      "SUBMIT": "Aggiorna",
+      "DISCONNECT": "Disconnetti bot",
+      "SUCCESS_MESSAGE": "Agent bot aggiornato con successo.",
+      "DISCONNECTED_SUCCESS_MESSAGE": "Agent bot disconnesso con successo.",
+      "ERROR_MESSAGE": "Impossibile aggiornare agent bot. Riprova.",
+      "DISCONNECTED_ERROR_MESSAGE": "Impossibile disconnettere agent bot. Riprova.",
+      "SELECT_PLACEHOLDER": "Seleziona bot"
+    },
+    "ADD": {
+      "TITLE": "Aggiungi Bot",
+      "CANCEL_BUTTON_TEXT": "Annulla",
+      "API": {
+        "SUCCESS_MESSAGE": "Bot aggiunto correttamente.",
+        "ERROR_MESSAGE": "Impossibile aggiungere bot. Riprova più tardi."
+      }
+    },
+    "LIST": {
+      "404": "Nessun bot trovato. Puoi creare un bot cliccando sul pulsante 'Aggiungi Bot'.",
+      "LOADING": "Caricamento bot...",
+      "TABLE_HEADER": {
+        "DETAILS": "Dettagli Bot",
+        "URL": "URL Webhook"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Elimina",
+      "TITLE": "Elimina bot",
+      "CONFIRM": {
+        "TITLE": "Conferma Eliminazione",
+        "MESSAGE": "Sei sicuro di voler eliminare {name}?",
+        "YES": "Sì, elimina",
+        "NO": "No, Mantieni"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Bot eliminato con successo.",
+        "ERROR_MESSAGE": "Impossibile eliminare il bot. Riprova."
+      }
+    },
+    "EDIT": {
+      "BUTTON_TEXT": "Modifica",
+      "TITLE": "Modifica bot",
+      "API": {
+        "SUCCESS_MESSAGE": "Bot aggiornato con successo.",
+        "ERROR_MESSAGE": "Impossibile aggiornare il bot. Riprova."
+      }
+    },
+    "ACCESS_TOKEN": {
+      "TITLE": "Token di Accesso",
+      "DESCRIPTION": "Copia il token di accesso e salvalo in un luogo sicuro",
+      "COPY_SUCCESSFUL": "Token di accesso copiato negli appunti",
+      "RESET_SUCCESS": "Token di accesso rigenerato correttamente",
+      "RESET_ERROR": "Impossibile rigenerare il token di accesso. Riprova"
+    },
+    "FORM": {
+      "AVATAR": {
+        "LABEL": "Avatar del Bot"
+      },
+      "NAME": {
+        "LABEL": "Nome Bot",
+        "PLACEHOLDER": "Inserisci il nome del Bot",
+        "REQUIRED": "Nome Bot richiesto"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Descrizione",
+        "PLACEHOLDER": "Cosa fa questo Bot?"
+      },
+      "WEBHOOK_URL": {
+        "LABEL": "URL Webhook",
+        "PLACEHOLDER": "https://example.com/webhook",
+        "REQUIRED": "L'URL del Webhook è richiesto"
+      },
+      "ERRORS": {
+        "NAME": "Nome Bot richiesto",
+        "URL": "L'URL del Webhook è richiesto",
+        "VALID_URL": "Inserisci un URL valido che inizi con http:// o https://"
+      },
+      "CANCEL": "Annulla",
+      "CREATE": "Crea Bot",
+      "UPDATE": "Aggiorna Bot"
+    },
+    "WEBHOOK": {
+      "DESCRIPTION": "Configura un Bot Webhook per integrarlo con i tuoi servizi. Il Bot riceverà e gestirà gli eventi delle conversazioni e potrà rispondere automaticamente."
+    },
+    "TYPES": {
+      "WEBHOOK": "Bot Webhook"
+    }
+  }
+}

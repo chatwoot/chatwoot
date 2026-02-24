@@ -1,0 +1,138 @@
+{
+  "ATTRIBUTES_MGMT": {
+    "HEADER": "Egyedi atribútumok",
+    "HEADER_BTN_TXT": "Adj meg egyedi tulajdonságot",
+    "LOADING": "Vonzó egyedi tulajdonság",
+    "DESCRIPTION": "A custom attribute tracks additional details about your contacts or conversations—such as the subscription plan or the date of their first purchase. You can add different types of custom attributes, such as text, lists, or numbers, to capture the specific information you need.",
+    "LEARN_MORE": "Learn more about custom attributes",
+    "ATTRIBUTE_MODELS": {
+      "CONVERSATION": "Beszélgetés",
+      "CONTACT": "Kontakt"
+    },
+    "ATTRIBUTE_TYPES": {
+      "TEXT": "Szöveg",
+      "NUMBER": "Szám",
+      "LINK": "Link",
+      "DATE": "Date",
+      "LIST": "Lista",
+      "CHECKBOX": "Jelölőnégyzet"
+    },
+    "ADD": {
+      "TITLE": "Adj meg egyedi tulajdonságot",
+      "SUBMIT": "Létrehozás",
+      "CANCEL_BUTTON_TEXT": "Mégse",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Rövidnév",
+          "PLACEHOLDER": "Add meg az egyéni tulajdonság rövidnevét",
+          "ERROR": "Név kötelező"
+        },
+        "DESC": {
+          "LABEL": "Leírás",
+          "PLACEHOLDER": "Add meg az egyéni tulajdonság leírását",
+          "ERROR": "Leírás megadása kötelező"
+        },
+        "MODEL": {
+          "LABEL": "Vonatkozik",
+          "PLACEHOLDER": "Kérlek, válassz egyet",
+          "ERROR": "Modell megadása kötelező"
+        },
+        "TYPE": {
+          "LABEL": "Típus",
+          "PLACEHOLDER": "Kérlek, válaszd ki a típust",
+          "ERROR": "Típus megadása kötelező",
+          "LIST": {
+            "LABEL": "Lista értékek",
+            "PLACEHOLDER": "Kérlek add meg az értéket és lépj be a kulccsal",
+            "ERROR": "Legalább egy érték megadása kötelező"
+          }
+        },
+        "KEY": {
+          "LABEL": "Kulcs",
+          "PLACEHOLDER": "Add meg az egyéni tulajdonság kulcsát",
+          "ERROR": "Kulcs megadása kötelező",
+          "IN_VALID": "Érvénytelen kulcs"
+        },
+        "REGEX_PATTERN": {
+          "LABEL": "Regex Pattern",
+          "PLACEHOLDER": "Please enter custom attribute regex pattern. (Optional)"
+        },
+        "REGEX_CUE": {
+          "LABEL": "Regex Cue",
+          "PLACEHOLDER": "Please enter regex pattern hint. (Optional)"
+        },
+        "ENABLE_REGEX": {
+          "LABEL": "Enable regex validation"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Sikeresen hozzáadtad ezt az egyedi tulajdonságot!",
+        "ERROR_MESSAGE": "Nem tudsz létrehozni Egyéni Tulajdonságot. Kérlek, próbáld újra később."
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Törlés",
+      "API": {
+        "SUCCESS_MESSAGE": "Egyéni Tulajdonság sikeresen törölve.",
+        "ERROR_MESSAGE": "Egyéni Tulajdonság törlése sikertelen. Próbáld újra."
+      },
+      "CONFIRM": {
+        "TITLE": "Biztosan törölni akarod: {attributeName}",
+        "PLACE_HOLDER": "Kérlek gépeld a megerősítéshez",
+        "MESSAGE": "A törlés eltávolítja az egyéni tulajdonságot",
+        "YES": "Törlés ",
+        "NO": "Mégse"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Egyéni tulajdonság szerkesztése",
+      "UPDATE_BUTTON_TEXT": "Frissítés",
+      "TYPE": {
+        "LIST": {
+          "LABEL": "Lista értékek",
+          "PLACEHOLDER": "Kérlek add meg az értéket és lépj be a kulccsal"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Egyéni Tulajdonság sikeresen frissítve",
+        "ERROR_MESSAGE": "Hiba történt az egyéni tulajdonság frissítésekor. Kérjük próbáld később"
+      }
+    },
+    "TABS": {
+      "HEADER": "Egyedi atribútumok",
+      "CONVERSATION": "Beszélgetés",
+      "CONTACT": "Kontakt"
+    },
+    "LIST": {
+      "TABLE_HEADER": {
+        "NAME": "Név",
+        "DESCRIPTION": "Leírás",
+        "TYPE": "Típus",
+        "KEY": "Kulcs"
+      },
+      "BUTTONS": {
+        "EDIT": "Szerkesztés",
+        "DELETE": "Törlés"
+      },
+      "EMPTY_RESULT": {
+        "404": "Nincsennek létrehozva egyéni tulajdonságok",
+        "NOT_FOUND": "Nincsennek beállítva egyéni tulajdonságok"
+      },
+      "REGEX_PATTERN": {
+        "LABEL": "Regex Pattern",
+        "PLACEHOLDER": "Please enter custom attribute regex pattern. (Optional)"
+      },
+      "REGEX_CUE": {
+        "LABEL": "Regex Cue",
+        "PLACEHOLDER": "Please enter regex pattern hint. (Optional)"
+      },
+      "ENABLE_REGEX": {
+        "LABEL": "Enable regex validation"
+      }
+    },
+    "BADGES": {
+      "PRE_CHAT": "Pre-chat",
+      "RESOLUTION": "Resolution"
+    }
+  }
+}

@@ -1,0 +1,153 @@
+{
+  "COMPONENTS": {
+    "FILE_BUBBLE": {
+      "DOWNLOAD": "Preuzimanje",
+      "UPLOADING": "Dodavanje..."
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "Pošalji"
+    },
+    "MESSAGE_BUBBLE": {
+      "RETRY": "Ponovo pošalji poruku",
+      "ERROR_MESSAGE": "Slanje neuspešno, pokušajte ponovo"
+    }
+  },
+  "THUMBNAIL": {
+    "AUTHOR": {
+      "NOT_AVAILABLE": "Not available"
+    }
+  },
+  "TEAM_AVAILABILITY": {
+    "ONLINE": "Dostupni smo",
+    "OFFLINE": "Trenutno nismo dostupni",
+    "BACK_AS_SOON_AS_POSSIBLE": "We will be back as soon as possible"
+  },
+  "REPLY_TIME": {
+    "IN_A_FEW_MINUTES": "Obično odgovaramo u roku od nekoliko minuta",
+    "IN_A_FEW_HOURS": "Obično odgovaramo u roku od nekoliko sati",
+    "IN_A_DAY": "Obično odgovaramo u roku od jednog dana",
+    "BACK_IN_HOURS": "We will be back online in {n} hour | We will be back online in {n} hours",
+    "BACK_IN_MINUTES": "We will be back online in {time} minutes",
+    "BACK_AT_TIME": "We will be back online at {time}",
+    "BACK_ON_DAY": "We will be back online on {day}",
+    "BACK_TOMORROW": "We will be back online tomorrow",
+    "BACK_IN_SOME_TIME": "We will be back online in some time"
+  },
+  "DAY_NAMES": {
+    "SUNDAY": "Sunday",
+    "MONDAY": "Monday",
+    "TUESDAY": "Tuesday",
+    "WEDNESDAY": "Wednesday",
+    "THURSDAY": "Thursday",
+    "FRIDAY": "Friday",
+    "SATURDAY": "Saturday"
+  },
+  "START_CONVERSATION": "Započnite razgovor",
+  "END_CONVERSATION": "Završi razgovor",
+  "CONTINUE_CONVERSATION": "Nastavi razgovor",
+  "YOU": "You",
+  "START_NEW_CONVERSATION": "Započnite novi razgovor",
+  "VIEW_UNREAD_MESSAGES": "You have unread messages",
+  "UNREAD_VIEW": {
+    "VIEW_MESSAGES_BUTTON": "Pogledajte nove poruke",
+    "CLOSE_MESSAGES_BUTTON": "Zatvori",
+    "COMPANY_FROM": "od",
+    "BOT": "Bot"
+  },
+  "BUBBLE": {
+    "LABEL": "Razgovarajte sa nama"
+  },
+  "POWERED_BY": "Pokreće Chatwoot",
+  "EMAIL_PLACEHOLDER": "Molimo unesite vašu e-mail adresu",
+  "CHAT_PLACEHOLDER": "Napišite vašu poruku",
+  "TODAY": "Danas",
+  "YESTERDAY": "Juče",
+  "PRE_CHAT_FORM": {
+    "FIELDS": {
+      "FULL_NAME": {
+        "LABEL": "Puno ime",
+        "PLACEHOLDER": "Molimo unesite vaše puno ime",
+        "REQUIRED_ERROR": "Puno ime je obavezno"
+      },
+      "EMAIL_ADDRESS": {
+        "LABEL": "E-mail adresa",
+        "PLACEHOLDER": "Molimo unesite vašu e-mail adresu",
+        "REQUIRED_ERROR": "Adresa e-pošte je obavezna",
+        "VALID_ERROR": "Molim vas unesite ispravnu adresu e-pošte"
+      },
+      "PHONE_NUMBER": {
+        "LABEL": "Broj telefona",
+        "PLACEHOLDER": "Molim vas unesite vaš broj telefona",
+        "REQUIRED_ERROR": "Broj telefona je obavezan",
+        "DIAL_CODE_VALID_ERROR": "Please select a country code",
+        "VALID_ERROR": "Please enter a valid phone number",
+        "DROPDOWN_EMPTY": "Ništa nije pronađeno",
+        "DROPDOWN_SEARCH": "Search country"
+      },
+      "MESSAGE": {
+        "LABEL": "Poruka",
+        "PLACEHOLDER": "Molimo unesite vašu poruku",
+        "ERROR": "Poruka prekratka"
+      }
+    },
+    "CAMPAIGN_HEADER": "Molim vas dostavite vaše ime i e-poštu pre započinjanja razgovora",
+    "IS_REQUIRED": "je obavezno",
+    "REQUIRED": "Obavezno",
+    "REGEX_ERROR": "Please provide a valid input"
+  },
+  "FILE_SIZE_LIMIT": "Datoteka prevazilazi {MAXIMUM_FILE_UPLOAD_SIZE} ograničenje priloga",
+  "CHAT_FORM": {
+    "INVALID": {
+      "FIELD": "Neispravno polje"
+    }
+  },
+  "EMOJI": {
+    "PLACEHOLDER": "Search emojis",
+    "NOT_FOUND": "No emoji match your search",
+    "ARIA_LABEL": "Emoji picker"
+  },
+  "CSAT": {
+    "TITLE": "Ocenite razgovor",
+    "SUBMITTED_TITLE": "Hvala vam na dostavljenoj oceni",
+    "PLACEHOLDER": "Pričajte nam više..."
+  },
+  "EMAIL_TRANSCRIPT": {
+    "BUTTON_TEXT": "Zatražite kopiju razgovora",
+    "SEND_EMAIL_SUCCESS": "Transkript razgovora je uspešno poslat",
+    "SEND_EMAIL_ERROR": "Pojavila se greška, molim vas pokušajte ponovo"
+  },
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Click here to join",
+      "LEAVE_THE_ROOM": "Leave the call"
+    }
+  },
+  "PORTAL": {
+    "POPULAR_ARTICLES": "Popular Articles",
+    "VIEW_ALL_ARTICLES": "View all articles",
+    "IFRAME_LOAD_ERROR": "There was an error loading the article, please refresh the page and try again."
+  },
+  "ATTACHMENTS": {
+    "image": {
+      "CONTENT": "Slikovita poruka"
+    },
+    "audio": {
+      "CONTENT": "Govorna poruka"
+    },
+    "video": {
+      "CONTENT": "Video poruka"
+    },
+    "file": {
+      "CONTENT": "Prilog"
+    },
+    "location": {
+      "CONTENT": "Lokacija"
+    },
+    "fallback": {
+      "CONTENT": "je podelio link"
+    }
+  },
+  "FOOTER_REPLY_TO": {
+    "REPLY_TO": "Replying to:"
+  }
+}

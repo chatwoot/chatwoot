@@ -1,0 +1,108 @@
+{
+  "SLA": {
+    "HEADER": "服务协议",
+    "ADD_ACTION": "添加服务协议",
+    "ADD_ACTION_LONG": "创建一个新的服务协议",
+    "DESCRIPTION": "服务级别协议（SLA）是定义团队与客户之间明确期望的合同。它们为响应和解决时间设定了标准，创建了一个责任框架，并确保了一致的高质量体验。",
+    "LEARN_MORE": "了解更多关于SLA的信息",
+    "LOADING": "正在获取SLA",
+    "PAYWALL": {
+      "TITLE": "升级以创建SLA",
+      "AVAILABLE_ON": "SLA功能仅在商业和企业计划中可用。",
+      "UPGRADE_PROMPT": "升级您的计划以获取高级功能，如团队管理、自动化、自定义属性等。",
+      "UPGRADE_NOW": "立即升级",
+      "CANCEL_ANYTIME": "您可以随时更改或取消您的计划"
+    },
+    "ENTERPRISE_PAYWALL": {
+      "AVAILABLE_ON": "SLA功能仅在付费计划中可用。",
+      "UPGRADE_PROMPT": "升级到付费计划以访问高级功能，如审计日志、代理容量等。",
+      "ASK_ADMIN": "请联系您的管理员进行升级。"
+    },
+    "LIST": {
+      "404": "此账户中没有可用的SLA。",
+      "EMPTY": {
+        "TITLE_1": "企业 P1",
+        "DESC_1": "由企业客户提出的需要立即关注的问题。",
+        "TITLE_2": "企业P1",
+        "DESC_2": "由企业客户提出的需要快速确认的问题。"
+      },
+      "BUSINESS_HOURS_ON": "工作时间开启",
+      "BUSINESS_HOURS_OFF": "工作时间关闭",
+      "RESPONSE_TYPES": {
+        "FRT": "首次响应时间阈值",
+        "NRT": "下次响应时间阈值",
+        "RT": "解决时间阈值",
+        "SHORT_HAND": {
+          "FRT": "FRT",
+          "NRT": "NRT",
+          "RT": "RT"
+        }
+      }
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "服务协议标题",
+        "PLACEHOLDER": "请在这里输入协议标题",
+        "REQUIRED_ERROR": "请填写服务协议标题",
+        "MINIMUM_LENGTH_ERROR": "最少2个字符",
+        "VALID_ERROR": "仅允许使用字母、数字、连字符和下划线"
+      },
+      "DESCRIPTION": {
+        "LABEL": "描述信息",
+        "PLACEHOLDER": "为高级客户提供的SLA"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "LABEL": "首次响应时间",
+        "PLACEHOLDER": "5"
+      },
+      "NEXT_RESPONSE_TIME": {
+        "LABEL": "下次响应时间",
+        "PLACEHOLDER": "5"
+      },
+      "RESOLUTION_TIME": {
+        "LABEL": "解决时间",
+        "PLACEHOLDER": "60"
+      },
+      "BUSINESS_HOURS": {
+        "LABEL": "工作时间",
+        "PLACEHOLDER": "仅在工作时间内"
+      },
+      "THRESHOLD_TIME": {
+        "INVALID_FORMAT_ERROR": "阈值应为数字且大于零"
+      },
+      "EDIT": "编辑",
+      "CREATE": "创建",
+      "DELETE": "删除",
+      "CANCEL": "取消"
+    },
+    "ADD": {
+      "TITLE": "添加SLA",
+      "DESC": "友好承诺，提供优质服务！",
+      "API": {
+        "SUCCESS_MESSAGE": "SLA添加成功",
+        "ERROR_MESSAGE": "出现错误，请重试"
+      }
+    },
+    "DELETE": {
+      "TITLE": "删除SLA",
+      "API": {
+        "SUCCESS_MESSAGE": "SLA删除成功",
+        "ERROR_MESSAGE": "出现错误，请重试"
+      },
+      "CONFIRM": {
+        "TITLE": "确认删除",
+        "MESSAGE": "您确定要删除 ",
+        "YES": "是的，删除 ",
+        "NO": "不，保留 "
+      }
+    },
+    "EVENTS": {
+      "TITLE": "SLA未达标",
+      "FRT": "首次响应时间",
+      "NRT": "下次响应时间",
+      "RT": "解决时间",
+      "SHOW_MORE": "还有{count}个",
+      "HIDE": "隐藏{count}行"
+    }
+  }
+}

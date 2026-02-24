@@ -1,0 +1,582 @@
+{
+  "REPORT": {
+    "HEADER": "Samtöl",
+    "LOADING_CHART": "Loading chart data...",
+    "NO_ENOUGH_DATA": "Við höfum ekki fengið nógu marga gagnapunkta til að búa til skýrslu, vinsamlegast reyndu aftur síðar.",
+    "DOWNLOAD_AGENT_REPORTS": "Download agent reports",
+    "DATA_FETCHING_FAILED": "Failed to fetch data, please try again later.",
+    "SUMMARY_FETCHING_FAILED": "Failed to fetch summary, please try again later.",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "Samtöl",
+        "DESC": "( Total )"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "Incoming Messages",
+        "DESC": "( Total )"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "Outgoing Messages",
+        "DESC": "( Total )"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "First Response Time",
+        "DESC": "( Avg )",
+        "INFO_TEXT": "Heildarfjöldi samtala sem notuð eru við útreikning:",
+        "TOOLTIP_TEXT": "Fyrsti viðbragðstími er {metricValue} (byggt á {conversationCount} samtölum)"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "Resolution Time",
+        "DESC": "( Avg )",
+        "INFO_TEXT": "Heildarfjöldi samtala sem notuð eru við útreikning:",
+        "TOOLTIP_TEXT": "Lausnartími er {metricValue} (byggt á {conversationCount} samtölum)"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "Resolution Count",
+        "DESC": "( Total )"
+      },
+      "BOT_RESOLUTION_COUNT": {
+        "NAME": "Resolution Count",
+        "DESC": "( Total )"
+      },
+      "BOT_HANDOFF_COUNT": {
+        "NAME": "Handoff Count",
+        "DESC": "( Total )"
+      },
+      "REPLY_TIME": {
+        "NAME": "Customer waiting time",
+        "TOOLTIP_TEXT": "Waiting time is {metricValue} (based on {conversationCount} replies)",
+        "DESC": ""
+      }
+    },
+    "DATE_RANGE_OPTIONS": {
+      "LAST_7_DAYS": "Síðustu 7 daga",
+      "LAST_14_DAYS": "Síðustu 14 daga",
+      "LAST_30_DAYS": "Síðustu 30 daga",
+      "THIS_MONTH": "This month",
+      "LAST_MONTH": "Last month",
+      "LAST_3_MONTHS": "Síðustu 3 mánuði",
+      "LAST_6_MONTHS": "Síðustu 6 mánuði",
+      "LAST_YEAR": "Síðasta ár",
+      "CUSTOM_DATE_RANGE": "Custom date range"
+    },
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Apply",
+      "PLACEHOLDER": "Select date range"
+    },
+    "GROUP_BY_FILTER_DROPDOWN_LABEL": "Group By",
+    "DURATION_FILTER_LABEL": "Duration",
+    "GROUPING_OPTIONS": {
+      "DAY": "Dagur",
+      "WEEK": "Vika",
+      "MONTH": "Mánuður",
+      "YEAR": "Ár"
+    },
+    "GROUP_BY_DAY_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Dagur"
+      }
+    ],
+    "GROUP_BY_WEEK_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Dagur"
+      },
+      {
+        "id": 2,
+        "groupBy": "Vika"
+      }
+    ],
+    "GROUP_BY_MONTH_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Dagur"
+      },
+      {
+        "id": 2,
+        "groupBy": "Vika"
+      },
+      {
+        "id": 3,
+        "groupBy": "Mánuður"
+      }
+    ],
+    "GROUP_BY_YEAR_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Dagur"
+      },
+      {
+        "id": 2,
+        "groupBy": "Vika"
+      },
+      {
+        "id": 3,
+        "groupBy": "Mánuður"
+      }
+    ],
+    "BUSINESS_HOURS": "Business Hours",
+    "FILTER_ACTIONS": {
+      "CLEAR_FILTER": "Clear filter",
+      "EMPTY_LIST": "Engar niðurstöður fundust"
+    },
+    "PAGINATION": {
+      "RESULTS": "Showing {start} to {end} of {total} results",
+      "PER_PAGE_TEMPLATE": "{size} / page"
+    }
+  },
+  "AGENT_REPORTS": {
+    "HEADER": "Agents Overview",
+    "DESCRIPTION": "Easily track agent performance with key metrics such as conversations, response times, resolution times, and resolved cases. Click an agent’s name to learn more.",
+    "LOADING_CHART": "Loading chart data...",
+    "NO_ENOUGH_DATA": "Við höfum ekki fengið nógu marga gagnapunkta til að búa til skýrslu, vinsamlegast reyndu aftur síðar.",
+    "DOWNLOAD_AGENT_REPORTS": "Download agent reports",
+    "FILTER_DROPDOWN_LABEL": "Veldu Þjónustufulltrúa",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "Samtöl",
+        "DESC": "( Total )"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "Incoming Messages",
+        "DESC": "( Total )"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "Outgoing Messages",
+        "DESC": "( Total )"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "First Response Time",
+        "DESC": "( Avg )",
+        "INFO_TEXT": "Heildarfjöldi samtala sem notuð eru við útreikning:",
+        "TOOLTIP_TEXT": "Fyrsti viðbragðstími er {metricValue} (byggt á {conversationCount} samtölum)"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "Resolution Time",
+        "DESC": "( Avg )",
+        "INFO_TEXT": "Heildarfjöldi samtala sem notuð eru við útreikning:",
+        "TOOLTIP_TEXT": "Lausnartími er {metricValue} (byggt á {conversationCount} samtölum)"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "Resolution Count",
+        "DESC": "( Total )"
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Síðustu 7 daga"
+      },
+      {
+        "id": 1,
+        "name": "Síðustu 30 daga"
+      },
+      {
+        "id": 2,
+        "name": "Síðustu 3 mánuði"
+      },
+      {
+        "id": 3,
+        "name": "Síðustu 6 mánuði"
+      },
+      {
+        "id": 4,
+        "name": "Síðasta ár"
+      },
+      {
+        "id": 5,
+        "name": "Custom date range"
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Apply",
+      "PLACEHOLDER": "Select date range"
+    }
+  },
+  "LABEL_REPORTS": {
+    "HEADER": "Labels Overview",
+    "DESCRIPTION": "Track label performance with key metrics including conversations, response times, resolution times, and resolved cases. Click a label name for detailed insights.",
+    "LOADING_CHART": "Loading chart data...",
+    "NO_ENOUGH_DATA": "Við höfum ekki fengið nógu marga gagnapunkta til að búa til skýrslu, vinsamlegast reyndu aftur síðar.",
+    "DOWNLOAD_LABEL_REPORTS": "Download label reports",
+    "FILTER_DROPDOWN_LABEL": "Select Label",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "Samtöl",
+        "DESC": "( Total )"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "Incoming Messages",
+        "DESC": "( Total )"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "Outgoing Messages",
+        "DESC": "( Total )"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "First Response Time",
+        "DESC": "( Avg )",
+        "INFO_TEXT": "Heildarfjöldi samtala sem notuð eru við útreikning:",
+        "TOOLTIP_TEXT": "Fyrsti viðbragðstími er {metricValue} (byggt á {conversationCount} samtölum)"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "Resolution Time",
+        "DESC": "( Avg )",
+        "INFO_TEXT": "Heildarfjöldi samtala sem notuð eru við útreikning:",
+        "TOOLTIP_TEXT": "Lausnartími er {metricValue} (byggt á {conversationCount} samtölum)"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "Resolution Count",
+        "DESC": "( Total )"
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Síðustu 7 daga"
+      },
+      {
+        "id": 1,
+        "name": "Síðustu 30 daga"
+      },
+      {
+        "id": 2,
+        "name": "Síðustu 3 mánuði"
+      },
+      {
+        "id": 3,
+        "name": "Síðustu 6 mánuði"
+      },
+      {
+        "id": 4,
+        "name": "Síðasta ár"
+      },
+      {
+        "id": 5,
+        "name": "Custom date range"
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Apply",
+      "PLACEHOLDER": "Select date range"
+    }
+  },
+  "INBOX_REPORTS": {
+    "HEADER": "Inbox Overview",
+    "DESCRIPTION": "Quickly view your inbox performance with key metrics like conversations, response times, resolution times, and resolved cases—all in one place. Click an inbox name for more details.",
+    "LOADING_CHART": "Loading chart data...",
+    "NO_ENOUGH_DATA": "Við höfum ekki fengið nógu marga gagnapunkta til að búa til skýrslu, vinsamlegast reyndu aftur síðar.",
+    "DOWNLOAD_INBOX_REPORTS": "Download inbox reports",
+    "FILTER_DROPDOWN_LABEL": "Select Inbox",
+    "ALL_INBOXES": "All Inboxes",
+    "SEARCH_INBOX": "Search Inbox",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "Samtöl",
+        "DESC": "( Total )"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "Incoming Messages",
+        "DESC": "( Total )"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "Outgoing Messages",
+        "DESC": "( Total )"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "First Response Time",
+        "DESC": "( Avg )",
+        "INFO_TEXT": "Heildarfjöldi samtala sem notuð eru við útreikning:",
+        "TOOLTIP_TEXT": "Fyrsti viðbragðstími er {metricValue} (byggt á {conversationCount} samtölum)"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "Resolution Time",
+        "DESC": "( Avg )",
+        "INFO_TEXT": "Heildarfjöldi samtala sem notuð eru við útreikning:",
+        "TOOLTIP_TEXT": "Lausnartími er {metricValue} (byggt á {conversationCount} samtölum)"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "Resolution Count",
+        "DESC": "( Total )"
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Síðustu 7 daga"
+      },
+      {
+        "id": 1,
+        "name": "Síðustu 30 daga"
+      },
+      {
+        "id": 2,
+        "name": "Síðustu 3 mánuði"
+      },
+      {
+        "id": 3,
+        "name": "Síðustu 6 mánuði"
+      },
+      {
+        "id": 4,
+        "name": "Síðasta ár"
+      },
+      {
+        "id": 5,
+        "name": "Custom date range"
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Apply",
+      "PLACEHOLDER": "Select date range"
+    }
+  },
+  "TEAM_REPORTS": {
+    "HEADER": "Team Overview",
+    "DESCRIPTION": "Get a snapshot of your team’s performance with essential metrics, including conversations, response times, resolution times, and resolved cases. Click a team name for more details.",
+    "LOADING_CHART": "Loading chart data...",
+    "NO_ENOUGH_DATA": "Við höfum ekki fengið nógu marga gagnapunkta til að búa til skýrslu, vinsamlegast reyndu aftur síðar.",
+    "DOWNLOAD_TEAM_REPORTS": "Download team reports",
+    "FILTER_DROPDOWN_LABEL": "Select Team",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "Samtöl",
+        "DESC": "( Total )"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "Incoming Messages",
+        "DESC": "( Total )"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "Outgoing Messages",
+        "DESC": "( Total )"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "First Response Time",
+        "DESC": "( Avg )",
+        "INFO_TEXT": "Heildarfjöldi samtala sem notuð eru við útreikning:",
+        "TOOLTIP_TEXT": "Fyrsti viðbragðstími er {metricValue} (byggt á {conversationCount} samtölum)"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "Resolution Time",
+        "DESC": "( Avg )",
+        "INFO_TEXT": "Heildarfjöldi samtala sem notuð eru við útreikning:",
+        "TOOLTIP_TEXT": "Lausnartími er {metricValue} (byggt á {conversationCount} samtölum)"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "Resolution Count",
+        "DESC": "( Total )"
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Síðustu 7 daga"
+      },
+      {
+        "id": 1,
+        "name": "Síðustu 30 daga"
+      },
+      {
+        "id": 2,
+        "name": "Síðustu 3 mánuði"
+      },
+      {
+        "id": 3,
+        "name": "Síðustu 6 mánuði"
+      },
+      {
+        "id": 4,
+        "name": "Síðasta ár"
+      },
+      {
+        "id": 5,
+        "name": "Custom date range"
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Apply",
+      "PLACEHOLDER": "Veldu tímabil"
+    }
+  },
+  "CSAT_REPORTS": {
+    "HEADER": "CSAT Reports",
+    "NO_RECORDS": "Engin svör við CSAT könnun eru fáanleg.",
+    "DOWNLOAD": "Download CSAT Reports",
+    "DOWNLOAD_FAILED": "Failed to download CSAT Reports",
+    "FILTERS": {
+      "AGENTS": {
+        "PLACEHOLDER": "Choose Agents"
+      }
+    },
+    "TABLE": {
+      "HEADER": {
+        "CONTACT_NAME": "Contact",
+        "AGENT_NAME": "Assigned agent",
+        "RATING": "Rating",
+        "FEEDBACK_TEXT": "Feedback comment"
+      }
+    },
+    "METRIC": {
+      "TOTAL_RESPONSES": {
+        "LABEL": "Total responses",
+        "TOOLTIP": "Total number of responses collected"
+      },
+      "SATISFACTION_SCORE": {
+        "LABEL": "Satisfaction score",
+        "TOOLTIP": "Heildarfjöldi jákvæðra svara / Heildarfjöldi svara * 100"
+      },
+      "RESPONSE_RATE": {
+        "LABEL": "Response rate",
+        "TOOLTIP": "Heildarfjöldi svara / Heildarfjöldi sendra CSAT könnunarskilaboða * 100"
+      }
+    }
+  },
+  "BOT_REPORTS": {
+    "HEADER": "Bot Reports",
+    "METRIC": {
+      "TOTAL_CONVERSATIONS": {
+        "LABEL": "No. of Conversations",
+        "TOOLTIP": "Total number of conversations handled by the bot"
+      },
+      "TOTAL_RESPONSES": {
+        "LABEL": "Total Responses",
+        "TOOLTIP": "Total number of responses sent by the bot"
+      },
+      "RESOLUTION_RATE": {
+        "LABEL": "Resolution Rate",
+        "TOOLTIP": "Total number of conversations resolved by the bot / Total number of conversations handled by the bot * 100"
+      },
+      "HANDOFF_RATE": {
+        "LABEL": "Handoff Rate",
+        "TOOLTIP": "Total number of conversations handed off to agents / Total number of conversations handled by the bot * 100"
+      }
+    }
+  },
+  "OVERVIEW_REPORTS": {
+    "HEADER": "Overview",
+    "LIVE": "Live",
+    "ACCOUNT_CONVERSATIONS": {
+      "HEADER": "Open Conversations",
+      "LOADING_MESSAGE": "Loading conversation metrics...",
+      "OPEN": "Open",
+      "UNATTENDED": "Unattended",
+      "UNASSIGNED": "Unassigned",
+      "PENDING": "Í bið"
+    },
+    "CONVERSATION_HEATMAP": {
+      "HEADER": "Conversation Traffic",
+      "NO_CONVERSATIONS": "No conversations",
+      "CONVERSATION": "{count} conversation",
+      "CONVERSATIONS": "{count} conversations",
+      "DOWNLOAD_REPORT": "Download report"
+    },
+    "RESOLUTION_HEATMAP": {
+      "HEADER": "Resolutions",
+      "NO_CONVERSATIONS": "No conversations",
+      "CONVERSATION": "{count} conversation",
+      "CONVERSATIONS": "{count} conversations",
+      "DOWNLOAD_REPORT": "Download report"
+    },
+    "AGENT_CONVERSATIONS": {
+      "HEADER": "Conversations by agents",
+      "LOADING_MESSAGE": "Loading agent metrics...",
+      "NO_AGENTS": "There are no conversations by agents",
+      "TABLE_HEADER": {
+        "AGENT": "Þjónustufulltrúi",
+        "OPEN": "Opin",
+        "UNATTENDED": "Unattended",
+        "STATUS": "Staða"
+      }
+    },
+    "TEAM_CONVERSATIONS": {
+      "ALL_TEAMS": "All Teams",
+      "HEADER": "Conversations by teams",
+      "LOADING_MESSAGE": "Loading team metrics...",
+      "NO_TEAMS": "There is no data available",
+      "TABLE_HEADER": {
+        "TEAM": "Team",
+        "OPEN": "Opin",
+        "UNATTENDED": "Unattended",
+        "STATUS": "Staða"
+      }
+    },
+    "AGENT_STATUS": {
+      "HEADER": "Agent status",
+      "ONLINE": "Online",
+      "BUSY": "Upptekinn",
+      "OFFLINE": "Offline"
+    }
+  },
+  "DAYS_OF_WEEK": {
+    "SUNDAY": "Sunday",
+    "MONDAY": "Monday",
+    "TUESDAY": "Tuesday",
+    "WEDNESDAY": "Wednesday",
+    "THURSDAY": "Thursday",
+    "FRIDAY": "Friday",
+    "SATURDAY": "Saturday"
+  },
+  "SLA_REPORTS": {
+    "HEADER": "SLA Reports",
+    "NO_RECORDS": "SLA applied conversations are not available.",
+    "LOADING": "Loading SLA data...",
+    "DOWNLOAD_SLA_REPORTS": "Download SLA reports",
+    "DOWNLOAD_FAILED": "Failed to download SLA Reports",
+    "DROPDOWN": {
+      "ADD_FIlTER": "Add filter",
+      "CLEAR_ALL": "Clear all",
+      "CLEAR_FILTER": "Clear filter",
+      "EMPTY_LIST": "Engar niðurstöður fundust",
+      "NO_FILTER": "No filters available",
+      "SEARCH": "Search filter",
+      "INPUT_PLACEHOLDER": {
+        "SLA": "SLA name",
+        "AGENTS": "Agent name",
+        "INBOXES": "Inbox name",
+        "LABELS": "Label name",
+        "TEAMS": "Team name"
+      },
+      "SLA": "SLA Policy",
+      "INBOXES": "Innhólf",
+      "AGENTS": "Þjónustufulltrúi",
+      "LABELS": "Label",
+      "TEAMS": "Team"
+    },
+    "WITH": "with",
+    "METRICS": {
+      "HIT_RATE": {
+        "LABEL": "Hit Rate",
+        "TOOLTIP": "Percentage of SLAs created were completed successfully"
+      },
+      "NO_OF_MISSES": {
+        "LABEL": "Number of Misses",
+        "TOOLTIP": "Total SLA misses in a certain period"
+      },
+      "NO_OF_CONVERSATIONS": {
+        "LABEL": "Number of Conversations",
+        "TOOLTIP": "Total number of conversations with SLA"
+      }
+    },
+    "TABLE": {
+      "HEADER": {
+        "POLICY": "Policy",
+        "CONVERSATION": "Samtal",
+        "AGENT": "Þjónustufulltrúi"
+      },
+      "VIEW_DETAILS": "View Details"
+    }
+  },
+  "SUMMARY_REPORTS": {
+    "INBOX": "Innhólf",
+    "AGENT": "Þjónustufulltrúi",
+    "TEAM": "Team",
+    "LABEL": "Label",
+    "AVG_RESOLUTION_TIME": "Avg. Resolution Time",
+    "AVG_FIRST_RESPONSE_TIME": "Avg. First Response Time",
+    "AVG_REPLY_TIME": "Avg. Customer Waiting Time",
+    "RESOLUTION_COUNT": "Resolution Count",
+    "CONVERSATIONS": "No. of conversations"
+  }
+}

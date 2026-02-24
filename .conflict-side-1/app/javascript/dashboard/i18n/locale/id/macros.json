@@ -1,0 +1,111 @@
+{
+  "MACROS": {
+    "HEADER": "Makro",
+    "DESCRIPTION": "A macro is a set of saved actions that help customer service agents easily complete tasks. The agents can define a set of actions like tagging a conversation with a label, sending an email transcript, updating a custom attribute, etc., and they can run these actions in a single click.",
+    "LEARN_MORE": "Learn more about macros",
+    "HEADER_BTN_TXT": "Tambahkan makro baru",
+    "HEADER_BTN_TXT_SAVE": "Simpan makro",
+    "LOADING": "Mengambil makro",
+    "ERROR": "Terjadi kesalahan. Silakan coba lagi",
+    "ORDER_INFO": "Makro akan dijalankan sesuai dengan urutan penambahan tindakan-tindakan Anda. Anda dapat mengatur ulang tindakan-tindakan tersebut dengan menggesernya menggunakan pegangan di sebelah setiap node.",
+    "ADD": {
+      "FORM": {
+        "NAME": {
+          "LABEL": "Nama makro",
+          "PLACEHOLDER": "Masukkan nama untuk makro Anda",
+          "ERROR": "Nama diperlukan untuk membuat makro"
+        },
+        "ACTIONS": {
+          "LABEL": "Tindakan"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Makro berhasil ditambahkan",
+        "ERROR_MESSAGE": "Tidak dapat membuat makro, Silakan coba lagi nanti"
+      }
+    },
+    "LIST": {
+      "TABLE_HEADER": {
+        "NAME": "Nama",
+        "CREATED BY": "Dibuat oleh",
+        "LAST_UPDATED_BY": "Terakhir diperbarui oleh",
+        "VISIBILITY": "Visibilitas"
+      },
+      "404": "Tidak ditemukan makro"
+    },
+    "DELETE": {
+      "TOOLTIP": "Hapus makro",
+      "CONFIRM": {
+        "MESSAGE": "Apakah Anda yakin ingin menghapus ",
+        "YES": "Ya, Hapus",
+        "NO": "Tidak"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Makro berhasil dihapus",
+        "ERROR_MESSAGE": "Terjadi kesalahan saat menghapus makro. Silakan coba lagi nanti"
+      }
+    },
+    "EDIT": {
+      "TOOLTIP": "Edit makro",
+      "API": {
+        "SUCCESS_MESSAGE": "Makro berhasil diperbarui",
+        "ERROR_MESSAGE": "Tidak dapat memperbarui makro, Silakan coba lagi nanti"
+      }
+    },
+    "EDITOR": {
+      "START_FLOW": "Mulai Aliran",
+      "END_FLOW": "Selesaikan Aliran",
+      "LOADING": "Mengambil makro",
+      "ADD_BTN_TOOLTIP": "Tambahkan tindakan baru",
+      "DELETE_BTN_TOOLTIP": "Hapus Tindakan",
+      "VISIBILITY": {
+        "LABEL": "Visibilitas Makro",
+        "GLOBAL": {
+          "LABEL": "Publik",
+          "DESCRIPTION": "Makro ini tersedia secara publik untuk semua agen dalam akun ini."
+        },
+        "PERSONAL": {
+          "LABEL": "Pribadi",
+          "DESCRIPTION": "Makro ini akan bersifat pribadi bagi Anda dan tidak akan tersedia untuk orang lain."
+        }
+      }
+    },
+    "EXECUTE": {
+      "BUTTON_TOOLTIP": "Jalankan",
+      "PREVIEW": "Pratinjau Makro",
+      "EXECUTED_SUCCESSFULLY": "Makro berhasil dijalankan"
+    },
+    "ERRORS": {
+      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
+      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "VALUE_REQUIRED": "Nilai dibutuhkan",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998",
+      "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
+      "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
+      "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
+    },
+    "ACTIONS": {
+      "ASSIGN_TEAM": "Assign a Team",
+      "ASSIGN_AGENT": "Assign an Agent",
+      "ADD_LABEL": "Add a Label",
+      "REMOVE_LABEL": "Remove a Label",
+      "REMOVE_ASSIGNED_TEAM": "Remove Assigned Team",
+      "SEND_EMAIL_TRANSCRIPT": "Send an Email Transcript",
+      "MUTE_CONVERSATION": "Matikan Suara Percakapan",
+      "SNOOZE_CONVERSATION": "Tunda Percakapan",
+      "RESOLVE_CONVERSATION": "Selesaikan Percakapan",
+      "SEND_ATTACHMENT": "Send Attachment",
+      "SEND_MESSAGE": "Send a Message",
+      "CHANGE_PRIORITY": "Ubah Prioritas",
+      "ADD_PRIVATE_NOTE": "Add a Private Note",
+      "SEND_WEBHOOK_EVENT": "Send Webhook Event"
+    },
+    "PRIORITY_TYPES": {
+      "NONE": "Tidak ada",
+      "LOW": "Rendah",
+      "MEDIUM": "Sedang",
+      "HIGH": "Tinggi",
+      "URGENT": "Penting"
+    }
+  }
+}

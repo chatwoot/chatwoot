@@ -1,0 +1,62 @@
+{
+  "INTEGRATION_APPS": {
+    "FETCHING": "Notiek Integrāciju Iegūšana",
+    "NO_HOOK_CONFIGURED": "Šajā kontā nav nokonfigurēta neviena {integrationId} integrācija.",
+    "HEADER": "Lietojumprogrammas",
+    "STATUS": {
+      "ENABLED": "Iespējots",
+      "DISABLED": "Atspējots"
+    },
+    "CONFIGURE": "Konfigurēt",
+    "ADD_BUTTON": "Pievienojiet jaunu hook",
+    "DELETE": {
+      "TITLE": {
+        "INBOX": "Apstiprināt dzēšanu",
+        "ACCOUNT": "Atvienot"
+      },
+      "MESSAGE": {
+        "INBOX": "Vai tiešām vēlaties izdzēst?",
+        "ACCOUNT": "Vai tiešām vēlaties atvienot?"
+      },
+      "CONFIRM_BUTTON_TEXT": {
+        "INBOX": "Jā, Dzēst",
+        "ACCOUNT": "Jā, Atvienot"
+      },
+      "CANCEL_BUTTON_TEXT": "Atcelt",
+      "API": {
+        "SUCCESS_MESSAGE": "Hook ir veiksmīgi izdzēsts",
+        "ERROR_MESSAGE": "Nevar izveidot savienojumu ar Woot serveri. Lūdzu, vēlāk pamēģiniet vēlreiz"
+      }
+    },
+    "LIST": {
+      "FETCHING": "Notiek integrāciju hook iegūšana",
+      "INBOX": "Iesūtne",
+      "DELETE": {
+        "BUTTON_TEXT": "Dzēst"
+      }
+    },
+    "ADD": {
+      "FORM": {
+        "INBOX": {
+          "LABEL": "Izvēlieties Iesūtni",
+          "PLACEHOLDER": "Izvēlieties Iesūtni"
+        },
+        "SUBMIT": "Izveidot",
+        "CANCEL": "Atcelt"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Integrācijas hook ir veiksmīgi pievienots",
+        "ERROR_MESSAGE": "Nevar izveidot savienojumu ar Woot serveri. Lūdzu, vēlāk pamēģiniet vēlreiz"
+      }
+    },
+    "CONNECT": {
+      "BUTTON_TEXT": "Savienoties"
+    },
+    "DISCONNECT": {
+      "BUTTON_TEXT": "Atvienot"
+    },
+    "SIDEBAR_DESCRIPTION": {
+      "DIALOGFLOW": "Dialogflow ir dabiskas valodas apstrādes platforma, sarunvalodas interfeisa veidošanai. Integrējot to ar {installationName}, roboti vispirms apstrādās vaicājumus un vajadzības gadījumā pārsūtīs tos aģentiem. Tas palīdz kvalificēt potenciālos klientus un samazināt aģentu darba slodzi, atbildot uz bieži uzdotajiem jautājimiem. Lai pievienotu Dialogflow, pakalpojumā Google Console izveidojiet Service Account un kopīgojiet akreditācijas datus. Sīkāku informāciju skatiet dokumentācijā"
+    }
+  }
+}

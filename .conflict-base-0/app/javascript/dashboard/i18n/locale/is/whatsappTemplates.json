@@ -1,0 +1,47 @@
+{
+  "WHATSAPP_TEMPLATES": {
+    "MODAL": {
+      "TITLE": "Whatsapp Templates",
+      "SUBTITLE": "Veldu WhatsApp sniðmátið sem þú vilt senda",
+      "TEMPLATE_SELECTED_SUBTITLE": "Configure template: {templateName}"
+    },
+    "PICKER": {
+      "SEARCH_PLACEHOLDER": "Search Templates",
+      "NO_TEMPLATES_FOUND": "No templates found for",
+      "HEADER": "Header",
+      "BODY": "Body",
+      "FOOTER": "Footer",
+      "BUTTONS": "Buttons",
+      "CATEGORY": "Category",
+      "MEDIA_CONTENT": "Media Content",
+      "MEDIA_CONTENT_FALLBACK": "media content",
+      "NO_TEMPLATES_AVAILABLE": "No WhatsApp templates available. Click refresh to sync templates from WhatsApp.",
+      "REFRESH_BUTTON": "Refresh templates",
+      "REFRESH_SUCCESS": "Templates refresh initiated. It may take a couple of minutes to update.",
+      "REFRESH_ERROR": "Failed to refresh templates. Please try again.",
+      "LABELS": {
+        "LANGUAGE": "Language",
+        "TEMPLATE_BODY": "Template Body",
+        "CATEGORY": "Category"
+      }
+    },
+    "PARSER": {
+      "VARIABLES_LABEL": "Variables",
+      "LANGUAGE": "Language",
+      "CATEGORY": "Category",
+      "VARIABLE_PLACEHOLDER": "Enter {variable} value",
+      "GO_BACK_LABEL": "Go Back",
+      "SEND_MESSAGE_LABEL": "Send Message",
+      "FORM_ERROR_MESSAGE": "Please fill all variables before sending",
+      "MEDIA_HEADER_LABEL": "{type} Header",
+      "OTP_CODE": "Enter 4-8 digit OTP",
+      "EXPIRY_MINUTES": "Enter expiry minutes",
+      "BUTTON_PARAMETERS": "Button Parameters",
+      "BUTTON_LABEL": "Button {index}",
+      "COUPON_CODE": "Enter coupon code (max 15 chars)",
+      "MEDIA_URL_LABEL": "Enter {type} URL",
+      "DOCUMENT_NAME_PLACEHOLDER": "Enter document filename (e.g., Invoice_2025.pdf)",
+      "BUTTON_PARAMETER": "Enter button parameter"
+    }
+  }
+}

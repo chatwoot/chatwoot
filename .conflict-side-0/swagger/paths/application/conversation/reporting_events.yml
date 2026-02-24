@@ -1,0 +1,29 @@
+tags:
+  - Conversations
+operationId: get-conversation-reporting-events
+summary: Conversation Reporting Events
+security:
+  - userApiKey: []
+description: Get reporting events for a specific conversation. This endpoint returns events such as first response time, resolution time, and other metrics for the conversation, sorted by creation time in ascending order.
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/reporting_event'
+          description: Array of reporting events for the conversation
+  '403':
+    description: Access denied
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '404':
+    description: Conversation not found
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

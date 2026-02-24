@@ -1,0 +1,124 @@
+{
+  "AGENT_MGMT": {
+    "HEADER": "Agentai",
+    "HEADER_BTN_TXT": "Pridėti Agentą",
+    "LOADING": "Gaunamas agentų sąrašas",
+    "DESCRIPTION": "An agent is a member of your customer support team who can view and respond to user messages. The list below shows all the agents in your account.",
+    "LEARN_MORE": "Learn about user roles",
+    "AGENT_TYPES": {
+      "ADMINISTRATOR": "Administratorius",
+      "AGENT": "Agentas"
+    },
+    "LIST": {
+      "404": "Su šia paskyra nėra susietų agentų",
+      "TITLE": "Valdyti agentus jūsų komandoje",
+      "DESC": "Jūs galite įtraukti/pašalinti agentus į/iš savo komandos.",
+      "NAME": "Vardas",
+      "EMAIL": "El. paštas",
+      "STATUS": "Būsena",
+      "ACTIONS": "Veiksmai",
+      "VERIFIED": "Patikrinta",
+      "VERIFICATION_PENDING": "Laukiama patvirtinimo",
+      "AVAILABLE_CUSTOM_ROLE": "Available custom role permissions"
+    },
+    "ADD": {
+      "TITLE": "Pridėti agentą prie komandos",
+      "DESC": "Galite pridėti žmonių, kurie galės apdoroti gautuosius laiškus ir teikti pagalbą.",
+      "CANCEL_BUTTON_TEXT": "Atšaukti",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Agento Vardas",
+          "PLACEHOLDER": "Įveskite agento vardą"
+        },
+        "AGENT_TYPE": {
+          "LABEL": "Agento tipas",
+          "PLACEHOLDER": "Prašau pasirinkti agento tipą",
+          "ERROR": "Yra reikalingas agento tipas"
+        },
+        "EMAIL": {
+          "LABEL": "El. pašto adresas",
+          "PLACEHOLDER": "Įveskite agento el. pašto adresą"
+        },
+        "SUBMIT": "Pridėti Agentą"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Agentas pridėtas sėkmingai",
+        "EXIST_MESSAGE": "Agento el. pašto adresas jau naudojamas. Bandykite kitą el. pašto adresą",
+        "ERROR_MESSAGE": "Nepavyko prisijungti prie Woot serverio, bandykite dar kartą vėliau"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Ištrinti",
+      "API": {
+        "SUCCESS_MESSAGE": "Agentas ištrintas sėkmingai",
+        "ERROR_MESSAGE": "Nepavyko prisijungti prie Woot serverio, bandykite dar kartą vėliau"
+      },
+      "CONFIRM": {
+        "TITLE": "Patvirtinti Ištrynimą",
+        "MESSAGE": "Ar tikrai norite ištrinti ",
+        "YES": "Taip, Trinti ",
+        "NO": "Ne, Išsaugoti "
+      }
+    },
+    "EDIT": {
+      "TITLE": "Keisti Agentą",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Agento Vardas",
+          "PLACEHOLDER": "Įveskite agento vardą"
+        },
+        "AGENT_TYPE": {
+          "LABEL": "Agento tipas",
+          "PLACEHOLDER": "Prašau pasirinkti agento tipą",
+          "ERROR": "Yra reikalingas agento tipas"
+        },
+        "EMAIL": {
+          "LABEL": "El. pašto adresas",
+          "PLACEHOLDER": "Įveskite agento el. pašto adresą"
+        },
+        "AGENT_AVAILABILITY": {
+          "LABEL": "Prieinamumas",
+          "PLACEHOLDER": "Prašome pasirinkti prieinamumo būseną",
+          "ERROR": "Būtinas prieinamumas"
+        },
+        "SUBMIT": "Keisti Agentą"
+      },
+      "BUTTON_TEXT": "Redaguoti",
+      "CANCEL_BUTTON_TEXT": "Atšaukti",
+      "API": {
+        "SUCCESS_MESSAGE": "Agentas atnaujintas sėkmingai",
+        "ERROR_MESSAGE": "Nepavyko prisijungti prie Woot serverio, bandykite dar kartą vėliau"
+      },
+      "PASSWORD_RESET": {
+        "ADMIN_RESET_BUTTON": "Atstatyti slaptažodį",
+        "ADMIN_SUCCESS_MESSAGE": "El. laiškas su slaptažodžio atstatymo instrukcijomis buvo išsiųstas agentui",
+        "SUCCESS_MESSAGE": "Agento slaptažodis atstatytas sėkmingai",
+        "ERROR_MESSAGE": "Nepavyko prisijungti prie Woot serverio, bandykite dar kartą vėliau"
+      }
+    },
+    "SEARCH": {
+      "NO_RESULTS": "Nieko nerasta."
+    },
+    "MULTI_SELECTOR": {
+      "PLACEHOLDER": "Nėra",
+      "TITLE": {
+        "AGENT": "Pasirinkti agentą",
+        "TEAM": "Pasirinkite komandą"
+      },
+      "LIST": {
+        "NONE": "Nėra"
+      },
+      "SEARCH": {
+        "NO_RESULTS": {
+          "AGENT": "Agentų nerasta",
+          "TEAM": "Komandų nerasta"
+        },
+        "PLACEHOLDER": {
+          "AGENT": "Ieškoti agentų",
+          "TEAM": "Ieškoti komandų",
+          "INPUT": "Ieškoti agentų"
+        }
+      }
+    }
+  }
+}

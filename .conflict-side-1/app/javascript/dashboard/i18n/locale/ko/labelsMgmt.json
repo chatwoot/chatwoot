@@ -1,0 +1,85 @@
+{
+  "LABEL_MGMT": {
+    "HEADER": "라벨",
+    "HEADER_BTN_TXT": "라벨 추가",
+    "LOADING": "라벨을 가져오는 중",
+    "DESCRIPTION": "Labels help you categorize and prioritize conversations and leads. You can assign a label to a conversation or contact using the side panel.",
+    "LEARN_MORE": "Learn more about labels",
+    "SEARCH_404": "이 쿼리와 일치하는 항목이 없음",
+    "LIST": {
+      "404": "이 계정에는 사용 가능한 라벨이 없다.",
+      "TITLE": "라벨 관리",
+      "DESC": "라벨을 사용하여 대화를 그룹화할 수 있다.",
+      "TABLE_HEADER": {
+        "NAME": "이름",
+        "DESCRIPTION": "내용",
+        "COLOR": "색깔"
+      }
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "라벨 이름",
+        "PLACEHOLDER": "라벨 이름",
+        "REQUIRED_ERROR": "라벨 이름이 필요합니다",
+        "MINIMUM_LENGTH_ERROR": "최소 두글자 이상이여야 합니다",
+        "VALID_ERROR": "영어나, 숫자, - 와 _ 만 사용 가능합니다"
+      },
+      "DESCRIPTION": {
+        "LABEL": "내용",
+        "PLACEHOLDER": "라벨 내용"
+      },
+      "COLOR": {
+        "LABEL": "색깔"
+      },
+      "SHOW_ON_SIDEBAR": {
+        "LABEL": "사이드바에 라벨 표시"
+      },
+      "EDIT": "수정",
+      "CREATE": "만들기",
+      "DELETE": "삭제",
+      "CANCEL": "취소"
+    },
+    "SUGGESTIONS": {
+      "TOOLTIP": {
+        "SINGLE_SUGGESTION": "Add label to conversation",
+        "MULTIPLE_SUGGESTION": "Select this label",
+        "DESELECT": "Deselect label",
+        "DISMISS": "Dismiss suggestion"
+      },
+      "POWERED_BY": "Chatwoot AI",
+      "DISMISS": "Dismiss",
+      "ADD_SELECTED_LABELS": "Add selected labels",
+      "ADD_SELECTED_LABEL": "Add selected label",
+      "ADD_ALL_LABELS": "Add all labels",
+      "SUGGESTED_LABELS": "Suggested labels"
+    },
+    "ADD": {
+      "TITLE": "라벨 추가",
+      "DESC": "라벨을 사용하여 대화를 그룹화할 수 있다.",
+      "API": {
+        "SUCCESS_MESSAGE": "라벨이 성공적으로 추가됨",
+        "ERROR_MESSAGE": "오류가 발생했습니다. 다시 시도하십시오."
+      }
+    },
+    "EDIT": {
+      "TITLE": "라벨 수정",
+      "API": {
+        "SUCCESS_MESSAGE": "라벨이 성공적으로 업데이트됨",
+        "ERROR_MESSAGE": "오류가 발생했습니다. 다시 시도하십시오."
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "삭제",
+      "API": {
+        "SUCCESS_MESSAGE": "라벨이 성공적으로 삭제됨.",
+        "ERROR_MESSAGE": "오류가 발생했습니다. 다시 시도하십시오."
+      },
+      "CONFIRM": {
+        "TITLE": "삭제 확인",
+        "MESSAGE": "삭제하시겠습니까? ",
+        "YES": "예, 삭제합니다. ",
+        "NO": "아니요, 유지해주세요. "
+      }
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "REGISTER": {
+    "TRY_WOOT": "Create an account",
+    "TITLE": "Καταχώρηση",
+    "TESTIMONIAL_HEADER": "Το μόνο που χρειάζεται είναι ένα βήμα για να προχωρήσουμε",
+    "TESTIMONIAL_CONTENT": "Είστε ένα βήμα μακριά από την εμπλοκή των πελατών σας, και την εύρεση νέων.",
+    "TERMS_ACCEPT": "By creating an account, you agree to our <a href=\"https://www.chatwoot.com/terms\">T & C</a> and <a href=\"https://www.chatwoot.com/privacy-policy\">Privacy policy</a>",
+    "OAUTH": {
+      "GOOGLE_SIGNUP": "Sign up with Google"
+    },
+    "COMPANY_NAME": {
+      "LABEL": "Επωνυμία εταιρείας",
+      "PLACEHOLDER": "Εισάγετε το όνομα της εταιρείας σας. π. χ.: Wayne Enterprises",
+      "ERROR": "Το όνομα της εταιρείας είναι πολύ σύντομο"
+    },
+    "FULL_NAME": {
+      "LABEL": "Πλήρες όνομα",
+      "PLACEHOLDER": "Συμπληρώστε το πλήρες σας όνομα: πχ: Χρήστος Παπαδόπουλος",
+      "ERROR": "Το πλήρες όνομα είναι πολύ σύντομο"
+    },
+    "EMAIL": {
+      "LABEL": "email εργασίας",
+      "PLACEHOLDER": "Enter your work email address. E.g., bruce{'@'}wayne{'.'}enterprises",
+      "ERROR": "Παρακαλώ εισάγετε μια έγκυρη διεύθυνση email"
+    },
+    "PASSWORD": {
+      "LABEL": "Κωδικός",
+      "PLACEHOLDER": "Κωδικός",
+      "ERROR": "Ο κωδικός είναι πολύ σύντομος",
+      "IS_INVALID_PASSWORD": "Ο κωδικός πρόσβασης πρέπει να περιέχει τουλάχιστον 1 κεφαλαίο γράμμα, 1 πεζό γράμμα, 1 αριθμό και 1 ειδικό χαρακτήρα",
+      "REQUIREMENTS_LENGTH": "At least 6 characters long",
+      "REQUIREMENTS_UPPERCASE": "At least one uppercase letter",
+      "REQUIREMENTS_LOWERCASE": "At least one lowercase letter",
+      "REQUIREMENTS_NUMBER": "At least one number",
+      "REQUIREMENTS_SPECIAL": "At least one special character"
+    },
+    "CONFIRM_PASSWORD": {
+      "LABEL": "Επιβεβαίωση κωδικού",
+      "PLACEHOLDER": "Επιβεβαίωση κωδικού",
+      "ERROR": "Οι κωδικοί δεν ταιριάζουν."
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Registration Successful",
+      "ERROR_MESSAGE": "Αδυναμία σύνδεσης με τον Woot Server, Παρακαλώ προσπαθήστε αργότερα"
+    },
+    "SUBMIT": "Create account",
+    "HAVE_AN_ACCOUNT": "Έχετε ήδη ένα λογαριασμό?"
+  }
+}

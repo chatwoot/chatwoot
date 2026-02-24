@@ -1,0 +1,68 @@
+{
+  "SEARCH": {
+    "TABS": {
+      "ALL": "All results",
+      "CONTACTS": "Kontaktok",
+      "CONVERSATIONS": "Beszélgetések",
+      "MESSAGES": "Üzenetek",
+      "ARTICLES": "Articles"
+    },
+    "SECTION": {
+      "CONTACTS": "Kontaktok",
+      "CONVERSATIONS": "Beszélgetések",
+      "MESSAGES": "Üzenetek",
+      "ARTICLES": "Articles"
+    },
+    "VIEW_MORE": "View more",
+    "LOAD_MORE": "Load more",
+    "SEARCHING_DATA": "Keresés",
+    "LOADING_DATA": "Loading",
+    "EMPTY_STATE": "Nem található {item}, a keresésre: '{query}'",
+    "EMPTY_STATE_FULL": "Nincs eredménye a következő keresésnek: '{query}'",
+    "PLACEHOLDER_KEYBINDING": "/a fókuszáláshoz",
+    "INPUT_PLACEHOLDER": "Search messages, contacts or conversations",
+    "RECENT_SEARCHES": "Recent searches",
+    "CLEAR_ALL": "Clear all",
+    "MOST_RECENT": "Most recent",
+    "EMPTY_STATE_DEFAULT": "Search by conversation id, email, phone number, messages for better search results.",
+    "BOT_LABEL": "Bot",
+    "READ_MORE": "Tudj meg többet",
+    "READ_LESS": "Read less",
+    "WROTE": "írta:",
+    "FROM": "Innen",
+    "EMAIL": "E-mail",
+    "EMAIL_SUBJECT": "Tárgy",
+    "PRIVATE": "Private note",
+    "TRANSCRIPT": "Transcript",
+    "CREATED_AT": "created {time}",
+    "UPDATED_AT": "updated {time}",
+    "SORT_BY": {
+      "RELEVANCE": "Relevance"
+    },
+    "DATE_RANGE": {
+      "LAST_7_DAYS": "Utolsó 7 nap",
+      "LAST_30_DAYS": "Utolsó 30 nap",
+      "LAST_60_DAYS": "Utolsó 60 nap",
+      "LAST_90_DAYS": "Utolsó 90 nap",
+      "CUSTOM_RANGE": "Custom range:",
+      "CREATED_BETWEEN": "Created between",
+      "AND": "and",
+      "APPLY": "Alkalmaz",
+      "BEFORE_DATE": "Before {date}",
+      "AFTER_DATE": "After {date}",
+      "TIME_RANGE": "Filter by time",
+      "CLEAR_FILTER": "Clear filter"
+    },
+    "FILTERS": {
+      "FILTER_MESSAGE": "Filter messages by:",
+      "FROM": "Küldő",
+      "IN": "Fiók",
+      "AGENTS": "Ügynökök",
+      "CONTACTS": "Kontaktok",
+      "INBOXES": "Fiókok",
+      "NO_AGENTS": "Nem találunk ügynököt",
+      "NO_CONTACTS": "Start by searching to see results",
+      "NO_INBOXES": "No inboxes found"
+    }
+  }
+}

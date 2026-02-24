@@ -1,0 +1,103 @@
+{
+  "AGENT_BOTS": {
+    "HEADER": "Botlar",
+    "LOADING_EDITOR": "Editör Yükleniyor...",
+    "DESCRIPTION": "Temsilci botları ekibinizin en harika üyeleri gibidir. Küçük işleri halledebilirler, böylece önemli işlere odaklanabilirsiniz. Onları deneyin. Botlarınızı bu sayfadan yönetebilir veya 'Bot Ekle' butonunu kullanarak yenilerini oluşturabilirsiniz.",
+    "LEARN_MORE": "Temsilci botları hakkında bilgi edinin",
+    "GLOBAL_BOT": "Sistem botu",
+    "GLOBAL_BOT_BADGE": "Sistem",
+    "AVATAR": {
+      "SUCCESS_DELETE": "Bot avatarı başarıyla silindi",
+      "ERROR_DELETE": "Bot avatarı silinirken hata oluştu, lütfen tekrar deneyin"
+    },
+    "BOT_CONFIGURATION": {
+      "TITLE": "Bir temsilci botu seçin",
+      "DESC": "Gelen kutunuza bir temsilci Botu atayın. Küçük konuşmaları ele alabilir ve gerekli olduğunda canlı bir temsilciın devralmasını sağlayabilirler.",
+      "SUBMIT": "Güncelle",
+      "DISCONNECT": "Botun bağlantısını kes",
+      "SUCCESS_MESSAGE": "Temsilci botu başarıyla güncellendi.",
+      "DISCONNECTED_SUCCESS_MESSAGE": "Temsilci botu başarıyla bağlantısı kesildi.",
+      "ERROR_MESSAGE": "Temsilci botu güncellenemedi. Lütfen tekrar deneyin.",
+      "DISCONNECTED_ERROR_MESSAGE": "Temsilci botu bağlantısı kesilemedi. Lütfen tekrar deneyin.",
+      "SELECT_PLACEHOLDER": "Bot seçin"
+    },
+    "ADD": {
+      "TITLE": "Bot Ekle",
+      "CANCEL_BUTTON_TEXT": "İptal Et",
+      "API": {
+        "SUCCESS_MESSAGE": "Bot başarıyla eklendi.",
+        "ERROR_MESSAGE": "Bot eklenemedi. Lütfen daha sonra tekrar deneyin."
+      }
+    },
+    "LIST": {
+      "404": "Bot bulunamadı. 'Bot Ekle' butonuna tıklayarak bir bot oluşturabilirsiniz.",
+      "LOADING": "Botlar alınıyor...",
+      "TABLE_HEADER": {
+        "DETAILS": "Bot Detayları",
+        "URL": "Webhook URL'si"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Sil",
+      "TITLE": "Botu sil",
+      "CONFIRM": {
+        "TITLE": "Silmeyi onayla",
+        "MESSAGE": "{name} silmek istediğinizden emin misiniz?",
+        "YES": "Evet, Sil",
+        "NO": "Hayır, Sakla"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Bot başarıyla silindi.",
+        "ERROR_MESSAGE": "Bot silinemedi. Lütfen tekrar deneyin."
+      }
+    },
+    "EDIT": {
+      "BUTTON_TEXT": "Düzenle",
+      "TITLE": "Botu düzenle",
+      "API": {
+        "SUCCESS_MESSAGE": "Bot başarıyla güncellendi.",
+        "ERROR_MESSAGE": "Bot güncellenemedi. Lütfen tekrar deneyin."
+      }
+    },
+    "ACCESS_TOKEN": {
+      "TITLE": "Erişim Jetonu",
+      "DESCRIPTION": "Erişim anahtarını kopyalayın ve güvenli bir yerde saklayın",
+      "COPY_SUCCESSFUL": "Erişim anahtarı panoya kopyalandı",
+      "RESET_SUCCESS": "Erişim anahtarı başarıyla yeniden oluşturuldu",
+      "RESET_ERROR": "Erişim anahtarı yeniden oluşturulamadı. Lütfen tekrar deneyin"
+    },
+    "FORM": {
+      "AVATAR": {
+        "LABEL": "Bot avatarı"
+      },
+      "NAME": {
+        "LABEL": "Bot Adı",
+        "PLACEHOLDER": "Bot adını girin",
+        "REQUIRED": "Bot adı zorunludur"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Açıklama",
+        "PLACEHOLDER": "Bu bot ne iş yapar?"
+      },
+      "WEBHOOK_URL": {
+        "LABEL": "Webhook URL'si",
+        "PLACEHOLDER": "https://example.com/webhook",
+        "REQUIRED": "Webhook URL'si gereklidir"
+      },
+      "ERRORS": {
+        "NAME": "Bot adı zorunludur",
+        "URL": "Webhook URL'si gereklidir",
+        "VALID_URL": "Lütfen http:// veya https:// ile başlayan geçerli bir URL girin"
+      },
+      "CANCEL": "İptal Et",
+      "CREATE": "Bot Oluştur",
+      "UPDATE": "Botu Güncelle"
+    },
+    "WEBHOOK": {
+      "DESCRIPTION": "Webhook botunu özel hizmetlerinizle entegre etmek için yapılandırın. Bot, sohbetlerden gelen etkinlikleri alacak ve işleyebilecek."
+    },
+    "TYPES": {
+      "WEBHOOK": "Webhook botu"
+    }
+  }
+}

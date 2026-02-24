@@ -1,0 +1,22 @@
+tags:
+  - AgentBots
+operationId: delete-an-agent-bot
+summary: Delete an AgentBot
+description: Delete an AgentBot
+security:
+  - platformAppApiKey: []
+responses:
+  '200':
+    description: Success
+  '401':
+    description: Unauthorized
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '404':
+    description: The agent bot does not exist
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

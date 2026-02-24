@@ -1,0 +1,62 @@
+{
+  "INTEGRATION_APPS": {
+    "FETCHING": "A procurar integrações",
+    "NO_HOOK_CONFIGURED": "Não há integrações {integrationId} configuradas nesta conta.",
+    "HEADER": "Aplicações",
+    "STATUS": {
+      "ENABLED": "Ativado",
+      "DISABLED": "Desativado"
+    },
+    "CONFIGURE": "Configurar",
+    "ADD_BUTTON": "Adicionar um novo hook",
+    "DELETE": {
+      "TITLE": {
+        "INBOX": "Confirmar exclusão",
+        "ACCOUNT": "Desconectar"
+      },
+      "MESSAGE": {
+        "INBOX": "Tem a certeza que pretende excluir?",
+        "ACCOUNT": "Tem certeza que deseja desligar?"
+      },
+      "CONFIRM_BUTTON_TEXT": {
+        "INBOX": "Sim, excluir",
+        "ACCOUNT": "Sim, desconectar"
+      },
+      "CANCEL_BUTTON_TEXT": "Cancelar",
+      "API": {
+        "SUCCESS_MESSAGE": "Hook excluído com sucesso",
+        "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot, por favor, tente novamente mais tarde"
+      }
+    },
+    "LIST": {
+      "FETCHING": "A procurar hooks de integração",
+      "INBOX": "Caixa de entrada",
+      "DELETE": {
+        "BUTTON_TEXT": "Excluir"
+      }
+    },
+    "ADD": {
+      "FORM": {
+        "INBOX": {
+          "LABEL": "Selecionar caixa de entrada",
+          "PLACEHOLDER": "Selecionar caixa de entrada"
+        },
+        "SUBMIT": "Criar",
+        "CANCEL": "Cancelar"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Hook de integração adicionado com sucesso",
+        "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot, por favor, tente novamente mais tarde"
+      }
+    },
+    "CONNECT": {
+      "BUTTON_TEXT": "Conectar"
+    },
+    "DISCONNECT": {
+      "BUTTON_TEXT": "Desconectar"
+    },
+    "SIDEBAR_DESCRIPTION": {
+      "DIALOGFLOW": "Dialogflow is a natural language processing platform for building conversational interfaces. Integrating it with {installationName} lets bots handle queries first and transfer them to agents when needed. It helps qualify leads and reduce agent workload by answering FAQs. To add Dialogflow, create a Service Account in Google Console and share the credentials. Refer to the docs for details"
+    }
+  }
+}

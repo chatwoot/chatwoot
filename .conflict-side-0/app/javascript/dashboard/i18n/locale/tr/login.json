@@ -1,0 +1,41 @@
+{
+  "LOGIN": {
+    "TITLE": "Chatwoot'ta oturum açın",
+    "EMAIL": {
+      "LABEL": "E-Posta",
+      "PLACEHOLDER": "ornek{'@'}sirketadi.com",
+      "ERROR": "Lütfen geçerli bir e-posta adresi girin"
+    },
+    "PASSWORD": {
+      "LABEL": "Parola",
+      "PLACEHOLDER": "Parola"
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Oturum açma başarılı",
+      "ERROR_MESSAGE": "Woot sunucusuna bağlanılamadı. Lütfen tekrar deneyin.",
+      "UNAUTH": "Kullanıcı adı veya parola yanlış. Lütfen tekrar deneyin."
+    },
+    "OAUTH": {
+      "GOOGLE_LOGIN": "Google ile giriş yap",
+      "BUSINESS_ACCOUNTS_ONLY": "Lütfen giriş yapmak için şirket e-posta adresinizi kullanın",
+      "NO_ACCOUNT_FOUND": "E-posta adresinizle ilişkilendirilmiş bir hesap bulunamadı."
+    },
+    "FORGOT_PASSWORD": "Parolanızı mı unuttunuz?",
+    "CREATE_NEW_ACCOUNT": "Yeni hesap oluştur",
+    "SUBMIT": "Oturum aç",
+    "SAML": {
+      "LABEL": "SSO ile giriş yapın",
+      "TITLE": "Tek Oturum Açma (SSO)",
+      "SUBTITLE": "Kuruluşunuza erişmek için iş e-posta adresinizi girin",
+      "BACK_TO_LOGIN": "Şifre ile giriş yap",
+      "WORK_EMAIL": {
+        "LABEL": "İş E-Postası",
+        "PLACEHOLDER": "İş e-posta adresinizi girin"
+      },
+      "SUBMIT": "SSO ile devam et",
+      "API": {
+        "ERROR_MESSAGE": "SSO (Tek Oturum Açma) kimlik doğrulaması başarısız oldu. Lütfen kimlik bilgilerinizi kontrol edin ve tekrar deneyin."
+      }
+    }
+  }
+}

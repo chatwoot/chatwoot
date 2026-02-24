@@ -1,0 +1,77 @@
+{
+  "CANNED_MGMT": {
+    "HEADER": "پاسخ‌های آماده",
+    "LEARN_MORE": "Learn more about canned responses",
+    "DESCRIPTION": "Canned Responses are pre-written reply templates that help you quickly respond to a conversation. Agents can type the '/' character followed by the shortcode to insert a canned response during a conversation. ",
+    "HEADER_BTN_TXT": "اضافه کردن پاسخ آماده",
+    "LOADING": "دریافت پاسخ‌های آماده...",
+    "SEARCH_404": "هیچ گزینه‌ای با این شرایط پیدا نشد.",
+    "LIST": {
+      "404": "هیچ پاسخ آماده‌ای برای این حساب تعریف نشده است",
+      "TITLE": "مدیریت پاسخ‌های آماده",
+      "DESC": "پاسخ‌های آماده قالب‌های متنی پیش آماده‌ای هستند که برای پاسخگویی سریع به یک گفتگو می‌توانند مفید واقع شوند.",
+      "TABLE_HEADER": {
+        "SHORT_CODE": "کد کوتاه",
+        "CONTENT": "محتوا",
+        "ACTIONS": "عملیات"
+      }
+    },
+    "ADD": {
+      "TITLE": "اضافه کردن پاسخ آماده",
+      "DESC": "پاسخ‌های آماده قالب‌های متنی پیش آماده‌ای هستند که برای پاسخگویی سریع به یک گفتگو می‌توانند مفید واقع شوند.",
+      "CANCEL_BUTTON_TEXT": "انصراف",
+      "FORM": {
+        "SHORT_CODE": {
+          "LABEL": "کد کوتاه",
+          "PLACEHOLDER": "لطفا یک کد کوتاه وارد کنید.",
+          "ERROR": "وجود کد کوتاه ضروری است."
+        },
+        "CONTENT": {
+          "LABEL": "پیام",
+          "PLACEHOLDER": "لطفاً پیامی را که می‌خواهید به عنوان الگو استفاده کنید، ذخیره کنید تا بعداً از آن استفاده کنید.",
+          "ERROR": "پیام الزامی است."
+        },
+        "SUBMIT": "ثبت"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "پاسخ آماده با موفقیت ثبت شد.",
+        "ERROR_MESSAGE": "متاسفانه ارتباط با سرور برقرار نشد، مجددا امتحان کنید"
+      }
+    },
+    "EDIT": {
+      "TITLE": "ویرایش پاسخ آماده",
+      "CANCEL_BUTTON_TEXT": "انصراف",
+      "FORM": {
+        "SHORT_CODE": {
+          "LABEL": "کد کوتاه",
+          "PLACEHOLDER": "لطفا یک کد کوتاه وارد کنید.",
+          "ERROR": "وجود کد کوتاه ضروری است."
+        },
+        "CONTENT": {
+          "LABEL": "پیام",
+          "PLACEHOLDER": "لطفاً پیامی را که می‌خواهید به عنوان الگو استفاده کنید، ذخیره کنید تا بعداً از آن استفاده کنید.",
+          "ERROR": "پیام الزامی است."
+        },
+        "SUBMIT": "ثبت"
+      },
+      "BUTTON_TEXT": "ویرایش",
+      "API": {
+        "SUCCESS_MESSAGE": "پاسخ آماده با موفقیت ویرایش شد.",
+        "ERROR_MESSAGE": "متاسفانه ارتباط با سرور برقرار نشد، مجددا امتحان کنید"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "حذف",
+      "API": {
+        "SUCCESS_MESSAGE": "پاسخ آماده با موفقیت حذف شد.",
+        "ERROR_MESSAGE": "متاسفانه ارتباط با سرور برقرار نشد، مجددا امتحان کنید"
+      },
+      "CONFIRM": {
+        "TITLE": "تاییدیه حذف",
+        "MESSAGE": "مطمئن هستید حذف شود؟ ",
+        "YES": "بله، حذف شود ",
+        "NO": "خیر، نگه‌دار "
+      }
+    }
+  }
+}

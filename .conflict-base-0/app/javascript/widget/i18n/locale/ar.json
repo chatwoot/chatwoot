@@ -1,0 +1,153 @@
+{
+  "COMPONENTS": {
+    "FILE_BUBBLE": {
+      "DOWNLOAD": "تحميل",
+      "UPLOADING": "جاري الرفع..."
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "إرسال"
+    },
+    "MESSAGE_BUBBLE": {
+      "RETRY": "إرسال الرسالة مرة أخرى",
+      "ERROR_MESSAGE": "تعذر الإرسال! حاول مرة أخرى"
+    }
+  },
+  "THUMBNAIL": {
+    "AUTHOR": {
+      "NOT_AVAILABLE": "غير متاح"
+    }
+  },
+  "TEAM_AVAILABILITY": {
+    "ONLINE": "متواجدون لخدمتك",
+    "OFFLINE": "نحن بعيدون في الوقت الحالي",
+    "BACK_AS_SOON_AS_POSSIBLE": "سوف نعود في أقرب وقت ممكن"
+  },
+  "REPLY_TIME": {
+    "IN_A_FEW_MINUTES": "عادة نقوم بالرد خلال بضع دقائق",
+    "IN_A_FEW_HOURS": "عادة نقوم بالرد خلال بضع ساعات",
+    "IN_A_DAY": "عادة نقوم بالرد خلال يوم واحد",
+    "BACK_IN_HOURS": "We will be back online in {n} hour | We will be back online in {n} hours",
+    "BACK_IN_MINUTES": "We will be back online in {time} minutes",
+    "BACK_AT_TIME": "We will be back online at {time}",
+    "BACK_ON_DAY": "We will be back online on {day}",
+    "BACK_TOMORROW": "سنكون متاحين غدًا للرد على استفساراتك",
+    "BACK_IN_SOME_TIME": "We will be back online in some time"
+  },
+  "DAY_NAMES": {
+    "SUNDAY": "Sunday",
+    "MONDAY": "Monday",
+    "TUESDAY": "Tuesday",
+    "WEDNESDAY": "Wednesday",
+    "THURSDAY": "Thursday",
+    "FRIDAY": "Friday",
+    "SATURDAY": "Saturday"
+  },
+  "START_CONVERSATION": "ابدأ المحادثة",
+  "END_CONVERSATION": "إنهاء المحادثة",
+  "CONTINUE_CONVERSATION": "متابعة المحادثة",
+  "YOU": "أنت",
+  "START_NEW_CONVERSATION": "ابدأ محادثة جديدة",
+  "VIEW_UNREAD_MESSAGES": "لديك رسائل غير مقروءة",
+  "UNREAD_VIEW": {
+    "VIEW_MESSAGES_BUTTON": "عرض الرسائل الجديدة",
+    "CLOSE_MESSAGES_BUTTON": "أغلق",
+    "COMPANY_FROM": "من",
+    "BOT": "رد آلي"
+  },
+  "BUBBLE": {
+    "LABEL": "تحدث الينا"
+  },
+  "POWERED_BY": "مدعوم بواسطة Chatwoot",
+  "EMAIL_PLACEHOLDER": "الرجاء إدخال بريدك الإلكتروني",
+  "CHAT_PLACEHOLDER": "أكتب رسالتك",
+  "TODAY": "اليوم",
+  "YESTERDAY": "الأمس",
+  "PRE_CHAT_FORM": {
+    "FIELDS": {
+      "FULL_NAME": {
+        "LABEL": "الاسم الكامل",
+        "PLACEHOLDER": "الرجاء إدخال اسمك الكامل",
+        "REQUIRED_ERROR": "الاسم الكامل مطلوب"
+      },
+      "EMAIL_ADDRESS": {
+        "LABEL": "عنوان البريد الإلكتروني",
+        "PLACEHOLDER": "الرجاء إدخال عنوان بريد إلكتروني صحيح",
+        "REQUIRED_ERROR": "عنوان البريد الإلكتروني مطلوب",
+        "VALID_ERROR": "الرجاء إدخال عنوان بريد إلكتروني صحيح"
+      },
+      "PHONE_NUMBER": {
+        "LABEL": "رقم الهاتف",
+        "PLACEHOLDER": "الرجاء إدخال رقم الهاتف الخاص بك",
+        "REQUIRED_ERROR": "رقم الهاتف مطلوب",
+        "DIAL_CODE_VALID_ERROR": "الرجاء اختيار رمز الدولة",
+        "VALID_ERROR": "يرجى إدخال رقم هاتف صحيح",
+        "DROPDOWN_EMPTY": "لم يتم العثور على النتائج",
+        "DROPDOWN_SEARCH": "البحث عن بلد"
+      },
+      "MESSAGE": {
+        "LABEL": "رسالة",
+        "PLACEHOLDER": "يرجى إدخال رسالتك",
+        "ERROR": "رسالة قصيرة جداً"
+      }
+    },
+    "CAMPAIGN_HEADER": "الرجاء تقديم اسمك و بريدك الإلكتروني قبل بدء المحادثة",
+    "IS_REQUIRED": "مطلوب",
+    "REQUIRED": "مطلوب",
+    "REGEX_ERROR": "الرجاء تقديم مدخل صحيح"
+  },
+  "FILE_SIZE_LIMIT": "حجم الملف يتجاوز حد الاقصى وهو {MAXIMUM_FILE_UPLOAD_SIZE}",
+  "CHAT_FORM": {
+    "INVALID": {
+      "FIELD": "حقل غير صالح"
+    }
+  },
+  "EMOJI": {
+    "PLACEHOLDER": "ابحث في الايموجي",
+    "NOT_FOUND": "لا يوجد إيموجي يطابق بحثك",
+    "ARIA_LABEL": "أداة اختيار الايموجي"
+  },
+  "CSAT": {
+    "TITLE": "قيم محادثتك",
+    "SUBMITTED_TITLE": "شكرا لك على تقييم المحادثة",
+    "PLACEHOLDER": "أخبرنا المزيد..."
+  },
+  "EMAIL_TRANSCRIPT": {
+    "BUTTON_TEXT": "طلب نسخة محادثة النص",
+    "SEND_EMAIL_SUCCESS": "تم إرسال نص المحادثة بنجاح",
+    "SEND_EMAIL_ERROR": "حدث خطأ، الرجاء المحاولة مرة أخرى"
+  },
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "انقر هنا للانضمام",
+      "LEAVE_THE_ROOM": "ترك المكالمة"
+    }
+  },
+  "PORTAL": {
+    "POPULAR_ARTICLES": "المقالات الشائعة",
+    "VIEW_ALL_ARTICLES": "عرض جميع المقالات",
+    "IFRAME_LOAD_ERROR": "حدث خطأ أثناء جلب المقال، الرجاء تحديث الصفحة والمحاولة مرة أخرى."
+  },
+  "ATTACHMENTS": {
+    "image": {
+      "CONTENT": "رسالة صورة"
+    },
+    "audio": {
+      "CONTENT": "رسالة صوتية"
+    },
+    "video": {
+      "CONTENT": "رسالة فيديو"
+    },
+    "file": {
+      "CONTENT": "مرفقات"
+    },
+    "location": {
+      "CONTENT": "الموقع الجغرافي"
+    },
+    "fallback": {
+      "CONTENT": "قام بمشاركة رابط"
+    }
+  },
+  "FOOTER_REPLY_TO": {
+    "REPLY_TO": "الرد على:"
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "SEARCH": {
+    "TABS": {
+      "ALL": "All results",
+      "CONTACTS": "Kontakty",
+      "CONVERSATIONS": "Konverzace",
+      "MESSAGES": "Zprávy",
+      "ARTICLES": "Articles"
+    },
+    "SECTION": {
+      "CONTACTS": "Kontakty",
+      "CONVERSATIONS": "Konverzace",
+      "MESSAGES": "Zprávy",
+      "ARTICLES": "Articles"
+    },
+    "VIEW_MORE": "View more",
+    "LOAD_MORE": "Load more",
+    "SEARCHING_DATA": "Searching",
+    "LOADING_DATA": "Loading",
+    "EMPTY_STATE": "No {item} found for query '{query}'",
+    "EMPTY_STATE_FULL": "No results found for query '{query}'",
+    "PLACEHOLDER_KEYBINDING": "/to focus",
+    "INPUT_PLACEHOLDER": "Search messages, contacts or conversations",
+    "RECENT_SEARCHES": "Recent searches",
+    "CLEAR_ALL": "Clear all",
+    "MOST_RECENT": "Most recent",
+    "EMPTY_STATE_DEFAULT": "Search by conversation id, email, phone number, messages for better search results.",
+    "BOT_LABEL": "Bot",
+    "READ_MORE": "Read more",
+    "READ_LESS": "Read less",
+    "WROTE": "wrote:",
+    "FROM": "Od",
+    "EMAIL": "E-mailová adresa",
+    "EMAIL_SUBJECT": "Předmět",
+    "PRIVATE": "Private note",
+    "TRANSCRIPT": "Transcript",
+    "CREATED_AT": "created {time}",
+    "UPDATED_AT": "updated {time}",
+    "SORT_BY": {
+      "RELEVANCE": "Relevance"
+    },
+    "DATE_RANGE": {
+      "LAST_7_DAYS": "Posledních 7 dní",
+      "LAST_30_DAYS": "Posledních 30 dní",
+      "LAST_60_DAYS": "Posledních 60 dní",
+      "LAST_90_DAYS": "Posledních 90 dní",
+      "CUSTOM_RANGE": "Custom range:",
+      "CREATED_BETWEEN": "Created between",
+      "AND": "and",
+      "APPLY": "Použít",
+      "BEFORE_DATE": "Before {date}",
+      "AFTER_DATE": "After {date}",
+      "TIME_RANGE": "Filter by time",
+      "CLEAR_FILTER": "Clear filter"
+    },
+    "FILTERS": {
+      "FILTER_MESSAGE": "Filter messages by:",
+      "FROM": "Sender",
+      "IN": "Inbox",
+      "AGENTS": "Agenti",
+      "CONTACTS": "Kontakty",
+      "INBOXES": "Schránky",
+      "NO_AGENTS": "Nenalezeni žádní agenti",
+      "NO_CONTACTS": "Start by searching to see results",
+      "NO_INBOXES": "No inboxes found"
+    }
+  }
+}

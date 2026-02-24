@@ -1,0 +1,19 @@
+{
+  "SURVEY": {
+    "DESCRIPTION": "Kjære kunde 👋, vennligst ta noen øyeblikk å dele tilbakemelding om samtalen du hadde med {inboxName}.",
+    "RATING": {
+      "LABEL": "Vurder samtalen din",
+      "SUCCESS_MESSAGE": "Takk for at du ga din vurdering"
+    },
+    "FEEDBACK": {
+      "LABEL": "Har du noen tanker du ønsker å dele?",
+      "PLACEHOLDER": "Din tilbakemelding (valgfritt)",
+      "BUTTON_TEXT": "Send tilbakemelding"
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Spørreundersøkelse oppdatert",
+      "ERROR_MESSAGE": "Kunne ikke koble til Woot Server, vennligst prøv igjen senere"
+    }
+  },
+  "POWERED_BY": "Drevet av Chatwoot"
+}
