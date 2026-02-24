@@ -218,14 +218,22 @@ class LeadRetargeting::SendFollowUpService
       }
     end
 
-    # 1. Obtener el agent bot del inbox
-    agent_bot = @inbox.agent_bot
+    config = step['config']
+
+    # Use a dedicated email inbox if configured, otherwise fall back to the conversation inbox
+    source_inbox = if config['email_inbox_id'].present?
+                     @account.inboxes.find_by(id: config['email_inbox_id']) || @inbox
+                   else
+                     @inbox
+                   end
+
+    # 1. Obtener el agent bot del inbox correspondiente
+    agent_bot = source_inbox.agent_bot
 
     if agent_bot.present?
       # Si hay un bot, lanzamos el webhook (similar a AI SMS)
       idempotency_key = generate_idempotency_key(step, suffix: 'email')
 
-      config = step['config']
       sender_email = config['sender_email'].presence || @account.support_email
 
       payload = build_ai_webhook_payload(
@@ -238,7 +246,8 @@ class LeadRetargeting::SendFollowUpService
           sender_email: sender_email,
           subject: config['subject'],
           content: config['content']
-        }
+        },
+        reply_inbox: source_inbox
       )
 
       begin
@@ -249,7 +258,7 @@ class LeadRetargeting::SendFollowUpService
         return { success: false, error: "Email webhook failed: #{e.message}" }
       end
     else
-      return { success: false, error: "No agent bot found for this inbox" }
+      return { success: false, error: "No agent bot found for email inbox" }
     end
   end
 
@@ -321,8 +330,9 @@ class LeadRetargeting::SendFollowUpService
     end
   end
 
-  def send_whatsapp_template(template_name:, language:, params:)
-    channel = @inbox.channel
+  def send_whatsapp_template(template_name:, language:, params:, inbox: nil)
+    target_inbox = inbox || @inbox
+    channel = target_inbox.channel
 
     processor = Whatsapp::TemplateProcessorService.new(
       channel: channel,
@@ -355,7 +365,7 @@ class LeadRetargeting::SendFollowUpService
 
     @conversation.messages.create!(
       account_id: @account.id,
-      inbox_id: @inbox.id,
+      inbox_id: target_inbox.id,
       message_type: :template,
       content: rendered_content,
       source_id: message_id,
@@ -647,6 +657,8 @@ class LeadRetargeting::SendFollowUpService
         execute_template_message(step)
       when 'send_sms'
         execute_ai_sms_message(step)
+      when 'send_email'
+        execute_ai_email_message(step)
       else
         { success: false, error: "Invalid closed_window_action: #{closed_action}" }
       end
@@ -689,18 +701,21 @@ class LeadRetargeting::SendFollowUpService
   def execute_ai_sms_message(step)
     sms_config = step.dig('config', 'sms_config')
 
-    # 1. Obtener el agent bot del inbox
-    agent_bot = @inbox.agent_bot
-    raise "No agent bot configured for inbox #{@inbox.id}" unless agent_bot
+    # Usar el inbox de SMS configurado en el step o el inbox de la conversación
+    sms_inbox_id = step.dig('config', 'sms_inbox_id')
+    source_inbox = sms_inbox_id.present? ? (@account.inboxes.find_by(id: sms_inbox_id) || @inbox) : @inbox
 
-    # 2. Construir payload para SMS
+    agent_bot = source_inbox.agent_bot
+    raise "No agent bot configured for inbox #{source_inbox.id}" unless agent_bot
+
     payload = build_ai_webhook_payload(
       step: step,
       agent_bot: agent_bot,
       event_type: 'lead_followup.ai_sms_request',
       message_channel: 'sms',
       context: sms_config['context'],
-      variables: sms_config['variables'] || {}
+      variables: sms_config['variables'] || {},
+      reply_inbox: source_inbox
     )
 
     # 3. Enviar webhook
@@ -716,10 +731,48 @@ class LeadRetargeting::SendFollowUpService
     end
   end
 
+  def execute_ai_email_message(step)
+    unless @contact.email.present?
+      return { success: false, error: 'Contact has no email address' }
+    end
+
+    email_config = step.dig('config', 'email_config') || {}
+
+    # Usar el inbox de email configurado en el step o el inbox de la conversación
+    email_inbox_id = step.dig('config', 'email_inbox_id')
+    source_inbox = email_inbox_id.present? ? (@account.inboxes.find_by(id: email_inbox_id) || @inbox) : @inbox
+
+    agent_bot = source_inbox.agent_bot
+    raise "No agent bot configured for inbox #{source_inbox.id}" unless agent_bot
+
+    payload = build_ai_webhook_payload(
+      step: step,
+      agent_bot: agent_bot,
+      event_type: 'lead_followup.ai_email_request',
+      message_channel: 'email',
+      context: email_config['context'],
+      variables: email_config['variables'] || {},
+      reply_inbox: source_inbox
+    )
+
+    idempotency_key = generate_idempotency_key(step, suffix: 'email_closed')
+
+    begin
+      send_agent_bot_webhook(agent_bot, payload, idempotency_key)
+      { success: true }
+    rescue StandardError => e
+      Rails.logger.error "AI Email message (closed window) failed: #{e.message}"
+      handle_ai_failure(step, e)
+    end
+  end
+
   def execute_template_message(step)
-    # Igual que execute_template_step actual, pero usando config['template_config']
     template_config = step.dig('config', 'template_config')
     raise 'Template config not found' unless template_config
+
+    # Usar el inbox de WhatsApp configurado en el step o el inbox de la conversación
+    whatsapp_inbox_id = step.dig('config', 'whatsapp_inbox_id')
+    target_inbox = whatsapp_inbox_id.present? ? (@account.inboxes.find_by(id: whatsapp_inbox_id) || @inbox) : @inbox
 
     context = build_variable_context
     rendered_params = render_template_params(template_config['template_params'], context)
@@ -727,7 +780,8 @@ class LeadRetargeting::SendFollowUpService
     send_whatsapp_template(
       template_name: template_config['template_name'],
       language: template_config['language'],
-      params: rendered_params
+      params: rendered_params,
+      inbox: target_inbox
     )
 
     { success: true }
@@ -735,9 +789,12 @@ class LeadRetargeting::SendFollowUpService
     { success: false, error: e.message }
   end
 
-  def build_ai_webhook_payload(step:, agent_bot: nil, event_type:, message_channel:, context:, variables:)
-   _agent_bot = agent_bot # Silenciar warning de rubocop si no se usa
+  def build_ai_webhook_payload(step:, agent_bot: nil, event_type:, message_channel:, context:, variables:, reply_inbox: nil)
+    _agent_bot = agent_bot # Silenciar warning de rubocop si no se usa
     context_obj = build_variable_context
+
+    # Inbox al que el bot debe responder (puede ser distinto del inbox de la conversación)
+    target_inbox = reply_inbox || @inbox
 
     # Renderizar el contexto con variables (si existe)
     rendered_context = context.present? ? @sequence.render_param_value(context, context_obj) : nil
@@ -752,7 +809,6 @@ class LeadRetargeting::SendFollowUpService
       account: @account.webhook_data,
       inbox: @inbox.webhook_data,
       conversation: @conversation.webhook_data.merge(
-        # Añadir timestamp de última actividad
         last_activity_at: @conversation.last_activity_at.to_i,
         last_message_at: last_message_timestamp
       ),
@@ -769,8 +825,9 @@ class LeadRetargeting::SendFollowUpService
         # Channel del mensaje
         message_channel: message_channel,
 
-        # Número de teléfono del inbox (para canales de WhatsApp)
-        inbox_phone_number: @inbox.channel&.phone_number,
+        # Inbox al que el bot debe enviar la respuesta
+        reply_inbox_id: target_inbox.id,
+        reply_inbox_phone_number: target_inbox.channel&.phone_number,
 
         # Contexto OPCIONAL - puede ser nil o vacío
         context: rendered_context,
