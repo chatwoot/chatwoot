@@ -46,6 +46,25 @@ put:
                   type: string
                 message_signature:
                   type: string
+                ui_settings:
+                  type: object
+      multipart/form-data:
+        schema:
+          type: object
+          required:
+            - profile
+          properties:
+            profile:
+              type: object
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+                display_name:
+                  type: string
+                message_signature:
+                  type: string
                 avatar:
                   type: string
                   format: binary
