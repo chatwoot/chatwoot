@@ -890,6 +890,20 @@
         "CONFIRM": "Criar novo modelo",
         "CANCEL": "Voltar atrás"
       },
+      "UTILITY_ANALYZER": {
+        "ACTION": "Verificar adequação em utilidade",
+        "HELPER_NOTE": "Verifique esta mensagem antes do envio para melhorar a adequação à categoria Utilidade. O sistema cria um modelo CSAT dedicado com botões para coleta de avaliação e o envia como Utilidade; a Meta ainda pode reclassificá-lo como Marketing com base no conteúdo.",
+        "RESULT_LABEL": "Previsão de categoria da Meta",
+        "GUIDANCE_NOTE": "Esta é uma verificação orientativa, não uma garantia de aprovação pela Meta.",
+        "SUGGESTION_LABEL": "Reescrita sugerida adequada para Utilidade",
+        "APPLY": "Usar esta sugestão",
+        "ERROR_MESSAGE": "Não foi possível analisar a mensagem. Por favor, tente novamente.",
+        "CLASSIFICATION": {
+          "LIKELY_UTILITY": "Provável Utilidade",
+          "LIKELY_MARKETING": "Provável Marketing",
+          "UNCLEAR": "Precisa de esclarecimento"
+        }
+      },
       "SURVEY_RULE": {
         "LABEL": "Regra de pesquisa",
         "DESCRIPTION_PREFIX": "Enviar a pesquisa se a conversa",
@@ -901,7 +915,7 @@
         "SELECT_PLACEHOLDER": "selecionar etiquetas"
       },
       "NOTE": "Nota: pesquisas de CSAT são enviadas apenas uma vez por conversa",
-      "WHATSAPP_NOTE": "Nota: Vamos criar um modelo e enviá-lo para aprovação do WhatsApp. Após a aprovação, as pesquisas serão enviadas apenas uma vez por conversa, conforme a regra da pesquisa.",
+      "WHATSAPP_NOTE": "Observação: Ao salvar, o sistema cria um modelo CSAT dedicado no WhatsApp (usado para capturar avaliação e feedback nos relatórios) e o envia como Utilidade para aprovação. A Meta ainda pode classificá-lo como Marketing com base no conteúdo. Após a aprovação, as pesquisas são enviadas apenas uma vez por conversa, conforme a regra da pesquisa.",
       "API": {
         "SUCCESS_MESSAGE": "Configurações de CSAT atualizadas com sucesso",
         "ERROR_MESSAGE": "Não foi possível atualizar as configurações do CSAT. Por favor, tente novamente mais tarde."
