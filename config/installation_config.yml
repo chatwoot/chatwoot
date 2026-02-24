@@ -199,6 +199,16 @@
   display_title: 'Embedding Model (optional)'
   description: 'The embedding model configured for use in Captain AI. Default: text-embedding-3-small'
   locked: false
+- name: CAPTAIN_CONTEXT_GENERATION_MODEL
+  display_title: 'Context Generation Model (optional)'
+  description: 'Model used to generate contextual prefixes for knowledge chunks. Default: gpt-4.1'
+  locked: false
+- name: CAPTAIN_DOCUMENT_CHUNKING_ENABLED
+  display_title: 'Enable Document Chunking (v1)'
+  description: 'Enables parallel chunk generation for Captain documents. Keep disabled until v1 rollout readiness.'
+  value: false
+  locked: false
+  type: boolean
 - name: CAPTAIN_FIRECRAWL_API_KEY
   display_title: 'FireCrawl API Key (optional)'
   description: 'The FireCrawl API key for the Captain AI service'

@@ -69,7 +69,8 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
             product_name: 'Chatwoot',
             feature_faq: true,
             feature_memory: false,
-            feature_citation: true
+            feature_citation: true,
+            feature_document_faq_generation: false
           }
         }
       }
@@ -109,6 +110,18 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
         expect(json_response[:config][:product_name]).to eq('Chatwoot')
         expect(json_response[:config][:feature_citation]).to be(true)
         expect(response).to have_http_status(:success)
+      end
+
+      it 'creates an assistant with feature_document_faq_generation disabled' do
+        expect do
+          post "/api/v1/accounts/#{account.id}/captain/assistants",
+               params: valid_attributes,
+               headers: admin.create_new_auth_token,
+               as: :json
+        end.to change(Captain::Assistant, :count).by(1)
+
+        expect(response).to have_http_status(:success)
+        expect(json_response[:config][:feature_document_faq_generation]).to be(false)
       end
 
       it 'creates an assistant with feature_citation disabled' do
@@ -215,6 +228,18 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(json_response[:config][:feature_citation]).to be(false)
+      end
+
+      it 'updates feature_document_faq_generation config' do
+        assistant.update!(config: { 'feature_document_faq_generation' => true })
+
+        patch "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}",
+              params: { assistant: { config: { feature_document_faq_generation: false } } },
+              headers: admin.create_new_auth_token,
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(json_response[:config][:feature_document_faq_generation]).to be(false)
       end
     end
   end

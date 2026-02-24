@@ -193,6 +193,14 @@ RSpec.describe Captain::Document, type: :model do
           document.update!(metadata: { 'title' => 'Updated' })
         end.not_to have_enqueued_job(Captain::Documents::ResponseBuilderJob)
       end
+
+      it 'does not enqueue when document FAQ generation is disabled for the assistant' do
+        assistant.update!(config: (assistant.config || {}).merge('feature_document_faq_generation' => false))
+
+        expect do
+          create(:captain_document, assistant: assistant, account: account, status: :available, content: 'Doc content')
+        end.not_to have_enqueued_job(Captain::Documents::ResponseBuilderJob)
+      end
     end
 
     describe 'PDF documents' do
@@ -248,6 +256,55 @@ RSpec.describe Captain::Document, type: :model do
       expect do
         document.destroy!
       end.not_to have_enqueued_job(Captain::Documents::ResponseBuilderJob)
+    end
+  end
+
+  describe 'chunk builder job callback' do
+    before do
+      clear_enqueued_jobs
+      InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_DOCUMENT_CHUNKING_ENABLED').update!(value: 'true')
+    end
+
+    it 'enqueues for available non-PDF documents with content' do
+      expect do
+        create(:captain_document, assistant: assistant, account: account, status: :available, content: 'Doc content')
+      end.to have_enqueued_job(Captain::Documents::ChunkBuilderJob)
+    end
+
+    it 'does not enqueue when chunking flag is disabled' do
+      InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_DOCUMENT_CHUNKING_ENABLED').update!(value: 'false')
+
+      expect do
+        create(:captain_document, assistant: assistant, account: account, status: :available, content: 'Doc content')
+      end.not_to have_enqueued_job(Captain::Documents::ChunkBuilderJob)
+    end
+
+    it 'does not enqueue for PDF documents' do
+      document = build(:captain_document, assistant: assistant, account: account, status: :available, content: nil)
+      document.pdf_file.attach(
+        io: StringIO.new('PDF content'),
+        filename: 'sample.pdf',
+        content_type: 'application/pdf'
+      )
+
+      expect do
+        document.save!
+      end.not_to have_enqueued_job(Captain::Documents::ChunkBuilderJob)
+    end
+
+    it 'enqueues when content is updated on available non-PDF document' do
+      document = create(
+        :captain_document,
+        assistant: assistant,
+        account: account,
+        status: :available,
+        content: nil
+      )
+      clear_enqueued_jobs
+
+      expect do
+        document.update!(content: 'Updated document content')
+      end.to have_enqueued_job(Captain::Documents::ChunkBuilderJob)
     end
   end
 end
