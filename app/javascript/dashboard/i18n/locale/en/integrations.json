@@ -1,6 +1,7 @@
 {
   "INTEGRATION_SETTINGS": {
     "SHOPIFY": {
+      "HEADER": "Shopify",
       "DELETE": {
         "TITLE": "Delete Shopify Integration",
         "MESSAGE": "Are you sure you want to delete the Shopify integration?"
@@ -19,6 +20,8 @@
     "DESCRIPTION": "Chatwoot integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
     "LEARN_MORE": "Learn more about integrations",
     "LOADING": "Fetching integrations",
+    "SEARCH_PLACEHOLDER": "Search integrations...",
+    "NO_RESULTS": "No integrations found matching your search",
     "CAPTAIN": {
       "DISABLED": "Captain is not enabled on your account.",
       "CLICK_HERE_TO_CONFIGURE": "Click here to configure",
@@ -28,6 +31,9 @@
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Subscribed Events",
       "LEARN_MORE": "Learn more about webhooks",
+      "COUNT": "{n} webhook | {n} webhooks",
+      "SEARCH_PLACEHOLDER": "Search webhooks...",
+      "NO_RESULTS": "No webhooks found matching your search",
       "FORM": {
         "CANCEL": "Cancel",
         "DESC": "Webhook events provide you the realtime information about what's happening in your Chatwoot account. Please enter a valid URL to configure a callback.",
@@ -104,6 +110,7 @@
       }
     },
     "SLACK": {
+      "HEADER": "Slack",
       "DELETE": "Delete",
       "DELETE_CONFIRMATION": {
         "TITLE": "Delete the integration",
@@ -223,10 +230,17 @@
       "SIDEBAR_TXT": "<p><b>Dashboard Apps</b></p><p>Dashboard Apps allow organizations to embed an application inside the Chatwoot dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that inside the dashboard to provide user information, their orders, or their previous payment history.</p><p>When you embed your application using the dashboard in Chatwoot, your application will get the context of the conversation and contact as a window event. Implement a listener for the message event on your page to receive the context.</p><p>To add a new dashboard app, click on the button 'Add a new dashboard app'.</p>",
       "DESCRIPTION": "Dashboard Apps allow organizations to embed an application inside the dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that to provide user information, their orders, or their previous payment history.",
       "LEARN_MORE": "Learn more about Dashboard Apps",
+      "COUNT": "{n} dashboard app | {n} dashboard apps",
+      "SEARCH_PLACEHOLDER": "Search dashboard apps...",
+      "NO_RESULTS": "No dashboard apps found matching your search",
       "LIST": {
         "404": "There are no dashboard apps configured on this account yet",
         "LOADING": "Fetching dashboard apps...",
-        "TABLE_HEADER": { "NAME": "Name", "ENDPOINT": "Endpoint" },
+        "TABLE_HEADER": {
+          "NAME": "Name",
+          "ENDPOINT": "Endpoint",
+          "ACTIONS": "Actions"
+        },
         "EDIT_TOOLTIP": "Edit app",
         "DELETE_TOOLTIP": "Delete app"
       },
@@ -262,6 +276,7 @@
       }
     },
     "LINEAR": {
+      "HEADER": "Linear",
       "ADD_OR_LINK_BUTTON": "Create/Link Linear Issue",
       "LOADING": "Fetching linear issues...",
       "LOADING_ERROR": "There was an error fetching the linear issues, please try again",
@@ -356,6 +371,7 @@
       }
     },
     "NOTION": {
+      "HEADER": "Notion",
       "DELETE": {
         "TITLE": "Are you sure you want to delete the Notion integration?",
         "MESSAGE": "Deleting this integration will remove access to your Notion workspace and stop all related functionality.",
