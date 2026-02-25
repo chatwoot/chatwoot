@@ -54,7 +54,7 @@ jobs:
     if: needs.detect-changes.outputs.backend == 'true'
     uses: ./.github/workflows/run_foss_spec.yml
 
-  build-image:
+  release-image:
     if: |
       always() &&
       github.event_name == 'push' &&
@@ -110,14 +110,15 @@ jobs:
     if: |
       always() &&
       github.event_name == 'push' &&
-      needs.build-image.result == 'success'
-    needs: build-image
+      needs.release-image.result == 'success'
+    needs: release-image
     runs-on: ubuntu-latest
+    environment: ${{ startsWith(github.ref, 'refs/tags/') && 'Production' || 'Development' }}
     steps:
       - name: Trigger infra deploy workflow
         env:
           GH_TOKEN: ${{ secrets.GH_ACTIONS_TOKEN }}
-          IMAGE_TAG: ${{ needs.build-image.outputs.image_tag }}
+          IMAGE_TAG: ${{ needs.release-image.outputs.image_tag }}
           ENVIRONMENT: ${{ startsWith(github.ref, 'refs/tags/') && 'prod' || 'dev' }}
         run: |
           gh workflow run chatwoot-deploy.yaml \
