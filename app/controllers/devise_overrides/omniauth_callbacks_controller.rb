@@ -33,6 +33,10 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
   end
 
   def sign_up_user
+    # Auto-join: if configured, add new OAuth users to an existing account
+    # instead of creating a new one.
+    return join_existing_account if auto_join_account.present?
+
     return redirect_to login_page_url(error: 'no-account-found') unless account_signup_allowed?
     return redirect_to login_page_url(error: 'business-account-only') unless validate_signup_email_is_business_domain?
 
@@ -80,6 +84,32 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
       confirmed: auth_hash['info']['email_verified']
     ).perform
     Avatar::AvatarFromUrlJob.perform_later(@resource, auth_hash['info']['image'])
+  end
+
+  def auto_join_account
+    account_id = ENV.fetch('OAUTH_AUTO_JOIN_ACCOUNT_ID', nil)
+    return nil if account_id.blank?
+
+    Account.find_by(id: account_id)
+  end
+
+  def join_existing_account
+    account = auto_join_account
+    email = auth_hash['info']['email']
+    name = auth_hash['info']['name']
+
+    @resource = User.find_or_initialize_by(email: email)
+    if @resource.new_record?
+      @resource.name = name
+      @resource.password = SecureRandom.urlsafe_base64(16)
+      @resource.confirmed_at = Time.current
+      @resource.save!
+    end
+
+    @resource.account_users.create!(account_id: account.id, role: :agent) unless @resource.account_users.exists?(account_id: account.id)
+
+    Avatar::AvatarFromUrlJob.perform_later(@resource, auth_hash['info']['image']) if auth_hash.dig('info', 'image').present?
+    sign_in_user
   end
 
   def default_devise_mapping
