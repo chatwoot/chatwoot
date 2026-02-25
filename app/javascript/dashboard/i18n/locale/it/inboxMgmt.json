@@ -592,8 +592,10 @@
         "DISABLED": "Disabilitato"
       },
       "LOCK_TO_SINGLE_CONVERSATION": {
-        "ENABLED": "Abilitato",
-        "DISABLED": "Disabilitato"
+        "ENABLED": "Reopen same conversation",
+        "DISABLED": "Create new conversations",
+        "ENABLED_DESCRIPTION": "When a contact messages again, the previous conversation will be reopened.",
+        "DISABLED_DESCRIPTION": "A new conversation will be created each time after the previous one is resolved."
       },
       "ENABLE_HMAC": {
         "LABEL": "Abilita"
@@ -713,8 +715,8 @@
       "SENDER_NAME_SECTION_TEXT": "Abilita/Disabilita la visualizzazione del nome dell'Operatore nelle email. Se disabilitato, verrà mostrato il nome dell'azienda",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Abilita la continuità della conversazione via email",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Le conversazioni continueranno via email se l'indirizzo email del contatto è disponibile.",
-      "LOCK_TO_SINGLE_CONVERSATION": "Limita ad una conversazione unica",
-      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Abilita o disabilita conversazioni multiple per lo stesso contatto in questa Inbox",
+      "LOCK_TO_SINGLE_CONVERSATION": "Conversation Routing",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Configure conversation creation for existing contacts",
       "INBOX_UPDATE_TITLE": "Impostazioni Inbox",
       "INBOX_UPDATE_SUB_TEXT": "Aggiorna le impostazioni inbox",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Abilita o disabilita l'assegnazione automatica di nuove conversazioni agli agenti aggiunti a questa casella.",
