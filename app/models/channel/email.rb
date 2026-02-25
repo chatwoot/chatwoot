@@ -39,8 +39,8 @@ class Channel::Email < ApplicationRecord
   include Reauthorizable
 
   AUTHORIZATION_ERROR_THRESHOLD = 10
-  MAX_IMAP_RETRIES = 5
-  IMAP_BACKOFF_BASE_SECONDS = 60
+  IMAP_BACKOFF_MAX_INTERVAL_MINUTES = 5
+  IMAP_BACKOFF_MAX_INTERVAL_COUNT = 5
 
   # TODO: Remove guard once encryption keys become mandatory (target 3-4 releases out).
   if Chatwoot.encryption_configured?
@@ -74,30 +74,47 @@ class Channel::Email < ApplicationRecord
     imap_enabled && imap_address == 'imap.gmail.com'
   end
 
+  def imap_retry_count
+    ::Redis::Alfred.get(imap_retry_count_key).to_i
+  end
+
   def in_backoff?
-    imap_retry_after.present? && imap_retry_after > Time.current
+    val = ::Redis::Alfred.get(imap_retry_after_key)
+    val.present? && Time.zone.at(val.to_f) > Time.current
   end
 
   def apply_imap_backoff!
     new_count = imap_retry_count + 1
-    if new_count >= MAX_IMAP_RETRIES
-      update!(imap_retry_count: 0, imap_retry_after: nil)
+    max_retries = (IMAP_BACKOFF_MAX_INTERVAL_MINUTES - 1) + IMAP_BACKOFF_MAX_INTERVAL_COUNT
+
+    if new_count > max_retries
+      Rails.logger.warn "Error for email channel - #{inbox.id} exhausted backoff (#{new_count} failures), prompting reauthorization"
+      clear_imap_backoff!
       prompt_reauthorization!
     else
-      backoff_seconds = IMAP_BACKOFF_BASE_SECONDS * (2**new_count)
-      update!(imap_retry_count: new_count, imap_retry_after: backoff_seconds.seconds.from_now)
+      wait_minutes = [new_count, IMAP_BACKOFF_MAX_INTERVAL_MINUTES].min
+      ::Redis::Alfred.set(imap_retry_count_key, new_count.to_s)
+      ::Redis::Alfred.set(imap_retry_after_key, wait_minutes.minutes.from_now.to_f.to_s)
+      Rails.logger.warn "Error for email channel - #{inbox.id} backoff retry #{new_count}/#{max_retries}, next attempt in #{wait_minutes}m"
     end
   end
 
   def clear_imap_backoff!
-    return unless imap_retry_count.positive? || imap_retry_after.present?
-
-    update!(imap_retry_count: 0, imap_retry_after: nil)
+    ::Redis::Alfred.delete(imap_retry_count_key)
+    ::Redis::Alfred.delete(imap_retry_after_key)
   end
 
   private
 
   def ensure_forward_to_email
     self.forward_to_email ||= "#{SecureRandom.hex}@#{account.inbound_email_domain}"
+  end
+
+  def imap_retry_count_key
+    format(::Redis::Alfred::IMAP_BACKOFF_RETRY_COUNT, channel_id: id)
+  end
+
+  def imap_retry_after_key
+    format(::Redis::Alfred::IMAP_BACKOFF_RETRY_AFTER, channel_id: id)
   end
 end
