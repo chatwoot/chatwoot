@@ -178,9 +178,12 @@ export const prepareWhatsAppMessagePayload = ({
 
 // API Calls
 export const searchContacts = async query => {
+  const trimmed = typeof query === 'string' ? query.trim() : '';
+  if (!trimmed) return [];
+
   const {
     data: { payload },
-  } = await ContactAPI.search(query);
+  } = await ContactAPI.search(trimmed);
   const camelCasedPayload = camelcaseKeys(payload, { deep: true });
   // Filter contacts that have either phone_number or email
   const filteredPayload = camelCasedPayload?.filter(
