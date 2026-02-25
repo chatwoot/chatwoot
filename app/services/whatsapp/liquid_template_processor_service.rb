@@ -1,4 +1,6 @@
 class Whatsapp::LiquidTemplateProcessorService
+  COMPONENT_KEYS = %w[body header buttons footer].freeze
+
   pattr_initialize [:campaign!, :contact!]
 
   def process_template_params(template_params)
@@ -7,17 +9,50 @@ class Whatsapp::LiquidTemplateProcessorService
     template_params_copy = template_params.deep_dup
     processed_params = template_params_copy['processed_params']
 
-    return template_params_copy if processed_params.blank? || !processed_params.is_a?(Hash)
+    return template_params_copy if processed_params.blank?
 
-    process_body_params(processed_params)
-    process_header_params(processed_params)
-    process_button_params(processed_params)
-    process_footer_params(processed_params)
+    case processed_params
+    when Array
+      process_legacy_array_params(processed_params)
+    when Hash
+      process_hash_params(processed_params)
+    end
 
     template_params_copy
   end
 
   private
+
+  def process_hash_params(processed_params)
+    if enhanced_component_params?(processed_params)
+      process_component_params(processed_params)
+    else
+      process_legacy_hash_params(processed_params)
+    end
+  end
+
+  def process_component_params(processed_params)
+    process_body_params(processed_params)
+    process_header_params(processed_params)
+    process_button_params(processed_params)
+    process_footer_params(processed_params)
+  end
+
+  def process_legacy_hash_params(processed_params)
+    processed_params.each do |key, value|
+      processed_params[key] = process_liquid(value) if value.is_a?(String)
+    end
+  end
+
+  def process_legacy_array_params(processed_params)
+    processed_params.each_with_index do |value, index|
+      processed_params[index] = process_liquid(value) if value.is_a?(String)
+    end
+  end
+
+  def enhanced_component_params?(processed_params)
+    processed_params.keys.any? { |key| COMPONENT_KEYS.include?(key) }
+  end
 
   def process_body_params(processed_params)
     return if processed_params['body'].blank?

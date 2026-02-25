@@ -224,5 +224,43 @@ describe Whatsapp::LiquidTemplateProcessorService do
         expect(result['processed_params']['body']['invalid']).to eq('{{contact.name missing braces')
       end
     end
+
+    context 'with legacy flat hash processed_params' do
+      let(:template_params) do
+        {
+          'name' => 'legacy_template',
+          'processed_params' => {
+            '1' => '{{contact.name}}',
+            '2' => '{{contact.email}}',
+            '3' => 'Hello World'
+          }
+        }
+      end
+
+      it 'processes liquid variables in legacy hash values' do
+        result = service.process_template_params(template_params)
+        contact_drop_name = ContactDrop.new(contact).name
+
+        expect(result['processed_params']['1']).to eq(contact_drop_name)
+        expect(result['processed_params']['2']).to eq(contact.email)
+        expect(result['processed_params']['3']).to eq('Hello World')
+      end
+    end
+
+    context 'with legacy array processed_params' do
+      let(:template_params) do
+        {
+          'name' => 'legacy_template',
+          'processed_params' => ['{{contact.name}}', '{{contact.email}}', 'Hello World']
+        }
+      end
+
+      it 'processes liquid variables in legacy array values' do
+        result = service.process_template_params(template_params)
+        contact_drop_name = ContactDrop.new(contact).name
+
+        expect(result['processed_params']).to eq([contact_drop_name, contact.email, 'Hello World'])
+      end
+    end
   end
 end
