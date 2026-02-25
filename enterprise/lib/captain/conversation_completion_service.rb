@@ -39,6 +39,10 @@ class Captain::ConversationCompletionService < Captain::BaseTaskService
 
   private
 
+  def prompt_from_file(file_name)
+    Rails.root.join('enterprise/lib/captain/prompts', "#{file_name}.liquid").read
+  end
+
   def format_messages_as_string
     messages = conversation_messages(start_from: 0)
     messages.map do |msg|
@@ -68,3 +72,5 @@ class Captain::ConversationCompletionService < Captain::BaseTaskService
     false
   end
 end
+
+Captain::ConversationCompletionService.prepend_mod_with('Captain::ConversationCompletionService')

@@ -122,9 +122,41 @@ RSpec.describe Captain::ConversationCompletionService do
       it 'does not evaluate the conversation as complete' do
         result = service.perform
 
-        # Enterprise module intercepts with { error: '...' }, otherwise
-        # base class returns error which service wraps as { complete: false }
         expect(result[:complete]).not_to be true
+      end
+    end
+
+    context 'when customer quota is exhausted' do
+      let(:mock_response) do
+        instance_double(
+          RubyLLM::Message,
+          content: { 'complete' => true, 'reason' => 'Customer question was fully answered' },
+          input_tokens: 100,
+          output_tokens: 20
+        )
+      end
+
+      before do
+        allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
+        allow(account).to receive(:usage_limits).and_return({
+                                                              captain: { responses: { current_available: 0 } }
+                                                            })
+        create(:message, conversation: conversation, message_type: :incoming, content: 'What are your hours?')
+        create(:message, conversation: conversation, message_type: :outgoing, content: 'We are open 9-5 Monday to Friday.')
+        allow(mock_chat).to receive(:ask).and_return(mock_response)
+      end
+
+      it 'still runs the evaluation bypassing quota check' do
+        result = service.perform
+
+        expect(result[:error]).to be_nil
+        expect(result[:complete]).to be true
+        expect(result[:reason]).to eq('Customer question was fully answered')
+      end
+
+      it 'does not increment usage' do
+        expect(account).not_to receive(:increment_response_usage)
+        service.perform
       end
     end
   end
