@@ -1,4 +1,0 @@
-type: object
-properties:
-  display_id:
-    type: number

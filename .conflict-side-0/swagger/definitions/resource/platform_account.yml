@@ -1,9 +1,0 @@
-type: object
-properties:
-  id:
-    type: number
-    description: Account ID
-  name:
-    type: string
-    description: Name of the account
-
