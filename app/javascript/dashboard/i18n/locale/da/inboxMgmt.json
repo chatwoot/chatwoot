@@ -592,8 +592,10 @@
         "DISABLED": "Deaktiveret"
       },
       "LOCK_TO_SINGLE_CONVERSATION": {
-        "ENABLED": "Aktiveret",
-        "DISABLED": "Deaktiveret"
+        "ENABLED": "Reopen same conversation",
+        "DISABLED": "Create new conversations",
+        "ENABLED_DESCRIPTION": "When a contact messages again, the previous conversation will be reopened.",
+        "DISABLED_DESCRIPTION": "A new conversation will be created each time after the previous one is resolved."
       },
       "ENABLE_HMAC": {
         "LABEL": "Aktiver"
@@ -713,8 +715,8 @@
       "SENDER_NAME_SECTION_TEXT": "Enable/Disable showing Agent's name in email, if disabled it will show business name",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Aktivér konversationskontinuitet via e-mail",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Samtaler vil fortsætte via e-mail, hvis kontaktpersonens e-mailadresse er tilgængelig.",
-      "LOCK_TO_SINGLE_CONVERSATION": "Lock to single conversation",
-      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Enable or disable multiple conversations for the same contact in this inbox",
+      "LOCK_TO_SINGLE_CONVERSATION": "Conversation Routing",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Configure conversation creation for existing contacts",
       "INBOX_UPDATE_TITLE": "Indbakke Indstillinger",
       "INBOX_UPDATE_SUB_TEXT": "Opdater dine indbakkeindstillinger",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Aktiver eller deaktiver automatisk tildeling af nye samtaler til agenter tilføjet til denne indbakke.",
