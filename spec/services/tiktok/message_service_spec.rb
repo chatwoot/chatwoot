@@ -139,8 +139,8 @@ RSpec.describe Tiktok::MessageService do
     ensure
       tempfile.close!
     end
-    
-        it 'creates a conversation even when capability lookup fails' do
+
+    it 'creates a conversation even when capability lookup fails' do
       allow(tiktok_client).to receive(:image_send_capable?).and_raise('TikTok capability API error')
 
       content = {
@@ -188,6 +188,6 @@ RSpec.describe Tiktok::MessageService do
         expect(inbox.conversations.count).to eq(2)
         expect(inbox.conversations.last.messages.last.content).to eq('Hello from TikTok')
       end
-    end 
+    end
   end
 end
