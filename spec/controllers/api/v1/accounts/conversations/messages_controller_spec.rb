@@ -356,4 +356,122 @@ RSpec.describe 'Conversation Messages API', type: :request do
       end
     end
   end
+
+  describe 'POST /api/v1/accounts/{account.id}/conversations/:conversation_id/messages/:id/pin' do
+    let!(:inbox) { create(:inbox, account: account) }
+    let!(:conversation) { create(:conversation, inbox: inbox, account: account) }
+    let!(:message) { create(:message, conversation: conversation, account: account, message_type: :outgoing) }
+    let!(:agent) { create(:user, account: account, role: :agent) }
+
+    before do
+      create(:inbox_member, inbox: conversation.inbox, user: agent)
+    end
+
+    context 'when it is an authenticated user with access to conversation' do
+      it 'pins the message to the conversation' do
+        post pin_api_v1_account_conversation_message_url(
+          account_id: account.id,
+          conversation_id: conversation.display_id,
+          id: message.id
+        ), headers: agent.create_new_auth_token, as: :json
+
+        expect(response).to have_http_status(:ok)
+        expect(conversation.reload.pinned_message_id).to eq(message.id)
+        
+        json_response = response.parsed_body
+        expect(json_response['id']).to eq(conversation.display_id)
+        expect(json_response['pinned_message']['id']).to eq(message.id)
+      end
+
+      it 'replaces existing pinned message' do
+        old_message = create(:message, conversation: conversation, account: account)
+        conversation.update(pinned_message: old_message)
+
+        post pin_api_v1_account_conversation_message_url(
+          account_id: account.id,
+          conversation_id: conversation.display_id,
+          id: message.id
+        ), headers: agent.create_new_auth_token, as: :json
+
+        expect(response).to have_http_status(:ok)
+        expect(conversation.reload.pinned_message_id).to eq(message.id)
+      end
+
+      it 'returns error when pinning message from different conversation' do
+        other_conversation = create(:conversation, inbox: inbox, account: account)
+        other_message = create(:message, conversation: other_conversation, account: account)
+
+        post pin_api_v1_account_conversation_message_url(
+          account_id: account.id,
+          conversation_id: conversation.display_id,
+          id: other_message.id
+        ), headers: agent.create_new_auth_token, as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(conversation.reload.pinned_message_id).to be_nil
+      end
+    end
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        post pin_api_v1_account_conversation_message_url(
+          account_id: account.id,
+          conversation_id: conversation.display_id,
+          id: message.id
+        )
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+  end
+
+  describe 'DELETE /api/v1/accounts/{account.id}/conversations/:conversation_id/messages/:id/unpin' do
+    let!(:inbox) { create(:inbox, account: account) }
+    let!(:conversation) { create(:conversation, inbox: inbox, account: account) }
+    let!(:message) { create(:message, conversation: conversation, account: account, message_type: :outgoing) }
+    let!(:agent) { create(:user, account: account, role: :agent) }
+
+    before do
+      create(:inbox_member, inbox: conversation.inbox, user: agent)
+      conversation.update(pinned_message: message)
+    end
+
+    context 'when it is an authenticated user with access to conversation' do
+      it 'unpins the message from the conversation' do
+        delete unpin_api_v1_account_conversation_message_url(
+          account_id: account.id,
+          conversation_id: conversation.display_id,
+          id: message.id
+        ), headers: agent.create_new_auth_token, as: :json
+
+        expect(response).to have_http_status(:ok)
+        expect(conversation.reload.pinned_message_id).to be_nil
+      end
+
+      it 'returns error when unpinning a non-pinned message' do
+        other_message = create(:message, conversation: conversation, account: account)
+
+        delete unpin_api_v1_account_conversation_message_url(
+          account_id: account.id,
+          conversation_id: conversation.display_id,
+          id: other_message.id
+        ), headers: agent.create_new_auth_token, as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(conversation.reload.pinned_message_id).to eq(message.id)
+      end
+    end
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        delete unpin_api_v1_account_conversation_message_url(
+          account_id: account.id,
+          conversation_id: conversation.display_id,
+          id: message.id
+        )
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+  end
 end

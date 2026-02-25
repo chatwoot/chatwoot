@@ -108,6 +108,18 @@ class MessageApi extends ApiClient {
       }
     );
   }
+
+  pinMessage(conversationId, messageId) {
+    return axios.post(
+      `${this.url}/${conversationId}/messages/${messageId}/pin`
+    );
+  }
+
+  unpinMessage(conversationId, messageId) {
+    return axios.delete(
+      `${this.url}/${conversationId}/messages/${messageId}/unpin`
+    );
+  }
 }
 
 export default new MessageApi();
