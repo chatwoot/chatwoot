@@ -33,6 +33,24 @@ class Tiktok::Client
     json['data']['download_url']
   end
 
+  def image_send_capable?(conversation_id, conversation_type: 'SINGLE')
+    endpoint = "#{api_base_url}/business/message/capabilities/get/"
+    headers = { 'Access-Token': access_token }
+    query = {
+      business_id: business_id,
+      conversation_id: conversation_id,
+      conversation_type: conversation_type,
+      capability_types: ['IMAGE_SEND'].to_json
+    }
+
+    response = HTTParty.get(endpoint, query: query, headers: headers)
+    json = process_json_response(response, 'Failed to fetch TikTok message capabilities')
+    capabilities = json.dig('data', 'capability_infos') || []
+    image_send = capabilities.find { |capability| capability['capability_type'] == 'IMAGE_SEND' }
+
+    image_send&.[]('capability_result') == true
+  end
+
   def send_text_message(conversation_id, text, referenced_message_id: nil)
     send_message(conversation_id, 'TEXT', text, referenced_message_id: referenced_message_id)
   end

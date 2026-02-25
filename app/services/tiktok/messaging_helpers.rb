@@ -40,14 +40,23 @@ module Tiktok::MessagingHelpers
       inbox_id: channel.inbox.id,
       contact_id: contact_inbox.contact.id,
       contact_inbox_id: contact_inbox.id,
-      additional_attributes: conversation_additional_attributes(tt_conversation_id)
+      additional_attributes: conversation_additional_attributes(channel, tt_conversation_id)
     }
   end
 
-  def conversation_additional_attributes(tt_conversation_id)
-    {
-      conversation_id: tt_conversation_id
-    }
+  def conversation_additional_attributes(channel, tt_conversation_id)
+    attributes = { conversation_id: tt_conversation_id }
+    capabilities = tiktok_conversation_capabilities(channel, tt_conversation_id)
+    attributes[:tiktok_capabilities] = capabilities if capabilities.present?
+    attributes
+  end
+
+  def tiktok_conversation_capabilities(channel, tt_conversation_id)
+    image_send = tiktok_client(channel).image_send_capable?(tt_conversation_id)
+    { image_send: image_send, checked_at: Time.current.iso8601 }
+  rescue StandardError => e
+    Rails.logger.error("Failed to fetch TikTok conversation capabilities: #{e.message}")
+    {}
   end
 
   def find_message(tt_conversation_id, tt_message_id)
