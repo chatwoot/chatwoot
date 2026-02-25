@@ -592,8 +592,10 @@
         "DISABLED": "已停用"
       },
       "LOCK_TO_SINGLE_CONVERSATION": {
-        "ENABLED": "已啟用",
-        "DISABLED": "已停用"
+        "ENABLED": "Reopen same conversation",
+        "DISABLED": "Create new conversations",
+        "ENABLED_DESCRIPTION": "When a contact messages again, the previous conversation will be reopened.",
+        "DISABLED_DESCRIPTION": "A new conversation will be created each time after the previous one is resolved."
       },
       "ENABLE_HMAC": {
         "LABEL": "啟用"
@@ -713,8 +715,8 @@
       "SENDER_NAME_SECTION_TEXT": "Enable/Disable showing Agent's name in email, if disabled it will show business name",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Enable conversation continuity via email",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Conversations will continue over email if the contact email address is available.",
-      "LOCK_TO_SINGLE_CONVERSATION": "Lock to single conversation",
-      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Enable or disable multiple conversations for the same contact in this inbox",
+      "LOCK_TO_SINGLE_CONVERSATION": "Conversation Routing",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Configure conversation creation for existing contacts",
       "INBOX_UPDATE_TITLE": "收件匣設定",
       "INBOX_UPDATE_SUB_TEXT": "更新收件匣設定",
       "AUTO_ASSIGNMENT_SUB_TEXT": "啟用或停用此收件匣客服的對話自動分配。",
