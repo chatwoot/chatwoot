@@ -65,7 +65,7 @@ class Captain::ConversationCompletionService < Captain::BaseTaskService
   end
 
   def event_name
-    'conversation_completion'
+    'captain.conversation_completion'
   end
 
   def build_follow_up_context?
