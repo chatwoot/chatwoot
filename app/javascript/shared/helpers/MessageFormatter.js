@@ -92,11 +92,16 @@ class MessageFormatter {
   }
 
   get plainText() {
-    const strippedOutHtml = new DOMParser().parseFromString(
-      this.formattedMessage,
-      'text/html'
+    // Strip HTML from the raw message first to handle email HTML content,
+    // then render through markdown and strip the resulting HTML.
+    const rawText =
+      new DOMParser().parseFromString(this.message, 'text/html').body
+        .textContent || '';
+    const rendered = this.md.render(rawText);
+    return (
+      new DOMParser().parseFromString(rendered, 'text/html').body.textContent ||
+      ''
     );
-    return strippedOutHtml.body.textContent || '';
   }
 }
 
