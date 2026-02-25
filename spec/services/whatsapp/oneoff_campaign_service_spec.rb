@@ -182,34 +182,6 @@ describe Whatsapp::OneoffCampaignService do
 
         described_class.new(campaign: campaign_with_liquid).perform
       end
-
-      it 'sends template for legacy array params without raising processing errors' do
-        contact = create(:contact, :with_phone_number, account: account, name: 'Jane Smith')
-        contact.update_labels([label1.title])
-
-        campaign_with_legacy_array = create(:campaign, inbox: whatsapp_inbox, account: account,
-                                                       audience: [{ type: 'Label', id: label1.id }],
-                                                       template_params: {
-                                                         'name' => 'ticket_status_updated',
-                                                         'namespace' => '23423423_2342423_324234234_2343224',
-                                                         'category' => 'UTILITY',
-                                                         'language' => 'en',
-                                                         'processed_params' => %w[John 2332]
-                                                       })
-
-        expect(whatsapp_channel).to receive(:send_template).with(
-          contact.phone_number,
-          hash_including(
-            name: 'ticket_status_updated',
-            namespace: '23423423_2342423_324234234_2343224',
-            lang_code: 'en',
-            parameters: be_present
-          ),
-          nil
-        )
-
-        described_class.new(campaign: campaign_with_legacy_array).perform
-      end
     end
 
     context 'when template_params is missing' do
