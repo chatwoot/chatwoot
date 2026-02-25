@@ -24,6 +24,10 @@ export default {
       type: [String, Date, Number],
       default: '',
     },
+    conversationId: {
+      type: [String, Number],
+      default: '',
+    },
   },
   data() {
     return {
@@ -73,8 +77,11 @@ export default {
     },
     createdAtTimestamp() {
       this.createdAtTimeAgo = dynamicTime(this.createdAtTimestamp);
-      // createdAtTimestamp changes only when the conversation identity changes (row recycled).
-      // Reset the timer so the refresh cadence matches the new conversation's age.
+    },
+    conversationId() {
+      // Reset display values and timer when the row is recycled to a different conversation.
+      this.lastActivityAtTimeAgo = dynamicTime(this.lastActivityTimestamp);
+      this.createdAtTimeAgo = dynamicTime(this.createdAtTimestamp);
       if (this.isAutoRefreshEnabled) {
         clearTimeout(this.timer);
         this.createTimer();
