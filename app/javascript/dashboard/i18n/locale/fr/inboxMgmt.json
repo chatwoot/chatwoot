@@ -592,8 +592,10 @@
         "DISABLED": "Désactivé"
       },
       "LOCK_TO_SINGLE_CONVERSATION": {
-        "ENABLED": "Activé",
-        "DISABLED": "Désactivé"
+        "ENABLED": "Reopen same conversation",
+        "DISABLED": "Create new conversations",
+        "ENABLED_DESCRIPTION": "When a contact messages again, the previous conversation will be reopened.",
+        "DISABLED_DESCRIPTION": "A new conversation will be created each time after the previous one is resolved."
       },
       "ENABLE_HMAC": {
         "LABEL": "Activer"
@@ -713,8 +715,8 @@
       "SENDER_NAME_SECTION_TEXT": "Activer/Désactiver l'affichage du nom de l'agent dans l'e-mail, si désactivé, il affichera le nom de l'entreprise",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Activer la continuité de la conversation par e-mail",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Les conversations se poursuivront par courrier électronique si l'adresse e-mail du contact est disponible.",
-      "LOCK_TO_SINGLE_CONVERSATION": "Verrouiller à une seule conversation",
-      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Activer ou désactiver plusieurs conversations pour le même contact dans cette boîte de réception",
+      "LOCK_TO_SINGLE_CONVERSATION": "Conversation Routing",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Configure conversation creation for existing contacts",
       "INBOX_UPDATE_TITLE": "Paramètres de boîtes de réception",
       "INBOX_UPDATE_SUB_TEXT": "Mettre à jour les paramètres de votre boîte de réception",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Activer ou désactiver l'affectation automatique de nouvelles conversations aux agents ajoutés à cette boîte de réception.",
