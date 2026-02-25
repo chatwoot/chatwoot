@@ -592,8 +592,10 @@
         "DISABLED": "Letiltva"
       },
       "LOCK_TO_SINGLE_CONVERSATION": {
-        "ENABLED": "Engedélyezve",
-        "DISABLED": "Letiltva"
+        "ENABLED": "Reopen same conversation",
+        "DISABLED": "Create new conversations",
+        "ENABLED_DESCRIPTION": "When a contact messages again, the previous conversation will be reopened.",
+        "DISABLED_DESCRIPTION": "A new conversation will be created each time after the previous one is resolved."
       },
       "ENABLE_HMAC": {
         "LABEL": "Engedélyezés"
@@ -713,8 +715,8 @@
       "SENDER_NAME_SECTION_TEXT": "Az ügynök nevének megjelenítésének engedélyezése/letiltása az e-mailben, ha le van tiltva, akkor a cég neve jelenik meg",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Beszélgetés folytatásának engedélyezése emailen keresztül",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "A beszélgetések e-mailben folytatódnak, ha elérhető a kapcsolattartási e-mail cím.",
-      "LOCK_TO_SINGLE_CONVERSATION": "Egyetlen beszélgetés zárolása",
-      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Több beszélgetés engedélyezése vagy letiltása ugyanahhoz a névjegyhez ebben a postafiókban",
+      "LOCK_TO_SINGLE_CONVERSATION": "Conversation Routing",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Configure conversation creation for existing contacts",
       "INBOX_UPDATE_TITLE": "Fiókbeállítások",
       "INBOX_UPDATE_SUB_TEXT": "Frissítsd az inbox beállításaidat",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Bekapcsolása vagy kikapcsolása az inboxhoz kapcsolódó automatikus ügynökhozzárendelésnek új beszélgetések esetén.",
