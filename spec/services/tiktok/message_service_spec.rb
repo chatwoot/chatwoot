@@ -26,6 +26,14 @@ RSpec.describe Tiktok::MessageService do
   end
 
   describe '#perform' do
+    subject(:perform_text_message) do
+      service = described_class.new(channel: channel, content: current_content)
+      allow(service).to receive(:create_contact_inbox).and_return(contact_inbox)
+      service.perform
+    end
+
+    let(:current_content) { text_content }
+
     it 'creates an incoming text message' do
       expect do
         service = described_class.new(channel: channel, content: text_content)
@@ -131,8 +139,8 @@ RSpec.describe Tiktok::MessageService do
     ensure
       tempfile.close!
     end
-
-    it 'creates a conversation even when capability lookup fails' do
+    
+        it 'creates a conversation even when capability lookup fails' do
       allow(tiktok_client).to receive(:image_send_capable?).and_raise('TikTok capability API error')
 
       content = {
@@ -155,5 +163,31 @@ RSpec.describe Tiktok::MessageService do
       message = Message.last
       expect(message.conversation.additional_attributes['tiktok_capabilities']).to be_nil
     end
+
+    context 'when lock_to_single_conversation is enabled' do
+      it 'reuses the last resolved conversation' do
+        inbox.update!(lock_to_single_conversation: true)
+        resolved_conversation = create(:conversation, inbox: inbox, contact: contact, contact_inbox: contact_inbox, status: :resolved)
+
+        perform_text_message
+
+        expect(inbox.conversations.count).to eq(1)
+        expect(resolved_conversation.reload.messages.last.content).to eq('Hello from TikTok')
+      end
+    end
+
+    context 'when lock_to_single_conversation is disabled' do
+      let(:current_content) { text_content.merge(message_id: 'tt-msg-lock-2') }
+
+      it 'creates a new conversation if the previous one is resolved' do
+        inbox.update!(lock_to_single_conversation: false)
+        create(:conversation, inbox: inbox, contact: contact, contact_inbox: contact_inbox, status: :resolved)
+
+        perform_text_message
+
+        expect(inbox.conversations.count).to eq(2)
+        expect(inbox.conversations.last.messages.last.content).to eq('Hello from TikTok')
+      end
+    end 
   end
 end

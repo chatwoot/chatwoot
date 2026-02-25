@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue';
-import RadioCard from '../RadioCard.vue';
+import RadioCard from './RadioCard.vue';
 
 const selectedOption = ref('round_robin');
 
