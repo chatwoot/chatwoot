@@ -2,22 +2,9 @@ require 'rails_helper'
 
 describe ChatwootHub do
   describe '.base_url' do
-    subject(:community_base_url) do
-      described_class.method(:base_url).super_method&.call || described_class.base_url
-    end
-
-    it 'ignores CHATWOOT_HUB_URL outside development' do
-      with_modified_env CHATWOOT_HUB_URL: 'https://custom.example.com' do
-        allow(Rails).to receive(:env).and_return(ActiveSupport::StringInquirer.new('production'))
-        expect(community_base_url).to eq described_class::DEFAULT_BASE_URL
-      end
-    end
-
-    it 'ignores CHATWOOT_HUB_URL in development' do
-      with_modified_env CHATWOOT_HUB_URL: 'https://custom.example.com' do
-        allow(Rails).to receive(:env).and_return(ActiveSupport::StringInquirer.new('development'))
-        expect(community_base_url).to eq described_class::DEFAULT_BASE_URL
-      end
+    it 'uses the static hub url' do
+      expect(described_class::DEFAULT_BASE_URL).to eq('https://hub.2.chatwoot.com')
+      expect(described_class.base_url).to eq('https://hub.2.chatwoot.com')
     end
   end
 
