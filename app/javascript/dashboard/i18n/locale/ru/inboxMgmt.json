@@ -592,8 +592,10 @@
         "DISABLED": "Выключено"
       },
       "LOCK_TO_SINGLE_CONVERSATION": {
-        "ENABLED": "Включено",
-        "DISABLED": "Выключено"
+        "ENABLED": "Reopen same conversation",
+        "DISABLED": "Create new conversations",
+        "ENABLED_DESCRIPTION": "When a contact messages again, the previous conversation will be reopened.",
+        "DISABLED_DESCRIPTION": "A new conversation will be created each time after the previous one is resolved."
       },
       "ENABLE_HMAC": {
         "LABEL": "Включить"
@@ -713,8 +715,8 @@
       "SENDER_NAME_SECTION_TEXT": "Включить/выключить отображение имени Сотрудника в электронной почте, если отключено, он будет показывать бизнес-имя",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Включить непрерывность диалогов по электронной почте",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Диалоги будут продолжаться по электронной почте, если доступен контактный адрес электронной почты.",
-      "LOCK_TO_SINGLE_CONVERSATION": "Заблокировать один диалог",
-      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Включение или отключение нескольких диалогов для одного и того же контакта в этой папке «Входящие»",
+      "LOCK_TO_SINGLE_CONVERSATION": "Conversation Routing",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Configure conversation creation for existing contacts",
       "INBOX_UPDATE_TITLE": "Настройки источника",
       "INBOX_UPDATE_SUB_TEXT": "Изменить настройки источника",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Включить или отключить автоматическое назначение новых разговоров к агентам, добавленным к этому источнику.",
