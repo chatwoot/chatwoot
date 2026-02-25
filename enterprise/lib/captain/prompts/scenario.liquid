@@ -14,11 +14,11 @@ If you believe the user's request is not within the scope of your role, you can 
 Here's the metadata we have about the current conversation and the contact associated with it:
 
 {% if conversation -%}
-{% render 'conversation' %}
+{% render 'conversation', conversation: conversation %}
 {% endif -%}
 
 {% if contact -%}
-{% render 'contact' %}
+{% render 'contact', contact: contact %}
 {% endif -%}
 
 {% if campaign.id -%}
