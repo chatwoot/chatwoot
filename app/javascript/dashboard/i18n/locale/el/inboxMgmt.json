@@ -592,8 +592,10 @@
         "DISABLED": "Ανενεργό"
       },
       "LOCK_TO_SINGLE_CONVERSATION": {
-        "ENABLED": "Ενεργό",
-        "DISABLED": "Ανενεργό"
+        "ENABLED": "Reopen same conversation",
+        "DISABLED": "Create new conversations",
+        "ENABLED_DESCRIPTION": "When a contact messages again, the previous conversation will be reopened.",
+        "DISABLED_DESCRIPTION": "A new conversation will be created each time after the previous one is resolved."
       },
       "ENABLE_HMAC": {
         "LABEL": "Ενεργοποίηση"
@@ -713,8 +715,8 @@
       "SENDER_NAME_SECTION_TEXT": "Enable/Disable showing Agent's name in email, if disabled it will show business name",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Ενεργοποίηση της συνέχειας συνομιλίας μέσω email",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Οι συζητήσεις θα συνεχίσουν μέσω email αν η διεύθυνση ηλεκτρονικού ταχυδρομείου επαφής είναι διαθέσιμη.",
-      "LOCK_TO_SINGLE_CONVERSATION": "Κλείδωμα σε μία μόνο συζήτηση",
-      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Ενεργοποίηση ή απενεργοποίηση πολλαπλών συνομιλιών για την ίδια επαφή σε αυτά τα εισερχόμενα",
+      "LOCK_TO_SINGLE_CONVERSATION": "Conversation Routing",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Configure conversation creation for existing contacts",
       "INBOX_UPDATE_TITLE": "Ρυθμίσεις Κιβωτίου",
       "INBOX_UPDATE_SUB_TEXT": "Ενημερώστε τις ρυθμίσεις του κιβωτίου σας",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Ενεργοποιήστε ή απενεργοποιήστε την αυτόματη αντιστοίχιση των νέων συζητήσεων στους πράκτορες αυτού του κιβωτίου.",
