@@ -1,0 +1,51 @@
+{
+  "GENERAL_SETTINGS": {
+    "TITLE": "帐户设置",
+    "SUBMIT": "更新设置",
+    "BACK": "后退",
+    "UPDATE": {
+      "ERROR": "无法更新设置，请重试！",
+      "SUCCESS": "已成功更新账户设置"
+    },
+    "FORM": {
+      "ERROR": "请修正表单错误",
+      "GENERAL_SECTION": {
+        "TITLE": "常规设置",
+        "NOTE": ""
+      },
+      "ACCOUNT_ID": {
+        "TITLE": "Account ID",
+        "NOTE": "This ID is required if you are building an API based integration"
+      },
+      "NAME": {
+        "LABEL": "帐户名称",
+        "PLACEHOLDER": "您的帐户名称",
+        "ERROR": "请输入有效的帐户名称"
+      },
+      "LANGUAGE": {
+        "LABEL": "网站语言(Beta)",
+        "PLACEHOLDER": "您的帐户名称",
+        "ERROR": ""
+      },
+      "DOMAIN": {
+        "LABEL": "接收电子邮件的域名",
+        "PLACEHOLDER": "接收邮件的域名",
+        "ERROR": ""
+      },
+      "SUPPORT_EMAIL": {
+        "LABEL": "支持邮件",
+        "PLACEHOLDER": "您公司的支持邮件",
+        "ERROR": ""
+      },
+      "AUTO_RESOLVE_DURATION": {
+        "LABEL": "Number of days after a ticket should auto resolve if there is no activity",
+        "PLACEHOLDER": "30",
+        "ERROR": "Please enter a valid auto resolve duration (minimum 1 day and maximum 999 days)"
+      },
+      "FEATURES": {
+        "INBOUND_EMAIL_ENABLED": "您的帐户启用了与电子邮件的对话连续性。",
+        "CUSTOM_EMAIL_DOMAIN_ENABLED": "您现在可以在您的自定义域名的电子邮件中接收消息。"
+      }
+    }
+  }
+}

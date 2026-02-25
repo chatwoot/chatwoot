@@ -1,0 +1,655 @@
+{
+  "CONTACT_PANEL": {
+    "NOT_AVAILABLE": "不可用",
+    "EMAIL_ADDRESS": "电子邮件地址",
+    "PHONE_NUMBER": "电话号码",
+    "IDENTIFIER": "标识符",
+    "COPY_SUCCESSFUL": "已成功复制到剪贴板",
+    "COMPANY": "公司",
+    "LOCATION": "位置",
+    "BROWSER_LANGUAGE": "浏览器语言",
+    "CONVERSATION_TITLE": "对话详情",
+    "VIEW_PROFILE": "查看资料",
+    "BROWSER": "浏览器",
+    "OS": "操作系统",
+    "INITIATED_FROM": "启动自：",
+    "INITIATED_AT": "发起于",
+    "IP_ADDRESS": "IP 地址",
+    "CREATED_AT_LABEL": "创建时间",
+    "NEW_MESSAGE": "新消息",
+    "CALL": "呼叫",
+    "CALL_INITIATED": "Calling the contact…",
+    "CALL_FAILED": "Unable to start the call. Please try again.",
+    "VOICE_INBOX_PICKER": {
+      "TITLE": "选择一个语音收件箱"
+    },
+    "CONVERSATIONS": {
+      "NO_RECORDS_FOUND": "此联系人没有关联到以前的会话。",
+      "TITLE": "上一次对话"
+    },
+    "LABELS": {
+      "CONTACT": {
+        "TITLE": "联系人标签",
+        "ERROR": "无法更新标签"
+      },
+      "CONVERSATION": {
+        "TITLE": "对话标记",
+        "ADD_BUTTON": "添加标签"
+      },
+      "LABEL_SELECT": {
+        "TITLE": "添加标签",
+        "PLACEHOLDER": "搜索标签",
+        "NO_RESULT": "未找到标签",
+        "CREATE_LABEL": "创建新标签"
+      }
+    },
+    "MERGE_CONTACT": "合并联系人",
+    "CONTACT_ACTIONS": "联系人操作",
+    "MUTE_CONTACT": "屏蔽联系人",
+    "UNMUTE_CONTACT": "解除屏蔽联系人",
+    "MUTED_SUCCESS": "已成功屏蔽此联系人。您将不会收到任何未来对话的通知。",
+    "UNMUTED_SUCCESS": "此联系人已成功解除屏蔽。",
+    "SEND_TRANSCRIPT": "发送客服记录",
+    "EDIT_LABEL": "编辑",
+    "SIDEBAR_SECTIONS": {
+      "CUSTOM_ATTRIBUTES": "自定义属性",
+      "CONTACT_LABELS": "联系人标签",
+      "PREVIOUS_CONVERSATIONS": "上一次对话",
+      "NO_RECORDS_FOUND": "未找到属性"
+    }
+  },
+  "EDIT_CONTACT": {
+    "BUTTON_LABEL": "编辑联系人",
+    "TITLE": "编辑联系人",
+    "DESC": "编辑联系人详情"
+  },
+  "DELETE_CONTACT": {
+    "BUTTON_LABEL": "删除联系人",
+    "TITLE": "删除联系人",
+    "DESC": "删除联系人详情",
+    "CONFIRM": {
+      "TITLE": "确认删除",
+      "MESSAGE": "您确定要删除吗？ ",
+      "YES": "是，删除",
+      "NO": "不，保留"
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "联系人删除成功",
+      "ERROR_MESSAGE": "无法删除联系人，请稍后再试。"
+    }
+  },
+  "CONTACT_FORM": {
+    "FORM": {
+      "SUBMIT": "提交",
+      "CANCEL": "取消",
+      "AVATAR": {
+        "LABEL": "联系人头像"
+      },
+      "NAME": {
+        "PLACEHOLDER": "输入联系人的名字",
+        "LABEL": "名字"
+      },
+      "BIO": {
+        "PLACEHOLDER": "输入联系人的简历",
+        "LABEL": "简历"
+      },
+      "EMAIL_ADDRESS": {
+        "PLACEHOLDER": "输入联系人的电子邮件地址",
+        "LABEL": "电子邮件地址",
+        "DUPLICATE": "此电子邮件地址正在用于另一个联系人。",
+        "ERROR": "请输入一个有效的电子邮件."
+      },
+      "PHONE_NUMBER": {
+        "PLACEHOLDER": "输入联系人的电话号码",
+        "LABEL": "电话号码",
+        "HELP": "电话号码应为E.164格式，例如+14155555 [+][国家代码][地区代码][本地电话号码]。您可以从下拉菜单中选择拨号代码。",
+        "ERROR": "电话号码应为空或E.164格式",
+        "DIAL_CODE_ERROR": "请从列表中选择拨号代码",
+        "DUPLICATE": "此电话号码正在用于另一个联系人。"
+      },
+      "LOCATION": {
+        "PLACEHOLDER": "输入联系人的位置",
+        "LABEL": "位置"
+      },
+      "COMPANY_NAME": {
+        "PLACEHOLDER": "输入公司名称",
+        "LABEL": "公司名称"
+      },
+      "COUNTRY": {
+        "PLACEHOLDER": "输入国家/地区名称",
+        "LABEL": "国家",
+        "SELECT_PLACEHOLDER": "选择",
+        "REMOVE": "删除",
+        "SELECT_COUNTRY": "选择国家/地区"
+      },
+      "CITY": {
+        "PLACEHOLDER": "输入城市名称",
+        "LABEL": "城市名称"
+      },
+      "SOCIAL_PROFILES": {
+        "FACEBOOK": {
+          "PLACEHOLDER": "输入 Facebook 用户名",
+          "LABEL": "Facebook"
+        },
+        "TWITTER": {
+          "PLACEHOLDER": "输入 Twitter 用户名",
+          "LABEL": "推特"
+        },
+        "LINKEDIN": {
+          "PLACEHOLDER": "请输入您的领英用户名",
+          "LABEL": "领英"
+        },
+        "GITHUB": {
+          "PLACEHOLDER": "输入Github用户名",
+          "LABEL": "Github"
+        }
+      }
+    },
+    "DELETE_AVATAR": {
+      "API": {
+        "SUCCESS_MESSAGE": "联系人头像已成功删除",
+        "ERROR_MESSAGE": "暂时无法删除那个联系人的头像，请您稍后再试"
+      }
+    },
+    "SUCCESS_MESSAGE": "联系人保存成功",
+    "ERROR_MESSAGE": "出现错误，请重试"
+  },
+  "NEW_CONVERSATION": {
+    "BUTTON_LABEL": "开始会话",
+    "TITLE": "新的会话",
+    "DESC": "通过发送一条新消息来开始新的对话。",
+    "NO_INBOX": "找不到收件箱来发起与此联系人的新对话。",
+    "FORM": {
+      "TO": {
+        "LABEL": "发送至"
+      },
+      "INBOX": {
+        "LABEL": "通过收件箱：",
+        "PLACEHOLDER": "选择来源收件箱",
+        "ERROR": "选择一个收件箱"
+      },
+      "SUBJECT": {
+        "LABEL": "主题",
+        "PLACEHOLDER": "主题",
+        "ERROR": "主题不能为空"
+      },
+      "MESSAGE": {
+        "LABEL": "消息",
+        "PLACEHOLDER": "在此处输入您的消息",
+        "ERROR": "消息不能为空"
+      },
+      "ATTACHMENTS": {
+        "SELECT": "选择文件",
+        "HELP_TEXT": "拖放文件到此处或选择要附加的文件"
+      },
+      "SUBMIT": "发送消息",
+      "CANCEL": "取消",
+      "SUCCESS_MESSAGE": "消息已发送！",
+      "GO_TO_CONVERSATION": "查看",
+      "ERROR_MESSAGE": "无法发送，请重试！"
+    }
+  },
+  "CONTACTS_PAGE": {
+    "LIST": {
+      "TABLE_HEADER": {
+        "SOCIAL_PROFILES": "社交资料"
+      }
+    }
+  },
+  "CUSTOM_ATTRIBUTES": {
+    "BUTTON": "添加自定义属性",
+    "COPY_SUCCESSFUL": "已成功复制到剪贴板",
+    "SHOW_MORE": "显示全部属性",
+    "SHOW_LESS": "显示较少属性",
+    "ACTIONS": {
+      "COPY": "复制属性",
+      "DELETE": "删除属性",
+      "EDIT": "编辑属性"
+    },
+    "ADD": {
+      "TITLE": "创建自定义属性",
+      "DESC": "在此联系人中添加自定义信息。"
+    },
+    "FORM": {
+      "CREATE": "添加属性",
+      "CANCEL": "取消",
+      "NAME": {
+        "LABEL": "自定义属性名称",
+        "PLACEHOLDER": "例如：会员 ID",
+        "ERROR": "无效的自定义属性名称"
+      },
+      "VALUE": {
+        "LABEL": "属性值",
+        "PLACEHOLDER": "例如：11901 "
+      },
+      "ADD": {
+        "TITLE": "新建属性 ",
+        "SUCCESS": "已成功添加属性",
+        "ERROR": "无法添加属性，请稍后再试。"
+      },
+      "UPDATE": {
+        "SUCCESS": "已成功更新属性",
+        "ERROR": "无法更新属性，请稍后再试。"
+      },
+      "DELETE": {
+        "SUCCESS": "已成功删除属性",
+        "ERROR": "无法删除属性，请稍后再试。"
+      },
+      "ATTRIBUTE_SELECT": {
+        "TITLE": "添加属性",
+        "PLACEHOLDER": "搜索属性",
+        "NO_RESULT": "未找到属性"
+      },
+      "ATTRIBUTE_TYPE": {
+        "LIST": {
+          "PLACEHOLDER": "选择值",
+          "SEARCH_INPUT_PLACEHOLDER": "搜索值",
+          "NO_RESULT": "未找到结果"
+        }
+      }
+    },
+    "VALIDATIONS": {
+      "REQUIRED": "需要有效的值",
+      "INVALID_URL": "无效的 URL",
+      "INVALID_INPUT": "无效输入"
+    }
+  },
+  "MERGE_CONTACTS": {
+    "TITLE": "合并联系人",
+    "DESCRIPTION": "合并联系人以将两个个人资料合并为一个，包括所有属性和对话。 如果发生冲突，将以主联系人的属性为优先。",
+    "PRIMARY": {
+      "TITLE": "主联系人",
+      "HELP_LABEL": "将被删除"
+    },
+    "PARENT": {
+      "TITLE": "需要合并的联系人",
+      "PLACEHOLDER": "搜索联系人",
+      "HELP_LABEL": "将被保留"
+    },
+    "SUMMARY": {
+      "TITLE": "总结",
+      "DELETE_WARNING": "<strong>{primaryContactName}</strong> 的联系信息将被删除。",
+      "ATTRIBUTE_WARNING": "<strong>{primaryContactName}</strong> 的联系信息将拷贝到 <strong>{parentContactName}</strong>。"
+    },
+    "SEARCH": {
+      "ERROR_MESSAGE": "出了点问题。请稍后再试。"
+    },
+    "FORM": {
+      "SUBMIT": " 合并联系人",
+      "CANCEL": "取消",
+      "CHILD_CONTACT": {
+        "ERROR": "选择一个需要合并的子联系人"
+      },
+      "SUCCESS_MESSAGE": "已成功合并联系人",
+      "ERROR_MESSAGE": "无法合并联系人，请重试！"
+    },
+    "DROPDOWN_ITEM": {
+      "ID": "(ID: {identifier})"
+    }
+  },
+  "CONTACTS_LAYOUT": {
+    "HEADER": {
+      "TITLE": "联系人",
+      "SEARCH_TITLE": "搜索联系人",
+      "ACTIVE_TITLE": "活跃的联系人",
+      "SEARCH_PLACEHOLDER": "搜索……",
+      "MESSAGE_BUTTON": "消息",
+      "SEND_MESSAGE": "发送消息",
+      "BLOCK_CONTACT": "屏蔽联系人",
+      "UNBLOCK_CONTACT": "解除屏蔽联系人",
+      "BREADCRUMB": {
+        "CONTACTS": "联系人"
+      },
+      "ACTIONS": {
+        "CONTACT_CREATION": {
+          "ADD_CONTACT": "添加联系人",
+          "EXPORT_CONTACT": "导出联系人",
+          "IMPORT_CONTACT": "导入联系人",
+          "SAVE_CONTACT": "保存联系人",
+          "EMAIL_ADDRESS_DUPLICATE": "此电子邮件地址正在用于另一个联系人。",
+          "PHONE_NUMBER_DUPLICATE": "此电话号码正在用于另一个联系人。",
+          "SUCCESS_MESSAGE": "联系人保存成功",
+          "ERROR_MESSAGE": "无法保存联系人，请稍后再试。"
+        },
+        "BLOCK_SUCCESS_MESSAGE": "此联系人已成功屏蔽",
+        "BLOCK_ERROR_MESSAGE": "无法屏蔽联系人，请稍后再试。",
+        "UNBLOCK_SUCCESS_MESSAGE": "此联系人已成功解除屏蔽",
+        "UNBLOCK_ERROR_MESSAGE": "无法解除屏蔽联系人，请稍后再试。",
+        "IMPORT_CONTACT": {
+          "TITLE": "导入联系人",
+          "DESCRIPTION": "通过 CSV 文件导入联系人",
+          "DOWNLOAD_LABEL": "下载示例 CSV.",
+          "LABEL": "CSV 文件:",
+          "CHOOSE_FILE": "选择文件",
+          "CHANGE": "更改",
+          "CANCEL": "取消",
+          "IMPORT": "导入",
+          "SUCCESS_MESSAGE": "导入完成时将通过电子邮件通知您。",
+          "ERROR_MESSAGE": "出现错误，请重试"
+        },
+        "EXPORT_CONTACT": {
+          "TITLE": "导出联系人",
+          "DESCRIPTION": "快速导出包含联系人详细信息的 CSV 文件",
+          "CONFIRM": "导出",
+          "SUCCESS_MESSAGE": "导出正在进行。当导出文件准备好下载时，您将收到电子邮件通知。",
+          "ERROR_MESSAGE": "出现错误，请重试"
+        },
+        "SORT_BY": {
+          "LABEL": "排序方式",
+          "OPTIONS": {
+            "NAME": "姓名",
+            "EMAIL": "电子邮件",
+            "PHONE_NUMBER": "电话号码",
+            "COMPANY": "公司",
+            "COUNTRY": "国家",
+            "CITY": "城市",
+            "LAST_ACTIVITY": "上次操作",
+            "CREATED_AT": "创建于"
+          }
+        },
+        "ORDER": {
+          "LABEL": "排序顺序",
+          "OPTIONS": {
+            "ASCENDING": "升序",
+            "DESCENDING": "降序"
+          }
+        },
+        "FILTERS": {
+          "CREATE_SEGMENT": {
+            "TITLE": "您想要保存此过滤器吗？",
+            "CONFIRM": "保存过滤器",
+            "LABEL": "姓名",
+            "PLACEHOLDER": "输入过滤器的名称",
+            "ERROR": "请输入有效的名称",
+            "SUCCESS_MESSAGE": "过滤器保存成功",
+            "ERROR_MESSAGE": "无法保存过滤器，请稍后再试。"
+          },
+          "DELETE_SEGMENT": {
+            "TITLE": "确认删除",
+            "DESCRIPTION": "您确定要删除此过滤器吗？",
+            "CONFIRM": "是，删除",
+            "CANCEL": "否，取消",
+            "SUCCESS_MESSAGE": "过滤器删除成功",
+            "ERROR_MESSAGE": "无法删除过滤器，请稍后再试。"
+          }
+        }
+      }
+    },
+    "PAGINATION_FOOTER": {
+      "SHOWING": "显示 {startItem} - {endItem} 个联系人，共 {totalItems} 个"
+    },
+    "FILTER": {
+      "NAME": "姓名",
+      "EMAIL": "电子邮件",
+      "PHONE_NUMBER": "电话号码",
+      "IDENTIFIER": "标识符",
+      "COUNTRY": "国家",
+      "CITY": "城市",
+      "CREATED_AT": "创建于",
+      "LAST_ACTIVITY": "上次操作",
+      "REFERER_LINK": "引用链接",
+      "BLOCKED": "已屏蔽",
+      "BLOCKED_TRUE": "是",
+      "BLOCKED_FALSE": "否",
+      "BUTTONS": {
+        "CLEAR_FILTERS": "清除过滤器",
+        "UPDATE_SEGMENT": "更新分段",
+        "APPLY_FILTERS": "应用过滤器",
+        "ADD_FILTER": "添加过滤器"
+      },
+      "TITLE": "过滤联系人",
+      "EDIT_SEGMENT": "编辑分段",
+      "SEGMENT": {
+        "LABEL": "分段名称",
+        "INPUT_PLACEHOLDER": "输入分段的名称"
+      },
+      "ACTIVE_FILTERS": {
+        "MORE_FILTERS": "+ {count} 更多过滤器",
+        "CLEAR_FILTERS": "清除过滤器"
+      }
+    },
+    "CARD": {
+      "OF": "的",
+      "VIEW_DETAILS": "查看详细信息",
+      "EDIT_DETAILS_FORM": {
+        "TITLE": "编辑联系人详情",
+        "FORM": {
+          "FIRST_NAME": {
+            "PLACEHOLDER": "输入名字"
+          },
+          "LAST_NAME": {
+            "PLACEHOLDER": "输入姓氏"
+          },
+          "EMAIL_ADDRESS": {
+            "PLACEHOLDER": "输入电子邮件地址",
+            "DUPLICATE": "此电子邮件地址正在用于另一个联系人。"
+          },
+          "PHONE_NUMBER": {
+            "PLACEHOLDER": "输入电话号码",
+            "DUPLICATE": "此电话号码正在用于另一个联系人。"
+          },
+          "CITY": {
+            "PLACEHOLDER": "输入城市名称"
+          },
+          "COUNTRY": {
+            "PLACEHOLDER": "选择国家"
+          },
+          "BIO": {
+            "PLACEHOLDER": "输入简历"
+          },
+          "COMPANY_NAME": {
+            "PLACEHOLDER": "输入公司名称"
+          }
+        },
+        "UPDATE_BUTTON": "更新联系人",
+        "SUCCESS_MESSAGE": "联系人更新成功",
+        "ERROR_MESSAGE": "无法更新联系人，请稍后再试。"
+      },
+      "SOCIAL_MEDIA": {
+        "TITLE": "编辑社交链接",
+        "FORM": {
+          "FACEBOOK": {
+            "PLACEHOLDER": "添加 Facebook"
+          },
+          "GITHUB": {
+            "PLACEHOLDER": "添加 Github"
+          },
+          "INSTAGRAM": {
+            "PLACEHOLDER": "添加 Instagram"
+          },
+          "TIKTOK": {
+            "PLACEHOLDER": "Add TikTok"
+          },
+          "LINKEDIN": {
+            "PLACEHOLDER": "添加 LinkedIn"
+          },
+          "TWITTER": {
+            "PLACEHOLDER": "添加 Twitter"
+          }
+        }
+      },
+      "DELETE_CONTACT": {
+        "MESSAGE": "这一操作是永久且不可逆转的。",
+        "BUTTON": "立即删除"
+      }
+    },
+    "DETAILS": {
+      "CREATED_AT": "创建于 {date}",
+      "LAST_ACTIVITY": "上次活动于 {date}",
+      "DELETE_CONTACT_DESCRIPTION": "永久删除此联系人。此操作不可逆",
+      "DELETE_CONTACT": "删除联系人",
+      "DELETE_DIALOG": {
+        "TITLE": "确认删除",
+        "DESCRIPTION": "您确定要删除此联系人吗？",
+        "CONFIRM": "是，删除",
+        "API": {
+          "SUCCESS_MESSAGE": "联系人删除成功",
+          "ERROR_MESSAGE": "无法删除联系人，请稍后再试。"
+        }
+      },
+      "AVATAR": {
+        "UPLOAD": {
+          "ERROR_MESSAGE": "无法上传头像，请稍后再试。",
+          "SUCCESS_MESSAGE": "头像上传成功"
+        },
+        "DELETE": {
+          "SUCCESS_MESSAGE": "头像删除成功",
+          "ERROR_MESSAGE": "无法删除头像，请稍后再试。"
+        }
+      }
+    },
+    "SIDEBAR": {
+      "TABS": {
+        "ATTRIBUTES": "属性",
+        "HISTORY": "历史记录",
+        "NOTES": "备注",
+        "MERGE": "合并"
+      },
+      "HISTORY": {
+        "EMPTY_STATE": "此联系人没有关联到以前的对话"
+      },
+      "ATTRIBUTES": {
+        "SEARCH_PLACEHOLDER": "搜索属性",
+        "UNUSED_ATTRIBUTES": "{count} 个已用属性 | {count} 个未用属性",
+        "EMPTY_STATE": "此账户中没有可用的联系人自定义属性。您可以在设置中创建自定义属性。",
+        "YES": "是",
+        "NO": "否",
+        "TRIGGER": {
+          "SELECT": "选择值",
+          "INPUT": "填写内容"
+        },
+        "VALIDATIONS": {
+          "INVALID_NUMBER": "无效的数字",
+          "REQUIRED": "需要有效的值",
+          "INVALID_INPUT": "无效输入",
+          "INVALID_URL": "无效的 URL",
+          "INVALID_DATE": "无效日期"
+        },
+        "NO_ATTRIBUTES": "未找到属性",
+        "API": {
+          "SUCCESS_MESSAGE": "已成功更新属性",
+          "DELETE_SUCCESS_MESSAGE": "已成功删除属性",
+          "UPDATE_ERROR": "无法更新属性，请稍后再试。",
+          "DELETE_ERROR": "无法删除属性，请稍后再试"
+        }
+      },
+      "MERGE": {
+        "TITLE": "合并联系人",
+        "DESCRIPTION": "将两个个人资料合并为一个，包括所有属性和对话。如果发生冲突，将以主联系人的属性为优先。",
+        "PRIMARY": "主联系人",
+        "PRIMARY_HELP_LABEL": "将被保留",
+        "PRIMARY_REQUIRED_ERROR": "请选择一个联系人进行合并",
+        "PARENT": "需要合并的联系人",
+        "PARENT_HELP_LABEL": "将被删除",
+        "EMPTY_STATE": "未找到联系人",
+        "PLACEHOLDER": "搜索主联系人",
+        "SEARCH_PLACEHOLDER": "搜索联系人",
+        "SEARCH_ERROR_MESSAGE": "无法搜索联系人，请稍后再试。",
+        "SUCCESS_MESSAGE": "已成功合并联系人",
+        "ERROR_MESSAGE": "无法合并联系人，请重试！",
+        "IS_SEARCHING": "搜索中……",
+        "BUTTONS": {
+          "CANCEL": "取消",
+          "CONFIRM": "合并联系人"
+        }
+      },
+      "NOTES": {
+        "PLACEHOLDER": "添加备注",
+        "WROTE": "写道",
+        "YOU": "您",
+        "SAVE": "保存备注",
+        "ADD_NOTE": "Add contact note",
+        "EXPAND": "扩展",
+        "COLLAPSE": "收起",
+        "NO_NOTES": "没有备注，您可以从联系人详细信息页面添加备注。",
+        "EMPTY_STATE": "此联系人没有关联的备注。您可以在上方输入框中添加备注。",
+        "CONVERSATION_EMPTY_STATE": "There are no notes yet. Use the Add note button to create one."
+      }
+    },
+    "EMPTY_STATE": {
+      "TITLE": "此账户中没有找到联系人",
+      "SUBTITLE": "点击下方按钮开始添加新联系人",
+      "BUTTON_LABEL": "添加联系人",
+      "SEARCH_EMPTY_STATE_TITLE": "没有搜索到联系人🔍",
+      "LIST_EMPTY_STATE_TITLE": "此视图中没有可用的联系人📋",
+      "ACTIVE_EMPTY_STATE_TITLE": "目前没有联系人在线 🌙"
+    }
+  },
+  "CONTACTS_BULK_ACTIONS": {
+    "ASSIGN_LABELS": "分配标签",
+    "ASSIGN_LABELS_SUCCESS": "已成功分配标签.",
+    "ASSIGN_LABELS_FAILED": "Failed to assign labels",
+    "DESCRIPTION": "Select the labels you want to add to the selected contacts.",
+    "NO_LABELS_FOUND": "No labels available yet.",
+    "SELECTED_COUNT": "{count} 已选择",
+    "CLEAR_SELECTION": "Clear selection",
+    "SELECT_ALL": "全选 ({count})",
+    "DELETE_CONTACTS": "删除",
+    "DELETE_SUCCESS": "Contacts deleted successfully.",
+    "DELETE_FAILED": "Failed to delete contacts.",
+    "DELETE_DIALOG": {
+      "TITLE": "Delete selected contacts",
+      "SINGULAR_TITLE": "Delete selected contact",
+      "DESCRIPTION": "This will permanently delete {count} selected contacts. This action cannot be undone.",
+      "SINGULAR_DESCRIPTION": "This will permanently delete the selected contact. This action cannot be undone.",
+      "CONFIRM_MULTIPLE": "Delete contacts",
+      "CONFIRM_SINGLE": "删除联系人"
+    }
+  },
+  "COMPOSE_NEW_CONVERSATION": {
+    "CONTACT_SEARCH": {
+      "ERROR_MESSAGE": "我们无法完成搜索。请稍后再试。"
+    },
+    "FORM": {
+      "GO_TO_CONVERSATION": "查看",
+      "SUCCESS_MESSAGE": "消息发送成功！",
+      "ERROR_MESSAGE": "创建对话时发生错误。请稍后再试。",
+      "NO_INBOX_ALERT": "没有可用的收件箱来开始与此联系人的对话。",
+      "CONTACT_SELECTOR": {
+        "LABEL": "发送至:",
+        "TAG_INPUT_PLACEHOLDER": "通过姓名、电子邮件或电话号码搜索联系人",
+        "CONTACT_CREATING": "正在创建联系人……"
+      },
+      "INBOX_SELECTOR": {
+        "LABEL": "通过:",
+        "BUTTON": "显示收件箱"
+      },
+      "EMAIL_OPTIONS": {
+        "SUBJECT_LABEL": "主题 :",
+        "SUBJECT_PLACEHOLDER": "在此处输入电子邮件主题",
+        "CC_LABEL": "抄送:",
+        "CC_PLACEHOLDER": "通过电子邮件地址搜索联系人",
+        "BCC_LABEL": "密送:",
+        "BCC_PLACEHOLDER": "通过电子邮件地址搜索联系人",
+        "BCC_BUTTON": "密送"
+      },
+      "MESSAGE_EDITOR": {
+        "PLACEHOLDER": "在此处输入您的消息..."
+      },
+      "WHATSAPP_OPTIONS": {
+        "LABEL": "选择模板",
+        "SEARCH_PLACEHOLDER": "搜索模板",
+        "EMPTY_STATE": "未找到模板",
+        "TEMPLATE_PARSER": {
+          "TEMPLATE_NAME": "WhatsApp 模板: {templateName}",
+          "VARIABLES": "参数",
+          "BACK": "返回",
+          "SEND_MESSAGE": "发送消息"
+        }
+      },
+      "TWILIO_OPTIONS": {
+        "LABEL": "选择模板",
+        "SEARCH_PLACEHOLDER": "搜索模板",
+        "EMPTY_STATE": "未找到模板",
+        "TEMPLATE_PARSER": {
+          "BACK": "返回",
+          "SEND_MESSAGE": "发送消息"
+        }
+      },
+      "ACTION_BUTTONS": {
+        "DISCARD": "丢弃",
+        "SEND": "发送 ({keyCode})"
+      }
+    }
+  }
+}

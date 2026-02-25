@@ -1,0 +1,12 @@
+{
+  "GENERAL": {
+    "SHOWING_RESULTS": "Showing {firstIndex}-{lastIndex} of {totalCount} items",
+    "PHONE_INPUT": {
+      "PLACEHOLDER": "തിരയുക",
+      "EMPTY_STATE": "ഒരു ഫലവും കണ്ടെത്താനായില്ല"
+    },
+    "CLOSE": "അടയ്ക്കുക",
+    "BETA": "Beta",
+    "BETA_DESCRIPTION": "This feature is in beta and may change as we improve it."
+  }
+}

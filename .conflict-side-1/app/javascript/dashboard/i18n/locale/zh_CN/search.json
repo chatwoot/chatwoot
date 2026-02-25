@@ -1,0 +1,68 @@
+{
+  "SEARCH": {
+    "TABS": {
+      "ALL": "All results",
+      "CONTACTS": "联系人",
+      "CONVERSATIONS": "会话",
+      "MESSAGES": "消息",
+      "ARTICLES": "文章"
+    },
+    "SECTION": {
+      "CONTACTS": "联系人",
+      "CONVERSATIONS": "会话",
+      "MESSAGES": "消息",
+      "ARTICLES": "文章"
+    },
+    "VIEW_MORE": "查看更多",
+    "LOAD_MORE": "加载更多",
+    "SEARCHING_DATA": "搜索中",
+    "LOADING_DATA": "加载中",
+    "EMPTY_STATE": "未找到与查询 '{query}' 相关的 {item}",
+    "EMPTY_STATE_FULL": "未找到与查询 '{query}' 相关的结果",
+    "PLACEHOLDER_KEYBINDING": "/聚焦搜索框",
+    "INPUT_PLACEHOLDER": "输入 3 个或更多字符以进行搜索",
+    "RECENT_SEARCHES": "Recent searches",
+    "CLEAR_ALL": "清除全部",
+    "MOST_RECENT": "Most recent",
+    "EMPTY_STATE_DEFAULT": "通过会话 Id、电子邮件、电话号码、消息等进行搜索以获得更好的搜索结果。 ",
+    "BOT_LABEL": "机器人",
+    "READ_MORE": "查看更多",
+    "READ_LESS": "Read less",
+    "WROTE": "写道：",
+    "FROM": "来自",
+    "EMAIL": "Email",
+    "EMAIL_SUBJECT": "主题",
+    "PRIVATE": "Private note",
+    "TRANSCRIPT": "Transcript",
+    "CREATED_AT": "创建于 {time}",
+    "UPDATED_AT": "updated {time}",
+    "SORT_BY": {
+      "RELEVANCE": "Relevance"
+    },
+    "DATE_RANGE": {
+      "LAST_7_DAYS": "最近7天",
+      "LAST_30_DAYS": "最近30天",
+      "LAST_60_DAYS": "最近60天",
+      "LAST_90_DAYS": "最近90天",
+      "CUSTOM_RANGE": "Custom range:",
+      "CREATED_BETWEEN": "Created between",
+      "AND": "和",
+      "APPLY": "应用",
+      "BEFORE_DATE": "Before {date}",
+      "AFTER_DATE": "After {date}",
+      "TIME_RANGE": "Filter by time",
+      "CLEAR_FILTER": "清除筛选条件"
+    },
+    "FILTERS": {
+      "FILTER_MESSAGE": "Filter messages by:",
+      "FROM": "Sender",
+      "IN": "收件箱",
+      "AGENTS": "客服",
+      "CONTACTS": "联系人",
+      "INBOXES": "收件箱",
+      "NO_AGENTS": "未找到客服代表",
+      "NO_CONTACTS": "Start by searching to see results",
+      "NO_INBOXES": "No inboxes found"
+    }
+  }
+}

@@ -1,0 +1,77 @@
+{
+  "CANNED_MGMT": {
+    "HEADER": "Sagatavotās Atbildes",
+    "LEARN_MORE": "Uzzināt vairāk par sagatavotajām atbildēm",
+    "DESCRIPTION": "Sagatavotās atbildes ir iepriekš uzrakstītas atbilžu veidnes, kas palīdz ātri atbildēt uz sarunu. Lai sarunas laikā ievietotu gatavu atbildi, aģenti var ierakstīt rakstzīmi “/”, kam seko īskods. ",
+    "HEADER_BTN_TXT": "Pievienot sagatavoto atbildi",
+    "LOADING": "Notiek sagatavoto atbilžu iegūšana...",
+    "SEARCH_404": "Šim vaicājumam nav atbilstošu vienumu.",
+    "LIST": {
+      "404": "Šajā kontā nav pieejama neviena sagatavota atbilde.",
+      "TITLE": "Pārvaldīt sagatavotās atbildes",
+      "DESC": "Sagatavotās atbildes ir iepriekš definētas atbilžu veidnes, kuras var izmantot lai ātri nosūtītu atbildes uz sarunām.",
+      "TABLE_HEADER": {
+        "SHORT_CODE": "Īsais kods",
+        "CONTENT": "Saturs",
+        "ACTIONS": "Darbības"
+      }
+    },
+    "ADD": {
+      "TITLE": "Pievienot sagatavoto atbildi",
+      "DESC": "Sagatavotās atbildes ir iepriekš definētas atbilžu veidnes, kuras var izmantot lai ātri nosūtītu atbildes uz sarunām.",
+      "CANCEL_BUTTON_TEXT": "Atcelt",
+      "FORM": {
+        "SHORT_CODE": {
+          "LABEL": "Īsais kods",
+          "PLACEHOLDER": "Lūdzu, ievadiet īso kodu.",
+          "ERROR": "Nepieciešams īsais kods."
+        },
+        "CONTENT": {
+          "LABEL": "Ziņojums",
+          "PLACEHOLDER": "Lūdzu, uzrakstiet ziņojumu, kuru vēlaties saglabāt kā veidni, ko izmantot vēlāk.",
+          "ERROR": "Nepieciešams ziņojums."
+        },
+        "SUBMIT": "Iesniegt"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Sagatavotā atbilde ir veiksmīgi pievienota.",
+        "ERROR_MESSAGE": "Nevarēja izveidot savienojumu ar Woot serveri. Lūdzu mēģiniet vēlreiz."
+      }
+    },
+    "EDIT": {
+      "TITLE": "Rediģēt sagatavoto atbildi",
+      "CANCEL_BUTTON_TEXT": "Atcelt",
+      "FORM": {
+        "SHORT_CODE": {
+          "LABEL": "Īsais kods",
+          "PLACEHOLDER": "Lūdzu, ievadiet īso kodu.",
+          "ERROR": "Nepieciešams īsais kods."
+        },
+        "CONTENT": {
+          "LABEL": "Ziņojums",
+          "PLACEHOLDER": "Lūdzu, uzrakstiet ziņojumu, kuru vēlaties saglabāt kā veidni, ko izmantot vēlāk.",
+          "ERROR": "Nepieciešams ziņojums."
+        },
+        "SUBMIT": "Iesniegt"
+      },
+      "BUTTON_TEXT": "Rediģēt",
+      "API": {
+        "SUCCESS_MESSAGE": "Sagatavotā atbilde ir veiksmīgi atjaunināta.",
+        "ERROR_MESSAGE": "Nevarēja izveidot savienojumu ar Woot serveri. Lūdzu mēģiniet vēlreiz."
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Dzēst",
+      "API": {
+        "SUCCESS_MESSAGE": "Sagatavotā atbilde ir veiksmīgi izdzēsta.",
+        "ERROR_MESSAGE": "Nevarēja izveidot savienojumu ar Woot serveri. Lūdzu mēģiniet vēlreiz."
+      },
+      "CONFIRM": {
+        "TITLE": "Apstiprināt dzēšanu",
+        "MESSAGE": "Vai vēlaties izdzēst ",
+        "YES": "Jā, dzēst ",
+        "NO": "Nē, paturēt "
+      }
+    }
+  }
+}

@@ -1,0 +1,111 @@
+{
+  "MACROS": {
+    "HEADER": "Macros",
+    "DESCRIPTION": "Una macro es un conjunto de acciones guardadas que ayudan a los agentes de servicio al cliente a completar fácilmente las tareas. Los agentes pueden definir un conjunto de acciones como etiquetar una conversación con una etiqueta, enviar una transcripción de correo electrónico, actualizar un atributo personalizado, etc. y pueden ejecutar estas acciones en un solo clic.",
+    "LEARN_MORE": "Más información sobre macros",
+    "HEADER_BTN_TXT": "Añadir una nueva macro",
+    "HEADER_BTN_TXT_SAVE": "Guardar macro",
+    "LOADING": "Obteniendo macros",
+    "ERROR": "Algo salió mal. Por favor, inténtalo de nuevo",
+    "ORDER_INFO": "Las macros se ejecutarán en el orden en que añadas sus acciones. Puede reorganizarlas arrastrándolas por el manejador al lado de cada nodo.",
+    "ADD": {
+      "FORM": {
+        "NAME": {
+          "LABEL": "Nombre de macro",
+          "PLACEHOLDER": "Introduzca un nombre para su macro",
+          "ERROR": "Se requiere un nombre para crear una macro"
+        },
+        "ACTIONS": {
+          "LABEL": "Acciones"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Macro añadida correctamente",
+        "ERROR_MESSAGE": "No se puede crear la macro, por favor inténtalo de nuevo más tarde"
+      }
+    },
+    "LIST": {
+      "TABLE_HEADER": {
+        "NAME": "Nombre",
+        "CREATED BY": "Creado por",
+        "LAST_UPDATED_BY": "Última actualización por",
+        "VISIBILITY": "Visibilidad"
+      },
+      "404": "No se encontraron macros"
+    },
+    "DELETE": {
+      "TOOLTIP": "Eliminar macro",
+      "CONFIRM": {
+        "MESSAGE": "¿Está seguro de eliminar ",
+        "YES": "Sí, eliminar",
+        "NO": "No"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Macro eliminada correctamente",
+        "ERROR_MESSAGE": "Hubo un error al eliminar la macro. Por favor, inténtalo de nuevo más tarde"
+      }
+    },
+    "EDIT": {
+      "TOOLTIP": "Editar macro",
+      "API": {
+        "SUCCESS_MESSAGE": "Macro actualizado correctamente",
+        "ERROR_MESSAGE": "No se pudo actualizar la Macro, por favor inténtalo de nuevo más tarde"
+      }
+    },
+    "EDITOR": {
+      "START_FLOW": "Iniciar flujo",
+      "END_FLOW": "Finalizar flujo",
+      "LOADING": "Buscando macro",
+      "ADD_BTN_TOOLTIP": "Añadir nueva acción",
+      "DELETE_BTN_TOOLTIP": "Eliminar acción",
+      "VISIBILITY": {
+        "LABEL": "Visibilidad de macro",
+        "GLOBAL": {
+          "LABEL": "Público",
+          "DESCRIPTION": "Esta macro está disponible públicamente para todos los agentes de esta cuenta."
+        },
+        "PERSONAL": {
+          "LABEL": "Privado",
+          "DESCRIPTION": "Esta macro será privada para usted y no estará disponible para otros."
+        }
+      }
+    },
+    "EXECUTE": {
+      "BUTTON_TOOLTIP": "Ejecutar",
+      "PREVIEW": "Previsualizar macro",
+      "EXECUTED_SUCCESSFULLY": "Macro ejecutado correctamente"
+    },
+    "ERRORS": {
+      "ATTRIBUTE_KEY_REQUIRED": "Clave de atributo es requerida",
+      "FILTER_OPERATOR_REQUIRED": "El operador de filtro es requerido",
+      "VALUE_REQUIRED": "El valor es requerido",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "El valor debe ser entre 1 y 998",
+      "ACTION_PARAMETERS_REQUIRED": "Se requieren parámetros de acción",
+      "ATLEAST_ONE_CONDITION_REQUIRED": "Se requiere al menos una condición",
+      "ATLEAST_ONE_ACTION_REQUIRED": "Se requiere al menos una acción"
+    },
+    "ACTIONS": {
+      "ASSIGN_TEAM": "Asignar equipo",
+      "ASSIGN_AGENT": "Assign an Agent",
+      "ADD_LABEL": "Añadir etiqueta",
+      "REMOVE_LABEL": "Eliminar etiqueta",
+      "REMOVE_ASSIGNED_TEAM": "Remove Assigned Team",
+      "SEND_EMAIL_TRANSCRIPT": "Enviar transcripción por correo",
+      "MUTE_CONVERSATION": "Silenciar Conversación",
+      "SNOOZE_CONVERSATION": "Posponer conversación",
+      "RESOLVE_CONVERSATION": "Resolver conversación",
+      "SEND_ATTACHMENT": "Enviar archivo adjunto",
+      "SEND_MESSAGE": "Enviar mensaje",
+      "CHANGE_PRIORITY": "Cambiar prioridad",
+      "ADD_PRIVATE_NOTE": "Add a Private Note",
+      "SEND_WEBHOOK_EVENT": "Enviar Evento de Webhook"
+    },
+    "PRIORITY_TYPES": {
+      "NONE": "Ninguna",
+      "LOW": "Baja",
+      "MEDIUM": "Media",
+      "HIGH": "Alta",
+      "URGENT": "Urgente"
+    }
+  }
+}

@@ -1,0 +1,184 @@
+{
+  "AUTOMATION": {
+    "HEADER": "Automatizare",
+    "DESCRIPTION": "Automation can replace and streamline existing processes that require manual effort, such as adding labels and assigning conversations to the most suitable agent. This allows the team to focus on their strengths while reducing time spent on routine tasks.",
+    "LEARN_MORE": "Learn more about automation",
+    "HEADER_BTN_TXT": "Adaugă Regulă de Automatizare",
+    "LOADING": "Preluarea regulilor de automatizare",
+    "ADD": {
+      "TITLE": "Adaugă Regulă de Automatizare",
+      "SUBMIT": "Creeaza",
+      "CANCEL_BUTTON_TEXT": "Renunță",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Nume Regulă",
+          "PLACEHOLDER": "Introduceți numele regulii",
+          "ERROR": "Numele este obligatoriu"
+        },
+        "DESC": {
+          "LABEL": "Descriere",
+          "PLACEHOLDER": "Introduceți descrierea regulii",
+          "ERROR": "Descrierea este obligatorie"
+        },
+        "EVENT": {
+          "LABEL": "Eveniment",
+          "PLACEHOLDER": "Vă rugăm să selectaţi un tip",
+          "ERROR": "Evenimentul este necesar"
+        },
+        "CONDITIONS": {
+          "LABEL": "Condiții"
+        },
+        "ACTIONS": {
+          "LABEL": "Actiuni"
+        }
+      },
+      "CONDITION_BUTTON_LABEL": "Adauga condiţie",
+      "ACTION_BUTTON_LABEL": "Adăugare acțiune",
+      "API": {
+        "SUCCESS_MESSAGE": "Regulă de automatizare adăugată cu succes",
+        "ERROR_MESSAGE": "Nu s-a putut crea o regulă de automatizare, Încercați din nou mai târziu"
+      }
+    },
+    "LIST": {
+      "TABLE_HEADER": {
+        "NAME": "Nume",
+        "DESCRIPTION": "Descriere",
+        "ACTIVE": "Activ",
+        "CREATED_ON": "Creat in"
+      },
+      "404": "Nu s-au găsit reguli de automatizare"
+    },
+    "DELETE": {
+      "TITLE": "Ștergeți regula de automatizare",
+      "SUBMIT": "Şterge",
+      "CANCEL_BUTTON_TEXT": "Renunță",
+      "CONFIRM": {
+        "TITLE": "Confirmă ștergerea",
+        "MESSAGE": "Sigur doriți să ștergeți ",
+        "YES": "Da, șterge ",
+        "NO": "Nu, păstreaza "
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Regula de automatizare ștearsă cu succes",
+        "ERROR_MESSAGE": "Nu a putut șterge o regulă de automatizare, Încercați din nou mai târziu"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Editarea regulii de automatizare",
+      "SUBMIT": "Actualizare",
+      "CANCEL_BUTTON_TEXT": "Renunță",
+      "API": {
+        "SUCCESS_MESSAGE": "Regula de automatizare actualizată cu succes",
+        "ERROR_MESSAGE": "Nu s-a putut actualiza regula de automatizare, Încercați din nou mai târziu"
+      }
+    },
+    "CLONE": {
+      "TOOLTIP": "Clonare",
+      "API": {
+        "SUCCESS_MESSAGE": "Automatizare clonată cu succes",
+        "ERROR_MESSAGE": "Nu s-a putut clona regula de automatizare, Încercați din nou mai târziu"
+      }
+    },
+    "FORM": {
+      "EDIT": "Editare",
+      "CREATE": "Creeaza",
+      "DELETE": "Şterge",
+      "CANCEL": "Renunță",
+      "RESET_MESSAGE": "Modificarea tipului de eveniment va reseta condițiile și evenimentele pe care le-ați adăugat mai jos"
+    },
+    "CONDITION": {
+      "DELETE_MESSAGE": "Trebuie să aveți atleast o condiție pentru a salva",
+      "CONTACT_CUSTOM_ATTR_LABEL": "Atribute de contact personalizate",
+      "CONVERSATION_CUSTOM_ATTR_LABEL": "Atribute personalizate pentru conversație"
+    },
+    "ACTION": {
+      "DELETE_MESSAGE": "Trebuie să aveți atleast o acțiune pentru a salva",
+      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Introduceți mesajul aici",
+      "TEAM_DROPDOWN_PLACEHOLDER": "Selectați echipe",
+      "EMAIL_INPUT_PLACEHOLDER": "Enter email",
+      "URL_INPUT_PLACEHOLDER": "Enter URL"
+    },
+    "TOGGLE": {
+      "ACTIVATION_TITLE": "Activați regula de automatizare",
+      "DEACTIVATION_TITLE": "Dezactivați regula de automatizare",
+      "ACTIVATION_DESCRIPTION": "Această acțiune va activa regula de automatizare \"{automationName}\". Sunteți sigur că doriți să continuați?",
+      "DEACTIVATION_DESCRIPTION": "Această acțiune va dezactiva regula de automatizare \"{automationName}\". Sunteți sigur că doriți să continuați?",
+      "ACTIVATION_SUCCESFUL": "Regulă de automatizare activată cu succes",
+      "DEACTIVATION_SUCCESFUL": "Regula de automatizare dezactivată cu succes",
+      "ACTIVATION_ERROR": "Nu s-a putut activa automatizarea, încercați din nou mai târziu",
+      "DEACTIVATION_ERROR": "Nu s-a putut dezactiva automatizarea, încercați din nou mai târziu",
+      "CONFIRMATION_LABEL": "Da",
+      "CANCEL_LABEL": "Nu"
+    },
+    "ATTACHMENT": {
+      "UPLOAD_ERROR": "Nu s-a putut încărca atașamentul, încercați din nou",
+      "LABEL_IDLE": "Fişier ataşat",
+      "LABEL_UPLOADING": "Încărcare...",
+      "LABEL_UPLOADED": "Încărcare reușită",
+      "LABEL_UPLOAD_FAILED": "Încărcare eșuată"
+    },
+    "ERRORS": {
+      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
+      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "VALUE_REQUIRED": "Este necesară o valoare validă",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998",
+      "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
+      "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
+      "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
+    },
+    "NONE_OPTION": "Nimic",
+    "EVENTS": {
+      "CONVERSATION_CREATED": "Conversație creată",
+      "CONVERSATION_UPDATED": "Conversație actualizată",
+      "MESSAGE_CREATED": "Message Created",
+      "CONVERSATION_RESOLVED": "Conversation Resolved",
+      "CONVERSATION_OPENED": "Conversation Opened"
+    },
+    "ACTIONS": {
+      "ASSIGN_AGENT": "Assign to Agent",
+      "ASSIGN_TEAM": "Assign a Team",
+      "ADD_LABEL": "Add a Label",
+      "REMOVE_LABEL": "Remove a Label",
+      "SEND_EMAIL_TO_TEAM": "Send an Email to Team",
+      "SEND_EMAIL_TRANSCRIPT": "Send an Email Transcript",
+      "MUTE_CONVERSATION": "Silențios conversația",
+      "SNOOZE_CONVERSATION": "Snooze conversație",
+      "RESOLVE_CONVERSATION": "Detalii conversație",
+      "SEND_WEBHOOK_EVENT": "Send Webhook Event",
+      "SEND_ATTACHMENT": "Send Attachment",
+      "SEND_MESSAGE": "Send a Message",
+      "ADD_PRIVATE_NOTE": "Add a Private Note",
+      "CHANGE_PRIORITY": "Modificarea priorității",
+      "ADD_SLA": "Add SLA",
+      "OPEN_CONVERSATION": "Deschiderea conversației"
+    },
+    "MESSAGE_TYPES": {
+      "INCOMING": "Incoming Message",
+      "OUTGOING": "Outgoing Message"
+    },
+    "PRIORITY_TYPES": {
+      "NONE": "Nimic",
+      "LOW": "Scăzut",
+      "MEDIUM": "Mediu",
+      "HIGH": "Mare",
+      "URGENT": "Urgent"
+    },
+    "ATTRIBUTES": {
+      "MESSAGE_TYPE": "Message Type",
+      "MESSAGE_CONTAINS": "Message Contains",
+      "EMAIL": "E-mail",
+      "INBOX": "Inbox",
+      "CONVERSATION_LANGUAGE": "Conversation Language",
+      "PHONE_NUMBER": "Număr de telefon",
+      "STATUS": "Status",
+      "BROWSER_LANGUAGE": "Limba browserului",
+      "MAIL_SUBJECT": "Email Subject",
+      "COUNTRY_NAME": "Țară",
+      "REFERER_LINK": "Referrer Link",
+      "ASSIGNEE_NAME": "Assignee",
+      "TEAM_NAME": "Echipa",
+      "PRIORITY": "Prioritate",
+      "LABELS": "Etichete"
+    }
+  }
+}

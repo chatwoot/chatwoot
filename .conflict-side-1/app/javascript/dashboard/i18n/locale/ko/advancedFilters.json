@@ -1,0 +1,119 @@
+{
+  "FILTER": {
+    "TITLE": "대화 필터링하기",
+    "SUBTITLE": "Add your filters below and hit 'Apply filters' to cut through the chat clutter.",
+    "EDIT_CUSTOM_FILTER": "Edit Folder",
+    "CUSTOM_VIEWS_SUBTITLE": "Add or remove filters and update your folder.",
+    "ADD_NEW_FILTER": "Add filter",
+    "FILTER_DELETE_ERROR": "Oops, looks like we can't save nothing! Please add at least one filter to save it.",
+    "SUBMIT_BUTTON_LABEL": "필터 적용하기",
+    "UPDATE_BUTTON_LABEL": "Update folder",
+    "CANCEL_BUTTON_LABEL": "취소",
+    "CLEAR_BUTTON_LABEL": "Clear filters",
+    "FOLDER_LABEL": "Folder Name",
+    "FOLDER_QUERY_LABEL": "Folder Query",
+    "EMPTY_VALUE_ERROR": "Value is required.",
+    "TOOLTIP_LABEL": "대화 필터링하기",
+    "QUERY_DROPDOWN_LABELS": {
+      "AND": "와/과",
+      "OR": "혹은"
+    },
+    "INPUT_PLACEHOLDER": "Enter value",
+    "OPERATOR_LABELS": {
+      "equal_to": "동일한",
+      "not_equal_to": "비동일한",
+      "does_not_contain": "포함되지 않은",
+      "is_present": "현존하는",
+      "is_not_present": "현존하지 않은",
+      "is_greater_than": "보다 큰",
+      "is_less_than": "보다 작은",
+      "days_before": "x 일 전에",
+      "starts_with": "Starts with",
+      "equalTo": "동일한",
+      "notEqualTo": "비동일한",
+      "contains": "포함된",
+      "doesNotContain": "포함되지 않은",
+      "isPresent": "현존하는",
+      "isNotPresent": "현존하지 않은",
+      "isGreaterThan": "보다 큰",
+      "isLessThan": "보다 작은",
+      "daysBefore": "x 일 전에",
+      "startsWith": "Starts with"
+    },
+    "ATTRIBUTE_LABELS": {
+      "TRUE": "참",
+      "FALSE": "거짓"
+    },
+    "ATTRIBUTES": {
+      "STATUS": "상태",
+      "ASSIGNEE_NAME": "Assignee name",
+      "INBOX_NAME": "Inbox name",
+      "TEAM_NAME": "Team name",
+      "CONVERSATION_IDENTIFIER": "Conversation identifier",
+      "CAMPAIGN_NAME": "Campaign name",
+      "LABELS": "라벨",
+      "BROWSER_LANGUAGE": "Browser language",
+      "PRIORITY": "Priority",
+      "COUNTRY_NAME": "Country name",
+      "REFERER_LINK": "참고 링크",
+      "CUSTOM_ATTRIBUTE_LIST": "리스트",
+      "CUSTOM_ATTRIBUTE_TEXT": "텍스트",
+      "CUSTOM_ATTRIBUTE_NUMBER": "숫자",
+      "CUSTOM_ATTRIBUTE_LINK": "링크",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "체크박스",
+      "CREATED_AT": "에 만들어짐",
+      "LAST_ACTIVITY": "최근 활동"
+    },
+    "ERRORS": {
+      "VALUE_REQUIRED": "값이 필요합니다.",
+      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
+      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998"
+    },
+    "GROUPS": {
+      "STANDARD_FILTERS": "Standard filters",
+      "ADDITIONAL_FILTERS": "Additional filters",
+      "CUSTOM_ATTRIBUTES": "Custom attributes"
+    },
+    "CUSTOM_VIEWS": {
+      "ADD": {
+        "TITLE": "이 필터를 저장하시겠습니까?",
+        "LABEL": "필터 이름 지정하기",
+        "PLACEHOLDER": "Name your filter to refer it later.",
+        "ERROR_MESSAGE": "이름이 필요합니다.",
+        "SAVE_BUTTON": "필터 저장하기",
+        "CANCEL_BUTTON": "취소",
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "폴더가 성공적으로 생성됨.",
+          "ERROR_MESSAGE": "폴더 생성 중 에러 발생."
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "구획이 성공적으로 생성됨.",
+          "ERROR_MESSAGE": "구획 생성 중 에러 발생."
+        }
+      },
+      "EDIT": {
+        "EDIT_BUTTON": "Edit folder"
+      },
+      "DELETE": {
+        "DELETE_BUTTON": "필터 삭제하기",
+        "MODAL": {
+          "CONFIRM": {
+            "TITLE": "Confirm deletion",
+            "MESSAGE": "정말로 이 필터를 삭제하고 싶으신가요? ",
+            "YES": "Yes, delete",
+            "NO": "No, keep it"
+          }
+        },
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "Folder deleted successfully.",
+          "ERROR_MESSAGE": "폴더 삭제 중 에러 발생."
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "구획이 성공적으로 삭제됨.",
+          "ERROR_MESSAGE": "구획 제거 중 에러 발생."
+        }
+      }
+    }
+  }
+}

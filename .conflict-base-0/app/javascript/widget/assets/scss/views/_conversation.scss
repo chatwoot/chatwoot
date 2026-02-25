@@ -1,0 +1,209 @@
+.file-uploads .attachment-button + label {
+  cursor: pointer;
+}
+
+.conversation-wrap {
+  .agent-message {
+    @apply items-end flex flex-row justify-start mt-0 ltr:mr-0 rtl:mr-2 mb-0.5 ltr:ml-2 rtl:ml-0 max-w-[88%];
+
+    .avatar-wrap {
+      @apply flex-shrink-0 h-6 w-6;
+
+      .user-thumbnail-box {
+        @apply -mt-8;
+      }
+    }
+
+    .message-wrap {
+      @apply flex-grow flex-shrink-0 ltr:ml-2 rtl:mr-2 max-w-[90%];
+    }
+  }
+
+  &.is-typing .messages-wrap div:last-child {
+    .agent-message {
+      .agent-name {
+        display: none;
+      }
+
+      .user-thumbnail-box {
+        margin-top: 0;
+      }
+    }
+  }
+
+  .agent-name {
+    @apply text-xs font-medium my-2 ltr:pl-0.5 rtl:pr-0.5;
+  }
+
+  .has-attachment {
+    overflow: hidden;
+
+    :not([audio]) {
+      padding: 0;
+    }
+
+    &.has-text {
+      @apply mt-1;
+    }
+  }
+
+  .agent-message-wrap {
+    + .agent-message-wrap {
+      @apply mt-0.5;
+
+      .agent-message .chat-bubble {
+        @apply ltr:rounded-tl-[0.25rem] rtl:rounded-tr-[0.25rem];
+      }
+    }
+
+    + .user-message-wrap {
+      @apply mt-4;
+    }
+
+    &.has-response + .user-message-wrap {
+      @apply mt-0.5;
+
+      .chat-bubble {
+        @apply ltr:rounded-tr-[0.25rem] rtl:rounded-tl-[0.25rem];
+      }
+    }
+
+    &.has-response + .agent-message-wrap {
+      @apply mt-4;
+    }
+  }
+
+  .user-message {
+    @apply flex items-end flex-row justify-end max-w-[85%] ltr:text-right rtl:text-left mt-0 ltr:ml-auto rtl:mr-auto ltr:mr-1 rtl:ml-1 mb-0.5;
+
+    .message-wrap {
+      @apply max-w-full ltr:mr-2 rtl:ml-2;
+    }
+
+    .in-progress {
+      opacity: 0.6;
+    }
+
+    .is-failed {
+      @apply flex items-end flex-row-reverse;
+
+      .chat-bubble.user {
+        @apply bg-n-ruby-9 dark:bg-n-ruby-9 #{!important};
+      }
+    }
+  }
+
+  .user.has-attachment {
+    .icon-wrap {
+      @apply text-white;
+    }
+
+    .download {
+      @apply text-white;
+    }
+  }
+
+  .user-message-wrap {
+    + .user-message-wrap {
+      @apply mt-0.5;
+
+      .user-message .chat-bubble {
+        @apply ltr:rounded-tr-[0.25rem] rtl:rounded-tl-[0.25rem];
+      }
+    }
+
+    + .agent-message-wrap {
+      @apply mt-4;
+    }
+  }
+
+  p:not(:last-child) {
+    @apply mb-4;
+  }
+}
+
+.unread-messages {
+  @apply flex flex-col flex-nowrap mt-0 overflow-y-auto w-full pb-2;
+
+  .chat-bubble-wrap {
+    @apply mb-1;
+
+    &:first-child {
+      margin-top: auto;
+    }
+
+    .chat-bubble {
+      @apply border border-solid border-n-slate-5 dark:border-n-slate-11/50 text-n-black;
+    }
+
+    + .chat-bubble-wrap {
+      .chat-bubble {
+        @apply ltr:rounded-tl-[0.25rem] rtl:rounded-tr-[0.25rem];
+      }
+    }
+
+    &:last-child .chat-bubble {
+      @apply ltr:rounded-bl-[1.25rem] rtl:rounded-br-[1.25rem];
+    }
+  }
+}
+
+.is-widget-right .unread-wrap {
+  @apply ltr:text-right rtl:text-left overflow-hidden;
+
+  .chat-bubble-wrap {
+    .chat-bubble {
+      @apply ltr:rounded-br-[0.25rem] rtl:rounded-bl-[0.25rem] rounded-[1.25rem];
+    }
+
+    + .chat-bubble-wrap {
+      .chat-bubble {
+        @apply ltr:rounded-tr-[0.25rem] rtl:rounded-tl-[0.25rem];
+      }
+    }
+
+    &:last-child .chat-bubble {
+      @apply ltr:rounded-br-[1.25rem] rtl:rounded-bl-[1.25rem];
+    }
+  }
+
+  .close-unread-wrap {
+    text-align: right;
+  }
+}
+
+.chat-bubble {
+  @apply shadow-[0_0.25rem_6px_rgba(50,50,93,0.08),0_1px_3px_rgba(0,0,0,0.05)] rounded-[1.25rem] inline-block text-sm leading-[1.5] max-w-full ltr:text-left rtl:text-right py-3 px-4 text-white;
+
+  word-break: break-word;
+
+  :not([audio]) {
+    max-width: 100%;
+  }
+
+  > a {
+    @apply text-n-brand;
+    word-break: break-all;
+  }
+
+  .link {
+    text-decoration: underline;
+  }
+
+  &.user {
+    @apply ltr:rounded-br-[0.25rem] rtl:rounded-bl-[0.25rem];
+
+    > a {
+      @apply text-white;
+    }
+  }
+
+  &.agent {
+    @apply ltr:rounded-bl-[0.25rem] rtl:rounded-br-[0.25rem] text-n-slate-12;
+
+    .link {
+      @apply text-n-brand;
+      word-break: break-word;
+    }
+  }
+}

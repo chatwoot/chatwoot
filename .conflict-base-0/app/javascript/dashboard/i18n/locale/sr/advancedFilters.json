@@ -1,0 +1,119 @@
+{
+  "FILTER": {
+    "TITLE": "Filtrirajte razgovore",
+    "SUBTITLE": "Add your filters below and hit 'Apply filters' to cut through the chat clutter.",
+    "EDIT_CUSTOM_FILTER": "Izmeni folder",
+    "CUSTOM_VIEWS_SUBTITLE": "Dodajte ili uklonite filtere i izmenite vaš folder.",
+    "ADD_NEW_FILTER": "Add filter",
+    "FILTER_DELETE_ERROR": "Oops, looks like we can't save nothing! Please add at least one filter to save it.",
+    "SUBMIT_BUTTON_LABEL": "Primenite filtere",
+    "UPDATE_BUTTON_LABEL": "Update folder",
+    "CANCEL_BUTTON_LABEL": "Otkaži",
+    "CLEAR_BUTTON_LABEL": "Clear filters",
+    "FOLDER_LABEL": "Naziv foldera",
+    "FOLDER_QUERY_LABEL": "Upit za folder",
+    "EMPTY_VALUE_ERROR": "Vrednost je neophodna.",
+    "TOOLTIP_LABEL": "Filtrirajte razgovore",
+    "QUERY_DROPDOWN_LABELS": {
+      "AND": "I",
+      "OR": "ILI"
+    },
+    "INPUT_PLACEHOLDER": "Enter value",
+    "OPERATOR_LABELS": {
+      "equal_to": "Jednako sa",
+      "not_equal_to": "Nije jednako sa",
+      "does_not_contain": "Ne sadrži",
+      "is_present": "Postoji",
+      "is_not_present": "Ne postoji",
+      "is_greater_than": "Veće je od",
+      "is_less_than": "Manje je od",
+      "days_before": "Je x dana pre",
+      "starts_with": "Starts with",
+      "equalTo": "Jednako sa",
+      "notEqualTo": "Nije jednako sa",
+      "contains": "Sadrži",
+      "doesNotContain": "Ne sadrži",
+      "isPresent": "Postoji",
+      "isNotPresent": "Ne postoji",
+      "isGreaterThan": "Veće je od",
+      "isLessThan": "Je manje od",
+      "daysBefore": "Je x dana pre",
+      "startsWith": "Starts with"
+    },
+    "ATTRIBUTE_LABELS": {
+      "TRUE": "Istinito",
+      "FALSE": "Neistinito"
+    },
+    "ATTRIBUTES": {
+      "STATUS": "Status",
+      "ASSIGNEE_NAME": "Assignee name",
+      "INBOX_NAME": "Naziv prijemnog sandučeta",
+      "TEAM_NAME": "Naziv tima",
+      "CONVERSATION_IDENTIFIER": "Conversation identifier",
+      "CAMPAIGN_NAME": "Campaign name",
+      "LABELS": "Oznake",
+      "BROWSER_LANGUAGE": "Browser language",
+      "PRIORITY": "Priority",
+      "COUNTRY_NAME": "Country name",
+      "REFERER_LINK": "Veza reference",
+      "CUSTOM_ATTRIBUTE_LIST": "Lista",
+      "CUSTOM_ATTRIBUTE_TEXT": "Tekst",
+      "CUSTOM_ATTRIBUTE_NUMBER": "Broj",
+      "CUSTOM_ATTRIBUTE_LINK": "Veza",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "Polje za potvrdu",
+      "CREATED_AT": "Napravljena u",
+      "LAST_ACTIVITY": "Poslednja aktivnost"
+    },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Vrednost je neophodna",
+      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
+      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998"
+    },
+    "GROUPS": {
+      "STANDARD_FILTERS": "Standard filters",
+      "ADDITIONAL_FILTERS": "Additional filters",
+      "CUSTOM_ATTRIBUTES": "Custom attributes"
+    },
+    "CUSTOM_VIEWS": {
+      "ADD": {
+        "TITLE": "Da li želite da sačuvate ovaj filter?",
+        "LABEL": "Nazovite ovaj filter",
+        "PLACEHOLDER": "Name your filter to refer it later.",
+        "ERROR_MESSAGE": "Ime je neophodno.",
+        "SAVE_BUTTON": "Sačuvaj filter",
+        "CANCEL_BUTTON": "Otkaži",
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "Folder je uspešno kreiran.",
+          "ERROR_MESSAGE": "Greška pri kreiranju foldera."
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "Segment je uspešno kreiran.",
+          "ERROR_MESSAGE": "Greška pri kreiranju segmenta."
+        }
+      },
+      "EDIT": {
+        "EDIT_BUTTON": "Izmeni folder"
+      },
+      "DELETE": {
+        "DELETE_BUTTON": "Ukloni filter",
+        "MODAL": {
+          "CONFIRM": {
+            "TITLE": "Potvrdi brisanje",
+            "MESSAGE": "Da li ste sigurni da želite da uklonite filter ",
+            "YES": "Yes, delete",
+            "NO": "Ne, zadrži je"
+          }
+        },
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "Folder je uspešno obrisan.",
+          "ERROR_MESSAGE": "Greška pri brisanju foldera."
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "Segment je uspešno obrisan.",
+          "ERROR_MESSAGE": "Greška pri brisanju segmenta."
+        }
+      }
+    }
+  }
+}

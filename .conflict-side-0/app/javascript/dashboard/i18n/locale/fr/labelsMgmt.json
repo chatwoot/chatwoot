@@ -1,0 +1,85 @@
+{
+  "LABEL_MGMT": {
+    "HEADER": "Étiquettes",
+    "HEADER_BTN_TXT": "Ajouter une étiquette",
+    "LOADING": "Récupération des étiquettes",
+    "DESCRIPTION": "Labels help you categorize and prioritize conversations and leads. You can assign a label to a conversation or contact using the side panel.",
+    "LEARN_MORE": "Learn more about labels",
+    "SEARCH_404": "Il n'y a aucun élément correspondant à cette requête",
+    "LIST": {
+      "404": "Il n'y a aucune étiquette disponible dans ce compte.",
+      "TITLE": "Gérer les étiquettes",
+      "DESC": "Les étiquettes vous permettent de grouper les conversations ensemble.",
+      "TABLE_HEADER": {
+        "NAME": "Nom",
+        "DESCRIPTION": "Description",
+        "COLOR": "Couleur"
+      }
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "Nom de l'étiquette",
+        "PLACEHOLDER": "Nom de l'étiquette",
+        "REQUIRED_ERROR": "Le nom de l'étiquette est requis",
+        "MINIMUM_LENGTH_ERROR": "Longueur minimale de 2 requise",
+        "VALID_ERROR": "Seuls les caractères alphabétiques, les chiffres, les traits d'union et les tirets bas sont autorisés"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Description",
+        "PLACEHOLDER": "Description de l'étiquette"
+      },
+      "COLOR": {
+        "LABEL": "Couleur"
+      },
+      "SHOW_ON_SIDEBAR": {
+        "LABEL": "Afficher l'étiquette dans la barre latérale"
+      },
+      "EDIT": "Modifier",
+      "CREATE": "Créer",
+      "DELETE": "Supprimer",
+      "CANCEL": "Annuler"
+    },
+    "SUGGESTIONS": {
+      "TOOLTIP": {
+        "SINGLE_SUGGESTION": "Ajouter un libellé à la conversation",
+        "MULTIPLE_SUGGESTION": "Sélectionner ce libellé",
+        "DESELECT": "Désélectionner ce libellé",
+        "DISMISS": "Rejeter la suggestion"
+      },
+      "POWERED_BY": "Chatwoot IA",
+      "DISMISS": "Rejeter",
+      "ADD_SELECTED_LABELS": "Ajouter les libellés sélectionnés",
+      "ADD_SELECTED_LABEL": "Ajouter le libellé sélectionné",
+      "ADD_ALL_LABELS": "Ajouter tous les libellés",
+      "SUGGESTED_LABELS": "Suggested labels"
+    },
+    "ADD": {
+      "TITLE": "Ajouter une étiquette",
+      "DESC": "Les étiquettes vous permettent de grouper les conversations ensemble.",
+      "API": {
+        "SUCCESS_MESSAGE": "Étiquette ajoutée avec succès",
+        "ERROR_MESSAGE": "Une erreur est survenue, veuillez réessayer"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Modifier l'étiquette",
+      "API": {
+        "SUCCESS_MESSAGE": "Étiquette mise à jour avec succès",
+        "ERROR_MESSAGE": "Une erreur est survenue, veuillez réessayer"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Supprimer",
+      "API": {
+        "SUCCESS_MESSAGE": "Étiquette supprimée avec succès",
+        "ERROR_MESSAGE": "Une erreur est survenue, veuillez réessayer"
+      },
+      "CONFIRM": {
+        "TITLE": "Confirmer la suppression",
+        "MESSAGE": "Êtes-vous sûr de vouloir supprimer ",
+        "YES": "Oui, supprimer ",
+        "NO": "Non, Conserver "
+      }
+    }
+  }
+}

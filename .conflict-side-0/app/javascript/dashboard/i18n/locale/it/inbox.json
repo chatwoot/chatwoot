@@ -1,0 +1,95 @@
+{
+  "INBOX": {
+    "LIST": {
+      "TITLE": "La mia Inbox",
+      "DISPLAY_DROPDOWN": "Visualizza",
+      "LOADING": "Caricamento notifiche",
+      "404": "Non ci sono notifiche attive in questo gruppo.",
+      "NO_NOTIFICATIONS": "Nessuna notifica",
+      "NOTE": "Notifiche da tutte le Inbox",
+      "NO_MESSAGES_AVAILABLE": "Oops! Impossibile recuperare i messaggi",
+      "SNOOZED_UNTIL": "Posticipata fino a",
+      "SNOOZED_UNTIL_TOMORROW": "Posticipata fino a domani",
+      "SNOOZED_UNTIL_NEXT_WEEK": "Posticipata fino alla prossima settimana"
+    },
+    "ACTION_HEADER": {
+      "SNOOZE": "Posticipa notifica",
+      "DELETE": "Elimina notifica",
+      "BACK": "Indietro"
+    },
+    "TYPES": {
+      "CONVERSATION_MENTION": "Sei stato menzionato in una conversazione",
+      "CONVERSATION_CREATION": "Nuova conversazione creata",
+      "CONVERSATION_ASSIGNMENT": "Ti è stata assegnata una conversazione",
+      "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Nuovo messaggio in una conversazione assegnata",
+      "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Nuovo messaggio in una conversazione a cui partecipi",
+      "SLA_MISSED_FIRST_RESPONSE": "SLA target first response missed for conversation",
+      "SLA_MISSED_NEXT_RESPONSE": "SLA target next response missed for conversation",
+      "SLA_MISSED_RESOLUTION": "SLA target resolution missed for conversation"
+    },
+    "TYPES_NEXT": {
+      "CONVERSATION_MENTION": "Menzioni",
+      "CONVERSATION_ASSIGNMENT": "Assegnate a te",
+      "CONVERSATION_CREATION": "Nuova Conversazione",
+      "SLA_MISSED_FIRST_RESPONSE": "Violazione SLA",
+      "SLA_MISSED_NEXT_RESPONSE": "Violazione SLA",
+      "SLA_MISSED_RESOLUTION": "Violazione SLA",
+      "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Nuovo messaggio",
+      "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Nuovo messaggio",
+      "SNOOZED_UNTIL": "Posticipata per {time}",
+      "SNOOZED_ENDS": "Posticipo terminato"
+    },
+    "NO_CONTENT": "Nessun contenuto disponibile",
+    "MENU_ITEM": {
+      "MARK_AS_READ": "Segna come letta",
+      "MARK_AS_UNREAD": "Segna come da leggere",
+      "SNOOZE": "Posticipa",
+      "DELETE": "Elimina",
+      "MARK_ALL_READ": "Segna tutte come lette",
+      "DELETE_ALL": "Elimina tutte",
+      "DELETE_ALL_READ": "Elimina tutte le lette"
+    },
+    "DISPLAY_MENU": {
+      "SORT": "Ordina",
+      "DISPLAY": "Visualizza:",
+      "SORT_OPTIONS": {
+        "NEWEST": "Più Recenti",
+        "OLDEST": "Meno Recenti",
+        "PRIORITY": "Priorità"
+      },
+      "DISPLAY_OPTIONS": {
+        "SNOOZED": "Posticipate",
+        "READ": "Lette",
+        "LABELS": "Etichette",
+        "CONVERSATION_ID": "ID Conversazione"
+      }
+    },
+    "ALERTS": {
+      "MARK_AS_READ": "Notifica segnata come letta",
+      "MARK_AS_UNREAD": "Notifica segnata come non letta",
+      "SNOOZE": "Notifica posticipata",
+      "DELETE": "Notifica eliminata",
+      "MARK_ALL_READ": "Tutte le notifiche segnate come lette",
+      "DELETE_ALL": "Tutte le notifiche eliminate",
+      "DELETE_ALL_READ": "Tutte le notifiche lette cancellate"
+    },
+    "REAUTHORIZE": {
+      "TITLE": "Riautorizzazione Necessaria",
+      "DESCRIPTION": "La tua connessione a WhatsApp è scaduta. Ti preghiamo di riconnetterti per continuare a ricevere e inviare messaggi.",
+      "BUTTON_TEXT": "Riconnetti WhatsApp",
+      "LOADING_FACEBOOK": "Caricamento del Facebook SDK...",
+      "SUCCESS": "WhatsApp riconnesso correttamente",
+      "ERROR": "Impossibile riconnettere WhatsApp. Per favore riprova.",
+      "WHATSAPP_APP_ID_MISSING": "WhatsApp App ID non è configurato. Si prega di contattare l'amministratore.",
+      "WHATSAPP_CONFIG_ID_MISSING": "WhatsApp Configuration ID non è configurato. Si prega di contattare l'amministratore.",
+      "CONFIGURATION_ERROR": "Errore di configurazione durante la riautorizzazione.",
+      "FACEBOOK_LOAD_ERROR": "Impossibile caricare Facebook SDK. Per favore riprova.",
+      "TROUBLESHOOTING": {
+        "TITLE": "Risoluzione Problemi",
+        "POPUP_BLOCKED": "Assicurati che i pop-up siano permessi per questo sito",
+        "COOKIES": "I cookie di terze parti devono essere abilitati",
+        "ADMIN_ACCESS": "Hai bisogno di accesso amministratore all'account WhatsApp Business"
+      }
+    }
+  }
+}

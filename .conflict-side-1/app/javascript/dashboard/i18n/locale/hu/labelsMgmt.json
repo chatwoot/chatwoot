@@ -1,0 +1,85 @@
+{
+  "LABEL_MGMT": {
+    "HEADER": "Cimkék",
+    "HEADER_BTN_TXT": "Cimke hozzáadása",
+    "LOADING": "Cimkék letöltése",
+    "DESCRIPTION": "Labels help you categorize and prioritize conversations and leads. You can assign a label to a conversation or contact using the side panel.",
+    "LEARN_MORE": "Learn more about labels",
+    "SEARCH_404": "Nincs megfelelő elem",
+    "LIST": {
+      "404": "Nincs megfelelő cimke ebben a fiókban.",
+      "TITLE": "Cimkék kezelése",
+      "DESC": "A cimkék a beszélgetések csoportokba rendezését segítik.",
+      "TABLE_HEADER": {
+        "NAME": "Név",
+        "DESCRIPTION": "Leírás",
+        "COLOR": "Szín"
+      }
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "Cimke neve",
+        "PLACEHOLDER": "Cimke neve",
+        "REQUIRED_ERROR": "A cimke nevének megadása kötelező",
+        "MINIMUM_LENGTH_ERROR": "Minimum 2 karakter hosszúnak kell lennie",
+        "VALID_ERROR": "Kizárólag betűk, számok, kötőjel és alulvonás szerepelhet"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Leírás",
+        "PLACEHOLDER": "Cimke leírás"
+      },
+      "COLOR": {
+        "LABEL": "Szín"
+      },
+      "SHOW_ON_SIDEBAR": {
+        "LABEL": "Cimke megjelenítése az oldalsávban"
+      },
+      "EDIT": "Szerkesztés",
+      "CREATE": "Létrehozás",
+      "DELETE": "Törlés",
+      "CANCEL": "Mégse"
+    },
+    "SUGGESTIONS": {
+      "TOOLTIP": {
+        "SINGLE_SUGGESTION": "Címke hozzáadása a beszélgetéshez",
+        "MULTIPLE_SUGGESTION": "Válassza ki ezt a címkét",
+        "DESELECT": "Címke kijelölésének megszüntetése",
+        "DISMISS": "Javaslatok kihagyása"
+      },
+      "POWERED_BY": "Chatwoot AI",
+      "DISMISS": "Elutasítás",
+      "ADD_SELECTED_LABELS": "Kijelölt címkék hozzáadása",
+      "ADD_SELECTED_LABEL": "Kijelölt címke hozzáadása",
+      "ADD_ALL_LABELS": "Minden címke hozzáadása",
+      "SUGGESTED_LABELS": "Suggested labels"
+    },
+    "ADD": {
+      "TITLE": "Cimke hozzáadása",
+      "DESC": "A cimkék a beszélgetések csoportokba rendezését segítik.",
+      "API": {
+        "SUCCESS_MESSAGE": "Cimke sikeresen hozzáadva",
+        "ERROR_MESSAGE": "Hiba történt, kérjük próbáld újra"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Cimke szerkesztése",
+      "API": {
+        "SUCCESS_MESSAGE": "Cimke sikeresen frissítve",
+        "ERROR_MESSAGE": "Hiba történt, kérjük próbáld újra"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Törlés",
+      "API": {
+        "SUCCESS_MESSAGE": "Cimke sikeresen törölve",
+        "ERROR_MESSAGE": "Hiba történt, kérjük próbáld újra"
+      },
+      "CONFIRM": {
+        "TITLE": "Törlés Megerősítése",
+        "MESSAGE": "Biztos abban, hogy törli ",
+        "YES": "Igen, Törlés ",
+        "NO": "Nem, Mégse "
+      }
+    }
+  }
+}

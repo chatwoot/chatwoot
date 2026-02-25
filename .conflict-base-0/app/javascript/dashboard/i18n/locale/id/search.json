@@ -1,0 +1,68 @@
+{
+  "SEARCH": {
+    "TABS": {
+      "ALL": "All results",
+      "CONTACTS": "Kontak",
+      "CONVERSATIONS": "Percakapan",
+      "MESSAGES": "Pesan",
+      "ARTICLES": "Articles"
+    },
+    "SECTION": {
+      "CONTACTS": "Kontak",
+      "CONVERSATIONS": "Percakapan",
+      "MESSAGES": "Pesan",
+      "ARTICLES": "Articles"
+    },
+    "VIEW_MORE": "View more",
+    "LOAD_MORE": "Load more",
+    "SEARCHING_DATA": "Sedang mencari",
+    "LOADING_DATA": "Loading",
+    "EMPTY_STATE": "Tidak ada {item} ditemukan untuk kueri '{query}'",
+    "EMPTY_STATE_FULL": "Tidak ada hasil ditemukan untuk kueri '{query}'",
+    "PLACEHOLDER_KEYBINDING": "/untuk fokus",
+    "INPUT_PLACEHOLDER": "Cari pesan, kontak, atau percakapan",
+    "RECENT_SEARCHES": "Recent searches",
+    "CLEAR_ALL": "Clear all",
+    "MOST_RECENT": "Most recent",
+    "EMPTY_STATE_DEFAULT": "Cari dengan ID percakapan, email, nomor telepon, atau pesan untuk hasil pencarian yang lebih baik.",
+    "BOT_LABEL": "Bot",
+    "READ_MORE": "Baca lebih lanjut",
+    "READ_LESS": "Read less",
+    "WROTE": "menulis:",
+    "FROM": "Dari",
+    "EMAIL": "Email",
+    "EMAIL_SUBJECT": "Subjek",
+    "PRIVATE": "Private note",
+    "TRANSCRIPT": "Transcript",
+    "CREATED_AT": "created {time}",
+    "UPDATED_AT": "updated {time}",
+    "SORT_BY": {
+      "RELEVANCE": "Relevance"
+    },
+    "DATE_RANGE": {
+      "LAST_7_DAYS": "7 hari terakhir",
+      "LAST_30_DAYS": "30 hari terakhir",
+      "LAST_60_DAYS": "60 hari terakhir",
+      "LAST_90_DAYS": "90 hari terakhir",
+      "CUSTOM_RANGE": "Custom range:",
+      "CREATED_BETWEEN": "Created between",
+      "AND": "and",
+      "APPLY": "Terapkan",
+      "BEFORE_DATE": "Before {date}",
+      "AFTER_DATE": "After {date}",
+      "TIME_RANGE": "Filter by time",
+      "CLEAR_FILTER": "Clear filter"
+    },
+    "FILTERS": {
+      "FILTER_MESSAGE": "Filter messages by:",
+      "FROM": "Pengirim",
+      "IN": "Kotak masuk",
+      "AGENTS": "Agen",
+      "CONTACTS": "Kontak",
+      "INBOXES": "Kotak masuk",
+      "NO_AGENTS": "Tidak ada agen",
+      "NO_CONTACTS": "Start by searching to see results",
+      "NO_INBOXES": "No inboxes found"
+    }
+  }
+}

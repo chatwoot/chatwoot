@@ -1,0 +1,138 @@
+{
+  "ATTRIBUTES_MGMT": {
+    "HEADER": "Atributs personalitzats",
+    "HEADER_BTN_TXT": "Afegir atribut personalitzat",
+    "LOADING": "S'estan recollint atributs personalitzats",
+    "DESCRIPTION": "A custom attribute tracks additional details about your contacts or conversations—such as the subscription plan or the date of their first purchase. You can add different types of custom attributes, such as text, lists, or numbers, to capture the specific information you need.",
+    "LEARN_MORE": "Learn more about custom attributes",
+    "ATTRIBUTE_MODELS": {
+      "CONVERSATION": "Conversa",
+      "CONTACT": "Contacte"
+    },
+    "ATTRIBUTE_TYPES": {
+      "TEXT": "Llista",
+      "NUMBER": "Número",
+      "LINK": "Enllaç",
+      "DATE": "Date",
+      "LIST": "Llista",
+      "CHECKBOX": "Casella de selecció"
+    },
+    "ADD": {
+      "TITLE": "Afegir atribut personalitzat",
+      "SUBMIT": "Crear",
+      "CANCEL_BUTTON_TEXT": "Cancel·la",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Mostre el nom",
+          "PLACEHOLDER": "Introdueix el nom de visualització de l'atribut personalitzat",
+          "ERROR": "El valor és necessari"
+        },
+        "DESC": {
+          "LABEL": "Descripció",
+          "PLACEHOLDER": "Introdueix la descripció de l'atribut personalitzat",
+          "ERROR": "La descripció és necessària"
+        },
+        "MODEL": {
+          "LABEL": "S'aplica a",
+          "PLACEHOLDER": "Selecciona un",
+          "ERROR": "El model és necessari"
+        },
+        "TYPE": {
+          "LABEL": "Tipus",
+          "PLACEHOLDER": "Selecciona un tipus",
+          "ERROR": "El tipus és necessari",
+          "LIST": {
+            "LABEL": "Llista de valors",
+            "PLACEHOLDER": "Introdueix el valor i prem la tecla Intro",
+            "ERROR": "Ha de tenir almenys un valor"
+          }
+        },
+        "KEY": {
+          "LABEL": "Clau",
+          "PLACEHOLDER": "Introduïu la clau d'atribut personalitzada",
+          "ERROR": "La clau és necessària",
+          "IN_VALID": "Clau no vàlida"
+        },
+        "REGEX_PATTERN": {
+          "LABEL": "Patró d'expressió regular",
+          "PLACEHOLDER": "Introdueix un patró d'expressió regular d'atribut personalitzat. (Opcional)"
+        },
+        "REGEX_CUE": {
+          "LABEL": "Senyal d'expressió regular",
+          "PLACEHOLDER": "Introdueix la pista del patró d'expressió regular. (Opcional)"
+        },
+        "ENABLE_REGEX": {
+          "LABEL": "Activa la validació d'expressions regulars"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Atribut personalitzat afegit correctament!",
+        "ERROR_MESSAGE": "No s'ha pogut crear un atribut personalitzat. Intenta-ho més tard."
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Esborrar",
+      "API": {
+        "SUCCESS_MESSAGE": "Atribut personalitzat suprimit correctament.",
+        "ERROR_MESSAGE": "No s'ha pogut suprimir l'atribut personalitzat. Torna-ho a provar."
+      },
+      "CONFIRM": {
+        "TITLE": "Estàs segur que vols suprimir - {attributeName}",
+        "PLACE_HOLDER": "Escriu {attributeName} per confirmar",
+        "MESSAGE": "En suprimir, s'eliminarà l'atribut personalitzat",
+        "YES": "Suprimeix ",
+        "NO": "Cancel·la"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Edita atribut personalitzat",
+      "UPDATE_BUTTON_TEXT": "Actualitza",
+      "TYPE": {
+        "LIST": {
+          "LABEL": "Llista de valors",
+          "PLACEHOLDER": "Introdueix els valors i prem la tecla Intro"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Atribut personalitzat actualitzat correctament",
+        "ERROR_MESSAGE": "S'ha produït un error en actualitzar l'atribut personalitzat. Torneu-ho a provar"
+      }
+    },
+    "TABS": {
+      "HEADER": "Atributs personalitzats",
+      "CONVERSATION": "Conversa",
+      "CONTACT": "Contacte"
+    },
+    "LIST": {
+      "TABLE_HEADER": {
+        "NAME": "Nom",
+        "DESCRIPTION": "Descripció",
+        "TYPE": "Tipus",
+        "KEY": "Clau"
+      },
+      "BUTTONS": {
+        "EDIT": "Edita",
+        "DELETE": "Esborrar"
+      },
+      "EMPTY_RESULT": {
+        "404": "No s'han creat atributs personalitzats",
+        "NOT_FOUND": "No hi ha atributs personalitzats configurats"
+      },
+      "REGEX_PATTERN": {
+        "LABEL": "Patró d'expressió regular",
+        "PLACEHOLDER": "Introdueix un patró d'expressió regular d'atribut personalitzat. (Opcional)"
+      },
+      "REGEX_CUE": {
+        "LABEL": "Senyal d'expressió regular",
+        "PLACEHOLDER": "Introdueix la pista del patró d'expressió regular. (Opcional)"
+      },
+      "ENABLE_REGEX": {
+        "LABEL": "Activa la validació d'expressions regulars"
+      }
+    },
+    "BADGES": {
+      "PRE_CHAT": "Pre-chat",
+      "RESOLUTION": "Resolution"
+    }
+  }
+}

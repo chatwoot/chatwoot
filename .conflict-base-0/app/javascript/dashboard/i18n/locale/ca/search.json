@@ -1,0 +1,68 @@
+{
+  "SEARCH": {
+    "TABS": {
+      "ALL": "All results",
+      "CONTACTS": "Contactes",
+      "CONVERSATIONS": "Converses",
+      "MESSAGES": "Missatges",
+      "ARTICLES": "Articles"
+    },
+    "SECTION": {
+      "CONTACTS": "Contactes",
+      "CONVERSATIONS": "Converses",
+      "MESSAGES": "Missatges",
+      "ARTICLES": "Articles"
+    },
+    "VIEW_MORE": "View more",
+    "LOAD_MORE": "Load more",
+    "SEARCHING_DATA": "S'està cercant",
+    "LOADING_DATA": "Carregant",
+    "EMPTY_STATE": "No s'ha trobat cap {item} per a la consulta '{query}'",
+    "EMPTY_STATE_FULL": "No s'han trobat resultats per a la consulta '{query}'",
+    "PLACEHOLDER_KEYBINDING": "/centrar",
+    "INPUT_PLACEHOLDER": "Search messages, contacts or conversations",
+    "RECENT_SEARCHES": "Recent searches",
+    "CLEAR_ALL": "Esborrar tot",
+    "MOST_RECENT": "Most recent",
+    "EMPTY_STATE_DEFAULT": "Search by conversation id, email, phone number, messages for better search results.",
+    "BOT_LABEL": "Bot",
+    "READ_MORE": "Llegir més",
+    "READ_LESS": "Read less",
+    "WROTE": "va escriure:",
+    "FROM": "Des de",
+    "EMAIL": "Correu electrònic",
+    "EMAIL_SUBJECT": "Assumpte",
+    "PRIVATE": "Private note",
+    "TRANSCRIPT": "Transcript",
+    "CREATED_AT": "created {time}",
+    "UPDATED_AT": "updated {time}",
+    "SORT_BY": {
+      "RELEVANCE": "Relevance"
+    },
+    "DATE_RANGE": {
+      "LAST_7_DAYS": "Últims 7 dies",
+      "LAST_30_DAYS": "Últims 30 dies",
+      "LAST_60_DAYS": "Últims 60 dies",
+      "LAST_90_DAYS": "Últims 90 dies",
+      "CUSTOM_RANGE": "Custom range:",
+      "CREATED_BETWEEN": "Created between",
+      "AND": "and",
+      "APPLY": "Aplica",
+      "BEFORE_DATE": "Before {date}",
+      "AFTER_DATE": "After {date}",
+      "TIME_RANGE": "Filter by time",
+      "CLEAR_FILTER": "Esborra els filtres"
+    },
+    "FILTERS": {
+      "FILTER_MESSAGE": "Filter messages by:",
+      "FROM": "Remitent",
+      "IN": "Safata d'entrada",
+      "AGENTS": "Agents",
+      "CONTACTS": "Contactes",
+      "INBOXES": "Safates d'entrada",
+      "NO_AGENTS": "No s'han trobat agents",
+      "NO_CONTACTS": "Start by searching to see results",
+      "NO_INBOXES": "No inboxes found"
+    }
+  }
+}

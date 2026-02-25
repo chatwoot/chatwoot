@@ -1,0 +1,68 @@
+{
+  "SEARCH": {
+    "TABS": {
+      "ALL": "All results",
+      "CONTACTS": "Kontakti",
+      "CONVERSATIONS": "Razgovori",
+      "MESSAGES": "Poruke",
+      "ARTICLES": "Articles"
+    },
+    "SECTION": {
+      "CONTACTS": "Kontakti",
+      "CONVERSATIONS": "Razgovori",
+      "MESSAGES": "Poruke",
+      "ARTICLES": "Articles"
+    },
+    "VIEW_MORE": "View more",
+    "LOAD_MORE": "Load more",
+    "SEARCHING_DATA": "Tražim",
+    "LOADING_DATA": "Loading",
+    "EMPTY_STATE": "Pronađeno {item} za traženi pojam '{query}'",
+    "EMPTY_STATE_FULL": "Ništa nije pronađeno za traženi pojam '{query}'",
+    "PLACEHOLDER_KEYBINDING": "/za fokusiranje",
+    "INPUT_PLACEHOLDER": "Unesi 3 ili više znakova za pretragu",
+    "RECENT_SEARCHES": "Recent searches",
+    "CLEAR_ALL": "Clear all",
+    "MOST_RECENT": "Most recent",
+    "EMPTY_STATE_DEFAULT": "Traži po conversation id, e-mail, broj telefona, poruke za bolje rezultate pretrage. ",
+    "BOT_LABEL": "Bot",
+    "READ_MORE": "Pročitaj više",
+    "READ_LESS": "Read less",
+    "WROTE": "napisao/la:",
+    "FROM": "From",
+    "EMAIL": "Email",
+    "EMAIL_SUBJECT": "Subject",
+    "PRIVATE": "Private note",
+    "TRANSCRIPT": "Transcript",
+    "CREATED_AT": "created {time}",
+    "UPDATED_AT": "updated {time}",
+    "SORT_BY": {
+      "RELEVANCE": "Relevance"
+    },
+    "DATE_RANGE": {
+      "LAST_7_DAYS": "Last 7 days",
+      "LAST_30_DAYS": "Last 30 days",
+      "LAST_60_DAYS": "Last 60 days",
+      "LAST_90_DAYS": "Last 90 days",
+      "CUSTOM_RANGE": "Custom range:",
+      "CREATED_BETWEEN": "Created between",
+      "AND": "and",
+      "APPLY": "Apply",
+      "BEFORE_DATE": "Before {date}",
+      "AFTER_DATE": "After {date}",
+      "TIME_RANGE": "Filter by time",
+      "CLEAR_FILTER": "Clear filter"
+    },
+    "FILTERS": {
+      "FILTER_MESSAGE": "Filter messages by:",
+      "FROM": "Sender",
+      "IN": "Inbox",
+      "AGENTS": "Agenti",
+      "CONTACTS": "Contacts",
+      "INBOXES": "Inboxes",
+      "NO_AGENTS": "No agents found",
+      "NO_CONTACTS": "Start by searching to see results",
+      "NO_INBOXES": "No inboxes found"
+    }
+  }
+}

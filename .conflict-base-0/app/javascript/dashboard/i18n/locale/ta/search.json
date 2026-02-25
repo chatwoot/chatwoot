@@ -1,0 +1,68 @@
+{
+  "SEARCH": {
+    "TABS": {
+      "ALL": "All results",
+      "CONTACTS": "Contacts",
+      "CONVERSATIONS": "உரையாடல்கள்",
+      "MESSAGES": "Messages",
+      "ARTICLES": "Articles"
+    },
+    "SECTION": {
+      "CONTACTS": "Contacts",
+      "CONVERSATIONS": "உரையாடல்கள்",
+      "MESSAGES": "Messages",
+      "ARTICLES": "Articles"
+    },
+    "VIEW_MORE": "View more",
+    "LOAD_MORE": "Load more",
+    "SEARCHING_DATA": "Searching",
+    "LOADING_DATA": "Loading",
+    "EMPTY_STATE": "No {item} found for query '{query}'",
+    "EMPTY_STATE_FULL": "No results found for query '{query}'",
+    "PLACEHOLDER_KEYBINDING": "/to focus",
+    "INPUT_PLACEHOLDER": "Type 3 or more characters to search",
+    "RECENT_SEARCHES": "Recent searches",
+    "CLEAR_ALL": "Clear all",
+    "MOST_RECENT": "Most recent",
+    "EMPTY_STATE_DEFAULT": "Search by conversation id, email, phone number, messages for better search results. ",
+    "BOT_LABEL": "Bot",
+    "READ_MORE": "Read more",
+    "READ_LESS": "Read less",
+    "WROTE": "wrote:",
+    "FROM": "From",
+    "EMAIL": "இமெயில்",
+    "EMAIL_SUBJECT": "Subject",
+    "PRIVATE": "Private note",
+    "TRANSCRIPT": "Transcript",
+    "CREATED_AT": "created {time}",
+    "UPDATED_AT": "updated {time}",
+    "SORT_BY": {
+      "RELEVANCE": "Relevance"
+    },
+    "DATE_RANGE": {
+      "LAST_7_DAYS": "கடந்த 7 நாட்கள்",
+      "LAST_30_DAYS": "கடந்த 30 நாட்கள்",
+      "LAST_60_DAYS": "கடந்த 60 நாட்கள்",
+      "LAST_90_DAYS": "கடந்த 90 நாட்கள்",
+      "CUSTOM_RANGE": "Custom range:",
+      "CREATED_BETWEEN": "Created between",
+      "AND": "மற்றும்",
+      "APPLY": "Apply",
+      "BEFORE_DATE": "Before {date}",
+      "AFTER_DATE": "After {date}",
+      "TIME_RANGE": "Filter by time",
+      "CLEAR_FILTER": "Clear filter"
+    },
+    "FILTERS": {
+      "FILTER_MESSAGE": "Filter messages by:",
+      "FROM": "Sender",
+      "IN": "Inbox",
+      "AGENTS": "ஏஜென்ட்கள்",
+      "CONTACTS": "Contacts",
+      "INBOXES": "இன்பாக்ஸ்கள்",
+      "NO_AGENTS": "No agents found",
+      "NO_CONTACTS": "Start by searching to see results",
+      "NO_INBOXES": "No inboxes found"
+    }
+  }
+}

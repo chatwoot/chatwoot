@@ -1,0 +1,47 @@
+{
+  "WHATSAPP_TEMPLATES": {
+    "MODAL": {
+      "TITLE": "Whatsapp テンプレート",
+      "SUBTITLE": "送信したいWhatsappテンプレートを選択してください",
+      "TEMPLATE_SELECTED_SUBTITLE": "Configure template: {templateName}"
+    },
+    "PICKER": {
+      "SEARCH_PLACEHOLDER": "テンプレートを検索",
+      "NO_TEMPLATES_FOUND": "該当するテンプレートが見つかりません:",
+      "HEADER": "Header",
+      "BODY": "Body",
+      "FOOTER": "Footer",
+      "BUTTONS": "Buttons",
+      "CATEGORY": "カテゴリ",
+      "MEDIA_CONTENT": "Media Content",
+      "MEDIA_CONTENT_FALLBACK": "media content",
+      "NO_TEMPLATES_AVAILABLE": "No WhatsApp templates available. Click refresh to sync templates from WhatsApp.",
+      "REFRESH_BUTTON": "Refresh templates",
+      "REFRESH_SUCCESS": "Templates refresh initiated. It may take a couple of minutes to update.",
+      "REFRESH_ERROR": "Failed to refresh templates. Please try again.",
+      "LABELS": {
+        "LANGUAGE": "言語",
+        "TEMPLATE_BODY": "テンプレート本文",
+        "CATEGORY": "カテゴリ"
+      }
+    },
+    "PARSER": {
+      "VARIABLES_LABEL": "変数",
+      "LANGUAGE": "言語",
+      "CATEGORY": "カテゴリ",
+      "VARIABLE_PLACEHOLDER": "{variable} の値を入力",
+      "GO_BACK_LABEL": "戻る",
+      "SEND_MESSAGE_LABEL": "メッセージを送信",
+      "FORM_ERROR_MESSAGE": "送信前に全ての変数を入力してください",
+      "MEDIA_HEADER_LABEL": "{type} Header",
+      "OTP_CODE": "Enter 4-8 digit OTP",
+      "EXPIRY_MINUTES": "Enter expiry minutes",
+      "BUTTON_PARAMETERS": "Button Parameters",
+      "BUTTON_LABEL": "Button {index}",
+      "COUPON_CODE": "Enter coupon code (max 15 chars)",
+      "MEDIA_URL_LABEL": "Enter {type} URL",
+      "DOCUMENT_NAME_PLACEHOLDER": "Enter document filename (e.g., Invoice_2025.pdf)",
+      "BUTTON_PARAMETER": "Enter button parameter"
+    }
+  }
+}

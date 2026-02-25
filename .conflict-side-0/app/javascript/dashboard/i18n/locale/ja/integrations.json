@@ -1,0 +1,977 @@
+{
+  "INTEGRATION_SETTINGS": {
+    "SHOPIFY": {
+      "DELETE": {
+        "TITLE": "Delete Shopify Integration",
+        "MESSAGE": "Are you sure you want to delete the Shopify integration?"
+      },
+      "STORE_URL": {
+        "TITLE": "Connect Shopify Store",
+        "LABEL": "Store URL",
+        "PLACEHOLDER": "your-store.myshopify.com",
+        "HELP": "Enter your Shopify store's myshopify.com URL",
+        "CANCEL": "キャンセル",
+        "SUBMIT": "Connect Store"
+      },
+      "ERROR": "There was an error connecting to Shopify. Please try again or contact support if the issue persists."
+    },
+    "HEADER": "連携",
+    "DESCRIPTION": "Chatwootは、チームの効率を向上させるために複数のツールやサービスと連携します。以下のリストを探索して、お気に入りのアプリを設定してください。",
+    "LEARN_MORE": "連携について詳しく知る",
+    "LOADING": "連携を取得中",
+    "CAPTAIN": {
+      "DISABLED": "Captainはあなたのアカウントで有効になっていません。",
+      "CLICK_HERE_TO_CONFIGURE": "設定するにはここをクリック",
+      "LOADING_CONSOLE": "Captainコンソールを読み込み中...",
+      "FAILED_TO_LOAD_CONSOLE": "Captainコンソールの読み込みに失敗しました。リフレッシュしてもう一度お試しください。"
+    },
+    "WEBHOOK": {
+      "SUBSCRIBED_EVENTS": "購読イベント",
+      "LEARN_MORE": "Webhookについて詳しく知る",
+      "FORM": {
+        "CANCEL": "キャンセル",
+        "DESC": "Webhookイベントは、Chatwootアカウントで何が起こっているかについてのリアルタイムの情報を提供します。コールバックを設定するには有効なURLを入力してください。",
+        "SUBSCRIPTIONS": {
+          "LABEL": "イベント",
+          "EVENTS": {
+            "CONVERSATION_CREATED": "会話が作成されました",
+            "CONVERSATION_STATUS_CHANGED": "会話のステータスが変更されました",
+            "CONVERSATION_UPDATED": "会話が更新されました",
+            "MESSAGE_CREATED": "メッセージが作成されました",
+            "MESSAGE_UPDATED": "メッセージが更新されました",
+            "WEBWIDGET_TRIGGERED": "ユーザーによってライブチャットウィジェットが開かれました",
+            "CONTACT_CREATED": "連絡先が作成されました",
+            "CONTACT_UPDATED": "連絡先が更新されました",
+            "CONVERSATION_TYPING_ON": "Conversation Typing On",
+            "CONVERSATION_TYPING_OFF": "Conversation Typing Off"
+          }
+        },
+        "NAME": {
+          "LABEL": "Webhook Name",
+          "PLACEHOLDER": "Enter the name of the webhook"
+        },
+        "END_POINT": {
+          "LABEL": "Webhook URL",
+          "PLACEHOLDER": "例: {webhookExampleURL}",
+          "ERROR": "有効な URL を入力してください"
+        },
+        "EDIT_SUBMIT": "Webhookを更新",
+        "ADD_SUBMIT": "Webhookを作成"
+      },
+      "TITLE": "Webhook",
+      "CONFIGURE": "設定",
+      "HEADER": "Webhookの設定",
+      "HEADER_BTN_TXT": "新しいWebhookを追加",
+      "LOADING": "添付されたWebhookを取得しています",
+      "SEARCH_404": "検索内容（クエリ）に一致する項目はありませんでした",
+      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks は、すべてのアカウントで定義可能なHTTP コールバックです。これらは、メッセージの作成などChatwoot上でのイベントをきっかけに実行されます。このアカウントでは、1つ以上のwebhookが作成できます。 <br /><br /> <b>webhook</b>を作成するには、<b>webhookを作成</b>ボタンをクリックしてください。また、作成した webhook を削除ボタンを押して削除することもできます。</p>",
+      "LIST": {
+        "404": "このアカウントに紐付けされたWebフックはありません。",
+        "TITLE": "Webhookの管理",
+        "TABLE_HEADER": {
+          "WEBHOOK_ENDPOINT": "Webhookエンドポイント",
+          "ACTIONS": "操作"
+        }
+      },
+      "EDIT": {
+        "BUTTON_TEXT": "編集",
+        "TITLE": "Webhookを編集",
+        "API": {
+          "SUCCESS_MESSAGE": "Webhookの設定が正常に更新されました",
+          "ERROR_MESSAGE": "Wootサーバーに接続できませんでした。後でもう一度お試しください。"
+        }
+      },
+      "ADD": {
+        "CANCEL": "キャンセル",
+        "TITLE": "新しいWebhookを追加",
+        "API": {
+          "SUCCESS_MESSAGE": "Webhookの設定が正常に追加されました",
+          "ERROR_MESSAGE": "Wootサーバーに接続できませんでした。後でもう一度お試しください。"
+        }
+      },
+      "DELETE": {
+        "BUTTON_TEXT": "削除",
+        "API": {
+          "SUCCESS_MESSAGE": "Webhookの削除に成功しました",
+          "ERROR_MESSAGE": "Wootサーバーに接続できませんでした。後でもう一度お試しください。"
+        },
+        "CONFIRM": {
+          "TITLE": "削除の確認",
+          "MESSAGE": "Webhookを削除してもよろしいですか？ ({webhookURL})",
+          "YES": "削除する ",
+          "NO": "いいえ、保存しておきます"
+        }
+      }
+    },
+    "SLACK": {
+      "DELETE": "削除",
+      "DELETE_CONFIRMATION": {
+        "TITLE": "連携の削除",
+        "MESSAGE": "連携を削除してもよろしいですか？削除すると、Slackワークスペースでの会話へのアクセスが失われます。"
+      },
+      "HELP_TEXT": {
+        "TITLE": "Slack連携の使用方法",
+        "BODY": "この連携を使用すると、すべての受信会話がSlackワークスペースの***{selectedChannelName}***チャンネルに同期されます。チャンネル内で顧客の会話を管理し、メッセージを見逃すことはありません。\n\n連携の主な機能は次のとおりです:\n\n**Slackから会話に返信:** ***{selectedChannelName}*** Slackチャンネルで会話に返信するには、メッセージを入力してスレッドとして送信するだけです。これにより、Chatwootを通じて顧客に返信が作成されます。とても簡単です！\n\n**プライベートノートの作成:** 返信ではなくプライベートノートを作成したい場合は、メッセージの先頭に***`note:`***と入力してください。これにより、メッセージがプライベートに保たれ、顧客には表示されません。\n\n**担当者プロファイルの関連付け:** Slackで返信した人が同じメールアドレスでChatwootに担当者プロファイルを持っている場合、返信は自動的にその担当者プロファイルに関連付けられます。これにより、誰がいつ何を言ったかを簡単に追跡できます。一方、返信者に関連付けられた担当者プロファイルがない場合、返信は顧客に対してボットプロファイルからのものとして表示されます。",
+        "SELECTED": "選択済み"
+      },
+      "SELECT_CHANNEL": {
+        "OPTION_LABEL": "チャンネルを選択",
+        "UPDATE": "更新",
+        "BUTTON_TEXT": "チャンネルを接続",
+        "DESCRIPTION": "SlackワークスペースはChatwootとリンクされていますが、連携は現在非アクティブです。連携を有効にしてChatwootにチャンネルを接続するには、以下のボタンをクリックしてください。\n\n**注意:** プライベートチャンネルを接続しようとしている場合は、この手順を進める前にChatwootアプリをSlackチャンネルに追加してください。",
+        "ATTENTION_REQUIRED": "注意が必要",
+        "EXPIRED": "Slack連携の有効期限が切れました。Slackでメッセージを受信し続けるには、連携を削除してワークスペースを再接続してください。"
+      },
+      "UPDATE_ERROR": "連携の更新中にエラーが発生しました。もう一度お試しください",
+      "UPDATE_SUCCESS": "チャンネルが正常に接続されました",
+      "FAILED_TO_FETCH_CHANNELS": "Slackからチャンネルを取得中にエラーが発生しました。もう一度お試しください"
+    },
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "ここをクリックして参加",
+      "LEAVE_THE_ROOM": "ルームを退出",
+      "START_VIDEO_CALL_HELP_TEXT": "顧客と新しいビデオ通話を開始",
+      "JOIN_ERROR": "通話に参加中にエラーが発生しました。もう一度お試しください",
+      "CREATE_ERROR": "ミーティングリンクの作成中にエラーが発生しました。もう一度お試しください"
+    },
+    "OPEN_AI": {
+      "AI_ASSIST": "AIアシスト",
+      "WITH_AI": "AIで{option}",
+      "OPTIONS": {
+        "REPLY_SUGGESTION": "返信の提案",
+        "SUMMARIZE": "要約",
+        "REPHRASE": "文章の改善",
+        "FIX_SPELLING_GRAMMAR": "スペルと文法の修正",
+        "SHORTEN": "短縮",
+        "EXPAND": "拡張",
+        "MAKE_FRIENDLY": "メッセージのトーンをフレンドリーに変更",
+        "MAKE_FORMAL": "フォーマルトーンを使用",
+        "SIMPLIFY": "簡素化"
+      },
+      "ASSISTANCE_MODAL": {
+        "DRAFT_TITLE": "下書き内容",
+        "GENERATED_TITLE": "生成された内容",
+        "AI_WRITING": "AIが執筆中",
+        "BUTTONS": {
+          "APPLY": "この提案を使用",
+          "CANCEL": "キャンセル"
+        }
+      },
+      "CTA_MODAL": {
+        "TITLE": "OpenAIと統合",
+        "DESC": "OpenAIのGPTモデルを使用して、ダッシュボードに高度なAI機能を導入します。始めるには、OpenAIアカウントのAPIキーを入力してください。",
+        "KEY_PLACEHOLDER": "OpenAI APIキーを入力",
+        "BUTTONS": {
+          "NEED_HELP": "サポートが必要ですか？",
+          "DISMISS": "閉じる",
+          "FINISH": "設定を完了"
+        },
+        "DISMISS_MESSAGE": "OpenAIの統合は後でいつでも設定できます。",
+        "SUCCESS_MESSAGE": "OpenAIの統合が正常に設定されました"
+      },
+      "TITLE": "AIで改善",
+      "SUMMARY_TITLE": "AIによる要約",
+      "REPLY_TITLE": "AIによる返信提案",
+      "SUBTITLE": "現在の下書きを基に、AIが改善された返信を生成します。",
+      "TONE": {
+        "TITLE": "トーン",
+        "OPTIONS": {
+          "PROFESSIONAL": "プロフェッショナル",
+          "FRIENDLY": "フレンドリー"
+        }
+      },
+      "BUTTONS": {
+        "GENERATE": "生成",
+        "GENERATING": "生成中...",
+        "CANCEL": "キャンセル"
+      },
+      "GENERATE_ERROR": "コンテンツの処理中にエラーが発生しました。もう一度お試しください"
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "削除",
+      "API": {
+        "SUCCESS_MESSAGE": "連携が正常に削除されました"
+      }
+    },
+    "CONNECT": {
+      "BUTTON_TEXT": "接続"
+    },
+    "DASHBOARD_APPS": {
+      "TITLE": "ダッシュボードアプリ",
+      "HEADER_BTN_TXT": "新しいダッシュボードアプリを追加",
+      "SIDEBAR_TXT": "<p><b>ダッシュボードアプリ</b></p><p>ダッシュボードアプリを使用すると、組織はChatwootダッシュボード内にアプリケーションを埋め込んで、カスタマーサポート担当者にコンテキストを提供できます。この機能により、アプリケーションを独立して作成し、ユーザー情報、注文履歴、または以前の支払い履歴を提供するためにダッシュボード内に埋め込むことができます。</p><p>Chatwootのダッシュボードを使用してアプリケーションを埋め込むと、アプリケーションはウィンドウイベントとして会話と連絡先のコンテキストを取得します。ページ上でメッセージイベントのリスナーを実装してコンテキストを受信します。</p><p>新しいダッシュボードアプリを追加するには、「新しいダッシュボードアプリを追加」ボタンをクリックしてください。</p>",
+      "DESCRIPTION": "ダッシュボードアプリを使用すると、組織はダッシュボード内にアプリケーションを埋め込んで、カスタマーサポート担当者にコンテキストを提供できます。この機能により、アプリケーションを独立して作成し、ユーザー情報、注文履歴、または以前の支払い履歴を提供するために埋め込むことができます。",
+      "LEARN_MORE": "ダッシュボードアプリについて詳しく知る",
+      "LIST": {
+        "404": "このアカウントにはまだダッシュボードアプリが設定されていません",
+        "LOADING": "ダッシュボードアプリを取得中...",
+        "TABLE_HEADER": {
+          "NAME": "名前",
+          "ENDPOINT": "エンドポイント"
+        },
+        "EDIT_TOOLTIP": "アプリを編集",
+        "DELETE_TOOLTIP": "アプリを削除"
+      },
+      "FORM": {
+        "TITLE_LABEL": "名前",
+        "TITLE_PLACEHOLDER": "ダッシュボードアプリの名前を入力",
+        "TITLE_ERROR": "ダッシュボードアプリの名前が必要です",
+        "URL_LABEL": "エンドポイント",
+        "URL_PLACEHOLDER": "アプリがホストされているエンドポイントURLを入力",
+        "URL_ERROR": "有効なURLが必要です"
+      },
+      "CREATE": {
+        "HEADER": "新しいダッシュボードアプリを追加",
+        "FORM_SUBMIT": "送信",
+        "FORM_CANCEL": "キャンセル",
+        "API_SUCCESS": "ダッシュボードアプリが正常に設定されました",
+        "API_ERROR": "アプリを作成できませんでした。後でもう一度お試しください"
+      },
+      "UPDATE": {
+        "HEADER": "ダッシュボードアプリを編集",
+        "FORM_SUBMIT": "更新",
+        "FORM_CANCEL": "キャンセル",
+        "API_SUCCESS": "ダッシュボードアプリが正常に更新されました",
+        "API_ERROR": "アプリを更新できませんでした。後でもう一度お試しください"
+      },
+      "DELETE": {
+        "CONFIRM_YES": "はい、削除します",
+        "CONFIRM_NO": "いいえ、保持します",
+        "TITLE": "削除の確認",
+        "MESSAGE": "アプリを削除してもよろしいですか - {appName}?",
+        "API_SUCCESS": "ダッシュボードアプリが正常に削除されました",
+        "API_ERROR": "アプリを削除できませんでした。後でもう一度お試しください"
+      }
+    },
+    "LINEAR": {
+      "ADD_OR_LINK_BUTTON": "Linear Issueを作成/リンク",
+      "LOADING": "Linearの課題を取得中...",
+      "LOADING_ERROR": "Linearの課題を取得中にエラーが発生しました。もう一度お試しください",
+      "CREATE": "作成",
+      "LINK": {
+        "SEARCH": "課題を検索",
+        "SELECT": "課題を選択",
+        "TITLE": "リンク",
+        "EMPTY_LIST": "Linearの課題が見つかりません",
+        "LOADING": "読み込み中",
+        "ERROR": "Linearの課題を取得中にエラーが発生しました。もう一度お試しください",
+        "LINK_SUCCESS": "課題が正常にリンクされました",
+        "LINK_ERROR": "課題のリンク中にエラーが発生しました。もう一度お試しください",
+        "LINK_TITLE": "会話 (#{conversationId}) と {name}"
+      },
+      "ADD_OR_LINK": {
+        "TITLE": "Linearの課題を作成/リンク",
+        "DESCRIPTION": "会話からLinearの課題を作成するか、既存の課題をリンクしてシームレスに追跡します。",
+        "FORM": {
+          "TITLE": {
+            "LABEL": "タイトル",
+            "PLACEHOLDER": "タイトルを入力",
+            "REQUIRED_ERROR": "タイトルは必須です"
+          },
+          "DESCRIPTION": {
+            "LABEL": "説明",
+            "PLACEHOLDER": "説明を入力"
+          },
+          "TEAM": {
+            "LABEL": "チーム",
+            "PLACEHOLDER": "チームを選択",
+            "SEARCH": "チームを検索",
+            "REQUIRED_ERROR": "チームは必須です"
+          },
+          "ASSIGNEE": {
+            "LABEL": "担当者",
+            "PLACEHOLDER": "担当者を選択",
+            "SEARCH": "担当者を検索"
+          },
+          "PRIORITY": {
+            "LABEL": "優先度",
+            "PLACEHOLDER": "優先度を選択",
+            "SEARCH": "優先度を検索"
+          },
+          "LABEL": {
+            "LABEL": "ラベル",
+            "PLACEHOLDER": "ラベルを選択",
+            "SEARCH": "ラベルを検索"
+          },
+          "STATUS": {
+            "LABEL": "状況",
+            "PLACEHOLDER": "状況を選択",
+            "SEARCH": "状況を検索"
+          },
+          "PROJECT": {
+            "LABEL": "プロジェクト",
+            "PLACEHOLDER": "プロジェクトを選択",
+            "SEARCH": "プロジェクトを検索"
+          }
+        },
+        "CREATE": "作成",
+        "CANCEL": "キャンセル",
+        "CREATE_SUCCESS": "課題が正常に作成されました",
+        "CREATE_ERROR": "課題の作成中にエラーが発生しました。もう一度お試しください",
+        "LOADING_TEAM_ERROR": "チームの取得中にエラーが発生しました。もう一度お試しください",
+        "LOADING_TEAM_ENTITIES_ERROR": "チームエンティティの取得中にエラーが発生しました。もう一度お試しください"
+      },
+      "ISSUE": {
+        "STATUS": "状況",
+        "PRIORITY": "優先度",
+        "ASSIGNEE": "担当者",
+        "LABELS": "ラベル",
+        "CREATED_AT": "{createdAt} に作成"
+      },
+      "UNLINK": {
+        "TITLE": "リンク解除",
+        "SUCCESS": "課題のリンクが正常に解除されました",
+        "ERROR": "課題のリンク解除中にエラーが発生しました。もう一度お試しください"
+      },
+      "NO_LINKED_ISSUES": "No linked issues found",
+      "DELETE": {
+        "TITLE": "Are you sure you want to delete the integration?",
+        "MESSAGE": "Are you sure you want to delete the integration?",
+        "CONFIRM": "はい、削除します",
+        "CANCEL": "キャンセル"
+      },
+      "CTA": {
+        "TITLE": "Connect to Linear",
+        "AGENT_DESCRIPTION": "Linear workspace is not connected. Request your administrator to connect a workspace to use this integration.",
+        "DESCRIPTION": "Linear workspace is not connected. Click the button below to connect your workspace to use this integration.",
+        "BUTTON_TEXT": "Connect Linear workspace"
+      }
+    },
+    "NOTION": {
+      "DELETE": {
+        "TITLE": "Are you sure you want to delete the Notion integration?",
+        "MESSAGE": "Deleting this integration will remove access to your Notion workspace and stop all related functionality.",
+        "CONFIRM": "はい、削除します",
+        "CANCEL": "キャンセル"
+      }
+    }
+  },
+  "CAPTAIN": {
+    "NAME": "キャプテン",
+    "HEADER_KNOW_MORE": "Know more",
+    "ASSISTANT_SWITCHER": {
+      "ASSISTANTS": "アシスタント",
+      "SWITCH_ASSISTANT": "Switch between assistants",
+      "NEW_ASSISTANT": "Create Assistant",
+      "EMPTY_LIST": "No assistants found, please create one to get started"
+    },
+    "COPILOT": {
+      "TITLE": "コパイロット",
+      "TRY_THESE_PROMPTS": "これらのプロンプトを試してください",
+      "PANEL_TITLE": "Get started with Copilot",
+      "KICK_OFF_MESSAGE": "Need a quick summary, want to check past conversations, or draft a better reply? Copilot’s here to speed things up.",
+      "SEND_MESSAGE": "メッセージを送信...",
+      "EMPTY_MESSAGE": "There was an error generating the response. Please try again.",
+      "LOADER": "Captainが考え中",
+      "YOU": "あなた",
+      "USE": "これを使用",
+      "RESET": "リセット",
+      "SHOW_STEPS": "Show steps",
+      "SELECT_ASSISTANT": "Select Assistant",
+      "PROMPTS": {
+        "SUMMARIZE": {
+          "LABEL": "Summarize this conversation",
+          "CONTENT": "Summarize the key points discussed between the customer and the support agent, including the customer's concerns, questions, and the solutions or responses provided by the support agent"
+        },
+        "SUGGEST": {
+          "LABEL": "Suggest an answer",
+          "CONTENT": "Analyze the customer's inquiry, and draft a response that effectively addresses their concerns or questions. Ensure the reply is clear, concise, and provides helpful information."
+        },
+        "RATE": {
+          "LABEL": "Rate this conversation",
+          "CONTENT": "Review the conversation to see how well it meets the customer's needs. Share a rating out of 5 based on tone, clarity, and effectiveness."
+        },
+        "HIGH_PRIORITY": {
+          "LABEL": "High priority conversations",
+          "CONTENT": "Give me a summary of all high priority open conversations. Include the conversation ID, customer name (if available), last message content, and assigned agent. Group by status if relevant."
+        },
+        "LIST_CONTACTS": {
+          "LABEL": "List contacts",
+          "CONTENT": "Show me the list of top 10 contacts. Include name, email or phone number (if available), last seen time, tags (if any)."
+        }
+      }
+    },
+    "PLAYGROUND": {
+      "USER": "あなた",
+      "ASSISTANT": "アシスタント",
+      "MESSAGE_PLACEHOLDER": "Type your message...",
+      "HEADER": "Playground",
+      "DESCRIPTION": "Use this playground to send messages to your assistant and check if it responds accurately, quickly, and in the tone you expect.",
+      "CREDIT_NOTE": "Messages sent here will count toward your Captain credits."
+    },
+    "PAYWALL": {
+      "TITLE": "アップグレードしてCaptain AIを利用する",
+      "AVAILABLE_ON": "Captainは無料プランでは利用できません。",
+      "UPGRADE_PROMPT": "アシスタント、Copilotなどにアクセスするには、プランをアップグレードしてください。",
+      "UPGRADE_NOW": "今すぐアップグレード",
+      "CANCEL_ANYTIME": "プランはいつでも変更またはキャンセルできます"
+    },
+    "ENTERPRISE_PAYWALL": {
+      "UPGRADE_PROMPT": "アシスタント、Copilotなどにアクセスするには、プランをアップグレードしてください。",
+      "ASK_ADMIN": "管理者にアップグレードを依頼してください。"
+    },
+    "BANNER": {
+      "RESPONSES": "利用制限の 80% を超過しました。引き続き Captain AI を利用するには、アップグレードしてください。",
+      "DOCUMENTS": "ドキュメントの上限に達しました。Captain AI を引き続き利用するには、アップグレードしてください。"
+    },
+    "FORM": {
+      "CANCEL": "キャンセル",
+      "CREATE": "作成",
+      "EDIT": "更新"
+    },
+    "ASSISTANTS": {
+      "HEADER": "アシスタント",
+      "NO_ASSISTANTS_AVAILABLE": "There are no assistants available in your account.",
+      "ADD_NEW": "新しいアシスタントを作成",
+      "DELETE": {
+        "TITLE": "アシスタントを削除してもよろしいですか？",
+        "DESCRIPTION": "この操作は永久的です。アシスタントを削除すると、すべての接続された受信トレイから削除され、生成されたすべての知識が永久に消去されます。",
+        "CONFIRM": "はい、削除します",
+        "SUCCESS_MESSAGE": "アシスタントが正常に削除されました",
+        "ERROR_MESSAGE": "アシスタントの削除中にエラーが発生しました。もう一度お試しください。"
+      },
+      "FORM_DESCRIPTION": "以下の詳細を入力して、アシスタントの名前、その目的を説明し、サポートする製品を指定してください。",
+      "CREATE": {
+        "TITLE": "アシスタントを作成",
+        "SUCCESS_MESSAGE": "アシスタントが正常に作成されました",
+        "ERROR_MESSAGE": "アシスタントの作成中にエラーが発生しました。もう一度お試しください。"
+      },
+      "FORM": {
+        "UPDATE": "更新",
+        "SECTIONS": {
+          "BASIC_INFO": "Basic Information",
+          "SYSTEM_MESSAGES": "System Messages",
+          "INSTRUCTIONS": "Instructions",
+          "FEATURES": "機能",
+          "TOOLS": "Tools "
+        },
+        "NAME": {
+          "LABEL": "名前",
+          "PLACEHOLDER": "Enter assistant name",
+          "ERROR": "The name is required"
+        },
+        "TEMPERATURE": {
+          "LABEL": "Response Temperature",
+          "DESCRIPTION": "Adjust how creative or restrictive the assistant's responses should be. Lower values produce more focused and deterministic responses, while higher values allow for more creative and varied outputs."
+        },
+        "DESCRIPTION": {
+          "LABEL": "説明",
+          "PLACEHOLDER": "Enter assistant description",
+          "ERROR": "The description is required"
+        },
+        "PRODUCT_NAME": {
+          "LABEL": "製品名",
+          "PLACEHOLDER": "Enter product name",
+          "ERROR": "製品名が必要です"
+        },
+        "WELCOME_MESSAGE": {
+          "LABEL": "Welcome Message",
+          "PLACEHOLDER": "Enter welcome message"
+        },
+        "HANDOFF_MESSAGE": {
+          "LABEL": "Handoff Message",
+          "PLACEHOLDER": "Enter handoff message"
+        },
+        "RESOLUTION_MESSAGE": {
+          "LABEL": "Resolution Message",
+          "PLACEHOLDER": "Enter resolution message"
+        },
+        "INSTRUCTIONS": {
+          "LABEL": "Instructions",
+          "PLACEHOLDER": "Enter instructions for the assistant"
+        },
+        "FEATURES": {
+          "TITLE": "機能",
+          "ALLOW_CONVERSATION_FAQS": "解決済みの会話からFAQを生成",
+          "ALLOW_MEMORIES": "顧客とのやり取りから重要な詳細を記憶としてキャプチャ",
+          "ALLOW_CITATIONS": "Include source citations in responses"
+        }
+      },
+      "EDIT": {
+        "TITLE": "アシスタントを更新",
+        "SUCCESS_MESSAGE": "アシスタントが正常に更新されました",
+        "ERROR_MESSAGE": "アシスタントの更新中にエラーが発生しました。もう一度お試しください。",
+        "NOT_FOUND": "Could not find the assistant. Please try again."
+      },
+      "SETTINGS": {
+        "HEADER": "設定",
+        "BASIC_SETTINGS": {
+          "TITLE": "Basic settings",
+          "DESCRIPTION": "Customize what the assistant says when ending a conversation or transferring to a human."
+        },
+        "SYSTEM_SETTINGS": {
+          "TITLE": "System settings",
+          "DESCRIPTION": "Customize what the assistant says when ending a conversation or transferring to a human."
+        },
+        "CONTROL_ITEMS": {
+          "TITLE": "The Fun Stuff",
+          "DESCRIPTION": "Add more control to the assistant. (a bit more visual like a story : Query guardrail → scenarios → output) Nudges user to actually utilise these.",
+          "OPTIONS": {
+            "GUARDRAILS": {
+              "TITLE": "Guardrails",
+              "DESCRIPTION": "Keeps things on track—only the kinds of questions you want your assistant to answer, nothing off-limits or off-topic."
+            },
+            "RESPONSE_GUIDELINES": {
+              "TITLE": "Response guidelines",
+              "DESCRIPTION": "The vibe and structure of your assistant’s replies—clear and friendly? Short and snappy? Detailed and formal?"
+            }
+          }
+        },
+        "DELETE": {
+          "TITLE": "アシスタントを削除",
+          "DESCRIPTION": "この操作は永久的です。アシスタントを削除すると、すべての接続された受信トレイから削除され、生成されたすべての知識が永久に消去されます。",
+          "BUTTON_TEXT": "{assistantName}を削除"
+        }
+      },
+      "OPTIONS": {
+        "EDIT_ASSISTANT": "アシスタントを編集",
+        "DELETE_ASSISTANT": "アシスタントを削除",
+        "VIEW_CONNECTED_INBOXES": "接続された受信トレイを表示"
+      },
+      "EMPTY_STATE": {
+        "TITLE": "利用可能なアシスタントがありません",
+        "SUBTITLE": "アシスタントを作成して、お客様に迅速かつ正確な回答を提供します。アシスタントは、ヘルプ記事や過去の会話から学習します。",
+        "FEATURE_SPOTLIGHT": {
+          "TITLE": "Captain Assistant",
+          "NOTE": "Captain Assistant engages directly with customers, learns from your help docs and past conversations, and delivers instant, accurate responses. It handles the initial queries, providing quick resolutions before  transferring to an agent when needed."
+        }
+      },
+      "GUARDRAILS": {
+        "TITLE": "Guardrails",
+        "DESCRIPTION": "Keeps things on track—only the kinds of questions you want your assistant to answer, nothing off-limits or off-topic.",
+        "BULK_ACTION": {
+          "SELECTED": "{count} item selected | {count} items selected",
+          "SELECT_ALL": "Select all ({count})",
+          "UNSELECT_ALL": "Unselect all ({count})",
+          "BULK_DELETE_BUTTON": "削除"
+        },
+        "ADD": {
+          "SUGGESTED": {
+            "TITLE": "Example guardrails",
+            "ADD": "Add all",
+            "ADD_SINGLE": "Add this",
+            "SAVE": "Add and save (↵)",
+            "PLACEHOLDER": "Type in another guardrail..."
+          },
+          "NEW": {
+            "TITLE": "Add a guardrail",
+            "CREATE": "作成",
+            "CANCEL": "キャンセル",
+            "PLACEHOLDER": "Type in another guardrail...",
+            "TEST_ALL": "Test all"
+          }
+        },
+        "LIST": {
+          "SEARCH_PLACEHOLDER": "検索..."
+        },
+        "EMPTY_MESSAGE": "No guardrails found. Create or add examples to begin.",
+        "SEARCH_EMPTY_MESSAGE": "No guardrails found for this search.",
+        "API": {
+          "ADD": {
+            "SUCCESS": "Guardrails added successfully",
+            "ERROR": "There was an error adding guardrails, please try again."
+          },
+          "UPDATE": {
+            "SUCCESS": "Guardrails updated successfully",
+            "ERROR": "There was an error updating guardrails, please try again."
+          },
+          "DELETE": {
+            "SUCCESS": "Guardrails deleted successfully",
+            "ERROR": "There was an error deleting guardrails, please try again."
+          }
+        }
+      },
+      "RESPONSE_GUIDELINES": {
+        "TITLE": "Response Guidelines",
+        "DESCRIPTION": "The vibe and structure of your assistant’s replies—clear and friendly? Short and snappy? Detailed and formal?",
+        "BULK_ACTION": {
+          "SELECTED": "{count} item selected | {count} items selected",
+          "SELECT_ALL": "Select all ({count})",
+          "UNSELECT_ALL": "Unselect all ({count})",
+          "BULK_DELETE_BUTTON": "削除"
+        },
+        "ADD": {
+          "SUGGESTED": {
+            "TITLE": "Example response guidelines",
+            "ADD": "Add all",
+            "ADD_SINGLE": "Add this",
+            "SAVE": "Add and save (↵)",
+            "PLACEHOLDER": "Type in another response guideline..."
+          },
+          "NEW": {
+            "TITLE": "Add a response guideline",
+            "CREATE": "作成",
+            "CANCEL": "キャンセル",
+            "PLACEHOLDER": "Type in another response guideline...",
+            "TEST_ALL": "Test all"
+          }
+        },
+        "LIST": {
+          "SEARCH_PLACEHOLDER": "検索..."
+        },
+        "EMPTY_MESSAGE": "No response guidelines found. Create or add examples to begin.",
+        "SEARCH_EMPTY_MESSAGE": "No response guidelines found for this search.",
+        "API": {
+          "ADD": {
+            "SUCCESS": "Response Guidelines added successfully",
+            "ERROR": "There was an error adding response guidelines, please try again."
+          },
+          "UPDATE": {
+            "SUCCESS": "Response Guidelines updated successfully",
+            "ERROR": "There was an error updating response guidelines, please try again."
+          },
+          "DELETE": {
+            "SUCCESS": "Response Guidelines deleted successfully",
+            "ERROR": "There was an error deleting response guidelines, please try again."
+          }
+        }
+      },
+      "SCENARIOS": {
+        "TITLE": "Scenarios",
+        "DESCRIPTION": "Give your assistant some context—like “what to do when a user is stuck,” or “how to act during a refund request.”",
+        "BULK_ACTION": {
+          "SELECTED": "{count} item selected | {count} items selected",
+          "SELECT_ALL": "Select all ({count})",
+          "UNSELECT_ALL": "Unselect all ({count})",
+          "BULK_DELETE_BUTTON": "削除"
+        },
+        "ADD": {
+          "SUGGESTED": {
+            "TITLE": "Example scenarios",
+            "ADD": "Add all",
+            "ADD_SINGLE": "Add this",
+            "TOOLS_USED": "Tools used :"
+          },
+          "NEW": {
+            "CREATE": "Add a scenario",
+            "TITLE": "Create a scenario",
+            "FORM": {
+              "TITLE": {
+                "LABEL": "タイトル",
+                "PLACEHOLDER": "Enter a name for the scenario",
+                "ERROR": "Scenario name is required"
+              },
+              "DESCRIPTION": {
+                "LABEL": "説明",
+                "PLACEHOLDER": "Describe how and where this scenario will be used",
+                "ERROR": "Scenario description is required"
+              },
+              "INSTRUCTION": {
+                "LABEL": "How to handle",
+                "PLACEHOLDER": "Describe how and where this scenario will be handled",
+                "ERROR": "Scenario content is required"
+              },
+              "CREATE": "作成",
+              "CANCEL": "キャンセル"
+            }
+          }
+        },
+        "UPDATE": {
+          "CANCEL": "キャンセル",
+          "UPDATE": "Update changes"
+        },
+        "LIST": {
+          "SEARCH_PLACEHOLDER": "検索..."
+        },
+        "EMPTY_MESSAGE": "No scenarios found. Create or add examples to begin.",
+        "SEARCH_EMPTY_MESSAGE": "No scenarios found for this search.",
+        "API": {
+          "ADD": {
+            "SUCCESS": "Scenarios added successfully",
+            "ERROR": "There was an error adding scenarios, please try again."
+          },
+          "UPDATE": {
+            "SUCCESS": "Scenarios updated successfully",
+            "ERROR": "There was an error updating scenarios, please try again."
+          },
+          "DELETE": {
+            "SUCCESS": "Scenarios deleted successfully",
+            "ERROR": "There was an error deleting scenarios, please try again."
+          }
+        }
+      }
+    },
+    "DOCUMENTS": {
+      "HEADER": "ドキュメント",
+      "ADD_NEW": "新しいドキュメントを作成",
+      "RELATED_RESPONSES": {
+        "TITLE": "関連するFAQ",
+        "DESCRIPTION": "これらのFAQはドキュメントから直接生成されます。"
+      },
+      "FORM_DESCRIPTION": "ドキュメントのURLを入力して知識ソースとして追加し、それに関連付けるアシスタントを選択してください。",
+      "CREATE": {
+        "TITLE": "ドキュメントを追加",
+        "SUCCESS_MESSAGE": "ドキュメントが正常に作成されました",
+        "ERROR_MESSAGE": "ドキュメントの作成中にエラーが発生しました。もう一度お試しください。"
+      },
+      "FORM": {
+        "TYPE": {
+          "LABEL": "Document Type",
+          "URL": "URL",
+          "PDF": "PDF File"
+        },
+        "URL": {
+          "LABEL": "URL",
+          "PLACEHOLDER": "ドキュメントのURLを入力",
+          "ERROR": "有効なURLを入力してください"
+        },
+        "PDF_FILE": {
+          "LABEL": "PDF File",
+          "CHOOSE_FILE": "Choose PDF file",
+          "ERROR": "Please select a PDF file",
+          "HELP_TEXT": "Maximum file size: 10MB",
+          "INVALID_TYPE": "Please select a valid PDF file",
+          "TOO_LARGE": "File size exceeds 10MB limit"
+        },
+        "NAME": {
+          "LABEL": "Document Name (Optional)",
+          "PLACEHOLDER": "Enter a name for the document"
+        }
+      },
+      "DELETE": {
+        "TITLE": "ドキュメントを削除してもよろしいですか？",
+        "DESCRIPTION": "この操作は永久的です。ドキュメントを削除すると、生成されたすべての知識が永久に消去されます。",
+        "CONFIRM": "はい、削除します",
+        "SUCCESS_MESSAGE": "ドキュメントが正常に削除されました",
+        "ERROR_MESSAGE": "ドキュメントの削除中にエラーが発生しました。もう一度お試しください。"
+      },
+      "OPTIONS": {
+        "VIEW_RELATED_RESPONSES": "関連する応答を表示",
+        "DELETE_DOCUMENT": "ドキュメントを削除"
+      },
+      "EMPTY_STATE": {
+        "TITLE": "利用可能なドキュメントがありません",
+        "SUBTITLE": "ドキュメントはアシスタントがFAQを生成するために使用されます。ドキュメントをインポートしてアシスタントにコンテキストを提供できます。",
+        "FEATURE_SPOTLIGHT": {
+          "TITLE": "Captain Document",
+          "NOTE": "A document in Captain serves as a knowledge resource for the assistant. By connecting your help center or guides, Captain can analyze the content and provide accurate responses for customer inquiries."
+        }
+      }
+    },
+    "CUSTOM_TOOLS": {
+      "HEADER": "Tools",
+      "ADD_NEW": "Create a new tool",
+      "EMPTY_STATE": {
+        "TITLE": "No custom tools available",
+        "SUBTITLE": "Create custom tools to connect your assistant with external APIs and services, enabling it to fetch data and perform actions on your behalf.",
+        "FEATURE_SPOTLIGHT": {
+          "TITLE": "Custom Tools",
+          "NOTE": "Custom tools allow your assistant to interact with external APIs and services. Create tools to fetch data, perform actions, or integrate with your existing systems to enhance your assistant's capabilities."
+        }
+      },
+      "FORM_DESCRIPTION": "Configure your custom tool to connect with external APIs",
+      "OPTIONS": {
+        "EDIT_TOOL": "Edit tool",
+        "DELETE_TOOL": "Delete tool"
+      },
+      "CREATE": {
+        "TITLE": "Create Custom Tool",
+        "SUCCESS_MESSAGE": "Custom tool created successfully",
+        "ERROR_MESSAGE": "Failed to create custom tool"
+      },
+      "EDIT": {
+        "TITLE": "Edit Custom Tool",
+        "SUCCESS_MESSAGE": "Custom tool updated successfully",
+        "ERROR_MESSAGE": "Failed to update custom tool"
+      },
+      "DELETE": {
+        "TITLE": "Delete Custom Tool",
+        "DESCRIPTION": "Are you sure you want to delete this custom tool? This action cannot be undone.",
+        "CONFIRM": "はい、削除します",
+        "SUCCESS_MESSAGE": "Custom tool deleted successfully",
+        "ERROR_MESSAGE": "Failed to delete custom tool"
+      },
+      "FORM": {
+        "TITLE": {
+          "LABEL": "Tool Name",
+          "PLACEHOLDER": "Order Lookup",
+          "ERROR": "Tool name is required"
+        },
+        "DESCRIPTION": {
+          "LABEL": "説明",
+          "PLACEHOLDER": "Looks up order details by order ID"
+        },
+        "HTTP_METHOD": {
+          "LABEL": "Method"
+        },
+        "ENDPOINT_URL": {
+          "LABEL": "Endpoint URL",
+          "PLACEHOLDER": "https://api.example.com/orders/{'{{'} order_id {'}}'}",
+          "ERROR": "Valid URL is required"
+        },
+        "AUTH_TYPE": {
+          "LABEL": "Authentication Type"
+        },
+        "AUTH_TYPES": {
+          "NONE": "なし",
+          "BEARER": "Bearer Token",
+          "BASIC": "Basic Auth",
+          "API_KEY": "APIキー"
+        },
+        "AUTH_CONFIG": {
+          "BEARER_TOKEN": "Bearer Token",
+          "BEARER_TOKEN_PLACEHOLDER": "Enter your bearer token",
+          "USERNAME": "Username",
+          "USERNAME_PLACEHOLDER": "Enter username",
+          "PASSWORD": "パスワード",
+          "PASSWORD_PLACEHOLDER": "Enter password",
+          "API_KEY": "Header Name",
+          "API_KEY_PLACEHOLDER": "X-API-Key",
+          "API_VALUE": "Header Value",
+          "API_VALUE_PLACEHOLDER": "Enter API key value"
+        },
+        "PARAMETERS": {
+          "LABEL": "Parameters",
+          "HELP_TEXT": "Define the parameters that will be extracted from user queries"
+        },
+        "ADD_PARAMETER": "Add Parameter",
+        "PARAM_NAME": {
+          "PLACEHOLDER": "Parameter name (e.g., order_id)"
+        },
+        "PARAM_TYPE": {
+          "PLACEHOLDER": "タイプ"
+        },
+        "PARAM_TYPES": {
+          "STRING": "String",
+          "NUMBER": "数値",
+          "BOOLEAN": "Boolean",
+          "ARRAY": "Array",
+          "OBJECT": "Object"
+        },
+        "PARAM_DESCRIPTION": {
+          "PLACEHOLDER": "Description of the parameter"
+        },
+        "PARAM_REQUIRED": {
+          "LABEL": "必須"
+        },
+        "REQUEST_TEMPLATE": {
+          "LABEL": "Request Body Template (Optional)",
+          "PLACEHOLDER": "{'{'}\n  \"order_id\": \"{'{{'} order_id {'}}'}\"\n{'}'}"
+        },
+        "RESPONSE_TEMPLATE": {
+          "LABEL": "Response Template (Optional)",
+          "PLACEHOLDER": "Order {'{{'} order_id {'}}'} status: {'{{'} status {'}}'}"
+        },
+        "ERRORS": {
+          "PARAM_NAME_REQUIRED": "Parameter name is required"
+        }
+      }
+    },
+    "RESPONSES": {
+      "HEADER": "FAQ",
+      "PENDING_FAQS": "Pending FAQs",
+      "ADD_NEW": "新しいFAQを作成",
+      "DOCUMENTABLE": {
+        "CONVERSATION": "会話 #{id}"
+      },
+      "SELECTED": "{count} selected",
+      "SELECT_ALL": "Select all ({count})",
+      "UNSELECT_ALL": "Unselect all ({count})",
+      "SEARCH_PLACEHOLDER": "Search FAQs...",
+      "BULK_APPROVE_BUTTON": "Approve",
+      "BULK_DELETE_BUTTON": "削除",
+      "BULK_APPROVE": {
+        "SUCCESS_MESSAGE": "FAQs approved successfully",
+        "ERROR_MESSAGE": "There was an error approving the FAQs, please try again."
+      },
+      "BULK_DELETE": {
+        "TITLE": "Delete FAQs?",
+        "DESCRIPTION": "Are you sure you want to delete the selected FAQs? This action cannot be undone.",
+        "CONFIRM": "Yes, delete all",
+        "SUCCESS_MESSAGE": "FAQs deleted successfully",
+        "ERROR_MESSAGE": "There was an error deleting the FAQs, please try again."
+      },
+      "DELETE": {
+        "TITLE": "FAQを削除してもよろしいですか？",
+        "DESCRIPTION": "",
+        "CONFIRM": "はい、削除します",
+        "SUCCESS_MESSAGE": "FAQが正常に削除されました",
+        "ERROR_MESSAGE": "FAQの削除中にエラーが発生しました。もう一度お試しください。"
+      },
+      "FILTER": {
+        "ASSISTANT": "アシスタント: {selected}",
+        "STATUS": "状況: {selected}",
+        "ALL_ASSISTANTS": "すべて"
+      },
+      "STATUS": {
+        "TITLE": "状況",
+        "PENDING": "保留中",
+        "APPROVED": "承認済み",
+        "ALL": "すべて"
+      },
+      "PENDING_BANNER": {
+        "TITLE": "Captain has found some FAQs your customers were looking for.",
+        "ACTION": "Click here to review"
+      },
+      "FORM_DESCRIPTION": "質問とその対応する回答をナレッジベースに追加し、それに関連付けるアシスタントを選択してください。",
+      "CREATE": {
+        "TITLE": "FAQを追加",
+        "SUCCESS_MESSAGE": "応答が正常に追加されました。",
+        "ERROR_MESSAGE": "応答の追加中にエラーが発生しました。もう一度お試しください。"
+      },
+      "FORM": {
+        "QUESTION": {
+          "LABEL": "質問",
+          "PLACEHOLDER": "ここに質問を入力",
+          "ERROR": "有効な質問を入力してください。"
+        },
+        "ANSWER": {
+          "LABEL": "回答",
+          "PLACEHOLDER": "ここに回答を入力",
+          "ERROR": "有効な回答を入力してください。"
+        }
+      },
+      "EDIT": {
+        "TITLE": "FAQを更新",
+        "SUCCESS_MESSAGE": "FAQが正常に更新されました",
+        "ERROR_MESSAGE": "FAQの更新中にエラーが発生しました。もう一度お試しください",
+        "APPROVE_SUCCESS_MESSAGE": "FAQが承認済みとしてマークされました"
+      },
+      "OPTIONS": {
+        "APPROVE": "Approve",
+        "EDIT_RESPONSE": "編集",
+        "DELETE_RESPONSE": "削除"
+      },
+      "EMPTY_STATE": {
+        "TITLE": "FAQが見つかりません",
+        "NO_PENDING_TITLE": "There are no more pending FAQs to review",
+        "SUBTITLE": "FAQは、アシスタントがお客様からの質問に迅速かつ正確に回答するのに役立ちます。コンテンツから自動的に生成することも、手動で追加することもできます。",
+        "CLEAR_SEARCH": "Clear active filters",
+        "FEATURE_SPOTLIGHT": {
+          "TITLE": "Captain FAQ",
+          "NOTE": "Captain FAQs detects common customer questions—whether missing from your knowledge base or frequently asked—and generates relevant FAQs to improve support. You can review each suggestion and decide whether to approve or reject it."
+        }
+      }
+    },
+    "INBOXES": {
+      "HEADER": "接続された受信トレイ",
+      "ADD_NEW": "新しい受信トレイを接続",
+      "OPTIONS": {
+        "DISCONNECT": "切断"
+      },
+      "DELETE": {
+        "TITLE": "受信トレイを切断してもよろしいですか？",
+        "DESCRIPTION": "",
+        "CONFIRM": "はい、削除します",
+        "SUCCESS_MESSAGE": "受信トレイが正常に切断されました。",
+        "ERROR_MESSAGE": "受信トレイの切断中にエラーが発生しました。もう一度お試しください。"
+      },
+      "FORM_DESCRIPTION": "アシスタントと接続する受信トレイを選択してください。",
+      "CREATE": {
+        "TITLE": "受信トレイを接続",
+        "SUCCESS_MESSAGE": "受信トレイが正常に接続されました。",
+        "ERROR_MESSAGE": "受信トレイの接続中にエラーが発生しました。もう一度お試しください。"
+      },
+      "FORM": {
+        "INBOX": {
+          "LABEL": "受信トレイ",
+          "PLACEHOLDER": "アシスタントを展開する受信トレイを選択",
+          "ERROR": "受信トレイの選択が必要です。"
+        }
+      },
+      "EMPTY_STATE": {
+        "TITLE": "接続された受信トレイがありません",
+        "SUBTITLE": "受信トレイに接続すると、アシスタントがお客様からの最初の質問を対応し、その後あなたに引き継ぐことができます。"
+      }
+    }
+  }
+}

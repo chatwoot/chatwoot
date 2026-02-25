@@ -1,0 +1,251 @@
+{
+  "GENERAL_SETTINGS": {
+    "LIMIT_MESSAGES": {
+      "CONVERSATION": "You have exceeded the conversation limit. Hacker plan allows only 500 conversations.",
+      "INBOXES": "You have exceeded the inbox limit. Hacker plan only supports website live-chat. Additional inboxes like email, WhatsApp etc. require a paid plan.",
+      "AGENTS": "You have exceeded the agent limit. Your plan only allows {allowedAgents} agents.",
+      "NON_ADMIN": "Please contact your administrator to upgrade the plan and continue using all features."
+    },
+    "TITLE": "ตั้งค่าบัญชี",
+    "SUBMIT": "อัพเดทการตั้งค่า",
+    "BACK": "ย้อนกลับ",
+    "DISMISS": "Dismiss",
+    "UPDATE": {
+      "ERROR": "ไม่สามารถอัพเดทการตั้งค่าได้ ลองอีกครั้งสิ",
+      "SUCCESS": "อัพเดทการตั้งค่าบัญชีเเล้ว"
+    },
+    "ACCOUNT_DELETE_SECTION": {
+      "TITLE": "Delete your Account",
+      "NOTE": "Once you delete your account, all your data will be deleted.",
+      "BUTTON_TEXT": "Delete Your Account",
+      "CONFIRM": {
+        "TITLE": "Delete Account",
+        "MESSAGE": "Deleting your Account is irreversible. Enter your account name below to confirm you want to permanently delete it.",
+        "BUTTON_TEXT": "ลบ",
+        "DISMISS": "ยกเลิก",
+        "PLACE_HOLDER": "โปรดพิมพ์ {accountName} เพื่อยืนยัน"
+      },
+      "SUCCESS": "Account marked for deletion",
+      "FAILURE": "Could not delete account, try again!",
+      "SCHEDULED_DELETION": {
+        "TITLE": "Account Scheduled for Deletion",
+        "MESSAGE_MANUAL": "This account is scheduled for deletion on {deletionDate}. This was requested by an administrator. You can cancel the deletion before this date.",
+        "MESSAGE_INACTIVITY": "This account is scheduled for deletion on {deletionDate} due to account inactivity. You can cancel the deletion before this date.",
+        "CLEAR_BUTTON": "Cancel Scheduled Deletion"
+      }
+    },
+    "FORM": {
+      "ERROR": "กรุณาเเก้ไขข้อผิดพลาดในเเบบฟอร์ม",
+      "GENERAL_SECTION": {
+        "TITLE": "ตั้งค่าทั่วไป",
+        "NOTE": ""
+      },
+      "ACCOUNT_ID": {
+        "TITLE": "หมายเลขบัญชี",
+        "NOTE": "โปรดระบุหมายเลขบัญชีหากคุณต้องการเชื่อมต่อกับ API"
+      },
+      "AUTO_RESOLVE": {
+        "TITLE": "Auto-resolve conversations",
+        "NOTE": "This configuration would allow you to automatically resolve the conversation after a certain period of inactivity.",
+        "DURATION": {
+          "LABEL": "Inactivity duration",
+          "HELP": "Time period of inactivity after which conversation is auto-resolved",
+          "PLACEHOLDER": "30",
+          "ERROR": "Auto resolve duration should be between 10 minutes and 999 days",
+          "API": {
+            "SUCCESS": "Auto resolve settings updated successfully",
+            "ERROR": "Failed to update auto resolve settings"
+          }
+        },
+        "MESSAGE": {
+          "LABEL": "Custom auto-resolution message",
+          "PLACEHOLDER": "Conversation was marked resolved by system due to 15 days of inactivity",
+          "HELP": "Message sent to the customer after conversation is auto-resolved"
+        },
+        "PREFERENCES": "Preferences",
+        "LABEL": {
+          "LABEL": "Add label after auto-resolution",
+          "PLACEHOLDER": "Select a label"
+        },
+        "IGNORE_WAITING": {
+          "LABEL": "Skip conversations waiting for agent’s reply"
+        },
+        "UPDATE_BUTTON": "Save Changes"
+      },
+      "NAME": {
+        "LABEL": "ชื่อบัญชี",
+        "PLACEHOLDER": "ชื่อบัญชีของคุณ",
+        "ERROR": "กรุณากรอกชื่อบัญชีให้ถูกต้อง"
+      },
+      "LANGUAGE": {
+        "LABEL": "ภาษา",
+        "PLACEHOLDER": "ชื่อบัญชีของคุณ",
+        "ERROR": ""
+      },
+      "DOMAIN": {
+        "LABEL": "Incoming Email Domain",
+        "PLACEHOLDER": "โดเมนที่คุณจะรับอีเมล์",
+        "ERROR": ""
+      },
+      "SUPPORT_EMAIL": {
+        "LABEL": "อีเมล์ช่วยเหลือ",
+        "PLACEHOLDER": "อีเมล์ช่วยเหลือในบริษัทของคุณ",
+        "ERROR": ""
+      },
+      "AUTO_RESOLVE_IGNORE_WAITING": {
+        "LABEL": "Exclude unattended conversations",
+        "HELP": "When enabled, the system will skip resolving conversations that are still waiting for an agent's reply."
+      },
+      "AUDIO_TRANSCRIPTION": {
+        "TITLE": "Transcribe Audio Messages",
+        "NOTE": "Automatically transcribe audio messages in conversations. Generate a text transcript whenever an audio message is sent or received, and display it alongside the message.",
+        "API": {
+          "SUCCESS": "Audio transcription setting updated successfully",
+          "ERROR": "Failed to update audio transcription setting"
+        }
+      },
+      "AUTO_RESOLVE_DURATION": {
+        "LABEL": "Inactivity duration for resolution",
+        "HELP": "Duration after a conversation should auto resolve if there is no activity",
+        "PLACEHOLDER": "30",
+        "ERROR": "Auto resolve duration should be between 10 minutes and 999 days",
+        "API": {
+          "SUCCESS": "Auto resolve settings updated successfully",
+          "ERROR": "Failed to update auto resolve settings"
+        },
+        "UPDATE_BUTTON": "อัพเดท",
+        "MESSAGE_LABEL": "Custom resolution message",
+        "MESSAGE_PLACEHOLDER": "Conversation was marked resolved by system due to 15 days of inactivity",
+        "MESSAGE_HELP": "This message is sent to the customer when a conversation is automatically resolved by the system due to inactivity."
+      },
+      "FEATURES": {
+        "INBOUND_EMAIL_ENABLED": "การสนทนาด้วยอีเมล์ถูกเปิดสำหรับบัญชีของคุณ",
+        "CUSTOM_EMAIL_DOMAIN_ENABLED": "คุณสามารถรับอีเมล์ในโดเมนเเบบกำหนดเองได้เเล้ว"
+      }
+    },
+    "UPDATE_CHATWOOT": "Chatwoot เวอร์ชั่น {latestChatwootVersion} พร้อมสำหรับการอัปเดต กรุณาอัปเดตเวอร์ชั่นของคุณ",
+    "LEARN_MORE": "เรียนรู้เพิ่มเติม",
+    "PAYMENT_PENDING": "Your payment is pending. Please update your payment information to continue using Chatwoot",
+    "UPGRADE": "Upgrade to continue using Chatwoot",
+    "LIMITS_UPGRADE": "Your account has exceeded the usage limits, please upgrade your plan to continue using Chatwoot",
+    "OPEN_BILLING": "Open billing"
+  },
+  "FORMS": {
+    "MULTISELECT": {
+      "ENTER_TO_SELECT": "กด enter เพื่อเลือก",
+      "ENTER_TO_REMOVE": "กด enter เพื่อลบ",
+      "NO_OPTIONS": "List is empty",
+      "SELECT_ONE": "เลือก",
+      "SELECT": "เลือก"
+    }
+  },
+  "NOTIFICATIONS_PAGE": {
+    "HEADER": "การแจ้งเตือน",
+    "MARK_ALL_DONE": "ทำเครื่องหมายว่าเสร็จแล้วทั้งหมด",
+    "DELETE_TITLE": "ลบ",
+    "UNREAD_NOTIFICATION": {
+      "TITLE": "การแจ้งเตือนที่ยังไม่ได้อ่าน",
+      "ALL_NOTIFICATIONS": "ดูการแจ้งเตือนทั้งหมด",
+      "LOADING_UNREAD_MESSAGE": "กำลังโหลดการแจ้งเตือนที่ยังไม่ได้อ่าน",
+      "EMPTY_MESSAGE": "ไม่มีการแจ้งเตือนที่ยังไม่ได้อ่าน"
+    },
+    "LIST": {
+      "LOADING_MESSAGE": "กำลังโหลดการแจ้งเตือน",
+      "404": "ไม่มีการแจ้งเตือน",
+      "TABLE_HEADER": [
+        "ชื่อ",
+        "หมายเลขโทรศัพท์",
+        "การสนทนา",
+        "ติดต่อครั้งสุดท้าย"
+      ]
+    },
+    "TYPE_LABEL": {
+      "conversation_creation": "สร้างการสนทนาใหม่",
+      "conversation_assignment": "การสนทนาที่ถูกมอบหมาย",
+      "assigned_conversation_new_message": "ข้อความใหม่",
+      "participating_conversation_new_message": "ข้อความใหม่",
+      "conversation_mention": "กล่าวถึง",
+      "sla_missed_first_response": "SLA Missed",
+      "sla_missed_next_response": "SLA Missed",
+      "sla_missed_resolution": "SLA Missed"
+    }
+  },
+  "NETWORK": {
+    "NOTIFICATION": {
+      "OFFLINE": "ออฟไลน์",
+      "RECONNECTING": "Reconnecting...",
+      "RECONNECT_SUCCESS": "Reconnected"
+    },
+    "BUTTON": {
+      "REFRESH": "โหลดใหม่"
+    }
+  },
+  "COMMAND_BAR": {
+    "SEARCH_PLACEHOLDER": "ค้นหาหรือไปยัง",
+    "SECTIONS": {
+      "GENERAL": "ทั่วไป",
+      "REPORTS": "รายงาน",
+      "CONVERSATION": "การสนทนา",
+      "BULK_ACTIONS": "Bulk Actions",
+      "CHANGE_ASSIGNEE": "เปลี่ยนผู้รับมอบหมาย",
+      "CHANGE_PRIORITY": "Change Priority",
+      "CHANGE_TEAM": "เปลี่ยนทีม",
+      "SNOOZE_CONVERSATION": "พักการสนทนา",
+      "ADD_LABEL": "เพิ่มป้ายกำกับให้การสนทนา",
+      "REMOVE_LABEL": "ลบป้ายกำกับออกจากการสนทนา",
+      "SETTINGS": "ตั้งค่า",
+      "AI_ASSIST": "AI Assist",
+      "APPEARANCE": "Appearance",
+      "SNOOZE_NOTIFICATION": "Snooze Notification"
+    },
+    "COMMANDS": {
+      "GO_TO_CONVERSATION_DASHBOARD": "ไปยังแดชบอร์ดการสนทนา",
+      "GO_TO_CONTACTS_DASHBOARD": "ไปยังแดชบอร์ดรายชื่อผู้ติดต่อ",
+      "GO_TO_REPORTS_OVERVIEW": "ไปยังภาพรวมรายงาน",
+      "GO_TO_CONVERSATION_REPORTS": "ไปที่หน้ารายงานการสนทนา",
+      "GO_TO_AGENT_REPORTS": "ไปที่หน้ารายงานพนักงาน",
+      "GO_TO_LABEL_REPORTS": "ไปที่หน้ารายงานป้ายกำกับ",
+      "GO_TO_INBOX_REPORTS": "ไปที่หน้ารายงานกล่องข้อความ",
+      "GO_TO_TEAM_REPORTS": "ไปที่หน้ารายงานทีม",
+      "GO_TO_SETTINGS_AGENTS": "ไปที่หน้าจัดการพนักงาน",
+      "GO_TO_SETTINGS_TEAMS": "ไปที่หน้าจัดการทีม",
+      "GO_TO_SETTINGS_INBOXES": "ไปที่หน้าจัดการกล่องข้อความ",
+      "GO_TO_SETTINGS_LABELS": "ไปที่หน้าจัดการป้ายกำกับ",
+      "GO_TO_SETTINGS_CANNED_RESPONSES": "ไปที่หน้าจัดการข้อความลัด",
+      "GO_TO_SETTINGS_APPLICATIONS": "ไปที่หน้าตั้งค่าโปรแกรม",
+      "GO_TO_SETTINGS_ACCOUNT": "ไปที่หน้าตั้งค่าบัญชี",
+      "GO_TO_SETTINGS_PROFILE": "ไปที่หน้าตั้งค่าข้อมูลส่วนตัว",
+      "GO_TO_NOTIFICATIONS": "ไปที่หน้าการแจ้งเตือน",
+      "ADD_LABELS_TO_CONVERSATION": "เพิ่มป้ายกำกับให้บทสนทนา",
+      "ASSIGN_AN_AGENT": "กำหนดพนักงาน",
+      "AI_ASSIST": "AI Assist",
+      "ASSIGN_PRIORITY": "Assign priority",
+      "ASSIGN_A_TEAM": "กำหนดทีม",
+      "MUTE_CONVERSATION": "ปิดการแจ้งเตือน",
+      "UNMUTE_CONVERSATION": "เปิดการแจ้งเตือน",
+      "REMOVE_LABEL_FROM_CONVERSATION": "ลบป้ายกำกับออกจากการสนทนา",
+      "REOPEN_CONVERSATION": "เปิดการสนทนาอีกครั้ง",
+      "RESOLVE_CONVERSATION": "เสร็จสิ้นการสนทนา",
+      "SEND_TRANSCRIPT": "ส่งรายละเอียดทางอีเมล",
+      "SNOOZE_CONVERSATION": "พักการสนทนา",
+      "UNTIL_NEXT_REPLY": "จนกว่าการตอบกลับถัดไป",
+      "UNTIL_NEXT_WEEK": "จนกว่าสัปดาห์หน้า",
+      "UNTIL_TOMORROW": "จนกว่าพรุ่งนี้",
+      "UNTIL_NEXT_MONTH": "Until next month",
+      "AN_HOUR_FROM_NOW": "Until an hour from now",
+      "UNTIL_CUSTOM_TIME": "Custom...",
+      "CHANGE_APPEARANCE": "Change Appearance",
+      "LIGHT_MODE": "Light",
+      "DARK_MODE": "Dark",
+      "SYSTEM_MODE": "System",
+      "SNOOZE_NOTIFICATION": "Snooze Notification"
+    }
+  },
+  "DASHBOARD_APPS": {
+    "LOADING_MESSAGE": "Loading Dashboard App..."
+  },
+  "COMMON": {
+    "OR": "Or",
+    "CLICK_HERE": "กดที่นี้"
+  }
+}

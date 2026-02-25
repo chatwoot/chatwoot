@@ -1,0 +1,85 @@
+{
+  "LABEL_MGMT": {
+    "HEADER": "Tunnisteet",
+    "HEADER_BTN_TXT": "Lisää tunniste",
+    "LOADING": "Haetaan tunnisteita",
+    "DESCRIPTION": "Labels help you categorize and prioritize conversations and leads. You can assign a label to a conversation or contact using the side panel.",
+    "LEARN_MORE": "Learn more about labels",
+    "SEARCH_404": "Tätä hakua vastaavia kohteita ei löydy",
+    "LIST": {
+      "404": "Tällä tilillä ei ole tunnisteita.",
+      "TITLE": "Hallitse tunnisteita",
+      "DESC": "Tunnisteiden avulla voit ryhmitellä keskustelut yhteen.",
+      "TABLE_HEADER": {
+        "NAME": "Nimi",
+        "DESCRIPTION": "Kuvaus",
+        "COLOR": "Väri"
+      }
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "Tunnisteen nimi",
+        "PLACEHOLDER": "Tunnisteen nimi",
+        "REQUIRED_ERROR": "Label name is required",
+        "MINIMUM_LENGTH_ERROR": "Minimum length 2 is required",
+        "VALID_ERROR": "Only Alphabets, Numbers, Hyphen and Underscore are allowed"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Kuvaus",
+        "PLACEHOLDER": "Tunnisteen kuvaus"
+      },
+      "COLOR": {
+        "LABEL": "Väri"
+      },
+      "SHOW_ON_SIDEBAR": {
+        "LABEL": "Näytä tunniste sivupalkissa"
+      },
+      "EDIT": "Muokkaa",
+      "CREATE": "Luo",
+      "DELETE": "Poista",
+      "CANCEL": "Peruuta"
+    },
+    "SUGGESTIONS": {
+      "TOOLTIP": {
+        "SINGLE_SUGGESTION": "Add label to conversation",
+        "MULTIPLE_SUGGESTION": "Select this label",
+        "DESELECT": "Deselect label",
+        "DISMISS": "Dismiss suggestion"
+      },
+      "POWERED_BY": "Chatwoot AI",
+      "DISMISS": "Dismiss",
+      "ADD_SELECTED_LABELS": "Add selected labels",
+      "ADD_SELECTED_LABEL": "Add selected label",
+      "ADD_ALL_LABELS": "Add all labels",
+      "SUGGESTED_LABELS": "Suggested labels"
+    },
+    "ADD": {
+      "TITLE": "Lisää tunniste",
+      "DESC": "Tunnisteiden avulla voit ryhmitellä keskustelut yhteen.",
+      "API": {
+        "SUCCESS_MESSAGE": "Tunniste lisätty onnistuneesti",
+        "ERROR_MESSAGE": "Tapahtui virhe, yritä uudelleen"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Muokkaa tunnistetta",
+      "API": {
+        "SUCCESS_MESSAGE": "Tunniste päivitetty onnistuneesti",
+        "ERROR_MESSAGE": "Tapahtui virhe, yritä uudelleen"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Poista",
+      "API": {
+        "SUCCESS_MESSAGE": "Tunniste poistettu onnistuneesti",
+        "ERROR_MESSAGE": "Tapahtui virhe, yritä uudelleen"
+      },
+      "CONFIRM": {
+        "TITLE": "Vahvista poistaminen",
+        "MESSAGE": "Oletko varma että haluat poistaa ",
+        "YES": "Kyllä, poista ",
+        "NO": "Ei, säilytä "
+      }
+    }
+  }
+}

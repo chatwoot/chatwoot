@@ -1,0 +1,138 @@
+{
+  "ATTRIBUTES_MGMT": {
+    "HEADER": "Prilagođeni atributi",
+    "HEADER_BTN_TXT": "Dodaj prilagođeni atribut",
+    "LOADING": "Prikupljanje prilagođenih atributa",
+    "DESCRIPTION": "A custom attribute tracks additional details about your contacts or conversations—such as the subscription plan or the date of their first purchase. You can add different types of custom attributes, such as text, lists, or numbers, to capture the specific information you need.",
+    "LEARN_MORE": "Learn more about custom attributes",
+    "ATTRIBUTE_MODELS": {
+      "CONVERSATION": "Razgovor",
+      "CONTACT": "Kontakt"
+    },
+    "ATTRIBUTE_TYPES": {
+      "TEXT": "Tekst",
+      "NUMBER": "Broj",
+      "LINK": "Veza",
+      "DATE": "Date",
+      "LIST": "Lista",
+      "CHECKBOX": "Polje za potvrdu"
+    },
+    "ADD": {
+      "TITLE": "Dodaj prilagođeni atribut",
+      "SUBMIT": "Kreiraj",
+      "CANCEL_BUTTON_TEXT": "Otkaži",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Ime za prikaz",
+          "PLACEHOLDER": "Unesite ime za prikaz prilagođenog atributa",
+          "ERROR": "Ime je neophodno"
+        },
+        "DESC": {
+          "LABEL": "Opis",
+          "PLACEHOLDER": "Unesite opis prilagođenog atributa",
+          "ERROR": "Opis je neophodan"
+        },
+        "MODEL": {
+          "LABEL": "Primenjujese na",
+          "PLACEHOLDER": "Molim izaberite jedno",
+          "ERROR": "Model je neophodan"
+        },
+        "TYPE": {
+          "LABEL": "Tip",
+          "PLACEHOLDER": "MOlim izaberite tip",
+          "ERROR": "Tip je neophodan",
+          "LIST": {
+            "LABEL": "Lista vrednosti",
+            "PLACEHOLDER": "Molim unesite vrednost i pritisnite taster Enter",
+            "ERROR": "Mora da sadrži barem jednu vrednost"
+          }
+        },
+        "KEY": {
+          "LABEL": "Ključ",
+          "PLACEHOLDER": "Unesite ključ prilagođenog atributa",
+          "ERROR": "Ključ je neophodan",
+          "IN_VALID": "Neispravan ključ"
+        },
+        "REGEX_PATTERN": {
+          "LABEL": "Regex Pattern",
+          "PLACEHOLDER": "Please enter custom attribute regex pattern. (Optional)"
+        },
+        "REGEX_CUE": {
+          "LABEL": "Regex Cue",
+          "PLACEHOLDER": "Please enter regex pattern hint. (Optional)"
+        },
+        "ENABLE_REGEX": {
+          "LABEL": "Enable regex validation"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Prilagođeni atribut je uspešno dodat!",
+        "ERROR_MESSAGE": "Could not create a Custom Attribute. Please try again later."
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Izbriši",
+      "API": {
+        "SUCCESS_MESSAGE": "Prilagođeni atribut je uspešno obrisan.",
+        "ERROR_MESSAGE": "NIje bilo moguće obrisati prilagođeni atribut. Pokušajte ponovo."
+      },
+      "CONFIRM": {
+        "TITLE": "Da li zaista želite da obrišete - {attributeName}",
+        "PLACE_HOLDER": "Molim upišite {attributeName} za potvrdu",
+        "MESSAGE": "Brisanjem ćete ukloniti prilagođeni atribut",
+        "YES": "Obriši ",
+        "NO": "Otkaži"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Uredite prilagođeni atribut",
+      "UPDATE_BUTTON_TEXT": "Izmeni",
+      "TYPE": {
+        "LIST": {
+          "LABEL": "Lista vrednosti",
+          "PLACEHOLDER": "Molim unesite vrednosti i pritisnite taster Enter"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Prilagođeni atribut je uspešno izmenjen",
+        "ERROR_MESSAGE": "Pojavila se greška pri izmeni prilagođenog atributa. Molim pokušajte ponovo"
+      }
+    },
+    "TABS": {
+      "HEADER": "Prilagođeni atributi",
+      "CONVERSATION": "Razgovor",
+      "CONTACT": "Kontakt"
+    },
+    "LIST": {
+      "TABLE_HEADER": {
+        "NAME": "Ime",
+        "DESCRIPTION": "Opis",
+        "TYPE": "Tip",
+        "KEY": "Ključ"
+      },
+      "BUTTONS": {
+        "EDIT": "Uredi",
+        "DELETE": "Izbriši"
+      },
+      "EMPTY_RESULT": {
+        "404": "Nema kreiranih prilagođenih atributa",
+        "NOT_FOUND": "Nema podešenih prilagođenih atributa"
+      },
+      "REGEX_PATTERN": {
+        "LABEL": "Regex Pattern",
+        "PLACEHOLDER": "Please enter custom attribute regex pattern. (Optional)"
+      },
+      "REGEX_CUE": {
+        "LABEL": "Regex Cue",
+        "PLACEHOLDER": "Please enter regex pattern hint. (Optional)"
+      },
+      "ENABLE_REGEX": {
+        "LABEL": "Enable regex validation"
+      }
+    },
+    "BADGES": {
+      "PRE_CHAT": "Pre-chat",
+      "RESOLUTION": "Resolution"
+    }
+  }
+}

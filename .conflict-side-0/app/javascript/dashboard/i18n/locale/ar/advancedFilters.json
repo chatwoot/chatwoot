@@ -1,0 +1,119 @@
+{
+  "FILTER": {
+    "TITLE": "تصفية المحادثات",
+    "SUBTITLE": "أضف عوامل التصفية أدناه واضغط على 'تطبيق التصفيات' لتجنب الفوضى في المحادثات.",
+    "EDIT_CUSTOM_FILTER": "تعديل المجلد",
+    "CUSTOM_VIEWS_SUBTITLE": "أضف أو أزل تصفيات وقم بتحديث المجلد الخاص بك.",
+    "ADD_NEW_FILTER": "إضافة تصفية",
+    "FILTER_DELETE_ERROR": "عذرًا، يبدو أننا لا نستطيع حفظ أي شيء! يرجى إضافة تصفية واحدة على الأقل ليتم الحفظ.",
+    "SUBMIT_BUTTON_LABEL": "تطبيق التصفيات",
+    "UPDATE_BUTTON_LABEL": "تحديث المجلد",
+    "CANCEL_BUTTON_LABEL": "إلغاء",
+    "CLEAR_BUTTON_LABEL": "مسح التصفيات",
+    "FOLDER_LABEL": "اسم المجلد",
+    "FOLDER_QUERY_LABEL": "استعلام المجلد",
+    "EMPTY_VALUE_ERROR": "القيمة مطلوبة.",
+    "TOOLTIP_LABEL": "تصفية المحادثات",
+    "QUERY_DROPDOWN_LABELS": {
+      "AND": "و",
+      "OR": "أو"
+    },
+    "INPUT_PLACEHOLDER": "أدخل القيمة",
+    "OPERATOR_LABELS": {
+      "equal_to": "يساوي",
+      "not_equal_to": "لا يساوي",
+      "does_not_contain": "لا يحتوي",
+      "is_present": "موجود",
+      "is_not_present": "غير موجود",
+      "is_greater_than": "أكبر من",
+      "is_less_than": "أقل من",
+      "days_before": "قبل x أيام",
+      "starts_with": "يبدأ بـ",
+      "equalTo": "يساوي",
+      "notEqualTo": "لا يساوي",
+      "contains": "يحتوي",
+      "doesNotContain": "لا يحتوي",
+      "isPresent": "موجود",
+      "isNotPresent": "غير موجود",
+      "isGreaterThan": "أكبر من",
+      "isLessThan": "هو أقل من",
+      "daysBefore": "قبل x أيام",
+      "startsWith": "يبدأ بـ"
+    },
+    "ATTRIBUTE_LABELS": {
+      "TRUE": "صحيح",
+      "FALSE": "خاطئ"
+    },
+    "ATTRIBUTES": {
+      "STATUS": "الحالة",
+      "ASSIGNEE_NAME": "اسم المكلَّف",
+      "INBOX_NAME": "اسم صندوق الوارد",
+      "TEAM_NAME": "اسم الفريق",
+      "CONVERSATION_IDENTIFIER": "معرف المحادثة",
+      "CAMPAIGN_NAME": "اسم الحملة",
+      "LABELS": "الوسوم",
+      "BROWSER_LANGUAGE": "لغة المتصفح",
+      "PRIORITY": "الأولوية",
+      "COUNTRY_NAME": "اسم الدولة",
+      "REFERER_LINK": "رابط المرجع",
+      "CUSTOM_ATTRIBUTE_LIST": "القائمة",
+      "CUSTOM_ATTRIBUTE_TEXT": "النص",
+      "CUSTOM_ATTRIBUTE_NUMBER": "العدد",
+      "CUSTOM_ATTRIBUTE_LINK": "الرابط",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "خانة الاختيار",
+      "CREATED_AT": "تم إنشاؤها في",
+      "LAST_ACTIVITY": "آخر نشاط"
+    },
+    "ERRORS": {
+      "VALUE_REQUIRED": "القيمة مطلوبة",
+      "ATTRIBUTE_KEY_REQUIRED": "مفتاح الخاصية مطلوب",
+      "FILTER_OPERATOR_REQUIRED": "عامل التصفية مطلوب",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "القيمة يجب أن تكون بين 1 و 998"
+    },
+    "GROUPS": {
+      "STANDARD_FILTERS": "التصفيات القياسية",
+      "ADDITIONAL_FILTERS": "التصفيات الإضافية",
+      "CUSTOM_ATTRIBUTES": "الخصائص المخصصة"
+    },
+    "CUSTOM_VIEWS": {
+      "ADD": {
+        "TITLE": "هل تريد حفظ هذه التصفية؟",
+        "LABEL": "تسمية هذه التصفية",
+        "PLACEHOLDER": "قم بتسمية التصفية لتتمكن من الرجوع إليه لاحقًا.",
+        "ERROR_MESSAGE": "الاسم مطلوب.",
+        "SAVE_BUTTON": "حفظ التصفية",
+        "CANCEL_BUTTON": "إلغاء",
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "تم إنشاء المجلد بنجاح.",
+          "ERROR_MESSAGE": "حدث خطأ أثناء إنشاء المجلد."
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "تم إنشاء القسم بنجاح.",
+          "ERROR_MESSAGE": "حدث خطأ أثناء إنشاء القسم."
+        }
+      },
+      "EDIT": {
+        "EDIT_BUTTON": "تحرير المجلد"
+      },
+      "DELETE": {
+        "DELETE_BUTTON": "حذف التصفية",
+        "MODAL": {
+          "CONFIRM": {
+            "TITLE": "تأكيد الحذف",
+            "MESSAGE": "هل أنت متأكد من حذف التصفية ",
+            "YES": "نعم، احذف",
+            "NO": "لا، احتفظ به"
+          }
+        },
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "تم حذف المجلد بنجاح.",
+          "ERROR_MESSAGE": "حدث خطأ أثناء حذف المجلد."
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "تم حذف القسم بنجاح.",
+          "ERROR_MESSAGE": "حدث خطأ أثناء حذف القسم."
+        }
+      }
+    }
+  }
+}

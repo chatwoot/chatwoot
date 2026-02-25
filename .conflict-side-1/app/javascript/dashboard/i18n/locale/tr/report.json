@@ -1,0 +1,582 @@
+{
+  "REPORT": {
+    "HEADER": "Konuşmalar",
+    "LOADING_CHART": "Grafik verileri yükleniyor...",
+    "NO_ENOUGH_DATA": "Rapor oluşturmak için yeterli veri yok, Lütfen daha sonra tekrar deneyin.",
+    "DOWNLOAD_AGENT_REPORTS": "Etken raporları indir",
+    "DATA_FETCHING_FAILED": "Veri çekme başarısız oldu, lütfen daha sonra tekrar deneyin.",
+    "SUMMARY_FETCHING_FAILED": "Özet çekme başarısız oldu, lütfen daha sonra tekrar deneyin.",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "Konuşmalar",
+        "DESC": "( Toplam )"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "Gelen Mesajlar",
+        "DESC": "( Toplam )"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "Giden Mesajlar",
+        "DESC": "( Toplam )"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "İlk Cevap Süresi",
+        "DESC": "(Ort.)",
+        "INFO_TEXT": "Hesaplama için kullanılan toplam görüşme sayısı:",
+        "TOOLTIP_TEXT": "İlk Cevap Süresi {metricValue} ( {conversationCount} görüşmeye dayalı )"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "Çözüm Süresi",
+        "DESC": "(Ort.)",
+        "INFO_TEXT": "Hesaplama için kullanılan toplam görüşme sayısı:",
+        "TOOLTIP_TEXT": "Çözüm Süresi {metricValue} ( {conversationCount} görüşmeye dayalı )"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "Çözünürlük Sayısı",
+        "DESC": "( Toplam )"
+      },
+      "BOT_RESOLUTION_COUNT": {
+        "NAME": "Çözüm Sayısı",
+        "DESC": "( Toplam )"
+      },
+      "BOT_HANDOFF_COUNT": {
+        "NAME": "Aktarım Sayısı",
+        "DESC": "( Toplam )"
+      },
+      "REPLY_TIME": {
+        "NAME": "Müşteri Bekleme Süresi",
+        "TOOLTIP_TEXT": "Waiting time is {metricValue} (based on {conversationCount} replies)",
+        "DESC": ""
+      }
+    },
+    "DATE_RANGE_OPTIONS": {
+      "LAST_7_DAYS": "Son 7 gün",
+      "LAST_14_DAYS": "Son 14 gün",
+      "LAST_30_DAYS": "Son 30 gün",
+      "THIS_MONTH": "This month",
+      "LAST_MONTH": "Last month",
+      "LAST_3_MONTHS": "Son 3 ay",
+      "LAST_6_MONTHS": "Son 6 ay",
+      "LAST_YEAR": "Geçen yıl",
+      "CUSTOM_DATE_RANGE": "Özel tarih aralığı"
+    },
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Uygula",
+      "PLACEHOLDER": "Tarih aralığı seç"
+    },
+    "GROUP_BY_FILTER_DROPDOWN_LABEL": "Gruplandır",
+    "DURATION_FILTER_LABEL": "Süre",
+    "GROUPING_OPTIONS": {
+      "DAY": "Gün",
+      "WEEK": "Hafta",
+      "MONTH": "Ay",
+      "YEAR": "Yıl"
+    },
+    "GROUP_BY_DAY_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Gün"
+      }
+    ],
+    "GROUP_BY_WEEK_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Gün"
+      },
+      {
+        "id": 2,
+        "groupBy": "Hafta"
+      }
+    ],
+    "GROUP_BY_MONTH_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Gün"
+      },
+      {
+        "id": 2,
+        "groupBy": "Hafta"
+      },
+      {
+        "id": 3,
+        "groupBy": "Ay"
+      }
+    ],
+    "GROUP_BY_YEAR_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Gün"
+      },
+      {
+        "id": 2,
+        "groupBy": "Hafta"
+      },
+      {
+        "id": 3,
+        "groupBy": "Ay"
+      }
+    ],
+    "BUSINESS_HOURS": "İş Saatleri",
+    "FILTER_ACTIONS": {
+      "CLEAR_FILTER": "Clear filter",
+      "EMPTY_LIST": "Kayıt bulunamadı"
+    },
+    "PAGINATION": {
+      "RESULTS": "Showing {start} to {end} of {total} results",
+      "PER_PAGE_TEMPLATE": "{size} / page"
+    }
+  },
+  "AGENT_REPORTS": {
+    "HEADER": "Temsilci Genel Bakış",
+    "DESCRIPTION": "Konuşmalar, yanıt süreleri, çözüm süreleri ve çözülen vakalar gibi temel metriklerle temsilci performansını kolayca takip edin. Daha fazla bilgi için bir temsilcinin adına tıklayın.",
+    "LOADING_CHART": "Grafik verileri yükleniyor...",
+    "NO_ENOUGH_DATA": "Rapor oluşturmak için yeterli veri yok, Lütfen daha sonra tekrar deneyin.",
+    "DOWNLOAD_AGENT_REPORTS": "Etken raporları indir",
+    "FILTER_DROPDOWN_LABEL": "Temsilci Seçin",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "Konuşmalar",
+        "DESC": "( Toplam )"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "Gelen Mesajlar",
+        "DESC": "( Toplam )"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "Giden Mesajlar",
+        "DESC": "( Toplam )"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "İlk Cevap Süresi",
+        "DESC": "(Ort.)",
+        "INFO_TEXT": "Hesaplama için kullanılan toplam görüşme sayısı:",
+        "TOOLTIP_TEXT": "İlk Cevap Süresi {metricValue} ( {conversationCount} görüşmeye dayalı )"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "Çözüm Süresi",
+        "DESC": "(Ort.)",
+        "INFO_TEXT": "Hesaplama için kullanılan toplam görüşme sayısı:",
+        "TOOLTIP_TEXT": "Çözüm Süresi {metricValue} ( {conversationCount} görüşmeye dayalı )"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "Çözünürlük Sayısı",
+        "DESC": "( Toplam )"
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Son 7 gün"
+      },
+      {
+        "id": 1,
+        "name": "Son 30 gün"
+      },
+      {
+        "id": 2,
+        "name": "Son 3 ay"
+      },
+      {
+        "id": 3,
+        "name": "Son 6 ay"
+      },
+      {
+        "id": 4,
+        "name": "Geçen yıl"
+      },
+      {
+        "id": 5,
+        "name": "Özel tarih aralığı"
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Uygula",
+      "PLACEHOLDER": "Tarih aralığı seç"
+    }
+  },
+  "LABEL_REPORTS": {
+    "HEADER": "Etiketler Genel Bakış",
+    "DESCRIPTION": "Etiket performansını; konuşmalar, yanıt süreleri, çözüm süreleri ve çözümlenen vakalar dahil olmak üzere temel metriklerle takip edin. Ayrıntılı analizler için bir etiket adına tıklayın.",
+    "LOADING_CHART": "Grafik verileri yükleniyor...",
+    "NO_ENOUGH_DATA": "Rapor oluşturmak için yeterli veri yok, Lütfen daha sonra tekrar deneyin.",
+    "DOWNLOAD_LABEL_REPORTS": "Etiket raporlarını indir",
+    "FILTER_DROPDOWN_LABEL": "Etiket Seçin",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "Konuşmalar",
+        "DESC": "( Toplam )"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "Gelen Mesajlar",
+        "DESC": "( Toplam )"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "Giden Mesajlar",
+        "DESC": "( Toplam )"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "İlk Cevap Süresi",
+        "DESC": "(Ort.)",
+        "INFO_TEXT": "Hesaplama için kullanılan toplam görüşme sayısı:",
+        "TOOLTIP_TEXT": "İlk Cevap Süresi {metricValue} ( {conversationCount} görüşmeye dayalı )"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "Çözüm Süresi",
+        "DESC": "(Ort.)",
+        "INFO_TEXT": "Hesaplama için kullanılan toplam görüşme sayısı:",
+        "TOOLTIP_TEXT": "Çözüm Süresi {metricValue} ( {conversationCount} görüşmeye dayalı )"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "Çözünürlük Sayısı",
+        "DESC": "( Toplam )"
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Son 7 gün"
+      },
+      {
+        "id": 1,
+        "name": "Son 30 gün"
+      },
+      {
+        "id": 2,
+        "name": "Son 3 ay"
+      },
+      {
+        "id": 3,
+        "name": "Son 6 ay"
+      },
+      {
+        "id": 4,
+        "name": "Geçen yıl"
+      },
+      {
+        "id": 5,
+        "name": "Özel tarih aralığı"
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Uygula",
+      "PLACEHOLDER": "Tarih aralığı seç"
+    }
+  },
+  "INBOX_REPORTS": {
+    "HEADER": "Gelen Kutusu Genel Bakış",
+    "DESCRIPTION": "Konuşmalar, yanıt süreleri, çözüm süreleri ve çözülen vakalar gibi temel metriklerle gelen kutunuzun performansını hızlıca tek bir yerden görüntüleyin. Daha fazla detay için bir gelen kutusunun adına tıklayın.",
+    "LOADING_CHART": "Grafik verileri yükleniyor...",
+    "NO_ENOUGH_DATA": "Rapor oluşturmak için yeterli veri yok, Lütfen daha sonra tekrar deneyin.",
+    "DOWNLOAD_INBOX_REPORTS": "Gelen Kutu Raporlarını İndir",
+    "FILTER_DROPDOWN_LABEL": "Gelen kutusu seç",
+    "ALL_INBOXES": "Tüm Gelen Kutuları",
+    "SEARCH_INBOX": "Search Inbox",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "Konuşmalar",
+        "DESC": "( Toplam )"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "Gelen Mesajlar",
+        "DESC": "( Toplam )"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "Giden Mesajlar",
+        "DESC": "( Toplam )"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "İlk Cevap Süresi",
+        "DESC": "(Ort.)",
+        "INFO_TEXT": "Hesaplama için kullanılan toplam görüşme sayısı:",
+        "TOOLTIP_TEXT": "İlk Cevap Süresi {metricValue} ( {conversationCount} görüşmeye dayalı )"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "Çözüm Süresi",
+        "DESC": "(Ort.)",
+        "INFO_TEXT": "Hesaplama için kullanılan toplam görüşme sayısı:",
+        "TOOLTIP_TEXT": "Çözüm Süresi {metricValue} ( {conversationCount} görüşmeye dayalı )"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "Çözünürlük Sayısı",
+        "DESC": "( Toplam )"
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Son 7 gün"
+      },
+      {
+        "id": 1,
+        "name": "Son 30 gün"
+      },
+      {
+        "id": 2,
+        "name": "Son 3 ay"
+      },
+      {
+        "id": 3,
+        "name": "Son 6 ay"
+      },
+      {
+        "id": 4,
+        "name": "Geçen yıl"
+      },
+      {
+        "id": 5,
+        "name": "Özel tarih aralığı"
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Uygula",
+      "PLACEHOLDER": "Tarih aralığını seçin"
+    }
+  },
+  "TEAM_REPORTS": {
+    "HEADER": "Ekip Genel Bakışı",
+    "DESCRIPTION": "Konuşmalar, yanıt süreleri, çözüm süreleri ve çözülen vakalar gibi temel metriklerle ekibinizin performansına hızlı bir bakış edinin. Daha fazla detay için bir ekibin adına tıklayın.",
+    "LOADING_CHART": "Grafik verileri yükleniyor...",
+    "NO_ENOUGH_DATA": "Rapor oluşturmak için yeterli veri yok, Lütfen daha sonra tekrar deneyin.",
+    "DOWNLOAD_TEAM_REPORTS": "Ekip raporlarını indir",
+    "FILTER_DROPDOWN_LABEL": "Ekip Seç",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "Konuşmalar",
+        "DESC": "( Toplam )"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "Gelen Mesajlar",
+        "DESC": "( Toplam )"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "Giden Mesajlar",
+        "DESC": "( Toplam )"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "İlk Cevap Süresi",
+        "DESC": "(Ort.)",
+        "INFO_TEXT": "Hesaplama için kullanılan toplam görüşme sayısı:",
+        "TOOLTIP_TEXT": "İlk Cevap Süresi {metricValue} ( {conversationCount} görüşmeye dayalı )"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "Çözüm Süresi",
+        "DESC": "(Ort.)",
+        "INFO_TEXT": "Hesaplama için kullanılan toplam görüşme sayısı:",
+        "TOOLTIP_TEXT": "Çözüm Süresi {metricValue} ( {conversationCount} görüşmeye dayalı )"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "Çözünürlük Sayısı",
+        "DESC": "( Toplam )"
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Son 7 gün"
+      },
+      {
+        "id": 1,
+        "name": "Son 30 gün"
+      },
+      {
+        "id": 2,
+        "name": "Son 3 ay"
+      },
+      {
+        "id": 3,
+        "name": "Son 6 ay"
+      },
+      {
+        "id": 4,
+        "name": "Geçen yıl"
+      },
+      {
+        "id": 5,
+        "name": "Özel tarih aralığı"
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Uygula",
+      "PLACEHOLDER": "Tarih aralığını seçin"
+    }
+  },
+  "CSAT_REPORTS": {
+    "HEADER": "CSAT Raporları",
+    "NO_RECORDS": "Mevcut CSAT anket yanıtları yok.",
+    "DOWNLOAD": "CSAT Raporlarını İndir",
+    "DOWNLOAD_FAILED": "CSAT Raporlarını İndirme Başarısız Oldu",
+    "FILTERS": {
+      "AGENTS": {
+        "PLACEHOLDER": "Temsilcileri Seç"
+      }
+    },
+    "TABLE": {
+      "HEADER": {
+        "CONTACT_NAME": "İletişim",
+        "AGENT_NAME": "Atanan temsilci",
+        "RATING": "Değerlendirme",
+        "FEEDBACK_TEXT": "Geri bildirim yorumu"
+      }
+    },
+    "METRIC": {
+      "TOTAL_RESPONSES": {
+        "LABEL": "Toplam yanıtlar",
+        "TOOLTIP": "Toplanan yanıt sayısının toplamı"
+      },
+      "SATISFACTION_SCORE": {
+        "LABEL": "Memnuniyet puanı",
+        "TOOLTIP": "Pozitif yanıtların toplamı / Toplam yanıt sayısı * 100"
+      },
+      "RESPONSE_RATE": {
+        "LABEL": "Yanıt oranı",
+        "TOOLTIP": "Toplam yanıtların toplamı / Gönderilen CSAT anketi mesajlarının toplamı * 100"
+      }
+    }
+  },
+  "BOT_REPORTS": {
+    "HEADER": "Bot Raporları",
+    "METRIC": {
+      "TOTAL_CONVERSATIONS": {
+        "LABEL": "Konuşma sayısı",
+        "TOOLTIP": "Bot tarafından gerçekleştirilen toplam konuşma sayısı"
+      },
+      "TOTAL_RESPONSES": {
+        "LABEL": "Toplam yanıt",
+        "TOOLTIP": "Bot tarafından gönderilen toplam yanıt sayısı"
+      },
+      "RESOLUTION_RATE": {
+        "LABEL": "Çözüm Oranı",
+        "TOOLTIP": "Bot tarafından çözülen toplam konuşma sayısı / Bot tarafından işlenen toplam konuşma sayısı * 100"
+      },
+      "HANDOFF_RATE": {
+        "LABEL": "Temsilci Devir Oranı",
+        "TOOLTIP": "Temsilcilere devredilen toplam konuşma sayısı / Bot tarafından yönetilen toplam konuşma sayısı * 100"
+      }
+    }
+  },
+  "OVERVIEW_REPORTS": {
+    "HEADER": "Genel Bakış",
+    "LIVE": "Canlı",
+    "ACCOUNT_CONVERSATIONS": {
+      "HEADER": "Açık Konuşmalar",
+      "LOADING_MESSAGE": "Görüşme metrikleri yükleniyor...",
+      "OPEN": "Açık",
+      "UNATTENDED": "İlgilenilmemiş",
+      "UNASSIGNED": "Atanmamış",
+      "PENDING": "Bekliyor"
+    },
+    "CONVERSATION_HEATMAP": {
+      "HEADER": "Konuşma Trafik",
+      "NO_CONVERSATIONS": "Hiç konuşma yok",
+      "CONVERSATION": "{count} konuşma",
+      "CONVERSATIONS": "{count} konuşmalar",
+      "DOWNLOAD_REPORT": "Download report"
+    },
+    "RESOLUTION_HEATMAP": {
+      "HEADER": "Çözümler",
+      "NO_CONVERSATIONS": "Hiç konuşma yok",
+      "CONVERSATION": "{count} konuşma",
+      "CONVERSATIONS": "{count} konuşmalar",
+      "DOWNLOAD_REPORT": "Download report"
+    },
+    "AGENT_CONVERSATIONS": {
+      "HEADER": "Temsilciler Tarafından Yapılan Konuşmalar",
+      "LOADING_MESSAGE": "Temsilci metrikleri yükleniyor...",
+      "NO_AGENTS": "Temsilciler tarafından yapılan konuşma yok",
+      "TABLE_HEADER": {
+        "AGENT": "Kullanıcı",
+        "OPEN": "Açık",
+        "UNATTENDED": "İlgilenilmemiş",
+        "STATUS": "Durum"
+      }
+    },
+    "TEAM_CONVERSATIONS": {
+      "ALL_TEAMS": "Tüm Ekipler",
+      "HEADER": "Ekipler tarafından yapılan konuşmalar",
+      "LOADING_MESSAGE": "Loading team metrics...",
+      "NO_TEAMS": "There is no data available",
+      "TABLE_HEADER": {
+        "TEAM": "Ekip",
+        "OPEN": "Açık",
+        "UNATTENDED": "İlgilenilmemiş",
+        "STATUS": "Durum"
+      }
+    },
+    "AGENT_STATUS": {
+      "HEADER": "Temsilci Durumu",
+      "ONLINE": "Çevrimiçi",
+      "BUSY": "Meşgul",
+      "OFFLINE": "Çevrimdışı"
+    }
+  },
+  "DAYS_OF_WEEK": {
+    "SUNDAY": "Pazar",
+    "MONDAY": "Pazartesi",
+    "TUESDAY": "Salı",
+    "WEDNESDAY": "Çarşamba",
+    "THURSDAY": "Perşembe",
+    "FRIDAY": "Cuma",
+    "SATURDAY": "Cumartesi"
+  },
+  "SLA_REPORTS": {
+    "HEADER": "SLA Reports",
+    "NO_RECORDS": "SLA uygulanan konuşmalar mevcut değil.",
+    "LOADING": "Loading SLA data...",
+    "DOWNLOAD_SLA_REPORTS": "Download SLA reports",
+    "DOWNLOAD_FAILED": "Failed to download SLA Reports",
+    "DROPDOWN": {
+      "ADD_FIlTER": "Filtre Ekle",
+      "CLEAR_ALL": "Clear all",
+      "CLEAR_FILTER": "Clear filter",
+      "EMPTY_LIST": "Kayıt bulunamadı",
+      "NO_FILTER": "No filters available",
+      "SEARCH": "Search filter",
+      "INPUT_PLACEHOLDER": {
+        "SLA": "SLA name",
+        "AGENTS": "Temsilci adı",
+        "INBOXES": "Inbox adı",
+        "LABELS": "Etiket adı",
+        "TEAMS": "Ekip İsmi"
+      },
+      "SLA": "SLA Policy",
+      "INBOXES": "Gelen Kutusu",
+      "AGENTS": "Kullanıcı",
+      "LABELS": "Etiket",
+      "TEAMS": "Ekip"
+    },
+    "WITH": "with",
+    "METRICS": {
+      "HIT_RATE": {
+        "LABEL": "Hit Rate",
+        "TOOLTIP": "Percentage of SLAs created were completed successfully"
+      },
+      "NO_OF_MISSES": {
+        "LABEL": "Number of Misses",
+        "TOOLTIP": "Total SLA misses in a certain period"
+      },
+      "NO_OF_CONVERSATIONS": {
+        "LABEL": "Number of Conversations",
+        "TOOLTIP": "Total number of conversations with SLA"
+      }
+    },
+    "TABLE": {
+      "HEADER": {
+        "POLICY": "Policy",
+        "CONVERSATION": "Sohbet",
+        "AGENT": "Kullanıcı"
+      },
+      "VIEW_DETAILS": "View Details"
+    }
+  },
+  "SUMMARY_REPORTS": {
+    "INBOX": "Gelen Kutusu",
+    "AGENT": "Kullanıcı",
+    "TEAM": "Ekip",
+    "LABEL": "Etiket",
+    "AVG_RESOLUTION_TIME": "Ort. Çözüm Süresi",
+    "AVG_FIRST_RESPONSE_TIME": "Ort. İlk Yanıt Süresi",
+    "AVG_REPLY_TIME": "Ort. Müşteri Bekleme Süresi",
+    "RESOLUTION_COUNT": "Çözünürlük Sayısı",
+    "CONVERSATIONS": "Konuşmaların sayısı"
+  }
+}

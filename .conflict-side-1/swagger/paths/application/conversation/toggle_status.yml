@@ -1,0 +1,67 @@
+tags:
+  - Conversations
+operationId: toggle-status-of-a-conversation
+summary: Toggle Status
+description: |-
+  Toggle the status of a conversation. Pass `status` to explicitly set the
+  conversation state. Use `snoozed` along with `snoozed_until` to snooze a
+  conversation until a specific time. If `snoozed_until` is omitted, the
+  conversation is snoozed until the next reply from the contact. Regardless
+  of the value provided, snoozed conversations always reopen on the next
+  reply from the contact.
+security:
+  - userApiKey: []
+  - agentBotApiKey: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        required:
+          - status
+        properties:
+          status:
+            type: string
+            enum: ['open', 'resolved', 'pending', 'snoozed']
+            description: The status of the conversation
+            example: open
+          snoozed_until:
+            type: number
+            description: When status is `snoozed`, schedule the reopen time as a Unix timestamp in seconds.
+              If not provided, the conversation is snoozed until the next
+              customer reply. The conversation always reopens when the
+              customer replies.
+            example: 1757506877
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            meta:
+              type: object
+            payload:
+              type: object
+              properties:
+                success:
+                  type: boolean
+                current_status:
+                  type: string
+                  enum: ['open', 'resolved', 'pending', 'snoozed']
+                conversation_id:
+                  type: number
+  '404':
+    description: Conversation not found
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '401':
+    description: Unauthorized
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

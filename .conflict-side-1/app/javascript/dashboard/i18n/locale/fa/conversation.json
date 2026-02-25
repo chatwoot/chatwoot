@@ -1,0 +1,439 @@
+{
+  "CONVERSATION": {
+    "SELECT_A_CONVERSATION": "لطفا یک گفتگو را از پنجره گفتگوها انتخاب کنید",
+    "CSAT_REPLY_MESSAGE": "لطفاً به گفتگو امتیاز دهید",
+    "404": "با عرض پوزش، ما نمی‌توانیم گفتگو را پیدا کنیم. لطفا دوباره تلاش کنید",
+    "SWITCH_VIEW_LAYOUT": "تغییر طرح‌بندی",
+    "DASHBOARD_APP_TAB_MESSAGES": "پیام‌ها",
+    "UNVERIFIED_SESSION": "هویت این کاربر تایید نشده است",
+    "NO_MESSAGE_1": "اوه اوه! به نظر می‌رسد هیچ پیامی از طرف مشتری در صندوق ورودی شما وجود ندارد.",
+    "NO_MESSAGE_2": " برای ارسال پیام به صفحه خود بروید!",
+    "NO_INBOX_1": "سلام! به نظر می‌رسد هنوز صندوق ورودی اضافه نکرده‌اید.",
+    "NO_INBOX_2": " برای شروع",
+    "NO_INBOX_AGENT": "اوه اوه! به نظر می‌رسد شما عضو هیچ صندوق ورودی نیستید. لطفا با مدیر خود تماس بگیرید",
+    "SEARCH_MESSAGES": "پیام‌ها را در گفتگوها جستجو کنید",
+    "VIEW_ORIGINAL": "View original",
+    "VIEW_TRANSLATED": "View translated",
+    "EMPTY_STATE": {
+      "CMD_BAR": "برای باز کردن منوی فرمان",
+      "KEYBOARD_SHORTCUTS": "برای مشاهده میانبرهای صفحه کلید"
+    },
+    "SEARCH": {
+      "TITLE": "جستجو پیام‌ها",
+      "RESULT_TITLE": "نتایج جستجو",
+      "LOADING_MESSAGE": "درحال پردازش اطلاعات...",
+      "PLACEHOLDER": "متنی برای جستجو پیام تایپ کنید",
+      "NO_MATCHING_RESULTS": "نتیجه‌ای یافت نشد."
+    },
+    "UNREAD_MESSAGES": "پیام‌های خوانده نشده",
+    "UNREAD_MESSAGE": "پیام خوانده نشده",
+    "CLICK_HERE": "اینجا کلیک کنید",
+    "LOADING_INBOXES": "در حال بارگیری صندوق‌های ورودی",
+    "LOADING_CONVERSATIONS": "در حال بارگیری گفتگو‌ها",
+    "CANNOT_REPLY": "شما نمی‌توانید پاسخ بدهید به دلیل",
+    "24_HOURS_WINDOW": "محدودیت ۲۴ ساعته پنجره پیام",
+    "48_HOURS_WINDOW": "48 hour message window restriction",
+    "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
+    "NOT_ASSIGNED_TO_YOU": "این گفتگو به شما اختصاص داده نشده است. آیا می خواهید این گفتگو را به خودتان اختصاص دهید؟",
+    "ASSIGN_TO_ME": "اختصاص به من",
+    "BOT_HANDOFF_MESSAGE": "You are responding to a conversation which is currently handled by an assistant or a bot.",
+    "BOT_HANDOFF_ACTION": "Mark open and assign to you",
+    "BOT_HANDOFF_REOPEN_ACTION": "Mark conversation open",
+    "BOT_HANDOFF_SUCCESS": "Conversation has been handed over to you",
+    "BOT_HANDOFF_ERROR": "Failed to take over the conversation. Please try again.",
+    "TWILIO_WHATSAPP_CAN_REPLY": "شما فقط می توانید با استفاده از یک پیام الگو به این مکالمه پاسخ دهید",
+    "TWILIO_WHATSAPP_24_HOURS_WINDOW": "محدودیت ۲۴ ساعته پنجره پیام",
+    "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. All new messages will show up there. You won’t be able to send messages from this conversation anymore.",
+    "REPLYING_TO": "شما در حال پاسخ دادن به:",
+    "REMOVE_SELECTION": "حذف انتخاب‌شده‌ها",
+    "DOWNLOAD": "دانلود",
+    "UNKNOWN_FILE_TYPE": "فایل ناشناخته",
+    "SAVE_CONTACT": "Save Contact",
+    "NO_CONTENT": "No content to display",
+    "SHARED_ATTACHMENT": {
+      "CONTACT": "{sender} has shared a contact",
+      "LOCATION": "{sender} has shared a location",
+      "FILE": "{sender} has shared a file",
+      "MEETING": "{sender} جلسه ای را آغاز کرده است"
+    },
+    "UPLOADING_ATTACHMENTS": "در حال بارگذاری پیوست‌ها...",
+    "REPLIED_TO_STORY": "به استوری شما پاسخ داده",
+    "UNSUPPORTED_MESSAGE": "This message is unsupported. You can view this message on the Facebook / Instagram app.",
+    "UNSUPPORTED_MESSAGE_FACEBOOK": "این پیام پشتیبانی نمی شود. می توانید این پیام را در برنامه فیس بوک مسنجر مشاهده کنید.",
+    "UNSUPPORTED_MESSAGE_INSTAGRAM": "این پیام پشتیبانی نمی شود. می توانید این پیام را در برنامه اینستاگرام مشاهده کنید.",
+    "SUCCESS_DELETE_MESSAGE": "پیام با موفقیت حذف شد",
+    "FAIL_DELETE_MESSSAGE": "پیام حذف نشد! دوباره امتحان کنید",
+    "NO_RESPONSE": "بدون پاسخ",
+    "RESPONSE": "Response",
+    "RATING_TITLE": "رتبه",
+    "FEEDBACK_TITLE": "بازخورد",
+    "REPLY_MESSAGE_NOT_FOUND": "پیام در دسترس نیست",
+    "CARD": {
+      "SHOW_LABELS": "مشاهده کردن برچسب‌ها",
+      "HIDE_LABELS": "پنهان کردن برچسب‌ها"
+    },
+    "VOICE_CALL": {
+      "INCOMING_CALL": "Incoming call",
+      "OUTGOING_CALL": "Outgoing call",
+      "CALL_IN_PROGRESS": "Call in progress",
+      "NO_ANSWER": "No answer",
+      "MISSED_CALL": "Missed call",
+      "CALL_ENDED": "Call ended",
+      "NOT_ANSWERED_YET": "Not answered yet",
+      "THEY_ANSWERED": "They answered",
+      "YOU_ANSWERED": "You answered"
+    },
+    "HEADER": {
+      "RESOLVE_ACTION": "حل شد",
+      "REOPEN_ACTION": "دوباره باز کنید",
+      "OPEN_ACTION": "باز",
+      "MORE_ACTIONS": "More actions",
+      "OPEN": "بیشتر",
+      "CLOSE": "بستن",
+      "DETAILS": "جزئیات",
+      "SNOOZED_UNTIL": "به تعویق افتاده تا",
+      "SNOOZED_UNTIL_TOMORROW": "تا فردا به تعویق افتاد",
+      "SNOOZED_UNTIL_NEXT_WEEK": "تا هفته آینده به تعویق افتاد",
+      "SNOOZED_UNTIL_NEXT_REPLY": "تا پاسخ بعدی به تعویق افتاد",
+      "SLA_STATUS": {
+        "FRT": "FRT {status}",
+        "NRT": "NRT {status}",
+        "RT": "RT {status}",
+        "MISSED": "از دست رفته",
+        "DUE": "نقض"
+      }
+    },
+    "RESOLVE_DROPDOWN": {
+      "MARK_PENDING": "علامت گذاری به عنوان در انتظار",
+      "SNOOZE_UNTIL": "به تعویق انداختن",
+      "SNOOZE": {
+        "TITLE": "به تعویق انداختن تا",
+        "NEXT_REPLY": "پاسخ بعدی",
+        "TOMORROW": "فردا",
+        "NEXT_WEEK": "هفته بعد"
+      }
+    },
+    "MENTION": {
+      "AGENTS": "ایجنت ها",
+      "TEAMS": "تیم‌ها"
+    },
+    "CUSTOM_SNOOZE": {
+      "TITLE": "به تعویق انداختن تا",
+      "APPLY": "به تعویق انداختن",
+      "CANCEL": "لغو"
+    },
+    "PRIORITY": {
+      "TITLE": "اولویت",
+      "OPTIONS": {
+        "NONE": "هیچکدام",
+        "URGENT": "فوری",
+        "HIGH": "بالا",
+        "MEDIUM": "متوسط",
+        "LOW": "پایین"
+      },
+      "CHANGE_PRIORITY": {
+        "SELECT_PLACEHOLDER": "هیچکدام",
+        "INPUT_PLACEHOLDER": "انتخاب اولویت",
+        "NO_RESULTS": "نتیجه‌ای یافت نشد",
+        "SUCCESSFUL": "تغییر اولویت گفتگوی با شناسه {conversationId} به {priority}",
+        "FAILED": "تغییر اولویت گفتگو با موفقیت انجام نشد. لطفا دوباره تلاش نمایید."
+      }
+    },
+    "DELETE_CONVERSATION": {
+      "TITLE": "Delete conversation #{conversationId}",
+      "DESCRIPTION": "Are you sure you want to delete this conversation?",
+      "CONFIRM": "حذف"
+    },
+    "CARD_CONTEXT_MENU": {
+      "PENDING": "علامت گذاری به عنوان در انتظار",
+      "RESOLVED": "علامت زدن به عنوان حل شده",
+      "MARK_AS_UNREAD": "علامت گذاری به عنوان خوانده نشده",
+      "MARK_AS_READ": "ثبت به عنوان خوانده شده",
+      "REOPEN": "مکالمه را دوباره باز کنید",
+      "SNOOZE": {
+        "TITLE": "به تعویق انداختن",
+        "NEXT_REPLY": "تا پاسخ بعدی",
+        "TOMORROW": "تا فردا",
+        "NEXT_WEEK": "تا هفته بعد"
+      },
+      "ASSIGN_AGENT": "اپراتور را تعیین کنید",
+      "ASSIGN_LABEL": "برچسب اختصاص دهید",
+      "AGENTS_LOADING": "بارگذاری اپراتور ها...",
+      "ASSIGN_TEAM": "تیم را تعیین کنید",
+      "DELETE": "Delete conversation",
+      "OPEN_IN_NEW_TAB": "Open in new tab",
+      "COPY_LINK": "Copy conversation link",
+      "COPY_LINK_SUCCESS": "Conversation link copied to clipboard",
+      "API": {
+        "AGENT_ASSIGNMENT": {
+          "SUCCESFUL": "شناسه مکالمه {conversationId} به \"{agentName}\" اختصاص داده شد",
+          "FAILED": "اپراتور تعیین نشد. لطفا دوباره تلاش کنید."
+        },
+        "LABEL_ASSIGNMENT": {
+          "SUCCESFUL": "Assigned label #{labelName} to conversation id {conversationId}",
+          "FAILED": "برچسب اختصاص داده نشد. لطفا دوباره تلاش کنید."
+        },
+        "TEAM_ASSIGNMENT": {
+          "SUCCESFUL": "تیم \"{team}\" را به شناسه مکالمه {conversationId} اختصاص داد",
+          "FAILED": "تیم تعیین نشد. لطفا دوباره تلاش کنید."
+        }
+      }
+    },
+    "FOOTER": {
+      "MESSAGE_SIGN_TOOLTIP": "امضای پیام",
+      "ENABLE_SIGN_TOOLTIP": "امضا را فعال کنید",
+      "DISABLE_SIGN_TOOLTIP": "غیرفعال کردن امضا",
+      "MSG_INPUT": "برای رفتن به سرخط shift+enter و برای استفاده از پیام های ذخیره شده / را بزنید.",
+      "PRIVATE_MSG_INPUT": "برای رفتن به سرخط shift+enter را بزنید. این پیام فقط به ایجنت ها نمایش داده میشود",
+      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "امضای پیام پیکربندی نشده است، لطفاً آن را در تنظیمات نمایه پیکربندی کنید.",
+      "CLICK_HERE": "برای به روز رسانی اینجا را کلیک کنید",
+      "WHATSAPP_TEMPLATES": "قالب های واتساپ"
+    },
+    "REPLYBOX": {
+      "REPLY": "پاسخ",
+      "PRIVATE_NOTE": "یادداشت خصوصی",
+      "SEND": "ارسال",
+      "CREATE": "افزودن یادداشت",
+      "INSERT_READ_MORE": "ادامه مطلب",
+      "DISMISS_REPLY": "رد پاسخ",
+      "REPLYING_TO": "در حال پاسخ دهی به:",
+      "TIP_EMOJI_ICON": "انتخاب ایموجی",
+      "TIP_ATTACH_ICON": "ضمیمه فایل",
+      "TIP_AUDIORECORDER_ICON": "ضبط صدا",
+      "TIP_AUDIORECORDER_PERMISSION": "اجازه دسترسی به صدا",
+      "TIP_AUDIORECORDER_ERROR": "صدا را نمی‌توان باز کند",
+      "DRAG_DROP": "برای ضمیمه کردن درگ و درآپ کنید",
+      "START_AUDIO_RECORDING": "در حال شروع ضبط صدا",
+      "STOP_AUDIO_RECORDING": "در حال توقف ضبط صدا",
+      "": "",
+      "EMAIL_HEAD": {
+        "TO": "به",
+        "ADD_BCC": "افزودن رونوشت",
+        "CC": {
+          "LABEL": "رونوشت",
+          "PLACEHOLDER": "ایمیل‌ها با کاما از هم جدا می‌شوند",
+          "ERROR": "لطفا آدرس‌ ایمیل معتبر وارد کنید"
+        },
+        "BCC": {
+          "LABEL": "BCC",
+          "PLACEHOLDER": "ایمیل‌ها با کاما از هم جدا می‌شوند",
+          "ERROR": "لطفا آدرس‌ ایمیل معتبر وارد کنید"
+        }
+      },
+      "UNDEFINED_VARIABLES": {
+        "TITLE": "متغیرهای تعریف نشده",
+        "MESSAGE": "شما در پیام خود {undefinedVariablesCount} متغیر تعریف نشده دارید: {undefinedVariables}. آیا به هر حال می خواهید پیام را ارسال کنید؟",
+        "CONFIRM": {
+          "YES": "ارسال",
+          "CANCEL": "انصراف"
+        }
+      },
+      "QUOTED_REPLY": {
+        "ENABLE_TOOLTIP": "Include quoted email thread",
+        "DISABLE_TOOLTIP": "Don't include quoted email thread",
+        "REMOVE_PREVIEW": "Remove quoted email thread",
+        "COLLAPSE": "Collapse preview",
+        "EXPAND": "Expand preview"
+      }
+    },
+    "VISIBLE_TO_AGENTS": "یادداشت خصوصی: فقط برای شما و تیم شما قابل مشاهده است",
+    "CHANGE_STATUS": "وضعیت گفتگو تغییر کرد",
+    "CHANGE_STATUS_FAILED": "تغییر وضعیت مکالمه انجام نشد",
+    "CHANGE_AGENT": "مسول گفتگو تغییر کرد",
+    "CHANGE_AGENT_FAILED": "تغییر انجام نشد",
+    "ASSIGN_LABEL_SUCCESFUL": "برچسب با موفقیت تخصیص یافت",
+    "ASSIGN_LABEL_FAILED": "تخصیص برچسب ناموفق بود",
+    "CHANGE_TEAM": "تیم مکالمه تغییر کرد",
+    "SUCCESS_DELETE_CONVERSATION": "Conversation deleted successfully",
+    "FAIL_DELETE_CONVERSATION": "Couldn't delete conversation! Try again",
+    "FILE_SIZE_LIMIT": "پرونده از حد مجاز پیوست {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} مگابایت بیشتر است",
+    "MESSAGE_ERROR": "ارسال این پیام امکان پذیر نیست ، لطفاً بعداً دوباره امتحان کنید",
+    "SENT_BY": "ارسال شده توسط:",
+    "BOT": "ربات",
+    "SEND_FAILED": "پیام ارسال نشد! دوباره امتحان کنید",
+    "TRY_AGAIN": "دوباره امتحان کنید",
+    "ASSIGNMENT": {
+      "SELECT_AGENT": "انتخاب ایجنت",
+      "REMOVE": "حذف",
+      "ASSIGN": "اختصاص دادن"
+    },
+    "CONTEXT_MENU": {
+      "COPY": "کپی",
+      "REPLY_TO": "پاسخ به این پیام",
+      "DELETE": "حذف",
+      "CREATE_A_CANNED_RESPONSE": "اضافه کردن به پاسخ‌های آماده",
+      "TRANSLATE": "ترجمه",
+      "COPY_PERMALINK": "کپی پیوند پیام",
+      "LINK_COPIED": "نشانی اینترنتی پیام در کلیپ‌بورد کپی شد",
+      "DELETE_CONFIRMATION": {
+        "TITLE": "آیا از حذف این پیام مطمئن هستید؟",
+        "MESSAGE": "شما نمی توانید این عمل را لغو کنید",
+        "DELETE": "حذف",
+        "CANCEL": "انصراف"
+      }
+    },
+    "SIDEBAR": {
+      "CONTACT": "مخاطب",
+      "COPILOT": "Copilot"
+    },
+    "VOICE_WIDGET": {
+      "INCOMING_CALL": "Incoming call",
+      "OUTGOING_CALL": "Outgoing call",
+      "CALL_IN_PROGRESS": "Call in progress",
+      "NOT_ANSWERED_YET": "Not answered yet",
+      "HANDLED_IN_ANOTHER_TAB": "Being handled in another tab",
+      "REJECT_CALL": "Reject",
+      "JOIN_CALL": "Join call",
+      "END_CALL": "End call"
+    }
+  },
+  "EMAIL_TRANSCRIPT": {
+    "TITLE": "ارسال متن گفتگو",
+    "DESC": "یک کپی از متن گفتگو را به آدرس ایمیل مشخص شده ارسال کنید",
+    "SUBMIT": "ثبت",
+    "CANCEL": "انصراف",
+    "SEND_EMAIL_SUCCESS": "متن گفتگو با موفقیت ارسال شد",
+    "SEND_EMAIL_ERROR": "خطایی پیش آمد. لطفا دوباره امتحان کنید",
+    "FORM": {
+      "SEND_TO_CONTACT": "متن گفتگو را برای مشتری ارسال کنید",
+      "SEND_TO_AGENT": "متن گفتگو را به ایجنت اختصاص یافته ارسال کنید",
+      "SEND_TO_OTHER_EMAIL_ADDRESS": "متن گفتگو را به آدرس ایمیل دیگری ارسال کنید",
+      "EMAIL": {
+        "PLACEHOLDER": "یک آدرس ایمیل وارد کنید",
+        "ERROR": "لطفا ایمیل خود را به شکل صحیح وارد کنید"
+      }
+    }
+  },
+  "ONBOARDING": {
+    "TITLE": "سلام 👋، خوش آمدی به {installationName}!",
+    "DESCRIPTION": "از این که ثبت نام کرده اید سپاسگذاریم. ما ماخواهیم بهترین تجربه را از {installationName} داشته باشید. در اینجا چند کار وجود دارد که می توانید در {installationName} انجام دهید تا تجربه بهتری داشته باشید.",
+    "GREETING_MORNING": "👋 Good morning, {name}. Welcome to {installationName}.",
+    "GREETING_AFTERNOON": "👋 Good afternoon, {name}. Welcome to {installationName}.",
+    "GREETING_EVENING": "👋 Good evening, {name}. Welcome to {installationName}.",
+    "READ_LATEST_UPDATES": "آخرین به روزرسانی های ما را بخوانید",
+    "ALL_CONVERSATION": {
+      "TITLE": "همه مکالمات شما در یک مکان",
+      "DESCRIPTION": "همه مکالمات مشتریان خود را در یک داشبورد واحد مشاهده کنید. می توانید مکالمات را بر اساس کانال ، برچسب و وضعیت ورودی فیلتر کنید.",
+      "NEW_LINK": "برای ایجاد صندوق ورودی اینجا را کلیک کنید"
+    },
+    "TEAM_MEMBERS": {
+      "TITLE": "اعضای تیم خود را دعوت کنید",
+      "DESCRIPTION": "از آنجا که در حال آماده شدن برای گفتگو با مشتری هستید ، می توانید از هم تیمی های خود نیز کمک بگیرید. با افزودن آدرس ایمیل آنها به لیست اپراتور ها، می توانید از هم تیمی های خود دعوت کنید.",
+      "NEW_LINK": "برای دعوت از یکی از اعضای تیم اینجا را کلیک کنید"
+    },
+    "LABELS": {
+      "TITLE": "سازماندهی مکالمات با برچسب ها",
+      "DESCRIPTION": "برچسب ها روش ساده تری برای دسته بندی مکالمه شما فراهم می کنند. برخی از برچسب ها مانند #پشتیبانی-درخواست ، #صورتحساب و غیره را ایجاد کنید تا بعداً بتوانید از آنها در مکالمه استفاده کنید.",
+      "NEW_LINK": "برای ایجاد برچسب ها اینجا را کلیک کنید"
+    },
+    "CANNED_RESPONSES": {
+      "TITLE": "Create canned responses",
+      "DESCRIPTION": "Pre-written quick reply templates help you quickly respond to a conversation. Agents can type the '/' character followed by the shortcode to insert a response.",
+      "NEW_LINK": "Click here to create a canned response"
+    }
+  },
+  "CONVERSATION_SIDEBAR": {
+    "ASSIGNEE_LABEL": "اختصاص به ایجنت",
+    "SELF_ASSIGN": "اختصاص به من",
+    "TEAM_LABEL": "اختصاص به تیم",
+    "SELECT": {
+      "PLACEHOLDER": "هیچکدام"
+    },
+    "ACCORDION": {
+      "CONTACT_DETAILS": "اطلاعات تماس",
+      "CONVERSATION_ACTIONS": "عملیات مکالمات",
+      "CONVERSATION_LABELS": "برچسب‌های گفتگو",
+      "CONVERSATION_INFO": "اطلاعات مکالمه",
+      "CONTACT_NOTES": "Contact Notes",
+      "CONTACT_ATTRIBUTES": "ویژگی‌های تماس",
+      "PREVIOUS_CONVERSATION": "گفتگوهای قبلی",
+      "MACROS": "ماکروها",
+      "LINEAR_ISSUES": "Linked Linear Issues",
+      "SHOPIFY_ORDERS": "Shopify Orders"
+    },
+    "SHOPIFY": {
+      "ORDER_ID": "Order #{id}",
+      "ERROR": "Error loading orders",
+      "NO_SHOPIFY_ORDERS": "No orders found",
+      "FINANCIAL_STATUS": {
+        "PENDING": "در انتظار",
+        "AUTHORIZED": "Authorized",
+        "PARTIALLY_PAID": "Partially Paid",
+        "PAID": "Paid",
+        "PARTIALLY_REFUNDED": "Partially Refunded",
+        "REFUNDED": "Refunded",
+        "VOIDED": "Voided"
+      },
+      "FULFILLMENT_STATUS": {
+        "FULFILLED": "Fulfilled",
+        "PARTIALLY_FULFILLED": "Partially Fulfilled",
+        "UNFULFILLED": "Unfulfilled"
+      }
+    }
+  },
+  "CONVERSATION_CUSTOM_ATTRIBUTES": {
+    "ADD_BUTTON_TEXT": "ایجاد ویژگی",
+    "NO_RECORDS_FOUND": "هیچ ویژگی یافت نشد",
+    "UPDATE": {
+      "SUCCESS": "ویژگی با موفقیت به روز شد",
+      "ERROR": "امکان به روزرسانی ویژگی وجود ندارد. لطفاً بعداً دوباره امتحان کنید"
+    },
+    "ADD": {
+      "TITLE": "افزودن",
+      "SUCCESS": "ویژگی با موفقیت اضافه شد",
+      "ERROR": "امکان افزودن ویژگی وجود ندارد. لطفاً بعداً دوباره امتحان کنید"
+    },
+    "DELETE": {
+      "SUCCESS": "ویژگی با موفقیت حذف شد",
+      "ERROR": "امکان حذف ویژگی وجود ندارد. لطفاً بعداً دوباره امتحان کنید"
+    },
+    "ATTRIBUTE_SELECT": {
+      "TITLE": "افزودن ویژگی‌ها",
+      "PLACEHOLDER": "جستجو ویژگی ها",
+      "NO_RESULT": "هیچ ویژگی یافت نشد"
+    }
+  },
+  "EMAIL_HEADER": {
+    "FROM": "از",
+    "TO": "به",
+    "BCC": "Bcc",
+    "CC": "Cc",
+    "SUBJECT": "موضوع",
+    "EXPAND": "Expand email"
+  },
+  "CONVERSATION_PARTICIPANTS": {
+    "SIDEBAR_MENU_TITLE": "شرکت کنندگان",
+    "SIDEBAR_TITLE": "شرکت کنندگان در گفتگو",
+    "NO_RECORDS_FOUND": "نتیجه‌ای یافت نشد",
+    "ADD_PARTICIPANTS": "شرکت کنندگان را انتخاب کنید",
+    "REMANING_PARTICIPANTS_TEXT": "+{count} نفر دیگر",
+    "REMANING_PARTICIPANT_TEXT": "+{count} دیگر",
+    "TOTAL_PARTICIPANTS_TEXT": "{count} نفر شرکت می کنند.",
+    "TOTAL_PARTICIPANT_TEXT": "{count} نفر شرکت می کند.",
+    "NO_PARTICIPANTS_TEXT": "هیچ کس شرکت نمی کند!.",
+    "WATCH_CONVERSATION": "به گفتگو بپیوندید",
+    "YOU_ARE_WATCHING": "شما شرکت می کنید",
+    "API": {
+      "ERROR_MESSAGE": "به روز رسانی نشد، دوباره امتحان کنید!",
+      "SUCCESS_MESSAGE": "شرکت کنندگان به روز شدند!"
+    }
+  },
+  "TRANSLATE_MODAL": {
+    "TITLE": "مشاهده محتوای ترجمه شده",
+    "DESC": "می‌توانید محتوای ترجمه شده را به هر زبان مشاهده کنید.",
+    "ORIGINAL_CONTENT": "محتوای اصلی",
+    "TRANSLATED_CONTENT": "مطالب ترجمه شده",
+    "NO_TRANSLATIONS_AVAILABLE": "هیچ ترجمه‌ای برای این مطلب موجود نیست"
+  },
+  "TYPING": {
+    "ONE": "{user} is typing",
+    "TWO": "{user} and {secondUser} are typing",
+    "MULTIPLE": "{user} and {count} others are typing"
+  },
+  "COPILOT": {
+    "TRY_THESE_PROMPTS": "Try these prompts"
+  },
+  "GALLERY_VIEW": {
+    "ERROR_DOWNLOADING": "Unable to download attachment. Please try again"
+  }
+}

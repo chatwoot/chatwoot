@@ -1,0 +1,251 @@
+{
+  "GENERAL_SETTINGS": {
+    "LIMIT_MESSAGES": {
+      "CONVERSATION": "חרגת ממגבלת השיחות. תוכנית Hacker מאפשרת רק 500 שיחות.",
+      "INBOXES": "You have exceeded the inbox limit. Hacker plan only supports website live-chat. Additional inboxes like email, WhatsApp etc. require a paid plan.",
+      "AGENTS": "חרגת ממגבלת הסוכנים. התוכנית שלך מאפשרת רק {allowedAgents} סוכנים.",
+      "NON_ADMIN": "אנא פנה למנהל המערכת שלך כדי לשדרג את התוכנית ולהמשיך להשתמש בכל התכונות."
+    },
+    "TITLE": "הגדרות חשבון",
+    "SUBMIT": "עדכן הגדרות",
+    "BACK": "חזור",
+    "DISMISS": "סגור",
+    "UPDATE": {
+      "ERROR": "לא ניתן היה לעדכן את ההגדרות, נסה שוב!",
+      "SUCCESS": "הגדרות החשבון עודכנו בהצלחה"
+    },
+    "ACCOUNT_DELETE_SECTION": {
+      "TITLE": "מחק את חשבונך",
+      "NOTE": "לאחר שתמחק את חשבונך, כל הנתונים שלך יימחקו.",
+      "BUTTON_TEXT": "מחק את חשבונך",
+      "CONFIRM": {
+        "TITLE": "מחק חשבון",
+        "MESSAGE": "מחיקת חשבונך היא בלתי הפיכה. הזן את שם חשבונך למטה כדי לאשר שברצונך למחוק אותו לצמיתות.",
+        "BUTTON_TEXT": "מחק",
+        "DISMISS": "ביטול",
+        "PLACE_HOLDER": "אנא הקלד {accountName} כדי לאשר"
+      },
+      "SUCCESS": "החשבון סומן למחיקה",
+      "FAILURE": "לא ניתן למחוק חשבון, נסה שוב!",
+      "SCHEDULED_DELETION": {
+        "TITLE": "החשבון מתוזמן למחיקה",
+        "MESSAGE_MANUAL": "חשבון זה מתוזמן למחיקה ב- {deletionDate}. הדבר התבקש על ידי מנהל מערכת. תוכל לבטל את המחיקה לפני תאריך זה.",
+        "MESSAGE_INACTIVITY": ".",
+        "CLEAR_BUTTON": "בטל מחיקה מתוזמנת"
+      }
+    },
+    "FORM": {
+      "ERROR": "אנא תקן שגיאות בטופס",
+      "GENERAL_SECTION": {
+        "TITLE": "הגדרות כלליות",
+        "NOTE": ""
+      },
+      "ACCOUNT_ID": {
+        "TITLE": "מזהה חשבון",
+        "NOTE": "מזהה זה נדרש אם אתה בונה אינטגרציה מבוססת API"
+      },
+      "AUTO_RESOLVE": {
+        "TITLE": "Auto-resolve conversations",
+        "NOTE": "הגדרה זו תאפשר לך לסגור אוטומטית את השיחה לאחר תקופה מסוימת של חוסר פעילות.",
+        "DURATION": {
+          "LABEL": "משך חוסר פעילות",
+          "HELP": "Time period of inactivity after which conversation is auto-resolved",
+          "PLACEHOLDER": "30",
+          "ERROR": "משך הסגירה האוטומטית צריך להיות בין 10 דקות ל-999 ימים",
+          "API": {
+            "SUCCESS": "הגדרות הסגירה האוטומטית עודכנו בהצלחה",
+            "ERROR": "העדכון של הגדרות הסגירה האוטומטית נכשל"
+          }
+        },
+        "MESSAGE": {
+          "LABEL": "Custom auto-resolution message",
+          "PLACEHOLDER": "השיחה סומנה כסגורה על ידי המערכת עקב 15 ימים של חוסר פעילות",
+          "HELP": "Message sent to the customer after conversation is auto-resolved"
+        },
+        "PREFERENCES": "העדפות",
+        "LABEL": {
+          "LABEL": "Add label after auto-resolution",
+          "PLACEHOLDER": "בחר תווית"
+        },
+        "IGNORE_WAITING": {
+          "LABEL": "Skip conversations waiting for agent’s reply"
+        },
+        "UPDATE_BUTTON": "שמור שינויים"
+      },
+      "NAME": {
+        "LABEL": "שם החשבון",
+        "PLACEHOLDER": "שם החשבון שלך",
+        "ERROR": "נא להזין שם חשבון חוקי"
+      },
+      "LANGUAGE": {
+        "LABEL": "שפת האתר",
+        "PLACEHOLDER": "שם החשבון שלך",
+        "ERROR": ""
+      },
+      "DOMAIN": {
+        "LABEL": "דומיין דואר נכנס",
+        "PLACEHOLDER": "הדומיין שבו תקבלו את המיילים",
+        "ERROR": ""
+      },
+      "SUPPORT_EMAIL": {
+        "LABEL": "אימייל לתמיכה",
+        "PLACEHOLDER": "דוא\"ל התמיכה של החברה שלך",
+        "ERROR": ""
+      },
+      "AUTO_RESOLVE_IGNORE_WAITING": {
+        "LABEL": "אל תכלול שיחות ללא מענה",
+        "HELP": "כאשר מופעל, המערכת תדלג על סגירת שיחות שעדיין ממתינות לתגובת סוכן."
+      },
+      "AUDIO_TRANSCRIPTION": {
+        "TITLE": "תמלל הודעות קוליות",
+        "NOTE": "תמלל אוטומטית הודעות קוליות בשיחות. צור תמלול טקסט בכל פעם שנשלחת או מתקבלת הודעה קולית, והצג אותה לצד ההודעה.",
+        "API": {
+          "SUCCESS": "הגדרת תמלול שמע עודכנה בהצלחה",
+          "ERROR": "העדכון של הגדרת תמלול שמע נכשל"
+        }
+      },
+      "AUTO_RESOLVE_DURATION": {
+        "LABEL": "משך חוסר פעילות לסגירה",
+        "HELP": "משך הזמן שלאחריו שיחה תיסגר אוטומטית אם אין פעילות",
+        "PLACEHOLDER": "30",
+        "ERROR": "משך הסגירה האוטומטית צריך להיות בין 10 דקות ל-999 ימים",
+        "API": {
+          "SUCCESS": "הגדרות הסגירה האוטומטית עודכנו בהצלחה",
+          "ERROR": "העדכון של הגדרות הסגירה האוטומטית נכשל"
+        },
+        "UPDATE_BUTTON": "עדכן",
+        "MESSAGE_LABEL": "הודעת סגירה מותאמת אישית",
+        "MESSAGE_PLACEHOLDER": "השיחה סומנה כסגורה על ידי המערכת עקב 15 ימים של חוסר פעילות",
+        "MESSAGE_HELP": "הודעה זו נשלחת ללקוח כאשר שיחה נסגרת אוטומטית על ידי המערכת עקב חוסר פעילות."
+      },
+      "FEATURES": {
+        "INBOUND_EMAIL_ENABLED": "רציפות השיחה עם הודעות אימייל מופעלת עבור החשבון שלך.",
+        "CUSTOM_EMAIL_DOMAIN_ENABLED": "אתה יכול לקבל אימיילים בדומיין המותאם אישית שלך עכשיו."
+      }
+    },
+    "UPDATE_CHATWOOT": "עדכון {latestChatwootVersion} עבור Chatwoot זמין. אנא עדכן את המופע שלך.",
+    "LEARN_MORE": "למד עוד",
+    "PAYMENT_PENDING": "התשלום שלך ממתין. אנא עדכן את פרטי התשלום שלך כדי להמשיך להשתמש ב-Chatwoot",
+    "UPGRADE": "שדרג כדי להמשיך להשתמש ב-Chatwoot",
+    "LIMITS_UPGRADE": "החשבון שלך חרג ממגבלות השימוש. אנא שדרג את המינוי שלך כדי להמשיך להשתמש ב-צ'אטווט",
+    "OPEN_BILLING": "פתח חיוב"
+  },
+  "FORMS": {
+    "MULTISELECT": {
+      "ENTER_TO_SELECT": "הקש אנטר כדי לבחור",
+      "ENTER_TO_REMOVE": "הקש אנטר כדי להסיר",
+      "NO_OPTIONS": "הרשימה ריקה",
+      "SELECT_ONE": "תבחר אחד",
+      "SELECT": "בחר"
+    }
+  },
+  "NOTIFICATIONS_PAGE": {
+    "HEADER": "התראות",
+    "MARK_ALL_DONE": "סמן הכל כבוצע",
+    "DELETE_TITLE": "נמחק",
+    "UNREAD_NOTIFICATION": {
+      "TITLE": "התראות שלא נקראו",
+      "ALL_NOTIFICATIONS": "הצג את כל ההתראות",
+      "LOADING_UNREAD_MESSAGE": "טוען התראות שלא נקראו...",
+      "EMPTY_MESSAGE": "אין לך התראות שלא נקראו"
+    },
+    "LIST": {
+      "LOADING_MESSAGE": "טוען הודעות...",
+      "404": "אין התראות",
+      "TABLE_HEADER": [
+        "שם",
+        "מספר טלפון",
+        "שיחות",
+        "פניה אחרונה"
+      ]
+    },
+    "TYPE_LABEL": {
+      "conversation_creation": "שיחה חדשה",
+      "conversation_assignment": "שיחה הוקצתה",
+      "assigned_conversation_new_message": "הודעה חדשה",
+      "participating_conversation_new_message": "הודעה חדשה",
+      "conversation_mention": "אִזְכּוּר",
+      "sla_missed_first_response": "החמצת SLA",
+      "sla_missed_next_response": "החמצת SLA",
+      "sla_missed_resolution": "הסכם רמת שירות פוספס"
+    }
+  },
+  "NETWORK": {
+    "NOTIFICATION": {
+      "OFFLINE": "לא מחובר",
+      "RECONNECTING": "מתחבר מחדש...",
+      "RECONNECT_SUCCESS": "חובר מחדש"
+    },
+    "BUTTON": {
+      "REFRESH": "רענן"
+    }
+  },
+  "COMMAND_BAR": {
+    "SEARCH_PLACEHOLDER": "חפש או קפוץ ל",
+    "SECTIONS": {
+      "GENERAL": "כללי",
+      "REPORTS": "דוחות",
+      "CONVERSATION": "שיחה",
+      "BULK_ACTIONS": "פעולות בכמות גדולה",
+      "CHANGE_ASSIGNEE": "שנה מוקצה",
+      "CHANGE_PRIORITY": "שנה עדיפות",
+      "CHANGE_TEAM": "להחליף קבוצה",
+      "SNOOZE_CONVERSATION": "נודניק שיחה",
+      "ADD_LABEL": "הוסף תווית לשיחה",
+      "REMOVE_LABEL": "הסר תווית מהשיחה",
+      "SETTINGS": "הגדרות",
+      "AI_ASSIST": "סיוע AI",
+      "APPEARANCE": "מראה",
+      "SNOOZE_NOTIFICATION": "השבת התראה זמנית"
+    },
+    "COMMANDS": {
+      "GO_TO_CONVERSATION_DASHBOARD": "עבור ללוח המחוונים לשיחה",
+      "GO_TO_CONTACTS_DASHBOARD": "עבור ללוח המחוונים של אנשי קשר",
+      "GO_TO_REPORTS_OVERVIEW": "עבור לסקירת דוחות",
+      "GO_TO_CONVERSATION_REPORTS": "עבור לדוחות שיחות",
+      "GO_TO_AGENT_REPORTS": "עבור לדוחות סוכן",
+      "GO_TO_LABEL_REPORTS": "עבור לדוחות תווית",
+      "GO_TO_INBOX_REPORTS": "עבור לדוחות תיבת הדואר הנכנס",
+      "GO_TO_TEAM_REPORTS": "עבור לדוחות צוותים",
+      "GO_TO_SETTINGS_AGENTS": "עבור להגדרות סוכן",
+      "GO_TO_SETTINGS_TEAMS": "עבור להגדרות צוות",
+      "GO_TO_SETTINGS_INBOXES": "עבור להגדרות תיבת הדואר הנכנס",
+      "GO_TO_SETTINGS_LABELS": "עבור להגדרות תווית",
+      "GO_TO_SETTINGS_CANNED_RESPONSES": "עבור להגדרות תגובה מוכנות",
+      "GO_TO_SETTINGS_APPLICATIONS": "עבור להגדרות אפליקציה",
+      "GO_TO_SETTINGS_ACCOUNT": "עבור להגדרות חשבון",
+      "GO_TO_SETTINGS_PROFILE": "עבור להגדרות פרופיל",
+      "GO_TO_NOTIFICATIONS": "עבור להודעות",
+      "ADD_LABELS_TO_CONVERSATION": "הוסף תווית לשיחה",
+      "ASSIGN_AN_AGENT": "הקצה סוכן",
+      "AI_ASSIST": "סיוע AI",
+      "ASSIGN_PRIORITY": "הקצה עדיפות",
+      "ASSIGN_A_TEAM": "הקצה צוות",
+      "MUTE_CONVERSATION": "שיחה אילמת",
+      "UNMUTE_CONVERSATION": "בטל השתקת שיחה",
+      "REMOVE_LABEL_FROM_CONVERSATION": "הסר תווית מהשיחה",
+      "REOPEN_CONVERSATION": "פתח מחדש את השיחה",
+      "RESOLVE_CONVERSATION": "פתור את השיחה",
+      "SEND_TRANSCRIPT": "שלח תמליל דוא\"ל",
+      "SNOOZE_CONVERSATION": "נודניק שיחה",
+      "UNTIL_NEXT_REPLY": "עד לתשובה הבאה",
+      "UNTIL_NEXT_WEEK": "עד שבוע הבא",
+      "UNTIL_TOMORROW": "עד מחר",
+      "UNTIL_NEXT_MONTH": "עד החודש הבא",
+      "AN_HOUR_FROM_NOW": "עד שעה מעכשיו",
+      "UNTIL_CUSTOM_TIME": "מותאם אישית...",
+      "CHANGE_APPEARANCE": "שנה מראה",
+      "LIGHT_MODE": "בהיר",
+      "DARK_MODE": "כהה",
+      "SYSTEM_MODE": "מערכת",
+      "SNOOZE_NOTIFICATION": "השבת התראה זמנית"
+    }
+  },
+  "DASHBOARD_APPS": {
+    "LOADING_MESSAGE": "טוען אפליקציית Dashboard..."
+  },
+  "COMMON": {
+    "OR": "או",
+    "CLICK_HERE": "לחץ כאן"
+  }
+}

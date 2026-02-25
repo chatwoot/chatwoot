@@ -1,0 +1,436 @@
+#Files in the config/locales directory are used for internationalization
+#and are automatically loaded by Rails. If you want to use locales other
+#than English, add the necessary files in this directory.
+#To use the locales, use `I18n.t`:
+#I18n.t 'hello'
+#In views, this is aliased to just `t`:
+#<%= t('hello') %>
+#To use a different locale, set it with `I18n.locale`:
+#I18n.locale = :es
+#This would use the information in config/locales/es.yml.
+#The following keys must be escaped otherwise they will not be retrieved by
+#the default I18n backend:
+#true, false, on, off, yes, no
+#Instead, surround them with single quotes.
+#en:
+#'true': 'foo'
+#To learn more, please read the Rails Internationalization guide
+#available at https://guides.rubyonrails.org/i18n.html.
+zh_CN:
+  hello: '您好世界'
+  inbox:
+    reauthorization:
+      success: 'Channel reauthorized successfully'
+      not_required: 'Reauthorization is not required for this inbox'
+      invalid_channel: 'Invalid channel type for reauthorization'
+  auth:
+    saml:
+      invalid_email: '请输入一个有效的电子邮件'
+      authentication_failed: 'Authentication failed. Please check your credentials and try again.'
+  messages:
+    reset_password_success: 哇！密码重置请求成功。请检查您的邮件获取说明。
+    reset_password_failure: 哎呀！我们找不到指定电子邮件的任何用户。
+    reset_password_saml_user: This account uses SAML authentication. Password reset is not available. Please contact your administrator.
+    login_saml_user: This account uses SAML authentication. Please sign in through your organization's SAML provider.
+    saml_not_available: SAML authentication is not available in this installation.
+    inbox_deletetion_response: 您的收件箱删除请求将在一段时间内处理。
+  errors:
+    validations:
+      presence: 不能为空
+    webhook:
+      invalid: 无效的事件
+    signup:
+      disposable_email: 我们不允许可用的电子邮件
+      blocked_domain: 该域名不被允许。如果您认为这是一个错误，请联系支持团队。
+      invalid_email: 您输入了一个无效的电子邮件
+      email_already_exists: '您已经注册了 %{email} 的帐户'
+      invalid_params: '无效，请检查注册参数并重试'
+      failed: 注册失败
+    assignment_policy:
+      not_found: Assignment policy not found
+    attachments:
+      invalid: Invalid attachment
+    saml:
+      feature_not_enabled: SAML feature not enabled for this account
+      sso_not_enabled: SAML SSO is not enabled for this installation
+    data_import:
+      data_type:
+        invalid: 错误的数据类型
+    contacts:
+      import:
+        failed: 文件为空
+      export:
+        success: 联系人导出文件完成后我们会通知您。
+      email:
+        invalid: 无效的电子邮件
+      phone_number:
+        invalid: 应该是e164格式
+    companies:
+      domain:
+        invalid: must be a valid domain name
+      search:
+        query_missing: Specify search string with parameter q
+    messages:
+      search:
+        time_range_limit_exceeded: 'Search is limited to the last %{days} days'
+    categories:
+      locale:
+        unique: 在类别和门户中应该是唯一的
+    dyte:
+      invalid_message_type: '无效的消息类型。不允许操作'
+    slack:
+      invalid_channel_id: '无效的Slack频道。请重试'
+    whatsapp:
+      token_exchange_failed: 'Failed to exchange code for access token. Please try again.'
+      invalid_token_permissions: 'The access token does not have the required permissions for WhatsApp.'
+      phone_info_fetch_failed: 'Failed to fetch phone number information. Please try again.'
+      phone_number_already_exists: 'Channel already exists for this phone number: %{phone_number}, please contact support if the error persists'
+      reauthorization:
+        generic: 'Failed to reauthorize WhatsApp. Please try again.'
+        not_supported: 'Reauthorization is not supported for this type of WhatsApp channel.'
+    inboxes:
+      imap:
+        socket_error: 请检查网络连接，IMAP地址，然后再试一次。
+        no_response_error: 请检查 IMAP 凭据，然后重试。
+        host_unreachable_error: 主机无法访问。请检查 IMAP 地址，然后重试。
+        connection_timed_out_error: 连接超时 %{address}:%{port}
+        connection_closed_error: 连接已关闭。
+      validations:
+        name: 不应该以符号开头或结尾，它不应该有 < > / \ @ 字符。
+    custom_filters:
+      number_of_records: 已达到上限。每个账户允许用户自定义过滤器的最大数目为1000个。
+      invalid_attribute: 无效的属性键 - [%{key}]。键应为 [%{allowed_keys}] 之一或帐户中定义的自定义属性。
+      invalid_operator: 无效的操作符。%{attribute_name} 允许的操作符为 [%{allowed_keys}]。
+      invalid_query_operator: 查询操作符必须为 "AND" 或 "OR"。
+      invalid_value: 无效的值。为 %{attribute_name} 提供的值无效
+    custom_attribute_definition:
+      key_conflict: 提供的键不允许使用，因为它可能与默认属性冲突。
+    mfa:
+      already_enabled: MFA 已启用
+      not_enabled: MFA is not enabled
+      invalid_code: Invalid verification code
+      invalid_backup_code: Invalid backup code
+      invalid_token: Invalid or expired MFA token
+      invalid_credentials: Invalid credentials or verification code
+      feature_unavailable: MFA feature is not available. Please configure encryption keys.
+    topup:
+      credits_required: Credits amount is required
+      invalid_credits: Invalid credits amount
+      invalid_option: Invalid topup option
+      plan_not_eligible: Top-ups are only available for paid plans. Please upgrade your plan first.
+      stripe_customer_not_configured: Stripe customer not configured
+      no_payment_method: No payment methods found. Please add a payment method before making a purchase.
+  profile:
+    mfa:
+      enabled: MFA enabled successfully
+      disabled: MFA disabled successfully
+    account_saml_settings:
+      invalid_certificate: must be a valid X.509 certificate in PEM format
+  reports:
+    period: 报告周期 %{since} 至 %{until}
+    utc_warning: 生成的报表在 UTC 时区
+    agent_csv:
+      agent_name: 客服名称
+      conversations_count: 分配的对话数量
+      avg_first_response_time: 平均首次响应时间
+      avg_resolution_time: 平均解决时间
+      resolution_count: 已解决的数量
+      avg_customer_waiting_time: 平均客户等待时间
+    inbox_csv:
+      inbox_name: 收件箱名称
+      inbox_type: 收件箱类型
+      conversations_count: 对话数量
+      avg_first_response_time: 平均首次响应时间
+      avg_resolution_time: 平均解决时间
+    label_csv:
+      label_title: 标签
+      conversations_count: 对话数量
+      avg_first_response_time: 平均首次响应时间
+      avg_resolution_time: 平均解决时间
+      avg_reply_time: Avg reply time
+      resolution_count: 已解决的数量
+    team_csv:
+      team_name: 团队名称
+      conversations_count: 对话数量
+      avg_first_response_time: 平均首次响应时间
+      avg_resolution_time: 平均解决时间
+      resolution_count: 已解决的数量
+      avg_customer_waiting_time: 平均客户等待时间
+    conversation_traffic_csv:
+      timezone: 时区
+    sla_csv:
+      conversation_id: 对话ID
+      sla_policy_breached: SLA 政策
+      assignee: 负责人
+      team: 团队
+      inbox: 收件箱
+      labels: 标签
+      conversation_link: 对话链接
+      breached_events: 违反的事件
+    default_group_by: 天
+    csat:
+      headers:
+        contact_name: 联系人名称
+        contact_email_address: 联系人邮箱地址
+        contact_phone_number: 联系人电话号码
+        link_to_the_conversation: 链接到会话
+        agent_name: 客服名称
+        rating: 评分
+        feedback: 意见反馈
+        recorded_at: 录制日期
+  notifications:
+    notification_title:
+      conversation_creation: '在 %{inbox_name} 中创建了一个对话 (#%{display_id})'
+      conversation_assignment: '对话 (#%{display_id}) 已分配给您'
+      assigned_conversation_new_message: '在对话 (#%{display_id}) 中创建了一条新消息'
+      conversation_mention: '您在对话 (#%{display_id}) 中被提及'
+      sla_missed_first_response: '对话 (#%{display_id}) 的首次响应 SLA 目标未达成'
+      sla_missed_next_response: '对话 (#%{display_id}) 的下次响应 SLA 目标未达成'
+      sla_missed_resolution: '对话 (#%{display_id}) 的解决 SLA 目标未达成'
+    attachment: '附件'
+    no_content: '无内容'
+  conversations:
+    captain:
+      handoff: '正在转接另一个客服以获得进一步协助。'
+    messages:
+      instagram_story_content: '%{story_sender} 会话中提到了你: '
+      instagram_deleted_story_content: 本信息不存在
+      instagram_shared_story_content: 'Shared story'
+      instagram_shared_post_content: 'Shared post'
+      deleted: 此消息已被删除
+      whatsapp:
+        list_button_label: 'Choose an item'
+      delivery_status:
+        error_code: '错误代码: %{error_code}'
+    activity:
+      captain:
+        resolved: '对话被系统标记为已解决, 原因是 %{user_name} 不活跃'
+        open: '对话被 %{user_name} 打开'
+      agent_bot:
+        error_moved_to_open: 'Conversation was marked open by system due to an error with the agent bot.'
+      status:
+        resolved: '对话被标记由 %{user_name} 解决'
+        contact_resolved: '对话被 %{contact_name} 重新打开'
+        open: '对话被 %{user_name} 重新打开'
+        pending: '对话被标记由 %{user_name} 待处理'
+        snoozed: '对话被 %{user_name} 暂停'
+        auto_resolved_days: '对话被系统标记为已解决, 原因是 %{count} 天不活跃'
+        auto_resolved_hours: '对话被系统标记为已解决, 原因是 %{count} 小时不活跃'
+        auto_resolved_minutes: '对话被系统标记为已解决, 原因是 %{count} 分钟不活跃'
+        system_auto_open: 由于收到新的消息，系统重新打开了对话。
+      priority:
+        added: '%{user_name} 将优先级设置为 %{new_priority}'
+        updated: '%{user_name} 将优先级从 %{old_priority} 更改为 %{new_priority}'
+        removed: '%{user_name} 取消了优先级'
+      assignee:
+        self_assigned: '%{user_name} 自行分配这次会话'
+        assigned: '由 %{assignee_name} 分配给 %{user_name}'
+        removed: '对话未被 %{user_name} 分配'
+      team:
+        assigned: '由 %{team_name} 分配给 %{user_name}'
+        assigned_with_assignee: '由 %{assignee_name} 分配给 %{team_name} 团队的 %{user_name}'
+        removed: '由 %{user_name} 从 %{team_name} 中取消分配'
+      labels:
+        added: '%{user_name} 添加 %{labels}'
+        removed: '%{user_name} 移除 %{labels}'
+      sla:
+        added: '%{user_name} 添加了 SLA 策略 %{sla_name}'
+        removed: '%{user_name} 移除了 SLA 策略 %{sla_name}'
+      linear:
+        issue_created: 'Linear issue %{issue_id} was created by %{user_name}'
+        issue_linked: 'Linear issue %{issue_id} was linked by %{user_name}'
+        issue_unlinked: 'Linear issue %{issue_id} was unlinked by %{user_name}'
+      csat:
+        not_sent_due_to_messaging_window: 'CSAT survey not sent due to outgoing message restrictions'
+      auto_resolve:
+        not_sent_due_to_messaging_window: 'Auto-resolve message not sent due to outgoing message restrictions'
+      muted: '%{user_name} 已将会话静音'
+      unmuted: '%{user_name} 已将会话取消静音'
+      auto_resolution_message: '由于对话长时间未活跃，已将其标记为已解决。如果您需要进一步帮助，请开始新的对话。'
+    templates:
+      greeting_message_body: '%{account_name} 通常在几小时内回复。'
+      ways_to_reach_you_message_body: '给团队一个联系您的方法。'
+      email_input_box_message_body: '通过电子邮件得到通知'
+      csat_input_message_body: '请为会话评分'
+    reply:
+      email:
+        header:
+          notifications: '消息通知'
+          from_with_name: '%{assignee_name} 来自 %{inbox_name} <%{from_email}>'
+          reply_with_name: '%{assignee_name} 来自 %{inbox_name} <reply+%{reply_email}>'
+          friendly_name: '%{sender_name} 来自 %{business_name} <%{from_email}>'
+          professional_name: '%{business_name} <%{from_email}>'
+      channel_email:
+        header:
+          reply_with_name: '%{assignee_name} 来自 %{inbox_name} <%{from_email}>'
+          reply_with_inbox_name: '%{inbox_name} <%{from_email}>'
+      email_subject: '此对话中的新消息'
+      transcript_subject: '会话记录'
+    survey:
+      response: '请为会话评分, %{link}'
+  contacts:
+    online:
+      delete: '%{contact_name} 在线, 请重试'
+  integration_apps:
+    #Note: webhooks and dashboard_apps don't need short_description as they use different modal components
+    dashboard_apps:
+      name: '仪表板应用'
+      description: '仪表板应用允许您创建和嵌入显示用户信息、订单或支付历史的应用程序，为您的客户支持代理提供更多上下文。'
+    dyte:
+      name: 'Dyte'
+      short_description: '直接从 Chatwoot 开始与客户的视频/语音通话。'
+      description: 'Dyte 是一个将音频和视频功能集成到您的应用程序中的产品。通过此集成，您的代理可以直接从 Chatwoot 开始与客户的视频/语音通话。'
+      meeting_name: '%{agent_name} 已开始会议'
+    slack:
+      name: 'Slack'
+      short_description: '在 Slack 直接接收通知和回复对话。'
+      description: "将 Chatwoot 与 Slack 集成，以保持团队的同步。此集成允许您接收新对话的通知并直接在 Slack 界面中响应它们。"
+    webhooks:
+      name: 'Webhooks'
+      description: 'Webhook 事件提供有关 Chatwoot 帐户中活动的实时更新。您可以订阅您喜欢的事件，Chatwoot 将向您发送带有更新的 HTTP 回调。'
+    dialogflow:
+      name: 'Dialogflow'
+      short_description: '构建聊天机器人来处理初步咨询，然后再转接给客服。'
+      description: '使用 Dialogflow 构建聊天机器人，并轻松将其集成到您的收件箱中。这些机器人可以在将查询转移给客户服务代理之前处理初始查询。'
+    google_translate:
+      name: 'Google 翻译'
+      short_description: '自动为客服翻译客户的消息。'
+      description: "集成 Google 翻译以帮助代理轻松翻译客户消息。此集成会自动检测语言并将其转换为代理或管理员的首选语言。"
+    openai:
+      name: 'OpenAI'
+      short_description: 'AI 驱动的答复建议、摘要和消息增强。'
+      description: '利用 OpenAI 的大型语言模型功能，例如回复建议、摘要、消息改写、拼写检查和标签分类。'
+    linear:
+      name: 'Linear'
+      short_description: '直接在会话中创建并关联 Linear 问题。'
+      description: '直接从对话窗口在 Linear 中创建问题。或者，链接现有的 Linear 问题以简化问题跟踪过程。'
+    notion:
+      name: 'Notion'
+      short_description: 'Integrate databases, documents and pages directly with Captain.'
+      description: 'Connect your Notion workspace to enable Captain to access and generate intelligent responses using content from your databases, documents, and pages to provide more contextual customer support.'
+    shopify:
+      name: 'Shopify'
+      short_description: '从您的 Shopify 商店访问订单详情和客户数据。'
+      description: 'Connect your Shopify store to access order details, customer information, and product data directly within your conversations and helps your support team provide faster, more contextual assistance to your customers.'
+    leadsquared:
+      name: 'LeadSquared'
+      short_description: '与 LeadSquared CRM 同步您的联系人和对话。'
+      description: '与 LeadSquared CRM 同步您的联系人和对话。 当添加新联系人时，这种集成会自动在潜在客户创建线索，并记录对话活动，为您的销售团队提供完整的上下文。'
+  captain:
+    copilot_message_required: 消息是必填项
+    copilot_error: '请为该收件箱连接一个助手以使用 Copilot'
+    copilot_limit: '您的 Copilot 积分已用完。您可以从计费部分购买更多积分。'
+    copilot:
+      using_tool: '使用工具 %{function_name}'
+      completed_tool_call: '%{function_name} 工具调用完成'
+      invalid_tool_call: '无效的工具调用'
+      tool_not_available: '工具不可用'
+    documents:
+      limit_exceeded: 'Document limit exceeded'
+      pdf_format_error: 'must be a PDF file'
+      pdf_size_error: 'must be less than 10MB'
+      pdf_upload_failed: 'Failed to upload PDF to OpenAI'
+      pdf_upload_success: 'PDF uploaded successfully with file_id: %{file_id}'
+      pdf_processing_failed: 'Failed to process PDF document %{document_id}: %{error}'
+      pdf_processing_success: 'Successfully processed PDF document %{document_id}'
+      faq_generation_complete: 'FAQ generation complete. Total FAQs created: %{count}'
+      using_paginated_faq: 'Using paginated FAQ generation for document %{document_id}'
+      using_standard_faq: 'Using standard FAQ generation for document %{document_id}'
+      response_creation_error: 'Error in creating response document: %{error}'
+      missing_openai_file_id: 'Document must have openai_file_id for paginated processing'
+      openai_api_error: 'OpenAI API Error: %{error}'
+      starting_paginated_faq: 'Starting paginated FAQ generation (%{pages_per_chunk} pages per chunk)'
+      stopping_faq_generation: 'Stopping processing. Reason: %{reason}'
+      paginated_faq_complete: 'Paginated generation complete. Total FAQs: %{total_faqs}, Pages processed: %{pages_processed}'
+      processing_pages: 'Processing pages %{start}-%{end} (iteration %{iteration})'
+      chunk_generated: 'Chunk generated %{chunk_faqs} FAQs. Total so far: %{total_faqs}'
+      page_processing_error: 'Error processing pages %{start}-%{end}: %{error}'
+    custom_tool:
+      slug_generation_failed: 'Unable to generate unique slug after 5 attempts'
+  public_portal:
+    search:
+      search_placeholder: 搜索文章的标题或正文...
+      empty_placeholder: 未找到结果。
+      loading_placeholder: 搜索中...
+      results_title: 搜索结果
+    toc_header: '在此页面'
+    hero:
+      sub_title: 在这里搜索文章或浏览下面的分类
+    common:
+      home: 首页
+      last_updated_on: 最近更新时间为 %{last_updated_on}
+      view_all_articles: 查看全部
+      article: 文章
+      articles: 文章
+      author: 作者
+      authors: 作者
+      other: 其他
+      others: 其他
+      by: 作者：
+      no_articles: 没有文章在这里
+    footer:
+      made_with: 制作于
+    header:
+      go_to_homepage: 网站
+      visit_website: Visit website
+      appearance:
+        system: 系统
+        light: 浅色
+        dark: 暗色
+      featured_articles: 精选文章
+      uncategorized: 未分类
+    404:
+      title: 页面不存在
+      description: 我们找不到您想要的页面。
+      back_to_home: 前往主页
+  slack_unfurl:
+    fields:
+      name: 姓名：
+      email: 电子邮件
+      phone_number: 手机号码
+      company_name: 公司
+      inbox_name: 收件箱
+      inbox_type: 收件箱类型
+    button: 重新打开会话
+  time_units:
+    days:
+      other: '%{count} 天'
+    hours:
+      other: '%{count} 小时'
+    minutes:
+      other: '%{count} 分钟'
+    seconds:
+      other: '%{count} 秒'
+  automation:
+    system_name: '自动化系统'
+  crm:
+    no_message: '对话中没有消息'
+    attachment: '[附件：%{type}]'
+    no_content: '[无内容]'
+    created_activity: |
+      %{brand_name} 的新对话
+
+      通道：%{channel_info}
+      创建于：%{formatted_creation_time}
+      对话 ID：%{display_id}
+      在 %{brand_name} 中查看：%{url}
+    transcript_activity: |
+      来自 %{brand_name} 的对话副本
+
+      通道：%{channel_info}
+      对话 ID：%{display_id}
+      在 %{brand_name} 中查看：%{url}
+
+      副本：
+      %{format_messages}
+  agent_capacity_policy:
+    inbox_already_assigned: 'Inbox has already been assigned to this policy'
+  portals:
+    send_instructions:
+      email_required: 'Email 是必填项'
+      invalid_email_format: 'Invalid email format'
+      custom_domain_not_configured: 'Custom domain is not configured'
+      instructions_sent_successfully: 'Instructions sent successfully'
+      subject: 'Finish setting up %{custom_domain}'
+    ssl_status:
+      custom_domain_not_configured: 'Custom domain is not configured'

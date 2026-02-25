@@ -1,0 +1,85 @@
+{
+  "LABEL_MGMT": {
+    "HEADER": "Etiketler",
+    "HEADER_BTN_TXT": "Etiket ekleyin",
+    "LOADING": "Etiketler getiriliyor",
+    "DESCRIPTION": "Etiketler, konuşmaları ve potansiyel müşterileri kategorize etmenize ve önceliklendirmenize yardımcı olur. Yan paneli kullanarak bir konuşmaya veya kişiye etiket atayabilirsiniz.",
+    "LEARN_MORE": "Learn more about labels",
+    "SEARCH_404": "Bu sorgu ile eşleşen öğe yok",
+    "LIST": {
+      "404": "Bu hesapta mevcut etiket yok.",
+      "TITLE": "Etiketleri yönet",
+      "DESC": "Etiketler, konuşmaları birlikte gruplamanıza olanak tanır.",
+      "TABLE_HEADER": {
+        "NAME": "İsim",
+        "DESCRIPTION": "Açıklama",
+        "COLOR": "Renk"
+      }
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "Etiket adı",
+        "PLACEHOLDER": "Etiket adı",
+        "REQUIRED_ERROR": "Etiket ismi gereklidir",
+        "MINIMUM_LENGTH_ERROR": "En az 2 karakter gereklidir",
+        "VALID_ERROR": "Sadece yazılar, numaralar, tire işareti ve alt çizgi kullanabilirsiniz"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Açıklama",
+        "PLACEHOLDER": "Etiket Açıklama"
+      },
+      "COLOR": {
+        "LABEL": "Renk"
+      },
+      "SHOW_ON_SIDEBAR": {
+        "LABEL": "Kenar çubuğunda etiketi göster"
+      },
+      "EDIT": "Düzenle",
+      "CREATE": "Yarat",
+      "DELETE": "Sil",
+      "CANCEL": "İptal Et"
+    },
+    "SUGGESTIONS": {
+      "TOOLTIP": {
+        "SINGLE_SUGGESTION": "Sohbete etiket ekleme",
+        "MULTIPLE_SUGGESTION": "Bu etiketi seçin",
+        "DESELECT": "Etiketin seçimini kaldır",
+        "DISMISS": "Öneriyi reddet"
+      },
+      "POWERED_BY": "Chatwoot AI",
+      "DISMISS": "Kapat",
+      "ADD_SELECTED_LABELS": "Seçili etiketleri ekle",
+      "ADD_SELECTED_LABEL": "Seçili etiketi ekle",
+      "ADD_ALL_LABELS": "Tüm etiketleri ekle",
+      "SUGGESTED_LABELS": "Suggested labels"
+    },
+    "ADD": {
+      "TITLE": "Etiket ekleyin",
+      "DESC": "Etiketler, konuşmaları birlikte gruplamanıza olanak tanır.",
+      "API": {
+        "SUCCESS_MESSAGE": "Etiket başarıyla eklendi",
+        "ERROR_MESSAGE": "Bir hata oluştu, lütfen tekrar deneyin"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Etiketi düzenleyin",
+      "API": {
+        "SUCCESS_MESSAGE": "Etiket başarıyla güncellendi",
+        "ERROR_MESSAGE": "Bir hata oluştu, lütfen tekrar deneyin"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Sil",
+      "API": {
+        "SUCCESS_MESSAGE": "Etiket başarıyla silindi",
+        "ERROR_MESSAGE": "Bir hata oluştu, lütfen tekrar deneyin"
+      },
+      "CONFIRM": {
+        "TITLE": "Silmeyi onayla",
+        "MESSAGE": "Silmek istediğinize emin misiniz ?",
+        "YES": "Evet, Sil ",
+        "NO": "Hayır, Tut"
+      }
+    }
+  }
+}

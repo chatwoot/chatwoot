@@ -1,0 +1,23 @@
+tags:
+  - Teams
+operationId: list-all-teams
+summary: List all teams
+security:
+  - userApiKey: []
+description: List all teams available in the current account
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          type: array
+          description: 'Array of teams'
+          items:
+            $ref: '#/components/schemas/team'
+  '401':
+    description: Unauthorized
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

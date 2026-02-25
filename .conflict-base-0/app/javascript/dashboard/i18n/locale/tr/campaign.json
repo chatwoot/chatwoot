@@ -1,0 +1,214 @@
+{
+  "CAMPAIGN": {
+    "LIVE_CHAT": {
+      "HEADER_TITLE": "Canlı sohbet kampanyaları",
+      "NEW_CAMPAIGN": "Kampanya Oluştur",
+      "CARD": {
+        "STATUS": {
+          "ENABLED": "Etkin",
+          "DISABLED": "Devre dışı"
+        },
+        "CAMPAIGN_DETAILS": {
+          "SENT_BY": "Gönderen",
+          "BOT": "Bot",
+          "FROM": "dan",
+          "URL": "URL:"
+        }
+      },
+      "EMPTY_STATE": {
+        "TITLE": "Canlı sohbet kampanyası mevcut değil",
+        "SUBTITLE": "Proaktif mesajlar kullanarak müşterilerinizle iletişim kurun. Başlamak için 'Kampanya Oluştur' butonuna tıklayın."
+      },
+      "CREATE": {
+        "TITLE": "Canlı sohbet kampanyası oluşturun",
+        "CANCEL_BUTTON_TEXT": "İptal Et",
+        "CREATE_BUTTON_TEXT": "Yarat",
+        "FORM": {
+          "TITLE": {
+            "LABEL": "Başlık",
+            "PLACEHOLDER": "Lütfen kampanya başlığını giriniz",
+            "ERROR": "Başlık gerekli"
+          },
+          "MESSAGE": {
+            "LABEL": "Mesaj",
+            "PLACEHOLDER": "Lütfen kampanya mesajı giriniz",
+            "ERROR": "Mesaj gerekli"
+          },
+          "INBOX": {
+            "LABEL": "Gelen Kutu Seç",
+            "PLACEHOLDER": "Gelen Kutu Seç",
+            "ERROR": "Gelen kutusu seçimi gerekli"
+          },
+          "SENT_BY": {
+            "LABEL": "Tarafından gönderildi",
+            "PLACEHOLDER": "Lütfen göndereni seçin",
+            "ERROR": "Gönderen bilgisi gerekli"
+          },
+          "END_POINT": {
+            "LABEL": "URL",
+            "PLACEHOLDER": "Lütfen URL giriniz",
+            "ERROR": "Lütfen geçerli bir adres girin"
+          },
+          "TIME_ON_PAGE": {
+            "LABEL": "Yayım süresi(saniye)",
+            "PLACEHOLDER": "Lütfen saat seçiniz",
+            "ERROR": "Yayın süresi seçiniz"
+          },
+          "OTHER_PREFERENCES": {
+            "TITLE": "Diğer tercihler",
+            "ENABLED": "Kampanyayı başlat",
+            "TRIGGER_ONLY_BUSINESS_HOURS": "Sadece çalışma saatleri içerisinde tetikle"
+          },
+          "BUTTONS": {
+            "CREATE": "Oluştur",
+            "CANCEL": "İptal Et"
+          },
+          "API": {
+            "SUCCESS_MESSAGE": "Canlı sohbet kampanyası başarıyla oluşturuldu",
+            "ERROR_MESSAGE": "Bir hata oluştu, lütfen tekrar deneyin."
+          }
+        }
+      },
+      "EDIT": {
+        "TITLE": "Canlı sohbet kampanyasını düzenle",
+        "FORM": {
+          "API": {
+            "SUCCESS_MESSAGE": "Canlı sohbet kampanyası başarıyla güncellendi",
+            "ERROR_MESSAGE": "Bir hata oluştu, lütfen tekrar deneyin."
+          }
+        }
+      }
+    },
+    "SMS": {
+      "HEADER_TITLE": "SMS campaigns",
+      "NEW_CAMPAIGN": "Kampanya oluştur",
+      "EMPTY_STATE": {
+        "TITLE": "No SMS campaigns are available",
+        "SUBTITLE": "Launch an SMS campaign to reach your customers directly. Send offers or make announcements with ease. Click 'Create campaign' to get started."
+      },
+      "CARD": {
+        "STATUS": {
+          "COMPLETED": "Tamamlandı",
+          "SCHEDULED": "Planlanmış"
+        },
+        "CAMPAIGN_DETAILS": {
+          "SENT_FROM": "Sent from",
+          "ON": "on"
+        }
+      },
+      "CREATE": {
+        "TITLE": "Create SMS campaign",
+        "CANCEL_BUTTON_TEXT": "İptal Et",
+        "CREATE_BUTTON_TEXT": "Oluştur",
+        "FORM": {
+          "TITLE": {
+            "LABEL": "Başlık",
+            "PLACEHOLDER": "Lütfen kampanya başlığını giriniz",
+            "ERROR": "Başlık gerekli"
+          },
+          "MESSAGE": {
+            "LABEL": "Mesaj",
+            "PLACEHOLDER": "Lütfen kampanya mesajı giriniz",
+            "ERROR": "Mesaj gerekli"
+          },
+          "INBOX": {
+            "LABEL": "Gelen Kutu Seç",
+            "PLACEHOLDER": "Gelen Kutu Seç",
+            "ERROR": "Gelen kutusu seçimi gerekli"
+          },
+          "AUDIENCE": {
+            "LABEL": "Kitle",
+            "PLACEHOLDER": "Müşteri etiketlerini seçin",
+            "ERROR": "Kitle seçimi gerekli"
+          },
+          "SCHEDULED_AT": {
+            "LABEL": "Planlanan zaman",
+            "PLACEHOLDER": "Lütfen saati seçiniz",
+            "ERROR": "Planlanan zaman seçimi gerekli"
+          },
+          "BUTTONS": {
+            "CREATE": "Oluştur",
+            "CANCEL": "İptal Et"
+          },
+          "API": {
+            "SUCCESS_MESSAGE": "SMS kampanyası başarıyla oluşturuldu",
+            "ERROR_MESSAGE": "Bir hata oluştu, lütfen tekrar deneyin."
+          }
+        }
+      }
+    },
+    "WHATSAPP": {
+      "HEADER_TITLE": "WhatsApp campaigns",
+      "NEW_CAMPAIGN": "Kampanya Oluştur",
+      "EMPTY_STATE": {
+        "TITLE": "No WhatsApp campaigns are available",
+        "SUBTITLE": "Launch a WhatsApp campaign to reach your customers directly. Send offers or make announcements with ease. Click 'Create campaign' to get started."
+      },
+      "CARD": {
+        "STATUS": {
+          "COMPLETED": "Tamamlandı",
+          "SCHEDULED": "Planlanmış"
+        },
+        "CAMPAIGN_DETAILS": {
+          "SENT_FROM": "Sent from",
+          "ON": "on"
+        }
+      },
+      "CREATE": {
+        "TITLE": "Create WhatsApp campaign",
+        "CANCEL_BUTTON_TEXT": "İptal Et",
+        "CREATE_BUTTON_TEXT": "Yarat",
+        "FORM": {
+          "TITLE": {
+            "LABEL": "Başlık",
+            "PLACEHOLDER": "Lütfen kampanya başlığını giriniz",
+            "ERROR": "Başlık gerekli"
+          },
+          "INBOX": {
+            "LABEL": "Gelen Kutu Seç",
+            "PLACEHOLDER": "Gelen Kutu Seç",
+            "ERROR": "Gelen kutusu seçimi gerekli"
+          },
+          "TEMPLATE": {
+            "LABEL": "WhatsApp Template",
+            "PLACEHOLDER": "Şablon seçin",
+            "INFO": "Bu kampanya için kullanılacak şablonu seçin.",
+            "ERROR": "Template is required",
+            "PREVIEW_TITLE": "{templateName} işleniyor",
+            "LANGUAGE": "Dil",
+            "CATEGORY": "Kategori",
+            "VARIABLES_LABEL": "Değişkenler",
+            "VARIABLE_PLACEHOLDER": "Enter value for {variable}"
+          },
+          "AUDIENCE": {
+            "LABEL": "Kitle",
+            "PLACEHOLDER": "Müşteri etiketlerini seçin",
+            "ERROR": "Kitle seçimi gerekli"
+          },
+          "SCHEDULED_AT": {
+            "LABEL": "Planlanan zaman",
+            "PLACEHOLDER": "Lütfen saati seçiniz",
+            "ERROR": "Planlanan zaman seçimi gerekli"
+          },
+          "BUTTONS": {
+            "CREATE": "Oluştur",
+            "CANCEL": "İptal Et"
+          },
+          "API": {
+            "SUCCESS_MESSAGE": "WhatsApp campaign created successfully",
+            "ERROR_MESSAGE": "Bir hata oluştu, lütfen tekrar deneyin."
+          }
+        }
+      }
+    },
+    "CONFIRM_DELETE": {
+      "TITLE": "Silmek istediğinizden emin misiniz?",
+      "DESCRIPTION": "Silme işlemi kalıcıdır ve geri alınamaz.",
+      "CONFIRM": "Sil",
+      "API": {
+        "SUCCESS_MESSAGE": "Kampanya başarıyla silindi",
+        "ERROR_MESSAGE": "Bir hata oluştu, lütfen tekrar deneyin."
+      }
+    }
+  }
+}

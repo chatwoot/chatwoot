@@ -1,0 +1,448 @@
+#Files in the config/locales directory are used for internationalization
+#and are automatically loaded by Rails. If you want to use locales other
+#than English, add the necessary files in this directory.
+#To use the locales, use `I18n.t`:
+#I18n.t 'hello'
+#In views, this is aliased to just `t`:
+#<%= t('hello') %>
+#To use a different locale, set it with `I18n.locale`:
+#I18n.locale = :es
+#This would use the information in config/locales/es.yml.
+#The following keys must be escaped otherwise they will not be retrieved by
+#the default I18n backend:
+#true, false, on, off, yes, no
+#Instead, surround them with single quotes.
+#en:
+#'true': 'foo'
+#To learn more, please read the Rails Internationalization guide
+#available at https://guides.rubyonrails.org/i18n.html.
+he:
+  hello: 'שלום עולם'
+  inbox:
+    reauthorization:
+      success: 'הערוץ אושר מחדש בהצלחה'
+      not_required: 'אישור מחדש אינו נדרש עבור תיבת דואר נכנס זו'
+      invalid_channel: 'סוג ערוץ לא חוקי לאישור מחדש'
+  auth:
+    saml:
+      invalid_email: 'נא הכנס כתובת דוא"ל תקינה'
+      authentication_failed: 'האימות נכשל. אנא בדוק את פרטי ההתחברות שלך ונסה שוב.'
+  messages:
+    reset_password_success: וואו! הבקשה לאיפוס סיסמה בוצעה בהצלחה. בדוק את תיבת הדואר שלך להוראות.
+    reset_password_failure: אוי! לא מצאנו משתמש עם כתובת הדוא"ל שצוינה.
+    reset_password_saml_user: חשבון זה משתמש באימות SAML. איפוס סיסמה אינו זמין. אנא צור קשר עם המנהל שלך.
+    login_saml_user: חשבון זה משתמש באימות SAML. אנא התחבר דרך ספק SAML של הארגון שלך.
+    saml_not_available: אימות SAML אינו זמין בהתקנה זו.
+    inbox_deletetion_response: בקשת מחיקת תיבת הדואר הנכנס שלך תעובד בקרוב.
+  errors:
+    validations:
+      presence: לא יכול להיות ריק
+    webhook:
+      invalid: אירועים לא חוקיים
+    signup:
+      disposable_email: אנו לא מאפשרים דוא"ל חד-פעמי
+      blocked_domain: דומיין זה אינו מותר. אם אתה חושב שזו טעות, אנא צור קשר עם התמיכה.
+      invalid_email: הכנסת דוא"ל לא תקין
+      email_already_exists: 'כבר נרשמת לחשבון עם %{email}'
+      invalid_params: 'לא תקין, אנא בדוק את פרמטרי הרישום ונסה שוב'
+      failed: הרישמה נכשלה
+    assignment_policy:
+      not_found: מדיניות הקצאה לא נמצאה
+    attachments:
+      invalid: Invalid attachment
+    saml:
+      feature_not_enabled: תכונת SAML לא מופעלת עבור חשבון זה
+      sso_not_enabled: SAML SSO is not enabled for this installation
+    data_import:
+      data_type:
+        invalid: סוג נתונים לא חוקי
+    contacts:
+      import:
+        failed: הקובץ ריק
+      export:
+        success: נודיע לך ברגע שקובץ ייצוא אנשי הקשר יהיה מוכן לצפייה.
+      email:
+        invalid: דוא"ל לא תקין
+      phone_number:
+        invalid: צריך להיות בפורמט e164
+    companies:
+      domain:
+        invalid: חייב להיות שם דומיין תקין
+      search:
+        query_missing: Specify search string with parameter q
+    messages:
+      search:
+        time_range_limit_exceeded: 'Search is limited to the last %{days} days'
+    categories:
+      locale:
+        unique: צריך להיות ייחודי בקטגוריה ובפורטל
+    dyte:
+      invalid_message_type: 'סוג הודעה לא חוקי. פעולה אסורה'
+    slack:
+      invalid_channel_id: 'ערוץ Slack לא תקין. אנא נסה שוב'
+    whatsapp:
+      token_exchange_failed: 'החלפת קוד לאסימון גישה נכשלה. אנא נסה שוב.'
+      invalid_token_permissions: 'לאסימון הגישה אין את ההרשאות הנדרשות עבור WhatsApp.'
+      phone_info_fetch_failed: 'הבאת מידע מספר טלפון נכשלה. אנא נסה שוב.'
+      phone_number_already_exists: 'ערוץ כבר קיים עבור מספר טלפון זה: %{phone_number}, אנא צור קשר עם התמיכה אם השגיאה נמשכת'
+      reauthorization:
+        generic: 'אישור מחדש של WhatsApp נכשל. אנא נסה שוב.'
+        not_supported: 'אישור מחדש אינו נתמך עבור סוג ערוץ WhatsApp זה.'
+    inboxes:
+      imap:
+        socket_error: אנא בדוק את חיבור הרשת, כתובת ה-IMAP ונסה שוב.
+        no_response_error: אנא בדוק את פרטי ה-IMAP ונסה שוב.
+        host_unreachable_error: מארח לא נגיש, אנא בדוק את כתובת ה-IMAP, יציאת ה-IMAP ונסה שוב.
+        connection_timed_out_error: חיבור פג זמן עבור %{address}:%{port}
+        connection_closed_error: החיבור נסגר.
+      validations:
+        name: לא יכול להתחיל או להסתיים בסמלים, וזה לא צריך להכיל תווים < > / \ @
+    custom_filters:
+      number_of_records: הגעת למגבלה. המספר המקסימלי המותר של מסננים מותאמים אישית לכל משתמש בכל חשבון הוא 1000.
+      invalid_attribute: מפתח מאפיין לא תקין - [%{key}]. המפתח צריך להיות אחד מ-[%{allowed_keys}] או מאפיין מותאם אישית המוגדר בחשבון.
+      invalid_operator: אופרטור לא תקין. האופרטורים המותרים עבור %{attribute_name} הם [%{allowed_keys}].
+      invalid_query_operator: אופרטור שאילתה חייב להיות "AND" או "OR".
+      invalid_value: ערך לא תקין. הערכים שסופקו עבור %{attribute_name} אינם תקינים
+    custom_attribute_definition:
+      key_conflict: המפתח שסופק אינו מותר מכיוון שהוא עלול להתנגש עם מאפיינים ברירת מחדל.
+    mfa:
+      already_enabled: MFA כבר מופעל
+      not_enabled: MFA לא מופעל
+      invalid_code: קוד אימות לא תקין
+      invalid_backup_code: קוד גיבוי לא תקין
+      invalid_token: אסימון MFA לא תקין או שפג תוקפו
+      invalid_credentials: פרטי התחברות או קוד אימות לא תקינים
+      feature_unavailable: תכונת MFA אינה זמינה. אנא הגדר מפתחות הצפנה.
+    topup:
+      credits_required: Credits amount is required
+      invalid_credits: Invalid credits amount
+      invalid_option: Invalid topup option
+      plan_not_eligible: Top-ups are only available for paid plans. Please upgrade your plan first.
+      stripe_customer_not_configured: Stripe customer not configured
+      no_payment_method: No payment methods found. Please add a payment method before making a purchase.
+  profile:
+    mfa:
+      enabled: MFA הופעל בהצלחה
+      disabled: MFA בוטל בהצלחה
+    account_saml_settings:
+      invalid_certificate: חייב להיות תעודה X.509 תקינה בפורמט PEM
+  reports:
+    period: תקופת דיווח %{since} עד %{until}
+    utc_warning: הדוח שנוצר הוא באזור זמן UTC
+    agent_csv:
+      agent_name: שם סוכן
+      conversations_count: שיחות שהוקצו
+      avg_first_response_time: זמן תגובה ראשון ממוצע
+      avg_resolution_time: זמן פתרון ממוצע
+      resolution_count: ספירת פתרונות
+      avg_customer_waiting_time: זמן המתנה ממוצע של לקוח
+    inbox_csv:
+      inbox_name: שם תיבת דואר נכנס
+      inbox_type: סוג תיבת דואר נכנס
+      conversations_count: מספר שיחות
+      avg_first_response_time: זמן תגובה ראשון ממוצע
+      avg_resolution_time: זמן פתרון ממוצע
+    label_csv:
+      label_title: תווית
+      conversations_count: מספר שיחות
+      avg_first_response_time: זמן תגובה ראשון ממוצע
+      avg_resolution_time: זמן פתרון ממוצע
+      avg_reply_time: זמן מענה ממוצע
+      resolution_count: ספירת פתרונות
+    team_csv:
+      team_name: שם צוות
+      conversations_count: ספירת שיחות
+      avg_first_response_time: זמן תגובה ראשון ממוצע
+      avg_resolution_time: זמן פתרון ממוצע
+      resolution_count: ספירת פתרונות
+      avg_customer_waiting_time: זמן המתנה ממוצע של לקוח
+    conversation_traffic_csv:
+      timezone: אזור זמן
+    sla_csv:
+      conversation_id: מזהה שיחה
+      sla_policy_breached: מדיניות SLA הופרה
+      assignee: מוקצה
+      team: צוות
+      inbox: תיבת דואר נכנס
+      labels: תוויות
+      conversation_link: קישור לשיחה
+      breached_events: אירועים שהופרו
+    default_group_by: יום
+    csat:
+      headers:
+        contact_name: שם איש קשר
+        contact_email_address: כתובת דוא"ל של איש קשר
+        contact_phone_number: מספר טלפון של איש קשר
+        link_to_the_conversation: קישור לשיחה
+        agent_name: שם סוכן
+        rating: דירוג
+        feedback: הערת משוב
+        recorded_at: תאריך הקלטה
+  notifications:
+    notification_title:
+      conversation_creation: 'שיחה (#%{display_id}) נוצרה ב-%{inbox_name}'
+      conversation_assignment: 'שיחה (#%{display_id}) הוקצתה אליך'
+      assigned_conversation_new_message: 'הודעה חדשה נוצרה בשיחה (#%{display_id})'
+      conversation_mention: 'נזכרת בשיחה (#%{display_id})'
+      sla_missed_first_response: 'יעד SLA לתגובה ראשונה פוספס עבור שיחה (#%{display_id})'
+      sla_missed_next_response: 'יעד SLA לתגובה הבאה פוספס עבור שיחה (#%{display_id})'
+      sla_missed_resolution: 'יעד SLA לפתרון פוספס עבור שיחה (#%{display_id})'
+    attachment: 'קובץ מצורף'
+    no_content: 'אין תוכן'
+  conversations:
+    captain:
+      handoff: 'מעביר לסוכן אחר לעזרה נוספת.'
+    messages:
+      instagram_story_content: '%{story_sender} הזכיר אותך בסטורי: '
+      instagram_deleted_story_content: סטורי זה כבר לא זמין.
+      instagram_shared_story_content: 'Shared story'
+      instagram_shared_post_content: 'Shared post'
+      deleted: הודעה זו נמחקה
+      whatsapp:
+        list_button_label: 'בחר פריט'
+      delivery_status:
+        error_code: 'קוד שגיאה: %{error_code}'
+    activity:
+      captain:
+        resolved: 'השיחה סומנה כפתורה על ידי %{user_name} עקב חוסר פעילות'
+        open: 'השיחה סומנה כפתוחה על ידי %{user_name}'
+      agent_bot:
+        error_moved_to_open: 'השיחה סומנה כפתוחה על ידי המערכת עקב שגיאה בבוט הסוכן.'
+      status:
+        resolved: 'השיחה סומנה כפתורה על ידי %{user_name}'
+        contact_resolved: 'השיחה נפתרה על ידי %{contact_name}'
+        open: 'השיחה נפתחה מחדש על ידי %{user_name}'
+        pending: 'השיחה סומנה כממתינה על ידי %{user_name}'
+        snoozed: 'השיחה הושהתה על ידי %{user_name}'
+        auto_resolved_days: 'השיחה סומנה כפתורה על ידי המערכת עקב חוסר פעילות של %{count} ימים'
+        auto_resolved_hours: 'השיחה סומנה כפתורה על ידי המערכת עקב חוסר פעילות של %{count} שעות'
+        auto_resolved_minutes: 'השיחה סומנה כפתורה על ידי המערכת עקב חוסר פעילות של %{count} דקות'
+        system_auto_open: המערכת פתחה מחדש את השיחה עקב הודעה נכנסת חדשה.
+      priority:
+        added: '%{user_name} הגדיר את העדיפות ל-%{new_priority}'
+        updated: '%{user_name} שינה את העדיפות מ-%{old_priority} ל-%{new_priority}'
+        removed: '%{user_name} הסיר את העדיפות'
+      assignee:
+        self_assigned: '%{user_name} הקצה לעצמו את השיחה הזו'
+        assigned: 'הוקצה ל-%{assignee_name} על ידי %{user_name}'
+        removed: 'ביטול הקצאה של שיחה על ידי %{user_name}'
+      team:
+        assigned: 'הוקצה ל-%{team_name} על ידי %{user_name}'
+        assigned_with_assignee: 'הוקצה ל-%{assignee_name} דרך %{team_name} על ידי %{user_name}'
+        removed: 'לא הוקצה מ-%{team_name} על ידי %{user_name}'
+      labels:
+        added: '%{user_name} הוסיף %{labels}'
+        removed: '%{user_name} הסיר %{labels}'
+      sla:
+        added: '%{user_name} הוסיף מדיניות SLA %{sla_name}'
+        removed: '%{user_name} הסיר מדיניות SLA %{sla_name}'
+      linear:
+        issue_created: 'בעיית Linear %{issue_id} נוצרה על ידי %{user_name}'
+        issue_linked: 'בעיית Linear %{issue_id} קושרה על ידי %{user_name}'
+        issue_unlinked: 'בעיית Linear %{issue_id} נותקה על ידי %{user_name}'
+      csat:
+        not_sent_due_to_messaging_window: 'סקר CSAT לא נשלח עקב הגבלות הודעות יוצאות'
+      auto_resolve:
+        not_sent_due_to_messaging_window: 'הודעת פתרון אוטומטי לא נשלחה עקב הגבלות הודעות יוצאות'
+      muted: '%{user_name} השתיק את השיחה'
+      unmuted: '%{user_name} ביטל השתקה של השיחה'
+      auto_resolution_message: 'פותר את השיחה מכיוון שהיא הייתה לא פעילה במשך זמן מה. אנא התחל שיחה חדשה אם אתה צריך עזרה נוספת.'
+    templates:
+      greeting_message_body: '%{account_name} בדרך כלל מגיב תוך כמה שעות.'
+      ways_to_reach_you_message_body: 'תן לצוות דרך להגיע אליך.'
+      email_input_box_message_body: 'קבל התראות בדוא"ל'
+      csat_input_message_body: 'אנא דרג את השיחה'
+    reply:
+      email:
+        header:
+          notifications: 'התראות'
+          from_with_name: '%{assignee_name} מ-%{inbox_name} <%{from_email}>'
+          reply_with_name: '%{assignee_name} מ-%{inbox_name} <reply+%{reply_email}>'
+          friendly_name: '%{sender_name} מ-%{business_name} <%{from_email}>'
+          professional_name: '%{business_name} <%{from_email}>'
+      channel_email:
+        header:
+          reply_with_name: '%{assignee_name} מ-%{inbox_name} <%{from_email}>'
+          reply_with_inbox_name: '%{inbox_name} <%{from_email}>'
+      email_subject: 'הודעות חדשות בשיחה זו'
+      transcript_subject: 'תמלול שיחה'
+    survey:
+      response: 'אנא דרג שיחה זו, %{link}'
+  contacts:
+    online:
+      delete: '%{contact_name} מקוון, אנא נסה שוב מאוחר יותר'
+  integration_apps:
+    #Note: webhooks and dashboard_apps don't need short_description as they use different modal components
+    dashboard_apps:
+      name: 'אפליקציות לוח מחוונים'
+      description: 'אפליקציות לוח מחוונים מאפשרות לך ליצור ולהטמיע אפליקציות המציגות מידע משתמשים, הזמנות או היסטוריית תשלומים, ומספקות הקשר נוסף לסוכני שירות הלקוחות שלך.'
+    dyte:
+      name: 'Dyte'
+      short_description: 'התחל שיחות וידאו/שמע עם לקוחות ישירות מ-Chatwoot.'
+      description: 'Dyte הוא מוצר המשלב פונקציונליות אודיו ווידאו באפליקציה שלך. עם אינטגרציה זו, הסוכנים שלך יכולים להתחיל שיחות וידאו/שמע עם הלקוחות שלך ישירות מ-Chatwoot.'
+      meeting_name: '%{agent_name} התחיל פגישה'
+    slack:
+      name: 'Slack'
+      short_description: 'קבל התראות וענה על שיחות ישירות ב-Slack.'
+      description: "שלב את Chatwoot עם Slack כדי לשמור על הצוות שלך מסונכרן. אינטגרציה זו מאפשרת לך לקבל התראות על שיחות חדשות ולענות עליהן ישירות בממשק של Slack."
+    webhooks:
+      name: 'Webhooks'
+      description: 'אירועי Webhook מספקים עדכונים בזמן אמת על פעילויות בחשבון Chatwoot שלך. אתה יכול להירשם לאירועים המועדפים עליך, ו-Chatwoot ישלח לך קריאות חזרה של HTTP עם העדכונים.'
+    dialogflow:
+      name: 'Dialogflow'
+      short_description: 'בנה צאטבוטים לטיפול בשאלות ראשוניות לפני העברה לסוכנים.'
+      description: 'בנה צאטבוטים עם Dialogflow ושלב אותם בקלות בתיבת הדואר הנכנס שלך. בוטים אלה יכולים לטפל בשאלות ראשוניות לפני העברתן לסוכן שירות לקוחות.'
+    google_translate:
+      name: 'Google Translate'
+      short_description: 'תרגם אוטומטית הודעות לקוחות עבור סוכנים.'
+      description: "שלב את Google Translate כדי לעזור לסוכנים לתרגם בקלות הודעות לקוחות. אינטגרציה זו מזהה אוטומטית את השפה וממירה אותה לשפת העדפה של הסוכן או המנהל."
+    openai:
+      name: 'OpenAI'
+      short_description: 'הצעות מענה מופעלות AI, סיכום ושיפור הודעות.'
+      description: 'נצל את כוחם של מודלי שפה גדולים מ-OpenAI עם תכונות כגון הצעות מענה, סיכום, שכתוב הודעות, בדיקת איות וסיווג תוויות.'
+    linear:
+      name: 'Linear'
+      short_description: 'צור וקשר בעיות Linear ישירות משיחות.'
+      description: 'צור בעיות ב-Linear ישירות מחלון השיחה שלך. לחלופין, קשר בעיות Linear קיימות לתהליך מעקב בעיות יעיל וזורם יותר.'
+    notion:
+      name: 'Notion'
+      short_description: 'שלב מסדי נתונים, מסמכים ודפים ישירות עם Captain.'
+      description: 'חבר את סביבת העבודה שלך ב-Notion כדי לאפשר ל-Captain לגשת וליצור תגובות חכמות באמצעות תוכן ממסדי הנתונים, המסמכים והדפים שלך כדי לספק תמיכת לקוחות הקשרית יותר.'
+    shopify:
+      name: 'Shopify'
+      short_description: 'גש לפרטי הזמנות ונתוני לקוחות מחנות Shopify שלך.'
+      description: 'חבר את חנות Shopify שלך כדי לגשת לפרטי הזמנות, מידע לקוחות ונתוני מוצרים ישירות בתוך השיחות שלך ועוזר לצוות התמיכה שלך לספק עזרה מהירה והקשרית יותר ללקוחות שלך.'
+    leadsquared:
+      name: 'LeadSquared'
+      short_description: 'סנכרן את אנשי הקשר והשיחות שלך עם LeadSquared CRM.'
+      description: 'סנכרן את אנשי הקשר והשיחות שלך עם LeadSquared CRM. אינטגרציה זו יוצרת אוטומטית לידים ב-LeadSquared כאשר אנשי קשר חדשים מתווספים, ומתעדת פעילות שיחות כדי לספק לצוות המכירות שלך הקשר מלא.'
+  captain:
+    copilot_message_required: הודעה נדרשת
+    copilot_error: 'אנא חבר עוזר לתיבת דואר נכנס זו כדי להשתמש ב-Copilot'
+    copilot_limit: 'נגמרו לך זיכויי Copilot. אתה יכול לקנות זיכויים נוספים מסעיף החיובים.'
+    copilot:
+      using_tool: 'משתמש בכלי %{function_name}'
+      completed_tool_call: 'הושלם קריאת כלי %{function_name}'
+      invalid_tool_call: 'קריאת כלי לא תקינה'
+      tool_not_available: 'כלי לא זמין'
+    documents:
+      limit_exceeded: 'מגבלת מסמכים חרגה'
+      pdf_format_error: 'חייב להיות קובץ PDF'
+      pdf_size_error: 'חייב להיות קטן מ-10MB'
+      pdf_upload_failed: 'העלאת PDF ל-OpenAI נכשלה'
+      pdf_upload_success: 'PDF הועלה בהצלחה עם file_id: %{file_id}'
+      pdf_processing_failed: 'עיבוד מסמך PDF %{document_id} נכשל: %{error}'
+      pdf_processing_success: 'עיבוד מסמך PDF %{document_id} הצליח'
+      faq_generation_complete: 'יצירת FAQ הושלמה. סה"כ שאלות נפוצות שנוצרו: %{count}'
+      using_paginated_faq: 'משתמש ביצירת FAQ עם עימוד עבור מסמך %{document_id}'
+      using_standard_faq: 'משתמש ביצירת FAQ רגילה עבור מסמך %{document_id}'
+      response_creation_error: 'שגיאה ביצירת מסמך תגובה: %{error}'
+      missing_openai_file_id: 'למסמך חייב להיות openai_file_id לעיבוד עם עימוד'
+      openai_api_error: 'שגיאת OpenAI API: %{error}'
+      starting_paginated_faq: 'מתחיל יצירת FAQ עם עימוד (%{pages_per_chunk} עמודים לכל קטע)'
+      stopping_faq_generation: 'עוצר עיבוד. סיבה: %{reason}'
+      paginated_faq_complete: 'יצירה עם עימוד הושלמה. סה"כ שאלות נפוצות: %{total_faqs}, עמודים שעובדו: %{pages_processed}'
+      processing_pages: 'מעבד עמודים %{start}-%{end} (איטרציה %{iteration})'
+      chunk_generated: 'קטע נוצר %{chunk_faqs} שאלות נפוצות. סה"כ עד כה: %{total_faqs}'
+      page_processing_error: 'שגיאה בעיבוד עמודים %{start}-%{end}: %{error}'
+    custom_tool:
+      slug_generation_failed: 'לא ניתן ליצור slug ייחודי לאחר 5 ניסיונות'
+  public_portal:
+    search:
+      search_placeholder: חפש מאמר לפי כותרת או תוכן...
+      empty_placeholder: לא נמצאו תוצאות.
+      loading_placeholder: מחפש...
+      results_title: תוצאות חיפוש
+    toc_header: 'בעמוד זה'
+    hero:
+      sub_title: חפש את המאמרים כאן או עיין בקטגוריות למטה.
+    common:
+      home: בית
+      last_updated_on: עודכן לאחרונה ב-%{last_updated_on}
+      view_all_articles: הצג הכל
+      article: מאמר
+      articles: מאמרים
+      author: מחבר
+      authors: מחברים
+      other: אחר
+      others: אחרים
+      by: על ידי
+      no_articles: אין כאן מאמרים
+    footer:
+      made_with: נוצר עם
+    header:
+      go_to_homepage: אתר
+      visit_website: בקר באתר
+      appearance:
+        system: מערכת
+        light: בהיר
+        dark: כהה
+      featured_articles: מאמרים מוצעים
+      uncategorized: ללא קטגוריה
+    404:
+      title: דף לא נמצא
+      description: לא הצלחנו למצוא את הדף שחיפשת.
+      back_to_home: חזור לדף הבית
+  slack_unfurl:
+    fields:
+      name: שם
+      email: דוא"ל
+      phone_number: טלפון
+      company_name: חברה
+      inbox_name: תיבת דואר נכנס
+      inbox_type: סוג תיבת דואר נכנס
+    button: פתח שיחה
+  time_units:
+    days:
+      one: '%{count} day'
+      two: '%{count} days'
+      many: '%{count} days'
+      other: '%{count} days'
+    hours:
+      one: '%{count} hour'
+      two: '%{count} hours'
+      many: '%{count} hours'
+      other: '%{count} hours'
+    minutes:
+      one: '%{count} minute'
+      two: '%{count} minutes'
+      many: '%{count} minutes'
+      other: '%{count} minutes'
+    seconds:
+      one: '%{count} second'
+      two: '%{count} seconds'
+      many: '%{count} seconds'
+      other: '%{count} seconds'
+  automation:
+    system_name: 'מערכת אוטומציה'
+  crm:
+    no_message: 'אין הודעות בשיחה'
+    attachment: '[קובץ מצורף: %{type}]'
+    no_content: '[אין תוכן]'
+    created_activity: |
+      שיחה חדשה התחילה ב-%{brand_name}
+
+      ערוץ: %{channel_info}
+      נוצר: %{formatted_creation_time}
+      מזהה שיחה: %{display_id}
+      צפה ב-%{brand_name}: %{url}
+    transcript_activity: |
+      תמלול שיחה מ-%{brand_name}
+
+      ערוץ: %{channel_info}
+      מזהה שיחה: %{display_id}
+      צפה ב-%{brand_name}: %{url}
+
+      תמלול:
+      %{format_messages}
+  agent_capacity_policy:
+    inbox_already_assigned: 'תיבת דואר נכנס כבר הוקצתה למדיניות זו'
+  portals:
+    send_instructions:
+      email_required: 'דוא"ל נדרש'
+      invalid_email_format: 'פורמט דוא"ל לא תקין'
+      custom_domain_not_configured: 'דומיין מותאם אישית לא מוגדר'
+      instructions_sent_successfully: 'הוראות נשלחו בהצלחה'
+      subject: 'סיים להגדיר %{custom_domain}'
+    ssl_status:
+      custom_domain_not_configured: 'דומיין מותאם אישית לא מוגדר'

@@ -1,0 +1,119 @@
+{
+  "FILTER": {
+    "TITLE": "Filtrarea conversațiilor",
+    "SUBTITLE": "Add your filters below and hit 'Apply filters' to cut through the chat clutter.",
+    "EDIT_CUSTOM_FILTER": "Editare folder",
+    "CUSTOM_VIEWS_SUBTITLE": "Adaugă sau elimină filtrele și actualizează folderul.",
+    "ADD_NEW_FILTER": "Add filter",
+    "FILTER_DELETE_ERROR": "Oops, looks like we can't save nothing! Please add at least one filter to save it.",
+    "SUBMIT_BUTTON_LABEL": "Aplicarea filtrelor",
+    "UPDATE_BUTTON_LABEL": "Dosar actualizare",
+    "CANCEL_BUTTON_LABEL": "Renunță",
+    "CLEAR_BUTTON_LABEL": "Clear filters",
+    "FOLDER_LABEL": "Nume folder",
+    "FOLDER_QUERY_LABEL": "Interogare folder",
+    "EMPTY_VALUE_ERROR": "Este necesară o valoare validă.",
+    "TOOLTIP_LABEL": "Filtrarea conversațiilor",
+    "QUERY_DROPDOWN_LABELS": {
+      "AND": "ȘI",
+      "OR": "SAU"
+    },
+    "INPUT_PLACEHOLDER": "Enter value",
+    "OPERATOR_LABELS": {
+      "equal_to": "Egal cu",
+      "not_equal_to": "Nu este egal cu",
+      "does_not_contain": "Nu conține",
+      "is_present": "Este prezent",
+      "is_not_present": "Nu este prezent",
+      "is_greater_than": "Este mai mare decât",
+      "is_less_than": "Este mai mică decât",
+      "days_before": "Este x zile înainte",
+      "starts_with": "Începe cu",
+      "equalTo": "Egal cu",
+      "notEqualTo": "Nu este egal cu",
+      "contains": "Conține",
+      "doesNotContain": "Nu conține",
+      "isPresent": "Este prezent",
+      "isNotPresent": "Nu este prezent",
+      "isGreaterThan": "Este mai mare decât",
+      "isLessThan": "Este mai mică decât",
+      "daysBefore": "Este x zile înainte",
+      "startsWith": "Începe cu"
+    },
+    "ATTRIBUTE_LABELS": {
+      "TRUE": "Adevărat",
+      "FALSE": "Fals"
+    },
+    "ATTRIBUTES": {
+      "STATUS": "Status",
+      "ASSIGNEE_NAME": "Assignee name",
+      "INBOX_NAME": "Nume Inbox",
+      "TEAM_NAME": "Numele echipei",
+      "CONVERSATION_IDENTIFIER": "Conversation identifier",
+      "CAMPAIGN_NAME": "Campaign name",
+      "LABELS": "Etichete",
+      "BROWSER_LANGUAGE": "Browser language",
+      "PRIORITY": "Prioritate",
+      "COUNTRY_NAME": "Country name",
+      "REFERER_LINK": "Link referer",
+      "CUSTOM_ATTRIBUTE_LIST": "Listă",
+      "CUSTOM_ATTRIBUTE_TEXT": "Text",
+      "CUSTOM_ATTRIBUTE_NUMBER": "Număr",
+      "CUSTOM_ATTRIBUTE_LINK": "Legătură",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "Căsuță de bifat",
+      "CREATED_AT": "Creat la",
+      "LAST_ACTIVITY": "Ultima activitate"
+    },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Este necesară o valoare validă",
+      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
+      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998"
+    },
+    "GROUPS": {
+      "STANDARD_FILTERS": "Standard filters",
+      "ADDITIONAL_FILTERS": "Additional filters",
+      "CUSTOM_ATTRIBUTES": "Custom attributes"
+    },
+    "CUSTOM_VIEWS": {
+      "ADD": {
+        "TITLE": "Doriți să salvați acest filtru?",
+        "LABEL": "Denumiți acest filtru",
+        "PLACEHOLDER": "Name your filter to refer it later.",
+        "ERROR_MESSAGE": "Numele este obligatoriu.",
+        "SAVE_BUTTON": "Salvare filtru",
+        "CANCEL_BUTTON": "Renunță",
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "Folder creat cu succes.",
+          "ERROR_MESSAGE": "Eroare la crearea folderului."
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "Segment creat cu succes.",
+          "ERROR_MESSAGE": "Eroare la crearea segmentului."
+        }
+      },
+      "EDIT": {
+        "EDIT_BUTTON": "Editare folder"
+      },
+      "DELETE": {
+        "DELETE_BUTTON": "Ștergere filtru",
+        "MODAL": {
+          "CONFIRM": {
+            "TITLE": "Confirmă ștergerea",
+            "MESSAGE": "Sunteți sigur că ștergeți filtrul ",
+            "YES": "Yes, delete",
+            "NO": "Nu, păstreaza"
+          }
+        },
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "Folder șters cu succes.",
+          "ERROR_MESSAGE": "Eroare la ștergerea folderului."
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "Contact șters cu succes.",
+          "ERROR_MESSAGE": "Eroare la ștergerea segmentului."
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "INTEGRATION_APPS": {
+    "FETCHING": "Récupération des intégrations",
+    "NO_HOOK_CONFIGURED": "Aucune intégration {integrationId} n'est configurée dans ce compte.",
+    "HEADER": "Applications",
+    "STATUS": {
+      "ENABLED": "Activé",
+      "DISABLED": "Désactivé"
+    },
+    "CONFIGURE": "Configurer",
+    "ADD_BUTTON": "Ajouter un nouveau hook",
+    "DELETE": {
+      "TITLE": {
+        "INBOX": "Confirmer la suppression",
+        "ACCOUNT": "Déconnecter"
+      },
+      "MESSAGE": {
+        "INBOX": "Êtes-vous sûr de vouloir supprimer?",
+        "ACCOUNT": "Êtes-vous sûr de vouloir déconnecter?"
+      },
+      "CONFIRM_BUTTON_TEXT": {
+        "INBOX": "Oui, supprimer",
+        "ACCOUNT": "Oui, déconnecter"
+      },
+      "CANCEL_BUTTON_TEXT": "Annuler",
+      "API": {
+        "SUCCESS_MESSAGE": "Webhook supprimé avec succès",
+        "ERROR_MESSAGE": "Impossible de se connecter au serveur Woot, veuillez réessayer plus tard"
+      }
+    },
+    "LIST": {
+      "FETCHING": "Récupération des webhooks de l'intégration",
+      "INBOX": "Boîte de réception",
+      "DELETE": {
+        "BUTTON_TEXT": "Supprimer"
+      }
+    },
+    "ADD": {
+      "FORM": {
+        "INBOX": {
+          "LABEL": "Sélectionner la boîte de réception",
+          "PLACEHOLDER": "Sélectionner la boîte de réception"
+        },
+        "SUBMIT": "Créer",
+        "CANCEL": "Annuler"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Hook d'intégration ajouté avec succès",
+        "ERROR_MESSAGE": "Impossible de se connecter au serveur Woot, veuillez réessayer plus tard"
+      }
+    },
+    "CONNECT": {
+      "BUTTON_TEXT": "Connecter"
+    },
+    "DISCONNECT": {
+      "BUTTON_TEXT": "Déconnecter"
+    },
+    "SIDEBAR_DESCRIPTION": {
+      "DIALOGFLOW": "Dialogflow is a natural language processing platform for building conversational interfaces. Integrating it with {installationName} lets bots handle queries first and transfer them to agents when needed. It helps qualify leads and reduce agent workload by answering FAQs. To add Dialogflow, create a Service Account in Google Console and share the credentials. Refer to the docs for details"
+    }
+  }
+}

@@ -1,0 +1,153 @@
+{
+  "COMPONENTS": {
+    "FILE_BUBBLE": {
+      "DOWNLOAD": "BAIXAR",
+      "UPLOADING": "A carregar..."
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "submeter"
+    },
+    "MESSAGE_BUBBLE": {
+      "RETRY": "Enviar mensagem novamente",
+      "ERROR_MESSAGE": "Não foi possível enviar, tente novamente"
+    }
+  },
+  "THUMBNAIL": {
+    "AUTHOR": {
+      "NOT_AVAILABLE": "Not available"
+    }
+  },
+  "TEAM_AVAILABILITY": {
+    "ONLINE": "Estamos online",
+    "OFFLINE": "Estamos ausentes",
+    "BACK_AS_SOON_AS_POSSIBLE": "We will be back as soon as possible"
+  },
+  "REPLY_TIME": {
+    "IN_A_FEW_MINUTES": "Normalmente respondemos em poucos minutos",
+    "IN_A_FEW_HOURS": "Normalmente respondemos em poucas horas",
+    "IN_A_DAY": "Normalmente respondemos num dia",
+    "BACK_IN_HOURS": "We will be back online in {n} hour | We will be back online in {n} hours",
+    "BACK_IN_MINUTES": "We will be back online in {time} minutes",
+    "BACK_AT_TIME": "We will be back online at {time}",
+    "BACK_ON_DAY": "We will be back online on {day}",
+    "BACK_TOMORROW": "We will be back online tomorrow",
+    "BACK_IN_SOME_TIME": "We will be back online in some time"
+  },
+  "DAY_NAMES": {
+    "SUNDAY": "Domingo",
+    "MONDAY": "Segunda-feira",
+    "TUESDAY": "Terça-feira",
+    "WEDNESDAY": "Quarta-feira",
+    "THURSDAY": "Quinta-feira",
+    "FRIDAY": "Sexta-feira",
+    "SATURDAY": "Sábado"
+  },
+  "START_CONVERSATION": "Iniciar Conversa",
+  "END_CONVERSATION": "Terminar Conversa",
+  "CONTINUE_CONVERSATION": "Continuar conversa",
+  "YOU": "Você",
+  "START_NEW_CONVERSATION": "Iniciar uma nova conversa",
+  "VIEW_UNREAD_MESSAGES": "Tem mensagens por ler",
+  "UNREAD_VIEW": {
+    "VIEW_MESSAGES_BUTTON": "Ver novas mensagens",
+    "CLOSE_MESSAGES_BUTTON": "FECHAR",
+    "COMPANY_FROM": "de",
+    "BOT": "Bot"
+  },
+  "BUBBLE": {
+    "LABEL": "Fale connosco"
+  },
+  "POWERED_BY": "Desenvolvido por Chatwoot",
+  "EMAIL_PLACEHOLDER": "Por favor, digite seu e-mail",
+  "CHAT_PLACEHOLDER": "Escreva a sua mensagem",
+  "TODAY": "Hoje",
+  "YESTERDAY": "Ontem",
+  "PRE_CHAT_FORM": {
+    "FIELDS": {
+      "FULL_NAME": {
+        "LABEL": "Nome completo",
+        "PLACEHOLDER": "Por favor, digite o seu nome completo",
+        "REQUIRED_ERROR": "Nome completo é necessário"
+      },
+      "EMAIL_ADDRESS": {
+        "LABEL": "Endereço de e-mail",
+        "PLACEHOLDER": "Por favor, insira um endereço de email válido",
+        "REQUIRED_ERROR": "O endereço de email é obrigatório",
+        "VALID_ERROR": "Por favor, insira um endereço de e-mail válido"
+      },
+      "PHONE_NUMBER": {
+        "LABEL": "Número de telefone",
+        "PLACEHOLDER": "Por favor insira o seu número de telefone",
+        "REQUIRED_ERROR": "O número de telefone é obrigatório",
+        "DIAL_CODE_VALID_ERROR": "Por favor, selecione um código de país",
+        "VALID_ERROR": "Por favor, insira um número de telefone válido",
+        "DROPDOWN_EMPTY": "Nenhum resultado encontrado",
+        "DROPDOWN_SEARCH": "Search country"
+      },
+      "MESSAGE": {
+        "LABEL": "Messagem",
+        "PLACEHOLDER": "Por favor, escreva a sua mensagem",
+        "ERROR": "Mensagem muito pequena"
+      }
+    },
+    "CAMPAIGN_HEADER": "Por favor, forneça seu nome e e-mail antes de iniciar a conversa",
+    "IS_REQUIRED": "é obrigatório",
+    "REQUIRED": "Obrigatório",
+    "REGEX_ERROR": "Por favor, introduza um valor válido"
+  },
+  "FILE_SIZE_LIMIT": "O ficheiro ultrapassa o tamanho limite {MAXIMUM_FILE_UPLOAD_SIZE}",
+  "CHAT_FORM": {
+    "INVALID": {
+      "FIELD": "Campo inválido"
+    }
+  },
+  "EMOJI": {
+    "PLACEHOLDER": "Pesquisar emojis",
+    "NOT_FOUND": "Nenhum emoji corresponde à sua pesquisa",
+    "ARIA_LABEL": "Emoji picker"
+  },
+  "CSAT": {
+    "TITLE": "Avalie a sua conversa",
+    "SUBMITTED_TITLE": "Obrigado pela sua avaliação",
+    "PLACEHOLDER": "Conte-nos mais..."
+  },
+  "EMAIL_TRANSCRIPT": {
+    "BUTTON_TEXT": "Pedir a transcrição da conversa",
+    "SEND_EMAIL_SUCCESS": "A transcrição do chat foi enviada com sucesso",
+    "SEND_EMAIL_ERROR": "Ocorreu um erro, por favor tente novamente"
+  },
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Clique aqui para participar",
+      "LEAVE_THE_ROOM": "Sair da chamada"
+    }
+  },
+  "PORTAL": {
+    "POPULAR_ARTICLES": "Artigos Mais Populares",
+    "VIEW_ALL_ARTICLES": "Ver todos os artigos",
+    "IFRAME_LOAD_ERROR": "Ocorreu um erro ao carregar o artigo. Por favor, atualize a página e tente novamente."
+  },
+  "ATTACHMENTS": {
+    "image": {
+      "CONTENT": "Mensagem de imagem"
+    },
+    "audio": {
+      "CONTENT": "Mensagem de áudio"
+    },
+    "video": {
+      "CONTENT": "Mensagem de vídeo"
+    },
+    "file": {
+      "CONTENT": "Arquivo anexo"
+    },
+    "location": {
+      "CONTENT": "Local:"
+    },
+    "fallback": {
+      "CONTENT": "compartilhou uma url"
+    }
+  },
+  "FOOTER_REPLY_TO": {
+    "REPLY_TO": "Em resposta a:"
+  }
+}

@@ -1,0 +1,108 @@
+{
+  "SLA": {
+    "HEADER": "הסכמי רמת שירות (SLA)",
+    "ADD_ACTION": "הוסף SLA",
+    "ADD_ACTION_LONG": "צור מדיניות SLA חדשה",
+    "DESCRIPTION": "Service Level Agreements (SLAs) are contracts that define clear expectations between your team and customers. They establish standards for response and resolution times, creating a framework for accountability and ensures a consistent, high-quality experience.",
+    "LEARN_MORE": "למד עוד על SLA",
+    "LOADING": "מאחזר SLA",
+    "PAYWALL": {
+      "TITLE": "שדרג כדי ליצור SLA",
+      "AVAILABLE_ON": "תכונת SLA זמינה רק בתוכניות Business ו-Enterprise.",
+      "UPGRADE_PROMPT": "שדרג את התוכנית שלך כדי לקבל גישה לתכונות מתקדמות כמו ניהול צוות, אוטומציות, תכונות מותאמות אישית ועוד.",
+      "UPGRADE_NOW": "שדרג עכשיו",
+      "CANCEL_ANYTIME": "תוכל לשנות או לבטל את התוכנית שלך בכל עת"
+    },
+    "ENTERPRISE_PAYWALL": {
+      "AVAILABLE_ON": "תכונת SLA זמינה רק בתוכניות בתשלום.",
+      "UPGRADE_PROMPT": "שדרג לתוכנית בתשלום כדי לגשת לתכונות מתקדמות כמו יומני ביקורת, קיבולת סוכנים ועוד.",
+      "ASK_ADMIN": "אנא פנה למנהל המערכת שלך לצורך השדרוג."
+    },
+    "LIST": {
+      "404": "אין SLA זמין בחשבון זה.",
+      "EMPTY": {
+        "TITLE_1": "Enterprise P0",
+        "DESC_1": "בעיות שהועלו על ידי לקוחות Enterprise, הדורשות תשומת לב מיידית.",
+        "TITLE_2": "Enterprise P1",
+        "DESC_2": "בעיות שהועלו על ידי לקוחות Enterprise, שיש לאשר במהירות."
+      },
+      "BUSINESS_HOURS_ON": "שעות פעילות מופעלות",
+      "BUSINESS_HOURS_OFF": "שעות פעילות מושבתות",
+      "RESPONSE_TYPES": {
+        "FRT": "סף זמן תגובה ראשונה",
+        "NRT": "סף זמן תגובה הבאה",
+        "RT": "סף זמן סגירה",
+        "SHORT_HAND": {
+          "FRT": "FRT",
+          "NRT": "NRT",
+          "RT": "RT"
+        }
+      }
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "שם SLA",
+        "PLACEHOLDER": "שם SLA",
+        "REQUIRED_ERROR": "שם SLA נדרש",
+        "MINIMUM_LENGTH_ERROR": "נדרש אורך מינימלי 2",
+        "VALID_ERROR": "רק אלפבית, מספרים, מקף וקו תחתון מותרים"
+      },
+      "DESCRIPTION": {
+        "LABEL": "תיאור",
+        "PLACEHOLDER": "SLA עבור לקוחות פרימיום"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "LABEL": "זמן תגובה ראשון",
+        "PLACEHOLDER": "5"
+      },
+      "NEXT_RESPONSE_TIME": {
+        "LABEL": "זמן תגובה הבאה",
+        "PLACEHOLDER": "5"
+      },
+      "RESOLUTION_TIME": {
+        "LABEL": "זמן רזולוציה",
+        "PLACEHOLDER": "60"
+      },
+      "BUSINESS_HOURS": {
+        "LABEL": "שעות פעילות",
+        "PLACEHOLDER": "רק בשעות פעילות"
+      },
+      "THRESHOLD_TIME": {
+        "INVALID_FORMAT_ERROR": "הסף צריך להיות מספר וגדול מאפס"
+      },
+      "EDIT": "ערוך",
+      "CREATE": "צור",
+      "DELETE": "מחק",
+      "CANCEL": "ביטול"
+    },
+    "ADD": {
+      "TITLE": "הוסף SLA",
+      "DESC": "הבטחות ידידותיות לשירות נהדר!",
+      "API": {
+        "SUCCESS_MESSAGE": "SLA נוסף בהצלחה",
+        "ERROR_MESSAGE": "היתה שגיאה, בקשה נסה שוב"
+      }
+    },
+    "DELETE": {
+      "TITLE": "מחק SLA",
+      "API": {
+        "SUCCESS_MESSAGE": "SLA נמחק בהצלחה",
+        "ERROR_MESSAGE": "היתה שגיאה, בקשה נסה שוב"
+      },
+      "CONFIRM": {
+        "TITLE": "אשר מחיקה",
+        "MESSAGE": "האם אתה בטוח שברצונך למחוק ",
+        "YES": "כן, מחק ",
+        "NO": "לא, השאר "
+      }
+    },
+    "EVENTS": {
+      "TITLE": "החמצות SLA",
+      "FRT": "זמן תגובה ראשונה",
+      "NRT": "זמן תגובה הבאה",
+      "RT": "זמן סגירה",
+      "SHOW_MORE": "{count} נוספים",
+      "HIDE": "הסתר {count} שורות"
+    }
+  }
+}

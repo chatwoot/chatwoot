@@ -1,0 +1,47 @@
+{
+  "WHATSAPP_TEMPLATES": {
+    "MODAL": {
+      "TITLE": "قوالب الواتساب",
+      "SUBTITLE": "حدد القالب الذي تريد إرساله",
+      "TEMPLATE_SELECTED_SUBTITLE": "Configure template: {templateName}"
+    },
+    "PICKER": {
+      "SEARCH_PLACEHOLDER": "نماذج البحث",
+      "NO_TEMPLATES_FOUND": "لم يتم العثور على قوالب",
+      "HEADER": "Header",
+      "BODY": "Body",
+      "FOOTER": "Footer",
+      "BUTTONS": "Buttons",
+      "CATEGORY": "الفئة",
+      "MEDIA_CONTENT": "Media Content",
+      "MEDIA_CONTENT_FALLBACK": "media content",
+      "NO_TEMPLATES_AVAILABLE": "No WhatsApp templates available. Click refresh to sync templates from WhatsApp.",
+      "REFRESH_BUTTON": "Refresh templates",
+      "REFRESH_SUCCESS": "Templates refresh initiated. It may take a couple of minutes to update.",
+      "REFRESH_ERROR": "Failed to refresh templates. Please try again.",
+      "LABELS": {
+        "LANGUAGE": "اللغة",
+        "TEMPLATE_BODY": "نص القالب",
+        "CATEGORY": "الفئة"
+      }
+    },
+    "PARSER": {
+      "VARIABLES_LABEL": "المتغيرات",
+      "LANGUAGE": "اللغة",
+      "CATEGORY": "الفئة",
+      "VARIABLE_PLACEHOLDER": "أدخل قيمة {variable}",
+      "GO_BACK_LABEL": "العودة للخلف",
+      "SEND_MESSAGE_LABEL": "إرسال الرسالة",
+      "FORM_ERROR_MESSAGE": "يرجى ملء جميع المتغيرات قبل الإرسال",
+      "MEDIA_HEADER_LABEL": "{type} Header",
+      "OTP_CODE": "Enter 4-8 digit OTP",
+      "EXPIRY_MINUTES": "Enter expiry minutes",
+      "BUTTON_PARAMETERS": "Button Parameters",
+      "BUTTON_LABEL": "Button {index}",
+      "COUPON_CODE": "Enter coupon code (max 15 chars)",
+      "MEDIA_URL_LABEL": "Enter {type} URL",
+      "DOCUMENT_NAME_PLACEHOLDER": "Enter document filename (e.g., Invoice_2025.pdf)",
+      "BUTTON_PARAMETER": "Enter button parameter"
+    }
+  }
+}

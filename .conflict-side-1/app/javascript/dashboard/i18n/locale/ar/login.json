@@ -1,0 +1,41 @@
+{
+  "LOGIN": {
+    "TITLE": "تسجيل الدخول إلى Chatwoot",
+    "EMAIL": {
+      "LABEL": "البريد الإلكتروني",
+      "PLACEHOLDER": "example{'@'}companyname.com",
+      "ERROR": "الرجاء إدخال عنوان بريد إلكتروني صحيح"
+    },
+    "PASSWORD": {
+      "LABEL": "كلمة المرور",
+      "PLACEHOLDER": "كلمة المرور"
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "تم تسجيل الدخول بنجاح",
+      "ERROR_MESSAGE": "تعذر الاتصال بالخادم، الرجاء المحاولة مرة أخرى لاحقاً",
+      "UNAUTH": "اسم المستخدم / كلمة المرور غير صحيحة. الرجاء المحاولة مرة أخرى"
+    },
+    "OAUTH": {
+      "GOOGLE_LOGIN": "تسجيل الدخول بواسطة جوجل",
+      "BUSINESS_ACCOUNTS_ONLY": "الرجاء استخدام عنوان البريد الإلكتروني الخاص بشركتك لتسجيل الدخول",
+      "NO_ACCOUNT_FOUND": "لم نتمكن من العثور على حساب لعنوان البريد الإلكتروني الخاص بك."
+    },
+    "FORGOT_PASSWORD": "نسيت كلمة المرور؟",
+    "CREATE_NEW_ACCOUNT": "إنشاء حساب جديد",
+    "SUBMIT": "تسجيل الدخول",
+    "SAML": {
+      "LABEL": "Login via SSO",
+      "TITLE": "Initiate Single Sign-on (SSO)",
+      "SUBTITLE": "Enter your work email to access your organization",
+      "BACK_TO_LOGIN": "Login via Password",
+      "WORK_EMAIL": {
+        "LABEL": "Work Email",
+        "PLACEHOLDER": "Enter your work email"
+      },
+      "SUBMIT": "Continue with SSO",
+      "API": {
+        "ERROR_MESSAGE": "SSO authentication failed. Please check your credentials and try again."
+      }
+    }
+  }
+}

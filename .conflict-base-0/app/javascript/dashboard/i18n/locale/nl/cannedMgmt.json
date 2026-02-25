@@ -1,0 +1,77 @@
+{
+  "CANNED_MGMT": {
+    "HEADER": "Standaard antwoorden",
+    "LEARN_MORE": "Meer informatie over standaard antwoorden",
+    "DESCRIPTION": "Canned Responses are pre-written reply templates that help you quickly respond to a conversation. Agents can type the '/' character followed by the shortcode to insert a canned response during a conversation. ",
+    "HEADER_BTN_TXT": "Standaard antwoord toevoegen",
+    "LOADING": "Standaard antwoorden ophalen...",
+    "SEARCH_404": "Er zijn geen items die overeenkomen met deze zoekopdracht.",
+    "LIST": {
+      "404": "Er zijn geen standaard antwoorden beschikbaar in dit account.",
+      "TITLE": "Beheer standaard antwoorden",
+      "DESC": "Canned Responses are predefined reply templates which can be used to quickly send out replies to conversations.",
+      "TABLE_HEADER": {
+        "SHORT_CODE": "Korte code",
+        "CONTENT": "Inhoud",
+        "ACTIONS": "Acties"
+      }
+    },
+    "ADD": {
+      "TITLE": "Standaard antwoord toevoegen",
+      "DESC": "Canned Responses are predefined reply templates which can be used to quickly send out replies to conversations.",
+      "CANCEL_BUTTON_TEXT": "Annuleren",
+      "FORM": {
+        "SHORT_CODE": {
+          "LABEL": "Korte code",
+          "PLACEHOLDER": "Vul een korte code in.",
+          "ERROR": "Korte code is vereist."
+        },
+        "CONTENT": {
+          "LABEL": "Bericht",
+          "PLACEHOLDER": "Schrijf het bericht dat je wilt opslaan als sjabloon om later te gebruiken.",
+          "ERROR": "Bericht is vereist."
+        },
+        "SUBMIT": "Bevestigen"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Canned response added successfully.",
+        "ERROR_MESSAGE": "Kan geen verbinding maken met de Woot server. Probeer het opnieuw."
+      }
+    },
+    "EDIT": {
+      "TITLE": "Edit canned response",
+      "CANCEL_BUTTON_TEXT": "Annuleren",
+      "FORM": {
+        "SHORT_CODE": {
+          "LABEL": "Korte code",
+          "PLACEHOLDER": "Please enter a shortcode.",
+          "ERROR": "Short code is required."
+        },
+        "CONTENT": {
+          "LABEL": "Bericht",
+          "PLACEHOLDER": "Schrijf het bericht dat je wilt opslaan als sjabloon om later te gebruiken.",
+          "ERROR": "Bericht is vereist."
+        },
+        "SUBMIT": "Bevestigen"
+      },
+      "BUTTON_TEXT": "Bewerken",
+      "API": {
+        "SUCCESS_MESSAGE": "Canned response is updated successfully.",
+        "ERROR_MESSAGE": "Kan geen verbinding maken met de Woot server. Probeer het opnieuw."
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Verwijderen",
+      "API": {
+        "SUCCESS_MESSAGE": "Canned response deleted successfully.",
+        "ERROR_MESSAGE": "Kan geen verbinding maken met de Woot server. Probeer het opnieuw."
+      },
+      "CONFIRM": {
+        "TITLE": "Verwijdering bevestigen",
+        "MESSAGE": "Weet u zeker dat u wilt verwijderen ",
+        "YES": "Ja, verwijder ",
+        "NO": "Nee, bewaar"
+      }
+    }
+  }
+}

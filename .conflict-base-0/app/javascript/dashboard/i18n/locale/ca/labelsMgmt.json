@@ -1,0 +1,85 @@
+{
+  "LABEL_MGMT": {
+    "HEADER": "Etiquetes",
+    "HEADER_BTN_TXT": "Afegeix etiqueta",
+    "LOADING": "Obtenció d’etiquetes",
+    "DESCRIPTION": "Labels help you categorize and prioritize conversations and leads. You can assign a label to a conversation or contact using the side panel.",
+    "LEARN_MORE": "Learn more about labels",
+    "SEARCH_404": "No hi ha cap resposta que coincideixi amb aquesta consulta",
+    "LIST": {
+      "404": "No hi ha etiquetes disponibles en aquest compte.",
+      "TITLE": "Gestiona les etiquetes",
+      "DESC": "Les etiquetes et permeten agrupar les converses.",
+      "TABLE_HEADER": {
+        "NAME": "Nom",
+        "DESCRIPTION": "Descripció",
+        "COLOR": "Color"
+      }
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "Nom de l'etiqueta",
+        "PLACEHOLDER": "Nom de l'etiqueta",
+        "REQUIRED_ERROR": "El nom de l’etiqueta és obligatori",
+        "MINIMUM_LENGTH_ERROR": "Es requereix una longitud mínima de 2",
+        "VALID_ERROR": "Només es permeten alfabets, números, guionet i guió baix"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Descripció",
+        "PLACEHOLDER": "Descripció de l’etiqueta"
+      },
+      "COLOR": {
+        "LABEL": "Color"
+      },
+      "SHOW_ON_SIDEBAR": {
+        "LABEL": "Mostra l'etiqueta a la barra lateral"
+      },
+      "EDIT": "Edita",
+      "CREATE": "Crear",
+      "DELETE": "Suprimeix",
+      "CANCEL": "Cancel·la"
+    },
+    "SUGGESTIONS": {
+      "TOOLTIP": {
+        "SINGLE_SUGGESTION": "Afegeix una etiqueta a la conversa",
+        "MULTIPLE_SUGGESTION": "Seleccioneu aquesta etiqueta",
+        "DESELECT": "Desseleccioneu l'etiqueta",
+        "DISMISS": "Ignora el suggeriment"
+      },
+      "POWERED_BY": "Chatwoot AI",
+      "DISMISS": "Descartar",
+      "ADD_SELECTED_LABELS": "Afegeix les etiquetes seleccionades",
+      "ADD_SELECTED_LABEL": "Afegeix les etiquetes seleccionades",
+      "ADD_ALL_LABELS": "Afegiu totes les etiquetes",
+      "SUGGESTED_LABELS": "Suggested labels"
+    },
+    "ADD": {
+      "TITLE": "Afegeix etiqueta",
+      "DESC": "Les etiquetes et permeten agrupar les converses.",
+      "API": {
+        "SUCCESS_MESSAGE": "L'etiqueta s'ha afegit correctament",
+        "ERROR_MESSAGE": "S'ha produït un error; tornau-ho a provar"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Edita l'etiqueta",
+      "API": {
+        "SUCCESS_MESSAGE": "L'etiqueta s'ha actualitzat correctament",
+        "ERROR_MESSAGE": "S'ha produït un error; tornau-ho a provar"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Suprimeix",
+      "API": {
+        "SUCCESS_MESSAGE": "L'etiqueta s'ha suprimit correctament",
+        "ERROR_MESSAGE": "S'ha produït un error; tornau-ho a provar"
+      },
+      "CONFIRM": {
+        "TITLE": "Confirma esborrat",
+        "MESSAGE": "N'estas segur? ",
+        "YES": "Si, esborra ",
+        "NO": "No, segueix "
+      }
+    }
+  }
+}

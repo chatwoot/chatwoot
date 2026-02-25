@@ -1,0 +1,111 @@
+{
+  "MACROS": {
+    "HEADER": "Macros",
+    "DESCRIPTION": "A macro is a set of saved actions that help customer service agents easily complete tasks. The agents can define a set of actions like tagging a conversation with a label, sending an email transcript, updating a custom attribute, etc., and they can run these actions in a single click.",
+    "LEARN_MORE": "Learn more about macros",
+    "HEADER_BTN_TXT": "Add a new macro",
+    "HEADER_BTN_TXT_SAVE": "Save macro",
+    "LOADING": "Fetching macros",
+    "ERROR": "Something went wrong. Please try again",
+    "ORDER_INFO": "Fjölvi mun keyra í þeirri röð sem þú bætir við aðgerðum þínum. Þú getur endurraðað þeim með því að draga þau í handfangið við hlið hverrar nóðu.",
+    "ADD": {
+      "FORM": {
+        "NAME": {
+          "LABEL": "Macro name",
+          "PLACEHOLDER": "Enter a name for your macro",
+          "ERROR": "Name is required for creating a macro"
+        },
+        "ACTIONS": {
+          "LABEL": "Aðgerðir"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Macro added successfully",
+        "ERROR_MESSAGE": "Ekki tókst að búa til fjölvi, vinsamlegast reyndu aftur síðar"
+      }
+    },
+    "LIST": {
+      "TABLE_HEADER": {
+        "NAME": "Nafn",
+        "CREATED BY": "Created by",
+        "LAST_UPDATED_BY": "Last updated by",
+        "VISIBILITY": "Visibility"
+      },
+      "404": "No macros found"
+    },
+    "DELETE": {
+      "TOOLTIP": "Delete macro",
+      "CONFIRM": {
+        "MESSAGE": "Ertu viss um að þú viljir eyða",
+        "YES": "Yes, Delete",
+        "NO": "Nei"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Macro deleted successfully",
+        "ERROR_MESSAGE": "Villa kom upp við að eyða fjölva. Vinsamlegast reyndu aftur síðar"
+      }
+    },
+    "EDIT": {
+      "TOOLTIP": "Edit macro",
+      "API": {
+        "SUCCESS_MESSAGE": "Macro updated successfully",
+        "ERROR_MESSAGE": "Ekki tókst að uppfæra fjölva, vinsamlegast reyndu aftur síðar"
+      }
+    },
+    "EDITOR": {
+      "START_FLOW": "Start Flow",
+      "END_FLOW": "End Flow",
+      "LOADING": "Fetching macro",
+      "ADD_BTN_TOOLTIP": "Add new action",
+      "DELETE_BTN_TOOLTIP": "Delete Action",
+      "VISIBILITY": {
+        "LABEL": "Macro Visibility",
+        "GLOBAL": {
+          "LABEL": "Public",
+          "DESCRIPTION": "Þessi fjölvi er aðgengileg opinberlega fyrir alla þjónustufulltrúa á þessum reikningi."
+        },
+        "PERSONAL": {
+          "LABEL": "Private",
+          "DESCRIPTION": "Þessi fjölvi verður persónulegur fyrir þig og ekki aðgengilegur öðrum."
+        }
+      }
+    },
+    "EXECUTE": {
+      "BUTTON_TOOLTIP": "Execute",
+      "PREVIEW": "Preview Macro",
+      "EXECUTED_SUCCESSFULLY": "Macro executed successfully"
+    },
+    "ERRORS": {
+      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
+      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "VALUE_REQUIRED": "Value is required",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998",
+      "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
+      "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
+      "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
+    },
+    "ACTIONS": {
+      "ASSIGN_TEAM": "Assign a Team",
+      "ASSIGN_AGENT": "Assign an Agent",
+      "ADD_LABEL": "Add a Label",
+      "REMOVE_LABEL": "Remove a Label",
+      "REMOVE_ASSIGNED_TEAM": "Remove Assigned Team",
+      "SEND_EMAIL_TRANSCRIPT": "Send an Email Transcript",
+      "MUTE_CONVERSATION": "Þagga Samtal",
+      "SNOOZE_CONVERSATION": "Fresta Samtali",
+      "RESOLVE_CONVERSATION": "Resolve Conversation",
+      "SEND_ATTACHMENT": "Send Attachment",
+      "SEND_MESSAGE": "Send a Message",
+      "CHANGE_PRIORITY": "Change Priority",
+      "ADD_PRIVATE_NOTE": "Add a Private Note",
+      "SEND_WEBHOOK_EVENT": "Send Webhook Event"
+    },
+    "PRIORITY_TYPES": {
+      "NONE": "Enginn",
+      "LOW": "Low",
+      "MEDIUM": "Medium",
+      "HIGH": "High",
+      "URGENT": "Urgent"
+    }
+  }
+}

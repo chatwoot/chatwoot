@@ -1,0 +1,19 @@
+{
+  "DATE_PICKER": {
+    "APPLY_BUTTON": "应用",
+    "CLEAR_BUTTON": "清除",
+    "DATE_RANGE_INPUT": {
+      "START": "开始日期",
+      "END": "结束时间"
+    },
+    "DATE_RANGE_OPTIONS": {
+      "TITLE": "日期范围",
+      "LAST_7_DAYS": "最近7天",
+      "LAST_30_DAYS": "最近30天",
+      "LAST_3_MONTHS": "最近3个月",
+      "LAST_6_MONTHS": "最近6个月",
+      "LAST_YEAR": "最近一年",
+      "CUSTOM_RANGE": "自定义日期范围"
+    }
+  }
+}

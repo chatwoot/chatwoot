@@ -1,0 +1,41 @@
+{
+  "BULK_ACTION": {
+    "CONVERSATIONS_SELECTED": "Pasirinkta pokalbių: {conversationCount}",
+    "AGENT_SELECT_LABEL": "Pasirinkti agentą",
+    "ASSIGN_CONFIRMATION_LABEL": "Ar tikrai priskirsite {conversationCount} {conversationLabel}",
+    "UNASSIGN_CONFIRMATION_LABEL": "Ar tikrai atšauksite priskyrimą {conversationCount} {conversationLabel}?",
+    "GO_BACK_LABEL": "Grįžti",
+    "ASSIGN_LABEL": "Priskirti",
+    "YES": "Taip",
+    "SEARCH_INPUT_PLACEHOLDER": "Ieškoti",
+    "ASSIGN_AGENT_TOOLTIP": "Priskirti Agentą",
+    "ASSIGN_TEAM_TOOLTIP": "Priskirti komandą",
+    "ASSIGN_SUCCESFUL": "Pokalbis priskirtas sėkmingai.",
+    "ASSIGN_FAILED": "Nepavyko priskirti pokalbių. Bandykite dar kartą.",
+    "RESOLVE_SUCCESFUL": "Pokalbio išspręstas sėkmingai.",
+    "RESOLVE_FAILED": "Nepavyko išspręsti pokalbių. Bandykite dar kartą.",
+    "ALL_CONVERSATIONS_SELECTED_ALERT": "Pasirinkti šiame puslapyje matomi pokalbiai.",
+    "AGENT_LIST_LOADING": "Agentai užkraunami",
+    "UPDATE": {
+      "CHANGE_STATUS": "Pakeisti būseną",
+      "SNOOZE_UNTIL": "Atidėti",
+      "UPDATE_SUCCESFUL": "Pokalbio būsena atnaujinta sėkmingai.",
+      "UPDATE_FAILED": "Nepavyko atnaujinti pokalbių. Bandykite dar kartą."
+    },
+    "LABELS": {
+      "ASSIGN_LABELS": "Priskirti etiketes",
+      "NO_LABELS_FOUND": "Etikečių nerasta",
+      "ASSIGN_SELECTED_LABELS": "Priskirti pažymėtas etiketes",
+      "ASSIGN_SUCCESFUL": "Etiketės sėkmingai priskirtos.",
+      "ASSIGN_FAILED": "Nepavyko priskirti etikečių. Prašau, pabandykite dar kartą."
+    },
+    "TEAMS": {
+      "TEAM_SELECT_LABEL": "Pasirinkite komandą",
+      "NONE": "Nėra",
+      "NO_TEAMS_AVAILABLE": "Šioje paskyroje nėra pridėtų komandų.",
+      "ASSIGN_SELECTED_TEAMS": "Priskirti pažymėtą komandą.",
+      "ASSIGN_SUCCESFUL": "Teams assigned successfully.",
+      "ASSIGN_FAILED": "Nepavyko priskirti komandą. Prašau, pabandykite dar kartą."
+    }
+  }
+}

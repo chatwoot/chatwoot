@@ -1,0 +1,796 @@
+{
+  "PROFILE_SETTINGS": {
+    "LINK": "Stillingar Prófíls",
+    "TITLE": "Stillingar Prófíls",
+    "BTN_TEXT": "Uppfæra Prófíl",
+    "DELETE_AVATAR": "Eyða mynd",
+    "AVATAR_DELETE_SUCCESS": "Avatar has been deleted successfully",
+    "AVATAR_DELETE_FAILED": "Villa kom upp við að eyða notendamynd, vinsamlegast reyndu aftur",
+    "UPDATE_SUCCESS": "Prófíllinn þinn hefur verið uppfærður",
+    "PASSWORD_UPDATE_SUCCESS": "Lykilorðinu þínu hefur verið breytt",
+    "AFTER_EMAIL_CHANGED": "Prófíllinn þinn hefur verið uppfærður, vinsamlegast skráðu þig inn aftur þar sem innskráningarskilríkjum þínum er breytt",
+    "FORM": {
+      "PICTURE": "Profile Picture",
+      "AVATAR": "Prófílmynd",
+      "ERROR": "Vinsamlegast lagfærðu villurnar",
+      "REMOVE_IMAGE": "Fjarlægja",
+      "UPLOAD_IMAGE": "Hlaða upp mynd",
+      "UPDATE_IMAGE": "Uppfæra mynd",
+      "PROFILE_SECTION": {
+        "TITLE": "Prófíll",
+        "NOTE": "Netfangið þitt er auðkenni þitt og er notað til að skrá þig inn."
+      },
+      "SEND_MESSAGE": {
+        "TITLE": "Flýtilykill til að senda skilaboð",
+        "NOTE": "Þú getur valið flýtilykil (annaðhvort Enter eða Cmd/Ctrl+Enter) eftir því hvernig þú vilt skrifa.",
+        "UPDATE_SUCCESS": "Stillingar þínar hafa verið uppfærðar",
+        "CARD": {
+          "ENTER_KEY": {
+            "HEADING": "Enter (↵)",
+            "CONTENT": "Sendu skilaboð með því að ýta á Enter takkann í stað þess að smella á senda takkann."
+          },
+          "CMD_ENTER_KEY": {
+            "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
+            "CONTENT": "Sendu skilaboð með því að ýta á Cmd/Ctrl + enter takkann í stað þess að smella á senda takkann."
+          }
+        }
+      },
+      "INTERFACE_SECTION": {
+        "TITLE": "Interface",
+        "NOTE": "Customize the look and feel of your Chatwoot dashboard.",
+        "FONT_SIZE": {
+          "TITLE": "Font size",
+          "NOTE": "Adjust the text size across the dashboard based on your preference.",
+          "UPDATE_SUCCESS": "Your font settings have been updated successfully",
+          "UPDATE_ERROR": "There is an error while updating the font settings, please try again",
+          "OPTIONS": {
+            "SMALLER": "Smaller",
+            "SMALL": "Small",
+            "DEFAULT": "Default",
+            "LARGE": "Large",
+            "LARGER": "Larger",
+            "EXTRA_LARGE": "Extra Large"
+          }
+        },
+        "LANGUAGE": {
+          "TITLE": "Preferred Language",
+          "NOTE": "Choose the language you want to use.",
+          "UPDATE_SUCCESS": "Your Language settings have been updated successfully",
+          "UPDATE_ERROR": "There is an error while updating the language settings, please try again",
+          "USE_ACCOUNT_DEFAULT": "Use account default"
+        }
+      },
+      "MESSAGE_SIGNATURE_SECTION": {
+        "TITLE": "Persónuleg undirskrift á skilaboðum",
+        "NOTE": "Create a unique message signature to appear at the end of every message you send from any inbox. You can also include an inline image, which is supported in live-chat, email, and API inboxes.",
+        "BTN_TEXT": "Vista undirskrift á skilaboðum",
+        "API_ERROR": "Gat ekki vistað undirskrift! Reyndu aftur",
+        "API_SUCCESS": "Undirskrift var vistuð",
+        "IMAGE_UPLOAD_ERROR": "Couldn't upload image! Try again",
+        "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save to save the signature",
+        "IMAGE_UPLOAD_SIZE_ERROR": "Image size should be less than {size}MB"
+      },
+      "MESSAGE_SIGNATURE": {
+        "LABEL": "Undirskrift skilaboða",
+        "ERROR": "Undirskrift skilaboða getur ekki verið tóm",
+        "PLACEHOLDER": "Settu inn persónulegu skilaboðaundirskriftina þína hér."
+      },
+      "PASSWORD_SECTION": {
+        "TITLE": "Lykilorð",
+        "NOTE": "Að uppfæra lykilorðið þitt myndi endurstilla innskráningar þínar í mörgum tækjum.",
+        "BTN_TEXT": "Breyta lykilorði"
+      },
+      "SECURITY_SECTION": {
+        "TITLE": "Security",
+        "NOTE": "Manage additional security features for your account.",
+        "MFA_BUTTON": "Manage Two-Factor Authentication"
+      },
+      "ACCESS_TOKEN": {
+        "TITLE": "Aðgangslykill",
+        "NOTE": "Þetta token er hægt að nota ef þú ert að byggja upp API byggða samþættingu",
+        "COPY": "Afrita",
+        "RESET": "Reset",
+        "CONFIRM_RESET": "Are you sure?",
+        "CONFIRM_HINT": "Click again to confirm",
+        "RESET_SUCCESS": "Access token regenerated successfully",
+        "RESET_ERROR": "Unable to regenerate access token. Please try again"
+      },
+      "AUDIO_NOTIFICATIONS_SECTION": {
+        "TITLE": "Audio Alerts",
+        "NOTE": "Enable audio alerts in dashboard for new messages and conversations.",
+        "PLAY": "Play sound",
+        "ALERT_TYPES": {
+          "NONE": "Enginn",
+          "MINE": "Assigned",
+          "ALL": "Allt",
+          "ASSIGNED": "My assigned conversations",
+          "UNASSIGNED": "Unassigned conversations",
+          "NOTME": "Open conversations assigned to others"
+        },
+        "ALERT_COMBINATIONS": {
+          "NONE": "You haven't selected any options, you won't receive any audio alerts.",
+          "ASSIGNED": "You'll receive alerts for conversations assigned to you.",
+          "UNASSIGNED": "You'll receive alerts for any unassigned conversations.",
+          "NOTME": "You'll receive alerts for conversations assigned to others.",
+          "ASSIGNED+UNASSIGNED": "You'll receive alerts for your assigned conversations and any unattended ones.",
+          "ASSIGNED+NOTME": "You'll receive alerts for conversations assigned to you and to others, but not for unassigned ones.",
+          "NOTME+UNASSIGNED": "You'll receive alerts for unattended conversations and those assigned to others.",
+          "ASSIGNED+NOTME+UNASSIGNED": "You'll receive alerts for all conversations."
+        },
+        "ALERT_TYPE": {
+          "TITLE": "Alert events for conversations",
+          "NONE": "Enginn",
+          "ASSIGNED": "Úthlutuð Samtöl",
+          "ALL_CONVERSATIONS": "Öll Samtöl"
+        },
+        "DEFAULT_TONE": {
+          "TITLE": "Alert tone:"
+        },
+        "CONDITIONS": {
+          "TITLE": "Alert conditions:",
+          "CONDITION_ONE": "Senda hljóðviðvaranir aðeins ef vafraglugginn er ekki virkur",
+          "CONDITION_TWO": "Send alerts every 30s until all the assigned conversations are read"
+        },
+        "SOUND_PERMISSION_ERROR": "Autoplay is disabled in your browser. To hear alerts automatically, enable sound permission in your browser settings or interact with the page.",
+        "READ_MORE": "Read more"
+      },
+      "EMAIL_NOTIFICATIONS_SECTION": {
+        "TITLE": "Tilkynningar í tölvupósti",
+        "NOTE": "Uppfærðu stillingar þínar fyrir tölvupósttilkynningar hér",
+        "CONVERSATION_ASSIGNMENT": "Senda tilkynningar í tölvupósti þegar mér er úthlutað samtali",
+        "CONVERSATION_CREATION": "Senda tilkynningar í tölvupósti þegar nýtt samtal er stofnað",
+        "CONVERSATION_MENTION": "Sendu tilkynningar í tölvupósti þegar minnst er á þig í samtali",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Sendu tilkynningar í tölvupósti þegar ný skilaboð eru búin til í úthlutuðu samtali",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation",
+        "SLA_MISSED_FIRST_RESPONSE": "Send email notifications when a conversation misses first response SLA",
+        "SLA_MISSED_NEXT_RESPONSE": "Send email notifications when a conversation misses next response SLA",
+        "SLA_MISSED_RESOLUTION": "Send email notifications when a conversation misses resolution SLA"
+      },
+      "NOTIFICATIONS": {
+        "TITLE": "Notification preferences",
+        "TYPE_TITLE": "Notification type",
+        "EMAIL": "Tölvupóstfang",
+        "PUSH": "Push notification",
+        "TYPES": {
+          "CONVERSATION_CREATED": "A new conversation is created",
+          "CONVERSATION_ASSIGNED": "A conversation is assigned to you",
+          "CONVERSATION_MENTION": "You are mentioned in a conversation",
+          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "A new message is created in an assigned conversation",
+          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "A new message is created in a participating conversation",
+          "SLA_MISSED_FIRST_RESPONSE": "A conversation misses first response SLA",
+          "SLA_MISSED_NEXT_RESPONSE": "A conversation misses next response SLA",
+          "SLA_MISSED_RESOLUTION": "A conversation misses resolution SLA"
+        },
+        "BROWSER_PERMISSION": "Enable push notifications for your browser so you’re able to receive them"
+      },
+      "API": {
+        "UPDATE_SUCCESS": "Tilkynningarstillingarnar þínar hafa verið uppfærðar",
+        "UPDATE_ERROR": "Villa kom upp við að uppfæra stillingarnar, vinsamlegast reyndu aftur"
+      },
+      "PUSH_NOTIFICATIONS_SECTION": {
+        "TITLE": "Push Notifications",
+        "NOTE": "Uppfærðu stillingar þínar fyrir þrýstitilkynningar hér",
+        "CONVERSATION_ASSIGNMENT": "Senda þrýstitilkynningar þegar mér er úthlutað samtali",
+        "CONVERSATION_CREATION": "Senda þrýstitilkynningar þegar nýtt samtal er stofnað",
+        "CONVERSATION_MENTION": "Sendu þrýstitilkynningar þegar minnst er á þig í samtali",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Sendu push tilkynningar þegar ný skilaboð eru búin til í úthlutuðu samtali",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
+        "HAS_ENABLED_PUSH": "You have enabled push for this browser.",
+        "REQUEST_PUSH": "Enable push notifications",
+        "SLA_MISSED_FIRST_RESPONSE": "Send push notifications when a conversation misses first response SLA",
+        "SLA_MISSED_NEXT_RESPONSE": "Send push notifications when a conversation misses next response SLA",
+        "SLA_MISSED_RESOLUTION": "Send push notifications when a conversation misses resolution SLA"
+      },
+      "PROFILE_IMAGE": {
+        "LABEL": "Prófílmynd"
+      },
+      "NAME": {
+        "LABEL": "Your full name",
+        "ERROR": "Vinsamlegast skrifaðu gilt nafn",
+        "PLACEHOLDER": "Vinsamlegast sláðu inn nafnið þitt"
+      },
+      "DISPLAY_NAME": {
+        "LABEL": "Display name",
+        "ERROR": "Please enter a valid display name",
+        "PLACEHOLDER": "Vinsamlegast sláðu inn birtingarnafn, þetta birtist í samtölum"
+      },
+      "AVAILABILITY": {
+        "LABEL": "Availability",
+        "STATUS": {
+          "ONLINE": "Online",
+          "BUSY": "Upptekinn",
+          "OFFLINE": "Offline"
+        },
+        "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
+        "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again",
+        "IMPERSONATING_ERROR": "Cannot change availability while impersonating a user"
+      },
+      "EMAIL": {
+        "LABEL": "Þitt tölvupóstfang",
+        "ERROR": "Vinsamlegast skrifaðu gilt netfang",
+        "PLACEHOLDER": "Vinsamlegast sláðu inn netfangið þitt, þetta myndi birtast í samtölum"
+      },
+      "CURRENT_PASSWORD": {
+        "LABEL": "Núverandi lykilorð",
+        "ERROR": "Vinsamlegast sláðu inn núverandi lykilorð",
+        "PLACEHOLDER": "Vinsamlegast sláðu inn núverandi lykilorð"
+      },
+      "PASSWORD": {
+        "LABEL": "Nýtt lykilorð",
+        "ERROR": "Vinsamlegast sláðu inn lykilorð 6 stafa lengd eða meira",
+        "PLACEHOLDER": "Vinsamlegast sláðu inn nýja lykilorðið"
+      },
+      "PASSWORD_CONFIRMATION": {
+        "LABEL": "Staðfesta nýtt lykilorð",
+        "ERROR": "Staðfest lykilorð ætti að passa við lykilorðið",
+        "PLACEHOLDER": "Vinsamlegasts staðfestu nýja lykilorðið"
+      }
+    }
+  },
+  "SIDEBAR_ITEMS": {
+    "CHANGE_AVAILABILITY_STATUS": "Breyta",
+    "CHANGE_ACCOUNTS": "Switch account",
+    "SWITCH_ACCOUNT": "Switch account",
+    "CONTACT_SUPPORT": "Contact support",
+    "SELECTOR_SUBTITLE": "Veldu reikning úr eftirfarandi lista",
+    "PROFILE_SETTINGS": "Profile settings",
+    "YEAR_IN_REVIEW": "Year in Review",
+    "KEYBOARD_SHORTCUTS": "Keyboard shortcuts",
+    "APPEARANCE": "Change appearance",
+    "SUPER_ADMIN_CONSOLE": "SuperAdmin console",
+    "DOCS": "Read documentation",
+    "CHANGELOG": "Changelog",
+    "LOGOUT": "Log out"
+  },
+  "APP_GLOBAL": {
+    "TRIAL_MESSAGE": "days trial remaining.",
+    "TRAIL_BUTTON": "Buy Now",
+    "DELETED_USER": "Deleted User",
+    "EMAIL_VERIFICATION_PENDING": "It seems that you haven't verified your email address yet. Please check your inbox for the verification email.",
+    "RESEND_VERIFICATION_MAIL": "Resend verification email",
+    "EMAIL_VERIFICATION_SENT": "Verification email has been sent. Please check your inbox.",
+    "ACCOUNT_SUSPENDED": {
+      "TITLE": "Account Suspended",
+      "MESSAGE": "Reikningnum þínum er lokað. Vinsamlegast hafðu samband við þjónustusviðið okkar til að fá frekari upplýsingar."
+    },
+    "NO_ACCOUNTS": {
+      "TITLE": "No account found",
+      "MESSAGE_CLOUD": "You are not part of any accounts right now. If you think this is a mistake, please reach out to our support team.",
+      "MESSAGE_SELF_HOSTED": "You are not part of any accounts right now. Please reach out to your administrator.",
+      "LOGOUT": "Log out"
+    }
+  },
+  "COMPONENTS": {
+    "CODE": {
+      "BUTTON_TEXT": "Copy",
+      "CODEPEN": "Open in CodePen",
+      "COPY_SUCCESSFUL": "Code copied to clipboard successfully"
+    },
+    "SHOW_MORE_BLOCK": {
+      "SHOW_MORE": "Show More",
+      "SHOW_LESS": "Show Less"
+    },
+    "FILE_BUBBLE": {
+      "DOWNLOAD": "Sækja",
+      "UPLOADING": "Hleður upp...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "This story is no longer available."
+    },
+    "LOCATION_BUBBLE": {
+      "SEE_ON_MAP": "See on map"
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "Senda"
+    },
+    "MEDIA": {
+      "IMAGE_UNAVAILABLE": "This image is no longer available.",
+      "LOADING_FAILED": "Loading failed"
+    }
+  },
+  "CONFIRM_EMAIL": "Verifying...",
+  "SETTINGS": {
+    "INBOXES": {
+      "NEW_INBOX": "Add Inbox"
+    }
+  },
+  "SIDEBAR": {
+    "NO_ITEMS": "No items",
+    "CURRENTLY_VIEWING_ACCOUNT": "Currently viewing:",
+    "SWITCH": "Switch",
+    "INBOX_VIEW": "Inbox View",
+    "CONVERSATIONS": "Samtöl",
+    "INBOX": "My Inbox",
+    "ALL_CONVERSATIONS": "Öll Samtöl",
+    "MENTIONED_CONVERSATIONS": "Mentions",
+    "PARTICIPATING_CONVERSATIONS": "Participating",
+    "UNATTENDED_CONVERSATIONS": "Unattended",
+    "REPORTS": "Reports",
+    "SETTINGS": "Stillingar",
+    "CONTACTS": "Tengiliðir",
+    "ACTIVE": "Active",
+    "COMPANIES": "Companies",
+    "ALL_COMPANIES": "All Companies",
+    "CAPTAIN": "Captain",
+    "CAPTAIN_ASSISTANTS": "Assistants",
+    "CAPTAIN_DOCUMENTS": "Documents",
+    "CAPTAIN_RESPONSES": "FAQs",
+    "CAPTAIN_TOOLS": "Tools",
+    "CAPTAIN_SCENARIOS": "Scenarios",
+    "CAPTAIN_PLAYGROUND": "Playground",
+    "CAPTAIN_INBOXES": "Innhólf",
+    "CAPTAIN_SETTINGS": "Stillingar",
+    "HOME": "Home",
+    "AGENTS": "Þjónustufulltrúar",
+    "AGENT_BOTS": "Bots",
+    "AUDIT_LOGS": "Aðgerðaskrá",
+    "INBOXES": "Innhólf",
+    "NOTIFICATIONS": "Skilaboð",
+    "CANNED_RESPONSES": "Stöðluð svör",
+    "INTEGRATIONS": "Integrations",
+    "PROFILE_SETTINGS": "Stillingar Prófíls",
+    "ACCOUNT_SETTINGS": "Account Settings",
+    "APPLICATIONS": "Applications",
+    "LABELS": "Labels",
+    "CUSTOM_ATTRIBUTES": "Custom Attributes",
+    "AUTOMATION": "Automation",
+    "MACROS": "Macros",
+    "TEAMS": "Teams",
+    "BILLING": "Billing",
+    "CUSTOM_VIEWS_FOLDER": "Folders",
+    "CUSTOM_VIEWS_SEGMENTS": "Segments",
+    "ALL_CONTACTS": "All Contacts",
+    "TAGGED_WITH": "Tagged with",
+    "NEW_LABEL": "New label",
+    "NEW_TEAM": "New team",
+    "NEW_INBOX": "New inbox",
+    "REPORTS_CONVERSATION": "Samtöl",
+    "CSAT": "CSAT",
+    "LIVE_CHAT": "Live Chat",
+    "SMS": "SMS",
+    "WHATSAPP": "WhatsApp",
+    "CAMPAIGNS": "Herferð",
+    "ONGOING": "Ongoing",
+    "ONE_OFF": "One off",
+    "REPORTS_SLA": "SLA",
+    "REPORTS_BOT": "Bot",
+    "REPORTS_AGENT": "Þjónustufulltrúar",
+    "REPORTS_LABEL": "Labels",
+    "REPORTS_INBOX": "Innhólf",
+    "REPORTS_TEAM": "Team",
+    "AGENT_ASSIGNMENT": "Agent Assignment",
+    "SET_AVAILABILITY_TITLE": "Set yourself as",
+    "SET_YOUR_AVAILABILITY": "Set your availability",
+    "SLA": "SLA",
+    "CUSTOM_ROLES": "Custom Roles",
+    "BETA": "Beta",
+    "REPORTS_OVERVIEW": "Overview",
+    "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
+    "HELP_CENTER": {
+      "TITLE": "Help Center",
+      "ARTICLES": "Articles",
+      "CATEGORIES": "Categories",
+      "LOCALES": "Locales",
+      "SETTINGS": "Stillingar"
+    },
+    "CHANNELS": "Channels",
+    "SET_AUTO_OFFLINE": {
+      "TEXT": "Mark offline automatically",
+      "INFO_TEXT": "Let the system automatically mark you offline when you aren't using the app or dashboard.",
+      "INFO_SHORT": "Automatically mark offline when you aren't using the app."
+    },
+    "DOCS": "Read docs",
+    "SECURITY": "Security"
+  },
+  "BILLING_SETTINGS": {
+    "TITLE": "Billing",
+    "DESCRIPTION": "Manage your subscription here, upgrade your plan and get more for your team.",
+    "CURRENT_PLAN": {
+      "TITLE": "Current Plan",
+      "PLAN_NOTE": "Þú ert áskrifandi að **{plan}** áætluninni með **{quantity}** leyfi",
+      "SEAT_COUNT": "Number of seats",
+      "RENEWS_ON": "Renews on"
+    },
+    "VIEW_PRICING": "View Pricing",
+    "MANAGE_SUBSCRIPTION": {
+      "TITLE": "Manage your subscription",
+      "DESCRIPTION": "Skoðaðu fyrri reikninga þína, breyttu innheimtuupplýsingum þínum eða sagði upp áskriftinni þinni.",
+      "BUTTON_TXT": "Go to the billing portal"
+    },
+    "CAPTAIN": {
+      "TITLE": "Captain",
+      "DESCRIPTION": "Manage usage and credits for Captain AI.",
+      "BUTTON_TXT": "Buy more credits",
+      "DOCUMENTS": "Documents",
+      "RESPONSES": "Responses",
+      "UPGRADE": "Captain is not available on the free plan, upgrade now to get access to assistants, copilot and more.",
+      "REFRESH_CREDITS": "Uppfæra"
+    },
+    "CHAT_WITH_US": {
+      "TITLE": "Vantar þig aðstoð?",
+      "DESCRIPTION": "Stendur þú frammi fyrir einhverjum vandamálum í innheimtu? Við erum hér til að hjálpa.",
+      "BUTTON_TXT": "Spjallaðu við okkur"
+    },
+    "NO_BILLING_USER": "Verið er að stilla innheimtureikninginn þinn. Endurnýjaðu síðuna og reyndu aftur.",
+    "TOPUP": {
+      "BUY_CREDITS": "Buy more credits",
+      "MODAL_TITLE": "Buy AI Credits",
+      "MODAL_DESCRIPTION": "Purchase additional credits for Captain AI.",
+      "CREDITS": "CREDITS",
+      "ONE_TIME": "one-time",
+      "POPULAR": "Most Popular",
+      "NOTE_TITLE": "Merkimiði:",
+      "NOTE_DESCRIPTION": "Credits are added immediately and expire in 6 months. An active subscription is required to use credits. Purchased credits are consumed after your monthly plan credits.",
+      "CANCEL": "Hætta við",
+      "PURCHASE": "Purchase Credits",
+      "LOADING": "Loading options...",
+      "FETCH_ERROR": "Failed to load credit options. Please try again.",
+      "PURCHASE_ERROR": "Failed to process purchase. Please try again.",
+      "PURCHASE_SUCCESS": "Successfully added {credits} credits to your account",
+      "CONFIRM": {
+        "TITLE": "Confirm Purchase",
+        "DESCRIPTION": "You are about to purchase {credits} credits for {amount}.",
+        "INSTANT_DEDUCTION_NOTE": "Your saved card will be charged immediately upon confirmation.",
+        "GO_BACK": "Go Back",
+        "CONFIRM_PURCHASE": "Confirm Purchase"
+      }
+    }
+  },
+  "SECURITY_SETTINGS": {
+    "TITLE": "Security",
+    "DESCRIPTION": "Manage your account security settings.",
+    "LINK_TEXT": "Learn more about SAML SSO",
+    "SAML_DISABLED_MESSAGE": "SAML SSO is currently disabled. Please contact your administrator to enable this feature.",
+    "SAML": {
+      "TITLE": "SAML SSO",
+      "NOTE": "Configure SAML single sign-on for your account. Users will authenticate through your identity provider instead of using email/password.",
+      "ACS_URL": {
+        "LABEL": "ACS URL",
+        "TOOLTIP": "Assertion Consumer Service URL - Configure this URL in your IdP as the destination for SAML responses"
+      },
+      "SSO_URL": {
+        "LABEL": "SSO URL",
+        "HELP": "The URL where SAML authentication requests will be sent",
+        "PLACEHOLDER": "https://your-idp.com/saml/sso"
+      },
+      "CERTIFICATE": {
+        "LABEL": "Signing certificate in PEM format",
+        "HELP": "The public certificate from your identity provider used to verify SAML responses",
+        "PLACEHOLDER": "-----BEGIN CERTIFICATE-----\nMIIC..."
+      },
+      "FINGERPRINT": {
+        "LABEL": "Fingerprint",
+        "TOOLTIP": "SHA-1 fingerprint of the certificate - Use this to verify the certificate in your IdP configuration"
+      },
+      "COPY_SUCCESS": "Code copied to clipboard successfully",
+      "SP_ENTITY_ID": {
+        "LABEL": "SP Entity ID",
+        "HELP": "Unique identifier for this application as a service provider (auto-generated).",
+        "TOOLTIP": "Unique identifier for Chatwoot as the Service Provider - Configure this in your IdP settings"
+      },
+      "IDP_ENTITY_ID": {
+        "LABEL": "Identity Provider Entity ID",
+        "HELP": "Unique identifier for your identity provider (usually found in IdP configuration)",
+        "PLACEHOLDER": "https://your-idp.com/saml"
+      },
+      "UPDATE_BUTTON": "Update SAML Settings",
+      "API": {
+        "SUCCESS": "SAML settings updated successfully",
+        "ERROR": "Failed to update SAML settings",
+        "ERROR_LOADING": "Failed to load SAML settings",
+        "DISABLED": "SAML settings disabled successfully"
+      },
+      "VALIDATION": {
+        "REQUIRED_FIELDS": "SSO URL, Identity Provider Entity ID, and Certificate are required fields",
+        "SSO_URL_ERROR": "Please enter a valid SSO URL",
+        "CERTIFICATE_ERROR": "Certificate is required",
+        "IDP_ENTITY_ID_ERROR": "Identity Provider Entity ID is required"
+      },
+      "ENTERPRISE_PAYWALL": {
+        "AVAILABLE_ON": "The SAML SSO feature is only available in the Enterprise plans.",
+        "UPGRADE_PROMPT": "Upgrade to an Enterprise plan to access SAML single sign-on and other advanced security features.",
+        "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
+      },
+      "PAYWALL": {
+        "TITLE": "Upgrade to enable SAML SSO",
+        "AVAILABLE_ON": "The SAML SSO feature is only available in the Enterprise plans.",
+        "UPGRADE_PROMPT": "Upgrade your plan to get access to SAML single sign-on and other advanced features.",
+        "UPGRADE_NOW": "Upgrade now",
+        "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
+      },
+      "ATTRIBUTE_MAPPING": {
+        "TITLE": "SAML Attribute Setup",
+        "DESCRIPTION": "The following attribute mappings must be configured in your identity provider"
+      },
+      "INFO_SECTION": {
+        "TITLE": "Service Provider Information",
+        "TOOLTIP": "Copy these values and configure them in your Identity Provider to establish the SAML connection"
+      }
+    }
+  },
+  "CREATE_ACCOUNT": {
+    "NO_ACCOUNT_WARNING": "Uh ó! Við fundum enga Chatwoot reikninga. Vinsamlegast búðu til nýjan reikning til að halda áfram.",
+    "NEW_ACCOUNT": "New Account",
+    "SELECTOR_SUBTITLE": "Stofna nýjan aðgang",
+    "API": {
+      "SUCCESS_MESSAGE": "Account created successfully",
+      "EXIST_MESSAGE": "Account already exists",
+      "ERROR_MESSAGE": "Náði ekki að tengjast við netþjóna Woot, vinsamlegast reynið aftur"
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "Nafn fyrirtækis",
+        "PLACEHOLDER": "Wayne Enterprises"
+      },
+      "SUBMIT": "Senda",
+      "CANCEL": "Hætta við"
+    }
+  },
+  "KEYBOARD_SHORTCUTS": {
+    "TOGGLE_MODAL": "View all shortcuts",
+    "TITLE": {
+      "OPEN_CONVERSATION": "Opna samtal",
+      "RESOLVE_AND_NEXT": "Resolve and move to next",
+      "NAVIGATE_DROPDOWN": "Navigate dropdown items",
+      "RESOLVE_CONVERSATION": "Resolve Conversation",
+      "GO_TO_CONVERSATION_DASHBOARD": "Go to Conversation Dashboard",
+      "ADD_ATTACHMENT": "Add Attachment",
+      "GO_TO_CONTACTS_DASHBOARD": "Go to Contacts Dashboard",
+      "TOGGLE_SIDEBAR": "Toggle Sidebar",
+      "GO_TO_REPORTS_SIDEBAR": "Go to Reports sidebar",
+      "MOVE_TO_NEXT_TAB": "Move to next tab in conversation list",
+      "GO_TO_SETTINGS": "Go to Settings",
+      "SWITCH_TO_PRIVATE_NOTE": "Switch to Private Note",
+      "SWITCH_TO_REPLY": "Switch to Reply",
+      "TOGGLE_SNOOZE_DROPDOWN": "Toggle snooze dropdown"
+    }
+  },
+  "ASSIGNMENT_POLICY": {
+    "INDEX": {
+      "HEADER": {
+        "TITLE": "Agent assignment",
+        "DESCRIPTION": "Define policies to effectively manage workload and route conversations based on the needs of inboxes and agents. Learn more here"
+      },
+      "ASSIGNMENT_POLICY": {
+        "TITLE": "Assignment policy",
+        "DESCRIPTION": "Manage how conversations get assigned in inboxes.",
+        "FEATURES": [
+          "Assign by conversations evenly or by available capacity",
+          "Add fair distribution rules to avoid overloading any agent",
+          "Add inboxes to a policy - one policy per inbox"
+        ]
+      },
+      "AGENT_CAPACITY_POLICY": {
+        "TITLE": "Agent capacity policy",
+        "DESCRIPTION": "Manage workload for agents.",
+        "FEATURES": [
+          "Define maximum conversations per inbox",
+          "Create exceptions based on labels and time",
+          "Add agents to a policy - one policy per agent"
+        ]
+      }
+    },
+    "AGENT_ASSIGNMENT_POLICY": {
+      "INDEX": {
+        "HEADER": {
+          "TITLE": "Assignment policy",
+          "CREATE_POLICY": "New policy"
+        },
+        "CARD": {
+          "ORDER": "Order",
+          "PRIORITY": "Priority",
+          "ACTIVE": "Active",
+          "INACTIVE": "Inactive",
+          "POPOVER": "Added inboxes",
+          "EDIT": "Breyta"
+        },
+        "NO_RECORDS_FOUND": "No assignment policies found"
+      },
+      "CREATE": {
+        "HEADER": {
+          "TITLE": "Create assignment policy"
+        },
+        "CREATE_BUTTON": "Create policy",
+        "API": {
+          "SUCCESS_MESSAGE": "Assignment policy created successfully",
+          "ERROR_MESSAGE": "Failed to create assignment policy"
+        }
+      },
+      "EDIT": {
+        "HEADER": {
+          "TITLE": "Edit assignment policy"
+        },
+        "EDIT_BUTTON": "Update policy",
+        "CONFIRM_ADD_INBOX_DIALOG": {
+          "TITLE": "Add inbox",
+          "DESCRIPTION": "{inboxName} inbox is already linked to another policy. Are you sure you want to link it to this policy? It will be unlinked from the other policy.",
+          "CONFIRM_BUTTON_LABEL": "Continue",
+          "CANCEL_BUTTON_LABEL": "Hætta við"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Assignment policy updated successfully",
+          "ERROR_MESSAGE": "Failed to update assignment policy"
+        },
+        "INBOX_API": {
+          "ADD": {
+            "SUCCESS_MESSAGE": "Inbox added to policy successfully",
+            "ERROR_MESSAGE": "Failed to add inbox to policy"
+          },
+          "REMOVE": {
+            "SUCCESS_MESSAGE": "Inbox removed from policy successfully",
+            "ERROR_MESSAGE": "Failed to remove inbox from policy"
+          }
+        }
+      },
+      "FORM": {
+        "NAME": {
+          "LABEL": "Policy name:",
+          "PLACEHOLDER": "Enter policy name"
+        },
+        "DESCRIPTION": {
+          "LABEL": "Description:",
+          "PLACEHOLDER": "Enter description"
+        },
+        "STATUS": {
+          "LABEL": "Staða:",
+          "PLACEHOLDER": "Select status",
+          "ACTIVE": "Policy is active",
+          "INACTIVE": "Policy is inactive"
+        },
+        "ASSIGNMENT_ORDER": {
+          "LABEL": "Assignment order",
+          "ROUND_ROBIN": {
+            "LABEL": "Round robin",
+            "DESCRIPTION": "Assign conversations evenly among agents."
+          },
+          "BALANCED": {
+            "LABEL": "Balanced",
+            "DESCRIPTION": "Assign conversations based on available capacity."
+          }
+        },
+        "ASSIGNMENT_PRIORITY": {
+          "LABEL": "Assignment priority",
+          "EARLIEST_CREATED": {
+            "LABEL": "Earliest created",
+            "DESCRIPTION": "The conversation that was created first gets assigned first."
+          },
+          "LONGEST_WAITING": {
+            "LABEL": "Longest waiting",
+            "DESCRIPTION": "The conversation waiting the longest gets assigned first."
+          }
+        },
+        "FAIR_DISTRIBUTION": {
+          "LABEL": "Fair distribution policy",
+          "DESCRIPTION": "Set the maximum number of conversations that can be assigned per agent within a time window to avoid overloading any one agent. This required field defaults to 100 conversations per hour.",
+          "INPUT_MAX": "Assign max",
+          "DURATION": "Conversations per agent in every"
+        },
+        "INBOXES": {
+          "LABEL": "Added inboxes",
+          "DESCRIPTION": "Add inboxes for which this policy will be applicable.",
+          "ADD_BUTTON": "Add inbox",
+          "DROPDOWN": {
+            "SEARCH_PLACEHOLDER": "Search and select inboxes to add",
+            "ADD_BUTTON": "Bæta við"
+          },
+          "EMPTY_STATE": "No inboxes added to this policy, add an inbox to get started",
+          "API": {
+            "SUCCESS_MESSAGE": "Inbox successfully added to policy",
+            "ERROR_MESSAGE": "Failed to add inbox to policy"
+          }
+        }
+      },
+      "DELETE_POLICY": {
+        "SUCCESS_MESSAGE": "Assignment policy deleted successfully",
+        "ERROR_MESSAGE": "Failed to delete assignment policy"
+      }
+    },
+    "AGENT_CAPACITY_POLICY": {
+      "INDEX": {
+        "HEADER": {
+          "TITLE": "Agent capacity",
+          "CREATE_POLICY": "New policy"
+        },
+        "CARD": {
+          "POPOVER": "Added agents",
+          "EDIT": "Breyta"
+        },
+        "NO_RECORDS_FOUND": "No agent capacity policies found"
+      },
+      "CREATE": {
+        "HEADER": {
+          "TITLE": "Create agent capacity policy"
+        },
+        "CREATE_BUTTON": "Create policy",
+        "API": {
+          "SUCCESS_MESSAGE": "Agent capacity policy created successfully",
+          "ERROR_MESSAGE": "Failed to create agent capacity policy"
+        }
+      },
+      "EDIT": {
+        "HEADER": {
+          "TITLE": "Edit agent capacity policy"
+        },
+        "EDIT_BUTTON": "Update policy",
+        "CONFIRM_ADD_AGENT_DIALOG": {
+          "TITLE": "Add agent",
+          "DESCRIPTION": "{agentName} is already linked to another policy. Are you sure you want to link it to this policy? It will be unlinked from the other policy.",
+          "CONFIRM_BUTTON_LABEL": "Continue",
+          "CANCEL_BUTTON_LABEL": "Hætta við"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Agent capacity policy updated successfully",
+          "ERROR_MESSAGE": "Failed to update agent capacity policy"
+        },
+        "AGENT_API": {
+          "ADD": {
+            "SUCCESS_MESSAGE": "Agent added to policy successfully",
+            "ERROR_MESSAGE": "Failed to add agent to policy"
+          },
+          "REMOVE": {
+            "SUCCESS_MESSAGE": "Agent removed from policy successfully",
+            "ERROR_MESSAGE": "Failed to remove agent from policy"
+          }
+        }
+      },
+      "FORM": {
+        "NAME": {
+          "LABEL": "Policy name:",
+          "PLACEHOLDER": "Enter policy name"
+        },
+        "DESCRIPTION": {
+          "LABEL": "Description:",
+          "PLACEHOLDER": "Enter description"
+        },
+        "INBOX_CAPACITY_LIMIT": {
+          "LABEL": "Inbox capacity limits",
+          "ADD_BUTTON": "Add inbox",
+          "FIELD": {
+            "SELECT_INBOX": "Select inbox",
+            "MAX_CONVERSATIONS": "Max conversations",
+            "SET_LIMIT": "Set limit"
+          },
+          "EMPTY_STATE": "No inbox limit set"
+        },
+        "EXCLUSION_RULES": {
+          "LABEL": "Exclusion rules",
+          "DESCRIPTION": "Conversations that satisfy the following conditions would not count towards agent capacity",
+          "TAGS": {
+            "LABEL": "Exclude conversations tagged with specific labels",
+            "ADD_TAG": "add tag",
+            "DROPDOWN": {
+              "SEARCH_PLACEHOLDER": "Search and select tags to add"
+            },
+            "EMPTY_STATE": "No tags added to this policy."
+          },
+          "DURATION": {
+            "LABEL": "Exclude conversations older than a specified duration",
+            "PLACEHOLDER": "Set time"
+          }
+        },
+        "USERS": {
+          "LABEL": "Assigned agents",
+          "DESCRIPTION": "Add agents for which this policy will be applicable.",
+          "ADD_BUTTON": "Add agent",
+          "DROPDOWN": {
+            "SEARCH_PLACEHOLDER": "Search and select agents to add",
+            "ADD_BUTTON": "Bæta við"
+          },
+          "EMPTY_STATE": "No agents added",
+          "API": {
+            "SUCCESS_MESSAGE": "Agent successfully added to policy",
+            "ERROR_MESSAGE": "Failed to add agent to policy"
+          }
+        }
+      },
+      "DELETE_POLICY": {
+        "SUCCESS_MESSAGE": "Agent capacity policy deleted successfully",
+        "ERROR_MESSAGE": "Failed to delete agent capacity policy"
+      }
+    },
+    "DELETE_POLICY": {
+      "TITLE": "Delete policy",
+      "DESCRIPTION": "Are you sure you want to delete this policy? This action cannot be undone.",
+      "CONFIRM_BUTTON_LABEL": "Eyða",
+      "CANCEL_BUTTON_LABEL": "Hætta við"
+    }
+  }
+}

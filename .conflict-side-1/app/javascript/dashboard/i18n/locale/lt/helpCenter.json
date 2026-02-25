@@ -1,0 +1,865 @@
+{
+  "HELP_CENTER": {
+    "TITLE": "Palaikymo centras",
+    "NEW_PAGE": {
+      "DESCRIPTION": "Create self-service help center portals for your customers. Help them find answers quickly, without waiting. Streamline inquiries, boost agent efficiency, and elevate customer support.",
+      "CREATE_PORTAL_BUTTON": "Sukurti Portalą"
+    },
+    "HEADER": {
+      "FILTER": "Filtruoti pagal",
+      "SORT": "Rūšiuoti pagal",
+      "LOCALE": "Lokalizacija",
+      "SETTINGS_BUTTON": "Nustatymai",
+      "NEW_BUTTON": "Naujas Straipsnis",
+      "DROPDOWN_OPTIONS": {
+        "PUBLISHED": "Paskelbta",
+        "DRAFT": "Ruošinys",
+        "ARCHIVED": "Suarchyvuota"
+      },
+      "TITLES": {
+        "ALL_ARTICLES": "Visi Straipsniai",
+        "MINE": "Mano Straipsniai",
+        "DRAFT": "Straipsnių juodraščiai",
+        "ARCHIVED": "Suarchyvuoti Straipsniai"
+      },
+      "LOCALE_SELECT": {
+        "TITLE": "Select locale",
+        "PLACEHOLDER": "Select locale",
+        "NO_RESULT": "No locale found",
+        "SEARCH_PLACEHOLDER": "Search locale"
+      }
+    },
+    "EDIT_HEADER": {
+      "ALL_ARTICLES": "Visi Straipsniai",
+      "PUBLISH_BUTTON": "Skelbti",
+      "MOVE_TO_ARCHIVE_BUTTON": "Perkelti į archyvuotą",
+      "PREVIEW": "Peržiūrėti",
+      "ADD_TRANSLATION": "Pridėti vertimą",
+      "OPEN_SIDEBAR": "Atidaryti šoninę juostą",
+      "CLOSE_SIDEBAR": "Uždaryti šoninę juostą",
+      "SAVING": "Išsaugoma...",
+      "SAVED": "Išsaugota"
+    },
+    "ARTICLE_EDITOR": {
+      "IMAGE_UPLOAD": {
+        "TITLE": "Įkelti paveikslėlį",
+        "UPLOADING": "Įkeliama...",
+        "SUCCESS": "Paveiksliukas sėkmingai įkeltas",
+        "ERROR": "Klaida įkeliant paveiksliuką",
+        "UN_AUTHORIZED_ERROR": "You are not authorized to upload images",
+        "ERROR_FILE_SIZE": "Paveiksliuko dydis turi būti mažesnis nei {size} MB",
+        "ERROR_FILE_FORMAT": "Paveiksliuko formatas turi būti jpg, jpeg arba png",
+        "ERROR_FILE_DIMENSIONS": "Paveiksliuko matmenys turi būti mažesni nei 2000 x 2000"
+      }
+    },
+    "ARTICLE_SETTINGS": {
+      "TITLE": "Straipsnio Nustatymai",
+      "FORM": {
+        "CATEGORY": {
+          "LABEL": "Kategorija",
+          "TITLE": "Pasirinkti kategoriją",
+          "PLACEHOLDER": "Pasirinkti kategoriją",
+          "NO_RESULT": "Kategorijų nerasta",
+          "SEARCH_PLACEHOLDER": "Ieškoti kategorijos"
+        },
+        "AUTHOR": {
+          "LABEL": "Autorius",
+          "TITLE": "Pasirinkite autorių",
+          "PLACEHOLDER": "Pasirinkite autorių",
+          "NO_RESULT": "Autorių nerasta",
+          "SEARCH_PLACEHOLDER": "Ieškoti autoriaus"
+        },
+        "META_TITLE": {
+          "LABEL": "Meta antraštė",
+          "PLACEHOLDER": "Pridėkite meta antraštę"
+        },
+        "META_DESCRIPTION": {
+          "LABEL": "Meta aprašymas",
+          "PLACEHOLDER": "Pridėkite meta aprašą, kad gautumėte geresnius SEO rezultatų..."
+        },
+        "META_TAGS": {
+          "LABEL": "Meta žymos",
+          "PLACEHOLDER": "Pridėti meta žymes, atskirtas kableliais..."
+        }
+      },
+      "BUTTONS": {
+        "ARCHIVE": "Archyvuoti straipsnį",
+        "DELETE": "Ištrinti straipsnį"
+      }
+    },
+    "ARTICLE_SEARCH_RESULT": {
+      "UNCATEGORIZED": "Neįtraukta į kategorijas",
+      "SEARCH_RESULTS": "Search results for {query}",
+      "EMPTY_TEXT": "Search for articles to insert into replies.",
+      "SEARCH_LOADER": "Ieškoma...",
+      "INSERT_ARTICLE": "Įterpti",
+      "NO_RESULT": "Straipsnių nerasta",
+      "COPY_LINK": "Nukopijuokite straipsnio nuorodą į iškarpinę",
+      "OPEN_LINK": "Atidaryti straipsnį naujame skirtuke",
+      "PREVIEW_LINK": "Straipsnio peržiūra"
+    },
+    "PORTAL": {
+      "HEADER": "Portalas",
+      "DEFAULT": "Pagal nutylėjimą",
+      "NEW_BUTTON": "Naujas portalas",
+      "ACTIVE_BADGE": "aktyvus",
+      "CHOOSE_LOCALE_LABEL": "Pasirinkite lokalizaciją",
+      "LOADING_MESSAGE": "Įkeliami portalai...",
+      "ARTICLES_LABEL": "straipsniai",
+      "NO_PORTALS_MESSAGE": "Nėra pasiekiamų portalų",
+      "ADD_NEW_LOCALE": "Pridėti naują lokalizaciją",
+      "POPOVER": {
+        "TITLE": "Portalas",
+        "PORTAL_SETTINGS": "Portalo nustatymai",
+        "SUBTITLE": "Turite kelis portalus ir kiekvienam portalui galite turėti skirtingas lokalizacijas.",
+        "CANCEL_BUTTON_LABEL": "Atšaukti",
+        "CHOOSE_LOCALE_BUTTON": "Pasirinkite lokalizaciją"
+      },
+      "PORTAL_SETTINGS": {
+        "LIST_ITEM": {
+          "HEADER": {
+            "COUNT_LABEL": "straipsniai",
+            "ADD": "Pridėti lokalizaciją",
+            "VISIT": "Apsilankykite svetainėje",
+            "SETTINGS": "Nustatymai",
+            "DELETE": "Ištrinti"
+          },
+          "PORTAL_CONFIG": {
+            "TITLE": "Portalo konfiguracija",
+            "ITEMS": {
+              "NAME": "Vardas",
+              "DOMAIN": "Personalizuotas domenas",
+              "SLUG": "Slug",
+              "TITLE": "Portalo antraštė",
+              "THEME": "Temos spalva",
+              "SUB_TEXT": "Portalo subtekstas"
+            }
+          },
+          "AVAILABLE_LOCALES": {
+            "TITLE": "Prieinamos personalizacijos",
+            "TABLE": {
+              "NAME": "Vietos pavadinimas",
+              "CODE": "Vietos kodas",
+              "ARTICLE_COUNT": "Straipsnių kiekis",
+              "CATEGORIES": "Kategorijų kiekis",
+              "SWAP": "Sukeisti",
+              "DELETE": "Ištrinti",
+              "DEFAULT_LOCALE": "Pagal nutylėjimą"
+            }
+          }
+        },
+        "DELETE_PORTAL": {
+          "TITLE": "Trinti portalą",
+          "MESSAGE": "Ar tikrai norite ištrinti šį portalą",
+          "YES": "Taip, trinti portalą",
+          "NO": "Ne, išlaikyti portalą",
+          "API": {
+            "DELETE_SUCCESS": "Portalas ištrintas sėkmingai",
+            "DELETE_ERROR": "Trinant portalą įvyko klaida"
+          }
+        },
+        "SEND_CNAME_INSTRUCTIONS": {
+          "API": {
+            "SUCCESS_MESSAGE": "CNAME instructions sent successfully",
+            "ERROR_MESSAGE": "Error while sending CNAME instructions"
+          }
+        }
+      },
+      "EDIT": {
+        "HEADER_TEXT": "Portalo redagavimas",
+        "TABS": {
+          "BASIC_SETTINGS": {
+            "TITLE": "Pagrindinė informacija"
+          },
+          "CUSTOMIZATION_SETTINGS": {
+            "TITLE": "Portalo pritaikymas"
+          },
+          "CATEGORY_SETTINGS": {
+            "TITLE": "Kategorijos"
+          },
+          "LOCALE_SETTINGS": {
+            "TITLE": "Lokalizacija"
+          }
+        },
+        "CATEGORIES": {
+          "TITLE": "Kategorijos",
+          "NEW_CATEGORY": "Nauja kategorija",
+          "TABLE": {
+            "NAME": "Vardas",
+            "DESCRIPTION": "Aprašymas",
+            "LOCALE": "Lokalizacija",
+            "ARTICLE_COUNT": "Straipsnių kiekis",
+            "ACTION_BUTTON": {
+              "EDIT": "Keisti kategoriją",
+              "DELETE": "Ištrinti kategoriją"
+            },
+            "EMPTY_TEXT": "Kategorijų nerasta"
+          }
+        },
+        "EDIT_BASIC_INFO": {
+          "BUTTON_TEXT": "Atnaujinkite pagrindinius nustatymus"
+        }
+      },
+      "ADD": {
+        "CREATE_FLOW": {
+          "BASIC": {
+            "TITLE": "Pagalbos centro informacija",
+            "BODY": "Pagrindinė informacija apie portalą"
+          },
+          "CUSTOMIZATION": {
+            "TITLE": "Pagalbos centro pritaikymas",
+            "BODY": "Portalo pritaikymas"
+          },
+          "FINISH": {
+            "TITLE": "Baigta! 🎉",
+            "BODY": "Viskas paruošta!"
+          }
+        },
+        "CREATE_FLOW_PAGE": {
+          "BACK_BUTTON": "Atgal",
+          "BASIC_SETTINGS_PAGE": {
+            "HEADER": "Sukurti Portalą",
+            "TITLE": "Pagalbos centro informacija",
+            "CREATE_BASIC_SETTING_BUTTON": "Sukurkite pagrindinius portalo nustatymus"
+          },
+          "CUSTOMIZATION_PAGE": {
+            "HEADER": "Portalo pritaikymas",
+            "TITLE": "Pagalbos centro pritaikymas",
+            "UPDATE_PORTAL_BUTTON": "Atnaujinkite portalo nustatymus"
+          },
+          "FINISH_PAGE": {
+            "TITLE": "Baigta!🎉 Viskas paruošta!",
+            "MESSAGE": "Dabar galite pamatyti šį sukurtą portalą visų portalų puslapyje.",
+            "FINISH": "Eikite į visų portalų puslapį"
+          }
+        },
+        "LOGO": {
+          "LABEL": "Logotipas",
+          "UPLOAD_BUTTON": "Įkelti logotipą",
+          "HELP_TEXT": "Šis logotipas bus rodomas portalo antraštėje.",
+          "IMAGE_UPLOAD_SUCCESS": "Logo uploaded successfully",
+          "IMAGE_UPLOAD_ERROR": "Logo deleted successfully",
+          "IMAGE_DELETE_ERROR": "Error while deleting logo"
+        },
+        "NAME": {
+          "LABEL": "Vardas",
+          "PLACEHOLDER": "Portalo pavadinimas",
+          "HELP_TEXT": "Pavadinimas bus naudojamas viešajame portale.",
+          "ERROR": "Yra reikalingas vardas"
+        },
+        "SLUG": {
+          "LABEL": "Slug",
+          "PLACEHOLDER": "Portalo slug url adresui",
+          "ERROR": "Yra reikalingas slug"
+        },
+        "DOMAIN": {
+          "LABEL": "Personalizuotas domenas",
+          "PLACEHOLDER": "Portalo personalizuotas domenas",
+          "HELP_TEXT": "Add only If you want to use a custom domain for your portals. Eg: {exampleURL}",
+          "ERROR": "Įveskite galiojantį domaino URL"
+        },
+        "HOME_PAGE_LINK": {
+          "LABEL": "Nuoroda į pagrindinį puslapį",
+          "PLACEHOLDER": "Portalo nuoroda į pagrindinį puslapį",
+          "HELP_TEXT": "The link used to return from the portal to the home page. Eg: {exampleURL}",
+          "ERROR": "Įveskite galiojantį pagrindinio puslapio URL"
+        },
+        "THEME_COLOR": {
+          "LABEL": "Portalo temos spalva",
+          "HELP_TEXT": "Ši spalva bus rodoma kaip portalo temos spalva."
+        },
+        "PAGE_TITLE": {
+          "LABEL": "Puslapio Antraštė",
+          "PLACEHOLDER": "Portalo puslapio antraštė",
+          "HELP_TEXT": "Puslapio pavadinimas bus naudojamas viešame portale.",
+          "ERROR": "Yra reikalingas puslapio pavadinimas"
+        },
+        "HEADER_TEXT": {
+          "LABEL": "Antraštės tekstas",
+          "PLACEHOLDER": "Portalo antraštės tekstas",
+          "HELP_TEXT": "Portalo antraštės tekstas bus naudojamas viešame portale.",
+          "ERROR": "Yra reikalingas portalo antraštės tekstas"
+        },
+        "API": {
+          "SUCCESS_MESSAGE_FOR_BASIC": "Portalas sukurtas sėkmingai.",
+          "ERROR_MESSAGE_FOR_BASIC": "Nepavyko sukurti portalo. Bandykite dar kartą.",
+          "SUCCESS_MESSAGE_FOR_UPDATE": "Portalas atnaujintas sėkmingai.",
+          "ERROR_MESSAGE_FOR_UPDATE": "Nepavyko atnaujinti portalo. Bandykite dar kartą."
+        }
+      },
+      "ADD_LOCALE": {
+        "TITLE": "Pridėti naują lokalizaciją",
+        "SUB_TITLE": "Tai prideda naują lokalizaciją prie galimų vertimų sąrašo.",
+        "PORTAL": "Portalas",
+        "LOCALE": {
+          "LABEL": "Lokalizacija",
+          "PLACEHOLDER": "Pasirinkite lokalizaciją",
+          "ERROR": "Yra reikalinga lokalizacija"
+        },
+        "BUTTONS": {
+          "CREATE": "Sukurti lokalizaciją",
+          "CANCEL": "Atšaukti"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Lokalizacija sėkmingai pridėta",
+          "ERROR_MESSAGE": "Nepavyko pridėti lokalizacijos. Bandykite dar kartą."
+        }
+      },
+      "CHANGE_DEFAULT_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Numatytoji lokalizacija sėkmingai atnaujinta",
+          "ERROR_MESSAGE": "Nepavyko atnaujinti numatytosios lokalizacijos. Bandykite dar kartą."
+        }
+      },
+      "DELETE_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Lokalizacija sėkmingai pašalinta iš portalo",
+          "ERROR_MESSAGE": "Nepavyko pašalinti lokalizacijos iš portalo. Bandykite dar kartą."
+        }
+      }
+    },
+    "TABLE": {
+      "LOADING_MESSAGE": "Įkeliami straipsniai...",
+      "404": "Nė vienas straipsnis neatitinka jūsų paieškos 🔍",
+      "NO_ARTICLES": "Nėra pasiekiamų straipsnių",
+      "HEADERS": {
+        "TITLE": "Pavadinimas",
+        "CATEGORY": "Kategorija",
+        "READ_COUNT": "Views",
+        "STATUS": "Būsena",
+        "LAST_EDITED": "Paskutinį kartą redaguota"
+      },
+      "COLUMNS": {
+        "BY": "pateikė",
+        "AUTHOR_NOT_AVAILABLE": "Author is not available"
+      }
+    },
+    "EDIT_ARTICLE": {
+      "LOADING": "Įkeliamas straipsnis...",
+      "TITLE_PLACEHOLDER": "Straipsnio pavadinimas pateikiamas čia",
+      "CONTENT_PLACEHOLDER": "Rašykite straipsnį čia",
+      "API": {
+        "ERROR": "Išsaugant straipsnį įvyko klaida"
+      }
+    },
+    "PUBLISH_ARTICLE": {
+      "API": {
+        "ERROR": "Skelbiant straipsnį įvyko klaida",
+        "SUCCESS": "Straipsnis sėkmingai paskelbtas"
+      }
+    },
+    "ARCHIVE_ARTICLE": {
+      "API": {
+        "ERROR": "Archyvuojant straipsnį įvyko klaida",
+        "SUCCESS": "Straipsnis sėkmingai suarchyvuotas"
+      }
+    },
+    "DRAFT_ARTICLE": {
+      "API": {
+        "ERROR": "Error while drafting article",
+        "SUCCESS": "Article drafted successfully"
+      }
+    },
+    "DELETE_ARTICLE": {
+      "MODAL": {
+        "CONFIRM": {
+          "TITLE": "Patvirtinti Ištrynimą",
+          "MESSAGE": "Ar tikrai norite ištrinti straipsnį?",
+          "YES": "Taip, Ištrinti",
+          "NO": "Ne, Išsaugoti"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Straipsnis ištrintas sėkmingai",
+        "ERROR_MESSAGE": "Trinant straipsnį įvyko klaida"
+      }
+    },
+    "CREATE_ARTICLE": {
+      "ERROR_MESSAGE": "Pridėkite straipsnio antraštę ir turinį, tada tik jūs galėsite atnaujinti nustatymus"
+    },
+    "SIDEBAR": {
+      "SEARCH": {
+        "PLACEHOLDER": "Ieškoti straipsnių"
+      }
+    },
+    "CATEGORY": {
+      "ADD": {
+        "TITLE": "Sukurti kategoriją",
+        "SUB_TITLE": "Kategorija bus naudojama viešajame portale straipsniams skirstyti į kategorijas.",
+        "PORTAL": "Portalas",
+        "LOCALE": "Lokalizacija",
+        "NAME": {
+          "LABEL": "Vardas",
+          "PLACEHOLDER": "Kategorijos pavadinimas",
+          "HELP_TEXT": "Kategorijos pavadinimas ir piktograma bus naudojamas viešajame portale straipsniams skirstyti į kategorijas.",
+          "ERROR": "Yra reikalingas vardas"
+        },
+        "SLUG": {
+          "LABEL": "Slug",
+          "PLACEHOLDER": "Slug kategorija, skirta URL",
+          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
+          "ERROR": "Yra reikalingas slug"
+        },
+        "DESCRIPTION": {
+          "LABEL": "Aprašymas",
+          "PLACEHOLDER": "Pateikite trumpą kategorijos aprašymą.",
+          "ERROR": "Būtinas aprašymas"
+        },
+        "BUTTONS": {
+          "CREATE": "Sukurti kategoriją",
+          "CANCEL": "Atšaukti"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Kategorija sukurta sėkmingai",
+          "ERROR_MESSAGE": "Nepavyko sukurti kategorijos"
+        }
+      },
+      "EDIT": {
+        "TITLE": "Keisti kategoriją",
+        "SUB_TITLE": "Kategorijos redagavimas atnaujins kategoriją viešajame portale.",
+        "PORTAL": "Portalas",
+        "LOCALE": "Lokalizacija",
+        "NAME": {
+          "LABEL": "Vardas",
+          "PLACEHOLDER": "Kategorijos pavadinimas",
+          "HELP_TEXT": "Kategorijos pavadinimas ir piktograma bus naudojamas viešajame portale straipsniams skirstyti į kategorijas.",
+          "ERROR": "Yra reikalingas vardas"
+        },
+        "SLUG": {
+          "LABEL": "Slug",
+          "PLACEHOLDER": "Slug kategorija, skirta URL",
+          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
+          "ERROR": "Yra reikalingas slug"
+        },
+        "DESCRIPTION": {
+          "LABEL": "Aprašymas",
+          "PLACEHOLDER": "Pateikite trumpą kategorijos aprašymą.",
+          "ERROR": "Būtinas aprašymas"
+        },
+        "BUTTONS": {
+          "CREATE": "Keisti kategoriją",
+          "CANCEL": "Atšaukti"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Kategorija atnaujinta sėkmingai",
+          "ERROR_MESSAGE": "Nepavyko atnaujinti kategorijos"
+        }
+      },
+      "DELETE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Kategorija sėkmingai ištrinta",
+          "ERROR_MESSAGE": "Nepavyko ištrinti kategorijos"
+        }
+      }
+    },
+    "ARTICLE_SEARCH": {
+      "TITLE": "Ieškoti straipsnių",
+      "PLACEHOLDER": "Ieškoti straipsnių",
+      "NO_RESULT": "Straipsnių nerasta",
+      "SEARCHING": "Ieškoma...",
+      "SEARCH_BUTTON": "Ieškoti",
+      "INSERT_ARTICLE": "Įterpti nuorodą",
+      "IFRAME_ERROR": "URL is empty or invalid. Unable to display content.",
+      "OPEN_ARTICLE_SEARCH": "Insert article from Help Center",
+      "SUCCESS_ARTICLE_INSERTED": "Straipsnis patalpintas sėkmingai",
+      "PREVIEW_LINK": "Straipsnio peržiūra",
+      "CANCEL": "Uždaryti",
+      "BACK": "Atgal",
+      "BACK_RESULTS": "Back to results"
+    },
+    "UPGRADE_PAGE": {
+      "TITLE": "Palaikymo centras",
+      "DESCRIPTION": "Sukurti patogius savitarnos portalus. Padėkite savo vartotojams pasiekti straipsnius ir gauti palaikymą 24 valandas per parą, 7 dienas per savaitę. Atnaujinkite savo prenumeratą, kad įjungtumėte šią funkciją.",
+      "SELF_HOSTED_DESCRIPTION": "Sukurti patogius savitarnos portalus. Padėkite savo vartotojams pasiekti straipsnius ir gauti palaikymą 24 valandas per parą, 7 dienas per savaitę. Norėdami įjungti šią funkciją, susisiekite su administratoriumi.",
+      "BUTTON": {
+        "LEARN_MORE": "Sužinoti daugiau",
+        "UPGRADE": "Patobulinti"
+      },
+      "FEATURES": {
+        "PORTALS": {
+          "TITLE": "Keletas portalų",
+          "DESCRIPTION": "Sukurkite kelis pagalbos centro portalus skirtingiems produktams naudodami tą pačią paskyrą."
+        },
+        "LOCALES": {
+          "TITLE": "Lokalizacijos yra pilnai palaikomos",
+          "DESCRIPTION": "Lokalizuokite portalą savo kalba. Mes palaikome visas kalbas ir leidžiame kiekvieno straipsnio vertimus."
+        },
+        "SEO": {
+          "TITLE": "Paieškos variklio optimizavimui draugiškas dizainas",
+          "DESCRIPTION": "Customize your meta tags to improve your visibility on search engines with our SEO-friendly pages."
+        },
+        "API": {
+          "TITLE": "Pilnas API palaikymas",
+          "DESCRIPTION": "Use the portal as a headless CMS with third party front-end frameworks using our APIs."
+        }
+      }
+    },
+    "LOADING": "Loading...",
+    "ARTICLES_PAGE": {
+      "ARTICLE_CARD": {
+        "CARD": {
+          "VIEWS": "{count} view | {count} views",
+          "DROPDOWN_MENU": {
+            "PUBLISH": "Skelbti",
+            "DRAFT": "Ruošinys",
+            "ARCHIVE": "Archive",
+            "DELETE": "Ištrinti"
+          },
+          "STATUS": {
+            "DRAFT": "Ruošinys",
+            "PUBLISHED": "Paskelbta",
+            "ARCHIVED": "Suarchyvuota"
+          },
+          "CATEGORY": {
+            "UNCATEGORISED": "Uncategorised"
+          }
+        }
+      },
+      "ARTICLES_HEADER": {
+        "TABS": {
+          "ALL": "All articles",
+          "MINE": "Mano",
+          "DRAFT": "Ruošinys",
+          "PUBLISHED": "Paskelbta",
+          "ARCHIVED": "Suarchyvuota"
+        },
+        "CATEGORY": {
+          "ALL": "All categories"
+        },
+        "LOCALE": {
+          "ALL": "All locales"
+        },
+        "NEW_ARTICLE": "New article"
+      },
+      "EMPTY_STATE": {
+        "ALL": {
+          "TITLE": "Write an article",
+          "SUBTITLE": "Write a rich article, let’s get started!",
+          "BUTTON_LABEL": "New article"
+        },
+        "MINE": {
+          "TITLE": "You haven't written any articles here",
+          "SUBTITLE": "All articles written by you show up here for quick access."
+        },
+        "DRAFT": {
+          "TITLE": "There are no articles in drafts",
+          "SUBTITLE": "Draft articles will appear here"
+        },
+        "PUBLISHED": {
+          "TITLE": "There are no published articles",
+          "SUBTITLE": "Published articles will appear here"
+        },
+        "ARCHIVED": {
+          "TITLE": "There are no articles in the archive",
+          "SUBTITLE": "Archived articles don't show up on the portal, you can use it to mark deprecated or outdated pages"
+        },
+        "CATEGORY": {
+          "TITLE": "There are no articles in this category",
+          "SUBTITLE": "Articles in this category will appear here"
+        }
+      }
+    },
+    "CATEGORY_PAGE": {
+      "CATEGORY_HEADER": {
+        "NEW_CATEGORY": "Nauja kategorija",
+        "EDIT_CATEGORY": "Keisti kategoriją",
+        "CATEGORIES_COUNT": "{n} category | {n} categories",
+        "BREADCRUMB": {
+          "CATEGORY_LOCALE": "Categories ({localeCode})",
+          "ACTIVE_CATEGORY": "{categoryName} ({categoryCount} articles) | {categoryName} ({categoryCount} article)"
+        }
+      },
+      "CATEGORY_EMPTY_STATE": {
+        "TITLE": "Kategorijų nerasta",
+        "SUBTITLE": "Categories will appear here. You can add a category by clicking the 'New Category' button."
+      },
+      "CATEGORY_CARD": {
+        "ARTICLES_COUNT": "{count} article | {count} articles"
+      },
+      "CATEGORY_DIALOG": {
+        "CREATE": {
+          "API": {
+            "SUCCESS_MESSAGE": "Kategorija sukurta sėkmingai",
+            "ERROR_MESSAGE": "Nepavyko sukurti kategorijos"
+          }
+        },
+        "EDIT": {
+          "API": {
+            "SUCCESS_MESSAGE": "Kategorija atnaujinta sėkmingai",
+            "ERROR_MESSAGE": "Nepavyko atnaujinti kategorijos"
+          }
+        },
+        "DELETE": {
+          "API": {
+            "SUCCESS_MESSAGE": "Kategorija sėkmingai ištrinta",
+            "ERROR_MESSAGE": "Nepavyko ištrinti kategorijos"
+          }
+        },
+        "HEADER": {
+          "CREATE": "Sukurti kategoriją",
+          "EDIT": "Keisti kategoriją",
+          "DESCRIPTION": "Kategorijos redagavimas atnaujins kategoriją viešajame portale.",
+          "PORTAL": "Portalas",
+          "LOCALE": "Lokalizacija"
+        },
+        "FORM": {
+          "NAME": {
+            "LABEL": "Vardas",
+            "PLACEHOLDER": "Kategorijos pavadinimas",
+            "ERROR": "Yra reikalingas vardas"
+          },
+          "SLUG": {
+            "LABEL": "Slug",
+            "PLACEHOLDER": "Slug kategorija, skirta URL",
+            "ERROR": "Yra reikalingas slug",
+            "HELP_TEXT": "app.chatwoot.com/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
+          },
+          "DESCRIPTION": {
+            "LABEL": "Aprašymas",
+            "PLACEHOLDER": "Pateikite trumpą kategorijos aprašymą.",
+            "ERROR": "Būtinas aprašymas"
+          }
+        },
+        "BUTTONS": {
+          "CREATE": "Sukurti",
+          "EDIT": "Atnaujinti",
+          "CANCEL": "Atšaukti"
+        }
+      }
+    },
+    "LOCALES_PAGE": {
+      "LOCALES_COUNT": "No locales available | {n} locale | {n} locales",
+      "NEW_LOCALE_BUTTON_TEXT": "New locale",
+      "LOCALE_CARD": {
+        "ARTICLES_COUNT": "{count} article | {count} articles",
+        "CATEGORIES_COUNT": "{count} category | {count} categories",
+        "DEFAULT": "Pagal nutylėjimą",
+        "DROPDOWN_MENU": {
+          "MAKE_DEFAULT": "Make default",
+          "DELETE": "Ištrinti"
+        }
+      },
+      "ADD_LOCALE_DIALOG": {
+        "TITLE": "Pridėti naują lokalizaciją",
+        "DESCRIPTION": "Select the language in which this article will be written. This will be added to your list of translations, and you can add more later.",
+        "COMBOBOX": {
+          "PLACEHOLDER": "Select locale..."
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Lokalizacija sėkmingai pridėta",
+          "ERROR_MESSAGE": "Nepavyko pridėti lokalizacijos. Bandykite dar kartą."
+        }
+      }
+    },
+    "EDIT_ARTICLE_PAGE": {
+      "HEADER": {
+        "STATUS": {
+          "SAVING": "Išsaugoma...",
+          "SAVED": "Išsaugota"
+        },
+        "PREVIEW": "Peržiūrėti",
+        "PUBLISH": "Skelbti",
+        "DRAFT": "Ruošinys",
+        "ARCHIVE": "Archive",
+        "BACK_TO_ARTICLES": "Back to articles"
+      },
+      "EDIT_ARTICLE": {
+        "MORE_PROPERTIES": "More properties",
+        "UNCATEGORIZED": "Neįtraukta į kategorijas",
+        "EDITOR_PLACEHOLDER": "Write something..."
+      },
+      "ARTICLE_PROPERTIES": {
+        "ARTICLE_PROPERTIES": "Article properties",
+        "META_DESCRIPTION": "Meta aprašymas",
+        "META_DESCRIPTION_PLACEHOLDER": "Add meta description",
+        "META_TITLE": "Meta antraštė",
+        "META_TITLE_PLACEHOLDER": "Add meta title",
+        "META_TAGS": "Meta žymos",
+        "META_TAGS_PLACEHOLDER": "Add meta tags"
+      },
+      "API": {
+        "ERROR": "Išsaugant straipsnį įvyko klaida"
+      }
+    },
+    "PORTAL_SWITCHER": {
+      "NEW_PORTAL": "New portal",
+      "PORTALS": "Portalas",
+      "CREATE_PORTAL": "Create and manage multiple portals",
+      "ARTICLES": "straipsniai",
+      "DOMAIN": "domenas",
+      "PORTAL_NAME": "Portalo pavadinimas"
+    },
+    "CREATE_PORTAL_DIALOG": {
+      "TITLE": "Create new portal",
+      "DESCRIPTION": "Give your portal a name and create a user-friendly URL slug. You can modify both later in the settings.",
+      "CONFIRM_BUTTON_LABEL": "Sukurti",
+      "NAME": {
+        "LABEL": "Vardas",
+        "PLACEHOLDER": "User Guide | Chatwoot",
+        "MESSAGE": "Choose an name for your portal.",
+        "ERROR": "Yra reikalingas vardas"
+      },
+      "SLUG": {
+        "LABEL": "Slug",
+        "PLACEHOLDER": "user-guide",
+        "ERROR": "Yra reikalingas slug",
+        "FORMAT_ERROR": "Please enter a valid slug, for eg: user-guide"
+      }
+    },
+    "PORTAL_SETTINGS": {
+      "FORM": {
+        "AVATAR": {
+          "LABEL": "Logotipas",
+          "IMAGE_UPLOAD_ERROR": "Nepavyko įkelti vaizdo! Prašau, pabandykite dar kartą",
+          "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save changes to save the logo",
+          "IMAGE_DELETE_SUCCESS": "Logo deleted successfully",
+          "IMAGE_DELETE_ERROR": "Unable to delete logo",
+          "IMAGE_UPLOAD_SIZE_ERROR": "Paveiksliuko dydis turi būti mažesnis nei {size} MB"
+        },
+        "NAME": {
+          "LABEL": "Vardas",
+          "PLACEHOLDER": "Portalo pavadinimas",
+          "ERROR": "Yra reikalingas vardas"
+        },
+        "HEADER_TEXT": {
+          "LABEL": "Header text",
+          "PLACEHOLDER": "Portalo antraštės tekstas"
+        },
+        "PAGE_TITLE": {
+          "LABEL": "Page title",
+          "PLACEHOLDER": "Portalo puslapio antraštė"
+        },
+        "HOME_PAGE_LINK": {
+          "LABEL": "Home page link",
+          "PLACEHOLDER": "Portalo nuoroda į pagrindinį puslapį",
+          "ERROR": "Enter a valid URL. The Home page link must start with 'http://' or 'https://'."
+        },
+        "SLUG": {
+          "LABEL": "Slug",
+          "PLACEHOLDER": "Portal slug"
+        },
+        "LIVE_CHAT_WIDGET": {
+          "LABEL": "Live chat widget",
+          "PLACEHOLDER": "Select live chat widget",
+          "HELP_TEXT": "Select a live chat widget that will appear on your help center",
+          "NONE_OPTION": "No widget"
+        },
+        "BRAND_COLOR": {
+          "LABEL": "Brand color"
+        },
+        "SAVE_CHANGES": "Save changes"
+      },
+      "CONFIGURATION_FORM": {
+        "CUSTOM_DOMAIN": {
+          "HEADER": "Personalizuotas domenas",
+          "LABEL": "Personalizuotas domenas:",
+          "DESCRIPTION": "You can host your portal on a custom domain. For instance, if your website is yourdomain.com and you want your portal available at docs.yourdomain.com, simply enter that in this field.",
+          "STATUS_DESCRIPTION": "Your custom portal will start working as soon as it is verified.",
+          "PLACEHOLDER": "Portalo personalizuotas domenas",
+          "EDIT_BUTTON": "Redaguoti",
+          "ADD_BUTTON": "Add custom domain",
+          "STATUS": {
+            "LIVE": "Tiesiogiai",
+            "PENDING": "Awaiting verification",
+            "ERROR": "Verification failed"
+          },
+          "DIALOG": {
+            "ADD_HEADER": "Add custom domain",
+            "EDIT_HEADER": "Edit custom domain",
+            "ADD_CONFIRM_BUTTON_LABEL": "Add domain",
+            "EDIT_CONFIRM_BUTTON_LABEL": "Update domain",
+            "LABEL": "Personalizuotas domenas",
+            "PLACEHOLDER": "Portalo personalizuotas domenas",
+            "ERROR": "Custom domain is required",
+            "FORMAT_ERROR": "Please enter a valid domain URL e.g. docs.yourdomain.com"
+          },
+          "DNS_CONFIGURATION_DIALOG": {
+            "HEADER": "DNS configuration",
+            "DESCRIPTION": "Log in to the account you have with your DNS provider, and add a CNAME record for subdomain pointing to chatwoot.help",
+            "COPY": "Successfully copied CNAME",
+            "SEND_INSTRUCTIONS": {
+              "HEADER": "Send instructions",
+              "DESCRIPTION": "If you would prefer to have someone from your development team to handle this step, you can enter email address below, and we will send them the required instructions.",
+              "PLACEHOLDER": "Enter their email",
+              "ERROR": "Enter a valid email address",
+              "SEND_BUTTON": "Siųsti"
+            }
+          }
+        },
+        "DELETE_PORTAL": {
+          "BUTTON": "Delete {portalName}",
+          "HEADER": "Trinti portalą",
+          "DESCRIPTION": "Permanently delete this portal. This action is irreversible",
+          "DIALOG": {
+            "HEADER": "Sure you want to delete {portalName}?",
+            "DESCRIPTION": "This is a permanent action that cannot be reversed.",
+            "CONFIRM_BUTTON_LABEL": "Ištrinti"
+          }
+        },
+        "EDIT_CONFIGURATION": "Edit configuration"
+      },
+      "API": {
+        "CREATE_PORTAL": {
+          "SUCCESS_MESSAGE": "Portalas sukurtas sėkmingai",
+          "ERROR_MESSAGE": "Unable to create portal"
+        },
+        "UPDATE_PORTAL": {
+          "SUCCESS_MESSAGE": "Portalas atnaujintas sėkmingai",
+          "ERROR_MESSAGE": "Unable to update portal"
+        }
+      }
+    },
+    "PDF_UPLOAD": {
+      "TITLE": "Upload PDF Document",
+      "DESCRIPTION": "Upload a PDF document to automatically generate FAQs using AI",
+      "DRAG_DROP_TEXT": "Drag and drop your PDF file here, or click to select",
+      "SELECT_FILE": "Select PDF File",
+      "ADDITIONAL_CONTEXT_LABEL": "Additional Context (Optional)",
+      "ADDITIONAL_CONTEXT_PLACEHOLDER": "Provide any additional context or instructions for FAQ generation...",
+      "UPLOADING": "Įkeliama...",
+      "UPLOAD": "Upload & Process",
+      "CANCEL": "Atšaukti",
+      "ERROR_INVALID_TYPE": "Please select a valid PDF file",
+      "ERROR_FILE_TOO_LARGE": "File size must be less than 512MB",
+      "ERROR_UPLOAD_FAILED": "Failed to upload PDF. Please try again."
+    },
+    "PDF_DOCUMENTS": {
+      "TITLE": "PDF Documents",
+      "DESCRIPTION": "Manage uploaded PDF documents and generate FAQs from them",
+      "UPLOAD_PDF": "Upload PDF",
+      "UPLOAD_FIRST_PDF": "Upload your first PDF",
+      "UPLOADED_BY": "Uploaded by",
+      "GENERATE_FAQS": "Generate FAQs",
+      "GENERATING": "Sukurti...",
+      "CONFIRM_DELETE": "Are you sure you want to delete {filename}?",
+      "EMPTY_STATE": {
+        "TITLE": "No PDF documents yet",
+        "DESCRIPTION": "Upload PDF documents to automatically generate FAQs using AI"
+      },
+      "STATUS": {
+        "UPLOADED": "Ready",
+        "PROCESSING": "Processing",
+        "PROCESSED": "Užbaigta",
+        "FAILED": "Failed"
+      }
+    },
+    "CONTENT_GENERATION": {
+      "TITLE": "Content Generation",
+      "DESCRIPTION": "Upload PDF documents to automatically generate FAQ content using AI",
+      "UPLOAD_TITLE": "Upload PDF Document",
+      "DRAG_DROP": "Drag and drop your PDF file here, or click to select",
+      "SELECT_FILE": "Select PDF File",
+      "UPLOADING": "Processing document...",
+      "UPLOAD_SUCCESS": "Document processed successfully!",
+      "UPLOAD_ERROR": "Failed to upload document. Please try again.",
+      "INVALID_FILE_TYPE": "Please select a valid PDF file",
+      "FILE_TOO_LARGE": "File size must be less than 512MB",
+      "GENERATED_CONTENT": "Generated FAQ Content",
+      "PUBLISH_SELECTED": "Publish Selected",
+      "PUBLISHING": "Publishing...",
+      "FROM_DOCUMENT": "From document",
+      "NO_CONTENT": "No generated content available. Upload a PDF document to get started.",
+      "LOADING": "Loading generated content..."
+    }
+  }
+}

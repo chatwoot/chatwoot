@@ -1,0 +1,77 @@
+{
+  "AUDIT_LOGS": {
+    "HEADER": "Audito Žurnalas",
+    "HEADER_BTN_TXT": "Pridėti Audito Žurnalus",
+    "LOADING": "Parsiunčiami Audito Žurnalai",
+    "DESCRIPTION": "Audit Logs maintain a record of activities in your account, allowing you to track and audit your account, team, or services.",
+    "LEARN_MORE": "Learn more about audit logs",
+    "SEARCH_404": "Šią užklausą atitinkančių elementų nėra",
+    "SIDEBAR_TXT": "<p><b>Audito žurnalai</b> </p><p> Audito žurnalai yra įvykių ir veiksmų Chatwoot sistemoje pėdsakai. </p>",
+    "LIST": {
+      "404": "Šiai paskyrai nėra prieinamų Audito Žurnalų.",
+      "TITLE": "Tvarkyti Audito Žurnalus",
+      "DESC": "Audito žurnalai yra įvykių ir veiksmų „Chatwoot“ sistemoje pėdsakai.",
+      "TABLE_HEADER": {
+        "ACTIVITY": "Vartotojas",
+        "TIME": "Action",
+        "IP_ADDRESS": "IP Adresas"
+      }
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Audito Žurnalai parsiųsti sėkmingai",
+      "ERROR_MESSAGE": "Nepavyko prisijungti prie Woot serverio, bandykite dar kartą vėliau"
+    },
+    "DEFAULT_USER": "Sistema",
+    "AUTOMATION_RULE": {
+      "ADD": "{agentName} created a new automation rule (#{id})",
+      "EDIT": "{agentName} updated an automation rule (#{id})",
+      "DELETE": "{agentName} deleted an automation rule (#{id})"
+    },
+    "ACCOUNT_USER": {
+      "ADD": "{agentName} pakvietė {invitee} į paskyrą kaip {role}",
+      "EDIT": {
+        "SELF": "{agentName} pakeitė savo {attributes} į {values}",
+        "OTHER": "{agentName} pakeitė {attributes} iš {user} į {values}",
+        "DELETED": "{agentName} changed {attributes} of a deleted user to {values}"
+      }
+    },
+    "INBOX": {
+      "ADD": "{agentName} created a new inbox (#{id})",
+      "EDIT": "{agentName} updated an inbox (#{id})",
+      "DELETE": "{agentName} deleted an inbox (#{id})"
+    },
+    "WEBHOOK": {
+      "ADD": "{agentName} created a new webhook (#{id})",
+      "EDIT": "{agentName} updated a webhook (#{id})",
+      "DELETE": "{agentName} deleted a webhook (#{id})"
+    },
+    "USER_ACTION": {
+      "SIGN_IN": "{agentName} prisijungęs",
+      "SIGN_OUT": "{agentName} atsijungęs"
+    },
+    "TEAM": {
+      "ADD": "{agentName} created a new team (#{id})",
+      "EDIT": "{agentName} updated a team (#{id})",
+      "DELETE": "{agentName} deleted a team (#{id})"
+    },
+    "MACRO": {
+      "ADD": "{agentName} created a new macro (#{id})",
+      "EDIT": "{agentName} updated a macro (#{id})",
+      "DELETE": "{agentName} deleted a macro (#{id})"
+    },
+    "INBOX_MEMBER": {
+      "ADD": "{agentName} added {user} to the inbox(#{inbox_id})",
+      "REMOVE": "{agentName} removed {user} from the inbox(#{inbox_id})"
+    },
+    "TEAM_MEMBER": {
+      "ADD": "{agentName} added {user} to the team(#{team_id})",
+      "REMOVE": "{agentName} removed {user} from the team(#{team_id})"
+    },
+    "ACCOUNT": {
+      "EDIT": "{agentName} updated the account configuration (#{id})"
+    },
+    "CONVERSATION": {
+      "DELETE": "{agentName} deleted conversation #{id}"
+    }
+  }
+}

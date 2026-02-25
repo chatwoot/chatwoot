@@ -1,0 +1,138 @@
+{
+  "ATTRIBUTES_MGMT": {
+    "HEADER": "Προσαρμοζόμενες Ιδιότητες",
+    "HEADER_BTN_TXT": "Προσθήκη προσαρμοσμένης ιδιότητας",
+    "LOADING": "Λήψη προσαρμοσμένων ιδιοτήτων",
+    "DESCRIPTION": "A custom attribute tracks additional details about your contacts or conversations—such as the subscription plan or the date of their first purchase. You can add different types of custom attributes, such as text, lists, or numbers, to capture the specific information you need.",
+    "LEARN_MORE": "Learn more about custom attributes",
+    "ATTRIBUTE_MODELS": {
+      "CONVERSATION": "Συνομιλία",
+      "CONTACT": "Επαφές"
+    },
+    "ATTRIBUTE_TYPES": {
+      "TEXT": "Κείμενο",
+      "NUMBER": "Αριθμός",
+      "LINK": "Σύνδεσμος",
+      "DATE": "Date",
+      "LIST": "Λίστα",
+      "CHECKBOX": "Checkbox"
+    },
+    "ADD": {
+      "TITLE": "Προσθήκη προσαρμοσμένης ιδιότητας",
+      "SUBMIT": "Δημιουργία",
+      "CANCEL_BUTTON_TEXT": "Άκυρο",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Εμφανιζόμενο όνομα",
+          "PLACEHOLDER": "Εισάγετε το εμφανιζόμενο όνομα της ιδιότητας",
+          "ERROR": "Απαιτείται όνομα"
+        },
+        "DESC": {
+          "LABEL": "Περιγραφή",
+          "PLACEHOLDER": "Εισάγετε την περιγραφή της ιδιότητας",
+          "ERROR": "Η περιγραφή απαιτείται"
+        },
+        "MODEL": {
+          "LABEL": "Εφαρμόζεται σε",
+          "PLACEHOLDER": "Παρακαλώ επιλέξτε ένα",
+          "ERROR": "Απαιτείται το μοντέλο"
+        },
+        "TYPE": {
+          "LABEL": "Τύπος",
+          "PLACEHOLDER": "Παρακαλώ επιλέξτε ρόλο",
+          "ERROR": "Ο τύπος απαιτείται",
+          "LIST": {
+            "LABEL": "Λίστα Τιμών",
+            "PLACEHOLDER": "Παρακαλώ εισάγετε τιμή και πατήστε το πλήκτρο enter",
+            "ERROR": "Πρέπει να έχει τουλάχιστον μία τιμή"
+          }
+        },
+        "KEY": {
+          "LABEL": "Κλειδί",
+          "PLACEHOLDER": "Εισάγετε τον κωδικό της ιδιότητας",
+          "ERROR": "Ο Κωδικός απαιτείται",
+          "IN_VALID": "Μη έγκυρο κλειδί"
+        },
+        "REGEX_PATTERN": {
+          "LABEL": "Regex Pattern",
+          "PLACEHOLDER": "Please enter custom attribute regex pattern. (Optional)"
+        },
+        "REGEX_CUE": {
+          "LABEL": "Regex Cue",
+          "PLACEHOLDER": "Please enter regex pattern hint. (Optional)"
+        },
+        "ENABLE_REGEX": {
+          "LABEL": "Enable regex validation"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Η ιδιότητα προστέθηκε με επιτυχία!",
+        "ERROR_MESSAGE": "Δεν ήταν δυνατή η δημιουργία Ιδιότητας, Παρακαλώ δοκιμάστε ξανά αργότερα."
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Διαγραφή",
+      "API": {
+        "SUCCESS_MESSAGE": "Η ιδιότητα διαγράφηκε επιτυχώς.",
+        "ERROR_MESSAGE": "Δεν ήταν δυνατή η διαγραφή της ιδιότητας. Δοκιμάστε ξανά."
+      },
+      "CONFIRM": {
+        "TITLE": "Είστε σίγουροι ότι θέλετε να διαγράψετε την ομάδα {attributeName}",
+        "PLACE_HOLDER": "Παρακαλώ πληκτρολογήστε {attributeName} για επιβεβαίωση",
+        "MESSAGE": "Η Διαγραφή θα καταργήσει την ιδιότητα",
+        "YES": "Διαγραφή ",
+        "NO": "Άκυρο"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Επεξεργασία Προσαρμοσμένου Ιδιότητας",
+      "UPDATE_BUTTON_TEXT": "Ενημέρωση",
+      "TYPE": {
+        "LIST": {
+          "LABEL": "Λίστα Τιμών",
+          "PLACEHOLDER": "Παρακαλώ εισάγετε τιμές και πατήστε το πλήκτρο enter"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Ο πράκτορας ενημερώθηκε επιτυχώς",
+        "ERROR_MESSAGE": "Παρουσιάστηκε σφάλμα κατά την ενημέρωση της ιδιότητας, παρακαλώ προσπαθήστε ξανά"
+      }
+    },
+    "TABS": {
+      "HEADER": "Προσαρμοζόμενες Ιδιότητες",
+      "CONVERSATION": "Συνομιλία",
+      "CONTACT": "Επαφές"
+    },
+    "LIST": {
+      "TABLE_HEADER": {
+        "NAME": "Όνομα",
+        "DESCRIPTION": "Περιγραφή",
+        "TYPE": "Τύπος",
+        "KEY": "Κλειδί"
+      },
+      "BUTTONS": {
+        "EDIT": "Επεξεργασία",
+        "DELETE": "Διαγραφή"
+      },
+      "EMPTY_RESULT": {
+        "404": "Δεν δημιουργήθηκαν προσαρμοζόμενες ιδιότητες",
+        "NOT_FOUND": "Δεν έχουν ρυθμιστεί προσαρμοζόμενες ιδιότητες"
+      },
+      "REGEX_PATTERN": {
+        "LABEL": "Regex Pattern",
+        "PLACEHOLDER": "Please enter custom attribute regex pattern. (Optional)"
+      },
+      "REGEX_CUE": {
+        "LABEL": "Regex Cue",
+        "PLACEHOLDER": "Please enter regex pattern hint. (Optional)"
+      },
+      "ENABLE_REGEX": {
+        "LABEL": "Enable regex validation"
+      }
+    },
+    "BADGES": {
+      "PRE_CHAT": "Pre-chat",
+      "RESOLUTION": "Resolution"
+    }
+  }
+}

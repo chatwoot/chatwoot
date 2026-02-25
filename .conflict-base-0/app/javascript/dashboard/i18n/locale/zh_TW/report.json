@@ -1,0 +1,582 @@
+{
+  "REPORT": {
+    "HEADER": "對話",
+    "LOADING_CHART": "正在載入图表數據...",
+    "NO_ENOUGH_DATA": "我們没有收到足夠的數據來生成報表，請稍後再試。",
+    "DOWNLOAD_AGENT_REPORTS": "下載客服報告",
+    "DATA_FETCHING_FAILED": "Failed to fetch data, please try again later.",
+    "SUMMARY_FETCHING_FAILED": "Failed to fetch summary, please try again later.",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "對話",
+        "DESC": "(總計)"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "收到的消息",
+        "DESC": "(總計)"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "發送的消息",
+        "DESC": "(總計)"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "First Response Time",
+        "DESC": "( 平均)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is {metricValue} (based on {conversationCount} conversations)"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "解決時間",
+        "DESC": "( 平均)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is {metricValue} (based on {conversationCount} conversations)"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "已解決的數量",
+        "DESC": "(總計)"
+      },
+      "BOT_RESOLUTION_COUNT": {
+        "NAME": "已解決的數量",
+        "DESC": "(總計)"
+      },
+      "BOT_HANDOFF_COUNT": {
+        "NAME": "Handoff Count",
+        "DESC": "(總計)"
+      },
+      "REPLY_TIME": {
+        "NAME": "Customer waiting time",
+        "TOOLTIP_TEXT": "Waiting time is {metricValue} (based on {conversationCount} replies)",
+        "DESC": ""
+      }
+    },
+    "DATE_RANGE_OPTIONS": {
+      "LAST_7_DAYS": "最近7天",
+      "LAST_14_DAYS": "最近14天",
+      "LAST_30_DAYS": "最近30天",
+      "THIS_MONTH": "This month",
+      "LAST_MONTH": "Last month",
+      "LAST_3_MONTHS": "三個月內",
+      "LAST_6_MONTHS": "六個月內",
+      "LAST_YEAR": "去年",
+      "CUSTOM_DATE_RANGE": "自定日期範圍"
+    },
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "套用",
+      "PLACEHOLDER": "Select date range"
+    },
+    "GROUP_BY_FILTER_DROPDOWN_LABEL": "Group By",
+    "DURATION_FILTER_LABEL": "Duration",
+    "GROUPING_OPTIONS": {
+      "DAY": "Day",
+      "WEEK": "Week",
+      "MONTH": "Month",
+      "YEAR": "Month"
+    },
+    "GROUP_BY_DAY_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Day"
+      }
+    ],
+    "GROUP_BY_WEEK_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Day"
+      },
+      {
+        "id": 2,
+        "groupBy": "Week"
+      }
+    ],
+    "GROUP_BY_MONTH_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Day"
+      },
+      {
+        "id": 2,
+        "groupBy": "Week"
+      },
+      {
+        "id": 3,
+        "groupBy": "Month"
+      }
+    ],
+    "GROUP_BY_YEAR_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Day"
+      },
+      {
+        "id": 2,
+        "groupBy": "Week"
+      },
+      {
+        "id": 3,
+        "groupBy": "Month"
+      }
+    ],
+    "BUSINESS_HOURS": "服務時間",
+    "FILTER_ACTIONS": {
+      "CLEAR_FILTER": "Clear filter",
+      "EMPTY_LIST": "No results found"
+    },
+    "PAGINATION": {
+      "RESULTS": "Showing {start} to {end} of {total} results",
+      "PER_PAGE_TEMPLATE": "{size} / page"
+    }
+  },
+  "AGENT_REPORTS": {
+    "HEADER": "客服總覽",
+    "DESCRIPTION": "Easily track agent performance with key metrics such as conversations, response times, resolution times, and resolved cases. Click an agent’s name to learn more.",
+    "LOADING_CHART": "正在載入图表數據...",
+    "NO_ENOUGH_DATA": "我們没有收到足夠的數據來生成報表，請稍後再試。",
+    "DOWNLOAD_AGENT_REPORTS": "下載客服報告",
+    "FILTER_DROPDOWN_LABEL": "選擇客服",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "對話",
+        "DESC": "(總計)"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "收到的消息",
+        "DESC": "(總計)"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "發送的消息",
+        "DESC": "(總計)"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "First Response Time",
+        "DESC": "( 平均)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is {metricValue} (based on {conversationCount} conversations)"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "解決時間",
+        "DESC": "( 平均)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is {metricValue} (based on {conversationCount} conversations)"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "已解決的數量",
+        "DESC": "(總計)"
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "最近7天"
+      },
+      {
+        "id": 1,
+        "name": "最近30天"
+      },
+      {
+        "id": 2,
+        "name": "三個月內"
+      },
+      {
+        "id": 3,
+        "name": "六個月內"
+      },
+      {
+        "id": 4,
+        "name": "去年"
+      },
+      {
+        "id": 5,
+        "name": "Custom date range"
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "套用",
+      "PLACEHOLDER": "選擇日期範圍"
+    }
+  },
+  "LABEL_REPORTS": {
+    "HEADER": "Labels Overview",
+    "DESCRIPTION": "Track label performance with key metrics including conversations, response times, resolution times, and resolved cases. Click a label name for detailed insights.",
+    "LOADING_CHART": "正在載入图表數據...",
+    "NO_ENOUGH_DATA": "我們没有收到足夠的數據來生成報表，請稍後再試。",
+    "DOWNLOAD_LABEL_REPORTS": "Download label reports",
+    "FILTER_DROPDOWN_LABEL": "Select Label",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "對話",
+        "DESC": "(總計)"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "收到的消息",
+        "DESC": "(總計)"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "發送的消息",
+        "DESC": "(總計)"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "First Response Time",
+        "DESC": "( 平均)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is {metricValue} (based on {conversationCount} conversations)"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "解決時間",
+        "DESC": "( 平均)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is {metricValue} (based on {conversationCount} conversations)"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "已解決的數量",
+        "DESC": "(總計)"
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "最近7天"
+      },
+      {
+        "id": 1,
+        "name": "最近30天"
+      },
+      {
+        "id": 2,
+        "name": "三個月內"
+      },
+      {
+        "id": 3,
+        "name": "六個月內"
+      },
+      {
+        "id": 4,
+        "name": "去年"
+      },
+      {
+        "id": 5,
+        "name": "自定日期範圍"
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "套用",
+      "PLACEHOLDER": "選擇日期範圍"
+    }
+  },
+  "INBOX_REPORTS": {
+    "HEADER": "Inbox Overview",
+    "DESCRIPTION": "Quickly view your inbox performance with key metrics like conversations, response times, resolution times, and resolved cases—all in one place. Click an inbox name for more details.",
+    "LOADING_CHART": "正在載入图表數據...",
+    "NO_ENOUGH_DATA": "我們没有收到足夠的數據來生成報表，請稍後再試。",
+    "DOWNLOAD_INBOX_REPORTS": "Download inbox reports",
+    "FILTER_DROPDOWN_LABEL": "選擇收件匣",
+    "ALL_INBOXES": "All Inboxes",
+    "SEARCH_INBOX": "Search Inbox",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "對話",
+        "DESC": "(總計)"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "收到的消息",
+        "DESC": "(總計)"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "發送的消息",
+        "DESC": "(總計)"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "First Response Time",
+        "DESC": "( 平均)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is {metricValue} (based on {conversationCount} conversations)"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "解決時間",
+        "DESC": "( 平均)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is {metricValue} (based on {conversationCount} conversations)"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "已解決的數量",
+        "DESC": "(總計)"
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "最近7天"
+      },
+      {
+        "id": 1,
+        "name": "最近30天"
+      },
+      {
+        "id": 2,
+        "name": "三個月內"
+      },
+      {
+        "id": 3,
+        "name": "六個月內"
+      },
+      {
+        "id": 4,
+        "name": "去年"
+      },
+      {
+        "id": 5,
+        "name": "Custom date range"
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "套用",
+      "PLACEHOLDER": "選擇日期範圍"
+    }
+  },
+  "TEAM_REPORTS": {
+    "HEADER": "Team Overview",
+    "DESCRIPTION": "Get a snapshot of your team’s performance with essential metrics, including conversations, response times, resolution times, and resolved cases. Click a team name for more details.",
+    "LOADING_CHART": "正在載入图表數據...",
+    "NO_ENOUGH_DATA": "我們没有收到足夠的數據來生成報表，請稍後再試。",
+    "DOWNLOAD_TEAM_REPORTS": "Download team reports",
+    "FILTER_DROPDOWN_LABEL": "Select Team",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "對話",
+        "DESC": "(總計)"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "收到的消息",
+        "DESC": "(總計)"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "發送的消息",
+        "DESC": "(總計)"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "First Response Time",
+        "DESC": "( 平均)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is {metricValue} (based on {conversationCount} conversations)"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "解決時間",
+        "DESC": "( 平均)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is {metricValue} (based on {conversationCount} conversations)"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "已解決的數量",
+        "DESC": "(總計)"
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "最近7天"
+      },
+      {
+        "id": 1,
+        "name": "最近30天"
+      },
+      {
+        "id": 2,
+        "name": "三個月內"
+      },
+      {
+        "id": 3,
+        "name": "六個月內"
+      },
+      {
+        "id": 4,
+        "name": "去年"
+      },
+      {
+        "id": 5,
+        "name": "自定日期範圍"
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "套用",
+      "PLACEHOLDER": "選擇日期範圍"
+    }
+  },
+  "CSAT_REPORTS": {
+    "HEADER": "CSAT Reports",
+    "NO_RECORDS": "There are no CSAT survey responses available.",
+    "DOWNLOAD": "Download CSAT Reports",
+    "DOWNLOAD_FAILED": "Failed to download CSAT Reports",
+    "FILTERS": {
+      "AGENTS": {
+        "PLACEHOLDER": "Choose Agents"
+      }
+    },
+    "TABLE": {
+      "HEADER": {
+        "CONTACT_NAME": "聯絡人",
+        "AGENT_NAME": "Assigned agent",
+        "RATING": "Rating",
+        "FEEDBACK_TEXT": "Feedback comment"
+      }
+    },
+    "METRIC": {
+      "TOTAL_RESPONSES": {
+        "LABEL": "Total responses",
+        "TOOLTIP": "Total number of responses collected"
+      },
+      "SATISFACTION_SCORE": {
+        "LABEL": "Satisfaction score",
+        "TOOLTIP": "Total number of positive responses / Total number of responses * 100"
+      },
+      "RESPONSE_RATE": {
+        "LABEL": "Response rate",
+        "TOOLTIP": "Total number of responses / Total number of CSAT survey messages sent * 100"
+      }
+    }
+  },
+  "BOT_REPORTS": {
+    "HEADER": "Bot Reports",
+    "METRIC": {
+      "TOTAL_CONVERSATIONS": {
+        "LABEL": "No. of Conversations",
+        "TOOLTIP": "Total number of conversations handled by the bot"
+      },
+      "TOTAL_RESPONSES": {
+        "LABEL": "Total Responses",
+        "TOOLTIP": "Total number of responses sent by the bot"
+      },
+      "RESOLUTION_RATE": {
+        "LABEL": "Resolution Rate",
+        "TOOLTIP": "Total number of conversations resolved by the bot / Total number of conversations handled by the bot * 100"
+      },
+      "HANDOFF_RATE": {
+        "LABEL": "Handoff Rate",
+        "TOOLTIP": "Total number of conversations handed off to agents / Total number of conversations handled by the bot * 100"
+      }
+    }
+  },
+  "OVERVIEW_REPORTS": {
+    "HEADER": "總覽",
+    "LIVE": "Live",
+    "ACCOUNT_CONVERSATIONS": {
+      "HEADER": "Open Conversations",
+      "LOADING_MESSAGE": "Loading conversation metrics...",
+      "OPEN": "開啟",
+      "UNATTENDED": "無人處理",
+      "UNASSIGNED": "未指派的",
+      "PENDING": "待處理"
+    },
+    "CONVERSATION_HEATMAP": {
+      "HEADER": "Conversation Traffic",
+      "NO_CONVERSATIONS": "No conversations",
+      "CONVERSATION": "{count} conversation",
+      "CONVERSATIONS": "{count} conversations",
+      "DOWNLOAD_REPORT": "Download report"
+    },
+    "RESOLUTION_HEATMAP": {
+      "HEADER": "Resolutions",
+      "NO_CONVERSATIONS": "No conversations",
+      "CONVERSATION": "{count} conversation",
+      "CONVERSATIONS": "{count} conversations",
+      "DOWNLOAD_REPORT": "Download report"
+    },
+    "AGENT_CONVERSATIONS": {
+      "HEADER": "Conversations by agents",
+      "LOADING_MESSAGE": "Loading agent metrics...",
+      "NO_AGENTS": "There are no conversations by agents",
+      "TABLE_HEADER": {
+        "AGENT": "客服",
+        "OPEN": "OPEN",
+        "UNATTENDED": "無人處理",
+        "STATUS": "狀態"
+      }
+    },
+    "TEAM_CONVERSATIONS": {
+      "ALL_TEAMS": "All Teams",
+      "HEADER": "Conversations by teams",
+      "LOADING_MESSAGE": "Loading team metrics...",
+      "NO_TEAMS": "There is no data available",
+      "TABLE_HEADER": {
+        "TEAM": "Team",
+        "OPEN": "打開",
+        "UNATTENDED": "無人處理",
+        "STATUS": "狀態"
+      }
+    },
+    "AGENT_STATUS": {
+      "HEADER": "客服狀態",
+      "ONLINE": "上線",
+      "BUSY": "忙碌中",
+      "OFFLINE": "離線"
+    }
+  },
+  "DAYS_OF_WEEK": {
+    "SUNDAY": "Sunday",
+    "MONDAY": "Monday",
+    "TUESDAY": "Tuesday",
+    "WEDNESDAY": "Wednesday",
+    "THURSDAY": "Thursday",
+    "FRIDAY": "Friday",
+    "SATURDAY": "Saturday"
+  },
+  "SLA_REPORTS": {
+    "HEADER": "SLA Reports",
+    "NO_RECORDS": "SLA applied conversations are not available.",
+    "LOADING": "Loading SLA data...",
+    "DOWNLOAD_SLA_REPORTS": "Download SLA reports",
+    "DOWNLOAD_FAILED": "Failed to download SLA Reports",
+    "DROPDOWN": {
+      "ADD_FIlTER": "添加查詢條件",
+      "CLEAR_ALL": "Clear all",
+      "CLEAR_FILTER": "Clear filter",
+      "EMPTY_LIST": "No results found",
+      "NO_FILTER": "No filters available",
+      "SEARCH": "Search filter",
+      "INPUT_PLACEHOLDER": {
+        "SLA": "SLA name",
+        "AGENTS": "客服名稱",
+        "INBOXES": "收件匣名稱",
+        "LABELS": "標籤名稱",
+        "TEAMS": "團隊名稱"
+      },
+      "SLA": "SLA Policy",
+      "INBOXES": "收件匣",
+      "AGENTS": "客服",
+      "LABELS": "Label",
+      "TEAMS": "Team"
+    },
+    "WITH": "with",
+    "METRICS": {
+      "HIT_RATE": {
+        "LABEL": "Hit Rate",
+        "TOOLTIP": "Percentage of SLAs created were completed successfully"
+      },
+      "NO_OF_MISSES": {
+        "LABEL": "Number of Misses",
+        "TOOLTIP": "Total SLA misses in a certain period"
+      },
+      "NO_OF_CONVERSATIONS": {
+        "LABEL": "Number of Conversations",
+        "TOOLTIP": "Total number of conversations with SLA"
+      }
+    },
+    "TABLE": {
+      "HEADER": {
+        "POLICY": "Policy",
+        "CONVERSATION": "對話",
+        "AGENT": "客服"
+      },
+      "VIEW_DETAILS": "View Details"
+    }
+  },
+  "SUMMARY_REPORTS": {
+    "INBOX": "收件匣",
+    "AGENT": "客服",
+    "TEAM": "Team",
+    "LABEL": "Label",
+    "AVG_RESOLUTION_TIME": "Avg. Resolution Time",
+    "AVG_FIRST_RESPONSE_TIME": "Avg. First Response Time",
+    "AVG_REPLY_TIME": "Avg. Customer Waiting Time",
+    "RESOLUTION_COUNT": "已解決的數量",
+    "CONVERSATIONS": "No. of conversations"
+  }
+}

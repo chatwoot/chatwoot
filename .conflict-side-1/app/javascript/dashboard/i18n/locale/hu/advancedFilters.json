@@ -1,0 +1,119 @@
+{
+  "FILTER": {
+    "TITLE": "Beszélgetések szűrése",
+    "SUBTITLE": "Adja hozzá a szűrőket az alábbiakban, és nyomja meg a \"Szűrők alkalmazása\" gombot.",
+    "EDIT_CUSTOM_FILTER": "Mappa szerkesztése",
+    "CUSTOM_VIEWS_SUBTITLE": "Adj hozzá vagy törölj szűrőket, és frissítsd a mappát.",
+    "ADD_NEW_FILTER": "Szűrő hozzáadása",
+    "FILTER_DELETE_ERROR": "Hoppá, úgy tűnik, semmit sem tudunk elmenteni! Kérjük, adjon hozzá legalább egy szűrőt a mentéshez.",
+    "SUBMIT_BUTTON_LABEL": "Szűrők alkalmazása",
+    "UPDATE_BUTTON_LABEL": "Mappa frissítése",
+    "CANCEL_BUTTON_LABEL": "Mégse",
+    "CLEAR_BUTTON_LABEL": "Szűrők törlése",
+    "FOLDER_LABEL": "Mappa neve",
+    "FOLDER_QUERY_LABEL": "Mappa lekérdezés",
+    "EMPTY_VALUE_ERROR": "Kötelező megadni.",
+    "TOOLTIP_LABEL": "Beszélgetések szűrése",
+    "QUERY_DROPDOWN_LABELS": {
+      "AND": "ÉS",
+      "OR": "VAGY"
+    },
+    "INPUT_PLACEHOLDER": "Enter value",
+    "OPERATOR_LABELS": {
+      "equal_to": "Egyenlő",
+      "not_equal_to": "Nem egyenlő",
+      "does_not_contain": "Nem tartalmaz",
+      "is_present": "Jelen van",
+      "is_not_present": "Nincs jelen",
+      "is_greater_than": "Nagyobb",
+      "is_less_than": "Kisebb",
+      "days_before": "x nappal előtte",
+      "starts_with": "Ezzel kezdődik",
+      "equalTo": "Egyenlő",
+      "notEqualTo": "Nem egyenlő",
+      "contains": "Tartalmaz",
+      "doesNotContain": "Nem tartalmaz",
+      "isPresent": "Jelen van",
+      "isNotPresent": "Nincs jelen",
+      "isGreaterThan": "Nagyobb",
+      "isLessThan": "Kisebb mint",
+      "daysBefore": "x nappal előtte",
+      "startsWith": "Ezzel kezdődik"
+    },
+    "ATTRIBUTE_LABELS": {
+      "TRUE": "Igaz",
+      "FALSE": "Hamis"
+    },
+    "ATTRIBUTES": {
+      "STATUS": "Státusz",
+      "ASSIGNEE_NAME": "Jogosult neve",
+      "INBOX_NAME": "Fiók név",
+      "TEAM_NAME": "Csapatnév",
+      "CONVERSATION_IDENTIFIER": "Beszélgetés azonosítója",
+      "CAMPAIGN_NAME": "Vállalkozás neve",
+      "LABELS": "Cimkék",
+      "BROWSER_LANGUAGE": "Böngésző nyelve",
+      "PRIORITY": "Prioritás",
+      "COUNTRY_NAME": "Ország neve",
+      "REFERER_LINK": "Hivatkozás link",
+      "CUSTOM_ATTRIBUTE_LIST": "Lista",
+      "CUSTOM_ATTRIBUTE_TEXT": "Szöveg",
+      "CUSTOM_ATTRIBUTE_NUMBER": "Szám",
+      "CUSTOM_ATTRIBUTE_LINK": "Link",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "Jelölőnégyzet",
+      "CREATED_AT": "Létrehozva",
+      "LAST_ACTIVITY": "Utolsó aktivitás"
+    },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Kötelező megadni",
+      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
+      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998"
+    },
+    "GROUPS": {
+      "STANDARD_FILTERS": "Standard szűrők",
+      "ADDITIONAL_FILTERS": "További szűrők",
+      "CUSTOM_ATTRIBUTES": "Egyéni tulajdonságok"
+    },
+    "CUSTOM_VIEWS": {
+      "ADD": {
+        "TITLE": "El akarod menteni ezt a szűrőt?",
+        "LABEL": "Nevezd el a szűrőt",
+        "PLACEHOLDER": "Nevezze el a szűrőt, hogy később hivatkozhasson rá.",
+        "ERROR_MESSAGE": "Név kötelező.",
+        "SAVE_BUTTON": "Szűrő mentése",
+        "CANCEL_BUTTON": "Mégse",
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "Mappa sikeresen létrehozva.",
+          "ERROR_MESSAGE": "Hiba történt a mappa létrehozása során."
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "Szegmens sikeresen létrehozva.",
+          "ERROR_MESSAGE": "Hiba történt a szegmens törlésekor."
+        }
+      },
+      "EDIT": {
+        "EDIT_BUTTON": "Mappa szerkesztése"
+      },
+      "DELETE": {
+        "DELETE_BUTTON": "Szűrő törlése",
+        "MODAL": {
+          "CONFIRM": {
+            "TITLE": "Törlés megerősítése",
+            "MESSAGE": "Biztosan törölni akarod a szűrőt ",
+            "YES": "Igen, törlés",
+            "NO": "Nem, tartsd meg"
+          }
+        },
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "Mappa sikeresen törölve.",
+          "ERROR_MESSAGE": "Hiba történt a mappa törlése során."
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "Szegmens törölve.",
+          "ERROR_MESSAGE": "Hiba történt a szegmens törlése során."
+        }
+      }
+    }
+  }
+}

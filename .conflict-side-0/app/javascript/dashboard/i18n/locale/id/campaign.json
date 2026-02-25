@@ -1,0 +1,214 @@
+{
+  "CAMPAIGN": {
+    "LIVE_CHAT": {
+      "HEADER_TITLE": "Live chat campaigns",
+      "NEW_CAMPAIGN": "Create campaign",
+      "CARD": {
+        "STATUS": {
+          "ENABLED": "Diaktifkan",
+          "DISABLED": "Nonaktif"
+        },
+        "CAMPAIGN_DETAILS": {
+          "SENT_BY": "Dikirim oleh",
+          "BOT": "Bot",
+          "FROM": "dari",
+          "URL": "URL:"
+        }
+      },
+      "EMPTY_STATE": {
+        "TITLE": "No live chat campaigns are available",
+        "SUBTITLE": "Connect with your customers using proactive messages.  Click 'Create campaign' to get started."
+      },
+      "CREATE": {
+        "TITLE": "Create a live chat campaign",
+        "CANCEL_BUTTON_TEXT": "Batalkan",
+        "CREATE_BUTTON_TEXT": "Buat",
+        "FORM": {
+          "TITLE": {
+            "LABEL": "Judul",
+            "PLACEHOLDER": "Silakan masukkan judul kampanye",
+            "ERROR": "Judul wajib diisi"
+          },
+          "MESSAGE": {
+            "LABEL": "Pesan",
+            "PLACEHOLDER": "Silakan masukkan pesan kampanye",
+            "ERROR": "Pesan wajib diisi"
+          },
+          "INBOX": {
+            "LABEL": "Pilih Kotak Masuk",
+            "PLACEHOLDER": "Pilih Kotak Masuk",
+            "ERROR": "Kotak Masuk wajib diisi"
+          },
+          "SENT_BY": {
+            "LABEL": "Dikirim oleh",
+            "PLACEHOLDER": "Please select sender",
+            "ERROR": "Pengirim wajib diisi"
+          },
+          "END_POINT": {
+            "LABEL": "URL",
+            "PLACEHOLDER": "Silakan masukkan URL",
+            "ERROR": "Harap masukkan URL yang valid"
+          },
+          "TIME_ON_PAGE": {
+            "LABEL": "Waktu pada halaman(detik)",
+            "PLACEHOLDER": "Silakan masukkan waktu",
+            "ERROR": "Waktu pada halaman wajib diisi"
+          },
+          "OTHER_PREFERENCES": {
+            "TITLE": "Other preferences",
+            "ENABLED": "Aktifkan kampanye",
+            "TRIGGER_ONLY_BUSINESS_HOURS": "Pemicu hanya selama jam kerja"
+          },
+          "BUTTONS": {
+            "CREATE": "Buat",
+            "CANCEL": "Batalkan"
+          },
+          "API": {
+            "SUCCESS_MESSAGE": "Live chat campaign created successfully",
+            "ERROR_MESSAGE": "Terjadi sebuah kesalahan. Silakan coba lagi."
+          }
+        }
+      },
+      "EDIT": {
+        "TITLE": "Edit live chat campaign",
+        "FORM": {
+          "API": {
+            "SUCCESS_MESSAGE": "Live chat campaign updated successfully",
+            "ERROR_MESSAGE": "Terjadi sebuah kesalahan. Silakan coba lagi."
+          }
+        }
+      }
+    },
+    "SMS": {
+      "HEADER_TITLE": "SMS campaigns",
+      "NEW_CAMPAIGN": "Create campaign",
+      "EMPTY_STATE": {
+        "TITLE": "No SMS campaigns are available",
+        "SUBTITLE": "Launch an SMS campaign to reach your customers directly. Send offers or make announcements with ease. Click 'Create campaign' to get started."
+      },
+      "CARD": {
+        "STATUS": {
+          "COMPLETED": "Selesai",
+          "SCHEDULED": "Scheduled"
+        },
+        "CAMPAIGN_DETAILS": {
+          "SENT_FROM": "Sent from",
+          "ON": "on"
+        }
+      },
+      "CREATE": {
+        "TITLE": "Create SMS campaign",
+        "CANCEL_BUTTON_TEXT": "Batalkan",
+        "CREATE_BUTTON_TEXT": "Buat",
+        "FORM": {
+          "TITLE": {
+            "LABEL": "Judul",
+            "PLACEHOLDER": "Silakan masukkan judul kampanye",
+            "ERROR": "Judul wajib diisi"
+          },
+          "MESSAGE": {
+            "LABEL": "Pesan",
+            "PLACEHOLDER": "Silakan masukkan pesan kampanye",
+            "ERROR": "Pesan wajib diisi"
+          },
+          "INBOX": {
+            "LABEL": "Pilih Kotak Masuk",
+            "PLACEHOLDER": "Pilih Kotak Masuk",
+            "ERROR": "Kotak Masuk wajib diisi"
+          },
+          "AUDIENCE": {
+            "LABEL": "Hadirin",
+            "PLACEHOLDER": "Pilih label pelanggan",
+            "ERROR": "Hadirin wajib diisi"
+          },
+          "SCHEDULED_AT": {
+            "LABEL": "Waktu penjadwalan",
+            "PLACEHOLDER": "Silakan pilih waktu",
+            "ERROR": "Jadwal waktu wajib diisi"
+          },
+          "BUTTONS": {
+            "CREATE": "Buat",
+            "CANCEL": "Batalkan"
+          },
+          "API": {
+            "SUCCESS_MESSAGE": "SMS campaign created successfully",
+            "ERROR_MESSAGE": "Terjadi sebuah kesalahan. Silakan coba lagi."
+          }
+        }
+      }
+    },
+    "WHATSAPP": {
+      "HEADER_TITLE": "WhatsApp campaigns",
+      "NEW_CAMPAIGN": "Create campaign",
+      "EMPTY_STATE": {
+        "TITLE": "No WhatsApp campaigns are available",
+        "SUBTITLE": "Launch a WhatsApp campaign to reach your customers directly. Send offers or make announcements with ease. Click 'Create campaign' to get started."
+      },
+      "CARD": {
+        "STATUS": {
+          "COMPLETED": "Selesai",
+          "SCHEDULED": "Scheduled"
+        },
+        "CAMPAIGN_DETAILS": {
+          "SENT_FROM": "Sent from",
+          "ON": "on"
+        }
+      },
+      "CREATE": {
+        "TITLE": "Create WhatsApp campaign",
+        "CANCEL_BUTTON_TEXT": "Batalkan",
+        "CREATE_BUTTON_TEXT": "Buat",
+        "FORM": {
+          "TITLE": {
+            "LABEL": "Judul",
+            "PLACEHOLDER": "Silakan masukkan judul kampanye",
+            "ERROR": "Judul wajib diisi"
+          },
+          "INBOX": {
+            "LABEL": "Pilih Kotak Masuk",
+            "PLACEHOLDER": "Pilih Kotak Masuk",
+            "ERROR": "Kotak Masuk wajib diisi"
+          },
+          "TEMPLATE": {
+            "LABEL": "WhatsApp Template",
+            "PLACEHOLDER": "Select a template",
+            "INFO": "Select a template to use for this campaign.",
+            "ERROR": "Template is required",
+            "PREVIEW_TITLE": "Process {templateName}",
+            "LANGUAGE": "Bahasa",
+            "CATEGORY": "Kategori",
+            "VARIABLES_LABEL": "Variabel",
+            "VARIABLE_PLACEHOLDER": "Enter value for {variable}"
+          },
+          "AUDIENCE": {
+            "LABEL": "Hadirin",
+            "PLACEHOLDER": "Pilih label pelanggan",
+            "ERROR": "Hadirin wajib diisi"
+          },
+          "SCHEDULED_AT": {
+            "LABEL": "Waktu penjadwalan",
+            "PLACEHOLDER": "Silakan pilih waktu",
+            "ERROR": "Jadwal waktu wajib diisi"
+          },
+          "BUTTONS": {
+            "CREATE": "Buat",
+            "CANCEL": "Batalkan"
+          },
+          "API": {
+            "SUCCESS_MESSAGE": "WhatsApp campaign created successfully",
+            "ERROR_MESSAGE": "Terjadi sebuah kesalahan. Silakan coba lagi."
+          }
+        }
+      }
+    },
+    "CONFIRM_DELETE": {
+      "TITLE": "Apakah Anda yakin ingin menghapus?",
+      "DESCRIPTION": "The delete action is permanent and cannot be reversed.",
+      "CONFIRM": "Hapus",
+      "API": {
+        "SUCCESS_MESSAGE": "Kampanye berhasil dihapus",
+        "ERROR_MESSAGE": "Terjadi sebuah kesalahan. Silakan coba lagi."
+      }
+    }
+  }
+}

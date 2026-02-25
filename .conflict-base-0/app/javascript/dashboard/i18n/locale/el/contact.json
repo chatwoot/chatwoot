@@ -1,0 +1,655 @@
+{
+  "CONTACT_PANEL": {
+    "NOT_AVAILABLE": "Μη Διαθέσιμο",
+    "EMAIL_ADDRESS": "Διεύθυνση Email",
+    "PHONE_NUMBER": "Αριθμός τηλεφώνου",
+    "IDENTIFIER": "Κωδικός",
+    "COPY_SUCCESSFUL": "Αντιγράφτηκε με επιτυχία στο πρόχειρο",
+    "COMPANY": "Εταιρία",
+    "LOCATION": "Θέση",
+    "BROWSER_LANGUAGE": "Γλώσσα Περιήγησης",
+    "CONVERSATION_TITLE": "Λεπτομέρειες συνομιλίας",
+    "VIEW_PROFILE": "Προβολή Προφίλ",
+    "BROWSER": "Φυλλομετρητής",
+    "OS": "Λειτουργικό",
+    "INITIATED_FROM": "Αρχικοποίηση από",
+    "INITIATED_AT": "Αρχικοποίηση τις",
+    "IP_ADDRESS": "Διεύθυνση IP",
+    "CREATED_AT_LABEL": "Created",
+    "NEW_MESSAGE": "Νέο Μήνυμα",
+    "CALL": "Call",
+    "CALL_INITIATED": "Calling the contact…",
+    "CALL_FAILED": "Unable to start the call. Please try again.",
+    "VOICE_INBOX_PICKER": {
+      "TITLE": "Choose a voice inbox"
+    },
+    "CONVERSATIONS": {
+      "NO_RECORDS_FOUND": "Δεν υπάρχουν προηγούμενες συνομιλίες που σχετίζονται με αυτήν την επαφή.",
+      "TITLE": "Προηγούμενες συνομιλίες"
+    },
+    "LABELS": {
+      "CONTACT": {
+        "TITLE": "Ετικέτες Επαφών",
+        "ERROR": "Δεν ήταν δυνατή η ενημέρωση ετικετών"
+      },
+      "CONVERSATION": {
+        "TITLE": "Ετικέτες συνομιλίας",
+        "ADD_BUTTON": "Προσθήκη Ετικετών"
+      },
+      "LABEL_SELECT": {
+        "TITLE": "Προσθήκη Ετικετών",
+        "PLACEHOLDER": "Αναζήτηση ετικετών",
+        "NO_RESULT": "Δεν βρέθηκαν ετικέτες",
+        "CREATE_LABEL": "Create new label"
+      }
+    },
+    "MERGE_CONTACT": "Συγχώνευση επαφής",
+    "CONTACT_ACTIONS": "Ενέργειες επαφής",
+    "MUTE_CONTACT": "Block Contact",
+    "UNMUTE_CONTACT": "Unblock Contact",
+    "MUTED_SUCCESS": "This contact is blocked successfully. You will not be notified of any future conversations.",
+    "UNMUTED_SUCCESS": "This contact is unblocked successfully.",
+    "SEND_TRANSCRIPT": "Αποστολή μεταγραφής",
+    "EDIT_LABEL": "Επεξεργασία",
+    "SIDEBAR_SECTIONS": {
+      "CUSTOM_ATTRIBUTES": "Προσαρμοζόμενες Ιδιότητες",
+      "CONTACT_LABELS": "Ετικέτες Επαφών",
+      "PREVIOUS_CONVERSATIONS": "Προηγούμενες συνομιλίες",
+      "NO_RECORDS_FOUND": "Δεν βρέθηκαν ιδιότητες"
+    }
+  },
+  "EDIT_CONTACT": {
+    "BUTTON_LABEL": "Επεξεργασία Επαφής",
+    "TITLE": "Επεξεργασία επαφής",
+    "DESC": "Επεξεργασία λεπτομερειών επαφής"
+  },
+  "DELETE_CONTACT": {
+    "BUTTON_LABEL": "Διαγραφή Επαφής",
+    "TITLE": "Διαγραφή Επαφής",
+    "DESC": "Επεξεργασία λεπτομερειών επαφής",
+    "CONFIRM": {
+      "TITLE": "Επιβεβαίωση Διαγραφής",
+      "MESSAGE": "Είσαστε σίγουροι για την διαγραφή ",
+      "YES": "Ναι, Διέγραψε το",
+      "NO": "Όχι, Διατήρηση"
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Η επαφή διαγράφηκε επιτυχώς",
+      "ERROR_MESSAGE": "Δεν ήταν δυνατή η διαγραφή επαφής. Παρακαλώ προσπαθήστε ξανά αργότερα."
+    }
+  },
+  "CONTACT_FORM": {
+    "FORM": {
+      "SUBMIT": "Καταχώρηση",
+      "CANCEL": "Άκυρο",
+      "AVATAR": {
+        "LABEL": "Avatar Επαφής"
+      },
+      "NAME": {
+        "PLACEHOLDER": "Εισάγετε το πλήρες όνομα της επαφής",
+        "LABEL": "Πλήρες Όνομα"
+      },
+      "BIO": {
+        "PLACEHOLDER": "Βάλτε το βιογραφικό της επαφής",
+        "LABEL": "Βιογραφικό"
+      },
+      "EMAIL_ADDRESS": {
+        "PLACEHOLDER": "Εισάγετε την διεύθυνση email της επαφής",
+        "LABEL": "Διεύθυνση Email",
+        "DUPLICATE": "Η διεύθυνση email είναι σε χρήση από άλλη επαφή.",
+        "ERROR": "Παρακαλώ εισάγετε μια έγκυρη διεύθυνση email."
+      },
+      "PHONE_NUMBER": {
+        "PLACEHOLDER": "Εισάγετε τον αριθμό τηλεφώνου της επαφής",
+        "LABEL": "Αριθμός Τηλεφώνου",
+        "HELP": "Ο αριθμός τηλεφώνου πρέπει να έχει μορφή E.164 π.χ.: +14155555 [+][κωδικός χώρας][κωδικός περιοχής][αριθμός τοπικού τηλεφώνου]",
+        "ERROR": "Ο αριθμός τηλεφώνου πρέπει να είναι είτε άδειος είτε με μορφή E.164",
+        "DIAL_CODE_ERROR": "Please select a dial code from the list",
+        "DUPLICATE": "Αυτός ο αριθμός τηλεφώνου χρησιμοποιείται σε άλλη επαφή."
+      },
+      "LOCATION": {
+        "PLACEHOLDER": "Εισάγετε την τοποθεσία της επαφής",
+        "LABEL": "Θέση"
+      },
+      "COMPANY_NAME": {
+        "PLACEHOLDER": "Εισάγετε το όνομα της εταιρείας",
+        "LABEL": "Όνομα Εταιρείας"
+      },
+      "COUNTRY": {
+        "PLACEHOLDER": "Enter the country name",
+        "LABEL": "Όνομα Χώρας",
+        "SELECT_PLACEHOLDER": "Επιλογή",
+        "REMOVE": "Διαγραφή",
+        "SELECT_COUNTRY": "Select Country"
+      },
+      "CITY": {
+        "PLACEHOLDER": "Enter the city name",
+        "LABEL": "City Name"
+      },
+      "SOCIAL_PROFILES": {
+        "FACEBOOK": {
+          "PLACEHOLDER": "Εισάγετε το όνομα χρήστη στο Facebook",
+          "LABEL": "Facebook"
+        },
+        "TWITTER": {
+          "PLACEHOLDER": "Εισάγετε το όνομα χρήστη στο Twitter",
+          "LABEL": "Twitter"
+        },
+        "LINKEDIN": {
+          "PLACEHOLDER": "Εισάγετε το όνομα χρήστη στο LinkedIn",
+          "LABEL": "LinkedIn"
+        },
+        "GITHUB": {
+          "PLACEHOLDER": "Εισάγετε το όνομα χρήστη στο Github",
+          "LABEL": "Github"
+        }
+      }
+    },
+    "DELETE_AVATAR": {
+      "API": {
+        "SUCCESS_MESSAGE": "Το avatar της επαφής διαγράφηκε επιτυχώς",
+        "ERROR_MESSAGE": "Δεν ήταν δυνατή η διαγραφή του avatar της επαφής. Παρακαλώ προσπαθήστε ξανά αργότερα."
+      }
+    },
+    "SUCCESS_MESSAGE": "Η επαφή αποθηκεύτηκε με επιτυχία",
+    "ERROR_MESSAGE": "Υπήρξε ένα σφάλμα, παρακαλώ προσπαθήστε ξανά"
+  },
+  "NEW_CONVERSATION": {
+    "BUTTON_LABEL": "Έναρξη Συνομιλίας",
+    "TITLE": "Νέα συνομιλία",
+    "DESC": "Ξεκινήστε μια νέα συνομιλία στέλνοντας ένα νέο μήνυμα.",
+    "NO_INBOX": "Δεν βρέθηκε ένα κιβώτιο εισερχόμενων για να ξεκινήσει μια νέα συνομιλία με αυτήν την επαφή.",
+    "FORM": {
+      "TO": {
+        "LABEL": "Προς"
+      },
+      "INBOX": {
+        "LABEL": "Εισερχόμενα",
+        "PLACEHOLDER": "Choose source inbox",
+        "ERROR": "Επιλέξτε ένα κιβώτιο εισερχόμενων"
+      },
+      "SUBJECT": {
+        "LABEL": "Θέμα",
+        "PLACEHOLDER": "Θέμα",
+        "ERROR": "Το θέμα δεν μπορεί να είναι κενό"
+      },
+      "MESSAGE": {
+        "LABEL": "Μήνυμα",
+        "PLACEHOLDER": "Γράψτε το μήνυμά σας εδώ",
+        "ERROR": "Το μήνυμα δεν μπορεί να είναι άδειο"
+      },
+      "ATTACHMENTS": {
+        "SELECT": "Choose files",
+        "HELP_TEXT": "Drag and drop files here or choose files to attach"
+      },
+      "SUBMIT": "Αποστολή μηνύματος",
+      "CANCEL": "Άκυρο",
+      "SUCCESS_MESSAGE": "Το μήνυμα στάλθηκε!",
+      "GO_TO_CONVERSATION": "Προβολή",
+      "ERROR_MESSAGE": "Αδυναμία αποστολής! Προσπαθήστε ξανά"
+    }
+  },
+  "CONTACTS_PAGE": {
+    "LIST": {
+      "TABLE_HEADER": {
+        "SOCIAL_PROFILES": "Social Profiles"
+      }
+    }
+  },
+  "CUSTOM_ATTRIBUTES": {
+    "BUTTON": "Προσθήκη προσαρμοσμένης ιδιότητας",
+    "COPY_SUCCESSFUL": "Αντιγράφτηκε με επιτυχία στο πρόχειρο",
+    "SHOW_MORE": "Show all attributes",
+    "SHOW_LESS": "Show less attributes",
+    "ACTIONS": {
+      "COPY": "Αντιγραφή ιδιότητας",
+      "DELETE": "Διαγραφή ιδιότητας",
+      "EDIT": "Επεξεργασία ιδιότητας"
+    },
+    "ADD": {
+      "TITLE": "Δημιουργία προσαρμοσμένης ιδιότητας",
+      "DESC": "Προσθέστε προσαρμοσμένες πληροφορίες σε αυτήν την επαφή."
+    },
+    "FORM": {
+      "CREATE": "Προσθήκη ιδιότητας",
+      "CANCEL": "Άκυρο",
+      "NAME": {
+        "LABEL": "Όνομα προσαρμοσμένης ιδιότητας",
+        "PLACEHOLDER": "π.χ.: shopify id",
+        "ERROR": "Μη έγκυρο όνομα προσαρμοσμένης ιδιότητας"
+      },
+      "VALUE": {
+        "LABEL": "Τιμή ιδιότητας",
+        "PLACEHOLDER": "π.χ.: 11901 "
+      },
+      "ADD": {
+        "TITLE": "Δημιουργία νέας ιδιότητας ",
+        "SUCCESS": "Η ιδιότητα προστέθηκε με επιτυχία",
+        "ERROR": "Δεν ήταν δυνατή η δημιουργία Ιδιότητας, Παρακαλώ δοκιμάστε ξανά αργότερα"
+      },
+      "UPDATE": {
+        "SUCCESS": "Ο πράκτορας ενημερώθηκε επιτυχώς",
+        "ERROR": "Δεν είναι δυνατή η ενημέρωση της ιδιότητας. Παρακαλώ προσπαθήστε ξανά αργότερα"
+      },
+      "DELETE": {
+        "SUCCESS": "Η ιδιότητα προστέθηκε με επιτυχία",
+        "ERROR": "Δεν είναι δυνατή η διαγραφή της ιδιότητας. Παρακαλώ δοκιμάστε ξανά αργότερα"
+      },
+      "ATTRIBUTE_SELECT": {
+        "TITLE": "Προσθήκη ιδιότητας",
+        "PLACEHOLDER": "Αναζήτηση ιδιοτήτων",
+        "NO_RESULT": "Δεν βρέθηκαν ιδιότητες"
+      },
+      "ATTRIBUTE_TYPE": {
+        "LIST": {
+          "PLACEHOLDER": "Επιλέξτε τιμή",
+          "SEARCH_INPUT_PLACEHOLDER": "Τιμή αναζήτησης",
+          "NO_RESULT": "Δεν βρέθηκε κανένα αποτέλεσμα"
+        }
+      }
+    },
+    "VALIDATIONS": {
+      "REQUIRED": "Απαιτείται έγκυρη τιμή",
+      "INVALID_URL": "Μη Έγκυρο URL",
+      "INVALID_INPUT": "Invalid Input"
+    }
+  },
+  "MERGE_CONTACTS": {
+    "TITLE": "Συγχώνευση επαφών",
+    "DESCRIPTION": "Συγχώνευση επαφών, για να συνδυάσετε δύο προφίλ σε ένα, συμπεριλαμβανομένων όλων των χαρακτηριστικών και συνομιλιών. Σε περίπτωση σύγκρουσης, τα χαρακτηριστικά της κύριας επαφής υπερισχύουν.",
+    "PRIMARY": {
+      "TITLE": "Κύρια επαφή",
+      "HELP_LABEL": "Να διαγραφεί"
+    },
+    "PARENT": {
+      "TITLE": "Επαφή για συγχώνευση",
+      "PLACEHOLDER": "Αναζήτηση επαφής",
+      "HELP_LABEL": "Να διατηρούνται"
+    },
+    "SUMMARY": {
+      "TITLE": "Σύνοψη",
+      "DELETE_WARNING": "Η επαφή του <strong>{primaryContactName}</strong>θα διαγραφεί.",
+      "ATTRIBUTE_WARNING": "Τα στοιχεία επικοινωνίας του <strong>{primaryContactName}</strong> θα αντιγραφούν στο <strong>{parentContactName}</strong>."
+    },
+    "SEARCH": {
+      "ERROR_MESSAGE": "Something went wrong. Please try again later."
+    },
+    "FORM": {
+      "SUBMIT": " Συγχώνευση επαφών",
+      "CANCEL": "Άκυρο",
+      "CHILD_CONTACT": {
+        "ERROR": "Επιλέξτε μια θυγατρική επαφή για συγχώνευση"
+      },
+      "SUCCESS_MESSAGE": "Η επαφή συγχωνεύθηκε επιτυχώς",
+      "ERROR_MESSAGE": "Δεν ήταν δυνατή η συγχώνευση επαφών, προσπαθήστε ξανά!"
+    },
+    "DROPDOWN_ITEM": {
+      "ID": "(ID: {identifier})"
+    }
+  },
+  "CONTACTS_LAYOUT": {
+    "HEADER": {
+      "TITLE": "Επαφές",
+      "SEARCH_TITLE": "Search contacts",
+      "ACTIVE_TITLE": "Active contacts",
+      "SEARCH_PLACEHOLDER": "Search...",
+      "MESSAGE_BUTTON": "Μήνυμα",
+      "SEND_MESSAGE": "Αποστολή μηνύματος",
+      "BLOCK_CONTACT": "Block contact",
+      "UNBLOCK_CONTACT": "Unblock contact",
+      "BREADCRUMB": {
+        "CONTACTS": "Επαφές"
+      },
+      "ACTIONS": {
+        "CONTACT_CREATION": {
+          "ADD_CONTACT": "Add contact",
+          "EXPORT_CONTACT": "Export contacts",
+          "IMPORT_CONTACT": "Import contacts",
+          "SAVE_CONTACT": "Save contact",
+          "EMAIL_ADDRESS_DUPLICATE": "Η διεύθυνση email είναι σε χρήση από άλλη επαφή.",
+          "PHONE_NUMBER_DUPLICATE": "Αυτός ο αριθμός τηλεφώνου χρησιμοποιείται σε άλλη επαφή.",
+          "SUCCESS_MESSAGE": "Η επαφή αποθηκεύτηκε με επιτυχία",
+          "ERROR_MESSAGE": "Unable to save contact. Please try again later."
+        },
+        "BLOCK_SUCCESS_MESSAGE": "This contact is blocked successfully",
+        "BLOCK_ERROR_MESSAGE": "Unable to block contact. Please try again later.",
+        "UNBLOCK_SUCCESS_MESSAGE": "This contact is unblocked successfully",
+        "UNBLOCK_ERROR_MESSAGE": "Unable to unblock contact. Please try again later.",
+        "IMPORT_CONTACT": {
+          "TITLE": "Import contacts",
+          "DESCRIPTION": "Εισαγωγή επαφών μέσω αρχείου CSV.",
+          "DOWNLOAD_LABEL": "Λήψη δείγματος csv.",
+          "LABEL": "Αρχείο CSV:",
+          "CHOOSE_FILE": "Choose file",
+          "CHANGE": "Να αλλάξει",
+          "CANCEL": "Άκυρο",
+          "IMPORT": "Εισαγωγή",
+          "SUCCESS_MESSAGE": "Θα ειδοποιηθείτε μέσω email όταν ολοκληρωθεί η εισαγωγή.",
+          "ERROR_MESSAGE": "Υπήρξε ένα σφάλμα, παρακαλώ προσπαθήστε ξανά"
+        },
+        "EXPORT_CONTACT": {
+          "TITLE": "Export contacts",
+          "DESCRIPTION": "Quickly export a csv file with comprehensive details of your contacts",
+          "CONFIRM": "Export",
+          "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
+          "ERROR_MESSAGE": "Υπήρξε ένα σφάλμα, παρακαλώ προσπαθήστε ξανά"
+        },
+        "SORT_BY": {
+          "LABEL": "Ταξινόμηση κατά",
+          "OPTIONS": {
+            "NAME": "Όνομα",
+            "EMAIL": "Email",
+            "PHONE_NUMBER": "Αριθμός τηλεφώνου",
+            "COMPANY": "Εταιρία",
+            "COUNTRY": "Χώρα",
+            "CITY": "Πόλη",
+            "LAST_ACTIVITY": "Last activity",
+            "CREATED_AT": "Δημιουργήθηκε στις"
+          }
+        },
+        "ORDER": {
+          "LABEL": "Ordering",
+          "OPTIONS": {
+            "ASCENDING": "Ascending",
+            "DESCENDING": "Descending"
+          }
+        },
+        "FILTERS": {
+          "CREATE_SEGMENT": {
+            "TITLE": "Θέλετε να αποθηκεύσετε αυτό το φίλτρο;",
+            "CONFIRM": "Αποθήκευση φίλτρου",
+            "LABEL": "Όνομα",
+            "PLACEHOLDER": "Enter the name of the filter",
+            "ERROR": "Enter a valid name",
+            "SUCCESS_MESSAGE": "Filter saved successfully",
+            "ERROR_MESSAGE": "Unable to save filter. Please try again later."
+          },
+          "DELETE_SEGMENT": {
+            "TITLE": "Επιβεβαίωση Διαγραφής",
+            "DESCRIPTION": "Are you sure you want to delete this filter?",
+            "CONFIRM": "Ναι, Διέγραψε το",
+            "CANCEL": "No, Cancel",
+            "SUCCESS_MESSAGE": "Filter deleted successfully",
+            "ERROR_MESSAGE": "Unable to delete filter. Please try again later."
+          }
+        }
+      }
+    },
+    "PAGINATION_FOOTER": {
+      "SHOWING": "Showing {startItem} - {endItem} of {totalItems} contacts"
+    },
+    "FILTER": {
+      "NAME": "Όνομα",
+      "EMAIL": "Email",
+      "PHONE_NUMBER": "Αριθμός τηλεφώνου",
+      "IDENTIFIER": "Κωδικός",
+      "COUNTRY": "Χώρα",
+      "CITY": "Πόλη",
+      "CREATED_AT": "Δημιουργήθηκε στις",
+      "LAST_ACTIVITY": "Last activity",
+      "REFERER_LINK": "Σύνδεσμος αναφοράς",
+      "BLOCKED": "Blocked",
+      "BLOCKED_TRUE": "True",
+      "BLOCKED_FALSE": "False",
+      "BUTTONS": {
+        "CLEAR_FILTERS": "Clear filters",
+        "UPDATE_SEGMENT": "Update segment",
+        "APPLY_FILTERS": "Εφαρμογή φίλτρων",
+        "ADD_FILTER": "Add filter"
+      },
+      "TITLE": "Φιλτράρισμα επαφών",
+      "EDIT_SEGMENT": "Edit segment",
+      "SEGMENT": {
+        "LABEL": "Segment name",
+        "INPUT_PLACEHOLDER": "Enter the name of the segment"
+      },
+      "ACTIVE_FILTERS": {
+        "MORE_FILTERS": "+ {count} more filters",
+        "CLEAR_FILTERS": "Clear filters"
+      }
+    },
+    "CARD": {
+      "OF": "of",
+      "VIEW_DETAILS": "Προβολή λεπτομεριών",
+      "EDIT_DETAILS_FORM": {
+        "TITLE": "Επεξεργασία λεπτομερειών επαφής",
+        "FORM": {
+          "FIRST_NAME": {
+            "PLACEHOLDER": "Enter the first name"
+          },
+          "LAST_NAME": {
+            "PLACEHOLDER": "Enter the last name"
+          },
+          "EMAIL_ADDRESS": {
+            "PLACEHOLDER": "Enter the email address",
+            "DUPLICATE": "Η διεύθυνση email είναι σε χρήση από άλλη επαφή."
+          },
+          "PHONE_NUMBER": {
+            "PLACEHOLDER": "Enter the phone number",
+            "DUPLICATE": "Αυτός ο αριθμός τηλεφώνου χρησιμοποιείται σε άλλη επαφή."
+          },
+          "CITY": {
+            "PLACEHOLDER": "Enter the city name"
+          },
+          "COUNTRY": {
+            "PLACEHOLDER": "Select country"
+          },
+          "BIO": {
+            "PLACEHOLDER": "Enter the bio"
+          },
+          "COMPANY_NAME": {
+            "PLACEHOLDER": "Εισάγετε το όνομα της εταιρείας"
+          }
+        },
+        "UPDATE_BUTTON": "Update contact",
+        "SUCCESS_MESSAGE": "Contact updated successfully",
+        "ERROR_MESSAGE": "Unable to update contact. Please try again later."
+      },
+      "SOCIAL_MEDIA": {
+        "TITLE": "Edit social links",
+        "FORM": {
+          "FACEBOOK": {
+            "PLACEHOLDER": "Add Facebook"
+          },
+          "GITHUB": {
+            "PLACEHOLDER": "Add Github"
+          },
+          "INSTAGRAM": {
+            "PLACEHOLDER": "Add Instagram"
+          },
+          "TIKTOK": {
+            "PLACEHOLDER": "Add TikTok"
+          },
+          "LINKEDIN": {
+            "PLACEHOLDER": "Add LinkedIn"
+          },
+          "TWITTER": {
+            "PLACEHOLDER": "Add Twitter"
+          }
+        }
+      },
+      "DELETE_CONTACT": {
+        "MESSAGE": "This action is permanent and irreversible.",
+        "BUTTON": "Delete now"
+      }
+    },
+    "DETAILS": {
+      "CREATED_AT": "Created {date}",
+      "LAST_ACTIVITY": "Last active {date}",
+      "DELETE_CONTACT_DESCRIPTION": "Permanently delete this contact. This action is irreversible",
+      "DELETE_CONTACT": "Διαγραφή Επαφής",
+      "DELETE_DIALOG": {
+        "TITLE": "Επιβεβαίωση Διαγραφής",
+        "DESCRIPTION": "Are you sure you want to delete this contact?",
+        "CONFIRM": "Ναι, Διέγραψε το",
+        "API": {
+          "SUCCESS_MESSAGE": "Η επαφή διαγράφηκε επιτυχώς",
+          "ERROR_MESSAGE": "Δεν ήταν δυνατή η διαγραφή επαφής. Παρακαλώ προσπαθήστε ξανά αργότερα."
+        }
+      },
+      "AVATAR": {
+        "UPLOAD": {
+          "ERROR_MESSAGE": "Could not upload avatar. Please try again later.",
+          "SUCCESS_MESSAGE": "Avatar uploaded successfully"
+        },
+        "DELETE": {
+          "SUCCESS_MESSAGE": "Το Avatar διαγράφηκε επιτυχώς",
+          "ERROR_MESSAGE": "Could not delete avatar. Please try again later."
+        }
+      }
+    },
+    "SIDEBAR": {
+      "TABS": {
+        "ATTRIBUTES": "Ιδιότητες",
+        "HISTORY": "History",
+        "NOTES": "Σημειώσεις",
+        "MERGE": "Merge"
+      },
+      "HISTORY": {
+        "EMPTY_STATE": "Δεν υπάρχουν προηγούμενες συνομιλίες που σχετίζονται με αυτήν την επαφή"
+      },
+      "ATTRIBUTES": {
+        "SEARCH_PLACEHOLDER": "Search for attributes",
+        "UNUSED_ATTRIBUTES": "{count} Used attribute | {count} Unused attributes",
+        "EMPTY_STATE": "There are no contact custom attributes available in this account. You can create a custom attribute in settings.",
+        "YES": "Ναι",
+        "NO": "Όχι",
+        "TRIGGER": {
+          "SELECT": "Επιλέξτε τιμή",
+          "INPUT": "Enter value"
+        },
+        "VALIDATIONS": {
+          "INVALID_NUMBER": "Invalid number",
+          "REQUIRED": "Απαιτείται έγκυρη τιμή",
+          "INVALID_INPUT": "Invalid input",
+          "INVALID_URL": "Μη Έγκυρο URL",
+          "INVALID_DATE": "Invalid date"
+        },
+        "NO_ATTRIBUTES": "Δεν βρέθηκαν ιδιότητες",
+        "API": {
+          "SUCCESS_MESSAGE": "Ο πράκτορας ενημερώθηκε επιτυχώς",
+          "DELETE_SUCCESS_MESSAGE": "Η ιδιότητα προστέθηκε με επιτυχία",
+          "UPDATE_ERROR": "Δεν είναι δυνατή η ενημέρωση της ιδιότητας. Παρακαλώ προσπαθήστε ξανά αργότερα",
+          "DELETE_ERROR": "Δεν είναι δυνατή η διαγραφή της ιδιότητας. Παρακαλώ δοκιμάστε ξανά αργότερα"
+        }
+      },
+      "MERGE": {
+        "TITLE": "Συγχώνευση επαφής",
+        "DESCRIPTION": "Combine two profiles into one, including all attributes and conversations. In case of conflict, the primary contact’s attributes will take precedence.",
+        "PRIMARY": "Κύρια επαφή",
+        "PRIMARY_HELP_LABEL": "To be saved",
+        "PRIMARY_REQUIRED_ERROR": "Please select a contact to merge with before proceeding",
+        "PARENT": "To be merged",
+        "PARENT_HELP_LABEL": "Να διαγραφεί",
+        "EMPTY_STATE": "No contacts found",
+        "PLACEHOLDER": "Search for primary contact",
+        "SEARCH_PLACEHOLDER": "Αναζήτηση επαφής",
+        "SEARCH_ERROR_MESSAGE": "Could not search for contacts. Please try again later.",
+        "SUCCESS_MESSAGE": "Η επαφή συγχωνεύθηκε επιτυχώς",
+        "ERROR_MESSAGE": "Δεν ήταν δυνατή η συγχώνευση επαφών, προσπαθήστε ξανά!",
+        "IS_SEARCHING": "Αναζήτηση...",
+        "BUTTONS": {
+          "CANCEL": "Άκυρο",
+          "CONFIRM": "Συγχώνευση επαφής"
+        }
+      },
+      "NOTES": {
+        "PLACEHOLDER": "Προσθήκη σημείωσης",
+        "WROTE": "wrote",
+        "YOU": "You",
+        "SAVE": "Save note",
+        "ADD_NOTE": "Add contact note",
+        "EXPAND": "Expand",
+        "COLLAPSE": "Collapse",
+        "NO_NOTES": "No notes, you can add notes from the contact details page.",
+        "EMPTY_STATE": "There are no notes associated to this contact. You can add a note by typing in the box above.",
+        "CONVERSATION_EMPTY_STATE": "There are no notes yet. Use the Add note button to create one."
+      }
+    },
+    "EMPTY_STATE": {
+      "TITLE": "No contacts found in this account",
+      "SUBTITLE": "Start adding new contacts by clicking on the button below",
+      "BUTTON_LABEL": "Add contact",
+      "SEARCH_EMPTY_STATE_TITLE": "Δεν υπάρχουν επαφές που να αντιστοιχούν με την αναζήτησή σας 🔍",
+      "LIST_EMPTY_STATE_TITLE": "No contacts available in this view 📋",
+      "ACTIVE_EMPTY_STATE_TITLE": "No contacts are active at the moment 🌙"
+    }
+  },
+  "CONTACTS_BULK_ACTIONS": {
+    "ASSIGN_LABELS": "Ανάθεση Ετικετών",
+    "ASSIGN_LABELS_SUCCESS": "Επιτυχής ανάθεση ετικετών.",
+    "ASSIGN_LABELS_FAILED": "Failed to assign labels",
+    "DESCRIPTION": "Select the labels you want to add to the selected contacts.",
+    "NO_LABELS_FOUND": "No labels available yet.",
+    "SELECTED_COUNT": "{count} selected",
+    "CLEAR_SELECTION": "Clear selection",
+    "SELECT_ALL": "Select all ({count})",
+    "DELETE_CONTACTS": "Διαγραφή",
+    "DELETE_SUCCESS": "Contacts deleted successfully.",
+    "DELETE_FAILED": "Failed to delete contacts.",
+    "DELETE_DIALOG": {
+      "TITLE": "Delete selected contacts",
+      "SINGULAR_TITLE": "Delete selected contact",
+      "DESCRIPTION": "This will permanently delete {count} selected contacts. This action cannot be undone.",
+      "SINGULAR_DESCRIPTION": "This will permanently delete the selected contact. This action cannot be undone.",
+      "CONFIRM_MULTIPLE": "Delete contacts",
+      "CONFIRM_SINGLE": "Διαγραφή Επαφής"
+    }
+  },
+  "COMPOSE_NEW_CONVERSATION": {
+    "CONTACT_SEARCH": {
+      "ERROR_MESSAGE": "We couldn’t complete the search. Please try again."
+    },
+    "FORM": {
+      "GO_TO_CONVERSATION": "Προβολή",
+      "SUCCESS_MESSAGE": "The message was sent successfully!",
+      "ERROR_MESSAGE": "An error occurred while creating the conversation. Please try again later.",
+      "NO_INBOX_ALERT": "There are no available inboxes to start a conversation with this contact.",
+      "CONTACT_SELECTOR": {
+        "LABEL": "Προς:",
+        "TAG_INPUT_PLACEHOLDER": "Search for a contact with name, email or phone number",
+        "CONTACT_CREATING": "Creating contact..."
+      },
+      "INBOX_SELECTOR": {
+        "LABEL": "Via:",
+        "BUTTON": "Show inboxes"
+      },
+      "EMAIL_OPTIONS": {
+        "SUBJECT_LABEL": "Θέμα :",
+        "SUBJECT_PLACEHOLDER": "Enter your email subject here",
+        "CC_LABEL": "Cc:",
+        "CC_PLACEHOLDER": "Search for a contact with their email address",
+        "BCC_LABEL": "Bcc:",
+        "BCC_PLACEHOLDER": "Search for a contact with their email address",
+        "BCC_BUTTON": "Bcc"
+      },
+      "MESSAGE_EDITOR": {
+        "PLACEHOLDER": "Γράψτε το μήνυμά σας εδώ..."
+      },
+      "WHATSAPP_OPTIONS": {
+        "LABEL": "Select template",
+        "SEARCH_PLACEHOLDER": "Search templates",
+        "EMPTY_STATE": "No templates found",
+        "TEMPLATE_PARSER": {
+          "TEMPLATE_NAME": "WhatsApp template: {templateName}",
+          "VARIABLES": "Μεταβλητές",
+          "BACK": "Πίσω",
+          "SEND_MESSAGE": "Αποστολή μηνύματος"
+        }
+      },
+      "TWILIO_OPTIONS": {
+        "LABEL": "Select template",
+        "SEARCH_PLACEHOLDER": "Search templates",
+        "EMPTY_STATE": "No templates found",
+        "TEMPLATE_PARSER": {
+          "BACK": "Πίσω",
+          "SEND_MESSAGE": "Αποστολή μηνύματος"
+        }
+      },
+      "ACTION_BUTTONS": {
+        "DISCARD": "Discard",
+        "SEND": "Send ({keyCode})"
+      }
+    }
+  }
+}

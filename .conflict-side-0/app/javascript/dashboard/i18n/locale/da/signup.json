@@ -1,0 +1,49 @@
+{
+  "REGISTER": {
+    "TRY_WOOT": "Opret en konto",
+    "TITLE": "Registrer",
+    "TESTIMONIAL_HEADER": "Alt, hvad der skal til, er blot et skridt for at komme videre",
+    "TESTIMONIAL_CONTENT": "Du er et skridt fra at engagere dine kunder, fastholde dem og finde nye kunder.",
+    "TERMS_ACCEPT": "Ved at oprette en konto, accepterer du vores <a href=\"https://www.chatwoot.com/terms\">T & C</a> og <a href=\"https://www.chatwoot.com/privacy-policy\">Privatlivspolitik</a>",
+    "OAUTH": {
+      "GOOGLE_SIGNUP": "Tilmeld dig med Google"
+    },
+    "COMPANY_NAME": {
+      "LABEL": "Firmanavn",
+      "PLACEHOLDER": "Indtast dit firmanavn, fx: Wayne Enterprises",
+      "ERROR": "Firmanavn er for kort"
+    },
+    "FULL_NAME": {
+      "LABEL": "Fulde navn",
+      "PLACEHOLDER": "Indtast dit fulde navn. fx: Bruce Wayne",
+      "ERROR": "Fulde navn er for kort"
+    },
+    "EMAIL": {
+      "LABEL": "Arbejde e-mail",
+      "PLACEHOLDER": "Indtast din arbejdsmailadresse. F.eks. navn{'@'}eksempel{'.'}dk",
+      "ERROR": "Indtast venligst en gyldig arbejdsmail"
+    },
+    "PASSWORD": {
+      "LABEL": "Adgangskode",
+      "PLACEHOLDER": "Adgangskode",
+      "ERROR": "Adgangskoden er for kort",
+      "IS_INVALID_PASSWORD": "Adgangskoden skal indeholde mindst 1 stort bogstav, 1 lille bogstav, 1 nummer og 1 specialtegn",
+      "REQUIREMENTS_LENGTH": "At least 6 characters long",
+      "REQUIREMENTS_UPPERCASE": "At least one uppercase letter",
+      "REQUIREMENTS_LOWERCASE": "At least one lowercase letter",
+      "REQUIREMENTS_NUMBER": "At least one number",
+      "REQUIREMENTS_SPECIAL": "At least one special character"
+    },
+    "CONFIRM_PASSWORD": {
+      "LABEL": "Bekræft Adgangskode",
+      "PLACEHOLDER": "Bekræft Adgangskode",
+      "ERROR": "Adgangskoder stemmer ikke overens."
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Registration Successful",
+      "ERROR_MESSAGE": "Kunne ikke oprette forbindelse til Woot Server, Prøv igen senere"
+    },
+    "SUBMIT": "Opret en konto",
+    "HAVE_AN_ACCOUNT": "Har du allerede en konto?"
+  }
+}

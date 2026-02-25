@@ -1,0 +1,108 @@
+{
+  "SLA": {
+    "HEADER": "Service Level Agreement",
+    "ADD_ACTION": "SLAを追加",
+    "ADD_ACTION_LONG": "新しいSLAポリシーを作成",
+    "DESCRIPTION": "サービス水準合意（SLA）は、チームと顧客間で明確な期待を定義する契約です。応答時間や解決時間の基準を設定し、責任を明確にし、一貫した高品質なサービス体験を提供します。",
+    "LEARN_MORE": "SLAについて詳しく学ぶ",
+    "LOADING": "SLAを取得中",
+    "PAYWALL": {
+      "TITLE": "アップグレードしてSLAを作成",
+      "AVAILABLE_ON": "SLA機能はビジネスおよびエンタープライズプランのみで利用可能です。",
+      "UPGRADE_PROMPT": "チーム管理、自動化、カスタム属性などの高度な機能を利用するにはプランをアップグレードしてください。",
+      "UPGRADE_NOW": "今すぐアップグレード",
+      "CANCEL_ANYTIME": "プランはいつでも変更またはキャンセルできます"
+    },
+    "ENTERPRISE_PAYWALL": {
+      "AVAILABLE_ON": "SLA機能は有料プランのみで利用可能です。",
+      "UPGRADE_PROMPT": "監査ログ、担当者の稼働状況などの高度な機能を利用するには有料プランにアップグレードしてください。",
+      "ASK_ADMIN": "管理者にアップグレードを依頼してください。"
+    },
+    "LIST": {
+      "404": "このアカウントには利用可能なSLAがありません。",
+      "EMPTY": {
+        "TITLE_1": "エンタープライズ P0",
+        "DESC_1": "即時対応が必要なエンタープライズ顧客からの問題。",
+        "TITLE_2": "エンタープライズ P1",
+        "DESC_2": "迅速な承認が必要なエンタープライズ顧客からの問題。"
+      },
+      "BUSINESS_HOURS_ON": "営業時間内",
+      "BUSINESS_HOURS_OFF": "営業時間外",
+      "RESPONSE_TYPES": {
+        "FRT": "最初の応答時間の基準",
+        "NRT": "次の応答時間の基準",
+        "RT": "解決時間の基準",
+        "SHORT_HAND": {
+          "FRT": "最初の応答",
+          "NRT": "次の応答",
+          "RT": "解決"
+        }
+      }
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "SLA名",
+        "PLACEHOLDER": "SLA名",
+        "REQUIRED_ERROR": "SLA名は必須です",
+        "MINIMUM_LENGTH_ERROR": "最小2文字が必要です",
+        "VALID_ERROR": "使用可能なのは英字、数字、ハイフン、アンダースコアのみです"
+      },
+      "DESCRIPTION": {
+        "LABEL": "説明",
+        "PLACEHOLDER": "プレミアム顧客向けのSLA"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "LABEL": "最初の応答時間",
+        "PLACEHOLDER": "5"
+      },
+      "NEXT_RESPONSE_TIME": {
+        "LABEL": "次の応答時間",
+        "PLACEHOLDER": "5"
+      },
+      "RESOLUTION_TIME": {
+        "LABEL": "解決時間",
+        "PLACEHOLDER": "60"
+      },
+      "BUSINESS_HOURS": {
+        "LABEL": "営業時間",
+        "PLACEHOLDER": "営業時間内のみ"
+      },
+      "THRESHOLD_TIME": {
+        "INVALID_FORMAT_ERROR": "しきい値は数値でゼロより大きい必要があります"
+      },
+      "EDIT": "編集",
+      "CREATE": "作成",
+      "DELETE": "削除",
+      "CANCEL": "キャンセル"
+    },
+    "ADD": {
+      "TITLE": "SLAを追加",
+      "DESC": "素晴らしいサービスのための友好的な約束！",
+      "API": {
+        "SUCCESS_MESSAGE": "SLAが正常に追加されました",
+        "ERROR_MESSAGE": "エラーが発生しました。もう一度お試しください。"
+      }
+    },
+    "DELETE": {
+      "TITLE": "SLAを削除",
+      "API": {
+        "SUCCESS_MESSAGE": "SLAが正常に削除されました",
+        "ERROR_MESSAGE": "エラーが発生しました。もう一度お試しください。"
+      },
+      "CONFIRM": {
+        "TITLE": "削除の確認",
+        "MESSAGE": "本当に削除してもよろしいですか？",
+        "YES": "削除する",
+        "NO": "いいえ"
+      }
+    },
+    "EVENTS": {
+      "TITLE": "SLAの逸脱",
+      "FRT": "最初の応答時間",
+      "NRT": "次の応答時間",
+      "RT": "解決時間",
+      "SHOW_MORE": "{count}件以上表示",
+      "HIDE": "{count}行を非表示"
+    }
+  }
+}

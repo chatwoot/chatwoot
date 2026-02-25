@@ -1,0 +1,60 @@
+tags:
+  - Help Center
+operationId: get-portal
+summary: List all portals in an account
+parameters:
+  - $ref: '#/components/parameters/account_id'
+description: Get details of portals in an Account
+security:
+  - userApiKey: []
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/portal'
+        example:
+          payload:
+            - id: 4
+              color: "#1F93FF"
+              custom_domain: "chatwoot.help"
+              header_text: "Handbook"
+              homepage_link: "https://www.chatwoot.com"
+              name: "Handbook"
+              page_title: "Handbook"
+              slug: "handbook"
+              archived: false
+              account_id: 1
+              config:
+                allowed_locales:
+                  - code: "en"
+                    articles_count: 32
+                    categories_count: 9
+              inbox:
+                id: 37
+                avatar_url: "https://example.com/avatar.png"
+                channel_id: 1
+                name: "Chatwoot"
+                channel_type: "Channel::WebWidget"
+                greeting_enabled: true
+                widget_color: "#1F93FF"
+                website_url: "chatwoot.com"
+              logo:
+                id: 19399916
+                portal_id: 4
+                file_type: "image/png"
+                account_id: 1
+                file_url: "https://example.com/logo.png"
+                blob_id: 21239614
+                filename: "square.png"
+              meta:
+                all_articles_count: 0
+                categories_count: 9
+                default_locale: "en"
+  '403':
+    description: Access denied
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

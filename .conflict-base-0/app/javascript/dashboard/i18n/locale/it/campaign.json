@@ -1,0 +1,214 @@
+{
+  "CAMPAIGN": {
+    "LIVE_CHAT": {
+      "HEADER_TITLE": "Campagne live chat",
+      "NEW_CAMPAIGN": "Crea campagna",
+      "CARD": {
+        "STATUS": {
+          "ENABLED": "Attiva",
+          "DISABLED": "Inattiva"
+        },
+        "CAMPAIGN_DETAILS": {
+          "SENT_BY": "Inviata da",
+          "BOT": "Bot",
+          "FROM": "da",
+          "URL": "URL:"
+        }
+      },
+      "EMPTY_STATE": {
+        "TITLE": "Nessuna campagna live chat disponibile",
+        "SUBTITLE": "Connettiti con i tuoi clienti usando messaggi proattivi. Clicca su 'Crea campagna' per iniziare."
+      },
+      "CREATE": {
+        "TITLE": "Crea una campagna live chat",
+        "CANCEL_BUTTON_TEXT": "Annulla",
+        "CREATE_BUTTON_TEXT": "Crea",
+        "FORM": {
+          "TITLE": {
+            "LABEL": "Titolo",
+            "PLACEHOLDER": "Inserisci il titolo della campagna",
+            "ERROR": "Titolo richiesto"
+          },
+          "MESSAGE": {
+            "LABEL": "Messaggio",
+            "PLACEHOLDER": "Inserisci il messaggio della campagna",
+            "ERROR": "Messaggio richiesto"
+          },
+          "INBOX": {
+            "LABEL": "Seleziona Inbox",
+            "PLACEHOLDER": "Seleziona Inbox",
+            "ERROR": "Inbox richiesta"
+          },
+          "SENT_BY": {
+            "LABEL": "Inviata da",
+            "PLACEHOLDER": "Seleziona mittente",
+            "ERROR": "Mittente richiesto"
+          },
+          "END_POINT": {
+            "LABEL": "URL",
+            "PLACEHOLDER": "Inserisci un URL valido",
+            "ERROR": "Inserisci un URL valido"
+          },
+          "TIME_ON_PAGE": {
+            "LABEL": "Tempo sulla pagina (secondi)",
+            "PLACEHOLDER": "Inserisci il tempo in secondi",
+            "ERROR": "Tempo sulla pagina richiesto"
+          },
+          "OTHER_PREFERENCES": {
+            "TITLE": "Altre preferenze",
+            "ENABLED": "Attiva campagna",
+            "TRIGGER_ONLY_BUSINESS_HOURS": "Attiva solo durante l'orario lavorativo"
+          },
+          "BUTTONS": {
+            "CREATE": "Crea",
+            "CANCEL": "Annulla"
+          },
+          "API": {
+            "SUCCESS_MESSAGE": "Campagna live chat creata con successo",
+            "ERROR_MESSAGE": "Si è verificato un errore, riprova."
+          }
+        }
+      },
+      "EDIT": {
+        "TITLE": "Modifica campagna live chat",
+        "FORM": {
+          "API": {
+            "SUCCESS_MESSAGE": "Campagna live chat aggiornata con successo",
+            "ERROR_MESSAGE": "Si è verificato un errore, riprova."
+          }
+        }
+      }
+    },
+    "SMS": {
+      "HEADER_TITLE": "Campagne SMS",
+      "NEW_CAMPAIGN": "Crea campagna",
+      "EMPTY_STATE": {
+        "TITLE": "Nessuna campagna SMS disponibile",
+        "SUBTITLE": "Avvia una campagna SMS per raggiungere direttamente i tuoi clienti. Invia offerte o fai annunci con facilità. Clicca su 'Crea campagna' per iniziare."
+      },
+      "CARD": {
+        "STATUS": {
+          "COMPLETED": "Completata",
+          "SCHEDULED": "Programmata"
+        },
+        "CAMPAIGN_DETAILS": {
+          "SENT_FROM": "Inviata da",
+          "ON": "il"
+        }
+      },
+      "CREATE": {
+        "TITLE": "Crea campagna SMS",
+        "CANCEL_BUTTON_TEXT": "Annulla",
+        "CREATE_BUTTON_TEXT": "Crea",
+        "FORM": {
+          "TITLE": {
+            "LABEL": "Titolo",
+            "PLACEHOLDER": "Inserisci il titolo della campagna",
+            "ERROR": "Titolo richiesto"
+          },
+          "MESSAGE": {
+            "LABEL": "Messaggio",
+            "PLACEHOLDER": "Inserisci il messaggio della campagna",
+            "ERROR": "Messaggio richiesto"
+          },
+          "INBOX": {
+            "LABEL": "Seleziona Inbox",
+            "PLACEHOLDER": "Seleziona Inbox",
+            "ERROR": "Inbox richiesta"
+          },
+          "AUDIENCE": {
+            "LABEL": "Pubblico",
+            "PLACEHOLDER": "Seleziona le etichette dei clienti",
+            "ERROR": "Pubblico richiesto"
+          },
+          "SCHEDULED_AT": {
+            "LABEL": "Orario programmato",
+            "PLACEHOLDER": "Seleziona l'orario",
+            "ERROR": "È richiesto un orario programmato"
+          },
+          "BUTTONS": {
+            "CREATE": "Crea",
+            "CANCEL": "Annulla"
+          },
+          "API": {
+            "SUCCESS_MESSAGE": "Campagna SMS creata con successo",
+            "ERROR_MESSAGE": "Si è verificato un errore. Riprova."
+          }
+        }
+      }
+    },
+    "WHATSAPP": {
+      "HEADER_TITLE": "Campagne WhatsApp",
+      "NEW_CAMPAIGN": "Crea campagna",
+      "EMPTY_STATE": {
+        "TITLE": "Nessuna campagna WhatsApp disponibile",
+        "SUBTITLE": "Avvia una campagna WhatsApp per raggiungere direttamente i tuoi clienti. Invia offerte o fai annunci con facilità. Clicca su 'Crea campagna' per iniziare."
+      },
+      "CARD": {
+        "STATUS": {
+          "COMPLETED": "Completata",
+          "SCHEDULED": "Programmata"
+        },
+        "CAMPAIGN_DETAILS": {
+          "SENT_FROM": "Inviata da",
+          "ON": "il"
+        }
+      },
+      "CREATE": {
+        "TITLE": "Crea campagna WhatsApp",
+        "CANCEL_BUTTON_TEXT": "Annulla",
+        "CREATE_BUTTON_TEXT": "Crea",
+        "FORM": {
+          "TITLE": {
+            "LABEL": "Titolo",
+            "PLACEHOLDER": "Inserisci il titolo della campagna",
+            "ERROR": "Titolo richiesto"
+          },
+          "INBOX": {
+            "LABEL": "Seleziona Inbox",
+            "PLACEHOLDER": "Seleziona Inbox",
+            "ERROR": "Inbox richiesta"
+          },
+          "TEMPLATE": {
+            "LABEL": "Modello WhatsApp",
+            "PLACEHOLDER": "Seleziona un modello",
+            "INFO": "Seleziona un modello da utilizzare per questa campagna.",
+            "ERROR": "Modello richiesto",
+            "PREVIEW_TITLE": "Elabora {templateName}",
+            "LANGUAGE": "Lingua",
+            "CATEGORY": "Categoria",
+            "VARIABLES_LABEL": "Variabili",
+            "VARIABLE_PLACEHOLDER": "Inserisci il valore per {variable}"
+          },
+          "AUDIENCE": {
+            "LABEL": "Pubblico",
+            "PLACEHOLDER": "Seleziona le etichette dei clienti",
+            "ERROR": "Pubblico richiesto"
+          },
+          "SCHEDULED_AT": {
+            "LABEL": "Orario programmato",
+            "PLACEHOLDER": "Seleziona l'orario",
+            "ERROR": "È richiesto un orario programmato"
+          },
+          "BUTTONS": {
+            "CREATE": "Crea",
+            "CANCEL": "Annulla"
+          },
+          "API": {
+            "SUCCESS_MESSAGE": "Campagna WhatsApp creata con successo",
+            "ERROR_MESSAGE": "Si è verificato un errore. Riprova."
+          }
+        }
+      }
+    },
+    "CONFIRM_DELETE": {
+      "TITLE": "Sei sicuro di voler eliminare?",
+      "DESCRIPTION": "L'azione di eliminazione è permanente e non può essere annullata.",
+      "CONFIRM": "Elimina",
+      "API": {
+        "SUCCESS_MESSAGE": "Campagna eliminata con successo",
+        "ERROR_MESSAGE": "Si è verificato un errore. Riprova."
+      }
+    }
+  }
+}

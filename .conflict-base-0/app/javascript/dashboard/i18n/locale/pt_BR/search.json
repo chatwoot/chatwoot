@@ -1,0 +1,68 @@
+{
+  "SEARCH": {
+    "TABS": {
+      "ALL": "Todos os resultados",
+      "CONTACTS": "Contatos",
+      "CONVERSATIONS": "Conversas",
+      "MESSAGES": "Mensagens",
+      "ARTICLES": "Artigos"
+    },
+    "SECTION": {
+      "CONTACTS": "Contatos",
+      "CONVERSATIONS": "Conversas",
+      "MESSAGES": "Messagem",
+      "ARTICLES": "Artigos"
+    },
+    "VIEW_MORE": "Ver mais",
+    "LOAD_MORE": "Carregar mais",
+    "SEARCHING_DATA": "Pesquisando",
+    "LOADING_DATA": "Carregando",
+    "EMPTY_STATE": "Nenhum {item} foi encontrado para a consulta '{query}'",
+    "EMPTY_STATE_FULL": "Nenhum resultado encontrado para a consulta '{query}'",
+    "PLACEHOLDER_KEYBINDING": "/para focar",
+    "INPUT_PLACEHOLDER": "Digite 3 ou mais caracteres para pesquisar",
+    "RECENT_SEARCHES": "Pesquisas recentes",
+    "CLEAR_ALL": "Limpar tudo",
+    "MOST_RECENT": "Mais recentes",
+    "EMPTY_STATE_DEFAULT": "Procurar por ID de conversa, e-mail, número de telefone, mensagens para melhores resultados de busca.",
+    "BOT_LABEL": "Robôs",
+    "READ_MORE": "Saiba mais",
+    "READ_LESS": "Ler menos",
+    "WROTE": "escreveu:",
+    "FROM": "De",
+    "EMAIL": "E-mail",
+    "EMAIL_SUBJECT": "Assunto",
+    "PRIVATE": "Nota privada",
+    "TRANSCRIPT": "Transcrição",
+    "CREATED_AT": "criado {time}",
+    "UPDATED_AT": "atualizado em {time}",
+    "SORT_BY": {
+      "RELEVANCE": "Relevância"
+    },
+    "DATE_RANGE": {
+      "LAST_7_DAYS": "Últimos 7 dias",
+      "LAST_30_DAYS": "Últimos 30 dias",
+      "LAST_60_DAYS": "Últimos 60 dias",
+      "LAST_90_DAYS": "Últimos 90 dias",
+      "CUSTOM_RANGE": "Intervalo personalizado:",
+      "CREATED_BETWEEN": "Criado entre",
+      "AND": "e",
+      "APPLY": "Aplicar",
+      "BEFORE_DATE": "Antes de {date}",
+      "AFTER_DATE": "Depois de {date}",
+      "TIME_RANGE": "Filtrar por horário",
+      "CLEAR_FILTER": "Limpar filtros"
+    },
+    "FILTERS": {
+      "FILTER_MESSAGE": "Filtrar mensagens por:",
+      "FROM": "Remetente",
+      "IN": "Caixa de Entrada",
+      "AGENTS": "Agentes",
+      "CONTACTS": "Contatos",
+      "INBOXES": "Caixas de Entrada",
+      "NO_AGENTS": "Nenhum agente encontrado",
+      "NO_CONTACTS": "Comece a pesquisar para ver os resultados",
+      "NO_INBOXES": "Nenhuma caixa de entrada encontrada"
+    }
+  }
+}

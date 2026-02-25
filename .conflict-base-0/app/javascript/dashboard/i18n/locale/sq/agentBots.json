@@ -1,0 +1,103 @@
+{
+  "AGENT_BOTS": {
+    "HEADER": "Bots",
+    "LOADING_EDITOR": "Loading editor...",
+    "DESCRIPTION": "Botët agjentë janë si anëtarët më të mrekullueshëm të ekipit tuaj. Ata mund të merren me gjërat e vogla, që ju të përqendroheni te ato që kanë rëndësi. Provojini. Mund t'i menaxhoni botët nga kjo faqe ose të krijoni të rinj duke përdorur butonin 'Shto Bot'.",
+    "LEARN_MORE": "Learn about agent bots",
+    "GLOBAL_BOT": "Bot i sistemit",
+    "GLOBAL_BOT_BADGE": "System",
+    "AVATAR": {
+      "SUCCESS_DELETE": "Avatari i botit u fshi me sukses",
+      "ERROR_DELETE": "Gabim gjatë fshirjes së avatarit të botit, ju lutemi provoni përsëri"
+    },
+    "BOT_CONFIGURATION": {
+      "TITLE": "Select an agent bot",
+      "DESC": "Assign an Agent Bot to your inbox. They can handle initial conversations and transfer them to a live agent when necessary.",
+      "SUBMIT": "Update",
+      "DISCONNECT": "Disconnect bot",
+      "SUCCESS_MESSAGE": "Successfully updated the agent bot.",
+      "DISCONNECTED_SUCCESS_MESSAGE": "Successfully disconnected the agent bot.",
+      "ERROR_MESSAGE": "Could not update the agent bot. Please try again.",
+      "DISCONNECTED_ERROR_MESSAGE": "Could not disconnect the agent bot. Please try again.",
+      "SELECT_PLACEHOLDER": "Select bot"
+    },
+    "ADD": {
+      "TITLE": "Shto Bot",
+      "CANCEL_BUTTON_TEXT": "Cancel",
+      "API": {
+        "SUCCESS_MESSAGE": "Bot added successfully.",
+        "ERROR_MESSAGE": "Could not add bot. Please try again later."
+      }
+    },
+    "LIST": {
+      "404": "Nuk u gjet asnjë bot. Mund të krijoni një bot duke klikuar butonin 'Shto Bot'.",
+      "LOADING": "Fetching bots...",
+      "TABLE_HEADER": {
+        "DETAILS": "Detajet e botit",
+        "URL": "Webhook URL"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Delete",
+      "TITLE": "Delete bot",
+      "CONFIRM": {
+        "TITLE": "Confirm Deletion",
+        "MESSAGE": "Jeni të sigurt që doni të fshini {name}?",
+        "YES": "Yes, Delete",
+        "NO": "No, Keep"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Bot deleted successfully.",
+        "ERROR_MESSAGE": "Could not delete bot. Please try again."
+      }
+    },
+    "EDIT": {
+      "BUTTON_TEXT": "Edit",
+      "TITLE": "Edit bot",
+      "API": {
+        "SUCCESS_MESSAGE": "Bot updated successfully.",
+        "ERROR_MESSAGE": "Could not update bot. Please try again."
+      }
+    },
+    "ACCESS_TOKEN": {
+      "TITLE": "Access Token",
+      "DESCRIPTION": "Kopjoni tokenin e aksesit dhe ruajeni në mënyrë të sigurt",
+      "COPY_SUCCESSFUL": "Tokeni i aksesit u kopjua në kujtesën e përkohshme",
+      "RESET_SUCCESS": "Tokeni i aksesit u rigjenerua me sukses",
+      "RESET_ERROR": "Nuk mund të rigjenerohet tokeni i aksesit. Ju lutemi provoni përsëri"
+    },
+    "FORM": {
+      "AVATAR": {
+        "LABEL": "Avatari i botit"
+      },
+      "NAME": {
+        "LABEL": "Bot name",
+        "PLACEHOLDER": "Shkruani emrin e botit",
+        "REQUIRED": "Bot name is required"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Description",
+        "PLACEHOLDER": "What does this bot do?"
+      },
+      "WEBHOOK_URL": {
+        "LABEL": "Webhook URL",
+        "PLACEHOLDER": "https://example.com/webhook",
+        "REQUIRED": "URL-ja e webhook-ut është e detyrueshme"
+      },
+      "ERRORS": {
+        "NAME": "Bot name is required",
+        "URL": "URL-ja e webhook-ut është e detyrueshme",
+        "VALID_URL": "Ju lutemi shkruani një URL të vlefshme që fillon me http:// ose https://"
+      },
+      "CANCEL": "Cancel",
+      "CREATE": "Krijo Bot",
+      "UPDATE": "Përditëso Bot"
+    },
+    "WEBHOOK": {
+      "DESCRIPTION": "Konfiguroni një bot webhook për t'u integruar me shërbimet tuaja të personalizuara. Boti do të marrë dhe përpunojë ngjarjet nga bisedat dhe mund t'u përgjigjet atyre."
+    },
+    "TYPES": {
+      "WEBHOOK": "Webhook bot"
+    }
+  }
+}

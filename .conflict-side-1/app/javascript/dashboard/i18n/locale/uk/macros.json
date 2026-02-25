@@ -1,0 +1,111 @@
+{
+  "MACROS": {
+    "HEADER": "Макрос",
+    "DESCRIPTION": "A macro is a set of saved actions that help customer service agents easily complete tasks. The agents can define a set of actions like tagging a conversation with a label, sending an email transcript, updating a custom attribute, etc., and they can run these actions in a single click.",
+    "LEARN_MORE": "Learn more about macros",
+    "HEADER_BTN_TXT": "Додати новий макрос",
+    "HEADER_BTN_TXT_SAVE": "Зберегти макрос",
+    "LOADING": "Завантаження макросів",
+    "ERROR": "Щось пішло не так. Будь ласка, оновіть сторінку",
+    "ORDER_INFO": "Макроси запускається у порядку додавання ваших дій. Ви можете переставити їх шляхом перетягування.",
+    "ADD": {
+      "FORM": {
+        "NAME": {
+          "LABEL": "Назва макросу",
+          "PLACEHOLDER": "Введіть ім'я для макросу",
+          "ERROR": "Ім'я макросу обов'язкове"
+        },
+        "ACTIONS": {
+          "LABEL": "Дії"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Макрос успішно доданий",
+        "ERROR_MESSAGE": "Не вдалося створити макрос, будь ласка, спробуйте ще раз пізніше"
+      }
+    },
+    "LIST": {
+      "TABLE_HEADER": {
+        "NAME": "Ім'я",
+        "CREATED BY": "Створено",
+        "LAST_UPDATED_BY": "Оновлено",
+        "VISIBILITY": "Видимість"
+      },
+      "404": "Макросів не знайдено"
+    },
+    "DELETE": {
+      "TOOLTIP": "Видалити макрос",
+      "CONFIRM": {
+        "MESSAGE": "Справді бажаєте видалити ",
+        "YES": "Так, видалити",
+        "NO": "Ні"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Макрос успішно видалений",
+        "ERROR_MESSAGE": "Виникла помилка при видаленні макросу. Будь ласка, спробуйте пізніше"
+      }
+    },
+    "EDIT": {
+      "TOOLTIP": "Редагувати макрос",
+      "API": {
+        "SUCCESS_MESSAGE": "Макрос успішно доданий",
+        "ERROR_MESSAGE": "Не вдалося оновити макрос, спробуйте ще раз пізніше"
+      }
+    },
+    "EDITOR": {
+      "START_FLOW": "Початок дій",
+      "END_FLOW": "Закінчення",
+      "LOADING": "Отримання макросу",
+      "ADD_BTN_TOOLTIP": "Додати нову дію",
+      "DELETE_BTN_TOOLTIP": "Вилучити дію",
+      "VISIBILITY": {
+        "LABEL": "Видимість макросу",
+        "GLOBAL": {
+          "LABEL": "Публічний",
+          "DESCRIPTION": "Цей макрос є публічним для всіх агентів."
+        },
+        "PERSONAL": {
+          "LABEL": "Приватний",
+          "DESCRIPTION": "Цей макрос буде вам приватним і не буде доступним іншим."
+        }
+      }
+    },
+    "EXECUTE": {
+      "BUTTON_TOOLTIP": "Виконати",
+      "PREVIEW": "Перегляд макросу",
+      "EXECUTED_SUCCESSFULLY": "Макрос успішно виконано"
+    },
+    "ERRORS": {
+      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
+      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "VALUE_REQUIRED": "Необхідно вказати значення",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998",
+      "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
+      "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
+      "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
+    },
+    "ACTIONS": {
+      "ASSIGN_TEAM": "Assign a Team",
+      "ASSIGN_AGENT": "Assign an Agent",
+      "ADD_LABEL": "Add a Label",
+      "REMOVE_LABEL": "Remove a Label",
+      "REMOVE_ASSIGNED_TEAM": "Remove Assigned Team",
+      "SEND_EMAIL_TRANSCRIPT": "Send an Email Transcript",
+      "MUTE_CONVERSATION": "Заглушити розмову",
+      "SNOOZE_CONVERSATION": "Відкласти розмову",
+      "RESOLVE_CONVERSATION": "Вирішити розмову",
+      "SEND_ATTACHMENT": "Send Attachment",
+      "SEND_MESSAGE": "Send a Message",
+      "CHANGE_PRIORITY": "Змінити пріоритет",
+      "ADD_PRIVATE_NOTE": "Add a Private Note",
+      "SEND_WEBHOOK_EVENT": "Send Webhook Event"
+    },
+    "PRIORITY_TYPES": {
+      "NONE": "Нiчого",
+      "LOW": "Низький",
+      "MEDIUM": "Середній",
+      "HIGH": "Високий",
+      "URGENT": "Терміновий"
+    }
+  }
+}

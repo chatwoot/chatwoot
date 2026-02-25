@@ -1,0 +1,41 @@
+{
+  "LOGIN": {
+    "TITLE": "Entrar no Chatwoot",
+    "EMAIL": {
+      "LABEL": "e-mail",
+      "PLACEHOLDER": "nome{'@'}empresa.com.br",
+      "ERROR": "Digite um endereço de endereço eletrônico válido"
+    },
+    "PASSWORD": {
+      "LABEL": "Senha",
+      "PLACEHOLDER": "Senha"
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Acesso bem-sucedido",
+      "ERROR_MESSAGE": "Não foi possível desconectar o agente robô. Por favor, tente novamente mais tarde.",
+      "UNAUTH": "Usuário ou senha incorretos. Por favor, tente novamente."
+    },
+    "OAUTH": {
+      "GOOGLE_LOGIN": "Entrar com o Google",
+      "BUSINESS_ACCOUNTS_ONLY": "Use o endereço de endereço eletrônico da empresa para fazer ‘login’",
+      "NO_ACCOUNT_FOUND": "Não encontramos uma conta para seu endereço de correio eletrônico."
+    },
+    "FORGOT_PASSWORD": "Esqueceu-se da sua senha?",
+    "CREATE_NEW_ACCOUNT": "Criar nova conta",
+    "SUBMIT": "Entrar",
+    "SAML": {
+      "LABEL": "Login via SSO",
+      "TITLE": "Iniciar Single Sign-on (SSO)",
+      "SUBTITLE": "Digite seu e-mail de trabalho para acessar sua organização",
+      "BACK_TO_LOGIN": "Login com senha",
+      "WORK_EMAIL": {
+        "LABEL": "E-mail de trabalho",
+        "PLACEHOLDER": "Digite seu e-mail de trabalho"
+      },
+      "SUBMIT": "Continuar com SSO",
+      "API": {
+        "ERROR_MESSAGE": "SSO authentication failed. Please check your credentials and try again."
+      }
+    }
+  }
+}

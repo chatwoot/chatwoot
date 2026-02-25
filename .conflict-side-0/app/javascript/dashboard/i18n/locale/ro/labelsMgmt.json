@@ -1,0 +1,85 @@
+{
+  "LABEL_MGMT": {
+    "HEADER": "Etichete",
+    "HEADER_BTN_TXT": "Adăugare etichetă",
+    "LOADING": "Preluarea etichetelor",
+    "DESCRIPTION": "Labels help you categorize and prioritize conversations and leads. You can assign a label to a conversation or contact using the side panel.",
+    "LEARN_MORE": "Learn more about labels",
+    "SEARCH_404": "Nu există elemente care să corespundă acestei interogări",
+    "LIST": {
+      "404": "Nu există răspunsuri predefinite disponibile în acest cont.",
+      "TITLE": "Gestionați etichetele",
+      "DESC": "Etichetele vă permit să grupați conversațiile împreună.",
+      "TABLE_HEADER": {
+        "NAME": "Nume",
+        "DESCRIPTION": "Descriere",
+        "COLOR": "Culoare"
+      }
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "Nume etichetă",
+        "PLACEHOLDER": "Nume etichetă",
+        "REQUIRED_ERROR": "Este necesar numele etichetei",
+        "MINIMUM_LENGTH_ERROR": "Lungimea minimă 2 este necesară",
+        "VALID_ERROR": "Numai alfabetele, numerele, cratima și sublinierea sunt permise"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Descriere",
+        "PLACEHOLDER": "Descriere etichetă"
+      },
+      "COLOR": {
+        "LABEL": "Culoare"
+      },
+      "SHOW_ON_SIDEBAR": {
+        "LABEL": "Arată eticheta în bara laterală"
+      },
+      "EDIT": "Editare",
+      "CREATE": "Creeaza",
+      "DELETE": "Şterge",
+      "CANCEL": "Renunță"
+    },
+    "SUGGESTIONS": {
+      "TOOLTIP": {
+        "SINGLE_SUGGESTION": "Add label to conversation",
+        "MULTIPLE_SUGGESTION": "Select this label",
+        "DESELECT": "Deselect label",
+        "DISMISS": "Dismiss suggestion"
+      },
+      "POWERED_BY": "Chatwoot AI",
+      "DISMISS": "Dismiss",
+      "ADD_SELECTED_LABELS": "Add selected labels",
+      "ADD_SELECTED_LABEL": "Add selected label",
+      "ADD_ALL_LABELS": "Add all labels",
+      "SUGGESTED_LABELS": "Suggested labels"
+    },
+    "ADD": {
+      "TITLE": "Adăugare etichetă",
+      "DESC": "Etichetele vă permit să grupați conversațiile împreună.",
+      "API": {
+        "SUCCESS_MESSAGE": "Etichetă adăugată cu succes",
+        "ERROR_MESSAGE": "A apărut o eroare, încercați din nou"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Editează eticheta",
+      "API": {
+        "SUCCESS_MESSAGE": "Etichetă actualizată cu succes",
+        "ERROR_MESSAGE": "A apărut o eroare, încercați din nou"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Şterge",
+      "API": {
+        "SUCCESS_MESSAGE": "Etichetă ștearsă cu succes",
+        "ERROR_MESSAGE": "A apărut o eroare, încercați din nou"
+      },
+      "CONFIRM": {
+        "TITLE": "Confirmă ștergerea",
+        "MESSAGE": "Sigur doriți să ștergeți ",
+        "YES": "Da, șterge ",
+        "NO": "Nu, păstreaza "
+      }
+    }
+  }
+}

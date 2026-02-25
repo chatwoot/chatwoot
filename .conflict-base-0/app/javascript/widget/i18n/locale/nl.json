@@ -1,0 +1,153 @@
+{
+  "COMPONENTS": {
+    "FILE_BUBBLE": {
+      "DOWNLOAD": "Downloaden",
+      "UPLOADING": "Uploaden..."
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "Bevestigen"
+    },
+    "MESSAGE_BUBBLE": {
+      "RETRY": "Bericht opnieuw verzenden",
+      "ERROR_MESSAGE": "Verzenden mislukt, probeer het opnieuw"
+    }
+  },
+  "THUMBNAIL": {
+    "AUTHOR": {
+      "NOT_AVAILABLE": "Not available"
+    }
+  },
+  "TEAM_AVAILABILITY": {
+    "ONLINE": "We zijn online",
+    "OFFLINE": "We zijn momenteel afwezig",
+    "BACK_AS_SOON_AS_POSSIBLE": "We will be back as soon as possible"
+  },
+  "REPLY_TIME": {
+    "IN_A_FEW_MINUTES": "Reageert meestal binnen een paar minuten",
+    "IN_A_FEW_HOURS": "Reageert meestal binnen een paar uur",
+    "IN_A_DAY": "Reageert meestal binnen een dag",
+    "BACK_IN_HOURS": "We will be back online in {n} hour | We will be back online in {n} hours",
+    "BACK_IN_MINUTES": "We will be back online in {time} minutes",
+    "BACK_AT_TIME": "We will be back online at {time}",
+    "BACK_ON_DAY": "We will be back online on {day}",
+    "BACK_TOMORROW": "We will be back online tomorrow",
+    "BACK_IN_SOME_TIME": "We will be back online in some time"
+  },
+  "DAY_NAMES": {
+    "SUNDAY": "zondag",
+    "MONDAY": "maandag",
+    "TUESDAY": "dinsdag",
+    "WEDNESDAY": "woensdag",
+    "THURSDAY": "donderdag",
+    "FRIDAY": "vrijdag",
+    "SATURDAY": "zaterdag"
+  },
+  "START_CONVERSATION": "Start Chat",
+  "END_CONVERSATION": "Gesprek beëindigen",
+  "CONTINUE_CONVERSATION": "Verdergaan met gesprek",
+  "YOU": "Jij",
+  "START_NEW_CONVERSATION": "Een nieuw gesprek starten",
+  "VIEW_UNREAD_MESSAGES": "Je hebt ongelezen berichten",
+  "UNREAD_VIEW": {
+    "VIEW_MESSAGES_BUTTON": "Bekijk nieuwe berichten",
+    "CLOSE_MESSAGES_BUTTON": "Sluiten",
+    "COMPANY_FROM": "van",
+    "BOT": "Robot"
+  },
+  "BUBBLE": {
+    "LABEL": "Chat met ons"
+  },
+  "POWERED_BY": "Mogelijk gemaakt door Chatwoot",
+  "EMAIL_PLACEHOLDER": "Voer uw e-mailadres in",
+  "CHAT_PLACEHOLDER": "Typ uw bericht",
+  "TODAY": "Vandaag",
+  "YESTERDAY": "Gisteren",
+  "PRE_CHAT_FORM": {
+    "FIELDS": {
+      "FULL_NAME": {
+        "LABEL": "Volledige Naam",
+        "PLACEHOLDER": "Voer uw volledige naam in",
+        "REQUIRED_ERROR": "Volledige naam is vereist"
+      },
+      "EMAIL_ADDRESS": {
+        "LABEL": "Uw e-mailadres",
+        "PLACEHOLDER": "Voer uw e-mailadres in",
+        "REQUIRED_ERROR": "E-mailadres is vereist",
+        "VALID_ERROR": "Voer een geldig e-mailadres in"
+      },
+      "PHONE_NUMBER": {
+        "LABEL": "Telefoonnummer",
+        "PLACEHOLDER": "Vul je telefoonnummer in",
+        "REQUIRED_ERROR": "Telefoon nummer is vereist",
+        "DIAL_CODE_VALID_ERROR": "Selecteer alstublieft een landcode",
+        "VALID_ERROR": "Voer een geldig telefoonnummer in",
+        "DROPDOWN_EMPTY": "Geen resultaten gevonden",
+        "DROPDOWN_SEARCH": "Search country"
+      },
+      "MESSAGE": {
+        "LABEL": "Bericht",
+        "PLACEHOLDER": "Voer uw bericht in",
+        "ERROR": "Bericht te kort"
+      }
+    },
+    "CAMPAIGN_HEADER": "Geef uw naam en e-mail voordat u het gesprek begint",
+    "IS_REQUIRED": "is vereist",
+    "REQUIRED": "Vereist",
+    "REGEX_ERROR": "Please provide a valid input"
+  },
+  "FILE_SIZE_LIMIT": "Bestand overschrijdt de bijlagelimiet van {MAXIMUM_FILE_UPLOAD_SIZE}",
+  "CHAT_FORM": {
+    "INVALID": {
+      "FIELD": "Ongeldig veld"
+    }
+  },
+  "EMOJI": {
+    "PLACEHOLDER": "Zoek emojis",
+    "NOT_FOUND": "Er zijn geen overeenkomende emoji's gevonden",
+    "ARIA_LABEL": "Emoji picker"
+  },
+  "CSAT": {
+    "TITLE": "Beoordeel uw gesprek",
+    "SUBMITTED_TITLE": "Bedankt voor het indienen van een beoordeling",
+    "PLACEHOLDER": "Vertel ons meer..."
+  },
+  "EMAIL_TRANSCRIPT": {
+    "BUTTON_TEXT": "Verzoek een conversatie-transcript",
+    "SEND_EMAIL_SUCCESS": "Het gesprekstranscript is succesvol verzonden",
+    "SEND_EMAIL_ERROR": "Er is een fout opgetreden, probeer het opnieuw"
+  },
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Klik hier om deel te nemen",
+      "LEAVE_THE_ROOM": "Gesprek verlaten"
+    }
+  },
+  "PORTAL": {
+    "POPULAR_ARTICLES": "Populaire artikelen",
+    "VIEW_ALL_ARTICLES": "Bekijk alle artikelen",
+    "IFRAME_LOAD_ERROR": "Er is een fout opgetreden bij het laden van het artikel, ververs de pagina en probeer het opnieuw."
+  },
+  "ATTACHMENTS": {
+    "image": {
+      "CONTENT": "Bericht met foto"
+    },
+    "audio": {
+      "CONTENT": "Audiobericht"
+    },
+    "video": {
+      "CONTENT": "Videobericht"
+    },
+    "file": {
+      "CONTENT": "Bestandsbijlage"
+    },
+    "location": {
+      "CONTENT": "Locatie"
+    },
+    "fallback": {
+      "CONTENT": "heeft een url gedeeld"
+    }
+  },
+  "FOOTER_REPLY_TO": {
+    "REPLY_TO": "Antwoord op:"
+  }
+}

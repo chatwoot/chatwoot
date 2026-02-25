@@ -1,0 +1,62 @@
+{
+  "INTEGRATION_APPS": {
+    "FETCHING": "جلب التكاملات",
+    "NO_HOOK_CONFIGURED": "لا يوجد {integrationId} تكاملات مكونة في هذا الحساب.",
+    "HEADER": "التطبيقات",
+    "STATUS": {
+      "ENABLED": "مفعل",
+      "DISABLED": "معطّل"
+    },
+    "CONFIGURE": "تهيئة",
+    "ADD_BUTTON": "إضافة ربط جديد",
+    "DELETE": {
+      "TITLE": {
+        "INBOX": "تأكيد الحذف",
+        "ACCOUNT": "قطع الاتصال"
+      },
+      "MESSAGE": {
+        "INBOX": "هل أنت متأكد من الحذف?",
+        "ACCOUNT": "هل أنت متأكد من قطع الاتصال؟"
+      },
+      "CONFIRM_BUTTON_TEXT": {
+        "INBOX": "نعم، احذف",
+        "ACCOUNT": "نعم، قطع الاتصال"
+      },
+      "CANCEL_BUTTON_TEXT": "إلغاء",
+      "API": {
+        "SUCCESS_MESSAGE": "تم حذف الربط بنجاح",
+        "ERROR_MESSAGE": "تعذر الاتصال بالخادم، الرجاء المحاولة مرة أخرى لاحقاً"
+      }
+    },
+    "LIST": {
+      "FETCHING": "جلب روابط التكامل",
+      "INBOX": "صندوق الوارد",
+      "DELETE": {
+        "BUTTON_TEXT": "حذف"
+      }
+    },
+    "ADD": {
+      "FORM": {
+        "INBOX": {
+          "LABEL": "اختر صندوق الوارد",
+          "PLACEHOLDER": "اختر صندوق الوارد"
+        },
+        "SUBMIT": "إنشاء",
+        "CANCEL": "إلغاء"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "تم حذف التكامل بنجاح",
+        "ERROR_MESSAGE": "تعذر الاتصال بالخادم، الرجاء المحاولة مرة أخرى لاحقاً"
+      }
+    },
+    "CONNECT": {
+      "BUTTON_TEXT": "ربط الاتصال"
+    },
+    "DISCONNECT": {
+      "BUTTON_TEXT": "قطع الاتصال"
+    },
+    "SIDEBAR_DESCRIPTION": {
+      "DIALOGFLOW": "Dialogflow is a natural language processing platform for building conversational interfaces. Integrating it with {installationName} lets bots handle queries first and transfer them to agents when needed. It helps qualify leads and reduce agent workload by answering FAQs. To add Dialogflow, create a Service Account in Google Console and share the credentials. Refer to the docs for details"
+    }
+  }
+}

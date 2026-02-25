@@ -1,0 +1,440 @@
+#Files in the config/locales directory are used for internationalization
+#and are automatically loaded by Rails. If you want to use locales other
+#than English, add the necessary files in this directory.
+#To use the locales, use `I18n.t`:
+#I18n.t 'hello'
+#In views, this is aliased to just `t`:
+#<%= t('hello') %>
+#To use a different locale, set it with `I18n.locale`:
+#I18n.locale = :es
+#This would use the information in config/locales/es.yml.
+#The following keys must be escaped otherwise they will not be retrieved by
+#the default I18n backend:
+#true, false, on, off, yes, no
+#Instead, surround them with single quotes.
+#en:
+#'true': 'foo'
+#To learn more, please read the Rails Internationalization guide
+#available at https://guides.rubyonrails.org/i18n.html.
+pt_BR:
+  hello: 'Olá, mundo'
+  inbox:
+    reauthorization:
+      success: 'Canal reautenticado com sucesso'
+      not_required: 'Reautenticação não é necessária para esta caixa de entrada'
+      invalid_channel: 'Tipo de canal inválido para reautenticar'
+  auth:
+    saml:
+      invalid_email: 'Por favor, insira um endereço de e-mail válido'
+      authentication_failed: 'Falha na autenticação. Por favor, verifique suas credenciais e tente novamente.'
+  messages:
+    reset_password_success: Legal! A solicitação de alteração de senha foi bem sucedida. Verifique seu e-mail para obter instruções.
+    reset_password_failure: Uh ho! Não conseguimos encontrar nenhum usuário com o e-mail especificado.
+    reset_password_saml_user: Esta conta usa autenticação SAML. A redefinição de senha não está disponível. Por favor, contate o administrador.
+    login_saml_user: Esta conta usa autenticação SAML. Por favor, faça login através do provedor SAML da sua organização.
+    saml_not_available: A autenticação SAML não está disponível nesta instalação.
+    inbox_deletetion_response: Seu pedido de exclusão da caixa de entrada será processado dentro de algum tempo.
+  errors:
+    validations:
+      presence: não pode ficar em branco
+    webhook:
+      invalid: Eventos inválidos
+    signup:
+      disposable_email: Não permitimos e-mails descartáveis
+      blocked_domain: Este domínio não é permitido. Se você acredita que isso é um erro, por favor contate o suporte.
+      invalid_email: Você digitou um email inválido
+      email_already_exists: 'Você já se cadastrou para uma conta com %{email}'
+      invalid_params: 'Inválido, por favor, verifique os parâmetros de inscrição e tente novamente'
+      failed: Registro falhou
+    assignment_policy:
+      not_found: Política de atribuição não encontrada
+    attachments:
+      invalid: Anexo inválido
+    saml:
+      feature_not_enabled: SAML não está habilitado para esta conta
+      sso_not_enabled: O SSO via SAML não está habilitado para esta instalação
+    data_import:
+      data_type:
+        invalid: Tipo de dado inválido
+    contacts:
+      import:
+        failed: Arquivo vazio
+      export:
+        success: Avisaremos você assim que a exportação de arquivos estiver pronta para ser exibida.
+      email:
+        invalid: E-mail inválido
+      phone_number:
+        invalid: deve estar no formato e164
+    companies:
+      domain:
+        invalid: must be a valid domain name
+      search:
+        query_missing: Especifique a ‘string’ de busca com o parâmetro q
+    messages:
+      search:
+        time_range_limit_exceeded: 'A pesquisa está limitada aos últimos %{days} dias'
+    categories:
+      locale:
+        unique: deve ser único na categoria e no portal
+    dyte:
+      invalid_message_type: 'Tipo de mensagem inválido. Ação não permitida'
+    slack:
+      invalid_channel_id: 'Canal de slack inválido. Por favor, tente novamente'
+    whatsapp:
+      token_exchange_failed: 'Falha ao trocar o código por um token de acesso. Por favor, tente novamente.'
+      invalid_token_permissions: 'O token de acesso não tem as permissões necessárias para o WhatsApp.'
+      phone_info_fetch_failed: 'Falha ao obter a informação do número de telefone. Por favor, tente novamente.'
+      phone_number_already_exists: 'Channel already exists for this phone number: %{phone_number}, please contact support if the error persists'
+      reauthorization:
+        generic: 'Falha ao reautenticar o WhatsApp. Por favor, tente novamente.'
+        not_supported: 'Reautenticação não é suportado por este tipo de canal WhatsApp.'
+    inboxes:
+      imap:
+        socket_error: Por favor, verifique a conexão de rede, endereço IMAP e tente novamente.
+        no_response_error: Por favor, verifique as credenciais de IMAP e tente novamente.
+        host_unreachable_error: Servidor inacessível, por favor, verifique o endereço e a porta de IMAP e tente novamente.
+        connection_timed_out_error: Tempo esgotado de conexão para %{address}:%{port}
+        connection_closed_error: Conexão fechada.
+      validations:
+        name: 'não deve iniciar ou terminar com símbolos e não deve ter os caracteres: < > / \ @.'
+    custom_filters:
+      number_of_records: Limite atingido. O número máximo de filtros personalizados permitidos para um usuário por conta é de 1000.
+      invalid_attribute: Chave de atributo inválido - [%{key}]. A chave deve ser uma das [%{allowed_keys}] ou um atributo personalizado definido na conta.
+      invalid_operator: Operador inválido. Os operadores permitidos para %{attribute_name} são [%{allowed_keys}].
+      invalid_query_operator: Operador de consulta deve ser "E" ou "OU".
+      invalid_value: Valor inválido. Os valores fornecidos para %{attribute_name} são inválidos
+    custom_attribute_definition:
+      key_conflict: A chave fornecida não é permitida pois pode entrar em conflito com os atributos padrão.
+    mfa:
+      already_enabled: MFA já está habilitado
+      not_enabled: MFA não está habilitado
+      invalid_code: Código de verificação inválido
+      invalid_backup_code: Código de backup inválido
+      invalid_token: Token MFA inválido ou expirado
+      invalid_credentials: Credenciais ou código de verificação inválidos
+      feature_unavailable: O recurso MFA não está disponível. Por favor, configure as chaves de criptografia.
+    topup:
+      credits_required: A quantidade de créditos é obrigatória
+      invalid_credits: Quantidade de créditos inválida
+      invalid_option: Opção de recarga inválida
+      plan_not_eligible: As recargas estão disponíveis apenas para planos pagos. Por favor, faça o upgrade do seu plano primeiro.
+      stripe_customer_not_configured: Cliente do Stripe não configurado
+      no_payment_method: Nenhum método de pagamento encontrado. Por favor, adicione um método de pagamento antes de realizar uma compra.
+  profile:
+    mfa:
+      enabled: MFA habilitado com sucesso
+      disabled: MFA desativado com sucesso
+    account_saml_settings:
+      invalid_certificate: deve ser um certificado X.509 válido em formato PEM
+  reports:
+    period: Reportando o período %{since} a %{until}
+    utc_warning: O relatório gerado está em fuso horário UTC
+    agent_csv:
+      agent_name: Nome do Agente
+      conversations_count: Conversas atribuídas
+      avg_first_response_time: Tempo médio de primeira resposta
+      avg_resolution_time: Tempo médio de resolução
+      resolution_count: Contagem de Resolução
+      avg_customer_waiting_time: Tempo médio de espera do cliente
+    inbox_csv:
+      inbox_name: Nome da Caixa de Entrada
+      inbox_type: Tipo da Caixa de Entrada
+      conversations_count: Nº de Conversas
+      avg_first_response_time: Tempo médio de primeira resposta
+      avg_resolution_time: Tempo médio de resolução
+    label_csv:
+      label_title: Etiqueta
+      conversations_count: Nº de Conversas
+      avg_first_response_time: Tempo médio de primeira resposta
+      avg_resolution_time: Tempo médio de resolução
+      avg_reply_time: Tempo médio de resposta
+      resolution_count: Contagem de Resolução
+    team_csv:
+      team_name: Nome do Time
+      conversations_count: Contagem de conversas
+      avg_first_response_time: Tempo médio de primeira resposta
+      avg_resolution_time: Tempo médio de resolução
+      resolution_count: Contagem de Resolução
+      avg_customer_waiting_time: Tempo médio de espera do cliente
+    conversation_traffic_csv:
+      timezone: Fuso horário
+    sla_csv:
+      conversation_id: ID da conversa
+      sla_policy_breached: Política SLA
+      assignee: Agente atribuído
+      team: Time
+      inbox: Caixa de Entrada
+      labels: Etiquetas
+      conversation_link: Link para a Conversa
+      breached_events: Eventos Violados
+    default_group_by: dia
+    csat:
+      headers:
+        contact_name: Nome do contato
+        contact_email_address: E-mail de contato
+        contact_phone_number: Telefone de contato
+        link_to_the_conversation: Link para a conversa
+        agent_name: Nome do Agente
+        rating: Classificação
+        feedback: Comentário de Feedback
+        recorded_at: Data de gravação
+  notifications:
+    notification_title:
+      conversation_creation: ''
+      conversation_assignment: 'Uma conversa (#%{display_id}) foi atribuída a você'
+      assigned_conversation_new_message: 'Uma nova mensagem foi criada na conversa (#%{display_id})'
+      conversation_mention: 'Você foi mencionado em uma conversa (#%{display_id})'
+      sla_missed_first_response: 'Meta de SLA de Primeira Resposta não alcançada para a conversa (#%{display_id})'
+      sla_missed_next_response: 'Meta de SLA de Próxima Resposta não alcançada para a conversa (#%{display_id})'
+      sla_missed_resolution: 'Meta de SLA de Resolução não alcançada para a conversa (#%{display_id})'
+    attachment: 'Anexo'
+    no_content: 'Sem conteúdo'
+  conversations:
+    captain:
+      handoff: 'Transferindo para que outro agente dê assistência.'
+    messages:
+      instagram_story_content: '%{story_sender} mencionou você na conversa: '
+      instagram_deleted_story_content: Este Story não está mais disponível.
+      instagram_shared_story_content: 'Story compartilhado'
+      instagram_shared_post_content: 'Post compartilhado'
+      deleted: Esta mensagem foi excluída
+      whatsapp:
+        list_button_label: 'Escolha um item'
+      delivery_status:
+        error_code: 'Código de erro: %{error_code}'
+    activity:
+      captain:
+        resolved: 'A conversa foi marcada como resolvida por %{user_name} por inatividade'
+        open: 'A conversa foi aberta por %{user_name}'
+      agent_bot:
+        error_moved_to_open: 'Conversation was marked open by system due to an error with the agent bot.'
+      status:
+        resolved: 'Conversa foi marcada como resolvida por %{user_name}'
+        contact_resolved: 'A conversa foi resolvida por %{contact_name}'
+        open: 'Conversa foi reaberta por %{user_name}'
+        pending: 'Conversa foi marcada como pendente por %{user_name}'
+        snoozed: 'Conversa foi adiada por %{user_name}'
+        auto_resolved_days: 'A conversa foi marcada como resolvida pelo sistema por ter %{count} dias de inatividade'
+        auto_resolved_hours: 'A conversa foi marcada como resolvida pelo sistema por ter %{count} horas de inatividade'
+        auto_resolved_minutes: 'A conversa foi marcada como resolvida pelo sistema por ter %{count} minutos de inatividade'
+        system_auto_open: O sistema reabriu a conversa devido a uma nova mensagem recebida.
+      priority:
+        added: '%{user_name} definiu a prioridade para %{new_priority}'
+        updated: '%{user_name} mudou a prioridade de %{old_priority} para %{new_priority}'
+        removed: '%{user_name} removeu a prioridade'
+      assignee:
+        self_assigned: '%{user_name} atribuiu a si mesmo essa conversa'
+        assigned: 'Atribuído a %{assignee_name} por %{user_name}'
+        removed: 'Conversa desatribuída por %{user_name}'
+      team:
+        assigned: 'Atribuído a %{team_name} por %{user_name}'
+        assigned_with_assignee: 'Atribuído a %{assignee_name} via %{team_name} por %{user_name}'
+        removed: 'Desatribuído de %{team_name} por %{user_name}'
+      labels:
+        added: '%{user_name} adicionou %{labels}'
+        removed: '%{user_name} removeu %{labels}'
+      sla:
+        added: '%{user_name} adicionou política de SLA %{sla_name}'
+        removed: '%{user_name} removeu a política de SLA %{sla_name}'
+      linear:
+        issue_created: 'Problema linear %{issue_id} foi criado por %{user_name}'
+        issue_linked: 'Problema linear %{issue_id} foi vinculado por %{user_name}'
+        issue_unlinked: 'Problema linear %{issue_id} foi desvinculado por %{user_name}'
+      csat:
+        not_sent_due_to_messaging_window: 'Pesquisa CSAT não foi enviada devido a restrições de envio de mensagens'
+      auto_resolve:
+        not_sent_due_to_messaging_window: 'Auto-resolver mensagem não enviada devido a restrições de envio de mensagens'
+      muted: '%{user_name} silenciou a conversa'
+      unmuted: '%{user_name} reativou a conversa'
+      auto_resolution_message: 'Resolvendo a conversa dado que está inativa por um tempo. Por favor, inicie uma nova conversa se precisar de mais ajuda.'
+    templates:
+      greeting_message_body: '%{account_name} normalmente responde em algumas horas.'
+      ways_to_reach_you_message_body: 'Informe à equipe uma forma de contatá-lo.'
+      email_input_box_message_body: 'Seja notificado por e-mail'
+      csat_input_message_body: 'Por favor, classifique a conversa'
+    reply:
+      email:
+        header:
+          notifications: 'Notificações'
+          from_with_name: '%{assignee_name} de %{inbox_name} <%{from_email}>'
+          reply_with_name: '%{assignee_name} de %{inbox_name} <reply+%{reply_email}>'
+          friendly_name: '%{sender_name} de %{business_name} <%{from_email}>'
+          professional_name: '%{business_name} <%{from_email}>'
+      channel_email:
+        header:
+          reply_with_name: '%{assignee_name} de %{inbox_name} <%{from_email}>'
+          reply_with_inbox_name: '%{inbox_name} <%{from_email}>'
+      email_subject: 'Novas mensagens nesta conversa'
+      transcript_subject: 'Transcrição da conversa'
+    survey:
+      response: 'Por favor, classifique esta conversa, %{link}'
+  contacts:
+    online:
+      delete: '%{contact_name} está Online, por favor, tente novamente mais tarde'
+  integration_apps:
+    #Note: webhooks and dashboard_apps don't need short_description as they use different modal components
+    dashboard_apps:
+      name: 'Painel de Aplicativos'
+      description: 'O Painel de Aplicativos permite que você crie e incorpore aplicativos que exibem informações, pedidos ou histórico de pagamento, fornecendo mais contexto aos seus agentes de suporte ao cliente.'
+    dyte:
+      name: 'Dyte'
+      short_description: 'Iniciar chamadas de vídeo/voz com clientes diretamente do Chatwoot.'
+      description: 'Dyte é um produto que integra as funcionalidades de áudio e vídeo em sua aplicação. Com esta integração, os seus agentes podem iniciar chamadas de vídeo/voz com seus clientes diretamente do chatwoot.'
+      meeting_name: '%{agent_name} começou a reunião'
+    slack:
+      name: 'Slack'
+      short_description: 'Receba notificações e responda as conversas diretamente no Slack.'
+      description: "Integre Chatwoot com Slack para manter seu time em sincronia. Essa integração permite que você receba notificações de novas conversas e as responda diretamente na interface do Slack."
+    webhooks:
+      name: 'Webhooks'
+      description: 'Eventos webhook fornecem atualizações sobre atividades em tempo real na sua conta Chatwoot. Você pode se inscrever em seus eventos preferidos, e o Chatwoot enviará as chamadas HTTP com as atualizações.'
+    dialogflow:
+      name: 'Dialogflow'
+      short_description: 'Crie chatbots para lidar com as consultas iniciais antes de transferir para agentes.'
+      description: 'Construa chatbots com o Dialogflow e integre-os facilmente na sua caixa de entrada. Esses bots podem lidar com as consultas iniciais antes de transferi-las para um agente de atendimento ao cliente.'
+    google_translate:
+      name: 'Tradutor do Google'
+      short_description: 'Traduzir automaticamente mensagens de clientes para agentes.'
+      description: "Integre o Google Tradutor para ajudar os agentes a traduzir facilmente as mensagens dos clientes. Esta integração detecta automaticamente o idioma e o converte para o idioma preferido do agente ou do administrador."
+    openai:
+      name: 'OpenAI'
+      short_description: 'Sugestões, resumos e aprimoramento de mensagem e resposta com IA.'
+      description: 'Aproveite o poder dos grandes modelos de linguagem do OpenAI com recursos como sugestões de resposta, resumo, reformulação de mensagens, verificação ortográfica e classificação de rótulos.'
+    linear:
+      name: 'Linear'
+      short_description: 'Crie e vincule issues do Linear diretamente de conversas.'
+      description: 'Crie issues em Linear diretamente da sua janela de conversa. Alternativamente, vincule as issues lineares existentes para um processo de rastreamento de problemas mais simples e eficiente.'
+    notion:
+      name: 'Notion'
+      short_description: 'Integre banco de dados, documentos e páginas diretamente com o Capitão.'
+      description: 'Conecte o seu espaço de trabalho Notion para permitir que o Capitão acesse e gere respostas inteligentes usando o conteúdo de seus bancos de dados, documentos e páginas para fornecer suporte ao cliente mais contextual.'
+    shopify:
+      name: 'Shopify'
+      short_description: 'Acessar detalhes do pedido e dados de clientes da sua loja Shopify.'
+      description: 'Conecte sua loja Shopify para acessar detalhes de pedidos, informações de clientes e dados de produtos diretamente em suas conversas e ajudar sua equipe de suporte a fornecer um atendimento mais rápido e contextual aos seus clientes.'
+    leadsquared:
+      name: 'LeadSquared'
+      short_description: 'Sincronize seus contatos e conversas com LeadSquared CRM.'
+      description: 'Sincronize seus contatos e conversas com LeadSquared CRM. Essa integração cria automaticamente leads em LeadSquared quando novos contatos são adicionados, e registra a atividade de conversação para fornecer à sua equipe de vendas um contexto completo.'
+  captain:
+    copilot_message_required: A mensagem é obrigatória
+    copilot_error: 'Conecte com um assistente a esta caixa de entrada para usar Copilot'
+    copilot_limit: 'Você está sem créditos de Copilot. Pode comprar mais créditos na seção de faturamento.'
+    copilot:
+      using_tool: 'Usando a ferramenta %{function_name}'
+      completed_tool_call: 'Uso da ferramenta %{function_name} concluída'
+      invalid_tool_call: 'Ferramenta inválida'
+      tool_not_available: 'Ferramenta indisponível'
+    documents:
+      limit_exceeded: 'Limite de documento excedido'
+      pdf_format_error: 'Deve ser um arquivo PDF'
+      pdf_size_error: 'Deve ser menor que 10 MB'
+      pdf_upload_failed: 'Falha ao enviar PDF para OpenAI'
+      pdf_upload_success: 'PDF enviado com sucesso com file_id: %{file_id}'
+      pdf_processing_failed: 'Falha ao processar o documento PDF %{document_id}: %{error}'
+      pdf_processing_success: 'Documento PDF processado com sucesso %{document_id}'
+      faq_generation_complete: 'FAQ generation complete. Total FAQs created: %{count}'
+      using_paginated_faq: 'Usando geração de FAQ''s paginada para o documento %{document_id}'
+      using_standard_faq: 'Using standard FAQ generation for document %{document_id}'
+      response_creation_error: 'Error in creating response document: %{error}'
+      missing_openai_file_id: 'O documento deve ter openai_file_id para processamento paginado'
+      openai_api_error: 'Erro da API OpenAI: %{error}'
+      starting_paginated_faq: 'Starting paginated FAQ generation (%{pages_per_chunk} pages per chunk)'
+      stopping_faq_generation: 'Processamento interrompido. Motivo: %{reason}'
+      paginated_faq_complete: 'Geração de paginação completa. Total de FAQs: %{total_faqs}, Páginas processadas: %{pages_processed}'
+      processing_pages: 'Processando páginas %{start}-%{end} (iteração %{iteration})'
+      chunk_generated: 'Chunk generated %{chunk_faqs} FAQs. Total so far: %{total_faqs}'
+      page_processing_error: 'Erro ao processar as páginas %{start}-%{end}: %{error}'
+    custom_tool:
+      slug_generation_failed: 'Unable to generate unique slug after 5 attempts'
+  public_portal:
+    search:
+      search_placeholder: Pesquisar por artigo por título ou corpo...
+      empty_placeholder: Nenhum resultado encontrado.
+      loading_placeholder: Procurando...
+      results_title: Resultados de pesquisa
+    toc_header: 'Nesta página'
+    hero:
+      sub_title: Pesquise os artigos aqui ou navegue pelas categorias abaixo.
+    common:
+      home: Principal
+      last_updated_on: Última atualização em %{last_updated_on}
+      view_all_articles: Visualizar tudo
+      article: artigo
+      articles: artigos
+      author: autor
+      authors: autores
+      other: outro
+      others: outros
+      by: Por
+      no_articles: Não há artigos aqui
+    footer:
+      made_with: Criado com
+    header:
+      go_to_homepage: Site
+      visit_website: Visite o site
+      appearance:
+        system: Sistema
+        light: Claro
+        dark: Escuro
+      featured_articles: Artigos em Destaque
+      uncategorized: Não categorizado
+    404:
+      title: Página não encontrada
+      description: Não conseguimos encontrar a página que você estava procurando.
+      back_to_home: Ir para a página inicial
+  slack_unfurl:
+    fields:
+      name: Nome
+      email: E-mail
+      phone_number: Telefone
+      company_name: Empresa
+      inbox_name: Caixa de Entrada
+      inbox_type: Tipo de Caixa de Entrada
+    button: Abrir conversa
+  time_units:
+    days:
+      one: '%{count} dia'
+      other: '%{count} dias'
+    hours:
+      one: '%{count} hora'
+      other: '%{count} horas'
+    minutes:
+      one: '%{count} minuto'
+      other: '%{count} minutos'
+    seconds:
+      one: '%{count} segundo'
+      other: '%{count} segundos'
+  automation:
+    system_name: 'Sistema de Automação'
+  crm:
+    no_message: 'Nenhuma mensagem na conversa'
+    attachment: '[Anexo: %{type}]'
+    no_content: '[Sem conteúdo]'
+    created_activity: |
+      Nova conversa iniciada em %{brand_name}
+
+      Canal: %{channel_info}
+      Criada: %{formatted_creation_time}
+      ID de conversa: %{display_id}
+      Veja em %{brand_name}: %{url}
+    transcript_activity: |
+      Transcrição de conversa de %{brand_name}
+
+      Canal: %{channel_info}
+      ID da conversa: %{display_id}
+      Veja em %{brand_name}: %{url}
+
+      Transcrição:
+      %{format_messages}
+  agent_capacity_policy:
+    inbox_already_assigned: 'A caixa de entrada já foi atribuída a esta política'
+  portals:
+    send_instructions:
+      email_required: 'E-mail é obrigatório'
+      invalid_email_format: 'Formato inválido de e-mail'
+      custom_domain_not_configured: 'Domínio personalizado não está configurado'
+      instructions_sent_successfully: 'Instruções enviadas com sucesso'
+      subject: 'Termine de configurar %{custom_domain}'
+    ssl_status:
+      custom_domain_not_configured: 'Domínio personalizado não está configurado'

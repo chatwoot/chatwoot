@@ -1,0 +1,138 @@
+{
+  "ATTRIBUTES_MGMT": {
+    "HEADER": "Aangepaste attributen",
+    "HEADER_BTN_TXT": "Aangepast attribuut toevoegen",
+    "LOADING": "Aangepaste attributen ophalen",
+    "DESCRIPTION": "A custom attribute tracks additional details about your contacts or conversations—such as the subscription plan or the date of their first purchase. You can add different types of custom attributes, such as text, lists, or numbers, to capture the specific information you need.",
+    "LEARN_MORE": "Learn more about custom attributes",
+    "ATTRIBUTE_MODELS": {
+      "CONVERSATION": "Gesprek",
+      "CONTACT": "Contact"
+    },
+    "ATTRIBUTE_TYPES": {
+      "TEXT": "Tekst",
+      "NUMBER": "Getal",
+      "LINK": "Link",
+      "DATE": "Date",
+      "LIST": "Lijst",
+      "CHECKBOX": "Selectievakje"
+    },
+    "ADD": {
+      "TITLE": "Aangepast attribuut toevoegen",
+      "SUBMIT": "Aanmaken",
+      "CANCEL_BUTTON_TEXT": "Annuleren",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Weergave naam",
+          "PLACEHOLDER": "Voer aangepaste attribuut weergavenaam in",
+          "ERROR": "Naam is vereist"
+        },
+        "DESC": {
+          "LABEL": "Beschrijving",
+          "PLACEHOLDER": "Voer aangepaste attribuutbeschrijving in",
+          "ERROR": "Omschrijving is vereist"
+        },
+        "MODEL": {
+          "LABEL": "Van toepassing op",
+          "PLACEHOLDER": "Selecteer er een",
+          "ERROR": "Model is vereist"
+        },
+        "TYPE": {
+          "LABEL": "Type",
+          "PLACEHOLDER": "Selecteer een type",
+          "ERROR": "Type is vereist",
+          "LIST": {
+            "LABEL": "Toon waardes",
+            "PLACEHOLDER": "Voer waarde in en druk op enter-toets",
+            "ERROR": "Moet minstens één waarde bevatten"
+          }
+        },
+        "KEY": {
+          "LABEL": "Sleutel",
+          "PLACEHOLDER": "Voer aangepaste attribuut sleutel in",
+          "ERROR": "Sleutel is vereist",
+          "IN_VALID": "Ongeldige sleutel"
+        },
+        "REGEX_PATTERN": {
+          "LABEL": "Regex Pattern",
+          "PLACEHOLDER": "Please enter custom attribute regex pattern. (Optional)"
+        },
+        "REGEX_CUE": {
+          "LABEL": "Regex Cue",
+          "PLACEHOLDER": "Please enter regex pattern hint. (Optional)"
+        },
+        "ENABLE_REGEX": {
+          "LABEL": "Enable regex validation"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Aangepast attribuut succesvol toegevoegd!",
+        "ERROR_MESSAGE": "Aanmaken van aangepaste attribuut mislukt. Probeer het later opnieuw."
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Verwijderen",
+      "API": {
+        "SUCCESS_MESSAGE": "Aangepast attribuut succesvol verwijderd.",
+        "ERROR_MESSAGE": "Kan het aangepaste attribuut niet verwijderen. Probeer het opnieuw."
+      },
+      "CONFIRM": {
+        "TITLE": "Weet u zeker dat u wilt verwijderen - {attributeName}",
+        "PLACE_HOLDER": "Voer {attributeName} in om te bevestigen",
+        "MESSAGE": "Verwijderen zal het aangepaste attribuut verwijderen",
+        "YES": "Verwijderen ",
+        "NO": "Annuleren"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Aangepast attribuut bewerken",
+      "UPDATE_BUTTON_TEXT": "Vernieuwen",
+      "TYPE": {
+        "LIST": {
+          "LABEL": "Toon waardes",
+          "PLACEHOLDER": "Voer waarden in en druk op enter-toets"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Aangepast attribuut succesvol bijgewerkt",
+        "ERROR_MESSAGE": "Er is een fout opgetreden bij het bijwerken van aangepaste attributen, probeer het opnieuw"
+      }
+    },
+    "TABS": {
+      "HEADER": "Aangepaste attributen",
+      "CONVERSATION": "Gesprek",
+      "CONTACT": "Contact"
+    },
+    "LIST": {
+      "TABLE_HEADER": {
+        "NAME": "Naam",
+        "DESCRIPTION": "Beschrijving",
+        "TYPE": "Type",
+        "KEY": "Sleutel"
+      },
+      "BUTTONS": {
+        "EDIT": "Bewerken",
+        "DELETE": "Verwijderen"
+      },
+      "EMPTY_RESULT": {
+        "404": "Er zijn geen aangepaste attributen aangemaakt",
+        "NOT_FOUND": "Er zijn geen aangepaste attributen geconfigureerd"
+      },
+      "REGEX_PATTERN": {
+        "LABEL": "Regex Pattern",
+        "PLACEHOLDER": "Please enter custom attribute regex pattern. (Optional)"
+      },
+      "REGEX_CUE": {
+        "LABEL": "Regex Cue",
+        "PLACEHOLDER": "Please enter regex pattern hint. (Optional)"
+      },
+      "ENABLE_REGEX": {
+        "LABEL": "Enable regex validation"
+      }
+    },
+    "BADGES": {
+      "PRE_CHAT": "Pre-chat",
+      "RESOLUTION": "Resolution"
+    }
+  }
+}

@@ -1,0 +1,153 @@
+{
+  "COMPONENTS": {
+    "FILE_BUBBLE": {
+      "DOWNLOAD": "下載",
+      "UPLOADING": "上傳中"
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "送出"
+    },
+    "MESSAGE_BUBBLE": {
+      "RETRY": "重新發送訊息",
+      "ERROR_MESSAGE": "無法傳送！請重新嘗試。"
+    }
+  },
+  "THUMBNAIL": {
+    "AUTHOR": {
+      "NOT_AVAILABLE": "Not available"
+    }
+  },
+  "TEAM_AVAILABILITY": {
+    "ONLINE": "我們在線上",
+    "OFFLINE": "我們目前不在線上",
+    "BACK_AS_SOON_AS_POSSIBLE": "We will be back as soon as possible"
+  },
+  "REPLY_TIME": {
+    "IN_A_FEW_MINUTES": "通常在幾分鐘內回覆",
+    "IN_A_FEW_HOURS": "通常在幾小時內回覆",
+    "IN_A_DAY": "通常在一天內回覆",
+    "BACK_IN_HOURS": "We will be back online in {n} hour | We will be back online in {n} hours",
+    "BACK_IN_MINUTES": "We will be back online in {time} minutes",
+    "BACK_AT_TIME": "We will be back online at {time}",
+    "BACK_ON_DAY": "We will be back online on {day}",
+    "BACK_TOMORROW": "We will be back online tomorrow",
+    "BACK_IN_SOME_TIME": "We will be back online in some time"
+  },
+  "DAY_NAMES": {
+    "SUNDAY": "星期日",
+    "MONDAY": "星期一",
+    "TUESDAY": "Tuesday",
+    "WEDNESDAY": "Wednesday",
+    "THURSDAY": "Thursday",
+    "FRIDAY": "Friday",
+    "SATURDAY": "Saturday"
+  },
+  "START_CONVERSATION": "開始對話",
+  "END_CONVERSATION": "結束對話",
+  "CONTINUE_CONVERSATION": "繼續對話",
+  "YOU": "You",
+  "START_NEW_CONVERSATION": "開始一個新對話",
+  "VIEW_UNREAD_MESSAGES": "You have unread messages",
+  "UNREAD_VIEW": {
+    "VIEW_MESSAGES_BUTTON": "查看新訊息",
+    "CLOSE_MESSAGES_BUTTON": "關閉",
+    "COMPANY_FROM": "from",
+    "BOT": "機器人"
+  },
+  "BUBBLE": {
+    "LABEL": "與我們對話"
+  },
+  "POWERED_BY": "Powered by Chatwoot",
+  "EMAIL_PLACEHOLDER": "請輸入您的電子信箱",
+  "CHAT_PLACEHOLDER": "輸入你的訊息",
+  "TODAY": "今天",
+  "YESTERDAY": "昨天",
+  "PRE_CHAT_FORM": {
+    "FIELDS": {
+      "FULL_NAME": {
+        "LABEL": "聯絡人姓名",
+        "PLACEHOLDER": "請輸入您的完整姓名",
+        "REQUIRED_ERROR": "姓名為必填"
+      },
+      "EMAIL_ADDRESS": {
+        "LABEL": "電子信箱地址",
+        "PLACEHOLDER": "請輸入你的 Email",
+        "REQUIRED_ERROR": "電子郵件為必填",
+        "VALID_ERROR": "請輸入一個有效的電子信箱"
+      },
+      "PHONE_NUMBER": {
+        "LABEL": "聯絡人電話",
+        "PLACEHOLDER": "請輸入您的電話號碼",
+        "REQUIRED_ERROR": "電話號碼為必填",
+        "DIAL_CODE_VALID_ERROR": "Please select a country code",
+        "VALID_ERROR": "Please enter a valid phone number",
+        "DROPDOWN_EMPTY": "No results found",
+        "DROPDOWN_SEARCH": "Search country"
+      },
+      "MESSAGE": {
+        "LABEL": "訊息",
+        "PLACEHOLDER": "請輸入你的訊息",
+        "ERROR": "訊息過短"
+      }
+    },
+    "CAMPAIGN_HEADER": "在開始對話之前請提供您的名字及電郵",
+    "IS_REQUIRED": "必填",
+    "REQUIRED": "Required",
+    "REGEX_ERROR": "請輸入有效的字符"
+  },
+  "FILE_SIZE_LIMIT": "{MAXIMUM_FILE_UPLOAD_SIZE} 已超出檔案大小限制",
+  "CHAT_FORM": {
+    "INVALID": {
+      "FIELD": "無效的欄位"
+    }
+  },
+  "EMOJI": {
+    "PLACEHOLDER": "搜尋 emojis",
+    "NOT_FOUND": "查無相符的 emoji",
+    "ARIA_LABEL": "表情選擇"
+  },
+  "CSAT": {
+    "TITLE": "為此對話評分",
+    "SUBMITTED_TITLE": "感謝您提交的評分",
+    "PLACEHOLDER": "告訴我們更多..."
+  },
+  "EMAIL_TRANSCRIPT": {
+    "BUTTON_TEXT": "請求對話記錄",
+    "SEND_EMAIL_SUCCESS": "對話記錄已成功發送",
+    "SEND_EMAIL_ERROR": "出現錯誤，請重試"
+  },
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "點擊這裡加入",
+      "LEAVE_THE_ROOM": "留下電話"
+    }
+  },
+  "PORTAL": {
+    "POPULAR_ARTICLES": "熱門文章",
+    "VIEW_ALL_ARTICLES": "查看所有文章",
+    "IFRAME_LOAD_ERROR": "載入文章時出錯，請重新整理頁面並重試。"
+  },
+  "ATTACHMENTS": {
+    "image": {
+      "CONTENT": "圖片訊息"
+    },
+    "audio": {
+      "CONTENT": "聲音訊息"
+    },
+    "video": {
+      "CONTENT": "影片訊息"
+    },
+    "file": {
+      "CONTENT": "附件"
+    },
+    "location": {
+      "CONTENT": "位置"
+    },
+    "fallback": {
+      "CONTENT": "分享了一個網址"
+    }
+  },
+  "FOOTER_REPLY_TO": {
+    "REPLY_TO": "回覆:"
+  }
+}

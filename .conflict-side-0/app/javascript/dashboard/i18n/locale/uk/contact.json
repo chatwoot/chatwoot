@@ -1,0 +1,655 @@
+{
+  "CONTACT_PANEL": {
+    "NOT_AVAILABLE": "Не доступно",
+    "EMAIL_ADDRESS": "Адреса електронної пошти",
+    "PHONE_NUMBER": "Номер телефону",
+    "IDENTIFIER": "Ідентифікатор",
+    "COPY_SUCCESSFUL": "Скопійовано до буферу обміну",
+    "COMPANY": "Організація",
+    "LOCATION": "Місцезнаходження",
+    "BROWSER_LANGUAGE": "Мова браузера",
+    "CONVERSATION_TITLE": "Деталі бесіди",
+    "VIEW_PROFILE": "Дивитись профіль",
+    "BROWSER": "Браузер",
+    "OS": "Операційна система",
+    "INITIATED_FROM": "Почалося з",
+    "INITIATED_AT": "Час початку",
+    "IP_ADDRESS": "IP-адреса",
+    "CREATED_AT_LABEL": "Створено",
+    "NEW_MESSAGE": "Нове повідомлення",
+    "CALL": "Дзвінок",
+    "CALL_INITIATED": "Calling the contact…",
+    "CALL_FAILED": "Unable to start the call. Please try again.",
+    "VOICE_INBOX_PICKER": {
+      "TITLE": "Оберіть голосову теку"
+    },
+    "CONVERSATIONS": {
+      "NO_RECORDS_FOUND": "Не було попередніх бесід, пов'язаних з цим контактом.",
+      "TITLE": "Попередні бесіди"
+    },
+    "LABELS": {
+      "CONTACT": {
+        "TITLE": "Мітки контакту",
+        "ERROR": "Не вдалося оновити мітки"
+      },
+      "CONVERSATION": {
+        "TITLE": "Мітки бесіди",
+        "ADD_BUTTON": "Додати мітки"
+      },
+      "LABEL_SELECT": {
+        "TITLE": "Додати мітки",
+        "PLACEHOLDER": "Пошук міток",
+        "NO_RESULT": "Міток не знайдено",
+        "CREATE_LABEL": "Створити новий ярлик"
+      }
+    },
+    "MERGE_CONTACT": "Об'єднати",
+    "CONTACT_ACTIONS": "Дії з контактами",
+    "MUTE_CONTACT": "Заблокувати контакт",
+    "UNMUTE_CONTACT": "Розблокувати контакт",
+    "MUTED_SUCCESS": "Цей контакт успішно заблокований. Повідомлення не будуть надходити про будь-які майбутні розмови.",
+    "UNMUTED_SUCCESS": "Цей контакт успішно розблоковано.",
+    "SEND_TRANSCRIPT": "Надіслати транскрипт",
+    "EDIT_LABEL": "Редагувати",
+    "SIDEBAR_SECTIONS": {
+      "CUSTOM_ATTRIBUTES": "Свої атрибути",
+      "CONTACT_LABELS": "Мітки контакту",
+      "PREVIOUS_CONVERSATIONS": "Попередні бесіди",
+      "NO_RECORDS_FOUND": "Атрибути не знайдено"
+    }
+  },
+  "EDIT_CONTACT": {
+    "BUTTON_LABEL": "Редагувати контакт",
+    "TITLE": "Редагувати контакт",
+    "DESC": "Змінити контактні дані"
+  },
+  "DELETE_CONTACT": {
+    "BUTTON_LABEL": "Видалити контакт",
+    "TITLE": "Видалити контакт",
+    "DESC": "Видалити деталі контакту",
+    "CONFIRM": {
+      "TITLE": "Підтвердження видалення",
+      "MESSAGE": "Справді бажаєте видалити ",
+      "YES": "Так, видалити",
+      "NO": "Ні, залишити"
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Кампанію успішно видалено",
+      "ERROR_MESSAGE": "Не вдалося видалити контакт. Будь ласка, спробуйте ще раз пізніше."
+    }
+  },
+  "CONTACT_FORM": {
+    "FORM": {
+      "SUBMIT": "Додати",
+      "CANCEL": "Скасувати",
+      "AVATAR": {
+        "LABEL": "Аватар Контакту"
+      },
+      "NAME": {
+        "PLACEHOLDER": "Введіть повне ім'я контакту",
+        "LABEL": "Повне ім`я"
+      },
+      "BIO": {
+        "PLACEHOLDER": "Введіть опис контакту",
+        "LABEL": "Опис"
+      },
+      "EMAIL_ADDRESS": {
+        "PLACEHOLDER": "Введіть адресу електронної пошти контакту",
+        "LABEL": "Адреса електронної пошти",
+        "DUPLICATE": "Ця електронна адреса вже використовується для іншого контакту.",
+        "ERROR": "Будь ласка, введіть коректну адресу електронної пошти."
+      },
+      "PHONE_NUMBER": {
+        "PLACEHOLDER": "Введіть номер телефону контакту",
+        "LABEL": "Номер телефону",
+        "HELP": "Номер телефону має бути в форматі E.164; + 14155555 [+][код країни][місцевий номер]. Можна вибрати телефонний код зі списку.",
+        "ERROR": "Номер телефону повинен бути пустим, або у форматі E.164",
+        "DIAL_CODE_ERROR": "Будь ласка, виберіть телефонний код зі списку",
+        "DUPLICATE": "Цей номер телефону використовується для іншого контакту."
+      },
+      "LOCATION": {
+        "PLACEHOLDER": "Введіть місце розташування контакту",
+        "LABEL": "Місцезнаходження"
+      },
+      "COMPANY_NAME": {
+        "PLACEHOLDER": "Введіть назву компанії",
+        "LABEL": "Назва компанії"
+      },
+      "COUNTRY": {
+        "PLACEHOLDER": "Введіть назву країни",
+        "LABEL": "Назва країни",
+        "SELECT_PLACEHOLDER": "Обрати",
+        "REMOVE": "Видалити",
+        "SELECT_COUNTRY": "Оберіть країну"
+      },
+      "CITY": {
+        "PLACEHOLDER": "Введіть назву міста",
+        "LABEL": "Назва міста"
+      },
+      "SOCIAL_PROFILES": {
+        "FACEBOOK": {
+          "PLACEHOLDER": "Введіть ім'я користувача Facebook",
+          "LABEL": "Facebook"
+        },
+        "TWITTER": {
+          "PLACEHOLDER": "Введіть ім'я користувача Twitter",
+          "LABEL": "Twitter"
+        },
+        "LINKEDIN": {
+          "PLACEHOLDER": "Введіть ім'я користувача LinkedIn",
+          "LABEL": "LinkedIn"
+        },
+        "GITHUB": {
+          "PLACEHOLDER": "Введіть ім'я користувача Github",
+          "LABEL": "Github"
+        }
+      }
+    },
+    "DELETE_AVATAR": {
+      "API": {
+        "SUCCESS_MESSAGE": "Аватар контакту успішно видалено",
+        "ERROR_MESSAGE": "Не вдалося видалити аватар. Будь ласка, повторіть спробу пізніше."
+      }
+    },
+    "SUCCESS_MESSAGE": "Контакт успішно збережено",
+    "ERROR_MESSAGE": "Сталася помилка, будь ласка, спробуйте ще раз"
+  },
+  "NEW_CONVERSATION": {
+    "BUTTON_LABEL": "Розпочати розмову",
+    "TITLE": "Новий діалог",
+    "DESC": "Розпочніть нову бесіду, надіславши нове повідомлення.",
+    "NO_INBOX": "Не вдалося знайти поштову скриньку, щоб розпочати нову розмову з цим контактом.",
+    "FORM": {
+      "TO": {
+        "LABEL": "Для"
+      },
+      "INBOX": {
+        "LABEL": "Через вхідні",
+        "PLACEHOLDER": "Оберіть джерело вхідних",
+        "ERROR": "Оберіть канал"
+      },
+      "SUBJECT": {
+        "LABEL": "Тема",
+        "PLACEHOLDER": "Тема",
+        "ERROR": "Тема не може бути порожньою"
+      },
+      "MESSAGE": {
+        "LABEL": "Текст повідомлення",
+        "PLACEHOLDER": "Напишіть ваше повідомлення тут",
+        "ERROR": "Повідомлення не може бути пустим"
+      },
+      "ATTACHMENTS": {
+        "SELECT": "Оберіть файли",
+        "HELP_TEXT": "Перетягніть файли сюди, або виберіть файли"
+      },
+      "SUBMIT": "Надіслати",
+      "CANCEL": "Скасувати",
+      "SUCCESS_MESSAGE": "Повідомлення надіслано!",
+      "GO_TO_CONVERSATION": "Вигляд",
+      "ERROR_MESSAGE": "Не вдалося надіслати! Повторіть спробу"
+    }
+  },
+  "CONTACTS_PAGE": {
+    "LIST": {
+      "TABLE_HEADER": {
+        "SOCIAL_PROFILES": "Social Profiles"
+      }
+    }
+  },
+  "CUSTOM_ATTRIBUTES": {
+    "BUTTON": "Додати користувацький атрибут",
+    "COPY_SUCCESSFUL": "Скопійовано до буферу обміну",
+    "SHOW_MORE": "Показати всі атрибути",
+    "SHOW_LESS": "Показати менше атрибутів",
+    "ACTIONS": {
+      "COPY": "Копіювати атрибут",
+      "DELETE": "Видалити атрибут",
+      "EDIT": "Редагувати атрибут"
+    },
+    "ADD": {
+      "TITLE": "Створити користувацький атрибут",
+      "DESC": "Додати користувацьку інформацію до цього контакту."
+    },
+    "FORM": {
+      "CREATE": "Додати атрибут",
+      "CANCEL": "Скасувати",
+      "NAME": {
+        "LABEL": "Назва користувацької атрибуту",
+        "PLACEHOLDER": "Наприклад: shopify id",
+        "ERROR": "Некоректна назва користувацького атрибуту"
+      },
+      "VALUE": {
+        "LABEL": "Значення атрибуту",
+        "PLACEHOLDER": "Наприклад: 11901 "
+      },
+      "ADD": {
+        "TITLE": "Створити новий атрибут ",
+        "SUCCESS": "Атрибут додано успішно",
+        "ERROR": "Неможливо додати атрибут. Будь ласка, спробуйте ще раз пізніше"
+      },
+      "UPDATE": {
+        "SUCCESS": "Атрибут успішно оновлено",
+        "ERROR": "Не вдалося оновити атрибут. Будь ласка, спробуйте ще раз пізніше"
+      },
+      "DELETE": {
+        "SUCCESS": "Атрибут успішно видалено",
+        "ERROR": "Неможливо видалити атрибут. Будь ласка, спробуйте ще раз пізніше"
+      },
+      "ATTRIBUTE_SELECT": {
+        "TITLE": "Додати атрибут",
+        "PLACEHOLDER": "Атрибути пошуку",
+        "NO_RESULT": "Атрибути не знайдено"
+      },
+      "ATTRIBUTE_TYPE": {
+        "LIST": {
+          "PLACEHOLDER": "Виберіть значення",
+          "SEARCH_INPUT_PLACEHOLDER": "Значення запиту",
+          "NO_RESULT": "Результатів немає"
+        }
+      }
+    },
+    "VALIDATIONS": {
+      "REQUIRED": "Потрібне коректне значення",
+      "INVALID_URL": "Недопустимий URL",
+      "INVALID_INPUT": "Некоректний текст"
+    }
+  },
+  "MERGE_CONTACTS": {
+    "TITLE": "Об'єднати контакти",
+    "DESCRIPTION": "Об'єднати контакти, щоб об'єднати два профілі в один, включаючи всі атрибути та розмови. У разі конфлікту, атрибути первинних контактів будуть переважати.",
+    "PRIMARY": {
+      "TITLE": "Основний контакт",
+      "HELP_LABEL": "Буде видалено"
+    },
+    "PARENT": {
+      "TITLE": "Контакт для об'єднання",
+      "PLACEHOLDER": "Пошук контакту",
+      "HELP_LABEL": "Утримуватися"
+    },
+    "SUMMARY": {
+      "TITLE": "Коротка інформація",
+      "DELETE_WARNING": "Контакт <strong>{primaryContactName}</strong> буде видалено.",
+      "ATTRIBUTE_WARNING": "Контактні дані <strong>{primaryContactName}</strong> буде скопійовано до <strong>{parentContactName}</strong>."
+    },
+    "SEARCH": {
+      "ERROR_MESSAGE": "Something went wrong. Please try again later."
+    },
+    "FORM": {
+      "SUBMIT": " Об'єднати контакти",
+      "CANCEL": "Скасувати",
+      "CHILD_CONTACT": {
+        "ERROR": "Виберіть дочірній контакт для об'єднання"
+      },
+      "SUCCESS_MESSAGE": "Контакт успішно об'єднано",
+      "ERROR_MESSAGE": "Не вдалося об'єднати контакти, спробуйте ще раз!"
+    },
+    "DROPDOWN_ITEM": {
+      "ID": "(ID: {identifier})"
+    }
+  },
+  "CONTACTS_LAYOUT": {
+    "HEADER": {
+      "TITLE": "Контакти",
+      "SEARCH_TITLE": "Search contacts",
+      "ACTIVE_TITLE": "Active contacts",
+      "SEARCH_PLACEHOLDER": "Search...",
+      "MESSAGE_BUTTON": "Текст повідомлення",
+      "SEND_MESSAGE": "Надіслати",
+      "BLOCK_CONTACT": "Block contact",
+      "UNBLOCK_CONTACT": "Unblock contact",
+      "BREADCRUMB": {
+        "CONTACTS": "Контакти"
+      },
+      "ACTIONS": {
+        "CONTACT_CREATION": {
+          "ADD_CONTACT": "Add contact",
+          "EXPORT_CONTACT": "Export contacts",
+          "IMPORT_CONTACT": "Import contacts",
+          "SAVE_CONTACT": "Save contact",
+          "EMAIL_ADDRESS_DUPLICATE": "Ця електронна адреса вже використовується для іншого контакту.",
+          "PHONE_NUMBER_DUPLICATE": "Цей номер телефону використовується для іншого контакту.",
+          "SUCCESS_MESSAGE": "Контакт успішно збережено",
+          "ERROR_MESSAGE": "Unable to save contact. Please try again later."
+        },
+        "BLOCK_SUCCESS_MESSAGE": "This contact is blocked successfully",
+        "BLOCK_ERROR_MESSAGE": "Unable to block contact. Please try again later.",
+        "UNBLOCK_SUCCESS_MESSAGE": "Цей контакт успішно розблоковано",
+        "UNBLOCK_ERROR_MESSAGE": "Unable to unblock contact. Please try again later.",
+        "IMPORT_CONTACT": {
+          "TITLE": "Import contacts",
+          "DESCRIPTION": "Імпортувати контакти через файл CSV.",
+          "DOWNLOAD_LABEL": "Завантажити зразок csv.",
+          "LABEL": "Файл CSV:",
+          "CHOOSE_FILE": "Choose file",
+          "CHANGE": "Змінити",
+          "CANCEL": "Скасувати",
+          "IMPORT": "Імпорт",
+          "SUCCESS_MESSAGE": "Ви будете повідомлені по електронній пошті, коли завершиться імпорт.",
+          "ERROR_MESSAGE": "Сталася помилка, будь ласка, спробуйте ще раз"
+        },
+        "EXPORT_CONTACT": {
+          "TITLE": "Export contacts",
+          "DESCRIPTION": "Quickly export a csv file with comprehensive details of your contacts",
+          "CONFIRM": "Експорт",
+          "SUCCESS_MESSAGE": "Триває експорт, з'явиться повідомлення коли він буде готовий для скачування.",
+          "ERROR_MESSAGE": "Сталася помилка, будь ласка, спробуйте ще раз"
+        },
+        "SORT_BY": {
+          "LABEL": "Сортувати за",
+          "OPTIONS": {
+            "NAME": "Ім'я",
+            "EMAIL": "Email",
+            "PHONE_NUMBER": "Номер телефону",
+            "COMPANY": "Організація",
+            "COUNTRY": "Країна",
+            "CITY": "Місто",
+            "LAST_ACTIVITY": "Остання активність",
+            "CREATED_AT": "Створений в"
+          }
+        },
+        "ORDER": {
+          "LABEL": "Ordering",
+          "OPTIONS": {
+            "ASCENDING": "Ascending",
+            "DESCENDING": "Descending"
+          }
+        },
+        "FILTERS": {
+          "CREATE_SEGMENT": {
+            "TITLE": "Зберегти цей фільтр?",
+            "CONFIRM": "Зберегти фільтр",
+            "LABEL": "Ім'я",
+            "PLACEHOLDER": "Enter the name of the filter",
+            "ERROR": "Enter a valid name",
+            "SUCCESS_MESSAGE": "Filter saved successfully",
+            "ERROR_MESSAGE": "Unable to save filter. Please try again later."
+          },
+          "DELETE_SEGMENT": {
+            "TITLE": "Підтвердження видалення",
+            "DESCRIPTION": "Are you sure you want to delete this filter?",
+            "CONFIRM": "Так, видалити",
+            "CANCEL": "Ні, скасувати",
+            "SUCCESS_MESSAGE": "Filter deleted successfully",
+            "ERROR_MESSAGE": "Unable to delete filter. Please try again later."
+          }
+        }
+      }
+    },
+    "PAGINATION_FOOTER": {
+      "SHOWING": "Showing {startItem} - {endItem} of {totalItems} contacts"
+    },
+    "FILTER": {
+      "NAME": "Ім'я",
+      "EMAIL": "Email",
+      "PHONE_NUMBER": "Номер телефону",
+      "IDENTIFIER": "Ідентифікатор",
+      "COUNTRY": "Країна",
+      "CITY": "Місто",
+      "CREATED_AT": "Створений в",
+      "LAST_ACTIVITY": "Остання активність",
+      "REFERER_LINK": "Посилання",
+      "BLOCKED": "Заблоковано",
+      "BLOCKED_TRUE": "Так",
+      "BLOCKED_FALSE": "Ні",
+      "BUTTONS": {
+        "CLEAR_FILTERS": "Очистити фільтри",
+        "UPDATE_SEGMENT": "Update segment",
+        "APPLY_FILTERS": "Застосувати фільтри",
+        "ADD_FILTER": "Додати фільтр"
+      },
+      "TITLE": "Фільтрувати контакти",
+      "EDIT_SEGMENT": "Редагувати сегмент",
+      "SEGMENT": {
+        "LABEL": "Segment name",
+        "INPUT_PLACEHOLDER": "Enter the name of the segment"
+      },
+      "ACTIVE_FILTERS": {
+        "MORE_FILTERS": "+ {count} more filters",
+        "CLEAR_FILTERS": "Очистити фільтри"
+      }
+    },
+    "CARD": {
+      "OF": "of",
+      "VIEW_DETAILS": "Докладніше",
+      "EDIT_DETAILS_FORM": {
+        "TITLE": "Змінити контактні дані",
+        "FORM": {
+          "FIRST_NAME": {
+            "PLACEHOLDER": "Enter the first name"
+          },
+          "LAST_NAME": {
+            "PLACEHOLDER": "Enter the last name"
+          },
+          "EMAIL_ADDRESS": {
+            "PLACEHOLDER": "Enter the email address",
+            "DUPLICATE": "Ця електронна адреса вже використовується для іншого контакту."
+          },
+          "PHONE_NUMBER": {
+            "PLACEHOLDER": "Enter the phone number",
+            "DUPLICATE": "Цей номер телефону використовується для іншого контакту."
+          },
+          "CITY": {
+            "PLACEHOLDER": "Введіть назву міста"
+          },
+          "COUNTRY": {
+            "PLACEHOLDER": "Select country"
+          },
+          "BIO": {
+            "PLACEHOLDER": "Enter the bio"
+          },
+          "COMPANY_NAME": {
+            "PLACEHOLDER": "Введіть назву компанії"
+          }
+        },
+        "UPDATE_BUTTON": "Update contact",
+        "SUCCESS_MESSAGE": "Contact updated successfully",
+        "ERROR_MESSAGE": "Unable to update contact. Please try again later."
+      },
+      "SOCIAL_MEDIA": {
+        "TITLE": "Edit social links",
+        "FORM": {
+          "FACEBOOK": {
+            "PLACEHOLDER": "Add Facebook"
+          },
+          "GITHUB": {
+            "PLACEHOLDER": "Add Github"
+          },
+          "INSTAGRAM": {
+            "PLACEHOLDER": "Add Instagram"
+          },
+          "TIKTOK": {
+            "PLACEHOLDER": "Add TikTok"
+          },
+          "LINKEDIN": {
+            "PLACEHOLDER": "Add LinkedIn"
+          },
+          "TWITTER": {
+            "PLACEHOLDER": "Add Twitter"
+          }
+        }
+      },
+      "DELETE_CONTACT": {
+        "MESSAGE": "This action is permanent and irreversible.",
+        "BUTTON": "Delete now"
+      }
+    },
+    "DETAILS": {
+      "CREATED_AT": "Created {date}",
+      "LAST_ACTIVITY": "Last active {date}",
+      "DELETE_CONTACT_DESCRIPTION": "Permanently delete this contact. This action is irreversible",
+      "DELETE_CONTACT": "Видалити контакт",
+      "DELETE_DIALOG": {
+        "TITLE": "Підтвердження видалення",
+        "DESCRIPTION": "Are you sure you want to delete this contact?",
+        "CONFIRM": "Так, видалити",
+        "API": {
+          "SUCCESS_MESSAGE": "Кампанію успішно видалено",
+          "ERROR_MESSAGE": "Не вдалося видалити контакт. Будь ласка, спробуйте ще раз пізніше."
+        }
+      },
+      "AVATAR": {
+        "UPLOAD": {
+          "ERROR_MESSAGE": "Could not upload avatar. Please try again later.",
+          "SUCCESS_MESSAGE": "Avatar uploaded successfully"
+        },
+        "DELETE": {
+          "SUCCESS_MESSAGE": "Аватар успішно видалено",
+          "ERROR_MESSAGE": "Could not delete avatar. Please try again later."
+        }
+      }
+    },
+    "SIDEBAR": {
+      "TABS": {
+        "ATTRIBUTES": "Атрибути",
+        "HISTORY": "History",
+        "NOTES": "Нотатки",
+        "MERGE": "Merge"
+      },
+      "HISTORY": {
+        "EMPTY_STATE": "Не було попередніх бесід, пов'язаних з цим контактом"
+      },
+      "ATTRIBUTES": {
+        "SEARCH_PLACEHOLDER": "Search for attributes",
+        "UNUSED_ATTRIBUTES": "{count} Used attribute | {count} Unused attributes",
+        "EMPTY_STATE": "There are no contact custom attributes available in this account. You can create a custom attribute in settings.",
+        "YES": "Так",
+        "NO": "Ні",
+        "TRIGGER": {
+          "SELECT": "Виберіть значення",
+          "INPUT": "Введіть значення"
+        },
+        "VALIDATIONS": {
+          "INVALID_NUMBER": "Invalid number",
+          "REQUIRED": "Потрібне коректне значення",
+          "INVALID_INPUT": "Invalid input",
+          "INVALID_URL": "Недопустимий URL",
+          "INVALID_DATE": "Invalid date"
+        },
+        "NO_ATTRIBUTES": "Атрибути не знайдено",
+        "API": {
+          "SUCCESS_MESSAGE": "Атрибут успішно оновлено",
+          "DELETE_SUCCESS_MESSAGE": "Атрибут успішно видалено",
+          "UPDATE_ERROR": "Не вдалося оновити атрибут. Будь ласка, спробуйте ще раз пізніше",
+          "DELETE_ERROR": "Неможливо видалити атрибут. Будь ласка, спробуйте ще раз пізніше"
+        }
+      },
+      "MERGE": {
+        "TITLE": "Об'єднати",
+        "DESCRIPTION": "Combine two profiles into one, including all attributes and conversations. In case of conflict, the primary contact’s attributes will take precedence.",
+        "PRIMARY": "Основний контакт",
+        "PRIMARY_HELP_LABEL": "To be saved",
+        "PRIMARY_REQUIRED_ERROR": "Please select a contact to merge with before proceeding",
+        "PARENT": "To be merged",
+        "PARENT_HELP_LABEL": "Буде видалено",
+        "EMPTY_STATE": "No contacts found",
+        "PLACEHOLDER": "Search for primary contact",
+        "SEARCH_PLACEHOLDER": "Пошук контакту",
+        "SEARCH_ERROR_MESSAGE": "Could not search for contacts. Please try again later.",
+        "SUCCESS_MESSAGE": "Контакт успішно об'єднано",
+        "ERROR_MESSAGE": "Не вдалося об'єднати контакти, спробуйте ще раз!",
+        "IS_SEARCHING": "Шукаємо...",
+        "BUTTONS": {
+          "CANCEL": "Скасувати",
+          "CONFIRM": "Об'єднати"
+        }
+      },
+      "NOTES": {
+        "PLACEHOLDER": "Додати нотатку",
+        "WROTE": "wrote",
+        "YOU": "Ви",
+        "SAVE": "Save note",
+        "ADD_NOTE": "Add contact note",
+        "EXPAND": "Розширити",
+        "COLLAPSE": "Collapse",
+        "NO_NOTES": "Немає нотаток, ви можете додати їх на сторінці контакту.",
+        "EMPTY_STATE": "There are no notes associated to this contact. You can add a note by typing in the box above.",
+        "CONVERSATION_EMPTY_STATE": "There are no notes yet. Use the Add note button to create one."
+      }
+    },
+    "EMPTY_STATE": {
+      "TITLE": "No contacts found in this account",
+      "SUBTITLE": "Start adding new contacts by clicking on the button below",
+      "BUTTON_LABEL": "Add contact",
+      "SEARCH_EMPTY_STATE_TITLE": "Немає контактів, які відповідають вашому пошуку 🔍",
+      "LIST_EMPTY_STATE_TITLE": "No contacts available in this view 📋",
+      "ACTIVE_EMPTY_STATE_TITLE": "No contacts are active at the moment 🌙"
+    }
+  },
+  "CONTACTS_BULK_ACTIONS": {
+    "ASSIGN_LABELS": "Призначити мітки",
+    "ASSIGN_LABELS_SUCCESS": "Мітки додано успішно.",
+    "ASSIGN_LABELS_FAILED": "Failed to assign labels",
+    "DESCRIPTION": "Select the labels you want to add to the selected contacts.",
+    "NO_LABELS_FOUND": "No labels available yet.",
+    "SELECTED_COUNT": "{count} selected",
+    "CLEAR_SELECTION": "Clear selection",
+    "SELECT_ALL": "Select all ({count})",
+    "DELETE_CONTACTS": "Видалити",
+    "DELETE_SUCCESS": "Contacts deleted successfully.",
+    "DELETE_FAILED": "Failed to delete contacts.",
+    "DELETE_DIALOG": {
+      "TITLE": "Delete selected contacts",
+      "SINGULAR_TITLE": "Delete selected contact",
+      "DESCRIPTION": "This will permanently delete {count} selected contacts. This action cannot be undone.",
+      "SINGULAR_DESCRIPTION": "This will permanently delete the selected contact. This action cannot be undone.",
+      "CONFIRM_MULTIPLE": "Delete contacts",
+      "CONFIRM_SINGLE": "Видалити контакт"
+    }
+  },
+  "COMPOSE_NEW_CONVERSATION": {
+    "CONTACT_SEARCH": {
+      "ERROR_MESSAGE": "We couldn’t complete the search. Please try again."
+    },
+    "FORM": {
+      "GO_TO_CONVERSATION": "Вигляд",
+      "SUCCESS_MESSAGE": "The message was sent successfully!",
+      "ERROR_MESSAGE": "An error occurred while creating the conversation. Please try again later.",
+      "NO_INBOX_ALERT": "There are no available inboxes to start a conversation with this contact.",
+      "CONTACT_SELECTOR": {
+        "LABEL": "Для:",
+        "TAG_INPUT_PLACEHOLDER": "Search for a contact with name, email or phone number",
+        "CONTACT_CREATING": "Creating contact..."
+      },
+      "INBOX_SELECTOR": {
+        "LABEL": "Via:",
+        "BUTTON": "Show inboxes"
+      },
+      "EMAIL_OPTIONS": {
+        "SUBJECT_LABEL": "Тема :",
+        "SUBJECT_PLACEHOLDER": "Enter your email subject here",
+        "CC_LABEL": "Копія:",
+        "CC_PLACEHOLDER": "Search for a contact with their email address",
+        "BCC_LABEL": "Прихована копія:",
+        "BCC_PLACEHOLDER": "Search for a contact with their email address",
+        "BCC_BUTTON": "Прихована копія"
+      },
+      "MESSAGE_EDITOR": {
+        "PLACEHOLDER": "Напишіть ваше повідомлення тут..."
+      },
+      "WHATSAPP_OPTIONS": {
+        "LABEL": "Select template",
+        "SEARCH_PLACEHOLDER": "Search templates",
+        "EMPTY_STATE": "No templates found",
+        "TEMPLATE_PARSER": {
+          "TEMPLATE_NAME": "WhatsApp template: {templateName}",
+          "VARIABLES": "Змінні",
+          "BACK": "Повернутися назад",
+          "SEND_MESSAGE": "Надіслати"
+        }
+      },
+      "TWILIO_OPTIONS": {
+        "LABEL": "Select template",
+        "SEARCH_PLACEHOLDER": "Search templates",
+        "EMPTY_STATE": "No templates found",
+        "TEMPLATE_PARSER": {
+          "BACK": "Повернутися назад",
+          "SEND_MESSAGE": "Надіслати"
+        }
+      },
+      "ACTION_BUTTONS": {
+        "DISCARD": "Discard",
+        "SEND": "Send ({keyCode})"
+      }
+    }
+  }
+}

@@ -1,0 +1,3 @@
+ancestorEntries = ["enterprise/lib/captain/prompts/assistant.liquid", "enterprise/lib/captain/prompts/scenario.liquid"]
+ourEntries = ["enterprise/lib/captain/prompts/assistant.liquid", "enterprise/lib/captain/prompts/scenario.liquid"]
+theirEntries = ["enterprise/lib/captain/prompts/assistant.liquid", "enterprise/lib/captain/prompts/scenario.liquid"]

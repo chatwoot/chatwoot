@@ -1,0 +1,655 @@
+{
+  "CONTACT_PANEL": {
+    "NOT_AVAILABLE": "未入力",
+    "EMAIL_ADDRESS": "Eメールアドレス",
+    "PHONE_NUMBER": "電話番号",
+    "IDENTIFIER": "識別子",
+    "COPY_SUCCESSFUL": "クリップボードに正常にコピーされました",
+    "COMPANY": "企業名",
+    "LOCATION": "場所",
+    "BROWSER_LANGUAGE": "ブラウザの言語",
+    "CONVERSATION_TITLE": "会話の詳細",
+    "VIEW_PROFILE": "プロフィールを表示",
+    "BROWSER": "ブラウザ",
+    "OS": "OS",
+    "INITIATED_FROM": "開始元",
+    "INITIATED_AT": "開始日時",
+    "IP_ADDRESS": "IPアドレス",
+    "CREATED_AT_LABEL": "作成日時",
+    "NEW_MESSAGE": "新しいメッセージ",
+    "CALL": "Call",
+    "CALL_INITIATED": "Calling the contact…",
+    "CALL_FAILED": "Unable to start the call. Please try again.",
+    "VOICE_INBOX_PICKER": {
+      "TITLE": "Choose a voice inbox"
+    },
+    "CONVERSATIONS": {
+      "NO_RECORDS_FOUND": "この連絡先に関連付けられている以前の会話はありません。",
+      "TITLE": "以前の会話"
+    },
+    "LABELS": {
+      "CONTACT": {
+        "TITLE": "連絡先ラベル",
+        "ERROR": "ラベルを更新できませんでした"
+      },
+      "CONVERSATION": {
+        "TITLE": "会話のラベル",
+        "ADD_BUTTON": "ラベルを追加"
+      },
+      "LABEL_SELECT": {
+        "TITLE": "ラベルを追加",
+        "PLACEHOLDER": "ラベルを検索",
+        "NO_RESULT": "ラベルが見つかりません",
+        "CREATE_LABEL": "新しいラベルを作成"
+      }
+    },
+    "MERGE_CONTACT": "連絡先をマージ",
+    "CONTACT_ACTIONS": "連絡先アクション",
+    "MUTE_CONTACT": "連絡先をブロック",
+    "UNMUTE_CONTACT": "連絡先のブロックを解除",
+    "MUTED_SUCCESS": "この連絡先は正常にブロックされました。将来の会話に関する通知は受け取れません。",
+    "UNMUTED_SUCCESS": "この連絡先のブロックが正常に解除されました。",
+    "SEND_TRANSCRIPT": "会話ログを送信",
+    "EDIT_LABEL": "編集",
+    "SIDEBAR_SECTIONS": {
+      "CUSTOM_ATTRIBUTES": "カスタム属性",
+      "CONTACT_LABELS": "連絡先ラベル",
+      "PREVIOUS_CONVERSATIONS": "以前の会話",
+      "NO_RECORDS_FOUND": "属性が見つかりません"
+    }
+  },
+  "EDIT_CONTACT": {
+    "BUTTON_LABEL": "連絡先を編集",
+    "TITLE": "連絡先を編集",
+    "DESC": "連絡先の詳細を編集"
+  },
+  "DELETE_CONTACT": {
+    "BUTTON_LABEL": "連絡先を削除",
+    "TITLE": "連絡先を削除",
+    "DESC": "連絡先の詳細を削除",
+    "CONFIRM": {
+      "TITLE": "削除の確認",
+      "MESSAGE": "削除してもよろしいですか？",
+      "YES": "削除する",
+      "NO": "いいえ"
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "連絡先が正常に削除されました",
+      "ERROR_MESSAGE": "連絡先を削除できませんでした。後でもう一度お試しください。"
+    }
+  },
+  "CONTACT_FORM": {
+    "FORM": {
+      "SUBMIT": "送信",
+      "CANCEL": "キャンセル",
+      "AVATAR": {
+        "LABEL": "連絡先のアバター"
+      },
+      "NAME": {
+        "PLACEHOLDER": "連絡先のフルネームを入力してください",
+        "LABEL": "フルネーム"
+      },
+      "BIO": {
+        "PLACEHOLDER": "連絡先のプロフィールを入力してください",
+        "LABEL": "プロフィール"
+      },
+      "EMAIL_ADDRESS": {
+        "PLACEHOLDER": "連絡先のEメールアドレスを入力してください",
+        "LABEL": "Eメールアドレス",
+        "DUPLICATE": "このメールアドレスは別の連絡先に使用されています。",
+        "ERROR": "正しいメールアドレスを入力してください。"
+      },
+      "PHONE_NUMBER": {
+        "PLACEHOLDER": "連絡先の電話番号を入力してください",
+        "LABEL": "電話番号",
+        "HELP": "電話番号はE.164形式である必要があります (例: +1415555555 [+][国コード][エリアコード][ローカル番号])",
+        "ERROR": "電話番号は空白またはE.164形式である必要があります。",
+        "DIAL_CODE_ERROR": "リストからダイヤルコードを選択してください。",
+        "DUPLICATE": "この電話番号は別の連絡先に使用されています。"
+      },
+      "LOCATION": {
+        "PLACEHOLDER": "連絡先の所在地を入力してください",
+        "LABEL": "場所"
+      },
+      "COMPANY_NAME": {
+        "PLACEHOLDER": "企業名を入力",
+        "LABEL": "企業名"
+      },
+      "COUNTRY": {
+        "PLACEHOLDER": "国名を入力",
+        "LABEL": "国名",
+        "SELECT_PLACEHOLDER": "選択",
+        "REMOVE": "削除",
+        "SELECT_COUNTRY": "国を選択"
+      },
+      "CITY": {
+        "PLACEHOLDER": "都市名を入力",
+        "LABEL": "都市名"
+      },
+      "SOCIAL_PROFILES": {
+        "FACEBOOK": {
+          "PLACEHOLDER": "Facebookのユーザー名を入力してください",
+          "LABEL": "Facebook"
+        },
+        "TWITTER": {
+          "PLACEHOLDER": "Twitterのユーザー名を入力してください",
+          "LABEL": "Twitter"
+        },
+        "LINKEDIN": {
+          "PLACEHOLDER": "LinkedIn のユーザー名を入力してください",
+          "LABEL": "LinkedIn"
+        },
+        "GITHUB": {
+          "PLACEHOLDER": "GitHubのユーザー名を入力してください",
+          "LABEL": "Github"
+        }
+      }
+    },
+    "DELETE_AVATAR": {
+      "API": {
+        "SUCCESS_MESSAGE": "連絡先のアバターが正常に削除されました",
+        "ERROR_MESSAGE": "連絡先のアバターを削除できませんでした。後でもう一度お試しください。"
+      }
+    },
+    "SUCCESS_MESSAGE": "連絡先が正常に保存されました",
+    "ERROR_MESSAGE": "エラーが発生しました。もう一度お試しください。"
+  },
+  "NEW_CONVERSATION": {
+    "BUTTON_LABEL": "チャットを開始",
+    "TITLE": "新しい会話",
+    "DESC": "新しいメッセージを送信して会話を開始します。",
+    "NO_INBOX": "この連絡先と新しい会話を開始する受信トレイが見つかりませんでした。",
+    "FORM": {
+      "TO": {
+        "LABEL": "宛先"
+      },
+      "INBOX": {
+        "LABEL": "受信トレイ",
+        "PLACEHOLDER": "ソース受信トレイを選択",
+        "ERROR": "受信トレイを選択してください"
+      },
+      "SUBJECT": {
+        "LABEL": "件名",
+        "PLACEHOLDER": "件名を入力してください",
+        "ERROR": "件名を空にすることはできません"
+      },
+      "MESSAGE": {
+        "LABEL": "メッセージ",
+        "PLACEHOLDER": "ここにメッセージを入力してください",
+        "ERROR": "メッセージを空にすることはできません"
+      },
+      "ATTACHMENTS": {
+        "SELECT": "ファイルを選択",
+        "HELP_TEXT": "ここにファイルをドラッグアンドドロップするか、添付するファイルを選択してください"
+      },
+      "SUBMIT": "メッセージを送信",
+      "CANCEL": "キャンセル",
+      "SUCCESS_MESSAGE": "メッセージが送信されました！",
+      "GO_TO_CONVERSATION": "表示",
+      "ERROR_MESSAGE": "送信できませんでした！もう一度お試しください"
+    }
+  },
+  "CONTACTS_PAGE": {
+    "LIST": {
+      "TABLE_HEADER": {
+        "SOCIAL_PROFILES": "ソーシャルプロファイル"
+      }
+    }
+  },
+  "CUSTOM_ATTRIBUTES": {
+    "BUTTON": "カスタム属性を追加",
+    "COPY_SUCCESSFUL": "正常にクリップボードにコピーされました",
+    "SHOW_MORE": "すべての属性を表示",
+    "SHOW_LESS": "属性を少なく表示",
+    "ACTIONS": {
+      "COPY": "属性をコピー",
+      "DELETE": "属性を削除",
+      "EDIT": "属性を編集"
+    },
+    "ADD": {
+      "TITLE": "カスタム属性を作成",
+      "DESC": "この連絡先にカスタム情報を追加します。"
+    },
+    "FORM": {
+      "CREATE": "属性を追加",
+      "CANCEL": "キャンセル",
+      "NAME": {
+        "LABEL": "カスタム属性名",
+        "PLACEHOLDER": "例: Shopify ID",
+        "ERROR": "無効なカスタム属性名です"
+      },
+      "VALUE": {
+        "LABEL": "属性値",
+        "PLACEHOLDER": "例: 11901"
+      },
+      "ADD": {
+        "TITLE": "新しい属性を作成",
+        "SUCCESS": "属性が正常に追加されました",
+        "ERROR": "属性を追加できませんでした。後でもう一度お試しください"
+      },
+      "UPDATE": {
+        "SUCCESS": "属性が正常に更新されました",
+        "ERROR": "属性を更新できませんでした。後でもう一度お試しください"
+      },
+      "DELETE": {
+        "SUCCESS": "属性が正常に削除されました",
+        "ERROR": "属性を削除できませんでした。後でもう一度お試しください"
+      },
+      "ATTRIBUTE_SELECT": {
+        "TITLE": "属性を追加",
+        "PLACEHOLDER": "属性を検索",
+        "NO_RESULT": "属性が見つかりません"
+      },
+      "ATTRIBUTE_TYPE": {
+        "LIST": {
+          "PLACEHOLDER": "値を選択",
+          "SEARCH_INPUT_PLACEHOLDER": "値を検索",
+          "NO_RESULT": "結果が見つかりません"
+        }
+      }
+    },
+    "VALIDATIONS": {
+      "REQUIRED": "有効な値が必要です",
+      "INVALID_URL": "無効なURLです",
+      "INVALID_INPUT": "無効な入力です"
+    }
+  },
+  "MERGE_CONTACTS": {
+    "TITLE": "連絡先をマージ",
+    "DESCRIPTION": "連絡先をマージして、2つのプロファイルを1つに統合します。すべての属性と会話が統合されます。競合が発生した場合、プライマリ連絡先の属性が優先されます。",
+    "PRIMARY": {
+      "TITLE": "プライマリ連絡先",
+      "HELP_LABEL": "削除対象"
+    },
+    "PARENT": {
+      "TITLE": "マージする連絡先",
+      "PLACEHOLDER": "連絡先を検索",
+      "HELP_LABEL": "保持対象"
+    },
+    "SUMMARY": {
+      "TITLE": "概要",
+      "DELETE_WARNING": "<strong>{primaryContactName}</strong> の連絡先が削除されます。",
+      "ATTRIBUTE_WARNING": "<strong>{primaryContactName}</strong> の連絡先情報が <strong>{parentContactName}</strong> にコピーされます。"
+    },
+    "SEARCH": {
+      "ERROR_MESSAGE": "問題が発生しました。もう一度お試しください。"
+    },
+    "FORM": {
+      "SUBMIT": "連絡先をマージ",
+      "CANCEL": "キャンセル",
+      "CHILD_CONTACT": {
+        "ERROR": "マージする子連絡先を選択してください"
+      },
+      "SUCCESS_MESSAGE": "連絡先が正常にマージされました",
+      "ERROR_MESSAGE": "連絡先をマージできませんでした。もう一度お試しください！"
+    },
+    "DROPDOWN_ITEM": {
+      "ID": "(ID: {identifier})"
+    }
+  },
+  "CONTACTS_LAYOUT": {
+    "HEADER": {
+      "TITLE": "連絡先",
+      "SEARCH_TITLE": "連絡先を検索",
+      "ACTIVE_TITLE": "Active contacts",
+      "SEARCH_PLACEHOLDER": "検索...",
+      "MESSAGE_BUTTON": "メッセージ",
+      "SEND_MESSAGE": "メッセージを送信",
+      "BLOCK_CONTACT": "連絡先をブロック",
+      "UNBLOCK_CONTACT": "連絡先のブロックを解除",
+      "BREADCRUMB": {
+        "CONTACTS": "連絡先"
+      },
+      "ACTIONS": {
+        "CONTACT_CREATION": {
+          "ADD_CONTACT": "連絡先を追加",
+          "EXPORT_CONTACT": "連絡先をエクスポート",
+          "IMPORT_CONTACT": "連絡先をインポート",
+          "SAVE_CONTACT": "連絡先を保存",
+          "EMAIL_ADDRESS_DUPLICATE": "このメールアドレスは別の連絡先に使用されています。",
+          "PHONE_NUMBER_DUPLICATE": "この電話番号は別の連絡先に使用されています。",
+          "SUCCESS_MESSAGE": "連絡先が正常に保存されました",
+          "ERROR_MESSAGE": "連絡先を保存できませんでした。後でもう一度お試しください。"
+        },
+        "BLOCK_SUCCESS_MESSAGE": "この連絡先は正常にブロックされました",
+        "BLOCK_ERROR_MESSAGE": "連絡先をブロックできませんでした。再度お試しください。",
+        "UNBLOCK_SUCCESS_MESSAGE": "この連絡先のブロックが正常に解除されました",
+        "UNBLOCK_ERROR_MESSAGE": "連絡先のブロックを解除できませんでした。再度お試しください。",
+        "IMPORT_CONTACT": {
+          "TITLE": "連絡先をインポート",
+          "DESCRIPTION": "CSVファイルを使用して連絡先をインポートします。",
+          "DOWNLOAD_LABEL": "サンプルCSVをダウンロード",
+          "LABEL": "CSVファイル:",
+          "CHOOSE_FILE": "ファイルを選択",
+          "CHANGE": "ステータスを変更",
+          "CANCEL": "キャンセル",
+          "IMPORT": "インポート",
+          "SUCCESS_MESSAGE": "インポート完了後、メールで通知されます。",
+          "ERROR_MESSAGE": "エラーが発生しました。もう一度お試しください。"
+        },
+        "EXPORT_CONTACT": {
+          "TITLE": "連絡先をエクスポート",
+          "DESCRIPTION": "連絡先の詳細を含むCSVファイルを迅速にエクスポートします。",
+          "CONFIRM": "エクスポート",
+          "SUCCESS_MESSAGE": "エクスポートが進行中です。完了後にダウンロード可能な状態になるとメールで通知されます。",
+          "ERROR_MESSAGE": "エラーが発生しました。もう一度お試しください。"
+        },
+        "SORT_BY": {
+          "LABEL": "並び替え",
+          "OPTIONS": {
+            "NAME": "名前",
+            "EMAIL": "Eメール",
+            "PHONE_NUMBER": "電話番号",
+            "COMPANY": "企業名",
+            "COUNTRY": "国",
+            "CITY": "都市",
+            "LAST_ACTIVITY": "最終アクティビティ",
+            "CREATED_AT": "作成日時"
+          }
+        },
+        "ORDER": {
+          "LABEL": "順序",
+          "OPTIONS": {
+            "ASCENDING": "昇順",
+            "DESCENDING": "降順"
+          }
+        },
+        "FILTERS": {
+          "CREATE_SEGMENT": {
+            "TITLE": "このフィルターを保存しますか？",
+            "CONFIRM": "フィルターを保存",
+            "LABEL": "名前",
+            "PLACEHOLDER": "フィルターの名前を入力",
+            "ERROR": "有効な名前を入力してください",
+            "SUCCESS_MESSAGE": "フィルターが正常に保存されました",
+            "ERROR_MESSAGE": "フィルターを保存できませんでした。後でもう一度お試しください。"
+          },
+          "DELETE_SEGMENT": {
+            "TITLE": "削除の確認",
+            "DESCRIPTION": "このフィルターを削除してもよろしいですか？",
+            "CONFIRM": "削除する",
+            "CANCEL": "いいえ、キャンセル",
+            "SUCCESS_MESSAGE": "フィルターが正常に削除されました",
+            "ERROR_MESSAGE": "フィルターを削除できませんでした。後でもう一度お試しください。"
+          }
+        }
+      }
+    },
+    "PAGINATION_FOOTER": {
+      "SHOWING": "{startItem} - {endItem} 件目を表示中（全 {totalItems} 件）"
+    },
+    "FILTER": {
+      "NAME": "名前",
+      "EMAIL": "Eメール",
+      "PHONE_NUMBER": "電話番号",
+      "IDENTIFIER": "識別子",
+      "COUNTRY": "国",
+      "CITY": "都市",
+      "CREATED_AT": "作成日時",
+      "LAST_ACTIVITY": "最終アクティビティ",
+      "REFERER_LINK": "参照リンク",
+      "BLOCKED": "ブロック済み",
+      "BLOCKED_TRUE": "真",
+      "BLOCKED_FALSE": "偽",
+      "BUTTONS": {
+        "CLEAR_FILTERS": "フィルターをクリア",
+        "UPDATE_SEGMENT": "セグメントを更新",
+        "APPLY_FILTERS": "フィルターを適用",
+        "ADD_FILTER": "フィルターを追加"
+      },
+      "TITLE": "連絡先をフィルター",
+      "EDIT_SEGMENT": "セグメントを編集",
+      "SEGMENT": {
+        "LABEL": "セグメント名",
+        "INPUT_PLACEHOLDER": "セグメントの名前を入力"
+      },
+      "ACTIVE_FILTERS": {
+        "MORE_FILTERS": "+ {count} 件のフィルターを表示",
+        "CLEAR_FILTERS": "フィルターをクリア"
+      }
+    },
+    "CARD": {
+      "OF": "/",
+      "VIEW_DETAILS": "詳細を表示",
+      "EDIT_DETAILS_FORM": {
+        "TITLE": "連絡先の詳細を編集",
+        "FORM": {
+          "FIRST_NAME": {
+            "PLACEHOLDER": "名を入力してください"
+          },
+          "LAST_NAME": {
+            "PLACEHOLDER": "姓を入力してください"
+          },
+          "EMAIL_ADDRESS": {
+            "PLACEHOLDER": "メールアドレスを入力してください",
+            "DUPLICATE": "このメールアドレスは別の連絡先に使用されています。"
+          },
+          "PHONE_NUMBER": {
+            "PLACEHOLDER": "電話番号を入力してください",
+            "DUPLICATE": "この電話番号は別の連絡先に使用されています。"
+          },
+          "CITY": {
+            "PLACEHOLDER": "都市名を入力"
+          },
+          "COUNTRY": {
+            "PLACEHOLDER": "国を選択"
+          },
+          "BIO": {
+            "PLACEHOLDER": "プロフィールを入力"
+          },
+          "COMPANY_NAME": {
+            "PLACEHOLDER": "企業名を入力"
+          }
+        },
+        "UPDATE_BUTTON": "連絡先を更新",
+        "SUCCESS_MESSAGE": "連絡先が正常に更新されました",
+        "ERROR_MESSAGE": "連絡先を更新できませんでした。後でもう一度お試しください。"
+      },
+      "SOCIAL_MEDIA": {
+        "TITLE": "ソーシャルリンクを編集",
+        "FORM": {
+          "FACEBOOK": {
+            "PLACEHOLDER": "Facebookを追加"
+          },
+          "GITHUB": {
+            "PLACEHOLDER": "Githubを追加"
+          },
+          "INSTAGRAM": {
+            "PLACEHOLDER": "Instagramを追加"
+          },
+          "TIKTOK": {
+            "PLACEHOLDER": "Add TikTok"
+          },
+          "LINKEDIN": {
+            "PLACEHOLDER": "LinkedInを追加"
+          },
+          "TWITTER": {
+            "PLACEHOLDER": "Twitterを追加"
+          }
+        }
+      },
+      "DELETE_CONTACT": {
+        "MESSAGE": "This action is permanent and irreversible.",
+        "BUTTON": "Delete now"
+      }
+    },
+    "DETAILS": {
+      "CREATED_AT": "{date} に作成",
+      "LAST_ACTIVITY": "{date} に最後のアクティビティ",
+      "DELETE_CONTACT_DESCRIPTION": "この連絡先を完全に削除します。この操作は取り消せません。",
+      "DELETE_CONTACT": "連絡先を削除",
+      "DELETE_DIALOG": {
+        "TITLE": "削除の確認",
+        "DESCRIPTION": "Are you sure you want to delete this contact?",
+        "CONFIRM": "削除する",
+        "API": {
+          "SUCCESS_MESSAGE": "連絡先が正常に削除されました。",
+          "ERROR_MESSAGE": "連絡先を削除できませんでした。後でもう一度お試しください。"
+        }
+      },
+      "AVATAR": {
+        "UPLOAD": {
+          "ERROR_MESSAGE": "アバターをアップロードできませんでした。後でもう一度お試しください。",
+          "SUCCESS_MESSAGE": "アバターが正常にアップロードされました。"
+        },
+        "DELETE": {
+          "SUCCESS_MESSAGE": "アバターが正常に削除されました。",
+          "ERROR_MESSAGE": "アバターを削除できませんでした。後でもう一度お試しください。"
+        }
+      }
+    },
+    "SIDEBAR": {
+      "TABS": {
+        "ATTRIBUTES": "属性",
+        "HISTORY": "履歴",
+        "NOTES": "メモ",
+        "MERGE": "マージ"
+      },
+      "HISTORY": {
+        "EMPTY_STATE": "この連絡先に関連付けられた以前の会話はありません。"
+      },
+      "ATTRIBUTES": {
+        "SEARCH_PLACEHOLDER": "属性を検索",
+        "UNUSED_ATTRIBUTES": "{count} 件の使用済み属性 | {count} 件の未使用属性",
+        "EMPTY_STATE": "このアカウントに利用可能なカスタム属性はありません。設定でカスタム属性を作成できます。",
+        "YES": "はい",
+        "NO": "いいえ",
+        "TRIGGER": {
+          "SELECT": "値を選択",
+          "INPUT": "値を入力"
+        },
+        "VALIDATIONS": {
+          "INVALID_NUMBER": "無効な数字です。",
+          "REQUIRED": "有効な値が必要です。",
+          "INVALID_INPUT": "無効な入力です。",
+          "INVALID_URL": "無効なURLです。",
+          "INVALID_DATE": "無効な日付です。"
+        },
+        "NO_ATTRIBUTES": "属性が見つかりません。",
+        "API": {
+          "SUCCESS_MESSAGE": "属性が正常に更新されました。",
+          "DELETE_SUCCESS_MESSAGE": "属性が正常に削除されました。",
+          "UPDATE_ERROR": "属性を更新できませんでした。後でもう一度お試しください。",
+          "DELETE_ERROR": "属性を削除できませんでした。後でもう一度お試しください。"
+        }
+      },
+      "MERGE": {
+        "TITLE": "連絡先をマージ",
+        "DESCRIPTION": "2つのプロファイルを1つに統合し、すべての属性と会話を含めます。競合がある場合、プライマリ連絡先の属性が優先されます。",
+        "PRIMARY": "プライマリ連絡先",
+        "PRIMARY_HELP_LABEL": "保存対象",
+        "PRIMARY_REQUIRED_ERROR": "進行する前にマージする連絡先を選択してください。",
+        "PARENT": "マージ対象",
+        "PARENT_HELP_LABEL": "削除対象",
+        "EMPTY_STATE": "連絡先が見つかりません。",
+        "PLACEHOLDER": "プライマリ連絡先を検索",
+        "SEARCH_PLACEHOLDER": "連絡先を検索",
+        "SEARCH_ERROR_MESSAGE": "連絡先を検索できませんでした。後でもう一度お試しください。",
+        "SUCCESS_MESSAGE": "連絡先が正常にマージされました。",
+        "ERROR_MESSAGE": "連絡先をマージできませんでした。もう一度お試しください！",
+        "IS_SEARCHING": "検索中...",
+        "BUTTONS": {
+          "CANCEL": "キャンセル",
+          "CONFIRM": "連絡先をマージ"
+        }
+      },
+      "NOTES": {
+        "PLACEHOLDER": "メモを追加",
+        "WROTE": "が記入しました",
+        "YOU": "あなた",
+        "SAVE": "メモを保存",
+        "ADD_NOTE": "Add contact note",
+        "EXPAND": "拡張",
+        "COLLAPSE": "Collapse",
+        "NO_NOTES": "No notes, you can add notes from the contact details page.",
+        "EMPTY_STATE": "この連絡先に関連するメモはありません。上記のボックスに入力してメモを追加できます。",
+        "CONVERSATION_EMPTY_STATE": "There are no notes yet. Use the Add note button to create one."
+      }
+    },
+    "EMPTY_STATE": {
+      "TITLE": "このアカウントには連絡先が見つかりません。",
+      "SUBTITLE": "以下のボタンをクリックして新しい連絡先を追加してください。",
+      "BUTTON_LABEL": "連絡先を追加",
+      "SEARCH_EMPTY_STATE_TITLE": "検索に一致する連絡先はありません 🔍",
+      "LIST_EMPTY_STATE_TITLE": "このビューには利用可能な連絡先がありません 📋",
+      "ACTIVE_EMPTY_STATE_TITLE": "No contacts are active at the moment 🌙"
+    }
+  },
+  "CONTACTS_BULK_ACTIONS": {
+    "ASSIGN_LABELS": "Assign Labels",
+    "ASSIGN_LABELS_SUCCESS": "ラベルが正常に割り当てられました。",
+    "ASSIGN_LABELS_FAILED": "Failed to assign labels",
+    "DESCRIPTION": "Select the labels you want to add to the selected contacts.",
+    "NO_LABELS_FOUND": "No labels available yet.",
+    "SELECTED_COUNT": "{count} selected",
+    "CLEAR_SELECTION": "Clear selection",
+    "SELECT_ALL": "Select all ({count})",
+    "DELETE_CONTACTS": "削除",
+    "DELETE_SUCCESS": "Contacts deleted successfully.",
+    "DELETE_FAILED": "Failed to delete contacts.",
+    "DELETE_DIALOG": {
+      "TITLE": "Delete selected contacts",
+      "SINGULAR_TITLE": "Delete selected contact",
+      "DESCRIPTION": "This will permanently delete {count} selected contacts. This action cannot be undone.",
+      "SINGULAR_DESCRIPTION": "This will permanently delete the selected contact. This action cannot be undone.",
+      "CONFIRM_MULTIPLE": "Delete contacts",
+      "CONFIRM_SINGLE": "連絡先を削除"
+    }
+  },
+  "COMPOSE_NEW_CONVERSATION": {
+    "CONTACT_SEARCH": {
+      "ERROR_MESSAGE": "検索を完了できませんでした。もう一度お試しください。"
+    },
+    "FORM": {
+      "GO_TO_CONVERSATION": "表示",
+      "SUCCESS_MESSAGE": "メッセージが正常に送信されました！",
+      "ERROR_MESSAGE": "会話の作成中にエラーが発生しました。後でもう一度お試しください。",
+      "NO_INBOX_ALERT": "この連絡先と会話を開始するための利用可能なインボックスがありません。",
+      "CONTACT_SELECTOR": {
+        "LABEL": "宛先:",
+        "TAG_INPUT_PLACEHOLDER": "名前、メールアドレス、または電話番号で連絡先を検索",
+        "CONTACT_CREATING": "連絡先を作成中..."
+      },
+      "INBOX_SELECTOR": {
+        "LABEL": "送信方法:",
+        "BUTTON": "インボックスを表示"
+      },
+      "EMAIL_OPTIONS": {
+        "SUBJECT_LABEL": "件名 :",
+        "SUBJECT_PLACEHOLDER": "メールの件名を入力",
+        "CC_LABEL": "Cc:",
+        "CC_PLACEHOLDER": "メールアドレスで連絡先を検索",
+        "BCC_LABEL": "Bcc:",
+        "BCC_PLACEHOLDER": "メールアドレスで連絡先を検索",
+        "BCC_BUTTON": "Bcc"
+      },
+      "MESSAGE_EDITOR": {
+        "PLACEHOLDER": "ここにメッセージを入力..."
+      },
+      "WHATSAPP_OPTIONS": {
+        "LABEL": "テンプレートを選択",
+        "SEARCH_PLACEHOLDER": "テンプレートを検索",
+        "EMPTY_STATE": "テンプレートが見つかりません。",
+        "TEMPLATE_PARSER": {
+          "TEMPLATE_NAME": "WhatsAppテンプレート: {templateName}",
+          "VARIABLES": "変数",
+          "BACK": "戻る",
+          "SEND_MESSAGE": "メッセージを送信"
+        }
+      },
+      "TWILIO_OPTIONS": {
+        "LABEL": "テンプレートを選択",
+        "SEARCH_PLACEHOLDER": "テンプレートを検索",
+        "EMPTY_STATE": "テンプレートが見つかりません。",
+        "TEMPLATE_PARSER": {
+          "BACK": "戻る",
+          "SEND_MESSAGE": "メッセージを送信"
+        }
+      },
+      "ACTION_BUTTONS": {
+        "DISCARD": "破棄",
+        "SEND": "送信 ({keyCode})"
+      }
+    }
+  }
+}

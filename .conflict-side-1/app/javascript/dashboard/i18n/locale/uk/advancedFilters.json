@@ -1,0 +1,119 @@
+{
+  "FILTER": {
+    "TITLE": "Фільтрувати діалоги",
+    "SUBTITLE": "Заповніть фільтри нижче, і натисніть \"Застосувати фільтри\" щоб пробратися через усі ваші чати.",
+    "EDIT_CUSTOM_FILTER": "Редагувати папку",
+    "CUSTOM_VIEWS_SUBTITLE": "Додайте або видаліть фільтри та оновіть папку.",
+    "ADD_NEW_FILTER": "Додати фільтр",
+    "FILTER_DELETE_ERROR": "Ой, здається ми нічого не можемо зберегти! Будь ласка, додайте принаймні один фільтр, щоб зберегти його.",
+    "SUBMIT_BUTTON_LABEL": "Застосувати фільтри",
+    "UPDATE_BUTTON_LABEL": "Оновити папку",
+    "CANCEL_BUTTON_LABEL": "Скасувати",
+    "CLEAR_BUTTON_LABEL": "Очистити фільтри",
+    "FOLDER_LABEL": "Ім'я папки",
+    "FOLDER_QUERY_LABEL": "Запит папки",
+    "EMPTY_VALUE_ERROR": "Необхідно вказати значення.",
+    "TOOLTIP_LABEL": "Фільтрувати діалоги",
+    "QUERY_DROPDOWN_LABELS": {
+      "AND": "ТА",
+      "OR": "АБО"
+    },
+    "INPUT_PLACEHOLDER": "Введіть значення",
+    "OPERATOR_LABELS": {
+      "equal_to": "Дорівнює",
+      "not_equal_to": "Не дорівнює",
+      "does_not_contain": "Не містить",
+      "is_present": "Є",
+      "is_not_present": "Немає",
+      "is_greater_than": "Більше ніж",
+      "is_less_than": "Менше ніж",
+      "days_before": "X днів до",
+      "starts_with": "Починається з",
+      "equalTo": "Дорівнює",
+      "notEqualTo": "Не дорівнює",
+      "contains": "Містить",
+      "doesNotContain": "Не містить",
+      "isPresent": "Є",
+      "isNotPresent": "Немає",
+      "isGreaterThan": "Більше ніж",
+      "isLessThan": "Менше ніж",
+      "daysBefore": "X днів до",
+      "startsWith": "Починається з"
+    },
+    "ATTRIBUTE_LABELS": {
+      "TRUE": "Так",
+      "FALSE": "Ні"
+    },
+    "ATTRIBUTES": {
+      "STATUS": "Статус",
+      "ASSIGNEE_NAME": "Ім'я виконавця",
+      "INBOX_NAME": "Назва Джерела",
+      "TEAM_NAME": "Назва команди",
+      "CONVERSATION_IDENTIFIER": "Номер діалогу",
+      "CAMPAIGN_NAME": "Назва Кампанії",
+      "LABELS": "Мітки",
+      "BROWSER_LANGUAGE": "Мова браузера",
+      "PRIORITY": "Пріоритет",
+      "COUNTRY_NAME": "Назва країни",
+      "REFERER_LINK": "Посилання",
+      "CUSTOM_ATTRIBUTE_LIST": "Список",
+      "CUSTOM_ATTRIBUTE_TEXT": "Текст",
+      "CUSTOM_ATTRIBUTE_NUMBER": "Номер",
+      "CUSTOM_ATTRIBUTE_LINK": "Лінк",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "Прапорець",
+      "CREATED_AT": "Створений в",
+      "LAST_ACTIVITY": "Остання активність"
+    },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Необхідно вказати значення",
+      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
+      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998"
+    },
+    "GROUPS": {
+      "STANDARD_FILTERS": "Стандартні фільтри",
+      "ADDITIONAL_FILTERS": "Додаткові фільтри",
+      "CUSTOM_ATTRIBUTES": "Спеціальні атрибути"
+    },
+    "CUSTOM_VIEWS": {
+      "ADD": {
+        "TITLE": "Зберегти цей фільтр?",
+        "LABEL": "Назвіть цей фільтр",
+        "PLACEHOLDER": "Назвіть ваш фільтр, щоб пізніше його описати.",
+        "ERROR_MESSAGE": "Назва обов'язкова.",
+        "SAVE_BUTTON": "Зберегти фільтр",
+        "CANCEL_BUTTON": "Скасувати",
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "Папка успішно створена.",
+          "ERROR_MESSAGE": "Помилка при створенні папки."
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "Сегмент успішно створено.",
+          "ERROR_MESSAGE": "Помилка при створенні сегменту."
+        }
+      },
+      "EDIT": {
+        "EDIT_BUTTON": "Редагувати папку"
+      },
+      "DELETE": {
+        "DELETE_BUTTON": "Видалити фільтр",
+        "MODAL": {
+          "CONFIRM": {
+            "TITLE": "Підтвердіть видалення",
+            "MESSAGE": "Ви впевнені, що хочете видалити фільтр ",
+            "YES": "Так, видалити",
+            "NO": "Ні, зберегти це"
+          }
+        },
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "Папка успішно видалена.",
+          "ERROR_MESSAGE": "Помилка під час видалення папки."
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "Сегмент успішно видалено.",
+          "ERROR_MESSAGE": "Помилка при видаленні сегменту."
+        }
+      }
+    }
+  }
+}
