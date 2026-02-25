@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Tiktok::Client do
   let(:client) { described_class.new(business_id: 'biz-123', access_token: 'token-123') }
-  let(:response) { double('response') }
+  let(:response) { instance_double(HTTParty::Response) }
 
   describe '#image_send_capable?' do
     before do

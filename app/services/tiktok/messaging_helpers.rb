@@ -56,10 +56,8 @@ module Tiktok::MessagingHelpers
     { image_send: image_send, checked_at: Time.current.iso8601 }
   rescue StandardError => e
     Rails.logger.error(
-      "Failed to fetch TikTok conversation capabilities " \
-      "for tt_conversation_id=#{tt_conversation_id}, business_id=#{channel.business_id}: " \
-      "#{e.class}: #{e.message}",
-      exception: e
+      'Failed to fetch TikTok conversation capabilities ' \
+      "for tt_conversation_id=#{tt_conversation_id}, business_id=#{channel.business_id}: #{e.class}: #{e.message}"
     )
     {}
   end
