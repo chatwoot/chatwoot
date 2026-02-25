@@ -59,8 +59,8 @@ importers:
         specifier: ^7.1.400
         version: 7.1.400
       '@scmmishra/pico-search':
-        specifier: 0.5.4
-        version: 0.5.4
+        specifier: 0.6.0
+        version: 0.6.0
       '@sentry/vue':
         specifier: ^8.55.0
         version: 8.55.0(pinia@3.0.4(typescript@5.6.2)(vue@3.5.12(typescript@5.6.2)))(vue@3.5.12(typescript@5.6.2))
@@ -1240,8 +1240,8 @@ packages:
   '@rtsao/scc@1.1.0':
     resolution: {integrity: sha512-zt6OdqaDoOnJ1ZYsCYGt9YmWzDXl4vQdKTyJev62gFhRGKdx7mcT54V9KIjg+d2wi9EXsPvAPKe7i7WjfVWB8g==}
 
-  '@scmmishra/pico-search@0.5.4':
-    resolution: {integrity: sha512-JdV8KumQ+pE5tqgQ71xUT9biE/qV//tx3NCqTLkW9Z4tsjKGN0B6kVowmtaZBAtErqir9XiMxsKXRTMF/MpUww==}
+  '@scmmishra/pico-search@0.6.0':
+    resolution: {integrity: sha512-1zC2cAwPWuv38VEh0It90fdUWkvX75OwBUjgTj+d5LTltARnf3ydbpcN2Ucl0aATBMmaNqPMcVvT25IOCAqCEA==}
 
   '@sentry-internal/browser-utils@8.55.0':
     resolution: {integrity: sha512-ROgqtQfpH/82AQIpESPqPQe0UyWywKJsmVIqi3c5Fh+zkds5LUxnssTj3yNd1x+kxaPDVB023jAP+3ibNgeNDw==}
@@ -5795,7 +5795,7 @@ snapshots:
 
   '@rtsao/scc@1.1.0': {}
 
-  '@scmmishra/pico-search@0.5.4': {}
+  '@scmmishra/pico-search@0.6.0': {}
 
   '@sentry-internal/browser-utils@8.55.0':
     dependencies:
