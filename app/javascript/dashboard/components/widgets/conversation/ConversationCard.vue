@@ -54,7 +54,11 @@ const contextMenu = ref({ x: null, y: null });
 
 // Reset UI state when conversation changes at same index (no :key, instance reused on reorder)
 // This prevents context menu/hover state from leaking to a different conversation
+// Emit contextMenuToggle(false) to sync parent state if menu was open during recycling
 const resetState = () => {
+  if (showContextMenu.value) {
+    emit('contextMenuToggle', false);
+  }
   hovered.value = false;
   showContextMenu.value = false;
   contextMenu.value = { x: null, y: null };
