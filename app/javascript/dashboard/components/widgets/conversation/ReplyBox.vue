@@ -697,7 +697,6 @@ export default {
 
       // Don't handle paste if editor is disabled
       if (this.isEditorDisabled) return;
-      if (!this.showFileUpload) return;
 
       // Filter valid files (non-zero size)
       Array.from(e.clipboardData.files)
@@ -1044,8 +1043,6 @@ export default {
       });
     },
     attachFile({ blob, file }) {
-      if (!this.showFileUpload) return;
-
       const reader = new FileReader();
       reader.readAsDataURL(file.file);
       reader.onloadend = () => {
