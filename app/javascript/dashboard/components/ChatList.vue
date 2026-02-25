@@ -955,10 +955,8 @@ watch(conversationFilters, (newVal, oldVal) => {
         ref="virtualListRef"
         v-slot="{ item, index }"
         :data="conversationList"
-        :overscan="10"
       >
         <ConversationItem
-          :key="item.id"
           :source="item"
           :label="label"
           :team-id="teamId"
