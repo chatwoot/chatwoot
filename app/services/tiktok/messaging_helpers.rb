@@ -27,7 +27,15 @@ module Tiktok::MessagingHelpers
   end
 
   def find_conversation(channel, tt_conversation_id)
-    channel.inbox.contact_inboxes.find_by(source_id: tt_conversation_id)&.conversations&.first
+    contact_inbox = channel.inbox.contact_inboxes.find_by(source_id: tt_conversation_id)
+    return if contact_inbox.blank?
+
+    if channel.inbox.lock_to_single_conversation
+      contact_inbox.conversations.order(created_at: :desc).first
+    else
+      contact_inbox.conversations.where.not(status: :resolved).order(created_at: :desc).first ||
+        contact_inbox.conversations.order(created_at: :desc).first
+    end
   end
 
   def create_conversation(channel, contact_inbox, tt_conversation_id)

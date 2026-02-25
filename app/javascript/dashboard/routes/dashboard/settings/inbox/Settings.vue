@@ -27,6 +27,7 @@ import BotConfiguration from './components/BotConfiguration.vue';
 import AccountHealth from './components/AccountHealth.vue';
 import { FEATURE_FLAGS } from '../../../../featureFlags';
 import SenderNameExamplePreview from './components/SenderNameExamplePreview.vue';
+import LockToSingleConversationPreview from './components/LockToSingleConversationPreview.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import SpinnerLoader from 'dashboard/components-next/spinner/Spinner.vue';
 import { INBOX_TYPES } from 'dashboard/helper/inbox';
@@ -53,6 +54,7 @@ export default {
     SettingsAccordion,
     WeeklyAvailability,
     SenderNameExamplePreview,
+    LockToSingleConversationPreview,
     MicrosoftReauthorize,
     GoogleReauthorize,
     NextButton,
@@ -246,6 +248,9 @@ export default {
         this.isAWhatsAppChannel ||
         this.isAFacebookInbox ||
         this.isAPIInbox ||
+        this.isAnInstagramChannel ||
+        this.isALineChannel ||
+        this.isATiktokChannel ||
         this.isATelegramChannel
       );
     },
@@ -536,6 +541,9 @@ export default {
     hideBusinessNameInput() {
       this.showBusinessNameInput = false;
     },
+    toggleLockToSingleConversation(value) {
+      this.locktoSingleConversation = value;
+    },
   },
   validations: {
     webhookUrl: {
@@ -729,6 +737,21 @@ export default {
                   ...portals.map(p => ({ value: p.slug, label: p.name })),
                 ]"
               />
+            </SettingsFieldSection>
+
+            <SettingsFieldSection
+              v-if="canLocktoSingleConversation"
+              :label="
+                $t('INBOX_MGMT.SETTINGS_POPUP.LOCK_TO_SINGLE_CONVERSATION')
+              "
+              class="[&>div>div]:justify-end [&>div>div]:flex lg:[&>div:first-child]:h-12 [&>div:first-child]:h-16"
+            >
+              <template #extra>
+                <LockToSingleConversationPreview
+                  :lock-to-single-conversation="locktoSingleConversation"
+                  @update="toggleLockToSingleConversation"
+                />
+              </template>
             </SettingsFieldSection>
 
             <SettingsFieldSection
@@ -1071,19 +1094,6 @@ export default {
                 :description="
                   $t(
                     'INBOX_MGMT.SETTINGS_POPUP.ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT'
-                  )
-                "
-              />
-
-              <SettingsToggleSection
-                v-if="canLocktoSingleConversation"
-                v-model="locktoSingleConversation"
-                :header="
-                  $t('INBOX_MGMT.SETTINGS_POPUP.LOCK_TO_SINGLE_CONVERSATION')
-                "
-                :description="
-                  $t(
-                    'INBOX_MGMT.SETTINGS_POPUP.LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT'
                   )
                 "
               />

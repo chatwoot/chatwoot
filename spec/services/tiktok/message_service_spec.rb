@@ -6,8 +6,29 @@ RSpec.describe Tiktok::MessageService do
   let(:inbox) { channel.inbox }
   let(:contact) { create(:contact, account: account) }
   let(:contact_inbox) { create(:contact_inbox, inbox: inbox, contact: contact, source_id: 'tt-conv-1') }
+  let(:text_content) do
+    {
+      type: 'text',
+      message_id: 'tt-msg-lock',
+      timestamp: 1_700_000_000_000,
+      conversation_id: 'tt-conv-1',
+      text: { body: 'Hello from TikTok' },
+      from: 'Alice',
+      from_user: { id: 'user-1' },
+      to: 'Biz',
+      to_user: { id: 'biz-123' }
+    }.deep_symbolize_keys
+  end
 
   describe '#perform' do
+    subject(:perform_text_message) do
+      service = described_class.new(channel: channel, content: current_content)
+      allow(service).to receive(:create_contact_inbox).and_return(contact_inbox)
+      service.perform
+    end
+
+    let(:current_content) { text_content }
+
     it 'creates an incoming text message' do
       content = {
         type: 'text',
@@ -112,6 +133,32 @@ RSpec.describe Tiktok::MessageService do
       expect(message.attachments.last.file).to be_attached
     ensure
       tempfile.close!
+    end
+
+    context 'when lock_to_single_conversation is enabled' do
+      it 'reuses the last resolved conversation' do
+        inbox.update!(lock_to_single_conversation: true)
+        resolved_conversation = create(:conversation, inbox: inbox, contact: contact, contact_inbox: contact_inbox, status: :resolved)
+
+        perform_text_message
+
+        expect(inbox.conversations.count).to eq(1)
+        expect(resolved_conversation.reload.messages.last.content).to eq('Hello from TikTok')
+      end
+    end
+
+    context 'when lock_to_single_conversation is disabled' do
+      let(:current_content) { text_content.merge(message_id: 'tt-msg-lock-2') }
+
+      it 'creates a new conversation if the previous one is resolved' do
+        inbox.update!(lock_to_single_conversation: false)
+        create(:conversation, inbox: inbox, contact: contact, contact_inbox: contact_inbox, status: :resolved)
+
+        perform_text_message
+
+        expect(inbox.conversations.count).to eq(2)
+        expect(inbox.conversations.last.messages.last.content).to eq('Hello from TikTok')
+      end
     end
   end
 end
