@@ -592,8 +592,10 @@
         "DISABLED": "已禁用"
       },
       "LOCK_TO_SINGLE_CONVERSATION": {
-        "ENABLED": "已启用",
-        "DISABLED": "已禁用"
+        "ENABLED": "Reopen same conversation",
+        "DISABLED": "Create new conversations",
+        "ENABLED_DESCRIPTION": "When a contact messages again, the previous conversation will be reopened.",
+        "DISABLED_DESCRIPTION": "A new conversation will be created each time after the previous one is resolved."
       },
       "ENABLE_HMAC": {
         "LABEL": "启用"
@@ -713,8 +715,8 @@
       "SENDER_NAME_SECTION_TEXT": "启用/禁用在电子邮件中显示代理名称，如果禁用，将显示业务名称",
       "ENABLE_CONTINUITY_VIA_EMAIL": "通过电子邮件启用对话连续性",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "如果有联系人的电子邮件地址，对话将会继续在电子邮件中进行。",
-      "LOCK_TO_SINGLE_CONVERSATION": "锁定到单一对话",
-      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "在此收件箱中启用或禁用同一联系人的多个对话",
+      "LOCK_TO_SINGLE_CONVERSATION": "Conversation Routing",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Configure conversation creation for existing contacts",
       "INBOX_UPDATE_TITLE": "收件箱设置",
       "INBOX_UPDATE_SUB_TEXT": "更新收件箱设置",
       "AUTO_ASSIGNMENT_SUB_TEXT": "启用或禁用添加到此收件箱的代理人自动分配新的会话。",
