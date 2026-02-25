@@ -58,12 +58,42 @@ RSpec.describe Captain::PromptRenderer do
     it 'loads and parses liquid template' do
       liquid_template_double = instance_double(Liquid::Template)
       allow(Liquid::Template).to receive(:parse).with(template_content).and_return(liquid_template_double)
-      allow(liquid_template_double).to receive(:render).with(hash_including('name', 'balance')).and_return('rendered')
+      allow(liquid_template_double).to receive(:render).with(hash_including('name', 'balance'), anything).and_return('rendered')
 
       result = described_class.render(template_name, context)
 
       expect(result).to eq('rendered')
       expect(Liquid::Template).to have_received(:parse).with(template_content)
+    end
+  end
+
+  describe 'snippet rendering' do
+    let(:snippets_dir) { Rails.root.join('enterprise/lib/captain/prompts/snippets') }
+    let(:snippet_path) { snippets_dir.join('greeting.liquid') }
+
+    before do
+      allow(File).to receive(:exist?).and_call_original
+      allow(File).to receive(:read).and_call_original
+      allow(File).to receive(:exist?).with(template_path).and_return(true)
+      # Create a controlled snippet to decouple from real snippet content
+      allow(File).to receive(:exist?).with(snippet_path.to_s).and_return(true)
+      allow(File).to receive(:read).with(snippet_path.to_s).and_return('Hello {{ name }}')
+    end
+
+    it 'resolves render tags from the snippets directory' do
+      allow(File).to receive(:read).with(template_path).and_return("{% render 'greeting', name: name %}")
+
+      result = described_class.render(template_name, { name: 'World' })
+
+      expect(result).to eq('Hello World')
+    end
+
+    it 'outputs a liquid error for missing snippets' do
+      allow(File).to receive(:read).with(template_path).and_return("{% render 'nonexistent' %}")
+
+      result = described_class.render(template_name, {})
+
+      expect(result).to include('Liquid error')
     end
   end
 
