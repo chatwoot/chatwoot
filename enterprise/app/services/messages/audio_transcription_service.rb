@@ -19,6 +19,9 @@ class Messages::AudioTranscriptionService< Llm::LegacyBaseOpenAiService
     transcriptions = transcribe_audio
     Rails.logger.info "Audio transcription successful: #{transcriptions}"
     { success: true, transcriptions: transcriptions }
+  rescue Faraday::UnauthorizedError => e
+    Rails.logger.warn("Skipping audio transcription: OpenAI configuration is invalid or disabled (401 Unauthorized).")
+    { error: 'OpenAI configuration is invalid or disabled (401)' }
   end
 
   private
