@@ -30,12 +30,18 @@ class Notification::PushNotificationService
     @conversation ||= notification.conversation
   end
 
+  def notification_locale
+    user.ui_settings&.dig('locale') || notification.account.locale || I18n.default_locale
+  end
+
   def push_message
-    {
-      title: notification.push_message_title,
-      tag: "#{notification.notification_type}_#{conversation.display_id}_#{notification.id}",
-      url: push_url
-    }
+    I18n.with_locale(notification_locale) do
+      {
+        title: notification.push_message_title,
+        tag: "#{notification.notification_type}_#{conversation.display_id}_#{notification.id}",
+        url: push_url
+      }
+    end
   end
 
   def push_url
@@ -147,10 +153,12 @@ class Notification::PushNotificationService
   end
 
   def fcm_notification
-    {
-      title: notification.push_message_title,
-      body: notification.push_message_body
-    }
+    I18n.with_locale(notification_locale) do
+      {
+        title: notification.push_message_title,
+        body: notification.push_message_body
+      }
+    end
   end
 
   def fcm_android_options
