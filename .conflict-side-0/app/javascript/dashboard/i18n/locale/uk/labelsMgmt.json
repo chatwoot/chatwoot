@@ -1,0 +1,85 @@
+{
+  "LABEL_MGMT": {
+    "HEADER": "Мітки",
+    "HEADER_BTN_TXT": "Додати мітку",
+    "LOADING": "Отримання міток",
+    "DESCRIPTION": "Labels help you categorize and prioritize conversations and leads. You can assign a label to a conversation or contact using the side panel.",
+    "LEARN_MORE": "Learn more about labels",
+    "SEARCH_404": "Немає елементів, що відповідають запиту",
+    "LIST": {
+      "404": "У цьому акаунті немає міток.",
+      "TITLE": "Керувати мітками",
+      "DESC": "Мітки, які дозволяють згрупувати розмови.",
+      "TABLE_HEADER": {
+        "NAME": "Ім'я",
+        "DESCRIPTION": "Опис",
+        "COLOR": "Колір"
+      }
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "Назва мітки",
+        "PLACEHOLDER": "Назва мітки",
+        "REQUIRED_ERROR": "Потрібна назва мітки",
+        "MINIMUM_LENGTH_ERROR": "Необхідна мінімальна довжина 2",
+        "VALID_ERROR": "Дозволено тільки букви, цифри, гіфен та підкреслення"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Опис",
+        "PLACEHOLDER": "Опис мітки"
+      },
+      "COLOR": {
+        "LABEL": "Колір"
+      },
+      "SHOW_ON_SIDEBAR": {
+        "LABEL": "Показувати мітку на бічній панелі"
+      },
+      "EDIT": "Редагувати",
+      "CREATE": "Створити",
+      "DELETE": "Видалити",
+      "CANCEL": "Скасувати"
+    },
+    "SUGGESTIONS": {
+      "TOOLTIP": {
+        "SINGLE_SUGGESTION": "Додати мітку до розмови",
+        "MULTIPLE_SUGGESTION": "Вибрати цю мітку",
+        "DESELECT": "Скасувати вибір мітки",
+        "DISMISS": "Відхилити пропозицію"
+      },
+      "POWERED_BY": "Chatwoot AI",
+      "DISMISS": "Відхилити",
+      "ADD_SELECTED_LABELS": "Додати вибрані мітки",
+      "ADD_SELECTED_LABEL": "Додати вибрану мітку",
+      "ADD_ALL_LABELS": "Додати всі мітки",
+      "SUGGESTED_LABELS": "Suggested labels"
+    },
+    "ADD": {
+      "TITLE": "Додати мітку",
+      "DESC": "Мітки, які дозволяють згрупувати розмови.",
+      "API": {
+        "SUCCESS_MESSAGE": "Мітку додано успішно",
+        "ERROR_MESSAGE": "Сталася помилка, будь ласка, спробуйте ще раз"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Редагувати мітку",
+      "API": {
+        "SUCCESS_MESSAGE": "Мітку успішно оновлено",
+        "ERROR_MESSAGE": "Сталася помилка, будь ласка, спробуйте ще раз"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Видалити",
+      "API": {
+        "SUCCESS_MESSAGE": "Мітку успішно видалено",
+        "ERROR_MESSAGE": "Сталася помилка, будь ласка, спробуйте ще раз"
+      },
+      "CONFIRM": {
+        "TITLE": "Підтвердження видалення",
+        "MESSAGE": "Справді бажаєте видалити ",
+        "YES": "Так, видалити ",
+        "NO": "Ні, залишити "
+      }
+    }
+  }
+}

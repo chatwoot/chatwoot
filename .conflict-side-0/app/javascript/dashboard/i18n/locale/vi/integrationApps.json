@@ -1,0 +1,62 @@
+{
+  "INTEGRATION_APPS": {
+    "FETCHING": "Đang lấy Tích hợp",
+    "NO_HOOK_CONFIGURED": "Không có tích hợp {integrationId} được cấu hình đối với tài khoản này.",
+    "HEADER": "Ứng dụng",
+    "STATUS": {
+      "ENABLED": "Bật",
+      "DISABLED": "Không bật"
+    },
+    "CONFIGURE": "Cấu hình",
+    "ADD_BUTTON": "Thêm một hook mới",
+    "DELETE": {
+      "TITLE": {
+        "INBOX": "Xác nhận xoá",
+        "ACCOUNT": "Ngắt kết nối"
+      },
+      "MESSAGE": {
+        "INBOX": "Bạn có chắc muốn xoá?",
+        "ACCOUNT": "Bạn có chắc muốn ngắt kết nối?"
+      },
+      "CONFIRM_BUTTON_TEXT": {
+        "INBOX": "Có, Xoá",
+        "ACCOUNT": "Có, ngắt kết nối"
+      },
+      "CANCEL_BUTTON_TEXT": "Huỷ",
+      "API": {
+        "SUCCESS_MESSAGE": "Hook đã được xoá thành công",
+        "ERROR_MESSAGE": "Không thể kết nối với Máy chủ Woot, Vui lòng thử lại sau"
+      }
+    },
+    "LIST": {
+      "FETCHING": "Đang lấy hook tích hợp",
+      "INBOX": "Hộp thư đến",
+      "DELETE": {
+        "BUTTON_TEXT": "Xoá"
+      }
+    },
+    "ADD": {
+      "FORM": {
+        "INBOX": {
+          "LABEL": "Chọn Hộp thư đến",
+          "PLACEHOLDER": "Chọn Hộp thư đến"
+        },
+        "SUBMIT": "Tạo",
+        "CANCEL": "Huỷ"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Hook tích hợp đã được thêm thành công",
+        "ERROR_MESSAGE": "Không thể kết nối với Máy chủ Woot, Vui lòng thử lại sau"
+      }
+    },
+    "CONNECT": {
+      "BUTTON_TEXT": "Kết nối"
+    },
+    "DISCONNECT": {
+      "BUTTON_TEXT": "Ngắt kết nối"
+    },
+    "SIDEBAR_DESCRIPTION": {
+      "DIALOGFLOW": "Dialogflow is a natural language processing platform for building conversational interfaces. Integrating it with {installationName} lets bots handle queries first and transfer them to agents when needed. It helps qualify leads and reduce agent workload by answering FAQs. To add Dialogflow, create a Service Account in Google Console and share the credentials. Refer to the docs for details"
+    }
+  }
+}

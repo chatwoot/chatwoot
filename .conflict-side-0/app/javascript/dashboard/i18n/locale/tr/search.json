@@ -1,0 +1,68 @@
+{
+  "SEARCH": {
+    "TABS": {
+      "ALL": "Tüm sonuçlar",
+      "CONTACTS": "Kişiler",
+      "CONVERSATIONS": "Konuşmalar",
+      "MESSAGES": "Mesajlar",
+      "ARTICLES": "Makaleler"
+    },
+    "SECTION": {
+      "CONTACTS": "Kişiler",
+      "CONVERSATIONS": "Konuşmalar",
+      "MESSAGES": "Mesajlar",
+      "ARTICLES": "Makaleler"
+    },
+    "VIEW_MORE": "View more",
+    "LOAD_MORE": "Load more",
+    "SEARCHING_DATA": "Aranıyor",
+    "LOADING_DATA": "Loading",
+    "EMPTY_STATE": "{query} sorgusunda hiç bir {item} bulunamadı",
+    "EMPTY_STATE_FULL": "{query} sorgusu için hiç bir sonuç bulunamadı",
+    "PLACEHOLDER_KEYBINDING": "/to focus",
+    "INPUT_PLACEHOLDER": "Aramak için 3 veya daha fazla karakter yazın",
+    "RECENT_SEARCHES": "Son aramalar",
+    "CLEAR_ALL": "Clear all",
+    "MOST_RECENT": "En son",
+    "EMPTY_STATE_DEFAULT": "Daha iyi arama sonuçları için konuşma id si, e-posta, telefon numarası, mesajlara göre arama yapın. ",
+    "BOT_LABEL": "Bot",
+    "READ_MORE": "Daha fazla bilgi edinin",
+    "READ_LESS": "Daha az göster",
+    "WROTE": "wrote:",
+    "FROM": "Kimden",
+    "EMAIL": "E-Posta",
+    "EMAIL_SUBJECT": "Konu",
+    "PRIVATE": "Özel not",
+    "TRANSCRIPT": "Transkript",
+    "CREATED_AT": "{time} oluşturuldu",
+    "UPDATED_AT": "{time} güncellendi",
+    "SORT_BY": {
+      "RELEVANCE": "Alaka düzeyi"
+    },
+    "DATE_RANGE": {
+      "LAST_7_DAYS": "Son 7 gün",
+      "LAST_30_DAYS": "Son 30 gün",
+      "LAST_60_DAYS": "Son 60 gün",
+      "LAST_90_DAYS": "Son 90 gün",
+      "CUSTOM_RANGE": "Özel aralık:",
+      "CREATED_BETWEEN": "Oluşturulma aralığı",
+      "AND": "ve",
+      "APPLY": "Uygula",
+      "BEFORE_DATE": "{date} tarihinden önce",
+      "AFTER_DATE": "{date} tarihinden sonra",
+      "TIME_RANGE": "Zamana göre filtrele",
+      "CLEAR_FILTER": "Filtreyi temizle"
+    },
+    "FILTERS": {
+      "FILTER_MESSAGE": "Mesajları şuna göre filtrele:",
+      "FROM": "Gönderen",
+      "IN": "Gelen Kutusu",
+      "AGENTS": "Kullanıcılar",
+      "CONTACTS": "Kişiler",
+      "INBOXES": "Gelen kutuları",
+      "NO_AGENTS": "Kullanıcı bulunamadı",
+      "NO_CONTACTS": "Sonuçları görmek için aramaya başlayın",
+      "NO_INBOXES": "Gelen kutusu bulunamadı"
+    }
+  }
+}

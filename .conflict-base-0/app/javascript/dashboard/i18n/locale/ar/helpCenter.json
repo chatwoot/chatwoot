@@ -1,0 +1,865 @@
+{
+  "HELP_CENTER": {
+    "TITLE": "مركز المساعدة",
+    "NEW_PAGE": {
+      "DESCRIPTION": "Create self-service help center portals for your customers. Help them find answers quickly, without waiting. Streamline inquiries, boost agent efficiency, and elevate customer support.",
+      "CREATE_PORTAL_BUTTON": "إنشاء بوابة"
+    },
+    "HEADER": {
+      "FILTER": "تصفية حسب",
+      "SORT": "ترتيب حسب",
+      "LOCALE": "اللغة",
+      "SETTINGS_BUTTON": "الإعدادات",
+      "NEW_BUTTON": "مقالة جديدة",
+      "DROPDOWN_OPTIONS": {
+        "PUBLISHED": "نُشرت",
+        "DRAFT": "مسودة",
+        "ARCHIVED": "أرشفة"
+      },
+      "TITLES": {
+        "ALL_ARTICLES": "جميع المقالات",
+        "MINE": "مقالاتي",
+        "DRAFT": "مقالات مسودة",
+        "ARCHIVED": "المقالات المؤرشفة"
+      },
+      "LOCALE_SELECT": {
+        "TITLE": "حدد اللغة",
+        "PLACEHOLDER": "حدد اللغة",
+        "NO_RESULT": "لا توجد لغات",
+        "SEARCH_PLACEHOLDER": "البحث عن اللغة"
+      }
+    },
+    "EDIT_HEADER": {
+      "ALL_ARTICLES": "جميع المقالات",
+      "PUBLISH_BUTTON": "نشر",
+      "MOVE_TO_ARCHIVE_BUTTON": "نقل إلى الأرشيف",
+      "PREVIEW": "معاينة",
+      "ADD_TRANSLATION": "إضافة ترجمة",
+      "OPEN_SIDEBAR": "فتح الشريط الجانبي",
+      "CLOSE_SIDEBAR": "إغلاق الشريط الجانبي",
+      "SAVING": "جاري الحفظ...",
+      "SAVED": "تم الحفظ"
+    },
+    "ARTICLE_EDITOR": {
+      "IMAGE_UPLOAD": {
+        "TITLE": "رفع صورة",
+        "UPLOADING": "جاري الرفع...",
+        "SUCCESS": "تم رفع الصورة بنجاح",
+        "ERROR": "حدث خطأ أثناء رفع الصورة",
+        "UN_AUTHORIZED_ERROR": "You are not authorized to upload images",
+        "ERROR_FILE_SIZE": "حجم الصورة يجب أن يكون أقل من {size}MB",
+        "ERROR_FILE_FORMAT": "تنسيق الصورة يجب أن يكون jpg أو jpeg أو png",
+        "ERROR_FILE_DIMENSIONS": "ينبغي أن تكون أبعاد الصورة أقل من 2000 × 2000"
+      }
+    },
+    "ARTICLE_SETTINGS": {
+      "TITLE": "إعدادات المقالة",
+      "FORM": {
+        "CATEGORY": {
+          "LABEL": "الفئة",
+          "TITLE": "اختر الفئة",
+          "PLACEHOLDER": "اختر الفئة",
+          "NO_RESULT": "لم يتم العثور على فئة",
+          "SEARCH_PLACEHOLDER": "البحث عن فئة"
+        },
+        "AUTHOR": {
+          "LABEL": "المؤلف",
+          "TITLE": "اختر المؤلف",
+          "PLACEHOLDER": "اختر المؤلف",
+          "NO_RESULT": "لم يتم العثور على مؤلفين",
+          "SEARCH_PLACEHOLDER": "البحث عن المؤلف"
+        },
+        "META_TITLE": {
+          "LABEL": "العنوان الوصفي",
+          "PLACEHOLDER": "اضافة عنوان وصفي"
+        },
+        "META_DESCRIPTION": {
+          "LABEL": "وصف التعريف",
+          "PLACEHOLDER": "أضف وصفك للحصول على أفضل نتائج SEO..."
+        },
+        "META_TAGS": {
+          "LABEL": "علامات الوصف",
+          "PLACEHOLDER": "إضافة وسوم ميتا مفصولة بفاصلة..."
+        }
+      },
+      "BUTTONS": {
+        "ARCHIVE": "المقالات المؤرشفة",
+        "DELETE": "حذف المقال"
+      }
+    },
+    "ARTICLE_SEARCH_RESULT": {
+      "UNCATEGORIZED": "Uncategorized",
+      "SEARCH_RESULTS": "Search results for {query}",
+      "EMPTY_TEXT": "Search for articles to insert into replies.",
+      "SEARCH_LOADER": "يبحث...",
+      "INSERT_ARTICLE": "Insert",
+      "NO_RESULT": "No articles found",
+      "COPY_LINK": "Copy article link to clipboard",
+      "OPEN_LINK": "Open article in new tab",
+      "PREVIEW_LINK": "Preview article"
+    },
+    "PORTAL": {
+      "HEADER": "الصفحات",
+      "DEFAULT": "افتراضي",
+      "NEW_BUTTON": "بوابة جديدة",
+      "ACTIVE_BADGE": "مفعل",
+      "CHOOSE_LOCALE_LABEL": "اختر لغة محلية",
+      "LOADING_MESSAGE": "جاري تحميل البوابات ...",
+      "ARTICLES_LABEL": "المقالات",
+      "NO_PORTALS_MESSAGE": "لا توجد بوابات متاحة",
+      "ADD_NEW_LOCALE": "إضافة لغة جديدة",
+      "POPOVER": {
+        "TITLE": "الصفحات",
+        "PORTAL_SETTINGS": "إعدادات البوابة",
+        "SUBTITLE": "لديك بوابات متعددة ويمكن أن تحتوي على مواقع مختلفة لكل بوابة.",
+        "CANCEL_BUTTON_LABEL": "إلغاء",
+        "CHOOSE_LOCALE_BUTTON": "اختر لغة محلية"
+      },
+      "PORTAL_SETTINGS": {
+        "LIST_ITEM": {
+          "HEADER": {
+            "COUNT_LABEL": "المقالات",
+            "ADD": "إضافة لغة",
+            "VISIT": "زيارة الموقع",
+            "SETTINGS": "الإعدادات",
+            "DELETE": "حذف"
+          },
+          "PORTAL_CONFIG": {
+            "TITLE": "اعدادات البوابة",
+            "ITEMS": {
+              "NAME": "الاسم",
+              "DOMAIN": "نطاق مخصص",
+              "SLUG": "وصف مختصر",
+              "TITLE": "عنوان البوابة",
+              "THEME": "لون القالب",
+              "SUB_TEXT": "النص الفرعي للبوابة"
+            }
+          },
+          "AVAILABLE_LOCALES": {
+            "TITLE": "Available locales",
+            "TABLE": {
+              "NAME": "Locale name",
+              "CODE": "Locale code",
+              "ARTICLE_COUNT": "No. of articles",
+              "CATEGORIES": "No. of categories",
+              "SWAP": "Swap",
+              "DELETE": "حذف",
+              "DEFAULT_LOCALE": "افتراضي"
+            }
+          }
+        },
+        "DELETE_PORTAL": {
+          "TITLE": "Delete portal",
+          "MESSAGE": "Are you sure you want to delete this portal",
+          "YES": "Yes, delete portal",
+          "NO": "No, keep portal",
+          "API": {
+            "DELETE_SUCCESS": "Portal deleted successfully",
+            "DELETE_ERROR": "حدث خطأ أثناء حذف البوابة"
+          }
+        },
+        "SEND_CNAME_INSTRUCTIONS": {
+          "API": {
+            "SUCCESS_MESSAGE": "CNAME instructions sent successfully",
+            "ERROR_MESSAGE": "Error while sending CNAME instructions"
+          }
+        }
+      },
+      "EDIT": {
+        "HEADER_TEXT": "تعديل البوابة",
+        "TABS": {
+          "BASIC_SETTINGS": {
+            "TITLE": "المعلومات الأساسية"
+          },
+          "CUSTOMIZATION_SETTINGS": {
+            "TITLE": "تخصيص البوابة"
+          },
+          "CATEGORY_SETTINGS": {
+            "TITLE": "الفئات"
+          },
+          "LOCALE_SETTINGS": {
+            "TITLE": "اللغات"
+          }
+        },
+        "CATEGORIES": {
+          "TITLE": "الفئات في",
+          "NEW_CATEGORY": "فئة جديدة",
+          "TABLE": {
+            "NAME": "الاسم",
+            "DESCRIPTION": "الوصف",
+            "LOCALE": "اللغة",
+            "ARTICLE_COUNT": "عدد المقالات",
+            "ACTION_BUTTON": {
+              "EDIT": "تعديل الفئة",
+              "DELETE": "حذف الفئة"
+            },
+            "EMPTY_TEXT": "لم يتم العثور على الفئات"
+          }
+        },
+        "EDIT_BASIC_INFO": {
+          "BUTTON_TEXT": "تحديث الإعدادات الأساسية"
+        }
+      },
+      "ADD": {
+        "CREATE_FLOW": {
+          "BASIC": {
+            "TITLE": "معلومات مركز المساعدة",
+            "BODY": "معلومات أساسية عن البوابة"
+          },
+          "CUSTOMIZATION": {
+            "TITLE": "تخصيص مركز المساعدة",
+            "BODY": "تخصيص البوابة"
+          },
+          "FINISH": {
+            "TITLE": "تم! 🎉",
+            "BODY": "أنت جاهز!"
+          }
+        },
+        "CREATE_FLOW_PAGE": {
+          "BACK_BUTTON": "العودة",
+          "BASIC_SETTINGS_PAGE": {
+            "HEADER": "إنشاء بوابة",
+            "TITLE": "معلومات مركز المساعدة",
+            "CREATE_BASIC_SETTING_BUTTON": "إنشاء إعدادات البوابة الأساسية"
+          },
+          "CUSTOMIZATION_PAGE": {
+            "HEADER": "تخصيص البوابة",
+            "TITLE": "تخصيص مركز المساعدة",
+            "UPDATE_PORTAL_BUTTON": "تحديث إعدادات البوابة"
+          },
+          "FINISH_PAGE": {
+            "TITLE": "تم!🎉 أنت جاهز!",
+            "MESSAGE": "يمكنك الآن رؤية هذه البوابة في صفحة جميع البوابات.",
+            "FINISH": "الذهاب إلى صفحة جميع البوابات"
+          }
+        },
+        "LOGO": {
+          "LABEL": "الشعار",
+          "UPLOAD_BUTTON": "رفع الشعار",
+          "HELP_TEXT": "سيتم عرض هذا الشعار على رأس البوابة.",
+          "IMAGE_UPLOAD_SUCCESS": "تم رفع الشعار بنجاح",
+          "IMAGE_UPLOAD_ERROR": "تم حذف الشعار بنجاح",
+          "IMAGE_DELETE_ERROR": "حدث خطأ أثناء حذف الشعار"
+        },
+        "NAME": {
+          "LABEL": "الاسم",
+          "PLACEHOLDER": "اسم البوابة",
+          "HELP_TEXT": "الاسم سيتم مشاهدتة من جميع زوار الصفحة.",
+          "ERROR": "الاسم مطلوب"
+        },
+        "SLUG": {
+          "LABEL": "الإسم المختصر",
+          "PLACEHOLDER": "الإسم المختصر لرابط البوابة",
+          "ERROR": "الإسم المختصر مطلوب"
+        },
+        "DOMAIN": {
+          "LABEL": "نطاق مخصص",
+          "PLACEHOLDER": "نطاق البوابة المخصص",
+          "HELP_TEXT": "Add only If you want to use a custom domain for your portals. Eg: {exampleURL}",
+          "ERROR": "Enter a valid domain URL"
+        },
+        "HOME_PAGE_LINK": {
+          "LABEL": "رابط الصفحة الرئيسية",
+          "PLACEHOLDER": "رابط الصفحة الرئيسية للبوابة",
+          "HELP_TEXT": "The link used to return from the portal to the home page. Eg: {exampleURL}",
+          "ERROR": "Enter a valid home page URL"
+        },
+        "THEME_COLOR": {
+          "LABEL": "لون قالب البوابة",
+          "HELP_TEXT": "هذا اللون سيظهر كلون للبوابة."
+        },
+        "PAGE_TITLE": {
+          "LABEL": "عنوان الصفحة",
+          "PLACEHOLDER": "عنوان البوابة",
+          "HELP_TEXT": "سيتم استخدام عنوان الصفحة في البوابة التي تواجه الجمهور.",
+          "ERROR": "العنوان مطلوب"
+        },
+        "HEADER_TEXT": {
+          "LABEL": "نص رأس الصفحة",
+          "PLACEHOLDER": "نص رأس البوابة",
+          "HELP_TEXT": "سيتم استخدام عنوان الصفحة في البوابة التي تواجه الجمهور.",
+          "ERROR": "نص رأس البوابة مطلوب"
+        },
+        "API": {
+          "SUCCESS_MESSAGE_FOR_BASIC": "تم إنشاء البوابة بنجاح.",
+          "ERROR_MESSAGE_FOR_BASIC": "تعذر إنشاء البوابة. حاول مرة أخرى.",
+          "SUCCESS_MESSAGE_FOR_UPDATE": "تم تحديث البوابة بنجاح.",
+          "ERROR_MESSAGE_FOR_UPDATE": "تعذر تحديث البوابة. حاول مرة أخرى."
+        }
+      },
+      "ADD_LOCALE": {
+        "TITLE": "إضافة لغة جديدة",
+        "SUB_TITLE": "هذا يضيف لغة جديدة إلى قائمة الترجمة المتاحة لديك.",
+        "PORTAL": "البوابة",
+        "LOCALE": {
+          "LABEL": "اللغة",
+          "PLACEHOLDER": "اختر لغة محلية",
+          "ERROR": "اللغة مطلوبة"
+        },
+        "BUTTONS": {
+          "CREATE": "إنشاء لغة",
+          "CANCEL": "إلغاء"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "تمت إضافة اللغة بنجاح",
+          "ERROR_MESSAGE": "غير قادر على إضافة اللغة . حاول مرة أخرى."
+        }
+      },
+      "CHANGE_DEFAULT_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "تم تحديث اللغة الغة الإفتراضية بنجاح",
+          "ERROR_MESSAGE": "غير قادر على تحديث اللغة الافتراضية. حاول مرة أخرى."
+        }
+      },
+      "DELETE_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "تم إزالة اللغة من البوابة بنجاح",
+          "ERROR_MESSAGE": "غير قادر على إزالة اللغة من البوابة. حاول مرة أخرى."
+        }
+      }
+    },
+    "TABLE": {
+      "LOADING_MESSAGE": "جاري تحميل المقالات...",
+      "404": "لا توجد مقالات تطابق بحثك 🔍",
+      "NO_ARTICLES": "لا توجد مقالات متوفرة",
+      "HEADERS": {
+        "TITLE": "العنوان",
+        "CATEGORY": "الفئة",
+        "READ_COUNT": "Views",
+        "STATUS": "الحالة",
+        "LAST_EDITED": "آخر تعديل"
+      },
+      "COLUMNS": {
+        "BY": "بواسطة",
+        "AUTHOR_NOT_AVAILABLE": "Author is not available"
+      }
+    },
+    "EDIT_ARTICLE": {
+      "LOADING": "جاري تحميل المقالات...",
+      "TITLE_PLACEHOLDER": "عنوان المقالة يذهب هنا",
+      "CONTENT_PLACEHOLDER": "اكتب مقالك هنا",
+      "API": {
+        "ERROR": "حدث خطأ أثناء حفظ المقالة"
+      }
+    },
+    "PUBLISH_ARTICLE": {
+      "API": {
+        "ERROR": "حدث خطأ أثناء نشر المقالة",
+        "SUCCESS": "Article published successfully"
+      }
+    },
+    "ARCHIVE_ARTICLE": {
+      "API": {
+        "ERROR": "حدث خطأ أثناء نشر المقالة",
+        "SUCCESS": "تم أرشفة المقالة بنجاح"
+      }
+    },
+    "DRAFT_ARTICLE": {
+      "API": {
+        "ERROR": "Error while drafting article",
+        "SUCCESS": "Article drafted successfully"
+      }
+    },
+    "DELETE_ARTICLE": {
+      "MODAL": {
+        "CONFIRM": {
+          "TITLE": "تأكيد الحذف",
+          "MESSAGE": "هل أنت متأكد من حذف المقالة؟",
+          "YES": "نعم، احذف",
+          "NO": "لا، احتفظ به"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Article deleted successfully",
+        "ERROR_MESSAGE": "Error while deleting article"
+      }
+    },
+    "CREATE_ARTICLE": {
+      "ERROR_MESSAGE": "Please add the article heading and content then only you can update the settings"
+    },
+    "SIDEBAR": {
+      "SEARCH": {
+        "PLACEHOLDER": "Search for articles"
+      }
+    },
+    "CATEGORY": {
+      "ADD": {
+        "TITLE": "Create a category",
+        "SUB_TITLE": "The category will be used in the public facing portal to categorize articles.",
+        "PORTAL": "Portal",
+        "LOCALE": "Locale",
+        "NAME": {
+          "LABEL": "الاسم",
+          "PLACEHOLDER": "Category name",
+          "HELP_TEXT": "The category name and icon will be used in the public facing portal to categorize articles.",
+          "ERROR": "الاسم مطلوب"
+        },
+        "SLUG": {
+          "LABEL": "Slug",
+          "PLACEHOLDER": "Category slug for urls",
+          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
+          "ERROR": "Slug is required"
+        },
+        "DESCRIPTION": {
+          "LABEL": "الوصف",
+          "PLACEHOLDER": "Give a short description about the category.",
+          "ERROR": "الوصف مطلوب"
+        },
+        "BUTTONS": {
+          "CREATE": "Create category",
+          "CANCEL": "إلغاء"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Category created successfully",
+          "ERROR_MESSAGE": "Unable to create category"
+        }
+      },
+      "EDIT": {
+        "TITLE": "Edit a category",
+        "SUB_TITLE": "Editing a category will update the category in the public facing portal.",
+        "PORTAL": "Portal",
+        "LOCALE": "Locale",
+        "NAME": {
+          "LABEL": "الاسم",
+          "PLACEHOLDER": "Category name",
+          "HELP_TEXT": "The category name and icon will be used in the public facing portal to categorize articles.",
+          "ERROR": "الاسم مطلوب"
+        },
+        "SLUG": {
+          "LABEL": "Slug",
+          "PLACEHOLDER": "Category slug for urls",
+          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
+          "ERROR": "Slug is required"
+        },
+        "DESCRIPTION": {
+          "LABEL": "الوصف",
+          "PLACEHOLDER": "Give a short description about the category.",
+          "ERROR": "الوصف مطلوب"
+        },
+        "BUTTONS": {
+          "CREATE": "Update category",
+          "CANCEL": "إلغاء"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Category updated successfully",
+          "ERROR_MESSAGE": "Unable to update category"
+        }
+      },
+      "DELETE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Category deleted successfully",
+          "ERROR_MESSAGE": "Unable to delete category"
+        }
+      }
+    },
+    "ARTICLE_SEARCH": {
+      "TITLE": "Search articles",
+      "PLACEHOLDER": "Search articles",
+      "NO_RESULT": "No articles found",
+      "SEARCHING": "يبحث...",
+      "SEARCH_BUTTON": "بحث",
+      "INSERT_ARTICLE": "Insert link",
+      "IFRAME_ERROR": "URL is empty or invalid. Unable to display content.",
+      "OPEN_ARTICLE_SEARCH": "Insert article from Help Center",
+      "SUCCESS_ARTICLE_INSERTED": "Article inserted successfully",
+      "PREVIEW_LINK": "Preview article",
+      "CANCEL": "أغلق",
+      "BACK": "العودة",
+      "BACK_RESULTS": "Back to results"
+    },
+    "UPGRADE_PAGE": {
+      "TITLE": "مركز المساعدة",
+      "DESCRIPTION": "Create user-friendly self-service portals. Help your users to access the articles and get support 24/7. Upgrade your subscription to enable this feature.",
+      "SELF_HOSTED_DESCRIPTION": "Create user-friendly self-service portals. Help your users to access the articles and get support 24/7. Please contact your administrator to enable this feature.",
+      "BUTTON": {
+        "LEARN_MORE": "اعرف المزيد",
+        "UPGRADE": "Upgrade"
+      },
+      "FEATURES": {
+        "PORTALS": {
+          "TITLE": "Multiple portals",
+          "DESCRIPTION": "Create multiple help center portals for different products using the same account."
+        },
+        "LOCALES": {
+          "TITLE": "Full support for locales",
+          "DESCRIPTION": "Localize the portal in your language. We support all locales and allow translations for every article."
+        },
+        "SEO": {
+          "TITLE": "SEO-friendly design",
+          "DESCRIPTION": "Customize your meta tags to improve your visibility on search engines with our SEO-friendly pages."
+        },
+        "API": {
+          "TITLE": "Full API support",
+          "DESCRIPTION": "Use the portal as a headless CMS with third party front-end frameworks using our APIs."
+        }
+      }
+    },
+    "LOADING": "جار التحميل...",
+    "ARTICLES_PAGE": {
+      "ARTICLE_CARD": {
+        "CARD": {
+          "VIEWS": "{count} view | {count} views",
+          "DROPDOWN_MENU": {
+            "PUBLISH": "نشر",
+            "DRAFT": "مسودة",
+            "ARCHIVE": "Archive",
+            "DELETE": "حذف"
+          },
+          "STATUS": {
+            "DRAFT": "مسودة",
+            "PUBLISHED": "نُشرت",
+            "ARCHIVED": "أرشفة"
+          },
+          "CATEGORY": {
+            "UNCATEGORISED": "Uncategorised"
+          }
+        }
+      },
+      "ARTICLES_HEADER": {
+        "TABS": {
+          "ALL": "All articles",
+          "MINE": "محادثاتي",
+          "DRAFT": "مسودة",
+          "PUBLISHED": "نُشرت",
+          "ARCHIVED": "أرشفة"
+        },
+        "CATEGORY": {
+          "ALL": "All categories"
+        },
+        "LOCALE": {
+          "ALL": "All locales"
+        },
+        "NEW_ARTICLE": "New article"
+      },
+      "EMPTY_STATE": {
+        "ALL": {
+          "TITLE": "Write an article",
+          "SUBTITLE": "Write a rich article, let’s get started!",
+          "BUTTON_LABEL": "New article"
+        },
+        "MINE": {
+          "TITLE": "You haven't written any articles here",
+          "SUBTITLE": "All articles written by you show up here for quick access."
+        },
+        "DRAFT": {
+          "TITLE": "There are no articles in drafts",
+          "SUBTITLE": "Draft articles will appear here"
+        },
+        "PUBLISHED": {
+          "TITLE": "There are no published articles",
+          "SUBTITLE": "Published articles will appear here"
+        },
+        "ARCHIVED": {
+          "TITLE": "There are no articles in the archive",
+          "SUBTITLE": "Archived articles don't show up on the portal, you can use it to mark deprecated or outdated pages"
+        },
+        "CATEGORY": {
+          "TITLE": "There are no articles in this category",
+          "SUBTITLE": "Articles in this category will appear here"
+        }
+      }
+    },
+    "CATEGORY_PAGE": {
+      "CATEGORY_HEADER": {
+        "NEW_CATEGORY": "فئة جديدة",
+        "EDIT_CATEGORY": "تعديل الفئة",
+        "CATEGORIES_COUNT": "{n} category | {n} categories",
+        "BREADCRUMB": {
+          "CATEGORY_LOCALE": "Categories ({localeCode})",
+          "ACTIVE_CATEGORY": "{categoryName} ({categoryCount} articles) | {categoryName} ({categoryCount} article)"
+        }
+      },
+      "CATEGORY_EMPTY_STATE": {
+        "TITLE": "لم يتم العثور على الفئات",
+        "SUBTITLE": "Categories will appear here. You can add a category by clicking the 'New Category' button."
+      },
+      "CATEGORY_CARD": {
+        "ARTICLES_COUNT": "{count} article | {count} articles"
+      },
+      "CATEGORY_DIALOG": {
+        "CREATE": {
+          "API": {
+            "SUCCESS_MESSAGE": "Category created successfully",
+            "ERROR_MESSAGE": "Unable to create category"
+          }
+        },
+        "EDIT": {
+          "API": {
+            "SUCCESS_MESSAGE": "Category updated successfully",
+            "ERROR_MESSAGE": "Unable to update category"
+          }
+        },
+        "DELETE": {
+          "API": {
+            "SUCCESS_MESSAGE": "Category deleted successfully",
+            "ERROR_MESSAGE": "Unable to delete category"
+          }
+        },
+        "HEADER": {
+          "CREATE": "Create category",
+          "EDIT": "تعديل الفئة",
+          "DESCRIPTION": "Editing a category will update the category in the public facing portal.",
+          "PORTAL": "Portal",
+          "LOCALE": "Locale"
+        },
+        "FORM": {
+          "NAME": {
+            "LABEL": "الاسم",
+            "PLACEHOLDER": "Category name",
+            "ERROR": "الاسم مطلوب"
+          },
+          "SLUG": {
+            "LABEL": "Slug",
+            "PLACEHOLDER": "Category slug for urls",
+            "ERROR": "Slug is required",
+            "HELP_TEXT": "app.chatwoot.com/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
+          },
+          "DESCRIPTION": {
+            "LABEL": "الوصف",
+            "PLACEHOLDER": "Give a short description about the category.",
+            "ERROR": "الوصف مطلوب"
+          }
+        },
+        "BUTTONS": {
+          "CREATE": "إنشاء",
+          "EDIT": "تحديث",
+          "CANCEL": "إلغاء"
+        }
+      }
+    },
+    "LOCALES_PAGE": {
+      "LOCALES_COUNT": "No locales available | {n} locale | {n} locales",
+      "NEW_LOCALE_BUTTON_TEXT": "New locale",
+      "LOCALE_CARD": {
+        "ARTICLES_COUNT": "{count} article | {count} articles",
+        "CATEGORIES_COUNT": "{count} category | {count} categories",
+        "DEFAULT": "افتراضي",
+        "DROPDOWN_MENU": {
+          "MAKE_DEFAULT": "Make default",
+          "DELETE": "حذف"
+        }
+      },
+      "ADD_LOCALE_DIALOG": {
+        "TITLE": "إضافة لغة جديدة",
+        "DESCRIPTION": "Select the language in which this article will be written. This will be added to your list of translations, and you can add more later.",
+        "COMBOBOX": {
+          "PLACEHOLDER": "حدد اللغة..."
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "تمت إضافة اللغة بنجاح",
+          "ERROR_MESSAGE": "غير قادر على إضافة اللغة . حاول مرة أخرى."
+        }
+      }
+    },
+    "EDIT_ARTICLE_PAGE": {
+      "HEADER": {
+        "STATUS": {
+          "SAVING": "جاري الحفظ...",
+          "SAVED": "تم الحفظ"
+        },
+        "PREVIEW": "معاينة",
+        "PUBLISH": "نشر",
+        "DRAFT": "مسودة",
+        "ARCHIVE": "Archive",
+        "BACK_TO_ARTICLES": "Back to articles"
+      },
+      "EDIT_ARTICLE": {
+        "MORE_PROPERTIES": "More properties",
+        "UNCATEGORIZED": "Uncategorized",
+        "EDITOR_PLACEHOLDER": "Write something..."
+      },
+      "ARTICLE_PROPERTIES": {
+        "ARTICLE_PROPERTIES": "Article properties",
+        "META_DESCRIPTION": "وصف التعريف",
+        "META_DESCRIPTION_PLACEHOLDER": "Add meta description",
+        "META_TITLE": "العنوان الوصفي",
+        "META_TITLE_PLACEHOLDER": "Add meta title",
+        "META_TAGS": "علامات الوصف",
+        "META_TAGS_PLACEHOLDER": "Add meta tags"
+      },
+      "API": {
+        "ERROR": "حدث خطأ أثناء حفظ المقالة"
+      }
+    },
+    "PORTAL_SWITCHER": {
+      "NEW_PORTAL": "New portal",
+      "PORTALS": "الصفحات",
+      "CREATE_PORTAL": "Create and manage multiple portals",
+      "ARTICLES": "المقالات",
+      "DOMAIN": "النطاق",
+      "PORTAL_NAME": "اسم البوابة"
+    },
+    "CREATE_PORTAL_DIALOG": {
+      "TITLE": "Create new portal",
+      "DESCRIPTION": "Give your portal a name and create a user-friendly URL slug. You can modify both later in the settings.",
+      "CONFIRM_BUTTON_LABEL": "إنشاء",
+      "NAME": {
+        "LABEL": "الاسم",
+        "PLACEHOLDER": "User Guide | Chatwoot",
+        "MESSAGE": "Choose an name for your portal.",
+        "ERROR": "الاسم مطلوب"
+      },
+      "SLUG": {
+        "LABEL": "Slug",
+        "PLACEHOLDER": "user-guide",
+        "ERROR": "Slug is required",
+        "FORMAT_ERROR": "Please enter a valid slug, for eg: user-guide"
+      }
+    },
+    "PORTAL_SETTINGS": {
+      "FORM": {
+        "AVATAR": {
+          "LABEL": "الشعار",
+          "IMAGE_UPLOAD_ERROR": "تعذر رفع الصورة! حاول مرة أخرى",
+          "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save changes to save the logo",
+          "IMAGE_DELETE_SUCCESS": "تم حذف الشعار بنجاح",
+          "IMAGE_DELETE_ERROR": "Unable to delete logo",
+          "IMAGE_UPLOAD_SIZE_ERROR": "حجم الصورة يجب أن يكون أقل من {size}MB"
+        },
+        "NAME": {
+          "LABEL": "الاسم",
+          "PLACEHOLDER": "اسم البوابة",
+          "ERROR": "الاسم مطلوب"
+        },
+        "HEADER_TEXT": {
+          "LABEL": "Header text",
+          "PLACEHOLDER": "نص رأس البوابة"
+        },
+        "PAGE_TITLE": {
+          "LABEL": "Page title",
+          "PLACEHOLDER": "عنوان البوابة"
+        },
+        "HOME_PAGE_LINK": {
+          "LABEL": "Home page link",
+          "PLACEHOLDER": "رابط الصفحة الرئيسية للبوابة",
+          "ERROR": "Enter a valid URL. The Home page link must start with 'http://' or 'https://'."
+        },
+        "SLUG": {
+          "LABEL": "Slug",
+          "PLACEHOLDER": "Portal slug"
+        },
+        "LIVE_CHAT_WIDGET": {
+          "LABEL": "Live chat widget",
+          "PLACEHOLDER": "Select live chat widget",
+          "HELP_TEXT": "Select a live chat widget that will appear on your help center",
+          "NONE_OPTION": "No widget"
+        },
+        "BRAND_COLOR": {
+          "LABEL": "Brand color"
+        },
+        "SAVE_CHANGES": "Save changes"
+      },
+      "CONFIGURATION_FORM": {
+        "CUSTOM_DOMAIN": {
+          "HEADER": "نطاق مخصص",
+          "LABEL": "نطاق مخصص:",
+          "DESCRIPTION": "You can host your portal on a custom domain. For instance, if your website is yourdomain.com and you want your portal available at docs.yourdomain.com, simply enter that in this field.",
+          "STATUS_DESCRIPTION": "Your custom portal will start working as soon as it is verified.",
+          "PLACEHOLDER": "نطاق البوابة المخصص",
+          "EDIT_BUTTON": "تعديل",
+          "ADD_BUTTON": "Add custom domain",
+          "STATUS": {
+            "LIVE": "مباشر",
+            "PENDING": "Awaiting verification",
+            "ERROR": "Verification failed"
+          },
+          "DIALOG": {
+            "ADD_HEADER": "Add custom domain",
+            "EDIT_HEADER": "Edit custom domain",
+            "ADD_CONFIRM_BUTTON_LABEL": "Add domain",
+            "EDIT_CONFIRM_BUTTON_LABEL": "Update domain",
+            "LABEL": "نطاق مخصص",
+            "PLACEHOLDER": "نطاق البوابة المخصص",
+            "ERROR": "Custom domain is required",
+            "FORMAT_ERROR": "Please enter a valid domain URL e.g. docs.yourdomain.com"
+          },
+          "DNS_CONFIGURATION_DIALOG": {
+            "HEADER": "DNS configuration",
+            "DESCRIPTION": "Log in to the account you have with your DNS provider, and add a CNAME record for subdomain pointing to chatwoot.help",
+            "COPY": "Successfully copied CNAME",
+            "SEND_INSTRUCTIONS": {
+              "HEADER": "Send instructions",
+              "DESCRIPTION": "If you would prefer to have someone from your development team to handle this step, you can enter email address below, and we will send them the required instructions.",
+              "PLACEHOLDER": "Enter their email",
+              "ERROR": "Enter a valid email address",
+              "SEND_BUTTON": "إرسال"
+            }
+          }
+        },
+        "DELETE_PORTAL": {
+          "BUTTON": "Delete {portalName}",
+          "HEADER": "Delete portal",
+          "DESCRIPTION": "Permanently delete this portal. This action is irreversible",
+          "DIALOG": {
+            "HEADER": "Sure you want to delete {portalName}?",
+            "DESCRIPTION": "This is a permanent action that cannot be reversed.",
+            "CONFIRM_BUTTON_LABEL": "حذف"
+          }
+        },
+        "EDIT_CONFIGURATION": "Edit configuration"
+      },
+      "API": {
+        "CREATE_PORTAL": {
+          "SUCCESS_MESSAGE": "تم إنشاء البوابة بنجاح",
+          "ERROR_MESSAGE": "Unable to create portal"
+        },
+        "UPDATE_PORTAL": {
+          "SUCCESS_MESSAGE": "تم تحديث البوابة بنجاح",
+          "ERROR_MESSAGE": "Unable to update portal"
+        }
+      }
+    },
+    "PDF_UPLOAD": {
+      "TITLE": "Upload PDF Document",
+      "DESCRIPTION": "Upload a PDF document to automatically generate FAQs using AI",
+      "DRAG_DROP_TEXT": "Drag and drop your PDF file here, or click to select",
+      "SELECT_FILE": "Select PDF File",
+      "ADDITIONAL_CONTEXT_LABEL": "Additional Context (Optional)",
+      "ADDITIONAL_CONTEXT_PLACEHOLDER": "Provide any additional context or instructions for FAQ generation...",
+      "UPLOADING": "جاري الرفع...",
+      "UPLOAD": "Upload & Process",
+      "CANCEL": "إلغاء",
+      "ERROR_INVALID_TYPE": "Please select a valid PDF file",
+      "ERROR_FILE_TOO_LARGE": "File size must be less than 512MB",
+      "ERROR_UPLOAD_FAILED": "Failed to upload PDF. Please try again."
+    },
+    "PDF_DOCUMENTS": {
+      "TITLE": "PDF Documents",
+      "DESCRIPTION": "Manage uploaded PDF documents and generate FAQs from them",
+      "UPLOAD_PDF": "Upload PDF",
+      "UPLOAD_FIRST_PDF": "Upload your first PDF",
+      "UPLOADED_BY": "Uploaded by",
+      "GENERATE_FAQS": "Generate FAQs",
+      "GENERATING": "Generating...",
+      "CONFIRM_DELETE": "Are you sure you want to delete {filename}?",
+      "EMPTY_STATE": {
+        "TITLE": "No PDF documents yet",
+        "DESCRIPTION": "Upload PDF documents to automatically generate FAQs using AI"
+      },
+      "STATUS": {
+        "UPLOADED": "Ready",
+        "PROCESSING": "Processing",
+        "PROCESSED": "مكتمل",
+        "FAILED": "Failed"
+      }
+    },
+    "CONTENT_GENERATION": {
+      "TITLE": "Content Generation",
+      "DESCRIPTION": "Upload PDF documents to automatically generate FAQ content using AI",
+      "UPLOAD_TITLE": "Upload PDF Document",
+      "DRAG_DROP": "Drag and drop your PDF file here, or click to select",
+      "SELECT_FILE": "Select PDF File",
+      "UPLOADING": "Processing document...",
+      "UPLOAD_SUCCESS": "Document processed successfully!",
+      "UPLOAD_ERROR": "Failed to upload document. Please try again.",
+      "INVALID_FILE_TYPE": "Please select a valid PDF file",
+      "FILE_TOO_LARGE": "File size must be less than 512MB",
+      "GENERATED_CONTENT": "Generated FAQ Content",
+      "PUBLISH_SELECTED": "Publish Selected",
+      "PUBLISHING": "Publishing...",
+      "FROM_DOCUMENT": "From document",
+      "NO_CONTENT": "No generated content available. Upload a PDF document to get started.",
+      "LOADING": "Loading generated content..."
+    }
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "SEARCH": {
+    "TABS": {
+      "ALL": "All results",
+      "CONTACTS": "مخاطبین",
+      "CONVERSATIONS": "گفتگوها",
+      "MESSAGES": "پیام‌ها",
+      "ARTICLES": "Articles"
+    },
+    "SECTION": {
+      "CONTACTS": "مخاطبین",
+      "CONVERSATIONS": "گفتگوها",
+      "MESSAGES": "پیام‌ها",
+      "ARTICLES": "Articles"
+    },
+    "VIEW_MORE": "View more",
+    "LOAD_MORE": "Load more",
+    "SEARCHING_DATA": "در حال جستجو",
+    "LOADING_DATA": "Loading",
+    "EMPTY_STATE": "هیچ {item} برای درخواست '{query}' یافت نشد",
+    "EMPTY_STATE_FULL": "هیچ نتیجه ای برای پرس و جو «{query}» یافت نشد",
+    "PLACEHOLDER_KEYBINDING": "/برای تمرکز",
+    "INPUT_PLACEHOLDER": "جستجوی پیام‌ها، مخاطبین یا گفتگوها",
+    "RECENT_SEARCHES": "Recent searches",
+    "CLEAR_ALL": "حذف همه",
+    "MOST_RECENT": "Most recent",
+    "EMPTY_STATE_DEFAULT": "جستجو بر اساس شناسه گفتگو، ایمیل، شماره تلفن، پیام‌ها برای نتایج جستجوی بهتر.",
+    "BOT_LABEL": "ربات",
+    "READ_MORE": "ادامه مطلب",
+    "READ_LESS": "Read less",
+    "WROTE": "نوشت:",
+    "FROM": "از",
+    "EMAIL": "ایمیل",
+    "EMAIL_SUBJECT": "موضوع",
+    "PRIVATE": "Private note",
+    "TRANSCRIPT": "Transcript",
+    "CREATED_AT": "created {time}",
+    "UPDATED_AT": "updated {time}",
+    "SORT_BY": {
+      "RELEVANCE": "Relevance"
+    },
+    "DATE_RANGE": {
+      "LAST_7_DAYS": "در ۷ روز گذشته",
+      "LAST_30_DAYS": "در ۳۰ روز گذشته",
+      "LAST_60_DAYS": "Last 60 days",
+      "LAST_90_DAYS": "Last 90 days",
+      "CUSTOM_RANGE": "Custom range:",
+      "CREATED_BETWEEN": "Created between",
+      "AND": "و",
+      "APPLY": "درخواست دادن",
+      "BEFORE_DATE": "Before {date}",
+      "AFTER_DATE": "After {date}",
+      "TIME_RANGE": "Filter by time",
+      "CLEAR_FILTER": "پاک کردن فیلتر"
+    },
+    "FILTERS": {
+      "FILTER_MESSAGE": "Filter messages by:",
+      "FROM": "فرستنده",
+      "IN": "صندوق ورودی",
+      "AGENTS": "ایجنت ها",
+      "CONTACTS": "مخاطبین",
+      "INBOXES": "صندوق‌های ورودی",
+      "NO_AGENTS": "اپراتوری یافت نشد",
+      "NO_CONTACTS": "Start by searching to see results",
+      "NO_INBOXES": "No inboxes found"
+    }
+  }
+}

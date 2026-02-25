@@ -1,0 +1,49 @@
+{
+  "REGISTER": {
+    "TRY_WOOT": "Create an account",
+    "TITLE": "Rekisteröidy",
+    "TESTIMONIAL_HEADER": "All it takes is one step to move forward",
+    "TESTIMONIAL_CONTENT": "You're one step away from engaging your customers, retaining them and finding new ones.",
+    "TERMS_ACCEPT": "By creating an account, you agree to our <a href=\"https://www.chatwoot.com/terms\">T & C</a> and <a href=\"https://www.chatwoot.com/privacy-policy\">Privacy policy</a>",
+    "OAUTH": {
+      "GOOGLE_SIGNUP": "Sign up with Google"
+    },
+    "COMPANY_NAME": {
+      "LABEL": "Company name",
+      "PLACEHOLDER": "Anna yrityksesi nimi. Esim. Hassisen Kone Oy",
+      "ERROR": "Company name is too short"
+    },
+    "FULL_NAME": {
+      "LABEL": "Koko nimi",
+      "PLACEHOLDER": "Anna koko nimesi, esim: Bruce Wayne",
+      "ERROR": "Koko nimi on liian lyhyt"
+    },
+    "EMAIL": {
+      "LABEL": "Työsähköposti",
+      "PLACEHOLDER": "Enter your work email address. E.g., bruce{'@'}wayne{'.'}enterprises",
+      "ERROR": "Syötä voimassa oleva työsähköpostiosoite."
+    },
+    "PASSWORD": {
+      "LABEL": "Salasana",
+      "PLACEHOLDER": "Salasana",
+      "ERROR": "Salasana on liian lyhyt",
+      "IS_INVALID_PASSWORD": "Salasanan tulee sisältää vähintään 1 iso kirjain, 1 pieni kirjain, 1 numero ja 1 erikoismerkki.",
+      "REQUIREMENTS_LENGTH": "At least 6 characters long",
+      "REQUIREMENTS_UPPERCASE": "At least one uppercase letter",
+      "REQUIREMENTS_LOWERCASE": "At least one lowercase letter",
+      "REQUIREMENTS_NUMBER": "At least one number",
+      "REQUIREMENTS_SPECIAL": "At least one special character"
+    },
+    "CONFIRM_PASSWORD": {
+      "LABEL": "Vahvista salasana",
+      "PLACEHOLDER": "Vahvista salasana",
+      "ERROR": "Salasanat eivät täsmää."
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Registration Successful",
+      "ERROR_MESSAGE": "Yhteyden muodostaminen Woot-palvelimelle ei onnistunut, yritä myöhemmin uudelleen"
+    },
+    "SUBMIT": "Create account",
+    "HAVE_AN_ACCOUNT": "Onko sinulla jo tili?"
+  }
+}

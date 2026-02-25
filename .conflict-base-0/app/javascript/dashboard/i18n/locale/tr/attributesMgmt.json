@@ -1,0 +1,138 @@
+{
+  "ATTRIBUTES_MGMT": {
+    "HEADER": "Özel Nitelikler",
+    "HEADER_BTN_TXT": "Nitelik Ekle",
+    "LOADING": "Özel Nitelikler getiriliyor",
+    "DESCRIPTION": "Özel nitelikler, kişileriniz veya konuşmalarınız hakkında ek ayrıntıları takip etmenizi sağlar — örneğin abonelik planı veya ilk satın alma tarihi gibi. İhtiyacınız olan belirli bilgileri toplamak için metin, liste veya sayı gibi farklı türlerde özel nitelikler ekleyebilirsiniz.",
+    "LEARN_MORE": "Learn more about custom attributes",
+    "ATTRIBUTE_MODELS": {
+      "CONVERSATION": "Sohbet",
+      "CONTACT": "İletişim"
+    },
+    "ATTRIBUTE_TYPES": {
+      "TEXT": "Metin",
+      "NUMBER": "Sayı",
+      "LINK": "Bağlantı",
+      "DATE": "Tarih",
+      "LIST": "Liste",
+      "CHECKBOX": "Onay Kutusu"
+    },
+    "ADD": {
+      "TITLE": "Nitelik Ekle",
+      "SUBMIT": "Oluştur",
+      "CANCEL_BUTTON_TEXT": "İptal Et",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Ekran Adı",
+          "PLACEHOLDER": "Özel nitelik görüntü adını girin",
+          "ERROR": "Ad gerekli"
+        },
+        "DESC": {
+          "LABEL": "Açıklama",
+          "PLACEHOLDER": "Özel nitelik açıklamasını girin",
+          "ERROR": "Açıklama gerekli"
+        },
+        "MODEL": {
+          "LABEL": "Uygulanan Yer",
+          "PLACEHOLDER": "Lütfen birini seçin",
+          "ERROR": "Model gerekli"
+        },
+        "TYPE": {
+          "LABEL": "Tip",
+          "PLACEHOLDER": "Lütfen bir tip seçin",
+          "ERROR": "Tip gerekli",
+          "LIST": {
+            "LABEL": "Liste Değerleri",
+            "PLACEHOLDER": "Lütfen bir değer girin ve enter tuşuna basın",
+            "ERROR": "En az bir değer olmalı"
+          }
+        },
+        "KEY": {
+          "LABEL": "Anahtar",
+          "PLACEHOLDER": "Özel nitelik anahtarını girin",
+          "ERROR": "Anahtar gerekli",
+          "IN_VALID": "Geçersiz anahtar"
+        },
+        "REGEX_PATTERN": {
+          "LABEL": "Düzenli İfade",
+          "PLACEHOLDER": "Lütfen özel nitelikli düzenli deseni giriniz. (İsteğe bağlı)"
+        },
+        "REGEX_CUE": {
+          "LABEL": "Düzenli ifade ipucu",
+          "PLACEHOLDER": "Lütfen düzenli ifade ipucunu girin (İsteğe bağlı)"
+        },
+        "ENABLE_REGEX": {
+          "LABEL": "Düzenli ifade doğrulamasını aç"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Özel Nitelik başarıyla eklendi!",
+        "ERROR_MESSAGE": "Özel Nitelik oluşturulamadı. Lütfen daha sonra tekrar deneyin."
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Sil",
+      "API": {
+        "SUCCESS_MESSAGE": "Özel Nitelik başarıyla silindi.",
+        "ERROR_MESSAGE": "Özel nitelik silinemedi. Tekrar deneyin."
+      },
+      "CONFIRM": {
+        "TITLE": "Silmek istediğinizden emin misiniz - {attributeName}",
+        "PLACE_HOLDER": "{attributeName}'ı onaylamak için lütfen yazın",
+        "MESSAGE": "Silme işlemi özel niteliği kaldıracaktır",
+        "YES": "Sil ",
+        "NO": "İptal Et"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Özel Niteliği Düzenle",
+      "UPDATE_BUTTON_TEXT": "Güncelleme",
+      "TYPE": {
+        "LIST": {
+          "LABEL": "Liste Değerleri",
+          "PLACEHOLDER": "Lütfen değerleri girin ve enter tuşuna basın"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Özel Nitelik başarıyla güncellendi",
+        "ERROR_MESSAGE": "Özel nitelik güncellenirken bir hata oluştu, lütfen tekrar deneyin"
+      }
+    },
+    "TABS": {
+      "HEADER": "Özel Nitelikler",
+      "CONVERSATION": "Sohbet",
+      "CONTACT": "İletişim"
+    },
+    "LIST": {
+      "TABLE_HEADER": {
+        "NAME": "İsim",
+        "DESCRIPTION": "Açıklama",
+        "TYPE": "Tip",
+        "KEY": "Anahtar"
+      },
+      "BUTTONS": {
+        "EDIT": "Düzenle",
+        "DELETE": "Sil"
+      },
+      "EMPTY_RESULT": {
+        "404": "Oluşturulmuş özel nitelik yok",
+        "NOT_FOUND": "Yapılandırılmış özel nitelikler yok"
+      },
+      "REGEX_PATTERN": {
+        "LABEL": "Düzenli İfade",
+        "PLACEHOLDER": "Lütfen özel nitelikli düzenli deseni giriniz. (İsteğe bağlı)"
+      },
+      "REGEX_CUE": {
+        "LABEL": "Düzenli ifade ipucu",
+        "PLACEHOLDER": "Lütfen düzenli ifade ipucunu girin (İsteğe bağlı)"
+      },
+      "ENABLE_REGEX": {
+        "LABEL": "Düzenli ifade doğrulamasını aç"
+      }
+    },
+    "BADGES": {
+      "PRE_CHAT": "Pre-chat",
+      "RESOLUTION": "Resolution"
+    }
+  }
+}

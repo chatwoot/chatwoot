@@ -1,0 +1,19 @@
+{
+  "SURVEY": {
+    "DESCRIPTION": "Vážený zákazníku 👋, věnujte prosím několik okamžiků zpětné vazbě na konverzaci, kterou jste vedli s {inboxName}.",
+    "RATING": {
+      "LABEL": "Ohodnoťte svou konverzaci",
+      "SUCCESS_MESSAGE": "Děkujeme Vám za odeslání hodnocení"
+    },
+    "FEEDBACK": {
+      "LABEL": "Máte nějaké připomínky, o které byste se rád podělil?",
+      "PLACEHOLDER": "Váš názor (volitelné)",
+      "BUTTON_TEXT": "Odeslat zpětnou vazbu"
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Průzkum byl úspěšně aktualizován",
+      "ERROR_MESSAGE": "Nelze se připojit k Woot serveru, opakujte akci později"
+    }
+  },
+  "POWERED_BY": "Powered by Chatwoot"
+}

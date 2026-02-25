@@ -1,0 +1,153 @@
+{
+  "COMPONENTS": {
+    "FILE_BUBBLE": {
+      "DOWNLOAD": "Lejupielādēt",
+      "UPLOADING": "Notiek Augšupielāde..."
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "Iesniegt"
+    },
+    "MESSAGE_BUBBLE": {
+      "RETRY": "Sūtīt ziņojumu vēlreiz",
+      "ERROR_MESSAGE": "Nevarēja nosūtīt. Lūdzu, mēģiniet vēlreiz"
+    }
+  },
+  "THUMBNAIL": {
+    "AUTHOR": {
+      "NOT_AVAILABLE": "Not available"
+    }
+  },
+  "TEAM_AVAILABILITY": {
+    "ONLINE": "Mēs esam tiešsaistē",
+    "OFFLINE": "Šobrīd mēs neesam uz vietas",
+    "BACK_AS_SOON_AS_POSSIBLE": "We will be back as soon as possible"
+  },
+  "REPLY_TIME": {
+    "IN_A_FEW_MINUTES": "Parasti atbild pēc dažām minūtēm",
+    "IN_A_FEW_HOURS": "Parasti atbild pēc dažām stundām",
+    "IN_A_DAY": "Parasti atbild vienas dienas laikā",
+    "BACK_IN_HOURS": "We will be back online in {n} hour | We will be back online in {n} hours",
+    "BACK_IN_MINUTES": "We will be back online in {time} minutes",
+    "BACK_AT_TIME": "We will be back online at {time}",
+    "BACK_ON_DAY": "We will be back online on {day}",
+    "BACK_TOMORROW": "We will be back online tomorrow",
+    "BACK_IN_SOME_TIME": "We will be back online in some time"
+  },
+  "DAY_NAMES": {
+    "SUNDAY": "Svētdiena",
+    "MONDAY": "Pirmdiena",
+    "TUESDAY": "Otrdiena",
+    "WEDNESDAY": "Trešdiena",
+    "THURSDAY": "Ceturtdiena",
+    "FRIDAY": "Piektdiena",
+    "SATURDAY": "Sestdiena"
+  },
+  "START_CONVERSATION": "Sākt Sarunu",
+  "END_CONVERSATION": "Beigt Sarunu",
+  "CONTINUE_CONVERSATION": "Turpināt Sarunu",
+  "YOU": "Jūs",
+  "START_NEW_CONVERSATION": "Sākt jaunu sarunu",
+  "VIEW_UNREAD_MESSAGES": "Jums ir nelasītas ziņas",
+  "UNREAD_VIEW": {
+    "VIEW_MESSAGES_BUTTON": "Skatīt jaunus ziņojumus",
+    "CLOSE_MESSAGES_BUTTON": "Aizvērt",
+    "COMPANY_FROM": "no",
+    "BOT": "Bot"
+  },
+  "BUBBLE": {
+    "LABEL": "Tērzēt ar mums"
+  },
+  "POWERED_BY": "Darbināts ar Chatwoot",
+  "EMAIL_PLACEHOLDER": "Lūdzu, ievadiet savu e-pastu",
+  "CHAT_PLACEHOLDER": "Rakstiet savu ziņojumu",
+  "TODAY": "Šodien",
+  "YESTERDAY": "Vakar",
+  "PRE_CHAT_FORM": {
+    "FIELDS": {
+      "FULL_NAME": {
+        "LABEL": "Pilns Vārds",
+        "PLACEHOLDER": "Lūdzu, ievadiet savu pilno vārdu",
+        "REQUIRED_ERROR": "Nepieciešams pilns vārds"
+      },
+      "EMAIL_ADDRESS": {
+        "LABEL": "e-pasta Adrese",
+        "PLACEHOLDER": "Lūdzu ievadiet savu e-pasta adresi",
+        "REQUIRED_ERROR": "Nepieciešama e -pasta adrese",
+        "VALID_ERROR": "Lūdzu, ievadiet derīgu e-pasta adresi"
+      },
+      "PHONE_NUMBER": {
+        "LABEL": "Telefona numurs",
+        "PLACEHOLDER": "Lūdzu, ievadiet savu tālruņa numuru",
+        "REQUIRED_ERROR": "Nepieciešams tālruņa numurs",
+        "DIAL_CODE_VALID_ERROR": "Lūdzu, izvēlieties valsts kodu",
+        "VALID_ERROR": "Lūdzu ievadiet derīgu telefona numuru",
+        "DROPDOWN_EMPTY": "Nav atrasts",
+        "DROPDOWN_SEARCH": "Meklēt valsti"
+      },
+      "MESSAGE": {
+        "LABEL": "Ziņojums",
+        "PLACEHOLDER": "Lūdzu, ievadiet savu ziņojumu",
+        "ERROR": "Ziņojums ir pārāk īss"
+      }
+    },
+    "CAMPAIGN_HEADER": "Lūdzu, pirms sarunas sākšanas, norādiet savu vārdu un e -pastu",
+    "IS_REQUIRED": "ir nepieciešams",
+    "REQUIRED": "Nepieciešams",
+    "REGEX_ERROR": "Lūdzu, ievadiet pareizi"
+  },
+  "FILE_SIZE_LIMIT": "Fails pārsniedz {MAXIMUM_FILE_UPLOAD_SIZE} pielikuma lieluma ierobežojumu",
+  "CHAT_FORM": {
+    "INVALID": {
+      "FIELD": "Nederīgs lauks"
+    }
+  },
+  "EMOJI": {
+    "PLACEHOLDER": "Meklēt emocijzīmes",
+    "NOT_FOUND": "Neviena emocijzīme neatbilst jūsu meklēšanas vaicājumam",
+    "ARIA_LABEL": "Emocijzīmju atlasītājs"
+  },
+  "CSAT": {
+    "TITLE": "Novērtējiet Jūsu sarunu",
+    "SUBMITTED_TITLE": "Paldies, ka iesniedzāt novērtējumu",
+    "PLACEHOLDER": "Pastāsti mums vairāk..."
+  },
+  "EMAIL_TRANSCRIPT": {
+    "BUTTON_TEXT": "Pieprasīt sarunas transkriptu",
+    "SEND_EMAIL_SUCCESS": "Sarunas transkripts tika veiksmīgi nosūtīts",
+    "SEND_EMAIL_ERROR": "Radās kļūda. Lūdzu, mēģiniet vēlreiz"
+  },
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Noklikšķiniet šeit, lai pievienotos",
+      "LEAVE_THE_ROOM": "Beigt zvanu"
+    }
+  },
+  "PORTAL": {
+    "POPULAR_ARTICLES": "Populāri Raksti",
+    "VIEW_ALL_ARTICLES": "Skatīt visus rakstus",
+    "IFRAME_LOAD_ERROR": "Ielādējot rakstu radās kļūda. Lūdzu, atsvaidziniet lapu un mēģiniet vēlreiz."
+  },
+  "ATTACHMENTS": {
+    "image": {
+      "CONTENT": "Attēla ziņojums"
+    },
+    "audio": {
+      "CONTENT": "Audio ziņojums"
+    },
+    "video": {
+      "CONTENT": "Video ziņojums"
+    },
+    "file": {
+      "CONTENT": "Faila pielikums"
+    },
+    "location": {
+      "CONTENT": "Atrašanās vieta"
+    },
+    "fallback": {
+      "CONTENT": "ir kopīgojis URL"
+    }
+  },
+  "FOOTER_REPLY_TO": {
+    "REPLY_TO": "Atbildot uz:"
+  }
+}

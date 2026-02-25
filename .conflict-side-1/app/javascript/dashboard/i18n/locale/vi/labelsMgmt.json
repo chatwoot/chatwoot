@@ -1,0 +1,85 @@
+{
+  "LABEL_MGMT": {
+    "HEADER": "Nhãn",
+    "HEADER_BTN_TXT": "Thêm nhãn",
+    "LOADING": "Tải về các nhãn",
+    "DESCRIPTION": "Labels help you categorize and prioritize conversations and leads. You can assign a label to a conversation or contact using the side panel.",
+    "LEARN_MORE": "Learn more about labels",
+    "SEARCH_404": "Không có kết quả nào phù hợp",
+    "LIST": {
+      "404": "Không có nhãn nào có sẵn trong tài khoản này.",
+      "TITLE": "Quản lý nhãn",
+      "DESC": "Nhãn cho phép bạn nhóm các cuộc trò chuyện lại với nhau.",
+      "TABLE_HEADER": {
+        "NAME": "Tên",
+        "DESCRIPTION": "Mô tả",
+        "COLOR": "Màu sắc"
+      }
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "Tên nhãn",
+        "PLACEHOLDER": "Tên nhãn",
+        "REQUIRED_ERROR": "Tên nhãn là bắt buộc",
+        "MINIMUM_LENGTH_ERROR": "Bắt buộc độ dài tối thiểu là 2",
+        "VALID_ERROR": "Chỉ cho phép Chữ cái, Chữ số, Dấu gạch ngang và Dấu gạch dưới"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Mô tả",
+        "PLACEHOLDER": "Mô tả cho nhãn"
+      },
+      "COLOR": {
+        "LABEL": "Màu sắc"
+      },
+      "SHOW_ON_SIDEBAR": {
+        "LABEL": "Hiển thị nhãn trên sidebar"
+      },
+      "EDIT": "Chỉnh sửa",
+      "CREATE": "Tạo",
+      "DELETE": "Xoá",
+      "CANCEL": "Huỷ"
+    },
+    "SUGGESTIONS": {
+      "TOOLTIP": {
+        "SINGLE_SUGGESTION": "Add label to conversation",
+        "MULTIPLE_SUGGESTION": "Select this label",
+        "DESELECT": "Deselect label",
+        "DISMISS": "Dismiss suggestion"
+      },
+      "POWERED_BY": "Chatwoot AI",
+      "DISMISS": "Dismiss",
+      "ADD_SELECTED_LABELS": "Add selected labels",
+      "ADD_SELECTED_LABEL": "Add selected label",
+      "ADD_ALL_LABELS": "Add all labels",
+      "SUGGESTED_LABELS": "Suggested labels"
+    },
+    "ADD": {
+      "TITLE": "Thêm nhãn",
+      "DESC": "Nhãn cho phép bạn nhóm các cuộc trò chuyện lại với nhau.",
+      "API": {
+        "SUCCESS_MESSAGE": "Thêm nhãn thành công",
+        "ERROR_MESSAGE": "Đã có lỗi, vui lòng thử lại"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Chỉnh sửa nhãn",
+      "API": {
+        "SUCCESS_MESSAGE": "Nhãn được cập nhật thành công",
+        "ERROR_MESSAGE": "Đã có lỗi, vui lòng thử lại"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Xoá",
+      "API": {
+        "SUCCESS_MESSAGE": "Nhãn đã được xoá thành công",
+        "ERROR_MESSAGE": "Đã có lỗi, vui lòng thử lại"
+      },
+      "CONFIRM": {
+        "TITLE": "Xác Nhận Xoá",
+        "MESSAGE": "Bạn có chắc muốn xoá? ",
+        "YES": "Có, xoá ",
+        "NO": "Không, giữ "
+      }
+    }
+  }
+}

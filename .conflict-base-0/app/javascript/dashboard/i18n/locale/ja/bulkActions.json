@@ -1,0 +1,41 @@
+{
+  "BULK_ACTION": {
+    "CONVERSATIONS_SELECTED": "{conversationCount} 件の会話が選択されました",
+    "AGENT_SELECT_LABEL": "担当者を選択",
+    "ASSIGN_CONFIRMATION_LABEL": "{conversationCount} 件の{conversationLabel}を割り当てますか？",
+    "UNASSIGN_CONFIRMATION_LABEL": "{conversationCount} 件の{conversationLabel}の割り当てを解除しますか？",
+    "GO_BACK_LABEL": "戻る",
+    "ASSIGN_LABEL": "割り当て",
+    "YES": "はい",
+    "SEARCH_INPUT_PLACEHOLDER": "検索",
+    "ASSIGN_AGENT_TOOLTIP": "担当者を割り当てる",
+    "ASSIGN_TEAM_TOOLTIP": "チームを割り当てる",
+    "ASSIGN_SUCCESFUL": "会話が正常に割り当てられました。",
+    "ASSIGN_FAILED": "会話の割り当てに失敗しました。再試行してください。",
+    "RESOLVE_SUCCESFUL": "会話が正常に解決されました。",
+    "RESOLVE_FAILED": "会話の解決に失敗しました。再試行してください。",
+    "ALL_CONVERSATIONS_SELECTED_ALERT": "このページに表示されている会話のみが選択されています。",
+    "AGENT_LIST_LOADING": "担当者を読み込み中",
+    "UPDATE": {
+      "CHANGE_STATUS": "ステータスを変更",
+      "SNOOZE_UNTIL": "スヌーズ",
+      "UPDATE_SUCCESFUL": "会話のステータスが正常に更新されました。",
+      "UPDATE_FAILED": "会話の更新に失敗しました。再試行してください。"
+    },
+    "LABELS": {
+      "ASSIGN_LABELS": "ラベルを割り当てる",
+      "NO_LABELS_FOUND": "ラベルが見つかりません",
+      "ASSIGN_SELECTED_LABELS": "選択したラベルを割り当てる",
+      "ASSIGN_SUCCESFUL": "ラベルが正常に割り当てられました。",
+      "ASSIGN_FAILED": "ラベルの割り当てに失敗しました。再試行してください。"
+    },
+    "TEAMS": {
+      "TEAM_SELECT_LABEL": "チームを選択",
+      "NONE": "該当なし",
+      "NO_TEAMS_AVAILABLE": "このアカウントにはまだチームが追加されていません。",
+      "ASSIGN_SELECTED_TEAMS": "選択したチームを割り当てる",
+      "ASSIGN_SUCCESFUL": "チームが正常に割り当てられました。",
+      "ASSIGN_FAILED": "チームの割り当てに失敗しました。再試行してください。"
+    }
+  }
+}

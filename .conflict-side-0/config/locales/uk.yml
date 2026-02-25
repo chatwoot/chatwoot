@@ -1,0 +1,448 @@
+#Files in the config/locales directory are used for internationalization
+#and are automatically loaded by Rails. If you want to use locales other
+#than English, add the necessary files in this directory.
+#To use the locales, use `I18n.t`:
+#I18n.t 'hello'
+#In views, this is aliased to just `t`:
+#<%= t('hello') %>
+#To use a different locale, set it with `I18n.locale`:
+#I18n.locale = :es
+#This would use the information in config/locales/es.yml.
+#The following keys must be escaped otherwise they will not be retrieved by
+#the default I18n backend:
+#true, false, on, off, yes, no
+#Instead, surround them with single quotes.
+#en:
+#'true': 'foo'
+#To learn more, please read the Rails Internationalization guide
+#available at https://guides.rubyonrails.org/i18n.html.
+uk:
+  hello: 'Привіт, світе'
+  inbox:
+    reauthorization:
+      success: 'Channel reauthorized successfully'
+      not_required: 'Reauthorization is not required for this inbox'
+      invalid_channel: 'Invalid channel type for reauthorization'
+  auth:
+    saml:
+      invalid_email: 'Будь ласка, введіть коректну адресу електронної пошти'
+      authentication_failed: 'Authentication failed. Please check your credentials and try again.'
+  messages:
+    reset_password_success: Круто! Запит на скидання пароля виконано успішно. Перевірте вашу пошту за подальшими інструкціями.
+    reset_password_failure: Ой-ой! Ми не змогли знайти жодного користувача з цією адресою електронної пошти.
+    reset_password_saml_user: This account uses SAML authentication. Password reset is not available. Please contact your administrator.
+    login_saml_user: This account uses SAML authentication. Please sign in through your organization's SAML provider.
+    saml_not_available: SAML authentication is not available in this installation.
+    inbox_deletetion_response: Ваш запит на видалення буде оброблений протягом деякого часу.
+  errors:
+    validations:
+      presence: не повинно бути пустим
+    webhook:
+      invalid: Недійсні події
+    signup:
+      disposable_email: Ми не дозволяємо використувати одноразові адреси електронної пошти
+      blocked_domain: This domain is not allowed. If you believe this is a mistake, please contact support.
+      invalid_email: Ви ввели неправильну адресу електронної пошти
+      email_already_exists: 'Ви вже зареєстровані з адресою %{email}'
+      invalid_params: 'Неправильно, будь ласка, перевірте параметри реєстрації та повторіть спробу'
+      failed: Помилка реєстрації
+    assignment_policy:
+      not_found: Assignment policy not found
+    attachments:
+      invalid: Invalid attachment
+    saml:
+      feature_not_enabled: SAML feature not enabled for this account
+      sso_not_enabled: SAML SSO is not enabled for this installation
+    data_import:
+      data_type:
+        invalid: Некоректний тип даних
+    contacts:
+      import:
+        failed: Файл порожній
+      export:
+        success: Ми повідомимо Вас, коли файл експорту контактів буде готовий до перегляду.
+      email:
+        invalid: Невірний email
+      phone_number:
+        invalid: має бути у форматі e164
+    companies:
+      domain:
+        invalid: must be a valid domain name
+      search:
+        query_missing: Specify search string with parameter q
+    messages:
+      search:
+        time_range_limit_exceeded: 'Search is limited to the last %{days} days'
+    categories:
+      locale:
+        unique: має бути унікальним на категорії і порталі
+    dyte:
+      invalid_message_type: 'Невірний тип повідомлення. Дію не дозволено'
+    slack:
+      invalid_channel_id: 'Недійсний канал slack. Будь ласка, спробуйте ще раз'
+    whatsapp:
+      token_exchange_failed: 'Failed to exchange code for access token. Please try again.'
+      invalid_token_permissions: 'The access token does not have the required permissions for WhatsApp.'
+      phone_info_fetch_failed: 'Failed to fetch phone number information. Please try again.'
+      phone_number_already_exists: 'Channel already exists for this phone number: %{phone_number}, please contact support if the error persists'
+      reauthorization:
+        generic: 'Failed to reauthorize WhatsApp. Please try again.'
+        not_supported: 'Reauthorization is not supported for this type of WhatsApp channel.'
+    inboxes:
+      imap:
+        socket_error: Перевірте підключення до мережі, адреса IMAP і повторіть спробу.
+        no_response_error: Будь ласка, перевірте облікові дані IMAP і повторіть спробу.
+        host_unreachable_error: Хост недоступний. Будь ласка, перевірте адресу IMAP, порт IMAP і повторіть спробу.
+        connection_timed_out_error: Вичерпано час очікування з'єднання для %{address}:%{port}
+        connection_closed_error: З'єднання закрито.
+      validations:
+        name: не повинно починатись або закінчуватися символами, і він не повинен мати < > / \ @ символів.
+    custom_filters:
+      number_of_records: Досягнуто ліміту. Максимальна кількість дозволених користувацьких фільтрів для користувача на рахунок становить 1000.
+      invalid_attribute: Некоректний ключ атрибута - [%{key}]. Ключ повинен бути одним з [%{allowed_keys}] або налаштованим атрибутом, визначеним в обліковому записі.
+      invalid_operator: Некоректний оператор. Дозволені оператори для %{attribute_name} є [%{allowed_keys}].
+      invalid_query_operator: Query operator must be either "AND" or "OR".
+      invalid_value: Невірне значення. Надані значення для %{attribute_name} є неприпустимі
+    custom_attribute_definition:
+      key_conflict: The provided key is not allowed as it might conflict with default attributes.
+    mfa:
+      already_enabled: MFA is already enabled
+      not_enabled: MFA is not enabled
+      invalid_code: Invalid verification code
+      invalid_backup_code: Invalid backup code
+      invalid_token: Invalid or expired MFA token
+      invalid_credentials: Invalid credentials or verification code
+      feature_unavailable: MFA feature is not available. Please configure encryption keys.
+    topup:
+      credits_required: Credits amount is required
+      invalid_credits: Invalid credits amount
+      invalid_option: Invalid topup option
+      plan_not_eligible: Top-ups are only available for paid plans. Please upgrade your plan first.
+      stripe_customer_not_configured: Stripe customer not configured
+      no_payment_method: No payment methods found. Please add a payment method before making a purchase.
+  profile:
+    mfa:
+      enabled: MFA enabled successfully
+      disabled: MFA disabled successfully
+    account_saml_settings:
+      invalid_certificate: must be a valid X.509 certificate in PEM format
+  reports:
+    period: Період звіту %{since} до %{until}
+    utc_warning: Звіт створено в часовій зоні UTC
+    agent_csv:
+      agent_name: Ім'я агента
+      conversations_count: Призначені розмови
+      avg_first_response_time: Середній час першої відповіді
+      avg_resolution_time: Середній час вирішення
+      resolution_count: Кількість вирішень
+      avg_customer_waiting_time: Avg customer waiting time
+    inbox_csv:
+      inbox_name: Назва Джерела
+      inbox_type: Тип Джерела
+      conversations_count: '№ розмов'
+      avg_first_response_time: Середній час першої відповіді
+      avg_resolution_time: Середній час вирішення
+    label_csv:
+      label_title: Мітка
+      conversations_count: '№ розмов'
+      avg_first_response_time: Середній час першої відповіді
+      avg_resolution_time: Середній час вирішення
+      avg_reply_time: Avg reply time
+      resolution_count: Кількість вирішень
+    team_csv:
+      team_name: Назва команди
+      conversations_count: Кількість бесід
+      avg_first_response_time: Середній час першої відповіді
+      avg_resolution_time: Середній час вирішення
+      resolution_count: Кількість вирішень
+      avg_customer_waiting_time: Avg customer waiting time
+    conversation_traffic_csv:
+      timezone: Timezone
+    sla_csv:
+      conversation_id: ID бесіди
+      sla_policy_breached: Політика SLA
+      assignee: Assignee
+      team: Команда
+      inbox: Вхідні
+      labels: Мітки
+      conversation_link: Посилання на бесіду
+      breached_events: Breached Events
+    default_group_by: день
+    csat:
+      headers:
+        contact_name: Ім'я контакту
+        contact_email_address: Email
+        contact_phone_number: Контактний телефон
+        link_to_the_conversation: Посилання на бесіду
+        agent_name: Ім'я агента
+        rating: Оцінка
+        feedback: Відгук
+        recorded_at: Дата запису
+  notifications:
+    notification_title:
+      conversation_creation: 'Розмова (#%{display_id}) була створена в %{inbox_name}'
+      conversation_assignment: 'Розмова (#%{display_id}) була призначена вам'
+      assigned_conversation_new_message: 'Нове повідомлення створено в розмові (#%{display_id})'
+      conversation_mention: 'Ви були згадані в розмові (#%{display_id})'
+      sla_missed_first_response: 'Перша відповідь на SLA пропущена для розмови (#%{display_id})'
+      sla_missed_next_response: 'Наступна відповідь SLA пропущена для розмови (#%{display_id})'
+      sla_missed_resolution: 'Дозвіл SLA пропущений для розмови (#%{display_id})'
+    attachment: 'Вкладення'
+    no_content: 'Немає вмісту'
+  conversations:
+    captain:
+      handoff: 'Transferring to another agent for further assistance.'
+    messages:
+      instagram_story_content: '%{story_sender} згадав вас у сторіс: '
+      instagram_deleted_story_content: Ця історія більше не доступна.
+      instagram_shared_story_content: 'Shared story'
+      instagram_shared_post_content: 'Shared post'
+      deleted: Це повідомлення було видалено
+      whatsapp:
+        list_button_label: 'Choose an item'
+      delivery_status:
+        error_code: 'Код помилки: %{error_code}'
+    activity:
+      captain:
+        resolved: 'Conversation was marked resolved by %{user_name} due to inactivity'
+        open: 'Conversation was marked open by %{user_name}'
+      agent_bot:
+        error_moved_to_open: 'Conversation was marked open by system due to an error with the agent bot.'
+      status:
+        resolved: 'Розмова була відмічена як вирішена %{user_name}'
+        contact_resolved: 'Діалог був закритий %{contact_name}'
+        open: 'Розмову знову відкрито %{user_name}'
+        pending: 'Бесіда була позначена як очікується %{user_name}'
+        snoozed: 'Розмова була відкладена %{user_name}'
+        auto_resolved_days: 'Діалог був закритий системою через %{count} днів неактивності'
+        auto_resolved_hours: 'Conversation was marked resolved by system due to %{count} hours of inactivity'
+        auto_resolved_minutes: 'Conversation was marked resolved by system due to %{count} minutes of inactivity'
+        system_auto_open: Система повторно відкрила розмову через нове вхідне повідомлення.
+      priority:
+        added: '%{user_name} встановив пріоритет %{new_priority}'
+        updated: '%{user_name} змінив пріоритет з %{old_priority} на %{new_priority}'
+        removed: '%{user_name} видалив пріоритет'
+      assignee:
+        self_assigned: '%{user_name} самостійно призначив цей діалог'
+        assigned: 'Призначено до %{assignee_name} користувачем %{user_name}'
+        removed: 'Діалог знято %{user_name}'
+      team:
+        assigned: 'Призначено до %{team_name} користувачем %{user_name}'
+        assigned_with_assignee: 'Призначено до %{assignee_name} користувачем %{user_name} з %{team_name}'
+        removed: 'Виключений з %{team_name} користувачем %{user_name}'
+      labels:
+        added: '%{user_name} додав %{labels}'
+        removed: '%{user_name} видалив %{labels}'
+      sla:
+        added: '%{user_name} додав політику SLA %{sla_name}'
+        removed: '%{user_name} видалив політику SLA %{sla_name}'
+      linear:
+        issue_created: 'Linear issue %{issue_id} was created by %{user_name}'
+        issue_linked: 'Linear issue %{issue_id} was linked by %{user_name}'
+        issue_unlinked: 'Linear issue %{issue_id} was unlinked by %{user_name}'
+      csat:
+        not_sent_due_to_messaging_window: 'CSAT survey not sent due to outgoing message restrictions'
+      auto_resolve:
+        not_sent_due_to_messaging_window: 'Auto-resolve message not sent due to outgoing message restrictions'
+      muted: '%{user_name} включив безвучний режим'
+      unmuted: '%{user_name} виключив безвучний режим'
+      auto_resolution_message: 'Resolving the conversation as it has been inactive for a while. Please start a new conversation if you need further assistance.'
+    templates:
+      greeting_message_body: '%{account_name} зазвичай відповідає за кілька годин.'
+      ways_to_reach_you_message_body: 'Дайте команді можливість з вами зв''язатися.'
+      email_input_box_message_body: 'Отримувати сповіщення електронною поштою'
+      csat_input_message_body: 'Будь ласка, оцініть розмову'
+    reply:
+      email:
+        header:
+          notifications: 'Сповіщення'
+          from_with_name: '%{assignee_name} з %{inbox_name} <%{from_email}>'
+          reply_with_name: '%{assignee_name} від %{inbox_name} <reply+%{reply_email}>'
+          friendly_name: '%{sender_name} з %{business_name} <%{from_email}>'
+          professional_name: '%{business_name} <%{from_email}>'
+      channel_email:
+        header:
+          reply_with_name: '%{assignee_name} з %{inbox_name} <%{from_email}>'
+          reply_with_inbox_name: '%{inbox_name} <%{from_email}>'
+      email_subject: 'Нові повідомлення в цьому діалозі'
+      transcript_subject: 'Транскрипція діалогу'
+    survey:
+      response: 'Будь ласка, оцініть цю розмову, %{link}'
+  contacts:
+    online:
+      delete: '%{contact_name} в онлайні, будь ласка, спробуйте ще раз пізніше'
+  integration_apps:
+    #Note: webhooks and dashboard_apps don't need short_description as they use different modal components
+    dashboard_apps:
+      name: 'Додатки для головного екрану'
+      description: 'Dashboard Apps allow you to create and embed applications that display user information, orders, or payment history, providing more context to your customer support agents.'
+    dyte:
+      name: 'Dyte'
+      short_description: 'Start video/voice calls with customers directly from Chatwoot.'
+      description: 'Dyte is a product that integrates audio and video functionalities into your application. With this integration, your agents can start video/voice calls with your customers directly from Chatwoot.'
+      meeting_name: '%{agent_name} розпочав зустріч'
+    slack:
+      name: 'Slack'
+      short_description: 'Receive notifications and respond to conversations directly in Slack.'
+      description: "Integrate Chatwoot with Slack to keep your team in sync. This integration allows you to receive notifications for new conversations and respond to them directly within Slack's interface."
+    webhooks:
+      name: 'Веб-хуки'
+      description: 'Webhook events provide real-time updates about activities in your Chatwoot account. You can subscribe to your preferred events, and Chatwoot will send you HTTP callbacks with the updates.'
+    dialogflow:
+      name: 'Dialogflow'
+      short_description: 'Build chatbots to handle initial queries before transferring to agents.'
+      description: 'Build chatbots with Dialogflow and easily integrate them into your inbox. These bots can handle initial queries before transferring them to a customer service agent.'
+    google_translate:
+      name: 'Google Translate'
+      short_description: 'Automatically translate customer messages for agents.'
+      description: "Integrate Google Translate to help agents easily translate customer messages. This integration automatically detects the language and converts it to the agent's or admin's preferred language."
+    openai:
+      name: 'OpenAI'
+      short_description: 'AI-powered reply suggestions, summarization, and message enhancement.'
+      description: 'Leverage the power of large language models from OpenAI with the features such as reply suggestions, summarization, message rephrasing, spell-checking, and label classification.'
+    linear:
+      name: 'Linear'
+      short_description: 'Create and link Linear issues directly from conversations.'
+      description: 'Create issues in Linear directly from your conversation window. Alternatively, link existing Linear issues for a more streamlined and efficient issue tracking process.'
+    notion:
+      name: 'Notion'
+      short_description: 'Integrate databases, documents and pages directly with Captain.'
+      description: 'Connect your Notion workspace to enable Captain to access and generate intelligent responses using content from your databases, documents, and pages to provide more contextual customer support.'
+    shopify:
+      name: 'Shopify'
+      short_description: 'Access order details and customer data from your Shopify store.'
+      description: 'Connect your Shopify store to access order details, customer information, and product data directly within your conversations and helps your support team provide faster, more contextual assistance to your customers.'
+    leadsquared:
+      name: 'LeadSquared'
+      short_description: 'Sync your contacts and conversations with LeadSquared CRM.'
+      description: 'Sync your contacts and conversations with LeadSquared CRM. This integration automatically creates leads in LeadSquared when new contacts are added, and logs conversation activity to provide your sales team with complete context.'
+  captain:
+    copilot_message_required: Необхідне повідомлення
+    copilot_error: 'Please connect an assistant to this inbox to use Copilot'
+    copilot_limit: 'You are out of Copilot credits. You can buy more credits from the billing section.'
+    copilot:
+      using_tool: 'Using tool %{function_name}'
+      completed_tool_call: 'Completed %{function_name} tool call'
+      invalid_tool_call: 'Invalid tool call'
+      tool_not_available: 'Tool not available'
+    documents:
+      limit_exceeded: 'Document limit exceeded'
+      pdf_format_error: 'must be a PDF file'
+      pdf_size_error: 'must be less than 10MB'
+      pdf_upload_failed: 'Failed to upload PDF to OpenAI'
+      pdf_upload_success: 'PDF uploaded successfully with file_id: %{file_id}'
+      pdf_processing_failed: 'Failed to process PDF document %{document_id}: %{error}'
+      pdf_processing_success: 'Successfully processed PDF document %{document_id}'
+      faq_generation_complete: 'FAQ generation complete. Total FAQs created: %{count}'
+      using_paginated_faq: 'Using paginated FAQ generation for document %{document_id}'
+      using_standard_faq: 'Using standard FAQ generation for document %{document_id}'
+      response_creation_error: 'Error in creating response document: %{error}'
+      missing_openai_file_id: 'Document must have openai_file_id for paginated processing'
+      openai_api_error: 'OpenAI API Error: %{error}'
+      starting_paginated_faq: 'Starting paginated FAQ generation (%{pages_per_chunk} pages per chunk)'
+      stopping_faq_generation: 'Stopping processing. Reason: %{reason}'
+      paginated_faq_complete: 'Paginated generation complete. Total FAQs: %{total_faqs}, Pages processed: %{pages_processed}'
+      processing_pages: 'Processing pages %{start}-%{end} (iteration %{iteration})'
+      chunk_generated: 'Chunk generated %{chunk_faqs} FAQs. Total so far: %{total_faqs}'
+      page_processing_error: 'Error processing pages %{start}-%{end}: %{error}'
+    custom_tool:
+      slug_generation_failed: 'Unable to generate unique slug after 5 attempts'
+  public_portal:
+    search:
+      search_placeholder: Пошук статті за заголовком або змістом...
+      empty_placeholder: Результатів не знайдено.
+      loading_placeholder: Шукаємо...
+      results_title: Результати пошуку
+    toc_header: 'На цій сторінці'
+    hero:
+      sub_title: Шукайте тут або перегляньте категорії нижче.
+    common:
+      home: Головна
+      last_updated_on: Востаннє оновлено %{last_updated_on}
+      view_all_articles: Переглянути все
+      article: статті
+      articles: статті
+      author: автор
+      authors: автори
+      other: інше
+      others: інші
+      by: Від
+      no_articles: Тут немає статей
+    footer:
+      made_with: Зроблено з
+    header:
+      go_to_homepage: Вебсайт
+      visit_website: Visit website
+      appearance:
+        system: Системна
+        light: Світла
+        dark: Темна
+      featured_articles: Вибрані статті
+      uncategorized: Без категорії
+    404:
+      title: Сторінку не знайдено
+      description: Ми не змогли знайти сторінку, яку Ви шукали.
+      back_to_home: Перейти на головну сторінку
+  slack_unfurl:
+    fields:
+      name: Ім'я
+      email: Email
+      phone_number: Телефон
+      company_name: Організація
+      inbox_name: Вхідні
+      inbox_type: Тип Джерела
+    button: Відкрити розмову
+  time_units:
+    days:
+      one: '%{count} день(ів)'
+      few: '%{count} days'
+      many: '%{count} днів'
+      other: '%{count} days'
+    hours:
+      one: '%{count} годин(а)'
+      few: '%{count} hours'
+      many: '%{count} годин'
+      other: '%{count} hours'
+    minutes:
+      one: '%{count} хвилин(а)'
+      few: '%{count} minutes'
+      many: '%{count} хвилин'
+      other: '%{count} minutes'
+    seconds:
+      one: '%{count} секунд(a)'
+      few: '%{count} секунд'
+      many: '%{count} секунд'
+      other: '%{count} seconds'
+  automation:
+    system_name: 'Automation System'
+  crm:
+    no_message: 'No messages in conversation'
+    attachment: '[Attachment: %{type}]'
+    no_content: '[Немає вмісту]'
+    created_activity: |
+      New conversation started on %{brand_name}
+
+      Channel: %{channel_info}
+      Created: %{formatted_creation_time}
+      Conversation ID: %{display_id}
+      View in %{brand_name}: %{url}
+    transcript_activity: |
+      Conversation Transcript from %{brand_name}
+
+      Channel: %{channel_info}
+      Conversation ID: %{display_id}
+      View in %{brand_name}: %{url}
+
+      Transcript:
+      %{format_messages}
+  agent_capacity_policy:
+    inbox_already_assigned: 'Inbox has already been assigned to this policy'
+  portals:
+    send_instructions:
+      email_required: 'Необхідно вказати електронну адресу'
+      invalid_email_format: 'Invalid email format'
+      custom_domain_not_configured: 'Custom domain is not configured'
+      instructions_sent_successfully: 'Instructions sent successfully'
+      subject: 'Finish setting up %{custom_domain}'
+    ssl_status:
+      custom_domain_not_configured: 'Custom domain is not configured'

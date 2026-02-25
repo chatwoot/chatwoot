@@ -1,0 +1,294 @@
+require 'rails_helper'
+
+describe Integrations::Slack::IncomingMessageBuilder do
+  let(:account) { create(:account) }
+  let(:message_params) { slack_message_stub }
+  let(:builder) { described_class.new(hook: hook) }
+  let(:private_message_params) do
+    {
+      team_id: 'TLST3048H',
+      api_app_id: 'A012S5UETV4',
+      event: message_event.merge({ text: 'pRivate: A private note message' }),
+      type: 'event_callback',
+      event_time: 1_588_623_033
+    }
+  end
+  let(:sub_type_message) do
+    {
+      team_id: 'TLST3048H',
+      api_app_id: 'A012S5UETV4',
+      event: message_event.merge({ type: 'message', subtype: 'bot_message' }),
+      type: 'event_callback',
+      event_time: 1_588_623_033
+    }
+  end
+  let(:message_without_user) do
+    {
+      team_id: 'TLST3048H',
+      api_app_id: 'A012S5UETV4',
+      event: message_event.merge({ type: 'message', user: nil }),
+      type: 'event_callback',
+      event_time: 1_588_623_033
+    }
+  end
+  let(:slack_client) { double }
+  let(:link_unfurl_service) { double }
+  let(:message_with_attachments) { slack_attachment_stub }
+  let(:message_without_thread_ts) { slack_message_stub_without_thread_ts }
+  let(:verification_params) { slack_url_verification_stub }
+
+  let!(:hook) { create(:integrations_hook, account: account, reference_id: message_params[:event][:channel]) }
+  let!(:conversation) { create(:conversation, identifier: message_params[:event][:thread_ts]) }
+
+  before do
+    stub_request(:get, 'https://chatwoot-assets.local/sample.png').to_return(
+      status: 200,
+      body: File.read('spec/assets/sample.png'),
+      headers: {}
+    )
+  end
+
+  describe '#perform' do
+    context 'when url verification' do
+      it 'return challenge code as response' do
+        builder = described_class.new(verification_params)
+        response = builder.perform
+        expect(response[:challenge]).to eql(verification_params[:challenge])
+      end
+    end
+
+    context 'when message creation' do
+      it 'doesnot create message if thread info is missing' do
+        messages_count = conversation.messages.count
+        builder = described_class.new(message_without_thread_ts)
+        builder.perform
+        expect(conversation.messages.count).to eql(messages_count)
+      end
+
+      it 'does not create message if message already exists' do
+        expect(hook).not_to be_nil
+        messages_count = conversation.messages.count
+        builder = described_class.new(message_params)
+        allow(builder).to receive(:resolve_slack_sender).and_return([nil, nil, nil])
+        2.times.each { builder.perform }
+        expect(conversation.messages.count).to eql(messages_count + 1)
+        expect(conversation.messages.last.content).to eql('this is test https://chatwoot.com Hey @Sojan Test again')
+      end
+
+      it 'creates message' do
+        expect(hook).not_to be_nil
+        messages_count = conversation.messages.count
+        builder = described_class.new(message_params)
+        allow(builder).to receive(:resolve_slack_sender).and_return([nil, nil, nil])
+        builder.perform
+        expect(conversation.messages.count).to eql(messages_count + 1)
+        expect(conversation.messages.last.content).to eql('this is test https://chatwoot.com Hey @Sojan Test again')
+      end
+
+      it 'creates a private note' do
+        expect(hook).not_to be_nil
+        messages_count = conversation.messages.count
+        builder = described_class.new(private_message_params)
+        allow(builder).to receive(:resolve_slack_sender).and_return([nil, nil, nil])
+        builder.perform
+        expect(conversation.messages.count).to eql(messages_count + 1)
+        expect(conversation.messages.last.content).to eql('pRivate: A private note message')
+        expect(conversation.messages.last.private).to be(true)
+      end
+
+      it 'does not create message for invalid event type' do
+        messages_count = conversation.messages.count
+        message_params[:type] = 'invalid_event_type'
+        builder = described_class.new(message_params)
+        builder.perform
+        expect(conversation.messages.count).to eql(messages_count)
+      end
+
+      it 'does not create message for invalid event name' do
+        messages_count = conversation.messages.count
+        message_params[:event][:type] = 'invalid_event_name'
+        builder = described_class.new(message_params)
+        builder.perform
+        expect(conversation.messages.count).to eql(messages_count)
+      end
+
+      it 'does not create message for message sub type events' do
+        messages_count = conversation.messages.count
+        builder = described_class.new(sub_type_message)
+        builder.perform
+        expect(conversation.messages.count).to eql(messages_count)
+      end
+
+      it 'does not create message if user is missing' do
+        messages_count = conversation.messages.count
+        builder = described_class.new(message_without_user)
+        builder.perform
+        expect(conversation.messages.count).to eql(messages_count)
+      end
+
+      it 'does not create message for invalid event type and event files is not present' do
+        messages_count = conversation.messages.count
+        message_with_attachments[:event][:files] = nil
+        builder = described_class.new(message_with_attachments)
+        allow(builder).to receive(:resolve_slack_sender).and_return([nil, nil, nil])
+        builder.perform
+        expect(conversation.messages.count).to eql(messages_count)
+      end
+
+      it 'saves attachment if params files present' do
+        expect(hook).not_to be_nil
+        messages_count = conversation.messages.count
+        builder = described_class.new(message_with_attachments)
+        allow(builder).to receive(:resolve_slack_sender).and_return([nil, nil, nil])
+        builder.perform
+        expect(conversation.messages.count).to eql(messages_count + 1)
+        expect(conversation.messages.last.content).to eql('this is test https://chatwoot.com Hey @Sojan Test again')
+        expect(conversation.messages.last.attachments).to be_any
+      end
+
+      it 'ignore message if it is postback of CW attachment message' do
+        expect(hook).not_to be_nil
+        messages_count = conversation.messages.count
+        message_with_attachments[:event][:text] = 'Attached File!'
+        builder = described_class.new(message_with_attachments)
+
+        allow(builder).to receive(:resolve_slack_sender).and_return([nil, nil, nil])
+        builder.perform
+
+        expect(conversation.messages.count).to eql(messages_count)
+      end
+
+      it 'handles different file types correctly' do
+        expect(hook).not_to be_nil
+        video_attachment_params = message_with_attachments.deep_dup
+        video_attachment_params[:event][:files][0][:filetype] = 'mp4'
+        video_attachment_params[:event][:files][0][:mimetype] = 'video/mp4'
+
+        builder = described_class.new(video_attachment_params)
+        allow(builder).to receive(:resolve_slack_sender).and_return([nil, nil, nil])
+
+        expect { builder.perform }.not_to raise_error
+        expect(conversation.messages.last.attachments).to be_any
+      end
+    end
+
+    context 'when resolving slack sender' do
+      let(:builder) { described_class.new(message_params) }
+
+      before do
+        allow(builder).to receive(:slack_client).and_return(slack_client)
+      end
+
+      context 'when slack user email matches a chatwoot agent' do
+        before do
+          create(:user, account: conversation.account, email: 'agent@example.com')
+          slack_response = {
+            user: {
+              profile: { email: 'agent@example.com', display_name: 'Muhsin K', image_192: 'https://avatars.slack-edge.com/avatar.png' },
+              real_name: 'Muhsin K',
+              name: 'muhsink'
+            }
+          }
+          allow(slack_client).to receive(:users_info)
+            .with(user: message_params[:event][:user])
+            .and_return(slack_response)
+        end
+
+        it 'sets the matched agent as message sender' do
+          builder.perform
+          expect(conversation.messages.last.sender).to eq(conversation.account.users.from_email('agent@example.com'))
+        end
+
+        it 'does not store sender_name in additional_attributes' do
+          builder.perform
+          expect(conversation.messages.last.additional_attributes).not_to have_key('sender_name')
+        end
+      end
+
+      context 'when slack user email does not match any chatwoot agent' do
+        before do
+          slack_response = {
+            user: {
+              profile: { email: 'unknown@example.com', display_name: 'Muhsin K', image_192: 'https://avatars.slack-edge.com/avatar.png' },
+              real_name: 'Muhsin K',
+              name: 'muhsink'
+            }
+          }
+          allow(slack_client).to receive(:users_info)
+            .with(user: message_params[:event][:user])
+            .and_return(slack_response)
+        end
+
+        it 'saves sender_name from slack display_name in additional_attributes' do
+          builder.perform
+          expect(conversation.messages.last.sender).to be_nil
+          expect(conversation.messages.last.additional_attributes['sender_name']).to eq('Muhsin K')
+        end
+
+        it 'saves sender_avatar_url from slack profile image in additional_attributes' do
+          builder.perform
+          expect(conversation.messages.last.additional_attributes['sender_avatar_url'])
+            .to eq('https://avatars.slack-edge.com/avatar.png')
+        end
+
+        it 'falls back to real_name when display_name is blank' do
+          allow(slack_client).to receive(:users_info).and_return({
+                                                                   user: {
+                                                                     profile: { email: 'unknown@example.com', display_name: '',
+                                                                                image_192: nil }, real_name: 'Muhsin K', name: 'muhsink'
+                                                                   }
+                                                                 })
+          builder.perform
+          expect(conversation.messages.last.additional_attributes['sender_name']).to eq('Muhsin K')
+        end
+
+        it 'falls back to slack username when display_name and real_name are both blank' do
+          allow(slack_client).to receive(:users_info).and_return({
+                                                                   user: {
+                                                                     profile: { email: 'unknown@example.com', display_name: '',
+                                                                                image_192: nil }, real_name: '', name: 'muhsink'
+                                                                   }
+                                                                 })
+          builder.perform
+          expect(conversation.messages.last.additional_attributes['sender_name']).to eq('muhsink')
+        end
+      end
+
+      context 'when the slack API call raises an error' do
+        before do
+          allow(slack_client).to receive(:users_info).and_raise(StandardError, 'API error')
+        end
+
+        it 'creates the message with nil sender' do
+          expect { builder.perform }.not_to raise_error
+          expect(conversation.messages.last.sender).to be_nil
+        end
+
+        it 'does not store sender info in additional_attributes' do
+          builder.perform
+          expect(conversation.messages.last.additional_attributes).not_to have_key('sender_name')
+          expect(conversation.messages.last.additional_attributes).not_to have_key('sender_avatar_url')
+        end
+      end
+    end
+
+    context 'when link shared' do
+      let(:link_shared) do
+        {
+          team_id: 'TLST3048H',
+          api_app_id: 'A012S5UETV4',
+          event: link_shared_event.merge({ links: [{ url: "https://qa.chatwoot.com/app/accounts/1/conversations/#{conversation.display_id}",
+                                                     domain: 'qa.chatwoot.com' }] }),
+          type: 'event_callback',
+          event_time: 1_588_623_033
+        }
+      end
+
+      it 'unfurls link' do
+        builder = described_class.new(link_shared)
+        expect(SlackUnfurlJob).to receive(:perform_later).with(link_shared)
+        builder.perform
+      end
+    end
+  end
+end

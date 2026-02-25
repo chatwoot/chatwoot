@@ -1,0 +1,251 @@
+{
+  "GENERAL_SETTINGS": {
+    "LIMIT_MESSAGES": {
+      "CONVERSATION": "You have exceeded the conversation limit. Hacker plan allows only 500 conversations.",
+      "INBOXES": "You have exceeded the inbox limit. Hacker plan only supports website live-chat. Additional inboxes like email, WhatsApp etc. require a paid plan.",
+      "AGENTS": "You have exceeded the agent limit. Your plan only allows {allowedAgents} agents.",
+      "NON_ADMIN": "Please contact your administrator to upgrade the plan and continue using all features."
+    },
+    "TITLE": "Pengaturan akun",
+    "SUBMIT": "Ubah pengaturan",
+    "BACK": "Kembali",
+    "DISMISS": "Tutup",
+    "UPDATE": {
+      "ERROR": "Tidak dapat memperbarui pengaturan, coba lagi!",
+      "SUCCESS": "Pengaturan akun berhasil diperbarui"
+    },
+    "ACCOUNT_DELETE_SECTION": {
+      "TITLE": "Delete your Account",
+      "NOTE": "Once you delete your account, all your data will be deleted.",
+      "BUTTON_TEXT": "Delete Your Account",
+      "CONFIRM": {
+        "TITLE": "Delete Account",
+        "MESSAGE": "Deleting your Account is irreversible. Enter your account name below to confirm you want to permanently delete it.",
+        "BUTTON_TEXT": "Hapus",
+        "DISMISS": "Batalkan",
+        "PLACE_HOLDER": "Silakan ketik %{accountName} untuk konfirmasi"
+      },
+      "SUCCESS": "Account marked for deletion",
+      "FAILURE": "Could not delete account, try again!",
+      "SCHEDULED_DELETION": {
+        "TITLE": "Account Scheduled for Deletion",
+        "MESSAGE_MANUAL": "This account is scheduled for deletion on {deletionDate}. This was requested by an administrator. You can cancel the deletion before this date.",
+        "MESSAGE_INACTIVITY": "This account is scheduled for deletion on {deletionDate} due to account inactivity. You can cancel the deletion before this date.",
+        "CLEAR_BUTTON": "Cancel Scheduled Deletion"
+      }
+    },
+    "FORM": {
+      "ERROR": "Harap perbaiki kesalahan pada formulir",
+      "GENERAL_SECTION": {
+        "TITLE": "Pengaturan Umum",
+        "NOTE": ""
+      },
+      "ACCOUNT_ID": {
+        "TITLE": "ID Akun",
+        "NOTE": "ID ini diperlukan jika Anda membangun integrasi berbasis API"
+      },
+      "AUTO_RESOLVE": {
+        "TITLE": "Auto-resolve conversations",
+        "NOTE": "This configuration would allow you to automatically resolve the conversation after a certain period of inactivity.",
+        "DURATION": {
+          "LABEL": "Inactivity duration",
+          "HELP": "Time period of inactivity after which conversation is auto-resolved",
+          "PLACEHOLDER": "30",
+          "ERROR": "Auto resolve duration should be between 10 minutes and 999 days",
+          "API": {
+            "SUCCESS": "Auto resolve settings updated successfully",
+            "ERROR": "Failed to update auto resolve settings"
+          }
+        },
+        "MESSAGE": {
+          "LABEL": "Custom auto-resolution message",
+          "PLACEHOLDER": "Conversation was marked resolved by system due to 15 days of inactivity",
+          "HELP": "Message sent to the customer after conversation is auto-resolved"
+        },
+        "PREFERENCES": "Preferences",
+        "LABEL": {
+          "LABEL": "Add label after auto-resolution",
+          "PLACEHOLDER": "Select a label"
+        },
+        "IGNORE_WAITING": {
+          "LABEL": "Skip conversations waiting for agent’s reply"
+        },
+        "UPDATE_BUTTON": "Save Changes"
+      },
+      "NAME": {
+        "LABEL": "Nama Akun",
+        "PLACEHOLDER": "Nama akun Anda",
+        "ERROR": "Harap masukkan nama akun yang valid"
+      },
+      "LANGUAGE": {
+        "LABEL": "Bahasa Situs",
+        "PLACEHOLDER": "Bahasa situs Anda",
+        "ERROR": ""
+      },
+      "DOMAIN": {
+        "LABEL": "Domain Email Masuk",
+        "PLACEHOLDER": "Domain tempat Anda akan menerima email",
+        "ERROR": ""
+      },
+      "SUPPORT_EMAIL": {
+        "LABEL": "Email Dukungan",
+        "PLACEHOLDER": "Email dukungan perusahaan Anda",
+        "ERROR": ""
+      },
+      "AUTO_RESOLVE_IGNORE_WAITING": {
+        "LABEL": "Exclude unattended conversations",
+        "HELP": "When enabled, the system will skip resolving conversations that are still waiting for an agent's reply."
+      },
+      "AUDIO_TRANSCRIPTION": {
+        "TITLE": "Transcribe Audio Messages",
+        "NOTE": "Automatically transcribe audio messages in conversations. Generate a text transcript whenever an audio message is sent or received, and display it alongside the message.",
+        "API": {
+          "SUCCESS": "Audio transcription setting updated successfully",
+          "ERROR": "Failed to update audio transcription setting"
+        }
+      },
+      "AUTO_RESOLVE_DURATION": {
+        "LABEL": "Inactivity duration for resolution",
+        "HELP": "Duration after a conversation should auto resolve if there is no activity",
+        "PLACEHOLDER": "30",
+        "ERROR": "Auto resolve duration should be between 10 minutes and 999 days",
+        "API": {
+          "SUCCESS": "Auto resolve settings updated successfully",
+          "ERROR": "Failed to update auto resolve settings"
+        },
+        "UPDATE_BUTTON": "Perbarui",
+        "MESSAGE_LABEL": "Custom resolution message",
+        "MESSAGE_PLACEHOLDER": "Conversation was marked resolved by system due to 15 days of inactivity",
+        "MESSAGE_HELP": "This message is sent to the customer when a conversation is automatically resolved by the system due to inactivity."
+      },
+      "FEATURES": {
+        "INBOUND_EMAIL_ENABLED": "Kelanjutan percakapan dengan email diaktifkan untuk akun Anda.",
+        "CUSTOM_EMAIL_DOMAIN_ENABLED": "Anda dapat menerima email di domain kustom Anda sekarang."
+      }
+    },
+    "UPDATE_CHATWOOT": "Pembaharuan Chatwoot {latestChatwootVersion} telah tersedia. Silahkan lakukan pembaharuan instance Anda.",
+    "LEARN_MORE": "Pelajari lebih lanjut",
+    "PAYMENT_PENDING": "Pembayaran Anda tertunda. Harap perbarui informasi pembayaran Anda untuk melanjutkan menggunakan Chatwoot",
+    "UPGRADE": "Upgrade to continue using Chatwoot",
+    "LIMITS_UPGRADE": "Akun Anda telah melebihi batas penggunaan, harap tingkatkan paket Anda untuk terus menggunakan Chatwoot",
+    "OPEN_BILLING": "Buka tagihan"
+  },
+  "FORMS": {
+    "MULTISELECT": {
+      "ENTER_TO_SELECT": "Tekan enter untuk memilih",
+      "ENTER_TO_REMOVE": "Tekan enter untuk menghapus",
+      "NO_OPTIONS": "List is empty",
+      "SELECT_ONE": "Pilih satu",
+      "SELECT": "Pilih"
+    }
+  },
+  "NOTIFICATIONS_PAGE": {
+    "HEADER": "Notifikasi",
+    "MARK_ALL_DONE": "Tandai Semua Selesai",
+    "DELETE_TITLE": "terhapus",
+    "UNREAD_NOTIFICATION": {
+      "TITLE": "Notifikasi Belum Dibaca",
+      "ALL_NOTIFICATIONS": "Lihat semua notifikasi",
+      "LOADING_UNREAD_MESSAGE": "Memuat notifikasi belum dibaca...",
+      "EMPTY_MESSAGE": "Anda tidak memiliki notifikasi belum dibaca"
+    },
+    "LIST": {
+      "LOADING_MESSAGE": "Memuat notifikasi...",
+      "404": "Tidak Ada Notifikasi",
+      "TABLE_HEADER": [
+        "Nama",
+        "Nomor Telepon",
+        "Percakapan",
+        "Terakhir Dihubungi"
+      ]
+    },
+    "TYPE_LABEL": {
+      "conversation_creation": "Percakapan baru",
+      "conversation_assignment": "Percakapan ditugaskan",
+      "assigned_conversation_new_message": "Pesan Baru",
+      "participating_conversation_new_message": "Pesan Baru",
+      "conversation_mention": "Mention",
+      "sla_missed_first_response": "SLA Missed",
+      "sla_missed_next_response": "SLA Missed",
+      "sla_missed_resolution": "SLA Missed"
+    }
+  },
+  "NETWORK": {
+    "NOTIFICATION": {
+      "OFFLINE": "Offline",
+      "RECONNECTING": "Reconnecting...",
+      "RECONNECT_SUCCESS": "Reconnected"
+    },
+    "BUTTON": {
+      "REFRESH": "Segarkan"
+    }
+  },
+  "COMMAND_BAR": {
+    "SEARCH_PLACEHOLDER": "Cari atau loncat ke",
+    "SECTIONS": {
+      "GENERAL": "Umum",
+      "REPORTS": "Laporan",
+      "CONVERSATION": "Percakapan",
+      "BULK_ACTIONS": "Bulk Actions",
+      "CHANGE_ASSIGNEE": "Ubah Penerima Tugas",
+      "CHANGE_PRIORITY": "Ubah Prioritas",
+      "CHANGE_TEAM": "Ubah Tim",
+      "SNOOZE_CONVERSATION": "Tunda Percakapan",
+      "ADD_LABEL": "Tambahkan label ke percakapan",
+      "REMOVE_LABEL": "Hapus label dari percakapan",
+      "SETTINGS": "Pengaturan",
+      "AI_ASSIST": "AI Assist",
+      "APPEARANCE": "Appearance",
+      "SNOOZE_NOTIFICATION": "Snooze Notification"
+    },
+    "COMMANDS": {
+      "GO_TO_CONVERSATION_DASHBOARD": "Menuju ke Dasbor Percakapan",
+      "GO_TO_CONTACTS_DASHBOARD": "Menuju ke Dasbor Kontak",
+      "GO_TO_REPORTS_OVERVIEW": "Menuju ke Tinjauan Laporan",
+      "GO_TO_CONVERSATION_REPORTS": "Menuju ke Laporan Percakapan",
+      "GO_TO_AGENT_REPORTS": "Menuju ke Laporan Agen",
+      "GO_TO_LABEL_REPORTS": "Menuju ke Laporan Label",
+      "GO_TO_INBOX_REPORTS": "Menuju ke Laporan Kotak Masuk",
+      "GO_TO_TEAM_REPORTS": "Menuju ke Laporan Tim",
+      "GO_TO_SETTINGS_AGENTS": "Menuju ke Pengaturan Agen",
+      "GO_TO_SETTINGS_TEAMS": "Menuju ke Pengaturan Tim",
+      "GO_TO_SETTINGS_INBOXES": "Menuju ke Pengaturan Kotak Masuk",
+      "GO_TO_SETTINGS_LABELS": "Menuju ke Pengaturan Label",
+      "GO_TO_SETTINGS_CANNED_RESPONSES": "Menuju ke Pengaturan Tanggapan Cepat",
+      "GO_TO_SETTINGS_APPLICATIONS": "Menuju ke Pengaturan Aplikasi",
+      "GO_TO_SETTINGS_ACCOUNT": "Menuju ke Pengaturan Akun",
+      "GO_TO_SETTINGS_PROFILE": "Menuju ke Pengaturan Profil",
+      "GO_TO_NOTIFICATIONS": "Menuju ke Notifikasi",
+      "ADD_LABELS_TO_CONVERSATION": "Tambahkan label ke percakapan",
+      "ASSIGN_AN_AGENT": "Tetapkan agen",
+      "AI_ASSIST": "AI Assist",
+      "ASSIGN_PRIORITY": "Tetapkan prioritas",
+      "ASSIGN_A_TEAM": "Tetapkan tim",
+      "MUTE_CONVERSATION": "Matikan suara percakapan",
+      "UNMUTE_CONVERSATION": "Hidupkan suara percakapan",
+      "REMOVE_LABEL_FROM_CONVERSATION": "Hapus label dari percakapan",
+      "REOPEN_CONVERSATION": "Buka kembali percakapan",
+      "RESOLVE_CONVERSATION": "Selesaikan percakapan",
+      "SEND_TRANSCRIPT": "Kirim transkrip email",
+      "SNOOZE_CONVERSATION": "Tunda Percakapan",
+      "UNTIL_NEXT_REPLY": "Hingga balasan berikutnya",
+      "UNTIL_NEXT_WEEK": "Hingga minggu depan",
+      "UNTIL_TOMORROW": "Hingga besok",
+      "UNTIL_NEXT_MONTH": "Hingga bulan depan",
+      "AN_HOUR_FROM_NOW": "Hingga satu jam dari sekarang",
+      "UNTIL_CUSTOM_TIME": "Kustom...",
+      "CHANGE_APPEARANCE": "Change Appearance",
+      "LIGHT_MODE": "Light",
+      "DARK_MODE": "Dark",
+      "SYSTEM_MODE": "Sistem",
+      "SNOOZE_NOTIFICATION": "Snooze Notification"
+    }
+  },
+  "DASHBOARD_APPS": {
+    "LOADING_MESSAGE": "Memuat Aplikasi Dasbor..."
+  },
+  "COMMON": {
+    "OR": "Or",
+    "CLICK_HERE": "klik disini"
+  }
+}

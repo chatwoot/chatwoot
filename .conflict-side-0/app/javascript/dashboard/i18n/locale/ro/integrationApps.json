@@ -1,0 +1,62 @@
+{
+  "INTEGRATION_APPS": {
+    "FETCHING": "Preluarea integrărilor",
+    "NO_HOOK_CONFIGURED": "Nu există integrări {integrationId} configurate în acest cont.",
+    "HEADER": "Aplicatii",
+    "STATUS": {
+      "ENABLED": "Activat",
+      "DISABLED": "Dezactivat"
+    },
+    "CONFIGURE": "Configurare",
+    "ADD_BUTTON": "Adăugați un cârlig nou",
+    "DELETE": {
+      "TITLE": {
+        "INBOX": "Confirmă ștergerea",
+        "ACCOUNT": "Deconectare"
+      },
+      "MESSAGE": {
+        "INBOX": "Sigur doriți să ștergeți?",
+        "ACCOUNT": "Sunteți sigur că vă deconectați?"
+      },
+      "CONFIRM_BUTTON_TEXT": {
+        "INBOX": "Da, șterge",
+        "ACCOUNT": "Da, Deconectați-vă"
+      },
+      "CANCEL_BUTTON_TEXT": "Renunță",
+      "API": {
+        "SUCCESS_MESSAGE": "Cârlig șters cu succes",
+        "ERROR_MESSAGE": "Nu s-a putut conecta la Woot Server, încercați din nou mai târziu"
+      }
+    },
+    "LIST": {
+      "FETCHING": "Preluarea cârligelor de integrare",
+      "INBOX": "Inbox",
+      "DELETE": {
+        "BUTTON_TEXT": "Şterge"
+      }
+    },
+    "ADD": {
+      "FORM": {
+        "INBOX": {
+          "LABEL": "Selectați Inbox",
+          "PLACEHOLDER": "Selectați Inbox"
+        },
+        "SUBMIT": "Creeaza",
+        "CANCEL": "Renunță"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Regulă de automatizare adăugată cu succes",
+        "ERROR_MESSAGE": "Nu s-a putut conecta la Woot Server, încercați din nou mai târziu"
+      }
+    },
+    "CONNECT": {
+      "BUTTON_TEXT": "Conectează-te"
+    },
+    "DISCONNECT": {
+      "BUTTON_TEXT": "Deconectare"
+    },
+    "SIDEBAR_DESCRIPTION": {
+      "DIALOGFLOW": "Dialogflow is a natural language processing platform for building conversational interfaces. Integrating it with {installationName} lets bots handle queries first and transfer them to agents when needed. It helps qualify leads and reduce agent workload by answering FAQs. To add Dialogflow, create a Service Account in Google Console and share the credentials. Refer to the docs for details"
+    }
+  }
+}

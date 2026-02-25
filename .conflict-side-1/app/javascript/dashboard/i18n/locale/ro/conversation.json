@@ -1,0 +1,439 @@
+{
+  "CONVERSATION": {
+    "SELECT_A_CONVERSATION": "Vă rugăm să selectați o conversație din panoul din stânga",
+    "CSAT_REPLY_MESSAGE": "Vă rugăm să evaluați conversația",
+    "404": "Ne pare rău, nu am putut găsi conversația. Vă rugăm să încercați din nou",
+    "SWITCH_VIEW_LAYOUT": "Schimbă aspectul",
+    "DASHBOARD_APP_TAB_MESSAGES": "Mesaje",
+    "UNVERIFIED_SESSION": "Identitatea acestui utilizator nu este verificată",
+    "NO_MESSAGE_1": "Uh oh! Se pare că nu există niciun mesaj de la clienți în căsuța poștală.",
+    "NO_MESSAGE_2": " pentru a trimite un mesaj către pagina ta!",
+    "NO_INBOX_1": "Hola! Se pare că nu ai adăugat încă nici o căsuță poștală.",
+    "NO_INBOX_2": " pentru a începe",
+    "NO_INBOX_AGENT": "Uh Oh! Se pare că nu faci parte din nici o căsuță de e-mail. Te rugăm să contactezi administratorul",
+    "SEARCH_MESSAGES": "Caută mesaje în conversații",
+    "VIEW_ORIGINAL": "View original",
+    "VIEW_TRANSLATED": "View translated",
+    "EMPTY_STATE": {
+      "CMD_BAR": "to open command menu",
+      "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"
+    },
+    "SEARCH": {
+      "TITLE": "Caută mesaje",
+      "RESULT_TITLE": "Rezultate căutare",
+      "LOADING_MESSAGE": "Ridicarea datelor...",
+      "PLACEHOLDER": "Introduceți orice text pentru a căuta mesaje",
+      "NO_MATCHING_RESULTS": "Niciun rezultat găsit."
+    },
+    "UNREAD_MESSAGES": "Mesaje necitite",
+    "UNREAD_MESSAGE": "Mesaj necitit",
+    "CLICK_HERE": "Click aici",
+    "LOADING_INBOXES": "Încărcare mesaje primite",
+    "LOADING_CONVERSATIONS": "Încărcare conversații",
+    "CANNOT_REPLY": "Nu poți răspunde din cauza",
+    "24_HOURS_WINDOW": "Restricţie fereastră mesaj 24 de ore",
+    "48_HOURS_WINDOW": "Restricţie fereastră mesaj 48 de ore",
+    "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
+    "NOT_ASSIGNED_TO_YOU": "Această conversație nu vă este atribuită. Doriți să vă atribuiți această conversație?",
+    "ASSIGN_TO_ME": "Atribuie-mi",
+    "BOT_HANDOFF_MESSAGE": "You are responding to a conversation which is currently handled by an assistant or a bot.",
+    "BOT_HANDOFF_ACTION": "Mark open and assign to you",
+    "BOT_HANDOFF_REOPEN_ACTION": "Mark conversation open",
+    "BOT_HANDOFF_SUCCESS": "Conversation has been handed over to you",
+    "BOT_HANDOFF_ERROR": "Failed to take over the conversation. Please try again.",
+    "TWILIO_WHATSAPP_CAN_REPLY": "Poți răspunde la această conversație doar folosind un mesaj șablon datorat",
+    "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Restricţie fereastră mesaj 24 de ore",
+    "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. All new messages will show up there. You won’t be able to send messages from this conversation anymore.",
+    "REPLYING_TO": "Răspundeți la:",
+    "REMOVE_SELECTION": "Elimină selecția",
+    "DOWNLOAD": "Descărcare",
+    "UNKNOWN_FILE_TYPE": "Fișier necunoscut",
+    "SAVE_CONTACT": "Save Contact",
+    "NO_CONTENT": "No content to display",
+    "SHARED_ATTACHMENT": {
+      "CONTACT": "{sender} has shared a contact",
+      "LOCATION": "{sender} has shared a location",
+      "FILE": "{sender} has shared a file",
+      "MEETING": "{sender} a început o întâlnire"
+    },
+    "UPLOADING_ATTACHMENTS": "Se încarcă atașamentele...",
+    "REPLIED_TO_STORY": "A răspuns la povestea ta",
+    "UNSUPPORTED_MESSAGE": "This message is unsupported. You can view this message on the Facebook / Instagram app.",
+    "UNSUPPORTED_MESSAGE_FACEBOOK": "This message is unsupported. You can view this message on the Facebook Messenger app.",
+    "UNSUPPORTED_MESSAGE_INSTAGRAM": "This message is unsupported. You can view this message on the Instagram app.",
+    "SUCCESS_DELETE_MESSAGE": "Mesaj şters cu succes",
+    "FAIL_DELETE_MESSSAGE": "Mesajul nu a putut fi șters! Încercați din nou",
+    "NO_RESPONSE": "Niciun răspuns",
+    "RESPONSE": "Response",
+    "RATING_TITLE": "Evaluare",
+    "FEEDBACK_TITLE": "Păreri",
+    "REPLY_MESSAGE_NOT_FOUND": "Message not available",
+    "CARD": {
+      "SHOW_LABELS": "Afișare etichete",
+      "HIDE_LABELS": "Ascunderea etichetelor"
+    },
+    "VOICE_CALL": {
+      "INCOMING_CALL": "Incoming call",
+      "OUTGOING_CALL": "Outgoing call",
+      "CALL_IN_PROGRESS": "Call in progress",
+      "NO_ANSWER": "No answer",
+      "MISSED_CALL": "Missed call",
+      "CALL_ENDED": "Call ended",
+      "NOT_ANSWERED_YET": "Not answered yet",
+      "THEY_ANSWERED": "They answered",
+      "YOU_ANSWERED": "You answered"
+    },
+    "HEADER": {
+      "RESOLVE_ACTION": "Rezolvă",
+      "REOPEN_ACTION": "Redeschide",
+      "OPEN_ACTION": "Deschide",
+      "MORE_ACTIONS": "More actions",
+      "OPEN": "Mai mult",
+      "CLOSE": "Închide",
+      "DETAILS": "detalii",
+      "SNOOZED_UNTIL": "Amânare până la",
+      "SNOOZED_UNTIL_TOMORROW": "Amânat până mâine",
+      "SNOOZED_UNTIL_NEXT_WEEK": "Amânat până săptămâna viitoare",
+      "SNOOZED_UNTIL_NEXT_REPLY": "Amânat până la următorul răspuns",
+      "SLA_STATUS": {
+        "FRT": "FRT {status}",
+        "NRT": "NRT {status}",
+        "RT": "RT {status}",
+        "MISSED": "missed",
+        "DUE": "due"
+      }
+    },
+    "RESOLVE_DROPDOWN": {
+      "MARK_PENDING": "Marchează ca în așteptare",
+      "SNOOZE_UNTIL": "Amânați",
+      "SNOOZE": {
+        "TITLE": "Amânare până la",
+        "NEXT_REPLY": "Următorul răspuns",
+        "TOMORROW": "Mâine",
+        "NEXT_WEEK": "Săptămâna viitoare"
+      }
+    },
+    "MENTION": {
+      "AGENTS": "Agenți",
+      "TEAMS": "Echipe"
+    },
+    "CUSTOM_SNOOZE": {
+      "TITLE": "Amânare până la",
+      "APPLY": "Amânați",
+      "CANCEL": "Renunță"
+    },
+    "PRIORITY": {
+      "TITLE": "Prioritate",
+      "OPTIONS": {
+        "NONE": "Nimic",
+        "URGENT": "Urgent",
+        "HIGH": "Mare",
+        "MEDIUM": "Mediu",
+        "LOW": "Scăzut"
+      },
+      "CHANGE_PRIORITY": {
+        "SELECT_PLACEHOLDER": "Nimic",
+        "INPUT_PLACEHOLDER": "Selectați prioritatea",
+        "NO_RESULTS": "Niciun rezultat găsit",
+        "SUCCESSFUL": "A schimbat prioritatea ID-ului conversației {conversationId} în {priority}",
+        "FAILED": "Nu s-a putut schimba prioritatea. Vă rugăm să încercați din nou."
+      }
+    },
+    "DELETE_CONVERSATION": {
+      "TITLE": "Delete conversation #{conversationId}",
+      "DESCRIPTION": "Are you sure you want to delete this conversation?",
+      "CONFIRM": "Şterge"
+    },
+    "CARD_CONTEXT_MENU": {
+      "PENDING": "Marchează ca în așteptare",
+      "RESOLVED": "Marcați ca rezolvat",
+      "MARK_AS_UNREAD": "Marcheaza ca necitit",
+      "MARK_AS_READ": "Mark as read",
+      "REOPEN": "Redeschiderea conversației",
+      "SNOOZE": {
+        "TITLE": "Amânați",
+        "NEXT_REPLY": "Până la următorul răspuns",
+        "TOMORROW": "Până mâine",
+        "NEXT_WEEK": "Până săptămâna viitoare"
+      },
+      "ASSIGN_AGENT": "Atribuiți agent",
+      "ASSIGN_LABEL": "Atribuiți eticheta",
+      "AGENTS_LOADING": "Se încarcă agenții...",
+      "ASSIGN_TEAM": "Atribuiți echipă",
+      "DELETE": "Delete conversation",
+      "OPEN_IN_NEW_TAB": "Open in new tab",
+      "COPY_LINK": "Copy conversation link",
+      "COPY_LINK_SUCCESS": "Conversation link copied to clipboard",
+      "API": {
+        "AGENT_ASSIGNMENT": {
+          "SUCCESFUL": "Id conversație {conversationId} atribuit la \"{agentName}\"",
+          "FAILED": "Nu s-a putut atribui agentul. Vă rugăm încercați din nou."
+        },
+        "LABEL_ASSIGNMENT": {
+          "SUCCESFUL": "Assigned label #{labelName} to conversation id {conversationId}",
+          "FAILED": "Nu s-a putut atribui eticheta. Vă rugăm încercați din nou."
+        },
+        "TEAM_ASSIGNMENT": {
+          "SUCCESFUL": "Echipa atribuită #{team} la conversația cu id {conversationId}",
+          "FAILED": "Nu s-a putut atribui echipa. Vă rugăm să încercaţi din nou."
+        }
+      }
+    },
+    "FOOTER": {
+      "MESSAGE_SIGN_TOOLTIP": "Semnătura mesajului",
+      "ENABLE_SIGN_TOOLTIP": "Activarea semnăturii",
+      "DISABLE_SIGN_TOOLTIP": "Dezactivarea semnăturii",
+      "MSG_INPUT": "Shift + enter pentru linie nouă. Începe cu '/' pentru a selecta un răspuns predeterminat.",
+      "PRIVATE_MSG_INPUT": "Shift + enter pentru linie nouă. Acest lucru va fi vizibil doar pentru Agenți",
+      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Semnătura mesajului nu este configurată, vă rugăm să o configurați în setările profilului.",
+      "CLICK_HERE": "Click aici pentru a actualiza",
+      "WHATSAPP_TEMPLATES": "Șabloane WhatsApp"
+    },
+    "REPLYBOX": {
+      "REPLY": "Răspunde",
+      "PRIVATE_NOTE": "Notă privată",
+      "SEND": "Trimite",
+      "CREATE": "Adaugă Notă",
+      "INSERT_READ_MORE": "Citeşte mai mult",
+      "DISMISS_REPLY": "Dismiss reply",
+      "REPLYING_TO": "Replying to:",
+      "TIP_EMOJI_ICON": "Arată selectorul emoji",
+      "TIP_ATTACH_ICON": "Ataşează fişiere",
+      "TIP_AUDIORECORDER_ICON": "Înregistrare audio",
+      "TIP_AUDIORECORDER_PERMISSION": "Permiteți accesul la audio",
+      "TIP_AUDIORECORDER_ERROR": "Nu s-a putut deschide audio",
+      "DRAG_DROP": "Trageți și plasați aici pentru atașare",
+      "START_AUDIO_RECORDING": "Pornirea înregistrării audio",
+      "STOP_AUDIO_RECORDING": "Mesaj audio",
+      "": "",
+      "EMAIL_HEAD": {
+        "TO": "TO",
+        "ADD_BCC": "Adaugă bcc",
+        "CC": {
+          "LABEL": "CC",
+          "PLACEHOLDER": "E-mailuri separate prin virgulă",
+          "ERROR": "Vă rugăm să introduceți o adresă de e-mail validă"
+        },
+        "BCC": {
+          "LABEL": "BCC",
+          "PLACEHOLDER": "E-mailuri separate prin virgulă",
+          "ERROR": "Vă rugăm să introduceți o adresă de e-mail validă"
+        }
+      },
+      "UNDEFINED_VARIABLES": {
+        "TITLE": "Variabile nedefinite",
+        "MESSAGE": "Aveți {undefinedVariablesCount} variabile nedefinite în mesajul dvs.: {undefinedVariables}. Doriți să trimiteți mesajul oricum?",
+        "CONFIRM": {
+          "YES": "Trimite",
+          "CANCEL": "Renunță"
+        }
+      },
+      "QUOTED_REPLY": {
+        "ENABLE_TOOLTIP": "Include quoted email thread",
+        "DISABLE_TOOLTIP": "Don't include quoted email thread",
+        "REMOVE_PREVIEW": "Remove quoted email thread",
+        "COLLAPSE": "Collapse preview",
+        "EXPAND": "Expand preview"
+      }
+    },
+    "VISIBLE_TO_AGENTS": "Notă privată: vizibilă doar pentru tine și echipa ta",
+    "CHANGE_STATUS": "Stare conversație schimbată",
+    "CHANGE_STATUS_FAILED": "Schimbarea stării conversației a eșuat",
+    "CHANGE_AGENT": "Persoana căreia i-a fost ateribuită conversația a fost schimbată",
+    "CHANGE_AGENT_FAILED": "Schimbarea agentului a eșuat",
+    "ASSIGN_LABEL_SUCCESFUL": "Etichetă atribuită cu succes",
+    "ASSIGN_LABEL_FAILED": "Atribuirea etichetei a eșuat",
+    "CHANGE_TEAM": "Echipa de conversație schimbată",
+    "SUCCESS_DELETE_CONVERSATION": "Conversation deleted successfully",
+    "FAIL_DELETE_CONVERSATION": "Couldn't delete conversation! Try again",
+    "FILE_SIZE_LIMIT": "Fișierul depășește limita de {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB",
+    "MESSAGE_ERROR": "Mesajul nu poate fi trimis, te rugăm să încerci din nou mai târziu",
+    "SENT_BY": "Trimis de:",
+    "BOT": "Bot",
+    "SEND_FAILED": "Nu a putut trimite mesaj! Încearcă din nou",
+    "TRY_AGAIN": "reîncercare",
+    "ASSIGNMENT": {
+      "SELECT_AGENT": "Selectează agent",
+      "REMOVE": "Elimină",
+      "ASSIGN": "Atribuiți"
+    },
+    "CONTEXT_MENU": {
+      "COPY": "Copiază",
+      "REPLY_TO": "Reply to this message",
+      "DELETE": "Şterge",
+      "CREATE_A_CANNED_RESPONSE": "Adaugați la răspunsuri predefinite",
+      "TRANSLATE": "Traduceți",
+      "COPY_PERMALINK": "Copierea linkului la mesaj",
+      "LINK_COPIED": "URL-ul mesajului copiat în clipboard",
+      "DELETE_CONFIRMATION": {
+        "TITLE": "Ești sigur că vrei să ștergi acest mesaj?",
+        "MESSAGE": "Nu puteți anula această acțiune",
+        "DELETE": "Şterge",
+        "CANCEL": "Renunță"
+      }
+    },
+    "SIDEBAR": {
+      "CONTACT": "Contact",
+      "COPILOT": "Copilot"
+    },
+    "VOICE_WIDGET": {
+      "INCOMING_CALL": "Incoming call",
+      "OUTGOING_CALL": "Outgoing call",
+      "CALL_IN_PROGRESS": "Call in progress",
+      "NOT_ANSWERED_YET": "Not answered yet",
+      "HANDLED_IN_ANOTHER_TAB": "Being handled in another tab",
+      "REJECT_CALL": "Reject",
+      "JOIN_CALL": "Join call",
+      "END_CALL": "End call"
+    }
+  },
+  "EMAIL_TRANSCRIPT": {
+    "TITLE": "Trimite transcrierea conversației",
+    "DESC": "Trimite o copie a transcrisului de conversație la adresa de e-mail specificată",
+    "SUBMIT": "Trimite",
+    "CANCEL": "Renunță",
+    "SEND_EMAIL_SUCCESS": "Transscrisul de chat a fost trimis cu succes",
+    "SEND_EMAIL_ERROR": "A apărut o eroare, încercați din nou",
+    "FORM": {
+      "SEND_TO_CONTACT": "Trimite transcrierea către client",
+      "SEND_TO_AGENT": "Trimite transcrierea către agentul atribuit",
+      "SEND_TO_OTHER_EMAIL_ADDRESS": "Această adresă de e-mail este folosită pentru un alt contact",
+      "EMAIL": {
+        "PLACEHOLDER": "Introduceți o adresă de e-mail",
+        "ERROR": "Vă rugăm să introduceți o adresă de e-mail validă"
+      }
+    }
+  },
+  "ONBOARDING": {
+    "TITLE": "Hei 👋, Bine ati venit la {installationName}!",
+    "DESCRIPTION": "Vă mulțumim pentru semnarea sus. Vrem să profitați la maximum de {installationName}. Iată câteva lucruri pe care le puteți face în {installationName} pentru a face experiența încântătoare.",
+    "GREETING_MORNING": "👋 Good morning, {name}. Welcome to {installationName}.",
+    "GREETING_AFTERNOON": "👋 Good afternoon, {name}. Welcome to {installationName}.",
+    "GREETING_EVENING": "👋 Good evening, {name}. Welcome to {installationName}.",
+    "READ_LATEST_UPDATES": "Citiți cele mai recente actualizări ale noastre",
+    "ALL_CONVERSATION": {
+      "TITLE": "Toate conversațiile într-un singur loc",
+      "DESCRIPTION": "Vizualizați toate conversațiile de la clienți într-un singur tablou de bord. Puteți filtra conversațiile după canalul, eticheta și starea primite.",
+      "NEW_LINK": "Click aici pentru a crea un inbox"
+    },
+    "TEAM_MEMBERS": {
+      "TITLE": "Invită-ți membrii echipei",
+      "DESCRIPTION": "Din moment ce vă pregătiți să vorbiți cu clientul dvs., aduceți-vă coechipierii pentru a vă ajuta. Vă puteți invita colegii de echipă adăugând adresele lor de e-mail la lista de agenți.",
+      "NEW_LINK": "Faceți clic aici pentru a invita un membru al echipei"
+    },
+    "LABELS": {
+      "TITLE": "Organizarea conversațiilor cu etichete",
+      "DESCRIPTION": "Etichetele oferă o modalitate mai ușoară de a clasifica conversația. Creați unele etichete, cum ar fi #support-solicitare, #billing-întrebare etc., astfel încât să le puteți utiliza într-o conversație mai târziu.",
+      "NEW_LINK": "Click aici pentru a crea tag-uri"
+    },
+    "CANNED_RESPONSES": {
+      "TITLE": "Create canned responses",
+      "DESCRIPTION": "Pre-written quick reply templates help you quickly respond to a conversation. Agents can type the '/' character followed by the shortcode to insert a response.",
+      "NEW_LINK": "Click here to create a canned response"
+    }
+  },
+  "CONVERSATION_SIDEBAR": {
+    "ASSIGNEE_LABEL": "Agent atribuit",
+    "SELF_ASSIGN": "Atribuie-mi",
+    "TEAM_LABEL": "Echipa desemnată",
+    "SELECT": {
+      "PLACEHOLDER": "Nimic"
+    },
+    "ACCORDION": {
+      "CONTACT_DETAILS": "Detalii contact",
+      "CONVERSATION_ACTIONS": "Acțiuni de conversație",
+      "CONVERSATION_LABELS": "Etichete conversație",
+      "CONVERSATION_INFO": "Informații despre conversație",
+      "CONTACT_NOTES": "Contact Notes",
+      "CONTACT_ATTRIBUTES": "Atribute Contacte",
+      "PREVIOUS_CONVERSATION": "Conversații anterioare",
+      "MACROS": "Macrocomenzi",
+      "LINEAR_ISSUES": "Linked Linear Issues",
+      "SHOPIFY_ORDERS": "Shopify Orders"
+    },
+    "SHOPIFY": {
+      "ORDER_ID": "Order #{id}",
+      "ERROR": "Error loading orders",
+      "NO_SHOPIFY_ORDERS": "No orders found",
+      "FINANCIAL_STATUS": {
+        "PENDING": "În aşteptare",
+        "AUTHORIZED": "Authorized",
+        "PARTIALLY_PAID": "Partially Paid",
+        "PAID": "Paid",
+        "PARTIALLY_REFUNDED": "Partially Refunded",
+        "REFUNDED": "Refunded",
+        "VOIDED": "Voided"
+      },
+      "FULFILLMENT_STATUS": {
+        "FULFILLED": "Fulfilled",
+        "PARTIALLY_FULFILLED": "Partially Fulfilled",
+        "UNFULFILLED": "Unfulfilled"
+      }
+    }
+  },
+  "CONVERSATION_CUSTOM_ATTRIBUTES": {
+    "ADD_BUTTON_TEXT": "Creare atribut",
+    "NO_RECORDS_FOUND": "Nu s-au găsit atribute",
+    "UPDATE": {
+      "SUCCESS": "Atribut actualizat cu succes",
+      "ERROR": "Imposibil de actualizat atributul. Vă rugăm să încercați din nou mai târziu"
+    },
+    "ADD": {
+      "TITLE": "Adaugă",
+      "SUCCESS": "Atribut adăugat cu succes",
+      "ERROR": "Imposibil de adăugat atributul. Vă rugăm să încercați din nou mai târziu"
+    },
+    "DELETE": {
+      "SUCCESS": "Atribut sters cu succes",
+      "ERROR": "Imposibil de șters atributul. Vă rugăm să încercați din nou mai târziu"
+    },
+    "ATTRIBUTE_SELECT": {
+      "TITLE": "Adaugă atributii",
+      "PLACEHOLDER": "Cauta atributii",
+      "NO_RESULT": "Nu s-au găsit atributii"
+    }
+  },
+  "EMAIL_HEADER": {
+    "FROM": "De la",
+    "TO": "Către",
+    "BCC": "Bcc",
+    "CC": "Cc",
+    "SUBJECT": "Subiect",
+    "EXPAND": "Expand email"
+  },
+  "CONVERSATION_PARTICIPANTS": {
+    "SIDEBAR_MENU_TITLE": "Participante",
+    "SIDEBAR_TITLE": "Participanți la conversație",
+    "NO_RECORDS_FOUND": "Niciun rezultat găsit",
+    "ADD_PARTICIPANTS": "Selectarea participanților",
+    "REMANING_PARTICIPANTS_TEXT": "+{count} altele",
+    "REMANING_PARTICIPANT_TEXT": "+{count} altele",
+    "TOTAL_PARTICIPANTS_TEXT": "{count} participă oamenii.",
+    "TOTAL_PARTICIPANT_TEXT": "{count} persoană participă.",
+    "NO_PARTICIPANTS_TEXT": "Nimeni nu participă!.",
+    "WATCH_CONVERSATION": "Începe conversația",
+    "YOU_ARE_WATCHING": "Participați",
+    "API": {
+      "ERROR_MESSAGE": "Nu s-a putut actualiza, încercați din nou!",
+      "SUCCESS_MESSAGE": "Participanții au actualizat!"
+    }
+  },
+  "TRANSLATE_MODAL": {
+    "TITLE": "Vizualizarea conținutului tradus",
+    "DESC": "Puteți vizualiza conținutul tradus în fiecare langauge.",
+    "ORIGINAL_CONTENT": "Conținut original",
+    "TRANSLATED_CONTENT": "Conținut tradus",
+    "NO_TRANSLATIONS_AVAILABLE": "Nu sunt disponibile traduceri pentru acest conținut"
+  },
+  "TYPING": {
+    "ONE": "{user} is typing",
+    "TWO": "{user} and {secondUser} are typing",
+    "MULTIPLE": "{user} and {count} others are typing"
+  },
+  "COPILOT": {
+    "TRY_THESE_PROMPTS": "Try these prompts"
+  },
+  "GALLERY_VIEW": {
+    "ERROR_DOWNLOADING": "Unable to download attachment. Please try again"
+  }
+}

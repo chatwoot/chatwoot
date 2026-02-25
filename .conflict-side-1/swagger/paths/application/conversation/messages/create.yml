@@ -1,0 +1,85 @@
+tags:
+  - Messages
+operationId: create-a-new-message-in-a-conversation
+summary: Create New Message
+description: |
+  Create a new message in the conversation.
+  
+  ## WhatsApp Template Messages
+  
+  For WhatsApp channels, you can send structured template messages using the `template_params` field. 
+  Templates must be pre-approved in WhatsApp Business Manager.
+  
+  ### Example Templates
+  
+  **Text with Image Header:**
+  ```json
+  {
+    "content": "Hi your order 121212 is confirmed. Please wait for further updates",
+    "template_params": {
+      "name": "order_confirmation",
+      "category": "MARKETING",
+      "language": "en",
+      "processed_params": {
+        "body": {
+          "1": "121212"
+        },
+        "header": {
+          "media_url": "https://picsum.photos/200/300",
+          "media_type": "image"
+        }
+      }
+    }
+  }
+  ```
+  
+  **Text with Copy Code Button:**
+  ```json
+  {
+    "content": "Special offer! Get 30% off your next purchase. Use the code below",
+    "template_params": {
+      "name": "discount_coupon",
+      "category": "MARKETING",
+      "language": "en",
+      "processed_params": {
+        "body": {
+          "discount_percentage": "30"
+        },
+        "buttons": [{
+          "type": "copy_code",
+          "parameter": "SAVE20"
+        }]
+      }
+    }
+  }
+  ```
+security:
+  - userApiKey: []
+  - agentBotApiKey: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/conversation_message_create_payload'
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          allOf:
+            - $ref: '#/components/schemas/generic_id'
+            - $ref: '#/components/schemas/message'
+  '404':
+    description: Conversation not found
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '403':
+    description: Access denied
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

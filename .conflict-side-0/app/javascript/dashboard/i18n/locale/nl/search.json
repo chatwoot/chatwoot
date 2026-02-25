@@ -1,0 +1,68 @@
+{
+  "SEARCH": {
+    "TABS": {
+      "ALL": "All results",
+      "CONTACTS": "Contacten",
+      "CONVERSATIONS": "Gesprekken",
+      "MESSAGES": "Berichten",
+      "ARTICLES": "Articles"
+    },
+    "SECTION": {
+      "CONTACTS": "Contacten",
+      "CONVERSATIONS": "Gesprekken",
+      "MESSAGES": "Berichten",
+      "ARTICLES": "Articles"
+    },
+    "VIEW_MORE": "View more",
+    "LOAD_MORE": "Load more",
+    "SEARCHING_DATA": "Zoeken",
+    "LOADING_DATA": "Loading",
+    "EMPTY_STATE": "Geen {item} gevonden voor query '{query}'",
+    "EMPTY_STATE_FULL": "Geen resultaten gevonden voor query '{query}'",
+    "PLACEHOLDER_KEYBINDING": "/om te focussen",
+    "INPUT_PLACEHOLDER": "Voer 3 of meer tekens in om te zoeken",
+    "RECENT_SEARCHES": "Recent searches",
+    "CLEAR_ALL": "Clear all",
+    "MOST_RECENT": "Most recent",
+    "EMPTY_STATE_DEFAULT": "Zoeken op gesprek id, e-mail, telefoonnummer, berichten voor betere zoekresultaten. ",
+    "BOT_LABEL": "Bot",
+    "READ_MORE": "Meer lezen",
+    "READ_LESS": "Read less",
+    "WROTE": "schreef:",
+    "FROM": "van",
+    "EMAIL": "E-mailadres",
+    "EMAIL_SUBJECT": "Onderwerp",
+    "PRIVATE": "Private note",
+    "TRANSCRIPT": "Transcript",
+    "CREATED_AT": "created {time}",
+    "UPDATED_AT": "updated {time}",
+    "SORT_BY": {
+      "RELEVANCE": "Relevance"
+    },
+    "DATE_RANGE": {
+      "LAST_7_DAYS": "Afgelopen 7 dagen",
+      "LAST_30_DAYS": "Laatste 30 dagen",
+      "LAST_60_DAYS": "Afgelopen 60 dagen",
+      "LAST_90_DAYS": "Afgelopen 90 dagen",
+      "CUSTOM_RANGE": "Custom range:",
+      "CREATED_BETWEEN": "Created between",
+      "AND": "en",
+      "APPLY": "Apply",
+      "BEFORE_DATE": "Before {date}",
+      "AFTER_DATE": "After {date}",
+      "TIME_RANGE": "Filter by time",
+      "CLEAR_FILTER": "Clear filter"
+    },
+    "FILTERS": {
+      "FILTER_MESSAGE": "Filter messages by:",
+      "FROM": "Sender",
+      "IN": "Postvak In",
+      "AGENTS": "Medewerkers",
+      "CONTACTS": "Contacten",
+      "INBOXES": "Inboxen",
+      "NO_AGENTS": "Geen medewerkers gevonden",
+      "NO_CONTACTS": "Start by searching to see results",
+      "NO_INBOXES": "No inboxes found"
+    }
+  }
+}

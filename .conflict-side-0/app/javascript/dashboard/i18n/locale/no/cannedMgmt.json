@@ -1,0 +1,77 @@
+{
+  "CANNED_MGMT": {
+    "HEADER": "Forhåndslagde svar",
+    "LEARN_MORE": "Lær mer om standard svar",
+    "DESCRIPTION": "Forbudte svar er forhåndskrevne svarmaler som hjelper deg raskt å svare på en samtale. Agenter kan skrive inn '/'-tegnet etterfulgt av en kortkode for å sette inn et standard svar under en samtale. ",
+    "HEADER_BTN_TXT": "Legge til standard svar",
+    "LOADING": "Henter standard svar...",
+    "SEARCH_404": "Det finnes ingen elementer som samsvarer med denne spørringen.",
+    "LIST": {
+      "404": "Det er ingen forhåndslagde svar tilgjengelig i denne kontoen.",
+      "TITLE": "Administrer forhåndslagde svar",
+      "DESC": "Forbudte svar er forhåndsdefinerte svarmaler som kan brukes til raskt å sende ut svar på samtaler.",
+      "TABLE_HEADER": {
+        "SHORT_CODE": "Kortkode",
+        "CONTENT": "Innhold",
+        "ACTIONS": "Handlinger"
+      }
+    },
+    "ADD": {
+      "TITLE": "Legge til standard svar",
+      "DESC": "Forbudte svar er forhåndsdefinerte svarmaler som kan brukes til raskt å sende ut svar på samtaler.",
+      "CANCEL_BUTTON_TEXT": "Avbryt",
+      "FORM": {
+        "SHORT_CODE": {
+          "LABEL": "Kortkode",
+          "PLACEHOLDER": "Vennligst angi en kortkode.",
+          "ERROR": "Kortkode kreves."
+        },
+        "CONTENT": {
+          "LABEL": "Melding",
+          "PLACEHOLDER": "Vennligst skriv meldingen du vil lagre som mal for bruk senere.",
+          "ERROR": "Melding er påkrevd."
+        },
+        "SUBMIT": "Send"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Standard svar er lagt til.",
+        "ERROR_MESSAGE": "Kunne ikke koble til Woot Server, vennligst prøv igjen senere"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Rediger forhåndslagd svar",
+      "CANCEL_BUTTON_TEXT": "Avbryt",
+      "FORM": {
+        "SHORT_CODE": {
+          "LABEL": "Kortkode",
+          "PLACEHOLDER": "Angi en kortkode.",
+          "ERROR": "Kortkode kreves."
+        },
+        "CONTENT": {
+          "LABEL": "Melding",
+          "PLACEHOLDER": "Vennligst skriv meldingen du vil lagre som mal for bruk senere.",
+          "ERROR": "Melding er påkrevd."
+        },
+        "SUBMIT": "Send"
+      },
+      "BUTTON_TEXT": "Rediger",
+      "API": {
+        "SUCCESS_MESSAGE": "Forhåndslagd svar ble oppdatert.",
+        "ERROR_MESSAGE": "Kunne ikke koble til Woot Server, vennligst prøv igjen senere"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Slett",
+      "API": {
+        "SUCCESS_MESSAGE": "Forhåndslagd svar ble slettet.",
+        "ERROR_MESSAGE": "Kunne ikke koble til Woot Server, vennligst prøv igjen senere"
+      },
+      "CONFIRM": {
+        "TITLE": "Bekreft sletting",
+        "MESSAGE": "Er du sikker på at du vil slette ",
+        "YES": "Ja, slett ",
+        "NO": "Nei, behold "
+      }
+    }
+  }
+}

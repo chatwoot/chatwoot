@@ -1,0 +1,47 @@
+{
+  "WHATSAPP_TEMPLATES": {
+    "MODAL": {
+      "TITLE": "قالب های واتساپ",
+      "SUBTITLE": "قالب واتساپ مورد نظر برای ارسال را انتخاب کنید",
+      "TEMPLATE_SELECTED_SUBTITLE": "Configure template: {templateName}"
+    },
+    "PICKER": {
+      "SEARCH_PLACEHOLDER": "جستجوی الگوها",
+      "NO_TEMPLATES_FOUND": "هیچ قالبی برای",
+      "HEADER": "Header",
+      "BODY": "Body",
+      "FOOTER": "Footer",
+      "BUTTONS": "Buttons",
+      "CATEGORY": "دسته‌بندی",
+      "MEDIA_CONTENT": "Media Content",
+      "MEDIA_CONTENT_FALLBACK": "media content",
+      "NO_TEMPLATES_AVAILABLE": "No WhatsApp templates available. Click refresh to sync templates from WhatsApp.",
+      "REFRESH_BUTTON": "Refresh templates",
+      "REFRESH_SUCCESS": "Templates refresh initiated. It may take a couple of minutes to update.",
+      "REFRESH_ERROR": "Failed to refresh templates. Please try again.",
+      "LABELS": {
+        "LANGUAGE": "زبان",
+        "TEMPLATE_BODY": "بدنه الگو",
+        "CATEGORY": "دسته‌بندی"
+      }
+    },
+    "PARSER": {
+      "VARIABLES_LABEL": "متغیرها",
+      "LANGUAGE": "زبان",
+      "CATEGORY": "دسته‌بندی",
+      "VARIABLE_PLACEHOLDER": "مقدار {variable} را وارد کنید",
+      "GO_BACK_LABEL": "بازگشت",
+      "SEND_MESSAGE_LABEL": "ارسال پیام",
+      "FORM_ERROR_MESSAGE": "لطفا قبل از ارسال همه متغیرها را پر کنید",
+      "MEDIA_HEADER_LABEL": "{type} Header",
+      "OTP_CODE": "Enter 4-8 digit OTP",
+      "EXPIRY_MINUTES": "Enter expiry minutes",
+      "BUTTON_PARAMETERS": "Button Parameters",
+      "BUTTON_LABEL": "Button {index}",
+      "COUPON_CODE": "Enter coupon code (max 15 chars)",
+      "MEDIA_URL_LABEL": "Enter {type} URL",
+      "DOCUMENT_NAME_PLACEHOLDER": "Enter document filename (e.g., Invoice_2025.pdf)",
+      "BUTTON_PARAMETER": "Enter button parameter"
+    }
+  }
+}

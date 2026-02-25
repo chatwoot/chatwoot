@@ -1,0 +1,77 @@
+{
+  "CANNED_MGMT": {
+    "HEADER": "Risposte Predefinite",
+    "LEARN_MORE": "Scopri di più sulle risposte predefinite",
+    "DESCRIPTION": "Le Risposte Predefinite sono modelli di risposte preparate che ti aiutano a rispondere rapidamente alle conversazioni. Gli operatori possono digitare il carattere '/' seguito dallo shortcode per inserire una risposta predefinita durante una conversazione. ",
+    "HEADER_BTN_TXT": "Aggiungi risposta predefinita",
+    "LOADING": "Caricamento risposte predefinite...",
+    "SEARCH_404": "Non ci sono elementi che corrispondono a questa richiesta.",
+    "LIST": {
+      "404": "Non ci sono risposte predefinite disponibili in questo account.",
+      "TITLE": "Gestisci le risposte predefinite",
+      "DESC": "Le risposte predefinite sono modelli di risposte preparate che possono essere utilizzate per rispondere rapidamente alle conversazioni.",
+      "TABLE_HEADER": {
+        "SHORT_CODE": "Short code",
+        "CONTENT": "Contenuto",
+        "ACTIONS": "Azioni"
+      }
+    },
+    "ADD": {
+      "TITLE": "Aggiungi risposta predefinita",
+      "DESC": "Le risposte predefinite sono modelli di risposte preparate che possono essere utilizzate per rispondere rapidamente alle conversazioni.",
+      "CANCEL_BUTTON_TEXT": "Annulla",
+      "FORM": {
+        "SHORT_CODE": {
+          "LABEL": "Short code",
+          "PLACEHOLDER": "Inserisci uno short code.",
+          "ERROR": "Short Code richiesto."
+        },
+        "CONTENT": {
+          "LABEL": "Messaggio",
+          "PLACEHOLDER": "Scrivi il messaggio che vuoi salvare come modello da usare più tardi.",
+          "ERROR": "Messaggio richiesto."
+        },
+        "SUBMIT": "Invia"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Risposta predefinita aggiunta correttamente.",
+        "ERROR_MESSAGE": "Impossibile connettersi al server Woot, riprova più tardi"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Modifica risposta predefinita",
+      "CANCEL_BUTTON_TEXT": "Annulla",
+      "FORM": {
+        "SHORT_CODE": {
+          "LABEL": "Short code",
+          "PLACEHOLDER": "Inserisci uno shortcode.",
+          "ERROR": "Short code richiesto."
+        },
+        "CONTENT": {
+          "LABEL": "Messaggio",
+          "PLACEHOLDER": "Scrivi il messaggio che vuoi salvare come modello da usare più tardi.",
+          "ERROR": "Messaggio richiesto."
+        },
+        "SUBMIT": "Invia"
+      },
+      "BUTTON_TEXT": "Modifica",
+      "API": {
+        "SUCCESS_MESSAGE": "Risposta predefinita aggiornata correttamente.",
+        "ERROR_MESSAGE": "Impossibile connettersi al server Woot, riprova più tardi"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Elimina",
+      "API": {
+        "SUCCESS_MESSAGE": "Risposta predefinita eliminata correttamente.",
+        "ERROR_MESSAGE": "Impossibile connettersi al server Woot, riprova più tardi"
+      },
+      "CONFIRM": {
+        "TITLE": "Conferma eliminazione",
+        "MESSAGE": "Sei sicuro di voler eliminare ",
+        "YES": "Sì, elimina ",
+        "NO": "No, mantieni "
+      }
+    }
+  }
+}

@@ -1,0 +1,34 @@
+type: object
+properties:
+  name:
+    type: string
+    description: The name of the category
+    example: 'Category Name'
+  description:
+    type: string
+    description: A description for the category
+    example: 'Category description'
+  position:
+    type: integer
+    description: Category position in the portal list to sort
+    example: 1
+  slug:
+    type: string
+    description: The category slug used in the URL
+    example: 'category-name'
+  locale:
+    type: string
+    description: The locale of the category
+    example: en
+  icon:
+    type: string
+    description: The icon of the category as a string (emoji)
+    example: '📚'
+  parent_category_id:
+    type: integer
+    description: To define parent category, e.g product documentation has multiple level features in sales category or in engineering category.
+    example: 1
+  associated_category_id:
+    type: integer
+    description: To associate similar categories to each other, e.g same category of product documentation in different languages
+    example: 2

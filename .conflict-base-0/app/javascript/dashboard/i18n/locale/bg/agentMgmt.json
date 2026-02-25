@@ -1,0 +1,124 @@
+{
+  "AGENT_MGMT": {
+    "HEADER": "Агенти",
+    "HEADER_BTN_TXT": "Добави агент",
+    "LOADING": "Извличане на списък с агенти",
+    "DESCRIPTION": "An agent is a member of your customer support team who can view and respond to user messages. The list below shows all the agents in your account.",
+    "LEARN_MORE": "Learn about user roles",
+    "AGENT_TYPES": {
+      "ADMINISTRATOR": "Администратор",
+      "AGENT": "Агент"
+    },
+    "LIST": {
+      "404": "Няма асоцирани агенти към този акаунт",
+      "TITLE": "Управлявайте агентите в екипа си",
+      "DESC": "Можете да добавите/премахнете агенти в/от екипа си.",
+      "NAME": "Име",
+      "EMAIL": "ИМЕЙЛ",
+      "STATUS": "Статус",
+      "ACTIONS": "Действия",
+      "VERIFIED": "Проверен",
+      "VERIFICATION_PENDING": "Предстои проверка",
+      "AVAILABLE_CUSTOM_ROLE": "Available custom role permissions"
+    },
+    "ADD": {
+      "TITLE": "Добави агент в екипа си",
+      "DESC": "Можете да добавите хора, които ще се заемат с поддръжката на вашите входящи пощенски кутии.",
+      "CANCEL_BUTTON_TEXT": "Отмени",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Име на агента",
+          "PLACEHOLDER": "Моля, въведете име на агента"
+        },
+        "AGENT_TYPE": {
+          "LABEL": "Роля",
+          "PLACEHOLDER": "Моля, изберете роля",
+          "ERROR": "Ролята е задължителна"
+        },
+        "EMAIL": {
+          "LABEL": "Имейл адрес",
+          "PLACEHOLDER": "Моля, въведете имейл адрес на агента"
+        },
+        "SUBMIT": "Добави агент"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Агента е добавен успешно",
+        "EXIST_MESSAGE": "Имейл адреса на агента вече се използва, моля опитайте с друг имейл адрес",
+        "ERROR_MESSAGE": "Не можа да се свърже с Woot сървър. Моля, опитайте отново по-късно"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Изтрий",
+      "API": {
+        "SUCCESS_MESSAGE": "Агента е изтрит успешно",
+        "ERROR_MESSAGE": "Не можа да се свърже с Woot сървър. Моля, опитайте отново по-късно"
+      },
+      "CONFIRM": {
+        "TITLE": "Потвърди изтриването",
+        "MESSAGE": "Сигурни ли сте за изтриването ",
+        "YES": "Да, изтрий ",
+        "NO": "Не, запази "
+      }
+    },
+    "EDIT": {
+      "TITLE": "Редактирай агента",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Име на агента",
+          "PLACEHOLDER": "Моля, въведете име на агента"
+        },
+        "AGENT_TYPE": {
+          "LABEL": "Роля",
+          "PLACEHOLDER": "Моля, изберете роля",
+          "ERROR": "Ролята е задължителна"
+        },
+        "EMAIL": {
+          "LABEL": "Имейл адрес",
+          "PLACEHOLDER": "Моля, въведете имейл адрес на агента"
+        },
+        "AGENT_AVAILABILITY": {
+          "LABEL": "Availability",
+          "PLACEHOLDER": "Please select an availability status",
+          "ERROR": "Availability is required"
+        },
+        "SUBMIT": "Редактирай агента"
+      },
+      "BUTTON_TEXT": "Редактирай",
+      "CANCEL_BUTTON_TEXT": "Отмени",
+      "API": {
+        "SUCCESS_MESSAGE": "Агента е обновен успешно",
+        "ERROR_MESSAGE": "Не можа да се свърже с Woot сървър. Моля, опитайте отново по-късно"
+      },
+      "PASSWORD_RESET": {
+        "ADMIN_RESET_BUTTON": "Нулиране на парола",
+        "ADMIN_SUCCESS_MESSAGE": "До агента е изпратен имейл с инструкции за нулиране на паролата",
+        "SUCCESS_MESSAGE": "Паролата на агента е нулирана успешно",
+        "ERROR_MESSAGE": "Не можа да се свърже с Woot сървър. Моля, опитайте отново по-късно"
+      }
+    },
+    "SEARCH": {
+      "NO_RESULTS": "Няма намерени резултати."
+    },
+    "MULTI_SELECTOR": {
+      "PLACEHOLDER": "Нито един",
+      "TITLE": {
+        "AGENT": "Изберете агент",
+        "TEAM": "Изберете екип"
+      },
+      "LIST": {
+        "NONE": "Нито един"
+      },
+      "SEARCH": {
+        "NO_RESULTS": {
+          "AGENT": "Няма намерени агенти",
+          "TEAM": "Няма намерени екипи"
+        },
+        "PLACEHOLDER": {
+          "AGENT": "Търсете агенти",
+          "TEAM": "Търсете екипи",
+          "INPUT": "Search for agents"
+        }
+      }
+    }
+  }
+}

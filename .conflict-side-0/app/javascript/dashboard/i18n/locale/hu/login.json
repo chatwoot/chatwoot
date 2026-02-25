@@ -1,0 +1,41 @@
+{
+  "LOGIN": {
+    "TITLE": "Chatwoot belépés",
+    "EMAIL": {
+      "LABEL": "E-mail",
+      "PLACEHOLDER": "example{'@'}companyname.com",
+      "ERROR": "Kérjük helyes e-mailcímet adj meg"
+    },
+    "PASSWORD": {
+      "LABEL": "Jelszó",
+      "PLACEHOLDER": "Jelszó"
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Bejelentkezés sikeres",
+      "ERROR_MESSAGE": "Nem sikerült csatlakozni a Woot szerverhez, kérjük próbáld később",
+      "UNAUTH": "A felhasználó / jelszó helytelen. Kérjük próbálja újra"
+    },
+    "OAUTH": {
+      "GOOGLE_LOGIN": "Bejelentkezés Google-el",
+      "BUSINESS_ACCOUNTS_ONLY": "Kérlek a céges email címed használd bejelentkezéshez",
+      "NO_ACCOUNT_FOUND": "Nem található fiók az email címedhez."
+    },
+    "FORGOT_PASSWORD": "Elfelejtetted a jelszavad?",
+    "CREATE_NEW_ACCOUNT": "Új fiók létrehozása",
+    "SUBMIT": "Bejelentkezés",
+    "SAML": {
+      "LABEL": "Login via SSO",
+      "TITLE": "Initiate Single Sign-on (SSO)",
+      "SUBTITLE": "Enter your work email to access your organization",
+      "BACK_TO_LOGIN": "Login via Password",
+      "WORK_EMAIL": {
+        "LABEL": "Work Email",
+        "PLACEHOLDER": "Enter your work email"
+      },
+      "SUBMIT": "Continue with SSO",
+      "API": {
+        "ERROR_MESSAGE": "SSO authentication failed. Please check your credentials and try again."
+      }
+    }
+  }
+}

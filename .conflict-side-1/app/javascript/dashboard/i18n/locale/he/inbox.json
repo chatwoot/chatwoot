@@ -1,0 +1,95 @@
+{
+  "INBOX": {
+    "LIST": {
+      "TITLE": "תיבת הדואר הנכנס שלי",
+      "DISPLAY_DROPDOWN": "הצג",
+      "LOADING": "מאחזר התראות",
+      "404": "אין התראות פעילות בקבוצה זו.",
+      "NO_NOTIFICATIONS": "אין התראות",
+      "NOTE": "התראות מכל תיבות הדואר הנכנס שאליהן נרשמת",
+      "NO_MESSAGES_AVAILABLE": "אופס! לא ניתן לאחזר הודעות",
+      "SNOOZED_UNTIL": "מושתק עד",
+      "SNOOZED_UNTIL_TOMORROW": "נמנם עד מחר",
+      "SNOOZED_UNTIL_NEXT_WEEK": "נמנם עד שבוע הבא"
+    },
+    "ACTION_HEADER": {
+      "SNOOZE": "השתק התראה",
+      "DELETE": "מחק התראה",
+      "BACK": "חזור"
+    },
+    "TYPES": {
+      "CONVERSATION_MENTION": "אוזכרת בשיחה",
+      "CONVERSATION_CREATION": "נוצרה שיחה חדשה",
+      "CONVERSATION_ASSIGNMENT": "שיחה הוקצתה לך",
+      "ASSIGNED_CONVERSATION_NEW_MESSAGE": "הודעה חדשה בשיחה שהוקצתה",
+      "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "הודעה חדשה בשיחה שבה אתה משתתף",
+      "SLA_MISSED_FIRST_RESPONSE": "יעד SLA - תגובה ראשונה הוחמץ עבור שיחה",
+      "SLA_MISSED_NEXT_RESPONSE": "יעד SLA - תגובה הבאה הוחמץ עבור שיחה",
+      "SLA_MISSED_RESOLUTION": "יעד SLA - סגירה הוחמץ עבור שיחה"
+    },
+    "TYPES_NEXT": {
+      "CONVERSATION_MENTION": "אוזכר",
+      "CONVERSATION_ASSIGNMENT": "הוקצה לך",
+      "CONVERSATION_CREATION": "שיחה חדשה",
+      "SLA_MISSED_FIRST_RESPONSE": "הפרת SLA",
+      "SLA_MISSED_NEXT_RESPONSE": "הפרת SLA",
+      "SLA_MISSED_RESOLUTION": "הפרת SLA",
+      "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "הודעה חדשה",
+      "ASSIGNED_CONVERSATION_NEW_MESSAGE": "הודעה חדשה",
+      "SNOOZED_UNTIL": "מושתק למשך {time}",
+      "SNOOZED_ENDS": "ההשתקה הסתיימה"
+    },
+    "NO_CONTENT": "אין תוכן זמין",
+    "MENU_ITEM": {
+      "MARK_AS_READ": "סמן כנקרא",
+      "MARK_AS_UNREAD": "סמן כלא נקרא",
+      "SNOOZE": "נודניק",
+      "DELETE": "מחק",
+      "MARK_ALL_READ": "סמן הכל כנקרא",
+      "DELETE_ALL": "מחק הכל",
+      "DELETE_ALL_READ": "מחק את כל הנקראים"
+    },
+    "DISPLAY_MENU": {
+      "SORT": "מיין",
+      "DISPLAY": "הצג :",
+      "SORT_OPTIONS": {
+        "NEWEST": "החדש ביותר",
+        "OLDEST": "הישן ביותר",
+        "PRIORITY": "עדיפות"
+      },
+      "DISPLAY_OPTIONS": {
+        "SNOOZED": "נימנום",
+        "READ": "נקרא",
+        "LABELS": "תוויות",
+        "CONVERSATION_ID": "מזהה שיחה"
+      }
+    },
+    "ALERTS": {
+      "MARK_AS_READ": "ההתראה סומנה כנקראה",
+      "MARK_AS_UNREAD": "ההתראה סומנה כלא נקראה",
+      "SNOOZE": "ההתראה הושתקה",
+      "DELETE": "ההתראה נמחקה",
+      "MARK_ALL_READ": "כל ההתראות סומנו כנקראו",
+      "DELETE_ALL": "כל ההתראות נמחקו",
+      "DELETE_ALL_READ": "כל ההתראות שנקראו נמחקו"
+    },
+    "REAUTHORIZE": {
+      "TITLE": "נדרש אישור מחדש",
+      "DESCRIPTION": "חיבור ה-WhatsApp שלך פג. אנא התחבר מחדש כדי להמשיך לקבל ולשלוח הודעות.",
+      "BUTTON_TEXT": "התחבר מחדש ל-WhatsApp",
+      "LOADING_FACEBOOK": "טוען SDK של Facebook...",
+      "SUCCESS": "WhatsApp חובר מחדש בהצלחה",
+      "ERROR": "ההתחברות מחדש ל-WhatsApp נכשלה. אנא נסה שוב.",
+      "WHATSAPP_APP_ID_MISSING": "מזהה האפליקציה של WhatsApp אינו מוגדר. אנא פנה למנהל המערכת שלך.",
+      "WHATSAPP_CONFIG_ID_MISSING": "מזהה תצורת WhatsApp אינו מוגדר. אנא פנה למנהל המערכת שלך.",
+      "CONFIGURATION_ERROR": "אירעה שגיאת תצורה במהלך האישור מחדש.",
+      "FACEBOOK_LOAD_ERROR": "טעינת ה-SDK של Facebook נכשלה. אנא נסה שוב.",
+      "TROUBLESHOOTING": {
+        "TITLE": "פתרון בעיות",
+        "POPUP_BLOCKED": "Ensure pop-ups are allowed for this site",
+        "COOKIES": "Third-party cookies must be enabled",
+        "ADMIN_ACCESS": "אתה צריך גישת מנהל לחשבון העסקי של WhatsApp"
+      }
+    }
+  }
+}

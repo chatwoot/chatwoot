@@ -1,0 +1,111 @@
+{
+  "MACROS": {
+    "HEADER": "מאקרו",
+    "DESCRIPTION": "מאקרו הוא קבוצה של פעולות שמורות המסייעות לסוכני שירות לקוחות להשלים משימות בקלות. הסוכנים יכולים להגדיר קבוצה של פעולות כמו תיוג שיחה בתווית, שליחת תמלול דוא\"ל, עדכון תכונה מותאמת אישית וכו', והם יכולים להפעיל פעולות אלה בלחיצה אחת.",
+    "LEARN_MORE": "למד עוד על מאקרואים",
+    "HEADER_BTN_TXT": "הוסף מאקרו חדש",
+    "HEADER_BTN_TXT_SAVE": "שמור מאקרו",
+    "LOADING": "מביא פקודות מאקרו",
+    "ERROR": "משהו השתבש. אנא נסה שוב",
+    "ORDER_INFO": "פקודות מאקרו יפעלו לפי הסדר שתוסיף את הפעולות שלך. תוכל לסדר אותם מחדש על ידי גרירתם על ידי הידית לצד כל צומת.",
+    "ADD": {
+      "FORM": {
+        "NAME": {
+          "LABEL": "שם מאקרו",
+          "PLACEHOLDER": "הזן שם עבור המאקרו שלך",
+          "ERROR": "נדרש שם ליצירת מאקרו"
+        },
+        "ACTIONS": {
+          "LABEL": "פעולות"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "המאקרו נוסף בהצלחה",
+        "ERROR_MESSAGE": "לא ניתן ליצור מאקרו, אנא נסה שוב מאוחר יותר"
+      }
+    },
+    "LIST": {
+      "TABLE_HEADER": {
+        "NAME": "שם",
+        "CREATED BY": "נוצר על ידי",
+        "LAST_UPDATED_BY": "עודכן לאחרונה על ידי",
+        "VISIBILITY": "רְאוּת"
+      },
+      "404": "לא נמצאו פקודות מאקרו"
+    },
+    "DELETE": {
+      "TOOLTIP": "מחק מאקרו",
+      "CONFIRM": {
+        "MESSAGE": "האם אתה בטוח שברצונך למחוק ",
+        "YES": "כן, מחק",
+        "NO": "לא"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "המאקרו נמחק בהצלחה",
+        "ERROR_MESSAGE": "אירעה שגיאה במחיקת המאקרו. אנא נסה שוב מאוחר יותר"
+      }
+    },
+    "EDIT": {
+      "TOOLTIP": "ערוך מאקרו",
+      "API": {
+        "SUCCESS_MESSAGE": "המאקרו עודכן בהצלחה",
+        "ERROR_MESSAGE": "לא ניתן היה לעדכן מאקרו, אנא נסה שוב מאוחר יותר"
+      }
+    },
+    "EDITOR": {
+      "START_FLOW": "התחל זרימה",
+      "END_FLOW": "סיום זרימה",
+      "LOADING": "מביא מאקרו",
+      "ADD_BTN_TOOLTIP": "הוסף פעולה חדשה",
+      "DELETE_BTN_TOOLTIP": "מחיקת פעולה",
+      "VISIBILITY": {
+        "LABEL": "נראות מאקרו",
+        "GLOBAL": {
+          "LABEL": "ציבורי",
+          "DESCRIPTION": "מאקרו זה זמין באופן ציבורי עבור כל הסוכנים בחשבון זה."
+        },
+        "PERSONAL": {
+          "LABEL": "פרטי",
+          "DESCRIPTION": "מאקרו זה יהיה פרטי עבורך ולא יהיה זמין לאחרים."
+        }
+      }
+    },
+    "EXECUTE": {
+      "BUTTON_TOOLTIP": "לבצע",
+      "PREVIEW": "תצוגה מקדימה מאקרו",
+      "EXECUTED_SUCCESSFULLY": "המאקרו הופעל בהצלחה"
+    },
+    "ERRORS": {
+      "ATTRIBUTE_KEY_REQUIRED": "מפתח תכונה נדרש",
+      "FILTER_OPERATOR_REQUIRED": "אופרטור מסנן נדרש",
+      "VALUE_REQUIRED": "חובה ערך",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "הערך חייב להיות בין 1 ל-998",
+      "ACTION_PARAMETERS_REQUIRED": "פרמטרי פעולה נדרשים",
+      "ATLEAST_ONE_CONDITION_REQUIRED": "נדרש לפחות תנאי אחד",
+      "ATLEAST_ONE_ACTION_REQUIRED": "נדרשת לפחות פעולה אחת"
+    },
+    "ACTIONS": {
+      "ASSIGN_TEAM": "הקצה צוות",
+      "ASSIGN_AGENT": "הקצה סוכן",
+      "ADD_LABEL": "הוסף תווית",
+      "REMOVE_LABEL": "הסר תווית",
+      "REMOVE_ASSIGNED_TEAM": "הסר צוות שהוקצה",
+      "SEND_EMAIL_TRANSCRIPT": "שלח תמלול דוא\"ל",
+      "MUTE_CONVERSATION": "השתק שיחה",
+      "SNOOZE_CONVERSATION": "נודניק שיחה",
+      "RESOLVE_CONVERSATION": "פתור שיחה",
+      "SEND_ATTACHMENT": "שלח קובץ מצורף",
+      "SEND_MESSAGE": "שלח הודעה",
+      "CHANGE_PRIORITY": "שנה עדיפות",
+      "ADD_PRIVATE_NOTE": "הוסף הערה פרטית",
+      "SEND_WEBHOOK_EVENT": "שלח אירוע Webhook"
+    },
+    "PRIORITY_TYPES": {
+      "NONE": "כלום",
+      "LOW": "נמוכה",
+      "MEDIUM": "בינונית",
+      "HIGH": "גבוהה",
+      "URGENT": "דחופה"
+    }
+  }
+}

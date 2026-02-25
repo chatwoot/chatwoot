@@ -1,0 +1,28 @@
+tags:
+  - Custom Filters
+operationId: create-a-custom-filter
+summary: Create a custom filter
+description: Create a custom filter in the account
+parameters:
+  - $ref: '#/components/parameters/account_id'
+security:
+  - userApiKey: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/custom_filter_create_update_payload'
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/custom_filter'
+  '401':
+    description: Unauthorized
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

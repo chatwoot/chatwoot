@@ -1,0 +1,214 @@
+{
+  "CAMPAIGN": {
+    "LIVE_CHAT": {
+      "HEADER_TITLE": "Live chat campaigns",
+      "NEW_CAMPAIGN": "Create campaign",
+      "CARD": {
+        "STATUS": {
+          "ENABLED": "Aktiveret",
+          "DISABLED": "Deaktiveret"
+        },
+        "CAMPAIGN_DETAILS": {
+          "SENT_BY": "Sendt af",
+          "BOT": "Bot",
+          "FROM": "fra",
+          "URL": "URL:"
+        }
+      },
+      "EMPTY_STATE": {
+        "TITLE": "No live chat campaigns are available",
+        "SUBTITLE": "Connect with your customers using proactive messages.  Click 'Create campaign' to get started."
+      },
+      "CREATE": {
+        "TITLE": "Create a live chat campaign",
+        "CANCEL_BUTTON_TEXT": "Annuller",
+        "CREATE_BUTTON_TEXT": "Opret",
+        "FORM": {
+          "TITLE": {
+            "LABEL": "Titel",
+            "PLACEHOLDER": "Indtast titlen på kampagnen",
+            "ERROR": "Titel er påkrævet"
+          },
+          "MESSAGE": {
+            "LABEL": "Besked",
+            "PLACEHOLDER": "Indtast venligst meddelelsen af kampagnen",
+            "ERROR": "Beskeden er påkrævet"
+          },
+          "INBOX": {
+            "LABEL": "Vælg Indbakke",
+            "PLACEHOLDER": "Vælg Indbakke",
+            "ERROR": "Indbakke er påkrævet"
+          },
+          "SENT_BY": {
+            "LABEL": "Sendt af",
+            "PLACEHOLDER": "Please select sender",
+            "ERROR": "Afsenderen er påkrævet"
+          },
+          "END_POINT": {
+            "LABEL": "URL",
+            "PLACEHOLDER": "Indtast venligst URL",
+            "ERROR": "Angiv en gyldig URL"
+          },
+          "TIME_ON_PAGE": {
+            "LABEL": "Tid på side (sekunder)",
+            "PLACEHOLDER": "Indtast venligst tid",
+            "ERROR": "Tid på siden er påkrævet"
+          },
+          "OTHER_PREFERENCES": {
+            "TITLE": "Other preferences",
+            "ENABLED": "Aktiver kampagne",
+            "TRIGGER_ONLY_BUSINESS_HOURS": "Udløs kun i åbningstiden"
+          },
+          "BUTTONS": {
+            "CREATE": "Opret",
+            "CANCEL": "Annuller"
+          },
+          "API": {
+            "SUCCESS_MESSAGE": "Live chat campaign created successfully",
+            "ERROR_MESSAGE": "Der opstod en fejl. Prøv venligst igen."
+          }
+        }
+      },
+      "EDIT": {
+        "TITLE": "Edit live chat campaign",
+        "FORM": {
+          "API": {
+            "SUCCESS_MESSAGE": "Live chat campaign updated successfully",
+            "ERROR_MESSAGE": "Der opstod en fejl. Prøv venligst igen."
+          }
+        }
+      }
+    },
+    "SMS": {
+      "HEADER_TITLE": "SMS campaigns",
+      "NEW_CAMPAIGN": "Create campaign",
+      "EMPTY_STATE": {
+        "TITLE": "No SMS campaigns are available",
+        "SUBTITLE": "Launch an SMS campaign to reach your customers directly. Send offers or make announcements with ease. Click 'Create campaign' to get started."
+      },
+      "CARD": {
+        "STATUS": {
+          "COMPLETED": "Afsluttet",
+          "SCHEDULED": "Scheduled"
+        },
+        "CAMPAIGN_DETAILS": {
+          "SENT_FROM": "Sent from",
+          "ON": "on"
+        }
+      },
+      "CREATE": {
+        "TITLE": "Create SMS campaign",
+        "CANCEL_BUTTON_TEXT": "Annuller",
+        "CREATE_BUTTON_TEXT": "Opret",
+        "FORM": {
+          "TITLE": {
+            "LABEL": "Titel",
+            "PLACEHOLDER": "Indtast titlen på kampagnen",
+            "ERROR": "Titel er påkrævet"
+          },
+          "MESSAGE": {
+            "LABEL": "Besked",
+            "PLACEHOLDER": "Indtast venligst meddelelsen af kampagnen",
+            "ERROR": "Beskeden er påkrævet"
+          },
+          "INBOX": {
+            "LABEL": "Vælg Indbakke",
+            "PLACEHOLDER": "Vælg Indbakke",
+            "ERROR": "Indbakke er påkrævet"
+          },
+          "AUDIENCE": {
+            "LABEL": "Målgruppe",
+            "PLACEHOLDER": "Vælg kunde etiketter",
+            "ERROR": "Målgruppe er påkrævet"
+          },
+          "SCHEDULED_AT": {
+            "LABEL": "Planlagt tid",
+            "PLACEHOLDER": "Vælg venligst tid",
+            "ERROR": "Planlagt tid er påkrævet"
+          },
+          "BUTTONS": {
+            "CREATE": "Opret",
+            "CANCEL": "Annuller"
+          },
+          "API": {
+            "SUCCESS_MESSAGE": "SMS campaign created successfully",
+            "ERROR_MESSAGE": "Der opstod en fejl. Prøv venligst igen."
+          }
+        }
+      }
+    },
+    "WHATSAPP": {
+      "HEADER_TITLE": "WhatsApp campaigns",
+      "NEW_CAMPAIGN": "Create campaign",
+      "EMPTY_STATE": {
+        "TITLE": "No WhatsApp campaigns are available",
+        "SUBTITLE": "Launch a WhatsApp campaign to reach your customers directly. Send offers or make announcements with ease. Click 'Create campaign' to get started."
+      },
+      "CARD": {
+        "STATUS": {
+          "COMPLETED": "Afsluttet",
+          "SCHEDULED": "Scheduled"
+        },
+        "CAMPAIGN_DETAILS": {
+          "SENT_FROM": "Sent from",
+          "ON": "on"
+        }
+      },
+      "CREATE": {
+        "TITLE": "Create WhatsApp campaign",
+        "CANCEL_BUTTON_TEXT": "Annuller",
+        "CREATE_BUTTON_TEXT": "Opret",
+        "FORM": {
+          "TITLE": {
+            "LABEL": "Titel",
+            "PLACEHOLDER": "Indtast titlen på kampagnen",
+            "ERROR": "Titel er påkrævet"
+          },
+          "INBOX": {
+            "LABEL": "Vælg Indbakke",
+            "PLACEHOLDER": "Vælg Indbakke",
+            "ERROR": "Indbakke er påkrævet"
+          },
+          "TEMPLATE": {
+            "LABEL": "WhatsApp Template",
+            "PLACEHOLDER": "Select a template",
+            "INFO": "Select a template to use for this campaign.",
+            "ERROR": "Template is required",
+            "PREVIEW_TITLE": "Proces {templateName}",
+            "LANGUAGE": "Sprog",
+            "CATEGORY": "Kategori",
+            "VARIABLES_LABEL": "Variabler",
+            "VARIABLE_PLACEHOLDER": "Enter value for {variable}"
+          },
+          "AUDIENCE": {
+            "LABEL": "Målgruppe",
+            "PLACEHOLDER": "Vælg kunde etiketter",
+            "ERROR": "Målgruppe er påkrævet"
+          },
+          "SCHEDULED_AT": {
+            "LABEL": "Planlagt tid",
+            "PLACEHOLDER": "Vælg venligst tid",
+            "ERROR": "Planlagt tid er påkrævet"
+          },
+          "BUTTONS": {
+            "CREATE": "Opret",
+            "CANCEL": "Annuller"
+          },
+          "API": {
+            "SUCCESS_MESSAGE": "WhatsApp campaign created successfully",
+            "ERROR_MESSAGE": "Der opstod en fejl. Prøv venligst igen."
+          }
+        }
+      }
+    },
+    "CONFIRM_DELETE": {
+      "TITLE": "Er du sikker på du vil slette?",
+      "DESCRIPTION": "The delete action is permanent and cannot be reversed.",
+      "CONFIRM": "Slet",
+      "API": {
+        "SUCCESS_MESSAGE": "Kampagne slettet",
+        "ERROR_MESSAGE": "Der opstod en fejl. Prøv venligst igen."
+      }
+    }
+  }
+}

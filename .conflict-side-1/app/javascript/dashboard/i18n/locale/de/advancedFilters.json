@@ -1,0 +1,119 @@
+{
+  "FILTER": {
+    "TITLE": "Gespräche filtern",
+    "SUBTITLE": "Füge Filter unten hinzu und klicke auf „Filter anwenden“, um das Durcheinander der Chats zu beenden.",
+    "EDIT_CUSTOM_FILTER": "Ordner bearbeiten",
+    "CUSTOM_VIEWS_SUBTITLE": "Füge Filter hinzu oder entferne sie und aktualisieren deinen Ordner.",
+    "ADD_NEW_FILTER": "Filter hinzufügen",
+    "FILTER_DELETE_ERROR": "Hoppla, wir können nicht, nichts speichern! Bitte füge mindestens einen Filter hinzu, um ihn zu speichern.",
+    "SUBMIT_BUTTON_LABEL": "Filter übernehmen",
+    "UPDATE_BUTTON_LABEL": "Ordner aktualisieren",
+    "CANCEL_BUTTON_LABEL": "Abbrechen",
+    "CLEAR_BUTTON_LABEL": "Filter zurücksetzen",
+    "FOLDER_LABEL": "Ordnername",
+    "FOLDER_QUERY_LABEL": "Ordnerabfrage",
+    "EMPTY_VALUE_ERROR": "Wert ist erforderlich.",
+    "TOOLTIP_LABEL": "Gespräche filtern",
+    "QUERY_DROPDOWN_LABELS": {
+      "AND": "UND",
+      "OR": "ODER"
+    },
+    "INPUT_PLACEHOLDER": "Wert eintragen",
+    "OPERATOR_LABELS": {
+      "equal_to": "Gleich",
+      "not_equal_to": "Nicht gleich",
+      "does_not_contain": "Beinhaltet nicht",
+      "is_present": "Ist anwesend",
+      "is_not_present": "Ist nicht anwesend",
+      "is_greater_than": "Ist größer als",
+      "is_less_than": "Ist kleiner als",
+      "days_before": "Ist x Tage her",
+      "starts_with": "Beginnt mit",
+      "equalTo": "Gleich",
+      "notEqualTo": "Nicht gleich",
+      "contains": "Enthält",
+      "doesNotContain": "Beinhaltet nicht",
+      "isPresent": "Ist anwesend",
+      "isNotPresent": "Ist nicht anwesend",
+      "isGreaterThan": "Ist größer als",
+      "isLessThan": "Ist kleiner als",
+      "daysBefore": "Ist x Tage her",
+      "startsWith": "Beginnt mit"
+    },
+    "ATTRIBUTE_LABELS": {
+      "TRUE": "Ja",
+      "FALSE": "Nein"
+    },
+    "ATTRIBUTES": {
+      "STATUS": "Status",
+      "ASSIGNEE_NAME": "Bearbeiter Name",
+      "INBOX_NAME": "Posteingangsname",
+      "TEAM_NAME": "Teamname",
+      "CONVERSATION_IDENTIFIER": "Konversation-ID",
+      "CAMPAIGN_NAME": "Kampagnenname",
+      "LABELS": "Labels",
+      "BROWSER_LANGUAGE": "Browsersprache",
+      "PRIORITY": "Priorität",
+      "COUNTRY_NAME": "Landesname",
+      "REFERER_LINK": "Referer-Link",
+      "CUSTOM_ATTRIBUTE_LIST": "Liste",
+      "CUSTOM_ATTRIBUTE_TEXT": "Text",
+      "CUSTOM_ATTRIBUTE_NUMBER": "Nummer",
+      "CUSTOM_ATTRIBUTE_LINK": "Link",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
+      "CREATED_AT": "Erstellt am",
+      "LAST_ACTIVITY": "Letzte Aktivität"
+    },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Wert ist erforderlich",
+      "ATTRIBUTE_KEY_REQUIRED": "Attribut-Schlüssel ist erforderlich",
+      "FILTER_OPERATOR_REQUIRED": "Filter-Operator ist erforderlich",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Wert muss zwischen 1 und 998 liegen"
+    },
+    "GROUPS": {
+      "STANDARD_FILTERS": "Standard Filter",
+      "ADDITIONAL_FILTERS": "Zusätzliche Filter",
+      "CUSTOM_ATTRIBUTES": "Benutzerdefinierte Attribute"
+    },
+    "CUSTOM_VIEWS": {
+      "ADD": {
+        "TITLE": "Möchten Sie diesen Filter speichern?",
+        "LABEL": "Diesen Filter benennen",
+        "PLACEHOLDER": "Benenne deinen Filter, um ihn später wiederzuerkennen.",
+        "ERROR_MESSAGE": "Name wird benötigt.",
+        "SAVE_BUTTON": "Filter speichern",
+        "CANCEL_BUTTON": "Abbrechen",
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "Ordner erfolgreich erstellt.",
+          "ERROR_MESSAGE": "Fehler beim Erstellen des Ordners."
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "Segment erfolgreich erstellt.",
+          "ERROR_MESSAGE": "Fehler beim Erstellen des Segments."
+        }
+      },
+      "EDIT": {
+        "EDIT_BUTTON": "Ordner bearbeiten"
+      },
+      "DELETE": {
+        "DELETE_BUTTON": "Filter löschen",
+        "MODAL": {
+          "CONFIRM": {
+            "TITLE": "Löschen bestätigen",
+            "MESSAGE": "Möchten Sie den Filter wirklich löschen ",
+            "YES": "Ja, löschen",
+            "NO": "Nein, behalte es"
+          }
+        },
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "Ordner erfolgreich gelöscht.",
+          "ERROR_MESSAGE": "Fehler beim Löschen des Ordners."
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "Segment erfolgreich gelöscht.",
+          "ERROR_MESSAGE": "Fehler beim Löschen des Segments."
+        }
+      }
+    }
+  }
+}

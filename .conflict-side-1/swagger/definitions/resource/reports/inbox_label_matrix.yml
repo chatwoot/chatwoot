@@ -1,0 +1,50 @@
+type: object
+description: Inbox-label matrix report showing the count of conversations for each inbox-label combination.
+properties:
+  inboxes:
+    type: array
+    description: List of inboxes included in the report
+    items:
+      type: object
+      properties:
+        id:
+          type: number
+          description: The inbox ID
+        name:
+          type: string
+          description: The inbox name
+  labels:
+    type: array
+    description: List of labels included in the report
+    items:
+      type: object
+      properties:
+        id:
+          type: number
+          description: The label ID
+        title:
+          type: string
+          description: The label title
+  matrix:
+    type: array
+    description: 2D array where matrix[i][j] represents the count of conversations in inboxes[i] with labels[j]
+    items:
+      type: array
+      items:
+        type: number
+example:
+  inboxes:
+    - id: 1
+      name: Website Chat
+    - id: 2
+      name: Email Support
+  labels:
+    - id: 1
+      title: bug
+    - id: 2
+      title: feature-request
+    - id: 3
+      title: urgent
+  matrix:
+    - [10, 5, 3]
+    - [8, 12, 2]

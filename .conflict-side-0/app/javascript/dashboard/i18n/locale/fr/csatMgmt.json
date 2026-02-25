@@ -1,0 +1,13 @@
+{
+  "CSAT": {
+    "TITLE": "Évaluer votre conversation",
+    "PLACEHOLDER": "Dites-nous en plus...",
+    "RATINGS": {
+      "POOR": "😞 Mauvais",
+      "FAIR": "😑 Passable",
+      "AVERAGE": "😐 Moyenne",
+      "GOOD": "😀 Bon",
+      "EXCELLENT": "😍 Excellent"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "SURVEY": {
+    "DESCRIPTION": "Droga Klientko, Drogi Kliencie 👋, poświęć proszę kilka chwil, aby podzielić się opinią na temat rozmowy, którą odbyłeś(aś) z {inboxName}.",
+    "RATING": {
+      "LABEL": "Oceń udzielone Ci wsparcie",
+      "SUCCESS_MESSAGE": "Dziękujemy za przesłanie oceny"
+    },
+    "FEEDBACK": {
+      "LABEL": "Czy masz jakieś przemyślenia, którymi chciałbyć się podzielić?",
+      "PLACEHOLDER": "Twoja opinia (opcjonalna)",
+      "BUTTON_TEXT": "Prześlij opinię"
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Ankieta została zaktualizowana",
+      "ERROR_MESSAGE": "Nie można połączyć się z Woot Server, spróbuj ponownie później"
+    }
+  },
+  "POWERED_BY": "Napędzany przez Chatwoot"
+}

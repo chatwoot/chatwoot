@@ -1,0 +1,19 @@
+{
+  "SURVEY": {
+    "DESCRIPTION": "お問い合わせありがとうございました。今回の {inboxName} とのやり取りについて、ご意見をお寄せいただけますと幸いです。",
+    "RATING": {
+      "LABEL": "次の5段階からお選びください",
+      "SUCCESS_MESSAGE": "評価のご協力ありがとうございます。"
+    },
+    "FEEDBACK": {
+      "LABEL": "何かご意見やご感想があればお聞かせください。",
+      "PLACEHOLDER": "フィードバック (オプション)",
+      "BUTTON_TEXT": "記入内容を送信"
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "正常に送信されました",
+      "ERROR_MESSAGE": "サーバーに接続できませんでした。後でもう一度お試しください。"
+    }
+  },
+  "POWERED_BY": "提供：Chatwoot"
+}

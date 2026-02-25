@@ -1,0 +1,62 @@
+{
+  "INTEGRATION_APPS": {
+    "FETCHING": "Загрузка интеграций",
+    "NO_HOOK_CONFIGURED": "В этой учетной записи не настроено ни одной {integrationId} интеграции.",
+    "HEADER": "Приложения",
+    "STATUS": {
+      "ENABLED": "Включено",
+      "DISABLED": "Выключено"
+    },
+    "CONFIGURE": "Настроить",
+    "ADD_BUTTON": "Добавить новый хук",
+    "DELETE": {
+      "TITLE": {
+        "INBOX": "Подтвердите удаление",
+        "ACCOUNT": "Отключиться"
+      },
+      "MESSAGE": {
+        "INBOX": "Вы точно хотите удалить?",
+        "ACCOUNT": "Вы уверены, что хотите отключиться?"
+      },
+      "CONFIRM_BUTTON_TEXT": {
+        "INBOX": "Да, удалить",
+        "ACCOUNT": "Да, отключить"
+      },
+      "CANCEL_BUTTON_TEXT": "Отменить",
+      "API": {
+        "SUCCESS_MESSAGE": "Вебхук удален",
+        "ERROR_MESSAGE": "Не удается соединиться с сервером Woot, попробуйте позже"
+      }
+    },
+    "LIST": {
+      "FETCHING": "Получение хуков",
+      "INBOX": "Электронная почта",
+      "DELETE": {
+        "BUTTON_TEXT": "Удалить"
+      }
+    },
+    "ADD": {
+      "FORM": {
+        "INBOX": {
+          "LABEL": "Выбрать \"Входящий\" канал",
+          "PLACEHOLDER": "Выбрать \"Входящий\" канал"
+        },
+        "SUBMIT": "Создать",
+        "CANCEL": "Отменить"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Вебхук для интеграции успешно добавлен",
+        "ERROR_MESSAGE": "Не удается соединиться с сервером Woot, попробуйте позже"
+      }
+    },
+    "CONNECT": {
+      "BUTTON_TEXT": "Подключить"
+    },
+    "DISCONNECT": {
+      "BUTTON_TEXT": "Отключиться"
+    },
+    "SIDEBAR_DESCRIPTION": {
+      "DIALOGFLOW": "Dialogflow is a natural language processing platform for building conversational interfaces. Integrating it with {installationName} lets bots handle queries first and transfer them to agents when needed. It helps qualify leads and reduce agent workload by answering FAQs. To add Dialogflow, create a Service Account in Google Console and share the credentials. Refer to the docs for details"
+    }
+  }
+}

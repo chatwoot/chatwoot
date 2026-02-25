@@ -1,0 +1,41 @@
+{
+  "LOGIN": {
+    "TITLE": "Přihlásit se do Chatwoot",
+    "EMAIL": {
+      "LABEL": "E-mailová adresa",
+      "PLACEHOLDER": "example{'@'}companyname.com",
+      "ERROR": "Zadejte prosím platnou e-mailovou adresu"
+    },
+    "PASSWORD": {
+      "LABEL": "Heslo",
+      "PLACEHOLDER": "Heslo"
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Přihlášení úspěšné",
+      "ERROR_MESSAGE": "Nelze se připojit k Woot serveru, opakujte akci později",
+      "UNAUTH": "Nesprávné uživatelské jméno / heslo. Zkuste to prosím znovu"
+    },
+    "OAUTH": {
+      "GOOGLE_LOGIN": "Login with Google",
+      "BUSINESS_ACCOUNTS_ONLY": "Please use your company email address to login",
+      "NO_ACCOUNT_FOUND": "We couldn't find an account for your email address."
+    },
+    "FORGOT_PASSWORD": "Zapomněli jste heslo?",
+    "CREATE_NEW_ACCOUNT": "Vytvořit nový účet",
+    "SUBMIT": "Přihlásit se",
+    "SAML": {
+      "LABEL": "Login via SSO",
+      "TITLE": "Initiate Single Sign-on (SSO)",
+      "SUBTITLE": "Enter your work email to access your organization",
+      "BACK_TO_LOGIN": "Login via Password",
+      "WORK_EMAIL": {
+        "LABEL": "Work Email",
+        "PLACEHOLDER": "Enter your work email"
+      },
+      "SUBMIT": "Continue with SSO",
+      "API": {
+        "ERROR_MESSAGE": "SSO authentication failed. Please check your credentials and try again."
+      }
+    }
+  }
+}

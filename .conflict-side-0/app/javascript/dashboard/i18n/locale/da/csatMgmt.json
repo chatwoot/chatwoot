@@ -1,0 +1,13 @@
+{
+  "CSAT": {
+    "TITLE": "Bedøm din samtale",
+    "PLACEHOLDER": "Fortæl os mere...",
+    "RATINGS": {
+      "POOR": "😞 Poor",
+      "FAIR": "😑 Fair",
+      "AVERAGE": "😐 Average",
+      "GOOD": "😀 Good",
+      "EXCELLENT": "😍 Excellent"
+    }
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "INTEGRATION_APPS": {
+    "FETCHING": "Fetching Integrations",
+    "NO_HOOK_CONFIGURED": "There are no {integrationId} integrations configured in this account.",
+    "HEADER": "Applications",
+    "STATUS": {
+      "ENABLED": "പ്രവർത്തനക്ഷമമാക്കി",
+      "DISABLED": "പ്രവർത്തനരഹിതമാക്കി"
+    },
+    "CONFIGURE": "കോൺഫിഗർ",
+    "ADD_BUTTON": "Add a new hook",
+    "DELETE": {
+      "TITLE": {
+        "INBOX": "Confirm deletion",
+        "ACCOUNT": "Disconnect"
+      },
+      "MESSAGE": {
+        "INBOX": "Are you sure to delete?",
+        "ACCOUNT": "Are you sure to disconnect?"
+      },
+      "CONFIRM_BUTTON_TEXT": {
+        "INBOX": "അതെ, ഇല്ലാതാക്കുക",
+        "ACCOUNT": "Yes, Disconnect"
+      },
+      "CANCEL_BUTTON_TEXT": "റദ്ദാക്കുക",
+      "API": {
+        "SUCCESS_MESSAGE": "Hook deleted successfully",
+        "ERROR_MESSAGE": "വൂട്ട് സെർവറിലേക്ക് കണക്റ്റുചെയ്യാനായില്ല, ദയവായി പിന്നീട് വീണ്ടും ശ്രമിക്കുക"
+      }
+    },
+    "LIST": {
+      "FETCHING": "Fetching integration hooks",
+      "INBOX": "ഇൻബോക്സ്",
+      "DELETE": {
+        "BUTTON_TEXT": "ഇല്ലാതാക്കുക"
+      }
+    },
+    "ADD": {
+      "FORM": {
+        "INBOX": {
+          "LABEL": "Select Inbox",
+          "PLACEHOLDER": "Select Inbox"
+        },
+        "SUBMIT": "സൃഷ്ടിക്കുക",
+        "CANCEL": "റദ്ദാക്കുക"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Integration hook added successfully",
+        "ERROR_MESSAGE": "വൂട്ട് സെർവറിലേക്ക് കണക്റ്റുചെയ്യാനായില്ല, ദയവായി പിന്നീട് വീണ്ടും ശ്രമിക്കുക"
+      }
+    },
+    "CONNECT": {
+      "BUTTON_TEXT": "ബന്ധിപ്പിക്കുക"
+    },
+    "DISCONNECT": {
+      "BUTTON_TEXT": "Disconnect"
+    },
+    "SIDEBAR_DESCRIPTION": {
+      "DIALOGFLOW": "Dialogflow is a natural language processing platform for building conversational interfaces. Integrating it with {installationName} lets bots handle queries first and transfer them to agents when needed. It helps qualify leads and reduce agent workload by answering FAQs. To add Dialogflow, create a Service Account in Google Console and share the credentials. Refer to the docs for details"
+    }
+  }
+}

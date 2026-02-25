@@ -1,0 +1,86 @@
+{
+  "name": "Chatwoot",
+  "description": "Chatwoot is a customer support tool for instant messaging channels",
+  "website": "https://www.chatwoot.com/",
+  "repository": "https://github.com/chatwoot/chatwoot",
+  "logo": "https://app.chatwoot.com/brand-assets/logo_thumbnail.svg",
+  "keywords": [
+    "live chat",
+    "customer support",
+    "ruby",
+    "rails",
+    "vue"
+  ],
+  "success_url": "/",
+  "env": {
+    "SECRET_TOKEN": {
+      "description": "A secret key for verifying the integrity of signed cookies.",
+      "generator": "secret"
+    },
+    "RACK_ENV": {
+      "description": "Environment for rack middleware.",
+      "value": "production"
+    },
+    "RAILS_ENV": {
+      "description": "Environment for rails middleware.",
+      "value": "production"
+    },
+    "FRONTEND_URL": {
+      "description": "Public root URL of the Chatwoot installation. This will be used in the emails.",
+      "value": "https://CHANGE.herokuapp.com"
+    },
+    "INSTALLATION_ENV": {
+      "description": "Installation method used for Chatwoot.",
+      "value": "heroku"
+    },
+    "REDIS_OPENSSL_VERIFY_MODE":{
+      "description": "OpenSSL verification mode for Redis connections. ref https://help.heroku.com/HC0F8CUS/redis-connection-issues",
+      "value": "none"
+    },
+    "NODE_OPTIONS": {
+      "description": "Increase V8 heap for Vite build to avoid OOM",
+      "value": "--max-old-space-size=4096"
+    }
+  },
+  "formation": {
+    "web": {
+      "quantity": 1,
+      "size": "basic"
+    },
+    "worker": {
+      "quantity": 1,
+      "size": "basic"
+    }
+  },
+  "stack": "heroku-24",
+  "image": "heroku/ruby",
+  "addons": [
+    {
+      "plan": "heroku-redis:mini"
+    },
+    {
+      "plan": "heroku-postgresql:essential-0"
+    }
+  ],
+  "stack": "heroku-24",
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    },
+    {
+      "url": "heroku/ruby"
+    }
+  ],
+  "environments": {
+    "test": {
+      "scripts": {
+        "test": "bundle exec rake test"
+      }
+    },
+    "review": {
+      "scripts": {
+        "postdeploy": "bundle exec rails db:seed"
+      }
+    }
+  }
+}

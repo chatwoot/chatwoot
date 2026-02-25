@@ -1,0 +1,85 @@
+{
+  "LABEL_MGMT": {
+    "HEADER": "الوسوم",
+    "HEADER_BTN_TXT": "إضافة وسم جديد",
+    "LOADING": "جار جلب الوسوم",
+    "DESCRIPTION": "Labels help you categorize and prioritize conversations and leads. You can assign a label to a conversation or contact using the side panel.",
+    "LEARN_MORE": "معرفة المزيد حول التسميات",
+    "SEARCH_404": "لا توجد عناصر مطابقة لهذا الاستعلام",
+    "LIST": {
+      "404": "لا توجد وسوم متوفرة في هذا الحساب.",
+      "TITLE": "إدارة الوسوم",
+      "DESC": "الوسوم تسمح لك بتجميع المحادثات المتشابهة معاً.",
+      "TABLE_HEADER": {
+        "NAME": "الاسم",
+        "DESCRIPTION": "الوصف",
+        "COLOR": "اللون"
+      }
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "اسم الوسم",
+        "PLACEHOLDER": "اسم الوسم",
+        "REQUIRED_ERROR": "اسم الوسم مطلوب",
+        "MINIMUM_LENGTH_ERROR": "الحد الأدنى لطول الإسم هو حرفين",
+        "VALID_ERROR": "مسموح فقط بالابجدية,الارقام, -, _"
+      },
+      "DESCRIPTION": {
+        "LABEL": "الوصف",
+        "PLACEHOLDER": "وصف الوسم"
+      },
+      "COLOR": {
+        "LABEL": "اللون"
+      },
+      "SHOW_ON_SIDEBAR": {
+        "LABEL": "إظهار الوسم على الشريط الجانبي"
+      },
+      "EDIT": "تعديل",
+      "CREATE": "إنشاء",
+      "DELETE": "حذف",
+      "CANCEL": "إلغاء"
+    },
+    "SUGGESTIONS": {
+      "TOOLTIP": {
+        "SINGLE_SUGGESTION": "إضافة وسم إلى المحادثة",
+        "MULTIPLE_SUGGESTION": "حدد الوسم",
+        "DESELECT": "إلغاء تحديد الوسم",
+        "DISMISS": "استبعاد الاقتراح"
+      },
+      "POWERED_BY": "Chatwoot AI",
+      "DISMISS": "استبعاد",
+      "ADD_SELECTED_LABELS": "إضافة الوسوم المحددة",
+      "ADD_SELECTED_LABEL": "إضافة الوسوم المحددة",
+      "ADD_ALL_LABELS": "إضافة جميع الأوسمة",
+      "SUGGESTED_LABELS": "التسميات المقترحة"
+    },
+    "ADD": {
+      "TITLE": "إضافة وسم جديد",
+      "DESC": "الوسوم تسمح لك بتجميع المحادثات المتشابهة معاً.",
+      "API": {
+        "SUCCESS_MESSAGE": "تم إضافة الوسم بنجاح",
+        "ERROR_MESSAGE": "حدث خطأ، الرجاء المحاولة مرة أخرى"
+      }
+    },
+    "EDIT": {
+      "TITLE": "تعديل الوسم",
+      "API": {
+        "SUCCESS_MESSAGE": "تم تحديث الوسم بنجاح",
+        "ERROR_MESSAGE": "حدث خطأ، الرجاء المحاولة مرة أخرى"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "حذف",
+      "API": {
+        "SUCCESS_MESSAGE": "تم حذف الوسم بنجاح",
+        "ERROR_MESSAGE": "حدث خطأ، الرجاء المحاولة مرة أخرى"
+      },
+      "CONFIRM": {
+        "TITLE": "تأكيد الحذف",
+        "MESSAGE": "هل أنت متأكد من الحذف ",
+        "YES": "نعم، احذف ",
+        "NO": "لا، احتفظ "
+      }
+    }
+  }
+}

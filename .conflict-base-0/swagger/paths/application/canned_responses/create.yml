@@ -1,0 +1,27 @@
+tags:
+  - Canned Responses
+operationId: add-new-canned-response-to-account
+summary: Add a New Canned Response
+description: Add a new Canned Response to Account
+security:
+  - userApiKey: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/canned_response_create_update_payload'
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          description: 'Newly Created Canned Response'
+          $ref: '#/components/schemas/canned_response'
+  '403':
+    description: Access denied
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

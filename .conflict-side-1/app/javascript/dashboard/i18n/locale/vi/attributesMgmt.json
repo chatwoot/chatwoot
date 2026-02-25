@@ -1,0 +1,138 @@
+{
+  "ATTRIBUTES_MGMT": {
+    "HEADER": "Thuộc tính tùy chỉnh",
+    "HEADER_BTN_TXT": "Thêm thuộc tính Tùy chỉnh",
+    "LOADING": "Đang lấy thuộc tính tuỳ chỉnh",
+    "DESCRIPTION": "A custom attribute tracks additional details about your contacts or conversations—such as the subscription plan or the date of their first purchase. You can add different types of custom attributes, such as text, lists, or numbers, to capture the specific information you need.",
+    "LEARN_MORE": "Learn more about custom attributes",
+    "ATTRIBUTE_MODELS": {
+      "CONVERSATION": "Cuộc hội thoại",
+      "CONTACT": "Liên hệ"
+    },
+    "ATTRIBUTE_TYPES": {
+      "TEXT": "Văn bản",
+      "NUMBER": "Số",
+      "LINK": "Liên kết",
+      "DATE": "Date",
+      "LIST": "Danh sách",
+      "CHECKBOX": "Hộp kiểm"
+    },
+    "ADD": {
+      "TITLE": "Thêm thuộc tính Tùy chỉnh",
+      "SUBMIT": "Tạo",
+      "CANCEL_BUTTON_TEXT": "Huỷ",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Tên hiển thị",
+          "PLACEHOLDER": "Nhập tên hiển thị của thuộc tính tuỳ chỉnh",
+          "ERROR": "Tên bắt buộc có"
+        },
+        "DESC": {
+          "LABEL": "Mô tả",
+          "PLACEHOLDER": "Điền mô tả của thuộc tính tuỳ chỉnh",
+          "ERROR": "Mô tả bắt buộc có"
+        },
+        "MODEL": {
+          "LABEL": "Áp dụng cho",
+          "PLACEHOLDER": "Vui lòng chọn một",
+          "ERROR": "Mô hình bắt buộc có"
+        },
+        "TYPE": {
+          "LABEL": "Kiểu",
+          "PLACEHOLDER": "Vui lòng chọn một kiểu",
+          "ERROR": "Kiểu bắt buộc có",
+          "LIST": {
+            "LABEL": "Giá trị của danh sách",
+            "PLACEHOLDER": "Vui lòng nhập giá trị và ấn phím enter",
+            "ERROR": "Phải có ít nhất 1 giá trị"
+          }
+        },
+        "KEY": {
+          "LABEL": "Khoá",
+          "PLACEHOLDER": "Nhập khoá của thuộc tính tuỳ chỉnh",
+          "ERROR": "C\u001dần có khoá",
+          "IN_VALID": "Khoá không hợp lệ"
+        },
+        "REGEX_PATTERN": {
+          "LABEL": "Regex Pattern",
+          "PLACEHOLDER": "Please enter custom attribute regex pattern. (Optional)"
+        },
+        "REGEX_CUE": {
+          "LABEL": "Regex Cue",
+          "PLACEHOLDER": "Please enter regex pattern hint. (Optional)"
+        },
+        "ENABLE_REGEX": {
+          "LABEL": "Enable regex validation"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Thuộc tính tuỳ chỉnh được thêm thành công!",
+        "ERROR_MESSAGE": "Could not create a Custom Attribute. Please try again later."
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Xoá",
+      "API": {
+        "SUCCESS_MESSAGE": "Thuộc tính tuỳ chỉnh bị xoá thành công.",
+        "ERROR_MESSAGE": "Không thể xoá thuộc tính tuỳ chỉnh. Thử lại."
+      },
+      "CONFIRM": {
+        "TITLE": "Bạn có chắc muốn xoá - {attributeName}",
+        "PLACE_HOLDER": "Vui lòng điền {attributeName} để xác nhận",
+        "MESSAGE": "Xoá sẽ loại bỏ thuộc tính tuỳ chỉnh",
+        "YES": "Xoá ",
+        "NO": "Huỷ"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Sửa Thuộc tính Tùy chỉnh",
+      "UPDATE_BUTTON_TEXT": "Cập nhật",
+      "TYPE": {
+        "LIST": {
+          "LABEL": "Giá trị của danh sách",
+          "PLACEHOLDER": "Vui lòng nhập giá trị và ấn phím enter"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Thuộc tính tuỳ chỉnh được sửa thành công",
+        "ERROR_MESSAGE": "Đã xảy ra lỗi khi cập nhật \bthuộc tính tuỳ chỉnh, vui lòng thử lại"
+      }
+    },
+    "TABS": {
+      "HEADER": "Thuộc tính tùy chỉnh",
+      "CONVERSATION": "Cuộc hội thoại",
+      "CONTACT": "Liên lạc"
+    },
+    "LIST": {
+      "TABLE_HEADER": {
+        "NAME": "Tên",
+        "DESCRIPTION": "Mô tả",
+        "TYPE": "Kiểu",
+        "KEY": "Khoá"
+      },
+      "BUTTONS": {
+        "EDIT": "Chỉnh sửa",
+        "DELETE": "Xoá"
+      },
+      "EMPTY_RESULT": {
+        "404": "Không có thuộc tính tuỳ chỉnh nào được tạo",
+        "NOT_FOUND": "Không có thuộc tính tuỳ chỉnh nào được cấu hình"
+      },
+      "REGEX_PATTERN": {
+        "LABEL": "Regex Pattern",
+        "PLACEHOLDER": "Please enter custom attribute regex pattern. (Optional)"
+      },
+      "REGEX_CUE": {
+        "LABEL": "Regex Cue",
+        "PLACEHOLDER": "Please enter regex pattern hint. (Optional)"
+      },
+      "ENABLE_REGEX": {
+        "LABEL": "Enable regex validation"
+      }
+    },
+    "BADGES": {
+      "PRE_CHAT": "Pre-chat",
+      "RESOLUTION": "Resolution"
+    }
+  }
+}

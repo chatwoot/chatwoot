@@ -1,0 +1,85 @@
+{
+  "LABEL_MGMT": {
+    "HEADER": "Etiketter",
+    "HEADER_BTN_TXT": "Tilføj etiket",
+    "LOADING": "Henter etiketter",
+    "DESCRIPTION": "Labels help you categorize and prioritize conversations and leads. You can assign a label to a conversation or contact using the side panel.",
+    "LEARN_MORE": "Learn more about labels",
+    "SEARCH_404": "Der er ingen elementer, der matcher denne forespørgsel",
+    "LIST": {
+      "404": "Der er ingen tilgængelige etiketter på denne konto.",
+      "TITLE": "Administrer etiketter",
+      "DESC": "Etiketter lader dig gruppere samtalerne sammen.",
+      "TABLE_HEADER": {
+        "NAME": "Navn",
+        "DESCRIPTION": "Beskrivelse",
+        "COLOR": "Farve"
+      }
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "Etiket Navn",
+        "PLACEHOLDER": "Etiket Navn",
+        "REQUIRED_ERROR": "Etiketnavn er påkrævet",
+        "MINIMUM_LENGTH_ERROR": "Mindste længde 2 er påkrævet",
+        "VALID_ERROR": "Kun alfabeter, tal, bindestreger og understregning er tilladt"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Beskrivelse",
+        "PLACEHOLDER": "Etiket Beskrivelse"
+      },
+      "COLOR": {
+        "LABEL": "Farve"
+      },
+      "SHOW_ON_SIDEBAR": {
+        "LABEL": "Vis etiket på sidepanelet"
+      },
+      "EDIT": "Rediger",
+      "CREATE": "Opret",
+      "DELETE": "Slet",
+      "CANCEL": "Annuller"
+    },
+    "SUGGESTIONS": {
+      "TOOLTIP": {
+        "SINGLE_SUGGESTION": "Add label to conversation",
+        "MULTIPLE_SUGGESTION": "Select this label",
+        "DESELECT": "Deselect label",
+        "DISMISS": "Dismiss suggestion"
+      },
+      "POWERED_BY": "Chatwoot AI",
+      "DISMISS": "Dismiss",
+      "ADD_SELECTED_LABELS": "Add selected labels",
+      "ADD_SELECTED_LABEL": "Add selected label",
+      "ADD_ALL_LABELS": "Add all labels",
+      "SUGGESTED_LABELS": "Suggested labels"
+    },
+    "ADD": {
+      "TITLE": "Tilføj etiket",
+      "DESC": "Etiketter lader dig gruppere samtalerne sammen.",
+      "API": {
+        "SUCCESS_MESSAGE": "Etiket blev tilføjet",
+        "ERROR_MESSAGE": "Der opstod en fejl. Prøv venligst igen"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Rediger etiket",
+      "API": {
+        "SUCCESS_MESSAGE": "Etiket blev opdateret",
+        "ERROR_MESSAGE": "Der opstod en fejl. Prøv venligst igen"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Slet",
+      "API": {
+        "SUCCESS_MESSAGE": "Etiket blev slettet",
+        "ERROR_MESSAGE": "Der opstod en fejl. Prøv venligst igen"
+      },
+      "CONFIRM": {
+        "TITLE": "Bekræft Sletning",
+        "MESSAGE": "Er du sikker på du vil slette ",
+        "YES": "Ja, Slet ",
+        "NO": "Nej, Behold "
+      }
+    }
+  }
+}

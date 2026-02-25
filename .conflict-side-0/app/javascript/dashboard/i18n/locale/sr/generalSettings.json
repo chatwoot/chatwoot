@@ -1,0 +1,251 @@
+{
+  "GENERAL_SETTINGS": {
+    "LIMIT_MESSAGES": {
+      "CONVERSATION": "You have exceeded the conversation limit. Hacker plan allows only 500 conversations.",
+      "INBOXES": "You have exceeded the inbox limit. Hacker plan only supports website live-chat. Additional inboxes like email, WhatsApp etc. require a paid plan.",
+      "AGENTS": "You have exceeded the agent limit. Your plan only allows {allowedAgents} agents.",
+      "NON_ADMIN": "Please contact your administrator to upgrade the plan and continue using all features."
+    },
+    "TITLE": "Podešavanja naloga",
+    "SUBMIT": "Primeni izmene",
+    "BACK": "Nazad",
+    "DISMISS": "Dismiss",
+    "UPDATE": {
+      "ERROR": "Nije bilo moguće primeniti izmene, pokušajte ponovo!",
+      "SUCCESS": "Izmene podešavanja naloga su uspešno primenjene"
+    },
+    "ACCOUNT_DELETE_SECTION": {
+      "TITLE": "Delete your Account",
+      "NOTE": "Once you delete your account, all your data will be deleted.",
+      "BUTTON_TEXT": "Delete Your Account",
+      "CONFIRM": {
+        "TITLE": "Delete Account",
+        "MESSAGE": "Deleting your Account is irreversible. Enter your account name below to confirm you want to permanently delete it.",
+        "BUTTON_TEXT": "Izbriši",
+        "DISMISS": "Otkaži",
+        "PLACE_HOLDER": "Molim vas upišite {accountName} za potvrdu"
+      },
+      "SUCCESS": "Account marked for deletion",
+      "FAILURE": "Could not delete account, try again!",
+      "SCHEDULED_DELETION": {
+        "TITLE": "Account Scheduled for Deletion",
+        "MESSAGE_MANUAL": "This account is scheduled for deletion on {deletionDate}. This was requested by an administrator. You can cancel the deletion before this date.",
+        "MESSAGE_INACTIVITY": "This account is scheduled for deletion on {deletionDate} due to account inactivity. You can cancel the deletion before this date.",
+        "CLEAR_BUTTON": "Cancel Scheduled Deletion"
+      }
+    },
+    "FORM": {
+      "ERROR": "Molim vas ispravite greške formulara",
+      "GENERAL_SECTION": {
+        "TITLE": "Opšta podešavanja",
+        "NOTE": ""
+      },
+      "ACCOUNT_ID": {
+        "TITLE": "ID naloga",
+        "NOTE": "Ovaj ID je neophodan ako izgrađujete integraciju zasnovanu na API-ju"
+      },
+      "AUTO_RESOLVE": {
+        "TITLE": "Auto-resolve conversations",
+        "NOTE": "This configuration would allow you to automatically resolve the conversation after a certain period of inactivity.",
+        "DURATION": {
+          "LABEL": "Inactivity duration",
+          "HELP": "Time period of inactivity after which conversation is auto-resolved",
+          "PLACEHOLDER": "30",
+          "ERROR": "Auto resolve duration should be between 10 minutes and 999 days",
+          "API": {
+            "SUCCESS": "Auto resolve settings updated successfully",
+            "ERROR": "Failed to update auto resolve settings"
+          }
+        },
+        "MESSAGE": {
+          "LABEL": "Custom auto-resolution message",
+          "PLACEHOLDER": "Conversation was marked resolved by system due to 15 days of inactivity",
+          "HELP": "Message sent to the customer after conversation is auto-resolved"
+        },
+        "PREFERENCES": "Preferences",
+        "LABEL": {
+          "LABEL": "Add label after auto-resolution",
+          "PLACEHOLDER": "Select a label"
+        },
+        "IGNORE_WAITING": {
+          "LABEL": "Skip conversations waiting for agent’s reply"
+        },
+        "UPDATE_BUTTON": "Save Changes"
+      },
+      "NAME": {
+        "LABEL": "Naziv naloga",
+        "PLACEHOLDER": "Naziv vašeg naloga",
+        "ERROR": "Molim vas unesite ispravan naziv naloga"
+      },
+      "LANGUAGE": {
+        "LABEL": "Site language",
+        "PLACEHOLDER": "Naziv vašeg naloga",
+        "ERROR": ""
+      },
+      "DOMAIN": {
+        "LABEL": "Domen dolazne e-pošte",
+        "PLACEHOLDER": "Domen gde ćete primati e-poruke",
+        "ERROR": ""
+      },
+      "SUPPORT_EMAIL": {
+        "LABEL": "E-pošta podrške",
+        "PLACEHOLDER": "E-pošta podrške vaše kompanije",
+        "ERROR": ""
+      },
+      "AUTO_RESOLVE_IGNORE_WAITING": {
+        "LABEL": "Exclude unattended conversations",
+        "HELP": "When enabled, the system will skip resolving conversations that are still waiting for an agent's reply."
+      },
+      "AUDIO_TRANSCRIPTION": {
+        "TITLE": "Transcribe Audio Messages",
+        "NOTE": "Automatically transcribe audio messages in conversations. Generate a text transcript whenever an audio message is sent or received, and display it alongside the message.",
+        "API": {
+          "SUCCESS": "Audio transcription setting updated successfully",
+          "ERROR": "Failed to update audio transcription setting"
+        }
+      },
+      "AUTO_RESOLVE_DURATION": {
+        "LABEL": "Inactivity duration for resolution",
+        "HELP": "Duration after a conversation should auto resolve if there is no activity",
+        "PLACEHOLDER": "30",
+        "ERROR": "Auto resolve duration should be between 10 minutes and 999 days",
+        "API": {
+          "SUCCESS": "Auto resolve settings updated successfully",
+          "ERROR": "Failed to update auto resolve settings"
+        },
+        "UPDATE_BUTTON": "Primeni",
+        "MESSAGE_LABEL": "Custom resolution message",
+        "MESSAGE_PLACEHOLDER": "Conversation was marked resolved by system due to 15 days of inactivity",
+        "MESSAGE_HELP": "This message is sent to the customer when a conversation is automatically resolved by the system due to inactivity."
+      },
+      "FEATURES": {
+        "INBOUND_EMAIL_ENABLED": "Nastavljanje razgovora putem e-poruka je omogućeno za vaš nalog.",
+        "CUSTOM_EMAIL_DOMAIN_ENABLED": "Sada možete da dobijate e-poruke u vaš prilagođeni domen."
+      }
+    },
+    "UPDATE_CHATWOOT": "Dostupna je nadogradnja {latestChatwootVersion} za Chatwoot. Molim vas nadogradite vaše izdanje.",
+    "LEARN_MORE": "Saznajte više",
+    "PAYMENT_PENDING": "Your payment is pending. Please update your payment information to continue using Chatwoot",
+    "UPGRADE": "Upgrade to continue using Chatwoot",
+    "LIMITS_UPGRADE": "Your account has exceeded the usage limits, please upgrade your plan to continue using Chatwoot",
+    "OPEN_BILLING": "Open billing"
+  },
+  "FORMS": {
+    "MULTISELECT": {
+      "ENTER_TO_SELECT": "Pritisnite enter da bi ste izabrali",
+      "ENTER_TO_REMOVE": "Pritisnite enter da bi ste uklonili",
+      "NO_OPTIONS": "List is empty",
+      "SELECT_ONE": "Izaberite jedno",
+      "SELECT": "Select"
+    }
+  },
+  "NOTIFICATIONS_PAGE": {
+    "HEADER": "Obaveštenja",
+    "MARK_ALL_DONE": "Označi sve kao završeno",
+    "DELETE_TITLE": "obrisano",
+    "UNREAD_NOTIFICATION": {
+      "TITLE": "Nepročitana obaveštenja",
+      "ALL_NOTIFICATIONS": "Pregledaj sva obaveštenja",
+      "LOADING_UNREAD_MESSAGE": "Učitavanje nepročitanih obaveštenja...",
+      "EMPTY_MESSAGE": "Nemate nepročitanih obaveštenja"
+    },
+    "LIST": {
+      "LOADING_MESSAGE": "Učitavanje obaveštenja...",
+      "404": "Nema obaveštenja",
+      "TABLE_HEADER": [
+        "Ime",
+        "Broj telefona",
+        "Razgovori",
+        "Poslednji put kontaktiran"
+      ]
+    },
+    "TYPE_LABEL": {
+      "conversation_creation": "Novi razgovor",
+      "conversation_assignment": "Dodeljen razgovoru",
+      "assigned_conversation_new_message": "Nova poruka",
+      "participating_conversation_new_message": "Nova poruka",
+      "conversation_mention": "Pominjanje",
+      "sla_missed_first_response": "SLA Missed",
+      "sla_missed_next_response": "SLA Missed",
+      "sla_missed_resolution": "SLA Missed"
+    }
+  },
+  "NETWORK": {
+    "NOTIFICATION": {
+      "OFFLINE": "Nedostupan",
+      "RECONNECTING": "Reconnecting...",
+      "RECONNECT_SUCCESS": "Reconnected"
+    },
+    "BUTTON": {
+      "REFRESH": "Osveži"
+    }
+  },
+  "COMMAND_BAR": {
+    "SEARCH_PLACEHOLDER": "Pretraži ili idi na",
+    "SECTIONS": {
+      "GENERAL": "Opšta",
+      "REPORTS": "Izveštaji",
+      "CONVERSATION": "Razgovor",
+      "BULK_ACTIONS": "Bulk Actions",
+      "CHANGE_ASSIGNEE": "Promeni dodeljenog",
+      "CHANGE_PRIORITY": "Change Priority",
+      "CHANGE_TEAM": "Promeni tim",
+      "SNOOZE_CONVERSATION": "Odloži razgovor",
+      "ADD_LABEL": "Dodaj oznaku razgovoru",
+      "REMOVE_LABEL": "Ukloni oznaku sa razgovora",
+      "SETTINGS": "Podešavanja",
+      "AI_ASSIST": "AI Assist",
+      "APPEARANCE": "Appearance",
+      "SNOOZE_NOTIFICATION": "Snooze Notification"
+    },
+    "COMMANDS": {
+      "GO_TO_CONVERSATION_DASHBOARD": "Idi na radnu tablu razgovora",
+      "GO_TO_CONTACTS_DASHBOARD": "Idi na radnu tablu kontakata",
+      "GO_TO_REPORTS_OVERVIEW": "Idi na pregled izveštaja",
+      "GO_TO_CONVERSATION_REPORTS": "Idi na izveštaje o razgovorima",
+      "GO_TO_AGENT_REPORTS": "Idi na izveštaje o agentima",
+      "GO_TO_LABEL_REPORTS": "Idi na izveštaje o oznakama",
+      "GO_TO_INBOX_REPORTS": "Idi na izveštaje o prijamnim sandučićima",
+      "GO_TO_TEAM_REPORTS": "Idi na izveštaje o timovima",
+      "GO_TO_SETTINGS_AGENTS": "Idi na podešavanja agenata",
+      "GO_TO_SETTINGS_TEAMS": "Idi na podešavanja timova",
+      "GO_TO_SETTINGS_INBOXES": "Idi na podešavanja prijemnih sandučića",
+      "GO_TO_SETTINGS_LABELS": "Idi na podešavanja oznaka",
+      "GO_TO_SETTINGS_CANNED_RESPONSES": "Idi na podešavanja brzih odgovora",
+      "GO_TO_SETTINGS_APPLICATIONS": "Idi na podešavanja aplikacije",
+      "GO_TO_SETTINGS_ACCOUNT": "Idi na podešavanja naloga",
+      "GO_TO_SETTINGS_PROFILE": "Idi na podešavanja profila",
+      "GO_TO_NOTIFICATIONS": "Idi na obaveštenja",
+      "ADD_LABELS_TO_CONVERSATION": "Dodaj oznaku razgovoru",
+      "ASSIGN_AN_AGENT": "Dodeli agenta",
+      "AI_ASSIST": "AI Assist",
+      "ASSIGN_PRIORITY": "Assign priority",
+      "ASSIGN_A_TEAM": "Dodeli tim",
+      "MUTE_CONVERSATION": "Utišaj razgovor",
+      "UNMUTE_CONVERSATION": "Poništi utišanje razgovora",
+      "REMOVE_LABEL_FROM_CONVERSATION": "Ukloni oznaku sa razgovora",
+      "REOPEN_CONVERSATION": "Ponovo otvori razgovor",
+      "RESOLVE_CONVERSATION": "Reši razgovor",
+      "SEND_TRANSCRIPT": "Pošalji transkript e-poštom",
+      "SNOOZE_CONVERSATION": "Odloži razgovor",
+      "UNTIL_NEXT_REPLY": "Do sledećeg odgovora",
+      "UNTIL_NEXT_WEEK": "Do sledeće nedelje",
+      "UNTIL_TOMORROW": "Do sutra",
+      "UNTIL_NEXT_MONTH": "Until next month",
+      "AN_HOUR_FROM_NOW": "Until an hour from now",
+      "UNTIL_CUSTOM_TIME": "Custom...",
+      "CHANGE_APPEARANCE": "Change Appearance",
+      "LIGHT_MODE": "Light",
+      "DARK_MODE": "Dark",
+      "SYSTEM_MODE": "System",
+      "SNOOZE_NOTIFICATION": "Snooze Notification"
+    }
+  },
+  "DASHBOARD_APPS": {
+    "LOADING_MESSAGE": "Loading Dashboard App..."
+  },
+  "COMMON": {
+    "OR": "Or",
+    "CLICK_HERE": "kliknite ovde"
+  }
+}

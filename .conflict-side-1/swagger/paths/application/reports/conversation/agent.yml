@@ -1,0 +1,29 @@
+tags:
+  - Reports
+operationId: get-agent-conversation-metrics
+summary: Agent Conversation Metrics
+security:
+  - userApiKey: []
+description: Get conversation metrics for Agent
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          type: array
+          description: 'Array of agent based conversation metrics'
+          items:
+            $ref: '#/components/schemas/agent_conversation_metrics'
+  '404':
+    description: reports not found
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '403':
+    description: Access denied
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

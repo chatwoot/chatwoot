@@ -1,0 +1,68 @@
+{
+  "SEARCH": {
+    "TABS": {
+      "ALL": "All results",
+      "CONTACTS": "Kontakter",
+      "CONVERSATIONS": "Konversationer",
+      "MESSAGES": "Meddelanden",
+      "ARTICLES": "Articles"
+    },
+    "SECTION": {
+      "CONTACTS": "Kontakter",
+      "CONVERSATIONS": "Konversationer",
+      "MESSAGES": "Meddelanden",
+      "ARTICLES": "Articles"
+    },
+    "VIEW_MORE": "View more",
+    "LOAD_MORE": "Load more",
+    "SEARCHING_DATA": "Searching",
+    "LOADING_DATA": "Loading",
+    "EMPTY_STATE": "Ingen {item} hittades med orden '{query}'",
+    "EMPTY_STATE_FULL": "Inga resultat hittades med orden '{query}'",
+    "PLACEHOLDER_KEYBINDING": "/att fokusera",
+    "INPUT_PLACEHOLDER": "Skriv 3 eller fler tecken för att söka",
+    "RECENT_SEARCHES": "Recent searches",
+    "CLEAR_ALL": "Clear all",
+    "MOST_RECENT": "Most recent",
+    "EMPTY_STATE_DEFAULT": "Sök via konversations-id, e-post, telefonnummer, meddelanden, för bättre sökresultat. ",
+    "BOT_LABEL": "Bot",
+    "READ_MORE": "Läs mer",
+    "READ_LESS": "Read less",
+    "WROTE": "skrev:",
+    "FROM": "Från",
+    "EMAIL": "E-post",
+    "EMAIL_SUBJECT": "Ämne",
+    "PRIVATE": "Private note",
+    "TRANSCRIPT": "Transcript",
+    "CREATED_AT": "created {time}",
+    "UPDATED_AT": "updated {time}",
+    "SORT_BY": {
+      "RELEVANCE": "Relevance"
+    },
+    "DATE_RANGE": {
+      "LAST_7_DAYS": "Senaste 7 dagarna",
+      "LAST_30_DAYS": "Senaste 30 dagarna",
+      "LAST_60_DAYS": "De senaste 60 dagarna",
+      "LAST_90_DAYS": "De senaste 90 dagarna",
+      "CUSTOM_RANGE": "Custom range:",
+      "CREATED_BETWEEN": "Created between",
+      "AND": "and",
+      "APPLY": "Apply",
+      "BEFORE_DATE": "Before {date}",
+      "AFTER_DATE": "After {date}",
+      "TIME_RANGE": "Filter by time",
+      "CLEAR_FILTER": "Clear filter"
+    },
+    "FILTERS": {
+      "FILTER_MESSAGE": "Filter messages by:",
+      "FROM": "Sender",
+      "IN": "Inkorg",
+      "AGENTS": "Agenter",
+      "CONTACTS": "Kontakter",
+      "INBOXES": "Inkorgar",
+      "NO_AGENTS": "Inga agenter hittades",
+      "NO_CONTACTS": "Start by searching to see results",
+      "NO_INBOXES": "No inboxes found"
+    }
+  }
+}

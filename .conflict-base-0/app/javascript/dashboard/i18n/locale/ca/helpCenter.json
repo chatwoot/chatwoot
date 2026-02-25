@@ -1,0 +1,865 @@
+{
+  "HELP_CENTER": {
+    "TITLE": "Centre d'ajuda",
+    "NEW_PAGE": {
+      "DESCRIPTION": "Create self-service help center portals for your customers. Help them find answers quickly, without waiting. Streamline inquiries, boost agent efficiency, and elevate customer support.",
+      "CREATE_PORTAL_BUTTON": "Crea un portal"
+    },
+    "HEADER": {
+      "FILTER": "Filtrat per",
+      "SORT": "Ordenat per",
+      "LOCALE": "Localització",
+      "SETTINGS_BUTTON": "Configuracions",
+      "NEW_BUTTON": "Nou article",
+      "DROPDOWN_OPTIONS": {
+        "PUBLISHED": "Publicat",
+        "DRAFT": "Esborrany",
+        "ARCHIVED": "Arxivat"
+      },
+      "TITLES": {
+        "ALL_ARTICLES": "Tots els articles",
+        "MINE": "Tots els meus articles",
+        "DRAFT": "Esborrany d'articles",
+        "ARCHIVED": "Articles arxivats"
+      },
+      "LOCALE_SELECT": {
+        "TITLE": "Selecciona localització",
+        "PLACEHOLDER": "Selecciona localització",
+        "NO_RESULT": "No s'ha trobat localització",
+        "SEARCH_PLACEHOLDER": "Cerca localització"
+      }
+    },
+    "EDIT_HEADER": {
+      "ALL_ARTICLES": "Tots els articles",
+      "PUBLISH_BUTTON": "Publica",
+      "MOVE_TO_ARCHIVE_BUTTON": "Mou a arxivat",
+      "PREVIEW": "Vista prèvia",
+      "ADD_TRANSLATION": "Afegeix traducció",
+      "OPEN_SIDEBAR": "Obre la barra lateral",
+      "CLOSE_SIDEBAR": "Tanca la barra lateral",
+      "SAVING": "S'està desant...",
+      "SAVED": "Desat"
+    },
+    "ARTICLE_EDITOR": {
+      "IMAGE_UPLOAD": {
+        "TITLE": "Puja imatge",
+        "UPLOADING": "S'està carregant...",
+        "SUCCESS": "La imatge s'ha carregat correctament",
+        "ERROR": "S'ha produït un error en carregar la imatge",
+        "UN_AUTHORIZED_ERROR": "You are not authorized to upload images",
+        "ERROR_FILE_SIZE": "La mida de la imatge ha de ser inferior a {size}MB",
+        "ERROR_FILE_FORMAT": "El format de la imatge ha de ser JPG, JPEG o PNG",
+        "ERROR_FILE_DIMENSIONS": "Les dimensions de la imatge han de ser inferiors a 2000 x 2000"
+      }
+    },
+    "ARTICLE_SETTINGS": {
+      "TITLE": "Configuració de l'article",
+      "FORM": {
+        "CATEGORY": {
+          "LABEL": "Categoria",
+          "TITLE": "Selecciona categoria",
+          "PLACEHOLDER": "Selecciona categoria",
+          "NO_RESULT": "No s'ha trobat la categoria",
+          "SEARCH_PLACEHOLDER": "Cerca la categoria"
+        },
+        "AUTHOR": {
+          "LABEL": "Autor",
+          "TITLE": "Selecciona l'autor",
+          "PLACEHOLDER": "Selecciona l'autor",
+          "NO_RESULT": "No s'han trobat autors",
+          "SEARCH_PLACEHOLDER": "Cerca autor"
+        },
+        "META_TITLE": {
+          "LABEL": "Meta títol",
+          "PLACEHOLDER": "Afegeix un meta títol"
+        },
+        "META_DESCRIPTION": {
+          "LABEL": "Meta descripció",
+          "PLACEHOLDER": "Afegeix la teva meta descripció per obtenir millors resultats de SEO..."
+        },
+        "META_TAGS": {
+          "LABEL": "Meta etiquetes",
+          "PLACEHOLDER": "Afegeix meta etiquetes separades per comes..."
+        }
+      },
+      "BUTTONS": {
+        "ARCHIVE": "Arxiva article",
+        "DELETE": "Suprimeix article"
+      }
+    },
+    "ARTICLE_SEARCH_RESULT": {
+      "UNCATEGORIZED": "Sense categoria",
+      "SEARCH_RESULTS": "Resultats de la cerca per a {query}",
+      "EMPTY_TEXT": "Cerca articles per inserir a les respostes.",
+      "SEARCH_LOADER": "S'està cercant...",
+      "INSERT_ARTICLE": "Insereix",
+      "NO_RESULT": "No s'han trobat articles",
+      "COPY_LINK": "Copia l'enllaç de l'article al porta-retalls",
+      "OPEN_LINK": "Obre l'article en una pestanya nova",
+      "PREVIEW_LINK": "Vista prèvia de l'article"
+    },
+    "PORTAL": {
+      "HEADER": "Portals",
+      "DEFAULT": "Per defecte",
+      "NEW_BUTTON": "Nou portal",
+      "ACTIVE_BADGE": "actiu",
+      "CHOOSE_LOCALE_LABEL": "Escull una localització",
+      "LOADING_MESSAGE": "Carregant portals...",
+      "ARTICLES_LABEL": "articles",
+      "NO_PORTALS_MESSAGE": "No hi ha portals disponibles",
+      "ADD_NEW_LOCALE": "Afegeix una nova localització",
+      "POPOVER": {
+        "TITLE": "Portals",
+        "PORTAL_SETTINGS": "Configuració del portal",
+        "SUBTITLE": "Tens diversos portals i pots tenir diferents localitzacions per a cada portal.",
+        "CANCEL_BUTTON_LABEL": "Cancel·la",
+        "CHOOSE_LOCALE_BUTTON": "Escull localització"
+      },
+      "PORTAL_SETTINGS": {
+        "LIST_ITEM": {
+          "HEADER": {
+            "COUNT_LABEL": "articles",
+            "ADD": "Afegeix localització",
+            "VISIT": "Visita el lloc",
+            "SETTINGS": "Configuracions",
+            "DELETE": "Esborrar"
+          },
+          "PORTAL_CONFIG": {
+            "TITLE": "Configuracions del portal",
+            "ITEMS": {
+              "NAME": "Nom",
+              "DOMAIN": "Domini personalitzat",
+              "SLUG": "Slug",
+              "TITLE": "Títol del portal",
+              "THEME": "Color del tema",
+              "SUB_TEXT": "Subtext del portal"
+            }
+          },
+          "AVAILABLE_LOCALES": {
+            "TITLE": "Localitzacions disponibles",
+            "TABLE": {
+              "NAME": "Nom de la localització",
+              "CODE": "Codi de la localització",
+              "ARTICLE_COUNT": "Nre. d'articles",
+              "CATEGORIES": "Nre. de categories",
+              "SWAP": "Intercanvi",
+              "DELETE": "Esborrar",
+              "DEFAULT_LOCALE": "Per defecte"
+            }
+          }
+        },
+        "DELETE_PORTAL": {
+          "TITLE": "Suprimir portal",
+          "MESSAGE": "Estàs segur que vols suprimir aquest portal",
+          "YES": "Sí, esborra el portal",
+          "NO": "No, manté el portal",
+          "API": {
+            "DELETE_SUCCESS": "Portal esborrat correctament",
+            "DELETE_ERROR": "S'ha produït un error en suprimir el portal"
+          }
+        },
+        "SEND_CNAME_INSTRUCTIONS": {
+          "API": {
+            "SUCCESS_MESSAGE": "CNAME instructions sent successfully",
+            "ERROR_MESSAGE": "Error while sending CNAME instructions"
+          }
+        }
+      },
+      "EDIT": {
+        "HEADER_TEXT": "Edita el portal",
+        "TABS": {
+          "BASIC_SETTINGS": {
+            "TITLE": "Informació bàsica"
+          },
+          "CUSTOMIZATION_SETTINGS": {
+            "TITLE": "Personalització del portal"
+          },
+          "CATEGORY_SETTINGS": {
+            "TITLE": "Categories"
+          },
+          "LOCALE_SETTINGS": {
+            "TITLE": "Localitzacions"
+          }
+        },
+        "CATEGORIES": {
+          "TITLE": "Categories a",
+          "NEW_CATEGORY": "Nova categoria",
+          "TABLE": {
+            "NAME": "Nom",
+            "DESCRIPTION": "Descripció",
+            "LOCALE": "Localització",
+            "ARTICLE_COUNT": "Nre. d'articles",
+            "ACTION_BUTTON": {
+              "EDIT": "Edita la categoria",
+              "DELETE": "Suprimeix la categoria"
+            },
+            "EMPTY_TEXT": "No s'han trobat categories"
+          }
+        },
+        "EDIT_BASIC_INFO": {
+          "BUTTON_TEXT": "Actualitzar la configuració bàsica"
+        }
+      },
+      "ADD": {
+        "CREATE_FLOW": {
+          "BASIC": {
+            "TITLE": "Informació del centre d'ajuda",
+            "BODY": "Informació bàsica sobre el portal"
+          },
+          "CUSTOMIZATION": {
+            "TITLE": "Personalització del centre d'ajuda",
+            "BODY": "Personalitza el portal"
+          },
+          "FINISH": {
+            "TITLE": "Llest! 🎉",
+            "BODY": "Estàs a punt!"
+          }
+        },
+        "CREATE_FLOW_PAGE": {
+          "BACK_BUTTON": "Enrere",
+          "BASIC_SETTINGS_PAGE": {
+            "HEADER": "Crea un portal",
+            "TITLE": "Informació del centre d'ajuda",
+            "CREATE_BASIC_SETTING_BUTTON": "Crea la configuració bàsica del portal"
+          },
+          "CUSTOMIZATION_PAGE": {
+            "HEADER": "Personalització del portal",
+            "TITLE": "Personalització del centre d'ajuda",
+            "UPDATE_PORTAL_BUTTON": "Actualitza la configuració del portal"
+          },
+          "FINISH_PAGE": {
+            "TITLE": "Lles!🎉 Estàs a punt!",
+            "MESSAGE": "Ara pots veure aquest portal creat en la teva pàgina de tots els portals.",
+            "FINISH": "Ves a la pàgina de tots els portals"
+          }
+        },
+        "LOGO": {
+          "LABEL": "Logo",
+          "UPLOAD_BUTTON": "Actualitza el logo",
+          "HELP_TEXT": "Aquest logotip es mostrarà a la capçalera del portal.",
+          "IMAGE_UPLOAD_SUCCESS": "El logotip s'ha penjat correctament",
+          "IMAGE_UPLOAD_ERROR": "El logotip s'ha suprimit correctament",
+          "IMAGE_DELETE_ERROR": "S'ha produït un error en suprimir el logotip"
+        },
+        "NAME": {
+          "LABEL": "Nom",
+          "PLACEHOLDER": "Nom del portal",
+          "HELP_TEXT": "El nom s'utilitzarà internament al portal públic.",
+          "ERROR": "El valor és necessari"
+        },
+        "SLUG": {
+          "LABEL": "Slug",
+          "PLACEHOLDER": "Slug del portal per a URLs",
+          "ERROR": "El slug és obligatori"
+        },
+        "DOMAIN": {
+          "LABEL": "Domini personalitzat",
+          "PLACEHOLDER": "Domini personalitzat del portal",
+          "HELP_TEXT": "Add only If you want to use a custom domain for your portals. Eg: {exampleURL}",
+          "ERROR": "Introdueix una URL de domini vàlid"
+        },
+        "HOME_PAGE_LINK": {
+          "LABEL": "Enllaça a la pàgina d'inici",
+          "PLACEHOLDER": "Enllaç a la pàgina d'inici del portal",
+          "HELP_TEXT": "The link used to return from the portal to the home page. Eg: {exampleURL}",
+          "ERROR": "Introdueix una URL de pàgina d'inici vàlid"
+        },
+        "THEME_COLOR": {
+          "LABEL": "Color del tema del portal",
+          "HELP_TEXT": "Aquest color es mostrarà com a color del tema per al portal."
+        },
+        "PAGE_TITLE": {
+          "LABEL": "Títol de la pàgina",
+          "PLACEHOLDER": "Títol de la pàgina del portal",
+          "HELP_TEXT": "El títol de la pàgina s'utilitzarà al portal públic.",
+          "ERROR": "El títol de la pàgina és necessari"
+        },
+        "HEADER_TEXT": {
+          "LABEL": "Text de la capçalera",
+          "PLACEHOLDER": "Text de la capçalera del portal",
+          "HELP_TEXT": "El text de la capçalera del portal s'utilitzarà al portal públic.",
+          "ERROR": "El text de la capçalera del portal és obligatori"
+        },
+        "API": {
+          "SUCCESS_MESSAGE_FOR_BASIC": "Portal creat correctament.",
+          "ERROR_MESSAGE_FOR_BASIC": "No s'ha pogut crear el portal. Torna-ho a provar.",
+          "SUCCESS_MESSAGE_FOR_UPDATE": "Portal actualitzat correctament.",
+          "ERROR_MESSAGE_FOR_UPDATE": "No s'ha pogut actualitzar el portal. Torna-ho a provar."
+        }
+      },
+      "ADD_LOCALE": {
+        "TITLE": "Afegeix una nova localització",
+        "SUB_TITLE": "Això afegeix una configuració regional nova a la teva llista de traduccions disponible.",
+        "PORTAL": "Portal",
+        "LOCALE": {
+          "LABEL": "Localització",
+          "PLACEHOLDER": "Escull una localització",
+          "ERROR": "La localització és necessari"
+        },
+        "BUTTONS": {
+          "CREATE": "Crea una localització",
+          "CANCEL": "Cancel·la"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "La localització s'ha afegit correctament",
+          "ERROR_MESSAGE": "No es pot afegir la localització. Torna-ho a provar."
+        }
+      },
+      "CHANGE_DEFAULT_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "La localització predeterminada s'ha actualitzat correctament",
+          "ERROR_MESSAGE": "No es pot actualitzar la localització. Torna-ho a provar."
+        }
+      },
+      "DELETE_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "La localització s'ha eliminat del portal correctament",
+          "ERROR_MESSAGE": "No es pot eliminar la localització del portal. Torna-ho a provar."
+        }
+      }
+    },
+    "TABLE": {
+      "LOADING_MESSAGE": "Carregant articles...",
+      "404": "No hi ha cap article que coincideixi amb la teva cerca 🔍",
+      "NO_ARTICLES": "No hi ha articles disponibles",
+      "HEADERS": {
+        "TITLE": "Títol",
+        "CATEGORY": "Categoria",
+        "READ_COUNT": "Vistes",
+        "STATUS": "Estat",
+        "LAST_EDITED": "Última edició"
+      },
+      "COLUMNS": {
+        "BY": "per",
+        "AUTHOR_NOT_AVAILABLE": "L'autor no està disponible"
+      }
+    },
+    "EDIT_ARTICLE": {
+      "LOADING": "Carregant articles...",
+      "TITLE_PLACEHOLDER": "El títol de l'article va aquí",
+      "CONTENT_PLACEHOLDER": "Escriu el teu article aquí",
+      "API": {
+        "ERROR": "S'ha produït un error en desar l'article"
+      }
+    },
+    "PUBLISH_ARTICLE": {
+      "API": {
+        "ERROR": "S'ha produït un error en publicar l'article",
+        "SUCCESS": "Article publicat amb èxit"
+      }
+    },
+    "ARCHIVE_ARTICLE": {
+      "API": {
+        "ERROR": "S'ha produït un error en arxivar l'article",
+        "SUCCESS": "Article arxivat correctament"
+      }
+    },
+    "DRAFT_ARTICLE": {
+      "API": {
+        "ERROR": "Error while drafting article",
+        "SUCCESS": "Article drafted successfully"
+      }
+    },
+    "DELETE_ARTICLE": {
+      "MODAL": {
+        "CONFIRM": {
+          "TITLE": "Confirma l'esborrat",
+          "MESSAGE": "Esteu segur que suprimiu l'article?",
+          "YES": "Si, esborra",
+          "NO": "No, manten-la"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Article esborrat correctament",
+        "ERROR_MESSAGE": "S'ha produït un error en suprimir l'article"
+      }
+    },
+    "CREATE_ARTICLE": {
+      "ERROR_MESSAGE": "Afegiu l'encapçalament i el contingut de l'article i llavors pots actualitzar la configuració"
+    },
+    "SIDEBAR": {
+      "SEARCH": {
+        "PLACEHOLDER": "Cerca articles"
+      }
+    },
+    "CATEGORY": {
+      "ADD": {
+        "TITLE": "Crea una categoria",
+        "SUB_TITLE": "La categoria s'utilitzarà al portal públic per categoritzar els articles.",
+        "PORTAL": "Portal",
+        "LOCALE": "Localització",
+        "NAME": {
+          "LABEL": "Nom",
+          "PLACEHOLDER": "Nom de la categoria",
+          "HELP_TEXT": "El nom i la icona de la categoria s'utilitzaran al portal públic per categoritzar els articles.",
+          "ERROR": "El valor és necessari"
+        },
+        "SLUG": {
+          "LABEL": "Slug",
+          "PLACEHOLDER": "Slug de categoria per a URLs",
+          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
+          "ERROR": "El slug és obligatori"
+        },
+        "DESCRIPTION": {
+          "LABEL": "Descripció",
+          "PLACEHOLDER": "Fes una breu descripció de la categoria.",
+          "ERROR": "La descripció és necessària"
+        },
+        "BUTTONS": {
+          "CREATE": "Crea la categoria",
+          "CANCEL": "Cancel·la"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Categoria creada correctament",
+          "ERROR_MESSAGE": "No es pot crear la categoria"
+        }
+      },
+      "EDIT": {
+        "TITLE": "Edita una categoria",
+        "SUB_TITLE": "L'edició d'una categoria actualitzarà la categoria al portal públic.",
+        "PORTAL": "Portal",
+        "LOCALE": "Localització",
+        "NAME": {
+          "LABEL": "Nom",
+          "PLACEHOLDER": "Nom de la categoria",
+          "HELP_TEXT": "El nom i la icona de la categoria s'utilitzaran al portal públic per categoritzar els articles.",
+          "ERROR": "El valor és necessari"
+        },
+        "SLUG": {
+          "LABEL": "Slug",
+          "PLACEHOLDER": "Slug de categoria per a URLs",
+          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
+          "ERROR": "El slug és obligatori"
+        },
+        "DESCRIPTION": {
+          "LABEL": "Descripció",
+          "PLACEHOLDER": "Fes una breu descripció de la categoria.",
+          "ERROR": "La descripció és necessària"
+        },
+        "BUTTONS": {
+          "CREATE": "Actualitza la categoria",
+          "CANCEL": "Cancel·la"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Categoria actualitzada correctament",
+          "ERROR_MESSAGE": "No es pot actualitzar la categoria"
+        }
+      },
+      "DELETE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Categoria suprimida correctament",
+          "ERROR_MESSAGE": "No es pot suprimir la categoria"
+        }
+      }
+    },
+    "ARTICLE_SEARCH": {
+      "TITLE": "Cerca articles",
+      "PLACEHOLDER": "Cerca articles",
+      "NO_RESULT": "No s'han trobat articles",
+      "SEARCHING": "S'està cercant...",
+      "SEARCH_BUTTON": "Cercar",
+      "INSERT_ARTICLE": "insereix enllaç",
+      "IFRAME_ERROR": "L'URL és buit o no és vàlid. No es pot mostrar el contingut.",
+      "OPEN_ARTICLE_SEARCH": "Insereix un article del Centre d'ajuda",
+      "SUCCESS_ARTICLE_INSERTED": "Article inserit correctament",
+      "PREVIEW_LINK": "Vista prèvia de l'article",
+      "CANCEL": "Tanca",
+      "BACK": "Enrere",
+      "BACK_RESULTS": "Torna als resultats"
+    },
+    "UPGRADE_PAGE": {
+      "TITLE": "Centre d'ajuda",
+      "DESCRIPTION": "Crea portals d'autoservei fàcils d'utilitzar. Ajuda els teus usuaris a accedir als articles i obtenir assistència les 24 hores del dia. Actualitza la teva subscripció per activar aquesta funció.",
+      "SELF_HOSTED_DESCRIPTION": "Crea portals d'autoservei fàcils d'utilitzar. Ajuda els teus usuaris a accedir als articles i obtenir assistència les 24 hores del dia. Posa't en contacte amb el teu administrador per activar aquesta funció.",
+      "BUTTON": {
+        "LEARN_MORE": "Aprèn més",
+        "UPGRADE": "Actualitza"
+      },
+      "FEATURES": {
+        "PORTALS": {
+          "TITLE": "Múltiples portals",
+          "DESCRIPTION": "Crea diversos portals del centre d'ajuda per a diferents productes amb el mateix compte."
+        },
+        "LOCALES": {
+          "TITLE": "Suport total per a localitzacions",
+          "DESCRIPTION": "Localitza el portal en el teu idioma. Admetem totes les localitzacions i permetem traduccions per a cada article."
+        },
+        "SEO": {
+          "TITLE": "Disseny SEO-friendly",
+          "DESCRIPTION": "Personalitza les teves meta etiquetes per millorar la teva visibilitat als motors de cerca amb les nostres pàgines SEO-friendly."
+        },
+        "API": {
+          "TITLE": "Suport complet de l'API",
+          "DESCRIPTION": "Utilitza el portal com a CMS sense cap amb marcs de front-end de tercers mitjançant les nostres API."
+        }
+      }
+    },
+    "LOADING": "Loading...",
+    "ARTICLES_PAGE": {
+      "ARTICLE_CARD": {
+        "CARD": {
+          "VIEWS": "{count} view | {count} views",
+          "DROPDOWN_MENU": {
+            "PUBLISH": "Publica",
+            "DRAFT": "Esborrany",
+            "ARCHIVE": "Archive",
+            "DELETE": "Esborrar"
+          },
+          "STATUS": {
+            "DRAFT": "Esborrany",
+            "PUBLISHED": "Publicat",
+            "ARCHIVED": "Arxivat"
+          },
+          "CATEGORY": {
+            "UNCATEGORISED": "Uncategorised"
+          }
+        }
+      },
+      "ARTICLES_HEADER": {
+        "TABS": {
+          "ALL": "All articles",
+          "MINE": "Meves",
+          "DRAFT": "Esborrany",
+          "PUBLISHED": "Publicat",
+          "ARCHIVED": "Arxivat"
+        },
+        "CATEGORY": {
+          "ALL": "All categories"
+        },
+        "LOCALE": {
+          "ALL": "All locales"
+        },
+        "NEW_ARTICLE": "New article"
+      },
+      "EMPTY_STATE": {
+        "ALL": {
+          "TITLE": "Write an article",
+          "SUBTITLE": "Write a rich article, let’s get started!",
+          "BUTTON_LABEL": "New article"
+        },
+        "MINE": {
+          "TITLE": "You haven't written any articles here",
+          "SUBTITLE": "All articles written by you show up here for quick access."
+        },
+        "DRAFT": {
+          "TITLE": "There are no articles in drafts",
+          "SUBTITLE": "Draft articles will appear here"
+        },
+        "PUBLISHED": {
+          "TITLE": "There are no published articles",
+          "SUBTITLE": "Published articles will appear here"
+        },
+        "ARCHIVED": {
+          "TITLE": "There are no articles in the archive",
+          "SUBTITLE": "Archived articles don't show up on the portal, you can use it to mark deprecated or outdated pages"
+        },
+        "CATEGORY": {
+          "TITLE": "There are no articles in this category",
+          "SUBTITLE": "Articles in this category will appear here"
+        }
+      }
+    },
+    "CATEGORY_PAGE": {
+      "CATEGORY_HEADER": {
+        "NEW_CATEGORY": "Nova categoria",
+        "EDIT_CATEGORY": "Edita la categoria",
+        "CATEGORIES_COUNT": "{n} category | {n} categories",
+        "BREADCRUMB": {
+          "CATEGORY_LOCALE": "Categories ({localeCode})",
+          "ACTIVE_CATEGORY": "{categoryName} ({categoryCount} articles) | {categoryName} ({categoryCount} article)"
+        }
+      },
+      "CATEGORY_EMPTY_STATE": {
+        "TITLE": "No s'han trobat categories",
+        "SUBTITLE": "Categories will appear here. You can add a category by clicking the 'New Category' button."
+      },
+      "CATEGORY_CARD": {
+        "ARTICLES_COUNT": "{count} article | {count} articles"
+      },
+      "CATEGORY_DIALOG": {
+        "CREATE": {
+          "API": {
+            "SUCCESS_MESSAGE": "Categoria creada correctament",
+            "ERROR_MESSAGE": "No es pot crear la categoria"
+          }
+        },
+        "EDIT": {
+          "API": {
+            "SUCCESS_MESSAGE": "Categoria actualitzada correctament",
+            "ERROR_MESSAGE": "No es pot actualitzar la categoria"
+          }
+        },
+        "DELETE": {
+          "API": {
+            "SUCCESS_MESSAGE": "Categoria suprimida correctament",
+            "ERROR_MESSAGE": "No es pot suprimir la categoria"
+          }
+        },
+        "HEADER": {
+          "CREATE": "Crea la categoria",
+          "EDIT": "Edita la categoria",
+          "DESCRIPTION": "L'edició d'una categoria actualitzarà la categoria al portal públic.",
+          "PORTAL": "Portal",
+          "LOCALE": "Localització"
+        },
+        "FORM": {
+          "NAME": {
+            "LABEL": "Nom",
+            "PLACEHOLDER": "Nom de la categoria",
+            "ERROR": "El valor és necessari"
+          },
+          "SLUG": {
+            "LABEL": "Slug",
+            "PLACEHOLDER": "Slug de categoria per a URLs",
+            "ERROR": "El slug és obligatori",
+            "HELP_TEXT": "app.chatwoot.com/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
+          },
+          "DESCRIPTION": {
+            "LABEL": "Descripció",
+            "PLACEHOLDER": "Fes una breu descripció de la categoria.",
+            "ERROR": "La descripció és necessària"
+          }
+        },
+        "BUTTONS": {
+          "CREATE": "Crear",
+          "EDIT": "Actualitza",
+          "CANCEL": "Cancel·la"
+        }
+      }
+    },
+    "LOCALES_PAGE": {
+      "LOCALES_COUNT": "No locales available | {n} locale | {n} locales",
+      "NEW_LOCALE_BUTTON_TEXT": "New locale",
+      "LOCALE_CARD": {
+        "ARTICLES_COUNT": "{count} article | {count} articles",
+        "CATEGORIES_COUNT": "{count} category | {count} categories",
+        "DEFAULT": "Per defecte",
+        "DROPDOWN_MENU": {
+          "MAKE_DEFAULT": "Make default",
+          "DELETE": "Esborrar"
+        }
+      },
+      "ADD_LOCALE_DIALOG": {
+        "TITLE": "Afegeix una nova localització",
+        "DESCRIPTION": "Select the language in which this article will be written. This will be added to your list of translations, and you can add more later.",
+        "COMBOBOX": {
+          "PLACEHOLDER": "Selecciona localització..."
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "La localització s'ha afegit correctament",
+          "ERROR_MESSAGE": "No es pot afegir la localització. Torna-ho a provar."
+        }
+      }
+    },
+    "EDIT_ARTICLE_PAGE": {
+      "HEADER": {
+        "STATUS": {
+          "SAVING": "S'està desant...",
+          "SAVED": "Desat"
+        },
+        "PREVIEW": "Vista prèvia",
+        "PUBLISH": "Publica",
+        "DRAFT": "Esborrany",
+        "ARCHIVE": "Archive",
+        "BACK_TO_ARTICLES": "Back to articles"
+      },
+      "EDIT_ARTICLE": {
+        "MORE_PROPERTIES": "More properties",
+        "UNCATEGORIZED": "Sense categoria",
+        "EDITOR_PLACEHOLDER": "Write something..."
+      },
+      "ARTICLE_PROPERTIES": {
+        "ARTICLE_PROPERTIES": "Article properties",
+        "META_DESCRIPTION": "Meta descripció",
+        "META_DESCRIPTION_PLACEHOLDER": "Add meta description",
+        "META_TITLE": "Meta títol",
+        "META_TITLE_PLACEHOLDER": "Add meta title",
+        "META_TAGS": "Meta etiquetes",
+        "META_TAGS_PLACEHOLDER": "Add meta tags"
+      },
+      "API": {
+        "ERROR": "S'ha produït un error en desar l'article"
+      }
+    },
+    "PORTAL_SWITCHER": {
+      "NEW_PORTAL": "New portal",
+      "PORTALS": "Portals",
+      "CREATE_PORTAL": "Create and manage multiple portals",
+      "ARTICLES": "articles",
+      "DOMAIN": "domini",
+      "PORTAL_NAME": "Nom del portal"
+    },
+    "CREATE_PORTAL_DIALOG": {
+      "TITLE": "Create new portal",
+      "DESCRIPTION": "Give your portal a name and create a user-friendly URL slug. You can modify both later in the settings.",
+      "CONFIRM_BUTTON_LABEL": "Crear",
+      "NAME": {
+        "LABEL": "Nom",
+        "PLACEHOLDER": "User Guide | Chatwoot",
+        "MESSAGE": "Choose an name for your portal.",
+        "ERROR": "El valor és necessari"
+      },
+      "SLUG": {
+        "LABEL": "Slug",
+        "PLACEHOLDER": "user-guide",
+        "ERROR": "El slug és obligatori",
+        "FORMAT_ERROR": "Please enter a valid slug, for eg: user-guide"
+      }
+    },
+    "PORTAL_SETTINGS": {
+      "FORM": {
+        "AVATAR": {
+          "LABEL": "Logo",
+          "IMAGE_UPLOAD_ERROR": "No s'ha pogut carregar la imatge! Torna-ho a provar",
+          "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save changes to save the logo",
+          "IMAGE_DELETE_SUCCESS": "El logotip s'ha suprimit correctament",
+          "IMAGE_DELETE_ERROR": "Unable to delete logo",
+          "IMAGE_UPLOAD_SIZE_ERROR": "La mida de la imatge ha de ser inferior a {size}MB"
+        },
+        "NAME": {
+          "LABEL": "Nom",
+          "PLACEHOLDER": "Nom del portal",
+          "ERROR": "El valor és necessari"
+        },
+        "HEADER_TEXT": {
+          "LABEL": "Header text",
+          "PLACEHOLDER": "Text de la capçalera del portal"
+        },
+        "PAGE_TITLE": {
+          "LABEL": "Page title",
+          "PLACEHOLDER": "Títol de la pàgina del portal"
+        },
+        "HOME_PAGE_LINK": {
+          "LABEL": "Home page link",
+          "PLACEHOLDER": "Enllaç a la pàgina d'inici del portal",
+          "ERROR": "Enter a valid URL. The Home page link must start with 'http://' or 'https://'."
+        },
+        "SLUG": {
+          "LABEL": "Slug",
+          "PLACEHOLDER": "Portal slug"
+        },
+        "LIVE_CHAT_WIDGET": {
+          "LABEL": "Live chat widget",
+          "PLACEHOLDER": "Select live chat widget",
+          "HELP_TEXT": "Select a live chat widget that will appear on your help center",
+          "NONE_OPTION": "No widget"
+        },
+        "BRAND_COLOR": {
+          "LABEL": "Brand color"
+        },
+        "SAVE_CHANGES": "Save changes"
+      },
+      "CONFIGURATION_FORM": {
+        "CUSTOM_DOMAIN": {
+          "HEADER": "Domini personalitzat",
+          "LABEL": "Domini personalitzat:",
+          "DESCRIPTION": "You can host your portal on a custom domain. For instance, if your website is yourdomain.com and you want your portal available at docs.yourdomain.com, simply enter that in this field.",
+          "STATUS_DESCRIPTION": "Your custom portal will start working as soon as it is verified.",
+          "PLACEHOLDER": "Domini personalitzat del portal",
+          "EDIT_BUTTON": "Edita",
+          "ADD_BUTTON": "Add custom domain",
+          "STATUS": {
+            "LIVE": "En directe",
+            "PENDING": "Awaiting verification",
+            "ERROR": "Verification failed"
+          },
+          "DIALOG": {
+            "ADD_HEADER": "Add custom domain",
+            "EDIT_HEADER": "Edit custom domain",
+            "ADD_CONFIRM_BUTTON_LABEL": "Add domain",
+            "EDIT_CONFIRM_BUTTON_LABEL": "Update domain",
+            "LABEL": "Domini personalitzat",
+            "PLACEHOLDER": "Domini personalitzat del portal",
+            "ERROR": "Custom domain is required",
+            "FORMAT_ERROR": "Please enter a valid domain URL e.g. docs.yourdomain.com"
+          },
+          "DNS_CONFIGURATION_DIALOG": {
+            "HEADER": "DNS configuration",
+            "DESCRIPTION": "Log in to the account you have with your DNS provider, and add a CNAME record for subdomain pointing to chatwoot.help",
+            "COPY": "Successfully copied CNAME",
+            "SEND_INSTRUCTIONS": {
+              "HEADER": "Send instructions",
+              "DESCRIPTION": "If you would prefer to have someone from your development team to handle this step, you can enter email address below, and we will send them the required instructions.",
+              "PLACEHOLDER": "Enter their email",
+              "ERROR": "Enter a valid email address",
+              "SEND_BUTTON": "Envia"
+            }
+          }
+        },
+        "DELETE_PORTAL": {
+          "BUTTON": "Delete {portalName}",
+          "HEADER": "Suprimir portal",
+          "DESCRIPTION": "Permanently delete this portal. This action is irreversible",
+          "DIALOG": {
+            "HEADER": "Sure you want to delete {portalName}?",
+            "DESCRIPTION": "This is a permanent action that cannot be reversed.",
+            "CONFIRM_BUTTON_LABEL": "Esborrar"
+          }
+        },
+        "EDIT_CONFIGURATION": "Edit configuration"
+      },
+      "API": {
+        "CREATE_PORTAL": {
+          "SUCCESS_MESSAGE": "Portal creat correctament",
+          "ERROR_MESSAGE": "Unable to create portal"
+        },
+        "UPDATE_PORTAL": {
+          "SUCCESS_MESSAGE": "Portal actualitzat correctament",
+          "ERROR_MESSAGE": "Unable to update portal"
+        }
+      }
+    },
+    "PDF_UPLOAD": {
+      "TITLE": "Upload PDF Document",
+      "DESCRIPTION": "Upload a PDF document to automatically generate FAQs using AI",
+      "DRAG_DROP_TEXT": "Drag and drop your PDF file here, or click to select",
+      "SELECT_FILE": "Select PDF File",
+      "ADDITIONAL_CONTEXT_LABEL": "Additional Context (Optional)",
+      "ADDITIONAL_CONTEXT_PLACEHOLDER": "Provide any additional context or instructions for FAQ generation...",
+      "UPLOADING": "S'està carregant...",
+      "UPLOAD": "Upload & Process",
+      "CANCEL": "Cancel·la",
+      "ERROR_INVALID_TYPE": "Please select a valid PDF file",
+      "ERROR_FILE_TOO_LARGE": "File size must be less than 512MB",
+      "ERROR_UPLOAD_FAILED": "Failed to upload PDF. Please try again."
+    },
+    "PDF_DOCUMENTS": {
+      "TITLE": "PDF Documents",
+      "DESCRIPTION": "Manage uploaded PDF documents and generate FAQs from them",
+      "UPLOAD_PDF": "Upload PDF",
+      "UPLOAD_FIRST_PDF": "Upload your first PDF",
+      "UPLOADED_BY": "Uploaded by",
+      "GENERATE_FAQS": "Generate FAQs",
+      "GENERATING": "Generant...",
+      "CONFIRM_DELETE": "Are you sure you want to delete {filename}?",
+      "EMPTY_STATE": {
+        "TITLE": "No PDF documents yet",
+        "DESCRIPTION": "Upload PDF documents to automatically generate FAQs using AI"
+      },
+      "STATUS": {
+        "UPLOADED": "Ready",
+        "PROCESSING": "Processing",
+        "PROCESSED": "Completat",
+        "FAILED": "Failed"
+      }
+    },
+    "CONTENT_GENERATION": {
+      "TITLE": "Content Generation",
+      "DESCRIPTION": "Upload PDF documents to automatically generate FAQ content using AI",
+      "UPLOAD_TITLE": "Upload PDF Document",
+      "DRAG_DROP": "Drag and drop your PDF file here, or click to select",
+      "SELECT_FILE": "Select PDF File",
+      "UPLOADING": "Processing document...",
+      "UPLOAD_SUCCESS": "Document processed successfully!",
+      "UPLOAD_ERROR": "Failed to upload document. Please try again.",
+      "INVALID_FILE_TYPE": "Please select a valid PDF file",
+      "FILE_TOO_LARGE": "File size must be less than 512MB",
+      "GENERATED_CONTENT": "Generated FAQ Content",
+      "PUBLISH_SELECTED": "Publish Selected",
+      "PUBLISHING": "Publishing...",
+      "FROM_DOCUMENT": "From document",
+      "NO_CONTENT": "No generated content available. Upload a PDF document to get started.",
+      "LOADING": "Loading generated content..."
+    }
+  }
+}

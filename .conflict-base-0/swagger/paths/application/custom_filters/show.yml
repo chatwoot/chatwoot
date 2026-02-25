@@ -1,0 +1,26 @@
+tags:
+  - Custom Filters
+operationId: get-details-of-a-single-custom-filter
+summary: Get a custom filter details
+description: Get the details of a custom filter in the account
+security:
+  - userApiKey: []
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/custom_filter'
+  '401':
+    description: Unauthorized
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '404':
+    description: The given team ID does not exist in the account
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

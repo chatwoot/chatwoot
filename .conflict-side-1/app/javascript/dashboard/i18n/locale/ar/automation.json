@@ -1,0 +1,184 @@
+{
+  "AUTOMATION": {
+    "HEADER": "الأتمتة",
+    "DESCRIPTION": "ويمكن للأتمتة أن تحل محل وتبسط العمليات القائمة التي تتطلب جهداً يدوياً، مثل إضافة تسميات وتعيين المحادثات إلى أنسب وكيل. ويسمح ذلك للفريق بالتركيز على مواطن قوتهم مع تقليل الوقت الذي يقضيه في المهام الروتينية.",
+    "LEARN_MORE": "تعلم المزيد عن الأتمتة",
+    "HEADER_BTN_TXT": "إضافة قاعدة أتمتة",
+    "LOADING": "جلب قواعد الأتمتة",
+    "ADD": {
+      "TITLE": "إضافة قاعدة أتمتة",
+      "SUBMIT": "إنشاء",
+      "CANCEL_BUTTON_TEXT": "إلغاء",
+      "FORM": {
+        "NAME": {
+          "LABEL": "اسم القاعدة",
+          "PLACEHOLDER": "أدخل اسم القاعدة",
+          "ERROR": "الاسم مطلوب"
+        },
+        "DESC": {
+          "LABEL": "الوصف",
+          "PLACEHOLDER": "ادخل وصف القاعدة",
+          "ERROR": "الوصف مطلوب"
+        },
+        "EVENT": {
+          "LABEL": "الحدث",
+          "PLACEHOLDER": "الرجاء اختيار واحد",
+          "ERROR": "الحدث مطلوب"
+        },
+        "CONDITIONS": {
+          "LABEL": "الشروط"
+        },
+        "ACTIONS": {
+          "LABEL": "الإجراءات"
+        }
+      },
+      "CONDITION_BUTTON_LABEL": "إضافة شرط",
+      "ACTION_BUTTON_LABEL": "إضافة إجراء",
+      "API": {
+        "SUCCESS_MESSAGE": "تمت إضافة قاعدة الأتمتة بنجاح",
+        "ERROR_MESSAGE": "تعذر إنشاء قاعدة أتمتة ، يرجى المحاولة مرة أخرى لاحقاً"
+      }
+    },
+    "LIST": {
+      "TABLE_HEADER": {
+        "NAME": "الاسم",
+        "DESCRIPTION": "الوصف",
+        "ACTIVE": "مفعل",
+        "CREATED_ON": "تم إنشاؤها في"
+      },
+      "404": "لم يتم العثور على قواعد أتمتة"
+    },
+    "DELETE": {
+      "TITLE": "حذف قاعدة الأتمتة",
+      "SUBMIT": "حذف",
+      "CANCEL_BUTTON_TEXT": "إلغاء",
+      "CONFIRM": {
+        "TITLE": "تأكيد الحذف",
+        "MESSAGE": "هل أنت متأكد من الحذف ",
+        "YES": "نعم، احذف ",
+        "NO": "لا، احتفظ "
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "تم حذف قاعدة الأتمتة بنجاح",
+        "ERROR_MESSAGE": "تعذر حذف قاعدة الأتمتة، يرجى المحاولة مرة أخرى لاحقاً"
+      }
+    },
+    "EDIT": {
+      "TITLE": "تعديل قاعدة الأتمتة",
+      "SUBMIT": "تحديث",
+      "CANCEL_BUTTON_TEXT": "إلغاء",
+      "API": {
+        "SUCCESS_MESSAGE": "تم تحديث قاعدة الأتمتة بنجاح",
+        "ERROR_MESSAGE": "تعذر تحديث قاعدة الأتمتة، الرجاء المحاولة مرة أخرى في وقت لاحق"
+      }
+    },
+    "CLONE": {
+      "TOOLTIP": "نسخ",
+      "API": {
+        "SUCCESS_MESSAGE": "تم نسخ الأتمتة بنجاح",
+        "ERROR_MESSAGE": "تعذر استنساخ قاعدة الأتمتة، الرجاء المحاولة مرة أخرى لاحقاً"
+      }
+    },
+    "FORM": {
+      "EDIT": "تعديل",
+      "CREATE": "إنشاء",
+      "DELETE": "حذف",
+      "CANCEL": "إلغاء",
+      "RESET_MESSAGE": "تغيير نوع الحدث سوف يعيد تعيين الشروط والأحداث التي أضفتها أدناه"
+    },
+    "CONDITION": {
+      "DELETE_MESSAGE": "يجب أن يكون لديك على الأقل شرط واحد للحفظ",
+      "CONTACT_CUSTOM_ATTR_LABEL": "سمة مخصصة لجهة اتصال",
+      "CONVERSATION_CUSTOM_ATTR_LABEL": "سمة مخصصة للمحادثة"
+    },
+    "ACTION": {
+      "DELETE_MESSAGE": "يجب أن يكون لديك على الأقل شرط واحد للحفظ",
+      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "اكتب رسالتك هنا",
+      "TEAM_DROPDOWN_PLACEHOLDER": "اختيار فريق",
+      "EMAIL_INPUT_PLACEHOLDER": "أدخل البريد الإلكتروني",
+      "URL_INPUT_PLACEHOLDER": "أدخل رابط"
+    },
+    "TOGGLE": {
+      "ACTIVATION_TITLE": "تفعيل قاعدة الأتمتة",
+      "DEACTIVATION_TITLE": "تعطيل قاعدة الأتمتة",
+      "ACTIVATION_DESCRIPTION": "سيؤدي هذا الإجراء إلى تنشيط قاعدة الأتمتة '{automationName}'. هل أنت متأكد من أنك تريد المتابعة؟",
+      "DEACTIVATION_DESCRIPTION": "سيؤدي هذا الإجراء إلى إلغاء تنشيط قاعدة الأتمتة '{automationName}'. هل أنت متأكد من أنك تريد المتابعة؟",
+      "ACTIVATION_SUCCESFUL": "تم تفعيل قاعدة الأتمتة بنجاح",
+      "DEACTIVATION_SUCCESFUL": "تم تعطيل قاعدة الأتمتة بنجاح",
+      "ACTIVATION_ERROR": "تعذر تنشيط قاعدة الأتمتة، الرجاء المحاولة مرة أخرى لاحقاً",
+      "DEACTIVATION_ERROR": "تعذر إلغاء تنشيط قاعدة الأتمتة، الرجاء المحاولة مرة أخرى لاحقاً",
+      "CONFIRMATION_LABEL": "نعم",
+      "CANCEL_LABEL": "لا"
+    },
+    "ATTACHMENT": {
+      "UPLOAD_ERROR": "تعذر تحميل المرفق، الرجاء المحاولة مرة أخرى",
+      "LABEL_IDLE": "ارفع المرفق",
+      "LABEL_UPLOADING": "جاري الرفع...",
+      "LABEL_UPLOADED": "تم الرفع بنجاح",
+      "LABEL_UPLOAD_FAILED": "فشل الرفع"
+    },
+    "ERRORS": {
+      "ATTRIBUTE_KEY_REQUIRED": "مفتاح الخاصية مطلوب",
+      "FILTER_OPERATOR_REQUIRED": "عامل التصفية مطلوب",
+      "VALUE_REQUIRED": "القيمة مطلوبة",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "القيمة يجب أن تكون بين 1 و 998",
+      "ACTION_PARAMETERS_REQUIRED": "معلمات الإجراء مطلوبة",
+      "ATLEAST_ONE_CONDITION_REQUIRED": "شرط واحد على الأقل مطلوب",
+      "ATLEAST_ONE_ACTION_REQUIRED": "إجراء واحد على الأقل مطلوب"
+    },
+    "NONE_OPTION": "لا شيء",
+    "EVENTS": {
+      "CONVERSATION_CREATED": "تم إنشاء المحادثة",
+      "CONVERSATION_UPDATED": "تم تحديث المحادثة",
+      "MESSAGE_CREATED": "Message Created",
+      "CONVERSATION_RESOLVED": "Conversation Resolved",
+      "CONVERSATION_OPENED": "Conversation Opened"
+    },
+    "ACTIONS": {
+      "ASSIGN_AGENT": "Assign to Agent",
+      "ASSIGN_TEAM": "Assign a Team",
+      "ADD_LABEL": "Add a Label",
+      "REMOVE_LABEL": "Remove a Label",
+      "SEND_EMAIL_TO_TEAM": "Send an Email to Team",
+      "SEND_EMAIL_TRANSCRIPT": "Send an Email Transcript",
+      "MUTE_CONVERSATION": "كتم المحادثة",
+      "SNOOZE_CONVERSATION": "تأجيل المحادثة",
+      "RESOLVE_CONVERSATION": "إعادة فتح المحادثة",
+      "SEND_WEBHOOK_EVENT": "Send Webhook Event",
+      "SEND_ATTACHMENT": "Send Attachment",
+      "SEND_MESSAGE": "Send a Message",
+      "ADD_PRIVATE_NOTE": "Add a Private Note",
+      "CHANGE_PRIORITY": "تغيير الأولوية",
+      "ADD_SLA": "Add SLA",
+      "OPEN_CONVERSATION": "فتح المحادثة"
+    },
+    "MESSAGE_TYPES": {
+      "INCOMING": "Incoming Message",
+      "OUTGOING": "Outgoing Message"
+    },
+    "PRIORITY_TYPES": {
+      "NONE": "لا شيء",
+      "LOW": "منخفضة",
+      "MEDIUM": "متوسطة",
+      "HIGH": "عالية",
+      "URGENT": "عاجل"
+    },
+    "ATTRIBUTES": {
+      "MESSAGE_TYPE": "Message Type",
+      "MESSAGE_CONTAINS": "Message Contains",
+      "EMAIL": "البريد الإلكتروني",
+      "INBOX": "صندوق الوارد",
+      "CONVERSATION_LANGUAGE": "Conversation Language",
+      "PHONE_NUMBER": "رقم الهاتف",
+      "STATUS": "الحالة",
+      "BROWSER_LANGUAGE": "لغة المتصفح",
+      "MAIL_SUBJECT": "Email Subject",
+      "COUNTRY_NAME": "الدولة",
+      "REFERER_LINK": "Referrer Link",
+      "ASSIGNEE_NAME": "المكلَّف",
+      "TEAM_NAME": "الفريق",
+      "PRIORITY": "الأولوية",
+      "LABELS": "الوسوم"
+    }
+  }
+}

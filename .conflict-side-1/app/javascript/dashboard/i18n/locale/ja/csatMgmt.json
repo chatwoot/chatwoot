@@ -1,0 +1,13 @@
+{
+  "CSAT": {
+    "TITLE": "会話を評価する",
+    "PLACEHOLDER": "詳細を教えてください...",
+    "RATINGS": {
+      "POOR": "😞 悪かった",
+      "FAIR": "😑 良くなかった",
+      "AVERAGE": "😐 普通",
+      "GOOD": "😀 良かった",
+      "EXCELLENT": "😍 とても良かった"
+    }
+  }
+}

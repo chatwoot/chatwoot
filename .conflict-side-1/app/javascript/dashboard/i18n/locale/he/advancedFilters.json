@@ -1,0 +1,119 @@
+{
+  "FILTER": {
+    "TITLE": "סנן שיחות",
+    "SUBTITLE": "הוסף את המסננים שלך למטה ולחץ על 'החל מסננים' כדי לחתוך דרך עומס הצ'אט.",
+    "EDIT_CUSTOM_FILTER": "ערוך תיקיה",
+    "CUSTOM_VIEWS_SUBTITLE": "הוסף או הסר מסננים ועדכן את התיקיה שלך.",
+    "ADD_NEW_FILTER": "הוסף מסנן",
+    "FILTER_DELETE_ERROR": "אופס, נראה שלא ניתן לשמור שום דבר! אנא הוסף לפחות מסנן אחד כדי לשמור.",
+    "SUBMIT_BUTTON_LABEL": "החל מסננים",
+    "UPDATE_BUTTON_LABEL": "עדכן תיקיה",
+    "CANCEL_BUTTON_LABEL": "ביטול",
+    "CLEAR_BUTTON_LABEL": "נקה מסננים",
+    "FOLDER_LABEL": "שם התיקיה",
+    "FOLDER_QUERY_LABEL": "שאילתת תיקיה",
+    "EMPTY_VALUE_ERROR": "ערך נדרש.",
+    "TOOLTIP_LABEL": "סנן שיחות",
+    "QUERY_DROPDOWN_LABELS": {
+      "AND": "ו",
+      "OR": "או"
+    },
+    "INPUT_PLACEHOLDER": "הכנס ערך",
+    "OPERATOR_LABELS": {
+      "equal_to": "שווה ל",
+      "not_equal_to": "לא שווה ל",
+      "does_not_contain": "לא מכיל",
+      "is_present": "נוכח",
+      "is_not_present": "לא נוכח",
+      "is_greater_than": "גדול מ",
+      "is_less_than": "קטן מ",
+      "days_before": "הוא x ימים לפני",
+      "starts_with": "מתחיל עם",
+      "equalTo": "שווה ל",
+      "notEqualTo": "לא שווה ל",
+      "contains": "מכיל",
+      "doesNotContain": "לא מכיל",
+      "isPresent": "נוכח",
+      "isNotPresent": "לא נוכח",
+      "isGreaterThan": "גדול מ",
+      "isLessThan": "קטן מ",
+      "daysBefore": "הוא x ימים לפני",
+      "startsWith": "מתחיל עם"
+    },
+    "ATTRIBUTE_LABELS": {
+      "TRUE": "נכון",
+      "FALSE": "לא נכון"
+    },
+    "ATTRIBUTES": {
+      "STATUS": "סטטוס",
+      "ASSIGNEE_NAME": "שם מוקצה",
+      "INBOX_NAME": "שם תיבת דואר נכנס",
+      "TEAM_NAME": "שם צוות",
+      "CONVERSATION_IDENTIFIER": "מזהה שיחה",
+      "CAMPAIGN_NAME": "שם קמפיין",
+      "LABELS": "תוויות",
+      "BROWSER_LANGUAGE": "שפת דפדפן",
+      "PRIORITY": "עדיפות",
+      "COUNTRY_NAME": "שם מדינה",
+      "REFERER_LINK": "קישור מפנה",
+      "CUSTOM_ATTRIBUTE_LIST": "רשימה",
+      "CUSTOM_ATTRIBUTE_TEXT": "טקסט",
+      "CUSTOM_ATTRIBUTE_NUMBER": "מספר",
+      "CUSTOM_ATTRIBUTE_LINK": "קישור",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "תיבת סימון",
+      "CREATED_AT": "נוצר ב",
+      "LAST_ACTIVITY": "פעילות אחרונה"
+    },
+    "ERRORS": {
+      "VALUE_REQUIRED": "ערך נדרש",
+      "ATTRIBUTE_KEY_REQUIRED": "מפתח מאפיין נדרש",
+      "FILTER_OPERATOR_REQUIRED": "אופרטור מסנן נדרש",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "הערך חייב להיות בין 1 ל-998"
+    },
+    "GROUPS": {
+      "STANDARD_FILTERS": "מסננים סטנדרטיים",
+      "ADDITIONAL_FILTERS": "מסננים נוספים",
+      "CUSTOM_ATTRIBUTES": "מאפיינים מותאמים אישית"
+    },
+    "CUSTOM_VIEWS": {
+      "ADD": {
+        "TITLE": "האם אתה רוצה לשמור את המסנן הזה?",
+        "LABEL": "תן שם למסנן הזה",
+        "PLACEHOLDER": "תן שם למסנן שלך כדי להתייחס אליו מאוחר יותר.",
+        "ERROR_MESSAGE": "שם נדרש.",
+        "SAVE_BUTTON": "שמור מסנן",
+        "CANCEL_BUTTON": "ביטול",
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "תיקיה נוצרה בהצלחה.",
+          "ERROR_MESSAGE": "שגיאה ביצירת תיקיה."
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "סגמנט נוצר בהצלחה.",
+          "ERROR_MESSAGE": "שגיאה ביצירת סגמנט."
+        }
+      },
+      "EDIT": {
+        "EDIT_BUTTON": "ערוך תיקיה"
+      },
+      "DELETE": {
+        "DELETE_BUTTON": "מחק מסנן",
+        "MODAL": {
+          "CONFIRM": {
+            "TITLE": "אשר מחיקה",
+            "MESSAGE": "האם אתה בטוח למחוק את המסנן ",
+            "YES": "כן, מחק",
+            "NO": "לא, שמור אותו"
+          }
+        },
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "תיקיה נמחקה בהצלחה.",
+          "ERROR_MESSAGE": "שגיאה במחיקת תיקיה."
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "סגמנט נמחק בהצלחה.",
+          "ERROR_MESSAGE": "שגיאה במחיקת סגמנט."
+        }
+      }
+    }
+  }
+}

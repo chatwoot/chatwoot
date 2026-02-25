@@ -1,0 +1,111 @@
+{
+  "MACROS": {
+    "HEADER": "Kısayollar",
+    "DESCRIPTION": "Kısayol; müşteri hizmetleri temsilcilerinin görevleri kolayca tamamlamasına yardımcı olan bir dizi kaydedilmiş eylemdir. Müşteri temsilcileri, bir görüşmeyi bir etiketle etiketlemek, e-posta ile konuşma özetini göndermek, özel bir özelliği güncellemek gibi bir dizi eylem tanımlayabilir ve bu eylemleri tek bir tıklamayla çalıştırabilirler.",
+    "LEARN_MORE": "Makrolar hakkında daha fazla bilgi edinin",
+    "HEADER_BTN_TXT": "Yeni bir kısayol ekle",
+    "HEADER_BTN_TXT_SAVE": "Kısayolu Kaydet",
+    "LOADING": "Kısayollar alınıyor",
+    "ERROR": "Bir şeyler yanlış gitti. Lütfen tekrar deneyin",
+    "ORDER_INFO": "Kısayollar eklediğiniz sırayla çalışacaktır. Bunları sürükleyerek her düğmenin yanındaki tutamakla yeniden düzenleyebilirsiniz.",
+    "ADD": {
+      "FORM": {
+        "NAME": {
+          "LABEL": "Kısayol adı",
+          "PLACEHOLDER": "Kısayol için bir ad girin",
+          "ERROR": "Bir kısayol oluşturmak için isim gereklidir"
+        },
+        "ACTIONS": {
+          "LABEL": "Eylemler"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Kısayol başarıyla eklendi",
+        "ERROR_MESSAGE": "Kısayol oluşturulamadı, Lütfen daha sonra tekrar deneyin"
+      }
+    },
+    "LIST": {
+      "TABLE_HEADER": {
+        "NAME": "İsim",
+        "CREATED BY": "Tarafından oluşturuldu",
+        "LAST_UPDATED_BY": "Son güncelleyen",
+        "VISIBILITY": "Görünürlük"
+      },
+      "404": "Hiç kısayol bulunamadı"
+    },
+    "DELETE": {
+      "TOOLTIP": "Kısayolu Sil",
+      "CONFIRM": {
+        "MESSAGE": "Silmek istediğinizden emin misiniz?",
+        "YES": "Evet, Sil",
+        "NO": "Hayır"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Kısayol başarıyla silindi",
+        "ERROR_MESSAGE": "Kısayol silinirken bir hata oluştu. Lütfen daha sonra tekrar deneyin"
+      }
+    },
+    "EDIT": {
+      "TOOLTIP": "Kısayolu Düzenle",
+      "API": {
+        "SUCCESS_MESSAGE": "Kısayol başarıyla güncellendi",
+        "ERROR_MESSAGE": "Kısayol güncellenemedi, Lütfen daha sonra tekrar deneyin"
+      }
+    },
+    "EDITOR": {
+      "START_FLOW": "Akışı Başlat",
+      "END_FLOW": "Akışı Bitir",
+      "LOADING": "Kısayol alınıyor",
+      "ADD_BTN_TOOLTIP": "Yeni eylem ekle",
+      "DELETE_BTN_TOOLTIP": "Eylemi Sil",
+      "VISIBILITY": {
+        "LABEL": "Kısayol Görünürlüğü",
+        "GLOBAL": {
+          "LABEL": "Genel",
+          "DESCRIPTION": "Bu kısayol, tüm temsilciler için genel olarak kullanılabilir."
+        },
+        "PERSONAL": {
+          "LABEL": "Özel",
+          "DESCRIPTION": "Bu kısayol, size özel olacak ve başkaları tarafından kullanılamayacaktır."
+        }
+      }
+    },
+    "EXECUTE": {
+      "BUTTON_TOOLTIP": "Çalıştır",
+      "PREVIEW": "Kısayol Ön İzlemesi",
+      "EXECUTED_SUCCESSFULLY": "Kısayol başarıyla çalıştırıldı"
+    },
+    "ERRORS": {
+      "ATTRIBUTE_KEY_REQUIRED": "Özellik anahtarı gereklidir",
+      "FILTER_OPERATOR_REQUIRED": "Filtre operatörü gereklidir",
+      "VALUE_REQUIRED": "Değer gereklidir",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Değer 1 ile 998 arasında olmalıdır",
+      "ACTION_PARAMETERS_REQUIRED": "Eylem parametreleri gereklidir",
+      "ATLEAST_ONE_CONDITION_REQUIRED": "En az bir koşul gereklidir",
+      "ATLEAST_ONE_ACTION_REQUIRED": "En az bir eylem gereklidir"
+    },
+    "ACTIONS": {
+      "ASSIGN_TEAM": "Bir Ekibe Ata",
+      "ASSIGN_AGENT": "Bir Temsilci Ata",
+      "ADD_LABEL": "Etiket Ekle",
+      "REMOVE_LABEL": "Etiketi Kaldır",
+      "REMOVE_ASSIGNED_TEAM": "Atanan Ekibi Kaldır",
+      "SEND_EMAIL_TRANSCRIPT": "E-posta Dökümü Gönder",
+      "MUTE_CONVERSATION": "Konuşmayı Sessize Al",
+      "SNOOZE_CONVERSATION": "Konuşmayı Ertele",
+      "RESOLVE_CONVERSATION": "Görüşmeyi çöz",
+      "SEND_ATTACHMENT": "Ek Gönder",
+      "SEND_MESSAGE": "Mesaj Gönder",
+      "CHANGE_PRIORITY": "Önceliği Değiştir",
+      "ADD_PRIVATE_NOTE": "Özel Not Ekle",
+      "SEND_WEBHOOK_EVENT": "Webhook Olayı Gönder"
+    },
+    "PRIORITY_TYPES": {
+      "NONE": "Hiç",
+      "LOW": "Düşük",
+      "MEDIUM": "Orta",
+      "HIGH": "Yüksek",
+      "URGENT": "Acil"
+    }
+  }
+}

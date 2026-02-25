@@ -1,0 +1,184 @@
+{
+  "AUTOMATION": {
+    "HEADER": "Автоматизація",
+    "DESCRIPTION": "Automation can replace and streamline existing processes that require manual effort, such as adding labels and assigning conversations to the most suitable agent. This allows the team to focus on their strengths while reducing time spent on routine tasks.",
+    "LEARN_MORE": "Learn more about automation",
+    "HEADER_BTN_TXT": "Додати правило автоматизації",
+    "LOADING": "Отримання правил автоматизації",
+    "ADD": {
+      "TITLE": "Додати правило автоматизації",
+      "SUBMIT": "Створити",
+      "CANCEL_BUTTON_TEXT": "Скасувати",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Ім'я правила",
+          "PLACEHOLDER": "Введіть назву правила",
+          "ERROR": "Назва обов'язкова"
+        },
+        "DESC": {
+          "LABEL": "Опис",
+          "PLACEHOLDER": "Введіть опис правила",
+          "ERROR": "Необхідний опис"
+        },
+        "EVENT": {
+          "LABEL": "Івент",
+          "PLACEHOLDER": "Будь ласка, виберіть",
+          "ERROR": "Івент обов'язковий"
+        },
+        "CONDITIONS": {
+          "LABEL": "Умови"
+        },
+        "ACTIONS": {
+          "LABEL": "Дії"
+        }
+      },
+      "CONDITION_BUTTON_LABEL": "Додати умову",
+      "ACTION_BUTTON_LABEL": "Додати дію",
+      "API": {
+        "SUCCESS_MESSAGE": "Правило автоматизації додано успішно",
+        "ERROR_MESSAGE": "Не вдалося створити правило автоматизації, спробуйте ще раз пізніше"
+      }
+    },
+    "LIST": {
+      "TABLE_HEADER": {
+        "NAME": "Ім'я",
+        "DESCRIPTION": "Опис",
+        "ACTIVE": "Активний",
+        "CREATED_ON": "Створено"
+      },
+      "404": "Не знайдено правил автоматизації"
+    },
+    "DELETE": {
+      "TITLE": "Видалити правило автоматизації",
+      "SUBMIT": "Видалити",
+      "CANCEL_BUTTON_TEXT": "Скасувати",
+      "CONFIRM": {
+        "TITLE": "Підтвердження видалення",
+        "MESSAGE": "Справді бажаєте видалити ",
+        "YES": "Так, видалити ",
+        "NO": "Ні, залишити "
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Правило автоматизації видалено успішно",
+        "ERROR_MESSAGE": "Не вдалося видалити правило автоматизації, спробуйте ще раз пізніше"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Редагувати правило автоматизації",
+      "SUBMIT": "Оновити",
+      "CANCEL_BUTTON_TEXT": "Скасувати",
+      "API": {
+        "SUCCESS_MESSAGE": "Правило автоматизації успішно оновлено",
+        "ERROR_MESSAGE": "Не вдалося оновити правило автоматизації, спробуйте ще раз пізніше"
+      }
+    },
+    "CLONE": {
+      "TOOLTIP": "Копіювати",
+      "API": {
+        "SUCCESS_MESSAGE": "Автоматизацію успішно скопійовано",
+        "ERROR_MESSAGE": "Не вдалося скопіювати правило автоматизації, будь ласка, спробуйте ще раз пізніше"
+      }
+    },
+    "FORM": {
+      "EDIT": "Редагувати",
+      "CREATE": "Створити",
+      "DELETE": "Видалити",
+      "CANCEL": "Скасувати",
+      "RESET_MESSAGE": "Зміна типу події скине умови та події, які ви додали нижче"
+    },
+    "CONDITION": {
+      "DELETE_MESSAGE": "Ви повинні мати принаймні одну умову для збереження",
+      "CONTACT_CUSTOM_ATTR_LABEL": "Атрибути контакту",
+      "CONVERSATION_CUSTOM_ATTR_LABEL": "Атрибути бесіди"
+    },
+    "ACTION": {
+      "DELETE_MESSAGE": "Ви повинні мати принаймні одну дію для збереження",
+      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Введіть ваше повідомлення тут",
+      "TEAM_DROPDOWN_PLACEHOLDER": "Обрати команди",
+      "EMAIL_INPUT_PLACEHOLDER": "Enter email",
+      "URL_INPUT_PLACEHOLDER": "Enter URL"
+    },
+    "TOGGLE": {
+      "ACTIVATION_TITLE": "Активувати правило автоматизації",
+      "DEACTIVATION_TITLE": "Вимкнути правило автоматизації",
+      "ACTIVATION_DESCRIPTION": "Ця дія активує правило автоматизації '{automationName}. Ви впевнені, що хочете продовжити?",
+      "DEACTIVATION_DESCRIPTION": "Ця дія деактивує правило автоматизації '{automationName}. Ви впевнені, що хочете продовжити?",
+      "ACTIVATION_SUCCESFUL": "Правило автоматизації активоване успішно",
+      "DEACTIVATION_SUCCESFUL": "Правило автоматизації успішно деактивовано",
+      "ACTIVATION_ERROR": "Не вдалося активувати автоматизацію, спробуйте ще раз пізніше",
+      "DEACTIVATION_ERROR": "Не вдалося деактивувати автоматизацію, спробуйте ще раз пізніше",
+      "CONFIRMATION_LABEL": "Так",
+      "CANCEL_LABEL": "Ні"
+    },
+    "ATTACHMENT": {
+      "UPLOAD_ERROR": "Не вдалося завантажити вкладення, будь ласка, спробуйте ще раз",
+      "LABEL_IDLE": "Завантажити вкладення",
+      "LABEL_UPLOADING": "Завантажується...",
+      "LABEL_UPLOADED": "Успішно завантажено",
+      "LABEL_UPLOAD_FAILED": "Не вдалося завантажити"
+    },
+    "ERRORS": {
+      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
+      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "VALUE_REQUIRED": "Необхідно вказати значення",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998",
+      "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
+      "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
+      "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
+    },
+    "NONE_OPTION": "Нiчого",
+    "EVENTS": {
+      "CONVERSATION_CREATED": "Розмову створено",
+      "CONVERSATION_UPDATED": "Розмову оновлено",
+      "MESSAGE_CREATED": "Message Created",
+      "CONVERSATION_RESOLVED": "Conversation Resolved",
+      "CONVERSATION_OPENED": "Conversation Opened"
+    },
+    "ACTIONS": {
+      "ASSIGN_AGENT": "Assign to Agent",
+      "ASSIGN_TEAM": "Assign a Team",
+      "ADD_LABEL": "Add a Label",
+      "REMOVE_LABEL": "Remove a Label",
+      "SEND_EMAIL_TO_TEAM": "Send an Email to Team",
+      "SEND_EMAIL_TRANSCRIPT": "Send an Email Transcript",
+      "MUTE_CONVERSATION": "Заглушити розмову",
+      "SNOOZE_CONVERSATION": "Відкласти розмову",
+      "RESOLVE_CONVERSATION": "Вирішити розмову",
+      "SEND_WEBHOOK_EVENT": "Send Webhook Event",
+      "SEND_ATTACHMENT": "Send Attachment",
+      "SEND_MESSAGE": "Send a Message",
+      "ADD_PRIVATE_NOTE": "Add a Private Note",
+      "CHANGE_PRIORITY": "Змінити пріоритет",
+      "ADD_SLA": "Додати SLA",
+      "OPEN_CONVERSATION": "Відкрити розмову"
+    },
+    "MESSAGE_TYPES": {
+      "INCOMING": "Incoming Message",
+      "OUTGOING": "Outgoing Message"
+    },
+    "PRIORITY_TYPES": {
+      "NONE": "Нiчого",
+      "LOW": "Низький",
+      "MEDIUM": "Середній",
+      "HIGH": "Високий",
+      "URGENT": "Терміновий"
+    },
+    "ATTRIBUTES": {
+      "MESSAGE_TYPE": "Message Type",
+      "MESSAGE_CONTAINS": "Message Contains",
+      "EMAIL": "Email",
+      "INBOX": "Вхідні",
+      "CONVERSATION_LANGUAGE": "Conversation Language",
+      "PHONE_NUMBER": "Номер телефону",
+      "STATUS": "Статус",
+      "BROWSER_LANGUAGE": "Мова браузера",
+      "MAIL_SUBJECT": "Email Subject",
+      "COUNTRY_NAME": "Країна",
+      "REFERER_LINK": "Referrer Link",
+      "ASSIGNEE_NAME": "Assignee",
+      "TEAM_NAME": "Команда",
+      "PRIORITY": "Пріоритет",
+      "LABELS": "Мітки"
+    }
+  }
+}

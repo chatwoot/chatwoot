@@ -1,0 +1,77 @@
+{
+  "CANNED_MGMT": {
+    "HEADER": "Respostas prontas",
+    "LEARN_MORE": "Saber mais sobre respostas prontas",
+    "DESCRIPTION": "Respostas prontas são modelos de resposta pré-escritos que o ajudam a responder rapidamente a uma conversa. Os agentes podem inserir o caractere '/' seguido do código curto para inserir uma resposta pronta durante uma conversa. ",
+    "HEADER_BTN_TXT": "Adicionar resposta pronta",
+    "LOADING": "A obter respostas prontas...",
+    "SEARCH_404": "Não há itens correspondentes a esta consulta.",
+    "LIST": {
+      "404": "Não há respostas prontas disponíveis nesta conta.",
+      "TITLE": "Gerir respostas prontas",
+      "DESC": "Respostas prontas são modelos de resposta pré-definidos que podem ser usados para responder mais rapidamente a conversas.",
+      "TABLE_HEADER": {
+        "SHORT_CODE": "Código curto",
+        "CONTENT": "Conteúdo",
+        "ACTIONS": "Ações"
+      }
+    },
+    "ADD": {
+      "TITLE": "Adicionar resposta pronta",
+      "DESC": "Respostas prontas são modelos de resposta pré-definidos que podem ser usados para responder mais rapidamente a conversas.",
+      "CANCEL_BUTTON_TEXT": "Cancelar",
+      "FORM": {
+        "SHORT_CODE": {
+          "LABEL": "Código curto",
+          "PLACEHOLDER": "Por favor, insira um código curto.",
+          "ERROR": "O código curto é obrigatório."
+        },
+        "CONTENT": {
+          "LABEL": "Mensagem",
+          "PLACEHOLDER": "Por favor, escreva a mensagem que pretende guardar como um modelo para usar mais tarde.",
+          "ERROR": "Mensagem é um campo obrigatório."
+        },
+        "SUBMIT": "Submeter"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Resposta pronta adicionada com sucesso.",
+        "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot. Por favor, tente novamente."
+      }
+    },
+    "EDIT": {
+      "TITLE": "Editar resposta pronta",
+      "CANCEL_BUTTON_TEXT": "Cancelar",
+      "FORM": {
+        "SHORT_CODE": {
+          "LABEL": "Código curto",
+          "PLACEHOLDER": "Por favor, insira um código curto.",
+          "ERROR": "Código curto é obrigatório."
+        },
+        "CONTENT": {
+          "LABEL": "Mensagem",
+          "PLACEHOLDER": "Por favor, escreva a mensagem que pretende guardar como um modelo para usar mais tarde.",
+          "ERROR": "A mensagem é obrigatória."
+        },
+        "SUBMIT": "Submeter"
+      },
+      "BUTTON_TEXT": "Editar",
+      "API": {
+        "SUCCESS_MESSAGE": "Resposta pronta atualizada com sucesso.",
+        "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot. Por favor, tente novamente."
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Excluir",
+      "API": {
+        "SUCCESS_MESSAGE": "Resposta pronta excluída com sucesso.",
+        "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot. Por favor, tente novamente."
+      },
+      "CONFIRM": {
+        "TITLE": "Confirmar exclusão",
+        "MESSAGE": "Tem a certeza que pretende excluir a resposta pronta ",
+        "YES": "Sim, excluir ",
+        "NO": "Não, manter "
+      }
+    }
+  }
+}

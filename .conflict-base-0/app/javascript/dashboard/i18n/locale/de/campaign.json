@@ -1,0 +1,214 @@
+{
+  "CAMPAIGN": {
+    "LIVE_CHAT": {
+      "HEADER_TITLE": "Live chat campaigns",
+      "NEW_CAMPAIGN": "Create campaign",
+      "CARD": {
+        "STATUS": {
+          "ENABLED": "Aktiviert",
+          "DISABLED": "Deaktiviert"
+        },
+        "CAMPAIGN_DETAILS": {
+          "SENT_BY": "Gesendet von",
+          "BOT": "Bot",
+          "FROM": "von",
+          "URL": "URL:"
+        }
+      },
+      "EMPTY_STATE": {
+        "TITLE": "No live chat campaigns are available",
+        "SUBTITLE": "Connect with your customers using proactive messages.  Click 'Create campaign' to get started."
+      },
+      "CREATE": {
+        "TITLE": "Create a live chat campaign",
+        "CANCEL_BUTTON_TEXT": "Stornieren",
+        "CREATE_BUTTON_TEXT": "Erstellen",
+        "FORM": {
+          "TITLE": {
+            "LABEL": "Titel",
+            "PLACEHOLDER": "Bitte geben Sie den Titel der Kampagne ein",
+            "ERROR": "Titel ist erforderlich"
+          },
+          "MESSAGE": {
+            "LABEL": "Nachricht",
+            "PLACEHOLDER": "Bitte geben Sie die Nachricht der Kampagne ein",
+            "ERROR": "Nachricht ist erforderlich"
+          },
+          "INBOX": {
+            "LABEL": "Eingang auswählen",
+            "PLACEHOLDER": "Eingang auswählen",
+            "ERROR": "Posteingang ist erforderlich"
+          },
+          "SENT_BY": {
+            "LABEL": "Gesendet von",
+            "PLACEHOLDER": "Please select sender",
+            "ERROR": "Absender ist erforderlich"
+          },
+          "END_POINT": {
+            "LABEL": "URL",
+            "PLACEHOLDER": "Bitte URL eingeben",
+            "ERROR": "Bitte geben Sie eine gültige URL ein"
+          },
+          "TIME_ON_PAGE": {
+            "LABEL": "Zeit auf Seite (Sekunden)",
+            "PLACEHOLDER": "Bitte die Uhrzeit eingeben",
+            "ERROR": "Uhrzeit auf Seite ist erforderlich"
+          },
+          "OTHER_PREFERENCES": {
+            "TITLE": "Other preferences",
+            "ENABLED": "Kampagne aktivieren",
+            "TRIGGER_ONLY_BUSINESS_HOURS": "Nur während Geschäftszeiten auslösen"
+          },
+          "BUTTONS": {
+            "CREATE": "Erstellen",
+            "CANCEL": "Stornieren"
+          },
+          "API": {
+            "SUCCESS_MESSAGE": "Live chat campaign created successfully",
+            "ERROR_MESSAGE": "Es ist ein Fehler aufgetreten, bitte versuchen Sie es erneut."
+          }
+        }
+      },
+      "EDIT": {
+        "TITLE": "Edit live chat campaign",
+        "FORM": {
+          "API": {
+            "SUCCESS_MESSAGE": "Live chat campaign updated successfully",
+            "ERROR_MESSAGE": "Es ist ein Fehler aufgetreten, bitte versuchen Sie es erneut."
+          }
+        }
+      }
+    },
+    "SMS": {
+      "HEADER_TITLE": "SMS campaigns",
+      "NEW_CAMPAIGN": "Create campaign",
+      "EMPTY_STATE": {
+        "TITLE": "No SMS campaigns are available",
+        "SUBTITLE": "Launch an SMS campaign to reach your customers directly. Send offers or make announcements with ease. Click 'Create campaign' to get started."
+      },
+      "CARD": {
+        "STATUS": {
+          "COMPLETED": "Erledigt",
+          "SCHEDULED": "Scheduled"
+        },
+        "CAMPAIGN_DETAILS": {
+          "SENT_FROM": "Sent from",
+          "ON": "on"
+        }
+      },
+      "CREATE": {
+        "TITLE": "Create SMS campaign",
+        "CANCEL_BUTTON_TEXT": "Stornieren",
+        "CREATE_BUTTON_TEXT": "Erstellen",
+        "FORM": {
+          "TITLE": {
+            "LABEL": "Titel",
+            "PLACEHOLDER": "Bitte geben Sie den Titel der Kampagne ein",
+            "ERROR": "Titel ist erforderlich"
+          },
+          "MESSAGE": {
+            "LABEL": "Nachricht",
+            "PLACEHOLDER": "Bitte geben Sie die Nachricht der Kampagne ein",
+            "ERROR": "Nachricht ist erforderlich"
+          },
+          "INBOX": {
+            "LABEL": "Eingang auswählen",
+            "PLACEHOLDER": "Eingang auswählen",
+            "ERROR": "Posteingang ist erforderlich"
+          },
+          "AUDIENCE": {
+            "LABEL": "Zielgruppe",
+            "PLACEHOLDER": "Kunden-Labels auswählen",
+            "ERROR": "Zielgruppe ist erforderlich"
+          },
+          "SCHEDULED_AT": {
+            "LABEL": "Geplanter Zeitpunkt",
+            "PLACEHOLDER": "Bitte wählen Sie die Zeit",
+            "ERROR": "Geplante Zeit ist erforderlich"
+          },
+          "BUTTONS": {
+            "CREATE": "Erstellen",
+            "CANCEL": "Stornieren"
+          },
+          "API": {
+            "SUCCESS_MESSAGE": "SMS campaign created successfully",
+            "ERROR_MESSAGE": "Es ist ein Fehler aufgetreten, bitte versuchen Sie es erneut."
+          }
+        }
+      }
+    },
+    "WHATSAPP": {
+      "HEADER_TITLE": "WhatsApp campaigns",
+      "NEW_CAMPAIGN": "Create campaign",
+      "EMPTY_STATE": {
+        "TITLE": "No WhatsApp campaigns are available",
+        "SUBTITLE": "Launch a WhatsApp campaign to reach your customers directly. Send offers or make announcements with ease. Click 'Create campaign' to get started."
+      },
+      "CARD": {
+        "STATUS": {
+          "COMPLETED": "Erledigt",
+          "SCHEDULED": "Scheduled"
+        },
+        "CAMPAIGN_DETAILS": {
+          "SENT_FROM": "Sent from",
+          "ON": "on"
+        }
+      },
+      "CREATE": {
+        "TITLE": "Create WhatsApp campaign",
+        "CANCEL_BUTTON_TEXT": "Stornieren",
+        "CREATE_BUTTON_TEXT": "Erstellen",
+        "FORM": {
+          "TITLE": {
+            "LABEL": "Titel",
+            "PLACEHOLDER": "Bitte geben Sie den Titel der Kampagne ein",
+            "ERROR": "Titel ist erforderlich"
+          },
+          "INBOX": {
+            "LABEL": "Eingang auswählen",
+            "PLACEHOLDER": "Eingang auswählen",
+            "ERROR": "Posteingang ist erforderlich"
+          },
+          "TEMPLATE": {
+            "LABEL": "WhatsApp Template",
+            "PLACEHOLDER": "Select a template",
+            "INFO": "Select a template to use for this campaign.",
+            "ERROR": "Template is required",
+            "PREVIEW_TITLE": "Verarbeite {templateName}",
+            "LANGUAGE": "Sprache",
+            "CATEGORY": "Kategorie",
+            "VARIABLES_LABEL": "Variablen",
+            "VARIABLE_PLACEHOLDER": "Enter value for {variable}"
+          },
+          "AUDIENCE": {
+            "LABEL": "Zielgruppe",
+            "PLACEHOLDER": "Kunden-Labels auswählen",
+            "ERROR": "Zielgruppe ist erforderlich"
+          },
+          "SCHEDULED_AT": {
+            "LABEL": "Geplanter Zeitpunkt",
+            "PLACEHOLDER": "Bitte wählen Sie die Zeit",
+            "ERROR": "Geplante Zeit ist erforderlich"
+          },
+          "BUTTONS": {
+            "CREATE": "Erstellen",
+            "CANCEL": "Stornieren"
+          },
+          "API": {
+            "SUCCESS_MESSAGE": "WhatsApp campaign created successfully",
+            "ERROR_MESSAGE": "Es ist ein Fehler aufgetreten, bitte versuchen Sie es erneut."
+          }
+        }
+      }
+    },
+    "CONFIRM_DELETE": {
+      "TITLE": "Sind Sie sicher, dass Sie das löschen möchten?",
+      "DESCRIPTION": "The delete action is permanent and cannot be reversed.",
+      "CONFIRM": "Löschen",
+      "API": {
+        "SUCCESS_MESSAGE": "Kampagne erfolgreich gelöscht",
+        "ERROR_MESSAGE": "Es ist ein Fehler aufgetreten, bitte versuchen Sie es erneut."
+      }
+    }
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "WHATSAPP_TEMPLATES": {
+    "MODAL": {
+      "TITLE": "Whatsapp Šablonai",
+      "SUBTITLE": "Pasirinkite WhatsApp šabloną, kurį norite siųsti",
+      "TEMPLATE_SELECTED_SUBTITLE": "Configure template: {templateName}"
+    },
+    "PICKER": {
+      "SEARCH_PLACEHOLDER": "Ieškoti šablonų",
+      "NO_TEMPLATES_FOUND": "Šablonų nerasta",
+      "HEADER": "Header",
+      "BODY": "Body",
+      "FOOTER": "Footer",
+      "BUTTONS": "Buttons",
+      "CATEGORY": "Kategorija",
+      "MEDIA_CONTENT": "Media Content",
+      "MEDIA_CONTENT_FALLBACK": "media content",
+      "NO_TEMPLATES_AVAILABLE": "No WhatsApp templates available. Click refresh to sync templates from WhatsApp.",
+      "REFRESH_BUTTON": "Refresh templates",
+      "REFRESH_SUCCESS": "Templates refresh initiated. It may take a couple of minutes to update.",
+      "REFRESH_ERROR": "Failed to refresh templates. Please try again.",
+      "LABELS": {
+        "LANGUAGE": "Kalba",
+        "TEMPLATE_BODY": "Šablono tekstas",
+        "CATEGORY": "Kategorija"
+      }
+    },
+    "PARSER": {
+      "VARIABLES_LABEL": "Kintamieji",
+      "LANGUAGE": "Kalba",
+      "CATEGORY": "Kategorija",
+      "VARIABLE_PLACEHOLDER": "Įveskite {variable} reikšmę",
+      "GO_BACK_LABEL": "Grįžti",
+      "SEND_MESSAGE_LABEL": "Išsiųsti pranešimą",
+      "FORM_ERROR_MESSAGE": "Prieš siųsdami užpildykite visus kintamuosius",
+      "MEDIA_HEADER_LABEL": "{type} Header",
+      "OTP_CODE": "Enter 4-8 digit OTP",
+      "EXPIRY_MINUTES": "Enter expiry minutes",
+      "BUTTON_PARAMETERS": "Button Parameters",
+      "BUTTON_LABEL": "Button {index}",
+      "COUPON_CODE": "Enter coupon code (max 15 chars)",
+      "MEDIA_URL_LABEL": "Enter {type} URL",
+      "DOCUMENT_NAME_PLACEHOLDER": "Enter document filename (e.g., Invoice_2025.pdf)",
+      "BUTTON_PARAMETER": "Enter button parameter"
+    }
+  }
+}

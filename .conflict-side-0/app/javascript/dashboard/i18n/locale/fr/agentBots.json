@@ -1,0 +1,103 @@
+{
+  "AGENT_BOTS": {
+    "HEADER": "Bots",
+    "LOADING_EDITOR": "Chargement de l'éditeur...",
+    "DESCRIPTION": "Les bots agents sont comme les membres les plus formidables de votre équipe. Ils peuvent gérer les petites tâches, vous permettant ainsi de vous concentrer sur ce qui compte vraiment. Essayez-les. Vous pouvez gérer vos bots depuis cette page ou en créer de nouveaux en cliquant sur le bouton 'Ajouter un bot'.",
+    "LEARN_MORE": "Learn about agent bots",
+    "GLOBAL_BOT": "Bot système",
+    "GLOBAL_BOT_BADGE": "Système",
+    "AVATAR": {
+      "SUCCESS_DELETE": "Avatar du bot supprimé avec succès",
+      "ERROR_DELETE": "Erreur lors de la suppression de l’avatar du bot, veuillez réessayer"
+    },
+    "BOT_CONFIGURATION": {
+      "TITLE": "Sélectionnez un bot d'agent",
+      "DESC": "Assignez un robot d'agent à votre boîte de réception. Ils peuvent gérer les conversations initiales et les transférer à un agent en direct si nécessaire.",
+      "SUBMIT": "Mettre à jour",
+      "DISCONNECT": "Déconnecter le bot",
+      "SUCCESS_MESSAGE": "Le bot agent a été mis à jour avec succès.",
+      "DISCONNECTED_SUCCESS_MESSAGE": "Déconnexion réussie du bot agent.",
+      "ERROR_MESSAGE": "Impossible de mettre à jour le bot de l'agent. Veuillez réessayer.",
+      "DISCONNECTED_ERROR_MESSAGE": "Impossible de déconnecter le bot de l'agent. Veuillez réessayer.",
+      "SELECT_PLACEHOLDER": "Sélectionner le bot"
+    },
+    "ADD": {
+      "TITLE": "Ajouter un bot",
+      "CANCEL_BUTTON_TEXT": "Annuler",
+      "API": {
+        "SUCCESS_MESSAGE": "Le bot a été ajouté avec succès.",
+        "ERROR_MESSAGE": "Impossible d'ajouter le bot, veuillez réessayer plus tard."
+      }
+    },
+    "LIST": {
+      "404": "Aucun bot trouvé. Vous pouvez en créer un en cliquant sur le bouton 'Ajouter un bot'.",
+      "LOADING": "Récupération des bots...",
+      "TABLE_HEADER": {
+        "DETAILS": "Détails du bot",
+        "URL": "URL du Webhook"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Supprimer",
+      "TITLE": "Supprimer le bot",
+      "CONFIRM": {
+        "TITLE": "Confirmer la suppression",
+        "MESSAGE": "Êtes-vous sûr de vouloir supprimer {name} ?",
+        "YES": "Oui, supprimer",
+        "NO": "Non, Conserver"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Bot supprimé avec succès.",
+        "ERROR_MESSAGE": "Impossible de supprimer le bot. Veuillez réessayer."
+      }
+    },
+    "EDIT": {
+      "BUTTON_TEXT": "Modifier",
+      "TITLE": "Modifier le bot",
+      "API": {
+        "SUCCESS_MESSAGE": "Bot mis à jour avec succès.",
+        "ERROR_MESSAGE": "Impossible de mettre à jour le bot, veuillez réessayer plus tard."
+      }
+    },
+    "ACCESS_TOKEN": {
+      "TITLE": "Jeton d'accès",
+      "DESCRIPTION": "Copiez le jeton d'accès et enregistrez-le en toute sécurité",
+      "COPY_SUCCESSFUL": "Jeton d'accès copié dans le presse-papier",
+      "RESET_SUCCESS": "Jeton d'accès régénéré avec succès",
+      "RESET_ERROR": "Impossible de régénérer le jeton d'accès. Veuillez réessayer"
+    },
+    "FORM": {
+      "AVATAR": {
+        "LABEL": "Avatar du bot"
+      },
+      "NAME": {
+        "LABEL": "Nom du bot",
+        "PLACEHOLDER": "Entrez le nom du bot",
+        "REQUIRED": "Le nom du bot est requis"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Description",
+        "PLACEHOLDER": "Que fait ce bot ?"
+      },
+      "WEBHOOK_URL": {
+        "LABEL": "URL du Webhook",
+        "PLACEHOLDER": "https://example.com/webhook",
+        "REQUIRED": "L'URL du Webhook est requise"
+      },
+      "ERRORS": {
+        "NAME": "Le nom du bot est requis",
+        "URL": "L'URL du Webhook est requise",
+        "VALID_URL": "Veuillez entrer une URL valide commençant par http:// ou https://"
+      },
+      "CANCEL": "Annuler",
+      "CREATE": "Créer un bot",
+      "UPDATE": "Mettre à jour le bot"
+    },
+    "WEBHOOK": {
+      "DESCRIPTION": "Configurez un bot webhook pour l'intégration avec vos services personnalisés. Le bot recevra et traitera les événements des conversations et pourra y répondre."
+    },
+    "TYPES": {
+      "WEBHOOK": "Webhook Bot"
+    }
+  }
+}

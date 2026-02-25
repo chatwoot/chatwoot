@@ -1,0 +1,41 @@
+{
+  "LOGIN": {
+    "TITLE": "Chatwootにログイン",
+    "EMAIL": {
+      "LABEL": "Eメール",
+      "PLACEHOLDER": "example{'@'}companyname.com",
+      "ERROR": "正しいメールアドレスを入力してください"
+    },
+    "PASSWORD": {
+      "LABEL": "パスワード",
+      "PLACEHOLDER": "パスワード"
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "ログインに成功しました",
+      "ERROR_MESSAGE": "Woot Serverに接続できませんでした。もう一度お試しください。",
+      "UNAUTH": "ユーザー名またはパスワードが間違っています。もう一度お試しください。"
+    },
+    "OAUTH": {
+      "GOOGLE_LOGIN": "Googleでログイン",
+      "BUSINESS_ACCOUNTS_ONLY": "会社のメールアドレスを使用してログインしてください",
+      "NO_ACCOUNT_FOUND": "このメールアドレスに該当するアカウントが見つかりませんでした。"
+    },
+    "FORGOT_PASSWORD": "パスワードをお忘れですか?",
+    "CREATE_NEW_ACCOUNT": "新しいアカウントを作成",
+    "SUBMIT": "ログイン",
+    "SAML": {
+      "LABEL": "Login via SSO",
+      "TITLE": "Initiate Single Sign-on (SSO)",
+      "SUBTITLE": "Enter your work email to access your organization",
+      "BACK_TO_LOGIN": "Login via Password",
+      "WORK_EMAIL": {
+        "LABEL": "Work Email",
+        "PLACEHOLDER": "Enter your work email"
+      },
+      "SUBMIT": "Continue with SSO",
+      "API": {
+        "ERROR_MESSAGE": "SSO authentication failed. Please check your credentials and try again."
+      }
+    }
+  }
+}

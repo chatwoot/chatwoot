@@ -1,0 +1,121 @@
+{
+  "TEAMS_SETTINGS": {
+    "NEW_TEAM": "Napravite novi tim",
+    "HEADER": "Timovi",
+    "LOADING": "Fetching teams",
+    "DESCRIPTION": "Teams allow you to organize agents into groups based on their responsibilities. An agent can belong to multiple teams. When working collaboratively, you can assign conversations to specific teams.",
+    "LEARN_MORE": "Learn more about teams",
+    "LIST": {
+      "404": "Nema timova napravljenih na ovom nalogu.",
+      "EDIT_TEAM": "Uredi tim",
+      "NONE": "Niko"
+    },
+    "CREATE_FLOW": {
+      "CREATE": {
+        "TITLE": "Napravi novi tim",
+        "DESC": "Dodajte naslov i opis vašem novom timu."
+      },
+      "AGENTS": {
+        "BUTTON_TEXT": "Dodajte agente timu",
+        "TITLE": "Dodajte agente timu - {teamName}",
+        "DESC": "Dodajte agente vašem novokreiranom timu. Ovo vam omogućava da sarađujete kao tim u razgovorima, budete obavešteni o novim događajima u istim razgovorima."
+      },
+      "WIZARD_CREATE": {
+        "TITLE": "Napravi",
+        "BODY": "Napravi novi tim agenata."
+      },
+      "WIZARD_ADD_AGENTS": {
+        "TITLE": "Dodaj agente",
+        "BODY": "Dodaj agente timu."
+      },
+      "WIZARD_FINISH": {
+        "TITLE": "Završi",
+        "BODY": "Sve je spremno za početak!"
+      }
+    },
+    "EDIT_FLOW": {
+      "CREATE": {
+        "TITLE": "Uredite detalje vašeg tima",
+        "DESC": "Uredite naslov i opis vašeg tima.",
+        "BUTTON_TEXT": "Primeni izmene"
+      },
+      "AGENTS": {
+        "BUTTON_TEXT": "Uredi agente u timu",
+        "TITLE": "Dodajte agente timu - {teamName}",
+        "DESC": "Dodajte agente vašem novokreiranom timu. Svi dodati agenti će biti obavešteni kada je razgovor dodeljen ovom timu."
+      },
+      "EDIT_WIZARD_DETAILS": {
+        "TITLE": "Detalji tima",
+        "ROUTE": "settings_teams_edit",
+        "BODY": "Promenite naziv, opis i ostale detalje."
+      },
+      "EDIT_WIZARD_AGENTS": {
+        "TITLE": "Uredi agente",
+        "ROUTE": "settings_teams_edit_members",
+        "BODY": "Uredite agente u vašem timu."
+      },
+      "EDIT_WIZARD_FINISH": {
+        "TITLE": "Završi",
+        "ROUTE": "settings_teams_edit_finish",
+        "BODY": "Sve je spremno za početak!"
+      }
+    },
+    "TEAM_FORM": {
+      "ERROR_MESSAGE": "Nije bilo moguće sačuvati detalje tima. Pokušajte ponovo."
+    },
+    "AGENTS": {
+      "AGENT": "AGENT",
+      "EMAIL": "E-POŠTA",
+      "BUTTON_TEXT": "Dodaj agente",
+      "ADD_AGENTS": "Dodaju se agenti vašem timu...",
+      "SELECT": "izaberi",
+      "SELECT_ALL": "izaberi sve agente",
+      "SELECTED_COUNT": "{selected} od {total} agenata je izabrano."
+    },
+    "ADD": {
+      "TITLE": "Dodajte agente timu - {teamName}",
+      "DESC": "Dodajte agente vašem novokreiranom timu. Ovo vam omogućava da sarađujete kao tim u razgovorima, budete obavešteni o novim događajima u istim razgovorima.",
+      "SELECT": "izaberi",
+      "SELECT_ALL": "izaberi sve agente",
+      "SELECTED_COUNT": "{selected} od {total} agenata je izabrano.",
+      "BUTTON_TEXT": "Dodaj agente",
+      "AGENT_VALIDATION_ERROR": "Izaberite barem jednog agenta."
+    },
+    "FINISH": {
+      "TITLE": "Vaš tim je spreman!",
+      "MESSAGE": "Sada možete sarađivati kao tim u razgovorima. Srećna podrška ",
+      "BUTTON_TEXT": "Završi"
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Izbriši",
+      "API": {
+        "SUCCESS_MESSAGE": "Tim je uspešno obrisan.",
+        "ERROR_MESSAGE": "Nije bilo moguće obrisati tim. Pokušajte ponovo."
+      },
+      "CONFIRM": {
+        "TITLE": "Are you sure you want to delete the team?",
+        "PLACE_HOLDER": "Molim upišite {teamName} za potvrdu",
+        "MESSAGE": "Brisanjem tima će se ukloniti sve dodele timu iz razgovora koje su bile dodeljene ovom timu.",
+        "YES": "Obriši ",
+        "NO": "Otkaži"
+      }
+    },
+    "SETTINGS": "Podešavanja",
+    "FORM": {
+      "UPDATE": "Primeni izmene",
+      "CREATE": "Napravi tim",
+      "NAME": {
+        "LABEL": "Naziv tima",
+        "PLACEHOLDER": "Primer: Prodaja, Korisnička podrška"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Opis tima",
+        "PLACEHOLDER": "Kratak opis o ovom timu."
+      },
+      "AUTO_ASSIGN": {
+        "LABEL": "Dozvoli automatsku dodelu ovom timu."
+      },
+      "SUBMIT_CREATE": "Napravi tim"
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "GENERAL": {
+    "SHOWING_RESULTS": "Prikaz {firstIndex}-{lastIndex} od {totalCount} elementov",
+    "PHONE_INPUT": {
+      "PLACEHOLDER": "Iskanje",
+      "EMPTY_STATE": "Ni rezultatov"
+    },
+    "CLOSE": "Close",
+    "BETA": "Beta",
+    "BETA_DESCRIPTION": "This feature is in beta and may change as we improve it."
+  }
+}

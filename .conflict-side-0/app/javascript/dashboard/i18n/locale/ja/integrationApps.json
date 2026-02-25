@@ -1,0 +1,62 @@
+{
+  "INTEGRATION_APPS": {
+    "FETCHING": "連携情報を取得中",
+    "NO_HOOK_CONFIGURED": "このアカウントには{integrationId}の連携が設定されていません。",
+    "HEADER": "アプリケーション",
+    "STATUS": {
+      "ENABLED": "有効",
+      "DISABLED": "無効"
+    },
+    "CONFIGURE": "設定",
+    "ADD_BUTTON": "新しい連携を追加",
+    "DELETE": {
+      "TITLE": {
+        "INBOX": "削除の確認",
+        "ACCOUNT": "接続解除"
+      },
+      "MESSAGE": {
+        "INBOX": "この設定を本当に削除しますか？",
+        "ACCOUNT": "本当に接続を解除しますか？"
+      },
+      "CONFIRM_BUTTON_TEXT": {
+        "INBOX": "削除する",
+        "ACCOUNT": "はい、接続解除します"
+      },
+      "CANCEL_BUTTON_TEXT": "キャンセル",
+      "API": {
+        "SUCCESS_MESSAGE": "連携設定が正常に削除されました",
+        "ERROR_MESSAGE": "Woot Serverに接続できませんでした。後でもう一度お試しください。"
+      }
+    },
+    "LIST": {
+      "FETCHING": "連携設定を取得中",
+      "INBOX": "受信トレイ",
+      "DELETE": {
+        "BUTTON_TEXT": "削除"
+      }
+    },
+    "ADD": {
+      "FORM": {
+        "INBOX": {
+          "LABEL": "受信トレイを選択",
+          "PLACEHOLDER": "受信トレイを選択"
+        },
+        "SUBMIT": "作成",
+        "CANCEL": "キャンセル"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "連携設定が正常に追加されました",
+        "ERROR_MESSAGE": "Woot Serverに接続できませんでした。後でもう一度お試しください。"
+      }
+    },
+    "CONNECT": {
+      "BUTTON_TEXT": "接続"
+    },
+    "DISCONNECT": {
+      "BUTTON_TEXT": "接続解除"
+    },
+    "SIDEBAR_DESCRIPTION": {
+      "DIALOGFLOW": "Dialogflow is a natural language processing platform for building conversational interfaces. Integrating it with {installationName} lets bots handle queries first and transfer them to agents when needed. It helps qualify leads and reduce agent workload by answering FAQs. To add Dialogflow, create a Service Account in Google Console and share the credentials. Refer to the docs for details"
+    }
+  }
+}

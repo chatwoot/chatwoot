@@ -1,0 +1,77 @@
+{
+  "CANNED_MGMT": {
+    "HEADER": "Svarsmallar",
+    "LEARN_MORE": "Learn more about canned responses",
+    "DESCRIPTION": "Canned Responses are pre-written reply templates that help you quickly respond to a conversation. Agents can type the '/' character followed by the shortcode to insert a canned response during a conversation. ",
+    "HEADER_BTN_TXT": "Lägg till svarsmall",
+    "LOADING": "Hämtar svarsmallar...",
+    "SEARCH_404": "Det finns inga objekt som matchar denna fråga.",
+    "LIST": {
+      "404": "Det finns inga svarsmallar tillgängliga på detta konto.",
+      "TITLE": "Hantera svarsmallar",
+      "DESC": "Svarsmallar är fördefinierade mallar som kan användas för att snabbt skicka ut svar i konversationer.",
+      "TABLE_HEADER": {
+        "SHORT_CODE": "Kortkod",
+        "CONTENT": "Innehåll",
+        "ACTIONS": "Åtgärder"
+      }
+    },
+    "ADD": {
+      "TITLE": "Lägg till svarsmall",
+      "DESC": "Svarsmallar är fördefinierade mallar som kan användas för att snabbt skicka ut svar i konversationer.",
+      "CANCEL_BUTTON_TEXT": "Avbryt",
+      "FORM": {
+        "SHORT_CODE": {
+          "LABEL": "Kortkod",
+          "PLACEHOLDER": "Ange en kortkod.",
+          "ERROR": "Kortkod måste anges."
+        },
+        "CONTENT": {
+          "LABEL": "Meddelande",
+          "PLACEHOLDER": "Skriv meddelandet du vill spara som mall för att använda senare.",
+          "ERROR": "Meddelande måste fyllas i."
+        },
+        "SUBMIT": "Skicka"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Svarsmallen har lagts till.",
+        "ERROR_MESSAGE": "Kunde inte ansluta till Woot Server, försök igen senare."
+      }
+    },
+    "EDIT": {
+      "TITLE": "Redigera svarsmall",
+      "CANCEL_BUTTON_TEXT": "Avbryt",
+      "FORM": {
+        "SHORT_CODE": {
+          "LABEL": "Kortkod",
+          "PLACEHOLDER": "Ange en kortkod.",
+          "ERROR": "Kortkod måste anges."
+        },
+        "CONTENT": {
+          "LABEL": "Meddelande",
+          "PLACEHOLDER": "Skriv meddelandet du vill spara som mall för att använda senare.",
+          "ERROR": "Meddelande måste fyllas i."
+        },
+        "SUBMIT": "Skicka"
+      },
+      "BUTTON_TEXT": "Redigera",
+      "API": {
+        "SUCCESS_MESSAGE": "Svarsmallen har uppdaterats.",
+        "ERROR_MESSAGE": "Kunde inte ansluta till Woot server. Vänligen försök igen."
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Radera",
+      "API": {
+        "SUCCESS_MESSAGE": "Svarsmallen har tagits bort.",
+        "ERROR_MESSAGE": "Kunde inte ansluta till Woot server. Vänligen försök igen."
+      },
+      "CONFIRM": {
+        "TITLE": "Bekräfta borttagning",
+        "MESSAGE": "Är du säker på att ta bort ",
+        "YES": "Ja, ta bort ",
+        "NO": "Nej, behåll "
+      }
+    }
+  }
+}

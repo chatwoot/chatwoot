@@ -1,0 +1,124 @@
+{
+  "AGENT_MGMT": {
+    "HEADER": "Agenci",
+    "HEADER_BTN_TXT": "Dodaj agenta",
+    "LOADING": "Pobieranie listy agentów",
+    "DESCRIPTION": "An agent is a member of your customer support team who can view and respond to user messages. The list below shows all the agents in your account.",
+    "LEARN_MORE": "Learn about user roles",
+    "AGENT_TYPES": {
+      "ADMINISTRATOR": "Administrator",
+      "AGENT": "Agent"
+    },
+    "LIST": {
+      "404": "Nie ma agentów powiązanych z tym kontem",
+      "TITLE": "Zarządzaj agentami w zespole",
+      "DESC": "Możesz dodać/usunąć agentów do/w zespole.",
+      "NAME": "Imię",
+      "EMAIL": "EMAIL",
+      "STATUS": "Status",
+      "ACTIONS": "Akcje",
+      "VERIFIED": "Zweryfikowano",
+      "VERIFICATION_PENDING": "Weryfikacja oczekuje",
+      "AVAILABLE_CUSTOM_ROLE": "Available custom role permissions"
+    },
+    "ADD": {
+      "TITLE": "Dodaj agenta do swojego zespołu",
+      "DESC": "Możesz dodać osoby, które będą w stanie obsłużyć wsparcie dla twoich skrzynek odbiorczych.",
+      "CANCEL_BUTTON_TEXT": "Anuluj",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Nazwa agenta",
+          "PLACEHOLDER": "Wprowadź nazwę agenta"
+        },
+        "AGENT_TYPE": {
+          "LABEL": "Typ agenta",
+          "PLACEHOLDER": "Wybierz typ",
+          "ERROR": "Typ agenta jest wymagany"
+        },
+        "EMAIL": {
+          "LABEL": "Adres e-mail",
+          "PLACEHOLDER": "Wprowadź adres e-mail agenta"
+        },
+        "SUBMIT": "Dodaj agenta"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Agent dodany pomyślnie",
+        "EXIST_MESSAGE": "Email agenta jest już w użyciu, spróbuj innego adresu e-mail",
+        "ERROR_MESSAGE": "Nie można połączyć się z serwerem Woot, proszę spróbować później"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Usuń",
+      "API": {
+        "SUCCESS_MESSAGE": "Agent został pomyślnie usunięty",
+        "ERROR_MESSAGE": "Nie można połączyć się z serwerem Woot, proszę spróbować później"
+      },
+      "CONFIRM": {
+        "TITLE": "Potwierdź usunięcie",
+        "MESSAGE": "Czy jesteś pewien, że chcesz usunąć ",
+        "YES": "Tak, usuń ",
+        "NO": "Nie, zachowaj "
+      }
+    },
+    "EDIT": {
+      "TITLE": "Edytuj agenta",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Imię agenta",
+          "PLACEHOLDER": "Proszę wprowadzić imię agenta"
+        },
+        "AGENT_TYPE": {
+          "LABEL": "Rola",
+          "PLACEHOLDER": "Proszę wybrać rolę",
+          "ERROR": "Rola jest wymagana"
+        },
+        "EMAIL": {
+          "LABEL": "Adres e-mail",
+          "PLACEHOLDER": "Proszę wprowadzić adres e-mail agenta"
+        },
+        "AGENT_AVAILABILITY": {
+          "LABEL": "Dostępność",
+          "PLACEHOLDER": "Proszę wybrać status dostępności",
+          "ERROR": "Dostępność jest wymagana"
+        },
+        "SUBMIT": "Edytuj agenta"
+      },
+      "BUTTON_TEXT": "Edytuj",
+      "CANCEL_BUTTON_TEXT": "Anuluj",
+      "API": {
+        "SUCCESS_MESSAGE": "Agent został pomyślnie zaktualizowany",
+        "ERROR_MESSAGE": "Nie można połączyć się z serwerem Woot, proszę spróbować później"
+      },
+      "PASSWORD_RESET": {
+        "ADMIN_RESET_BUTTON": "Zresetuj hasło",
+        "ADMIN_SUCCESS_MESSAGE": "E-mail z instrukcjami resetowania hasła został wysłany do agenta",
+        "SUCCESS_MESSAGE": "Hasło agenta zostało pomyślnie zresetowane",
+        "ERROR_MESSAGE": "Nie można połączyć się z serwerem Woot, proszę spróbować później"
+      }
+    },
+    "SEARCH": {
+      "NO_RESULTS": "Nie znaleziono wyników."
+    },
+    "MULTI_SELECTOR": {
+      "PLACEHOLDER": "Brak",
+      "TITLE": {
+        "AGENT": "Wybierz konsultanta",
+        "TEAM": "Wybierz zespół"
+      },
+      "LIST": {
+        "NONE": "Brak"
+      },
+      "SEARCH": {
+        "NO_RESULTS": {
+          "AGENT": "Nie znaleziono agentów",
+          "TEAM": "Nie znaleziono zespołów"
+        },
+        "PLACEHOLDER": {
+          "AGENT": "Szukaj agentów",
+          "TEAM": "Szukaj zespołów",
+          "INPUT": "Szukaj agentów"
+        }
+      }
+    }
+  }
+}

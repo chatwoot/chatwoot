@@ -1,0 +1,13 @@
+{
+  "CSAT": {
+    "TITLE": "Novērtējiet Jūsu sarunu",
+    "PLACEHOLDER": "Pastāsti mums vairāk...",
+    "RATINGS": {
+      "POOR": "😞 Slikti",
+      "FAIR": "😑 Vāji",
+      "AVERAGE": "😐 Vidēji",
+      "GOOD": "😀 Labi",
+      "EXCELLENT": "😍 Lieliski"
+    }
+  }
+}

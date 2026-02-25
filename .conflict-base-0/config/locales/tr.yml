@@ -1,0 +1,440 @@
+#Files in the config/locales directory are used for internationalization
+#and are automatically loaded by Rails. If you want to use locales other
+#than English, add the necessary files in this directory.
+#To use the locales, use `I18n.t`:
+#I18n.t 'hello'
+#In views, this is aliased to just `t`:
+#<%= t('hello') %>
+#To use a different locale, set it with `I18n.locale`:
+#I18n.locale = :es
+#This would use the information in config/locales/es.yml.
+#The following keys must be escaped otherwise they will not be retrieved by
+#the default I18n backend:
+#true, false, on, off, yes, no
+#Instead, surround them with single quotes.
+#en:
+#'true': 'foo'
+#To learn more, please read the Rails Internationalization guide
+#available at https://guides.rubyonrails.org/i18n.html.
+tr:
+  hello: 'Merhaba Dünya'
+  inbox:
+    reauthorization:
+      success: 'Kanal başarıyla yeniden yetkilendirildi'
+      not_required: 'Bu gelen kutusu için yeniden yetkilendirme gerekmez'
+      invalid_channel: 'Yeniden yetkilendirme için geçersiz kanal türü'
+  auth:
+    saml:
+      invalid_email: 'Lütfen geçerli bir e-posta adresi girin'
+      authentication_failed: 'Kimlik doğrulama başarısız oldu. Lütfen kimlik bilgilerinizi kontrol edin ve tekrar deneyin.'
+  messages:
+    reset_password_success: Parola sıfırlama isteği başarılı. Talimatlar için postanızı kontrol edin.
+    reset_password_failure: Belirtilen e-postaya sahip herhangi bir kullanıcı bulamadık.
+    reset_password_saml_user: Bu hesap SAML kimlik doğrulaması kullanmaktadır. Şifre sıfırlama mevcut değildir. Lütfen yöneticinizle iletişime geçin.
+    login_saml_user: Bu hesap SAML kimlik doğrulaması kullanmaktadır. Lütfen kuruluşunuzun SAML sağlayıcısı aracılığıyla oturum açın.
+    saml_not_available: SAML kimlik doğrulaması bu kurulumda mevcut değildir.
+    inbox_deletetion_response: Gelen kutusu silme isteğiniz bir süre sonra işleme alınacaktır.
+  errors:
+    validations:
+      presence: boş bırakılmamalı
+    webhook:
+      invalid: Hatalı işlem
+    signup:
+      disposable_email: Tek kullanımlık e-postalara izin vermiyoruz
+      blocked_domain: Bu alan adına izin verilmiyor. Bunun bir hata olduğunu düşünüyorsanız, lütfen destek ile iletişime geçin.
+      invalid_email: Geçersiz bir e-posta girdiniz
+      email_already_exists: '%{email} ile zaten bir hesaba kaydoldunuz'
+      invalid_params: 'Hata, lütfen kayıt olma parametrelerini kontrol edin ve tekrar deneyin'
+      failed: Kayıt başarısız oldu
+    assignment_policy:
+      not_found: Assignment policy not found
+    attachments:
+      invalid: Invalid attachment
+    saml:
+      feature_not_enabled: Bu hesap için SAML özelliği etkinleştirilmemiş
+      sso_not_enabled: SAML SSO bu kurulum için etkinleştirilmemiş
+    data_import:
+      data_type:
+        invalid: Hatalı veri türü
+    contacts:
+      import:
+        failed: Dosya boş
+      export:
+        success: İletişim dışa aktarma dosyası görüntüleme için hazır olduğunda sizi bilgilendireceğiz.
+      email:
+        invalid: Hatalı e-posta
+      phone_number:
+        invalid: e164 formatında olmalı
+    companies:
+      domain:
+        invalid: geçerli bir alan adı olmalıdır
+      search:
+        query_missing: q parametresiyle arama dizesini belirtin
+    messages:
+      search:
+        time_range_limit_exceeded: 'Arama son %{days} gün ile sınırlıdır'
+    categories:
+      locale:
+        unique: kategori ve portalde tekil olmalı
+    dyte:
+      invalid_message_type: 'Geçersiz mesaj türü. İşlem izin verilmiyor'
+    slack:
+      invalid_channel_id: 'Geçersiz Slack kanalı. Lütfen tekrar deneyin'
+    whatsapp:
+      token_exchange_failed: 'Erişim tokeni için kod değişimi başarısız oldu. Lütfen tekrar deneyin.'
+      invalid_token_permissions: 'Erişim tokeni WhatsApp için gerekli izinlere sahip değildir.'
+      phone_info_fetch_failed: 'Telefon numarası bilgisi alınamadı. Lütfen tekrar deneyin.'
+      phone_number_already_exists: 'Bu telefon numarası için zaten bir kanal mevcut: %{phone_number}, hata devam ederse lütfen destek ile iletişime geçin'
+      reauthorization:
+        generic: 'WhatsApp''ı yeniden yetkilendirme işlemi başarısız oldu. Lütfen tekrar deneyin.'
+        not_supported: 'Bu tür WhatsApp kanalları için yeniden yetkilendirme desteklenmemektedir.'
+    inboxes:
+      imap:
+        socket_error: Lütfen ağ bağlantınızı, IMAP adresini kontrol edin ve tekrar deneyin.
+        no_response_error: Lütfen IMAP erişim bilgilerinizi kontrol edip tekrar deneyin.
+        host_unreachable_error: Host ulaşılamaz, Lütfen IMAP adresini, IMAP portunu kontrol edin ve tekrar deneyin.
+        connection_timed_out_error: '%{address}:%{port} için bağlantı zaman aşımına uğradı.'
+        connection_closed_error: Bağlantı kapalı.
+      validations:
+        name: sembollerle başlamamalı veya bitmemeli, < > / \ @ karakterlerini içermemeli.
+    custom_filters:
+      number_of_records: Limit aşıldı. Bir kullanıcının bir hesap için izin verilen özel filtre sayısı 1000'dir.
+      invalid_attribute: Invalid attribute key - [%{key}]. The key should be one of [%{allowed_keys}] or a custom attribute defined in the account.
+      invalid_operator: Invalid operator. The allowed operators for %{attribute_name} are [%{allowed_keys}].
+      invalid_query_operator: Query operator must be either "AND" or "OR".
+      invalid_value: Invalid value. The values provided for %{attribute_name} are invalid
+    custom_attribute_definition:
+      key_conflict: The provided key is not allowed as it might conflict with default attributes.
+    mfa:
+      already_enabled: MFA zaten etkinleştirilmiştir
+      not_enabled: MFA etkinleştirilmemiştir
+      invalid_code: Geçersiz doğrulama kodu
+      invalid_backup_code: Geçersiz yedek kod
+      invalid_token: Geçersiz veya süresi dolmuş MFA jetonu
+      invalid_credentials: Geçersiz kimlik bilgileri veya doğrulama kodu
+      feature_unavailable: MFA özelliği kullanılamıyor. Lütfen şifreleme anahtarlarını yapılandırın.
+    topup:
+      credits_required: Credits amount is required
+      invalid_credits: Invalid credits amount
+      invalid_option: Invalid topup option
+      plan_not_eligible: Top-ups are only available for paid plans. Please upgrade your plan first.
+      stripe_customer_not_configured: Stripe customer not configured
+      no_payment_method: No payment methods found. Please add a payment method before making a purchase.
+  profile:
+    mfa:
+      enabled: MFA başarıyla etkinleştirildi
+      disabled: MFA başarıyla devre dışı bırakıldı
+    account_saml_settings:
+      invalid_certificate: PEM formatında geçerli bir X.509 sertifikası olmalıdır
+  reports:
+    period: Raporlama aralığı %{since}'dan %{until}'a
+    utc_warning: Oluşturulan rapor UTC zaman dilimindedir.
+    agent_csv:
+      agent_name: Temsilci adı
+      conversations_count: Assigned conversations
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
+      resolution_count: Çözüm Sayısı
+      avg_customer_waiting_time: Avg customer waiting time
+    inbox_csv:
+      inbox_name: Inbox adı
+      inbox_type: Inbox türü
+      conversations_count: Konuşmaların sayısı
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
+    label_csv:
+      label_title: Etiket
+      conversations_count: Konuşma sayısı
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
+      avg_reply_time: Ortalama yanıt süresi
+      resolution_count: Çözüm Sayısı
+    team_csv:
+      team_name: Ekip adı
+      conversations_count: Konuşma sayısı
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
+      resolution_count: Çözüm Sayısı
+      avg_customer_waiting_time: Avg customer waiting time
+    conversation_traffic_csv:
+      timezone: Zaman dilimi
+    sla_csv:
+      conversation_id: Sohbet Kodu
+      sla_policy_breached: SLA Policy
+      assignee: Assignee
+      team: Ekip
+      inbox: Gelen Kutusu
+      labels: Etiketler
+      conversation_link: Link to the Conversation
+      breached_events: Breached Events
+    default_group_by: gün
+    csat:
+      headers:
+        contact_name: İletişim Adı
+        contact_email_address: İletişim E-posta Adresi
+        contact_phone_number: İletişim Telefon Numarası
+        link_to_the_conversation: Görüşmenin bağlantısı
+        agent_name: Temsilci Adı
+        rating: Derecelendirme
+        feedback: Derecelendirme Yorumu
+        recorded_at: Kaydedilen tarih
+  notifications:
+    notification_title:
+      conversation_creation: '%{inbox_name} kutusunda (#%{display_id}) numaralı bir konuşma oluşturuldu.'
+      conversation_assignment: '(#%{display_id}) numaralı bir konuşma size atandı'
+      assigned_conversation_new_message: '(#%{display_id}) numaralı konuşmada yeni bir mesaj oluşturuldu'
+      conversation_mention: '(#%{display_id}) numaralı konuşmada sizden bahsedildi'
+      sla_missed_first_response: '(#%{display_id}) numaralı konuşmada ilk yanıt SLA hedefi aşıldı'
+      sla_missed_next_response: '(#%{display_id}) numaralı konuşmada sonraki yanıt SLA hedefi aşıldı'
+      sla_missed_resolution: '(#%{display_id}) numaralı konuşmada çözüm SLA hedefi aşıldı'
+    attachment: 'Ek'
+    no_content: 'İçerik yok'
+  conversations:
+    captain:
+      handoff: 'Daha fazla yardım için başka bir temsilciye aktarılıyor.'
+    messages:
+      instagram_story_content: '%{story_sender} hikayesinde senden bahsetti: '
+      instagram_deleted_story_content: Bu hikaye artık mevcut değil.
+      instagram_shared_story_content: 'Shared story'
+      instagram_shared_post_content: 'Shared post'
+      deleted: Bu mesaj silinmiş
+      whatsapp:
+        list_button_label: 'Bir öğe seçin'
+      delivery_status:
+        error_code: 'Hata kodu: %{error_code}'
+    activity:
+      captain:
+        resolved: 'Konuşma, %{user_name} tarafından etkinlik olmadığı için çözüldü olarak işaretlendi'
+        open: 'Konuşma, %{user_name} tarafından açık olarak işaretlendi'
+      agent_bot:
+        error_moved_to_open: 'Temsilci botta meydana gelen bir hata nedeniyle konuşma, sistem tarafından açık olarak işaretlendi.'
+      status:
+        resolved: 'Konuşma %{user_name} tarafından çözümlendi olarak işaretlendi'
+        contact_resolved: 'Konuşma %{contact_name} tarafından çözümlendi olarak işaretlendi'
+        open: 'Konuşma %{user_name} tarafından açık olarak işaretlendi'
+        pending: 'Konuşma, %{user_name} tarafından bekleyen olarak işaretlendi'
+        snoozed: 'Konuşma, %{user_name} tarafından erteledi olarak işaretlendi'
+        auto_resolved_days: 'Konuşma, %{count} günlük hareketsizlik nedeniyle sistem tarafından çözümlendi olarak işaretlendi'
+        auto_resolved_hours: 'Konuşma, %{count} saatlik hareketsizlik nedeniyle sistem tarafından çözümlendi olarak işaretlendi'
+        auto_resolved_minutes: 'Konuşma, %{count} dakikalık hareketsizlik nedeniyle sistem tarafından çözümlendi olarak işaretlendi'
+        system_auto_open: Sistem, yeni gelen bir mesaj nedeniyle konuşmayı tekrar açtı.
+      priority:
+        added: '%{user_name} önceliği %{new_priority} olarak ayarladı'
+        updated: '%{user_name} önceliği %{old_priority} dan %{new_priority} olarak değiştirdi'
+        removed: '%{user_name} önceliği kaldırdı'
+      assignee:
+        self_assigned: '%{user_name} bu konuşmayı kendisine atadı'
+        assigned: '%{user_name} tarafından %{assignee_name} adına atandı'
+        removed: '%{user_name} tarafından konuşmanın atanması kaldırıldı'
+      team:
+        assigned: '%{user_name} tarafından %{team_name} adına atandı'
+        assigned_with_assignee: '%{user_name} tarafından %{team_name} aracılığıyla %{assignee_name} adına atandı'
+        removed: '%{user_name} tarafından %{team_name} ataması kaldırıldı'
+      labels:
+        added: '%{user_name}, %{labels} ekledi'
+        removed: '%{user_name}, %{labels} kaldırdı'
+      sla:
+        added: '%{user_name} added SLA policy %{sla_name}'
+        removed: '%{user_name}, %{sla_name} adlı SLA politikasını kaldırdı'
+      linear:
+        issue_created: 'Linear sorun %{issue_id} %{user_name} tarafından oluşturuldu'
+        issue_linked: 'Linear sorun %{issue_id} %{user_name} tarafından bağlandı'
+        issue_unlinked: 'Linear sorun %{issue_id} %{user_name} tarafından bağlantısı kaldırıldı'
+      csat:
+        not_sent_due_to_messaging_window: 'Giden mesaj kısıtlamaları nedeniyle CSAT anketi gönderilmedi'
+      auto_resolve:
+        not_sent_due_to_messaging_window: 'Giden mesaj kısıtlamaları nedeniyle otomatik çözüm mesajı gönderilmedi'
+      muted: '%{user_name}, sohbeti sessize aldı'
+      unmuted: '%{user_name} konuşmanın sesini açtı'
+      auto_resolution_message: 'Bir süredir aktif olmayan konuşmayı sonlandırıyoruz. Daha fazla yardıma ihtiyacınız varsa lütfen yeni bir konuşma başlatın.'
+    templates:
+      greeting_message_body: '%{account_name} genellikle birkaç saat içinde yanıt verir.'
+      ways_to_reach_you_message_body: 'Ekibin size ulaşması için bir bilgi verin.'
+      email_input_box_message_body: 'E-posta ile haberdar olun'
+      csat_input_message_body: 'Lütfen görüşmeyi değerlendirin'
+    reply:
+      email:
+        header:
+          notifications: 'Bildirimler'
+          from_with_name: '"%{inbox_name} <%{from_email}> adresinden %{assignee_name}''e gönderildi,'
+          reply_with_name: '%{assignee_name} tarafından %{inbox_name} <reply+%{reply_email}>'
+          friendly_name: '%{sender_name} tarafından %{business_name} <%{from_email}>'
+          professional_name: '%{business_name} <%{from_email}>'
+      channel_email:
+        header:
+          reply_with_name: '"%{inbox_name} <%{from_email}> adresinden %{assignee_name}''e gönderildi,'
+          reply_with_inbox_name: '%{inbox_name} <%{from_email}>'
+      email_subject: 'Bu konuşmadaki yeni mesajlar'
+      transcript_subject: 'Konuşma Metni'
+    survey:
+      response: 'Lütfen bu konuşmayı değerlendirin, %{link}'
+  contacts:
+    online:
+      delete: '%{contact_name} çevrimiçi, lütfen daha sonra tekrar deneyin'
+  integration_apps:
+    #Note: webhooks and dashboard_apps don't need short_description as they use different modal components
+    dashboard_apps:
+      name: 'Panel Uygulamaları'
+      description: 'Panel Uygulamaları, kullanıcı bilgilerini, siparişleri veya ödeme geçmişini gösteren uygulamalar oluşturmanıza ve bunları panelinize eklemenize olanak tanır. Bu sayede müşteri destek temsilcileriniz daha fazla bağlam bilgisine sahip olur.'
+    dyte:
+      name: 'Dyte'
+      short_description: 'Müşterilerle doğrudan Chatwoot üzerinden video/sesli arama başlatın.'
+      description: 'Dyte, uygulamanıza ses ve video işlevselliklerini entegre eden bir üründür. Bu entegrasyon sayesinde temsilcileriniz, Chatwoot üzerinden müşterilerinizle doğrudan video veya sesli görüşme başlatabilir.'
+      meeting_name: '%{agent_name} bir toplantı başlattı'
+    slack:
+      name: 'Slack'
+      short_description: 'Doğrudan Slack''te bildirimler alın ve konuşmalara yanıt verin.'
+      description: "Chatwoot’u Slack ile entegre ederek ekibinizin senkronize çalışmasını sağlayın. Bu entegrasyon sayesinde yeni konuşmalar için bildirim alabilir ve onlara doğrudan Slack arayüzünden yanıt verebilirsiniz."
+    webhooks:
+      name: 'Webhooks'
+      description: 'Webhook etkinlikleri, Chatwoot hesabınızdaki faaliyetlerle ilgili gerçek zamanlı güncellemeler sağlar. Tercih ettiğiniz etkinliklere abone olabilir ve Chatwoot size bu güncellemelerle HTTP geri çağrıları (callback) gönderecektir.'
+    dialogflow:
+      name: 'Dialogflow botu'
+      short_description: 'Temsilcilere aktarmadan önce ilk soruları yanıtlayacak sohbet botları oluşturun.'
+      description: 'Dialogflow ile sohbet botları oluşturun ve bunları gelen kutunuza kolayca entegre edin. Bu botlar, müşteri hizmetleri temsilcisine yönlendirmeden önce ilk soruları karşılayabilir.'
+    google_translate:
+      name: 'Google Çeviri'
+      short_description: 'Müşteri mesajlarını temsilciler için otomatik olarak çevirin.'
+      description: "Google Translate’i entegre ederek temsilcilerin müşteri mesajlarını kolayca çevirmesine yardımcı olun. Bu entegrasyon, mesajın dilini otomatik olarak algılar ve temsilcinin veya yöneticinin tercih ettiği dile çevirir."
+    openai:
+      name: 'OpenAI'
+      short_description: 'Yapay zekâ destekli yanıt önerileri, özetleme ve mesaj geliştirme.'
+      description: 'OpenAI’nin büyük dil modellerinin gücünden, yanıt önerileri, özetleme, mesaj yeniden ifade etme, yazım denetimi ve etiket sınıflandırma gibi özelliklerle yararlanın.'
+    linear:
+      name: 'Linear'
+      short_description: 'Linear sorunlarını doğrudan sohbetlerden oluşturun ve bağlayın.'
+      description: 'Create issues in Linear directly from your conversation window. Alternatively, link existing Linear issues for a more streamlined and efficient issue tracking process.'
+    notion:
+      name: 'Notion'
+      short_description: 'Veritabanlarını, dokümanları ve sayfaları doğrudan Captain ile entegre edin.'
+      description: 'Captain''ın veritabanlarınız, dokümanlarınız ve sayfalarınızdaki içeriklere erişebilmesi ve bunları kullanarak daha bağlamsal bir müşteri desteği sunan akıllı yanıtlar oluşturabilmesi için Notion çalışma alanınızı bağlayın.'
+    shopify:
+      name: 'Shopify'
+      short_description: 'Shopify mağazanızdan sipariş detaylarına ve müşteri verilerine erişin.'
+      description: 'Connect your Shopify store to access order details, customer information, and product data directly within your conversations and helps your support team provide faster, more contextual assistance to your customers.'
+    leadsquared:
+      name: 'LeadSquared'
+      short_description: 'Kişilerinizi ve sohbetlerinizi LeadSquared CRM ile senkronize edin.'
+      description: 'Kişilerinizi ve sohbetlerinizi LeadSquared CRM ile senkronize edin. Bu entegrasyon, yeni kişiler eklendiğinde otomatik olarak LeadSquared''da potansiyel müşteri oluşturur ve satış ekibinize tam bağlam sağlamak için sohbet etkinliğini kaydeder.'
+  captain:
+    copilot_message_required: Mesaj gerekli
+    copilot_error: 'Please connect an assistant to this inbox to use Copilot'
+    copilot_limit: 'You are out of Copilot credits. You can buy more credits from the billing section.'
+    copilot:
+      using_tool: '%{function_name} aracını kullanıyor'
+      completed_tool_call: '%{function_name} aracı çağrısı tamamlandı'
+      invalid_tool_call: 'Geçersiz araç çağrısı'
+      tool_not_available: 'Araç mevcut değil'
+    documents:
+      limit_exceeded: 'Belge sınırı aşıldı'
+      pdf_format_error: 'PDF dosyası olmalıdır'
+      pdf_size_error: '10 MB''dan az olmalıdır'
+      pdf_upload_failed: 'OpenAI''ye PDF yükleme başarısız'
+      pdf_upload_success: 'PDF başarıyla yüklendi, file_id: %{file_id}'
+      pdf_processing_failed: 'PDF belgesi işlenemedi %{document_id}: %{error}'
+      pdf_processing_success: 'PDF belgesi başarıyla işlendi %{document_id}'
+      faq_generation_complete: 'FAQ generation complete. Total FAQs created: %{count}'
+      using_paginated_faq: 'Using paginated FAQ generation for document %{document_id}'
+      using_standard_faq: 'Using standard FAQ generation for document %{document_id}'
+      response_creation_error: 'Error in creating response document: %{error}'
+      missing_openai_file_id: 'Document must have openai_file_id for paginated processing'
+      openai_api_error: 'OpenAI API Hatası: %{error}'
+      starting_paginated_faq: 'Starting paginated FAQ generation (%{pages_per_chunk} pages per chunk)'
+      stopping_faq_generation: 'İşlem durduruldu. Sebep: %{reason}'
+      paginated_faq_complete: 'Paginated generation complete. Total FAQs: %{total_faqs}, Pages processed: %{pages_processed}'
+      processing_pages: 'Processing pages %{start}-%{end} (iteration %{iteration})'
+      chunk_generated: 'Chunk generated %{chunk_faqs} FAQs. Total so far: %{total_faqs}'
+      page_processing_error: 'Error processing pages %{start}-%{end}: %{error}'
+    custom_tool:
+      slug_generation_failed: 'Unable to generate unique slug after 5 attempts'
+  public_portal:
+    search:
+      search_placeholder: Başlık veya içerikle makale arayın...
+      empty_placeholder: Sonuç bulunamadı.
+      loading_placeholder: Aranıyor...
+      results_title: Arama sonuçları
+    toc_header: 'Bu sayfada'
+    hero:
+      sub_title: Makaleleri buradan arayın veya aşağıdaki kategorilere göz atın.
+    common:
+      home: Anasayfa
+      last_updated_on: Son güncelleme tarihi %{last_updated_on}
+      view_all_articles: Tümünü Görüntüle
+      article: makale
+      articles: makaleler
+      author: yazar
+      authors: yazarlar
+      other: diğer
+      others: diğerleri
+      by: Tarafından
+      no_articles: Burada makale bulunmuyor
+    footer:
+      made_with: İle yapılmıştır
+    header:
+      go_to_homepage: Website
+      visit_website: Siteyi ziyaret et
+      appearance:
+        system: Sistem
+        light: Açık Mod
+        dark: Koyu Mod
+      featured_articles: Öne Çıkan Makaleler
+      uncategorized: Kategorize Edilmemiş
+    404:
+      title: Sayfa bulunamadı
+      description: Aradığınız sayfayı bulamadık.
+      back_to_home: Ana sayfaya dön
+  slack_unfurl:
+    fields:
+      name: İsim
+      email: E-Posta
+      phone_number: Telefon
+      company_name: Şirket
+      inbox_name: Gelen Kutusu
+      inbox_type: Gelen Kutusu Türü
+    button: Görüşmeyi aç
+  time_units:
+    days:
+      one: '%{count} day'
+      other: '%{count} days'
+    hours:
+      one: '%{count} hour'
+      other: '%{count} hours'
+    minutes:
+      one: '%{count} dakika'
+      other: '%{count} dakika'
+    seconds:
+      one: '%{count} second'
+      other: '%{count} seconds'
+  automation:
+    system_name: 'Otomasyon Sistemi'
+  crm:
+    no_message: 'Konuşmada mesaj yok'
+    attachment: '[Ek: %{type}]'
+    no_content: '[İçerik yok]'
+    created_activity: |
+      Yeni konuşma başlatıldı: %{brand_name}
+
+      Kanal: %{channel_info}
+      Oluşturulma: %{formatted_creation_time}
+      Konuşma Kimliği: %{display_id}
+      %{brand_name}'de görüntüle: %{url}
+    transcript_activity: |
+      %{brand_name} sohbet dökümü
+
+      Kanal: %{channel_info}
+      Konuşma Kimliği: %{display_id}
+      %{brand_name}'de görüntüle: %{url}
+
+      Döküm:
+      %{format_messages}
+  agent_capacity_policy:
+    inbox_already_assigned: 'Gelen Kutusu bu politikaya zaten atanmış'
+  portals:
+    send_instructions:
+      email_required: 'E-posta gereklidir'
+      invalid_email_format: 'Geçersiz e-posta formatı'
+      custom_domain_not_configured: 'Özel alan adı yapılandırılmadı'
+      instructions_sent_successfully: 'Talimatlar başarıyla gönderildi'
+      subject: '%{custom_domain} kurulumunu tamamlayın'
+    ssl_status:
+      custom_domain_not_configured: 'Özel alan adı yapılandırılmamış'

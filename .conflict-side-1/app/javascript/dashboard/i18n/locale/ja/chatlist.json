@@ -1,0 +1,142 @@
+{
+  "CHAT_LIST": {
+    "LOADING": "会話のデータを取得しています",
+    "LOAD_MORE_CONVERSATIONS": "会話のデータをさらに読み込む",
+    "EOF": "すべての会話データが読み込まれました🎉",
+    "LIST": {
+      "404": "このグループには有効な会話データがありません"
+    },
+    "FAILED_TO_SEND": "送信に失敗しました",
+    "TAB_HEADING": "会話データ",
+    "MENTION_HEADING": "メンション",
+    "UNATTENDED_HEADING": "未対応",
+    "SEARCH": {
+      "INPUT": "人物、チャット、保存された返信を検索する"
+    },
+    "FILTER_ALL": "すべて",
+    "ASSIGNEE_TYPE_TABS": {
+      "me": "自分",
+      "unassigned": "未割当",
+      "all": "すべて"
+    },
+    "CHAT_STATUS_FILTER_ITEMS": {
+      "open": {
+        "TEXT": "オープン"
+      },
+      "resolved": {
+        "TEXT": "解決済み"
+      },
+      "pending": {
+        "TEXT": "保留中"
+      },
+      "snoozed": {
+        "TEXT": "スヌーズ中"
+      },
+      "all": {
+        "TEXT": "すべて"
+      }
+    },
+    "VIEW_FILTER": "表示",
+    "SORT_TOOLTIP_LABEL": "会話を並び替える",
+    "CHAT_SORT": {
+      "STATUS": "ステータス",
+      "ORDER_BY": "並び順"
+    },
+    "CHAT_TIME_STAMP": {
+      "CREATED": {
+        "LATEST": "作成",
+        "OLDEST": "作成日時:"
+      },
+      "LAST_ACTIVITY": {
+        "NOT_ACTIVE": "最終アクティビティ:",
+        "ACTIVE": "最終アクティビティ"
+      }
+    },
+    "SORT_ORDER_ITEMS": {
+      "last_activity_at_asc": {
+        "TEXT": "最終アクティビティ: 古い順"
+      },
+      "last_activity_at_desc": {
+        "TEXT": "最終アクティビティ: 新しい順"
+      },
+      "created_at_desc": {
+        "TEXT": "作成日時: 新しい順"
+      },
+      "created_at_asc": {
+        "TEXT": "作成日時: 古い順"
+      },
+      "priority_desc": {
+        "TEXT": "優先度: 高い順"
+      },
+      "priority_asc": {
+        "TEXT": "優先度: 低い順"
+      },
+      "waiting_since_asc": {
+        "TEXT": "保留時間: 長い順"
+      },
+      "waiting_since_desc": {
+        "TEXT": "保留時間: 短い順"
+      }
+    },
+    "ATTACHMENTS": {
+      "image": {
+        "CONTENT": "画像メッセージ"
+      },
+      "audio": {
+        "CONTENT": "音声メッセージ"
+      },
+      "video": {
+        "CONTENT": "ビデオメッセージ"
+      },
+      "file": {
+        "CONTENT": "添付ファイル"
+      },
+      "location": {
+        "CONTENT": "場所"
+      },
+      "ig_reel": {
+        "CONTENT": "Instagram リール"
+      },
+      "fallback": {
+        "CONTENT": "URLを共有しています"
+      },
+      "contact": {
+        "CONTENT": "共有連絡先"
+      },
+      "embed": {
+        "CONTENT": "Embedded content"
+      }
+    },
+    "CHAT_SORT_BY_FILTER": {
+      "TITLE": "会話の並び替え",
+      "DROPDOWN_TITLE": "並び替え",
+      "ITEMS": {
+        "LATEST": {
+          "NAME": "最終アクティビティ日時",
+          "LABEL": "最終アクティビティ"
+        },
+        "CREATED_AT": {
+          "NAME": "作成日時",
+          "LABEL": "作成日時"
+        },
+        "LAST_USER_MESSAGE_AT": {
+          "NAME": "最終ユーザーメッセージ日時",
+          "LABEL": "最終メッセージ"
+        }
+      }
+    },
+    "RECEIVED_VIA_EMAIL": "メールで受信しました",
+    "VIEW_TWEET_IN_TWITTER": "ツイートをTwitterで見る",
+    "REPLY_TO_TWEET": "このつぶやきに返信",
+    "LINK_TO_STORY": "Instagramストーリーに移動",
+    "SENT": "送信成功",
+    "READ": "既読",
+    "DELIVERED": "配信済み",
+    "NO_MESSAGES": "メッセージなし",
+    "NO_CONTENT": "コンテンツが利用できません",
+    "HIDE_QUOTED_TEXT": "引用テキストを非表示",
+    "SHOW_QUOTED_TEXT": "引用テキストを表示",
+    "MESSAGE_READ": "既読",
+    "SENDING": "送信中"
+  }
+}

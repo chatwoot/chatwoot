@@ -1,0 +1,108 @@
+{
+  "SLA": {
+    "HEADER": "Service Level Agreements",
+    "ADD_ACTION": "Aggiungi SLA",
+    "ADD_ACTION_LONG": "Crea una nuova policy SLA",
+    "DESCRIPTION": "I Service Level Agreement (SLA) sono contratti che definiscono chiare aspettative tra il team e i clienti. Stabiliscono norme per i tempi di risposta e di risoluzione, creando un quadro per la responsabilità e garantendo un'esperienza coerente e di alta qualità.",
+    "LEARN_MORE": "Scopri di più su SLA",
+    "LOADING": "Caricamento SLA",
+    "PAYWALL": {
+      "TITLE": "Aggiorna per creare SLA",
+      "AVAILABLE_ON": "La funzionalità SLA è disponibile solo nei piani Business e Enterprise.",
+      "UPGRADE_PROMPT": "Aggiorna il tuo piano per ottenere l'accesso a funzionalità avanzate come gestione del team, automazioni, attributi personalizzati e altro ancora.",
+      "UPGRADE_NOW": "Aggiorna ora",
+      "CANCEL_ANYTIME": "Puoi modificare o annullare il tuo piano in qualsiasi momento"
+    },
+    "ENTERPRISE_PAYWALL": {
+      "AVAILABLE_ON": "La funzionalità SLA è disponibile solo nei piani a pagamento.",
+      "UPGRADE_PROMPT": "Passa a un piano a pagamento per accedere a funzionalità avanzate come audit logs, capacità degli operatori e altro ancora.",
+      "ASK_ADMIN": "Contatta il tuo amministratore per l'aggiornamento."
+    },
+    "LIST": {
+      "404": "Non ci sono SLA disponibili in questo account.",
+      "EMPTY": {
+        "TITLE_1": "Enterprise P0",
+        "DESC_1": "Problemi sollevati dai clienti enterprise, che richiedono un'attenzione immediata.",
+        "TITLE_2": "Enterprise P1",
+        "DESC_2": "Problemi sollevati dai clienti enterprise, che devono essere riconosciuti rapidamente."
+      },
+      "BUSINESS_HOURS_ON": "Orario di lavoro attivo",
+      "BUSINESS_HOURS_OFF": "Orario di lavoro disattivo",
+      "RESPONSE_TYPES": {
+        "FRT": "Soglia tempo di prima risposta",
+        "NRT": "Soglia tempo di risposta successiva",
+        "RT": "Soglia tempo di risoluzione",
+        "SHORT_HAND": {
+          "FRT": "FRT",
+          "NRT": "NRT",
+          "RT": "RT"
+        }
+      }
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "Nome SLA",
+        "PLACEHOLDER": "Nome SLA",
+        "REQUIRED_ERROR": "SLA name is required",
+        "MINIMUM_LENGTH_ERROR": "È richiesta una lunghezza minima di 2",
+        "VALID_ERROR": "Sono ammessi solo lettere, numeri, trattino e underscore"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Descrizione",
+        "PLACEHOLDER": "SLA per clienti premium"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "LABEL": "Tempo di prima risposta",
+        "PLACEHOLDER": "5"
+      },
+      "NEXT_RESPONSE_TIME": {
+        "LABEL": "Tempo di Risposta Successiva",
+        "PLACEHOLDER": "5"
+      },
+      "RESOLUTION_TIME": {
+        "LABEL": "Tempo di Risoluzione",
+        "PLACEHOLDER": "60"
+      },
+      "BUSINESS_HOURS": {
+        "LABEL": "Orario Di Lavoro",
+        "PLACEHOLDER": "Solo durante l'orario di lavoro"
+      },
+      "THRESHOLD_TIME": {
+        "INVALID_FORMAT_ERROR": "La soglia deve essere un numero e maggiore di zero"
+      },
+      "EDIT": "Modifica",
+      "CREATE": "Crea",
+      "DELETE": "Elimina",
+      "CANCEL": "Annulla"
+    },
+    "ADD": {
+      "TITLE": "Aggiungi SLA",
+      "DESC": "Amichevoli promesse per un grande servizio!",
+      "API": {
+        "SUCCESS_MESSAGE": "SLA aggiunta correttamente",
+        "ERROR_MESSAGE": "Si è verificato un errore, riprova"
+      }
+    },
+    "DELETE": {
+      "TITLE": "Elimina SLA",
+      "API": {
+        "SUCCESS_MESSAGE": "SLA eliminata correttamente",
+        "ERROR_MESSAGE": "Si è verificato un errore, riprova"
+      },
+      "CONFIRM": {
+        "TITLE": "Conferma Eliminazione",
+        "MESSAGE": "Sei sicuro di voler eliminare ",
+        "YES": "Sì, Elimina ",
+        "NO": "No, Mantieni "
+      }
+    },
+    "EVENTS": {
+      "TITLE": "SLA Mancate",
+      "FRT": "Tempo di prima risposta",
+      "NRT": "Tempo di risposta successiva",
+      "RT": "Tempo di risoluzione",
+      "SHOW_MORE": "{count} altre",
+      "HIDE": "Nascondi {count} righe"
+    }
+  }
+}

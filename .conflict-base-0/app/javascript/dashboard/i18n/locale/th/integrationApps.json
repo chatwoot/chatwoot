@@ -1,0 +1,62 @@
+{
+  "INTEGRATION_APPS": {
+    "FETCHING": "กำลังโหลดการเชื่อมต่อ",
+    "NO_HOOK_CONFIGURED": "ไม่มี {integrationId} ที่ตั้งค่าไว้กับบัญชีนี้",
+    "HEADER": "โปรแกรม",
+    "STATUS": {
+      "ENABLED": "เปิด",
+      "DISABLED": "ปิด"
+    },
+    "CONFIGURE": "ตั้งค่า",
+    "ADD_BUTTON": "เพิ่ม Hook ใหม่",
+    "DELETE": {
+      "TITLE": {
+        "INBOX": "ยืนยันการลบ",
+        "ACCOUNT": "ไม่เชื่อมต่อ"
+      },
+      "MESSAGE": {
+        "INBOX": "คุณต้องการที่จะลบไหม?",
+        "ACCOUNT": "คุณต้องการที่จะยกเลือกการเชื่อมต่อไหม?"
+      },
+      "CONFIRM_BUTTON_TEXT": {
+        "INBOX": "เอาเลย",
+        "ACCOUNT": "ใช่ ยกเลิกการเชื่อมต่อ"
+      },
+      "CANCEL_BUTTON_TEXT": "ยกเลิก",
+      "API": {
+        "SUCCESS_MESSAGE": "ลบ Hook แล้ว",
+        "ERROR_MESSAGE": "ไม่สามารถเชื่อมต่อเซิฟเวอร์ได้โปรดลองอีกครั้งในภายหลัง"
+      }
+    },
+    "LIST": {
+      "FETCHING": "กำลังโหลด Hook",
+      "INBOX": "กล่องข้อความ",
+      "DELETE": {
+        "BUTTON_TEXT": "ลบ"
+      }
+    },
+    "ADD": {
+      "FORM": {
+        "INBOX": {
+          "LABEL": "เลือกกล่องข้อความ",
+          "PLACEHOLDER": "เลือกกล่องข้อความ"
+        },
+        "SUBMIT": "สร้าง",
+        "CANCEL": "ยกเลิก"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "เพิ่ม Hook แล้ว",
+        "ERROR_MESSAGE": "ไม่สามารถเชื่อมต่อเซิฟเวอร์ได้โปรดลองอีกครั้งในภายหลัง"
+      }
+    },
+    "CONNECT": {
+      "BUTTON_TEXT": "เชื่อมต่อ"
+    },
+    "DISCONNECT": {
+      "BUTTON_TEXT": "ไม่เชื่อมต่อ"
+    },
+    "SIDEBAR_DESCRIPTION": {
+      "DIALOGFLOW": "Dialogflow is a natural language processing platform for building conversational interfaces. Integrating it with {installationName} lets bots handle queries first and transfer them to agents when needed. It helps qualify leads and reduce agent workload by answering FAQs. To add Dialogflow, create a Service Account in Google Console and share the credentials. Refer to the docs for details"
+    }
+  }
+}

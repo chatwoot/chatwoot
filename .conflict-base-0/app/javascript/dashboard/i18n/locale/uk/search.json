@@ -1,0 +1,68 @@
+{
+  "SEARCH": {
+    "TABS": {
+      "ALL": "All results",
+      "CONTACTS": "Контакти",
+      "CONVERSATIONS": "Бесіди",
+      "MESSAGES": "Текст повідомлень",
+      "ARTICLES": "Articles"
+    },
+    "SECTION": {
+      "CONTACTS": "Контакти",
+      "CONVERSATIONS": "Бесіди",
+      "MESSAGES": "Текст повідомлень",
+      "ARTICLES": "Articles"
+    },
+    "VIEW_MORE": "View more",
+    "LOAD_MORE": "Load more",
+    "SEARCHING_DATA": "Шукаємо",
+    "LOADING_DATA": "Loading",
+    "EMPTY_STATE": "На запит '{query} не знайдено {item}",
+    "EMPTY_STATE_FULL": "Немає результатів за запитом '{query}",
+    "PLACEHOLDER_KEYBINDING": "/фокус",
+    "INPUT_PLACEHOLDER": "Введіть 3 або більше символів для пошуку",
+    "RECENT_SEARCHES": "Recent searches",
+    "CLEAR_ALL": "Очистити все",
+    "MOST_RECENT": "Most recent",
+    "EMPTY_STATE_DEFAULT": "Пошук бесід по id, email, тел. номеру, повідомлень для кращого пошуку результатів. ",
+    "BOT_LABEL": "Бот",
+    "READ_MORE": "Детальніше",
+    "READ_LESS": "Read less",
+    "WROTE": "написав(ла):",
+    "FROM": "Від",
+    "EMAIL": "Email",
+    "EMAIL_SUBJECT": "Тема",
+    "PRIVATE": "Private note",
+    "TRANSCRIPT": "Transcript",
+    "CREATED_AT": "created {time}",
+    "UPDATED_AT": "updated {time}",
+    "SORT_BY": {
+      "RELEVANCE": "Relevance"
+    },
+    "DATE_RANGE": {
+      "LAST_7_DAYS": "Останні 7 днів",
+      "LAST_30_DAYS": "Останні 30 днів",
+      "LAST_60_DAYS": "Останні 60 днів",
+      "LAST_90_DAYS": "Останні 90 днів",
+      "CUSTOM_RANGE": "Custom range:",
+      "CREATED_BETWEEN": "Created between",
+      "AND": "and",
+      "APPLY": "Підтвердити",
+      "BEFORE_DATE": "Before {date}",
+      "AFTER_DATE": "After {date}",
+      "TIME_RANGE": "Filter by time",
+      "CLEAR_FILTER": "Очистити фільтр"
+    },
+    "FILTERS": {
+      "FILTER_MESSAGE": "Filter messages by:",
+      "FROM": "Відправник",
+      "IN": "Вхідні",
+      "AGENTS": "Агенти",
+      "CONTACTS": "Контакти",
+      "INBOXES": "Вхідні",
+      "NO_AGENTS": "Агентів не знайдено",
+      "NO_CONTACTS": "Start by searching to see results",
+      "NO_INBOXES": "No inboxes found"
+    }
+  }
+}

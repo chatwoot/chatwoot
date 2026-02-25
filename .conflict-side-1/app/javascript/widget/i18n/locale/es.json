@@ -1,0 +1,153 @@
+{
+  "COMPONENTS": {
+    "FILE_BUBBLE": {
+      "DOWNLOAD": "Descargar",
+      "UPLOADING": "Subiendo..."
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "Enviar"
+    },
+    "MESSAGE_BUBBLE": {
+      "RETRY": "Enviar mensaje de nuevo",
+      "ERROR_MESSAGE": "¡No se pudo enviar! intente nuevamente"
+    }
+  },
+  "THUMBNAIL": {
+    "AUTHOR": {
+      "NOT_AVAILABLE": "Not available"
+    }
+  },
+  "TEAM_AVAILABILITY": {
+    "ONLINE": "Estamos en línea",
+    "OFFLINE": "Estamos ausentes en este momento",
+    "BACK_AS_SOON_AS_POSSIBLE": "We will be back as soon as possible"
+  },
+  "REPLY_TIME": {
+    "IN_A_FEW_MINUTES": "Normalmente responde en unos minutos",
+    "IN_A_FEW_HOURS": "Normalmente responde en unas pocas horas",
+    "IN_A_DAY": "Normalmente responde en un día",
+    "BACK_IN_HOURS": "We will be back online in {n} hour | We will be back online in {n} hours",
+    "BACK_IN_MINUTES": "We will be back online in {time} minutes",
+    "BACK_AT_TIME": "We will be back online at {time}",
+    "BACK_ON_DAY": "We will be back online on {day}",
+    "BACK_TOMORROW": "We will be back online tomorrow",
+    "BACK_IN_SOME_TIME": "We will be back online in some time"
+  },
+  "DAY_NAMES": {
+    "SUNDAY": "Domingo",
+    "MONDAY": "Lunes",
+    "TUESDAY": "Martes",
+    "WEDNESDAY": "Miércoles",
+    "THURSDAY": "Jueves",
+    "FRIDAY": "Viernes",
+    "SATURDAY": "Sábado"
+  },
+  "START_CONVERSATION": "Iniciar conversación",
+  "END_CONVERSATION": "Finalizar conversación",
+  "CONTINUE_CONVERSATION": "Continuar conversación",
+  "YOU": "Tú",
+  "START_NEW_CONVERSATION": "Iniciar una nueva conversación",
+  "VIEW_UNREAD_MESSAGES": "Tienes mensajes no leídos",
+  "UNREAD_VIEW": {
+    "VIEW_MESSAGES_BUTTON": "Ver nuevos mensajes",
+    "CLOSE_MESSAGES_BUTTON": "Cerrar",
+    "COMPANY_FROM": "De",
+    "BOT": "Bot"
+  },
+  "BUBBLE": {
+    "LABEL": "Chatea con nosotros"
+  },
+  "POWERED_BY": "Desarrollado por Chatwoot",
+  "EMAIL_PLACEHOLDER": "Por favor ingrese su email",
+  "CHAT_PLACEHOLDER": "Escribe tu mensaje",
+  "TODAY": "Hoy",
+  "YESTERDAY": "Ayer",
+  "PRE_CHAT_FORM": {
+    "FIELDS": {
+      "FULL_NAME": {
+        "LABEL": "Nombre completo",
+        "PLACEHOLDER": "Introduzca su nombre completo por favor",
+        "REQUIRED_ERROR": "Nombre completo es obligatorio"
+      },
+      "EMAIL_ADDRESS": {
+        "LABEL": "Dirección de correo",
+        "PLACEHOLDER": "Introduzca su dirección de correo electrónico",
+        "REQUIRED_ERROR": "La dirección de correo es obligatoria",
+        "VALID_ERROR": "Por favor, introduzca una dirección de correo válida"
+      },
+      "PHONE_NUMBER": {
+        "LABEL": "Número telefónico",
+        "PLACEHOLDER": "Por favor ingrese su número de teléfono",
+        "REQUIRED_ERROR": "El número de teléfono es obligatorio",
+        "DIAL_CODE_VALID_ERROR": "Por favor seleccione un código de país",
+        "VALID_ERROR": "Por favor ingrese un número de teléfono válido",
+        "DROPDOWN_EMPTY": "No se encontraron resultados",
+        "DROPDOWN_SEARCH": "Buscar país"
+      },
+      "MESSAGE": {
+        "LABEL": "Mensaje",
+        "PLACEHOLDER": "Introduzca su mensaje",
+        "ERROR": "Mensaje demasiado corto"
+      }
+    },
+    "CAMPAIGN_HEADER": "Por favor, introduce tu nombre y correo electrónico antes de iniciar la conversación",
+    "IS_REQUIRED": "es obligatorio",
+    "REQUIRED": "Requerido",
+    "REGEX_ERROR": "Por favor proporcione una entrada válida"
+  },
+  "FILE_SIZE_LIMIT": "El archivo excede el límite de los archivos adjuntos {MAXIMUM_FILE_UPLOAD_SIZE}",
+  "CHAT_FORM": {
+    "INVALID": {
+      "FIELD": "Campo no válido"
+    }
+  },
+  "EMOJI": {
+    "PLACEHOLDER": "Buscar emojis",
+    "NOT_FOUND": "Ningún emoji coincide con tu búsqueda",
+    "ARIA_LABEL": "Selector de emoji"
+  },
+  "CSAT": {
+    "TITLE": "Califica tu conversación",
+    "SUBMITTED_TITLE": "Gracias por enviar la valoración",
+    "PLACEHOLDER": "Cuéntanos más..."
+  },
+  "EMAIL_TRANSCRIPT": {
+    "BUTTON_TEXT": "Enviar transcripción de la conversación",
+    "SEND_EMAIL_SUCCESS": "La transcripción ha sido enviada",
+    "SEND_EMAIL_ERROR": "Hubo un error, por favor inténtelo de nuevo"
+  },
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Haga clic aquí para unirse",
+      "LEAVE_THE_ROOM": "Salir de la llamada"
+    }
+  },
+  "PORTAL": {
+    "POPULAR_ARTICLES": "Artículos populares",
+    "VIEW_ALL_ARTICLES": "Ver todos los artículos",
+    "IFRAME_LOAD_ERROR": "Se ha producido un error al cargar el artículo, por favor actualiza la página e inténtalo de nuevo."
+  },
+  "ATTACHMENTS": {
+    "image": {
+      "CONTENT": "Mensaje de imagen"
+    },
+    "audio": {
+      "CONTENT": "Mensaje de audio"
+    },
+    "video": {
+      "CONTENT": "Mensaje de vídeo"
+    },
+    "file": {
+      "CONTENT": "Archivo adjunto"
+    },
+    "location": {
+      "CONTENT": "Ubicación"
+    },
+    "fallback": {
+      "CONTENT": "ha compartido una url"
+    }
+  },
+  "FOOTER_REPLY_TO": {
+    "REPLY_TO": "Respondiendo a:"
+  }
+}

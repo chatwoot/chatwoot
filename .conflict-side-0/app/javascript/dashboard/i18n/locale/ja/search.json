@@ -1,0 +1,68 @@
+{
+  "SEARCH": {
+    "TABS": {
+      "ALL": "All results",
+      "CONTACTS": "連絡先",
+      "CONVERSATIONS": "会話データ",
+      "MESSAGES": "メッセージ",
+      "ARTICLES": "記事"
+    },
+    "SECTION": {
+      "CONTACTS": "連絡先",
+      "CONVERSATIONS": "会話データ",
+      "MESSAGES": "メッセージ",
+      "ARTICLES": "記事"
+    },
+    "VIEW_MORE": "さらに表示",
+    "LOAD_MORE": "さらに読み込む",
+    "SEARCHING_DATA": "検索中",
+    "LOADING_DATA": "読み込み中",
+    "EMPTY_STATE": "{item} がクエリ '{query}' に対して見つかりませんでした。",
+    "EMPTY_STATE_FULL": "クエリ '{query}' に対して結果が見つかりませんでした。",
+    "PLACEHOLDER_KEYBINDING": "/を押してフォーカス",
+    "INPUT_PLACEHOLDER": "検索するには3文字以上入力してください",
+    "RECENT_SEARCHES": "Recent searches",
+    "CLEAR_ALL": "すべてクリア",
+    "MOST_RECENT": "Most recent",
+    "EMPTY_STATE_DEFAULT": "会話ID、メール、電話番号、メッセージで検索すると、より良い検索結果が得られます。",
+    "BOT_LABEL": "ボット",
+    "READ_MORE": "さらに読む",
+    "READ_LESS": "Read less",
+    "WROTE": "書き込み:",
+    "FROM": "差出人:",
+    "EMAIL": "Eメール",
+    "EMAIL_SUBJECT": "件名",
+    "PRIVATE": "Private note",
+    "TRANSCRIPT": "Transcript",
+    "CREATED_AT": "{time} に作成",
+    "UPDATED_AT": "updated {time}",
+    "SORT_BY": {
+      "RELEVANCE": "Relevance"
+    },
+    "DATE_RANGE": {
+      "LAST_7_DAYS": "過去3か月",
+      "LAST_30_DAYS": "過去6か月",
+      "LAST_60_DAYS": "過去 60 日間",
+      "LAST_90_DAYS": "過去 90 日間",
+      "CUSTOM_RANGE": "Custom range:",
+      "CREATED_BETWEEN": "Created between",
+      "AND": "と",
+      "APPLY": "適用",
+      "BEFORE_DATE": "Before {date}",
+      "AFTER_DATE": "After {date}",
+      "TIME_RANGE": "Filter by time",
+      "CLEAR_FILTER": "フィルターをクリア"
+    },
+    "FILTERS": {
+      "FILTER_MESSAGE": "Filter messages by:",
+      "FROM": "Sender",
+      "IN": "受信トレイ",
+      "AGENTS": "担当者",
+      "CONTACTS": "連絡先",
+      "INBOXES": "受信トレイ",
+      "NO_AGENTS": "担当者が見つかりません",
+      "NO_CONTACTS": "Start by searching to see results",
+      "NO_INBOXES": "No inboxes found"
+    }
+  }
+}

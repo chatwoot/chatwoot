@@ -1,0 +1,85 @@
+{
+  "LABEL_MGMT": {
+    "HEADER": "Etiķetes",
+    "HEADER_BTN_TXT": "Pievienot etiķeti",
+    "LOADING": "Notiek etiķešu iegūšana",
+    "DESCRIPTION": "Etiķetes palīdz kategorizēt sarunas, interesentus un noteikt to prioritātes. Etiķeti, sarunai vai kontaktpersonai, varat piešķirt Izmantojot sānu paneli.",
+    "LEARN_MORE": "Uzzināt vairāk par etiķetēm",
+    "SEARCH_404": "Šim vaicājumam nav atbilstošu vienumu",
+    "LIST": {
+      "404": "Šajā kontā nav izveidotas etiķetes.",
+      "TITLE": "Pārvaldīt Etiķetes",
+      "DESC": "Etiķetes ļauj grupēt sarunas kopā.",
+      "TABLE_HEADER": {
+        "NAME": "Nosaukums",
+        "DESCRIPTION": "Apraksts",
+        "COLOR": "Krāsa"
+      }
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "Etiķetes Nosaukums",
+        "PLACEHOLDER": "Etiķetes nosaukums",
+        "REQUIRED_ERROR": "Nepieciešams etiķetes nosaukums",
+        "MINIMUM_LENGTH_ERROR": "Nepieciešamais minimālais garums 2 simboli",
+        "VALID_ERROR": "Ir atļauti tikai Alfabēti burti, Cipari, Defise un Pasvītra"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Apraksts",
+        "PLACEHOLDER": "Etiķetes Apraksts"
+      },
+      "COLOR": {
+        "LABEL": "Krāsa"
+      },
+      "SHOW_ON_SIDEBAR": {
+        "LABEL": "Rādīt etiķeti sānjoslā"
+      },
+      "EDIT": "Rediģēt",
+      "CREATE": "Izveidot",
+      "DELETE": "Dzēst",
+      "CANCEL": "Atcelt"
+    },
+    "SUGGESTIONS": {
+      "TOOLTIP": {
+        "SINGLE_SUGGESTION": "Pievienot sarunai etiķeti",
+        "MULTIPLE_SUGGESTION": "Izvēlēties šo etiķeti",
+        "DESELECT": "Noņemt etiķeti",
+        "DISMISS": "Noraidīt ieteikumu"
+      },
+      "POWERED_BY": "Chatwoot AI",
+      "DISMISS": "Atcelt",
+      "ADD_SELECTED_LABELS": "Pievienot izvēlētās etiķetes",
+      "ADD_SELECTED_LABEL": "Pievienot izvēlēto etiķeti",
+      "ADD_ALL_LABELS": "Pievienot visas etiķetes",
+      "SUGGESTED_LABELS": "Ieteiktās etiķetes"
+    },
+    "ADD": {
+      "TITLE": "Pievienot etiķeti",
+      "DESC": "Etiķetes ļauj grupēt sarunas kopā.",
+      "API": {
+        "SUCCESS_MESSAGE": "Etiķete ir veiksmīgi pievienota",
+        "ERROR_MESSAGE": "Radās kļūda. Lūdzu, mēģiniet vēlreiz"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Rediģēt etiķeti",
+      "API": {
+        "SUCCESS_MESSAGE": "Etiķete ir veiksmīgi atjaunināta",
+        "ERROR_MESSAGE": "Radās kļūda. Lūdzu, mēģiniet vēlreiz"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Dzēst",
+      "API": {
+        "SUCCESS_MESSAGE": "Etiķete ir veiksmīgi izdzēsta",
+        "ERROR_MESSAGE": "Radās kļūda. Lūdzu, mēģiniet vēlreiz"
+      },
+      "CONFIRM": {
+        "TITLE": "Apstiprināt Dzēšanu",
+        "MESSAGE": "Vai vēlaties izdzēst ",
+        "YES": "Jā, Dzēst ",
+        "NO": "Nē, Paturēt "
+      }
+    }
+  }
+}

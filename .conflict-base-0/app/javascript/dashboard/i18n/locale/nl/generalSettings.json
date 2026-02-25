@@ -1,0 +1,251 @@
+{
+  "GENERAL_SETTINGS": {
+    "LIMIT_MESSAGES": {
+      "CONVERSATION": "You have exceeded the conversation limit. Hacker plan allows only 500 conversations.",
+      "INBOXES": "You have exceeded the inbox limit. Hacker plan only supports website live-chat. Additional inboxes like email, WhatsApp etc. require a paid plan.",
+      "AGENTS": "You have exceeded the agent limit. Your plan only allows {allowedAgents} agents.",
+      "NON_ADMIN": "Please contact your administrator to upgrade the plan and continue using all features."
+    },
+    "TITLE": "Accountinstellingen",
+    "SUBMIT": "Instellingen bijwerken",
+    "BACK": "Terug",
+    "DISMISS": "Negeer",
+    "UPDATE": {
+      "ERROR": "Instellingen konden niet worden bijgewerkt, probeer het opnieuw!",
+      "SUCCESS": "Accountinstellingen succesvol bijgewerkt"
+    },
+    "ACCOUNT_DELETE_SECTION": {
+      "TITLE": "Delete your Account",
+      "NOTE": "Once you delete your account, all your data will be deleted.",
+      "BUTTON_TEXT": "Delete Your Account",
+      "CONFIRM": {
+        "TITLE": "Delete Account",
+        "MESSAGE": "Deleting your Account is irreversible. Enter your account name below to confirm you want to permanently delete it.",
+        "BUTTON_TEXT": "Verwijderen",
+        "DISMISS": "Annuleren",
+        "PLACE_HOLDER": "Please type {accountName} to confirm"
+      },
+      "SUCCESS": "Account marked for deletion",
+      "FAILURE": "Could not delete account, try again!",
+      "SCHEDULED_DELETION": {
+        "TITLE": "Account Scheduled for Deletion",
+        "MESSAGE_MANUAL": "This account is scheduled for deletion on {deletionDate}. This was requested by an administrator. You can cancel the deletion before this date.",
+        "MESSAGE_INACTIVITY": "This account is scheduled for deletion on {deletionDate} due to account inactivity. You can cancel the deletion before this date.",
+        "CLEAR_BUTTON": "Cancel Scheduled Deletion"
+      }
+    },
+    "FORM": {
+      "ERROR": "Corrigeer formulierfouten",
+      "GENERAL_SECTION": {
+        "TITLE": "Algemene instellingen",
+        "NOTE": ""
+      },
+      "ACCOUNT_ID": {
+        "TITLE": "Account ID",
+        "NOTE": "This ID is required if you are building an API based integration"
+      },
+      "AUTO_RESOLVE": {
+        "TITLE": "Auto-resolve conversations",
+        "NOTE": "This configuration would allow you to automatically resolve the conversation after a certain period of inactivity.",
+        "DURATION": {
+          "LABEL": "Inactivity duration",
+          "HELP": "Time period of inactivity after which conversation is auto-resolved",
+          "PLACEHOLDER": "30",
+          "ERROR": "Auto resolve duration should be between 10 minutes and 999 days",
+          "API": {
+            "SUCCESS": "Auto resolve settings updated successfully",
+            "ERROR": "Failed to update auto resolve settings"
+          }
+        },
+        "MESSAGE": {
+          "LABEL": "Custom auto-resolution message",
+          "PLACEHOLDER": "Conversation was marked resolved by system due to 15 days of inactivity",
+          "HELP": "Message sent to the customer after conversation is auto-resolved"
+        },
+        "PREFERENCES": "Voorkeuren",
+        "LABEL": {
+          "LABEL": "Add label after auto-resolution",
+          "PLACEHOLDER": "Select a label"
+        },
+        "IGNORE_WAITING": {
+          "LABEL": "Skip conversations waiting for agent’s reply"
+        },
+        "UPDATE_BUTTON": "Save Changes"
+      },
+      "NAME": {
+        "LABEL": "accountnaam",
+        "PLACEHOLDER": "Uw accountnaam",
+        "ERROR": "Voer een geldige accountnaam in"
+      },
+      "LANGUAGE": {
+        "LABEL": "Taal",
+        "PLACEHOLDER": "Uw accountnaam",
+        "ERROR": ""
+      },
+      "DOMAIN": {
+        "LABEL": "Incoming Email Domain",
+        "PLACEHOLDER": "The domain where you will receive the emails",
+        "ERROR": ""
+      },
+      "SUPPORT_EMAIL": {
+        "LABEL": "E-mailadres support",
+        "PLACEHOLDER": "E-mailadres support van uw bedrijf",
+        "ERROR": ""
+      },
+      "AUTO_RESOLVE_IGNORE_WAITING": {
+        "LABEL": "Exclude unattended conversations",
+        "HELP": "When enabled, the system will skip resolving conversations that are still waiting for an agent's reply."
+      },
+      "AUDIO_TRANSCRIPTION": {
+        "TITLE": "Transcribe Audio Messages",
+        "NOTE": "Automatically transcribe audio messages in conversations. Generate a text transcript whenever an audio message is sent or received, and display it alongside the message.",
+        "API": {
+          "SUCCESS": "Audio transcription setting updated successfully",
+          "ERROR": "Failed to update audio transcription setting"
+        }
+      },
+      "AUTO_RESOLVE_DURATION": {
+        "LABEL": "Inactivity duration for resolution",
+        "HELP": "Duration after a conversation should auto resolve if there is no activity",
+        "PLACEHOLDER": "30",
+        "ERROR": "Auto resolve duration should be between 10 minutes and 999 days",
+        "API": {
+          "SUCCESS": "Auto resolve settings updated successfully",
+          "ERROR": "Failed to update auto resolve settings"
+        },
+        "UPDATE_BUTTON": "Vernieuwen",
+        "MESSAGE_LABEL": "Custom resolution message",
+        "MESSAGE_PLACEHOLDER": "Conversation was marked resolved by system due to 15 days of inactivity",
+        "MESSAGE_HELP": "This message is sent to the customer when a conversation is automatically resolved by the system due to inactivity."
+      },
+      "FEATURES": {
+        "INBOUND_EMAIL_ENABLED": "Conversation continuity with emails is enabled for your account.",
+        "CUSTOM_EMAIL_DOMAIN_ENABLED": "You can receive emails in your custom domain now."
+      }
+    },
+    "UPDATE_CHATWOOT": "An update {latestChatwootVersion} for Chatwoot is available. Please update your instance.",
+    "LEARN_MORE": "Learn more",
+    "PAYMENT_PENDING": "Your payment is pending. Please update your payment information to continue using Chatwoot",
+    "UPGRADE": "Upgrade to continue using Chatwoot",
+    "LIMITS_UPGRADE": "Your account has exceeded the usage limits, please upgrade your plan to continue using Chatwoot",
+    "OPEN_BILLING": "Openstaande facturering"
+  },
+  "FORMS": {
+    "MULTISELECT": {
+      "ENTER_TO_SELECT": "Press enter to select",
+      "ENTER_TO_REMOVE": "Press enter to remove",
+      "NO_OPTIONS": "List is empty",
+      "SELECT_ONE": "Selecteer een",
+      "SELECT": "Selecteer"
+    }
+  },
+  "NOTIFICATIONS_PAGE": {
+    "HEADER": "Notifications",
+    "MARK_ALL_DONE": "Mark All Done",
+    "DELETE_TITLE": "verwijderd",
+    "UNREAD_NOTIFICATION": {
+      "TITLE": "Unread Notifications",
+      "ALL_NOTIFICATIONS": "View all notifications",
+      "LOADING_UNREAD_MESSAGE": "Loading unread notifications...",
+      "EMPTY_MESSAGE": "You have no unread notifications"
+    },
+    "LIST": {
+      "LOADING_MESSAGE": "Loading notifications...",
+      "404": "Geen meldingen",
+      "TABLE_HEADER": [
+        "Naam",
+        "Telefoonnummer",
+        "Gesprekken",
+        "Laatste contact"
+      ]
+    },
+    "TYPE_LABEL": {
+      "conversation_creation": "New conversation",
+      "conversation_assignment": "Conversation Assigned",
+      "assigned_conversation_new_message": "Nieuw bericht",
+      "participating_conversation_new_message": "Nieuw bericht",
+      "conversation_mention": "Mention",
+      "sla_missed_first_response": "SLA Missed",
+      "sla_missed_next_response": "SLA Missed",
+      "sla_missed_resolution": "SLA Missed"
+    }
+  },
+  "NETWORK": {
+    "NOTIFICATION": {
+      "OFFLINE": "Offline",
+      "RECONNECTING": "Reconnecting...",
+      "RECONNECT_SUCCESS": "Reconnected"
+    },
+    "BUTTON": {
+      "REFRESH": "Refresh"
+    }
+  },
+  "COMMAND_BAR": {
+    "SEARCH_PLACEHOLDER": "Search or jump to",
+    "SECTIONS": {
+      "GENERAL": "Algemeen",
+      "REPORTS": "Rapporten",
+      "CONVERSATION": "Gesprek",
+      "BULK_ACTIONS": "Bulk Actions",
+      "CHANGE_ASSIGNEE": "Change Assignee",
+      "CHANGE_PRIORITY": "Change Priority",
+      "CHANGE_TEAM": "Change Team",
+      "SNOOZE_CONVERSATION": "Demp gesprek",
+      "ADD_LABEL": "Add label to the conversation",
+      "REMOVE_LABEL": "Remove label from the conversation",
+      "SETTINGS": "Instellingen",
+      "AI_ASSIST": "AI-assistent",
+      "APPEARANCE": "Weergave",
+      "SNOOZE_NOTIFICATION": "Snooze Notification"
+    },
+    "COMMANDS": {
+      "GO_TO_CONVERSATION_DASHBOARD": "Go to Conversation Dashboard",
+      "GO_TO_CONTACTS_DASHBOARD": "Go to Contacts Dashboard",
+      "GO_TO_REPORTS_OVERVIEW": "Go to Reports Overview",
+      "GO_TO_CONVERSATION_REPORTS": "Go to Conversation Reports",
+      "GO_TO_AGENT_REPORTS": "Go to Agent Reports",
+      "GO_TO_LABEL_REPORTS": "Go to Label Reports",
+      "GO_TO_INBOX_REPORTS": "Go to Inbox Reports",
+      "GO_TO_TEAM_REPORTS": "Go to Team Reports",
+      "GO_TO_SETTINGS_AGENTS": "Go to Agent Settings",
+      "GO_TO_SETTINGS_TEAMS": "Go to Team Settings",
+      "GO_TO_SETTINGS_INBOXES": "Go to Inbox Settings",
+      "GO_TO_SETTINGS_LABELS": "Go to Label Settings",
+      "GO_TO_SETTINGS_CANNED_RESPONSES": "Go to Canned Response Settings",
+      "GO_TO_SETTINGS_APPLICATIONS": "Go to Application Settings",
+      "GO_TO_SETTINGS_ACCOUNT": "Go to Account Settings",
+      "GO_TO_SETTINGS_PROFILE": "Go to Profile Settings",
+      "GO_TO_NOTIFICATIONS": "Go to Notifications",
+      "ADD_LABELS_TO_CONVERSATION": "Add label to the conversation",
+      "ASSIGN_AN_AGENT": "Assign an agent",
+      "AI_ASSIST": "AI-assistent",
+      "ASSIGN_PRIORITY": "Assign priority",
+      "ASSIGN_A_TEAM": "Assign a team",
+      "MUTE_CONVERSATION": "Mute conversation",
+      "UNMUTE_CONVERSATION": "Unmute conversation",
+      "REMOVE_LABEL_FROM_CONVERSATION": "Remove label from the conversation",
+      "REOPEN_CONVERSATION": "Reopen conversation",
+      "RESOLVE_CONVERSATION": "Resolve conversation",
+      "SEND_TRANSCRIPT": "Send an email transcript",
+      "SNOOZE_CONVERSATION": "Demp gesprek",
+      "UNTIL_NEXT_REPLY": "Tot de volgende reactie",
+      "UNTIL_NEXT_WEEK": "Tot volgende week",
+      "UNTIL_TOMORROW": "Tot morgen",
+      "UNTIL_NEXT_MONTH": "Tot volgende maand",
+      "AN_HOUR_FROM_NOW": "Until an hour from now",
+      "UNTIL_CUSTOM_TIME": "Custom...",
+      "CHANGE_APPEARANCE": "Change Appearance",
+      "LIGHT_MODE": "Light",
+      "DARK_MODE": "Dark",
+      "SYSTEM_MODE": "Systeem",
+      "SNOOZE_NOTIFICATION": "Snooze Notification"
+    }
+  },
+  "DASHBOARD_APPS": {
+    "LOADING_MESSAGE": "Loading Dashboard App..."
+  },
+  "COMMON": {
+    "OR": "Or",
+    "CLICK_HERE": "klik hier"
+  }
+}

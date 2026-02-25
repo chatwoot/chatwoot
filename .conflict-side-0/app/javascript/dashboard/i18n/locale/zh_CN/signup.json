@@ -1,0 +1,49 @@
+{
+  "REGISTER": {
+    "TRY_WOOT": "创建新账户",
+    "TITLE": "注册",
+    "TESTIMONIAL_HEADER": "只差最后一步就可以了",
+    "TESTIMONIAL_CONTENT": "您离吸引客户、留住客户和寻找新客户仅一步之遥。",
+    "TERMS_ACCEPT": "通过创建账户, 你将同意我们的 <a href=\"https://www.chatwoot.com/terms\">T & C</a> 以及 <a href=\"https://www.chatwoot.com/privacy-policy\">隐私政策</a>",
+    "OAUTH": {
+      "GOOGLE_SIGNUP": "使用 Google 注册"
+    },
+    "COMPANY_NAME": {
+      "LABEL": "公司名称",
+      "PLACEHOLDER": "输入您的公司名称。例如, Wayne Enterprises",
+      "ERROR": "公司名称太短了。"
+    },
+    "FULL_NAME": {
+      "LABEL": "名字",
+      "PLACEHOLDER": "输入您的全名，例如 Bruce Wayne",
+      "ERROR": "帐号名称太短了."
+    },
+    "EMAIL": {
+      "LABEL": "工作邮箱",
+      "PLACEHOLDER": "请输入您的工作邮箱地址。例如：bruce{'@'}wayne{'.'}enterprises",
+      "ERROR": "请输入一个有效的电子邮件."
+    },
+    "PASSWORD": {
+      "LABEL": "密码",
+      "PLACEHOLDER": "密码",
+      "ERROR": "密码太短了.",
+      "IS_INVALID_PASSWORD": "密码应至少应该包含：1个大写字母、1个小写字母、1个数字和1个特殊字符。",
+      "REQUIREMENTS_LENGTH": "At least 6 characters long",
+      "REQUIREMENTS_UPPERCASE": "At least one uppercase letter",
+      "REQUIREMENTS_LOWERCASE": "At least one lowercase letter",
+      "REQUIREMENTS_NUMBER": "At least one number",
+      "REQUIREMENTS_SPECIAL": "At least one special character"
+    },
+    "CONFIRM_PASSWORD": {
+      "LABEL": "确认密码",
+      "PLACEHOLDER": "请重新输入一次密码",
+      "ERROR": "密码不匹配."
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Registration Successful",
+      "ERROR_MESSAGE": "无法与 Woot 服务器建立连接。请重试。"
+    },
+    "SUBMIT": "创建新账户",
+    "HAVE_AN_ACCOUNT": "已经有帐号？"
+  }
+}

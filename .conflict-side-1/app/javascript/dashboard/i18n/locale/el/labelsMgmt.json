@@ -1,0 +1,85 @@
+{
+  "LABEL_MGMT": {
+    "HEADER": "Ετικέτες",
+    "HEADER_BTN_TXT": "Προσθήκη Ετικέτας",
+    "LOADING": "Λήψη ετικετών",
+    "DESCRIPTION": "Labels help you categorize and prioritize conversations and leads. You can assign a label to a conversation or contact using the side panel.",
+    "LEARN_MORE": "Learn more about labels",
+    "SEARCH_404": "Δεν υπάρχουν αντικείμενα να ταιριάζουν με αυτό το ερώτημα",
+    "LIST": {
+      "404": "Δεν υπάρχουν ετικέτες διαθέσιμες σε αυτόν τον λογαριασμό.",
+      "TITLE": "Διαχείριση Ετικετών",
+      "DESC": "Οι ετικέτες σάς επιτρέπουν να ομαδοποιήσετε τις συνομιλίες.",
+      "TABLE_HEADER": {
+        "NAME": "Όνομα",
+        "DESCRIPTION": "Περιγραφή",
+        "COLOR": "Χρώμα"
+      }
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "Όνομα Ετικέτας",
+        "PLACEHOLDER": "Όνομα ετικέτας",
+        "REQUIRED_ERROR": "Το Όνομα Ετικέτας είναι απαραίτητο",
+        "MINIMUM_LENGTH_ERROR": "Απαιτείται ελάχιστο μήκος 2 χαρακτήρες",
+        "VALID_ERROR": "Επιτρέπονται μόνο γράμματα, αριθμοί, παύλα και υπογράμμιση"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Περιγραφή",
+        "PLACEHOLDER": "Περιγραφή Ετικέτας"
+      },
+      "COLOR": {
+        "LABEL": "Χρώμα"
+      },
+      "SHOW_ON_SIDEBAR": {
+        "LABEL": "Εμφάνιση ετικέτας στο πλευρικό μενού"
+      },
+      "EDIT": "Επεξεργασία",
+      "CREATE": "Δημιουργία",
+      "DELETE": "Διαγραφή",
+      "CANCEL": "Άκυρο"
+    },
+    "SUGGESTIONS": {
+      "TOOLTIP": {
+        "SINGLE_SUGGESTION": "Add label to conversation",
+        "MULTIPLE_SUGGESTION": "Select this label",
+        "DESELECT": "Deselect label",
+        "DISMISS": "Dismiss suggestion"
+      },
+      "POWERED_BY": "Chatwoot AI",
+      "DISMISS": "Dismiss",
+      "ADD_SELECTED_LABELS": "Add selected labels",
+      "ADD_SELECTED_LABEL": "Add selected label",
+      "ADD_ALL_LABELS": "Add all labels",
+      "SUGGESTED_LABELS": "Suggested labels"
+    },
+    "ADD": {
+      "TITLE": "Προσθήκη Ετικέτας",
+      "DESC": "Οι ετικέτες σάς επιτρέπουν να ομαδοποιήσετε τις συνομιλίες.",
+      "API": {
+        "SUCCESS_MESSAGE": "Η ετικέτα προστέθηκε επιτυχώς",
+        "ERROR_MESSAGE": "Υπήρξε ένα σφάλμα, παρακαλώ προσπαθήστε ξανά"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Επεξεργασία ετικέτας",
+      "API": {
+        "SUCCESS_MESSAGE": "Η ετικέτα ενημερώθηκε επιτυχώς",
+        "ERROR_MESSAGE": "Υπήρξε ένα σφάλμα, παρακαλώ προσπαθήστε ξανά"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Διαγραφή",
+      "API": {
+        "SUCCESS_MESSAGE": "Η ετικέτα διαγράφηκε επιτυχώς",
+        "ERROR_MESSAGE": "Υπήρξε ένα σφάλμα, παρακαλώ προσπαθήστε ξανά"
+      },
+      "CONFIRM": {
+        "TITLE": "Επιβεβαίωση Διαγραφής",
+        "MESSAGE": "Είσαστε σίγουροι για την διαγραφή ",
+        "YES": "Ναι, Διέγραψε το ",
+        "NO": "Όχι, Κράτησε τον/την"
+      }
+    }
+  }
+}

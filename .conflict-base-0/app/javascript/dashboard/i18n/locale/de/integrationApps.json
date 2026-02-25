@@ -1,0 +1,62 @@
+{
+  "INTEGRATION_APPS": {
+    "FETCHING": "Integrationen werden abgerufen",
+    "NO_HOOK_CONFIGURED": "Es wurden keine {integrationId} Integrationen in diesem Konto konfiguriert.",
+    "HEADER": "Anwendungen",
+    "STATUS": {
+      "ENABLED": "Aktiviert",
+      "DISABLED": "Deaktiviert"
+    },
+    "CONFIGURE": "Konfigurieren",
+    "ADD_BUTTON": "Neuen Hook hinzufügen",
+    "DELETE": {
+      "TITLE": {
+        "INBOX": "Löschen bestätigen",
+        "ACCOUNT": "Verbindung trennen"
+      },
+      "MESSAGE": {
+        "INBOX": "Sind Sie sicher, dass Sie das löschen möchten?",
+        "ACCOUNT": "Möchten Sie die Verbindung wirklich trennen?"
+      },
+      "CONFIRM_BUTTON_TEXT": {
+        "INBOX": "Ja, löschen",
+        "ACCOUNT": "Ja, Verbindung trennen"
+      },
+      "CANCEL_BUTTON_TEXT": "Abbrechen",
+      "API": {
+        "SUCCESS_MESSAGE": "Hook wurde erfolgreich gelöscht",
+        "ERROR_MESSAGE": "Es konnte keine Verbindung zum Woot-Server hergestellt werden. Bitte versuchen Sie es später erneut"
+      }
+    },
+    "LIST": {
+      "FETCHING": "Hooks werden abgerufen",
+      "INBOX": "Posteingang",
+      "DELETE": {
+        "BUTTON_TEXT": "Löschen"
+      }
+    },
+    "ADD": {
+      "FORM": {
+        "INBOX": {
+          "LABEL": "Eingang auswählen",
+          "PLACEHOLDER": "Posteingang auswählen"
+        },
+        "SUBMIT": "Erstellen",
+        "CANCEL": "Abbrechen"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Integrations-Hook erfolgreich hinzugefügt",
+        "ERROR_MESSAGE": "Es konnte keine Verbindung zum Woot-Server hergestellt werden. Bitte versuchen Sie es später erneut"
+      }
+    },
+    "CONNECT": {
+      "BUTTON_TEXT": "Verbinden"
+    },
+    "DISCONNECT": {
+      "BUTTON_TEXT": "Verbindung trennen"
+    },
+    "SIDEBAR_DESCRIPTION": {
+      "DIALOGFLOW": "Dialogflow is a natural language processing platform for building conversational interfaces. Integrating it with {installationName} lets bots handle queries first and transfer them to agents when needed. It helps qualify leads and reduce agent workload by answering FAQs. To add Dialogflow, create a Service Account in Google Console and share the credentials. Refer to the docs for details"
+    }
+  }
+}

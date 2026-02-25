@@ -1,0 +1,119 @@
+{
+  "FILTER": {
+    "TITLE": "Filtre de converses",
+    "SUBTITLE": "Afegiu els vostres filtres a continuació i premeu 'Aplicar filtres' per eliminar el desordre del xat.",
+    "EDIT_CUSTOM_FILTER": "Edita la carpeta",
+    "CUSTOM_VIEWS_SUBTITLE": "Afegeix o elimina filtres i actualitza la teva carpeta.",
+    "ADD_NEW_FILTER": "Afegeix un filtre",
+    "FILTER_DELETE_ERROR": "Vaja, sembla que no podem desar res! Afegiu almenys un filtre per desar-lo.",
+    "SUBMIT_BUTTON_LABEL": "Aplicar filtres",
+    "UPDATE_BUTTON_LABEL": "Actualitza la carpeta",
+    "CANCEL_BUTTON_LABEL": "Cancel·la",
+    "CLEAR_BUTTON_LABEL": "Esborra els filtres",
+    "FOLDER_LABEL": "Nom de la carpeta",
+    "FOLDER_QUERY_LABEL": "Consulta de carpeta",
+    "EMPTY_VALUE_ERROR": "El valor és necessari.",
+    "TOOLTIP_LABEL": "Filtre de converses",
+    "QUERY_DROPDOWN_LABELS": {
+      "AND": "I",
+      "OR": "O"
+    },
+    "INPUT_PLACEHOLDER": "Enter value",
+    "OPERATOR_LABELS": {
+      "equal_to": "Igual a",
+      "not_equal_to": "No és igual a",
+      "does_not_contain": "No conté",
+      "is_present": "És present",
+      "is_not_present": "No és present",
+      "is_greater_than": "És més gran que",
+      "is_less_than": "És més petit que",
+      "days_before": "És x dies abans",
+      "starts_with": "Comença amb",
+      "equalTo": "Igual a",
+      "notEqualTo": "No és igual a",
+      "contains": "Conté",
+      "doesNotContain": "No conté",
+      "isPresent": "És present",
+      "isNotPresent": "No és present",
+      "isGreaterThan": "És més gran que",
+      "isLessThan": "És més petit que",
+      "daysBefore": "És x dies abans",
+      "startsWith": "Comença amb"
+    },
+    "ATTRIBUTE_LABELS": {
+      "TRUE": "Cert",
+      "FALSE": "Fals"
+    },
+    "ATTRIBUTES": {
+      "STATUS": "Estat",
+      "ASSIGNEE_NAME": "Nom assignat",
+      "INBOX_NAME": "Nom de la safata d'entrada",
+      "TEAM_NAME": "Nom de l'equip",
+      "CONVERSATION_IDENTIFIER": "Identificador de conversa",
+      "CAMPAIGN_NAME": "Nom de la campanya",
+      "LABELS": "Etiquetes",
+      "BROWSER_LANGUAGE": "Idioma del navegador",
+      "PRIORITY": "Prioritat",
+      "COUNTRY_NAME": "Nom del país",
+      "REFERER_LINK": "Enllaç de referència",
+      "CUSTOM_ATTRIBUTE_LIST": "Llista",
+      "CUSTOM_ATTRIBUTE_TEXT": "Llista",
+      "CUSTOM_ATTRIBUTE_NUMBER": "Número",
+      "CUSTOM_ATTRIBUTE_LINK": "Enllaç",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "Casella de selecció",
+      "CREATED_AT": "Creat a",
+      "LAST_ACTIVITY": "Última activitat"
+    },
+    "ERRORS": {
+      "VALUE_REQUIRED": "El valor és necessari",
+      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
+      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998"
+    },
+    "GROUPS": {
+      "STANDARD_FILTERS": "Filtres estàndard",
+      "ADDITIONAL_FILTERS": "Filtres addicionals",
+      "CUSTOM_ATTRIBUTES": "Atributs personalitzats"
+    },
+    "CUSTOM_VIEWS": {
+      "ADD": {
+        "TITLE": "Vols desar aquest filtre?",
+        "LABEL": "Anomena aquest filtre",
+        "PLACEHOLDER": "Anomena el teu filtre per referir-lo més endavant.",
+        "ERROR_MESSAGE": "El nom és obligatori.",
+        "SAVE_BUTTON": "Desa el filtre",
+        "CANCEL_BUTTON": "Cancel·la",
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "Carpeta creada correctament.",
+          "ERROR_MESSAGE": "S'ha produït un error en crear la carpeta."
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "Segment creat correctament.",
+          "ERROR_MESSAGE": "S'ha produït un error en crear el segment."
+        }
+      },
+      "EDIT": {
+        "EDIT_BUTTON": "Editar la carpeta"
+      },
+      "DELETE": {
+        "DELETE_BUTTON": "Suprimir el filtre",
+        "MODAL": {
+          "CONFIRM": {
+            "TITLE": "Confirmar la supressió",
+            "MESSAGE": "Esteu segur que suprimiu el filtre ",
+            "YES": "Sí, esborra",
+            "NO": "No, guarda-ho"
+          }
+        },
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "La carpeta s'ha suprimit correctament.",
+          "ERROR_MESSAGE": "S'ha produït un error en suprimir la carpeta."
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "El segment s'ha suprimit correctament.",
+          "ERROR_MESSAGE": "S'ha produït un error en suprimir el segment."
+        }
+      }
+    }
+  }
+}

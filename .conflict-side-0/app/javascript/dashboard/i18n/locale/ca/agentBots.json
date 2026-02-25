@@ -1,0 +1,103 @@
+{
+  "AGENT_BOTS": {
+    "HEADER": "Bots",
+    "LOADING_EDITOR": "S'està carregant l'editor...",
+    "DESCRIPTION": "Agent Bots are like the most fabulous members of your team. They can handle the small stuff, so you can focus on the stuff that matters. Give them a try. You can manage your bots from this page or create new ones using the 'Add Bot' button.",
+    "LEARN_MORE": "Learn about agent bots",
+    "GLOBAL_BOT": "System bot",
+    "GLOBAL_BOT_BADGE": "Sistema",
+    "AVATAR": {
+      "SUCCESS_DELETE": "Bot avatar deleted successfully",
+      "ERROR_DELETE": "Error deleting bot avatar, please try again"
+    },
+    "BOT_CONFIGURATION": {
+      "TITLE": "Selecciona un bot d'agent",
+      "DESC": "Assigna un bot d'agent a la teva safata d'entrada. Poden gestionar les converses inicials i transferir-les a un agent en directe quan sigui necessari.",
+      "SUBMIT": "Actualitza",
+      "DISCONNECT": "Desconnecta el bot",
+      "SUCCESS_MESSAGE": "S'ha actualitzat correctament el bot de l'agent.",
+      "DISCONNECTED_SUCCESS_MESSAGE": "S'ha desconnectat correctament el bot de l'agent.",
+      "ERROR_MESSAGE": "No s'ha pogut actualitzar el bot de l'agent. Torneu-ho a provar.",
+      "DISCONNECTED_ERROR_MESSAGE": "No s'ha pogut desconnectar el bot de l'agent. Torneu-ho a provar.",
+      "SELECT_PLACEHOLDER": "Selecciona el bot"
+    },
+    "ADD": {
+      "TITLE": "Add Bot",
+      "CANCEL_BUTTON_TEXT": "Cancel·la",
+      "API": {
+        "SUCCESS_MESSAGE": "Bot afegit correctament.",
+        "ERROR_MESSAGE": "No s'ha pogut afegir el bot. Torneu-ho a provar més endavant."
+      }
+    },
+    "LIST": {
+      "404": "No bots found. You can create a bot by clicking the 'Add Bot' button.",
+      "LOADING": "S'estan obtenint bots...",
+      "TABLE_HEADER": {
+        "DETAILS": "Bot Details",
+        "URL": "URL del webhook"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Esborrar",
+      "TITLE": "Suprimeix el bot",
+      "CONFIRM": {
+        "TITLE": "Confirma l'esborrat",
+        "MESSAGE": "Are you sure you want to delete {name}?",
+        "YES": "Si, esborra",
+        "NO": "No, segueix"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "S'ha esborrat el bot correctament.",
+        "ERROR_MESSAGE": "No s'ha pogut eliminar el bot. Torneu-ho a provar més endavant."
+      }
+    },
+    "EDIT": {
+      "BUTTON_TEXT": "Edita",
+      "TITLE": "Edita el bot",
+      "API": {
+        "SUCCESS_MESSAGE": "Bot actualitzat correctament.",
+        "ERROR_MESSAGE": "No s'ha pogut actualitzar el bot. Torneu-ho a provar."
+      }
+    },
+    "ACCESS_TOKEN": {
+      "TITLE": "Token d'accés",
+      "DESCRIPTION": "Copy the access token and save it securely",
+      "COPY_SUCCESSFUL": "Access token copied to clipboard",
+      "RESET_SUCCESS": "Access token regenerated successfully",
+      "RESET_ERROR": "Unable to regenerate access token. Please try again"
+    },
+    "FORM": {
+      "AVATAR": {
+        "LABEL": "Bot avatar"
+      },
+      "NAME": {
+        "LABEL": "Nom del bot",
+        "PLACEHOLDER": "Enter bot name",
+        "REQUIRED": "El nom del bot és obligatori"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Descripció",
+        "PLACEHOLDER": "Què fa aquest bot?"
+      },
+      "WEBHOOK_URL": {
+        "LABEL": "URL del webhook",
+        "PLACEHOLDER": "https://example.com/webhook",
+        "REQUIRED": "Webhook URL is required"
+      },
+      "ERRORS": {
+        "NAME": "El nom del bot és obligatori",
+        "URL": "Webhook URL is required",
+        "VALID_URL": "Please enter a valid URL starting with http:// or https://"
+      },
+      "CANCEL": "Cancel·la",
+      "CREATE": "Create Bot",
+      "UPDATE": "Update Bot"
+    },
+    "WEBHOOK": {
+      "DESCRIPTION": "Configure a webhook bot to integrate with your custom services. The bot will receive and process events from conversations and can respond to them."
+    },
+    "TYPES": {
+      "WEBHOOK": "Webhook bot"
+    }
+  }
+}

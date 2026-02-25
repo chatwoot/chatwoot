@@ -1,0 +1,439 @@
+{
+  "CONVERSATION": {
+    "SELECT_A_CONVERSATION": "Selecteer een gesprek in het linker paneel",
+    "CSAT_REPLY_MESSAGE": "Beoordeel het gesprek",
+    "404": "Sorry, we kunnen het gesprek niet vinden. Probeer het opnieuw",
+    "SWITCH_VIEW_LAYOUT": "Wissel de lay-out",
+    "DASHBOARD_APP_TAB_MESSAGES": "Berichten",
+    "UNVERIFIED_SESSION": "De identiteit van deze gebruiker is niet geverifieerd",
+    "NO_MESSAGE_1": "Oh oh! Het lijkt erop dat er geen berichten van klanten in uw inbox staan.",
+    "NO_MESSAGE_2": " om een bericht naar uw pagina te sturen!",
+    "NO_INBOX_1": "Hola! Het lijkt erop dat je nog geen postvakken hebt toegevoegd.",
+    "NO_INBOX_2": " om te beginnen",
+    "NO_INBOX_AGENT": "Oh Oh! Het lijkt erop dat u geen deel uitmaakt van een inbox. Neem contact op met uw beheerder",
+    "SEARCH_MESSAGES": "Zoek naar berichten in gesprekken",
+    "VIEW_ORIGINAL": "View original",
+    "VIEW_TRANSLATED": "View translated",
+    "EMPTY_STATE": {
+      "CMD_BAR": "to open command menu",
+      "KEYBOARD_SHORTCUTS": "sneltoetsen weergeven"
+    },
+    "SEARCH": {
+      "TITLE": "Zoek berichten",
+      "RESULT_TITLE": "Zoekresultaten",
+      "LOADING_MESSAGE": "Crunching data...",
+      "PLACEHOLDER": "Typ een tekst om berichten te zoeken",
+      "NO_MATCHING_RESULTS": "Geen resultaten gevonden."
+    },
+    "UNREAD_MESSAGES": "Ongelezen berichten",
+    "UNREAD_MESSAGE": "Ongelezen bericht",
+    "CLICK_HERE": "Klik hier",
+    "LOADING_INBOXES": "Inboxen laden",
+    "LOADING_CONVERSATIONS": "Conversaties laden",
+    "CANNOT_REPLY": "Je kunt niet reageren omdat",
+    "24_HOURS_WINDOW": "Beperking van 24-uur berichtenvenster",
+    "48_HOURS_WINDOW": "Beperking van 48-uur berichtenvenster",
+    "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
+    "NOT_ASSIGNED_TO_YOU": "Dit gesprek is niet aan je toegewezen. Wil je dit gesprek aan jezelf toewijzen?",
+    "ASSIGN_TO_ME": "Aan mij toewijzen",
+    "BOT_HANDOFF_MESSAGE": "You are responding to a conversation which is currently handled by an assistant or a bot.",
+    "BOT_HANDOFF_ACTION": "Mark open and assign to you",
+    "BOT_HANDOFF_REOPEN_ACTION": "Mark conversation open",
+    "BOT_HANDOFF_SUCCESS": "Conversation has been handed over to you",
+    "BOT_HANDOFF_ERROR": "Failed to take over the conversation. Please try again.",
+    "TWILIO_WHATSAPP_CAN_REPLY": "Je kunt dit gesprek alleen beantwoorden met een sjabloon bericht vanwege",
+    "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Beperking van 24-uur berichtenvenster",
+    "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. All new messages will show up there. You won’t be able to send messages from this conversation anymore.",
+    "REPLYING_TO": "Je antwoordt op:",
+    "REMOVE_SELECTION": "Verwijder selectie",
+    "DOWNLOAD": "Download",
+    "UNKNOWN_FILE_TYPE": "Onbekend bestand",
+    "SAVE_CONTACT": "Save Contact",
+    "NO_CONTENT": "No content to display",
+    "SHARED_ATTACHMENT": {
+      "CONTACT": "{sender} has shared a contact",
+      "LOCATION": "{sender} has shared a location",
+      "FILE": "{sender} has shared a file",
+      "MEETING": "{sender} has started a meeting"
+    },
+    "UPLOADING_ATTACHMENTS": "Bijlagen uploaden...",
+    "REPLIED_TO_STORY": "Reageerde op jouw verhaal",
+    "UNSUPPORTED_MESSAGE": "This message is unsupported. You can view this message on the Facebook / Instagram app.",
+    "UNSUPPORTED_MESSAGE_FACEBOOK": "This message is unsupported. You can view this message on the Facebook Messenger app.",
+    "UNSUPPORTED_MESSAGE_INSTAGRAM": "This message is unsupported. You can view this message on the Instagram app.",
+    "SUCCESS_DELETE_MESSAGE": "Bericht succesvol verwijderd",
+    "FAIL_DELETE_MESSSAGE": "Kon bericht niet verwijderen! Probeer het opnieuw",
+    "NO_RESPONSE": "Geen reactie",
+    "RESPONSE": "Response",
+    "RATING_TITLE": "Beoordeling",
+    "FEEDBACK_TITLE": "Feedback",
+    "REPLY_MESSAGE_NOT_FOUND": "Bericht niet beschikbaar",
+    "CARD": {
+      "SHOW_LABELS": "Labels weergeven",
+      "HIDE_LABELS": "Labels verbergen"
+    },
+    "VOICE_CALL": {
+      "INCOMING_CALL": "Incoming call",
+      "OUTGOING_CALL": "Outgoing call",
+      "CALL_IN_PROGRESS": "Call in progress",
+      "NO_ANSWER": "No answer",
+      "MISSED_CALL": "Missed call",
+      "CALL_ENDED": "Call ended",
+      "NOT_ANSWERED_YET": "Not answered yet",
+      "THEY_ANSWERED": "They answered",
+      "YOU_ANSWERED": "You answered"
+    },
+    "HEADER": {
+      "RESOLVE_ACTION": "Oplossen",
+      "REOPEN_ACTION": "Heropenen",
+      "OPEN_ACTION": "Open",
+      "MORE_ACTIONS": "More actions",
+      "OPEN": "Meer",
+      "CLOSE": "Sluiten",
+      "DETAILS": "Details",
+      "SNOOZED_UNTIL": "Snooze tot",
+      "SNOOZED_UNTIL_TOMORROW": "Snoozed tot morgen",
+      "SNOOZED_UNTIL_NEXT_WEEK": "Snoozed tot volgende week",
+      "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed tot volgende antwoord",
+      "SLA_STATUS": {
+        "FRT": "FRT {status}",
+        "NRT": "NRT {status}",
+        "RT": "RT {status}",
+        "MISSED": "missed",
+        "DUE": "due"
+      }
+    },
+    "RESOLVE_DROPDOWN": {
+      "MARK_PENDING": "Markeren als in afwachting van",
+      "SNOOZE_UNTIL": "Snooze",
+      "SNOOZE": {
+        "TITLE": "Snooze tot",
+        "NEXT_REPLY": "Volgende antwoord",
+        "TOMORROW": "Morgen",
+        "NEXT_WEEK": "Volgende week"
+      }
+    },
+    "MENTION": {
+      "AGENTS": "Medewerkers",
+      "TEAMS": "Teams"
+    },
+    "CUSTOM_SNOOZE": {
+      "TITLE": "Snooze tot",
+      "APPLY": "Snooze",
+      "CANCEL": "Annuleren"
+    },
+    "PRIORITY": {
+      "TITLE": "Prioriteit",
+      "OPTIONS": {
+        "NONE": "Geen",
+        "URGENT": "Dringend",
+        "HIGH": "Hoog",
+        "MEDIUM": "Gemiddeld",
+        "LOW": "Laag"
+      },
+      "CHANGE_PRIORITY": {
+        "SELECT_PLACEHOLDER": "Geen",
+        "INPUT_PLACEHOLDER": "Selecteer prioriteit",
+        "NO_RESULTS": "Geen resultaten gevonden",
+        "SUCCESSFUL": "Changed priority of conversation id {conversationId} to {priority}",
+        "FAILED": "Couldn't change priority. Please try again."
+      }
+    },
+    "DELETE_CONVERSATION": {
+      "TITLE": "Delete conversation #{conversationId}",
+      "DESCRIPTION": "Are you sure you want to delete this conversation?",
+      "CONFIRM": "Verwijderen"
+    },
+    "CARD_CONTEXT_MENU": {
+      "PENDING": "Markeren als in afwachting van",
+      "RESOLVED": "Markeer als opgelost",
+      "MARK_AS_UNREAD": "Markeer als ongelezen",
+      "MARK_AS_READ": "Mark as read",
+      "REOPEN": "Heropen gesprek",
+      "SNOOZE": {
+        "TITLE": "Sluimeren",
+        "NEXT_REPLY": "Tot volgende antwoord",
+        "TOMORROW": "Tot morgen",
+        "NEXT_WEEK": "Tot volgende week"
+      },
+      "ASSIGN_AGENT": "Agent toewijzen",
+      "ASSIGN_LABEL": "Label toewijzen",
+      "AGENTS_LOADING": "Agents worden geladen...",
+      "ASSIGN_TEAM": "Team toewijzen",
+      "DELETE": "Delete conversation",
+      "OPEN_IN_NEW_TAB": "Open in new tab",
+      "COPY_LINK": "Copy conversation link",
+      "COPY_LINK_SUCCESS": "Conversation link copied to clipboard",
+      "API": {
+        "AGENT_ASSIGNMENT": {
+          "SUCCESFUL": "Gesprek id {conversationId} toegewezen aan \"{agentName}\"",
+          "FAILED": "Kan agent niet toewijzen. Probeer het opnieuw."
+        },
+        "LABEL_ASSIGNMENT": {
+          "SUCCESFUL": "Assigned label #{labelName} to conversation id {conversationId}",
+          "FAILED": "Couldn't assign label. Please try again."
+        },
+        "TEAM_ASSIGNMENT": {
+          "SUCCESFUL": "Assigned team \"{team}\" to conversation id {conversationId}",
+          "FAILED": "Couldn't assign team. Please try again."
+        }
+      }
+    },
+    "FOOTER": {
+      "MESSAGE_SIGN_TOOLTIP": "Handtekening van berichten",
+      "ENABLE_SIGN_TOOLTIP": "Handtekening activeren",
+      "DISABLE_SIGN_TOOLTIP": "Handtekening deactiveren",
+      "MSG_INPUT": "Shift + enter voor nieuwe regel. Begin met '/' om een standaard antwoord te selecteren.",
+      "PRIVATE_MSG_INPUT": "Shift + nieuwe regel invoeren. Dit is alleen zichtbaar voor medewerkers",
+      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Berichtondertekening is niet geconfigureerd, configureer deze in de profielinstellingen.",
+      "CLICK_HERE": "Klik hier om bij te werken",
+      "WHATSAPP_TEMPLATES": "Whatsapp Templates"
+    },
+    "REPLYBOX": {
+      "REPLY": "Beantwoorden",
+      "PRIVATE_NOTE": "Privénotitie",
+      "SEND": "Verzenden",
+      "CREATE": "Notitie toevoegen",
+      "INSERT_READ_MORE": "Meer lezen",
+      "DISMISS_REPLY": "Antwoord afwijzen",
+      "REPLYING_TO": "Antwoord op:",
+      "TIP_EMOJI_ICON": "Toon emoji-kiezer",
+      "TIP_ATTACH_ICON": "Bestanden toevoegen",
+      "TIP_AUDIORECORDER_ICON": "Audio opnemen",
+      "TIP_AUDIORECORDER_PERMISSION": "Sta toegang tot audio toe",
+      "TIP_AUDIORECORDER_ERROR": "Geluid kon niet worden geopend",
+      "DRAG_DROP": "Sleep hierheen om toe te voegen",
+      "START_AUDIO_RECORDING": "Start audio-opname",
+      "STOP_AUDIO_RECORDING": "Stop audio-opname",
+      "": "",
+      "EMAIL_HEAD": {
+        "TO": "AAN",
+        "ADD_BCC": "Voeg bcc toe",
+        "CC": {
+          "LABEL": "CC",
+          "PLACEHOLDER": "Emails separated by commas",
+          "ERROR": "Please enter valid email addresses"
+        },
+        "BCC": {
+          "LABEL": "BCC",
+          "PLACEHOLDER": "Emails separated by commas",
+          "ERROR": "Please enter valid email addresses"
+        }
+      },
+      "UNDEFINED_VARIABLES": {
+        "TITLE": "Undefined variables",
+        "MESSAGE": "You have {undefinedVariablesCount} undefined variables in your message: {undefinedVariables}. Would you like to send the message anyway?",
+        "CONFIRM": {
+          "YES": "Verzenden",
+          "CANCEL": "Annuleren"
+        }
+      },
+      "QUOTED_REPLY": {
+        "ENABLE_TOOLTIP": "Include quoted email thread",
+        "DISABLE_TOOLTIP": "Don't include quoted email thread",
+        "REMOVE_PREVIEW": "Remove quoted email thread",
+        "COLLAPSE": "Collapse preview",
+        "EXPAND": "Expand preview"
+      }
+    },
+    "VISIBLE_TO_AGENTS": "Privéopmerking: alleen zichtbaar voor jou en je team",
+    "CHANGE_STATUS": "Gespreksstatus veranderd",
+    "CHANGE_STATUS_FAILED": "Conversation status change failed",
+    "CHANGE_AGENT": "Toegewezen persoon voor dit gesprek is veranderd",
+    "CHANGE_AGENT_FAILED": "Assignee change failed",
+    "ASSIGN_LABEL_SUCCESFUL": "Label assigned successfully",
+    "ASSIGN_LABEL_FAILED": "Label assignment failed",
+    "CHANGE_TEAM": "Conversation team changed",
+    "SUCCESS_DELETE_CONVERSATION": "Conversation deleted successfully",
+    "FAIL_DELETE_CONVERSATION": "Couldn't delete conversation! Try again",
+    "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB attachment limit",
+    "MESSAGE_ERROR": "Unable to send this message, please try again later",
+    "SENT_BY": "Verzonden door:",
+    "BOT": "Bot",
+    "SEND_FAILED": "Kon bericht niet verzenden! Probeer het opnieuw",
+    "TRY_AGAIN": "opnieuw proberen",
+    "ASSIGNMENT": {
+      "SELECT_AGENT": "Selecteer medewerker",
+      "REMOVE": "Verwijderen",
+      "ASSIGN": "Toewijzen"
+    },
+    "CONTEXT_MENU": {
+      "COPY": "Kopiëren",
+      "REPLY_TO": "Reply to this message",
+      "DELETE": "Verwijderen",
+      "CREATE_A_CANNED_RESPONSE": "Add to canned responses",
+      "TRANSLATE": "Vertaal",
+      "COPY_PERMALINK": "Copy link to the message",
+      "LINK_COPIED": "Message URL copied to the clipboard",
+      "DELETE_CONFIRMATION": {
+        "TITLE": "Weet je zeker dat je dit bericht wilt verwijderen?",
+        "MESSAGE": "You cannot undo this action",
+        "DELETE": "Verwijderen",
+        "CANCEL": "Annuleren"
+      }
+    },
+    "SIDEBAR": {
+      "CONTACT": "Contact",
+      "COPILOT": "Copilot"
+    },
+    "VOICE_WIDGET": {
+      "INCOMING_CALL": "Incoming call",
+      "OUTGOING_CALL": "Outgoing call",
+      "CALL_IN_PROGRESS": "Call in progress",
+      "NOT_ANSWERED_YET": "Not answered yet",
+      "HANDLED_IN_ANOTHER_TAB": "Being handled in another tab",
+      "REJECT_CALL": "Reject",
+      "JOIN_CALL": "Join call",
+      "END_CALL": "End call"
+    }
+  },
+  "EMAIL_TRANSCRIPT": {
+    "TITLE": "Verstuur conversatie transcript",
+    "DESC": "Send a copy of the conversation transcript to the specified email address",
+    "SUBMIT": "Bevestigen",
+    "CANCEL": "Annuleren",
+    "SEND_EMAIL_SUCCESS": "The chat transcript was sent successfully",
+    "SEND_EMAIL_ERROR": "Er is een fout opgetreden, probeer het opnieuw",
+    "FORM": {
+      "SEND_TO_CONTACT": "Send the transcript to the customer",
+      "SEND_TO_AGENT": "Send the transcript to the assigned agent",
+      "SEND_TO_OTHER_EMAIL_ADDRESS": "Send the transcript to another email address",
+      "EMAIL": {
+        "PLACEHOLDER": "Voer een e-mailadres in",
+        "ERROR": "Voer een geldig e-mailadres in"
+      }
+    }
+  },
+  "ONBOARDING": {
+    "TITLE": "Hey 👋, Welcome to {installationName}!",
+    "DESCRIPTION": "Thanks for signing up. We want you to get the most out of {installationName}. Here are a few things you can do in {installationName} to make the experience delightful.",
+    "GREETING_MORNING": "👋 Good morning, {name}. Welcome to {installationName}.",
+    "GREETING_AFTERNOON": "👋 Good afternoon, {name}. Welcome to {installationName}.",
+    "GREETING_EVENING": "👋 Good evening, {name}. Welcome to {installationName}.",
+    "READ_LATEST_UPDATES": "Lees onze laatste updates",
+    "ALL_CONVERSATION": {
+      "TITLE": "All your conversations in one place",
+      "DESCRIPTION": "View all the conversations from your customers in one single dashboard. You can filter the conversations by the incoming channel, label and status.",
+      "NEW_LINK": "Click here to create an inbox"
+    },
+    "TEAM_MEMBERS": {
+      "TITLE": "Invite your team members",
+      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email addresses to the agent list.",
+      "NEW_LINK": "Click here to invite a team member"
+    },
+    "LABELS": {
+      "TITLE": "Organize conversations with labels",
+      "DESCRIPTION": "Labels provide an easier way to categorize your conversation. Create some labels like #support-enquiry, #billing-question etc., so that you can use them in a conversation later.",
+      "NEW_LINK": "Click here to create tags"
+    },
+    "CANNED_RESPONSES": {
+      "TITLE": "Create canned responses",
+      "DESCRIPTION": "Pre-written quick reply templates help you quickly respond to a conversation. Agents can type the '/' character followed by the shortcode to insert a response.",
+      "NEW_LINK": "Click here to create a canned response"
+    }
+  },
+  "CONVERSATION_SIDEBAR": {
+    "ASSIGNEE_LABEL": "Assigned Agent",
+    "SELF_ASSIGN": "Aan mij toewijzen",
+    "TEAM_LABEL": "Toegewezen team",
+    "SELECT": {
+      "PLACEHOLDER": "Geen"
+    },
+    "ACCORDION": {
+      "CONTACT_DETAILS": "Contactgegevens",
+      "CONVERSATION_ACTIONS": "Conversation Actions",
+      "CONVERSATION_LABELS": "Labels voor gesprekken",
+      "CONVERSATION_INFO": "Conversation Information",
+      "CONTACT_NOTES": "Contact Notes",
+      "CONTACT_ATTRIBUTES": "Contact Attributes",
+      "PREVIOUS_CONVERSATION": "Vorige gesprekken",
+      "MACROS": "Macro's",
+      "LINEAR_ISSUES": "Linked Linear Issues",
+      "SHOPIFY_ORDERS": "Shopify Orders"
+    },
+    "SHOPIFY": {
+      "ORDER_ID": "Order #{id}",
+      "ERROR": "Error loading orders",
+      "NO_SHOPIFY_ORDERS": "No orders found",
+      "FINANCIAL_STATUS": {
+        "PENDING": "Afwachtend",
+        "AUTHORIZED": "Authorized",
+        "PARTIALLY_PAID": "Partially Paid",
+        "PAID": "Paid",
+        "PARTIALLY_REFUNDED": "Partially Refunded",
+        "REFUNDED": "Refunded",
+        "VOIDED": "Voided"
+      },
+      "FULFILLMENT_STATUS": {
+        "FULFILLED": "Fulfilled",
+        "PARTIALLY_FULFILLED": "Partially Fulfilled",
+        "UNFULFILLED": "Unfulfilled"
+      }
+    }
+  },
+  "CONVERSATION_CUSTOM_ATTRIBUTES": {
+    "ADD_BUTTON_TEXT": "Maak kenmerk aan",
+    "NO_RECORDS_FOUND": "Geen attributen gevonden",
+    "UPDATE": {
+      "SUCCESS": "Attribuut succesvol toegevoegd",
+      "ERROR": "Kan het attribuut niet bijwerken. Probeer het later opnieuw"
+    },
+    "ADD": {
+      "TITLE": "Toevoegen",
+      "SUCCESS": "Attribuut succesvol toegevoegd",
+      "ERROR": "Kan het attribuut niet toevoegen. Probeer het later opnieuw"
+    },
+    "DELETE": {
+      "SUCCESS": "Attribuut succesvol verwijderd",
+      "ERROR": "Attribuut verwijderen mislukt. Probeer het later opnieuw"
+    },
+    "ATTRIBUTE_SELECT": {
+      "TITLE": "Attributen toevoegen",
+      "PLACEHOLDER": "Attributen zoeken",
+      "NO_RESULT": "Geen attributen gevonden"
+    }
+  },
+  "EMAIL_HEADER": {
+    "FROM": "van",
+    "TO": "Aan",
+    "BCC": "BCC",
+    "CC": "CC",
+    "SUBJECT": "Onderwerp",
+    "EXPAND": "Expand email"
+  },
+  "CONVERSATION_PARTICIPANTS": {
+    "SIDEBAR_MENU_TITLE": "Participating",
+    "SIDEBAR_TITLE": "Conversation participants",
+    "NO_RECORDS_FOUND": "Geen resultaten gevonden",
+    "ADD_PARTICIPANTS": "Select participants",
+    "REMANING_PARTICIPANTS_TEXT": "+{count} others",
+    "REMANING_PARTICIPANT_TEXT": "+{count} other",
+    "TOTAL_PARTICIPANTS_TEXT": "{count} people are participating.",
+    "TOTAL_PARTICIPANT_TEXT": "{count} person is participating.",
+    "NO_PARTICIPANTS_TEXT": "No one is participating!.",
+    "WATCH_CONVERSATION": "Join conversation",
+    "YOU_ARE_WATCHING": "You are participating",
+    "API": {
+      "ERROR_MESSAGE": "Could not update, try again!",
+      "SUCCESS_MESSAGE": "Participants updated!"
+    }
+  },
+  "TRANSLATE_MODAL": {
+    "TITLE": "View translated content",
+    "DESC": "You can view the translated content in each langauge.",
+    "ORIGINAL_CONTENT": "Oorspronkelijke inhoud",
+    "TRANSLATED_CONTENT": "Vertaalde inhoud",
+    "NO_TRANSLATIONS_AVAILABLE": "Geen vertalingen beschikbaar voor deze inhoud"
+  },
+  "TYPING": {
+    "ONE": "{user} is typing",
+    "TWO": "{user} and {secondUser} are typing",
+    "MULTIPLE": "{user} and {count} others are typing"
+  },
+  "COPILOT": {
+    "TRY_THESE_PROMPTS": "Try these prompts"
+  },
+  "GALLERY_VIEW": {
+    "ERROR_DOWNLOADING": "Unable to download attachment. Please try again"
+  }
+}

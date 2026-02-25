@@ -1,0 +1,138 @@
+{
+  "ATTRIBUTES_MGMT": {
+    "HEADER": "Attributs personnalisés",
+    "HEADER_BTN_TXT": "Ajouter un attribut personnalisé",
+    "LOADING": "Récupération des attributs personnalisés",
+    "DESCRIPTION": "A custom attribute tracks additional details about your contacts or conversations—such as the subscription plan or the date of their first purchase. You can add different types of custom attributes, such as text, lists, or numbers, to capture the specific information you need.",
+    "LEARN_MORE": "Learn more about custom attributes",
+    "ATTRIBUTE_MODELS": {
+      "CONVERSATION": "Conversation",
+      "CONTACT": "Contact"
+    },
+    "ATTRIBUTE_TYPES": {
+      "TEXT": "Texte",
+      "NUMBER": "Nombre",
+      "LINK": "Lien",
+      "DATE": "Date",
+      "LIST": "Liste",
+      "CHECKBOX": "Case à cocher"
+    },
+    "ADD": {
+      "TITLE": "Ajouter un attribut personnalisé",
+      "SUBMIT": "Créer",
+      "CANCEL_BUTTON_TEXT": "Annuler",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Nom affiché",
+          "PLACEHOLDER": "Entrez le nom de l'attribut personnalisé",
+          "ERROR": "Le nom est requis"
+        },
+        "DESC": {
+          "LABEL": "Description",
+          "PLACEHOLDER": "Entrez la description de l'attribut personnalisé",
+          "ERROR": "La description est requise"
+        },
+        "MODEL": {
+          "LABEL": "S'applique à",
+          "PLACEHOLDER": "Veuillez en sélectionner un",
+          "ERROR": "Le modèle est requis"
+        },
+        "TYPE": {
+          "LABEL": "Type",
+          "PLACEHOLDER": "Veuillez sélectionner un type",
+          "ERROR": "Le type est requis",
+          "LIST": {
+            "LABEL": "Lister les valeurs",
+            "PLACEHOLDER": "Veuillez entrer la valeur et appuyer sur la touche Entrée",
+            "ERROR": "Doit avoir au moins une valeur"
+          }
+        },
+        "KEY": {
+          "LABEL": "Clé",
+          "PLACEHOLDER": "Entrez une clé d'attribut personnalisée",
+          "ERROR": "La clé est requise",
+          "IN_VALID": "Clé invalide"
+        },
+        "REGEX_PATTERN": {
+          "LABEL": "Schéma Regex",
+          "PLACEHOLDER": "Veuillez indiquer un attribut personnalisé pour le schéma Regex (facultatif)."
+        },
+        "REGEX_CUE": {
+          "LABEL": "Regex Cue",
+          "PLACEHOLDER": "Veuillez entrer l'indice du schéma Regex (facultatif)"
+        },
+        "ENABLE_REGEX": {
+          "LABEL": "Activer la validation Regex"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "L'attribut personnalisé a été ajouté",
+        "ERROR_MESSAGE": "Impossible de créer un attribut personnalisé. Veuillez réessayer plus tard."
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Supprimer",
+      "API": {
+        "SUCCESS_MESSAGE": "Attribut personnalisé supprimé avec succès.",
+        "ERROR_MESSAGE": "Impossible de supprimer l'attribut personnalisé. Veuillez réessayer."
+      },
+      "CONFIRM": {
+        "TITLE": "Voulez-vous vraiment supprimer - {attributeName}",
+        "PLACE_HOLDER": "Veuillez taper {attributeName} pour confirmer",
+        "MESSAGE": "La suppression supprimera l'attribut personnalisé",
+        "YES": "Supprimer ",
+        "NO": "Annuler"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Modifier l'attribut personnalisé",
+      "UPDATE_BUTTON_TEXT": "Mettre à jour",
+      "TYPE": {
+        "LIST": {
+          "LABEL": "Lister les valeurs",
+          "PLACEHOLDER": "Veuillez entrer des valeurs et appuyer sur la touche Entrée"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Attribut personnalisé mis à jour avec succès",
+        "ERROR_MESSAGE": "Une erreur s'est produite lors de la mise à jour de l'attribut personnalisé, veuillez réessayer"
+      }
+    },
+    "TABS": {
+      "HEADER": "Attributs personnalisés",
+      "CONVERSATION": "Conversation",
+      "CONTACT": "Contact"
+    },
+    "LIST": {
+      "TABLE_HEADER": {
+        "NAME": "Nom",
+        "DESCRIPTION": "Description",
+        "TYPE": "Type",
+        "KEY": "Clé"
+      },
+      "BUTTONS": {
+        "EDIT": "Modifier",
+        "DELETE": "Supprimer"
+      },
+      "EMPTY_RESULT": {
+        "404": "Aucun attribut personnalisé créé",
+        "NOT_FOUND": "Il n’y a aucun attribut personnalisé configuré"
+      },
+      "REGEX_PATTERN": {
+        "LABEL": "Schéma Regex",
+        "PLACEHOLDER": "Veuillez indiquer un attribut personnalisé pour le schéma Regex (facultatif)."
+      },
+      "REGEX_CUE": {
+        "LABEL": "Regex Cue",
+        "PLACEHOLDER": "Veuillez entrer l'indice du schéma Regex (facultatif)"
+      },
+      "ENABLE_REGEX": {
+        "LABEL": "Activer la validation Regex"
+      }
+    },
+    "BADGES": {
+      "PRE_CHAT": "Pre-chat",
+      "RESOLUTION": "Resolution"
+    }
+  }
+}

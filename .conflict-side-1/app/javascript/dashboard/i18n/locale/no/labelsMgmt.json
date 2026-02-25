@@ -1,0 +1,85 @@
+{
+  "LABEL_MGMT": {
+    "HEADER": "Etiketter",
+    "HEADER_BTN_TXT": "Legg til etikett",
+    "LOADING": "Henter etiketter",
+    "DESCRIPTION": "Labels help you categorize and prioritize conversations and leads. You can assign a label to a conversation or contact using the side panel.",
+    "LEARN_MORE": "Learn more about labels",
+    "SEARCH_404": "Det finnes ingen elementer som samsvarer med denne spørringen",
+    "LIST": {
+      "404": "Det er ingen etiketter tilgjengelig i denne kontoen.",
+      "TITLE": "Administrer etiketter",
+      "DESC": "Etiketter lar deg gruppere samtaler sammen.",
+      "TABLE_HEADER": {
+        "NAME": "Navn",
+        "DESCRIPTION": "Beskrivelse",
+        "COLOR": "Farge"
+      }
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "Etikettens navn",
+        "PLACEHOLDER": "Etikettens navn",
+        "REQUIRED_ERROR": "Label name is required",
+        "MINIMUM_LENGTH_ERROR": "Minimum length 2 is required",
+        "VALID_ERROR": "Only Alphabets, Numbers, Hyphen and Underscore are allowed"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Beskrivelse",
+        "PLACEHOLDER": "Etikettbeskrivelse"
+      },
+      "COLOR": {
+        "LABEL": "Farge"
+      },
+      "SHOW_ON_SIDEBAR": {
+        "LABEL": "Vis etikett i sidepanelet"
+      },
+      "EDIT": "Rediger",
+      "CREATE": "Opprett",
+      "DELETE": "Slett",
+      "CANCEL": "Avbryt"
+    },
+    "SUGGESTIONS": {
+      "TOOLTIP": {
+        "SINGLE_SUGGESTION": "Add label to conversation",
+        "MULTIPLE_SUGGESTION": "Select this label",
+        "DESELECT": "Deselect label",
+        "DISMISS": "Dismiss suggestion"
+      },
+      "POWERED_BY": "Chatwoot AI",
+      "DISMISS": "Dismiss",
+      "ADD_SELECTED_LABELS": "Add selected labels",
+      "ADD_SELECTED_LABEL": "Add selected label",
+      "ADD_ALL_LABELS": "Add all labels",
+      "SUGGESTED_LABELS": "Suggested labels"
+    },
+    "ADD": {
+      "TITLE": "Legg til etikett",
+      "DESC": "Etiketter lar deg gruppere samtaler sammen.",
+      "API": {
+        "SUCCESS_MESSAGE": "Etikett lagt til",
+        "ERROR_MESSAGE": "Det oppstod en feil. Prøv igjen"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Rediger etikett",
+      "API": {
+        "SUCCESS_MESSAGE": "Etiketten ble oppdatert",
+        "ERROR_MESSAGE": "Det oppstod en feil. Prøv igjen"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Slett",
+      "API": {
+        "SUCCESS_MESSAGE": "Etiketten ble slettet",
+        "ERROR_MESSAGE": "Det oppstod en feil. Prøv igjen"
+      },
+      "CONFIRM": {
+        "TITLE": "Bekreft sletting",
+        "MESSAGE": "Er du sikker på at du vil slette ",
+        "YES": "Ja, slett ",
+        "NO": "Nei, behold "
+      }
+    }
+  }
+}

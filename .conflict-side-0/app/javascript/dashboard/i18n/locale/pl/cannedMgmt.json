@@ -1,0 +1,77 @@
+{
+  "CANNED_MGMT": {
+    "HEADER": "Przygotowane odpowiedzi",
+    "LEARN_MORE": "Learn more about canned responses",
+    "DESCRIPTION": "Canned Responses are pre-written reply templates that help you quickly respond to a conversation. Agents can type the '/' character followed by the shortcode to insert a canned response during a conversation. ",
+    "HEADER_BTN_TXT": "Add canned response",
+    "LOADING": "Fetching canned responses...",
+    "SEARCH_404": "Brak wyników pasujących do wyszukiwania.",
+    "LIST": {
+      "404": "Brak dostępnych Gotowych odpowiedzi na tym koncie.",
+      "TITLE": "Zarządzaj Gotowymi odpowiedziami",
+      "DESC": "Canned Responses are predefined reply templates which can be used to quickly send out replies to conversations.",
+      "TABLE_HEADER": {
+        "SHORT_CODE": "Short code",
+        "CONTENT": "Zawartość",
+        "ACTIONS": "Akcje"
+      }
+    },
+    "ADD": {
+      "TITLE": "Add canned response",
+      "DESC": "Canned Responses are predefined reply templates which can be used to quickly send out replies to conversations.",
+      "CANCEL_BUTTON_TEXT": "Anuluj",
+      "FORM": {
+        "SHORT_CODE": {
+          "LABEL": "Short code",
+          "PLACEHOLDER": "Please enter a short code.",
+          "ERROR": "Short Code is required."
+        },
+        "CONTENT": {
+          "LABEL": "Wiadomość",
+          "PLACEHOLDER": "Please write the message you want to save as a template to use later.",
+          "ERROR": "Message is required."
+        },
+        "SUBMIT": "Prześlij"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Canned response added successfully.",
+        "ERROR_MESSAGE": "Nie można połączyć się z serwerem Woot. Spróbuj ponownie."
+      }
+    },
+    "EDIT": {
+      "TITLE": "Edit canned response",
+      "CANCEL_BUTTON_TEXT": "Anuluj",
+      "FORM": {
+        "SHORT_CODE": {
+          "LABEL": "Short code",
+          "PLACEHOLDER": "Please enter a shortcode.",
+          "ERROR": "Short code is required."
+        },
+        "CONTENT": {
+          "LABEL": "Wiadomość",
+          "PLACEHOLDER": "Please write the message you want to save as a template to use later.",
+          "ERROR": "Wiadomość jest wymagana."
+        },
+        "SUBMIT": "Prześlij"
+      },
+      "BUTTON_TEXT": "Edytuj",
+      "API": {
+        "SUCCESS_MESSAGE": "Canned response is updated successfully.",
+        "ERROR_MESSAGE": "Nie można połączyć się z serwerem Woot. Spróbuj ponownie."
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Usuń",
+      "API": {
+        "SUCCESS_MESSAGE": "Canned response deleted successfully.",
+        "ERROR_MESSAGE": "Nie można połączyć się z serwerem Woot. Spróbuj ponownie."
+      },
+      "CONFIRM": {
+        "TITLE": "Potwierdzenie usunięcia",
+        "MESSAGE": "Czy na pewno chcesz usunąć ",
+        "YES": "Yes, delete ",
+        "NO": "No, keep "
+      }
+    }
+  }
+}

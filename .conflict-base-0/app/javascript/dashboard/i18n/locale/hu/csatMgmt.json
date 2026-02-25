@@ -1,0 +1,13 @@
+{
+  "CSAT": {
+    "TITLE": "Értékeld a beszélgetést",
+    "PLACEHOLDER": "Mondj el többet...",
+    "RATINGS": {
+      "POOR": "😞 Gyenge",
+      "FAIR": "😑 Elégséges",
+      "AVERAGE": "😐 Átlagos",
+      "GOOD": "😀 Jó",
+      "EXCELLENT": "😍 Kiváló"
+    }
+  }
+}

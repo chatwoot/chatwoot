@@ -1,0 +1,124 @@
+{
+  "AGENT_MGMT": {
+    "HEADER": "Operatori",
+    "HEADER_BTN_TXT": "Aggiungi Operatore",
+    "LOADING": "Recupero Operatori",
+    "DESCRIPTION": "Un operatore è un membro del tuo team di assistenza clienti che può visualizzare e rispondere ai messaggi degli utenti. L’elenco qui sotto mostra tutti gli operatori presenti nel tuo account.",
+    "LEARN_MORE": "Scopri i ruoli utente",
+    "AGENT_TYPES": {
+      "ADMINISTRATOR": "Amministratore",
+      "AGENT": "Operatore"
+    },
+    "LIST": {
+      "404": "Non ci sono operatori associati a questo account",
+      "TITLE": "Gestisci gli operatori nel tuo team",
+      "DESC": "Puoi aggiungere/rimuovere operatori dal tuo team.",
+      "NAME": "Nome",
+      "EMAIL": "EMAIL",
+      "STATUS": "Stato",
+      "ACTIONS": "Azioni",
+      "VERIFIED": "Verificato",
+      "VERIFICATION_PENDING": "Verifica in Sospeso",
+      "AVAILABLE_CUSTOM_ROLE": "Permessi di ruolo personalizzati disponibili"
+    },
+    "ADD": {
+      "TITLE": "Aggiungi operatore al tuo team",
+      "DESC": "Puoi aggiungere persone per gestire il supporto nelle tue Inbox.",
+      "CANCEL_BUTTON_TEXT": "Annulla",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Nome Operatore",
+          "PLACEHOLDER": "Inserisci un nome operatore"
+        },
+        "AGENT_TYPE": {
+          "LABEL": "Ruolo",
+          "PLACEHOLDER": "Seleziona un ruolo",
+          "ERROR": "Ruolo richiesto"
+        },
+        "EMAIL": {
+          "LABEL": "Indirizzo Email",
+          "PLACEHOLDER": "Inserisci un indirizzo email dell'operatore"
+        },
+        "SUBMIT": "Aggiungi Operatore"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Operatore aggiunto correttamente",
+        "EXIST_MESSAGE": "Email dell'operatore già in uso, prova con un altro indirizzo email",
+        "ERROR_MESSAGE": "Impossibile connettersi al server Woot, riprova più tardi"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Elimina",
+      "API": {
+        "SUCCESS_MESSAGE": "Operatore eliminato correttamente",
+        "ERROR_MESSAGE": "Impossibile connettersi al server Woot, riprova più tardi"
+      },
+      "CONFIRM": {
+        "TITLE": "Conferma Eliminazione",
+        "MESSAGE": "Sei sicuro di voler eliminare ",
+        "YES": "Sì, Elimina ",
+        "NO": "No, Mantieni "
+      }
+    },
+    "EDIT": {
+      "TITLE": "Modifica operatore",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Nome Operatore",
+          "PLACEHOLDER": "Inserisci un nome operatore"
+        },
+        "AGENT_TYPE": {
+          "LABEL": "Ruolo",
+          "PLACEHOLDER": "Seleziona un ruolo",
+          "ERROR": "Ruolo richiesto"
+        },
+        "EMAIL": {
+          "LABEL": "Indirizzo Email",
+          "PLACEHOLDER": "Inserisci un indirizzo email dell'operatore"
+        },
+        "AGENT_AVAILABILITY": {
+          "LABEL": "Disponibilità",
+          "PLACEHOLDER": "Seleziona uno stato di disponibilità",
+          "ERROR": "Disponibilità richiesta"
+        },
+        "SUBMIT": "Modifica Operatore"
+      },
+      "BUTTON_TEXT": "Modifica",
+      "CANCEL_BUTTON_TEXT": "Annulla",
+      "API": {
+        "SUCCESS_MESSAGE": "Operatore aggiornato correttamente",
+        "ERROR_MESSAGE": "Impossibile connettersi al server Woot, riprova più tardi"
+      },
+      "PASSWORD_RESET": {
+        "ADMIN_RESET_BUTTON": "Reimposta la password",
+        "ADMIN_SUCCESS_MESSAGE": "Un'email con le istruzioni per reimpostare la password è stata inviata all'operatore",
+        "SUCCESS_MESSAGE": "Password dell'operatore reimpostata correttamente",
+        "ERROR_MESSAGE": "Impossibile connettersi al server Woot, riprova più tardi"
+      }
+    },
+    "SEARCH": {
+      "NO_RESULTS": "Nessun risultato trovato."
+    },
+    "MULTI_SELECTOR": {
+      "PLACEHOLDER": "Nessuno",
+      "TITLE": {
+        "AGENT": "Seleziona operatore",
+        "TEAM": "Seleziona team"
+      },
+      "LIST": {
+        "NONE": "Nessuno"
+      },
+      "SEARCH": {
+        "NO_RESULTS": {
+          "AGENT": "Nessun operatore trovato",
+          "TEAM": "Nessun team trovato"
+        },
+        "PLACEHOLDER": {
+          "AGENT": "Cerca operatori",
+          "TEAM": "Cerca team",
+          "INPUT": "Cerca operatori"
+        }
+      }
+    }
+  }
+}

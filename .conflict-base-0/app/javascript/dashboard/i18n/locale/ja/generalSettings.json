@@ -1,0 +1,251 @@
+{
+  "GENERAL_SETTINGS": {
+    "LIMIT_MESSAGES": {
+      "CONVERSATION": "You have exceeded the conversation limit. Hacker plan allows only 500 conversations.",
+      "INBOXES": "You have exceeded the inbox limit. Hacker plan only supports website live-chat. Additional inboxes like email, WhatsApp etc. require a paid plan.",
+      "AGENTS": "You have exceeded the agent limit. Your plan only allows {allowedAgents} agents.",
+      "NON_ADMIN": "Please contact your administrator to upgrade the plan and continue using all features."
+    },
+    "TITLE": "アカウント設定",
+    "SUBMIT": "設定を更新",
+    "BACK": "戻る",
+    "DISMISS": "閉じる",
+    "UPDATE": {
+      "ERROR": "設定を更新できませんでした。もう一度お試しください",
+      "SUCCESS": "アカウント設定が正常に更新されました"
+    },
+    "ACCOUNT_DELETE_SECTION": {
+      "TITLE": "Delete your Account",
+      "NOTE": "Once you delete your account, all your data will be deleted.",
+      "BUTTON_TEXT": "Delete Your Account",
+      "CONFIRM": {
+        "TITLE": "Delete Account",
+        "MESSAGE": "Deleting your Account is irreversible. Enter your account name below to confirm you want to permanently delete it.",
+        "BUTTON_TEXT": "削除",
+        "DISMISS": "キャンセル",
+        "PLACE_HOLDER": "{accountName}と入力して確認してください"
+      },
+      "SUCCESS": "Account marked for deletion",
+      "FAILURE": "Could not delete account, try again!",
+      "SCHEDULED_DELETION": {
+        "TITLE": "Account Scheduled for Deletion",
+        "MESSAGE_MANUAL": "This account is scheduled for deletion on {deletionDate}. This was requested by an administrator. You can cancel the deletion before this date.",
+        "MESSAGE_INACTIVITY": "This account is scheduled for deletion on {deletionDate} due to account inactivity. You can cancel the deletion before this date.",
+        "CLEAR_BUTTON": "Cancel Scheduled Deletion"
+      }
+    },
+    "FORM": {
+      "ERROR": "正しくフォームに入力してください",
+      "GENERAL_SECTION": {
+        "TITLE": "全般設定",
+        "NOTE": ""
+      },
+      "ACCOUNT_ID": {
+        "TITLE": "アカウントID",
+        "NOTE": "APIベースの統合を構築する場合に必要なIDです"
+      },
+      "AUTO_RESOLVE": {
+        "TITLE": "Auto-resolve conversations",
+        "NOTE": "This configuration would allow you to automatically resolve the conversation after a certain period of inactivity.",
+        "DURATION": {
+          "LABEL": "Inactivity duration",
+          "HELP": "Time period of inactivity after which conversation is auto-resolved",
+          "PLACEHOLDER": "30",
+          "ERROR": "Auto resolve duration should be between 10 minutes and 999 days",
+          "API": {
+            "SUCCESS": "Auto resolve settings updated successfully",
+            "ERROR": "Failed to update auto resolve settings"
+          }
+        },
+        "MESSAGE": {
+          "LABEL": "Custom auto-resolution message",
+          "PLACEHOLDER": "Conversation was marked resolved by system due to 15 days of inactivity",
+          "HELP": "Message sent to the customer after conversation is auto-resolved"
+        },
+        "PREFERENCES": "Preferences",
+        "LABEL": {
+          "LABEL": "Add label after auto-resolution",
+          "PLACEHOLDER": "Select a label"
+        },
+        "IGNORE_WAITING": {
+          "LABEL": "Skip conversations waiting for agent’s reply"
+        },
+        "UPDATE_BUTTON": "Save Changes"
+      },
+      "NAME": {
+        "LABEL": "アカウント名",
+        "PLACEHOLDER": "あなたのアカウント名",
+        "ERROR": "正しいアカウント名を入力してください"
+      },
+      "LANGUAGE": {
+        "LABEL": "サイト言語",
+        "PLACEHOLDER": "言語を選択",
+        "ERROR": ""
+      },
+      "DOMAIN": {
+        "LABEL": "受信メールドメイン",
+        "PLACEHOLDER": "メールを受信するドメイン",
+        "ERROR": ""
+      },
+      "SUPPORT_EMAIL": {
+        "LABEL": "サポートメール",
+        "PLACEHOLDER": "会社のサポートメールアドレス",
+        "ERROR": ""
+      },
+      "AUTO_RESOLVE_IGNORE_WAITING": {
+        "LABEL": "Exclude unattended conversations",
+        "HELP": "When enabled, the system will skip resolving conversations that are still waiting for an agent's reply."
+      },
+      "AUDIO_TRANSCRIPTION": {
+        "TITLE": "Transcribe Audio Messages",
+        "NOTE": "Automatically transcribe audio messages in conversations. Generate a text transcript whenever an audio message is sent or received, and display it alongside the message.",
+        "API": {
+          "SUCCESS": "Audio transcription setting updated successfully",
+          "ERROR": "Failed to update audio transcription setting"
+        }
+      },
+      "AUTO_RESOLVE_DURATION": {
+        "LABEL": "Inactivity duration for resolution",
+        "HELP": "Duration after a conversation should auto resolve if there is no activity",
+        "PLACEHOLDER": "30",
+        "ERROR": "Auto resolve duration should be between 10 minutes and 999 days",
+        "API": {
+          "SUCCESS": "Auto resolve settings updated successfully",
+          "ERROR": "Failed to update auto resolve settings"
+        },
+        "UPDATE_BUTTON": "更新",
+        "MESSAGE_LABEL": "Custom resolution message",
+        "MESSAGE_PLACEHOLDER": "Conversation was marked resolved by system due to 15 days of inactivity",
+        "MESSAGE_HELP": "This message is sent to the customer when a conversation is automatically resolved by the system due to inactivity."
+      },
+      "FEATURES": {
+        "INBOUND_EMAIL_ENABLED": "あなたのアカウントでは、メールでの会話が継続可能です。",
+        "CUSTOM_EMAIL_DOMAIN_ENABLED": "カスタムドメインでのメール受信が有効になりました。"
+      }
+    },
+    "UPDATE_CHATWOOT": "Chatwootのアップデート {latestChatwootVersion} が利用可能です。インスタンスを更新してください。",
+    "LEARN_MORE": "詳細を見る",
+    "PAYMENT_PENDING": "お支払いが保留中です。支払い情報を更新してChatwootの利用を継続してください。",
+    "UPGRADE": "Upgrade to continue using Chatwoot",
+    "LIMITS_UPGRADE": "アカウントの使用制限を超えました。プランをアップグレードして利用を続けてください。",
+    "OPEN_BILLING": "請求情報を開く"
+  },
+  "FORMS": {
+    "MULTISELECT": {
+      "ENTER_TO_SELECT": "Enterキーで選択",
+      "ENTER_TO_REMOVE": "Enterキーで削除",
+      "NO_OPTIONS": "List is empty",
+      "SELECT_ONE": "1つを選択",
+      "SELECT": "選択"
+    }
+  },
+  "NOTIFICATIONS_PAGE": {
+    "HEADER": "通知",
+    "MARK_ALL_DONE": "すべて完了としてマーク",
+    "DELETE_TITLE": "削除済み",
+    "UNREAD_NOTIFICATION": {
+      "TITLE": "未読通知",
+      "ALL_NOTIFICATIONS": "すべての通知を見る",
+      "LOADING_UNREAD_MESSAGE": "未読通知を読み込み中...",
+      "EMPTY_MESSAGE": "未読通知はありません"
+    },
+    "LIST": {
+      "LOADING_MESSAGE": "通知を読み込み中...",
+      "404": "通知なし",
+      "TABLE_HEADER": [
+        "名前",
+        "電話番号",
+        "会話データ",
+        "最終連絡日"
+      ]
+    },
+    "TYPE_LABEL": {
+      "conversation_creation": "新しい会話",
+      "conversation_assignment": "会話の割り当て",
+      "assigned_conversation_new_message": "新しいメッセージ",
+      "participating_conversation_new_message": "新しいメッセージ",
+      "conversation_mention": "メンション",
+      "sla_missed_first_response": "SLA未達",
+      "sla_missed_next_response": "SLA未達",
+      "sla_missed_resolution": "SLA未達"
+    }
+  },
+  "NETWORK": {
+    "NOTIFICATION": {
+      "OFFLINE": "オフライン",
+      "RECONNECTING": "再接続中...",
+      "RECONNECT_SUCCESS": "再接続しました"
+    },
+    "BUTTON": {
+      "REFRESH": "再読み込み"
+    }
+  },
+  "COMMAND_BAR": {
+    "SEARCH_PLACEHOLDER": "検索または移動",
+    "SECTIONS": {
+      "GENERAL": "全般",
+      "REPORTS": "レポート",
+      "CONVERSATION": "会話",
+      "BULK_ACTIONS": "一括操作",
+      "CHANGE_ASSIGNEE": "割り当てを変更",
+      "CHANGE_PRIORITY": "優先度を変更",
+      "CHANGE_TEAM": "チームを変更",
+      "SNOOZE_CONVERSATION": "会話をスヌーズ",
+      "ADD_LABEL": "会話にラベルを追加",
+      "REMOVE_LABEL": "会話からラベルを削除",
+      "SETTINGS": "設定",
+      "AI_ASSIST": "AIアシスト",
+      "APPEARANCE": "外観",
+      "SNOOZE_NOTIFICATION": "通知をスヌーズ"
+    },
+    "COMMANDS": {
+      "GO_TO_CONVERSATION_DASHBOARD": "会話ダッシュボードに移動",
+      "GO_TO_CONTACTS_DASHBOARD": "連絡先ダッシュボードに移動",
+      "GO_TO_REPORTS_OVERVIEW": "レポート概要に移動",
+      "GO_TO_CONVERSATION_REPORTS": "会話レポートに移動",
+      "GO_TO_AGENT_REPORTS": "担当者レポートに移動",
+      "GO_TO_LABEL_REPORTS": "ラベルレポートに移動",
+      "GO_TO_INBOX_REPORTS": "受信トレイレポートに移動",
+      "GO_TO_TEAM_REPORTS": "チームレポートに移動",
+      "GO_TO_SETTINGS_AGENTS": "担当者設定に移動",
+      "GO_TO_SETTINGS_TEAMS": "チーム設定に移動",
+      "GO_TO_SETTINGS_INBOXES": "受信トレイ設定に移動",
+      "GO_TO_SETTINGS_LABELS": "ラベル設定に移動",
+      "GO_TO_SETTINGS_CANNED_RESPONSES": "定型文設定に移動",
+      "GO_TO_SETTINGS_APPLICATIONS": "アプリ設定に移動",
+      "GO_TO_SETTINGS_ACCOUNT": "アカウント設定に移動",
+      "GO_TO_SETTINGS_PROFILE": "プロフィール設定に移動",
+      "GO_TO_NOTIFICATIONS": "通知に移動",
+      "ADD_LABELS_TO_CONVERSATION": "会話にラベルを追加",
+      "ASSIGN_AN_AGENT": "担当者を割り当て",
+      "AI_ASSIST": "AIアシスト",
+      "ASSIGN_PRIORITY": "優先度を割り当て",
+      "ASSIGN_A_TEAM": "チームを割り当て",
+      "MUTE_CONVERSATION": "会話をミュート",
+      "UNMUTE_CONVERSATION": "会話のミュートを解除",
+      "REMOVE_LABEL_FROM_CONVERSATION": "会話からラベルを削除",
+      "REOPEN_CONVERSATION": "会話を再開",
+      "RESOLVE_CONVERSATION": "会話を解決",
+      "SEND_TRANSCRIPT": "メールで会話記録を送信",
+      "SNOOZE_CONVERSATION": "会話をスヌーズ",
+      "UNTIL_NEXT_REPLY": "次の返信まで",
+      "UNTIL_NEXT_WEEK": "来週まで",
+      "UNTIL_TOMORROW": "明日まで",
+      "UNTIL_NEXT_MONTH": "来月まで",
+      "AN_HOUR_FROM_NOW": "1時間後まで",
+      "UNTIL_CUSTOM_TIME": "カスタム...",
+      "CHANGE_APPEARANCE": "外観を変更",
+      "LIGHT_MODE": "ライトモード",
+      "DARK_MODE": "ダークモード",
+      "SYSTEM_MODE": "システム設定",
+      "SNOOZE_NOTIFICATION": "通知をスヌーズ"
+    }
+  },
+  "DASHBOARD_APPS": {
+    "LOADING_MESSAGE": "ダッシュボードアプリを読み込み中..."
+  },
+  "COMMON": {
+    "OR": "または",
+    "CLICK_HERE": "ここをクリック"
+  }
+}

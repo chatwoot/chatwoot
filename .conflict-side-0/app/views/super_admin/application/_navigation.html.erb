@@ -1,0 +1,55 @@
+<%#
+# Navigation
+
+This partial is used to display the navigation in Administrate.
+By default, the navigation contains navigation links
+for all resources in the admin dashboard,
+as defined by the routes in the `admin/` namespace
+%>
+
+<%= vite_client_tag %>
+<%= vite_javascript_tag 'superadmin_pages' %>
+
+<%
+  sidebar_icons = {
+    accounts: 'icon-building-4-line',
+    users: 'icon-user-follow-line',
+    platform_apps: 'icon-apps-2-line',
+    agent_bots: 'icon-robot-line',
+  }
+%>
+
+<div class="border-slate-100 border-r w-56 flex-shrink-0 justify-between h-full flex flex-col" role="navigation">
+  <div>
+    <div class="flex mx-4 mb-4 border-slate-100 border-b py-6">
+      <%= link_to image_tag('/brand-assets/logo_thumbnail.svg', alt: 'Chatwoot Admin Dashboard', class: 'h-10'), super_admin_root_url %>
+      <div class="flex flex-col ml-3">
+        <div class="text-sm">Chatwoot <%= Chatwoot.config[:version] %></div>
+        <div class="text-xs text-slate-700 mt-0.5">Super Admin Console</div>
+      </div>
+    </div>
+
+    <ul class="my-4">
+      <%= render partial: "nav_item", locals: { icon: 'icon-grid-line', url: super_admin_root_url, label: 'Dashboard' } %>
+      <% Administrate::Namespace.new(namespace).resources.each do |resource| %>
+        <% next if ["account_users", "access_tokens", "installation_configs", "dashboard", "devise/sessions", "app_configs", "instance_statuses", "settings"].include?  resource.resource %>
+        <%= render partial: "nav_item", locals: {
+            icon: sidebar_icons[resource.resource.to_sym],
+            url: resource_index_route(resource),
+            label: display_resource_name(resource),
+          }
+        %>
+
+      <% end %>
+      <%= render 'settings_menu', open: settings_open? %>
+    </ul>
+  </div>
+  <div>
+    <ul class="my-4">
+      <%= render partial: "nav_item", locals: { icon: 'icon-mist-fill', url: sidekiq_web_url, label: 'Sidekiq Dashboard' } %>
+      <%= render partial: "nav_item", locals: { icon: 'icon-health-book-line', url: super_admin_instance_status_url, label: 'Instance Health' } %>
+      <%= render partial: "nav_item", locals: { icon: 'icon-dashboard-line', url: '/', label: 'Agent Dashboard' } %>
+      <%= render partial: "nav_item", locals: { icon: 'icon-logout-circle-r-line', url: super_admin_logout_url, label: 'Logout' } %>
+    </ul>
+  </div>
+</div>

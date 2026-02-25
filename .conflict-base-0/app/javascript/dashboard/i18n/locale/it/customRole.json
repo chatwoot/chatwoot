@@ -1,0 +1,91 @@
+{
+  "CUSTOM_ROLE": {
+    "HEADER": "Ruoli Personalizzati",
+    "LEARN_MORE": "Scopri di più sui ruoli personalizzati",
+    "DESCRIPTION": "I ruoli personalizzati sono ruoli creati dal proprietario o amministratore dell'account. Questi ruoli possono essere assegnati agli operatori per definire i loro accessi e i loro permessi all'interno dell'account. I ruoli personalizzati possono essere creati con permessi e livelli di accesso specifici per soddisfare le esigenze dell'organizzazione.",
+    "HEADER_BTN_TXT": "Aggiungi ruolo personalizzato",
+    "LOADING": "Caricamento ruoli personalizzati...",
+    "SEARCH_404": "Non ci sono elementi che corrispondono a questa richiesta.",
+    "PAYWALL": {
+      "TITLE": "Aggiorna per creare ruoli personalizzati",
+      "AVAILABLE_ON": "La funzionalità ruoli personalizzati è disponibile solo nei piani Business e Enterprise.",
+      "UPGRADE_PROMPT": "Aggiorna il tuo piano per ottenere l'accesso a funzionalità avanzate come gestione del team, automazioni, attributi personalizzati e altro ancora.",
+      "UPGRADE_NOW": "Aggiorna ora",
+      "CANCEL_ANYTIME": "Puoi modificare o annullare il tuo piano in qualsiasi momento"
+    },
+    "ENTERPRISE_PAYWALL": {
+      "AVAILABLE_ON": "La funzionalità ruoli personalizzati è disponibile solo nei piani a pagamento.",
+      "UPGRADE_PROMPT": "Passa a un piano a pagamento per accedere a funzionalità avanzate come audit logs, capacità degli operatori e altro ancora.",
+      "ASK_ADMIN": "Contatta il tuo amministratore per l'aggiornamento."
+    },
+    "LIST": {
+      "404": "Non ci sono ruoli personalizzati disponibili in questo account.",
+      "TITLE": "Gestisci ruoli personalizzati",
+      "DESC": "I ruoli personalizzati sono ruoli creati dal proprietario o amministratore dell'account. Questi ruoli possono essere assegnati agli operatori per definire i loro accessi e i loro permessi all'interno dell'account. I ruoli personalizzati possono essere creati con permessi e livelli di accesso specifici per soddisfare le esigenze dell'organizzazione.",
+      "TABLE_HEADER": {
+        "NAME": "Nome",
+        "DESCRIPTION": "Descrizione",
+        "PERMISSIONS": "Permessi",
+        "ACTIONS": "Azioni"
+      }
+    },
+    "PERMISSIONS": {
+      "CONVERSATION_MANAGE": "Gestisci tutte le conversazioni",
+      "CONVERSATION_UNASSIGNED_MANAGE": "Gestisci le conversazioni non assegnate e quelle a loro assegnate",
+      "CONVERSATION_PARTICIPATING_MANAGE": "Gestisci le conversazioni partecipanti e quelle a loro assegnate",
+      "CONTACT_MANAGE": "Gestisci contatti",
+      "REPORT_MANAGE": "Gestisci report",
+      "KNOWLEDGE_BASE_MANAGE": "Gestisci knowledge base"
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "Nome",
+        "PLACEHOLDER": "Inserisci un nome.",
+        "ERROR": "Il nome è obbligatorio."
+      },
+      "DESCRIPTION": {
+        "LABEL": "Descrizione",
+        "PLACEHOLDER": "Inserisci una descrizione.",
+        "ERROR": "La descrizione è obbligatoria."
+      },
+      "PERMISSIONS": {
+        "LABEL": "Permessi",
+        "ERROR": "I permessi sono obbligatori."
+      },
+      "CANCEL_BUTTON_TEXT": "Annulla",
+      "API": {
+        "ERROR_MESSAGE": "Impossibile connettersi al server Woot. Riprova."
+      }
+    },
+    "ADD": {
+      "TITLE": "Aggiungi ruolo personalizzato",
+      "DESC": " I ruoli personalizzati consentono di creare ruoli con permessi e livelli di accesso specifici per soddisfare le esigenze dell'organizzazione.",
+      "SUBMIT": "Invia",
+      "API": {
+        "SUCCESS_MESSAGE": "Ruolo personalizzato aggiunto con successo."
+      }
+    },
+    "EDIT": {
+      "BUTTON_TEXT": "Modifica",
+      "TITLE": "Modifica ruolo personalizzato",
+      "DESC": " I ruoli personalizzati consentono di creare ruoli con permessi e livelli di accesso specifici per soddisfare le esigenze dell'organizzazione.",
+      "SUBMIT": "Aggiorna",
+      "API": {
+        "SUCCESS_MESSAGE": "Ruolo personalizzato aggiornato con successo."
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Elimina",
+      "API": {
+        "SUCCESS_MESSAGE": "Ruolo personalizzato eliminato con successo.",
+        "ERROR_MESSAGE": "Impossibile connettersi al server Woot. Riprova."
+      },
+      "CONFIRM": {
+        "TITLE": "Conferma eliminazione",
+        "MESSAGE": "Sei sicuro di voler eliminare ",
+        "YES": "Sì, elimina ",
+        "NO": "No, mantieni "
+      }
+    }
+  }
+}

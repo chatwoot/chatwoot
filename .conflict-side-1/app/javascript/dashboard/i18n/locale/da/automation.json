@@ -1,0 +1,184 @@
+{
+  "AUTOMATION": {
+    "HEADER": "Automatisering",
+    "DESCRIPTION": "Automation can replace and streamline existing processes that require manual effort, such as adding labels and assigning conversations to the most suitable agent. This allows the team to focus on their strengths while reducing time spent on routine tasks.",
+    "LEARN_MORE": "Learn more about automation",
+    "HEADER_BTN_TXT": "Tilføj Automatiseringsregel",
+    "LOADING": "Henter automatiseringsregler",
+    "ADD": {
+      "TITLE": "Tilføj Automatiseringsregel",
+      "SUBMIT": "Opret",
+      "CANCEL_BUTTON_TEXT": "Annuller",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Regel Navn",
+          "PLACEHOLDER": "Indtast regelnavn",
+          "ERROR": "Navn er påkrævet"
+        },
+        "DESC": {
+          "LABEL": "Beskrivelse",
+          "PLACEHOLDER": "Indtast regel beskrivelse",
+          "ERROR": "Beskrivelse er påkrævet"
+        },
+        "EVENT": {
+          "LABEL": "Begivenhed",
+          "PLACEHOLDER": "Vælg venligst en",
+          "ERROR": "Begivenhed er påkrævet"
+        },
+        "CONDITIONS": {
+          "LABEL": "Betingelser"
+        },
+        "ACTIONS": {
+          "LABEL": "Handlinger"
+        }
+      },
+      "CONDITION_BUTTON_LABEL": "Tilføj Betingelse",
+      "ACTION_BUTTON_LABEL": "Tilføj Handling",
+      "API": {
+        "SUCCESS_MESSAGE": "Automatiseringsregel tilføjet med succes",
+        "ERROR_MESSAGE": "Kunne ikke oprette en automatiseringsregel. Prøv igen senere"
+      }
+    },
+    "LIST": {
+      "TABLE_HEADER": {
+        "NAME": "Navn",
+        "DESCRIPTION": "Beskrivelse",
+        "ACTIVE": "Aktiv",
+        "CREATED_ON": "Oprettet den"
+      },
+      "404": "Ingen automatiseringsregler fundet"
+    },
+    "DELETE": {
+      "TITLE": "Slet Automatiseringsregel",
+      "SUBMIT": "Slet",
+      "CANCEL_BUTTON_TEXT": "Annuller",
+      "CONFIRM": {
+        "TITLE": "Bekræft Sletning",
+        "MESSAGE": "Er du sikker på du vil slette ",
+        "YES": "Ja, Slet ",
+        "NO": "Nej, Behold "
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Automatiseringsregel slettet",
+        "ERROR_MESSAGE": "Kunne ikke slette en automatiseringsregel, prøv igen senere"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Rediger Automatiseringsregel",
+      "SUBMIT": "Opdater",
+      "CANCEL_BUTTON_TEXT": "Annuller",
+      "API": {
+        "SUCCESS_MESSAGE": "Automatiseringsregel opdateret",
+        "ERROR_MESSAGE": "Kunne ikke opdatere automatiseringsreglen. Prøv igen senere"
+      }
+    },
+    "CLONE": {
+      "TOOLTIP": "Klon",
+      "API": {
+        "SUCCESS_MESSAGE": "Automatisering klonet med succes",
+        "ERROR_MESSAGE": "Kunne ikke klone automatiseringsreglen. Prøv igen senere"
+      }
+    },
+    "FORM": {
+      "EDIT": "Rediger",
+      "CREATE": "Opret",
+      "DELETE": "Slet",
+      "CANCEL": "Annuller",
+      "RESET_MESSAGE": "Ændring af begivenhedstype vil nulstille de betingelser og begivenheder, du har tilføjet nedenfor"
+    },
+    "CONDITION": {
+      "DELETE_MESSAGE": "Du skal have mindst én betingelse for at gemme",
+      "CONTACT_CUSTOM_ATTR_LABEL": "Contact Custom Attributes",
+      "CONVERSATION_CUSTOM_ATTR_LABEL": "Conversation Custom Attributes"
+    },
+    "ACTION": {
+      "DELETE_MESSAGE": "Du skal have mindst én handling for at gemme",
+      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Indtast din besked her",
+      "TEAM_DROPDOWN_PLACEHOLDER": "Vælg teams",
+      "EMAIL_INPUT_PLACEHOLDER": "Enter email",
+      "URL_INPUT_PLACEHOLDER": "Enter URL"
+    },
+    "TOGGLE": {
+      "ACTIVATION_TITLE": "Aktivér Automatiseringsregel",
+      "DEACTIVATION_TITLE": "Deaktiver Automatiseringsregel",
+      "ACTIVATION_DESCRIPTION": "Denne handling vil aktivere automatiseringsreglen '{automationName}'. Er du sikker på du vil fortsætte?",
+      "DEACTIVATION_DESCRIPTION": "Denne handling vil deaktivere automatiseringsreglen '{automationName}'. Er du sikker på du vil fortsætte?",
+      "ACTIVATION_SUCCESFUL": "Automatiseringsregel Aktiveret",
+      "DEACTIVATION_SUCCESFUL": "Automatiseringsregel Deaktiveret",
+      "ACTIVATION_ERROR": "Kunne ikke aktivere automatisering, prøv igen senere",
+      "DEACTIVATION_ERROR": "Kunne ikke deaktivere automatisering, prøv igen senere",
+      "CONFIRMATION_LABEL": "Ja",
+      "CANCEL_LABEL": "Nej"
+    },
+    "ATTACHMENT": {
+      "UPLOAD_ERROR": "Kunne ikke uploade vedhæftning, Prøv venligst igen",
+      "LABEL_IDLE": "Upload Vedhæftning",
+      "LABEL_UPLOADING": "Uploader...",
+      "LABEL_UPLOADED": "Successfully Uploaded",
+      "LABEL_UPLOAD_FAILED": "Upload Mislykkedes"
+    },
+    "ERRORS": {
+      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
+      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "VALUE_REQUIRED": "Værdi er påkrævet",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998",
+      "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
+      "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
+      "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
+    },
+    "NONE_OPTION": "Ingen",
+    "EVENTS": {
+      "CONVERSATION_CREATED": "Samtale Oprettet",
+      "CONVERSATION_UPDATED": "Samtale Opdateret",
+      "MESSAGE_CREATED": "Message Created",
+      "CONVERSATION_RESOLVED": "Conversation Resolved",
+      "CONVERSATION_OPENED": "Conversation Opened"
+    },
+    "ACTIONS": {
+      "ASSIGN_AGENT": "Assign to Agent",
+      "ASSIGN_TEAM": "Assign a Team",
+      "ADD_LABEL": "Add a Label",
+      "REMOVE_LABEL": "Remove a Label",
+      "SEND_EMAIL_TO_TEAM": "Send an Email to Team",
+      "SEND_EMAIL_TRANSCRIPT": "Send an Email Transcript",
+      "MUTE_CONVERSATION": "Gør Samtale Lydløs",
+      "SNOOZE_CONVERSATION": "Udsæt Samtale",
+      "RESOLVE_CONVERSATION": "Løs Samtale",
+      "SEND_WEBHOOK_EVENT": "Send Webhook Event",
+      "SEND_ATTACHMENT": "Send Attachment",
+      "SEND_MESSAGE": "Send a Message",
+      "ADD_PRIVATE_NOTE": "Add a Private Note",
+      "CHANGE_PRIORITY": "Change Priority",
+      "ADD_SLA": "Add SLA",
+      "OPEN_CONVERSATION": "Åbn samtale"
+    },
+    "MESSAGE_TYPES": {
+      "INCOMING": "Incoming Message",
+      "OUTGOING": "Outgoing Message"
+    },
+    "PRIORITY_TYPES": {
+      "NONE": "Ingen",
+      "LOW": "Low",
+      "MEDIUM": "Medium",
+      "HIGH": "High",
+      "URGENT": "Urgent"
+    },
+    "ATTRIBUTES": {
+      "MESSAGE_TYPE": "Message Type",
+      "MESSAGE_CONTAINS": "Message Contains",
+      "EMAIL": "E-mail",
+      "INBOX": "Indbakke",
+      "CONVERSATION_LANGUAGE": "Conversation Language",
+      "PHONE_NUMBER": "Telefonnummer",
+      "STATUS": "Status",
+      "BROWSER_LANGUAGE": "Browser Sprog",
+      "MAIL_SUBJECT": "Email Subject",
+      "COUNTRY_NAME": "Land",
+      "REFERER_LINK": "Referrer Link",
+      "ASSIGNEE_NAME": "Assignee",
+      "TEAM_NAME": "Team",
+      "PRIORITY": "Priority",
+      "LABELS": "Etiketter"
+    }
+  }
+}

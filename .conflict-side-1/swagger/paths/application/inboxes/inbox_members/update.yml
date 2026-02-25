@@ -1,0 +1,58 @@
+tags:
+  - Inboxes
+operationId: update-agents-in-inbox
+summary: Update Agents in Inbox
+description: All agents except the one passed in params will be removed
+security:
+  - userApiKey: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        required:
+          - inbox_id
+          - user_ids
+        properties:
+          inbox_id:
+            type: string
+            description: The ID of the inbox
+            example: 1
+          user_ids:
+            type: array
+            items:
+              type: integer
+            description: IDs of users to be added to the inbox
+            example: [1]
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            payload:
+              type: array
+              description: 'Array of all active agents'
+              items:
+                $ref: '#/components/schemas/agent'
+  '404':
+    description: Inbox not found
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '403':
+    description: Access denied
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '422':
+    description: User must exist
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

@@ -1,0 +1,124 @@
+{
+  "AGENT_MGMT": {
+    "HEADER": "Agen",
+    "HEADER_BTN_TXT": "Tambahkan Agen",
+    "LOADING": "Mendapatkan Daftar Agen",
+    "DESCRIPTION": "An agent is a member of your customer support team who can view and respond to user messages. The list below shows all the agents in your account.",
+    "LEARN_MORE": "Learn about user roles",
+    "AGENT_TYPES": {
+      "ADMINISTRATOR": "Administrator",
+      "AGENT": "Agen"
+    },
+    "LIST": {
+      "404": "Tidak ada agen yang terkait dengan akun ini",
+      "TITLE": "Kelola agen di tim Anda",
+      "DESC": "Anda dapat menambahkan/menghapus agen ke/di tim Anda.",
+      "NAME": "Nama",
+      "EMAIL": "Email",
+      "STATUS": "Status",
+      "ACTIONS": "Aksi",
+      "VERIFIED": "Diverifikasi",
+      "VERIFICATION_PENDING": "Verifikasi Pending",
+      "AVAILABLE_CUSTOM_ROLE": "Available custom role permissions"
+    },
+    "ADD": {
+      "TITLE": "Tambahkan agen ke tim Anda",
+      "DESC": "Anda dapat menambahkan orang yang dapat menangani kotak masuk Anda.",
+      "CANCEL_BUTTON_TEXT": "Batalkan",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Nama Agen",
+          "PLACEHOLDER": "Harap masukkan nama agen"
+        },
+        "AGENT_TYPE": {
+          "LABEL": "Wewenang",
+          "PLACEHOLDER": "Harap pilih wewenang",
+          "ERROR": "Wewenang dibutuhkan"
+        },
+        "EMAIL": {
+          "LABEL": "Alamat email",
+          "PLACEHOLDER": "Silakan masukkan alamat email agen"
+        },
+        "SUBMIT": "Tambahkan Agen"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Agen berhasil ditambahkan",
+        "EXIST_MESSAGE": "Email agen sudah digunakan, Silakan coba alamat email lain",
+        "ERROR_MESSAGE": "Tidak dapat terhubung ke Server Woot, Silahkan coba lagi nanti"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Hapus",
+      "API": {
+        "SUCCESS_MESSAGE": "Agen berhasil dihapus",
+        "ERROR_MESSAGE": "Tidak dapat terhubung ke Server Woot, Silakan coba lagi nanti"
+      },
+      "CONFIRM": {
+        "TITLE": "Konfirmasi Penghapusan",
+        "MESSAGE": "Apakah Anda yakin untuk menghapus ",
+        "YES": "Ya, Hapus ",
+        "NO": "Tidak, Simpan "
+      }
+    },
+    "EDIT": {
+      "TITLE": "Edit Agen",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Nama Agen",
+          "PLACEHOLDER": "Harap masukkan nama agen"
+        },
+        "AGENT_TYPE": {
+          "LABEL": "Wewenang",
+          "PLACEHOLDER": "Harap pilih wewenang",
+          "ERROR": "Wewenang dibutuhkan"
+        },
+        "EMAIL": {
+          "LABEL": "Alamat email",
+          "PLACEHOLDER": "Silakan masukkan alamat email agen"
+        },
+        "AGENT_AVAILABILITY": {
+          "LABEL": "Ketersediaan",
+          "PLACEHOLDER": "Pilih status ketersediaan",
+          "ERROR": "Ketersediaan diperlukan"
+        },
+        "SUBMIT": "Edit Agen"
+      },
+      "BUTTON_TEXT": "Edit",
+      "CANCEL_BUTTON_TEXT": "Batalkan",
+      "API": {
+        "SUCCESS_MESSAGE": "Agen berhasil diubah",
+        "ERROR_MESSAGE": "Tidak dapat terhubung ke Server Woot, Silakan coba lagi nanti"
+      },
+      "PASSWORD_RESET": {
+        "ADMIN_RESET_BUTTON": "Atur Ulang Kata Sandi",
+        "ADMIN_SUCCESS_MESSAGE": "Sebuah email dengan instruksi pengaturan ulang kata sandi telah dikirim ke agen",
+        "SUCCESS_MESSAGE": "Pengaturan ulang kata sandi agen berhasil",
+        "ERROR_MESSAGE": "Tidak dapat terhubung ke Server Woot, Silahkan coba lagi nanti"
+      }
+    },
+    "SEARCH": {
+      "NO_RESULTS": "Tidak ada hasil ditemukan."
+    },
+    "MULTI_SELECTOR": {
+      "PLACEHOLDER": "Tidak ada",
+      "TITLE": {
+        "AGENT": "Pilih Agen",
+        "TEAM": "Pilih tim"
+      },
+      "LIST": {
+        "NONE": "Tidak ada"
+      },
+      "SEARCH": {
+        "NO_RESULTS": {
+          "AGENT": "Tidak ada agen",
+          "TEAM": "Tidak ada tim ditemukan"
+        },
+        "PLACEHOLDER": {
+          "AGENT": "Mencari Agen",
+          "TEAM": "Mencari tim",
+          "INPUT": "Mencari Agen"
+        }
+      }
+    }
+  }
+}

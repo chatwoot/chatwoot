@@ -1,0 +1,11 @@
+<% if @message.content_attributes.dig('email', 'html_content', 'reply').present? %>
+<%= @message.content_attributes.dig('email', 'html_content', 'reply').html_safe %>
+<% elsif @message.content %>
+<%= @message.outgoing_content.html_safe %>
+<% end %>
+<% if @large_attachments.present? %>
+<p>Attachments:</p>
+<% @large_attachments.each do |attachment| %>
+<p><a href="<%= attachment.file_url %>" target="_blank"><%= attachment.file.filename.to_s %></a></p>
+<% end %>
+<% end %>

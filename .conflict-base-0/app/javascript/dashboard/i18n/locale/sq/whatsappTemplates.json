@@ -1,0 +1,47 @@
+{
+  "WHATSAPP_TEMPLATES": {
+    "MODAL": {
+      "TITLE": "Whatsapp Templates",
+      "SUBTITLE": "Select the whatsapp template you want to send",
+      "TEMPLATE_SELECTED_SUBTITLE": "Konfiguro shabllonin: {templateName}"
+    },
+    "PICKER": {
+      "SEARCH_PLACEHOLDER": "Search Templates",
+      "NO_TEMPLATES_FOUND": "No templates found for",
+      "HEADER": "Krye",
+      "BODY": "Trup",
+      "FOOTER": "Fund",
+      "BUTTONS": "Butona",
+      "CATEGORY": "Category",
+      "MEDIA_CONTENT": "Përmbajtje mediatike",
+      "MEDIA_CONTENT_FALLBACK": "përmbajtje mediatike",
+      "NO_TEMPLATES_AVAILABLE": "Nuk ka shabllone WhatsApp të disponueshme. Klikoni Rifresko për të sinkronizuar shabllonet nga WhatsApp.",
+      "REFRESH_BUTTON": "Rifresko shabllonet",
+      "REFRESH_SUCCESS": "Rifreskimi i shablloneve u nis. Mund të duhen disa minuta për t'u përditësuar.",
+      "REFRESH_ERROR": "Dështoi rifreskimi i shablloneve. Ju lutemi, provoni përsëri.",
+      "LABELS": {
+        "LANGUAGE": "Language",
+        "TEMPLATE_BODY": "Template Body",
+        "CATEGORY": "Category"
+      }
+    },
+    "PARSER": {
+      "VARIABLES_LABEL": "Variables",
+      "LANGUAGE": "Language",
+      "CATEGORY": "Category",
+      "VARIABLE_PLACEHOLDER": "Enter {variable} value",
+      "GO_BACK_LABEL": "Go Back",
+      "SEND_MESSAGE_LABEL": "Send Message",
+      "FORM_ERROR_MESSAGE": "Please fill all variables before sending",
+      "MEDIA_HEADER_LABEL": "Krye {type}",
+      "OTP_CODE": "Futni kodin OTP me 4-8 shifra",
+      "EXPIRY_MINUTES": "Futni minutat e skadimit",
+      "BUTTON_PARAMETERS": "Parametrat e butonit",
+      "BUTTON_LABEL": "Butoni {index}",
+      "COUPON_CODE": "Futni kodin e kuponit (maks 15 karaktere)",
+      "MEDIA_URL_LABEL": "Futni URL-në e {type}",
+      "DOCUMENT_NAME_PLACEHOLDER": "Enter document filename (e.g., Invoice_2025.pdf)",
+      "BUTTON_PARAMETER": "Futni parametrin e butonit"
+    }
+  }
+}

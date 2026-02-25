@@ -1,0 +1,153 @@
+{
+  "COMPONENTS": {
+    "FILE_BUBBLE": {
+      "DOWNLOAD": "ഡൗൺലോഡ്",
+      "UPLOADING": "അപ്‌ലോഡുചെയ്യുന്നു..."
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "സമർപ്പിക്കുക"
+    },
+    "MESSAGE_BUBBLE": {
+      "RETRY": "വീണ്ടും സന്ദേശം അയയ്‌ക്കുക",
+      "ERROR_MESSAGE": "അയയ്‌ക്കാനായില്ല, വീണ്ടും ശ്രമിക്കുക"
+    }
+  },
+  "THUMBNAIL": {
+    "AUTHOR": {
+      "NOT_AVAILABLE": "Not available"
+    }
+  },
+  "TEAM_AVAILABILITY": {
+    "ONLINE": "ഞങ്ങൾ ഓൺലൈനിലാണ്",
+    "OFFLINE": "ഞങ്ങൾ ഇപ്പോൾ അകലെയാണ്",
+    "BACK_AS_SOON_AS_POSSIBLE": "We will be back as soon as possible"
+  },
+  "REPLY_TIME": {
+    "IN_A_FEW_MINUTES": "സാധാരണയായി കുറച്ച് മിനിറ്റിനുള്ളിൽ മറുപടി നൽകുന്നു",
+    "IN_A_FEW_HOURS": "സാധാരണയായി കുറച്ച് മണിക്കൂറിനുള്ളിൽ മറുപടി നൽകുന്നു",
+    "IN_A_DAY": "സാധാരണയായി ഒരു ദിവസത്തിൽ മറുപടി നൽകുന്നു",
+    "BACK_IN_HOURS": "We will be back online in {n} hour | We will be back online in {n} hours",
+    "BACK_IN_MINUTES": "We will be back online in {time} minutes",
+    "BACK_AT_TIME": "We will be back online at {time}",
+    "BACK_ON_DAY": "We will be back online on {day}",
+    "BACK_TOMORROW": "We will be back online tomorrow",
+    "BACK_IN_SOME_TIME": "We will be back online in some time"
+  },
+  "DAY_NAMES": {
+    "SUNDAY": "Sunday",
+    "MONDAY": "Monday",
+    "TUESDAY": "Tuesday",
+    "WEDNESDAY": "Wednesday",
+    "THURSDAY": "Thursday",
+    "FRIDAY": "Friday",
+    "SATURDAY": "Saturday"
+  },
+  "START_CONVERSATION": "സംഭാഷണം ആരംഭിക്കുക",
+  "END_CONVERSATION": "End Conversation",
+  "CONTINUE_CONVERSATION": "Continue conversation",
+  "YOU": "You",
+  "START_NEW_CONVERSATION": "ഒരു പുതിയ സംഭാഷണം ആരംഭിക്കുക",
+  "VIEW_UNREAD_MESSAGES": "You have unread messages",
+  "UNREAD_VIEW": {
+    "VIEW_MESSAGES_BUTTON": "പുതിയ സന്ദേശങ്ങൾ കാണുക",
+    "CLOSE_MESSAGES_BUTTON": "അടയ്ക്കുക",
+    "COMPANY_FROM": "നിന്ന്",
+    "BOT": "ബോട്ട്"
+  },
+  "BUBBLE": {
+    "LABEL": "ഞങ്ങളുമായി ചാറ്റുചെയ്യുക"
+  },
+  "POWERED_BY": "പ്രായോജകർ Chatwoot",
+  "EMAIL_PLACEHOLDER": "ദയവായി നിങ്ങളുടെ ഇമെയിൽ നൽകുക",
+  "CHAT_PLACEHOLDER": "നിങ്ങളുടെ സന്ദേശം ടൈപ്പുചെയ്യുക",
+  "TODAY": "ഇന്ന്",
+  "YESTERDAY": "ഇന്നലെ",
+  "PRE_CHAT_FORM": {
+    "FIELDS": {
+      "FULL_NAME": {
+        "LABEL": "പൂർണ്ണമായ പേര്",
+        "PLACEHOLDER": "ദയവായി നിങ്ങളുടെ മുഴുവൻ പേര് നൽകുക",
+        "REQUIRED_ERROR": "മുഴുവൻ പേര് ആവശ്യമാണ്"
+      },
+      "EMAIL_ADDRESS": {
+        "LABEL": "ഇമെയിൽ വിലാസം",
+        "PLACEHOLDER": "ദയവായി നിങ്ങളുടെ ഇമെയിൽ വിലാസം നൽകുക",
+        "REQUIRED_ERROR": "Email Address is required",
+        "VALID_ERROR": "ദയവായി സാധുവായ ഒരു ഇമെയിൽ വിലാസം നൽകുക"
+      },
+      "PHONE_NUMBER": {
+        "LABEL": "ഫോൺ നമ്പർ",
+        "PLACEHOLDER": "Please enter your phone number",
+        "REQUIRED_ERROR": "Phone Number is required",
+        "DIAL_CODE_VALID_ERROR": "Please select a country code",
+        "VALID_ERROR": "Please enter a valid phone number",
+        "DROPDOWN_EMPTY": "ഒരു ഫലവും കണ്ടെത്താനായില്ല",
+        "DROPDOWN_SEARCH": "Search country"
+      },
+      "MESSAGE": {
+        "LABEL": "സന്ദേശം",
+        "PLACEHOLDER": "ദയവായി നിങ്ങളുടെ സന്ദേശം നൽകുക",
+        "ERROR": "സന്ദേശം വളരെ ചെറുതാണ്"
+      }
+    },
+    "CAMPAIGN_HEADER": "സംഭാഷണം ആരംഭിക്കുന്നതിന് മുമ്പ് ദയവായി നിങ്ങളുടെ പേരും ഇമെയിലും നൽകുക",
+    "IS_REQUIRED": "is required",
+    "REQUIRED": "Required",
+    "REGEX_ERROR": "Please provide a valid input"
+  },
+  "FILE_SIZE_LIMIT": "ഫയൽ {MAXIMUM_FILE_UPLOAD_SIZE} അറ്റാച്ച്‌മെന്റ് പരിധി കവിഞ്ഞു",
+  "CHAT_FORM": {
+    "INVALID": {
+      "FIELD": "അസാധുവായ ഫീൽഡ്"
+    }
+  },
+  "EMOJI": {
+    "PLACEHOLDER": "Search emojis",
+    "NOT_FOUND": "No emoji match your search",
+    "ARIA_LABEL": "Emoji picker"
+  },
+  "CSAT": {
+    "TITLE": "നിങ്ങളുടെ സംഭാഷണം റേറ്റുചെയ്യുക",
+    "SUBMITTED_TITLE": "റേറ്റിംഗ് സമർപ്പിച്ചതിന് നന്ദി",
+    "PLACEHOLDER": "ഞങ്ങളോട് കൂടുതൽ പറയൂ..."
+  },
+  "EMAIL_TRANSCRIPT": {
+    "BUTTON_TEXT": "ഒരു സംഭാഷണ ട്രാൻസ്ക്രിപ്റ്റ് അഭ്യർത്ഥിക്കുക",
+    "SEND_EMAIL_SUCCESS": "ചാറ്റ് ട്രാൻസ്ക്രിപ്റ്റ് വിജയകരമായി അയച്ചു",
+    "SEND_EMAIL_ERROR": "ഒരു പിശക് ഉണ്ടായിരുന്നു, ദയവായി വീണ്ടും ശ്രമിക്കുക"
+  },
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Click here to join",
+      "LEAVE_THE_ROOM": "Leave the call"
+    }
+  },
+  "PORTAL": {
+    "POPULAR_ARTICLES": "Popular Articles",
+    "VIEW_ALL_ARTICLES": "View all articles",
+    "IFRAME_LOAD_ERROR": "There was an error loading the article, please refresh the page and try again."
+  },
+  "ATTACHMENTS": {
+    "image": {
+      "CONTENT": "ചിത്ര സന്ദേശം"
+    },
+    "audio": {
+      "CONTENT": "ഓഡിയോ സന്ദേശം"
+    },
+    "video": {
+      "CONTENT": "വീഡിയോ സന്ദേശം"
+    },
+    "file": {
+      "CONTENT": "ഫയൽ അറ്റാച്ചുമെന്റ്"
+    },
+    "location": {
+      "CONTENT": "സ്ഥാനം"
+    },
+    "fallback": {
+      "CONTENT": "ഒരു യു. ആർ. എൽ പങ്കിട്ടു"
+    }
+  },
+  "FOOTER_REPLY_TO": {
+    "REPLY_TO": "Replying to:"
+  }
+}

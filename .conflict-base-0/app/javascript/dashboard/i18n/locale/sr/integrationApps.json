@@ -1,0 +1,62 @@
+{
+  "INTEGRATION_APPS": {
+    "FETCHING": "Preuzimanje integracija",
+    "NO_HOOK_CONFIGURED": "Nema {integrationId} integracija podešenih na ovom nalogu.",
+    "HEADER": "Aplikacije",
+    "STATUS": {
+      "ENABLED": "Omogućeno",
+      "DISABLED": "Onemogućeno"
+    },
+    "CONFIGURE": "Podesi",
+    "ADD_BUTTON": "Dodaj novu zakačku",
+    "DELETE": {
+      "TITLE": {
+        "INBOX": "Potvrdi brisanje",
+        "ACCOUNT": "Prekini vezu"
+      },
+      "MESSAGE": {
+        "INBOX": "Da li zaista želite da obrišete?",
+        "ACCOUNT": "Da li zaista želite da prekinete vezu?"
+      },
+      "CONFIRM_BUTTON_TEXT": {
+        "INBOX": "Da, obriši",
+        "ACCOUNT": "Da, prekini vezu"
+      },
+      "CANCEL_BUTTON_TEXT": "Otkaži",
+      "API": {
+        "SUCCESS_MESSAGE": "Zakačka je uspešno obrisana",
+        "ERROR_MESSAGE": "Nije moguće se povezati sa Woot serverom, pokušajte ponovo kasnije"
+      }
+    },
+    "LIST": {
+      "FETCHING": "Preuzimanje zakački integracija",
+      "INBOX": "Prijemno sanduče",
+      "DELETE": {
+        "BUTTON_TEXT": "Izbriši"
+      }
+    },
+    "ADD": {
+      "FORM": {
+        "INBOX": {
+          "LABEL": "Izaberi prijemno sanduče",
+          "PLACEHOLDER": "Izaberi prijemno sanduče"
+        },
+        "SUBMIT": "Napravi",
+        "CANCEL": "Otkaži"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Zakačka integracije je uspešno dodata",
+        "ERROR_MESSAGE": "Nije moguće se povezati sa Woot serverom, pokušajte ponovo kasnije"
+      }
+    },
+    "CONNECT": {
+      "BUTTON_TEXT": "Poveži"
+    },
+    "DISCONNECT": {
+      "BUTTON_TEXT": "Prekini vezu"
+    },
+    "SIDEBAR_DESCRIPTION": {
+      "DIALOGFLOW": "Dialogflow is a natural language processing platform for building conversational interfaces. Integrating it with {installationName} lets bots handle queries first and transfer them to agents when needed. It helps qualify leads and reduce agent workload by answering FAQs. To add Dialogflow, create a Service Account in Google Console and share the credentials. Refer to the docs for details"
+    }
+  }
+}

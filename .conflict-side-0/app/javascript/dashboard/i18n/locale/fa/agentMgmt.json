@@ -1,0 +1,124 @@
+{
+  "AGENT_MGMT": {
+    "HEADER": "ایجنت ها",
+    "HEADER_BTN_TXT": "اضافه کردن ایجنت",
+    "LOADING": "دریافت لیست ایجنت ها",
+    "DESCRIPTION": "An agent is a member of your customer support team who can view and respond to user messages. The list below shows all the agents in your account.",
+    "LEARN_MORE": "Learn about user roles",
+    "AGENT_TYPES": {
+      "ADMINISTRATOR": "مدیرکل",
+      "AGENT": "ایجنت"
+    },
+    "LIST": {
+      "404": "در حال حاضر هیچ ایجنتی برای این حساب معرفی نشده است",
+      "TITLE": "مدیریت ایجنت ها",
+      "DESC": "می‌توانید به تیم‌تان ایجنت اضافه کرده یا ایجنت های فعلی را حذف کنید.",
+      "NAME": "نام",
+      "EMAIL": "ایمیل",
+      "STATUS": "وضعیت",
+      "ACTIONS": "عملیات",
+      "VERIFIED": "تایید شده",
+      "VERIFICATION_PENDING": "در انتظار تایید",
+      "AVAILABLE_CUSTOM_ROLE": "Available custom role permissions"
+    },
+    "ADD": {
+      "TITLE": "اضافه کردن ایجنت به تیم",
+      "DESC": "می‌توانید افرادی را معرفی کنید که مسئول پشتیبانی آنلاین صندوق‌های ورودی باشند",
+      "CANCEL_BUTTON_TEXT": "انصراف",
+      "FORM": {
+        "NAME": {
+          "LABEL": "اسم ایجنت",
+          "PLACEHOLDER": "لطفا اسم ایجنت را وارد نمایید"
+        },
+        "AGENT_TYPE": {
+          "LABEL": "نقش",
+          "PLACEHOLDER": "لطفا نقشی را انتخاب کنید",
+          "ERROR": "نقش ضروری است"
+        },
+        "EMAIL": {
+          "LABEL": "ایمیل",
+          "PLACEHOLDER": "لطفا آدرس ایمیل ایجنت را وارد نمایید"
+        },
+        "SUBMIT": "اضافه کردن ایجنت"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "ایجنت اضافه شد",
+        "EXIST_MESSAGE": "این ایجنت قبلا اضافه شده است، لطفا ایمیل دیگری را امتحان کنید",
+        "ERROR_MESSAGE": "متاسفانه ارتباط با سرور برقرار نشد، مجددا امتحان کنید"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "حذف",
+      "API": {
+        "SUCCESS_MESSAGE": "ایجنت حذف شد",
+        "ERROR_MESSAGE": "متاسفانه ارتباط با سرور برقرار نشد، مجددا امتحان کنید"
+      },
+      "CONFIRM": {
+        "TITLE": "تاییدیه حذف",
+        "MESSAGE": "مطمئن هستید که حذف شود ",
+        "YES": "بله، حذف شود ",
+        "NO": "خیر، نگه‌دار "
+      }
+    },
+    "EDIT": {
+      "TITLE": "تغییر مشخصات ایجنت",
+      "FORM": {
+        "NAME": {
+          "LABEL": "اسم ایجنت",
+          "PLACEHOLDER": "لطفا اسم ایجنت را وارد کنید"
+        },
+        "AGENT_TYPE": {
+          "LABEL": "نقش",
+          "PLACEHOLDER": "لطفا نقشی را انتخاب کنید",
+          "ERROR": "نقش ضروری است"
+        },
+        "EMAIL": {
+          "LABEL": "ایمیل",
+          "PLACEHOLDER": "لطفا ایمیل اپراتور را وارد کنید"
+        },
+        "AGENT_AVAILABILITY": {
+          "LABEL": "دسترسی",
+          "PLACEHOLDER": "لطفا یک وضعیت دسترسی را انتخاب کنید",
+          "ERROR": "دسترسی الزامی است"
+        },
+        "SUBMIT": "تغییر ایجنت"
+      },
+      "BUTTON_TEXT": "ویرایش",
+      "CANCEL_BUTTON_TEXT": "انصراف",
+      "API": {
+        "SUCCESS_MESSAGE": "اطلاعات ایجنت تغییر یافت",
+        "ERROR_MESSAGE": "متاسفانه ارتباط با سرور برقرار نشد، مجددا امتحان کنید"
+      },
+      "PASSWORD_RESET": {
+        "ADMIN_RESET_BUTTON": "تغییر رمز عبور",
+        "ADMIN_SUCCESS_MESSAGE": "یک ایمیل حاوی روش تغییر دادن رمز عبور برای ایجنت ارسال شد",
+        "SUCCESS_MESSAGE": "تغییر رمز عبور ایجنت با موفقیت انجام شد",
+        "ERROR_MESSAGE": "متاسفانه ارتباط با سرور برقرار نشد، مجددا امتحان کنید"
+      }
+    },
+    "SEARCH": {
+      "NO_RESULTS": "نتیجه‌ای یافت نشد."
+    },
+    "MULTI_SELECTOR": {
+      "PLACEHOLDER": "هیچکدام",
+      "TITLE": {
+        "AGENT": "انتخاب اپراتور",
+        "TEAM": "انتخاب تیم"
+      },
+      "LIST": {
+        "NONE": "هیچکدام"
+      },
+      "SEARCH": {
+        "NO_RESULTS": {
+          "AGENT": "اپراتوری یافت نشد",
+          "TEAM": "ایجنتی یافت نشد"
+        },
+        "PLACEHOLDER": {
+          "AGENT": "جستجوی اپراتور",
+          "TEAM": "جستجوی تیم",
+          "INPUT": "جستجوی اپراتورها"
+        }
+      }
+    }
+  }
+}

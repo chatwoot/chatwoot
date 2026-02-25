@@ -1,0 +1,184 @@
+{
+  "AUTOMATION": {
+    "HEADER": "Automatizacija",
+    "DESCRIPTION": "Automation can replace and streamline existing processes that require manual effort, such as adding labels and assigning conversations to the most suitable agent. This allows the team to focus on their strengths while reducing time spent on routine tasks.",
+    "LEARN_MORE": "Learn more about automation",
+    "HEADER_BTN_TXT": "Dodaj pravilo automatizacije",
+    "LOADING": "Prikupljanje pravila automatizacije",
+    "ADD": {
+      "TITLE": "Dodaj pravilo automatizacije",
+      "SUBMIT": "Napravi",
+      "CANCEL_BUTTON_TEXT": "Otkaži",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Naziv pravila",
+          "PLACEHOLDER": "Unesite naziv pravila",
+          "ERROR": "Ime je neophodno"
+        },
+        "DESC": {
+          "LABEL": "Opis",
+          "PLACEHOLDER": "Unesite opis pravila",
+          "ERROR": "Opis je neophodan"
+        },
+        "EVENT": {
+          "LABEL": "Događaj",
+          "PLACEHOLDER": "Molim izaberite jedno",
+          "ERROR": "Događaj je obavezan"
+        },
+        "CONDITIONS": {
+          "LABEL": "Uslovi"
+        },
+        "ACTIONS": {
+          "LABEL": "Akcije"
+        }
+      },
+      "CONDITION_BUTTON_LABEL": "Dodaj uslov",
+      "ACTION_BUTTON_LABEL": "Dodaj akciju",
+      "API": {
+        "SUCCESS_MESSAGE": "Pravilo automatizacije je uspešno dodato",
+        "ERROR_MESSAGE": "Nije bilo moguće napraviti pravilo automatizacije. Molim vas pokušajte ponovo"
+      }
+    },
+    "LIST": {
+      "TABLE_HEADER": {
+        "NAME": "Ime",
+        "DESCRIPTION": "Opis",
+        "ACTIVE": "Aktivno",
+        "CREATED_ON": "Napravljeno"
+      },
+      "404": "Nisu pronađena pravila automatizacije"
+    },
+    "DELETE": {
+      "TITLE": "Obriši pravilo automatizacije",
+      "SUBMIT": "Izbriši",
+      "CANCEL_BUTTON_TEXT": "Otkaži",
+      "CONFIRM": {
+        "TITLE": "Potvrdite brisanje",
+        "MESSAGE": "Sigurni ste da želite izbrisati ",
+        "YES": "Da, izbriši ",
+        "NO": "Ne, zadrži "
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Pravilo automatizacije je uspešno obrisano",
+        "ERROR_MESSAGE": "Nije bilo moguće obrisati pravilo automatizacije. Molim vas pokušajte ponovo"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Uredi pravilo automatizacije",
+      "SUBMIT": "Primeni",
+      "CANCEL_BUTTON_TEXT": "Otkaži",
+      "API": {
+        "SUCCESS_MESSAGE": "Pravilo automatizacije je uspešno izmenjeno",
+        "ERROR_MESSAGE": "Nije bilo moguće izmeniti pravilo automatizacije. Molim vas pokušajte ponovo"
+      }
+    },
+    "CLONE": {
+      "TOOLTIP": "Kloniraj",
+      "API": {
+        "SUCCESS_MESSAGE": "Automatizacija je uspešno klonirana",
+        "ERROR_MESSAGE": "Nije bilo moguće klonirati pravilo automatizacije. Molim vas pokušajte ponovo"
+      }
+    },
+    "FORM": {
+      "EDIT": "Uredi",
+      "CREATE": "Napravi",
+      "DELETE": "Izbriši",
+      "CANCEL": "Otkaži",
+      "RESET_MESSAGE": "Promena tipa događaja će resetovati uslove i događaje koje ste dodali ispod"
+    },
+    "CONDITION": {
+      "DELETE_MESSAGE": "Morate imati barem jedan uslov da bi ste mogli da sačuvate",
+      "CONTACT_CUSTOM_ATTR_LABEL": "Contact Custom Attributes",
+      "CONVERSATION_CUSTOM_ATTR_LABEL": "Conversation Custom Attributes"
+    },
+    "ACTION": {
+      "DELETE_MESSAGE": "Morate imati barem jednu akciju da bi ste mogli da sačuvate",
+      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Unesite ovde vašu poruku",
+      "TEAM_DROPDOWN_PLACEHOLDER": "Izaberite timove",
+      "EMAIL_INPUT_PLACEHOLDER": "Enter email",
+      "URL_INPUT_PLACEHOLDER": "Enter URL"
+    },
+    "TOGGLE": {
+      "ACTIVATION_TITLE": "Aktiviraj pravilo automatizacije",
+      "DEACTIVATION_TITLE": "Deaktiviraj pravilo automatizacije",
+      "ACTIVATION_DESCRIPTION": "Ova akcija će aktivirati pravilo automatizacije '{automationName}'. Da li zaista želite da nastavite?",
+      "DEACTIVATION_DESCRIPTION": "Ova akcija će deaktivirati pravilo automatizacije '{automationName}'. Da li zaista želite da nastavite?",
+      "ACTIVATION_SUCCESFUL": "Pravilo automatizacije je uspešno aktivirano",
+      "DEACTIVATION_SUCCESFUL": "Pravilo automatizacije je uspešno deaktivirano",
+      "ACTIVATION_ERROR": "Nije bilo moguće aktivirati automatizaciju. Molim vas pokušajte ponovo",
+      "DEACTIVATION_ERROR": "Nije bilo moguće deaktivirati automatizaciju. Molim vas pokušajte ponovo",
+      "CONFIRMATION_LABEL": "Da",
+      "CANCEL_LABEL": "Ne"
+    },
+    "ATTACHMENT": {
+      "UPLOAD_ERROR": "Nije bilo moguće dodati prilog. Molim vas pokušajte ponovo",
+      "LABEL_IDLE": "Dodaj prilog",
+      "LABEL_UPLOADING": "Dodavanje...",
+      "LABEL_UPLOADED": "Successfully Uploaded",
+      "LABEL_UPLOAD_FAILED": "Dodavanje nije uspelo"
+    },
+    "ERRORS": {
+      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
+      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "VALUE_REQUIRED": "Vrednost je neophodna",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998",
+      "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
+      "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
+      "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
+    },
+    "NONE_OPTION": "Niko",
+    "EVENTS": {
+      "CONVERSATION_CREATED": "Razgovor je napravljen",
+      "CONVERSATION_UPDATED": "Razgovor je izmenjen",
+      "MESSAGE_CREATED": "Message Created",
+      "CONVERSATION_RESOLVED": "Conversation Resolved",
+      "CONVERSATION_OPENED": "Conversation Opened"
+    },
+    "ACTIONS": {
+      "ASSIGN_AGENT": "Assign to Agent",
+      "ASSIGN_TEAM": "Assign a Team",
+      "ADD_LABEL": "Add a Label",
+      "REMOVE_LABEL": "Remove a Label",
+      "SEND_EMAIL_TO_TEAM": "Send an Email to Team",
+      "SEND_EMAIL_TRANSCRIPT": "Send an Email Transcript",
+      "MUTE_CONVERSATION": "Utišaj razgovor",
+      "SNOOZE_CONVERSATION": "Odloži razgovor",
+      "RESOLVE_CONVERSATION": "Reši razgovor",
+      "SEND_WEBHOOK_EVENT": "Send Webhook Event",
+      "SEND_ATTACHMENT": "Send Attachment",
+      "SEND_MESSAGE": "Send a Message",
+      "ADD_PRIVATE_NOTE": "Add a Private Note",
+      "CHANGE_PRIORITY": "Change Priority",
+      "ADD_SLA": "Add SLA",
+      "OPEN_CONVERSATION": "Otvoren razgovor"
+    },
+    "MESSAGE_TYPES": {
+      "INCOMING": "Incoming Message",
+      "OUTGOING": "Outgoing Message"
+    },
+    "PRIORITY_TYPES": {
+      "NONE": "Niko",
+      "LOW": "Low",
+      "MEDIUM": "Medium",
+      "HIGH": "High",
+      "URGENT": "Urgent"
+    },
+    "ATTRIBUTES": {
+      "MESSAGE_TYPE": "Message Type",
+      "MESSAGE_CONTAINS": "Message Contains",
+      "EMAIL": "E-pošta",
+      "INBOX": "Prijemno sanduče",
+      "CONVERSATION_LANGUAGE": "Conversation Language",
+      "PHONE_NUMBER": "Broj telefona",
+      "STATUS": "Status",
+      "BROWSER_LANGUAGE": "Jezik pregledača",
+      "MAIL_SUBJECT": "Email Subject",
+      "COUNTRY_NAME": "Država",
+      "REFERER_LINK": "Referrer Link",
+      "ASSIGNEE_NAME": "Assignee",
+      "TEAM_NAME": "Tim",
+      "PRIORITY": "Priority",
+      "LABELS": "Oznake"
+    }
+  }
+}

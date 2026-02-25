@@ -1,0 +1,49 @@
+{
+  "REGISTER": {
+    "TRY_WOOT": "Crea un account",
+    "TITLE": "Registrati",
+    "TESTIMONIAL_HEADER": "Basta uno step per proseguire",
+    "TESTIMONIAL_CONTENT": "Sei a un passo dal coinvolgere i tuoi clienti, fidelizzarli e trovarne di nuovi.",
+    "TERMS_ACCEPT": "Creando un account, accetti <a href=\"https://www.chatwoot.com/terms\">Termini e Condizioni</a> e <a href=\"https://www.chatwoot.com/privacy-policy\">Privacy policy</a>",
+    "OAUTH": {
+      "GOOGLE_SIGNUP": "Registrati con Google"
+    },
+    "COMPANY_NAME": {
+      "LABEL": "Nome azienda",
+      "PLACEHOLDER": "Inserisci il nome della tua azienda. Ad esempio: Wayne Enterprises",
+      "ERROR": "Il nome dell'azienda è troppo corto."
+    },
+    "FULL_NAME": {
+      "LABEL": "Nome completo",
+      "PLACEHOLDER": "Inserisci il tuo nome completo, es.: Bruce Wayne",
+      "ERROR": "Nome account troppo corto."
+    },
+    "EMAIL": {
+      "LABEL": "Email di lavoro",
+      "PLACEHOLDER": "Inserisci il tuo indirizzo email di lavoro. es.: bruce{'@'}wayne{'.'}enterprises",
+      "ERROR": "Inserisci un indirizzo email di lavoro valido."
+    },
+    "PASSWORD": {
+      "LABEL": "Password",
+      "PLACEHOLDER": "Password",
+      "ERROR": "Password troppo corta.",
+      "IS_INVALID_PASSWORD": "La password deve contenere almeno 1 lettera maiuscola, 1 lettera minuscola, 1 numero e 1 carattere speciale.",
+      "REQUIREMENTS_LENGTH": "Almeno 6 caratteri",
+      "REQUIREMENTS_UPPERCASE": "Almeno una lettera maiuscola",
+      "REQUIREMENTS_LOWERCASE": "Almeno una lettera minuscola",
+      "REQUIREMENTS_NUMBER": "Almeno un numero",
+      "REQUIREMENTS_SPECIAL": "Almeno un carattere speciale"
+    },
+    "CONFIRM_PASSWORD": {
+      "LABEL": "Conferma password",
+      "PLACEHOLDER": "Conferma password",
+      "ERROR": "Le password non corrispondono."
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Registrazione Riuscita",
+      "ERROR_MESSAGE": "Impossibile connettersi al server Woot. Riprova."
+    },
+    "SUBMIT": "Crea account",
+    "HAVE_AN_ACCOUNT": "Hai già un account?"
+  }
+}

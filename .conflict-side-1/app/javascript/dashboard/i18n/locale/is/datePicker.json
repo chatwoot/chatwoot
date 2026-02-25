@@ -1,0 +1,19 @@
+{
+  "DATE_PICKER": {
+    "APPLY_BUTTON": "Apply",
+    "CLEAR_BUTTON": "Clear",
+    "DATE_RANGE_INPUT": {
+      "START": "Start Date",
+      "END": "End Date"
+    },
+    "DATE_RANGE_OPTIONS": {
+      "TITLE": "DATE RANGE",
+      "LAST_7_DAYS": "Síðustu 7 daga",
+      "LAST_30_DAYS": "Síðustu 30 daga",
+      "LAST_3_MONTHS": "Síðustu 3 mánuði",
+      "LAST_6_MONTHS": "Síðustu 6 mánuði",
+      "LAST_YEAR": "Síðasta ár",
+      "CUSTOM_RANGE": "Custom date range"
+    }
+  }
+}

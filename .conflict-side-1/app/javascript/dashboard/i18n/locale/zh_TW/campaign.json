@@ -1,0 +1,214 @@
+{
+  "CAMPAIGN": {
+    "LIVE_CHAT": {
+      "HEADER_TITLE": "Live chat campaigns",
+      "NEW_CAMPAIGN": "Create campaign",
+      "CARD": {
+        "STATUS": {
+          "ENABLED": "已啟用",
+          "DISABLED": "已停用"
+        },
+        "CAMPAIGN_DETAILS": {
+          "SENT_BY": "發送者：",
+          "BOT": "機器人",
+          "FROM": "from",
+          "URL": "URL:"
+        }
+      },
+      "EMPTY_STATE": {
+        "TITLE": "No live chat campaigns are available",
+        "SUBTITLE": "Connect with your customers using proactive messages.  Click 'Create campaign' to get started."
+      },
+      "CREATE": {
+        "TITLE": "Create a live chat campaign",
+        "CANCEL_BUTTON_TEXT": "取消",
+        "CREATE_BUTTON_TEXT": "建立",
+        "FORM": {
+          "TITLE": {
+            "LABEL": "標題",
+            "PLACEHOLDER": "Please enter the title of campaign",
+            "ERROR": "標題為必填"
+          },
+          "MESSAGE": {
+            "LABEL": "訊息",
+            "PLACEHOLDER": "Please enter the message of campaign",
+            "ERROR": "訊息為必填"
+          },
+          "INBOX": {
+            "LABEL": "選擇收件匣",
+            "PLACEHOLDER": "選擇收件匣",
+            "ERROR": "Inbox is required"
+          },
+          "SENT_BY": {
+            "LABEL": "發送者：",
+            "PLACEHOLDER": "Please select sender",
+            "ERROR": "發送者為必填"
+          },
+          "END_POINT": {
+            "LABEL": "URL",
+            "PLACEHOLDER": "請輸入 URL",
+            "ERROR": "請輸入一個有效的 URL"
+          },
+          "TIME_ON_PAGE": {
+            "LABEL": "Time on page(Seconds)",
+            "PLACEHOLDER": "請輸入時間",
+            "ERROR": "Time on page is required"
+          },
+          "OTHER_PREFERENCES": {
+            "TITLE": "Other preferences",
+            "ENABLED": "Enable campaign",
+            "TRIGGER_ONLY_BUSINESS_HOURS": "Trigger only during business hours"
+          },
+          "BUTTONS": {
+            "CREATE": "建立",
+            "CANCEL": "取消"
+          },
+          "API": {
+            "SUCCESS_MESSAGE": "Live chat campaign created successfully",
+            "ERROR_MESSAGE": "出現錯誤，請重試。"
+          }
+        }
+      },
+      "EDIT": {
+        "TITLE": "Edit live chat campaign",
+        "FORM": {
+          "API": {
+            "SUCCESS_MESSAGE": "Live chat campaign updated successfully",
+            "ERROR_MESSAGE": "出現錯誤，請重試。"
+          }
+        }
+      }
+    },
+    "SMS": {
+      "HEADER_TITLE": "SMS campaigns",
+      "NEW_CAMPAIGN": "Create campaign",
+      "EMPTY_STATE": {
+        "TITLE": "No SMS campaigns are available",
+        "SUBTITLE": "Launch an SMS campaign to reach your customers directly. Send offers or make announcements with ease. Click 'Create campaign' to get started."
+      },
+      "CARD": {
+        "STATUS": {
+          "COMPLETED": "已完成",
+          "SCHEDULED": "Scheduled"
+        },
+        "CAMPAIGN_DETAILS": {
+          "SENT_FROM": "Sent from",
+          "ON": "on"
+        }
+      },
+      "CREATE": {
+        "TITLE": "Create SMS campaign",
+        "CANCEL_BUTTON_TEXT": "取消",
+        "CREATE_BUTTON_TEXT": "建立",
+        "FORM": {
+          "TITLE": {
+            "LABEL": "標題",
+            "PLACEHOLDER": "Please enter the title of campaign",
+            "ERROR": "標題為必填"
+          },
+          "MESSAGE": {
+            "LABEL": "訊息",
+            "PLACEHOLDER": "Please enter the message of campaign",
+            "ERROR": "訊息為必填"
+          },
+          "INBOX": {
+            "LABEL": "選擇收件匣",
+            "PLACEHOLDER": "選擇收件匣",
+            "ERROR": "Inbox is required"
+          },
+          "AUDIENCE": {
+            "LABEL": "Audience",
+            "PLACEHOLDER": "Select the customer labels",
+            "ERROR": "Audience is required"
+          },
+          "SCHEDULED_AT": {
+            "LABEL": "Scheduled time",
+            "PLACEHOLDER": "請選擇時間",
+            "ERROR": "Scheduled time is required"
+          },
+          "BUTTONS": {
+            "CREATE": "建立",
+            "CANCEL": "取消"
+          },
+          "API": {
+            "SUCCESS_MESSAGE": "SMS campaign created successfully",
+            "ERROR_MESSAGE": "出現錯誤，請重試。"
+          }
+        }
+      }
+    },
+    "WHATSAPP": {
+      "HEADER_TITLE": "WhatsApp campaigns",
+      "NEW_CAMPAIGN": "Create campaign",
+      "EMPTY_STATE": {
+        "TITLE": "No WhatsApp campaigns are available",
+        "SUBTITLE": "Launch a WhatsApp campaign to reach your customers directly. Send offers or make announcements with ease. Click 'Create campaign' to get started."
+      },
+      "CARD": {
+        "STATUS": {
+          "COMPLETED": "已完成",
+          "SCHEDULED": "Scheduled"
+        },
+        "CAMPAIGN_DETAILS": {
+          "SENT_FROM": "Sent from",
+          "ON": "on"
+        }
+      },
+      "CREATE": {
+        "TITLE": "Create WhatsApp campaign",
+        "CANCEL_BUTTON_TEXT": "取消",
+        "CREATE_BUTTON_TEXT": "建立",
+        "FORM": {
+          "TITLE": {
+            "LABEL": "標題",
+            "PLACEHOLDER": "Please enter the title of campaign",
+            "ERROR": "標題為必填"
+          },
+          "INBOX": {
+            "LABEL": "選擇收件匣",
+            "PLACEHOLDER": "選擇收件匣",
+            "ERROR": "Inbox is required"
+          },
+          "TEMPLATE": {
+            "LABEL": "WhatsApp Template",
+            "PLACEHOLDER": "Select a template",
+            "INFO": "Select a template to use for this campaign.",
+            "ERROR": "Template is required",
+            "PREVIEW_TITLE": "Process {templateName}",
+            "LANGUAGE": "Language",
+            "CATEGORY": "Category",
+            "VARIABLES_LABEL": "Variables",
+            "VARIABLE_PLACEHOLDER": "Enter value for {variable}"
+          },
+          "AUDIENCE": {
+            "LABEL": "Audience",
+            "PLACEHOLDER": "Select the customer labels",
+            "ERROR": "Audience is required"
+          },
+          "SCHEDULED_AT": {
+            "LABEL": "Scheduled time",
+            "PLACEHOLDER": "請選擇時間",
+            "ERROR": "Scheduled time is required"
+          },
+          "BUTTONS": {
+            "CREATE": "建立",
+            "CANCEL": "取消"
+          },
+          "API": {
+            "SUCCESS_MESSAGE": "WhatsApp campaign created successfully",
+            "ERROR_MESSAGE": "出現錯誤，請重試。"
+          }
+        }
+      }
+    },
+    "CONFIRM_DELETE": {
+      "TITLE": "您確定要刪除嗎？",
+      "DESCRIPTION": "The delete action is permanent and cannot be reversed.",
+      "CONFIRM": "刪除",
+      "API": {
+        "SUCCESS_MESSAGE": "Campaign deleted successfully",
+        "ERROR_MESSAGE": "出現錯誤，請重試。"
+      }
+    }
+  }
+}
