@@ -7,6 +7,7 @@ module Featurable
   }.freeze
 
   FEATURE_LIST = YAML.safe_load(Rails.root.join('config/features.yml').read).freeze
+  REMOVED_FEATURE_NAMES = FEATURE_LIST.select { |f| f['removed'] }.pluck('name').to_set.freeze
 
   FEATURES = FEATURE_LIST.each_with_object({}) do |feature, result|
     result[result.keys.size + 1] = "feature_#{feature['name']}".to_sym
@@ -65,8 +66,7 @@ module Featurable
     config = InstallationConfig.find_by(name: 'ACCOUNT_LEVEL_FEATURE_DEFAULTS')
     return true if config.blank?
 
-    removed_names = FEATURE_LIST.select { |f| f['removed'] }.pluck('name').to_set
-    features_to_enabled = config.value.reject { |f| removed_names.include?(f['name']) }
+    features_to_enabled = config.value.reject { |f| REMOVED_FEATURE_NAMES.include?(f['name']) }
                                 .select { |f| f[:enabled] }.pluck(:name)
     enable_features(*features_to_enabled)
   end
