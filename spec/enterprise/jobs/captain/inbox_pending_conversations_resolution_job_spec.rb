@@ -199,6 +199,51 @@ RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
     end
   end
 
+  context 'when handoff occurs outside business hours' do
+    let(:handoff_reason) { 'Customer has not responded to clarifying question' }
+
+    before do
+      allow(inbox.account).to receive(:feature_enabled?).and_call_original
+      allow(inbox.account).to receive(:feature_enabled?).with('captain_tasks').and_return(true)
+      mock_service = instance_double(Captain::ConversationCompletionService)
+      allow(mock_service).to receive(:perform).and_return({ complete: false, reason: handoff_reason })
+      allow(Captain::ConversationCompletionService).to receive(:new).and_return(mock_service)
+      inbox.update!(working_hours_enabled: true, out_of_office_message: 'We are currently unavailable.')
+    end
+
+    it 'sends OOO message for non-campaign conversations' do
+      travel_to '01.11.2020 13:00'.to_datetime do
+        resolvable_pending_conversation.update!(last_activity_at: 2.hours.ago)
+        described_class.perform_now(inbox)
+
+        ooo_message = resolvable_pending_conversation.messages.template.last
+        expect(ooo_message).to be_present
+        expect(ooo_message.content).to eq('We are currently unavailable.')
+      end
+    end
+
+    it 'does not send OOO message for campaign conversations' do
+      campaign = create(:campaign, account: inbox.account, inbox: inbox)
+      resolvable_pending_conversation.update!(campaign: campaign)
+
+      travel_to '01.11.2020 13:00'.to_datetime do
+        resolvable_pending_conversation.update!(last_activity_at: 2.hours.ago)
+        described_class.perform_now(inbox)
+
+        expect(resolvable_pending_conversation.messages.template).to be_empty
+      end
+    end
+
+    it 'does not send OOO message during business hours' do
+      travel_to '26.10.2020 10:00'.to_datetime do
+        resolvable_pending_conversation.update!(last_activity_at: 2.hours.ago)
+        described_class.perform_now(inbox)
+
+        expect(resolvable_pending_conversation.messages.template).to be_empty
+      end
+    end
+  end
+
   context 'when LLM evaluation fails' do
     before do
       allow(inbox.account).to receive(:feature_enabled?).and_call_original
