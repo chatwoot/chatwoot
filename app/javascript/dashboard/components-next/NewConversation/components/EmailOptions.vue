@@ -44,14 +44,16 @@ const bccEmailsArray = computed(() =>
 );
 
 const contactEmailsList = computed(() => {
-  return props.contacts?.map(({ name, id, email }) => ({
-    id,
-    label: email,
-    email,
-    thumbnail: { name: name, src: '' },
-    value: id,
-    action: 'email',
-  }));
+  return props.contacts
+    ?.filter(contact => contact.email)
+    .map(({ name, id, email }) => ({
+      id,
+      label: email,
+      email,
+      thumbnail: { name: name, src: '' },
+      value: id,
+      action: 'email',
+    }));
 });
 
 // Handle updates from TagInput and convert array back to string
