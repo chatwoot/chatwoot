@@ -592,8 +592,10 @@
         "DISABLED": "Devre dışı"
       },
       "LOCK_TO_SINGLE_CONVERSATION": {
-        "ENABLED": "Etkin",
-        "DISABLED": "Devre dışı"
+        "ENABLED": "Reopen same conversation",
+        "DISABLED": "Create new conversations",
+        "ENABLED_DESCRIPTION": "When a contact messages again, the previous conversation will be reopened.",
+        "DISABLED_DESCRIPTION": "A new conversation will be created each time after the previous one is resolved."
       },
       "ENABLE_HMAC": {
         "LABEL": "Etkinleştir"
@@ -713,8 +715,8 @@
       "SENDER_NAME_SECTION_TEXT": "E-postada Ajanın adını göstermeyi/Devre dışı bırakmayı etkinleştirin, devre dışı bırakıldığında iş adını gösterir",
       "ENABLE_CONTINUITY_VIA_EMAIL": "E-posta aracılığıyla konuşma sürekliliğini etkinleştir",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "E-posta adresi mevcut ise konuşmalar e-posta aracılığıyla devam eder.",
-      "LOCK_TO_SINGLE_CONVERSATION": "Tek bir konuşmaya kilitle",
-      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Bu gelen kutusu için aynı kişi için birden fazla konuşmayı etkinleştir veya devre dışı bırak",
+      "LOCK_TO_SINGLE_CONVERSATION": "Conversation Routing",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Configure conversation creation for existing contacts",
       "INBOX_UPDATE_TITLE": "Gelen Kutusu Ayarları",
       "INBOX_UPDATE_SUB_TEXT": "Gelen kutusu ayarlarınızı güncelleyin",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Bu gelen kutusuna eklenen aracılara yeni konuşmaların otomatik olarak atanmasını etkinleştirin veya devre dışı bırakın.",
