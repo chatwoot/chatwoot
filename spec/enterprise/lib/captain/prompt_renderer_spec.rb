@@ -58,12 +58,42 @@ RSpec.describe Captain::PromptRenderer do
     it 'loads and parses liquid template' do
       liquid_template_double = instance_double(Liquid::Template)
       allow(Liquid::Template).to receive(:parse).with(template_content).and_return(liquid_template_double)
-      allow(liquid_template_double).to receive(:render).with(hash_including('name', 'balance')).and_return('rendered')
+      allow(liquid_template_double).to receive(:render).with(hash_including('name', 'balance'), anything).and_return('rendered')
 
       result = described_class.render(template_name, context)
 
       expect(result).to eq('rendered')
       expect(Liquid::Template).to have_received(:parse).with(template_content)
+    end
+  end
+
+  describe 'snippet rendering' do
+    before do
+      # Override global File stubs to allow real file system access for snippet resolution,
+      # while still stubbing the main template file
+      allow(File).to receive(:exist?).and_call_original
+      allow(File).to receive(:read).and_call_original
+      allow(File).to receive(:exist?).with(template_path).and_return(true)
+    end
+
+    it 'resolves render tags using the snippets file system' do
+      template_with_render = "{% render 'conversation', conversation: conversation %}"
+      allow(File).to receive(:read).with(template_path).and_return(template_with_render)
+
+      result = described_class.render(template_name, { conversation: { display_id: 42, status: 'open' } })
+
+      expect(result).to include('Conversation ID: 42')
+      expect(result).to include('Status: open')
+    end
+
+    it 'renders contact snippet with context variables' do
+      template_with_render = "{% render 'contact', contact: contact %}"
+      allow(File).to receive(:read).with(template_path).and_return(template_with_render)
+
+      result = described_class.render(template_name, { contact: { name: 'Alice', email: 'alice@test.com' } })
+
+      expect(result).to include('Name: Alice')
+      expect(result).to include('Email: alice@test.com')
     end
   end
 
