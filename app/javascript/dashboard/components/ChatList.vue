@@ -318,7 +318,7 @@ const conversationList = computed(() => {
 });
 
 const showEndOfListMessage = computed(() => {
-  return (
+  return !!(
     conversationList.value.length &&
     hasCurrentPageEndReached.value &&
     !chatListLoading.value

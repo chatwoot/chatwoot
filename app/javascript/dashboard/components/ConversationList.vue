@@ -70,6 +70,7 @@ defineExpose({ conversationListRef });
       class="[&>div:has(+_div_.active)>*]:!border-n-surface-1 [&>div:has(+_div_.selected)>*]:!border-n-surface-1"
     >
       <ConversationItem
+        :key="index"
         :source="item"
         :label="label"
         :team-id="teamId"
@@ -77,7 +78,6 @@ defineExpose({ conversationListRef });
         :conversation-type="conversationType"
         :show-assignee="showAssignee"
         :show-expanded="showExpandedCards"
-        :data-index="index"
       />
     </Virtualizer>
     <div v-if="isLoading" class="flex justify-center my-4">
