@@ -1,4 +1,4 @@
-import { computed, unref } from 'vue';
+import { unref } from 'vue';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { useConfig } from 'dashboard/composables/useConfig';
@@ -18,7 +18,7 @@ export function usePolicy() {
     'globalConfig/isACustomBrandedInstance'
   );
 
-  const { isEnterprise, enterprisePlanName } = useConfig();
+  const { isEnterprise } = useConfig();
   const { accountId } = useAccount();
 
   const getUserPermissionsForAccount = () => {
@@ -55,12 +55,6 @@ export function usePolicy() {
     return PREMIUM_FEATURES.includes(featureFlag);
   };
 
-  const hasPremiumEnterprise = computed(() => {
-    if (isEnterprise) return enterprisePlanName !== 'community';
-
-    return true;
-  });
-
   const shouldShow = (featureFlag, permissions, installationTypes) => {
     const flag = unref(featureFlag);
     const perms = unref(permissions);
@@ -85,19 +79,7 @@ export function usePolicy() {
     }
 
     if (isEnterprise) {
-      // in enterprise, if the feature is premium but they don't have an enterprise plan
-      // we should it anyway this is to show upsells on enterprise regardless of the feature flag
-      // Feature flag is only honored if they have a premium plan
-      //
-      // In case they have a premium plan, the check on feature flag alone is enough
-      // because the second condition will always be false
-      // That means once subscribed, the feature can be disabled by the admin
-      //
-      // the paywall should be managed by the individual component
-      return (
-        isFeatureFlagEnabled(flag) ||
-        (isPremiumFeature(flag) && !hasPremiumEnterprise.value)
-      );
+      return isFeatureFlagEnabled(flag);
     }
 
     // default to true
@@ -119,7 +101,7 @@ export function usePolicy() {
       }
 
       if (isEnterprise) {
-        return !hasPremiumEnterprise.value;
+        return false;
       }
     }
 
