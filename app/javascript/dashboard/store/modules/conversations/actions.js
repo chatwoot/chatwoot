@@ -204,6 +204,9 @@ const actions = {
         // Ignore error
       }
     }
+    dispatch('translateUntranslatedMessages', {
+      conversationId: data.id,
+    });
   },
 
   assignAgent: async ({ dispatch }, { conversationId, agentId }) => {

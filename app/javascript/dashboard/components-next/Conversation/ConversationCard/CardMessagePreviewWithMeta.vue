@@ -2,6 +2,9 @@
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
+import { selectTranslation } from 'dashboard/composables/useTranslations';
+import { useUISettings } from 'dashboard/composables/useUISettings';
+import { useAccount } from 'dashboard/composables/useAccount';
 
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 import CardLabels from 'dashboard/components-next/Conversation/ConversationCard/CardLabels.vue';
@@ -23,13 +26,24 @@ const { t } = useI18n();
 const slaCardLabelRef = ref(null);
 
 const { getPlainText } = useMessageFormatter();
+const { uiSettings } = useUISettings();
+const { currentAccount } = useAccount();
 
 const lastNonActivityMessageContent = computed(() => {
   const { lastNonActivityMessage = {}, customAttributes = {} } =
     props.conversation;
   const { email: { subject } = {} } = customAttributes;
+  const translations = lastNonActivityMessage?.content_attributes?.translations;
+  const translated = selectTranslation(
+    translations,
+    uiSettings.value?.locale,
+    currentAccount.value?.locale
+  );
   return getPlainText(
-    subject || lastNonActivityMessage?.content || t('CHAT_LIST.NO_CONTENT')
+    translated ||
+      subject ||
+      lastNonActivityMessage?.content ||
+      t('CHAT_LIST.NO_CONTENT')
   );
 });
 

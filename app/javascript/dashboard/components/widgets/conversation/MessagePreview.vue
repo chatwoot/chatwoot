@@ -1,6 +1,9 @@
 <script>
 import { MESSAGE_TYPE } from 'widget/helpers/constants';
 import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
+import { selectTranslation } from 'dashboard/composables/useTranslations';
+import { useUISettings } from 'dashboard/composables/useUISettings';
+import { useAccount } from 'dashboard/composables/useAccount';
 import { ATTACHMENT_ICONS } from 'shared/constants/messages';
 
 export default {
@@ -21,8 +24,12 @@ export default {
   },
   setup() {
     const { getPlainText } = useMessageFormatter();
+    const { uiSettings } = useUISettings();
+    const { currentAccount } = useAccount();
     return {
       getPlainText,
+      uiSettings,
+      currentAccount,
     };
   },
   computed: {
@@ -41,7 +48,13 @@ export default {
     parsedLastMessage() {
       const { content_attributes: contentAttributes } = this.message;
       const { email: { subject } = {} } = contentAttributes || {};
-      return this.getPlainText(subject || this.message.content);
+      const translations = contentAttributes?.translations;
+      const translated = selectTranslation(
+        translations,
+        this.uiSettings?.locale,
+        this.currentAccount?.locale
+      );
+      return this.getPlainText(translated || subject || this.message.content);
     },
     lastMessageFileType() {
       const [{ file_type: fileType } = {}] = this.message.attachments;
