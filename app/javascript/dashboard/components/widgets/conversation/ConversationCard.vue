@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { getLastMessage } from 'dashboard/helper/conversationHelper';
@@ -50,10 +50,17 @@ const store = useStore();
 
 const hovered = ref(false);
 const showContextMenu = ref(false);
-const contextMenu = ref({
-  x: null,
-  y: null,
-});
+const contextMenu = ref({ x: null, y: null });
+
+// Reset UI state when conversation changes at same index (no :key, instance reused on reorder)
+// This prevents context menu/hover state from leaking to a different conversation
+const resetState = () => {
+  hovered.value = false;
+  showContextMenu.value = false;
+  contextMenu.value = { x: null, y: null };
+};
+
+watch(() => props.chat.id, resetState);
 
 const currentChat = useMapGetter('getSelectedChat');
 const inboxesList = useMapGetter('inboxes/getInboxes');
