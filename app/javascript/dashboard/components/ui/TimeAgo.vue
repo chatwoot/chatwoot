@@ -70,6 +70,10 @@ export default {
   watch: {
     lastActivityTimestamp() {
       this.lastActivityAtTimeAgo = dynamicTime(this.lastActivityTimestamp);
+      if (this.isAutoRefreshEnabled) {
+        clearTimeout(this.timer);
+        this.createTimer();
+      }
     },
     createdAtTimestamp() {
       this.createdAtTimeAgo = dynamicTime(this.createdAtTimestamp);
