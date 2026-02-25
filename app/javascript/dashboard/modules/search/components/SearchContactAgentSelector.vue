@@ -119,10 +119,7 @@ const debouncedSearch = debounce(async query => {
   }
 
   try {
-    const contacts = await searchContacts({
-      keys: ['name', 'email', 'phone_number'],
-      query,
-    });
+    const contacts = await searchContacts(query);
 
     // Add selected contact to top if not already in results
     const allContacts = selectedContact.value

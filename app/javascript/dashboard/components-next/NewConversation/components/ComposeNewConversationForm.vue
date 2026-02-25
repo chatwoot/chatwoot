@@ -158,21 +158,7 @@ const isAnyDropdownActive = computed(() => {
 
 const handleContactSearch = value => {
   showContactsDropdown.value = true;
-  const query = typeof value === 'string' ? value.trim() : '';
-  const hasAlphabet = Array.from(query).some(char => {
-    const lower = char.toLowerCase();
-    const upper = char.toUpperCase();
-    return lower !== upper;
-  });
-  const isEmailLike = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(query);
-
-  const keys = ['email', 'phone_number', 'name'].filter(key => {
-    if (key === 'phone_number' && hasAlphabet) return false;
-    if (key === 'name' && isEmailLike) return false;
-    return true;
-  });
-
-  emit('searchContacts', { keys, query: value });
+  emit('searchContacts', value);
 };
 
 const handleDropdownUpdate = (type, value) => {
@@ -187,12 +173,12 @@ const handleDropdownUpdate = (type, value) => {
 
 const searchCcEmails = value => {
   showCcEmailsDropdown.value = true;
-  emit('searchContacts', { keys: ['email'], query: value });
+  emit('searchContacts', value);
 };
 
 const searchBccEmails = value => {
   showBccEmailsDropdown.value = true;
-  emit('searchContacts', { keys: ['email'], query: value });
+  emit('searchContacts', value);
 };
 
 const setSelectedContact = async ({ value, action, ...rest }) => {
