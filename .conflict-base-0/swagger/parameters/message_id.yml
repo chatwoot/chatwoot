@@ -1,6 +1,0 @@
-in: path
-name: message_id
-schema:
-  type: integer
-required: true
-description: The numeric ID of the message
