@@ -10026,19 +10026,31 @@
             "description": "Custom attributes of the account",
             "properties": {
               "plan_name": {
-                "type": "string",
+                "type": [
+                  "string",
+                  "null"
+                ],
                 "description": "Subscription plan name"
               },
               "subscribed_quantity": {
-                "type": "number",
+                "type": [
+                  "number",
+                  "null"
+                ],
                 "description": "Subscribed quantity"
               },
               "subscription_status": {
-                "type": "string",
+                "type": [
+                  "string",
+                  "null"
+                ],
                 "description": "Subscription status"
               },
               "subscription_ends_on": {
-                "type": "string",
+                "type": [
+                  "string",
+                  "null"
+                ],
                 "format": "date",
                 "description": "Subscription end date"
               },
