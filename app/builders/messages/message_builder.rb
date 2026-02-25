@@ -24,10 +24,10 @@ class Messages::MessageBuilder # rubocop:disable Metrics/ClassLength
     @message = @conversation.messages.build(message_params)
     process_attachments
     process_emails
+    auto_translate_outgoing
     # When the message has no quoted content, it will just be rendered as a regular message
     # The frontend is equipped to handle this case
     process_email_content
-    auto_translate_outgoing
     @message.save!
     @message
   end
@@ -54,7 +54,8 @@ class Messages::MessageBuilder # rubocop:disable Metrics/ClassLength
     hook = @account.hooks.find_by(app_id: 'google_translate')
     return if hook.blank? || hook.disabled?
 
-    target = @conversation.contact.additional_attributes&.dig('locale')
+    target = @conversation.contact.additional_attributes&.dig('locale') ||
+             @conversation.additional_attributes&.dig('conversation_language')
     source = @user&.ui_settings&.dig('locale') || 'en'
     return if target.blank? || target == source
 
