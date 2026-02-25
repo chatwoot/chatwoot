@@ -245,6 +245,18 @@ describe Whatsapp::LiquidTemplateProcessorService do
         expect(result['processed_params']['2']).to eq(contact.email)
         expect(result['processed_params']['3']).to eq('Hello World')
       end
+
+      it 'treats component-named string values as legacy params' do
+        params_with_component_named_key = {
+          'name' => 'legacy_template',
+          'processed_params' => { 'body' => '{{contact.name}}' }
+        }
+
+        result = service.process_template_params(params_with_component_named_key)
+        contact_drop_name = ContactDrop.new(contact).name
+
+        expect(result['processed_params']['body']).to eq(contact_drop_name)
+      end
     end
 
     context 'with legacy array processed_params' do

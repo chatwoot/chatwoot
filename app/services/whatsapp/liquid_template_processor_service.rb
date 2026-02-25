@@ -51,7 +51,33 @@ class Whatsapp::LiquidTemplateProcessorService
   end
 
   def enhanced_component_params?(processed_params)
-    processed_params.keys.any? { |key| COMPONENT_KEYS.include?(key) }
+    has_component_keys = processed_params.keys.any? { |key| COMPONENT_KEYS.include?(key) }
+    return false unless has_component_keys
+
+    valid_component_structure?(processed_params)
+  end
+
+  def valid_component_structure?(processed_params)
+    valid_body_component?(processed_params['body']) &&
+      valid_header_component?(processed_params['header']) &&
+      valid_footer_component?(processed_params['footer']) &&
+      valid_buttons_component?(processed_params['buttons'])
+  end
+
+  def valid_body_component?(body)
+    body.nil? || body.is_a?(Hash)
+  end
+
+  def valid_header_component?(header)
+    header.nil? || header.is_a?(Hash)
+  end
+
+  def valid_footer_component?(footer)
+    footer.nil? || footer.is_a?(Hash)
+  end
+
+  def valid_buttons_component?(buttons)
+    buttons.nil? || buttons.is_a?(Array)
   end
 
   def process_body_params(processed_params)
