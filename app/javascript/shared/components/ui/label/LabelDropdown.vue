@@ -46,10 +46,7 @@ export default {
     filteredActiveLabels() {
       if (!this.search) return this.accountLabels;
 
-      return picoSearch(this.accountLabels, this.search, [
-        { name: 'title', weight: 4 },
-        'description',
-      ]);
+      return picoSearch(this.accountLabels, this.search, ['title']);
     },
 
     noResult() {
