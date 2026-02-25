@@ -583,6 +583,9 @@ function loadMoreConversations() {
   }
 }
 
+// Use IntersectionObserver instead of @scroll since Virtualizer only emits on user scroll.
+// If the list doesn’t fill the viewport, loading can stall.
+// IntersectionObserver triggers as soon as the sentinel is visible.
 const intersectionObserverOptions = computed(() => ({
   root: conversationListRef.value,
   rootMargin: '100px 0px 100px 0px',
