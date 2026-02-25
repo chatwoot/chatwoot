@@ -35,9 +35,8 @@ class ConversationReplyMailer < ApplicationMailer
   end
 
   def email_reply(message)
-    return unless smtp_config_set_or_development?
-
     init_conversation_attributes(message.conversation)
+    return unless smtp_config_set_or_development? || channel_has_own_delivery_method?
 
     @message = message
     prepare_mail(true)
@@ -69,6 +68,12 @@ class ConversationReplyMailer < ApplicationMailer
     @agent = @conversation.assignee
     @inbox = @conversation.inbox
     @channel = @inbox.channel
+  end
+
+  def channel_has_own_delivery_method?
+    return false unless @inbox&.email?
+
+    @channel&.smtp_enabled || @channel&.google? || @channel&.microsoft?
   end
 
   def should_use_conversation_email_address?

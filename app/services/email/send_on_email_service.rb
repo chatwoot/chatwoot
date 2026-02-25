@@ -9,6 +9,8 @@ class Email::SendOnEmailService < Base::SendOnChannelService
     return unless message.email_notifiable_message?
 
     reply_mail = ConversationReplyMailer.with(account: message.account).email_reply(message).deliver_now
+    return Messages::StatusUpdateService.new(message, 'failed', 'Email delivery returned nil').perform unless reply_mail
+
     Rails.logger.info("Email message #{message.id} sent with source_id: #{reply_mail.message_id}")
     message.update(source_id: reply_mail.message_id)
   rescue StandardError => e
