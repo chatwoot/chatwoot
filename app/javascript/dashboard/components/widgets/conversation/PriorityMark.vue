@@ -36,7 +36,6 @@ export default {
     v-tooltip="{
       content: tooltipText,
       delay: { show: 1500, hide: 0 },
-      hideOnClick: true,
     }"
     class="shrink-0 rounded-sm inline-flex items-center justify-center w-3.5 h-3.5"
     :class="{
