@@ -68,32 +68,32 @@ RSpec.describe Captain::PromptRenderer do
   end
 
   describe 'snippet rendering' do
+    let(:snippets_dir) { Rails.root.join('enterprise/lib/captain/prompts/snippets') }
+    let(:snippet_path) { snippets_dir.join('greeting.liquid') }
+
     before do
-      # Override global File stubs to allow real file system access for snippet resolution,
-      # while still stubbing the main template file
       allow(File).to receive(:exist?).and_call_original
       allow(File).to receive(:read).and_call_original
       allow(File).to receive(:exist?).with(template_path).and_return(true)
+      # Create a controlled snippet to decouple from real snippet content
+      allow(File).to receive(:exist?).with(snippet_path.to_s).and_return(true)
+      allow(File).to receive(:read).with(snippet_path.to_s).and_return('Hello {{ name }}')
     end
 
-    it 'resolves render tags using the snippets file system' do
-      template_with_render = "{% render 'conversation', conversation: conversation %}"
-      allow(File).to receive(:read).with(template_path).and_return(template_with_render)
+    it 'resolves render tags from the snippets directory' do
+      allow(File).to receive(:read).with(template_path).and_return("{% render 'greeting', name: name %}")
 
-      result = described_class.render(template_name, { conversation: { display_id: 42, status: 'open' } })
+      result = described_class.render(template_name, { name: 'World' })
 
-      expect(result).to include('Conversation ID: 42')
-      expect(result).to include('Status: open')
+      expect(result).to eq('Hello World')
     end
 
-    it 'renders contact snippet with context variables' do
-      template_with_render = "{% render 'contact', contact: contact %}"
-      allow(File).to receive(:read).with(template_path).and_return(template_with_render)
+    it 'outputs a liquid error for missing snippets' do
+      allow(File).to receive(:read).with(template_path).and_return("{% render 'nonexistent' %}")
 
-      result = described_class.render(template_name, { contact: { name: 'Alice', email: 'alice@test.com' } })
+      result = described_class.render(template_name, {})
 
-      expect(result).to include('Name: Alice')
-      expect(result).to include('Email: alice@test.com')
+      expect(result).to include('Liquid error')
     end
   end
 
