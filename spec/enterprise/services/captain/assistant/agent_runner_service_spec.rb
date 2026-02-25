@@ -74,11 +74,11 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
     end
 
     it 'runs agent with extracted user message and context' do
-      expected_context = {
+      expected_context = hash_including(
+        session_id: "#{account.id}_#{conversation.display_id}",
         conversation_history: [
           { role: :user, content: 'Hello there', agent_name: nil },
-          { role: :assistant, content: 'Hi! How can I help you?', agent_name: 'Assistant' },
-          { role: :user, content: 'I need help with my account', agent_name: nil }
+          { role: :assistant, content: 'Hi! How can I help you?', agent_name: 'Assistant' }
         ],
         state: hash_including(
           account_id: account.id,
@@ -86,7 +86,7 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
           conversation: hash_including(id: conversation.id),
           contact: hash_including(id: contact.id)
         )
-      }
+      )
 
       expect(mock_runner).to receive(:run).with(
         'I need help with my account',
@@ -95,6 +95,71 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
       )
 
       service.generate_response(message_history: message_history)
+    end
+
+    context 'when the latest user message is multimodal' do
+      let(:multimodal_message_history) do
+        [
+          { role: 'assistant', content: 'Please share a screenshot' },
+          {
+            role: 'user',
+            content: [
+              { type: 'text', text: 'What does this error mean?' },
+              { type: 'image_url', image_url: { url: 'https://example.com/error.png' } }
+            ]
+          }
+        ]
+      end
+
+      it 'passes image attachments to the runner input' do
+        expect(mock_runner).to receive(:run) do |input, context:, max_turns:|
+          expect(input).to be_a(RubyLLM::Content)
+          expect(input.text).to eq('What does this error mean?')
+          expect(input.attachments.first.source.to_s).to eq('https://example.com/error.png')
+          expect(context[:conversation_history]).to eq([{ role: :assistant, content: 'Please share a screenshot', agent_name: nil }])
+          expect(max_turns).to eq(100)
+        end
+
+        service.generate_response(message_history: multimodal_message_history)
+      end
+
+      it 'preserves multimodal content in earlier history messages' do
+        history_with_prior_image = [
+          {
+            role: 'user',
+            content: [
+              { type: 'text', text: 'Here is my error screenshot' },
+              { type: 'image_url', image_url: { url: 'https://example.com/error.png' } }
+            ]
+          },
+          { role: 'assistant', content: 'I see the error. Try restarting.' },
+          { role: 'user', content: 'It still does not work' }
+        ]
+
+        expect(mock_runner).to receive(:run) do |input, context:, max_turns:|
+          expect(input).to eq('It still does not work')
+          # The earlier user message with the image should preserve the multimodal array
+          first_history_msg = context[:conversation_history].first
+          expect(first_history_msg[:content]).to be_a(Array)
+          expect(first_history_msg[:content]).to include(
+            { type: 'text', text: 'Here is my error screenshot' },
+            { type: 'image_url', image_url: { url: 'https://example.com/error.png' } }
+          )
+          expect(max_turns).to eq(100)
+        end
+
+        service.generate_response(message_history: history_with_prior_image)
+      end
+
+      it 'stores multimodal trace payloads in runner context' do
+        expect(mock_runner).to receive(:run) do |_input, context:, max_turns:|
+          expect(context[:captain_v2_trace_input]).to include('image_url')
+          expect(context[:captain_v2_trace_current_input]).to include('image_url')
+          expect(max_turns).to eq(100)
+        end
+
+        service.generate_response(message_history: multimodal_message_history)
+      end
     end
 
     it 'processes and formats agent result' do
@@ -196,22 +261,21 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
     end
 
     context 'with multimodal content' do
-      let(:multimodal_message_history) do
+      let(:multimodal_content) do
         [
-          {
-            role: 'user',
-            content: [
-              { type: 'text', text: 'Can you help with this image?' },
-              { type: 'image_url', image_url: { url: 'https://example.com/image.jpg' } }
-            ]
-          }
+          { type: 'text', text: 'Can you help with this image?' },
+          { type: 'image_url', image_url: { url: 'https://example.com/image.jpg' } }
         ]
       end
 
-      it 'extracts text content from multimodal messages' do
+      let(:multimodal_message_history) do
+        [{ role: 'user', content: multimodal_content }]
+      end
+
+      it 'preserves multimodal arrays in conversation history for image context retention' do
         context = service.send(:build_context, multimodal_message_history)
 
-        expect(context[:conversation_history].first[:content]).to eq('Can you help with this image?')
+        expect(context[:conversation_history].first[:content]).to eq(multimodal_content)
       end
     end
   end
@@ -223,6 +287,24 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
       result = service.send(:extract_last_user_message, message_history)
 
       expect(result).to eq('I need help with my account')
+    end
+
+    it 'returns multimodal content with image attachments for the runner input' do
+      multimodal_message_history = [
+        {
+          role: 'user',
+          content: [
+            { type: 'text', text: 'Can you check this screenshot?' },
+            { type: 'image_url', image_url: { url: 'https://example.com/image.jpg' } }
+          ]
+        }
+      ]
+
+      result = service.send(:extract_last_user_message, multimodal_message_history)
+
+      expect(result).to be_a(RubyLLM::Content)
+      expect(result.text).to eq('Can you check this screenshot?')
+      expect(result.attachments.first.source.to_s).to eq('https://example.com/image.jpg')
     end
   end
 
@@ -255,6 +337,28 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
     end
   end
 
+  describe '#dynamic_trace_attributes' do
+    subject(:service) { described_class.new(assistant: assistant, conversation: conversation) }
+
+    it 'adds serialized trace input attributes when present in context' do
+      context = {
+        state: {
+          account_id: account.id,
+          assistant_id: assistant.id,
+          conversation: { id: conversation.id, display_id: conversation.display_id }
+        },
+        captain_v2_trace_input: '[{"role":"user","content":[{"type":"image_url","image_url":{"url":"https://example.com/image.jpg"}}]}]'
+      }
+      context_wrapper = Struct.new(:context).new(context)
+
+      attributes = service.send(:dynamic_trace_attributes, context_wrapper)
+
+      expect(attributes['langfuse.trace.input']).to include('image_url')
+      expect(attributes['langfuse.observation.input']).to include('image_url')
+      expect(attributes['langfuse.user.id']).to eq(account.id.to_s)
+    end
+  end
+
   describe '#build_state' do
     subject(:service) { described_class.new(assistant: assistant, conversation: conversation) }
 
@@ -277,6 +381,7 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
         contact_id: contact.id,
         status: conversation.status
       )
+      expect(state[:channel_type]).to eq(inbox.channel_type)
     end
 
     it 'includes contact attributes when contact is present' do
@@ -303,6 +408,60 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
         expect(state).not_to have_key(:conversation)
         expect(state).not_to have_key(:contact)
       end
+    end
+  end
+
+  describe '#add_usage_metadata_callback' do
+    it 'sets credit_used=false when handoff tool is used' do
+      service = described_class.new(assistant: assistant, conversation: conversation)
+      runner = instance_double(Agents::AgentRunner)
+      tool_complete_callback = nil
+      run_complete_callback = nil
+      span_class = Class.new do
+        def set_attribute(*); end
+      end
+      root_span = instance_double(span_class)
+      context_wrapper = Struct.new(:context).new({ __otel_tracing: { root_span: root_span } })
+
+      allow(ChatwootApp).to receive(:otel_enabled?).and_return(true)
+      allow(runner).to receive(:on_tool_complete) do |&block|
+        tool_complete_callback = block
+        runner
+      end
+      allow(runner).to receive(:on_run_complete) do |&block|
+        run_complete_callback = block
+        runner
+      end
+
+      service.send(:add_usage_metadata_callback, runner)
+
+      tool_complete_callback.call(Captain::Tools::HandoffTool.new(assistant).name, 'ok', context_wrapper)
+
+      expect(root_span).to receive(:set_attribute).with('langfuse.trace.metadata.credit_used', 'false')
+      run_complete_callback.call('assistant', nil, context_wrapper)
+    end
+
+    it 'sets credit_used=true when handoff tool is not used' do
+      service = described_class.new(assistant: assistant, conversation: conversation)
+      runner = instance_double(Agents::AgentRunner)
+      run_complete_callback = nil
+      span_class = Class.new do
+        def set_attribute(*); end
+      end
+      root_span = instance_double(span_class)
+      context_wrapper = Struct.new(:context).new({ __otel_tracing: { root_span: root_span } })
+
+      allow(ChatwootApp).to receive(:otel_enabled?).and_return(true)
+      allow(runner).to receive(:on_tool_complete).and_return(runner)
+      allow(runner).to receive(:on_run_complete) do |&block|
+        run_complete_callback = block
+        runner
+      end
+
+      service.send(:add_usage_metadata_callback, runner)
+
+      expect(root_span).to receive(:set_attribute).with('langfuse.trace.metadata.credit_used', 'true')
+      run_complete_callback.call('assistant', nil, context_wrapper)
     end
   end
 

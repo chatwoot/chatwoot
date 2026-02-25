@@ -15,6 +15,7 @@ module Captain::ToolInstrumentation
       response = yield
       executed = true
       span.set_attribute(ATTR_LANGFUSE_OBSERVATION_OUTPUT, response[:message] || response.to_json)
+      set_tool_session_error_attributes(span, response) if response.is_a?(Hash)
     end
     response
   rescue StandardError => e
@@ -27,6 +28,14 @@ module Captain::ToolInstrumentation
     span.set_attribute(ATTR_LANGFUSE_SESSION_ID, "#{params[:account_id]}_#{params[:conversation_id]}") if params[:conversation_id].present?
     span.set_attribute(ATTR_LANGFUSE_TAGS, [params[:feature_name]].to_json)
     span.set_attribute(ATTR_LANGFUSE_OBSERVATION_INPUT, params[:messages].to_json)
+  end
+
+  def set_tool_session_error_attributes(span, response)
+    error = response[:error] || response['error']
+    return if error.blank?
+
+    span.set_attribute(ATTR_GEN_AI_RESPONSE_ERROR, error.to_json)
+    span.status = OpenTelemetry::Trace::Status.error(error.to_s.truncate(1000))
   end
 
   def record_generation(chat, message, model)

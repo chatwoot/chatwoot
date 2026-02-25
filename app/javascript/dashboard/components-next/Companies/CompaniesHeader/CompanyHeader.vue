@@ -15,11 +15,11 @@ const emit = defineEmits(['search', 'update:sort']);
 </script>
 
 <template>
-  <header class="sticky top-0 z-10">
+  <header class="sticky top-0 z-10 px-6">
     <div
-      class="flex items-start sm:items-center justify-between w-full py-6 px-6 gap-2 mx-auto max-w-[60rem]"
+      class="flex items-start sm:items-center justify-between w-full py-6 gap-2 mx-auto max-w-5xl"
     >
-      <span class="text-xl font-medium truncate text-n-slate-12">
+      <span class="text-heading-1 truncate text-n-slate-12">
         {{ headerTitle }}
       </span>
       <div class="flex items-center flex-row flex-shrink-0 gap-2">

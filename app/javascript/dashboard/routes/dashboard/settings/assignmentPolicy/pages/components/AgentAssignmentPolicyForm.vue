@@ -4,7 +4,7 @@ import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 import { useMapGetter } from 'dashboard/composables/store';
 import BaseInfo from 'dashboard/components-next/AssignmentPolicy/components/BaseInfo.vue';
-import RadioCard from 'dashboard/components-next/AssignmentPolicy/components/RadioCard.vue';
+import RadioCard from 'dashboard/components-next/radioCard/RadioCard.vue';
 import FairDistribution from 'dashboard/components-next/AssignmentPolicy/components/FairDistribution.vue';
 import DataTable from 'dashboard/components-next/AssignmentPolicy/components/DataTable.vue';
 import AddDataDropdown from 'dashboard/components-next/AssignmentPolicy/components/AddDataDropdown.vue';
@@ -94,7 +94,8 @@ const createOption = (
   key,
   stateKey,
   disabled = false,
-  disabledMessage = ''
+  disabledMessage = '',
+  disabledLabel = ''
 ) => ({
   key,
   label: t(`${BASE_KEY}.FORM.${type}.${key.toUpperCase()}.LABEL`),
@@ -102,6 +103,7 @@ const createOption = (
   isActive: state[stateKey] === key,
   disabled,
   disabledMessage,
+  disabledLabel,
 });
 
 const assignmentOrderOptions = computed(() => {
@@ -116,13 +118,17 @@ const assignmentOrderOptions = computed(() => {
     const disabledMessage = disabled
       ? t(`${BASE_KEY}.FORM.ASSIGNMENT_ORDER.BALANCED.PREMIUM_MESSAGE`)
       : '';
+    const disabledLabel = disabled
+      ? t(`${BASE_KEY}.FORM.ASSIGNMENT_ORDER.BALANCED.PREMIUM_BADGE`)
+      : '';
 
     return createOption(
       'ASSIGNMENT_ORDER',
       key,
       'assignmentOrder',
       disabled,
-      disabledMessage
+      disabledMessage,
+      disabledLabel
     );
   });
 });
@@ -217,6 +223,7 @@ defineExpose({
                 :description="option.description"
                 :is-active="option.isActive"
                 :disabled="option.disabled"
+                :disabled-label="option.disabledLabel"
                 :disabled-message="option.disabledMessage"
                 @select="state[section.key] = $event"
               />
