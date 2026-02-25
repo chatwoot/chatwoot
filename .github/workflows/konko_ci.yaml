@@ -69,7 +69,7 @@ jobs:
       REGISTRY: ghcr.io
       IMAGE_NAME: konko-ai/chatwoot
     outputs:
-      image_tag: ${{ steps.semver.outputs.version }}
+      image_tag: ${{ steps.semver.outputs.version_tag }}
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -102,7 +102,7 @@ jobs:
           file: docker/Dockerfile
           platforms: linux/amd64
           push: true
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.semver.outputs.version }}
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.semver.outputs.version_tag }}
           cache-from: type=gha,scope=konko-chatwoot-image
           cache-to: type=gha,mode=max,scope=konko-chatwoot-image
 
