@@ -592,8 +592,10 @@
         "DISABLED": "غیرفعال"
       },
       "LOCK_TO_SINGLE_CONVERSATION": {
-        "ENABLED": "فعال شد",
-        "DISABLED": "غیرفعال شد"
+        "ENABLED": "Reopen same conversation",
+        "DISABLED": "Create new conversations",
+        "ENABLED_DESCRIPTION": "When a contact messages again, the previous conversation will be reopened.",
+        "DISABLED_DESCRIPTION": "A new conversation will be created each time after the previous one is resolved."
       },
       "ENABLE_HMAC": {
         "LABEL": "فعال"
@@ -713,8 +715,8 @@
       "SENDER_NAME_SECTION_TEXT": "فعال/غیرفعال کردن نمایش نام اپراتور در ایمیل، اگر غیرفعال باشد نام کسب و کار نشان داده می شود",
       "ENABLE_CONTINUITY_VIA_EMAIL": "ادامه مکالمه را از طریق ایمیل فعال کنید",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "اگر آدرس ایمیل تماس در دسترس باشد، مکالمات از طریق ایمیل ادامه خواهد یافت.",
-      "LOCK_TO_SINGLE_CONVERSATION": "قفل کردن مکالمه تکی",
-      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "چند مکالمه را برای یک مخاطب در این صندوق ورودی فعال یا غیرفعال کنید",
+      "LOCK_TO_SINGLE_CONVERSATION": "Conversation Routing",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Configure conversation creation for existing contacts",
       "INBOX_UPDATE_TITLE": "تنظیمات صندوق ورودی",
       "INBOX_UPDATE_SUB_TEXT": "تغییر پارامترهای صندوق ورودی",
       "AUTO_ASSIGNMENT_SUB_TEXT": "فعال کردن یا غیرفعال کردن واگذاری خودکار گفتگوها به ایجنت های عضو این صندوق ورودی.",
