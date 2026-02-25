@@ -270,9 +270,9 @@ export default {
       return MESSAGE_MAX_LENGTH.GENERAL;
     },
     showFileUpload() {
-      const tiktokAttachmentSupported =
-        this.currentChat?.additional_attributes?.tiktok_capabilities
-          ?.image_send !== false;
+      const { image_send: imageSend } =
+        this.currentChat?.additional_attributes?.tiktok_capabilities ?? {};
+      const tiktokAttachmentSupported = imageSend ?? true;
 
       return (
         this.isAWebWidgetInbox ||
