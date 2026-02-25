@@ -7,6 +7,7 @@ import InboxName from '../InboxName.vue';
 import TimeAgo from 'dashboard/components/ui/TimeAgo.vue';
 import CardLabels from './conversationCardComponents/CardLabels.vue';
 import CardPriorityIcon from 'dashboard/components-next/Conversation/ConversationCard/CardPriorityIcon.vue';
+import UnreadBadge from 'dashboard/components-next/Conversation/ConversationCard/UnreadBadge.vue';
 import SLACardLabel from './components/SLACardLabel.vue';
 import VoiceCallStatus from './VoiceCallStatus.vue';
 
@@ -82,12 +83,13 @@ const onSelectConversation = checked => {
 
 <template>
   <div
-    class="relative flex items-start flex-grow-0 flex-shrink-0 w-auto max-w-full py-0 border-t-0 border-b-0 border-l-0 border-r-0 border-transparent border-solid cursor-pointer conversation hover:bg-n-alpha-1 dark:hover:bg-n-alpha-3 group hover:z-[1] before:content-[none] before:absolute before:-top-px before:inset-x-0 before:h-px before:bg-n-surface-1 before:pointer-events-none hover:before:content-[''] after:content-[none] after:absolute after:bottom-0 after:inset-x-0 after:h-px after:bg-n-surface-1 after:pointer-events-none hover:after:content-['']"
+    class="relative flex items-start flex-grow-0 flex-shrink-0 w-auto max-w-full py-0 cursor-pointer conversation border-b border-n-slate-3 hover:border-n-surface-1 hover:bg-n-alpha-1 dark:hover:bg-n-alpha-3 group hover:z-[1] before:content-[none] before:absolute before:-top-px before:inset-x-0 before:h-px before:bg-n-surface-1 before:pointer-events-none hover:before:content-['']"
     :class="{
-      'active animate-card-select bg-n-background border-n-weak': isActiveChat,
-      'selected bg-n-slate-2': selected,
+      'active animate-card-select bg-n-background !border-n-surface-1 rounded-lg':
+        isActiveChat,
+      'selected bg-n-slate-2 !border-n-surface-1 rounded-lg': selected,
       'px-0': compact,
-      'px-2 rounded-lg': !compact,
+      'px-2 hover:rounded-lg': !compact,
     }"
     @click="$emit('click', $event)"
     @contextmenu="$emit('contextmenu', $event)"
@@ -200,12 +202,11 @@ const onSelectConversation = checked => {
             :conversation-id="chat.id"
           />
         </span>
-        <span
-          class="shadow-lg rounded-full text-xxs font-semibold h-4 leading-4 ltr:ml-auto rtl:mr-auto mt-1 min-w-[1rem] px-1 py-0 text-center text-white bg-n-teal-9"
-          :class="hasUnread ? 'block' : 'hidden'"
-        >
-          {{ unreadCount > 9 ? '9+' : unreadCount }}
-        </span>
+        <UnreadBadge
+          v-if="hasUnread"
+          :count="unreadCount"
+          class="ltr:ml-auto rtl:mr-auto mt-1"
+        />
       </div>
       <CardLabels
         v-if="showLabelsSection"
