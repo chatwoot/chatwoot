@@ -74,10 +74,10 @@
 - name: voice_recorder
   display_name: Voice Recorder
   enabled: true
-- name: mobile_v2
-  display_name: Mobile App V2
+- name: unclaimed_20
+  display_name: Unclaimed Slot 20
   enabled: false
-  deprecated: true
+  chatwoot_internal: true
 - name: channel_website
   display_name: Website Channel
   enabled: true
@@ -105,20 +105,18 @@
   display_name: Audit Logs
   enabled: false
   premium: true
-- name: response_bot
-  display_name: Response Bot
+- name: unclaimed_29
+  display_name: Unclaimed Slot 29
   enabled: false
-  premium: true
-  deprecated: true
-- name: message_reply_to
-  display_name: Message Reply To
+  chatwoot_internal: true
+- name: unclaimed_30
+  display_name: Unclaimed Slot 30
   enabled: false
-  help_url: https://chwt.app/hc/reply-to
-  deprecated: true
-- name: insert_article_in_reply
-  display_name: Insert Article in Reply
+  chatwoot_internal: true
+- name: unclaimed_31
+  display_name: Unclaimed Slot 31
   enabled: false
-  deprecated: true
+  chatwoot_internal: true
 - name: inbox_view
   display_name: Inbox View
   enabled: false
@@ -147,10 +145,10 @@
 - name: chatwoot_v4
   display_name: Chatwoot V4
   enabled: true
-- name: report_v4
-  display_name: Report V4
-  enabled: true
-  deprecated: true
+- name: unclaimed_39
+  display_name: Unclaimed Slot 39
+  enabled: false
+  chatwoot_internal: true
 - name: contact_chatwoot_support_team
   display_name: Contact Chatwoot Support Team
   enabled: true
@@ -180,10 +178,10 @@
   display_name: Captain V2
   enabled: false
   premium: true
-- name: whatsapp_embedded_signup
-  display_name: WhatsApp Embedded Signup
+- name: unclaimed_48
+  display_name: Unclaimed Slot 48
   enabled: false
-  deprecated: true
+  chatwoot_internal: true
 - name: whatsapp_campaign
   display_name: WhatsApp Campaign
   enabled: false
@@ -195,10 +193,10 @@
   display_name: Assignment V2
   enabled: false
   chatwoot_internal: true
-- name: twilio_content_templates
-  display_name: Twilio Content Templates
+- name: unclaimed_52
+  display_name: Unclaimed Slot 52
   enabled: false
-  deprecated: true
+  chatwoot_internal: true
 - name: advanced_search
   display_name: Advanced Search
   enabled: false
