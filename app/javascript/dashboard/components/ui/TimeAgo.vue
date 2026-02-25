@@ -70,13 +70,15 @@ export default {
   watch: {
     lastActivityTimestamp() {
       this.lastActivityAtTimeAgo = dynamicTime(this.lastActivityTimestamp);
+    },
+    createdAtTimestamp() {
+      this.createdAtTimeAgo = dynamicTime(this.createdAtTimestamp);
+      // createdAtTimestamp changes only when the conversation identity changes (row recycled).
+      // Reset the timer so the refresh cadence matches the new conversation's age.
       if (this.isAutoRefreshEnabled) {
         clearTimeout(this.timer);
         this.createTimer();
       }
-    },
-    createdAtTimestamp() {
-      this.createdAtTimeAgo = dynamicTime(this.createdAtTimestamp);
     },
   },
   mounted() {
