@@ -65,7 +65,9 @@ module Featurable
     config = InstallationConfig.find_by(name: 'ACCOUNT_LEVEL_FEATURE_DEFAULTS')
     return true if config.blank?
 
-    features_to_enabled = config.value.select { |f| f[:enabled] }.pluck(:name)
+    removed_names = FEATURE_LIST.select { |f| f['removed'] }.pluck('name').to_set
+    features_to_enabled = config.value.reject { |f| removed_names.include?(f['name']) }
+                                .select { |f| f[:enabled] }.pluck(:name)
     enable_features(*features_to_enabled)
   end
 end
