@@ -405,5 +405,111 @@ describe Line::IncomingMessageService do
         expect(line_channel.inbox.messages.first.attachments.first.file.blob.filename.to_s).to eq('contacts.csv')
       end
     end
+
+    context 'when lock_to_single_conversation is false' do
+      before do
+        line_channel.inbox.update(lock_to_single_conversation: false)
+      end
+
+      it 'creates a new conversation when all previous conversations are resolved' do
+        line_bot = double
+        line_user_profile = double
+        allow(Line::Bot::Client).to receive(:new).and_return(line_bot)
+        allow(line_bot).to receive(:get_profile).and_return(line_user_profile)
+        allow(line_user_profile).to receive(:body).and_return(
+          {
+            'displayName': 'LINE Test',
+            'userId': 'U4af4980629',
+            'pictureUrl': 'https://test.com'
+          }.to_json
+        )
+
+        # Create a contact and a resolved conversation
+        described_class.new(inbox: line_channel.inbox, params: params).perform
+
+        # Mark the conversation as resolved
+        conversation = line_channel.inbox.conversations.last
+        conversation.update(status: :resolved)
+
+        # Send a new message
+        new_params = params.deep_dup
+        new_params[:events][0][:message][:id] = '325709'
+        new_params[:events][0][:message][:text] = 'Second message'
+
+        described_class.new(inbox: line_channel.inbox, params: new_params).perform
+
+        # Should create a new conversation
+        expect(line_channel.inbox.conversations.count).to eq(2)
+        expect(line_channel.inbox.conversations.last.messages.first.content).to eq('Second message')
+      end
+
+      it 'uses the existing conversation when there is an unresolved conversation' do
+        line_bot = double
+        line_user_profile = double
+        allow(Line::Bot::Client).to receive(:new).and_return(line_bot)
+        allow(line_bot).to receive(:get_profile).and_return(line_user_profile)
+        allow(line_user_profile).to receive(:body).and_return(
+          {
+            'displayName': 'LINE Test',
+            'userId': 'U4af4980629',
+            'pictureUrl': 'https://test.com'
+          }.to_json
+        )
+
+        # Create a contact and an unresolved conversation
+        described_class.new(inbox: line_channel.inbox, params: params).perform
+
+        # Send a new message
+        new_params = params.deep_dup
+        new_params[:events][0][:message][:id] = '325709'
+        new_params[:events][0][:message][:text] = 'Second message'
+
+        described_class.new(inbox: line_channel.inbox, params: new_params).perform
+
+        # Should use the same conversation
+        expect(line_channel.inbox.conversations.count).to eq(1)
+        expect(line_channel.inbox.conversations.last.messages.count).to eq(2)
+        expect(line_channel.inbox.conversations.last.messages.last.content).to eq('Second message')
+      end
+    end
+
+    context 'when lock_to_single_conversation is true' do
+      before do
+        line_channel.inbox.update(lock_to_single_conversation: true)
+      end
+
+      it 'uses the existing conversation even when it is resolved' do
+        line_bot = double
+        line_user_profile = double
+        allow(Line::Bot::Client).to receive(:new).and_return(line_bot)
+        allow(line_bot).to receive(:get_profile).and_return(line_user_profile)
+        allow(line_user_profile).to receive(:body).and_return(
+          {
+            'displayName': 'LINE Test',
+            'userId': 'U4af4980629',
+            'pictureUrl': 'https://test.com'
+          }.to_json
+        )
+
+        # Create a contact and a resolved conversation
+        described_class.new(inbox: line_channel.inbox, params: params).perform
+
+        # Mark the conversation as resolved
+        conversation = line_channel.inbox.conversations.last
+        conversation.update(status: :resolved)
+
+        # Send a new message
+        new_params = params.deep_dup
+        new_params[:events][0][:message][:id] = '325709'
+        new_params[:events][0][:message][:text] = 'Second message'
+
+        described_class.new(inbox: line_channel.inbox, params: new_params).perform
+
+        # Should use the same conversation
+        expect(line_channel.inbox.conversations.count).to eq(1)
+        expect(line_channel.inbox.conversations.last.messages.count).to eq(2)
+        expect(line_channel.inbox.conversations.last.messages.last.content).to eq('Second message')
+      end
+    end
   end
 end
