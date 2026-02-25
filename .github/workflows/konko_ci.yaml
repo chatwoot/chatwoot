@@ -69,7 +69,7 @@ jobs:
       REGISTRY: ghcr.io
       IMAGE_NAME: konko-ai/chatwoot
     outputs:
-      image_tag: ${{ steps.semver.outputs.version_tag }}
+      image_tag: ${{ steps.image_tag.outputs.tag }}
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -81,6 +81,10 @@ jobs:
         uses: paulhatch/semantic-version@v6.0.1
         with:
           version_format: '${major}.${minor}.${patch}-dev.${increment}'
+
+      - name: Set image tag
+        id: image_tag
+        run: echo "tag=v${{ steps.semver.outputs.version }}" >> "$GITHUB_OUTPUT"
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
@@ -102,7 +106,7 @@ jobs:
           file: docker/Dockerfile
           platforms: linux/amd64
           push: true
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.semver.outputs.version_tag }}
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.image_tag.outputs.tag }}
           cache-from: type=gha,scope=konko-chatwoot-image
           cache-to: type=gha,mode=max,scope=konko-chatwoot-image
 
