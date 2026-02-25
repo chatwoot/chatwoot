@@ -394,6 +394,34 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
       )
     end
 
+    it 'does not include campaign when conversation has no campaign' do
+      state = service.send(:build_state)
+
+      expect(state).not_to have_key(:campaign)
+    end
+
+    context 'when conversation has a campaign' do
+      let(:campaign) { create(:campaign, account: account, title: 'Summer Sale', message: 'Check out our deals!', description: 'Seasonal promo') }
+      let(:conversation) { create(:conversation, account: account, inbox: inbox, contact: contact, campaign: campaign) }
+
+      it 'includes campaign attributes in state' do
+        state = service.send(:build_state)
+
+        expect(state[:campaign]).to include(
+          id: campaign.id,
+          title: 'Summer Sale',
+          message: 'Check out our deals!',
+          description: 'Seasonal promo'
+        )
+      end
+
+      it 'only includes attributes defined in CAMPAIGN_STATE_ATTRIBUTES' do
+        state = service.send(:build_state)
+
+        expect(state[:campaign].keys).to match_array(described_class::CAMPAIGN_STATE_ATTRIBUTES)
+      end
+    end
+
     context 'when conversation is nil' do
       subject(:service) { described_class.new(assistant: assistant, conversation: nil) }
 
@@ -407,6 +435,7 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
         )
         expect(state).not_to have_key(:conversation)
         expect(state).not_to have_key(:contact)
+        expect(state).not_to have_key(:campaign)
       end
     end
   end
@@ -475,6 +504,12 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
     it 'defines contact state attributes' do
       expect(described_class::CONTACT_STATE_ATTRIBUTES).to include(
         :id, :name, :email, :phone_number, :identifier, :contact_type
+      )
+    end
+
+    it 'defines campaign state attributes' do
+      expect(described_class::CAMPAIGN_STATE_ATTRIBUTES).to include(
+        :id, :title, :message, :campaign_type, :description
       )
     end
   end

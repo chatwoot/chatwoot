@@ -19,9 +19,11 @@ module Concerns::Agentable
       state = context.context[:state] || {}
       conversation_data = state[:conversation] || {}
       contact_data = state[:contact] || {}
+      campaign_data = state[:campaign] || {}
       enhanced_context = enhanced_context.merge(
         conversation: conversation_data,
-        contact: contact_data
+        contact: contact_data,
+        campaign: campaign_data
       )
     end
 
