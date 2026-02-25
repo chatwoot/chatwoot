@@ -1,6 +1,0 @@
-type: object
-properties:
-  payload:
-    type: array
-    items:
-      $ref: '#/components/schemas/portal_item'
