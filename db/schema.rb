@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_02_23_120000) do
+ActiveRecord::Schema[7.1].define(version: 2026_02_25_203731) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -1299,6 +1299,18 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_23_120000) do
     t.boolean "inherit_global_defaults", default: true
     t.boolean "active", default: true
     t.json "metadata", default: {}, null: false
+    t.decimal "daily_cost_spent", precision: 12, scale: 6, default: "0.0", null: false
+    t.decimal "monthly_cost_spent", precision: 12, scale: 6, default: "0.0", null: false
+    t.bigint "daily_tokens_used", default: 0, null: false
+    t.bigint "monthly_tokens_used", default: 0, null: false
+    t.bigint "daily_executions_count", default: 0, null: false
+    t.bigint "monthly_executions_count", default: 0, null: false
+    t.bigint "daily_error_count", default: 0, null: false
+    t.bigint "monthly_error_count", default: 0, null: false
+    t.datetime "last_execution_at"
+    t.string "last_execution_status"
+    t.date "daily_reset_date"
+    t.date "monthly_reset_date"
     t.index ["active"], name: "index_ruby_llm_agents_tenants_on_active"
     t.index ["tenant_id"], name: "index_ruby_llm_agents_tenants_on_tenant_id", unique: true
     t.index ["tenant_record_type", "tenant_record_id"], name: "idx_tenant_budgets_on_tenant_record"
