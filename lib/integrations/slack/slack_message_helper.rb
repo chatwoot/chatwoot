@@ -98,6 +98,8 @@ module Integrations::Slack::SlackMessageHelper
                   slack_user[:name]
     sender_avatar_url = slack_user.dig(:profile, :image_192).presence
     [nil, sender_name, sender_avatar_url]
+  rescue Slack::Web::Api::Errors::MissingScope
+    raise
   rescue StandardError
     [nil, nil, nil]
   end
