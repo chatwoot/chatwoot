@@ -1,0 +1,1057 @@
+{
+  "INBOX_MGMT": {
+    "HEADER": "صندوق‌های ورودی",
+    "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
+    "LEARN_MORE": "Learn more about inboxes",
+    "RECONNECTION_REQUIRED": "Your inbox is disconnected. You won't receive new messages until you reauthorize it.",
+    "CLICK_TO_RECONNECT": "Click here to reconnect.",
+    "WHATSAPP_REGISTRATION_INCOMPLETE": "Your WhatsApp Business registration isn’t complete. Please check your display name status in Meta Business Manager before reconnecting.",
+    "COMPLETE_REGISTRATION": "Complete Registration",
+    "LIST": {
+      "404": "برای این حساب هیچ صندوق ورودی معرفی نشده است."
+    },
+    "CREATE_FLOW": {
+      "CHANNEL": {
+        "TITLE": "کانال ورودی را انتخاب کنید",
+        "BODY": "جایی که قرار است امکان گفتگوی آنلاین در آنجا فراهم شود را انتخاب کنید"
+      },
+      "INBOX": {
+        "TITLE": "ساخت صندوق ورودی",
+        "BODY": "به حساب کاربری وارد شوید و صندوق ورودی بسازید."
+      },
+      "AGENT": {
+        "TITLE": "معرفی ایجنت",
+        "BODY": "ایجنت ها را به صندوق ورودی ساخته شده تخصیص می‌دهد."
+      },
+      "FINISH": {
+        "TITLE": "Voilà!",
+        "BODY": "دیگه می‌تونی بترکونی"
+      }
+    },
+    "ADD": {
+      "CHANNEL_NAME": {
+        "LABEL": "عنوان صندوق ورودی",
+        "PLACEHOLDER": "نام صندوق ورودی خود را وارد کنید (به عنوان مثال: Acme Inc)",
+        "ERROR": "لطفاً یک نام صندوق ورودی معتبر وارد کنید"
+      },
+      "WEBSITE_NAME": {
+        "LABEL": "عنوان سایت",
+        "PLACEHOLDER": "عنوان سایت خود را وارد کنید (به عنوان مثال: Acme Inc)"
+      },
+      "FB": {
+        "HELP": "پانویس: با وارد شدن ما فقط به پیام‌های صفحه دسترسی پیدا می‌کنیم. پیام‌های خصوصی شما را هرگز نخواهیم دید",
+        "CHOOSE_PAGE": "انتخاب صفحه",
+        "CHOOSE_PLACEHOLDER": "از لیست صفحه مورد نظر را انتخاب کنید",
+        "INBOX_NAME": "عنوان صندوق ورودی",
+        "ADD_NAME": "یک اسم به صندوق ورودی خود اضافه کنید",
+        "PICK_NAME": "Pick a Name for your Inbox",
+        "PICK_A_VALUE": "یک مقدار انتخاب کنید",
+        "CREATE_INBOX": "ساخت صندوق ورودی"
+      },
+      "INSTAGRAM": {
+        "CONTINUE_WITH_INSTAGRAM": "Continue with Instagram",
+        "CONNECT_YOUR_INSTAGRAM_PROFILE": "Connect your Instagram Profile",
+        "HELP": "To add your Instagram profile as a channel, you need to authenticate your Instagram Profile by clicking on 'Continue with Instagram' ",
+        "ERROR_MESSAGE": "There was an error connecting to Instagram, please try again",
+        "ERROR_AUTH": "There was an error connecting to Instagram, please try again",
+        "NEW_INBOX_SUGGESTION": "This Instagram account was previously linked to a different inbox and has now been migrated here. All new messages will appear here. The old inbox will no longer be able to send or receive messages for this account.",
+        "DUPLICATE_INBOX_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. You won’t be able to send/receive Instagram messages from this inbox anymore."
+      },
+      "TIKTOK": {
+        "CONTINUE_WITH_TIKTOK": "Continue with TikTok",
+        "CONNECT_YOUR_TIKTOK_PROFILE": "Connect your TikTok Profile",
+        "HELP": "To add your TikTok profile as a channel, you need to authenticate your TikTok Profile by clicking on 'Continue with TikTok' ",
+        "ERROR_MESSAGE": "There was an error connecting to TikTok, please try again",
+        "ERROR_AUTH": "There was an error connecting to TikTok, please try again"
+      },
+      "TWITTER": {
+        "HELP": "برای اضافه کردن امکان گفتگو از صفحه پروفایل توییترتان، لازم است با زدن دکمه `ورود با توییتر` پروفایل توییتر خود را شناسایی کنید' ",
+        "ERROR_MESSAGE": "هنگام اتصال به توییتر خطایی روی داد ، لطفاً دوباره امتحان کنید",
+        "TWEETS": {
+          "ENABLE": "ایجاد گفتگوهایی که از توییت‌های اشاره شده هستند"
+        }
+      },
+      "WEBSITE_CHANNEL": {
+        "TITLE": "کانال وب‌سایت",
+        "DESC": "یک کانال به وب سایت خود بسازید تا مشتریان بتوانند از طریق ویجت سایت با شما گفتگو کنند.",
+        "LOADING_MESSAGE": "در حال ساخت کانال پشتیبانی آنلاین سایت",
+        "CHANNEL_AVATAR": {
+          "LABEL": "آواتار کانال"
+        },
+        "CHANNEL_WEBHOOK_URL": {
+          "LABEL": "آدرس URL وب هوک",
+          "PLACEHOLDER": "Please enter your Webhook URL",
+          "ERROR": "لطفا آدرس URL صحیحی وارد کنید"
+        },
+        "CHANNEL_DOMAIN": {
+          "LABEL": "دامنه سایت",
+          "PLACEHOLDER": "دامنه سایت خود را وارد کنید (به عنوان مثال: acme.com)"
+        },
+        "CHANNEL_WELCOME_TITLE": {
+          "LABEL": "تیتر خوش آمدگویی",
+          "PLACEHOLDER": "سلام!"
+        },
+        "CHANNEL_WELCOME_TAGLINE": {
+          "LABEL": "زیرتیتر خوش آمدگویی",
+          "PLACEHOLDER": "دسترسی به ما ساده است. هر سوالی پیش آمد همینجا از ما بپرسید."
+        },
+        "CHANNEL_GREETING_MESSAGE": {
+          "LABEL": "پیام پاسخگویی کانال",
+          "PLACEHOLDER": "شرکت ما در اسرع وقت به پیام‌ها پاسخ می‌دهد"
+        },
+        "CHANNEL_GREETING_TOGGLE": {
+          "LABEL": "فعال کردن پیام پاسخگویی",
+          "HELP_TEXT": "هنگامی که گفتگو جدیدی ایجاد می‌شود، به صورت خودکار پیام خوش‌آمد ارسال شود.",
+          "ENABLED": "فعال شد",
+          "DISABLED": "غیرفعال شد"
+        },
+        "REPLY_TIME": {
+          "TITLE": "تنظیم زمان پاسخ",
+          "IN_A_FEW_MINUTES": "در چند دقیقه",
+          "IN_A_FEW_HOURS": "در چند ساعت",
+          "IN_A_DAY": "در یک روز",
+          "HELP_TEXT": "این زمان پاسخ در ویجت چت زنده نمایش داده می شود"
+        },
+        "WIDGET_COLOR": {
+          "LABEL": "رنگ ویجت",
+          "PLACEHOLDER": "رنگی که در ویجت استفاده می‌شود را تعیین کنید"
+        },
+        "SUBMIT_BUTTON": "ساختن صندوق ورودی",
+        "API": {
+          "ERROR_MESSAGE": "ما نتوانستیم کانال وب‌سایت را ایجاد کنیم، لطفا دوباره امتحان کنید"
+        }
+      },
+      "TWILIO": {
+        "TITLE": "Twilio SMS/کانال WhatsApp",
+        "DESC": "به Twilio متصل شوید و مشتریان خود را از طریق پیامک یا واتساپ پشتیبانی کنید.",
+        "ACCOUNT_SID": {
+          "LABEL": "شناسه SID",
+          "PLACEHOLDER": "لطفا شناسه SID حساب Twilio خود را وارد کنید",
+          "ERROR": "پر کردن این فیلد ضروری است"
+        },
+        "API_KEY": {
+          "USE_API_KEY": "استفاده از API Key Authentication",
+          "LABEL": "API Key SID",
+          "PLACEHOLDER": "لطفا API Key SID را وارد کنید",
+          "ERROR": "پر کردن این فیلد ضروری است"
+        },
+        "API_KEY_SECRET": {
+          "LABEL": "API Key Secret",
+          "PLACEHOLDER": "لطفا API Key Secret را وارد کنید",
+          "ERROR": "پر کردن این فیلد ضروری است"
+        },
+        "MESSAGING_SERVICE_SID": {
+          "LABEL": "SID سرویس پیام رسانی",
+          "PLACEHOLDER": "لطفاً SID سرویس پیام رسانی Twilio خود را وارد کنید",
+          "ERROR": "پر کردن این فیلد ضروری است",
+          "USE_MESSAGING_SERVICE": "از سرویس پیام رسانی Twilio استفاده کنید"
+        },
+        "CHANNEL_TYPE": {
+          "LABEL": "نوع کانال",
+          "ERROR": "لطفا نوع کانال را انتخاب کنید"
+        },
+        "AUTH_TOKEN": {
+          "LABEL": "Auth توکن",
+          "PLACEHOLDER": "لطفا توکن Auth حساب Twilio خود را وارد کنید",
+          "ERROR": "پر کردن این فیلد ضروری است"
+        },
+        "CHANNEL_NAME": {
+          "LABEL": "عنوان صندوق ورودی",
+          "PLACEHOLDER": "لطفاً نام صندوق ورودی را وارد کنید",
+          "ERROR": "پر کردن این فیلد ضروری است"
+        },
+        "PHONE_NUMBER": {
+          "LABEL": "شماره تلفن",
+          "PLACEHOLDER": "لطفا شماره‌ای که پیام‌ می‌بایست به آن ارسال شود را وارد کنید",
+          "ERROR": "لطفا یک شماره تلفن معتبر ارائه دهید که با علامت «+» شروع شود و بدون فاصله بین اعداد باشد."
+        },
+        "API_CALLBACK": {
+          "TITLE": "آدرس URL مربوط به API",
+          "SUBTITLE": "لازم است آدرس Callback URL موجود در Twilio را به آنچه که در اینجا ذکر شده تنظیم کنید"
+        },
+        "SUBMIT_BUTTON": "ساختن کانال Twilio",
+        "API": {
+          "ERROR_MESSAGE": "متاسفانه Twilio اطلاعات ارائه شده را تایید نمی کند، لطفا اصلاح و مجددا تلاش کنید"
+        }
+      },
+      "SMS": {
+        "TITLE": "کانال پیامک",
+        "DESC": "شروع به پشتیبانی از مشتریان از طریق پیامک.",
+        "PROVIDERS": {
+          "LABEL": "ارائه دهنده API",
+          "TWILIO": "Twilio",
+          "BANDWIDTH": "پهنای باند"
+        },
+        "API": {
+          "ERROR_MESSAGE": "ما نتوانستیم کانال پیامک را ذخیره کنیم"
+        },
+        "BANDWIDTH": {
+          "ACCOUNT_ID": {
+            "LABEL": "شناسه حساب‌کاربری",
+            "PLACEHOLDER": "لطفا شناسه حساب Bandwidth خود را وارد کنید",
+            "ERROR": "پر کردن این فیلد ضروری است"
+          },
+          "API_KEY": {
+            "LABEL": "API key",
+            "PLACEHOLDER": "Please enter your Bandwidth API Key",
+            "ERROR": "پر کردن این فیلد ضروری است"
+          },
+          "API_SECRET": {
+            "LABEL": "API Secret",
+            "PLACEHOLDER": "Please enter your Bandwidth API Secret",
+            "ERROR": "پر کردن این فیلد ضروری است"
+          },
+          "APPLICATION_ID": {
+            "LABEL": "شناسه برنامه",
+            "PLACEHOLDER": "لطفا شناسه برنامه Bandwidth خود را وارد کنید",
+            "ERROR": "پر کردن این فیلد ضروری است"
+          },
+          "INBOX_NAME": {
+            "LABEL": "عنوان صندوق ورودی",
+            "PLACEHOLDER": "لطفاً نام صندوق ورودی را وارد کنید",
+            "ERROR": "پر کردن این فیلد ضروری است"
+          },
+          "PHONE_NUMBER": {
+            "LABEL": "شماره تلفن",
+            "PLACEHOLDER": "لطفا شماره‌ای که پیام‌ می‌بایست به آن ارسال شود را وارد کنید",
+            "ERROR": "لطفا یک شماره تلفن معتبر ارائه دهید که با علامت «+» شروع شود و بدون فاصله بین اعداد باشد."
+          },
+          "SUBMIT_BUTTON": "ایجاد کانال Bandwidth",
+          "API": {
+            "ERROR_MESSAGE": "ما نتوانستیم اعتبارنامه Bandwidth را احراز هویت کنیم، لطفاً دوباره امتحان کنید"
+          },
+          "API_CALLBACK": {
+            "TITLE": "آدرس URL مربوط به API",
+            "SUBTITLE": "شما باید URL بازگشت به تماس پیام را در Bandwidth با URL ذکر شده در اینجا پیکربندی کنید."
+          }
+        }
+      },
+      "WHATSAPP": {
+        "TITLE": "کانال واتس اپ",
+        "DESC": "شروع به پشتیبانی از مشتریان از طریق واتس اپ.",
+        "PROVIDERS": {
+          "LABEL": "ارائه دهنده API",
+          "WHATSAPP_EMBEDDED": "WhatsApp Business",
+          "TWILIO": "Twilio",
+          "WHATSAPP_CLOUD": "واتس‌اپ ابری",
+          "WHATSAPP_CLOUD_DESC": "Quick setup through Meta",
+          "TWILIO_DESC": "Connect via Twilio credentials",
+          "360_DIALOG": "360Dialog"
+        },
+        "SELECT_PROVIDER": {
+          "TITLE": "Select your API provider",
+          "DESCRIPTION": "Choose your WhatsApp provider. You can connect directly through Meta which requires no setup, or connect through Twilio using your account credentials."
+        },
+        "INBOX_NAME": {
+          "LABEL": "عنوان صندوق ورودی",
+          "PLACEHOLDER": "لطفاً نام صندوق ورودی را وارد کنید",
+          "ERROR": "پر کردن این فیلد ضروری است"
+        },
+        "PHONE_NUMBER": {
+          "LABEL": "شماره تلفن",
+          "PLACEHOLDER": "لطفا شماره‌ای که پیام‌ می‌بایست به آن ارسال شود را وارد کنید",
+          "ERROR": "لطفا یک شماره تلفن معتبر ارائه دهید که با علامت «+» شروع شود و بدون فاصله بین اعداد باشد."
+        },
+        "PHONE_NUMBER_ID": {
+          "LABEL": "شناسه شماره تلفن",
+          "PLACEHOLDER": "لطفا شناسه شماره تلفن دریافت شده از پيشخوان توسعه‌دهنده فیس‌بوک را وارد کنید.",
+          "ERROR": "لطفا یک مقدار معتبر وارد کنید."
+        },
+        "BUSINESS_ACCOUNT_ID": {
+          "LABEL": "شناسه حساب تجاری",
+          "PLACEHOLDER": "لطفا شناسه حساب تجاری دریافت شده از پيشخوان توسعه‌دهنده فیس‌بوک را وارد کنید.",
+          "ERROR": "لطفا یک مقدار معتبر وارد کنید."
+        },
+        "WEBHOOK_VERIFY_TOKEN": {
+          "LABEL": "رمز تأیید وب هوک",
+          "PLACEHOLDER": "Enter a verify token which you want to configure for Facebook webhooks.",
+          "ERROR": "لطفا یک مقدار معتبر وارد کنید."
+        },
+        "API_KEY": {
+          "LABEL": "API key",
+          "SUBTITLE": "WhatsApp API key را پیکربندی کنید.",
+          "PLACEHOLDER": "API key",
+          "ERROR": "لطفا یک مقدار معتبر وارد کنید."
+        },
+        "API_CALLBACK": {
+          "TITLE": "آدرس URL مربوط به API",
+          "SUBTITLE": "شما باید URL webhook و رمز تأیید را در پورتال توسعه دهنده فیس بوک با مقادیر نشان داده شده در زیر پیکربندی کنید.",
+          "WEBHOOK_URL": "آدرس URL وب هوک",
+          "WEBHOOK_VERIFICATION_TOKEN": "توکن تایید Webhook"
+        },
+        "SUBMIT_BUTTON": "ایجاد کانال واتساپ",
+        "EMBEDDED_SIGNUP": {
+          "TITLE": "Quick setup with Meta",
+          "DESC": "Use the WhatsApp Embedded Signup flow to quickly connect new numbers. You will be redirected to Meta to log into your WhatsApp Business account. Having admin access will help make the setup smooth and easy.",
+          "BENEFITS": {
+            "TITLE": "Benefits of Embedded Signup:",
+            "EASY_SETUP": "No manual configuration required",
+            "SECURE_AUTH": "Secure OAuth based authentication",
+            "AUTO_CONFIG": "Automatic webhook and phone number configuration"
+          },
+          "LEARN_MORE": {
+            "TEXT": "To learn more about integrated signup, pricing, and limitations, visit {link}.",
+            "LINK_TEXT": "this link"
+          },
+          "SUBMIT_BUTTON": "Connect with WhatsApp Business",
+          "AUTH_PROCESSING": "Authenticating with Meta",
+          "WAITING_FOR_BUSINESS_INFO": "Please complete business setup in the Meta window...",
+          "PROCESSING": "Setting up your WhatsApp Business Account",
+          "LOADING_SDK": "Loading Facebook SDK...",
+          "CANCELLED": "WhatsApp Signup was cancelled",
+          "SUCCESS_TITLE": "WhatsApp Business Account Connected!",
+          "WAITING_FOR_AUTH": "Waiting for authentication...",
+          "INVALID_BUSINESS_DATA": "Invalid business data received from Facebook. Please try again.",
+          "SIGNUP_ERROR": "Signup error occurred",
+          "AUTH_NOT_COMPLETED": "Authentication not completed. Please restart the process.",
+          "SUCCESS_FALLBACK": "WhatsApp Business Account has been successfully configured",
+          "MANUAL_FALLBACK": "If your number is already connected to the WhatsApp Business Platform (API), or if you’re a tech provider onboarding your own number, please use the {link} flow",
+          "MANUAL_LINK_TEXT": "manual setup flow"
+        },
+        "API": {
+          "ERROR_MESSAGE": "ما نتوانستیم کانال WhatsApp را ذخیره کنیم"
+        }
+      },
+      "VOICE": {
+        "TITLE": "Voice Channel",
+        "DESC": "Integrate Twilio Voice and start supporting your customers via phone calls.",
+        "PHONE_NUMBER": {
+          "LABEL": "شماره تلفن",
+          "PLACEHOLDER": "Enter your phone number (e.g. +1234567890)",
+          "ERROR": "Please provide a valid phone number in E.164 format (e.g. +1234567890)"
+        },
+        "TWILIO": {
+          "ACCOUNT_SID": {
+            "LABEL": "شناسه SID",
+            "PLACEHOLDER": "Enter your Twilio Account SID",
+            "REQUIRED": "Account SID is required"
+          },
+          "AUTH_TOKEN": {
+            "LABEL": "Auth توکن",
+            "PLACEHOLDER": "Enter your Twilio Auth Token",
+            "REQUIRED": "Auth Token is required"
+          },
+          "API_KEY_SID": {
+            "LABEL": "API Key SID",
+            "PLACEHOLDER": "Enter your Twilio API Key SID",
+            "REQUIRED": "API Key SID is required"
+          },
+          "API_KEY_SECRET": {
+            "LABEL": "API Key Secret",
+            "PLACEHOLDER": "Enter your Twilio API Key Secret",
+            "REQUIRED": "API Key Secret is required"
+          }
+        },
+        "CONFIGURATION": {
+          "TWILIO_VOICE_URL_TITLE": "Twilio Voice URL",
+          "TWILIO_VOICE_URL_SUBTITLE": "Configure this URL as the Voice URL on your Twilio phone number and TwiML App.",
+          "TWILIO_STATUS_URL_TITLE": "Twilio Status Callback URL",
+          "TWILIO_STATUS_URL_SUBTITLE": "Configure this URL as the Status Callback URL on your Twilio phone number."
+        },
+        "SUBMIT_BUTTON": "Create Voice Channel",
+        "API": {
+          "ERROR_MESSAGE": "We were not able to create the voice channel"
+        }
+      },
+      "API_CHANNEL": {
+        "TITLE": "کانال API",
+        "DESC": "با کانال API ادغام شده و از مشتریان خود پشتیبانی کنید.",
+        "CHANNEL_NAME": {
+          "LABEL": "عنوان کانال",
+          "PLACEHOLDER": "لطفا اسم یک کانال را وارد کنید",
+          "ERROR": "پر کردن این فیلد ضروری است"
+        },
+        "WEBHOOK_URL": {
+          "LABEL": "آدرس URL وب هوک",
+          "SUBTITLE": "Configure the URL where you want to receive callbacks on events.",
+          "PLACEHOLDER": "آدرس URL وب هوک"
+        },
+        "SUBMIT_BUTTON": "ایجاد کانال API",
+        "API": {
+          "ERROR_MESSAGE": "کانال API ذخیره نشد"
+        }
+      },
+      "EMAIL_CHANNEL": {
+        "TITLE": "کانال ایمیل",
+        "DESC": "Integrate your email inbox.",
+        "CHANNEL_NAME": {
+          "LABEL": "عنوان کانال",
+          "PLACEHOLDER": "لطفا اسم یک کانال را وارد کنید",
+          "ERROR": "پر کردن این فیلد ضروری است"
+        },
+        "EMAIL": {
+          "LABEL": "ایمیل",
+          "SUBTITLE": "آدرس ایمیلی که مشتریان درخواست پشتیبانی را برای شما ارسال کنند",
+          "PLACEHOLDER": "ایمیل"
+        },
+        "SUBMIT_BUTTON": "ایجاد کانال ایمیل",
+        "API": {
+          "ERROR_MESSAGE": "کانال ایمیل ذخیره نشد"
+        },
+        "FINISH_MESSAGE": "ایمیل های خود را به این آدرس ها فوروارد کنید.",
+        "FINISH_MESSAGE_NO_FORWARDING": "Your email inbox has been created successfully! You need to configure SMTP and IMAP credentials to send and receive emails. Without these settings, no emails will be processed.",
+        "FORWARDING_ADDRESS_LABEL": "Forward emails to this address:",
+        "CONFIGURE_SMTP_IMAP_LINK": "اینجا کلیک کنید",
+        "CONFIGURE_SMTP_IMAP_TEXT": " to configure IMAP and SMTP settings"
+      },
+      "LINE_CHANNEL": {
+        "TITLE": "کانال لاین",
+        "DESC": "با لاین ادغام شده و به مشتریان خود پشتیبانی دهید.",
+        "CHANNEL_NAME": {
+          "LABEL": "عنوان کانال",
+          "PLACEHOLDER": "لطفا اسم یک کانال را وارد کنید",
+          "ERROR": "پر کردن این فیلد ضروری است"
+        },
+        "LINE_CHANNEL_ID": {
+          "LABEL": "آی دی کانال لاین",
+          "PLACEHOLDER": "آی دی کانال لاین"
+        },
+        "LINE_CHANNEL_SECRET": {
+          "LABEL": "رمز کانال لاین",
+          "PLACEHOLDER": "رمز کانال لاین"
+        },
+        "LINE_CHANNEL_TOKEN": {
+          "LABEL": "توکن کانال لاین",
+          "PLACEHOLDER": "توکن کانال لاین"
+        },
+        "SUBMIT_BUTTON": "ایجاد کانال لاین",
+        "API": {
+          "ERROR_MESSAGE": "ما نتوانستیم کانال لاین را ذخیره کنیم"
+        },
+        "API_CALLBACK": {
+          "TITLE": "آدرس URL مربوط به API",
+          "SUBTITLE": "شما باید URL webhook را در برنامه LINE با URL ذکر شده در اینجا پیکربندی کنید."
+        }
+      },
+      "TELEGRAM_CHANNEL": {
+        "TITLE": "کانال تلگرام",
+        "DESC": "با کانال تلگرام ادغام شده و از مشتریان خود پشتیبانی کنید.",
+        "BOT_TOKEN": {
+          "LABEL": "توکن ربات",
+          "SUBTITLE": "توکن ربات را که از تلگرام BotFather بدست آورده اید پیکربندی کنید.",
+          "PLACEHOLDER": "توکن ربات"
+        },
+        "SUBMIT_BUTTON": "ساخت کانال تلگرام",
+        "API": {
+          "ERROR_MESSAGE": "نتوانستیم کانال تلگرام را ذخیره کنیم"
+        }
+      },
+      "AUTH": {
+        "TITLE": "کانالی را انتخاب کنید",
+        "DESC": "Chatwoot از ویجت های چت زنده، فیس بوک مسنجر، پروفایل های توییتر، واتساپ، ایمیل ها و غیره به عنوان کانال پشتیبانی می کند. اگر می خواهید یک کانال سفارشی بسازید، می توانید آن را با استفاده از کانال API ایجاد کنید. برای شروع، یکی از کانال های زیر را انتخاب کنید.",
+        "TITLE_NEXT": "Complete the setup",
+        "TITLE_FINISH": "Voilà!",
+        "CHANNEL": {
+          "WEBSITE": {
+            "TITLE": "وب سایت",
+            "DESCRIPTION": "Create a live-chat widget"
+          },
+          "FACEBOOK": {
+            "TITLE": "فیس‌بوک",
+            "DESCRIPTION": "Connect your Facebook page"
+          },
+          "WHATSAPP": {
+            "TITLE": "WhatsApp",
+            "DESCRIPTION": "Support your customers on WhatsApp"
+          },
+          "EMAIL": {
+            "TITLE": "ایمیل",
+            "DESCRIPTION": "Connect with Gmail, Outlook, or other providers"
+          },
+          "SMS": {
+            "TITLE": "SMS",
+            "DESCRIPTION": "Integrate SMS channel with Twilio or bandwidth"
+          },
+          "API": {
+            "TITLE": "API",
+            "DESCRIPTION": "Make a custom channel using our API"
+          },
+          "TELEGRAM": {
+            "TITLE": "Telegram",
+            "DESCRIPTION": "Configure Telegram channel using Bot token"
+          },
+          "LINE": {
+            "TITLE": "Line",
+            "DESCRIPTION": "Integrate your Line channel"
+          },
+          "INSTAGRAM": {
+            "TITLE": "Instagram",
+            "DESCRIPTION": "Connect your instagram account"
+          },
+          "TIKTOK": {
+            "TITLE": "TikTok",
+            "DESCRIPTION": "Connect your TikTok account"
+          },
+          "VOICE": {
+            "TITLE": "Voice",
+            "DESCRIPTION": "Integrate with Twilio Voice"
+          }
+        }
+      },
+      "AGENTS": {
+        "TITLE": "ایجنت ها",
+        "DESC": "در اینجا می‌توانید ایجنت ها را به صندوق‌ ورودی خود اختصاص دهید. توجه داشته باشید که فقط ایجنت هایی که در اینجا معرفی شده باشند می‌توانند به پیام‌های این صندوق پاسخ بدهند. دیگر ایجنت ها نخواهند توانست پیام‌های این صندوق را ببینید یا به آن‌ها پاسخی بدهند. <br> <b>پانویس:</b>به عنوان مدیر اگر می‌خواهید به همه صندوق‌های ورودی دسترسی داشته باشید می‌بایست خود را به عنوان ایجنت به همه صندوق‌ها اضافه کنید.",
+        "VALIDATION_ERROR": "Add at least one agent to your new Inbox",
+        "PICK_AGENTS": "انتخاب ایجنت ها برای این صندوق ورودی"
+      },
+      "DETAILS": {
+        "TITLE": "جزئیات صندوق‌ ورودی",
+        "DESC": "از کادر زیر صفحه فیس بوکی که می‌خواهید به چت ووت متصل شود انتخاب کنید. همچنین می‌توانید برای تشخیص بهتر یک اسم مشخص برای این صندوق تعیین کنید."
+      },
+      "FINISH": {
+        "TITLE": "ماشالله!",
+        "DESC": "چت ووت با موفقیت به فیس بوک متصل شد. از به بعد هر مشتری که پیامی در این صفحه بنویسید، آن پیام در صندوق ورودی چت ووت ظاهر می‌شود و گفتگویی ایجاد می‌شود..<br>فراموش نکنید که ما یک ویجت برای سایت‌ها هم داریم که با قرار دادن آن در سایت، مشتری می‌تواند به صورت آنلاین با شما گفتگو کند و پیام‌ها در صندوق ورودی آن ظاهر می‌شود<br>باحال نیست؟ ما همیشه باحالیم! :)"
+      },
+      "EMAIL_PROVIDER": {
+        "TITLE": "ارائه دهنده ایمیل خود را انتخاب کنید",
+        "DESCRIPTION": "یک ارائه دهنده ایمیل از لیست زیر انتخاب کنید. اگر ارائه دهنده ایمیل خود را در لیست نمی بینید، می توانید گزینه ارائه دهنده دیگر را انتخاب کنید و اعتبارنامه IMAP و SMTP را ارائه دهید."
+      },
+      "MICROSOFT": {
+        "TITLE": "ایمیل مایکروسافت",
+        "DESCRIPTION": "برای شروع روی دکمه Sign in with Microsoft کلیک کنید. شما به صفحه ورود به ایمیل هدایت خواهید شد. هنگامی که مجوزهای درخواستی را پذیرفتید، به مرحله ایجاد صندوق ورودی هدایت می شوید.",
+        "EMAIL_PLACEHOLDER": "آدرس ایمیل را وارد کنید",
+        "SIGN_IN": "Sign in with Microsoft",
+        "ERROR_MESSAGE": "هنگام اتصال به مایکروسافت خطایی روی داد، لطفاً دوباره امتحان کنید"
+      },
+      "GOOGLE": {
+        "TITLE": "Google Email",
+        "DESCRIPTION": "Click on the Sign in with Google button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
+        "SIGN_IN": "Sign in with Google",
+        "EMAIL_PLACEHOLDER": "آدرس ایمیل را وارد کنید",
+        "ERROR_MESSAGE": "There was an error connecting to Google, please try again"
+      }
+    },
+    "DETAILS": {
+      "LOADING_FB": "در حال احراز هویت با فیس بوک...",
+      "ERROR_FB_LOADING": "Error loading Facebook SDK. Please disable any ad-blockers and try again from a different browser.",
+      "ERROR_FB_AUTH": "اشکالی پیش آمد.. لطفا دوباره سعی کنید...",
+      "ERROR_FB_UNAUTHORIZED": "شما اجازه انجام این کار را ندارید. ",
+      "ERROR_FB_UNAUTHORIZED_HELP": "لطفا مطمئن شوید که با کنترل کامل به صفحه فیس بوک دسترسی دارید. اینجا می‌توانید درباره نقش‌های فیسبوک بیشتر بخوانید <a href=\" https://www.facebook.com/help/187316341316631\">راهنما</a>.",
+      "CREATING_CHANNEL": "در حال ساخت صندوق ورودی...",
+      "TITLE": "تنظیمات صفحه ورودی",
+      "DESC": ""
+    },
+    "AGENTS": {
+      "BUTTON_TEXT": "اضافه کردن ایجنت",
+      "ADD_AGENTS": "اضافه کردن ایجنت به صندوق ورودی..."
+    },
+    "FINISH": {
+      "TITLE": "صندوق ورودی حاضره!",
+      "MESSAGE": "حالا از طریق این کانال جدید می‌توانید با مشتریان صحبت کنید. به امید موفقیت",
+      "BUTTON_TEXT": "نشانم بده",
+      "MORE_SETTINGS": "تنظیمات بیشتر",
+      "WEBSITE_SUCCESS": "ساختن کانال وب سایت با موفقیت انجام شد. قطعه کد زیر را کپی کرده و در سایت خود قرار دهید. در صورتیکه مشتری از ویجت پشتیبانی آنلاین استفاده کند گفتگوی شما در این صندوق ورودی ظاهر می‌شود.",
+      "WHATSAPP_QR_INSTRUCTION": "Scan the QR code above to quickly test your WhatsApp inbox",
+      "MESSENGER_QR_INSTRUCTION": "Scan the QR code above to quickly test your Facebook Messenger inbox",
+      "TELEGRAM_QR_INSTRUCTION": "Scan the QR code above to quickly test your Telegram inbox"
+    },
+    "REAUTH": "احراز هویت مجدد",
+    "VIEW": "نمایش",
+    "EDIT": {
+      "API": {
+        "SUCCESS_MESSAGE": "تنظمیات صندوق ورودی اعمال شد",
+        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "واگذاری خودکار گفتگو به ایجنت ها تنظیم شد",
+        "ERROR_MESSAGE": "ما نمی‌توانیم تنظیمات صندوق ورودی را به‌روزرسانی کنیم. لطفا بعدا دوباره امتحان کنید."
+      },
+      "EMAIL_COLLECT_BOX": {
+        "ENABLED": "فعال",
+        "DISABLED": "غیرفعال"
+      },
+      "ENABLE_CSAT": {
+        "ENABLED": "فعال",
+        "DISABLED": "غیرفعال"
+      },
+      "SENDER_NAME_SECTION": {
+        "TITLE": "نام ارسال کننده",
+        "SUB_TEXT": "Select the name shown to your customer when they receive emails from your agents.",
+        "FOR_EG": "به عنوان مثال:",
+        "FRIENDLY": {
+          "TITLE": "دوستانه",
+          "FROM": "از",
+          "SUBTITLE": "نام اپراتوری که پاسخ را ارسال کرده است را به نام فرستنده اضافه کنید تا پیام دوستانه تر شود."
+        },
+        "PROFESSIONAL": {
+          "TITLE": "حرفه ای",
+          "SUBTITLE": "فقط از نام تجاری پیکربندی شده به عنوان نام فرستنده در هدر ایمیل استفاده کنید."
+        },
+        "BUSINESS_NAME": {
+          "BUTTON_TEXT": "+ نام کسب و کار خود را وارد کنید",
+          "PLACEHOLDER": "نام کسب و کار خود را وارد کنید",
+          "SAVE_BUTTON_TEXT": "ذخیره"
+        }
+      },
+      "ALLOW_MESSAGES_AFTER_RESOLVED": {
+        "ENABLED": "فعال",
+        "DISABLED": "غیرفعال"
+      },
+      "ENABLE_CONTINUITY_VIA_EMAIL": {
+        "ENABLED": "فعال",
+        "DISABLED": "غیرفعال"
+      },
+      "LOCK_TO_SINGLE_CONVERSATION": {
+        "ENABLED": "فعال شد",
+        "DISABLED": "غیرفعال شد"
+      },
+      "ENABLE_HMAC": {
+        "LABEL": "فعال"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "حذف",
+      "AVATAR_DELETE_BUTTON_TEXT": "حذف آواتار",
+      "CONFIRM": {
+        "TITLE": "تاییدیه حذف",
+        "MESSAGE": "مطمئن هستید که حذف شود ",
+        "PLACE_HOLDER": "برای تایید لطفا {inboxName} را تایپ کنید",
+        "YES": "بله، حذف شود ",
+        "NO": "نه، بماند "
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "صندوق ورودی حذف شد",
+        "ERROR_MESSAGE": "صندوق ورودی حذف نشد، لطفا بعدا امتحان کنید",
+        "AVATAR_SUCCESS_MESSAGE": "آواتار صندوق ورودی با موفقیت حذف شد",
+        "AVATAR_ERROR_MESSAGE": "آواتار صندوق ورودی حذف نشد. لطفاً بعداً دوباره امتحان کنید."
+      }
+    },
+    "TABS": {
+      "SETTINGS": "تنظیمات",
+      "COLLABORATORS": "همکاران",
+      "CONFIGURATION": "پیکربندی",
+      "CAMPAIGN": "کمپین ها",
+      "PRE_CHAT_FORM": "فرم پیش چت",
+      "BUSINESS_HOURS": "ساعت کاری",
+      "WIDGET_BUILDER": "سازنده ابزارک",
+      "BOT_CONFIGURATION": "پیکربندی ربات",
+      "ACCOUNT_HEALTH": "Account Health",
+      "CSAT": "رضایت مشتری"
+    },
+    "ACCOUNT_HEALTH": {
+      "TITLE": "Manage your WhatsApp account",
+      "DESCRIPTION": "Review your WhatsApp account status, messaging limits, and quality. Update settings or resolve issues if needed",
+      "GO_TO_SETTINGS": "Go to Meta Business Manager",
+      "NO_DATA": "Health data is not available",
+      "FIELDS": {
+        "DISPLAY_PHONE_NUMBER": {
+          "LABEL": "Display phone number",
+          "TOOLTIP": "Phone number displayed to customers"
+        },
+        "VERIFIED_NAME": {
+          "LABEL": "Business name",
+          "TOOLTIP": "Business name verified by WhatsApp"
+        },
+        "DISPLAY_NAME_STATUS": {
+          "LABEL": "Display name status",
+          "TOOLTIP": "Status of your business name verification"
+        },
+        "QUALITY_RATING": {
+          "LABEL": "Quality rating",
+          "TOOLTIP": "WhatsApp quality rating for your account"
+        },
+        "MESSAGING_LIMIT_TIER": {
+          "LABEL": "Messaging limit tier",
+          "TOOLTIP": "Daily messaging limit for your account"
+        },
+        "ACCOUNT_MODE": {
+          "LABEL": "Account mode",
+          "TOOLTIP": "Current operating mode of your WhatsApp account"
+        }
+      },
+      "VALUES": {
+        "TIERS": {
+          "TIER_250": "250 customers per 24h",
+          "TIER_1000": "1K customers per 24h",
+          "TIER_1K": "1K customers per 24h",
+          "TIER_10K": "10K customers per 24h",
+          "TIER_100K": "100K customers per 24h",
+          "TIER_UNLIMITED": "Unlimited customers per 24h",
+          "UNKNOWN": "Rating not available"
+        },
+        "STATUSES": {
+          "APPROVED": "Approved",
+          "PENDING_REVIEW": "Pending Review",
+          "AVAILABLE_WITHOUT_REVIEW": "Available Without Review",
+          "REJECTED": "Rejected",
+          "DECLINED": "Declined",
+          "NON_EXISTS": "Non exists"
+        },
+        "MODES": {
+          "SANDBOX": "Sandbox",
+          "LIVE": "زنده"
+        }
+      }
+    },
+    "SETTINGS": "تنظیمات",
+    "FEATURES": {
+      "LABEL": "امکانات",
+      "DISPLAY_FILE_PICKER": "نمایش گزینه ضمیه فایل در ویجت",
+      "DISPLAY_EMOJI_PICKER": "نمایش گزینه انتخاب ایموجی در ویجت",
+      "ALLOW_END_CONVERSATION": "به کاربران اجازه دهید مکالمه را از ویجت پایان دهند",
+      "USE_INBOX_AVATAR_FOR_BOT": "از نام صندوق ورودی و آواتار برای ربات استفاده کنید"
+    },
+    "SETTINGS_POPUP": {
+      "MESSENGER_HEADING": "اسکریپت ویجت",
+      "MESSENGER_SUB_HEAD": "این دکمه را در تگ body قرار دهید",
+      "ALLOWED_DOMAINS": {
+        "TITLE": "Allowed Domains",
+        "SUBTITLE": "Add wildcard or regular domains separated by commas (leave blank to allow all), e.g. *.chatwoot.dev, chatwoot.com.",
+        "PLACEHOLDER": "Enter domains separated by commas (eg: *.chatwoot.dev, chatwoot.com)"
+      },
+      "INBOX_AGENTS": "ایجنت ها",
+      "INBOX_AGENTS_SUB_TEXT": "اضافه کردن یا حذف کردن دسترسی ایجنت به صندوق ورودی",
+      "AGENT_ASSIGNMENT": "اختصاص گفتگو",
+      "AGENT_ASSIGNMENT_SUB_TEXT": "بروز رسانی تنظیمات اختصاص گفتگو",
+      "UPDATE": "اعمال شود",
+      "ENABLE_EMAIL_COLLECT_BOX": "فعال سازی فرم دریافت ایمیل از کاربر",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "فعال یا غیرفعال کردن فرم دریافت ایمیل از کاربر",
+      "AUTO_ASSIGNMENT": "فعال کردن واگذاری خودکار گفتگو به ایجنت ها",
+      "SENDER_NAME_SECTION": "فعال سازی نام اپراتور در ایمیل",
+      "SENDER_NAME_SECTION_TEXT": "فعال/غیرفعال کردن نمایش نام اپراتور در ایمیل، اگر غیرفعال باشد نام کسب و کار نشان داده می شود",
+      "ENABLE_CONTINUITY_VIA_EMAIL": "ادامه مکالمه را از طریق ایمیل فعال کنید",
+      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "اگر آدرس ایمیل تماس در دسترس باشد، مکالمات از طریق ایمیل ادامه خواهد یافت.",
+      "LOCK_TO_SINGLE_CONVERSATION": "قفل کردن مکالمه تکی",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "چند مکالمه را برای یک مخاطب در این صندوق ورودی فعال یا غیرفعال کنید",
+      "INBOX_UPDATE_TITLE": "تنظیمات صندوق ورودی",
+      "INBOX_UPDATE_SUB_TEXT": "تغییر پارامترهای صندوق ورودی",
+      "AUTO_ASSIGNMENT_SUB_TEXT": "فعال کردن یا غیرفعال کردن واگذاری خودکار گفتگوها به ایجنت های عضو این صندوق ورودی.",
+      "HMAC_VERIFICATION": "اعتبار سنجی کاربر",
+      "HMAC_DESCRIPTION": "به منظور اعتبارسنجی هویت کاربر، می‌توانید یک «شناسه_هش» برای هر کاربر ارسال کنید. می‌توانید با استفاده از «شناسه» با کلید نشان داده شده در اینجا یک هش HMAC sha256 ایجاد کنید.",
+      "HMAC_LINK_TO_DOCS": "از اینجا می توانید بیشتر بخوانید.",
+      "HMAC_MANDATORY_VERIFICATION": "مجبور کردن تأیید اعتبار هویت کاربر",
+      "HMAC_MANDATORY_DESCRIPTION": "اگر فعال باشد، درخواست‌هایی که «identifier_hash» را ندارند رد می‌شوند.",
+      "INBOX_IDENTIFIER": "شناسه صندوق ورودی",
+      "INBOX_IDENTIFIER_SUB_TEXT": "از رمز `inbox_identifier` که در اینجا نشان داده شده است برای احراز هویت کلاینت های API خود استفاده کنید.",
+      "FORWARD_EMAIL_TITLE": "ارسال به ایمیل",
+      "FORWARD_EMAIL_SUB_TEXT": "ایمیل های خود را به این آدرس ها فوروارد کنید.",
+      "FORWARD_EMAIL_NOT_CONFIGURED": "Forwarding emails to your inbox is currently disabled on this installation. To use this feature, it must be enabled by your administrator. Please get in touch with them to proceed.",
+      "ALLOW_MESSAGES_AFTER_RESOLVED": "اجازه دادن به پیام ها پس از حل شدن مکالمه",
+      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "به کاربران اجازه دهید حتی پس از حل شدن مکالمه پیام ارسال کنند.",
+      "WHATSAPP_SECTION_SUBHEADER": "این کلید API برای ادغام با API های WhatsApp استفاده می شود.",
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the new API key to be used for the integration with the WhatsApp APIs.",
+      "WHATSAPP_SECTION_TITLE": "API key",
+      "WHATSAPP_SECTION_UPDATE_TITLE": "کلید API را به روز کنید",
+      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "کلید API جدید را در اینجا وارد کنید",
+      "WHATSAPP_SECTION_UPDATE_BUTTON": "اعمال شود",
+      "WHATSAPP_EMBEDDED_SIGNUP_TITLE": "WhatsApp Embedded Signup",
+      "WHATSAPP_EMBEDDED_SIGNUP_SUBHEADER": "This inbox is connected through WhatsApp embedded signup.",
+      "WHATSAPP_EMBEDDED_SIGNUP_DESCRIPTION": "You can reconfigure this inbox to update your WhatsApp Business settings.",
+      "WHATSAPP_RECONFIGURE_BUTTON": "Reconfigure",
+      "WHATSAPP_CONNECT_TITLE": "Connect to WhatsApp Business",
+      "WHATSAPP_CONNECT_SUBHEADER": "Upgrade to WhatsApp embedded signup for easier management.",
+      "WHATSAPP_CONNECT_DESCRIPTION": "Connect this inbox to WhatsApp Business for enhanced features and easier management.",
+      "WHATSAPP_CONNECT_BUTTON": "اتصال",
+      "WHATSAPP_CONNECT_SUCCESS": "Successfully connected to WhatsApp Business!",
+      "WHATSAPP_CONNECT_ERROR": "Failed to connect to WhatsApp Business. Please try again.",
+      "WHATSAPP_RECONFIGURE_SUCCESS": "Successfully reconfigured WhatsApp Business!",
+      "WHATSAPP_RECONFIGURE_ERROR": "Failed to reconfigure WhatsApp Business. Please try again.",
+      "WHATSAPP_APP_ID_MISSING": "شناسه اپلیکیشن واتساپ پیکربندی نشده است. لطفا با مدیر خود تماس بگیرید.",
+      "WHATSAPP_CONFIG_ID_MISSING": "شناسه پیکربندی واتساپ تنظیم نشده است. لطفا با مدیر خود تماس بگیرید.",
+      "WHATSAPP_LOGIN_CANCELLED": "WhatsApp login was cancelled. Please try again.",
+      "WHATSAPP_WEBHOOK_TITLE": "توکن تایید Webhook",
+      "WHATSAPP_WEBHOOK_SUBHEADER": "این توکن برای تأیید صحت نقطه پایانی webhook استفاده می شود.",
+      "WHATSAPP_TEMPLATES_SYNC_TITLE": "Sync Templates",
+      "WHATSAPP_TEMPLATES_SYNC_SUBHEADER": "Manually sync message templates from WhatsApp to update your available templates.",
+      "WHATSAPP_TEMPLATES_SYNC_BUTTON": "Sync Templates",
+      "WHATSAPP_TEMPLATES_SYNC_SUCCESS": "Templates sync initiated successfully. It may take a couple of minutes to update.",
+      "UPDATE_PRE_CHAT_FORM_SETTINGS": "به‌روزرسانی تنظیمات فرم قبل از گفتگو"
+    },
+    "HELP_CENTER": {
+      "LABEL": "مرکز راهنما",
+      "PLACEHOLDER": "مرکز راهنما را انتخاب کنید",
+      "SELECT_PLACEHOLDER": "مرکز راهنما را انتخاب کنید",
+      "REMOVE": "مرکز راهنما را حذف کنید",
+      "SUB_TEXT": "یک مرکز راهنما را با صندوق ورودی پیوست کنید"
+    },
+    "AUTO_ASSIGNMENT": {
+      "MAX_ASSIGNMENT_LIMIT": "محدودیت تخصیص خودکار",
+      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "لطفا مقداری بزرگ‌تر از عدد 0 وارد کنید",
+      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "حداکثر تعداد مکالماتی را که می توان به طور خودکار به یک اپراتور اختصاص داد، از این صندوق ورودی محدود کنید"
+    },
+    "FACEBOOK_REAUTHORIZE": {
+      "TITLE": "احراز هویت مجدد",
+      "SUBTITLE": "اتصال فیس بوک شما منقضی شده است ، لطفاً برای ادامه خدمات دوباره صفحه فیس بوک خود را متصل کنید",
+      "MESSAGE_SUCCESS": "اتصال مجدد موفقیت آمیز بود",
+      "MESSAGE_ERROR": "خطایی پیش آمد. لطفا دوباره امتحان کنید"
+    },
+    "PRE_CHAT_FORM": {
+      "DESCRIPTION": "فرم های پیش چت به شما امکان می دهد اطلاعات کاربران را قبل از شروع مکالمه با شما ذخیره کنید.",
+      "SET_FIELDS": "فیلدهای فرم قبل از چت",
+      "SET_FIELDS_HEADER": {
+        "FIELDS": "فیلدها",
+        "LABEL": "برچسب",
+        "PLACE_HOLDER": "نگهدارنده",
+        "KEY": "کلید",
+        "TYPE": "نوع",
+        "REQUIRED": "ضروری"
+      },
+      "ENABLE": {
+        "LABEL": "فعال کردن فرم پیش چت",
+        "OPTIONS": {
+          "ENABLED": "بله",
+          "DISABLED": "خیر"
+        }
+      },
+      "PRE_CHAT_MESSAGE": {
+        "LABEL": "پیام قبل از چت",
+        "PLACEHOLDER": "این پیام به همراه فرم برای کاربران قابل مشاهده است"
+      },
+      "REQUIRE_EMAIL": {
+        "LABEL": "بازدیدکنندگان باید قبل از شروع چت نام و آدرس ایمیل خود را ارائه دهند"
+      }
+    },
+    "CSAT": {
+      "TITLE": "فعال کردن رضایت مشتری",
+      "SUBTITLE": "Automatically trigger CSAT surveys at the end of conversations to understand how customers feel about their support experience. Track satisfaction trends and identify areas for improvement over time.",
+      "DISPLAY_TYPE": {
+        "LABEL": "Display type"
+      },
+      "MESSAGE": {
+        "LABEL": "پیام",
+        "PLACEHOLDER": "Please enter a message to show users with the form"
+      },
+      "BUTTON_TEXT": {
+        "LABEL": "Button text",
+        "PLACEHOLDER": "Please rate us"
+      },
+      "LANGUAGE": {
+        "LABEL": "زبان",
+        "PLACEHOLDER": "Select template language"
+      },
+      "MESSAGE_PREVIEW": {
+        "LABEL": "Message preview",
+        "TOOLTIP": "This may vary slightly when rendered on WhatsApp's platform."
+      },
+      "TEMPLATE_STATUS": {
+        "APPROVED": "Approved by WhatsApp",
+        "PENDING": "Pending WhatsApp approval",
+        "REJECTED": "Meta rejected the template",
+        "DEFAULT": "Needs WhatsApp approval",
+        "NOT_FOUND": "The template does not exist in the Meta platform."
+      },
+      "TEMPLATE_CREATION": {
+        "SUCCESS_MESSAGE": "WhatsApp template created successfully and sent for approval",
+        "ERROR_MESSAGE": "Failed to create WhatsApp template"
+      },
+      "TEMPLATE_UPDATE_DIALOG": {
+        "TITLE": "Edit survey details",
+        "DESCRIPTION": "We will delete the previous template and make a new one which will be sent again for WhatsApp approval",
+        "CONFIRM": "Create new template",
+        "CANCEL": "بازگشت"
+      },
+      "SURVEY_RULE": {
+        "LABEL": "Survey rule",
+        "DESCRIPTION_PREFIX": "Send the survey if the conversation",
+        "DESCRIPTION_SUFFIX": "any of the labels",
+        "OPERATOR": {
+          "CONTAINS": "شامل",
+          "DOES_NOT_CONTAINS": "شامل نمی‌شود"
+        },
+        "SELECT_PLACEHOLDER": "select labels"
+      },
+      "NOTE": "Note: CSAT surveys are sent only once per conversation",
+      "WHATSAPP_NOTE": "Note: We will create a template and send it for WhatsApp approval. After being approved, surveys will be sent only once per conversation as per the survey rule.",
+      "API": {
+        "SUCCESS_MESSAGE": "CSAT settings updated successfully",
+        "ERROR_MESSAGE": "We couldn't update CSAT settings. Please try again later."
+      }
+    },
+    "BUSINESS_HOURS": {
+      "TITLE": "در دسترس بودن خود را تنظیم کنید",
+      "SUBTITLE": "زمان در دسترس بودن خود را بر روی چت زنده مشخص کنید",
+      "WEEKLY_TITLE": "ساعات کار هفتگی خود را تنظیم کنید",
+      "TIMEZONE_LABEL": "منطقه زمانی را انتخاب کنید",
+      "UPDATE": "تنظیمات ساعات کاری را به روز کنید",
+      "TOGGLE_AVAILABILITY": "دسترس بودن کسب و کار را برای این صندوق فعال کردن",
+      "UNAVAILABLE_MESSAGE_LABEL": "پیامی برای بازدیدکنندگان در دسترس نیست",
+      "TOGGLE_HELP": "فعال کردن در دسترس بودن کسب کار ، ساعات موجود در ویجت چت زنده را نشان می دهد حتی اگر همه اپراتور ها آفلاین باشند. خارج از ساعات موجود می توان با پیام و فرم قبل از چت ، به کاربران هشدار داد.",
+      "DAY": {
+        "ENABLE": "در دسترس بودن را برای این روز فعال کنید",
+        "UNAVAILABLE": "غیر قابل دسترسی",
+        "HOURS": "ساعت",
+        "VALIDATION_ERROR": "زمان شروع باید قبل از زمان بسته شدن باشد.",
+        "CHOOSE": "انتخاب کنید"
+      },
+      "ALL_DAY": "تمام روز"
+    },
+    "IMAP": {
+      "TITLE": "IMAP",
+      "SUBTITLE": "جزئیات IMAP خود را تنظیم کنید",
+      "NOTE_TEXT": "برای فعال کردن SMTP، لطفا IMAP را پیکربندی کنید.",
+      "UPDATE": "به‌روزرسانی تنظیمات IMAP",
+      "TOGGLE_AVAILABILITY": "پیکربندی IMAP را برای این صندوق ورودی فعال کنید",
+      "TOGGLE_HELP": "Enabling IMAP will help the user to receive email",
+      "EDIT": {
+        "SUCCESS_MESSAGE": "تنظیمات IMAP با موفقیت به‌روزرسانی شد",
+        "ERROR_MESSAGE": "به‌روزرسانی تنظیمات IMAP ممکن نیست"
+      },
+      "ADDRESS": {
+        "LABEL": "آدرس",
+        "PLACE_HOLDER": "آدرس (مثال: imap.gmail.com)"
+      },
+      "PORT": {
+        "LABEL": "درگاه",
+        "PLACE_HOLDER": "درگاه"
+      },
+      "LOGIN": {
+        "LABEL": "ورود",
+        "PLACE_HOLDER": "ورود"
+      },
+      "PASSWORD": {
+        "LABEL": "رمز عبور",
+        "PLACE_HOLDER": "رمز عبور"
+      },
+      "ENABLE_SSL": "فعال کردن SSL"
+    },
+    "MICROSOFT": {
+      "TITLE": "مایکروسافت",
+      "SUBTITLE": "حساب مایکروسافت خود را مجدداً تأیید کنید"
+    },
+    "SMTP": {
+      "TITLE": "SMTP",
+      "SUBTITLE": "جزئیات SMTP خود را تنظیم کنید",
+      "UPDATE": "به‌روزرسانی تنظیمات SMTP",
+      "TOGGLE_AVAILABILITY": "پیکربندی SMTP را برای این صندوق ورودی فعال کنید",
+      "TOGGLE_HELP": "در حال فعال کردن SMTP به کاربر در ارسال ایمیل کمک می کند",
+      "EDIT": {
+        "SUCCESS_MESSAGE": "تنظیمات SMTP با موفقیت به‌روزرسانی شد",
+        "ERROR_MESSAGE": "به‌روزرسانی تنظیمات SMTP ممکن نیست"
+      },
+      "ADDRESS": {
+        "LABEL": "آدرس",
+        "PLACE_HOLDER": "آدرس (مثال: smtp.gmail.com)"
+      },
+      "PORT": {
+        "LABEL": "درگاه",
+        "PLACE_HOLDER": "درگاه"
+      },
+      "LOGIN": {
+        "LABEL": "ورود",
+        "PLACE_HOLDER": "ورود"
+      },
+      "PASSWORD": {
+        "LABEL": "رمز عبور",
+        "PLACE_HOLDER": "رمز عبور"
+      },
+      "DOMAIN": {
+        "LABEL": "دامنه",
+        "PLACE_HOLDER": "دامنه"
+      },
+      "ENCRYPTION": "رمزگذاری",
+      "SSL_TLS": "SSL/TLS",
+      "START_TLS": "STARTTLS",
+      "OPEN_SSL_VERIFY_MODE": "باز کردن حالت تایید SSL",
+      "AUTH_MECHANISM": "احراز هویت"
+    },
+    "NOTE": "یادداشت: ",
+    "WIDGET_BUILDER": {
+      "WIDGET_OPTIONS": {
+        "AVATAR": {
+          "LABEL": "آواتار وب‌سایت",
+          "DELETE": {
+            "API": {
+              "SUCCESS_MESSAGE": "آواتار با موفقیت حذف شد",
+              "ERROR_MESSAGE": "خطایی پیش آمد. لطفا دوباره امتحان کنید"
+            }
+          }
+        },
+        "WEBSITE_NAME": {
+          "LABEL": "عنوان سایت",
+          "PLACE_HOLDER": "عنوان سایت خود را وارد کنید (به عنوان مثال: Acme Inc)",
+          "ERROR": "لطفا یک نام وب‌سایت معتبر وارد کنید"
+        },
+        "WELCOME_HEADING": {
+          "LABEL": "تیتر خوش آمدگویی",
+          "PLACE_HOLDER": "سلام!"
+        },
+        "WELCOME_TAGLINE": {
+          "LABEL": "زیرتیتر خوش آمدگویی",
+          "PLACE_HOLDER": "دسترسی به ما ساده است. هر سوالی پیش آمد همینجا از ما بپرسید."
+        },
+        "REPLY_TIME": {
+          "LABEL": "زمان پاسخ دهی",
+          "IN_A_FEW_MINUTES": "در چند دقیقه",
+          "IN_A_FEW_HOURS": "در چند ساعت",
+          "IN_A_DAY": "در یک روز"
+        },
+        "WIDGET_COLOR_LABEL": "رنگ ویجت",
+        "WIDGET_BUBBLE_POSITION_LABEL": "موقعیت حباب ابزارک",
+        "WIDGET_BUBBLE_TYPE_LABEL": "نوع حباب ابزارک",
+        "WIDGET_BUBBLE_LAUNCHER_TITLE": {
+          "DEFAULT": "با ما گفتگو کنید",
+          "LABEL": "عنوان ویجت Bubble",
+          "PLACE_HOLDER": "با ما گفتگو کنید"
+        },
+        "UPDATE": {
+          "BUTTON_TEXT": "به‌روزرسانی تنظیمات ابزارک",
+          "API": {
+            "SUCCESS_MESSAGE": "تنظیمات ابزارک با موفقیت به‌روز شد",
+            "ERROR_MESSAGE": "به‌روزرسانی تنظیمات ابزارک ممکن نیست"
+          }
+        },
+        "WIDGET_VIEW_OPTION": {
+          "PREVIEW": "پیش‌نمایش",
+          "SCRIPT": "اسکریپت"
+        },
+        "WIDGET_BUBBLE_POSITION": {
+          "LEFT": "چپ",
+          "RIGHT": "راست"
+        },
+        "WIDGET_BUBBLE_TYPE": {
+          "STANDARD": "استاندارد",
+          "EXPANDED_BUBBLE": "گسترش Bubble"
+        }
+      },
+      "WIDGET_SCREEN": {
+        "DEFAULT": "پیش‌فرض",
+        "CHAT": "گفتگو"
+      },
+      "REPLY_TIME": {
+        "IN_A_FEW_MINUTES": "معمولاً در عرض چند دقیقه پاسخ می‌دهیم",
+        "IN_A_FEW_HOURS": "معمولاً در عرض چند ساعت پاسخ می‌دهیم",
+        "IN_A_DAY": "معمولاً در عرض یک روز پاسخ می‌دهیم"
+      },
+      "FOOTER": {
+        "START_CONVERSATION_BUTTON_TEXT": "گفتگو را شروع کنید",
+        "CHAT_INPUT_PLACEHOLDER": "پیام خود را وارد کنید"
+      },
+      "BODY": {
+        "TEAM_AVAILABILITY": {
+          "ONLINE": "ما آنلاین هستیم",
+          "OFFLINE": "در حال حاضر دردسترس نیستیم"
+        },
+        "USER_MESSAGE": "سلام",
+        "AGENT_MESSAGE": "سلام"
+      },
+      "BRANDING_TEXT": "قدرت گرفته از چت ووت",
+      "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
+    },
+    "EMAIL_PROVIDERS": {
+      "MICROSOFT": {
+        "TITLE": "مایکروسافت",
+        "DESCRIPTION": "Connect with Microsoft"
+      },
+      "GOOGLE": {
+        "TITLE": "Google",
+        "DESCRIPTION": "Connect with Google"
+      },
+      "OTHER_PROVIDERS": {
+        "TITLE": "سایر ارائه دهندگان",
+        "DESCRIPTION": "Connect with Other Providers"
+      }
+    },
+    "CHANNELS": {
+      "MESSENGER": "Messenger",
+      "WEB_WIDGET": "وب سایت",
+      "TWITTER_PROFILE": "توییتر",
+      "TWILIO_SMS": "Twilio SMS",
+      "WHATSAPP": "WhatsApp",
+      "SMS": "SMS",
+      "EMAIL": "ایمیل",
+      "TELEGRAM": "Telegram",
+      "LINE": "Line",
+      "API": "کانال API",
+      "INSTAGRAM": "Instagram",
+      "TIKTOK": "TikTok",
+      "VOICE": "Voice"
+    }
+  }
+}

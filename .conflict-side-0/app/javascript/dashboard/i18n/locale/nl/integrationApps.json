@@ -1,0 +1,62 @@
+{
+  "INTEGRATION_APPS": {
+    "FETCHING": "Integraties ophalen",
+    "NO_HOOK_CONFIGURED": "Er zijn geen {integrationId} integraties geconfigureerd in dit account.",
+    "HEADER": "Applicaties",
+    "STATUS": {
+      "ENABLED": "Ingeschakeld",
+      "DISABLED": "Uitgeschakeld"
+    },
+    "CONFIGURE": "Configureren",
+    "ADD_BUTTON": "Nieuwe hook toevoegen",
+    "DELETE": {
+      "TITLE": {
+        "INBOX": "Verwijdering bevestigen",
+        "ACCOUNT": "Verbinding verbreken"
+      },
+      "MESSAGE": {
+        "INBOX": "Weet u zeker dat u wilt verwijderen?",
+        "ACCOUNT": "Weet u zeker dat u de verbinding wilt verbreken?"
+      },
+      "CONFIRM_BUTTON_TEXT": {
+        "INBOX": "Ja, verwijderen",
+        "ACCOUNT": "Ja, verbinding verbreken"
+      },
+      "CANCEL_BUTTON_TEXT": "Annuleren",
+      "API": {
+        "SUCCESS_MESSAGE": "Hook succesvol verwijderd",
+        "ERROR_MESSAGE": "Kan geen verbinding maken met Woot Server, probeer het later opnieuw"
+      }
+    },
+    "LIST": {
+      "FETCHING": "Ophalen van integratie-hooks",
+      "INBOX": "Postvak In",
+      "DELETE": {
+        "BUTTON_TEXT": "Verwijderen"
+      }
+    },
+    "ADD": {
+      "FORM": {
+        "INBOX": {
+          "LABEL": "Selecteer een inbox",
+          "PLACEHOLDER": "Selecteer een inbox"
+        },
+        "SUBMIT": "Aanmaken",
+        "CANCEL": "Annuleren"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Integratie hook succesvol toegevoegd",
+        "ERROR_MESSAGE": "Kan geen verbinding maken met Woot Server, probeer het later opnieuw"
+      }
+    },
+    "CONNECT": {
+      "BUTTON_TEXT": "Verbinden"
+    },
+    "DISCONNECT": {
+      "BUTTON_TEXT": "Verbinding verbreken"
+    },
+    "SIDEBAR_DESCRIPTION": {
+      "DIALOGFLOW": "Dialogflow is a natural language processing platform for building conversational interfaces. Integrating it with {installationName} lets bots handle queries first and transfer them to agents when needed. It helps qualify leads and reduce agent workload by answering FAQs. To add Dialogflow, create a Service Account in Google Console and share the credentials. Refer to the docs for details"
+    }
+  }
+}

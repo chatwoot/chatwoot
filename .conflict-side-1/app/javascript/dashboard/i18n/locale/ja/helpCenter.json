@@ -1,0 +1,865 @@
+{
+  "HELP_CENTER": {
+    "TITLE": "ヘルプセンター",
+    "NEW_PAGE": {
+      "DESCRIPTION": "顧客向けのセルフサービスヘルプセンターポータルを作成します。顧客が待たずに迅速に回答を見つけられるようサポートします。問い合わせを効率化し、担当者の生産性を向上させ、顧客サポートを向上させましょう。",
+      "CREATE_PORTAL_BUTTON": "ポータルを作成"
+    },
+    "HEADER": {
+      "FILTER": "フィルター",
+      "SORT": "並び替え",
+      "LOCALE": "ロケール",
+      "SETTINGS_BUTTON": "設定",
+      "NEW_BUTTON": "新しい記事",
+      "DROPDOWN_OPTIONS": {
+        "PUBLISHED": "公開済み",
+        "DRAFT": "下書き",
+        "ARCHIVED": "アーカイブ"
+      },
+      "TITLES": {
+        "ALL_ARTICLES": "すべての記事",
+        "MINE": "私の記事",
+        "DRAFT": "下書き記事",
+        "ARCHIVED": "アーカイブ記事"
+      },
+      "LOCALE_SELECT": {
+        "TITLE": "ロケールを選択",
+        "PLACEHOLDER": "ロケールを選択",
+        "NO_RESULT": "ロケールが見つかりません",
+        "SEARCH_PLACEHOLDER": "ロケールを検索"
+      }
+    },
+    "EDIT_HEADER": {
+      "ALL_ARTICLES": "すべての記事",
+      "PUBLISH_BUTTON": "公開",
+      "MOVE_TO_ARCHIVE_BUTTON": "アーカイブに移動",
+      "PREVIEW": "プレビュー",
+      "ADD_TRANSLATION": "翻訳を追加",
+      "OPEN_SIDEBAR": "サイドバーを開く",
+      "CLOSE_SIDEBAR": "サイドバーを閉じる",
+      "SAVING": "保存中...",
+      "SAVED": "保存済み"
+    },
+    "ARTICLE_EDITOR": {
+      "IMAGE_UPLOAD": {
+        "TITLE": "画像をアップロード",
+        "UPLOADING": "アップロード中...",
+        "SUCCESS": "画像が正常にアップロードされました",
+        "ERROR": "画像のアップロード中にエラーが発生しました",
+        "UN_AUTHORIZED_ERROR": "画像をアップロードする権限がありません",
+        "ERROR_FILE_SIZE": "画像サイズは {size}MB 未満である必要があります",
+        "ERROR_FILE_FORMAT": "画像形式は jpg、jpeg または png である必要があります",
+        "ERROR_FILE_DIMENSIONS": "画像の寸法は 2000 x 2000 未満である必要があります"
+      }
+    },
+    "ARTICLE_SETTINGS": {
+      "TITLE": "記事の設定",
+      "FORM": {
+        "CATEGORY": {
+          "LABEL": "カテゴリー",
+          "TITLE": "カテゴリーを選択",
+          "PLACEHOLDER": "カテゴリーを選択",
+          "NO_RESULT": "カテゴリーが見つかりません",
+          "SEARCH_PLACEHOLDER": "カテゴリーを検索"
+        },
+        "AUTHOR": {
+          "LABEL": "著者",
+          "TITLE": "著者を選択",
+          "PLACEHOLDER": "著者を選択",
+          "NO_RESULT": "著者が見つかりません",
+          "SEARCH_PLACEHOLDER": "著者を検索"
+        },
+        "META_TITLE": {
+          "LABEL": "メタタイトル",
+          "PLACEHOLDER": "メタタイトルを追加"
+        },
+        "META_DESCRIPTION": {
+          "LABEL": "メタ説明",
+          "PLACEHOLDER": "SEO結果を向上させるためにメタ説明を追加してください..."
+        },
+        "META_TAGS": {
+          "LABEL": "メタタグ",
+          "PLACEHOLDER": "カンマ区切りでメタタグを追加..."
+        }
+      },
+      "BUTTONS": {
+        "ARCHIVE": "記事をアーカイブ",
+        "DELETE": "記事を削除"
+      }
+    },
+    "ARTICLE_SEARCH_RESULT": {
+      "UNCATEGORIZED": "未分類",
+      "SEARCH_RESULTS": "{query} の検索結果",
+      "EMPTY_TEXT": "返信に挿入する記事を検索します。",
+      "SEARCH_LOADER": "検索中...",
+      "INSERT_ARTICLE": "挿入",
+      "NO_RESULT": "記事が見つかりません",
+      "COPY_LINK": "記事リンクをクリップボードにコピー",
+      "OPEN_LINK": "新しいタブで記事を開く",
+      "PREVIEW_LINK": "記事をプレビュー"
+    },
+    "PORTAL": {
+      "HEADER": "ポータル",
+      "DEFAULT": "デフォルト",
+      "NEW_BUTTON": "新しいポータル",
+      "ACTIVE_BADGE": "アクティブ",
+      "CHOOSE_LOCALE_LABEL": "ロケールを選択",
+      "LOADING_MESSAGE": "ポータルを読み込み中...",
+      "ARTICLES_LABEL": "記事",
+      "NO_PORTALS_MESSAGE": "利用可能なポータルがありません",
+      "ADD_NEW_LOCALE": "新しいロケールを追加",
+      "POPOVER": {
+        "TITLE": "ポータル",
+        "PORTAL_SETTINGS": "ポータル設定",
+        "SUBTITLE": "複数のポータルを持ち、それぞれに異なるロケールを設定できます。",
+        "CANCEL_BUTTON_LABEL": "キャンセル",
+        "CHOOSE_LOCALE_BUTTON": "ロケールを選択"
+      },
+      "PORTAL_SETTINGS": {
+        "LIST_ITEM": {
+          "HEADER": {
+            "COUNT_LABEL": "記事",
+            "ADD": "ロケールを追加",
+            "VISIT": "サイトを訪問",
+            "SETTINGS": "設定",
+            "DELETE": "削除"
+          },
+          "PORTAL_CONFIG": {
+            "TITLE": "ポータル設定",
+            "ITEMS": {
+              "NAME": "名前",
+              "DOMAIN": "カスタムドメイン",
+              "SLUG": "スラッグ",
+              "TITLE": "ポータルタイトル",
+              "THEME": "テーマカラー",
+              "SUB_TEXT": "ポータルサブテキスト"
+            }
+          },
+          "AVAILABLE_LOCALES": {
+            "TITLE": "利用可能なロケール",
+            "TABLE": {
+              "NAME": "ロケール名",
+              "CODE": "ロケールコード",
+              "ARTICLE_COUNT": "記事数",
+              "CATEGORIES": "カテゴリー数",
+              "SWAP": "交換",
+              "DELETE": "削除",
+              "DEFAULT_LOCALE": "デフォルト"
+            }
+          }
+        },
+        "DELETE_PORTAL": {
+          "TITLE": "ポータルを削除",
+          "MESSAGE": "このポータルを削除してもよろしいですか",
+          "YES": "はい、ポータルを削除します",
+          "NO": "いいえ、ポータルを保持します",
+          "API": {
+            "DELETE_SUCCESS": "ポータルが正常に削除されました",
+            "DELETE_ERROR": "ポータルの削除中にエラーが発生しました"
+          }
+        },
+        "SEND_CNAME_INSTRUCTIONS": {
+          "API": {
+            "SUCCESS_MESSAGE": "CNAME instructions sent successfully",
+            "ERROR_MESSAGE": "Error while sending CNAME instructions"
+          }
+        }
+      },
+      "EDIT": {
+        "HEADER_TEXT": "ポータルを編集",
+        "TABS": {
+          "BASIC_SETTINGS": {
+            "TITLE": "基本情報"
+          },
+          "CUSTOMIZATION_SETTINGS": {
+            "TITLE": "ポータルのカスタマイズ"
+          },
+          "CATEGORY_SETTINGS": {
+            "TITLE": "カテゴリー"
+          },
+          "LOCALE_SETTINGS": {
+            "TITLE": "ロケール"
+          }
+        },
+        "CATEGORIES": {
+          "TITLE": "カテゴリー",
+          "NEW_CATEGORY": "新しいカテゴリー",
+          "TABLE": {
+            "NAME": "名前",
+            "DESCRIPTION": "説明",
+            "LOCALE": "ロケール",
+            "ARTICLE_COUNT": "記事数",
+            "ACTION_BUTTON": {
+              "EDIT": "カテゴリーを編集",
+              "DELETE": "カテゴリーを削除"
+            },
+            "EMPTY_TEXT": "カテゴリーが見つかりません"
+          }
+        },
+        "EDIT_BASIC_INFO": {
+          "BUTTON_TEXT": "基本設定を更新"
+        }
+      },
+      "ADD": {
+        "CREATE_FLOW": {
+          "BASIC": {
+            "TITLE": "ヘルプセンター情報",
+            "BODY": "ポータルの基本情報"
+          },
+          "CUSTOMIZATION": {
+            "TITLE": "ヘルプセンターのカスタマイズ",
+            "BODY": "ポータルをカスタマイズ"
+          },
+          "FINISH": {
+            "TITLE": "完成！ 🎉",
+            "BODY": "すべて設定完了です！"
+          }
+        },
+        "CREATE_FLOW_PAGE": {
+          "BACK_BUTTON": "戻る",
+          "BASIC_SETTINGS_PAGE": {
+            "HEADER": "ポータルを作成",
+            "TITLE": "ヘルプセンター情報",
+            "CREATE_BASIC_SETTING_BUTTON": "ポータルの基本設定を作成"
+          },
+          "CUSTOMIZATION_PAGE": {
+            "HEADER": "ポータルのカスタマイズ",
+            "TITLE": "ヘルプセンターのカスタマイズ",
+            "UPDATE_PORTAL_BUTTON": "ポータル設定を更新"
+          },
+          "FINISH_PAGE": {
+            "TITLE": "完成！🎉 すべて設定完了です！",
+            "MESSAGE": "この作成されたポータルはすべてのポータルページで確認できます。",
+            "FINISH": "すべてのポータルページに移動"
+          }
+        },
+        "LOGO": {
+          "LABEL": "ロゴ",
+          "UPLOAD_BUTTON": "ロゴをアップロード",
+          "HELP_TEXT": "このロゴはポータルのヘッダーに表示されます。",
+          "IMAGE_UPLOAD_SUCCESS": "ロゴが正常にアップロードされました",
+          "IMAGE_UPLOAD_ERROR": "ロゴの削除に成功しました",
+          "IMAGE_DELETE_ERROR": "ロゴの削除中にエラーが発生しました"
+        },
+        "NAME": {
+          "LABEL": "名前",
+          "PLACEHOLDER": "ポータル名",
+          "HELP_TEXT": "この名前は公開ポータルで内部的に使用されます。",
+          "ERROR": "名前が必須です"
+        },
+        "SLUG": {
+          "LABEL": "スラッグ",
+          "PLACEHOLDER": "URL用のポータルスラッグ",
+          "ERROR": "スラッグが必須です"
+        },
+        "DOMAIN": {
+          "LABEL": "カスタムドメイン",
+          "PLACEHOLDER": "ポータルカスタムドメイン",
+          "HELP_TEXT": "ポータルにカスタムドメインを使用する場合のみ追加してください。例: {exampleURL}",
+          "ERROR": "有効なドメインURLを入力してください"
+        },
+        "HOME_PAGE_LINK": {
+          "LABEL": "ホームページリンク",
+          "PLACEHOLDER": "ポータルホームページリンク",
+          "HELP_TEXT": "ポータルからホームページに戻るためのリンク。例: {exampleURL}",
+          "ERROR": "有効なホームページURLを入力してください"
+        },
+        "THEME_COLOR": {
+          "LABEL": "ポータルテーマカラー",
+          "HELP_TEXT": "この色はポータルのテーマカラーとして表示されます。"
+        },
+        "PAGE_TITLE": {
+          "LABEL": "ページタイトル",
+          "PLACEHOLDER": "ポータルページタイトル",
+          "HELP_TEXT": "このページタイトルは公開ポータルで使用されます。",
+          "ERROR": "ページタイトルが必須です"
+        },
+        "HEADER_TEXT": {
+          "LABEL": "ヘッダーテキスト",
+          "PLACEHOLDER": "ポータルヘッダーテキスト",
+          "HELP_TEXT": "このポータルヘッダーテキストは公開ポータルで使用されます。",
+          "ERROR": "ポータルヘッダーテキストが必須です"
+        },
+        "API": {
+          "SUCCESS_MESSAGE_FOR_BASIC": "ポータルが正常に作成されました。",
+          "ERROR_MESSAGE_FOR_BASIC": "ポータルを作成できませんでした。再試行してください。",
+          "SUCCESS_MESSAGE_FOR_UPDATE": "ポータルが正常に更新されました。",
+          "ERROR_MESSAGE_FOR_UPDATE": "ポータルを更新できませんでした。再試行してください。"
+        }
+      },
+      "ADD_LOCALE": {
+        "TITLE": "新しいロケールを追加",
+        "SUB_TITLE": "利用可能な翻訳リストに新しいロケールを追加します。",
+        "PORTAL": "ポータル",
+        "LOCALE": {
+          "LABEL": "ロケール",
+          "PLACEHOLDER": "ロケールを選択",
+          "ERROR": "ロケールは必須です"
+        },
+        "BUTTONS": {
+          "CREATE": "ロケールを作成",
+          "CANCEL": "キャンセル"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "ロケールが正常に追加されました",
+          "ERROR_MESSAGE": "ロケールを追加できませんでした。再試行してください。"
+        }
+      },
+      "CHANGE_DEFAULT_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "デフォルトロケールが正常に更新されました",
+          "ERROR_MESSAGE": "デフォルトロケールを更新できませんでした。再試行してください。"
+        }
+      },
+      "DELETE_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "ロケールがポータルから正常に削除されました",
+          "ERROR_MESSAGE": "ロケールをポータルから削除できませんでした。再試行してください。"
+        }
+      }
+    },
+    "TABLE": {
+      "LOADING_MESSAGE": "記事を読み込み中...",
+      "404": "検索に一致する記事がありません 🔍",
+      "NO_ARTICLES": "利用可能な記事がありません",
+      "HEADERS": {
+        "TITLE": "タイトル",
+        "CATEGORY": "カテゴリー",
+        "READ_COUNT": "閲覧数",
+        "STATUS": "状況",
+        "LAST_EDITED": "最終編集"
+      },
+      "COLUMNS": {
+        "BY": "担当者",
+        "AUTHOR_NOT_AVAILABLE": "担当者が利用できません"
+      }
+    },
+    "EDIT_ARTICLE": {
+      "LOADING": "記事を読み込み中...",
+      "TITLE_PLACEHOLDER": "記事のタイトルをここに入力",
+      "CONTENT_PLACEHOLDER": "ここに記事を書いてください",
+      "API": {
+        "ERROR": "記事の保存中にエラーが発生しました"
+      }
+    },
+    "PUBLISH_ARTICLE": {
+      "API": {
+        "ERROR": "記事の公開中にエラーが発生しました",
+        "SUCCESS": "記事が正常に公開されました"
+      }
+    },
+    "ARCHIVE_ARTICLE": {
+      "API": {
+        "ERROR": "記事のアーカイブ中にエラーが発生しました",
+        "SUCCESS": "記事が正常にアーカイブされました"
+      }
+    },
+    "DRAFT_ARTICLE": {
+      "API": {
+        "ERROR": "記事の下書き保存中にエラーが発生しました",
+        "SUCCESS": "記事が正常に下書き保存されました"
+      }
+    },
+    "DELETE_ARTICLE": {
+      "MODAL": {
+        "CONFIRM": {
+          "TITLE": "削除の確認",
+          "MESSAGE": "記事を削除してもよろしいですか？",
+          "YES": "削除する",
+          "NO": "いいえ、保存しておきます"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "記事が正常に削除されました",
+        "ERROR_MESSAGE": "記事の削除中にエラーが発生しました"
+      }
+    },
+    "CREATE_ARTICLE": {
+      "ERROR_MESSAGE": "記事の見出しと内容を追加してから設定を更新してください"
+    },
+    "SIDEBAR": {
+      "SEARCH": {
+        "PLACEHOLDER": "記事を検索"
+      }
+    },
+    "CATEGORY": {
+      "ADD": {
+        "TITLE": "カテゴリーを作成",
+        "SUB_TITLE": "カテゴリーは公開ポータルで記事を分類するために使用されます。",
+        "PORTAL": "ポータル",
+        "LOCALE": "ロケール",
+        "NAME": {
+          "LABEL": "名前",
+          "PLACEHOLDER": "カテゴリー名",
+          "HELP_TEXT": "カテゴリー名とアイコンは公開ポータルで記事を分類するために使用されます。",
+          "ERROR": "名前が必須です"
+        },
+        "SLUG": {
+          "LABEL": "スラッグ",
+          "PLACEHOLDER": "URL用のカテゴリーのスラッグ",
+          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
+          "ERROR": "スラッグが必須です"
+        },
+        "DESCRIPTION": {
+          "LABEL": "説明",
+          "PLACEHOLDER": "カテゴリーについての簡単な説明を入力してください。",
+          "ERROR": "説明は必須です"
+        },
+        "BUTTONS": {
+          "CREATE": "カテゴリーを作成",
+          "CANCEL": "キャンセル"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "カテゴリーが正常に作成されました",
+          "ERROR_MESSAGE": "カテゴリーの作成中にエラーが発生しました"
+        }
+      },
+      "EDIT": {
+        "TITLE": "カテゴリーを編集",
+        "SUB_TITLE": "カテゴリーを編集すると、公開ポータルのカテゴリーが更新されます。",
+        "PORTAL": "ポータル",
+        "LOCALE": "ロケール",
+        "NAME": {
+          "LABEL": "名前",
+          "PLACEHOLDER": "カテゴリー名",
+          "HELP_TEXT": "カテゴリー名とアイコンは公開ポータルで記事を分類するために使用されます。",
+          "ERROR": "名前が必須です"
+        },
+        "SLUG": {
+          "LABEL": "スラッグ",
+          "PLACEHOLDER": "URL用のカテゴリーのスラッグ",
+          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
+          "ERROR": "スラッグが必須です"
+        },
+        "DESCRIPTION": {
+          "LABEL": "説明",
+          "PLACEHOLDER": "カテゴリーについての簡単な説明を入力してください。",
+          "ERROR": "説明は必須です"
+        },
+        "BUTTONS": {
+          "CREATE": "カテゴリーを更新",
+          "CANCEL": "キャンセル"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "カテゴリーが正常に更新されました",
+          "ERROR_MESSAGE": "カテゴリーの更新中にエラーが発生しました"
+        }
+      },
+      "DELETE": {
+        "API": {
+          "SUCCESS_MESSAGE": "カテゴリーが正常に削除されました",
+          "ERROR_MESSAGE": "カテゴリーの削除中にエラーが発生しました"
+        }
+      }
+    },
+    "ARTICLE_SEARCH": {
+      "TITLE": "記事を検索",
+      "PLACEHOLDER": "記事を検索",
+      "NO_RESULT": "記事が見つかりません",
+      "SEARCHING": "検索中...",
+      "SEARCH_BUTTON": "検索",
+      "INSERT_ARTICLE": "リンクを挿入",
+      "IFRAME_ERROR": "URLが空または無効です。コンテンツを表示できません。",
+      "OPEN_ARTICLE_SEARCH": "ヘルプセンターから記事を挿入",
+      "SUCCESS_ARTICLE_INSERTED": "記事が正常に挿入されました",
+      "PREVIEW_LINK": "記事をプレビュー",
+      "CANCEL": "閉じる",
+      "BACK": "戻る",
+      "BACK_RESULTS": "結果に戻る"
+    },
+    "UPGRADE_PAGE": {
+      "TITLE": "ヘルプセンター",
+      "DESCRIPTION": "ユーザーフレンドリーなセルフサービスポータルを作成します。ユーザーが記事にアクセスし、24時間365日サポートを受けられるようにします。この機能を有効にするには、サブスクリプションをアップグレードしてください。",
+      "SELF_HOSTED_DESCRIPTION": "ユーザーフレンドリーなセルフサービスポータルを作成します。ユーザーが記事にアクセスし、24時間365日サポートを受けられるようにします。この機能を有効にするには、管理者に連絡してください。",
+      "BUTTON": {
+        "LEARN_MORE": "詳細を確認",
+        "UPGRADE": "アップグレード"
+      },
+      "FEATURES": {
+        "PORTALS": {
+          "TITLE": "複数のポータル",
+          "DESCRIPTION": "同じアカウントを使用して、異なる製品のために複数のヘルプセンターポータルを作成します。"
+        },
+        "LOCALES": {
+          "TITLE": "ロケールの完全サポート",
+          "DESCRIPTION": "ポータルをあなたの言語にローカライズします。すべてのロケールをサポートし、各記事の翻訳を可能にします。"
+        },
+        "SEO": {
+          "TITLE": "SEOに優れたデザイン",
+          "DESCRIPTION": "メタタグをカスタマイズして、SEOに優れたページで検索エンジンでの可視性を向上させます。"
+        },
+        "API": {
+          "TITLE": "完全なAPIサポート",
+          "DESCRIPTION": "APIを使用して、サードパーティのフロントエンドフレームワークでポータルをヘッドレスCMSとして使用します。"
+        }
+      }
+    },
+    "LOADING": "読み込み中...",
+    "ARTICLES_PAGE": {
+      "ARTICLE_CARD": {
+        "CARD": {
+          "VIEWS": "{count} 回の閲覧",
+          "DROPDOWN_MENU": {
+            "PUBLISH": "公開",
+            "DRAFT": "下書き",
+            "ARCHIVE": "アーカイブ",
+            "DELETE": "削除"
+          },
+          "STATUS": {
+            "DRAFT": "下書き",
+            "PUBLISHED": "公開済み",
+            "ARCHIVED": "アーカイブ"
+          },
+          "CATEGORY": {
+            "UNCATEGORISED": "未分類"
+          }
+        }
+      },
+      "ARTICLES_HEADER": {
+        "TABS": {
+          "ALL": "すべての記事",
+          "MINE": "自分",
+          "DRAFT": "下書き",
+          "PUBLISHED": "公開済み",
+          "ARCHIVED": "アーカイブ"
+        },
+        "CATEGORY": {
+          "ALL": "すべてのカテゴリー"
+        },
+        "LOCALE": {
+          "ALL": "すべてのロケール"
+        },
+        "NEW_ARTICLE": "新しい記事"
+      },
+      "EMPTY_STATE": {
+        "ALL": {
+          "TITLE": "記事を書く",
+          "SUBTITLE": "リッチな記事を書いて、始めましょう！",
+          "BUTTON_LABEL": "新しい記事"
+        },
+        "MINE": {
+          "TITLE": "ここにはまだ記事がありません",
+          "SUBTITLE": "あなたが書いたすべての記事がここに表示されます。"
+        },
+        "DRAFT": {
+          "TITLE": "下書きの記事はありません",
+          "SUBTITLE": "下書きの記事はここに表示されます"
+        },
+        "PUBLISHED": {
+          "TITLE": "公開された記事はありません",
+          "SUBTITLE": "公開された記事はここに表示されます"
+        },
+        "ARCHIVED": {
+          "TITLE": "アーカイブされた記事はありません",
+          "SUBTITLE": "アーカイブされた記事はポータルに表示されません。廃止された記事や古い記事をマークするために使用できます。"
+        },
+        "CATEGORY": {
+          "TITLE": "このカテゴリーには記事がありません",
+          "SUBTITLE": "このカテゴリーの記事はここに表示されます"
+        }
+      }
+    },
+    "CATEGORY_PAGE": {
+      "CATEGORY_HEADER": {
+        "NEW_CATEGORY": "新しいカテゴリー",
+        "EDIT_CATEGORY": "カテゴリーを編集",
+        "CATEGORIES_COUNT": "{n} カテゴリー | {n} カテゴリー",
+        "BREADCRUMB": {
+          "CATEGORY_LOCALE": "カテゴリー ({localeCode})",
+          "ACTIVE_CATEGORY": "{categoryName} ({categoryCount} 記事) | {categoryName} ({categoryCount} 記事)"
+        }
+      },
+      "CATEGORY_EMPTY_STATE": {
+        "TITLE": "カテゴリーが見つかりません",
+        "SUBTITLE": "カテゴリーはここに表示されます。「新しいカテゴリー」ボタンをクリックしてカテゴリーを追加できます。"
+      },
+      "CATEGORY_CARD": {
+        "ARTICLES_COUNT": "{count} 記事 | {count} 記事"
+      },
+      "CATEGORY_DIALOG": {
+        "CREATE": {
+          "API": {
+            "SUCCESS_MESSAGE": "カテゴリーが正常に作成されました",
+            "ERROR_MESSAGE": "カテゴリーを作成できませんでした"
+          }
+        },
+        "EDIT": {
+          "API": {
+            "SUCCESS_MESSAGE": "カテゴリーが正常に更新されました",
+            "ERROR_MESSAGE": "カテゴリーを更新できませんでした"
+          }
+        },
+        "DELETE": {
+          "API": {
+            "SUCCESS_MESSAGE": "カテゴリーが正常に削除されました",
+            "ERROR_MESSAGE": "カテゴリーを削除できませんでした"
+          }
+        },
+        "HEADER": {
+          "CREATE": "カテゴリーを作成",
+          "EDIT": "カテゴリーを編集",
+          "DESCRIPTION": "カテゴリーを編集すると、公開ポータルのカテゴリーが更新されます。",
+          "PORTAL": "ポータル",
+          "LOCALE": "ロケール"
+        },
+        "FORM": {
+          "NAME": {
+            "LABEL": "名前",
+            "PLACEHOLDER": "カテゴリー名",
+            "ERROR": "名前が必須です"
+          },
+          "SLUG": {
+            "LABEL": "スラッグ",
+            "PLACEHOLDER": "URL用のカテゴリーのスラッグ",
+            "ERROR": "スラッグが必須です",
+            "HELP_TEXT": "app.chatwoot.com/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
+          },
+          "DESCRIPTION": {
+            "LABEL": "説明",
+            "PLACEHOLDER": "カテゴリーについての簡単な説明を入力してください。",
+            "ERROR": "説明は必須です"
+          }
+        },
+        "BUTTONS": {
+          "CREATE": "作成",
+          "EDIT": "更新",
+          "CANCEL": "キャンセル"
+        }
+      }
+    },
+    "LOCALES_PAGE": {
+      "LOCALES_COUNT": "利用可能なロケールはありません | {n} ロケール | {n} ロケール",
+      "NEW_LOCALE_BUTTON_TEXT": "新しいロケール",
+      "LOCALE_CARD": {
+        "ARTICLES_COUNT": "{count} 記事 | {count} 記事",
+        "CATEGORIES_COUNT": "{count} カテゴリー | {count} カテゴリー",
+        "DEFAULT": "デフォルト",
+        "DROPDOWN_MENU": {
+          "MAKE_DEFAULT": "デフォルトに設定",
+          "DELETE": "削除"
+        }
+      },
+      "ADD_LOCALE_DIALOG": {
+        "TITLE": "新しいロケールを追加",
+        "DESCRIPTION": "この記事が書かれる言語を選択します。これが翻訳リストに追加され、後でさらに追加できます。",
+        "COMBOBOX": {
+          "PLACEHOLDER": "ロケールを選択..."
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "ロケールが正常に追加されました",
+          "ERROR_MESSAGE": "ロケールを追加できませんでした。再試行してください。"
+        }
+      }
+    },
+    "EDIT_ARTICLE_PAGE": {
+      "HEADER": {
+        "STATUS": {
+          "SAVING": "保存中...",
+          "SAVED": "保存済み"
+        },
+        "PREVIEW": "プレビュー",
+        "PUBLISH": "公開",
+        "DRAFT": "下書き",
+        "ARCHIVE": "アーカイブ",
+        "BACK_TO_ARTICLES": "記事に戻る"
+      },
+      "EDIT_ARTICLE": {
+        "MORE_PROPERTIES": "その他のプロパティ",
+        "UNCATEGORIZED": "未分類",
+        "EDITOR_PLACEHOLDER": "何か書いてください..."
+      },
+      "ARTICLE_PROPERTIES": {
+        "ARTICLE_PROPERTIES": "記事のプロパティ",
+        "META_DESCRIPTION": "メタ説明",
+        "META_DESCRIPTION_PLACEHOLDER": "メタ説明を追加",
+        "META_TITLE": "メタタイトル",
+        "META_TITLE_PLACEHOLDER": "メタタイトルを追加",
+        "META_TAGS": "メタタグ",
+        "META_TAGS_PLACEHOLDER": "メタタグを追加"
+      },
+      "API": {
+        "ERROR": "記事の保存中にエラーが発生しました"
+      }
+    },
+    "PORTAL_SWITCHER": {
+      "NEW_PORTAL": "新しいポータル",
+      "PORTALS": "ポータル",
+      "CREATE_PORTAL": "複数のポータルを作成および管理",
+      "ARTICLES": "記事",
+      "DOMAIN": "ドメイン",
+      "PORTAL_NAME": "ポータル名"
+    },
+    "CREATE_PORTAL_DIALOG": {
+      "TITLE": "新しいポータルを作成",
+      "DESCRIPTION": "ポータルに名前を付け、ユーザーフレンドリーなURLスラッグを作成します。後で設定で両方を変更できます。",
+      "CONFIRM_BUTTON_LABEL": "作成",
+      "NAME": {
+        "LABEL": "名前",
+        "PLACEHOLDER": "ユーザーガイド | Chatwoot",
+        "MESSAGE": "ポータルの名前を選択してください。",
+        "ERROR": "名前が必須です"
+      },
+      "SLUG": {
+        "LABEL": "スラッグ",
+        "PLACEHOLDER": "user-guide",
+        "ERROR": "スラッグが必須です",
+        "FORMAT_ERROR": "Please enter a valid slug, for eg: user-guide"
+      }
+    },
+    "PORTAL_SETTINGS": {
+      "FORM": {
+        "AVATAR": {
+          "LABEL": "ロゴ",
+          "IMAGE_UPLOAD_ERROR": "画像をアップロードできませんでした！再試行してください",
+          "IMAGE_UPLOAD_SUCCESS": "画像が正常に追加されました。ロゴを保存するには変更を保存をクリックしてください",
+          "IMAGE_DELETE_SUCCESS": "ロゴが正常に削除されました",
+          "IMAGE_DELETE_ERROR": "ロゴを削除できませんでした",
+          "IMAGE_UPLOAD_SIZE_ERROR": "画像サイズは {size}MB 未満である必要があります"
+        },
+        "NAME": {
+          "LABEL": "名前",
+          "PLACEHOLDER": "ポータル名",
+          "ERROR": "名前が必須です"
+        },
+        "HEADER_TEXT": {
+          "LABEL": "ヘッダーテキスト",
+          "PLACEHOLDER": "ポータルヘッダーテキスト"
+        },
+        "PAGE_TITLE": {
+          "LABEL": "ページタイトル",
+          "PLACEHOLDER": "ポータルページタイトル"
+        },
+        "HOME_PAGE_LINK": {
+          "LABEL": "ホームページリンク",
+          "PLACEHOLDER": "ポータルホームページリンク",
+          "ERROR": "Enter a valid URL. The Home page link must start with 'http://' or 'https://'."
+        },
+        "SLUG": {
+          "LABEL": "スラッグ",
+          "PLACEHOLDER": "ポータルスラッグ"
+        },
+        "LIVE_CHAT_WIDGET": {
+          "LABEL": "ライブチャットウィジェット",
+          "PLACEHOLDER": "ライブチャットウィジェットを選択",
+          "HELP_TEXT": "ヘルプセンターに表示されるライブチャットウィジェットを選択します",
+          "NONE_OPTION": "No widget"
+        },
+        "BRAND_COLOR": {
+          "LABEL": "ブランドカラー"
+        },
+        "SAVE_CHANGES": "変更を保存"
+      },
+      "CONFIGURATION_FORM": {
+        "CUSTOM_DOMAIN": {
+          "HEADER": "カスタムドメイン",
+          "LABEL": "カスタムドメイン:",
+          "DESCRIPTION": "ポータルをカスタムドメインでホストできます。例えば、あなたのウェブサイトがyourdomain.comで、ポータルをdocs.yourdomain.comで利用したい場合、このフィールドに入力してください。",
+          "STATUS_DESCRIPTION": "Your custom portal will start working as soon as it is verified.",
+          "PLACEHOLDER": "ポータルカスタムドメイン",
+          "EDIT_BUTTON": "編集",
+          "ADD_BUTTON": "カスタムドメインを追加",
+          "STATUS": {
+            "LIVE": "Live",
+            "PENDING": "Awaiting verification",
+            "ERROR": "Verification failed"
+          },
+          "DIALOG": {
+            "ADD_HEADER": "カスタムドメインを追加",
+            "EDIT_HEADER": "カスタムドメインを編集",
+            "ADD_CONFIRM_BUTTON_LABEL": "ドメインを追加",
+            "EDIT_CONFIRM_BUTTON_LABEL": "ドメインを更新",
+            "LABEL": "カスタムドメイン",
+            "PLACEHOLDER": "ポータルカスタムドメイン",
+            "ERROR": "カスタムドメインは必須です",
+            "FORMAT_ERROR": "Please enter a valid domain URL e.g. docs.yourdomain.com"
+          },
+          "DNS_CONFIGURATION_DIALOG": {
+            "HEADER": "DNS設定",
+            "DESCRIPTION": "DNSプロバイダーのアカウントにログインし、サブドメインのCNAMEレコードをchatwoot.helpにポイントするように追加してください。",
+            "COPY": "Successfully copied CNAME",
+            "SEND_INSTRUCTIONS": {
+              "HEADER": "Send instructions",
+              "DESCRIPTION": "If you would prefer to have someone from your development team to handle this step, you can enter email address below, and we will send them the required instructions.",
+              "PLACEHOLDER": "Enter their email",
+              "ERROR": "Enter a valid email address",
+              "SEND_BUTTON": "送信"
+            }
+          }
+        },
+        "DELETE_PORTAL": {
+          "BUTTON": "{portalName}を削除",
+          "HEADER": "ポータルを削除",
+          "DESCRIPTION": "このポータルを永久に削除します。この操作は取り消せません。",
+          "DIALOG": {
+            "HEADER": "{portalName}を削除してもよろしいですか？",
+            "DESCRIPTION": "これは取り消せない永久的な操作です。",
+            "CONFIRM_BUTTON_LABEL": "削除"
+          }
+        },
+        "EDIT_CONFIGURATION": "設定を編集"
+      },
+      "API": {
+        "CREATE_PORTAL": {
+          "SUCCESS_MESSAGE": "ポータルが正常に作成されました",
+          "ERROR_MESSAGE": "ポータルを作成できませんでした"
+        },
+        "UPDATE_PORTAL": {
+          "SUCCESS_MESSAGE": "ポータルが正常に更新されました",
+          "ERROR_MESSAGE": "ポータルを更新できませんでした"
+        }
+      }
+    },
+    "PDF_UPLOAD": {
+      "TITLE": "Upload PDF Document",
+      "DESCRIPTION": "Upload a PDF document to automatically generate FAQs using AI",
+      "DRAG_DROP_TEXT": "Drag and drop your PDF file here, or click to select",
+      "SELECT_FILE": "Select PDF File",
+      "ADDITIONAL_CONTEXT_LABEL": "Additional Context (Optional)",
+      "ADDITIONAL_CONTEXT_PLACEHOLDER": "Provide any additional context or instructions for FAQ generation...",
+      "UPLOADING": "アップロード中...",
+      "UPLOAD": "Upload & Process",
+      "CANCEL": "キャンセル",
+      "ERROR_INVALID_TYPE": "Please select a valid PDF file",
+      "ERROR_FILE_TOO_LARGE": "File size must be less than 512MB",
+      "ERROR_UPLOAD_FAILED": "Failed to upload PDF. Please try again."
+    },
+    "PDF_DOCUMENTS": {
+      "TITLE": "PDF Documents",
+      "DESCRIPTION": "Manage uploaded PDF documents and generate FAQs from them",
+      "UPLOAD_PDF": "Upload PDF",
+      "UPLOAD_FIRST_PDF": "Upload your first PDF",
+      "UPLOADED_BY": "Uploaded by",
+      "GENERATE_FAQS": "Generate FAQs",
+      "GENERATING": "生成中...",
+      "CONFIRM_DELETE": "Are you sure you want to delete {filename}?",
+      "EMPTY_STATE": {
+        "TITLE": "No PDF documents yet",
+        "DESCRIPTION": "Upload PDF documents to automatically generate FAQs using AI"
+      },
+      "STATUS": {
+        "UPLOADED": "Ready",
+        "PROCESSING": "Processing",
+        "PROCESSED": "完了",
+        "FAILED": "Failed"
+      }
+    },
+    "CONTENT_GENERATION": {
+      "TITLE": "Content Generation",
+      "DESCRIPTION": "Upload PDF documents to automatically generate FAQ content using AI",
+      "UPLOAD_TITLE": "Upload PDF Document",
+      "DRAG_DROP": "Drag and drop your PDF file here, or click to select",
+      "SELECT_FILE": "Select PDF File",
+      "UPLOADING": "Processing document...",
+      "UPLOAD_SUCCESS": "Document processed successfully!",
+      "UPLOAD_ERROR": "Failed to upload document. Please try again.",
+      "INVALID_FILE_TYPE": "Please select a valid PDF file",
+      "FILE_TOO_LARGE": "File size must be less than 512MB",
+      "GENERATED_CONTENT": "Generated FAQ Content",
+      "PUBLISH_SELECTED": "Publish Selected",
+      "PUBLISHING": "Publishing...",
+      "FROM_DOCUMENT": "From document",
+      "NO_CONTENT": "No generated content available. Upload a PDF document to get started.",
+      "LOADING": "Loading generated content..."
+    }
+  }
+}

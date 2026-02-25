@@ -1,0 +1,61 @@
+#Additional translations at https://github.com/plataformatec/devise/wiki/I18n
+is:
+  devise:
+    confirmations:
+      confirmed: "Netfangið þitt hefur verið staðfest."
+      send_instructions: "Þú færð tölvupóst með leiðbeiningum um hvernig á að staðfesta netfangið þitt eftir nokkrar mínútur."
+      send_paranoid_instructions: "Ef netfangið þitt er til í gagnagrunninum okkar færðu tölvupóst með leiðbeiningum um hvernig á að staðfesta netfangið þitt eftir nokkrar mínútur."
+    failure:
+      already_authenticated: "You are already signed in."
+      inactive: "Your account is not activated yet."
+      invalid: "Ógilt %{authentication_keys}/lykilorð eða reikningur hefur ekki verið staðfestur ennþá."
+      locked: "Your account is locked."
+      last_attempt: "Þú átt eina tilraun í viðbót áður en reikningnum þínum er læst."
+      not_found_in_database: "Ógilt %{authentication_keys} eða lykilorð."
+      timeout: "Lotan þín rann út. Vinsamlegast skráðu þig inn aftur til að halda áfram."
+      unauthenticated: "Þú þarft að skrá þig inn eða skrá þig áður en þú heldur áfram."
+      unconfirmed: "Þú verður að staðfesta netfangið þitt áður en þú heldur áfram."
+    mailer:
+      confirmation_instructions:
+        subject: "Confirmation Instructions"
+      reset_password_instructions:
+        subject: "Reset password instructions"
+      unlock_instructions:
+        subject: "Unlock instructions"
+      password_change:
+        subject: "Password Changed"
+    omniauth_callbacks:
+      failure: "Gat ekki auðkennt þig frá %{kind} vegna þess að „%{reason}“."
+      success: "Tókst að auðkenna af %{kind} reikningi."
+    passwords:
+      no_token: "Þú getur ekki opnað þessa síðu án þess að koma frá tölvupósti sem er til að endurstilla lykilorð. Ef þú kemur frá tölvupósti með endurstillingu lykilorðs, vinsamlegast vertu viss um að þú hafir notað alla vefslóðina sem gefin er upp."
+      send_instructions: "Þú færð tölvupóst með leiðbeiningum um hvernig á að endurstilla lykilorðið þitt eftir nokkrar mínútur."
+      send_paranoid_instructions: "Ef netfangið þitt er til í gagnagrunninum okkar færðu hlekk til að endurheimta lykilorð á netfangið þitt eftir nokkrar mínútur."
+      updated: "Lykilorðinu þínu hefur verið breytt. Þú ert núna skráður inn."
+      updated_not_active: "Lykilorðinu þínu hefur verið breytt."
+    registrations:
+      destroyed: "Bless! Reikningnum þínum hefur verið lokað. Við vonumst til að sjá þig aftur fljótlega."
+      signed_up: "Welcome! You have signed up successfully."
+      signed_up_but_inactive: "Þú hefur skráð þig. Hins vegar gátum við ekki skráð þig inn vegna þess að reikningurinn þinn er ekki enn virkur."
+      signed_up_but_locked: "Þú hefur skráð þig. Hins vegar gátum við ekki skráð þig inn vegna þess að reikningurinn þinn er læstur."
+      signed_up_but_unconfirmed: "Skilaboð með staðfestingartengli hafa verið send á netfangið þitt. Vinsamlegast fylgdu hlekknum til að virkja reikninginn þinn."
+      update_needs_confirmation: "Þú uppfærðir reikninginn þinn með góðum árangri en við þurfum að staðfesta nýja netfangið þitt. Vinsamlegast athugaðu tölvupóstinn þinn og fylgdu staðfestingartenglinum til að staðfesta nýja netfangið þitt."
+      updated: "Reikningurinn þinn hefur verið uppfærður."
+    sessions:
+      signed_in: "Signed in successfully."
+      signed_out: "Signed out successfully."
+      already_signed_out: "Signed out successfully."
+    unlocks:
+      send_instructions: "Þú færð tölvupóst með leiðbeiningum um hvernig á að opna reikninginn þinn eftir nokkrar mínútur."
+      send_paranoid_instructions: "Ef reikningurinn þinn er til færðu tölvupóst með leiðbeiningum um hvernig á að opna hann eftir nokkrar mínútur."
+      unlocked: "Reikningurinn þinn hefur verið opnaður. Vinsamlegast skráðu þig inn til að halda áfram."
+  errors:
+    messages:
+      already_confirmed: "var þegar staðfest, vinsamlegast reyndu að skrá þig inn"
+      confirmation_period_expired: "þarf að staðfesta innan %{period}, vinsamlegast biðjið um nýjan"
+      expired: "has expired, please request a new one"
+      not_found: "not found"
+      not_locked: "was not locked"
+      not_saved:
+        one: "1 villa bannaði að þessi %{resource} væri vistuð:"
+        other: "%{count} villur bönnuðu að þessi %{resource} væri vistuð:"

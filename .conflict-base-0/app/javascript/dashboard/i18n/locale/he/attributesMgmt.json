@@ -1,0 +1,138 @@
+{
+  "ATTRIBUTES_MGMT": {
+    "HEADER": "מאפיינים מותאמים אישית",
+    "HEADER_BTN_TXT": "הוסף מאפיין מותאם אישית",
+    "LOADING": "טוען מאפיינים מותאמים אישית",
+    "DESCRIPTION": "מאפיין מותאם אישית עוקב אחר פרטים נוספים על אנשי הקשר או השיחות שלך—כגון תוכנית המנוי או תאריך הרכישה הראשונה שלהם. אתה יכול להוסיף סוגים שונים של מאפיינים מותאמים אישית, כגון טקסט, רשימות או מספרים, כדי ללכוד את המידע הספציפי שאתה צריך.",
+    "LEARN_MORE": "למד עוד על מאפיינים מותאמים אישית",
+    "ATTRIBUTE_MODELS": {
+      "CONVERSATION": "שיחה",
+      "CONTACT": "איש קשר"
+    },
+    "ATTRIBUTE_TYPES": {
+      "TEXT": "טקסט",
+      "NUMBER": "מספר",
+      "LINK": "קישור",
+      "DATE": "תאריך",
+      "LIST": "רשימה",
+      "CHECKBOX": "תיבת סימון"
+    },
+    "ADD": {
+      "TITLE": "הוסף מאפיין מותאם אישית",
+      "SUBMIT": "צור",
+      "CANCEL_BUTTON_TEXT": "ביטול",
+      "FORM": {
+        "NAME": {
+          "LABEL": "שם תצוגה",
+          "PLACEHOLDER": "הכנס שם תצוגה למאפיין מותאם אישית",
+          "ERROR": "שם נדרש"
+        },
+        "DESC": {
+          "LABEL": "תיאור",
+          "PLACEHOLDER": "הכנס תיאור למאפיין מותאם אישית",
+          "ERROR": "תיאור נדרש"
+        },
+        "MODEL": {
+          "LABEL": "חל על",
+          "PLACEHOLDER": "אנא בחר אחד",
+          "ERROR": "דגם נדרש"
+        },
+        "TYPE": {
+          "LABEL": "סוג",
+          "PLACEHOLDER": "אנא בחר סוג",
+          "ERROR": "סוג נדרש",
+          "LIST": {
+            "LABEL": "ערכי רשימה",
+            "PLACEHOLDER": "אנא הכנס ערך ולחץ על מקש Enter",
+            "ERROR": "חייב להיות לפחות ערך אחד"
+          }
+        },
+        "KEY": {
+          "LABEL": "מפתח",
+          "PLACEHOLDER": "הכנס מפתח למאפיין מותאם אישית",
+          "ERROR": "מפתח נדרש",
+          "IN_VALID": "מפתח לא תקין"
+        },
+        "REGEX_PATTERN": {
+          "LABEL": "תבנית Regex",
+          "PLACEHOLDER": "אנא הכנס תבנית regex למאפיין מותאם אישית. (אופציונלי)"
+        },
+        "REGEX_CUE": {
+          "LABEL": "רמז Regex",
+          "PLACEHOLDER": "אנא הכנס רמז לתבנית regex. (אופציונלי)"
+        },
+        "ENABLE_REGEX": {
+          "LABEL": "אפשר אימות regex"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "מאפיין מותאם אישית נוסף בהצלחה!",
+        "ERROR_MESSAGE": "לא ניתן ליצור מאפיין מותאם אישית. אנא נסה שוב מאוחר יותר."
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "מחק",
+      "API": {
+        "SUCCESS_MESSAGE": "מאפיין מותאם אישית נמחק בהצלחה.",
+        "ERROR_MESSAGE": "לא ניתן למחוק את המאפיין המותאם אישית. נסה שוב."
+      },
+      "CONFIRM": {
+        "TITLE": "האם אתה בטוח שברצונך למחוק - {attributeName}",
+        "PLACE_HOLDER": "אנא הקלד {attributeName} כדי לאשר",
+        "MESSAGE": "המחיקה תסיר את המאפיין המותאם אישית",
+        "YES": "מחק ",
+        "NO": "ביטול"
+      }
+    },
+    "EDIT": {
+      "TITLE": "ערוך מאפיין מותאם אישית",
+      "UPDATE_BUTTON_TEXT": "עדכן",
+      "TYPE": {
+        "LIST": {
+          "LABEL": "ערכי רשימה",
+          "PLACEHOLDER": "אנא הכנס ערכים ולחץ על מקש Enter"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "מאפיין מותאם אישית עודכן בהצלחה",
+        "ERROR_MESSAGE": "אירעה שגיאה בעדכון המאפיין המותאם אישית, אנא נסה שוב"
+      }
+    },
+    "TABS": {
+      "HEADER": "מאפיינים מותאמים אישית",
+      "CONVERSATION": "שיחה",
+      "CONTACT": "איש קשר"
+    },
+    "LIST": {
+      "TABLE_HEADER": {
+        "NAME": "שם",
+        "DESCRIPTION": "תיאור",
+        "TYPE": "סוג",
+        "KEY": "מפתח"
+      },
+      "BUTTONS": {
+        "EDIT": "ערוך",
+        "DELETE": "מחק"
+      },
+      "EMPTY_RESULT": {
+        "404": "אין מאפיינים מותאמים אישית שנוצרו",
+        "NOT_FOUND": "אין מאפיינים מותאמים אישית מוגדרים"
+      },
+      "REGEX_PATTERN": {
+        "LABEL": "תבנית Regex",
+        "PLACEHOLDER": "אנא הכנס תבנית regex למאפיין מותאם אישית. (אופציונלי)"
+      },
+      "REGEX_CUE": {
+        "LABEL": "רמז Regex",
+        "PLACEHOLDER": "אנא הכנס רמז לתבנית regex. (אופציונלי)"
+      },
+      "ENABLE_REGEX": {
+        "LABEL": "אפשר אימות regex"
+      }
+    },
+    "BADGES": {
+      "PRE_CHAT": "Pre-chat",
+      "RESOLUTION": "Resolution"
+    }
+  }
+}

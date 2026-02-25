@@ -1,0 +1,119 @@
+{
+  "FILTER": {
+    "TITLE": "Tapiskan perbualan",
+    "SUBTITLE": "Add your filters below and hit 'Apply filters' to cut through the chat clutter.",
+    "EDIT_CUSTOM_FILTER": "Edit Folder",
+    "CUSTOM_VIEWS_SUBTITLE": "Add or remove filters and update your folder.",
+    "ADD_NEW_FILTER": "Add filter",
+    "FILTER_DELETE_ERROR": "Oops, looks like we can't save nothing! Please add at least one filter to save it.",
+    "SUBMIT_BUTTON_LABEL": "Tetapkan tapisan",
+    "UPDATE_BUTTON_LABEL": "Update folder",
+    "CANCEL_BUTTON_LABEL": "Batalkan",
+    "CLEAR_BUTTON_LABEL": "Clear filters",
+    "FOLDER_LABEL": "Folder Name",
+    "FOLDER_QUERY_LABEL": "Folder Query",
+    "EMPTY_VALUE_ERROR": "Nilai diperlukan.",
+    "TOOLTIP_LABEL": "Tapiskan perbualan",
+    "QUERY_DROPDOWN_LABELS": {
+      "AND": "DAN",
+      "OR": "ATAU"
+    },
+    "INPUT_PLACEHOLDER": "Enter value",
+    "OPERATOR_LABELS": {
+      "equal_to": "Sama dengan",
+      "not_equal_to": "Tak sama dengan",
+      "does_not_contain": "Tidak mengandungi",
+      "is_present": "Sedia ada",
+      "is_not_present": "Tidak sedia ada",
+      "is_greater_than": "Adalah lebih besar",
+      "is_less_than": "Adalah lebih kurang",
+      "days_before": "Adalah x hari sebelum",
+      "starts_with": "Starts with",
+      "equalTo": "Sama dengan",
+      "notEqualTo": "Tak sama dengan",
+      "contains": "Mengandungi",
+      "doesNotContain": "Tidak mengandungi",
+      "isPresent": "Sedia ada",
+      "isNotPresent": "Tidak sedia ada",
+      "isGreaterThan": "Adalah lebih besar",
+      "isLessThan": "Adalah lebih kurang",
+      "daysBefore": "Adalah x hari sebelum",
+      "startsWith": "Starts with"
+    },
+    "ATTRIBUTE_LABELS": {
+      "TRUE": "Benar",
+      "FALSE": "Tidak benar"
+    },
+    "ATTRIBUTES": {
+      "STATUS": "Status",
+      "ASSIGNEE_NAME": "Assignee name",
+      "INBOX_NAME": "Inbox name",
+      "TEAM_NAME": "Team name",
+      "CONVERSATION_IDENTIFIER": "Conversation identifier",
+      "CAMPAIGN_NAME": "Campaign name",
+      "LABELS": "Label",
+      "BROWSER_LANGUAGE": "Browser language",
+      "PRIORITY": "Priority",
+      "COUNTRY_NAME": "Country name",
+      "REFERER_LINK": "Perujuk pautan",
+      "CUSTOM_ATTRIBUTE_LIST": "Senarai",
+      "CUSTOM_ATTRIBUTE_TEXT": "Teks",
+      "CUSTOM_ATTRIBUTE_NUMBER": "Nombor",
+      "CUSTOM_ATTRIBUTE_LINK": "Pautan",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "Kotak Semak",
+      "CREATED_AT": "Created at",
+      "LAST_ACTIVITY": "Last activity"
+    },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Nilai diperlukan",
+      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
+      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998"
+    },
+    "GROUPS": {
+      "STANDARD_FILTERS": "Standard filters",
+      "ADDITIONAL_FILTERS": "Additional filters",
+      "CUSTOM_ATTRIBUTES": "Custom attributes"
+    },
+    "CUSTOM_VIEWS": {
+      "ADD": {
+        "TITLE": "Adakah kamu ingin menetapkan penapis ini?",
+        "LABEL": "Namakan penapis ini",
+        "PLACEHOLDER": "Name your filter to refer it later.",
+        "ERROR_MESSAGE": "Nama diperlukan.",
+        "SAVE_BUTTON": "Tetapkan penapis",
+        "CANCEL_BUTTON": "Batal",
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "Folder telah ditetapkan.",
+          "ERROR_MESSAGE": "Ralat apabilia menetapkan folder ini."
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "Segmen telah berjaya ditetapkan.",
+          "ERROR_MESSAGE": "Segmen tidak berjaya ditetapkan."
+        }
+      },
+      "EDIT": {
+        "EDIT_BUTTON": "Edit folder"
+      },
+      "DELETE": {
+        "DELETE_BUTTON": "Padam tapisan",
+        "MODAL": {
+          "CONFIRM": {
+            "TITLE": "Confirm deletion",
+            "MESSAGE": "Adakah anda pasti hendak padamkan tapisan ini ",
+            "YES": "Yes, delete",
+            "NO": "No, keep it"
+          }
+        },
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "Folder ini sudah dipadamkan.",
+          "ERROR_MESSAGE": "Ralat apabila padamkan folder ini."
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "Segmen berjaya dipadam.",
+          "ERROR_MESSAGE": "Ralat apabilia memadamkan segmen."
+        }
+      }
+    }
+  }
+}

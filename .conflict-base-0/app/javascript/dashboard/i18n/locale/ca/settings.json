@@ -1,0 +1,796 @@
+{
+  "PROFILE_SETTINGS": {
+    "LINK": "Configuració del Perfil",
+    "TITLE": "Configuració del Perfil",
+    "BTN_TEXT": "Actualització del Perfil",
+    "DELETE_AVATAR": "Suprimeix Avatar",
+    "AVATAR_DELETE_SUCCESS": "L'avatar s'ha suprimit correctament",
+    "AVATAR_DELETE_FAILED": "S'ha produït un error en suprimir l'avatar, torneu-ho a provar",
+    "UPDATE_SUCCESS": "El teu perfil s'ha actualitzat correctament",
+    "PASSWORD_UPDATE_SUCCESS": "La teva contrasenya ha estat canviada correctament",
+    "AFTER_EMAIL_CHANGED": "El vostre perfil s'ha actualitzat correctament. Torneu a iniciar la sessió ja que les vostres credencials d'inici de sessió han canviat",
+    "FORM": {
+      "PICTURE": "Imatge de perfil",
+      "AVATAR": "Imatge del Perfil",
+      "ERROR": "Corregiu els errors del formulari",
+      "REMOVE_IMAGE": "Suprimeix",
+      "UPLOAD_IMAGE": "Puja imatge",
+      "UPDATE_IMAGE": "Puja imatge",
+      "PROFILE_SECTION": {
+        "TITLE": "Perfil",
+        "NOTE": "La vostra adreça de correu electrònic és la vostra identitat i s'utilitza per iniciar la sessió."
+      },
+      "SEND_MESSAGE": {
+        "TITLE": "Tecla d'accés ràpid per enviar missatges",
+        "NOTE": "Pots seleccionar una tecla d'accés ràpid (Enter o Cmd/Ctrl+Enter) segons les teves preferències d'escriptura.",
+        "UPDATE_SUCCESS": "La teva configuració s'ha actualitzat correctament",
+        "CARD": {
+          "ENTER_KEY": {
+            "HEADING": "Retorn (↵)",
+            "CONTENT": "Envia missatges prement la tecla Intro en comptes de fer clic al botó d'enviament."
+          },
+          "CMD_ENTER_KEY": {
+            "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
+            "CONTENT": "Envia missatges prement Cmd/Ctrl + tecla Intro en lloc de fer clic al botó d'enviament."
+          }
+        }
+      },
+      "INTERFACE_SECTION": {
+        "TITLE": "Interface",
+        "NOTE": "Customize the look and feel of your Chatwoot dashboard.",
+        "FONT_SIZE": {
+          "TITLE": "Font size",
+          "NOTE": "Adjust the text size across the dashboard based on your preference.",
+          "UPDATE_SUCCESS": "Your font settings have been updated successfully",
+          "UPDATE_ERROR": "There is an error while updating the font settings, please try again",
+          "OPTIONS": {
+            "SMALLER": "Smaller",
+            "SMALL": "Small",
+            "DEFAULT": "Per defecte",
+            "LARGE": "Large",
+            "LARGER": "Larger",
+            "EXTRA_LARGE": "Extra Large"
+          }
+        },
+        "LANGUAGE": {
+          "TITLE": "Preferred Language",
+          "NOTE": "Choose the language you want to use.",
+          "UPDATE_SUCCESS": "Your Language settings have been updated successfully",
+          "UPDATE_ERROR": "There is an error while updating the language settings, please try again",
+          "USE_ACCOUNT_DEFAULT": "Use account default"
+        }
+      },
+      "MESSAGE_SIGNATURE_SECTION": {
+        "TITLE": "Signatura personal del missatge",
+        "NOTE": "Crea una signatura de missatge única per aparèixer al final de cada missatge que envieu des de qualsevol safata d'entrada. També pots incloure una imatge en línia, que és compatible amb el xat en directe, el correu electrònic i les bústies d'entrada de l'API.",
+        "BTN_TEXT": "Desa la signatura del missatge",
+        "API_ERROR": "No s'ha pogut desar la signatura! Torna-ho a provar",
+        "API_SUCCESS": "La signatura s'ha desat correctament",
+        "IMAGE_UPLOAD_ERROR": "No s'ha pogut carregar la imatge! Torna-ho a provar",
+        "IMAGE_UPLOAD_SUCCESS": "La imatge s'ha afegit correctament. Fes clic a desa per desar la signatura",
+        "IMAGE_UPLOAD_SIZE_ERROR": "La mida de la imatge ha de ser inferior a {size}MB"
+      },
+      "MESSAGE_SIGNATURE": {
+        "LABEL": "Signatura del missatge",
+        "ERROR": "La signatura del missatge no pot estar buida",
+        "PLACEHOLDER": "Introdueix aquí la teva signatura de missatge personal."
+      },
+      "PASSWORD_SECTION": {
+        "TITLE": "Contrasenya",
+        "NOTE": "L'actualització de la contrasenya restableix els vostres inicis de sessió en múltiples dispositius.",
+        "BTN_TEXT": "Canvia la contrasenya"
+      },
+      "SECURITY_SECTION": {
+        "TITLE": "Security",
+        "NOTE": "Manage additional security features for your account.",
+        "MFA_BUTTON": "Manage Two-Factor Authentication"
+      },
+      "ACCESS_TOKEN": {
+        "TITLE": "Token d'accés",
+        "NOTE": "Aquest token es pot utilitzar si creeu una integració basada en l'API",
+        "COPY": "Copia",
+        "RESET": "Reset",
+        "CONFIRM_RESET": "Are you sure?",
+        "CONFIRM_HINT": "Click again to confirm",
+        "RESET_SUCCESS": "Access token regenerated successfully",
+        "RESET_ERROR": "Unable to regenerate access token. Please try again"
+      },
+      "AUDIO_NOTIFICATIONS_SECTION": {
+        "TITLE": "Audio Alerts",
+        "NOTE": "Enable audio alerts in dashboard for new messages and conversations.",
+        "PLAY": "Play sound",
+        "ALERT_TYPES": {
+          "NONE": "Ningú",
+          "MINE": "Assignat",
+          "ALL": "Totes",
+          "ASSIGNED": "My assigned conversations",
+          "UNASSIGNED": "Unassigned conversations",
+          "NOTME": "Open conversations assigned to others"
+        },
+        "ALERT_COMBINATIONS": {
+          "NONE": "You haven't selected any options, you won't receive any audio alerts.",
+          "ASSIGNED": "You'll receive alerts for conversations assigned to you.",
+          "UNASSIGNED": "You'll receive alerts for any unassigned conversations.",
+          "NOTME": "You'll receive alerts for conversations assigned to others.",
+          "ASSIGNED+UNASSIGNED": "You'll receive alerts for your assigned conversations and any unattended ones.",
+          "ASSIGNED+NOTME": "You'll receive alerts for conversations assigned to you and to others, but not for unassigned ones.",
+          "NOTME+UNASSIGNED": "You'll receive alerts for unattended conversations and those assigned to others.",
+          "ASSIGNED+NOTME+UNASSIGNED": "You'll receive alerts for all conversations."
+        },
+        "ALERT_TYPE": {
+          "TITLE": "Esdeveniments d'alerta per a converses",
+          "NONE": "Ningú",
+          "ASSIGNED": "Converses assignades",
+          "ALL_CONVERSATIONS": "Totes les converses"
+        },
+        "DEFAULT_TONE": {
+          "TITLE": "To d'alerta:"
+        },
+        "CONDITIONS": {
+          "TITLE": "Condicions d'alerta:",
+          "CONDITION_ONE": "Envia alertes d'àudio només si la finestra del navegador no està activa",
+          "CONDITION_TWO": "Envia alertes cada 30 segons fins que es llegeixin totes les converses assignades"
+        },
+        "SOUND_PERMISSION_ERROR": "Autoplay is disabled in your browser. To hear alerts automatically, enable sound permission in your browser settings or interact with the page.",
+        "READ_MORE": "Llegir més"
+      },
+      "EMAIL_NOTIFICATIONS_SECTION": {
+        "TITLE": "Notificacions per correu electrònic",
+        "NOTE": "Actualitza aqui les preferències de les notificacions per correu electrònic",
+        "CONVERSATION_ASSIGNMENT": "Envieu notificacions per correu electrònic quan se m’assigni una conversa",
+        "CONVERSATION_CREATION": "Envieu notificacions per correu electrònic quan es crea una nova conversa",
+        "CONVERSATION_MENTION": "Enviar notificacions per mail quan siguis esmentat en una conversació",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Envia notificacions per correu electrònic quan es creï un missatge nou en una conversa assignada",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Envia notificacions per correu electrònic quan es crea un missatge nou en una conversa participant",
+        "SLA_MISSED_FIRST_RESPONSE": "Envia notificacions per correu electrònic quan una conversa no compleixi un SLA de primera resposta",
+        "SLA_MISSED_NEXT_RESPONSE": "Envia notificacions per correu electrònic quan una conversa es perdi la següent resposta SLA",
+        "SLA_MISSED_RESOLUTION": "Envia notificacions per correu electrònic quan una conversa no resol un SLA"
+      },
+      "NOTIFICATIONS": {
+        "TITLE": "Preferències de notificació",
+        "TYPE_TITLE": "Tipus de notificació",
+        "EMAIL": "Correu electrònic",
+        "PUSH": "Notificació Push",
+        "TYPES": {
+          "CONVERSATION_CREATED": "S'ha creat una nova conversa",
+          "CONVERSATION_ASSIGNED": "Se t'assigna una conversa",
+          "CONVERSATION_MENTION": "Se't menciona en una conversa",
+          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Es crea un missatge nou en una conversa assignada",
+          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Es crea un missatge nou en una conversa participant",
+          "SLA_MISSED_FIRST_RESPONSE": "Una conversa no té un SLA de primera resposta",
+          "SLA_MISSED_NEXT_RESPONSE": "SLA de la següent resposta no és una conversa",
+          "SLA_MISSED_RESOLUTION": "Una conversa no resol un SLA"
+        },
+        "BROWSER_PERMISSION": "Activa les notificacions push en el teu navegador perquè puguis rebre-les"
+      },
+      "API": {
+        "UPDATE_SUCCESS": "Les teves preferències de notificació s’han actualitzat correctament",
+        "UPDATE_ERROR": "Hi ha un error en actualitzar les preferències; tornau-ho a provar"
+      },
+      "PUSH_NOTIFICATIONS_SECTION": {
+        "TITLE": "Notificacions automàtiques",
+        "NOTE": "Actualitzeu les preferències de notificació aquí",
+        "CONVERSATION_ASSIGNMENT": "Envia notificacions automàtiques quan se m'assigna una conversa",
+        "CONVERSATION_CREATION": "Envia notificacions automàtiques quan es creï una conversa nova",
+        "CONVERSATION_MENTION": "Enviar notificacions push quan siguis esmentat en una conversació",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Envia notificacions automàtiques quan es creï un missatge nou en una conversa assignada",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Envia notificacions push quan es crea un missatge nou en una conversa participant",
+        "HAS_ENABLED_PUSH": "Heu activat les notificacions per a aquest navegador.",
+        "REQUEST_PUSH": "Activa les notificacions",
+        "SLA_MISSED_FIRST_RESPONSE": "Envia notificacions automàtiques quan una conversa no tingui un SLA de primera resposta",
+        "SLA_MISSED_NEXT_RESPONSE": "Envia notificacions automàtiques quan una conversa no s'aconsegueixi la següent resposta SLA",
+        "SLA_MISSED_RESOLUTION": "Envia notificacions quan una conversa no resol el SLA"
+      },
+      "PROFILE_IMAGE": {
+        "LABEL": "Imatge del Perfil"
+      },
+      "NAME": {
+        "LABEL": "El teu nom complet",
+        "ERROR": "Introdueix un nom complet vàlid",
+        "PLACEHOLDER": "Introdueix el vostre nom complet"
+      },
+      "DISPLAY_NAME": {
+        "LABEL": "Nom visible",
+        "ERROR": "Introduïu un nom de visualització vàlid",
+        "PLACEHOLDER": "Introdueix un nom visible, que es mostrarà a les converses"
+      },
+      "AVAILABILITY": {
+        "LABEL": "Disponibilitat",
+        "STATUS": {
+          "ONLINE": "En línia",
+          "BUSY": "Ocupat",
+          "OFFLINE": "Fora de línia"
+        },
+        "SET_AVAILABILITY_SUCCESS": "La disponibilitat s'ha establert correctament",
+        "SET_AVAILABILITY_ERROR": "No s'ha pogut establir la disponibilitat, torna-ho a provar",
+        "IMPERSONATING_ERROR": "Cannot change availability while impersonating a user"
+      },
+      "EMAIL": {
+        "LABEL": "La teva adreça de correu electrònic",
+        "ERROR": "Introduïu una adreça de correu electrònic vàlida",
+        "PLACEHOLDER": "Introduïu la vostra adreça de correu electrònic, que es mostrarà a les converses"
+      },
+      "CURRENT_PASSWORD": {
+        "LABEL": "Contrasenya actual",
+        "ERROR": "Introdueix la contrasenya actual",
+        "PLACEHOLDER": "Introdueix la contrasenya actual"
+      },
+      "PASSWORD": {
+        "LABEL": "Nova contrasenya",
+        "ERROR": "Introduïu una contrasenya d'una longitud de 6 o més",
+        "PLACEHOLDER": "Introduïu una nova contrasenya"
+      },
+      "PASSWORD_CONFIRMATION": {
+        "LABEL": "Confirmació de la nova contrasenya",
+        "ERROR": "Confirmeu que les contrasenyes coincideixin",
+        "PLACEHOLDER": "Torna a introduir la nova contrasenya"
+      }
+    }
+  },
+  "SIDEBAR_ITEMS": {
+    "CHANGE_AVAILABILITY_STATUS": "Canvia",
+    "CHANGE_ACCOUNTS": "Switch account",
+    "SWITCH_ACCOUNT": "Switch account",
+    "CONTACT_SUPPORT": "Contact support",
+    "SELECTOR_SUBTITLE": "Selecciona un compte de la llista següent",
+    "PROFILE_SETTINGS": "Profile settings",
+    "YEAR_IN_REVIEW": "Year in Review",
+    "KEYBOARD_SHORTCUTS": "Keyboard shortcuts",
+    "APPEARANCE": "Change appearance",
+    "SUPER_ADMIN_CONSOLE": "SuperAdmin console",
+    "DOCS": "Read documentation",
+    "CHANGELOG": "Changelog",
+    "LOGOUT": "Log out"
+  },
+  "APP_GLOBAL": {
+    "TRIAL_MESSAGE": "dies de prova restants.",
+    "TRAIL_BUTTON": "Compra ara",
+    "DELETED_USER": "Usuari suprimit",
+    "EMAIL_VERIFICATION_PENDING": "Sembla que encara no has verificat la teva adreça de correu electrònic. Comprova la teva safata d'entrada per trobar el correu electrònic de verificació.",
+    "RESEND_VERIFICATION_MAIL": "Reenviar correu electrònic de verificació",
+    "EMAIL_VERIFICATION_SENT": "S'ha enviat un correu electrònic de verificació. Comprova la teva safata d'entrada.",
+    "ACCOUNT_SUSPENDED": {
+      "TITLE": "Compte suspès",
+      "MESSAGE": "El teu compte està suspès. Posa't en contacte amb l'equip d'assistència per obtenir més informació."
+    },
+    "NO_ACCOUNTS": {
+      "TITLE": "No account found",
+      "MESSAGE_CLOUD": "You are not part of any accounts right now. If you think this is a mistake, please reach out to our support team.",
+      "MESSAGE_SELF_HOSTED": "You are not part of any accounts right now. Please reach out to your administrator.",
+      "LOGOUT": "Log out"
+    }
+  },
+  "COMPONENTS": {
+    "CODE": {
+      "BUTTON_TEXT": "Copia",
+      "CODEPEN": "Obre en CodePen",
+      "COPY_SUCCESSFUL": "El codi s'ha copiat al porta-retalls amb èxit"
+    },
+    "SHOW_MORE_BLOCK": {
+      "SHOW_MORE": "Mostra més",
+      "SHOW_LESS": "Mostra menys"
+    },
+    "FILE_BUBBLE": {
+      "DOWNLOAD": "Descarrega",
+      "UPLOADING": "S'està carregant...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "Aquesta història ja no està disponible."
+    },
+    "LOCATION_BUBBLE": {
+      "SEE_ON_MAP": "Veure al mapa"
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "Envia"
+    },
+    "MEDIA": {
+      "IMAGE_UNAVAILABLE": "This image is no longer available.",
+      "LOADING_FAILED": "Loading failed"
+    }
+  },
+  "CONFIRM_EMAIL": "S'està verificant...",
+  "SETTINGS": {
+    "INBOXES": {
+      "NEW_INBOX": "Afegeix Safata d'entrada"
+    }
+  },
+  "SIDEBAR": {
+    "NO_ITEMS": "No items",
+    "CURRENTLY_VIEWING_ACCOUNT": "Visualització actual:",
+    "SWITCH": "Canvia",
+    "INBOX_VIEW": "Vista de la safata d'entrada",
+    "CONVERSATIONS": "Converses",
+    "INBOX": "My Inbox",
+    "ALL_CONVERSATIONS": "Totes les converses",
+    "MENTIONED_CONVERSATIONS": "Mencions",
+    "PARTICIPATING_CONVERSATIONS": "Participant",
+    "UNATTENDED_CONVERSATIONS": "Sense assistència",
+    "REPORTS": "Informes",
+    "SETTINGS": "Configuracions",
+    "CONTACTS": "Contactes",
+    "ACTIVE": "Actiu",
+    "COMPANIES": "Companies",
+    "ALL_COMPANIES": "All Companies",
+    "CAPTAIN": "Captain",
+    "CAPTAIN_ASSISTANTS": "Assistants",
+    "CAPTAIN_DOCUMENTS": "Documents",
+    "CAPTAIN_RESPONSES": "FAQs",
+    "CAPTAIN_TOOLS": "Tools",
+    "CAPTAIN_SCENARIOS": "Scenarios",
+    "CAPTAIN_PLAYGROUND": "Playground",
+    "CAPTAIN_INBOXES": "Safates d'entrada",
+    "CAPTAIN_SETTINGS": "Configuracions",
+    "HOME": "Inici",
+    "AGENTS": "Agents",
+    "AGENT_BOTS": "Bots",
+    "AUDIT_LOGS": "Registres d'auditoria",
+    "INBOXES": "Safates d'entrada",
+    "NOTIFICATIONS": "Notificacions",
+    "CANNED_RESPONSES": "Respostes predeterminades",
+    "INTEGRATIONS": "Integracions",
+    "PROFILE_SETTINGS": "Configuració del Perfil",
+    "ACCOUNT_SETTINGS": "Configuració del compte",
+    "APPLICATIONS": "Aplicacions",
+    "LABELS": "Etiquetes",
+    "CUSTOM_ATTRIBUTES": "Atributs personalitzats",
+    "AUTOMATION": "Automatització",
+    "MACROS": "Macros",
+    "TEAMS": "Equips",
+    "BILLING": "Facturació",
+    "CUSTOM_VIEWS_FOLDER": "Carpetes",
+    "CUSTOM_VIEWS_SEGMENTS": "Segments",
+    "ALL_CONTACTS": "Tots els contactes",
+    "TAGGED_WITH": "Etiquetat amb",
+    "NEW_LABEL": "Nova etiqueta",
+    "NEW_TEAM": "Nou equip",
+    "NEW_INBOX": "Safata d'entrada nova",
+    "REPORTS_CONVERSATION": "Converses",
+    "CSAT": "CSAT",
+    "LIVE_CHAT": "Live Chat",
+    "SMS": "SMS",
+    "WHATSAPP": "WhatsApp",
+    "CAMPAIGNS": "Campanyes",
+    "ONGOING": "En marxa",
+    "ONE_OFF": "Un fora",
+    "REPORTS_SLA": "SLA",
+    "REPORTS_BOT": "Bot",
+    "REPORTS_AGENT": "Agents",
+    "REPORTS_LABEL": "Etiquetes",
+    "REPORTS_INBOX": "Safata d'entrada",
+    "REPORTS_TEAM": "Equip",
+    "AGENT_ASSIGNMENT": "Agent Assignment",
+    "SET_AVAILABILITY_TITLE": "Posa't com",
+    "SET_YOUR_AVAILABILITY": "Estableix la vostra disponibilitat",
+    "SLA": "SLA",
+    "CUSTOM_ROLES": "Custom Roles",
+    "BETA": "Beta",
+    "REPORTS_OVERVIEW": "Resum",
+    "REAUTHORIZE": "La vostra connexió a la safata d'entrada ha caducat, torna a connectar\n per continuar rebent i enviant missatges",
+    "HELP_CENTER": {
+      "TITLE": "Centre d'ajuda",
+      "ARTICLES": "Articles",
+      "CATEGORIES": "Categories",
+      "LOCALES": "Localitzacions",
+      "SETTINGS": "Configuracions"
+    },
+    "CHANNELS": "Canals",
+    "SET_AUTO_OFFLINE": {
+      "TEXT": "Marca fora de línia automàticament",
+      "INFO_TEXT": "Permet que el sistema et marqui automàticament fora de línia quan no facis servir l'aplicació o el tauler.",
+      "INFO_SHORT": "Automatically mark offline when you aren't using the app."
+    },
+    "DOCS": "Llegir documents",
+    "SECURITY": "Security"
+  },
+  "BILLING_SETTINGS": {
+    "TITLE": "Facturació",
+    "DESCRIPTION": "Manage your subscription here, upgrade your plan and get more for your team.",
+    "CURRENT_PLAN": {
+      "TITLE": "Pla actual",
+      "PLAN_NOTE": "Actualment estàs subscrit al pla **{plan}** amb **{quantity}** llicències",
+      "SEAT_COUNT": "Number of seats",
+      "RENEWS_ON": "Renews on"
+    },
+    "VIEW_PRICING": "View Pricing",
+    "MANAGE_SUBSCRIPTION": {
+      "TITLE": "Gestiona la teva subscripció",
+      "DESCRIPTION": "Consulta les teves factures anteriors, edita els teus detalls de facturació o cancel·la la teva subscripció.",
+      "BUTTON_TXT": "Ves al portal de facturació"
+    },
+    "CAPTAIN": {
+      "TITLE": "Captain",
+      "DESCRIPTION": "Manage usage and credits for Captain AI.",
+      "BUTTON_TXT": "Buy more credits",
+      "DOCUMENTS": "Documents",
+      "RESPONSES": "Responses",
+      "UPGRADE": "Captain is not available on the free plan, upgrade now to get access to assistants, copilot and more.",
+      "REFRESH_CREDITS": "Actualitza"
+    },
+    "CHAT_WITH_US": {
+      "TITLE": "Necessita ajuda?",
+      "DESCRIPTION": "Trobes algun problema en la facturació? Estem aquí per ajudar.",
+      "BUTTON_TXT": "Xateja amb nosaltres"
+    },
+    "NO_BILLING_USER": "El teu compte de facturació s'està configurant. Actualitza la pàgina i torna-ho a provar.",
+    "TOPUP": {
+      "BUY_CREDITS": "Buy more credits",
+      "MODAL_TITLE": "Buy AI Credits",
+      "MODAL_DESCRIPTION": "Purchase additional credits for Captain AI.",
+      "CREDITS": "CREDITS",
+      "ONE_TIME": "one-time",
+      "POPULAR": "Most Popular",
+      "NOTE_TITLE": "Nota:",
+      "NOTE_DESCRIPTION": "Credits are added immediately and expire in 6 months. An active subscription is required to use credits. Purchased credits are consumed after your monthly plan credits.",
+      "CANCEL": "Cancel·la",
+      "PURCHASE": "Purchase Credits",
+      "LOADING": "Loading options...",
+      "FETCH_ERROR": "Failed to load credit options. Please try again.",
+      "PURCHASE_ERROR": "Failed to process purchase. Please try again.",
+      "PURCHASE_SUCCESS": "Successfully added {credits} credits to your account",
+      "CONFIRM": {
+        "TITLE": "Confirm Purchase",
+        "DESCRIPTION": "You are about to purchase {credits} credits for {amount}.",
+        "INSTANT_DEDUCTION_NOTE": "Your saved card will be charged immediately upon confirmation.",
+        "GO_BACK": "Torna enrere",
+        "CONFIRM_PURCHASE": "Confirm Purchase"
+      }
+    }
+  },
+  "SECURITY_SETTINGS": {
+    "TITLE": "Security",
+    "DESCRIPTION": "Manage your account security settings.",
+    "LINK_TEXT": "Learn more about SAML SSO",
+    "SAML_DISABLED_MESSAGE": "SAML SSO is currently disabled. Please contact your administrator to enable this feature.",
+    "SAML": {
+      "TITLE": "SAML SSO",
+      "NOTE": "Configure SAML single sign-on for your account. Users will authenticate through your identity provider instead of using email/password.",
+      "ACS_URL": {
+        "LABEL": "ACS URL",
+        "TOOLTIP": "Assertion Consumer Service URL - Configure this URL in your IdP as the destination for SAML responses"
+      },
+      "SSO_URL": {
+        "LABEL": "SSO URL",
+        "HELP": "The URL where SAML authentication requests will be sent",
+        "PLACEHOLDER": "https://your-idp.com/saml/sso"
+      },
+      "CERTIFICATE": {
+        "LABEL": "Signing certificate in PEM format",
+        "HELP": "The public certificate from your identity provider used to verify SAML responses",
+        "PLACEHOLDER": "-----BEGIN CERTIFICATE-----\nMIIC..."
+      },
+      "FINGERPRINT": {
+        "LABEL": "Fingerprint",
+        "TOOLTIP": "SHA-1 fingerprint of the certificate - Use this to verify the certificate in your IdP configuration"
+      },
+      "COPY_SUCCESS": "El codi s'ha copiat al porta-retalls amb èxit",
+      "SP_ENTITY_ID": {
+        "LABEL": "SP Entity ID",
+        "HELP": "Unique identifier for this application as a service provider (auto-generated).",
+        "TOOLTIP": "Unique identifier for Chatwoot as the Service Provider - Configure this in your IdP settings"
+      },
+      "IDP_ENTITY_ID": {
+        "LABEL": "Identity Provider Entity ID",
+        "HELP": "Unique identifier for your identity provider (usually found in IdP configuration)",
+        "PLACEHOLDER": "https://your-idp.com/saml"
+      },
+      "UPDATE_BUTTON": "Update SAML Settings",
+      "API": {
+        "SUCCESS": "SAML settings updated successfully",
+        "ERROR": "Failed to update SAML settings",
+        "ERROR_LOADING": "Failed to load SAML settings",
+        "DISABLED": "SAML settings disabled successfully"
+      },
+      "VALIDATION": {
+        "REQUIRED_FIELDS": "SSO URL, Identity Provider Entity ID, and Certificate are required fields",
+        "SSO_URL_ERROR": "Please enter a valid SSO URL",
+        "CERTIFICATE_ERROR": "Certificate is required",
+        "IDP_ENTITY_ID_ERROR": "Identity Provider Entity ID is required"
+      },
+      "ENTERPRISE_PAYWALL": {
+        "AVAILABLE_ON": "The SAML SSO feature is only available in the Enterprise plans.",
+        "UPGRADE_PROMPT": "Upgrade to an Enterprise plan to access SAML single sign-on and other advanced security features.",
+        "ASK_ADMIN": "Posa't en contacte amb el vostre administrador per obtenir l'actualització."
+      },
+      "PAYWALL": {
+        "TITLE": "Upgrade to enable SAML SSO",
+        "AVAILABLE_ON": "The SAML SSO feature is only available in the Enterprise plans.",
+        "UPGRADE_PROMPT": "Upgrade your plan to get access to SAML single sign-on and other advanced features.",
+        "UPGRADE_NOW": "Actualitza ara",
+        "CANCEL_ANYTIME": "Pots canviar o cancel·lar el teu pla en qualsevol moment"
+      },
+      "ATTRIBUTE_MAPPING": {
+        "TITLE": "SAML Attribute Setup",
+        "DESCRIPTION": "The following attribute mappings must be configured in your identity provider"
+      },
+      "INFO_SECTION": {
+        "TITLE": "Service Provider Information",
+        "TOOLTIP": "Copy these values and configure them in your Identity Provider to establish the SAML connection"
+      }
+    }
+  },
+  "CREATE_ACCOUNT": {
+    "NO_ACCOUNT_WARNING": "Uh oh! No hem trobat cap compte de Chatwoot. Crea un compte nou per continuar.",
+    "NEW_ACCOUNT": "Compte nou",
+    "SELECTOR_SUBTITLE": "Crear un compte nou",
+    "API": {
+      "SUCCESS_MESSAGE": "El compte s'ha creat correctament",
+      "EXIST_MESSAGE": "El compte ja existeix",
+      "ERROR_MESSAGE": "No s'ha pogut connectar amb el servidor Woot. Torna-ho a provar més endavant"
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "Nom de la companyia",
+        "PLACEHOLDER": "Wayne Enterprises"
+      },
+      "SUBMIT": "Envia",
+      "CANCEL": "Cancel·la"
+    }
+  },
+  "KEYBOARD_SHORTCUTS": {
+    "TOGGLE_MODAL": "Veure totes les dreceres",
+    "TITLE": {
+      "OPEN_CONVERSATION": "Obrir conversa",
+      "RESOLVE_AND_NEXT": "Resol i passa al següent",
+      "NAVIGATE_DROPDOWN": "Navega pels elements desplegables",
+      "RESOLVE_CONVERSATION": "Resol la conversa",
+      "GO_TO_CONVERSATION_DASHBOARD": "Ves al Tauler de converses",
+      "ADD_ATTACHMENT": "Afegeix fitxer adjunt",
+      "GO_TO_CONTACTS_DASHBOARD": "Ves al tauler de contactes",
+      "TOGGLE_SIDEBAR": "Commuta la barra lateral",
+      "GO_TO_REPORTS_SIDEBAR": "Anar a la barra lateral Informes",
+      "MOVE_TO_NEXT_TAB": "Anar a la pestanya següent de la llista de converses",
+      "GO_TO_SETTINGS": "Ves a la configuració",
+      "SWITCH_TO_PRIVATE_NOTE": "Canvia a la nota privada",
+      "SWITCH_TO_REPLY": "Canvia a Respon",
+      "TOGGLE_SNOOZE_DROPDOWN": "Commuta el menú desplegable de posposar"
+    }
+  },
+  "ASSIGNMENT_POLICY": {
+    "INDEX": {
+      "HEADER": {
+        "TITLE": "Agent assignment",
+        "DESCRIPTION": "Define policies to effectively manage workload and route conversations based on the needs of inboxes and agents. Learn more here"
+      },
+      "ASSIGNMENT_POLICY": {
+        "TITLE": "Assignment policy",
+        "DESCRIPTION": "Manage how conversations get assigned in inboxes.",
+        "FEATURES": [
+          "Assign by conversations evenly or by available capacity",
+          "Add fair distribution rules to avoid overloading any agent",
+          "Add inboxes to a policy - one policy per inbox"
+        ]
+      },
+      "AGENT_CAPACITY_POLICY": {
+        "TITLE": "Agent capacity policy",
+        "DESCRIPTION": "Manage workload for agents.",
+        "FEATURES": [
+          "Define maximum conversations per inbox",
+          "Create exceptions based on labels and time",
+          "Add agents to a policy - one policy per agent"
+        ]
+      }
+    },
+    "AGENT_ASSIGNMENT_POLICY": {
+      "INDEX": {
+        "HEADER": {
+          "TITLE": "Assignment policy",
+          "CREATE_POLICY": "New policy"
+        },
+        "CARD": {
+          "ORDER": "Order",
+          "PRIORITY": "Prioritat",
+          "ACTIVE": "Actiu",
+          "INACTIVE": "Inactive",
+          "POPOVER": "Added inboxes",
+          "EDIT": "Edita"
+        },
+        "NO_RECORDS_FOUND": "No assignment policies found"
+      },
+      "CREATE": {
+        "HEADER": {
+          "TITLE": "Create assignment policy"
+        },
+        "CREATE_BUTTON": "Create policy",
+        "API": {
+          "SUCCESS_MESSAGE": "Assignment policy created successfully",
+          "ERROR_MESSAGE": "Failed to create assignment policy"
+        }
+      },
+      "EDIT": {
+        "HEADER": {
+          "TITLE": "Edit assignment policy"
+        },
+        "EDIT_BUTTON": "Update policy",
+        "CONFIRM_ADD_INBOX_DIALOG": {
+          "TITLE": "Add inbox",
+          "DESCRIPTION": "{inboxName} inbox is already linked to another policy. Are you sure you want to link it to this policy? It will be unlinked from the other policy.",
+          "CONFIRM_BUTTON_LABEL": "Continue",
+          "CANCEL_BUTTON_LABEL": "Cancel·la"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Assignment policy updated successfully",
+          "ERROR_MESSAGE": "Failed to update assignment policy"
+        },
+        "INBOX_API": {
+          "ADD": {
+            "SUCCESS_MESSAGE": "Inbox added to policy successfully",
+            "ERROR_MESSAGE": "Failed to add inbox to policy"
+          },
+          "REMOVE": {
+            "SUCCESS_MESSAGE": "Inbox removed from policy successfully",
+            "ERROR_MESSAGE": "Failed to remove inbox from policy"
+          }
+        }
+      },
+      "FORM": {
+        "NAME": {
+          "LABEL": "Policy name:",
+          "PLACEHOLDER": "Enter policy name"
+        },
+        "DESCRIPTION": {
+          "LABEL": "Descripció:",
+          "PLACEHOLDER": "Introdueix la descripció"
+        },
+        "STATUS": {
+          "LABEL": "Estat:",
+          "PLACEHOLDER": "Selecciona l'estat",
+          "ACTIVE": "Policy is active",
+          "INACTIVE": "Policy is inactive"
+        },
+        "ASSIGNMENT_ORDER": {
+          "LABEL": "Assignment order",
+          "ROUND_ROBIN": {
+            "LABEL": "Round robin",
+            "DESCRIPTION": "Assign conversations evenly among agents."
+          },
+          "BALANCED": {
+            "LABEL": "Balanced",
+            "DESCRIPTION": "Assign conversations based on available capacity."
+          }
+        },
+        "ASSIGNMENT_PRIORITY": {
+          "LABEL": "Assignment priority",
+          "EARLIEST_CREATED": {
+            "LABEL": "Earliest created",
+            "DESCRIPTION": "The conversation that was created first gets assigned first."
+          },
+          "LONGEST_WAITING": {
+            "LABEL": "Longest waiting",
+            "DESCRIPTION": "The conversation waiting the longest gets assigned first."
+          }
+        },
+        "FAIR_DISTRIBUTION": {
+          "LABEL": "Fair distribution policy",
+          "DESCRIPTION": "Set the maximum number of conversations that can be assigned per agent within a time window to avoid overloading any one agent. This required field defaults to 100 conversations per hour.",
+          "INPUT_MAX": "Assign max",
+          "DURATION": "Conversations per agent in every"
+        },
+        "INBOXES": {
+          "LABEL": "Added inboxes",
+          "DESCRIPTION": "Add inboxes for which this policy will be applicable.",
+          "ADD_BUTTON": "Add inbox",
+          "DROPDOWN": {
+            "SEARCH_PLACEHOLDER": "Search and select inboxes to add",
+            "ADD_BUTTON": "Afegir"
+          },
+          "EMPTY_STATE": "No inboxes added to this policy, add an inbox to get started",
+          "API": {
+            "SUCCESS_MESSAGE": "Inbox successfully added to policy",
+            "ERROR_MESSAGE": "Failed to add inbox to policy"
+          }
+        }
+      },
+      "DELETE_POLICY": {
+        "SUCCESS_MESSAGE": "Assignment policy deleted successfully",
+        "ERROR_MESSAGE": "Failed to delete assignment policy"
+      }
+    },
+    "AGENT_CAPACITY_POLICY": {
+      "INDEX": {
+        "HEADER": {
+          "TITLE": "Agent capacity",
+          "CREATE_POLICY": "New policy"
+        },
+        "CARD": {
+          "POPOVER": "Added agents",
+          "EDIT": "Edita"
+        },
+        "NO_RECORDS_FOUND": "No agent capacity policies found"
+      },
+      "CREATE": {
+        "HEADER": {
+          "TITLE": "Create agent capacity policy"
+        },
+        "CREATE_BUTTON": "Create policy",
+        "API": {
+          "SUCCESS_MESSAGE": "Agent capacity policy created successfully",
+          "ERROR_MESSAGE": "Failed to create agent capacity policy"
+        }
+      },
+      "EDIT": {
+        "HEADER": {
+          "TITLE": "Edit agent capacity policy"
+        },
+        "EDIT_BUTTON": "Update policy",
+        "CONFIRM_ADD_AGENT_DIALOG": {
+          "TITLE": "Add agent",
+          "DESCRIPTION": "{agentName} is already linked to another policy. Are you sure you want to link it to this policy? It will be unlinked from the other policy.",
+          "CONFIRM_BUTTON_LABEL": "Continue",
+          "CANCEL_BUTTON_LABEL": "Cancel·la"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Agent capacity policy updated successfully",
+          "ERROR_MESSAGE": "Failed to update agent capacity policy"
+        },
+        "AGENT_API": {
+          "ADD": {
+            "SUCCESS_MESSAGE": "Agent added to policy successfully",
+            "ERROR_MESSAGE": "Failed to add agent to policy"
+          },
+          "REMOVE": {
+            "SUCCESS_MESSAGE": "Agent removed from policy successfully",
+            "ERROR_MESSAGE": "Failed to remove agent from policy"
+          }
+        }
+      },
+      "FORM": {
+        "NAME": {
+          "LABEL": "Policy name:",
+          "PLACEHOLDER": "Enter policy name"
+        },
+        "DESCRIPTION": {
+          "LABEL": "Descripció:",
+          "PLACEHOLDER": "Introdueix la descripció"
+        },
+        "INBOX_CAPACITY_LIMIT": {
+          "LABEL": "Inbox capacity limits",
+          "ADD_BUTTON": "Add inbox",
+          "FIELD": {
+            "SELECT_INBOX": "Select inbox",
+            "MAX_CONVERSATIONS": "Max conversations",
+            "SET_LIMIT": "Set limit"
+          },
+          "EMPTY_STATE": "No inbox limit set"
+        },
+        "EXCLUSION_RULES": {
+          "LABEL": "Exclusion rules",
+          "DESCRIPTION": "Conversations that satisfy the following conditions would not count towards agent capacity",
+          "TAGS": {
+            "LABEL": "Exclude conversations tagged with specific labels",
+            "ADD_TAG": "add tag",
+            "DROPDOWN": {
+              "SEARCH_PLACEHOLDER": "Search and select tags to add"
+            },
+            "EMPTY_STATE": "No tags added to this policy."
+          },
+          "DURATION": {
+            "LABEL": "Exclude conversations older than a specified duration",
+            "PLACEHOLDER": "Set time"
+          }
+        },
+        "USERS": {
+          "LABEL": "Assigned agents",
+          "DESCRIPTION": "Add agents for which this policy will be applicable.",
+          "ADD_BUTTON": "Add agent",
+          "DROPDOWN": {
+            "SEARCH_PLACEHOLDER": "Search and select agents to add",
+            "ADD_BUTTON": "Afegir"
+          },
+          "EMPTY_STATE": "No agents added",
+          "API": {
+            "SUCCESS_MESSAGE": "Agent successfully added to policy",
+            "ERROR_MESSAGE": "Failed to add agent to policy"
+          }
+        }
+      },
+      "DELETE_POLICY": {
+        "SUCCESS_MESSAGE": "Agent capacity policy deleted successfully",
+        "ERROR_MESSAGE": "Failed to delete agent capacity policy"
+      }
+    },
+    "DELETE_POLICY": {
+      "TITLE": "Delete policy",
+      "DESCRIPTION": "Are you sure you want to delete this policy? This action cannot be undone.",
+      "CONFIRM_BUTTON_LABEL": "Esborrar",
+      "CANCEL_BUTTON_LABEL": "Cancel·la"
+    }
+  }
+}

@@ -1,0 +1,77 @@
+{
+  "CANNED_MGMT": {
+    "HEADER": "Réponses standardisées",
+    "LEARN_MORE": "Learn more about canned responses",
+    "DESCRIPTION": "Canned Responses are pre-written reply templates that help you quickly respond to a conversation. Agents can type the '/' character followed by the shortcode to insert a canned response during a conversation. ",
+    "HEADER_BTN_TXT": "Ajouter une réponse prédéfinie",
+    "LOADING": "Récupération des réponses prédéfinies...",
+    "SEARCH_404": "Il n'y a aucun élément correspondant à cette requête.",
+    "LIST": {
+      "404": "Il n'y a aucune réponse standardisée disponible dans ce compte.",
+      "TITLE": "Gérer les réponses standardisées",
+      "DESC": "Les réponses prédéfinies sont des modèles de réponse prédéfinis qui peuvent être utilisés pour envoyer rapidement des réponses aux conversations.",
+      "TABLE_HEADER": {
+        "SHORT_CODE": "Code court",
+        "CONTENT": "Contenu",
+        "ACTIONS": "Actions"
+      }
+    },
+    "ADD": {
+      "TITLE": "Ajouter une réponse prédéfinie",
+      "DESC": "Les réponses prédéfinies sont des modèles de réponse prédéfinis qui peuvent être utilisés pour envoyer rapidement des réponses aux conversations.",
+      "CANCEL_BUTTON_TEXT": "Annuler",
+      "FORM": {
+        "SHORT_CODE": {
+          "LABEL": "Code court",
+          "PLACEHOLDER": "Veuillez entrer un code court.",
+          "ERROR": "Le code court est requis."
+        },
+        "CONTENT": {
+          "LABEL": "Message",
+          "PLACEHOLDER": "Veuillez écrire le message que vous voulez enregistrer comme modèle à utiliser plus tard.",
+          "ERROR": "Le message est obligatoire."
+        },
+        "SUBMIT": "Envoyer"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "La réponse prédéfinie a été ajoutée.",
+        "ERROR_MESSAGE": "Impossible de se connecter au serveur Woot, veuillez réessayer plus tard"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Éditer la réponse prédéfinie",
+      "CANCEL_BUTTON_TEXT": "Annuler",
+      "FORM": {
+        "SHORT_CODE": {
+          "LABEL": "Code court",
+          "PLACEHOLDER": "Veuillez entrer un code court.",
+          "ERROR": "Le code court est requis."
+        },
+        "CONTENT": {
+          "LABEL": "Message",
+          "PLACEHOLDER": "Veuillez écrire le message que vous voulez enregistrer comme modèle à utiliser plus tard.",
+          "ERROR": "Le message est obligatoire."
+        },
+        "SUBMIT": "Envoyer"
+      },
+      "BUTTON_TEXT": "Modifier",
+      "API": {
+        "SUCCESS_MESSAGE": "Réponse prédéfinie mise à jour.",
+        "ERROR_MESSAGE": "Impossible de se connecter au serveur Woot, veuillez réessayer plus tard"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Supprimer",
+      "API": {
+        "SUCCESS_MESSAGE": "Réponse prédéfinie supprimée.",
+        "ERROR_MESSAGE": "Impossible de se connecter au serveur Woot, veuillez réessayer plus tard"
+      },
+      "CONFIRM": {
+        "TITLE": "Confirmer la suppression",
+        "MESSAGE": "Êtes-vous sûr de vouloir supprimer ",
+        "YES": "Oui, supprimer ",
+        "NO": "Non, Conserver "
+      }
+    }
+  }
+}

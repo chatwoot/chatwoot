@@ -1,0 +1,85 @@
+{
+  "LABEL_MGMT": {
+    "HEADER": "Labels",
+    "HEADER_BTN_TXT": "Add label",
+    "LOADING": "Fetching labels",
+    "DESCRIPTION": "Labels help you categorize and prioritize conversations and leads. You can assign a label to a conversation or contact using the side panel.",
+    "LEARN_MORE": "Learn more about labels",
+    "SEARCH_404": "Það eru engin atriði sem passa við þessa fyrirspurn",
+    "LIST": {
+      "404": "Engar merkingar eru tiltækir á þessum reikningi.",
+      "TITLE": "Manage labels",
+      "DESC": "Merkingar gera þér kleift að flokka samtölin saman.",
+      "TABLE_HEADER": {
+        "NAME": "Nafn",
+        "DESCRIPTION": "Description",
+        "COLOR": "Color"
+      }
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "Label Name",
+        "PLACEHOLDER": "Label name",
+        "REQUIRED_ERROR": "Label name is required",
+        "MINIMUM_LENGTH_ERROR": "Minimum length 2 is required",
+        "VALID_ERROR": "Aðeins stafrófsstafir, tölustafir, bandstrik og undirstrik eru leyfð"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Description",
+        "PLACEHOLDER": "Label Description"
+      },
+      "COLOR": {
+        "LABEL": "Color"
+      },
+      "SHOW_ON_SIDEBAR": {
+        "LABEL": "Show label on sidebar"
+      },
+      "EDIT": "Breyta",
+      "CREATE": "Create",
+      "DELETE": "Eyða",
+      "CANCEL": "Hætta við"
+    },
+    "SUGGESTIONS": {
+      "TOOLTIP": {
+        "SINGLE_SUGGESTION": "Add label to conversation",
+        "MULTIPLE_SUGGESTION": "Select this label",
+        "DESELECT": "Deselect label",
+        "DISMISS": "Dismiss suggestion"
+      },
+      "POWERED_BY": "Chatwoot AI",
+      "DISMISS": "Dismiss",
+      "ADD_SELECTED_LABELS": "Add selected labels",
+      "ADD_SELECTED_LABEL": "Add selected label",
+      "ADD_ALL_LABELS": "Add all labels",
+      "SUGGESTED_LABELS": "Suggested labels"
+    },
+    "ADD": {
+      "TITLE": "Add label",
+      "DESC": "Merkingar gera þér kleift að flokka samtölin saman.",
+      "API": {
+        "SUCCESS_MESSAGE": "Label added successfully",
+        "ERROR_MESSAGE": "There was an error, please try again"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Edit label",
+      "API": {
+        "SUCCESS_MESSAGE": "Label updated successfully",
+        "ERROR_MESSAGE": "There was an error, please try again"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Eyða",
+      "API": {
+        "SUCCESS_MESSAGE": "Label deleted successfully",
+        "ERROR_MESSAGE": "There was an error, please try again"
+      },
+      "CONFIRM": {
+        "TITLE": "Staðfesta eyðingu",
+        "MESSAGE": "Ertu viss um að þú viljir eyða",
+        "YES": "Já, eyða",
+        "NO": "Nei, hætta við eyðingu"
+      }
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "DATE_PICKER": {
+    "APPLY_BUTTON": "Εφαρμογή",
+    "CLEAR_BUTTON": "Clear",
+    "DATE_RANGE_INPUT": {
+      "START": "Start Date",
+      "END": "End Date"
+    },
+    "DATE_RANGE_OPTIONS": {
+      "TITLE": "DATE RANGE",
+      "LAST_7_DAYS": "Τελευταίες 7 ημέρες",
+      "LAST_30_DAYS": "Τελευταίες 30 ημέρες",
+      "LAST_3_MONTHS": "Τελευταίοι 3 μήνες",
+      "LAST_6_MONTHS": "Τελευταίοι 6 μήνες",
+      "LAST_YEAR": "Τελευταίο έτος",
+      "CUSTOM_RANGE": "Προσαρμοσμένο εύρος ημερομηνιών"
+    }
+  }
+}

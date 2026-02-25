@@ -1,0 +1,12 @@
+{
+  "GENERAL": {
+    "SHOWING_RESULTS": "عرض{firstIndex}-{lastIndex} من {totalCount} إجمالي العناصر",
+    "PHONE_INPUT": {
+      "PLACEHOLDER": "بحث",
+      "EMPTY_STATE": "لم يتم العثور على النتائج"
+    },
+    "CLOSE": "أغلق",
+    "BETA": "تجريبي",
+    "BETA_DESCRIPTION": "This feature is in beta and may change as we improve it."
+  }
+}

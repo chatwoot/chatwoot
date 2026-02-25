@@ -1,0 +1,153 @@
+{
+  "COMPONENTS": {
+    "FILE_BUBBLE": {
+      "DOWNLOAD": "Descarrega",
+      "UPLOADING": "S'està carregant..."
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "Envia"
+    },
+    "MESSAGE_BUBBLE": {
+      "RETRY": "Torna a enviar el missatge",
+      "ERROR_MESSAGE": "No s'ha pogut enviar, torna-ho a provar"
+    }
+  },
+  "THUMBNAIL": {
+    "AUTHOR": {
+      "NOT_AVAILABLE": "Not available"
+    }
+  },
+  "TEAM_AVAILABILITY": {
+    "ONLINE": "Estem en línia",
+    "OFFLINE": "Estem fora en aquest moment",
+    "BACK_AS_SOON_AS_POSSIBLE": "We will be back as soon as possible"
+  },
+  "REPLY_TIME": {
+    "IN_A_FEW_MINUTES": "Normalment responem en pocs minuts",
+    "IN_A_FEW_HOURS": "Normalment responem en poques hores",
+    "IN_A_DAY": "Normalment respon en un dia",
+    "BACK_IN_HOURS": "We will be back online in {n} hour | We will be back online in {n} hours",
+    "BACK_IN_MINUTES": "We will be back online in {time} minutes",
+    "BACK_AT_TIME": "We will be back online at {time}",
+    "BACK_ON_DAY": "We will be back online on {day}",
+    "BACK_TOMORROW": "We will be back online tomorrow",
+    "BACK_IN_SOME_TIME": "We will be back online in some time"
+  },
+  "DAY_NAMES": {
+    "SUNDAY": "Diumenge",
+    "MONDAY": "Dilluns",
+    "TUESDAY": "Dimarts",
+    "WEDNESDAY": "Dimecres",
+    "THURSDAY": "Dijous",
+    "FRIDAY": "Divendres",
+    "SATURDAY": "Dissabte"
+  },
+  "START_CONVERSATION": "Inicia la conversa",
+  "END_CONVERSATION": "Finalitzar la conversa",
+  "CONTINUE_CONVERSATION": "Continua la conversa",
+  "YOU": "Tu",
+  "START_NEW_CONVERSATION": "Inicia una nova conversa",
+  "VIEW_UNREAD_MESSAGES": "Tens missatges no llegits",
+  "UNREAD_VIEW": {
+    "VIEW_MESSAGES_BUTTON": "Veure missatges nous",
+    "CLOSE_MESSAGES_BUTTON": "Tanca",
+    "COMPANY_FROM": "des de",
+    "BOT": "Bot"
+  },
+  "BUBBLE": {
+    "LABEL": "Xateja amb nosaltres"
+  },
+  "POWERED_BY": "Desenvolupat per Chatwoot",
+  "EMAIL_PLACEHOLDER": "Introduïu el correu electrònic",
+  "CHAT_PLACEHOLDER": "Escriu el missatge",
+  "TODAY": "Avui",
+  "YESTERDAY": "Ahir",
+  "PRE_CHAT_FORM": {
+    "FIELDS": {
+      "FULL_NAME": {
+        "LABEL": "Nom complet",
+        "PLACEHOLDER": "Introdueix el vostre nom complet",
+        "REQUIRED_ERROR": "El Nom Complert és obligatori"
+      },
+      "EMAIL_ADDRESS": {
+        "LABEL": "Adreça de correu electrònic",
+        "PLACEHOLDER": "Si us plau, introdueix la teva adreça email",
+        "REQUIRED_ERROR": "L'adreça de correu electrònic és necessària",
+        "VALID_ERROR": "Introduïu una adreça de correu electrònic vàlida"
+      },
+      "PHONE_NUMBER": {
+        "LABEL": "Número de telèfon",
+        "PLACEHOLDER": "Introdueix el vostre número de telèfon",
+        "REQUIRED_ERROR": "El número de telèfon és obligatori",
+        "DIAL_CODE_VALID_ERROR": "Selecciona un codi de país",
+        "VALID_ERROR": "Introdueix un número de telèfon vàlid",
+        "DROPDOWN_EMPTY": "No s'ha trobat agents",
+        "DROPDOWN_SEARCH": "Search country"
+      },
+      "MESSAGE": {
+        "LABEL": "Missatge",
+        "PLACEHOLDER": "Si us plau, introdueix el teu missatge",
+        "ERROR": "Missatge massa curt"
+      }
+    },
+    "CAMPAIGN_HEADER": "Proporciona el vostre nom i correu electrònic abans d'iniciar la conversa",
+    "IS_REQUIRED": "és necessari",
+    "REQUIRED": "Necessari",
+    "REGEX_ERROR": "Proporciona una entrada vàlida"
+  },
+  "FILE_SIZE_LIMIT": "El fitxer supera el límit de {MAXIMUM_FILE_UPLOAD_SIZE} fitxers adjunts",
+  "CHAT_FORM": {
+    "INVALID": {
+      "FIELD": "Camp no vàlid"
+    }
+  },
+  "EMOJI": {
+    "PLACEHOLDER": "Cerca emojis",
+    "NOT_FOUND": "Cap emoji coincideix amb la teva cerca",
+    "ARIA_LABEL": "Emoji picker"
+  },
+  "CSAT": {
+    "TITLE": "Valora la teva conversa",
+    "SUBMITTED_TITLE": "Gràcies per enviar la qualificació",
+    "PLACEHOLDER": "Explica'ns més..."
+  },
+  "EMAIL_TRANSCRIPT": {
+    "BUTTON_TEXT": "Envia la transcripció de la conversa",
+    "SEND_EMAIL_SUCCESS": "La transcripció del xat s'ha enviat correctament",
+    "SEND_EMAIL_ERROR": "S'ha produït un error; tornau-ho a provar"
+  },
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Fes clic aquí per unir-te",
+      "LEAVE_THE_ROOM": "Deixa la trucada"
+    }
+  },
+  "PORTAL": {
+    "POPULAR_ARTICLES": "Articles populars",
+    "VIEW_ALL_ARTICLES": "Veure tots els articles",
+    "IFRAME_LOAD_ERROR": "S'ha produït un error en carregar l'article, actualitza la pàgina i torna-ho a provar."
+  },
+  "ATTACHMENTS": {
+    "image": {
+      "CONTENT": "Missatge d'imatge"
+    },
+    "audio": {
+      "CONTENT": "Missatge d'àudio"
+    },
+    "video": {
+      "CONTENT": "Missatge de vídeo"
+    },
+    "file": {
+      "CONTENT": "Fitxer adjunt"
+    },
+    "location": {
+      "CONTENT": "Ubicació"
+    },
+    "fallback": {
+      "CONTENT": "ha compartit una URL"
+    }
+  },
+  "FOOTER_REPLY_TO": {
+    "REPLY_TO": "Responent a:"
+  }
+}

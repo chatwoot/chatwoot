@@ -1,0 +1,12 @@
+{
+  "GENERAL": {
+    "SHOWING_RESULTS": "A mostrar {firstIndex}-{lastIndex} de {totalCount} itens",
+    "PHONE_INPUT": {
+      "PLACEHOLDER": "Procurar",
+      "EMPTY_STATE": "Nenhum resultado encontrado"
+    },
+    "CLOSE": "Fechar",
+    "BETA": "Beta",
+    "BETA_DESCRIPTION": "This feature is in beta and may change as we improve it."
+  }
+}

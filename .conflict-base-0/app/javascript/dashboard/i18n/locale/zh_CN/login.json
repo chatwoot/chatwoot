@@ -1,0 +1,41 @@
+{
+  "LOGIN": {
+    "TITLE": "登录到Chatwoot",
+    "EMAIL": {
+      "LABEL": "Email",
+      "PLACEHOLDER": "实例 {'@'}companyname.com",
+      "ERROR": "请输入一个有效的电子邮件"
+    },
+    "PASSWORD": {
+      "LABEL": "密码",
+      "PLACEHOLDER": "密码"
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "登录成功",
+      "ERROR_MESSAGE": "无法连接Woot服务器，请稍后再试",
+      "UNAUTH": "用户名或密码不正确，请重试。"
+    },
+    "OAUTH": {
+      "GOOGLE_LOGIN": "使用Google登录",
+      "BUSINESS_ACCOUNTS_ONLY": "请使用您的公司电子邮件地址登录",
+      "NO_ACCOUNT_FOUND": "我们找不到您的电子邮件地址的帐户。"
+    },
+    "FORGOT_PASSWORD": "忘记密码了？",
+    "CREATE_NEW_ACCOUNT": "创建新账户",
+    "SUBMIT": "登录",
+    "SAML": {
+      "LABEL": "Login via SSO",
+      "TITLE": "Initiate Single Sign-on (SSO)",
+      "SUBTITLE": "Enter your work email to access your organization",
+      "BACK_TO_LOGIN": "Login via Password",
+      "WORK_EMAIL": {
+        "LABEL": "Work Email",
+        "PLACEHOLDER": "Enter your work email"
+      },
+      "SUBMIT": "Continue with SSO",
+      "API": {
+        "ERROR_MESSAGE": "SSO authentication failed. Please check your credentials and try again."
+      }
+    }
+  }
+}

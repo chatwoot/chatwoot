@@ -1,0 +1,77 @@
+{
+  "CANNED_MGMT": {
+    "HEADER": "Respostas Prontas",
+    "LEARN_MORE": "Saiba mais sobre respostas prontas",
+    "DESCRIPTION": "Respostas prontas são modelos de resposta pré-escritas que te ajudam a responder rapidamente a uma conversa. Os agentes podem digitar o caractere ' /' seguido pelo atalho para inserir uma resposta pronta durante uma conversa. ",
+    "HEADER_BTN_TXT": "Adicionar resposta pronta",
+    "LOADING": "Buscando respostas prontas...",
+    "SEARCH_404": "Não há itens correspondentes a esta consulta.",
+    "LIST": {
+      "404": "Não há respostas prontas disponíveis nesta conta.",
+      "TITLE": "Gerenciar Respostas Prontas",
+      "DESC": "Respostas Prontas são modelos de resposta predefinidas que podem ser usados para enviar respostas rapidamente durante conversas.",
+      "TABLE_HEADER": {
+        "SHORT_CODE": "Atalho",
+        "CONTENT": "Conteúdo",
+        "ACTIONS": "Ações"
+      }
+    },
+    "ADD": {
+      "TITLE": "Adicionar resposta pronta",
+      "DESC": "Respostas Prontas são modelos de resposta predefinidas que podem ser usados para enviar respostas rapidamente durante conversas.",
+      "CANCEL_BUTTON_TEXT": "Cancelar",
+      "FORM": {
+        "SHORT_CODE": {
+          "LABEL": "Atalho",
+          "PLACEHOLDER": "Por favor, insira um atalho.",
+          "ERROR": "O atalho é obrigatório."
+        },
+        "CONTENT": {
+          "LABEL": "Mensagem",
+          "PLACEHOLDER": "Por favor, escreva a mensagem que deseja salvar como um modelo para usar posteriormente.",
+          "ERROR": "A mensagem é obrigatória."
+        },
+        "SUBMIT": "Enviar"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Resposta pronta adicionada com sucesso.",
+        "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot. Por favor, tente novamente."
+      }
+    },
+    "EDIT": {
+      "TITLE": "Editar resposta pronta",
+      "CANCEL_BUTTON_TEXT": "Cancelar",
+      "FORM": {
+        "SHORT_CODE": {
+          "LABEL": "Atalho",
+          "PLACEHOLDER": "Por favor, insira um atalho.",
+          "ERROR": "O atalho é obrigatório."
+        },
+        "CONTENT": {
+          "LABEL": "Mensagem",
+          "PLACEHOLDER": "Por favor, escreva a mensagem que deseja salvar como um modelo para usar posteriormente.",
+          "ERROR": "A mensagem é obrigatória."
+        },
+        "SUBMIT": "Enviar"
+      },
+      "BUTTON_TEXT": "Alterar",
+      "API": {
+        "SUCCESS_MESSAGE": "Resposta pronta atualizada com sucesso.",
+        "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot. Por favor, tente novamente."
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Excluir",
+      "API": {
+        "SUCCESS_MESSAGE": "Resposta pronta excluída com sucesso.",
+        "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot. Por favor, tente novamente."
+      },
+      "CONFIRM": {
+        "TITLE": "Confirmar exclusão",
+        "MESSAGE": "Você tem certeza que deseja excluir ",
+        "YES": "Sim, excluir ",
+        "NO": "Não, manter "
+      }
+    }
+  }
+}

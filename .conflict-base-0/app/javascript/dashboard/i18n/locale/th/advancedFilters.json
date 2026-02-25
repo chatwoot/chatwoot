@@ -1,0 +1,119 @@
+{
+  "FILTER": {
+    "TITLE": "กรองการสนทนา",
+    "SUBTITLE": "Add your filters below and hit 'Apply filters' to cut through the chat clutter.",
+    "EDIT_CUSTOM_FILTER": "Edit Folder",
+    "CUSTOM_VIEWS_SUBTITLE": "Add or remove filters and update your folder.",
+    "ADD_NEW_FILTER": "Add filter",
+    "FILTER_DELETE_ERROR": "Oops, looks like we can't save nothing! Please add at least one filter to save it.",
+    "SUBMIT_BUTTON_LABEL": "ใช้ตัวกรอง",
+    "UPDATE_BUTTON_LABEL": "Update folder",
+    "CANCEL_BUTTON_LABEL": "ยกเลิก",
+    "CLEAR_BUTTON_LABEL": "Clear filters",
+    "FOLDER_LABEL": "Folder Name",
+    "FOLDER_QUERY_LABEL": "Folder Query",
+    "EMPTY_VALUE_ERROR": "โปรดระบุค่า.",
+    "TOOLTIP_LABEL": "กรองการสนทนา",
+    "QUERY_DROPDOWN_LABELS": {
+      "AND": "และ",
+      "OR": "หรือ"
+    },
+    "INPUT_PLACEHOLDER": "Enter value",
+    "OPERATOR_LABELS": {
+      "equal_to": "เท่ากับ",
+      "not_equal_to": "ไม่เท่ากับ",
+      "does_not_contain": "ไม่มี",
+      "is_present": "ที่แสดง",
+      "is_not_present": "ไม่แสดงอยู่",
+      "is_greater_than": "หลังจาก",
+      "is_less_than": "ก่อนหน้า",
+      "days_before": "x วันก่อน",
+      "starts_with": "Starts with",
+      "equalTo": "เท่ากับ",
+      "notEqualTo": "ไม่เท่ากับ",
+      "contains": "มี",
+      "doesNotContain": "ไม่มี",
+      "isPresent": "ที่แสดง",
+      "isNotPresent": "ไม่แสดงอยู่",
+      "isGreaterThan": "หลังจาก",
+      "isLessThan": "ก่อนหน้า",
+      "daysBefore": "x วันก่อน",
+      "startsWith": "Starts with"
+    },
+    "ATTRIBUTE_LABELS": {
+      "TRUE": "จริง",
+      "FALSE": "เท็จ"
+    },
+    "ATTRIBUTES": {
+      "STATUS": "สถานะ",
+      "ASSIGNEE_NAME": "Assignee name",
+      "INBOX_NAME": "Inbox name",
+      "TEAM_NAME": "ชื่อทีม",
+      "CONVERSATION_IDENTIFIER": "Conversation identifier",
+      "CAMPAIGN_NAME": "Campaign name",
+      "LABELS": "ป้ายกำกับ",
+      "BROWSER_LANGUAGE": "Browser language",
+      "PRIORITY": "Priority",
+      "COUNTRY_NAME": "Country name",
+      "REFERER_LINK": "ลิงก์อ้างอิง",
+      "CUSTOM_ATTRIBUTE_LIST": "รายการ",
+      "CUSTOM_ATTRIBUTE_TEXT": "ข้อความ",
+      "CUSTOM_ATTRIBUTE_NUMBER": "ตัวเลข",
+      "CUSTOM_ATTRIBUTE_LINK": "ลิงก์",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "ช่องทำเครื่องหมาย",
+      "CREATED_AT": "สร้างเมื่อ",
+      "LAST_ACTIVITY": "Last activity"
+    },
+    "ERRORS": {
+      "VALUE_REQUIRED": "โปรดระบุค่า",
+      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
+      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998"
+    },
+    "GROUPS": {
+      "STANDARD_FILTERS": "Standard filters",
+      "ADDITIONAL_FILTERS": "Additional filters",
+      "CUSTOM_ATTRIBUTES": "Custom attributes"
+    },
+    "CUSTOM_VIEWS": {
+      "ADD": {
+        "TITLE": "ต้องการบันทึกตัวกรองนี้หรือไม่?",
+        "LABEL": "ตั้งชื่อตัวกรอง",
+        "PLACEHOLDER": "Name your filter to refer it later.",
+        "ERROR_MESSAGE": "โปรดระบุชื่อ.",
+        "SAVE_BUTTON": "บันทึกตัวกรอง",
+        "CANCEL_BUTTON": "ยกเลิก",
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "สร้างโฟลเดอร์สำเร็จแล้ว.",
+          "ERROR_MESSAGE": "Error while creating folder."
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "สร้างกลุ่มตามตัวกรองสำเร็จแล้ว.",
+          "ERROR_MESSAGE": "มีปัญหาระหว่างสร้างกลุ่มตามตัวกรอง."
+        }
+      },
+      "EDIT": {
+        "EDIT_BUTTON": "Edit folder"
+      },
+      "DELETE": {
+        "DELETE_BUTTON": "ลบตัวกรอง",
+        "MODAL": {
+          "CONFIRM": {
+            "TITLE": "ยืนยันการลบ",
+            "MESSAGE": "คุณต้องการลบตัวกรองหรือไม่? ",
+            "YES": "Yes, delete",
+            "NO": "No, keep it"
+          }
+        },
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "ลบโฟลเดอร์สำเร็จแล้ว.",
+          "ERROR_MESSAGE": "Error while deleting folder."
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "ลบกลุ่มตามตัวกรองสำเร็จแล้ว.",
+          "ERROR_MESSAGE": "มีปัญหาระหว่างลบกลุ่มตามตัวกรอง."
+        }
+      }
+    }
+  }
+}

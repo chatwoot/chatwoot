@@ -1,0 +1,68 @@
+{
+  "SEARCH": {
+    "TABS": {
+      "ALL": "All results",
+      "CONTACTS": "Contactos",
+      "CONVERSATIONS": "Conversaciones",
+      "MESSAGES": "Mensajes",
+      "ARTICLES": "Artículos"
+    },
+    "SECTION": {
+      "CONTACTS": "Contactos",
+      "CONVERSATIONS": "Conversaciones",
+      "MESSAGES": "Mensajes",
+      "ARTICLES": "Artículos"
+    },
+    "VIEW_MORE": "Ver más",
+    "LOAD_MORE": "Cargar más",
+    "SEARCHING_DATA": "Buscando",
+    "LOADING_DATA": "Cargando",
+    "EMPTY_STATE": "Ningún {item} encontrado para la consulta '{query}'",
+    "EMPTY_STATE_FULL": "No se han encontrado resultados para la consulta '{query}'",
+    "PLACEHOLDER_KEYBINDING": "/para enfocar",
+    "INPUT_PLACEHOLDER": "Buscar mensajes, contactos o conversaciones",
+    "RECENT_SEARCHES": "Recent searches",
+    "CLEAR_ALL": "Limpiar todo",
+    "MOST_RECENT": "Most recent",
+    "EMPTY_STATE_DEFAULT": "Buscar por Id de conversación, correo electrónico, número de teléfono, mensajes para mejores resultados de búsqueda.",
+    "BOT_LABEL": "Bot",
+    "READ_MORE": "Leer más",
+    "READ_LESS": "Read less",
+    "WROTE": "escribió:",
+    "FROM": "Desde",
+    "EMAIL": "E-mail",
+    "EMAIL_SUBJECT": "Asunto",
+    "PRIVATE": "Private note",
+    "TRANSCRIPT": "Transcript",
+    "CREATED_AT": "creado {time}",
+    "UPDATED_AT": "updated {time}",
+    "SORT_BY": {
+      "RELEVANCE": "Relevance"
+    },
+    "DATE_RANGE": {
+      "LAST_7_DAYS": "Últimos 7 días",
+      "LAST_30_DAYS": "Últimos 30 días",
+      "LAST_60_DAYS": "Últimos 60 días",
+      "LAST_90_DAYS": "Últimos 90 días",
+      "CUSTOM_RANGE": "Custom range:",
+      "CREATED_BETWEEN": "Created between",
+      "AND": "y",
+      "APPLY": "Aplicar",
+      "BEFORE_DATE": "Before {date}",
+      "AFTER_DATE": "After {date}",
+      "TIME_RANGE": "Filter by time",
+      "CLEAR_FILTER": "Limpiar filtros"
+    },
+    "FILTERS": {
+      "FILTER_MESSAGE": "Filter messages by:",
+      "FROM": "Remitente",
+      "IN": "Bandeja de entrada",
+      "AGENTS": "Agentes",
+      "CONTACTS": "Contactos",
+      "INBOXES": "Entradas",
+      "NO_AGENTS": "No se encontraron agentes",
+      "NO_CONTACTS": "Start by searching to see results",
+      "NO_INBOXES": "No inboxes found"
+    }
+  }
+}

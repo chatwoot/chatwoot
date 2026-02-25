@@ -1,0 +1,582 @@
+{
+  "REPORT": {
+    "HEADER": "会話データ",
+    "LOADING_CHART": "グラフデータを読み込んでいます...",
+    "NO_ENOUGH_DATA": "レポートを生成するための十分なデータポイントを受信していません。後でもう一度お試しください。",
+    "DOWNLOAD_AGENT_REPORTS": "担当者レポートをダウンロード",
+    "DATA_FETCHING_FAILED": "データの取得に失敗しました。後でもう一度お試しください。",
+    "SUMMARY_FETCHING_FAILED": "サマリーの取得に失敗しました。後でもう一度お試しください。",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "会話データ",
+        "DESC": "(合計)"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "受信メッセージ",
+        "DESC": "(合計)"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "送信メッセージ",
+        "DESC": "(合計)"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "初回応答時間",
+        "DESC": "(平均)",
+        "INFO_TEXT": "計算に使用された会話の総数:",
+        "TOOLTIP_TEXT": "初回応答時間は{metricValue}（{conversationCount}件の会話に基づく）"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "処理時間",
+        "DESC": "(平均)",
+        "INFO_TEXT": "計算に使用された会話の総数:",
+        "TOOLTIP_TEXT": "処理時間は{metricValue}（{conversationCount}件の会話に基づく）"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "処理件数",
+        "DESC": "(合計)"
+      },
+      "BOT_RESOLUTION_COUNT": {
+        "NAME": "処理件数",
+        "DESC": "(合計)"
+      },
+      "BOT_HANDOFF_COUNT": {
+        "NAME": "引き継ぎ件数",
+        "DESC": "(合計)"
+      },
+      "REPLY_TIME": {
+        "NAME": "顧客の待機時間",
+        "TOOLTIP_TEXT": "待機時間は{metricValue}（{conversationCount}件の返信に基づく）",
+        "DESC": ""
+      }
+    },
+    "DATE_RANGE_OPTIONS": {
+      "LAST_7_DAYS": "過去 7 日間",
+      "LAST_14_DAYS": "過去 14 日間",
+      "LAST_30_DAYS": "過去 30 日間",
+      "THIS_MONTH": "This month",
+      "LAST_MONTH": "Last month",
+      "LAST_3_MONTHS": "過去 3 ヶ月",
+      "LAST_6_MONTHS": "過去 6 ヶ月",
+      "LAST_YEAR": "過去 1 年",
+      "CUSTOM_DATE_RANGE": "カスタム日付範囲"
+    },
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "適用",
+      "PLACEHOLDER": "日付範囲を選択"
+    },
+    "GROUP_BY_FILTER_DROPDOWN_LABEL": "グループ化",
+    "DURATION_FILTER_LABEL": "期間",
+    "GROUPING_OPTIONS": {
+      "DAY": "日",
+      "WEEK": "週",
+      "MONTH": "月",
+      "YEAR": "年"
+    },
+    "GROUP_BY_DAY_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "日"
+      }
+    ],
+    "GROUP_BY_WEEK_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "日"
+      },
+      {
+        "id": 2,
+        "groupBy": "週"
+      }
+    ],
+    "GROUP_BY_MONTH_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "日"
+      },
+      {
+        "id": 2,
+        "groupBy": "週"
+      },
+      {
+        "id": 3,
+        "groupBy": "月"
+      }
+    ],
+    "GROUP_BY_YEAR_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "週"
+      },
+      {
+        "id": 2,
+        "groupBy": "月"
+      },
+      {
+        "id": 3,
+        "groupBy": "年"
+      }
+    ],
+    "BUSINESS_HOURS": "営業時間",
+    "FILTER_ACTIONS": {
+      "CLEAR_FILTER": "フィルターをクリア",
+      "EMPTY_LIST": "結果が見つかりません"
+    },
+    "PAGINATION": {
+      "RESULTS": "{start}件から{end}件まで表示中（全{total}件）",
+      "PER_PAGE_TEMPLATE": "{size} / page"
+    }
+  },
+  "AGENT_REPORTS": {
+    "HEADER": "担当者概要",
+    "DESCRIPTION": "会話、応答時間、解決までの時間、解決済み案件などの主要な指標で担当者のパフォーマンスを簡単に追跡できます。詳細は担当者名をクリックしてください。",
+    "LOADING_CHART": "グラフデータを読み込んでいます...",
+    "NO_ENOUGH_DATA": "レポートを生成するための十分なデータポイントを受信していません。後でもう一度お試しください。",
+    "DOWNLOAD_AGENT_REPORTS": "担当者レポートをダウンロード",
+    "FILTER_DROPDOWN_LABEL": "担当者を選択",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "会話データ",
+        "DESC": "(合計)"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "受信メッセージ",
+        "DESC": "(合計)"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "送信メッセージ",
+        "DESC": "(合計)"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "初回応答時間",
+        "DESC": "(平均)",
+        "INFO_TEXT": "計算に使用された会話の総数:",
+        "TOOLTIP_TEXT": "初回応答時間は{metricValue}（{conversationCount}件の会話に基づく）"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "処理時間",
+        "DESC": "(平均)",
+        "INFO_TEXT": "計算に使用された会話の総数:",
+        "TOOLTIP_TEXT": "処理時間は{metricValue}（{conversationCount}件の会話に基づく）"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "処理件数",
+        "DESC": "(合計)"
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 2,
+        "name": "過去3か月"
+      },
+      {
+        "id": 3,
+        "name": "過去6か月"
+      },
+      {
+        "id": 4,
+        "name": "過去 3 ヶ月"
+      },
+      {
+        "id": 5,
+        "name": "過去 6 ヶ月"
+      },
+      {
+        "id": 4,
+        "name": "過去1年"
+      },
+      {
+        "id": 5,
+        "name": "カスタム日付範囲"
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "適用",
+      "PLACEHOLDER": "日付範囲を選択"
+    }
+  },
+  "LABEL_REPORTS": {
+    "HEADER": "過去 1 年",
+    "DESCRIPTION": "Track label performance with key metrics including conversations, response times, resolution times, and resolved cases. Click a label name for detailed insights.",
+    "LOADING_CHART": "グラフデータを読み込んでいます...",
+    "NO_ENOUGH_DATA": "レポートを生成するための十分なデータポイントを受信していません。後でもう一度お試しください。",
+    "DOWNLOAD_LABEL_REPORTS": "ラベルレポートをダウンロード",
+    "FILTER_DROPDOWN_LABEL": "ラベルを選択",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "会話データ",
+        "DESC": "(合計)"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "受信メッセージ",
+        "DESC": "(合計)"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "送信メッセージ",
+        "DESC": "(合計)"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "初回応答時間",
+        "DESC": "(平均)",
+        "INFO_TEXT": "計算に使用された会話の総数:",
+        "TOOLTIP_TEXT": "初回応答時間は{metricValue}（{conversationCount}件の会話に基づく）"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "処理時間",
+        "DESC": "(平均)",
+        "INFO_TEXT": "計算に使用された会話の総数:",
+        "TOOLTIP_TEXT": "処理時間は{metricValue}（{conversationCount}件の会話に基づく）"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "処理件数",
+        "DESC": "(合計)"
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "過去 7 日間"
+      },
+      {
+        "id": 1,
+        "name": "過去 30 日間"
+      },
+      {
+        "id": 2,
+        "name": "過去 3 ヶ月"
+      },
+      {
+        "id": 3,
+        "name": "過去 6 ヶ月"
+      },
+      {
+        "id": 4,
+        "name": "過去1年"
+      },
+      {
+        "id": 5,
+        "name": "カスタム日付範囲"
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "適用",
+      "PLACEHOLDER": "日付範囲を選択"
+    }
+  },
+  "INBOX_REPORTS": {
+    "HEADER": "受信トレイ概要",
+    "DESCRIPTION": "会話、応答時間、解決までの時間、解決済み案件などの主要な指標を使用して、受信トレイのパフォーマンスをすばやく確認できます。 詳細については、受信トレイ名をクリックしてください。",
+    "LOADING_CHART": "グラフデータを読み込んでいます...",
+    "NO_ENOUGH_DATA": "レポートを生成するための十分なデータポイントを受信していません。後でもう一度お試しください。",
+    "DOWNLOAD_INBOX_REPORTS": "受信トレイレポートをダウンロード",
+    "FILTER_DROPDOWN_LABEL": "受信トレイを選択",
+    "ALL_INBOXES": "All Inboxes",
+    "SEARCH_INBOX": "Search Inbox",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "会話データ",
+        "DESC": "(合計)"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "受信メッセージ",
+        "DESC": "(合計)"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "送信メッセージ",
+        "DESC": "(合計)"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "初回応答時間",
+        "DESC": "(平均)",
+        "INFO_TEXT": "計算に使用された会話の総数:",
+        "TOOLTIP_TEXT": "初回応答時間は{metricValue}（{conversationCount}件の会話に基づく）"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "処理時間",
+        "DESC": "(平均)",
+        "INFO_TEXT": "計算に使用された会話の総数:",
+        "TOOLTIP_TEXT": "処理時間は{metricValue}（{conversationCount}件の会話に基づく）"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "処理件数",
+        "DESC": "(合計)"
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "過去 7 日間"
+      },
+      {
+        "id": 1,
+        "name": "過去 30 日間"
+      },
+      {
+        "id": 2,
+        "name": "過去 3 ヶ月"
+      },
+      {
+        "id": 3,
+        "name": "過去 6 ヶ月"
+      },
+      {
+        "id": 4,
+        "name": "過去1年"
+      },
+      {
+        "id": 5,
+        "name": "カスタム日付範囲"
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "適用",
+      "PLACEHOLDER": "日付範囲を選択"
+    }
+  },
+  "TEAM_REPORTS": {
+    "HEADER": "チーム概要",
+    "DESCRIPTION": "会話、応答時間、解決までの時間、解決済み案件などの重要な指標でチームのパフォーマンスのスナップショットを取得します。 詳細はチーム名をクリックしてください。",
+    "LOADING_CHART": "グラフデータを読み込んでいます...",
+    "NO_ENOUGH_DATA": "レポートを生成するための十分なデータポイントを受信していません。後でもう一度お試しください。",
+    "DOWNLOAD_TEAM_REPORTS": "チームレポートをダウンロード",
+    "FILTER_DROPDOWN_LABEL": "チームを選択",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "会話データ",
+        "DESC": "(合計)"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "受信メッセージ",
+        "DESC": "(合計)"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "送信メッセージ",
+        "DESC": "(合計)"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "初回応答時間",
+        "DESC": "(平均)",
+        "INFO_TEXT": "計算に使用された会話の総数:",
+        "TOOLTIP_TEXT": "初回応答時間は{metricValue}（{conversationCount}件の会話に基づく）"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "処理時間",
+        "DESC": "(平均)",
+        "INFO_TEXT": "計算に使用された会話の総数:",
+        "TOOLTIP_TEXT": "処理時間は{metricValue}（{conversationCount}件の会話に基づく）"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "処理件数",
+        "DESC": "(合計)"
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "過去 7 日間"
+      },
+      {
+        "id": 1,
+        "name": "過去 30 日間"
+      },
+      {
+        "id": 2,
+        "name": "過去 3 ヶ月"
+      },
+      {
+        "id": 3,
+        "name": "過去 6 ヶ月"
+      },
+      {
+        "id": 4,
+        "name": "過去 1 年"
+      },
+      {
+        "id": 5,
+        "name": "カスタム日付範囲"
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "適用",
+      "PLACEHOLDER": "日付範囲を選択"
+    }
+  },
+  "CSAT_REPORTS": {
+    "HEADER": "CSATレポート",
+    "NO_RECORDS": "CSATアンケートの回答はありません。",
+    "DOWNLOAD": "CSATレポートをダウンロード",
+    "DOWNLOAD_FAILED": "CSATレポートのダウンロードに失敗しました",
+    "FILTERS": {
+      "AGENTS": {
+        "PLACEHOLDER": "担当者を選択"
+      }
+    },
+    "TABLE": {
+      "HEADER": {
+        "CONTACT_NAME": "連絡先",
+        "AGENT_NAME": "担当者",
+        "RATING": "評価",
+        "FEEDBACK_TEXT": "フィードバックコメント"
+      }
+    },
+    "METRIC": {
+      "TOTAL_RESPONSES": {
+        "LABEL": "総回答数",
+        "TOOLTIP": "収集された回答の総数"
+      },
+      "SATISFACTION_SCORE": {
+        "LABEL": "満足度スコア",
+        "TOOLTIP": "ポジティブな回答数 / 総回答数 × 100"
+      },
+      "RESPONSE_RATE": {
+        "LABEL": "回答率",
+        "TOOLTIP": "回答数 / 送信されたCSATアンケートメッセージ数 × 100"
+      }
+    }
+  },
+  "BOT_REPORTS": {
+    "HEADER": "BOTレポート",
+    "METRIC": {
+      "TOTAL_CONVERSATIONS": {
+        "LABEL": "会話数",
+        "TOOLTIP": "ボットが処理した会話の総数"
+      },
+      "TOTAL_RESPONSES": {
+        "LABEL": "総返信数",
+        "TOOLTIP": "ボットが送信した返信の総数"
+      },
+      "RESOLUTION_RATE": {
+        "LABEL": "解決率",
+        "TOOLTIP": "ボットが解決した会話数 / ボットが処理した会話数 × 100"
+      },
+      "HANDOFF_RATE": {
+        "LABEL": "引き継ぎ率",
+        "TOOLTIP": "エージェントに引き継がれた会話数 / ボットが処理した会話数 × 100"
+      }
+    }
+  },
+  "OVERVIEW_REPORTS": {
+    "HEADER": "概要",
+    "LIVE": "Live",
+    "ACCOUNT_CONVERSATIONS": {
+      "HEADER": "未解決の会話",
+      "LOADING_MESSAGE": "会話のメトリクスを読み込んでいます...",
+      "OPEN": "未解決",
+      "UNATTENDED": "未対応",
+      "UNASSIGNED": "未割当",
+      "PENDING": "保留中"
+    },
+    "CONVERSATION_HEATMAP": {
+      "HEADER": "会話の流量",
+      "NO_CONVERSATIONS": "会話がありません",
+      "CONVERSATION": "{count}件の会話",
+      "CONVERSATIONS": "{count}件の会話",
+      "DOWNLOAD_REPORT": "レポートをダウンロード"
+    },
+    "RESOLUTION_HEATMAP": {
+      "HEADER": "Resolutions",
+      "NO_CONVERSATIONS": "会話がありません",
+      "CONVERSATION": "{count}件の会話",
+      "CONVERSATIONS": "{count}件の会話",
+      "DOWNLOAD_REPORT": "レポートをダウンロード"
+    },
+    "AGENT_CONVERSATIONS": {
+      "HEADER": "担当者ごとの会話",
+      "LOADING_MESSAGE": "担当者メトリクスを読み込んでいます...",
+      "NO_AGENTS": "担当者による会話はありません",
+      "TABLE_HEADER": {
+        "AGENT": "担当者",
+        "OPEN": "未解決",
+        "UNATTENDED": "未対応",
+        "STATUS": "状況"
+      }
+    },
+    "TEAM_CONVERSATIONS": {
+      "ALL_TEAMS": "All Teams",
+      "HEADER": "Conversations by teams",
+      "LOADING_MESSAGE": "Loading team metrics...",
+      "NO_TEAMS": "There is no data available",
+      "TABLE_HEADER": {
+        "TEAM": "チーム",
+        "OPEN": "再開する",
+        "UNATTENDED": "未対応",
+        "STATUS": "状況"
+      }
+    },
+    "AGENT_STATUS": {
+      "HEADER": "担当者ステータス",
+      "ONLINE": "オンライン",
+      "BUSY": "取り込み中",
+      "OFFLINE": "オフライン"
+    }
+  },
+  "DAYS_OF_WEEK": {
+    "SUNDAY": "日",
+    "MONDAY": "月",
+    "TUESDAY": "火",
+    "WEDNESDAY": "水",
+    "THURSDAY": "木",
+    "FRIDAY": "金",
+    "SATURDAY": "土"
+  },
+  "SLA_REPORTS": {
+    "HEADER": "SLAレポート",
+    "NO_RECORDS": "SLAが適用された会話はありません。",
+    "LOADING": "SLAデータを読み込んでいます...",
+    "DOWNLOAD_SLA_REPORTS": "SLAレポートをダウンロード",
+    "DOWNLOAD_FAILED": "SLAレポートのダウンロードに失敗しました",
+    "DROPDOWN": {
+      "ADD_FIlTER": "フィルターを追加",
+      "CLEAR_ALL": "すべてクリア",
+      "CLEAR_FILTER": "フィルターをクリア",
+      "EMPTY_LIST": "結果が見つかりません",
+      "NO_FILTER": "利用可能なフィルターがありません",
+      "SEARCH": "フィルターを検索",
+      "INPUT_PLACEHOLDER": {
+        "SLA": "SLA名",
+        "AGENTS": "担当者名",
+        "INBOXES": "受信トレイ名",
+        "LABELS": "ラベル名",
+        "TEAMS": "チーム名"
+      },
+      "SLA": "SLAポリシー",
+      "INBOXES": "受信トレイ",
+      "AGENTS": "担当者",
+      "LABELS": "ラベル",
+      "TEAMS": "チーム"
+    },
+    "WITH": "with",
+    "METRICS": {
+      "HIT_RATE": {
+        "LABEL": "達成率",
+        "TOOLTIP": "設定されたSLAのうち正常に完了した割合"
+      },
+      "NO_OF_MISSES": {
+        "LABEL": "未達成数",
+        "TOOLTIP": "指定期間内のSLA未達成件数"
+      },
+      "NO_OF_CONVERSATIONS": {
+        "LABEL": "会話数",
+        "TOOLTIP": "SLAが適用された会話の総数"
+      }
+    },
+    "TABLE": {
+      "HEADER": {
+        "POLICY": "ポリシー",
+        "CONVERSATION": "会話",
+        "AGENT": "担当者"
+      },
+      "VIEW_DETAILS": "詳細を表示"
+    }
+  },
+  "SUMMARY_REPORTS": {
+    "INBOX": "受信トレイ",
+    "AGENT": "担当者",
+    "TEAM": "チーム",
+    "LABEL": "ラベル",
+    "AVG_RESOLUTION_TIME": "解決までの平均時間",
+    "AVG_FIRST_RESPONSE_TIME": "初回応答の平均時間",
+    "AVG_REPLY_TIME": "お客様の平均待ち時間",
+    "RESOLUTION_COUNT": "処理件数",
+    "CONVERSATIONS": "会話数"
+  }
+}

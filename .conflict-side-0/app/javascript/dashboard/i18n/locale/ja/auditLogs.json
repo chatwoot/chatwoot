@@ -1,0 +1,77 @@
+{
+  "AUDIT_LOGS": {
+    "HEADER": "監査ログ",
+    "HEADER_BTN_TXT": "監査ログを追加",
+    "LOADING": "監査ログを取得中",
+    "DESCRIPTION": "監査ログはアカウント内の活動の記録を保持し、アカウント、チーム、またはサービスを追跡して監査することを可能にします。",
+    "LEARN_MORE": "監査ログについて学ぶ",
+    "SEARCH_404": "検索内容（クエリ）に一致する項目はありませんでした",
+    "SIDEBAR_TXT": "<p><b>監査ログ</b> </p><p>監査ログは、Chatwootシステム内でのイベントやアクションの履歴を示します。</p>",
+    "LIST": {
+      "404": "このアカウントに利用可能な監査ログはありません。",
+      "TITLE": "監査ログを管理する",
+      "DESC": "監査ログは、Chatwootシステム内でのイベントやアクションの履歴を示します。",
+      "TABLE_HEADER": {
+        "ACTIVITY": "ユーザー",
+        "TIME": "アクション",
+        "IP_ADDRESS": "IPアドレス"
+      }
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "監査ログが正常に取得されました",
+      "ERROR_MESSAGE": "Wootサーバーに接続できませんでした。後でもう一度お試しください。"
+    },
+    "DEFAULT_USER": "システム",
+    "AUTOMATION_RULE": {
+      "ADD": "{agentName} が新しい自動化ルール (#{id}) を作成しました",
+      "EDIT": "{agentName} が自動化ルール (#{id}) を更新しました",
+      "DELETE": "{agentName} が自動化ルール (#{id}) を削除しました"
+    },
+    "ACCOUNT_USER": {
+      "ADD": "{agentName} が {invitee} をアカウントに {role} として招待しました",
+      "EDIT": {
+        "SELF": "{agentName} が自分の {attributes} を {values} に変更しました",
+        "OTHER": "{agentName} が {user} の {attributes} を {values} に変更しました",
+        "DELETED": "{agentName} が削除されたユーザーの {attributes} を {values} に変更しました"
+      }
+    },
+    "INBOX": {
+      "ADD": "{agentName} が新しい受信トレイ (#{id}) を作成しました",
+      "EDIT": "{agentName} が受信トレイ (#{id}) を更新しました",
+      "DELETE": "{agentName} が受信トレイ (#{id}) を削除しました"
+    },
+    "WEBHOOK": {
+      "ADD": "{agentName} が新しいWebhook (#{id}) を作成しました",
+      "EDIT": "{agentName} がWebhook (#{id}) を更新しました",
+      "DELETE": "{agentName} がWebhook (#{id}) を削除しました"
+    },
+    "USER_ACTION": {
+      "SIGN_IN": "{agentName} がサインインしました",
+      "SIGN_OUT": "{agentName} がサインアウトしました"
+    },
+    "TEAM": {
+      "ADD": "{agentName} が新しいチーム (#{id}) を作成しました",
+      "EDIT": "{agentName} がチーム (#{id}) を更新しました",
+      "DELETE": "{agentName} がチーム (#{id}) を削除しました"
+    },
+    "MACRO": {
+      "ADD": "{agentName} が新しいマクロ (#{id}) を作成しました",
+      "EDIT": "{agentName} がマクロ (#{id}) を更新しました",
+      "DELETE": "{agentName} がマクロ (#{id}) を削除しました"
+    },
+    "INBOX_MEMBER": {
+      "ADD": "{agentName} が {user} を受信トレイ (#{inbox_id}) に追加しました",
+      "REMOVE": "{agentName} が {user} を受信トレイ (#{inbox_id}) から削除しました"
+    },
+    "TEAM_MEMBER": {
+      "ADD": "{agentName} が {user} をチーム (#{team_id}) に追加しました",
+      "REMOVE": "{agentName} が {user} をチーム (#{team_id}) から削除しました"
+    },
+    "ACCOUNT": {
+      "EDIT": "{agentName} がアカウント設定 (#{id}) を更新しました"
+    },
+    "CONVERSATION": {
+      "DELETE": "{agentName} deleted conversation #{id}"
+    }
+  }
+}

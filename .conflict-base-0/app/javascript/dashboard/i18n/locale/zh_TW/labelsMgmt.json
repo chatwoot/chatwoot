@@ -1,0 +1,85 @@
+{
+  "LABEL_MGMT": {
+    "HEADER": "標籤",
+    "HEADER_BTN_TXT": "新增標籤",
+    "LOADING": "正在獲取標籤",
+    "DESCRIPTION": "Labels help you categorize and prioritize conversations and leads. You can assign a label to a conversation or contact using the side panel.",
+    "LEARN_MORE": "Learn more about labels",
+    "SEARCH_404": "没有任何項目符合此查詢",
+    "LIST": {
+      "404": "此帳戶中没有可用的標籤。",
+      "TITLE": "管理標籤",
+      "DESC": "標記可以讓您將對話集中起來。",
+      "TABLE_HEADER": {
+        "NAME": "姓名",
+        "DESCRIPTION": "描述資訊",
+        "COLOR": "顏色"
+      }
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "標籤名稱",
+        "PLACEHOLDER": "標籤名稱",
+        "REQUIRED_ERROR": "Label name is required",
+        "MINIMUM_LENGTH_ERROR": "Minimum length 2 is required",
+        "VALID_ERROR": "Only Alphabets, Numbers, Hyphen and Underscore are allowed"
+      },
+      "DESCRIPTION": {
+        "LABEL": "描述資訊",
+        "PLACEHOLDER": "標籤描述"
+      },
+      "COLOR": {
+        "LABEL": "顏色"
+      },
+      "SHOW_ON_SIDEBAR": {
+        "LABEL": "在側邊欄顯示標籤"
+      },
+      "EDIT": "編輯",
+      "CREATE": "建立",
+      "DELETE": "刪除",
+      "CANCEL": "取消操作"
+    },
+    "SUGGESTIONS": {
+      "TOOLTIP": {
+        "SINGLE_SUGGESTION": "Add label to conversation",
+        "MULTIPLE_SUGGESTION": "Select this label",
+        "DESELECT": "Deselect label",
+        "DISMISS": "Dismiss suggestion"
+      },
+      "POWERED_BY": "Chatwoot AI",
+      "DISMISS": "Dismiss",
+      "ADD_SELECTED_LABELS": "Add selected labels",
+      "ADD_SELECTED_LABEL": "Add selected label",
+      "ADD_ALL_LABELS": "Add all labels",
+      "SUGGESTED_LABELS": "Suggested labels"
+    },
+    "ADD": {
+      "TITLE": "新增標籤",
+      "DESC": "標記可以讓您將對話集中起來。",
+      "API": {
+        "SUCCESS_MESSAGE": "標籤新增成功",
+        "ERROR_MESSAGE": "出現錯誤，請重試"
+      }
+    },
+    "EDIT": {
+      "TITLE": "編輯標籤",
+      "API": {
+        "SUCCESS_MESSAGE": "標籤已成功更新",
+        "ERROR_MESSAGE": "出錯了，請重試"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "刪除",
+      "API": {
+        "SUCCESS_MESSAGE": "標籤已成功刪除",
+        "ERROR_MESSAGE": "出錯了，請重試"
+      },
+      "CONFIRM": {
+        "TITLE": "確認刪除",
+        "MESSAGE": "您確定要刪除吗？ ",
+        "YES": "是，刪除 ",
+        "NO": "不，保留 "
+      }
+    }
+  }
+}

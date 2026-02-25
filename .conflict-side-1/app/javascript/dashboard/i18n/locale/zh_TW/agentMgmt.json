@@ -1,0 +1,124 @@
+{
+  "AGENT_MGMT": {
+    "HEADER": "客服",
+    "HEADER_BTN_TXT": "新增客服",
+    "LOADING": "正在取得客服列表",
+    "DESCRIPTION": "代理是客戶支援團隊的成員，可以查看和回覆用戶訊息。下面的清單顯示了您帳戶中的所有代理程式。",
+    "LEARN_MORE": "了解使用者角色",
+    "AGENT_TYPES": {
+      "ADMINISTRATOR": "管理員",
+      "AGENT": "客服"
+    },
+    "LIST": {
+      "404": "沒有與此帳號關聯的客服",
+      "TITLE": "管理您團隊中的客服",
+      "DESC": "你可以新增 / 移除客服到你的團隊",
+      "NAME": "姓名",
+      "EMAIL": "電子信箱",
+      "STATUS": "狀態",
+      "ACTIONS": "操作",
+      "VERIFIED": "已認證",
+      "VERIFICATION_PENDING": "待驗證",
+      "AVAILABLE_CUSTOM_ROLE": "可用的自定義角色權限"
+    },
+    "ADD": {
+      "TITLE": "新增客服到你的團隊",
+      "DESC": "您可以新增能夠支援您的收件匣的人",
+      "CANCEL_BUTTON_TEXT": "取消",
+      "FORM": {
+        "NAME": {
+          "LABEL": "客服姓名",
+          "PLACEHOLDER": "請輸客服名稱"
+        },
+        "AGENT_TYPE": {
+          "LABEL": "客服角色",
+          "PLACEHOLDER": "請選擇一個角色",
+          "ERROR": "客服角色為必填"
+        },
+        "EMAIL": {
+          "LABEL": "電子信箱地址",
+          "PLACEHOLDER": "請輸入客服的電子郵件"
+        },
+        "SUBMIT": "新增客服"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "成功新增客服",
+        "EXIST_MESSAGE": "該電子郵件已被註冊，請輸入新的電子郵件",
+        "ERROR_MESSAGE": "無法連接伺服器，請稍後再試"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "刪除",
+      "API": {
+        "SUCCESS_MESSAGE": "刪除客服成功",
+        "ERROR_MESSAGE": "無法連接伺服器，請稍後再試"
+      },
+      "CONFIRM": {
+        "TITLE": "確認刪除",
+        "MESSAGE": "您確定要刪除嗎？ ",
+        "YES": "是，刪除 ",
+        "NO": "不，保留 "
+      }
+    },
+    "EDIT": {
+      "TITLE": "編輯客服",
+      "FORM": {
+        "NAME": {
+          "LABEL": "客服姓名",
+          "PLACEHOLDER": "請輸入客服名稱"
+        },
+        "AGENT_TYPE": {
+          "LABEL": "角色",
+          "PLACEHOLDER": "請選擇一個角色",
+          "ERROR": "客服角色為必填"
+        },
+        "EMAIL": {
+          "LABEL": "電子信箱地址",
+          "PLACEHOLDER": "請輸入客服的電子郵件"
+        },
+        "AGENT_AVAILABILITY": {
+          "LABEL": "有效的",
+          "PLACEHOLDER": "請選擇可用狀態",
+          "ERROR": "Availability is required"
+        },
+        "SUBMIT": "編輯客服"
+      },
+      "BUTTON_TEXT": "編輯",
+      "CANCEL_BUTTON_TEXT": "取消",
+      "API": {
+        "SUCCESS_MESSAGE": "更新客服資訊成功",
+        "ERROR_MESSAGE": "無法連接伺服器，請稍後再試"
+      },
+      "PASSWORD_RESET": {
+        "ADMIN_RESET_BUTTON": "重置密碼",
+        "ADMIN_SUCCESS_MESSAGE": "一封包含重置密碼說明的電子郵件已發送給客服",
+        "SUCCESS_MESSAGE": "客服密碼重置成功",
+        "ERROR_MESSAGE": "無法連接 Chatwoot 伺服器，請稍後再試"
+      }
+    },
+    "SEARCH": {
+      "NO_RESULTS": "查無結果"
+    },
+    "MULTI_SELECTOR": {
+      "PLACEHOLDER": "無",
+      "TITLE": {
+        "AGENT": "選擇客服",
+        "TEAM": "選擇團隊"
+      },
+      "LIST": {
+        "NONE": "無"
+      },
+      "SEARCH": {
+        "NO_RESULTS": {
+          "AGENT": "查無客服",
+          "TEAM": "查無團隊"
+        },
+        "PLACEHOLDER": {
+          "AGENT": "搜尋客服",
+          "TEAM": "搜尋團隊",
+          "INPUT": "搜尋客服"
+        }
+      }
+    }
+  }
+}

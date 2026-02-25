@@ -1,0 +1,5 @@
+[Unit]
+Wants=chatwoot-web.1.service chatwoot-worker.1.service
+
+[Install]
+WantedBy=multi-user.target

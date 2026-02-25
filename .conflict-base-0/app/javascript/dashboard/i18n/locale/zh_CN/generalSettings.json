@@ -1,0 +1,251 @@
+{
+  "GENERAL_SETTINGS": {
+    "LIMIT_MESSAGES": {
+      "CONVERSATION": "您已经超过对话限制。黑客计划只允许500次对话。",
+      "INBOXES": "您已超过收件箱限制。Hacker 计划只支持网站在线聊天。其他收件箱如电子邮件、WhatsApp 等需要付费计划。",
+      "AGENTS": "您已超过席位限制。当前计划只允许 {allowedAgents} 个席位。",
+      "NON_ADMIN": "请联系您的管理员升级计划并继续使用所有功能。"
+    },
+    "TITLE": "帐户设置",
+    "SUBMIT": "更新设置",
+    "BACK": "后退",
+    "DISMISS": "取消",
+    "UPDATE": {
+      "ERROR": "无法更新设置，请重试！",
+      "SUCCESS": "已成功更新账户设置"
+    },
+    "ACCOUNT_DELETE_SECTION": {
+      "TITLE": "删除您的帐户",
+      "NOTE": "一旦您删除您的账户，您的所有数据将被删除。",
+      "BUTTON_TEXT": "删除您的账户",
+      "CONFIRM": {
+        "TITLE": "删除账户",
+        "MESSAGE": "删除您的账户是不可逆的。请在下面输入您的账户名称以确认您想要永久删除它。",
+        "BUTTON_TEXT": "删除",
+        "DISMISS": "取消",
+        "PLACE_HOLDER": "请输入 {accountName} 以确认"
+      },
+      "SUCCESS": "账户已标记为删除",
+      "FAILURE": "无法删除账户，请重试！",
+      "SCHEDULED_DELETION": {
+        "TITLE": "已计划删除的账户",
+        "MESSAGE_MANUAL": "此账户已计划在 {deletionDate} 删除。该操作由管理员请求。你可以在该日期前取消删除。",
+        "MESSAGE_INACTIVITY": "此账户由于不活跃已计划在 {deletionDate} 删除。你可以在该日期前取消删除。",
+        "CLEAR_BUTTON": "取消已计划的删除"
+      }
+    },
+    "FORM": {
+      "ERROR": "请修正表单错误",
+      "GENERAL_SECTION": {
+        "TITLE": "常规设置",
+        "NOTE": ""
+      },
+      "ACCOUNT_ID": {
+        "TITLE": "账号 ID",
+        "NOTE": "如果您正在构建基于 API 的集成，那么此 ID 是必需的"
+      },
+      "AUTO_RESOLVE": {
+        "TITLE": "自动解决对话",
+        "NOTE": "通过此项设置，系统可在对话静默一段时间后自动将其解决。",
+        "DURATION": {
+          "LABEL": "无活动持续时间",
+          "HELP": "在无活动后自动结束对话的时间段",
+          "PLACEHOLDER": "30",
+          "ERROR": "自动解决时长应在 10 分钟到 999 天之间",
+          "API": {
+            "SUCCESS": "自动解决设置已成功更新",
+            "ERROR": "更新自动解决设置失败"
+          }
+        },
+        "MESSAGE": {
+          "LABEL": "自定义自动解决消息",
+          "PLACEHOLDER": "由于闲置 15 天，对话被系统标记已解决",
+          "HELP": "会话自动解决之后发送给客户的消息"
+        },
+        "PREFERENCES": "偏好设置",
+        "LABEL": {
+          "LABEL": "自动解决后添加标签",
+          "PLACEHOLDER": "选择一个标签"
+        },
+        "IGNORE_WAITING": {
+          "LABEL": "跳过等待客服回复的会话"
+        },
+        "UPDATE_BUTTON": "保存修改"
+      },
+      "NAME": {
+        "LABEL": "帐户名称",
+        "PLACEHOLDER": "您的帐户名称",
+        "ERROR": "请输入有效的帐户名称"
+      },
+      "LANGUAGE": {
+        "LABEL": "站点语言",
+        "PLACEHOLDER": "您的帐户名称",
+        "ERROR": ""
+      },
+      "DOMAIN": {
+        "LABEL": "接收电子邮件的域名",
+        "PLACEHOLDER": "接收邮件的域名",
+        "ERROR": ""
+      },
+      "SUPPORT_EMAIL": {
+        "LABEL": "支持邮件",
+        "PLACEHOLDER": "您公司的支持邮件",
+        "ERROR": ""
+      },
+      "AUTO_RESOLVE_IGNORE_WAITING": {
+        "LABEL": "排除未参加的对话",
+        "HELP": "启用后，系统将跳过解决仍在等待客服回复的对话。"
+      },
+      "AUDIO_TRANSCRIPTION": {
+        "TITLE": "转录语音消息",
+        "NOTE": "自动转录对话中的语音消息。当发送或收到语音消息时生成转录的文本，并将其显示在消息旁边。",
+        "API": {
+          "SUCCESS": "语音转录设置更新成功",
+          "ERROR": "更新语音转录设置失败"
+        }
+      },
+      "AUTO_RESOLVE_DURATION": {
+        "LABEL": "自动解决前的无活动市场",
+        "HELP": "对话无活动时自动解决时长",
+        "PLACEHOLDER": "30",
+        "ERROR": "自动解决时长应在 10 分钟到 999 天之间",
+        "API": {
+          "SUCCESS": "自动解决设置已成功更新",
+          "ERROR": "更新自动解决设置失败"
+        },
+        "UPDATE_BUTTON": "更新",
+        "MESSAGE_LABEL": "自定义解决消息",
+        "MESSAGE_PLACEHOLDER": "由于闲置 15 天，对话被系统标记已解决",
+        "MESSAGE_HELP": "当系统因为不活动而自动解决某个对话时，此消息将发送给客户。"
+      },
+      "FEATURES": {
+        "INBOUND_EMAIL_ENABLED": "您的帐户启用了与电子邮件的对话连续性。",
+        "CUSTOM_EMAIL_DOMAIN_ENABLED": "您现在可以在您的自定义域名的电子邮件中接收消息。"
+      }
+    },
+    "UPDATE_CHATWOOT": "Chatwoot 有可用更新{latestChatwootVersion}，请更新您的应用。",
+    "LEARN_MORE": "了解更多",
+    "PAYMENT_PENDING": "您的付款尚未完成。请更新您的付款信息以继续使用Chatwoot",
+    "UPGRADE": "升级以继续使用 Chatwoot",
+    "LIMITS_UPGRADE": "您的账户已超过使用限制，请升级您的计划以继续使用Chatwoot",
+    "OPEN_BILLING": "查看计费"
+  },
+  "FORMS": {
+    "MULTISELECT": {
+      "ENTER_TO_SELECT": "按回车键选择",
+      "ENTER_TO_REMOVE": "按回车键删除",
+      "NO_OPTIONS": "列表为空",
+      "SELECT_ONE": "请选择一个",
+      "SELECT": "选择"
+    }
+  },
+  "NOTIFICATIONS_PAGE": {
+    "HEADER": "消息通知",
+    "MARK_ALL_DONE": "标记全部完成",
+    "DELETE_TITLE": "已删除",
+    "UNREAD_NOTIFICATION": {
+      "TITLE": "未读通知",
+      "ALL_NOTIFICATIONS": "查看所有通知",
+      "LOADING_UNREAD_MESSAGE": "正在加载未读通知...",
+      "EMPTY_MESSAGE": "您没有未读通知"
+    },
+    "LIST": {
+      "LOADING_MESSAGE": "正在加载通知...",
+      "404": "没有通知",
+      "TABLE_HEADER": [
+        "姓名：",
+        "电话号码",
+        "会话",
+        "上次联系"
+      ]
+    },
+    "TYPE_LABEL": {
+      "conversation_creation": "新建对话",
+      "conversation_assignment": "对话已分配",
+      "assigned_conversation_new_message": "新消息",
+      "participating_conversation_new_message": "新消息",
+      "conversation_mention": "提及",
+      "sla_missed_first_response": "未满足SLA要求",
+      "sla_missed_next_response": "未满足SLA要求",
+      "sla_missed_resolution": "未满足 SLA 要求"
+    }
+  },
+  "NETWORK": {
+    "NOTIFICATION": {
+      "OFFLINE": "离线的",
+      "RECONNECTING": "正在重连...",
+      "RECONNECT_SUCCESS": "已重新连接"
+    },
+    "BUTTON": {
+      "REFRESH": "刷新"
+    }
+  },
+  "COMMAND_BAR": {
+    "SEARCH_PLACEHOLDER": "搜索或跳转到",
+    "SECTIONS": {
+      "GENERAL": "一般",
+      "REPORTS": "报告",
+      "CONVERSATION": "会话",
+      "BULK_ACTIONS": "批量操作",
+      "CHANGE_ASSIGNEE": "更改分配",
+      "CHANGE_PRIORITY": "更改优先级",
+      "CHANGE_TEAM": "更改团队",
+      "SNOOZE_CONVERSATION": "推迟对话",
+      "ADD_LABEL": "为对话添加标签",
+      "REMOVE_LABEL": "从对话移除标签",
+      "SETTINGS": "设置",
+      "AI_ASSIST": "AI 助手",
+      "APPEARANCE": "外观",
+      "SNOOZE_NOTIFICATION": "推迟通知"
+    },
+    "COMMANDS": {
+      "GO_TO_CONVERSATION_DASHBOARD": "转到对话面板",
+      "GO_TO_CONTACTS_DASHBOARD": "转到联系人面板",
+      "GO_TO_REPORTS_OVERVIEW": "前往报告概览",
+      "GO_TO_CONVERSATION_REPORTS": "前往对话报告",
+      "GO_TO_AGENT_REPORTS": "前往客服代理报告",
+      "GO_TO_LABEL_REPORTS": "前往标签报告",
+      "GO_TO_INBOX_REPORTS": "前往收件箱报告",
+      "GO_TO_TEAM_REPORTS": "前往团队报告",
+      "GO_TO_SETTINGS_AGENTS": "前往客服代理设置",
+      "GO_TO_SETTINGS_TEAMS": "前往团队设置",
+      "GO_TO_SETTINGS_INBOXES": "前往收件箱设置",
+      "GO_TO_SETTINGS_LABELS": "前往标签设置",
+      "GO_TO_SETTINGS_CANNED_RESPONSES": "前往预设回复设置",
+      "GO_TO_SETTINGS_APPLICATIONS": "转到应用程序设置",
+      "GO_TO_SETTINGS_ACCOUNT": "前往帐户设置",
+      "GO_TO_SETTINGS_PROFILE": "前往个人资料设置",
+      "GO_TO_NOTIFICATIONS": "转到通知",
+      "ADD_LABELS_TO_CONVERSATION": "为对话添加标签",
+      "ASSIGN_AN_AGENT": "分配一位客服代表",
+      "AI_ASSIST": "AI 助手",
+      "ASSIGN_PRIORITY": "分配优先级",
+      "ASSIGN_A_TEAM": "分配一个团队",
+      "MUTE_CONVERSATION": "静音对话",
+      "UNMUTE_CONVERSATION": "取消静音对话",
+      "REMOVE_LABEL_FROM_CONVERSATION": "从对话移除标签",
+      "REOPEN_CONVERSATION": "重新打开会话",
+      "RESOLVE_CONVERSATION": "解决会话",
+      "SEND_TRANSCRIPT": "发送电子邮件副本",
+      "SNOOZE_CONVERSATION": "暂停对话",
+      "UNTIL_NEXT_REPLY": "直到下次回复",
+      "UNTIL_NEXT_WEEK": "直到下周",
+      "UNTIL_TOMORROW": "直到明天",
+      "UNTIL_NEXT_MONTH": "直到下个月",
+      "AN_HOUR_FROM_NOW": "从现在起一小时",
+      "UNTIL_CUSTOM_TIME": "自定义……",
+      "CHANGE_APPEARANCE": "更改外观",
+      "LIGHT_MODE": "浅色",
+      "DARK_MODE": "深色",
+      "SYSTEM_MODE": "系统",
+      "SNOOZE_NOTIFICATION": "推迟通知"
+    }
+  },
+  "DASHBOARD_APPS": {
+    "LOADING_MESSAGE": "正在加载仪表板应用..."
+  },
+  "COMMON": {
+    "OR": "或",
+    "CLICK_HERE": "点击这里"
+  }
+}

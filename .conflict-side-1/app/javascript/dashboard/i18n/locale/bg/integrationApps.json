@@ -1,0 +1,62 @@
+{
+  "INTEGRATION_APPS": {
+    "FETCHING": "Fetching Integrations",
+    "NO_HOOK_CONFIGURED": "There are no {integrationId} integrations configured in this account.",
+    "HEADER": "Applications",
+    "STATUS": {
+      "ENABLED": "Включен",
+      "DISABLED": "Изключен"
+    },
+    "CONFIGURE": "Настройка",
+    "ADD_BUTTON": "Add a new hook",
+    "DELETE": {
+      "TITLE": {
+        "INBOX": "Потвърди изтриването",
+        "ACCOUNT": "Прекъсване"
+      },
+      "MESSAGE": {
+        "INBOX": "Are you sure to delete?",
+        "ACCOUNT": "Are you sure to disconnect?"
+      },
+      "CONFIRM_BUTTON_TEXT": {
+        "INBOX": "Да, изтрий",
+        "ACCOUNT": "Да, прекъсни"
+      },
+      "CANCEL_BUTTON_TEXT": "Отмени",
+      "API": {
+        "SUCCESS_MESSAGE": "Успешно изтриване на куката",
+        "ERROR_MESSAGE": "Не можа да се свърже с Woot сървър. Моля, опитайте отново по-късно"
+      }
+    },
+    "LIST": {
+      "FETCHING": "Fetching integration hooks",
+      "INBOX": "Входяща кутия",
+      "DELETE": {
+        "BUTTON_TEXT": "Изтрий"
+      }
+    },
+    "ADD": {
+      "FORM": {
+        "INBOX": {
+          "LABEL": "Select Inbox",
+          "PLACEHOLDER": "Select Inbox"
+        },
+        "SUBMIT": "Създаване",
+        "CANCEL": "Отмени"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Integration hook added successfully",
+        "ERROR_MESSAGE": "Не можа да се свърже с Woot сървър. Моля, опитайте отново по-късно"
+      }
+    },
+    "CONNECT": {
+      "BUTTON_TEXT": "Connect"
+    },
+    "DISCONNECT": {
+      "BUTTON_TEXT": "Прекъсване"
+    },
+    "SIDEBAR_DESCRIPTION": {
+      "DIALOGFLOW": "Dialogflow is a natural language processing platform for building conversational interfaces. Integrating it with {installationName} lets bots handle queries first and transfer them to agents when needed. It helps qualify leads and reduce agent workload by answering FAQs. To add Dialogflow, create a Service Account in Google Console and share the credentials. Refer to the docs for details"
+    }
+  }
+}

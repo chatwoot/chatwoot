@@ -1,0 +1,62 @@
+{
+  "INTEGRATION_APPS": {
+    "FETCHING": "Integracijų gavimas",
+    "NO_HOOK_CONFIGURED": "Šioje paskyroje nesukonfigūruota jokių {integrationId} integracijų.",
+    "HEADER": "Programos",
+    "STATUS": {
+      "ENABLED": "Leisti",
+      "DISABLED": "Išjungta"
+    },
+    "CONFIGURE": "Konfigūruoti",
+    "ADD_BUTTON": "Pridėkite naują hook",
+    "DELETE": {
+      "TITLE": {
+        "INBOX": "Patvirtinti Ištrynimą",
+        "ACCOUNT": "Atsijungti"
+      },
+      "MESSAGE": {
+        "INBOX": "Ar tikrai norite ištrinti?",
+        "ACCOUNT": "Ar tikrai norite atsijungti?"
+      },
+      "CONFIRM_BUTTON_TEXT": {
+        "INBOX": "Taip, Ištrinti",
+        "ACCOUNT": "Taip, Atsijungti"
+      },
+      "CANCEL_BUTTON_TEXT": "Atšaukti",
+      "API": {
+        "SUCCESS_MESSAGE": "Webhook ištrintas sėkmingai",
+        "ERROR_MESSAGE": "Nepavyko prisijungti prie Woot serverio, bandykite dar kartą vėliau"
+      }
+    },
+    "LIST": {
+      "FETCHING": "Integravimo webhook gavimas",
+      "INBOX": "Gautų laiškų aplankas",
+      "DELETE": {
+        "BUTTON_TEXT": "Ištrinti"
+      }
+    },
+    "ADD": {
+      "FORM": {
+        "INBOX": {
+          "LABEL": "Pasirinkti gautų laiškų aplanką",
+          "PLACEHOLDER": "Pasirinkti gautų laiškų aplanką"
+        },
+        "SUBMIT": "Sukurti",
+        "CANCEL": "Atšaukti"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Integravimo kwebhook pridėtas sėkmingai",
+        "ERROR_MESSAGE": "Nepavyko prisijungti prie Woot serverio, bandykite dar kartą vėliau"
+      }
+    },
+    "CONNECT": {
+      "BUTTON_TEXT": "Sujungti"
+    },
+    "DISCONNECT": {
+      "BUTTON_TEXT": "Atsijungti"
+    },
+    "SIDEBAR_DESCRIPTION": {
+      "DIALOGFLOW": "Dialogflow is a natural language processing platform for building conversational interfaces. Integrating it with {installationName} lets bots handle queries first and transfer them to agents when needed. It helps qualify leads and reduce agent workload by answering FAQs. To add Dialogflow, create a Service Account in Google Console and share the credentials. Refer to the docs for details"
+    }
+  }
+}

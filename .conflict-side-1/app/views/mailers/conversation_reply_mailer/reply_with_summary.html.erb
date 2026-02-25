@@ -1,0 +1,32 @@
+<p>Hi <%= @contact.name %>,</p>
+
+<p>You have new messages on your conversation.</p>
+
+<% @messages.each do |message| %>
+  <tr>
+    <td>
+      <b><%= message.incoming? ? 'You' : message.sender&.available_name || message.sender&.name || 'Bot' %></b>
+    </td>
+  </tr>
+  <tr>
+    <td style="padding: 0px 16px; margin: 4px 0 8px 0; background: #F5FAFF; border-radius: 5px; display: inline-block; font-family: 'Helvetica Neue',Tahoma,Arial,sans-serif; text-align: start; unicode-bidi: plaintext;">
+      <% if (message.content_type == 'input_csat' && message.message_type == 'template') %>
+        <p>Click <a href="<%= message.conversation.csat_survey_link %>" _target="blank">here</a> to rate the conversation.</p>
+      <% elsif message.content.present? %>
+        <%= ChatwootMarkdownRenderer.new(message.content).render_message %>
+      <% end %>
+      <% if message.attachments.count.positive? %>
+        <p>
+          <% if message.content.present? %>
+            <hr style="border: 0; border-bottom: 1px solid #AEC3D5;"/>
+          <% end %>
+          Attachments:
+          <% message.attachments.each_with_index do |attachment, index| %>
+            <% if index > 0 %><br /><% end %>
+            <a href="<%= attachment.file_url %>" target="_blank"><%= attachment.file.filename.to_s %></a>
+          <% end %>
+        </p>
+      <% end %>
+    </td>
+  </tr>
+<% end %>

@@ -1,0 +1,124 @@
+{
+  "AGENT_MGMT": {
+    "HEADER": "Medewerkers",
+    "HEADER_BTN_TXT": "Medewerker toevoegen",
+    "LOADING": "Ophalen van medewerkerslijst",
+    "DESCRIPTION": "An agent is a member of your customer support team who can view and respond to user messages. The list below shows all the agents in your account.",
+    "LEARN_MORE": "Learn about user roles",
+    "AGENT_TYPES": {
+      "ADMINISTRATOR": "Beheerder",
+      "AGENT": "Medewerker"
+    },
+    "LIST": {
+      "404": "Er zijn geen medewerkers gekoppeld aan dit account",
+      "TITLE": "Beheer medewerkers in uw team",
+      "DESC": "U kunt medewerkers toevoegen aan/verwijderen uit uw team.",
+      "NAME": "Naam",
+      "EMAIL": "E-mailadres",
+      "STATUS": "Status",
+      "ACTIONS": "Acties",
+      "VERIFIED": "Geverifieerd",
+      "VERIFICATION_PENDING": "Verificatie in behandeling",
+      "AVAILABLE_CUSTOM_ROLE": "Available custom role permissions"
+    },
+    "ADD": {
+      "TITLE": "Voeg medewerker toe aan je team",
+      "DESC": "U kunt medewerkers toevoegen die de ondersteuning verzorgen voor berichten in uw inboxen.",
+      "CANCEL_BUTTON_TEXT": "Annuleren",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Naam medewerker",
+          "PLACEHOLDER": "Voer een naam in voor de medewerker"
+        },
+        "AGENT_TYPE": {
+          "LABEL": "Type medewerker",
+          "PLACEHOLDER": "Selecteer een type",
+          "ERROR": "Type medewerker is vereist"
+        },
+        "EMAIL": {
+          "LABEL": "Uw e-mailadres",
+          "PLACEHOLDER": "Voer een e-mailadres in van de medewerker"
+        },
+        "SUBMIT": "Medewerker toevoegen"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Medewerker succesvol toegevoegd",
+        "EXIST_MESSAGE": "E-mailadres van de medewerker is al in gebruik, probeer een ander e-mailadres",
+        "ERROR_MESSAGE": "Kan geen verbinding maken met Woot Server, probeer het later opnieuw"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Verwijderen",
+      "API": {
+        "SUCCESS_MESSAGE": "Medewerker succesvol verwijderd",
+        "ERROR_MESSAGE": "Kan geen verbinding maken met Woot Server, probeer het later opnieuw"
+      },
+      "CONFIRM": {
+        "TITLE": "Verwijderen bevestigen",
+        "MESSAGE": "Weet u zeker dat u wilt verwijderen ",
+        "YES": "Ja, verwijderen ",
+        "NO": "Nee, Behouden "
+      }
+    },
+    "EDIT": {
+      "TITLE": "Bewerk medewerker",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Naam medewerker",
+          "PLACEHOLDER": "Voer een naam in voor de medewerker"
+        },
+        "AGENT_TYPE": {
+          "LABEL": "Type medewerker",
+          "PLACEHOLDER": "Selecteer een type",
+          "ERROR": "Type medewerker is vereist"
+        },
+        "EMAIL": {
+          "LABEL": "Uw e-mailadres",
+          "PLACEHOLDER": "Voer een e-mailadres in van de medewerker"
+        },
+        "AGENT_AVAILABILITY": {
+          "LABEL": "Beschikbaarheid",
+          "PLACEHOLDER": "Selecteer een beschikbaarheidsstatus",
+          "ERROR": "Beschikbaarheid is vereist"
+        },
+        "SUBMIT": "Bewerk medewerker"
+      },
+      "BUTTON_TEXT": "Bewerken",
+      "CANCEL_BUTTON_TEXT": "Annuleren",
+      "API": {
+        "SUCCESS_MESSAGE": "Medewerker succesvol bijgewerkt",
+        "ERROR_MESSAGE": "Kan geen verbinding maken met Woot Server, probeer het later opnieuw"
+      },
+      "PASSWORD_RESET": {
+        "ADMIN_RESET_BUTTON": "Wachtwoord opnieuw instellen",
+        "ADMIN_SUCCESS_MESSAGE": "Een e-mail met instructies om het wachtwoord te resetten is verstuurd naar de medewerker",
+        "SUCCESS_MESSAGE": "Wachtwoord medewerker opnieuw instellen is geslaagd",
+        "ERROR_MESSAGE": "Kan geen verbinding maken met Woot Server, probeer het later opnieuw"
+      }
+    },
+    "SEARCH": {
+      "NO_RESULTS": "Geen resultaten gevonden."
+    },
+    "MULTI_SELECTOR": {
+      "PLACEHOLDER": "Geen",
+      "TITLE": {
+        "AGENT": "Selecteer agent",
+        "TEAM": "Selecteer team"
+      },
+      "LIST": {
+        "NONE": "Geen"
+      },
+      "SEARCH": {
+        "NO_RESULTS": {
+          "AGENT": "Geen medewerkers gevonden",
+          "TEAM": "Geen teams gevonden"
+        },
+        "PLACEHOLDER": {
+          "AGENT": "Zoek agenten",
+          "TEAM": "Teams zoeken",
+          "INPUT": "Zoeken naar agents"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,153 @@
+{
+  "COMPONENTS": {
+    "FILE_BUBBLE": {
+      "DOWNLOAD": "ダウンロード",
+      "UPLOADING": "アップロード中..."
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "送信"
+    },
+    "MESSAGE_BUBBLE": {
+      "RETRY": "メッセージを再送信",
+      "ERROR_MESSAGE": "送信できませんでした。もう一度お試しください"
+    }
+  },
+  "THUMBNAIL": {
+    "AUTHOR": {
+      "NOT_AVAILABLE": "離席中"
+    }
+  },
+  "TEAM_AVAILABILITY": {
+    "ONLINE": "オンライン",
+    "OFFLINE": "留守中",
+    "BACK_AS_SOON_AS_POSSIBLE": "間もなく対応再開"
+  },
+  "REPLY_TIME": {
+    "IN_A_FEW_MINUTES": "通常数分以内にご返信します。",
+    "IN_A_FEW_HOURS": "通常数時間以内にご返信します。",
+    "IN_A_DAY": "通常数日以内にご返信します。",
+    "BACK_IN_HOURS": "{n}時間後に対応再開 | {n}時間後に対応再開",
+    "BACK_IN_MINUTES": "{time}分後に対応再開",
+    "BACK_AT_TIME": "{time}に対応再開",
+    "BACK_ON_DAY": "{day}曜日に対応再開",
+    "BACK_TOMORROW": "翌日に対応再開",
+    "BACK_IN_SOME_TIME": "間もなく対応再開"
+  },
+  "DAY_NAMES": {
+    "SUNDAY": "日",
+    "MONDAY": "月",
+    "TUESDAY": "火",
+    "WEDNESDAY": "水",
+    "THURSDAY": "木",
+    "FRIDAY": "金",
+    "SATURDAY": "土"
+  },
+  "START_CONVERSATION": "チャットを開始する",
+  "END_CONVERSATION": "会話を終了",
+  "CONTINUE_CONVERSATION": "会話を続行",
+  "YOU": "あなた",
+  "START_NEW_CONVERSATION": "新しいチャットを開始する",
+  "VIEW_UNREAD_MESSAGES": "未読メッセージがあります",
+  "UNREAD_VIEW": {
+    "VIEW_MESSAGES_BUTTON": "新しいメッセージを見る",
+    "CLOSE_MESSAGES_BUTTON": "閉じる",
+    "COMPANY_FROM": "送信元",
+    "BOT": "ボット"
+  },
+  "BUBBLE": {
+    "LABEL": "チャットをする"
+  },
+  "POWERED_BY": "提供：Chatwoot",
+  "EMAIL_PLACEHOLDER": "メールアドレスを入力してください。",
+  "CHAT_PLACEHOLDER": "メッセージを入力してください。",
+  "TODAY": "今日",
+  "YESTERDAY": "昨日",
+  "PRE_CHAT_FORM": {
+    "FIELDS": {
+      "FULL_NAME": {
+        "LABEL": "フルネーム",
+        "PLACEHOLDER": "氏名を入力してください。",
+        "REQUIRED_ERROR": "お名前を入力してください"
+      },
+      "EMAIL_ADDRESS": {
+        "LABEL": "Eメールアドレス",
+        "PLACEHOLDER": "メールアドレスを入力してください",
+        "REQUIRED_ERROR": "メールアドレスは必須です",
+        "VALID_ERROR": "正しいメールアドレスを入力してください"
+      },
+      "PHONE_NUMBER": {
+        "LABEL": "電話番号",
+        "PLACEHOLDER": "電話番号を入力してください",
+        "REQUIRED_ERROR": "電話番号は必須です",
+        "DIAL_CODE_VALID_ERROR": "国コードを選択してください",
+        "VALID_ERROR": "有効な電話番号を入力してください",
+        "DROPDOWN_EMPTY": "該当する結果が見つかりません",
+        "DROPDOWN_SEARCH": "国を検索"
+      },
+      "MESSAGE": {
+        "LABEL": "メッセージ",
+        "PLACEHOLDER": "メッセージを入力してください",
+        "ERROR": "メッセージが短すぎます"
+      }
+    },
+    "CAMPAIGN_HEADER": "会話を開始する前にお名前とメールアドレスを入力してください",
+    "IS_REQUIRED": "は必須です",
+    "REQUIRED": "必須",
+    "REGEX_ERROR": "有効な入力を提供してください"
+  },
+  "FILE_SIZE_LIMIT": "添付ファイルサイズが上限 {MAXIMUM_FILE_UPLOAD_SIZE} を超えています",
+  "CHAT_FORM": {
+    "INVALID": {
+      "FIELD": "無効なフィールド"
+    }
+  },
+  "EMOJI": {
+    "PLACEHOLDER": "絵文字を検索",
+    "NOT_FOUND": "検索条件に一致する絵文字がありません",
+    "ARIA_LABEL": "絵文字選択"
+  },
+  "CSAT": {
+    "TITLE": "会話の評価",
+    "SUBMITTED_TITLE": "評価を送信いただきありがとうございます",
+    "PLACEHOLDER": "詳細を教えてください..."
+  },
+  "EMAIL_TRANSCRIPT": {
+    "BUTTON_TEXT": "会話の履歴をメールで受け取る",
+    "SEND_EMAIL_SUCCESS": "チャットの記録が正常に送信されました",
+    "SEND_EMAIL_ERROR": "エラーが発生しました。もう一度お試しください。"
+  },
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "ここをクリックして参加",
+      "LEAVE_THE_ROOM": "通話を退出"
+    }
+  },
+  "PORTAL": {
+    "POPULAR_ARTICLES": "よくある質問",
+    "VIEW_ALL_ARTICLES": "すべてのヘルプを表示",
+    "IFRAME_LOAD_ERROR": "記事の読み込み中にエラーが発生しました。ページを更新して再試行してください。"
+  },
+  "ATTACHMENTS": {
+    "image": {
+      "CONTENT": "画像メッセージ"
+    },
+    "audio": {
+      "CONTENT": "音声メッセージ"
+    },
+    "video": {
+      "CONTENT": "ビデオメッセージ"
+    },
+    "file": {
+      "CONTENT": "添付ファイル"
+    },
+    "location": {
+      "CONTENT": "場所"
+    },
+    "fallback": {
+      "CONTENT": "URLを共有しています"
+    }
+  },
+  "FOOTER_REPLY_TO": {
+    "REPLY_TO": "返信先："
+  }
+}

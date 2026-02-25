@@ -1,0 +1,85 @@
+{
+  "LABEL_MGMT": {
+    "HEADER": "Labels",
+    "HEADER_BTN_TXT": "Label hinzufügen",
+    "LOADING": "Label werden abgerufen",
+    "DESCRIPTION": "Labels helfen Ihnen, Konversationen und Leads zu kategorisieren und zu priorisieren. Sie können einer Konversation oder einem Kontakt über das Seitenpanel ein Label zuweisen.",
+    "LEARN_MORE": "Mehr über Labels erfahren",
+    "SEARCH_404": "Es existieren keine Elemente, die dieser Abfrage entsprechen",
+    "LIST": {
+      "404": "In diesem Konto sind keine Labels verfügbar.",
+      "TITLE": "Labels verwalten",
+      "DESC": "Mit Labels lassen sich Unterhaltungen zusammenfassen.",
+      "TABLE_HEADER": {
+        "NAME": "Name",
+        "DESCRIPTION": "Beschreibung",
+        "COLOR": "Farbe"
+      }
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "Labelname",
+        "PLACEHOLDER": "Labelname",
+        "REQUIRED_ERROR": "Labelname ist erforderlich",
+        "MINIMUM_LENGTH_ERROR": "Mindestlänge 2 wird benötigt",
+        "VALID_ERROR": "Nur Buchstaben, Zahlen, Binde- und Unterstriche sind erlaubt"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Beschreibung",
+        "PLACEHOLDER": "Label-Beschreibung"
+      },
+      "COLOR": {
+        "LABEL": "Farbe"
+      },
+      "SHOW_ON_SIDEBAR": {
+        "LABEL": "Label in der Seitenleiste anzeigen"
+      },
+      "EDIT": "Bearbeiten",
+      "CREATE": "Erstellen",
+      "DELETE": "Löschen",
+      "CANCEL": "Abbrechen"
+    },
+    "SUGGESTIONS": {
+      "TOOLTIP": {
+        "SINGLE_SUGGESTION": "Label zur Konversation hinzufügen",
+        "MULTIPLE_SUGGESTION": "Dieses Label auswählen",
+        "DESELECT": "Label abwählen",
+        "DISMISS": "Vorschlag verwerfen"
+      },
+      "POWERED_BY": "Chatwoot AI",
+      "DISMISS": "Verwerfen",
+      "ADD_SELECTED_LABELS": "Ausgewählte Labels hinzufügen",
+      "ADD_SELECTED_LABEL": "Ausgewähltes Label hinzufügen",
+      "ADD_ALL_LABELS": "Alle Labels hinzufügen",
+      "SUGGESTED_LABELS": "Vorgeschlagene Labels"
+    },
+    "ADD": {
+      "TITLE": "Label hinzufügen",
+      "DESC": "Mit Labels lassen sich Unterhaltungen zusammenfassen.",
+      "API": {
+        "SUCCESS_MESSAGE": "Label wurde erfolgreich hinzugefügt",
+        "ERROR_MESSAGE": "Es ist ein Fehler aufgetreten, bitte versuchen Sie es erneut"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Label bearbeiten",
+      "API": {
+        "SUCCESS_MESSAGE": "Label wurde erfolgreich aktualisiert",
+        "ERROR_MESSAGE": "Es ist ein Fehler aufgetreten, bitte versuchen Sie es erneut"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Löschen",
+      "API": {
+        "SUCCESS_MESSAGE": "Label wurde erfolgreich gelöscht",
+        "ERROR_MESSAGE": "Es ist ein Fehler aufgetreten, bitte versuchen Sie es erneut"
+      },
+      "CONFIRM": {
+        "TITLE": "Löschung bestätigen",
+        "MESSAGE": "Sind Sie sicher, dass Sie das löschen möchten ",
+        "YES": "Ja, löschen",
+        "NO": "Nein, behalten "
+      }
+    }
+  }
+}

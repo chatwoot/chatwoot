@@ -1,0 +1,865 @@
+{
+  "HELP_CENTER": {
+    "TITLE": "帮助中心",
+    "NEW_PAGE": {
+      "DESCRIPTION": "为您的客户创建自助服务帮助中心门户。帮助他们快速找到答案，无需等待。简化查询，提高代理效率，提升客户支持。",
+      "CREATE_PORTAL_BUTTON": "创建门户"
+    },
+    "HEADER": {
+      "FILTER": "过滤条件",
+      "SORT": "排序方式",
+      "LOCALE": "语言环境",
+      "SETTINGS_BUTTON": "设置",
+      "NEW_BUTTON": "新建文章",
+      "DROPDOWN_OPTIONS": {
+        "PUBLISHED": "已发布",
+        "DRAFT": "草稿",
+        "ARCHIVED": "已存档"
+      },
+      "TITLES": {
+        "ALL_ARTICLES": "所有文章",
+        "MINE": "我的文章",
+        "DRAFT": "文章草稿",
+        "ARCHIVED": "已存档的文章"
+      },
+      "LOCALE_SELECT": {
+        "TITLE": "选择语言环境",
+        "PLACEHOLDER": "选择语言环境",
+        "NO_RESULT": "未找到语言环境",
+        "SEARCH_PLACEHOLDER": "搜索语言环境"
+      }
+    },
+    "EDIT_HEADER": {
+      "ALL_ARTICLES": "所有文章",
+      "PUBLISH_BUTTON": "发布",
+      "MOVE_TO_ARCHIVE_BUTTON": "移至已存档",
+      "PREVIEW": "预览",
+      "ADD_TRANSLATION": "添加翻译",
+      "OPEN_SIDEBAR": "打开侧边栏",
+      "CLOSE_SIDEBAR": "关闭侧边栏",
+      "SAVING": "保存中...",
+      "SAVED": "保存成功"
+    },
+    "ARTICLE_EDITOR": {
+      "IMAGE_UPLOAD": {
+        "TITLE": "上传头像",
+        "UPLOADING": "上传中...",
+        "SUCCESS": "图片上传成功",
+        "ERROR": "上传图片时出错",
+        "UN_AUTHORIZED_ERROR": "您无权上传图片",
+        "ERROR_FILE_SIZE": "图片大小应小于 {size}MB",
+        "ERROR_FILE_FORMAT": "图片格式应为 jpg、jpeg 或 png",
+        "ERROR_FILE_DIMENSIONS": "图片尺寸应小于 2000 x 2000"
+      }
+    },
+    "ARTICLE_SETTINGS": {
+      "TITLE": "文章设置",
+      "FORM": {
+        "CATEGORY": {
+          "LABEL": "类别",
+          "TITLE": "选择类别",
+          "PLACEHOLDER": "选择类别",
+          "NO_RESULT": "未找到类别",
+          "SEARCH_PLACEHOLDER": "搜索类别"
+        },
+        "AUTHOR": {
+          "LABEL": "作者",
+          "TITLE": "选择作者",
+          "PLACEHOLDER": "选择作者",
+          "NO_RESULT": "未找到作者",
+          "SEARCH_PLACEHOLDER": "搜索作者"
+        },
+        "META_TITLE": {
+          "LABEL": "Meta 标题",
+          "PLACEHOLDER": "增加一个Meta标题"
+        },
+        "META_DESCRIPTION": {
+          "LABEL": "Meta描述",
+          "PLACEHOLDER": "添加您的Meta描述以获得更好的SEO效果……"
+        },
+        "META_TAGS": {
+          "LABEL": "Meta标签",
+          "PLACEHOLDER": "增加Meta标签，以逗号分隔"
+        }
+      },
+      "BUTTONS": {
+        "ARCHIVE": "归档文章",
+        "DELETE": "删除文章"
+      }
+    },
+    "ARTICLE_SEARCH_RESULT": {
+      "UNCATEGORIZED": "未分类",
+      "SEARCH_RESULTS": "搜索 {query} 的结果",
+      "EMPTY_TEXT": "搜索文章以插入回复。",
+      "SEARCH_LOADER": "搜索中...",
+      "INSERT_ARTICLE": "插入",
+      "NO_RESULT": "未找到文章",
+      "COPY_LINK": "复制文章链接到剪贴板",
+      "OPEN_LINK": "在新标签页中打开文章",
+      "PREVIEW_LINK": "预览文章"
+    },
+    "PORTAL": {
+      "HEADER": "门户网站",
+      "DEFAULT": "默认",
+      "NEW_BUTTON": "新门户网站",
+      "ACTIVE_BADGE": "活跃",
+      "CHOOSE_LOCALE_LABEL": "选择一个语言环境",
+      "LOADING_MESSAGE": "正在加载门户...",
+      "ARTICLES_LABEL": "文章",
+      "NO_PORTALS_MESSAGE": "没有可用的门户",
+      "ADD_NEW_LOCALE": "添加一个新的语言环境",
+      "POPOVER": {
+        "TITLE": "门户网站",
+        "PORTAL_SETTINGS": "门户设置",
+        "SUBTITLE": "您有多个门户网站，每个门户网站可以有不同的语言环境。",
+        "CANCEL_BUTTON_LABEL": "取消",
+        "CHOOSE_LOCALE_BUTTON": "选择语言"
+      },
+      "PORTAL_SETTINGS": {
+        "LIST_ITEM": {
+          "HEADER": {
+            "COUNT_LABEL": "文章",
+            "ADD": "添加语言环境",
+            "VISIT": "访问网站",
+            "SETTINGS": "设置",
+            "DELETE": "删除"
+          },
+          "PORTAL_CONFIG": {
+            "TITLE": "门户配置",
+            "ITEMS": {
+              "NAME": "姓名：",
+              "DOMAIN": "自定义域名",
+              "SLUG": "Slug",
+              "TITLE": "门户标题",
+              "THEME": "主题颜色",
+              "SUB_TEXT": "门户副文本"
+            }
+          },
+          "AVAILABLE_LOCALES": {
+            "TITLE": "可用的语言环境",
+            "TABLE": {
+              "NAME": "语言环境名称",
+              "CODE": "语言环境代码",
+              "ARTICLE_COUNT": "文章数量",
+              "CATEGORIES": "类别数量",
+              "SWAP": "交换",
+              "DELETE": "删除",
+              "DEFAULT_LOCALE": "默认"
+            }
+          }
+        },
+        "DELETE_PORTAL": {
+          "TITLE": "删除门户",
+          "MESSAGE": "您确定要删除此门户吗",
+          "YES": "是，删除门户",
+          "NO": "否，保留门户",
+          "API": {
+            "DELETE_SUCCESS": "门户删除成功",
+            "DELETE_ERROR": "删除门户时出错"
+          }
+        },
+        "SEND_CNAME_INSTRUCTIONS": {
+          "API": {
+            "SUCCESS_MESSAGE": "CNAME instructions sent successfully",
+            "ERROR_MESSAGE": "Error while sending CNAME instructions"
+          }
+        }
+      },
+      "EDIT": {
+        "HEADER_TEXT": "编辑门户",
+        "TABS": {
+          "BASIC_SETTINGS": {
+            "TITLE": "基本信息"
+          },
+          "CUSTOMIZATION_SETTINGS": {
+            "TITLE": "门户定制"
+          },
+          "CATEGORY_SETTINGS": {
+            "TITLE": "类别"
+          },
+          "LOCALE_SETTINGS": {
+            "TITLE": "语言环境"
+          }
+        },
+        "CATEGORIES": {
+          "TITLE": "类别",
+          "NEW_CATEGORY": "新建类别",
+          "TABLE": {
+            "NAME": "姓名：",
+            "DESCRIPTION": "描述信息",
+            "LOCALE": "语言环境",
+            "ARTICLE_COUNT": "文章数量",
+            "ACTION_BUTTON": {
+              "EDIT": "编辑类别",
+              "DELETE": "删除类别"
+            },
+            "EMPTY_TEXT": "未找到类别"
+          }
+        },
+        "EDIT_BASIC_INFO": {
+          "BUTTON_TEXT": "更新基本设置"
+        }
+      },
+      "ADD": {
+        "CREATE_FLOW": {
+          "BASIC": {
+            "TITLE": "帮助中心信息",
+            "BODY": "关于门户的基本信息"
+          },
+          "CUSTOMIZATION": {
+            "TITLE": "帮助中心定制",
+            "BODY": "定制门户"
+          },
+          "FINISH": {
+            "TITLE": "完成！🎉",
+            "BODY": "您已全部设置完成！"
+          }
+        },
+        "CREATE_FLOW_PAGE": {
+          "BACK_BUTTON": "后退",
+          "BASIC_SETTINGS_PAGE": {
+            "HEADER": "创建门户",
+            "TITLE": "帮助中心信息",
+            "CREATE_BASIC_SETTING_BUTTON": "创建门户基本设置"
+          },
+          "CUSTOMIZATION_PAGE": {
+            "HEADER": "门户定制",
+            "TITLE": "帮助中心定制",
+            "UPDATE_PORTAL_BUTTON": "更新门户设置"
+          },
+          "FINISH_PAGE": {
+            "TITLE": "完成！🎉 您已全部设置完成！",
+            "MESSAGE": "您现在可以在所有门户页面中看到此创建的门户。",
+            "FINISH": "转到所有门户页面"
+          }
+        },
+        "LOGO": {
+          "LABEL": "Logo",
+          "UPLOAD_BUTTON": "上传Logo",
+          "HELP_TEXT": "此Logo将显示在门户标题中。",
+          "IMAGE_UPLOAD_SUCCESS": "Logo上传成功",
+          "IMAGE_UPLOAD_ERROR": "Logo删除成功",
+          "IMAGE_DELETE_ERROR": "删除Logo时出错"
+        },
+        "NAME": {
+          "LABEL": "姓名：",
+          "PLACEHOLDER": "门户名称",
+          "HELP_TEXT": "该名称将用于面向公众的门户内部。",
+          "ERROR": "名字必填"
+        },
+        "SLUG": {
+          "LABEL": "Slug",
+          "PLACEHOLDER": "门户的URL Slug",
+          "ERROR": "Slug是必填项"
+        },
+        "DOMAIN": {
+          "LABEL": "自定义域名",
+          "PLACEHOLDER": "门户自定义域名",
+          "HELP_TEXT": "仅在您希望为门户使用自定义域名时添加。例如：{exampleURL}",
+          "ERROR": "请输入有效的域名URL"
+        },
+        "HOME_PAGE_LINK": {
+          "LABEL": "主页链接",
+          "PLACEHOLDER": "门户主页链接",
+          "HELP_TEXT": "用于从门户返回到主页的链接。例如：{exampleURL}",
+          "ERROR": "请输入有效的主页URL"
+        },
+        "THEME_COLOR": {
+          "LABEL": "门户主题颜色",
+          "HELP_TEXT": "此颜色将作为门户的主题颜色显示。"
+        },
+        "PAGE_TITLE": {
+          "LABEL": "页面标题",
+          "PLACEHOLDER": "门户页面标题",
+          "HELP_TEXT": "页面标题将用于面向公众的门户。",
+          "ERROR": "页面标题是必填项"
+        },
+        "HEADER_TEXT": {
+          "LABEL": "标题文本",
+          "PLACEHOLDER": "门户标题文本",
+          "HELP_TEXT": "门户标题文本将用于面向公众的门户。",
+          "ERROR": "门户标题文本是必填项"
+        },
+        "API": {
+          "SUCCESS_MESSAGE_FOR_BASIC": "门户创建成功。",
+          "ERROR_MESSAGE_FOR_BASIC": "无法创建门户，请重试。",
+          "SUCCESS_MESSAGE_FOR_UPDATE": "门户更新成功。",
+          "ERROR_MESSAGE_FOR_UPDATE": "无法更新门户，请重试。"
+        }
+      },
+      "ADD_LOCALE": {
+        "TITLE": "添加一个新的语言环境",
+        "SUB_TITLE": "这将向您的可用翻译列表中添加一个新的语言环境。",
+        "PORTAL": "门户网站",
+        "LOCALE": {
+          "LABEL": "语言环境",
+          "PLACEHOLDER": "选择一个语言环境",
+          "ERROR": "语言环境是必填项"
+        },
+        "BUTTONS": {
+          "CREATE": "创建语言环境",
+          "CANCEL": "取消"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "语言环境添加成功",
+          "ERROR_MESSAGE": "无法添加语言环境，请重试。"
+        }
+      },
+      "CHANGE_DEFAULT_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "默认语言环境更新成功",
+          "ERROR_MESSAGE": "无法更新默认语言环境，请重试。"
+        }
+      },
+      "DELETE_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "语言环境从门户中移除成功",
+          "ERROR_MESSAGE": "无法从门户中移除语言环境，请重试。"
+        }
+      }
+    },
+    "TABLE": {
+      "LOADING_MESSAGE": "正在加载文章...",
+      "404": "没有找到您要搜索的文章 🔍",
+      "NO_ARTICLES": "没有可用的文章",
+      "HEADERS": {
+        "TITLE": "标题",
+        "CATEGORY": "类别",
+        "READ_COUNT": "浏览量",
+        "STATUS": "状态",
+        "LAST_EDITED": "最后编辑"
+      },
+      "COLUMNS": {
+        "BY": "由",
+        "AUTHOR_NOT_AVAILABLE": "作者不可用"
+      }
+    },
+    "EDIT_ARTICLE": {
+      "LOADING": "正在加载文章...",
+      "TITLE_PLACEHOLDER": "文章标题在此处显示",
+      "CONTENT_PLACEHOLDER": "在此处写下您的文章",
+      "API": {
+        "ERROR": "保存文章时出错"
+      }
+    },
+    "PUBLISH_ARTICLE": {
+      "API": {
+        "ERROR": "发布文章时出错",
+        "SUCCESS": "文章发布成功"
+      }
+    },
+    "ARCHIVE_ARTICLE": {
+      "API": {
+        "ERROR": "归档文章时出错",
+        "SUCCESS": "文章归档成功"
+      }
+    },
+    "DRAFT_ARTICLE": {
+      "API": {
+        "ERROR": "草稿文章时出错",
+        "SUCCESS": "文章草稿成功"
+      }
+    },
+    "DELETE_ARTICLE": {
+      "MODAL": {
+        "CONFIRM": {
+          "TITLE": "确认删除",
+          "MESSAGE": "您确定要删除这篇文章吗？",
+          "YES": "是，删除",
+          "NO": "否，保留它"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "文章删除成功",
+        "ERROR_MESSAGE": "删除文章时出错"
+      }
+    },
+    "CREATE_ARTICLE": {
+      "ERROR_MESSAGE": "请添加文章标题和内容，然后才能更新设置"
+    },
+    "SIDEBAR": {
+      "SEARCH": {
+        "PLACEHOLDER": "搜索文章"
+      }
+    },
+    "CATEGORY": {
+      "ADD": {
+        "TITLE": "创建一个类别",
+        "SUB_TITLE": "类别将用于公共门户来对文章进行归类。",
+        "PORTAL": "门户网站",
+        "LOCALE": "语言环境",
+        "NAME": {
+          "LABEL": "姓名：",
+          "PLACEHOLDER": "类别名称",
+          "HELP_TEXT": "类别名称和图标将用于面向公众的门户以对文章进行分类。",
+          "ERROR": "名字必填"
+        },
+        "SLUG": {
+          "LABEL": "Slug",
+          "PLACEHOLDER": "类别的URL Slug",
+          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
+          "ERROR": "Slug是必填项"
+        },
+        "DESCRIPTION": {
+          "LABEL": "描述信息",
+          "PLACEHOLDER": "给出有关该类别的简短描述。",
+          "ERROR": "描述是必需的"
+        },
+        "BUTTONS": {
+          "CREATE": "类别的 URL Slug",
+          "CANCEL": "取消"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "类别创建成功",
+          "ERROR_MESSAGE": "无法创建类别"
+        }
+      },
+      "EDIT": {
+        "TITLE": "编辑类别",
+        "SUB_TITLE": "编辑类别将更新面向公众的门户中的类别。",
+        "PORTAL": "门户网站",
+        "LOCALE": "语言环境",
+        "NAME": {
+          "LABEL": "姓名：",
+          "PLACEHOLDER": "类别名称",
+          "HELP_TEXT": "类别名称和图标将用于面向公众的门户以对文章进行分类。",
+          "ERROR": "名字必填"
+        },
+        "SLUG": {
+          "LABEL": "Slug",
+          "PLACEHOLDER": "类别的URL Slug",
+          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
+          "ERROR": "Slug是必填项"
+        },
+        "DESCRIPTION": {
+          "LABEL": "描述信息",
+          "PLACEHOLDER": "给出有关该类别的简短描述。",
+          "ERROR": "描述是必需的"
+        },
+        "BUTTONS": {
+          "CREATE": "更新类别",
+          "CANCEL": "取消"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "类别更新成功",
+          "ERROR_MESSAGE": "无法更新类别"
+        }
+      },
+      "DELETE": {
+        "API": {
+          "SUCCESS_MESSAGE": "类别删除成功",
+          "ERROR_MESSAGE": "无法删除类别"
+        }
+      }
+    },
+    "ARTICLE_SEARCH": {
+      "TITLE": "搜索文章",
+      "PLACEHOLDER": "搜索文章",
+      "NO_RESULT": "未找到文章",
+      "SEARCHING": "搜索中...",
+      "SEARCH_BUTTON": "搜索",
+      "INSERT_ARTICLE": "插入链接",
+      "IFRAME_ERROR": "URL为空或无效，无法显示内容。",
+      "OPEN_ARTICLE_SEARCH": "从帮助中心插入文章",
+      "SUCCESS_ARTICLE_INSERTED": "文章插入成功",
+      "PREVIEW_LINK": "预览文章",
+      "CANCEL": "关闭",
+      "BACK": "后退",
+      "BACK_RESULTS": "返回结果"
+    },
+    "UPGRADE_PAGE": {
+      "TITLE": "帮助中心",
+      "DESCRIPTION": "创建用户友好的自助服务门户。帮助您的用户访问文章并获得24/7支持。升级您的订阅以启用此功能。",
+      "SELF_HOSTED_DESCRIPTION": "创建用户友好的自助服务门户。帮助您的用户访问文章并获得24/7支持。请联系您的管理员以启用此功能。",
+      "BUTTON": {
+        "LEARN_MORE": "了解更多",
+        "UPGRADE": "升级"
+      },
+      "FEATURES": {
+        "PORTALS": {
+          "TITLE": "多门户支持",
+          "DESCRIPTION": "使用同一账户为不同产品创建多个帮助中心门户。"
+        },
+        "LOCALES": {
+          "TITLE": "全面支持多语言环境",
+          "DESCRIPTION": "将门户本地化为您的语言。我们支持所有语言环境，并允许为每篇文章提供翻译。"
+        },
+        "SEO": {
+          "TITLE": "SEO友好设计",
+          "DESCRIPTION": "自定义您的Meta标签，通过我们的SEO友好页面提高在搜索引擎中的可见性。"
+        },
+        "API": {
+          "TITLE": "全面API支持",
+          "DESCRIPTION": "使用我们的API将门户作为无头CMS与第三方前端框架集成。"
+        }
+      }
+    },
+    "LOADING": "加载中...",
+    "ARTICLES_PAGE": {
+      "ARTICLE_CARD": {
+        "CARD": {
+          "VIEWS": "{count} 次浏览 | {count} 次浏览",
+          "DROPDOWN_MENU": {
+            "PUBLISH": "发布",
+            "DRAFT": "草稿",
+            "ARCHIVE": "归档",
+            "DELETE": "删除"
+          },
+          "STATUS": {
+            "DRAFT": "草稿",
+            "PUBLISHED": "已发布",
+            "ARCHIVED": "已归档"
+          },
+          "CATEGORY": {
+            "UNCATEGORISED": "未分类"
+          }
+        }
+      },
+      "ARTICLES_HEADER": {
+        "TABS": {
+          "ALL": "所有文章",
+          "MINE": "我的文章",
+          "DRAFT": "草稿",
+          "PUBLISHED": "已发布",
+          "ARCHIVED": "已归档"
+        },
+        "CATEGORY": {
+          "ALL": "所有类别"
+        },
+        "LOCALE": {
+          "ALL": "所有语言环境"
+        },
+        "NEW_ARTICLE": "新建文章"
+      },
+      "EMPTY_STATE": {
+        "ALL": {
+          "TITLE": "撰写一篇文章",
+          "SUBTITLE": "撰写一篇丰富的文章，让我们开始吧！",
+          "BUTTON_LABEL": "新建文章"
+        },
+        "MINE": {
+          "TITLE": "您尚未在此撰写任何文章",
+          "SUBTITLE": "您撰写的所有文章将显示在此处以便快速访问。"
+        },
+        "DRAFT": {
+          "TITLE": "草稿中没有文章",
+          "SUBTITLE": "草稿文章将显示在此处"
+        },
+        "PUBLISHED": {
+          "TITLE": "没有已发布的文章",
+          "SUBTITLE": "已发布的文章将显示在此处"
+        },
+        "ARCHIVED": {
+          "TITLE": "归档中没有文章",
+          "SUBTITLE": "归档文章不会显示在门户上，您可以用它标记已弃用或过时的页面"
+        },
+        "CATEGORY": {
+          "TITLE": "此类别中没有文章",
+          "SUBTITLE": "此类别中的文章将显示在此处"
+        }
+      }
+    },
+    "CATEGORY_PAGE": {
+      "CATEGORY_HEADER": {
+        "NEW_CATEGORY": "新建类别",
+        "EDIT_CATEGORY": "编辑类别",
+        "CATEGORIES_COUNT": "{n} 个类别 | {n} 个类别",
+        "BREADCRUMB": {
+          "CATEGORY_LOCALE": "类别 ({localeCode})",
+          "ACTIVE_CATEGORY": "{categoryName} ({categoryCount} 篇文章) | {categoryName} ({categoryCount} 篇文章)"
+        }
+      },
+      "CATEGORY_EMPTY_STATE": {
+        "TITLE": "未找到类别",
+        "SUBTITLE": "类别将显示在此处。您可以点击“新建类别”按钮添加类别。"
+      },
+      "CATEGORY_CARD": {
+        "ARTICLES_COUNT": "{count} 篇文章 | {count} 篇文章"
+      },
+      "CATEGORY_DIALOG": {
+        "CREATE": {
+          "API": {
+            "SUCCESS_MESSAGE": "类别创建成功",
+            "ERROR_MESSAGE": "无法创建类别"
+          }
+        },
+        "EDIT": {
+          "API": {
+            "SUCCESS_MESSAGE": "类别更新成功",
+            "ERROR_MESSAGE": "无法更新类别"
+          }
+        },
+        "DELETE": {
+          "API": {
+            "SUCCESS_MESSAGE": "类别删除成功",
+            "ERROR_MESSAGE": "无法删除类别"
+          }
+        },
+        "HEADER": {
+          "CREATE": "创建类别",
+          "EDIT": "编辑类别",
+          "DESCRIPTION": "编辑类别将更新面向公众的门户中的类别。",
+          "PORTAL": "门户网站",
+          "LOCALE": "语言环境"
+        },
+        "FORM": {
+          "NAME": {
+            "LABEL": "姓名",
+            "PLACEHOLDER": "类别名称",
+            "ERROR": "名字必填"
+          },
+          "SLUG": {
+            "LABEL": "Slug",
+            "PLACEHOLDER": "类别的URL Slug",
+            "ERROR": "Slug 是必填项",
+            "HELP_TEXT": "app.chatwoot.com/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
+          },
+          "DESCRIPTION": {
+            "LABEL": "描述信息",
+            "PLACEHOLDER": "给出有关该类别的简短描述。",
+            "ERROR": "描述是必需的"
+          }
+        },
+        "BUTTONS": {
+          "CREATE": "创建",
+          "EDIT": "更新",
+          "CANCEL": "取消"
+        }
+      }
+    },
+    "LOCALES_PAGE": {
+      "LOCALES_COUNT": "没有可用的语言环境 | {n} 个语言环境 | {n} 个语言环境",
+      "NEW_LOCALE_BUTTON_TEXT": "新建语言环境",
+      "LOCALE_CARD": {
+        "ARTICLES_COUNT": "{count} 篇文章 | {count} 篇文章",
+        "CATEGORIES_COUNT": "{count} 个类别 | {count} 个类别",
+        "DEFAULT": "默认",
+        "DROPDOWN_MENU": {
+          "MAKE_DEFAULT": "设为默认",
+          "DELETE": "删除"
+        }
+      },
+      "ADD_LOCALE_DIALOG": {
+        "TITLE": "添加一个新的语言环境",
+        "DESCRIPTION": "选择此文章将使用的语言。这将添加到您的翻译列表中，您可以稍后添加更多。",
+        "COMBOBOX": {
+          "PLACEHOLDER": "选择语言环境..."
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "语言环境添加成功",
+          "ERROR_MESSAGE": "无法添加语言环境，请重试。"
+        }
+      }
+    },
+    "EDIT_ARTICLE_PAGE": {
+      "HEADER": {
+        "STATUS": {
+          "SAVING": "保存中...",
+          "SAVED": "保存成功"
+        },
+        "PREVIEW": "预览",
+        "PUBLISH": "发布",
+        "DRAFT": "草稿",
+        "ARCHIVE": "归档",
+        "BACK_TO_ARTICLES": "返回文章"
+      },
+      "EDIT_ARTICLE": {
+        "MORE_PROPERTIES": "更多属性",
+        "UNCATEGORIZED": "未分类",
+        "EDITOR_PLACEHOLDER": "写点什么..."
+      },
+      "ARTICLE_PROPERTIES": {
+        "ARTICLE_PROPERTIES": "文章属性",
+        "META_DESCRIPTION": "Meta描述",
+        "META_DESCRIPTION_PLACEHOLDER": "添加Meta描述",
+        "META_TITLE": "Meta标题",
+        "META_TITLE_PLACEHOLDER": "添加Meta标题",
+        "META_TAGS": "Meta标签",
+        "META_TAGS_PLACEHOLDER": "添加Meta标签"
+      },
+      "API": {
+        "ERROR": "保存文章时出错"
+      }
+    },
+    "PORTAL_SWITCHER": {
+      "NEW_PORTAL": "新建门户",
+      "PORTALS": "门户网站",
+      "CREATE_PORTAL": "创建和管理多个门户",
+      "ARTICLES": "文章",
+      "DOMAIN": "域名",
+      "PORTAL_NAME": "门户名称"
+    },
+    "CREATE_PORTAL_DIALOG": {
+      "TITLE": "创建新门户",
+      "DESCRIPTION": "为您的门户命名并创建一个用户友好的URL Slug。您稍后可以在设置中修改它们。",
+      "CONFIRM_BUTTON_LABEL": "创建",
+      "NAME": {
+        "LABEL": "姓名",
+        "PLACEHOLDER": "用户指南 | Chatwoot",
+        "MESSAGE": "为您的门户选择一个名称。",
+        "ERROR": "名字必填"
+      },
+      "SLUG": {
+        "LABEL": "Slug",
+        "PLACEHOLDER": "用户指南",
+        "ERROR": "Slug是必填项",
+        "FORMAT_ERROR": "请输入有效的 Slug，例如：user-guide"
+      }
+    },
+    "PORTAL_SETTINGS": {
+      "FORM": {
+        "AVATAR": {
+          "LABEL": "头像",
+          "IMAGE_UPLOAD_ERROR": "无法上传图片！请再试一次",
+          "IMAGE_UPLOAD_SUCCESS": "图片上传成功，请点击保存更改以保存Logo",
+          "IMAGE_DELETE_SUCCESS": "Logo删除成功",
+          "IMAGE_DELETE_ERROR": "无法删除Logo",
+          "IMAGE_UPLOAD_SIZE_ERROR": "图片大小应小于 {size}MB"
+        },
+        "NAME": {
+          "LABEL": "姓名",
+          "PLACEHOLDER": "门户名称",
+          "ERROR": "名字必填"
+        },
+        "HEADER_TEXT": {
+          "LABEL": "标题文本",
+          "PLACEHOLDER": "门户标题文本"
+        },
+        "PAGE_TITLE": {
+          "LABEL": "页面标题",
+          "PLACEHOLDER": "门户页面标题"
+        },
+        "HOME_PAGE_LINK": {
+          "LABEL": "主页链接",
+          "PLACEHOLDER": "门户主页链接",
+          "ERROR": "Enter a valid URL. The Home page link must start with 'http://' or 'https://'."
+        },
+        "SLUG": {
+          "LABEL": "Slug",
+          "PLACEHOLDER": "门户Slug"
+        },
+        "LIVE_CHAT_WIDGET": {
+          "LABEL": "在线聊天小部件",
+          "PLACEHOLDER": "选择在线聊天小部件",
+          "HELP_TEXT": "选择将显示在您的帮助中心上的在线聊天小部件",
+          "NONE_OPTION": "没有小部件"
+        },
+        "BRAND_COLOR": {
+          "LABEL": "品牌颜色"
+        },
+        "SAVE_CHANGES": "保存更改"
+      },
+      "CONFIGURATION_FORM": {
+        "CUSTOM_DOMAIN": {
+          "HEADER": "自定义域名",
+          "LABEL": "自定义域名：",
+          "DESCRIPTION": "您可以在自定义域名上托管您的门户。例如，如果您的网站是 yourdomain.com，并且您希望您的门户在 docs.yourdomain.com 上可用，只需在此字段中输入即可。",
+          "STATUS_DESCRIPTION": "Your custom portal will start working as soon as it is verified.",
+          "PLACEHOLDER": "门户自定义域名",
+          "EDIT_BUTTON": "编辑",
+          "ADD_BUTTON": "添加自定义域名",
+          "STATUS": {
+            "LIVE": "实时",
+            "PENDING": "Awaiting verification",
+            "ERROR": "Verification failed"
+          },
+          "DIALOG": {
+            "ADD_HEADER": "添加自定义域名",
+            "EDIT_HEADER": "编辑自定义域名",
+            "ADD_CONFIRM_BUTTON_LABEL": "添加域名",
+            "EDIT_CONFIRM_BUTTON_LABEL": "更新域名",
+            "LABEL": "自定义域名",
+            "PLACEHOLDER": "门户自定义域名",
+            "ERROR": "自定义域名是必填项",
+            "FORMAT_ERROR": "Please enter a valid domain URL e.g. docs.yourdomain.com"
+          },
+          "DNS_CONFIGURATION_DIALOG": {
+            "HEADER": "DNS配置",
+            "DESCRIPTION": "登录您的 DNS 提供商账户，并添加一个指向 chatwoot.help 的子域名的 CNAME 记录",
+            "COPY": "Successfully copied CNAME",
+            "SEND_INSTRUCTIONS": {
+              "HEADER": "Send instructions",
+              "DESCRIPTION": "If you would prefer to have someone from your development team to handle this step, you can enter email address below, and we will send them the required instructions.",
+              "PLACEHOLDER": "Enter their email",
+              "ERROR": "Enter a valid email address",
+              "SEND_BUTTON": "发送"
+            }
+          }
+        },
+        "DELETE_PORTAL": {
+          "BUTTON": "删除 {portalName}",
+          "HEADER": "删除门户",
+          "DESCRIPTION": "永久删除此门户。此操作不可逆",
+          "DIALOG": {
+            "HEADER": "确定要删除 {portalName} 吗？",
+            "DESCRIPTION": "这是一个永久操作，无法撤销。",
+            "CONFIRM_BUTTON_LABEL": "删除"
+          }
+        },
+        "EDIT_CONFIGURATION": "编辑配置"
+      },
+      "API": {
+        "CREATE_PORTAL": {
+          "SUCCESS_MESSAGE": "门户创建成功",
+          "ERROR_MESSAGE": "无法创建门户"
+        },
+        "UPDATE_PORTAL": {
+          "SUCCESS_MESSAGE": "门户更新成功",
+          "ERROR_MESSAGE": "无法更新门户"
+        }
+      }
+    },
+    "PDF_UPLOAD": {
+      "TITLE": "Upload PDF Document",
+      "DESCRIPTION": "Upload a PDF document to automatically generate FAQs using AI",
+      "DRAG_DROP_TEXT": "Drag and drop your PDF file here, or click to select",
+      "SELECT_FILE": "选择 PDF 文件",
+      "ADDITIONAL_CONTEXT_LABEL": "Additional Context (Optional)",
+      "ADDITIONAL_CONTEXT_PLACEHOLDER": "Provide any additional context or instructions for FAQ generation...",
+      "UPLOADING": "上传中...",
+      "UPLOAD": "上传和进度",
+      "CANCEL": "取消",
+      "ERROR_INVALID_TYPE": "请选择一个有效的 PDF 文件",
+      "ERROR_FILE_TOO_LARGE": "文件大小必须小于 512MB",
+      "ERROR_UPLOAD_FAILED": "上传 PDF 失败。请重试。"
+    },
+    "PDF_DOCUMENTS": {
+      "TITLE": "PDF 文档",
+      "DESCRIPTION": "管理上传的 PDF 文档并从它们生成常见问题",
+      "UPLOAD_PDF": "上传 PDF",
+      "UPLOAD_FIRST_PDF": "上传您的第一个PDF",
+      "UPLOADED_BY": "上传者",
+      "GENERATE_FAQS": "生成常见问题",
+      "GENERATING": "生成中...",
+      "CONFIRM_DELETE": "您确定要删除 {filename}？",
+      "EMPTY_STATE": {
+        "TITLE": "尚无PDF文档",
+        "DESCRIPTION": "上传 PDF 文档以使用 AI 自动生成常见问题内容"
+      },
+      "STATUS": {
+        "UPLOADED": "已就绪",
+        "PROCESSING": "处理中",
+        "PROCESSED": "已完成",
+        "FAILED": "失败"
+      }
+    },
+    "CONTENT_GENERATION": {
+      "TITLE": "内容生成",
+      "DESCRIPTION": "上传 PDF 文档以使用 AI 自动生成常见问题内容",
+      "UPLOAD_TITLE": "上传 PDF 文档",
+      "DRAG_DROP": "拖放您的 PDF 文件到此处，或单击以选择",
+      "SELECT_FILE": "选择 PDF 文件",
+      "UPLOADING": "正在处理文档...",
+      "UPLOAD_SUCCESS": "文档处理成功！",
+      "UPLOAD_ERROR": "上传文档失败。请重试。",
+      "INVALID_FILE_TYPE": "请选择一个有效的 PDF 文件",
+      "FILE_TOO_LARGE": "文件大小必须小于 512MB",
+      "GENERATED_CONTENT": "生成常见问题",
+      "PUBLISH_SELECTED": "发布所选内容",
+      "PUBLISHING": "发布中...",
+      "FROM_DOCUMENT": "来自文档",
+      "NO_CONTENT": "No generated content available. Upload a PDF document to get started.",
+      "LOADING": "Loading generated content..."
+    }
+  }
+}

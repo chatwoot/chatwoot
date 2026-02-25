@@ -1,0 +1,17 @@
+type: object
+properties:
+  id:
+    type: integer
+    description: Id of the contact
+  source_id:
+    type: string
+    description: The session identifier of the contact
+  name:
+    type: string
+    description: Name of the contact
+  email:
+    type: string
+    description: Email of the contact
+  pubsub_token:
+    type: string
+    description: The token to be used to connect to chatwoot websocket

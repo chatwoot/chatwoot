@@ -1,0 +1,68 @@
+{
+  "SEARCH": {
+    "TABS": {
+      "ALL": "All results",
+      "CONTACTS": "Contacte",
+      "CONVERSATIONS": "Conversații",
+      "MESSAGES": "Mesaje",
+      "ARTICLES": "Articles"
+    },
+    "SECTION": {
+      "CONTACTS": "Contacte",
+      "CONVERSATIONS": "Conversații",
+      "MESSAGES": "Mesaje",
+      "ARTICLES": "Articles"
+    },
+    "VIEW_MORE": "View more",
+    "LOAD_MORE": "Load more",
+    "SEARCHING_DATA": "In căutare",
+    "LOADING_DATA": "Loading",
+    "EMPTY_STATE": "Nu s-a găsit niciun {item} pentru interogarea \"{query}\"",
+    "EMPTY_STATE_FULL": "Nu s-au găsit rezultate pentru interogarea \"{query}\"",
+    "PLACEHOLDER_KEYBINDING": "/să se concentreze",
+    "INPUT_PLACEHOLDER": "Tastați 3 sau mai multe caractere de căutat",
+    "RECENT_SEARCHES": "Recent searches",
+    "CLEAR_ALL": "Clear all",
+    "MOST_RECENT": "Most recent",
+    "EMPTY_STATE_DEFAULT": "Căutați după id-ul conversației, e-mail, numărul de telefon, mesajele pentru rezultate de căutare mai bune. ",
+    "BOT_LABEL": "Bot",
+    "READ_MORE": "Citeşte mai mult",
+    "READ_LESS": "Read less",
+    "WROTE": "scrisese:",
+    "FROM": "De la",
+    "EMAIL": "E-mail",
+    "EMAIL_SUBJECT": "Subiect",
+    "PRIVATE": "Private note",
+    "TRANSCRIPT": "Transcript",
+    "CREATED_AT": "created {time}",
+    "UPDATED_AT": "updated {time}",
+    "SORT_BY": {
+      "RELEVANCE": "Relevance"
+    },
+    "DATE_RANGE": {
+      "LAST_7_DAYS": "Ultimele 7 zile",
+      "LAST_30_DAYS": "Ultimele 30 zile",
+      "LAST_60_DAYS": "Ultimele 60 zile",
+      "LAST_90_DAYS": "Ultimele 90 zile",
+      "CUSTOM_RANGE": "Custom range:",
+      "CREATED_BETWEEN": "Created between",
+      "AND": "şi",
+      "APPLY": "Aplică",
+      "BEFORE_DATE": "Before {date}",
+      "AFTER_DATE": "After {date}",
+      "TIME_RANGE": "Filter by time",
+      "CLEAR_FILTER": "Clear filter"
+    },
+    "FILTERS": {
+      "FILTER_MESSAGE": "Filter messages by:",
+      "FROM": "Expeditor",
+      "IN": "Inbox",
+      "AGENTS": "Agenți",
+      "CONTACTS": "Contacte",
+      "INBOXES": "Căsuțe",
+      "NO_AGENTS": "Niciun agent găsit",
+      "NO_CONTACTS": "Start by searching to see results",
+      "NO_INBOXES": "No inboxes found"
+    }
+  }
+}

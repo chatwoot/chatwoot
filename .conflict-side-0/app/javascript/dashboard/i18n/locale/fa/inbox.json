@@ -1,0 +1,95 @@
+{
+  "INBOX": {
+    "LIST": {
+      "TITLE": "My Inbox",
+      "DISPLAY_DROPDOWN": "نمایش",
+      "LOADING": "در حال بارگیری اعلان ها",
+      "404": "هیچ اعلان فعالی در این گروه نیست.",
+      "NO_NOTIFICATIONS": "اعلانی وجود ندارد",
+      "NOTE": "آگاه‌سازی‌ها از همه صندوق‌های ورودی مشترک",
+      "NO_MESSAGES_AVAILABLE": "اوه! قادر به دریافت پیام ها نیستم",
+      "SNOOZED_UNTIL": "به تعویق افتاده تا",
+      "SNOOZED_UNTIL_TOMORROW": "تا فردا به تعویق افتاد",
+      "SNOOZED_UNTIL_NEXT_WEEK": "تا هفته آینده به تعویق افتاد"
+    },
+    "ACTION_HEADER": {
+      "SNOOZE": "به تعویق انداختن آگاه‌سازی",
+      "DELETE": "حذف آگاه‌سازی",
+      "BACK": "بازگشت"
+    },
+    "TYPES": {
+      "CONVERSATION_MENTION": "به نام شما در یک گفتگو اشاره شده است",
+      "CONVERSATION_CREATION": "گفتگو ایجاد شد",
+      "CONVERSATION_ASSIGNMENT": "یک گفتگو به شما اختصاص داده شده",
+      "ASSIGNED_CONVERSATION_NEW_MESSAGE": "پیام جدید در یک گفتگوی اختصاص داده شده",
+      "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "پیام جدید در گفتگویی که در آن شرکت داشته اید",
+      "SLA_MISSED_FIRST_RESPONSE": "سیاست SLA مربوط به اولین پاسخ در گفتگوی نقض شده",
+      "SLA_MISSED_NEXT_RESPONSE": "سیاست SLA مربوط به پاسخ بعدی در گفتگوی نقض شده",
+      "SLA_MISSED_RESOLUTION": "سیاست SLA مربوط به زمان حل موضوع در گفتگوی نقض شده"
+    },
+    "TYPES_NEXT": {
+      "CONVERSATION_MENTION": "Mentioned",
+      "CONVERSATION_ASSIGNMENT": "Assigned to you",
+      "CONVERSATION_CREATION": "New Conversation",
+      "SLA_MISSED_FIRST_RESPONSE": "SLA breach",
+      "SLA_MISSED_NEXT_RESPONSE": "SLA breach",
+      "SLA_MISSED_RESOLUTION": "SLA breach",
+      "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "پیام جدید",
+      "ASSIGNED_CONVERSATION_NEW_MESSAGE": "پیام جدید",
+      "SNOOZED_UNTIL": "Snoozed for {time}",
+      "SNOOZED_ENDS": "Snooze ended"
+    },
+    "NO_CONTENT": "هیچ محتوایی موجود نیست",
+    "MENU_ITEM": {
+      "MARK_AS_READ": "ثبت به عنوان خوانده شده",
+      "MARK_AS_UNREAD": "علامت گذاری به عنوان خوانده نشده",
+      "SNOOZE": "به تعویق انداختن",
+      "DELETE": "حذف",
+      "MARK_ALL_READ": "همه را به عنوان خوانده شده علامت بزن",
+      "DELETE_ALL": "حذف همه",
+      "DELETE_ALL_READ": "حذف همه خوانده شده"
+    },
+    "DISPLAY_MENU": {
+      "SORT": "ترتیب",
+      "DISPLAY": "نمایش :",
+      "SORT_OPTIONS": {
+        "NEWEST": "جدیدترین",
+        "OLDEST": "قدیمی ترین",
+        "PRIORITY": "اولویت"
+      },
+      "DISPLAY_OPTIONS": {
+        "SNOOZED": "به تعویق افتاد",
+        "READ": "خوانده شده",
+        "LABELS": "برچسب‌ها",
+        "CONVERSATION_ID": "شناسه گفتگو"
+      }
+    },
+    "ALERTS": {
+      "MARK_AS_READ": "ثبت اعلان به عنوان خوانده شده",
+      "MARK_AS_UNREAD": "ثبت اعلان به عنوان خوانده نشده",
+      "SNOOZE": "اعلان به تعویق افتاده",
+      "DELETE": "اعلان حدف شده",
+      "MARK_ALL_READ": "ثبت همه اعلان ها به عنوان خوانده شده",
+      "DELETE_ALL": "حذف همه اعلان ها",
+      "DELETE_ALL_READ": "حذف همه اعلان های خوانده شده"
+    },
+    "REAUTHORIZE": {
+      "TITLE": "احراز هویت مجدد لازم است",
+      "DESCRIPTION": "اتصال واتساپ شما منقضی شده است. لطفا برای ادامه‌ی دریافت و ارسال پیام‌ها، مجدد متصل شوید.",
+      "BUTTON_TEXT": "اتصال مجدد واتساپ",
+      "LOADING_FACEBOOK": "درحال بارگزاری SDK فیسبوک...",
+      "SUCCESS": "واتساپ با موفقیت متصل شد",
+      "ERROR": "اتصال مجدد به واتساپ با شکست مواجه شد. لطفا مجدد امتحان کنید.",
+      "WHATSAPP_APP_ID_MISSING": "شناسه اپلیکیشن واتساپ پیکربندی نشده است. لطفا با مدیر خود تماس بگیرید.",
+      "WHATSAPP_CONFIG_ID_MISSING": "شناسه پیکربندی واتساپ تنظیم نشده است. لطفا با مدیر خود تماس بگیرید.",
+      "CONFIGURATION_ERROR": "خطای پیکربندی هنگام احراز هویت مجدد رخ داد.",
+      "FACEBOOK_LOAD_ERROR": "بارگزاری SDK فیسبوک با شکست مواجه شد. لطفا مجدد امتحان کنید.",
+      "TROUBLESHOOTING": {
+        "TITLE": "عیب‌یابی",
+        "POPUP_BLOCKED": "مطمئن شوید نمایش پاپ-آپ‌ها برای این سایت مجاز است",
+        "COOKIES": "کوکی‌های شخص ثالث باید فعال باشند",
+        "ADMIN_ACCESS": "شما به دسترسی ادمین حساب کاربری واتساپ بیزینس نیاز دارد"
+      }
+    }
+  }
+}

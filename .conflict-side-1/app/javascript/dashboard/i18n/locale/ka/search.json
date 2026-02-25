@@ -1,0 +1,68 @@
+{
+  "SEARCH": {
+    "TABS": {
+      "ALL": "All results",
+      "CONTACTS": "Contacts",
+      "CONVERSATIONS": "Conversations",
+      "MESSAGES": "Messages",
+      "ARTICLES": "სტატიები"
+    },
+    "SECTION": {
+      "CONTACTS": "Contacts",
+      "CONVERSATIONS": "Conversations",
+      "MESSAGES": "Messages",
+      "ARTICLES": "სტატიები"
+    },
+    "VIEW_MORE": "View more",
+    "LOAD_MORE": "Load more",
+    "SEARCHING_DATA": "Searching",
+    "LOADING_DATA": "Loading",
+    "EMPTY_STATE": "No {item} found for query '{query}'",
+    "EMPTY_STATE_FULL": "No results found for query '{query}'",
+    "PLACEHOLDER_KEYBINDING": "/to focus",
+    "INPUT_PLACEHOLDER": "Type 3 or more characters to search",
+    "RECENT_SEARCHES": "Recent searches",
+    "CLEAR_ALL": "Clear all",
+    "MOST_RECENT": "Most recent",
+    "EMPTY_STATE_DEFAULT": "Search by conversation id, email, phone number, messages for better search results. ",
+    "BOT_LABEL": "Bot",
+    "READ_MORE": "Read more",
+    "READ_LESS": "Read less",
+    "WROTE": "wrote:",
+    "FROM": "From",
+    "EMAIL": "Email",
+    "EMAIL_SUBJECT": "Subject",
+    "PRIVATE": "Private note",
+    "TRANSCRIPT": "Transcript",
+    "CREATED_AT": "created {time}",
+    "UPDATED_AT": "updated {time}",
+    "SORT_BY": {
+      "RELEVANCE": "Relevance"
+    },
+    "DATE_RANGE": {
+      "LAST_7_DAYS": "Last 7 days",
+      "LAST_30_DAYS": "Last 30 days",
+      "LAST_60_DAYS": "Last 60 days",
+      "LAST_90_DAYS": "Last 90 days",
+      "CUSTOM_RANGE": "Custom range:",
+      "CREATED_BETWEEN": "Created between",
+      "AND": "and",
+      "APPLY": "Apply",
+      "BEFORE_DATE": "Before {date}",
+      "AFTER_DATE": "After {date}",
+      "TIME_RANGE": "Filter by time",
+      "CLEAR_FILTER": "Clear filter"
+    },
+    "FILTERS": {
+      "FILTER_MESSAGE": "Filter messages by:",
+      "FROM": "Sender",
+      "IN": "Inbox",
+      "AGENTS": "Agents",
+      "CONTACTS": "Contacts",
+      "INBOXES": "Inboxes",
+      "NO_AGENTS": "No agents found",
+      "NO_CONTACTS": "Start by searching to see results",
+      "NO_INBOXES": "No inboxes found"
+    }
+  }
+}

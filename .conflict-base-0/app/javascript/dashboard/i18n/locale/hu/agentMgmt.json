@@ -1,0 +1,124 @@
+{
+  "AGENT_MGMT": {
+    "HEADER": "Ügynökök",
+    "HEADER_BTN_TXT": "Ügynök Hozzádása",
+    "LOADING": "Ügynökök Listájának Lekérése",
+    "DESCRIPTION": "An agent is a member of your customer support team who can view and respond to user messages. The list below shows all the agents in your account.",
+    "LEARN_MORE": "Learn about user roles",
+    "AGENT_TYPES": {
+      "ADMINISTRATOR": "Adminisztrátor",
+      "AGENT": "Ügynök"
+    },
+    "LIST": {
+      "404": "Ehhez a fiókhoz nincs ügynök rendelve",
+      "TITLE": "A csapatod ügynökeinek kezelése",
+      "DESC": "Hozzáadhatsz és törölhetsz ügynököket a csapatodban.",
+      "NAME": "Név",
+      "EMAIL": "EMAIL",
+      "STATUS": "Státusz",
+      "ACTIONS": "Műveletek",
+      "VERIFIED": "Megerősített",
+      "VERIFICATION_PENDING": "Megerősítés függőben",
+      "AVAILABLE_CUSTOM_ROLE": "Available custom role permissions"
+    },
+    "ADD": {
+      "TITLE": "Ügynök hozzáadása a csapathoz",
+      "DESC": "Olyan személyeket adhat hozzá, akik kezelni tudják majd a postafiókot.",
+      "CANCEL_BUTTON_TEXT": "Mégse",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Ügynök neve",
+          "PLACEHOLDER": "Kérjük adja meg az ügynök nevét"
+        },
+        "AGENT_TYPE": {
+          "LABEL": "Agent Type",
+          "PLACEHOLDER": "Please select a type",
+          "ERROR": "Agent type is required"
+        },
+        "EMAIL": {
+          "LABEL": "Email cím",
+          "PLACEHOLDER": "Kérjük adja meg az ügynök email címét"
+        },
+        "SUBMIT": "Ügynök Hozzádása"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Ügynök sikeresen hozzáadva",
+        "EXIST_MESSAGE": "Az ügynök email cím már használatban van, kérjük próbálkozzon újra másik email címmel",
+        "ERROR_MESSAGE": "Nem sikerült csatlakozni a Woot szerverhez, kérjük próbáld később"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Törlés",
+      "API": {
+        "SUCCESS_MESSAGE": "Ügynök sikeresen hozzáadva",
+        "ERROR_MESSAGE": "Nem sikerült csatlakozni a Woot szerverhez, kérjük próbáld később"
+      },
+      "CONFIRM": {
+        "TITLE": "Törlés megerősítése",
+        "MESSAGE": "Biztos abban, hogy törli ",
+        "YES": "Igen, Törlés ",
+        "NO": "Nem, Mégse "
+      }
+    },
+    "EDIT": {
+      "TITLE": "Ügynök szerkesztése",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Ügynök neve",
+          "PLACEHOLDER": "Kérjük adja meg az ügynök nevét"
+        },
+        "AGENT_TYPE": {
+          "LABEL": "Agent Type",
+          "PLACEHOLDER": "Please select a type",
+          "ERROR": "Agent type is required"
+        },
+        "EMAIL": {
+          "LABEL": "Email cím",
+          "PLACEHOLDER": "Kérjük adja meg az ügynök email címét"
+        },
+        "AGENT_AVAILABILITY": {
+          "LABEL": "Elérhetőség",
+          "PLACEHOLDER": "Adj meg elérhetőség státuszt",
+          "ERROR": "Elérhetőség megadása kötelező"
+        },
+        "SUBMIT": "Ügynök szerkesztése"
+      },
+      "BUTTON_TEXT": "Szerkesztés",
+      "CANCEL_BUTTON_TEXT": "Mégse",
+      "API": {
+        "SUCCESS_MESSAGE": "Ügynök sikeresen frissítve",
+        "ERROR_MESSAGE": "Nem sikerült csatlakozni a Woot szerverhez, kérjük próbáld később"
+      },
+      "PASSWORD_RESET": {
+        "ADMIN_RESET_BUTTON": "Új jelszó kérése",
+        "ADMIN_SUCCESS_MESSAGE": "Egy e-mail a jelszófrissítési utasításokkal sikeresen kiküldve az ügynöknek",
+        "SUCCESS_MESSAGE": "Ügynök jelszó sikeresen frissítve",
+        "ERROR_MESSAGE": "Nem sikerült csatlakozni a Woot szerverhez, kérjük próbáld később"
+      }
+    },
+    "SEARCH": {
+      "NO_RESULTS": "Nincs találat."
+    },
+    "MULTI_SELECTOR": {
+      "PLACEHOLDER": "Nincs",
+      "TITLE": {
+        "AGENT": "Ügynök kiválasztása",
+        "TEAM": "Csapat kiválasztása"
+      },
+      "LIST": {
+        "NONE": "Nincs"
+      },
+      "SEARCH": {
+        "NO_RESULTS": {
+          "AGENT": "Nem találunk ügynököt",
+          "TEAM": "Nem találtunk csapatot"
+        },
+        "PLACEHOLDER": {
+          "AGENT": "Ügynökök keresése",
+          "TEAM": "Csapatok keresése",
+          "INPUT": "Ügynök keresése"
+        }
+      }
+    }
+  }
+}

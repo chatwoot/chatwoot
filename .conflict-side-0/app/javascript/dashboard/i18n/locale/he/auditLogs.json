@@ -1,0 +1,77 @@
+{
+  "AUDIT_LOGS": {
+    "HEADER": "יומני ביקורת",
+    "HEADER_BTN_TXT": "הוסף יומני ביקורת",
+    "LOADING": "מאחזר יומני ביקורת",
+    "DESCRIPTION": "יומני ביקורת מתחזקים רישום של פעילויות בחשבונך, ומאפשרים לך לעקוב ולבקר את חשבונך, הצוות או השירותים שלך.",
+    "LEARN_MORE": "למד עוד על יומני ביקורת",
+    "SEARCH_404": "אין פריטים התואמים לשאילתה זו",
+    "SIDEBAR_TXT": "<p><b>Audit Logs</b> </p><p> Audit Logs are trails for events and actions in a Chatwoot System. </p>",
+    "LIST": {
+      "404": "אין יומני ביקורת זמינים בחשבון זה.",
+      "TITLE": "נהל יומני ביקורת",
+      "DESC": "יומני ביקורת הם תיעוד לאירועים ופעולות במערכת Chatwoot.",
+      "TABLE_HEADER": {
+        "ACTIVITY": "משתמש",
+        "TIME": "פעולה",
+        "IP_ADDRESS": "כתובת IP"
+      }
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "יומני ביקורת אוחזרו בהצלחה",
+      "ERROR_MESSAGE": "לא ניתן להתחבר לשרת Woot, נסה שוב מאוחר יותר"
+    },
+    "DEFAULT_USER": "מערכת",
+    "AUTOMATION_RULE": {
+      "ADD": "{agentName} יצר כלל אוטומציה חדש (#{id})",
+      "EDIT": "{agentName} עדכן כלל אוטומציה (#{id})",
+      "DELETE": "{agentName} מחק כלל אוטומציה (#{id})"
+    },
+    "ACCOUNT_USER": {
+      "ADD": "{agentName} הזמין את {invitee} לחשבון בתור {role}",
+      "EDIT": {
+        "SELF": "{agentName} שינה את {attributes} שלו/שלה ל- {values}",
+        "OTHER": "{agentName} שינה את {attributes} של {user} ל- {values}",
+        "DELETED": "{agentName} שינה את {attributes} של משתמש שנמחק ל- {values}"
+      }
+    },
+    "INBOX": {
+      "ADD": "{agentName} יצר תיבת דואר נכנס חדשה (#{id})",
+      "EDIT": "{agentName} עדכן תיבת דואר נכנס (#{id})",
+      "DELETE": "{agentName} מחק תיבת דואר נכנס (#{id})"
+    },
+    "WEBHOOK": {
+      "ADD": "{agentName} יצר Webhook חדש (#{id})",
+      "EDIT": "{agentName} עדכן Webhook (#{id})",
+      "DELETE": "{agentName} מחק Webhook (#{id})"
+    },
+    "USER_ACTION": {
+      "SIGN_IN": "{agentName} נכנס/ה",
+      "SIGN_OUT": "{agentName} יצא/ה"
+    },
+    "TEAM": {
+      "ADD": "{agentName} יצר צוות חדש (#{id})",
+      "EDIT": "{agentName} עדכן צוות (#{id})",
+      "DELETE": "{agentName} מחק צוות (#{id})"
+    },
+    "MACRO": {
+      "ADD": "{agentName} יצר מאקרו חדש (#{id})",
+      "EDIT": "{agentName} עדכן מאקרו (#{id})",
+      "DELETE": "{agentName} מחק מאקרו (#{id})"
+    },
+    "INBOX_MEMBER": {
+      "ADD": "{agentName} הוסיף/ה את {user} לתיבת הדואר הנכנס(#{inbox_id})",
+      "REMOVE": "{agentName} הסיר/ה את {user} מתיבת הדואר הנכנס(#{inbox_id})"
+    },
+    "TEAM_MEMBER": {
+      "ADD": "{agentName} הוסיף/ה את {user} לצוות(#{team_id})",
+      "REMOVE": "{agentName} הסיר/ה את {user} מהצוות(#{team_id})"
+    },
+    "ACCOUNT": {
+      "EDIT": "{agentName} עדכן/ה את הגדרות החשבון (#{id})"
+    },
+    "CONVERSATION": {
+      "DELETE": "{agentName} מחק/ה שיחה #{id}"
+    }
+  }
+}

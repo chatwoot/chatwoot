@@ -1,0 +1,62 @@
+{
+  "INTEGRATION_APPS": {
+    "FETCHING": "Entegrasyonlar alınıyor",
+    "NO_HOOK_CONFIGURED": "Bu hesapta yapılandırılmış {integrationId} entegrasyonu bulunmuyor.",
+    "HEADER": "Uygulamalar",
+    "STATUS": {
+      "ENABLED": "Etkin",
+      "DISABLED": "Devre dışı"
+    },
+    "CONFIGURE": "Yapılandır",
+    "ADD_BUTTON": "Yeni bir bağlantı ekle",
+    "DELETE": {
+      "TITLE": {
+        "INBOX": "Silme işlemini onayla",
+        "ACCOUNT": "Bağlantıyı Kes"
+      },
+      "MESSAGE": {
+        "INBOX": "Silmek istediğinizden emin misiniz?",
+        "ACCOUNT": "Bağlantıyı kesmek istediğinizden emin misiniz?"
+      },
+      "CONFIRM_BUTTON_TEXT": {
+        "INBOX": "Evet, Sil",
+        "ACCOUNT": "Evet, Bağlantıyı Kes"
+      },
+      "CANCEL_BUTTON_TEXT": "İptal Et",
+      "API": {
+        "SUCCESS_MESSAGE": "Bağlantı başarıyla silindi",
+        "ERROR_MESSAGE": "Woot Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
+      }
+    },
+    "LIST": {
+      "FETCHING": "Entegrasyon kancaları alınıyor",
+      "INBOX": "Gelen Kutusu",
+      "DELETE": {
+        "BUTTON_TEXT": "Sil"
+      }
+    },
+    "ADD": {
+      "FORM": {
+        "INBOX": {
+          "LABEL": "Gelen Kutu Seç",
+          "PLACEHOLDER": "Gelen Kutu Seç"
+        },
+        "SUBMIT": "Oluştur",
+        "CANCEL": "İptal Et"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Entegrasyon kancası başarıyla eklendi",
+        "ERROR_MESSAGE": "Woot Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
+      }
+    },
+    "CONNECT": {
+      "BUTTON_TEXT": "Bağlan"
+    },
+    "DISCONNECT": {
+      "BUTTON_TEXT": "Bağlantıyı Kes"
+    },
+    "SIDEBAR_DESCRIPTION": {
+      "DIALOGFLOW": "Dialogflow, konuşmaya dayalı arayüzler oluşturmak için kullanılan bir doğal dil işleme platformudur. Bu platformu {installationName} ile entegre etmek, botların önce sorguları ele almasını ve gerektiğinde temsilcilere aktarmasını sağlar. Sıkça sorulan soruları yanıtlayarak potansiyel müşterileri nitelendirmeye ve temsilci iş yükünü azaltmaya yardımcı olur. Dialogflow eklemek için, Google Console'da bir Hizmet Hesabı (Service Account) oluşturun ve kimlik bilgilerini paylaşın. Detaylar için belgelere bakın"
+    }
+  }
+}

@@ -1,0 +1,119 @@
+{
+  "FILTER": {
+    "TITLE": "Gesprekken filteren",
+    "SUBTITLE": "Add your filters below and hit 'Apply filters' to cut through the chat clutter.",
+    "EDIT_CUSTOM_FILTER": "Map bewerken",
+    "CUSTOM_VIEWS_SUBTITLE": "Filters toevoegen of verwijderen en bijwerken van uw folder.",
+    "ADD_NEW_FILTER": "Filter toevoegen",
+    "FILTER_DELETE_ERROR": "Oeps, het lijkt erop dat we niets kunnen opslaan! Voeg ten minste één filter toe om het op te slaan.",
+    "SUBMIT_BUTTON_LABEL": "Filters toepassen",
+    "UPDATE_BUTTON_LABEL": "Update folder",
+    "CANCEL_BUTTON_LABEL": "Annuleren",
+    "CLEAR_BUTTON_LABEL": "Filters wissen",
+    "FOLDER_LABEL": "Folder naam",
+    "FOLDER_QUERY_LABEL": "Folder Query",
+    "EMPTY_VALUE_ERROR": "Waarde is vereist.",
+    "TOOLTIP_LABEL": "Gesprekken filteren",
+    "QUERY_DROPDOWN_LABELS": {
+      "AND": "EN",
+      "OR": "OF"
+    },
+    "INPUT_PLACEHOLDER": "Enter value",
+    "OPERATOR_LABELS": {
+      "equal_to": "Gelijk aan",
+      "not_equal_to": "Niet gelijk aan",
+      "does_not_contain": "Bevat niet",
+      "is_present": "Is aanwezig",
+      "is_not_present": "Is niet aanwezig",
+      "is_greater_than": "Is groter dan",
+      "is_less_than": "Is lager dan",
+      "days_before": "Is x dagen vóór",
+      "starts_with": "Begint met",
+      "equalTo": "Gelijk aan",
+      "notEqualTo": "Niet gelijk aan",
+      "contains": "Bevat",
+      "doesNotContain": "Bevat niet",
+      "isPresent": "Is aanwezig",
+      "isNotPresent": "Is niet aanwezig",
+      "isGreaterThan": "Is groter dan",
+      "isLessThan": "Is minder dan",
+      "daysBefore": "Is x dagen vóór",
+      "startsWith": "Begint met"
+    },
+    "ATTRIBUTE_LABELS": {
+      "TRUE": "Waar",
+      "FALSE": "Onwaar"
+    },
+    "ATTRIBUTES": {
+      "STATUS": "Status",
+      "ASSIGNEE_NAME": "Toegewezen naam",
+      "INBOX_NAME": "Naam postvak",
+      "TEAM_NAME": "Team Naam",
+      "CONVERSATION_IDENTIFIER": "Conversatie ID",
+      "CAMPAIGN_NAME": "Campagne naam",
+      "LABELS": "Labelen",
+      "BROWSER_LANGUAGE": "Browser taal",
+      "PRIORITY": "Prioriteit",
+      "COUNTRY_NAME": "Land naam",
+      "REFERER_LINK": "Verwijzende link",
+      "CUSTOM_ATTRIBUTE_LIST": "Lijst",
+      "CUSTOM_ATTRIBUTE_TEXT": "Tekst",
+      "CUSTOM_ATTRIBUTE_NUMBER": "Getal",
+      "CUSTOM_ATTRIBUTE_LINK": "Link",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "Selectievakje",
+      "CREATED_AT": "Aangemaakt op",
+      "LAST_ACTIVITY": "Laatste Activiteit"
+    },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Waarde is vereist",
+      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
+      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998"
+    },
+    "GROUPS": {
+      "STANDARD_FILTERS": "Standaard filters",
+      "ADDITIONAL_FILTERS": "Aanvullende filters",
+      "CUSTOM_ATTRIBUTES": "Aangepaste attributen"
+    },
+    "CUSTOM_VIEWS": {
+      "ADD": {
+        "TITLE": "Wil je deze filter opslaan?",
+        "LABEL": "Geef deze filter een naam",
+        "PLACEHOLDER": "Name your filter to refer it later.",
+        "ERROR_MESSAGE": "Naam is vereist.",
+        "SAVE_BUTTON": "Filter opslaan",
+        "CANCEL_BUTTON": "Annuleren",
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "Map succesvol aangemaakt.",
+          "ERROR_MESSAGE": "Fout tijdens het aanmaken van map."
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "Segment succesvol aangemaakt.",
+          "ERROR_MESSAGE": "Fout bij het maken van segment."
+        }
+      },
+      "EDIT": {
+        "EDIT_BUTTON": "Map bewerken"
+      },
+      "DELETE": {
+        "DELETE_BUTTON": "Filter verwijderen",
+        "MODAL": {
+          "CONFIRM": {
+            "TITLE": "Verwijdering bevestigen",
+            "MESSAGE": "Weet u zeker dat u de filter wilt verwijderen? ",
+            "YES": "Ja, verwijderen",
+            "NO": "Nee, bewaar het"
+          }
+        },
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "Map succesvol verwijderd.",
+          "ERROR_MESSAGE": "Fout bij verwijderen map."
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "Segment succesvol verwijderd.",
+          "ERROR_MESSAGE": "Fout bij verwijderen segment."
+        }
+      }
+    }
+  }
+}

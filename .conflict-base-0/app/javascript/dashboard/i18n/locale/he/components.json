@@ -1,0 +1,56 @@
+{
+  "PAGINATION_FOOTER": {
+    "SHOWING": "מציג פריטים {startItem} עד {endItem} מתוך {totalItems}",
+    "CURRENT_PAGE_INFO": "{currentPage} מתוך {totalPages} עמודים"
+  },
+  "COMBOBOX": {
+    "PLACEHOLDER": "בחר אפשרות...",
+    "EMPTY_SEARCH_RESULTS": "לא נמצאו פריטים עבור מונח החיפוש `{searchTerm}`",
+    "EMPTY_STATE": "לא נמצאו תוצאות.",
+    "SEARCH_PLACEHOLDER": "חיפוש...",
+    "MORE": "+{count} נוספים"
+  },
+  "DROPDOWN_MENU": {
+    "SEARCH_PLACEHOLDER": "חיפוש...",
+    "EMPTY_STATE": "לא נמצאו תוצאות.",
+    "SEARCHING": "מחפש..."
+  },
+  "DIALOG": {
+    "BUTTONS": {
+      "CANCEL": "ביטול",
+      "CONFIRM": "אמת"
+    }
+  },
+  "PHONE_INPUT": {
+    "SEARCH_PLACEHOLDER": "חפש מדינה",
+    "ERROR": "מספר הטלפון צריך להיות ריק או בפורמט E.164",
+    "DIAL_CODE_ERROR": "נא בחר קוד מדינה מהרשימה"
+  },
+  "THUMBNAIL": {
+    "AUTHOR": {
+      "NOT_AVAILABLE": "המחבר אינו זמין"
+    }
+  },
+  "BREADCRUMB": {
+    "ARIA_LABEL": "פירורי לחם (Breadcrumb)"
+  },
+  "SWITCH": {
+    "TOGGLE": "מתג הפעלה/כיבוי"
+  },
+  "LABEL": {
+    "TAG_BUTTON": "תג"
+  },
+  "FEATURE_SPOTLIGHT": {
+    "LEARN_MORE": "למד עוד",
+    "WATCH_VIDEO": "צפה בסרטון"
+  },
+  "DURATION_INPUT": {
+    "MINUTES": "דקות",
+    "HOURS": "שעות",
+    "DAYS": "ימים",
+    "PLACEHOLDER": "הזן משך זמן"
+  },
+  "CHANNEL_SELECTOR": {
+    "COMING_SOON": "בקרוב!"
+  }
+}

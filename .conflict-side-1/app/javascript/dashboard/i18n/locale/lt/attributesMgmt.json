@@ -1,0 +1,138 @@
+{
+  "ATTRIBUTES_MGMT": {
+    "HEADER": "Personalizuoti Požymiai",
+    "HEADER_BTN_TXT": "Pridėti personalizuotą požymį",
+    "LOADING": "Gaunami personalizuoti požymiai",
+    "DESCRIPTION": "A custom attribute tracks additional details about your contacts or conversations—such as the subscription plan or the date of their first purchase. You can add different types of custom attributes, such as text, lists, or numbers, to capture the specific information you need.",
+    "LEARN_MORE": "Learn more about custom attributes",
+    "ATTRIBUTE_MODELS": {
+      "CONVERSATION": "Pokalbis",
+      "CONTACT": "Kontaktas"
+    },
+    "ATTRIBUTE_TYPES": {
+      "TEXT": "Tekstas",
+      "NUMBER": "Numeris",
+      "LINK": "Nuoroda",
+      "DATE": "Date",
+      "LIST": "Sąrašas",
+      "CHECKBOX": "Žymimasis langelis"
+    },
+    "ADD": {
+      "TITLE": "Pridėti personalizuotą požymį",
+      "SUBMIT": "Sukurti",
+      "CANCEL_BUTTON_TEXT": "Atšaukti",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Rodomas Vardas",
+          "PLACEHOLDER": "Įveskite personalizuoto požymio rodomą vardą",
+          "ERROR": "Yra reikalingas vardas"
+        },
+        "DESC": {
+          "LABEL": "Aprašymas",
+          "PLACEHOLDER": "Įveskite personalizuotą požymio aprašymą",
+          "ERROR": "Būtinas aprašymas"
+        },
+        "MODEL": {
+          "LABEL": "Taikomas",
+          "PLACEHOLDER": "Prašau pasirinkti vieną",
+          "ERROR": "Yra reikalingas modelis"
+        },
+        "TYPE": {
+          "LABEL": "Tipas",
+          "PLACEHOLDER": "Prašau pasirinkti tipą",
+          "ERROR": "Yra reikalingas tipas",
+          "LIST": {
+            "LABEL": "Reikšmių sąrašas",
+            "PLACEHOLDER": "Įveskite reikšmę ir paspauskite klavišą Enter",
+            "ERROR": "Turi turėti bent vieną reikšmę"
+          }
+        },
+        "KEY": {
+          "LABEL": "Raktas",
+          "PLACEHOLDER": "Įveskite personalizuotą atributo raktą",
+          "ERROR": "Yra reikalingas raktas",
+          "IN_VALID": "Neteisingas raktas"
+        },
+        "REGEX_PATTERN": {
+          "LABEL": "Regex Pattern",
+          "PLACEHOLDER": "Please enter custom attribute regex pattern. (Optional)"
+        },
+        "REGEX_CUE": {
+          "LABEL": "Regex Cue",
+          "PLACEHOLDER": "Please enter regex pattern hint. (Optional)"
+        },
+        "ENABLE_REGEX": {
+          "LABEL": "Enable regex validation"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Personalizuotas požymis pridėtas sėkmingai!",
+        "ERROR_MESSAGE": "Nepavyko sukurti personalizuoto požymio. Pabandykite dar kartą vėliau."
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Ištrinti",
+      "API": {
+        "SUCCESS_MESSAGE": "Personalizuotas požymis ištrintas sėkmingai.",
+        "ERROR_MESSAGE": "Nepavyko ištrinti personalizuoto požymio. Pabandykite dar kartą vėliau."
+      },
+      "CONFIRM": {
+        "TITLE": "Ar tikrai norite ištrinti – {attributeName}",
+        "PLACE_HOLDER": "Įveskite {attributeName}, kad patvirtintumėte",
+        "MESSAGE": "Ištrynus bus pašalintas personalizuotas požymis",
+        "YES": "Ištrinti ",
+        "NO": "Atšaukti"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Redaguoti personalizuotą požymį",
+      "UPDATE_BUTTON_TEXT": "Atnaujinti",
+      "TYPE": {
+        "LIST": {
+          "LABEL": "Reikšmių sąrašas",
+          "PLACEHOLDER": "Įveskite reikšmes ir paspauskite klavišą Enter"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Personalizuotas požymis atnaujintas sėkmingai",
+        "ERROR_MESSAGE": "Atnaujinant personalizuotą požymį įvyko klaida, bandykite dar kartą"
+      }
+    },
+    "TABS": {
+      "HEADER": "Personalizuoti Požymiai",
+      "CONVERSATION": "Pokalbis",
+      "CONTACT": "Kontaktas"
+    },
+    "LIST": {
+      "TABLE_HEADER": {
+        "NAME": "Vardas",
+        "DESCRIPTION": "Aprašymas",
+        "TYPE": "Tipas",
+        "KEY": "Raktas"
+      },
+      "BUTTONS": {
+        "EDIT": "Redaguoti",
+        "DELETE": "Ištrinti"
+      },
+      "EMPTY_RESULT": {
+        "404": "Nėra sukurta personalizuotų požymių",
+        "NOT_FOUND": "Nėra sukonfiguruota personalizuotų požymių"
+      },
+      "REGEX_PATTERN": {
+        "LABEL": "Regex Pattern",
+        "PLACEHOLDER": "Please enter custom attribute regex pattern. (Optional)"
+      },
+      "REGEX_CUE": {
+        "LABEL": "Regex Cue",
+        "PLACEHOLDER": "Please enter regex pattern hint. (Optional)"
+      },
+      "ENABLE_REGEX": {
+        "LABEL": "Enable regex validation"
+      }
+    },
+    "BADGES": {
+      "PRE_CHAT": "Pre-chat",
+      "RESOLUTION": "Resolution"
+    }
+  }
+}

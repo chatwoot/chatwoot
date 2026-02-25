@@ -1,0 +1,1057 @@
+{
+  "INBOX_MGMT": {
+    "HEADER": "Inbox",
+    "DESCRIPTION": "Un canale è il mezzo di comunicazione che il cliente usa per interagire con te. Una Inbox è lo spazio in cui gestisci le interazioni di uno specifico canale. Può includere comunicazioni provenienti da diverse fonti, come email, live chat e social media.",
+    "LEARN_MORE": "Scopri di più sulle Inbox",
+    "RECONNECTION_REQUIRED": "La tua Inbox è disconnessa. Non riceverai nuovi messaggi finché non la autorizzerai nuovamente.",
+    "CLICK_TO_RECONNECT": "Clicca qui per riconnetterti.",
+    "WHATSAPP_REGISTRATION_INCOMPLETE": "La registrazione di WhatsApp Business non è completa. Si prega di controllare lo stato del nome visualizzato in Meta Business Manager prima di riconnettersi.",
+    "COMPLETE_REGISTRATION": "Completa Registrazione",
+    "LIST": {
+      "404": "Non ci sono inbox allegate a questo account."
+    },
+    "CREATE_FLOW": {
+      "CHANNEL": {
+        "TITLE": "Scegli il canale",
+        "BODY": "Scegli il provider che vuoi integrare con Chatwoot."
+      },
+      "INBOX": {
+        "TITLE": "Crea Inbox",
+        "BODY": "Autentica il tuo account e crea una inbox."
+      },
+      "AGENT": {
+        "TITLE": "Aggiungi Operatori",
+        "BODY": "Aggiungi operatori alla inbox creata."
+      },
+      "FINISH": {
+        "TITLE": "Voilà!",
+        "BODY": "Sei pronto per iniziare!"
+      }
+    },
+    "ADD": {
+      "CHANNEL_NAME": {
+        "LABEL": "Nome Inbox",
+        "PLACEHOLDER": "Inserisci il nome della tua Inbox (ad esempio: Acme Srl)",
+        "ERROR": "Inserisci un nome Inbox valido"
+      },
+      "WEBSITE_NAME": {
+        "LABEL": "Nome Sito Web",
+        "PLACEHOLDER": "Inserisci il nome del tuo sito web (ad esempio: Acme Srl)"
+      },
+      "FB": {
+        "HELP": "PS: Accedendo, abbiamo accesso solo ai messaggi della tua pagina. Chatwoot non potrà accedere ai tuoi messaggi privati.",
+        "CHOOSE_PAGE": "Scegli una Pagina",
+        "CHOOSE_PLACEHOLDER": "Seleziona una pagina dalla lista",
+        "INBOX_NAME": "Nome Inbox",
+        "ADD_NAME": "Aggiungi un nome per la tua inbox",
+        "PICK_NAME": "Scegli un nome per la tua Inbox",
+        "PICK_A_VALUE": "Scegli un valore",
+        "CREATE_INBOX": "Crea Inbox"
+      },
+      "INSTAGRAM": {
+        "CONTINUE_WITH_INSTAGRAM": "Continua con Instagram",
+        "CONNECT_YOUR_INSTAGRAM_PROFILE": "Collega il tuo profilo Instagram",
+        "HELP": "Per aggiungere il tuo profilo Instagram come canale, devi autenticare il tuo profilo Instagram cliccando su 'Continua con Instagram' ",
+        "ERROR_MESSAGE": "Si è verificato un errore nella connessione a Instagram, riprova",
+        "ERROR_AUTH": "Si è verificato un errore nella connessione a Instagram, riprova",
+        "NEW_INBOX_SUGGESTION": "Questo account Instagram era precedentemente collegato a una Inbox diversa ed è stato ora migrato qui. Tutti i nuovi messaggi appariranno qui. La vecchia Inbox non sarà più in grado di inviare o ricevere messaggi per questo account.",
+        "DUPLICATE_INBOX_BANNER": "Questo account Instagram è stato migrato alla nuova Inbox del canale Instagram. Non sarai più in grado di inviare/ricevere messaggi Instagram da questa Inbox."
+      },
+      "TIKTOK": {
+        "CONTINUE_WITH_TIKTOK": "Continua con TikTok",
+        "CONNECT_YOUR_TIKTOK_PROFILE": "Connetti il tuo profilo TikTok",
+        "HELP": "Per aggiungere il tuo profilo TikTok come canale, devi autenticare il tuo profilo TikTok cliccando su 'Continua con TikTok' ",
+        "ERROR_MESSAGE": "Si è verificato un errore nella connessione a TikTok, riprova",
+        "ERROR_AUTH": "Si è verificato un errore nella connessione a TikTok, riprova"
+      },
+      "TWITTER": {
+        "HELP": "Per aggiungere il tuo profilo Twitter come canale, devi autenticare il tuo profilo Twitter cliccando su 'Accedi con Twitter' ",
+        "ERROR_MESSAGE": "Si è verificato un errore nella connessione a Twitter, riprova",
+        "TWEETS": {
+          "ENABLE": "Crea conversazioni dai Tweet menzionati"
+        }
+      },
+      "WEBSITE_CHANNEL": {
+        "TITLE": "Canale sito web",
+        "DESC": "Crea un canale per il tuo sito web ed inizia a dare supporto ai tuoi clienti tramite il nostro widget per siti web.",
+        "LOADING_MESSAGE": "Creazione del Canale di Supporto Sito Web",
+        "CHANNEL_AVATAR": {
+          "LABEL": "Avatar del canale"
+        },
+        "CHANNEL_WEBHOOK_URL": {
+          "LABEL": "URL del webhook",
+          "PLACEHOLDER": "Inserisci il tuo URL Webhook",
+          "ERROR": "Inserisci un URL valido"
+        },
+        "CHANNEL_DOMAIN": {
+          "LABEL": "Dominio del Sito",
+          "PLACEHOLDER": "Inserisci il dominio del tuo sito web (es: acme.com)"
+        },
+        "CHANNEL_WELCOME_TITLE": {
+          "LABEL": "Intestazione di benvenuto",
+          "PLACEHOLDER": "Ciao!"
+        },
+        "CHANNEL_WELCOME_TAGLINE": {
+          "LABEL": "Titolo di benvenuto",
+          "PLACEHOLDER": "Siamo qui per aiutarti. Facci una domanda o condividi il tuo feedback."
+        },
+        "CHANNEL_GREETING_MESSAGE": {
+          "LABEL": "Messaggio di saluto del canale",
+          "PLACEHOLDER": "Acme Srl generalmente risponde in poche ore."
+        },
+        "CHANNEL_GREETING_TOGGLE": {
+          "LABEL": "Abilita messaggio di benvenuto sul canale",
+          "HELP_TEXT": "Invia automaticamente un messaggio di benvenuto quando un cliente avvia una nuova conversazione.",
+          "ENABLED": "Abilitato",
+          "DISABLED": "Disabilitato"
+        },
+        "REPLY_TIME": {
+          "TITLE": "Imposta tempo di risposta",
+          "IN_A_FEW_MINUTES": "In pochi minuti",
+          "IN_A_FEW_HOURS": "In poche ore",
+          "IN_A_DAY": "In un giorno",
+          "HELP_TEXT": "Questo tempo di risposta verrà mostrato sul widget della live chat"
+        },
+        "WIDGET_COLOR": {
+          "LABEL": "Colore del widget",
+          "PLACEHOLDER": "Aggiorna il colore del widget utilizzato nel widget"
+        },
+        "SUBMIT_BUTTON": "Crea Inbox",
+        "API": {
+          "ERROR_MESSAGE": "Impossibile creare il canale sito web, riprova"
+        }
+      },
+      "TWILIO": {
+        "TITLE": "Canale Twilio SMS/WhatsApp",
+        "DESC": "Integra Twilio e inizia a supportare i tuoi clienti tramite SMS o WhatsApp.",
+        "ACCOUNT_SID": {
+          "LABEL": "SID dell'account",
+          "PLACEHOLDER": "Inserisci il tuo SID Account Twilio",
+          "ERROR": "Questo campo è obbligatorio"
+        },
+        "API_KEY": {
+          "USE_API_KEY": "Usa l’autenticazione con chiave API",
+          "LABEL": "API Key SID",
+          "PLACEHOLDER": "Inserisci la tua API Key SID",
+          "ERROR": "Questo campo è obbligatorio"
+        },
+        "API_KEY_SECRET": {
+          "LABEL": "API Key Secret",
+          "PLACEHOLDER": "Inserisci la tua API Key Secret",
+          "ERROR": "Questo campo è obbligatorio"
+        },
+        "MESSAGING_SERVICE_SID": {
+          "LABEL": "SID Servizio Messaggi",
+          "PLACEHOLDER": "Inserisci il SID Servizio Messaggi di Twilio",
+          "ERROR": "Questo campo è obbligatorio",
+          "USE_MESSAGING_SERVICE": "Usa un servizio di messaggistica Twilio"
+        },
+        "CHANNEL_TYPE": {
+          "LABEL": "Tipo di canale",
+          "ERROR": "Seleziona il tipo di canale"
+        },
+        "AUTH_TOKEN": {
+          "LABEL": "Token di autenticazione",
+          "PLACEHOLDER": "Inserisci il tuo Token Autenticazione Twilio",
+          "ERROR": "Questo campo è obbligatorio"
+        },
+        "CHANNEL_NAME": {
+          "LABEL": "Nome Inbox",
+          "PLACEHOLDER": "Inserisci un nome della Inbox",
+          "ERROR": "Questo campo è obbligatorio"
+        },
+        "PHONE_NUMBER": {
+          "LABEL": "Numero di Telefono",
+          "PLACEHOLDER": "Inserisci il numero di telefono dal quale verrà inviato il messaggio.",
+          "ERROR": "Inserisci un numero di telefono valido che inizi con un `+` e non contenga spazi."
+        },
+        "API_CALLBACK": {
+          "TITLE": "URL di callback",
+          "SUBTITLE": "È necessario configurare l'URL di callback del messaggio in Twilio con l'URL menzionato qui."
+        },
+        "SUBMIT_BUTTON": "Crea un canale Twilio",
+        "API": {
+          "ERROR_MESSAGE": "Non siamo stati in grado di autenticare le credenziali di Twilio, riprova"
+        }
+      },
+      "SMS": {
+        "TITLE": "Canale SMS",
+        "DESC": "Inizia a supportare i tuoi clienti tramite SMS.",
+        "PROVIDERS": {
+          "LABEL": "Provider API",
+          "TWILIO": "Twilio",
+          "BANDWIDTH": "Bandwidth"
+        },
+        "API": {
+          "ERROR_MESSAGE": "Impossibile salvare il canale SMS"
+        },
+        "BANDWIDTH": {
+          "ACCOUNT_ID": {
+            "LABEL": "ID Account",
+            "PLACEHOLDER": "Inserisci il tuo Account ID Bandwidth",
+            "ERROR": "Questo campo è obbligatorio"
+          },
+          "API_KEY": {
+            "LABEL": "Chiave API",
+            "PLACEHOLDER": "Inserisci la tua chiave API di Bandwidth",
+            "ERROR": "Questo campo è obbligatorio"
+          },
+          "API_SECRET": {
+            "LABEL": "Chiave API segreta",
+            "PLACEHOLDER": "Inserisci la tua API Secret di Bandwidth",
+            "ERROR": "Questo campo è obbligatorio"
+          },
+          "APPLICATION_ID": {
+            "LABEL": "ID Applicazione",
+            "PLACEHOLDER": "Inserisci il tuo ID Applicazione di Bandwidth",
+            "ERROR": "Questo campo è obbligatorio"
+          },
+          "INBOX_NAME": {
+            "LABEL": "Nome Inbox",
+            "PLACEHOLDER": "Inserisci un nome della Inbox",
+            "ERROR": "Questo campo è obbligatorio"
+          },
+          "PHONE_NUMBER": {
+            "LABEL": "Numero di telefono",
+            "PLACEHOLDER": "Inserisci il numero di telefono dal quale verrà inviato il messaggio.",
+            "ERROR": "Inserisci un numero di telefono valido che inizi con un `+` e non contenga spazi."
+          },
+          "SUBMIT_BUTTON": "Crea un Canale Bandwidth",
+          "API": {
+            "ERROR_MESSAGE": "Impossibile autenticare le credenziali di Bandwidth, riprova"
+          },
+          "API_CALLBACK": {
+            "TITLE": "URL di callback",
+            "SUBTITLE": "È necessario configurare l'URL di callback del messaggio in Bandwidth con l'URL menzionato qui."
+          }
+        }
+      },
+      "WHATSAPP": {
+        "TITLE": "Canale WhatsApp",
+        "DESC": "Inizia a supportare i tuoi clienti tramite WhatsApp.",
+        "PROVIDERS": {
+          "LABEL": "Provider API",
+          "WHATSAPP_EMBEDDED": "WhatsApp Business",
+          "TWILIO": "Twilio",
+          "WHATSAPP_CLOUD": "WhatsApp Cloud",
+          "WHATSAPP_CLOUD_DESC": "Configurazione rapida tramite Meta",
+          "TWILIO_DESC": "Connetti tramite credenziali Twilio",
+          "360_DIALOG": "360Dialog"
+        },
+        "SELECT_PROVIDER": {
+          "TITLE": "Seleziona il tuo API provider",
+          "DESCRIPTION": "Scegli il tuo provider WhatsApp. Puoi connetterti direttamente tramite Meta che non richiede alcuna configurazione o connetterti tramite Twilio utilizzando le credenziali del tuo account."
+        },
+        "INBOX_NAME": {
+          "LABEL": "Nome Inbox",
+          "PLACEHOLDER": "Inserisci un nome della Inbox",
+          "ERROR": "Questo campo è obbligatorio"
+        },
+        "PHONE_NUMBER": {
+          "LABEL": "Numero di telefono",
+          "PLACEHOLDER": "Inserisci il numero di telefono dal quale verrà inviato il messaggio.",
+          "ERROR": "Inserisci un numero di telefono valido che inizi con un `+` e non contenga spazi."
+        },
+        "PHONE_NUMBER_ID": {
+          "LABEL": "ID numero di telefono",
+          "PLACEHOLDER": "Inserisci l'ID del numero di telefono ottenuto dalla dashboard sviluppatore di Facebook.",
+          "ERROR": "Inserisci un valore valido."
+        },
+        "BUSINESS_ACCOUNT_ID": {
+          "LABEL": "ID Account Business",
+          "PLACEHOLDER": "Inserisci l'ID dell'Account Business ottenuto dalla dashboard sviluppatore di Facebook.",
+          "ERROR": "Inserisci un valore valido."
+        },
+        "WEBHOOK_VERIFY_TOKEN": {
+          "LABEL": "Webhook verifica token",
+          "PLACEHOLDER": "Inserisci un token di verifica che vuoi configurare per i webhook Facebook.",
+          "ERROR": "Inserisci un valore valido."
+        },
+        "API_KEY": {
+          "LABEL": "Chiave API",
+          "SUBTITLE": "Configura la chiave API di WhatsApp.",
+          "PLACEHOLDER": "Chiave API",
+          "ERROR": "Inserisci un valore valido."
+        },
+        "API_CALLBACK": {
+          "TITLE": "URL di callback",
+          "SUBTITLE": "È necessario configurare l'URL del webhook e il token di verifica nel portale Facebook Developer con i valori mostrati di seguito.",
+          "WEBHOOK_URL": "URL del webhook",
+          "WEBHOOK_VERIFICATION_TOKEN": "Token Di Verifica Webhook"
+        },
+        "SUBMIT_BUTTON": "Crea Canale WhatsApp",
+        "EMBEDDED_SIGNUP": {
+          "TITLE": "Configurazione rapida tramite Meta",
+          "DESC": "Utilizza il WhatsApp Embedded Signup per collegare rapidamente nuovi numeri. Sarai reindirizzato a Meta per accedere al tuo account WhatsApp Business. Avere accesso amministratore aiuterà a rendere la configurazione semplice e facile.",
+          "BENEFITS": {
+            "TITLE": "Vantaggi della registrazione integrata:",
+            "EASY_SETUP": "Nessuna configurazione manuale richiesta",
+            "SECURE_AUTH": "Autenticazione sicura basata su OAuth",
+            "AUTO_CONFIG": "Configurazione automatica del webhook e del numero di telefono"
+          },
+          "LEARN_MORE": {
+            "TEXT": "Per saperne di più su embedded signup, prezzi e limitazioni, visita {link}.",
+            "LINK_TEXT": "questo link"
+          },
+          "SUBMIT_BUTTON": "Connetti con WhatsApp Business",
+          "AUTH_PROCESSING": "Autenticazione con Meta",
+          "WAITING_FOR_BUSINESS_INFO": "Completa la configurazione aziendale nella finestra Meta...",
+          "PROCESSING": "Configurazione del tuo account WhatsApp Business",
+          "LOADING_SDK": "Caricamento del Facebook SDK...",
+          "CANCELLED": "Registrazione WhatsApp annullata",
+          "SUCCESS_TITLE": "Account WhatsApp Business connesso!",
+          "WAITING_FOR_AUTH": "In attesa dell'autenticazione...",
+          "INVALID_BUSINESS_DATA": "Dati aziendali non validi ricevuti da Facebook. Riprova.",
+          "SIGNUP_ERROR": "Errore di registrazione",
+          "AUTH_NOT_COMPLETED": "Autenticazione non completata. Riavvia il processo.",
+          "SUCCESS_FALLBACK": "Account WhatsApp Business è stato configurato con successo",
+          "MANUAL_FALLBACK": "Se il tuo numero è già connesso alla WhatsApp Business Platform (API), o se sei un provider tecnologico, si prega di utilizzare il {link}",
+          "MANUAL_LINK_TEXT": "flow di registrazione manuale"
+        },
+        "API": {
+          "ERROR_MESSAGE": "Impossibile salvare il canale WhatsApp"
+        }
+      },
+      "VOICE": {
+        "TITLE": "Canale Vocale",
+        "DESC": "Integra Twilio Voice e inizia a supportare i tuoi clienti tramite telefonate.",
+        "PHONE_NUMBER": {
+          "LABEL": "Numero di Telefono",
+          "PLACEHOLDER": "Inserisci il tuo numero di telefono (es. +1234567890)",
+          "ERROR": "Fornisci un numero di telefono valido in formato E.164 (ad es. +1234567890)"
+        },
+        "TWILIO": {
+          "ACCOUNT_SID": {
+            "LABEL": "SID dell'account",
+            "PLACEHOLDER": "Inserisci il tuo Account SID Twilio",
+            "REQUIRED": "Account SID richiesto"
+          },
+          "AUTH_TOKEN": {
+            "LABEL": "Token di autenticazione",
+            "PLACEHOLDER": "Inserisci il tuo Auth Token Twilio",
+            "REQUIRED": "Auth Token richiesto"
+          },
+          "API_KEY_SID": {
+            "LABEL": "API Key SID",
+            "PLACEHOLDER": "Inserisci il tuo SID API Twilio",
+            "REQUIRED": "API Key SID richiesto"
+          },
+          "API_KEY_SECRET": {
+            "LABEL": "API Key Secret",
+            "PLACEHOLDER": "Inserisci il tuo API Key Secret Twilio",
+            "REQUIRED": "API Key Secret richiesto"
+          }
+        },
+        "CONFIGURATION": {
+          "TWILIO_VOICE_URL_TITLE": "Twilio Voice URL",
+          "TWILIO_VOICE_URL_SUBTITLE": "Configura questo URL come Voice URL sul tuo numero di telefono Twilio e TwiML App.",
+          "TWILIO_STATUS_URL_TITLE": "Twilio Status Callback URL",
+          "TWILIO_STATUS_URL_SUBTITLE": "Configurare questo URL come URL di Callback di Stato sul tuo numero di telefono Twilio."
+        },
+        "SUBMIT_BUTTON": "Crea Canale Vocale",
+        "API": {
+          "ERROR_MESSAGE": "Non siamo stati in grado di creare il canale vocale"
+        }
+      },
+      "API_CHANNEL": {
+        "TITLE": "Canale API",
+        "DESC": "Integra con il canale API e inizia a supportare i tuoi clienti.",
+        "CHANNEL_NAME": {
+          "LABEL": "Nome Canale",
+          "PLACEHOLDER": "Inserisci un nome del canale",
+          "ERROR": "Questo campo è obbligatorio"
+        },
+        "WEBHOOK_URL": {
+          "LABEL": "URL del webhook",
+          "SUBTITLE": "Configura l'URL in cui ricevere i callback sugli eventi.",
+          "PLACEHOLDER": "URL del webhook"
+        },
+        "SUBMIT_BUTTON": "Crea Canale API",
+        "API": {
+          "ERROR_MESSAGE": "Impossibile salvare il Canale API"
+        }
+      },
+      "EMAIL_CHANNEL": {
+        "TITLE": "Canale Email",
+        "DESC": "Integra la tua casella di posta elettronica.",
+        "CHANNEL_NAME": {
+          "LABEL": "Nome Canale",
+          "PLACEHOLDER": "Inserisci un nome del canale",
+          "ERROR": "Questo campo è obbligatorio"
+        },
+        "EMAIL": {
+          "LABEL": "Email",
+          "SUBTITLE": "Email dove i tuoi clienti inviano i ticket di supporto.",
+          "PLACEHOLDER": "Email"
+        },
+        "SUBMIT_BUTTON": "Crea Canale Email",
+        "API": {
+          "ERROR_MESSAGE": "Impossibile salvare il canale email"
+        },
+        "FINISH_MESSAGE": "Inizia a inoltrare le tue email al seguente indirizzo email.",
+        "FINISH_MESSAGE_NO_FORWARDING": "La tua Inbox email è stata creata con successo! Devi configurare le credenziali SMTP e IMAP per inviare e ricevere e-mail. Senza queste impostazioni non sarà possibile gestire le email.",
+        "FORWARDING_ADDRESS_LABEL": "Inoltra le email a questo indirizzo:",
+        "CONFIGURE_SMTP_IMAP_LINK": "Clicca qui",
+        "CONFIGURE_SMTP_IMAP_TEXT": " per configurare le impostazioni IMAP e SMTP"
+      },
+      "LINE_CHANNEL": {
+        "TITLE": "Canale LINE",
+        "DESC": "Integra con il canale LINE e inizia a supportare i tuoi clienti.",
+        "CHANNEL_NAME": {
+          "LABEL": "Nome Canale",
+          "PLACEHOLDER": "Inserisci un nome del canale",
+          "ERROR": "Questo campo è obbligatorio"
+        },
+        "LINE_CHANNEL_ID": {
+          "LABEL": "ID canale LINE",
+          "PLACEHOLDER": "ID canale LINE"
+        },
+        "LINE_CHANNEL_SECRET": {
+          "LABEL": "Chiave segreta canale LINE",
+          "PLACEHOLDER": "Chiave segreta canale LINE"
+        },
+        "LINE_CHANNEL_TOKEN": {
+          "LABEL": "Token canale LINE",
+          "PLACEHOLDER": "Token canale LINE"
+        },
+        "SUBMIT_BUTTON": "Crea un canale LINE",
+        "API": {
+          "ERROR_MESSAGE": "Non siamo stati in grado di salvare il canale LINE"
+        },
+        "API_CALLBACK": {
+          "TITLE": "URL di callback",
+          "SUBTITLE": "È necessario configurare l'URL del webhook nell'applicazione LINE con l'URL menzionato qui."
+        }
+      },
+      "TELEGRAM_CHANNEL": {
+        "TITLE": "Canale Telegram",
+        "DESC": "Integra con il canale Telegram e inizia a supportare i tuoi clienti.",
+        "BOT_TOKEN": {
+          "LABEL": "Token Bot",
+          "SUBTITLE": "Configura il token del bot che hai ottenuto da Telegram BotFather.",
+          "PLACEHOLDER": "Token Bot"
+        },
+        "SUBMIT_BUTTON": "Crea Canale Telegram",
+        "API": {
+          "ERROR_MESSAGE": "Non siamo stati in grado di salvare il canale Telegram"
+        }
+      },
+      "AUTH": {
+        "TITLE": "Scegli un canale",
+        "DESC": "Chatwoot supporta widget di live chat, Facebook Messenger, WhatsApp, Email e altro, come canali di comunicazione. Se vuoi creare un canale personalizzato, puoi farlo tramite il canale API. Per iniziare, scegli uno dei canali qui sotto.",
+        "TITLE_NEXT": "Completa la configurazione",
+        "TITLE_FINISH": "Voilà!",
+        "CHANNEL": {
+          "WEBSITE": {
+            "TITLE": "Sito Web",
+            "DESCRIPTION": "Crea un widget live-chat"
+          },
+          "FACEBOOK": {
+            "TITLE": "Facebook",
+            "DESCRIPTION": "Connetti la tua pagina Facebook"
+          },
+          "WHATSAPP": {
+            "TITLE": "WhatsApp",
+            "DESCRIPTION": "Supporta i tuoi clienti su WhatsApp"
+          },
+          "EMAIL": {
+            "TITLE": "Email",
+            "DESCRIPTION": "Connettiti con Gmail, Outlook, o altri provider"
+          },
+          "SMS": {
+            "TITLE": "SMS",
+            "DESCRIPTION": "Integra il canale SMS con Twilio o Bandwidth"
+          },
+          "API": {
+            "TITLE": "API",
+            "DESCRIPTION": "Crea un canale personalizzato utilizzando le nostre API"
+          },
+          "TELEGRAM": {
+            "TITLE": "Telegram",
+            "DESCRIPTION": "Configura canale Telegram utilizzando il token Bot"
+          },
+          "LINE": {
+            "TITLE": "Line",
+            "DESCRIPTION": "Integra il tuo canale Line"
+          },
+          "INSTAGRAM": {
+            "TITLE": "Instagram",
+            "DESCRIPTION": "Connetti il tuo account Instagram"
+          },
+          "TIKTOK": {
+            "TITLE": "TikTok",
+            "DESCRIPTION": "Collega il tuo account TikTok"
+          },
+          "VOICE": {
+            "TITLE": "Voce",
+            "DESCRIPTION": "Integra con Twilio Voice"
+          }
+        }
+      },
+      "AGENTS": {
+        "TITLE": "Operatori",
+        "DESC": "Qui puoi aggiungere operatori per gestire la tua inbox appena creata. Solo questi operatori selezionati avranno accesso alla tua inbox. Gli operatori che non fanno parte di questa inbox non saranno in grado di vedere o rispondere ai messaggi in questa inbox quando effettuano il login. <br> <b>PS:</b> come amministratore, se hai bisogno di accedere a tutte le inbox, devi aggiungerti come operatore a tutte le inbox che crei.",
+        "VALIDATION_ERROR": "Aggiungi almeno un operatore alla tua nuova Inbox",
+        "PICK_AGENTS": "Scegli gli operatori per la Inbox"
+      },
+      "DETAILS": {
+        "TITLE": "Dettagli Inbox",
+        "DESC": "Dal menu a tendina qui sotto, seleziona la pagina Facebook che vuoi collegare a Chatwoot. Puoi anche assegnare un nome personalizzato alla tua inbox per una migliore identificazione."
+      },
+      "FINISH": {
+        "TITLE": "Azzeccato!",
+        "DESC": "Hai completato con successo l'integrazione della tua pagina Facebook con Chatwoot. La prossima volta che un cliente invia un messaggio alla tua pagina, la conversazione apparirà automaticamente nella tua inbox.<br>Ti forniamo anche uno script per widget che puoi facilmente aggiungere al tuo sito web. Una volta dal vivo sul tuo sito web, i clienti possono inviarti messaggi direttamente dal tuo sito web senza l'aiuto di alcuno strumento esterno e la conversazione apparirà proprio qui, su Chatwoot.<br>Bello, eh? Beh, ce la mettiamo tutta :)"
+      },
+      "EMAIL_PROVIDER": {
+        "TITLE": "Seleziona il tuo provider email",
+        "DESCRIPTION": "Seleziona un provider email dalla lista qui sotto. Se non vedi il tuo provider di posta elettronica nella lista, puoi selezionare l'opzione altro provider e fornire le credenziali IMAP e SMTP."
+      },
+      "MICROSOFT": {
+        "TITLE": "Microsoft Email",
+        "DESCRIPTION": "Clicca sul pulsante Accedi con Microsoft per iniziare. Sarai reindirizzato alla pagina di accesso. Una volta accettati i permessi richiesti, verrai reindirizzato alla creazione della Inbox.",
+        "EMAIL_PLACEHOLDER": "Inserisci indirizzo email",
+        "SIGN_IN": "Accedi con Microsoft",
+        "ERROR_MESSAGE": "Si è verificato un errore nella connessione a Microsoft, riprova"
+      },
+      "GOOGLE": {
+        "TITLE": "Google Email",
+        "DESCRIPTION": "Clicca sul pulsante Accedi con Google per iniziare. Sarai reindirizzato alla pagina di accesso. Una volta accettati i permessi richiesti, verrai reindirizzato alla creazione della Inbox.",
+        "SIGN_IN": "Accedi con Google",
+        "EMAIL_PLACEHOLDER": "Inserisci indirizzo email",
+        "ERROR_MESSAGE": "Si è verificato un errore nella connessione a Google, riprova"
+      }
+    },
+    "DETAILS": {
+      "LOADING_FB": "Autenticazione con Facebook...",
+      "ERROR_FB_LOADING": "Errore nel caricamento di Facebook SDK. Disabilita eventuali ad-blocker e riprova da un browser diverso.",
+      "ERROR_FB_AUTH": "Qualcosa è andato storto, per favore aggiorna la pagina...",
+      "ERROR_FB_UNAUTHORIZED": "Non sei autorizzato ad eseguire questa azione. ",
+      "ERROR_FB_UNAUTHORIZED_HELP": "Assicurati di avere accesso alla pagina Facebook con pieno controllo. Puoi leggere di più sui ruoli di Facebook <a href=\" https://www.facebook.com/help/187316341316631\">qui</a>.",
+      "CREATING_CHANNEL": "Creazione Inbox...",
+      "TITLE": "Configura Dettagli Inbox",
+      "DESC": ""
+    },
+    "AGENTS": {
+      "BUTTON_TEXT": "Aggiungi operatori",
+      "ADD_AGENTS": "Aggiungendo Operatori alla Inbox..."
+    },
+    "FINISH": {
+      "TITLE": "L'Inbox è pronta!",
+      "MESSAGE": "Ora puoi interagire con i tuoi clienti attraverso il nuovo canale. Buona assistenza",
+      "BUTTON_TEXT": "Fatto",
+      "MORE_SETTINGS": "Impostazioni Aggiuntive",
+      "WEBSITE_SUCCESS": "Hai completato la creazione di un canale sito web. Copia il codice mostrato qui sotto e incollalo sul tuo sito. La prossima volta che un cliente usa la live chat, la conversazione apparirà automaticamente nella tua inbox.",
+      "WHATSAPP_QR_INSTRUCTION": "Scansiona il QR Code qui sopra per testare rapidamente la tua Inbox WhatsApp",
+      "MESSENGER_QR_INSTRUCTION": "Scansiona il QR Code qui sopra per testare rapidamente la tua Inbox Facebook Messenger",
+      "TELEGRAM_QR_INSTRUCTION": "Scansiona il QR Code qui sopra per testare rapidamente la tua Inbox Telegram"
+    },
+    "REAUTH": "Riautorizza",
+    "VIEW": "Visualizza",
+    "EDIT": {
+      "API": {
+        "SUCCESS_MESSAGE": "Impostazioni della Inbox aggiornate con successo",
+        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Assegnazione automatica aggiornata correttamente",
+        "ERROR_MESSAGE": "Impossibile aggiornare le impostazioni della Inbox. Riprova più tardi."
+      },
+      "EMAIL_COLLECT_BOX": {
+        "ENABLED": "Abilitato",
+        "DISABLED": "Disabilitato"
+      },
+      "ENABLE_CSAT": {
+        "ENABLED": "Abilitato",
+        "DISABLED": "Disabilitato"
+      },
+      "SENDER_NAME_SECTION": {
+        "TITLE": "Nome mittente",
+        "SUB_TEXT": "Seleziona il nome mostrato ai tuoi clienti quando ricevono email dai tuoi operatori.",
+        "FOR_EG": "Per es.:",
+        "FRIENDLY": {
+          "TITLE": "Amichevole",
+          "FROM": "da",
+          "SUBTITLE": "Aggiungi il nome dell'operatore che ha inviato la risposta nel nome mittente, per renderla amichevole."
+        },
+        "PROFESSIONAL": {
+          "TITLE": "Professionale",
+          "SUBTITLE": "Utilizza solo il nome dell'azienda come nome mittente nell'intestazione dell'email."
+        },
+        "BUSINESS_NAME": {
+          "BUTTON_TEXT": "+ Configura il tuo nome azienda",
+          "PLACEHOLDER": "Inserisci il nome della tua azienda",
+          "SAVE_BUTTON_TEXT": "Salva"
+        }
+      },
+      "ALLOW_MESSAGES_AFTER_RESOLVED": {
+        "ENABLED": "Abilitato",
+        "DISABLED": "Disabilitato"
+      },
+      "ENABLE_CONTINUITY_VIA_EMAIL": {
+        "ENABLED": "Abilitato",
+        "DISABLED": "Disabilitato"
+      },
+      "LOCK_TO_SINGLE_CONVERSATION": {
+        "ENABLED": "Abilitato",
+        "DISABLED": "Disabilitato"
+      },
+      "ENABLE_HMAC": {
+        "LABEL": "Abilita"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Elimina",
+      "AVATAR_DELETE_BUTTON_TEXT": "Elimina Avatar",
+      "CONFIRM": {
+        "TITLE": "Conferma eliminazione",
+        "MESSAGE": "Sei sicuro di voler eliminare ",
+        "PLACE_HOLDER": "Digita {inboxName} per confermare",
+        "YES": "Sì, elimina ",
+        "NO": "No, conserva "
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Inbox eliminata con successo",
+        "ERROR_MESSAGE": "Impossibile eliminare l'inbox. Riprova più tardi.",
+        "AVATAR_SUCCESS_MESSAGE": "Avatar Inbox eliminata con successo",
+        "AVATAR_ERROR_MESSAGE": "Impossibile eliminare l'avatar della Inbox. Riprova più tardi."
+      }
+    },
+    "TABS": {
+      "SETTINGS": "Impostazioni",
+      "COLLABORATORS": "Collaboratori",
+      "CONFIGURATION": "Configurazione",
+      "CAMPAIGN": "Campagne",
+      "PRE_CHAT_FORM": "Modulo pre-chat",
+      "BUSINESS_HOURS": "Orario Di Lavoro",
+      "WIDGET_BUILDER": "Costruttore Widget",
+      "BOT_CONFIGURATION": "Configurazione Bot",
+      "ACCOUNT_HEALTH": "Account Health",
+      "CSAT": "CSAT"
+    },
+    "ACCOUNT_HEALTH": {
+      "TITLE": "Gestisci il tuo account WhatsApp",
+      "DESCRIPTION": "Controlla lo stato del tuo account WhatsApp, i limiti di messaggi e la qualità. Aggiorna le impostazioni o risolvi i problemi se necessario",
+      "GO_TO_SETTINGS": "Vai a Meta Business Manager",
+      "NO_DATA": "Health Data non disponibile",
+      "FIELDS": {
+        "DISPLAY_PHONE_NUMBER": {
+          "LABEL": "Numero di telefono visualizzato",
+          "TOOLTIP": "Numero di telefono mostrato ai clienti"
+        },
+        "VERIFIED_NAME": {
+          "LABEL": "Nome Business",
+          "TOOLTIP": "Nome Business verificato da WhatsApp"
+        },
+        "DISPLAY_NAME_STATUS": {
+          "LABEL": "Stato nome visualizzato",
+          "TOOLTIP": "Stato della verifica del nome business"
+        },
+        "QUALITY_RATING": {
+          "LABEL": "Quality rating",
+          "TOOLTIP": "Valutazione qualità di WhatsApp per il tuo account"
+        },
+        "MESSAGING_LIMIT_TIER": {
+          "LABEL": "Livello limite messaggi",
+          "TOOLTIP": "Limite giornaliero di messaggi per il tuo account"
+        },
+        "ACCOUNT_MODE": {
+          "LABEL": "Modalità account",
+          "TOOLTIP": "Modalità operativa attuale del tuo account WhatsApp"
+        }
+      },
+      "VALUES": {
+        "TIERS": {
+          "TIER_250": "250 clienti ogni 24h",
+          "TIER_1000": "1K clienti ogni 24h",
+          "TIER_1K": "1K clienti ogni 24h",
+          "TIER_10K": "10K clienti ogni 24h",
+          "TIER_100K": "100K clienti ogni 24h",
+          "TIER_UNLIMITED": "Clienti illimitati ogni 24h",
+          "UNKNOWN": "Valutazione non disponibile"
+        },
+        "STATUSES": {
+          "APPROVED": "Approvato",
+          "PENDING_REVIEW": "In Attesa di Revisione",
+          "AVAILABLE_WITHOUT_REVIEW": "Disponibile Senza Revisione",
+          "REJECTED": "Rifiutato",
+          "DECLINED": "Declinato",
+          "NON_EXISTS": "Non esiste"
+        },
+        "MODES": {
+          "SANDBOX": "Sandbox",
+          "LIVE": "Live"
+        }
+      }
+    },
+    "SETTINGS": "Impostazioni",
+    "FEATURES": {
+      "LABEL": "Funzionalità",
+      "DISPLAY_FILE_PICKER": "Mostra il selettore file sul widget",
+      "DISPLAY_EMOJI_PICKER": "Mostra il selettore emoji sul widget",
+      "ALLOW_END_CONVERSATION": "Consenti agli utenti di terminare la conversazione dal widget",
+      "USE_INBOX_AVATAR_FOR_BOT": "Usa il nome e l'avatar della Inbox per il bot"
+    },
+    "SETTINGS_POPUP": {
+      "MESSENGER_HEADING": "Script Messenger",
+      "MESSENGER_SUB_HEAD": "Incolla questo script alla fine del tag body",
+      "ALLOWED_DOMAINS": {
+        "TITLE": "Domini Consentiti",
+        "SUBTITLE": "Aggiungi caratteri jolly o domini regolari separati da virgole (lasciare vuoto per consentire tutti), ad esempio *.chatwoot.dev, chatwoot.com.",
+        "PLACEHOLDER": "Inserisci i domini separati da virgole (ad esempio: *.chatwoot.dev, chatwoot.com)"
+      },
+      "INBOX_AGENTS": "Operatori",
+      "INBOX_AGENTS_SUB_TEXT": "Aggiungi o rimuovi operatori da questa inbox",
+      "AGENT_ASSIGNMENT": "Assegnazione Conversazione",
+      "AGENT_ASSIGNMENT_SUB_TEXT": "Aggiorna le impostazioni di assegnazione della conversazione",
+      "UPDATE": "Aggiorna",
+      "ENABLE_EMAIL_COLLECT_BOX": "Abilita raccolta indirizzi email",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Abilita o disabilita una casella/modulo di raccolta indirizzi email nelle nuove conversazioni",
+      "AUTO_ASSIGNMENT": "Abilita assegnazione automatica",
+      "SENDER_NAME_SECTION": "Abilita il Nome Operatore nelle Email",
+      "SENDER_NAME_SECTION_TEXT": "Abilita/Disabilita la visualizzazione del nome dell'Operatore nelle email. Se disabilitato, verrà mostrato il nome dell'azienda",
+      "ENABLE_CONTINUITY_VIA_EMAIL": "Abilita la continuità della conversazione via email",
+      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Le conversazioni continueranno via email se l'indirizzo email del contatto è disponibile.",
+      "LOCK_TO_SINGLE_CONVERSATION": "Limita ad una conversazione unica",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Abilita o disabilita conversazioni multiple per lo stesso contatto in questa Inbox",
+      "INBOX_UPDATE_TITLE": "Impostazioni Inbox",
+      "INBOX_UPDATE_SUB_TEXT": "Aggiorna le impostazioni inbox",
+      "AUTO_ASSIGNMENT_SUB_TEXT": "Abilita o disabilita l'assegnazione automatica di nuove conversazioni agli agenti aggiunti a questa casella.",
+      "HMAC_VERIFICATION": "Convalida Identità Utente",
+      "HMAC_DESCRIPTION": "Con questa chiave è possibile generare un token segreto che può essere utilizzato per verificare l'identità degli utenti.",
+      "HMAC_LINK_TO_DOCS": "Leggi di più qui.",
+      "HMAC_MANDATORY_VERIFICATION": "Forza Convalida Identità Utente",
+      "HMAC_MANDATORY_DESCRIPTION": "Se abilitata, le richieste che non possono essere verificate saranno respinte.",
+      "INBOX_IDENTIFIER": "Identificatore Inbox",
+      "INBOX_IDENTIFIER_SUB_TEXT": "Usa il token `inbox_identifier` mostrato qui per l'autenticazione dei tuoi client API.",
+      "FORWARD_EMAIL_TITLE": "Inoltra a Email",
+      "FORWARD_EMAIL_SUB_TEXT": "Inizia a inoltrare le tue email al seguente indirizzo email.",
+      "FORWARD_EMAIL_NOT_CONFIGURED": "L'inoltro delle email alla tua Inbox è attualmente disabilitato su questa installazione. Per utilizzare questa funzione, deve essere abilitata dal tuo amministratore, contattalo per procedere.",
+      "ALLOW_MESSAGES_AFTER_RESOLVED": "Consenti messaggi dopo la risoluzione della conversazione",
+      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Consenti agli utenti finali di inviare messaggi anche dopo che la conversazione è stata risolta.",
+      "WHATSAPP_SECTION_SUBHEADER": "Questa chiave API viene utilizzata per l'integrazione con le API WhatsApp.",
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Inserisci la nuova chiave API da utilizzare per l'integrazione con le API WhatsApp.",
+      "WHATSAPP_SECTION_TITLE": "Chiave API",
+      "WHATSAPP_SECTION_UPDATE_TITLE": "Aggiorna Chiave API",
+      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Inserisci qui la nuova chiave API",
+      "WHATSAPP_SECTION_UPDATE_BUTTON": "Aggiorna",
+      "WHATSAPP_EMBEDDED_SIGNUP_TITLE": "WhatsApp Embedded Signup",
+      "WHATSAPP_EMBEDDED_SIGNUP_SUBHEADER": "Questa Inbox è connessa tramite WhatsApp Embedded Signup.",
+      "WHATSAPP_EMBEDDED_SIGNUP_DESCRIPTION": "Puoi riconfigurare questa Inbox per aggiornare le impostazioni WhatsApp Business.",
+      "WHATSAPP_RECONFIGURE_BUTTON": "Riconfigura",
+      "WHATSAPP_CONNECT_TITLE": "Connetti a WhatsApp Business",
+      "WHATSAPP_CONNECT_SUBHEADER": "Passa alla WhatsApp Embedded Signup per una gestione più semplice.",
+      "WHATSAPP_CONNECT_DESCRIPTION": "Collega questa Inbox a WhatsApp Business per avere funzionalità avanzate e una gestione più semplice.",
+      "WHATSAPP_CONNECT_BUTTON": "Connetti",
+      "WHATSAPP_CONNECT_SUCCESS": "Connesso correttamente a WhatsApp Business!",
+      "WHATSAPP_CONNECT_ERROR": "Impossibile connettersi a WhatsApp Business. Riprova.",
+      "WHATSAPP_RECONFIGURE_SUCCESS": "WhatsApp Business riconfigurata con successo!",
+      "WHATSAPP_RECONFIGURE_ERROR": "Impossibile riconfigurare WhatsApp Business. Riprova.",
+      "WHATSAPP_APP_ID_MISSING": "WhatsApp App ID non è configurato. Si prega di contattare l'amministratore.",
+      "WHATSAPP_CONFIG_ID_MISSING": "WhatsApp Configuration ID non è configurato. Si prega di contattare l'amministratore.",
+      "WHATSAPP_LOGIN_CANCELLED": "Il login WhatsApp è stato annullato. Riprova.",
+      "WHATSAPP_WEBHOOK_TITLE": "Token Di Verifica Webhook",
+      "WHATSAPP_WEBHOOK_SUBHEADER": "Questo token viene utilizzato per verificare l'autenticità dell'endpoint webhook.",
+      "WHATSAPP_TEMPLATES_SYNC_TITLE": "Sincronizza Modelli",
+      "WHATSAPP_TEMPLATES_SYNC_SUBHEADER": "Sincronizza manualmente i modelli di messaggi da WhatsApp per aggiornare i modelli disponibili.",
+      "WHATSAPP_TEMPLATES_SYNC_BUTTON": "Sincronizza Modelli",
+      "WHATSAPP_TEMPLATES_SYNC_SUCCESS": "Sincronizzazione modelli iniziata. Potrebbe volerci qualche minuto per aggiornare.",
+      "UPDATE_PRE_CHAT_FORM_SETTINGS": "Aggiorna le Impostazioni del Modulo Pre Chat"
+    },
+    "HELP_CENTER": {
+      "LABEL": "Help Center",
+      "PLACEHOLDER": "Seleziona Help Center",
+      "SELECT_PLACEHOLDER": "Seleziona Help Center",
+      "REMOVE": "Rimuovi Help Center",
+      "SUB_TEXT": "Allega un Help Center con la Inbox"
+    },
+    "AUTO_ASSIGNMENT": {
+      "MAX_ASSIGNMENT_LIMIT": "Limite assegnazione automatica",
+      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Inserisci un valore maggiore di 0",
+      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Limita il numero massimo di conversazioni da questa casella di posta che possono essere assegnate automaticamente ad un agente"
+    },
+    "FACEBOOK_REAUTHORIZE": {
+      "TITLE": "Riautorizza",
+      "SUBTITLE": "La tua connessione a Facebook è scaduta, ricollegati alla tua pagina Facebook per continuare i servizi",
+      "MESSAGE_SUCCESS": "Riconnessione riuscita",
+      "MESSAGE_ERROR": "Si è verificato un errore, riprova"
+    },
+    "PRE_CHAT_FORM": {
+      "DESCRIPTION": "I moduli pre-chat consentono di acquisire le informazioni degli utenti prima che inizino la conversazione.",
+      "SET_FIELDS": "Campi del modulo pre-chat",
+      "SET_FIELDS_HEADER": {
+        "FIELDS": "Campi",
+        "LABEL": "Etichetta",
+        "PLACE_HOLDER": "Placeholder",
+        "KEY": "Chiave",
+        "TYPE": "Tipo",
+        "REQUIRED": "Richiesto"
+      },
+      "ENABLE": {
+        "LABEL": "Abilita il modulo pre-chat",
+        "OPTIONS": {
+          "ENABLED": "Sì",
+          "DISABLED": "No"
+        }
+      },
+      "PRE_CHAT_MESSAGE": {
+        "LABEL": "Messaggio pre-chat",
+        "PLACEHOLDER": "Questo messaggio sarà mostrato agli utenti insieme al modulo"
+      },
+      "REQUIRE_EMAIL": {
+        "LABEL": "Gli utenti dovranno fornire il proprio nome e indirizzo email prima di iniziare la chat"
+      }
+    },
+    "CSAT": {
+      "TITLE": "Abilita CSAT",
+      "SUBTITLE": "Invia automaticamente i sondaggi CSAT alla fine delle conversazioni per capire cosa pensano i clienti della loro esperienza di supporto. Segui le tendenze e individua le aree di miglioramento nel tempo.",
+      "DISPLAY_TYPE": {
+        "LABEL": "Tipo di visualizzazione"
+      },
+      "MESSAGE": {
+        "LABEL": "Messaggio",
+        "PLACEHOLDER": "Inserisci un messaggio per mostrare gli utenti con il modulo"
+      },
+      "BUTTON_TEXT": {
+        "LABEL": "Testo pulsante",
+        "PLACEHOLDER": "Lascia una valutazione"
+      },
+      "LANGUAGE": {
+        "LABEL": "Lingua",
+        "PLACEHOLDER": "Seleziona la lingua del modello"
+      },
+      "MESSAGE_PREVIEW": {
+        "LABEL": "Anteprima messaggio",
+        "TOOLTIP": "Può variare leggermente quando visualizzato sulle app di WhatsApp."
+      },
+      "TEMPLATE_STATUS": {
+        "APPROVED": "Approvato da WhatsApp",
+        "PENDING": "In attesa di approvazione da WhatsApp",
+        "REJECTED": "Meta ha rifiutato il modello",
+        "DEFAULT": "Richiede l'approvazione di WhatsApp",
+        "NOT_FOUND": "Il modello non esiste nella piattaforma Meta."
+      },
+      "TEMPLATE_CREATION": {
+        "SUCCESS_MESSAGE": "Modello WhatsApp creato con successo e inviato per l'approvazione",
+        "ERROR_MESSAGE": "Creazione del modello WhatsApp non riuscita"
+      },
+      "TEMPLATE_UPDATE_DIALOG": {
+        "TITLE": "Modifica dettagli sondaggio",
+        "DESCRIPTION": "Elimineremo il modello precedente e ne creeremo uno nuovo che verrà inviato di nuovo per l'approvazione da WhatsApp",
+        "CONFIRM": "Crea nuovo modello",
+        "CANCEL": "Torna indietro"
+      },
+      "SURVEY_RULE": {
+        "LABEL": "Regola sondaggio",
+        "DESCRIPTION_PREFIX": "Invia il sondaggio se la conversazione",
+        "DESCRIPTION_SUFFIX": "una qualsiasi delle etichette",
+        "OPERATOR": {
+          "CONTAINS": "contiene",
+          "DOES_NOT_CONTAINS": "non contiene"
+        },
+        "SELECT_PLACEHOLDER": "seleziona etichette"
+      },
+      "NOTE": "Nota: I sondaggi CSAT vengono inviati solo una volta per conversazione",
+      "WHATSAPP_NOTE": "Nota: Creeremo un modello e lo invieremo a WhatsApp per l'approvazione. Dopo essere stati approvati, i sondaggi saranno inviati solo una volta per conversazione, in base alle regole dei sondaggi.",
+      "API": {
+        "SUCCESS_MESSAGE": "Impostazioni CSAT aggiornate correttamente",
+        "ERROR_MESSAGE": "Impossibile aggiornare le impostazioni CSAT. Riprova più tardi."
+      }
+    },
+    "BUSINESS_HOURS": {
+      "TITLE": "Imposta la tua disponibilità",
+      "SUBTITLE": "Imposta la tua disponibilità sul tuo widget live chat",
+      "WEEKLY_TITLE": "Imposta le ore settimanali",
+      "TIMEZONE_LABEL": "Seleziona fuso orario",
+      "UPDATE": "Aggiorna le impostazioni dell'orario di lavoro",
+      "TOGGLE_AVAILABILITY": "Abilita la disponibilità aziendale per questa Inbox",
+      "UNAVAILABLE_MESSAGE_LABEL": "Messaggio non disponibile per i visitatori",
+      "TOGGLE_HELP": "Abilitare la disponibilità aziendale mostrerà le ore disponibili sul widget live chat anche se tutti gli operatori sono offline. Al di fuori delle ore di disponibilità gli utenti possono essere avvisati con un messaggio ed un modulo pre-chat.",
+      "DAY": {
+        "ENABLE": "Abilita disponibilità per questo giorno",
+        "UNAVAILABLE": "Non disponibile",
+        "HOURS": "ore",
+        "VALIDATION_ERROR": "L'orario di inizio deve essere prima dell'orario di chiusura.",
+        "CHOOSE": "Scegli"
+      },
+      "ALL_DAY": "Tutto il giorno"
+    },
+    "IMAP": {
+      "TITLE": "IMAP",
+      "SUBTITLE": "Imposta i dettagli IMAP",
+      "NOTE_TEXT": "Prima di abilitare SMTP, configura IMAP.",
+      "UPDATE": "Aggiorna impostazioni IMAP",
+      "TOGGLE_AVAILABILITY": "Abilita la configurazione IMAP per questa Inbox",
+      "TOGGLE_HELP": "Abilitare IMAP aiuterà l'utente a ricevere email",
+      "EDIT": {
+        "SUCCESS_MESSAGE": "Impostazioni IMAP aggiornate con successo",
+        "ERROR_MESSAGE": "Impossibile aggiornare le impostazioni IMAP"
+      },
+      "ADDRESS": {
+        "LABEL": "Indirizzo server IMAP",
+        "PLACE_HOLDER": "Indirizzo (ad esempio: imap.gmail.com)"
+      },
+      "PORT": {
+        "LABEL": "Porta",
+        "PLACE_HOLDER": "Porta"
+      },
+      "LOGIN": {
+        "LABEL": "Indirizzo email",
+        "PLACE_HOLDER": "Indirizzo email"
+      },
+      "PASSWORD": {
+        "LABEL": "Password",
+        "PLACE_HOLDER": "Password"
+      },
+      "ENABLE_SSL": "Abilita SSL"
+    },
+    "MICROSOFT": {
+      "TITLE": "Microsoft",
+      "SUBTITLE": "Riautorizza il tuo account MICROSOFT"
+    },
+    "SMTP": {
+      "TITLE": "SMTP",
+      "SUBTITLE": "Imposta i dettagli SMTP",
+      "UPDATE": "Aggiorna impostazioni SMTP",
+      "TOGGLE_AVAILABILITY": "Abilita la configurazione SMTP per questa Inbox",
+      "TOGGLE_HELP": "Abilitare SMTP aiuterà l'utente a inviare email",
+      "EDIT": {
+        "SUCCESS_MESSAGE": "Impostazioni SMTP aggiornate con successo",
+        "ERROR_MESSAGE": "Impossibile aggiornare le impostazioni SMTP"
+      },
+      "ADDRESS": {
+        "LABEL": "Indirizzo server SMTP",
+        "PLACE_HOLDER": "Indirizzo (ad esempio: smtp.gmail.com)"
+      },
+      "PORT": {
+        "LABEL": "Porta",
+        "PLACE_HOLDER": "Porta"
+      },
+      "LOGIN": {
+        "LABEL": "Indirizzo email",
+        "PLACE_HOLDER": "Indirizzo email"
+      },
+      "PASSWORD": {
+        "LABEL": "Password",
+        "PLACE_HOLDER": "Password"
+      },
+      "DOMAIN": {
+        "LABEL": "Dominio",
+        "PLACE_HOLDER": "Dominio"
+      },
+      "ENCRYPTION": "Cifratura",
+      "SSL_TLS": "SSL/TLS",
+      "START_TLS": "STARTTLS",
+      "OPEN_SSL_VERIFY_MODE": "Modalità di verifica SSL",
+      "AUTH_MECHANISM": "Autenticazione"
+    },
+    "NOTE": "Nota: ",
+    "WIDGET_BUILDER": {
+      "WIDGET_OPTIONS": {
+        "AVATAR": {
+          "LABEL": "Avatar Sito Web",
+          "DELETE": {
+            "API": {
+              "SUCCESS_MESSAGE": "Avatar eliminato con successo",
+              "ERROR_MESSAGE": "Si è verificato un errore, riprova"
+            }
+          }
+        },
+        "WEBSITE_NAME": {
+          "LABEL": "Nome Sito Web",
+          "PLACE_HOLDER": "Inserisci il nome del tuo sito web (ad esempio: Acme Srl)",
+          "ERROR": "Inserisci un nome sito web valido"
+        },
+        "WELCOME_HEADING": {
+          "LABEL": "Intestazione di benvenuto",
+          "PLACE_HOLDER": "Ciao!"
+        },
+        "WELCOME_TAGLINE": {
+          "LABEL": "Titolo di benvenuto",
+          "PLACE_HOLDER": "Siamo qui per aiutarti. Facci una domanda o condividi il tuo feedback."
+        },
+        "REPLY_TIME": {
+          "LABEL": "Tempo di risposta",
+          "IN_A_FEW_MINUTES": "In pochi minuti",
+          "IN_A_FEW_HOURS": "In poche ore",
+          "IN_A_DAY": "In un giorno"
+        },
+        "WIDGET_COLOR_LABEL": "Colore del widget",
+        "WIDGET_BUBBLE_POSITION_LABEL": "Posizione della bubble del widget",
+        "WIDGET_BUBBLE_TYPE_LABEL": "Tipo di bubble del widget",
+        "WIDGET_BUBBLE_LAUNCHER_TITLE": {
+          "DEFAULT": "Chatta con noi",
+          "LABEL": "Titolo del launcher della bubble del widget",
+          "PLACE_HOLDER": "Chatta con noi"
+        },
+        "UPDATE": {
+          "BUTTON_TEXT": "Aggiorna Impostazioni Widget",
+          "API": {
+            "SUCCESS_MESSAGE": "Impostazioni widget aggiornate con successo",
+            "ERROR_MESSAGE": "Impossibile aggiornare le impostazioni del widget"
+          }
+        },
+        "WIDGET_VIEW_OPTION": {
+          "PREVIEW": "Anteprima",
+          "SCRIPT": "Script"
+        },
+        "WIDGET_BUBBLE_POSITION": {
+          "LEFT": "Sinistra",
+          "RIGHT": "Destra"
+        },
+        "WIDGET_BUBBLE_TYPE": {
+          "STANDARD": "Standard",
+          "EXPANDED_BUBBLE": "Bubble espansa"
+        }
+      },
+      "WIDGET_SCREEN": {
+        "DEFAULT": "Predefinito",
+        "CHAT": "Chat"
+      },
+      "REPLY_TIME": {
+        "IN_A_FEW_MINUTES": "In genere risponde in pochi minuti",
+        "IN_A_FEW_HOURS": "In genere risponde in poche ore",
+        "IN_A_DAY": "In genere risponde in un giorno"
+      },
+      "FOOTER": {
+        "START_CONVERSATION_BUTTON_TEXT": "Avvia Conversazione",
+        "CHAT_INPUT_PLACEHOLDER": "Scrivi il tuo messaggio"
+      },
+      "BODY": {
+        "TEAM_AVAILABILITY": {
+          "ONLINE": "Siamo online",
+          "OFFLINE": "Siamo offline in questo momento"
+        },
+        "USER_MESSAGE": "Salve",
+        "AGENT_MESSAGE": "Ciao"
+      },
+      "BRANDING_TEXT": "Offerto da Chatwoot",
+      "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
+    },
+    "EMAIL_PROVIDERS": {
+      "MICROSOFT": {
+        "TITLE": "Microsoft",
+        "DESCRIPTION": "Connetti con Microsoft"
+      },
+      "GOOGLE": {
+        "TITLE": "Google",
+        "DESCRIPTION": "Connetti con Google"
+      },
+      "OTHER_PROVIDERS": {
+        "TITLE": "Altri Provider",
+        "DESCRIPTION": "Connetti con Altri Provider"
+      }
+    },
+    "CHANNELS": {
+      "MESSENGER": "Messenger",
+      "WEB_WIDGET": "Sito Web",
+      "TWITTER_PROFILE": "Twitter",
+      "TWILIO_SMS": "Twilio SMS",
+      "WHATSAPP": "WhatsApp",
+      "SMS": "SMS",
+      "EMAIL": "Email",
+      "TELEGRAM": "Telegram",
+      "LINE": "Line",
+      "API": "Canale API",
+      "INSTAGRAM": "Instagram",
+      "TIKTOK": "TikTok",
+      "VOICE": "Voce"
+    }
+  }
+}

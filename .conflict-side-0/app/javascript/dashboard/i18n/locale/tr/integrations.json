@@ -1,0 +1,977 @@
+{
+  "INTEGRATION_SETTINGS": {
+    "SHOPIFY": {
+      "DELETE": {
+        "TITLE": "Delete Shopify Integration",
+        "MESSAGE": "Are you sure you want to delete the Shopify integration?"
+      },
+      "STORE_URL": {
+        "TITLE": "Connect Shopify Store",
+        "LABEL": "Store URL",
+        "PLACEHOLDER": "your-store.myshopify.com",
+        "HELP": "Enter your Shopify store's myshopify.com URL",
+        "CANCEL": "İptal Et",
+        "SUBMIT": "Connect Store"
+      },
+      "ERROR": "There was an error connecting to Shopify. Please try again or contact support if the issue persists."
+    },
+    "HEADER": "Entegrasyonlar",
+    "DESCRIPTION": "Chatwoot, ekibinizin verimliliğini artırmak için birden fazla araç ve hizmetle entegre olur. Favori uygulamalarınızı yapılandırmak için aşağıdaki listeyi inceleyin.",
+    "LEARN_MORE": "Learn more about integrations",
+    "LOADING": "Fetching integrations",
+    "CAPTAIN": {
+      "DISABLED": "Captain is not enabled on your account.",
+      "CLICK_HERE_TO_CONFIGURE": "Click here to configure",
+      "LOADING_CONSOLE": "Loading Captain Console...",
+      "FAILED_TO_LOAD_CONSOLE": "Failed to load Captain Console. Please refresh and try again."
+    },
+    "WEBHOOK": {
+      "SUBSCRIBED_EVENTS": "Abone Olunan Olaylar",
+      "LEARN_MORE": "Learn more about webhooks",
+      "FORM": {
+        "CANCEL": "İptal Et",
+        "DESC": "Web kancası etkinlikleri, Chatwoot hesabınızdaki olaylar hakkında gerçek zamanlı bilgi sağlar. Bir geri aramayı yapılandırmak için lütfen geçerli bir URL girin.",
+        "SUBSCRIPTIONS": {
+          "LABEL": "Olaylar",
+          "EVENTS": {
+            "CONVERSATION_CREATED": "Konuşma Oluşturuldu",
+            "CONVERSATION_STATUS_CHANGED": "Görüşme Durumu Değişti",
+            "CONVERSATION_UPDATED": "Görüşme Güncellendi",
+            "MESSAGE_CREATED": "Mesaj Oluşturuldu",
+            "MESSAGE_UPDATED": "Mesaj Güncellendi",
+            "WEBWIDGET_TRIGGERED": "Kullanıcı tarafından canlı sohbet widget'ı açıldı",
+            "CONTACT_CREATED": "Kişi Oluşturuldu",
+            "CONTACT_UPDATED": "Kişi Güncellendi",
+            "CONVERSATION_TYPING_ON": "Konuşmada Yazıyor Açık",
+            "CONVERSATION_TYPING_OFF": "Konuşmada Yazıyor Kapalı"
+          }
+        },
+        "NAME": {
+          "LABEL": "Webhook Name",
+          "PLACEHOLDER": "Enter the name of the webhook"
+        },
+        "END_POINT": {
+          "LABEL": "Web kancası URL'si",
+          "PLACEHOLDER": "Example: {webhookExampleURL}",
+          "ERROR": "Lütfen geçerli bir adres girin"
+        },
+        "EDIT_SUBMIT": "Web kancasını güncelle",
+        "ADD_SUBMIT": "Web kancası oluştur"
+      },
+      "TITLE": "Web Kancası",
+      "CONFIGURE": "Yapılandır",
+      "HEADER": "Web Kancası Ayarları",
+      "HEADER_BTN_TXT": "Yeni Web Kancası Ekle",
+      "LOADING": "Ekli web kancaları getiriliyor",
+      "SEARCH_404": "Bu sorgu ile eşleşen öğe yok",
+      "SIDEBAR_TXT": "<p> <b> Web Kancaları </b> </p> <p> Web Kancaları, her hesap için tanımlanabilen HTTP geri aramalarıdır. Chatwoot'ta mesaj oluşturma gibi olaylar tarafından tetiklenirler. Bu hesap için birden fazla web kancası oluşturabilirsiniz. <br /> <br /> Bir <b> web kancası </b> oluşturmak için, <b> Yeni Web Kancası Ekle </b> düğmesini tıklayın. Ayrıca, Sil düğmesini tıklayarak mevcut herhangi bir web kancasını kaldırabilirsiniz. </p>",
+      "LIST": {
+        "404": "Bu hesap için yapılandırılmış web kancası yok.",
+        "TITLE": "Web Kancalarını Yönet",
+        "TABLE_HEADER": {
+          "WEBHOOK_ENDPOINT": "Web Kancası Uç Noktası",
+          "ACTIONS": "Hareketler"
+        }
+      },
+      "EDIT": {
+        "BUTTON_TEXT": "Düzenle",
+        "TITLE": "Web Kancasını Düzenle",
+        "API": {
+          "SUCCESS_MESSAGE": "Web Kancası yapılandırması başarıyla güncellendi",
+          "ERROR_MESSAGE": "Woot Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
+        }
+      },
+      "ADD": {
+        "CANCEL": "İptal Et",
+        "TITLE": "Yeni Web Kancası Ekle",
+        "API": {
+          "SUCCESS_MESSAGE": "Web Kancası yapılandırması başarıyla eklendi",
+          "ERROR_MESSAGE": "Woot Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
+        }
+      },
+      "DELETE": {
+        "BUTTON_TEXT": "Sil",
+        "API": {
+          "SUCCESS_MESSAGE": "Web Kancası başarıyla silindi",
+          "ERROR_MESSAGE": "Woot Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
+        },
+        "CONFIRM": {
+          "TITLE": "Silmeyi Onayla",
+          "MESSAGE": "Web Kancasını silmek istediğinizden emin misiniz? ({webhookURL})",
+          "YES": "Evet, Sil ",
+          "NO": "Hayır, Kalsın"
+        }
+      }
+    },
+    "SLACK": {
+      "DELETE": "Sil",
+      "DELETE_CONFIRMATION": {
+        "TITLE": "Entegrasyonu Sil",
+        "MESSAGE": "Entegrasyonu silmek istediğinizden emin misiniz? Bu işlem, Slack iş alanınızdaki konuşmalara erişim kaybına neden olacaktır."
+      },
+      "HELP_TEXT": {
+        "TITLE": "Slack Entegrasyonu Kullanımı",
+        "BODY": "With this integration, all of your incoming conversations will be synced to the ***{selectedChannelName}*** channel in your Slack workspace. You can manage all your customer conversations right within the channel and never miss a message.\n\nHere are the main features of the integration:\n\n**Respond to conversations from within Slack:** To respond to a conversation in the ***{selectedChannelName}*** Slack channel, simply type out your message and send it as a thread. This will create a response back to the customer through Chatwoot. It's that simple!\n\n **Create private notes:** If you want to create private notes instead of replies, start your message with ***`note:`***. This ensures that your message is kept private and won't be visible to the customer.\n\n**Associate an agent profile:** If the person who replied on Slack has an agent profile in Chatwoot under the same email, the replies will be associated with that agent profile automatically. This means you can easily track who said what and when. On the other hand, when the replier doesn't have an associated agent profile, the replies will appear from the bot profile to the customer.",
+        "SELECTED": "seçili"
+      },
+      "SELECT_CHANNEL": {
+        "OPTION_LABEL": "Bir kanal seçin",
+        "UPDATE": "Güncelleme",
+        "BUTTON_TEXT": "Kanalı Bağla",
+        "DESCRIPTION": "Slack iş alanınız şimdi Chatwoot ile bağlantılı. Ancak entegrasyon şu anda etkin değil. Entegrasyonu etkinleştirmek ve bir kanalı Chatwoot'a bağlamak için lütfen aşağıdaki düğmeye tıklayın.\n\n**Not:** Eğer özel bir kanal bağlamaya çalışıyorsanız, bu adımdan önce Slack kanalına Chatwoot uygulamasını ekleyin.",
+        "ATTENTION_REQUIRED": "Dikkat gerekiyor",
+        "EXPIRED": "Slack entegrasyonunuz süresi dolmuştur. Slack üzerinde mesaj almaya devam etmek için lütfen entegrasyonu silip iş alanınızı tekrar bağlayın."
+      },
+      "UPDATE_ERROR": "Entegrasyonu güncelleme hatası oluştu, lütfen tekrar deneyin",
+      "UPDATE_SUCCESS": "Kanal başarıyla bağlandı",
+      "FAILED_TO_FETCH_CHANNELS": "Slack'ten kanallar alınırken bir hata oluştu, lütfen tekrar deneyin"
+    },
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Katılmak için buraya tıkla",
+      "LEAVE_THE_ROOM": "Odadan Ayrıl",
+      "START_VIDEO_CALL_HELP_TEXT": "Müşteri ile yeni bir video görüşmesi başlatın",
+      "JOIN_ERROR": "Aramaya katılırken bir hata oluştu, lütfen tekrar deneyin",
+      "CREATE_ERROR": "Toplantı bağlantısı oluşturulurken bir hata oluştu, lütfen tekrar deneyin"
+    },
+    "OPEN_AI": {
+      "AI_ASSIST": "AI Yardımı",
+      "WITH_AI": " {option} with AI ",
+      "OPTIONS": {
+        "REPLY_SUGGESTION": "Yanıt Önerisi",
+        "SUMMARIZE": "Özetle",
+        "REPHRASE": "Yazımı İyileştir",
+        "FIX_SPELLING_GRAMMAR": "Yazım ve Dilbilgisini Düzelt",
+        "SHORTEN": "Kısalt",
+        "EXPAND": "Genişlet",
+        "MAKE_FRIENDLY": "Mesaj tonunu dostça yap",
+        "MAKE_FORMAL": "Resmi ton kullan",
+        "SIMPLIFY": "Basitleştir"
+      },
+      "ASSISTANCE_MODAL": {
+        "DRAFT_TITLE": "Taslak içeriği",
+        "GENERATED_TITLE": "Oluşturulan içerik",
+        "AI_WRITING": "AI yazıyor",
+        "BUTTONS": {
+          "APPLY": "Bu öneriyi kullan",
+          "CANCEL": "İptal Et"
+        }
+      },
+      "CTA_MODAL": {
+        "TITLE": "OpenAI ile Entegre Olun",
+        "DESC": "OpenAI'nın GPT modelleri ile panonuza gelişmiş AI özellikleri getirin. Başlamak için OpenAI hesabınızdan API anahtarını girin.",
+        "KEY_PLACEHOLDER": "OpenAI API anahtarınızı girin",
+        "BUTTONS": {
+          "NEED_HELP": "Yardıma mı ihtiyacınız var?",
+          "DISMISS": "Kapat",
+          "FINISH": "Kurulumu Tamamla"
+        },
+        "DISMISS_MESSAGE": "OpenAI entegrasyonunu daha sonra istediğiniz zaman kurabilirsiniz.",
+        "SUCCESS_MESSAGE": "OpenAI entegrasyonu başarıyla kuruldu"
+      },
+      "TITLE": "AI ile İyileştir",
+      "SUMMARY_TITLE": "AI ile Özetle",
+      "REPLY_TITLE": "AI ile Yanıt Önerisi",
+      "SUBTITLE": "Mevcut taslağınıza dayanarak AI tarafından geliştirilmiş bir yanıt oluşturulacaktır.",
+      "TONE": {
+        "TITLE": "Ton",
+        "OPTIONS": {
+          "PROFESSIONAL": "Profesyonel",
+          "FRIENDLY": "Dostça"
+        }
+      },
+      "BUTTONS": {
+        "GENERATE": "Oluştur",
+        "GENERATING": "Oluşturuluyor...",
+        "CANCEL": "İptal Et"
+      },
+      "GENERATE_ERROR": "İçerik işlenirken bir hata oluştu, lütfen tekrar deneyin"
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Sil",
+      "API": {
+        "SUCCESS_MESSAGE": "Entegrasyon başarıyla silindi"
+      }
+    },
+    "CONNECT": {
+      "BUTTON_TEXT": "Bağlan"
+    },
+    "DASHBOARD_APPS": {
+      "TITLE": "Panel Uygulamaları",
+      "HEADER_BTN_TXT": "Yeni bir panel uygulaması ekle",
+      "SIDEBAR_TXT": "<p><b>Panel Uygulamaları</b></p><p>Panel Uygulamaları, organizasyonlara destek uzmanları için bağlam sağlamak amacıyla bir uygulamayı Chatwoot paneli içine yerleştirmelerine izin verir. Bu özellik, bağımsız bir uygulama oluşturmanıza ve bunu panel içine yerleştirmenize olanak tanır, böylece kullanıcı bilgilerini, siparişlerini veya önceki ödeme geçmişini sağlayabilirsiniz.</p><p>Chatwoot'taki panel üzerine uygulamanızı yerleştirdiğinizde, uygulamanız konuşma ve iletişim bağlamını pencere olayı olarak alır. Bağlamı almak için sayfanızda bir message olayı için bir dinleyici uygulayın.</p><p>Yeni bir panel uygulaması eklemek için 'Yeni bir panel uygulaması ekle' düğmesine tıklayın.</p>",
+      "DESCRIPTION": "Panel Uygulamaları, organizasyonlara destek uzmanları için bağlam sağlamak amacıyla bir uygulamayı panel içine yerleştirmelerine izin verir. Bu özellik, bağımsız bir uygulama oluşturmanıza ve bunu panel içine yerleştirmenize olanak tanır, böylece kullanıcı bilgilerini, siparişlerini veya önceki ödeme geçmişini sağlayabilirsiniz.",
+      "LEARN_MORE": "Learn more about Dashboard Apps",
+      "LIST": {
+        "404": "Bu hesapta henüz yapılandırılmış panel uygulamaları yok",
+        "LOADING": "Panel uygulamaları alınıyor...",
+        "TABLE_HEADER": {
+          "NAME": "İsim",
+          "ENDPOINT": "Endpoint"
+        },
+        "EDIT_TOOLTIP": "Uygulamayı Düzenle",
+        "DELETE_TOOLTIP": "Uygulamayı Sil"
+      },
+      "FORM": {
+        "TITLE_LABEL": "İsim",
+        "TITLE_PLACEHOLDER": "Panel uygulamanız için bir isim girin",
+        "TITLE_ERROR": "Panel uygulaması için bir isim gereklidir",
+        "URL_LABEL": "Endpoint",
+        "URL_PLACEHOLDER": "Uygulamanızın barındırıldığı endpoint URL'sini girin",
+        "URL_ERROR": "Geçerli bir URL gereklidir"
+      },
+      "CREATE": {
+        "HEADER": "Yeni bir panel uygulaması ekle",
+        "FORM_SUBMIT": "Gönder",
+        "FORM_CANCEL": "İptal Et",
+        "API_SUCCESS": "Panel uygulaması başarıyla yapılandırıldı",
+        "API_ERROR": "Uygulama oluşturamadık. Lütfen daha sonra tekrar deneyin"
+      },
+      "UPDATE": {
+        "HEADER": "Panel uygulamasını düzenle",
+        "FORM_SUBMIT": "Güncelle",
+        "FORM_CANCEL": "İptal Et",
+        "API_SUCCESS": "Panel uygulaması başarıyla güncellendi",
+        "API_ERROR": "Uygulamayı güncelleyemedik. Lütfen daha sonra tekrar deneyin"
+      },
+      "DELETE": {
+        "CONFIRM_YES": "Evet, sil",
+        "CONFIRM_NO": "Hayır, sakla",
+        "TITLE": "Silme işlemini onayla",
+        "MESSAGE": "Uygulamayı silmek istediğinizden emin misiniz - {appName}?",
+        "API_SUCCESS": "Panel uygulaması başarıyla silindi",
+        "API_ERROR": "Uygulamayı silemedik. Lütfen daha sonra tekrar deneyin"
+      }
+    },
+    "LINEAR": {
+      "ADD_OR_LINK_BUTTON": "Create/Link Linear Issue",
+      "LOADING": "Fetching linear issues...",
+      "LOADING_ERROR": "There was an error fetching the linear issues, please try again",
+      "CREATE": "Yarat",
+      "LINK": {
+        "SEARCH": "Search issues",
+        "SELECT": "Select issue",
+        "TITLE": "Bağlantı",
+        "EMPTY_LIST": "No linear issues found",
+        "LOADING": "Loading",
+        "ERROR": "There was an error fetching the linear issues, please try again",
+        "LINK_SUCCESS": "Issue linked successfully",
+        "LINK_ERROR": "There was an error linking the issue, please try again",
+        "LINK_TITLE": "Conversation (#{conversationId}) with {name}"
+      },
+      "ADD_OR_LINK": {
+        "TITLE": "Create/link linear issue",
+        "DESCRIPTION": "Create Linear issues from conversations, or link existing ones for seamless tracking.",
+        "FORM": {
+          "TITLE": {
+            "LABEL": "Başlık",
+            "PLACEHOLDER": "Enter title",
+            "REQUIRED_ERROR": "Başlık gerekli"
+          },
+          "DESCRIPTION": {
+            "LABEL": "Açıklama",
+            "PLACEHOLDER": "Enter description"
+          },
+          "TEAM": {
+            "LABEL": "Ekip",
+            "PLACEHOLDER": "Takım seçin",
+            "SEARCH": "Search team",
+            "REQUIRED_ERROR": "Team is required"
+          },
+          "ASSIGNEE": {
+            "LABEL": "Assignee",
+            "PLACEHOLDER": "Select assignee",
+            "SEARCH": "Search assignee"
+          },
+          "PRIORITY": {
+            "LABEL": "Öncelik",
+            "PLACEHOLDER": "Öncelik seçin",
+            "SEARCH": "Search priority"
+          },
+          "LABEL": {
+            "LABEL": "Etiket",
+            "PLACEHOLDER": "Select label",
+            "SEARCH": "Search label"
+          },
+          "STATUS": {
+            "LABEL": "Durum",
+            "PLACEHOLDER": "Select status",
+            "SEARCH": "Search status"
+          },
+          "PROJECT": {
+            "LABEL": "Project",
+            "PLACEHOLDER": "Select project",
+            "SEARCH": "Search project"
+          }
+        },
+        "CREATE": "Yarat",
+        "CANCEL": "İptal Et",
+        "CREATE_SUCCESS": "Issue created successfully",
+        "CREATE_ERROR": "There was an error creating the issue, please try again",
+        "LOADING_TEAM_ERROR": "There was an error fetching the teams, please try again",
+        "LOADING_TEAM_ENTITIES_ERROR": "There was an error fetching the team entities, please try again"
+      },
+      "ISSUE": {
+        "STATUS": "Durum",
+        "PRIORITY": "Öncelik",
+        "ASSIGNEE": "Assignee",
+        "LABELS": "Etiketler",
+        "CREATED_AT": "Created at {createdAt}"
+      },
+      "UNLINK": {
+        "TITLE": "Unlink",
+        "SUCCESS": "Issue unlinked successfully",
+        "ERROR": "There was an error unlinking the issue, please try again"
+      },
+      "NO_LINKED_ISSUES": "Bağlanmış sorun bulunamadı",
+      "DELETE": {
+        "TITLE": "Are you sure you want to delete the integration?",
+        "MESSAGE": "Are you sure you want to delete the integration?",
+        "CONFIRM": "Evet, sil",
+        "CANCEL": "İptal Et"
+      },
+      "CTA": {
+        "TITLE": "Linear'a bağlan",
+        "AGENT_DESCRIPTION": "Linear çalışma alanı bağlı değil. Bu entegrasyonu kullanmak için yöneticinizden bir çalışma alanı bağlamasını isteyin.",
+        "DESCRIPTION": "Linear çalışma alanı bağlı değil. Bu entegrasyonu kullanmak için çalışma alanınızı bağlamak üzere aşağıdaki düğmeye tıklayın.",
+        "BUTTON_TEXT": "Linear çalışma alanını bağlayın"
+      }
+    },
+    "NOTION": {
+      "DELETE": {
+        "TITLE": "Notion entegrasyonunu silmek istediğinizden emin misiniz?",
+        "MESSAGE": "Bu entegrasyonu silmek, Notion çalışma alanınıza erişimi kaldıracak ve ilgili tüm işlevleri durduracaktır.",
+        "CONFIRM": "Evet, sil",
+        "CANCEL": "İptal Et"
+      }
+    }
+  },
+  "CAPTAIN": {
+    "NAME": "Captain",
+    "HEADER_KNOW_MORE": "Daha fazla bilgi edinin",
+    "ASSISTANT_SWITCHER": {
+      "ASSISTANTS": "Asistanlar",
+      "SWITCH_ASSISTANT": "Asistanlar arasında geçiş yap",
+      "NEW_ASSISTANT": "Asistan Oluştur",
+      "EMPTY_LIST": "Asistan bulunamadı, başlamak için bir tane oluşturun"
+    },
+    "COPILOT": {
+      "TITLE": "Copilot",
+      "TRY_THESE_PROMPTS": "Bu komutları deneyin",
+      "PANEL_TITLE": "Copilot ile başlayın",
+      "KICK_OFF_MESSAGE": "Hızlı bir özet mi gerekiyor, geçmiş konuşmaları mı kontrol etmek istiyorsunuz, yoksa daha iyi bir yanıt mı tasarlamak istiyorsunuz? Copilot işleri hızlandırmak için burada.",
+      "SEND_MESSAGE": "Mesajı Gönder...",
+      "EMPTY_MESSAGE": "Yanıt oluşturulurken bir hata oluştu. Lütfen tekrar deneyin.",
+      "LOADER": "Captain is thinking",
+      "YOU": "Sen",
+      "USE": "Use this",
+      "RESET": "Reset",
+      "SHOW_STEPS": "Adımları göster",
+      "SELECT_ASSISTANT": "Select Assistant",
+      "PROMPTS": {
+        "SUMMARIZE": {
+          "LABEL": "Bu sohbeti özetle",
+          "CONTENT": "Müşteri ile destek temsilcisi arasında tartışılan ana noktaları özetle; müşterinin endişeleri, soruları ve temsilcinin sunduğu çözümler veya yanıtlar dahil"
+        },
+        "SUGGEST": {
+          "LABEL": "Bir yanıt öner",
+          "CONTENT": "Müşterinin sorusunu analiz edin ve endişelerini veya sorularını etkili bir şekilde ele alan bir yanıt taslağı oluşturun. Yanıtın açık, öz ve bilgilendirici olmasını sağlayın."
+        },
+        "RATE": {
+          "LABEL": "Bu sohbeti değerlendir",
+          "CONTENT": "Sohbetin müşterinin ihtiyaçlarını ne kadar karşıladığını gözden geçirin. Ton, açıklık ve etkililik açısından 5 üzerinden bir puan verin."
+        },
+        "HIGH_PRIORITY": {
+          "LABEL": "Yüksek öncelikli konuşmalar",
+          "CONTENT": "Tüm yüksek öncelikli açık konuşmaların bir özetini verin. Konuşma kimliği, müşteri adı (varsa), son mesaj içeriği ve atanan temsilciyi ekleyin. Gerekirse duruma göre gruplayın."
+        },
+        "LIST_CONTACTS": {
+          "LABEL": "Kişileri listele",
+          "CONTENT": "İlk 10 kişiyi göster. Ad, e-posta veya telefon numarası (varsa), son görülme zamanı ve etiketler (varsa) dahil olsun."
+        }
+      }
+    },
+    "PLAYGROUND": {
+      "USER": "Sen",
+      "ASSISTANT": "Assistant",
+      "MESSAGE_PLACEHOLDER": "Mesajınızı yazın...",
+      "HEADER": "Oyun Alanı",
+      "DESCRIPTION": "Bu oyun alanını asistanınıza mesaj göndermek ve yanıtlarının doğru, hızlı ve beklediğiniz tonda olup olmadığını kontrol etmek için kullanın.",
+      "CREDIT_NOTE": "Buradan gönderilen mesajlar Captain kredilerinize sayılacaktır."
+    },
+    "PAYWALL": {
+      "TITLE": "Upgrade to use Captain AI",
+      "AVAILABLE_ON": "Captain is not available on the free plan.",
+      "UPGRADE_PROMPT": "Asistanlarımıza, Copilot'a ve daha fazlasına erişim sağlamak için planınızı yükseltin.",
+      "UPGRADE_NOW": "Upgrade now",
+      "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
+    },
+    "ENTERPRISE_PAYWALL": {
+      "UPGRADE_PROMPT": "Asistanlarımıza, Copilot'a ve daha fazlasına erişim sağlamak için planınızı yükseltin.",
+      "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
+    },
+    "BANNER": {
+      "RESPONSES": "You've used over 80% of your response limit. To continue using Captain AI, please upgrade.",
+      "DOCUMENTS": "Belge sınırı aşıldı. Captain AI'yı kullanmaya devam etmek için yükseltme yapın."
+    },
+    "FORM": {
+      "CANCEL": "İptal Et",
+      "CREATE": "Yarat",
+      "EDIT": "Güncelleme"
+    },
+    "ASSISTANTS": {
+      "HEADER": "Asistanlar",
+      "NO_ASSISTANTS_AVAILABLE": "Hesabınızda kullanılabilir asistan yok.",
+      "ADD_NEW": "Yeni bir asistan oluştur",
+      "DELETE": {
+        "TITLE": "Asistanı silmek istediğinizden emin misiniz?",
+        "DESCRIPTION": "Bu işlem kalıcıdır. Bu asistanı silmek, onu tüm bağlı gelen kutularından kaldıracak ve oluşturulan tüm bilgileri kalıcı olarak silecektir.",
+        "CONFIRM": "Evet, sil",
+        "SUCCESS_MESSAGE": "Asistan başarıyla silindi",
+        "ERROR_MESSAGE": "Asistanı silerken bir hata oluştu, lütfen tekrar deneyin."
+      },
+      "FORM_DESCRIPTION": "Asistanınıza isim vermek, amacını tanımlamak ve destekleyeceği ürünü belirtmek için aşağıdaki ayrıntıları doldurun.",
+      "CREATE": {
+        "TITLE": "Bir asistan oluşturun",
+        "SUCCESS_MESSAGE": "Asistan başarıyla oluşturuldu",
+        "ERROR_MESSAGE": "Asistan oluşturulurken bir hata oluştu, lütfen tekrar deneyin."
+      },
+      "FORM": {
+        "UPDATE": "Güncelle",
+        "SECTIONS": {
+          "BASIC_INFO": "Temel Bilgiler",
+          "SYSTEM_MESSAGES": "Sistem Mesajları",
+          "INSTRUCTIONS": "Talimatlar",
+          "FEATURES": "Özellikleri",
+          "TOOLS": "Araçlar "
+        },
+        "NAME": {
+          "LABEL": "İsim",
+          "PLACEHOLDER": "Asistan adını girin",
+          "ERROR": "Ad gereklidir"
+        },
+        "TEMPERATURE": {
+          "LABEL": "Yanıt Sıcaklığı",
+          "DESCRIPTION": "Asistanın yanıtlarının ne kadar yaratıcı veya kısıtlayıcı olması gerektiğini ayarlayın. Düşük değerler daha odaklı ve deterministik yanıtlar üretir, yüksek değerler ise daha yaratıcı ve çeşitli yanıtlar sağlar."
+        },
+        "DESCRIPTION": {
+          "LABEL": "Açıklama",
+          "PLACEHOLDER": "Asistan açıklamasını girin",
+          "ERROR": "Açıklama gereklidir"
+        },
+        "PRODUCT_NAME": {
+          "LABEL": "Product Name",
+          "PLACEHOLDER": "Ürün adını girin",
+          "ERROR": "The product name is required"
+        },
+        "WELCOME_MESSAGE": {
+          "LABEL": "Karşılama Mesajı",
+          "PLACEHOLDER": "Karşılama mesajı girin"
+        },
+        "HANDOFF_MESSAGE": {
+          "LABEL": "Aktarım Mesajı",
+          "PLACEHOLDER": "Aktarım mesajı girin"
+        },
+        "RESOLUTION_MESSAGE": {
+          "LABEL": "Çözüm Mesajı",
+          "PLACEHOLDER": "Çözüm mesajı girin"
+        },
+        "INSTRUCTIONS": {
+          "LABEL": "Talimatlar",
+          "PLACEHOLDER": "Asistan için talimatları girin"
+        },
+        "FEATURES": {
+          "TITLE": "Özellikleri",
+          "ALLOW_CONVERSATION_FAQS": "Çözümlenmiş konuşmalardan SSS oluştur",
+          "ALLOW_MEMORIES": "Müşteri etkileşimlerinden önemli detayları anı olarak yakala.",
+          "ALLOW_CITATIONS": "Yanıtlara kaynak alıntıları ekle"
+        }
+      },
+      "EDIT": {
+        "TITLE": "Update the assistant",
+        "SUCCESS_MESSAGE": "The assistant has been successfully updated",
+        "ERROR_MESSAGE": "There was an error updating the assistant, please try again.",
+        "NOT_FOUND": "Asistan bulunamadı. Lütfen tekrar deneyin."
+      },
+      "SETTINGS": {
+        "HEADER": "Ayarlar",
+        "BASIC_SETTINGS": {
+          "TITLE": "Temel ayarlar",
+          "DESCRIPTION": "Konuşmayı sonlandırırken veya bir operatöre aktarırken asistanın söyleyeceği sözleri özelleştirin."
+        },
+        "SYSTEM_SETTINGS": {
+          "TITLE": "Sistem ayarları",
+          "DESCRIPTION": "Konuşmayı sonlandırırken veya bir operatöre aktarırken asistanın söyleyeceği sözleri özelleştirin."
+        },
+        "CONTROL_ITEMS": {
+          "TITLE": "Eğlenceli Şeyler",
+          "DESCRIPTION": "Asistana daha fazla kontrol ekleyin. (hikaye gibi biraz daha görsel: Sorgu koruma çiti → senaryolar → çıktı) Kullanıcıyı bunları gerçekten kullanmaya teşvik edin.",
+          "OPTIONS": {
+            "GUARDRAILS": {
+              "TITLE": "Sorgu Korumaları",
+              "DESCRIPTION": "Her şeyi yolunda tutar; asistanınız sadece sizin istediğiniz soruları yanıtlar, sınır dışı veya konu dışı hiçbir şeye izin vermez."
+            },
+            "RESPONSE_GUIDELINES": {
+              "TITLE": "Yanıt kılavuzları",
+              "DESCRIPTION": "Asistanınızın yanıtlarının havası ve yapısı nasıl? Açık ve samimi mi? Kısa ve öz mü? Ayrıntılı ve resmi mi?"
+            }
+          }
+        },
+        "DELETE": {
+          "TITLE": "Asistanı Sil",
+          "DESCRIPTION": "Bu işlem kalıcıdır. Bu asistanı silmek, onu tüm bağlı gelen kutularından kaldıracak ve oluşturulan tüm bilgileri kalıcı olarak silecektir.",
+          "BUTTON_TEXT": "Sil {assistantName}"
+        }
+      },
+      "OPTIONS": {
+        "EDIT_ASSISTANT": "Edit Assistant",
+        "DELETE_ASSISTANT": "Asistanı Sil",
+        "VIEW_CONNECTED_INBOXES": "View connected inboxes"
+      },
+      "EMPTY_STATE": {
+        "TITLE": "No assistants available",
+        "SUBTITLE": "Kullanıcılara hızlı ve doğru yanıtlar sağlayacak bir asistan oluşturun. Asistan, yardım makalelerinizden ve geçmiş konuşmalardan öğrenebilir.",
+        "FEATURE_SPOTLIGHT": {
+          "TITLE": "Captain Assistant",
+          "NOTE": "Captain Asistan, doğrudan müşterilerle etkileşim kurar, yardım belgelerinizden ve geçmiş konuşmalardan öğrenir ve anında, doğru yanıtlar sunar. Başlangıçtaki sorgulamaları ele alır, hızlı çözümler sunar ve gerektiğinde bir temsilciye aktarır."
+        }
+      },
+      "GUARDRAILS": {
+        "TITLE": "Sorgu Korumaları",
+        "DESCRIPTION": "Her şeyi rayında tutar; asistanınız sadece yanıtlamasını istediğiniz soru türlerine odaklanır, sınır dışı veya konu dışı hiçbir şeye geçit vermez.",
+        "BULK_ACTION": {
+          "SELECTED": "{count} eşya seçildi | {count} eşya seçildi",
+          "SELECT_ALL": "Tümünü seç ({count})",
+          "UNSELECT_ALL": "Tümünü kaldır ({count})",
+          "BULK_DELETE_BUTTON": "Sil"
+        },
+        "ADD": {
+          "SUGGESTED": {
+            "TITLE": "Örnek Sorgu Korumaları",
+            "ADD": "Tümünü ekle",
+            "ADD_SINGLE": "Bunu ekle",
+            "SAVE": "Ekle ve kaydet (↵)",
+            "PLACEHOLDER": "Başka bir sorgu kontrolü yazın..."
+          },
+          "NEW": {
+            "TITLE": "Sorgu Kontrolü Ekle",
+            "CREATE": "Oluştur",
+            "CANCEL": "İptal Et",
+            "PLACEHOLDER": "Başka bir sorgu kontrolü yazın...",
+            "TEST_ALL": "Tümünü test et"
+          }
+        },
+        "LIST": {
+          "SEARCH_PLACEHOLDER": "Ara..."
+        },
+        "EMPTY_MESSAGE": "Sorgu Kontrolü bulunamadı. Başlamak için örnekler oluşturun veya ekleyin.",
+        "SEARCH_EMPTY_MESSAGE": "No guardrails found for this search.",
+        "API": {
+          "ADD": {
+            "SUCCESS": "Sorgu Kontrolleri başarıyla eklendi",
+            "ERROR": "Sorgu Kontrolü ekleme sırasında bir hata oluştu, lütfen tekrar deneyin."
+          },
+          "UPDATE": {
+            "SUCCESS": "Guardrails updated successfully",
+            "ERROR": "There was an error updating guardrails, please try again."
+          },
+          "DELETE": {
+            "SUCCESS": "Sorgu Kontrolü başarıyla silindi",
+            "ERROR": "There was an error deleting guardrails, please try again."
+          }
+        }
+      },
+      "RESPONSE_GUIDELINES": {
+        "TITLE": "Yanıt Kılavuzları",
+        "DESCRIPTION": "Asistanınızın yanıtlarının havası ve yapısı nasıl? Açık ve samimi mi? Kısa ve öz mü? Ayrıntılı ve resmi mi?",
+        "BULK_ACTION": {
+          "SELECTED": "{count} eşya seçildi | {count} eşya seçildi",
+          "SELECT_ALL": "Tümünü seç ({count})",
+          "UNSELECT_ALL": "Tümünü kaldır ({count})",
+          "BULK_DELETE_BUTTON": "Sil"
+        },
+        "ADD": {
+          "SUGGESTED": {
+            "TITLE": "Örnek yanıt kılavuzları",
+            "ADD": "Tümünü ekle",
+            "ADD_SINGLE": "Bunu ekle",
+            "SAVE": "Ekle ve kaydet (↵)",
+            "PLACEHOLDER": "Başka bir yanıt kılavuzu yazın..."
+          },
+          "NEW": {
+            "TITLE": "Yanıt kılavuzu ekle",
+            "CREATE": "Oluştur",
+            "CANCEL": "İptal Et",
+            "PLACEHOLDER": "Type in another response guideline...",
+            "TEST_ALL": "Tümünü test et"
+          }
+        },
+        "LIST": {
+          "SEARCH_PLACEHOLDER": "Ara..."
+        },
+        "EMPTY_MESSAGE": "No response guidelines found. Create or add examples to begin.",
+        "SEARCH_EMPTY_MESSAGE": "No response guidelines found for this search.",
+        "API": {
+          "ADD": {
+            "SUCCESS": "Response Guidelines added successfully",
+            "ERROR": "There was an error adding response guidelines, please try again."
+          },
+          "UPDATE": {
+            "SUCCESS": "Response Guidelines updated successfully",
+            "ERROR": "There was an error updating response guidelines, please try again."
+          },
+          "DELETE": {
+            "SUCCESS": "Response Guidelines deleted successfully",
+            "ERROR": "There was an error deleting response guidelines, please try again."
+          }
+        }
+      },
+      "SCENARIOS": {
+        "TITLE": "Senaryolar",
+        "DESCRIPTION": "Asistanınıza bazı bilgiler verin, örneğin “kullanıcı takıldığında ne yapmalı” veya “geri ödeme talebi sırasında nasıl davranmalı”.",
+        "BULK_ACTION": {
+          "SELECTED": "{count} eşya seçildi | {count} eşya seçildi",
+          "SELECT_ALL": "Tümünü seç ({count})",
+          "UNSELECT_ALL": "Tümünü kaldır ({count})",
+          "BULK_DELETE_BUTTON": "Sil"
+        },
+        "ADD": {
+          "SUGGESTED": {
+            "TITLE": "Örnek senaryolar",
+            "ADD": "Tümünü ekle",
+            "ADD_SINGLE": "Bunu ekle",
+            "TOOLS_USED": "Tools used :"
+          },
+          "NEW": {
+            "CREATE": "Senaryo ekle",
+            "TITLE": "Senaryo Oluştur",
+            "FORM": {
+              "TITLE": {
+                "LABEL": "Başlık",
+                "PLACEHOLDER": "Senaryo için bir isim girin",
+                "ERROR": "Senaryo ismi gereklidir"
+              },
+              "DESCRIPTION": {
+                "LABEL": "Açıklama",
+                "PLACEHOLDER": "Bu senaryonun nasıl ve nerede kullanılacağını açıklayın",
+                "ERROR": "Senaryo açıklaması gereklidir"
+              },
+              "INSTRUCTION": {
+                "LABEL": "Nasıl uygulanır",
+                "PLACEHOLDER": "Bu senaryonun nasıl ve nerede ele alınacağını açıklayın",
+                "ERROR": "Senaryo içeriği gereklidir"
+              },
+              "CREATE": "Oluştur",
+              "CANCEL": "İptal Et"
+            }
+          }
+        },
+        "UPDATE": {
+          "CANCEL": "İptal Et",
+          "UPDATE": "Değişiklikleri güncelle"
+        },
+        "LIST": {
+          "SEARCH_PLACEHOLDER": "Ara..."
+        },
+        "EMPTY_MESSAGE": "No scenarios found. Create or add examples to begin.",
+        "SEARCH_EMPTY_MESSAGE": "No scenarios found for this search.",
+        "API": {
+          "ADD": {
+            "SUCCESS": "Scenarios added successfully",
+            "ERROR": "There was an error adding scenarios, please try again."
+          },
+          "UPDATE": {
+            "SUCCESS": "Scenarios updated successfully",
+            "ERROR": "There was an error updating scenarios, please try again."
+          },
+          "DELETE": {
+            "SUCCESS": "Scenarios deleted successfully",
+            "ERROR": "There was an error deleting scenarios, please try again."
+          }
+        }
+      }
+    },
+    "DOCUMENTS": {
+      "HEADER": "Belgeler",
+      "ADD_NEW": "Yeni belge oluştur",
+      "RELATED_RESPONSES": {
+        "TITLE": "İlgili SSS",
+        "DESCRIPTION": "Bu SSS'ler doğrudan belgeden oluşturulmuştur."
+      },
+      "FORM_DESCRIPTION": "Bilgi kaynağı olarak eklemek için belgenin URL'sini girin ve ilişkilendirmek istediğiniz asistanı seçin.",
+      "CREATE": {
+        "TITLE": "Belge ekle",
+        "SUCCESS_MESSAGE": "Belge başarıyla oluşturuldu",
+        "ERROR_MESSAGE": "Belge oluşturulurken bir hata oluştu, lütfen tekrar deneyin."
+      },
+      "FORM": {
+        "TYPE": {
+          "LABEL": "Belge Türü",
+          "URL": "URL",
+          "PDF": "PDF Dosya"
+        },
+        "URL": {
+          "LABEL": "URL",
+          "PLACEHOLDER": "Belgenin URL'sini girin",
+          "ERROR": "Lütfen belge için geçerli bir URL sağlayın"
+        },
+        "PDF_FILE": {
+          "LABEL": "PDF Dosya",
+          "CHOOSE_FILE": "PDF dosyasını seçin",
+          "ERROR": "Lütfen bir PDF dosyası seçin",
+          "HELP_TEXT": "Maksimum dosya boyutu: 10 MB",
+          "INVALID_TYPE": "Lütfen geçerli bir PDF dosyası seçin",
+          "TOO_LARGE": "Dosya boyutu 10 MB sınırını aşıyor"
+        },
+        "NAME": {
+          "LABEL": "Belge Adı (İsteğe Bağlı)",
+          "PLACEHOLDER": "Belgeye bir ad girin"
+        }
+      },
+      "DELETE": {
+        "TITLE": "Belgeyi silmek istediğinizden emin misiniz?",
+        "DESCRIPTION": "Bu işlem kalıcıdır. Bu belgeyi silmek, oluşturulan tüm bilgileri kalıcı olarak silecektir.",
+        "CONFIRM": "Evet, sil",
+        "SUCCESS_MESSAGE": "Belge başarıyla silindi",
+        "ERROR_MESSAGE": "Belgeyi silerken bir hata oluştu, lütfen tekrar deneyin."
+      },
+      "OPTIONS": {
+        "VIEW_RELATED_RESPONSES": "İlgili Yanıtları Görüntüle",
+        "DELETE_DOCUMENT": "Belgeyi Sil"
+      },
+      "EMPTY_STATE": {
+        "TITLE": "Kullanılabilir belge yok",
+        "SUBTITLE": "Belgeler, asistanınız tarafından SSS oluşturmak için kullanılır. Asistanınıza içerik sağlamak için belge aktarabilirsiniz.",
+        "FEATURE_SPOTLIGHT": {
+          "TITLE": "Captain Belge",
+          "NOTE": "Captain'daki bir belge, asistan için bir bilgi kaynağı görevi görür. Yardım merkezinizi veya kılavuzlarınızı bağlayarak Captain, içeriği analiz edebilir ve müşteri sorularına doğru yanıtlar sağlayabilir."
+        }
+      }
+    },
+    "CUSTOM_TOOLS": {
+      "HEADER": "Araçlar",
+      "ADD_NEW": "Yeni bir araç oluşturun",
+      "EMPTY_STATE": {
+        "TITLE": "Özel araçlar mevcut değil",
+        "SUBTITLE": "Asistanınızın harici API'lere ve hizmetlere bağlanmasını sağlamak için özel araçlar oluşturun; böylece asistanınız sizin adınıza veri çekebilir ve işlemler gerçekleştirebilir.",
+        "FEATURE_SPOTLIGHT": {
+          "TITLE": "Özel Araçlar",
+          "NOTE": "Özel araçlar, asistanınızın harici API'ler ve hizmetlerle etkileşim kurmasını sağlar. Asistanınızın yeteneklerini artırmak için veri çekme, eylemler gerçekleştirme veya mevcut sistemlerinizle entegrasyon sağlama amaçlı araçlar oluşturun."
+        }
+      },
+      "FORM_DESCRIPTION": "Harici API'lere bağlanmak için özel aracınızı yapılandırın",
+      "OPTIONS": {
+        "EDIT_TOOL": "Aracı Düzenle",
+        "DELETE_TOOL": "Aracı Sil"
+      },
+      "CREATE": {
+        "TITLE": "Özel Araç Oluştur",
+        "SUCCESS_MESSAGE": "Özel araç başarıyla oluşturuldu",
+        "ERROR_MESSAGE": "Özel araç oluşturulamadı"
+      },
+      "EDIT": {
+        "TITLE": "Özel Aracı Düzenle",
+        "SUCCESS_MESSAGE": "Özel araç başarıyla güncellendi",
+        "ERROR_MESSAGE": "Özel araç güncellenemedi"
+      },
+      "DELETE": {
+        "TITLE": "Özel Aracı Sil",
+        "DESCRIPTION": "Bu özel aracı silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.",
+        "CONFIRM": "Evet, sil",
+        "SUCCESS_MESSAGE": "Özel araç başarıyla silindi",
+        "ERROR_MESSAGE": "Özel araç silinemedi"
+      },
+      "FORM": {
+        "TITLE": {
+          "LABEL": "Araç Adı",
+          "PLACEHOLDER": "Order Lookup",
+          "ERROR": "Araç adı zorunludur"
+        },
+        "DESCRIPTION": {
+          "LABEL": "Açıklama",
+          "PLACEHOLDER": "Looks up order details by order ID"
+        },
+        "HTTP_METHOD": {
+          "LABEL": "Method"
+        },
+        "ENDPOINT_URL": {
+          "LABEL": "Endpoint URL",
+          "PLACEHOLDER": "https://api.example.com/orders/{'{{'} order_id {'}}'}",
+          "ERROR": "Valid URL is required"
+        },
+        "AUTH_TYPE": {
+          "LABEL": "Authentication Type"
+        },
+        "AUTH_TYPES": {
+          "NONE": "Hiç",
+          "BEARER": "Bearer Token",
+          "BASIC": "Basic Auth",
+          "API_KEY": "API Anahtarı"
+        },
+        "AUTH_CONFIG": {
+          "BEARER_TOKEN": "Bearer Token",
+          "BEARER_TOKEN_PLACEHOLDER": "Enter your bearer token",
+          "USERNAME": "Username",
+          "USERNAME_PLACEHOLDER": "Enter username",
+          "PASSWORD": "Parola",
+          "PASSWORD_PLACEHOLDER": "Enter password",
+          "API_KEY": "Header Name",
+          "API_KEY_PLACEHOLDER": "X-API-Key",
+          "API_VALUE": "Header Value",
+          "API_VALUE_PLACEHOLDER": "Enter API key value"
+        },
+        "PARAMETERS": {
+          "LABEL": "Parametreler",
+          "HELP_TEXT": "Kullanıcı sorgularından çıkarılacak parametreleri tanımlayın"
+        },
+        "ADD_PARAMETER": "Parametre Ekle",
+        "PARAM_NAME": {
+          "PLACEHOLDER": "Parameter name (e.g., order_id)"
+        },
+        "PARAM_TYPE": {
+          "PLACEHOLDER": "Tip"
+        },
+        "PARAM_TYPES": {
+          "STRING": "String",
+          "NUMBER": "Sayı",
+          "BOOLEAN": "Boolean",
+          "ARRAY": "Array",
+          "OBJECT": "Object"
+        },
+        "PARAM_DESCRIPTION": {
+          "PLACEHOLDER": "Description of the parameter"
+        },
+        "PARAM_REQUIRED": {
+          "LABEL": "Zorunlu"
+        },
+        "REQUEST_TEMPLATE": {
+          "LABEL": "Request Body Template (Optional)",
+          "PLACEHOLDER": "{'{'}\n  \"order_id\": \"{'{{'} order_id {'}}'}\"\n{'}'}"
+        },
+        "RESPONSE_TEMPLATE": {
+          "LABEL": "Yanıt Şablonu (İsteğe Bağlı)",
+          "PLACEHOLDER": "Order {'{{'} order_id {'}}'} status: {'{{'} status {'}}'}"
+        },
+        "ERRORS": {
+          "PARAM_NAME_REQUIRED": "Parameter name is required"
+        }
+      }
+    },
+    "RESPONSES": {
+      "HEADER": "SSS",
+      "PENDING_FAQS": "Pending FAQs",
+      "ADD_NEW": "Yeni SSS oluştur",
+      "DOCUMENTABLE": {
+        "CONVERSATION": "Conversation #{id}"
+      },
+      "SELECTED": "{count} selected",
+      "SELECT_ALL": "Tümünü seç ({count})",
+      "UNSELECT_ALL": "Tümünü kaldır ({count})",
+      "SEARCH_PLACEHOLDER": "Sıkça Sorulan Soruları Ara...",
+      "BULK_APPROVE_BUTTON": "Approve",
+      "BULK_DELETE_BUTTON": "Sil",
+      "BULK_APPROVE": {
+        "SUCCESS_MESSAGE": "Sıkça sorulan sorular başarıyla onaylandı",
+        "ERROR_MESSAGE": "Sıkça sorulan soruların onaylanmasında bir hata oluştu, lütfen tekrar deneyin."
+      },
+      "BULK_DELETE": {
+        "TITLE": "Sıkça Sorulan Soruları Sil?",
+        "DESCRIPTION": "Seçilen SSS'leri silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.",
+        "CONFIRM": "Yes, delete all",
+        "SUCCESS_MESSAGE": "SSS'ler başarıyla silindi",
+        "ERROR_MESSAGE": "Sıkça sorulan soruları silerken bir hata oluştu, lütfen tekrar deneyin."
+      },
+      "DELETE": {
+        "TITLE": "Are you sure to delete the FAQ?",
+        "DESCRIPTION": "",
+        "CONFIRM": "Evet, sil",
+        "SUCCESS_MESSAGE": "FAQ deleted successfully",
+        "ERROR_MESSAGE": "There was an error deleting the FAQ, please try again."
+      },
+      "FILTER": {
+        "ASSISTANT": "Assistant: {selected}",
+        "STATUS": "Status: {selected}",
+        "ALL_ASSISTANTS": "Hepsi"
+      },
+      "STATUS": {
+        "TITLE": "Durum",
+        "PENDING": "Bekliyor",
+        "APPROVED": "Approved",
+        "ALL": "Hepsi"
+      },
+      "PENDING_BANNER": {
+        "TITLE": "Captain has found some FAQs your customers were looking for.",
+        "ACTION": "Click here to review"
+      },
+      "FORM_DESCRIPTION": "Add a question and its corresponding answer to the knowledge base and select the assistant it should be associated with.",
+      "CREATE": {
+        "TITLE": "Add an FAQ",
+        "SUCCESS_MESSAGE": "The response has been added successfully.",
+        "ERROR_MESSAGE": "An error occurred while adding the response. Please try again."
+      },
+      "FORM": {
+        "QUESTION": {
+          "LABEL": "Question",
+          "PLACEHOLDER": "Enter the question here",
+          "ERROR": "Please provide a valid question."
+        },
+        "ANSWER": {
+          "LABEL": "Answer",
+          "PLACEHOLDER": "Enter the answer here",
+          "ERROR": "Please provide a valid answer."
+        }
+      },
+      "EDIT": {
+        "TITLE": "Update the FAQ",
+        "SUCCESS_MESSAGE": "The FAQ has been successfully updated",
+        "ERROR_MESSAGE": "There was an error updating the FAQ, please try again",
+        "APPROVE_SUCCESS_MESSAGE": "The FAQ was marked as approved"
+      },
+      "OPTIONS": {
+        "APPROVE": "Approve",
+        "EDIT_RESPONSE": "Düzenle",
+        "DELETE_RESPONSE": "Sil"
+      },
+      "EMPTY_STATE": {
+        "TITLE": "SSS Bulunamadı",
+        "NO_PENDING_TITLE": "There are no more pending FAQs to review",
+        "SUBTITLE": "SSS, asistanınızın müşterilerinizden gelen sorulara hızlı ve doğru yanıtlar vermesine yardımcı olur. Bunlar içeriğinizden otomatik olarak oluşturulabilir veya manuel olarak eklenebilir.",
+        "CLEAR_SEARCH": "Clear active filters",
+        "FEATURE_SPOTLIGHT": {
+          "TITLE": "Captain FAQ",
+          "NOTE": "Captain SSS, bilgi tabanınızda eksik olan veya sıkça sorulan yaygın müşteri sorularını tespit eder ve desteği geliştirmek için ilgili SSS'leri oluşturur. Her öneriyi inceleyebilir ve onaylayıp onaylamamaya karar verebilirsiniz."
+        }
+      }
+    },
+    "INBOXES": {
+      "HEADER": "Connected Inboxes",
+      "ADD_NEW": "Connect a new inbox",
+      "OPTIONS": {
+        "DISCONNECT": "Bağlantıyı Kes"
+      },
+      "DELETE": {
+        "TITLE": "Are you sure to disconnect the inbox?",
+        "DESCRIPTION": "",
+        "CONFIRM": "Evet, sil",
+        "SUCCESS_MESSAGE": "The inbox was successfully disconnected.",
+        "ERROR_MESSAGE": "There was an error disconnecting the inbox, please try again."
+      },
+      "FORM_DESCRIPTION": "Choose an inbox to connect with the assistant.",
+      "CREATE": {
+        "TITLE": "Connect an Inbox",
+        "SUCCESS_MESSAGE": "The inbox was successfully connected.",
+        "ERROR_MESSAGE": "An error occurred while connecting the inbox. Please try again."
+      },
+      "FORM": {
+        "INBOX": {
+          "LABEL": "Gelen Kutusu",
+          "PLACEHOLDER": "Choose the inbox to deploy the assistant.",
+          "ERROR": "An inbox selection is required."
+        }
+      },
+      "EMPTY_STATE": {
+        "TITLE": "No Connected Inboxes",
+        "SUBTITLE": "Bir gelen kutusunu bağlamak, asistanın müşterilerinizden gelen ilk soruları size aktarmadan önce ele almasını sağlar."
+      }
+    }
+  }
+}

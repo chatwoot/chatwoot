@@ -1,0 +1,68 @@
+{
+  "SEARCH": {
+    "TABS": {
+      "ALL": "All results",
+      "CONTACTS": "Επαφές",
+      "CONVERSATIONS": "Συζητήσεις",
+      "MESSAGES": "Μηνύματα",
+      "ARTICLES": "Articles"
+    },
+    "SECTION": {
+      "CONTACTS": "Επαφές",
+      "CONVERSATIONS": "Συζητήσεις",
+      "MESSAGES": "Μηνύματα",
+      "ARTICLES": "Articles"
+    },
+    "VIEW_MORE": "View more",
+    "LOAD_MORE": "Load more",
+    "SEARCHING_DATA": "Αναζήτηση",
+    "LOADING_DATA": "Loading",
+    "EMPTY_STATE": "No {item} found for query '{query}'",
+    "EMPTY_STATE_FULL": "No results found for query '{query}'",
+    "PLACEHOLDER_KEYBINDING": "/to focus",
+    "INPUT_PLACEHOLDER": "Search messages, contacts or conversations",
+    "RECENT_SEARCHES": "Recent searches",
+    "CLEAR_ALL": "Clear all",
+    "MOST_RECENT": "Most recent",
+    "EMPTY_STATE_DEFAULT": "Search by conversation id, email, phone number, messages for better search results.",
+    "BOT_LABEL": "Bot",
+    "READ_MORE": "Read more",
+    "READ_LESS": "Read less",
+    "WROTE": "wrote:",
+    "FROM": "Από",
+    "EMAIL": "Email",
+    "EMAIL_SUBJECT": "Θέμα",
+    "PRIVATE": "Private note",
+    "TRANSCRIPT": "Transcript",
+    "CREATED_AT": "created {time}",
+    "UPDATED_AT": "updated {time}",
+    "SORT_BY": {
+      "RELEVANCE": "Relevance"
+    },
+    "DATE_RANGE": {
+      "LAST_7_DAYS": "Τελευταίες 7 ημέρες",
+      "LAST_30_DAYS": "Τελευταίες 30 ημέρες",
+      "LAST_60_DAYS": "Τελευταίες 60 ημέρες",
+      "LAST_90_DAYS": "Τελευταίες 90 ημέρες",
+      "CUSTOM_RANGE": "Custom range:",
+      "CREATED_BETWEEN": "Created between",
+      "AND": "και",
+      "APPLY": "Εφαρμογή",
+      "BEFORE_DATE": "Before {date}",
+      "AFTER_DATE": "After {date}",
+      "TIME_RANGE": "Filter by time",
+      "CLEAR_FILTER": "Clear filter"
+    },
+    "FILTERS": {
+      "FILTER_MESSAGE": "Filter messages by:",
+      "FROM": "Αποστολέας",
+      "IN": "Εισερχόμενα",
+      "AGENTS": "Πράκτορες",
+      "CONTACTS": "Επαφές",
+      "INBOXES": "Κιβώτια Εισερχομένων",
+      "NO_AGENTS": "Δεν βρέθηκαν Πράκτορες",
+      "NO_CONTACTS": "Start by searching to see results",
+      "NO_INBOXES": "No inboxes found"
+    }
+  }
+}

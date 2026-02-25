@@ -1,0 +1,111 @@
+{
+  "MACROS": {
+    "HEADER": "ماکروها",
+    "DESCRIPTION": "A macro is a set of saved actions that help customer service agents easily complete tasks. The agents can define a set of actions like tagging a conversation with a label, sending an email transcript, updating a custom attribute, etc., and they can run these actions in a single click.",
+    "LEARN_MORE": "Learn more about macros",
+    "HEADER_BTN_TXT": "افزودن ماکرو جدید",
+    "HEADER_BTN_TXT_SAVE": "ذخیره ماکرو",
+    "LOADING": "در حال گرفتن ماکروها",
+    "ERROR": "مشکلی پیش آمد. لطفا دوباره تلاش کنید",
+    "ORDER_INFO": "ماکروها به ترتیبی که اقدامات خود را اضافه می کنید اجرا می شوند. می توانید با کشیدن آنها توسط دسته کنار هر گره آنها را دوباره مرتب کنید.",
+    "ADD": {
+      "FORM": {
+        "NAME": {
+          "LABEL": "نام ماکرو",
+          "PLACEHOLDER": "یک نام برای ماکرو خود وارد کنید",
+          "ERROR": "نام برای ایجاد یک ماکرو مورد نیاز است"
+        },
+        "ACTIONS": {
+          "LABEL": "عملیات"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "ماکرو با موفقیت اضافه شد",
+        "ERROR_MESSAGE": "ایجاد ماکرو ممکن نیست، لطفا بعدا دوباره امتحان کنید"
+      }
+    },
+    "LIST": {
+      "TABLE_HEADER": {
+        "NAME": "نام",
+        "CREATED BY": "ايجاد شده توسط",
+        "LAST_UPDATED_BY": "آخرین به‌روزرسانی توسط",
+        "VISIBILITY": "دید"
+      },
+      "404": "هیچ ماکروی یافت نشد"
+    },
+    "DELETE": {
+      "TOOLTIP": "حذف ماکرو",
+      "CONFIRM": {
+        "MESSAGE": "مطمئن هستید که حذف شود ",
+        "YES": "بله، حذف شود",
+        "NO": "خیر"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "ماکرو با موفقیت حذف شد",
+        "ERROR_MESSAGE": "هنگام حذف ماکرو خطایی رخ داد. لطفا بعدا دوباره امتحان کنید"
+      }
+    },
+    "EDIT": {
+      "TOOLTIP": "ویرایش ماکرو",
+      "API": {
+        "SUCCESS_MESSAGE": "ماکرو با موفقیت به‌روز شد",
+        "ERROR_MESSAGE": "ماکرو به‌روزرسانی نشد، لطفا بعدا دوباره امتحان کنید"
+      }
+    },
+    "EDITOR": {
+      "START_FLOW": "جریان را شروع کنید",
+      "END_FLOW": "پایان جریان",
+      "LOADING": "در حال گرفتن ماکرو",
+      "ADD_BTN_TOOLTIP": "افزودن اقدام جدید",
+      "DELETE_BTN_TOOLTIP": "حذف اکشن",
+      "VISIBILITY": {
+        "LABEL": "دید ماکرو",
+        "GLOBAL": {
+          "LABEL": "عمومی",
+          "DESCRIPTION": "این ماکرو به صورت عمومی برای همه نمایندگان این حساب در دسترس است."
+        },
+        "PERSONAL": {
+          "LABEL": "خصوصی",
+          "DESCRIPTION": "این ماکرو برای شما خصوصی خواهد بود و برای دیگران در دسترس نخواهد بود."
+        }
+      }
+    },
+    "EXECUTE": {
+      "BUTTON_TOOLTIP": "اجرا کردن",
+      "PREVIEW": "پیش‌نمایش ماکرو",
+      "EXECUTED_SUCCESSFULLY": "ماکرو با موفقیت اجرا شد"
+    },
+    "ERRORS": {
+      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
+      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "VALUE_REQUIRED": "مقدار الزامی است",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998",
+      "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
+      "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
+      "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
+    },
+    "ACTIONS": {
+      "ASSIGN_TEAM": "Assign a Team",
+      "ASSIGN_AGENT": "Assign an Agent",
+      "ADD_LABEL": "Add a Label",
+      "REMOVE_LABEL": "Remove a Label",
+      "REMOVE_ASSIGNED_TEAM": "Remove Assigned Team",
+      "SEND_EMAIL_TRANSCRIPT": "Send an Email Transcript",
+      "MUTE_CONVERSATION": "بی‌صدا کردن گفتگو",
+      "SNOOZE_CONVERSATION": "به تعویق انداختن مکالمه",
+      "RESOLVE_CONVERSATION": "حل مکالمه",
+      "SEND_ATTACHMENT": "Send Attachment",
+      "SEND_MESSAGE": "Send a Message",
+      "CHANGE_PRIORITY": "تغییر اولویت",
+      "ADD_PRIVATE_NOTE": "Add a Private Note",
+      "SEND_WEBHOOK_EVENT": "Send Webhook Event"
+    },
+    "PRIORITY_TYPES": {
+      "NONE": "هیچکدام",
+      "LOW": "پایین",
+      "MEDIUM": "متوسط",
+      "HIGH": "بالا",
+      "URGENT": "فوری"
+    }
+  }
+}

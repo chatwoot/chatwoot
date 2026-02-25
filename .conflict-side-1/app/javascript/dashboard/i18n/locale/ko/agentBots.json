@@ -1,0 +1,103 @@
+{
+  "AGENT_BOTS": {
+    "HEADER": "봇",
+    "LOADING_EDITOR": "Loading editor...",
+    "DESCRIPTION": "에이전트 봇은 팀에서 가장 뛰어난 멤버와 같습니다. 사소한 일은 봇이 처리해 주니, 중요한 일에 집중하세요. 한번 사용해 보세요. 이 페이지에서 봇을 관리하거나 '봇 추가' 버튼을 통해 새 봇을 생성할 수 있습니다.",
+    "LEARN_MORE": "Learn about agent bots",
+    "GLOBAL_BOT": "시스템 봇",
+    "GLOBAL_BOT_BADGE": "System",
+    "AVATAR": {
+      "SUCCESS_DELETE": "Bot avatar deleted successfully",
+      "ERROR_DELETE": "Error deleting bot avatar, please try again"
+    },
+    "BOT_CONFIGURATION": {
+      "TITLE": "Select an agent bot",
+      "DESC": "Assign an Agent Bot to your inbox. They can handle initial conversations and transfer them to a live agent when necessary.",
+      "SUBMIT": "업데이트",
+      "DISCONNECT": "Disconnect bot",
+      "SUCCESS_MESSAGE": "Successfully updated the agent bot.",
+      "DISCONNECTED_SUCCESS_MESSAGE": "Successfully disconnected the agent bot.",
+      "ERROR_MESSAGE": "Could not update the agent bot. Please try again.",
+      "DISCONNECTED_ERROR_MESSAGE": "Could not disconnect the agent bot. Please try again.",
+      "SELECT_PLACEHOLDER": "Select bot"
+    },
+    "ADD": {
+      "TITLE": "Agregar Bot",
+      "CANCEL_BUTTON_TEXT": "취소",
+      "API": {
+        "SUCCESS_MESSAGE": "Bot added successfully.",
+        "ERROR_MESSAGE": "Could not add bot. Please try again later."
+      }
+    },
+    "LIST": {
+      "404": "Bot no encontrado. Puedes crear uno haciendo click en el botón 'Agregar Bot'.",
+      "LOADING": "Fetching bots...",
+      "TABLE_HEADER": {
+        "DETAILS": "Detalles del Bot",
+        "URL": "웹훅 URL"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "삭제",
+      "TITLE": "Delete bot",
+      "CONFIRM": {
+        "TITLE": "삭제 확인",
+        "MESSAGE": "Are you sure you want to delete {name}?",
+        "YES": "Yes, Delete",
+        "NO": "아니요, 유지합니다"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Bot deleted successfully.",
+        "ERROR_MESSAGE": "Could not delete bot. Please try again."
+      }
+    },
+    "EDIT": {
+      "BUTTON_TEXT": "수정",
+      "TITLE": "Edit bot",
+      "API": {
+        "SUCCESS_MESSAGE": "Bot updated successfully.",
+        "ERROR_MESSAGE": "Could not update bot. Please try again."
+      }
+    },
+    "ACCESS_TOKEN": {
+      "TITLE": "엑세스 토큰",
+      "DESCRIPTION": "Copy the access token and save it securely",
+      "COPY_SUCCESSFUL": "Access token copied to clipboard",
+      "RESET_SUCCESS": "Access token regenerated successfully",
+      "RESET_ERROR": "Unable to regenerate access token. Please try again"
+    },
+    "FORM": {
+      "AVATAR": {
+        "LABEL": "Bot avatar"
+      },
+      "NAME": {
+        "LABEL": "Bot name",
+        "PLACEHOLDER": "Enter bot name",
+        "REQUIRED": "Bot name is required"
+      },
+      "DESCRIPTION": {
+        "LABEL": "내용",
+        "PLACEHOLDER": "What does this bot do?"
+      },
+      "WEBHOOK_URL": {
+        "LABEL": "웹훅 URL",
+        "PLACEHOLDER": "https://example.com/webhook",
+        "REQUIRED": "Webhook URL is required"
+      },
+      "ERRORS": {
+        "NAME": "Bot name is required",
+        "URL": "Webhook URL is required",
+        "VALID_URL": "Please enter a valid URL starting with http:// or https://"
+      },
+      "CANCEL": "취소",
+      "CREATE": "Create Bot",
+      "UPDATE": "Update Bot"
+    },
+    "WEBHOOK": {
+      "DESCRIPTION": "Configure a webhook bot to integrate with your custom services. The bot will receive and process events from conversations and can respond to them."
+    },
+    "TYPES": {
+      "WEBHOOK": "Webhook bot"
+    }
+  }
+}

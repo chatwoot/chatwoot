@@ -1,0 +1,19 @@
+{
+  "DATE_PICKER": {
+    "APPLY_BUTTON": "Применить",
+    "CLEAR_BUTTON": "Сбросить",
+    "DATE_RANGE_INPUT": {
+      "START": "Дата начала",
+      "END": "Дата окончания"
+    },
+    "DATE_RANGE_OPTIONS": {
+      "TITLE": "Диапазон дат",
+      "LAST_7_DAYS": "Последние 7 дней",
+      "LAST_30_DAYS": "Последние 30 дней",
+      "LAST_3_MONTHS": "Последние 3 месяца",
+      "LAST_6_MONTHS": "Последние 6 месяцев",
+      "LAST_YEAR": "За прошлый год",
+      "CUSTOM_RANGE": "Настраиваемый диапазон даты"
+    }
+  }
+}

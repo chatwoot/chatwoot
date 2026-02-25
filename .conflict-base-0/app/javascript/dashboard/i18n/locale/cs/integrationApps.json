@@ -1,0 +1,62 @@
+{
+  "INTEGRATION_APPS": {
+    "FETCHING": "Fetching Integrations",
+    "NO_HOOK_CONFIGURED": "There are no {integrationId} integrations configured in this account.",
+    "HEADER": "Applications",
+    "STATUS": {
+      "ENABLED": "Povoleno",
+      "DISABLED": "Zakázáno"
+    },
+    "CONFIGURE": "Konfigurace",
+    "ADD_BUTTON": "Add a new hook",
+    "DELETE": {
+      "TITLE": {
+        "INBOX": "Confirm deletion",
+        "ACCOUNT": "Disconnect"
+      },
+      "MESSAGE": {
+        "INBOX": "Opravdu chcete odstranit?",
+        "ACCOUNT": "Are you sure to disconnect?"
+      },
+      "CONFIRM_BUTTON_TEXT": {
+        "INBOX": "Ano, odstranit",
+        "ACCOUNT": "Yes, Disconnect"
+      },
+      "CANCEL_BUTTON_TEXT": "Zrušit",
+      "API": {
+        "SUCCESS_MESSAGE": "Hook deleted successfully",
+        "ERROR_MESSAGE": "Nelze se připojit k Woot serveru, opakujte akci později"
+      }
+    },
+    "LIST": {
+      "FETCHING": "Fetching integration hooks",
+      "INBOX": "Inbox",
+      "DELETE": {
+        "BUTTON_TEXT": "Vymazat"
+      }
+    },
+    "ADD": {
+      "FORM": {
+        "INBOX": {
+          "LABEL": "Select Inbox",
+          "PLACEHOLDER": "Select Inbox"
+        },
+        "SUBMIT": "Create",
+        "CANCEL": "Zrušit"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Integration hook added successfully",
+        "ERROR_MESSAGE": "Nelze se připojit k Woot serveru, opakujte akci později"
+      }
+    },
+    "CONNECT": {
+      "BUTTON_TEXT": "Connect"
+    },
+    "DISCONNECT": {
+      "BUTTON_TEXT": "Disconnect"
+    },
+    "SIDEBAR_DESCRIPTION": {
+      "DIALOGFLOW": "Dialogflow is a natural language processing platform for building conversational interfaces. Integrating it with {installationName} lets bots handle queries first and transfer them to agents when needed. It helps qualify leads and reduce agent workload by answering FAQs. To add Dialogflow, create a Service Account in Google Console and share the credentials. Refer to the docs for details"
+    }
+  }
+}

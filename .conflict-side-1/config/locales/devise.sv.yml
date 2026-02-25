@@ -1,0 +1,61 @@
+#Additional translations at https://github.com/plataformatec/devise/wiki/I18n
+sv:
+  devise:
+    confirmations:
+      confirmed: "Din e-postadress har bekräftats."
+      send_instructions: "Du kommer att få ett e-postmeddelande med instruktioner för hur du bekräftar din e-postadress inom några minuter."
+      send_paranoid_instructions: "Om din e-postadress finns i vår databas, du kommer att få ett e-postmeddelande med instruktioner för hur du bekräftar din e-postadress inom några minuter."
+    failure:
+      already_authenticated: "Du är redan inloggad."
+      inactive: "Ditt konto är inte aktiverat ännu."
+      invalid: "Ogiltigt %{authentication_keys}/lösenord eller så är kontot inte verifierat ännu."
+      locked: "Ditt konto är låst."
+      last_attempt: "Du har ett försök till innan ditt konto blir låst."
+      not_found_in_database: "Ogiltigt %{authentication_keys} eller lösenord."
+      timeout: "Din session har löpt ut. Logga in igen för att fortsätta."
+      unauthenticated: "Du måste logga in eller registrera dig innan du fortsätter."
+      unconfirmed: "Du måste bekräfta din e-postadress innan du fortsätter."
+    mailer:
+      confirmation_instructions:
+        subject: "Verifieringsinstruktioner"
+      reset_password_instructions:
+        subject: "Instruktioner för återställning av lösenord"
+      unlock_instructions:
+        subject: "Instruktioner för upplåsning"
+      password_change:
+        subject: "Lösenord ändrat"
+    omniauth_callbacks:
+      failure: "Kunde inte autentisera dig från %{kind} eftersom \"%{reason}\"."
+      success: "Lyckad autentisering från %{kind} -konto."
+    passwords:
+      no_token: "Du kan inte komma åt denna sida utan att komma från ett lösenordsåterställningsmejl. Om du kommer från ett e-postmeddelande för återställning av lösenord, se till att du använde hela URL:en."
+      send_instructions: "Du kommer att få ett e-postmeddelande med instruktioner om hur du återställer ditt lösenord inom några minuter."
+      send_paranoid_instructions: "Om din e-postadress finns i vår databas kommer du att få en länk för återställning av lösenord på din e-postadress om några minuter."
+      updated: "Ditt lösenord har ändrats. Du är nu inloggad."
+      updated_not_active: "Ditt lösenord har ändrats."
+    registrations:
+      destroyed: "Hej då! Ditt konto har sagts upp. Vi hoppas att se dig igen snart."
+      signed_up: "Välkommen! Du har registrerat dig."
+      signed_up_but_inactive: "Du har registrerat dig. Vi kunde dock inte logga in dig eftersom ditt konto ännu inte är aktiverat."
+      signed_up_but_locked: "Du har registrerat dig. Vi kunde dock inte logga in dig eftersom ditt konto är låst."
+      signed_up_but_unconfirmed: "Ett meddelande med en bekräftelselänk har skickats till din e-postadress. Följ länken för att aktivera ditt konto."
+      update_needs_confirmation: "Du har uppdaterat ditt konto, men vi måste verifiera din nya e-postadress. Kontrollera din e-post och följ bekräftelselänken för att bekräfta din nya e-postadress."
+      updated: "Ditt konto har uppdaterats."
+    sessions:
+      signed_in: "Inloggad."
+      signed_out: "Utloggad."
+      already_signed_out: "Utloggad."
+    unlocks:
+      send_instructions: "Du kommer att få ett e-postmeddelande med instruktioner för hur du låser upp ditt konto inom några minuter."
+      send_paranoid_instructions: "Om ditt konto finns får du ett e-postmeddelande med instruktioner för hur du låser upp det inom några minuter."
+      unlocked: "Ditt konto har låsts upp. Logga in för att fortsätta."
+  errors:
+    messages:
+      already_confirmed: "har redan bekräftats, försök att logga in"
+      confirmation_period_expired: "måste bekräftas inom %{period}, vänligen begär en ny"
+      expired: "har löpt ut, vänligen begär ett nytt"
+      not_found: "hittades inte"
+      not_locked: "var inte låst"
+      not_saved:
+        one: "Ett fel hindrade denna %{resource} från att sparas:"
+        other: "%{count} fel hindrade denna %{resource} från att sparas:"

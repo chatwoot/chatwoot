@@ -1,0 +1,62 @@
+{
+  "INTEGRATION_APPS": {
+    "FETCHING": "Mengambil Integrasi",
+    "NO_HOOK_CONFIGURED": "Tidak ada integrasi {integrationId} yang dikonfigurasi di akun ini.",
+    "HEADER": "Aplikasi",
+    "STATUS": {
+      "ENABLED": "Diaktifkan",
+      "DISABLED": "Nonaktif"
+    },
+    "CONFIGURE": "Konfigurasi",
+    "ADD_BUTTON": "Tambahkan hook baru",
+    "DELETE": {
+      "TITLE": {
+        "INBOX": "Konfirmasi penghapusan",
+        "ACCOUNT": "Putuskan koneksi"
+      },
+      "MESSAGE": {
+        "INBOX": "Apakah Anda yakin ingin menghapus?",
+        "ACCOUNT": "Apakah Anda yakin ingin memutuskan koneksi?"
+      },
+      "CONFIRM_BUTTON_TEXT": {
+        "INBOX": "Ya, Hapus",
+        "ACCOUNT": "Ya, Putuskan Koneksi"
+      },
+      "CANCEL_BUTTON_TEXT": "Batalkan",
+      "API": {
+        "SUCCESS_MESSAGE": "Hook berhasil dihapus",
+        "ERROR_MESSAGE": "Tidak dapat terhubung ke Server Woot, Silahkan coba lagi nanti"
+      }
+    },
+    "LIST": {
+      "FETCHING": "Mengambil hook integrasi",
+      "INBOX": "Kotak masuk",
+      "DELETE": {
+        "BUTTON_TEXT": "Hapus"
+      }
+    },
+    "ADD": {
+      "FORM": {
+        "INBOX": {
+          "LABEL": "Pilih Kotak Masuk",
+          "PLACEHOLDER": "Pilih Kotak Masuk"
+        },
+        "SUBMIT": "Buat",
+        "CANCEL": "Batalkan"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Hook integrasi berhasil ditambahkan",
+        "ERROR_MESSAGE": "Tidak dapat terhubung ke Server Woot, Silahkan coba lagi nanti"
+      }
+    },
+    "CONNECT": {
+      "BUTTON_TEXT": "Sambungkan"
+    },
+    "DISCONNECT": {
+      "BUTTON_TEXT": "Putuskan"
+    },
+    "SIDEBAR_DESCRIPTION": {
+      "DIALOGFLOW": "Dialogflow is a natural language processing platform for building conversational interfaces. Integrating it with {installationName} lets bots handle queries first and transfer them to agents when needed. It helps qualify leads and reduce agent workload by answering FAQs. To add Dialogflow, create a Service Account in Google Console and share the credentials. Refer to the docs for details"
+    }
+  }
+}

@@ -1,0 +1,121 @@
+{
+  "TEAMS_SETTINGS": {
+    "NEW_TEAM": "Criar novo time",
+    "HEADER": "Times",
+    "LOADING": "Buscando times",
+    "DESCRIPTION": "Os times permitem que você organize agentes em grupos com base em suas responsabilidades. Um agente pode pertencer a vários times. Ao trabalhar de forma colaborativa, você pode atribuir conversas a times específicos.",
+    "LEARN_MORE": "Saiba mais sobre times",
+    "LIST": {
+      "404": "Não existem agentes associados a esta conta.",
+      "EDIT_TEAM": "Editar time",
+      "NONE": "Nenhuma"
+    },
+    "CREATE_FLOW": {
+      "CREATE": {
+        "TITLE": "Criar novo time",
+        "DESC": "Adicione um título e uma descrição a seu novo time."
+      },
+      "AGENTS": {
+        "BUTTON_TEXT": "Adicionar agente a seu time",
+        "TITLE": "Adicionar agentes ao time: {teamName}",
+        "DESC": "Adicione agentes a seu time recém-criado. Isso permite que você colabore como um time em conversas, seja notificado sobre novos eventos na mesma conversa."
+      },
+      "WIZARD_CREATE": {
+        "TITLE": "Criar",
+        "BODY": "Criar um novo time de agentes."
+      },
+      "WIZARD_ADD_AGENTS": {
+        "TITLE": "Adicionar Agentes",
+        "BODY": "Adicionar agentes ao time."
+      },
+      "WIZARD_FINISH": {
+        "TITLE": "Finalizar",
+        "BODY": "Está tudo pronto para começar!"
+      }
+    },
+    "EDIT_FLOW": {
+      "CREATE": {
+        "TITLE": "Editar detalhes da seu time",
+        "DESC": "Edite o título e a descrição de seu time.",
+        "BUTTON_TEXT": "Atualizar time"
+      },
+      "AGENTS": {
+        "BUTTON_TEXT": "Atualizar agentes no time",
+        "TITLE": "Adicionar agentes ao time: {teamName}",
+        "DESC": "Adicionar agentes ao seu time recém-criado. Todos os agentes adicionados serão notificados quando uma conversa for atribuída a este time."
+      },
+      "EDIT_WIZARD_DETAILS": {
+        "TITLE": "Detalhes do time",
+        "ROUTE": "ajustes_times_editar",
+        "BODY": "Alterar nome, descrição e outros detalhes."
+      },
+      "EDIT_WIZARD_AGENTS": {
+        "TITLE": "Alterar agentes",
+        "ROUTE": "ajustes_times_editar_membros",
+        "BODY": "Gerenciar agentes do seu time."
+      },
+      "EDIT_WIZARD_FINISH": {
+        "TITLE": "Finalizar",
+        "ROUTE": "ajustes_times_editar_finalizar",
+        "BODY": "Está tudo pronto para começar!"
+      }
+    },
+    "TEAM_FORM": {
+      "ERROR_MESSAGE": "Não foi possível salvar os detalhes do time. Tente novamente."
+    },
+    "AGENTS": {
+      "AGENT": "AGENTE",
+      "EMAIL": "E-mail",
+      "BUTTON_TEXT": "Adicionar agentes",
+      "ADD_AGENTS": "Adicionando agentes à sua caixa de entrada...",
+      "SELECT": "Selecionar",
+      "SELECT_ALL": "Selecionar todos os agentes",
+      "SELECTED_COUNT": "{selected} de {total} agentes selecionados."
+    },
+    "ADD": {
+      "TITLE": "Adicionar agentes ao time: {teamName}",
+      "DESC": "Adicione agentes ao time recém-criado. Isso permite que você colabore como um time em conversas, seja notificado sobre novos eventos na mesma conversa.",
+      "SELECT": "Selecionar",
+      "SELECT_ALL": "Selecionar todos os agentes",
+      "SELECTED_COUNT": "{selected} de {total} agentes selecionados.",
+      "BUTTON_TEXT": "Adicionar agentes",
+      "AGENT_VALIDATION_ERROR": "Selecione pelo menos um agente."
+    },
+    "FINISH": {
+      "TITLE": "Sua caixa de entrada está pronta!",
+      "MESSAGE": "Agora você pode colaborar como um time em conversas",
+      "BUTTON_TEXT": "Finalizar"
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Excluir",
+      "API": {
+        "SUCCESS_MESSAGE": "Agente excluído com sucesso.",
+        "ERROR_MESSAGE": "Não foi possível excluir o time. Tente novamente."
+      },
+      "CONFIRM": {
+        "TITLE": "Tem certeza de que deseja excluir o time?",
+        "PLACE_HOLDER": "Digite {teamName} para confirmar",
+        "MESSAGE": "A exclusão do time irá remover a atribuição do time das conversas atribuídas a esse time.",
+        "YES": "Excluir ",
+        "NO": "Cancelar"
+      }
+    },
+    "SETTINGS": "Configurações",
+    "FORM": {
+      "UPDATE": "Atualizar time",
+      "CREATE": "Criar novo time",
+      "NAME": {
+        "LABEL": "Nome do Time",
+        "PLACEHOLDER": "Exemplo: Vendas, Suporte ao Cliente"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Descrição do time",
+        "PLACEHOLDER": "Breve descrição sobre este time."
+      },
+      "AUTO_ASSIGN": {
+        "LABEL": "Permitir atribuição automática para este time."
+      },
+      "SUBMIT_CREATE": "Criar novo time"
+    }
+  }
+}

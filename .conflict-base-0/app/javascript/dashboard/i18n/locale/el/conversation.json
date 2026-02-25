@@ -1,0 +1,439 @@
+{
+  "CONVERSATION": {
+    "SELECT_A_CONVERSATION": "Παρακαλώ επιλέξτε συζήτηση από το αριστερό τμήμα",
+    "CSAT_REPLY_MESSAGE": "Παρακαλώ αξιολογήστε τη συνομιλία",
+    "404": "Λυπούμαστε, δεν μπορούμε να βρούμε την συνομιλία. Παρακαλώ προσπαθήστε ξανά",
+    "SWITCH_VIEW_LAYOUT": "Εναλλαγή διάταξης",
+    "DASHBOARD_APP_TAB_MESSAGES": "Μηνύματα",
+    "UNVERIFIED_SESSION": "Η ταυτότητα αυτού του χρήστη δεν επαληθεύεται",
+    "NO_MESSAGE_1": "Ωχ ωχ! Φαίνεται ότι δεν υπάρχουν μηνύματα από τους πελάτες στα εισερχόμενά σας.",
+    "NO_MESSAGE_2": " για να στείλετε ένα μήνυμα στην σελίδα σας!",
+    "NO_INBOX_1": "Γεια σας! Δεν έχετε προσθέσει κάποιο κιβώτιο εισερχομένων ακόμη.",
+    "NO_INBOX_2": " για να ξεκινήσετε",
+    "NO_INBOX_AGENT": "Ω όχι! Φαίνεται ότι δεν είστε μέλος κάποιου κιβωτίου εισερχμένων. Απευθυνθείτε στον διαχειριστή",
+    "SEARCH_MESSAGES": "Αναζήτηση μηνυμάτων στις συνομιλίες",
+    "VIEW_ORIGINAL": "View original",
+    "VIEW_TRANSLATED": "View translated",
+    "EMPTY_STATE": {
+      "CMD_BAR": "to open command menu",
+      "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"
+    },
+    "SEARCH": {
+      "TITLE": "Αναζήτηση μηνυμάτων",
+      "RESULT_TITLE": "Αποτελέσματα Αναζήτησης",
+      "LOADING_MESSAGE": "Σύμπτυξη δεδομένων...",
+      "PLACEHOLDER": "Εισάγετε κείμενο για αναζήτηση μηνυμάτων",
+      "NO_MATCHING_RESULTS": "Δεν βρέθηκαν αποτελέσματα."
+    },
+    "UNREAD_MESSAGES": "Μη αναγνωσμένα μηνύματα",
+    "UNREAD_MESSAGE": "Μη αναγνωσμένο μήνυμα",
+    "CLICK_HERE": "Πατήστε εδώ",
+    "LOADING_INBOXES": "Φόρτωση εισερχομένων",
+    "LOADING_CONVERSATIONS": "Φόρτωση Συζητήσεων",
+    "CANNOT_REPLY": "Δεν μπορείτε να απαντήσετε εξαιτίας",
+    "24_HOURS_WINDOW": "του περιορισμού των 24 ωρών",
+    "48_HOURS_WINDOW": "του περιορισμού των 48 ωρών",
+    "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
+    "NOT_ASSIGNED_TO_YOU": "Αυτή η συνομιλία δεν έχει ανατεθεί σε εσάς. Θα θέλατε να αντιστοιχίσετε αυτή τη συνομιλία στον εαυτό σας;",
+    "ASSIGN_TO_ME": "Ανάθεση σε μένα",
+    "BOT_HANDOFF_MESSAGE": "You are responding to a conversation which is currently handled by an assistant or a bot.",
+    "BOT_HANDOFF_ACTION": "Mark open and assign to you",
+    "BOT_HANDOFF_REOPEN_ACTION": "Mark conversation open",
+    "BOT_HANDOFF_SUCCESS": "Conversation has been handed over to you",
+    "BOT_HANDOFF_ERROR": "Failed to take over the conversation. Please try again.",
+    "TWILIO_WHATSAPP_CAN_REPLY": "Μπορείτε να απαντήσετε μόνο σε αυτή τη συνομιλία χρησιμοποιώντας ένα πρότυπο μήνυμα επειδή",
+    "TWILIO_WHATSAPP_24_HOURS_WINDOW": "του περιορισμού των 24 ωρών",
+    "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. All new messages will show up there. You won’t be able to send messages from this conversation anymore.",
+    "REPLYING_TO": "Απαντάτε στο:",
+    "REMOVE_SELECTION": "Διαγραφή Επιλογής",
+    "DOWNLOAD": "Κατέβασμα",
+    "UNKNOWN_FILE_TYPE": "Άγνωστο Αρχείο",
+    "SAVE_CONTACT": "Save Contact",
+    "NO_CONTENT": "No content to display",
+    "SHARED_ATTACHMENT": {
+      "CONTACT": "{sender} has shared a contact",
+      "LOCATION": "{sender} has shared a location",
+      "FILE": "{sender} has shared a file",
+      "MEETING": "Ό πράκτορας {sender} ξεκίνησε μια συνάντηση"
+    },
+    "UPLOADING_ATTACHMENTS": "Ανέβασμα επισυναπτόμενων...",
+    "REPLIED_TO_STORY": "Replied to your story",
+    "UNSUPPORTED_MESSAGE": "This message is unsupported. You can view this message on the Facebook / Instagram app.",
+    "UNSUPPORTED_MESSAGE_FACEBOOK": "This message is unsupported. You can view this message on the Facebook Messenger app.",
+    "UNSUPPORTED_MESSAGE_INSTAGRAM": "This message is unsupported. You can view this message on the Instagram app.",
+    "SUCCESS_DELETE_MESSAGE": "Το μήνυμα διαγράφηκε επιτυχώς",
+    "FAIL_DELETE_MESSSAGE": "Δεν ήταν δυνατή η διαγραφή μηνύματος! Προσπαθήστε ξανά",
+    "NO_RESPONSE": "Καμία ανταπόκριση",
+    "RESPONSE": "Response",
+    "RATING_TITLE": "Αξιολόγηση",
+    "FEEDBACK_TITLE": "Ανατροφοδότηση",
+    "REPLY_MESSAGE_NOT_FOUND": "Message not available",
+    "CARD": {
+      "SHOW_LABELS": "Προβολή ετικετών",
+      "HIDE_LABELS": "Απόκρυψη ετικετών"
+    },
+    "VOICE_CALL": {
+      "INCOMING_CALL": "Incoming call",
+      "OUTGOING_CALL": "Outgoing call",
+      "CALL_IN_PROGRESS": "Call in progress",
+      "NO_ANSWER": "No answer",
+      "MISSED_CALL": "Missed call",
+      "CALL_ENDED": "Call ended",
+      "NOT_ANSWERED_YET": "Not answered yet",
+      "THEY_ANSWERED": "They answered",
+      "YOU_ANSWERED": "You answered"
+    },
+    "HEADER": {
+      "RESOLVE_ACTION": "Επίλυση",
+      "REOPEN_ACTION": "Επαναφορά",
+      "OPEN_ACTION": "Ανοιχτές",
+      "MORE_ACTIONS": "More actions",
+      "OPEN": "Περισσότερα",
+      "CLOSE": "Κλείσιμο",
+      "DETAILS": "Λεπτομέρειες",
+      "SNOOZED_UNTIL": "Snoozed until",
+      "SNOOZED_UNTIL_TOMORROW": "Αναβλήθηκε μέχρι αύριο",
+      "SNOOZED_UNTIL_NEXT_WEEK": "Αναβολή έως την επόμενη εβδομάδα",
+      "SNOOZED_UNTIL_NEXT_REPLY": "Αναβολή έως την επόμενη απάντηση",
+      "SLA_STATUS": {
+        "FRT": "FRT {status}",
+        "NRT": "NRT {status}",
+        "RT": "RT {status}",
+        "MISSED": "missed",
+        "DUE": "due"
+      }
+    },
+    "RESOLVE_DROPDOWN": {
+      "MARK_PENDING": "Σήμανση ως εκκρεμής",
+      "SNOOZE_UNTIL": "Αναβολή",
+      "SNOOZE": {
+        "TITLE": "Αναβολή έως",
+        "NEXT_REPLY": "Επόμενη απάντηση",
+        "TOMORROW": "Αύριο",
+        "NEXT_WEEK": "Επόμενη εβδομάδα"
+      }
+    },
+    "MENTION": {
+      "AGENTS": "Πράκτορες",
+      "TEAMS": "Ομάδες"
+    },
+    "CUSTOM_SNOOZE": {
+      "TITLE": "Αναβολή έως",
+      "APPLY": "Αναβολή",
+      "CANCEL": "Άκυρο"
+    },
+    "PRIORITY": {
+      "TITLE": "Priority",
+      "OPTIONS": {
+        "NONE": "Κανένα",
+        "URGENT": "Urgent",
+        "HIGH": "High",
+        "MEDIUM": "Medium",
+        "LOW": "Low"
+      },
+      "CHANGE_PRIORITY": {
+        "SELECT_PLACEHOLDER": "Κανένα",
+        "INPUT_PLACEHOLDER": "Select priority",
+        "NO_RESULTS": "Δεν βρέθηκαν αποτελέσματα",
+        "SUCCESSFUL": "Changed priority of conversation id {conversationId} to {priority}",
+        "FAILED": "Couldn't change priority. Please try again."
+      }
+    },
+    "DELETE_CONVERSATION": {
+      "TITLE": "Delete conversation #{conversationId}",
+      "DESCRIPTION": "Are you sure you want to delete this conversation?",
+      "CONFIRM": "Διαγραφή"
+    },
+    "CARD_CONTEXT_MENU": {
+      "PENDING": "Σήμανση ως εκκρεμής",
+      "RESOLVED": "Σήμανση ως επιλυμένου",
+      "MARK_AS_UNREAD": "Σήμανση ως μη αναγνωσμένο",
+      "MARK_AS_READ": "Mark as read",
+      "REOPEN": "Άνοιγμα συνομιλίας",
+      "SNOOZE": {
+        "TITLE": "Αναβολή",
+        "NEXT_REPLY": "Μέχρι την επόμενη απάντηση",
+        "TOMORROW": "Μέχρι αύριο",
+        "NEXT_WEEK": "Έως την επόμενη εβδομάδα"
+      },
+      "ASSIGN_AGENT": "Ανάθεση σε πράκτορα",
+      "ASSIGN_LABEL": "Εκχώρηση ετικέτας",
+      "AGENTS_LOADING": "Φόρτωση πρακτόρων...",
+      "ASSIGN_TEAM": "Ανάθεση ομάδας",
+      "DELETE": "Delete conversation",
+      "OPEN_IN_NEW_TAB": "Open in new tab",
+      "COPY_LINK": "Copy conversation link",
+      "COPY_LINK_SUCCESS": "Conversation link copied to clipboard",
+      "API": {
+        "AGENT_ASSIGNMENT": {
+          "SUCCESFUL": "Η συνομιλία με αριθμό {conversationId} ανατέθηκε στον \"{agentName}\"",
+          "FAILED": "Αδυναμία αντιστοίχισης σε πράκτορα. Παρακαλώ δοκιμάστε ξανά."
+        },
+        "LABEL_ASSIGNMENT": {
+          "SUCCESFUL": "Assigned label #{labelName} to conversation id {conversationId}",
+          "FAILED": "Αποτυχία στην εκχώρηση ετικέτας, παρακαλώ δοκιμάστε αργότερα."
+        },
+        "TEAM_ASSIGNMENT": {
+          "SUCCESFUL": "Η συνομιλία με αριθμό {conversationId} ανατέθηκε στην ομάδα \"{team}\"",
+          "FAILED": "Αδυναμία αντιστοίχισης ομάδας. Παρακαλώ δοκιμάστε ξανά."
+        }
+      }
+    },
+    "FOOTER": {
+      "MESSAGE_SIGN_TOOLTIP": "Υπογραφή μηνύματος",
+      "ENABLE_SIGN_TOOLTIP": "Ενεργοποίηση υπογραφής",
+      "DISABLE_SIGN_TOOLTIP": "Απενεργοποίηση υπογραφής",
+      "MSG_INPUT": "Shift + enter για νέα γραμμή. Ξεκινήστε με '/' για να επιλέξτε Τυποποιημένη Απάντηση.",
+      "PRIVATE_MSG_INPUT": "Shift + enter για νέα γραμμή. Το κείμενο θα μπορούν να το δουν μόνο οι υπόλοιποι πράκτορες.",
+      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Δεν έχει ρυθμιστεί η υπογραφή μηνύματος, παρακαλώ ρυθμίστε την στις ρυθμίσεις προφίλ.",
+      "CLICK_HERE": "Πατήστε εδώ για ενημέρωση",
+      "WHATSAPP_TEMPLATES": "Πρότυπα Whatsapp"
+    },
+    "REPLYBOX": {
+      "REPLY": "Απάντηση",
+      "PRIVATE_NOTE": "Ιδιωτική Σημείωση",
+      "SEND": "Αποστολή",
+      "CREATE": "Σημείωση (Add Note)",
+      "INSERT_READ_MORE": "Read more",
+      "DISMISS_REPLY": "Dismiss reply",
+      "REPLYING_TO": "Replying to:",
+      "TIP_EMOJI_ICON": "Προβολή επιλογέα emoji",
+      "TIP_ATTACH_ICON": "Επισύναψη αρχείων",
+      "TIP_AUDIORECORDER_ICON": "Εγγραφή ήχου",
+      "TIP_AUDIORECORDER_PERMISSION": "Να επιτρέπεται η πρόσβαση στον ήχο",
+      "TIP_AUDIORECORDER_ERROR": "Αδυναμία ανοίγματος ήχου",
+      "DRAG_DROP": "Σύρετε και αφήστε εδώ για επισύναψη",
+      "START_AUDIO_RECORDING": "Έναρξη ηχογράφησης",
+      "STOP_AUDIO_RECORDING": "Διακοπή ηχογράφησης",
+      "": "",
+      "EMAIL_HEAD": {
+        "TO": "TO",
+        "ADD_BCC": "Προσθήκη bcc",
+        "CC": {
+          "LABEL": "CC",
+          "PLACEHOLDER": "Emails διαχωρισμένα με κόμματα",
+          "ERROR": "Παρακαλώ εισάγετε μια έγκυρη διεύθυνση email"
+        },
+        "BCC": {
+          "LABEL": "BCC",
+          "PLACEHOLDER": "Emails διαχωρισμένα με κόμματα",
+          "ERROR": "Παρακαλώ εισάγετε μια έγκυρη διεύθυνση email"
+        }
+      },
+      "UNDEFINED_VARIABLES": {
+        "TITLE": "Undefined variables",
+        "MESSAGE": "You have {undefinedVariablesCount} undefined variables in your message: {undefinedVariables}. Would you like to send the message anyway?",
+        "CONFIRM": {
+          "YES": "Αποστολή",
+          "CANCEL": "Άκυρο"
+        }
+      },
+      "QUOTED_REPLY": {
+        "ENABLE_TOOLTIP": "Include quoted email thread",
+        "DISABLE_TOOLTIP": "Don't include quoted email thread",
+        "REMOVE_PREVIEW": "Remove quoted email thread",
+        "COLLAPSE": "Collapse preview",
+        "EXPAND": "Expand preview"
+      }
+    },
+    "VISIBLE_TO_AGENTS": "Ιδιωτική Σημείωση: Ορατή μόνο σε σας και την ομάδα σας",
+    "CHANGE_STATUS": "Η κατάσταση της συνομιλίας άλλαξε",
+    "CHANGE_STATUS_FAILED": "Η αλλαγή κατάστασης συνομιλίας απέτυχε",
+    "CHANGE_AGENT": "Η εκπροσώπηση για την συνομιλία άλλαξε",
+    "CHANGE_AGENT_FAILED": "Η αλλαγή της ανάθεσης απέτυχε",
+    "ASSIGN_LABEL_SUCCESFUL": "Επιτυχής εκχώρηση ετικέτας",
+    "ASSIGN_LABEL_FAILED": "Η εκχώρηση ετικέτας απέτυχε",
+    "CHANGE_TEAM": "Η ομάδα συνομιλίας άλλαξε",
+    "SUCCESS_DELETE_CONVERSATION": "Conversation deleted successfully",
+    "FAIL_DELETE_CONVERSATION": "Couldn't delete conversation! Try again",
+    "FILE_SIZE_LIMIT": "Το αρχείο υπερβαίνει το όριο συνημμένου {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE}",
+    "MESSAGE_ERROR": "Δεν είναι δυνατή η αποστολή του μηνύματος, παρακαλώ προσπαθήστε ξανά αργότερα",
+    "SENT_BY": "Αποστολή από:",
+    "BOT": "Bot",
+    "SEND_FAILED": "Δεν ήταν δυνατή η αποστολή μηνύματος! Προσπαθήστε ξανά",
+    "TRY_AGAIN": "επανάληψη",
+    "ASSIGNMENT": {
+      "SELECT_AGENT": "Επιλογή πράκτορα",
+      "REMOVE": "Διαγραφή",
+      "ASSIGN": "Αντιστοίχιση"
+    },
+    "CONTEXT_MENU": {
+      "COPY": "Αντιγραφή",
+      "REPLY_TO": "Reply to this message",
+      "DELETE": "Διαγραφή",
+      "CREATE_A_CANNED_RESPONSE": "Προσθήκη στις έτοιμες απαντήσεις",
+      "TRANSLATE": "Translate",
+      "COPY_PERMALINK": "Copy link to the message",
+      "LINK_COPIED": "Message URL copied to the clipboard",
+      "DELETE_CONFIRMATION": {
+        "TITLE": "Are you sure you want to delete this message?",
+        "MESSAGE": "You cannot undo this action",
+        "DELETE": "Διαγραφή",
+        "CANCEL": "Άκυρο"
+      }
+    },
+    "SIDEBAR": {
+      "CONTACT": "Επαφές",
+      "COPILOT": "Copilot"
+    },
+    "VOICE_WIDGET": {
+      "INCOMING_CALL": "Incoming call",
+      "OUTGOING_CALL": "Outgoing call",
+      "CALL_IN_PROGRESS": "Call in progress",
+      "NOT_ANSWERED_YET": "Not answered yet",
+      "HANDLED_IN_ANOTHER_TAB": "Being handled in another tab",
+      "REJECT_CALL": "Reject",
+      "JOIN_CALL": "Join call",
+      "END_CALL": "End call"
+    }
+  },
+  "EMAIL_TRANSCRIPT": {
+    "TITLE": "Στείλτε την μεταγραφή της σινομιλίας",
+    "DESC": "Στείλτε ένα αντίγραφο της συνομιλίας στην διεύθυνση email",
+    "SUBMIT": "Καταχώρηση",
+    "CANCEL": "Άκυρο",
+    "SEND_EMAIL_SUCCESS": "Η μεταγραφή της συνομιλίας έχει αποσταλεί επιτυχώς",
+    "SEND_EMAIL_ERROR": "Υπήρξε ένα σφάλμα, παρακαλώ προσπαθήστε ξανά",
+    "FORM": {
+      "SEND_TO_CONTACT": "Στείλτε το αντίγραφο στον πελάτη",
+      "SEND_TO_AGENT": "Στείλε το αντίγραφο στον αντιστοιχισμένο πράκτορα",
+      "SEND_TO_OTHER_EMAIL_ADDRESS": "Στείλε το αντίγραφο σε άλλη διεύθυνση email",
+      "EMAIL": {
+        "PLACEHOLDER": "Συμπληρώστε μια διεύθυνση email",
+        "ERROR": "Παρακαλώ εισάγετε μια έγκυρη διεύθυνση email"
+      }
+    }
+  },
+  "ONBOARDING": {
+    "TITLE": "Γεια σας 👋, Καλώς ήρθατε στο {installationName}!",
+    "DESCRIPTION": "Ευχαριστούμε για την εγγραφή. Θέλουμε να αξιοποιήσετε στο έπακρο το {installationName}. Εδώ είναι μερικά πράγματα που μπορείτε να κάνετε στο {installationName} για να έχετε μια ευχάριστη εμπειρία.",
+    "GREETING_MORNING": "👋 Good morning, {name}. Welcome to {installationName}.",
+    "GREETING_AFTERNOON": "👋 Good afternoon, {name}. Welcome to {installationName}.",
+    "GREETING_EVENING": "👋 Good evening, {name}. Welcome to {installationName}.",
+    "READ_LATEST_UPDATES": "Διαβάστε τις πρόσφατες ενημερώσεις μας",
+    "ALL_CONVERSATION": {
+      "TITLE": "Όλες οι συνομιλίες σας σε ένα μέρος",
+      "DESCRIPTION": "Δείτε όλες τις συνομιλίες από τους πελάτες σας σε ένα μόνο ταμπλό. Μπορείτε να φιλτράρετε τις συνομιλίες κατά εισερχόμενο κανάλι, ετικέτα και κατάσταση.",
+      "NEW_LINK": "Κάντε κλικ εδώ για δημιουργία εισερχόμενων"
+    },
+    "TEAM_MEMBERS": {
+      "TITLE": "Προσκαλέστε τα μέλη της ομάδας σας",
+      "DESCRIPTION": "Δεδομένου ότι ετοιμάζεστε να συνομιλήσετε με τον πελάτη σας, φέρτε τους συνάδελφους σας για να σας βοηθήσουν. Μπορείτε να προσκαλέσετε τους συνάδελφους σας προσθέτοντας τη διεύθυνση email τους στη λίστα αντιπροσώπων.",
+      "NEW_LINK": "Κάντε κλικ εδώ για να καλέσετε ένα μέλος της ομάδας"
+    },
+    "LABELS": {
+      "TITLE": "Οργάνωση συνομιλιών με ετικέτες",
+      "DESCRIPTION": "Οι ετικέτες παρέχουν έναν ευκολότερο τρόπο για να κατηγοριοποιήσετε τη συνομιλία σας. Δημιουργήστε μερικές ετικέτες όπως το #support-quiry, #billing-question κλπ., έτσι ώστε να μπορείτε να τις χρησιμοποιήσετε σε μια συζήτηση αργότερα.",
+      "NEW_LINK": "Κάντε κλικ εδώ για δημιουργία ετικετών (tags)"
+    },
+    "CANNED_RESPONSES": {
+      "TITLE": "Create canned responses",
+      "DESCRIPTION": "Pre-written quick reply templates help you quickly respond to a conversation. Agents can type the '/' character followed by the shortcode to insert a response.",
+      "NEW_LINK": "Click here to create a canned response"
+    }
+  },
+  "CONVERSATION_SIDEBAR": {
+    "ASSIGNEE_LABEL": "Ανατεθειμένο σε Πράκτορα",
+    "SELF_ASSIGN": "Ανάθεση σε μένα",
+    "TEAM_LABEL": "Ανατεθειμένο σε Ομάδα",
+    "SELECT": {
+      "PLACEHOLDER": "Κανένα"
+    },
+    "ACCORDION": {
+      "CONTACT_DETAILS": "Λεπτομέρειες Επαφής",
+      "CONVERSATION_ACTIONS": "Ενέργειες Συνομιλίας",
+      "CONVERSATION_LABELS": "Ετικέτες συνομιλίας",
+      "CONVERSATION_INFO": "Πληροφορίες Συνομιλίας",
+      "CONTACT_NOTES": "Contact Notes",
+      "CONTACT_ATTRIBUTES": "Ιδιότητες Επαφής",
+      "PREVIOUS_CONVERSATION": "Προηγούμενες συνομιλίες",
+      "MACROS": "Μακροεντολές",
+      "LINEAR_ISSUES": "Linked Linear Issues",
+      "SHOPIFY_ORDERS": "Shopify Orders"
+    },
+    "SHOPIFY": {
+      "ORDER_ID": "Order #{id}",
+      "ERROR": "Error loading orders",
+      "NO_SHOPIFY_ORDERS": "No orders found",
+      "FINANCIAL_STATUS": {
+        "PENDING": "Εκκρεμεί",
+        "AUTHORIZED": "Authorized",
+        "PARTIALLY_PAID": "Partially Paid",
+        "PAID": "Paid",
+        "PARTIALLY_REFUNDED": "Partially Refunded",
+        "REFUNDED": "Refunded",
+        "VOIDED": "Voided"
+      },
+      "FULFILLMENT_STATUS": {
+        "FULFILLED": "Fulfilled",
+        "PARTIALLY_FULFILLED": "Partially Fulfilled",
+        "UNFULFILLED": "Unfulfilled"
+      }
+    }
+  },
+  "CONVERSATION_CUSTOM_ATTRIBUTES": {
+    "ADD_BUTTON_TEXT": "Δημιουργία ιδιότητας",
+    "NO_RECORDS_FOUND": "Δεν βρέθηκαν ιδιότητες",
+    "UPDATE": {
+      "SUCCESS": "Ο πράκτορας ενημερώθηκε επιτυχώς",
+      "ERROR": "Δεν είναι δυνατή η ενημέρωση της ιδιότητας. Παρακαλώ προσπαθήστε ξανά αργότερα"
+    },
+    "ADD": {
+      "TITLE": "Προσθήκη",
+      "SUCCESS": "Η ιδιότητα προστέθηκε με επιτυχία",
+      "ERROR": "Δεν ήταν δυνατή η δημιουργία Ιδιότητας, Παρακαλώ δοκιμάστε ξανά αργότερα"
+    },
+    "DELETE": {
+      "SUCCESS": "Η ιδιότητα προστέθηκε με επιτυχία",
+      "ERROR": "Δεν είναι δυνατή η διαγραφή της ιδιότητας. Παρακαλώ δοκιμάστε ξανά αργότερα"
+    },
+    "ATTRIBUTE_SELECT": {
+      "TITLE": "Προσθήκη ιδιότητας",
+      "PLACEHOLDER": "Αναζήτηση ιδιοτήτων",
+      "NO_RESULT": "Δεν βρέθηκαν ιδιότητες"
+    }
+  },
+  "EMAIL_HEADER": {
+    "FROM": "Από",
+    "TO": "Προς",
+    "BCC": "Bcc",
+    "CC": "Cc",
+    "SUBJECT": "Θέμα",
+    "EXPAND": "Expand email"
+  },
+  "CONVERSATION_PARTICIPANTS": {
+    "SIDEBAR_MENU_TITLE": "Participating",
+    "SIDEBAR_TITLE": "Conversation participants",
+    "NO_RECORDS_FOUND": "Δεν βρέθηκαν αποτελέσματα",
+    "ADD_PARTICIPANTS": "Select participants",
+    "REMANING_PARTICIPANTS_TEXT": "+{count} others",
+    "REMANING_PARTICIPANT_TEXT": "+{count} other",
+    "TOTAL_PARTICIPANTS_TEXT": "{count} people are participating.",
+    "TOTAL_PARTICIPANT_TEXT": "{count} person is participating.",
+    "NO_PARTICIPANTS_TEXT": "No one is participating!.",
+    "WATCH_CONVERSATION": "Join conversation",
+    "YOU_ARE_WATCHING": "You are participating",
+    "API": {
+      "ERROR_MESSAGE": "Could not update, try again!",
+      "SUCCESS_MESSAGE": "Participants updated!"
+    }
+  },
+  "TRANSLATE_MODAL": {
+    "TITLE": "View translated content",
+    "DESC": "You can view the translated content in each langauge.",
+    "ORIGINAL_CONTENT": "Original Content",
+    "TRANSLATED_CONTENT": "Translated Content",
+    "NO_TRANSLATIONS_AVAILABLE": "No translations are available for this content"
+  },
+  "TYPING": {
+    "ONE": "{user} is typing",
+    "TWO": "{user} and {secondUser} are typing",
+    "MULTIPLE": "{user} and {count} others are typing"
+  },
+  "COPILOT": {
+    "TRY_THESE_PROMPTS": "Try these prompts"
+  },
+  "GALLERY_VIEW": {
+    "ERROR_DOWNLOADING": "Unable to download attachment. Please try again"
+  }
+}

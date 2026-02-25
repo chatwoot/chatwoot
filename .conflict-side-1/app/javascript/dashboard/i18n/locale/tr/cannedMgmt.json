@@ -1,0 +1,77 @@
+{
+  "CANNED_MGMT": {
+    "HEADER": "Hazır Yanıtlar",
+    "LEARN_MORE": "Learn more about canned responses",
+    "DESCRIPTION": "Hazır Yanıtlar, bir konuşmaya hızlı yanıt vermenizi sağlayan önceden hazırlanmış şablonlardır. Temsilciler, bir konuşma sırasında hazır yanıt eklemek için '/' karakterini ve ardından kısa kodu yazabilirler. ",
+    "HEADER_BTN_TXT": "Hazır yanıt ekle",
+    "LOADING": "Hazır yanıtlar getiriliyor...",
+    "SEARCH_404": "Bu sorgu ile eşleşen öğe yok.",
+    "LIST": {
+      "404": "Bu hesapta hazır yanıt yok.",
+      "TITLE": "Hazır yanıtları yönetin",
+      "DESC": "Hazır Yanıtlar, konuşmalara hızlı yanıt vermek için kullanılan önceden tanımlanmış yanıt şablonlarıdır.",
+      "TABLE_HEADER": {
+        "SHORT_CODE": "Kısa Kod",
+        "CONTENT": "İçerik",
+        "ACTIONS": "Hareketler"
+      }
+    },
+    "ADD": {
+      "TITLE": "Hazır yanıt ekle",
+      "DESC": "Hazır Yanıtlar, konuşmalara hızlı yanıt vermek için kullanılan önceden tanımlanmış yanıt şablonlarıdır.",
+      "CANCEL_BUTTON_TEXT": "İptal Et",
+      "FORM": {
+        "SHORT_CODE": {
+          "LABEL": "Kısa Kod",
+          "PLACEHOLDER": "Lütfen bir kısa kod girin.",
+          "ERROR": "Kısa Kod gerekli."
+        },
+        "CONTENT": {
+          "LABEL": "Mesaj",
+          "PLACEHOLDER": "Lütfen daha sonra kullanmak üzere şablon olarak kaydetmek istediğiniz mesajı yazın.",
+          "ERROR": "Mesaj gerekli."
+        },
+        "SUBMIT": "Gönder"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Hazır yanıt başarıyla eklendi.",
+        "ERROR_MESSAGE": "Woot sunucusuna bağlanılamadı. Lütfen tekrar deneyin."
+      }
+    },
+    "EDIT": {
+      "TITLE": "Hazır yanıtı düzenle",
+      "CANCEL_BUTTON_TEXT": "İptal Et",
+      "FORM": {
+        "SHORT_CODE": {
+          "LABEL": "Kısa Kod",
+          "PLACEHOLDER": "Lütfen bir kısa kod girin.",
+          "ERROR": "Kısa kod gerekli."
+        },
+        "CONTENT": {
+          "LABEL": "Mesaj",
+          "PLACEHOLDER": "Lütfen daha sonra kullanmak üzere şablon olarak kaydetmek istediğiniz mesajı yazın.",
+          "ERROR": "Mesaj gerekli."
+        },
+        "SUBMIT": "Gönder"
+      },
+      "BUTTON_TEXT": "Düzenle",
+      "API": {
+        "SUCCESS_MESSAGE": "Hazır yanıt başarıyla güncellendi.",
+        "ERROR_MESSAGE": "Woot sunucusuna bağlanılamadı. Lütfen tekrar deneyin."
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Sil",
+      "API": {
+        "SUCCESS_MESSAGE": "Hazır yanıt başarıyla silindi.",
+        "ERROR_MESSAGE": "Woot sunucusuna bağlanılamadı. Lütfen tekrar deneyin."
+      },
+      "CONFIRM": {
+        "TITLE": "Silme işlemini onayla",
+        "MESSAGE": "Silmek istediğinize emin misiniz?",
+        "YES": "Evet, sil ",
+        "NO": "Hayır, sakla "
+      }
+    }
+  }
+}

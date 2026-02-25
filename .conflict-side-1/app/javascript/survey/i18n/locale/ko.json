@@ -1,0 +1,19 @@
+{
+  "SURVEY": {
+    "DESCRIPTION": "고객님 👋, 잠시 시간을 내어 {inboxName}에서 나눈 대화에 대한 경험을 알려주세요.",
+    "RATING": {
+      "LABEL": "대화를 평가해주세요.",
+      "SUCCESS_MESSAGE": "평가해주셔서 감사합니다!"
+    },
+    "FEEDBACK": {
+      "LABEL": "공유하고 싶은 생각이 있나요?",
+      "PLACEHOLDER": "내 평가 (선택)",
+      "BUTTON_TEXT": "평가 제출하기"
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "평가가 업데이트되었습니다",
+      "ERROR_MESSAGE": "Woot 서버에 연결할 수 없음. 나중에 다시 시도하십시오."
+    }
+  },
+  "POWERED_BY": "Chatwoot 작동중"
+}

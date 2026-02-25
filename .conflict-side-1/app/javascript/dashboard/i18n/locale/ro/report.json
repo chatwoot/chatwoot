@@ -1,0 +1,582 @@
+{
+  "REPORT": {
+    "HEADER": "Conversații",
+    "LOADING_CHART": "Încărcare date grafic...",
+    "NO_ENOUGH_DATA": "Nu am primit suficiente date pentru a genera raportul. Vă rugăm să încercați din nou mai târziu.",
+    "DOWNLOAD_AGENT_REPORTS": "Descărcați rapoartele agenților",
+    "DATA_FETCHING_FAILED": "Preluarea datelor a eșuat, te rugăm să încerci din nou mai târziu.",
+    "SUMMARY_FETCHING_FAILED": "Preluarea rezumatului a eșuat, te rugăm să încerci mai târziu.",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "Conversații",
+        "DESC": "( Total )"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "Mesaje primite",
+        "DESC": "( Total )"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "Mesaje trimise",
+        "DESC": "( Total )"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "Primul timp de răspuns",
+        "DESC": "(Medie)",
+        "INFO_TEXT": "Numărul total de conversații utilizate pentru calcul:",
+        "TOOLTIP_TEXT": "Primul timp de răspuns este {metricValue} (pe baza conversațiilor {conversationCount})"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "Timp Rezolutie",
+        "DESC": "(Medie)",
+        "INFO_TEXT": "Numărul total de conversații utilizate pentru calcul:",
+        "TOOLTIP_TEXT": "Timpul de rezolvare este {metricValue} (pe baza conversațiilor {conversationCount})"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "Număr de rezoluții",
+        "DESC": "( Total )"
+      },
+      "BOT_RESOLUTION_COUNT": {
+        "NAME": "Număr de rezoluții",
+        "DESC": "( Total )"
+      },
+      "BOT_HANDOFF_COUNT": {
+        "NAME": "Handoff Count",
+        "DESC": "( Total )"
+      },
+      "REPLY_TIME": {
+        "NAME": "Customer waiting time",
+        "TOOLTIP_TEXT": "Waiting time is {metricValue} (based on {conversationCount} replies)",
+        "DESC": ""
+      }
+    },
+    "DATE_RANGE_OPTIONS": {
+      "LAST_7_DAYS": "Ultimele 7 zile",
+      "LAST_14_DAYS": "Ultimele 14 zile",
+      "LAST_30_DAYS": "Ultimele 30 zile",
+      "THIS_MONTH": "This month",
+      "LAST_MONTH": "Last month",
+      "LAST_3_MONTHS": "Ultimele 3 luni",
+      "LAST_6_MONTHS": "Ultimele 6 luni",
+      "LAST_YEAR": "Anul trecut",
+      "CUSTOM_DATE_RANGE": "Interval de date particularizat"
+    },
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Aplică",
+      "PLACEHOLDER": "Selectarea intervalului de date"
+    },
+    "GROUP_BY_FILTER_DROPDOWN_LABEL": "Grupează după",
+    "DURATION_FILTER_LABEL": "Durata",
+    "GROUPING_OPTIONS": {
+      "DAY": "Zi",
+      "WEEK": "Săptămână",
+      "MONTH": "Luna",
+      "YEAR": "Anul"
+    },
+    "GROUP_BY_DAY_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Zi"
+      }
+    ],
+    "GROUP_BY_WEEK_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Zi"
+      },
+      {
+        "id": 2,
+        "groupBy": "Săptămână"
+      }
+    ],
+    "GROUP_BY_MONTH_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Zi"
+      },
+      {
+        "id": 2,
+        "groupBy": "Săptămână"
+      },
+      {
+        "id": 3,
+        "groupBy": "Luna"
+      }
+    ],
+    "GROUP_BY_YEAR_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Zi"
+      },
+      {
+        "id": 2,
+        "groupBy": "Săptămână"
+      },
+      {
+        "id": 3,
+        "groupBy": "Luna"
+      }
+    ],
+    "BUSINESS_HOURS": "Program de lucru",
+    "FILTER_ACTIONS": {
+      "CLEAR_FILTER": "Clear filter",
+      "EMPTY_LIST": "Niciun rezultat găsit"
+    },
+    "PAGINATION": {
+      "RESULTS": "Showing {start} to {end} of {total} results",
+      "PER_PAGE_TEMPLATE": "{size} / page"
+    }
+  },
+  "AGENT_REPORTS": {
+    "HEADER": "Prezentare generală a agenților",
+    "DESCRIPTION": "Easily track agent performance with key metrics such as conversations, response times, resolution times, and resolved cases. Click an agent’s name to learn more.",
+    "LOADING_CHART": "Încărcare date grafic...",
+    "NO_ENOUGH_DATA": "Nu am primit suficiente date pentru a genera raportul. Vă rugăm să încercați din nou mai târziu.",
+    "DOWNLOAD_AGENT_REPORTS": "Descărcați rapoartele agenților",
+    "FILTER_DROPDOWN_LABEL": "Selectează agent",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "Conversații",
+        "DESC": "( Total )"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "Mesaje primite",
+        "DESC": "( Total )"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "Mesaje trimise",
+        "DESC": "( Total )"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "Primul timp de răspuns",
+        "DESC": "(Medie)",
+        "INFO_TEXT": "Numărul total de conversații utilizate pentru calcul:",
+        "TOOLTIP_TEXT": "Primul timp de răspuns este {metricValue} (pe baza conversațiilor {conversationCount})"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "Timp Rezolutie",
+        "DESC": "(Medie)",
+        "INFO_TEXT": "Numărul total de conversații utilizate pentru calcul:",
+        "TOOLTIP_TEXT": "Timpul de rezolvare este {metricValue} (pe baza conversațiilor {conversationCount})"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "Număr de rezoluții",
+        "DESC": "( Total )"
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Ultimele 7 zile"
+      },
+      {
+        "id": 1,
+        "name": "Ultimele 30 zile"
+      },
+      {
+        "id": 2,
+        "name": "Ultimele 3 luni"
+      },
+      {
+        "id": 3,
+        "name": "Ultimele 6 luni"
+      },
+      {
+        "id": 4,
+        "name": "Anul trecut"
+      },
+      {
+        "id": 5,
+        "name": "Interval de date particularizat"
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Aplică",
+      "PLACEHOLDER": "Selectarea intervalului de date"
+    }
+  },
+  "LABEL_REPORTS": {
+    "HEADER": "Prezentare generală a etichetelor",
+    "DESCRIPTION": "Track label performance with key metrics including conversations, response times, resolution times, and resolved cases. Click a label name for detailed insights.",
+    "LOADING_CHART": "Încărcare date grafic...",
+    "NO_ENOUGH_DATA": "Nu am primit suficiente date pentru a genera raportul. Vă rugăm să încercați din nou mai târziu.",
+    "DOWNLOAD_LABEL_REPORTS": "Descărcarea rapoartelor de etichete",
+    "FILTER_DROPDOWN_LABEL": "Selectați etichetă",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "Conversații",
+        "DESC": "( Total )"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "Mesaje primite",
+        "DESC": "( Total )"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "Mesaje trimise",
+        "DESC": "( Total )"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "Primul timp de răspuns",
+        "DESC": "(Medie)",
+        "INFO_TEXT": "Numărul total de conversații utilizate pentru calcul:",
+        "TOOLTIP_TEXT": "Primul timp de răspuns este {metricValue} (pe baza conversațiilor {conversationCount})"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "Timp Rezolutie",
+        "DESC": "(Medie)",
+        "INFO_TEXT": "Numărul total de conversații utilizate pentru calcul:",
+        "TOOLTIP_TEXT": "Timpul de rezolvare este {metricValue} (pe baza conversațiilor {conversationCount})"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "Număr de rezoluții",
+        "DESC": "( Total )"
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Ultimele 7 zile"
+      },
+      {
+        "id": 1,
+        "name": "Ultimele 30 zile"
+      },
+      {
+        "id": 2,
+        "name": "Ultimele 3 luni"
+      },
+      {
+        "id": 3,
+        "name": "Ultimele 6 luni"
+      },
+      {
+        "id": 4,
+        "name": "Anul trecut"
+      },
+      {
+        "id": 5,
+        "name": "Interval de date particularizat"
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Aplică",
+      "PLACEHOLDER": "Selectarea intervalului de date"
+    }
+  },
+  "INBOX_REPORTS": {
+    "HEADER": "Prezentare generală a inboxului",
+    "DESCRIPTION": "Quickly view your inbox performance with key metrics like conversations, response times, resolution times, and resolved cases—all in one place. Click an inbox name for more details.",
+    "LOADING_CHART": "Încărcare date grafic...",
+    "NO_ENOUGH_DATA": "Nu am primit suficiente date pentru a genera raportul. Vă rugăm să încercați din nou mai târziu.",
+    "DOWNLOAD_INBOX_REPORTS": "Descărcarea rapoartelor inbox",
+    "FILTER_DROPDOWN_LABEL": "Selectați Inbox",
+    "ALL_INBOXES": "All Inboxes",
+    "SEARCH_INBOX": "Search Inbox",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "Conversații",
+        "DESC": "( Total )"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "Mesaje primite",
+        "DESC": "( Total )"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "Mesaje trimise",
+        "DESC": "( Total )"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "Primul timp de răspuns",
+        "DESC": "(Medie)",
+        "INFO_TEXT": "Numărul total de conversații utilizate pentru calcul:",
+        "TOOLTIP_TEXT": "Primul timp de răspuns este {metricValue} (pe baza conversațiilor {conversationCount})"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "Timp Rezolutie",
+        "DESC": "(Medie)",
+        "INFO_TEXT": "Numărul total de conversații utilizate pentru calcul:",
+        "TOOLTIP_TEXT": "Timpul de rezolvare este {metricValue} (pe baza conversațiilor {conversationCount})"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "Număr de rezoluții",
+        "DESC": "( Total )"
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Ultimele 7 zile"
+      },
+      {
+        "id": 1,
+        "name": "Ultimele 30 zile"
+      },
+      {
+        "id": 2,
+        "name": "Ultimele 3 luni"
+      },
+      {
+        "id": 3,
+        "name": "Ultimele 6 luni"
+      },
+      {
+        "id": 4,
+        "name": "Anul trecut"
+      },
+      {
+        "id": 5,
+        "name": "Interval de date particularizat"
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Aplică",
+      "PLACEHOLDER": "Selectarea intervalului de date"
+    }
+  },
+  "TEAM_REPORTS": {
+    "HEADER": "Prezentare generală a echipei",
+    "DESCRIPTION": "Get a snapshot of your team’s performance with essential metrics, including conversations, response times, resolution times, and resolved cases. Click a team name for more details.",
+    "LOADING_CHART": "Încărcare date grafic...",
+    "NO_ENOUGH_DATA": "Nu am primit suficiente date pentru a genera raportul. Vă rugăm să încercați din nou mai târziu.",
+    "DOWNLOAD_TEAM_REPORTS": "Descărcați rapoartele echipei",
+    "FILTER_DROPDOWN_LABEL": "Selectați echipa",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "Conversații",
+        "DESC": "( Total )"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "Mesaje primite",
+        "DESC": "( Total )"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "Mesaje trimise",
+        "DESC": "( Total )"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "Primul timp de răspuns",
+        "DESC": "(Medie)",
+        "INFO_TEXT": "Numărul total de conversații utilizate pentru calcul:",
+        "TOOLTIP_TEXT": "Primul timp de răspuns este {metricValue} (pe baza conversațiilor {conversationCount})"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "Timp Rezolutie",
+        "DESC": "(Medie)",
+        "INFO_TEXT": "Numărul total de conversații utilizate pentru calcul:",
+        "TOOLTIP_TEXT": "Timpul de rezolvare este {metricValue} (pe baza conversațiilor {conversationCount})"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "Număr de rezoluții",
+        "DESC": "( Total )"
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Ultimele 7 zile"
+      },
+      {
+        "id": 1,
+        "name": "Ultimele 30 zile"
+      },
+      {
+        "id": 2,
+        "name": "Ultimele 3 luni"
+      },
+      {
+        "id": 3,
+        "name": "Ultimele 6 luni"
+      },
+      {
+        "id": 4,
+        "name": "Anul trecut"
+      },
+      {
+        "id": 5,
+        "name": "Interval de date particularizat"
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Aplică",
+      "PLACEHOLDER": "Selectarea intervalului de date"
+    }
+  },
+  "CSAT_REPORTS": {
+    "HEADER": "Rapoarte CSAT",
+    "NO_RECORDS": "Nu există răspunsuri predefinite disponibile în acest cont.",
+    "DOWNLOAD": "Descărcați rapoartele CSAT",
+    "DOWNLOAD_FAILED": "Descărcarea rapoartelor CSAT a eșuat",
+    "FILTERS": {
+      "AGENTS": {
+        "PLACEHOLDER": "Alege agenți"
+      }
+    },
+    "TABLE": {
+      "HEADER": {
+        "CONTACT_NAME": "Contact",
+        "AGENT_NAME": "Agent atribuit",
+        "RATING": "Evaluare",
+        "FEEDBACK_TEXT": "Comentariu feedback"
+      }
+    },
+    "METRIC": {
+      "TOTAL_RESPONSES": {
+        "LABEL": "Răspunsuri totale",
+        "TOOLTIP": "Numărul total de răspunsuri colectate"
+      },
+      "SATISFACTION_SCORE": {
+        "LABEL": "Scorul de satisfacție",
+        "TOOLTIP": "Numărul total de răspunsuri pozitive / Numărul total de răspunsuri * 100"
+      },
+      "RESPONSE_RATE": {
+        "LABEL": "Rata de răspuns",
+        "TOOLTIP": "Numărul total de răspunsuri / Numărul total de mesaje de sondaj CSAT trimise * 100"
+      }
+    }
+  },
+  "BOT_REPORTS": {
+    "HEADER": "Bot Reports",
+    "METRIC": {
+      "TOTAL_CONVERSATIONS": {
+        "LABEL": "No. of Conversations",
+        "TOOLTIP": "Total number of conversations handled by the bot"
+      },
+      "TOTAL_RESPONSES": {
+        "LABEL": "Total Responses",
+        "TOOLTIP": "Total number of responses sent by the bot"
+      },
+      "RESOLUTION_RATE": {
+        "LABEL": "Resolution Rate",
+        "TOOLTIP": "Total number of conversations resolved by the bot / Total number of conversations handled by the bot * 100"
+      },
+      "HANDOFF_RATE": {
+        "LABEL": "Handoff Rate",
+        "TOOLTIP": "Total number of conversations handed off to agents / Total number of conversations handled by the bot * 100"
+      }
+    }
+  },
+  "OVERVIEW_REPORTS": {
+    "HEADER": "Prezentare generală",
+    "LIVE": "Live",
+    "ACCOUNT_CONVERSATIONS": {
+      "HEADER": "Deschiderea conversațiilor",
+      "LOADING_MESSAGE": "Încărcarea valorilor conversației...",
+      "OPEN": "Deschide",
+      "UNATTENDED": "Neasistat",
+      "UNASSIGNED": "Neatribuit",
+      "PENDING": "În aşteptare"
+    },
+    "CONVERSATION_HEATMAP": {
+      "HEADER": "Trafic de conversație",
+      "NO_CONVERSATIONS": "Fără conversații",
+      "CONVERSATION": "{count} conversație",
+      "CONVERSATIONS": "conversații {count}",
+      "DOWNLOAD_REPORT": "Download report"
+    },
+    "RESOLUTION_HEATMAP": {
+      "HEADER": "Resolutions",
+      "NO_CONVERSATIONS": "Fără conversații",
+      "CONVERSATION": "{count} conversație",
+      "CONVERSATIONS": "conversații {count}",
+      "DOWNLOAD_REPORT": "Download report"
+    },
+    "AGENT_CONVERSATIONS": {
+      "HEADER": "Conversațiile agenților",
+      "LOADING_MESSAGE": "Măsurătorile agentului de încărcare...",
+      "NO_AGENTS": "Nu există conversații ale agenților",
+      "TABLE_HEADER": {
+        "AGENT": "Agent",
+        "OPEN": "Deschide",
+        "UNATTENDED": "Neasistat",
+        "STATUS": "Status"
+      }
+    },
+    "TEAM_CONVERSATIONS": {
+      "ALL_TEAMS": "All Teams",
+      "HEADER": "Conversations by teams",
+      "LOADING_MESSAGE": "Loading team metrics...",
+      "NO_TEAMS": "There is no data available",
+      "TABLE_HEADER": {
+        "TEAM": "Echipa",
+        "OPEN": "Deschide",
+        "UNATTENDED": "Neasistat",
+        "STATUS": "Status"
+      }
+    },
+    "AGENT_STATUS": {
+      "HEADER": "Starea agentului",
+      "ONLINE": "Online",
+      "BUSY": "Ocupat",
+      "OFFLINE": "Deconectat"
+    }
+  },
+  "DAYS_OF_WEEK": {
+    "SUNDAY": "Duminică",
+    "MONDAY": "Luni",
+    "TUESDAY": "Marți",
+    "WEDNESDAY": "Miercuri",
+    "THURSDAY": "Joi",
+    "FRIDAY": "Vineri",
+    "SATURDAY": "Sâmbătă"
+  },
+  "SLA_REPORTS": {
+    "HEADER": "SLA Reports",
+    "NO_RECORDS": "SLA applied conversations are not available.",
+    "LOADING": "Loading SLA data...",
+    "DOWNLOAD_SLA_REPORTS": "Download SLA reports",
+    "DOWNLOAD_FAILED": "Failed to download SLA Reports",
+    "DROPDOWN": {
+      "ADD_FIlTER": "Add filter",
+      "CLEAR_ALL": "Clear all",
+      "CLEAR_FILTER": "Clear filter",
+      "EMPTY_LIST": "Niciun rezultat găsit",
+      "NO_FILTER": "No filters available",
+      "SEARCH": "Search filter",
+      "INPUT_PLACEHOLDER": {
+        "SLA": "SLA name",
+        "AGENTS": "Nume agent",
+        "INBOXES": "Nume Inbox",
+        "LABELS": "Nume etichetă",
+        "TEAMS": "Numele echipei"
+      },
+      "SLA": "SLA Policy",
+      "INBOXES": "Inbox",
+      "AGENTS": "Agent",
+      "LABELS": "Etichetă",
+      "TEAMS": "Echipa"
+    },
+    "WITH": "with",
+    "METRICS": {
+      "HIT_RATE": {
+        "LABEL": "Hit Rate",
+        "TOOLTIP": "Percentage of SLAs created were completed successfully"
+      },
+      "NO_OF_MISSES": {
+        "LABEL": "Number of Misses",
+        "TOOLTIP": "Total SLA misses in a certain period"
+      },
+      "NO_OF_CONVERSATIONS": {
+        "LABEL": "Number of Conversations",
+        "TOOLTIP": "Total number of conversations with SLA"
+      }
+    },
+    "TABLE": {
+      "HEADER": {
+        "POLICY": "Policy",
+        "CONVERSATION": "Conversație",
+        "AGENT": "Agent"
+      },
+      "VIEW_DETAILS": "View Details"
+    }
+  },
+  "SUMMARY_REPORTS": {
+    "INBOX": "Inbox",
+    "AGENT": "Agent",
+    "TEAM": "Echipa",
+    "LABEL": "Etichetă",
+    "AVG_RESOLUTION_TIME": "Avg. Resolution Time",
+    "AVG_FIRST_RESPONSE_TIME": "Avg. First Response Time",
+    "AVG_REPLY_TIME": "Avg. Customer Waiting Time",
+    "RESOLUTION_COUNT": "Număr de rezoluții",
+    "CONVERSATIONS": "Conversații"
+  }
+}

@@ -1,0 +1,121 @@
+{
+  "TEAMS_SETTINGS": {
+    "NEW_TEAM": "创建新团队",
+    "HEADER": "团队",
+    "LOADING": "正在获取团队",
+    "DESCRIPTION": "团队允许您根据自己的责任将代理人分组。代理可以属于多个团队。 当协作时，您可以将对话分配给特定的团队。",
+    "LEARN_MORE": "了解更多关于团队的信息",
+    "LIST": {
+      "404": "此帐户尚未添加团队。",
+      "EDIT_TEAM": "编辑团队",
+      "NONE": "啥都没有"
+    },
+    "CREATE_FLOW": {
+      "CREATE": {
+        "TITLE": "创建新团队",
+        "DESC": "给你的新团队添加个标题并描述你的团队信息"
+      },
+      "AGENTS": {
+        "BUTTON_TEXT": "添加客服至您的团队",
+        "TITLE": "添加客服至您的团队 - {teamName}",
+        "DESC": "添加客服到您新创建的团队。这让您能够作为一个团队在对话中进行合作，在同一对话中获得新事件的通知。"
+      },
+      "WIZARD_CREATE": {
+        "TITLE": "创建",
+        "BODY": "创建一个新的团队客服。"
+      },
+      "WIZARD_ADD_AGENTS": {
+        "TITLE": "添加客服代理",
+        "BODY": "添加客服至您的团队."
+      },
+      "WIZARD_FINISH": {
+        "TITLE": "完成",
+        "BODY": "你已设定状态为离开"
+      }
+    },
+    "EDIT_FLOW": {
+      "CREATE": {
+        "TITLE": "编辑您的团队详情",
+        "DESC": "编辑您的团队的标题和描述。",
+        "BUTTON_TEXT": "更新团队"
+      },
+      "AGENTS": {
+        "BUTTON_TEXT": "团队中更新客服",
+        "TITLE": "添加客服至您的团队 - {teamName}",
+        "DESC": "将代理添加到您新创建的团队。当对话被分配到此团队时，所有添加的代理都会收到通知。"
+      },
+      "EDIT_WIZARD_DETAILS": {
+        "TITLE": "团队详细信息",
+        "ROUTE": "settings_teams_edit",
+        "BODY": "更改名称、描述和其他详细信息。"
+      },
+      "EDIT_WIZARD_AGENTS": {
+        "TITLE": "编辑客服",
+        "ROUTE": "settings_teams_edit_members",
+        "BODY": "在您的团队中编辑客服。"
+      },
+      "EDIT_WIZARD_FINISH": {
+        "TITLE": "完成",
+        "ROUTE": "团队设置修改成功",
+        "BODY": "你已设定状态为离开"
+      }
+    },
+    "TEAM_FORM": {
+      "ERROR_MESSAGE": "无法保存团队详细信息，请重试。"
+    },
+    "AGENTS": {
+      "AGENT": "代理",
+      "EMAIL": "电子邮件",
+      "BUTTON_TEXT": "添加客服代理",
+      "ADD_AGENTS": "正在向收件箱添加客服...",
+      "SELECT": "选择",
+      "SELECT_ALL": "选择全部客服",
+      "SELECTED_COUNT": "已选择 {selected}/{total} 位客服人员。"
+    },
+    "ADD": {
+      "TITLE": "添加客服至您的团队 - {teamName}",
+      "DESC": "添加客服到您新创建的团队。这让您能够作为一个团队在对话中进行合作，在同一对话中获得新事件的通知。",
+      "SELECT": "选择",
+      "SELECT_ALL": "选择全部客服",
+      "SELECTED_COUNT": "已选择 {selected}/{total} 位客服人员。",
+      "BUTTON_TEXT": "添加客服代理",
+      "AGENT_VALIDATION_ERROR": "至少选择一个客服。"
+    },
+    "FINISH": {
+      "TITLE": "您的团队已准备好了！",
+      "MESSAGE": "您现在可以以团队形式协作处理对话了。祝您工作顺利！ ",
+      "BUTTON_TEXT": "完成"
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "删除",
+      "API": {
+        "SUCCESS_MESSAGE": "团队删除成功.",
+        "ERROR_MESSAGE": "无法删除团队，请重试！"
+      },
+      "CONFIRM": {
+        "TITLE": "您确定要删除该团队吗？",
+        "PLACE_HOLDER": "请输入 {teamName} 以确认",
+        "MESSAGE": "删除团队后，相关对话的团队分配将被取消。",
+        "YES": "删除 ",
+        "NO": "取消"
+      }
+    },
+    "SETTINGS": "设置",
+    "FORM": {
+      "UPDATE": "更新团队",
+      "CREATE": "创建新团队",
+      "NAME": {
+        "LABEL": "团队名称",
+        "PLACEHOLDER": "示例：销售，客户支持"
+      },
+      "DESCRIPTION": {
+        "LABEL": "团队描述",
+        "PLACEHOLDER": "关于此团队的简短描述。"
+      },
+      "AUTO_ASSIGN": {
+        "LABEL": "允许为这个团队自动分配。"
+      },
+      "SUBMIT_CREATE": "创建新团队"
+    }
+  }
+}

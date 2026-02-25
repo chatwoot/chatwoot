@@ -1,0 +1,251 @@
+{
+  "GENERAL_SETTINGS": {
+    "LIMIT_MESSAGES": {
+      "CONVERSATION": "You have exceeded the conversation limit. Hacker plan allows only 500 conversations.",
+      "INBOXES": "You have exceeded the inbox limit. Hacker plan only supports website live-chat. Additional inboxes like email, WhatsApp etc. require a paid plan.",
+      "AGENTS": "You have exceeded the agent limit. Your plan only allows {allowedAgents} agents.",
+      "NON_ADMIN": "Please contact your administrator to upgrade the plan and continue using all features."
+    },
+    "TITLE": "إعدادات الحساب",
+    "SUBMIT": "تحديث الإعدادات",
+    "BACK": "العودة",
+    "DISMISS": "تجاهل",
+    "UPDATE": {
+      "ERROR": "تعذر تحديث الإعدادات، الرجاء المحاولة مرة أخرى!",
+      "SUCCESS": "تم تحديث إعدادات الحساب بنجاح"
+    },
+    "ACCOUNT_DELETE_SECTION": {
+      "TITLE": "Delete your Account",
+      "NOTE": "Once you delete your account, all your data will be deleted.",
+      "BUTTON_TEXT": "Delete Your Account",
+      "CONFIRM": {
+        "TITLE": "Delete Account",
+        "MESSAGE": "Deleting your Account is irreversible. Enter your account name below to confirm you want to permanently delete it.",
+        "BUTTON_TEXT": "حذف",
+        "DISMISS": "إلغاء",
+        "PLACE_HOLDER": "الرجاء كتابة {accountName} للتأكيد"
+      },
+      "SUCCESS": "Account marked for deletion",
+      "FAILURE": "Could not delete account, try again!",
+      "SCHEDULED_DELETION": {
+        "TITLE": "Account Scheduled for Deletion",
+        "MESSAGE_MANUAL": "هذا الحساب مجدول للحذف بتاريخ {deletionDate}. تم طلبه من قبل المسؤول. يمكنك إلغاء الحذف قبل هذا التاريخ.",
+        "MESSAGE_INACTIVITY": "This account is scheduled for deletion on {deletionDate} due to account inactivity. You can cancel the deletion before this date.",
+        "CLEAR_BUTTON": "Cancel Scheduled Deletion"
+      }
+    },
+    "FORM": {
+      "ERROR": "الرجاء إصلاح الأخطاء في النموذج",
+      "GENERAL_SECTION": {
+        "TITLE": "الإعدادات العامة",
+        "NOTE": ""
+      },
+      "ACCOUNT_ID": {
+        "TITLE": "معرف الحساب",
+        "NOTE": "هذا المعرف مطلوب إذا كنت بصدد بناء تكامل على API"
+      },
+      "AUTO_RESOLVE": {
+        "TITLE": "Auto-resolve conversations",
+        "NOTE": "This configuration would allow you to automatically resolve the conversation after a certain period of inactivity.",
+        "DURATION": {
+          "LABEL": "Inactivity duration",
+          "HELP": "Time period of inactivity after which conversation is auto-resolved",
+          "PLACEHOLDER": "30",
+          "ERROR": "Auto resolve duration should be between 10 minutes and 999 days",
+          "API": {
+            "SUCCESS": "Auto resolve settings updated successfully",
+            "ERROR": "Failed to update auto resolve settings"
+          }
+        },
+        "MESSAGE": {
+          "LABEL": "Custom auto-resolution message",
+          "PLACEHOLDER": "Conversation was marked resolved by system due to 15 days of inactivity",
+          "HELP": "Message sent to the customer after conversation is auto-resolved"
+        },
+        "PREFERENCES": "التفضيلات",
+        "LABEL": {
+          "LABEL": "Add label after auto-resolution",
+          "PLACEHOLDER": "Select a label"
+        },
+        "IGNORE_WAITING": {
+          "LABEL": "Skip conversations waiting for agent’s reply"
+        },
+        "UPDATE_BUTTON": "Save Changes"
+      },
+      "NAME": {
+        "LABEL": "اسم الحساب",
+        "PLACEHOLDER": "اسم الحساب الخاص بك",
+        "ERROR": "الرجاء إدخال اسم حساب صحيح"
+      },
+      "LANGUAGE": {
+        "LABEL": "لغة الموقع",
+        "PLACEHOLDER": "اسم الحساب الخاص بك",
+        "ERROR": ""
+      },
+      "DOMAIN": {
+        "LABEL": "نطاق البريد الإلكتروني الوارد",
+        "PLACEHOLDER": "النطاق الذي ستتلقى عليه رسائل البريد الإلكتروني",
+        "ERROR": ""
+      },
+      "SUPPORT_EMAIL": {
+        "LABEL": "البريد الإلكتروني للدعم الفني",
+        "PLACEHOLDER": "عنوان البريد الإلكتروني الخاص باستقبال رسائل الدعم الفني",
+        "ERROR": ""
+      },
+      "AUTO_RESOLVE_IGNORE_WAITING": {
+        "LABEL": "Exclude unattended conversations",
+        "HELP": "When enabled, the system will skip resolving conversations that are still waiting for an agent's reply."
+      },
+      "AUDIO_TRANSCRIPTION": {
+        "TITLE": "Transcribe Audio Messages",
+        "NOTE": "Automatically transcribe audio messages in conversations. Generate a text transcript whenever an audio message is sent or received, and display it alongside the message.",
+        "API": {
+          "SUCCESS": "Audio transcription setting updated successfully",
+          "ERROR": "Failed to update audio transcription setting"
+        }
+      },
+      "AUTO_RESOLVE_DURATION": {
+        "LABEL": "Inactivity duration for resolution",
+        "HELP": "Duration after a conversation should auto resolve if there is no activity",
+        "PLACEHOLDER": "30",
+        "ERROR": "Auto resolve duration should be between 10 minutes and 999 days",
+        "API": {
+          "SUCCESS": "Auto resolve settings updated successfully",
+          "ERROR": "Failed to update auto resolve settings"
+        },
+        "UPDATE_BUTTON": "تحديث",
+        "MESSAGE_LABEL": "Custom resolution message",
+        "MESSAGE_PLACEHOLDER": "Conversation was marked resolved by system due to 15 days of inactivity",
+        "MESSAGE_HELP": "This message is sent to the customer when a conversation is automatically resolved by the system due to inactivity."
+      },
+      "FEATURES": {
+        "INBOUND_EMAIL_ENABLED": "الاستمرار في المحادثة عبر رسائل البريد الإلكتروني مفعّل لحسابك.",
+        "CUSTOM_EMAIL_DOMAIN_ENABLED": "يمكنك تلقي رسائل البريد الإلكتروني في النطاق المخصص الخاص بك الآن."
+      }
+    },
+    "UPDATE_CHATWOOT": "يتوفر تحديث {latestChatwootVersion} لـ Chatwoot. الرجاء التحديث.",
+    "LEARN_MORE": "اعرف المزيد",
+    "PAYMENT_PENDING": "الدفعة الخاصة بك معلقة. الرجاء تحديث معلومات الدفع الخاصة بك للاستمرار في استخدام Chatwoot",
+    "UPGRADE": "Upgrade to continue using Chatwoot",
+    "LIMITS_UPGRADE": "لقد تجاوز حسابك حدود الاستخدام، يرجى ترقية خطتك للاستمرار في استخدام Chatwoot",
+    "OPEN_BILLING": "فتح الفواتير"
+  },
+  "FORMS": {
+    "MULTISELECT": {
+      "ENTER_TO_SELECT": "اضغط على زر الإدخال للاختيار",
+      "ENTER_TO_REMOVE": "اضغط على زر الإدخال للحذف",
+      "NO_OPTIONS": "List is empty",
+      "SELECT_ONE": "اختر واحدا",
+      "SELECT": "اختر"
+    }
+  },
+  "NOTIFICATIONS_PAGE": {
+    "HEADER": "الإشعارات",
+    "MARK_ALL_DONE": "وضع علامة منجز على الجميع",
+    "DELETE_TITLE": "تم الحذف",
+    "UNREAD_NOTIFICATION": {
+      "TITLE": "إشعارات غير مقروءة",
+      "ALL_NOTIFICATIONS": "عرض جميع الإشعارات",
+      "LOADING_UNREAD_MESSAGE": "جار جلب الإشعارات الغير مقروءة...",
+      "EMPTY_MESSAGE": "ليس لديك إشعارات غير مقروءة"
+    },
+    "LIST": {
+      "LOADING_MESSAGE": "جاري جلب الإشعارات...",
+      "404": "لا يوجد إشعارات",
+      "TABLE_HEADER": [
+        "الاسم",
+        "رقم الهاتف",
+        "المحادثات",
+        "آخر تواصل"
+      ]
+    },
+    "TYPE_LABEL": {
+      "conversation_creation": "محادثة جديدة",
+      "conversation_assignment": "تم تعيين المحادثة",
+      "assigned_conversation_new_message": "رسالة جديدة",
+      "participating_conversation_new_message": "رسالة جديدة",
+      "conversation_mention": "إشارة",
+      "sla_missed_first_response": "فشل اتفاقية مستوى الخدمة",
+      "sla_missed_next_response": "فشل اتفاقية مستوى الخدمة",
+      "sla_missed_resolution": "فشل اتفاقية مستوى الخدمة"
+    }
+  },
+  "NETWORK": {
+    "NOTIFICATION": {
+      "OFFLINE": "غير متصل",
+      "RECONNECTING": "جاري إعادة الاتصال...",
+      "RECONNECT_SUCCESS": "تمت إعادة الاتصال"
+    },
+    "BUTTON": {
+      "REFRESH": "تحديث"
+    }
+  },
+  "COMMAND_BAR": {
+    "SEARCH_PLACEHOLDER": "البحث أو القفز إلى",
+    "SECTIONS": {
+      "GENERAL": "عام",
+      "REPORTS": "التقارير",
+      "CONVERSATION": "المحادثات",
+      "BULK_ACTIONS": "الإجراءات الشاملة",
+      "CHANGE_ASSIGNEE": "تغيير المحال إليه",
+      "CHANGE_PRIORITY": "تغيير الأولوية",
+      "CHANGE_TEAM": "تغيير الفريق",
+      "SNOOZE_CONVERSATION": "تأجيل المحادثة",
+      "ADD_LABEL": "إضافة وسم إلى المحادثة",
+      "REMOVE_LABEL": "إزالة الوسم من المحادثة",
+      "SETTINGS": "الإعدادات",
+      "AI_ASSIST": "مساعدة AI",
+      "APPEARANCE": "المظهر",
+      "SNOOZE_NOTIFICATION": "تأجيل الإشعارات"
+    },
+    "COMMANDS": {
+      "GO_TO_CONVERSATION_DASHBOARD": "الذهاب إلى لوحة المحادثة",
+      "GO_TO_CONTACTS_DASHBOARD": "الذهاب إلى لوحة جهات الاتصال",
+      "GO_TO_REPORTS_OVERVIEW": "الذهاب إلى نظرة التقارير العامة",
+      "GO_TO_CONVERSATION_REPORTS": "الذهاب إلى تقارير المحادثات",
+      "GO_TO_AGENT_REPORTS": "الذهاب إلى تقارير الوكيل",
+      "GO_TO_LABEL_REPORTS": "انتقل إلى تقارير الوسم",
+      "GO_TO_INBOX_REPORTS": "الذهاب إلى تقارير صندوق الوارد",
+      "GO_TO_TEAM_REPORTS": "الذهاب إلى تقارير الفريق",
+      "GO_TO_SETTINGS_AGENTS": "الذهاب إلى إعدادات الوكيل",
+      "GO_TO_SETTINGS_TEAMS": "الذهاب إلى إعدادات الفريق",
+      "GO_TO_SETTINGS_INBOXES": "الذهاب إلى إعدادات الصندوق الوارد",
+      "GO_TO_SETTINGS_LABELS": "الذهاب إلى إعدادات الوسم",
+      "GO_TO_SETTINGS_CANNED_RESPONSES": "انتقل إلى إعدادات الردود الجاهزة",
+      "GO_TO_SETTINGS_APPLICATIONS": "الذهاب إلى إعدادات التطبيق",
+      "GO_TO_SETTINGS_ACCOUNT": "الذهاب إلى إعدادات الحساب",
+      "GO_TO_SETTINGS_PROFILE": "الذهاب إلى إعدادات الملف الشخصي",
+      "GO_TO_NOTIFICATIONS": "الذهاب إلى الإشعارات",
+      "ADD_LABELS_TO_CONVERSATION": "إضافة وسم إلى المحادثة",
+      "ASSIGN_AN_AGENT": "تعيين وكيل",
+      "AI_ASSIST": "مساعدة AI",
+      "ASSIGN_PRIORITY": "تعيين الأولوية",
+      "ASSIGN_A_TEAM": "تعيين فريق",
+      "MUTE_CONVERSATION": "كتم المحادثة",
+      "UNMUTE_CONVERSATION": "إلغاء كتم المحادثة",
+      "REMOVE_LABEL_FROM_CONVERSATION": "إزالة الوسم من المحادثة",
+      "REOPEN_CONVERSATION": "إعادة فتح المحادثة",
+      "RESOLVE_CONVERSATION": "حل المحادثة",
+      "SEND_TRANSCRIPT": "إرسال نسخة نصية للبريد الإلكتروني",
+      "SNOOZE_CONVERSATION": "تأجيل المحادثة",
+      "UNTIL_NEXT_REPLY": "حتى الرد القادم",
+      "UNTIL_NEXT_WEEK": "حتى الأسبوع القادم",
+      "UNTIL_TOMORROW": "حتى الغد",
+      "UNTIL_NEXT_MONTH": "حتي الشهر القادم",
+      "AN_HOUR_FROM_NOW": "حتي ساعة من الأن",
+      "UNTIL_CUSTOM_TIME": "مخصص...",
+      "CHANGE_APPEARANCE": "تغيير المظهر",
+      "LIGHT_MODE": "فاتح",
+      "DARK_MODE": "مظلم",
+      "SYSTEM_MODE": "النظام",
+      "SNOOZE_NOTIFICATION": "تأجيل الإشعارات"
+    }
+  },
+  "DASHBOARD_APPS": {
+    "LOADING_MESSAGE": "جاري جلب تطبيق لوحة التحكم..."
+  },
+  "COMMON": {
+    "OR": "أو",
+    "CLICK_HERE": "اضغط هنا"
+  }
+}

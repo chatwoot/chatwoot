@@ -1,0 +1,77 @@
+{
+  "CANNED_MGMT": {
+    "HEADER": "Thư mẫu phẩn hồi",
+    "LEARN_MORE": "Learn more about canned responses",
+    "DESCRIPTION": "Canned Responses are pre-written reply templates that help you quickly respond to a conversation. Agents can type the '/' character followed by the shortcode to insert a canned response during a conversation. ",
+    "HEADER_BTN_TXT": "Add canned response",
+    "LOADING": "Fetching canned responses...",
+    "SEARCH_404": "Không có kết quả nào phù hợp.",
+    "LIST": {
+      "404": "Không có câu trả lời soạn trước nào có sẵn trong tài khoản này.",
+      "TITLE": "Quản lý thư mẫu phẩn hồi",
+      "DESC": "Canned Responses are predefined reply templates which can be used to quickly send out replies to conversations.",
+      "TABLE_HEADER": {
+        "SHORT_CODE": "Short code",
+        "CONTENT": "Nội dung",
+        "ACTIONS": "Hành động"
+      }
+    },
+    "ADD": {
+      "TITLE": "Add canned response",
+      "DESC": "Canned Responses are predefined reply templates which can be used to quickly send out replies to conversations.",
+      "CANCEL_BUTTON_TEXT": "Huỷ",
+      "FORM": {
+        "SHORT_CODE": {
+          "LABEL": "Short code",
+          "PLACEHOLDER": "Please enter a short code.",
+          "ERROR": "Short Code is required."
+        },
+        "CONTENT": {
+          "LABEL": "Tin nhắn",
+          "PLACEHOLDER": "Please write the message you want to save as a template to use later.",
+          "ERROR": "Message is required."
+        },
+        "SUBMIT": "Gửi"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Canned response added successfully.",
+        "ERROR_MESSAGE": "Could not connect to Woot server. Please try again."
+      }
+    },
+    "EDIT": {
+      "TITLE": "Edit canned response",
+      "CANCEL_BUTTON_TEXT": "Huỷ",
+      "FORM": {
+        "SHORT_CODE": {
+          "LABEL": "Short code",
+          "PLACEHOLDER": "Please enter a shortcode.",
+          "ERROR": "Short code is required."
+        },
+        "CONTENT": {
+          "LABEL": "Tin nhắn",
+          "PLACEHOLDER": "Please write the message you want to save as a template to use later.",
+          "ERROR": "Thông điệp bắt buộc có."
+        },
+        "SUBMIT": "Gửi"
+      },
+      "BUTTON_TEXT": "Chỉnh sửa",
+      "API": {
+        "SUCCESS_MESSAGE": "Canned response is updated successfully.",
+        "ERROR_MESSAGE": "Could not connect to Woot server. Please try again."
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Xoá",
+      "API": {
+        "SUCCESS_MESSAGE": "Canned response deleted successfully.",
+        "ERROR_MESSAGE": "Could not connect to Woot server. Please try again."
+      },
+      "CONFIRM": {
+        "TITLE": "Xác nhận xoá",
+        "MESSAGE": "Bạn có chắc muốn xoá? ",
+        "YES": "Yes, delete ",
+        "NO": "No, keep "
+      }
+    }
+  }
+}

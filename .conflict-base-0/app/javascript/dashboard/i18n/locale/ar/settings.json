@@ -1,0 +1,796 @@
+{
+  "PROFILE_SETTINGS": {
+    "LINK": "إعدادات الملف الشخصي",
+    "TITLE": "إعدادات الملف الشخصي",
+    "BTN_TEXT": "تعديل الملف الشخصي",
+    "DELETE_AVATAR": "حذف الصورة الرمزية",
+    "AVATAR_DELETE_SUCCESS": "تم حذف الصورة الشخصية بنجاح",
+    "AVATAR_DELETE_FAILED": "حدث خطأ أثناء حذف الصورة الشخصية، الرجاء المحاولة مرة أخرى",
+    "UPDATE_SUCCESS": "تم تحديث حسابك بنجاح",
+    "PASSWORD_UPDATE_SUCCESS": "تم تغيير كلمة المرور بنجاح",
+    "AFTER_EMAIL_CHANGED": "تم تحديث ملفك الشخصي بنجاح، الرجاء تسجيل الدخول مرة أخرى حيث أنه قد تم تغيير بيانات تسجيل الدخول الخاصة بك",
+    "FORM": {
+      "PICTURE": "صورة الملف الشخصي",
+      "AVATAR": "صورة الملف الشخصي",
+      "ERROR": "الرجاء إصلاح الأخطاء في النموذج",
+      "REMOVE_IMAGE": "حذف",
+      "UPLOAD_IMAGE": "رفع صورة",
+      "UPDATE_IMAGE": "تحديث الصورة",
+      "PROFILE_SECTION": {
+        "TITLE": "الملف الشخصي",
+        "NOTE": "عنوان بريدك الإلكتروني هو المعرف الخاص بك الذي ستستخدمه لتسجيل الدخول."
+      },
+      "SEND_MESSAGE": {
+        "TITLE": "أختصار إرسال الرسائل",
+        "NOTE": "يمكنك تحديد أختصار (إما Enter أو Cmd/Ctrl+Enter) استنادًا إلى تفضيلك في الكتابة.",
+        "UPDATE_SUCCESS": "تم تحديث الإعدادات الخاصة بك بنجاح",
+        "CARD": {
+          "ENTER_KEY": {
+            "HEADING": "Enter (↵)",
+            "CONTENT": "إرسال الرسائل بالضغط على مفتاح (Enter) بدلاً من النقر على زر الإرسال."
+          },
+          "CMD_ENTER_KEY": {
+            "HEADING": "Cmd/Ctrl + Enter (<unk> + <unk> )",
+            "CONTENT": "إرسال الرسائل بالضغط على Cmd/Ctrl + إدخال المفتاح بدلاً من النقر على زر الإرسال."
+          }
+        }
+      },
+      "INTERFACE_SECTION": {
+        "TITLE": "Interface",
+        "NOTE": "Customize the look and feel of your Chatwoot dashboard.",
+        "FONT_SIZE": {
+          "TITLE": "Font size",
+          "NOTE": "Adjust the text size across the dashboard based on your preference.",
+          "UPDATE_SUCCESS": "Your font settings have been updated successfully",
+          "UPDATE_ERROR": "There is an error while updating the font settings, please try again",
+          "OPTIONS": {
+            "SMALLER": "Smaller",
+            "SMALL": "Small",
+            "DEFAULT": "افتراضي",
+            "LARGE": "Large",
+            "LARGER": "Larger",
+            "EXTRA_LARGE": "Extra Large"
+          }
+        },
+        "LANGUAGE": {
+          "TITLE": "Preferred Language",
+          "NOTE": "Choose the language you want to use.",
+          "UPDATE_SUCCESS": "Your Language settings have been updated successfully",
+          "UPDATE_ERROR": "There is an error while updating the language settings, please try again",
+          "USE_ACCOUNT_DEFAULT": "Use account default"
+        }
+      },
+      "MESSAGE_SIGNATURE_SECTION": {
+        "TITLE": "توقيع الرسالة الشخصية",
+        "NOTE": "إنشاء توقيع رسالة فريدة تظهر في نهاية كل رسالة ترسلها من أي صندوق وارد. يمكنك أيضًا تضمين صورة داخلية، مدعومة في الدردشة المباشرة، والبريد الإلكتروني، وصناديق API الواردة.",
+        "BTN_TEXT": "حفظ توقيع الرسالة",
+        "API_ERROR": "تعذر إرسال الرسالة! حاول مرة أخرى",
+        "API_SUCCESS": "تم حفظ التوقيع بنجاح",
+        "IMAGE_UPLOAD_ERROR": "تعذر رفع الصورة! حاول مرة أخرى",
+        "IMAGE_UPLOAD_SUCCESS": "تم إضافة الصورة بنجاح. الرجاء النقر على الحفظ لحفظ التوقيع",
+        "IMAGE_UPLOAD_SIZE_ERROR": "حجم الصورة يجب أن يكون أقل من {size}MB"
+      },
+      "MESSAGE_SIGNATURE": {
+        "LABEL": "توقيع الرسالة",
+        "ERROR": "توقيع الرسالة لا يمكن أن يكون فارغاً",
+        "PLACEHOLDER": "أدخل توقيع رسالتك الشخصية هنا."
+      },
+      "PASSWORD_SECTION": {
+        "TITLE": "كلمة المرور",
+        "NOTE": "تعديل كلمة المرور الخاصة بك سيعيد ضبط تسجيلات الدخول الخاصة بك في الأجهزة الأخرى.",
+        "BTN_TEXT": "تغيير كلمة المرور"
+      },
+      "SECURITY_SECTION": {
+        "TITLE": "Security",
+        "NOTE": "Manage additional security features for your account.",
+        "MFA_BUTTON": "Manage Two-Factor Authentication"
+      },
+      "ACCESS_TOKEN": {
+        "TITLE": "رمز المصادقة",
+        "NOTE": "يمكن استخدام هذا رمز المصادقة إذا كنت تبني تطبيقات API للتكامل مع Chatwoot",
+        "COPY": "نسخ",
+        "RESET": "Reset",
+        "CONFIRM_RESET": "Are you sure?",
+        "CONFIRM_HINT": "Click again to confirm",
+        "RESET_SUCCESS": "Access token regenerated successfully",
+        "RESET_ERROR": "Unable to regenerate access token. Please try again"
+      },
+      "AUDIO_NOTIFICATIONS_SECTION": {
+        "TITLE": "Audio Alerts",
+        "NOTE": "Enable audio alerts in dashboard for new messages and conversations.",
+        "PLAY": "Play sound",
+        "ALERT_TYPES": {
+          "NONE": "لا شيء",
+          "MINE": "المعين",
+          "ALL": "الكل",
+          "ASSIGNED": "My assigned conversations",
+          "UNASSIGNED": "Unassigned conversations",
+          "NOTME": "Open conversations assigned to others"
+        },
+        "ALERT_COMBINATIONS": {
+          "NONE": "You haven't selected any options, you won't receive any audio alerts.",
+          "ASSIGNED": "You'll receive alerts for conversations assigned to you.",
+          "UNASSIGNED": "You'll receive alerts for any unassigned conversations.",
+          "NOTME": "You'll receive alerts for conversations assigned to others.",
+          "ASSIGNED+UNASSIGNED": "You'll receive alerts for your assigned conversations and any unattended ones.",
+          "ASSIGNED+NOTME": "You'll receive alerts for conversations assigned to you and to others, but not for unassigned ones.",
+          "NOTME+UNASSIGNED": "You'll receive alerts for unattended conversations and those assigned to others.",
+          "ASSIGNED+NOTME+UNASSIGNED": "You'll receive alerts for all conversations."
+        },
+        "ALERT_TYPE": {
+          "TITLE": "تنبيه الأحداث للمحادثات",
+          "NONE": "لا شيء",
+          "ASSIGNED": "المحادثات المعينة",
+          "ALL_CONVERSATIONS": "كل المحادثات"
+        },
+        "DEFAULT_TONE": {
+          "TITLE": "نغمة التنبيه:"
+        },
+        "CONDITIONS": {
+          "TITLE": "شروط التنبيه:",
+          "CONDITION_ONE": "إرسال تنبيهات صوتية فقط إذا كانت نافذة المتصفح غير نشطة",
+          "CONDITION_TWO": "إرسال تنبيهات كل 30 ثانية حتى يتم قراءة جميع المحادثات المعينة"
+        },
+        "SOUND_PERMISSION_ERROR": "Autoplay is disabled in your browser. To hear alerts automatically, enable sound permission in your browser settings or interact with the page.",
+        "READ_MORE": "اقرأ المزيد"
+      },
+      "EMAIL_NOTIFICATIONS_SECTION": {
+        "TITLE": "إشعارات البريد الإلكتروني",
+        "NOTE": "قم بتحديث تفضيلات إشعار البريد الإلكتروني الخاص بك من هنا",
+        "CONVERSATION_ASSIGNMENT": "إرسال إشعارات البريد الإلكتروني عند إسناد محادثة لي",
+        "CONVERSATION_CREATION": "إرسال إشعارات للبريد الإلكتروني عند ورود محادثة جديدة",
+        "CONVERSATION_MENTION": "إرسال إشعارات بالبريد الإلكتروني عندما يتم ذكرك في محادثة",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "إرسال إشعارات البريد الإلكتروني عند إنشاء رسالة جديدة في محادثة موكلة",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "إرسال إشعارات التنية عند إنشاء رسالة جديدة في محادثة موكلة",
+        "SLA_MISSED_FIRST_RESPONSE": "Send email notifications when a conversation misses first response SLA",
+        "SLA_MISSED_NEXT_RESPONSE": "Send email notifications when a conversation misses next response SLA",
+        "SLA_MISSED_RESOLUTION": "Send email notifications when a conversation misses resolution SLA"
+      },
+      "NOTIFICATIONS": {
+        "TITLE": "Notification preferences",
+        "TYPE_TITLE": "Notification type",
+        "EMAIL": "البريد الإلكتروني",
+        "PUSH": "الإشعارات الفورية",
+        "TYPES": {
+          "CONVERSATION_CREATED": "A new conversation is created",
+          "CONVERSATION_ASSIGNED": "A conversation is assigned to you",
+          "CONVERSATION_MENTION": "You are mentioned in a conversation",
+          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "A new message is created in an assigned conversation",
+          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "A new message is created in a participating conversation",
+          "SLA_MISSED_FIRST_RESPONSE": "A conversation misses first response SLA",
+          "SLA_MISSED_NEXT_RESPONSE": "A conversation misses next response SLA",
+          "SLA_MISSED_RESOLUTION": "A conversation misses resolution SLA"
+        },
+        "BROWSER_PERMISSION": "Enable push notifications for your browser so you’re able to receive them"
+      },
+      "API": {
+        "UPDATE_SUCCESS": "يتم تحديث إعدادات الإشعارات بنجاح",
+        "UPDATE_ERROR": "حدث خطأ أثناء تحديث الإعدادات، الرجاء المحاولة مرة أخرى"
+      },
+      "PUSH_NOTIFICATIONS_SECTION": {
+        "TITLE": "إشعارات المتصفح",
+        "NOTE": "قم بتحديث تفضيلات إشعارات المتصفح من هنا",
+        "CONVERSATION_ASSIGNMENT": "إرسال إشعارات على المتصفح عند إسناد محادثة لي",
+        "CONVERSATION_CREATION": "إرسال إشعارات المتصفح عند ورود محادثة جديدة",
+        "CONVERSATION_MENTION": "إرسال إشعارات بالبريد الإلكتروني عندما يتم ذكرك او الاشارة اليك في محادثة",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "إرسال إشعارات التنية عند إنشاء رسالة جديدة في محادثة موكلة",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "إرسال إشعارات التنية عند إنشاء رسالة جديدة في محادثة موكلة",
+        "HAS_ENABLED_PUSH": "لقد قمت بتمكين الإشعارات لهذا المتصفح.",
+        "REQUEST_PUSH": "تفعيل إشعارات المتصفح",
+        "SLA_MISSED_FIRST_RESPONSE": "Send push notifications when a conversation misses first response SLA",
+        "SLA_MISSED_NEXT_RESPONSE": "Send push notifications when a conversation misses next response SLA",
+        "SLA_MISSED_RESOLUTION": "Send push notifications when a conversation misses resolution SLA"
+      },
+      "PROFILE_IMAGE": {
+        "LABEL": "صورة الملف الشخصي"
+      },
+      "NAME": {
+        "LABEL": "اسمك الكامل",
+        "ERROR": "الرجاء إدخال اسم صالح",
+        "PLACEHOLDER": "الرجاء إدخال اسمك الكامل"
+      },
+      "DISPLAY_NAME": {
+        "LABEL": "اسم العرض",
+        "ERROR": "الرجاء إدخال اسم عرض صالح",
+        "PLACEHOLDER": "الرجاء إدخال اسم العرض، سيتم عرض هذا في المحادثات"
+      },
+      "AVAILABILITY": {
+        "LABEL": "التوفر",
+        "STATUS": {
+          "ONLINE": "متصل",
+          "BUSY": "مشغول",
+          "OFFLINE": "غير متصل"
+        },
+        "SET_AVAILABILITY_SUCCESS": "تم تعيين التوافر بنجاح",
+        "SET_AVAILABILITY_ERROR": "تعذر تعيين التوافر، الرجاء المحاولة مرة أخرى",
+        "IMPERSONATING_ERROR": "Cannot change availability while impersonating a user"
+      },
+      "EMAIL": {
+        "LABEL": "عنوان البريد الإلكتروني الخاص بك",
+        "ERROR": "الرجاء إدخال عنوان بريد إلكتروني صحيح",
+        "PLACEHOLDER": "الرجاء إدخال عنوان البريد الإلكتروني الخاص بك، سيتم عرضه في المحادثات"
+      },
+      "CURRENT_PASSWORD": {
+        "LABEL": "كلمة المرور الحالية",
+        "ERROR": "الرجاء إدخال كلمة مرور جديدة",
+        "PLACEHOLDER": "الرجاء إدخال كلمة مرور جديدة"
+      },
+      "PASSWORD": {
+        "LABEL": "كلمة مرور جديدة",
+        "ERROR": "الرجاء إدخال كلمة مرور بطول 6 أحرف أو أكثر",
+        "PLACEHOLDER": "الرجاء إدخال كلمة مرور جديدة"
+      },
+      "PASSWORD_CONFIRMATION": {
+        "LABEL": "تأكيد كلمة المرور الجديدة",
+        "ERROR": "تأكيد كلمة المرور يجب أن تتطابق",
+        "PLACEHOLDER": "الرجاء إعادة إدخال كلمة المرور"
+      }
+    }
+  },
+  "SIDEBAR_ITEMS": {
+    "CHANGE_AVAILABILITY_STATUS": "يتغيرون",
+    "CHANGE_ACCOUNTS": "Switch account",
+    "SWITCH_ACCOUNT": "Switch account",
+    "CONTACT_SUPPORT": "Contact support",
+    "SELECTOR_SUBTITLE": "اختر حساباً من القائمة التالية",
+    "PROFILE_SETTINGS": "Profile settings",
+    "YEAR_IN_REVIEW": "Year in Review",
+    "KEYBOARD_SHORTCUTS": "Keyboard shortcuts",
+    "APPEARANCE": "Change appearance",
+    "SUPER_ADMIN_CONSOLE": "SuperAdmin console",
+    "DOCS": "Read documentation",
+    "CHANGELOG": "Changelog",
+    "LOGOUT": "Log out"
+  },
+  "APP_GLOBAL": {
+    "TRIAL_MESSAGE": "أيام متبقية من الفترة التجريبية.",
+    "TRAIL_BUTTON": "اشترك الآن",
+    "DELETED_USER": "المستخدم المحذوف",
+    "EMAIL_VERIFICATION_PENDING": "يبدو أنك لم تتحقق من عنوان بريدك الإلكتروني بعد. الرجاء التحقق من صندوق الوارد الخاص بك للتحقق من البريد الإلكتروني.",
+    "RESEND_VERIFICATION_MAIL": "إعادة إرسال رسالة التحقق",
+    "EMAIL_VERIFICATION_SENT": "تم إرسال البريد الإلكتروني للتحقق. الرجاء التحقق من البريد الوارد الخاص بك.",
+    "ACCOUNT_SUSPENDED": {
+      "TITLE": "تم تعليق الحساب",
+      "MESSAGE": "تم تعليق حسابك. يرجى الاتصال بفريق الدعم للمزيد من المعلومات."
+    },
+    "NO_ACCOUNTS": {
+      "TITLE": "No account found",
+      "MESSAGE_CLOUD": "You are not part of any accounts right now. If you think this is a mistake, please reach out to our support team.",
+      "MESSAGE_SELF_HOSTED": "You are not part of any accounts right now. Please reach out to your administrator.",
+      "LOGOUT": "Log out"
+    }
+  },
+  "COMPONENTS": {
+    "CODE": {
+      "BUTTON_TEXT": "نسخ",
+      "CODEPEN": "فتح في CodePen",
+      "COPY_SUCCESSFUL": "تم نسخ الكود إلى الحافظة بنجاح"
+    },
+    "SHOW_MORE_BLOCK": {
+      "SHOW_MORE": "إظهار المزيد",
+      "SHOW_LESS": "إظهار أقل"
+    },
+    "FILE_BUBBLE": {
+      "DOWNLOAD": "تنزيل",
+      "UPLOADING": "جاري الرفع...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "هذه القصة لم تعد متاحة."
+    },
+    "LOCATION_BUBBLE": {
+      "SEE_ON_MAP": "مشاهدة على الخريطة"
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "إرسال"
+    },
+    "MEDIA": {
+      "IMAGE_UNAVAILABLE": "This image is no longer available.",
+      "LOADING_FAILED": "Loading failed"
+    }
+  },
+  "CONFIRM_EMAIL": "جار التحقق...",
+  "SETTINGS": {
+    "INBOXES": {
+      "NEW_INBOX": "إضافة قناة تواصل"
+    }
+  },
+  "SIDEBAR": {
+    "NO_ITEMS": "No items",
+    "CURRENTLY_VIEWING_ACCOUNT": "مشاهدة حاليا:",
+    "SWITCH": "تبديل",
+    "INBOX_VIEW": "Inbox View",
+    "CONVERSATIONS": "المحادثات",
+    "INBOX": "My Inbox",
+    "ALL_CONVERSATIONS": "كل المحادثات",
+    "MENTIONED_CONVERSATIONS": "الإشارات",
+    "PARTICIPATING_CONVERSATIONS": "شارك",
+    "UNATTENDED_CONVERSATIONS": "بدون حضور",
+    "REPORTS": "التقارير",
+    "SETTINGS": "الإعدادات",
+    "CONTACTS": "جهات الاتصال",
+    "ACTIVE": "مفعل",
+    "COMPANIES": "Companies",
+    "ALL_COMPANIES": "All Companies",
+    "CAPTAIN": "قائد",
+    "CAPTAIN_ASSISTANTS": "Assistants",
+    "CAPTAIN_DOCUMENTS": "Documents",
+    "CAPTAIN_RESPONSES": "FAQs",
+    "CAPTAIN_TOOLS": "Tools",
+    "CAPTAIN_SCENARIOS": "Scenarios",
+    "CAPTAIN_PLAYGROUND": "Playground",
+    "CAPTAIN_INBOXES": "قنوات التواصل",
+    "CAPTAIN_SETTINGS": "الإعدادات",
+    "HOME": "الرئيسية",
+    "AGENTS": "وكيل الدعم",
+    "AGENT_BOTS": "الروبوتات",
+    "AUDIT_LOGS": "سجلات التدقيق",
+    "INBOXES": "قنوات التواصل",
+    "NOTIFICATIONS": "الإشعارات",
+    "CANNED_RESPONSES": "الردود الجاهزة",
+    "INTEGRATIONS": "خيارات الربط",
+    "PROFILE_SETTINGS": "إعدادات الملف الشخصي",
+    "ACCOUNT_SETTINGS": "إعدادات الحساب",
+    "APPLICATIONS": "التطبيقات",
+    "LABELS": "الوسوم",
+    "CUSTOM_ATTRIBUTES": "سمات مخصصة",
+    "AUTOMATION": "الأتمتة",
+    "MACROS": "ماكروس",
+    "TEAMS": "الفرق",
+    "BILLING": "الفواتير",
+    "CUSTOM_VIEWS_FOLDER": "المجلدات",
+    "CUSTOM_VIEWS_SEGMENTS": "الأجزاء",
+    "ALL_CONTACTS": "جميع جهات الاتصال",
+    "TAGGED_WITH": "مشار إليه بواسطة",
+    "NEW_LABEL": "علامة جديدة",
+    "NEW_TEAM": "فريق جديد",
+    "NEW_INBOX": "صندوق الوارد الجديد",
+    "REPORTS_CONVERSATION": "المحادثات",
+    "CSAT": "تقييم رضاء العملاء",
+    "LIVE_CHAT": "Live Chat",
+    "SMS": "SMS",
+    "WHATSAPP": "واتساب",
+    "CAMPAIGNS": "الحملات",
+    "ONGOING": "جارية",
+    "ONE_OFF": "إيقاف واحد",
+    "REPORTS_SLA": "SLA",
+    "REPORTS_BOT": "رد آلي",
+    "REPORTS_AGENT": "وكيل الدعم",
+    "REPORTS_LABEL": "الوسوم",
+    "REPORTS_INBOX": "صندوق الوارد",
+    "REPORTS_TEAM": "الفريق",
+    "AGENT_ASSIGNMENT": "Agent Assignment",
+    "SET_AVAILABILITY_TITLE": "تعيين نفسك كـ",
+    "SET_YOUR_AVAILABILITY": "قم بتعيين توافرك",
+    "SLA": "SLA",
+    "CUSTOM_ROLES": "Custom Roles",
+    "BETA": "تجريبي",
+    "REPORTS_OVERVIEW": "نظرة عامة",
+    "REAUTHORIZE": "انتهت صلاحية اتصال صندوق الوارد الخاص بك، يرجى إعادة الاتصال\n لمواصلة تلقي وإرسال الرسائل",
+    "HELP_CENTER": {
+      "TITLE": "مركز المساعدة",
+      "ARTICLES": "Articles",
+      "CATEGORIES": "الفئات",
+      "LOCALES": "اللغات",
+      "SETTINGS": "الإعدادات"
+    },
+    "CHANNELS": "القنوات",
+    "SET_AUTO_OFFLINE": {
+      "TEXT": "وضع علامة غير متصل تلقائيا",
+      "INFO_TEXT": "السماح للنظام بوضع علامة غير متصل تلقائياً عند عدم استخدام التطبيق أو لوحة التحكم.",
+      "INFO_SHORT": "Automatically mark offline when you aren't using the app."
+    },
+    "DOCS": "قراءة المستندات",
+    "SECURITY": "Security"
+  },
+  "BILLING_SETTINGS": {
+    "TITLE": "الفواتير",
+    "DESCRIPTION": "Manage your subscription here, upgrade your plan and get more for your team.",
+    "CURRENT_PLAN": {
+      "TITLE": "الباقة الحالية",
+      "PLAN_NOTE": "أنت مشترك حاليا في باقة**{plan}** مع تراخيص **{quantity}**",
+      "SEAT_COUNT": "Number of seats",
+      "RENEWS_ON": "Renews on"
+    },
+    "VIEW_PRICING": "View Pricing",
+    "MANAGE_SUBSCRIPTION": {
+      "TITLE": "إدارة الاشتراك الخاص بك",
+      "DESCRIPTION": "عرض فواتيرك السابقة، تحرير تفاصيل الفوترة الخاصة بك، أو إلغاء اشتراكك.",
+      "BUTTON_TXT": "الذهاب إلى بوابة الفوترة"
+    },
+    "CAPTAIN": {
+      "TITLE": "قائد",
+      "DESCRIPTION": "Manage usage and credits for Captain AI.",
+      "BUTTON_TXT": "Buy more credits",
+      "DOCUMENTS": "Documents",
+      "RESPONSES": "Responses",
+      "UPGRADE": "Captain is not available on the free plan, upgrade now to get access to assistants, copilot and more.",
+      "REFRESH_CREDITS": "تحديث"
+    },
+    "CHAT_WITH_US": {
+      "TITLE": "تحتاج مساعدة؟",
+      "DESCRIPTION": "هل تواجه أي مشاكل في الفواتير؟ نحن هنا للمساعدة.",
+      "BUTTON_TXT": "تحدث الينا"
+    },
+    "NO_BILLING_USER": "حساب الفوترة الخاص بك قيد الإعداد. الرجاء تحديث الصفحة وحاول مرة أخرى.",
+    "TOPUP": {
+      "BUY_CREDITS": "Buy more credits",
+      "MODAL_TITLE": "Buy AI Credits",
+      "MODAL_DESCRIPTION": "Purchase additional credits for Captain AI.",
+      "CREDITS": "CREDITS",
+      "ONE_TIME": "one-time",
+      "POPULAR": "Most Popular",
+      "NOTE_TITLE": "ملاحظة:",
+      "NOTE_DESCRIPTION": "Credits are added immediately and expire in 6 months. An active subscription is required to use credits. Purchased credits are consumed after your monthly plan credits.",
+      "CANCEL": "إلغاء",
+      "PURCHASE": "Purchase Credits",
+      "LOADING": "Loading options...",
+      "FETCH_ERROR": "Failed to load credit options. Please try again.",
+      "PURCHASE_ERROR": "Failed to process purchase. Please try again.",
+      "PURCHASE_SUCCESS": "Successfully added {credits} credits to your account",
+      "CONFIRM": {
+        "TITLE": "Confirm Purchase",
+        "DESCRIPTION": "You are about to purchase {credits} credits for {amount}.",
+        "INSTANT_DEDUCTION_NOTE": "Your saved card will be charged immediately upon confirmation.",
+        "GO_BACK": "العودة للخلف",
+        "CONFIRM_PURCHASE": "Confirm Purchase"
+      }
+    }
+  },
+  "SECURITY_SETTINGS": {
+    "TITLE": "Security",
+    "DESCRIPTION": "Manage your account security settings.",
+    "LINK_TEXT": "Learn more about SAML SSO",
+    "SAML_DISABLED_MESSAGE": "SAML SSO is currently disabled. Please contact your administrator to enable this feature.",
+    "SAML": {
+      "TITLE": "SAML SSO",
+      "NOTE": "Configure SAML single sign-on for your account. Users will authenticate through your identity provider instead of using email/password.",
+      "ACS_URL": {
+        "LABEL": "ACS URL",
+        "TOOLTIP": "Assertion Consumer Service URL - Configure this URL in your IdP as the destination for SAML responses"
+      },
+      "SSO_URL": {
+        "LABEL": "SSO URL",
+        "HELP": "The URL where SAML authentication requests will be sent",
+        "PLACEHOLDER": "https://your-idp.com/saml/sso"
+      },
+      "CERTIFICATE": {
+        "LABEL": "Signing certificate in PEM format",
+        "HELP": "The public certificate from your identity provider used to verify SAML responses",
+        "PLACEHOLDER": "-----BEGIN CERTIFICATE-----\nMIIC..."
+      },
+      "FINGERPRINT": {
+        "LABEL": "Fingerprint",
+        "TOOLTIP": "SHA-1 fingerprint of the certificate - Use this to verify the certificate in your IdP configuration"
+      },
+      "COPY_SUCCESS": "تم نسخ الكود إلى الحافظة بنجاح",
+      "SP_ENTITY_ID": {
+        "LABEL": "SP Entity ID",
+        "HELP": "Unique identifier for this application as a service provider (auto-generated).",
+        "TOOLTIP": "Unique identifier for Chatwoot as the Service Provider - Configure this in your IdP settings"
+      },
+      "IDP_ENTITY_ID": {
+        "LABEL": "Identity Provider Entity ID",
+        "HELP": "Unique identifier for your identity provider (usually found in IdP configuration)",
+        "PLACEHOLDER": "https://your-idp.com/saml"
+      },
+      "UPDATE_BUTTON": "Update SAML Settings",
+      "API": {
+        "SUCCESS": "SAML settings updated successfully",
+        "ERROR": "Failed to update SAML settings",
+        "ERROR_LOADING": "Failed to load SAML settings",
+        "DISABLED": "SAML settings disabled successfully"
+      },
+      "VALIDATION": {
+        "REQUIRED_FIELDS": "SSO URL, Identity Provider Entity ID, and Certificate are required fields",
+        "SSO_URL_ERROR": "Please enter a valid SSO URL",
+        "CERTIFICATE_ERROR": "Certificate is required",
+        "IDP_ENTITY_ID_ERROR": "Identity Provider Entity ID is required"
+      },
+      "ENTERPRISE_PAYWALL": {
+        "AVAILABLE_ON": "The SAML SSO feature is only available in the Enterprise plans.",
+        "UPGRADE_PROMPT": "Upgrade to an Enterprise plan to access SAML single sign-on and other advanced security features.",
+        "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
+      },
+      "PAYWALL": {
+        "TITLE": "Upgrade to enable SAML SSO",
+        "AVAILABLE_ON": "The SAML SSO feature is only available in the Enterprise plans.",
+        "UPGRADE_PROMPT": "Upgrade your plan to get access to SAML single sign-on and other advanced features.",
+        "UPGRADE_NOW": "Upgrade now",
+        "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
+      },
+      "ATTRIBUTE_MAPPING": {
+        "TITLE": "SAML Attribute Setup",
+        "DESCRIPTION": "The following attribute mappings must be configured in your identity provider"
+      },
+      "INFO_SECTION": {
+        "TITLE": "Service Provider Information",
+        "TOOLTIP": "Copy these values and configure them in your Identity Provider to establish the SAML connection"
+      }
+    }
+  },
+  "CREATE_ACCOUNT": {
+    "NO_ACCOUNT_WARNING": "أوه! لم نتمكن من العثور على الحساب. الرجاء إنشاء حساب جديد للمتابعة.",
+    "NEW_ACCOUNT": "حساب جديد",
+    "SELECTOR_SUBTITLE": "إنشاء حساب جديد",
+    "API": {
+      "SUCCESS_MESSAGE": "تم إنشاء الحساب بنجاح",
+      "EXIST_MESSAGE": "الحساب موجود بالفعل",
+      "ERROR_MESSAGE": "تعذر الاتصال بالخادم، الرجاء المحاولة مرة أخرى لاحقاً"
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "اسم المنشأة",
+        "PLACEHOLDER": "مؤسسة Wayne"
+      },
+      "SUBMIT": "إرسال",
+      "CANCEL": "إلغاء"
+    }
+  },
+  "KEYBOARD_SHORTCUTS": {
+    "TOGGLE_MODAL": "عرض جميع الاختصارات",
+    "TITLE": {
+      "OPEN_CONVERSATION": "فتح المحادثة",
+      "RESOLVE_AND_NEXT": "حل وانتقل إلى التالي",
+      "NAVIGATE_DROPDOWN": "تصفح العناصر المنسدلة",
+      "RESOLVE_CONVERSATION": "إعادة فتح المحادثة",
+      "GO_TO_CONVERSATION_DASHBOARD": "الذهاب إلى لوحة المحادثة",
+      "ADD_ATTACHMENT": "إضافة مرفقات",
+      "GO_TO_CONTACTS_DASHBOARD": "الذهاب إلى لوحة جهات الاتصال",
+      "TOGGLE_SIDEBAR": "تبديل الشريط الجانبي",
+      "GO_TO_REPORTS_SIDEBAR": "الذهاب إلى شريط التقارير الجانبي",
+      "MOVE_TO_NEXT_TAB": "نقل إلى علامة التبويب التالية في قائمة المحادثات",
+      "GO_TO_SETTINGS": "انتقل إلى الإعدادات",
+      "SWITCH_TO_PRIVATE_NOTE": "التبديل إلى الملاحظة الخاصة",
+      "SWITCH_TO_REPLY": "التبديل إلى الرد",
+      "TOGGLE_SNOOZE_DROPDOWN": "تبديل القائمة المنسدلة"
+    }
+  },
+  "ASSIGNMENT_POLICY": {
+    "INDEX": {
+      "HEADER": {
+        "TITLE": "Agent assignment",
+        "DESCRIPTION": "Define policies to effectively manage workload and route conversations based on the needs of inboxes and agents. Learn more here"
+      },
+      "ASSIGNMENT_POLICY": {
+        "TITLE": "Assignment policy",
+        "DESCRIPTION": "Manage how conversations get assigned in inboxes.",
+        "FEATURES": [
+          "Assign by conversations evenly or by available capacity",
+          "Add fair distribution rules to avoid overloading any agent",
+          "Add inboxes to a policy - one policy per inbox"
+        ]
+      },
+      "AGENT_CAPACITY_POLICY": {
+        "TITLE": "Agent capacity policy",
+        "DESCRIPTION": "Manage workload for agents.",
+        "FEATURES": [
+          "Define maximum conversations per inbox",
+          "Create exceptions based on labels and time",
+          "Add agents to a policy - one policy per agent"
+        ]
+      }
+    },
+    "AGENT_ASSIGNMENT_POLICY": {
+      "INDEX": {
+        "HEADER": {
+          "TITLE": "Assignment policy",
+          "CREATE_POLICY": "New policy"
+        },
+        "CARD": {
+          "ORDER": "Order",
+          "PRIORITY": "الأولوية",
+          "ACTIVE": "مفعل",
+          "INACTIVE": "Inactive",
+          "POPOVER": "Added inboxes",
+          "EDIT": "تعديل"
+        },
+        "NO_RECORDS_FOUND": "No assignment policies found"
+      },
+      "CREATE": {
+        "HEADER": {
+          "TITLE": "Create assignment policy"
+        },
+        "CREATE_BUTTON": "Create policy",
+        "API": {
+          "SUCCESS_MESSAGE": "Assignment policy created successfully",
+          "ERROR_MESSAGE": "Failed to create assignment policy"
+        }
+      },
+      "EDIT": {
+        "HEADER": {
+          "TITLE": "Edit assignment policy"
+        },
+        "EDIT_BUTTON": "Update policy",
+        "CONFIRM_ADD_INBOX_DIALOG": {
+          "TITLE": "Add inbox",
+          "DESCRIPTION": "{inboxName} inbox is already linked to another policy. Are you sure you want to link it to this policy? It will be unlinked from the other policy.",
+          "CONFIRM_BUTTON_LABEL": "Continue",
+          "CANCEL_BUTTON_LABEL": "إلغاء"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Assignment policy updated successfully",
+          "ERROR_MESSAGE": "Failed to update assignment policy"
+        },
+        "INBOX_API": {
+          "ADD": {
+            "SUCCESS_MESSAGE": "Inbox added to policy successfully",
+            "ERROR_MESSAGE": "Failed to add inbox to policy"
+          },
+          "REMOVE": {
+            "SUCCESS_MESSAGE": "Inbox removed from policy successfully",
+            "ERROR_MESSAGE": "Failed to remove inbox from policy"
+          }
+        }
+      },
+      "FORM": {
+        "NAME": {
+          "LABEL": "Policy name:",
+          "PLACEHOLDER": "Enter policy name"
+        },
+        "DESCRIPTION": {
+          "LABEL": "الوصف:",
+          "PLACEHOLDER": "أدخل الوصف"
+        },
+        "STATUS": {
+          "LABEL": "الحالة:",
+          "PLACEHOLDER": "اختر الحالة",
+          "ACTIVE": "Policy is active",
+          "INACTIVE": "Policy is inactive"
+        },
+        "ASSIGNMENT_ORDER": {
+          "LABEL": "Assignment order",
+          "ROUND_ROBIN": {
+            "LABEL": "Round robin",
+            "DESCRIPTION": "Assign conversations evenly among agents."
+          },
+          "BALANCED": {
+            "LABEL": "Balanced",
+            "DESCRIPTION": "Assign conversations based on available capacity."
+          }
+        },
+        "ASSIGNMENT_PRIORITY": {
+          "LABEL": "Assignment priority",
+          "EARLIEST_CREATED": {
+            "LABEL": "Earliest created",
+            "DESCRIPTION": "The conversation that was created first gets assigned first."
+          },
+          "LONGEST_WAITING": {
+            "LABEL": "Longest waiting",
+            "DESCRIPTION": "The conversation waiting the longest gets assigned first."
+          }
+        },
+        "FAIR_DISTRIBUTION": {
+          "LABEL": "Fair distribution policy",
+          "DESCRIPTION": "Set the maximum number of conversations that can be assigned per agent within a time window to avoid overloading any one agent. This required field defaults to 100 conversations per hour.",
+          "INPUT_MAX": "Assign max",
+          "DURATION": "Conversations per agent in every"
+        },
+        "INBOXES": {
+          "LABEL": "Added inboxes",
+          "DESCRIPTION": "Add inboxes for which this policy will be applicable.",
+          "ADD_BUTTON": "Add inbox",
+          "DROPDOWN": {
+            "SEARCH_PLACEHOLDER": "Search and select inboxes to add",
+            "ADD_BUTTON": "إضافة"
+          },
+          "EMPTY_STATE": "No inboxes added to this policy, add an inbox to get started",
+          "API": {
+            "SUCCESS_MESSAGE": "Inbox successfully added to policy",
+            "ERROR_MESSAGE": "Failed to add inbox to policy"
+          }
+        }
+      },
+      "DELETE_POLICY": {
+        "SUCCESS_MESSAGE": "Assignment policy deleted successfully",
+        "ERROR_MESSAGE": "Failed to delete assignment policy"
+      }
+    },
+    "AGENT_CAPACITY_POLICY": {
+      "INDEX": {
+        "HEADER": {
+          "TITLE": "Agent capacity",
+          "CREATE_POLICY": "New policy"
+        },
+        "CARD": {
+          "POPOVER": "Added agents",
+          "EDIT": "تعديل"
+        },
+        "NO_RECORDS_FOUND": "No agent capacity policies found"
+      },
+      "CREATE": {
+        "HEADER": {
+          "TITLE": "Create agent capacity policy"
+        },
+        "CREATE_BUTTON": "Create policy",
+        "API": {
+          "SUCCESS_MESSAGE": "Agent capacity policy created successfully",
+          "ERROR_MESSAGE": "Failed to create agent capacity policy"
+        }
+      },
+      "EDIT": {
+        "HEADER": {
+          "TITLE": "Edit agent capacity policy"
+        },
+        "EDIT_BUTTON": "Update policy",
+        "CONFIRM_ADD_AGENT_DIALOG": {
+          "TITLE": "Add agent",
+          "DESCRIPTION": "{agentName} is already linked to another policy. Are you sure you want to link it to this policy? It will be unlinked from the other policy.",
+          "CONFIRM_BUTTON_LABEL": "Continue",
+          "CANCEL_BUTTON_LABEL": "إلغاء"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Agent capacity policy updated successfully",
+          "ERROR_MESSAGE": "Failed to update agent capacity policy"
+        },
+        "AGENT_API": {
+          "ADD": {
+            "SUCCESS_MESSAGE": "Agent added to policy successfully",
+            "ERROR_MESSAGE": "Failed to add agent to policy"
+          },
+          "REMOVE": {
+            "SUCCESS_MESSAGE": "Agent removed from policy successfully",
+            "ERROR_MESSAGE": "Failed to remove agent from policy"
+          }
+        }
+      },
+      "FORM": {
+        "NAME": {
+          "LABEL": "Policy name:",
+          "PLACEHOLDER": "Enter policy name"
+        },
+        "DESCRIPTION": {
+          "LABEL": "الوصف:",
+          "PLACEHOLDER": "أدخل الوصف"
+        },
+        "INBOX_CAPACITY_LIMIT": {
+          "LABEL": "Inbox capacity limits",
+          "ADD_BUTTON": "Add inbox",
+          "FIELD": {
+            "SELECT_INBOX": "Select inbox",
+            "MAX_CONVERSATIONS": "Max conversations",
+            "SET_LIMIT": "Set limit"
+          },
+          "EMPTY_STATE": "No inbox limit set"
+        },
+        "EXCLUSION_RULES": {
+          "LABEL": "Exclusion rules",
+          "DESCRIPTION": "Conversations that satisfy the following conditions would not count towards agent capacity",
+          "TAGS": {
+            "LABEL": "Exclude conversations tagged with specific labels",
+            "ADD_TAG": "add tag",
+            "DROPDOWN": {
+              "SEARCH_PLACEHOLDER": "Search and select tags to add"
+            },
+            "EMPTY_STATE": "No tags added to this policy."
+          },
+          "DURATION": {
+            "LABEL": "Exclude conversations older than a specified duration",
+            "PLACEHOLDER": "Set time"
+          }
+        },
+        "USERS": {
+          "LABEL": "Assigned agents",
+          "DESCRIPTION": "Add agents for which this policy will be applicable.",
+          "ADD_BUTTON": "Add agent",
+          "DROPDOWN": {
+            "SEARCH_PLACEHOLDER": "Search and select agents to add",
+            "ADD_BUTTON": "إضافة"
+          },
+          "EMPTY_STATE": "No agents added",
+          "API": {
+            "SUCCESS_MESSAGE": "Agent successfully added to policy",
+            "ERROR_MESSAGE": "Failed to add agent to policy"
+          }
+        }
+      },
+      "DELETE_POLICY": {
+        "SUCCESS_MESSAGE": "Agent capacity policy deleted successfully",
+        "ERROR_MESSAGE": "Failed to delete agent capacity policy"
+      }
+    },
+    "DELETE_POLICY": {
+      "TITLE": "Delete policy",
+      "DESCRIPTION": "Are you sure you want to delete this policy? This action cannot be undone.",
+      "CONFIRM_BUTTON_LABEL": "حذف",
+      "CANCEL_BUTTON_LABEL": "إلغاء"
+    }
+  }
+}

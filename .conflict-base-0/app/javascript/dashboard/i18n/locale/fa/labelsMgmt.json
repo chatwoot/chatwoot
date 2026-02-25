@@ -1,0 +1,85 @@
+{
+  "LABEL_MGMT": {
+    "HEADER": "برچسب‌ها",
+    "HEADER_BTN_TXT": "افزودن برچسب",
+    "LOADING": "درحال گرفتن برچسب‌ها",
+    "DESCRIPTION": "Labels help you categorize and prioritize conversations and leads. You can assign a label to a conversation or contact using the side panel.",
+    "LEARN_MORE": "Learn more about labels",
+    "SEARCH_404": "هیچ آیتمی با این مشخصات یافت نشد",
+    "LIST": {
+      "404": "هیچ برچسبی در این حساب‌کاربری وجود ندارد.",
+      "TITLE": "مدیریت برچسب‌ها",
+      "DESC": "برچسب‌ها به شما اجازه می‌دهند، گفتگوها را با هم گروه‌بندی کنید.",
+      "TABLE_HEADER": {
+        "NAME": "نام",
+        "DESCRIPTION": "توضیحات",
+        "COLOR": "رنگ"
+      }
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "نام برچسب",
+        "PLACEHOLDER": "نام برچسب",
+        "REQUIRED_ERROR": "نام برچسب لازم است",
+        "MINIMUM_LENGTH_ERROR": "باید بیشتر از 2 کاراکتر باشد",
+        "VALID_ERROR": "فقط حروف ، اعداد ، خط تیره و زیر خط مجاز است"
+      },
+      "DESCRIPTION": {
+        "LABEL": "توضیحات",
+        "PLACEHOLDER": "توضیحات برچسب"
+      },
+      "COLOR": {
+        "LABEL": "رنگ"
+      },
+      "SHOW_ON_SIDEBAR": {
+        "LABEL": "نمایش برچسب در سایدبار"
+      },
+      "EDIT": "ویرایش",
+      "CREATE": "ايجاد كردن",
+      "DELETE": "حذف",
+      "CANCEL": "انصراف"
+    },
+    "SUGGESTIONS": {
+      "TOOLTIP": {
+        "SINGLE_SUGGESTION": "اضافه کردن برچسب به گفتگو",
+        "MULTIPLE_SUGGESTION": "انتخاب این برچسب",
+        "DESELECT": "برچسب را از حالت انتخاب خارج کن",
+        "DISMISS": "بستن پیشنهاد ها"
+      },
+      "POWERED_BY": "Chatwoot AI",
+      "DISMISS": "نادیده بگیر",
+      "ADD_SELECTED_LABELS": "اضافه کردن برچسب‌های انتخاب شده",
+      "ADD_SELECTED_LABEL": "اضافه کردن برچسب‌ انتخاب شده",
+      "ADD_ALL_LABELS": "اضافه کردن همه برچسب ها",
+      "SUGGESTED_LABELS": "Suggested labels"
+    },
+    "ADD": {
+      "TITLE": "افزودن برچسب",
+      "DESC": "برچسب‌ها به شما اجازه می‌دهند مکالمات را با هم گروه‌بندی کنید.",
+      "API": {
+        "SUCCESS_MESSAGE": "برچسب با موفقیت اضافه شد",
+        "ERROR_MESSAGE": "خطایی پیش آمد. لطفا دوباره امتحان کنید"
+      }
+    },
+    "EDIT": {
+      "TITLE": "ویرایش برچسب",
+      "API": {
+        "SUCCESS_MESSAGE": "برچسب با موفقیت به روز شد",
+        "ERROR_MESSAGE": "خطایی پیش آمد. لطفا دوباره امتحان کنید"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "حذف",
+      "API": {
+        "SUCCESS_MESSAGE": "برچسب با موفقیت حذف شد",
+        "ERROR_MESSAGE": "خطایی پیش آمد. لطفا دوباره امتحان کنید"
+      },
+      "CONFIRM": {
+        "TITLE": "تاییدیه حذف",
+        "MESSAGE": "مطمئن هستید که حذف شود ",
+        "YES": "بله، حذف شود ",
+        "NO": "نه، بماند "
+      }
+    }
+  }
+}

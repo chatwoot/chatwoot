@@ -1,0 +1,8 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Spinner > matches snapshot 1`] = `
+<span
+  class="spinner small"
+  data-v-3e416633=""
+/>
+`;

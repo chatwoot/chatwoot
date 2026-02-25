@@ -1,0 +1,124 @@
+{
+  "AGENT_MGMT": {
+    "HEADER": "Агенти",
+    "HEADER_BTN_TXT": "Додати агента",
+    "LOADING": "Отримання списку агентів",
+    "DESCRIPTION": "An agent is a member of your customer support team who can view and respond to user messages. The list below shows all the agents in your account.",
+    "LEARN_MORE": "Learn about user roles",
+    "AGENT_TYPES": {
+      "ADMINISTRATOR": "Адміністратор",
+      "AGENT": "Агент"
+    },
+    "LIST": {
+      "404": "Немає агентів, пов'язаних з цим обліковим записом",
+      "TITLE": "Керування агентами у вашій команді",
+      "DESC": "Ви можете додавати/видаляти агентів у вашій команді.",
+      "NAME": "Ім'я",
+      "EMAIL": "ПОШТА",
+      "STATUS": "Статус",
+      "ACTIONS": "Дії",
+      "VERIFIED": "Перевірено",
+      "VERIFICATION_PENDING": "Очікування підтвердження",
+      "AVAILABLE_CUSTOM_ROLE": "Available custom role permissions"
+    },
+    "ADD": {
+      "TITLE": "Додати агента до вашої команди",
+      "DESC": "Ви можете додавати людей, які будуть займатися запитами.",
+      "CANCEL_BUTTON_TEXT": "Скасувати",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Ім'я агента",
+          "PLACEHOLDER": "Будь ласка, введіть ім'я агента"
+        },
+        "AGENT_TYPE": {
+          "LABEL": "Тип агента",
+          "PLACEHOLDER": "Будь ласка, оберіть тип",
+          "ERROR": "Потрібен тип агента"
+        },
+        "EMAIL": {
+          "LABEL": "Адреса електронної пошти",
+          "PLACEHOLDER": "Будь ласка, введіть адресу електронної пошти агента"
+        },
+        "SUBMIT": "Додати агента"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Агента успішно додано",
+        "EXIST_MESSAGE": "Електронна пошта агента вже використовується, будь ласка, спробуйте іншу адресу електронної пошти",
+        "ERROR_MESSAGE": "Не вдалося підключитися до Woot Server, спробуйте ще раз пізніше"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Видалити",
+      "API": {
+        "SUCCESS_MESSAGE": "Агента успішно видалено",
+        "ERROR_MESSAGE": "Не вдалося підключитися до Woot Server, спробуйте ще раз пізніше"
+      },
+      "CONFIRM": {
+        "TITLE": "Підтвердження видалення",
+        "MESSAGE": "Справді бажаєте видалити ",
+        "YES": "Так, видалити ",
+        "NO": "Ні, залишити "
+      }
+    },
+    "EDIT": {
+      "TITLE": "Редагувати агента",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Ім'я агента",
+          "PLACEHOLDER": "Будь ласка, введіть ім'я агента"
+        },
+        "AGENT_TYPE": {
+          "LABEL": "Тип агента",
+          "PLACEHOLDER": "Будь ласка, оберіть тип",
+          "ERROR": "Потрібен тип агента"
+        },
+        "EMAIL": {
+          "LABEL": "Адреса електронної пошти",
+          "PLACEHOLDER": "Будь ласка, введіть адресу електронної пошти агента"
+        },
+        "AGENT_AVAILABILITY": {
+          "LABEL": "Присутність",
+          "PLACEHOLDER": "Будь ласка, оберіть статус доступності",
+          "ERROR": "Потрібно вказати доступність"
+        },
+        "SUBMIT": "Редагувати агента"
+      },
+      "BUTTON_TEXT": "Редагувати",
+      "CANCEL_BUTTON_TEXT": "Скасувати",
+      "API": {
+        "SUCCESS_MESSAGE": "Агента успішно оновлено",
+        "ERROR_MESSAGE": "Не вдалося підключитися до Woot Server, спробуйте ще раз пізніше"
+      },
+      "PASSWORD_RESET": {
+        "ADMIN_RESET_BUTTON": "Скинути пароль",
+        "ADMIN_SUCCESS_MESSAGE": "Лист з інструкціями для відновлення паролю було надіслано агенту",
+        "SUCCESS_MESSAGE": "Пароль агента успішно скинуто",
+        "ERROR_MESSAGE": "Не вдалося підключитися до Woot Server, спробуйте ще раз пізніше"
+      }
+    },
+    "SEARCH": {
+      "NO_RESULTS": "Результатів не знайдено."
+    },
+    "MULTI_SELECTOR": {
+      "PLACEHOLDER": "Нiчого",
+      "TITLE": {
+        "AGENT": "Виберіть агента",
+        "TEAM": "Виберіть команду"
+      },
+      "LIST": {
+        "NONE": "Нiчого"
+      },
+      "SEARCH": {
+        "NO_RESULTS": {
+          "AGENT": "Агентів не знайдено",
+          "TEAM": "Жодних команд не знайдено"
+        },
+        "PLACEHOLDER": {
+          "AGENT": "Пошук агентів",
+          "TEAM": "Пошук команд",
+          "INPUT": "Пошук агентів"
+        }
+      }
+    }
+  }
+}

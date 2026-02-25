@@ -1,0 +1,655 @@
+{
+  "CONTACT_PANEL": {
+    "NOT_AVAILABLE": "Nem elérhető",
+    "EMAIL_ADDRESS": "Email cím",
+    "PHONE_NUMBER": "Telefonszám",
+    "IDENTIFIER": "Azonosító",
+    "COPY_SUCCESSFUL": "Vágólapra másolva",
+    "COMPANY": "Cég",
+    "LOCATION": "Hely",
+    "BROWSER_LANGUAGE": "Böngésző nyelve",
+    "CONVERSATION_TITLE": "Beszélgetés részletei",
+    "VIEW_PROFILE": "Profil megtekintése",
+    "BROWSER": "Böngésző",
+    "OS": "Operációs rendszer",
+    "INITIATED_FROM": "Kezdeményezve",
+    "INITIATED_AT": "Kezdeményezve",
+    "IP_ADDRESS": "IP cím",
+    "CREATED_AT_LABEL": "Létrehozva",
+    "NEW_MESSAGE": "Új üzenet",
+    "CALL": "Call",
+    "CALL_INITIATED": "Calling the contact…",
+    "CALL_FAILED": "Unable to start the call. Please try again.",
+    "VOICE_INBOX_PICKER": {
+      "TITLE": "Choose a voice inbox"
+    },
+    "CONVERSATIONS": {
+      "NO_RECORDS_FOUND": "Nincs megelőző beszélgetés ezzel a kontakttal.",
+      "TITLE": "Korábbi beszélgetések"
+    },
+    "LABELS": {
+      "CONTACT": {
+        "TITLE": "Kapcsolattartó címkéi",
+        "ERROR": "Nem lehetett frissíteni a címkéket"
+      },
+      "CONVERSATION": {
+        "TITLE": "Beszélgetés cimkék",
+        "ADD_BUTTON": "Címkék hozzáadása"
+      },
+      "LABEL_SELECT": {
+        "TITLE": "Címkék hozzáadása",
+        "PLACEHOLDER": "Címkék keresése",
+        "NO_RESULT": "Nem találtunk címkét",
+        "CREATE_LABEL": "Új cimke létrehozása"
+      }
+    },
+    "MERGE_CONTACT": "Kapcsolattartók összevonása",
+    "CONTACT_ACTIONS": "Kapcsolattartói tevékenységek",
+    "MUTE_CONTACT": "Block Contact",
+    "UNMUTE_CONTACT": "Unblock Contact",
+    "MUTED_SUCCESS": "This contact is blocked successfully. You will not be notified of any future conversations.",
+    "UNMUTED_SUCCESS": "This contact is unblocked successfully.",
+    "SEND_TRANSCRIPT": "Jegyzetek elküldése",
+    "EDIT_LABEL": "Szerkesztés",
+    "SIDEBAR_SECTIONS": {
+      "CUSTOM_ATTRIBUTES": "Egyedi atribútumok",
+      "CONTACT_LABELS": "Kontakt címkéi",
+      "PREVIOUS_CONVERSATIONS": "Korábbi beszélgetések",
+      "NO_RECORDS_FOUND": "Nem található tulajdonság"
+    }
+  },
+  "EDIT_CONTACT": {
+    "BUTTON_LABEL": "Jegyzetek szerkesztése",
+    "TITLE": "Kontakt szerkesztése",
+    "DESC": "Kontakt részletek szerkesztése"
+  },
+  "DELETE_CONTACT": {
+    "BUTTON_LABEL": "Kontakt Törlése",
+    "TITLE": "Kontakt törlése",
+    "DESC": "Kontakt részletek törlése",
+    "CONFIRM": {
+      "TITLE": "Törlés megerősítése",
+      "MESSAGE": "Biztos abban, hogy törli ",
+      "YES": "Igen, Törlés",
+      "NO": "Nem, Mégse"
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Kontakt sikeresen törölve",
+      "ERROR_MESSAGE": "A kontakt törlése nem lehetséges. Kérjük próbáld később."
+    }
+  },
+  "CONTACT_FORM": {
+    "FORM": {
+      "SUBMIT": "Elküldés",
+      "CANCEL": "Mégse",
+      "AVATAR": {
+        "LABEL": "Kontakt avatarja"
+      },
+      "NAME": {
+        "PLACEHOLDER": "A kontakt teljes nevének megadása",
+        "LABEL": "Teljes név"
+      },
+      "BIO": {
+        "PLACEHOLDER": "A kontakt önéletrajzának megadása",
+        "LABEL": "Önéletrajz"
+      },
+      "EMAIL_ADDRESS": {
+        "PLACEHOLDER": "A kontakt e-mailjének megadása",
+        "LABEL": "Email cím",
+        "DUPLICATE": "Az e-mailcím már egy másik kontakthoz tartozik.",
+        "ERROR": "Kérjük helyes e-mailcímet adj meg."
+      },
+      "PHONE_NUMBER": {
+        "PLACEHOLDER": "A kontakt telefonszámának megadása",
+        "LABEL": "Telefonszám",
+        "HELP": "A telefonszámnak E.164 formátumúnak kell lennie, pl: +[+][országkód][körzetszám][helyi telefonszám]",
+        "ERROR": "A telefonszámnak üresnek vagy E.164 formátumúnak kell lennie",
+        "DIAL_CODE_ERROR": "Kérlek, válassz egy hívószámot a listából",
+        "DUPLICATE": "Ez a telefonszám már egy másik kontakthoz tartozik."
+      },
+      "LOCATION": {
+        "PLACEHOLDER": "A kontakt helyének megadása",
+        "LABEL": "Hely"
+      },
+      "COMPANY_NAME": {
+        "PLACEHOLDER": "Cégnév megadása",
+        "LABEL": "Cégnév"
+      },
+      "COUNTRY": {
+        "PLACEHOLDER": "Add meg az ország nevét",
+        "LABEL": "Ország neve",
+        "SELECT_PLACEHOLDER": "Kiválasztás",
+        "REMOVE": "Eltávolítás",
+        "SELECT_COUNTRY": "Ország választása"
+      },
+      "CITY": {
+        "PLACEHOLDER": "Add meg a város nevét",
+        "LABEL": "Város neve"
+      },
+      "SOCIAL_PROFILES": {
+        "FACEBOOK": {
+          "PLACEHOLDER": "Facebook felhasználó megadása",
+          "LABEL": "Facebook"
+        },
+        "TWITTER": {
+          "PLACEHOLDER": "Twitter felhasználó megadása",
+          "LABEL": "Twitter"
+        },
+        "LINKEDIN": {
+          "PLACEHOLDER": "Linkedin usernév hozzáadása",
+          "LABEL": "LinkedIn"
+        },
+        "GITHUB": {
+          "PLACEHOLDER": "Github felhasználó megadása",
+          "LABEL": "Github"
+        }
+      }
+    },
+    "DELETE_AVATAR": {
+      "API": {
+        "SUCCESS_MESSAGE": "Kontakt avatar sikeresen törölve",
+        "ERROR_MESSAGE": "A kontakt avatar törlése nem lehetséges. Kérjük próbáld később."
+      }
+    },
+    "SUCCESS_MESSAGE": "Kontakt mentés sikeres",
+    "ERROR_MESSAGE": "Hiba történt, kérjük próbáld újra"
+  },
+  "NEW_CONVERSATION": {
+    "BUTTON_LABEL": "Beszélgetés megkezdése",
+    "TITLE": "Új beszélgetés",
+    "DESC": "Kezdjen új beszélgetést egy új üzenet küldésével.",
+    "NO_INBOX": "Nem találtam postafiókot, hogy új beszélgetést kezdeményezzek ezzel a kapcsolattal.",
+    "FORM": {
+      "TO": {
+        "LABEL": "Ide"
+      },
+      "INBOX": {
+        "LABEL": "Fiók",
+        "PLACEHOLDER": "Beérkező levelek választása",
+        "ERROR": "Válassz egy fiókot"
+      },
+      "SUBJECT": {
+        "LABEL": "Tárgy",
+        "PLACEHOLDER": "Tárgy",
+        "ERROR": "A tárgy nem lehet üres"
+      },
+      "MESSAGE": {
+        "LABEL": "Üzenet",
+        "PLACEHOLDER": "Írd ide üzeneted",
+        "ERROR": "Az üzenet nem lehet üres"
+      },
+      "ATTACHMENTS": {
+        "SELECT": "Fájlok kiválasztása",
+        "HELP_TEXT": "Húzza ide a fájlokat, vagy válassza ki a csatolandó fájlokat"
+      },
+      "SUBMIT": "Üzenet elküldése",
+      "CANCEL": "Mégse",
+      "SUCCESS_MESSAGE": "Üzenet elküldve!",
+      "GO_TO_CONVERSATION": "Megtekintés",
+      "ERROR_MESSAGE": "Nem sikerült az elküldés! Kérjük próbáld később"
+    }
+  },
+  "CONTACTS_PAGE": {
+    "LIST": {
+      "TABLE_HEADER": {
+        "SOCIAL_PROFILES": "Social media profilok"
+      }
+    }
+  },
+  "CUSTOM_ATTRIBUTES": {
+    "BUTTON": "Speciális attribútum hozzáadása",
+    "COPY_SUCCESSFUL": "Vágólapra másolva",
+    "SHOW_MORE": "Show all attributes",
+    "SHOW_LESS": "Show less attributes",
+    "ACTIONS": {
+      "COPY": "Attribútum másolása",
+      "DELETE": "Attribútum törlése",
+      "EDIT": "Attribútum szerkesztése"
+    },
+    "ADD": {
+      "TITLE": "Saját attribútum létrehozása",
+      "DESC": "Egyéni információ hozzáadása ehhez a kontakthoz."
+    },
+    "FORM": {
+      "CREATE": "Attribútum hozzáadása",
+      "CANCEL": "Mégse",
+      "NAME": {
+        "LABEL": "Egyedi attribútum név",
+        "PLACEHOLDER": "Pl.: shopify id",
+        "ERROR": "Érvénytelen egyéni tulajdonság név"
+      },
+      "VALUE": {
+        "LABEL": "Attribútum érték",
+        "PLACEHOLDER": "Pl.: 11901 "
+      },
+      "ADD": {
+        "TITLE": "Új tulajdonság  létrehozása",
+        "SUCCESS": "Tulajdonság sikeresen hozzáaadva",
+        "ERROR": "Nem lehet hozzáadni a tulajdonságot. Kérlek, próbáld újra később"
+      },
+      "UPDATE": {
+        "SUCCESS": "Tulajdonság sikeresen frissítve",
+        "ERROR": "Nem lehet frissíteni a tulajdonságot. Kérlek, próbáld újra később"
+      },
+      "DELETE": {
+        "SUCCESS": "Tulajdonság sikeresen törölve",
+        "ERROR": "Nem lehet törölni a tulajdonságot. Kérlek, próbáld újra később"
+      },
+      "ATTRIBUTE_SELECT": {
+        "TITLE": "Attribútum hozzáadása",
+        "PLACEHOLDER": "Tulajdonságok keresése",
+        "NO_RESULT": "Nem található tulajdonság"
+      },
+      "ATTRIBUTE_TYPE": {
+        "LIST": {
+          "PLACEHOLDER": "Válassz egyet",
+          "SEARCH_INPUT_PLACEHOLDER": "Keress",
+          "NO_RESULT": "Nincs találat"
+        }
+      }
+    },
+    "VALIDATIONS": {
+      "REQUIRED": "Kötelező megadni",
+      "INVALID_URL": "Hibás URL",
+      "INVALID_INPUT": "Invalid Input"
+    }
+  },
+  "MERGE_CONTACTS": {
+    "TITLE": "Kontaktok egyesítése",
+    "DESCRIPTION": "Merge contacts to combine two profiles into one, including all attributes and conversations. In case of conflict, the Primary contact’ s attributes will take precedence.",
+    "PRIMARY": {
+      "TITLE": "Elsődleges kontakt",
+      "HELP_LABEL": "Törlendő"
+    },
+    "PARENT": {
+      "TITLE": "Egyesítendő kontakt",
+      "PLACEHOLDER": "Kontakt keresése",
+      "HELP_LABEL": "Megtartani"
+    },
+    "SUMMARY": {
+      "TITLE": "Összegzés",
+      "DELETE_WARNING": "<strong>{primaryContactName}</strong> kontaktja törlésre kerül.",
+      "ATTRIBUTE_WARNING": "<strong>{primaryContactName}</strong> kontakt adatai át lesznek másolva hozzá: <strong>{parentContactName}</strong>."
+    },
+    "SEARCH": {
+      "ERROR_MESSAGE": "Something went wrong. Please try again later."
+    },
+    "FORM": {
+      "SUBMIT": " Kontaktok egyesítése",
+      "CANCEL": "Mégse",
+      "CHILD_CONTACT": {
+        "ERROR": "Válaszd ki a gyerek kontatkot az összevonáshoz"
+      },
+      "SUCCESS_MESSAGE": "Kontakt összevonása sikeres",
+      "ERROR_MESSAGE": "Nem sikerült a kontaktot összevonni, próbáld újra!"
+    },
+    "DROPDOWN_ITEM": {
+      "ID": "(ID: {identifier})"
+    }
+  },
+  "CONTACTS_LAYOUT": {
+    "HEADER": {
+      "TITLE": "Kontaktok",
+      "SEARCH_TITLE": "Search contacts",
+      "ACTIVE_TITLE": "Active contacts",
+      "SEARCH_PLACEHOLDER": "Search...",
+      "MESSAGE_BUTTON": "Üzenet",
+      "SEND_MESSAGE": "Üzenet elküldése",
+      "BLOCK_CONTACT": "Block contact",
+      "UNBLOCK_CONTACT": "Unblock contact",
+      "BREADCRUMB": {
+        "CONTACTS": "Kontaktok"
+      },
+      "ACTIONS": {
+        "CONTACT_CREATION": {
+          "ADD_CONTACT": "Add contact",
+          "EXPORT_CONTACT": "Export contacts",
+          "IMPORT_CONTACT": "Import contacts",
+          "SAVE_CONTACT": "Save contact",
+          "EMAIL_ADDRESS_DUPLICATE": "Az e-mailcím már egy másik kontakthoz tartozik.",
+          "PHONE_NUMBER_DUPLICATE": "Ez a telefonszám már egy másik kontakthoz tartozik.",
+          "SUCCESS_MESSAGE": "Kontakt mentés sikeres",
+          "ERROR_MESSAGE": "Unable to save contact. Please try again later."
+        },
+        "BLOCK_SUCCESS_MESSAGE": "This contact is blocked successfully",
+        "BLOCK_ERROR_MESSAGE": "Unable to block contact. Please try again later.",
+        "UNBLOCK_SUCCESS_MESSAGE": "This contact is unblocked successfully",
+        "UNBLOCK_ERROR_MESSAGE": "Unable to unblock contact. Please try again later.",
+        "IMPORT_CONTACT": {
+          "TITLE": "Import contacts",
+          "DESCRIPTION": "Kontaktok importálása CSV fájlból.",
+          "DOWNLOAD_LABEL": "Minta CSV fájl letöltése.",
+          "LABEL": "CSV fájl:",
+          "CHOOSE_FILE": "Choose file",
+          "CHANGE": "Megváltoztatás",
+          "CANCEL": "Mégse",
+          "IMPORT": "Importálás",
+          "SUCCESS_MESSAGE": "Értesítjük emailben, amint a befogadás megtörtént.",
+          "ERROR_MESSAGE": "Hiba történt, kérjük próbáld újra"
+        },
+        "EXPORT_CONTACT": {
+          "TITLE": "Export contacts",
+          "DESCRIPTION": "Quickly export a csv file with comprehensive details of your contacts",
+          "CONFIRM": "Export",
+          "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
+          "ERROR_MESSAGE": "Hiba történt, kérjük próbáld újra"
+        },
+        "SORT_BY": {
+          "LABEL": "Rendezés",
+          "OPTIONS": {
+            "NAME": "Név",
+            "EMAIL": "E-mail",
+            "PHONE_NUMBER": "Telefonszám",
+            "COMPANY": "Cég",
+            "COUNTRY": "Ország",
+            "CITY": "Város",
+            "LAST_ACTIVITY": "Utolsó aktivitás",
+            "CREATED_AT": "Létrehozva"
+          }
+        },
+        "ORDER": {
+          "LABEL": "Ordering",
+          "OPTIONS": {
+            "ASCENDING": "Ascending",
+            "DESCENDING": "Descending"
+          }
+        },
+        "FILTERS": {
+          "CREATE_SEGMENT": {
+            "TITLE": "El akarod menteni ezt a szűrőt?",
+            "CONFIRM": "Szűrő mentése",
+            "LABEL": "Név",
+            "PLACEHOLDER": "Enter the name of the filter",
+            "ERROR": "Enter a valid name",
+            "SUCCESS_MESSAGE": "Filter saved successfully",
+            "ERROR_MESSAGE": "Unable to save filter. Please try again later."
+          },
+          "DELETE_SEGMENT": {
+            "TITLE": "Törlés megerősítése",
+            "DESCRIPTION": "Are you sure you want to delete this filter?",
+            "CONFIRM": "Igen, Törlés",
+            "CANCEL": "No, Cancel",
+            "SUCCESS_MESSAGE": "Filter deleted successfully",
+            "ERROR_MESSAGE": "Unable to delete filter. Please try again later."
+          }
+        }
+      }
+    },
+    "PAGINATION_FOOTER": {
+      "SHOWING": "Showing {startItem} - {endItem} of {totalItems} contacts"
+    },
+    "FILTER": {
+      "NAME": "Név",
+      "EMAIL": "E-mail",
+      "PHONE_NUMBER": "Telefonszám",
+      "IDENTIFIER": "Azonosító",
+      "COUNTRY": "Ország",
+      "CITY": "Város",
+      "CREATED_AT": "Létrehozva",
+      "LAST_ACTIVITY": "Utolsó aktivitás",
+      "REFERER_LINK": "Hivatkozás link",
+      "BLOCKED": "Blocked",
+      "BLOCKED_TRUE": "Igaz",
+      "BLOCKED_FALSE": "Hamis",
+      "BUTTONS": {
+        "CLEAR_FILTERS": "Szűrők törlése",
+        "UPDATE_SEGMENT": "Update segment",
+        "APPLY_FILTERS": "Szűrők alkalmazása",
+        "ADD_FILTER": "Szűrő hozzáadása"
+      },
+      "TITLE": "Kontaktok szűrése",
+      "EDIT_SEGMENT": "Szegmens szerkesztése",
+      "SEGMENT": {
+        "LABEL": "Segment name",
+        "INPUT_PLACEHOLDER": "Enter the name of the segment"
+      },
+      "ACTIVE_FILTERS": {
+        "MORE_FILTERS": "+ {count} more filters",
+        "CLEAR_FILTERS": "Szűrők törlése"
+      }
+    },
+    "CARD": {
+      "OF": "of",
+      "VIEW_DETAILS": "Részletek megtekintése",
+      "EDIT_DETAILS_FORM": {
+        "TITLE": "Kontakt részletek szerkesztése",
+        "FORM": {
+          "FIRST_NAME": {
+            "PLACEHOLDER": "Enter the first name"
+          },
+          "LAST_NAME": {
+            "PLACEHOLDER": "Enter the last name"
+          },
+          "EMAIL_ADDRESS": {
+            "PLACEHOLDER": "Enter the email address",
+            "DUPLICATE": "Az e-mailcím már egy másik kontakthoz tartozik."
+          },
+          "PHONE_NUMBER": {
+            "PLACEHOLDER": "Enter the phone number",
+            "DUPLICATE": "Ez a telefonszám már egy másik kontakthoz tartozik."
+          },
+          "CITY": {
+            "PLACEHOLDER": "Add meg a város nevét"
+          },
+          "COUNTRY": {
+            "PLACEHOLDER": "Select country"
+          },
+          "BIO": {
+            "PLACEHOLDER": "Enter the bio"
+          },
+          "COMPANY_NAME": {
+            "PLACEHOLDER": "Cégnév megadása"
+          }
+        },
+        "UPDATE_BUTTON": "Update contact",
+        "SUCCESS_MESSAGE": "Contact updated successfully",
+        "ERROR_MESSAGE": "Unable to update contact. Please try again later."
+      },
+      "SOCIAL_MEDIA": {
+        "TITLE": "Edit social links",
+        "FORM": {
+          "FACEBOOK": {
+            "PLACEHOLDER": "Add Facebook"
+          },
+          "GITHUB": {
+            "PLACEHOLDER": "Add Github"
+          },
+          "INSTAGRAM": {
+            "PLACEHOLDER": "Add Instagram"
+          },
+          "TIKTOK": {
+            "PLACEHOLDER": "Add TikTok"
+          },
+          "LINKEDIN": {
+            "PLACEHOLDER": "Add LinkedIn"
+          },
+          "TWITTER": {
+            "PLACEHOLDER": "Add Twitter"
+          }
+        }
+      },
+      "DELETE_CONTACT": {
+        "MESSAGE": "This action is permanent and irreversible.",
+        "BUTTON": "Delete now"
+      }
+    },
+    "DETAILS": {
+      "CREATED_AT": "Created {date}",
+      "LAST_ACTIVITY": "Last active {date}",
+      "DELETE_CONTACT_DESCRIPTION": "Permanently delete this contact. This action is irreversible",
+      "DELETE_CONTACT": "Kontakt törlése",
+      "DELETE_DIALOG": {
+        "TITLE": "Törlés megerősítése",
+        "DESCRIPTION": "Are you sure you want to delete this contact?",
+        "CONFIRM": "Igen, Törlés",
+        "API": {
+          "SUCCESS_MESSAGE": "Kontakt sikeresen törölve",
+          "ERROR_MESSAGE": "A kontakt törlése nem lehetséges. Kérjük próbáld később."
+        }
+      },
+      "AVATAR": {
+        "UPLOAD": {
+          "ERROR_MESSAGE": "Could not upload avatar. Please try again later.",
+          "SUCCESS_MESSAGE": "Avatar uploaded successfully"
+        },
+        "DELETE": {
+          "SUCCESS_MESSAGE": "Avatar sikeresen törölve",
+          "ERROR_MESSAGE": "Could not delete avatar. Please try again later."
+        }
+      }
+    },
+    "SIDEBAR": {
+      "TABS": {
+        "ATTRIBUTES": "Attributes",
+        "HISTORY": "History",
+        "NOTES": "Megjegyzések",
+        "MERGE": "Merge"
+      },
+      "HISTORY": {
+        "EMPTY_STATE": "Nincs megelőző beszélgetés ezzel a kontakttal"
+      },
+      "ATTRIBUTES": {
+        "SEARCH_PLACEHOLDER": "Search for attributes",
+        "UNUSED_ATTRIBUTES": "{count} Used attribute | {count} Unused attributes",
+        "EMPTY_STATE": "There are no contact custom attributes available in this account. You can create a custom attribute in settings.",
+        "YES": "Igen",
+        "NO": "Nem",
+        "TRIGGER": {
+          "SELECT": "Válassz egyet",
+          "INPUT": "Enter value"
+        },
+        "VALIDATIONS": {
+          "INVALID_NUMBER": "Invalid number",
+          "REQUIRED": "Kötelező megadni",
+          "INVALID_INPUT": "Invalid input",
+          "INVALID_URL": "Hibás URL",
+          "INVALID_DATE": "Invalid date"
+        },
+        "NO_ATTRIBUTES": "Nem található tulajdonság",
+        "API": {
+          "SUCCESS_MESSAGE": "Tulajdonság sikeresen frissítve",
+          "DELETE_SUCCESS_MESSAGE": "Tulajdonság sikeresen törölve",
+          "UPDATE_ERROR": "Nem lehet frissíteni a tulajdonságot. Kérlek, próbáld újra később",
+          "DELETE_ERROR": "Nem lehet törölni a tulajdonságot. Kérlek, próbáld újra később"
+        }
+      },
+      "MERGE": {
+        "TITLE": "Kapcsolattartók összevonása",
+        "DESCRIPTION": "Combine two profiles into one, including all attributes and conversations. In case of conflict, the primary contact’s attributes will take precedence.",
+        "PRIMARY": "Elsődleges kontakt",
+        "PRIMARY_HELP_LABEL": "To be saved",
+        "PRIMARY_REQUIRED_ERROR": "Please select a contact to merge with before proceeding",
+        "PARENT": "To be merged",
+        "PARENT_HELP_LABEL": "Törlendő",
+        "EMPTY_STATE": "No contacts found",
+        "PLACEHOLDER": "Search for primary contact",
+        "SEARCH_PLACEHOLDER": "Kontakt keresése",
+        "SEARCH_ERROR_MESSAGE": "Could not search for contacts. Please try again later.",
+        "SUCCESS_MESSAGE": "Kontakt összevonása sikeres",
+        "ERROR_MESSAGE": "Nem sikerült a kontaktot összevonni, próbáld újra!",
+        "IS_SEARCHING": "Keresés...",
+        "BUTTONS": {
+          "CANCEL": "Mégse",
+          "CONFIRM": "Kapcsolattartók összevonása"
+        }
+      },
+      "NOTES": {
+        "PLACEHOLDER": "Megjegyzés hozzáadása",
+        "WROTE": "írta",
+        "YOU": "Ön",
+        "SAVE": "Save note",
+        "ADD_NOTE": "Add contact note",
+        "EXPAND": "Kiegészítés",
+        "COLLAPSE": "Collapse",
+        "NO_NOTES": "No notes, you can add notes from the contact details page.",
+        "EMPTY_STATE": "There are no notes associated to this contact. You can add a note by typing in the box above.",
+        "CONVERSATION_EMPTY_STATE": "There are no notes yet. Use the Add note button to create one."
+      }
+    },
+    "EMPTY_STATE": {
+      "TITLE": "No contacts found in this account",
+      "SUBTITLE": "Start adding new contacts by clicking on the button below",
+      "BUTTON_LABEL": "Add contact",
+      "SEARCH_EMPTY_STATE_TITLE": "Nincs a keresésnek megfelelő kontakt 🔍",
+      "LIST_EMPTY_STATE_TITLE": "No contacts available in this view 📋",
+      "ACTIVE_EMPTY_STATE_TITLE": "No contacts are active at the moment 🌙"
+    }
+  },
+  "CONTACTS_BULK_ACTIONS": {
+    "ASSIGN_LABELS": "Cimke hozzáadása",
+    "ASSIGN_LABELS_SUCCESS": "Címkék hozzárendelése sikeres.",
+    "ASSIGN_LABELS_FAILED": "Failed to assign labels",
+    "DESCRIPTION": "Select the labels you want to add to the selected contacts.",
+    "NO_LABELS_FOUND": "No labels available yet.",
+    "SELECTED_COUNT": "{count} selected",
+    "CLEAR_SELECTION": "Clear selection",
+    "SELECT_ALL": "Select all ({count})",
+    "DELETE_CONTACTS": "Törlés",
+    "DELETE_SUCCESS": "Contacts deleted successfully.",
+    "DELETE_FAILED": "Failed to delete contacts.",
+    "DELETE_DIALOG": {
+      "TITLE": "Delete selected contacts",
+      "SINGULAR_TITLE": "Delete selected contact",
+      "DESCRIPTION": "This will permanently delete {count} selected contacts. This action cannot be undone.",
+      "SINGULAR_DESCRIPTION": "This will permanently delete the selected contact. This action cannot be undone.",
+      "CONFIRM_MULTIPLE": "Delete contacts",
+      "CONFIRM_SINGLE": "Kontakt törlése"
+    }
+  },
+  "COMPOSE_NEW_CONVERSATION": {
+    "CONTACT_SEARCH": {
+      "ERROR_MESSAGE": "We couldn’t complete the search. Please try again."
+    },
+    "FORM": {
+      "GO_TO_CONVERSATION": "Megtekintés",
+      "SUCCESS_MESSAGE": "The message was sent successfully!",
+      "ERROR_MESSAGE": "An error occurred while creating the conversation. Please try again later.",
+      "NO_INBOX_ALERT": "There are no available inboxes to start a conversation with this contact.",
+      "CONTACT_SELECTOR": {
+        "LABEL": "Ide:",
+        "TAG_INPUT_PLACEHOLDER": "Search for a contact with name, email or phone number",
+        "CONTACT_CREATING": "Creating contact..."
+      },
+      "INBOX_SELECTOR": {
+        "LABEL": "Via:",
+        "BUTTON": "Show inboxes"
+      },
+      "EMAIL_OPTIONS": {
+        "SUBJECT_LABEL": "Tárgy :",
+        "SUBJECT_PLACEHOLDER": "Enter your email subject here",
+        "CC_LABEL": "Másolat:",
+        "CC_PLACEHOLDER": "Search for a contact with their email address",
+        "BCC_LABEL": "Titkos másolat:",
+        "BCC_PLACEHOLDER": "Search for a contact with their email address",
+        "BCC_BUTTON": "Titkos másolat"
+      },
+      "MESSAGE_EDITOR": {
+        "PLACEHOLDER": "Írd ide üzeneted..."
+      },
+      "WHATSAPP_OPTIONS": {
+        "LABEL": "Select template",
+        "SEARCH_PLACEHOLDER": "Search templates",
+        "EMPTY_STATE": "No templates found",
+        "TEMPLATE_PARSER": {
+          "TEMPLATE_NAME": "WhatsApp template: {templateName}",
+          "VARIABLES": "Változók",
+          "BACK": "Visszaugrás",
+          "SEND_MESSAGE": "Üzenet elküldése"
+        }
+      },
+      "TWILIO_OPTIONS": {
+        "LABEL": "Select template",
+        "SEARCH_PLACEHOLDER": "Search templates",
+        "EMPTY_STATE": "No templates found",
+        "TEMPLATE_PARSER": {
+          "BACK": "Visszaugrás",
+          "SEND_MESSAGE": "Üzenet elküldése"
+        }
+      },
+      "ACTION_BUTTONS": {
+        "DISCARD": "Discard",
+        "SEND": "Send ({keyCode})"
+      }
+    }
+  }
+}

@@ -1,0 +1,85 @@
+{
+  "LABEL_MGMT": {
+    "HEADER": "Etichette",
+    "HEADER_BTN_TXT": "Aggiungi etichetta",
+    "LOADING": "Recupero etichette",
+    "DESCRIPTION": "Le etichette aiutano a categorizzare e dare priorità alle conversazioni e ai lead. È possibile assegnare un'etichetta a una conversazione o a un contatto utilizzando il pannello laterale.",
+    "LEARN_MORE": "Maggiori informazioni sulle etichette",
+    "SEARCH_404": "Non ci sono elementi che corrispondono a questa richiesta",
+    "LIST": {
+      "404": "Non ci sono etichette disponibili in questo account.",
+      "TITLE": "Gestisci etichette",
+      "DESC": "Le etichette consentono di raggruppare le conversazioni insieme.",
+      "TABLE_HEADER": {
+        "NAME": "Nome",
+        "DESCRIPTION": "Descrizione",
+        "COLOR": "Colore"
+      }
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "Nome Etichetta",
+        "PLACEHOLDER": "Nome etichetta",
+        "REQUIRED_ERROR": "Nome etichetta obbligatorio",
+        "MINIMUM_LENGTH_ERROR": "È richiesta una lunghezza minima di 2",
+        "VALID_ERROR": "Sono ammessi solo lettere, numeri, trattino e underscore"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Descrizione",
+        "PLACEHOLDER": "Descrizione Etichetta"
+      },
+      "COLOR": {
+        "LABEL": "Colore"
+      },
+      "SHOW_ON_SIDEBAR": {
+        "LABEL": "Mostra etichetta nella barra laterale"
+      },
+      "EDIT": "Modifica",
+      "CREATE": "Crea",
+      "DELETE": "Elimina",
+      "CANCEL": "Annulla"
+    },
+    "SUGGESTIONS": {
+      "TOOLTIP": {
+        "SINGLE_SUGGESTION": "Aggiungi etichetta alla conversazione",
+        "MULTIPLE_SUGGESTION": "Seleziona questa etichetta",
+        "DESELECT": "Deseleziona etichetta",
+        "DISMISS": "Ignora suggerimento"
+      },
+      "POWERED_BY": "Chatwoot AI",
+      "DISMISS": "Ignora",
+      "ADD_SELECTED_LABELS": "Aggiungi etichette selezionate",
+      "ADD_SELECTED_LABEL": "Aggiungi etichetta selezionata",
+      "ADD_ALL_LABELS": "Aggiungi tutte le etichette",
+      "SUGGESTED_LABELS": "Etichette suggerite"
+    },
+    "ADD": {
+      "TITLE": "Aggiungi etichetta",
+      "DESC": "Le etichette consentono di raggruppare le conversazioni insieme.",
+      "API": {
+        "SUCCESS_MESSAGE": "Etichetta aggiunta correttamente",
+        "ERROR_MESSAGE": "Si è verificato un errore, riprova"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Modifica etichetta",
+      "API": {
+        "SUCCESS_MESSAGE": "Etichetta aggiornata con successo",
+        "ERROR_MESSAGE": "Si è verificato un errore, riprova"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Elimina",
+      "API": {
+        "SUCCESS_MESSAGE": "Etichetta eliminata con successo",
+        "ERROR_MESSAGE": "Si è verificato un errore, riprova"
+      },
+      "CONFIRM": {
+        "TITLE": "Conferma Eliminazione",
+        "MESSAGE": "Sei sicuro di voler eliminare ",
+        "YES": "Sì, Elimina ",
+        "NO": "No, Mantieni "
+      }
+    }
+  }
+}

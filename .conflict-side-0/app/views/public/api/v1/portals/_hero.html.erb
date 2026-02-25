@@ -1,0 +1,25 @@
+<% if !@is_plain_layout_enabled %>
+<% content_for :head do %>
+  <title><%= @portal.name %></title>
+  <meta name="title" content="<%= @portal.name %>">
+
+  <% if @og_image_url.present? %>
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="og:image" content="<%= @og_image_url.html_safe %>">
+    <meta property="og:image" content="<%= @og_image_url.html_safe %>">
+    <meta name="twitter:image" content="<%= @og_image_url.html_safe %>">
+  <% end %>
+<% end %>
+<section id="portal-bg" class="w-full bg-white dark:bg-slate-900 shadow-inner">
+  <div id="portal-bg-gradient" class="pt-8 pb-8 md:pt-14 md:pb-6 min-h-[240px] md:min-h-[260px]">
+    <div class="mx-auto max-w-5xl px-4 md:px-8 flex flex-col items-start">
+       <span class="text-sm leading-[24px] font-semibold text-slate-600 dark:text-slate-300 mb-1 <%= @portal.logo.present? ? 'block lg:hidden' : 'hidden' %>"><%= @portal.name %></span>
+      <h1 class="text-2xl md:text-4xl text-slate-900 dark:text-white font-semibold leading-normal">
+        <%= portal.header_text %>
+      </h1>
+      <p class="text-slate-600 dark:text-slate-200 text-start text-lg leading-normal pt-2 pb-4"><%= I18n.t('public_portal.hero.sub_title') %></p>
+      <div id="search-wrap" class="w-full"></div>
+    </div>
+  </div>
+</section>
+<% end %>

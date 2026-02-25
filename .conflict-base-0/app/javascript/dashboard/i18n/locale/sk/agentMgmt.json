@@ -1,0 +1,124 @@
+{
+  "AGENT_MGMT": {
+    "HEADER": "Agenti",
+    "HEADER_BTN_TXT": "Pridať agenta",
+    "LOADING": "Zoznam agentov sa načítava",
+    "DESCRIPTION": "An agent is a member of your customer support team who can view and respond to user messages. The list below shows all the agents in your account.",
+    "LEARN_MORE": "Learn about user roles",
+    "AGENT_TYPES": {
+      "ADMINISTRATOR": "Administrátor",
+      "AGENT": "Agent"
+    },
+    "LIST": {
+      "404": "K tomuto účtu nie sú priradení žiadni agenti",
+      "TITLE": "Spravujte agentov vo svojom tíme",
+      "DESC": "Môžete pridávať/odstraňovať agentov z/do svojho tímu.",
+      "NAME": "Meno",
+      "EMAIL": "EMAIL",
+      "STATUS": "Status",
+      "ACTIONS": "Akcie",
+      "VERIFIED": "Overené",
+      "VERIFICATION_PENDING": "Čaká sa na overenie",
+      "AVAILABLE_CUSTOM_ROLE": "Available custom role permissions"
+    },
+    "ADD": {
+      "TITLE": "Pridať agenta do tímu",
+      "DESC": "Môžete pridať ľudí, ktorí budú môcť poskytovať podporu pre vaše schránky.",
+      "CANCEL_BUTTON_TEXT": "Zrušiť",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Meno agenta",
+          "PLACEHOLDER": "Zadajte meno agenta"
+        },
+        "AGENT_TYPE": {
+          "LABEL": "Agent Type",
+          "PLACEHOLDER": "Please select a type",
+          "ERROR": "Agent type is required"
+        },
+        "EMAIL": {
+          "LABEL": "E-mailová adresa",
+          "PLACEHOLDER": "Zadajte e-mailovú adresu agenta"
+        },
+        "SUBMIT": "Pridať agenta"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Agent bol úspešne pridaný",
+        "EXIST_MESSAGE": "E-mail agenta sa už používa, skúste inú e-mailovú adresu",
+        "ERROR_MESSAGE": "Nepodarilo sa pripojiť k serveru Woot, skúste to prosím neskôr"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Vymazať",
+      "API": {
+        "SUCCESS_MESSAGE": "Agent úspešne odstránený",
+        "ERROR_MESSAGE": "Nepodarilo sa pripojiť k serveru Woot, skúste to prosím neskôr"
+      },
+      "CONFIRM": {
+        "TITLE": "Potvrdiť vymazanie",
+        "MESSAGE": "Určite chcete vymazať ",
+        "YES": "Áno, vymazať ",
+        "NO": "Nie, ponechať "
+      }
+    },
+    "EDIT": {
+      "TITLE": "Upraviť agenta",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Meno agenta",
+          "PLACEHOLDER": "Zadajte meno agenta"
+        },
+        "AGENT_TYPE": {
+          "LABEL": "Agent Type",
+          "PLACEHOLDER": "Please select a type",
+          "ERROR": "Agent type is required"
+        },
+        "EMAIL": {
+          "LABEL": "E-mailová adresa",
+          "PLACEHOLDER": "Zadajte e-mailovú adresu agenta"
+        },
+        "AGENT_AVAILABILITY": {
+          "LABEL": "Dostupnosť",
+          "PLACEHOLDER": "Please select an availability status",
+          "ERROR": "Availability is required"
+        },
+        "SUBMIT": "Upraviť agenta"
+      },
+      "BUTTON_TEXT": "Upraviť",
+      "CANCEL_BUTTON_TEXT": "Zrušiť",
+      "API": {
+        "SUCCESS_MESSAGE": "Agent bol úspešne aktualizovaný",
+        "ERROR_MESSAGE": "Nepodarilo sa pripojiť k serveru Woot, skúste to prosím neskôr"
+      },
+      "PASSWORD_RESET": {
+        "ADMIN_RESET_BUTTON": "Obnoviť heslo",
+        "ADMIN_SUCCESS_MESSAGE": "Agentovi bol odoslaný e-mail s pokynmi na obnovenie hesla",
+        "SUCCESS_MESSAGE": "Heslo agenta bolo úspešne obnovené",
+        "ERROR_MESSAGE": "Nepodarilo sa pripojiť k serveru Woot, skúste to prosím neskôr"
+      }
+    },
+    "SEARCH": {
+      "NO_RESULTS": "Žiadne výsledky neboli nájdené."
+    },
+    "MULTI_SELECTOR": {
+      "PLACEHOLDER": "Žiadne",
+      "TITLE": {
+        "AGENT": "Vybrať agenta",
+        "TEAM": "Vybrať tím"
+      },
+      "LIST": {
+        "NONE": "Žiadne"
+      },
+      "SEARCH": {
+        "NO_RESULTS": {
+          "AGENT": "Žiadni agenti neboli nájdení",
+          "TEAM": "Žiadne tímy neboli nájdené"
+        },
+        "PLACEHOLDER": {
+          "AGENT": "Hľadať agentov",
+          "TEAM": "Hľadať tímy",
+          "INPUT": "Search for agents"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,124 @@
+{
+  "AGENT_MGMT": {
+    "HEADER": "พนักงาน",
+    "HEADER_BTN_TXT": "เพิ่มพนักงาน",
+    "LOADING": "กำลังดึงข้อมูลรายชื่อพนักงาน",
+    "DESCRIPTION": "An agent is a member of your customer support team who can view and respond to user messages. The list below shows all the agents in your account.",
+    "LEARN_MORE": "Learn about user roles",
+    "AGENT_TYPES": {
+      "ADMINISTRATOR": "ผู้ดูเเล",
+      "AGENT": "พนักงาน"
+    },
+    "LIST": {
+      "404": "ไม่มีพนักงานที่เกี่ยวข้องในบัญชีนี้",
+      "TITLE": "จัดการพนักงานในทีมของคุณ",
+      "DESC": "คุณสามารถเพิ่มหรือลบพนักงานเข้าหรือออกทีมของคุณได้",
+      "NAME": "ชื่อ",
+      "EMAIL": "อีเมล์",
+      "STATUS": "สถานะ",
+      "ACTIONS": "การกระทำ",
+      "VERIFIED": "ยืนยันเเล้ว",
+      "VERIFICATION_PENDING": "รอการยืนยัน",
+      "AVAILABLE_CUSTOM_ROLE": "Available custom role permissions"
+    },
+    "ADD": {
+      "TITLE": "เพิ่มพนักงานในทีมของคุณ",
+      "DESC": "คุณสามารถเพิ่มผู้ที่จะสามารถจัดการกล่องจดหมายของคุณได้",
+      "CANCEL_BUTTON_TEXT": "ยกเลิก",
+      "FORM": {
+        "NAME": {
+          "LABEL": "ชื่อพนักงาน",
+          "PLACEHOLDER": "กรุณาระบุชื่อของพนักงาน"
+        },
+        "AGENT_TYPE": {
+          "LABEL": "ประเภทของพนักงาน",
+          "PLACEHOLDER": "กรุณาเลือกประเภท",
+          "ERROR": "ต้องระบุประเภทของพนักงาน"
+        },
+        "EMAIL": {
+          "LABEL": "อีเมล์",
+          "PLACEHOLDER": "กรุณาระบุอีเมล์ของพนักงาน"
+        },
+        "SUBMIT": "เพิ่มพนักงาน"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "เพิ่มพนักงานสำเร็จแล้ว",
+        "EXIST_MESSAGE": "อีเมล์นี้ถูกใช้เเล้วโปรดลองใช้อีเมล์อื่น",
+        "ERROR_MESSAGE": "ไม่สามารถเชื่อมต่อเซิฟเวอร์ได้ โปรดลองอีกครั้งในภายหลัง"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "ลบ",
+      "API": {
+        "SUCCESS_MESSAGE": "ลบพนักงานสำเร็จแล้ว",
+        "ERROR_MESSAGE": "ไม่สามารถเชื่อมต่อเซิฟเวอร์ได้ โปรดลองอีกครั้งในภายหลัง"
+      },
+      "CONFIRM": {
+        "TITLE": "ยืนยันการลบ",
+        "MESSAGE": "คุณต้องการที่จะลบไหม ",
+        "YES": "เอาเลย ",
+        "NO": "ไม่อะเก็บไว้ "
+      }
+    },
+    "EDIT": {
+      "TITLE": "เเก้ไขพนักงาน",
+      "FORM": {
+        "NAME": {
+          "LABEL": "ชื่อพนักงาน",
+          "PLACEHOLDER": "กรุณาระบุชื่อของพนักงาน"
+        },
+        "AGENT_TYPE": {
+          "LABEL": "ประเภทของพนักงาน",
+          "PLACEHOLDER": "กรุณาเลือกประเภท",
+          "ERROR": "ต้องระบุประเภทของพนักงาน"
+        },
+        "EMAIL": {
+          "LABEL": "ที่อยู่อีเมล์",
+          "PLACEHOLDER": "กรุณาระบุที่อยู่อีเมล์ของพนักงาน"
+        },
+        "AGENT_AVAILABILITY": {
+          "LABEL": "สถานะ",
+          "PLACEHOLDER": "Please select an availability status",
+          "ERROR": "Availability is required"
+        },
+        "SUBMIT": "เเก้ไขพนักงาน"
+      },
+      "BUTTON_TEXT": "เเก้ไข",
+      "CANCEL_BUTTON_TEXT": "ยกเลิก",
+      "API": {
+        "SUCCESS_MESSAGE": "อัพเดทพนักงานเสร็จสิ้น",
+        "ERROR_MESSAGE": "ไม่สามารถเชื่อมต่อเซิฟเวอร์ได้โปรดลองอีกครั้งในภายหลัง"
+      },
+      "PASSWORD_RESET": {
+        "ADMIN_RESET_BUTTON": "รีเซ็ตหรัสผ่าน",
+        "ADMIN_SUCCESS_MESSAGE": "อีเมล์เเละวิธีการรีเซ็ตหรัสผ่านได้ส่งไปที่พนักงานเเล้ว",
+        "SUCCESS_MESSAGE": "พนักงานรีเซ็ตหรัสผ่านเเล้ว",
+        "ERROR_MESSAGE": "ไม่สามารถเชื่อมต่อเซิฟเวอร์ได้โปรดลองอีกครั้งในภายหลัง"
+      }
+    },
+    "SEARCH": {
+      "NO_RESULTS": "ไม่พบผลการค้นหา"
+    },
+    "MULTI_SELECTOR": {
+      "PLACEHOLDER": "ไม่มี",
+      "TITLE": {
+        "AGENT": "เลือกพนักงาน",
+        "TEAM": "เลือกทีม"
+      },
+      "LIST": {
+        "NONE": "ไม่มี"
+      },
+      "SEARCH": {
+        "NO_RESULTS": {
+          "AGENT": "ไม่พบพนักงาน",
+          "TEAM": "ไม่พบทีม"
+        },
+        "PLACEHOLDER": {
+          "AGENT": "ค้นหาพนักงาน",
+          "TEAM": "ค้นหาทีม",
+          "INPUT": "Search for agents"
+        }
+      }
+    }
+  }
+}

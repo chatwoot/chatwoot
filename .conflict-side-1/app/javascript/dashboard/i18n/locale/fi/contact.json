@@ -1,0 +1,655 @@
+{
+  "CONTACT_PANEL": {
+    "NOT_AVAILABLE": "Ei saatavilla",
+    "EMAIL_ADDRESS": "Sähköpostiosoite",
+    "PHONE_NUMBER": "Puhelinnumero",
+    "IDENTIFIER": "Identifier",
+    "COPY_SUCCESSFUL": "Kopioitu leikepöydälle onnistuneesti",
+    "COMPANY": "Yritys",
+    "LOCATION": "Sijainti",
+    "BROWSER_LANGUAGE": "Browser Language",
+    "CONVERSATION_TITLE": "Keskustelutiedot",
+    "VIEW_PROFILE": "View Profile",
+    "BROWSER": "Selain",
+    "OS": "Käyttöjärjestelmä",
+    "INITIATED_FROM": "Aloitettu lähteestä",
+    "INITIATED_AT": "Aloitettu lähteestä",
+    "IP_ADDRESS": "IP-osoite",
+    "CREATED_AT_LABEL": "Created",
+    "NEW_MESSAGE": "Uusi viesti",
+    "CALL": "Call",
+    "CALL_INITIATED": "Calling the contact…",
+    "CALL_FAILED": "Unable to start the call. Please try again.",
+    "VOICE_INBOX_PICKER": {
+      "TITLE": "Choose a voice inbox"
+    },
+    "CONVERSATIONS": {
+      "NO_RECORDS_FOUND": "Tähän yhteystietoon ei liity aikaisempia keskusteluja.",
+      "TITLE": "Edelliset keskustelut"
+    },
+    "LABELS": {
+      "CONTACT": {
+        "TITLE": "Contact Labels",
+        "ERROR": "Couldn't update labels"
+      },
+      "CONVERSATION": {
+        "TITLE": "Keskustelutunnisteet",
+        "ADD_BUTTON": "Add Labels"
+      },
+      "LABEL_SELECT": {
+        "TITLE": "Add Labels",
+        "PLACEHOLDER": "Search labels",
+        "NO_RESULT": "No labels found",
+        "CREATE_LABEL": "Create new label"
+      }
+    },
+    "MERGE_CONTACT": "Yhdistä yhteystieto",
+    "CONTACT_ACTIONS": "Contact actions",
+    "MUTE_CONTACT": "Block Contact",
+    "UNMUTE_CONTACT": "Unblock Contact",
+    "MUTED_SUCCESS": "This contact is blocked successfully. You will not be notified of any future conversations.",
+    "UNMUTED_SUCCESS": "This contact is unblocked successfully.",
+    "SEND_TRANSCRIPT": "Lähetä keskustelu",
+    "EDIT_LABEL": "Muokkaa",
+    "SIDEBAR_SECTIONS": {
+      "CUSTOM_ATTRIBUTES": "Mukautetut attribuutit",
+      "CONTACT_LABELS": "Contact Labels",
+      "PREVIOUS_CONVERSATIONS": "Edelliset keskustelut",
+      "NO_RECORDS_FOUND": "Määritteitä ei löytynyt"
+    }
+  },
+  "EDIT_CONTACT": {
+    "BUTTON_LABEL": "Muokkaa yhteystietoa",
+    "TITLE": "Muokkaa yhteystietoa",
+    "DESC": "Muokkaa yhteystietoja"
+  },
+  "DELETE_CONTACT": {
+    "BUTTON_LABEL": "Poista Yhteystieto",
+    "TITLE": "Poista yhteystieto",
+    "DESC": "Poista kontaktin tiedot",
+    "CONFIRM": {
+      "TITLE": "Vahvista poistaminen",
+      "MESSAGE": "Oletko varma että haluat poistaa ",
+      "YES": "Kyllä, poista",
+      "NO": "Ei, säilytä"
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Yhteystiedon poistaminen onnistui",
+      "ERROR_MESSAGE": "Could not delete contact. Please try again later."
+    }
+  },
+  "CONTACT_FORM": {
+    "FORM": {
+      "SUBMIT": "Lähetä",
+      "CANCEL": "Peruuta",
+      "AVATAR": {
+        "LABEL": "Yhteystiedon profiilikuva"
+      },
+      "NAME": {
+        "PLACEHOLDER": "Syötä yhteystiedon koko nimi",
+        "LABEL": "Koko nimi"
+      },
+      "BIO": {
+        "PLACEHOLDER": "Kirjoita yhteystiedon kuvaus",
+        "LABEL": "Kuvaus"
+      },
+      "EMAIL_ADDRESS": {
+        "PLACEHOLDER": "Anna yhteyshenkilön sähköpostiosoite",
+        "LABEL": "Sähköpostiosoite",
+        "DUPLICATE": "Tämä sähköpostiosoite on käytössä toiselle yhteyshenkilölle.",
+        "ERROR": "Ole hyvä ja syötä validi sähköposti."
+      },
+      "PHONE_NUMBER": {
+        "PLACEHOLDER": "Anna yhteystiedon puhelinnumero",
+        "LABEL": "Puhelinnumero",
+        "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]",
+        "ERROR": "Phone number should be either empty or of E.164 format",
+        "DIAL_CODE_ERROR": "Please select a dial code from the list",
+        "DUPLICATE": "This phone number is in use for another contact."
+      },
+      "LOCATION": {
+        "PLACEHOLDER": "Anna yhteystiedon sijainti",
+        "LABEL": "Sijainti"
+      },
+      "COMPANY_NAME": {
+        "PLACEHOLDER": "Anna yrityksen nimi",
+        "LABEL": "Yrityksen nimi"
+      },
+      "COUNTRY": {
+        "PLACEHOLDER": "Enter the country name",
+        "LABEL": "Country Name",
+        "SELECT_PLACEHOLDER": "Select",
+        "REMOVE": "Poista",
+        "SELECT_COUNTRY": "Select Country"
+      },
+      "CITY": {
+        "PLACEHOLDER": "Enter the city name",
+        "LABEL": "City Name"
+      },
+      "SOCIAL_PROFILES": {
+        "FACEBOOK": {
+          "PLACEHOLDER": "Syötä Facebookin käyttäjätunnus",
+          "LABEL": "Facebook"
+        },
+        "TWITTER": {
+          "PLACEHOLDER": "Syötä Twitterin käyttäjätunnus",
+          "LABEL": "Twitter"
+        },
+        "LINKEDIN": {
+          "PLACEHOLDER": "Syötä LinkedIn-käyttäjänimi",
+          "LABEL": "LinkedIn"
+        },
+        "GITHUB": {
+          "PLACEHOLDER": "Syötä Github-käyttäjänimi",
+          "LABEL": "Github"
+        }
+      }
+    },
+    "DELETE_AVATAR": {
+      "API": {
+        "SUCCESS_MESSAGE": "Yhteystiedon avatarin poisto onnistui",
+        "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later."
+      }
+    },
+    "SUCCESS_MESSAGE": "Kontakti tallennettu onnistuneesti",
+    "ERROR_MESSAGE": "Tapahtui virhe, yritä uudelleen"
+  },
+  "NEW_CONVERSATION": {
+    "BUTTON_LABEL": "Aloita keskustelu",
+    "TITLE": "Uusi keskustelu",
+    "DESC": "Aloita uusi keskustelu lähettämällä uusi viesti.",
+    "NO_INBOX": "Couldn't find an inbox to initiate a new conversation with this contact.",
+    "FORM": {
+      "TO": {
+        "LABEL": "To"
+      },
+      "INBOX": {
+        "LABEL": "Inbox",
+        "PLACEHOLDER": "Choose source inbox",
+        "ERROR": "Select an inbox"
+      },
+      "SUBJECT": {
+        "LABEL": "Subject",
+        "PLACEHOLDER": "Subject",
+        "ERROR": "Subject can't be empty"
+      },
+      "MESSAGE": {
+        "LABEL": "Viesti",
+        "PLACEHOLDER": "Write your message here",
+        "ERROR": "Message can't be empty"
+      },
+      "ATTACHMENTS": {
+        "SELECT": "Choose files",
+        "HELP_TEXT": "Drag and drop files here or choose files to attach"
+      },
+      "SUBMIT": "Lähetä viesti",
+      "CANCEL": "Peruuta",
+      "SUCCESS_MESSAGE": "Message sent!",
+      "GO_TO_CONVERSATION": "Näytä",
+      "ERROR_MESSAGE": "Ei voitu lähettää! Yritä uudelleen"
+    }
+  },
+  "CONTACTS_PAGE": {
+    "LIST": {
+      "TABLE_HEADER": {
+        "SOCIAL_PROFILES": "Social Profiles"
+      }
+    }
+  },
+  "CUSTOM_ATTRIBUTES": {
+    "BUTTON": "Add custom attribute",
+    "COPY_SUCCESSFUL": "Kopioitu leikepöydälle onnistuneesti",
+    "SHOW_MORE": "Show all attributes",
+    "SHOW_LESS": "Show less attributes",
+    "ACTIONS": {
+      "COPY": "Copy attribute",
+      "DELETE": "Delete attribute",
+      "EDIT": "Edit attribute"
+    },
+    "ADD": {
+      "TITLE": "Create custom attribute",
+      "DESC": "Add custom information to this contact."
+    },
+    "FORM": {
+      "CREATE": "Lisää määrite",
+      "CANCEL": "Peruuta",
+      "NAME": {
+        "LABEL": "Custom attribute name",
+        "PLACEHOLDER": "Eg: shopify id",
+        "ERROR": "Invalid custom attribute name"
+      },
+      "VALUE": {
+        "LABEL": "Attribute value",
+        "PLACEHOLDER": "Esim: 11901 "
+      },
+      "ADD": {
+        "TITLE": "Luo uusi määrite ",
+        "SUCCESS": "Attribuutin lisäys onnistui",
+        "ERROR": "Attribuuttia ei voitu lisätä. Yritä myöhemmin uudelleen"
+      },
+      "UPDATE": {
+        "SUCCESS": "Tunniste päivitetty onnistuneesti",
+        "ERROR": "Attribuuttia ei voida päivittää. Yritä myöhemmin uudelleen"
+      },
+      "DELETE": {
+        "SUCCESS": "Attribuutin poisto onnistui",
+        "ERROR": "Attribuuttia ei voida poistaa. Yritä uudelleen myöhemmin"
+      },
+      "ATTRIBUTE_SELECT": {
+        "TITLE": "Lisää määritteitä",
+        "PLACEHOLDER": "Etsi määritteitä",
+        "NO_RESULT": "Määritteitä ei löytynyt"
+      },
+      "ATTRIBUTE_TYPE": {
+        "LIST": {
+          "PLACEHOLDER": "Valitse arvo",
+          "SEARCH_INPUT_PLACEHOLDER": "Etsi arvo",
+          "NO_RESULT": "Tuloksia ei löytynyt"
+        }
+      }
+    },
+    "VALIDATIONS": {
+      "REQUIRED": "Kelvollinen arvo vaaditaan",
+      "INVALID_URL": "Virheellinen URL",
+      "INVALID_INPUT": "Invalid Input"
+    }
+  },
+  "MERGE_CONTACTS": {
+    "TITLE": "Yhdistä yhteystiedot",
+    "DESCRIPTION": "Yhdistämällä yhteystiedot voit muuntaa kaksi profiilia yhdeksi, mukaan lukien kaikki määritteet ja keskustelut. Ristiriitatilanteessa ensisijaisen yhteyshenkilön määritteet ovat ensisijaisia.",
+    "PRIMARY": {
+      "TITLE": "Ensisijainen kontakti",
+      "HELP_LABEL": "Poistetaan"
+    },
+    "PARENT": {
+      "TITLE": "Yhdistettävä yhteystieto",
+      "PLACEHOLDER": "Etsi yhteystietoa",
+      "HELP_LABEL": "Säilytetään"
+    },
+    "SUMMARY": {
+      "TITLE": "Yhteenveto",
+      "DELETE_WARNING": "Contact of <strong>{primaryContactName}</strong> will be deleted.",
+      "ATTRIBUTE_WARNING": "Contact details of <strong>{primaryContactName}</strong> will be copied to <strong>{parentContactName}</strong>."
+    },
+    "SEARCH": {
+      "ERROR_MESSAGE": "Something went wrong. Please try again later."
+    },
+    "FORM": {
+      "SUBMIT": " Yhdistä yhteystiedot",
+      "CANCEL": "Peruuta",
+      "CHILD_CONTACT": {
+        "ERROR": "Select a child contact to merge"
+      },
+      "SUCCESS_MESSAGE": "Contact merged successfully",
+      "ERROR_MESSAGE": "Could not merge contacts, try again!"
+    },
+    "DROPDOWN_ITEM": {
+      "ID": "(ID: {identifier})"
+    }
+  },
+  "CONTACTS_LAYOUT": {
+    "HEADER": {
+      "TITLE": "Yhteystiedot",
+      "SEARCH_TITLE": "Search contacts",
+      "ACTIVE_TITLE": "Active contacts",
+      "SEARCH_PLACEHOLDER": "Search...",
+      "MESSAGE_BUTTON": "Viesti",
+      "SEND_MESSAGE": "Lähetä viesti",
+      "BLOCK_CONTACT": "Block contact",
+      "UNBLOCK_CONTACT": "Unblock contact",
+      "BREADCRUMB": {
+        "CONTACTS": "Yhteystiedot"
+      },
+      "ACTIONS": {
+        "CONTACT_CREATION": {
+          "ADD_CONTACT": "Add contact",
+          "EXPORT_CONTACT": "Export contacts",
+          "IMPORT_CONTACT": "Import contacts",
+          "SAVE_CONTACT": "Save contact",
+          "EMAIL_ADDRESS_DUPLICATE": "Tämä sähköpostiosoite on käytössä toiselle yhteyshenkilölle.",
+          "PHONE_NUMBER_DUPLICATE": "This phone number is in use for another contact.",
+          "SUCCESS_MESSAGE": "Kontakti tallennettu onnistuneesti",
+          "ERROR_MESSAGE": "Unable to save contact. Please try again later."
+        },
+        "BLOCK_SUCCESS_MESSAGE": "This contact is blocked successfully",
+        "BLOCK_ERROR_MESSAGE": "Unable to block contact. Please try again later.",
+        "UNBLOCK_SUCCESS_MESSAGE": "This contact is unblocked successfully",
+        "UNBLOCK_ERROR_MESSAGE": "Unable to unblock contact. Please try again later.",
+        "IMPORT_CONTACT": {
+          "TITLE": "Import contacts",
+          "DESCRIPTION": "Import contacts through a CSV file.",
+          "DOWNLOAD_LABEL": "Download a sample csv.",
+          "LABEL": "CSV File:",
+          "CHOOSE_FILE": "Choose file",
+          "CHANGE": "Vaihda",
+          "CANCEL": "Peruuta",
+          "IMPORT": "Import",
+          "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
+          "ERROR_MESSAGE": "Tapahtui virhe, yritä uudelleen"
+        },
+        "EXPORT_CONTACT": {
+          "TITLE": "Export contacts",
+          "DESCRIPTION": "Quickly export a csv file with comprehensive details of your contacts",
+          "CONFIRM": "Export",
+          "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
+          "ERROR_MESSAGE": "Tapahtui virhe, yritä uudelleen"
+        },
+        "SORT_BY": {
+          "LABEL": "Sort by",
+          "OPTIONS": {
+            "NAME": "Nimi",
+            "EMAIL": "Sähköposti",
+            "PHONE_NUMBER": "Puhelinnumero",
+            "COMPANY": "Yritys",
+            "COUNTRY": "Country",
+            "CITY": "City",
+            "LAST_ACTIVITY": "Last activity",
+            "CREATED_AT": "Created at"
+          }
+        },
+        "ORDER": {
+          "LABEL": "Ordering",
+          "OPTIONS": {
+            "ASCENDING": "Ascending",
+            "DESCENDING": "Descending"
+          }
+        },
+        "FILTERS": {
+          "CREATE_SEGMENT": {
+            "TITLE": "Do you want to save this filter?",
+            "CONFIRM": "Save filter",
+            "LABEL": "Nimi",
+            "PLACEHOLDER": "Enter the name of the filter",
+            "ERROR": "Enter a valid name",
+            "SUCCESS_MESSAGE": "Filter saved successfully",
+            "ERROR_MESSAGE": "Unable to save filter. Please try again later."
+          },
+          "DELETE_SEGMENT": {
+            "TITLE": "Vahvista poistaminen",
+            "DESCRIPTION": "Are you sure you want to delete this filter?",
+            "CONFIRM": "Kyllä, poista",
+            "CANCEL": "No, Cancel",
+            "SUCCESS_MESSAGE": "Filter deleted successfully",
+            "ERROR_MESSAGE": "Unable to delete filter. Please try again later."
+          }
+        }
+      }
+    },
+    "PAGINATION_FOOTER": {
+      "SHOWING": "Showing {startItem} - {endItem} of {totalItems} contacts"
+    },
+    "FILTER": {
+      "NAME": "Nimi",
+      "EMAIL": "Sähköposti",
+      "PHONE_NUMBER": "Puhelinnumero",
+      "IDENTIFIER": "Identifier",
+      "COUNTRY": "Country",
+      "CITY": "City",
+      "CREATED_AT": "Created at",
+      "LAST_ACTIVITY": "Last activity",
+      "REFERER_LINK": "Referer link",
+      "BLOCKED": "Blocked",
+      "BLOCKED_TRUE": "True",
+      "BLOCKED_FALSE": "False",
+      "BUTTONS": {
+        "CLEAR_FILTERS": "Clear filters",
+        "UPDATE_SEGMENT": "Update segment",
+        "APPLY_FILTERS": "Apply filters",
+        "ADD_FILTER": "Add filter"
+      },
+      "TITLE": "Filter contacts",
+      "EDIT_SEGMENT": "Edit segment",
+      "SEGMENT": {
+        "LABEL": "Segment name",
+        "INPUT_PLACEHOLDER": "Enter the name of the segment"
+      },
+      "ACTIVE_FILTERS": {
+        "MORE_FILTERS": "+ {count} more filters",
+        "CLEAR_FILTERS": "Clear filters"
+      }
+    },
+    "CARD": {
+      "OF": "of",
+      "VIEW_DETAILS": "View details",
+      "EDIT_DETAILS_FORM": {
+        "TITLE": "Muokkaa yhteystietoja",
+        "FORM": {
+          "FIRST_NAME": {
+            "PLACEHOLDER": "Enter the first name"
+          },
+          "LAST_NAME": {
+            "PLACEHOLDER": "Enter the last name"
+          },
+          "EMAIL_ADDRESS": {
+            "PLACEHOLDER": "Enter the email address",
+            "DUPLICATE": "Tämä sähköpostiosoite on käytössä toiselle yhteyshenkilölle."
+          },
+          "PHONE_NUMBER": {
+            "PLACEHOLDER": "Enter the phone number",
+            "DUPLICATE": "This phone number is in use for another contact."
+          },
+          "CITY": {
+            "PLACEHOLDER": "Enter the city name"
+          },
+          "COUNTRY": {
+            "PLACEHOLDER": "Select country"
+          },
+          "BIO": {
+            "PLACEHOLDER": "Enter the bio"
+          },
+          "COMPANY_NAME": {
+            "PLACEHOLDER": "Anna yrityksen nimi"
+          }
+        },
+        "UPDATE_BUTTON": "Update contact",
+        "SUCCESS_MESSAGE": "Contact updated successfully",
+        "ERROR_MESSAGE": "Unable to update contact. Please try again later."
+      },
+      "SOCIAL_MEDIA": {
+        "TITLE": "Edit social links",
+        "FORM": {
+          "FACEBOOK": {
+            "PLACEHOLDER": "Add Facebook"
+          },
+          "GITHUB": {
+            "PLACEHOLDER": "Add Github"
+          },
+          "INSTAGRAM": {
+            "PLACEHOLDER": "Add Instagram"
+          },
+          "TIKTOK": {
+            "PLACEHOLDER": "Add TikTok"
+          },
+          "LINKEDIN": {
+            "PLACEHOLDER": "Add LinkedIn"
+          },
+          "TWITTER": {
+            "PLACEHOLDER": "Add Twitter"
+          }
+        }
+      },
+      "DELETE_CONTACT": {
+        "MESSAGE": "This action is permanent and irreversible.",
+        "BUTTON": "Delete now"
+      }
+    },
+    "DETAILS": {
+      "CREATED_AT": "Created {date}",
+      "LAST_ACTIVITY": "Last active {date}",
+      "DELETE_CONTACT_DESCRIPTION": "Permanently delete this contact. This action is irreversible",
+      "DELETE_CONTACT": "Poista yhteystieto",
+      "DELETE_DIALOG": {
+        "TITLE": "Vahvista poistaminen",
+        "DESCRIPTION": "Are you sure you want to delete this contact?",
+        "CONFIRM": "Kyllä, poista",
+        "API": {
+          "SUCCESS_MESSAGE": "Yhteystiedon poistaminen onnistui",
+          "ERROR_MESSAGE": "Could not delete contact. Please try again later."
+        }
+      },
+      "AVATAR": {
+        "UPLOAD": {
+          "ERROR_MESSAGE": "Could not upload avatar. Please try again later.",
+          "SUCCESS_MESSAGE": "Avatar uploaded successfully"
+        },
+        "DELETE": {
+          "SUCCESS_MESSAGE": "Avatar deleted successfully",
+          "ERROR_MESSAGE": "Could not delete avatar. Please try again later."
+        }
+      }
+    },
+    "SIDEBAR": {
+      "TABS": {
+        "ATTRIBUTES": "Attributes",
+        "HISTORY": "History",
+        "NOTES": "Notes",
+        "MERGE": "Merge"
+      },
+      "HISTORY": {
+        "EMPTY_STATE": "Tähän yhteystietoon ei liity aikaisempia keskusteluja"
+      },
+      "ATTRIBUTES": {
+        "SEARCH_PLACEHOLDER": "Search for attributes",
+        "UNUSED_ATTRIBUTES": "{count} Used attribute | {count} Unused attributes",
+        "EMPTY_STATE": "There are no contact custom attributes available in this account. You can create a custom attribute in settings.",
+        "YES": "Yes",
+        "NO": "No",
+        "TRIGGER": {
+          "SELECT": "Valitse arvo",
+          "INPUT": "Enter value"
+        },
+        "VALIDATIONS": {
+          "INVALID_NUMBER": "Invalid number",
+          "REQUIRED": "Kelvollinen arvo vaaditaan",
+          "INVALID_INPUT": "Invalid input",
+          "INVALID_URL": "Virheellinen URL",
+          "INVALID_DATE": "Invalid date"
+        },
+        "NO_ATTRIBUTES": "Määritteitä ei löytynyt",
+        "API": {
+          "SUCCESS_MESSAGE": "Tunniste päivitetty onnistuneesti",
+          "DELETE_SUCCESS_MESSAGE": "Attribuutin poisto onnistui",
+          "UPDATE_ERROR": "Attribuuttia ei voida päivittää. Yritä myöhemmin uudelleen",
+          "DELETE_ERROR": "Attribuuttia ei voida poistaa. Yritä uudelleen myöhemmin"
+        }
+      },
+      "MERGE": {
+        "TITLE": "Yhdistä yhteystieto",
+        "DESCRIPTION": "Combine two profiles into one, including all attributes and conversations. In case of conflict, the primary contact’s attributes will take precedence.",
+        "PRIMARY": "Ensisijainen kontakti",
+        "PRIMARY_HELP_LABEL": "To be saved",
+        "PRIMARY_REQUIRED_ERROR": "Please select a contact to merge with before proceeding",
+        "PARENT": "To be merged",
+        "PARENT_HELP_LABEL": "Poistetaan",
+        "EMPTY_STATE": "No contacts found",
+        "PLACEHOLDER": "Search for primary contact",
+        "SEARCH_PLACEHOLDER": "Etsi yhteystietoa",
+        "SEARCH_ERROR_MESSAGE": "Could not search for contacts. Please try again later.",
+        "SUCCESS_MESSAGE": "Contact merged successfully",
+        "ERROR_MESSAGE": "Could not merge contacts, try again!",
+        "IS_SEARCHING": "Searching...",
+        "BUTTONS": {
+          "CANCEL": "Peruuta",
+          "CONFIRM": "Yhdistä yhteystieto"
+        }
+      },
+      "NOTES": {
+        "PLACEHOLDER": "Add a note",
+        "WROTE": "wrote",
+        "YOU": "Sinä",
+        "SAVE": "Save note",
+        "ADD_NOTE": "Add contact note",
+        "EXPAND": "Expand",
+        "COLLAPSE": "Collapse",
+        "NO_NOTES": "No notes, you can add notes from the contact details page.",
+        "EMPTY_STATE": "There are no notes associated to this contact. You can add a note by typing in the box above.",
+        "CONVERSATION_EMPTY_STATE": "There are no notes yet. Use the Add note button to create one."
+      }
+    },
+    "EMPTY_STATE": {
+      "TITLE": "No contacts found in this account",
+      "SUBTITLE": "Start adding new contacts by clicking on the button below",
+      "BUTTON_LABEL": "Add contact",
+      "SEARCH_EMPTY_STATE_TITLE": "Ei hakua vastaavia yhteystietoja 🔍",
+      "LIST_EMPTY_STATE_TITLE": "No contacts available in this view 📋",
+      "ACTIVE_EMPTY_STATE_TITLE": "No contacts are active at the moment 🌙"
+    }
+  },
+  "CONTACTS_BULK_ACTIONS": {
+    "ASSIGN_LABELS": "Assign Labels",
+    "ASSIGN_LABELS_SUCCESS": "Labels assigned successfully.",
+    "ASSIGN_LABELS_FAILED": "Failed to assign labels",
+    "DESCRIPTION": "Select the labels you want to add to the selected contacts.",
+    "NO_LABELS_FOUND": "No labels available yet.",
+    "SELECTED_COUNT": "{count} selected",
+    "CLEAR_SELECTION": "Clear selection",
+    "SELECT_ALL": "Select all ({count})",
+    "DELETE_CONTACTS": "Poista",
+    "DELETE_SUCCESS": "Contacts deleted successfully.",
+    "DELETE_FAILED": "Failed to delete contacts.",
+    "DELETE_DIALOG": {
+      "TITLE": "Delete selected contacts",
+      "SINGULAR_TITLE": "Delete selected contact",
+      "DESCRIPTION": "This will permanently delete {count} selected contacts. This action cannot be undone.",
+      "SINGULAR_DESCRIPTION": "This will permanently delete the selected contact. This action cannot be undone.",
+      "CONFIRM_MULTIPLE": "Delete contacts",
+      "CONFIRM_SINGLE": "Poista yhteystieto"
+    }
+  },
+  "COMPOSE_NEW_CONVERSATION": {
+    "CONTACT_SEARCH": {
+      "ERROR_MESSAGE": "We couldn’t complete the search. Please try again."
+    },
+    "FORM": {
+      "GO_TO_CONVERSATION": "Näytä",
+      "SUCCESS_MESSAGE": "The message was sent successfully!",
+      "ERROR_MESSAGE": "An error occurred while creating the conversation. Please try again later.",
+      "NO_INBOX_ALERT": "There are no available inboxes to start a conversation with this contact.",
+      "CONTACT_SELECTOR": {
+        "LABEL": "To:",
+        "TAG_INPUT_PLACEHOLDER": "Search for a contact with name, email or phone number",
+        "CONTACT_CREATING": "Creating contact..."
+      },
+      "INBOX_SELECTOR": {
+        "LABEL": "Via:",
+        "BUTTON": "Show inboxes"
+      },
+      "EMAIL_OPTIONS": {
+        "SUBJECT_LABEL": "Subject :",
+        "SUBJECT_PLACEHOLDER": "Enter your email subject here",
+        "CC_LABEL": "Cc:",
+        "CC_PLACEHOLDER": "Search for a contact with their email address",
+        "BCC_LABEL": "Bcc:",
+        "BCC_PLACEHOLDER": "Search for a contact with their email address",
+        "BCC_BUTTON": "Bcc"
+      },
+      "MESSAGE_EDITOR": {
+        "PLACEHOLDER": "Write your message here..."
+      },
+      "WHATSAPP_OPTIONS": {
+        "LABEL": "Select template",
+        "SEARCH_PLACEHOLDER": "Search templates",
+        "EMPTY_STATE": "No templates found",
+        "TEMPLATE_PARSER": {
+          "TEMPLATE_NAME": "WhatsApp template: {templateName}",
+          "VARIABLES": "Muuttujat",
+          "BACK": "Mene takaisin",
+          "SEND_MESSAGE": "Lähetä viesti"
+        }
+      },
+      "TWILIO_OPTIONS": {
+        "LABEL": "Select template",
+        "SEARCH_PLACEHOLDER": "Search templates",
+        "EMPTY_STATE": "No templates found",
+        "TEMPLATE_PARSER": {
+          "BACK": "Mene takaisin",
+          "SEND_MESSAGE": "Lähetä viesti"
+        }
+      },
+      "ACTION_BUTTONS": {
+        "DISCARD": "Discard",
+        "SEND": "Send ({keyCode})"
+      }
+    }
+  }
+}

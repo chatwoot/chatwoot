@@ -1,0 +1,68 @@
+{
+  "SEARCH": {
+    "TABS": {
+      "ALL": "All results",
+      "CONTACTS": "Kontaktai",
+      "CONVERSATIONS": "Pokalbiai",
+      "MESSAGES": "Pranešimai",
+      "ARTICLES": "Articles"
+    },
+    "SECTION": {
+      "CONTACTS": "Kontaktai",
+      "CONVERSATIONS": "Pokalbiai",
+      "MESSAGES": "Pranešimai",
+      "ARTICLES": "Articles"
+    },
+    "VIEW_MORE": "View more",
+    "LOAD_MORE": "Load more",
+    "SEARCHING_DATA": "Ieškoma",
+    "LOADING_DATA": "Loading",
+    "EMPTY_STATE": "Nerasta {item} pagal užklausą '{query}'",
+    "EMPTY_STATE_FULL": "Nerasta rezultatų pagal užklausą '{query}'",
+    "PLACEHOLDER_KEYBINDING": "/sutelkti dėmesį",
+    "INPUT_PLACEHOLDER": "Įveskite 3 ar daugiau smibolius paieškai",
+    "RECENT_SEARCHES": "Recent searches",
+    "CLEAR_ALL": "Clear all",
+    "MOST_RECENT": "Most recent",
+    "EMPTY_STATE_DEFAULT": "Norėdami gauti geresnių paieškos rezultatų, ieškokite pagal pokalbio ID, el. pašto adresą, telefono numerį, žinutes.",
+    "BOT_LABEL": "Botas",
+    "READ_MORE": "Skaityti daugiau",
+    "READ_LESS": "Read less",
+    "WROTE": "parašei:",
+    "FROM": "Nuo",
+    "EMAIL": "El. paštas",
+    "EMAIL_SUBJECT": "Tema",
+    "PRIVATE": "Private note",
+    "TRANSCRIPT": "Transcript",
+    "CREATED_AT": "created {time}",
+    "UPDATED_AT": "updated {time}",
+    "SORT_BY": {
+      "RELEVANCE": "Relevance"
+    },
+    "DATE_RANGE": {
+      "LAST_7_DAYS": "Paskutines 7 dienas",
+      "LAST_30_DAYS": "Paskutines 30 dienų",
+      "LAST_60_DAYS": "Paskutines 60 dienų",
+      "LAST_90_DAYS": "Paskutines 90 dienų",
+      "CUSTOM_RANGE": "Custom range:",
+      "CREATED_BETWEEN": "Created between",
+      "AND": "and",
+      "APPLY": "Taikyti",
+      "BEFORE_DATE": "Before {date}",
+      "AFTER_DATE": "After {date}",
+      "TIME_RANGE": "Filter by time",
+      "CLEAR_FILTER": "Clear filter"
+    },
+    "FILTERS": {
+      "FILTER_MESSAGE": "Filter messages by:",
+      "FROM": "Siuntėjas",
+      "IN": "Gautų laiškų aplankas",
+      "AGENTS": "Agentai",
+      "CONTACTS": "Kontaktai",
+      "INBOXES": "Gautų laiškų aplankai",
+      "NO_AGENTS": "Agentų nerasta",
+      "NO_CONTACTS": "Start by searching to see results",
+      "NO_INBOXES": "No inboxes found"
+    }
+  }
+}

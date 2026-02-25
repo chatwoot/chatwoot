@@ -1,0 +1,184 @@
+{
+  "AUTOMATION": {
+    "HEADER": "Automatizacija",
+    "DESCRIPTION": "Automation can replace and streamline existing processes that require manual effort, such as adding labels and assigning conversations to the most suitable agent. This allows the team to focus on their strengths while reducing time spent on routine tasks.",
+    "LEARN_MORE": "Learn more about automation",
+    "HEADER_BTN_TXT": "Pridėti automatizavimo taisyklę",
+    "LOADING": "Gaunamos automatizavimo taisyklės",
+    "ADD": {
+      "TITLE": "Pridėti automatizavimo taisyklę",
+      "SUBMIT": "Sukurti",
+      "CANCEL_BUTTON_TEXT": "Atšaukti",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Taisyklės pavadinimas",
+          "PLACEHOLDER": "Įvesti taisyklės pavadinimą",
+          "ERROR": "Yra reikalingas vardas"
+        },
+        "DESC": {
+          "LABEL": "Aprašymas",
+          "PLACEHOLDER": "Įveskite taisyklės aprašymą",
+          "ERROR": "Būtinas aprašymas"
+        },
+        "EVENT": {
+          "LABEL": "Įvykis",
+          "PLACEHOLDER": "Prašau pasirinkti vieną",
+          "ERROR": "Reikalingas įvykis"
+        },
+        "CONDITIONS": {
+          "LABEL": "Sąlygos"
+        },
+        "ACTIONS": {
+          "LABEL": "Veiksmai"
+        }
+      },
+      "CONDITION_BUTTON_LABEL": "Pridėti Sąlygas",
+      "ACTION_BUTTON_LABEL": "Pridėti Veiksmą",
+      "API": {
+        "SUCCESS_MESSAGE": "Automatizavimo taisyklė sėkmingai pridėta",
+        "ERROR_MESSAGE": "Nepavyko sukurti automatizavimo taisyklės, bandykite dar kartą vėliau"
+      }
+    },
+    "LIST": {
+      "TABLE_HEADER": {
+        "NAME": "Vardas",
+        "DESCRIPTION": "Aprašymas",
+        "ACTIVE": "Aktyvus",
+        "CREATED_ON": "Sukurta"
+      },
+      "404": "Nerasta jokių automatizavimo taisyklių"
+    },
+    "DELETE": {
+      "TITLE": "Trinti automatizavimo taisyklę",
+      "SUBMIT": "Ištrinti",
+      "CANCEL_BUTTON_TEXT": "Atšaukti",
+      "CONFIRM": {
+        "TITLE": "Patvirtinti Ištrynimą",
+        "MESSAGE": "Ar tikrai norite ištrinti ",
+        "YES": "Taip, Trinti ",
+        "NO": "Ne, Išsaugoti "
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Automatizavimo taisyklė sėkmingai ištrinta",
+        "ERROR_MESSAGE": "Nepavyko ištrinti automatizavimo taisyklės, bandykite dar kartą vėliau"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Taisyti automatizavimo taisyklę",
+      "SUBMIT": "Atnaujinti",
+      "CANCEL_BUTTON_TEXT": "Atšaukti",
+      "API": {
+        "SUCCESS_MESSAGE": "Automatizavimo taisyklė sėkmingai atnaujinta",
+        "ERROR_MESSAGE": "Nepavyko atnaujinti automatizavimo taisyklės, bandykite dar kartą vėliau"
+      }
+    },
+    "CLONE": {
+      "TOOLTIP": "Klonuoti",
+      "API": {
+        "SUCCESS_MESSAGE": "Automatizavimo taisyklė sėkmingai klonuota",
+        "ERROR_MESSAGE": "Nepavyko klonuoti automatizavimo taisyklės, bandykite dar kartą vėliau"
+      }
+    },
+    "FORM": {
+      "EDIT": "Redaguoti",
+      "CREATE": "Sukurti",
+      "DELETE": "Ištrinti",
+      "CANCEL": "Atšaukti",
+      "RESET_MESSAGE": "Pakeitus įvykio tipą bus iš naujo nustatytos sąlygos ir įvykiai, kuriuos pridėjote"
+    },
+    "CONDITION": {
+      "DELETE_MESSAGE": "Norėdami išsaugoti, turite išpildyti bent vieną sąlygą",
+      "CONTACT_CUSTOM_ATTR_LABEL": "Kontakto Personalizuoti Požymiai",
+      "CONVERSATION_CUSTOM_ATTR_LABEL": "Pokalbio Personalizuoti Požymiai"
+    },
+    "ACTION": {
+      "DELETE_MESSAGE": "Norėdami išsaugoti, turite išpildyti bent vieną veiksmą",
+      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Rašykite pranešimą čia",
+      "TEAM_DROPDOWN_PLACEHOLDER": "Pasirinkite komandas",
+      "EMAIL_INPUT_PLACEHOLDER": "Enter email",
+      "URL_INPUT_PLACEHOLDER": "Enter URL"
+    },
+    "TOGGLE": {
+      "ACTIVATION_TITLE": "Aktyvuoti automatizavimo taisyklę",
+      "DEACTIVATION_TITLE": "Išjungti automatizavimo taisyklę",
+      "ACTIVATION_DESCRIPTION": "Šis veiksmas suaktyvins automatizavimo taisyklę „{automationName}“. Ar tikrai norite tęsti?",
+      "DEACTIVATION_DESCRIPTION": "Šis veiksmas išjungs automatizavimo taisyklę „{automationName}“. Ar tikrai norite tęsti?",
+      "ACTIVATION_SUCCESFUL": "Automatizavimo taisyklė sėkmingai aktyvuota",
+      "DEACTIVATION_SUCCESFUL": "Automatizavimo taisyklė sėkmingai išjungta",
+      "ACTIVATION_ERROR": "Nepavyko aktyvuoti automatizavimo taisyklės, bandykite dar kartą vėliau",
+      "DEACTIVATION_ERROR": "Nepavyko išjungti automatizavimo taisyklės, bandykite dar kartą vėliau",
+      "CONFIRMATION_LABEL": "Taip",
+      "CANCEL_LABEL": "Ne"
+    },
+    "ATTACHMENT": {
+      "UPLOAD_ERROR": "Nepavyko įkelti priedo, bandykite dar kartą",
+      "LABEL_IDLE": "Įkelti priedą",
+      "LABEL_UPLOADING": "Įkeliama...",
+      "LABEL_UPLOADED": "Sėkmingai Įkeltas",
+      "LABEL_UPLOAD_FAILED": "Įkelti nepavyko"
+    },
+    "ERRORS": {
+      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
+      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "VALUE_REQUIRED": "Reikalinga vertė",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998",
+      "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
+      "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
+      "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
+    },
+    "NONE_OPTION": "Nėra",
+    "EVENTS": {
+      "CONVERSATION_CREATED": "Pokalbis sukurtas",
+      "CONVERSATION_UPDATED": "Pokalbis atnaujintas",
+      "MESSAGE_CREATED": "Message Created",
+      "CONVERSATION_RESOLVED": "Conversation Resolved",
+      "CONVERSATION_OPENED": "Conversation Opened"
+    },
+    "ACTIONS": {
+      "ASSIGN_AGENT": "Assign to Agent",
+      "ASSIGN_TEAM": "Assign a Team",
+      "ADD_LABEL": "Add a Label",
+      "REMOVE_LABEL": "Remove a Label",
+      "SEND_EMAIL_TO_TEAM": "Send an Email to Team",
+      "SEND_EMAIL_TRANSCRIPT": "Send an Email Transcript",
+      "MUTE_CONVERSATION": "Tildyti pokalbį",
+      "SNOOZE_CONVERSATION": "Atidėti Pokalbį",
+      "RESOLVE_CONVERSATION": "Išspręsti pokalbį",
+      "SEND_WEBHOOK_EVENT": "Send Webhook Event",
+      "SEND_ATTACHMENT": "Send Attachment",
+      "SEND_MESSAGE": "Send a Message",
+      "ADD_PRIVATE_NOTE": "Add a Private Note",
+      "CHANGE_PRIORITY": "Pakeisti Prioritetą",
+      "ADD_SLA": "Add SLA",
+      "OPEN_CONVERSATION": "Atidaryti pokalbį"
+    },
+    "MESSAGE_TYPES": {
+      "INCOMING": "Incoming Message",
+      "OUTGOING": "Outgoing Message"
+    },
+    "PRIORITY_TYPES": {
+      "NONE": "Nėra",
+      "LOW": "Žemas",
+      "MEDIUM": "Vidutinis",
+      "HIGH": "Aukštas",
+      "URGENT": "Skubus"
+    },
+    "ATTRIBUTES": {
+      "MESSAGE_TYPE": "Message Type",
+      "MESSAGE_CONTAINS": "Message Contains",
+      "EMAIL": "El. paštas",
+      "INBOX": "Gautų laiškų aplankas",
+      "CONVERSATION_LANGUAGE": "Conversation Language",
+      "PHONE_NUMBER": "Telefono numeris",
+      "STATUS": "Būsena",
+      "BROWSER_LANGUAGE": "Naršyklės Kalba",
+      "MAIL_SUBJECT": "Email Subject",
+      "COUNTRY_NAME": "Šalis",
+      "REFERER_LINK": "Referrer Link",
+      "ASSIGNEE_NAME": "Assignee",
+      "TEAM_NAME": "Komanda",
+      "PRIORITY": "Prioritetas",
+      "LABELS": "Etiketės"
+    }
+  }
+}

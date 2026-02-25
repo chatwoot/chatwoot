@@ -1,0 +1,23 @@
+tags:
+  - Custom Filters
+operationId: list-all-filters
+summary: List all custom filters
+description: List all custom filters in a category of a user
+security:
+  - userApiKey: []
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          type: array
+          description: 'Array of custom filters'
+          items:
+            $ref: '#/components/schemas/custom_filter'
+  '401':
+    description: Unauthorized
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

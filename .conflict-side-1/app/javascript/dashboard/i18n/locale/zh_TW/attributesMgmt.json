@@ -1,0 +1,138 @@
+{
+  "ATTRIBUTES_MGMT": {
+    "HEADER": "自訂屬性",
+    "HEADER_BTN_TXT": "新增自訂屬性",
+    "LOADING": "正在取得自訂屬性",
+    "DESCRIPTION": "自定義屬性可用於追蹤有關聯絡人或對話的額外詳情，例如訂閱方案或首次購買的日期。您可以添加不同類型的自定義屬性，如文字、清單或數字，以捕捉您所需的特定資訊。",
+    "LEARN_MORE": "Learn more about custom attributes",
+    "ATTRIBUTE_MODELS": {
+      "CONVERSATION": "對話",
+      "CONTACT": "聯絡人"
+    },
+    "ATTRIBUTE_TYPES": {
+      "TEXT": "文字",
+      "NUMBER": "數字",
+      "LINK": "連結",
+      "DATE": "日期",
+      "LIST": "列表",
+      "CHECKBOX": "勾選框"
+    },
+    "ADD": {
+      "TITLE": "新增自訂屬性",
+      "SUBMIT": "建立",
+      "CANCEL_BUTTON_TEXT": "取消",
+      "FORM": {
+        "NAME": {
+          "LABEL": "顯示名稱",
+          "PLACEHOLDER": "Enter custom attribute display name",
+          "ERROR": "名稱為必填"
+        },
+        "DESC": {
+          "LABEL": "描述資訊",
+          "PLACEHOLDER": "Enter custom attribute description",
+          "ERROR": "描述為必填"
+        },
+        "MODEL": {
+          "LABEL": "Applies to",
+          "PLACEHOLDER": "請選擇其中一個",
+          "ERROR": "Model is required"
+        },
+        "TYPE": {
+          "LABEL": "類別",
+          "PLACEHOLDER": "請選擇一個類別",
+          "ERROR": "類別為必填",
+          "LIST": {
+            "LABEL": "List Values",
+            "PLACEHOLDER": "Please enter value and press enter key",
+            "ERROR": "Must have at least one value"
+          }
+        },
+        "KEY": {
+          "LABEL": "Key",
+          "PLACEHOLDER": "Enter custom attribute key",
+          "ERROR": "Key is required",
+          "IN_VALID": "Invalid key"
+        },
+        "REGEX_PATTERN": {
+          "LABEL": "Regex Pattern",
+          "PLACEHOLDER": "Please enter custom attribute regex pattern. (Optional)"
+        },
+        "REGEX_CUE": {
+          "LABEL": "Regex Cue",
+          "PLACEHOLDER": "Please enter regex pattern hint. (Optional)"
+        },
+        "ENABLE_REGEX": {
+          "LABEL": "Enable regex validation"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Custom Attribute added successfully!",
+        "ERROR_MESSAGE": "Could not create a Custom Attribute. Please try again later."
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "刪除",
+      "API": {
+        "SUCCESS_MESSAGE": "Custom Attribute deleted successfully.",
+        "ERROR_MESSAGE": "Couldn't delete the custom attribute. Try again."
+      },
+      "CONFIRM": {
+        "TITLE": "確定要刪除 - {attributeName} ？",
+        "PLACE_HOLDER": "請輸入 {attributeName} 以確認",
+        "MESSAGE": "Deleting will remove the custom attribute",
+        "YES": "刪除 ",
+        "NO": "取消"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Edit Custom Attribute",
+      "UPDATE_BUTTON_TEXT": "更新",
+      "TYPE": {
+        "LIST": {
+          "LABEL": "List Values",
+          "PLACEHOLDER": "Please enter values and press enter key"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Custom Attribute updated successfully",
+        "ERROR_MESSAGE": "There was an error updating custom attribute, please try again"
+      }
+    },
+    "TABS": {
+      "HEADER": "自訂屬性",
+      "CONVERSATION": "對話",
+      "CONTACT": "聯絡人"
+    },
+    "LIST": {
+      "TABLE_HEADER": {
+        "NAME": "姓名",
+        "DESCRIPTION": "描述資訊",
+        "TYPE": "類別",
+        "KEY": "Key"
+      },
+      "BUTTONS": {
+        "EDIT": "編輯",
+        "DELETE": "刪除"
+      },
+      "EMPTY_RESULT": {
+        "404": "There are no custom attributes created",
+        "NOT_FOUND": "There are no custom attributes configured"
+      },
+      "REGEX_PATTERN": {
+        "LABEL": "Regex Pattern",
+        "PLACEHOLDER": "Please enter custom attribute regex pattern. (Optional)"
+      },
+      "REGEX_CUE": {
+        "LABEL": "Regex Cue",
+        "PLACEHOLDER": "Please enter regex pattern hint. (Optional)"
+      },
+      "ENABLE_REGEX": {
+        "LABEL": "Enable regex validation"
+      }
+    },
+    "BADGES": {
+      "PRE_CHAT": "Pre-chat",
+      "RESOLUTION": "Resolution"
+    }
+  }
+}

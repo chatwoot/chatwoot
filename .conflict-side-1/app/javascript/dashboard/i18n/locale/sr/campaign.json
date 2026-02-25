@@ -1,0 +1,214 @@
+{
+  "CAMPAIGN": {
+    "LIVE_CHAT": {
+      "HEADER_TITLE": "Live chat campaigns",
+      "NEW_CAMPAIGN": "Create campaign",
+      "CARD": {
+        "STATUS": {
+          "ENABLED": "Omogućeno",
+          "DISABLED": "Onemogućeno"
+        },
+        "CAMPAIGN_DETAILS": {
+          "SENT_BY": "Poslao",
+          "BOT": "Bot",
+          "FROM": "od",
+          "URL": "Adresa:"
+        }
+      },
+      "EMPTY_STATE": {
+        "TITLE": "No live chat campaigns are available",
+        "SUBTITLE": "Connect with your customers using proactive messages.  Click 'Create campaign' to get started."
+      },
+      "CREATE": {
+        "TITLE": "Create a live chat campaign",
+        "CANCEL_BUTTON_TEXT": "Otkaži",
+        "CREATE_BUTTON_TEXT": "Napravi",
+        "FORM": {
+          "TITLE": {
+            "LABEL": "Naslov",
+            "PLACEHOLDER": "Molim vas unesite naslov kampanje",
+            "ERROR": "Naslov je obavezan"
+          },
+          "MESSAGE": {
+            "LABEL": "Poruka",
+            "PLACEHOLDER": "Molim vas unesite poruku kampanje",
+            "ERROR": "Poruka je obavezna"
+          },
+          "INBOX": {
+            "LABEL": "Izaberi prijemno sanduče",
+            "PLACEHOLDER": "Izaberi prijemno sanduče",
+            "ERROR": "Prijemno sanduče je obavezno"
+          },
+          "SENT_BY": {
+            "LABEL": "Poslao",
+            "PLACEHOLDER": "Please select sender",
+            "ERROR": "Pošiljalac je obavezan"
+          },
+          "END_POINT": {
+            "LABEL": "Adresa",
+            "PLACEHOLDER": "Molim vas unesite adresu",
+            "ERROR": "Molim vas unesite ispravnu adresu"
+          },
+          "TIME_ON_PAGE": {
+            "LABEL": "Vreme na stranici(sekunde)",
+            "PLACEHOLDER": "Molim vas unesite vreme",
+            "ERROR": "Vreme na stranici je obavezno"
+          },
+          "OTHER_PREFERENCES": {
+            "TITLE": "Other preferences",
+            "ENABLED": "Omogući kampanju",
+            "TRIGGER_ONLY_BUSINESS_HOURS": "Aktiviraj samo tokom radnog vremena"
+          },
+          "BUTTONS": {
+            "CREATE": "Napravi",
+            "CANCEL": "Otkaži"
+          },
+          "API": {
+            "SUCCESS_MESSAGE": "Live chat campaign created successfully",
+            "ERROR_MESSAGE": "Pojavila se greška. Molim vas pokušajte ponovo."
+          }
+        }
+      },
+      "EDIT": {
+        "TITLE": "Edit live chat campaign",
+        "FORM": {
+          "API": {
+            "SUCCESS_MESSAGE": "Live chat campaign updated successfully",
+            "ERROR_MESSAGE": "Pojavila se greška. Molim vas pokušajte ponovo."
+          }
+        }
+      }
+    },
+    "SMS": {
+      "HEADER_TITLE": "SMS campaigns",
+      "NEW_CAMPAIGN": "Create campaign",
+      "EMPTY_STATE": {
+        "TITLE": "No SMS campaigns are available",
+        "SUBTITLE": "Launch an SMS campaign to reach your customers directly. Send offers or make announcements with ease. Click 'Create campaign' to get started."
+      },
+      "CARD": {
+        "STATUS": {
+          "COMPLETED": "Završeno",
+          "SCHEDULED": "Scheduled"
+        },
+        "CAMPAIGN_DETAILS": {
+          "SENT_FROM": "Sent from",
+          "ON": "on"
+        }
+      },
+      "CREATE": {
+        "TITLE": "Create SMS campaign",
+        "CANCEL_BUTTON_TEXT": "Otkaži",
+        "CREATE_BUTTON_TEXT": "Napravi",
+        "FORM": {
+          "TITLE": {
+            "LABEL": "Naslov",
+            "PLACEHOLDER": "Molim vas unesite naslov kampanje",
+            "ERROR": "Naslov je obavezan"
+          },
+          "MESSAGE": {
+            "LABEL": "Poruka",
+            "PLACEHOLDER": "Molim vas unesite poruku kampanje",
+            "ERROR": "Poruka je obavezna"
+          },
+          "INBOX": {
+            "LABEL": "Izaberi prijemno sanduče",
+            "PLACEHOLDER": "Izaberi prijemno sanduče",
+            "ERROR": "Prijemno sanduče je obavezno"
+          },
+          "AUDIENCE": {
+            "LABEL": "Publika",
+            "PLACEHOLDER": "Izaberite oznake potrošača",
+            "ERROR": "Publika je obavezna"
+          },
+          "SCHEDULED_AT": {
+            "LABEL": "Vremenski raspored",
+            "PLACEHOLDER": "Molim vas unesite vreme",
+            "ERROR": "Vremenski raspored je obavezan"
+          },
+          "BUTTONS": {
+            "CREATE": "Napravi",
+            "CANCEL": "Otkaži"
+          },
+          "API": {
+            "SUCCESS_MESSAGE": "SMS campaign created successfully",
+            "ERROR_MESSAGE": "Pojavila se greška. Molim vas pokušajte ponovo."
+          }
+        }
+      }
+    },
+    "WHATSAPP": {
+      "HEADER_TITLE": "WhatsApp campaigns",
+      "NEW_CAMPAIGN": "Create campaign",
+      "EMPTY_STATE": {
+        "TITLE": "No WhatsApp campaigns are available",
+        "SUBTITLE": "Launch a WhatsApp campaign to reach your customers directly. Send offers or make announcements with ease. Click 'Create campaign' to get started."
+      },
+      "CARD": {
+        "STATUS": {
+          "COMPLETED": "Završeno",
+          "SCHEDULED": "Scheduled"
+        },
+        "CAMPAIGN_DETAILS": {
+          "SENT_FROM": "Sent from",
+          "ON": "on"
+        }
+      },
+      "CREATE": {
+        "TITLE": "Create WhatsApp campaign",
+        "CANCEL_BUTTON_TEXT": "Otkaži",
+        "CREATE_BUTTON_TEXT": "Napravi",
+        "FORM": {
+          "TITLE": {
+            "LABEL": "Naslov",
+            "PLACEHOLDER": "Molim vas unesite naslov kampanje",
+            "ERROR": "Naslov je obavezan"
+          },
+          "INBOX": {
+            "LABEL": "Izaberi prijemno sanduče",
+            "PLACEHOLDER": "Izaberi prijemno sanduče",
+            "ERROR": "Prijemno sanduče je obavezno"
+          },
+          "TEMPLATE": {
+            "LABEL": "WhatsApp Template",
+            "PLACEHOLDER": "Select a template",
+            "INFO": "Select a template to use for this campaign.",
+            "ERROR": "Template is required",
+            "PREVIEW_TITLE": "Obrada {templateName}",
+            "LANGUAGE": "Jezik",
+            "CATEGORY": "Kategorija",
+            "VARIABLES_LABEL": "Promenljive",
+            "VARIABLE_PLACEHOLDER": "Enter value for {variable}"
+          },
+          "AUDIENCE": {
+            "LABEL": "Publika",
+            "PLACEHOLDER": "Izaberite oznake potrošača",
+            "ERROR": "Publika je obavezna"
+          },
+          "SCHEDULED_AT": {
+            "LABEL": "Vremenski raspored",
+            "PLACEHOLDER": "Molim vas unesite vreme",
+            "ERROR": "Vremenski raspored je obavezan"
+          },
+          "BUTTONS": {
+            "CREATE": "Napravi",
+            "CANCEL": "Otkaži"
+          },
+          "API": {
+            "SUCCESS_MESSAGE": "WhatsApp campaign created successfully",
+            "ERROR_MESSAGE": "Pojavila se greška. Molim vas pokušajte ponovo."
+          }
+        }
+      }
+    },
+    "CONFIRM_DELETE": {
+      "TITLE": "Da li zaista želite da obrišete?",
+      "DESCRIPTION": "The delete action is permanent and cannot be reversed.",
+      "CONFIRM": "Izbriši",
+      "API": {
+        "SUCCESS_MESSAGE": "Kampanja je uspešno obrisana",
+        "ERROR_MESSAGE": "Pojavila se greška. Molim vas pokušajte ponovo."
+      }
+    }
+  }
+}

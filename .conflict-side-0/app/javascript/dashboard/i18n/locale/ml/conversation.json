@@ -1,0 +1,439 @@
+{
+  "CONVERSATION": {
+    "SELECT_A_CONVERSATION": "ഇടത് പാളിയിൽ നിന്ന് ഒരു സംഭാഷണം തിരഞ്ഞെടുക്കുക",
+    "CSAT_REPLY_MESSAGE": "Please rate the conversation",
+    "404": "Sorry, we cannot find the conversation. Please try again",
+    "SWITCH_VIEW_LAYOUT": "Switch the layout",
+    "DASHBOARD_APP_TAB_MESSAGES": "Messages",
+    "UNVERIFIED_SESSION": "The identity of this user is not verified",
+    "NO_MESSAGE_1": "നിങ്ങളുടെ ഇൻ‌ബോക്സിൽ ഉപഭോക്താക്കളിൽ നിന്ന് സന്ദേശങ്ങളൊന്നും ഇല്ലെന്ന് തോന്നുന്നു.",
+    "NO_MESSAGE_2": " നിങ്ങളുടെ പേജിലേക്ക് ഒരു സന്ദേശം അയയ്‌ക്കാൻ!",
+    "NO_INBOX_1": "നിങ്ങൾ ഇത് വരെ ഇൻബോക്സുകൾ ഒന്നും സ്രഷ്ടിച്ചിട്ടില്ലെന്നു തോന്നുന്നു.",
+    "NO_INBOX_2": " ആരംഭിക്കുന്നതിന്",
+    "NO_INBOX_AGENT": "നിങ്ങൾ ഏതെങ്കിലും ഇൻ‌ബോക്സിന്റെ ഭാഗമല്ലെന്ന് തോന്നുന്നു. നിങ്ങളുടെ അഡ്മിനിസ്ട്രേറ്ററുമായി ബന്ധപ്പെടുക",
+    "SEARCH_MESSAGES": "സംഭാഷണങ്ങളിൽ സന്ദേശങ്ങൾക്കായി തിരയുക",
+    "VIEW_ORIGINAL": "View original",
+    "VIEW_TRANSLATED": "View translated",
+    "EMPTY_STATE": {
+      "CMD_BAR": "to open command menu",
+      "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"
+    },
+    "SEARCH": {
+      "TITLE": "സന്ദേശങ്ങൾ തിരയുക",
+      "RESULT_TITLE": "Search Results",
+      "LOADING_MESSAGE": "ഡാറ്റ ലോഡുചെയ്യുന്നു...",
+      "PLACEHOLDER": "സന്ദേശങ്ങൾ തിരയാൻ ഏതെങ്കിലും വാചകം ടൈപ്പുചെയ്യുക",
+      "NO_MATCHING_RESULTS": "No results found."
+    },
+    "UNREAD_MESSAGES": "വായിക്കാത്ത സന്ദേശങ്ങൾ",
+    "UNREAD_MESSAGE": "വായിക്കാത്ത സന്ദേശം",
+    "CLICK_HERE": "ഇവിടെ ക്ലിക്കു ചെയ്യുക",
+    "LOADING_INBOXES": "ഇൻ‌ബോക്സുകൾ‌ ലോഡു ചെയ്യുന്നു",
+    "LOADING_CONVERSATIONS": "സംഭാഷണങ്ങൾ ലോഡു ചെയ്യുന്നു",
+    "CANNOT_REPLY": "നിങ്ങൾക്ക് മറുപടി നൽകാൻ കഴിയില്ല",
+    "24_HOURS_WINDOW": "24 മണിക്കൂർ സന്ദേശ വിൻഡോ നിയന്ത്രണം",
+    "48_HOURS_WINDOW": "48 മണിക്കൂർ സന്ദേശ വിൻഡോ നിയന്ത്രണം",
+    "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
+    "NOT_ASSIGNED_TO_YOU": "This conversation is not assigned to you. Would you like to assign this conversation to yourself?",
+    "ASSIGN_TO_ME": "Assign to me",
+    "BOT_HANDOFF_MESSAGE": "You are responding to a conversation which is currently handled by an assistant or a bot.",
+    "BOT_HANDOFF_ACTION": "Mark open and assign to you",
+    "BOT_HANDOFF_REOPEN_ACTION": "Mark conversation open",
+    "BOT_HANDOFF_SUCCESS": "Conversation has been handed over to you",
+    "BOT_HANDOFF_ERROR": "Failed to take over the conversation. Please try again.",
+    "TWILIO_WHATSAPP_CAN_REPLY": "You can only reply to this conversation using a template message due to",
+    "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 മണിക്കൂർ സന്ദേശ വിൻഡോ നിയന്ത്രണം",
+    "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. All new messages will show up there. You won’t be able to send messages from this conversation anymore.",
+    "REPLYING_TO": "നിങ്ങൾ ഇതിന് മറുപടി നൽകുന്നു:",
+    "REMOVE_SELECTION": "തിരഞ്ഞെടുക്കൽ നീക്കംചെയ്യുക",
+    "DOWNLOAD": "ഡൗൺലോഡ്",
+    "UNKNOWN_FILE_TYPE": "Unknown File",
+    "SAVE_CONTACT": "Save Contact",
+    "NO_CONTENT": "No content to display",
+    "SHARED_ATTACHMENT": {
+      "CONTACT": "{sender} has shared a contact",
+      "LOCATION": "{sender} has shared a location",
+      "FILE": "{sender} has shared a file",
+      "MEETING": "{sender} has started a meeting"
+    },
+    "UPLOADING_ATTACHMENTS": "Uploading attachments...",
+    "REPLIED_TO_STORY": "Replied to your story",
+    "UNSUPPORTED_MESSAGE": "This message is unsupported. You can view this message on the Facebook / Instagram app.",
+    "UNSUPPORTED_MESSAGE_FACEBOOK": "This message is unsupported. You can view this message on the Facebook Messenger app.",
+    "UNSUPPORTED_MESSAGE_INSTAGRAM": "This message is unsupported. You can view this message on the Instagram app.",
+    "SUCCESS_DELETE_MESSAGE": "Message deleted successfully",
+    "FAIL_DELETE_MESSSAGE": "Couldn't delete message! Try again",
+    "NO_RESPONSE": "No response",
+    "RESPONSE": "Response",
+    "RATING_TITLE": "Rating",
+    "FEEDBACK_TITLE": "Feedback",
+    "REPLY_MESSAGE_NOT_FOUND": "Message not available",
+    "CARD": {
+      "SHOW_LABELS": "Show labels",
+      "HIDE_LABELS": "Hide labels"
+    },
+    "VOICE_CALL": {
+      "INCOMING_CALL": "Incoming call",
+      "OUTGOING_CALL": "Outgoing call",
+      "CALL_IN_PROGRESS": "Call in progress",
+      "NO_ANSWER": "No answer",
+      "MISSED_CALL": "Missed call",
+      "CALL_ENDED": "Call ended",
+      "NOT_ANSWERED_YET": "Not answered yet",
+      "THEY_ANSWERED": "They answered",
+      "YOU_ANSWERED": "You answered"
+    },
+    "HEADER": {
+      "RESOLVE_ACTION": "പരിഹരിക്കുക",
+      "REOPEN_ACTION": "വീണ്ടും തുറക്കുക",
+      "OPEN_ACTION": "സജീവം",
+      "MORE_ACTIONS": "More actions",
+      "OPEN": "കൂടുതൽ",
+      "CLOSE": "അടയ്ക്കുക",
+      "DETAILS": "വിശദാംശങ്ങൾ",
+      "SNOOZED_UNTIL": "Snoozed until",
+      "SNOOZED_UNTIL_TOMORROW": "Snoozed until tomorrow",
+      "SNOOZED_UNTIL_NEXT_WEEK": "Snoozed until next week",
+      "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed until next reply",
+      "SLA_STATUS": {
+        "FRT": "FRT {status}",
+        "NRT": "NRT {status}",
+        "RT": "RT {status}",
+        "MISSED": "missed",
+        "DUE": "due"
+      }
+    },
+    "RESOLVE_DROPDOWN": {
+      "MARK_PENDING": "Mark as pending",
+      "SNOOZE_UNTIL": "Snooze",
+      "SNOOZE": {
+        "TITLE": "Snooze until",
+        "NEXT_REPLY": "Next reply",
+        "TOMORROW": "Tomorrow",
+        "NEXT_WEEK": "Next week"
+      }
+    },
+    "MENTION": {
+      "AGENTS": "ഏജന്റുമാർ",
+      "TEAMS": "Teams"
+    },
+    "CUSTOM_SNOOZE": {
+      "TITLE": "Snooze until",
+      "APPLY": "Snooze",
+      "CANCEL": "റദ്ദാക്കുക"
+    },
+    "PRIORITY": {
+      "TITLE": "Priority",
+      "OPTIONS": {
+        "NONE": "ഒന്നുമില്ല",
+        "URGENT": "Urgent",
+        "HIGH": "High",
+        "MEDIUM": "Medium",
+        "LOW": "Low"
+      },
+      "CHANGE_PRIORITY": {
+        "SELECT_PLACEHOLDER": "ഒന്നുമില്ല",
+        "INPUT_PLACEHOLDER": "Select priority",
+        "NO_RESULTS": "ഒരു ഫലവും കണ്ടെത്താനായില്ല",
+        "SUCCESSFUL": "Changed priority of conversation id {conversationId} to {priority}",
+        "FAILED": "Couldn't change priority. Please try again."
+      }
+    },
+    "DELETE_CONVERSATION": {
+      "TITLE": "Delete conversation #{conversationId}",
+      "DESCRIPTION": "Are you sure you want to delete this conversation?",
+      "CONFIRM": "ഇല്ലാതാക്കുക"
+    },
+    "CARD_CONTEXT_MENU": {
+      "PENDING": "Mark as pending",
+      "RESOLVED": "Mark as resolved",
+      "MARK_AS_UNREAD": "Mark as unread",
+      "MARK_AS_READ": "Mark as read",
+      "REOPEN": "സംഭാഷണം വീണ്ടും തുറക്കുക",
+      "SNOOZE": {
+        "TITLE": "Snooze",
+        "NEXT_REPLY": "Until next reply",
+        "TOMORROW": "Until tomorrow",
+        "NEXT_WEEK": "Until next week"
+      },
+      "ASSIGN_AGENT": "Assign agent",
+      "ASSIGN_LABEL": "Assign label",
+      "AGENTS_LOADING": "Loading agents...",
+      "ASSIGN_TEAM": "Assign team",
+      "DELETE": "Delete conversation",
+      "OPEN_IN_NEW_TAB": "Open in new tab",
+      "COPY_LINK": "Copy conversation link",
+      "COPY_LINK_SUCCESS": "Conversation link copied to clipboard",
+      "API": {
+        "AGENT_ASSIGNMENT": {
+          "SUCCESFUL": "Conversation id {conversationId} assigned to \"{agentName}\"",
+          "FAILED": "Couldn't assign agent. Please try again."
+        },
+        "LABEL_ASSIGNMENT": {
+          "SUCCESFUL": "Assigned label #{labelName} to conversation id {conversationId}",
+          "FAILED": "Couldn't assign label. Please try again."
+        },
+        "TEAM_ASSIGNMENT": {
+          "SUCCESFUL": "Assigned team \"{team}\" to conversation id {conversationId}",
+          "FAILED": "Couldn't assign team. Please try again."
+        }
+      }
+    },
+    "FOOTER": {
+      "MESSAGE_SIGN_TOOLTIP": "Message signature",
+      "ENABLE_SIGN_TOOLTIP": "Enable signature",
+      "DISABLE_SIGN_TOOLTIP": "Disable signature",
+      "MSG_INPUT": "പുതിയ ലൈനിനു വേണ്ടി ഷിഫ്റ്റ് + എന്റർ അടിക്കുക. ഒരു ക്യാൻഡ് പ്രതികരണം തിരഞ്ഞു എടുക്കാൻ വേണ്ടി '/ ' വച്ച് ടൈപ്പ് ചെയ്തു തുടങ്ങുക.",
+      "PRIVATE_MSG_INPUT": "പുതിയ ലൈനിനു വേണ്ടി ഷിഫ്റ്റ് + എന്റർ അടിക്കുക. ഇത് ഏജന്റുമാർക്ക് മാത്രമേ ദൃശ്യമാകൂ",
+      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Message signature is not configured, please configure it in profile settings.",
+      "CLICK_HERE": "Click here to update",
+      "WHATSAPP_TEMPLATES": "Whatsapp Templates"
+    },
+    "REPLYBOX": {
+      "REPLY": "മറുപടി",
+      "PRIVATE_NOTE": "സ്വകാര്യ കുറിപ്പ്",
+      "SEND": "അയയ്‌ക്കുക",
+      "CREATE": "കുറിപ്പ് ചേർക്കുക",
+      "INSERT_READ_MORE": "Read more",
+      "DISMISS_REPLY": "Dismiss reply",
+      "REPLYING_TO": "Replying to:",
+      "TIP_EMOJI_ICON": "Show emoji selector",
+      "TIP_ATTACH_ICON": "Attach files",
+      "TIP_AUDIORECORDER_ICON": "Record audio",
+      "TIP_AUDIORECORDER_PERMISSION": "Allow access to audio",
+      "TIP_AUDIORECORDER_ERROR": "Could not open the audio",
+      "DRAG_DROP": "Drag and drop here to attach",
+      "START_AUDIO_RECORDING": "Start audio recording",
+      "STOP_AUDIO_RECORDING": "Stop audio recording",
+      "": "",
+      "EMAIL_HEAD": {
+        "TO": "TO",
+        "ADD_BCC": "Add bcc",
+        "CC": {
+          "LABEL": "CC",
+          "PLACEHOLDER": "Emails separated by commas",
+          "ERROR": "Please enter valid email addresses"
+        },
+        "BCC": {
+          "LABEL": "BCC",
+          "PLACEHOLDER": "Emails separated by commas",
+          "ERROR": "Please enter valid email addresses"
+        }
+      },
+      "UNDEFINED_VARIABLES": {
+        "TITLE": "Undefined variables",
+        "MESSAGE": "You have {undefinedVariablesCount} undefined variables in your message: {undefinedVariables}. Would you like to send the message anyway?",
+        "CONFIRM": {
+          "YES": "അയയ്‌ക്കുക",
+          "CANCEL": "റദ്ദാക്കുക"
+        }
+      },
+      "QUOTED_REPLY": {
+        "ENABLE_TOOLTIP": "Include quoted email thread",
+        "DISABLE_TOOLTIP": "Don't include quoted email thread",
+        "REMOVE_PREVIEW": "Remove quoted email thread",
+        "COLLAPSE": "Collapse preview",
+        "EXPAND": "Expand preview"
+      }
+    },
+    "VISIBLE_TO_AGENTS": "സ്വകാര്യ കുറിപ്പ്: നിങ്ങൾക്കും നിങ്ങളുടെ ടീമിനും മാത്രം ദൃശ്യമാണ്",
+    "CHANGE_STATUS": "സംഭാഷണ നില മാറ്റി",
+    "CHANGE_STATUS_FAILED": "Conversation status change failed",
+    "CHANGE_AGENT": "സംഭാഷണ നിയുക്തനെ മാറ്റി",
+    "CHANGE_AGENT_FAILED": "Assignee change failed",
+    "ASSIGN_LABEL_SUCCESFUL": "Label assigned successfully",
+    "ASSIGN_LABEL_FAILED": "Label assignment failed",
+    "CHANGE_TEAM": "Conversation team changed",
+    "SUCCESS_DELETE_CONVERSATION": "Conversation deleted successfully",
+    "FAIL_DELETE_CONVERSATION": "Couldn't delete conversation! Try again",
+    "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB attachment limit",
+    "MESSAGE_ERROR": "Unable to send this message, please try again later",
+    "SENT_BY": "അയച്ചത്:",
+    "BOT": "ബോട്ട്",
+    "SEND_FAILED": "സന്ദേശം അയയ്‌ക്കാനായില്ല! വീണ്ടും ശ്രമിക്കുക",
+    "TRY_AGAIN": "വീണ്ടും ശ്രമിക്കുക",
+    "ASSIGNMENT": {
+      "SELECT_AGENT": "ഏജന്റ് തിരഞ്ഞെടുക്കുക",
+      "REMOVE": "നീക്കം ചെയ്യുക",
+      "ASSIGN": "നിയോഗിക്കുക"
+    },
+    "CONTEXT_MENU": {
+      "COPY": "പകർത്തുക",
+      "REPLY_TO": "Reply to this message",
+      "DELETE": "ഇല്ലാതാക്കുക",
+      "CREATE_A_CANNED_RESPONSE": "Add to canned responses",
+      "TRANSLATE": "Translate",
+      "COPY_PERMALINK": "Copy link to the message",
+      "LINK_COPIED": "Message URL copied to the clipboard",
+      "DELETE_CONFIRMATION": {
+        "TITLE": "Are you sure you want to delete this message?",
+        "MESSAGE": "You cannot undo this action",
+        "DELETE": "ഇല്ലാതാക്കുക",
+        "CANCEL": "റദ്ദാക്കുക"
+      }
+    },
+    "SIDEBAR": {
+      "CONTACT": "ബന്ധപ്പെടുക",
+      "COPILOT": "Copilot"
+    },
+    "VOICE_WIDGET": {
+      "INCOMING_CALL": "Incoming call",
+      "OUTGOING_CALL": "Outgoing call",
+      "CALL_IN_PROGRESS": "Call in progress",
+      "NOT_ANSWERED_YET": "Not answered yet",
+      "HANDLED_IN_ANOTHER_TAB": "Being handled in another tab",
+      "REJECT_CALL": "Reject",
+      "JOIN_CALL": "Join call",
+      "END_CALL": "End call"
+    }
+  },
+  "EMAIL_TRANSCRIPT": {
+    "TITLE": "സംഭാഷണ ട്രാൻസ്ക്രിപ്റ്റ് അയയ്ക്കുക",
+    "DESC": "സംഭാഷണ ട്രാൻസ്ക്രിപ്റ്റിന്റെ ഒരു പകർപ്പ് നിർദ്ദിഷ്ട ഇമെയിൽ വിലാസത്തിലേക്ക് അയയ്ക്കുക",
+    "SUBMIT": "സമർപ്പിക്കുക",
+    "CANCEL": "റദ്ദാക്കുക",
+    "SEND_EMAIL_SUCCESS": "ചാറ്റ് ട്രാൻസ്ക്രിപ്റ്റ് വിജയകരമായി അയച്ചു",
+    "SEND_EMAIL_ERROR": "ഒരു പിശക് ഉണ്ടായിരുന്നു, ദയവായി വീണ്ടും ശ്രമിക്കുക",
+    "FORM": {
+      "SEND_TO_CONTACT": "ഉപഭോക്താവിന് ട്രാൻസ്ക്രിപ്റ്റ് അയയ്ക്കുക",
+      "SEND_TO_AGENT": "നിയുക്ത ഏജന്റിന് ട്രാൻസ്ക്രിപ്റ്റ് അയയ്ക്കുക",
+      "SEND_TO_OTHER_EMAIL_ADDRESS": "മറ്റൊരു ഇമെയിൽ വിലാസത്തിലേക്ക് ട്രാൻസ്ക്രിപ്റ്റ് അയയ്ക്കുക",
+      "EMAIL": {
+        "PLACEHOLDER": "ഒരു ഇമെയിൽ വിലാസം നൽകുക",
+        "ERROR": "ദയവായി സാധുവായ ഒരു ഇമെയിൽ വിലാസം നൽകുക"
+      }
+    }
+  },
+  "ONBOARDING": {
+    "TITLE": "Hey 👋, Welcome to {installationName}!",
+    "DESCRIPTION": "Thanks for signing up. We want you to get the most out of {installationName}. Here are a few things you can do in {installationName} to make the experience delightful.",
+    "GREETING_MORNING": "👋 Good morning, {name}. Welcome to {installationName}.",
+    "GREETING_AFTERNOON": "👋 Good afternoon, {name}. Welcome to {installationName}.",
+    "GREETING_EVENING": "👋 Good evening, {name}. Welcome to {installationName}.",
+    "READ_LATEST_UPDATES": "Read our latest updates",
+    "ALL_CONVERSATION": {
+      "TITLE": "All your conversations in one place",
+      "DESCRIPTION": "View all the conversations from your customers in one single dashboard. You can filter the conversations by the incoming channel, label and status.",
+      "NEW_LINK": "Click here to create an inbox"
+    },
+    "TEAM_MEMBERS": {
+      "TITLE": "Invite your team members",
+      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email addresses to the agent list.",
+      "NEW_LINK": "Click here to invite a team member"
+    },
+    "LABELS": {
+      "TITLE": "Organize conversations with labels",
+      "DESCRIPTION": "Labels provide an easier way to categorize your conversation. Create some labels like #support-enquiry, #billing-question etc., so that you can use them in a conversation later.",
+      "NEW_LINK": "Click here to create tags"
+    },
+    "CANNED_RESPONSES": {
+      "TITLE": "Create canned responses",
+      "DESCRIPTION": "Pre-written quick reply templates help you quickly respond to a conversation. Agents can type the '/' character followed by the shortcode to insert a response.",
+      "NEW_LINK": "Click here to create a canned response"
+    }
+  },
+  "CONVERSATION_SIDEBAR": {
+    "ASSIGNEE_LABEL": "Assigned Agent",
+    "SELF_ASSIGN": "Assign to me",
+    "TEAM_LABEL": "Assigned Team",
+    "SELECT": {
+      "PLACEHOLDER": "None"
+    },
+    "ACCORDION": {
+      "CONTACT_DETAILS": "Contact Details",
+      "CONVERSATION_ACTIONS": "Conversation Actions",
+      "CONVERSATION_LABELS": "സംഭാഷണ ലേബലുകൾ",
+      "CONVERSATION_INFO": "Conversation Information",
+      "CONTACT_NOTES": "Contact Notes",
+      "CONTACT_ATTRIBUTES": "Contact Attributes",
+      "PREVIOUS_CONVERSATION": "മുമ്പത്തെ സംഭാഷണങ്ങൾ",
+      "MACROS": "Macros",
+      "LINEAR_ISSUES": "Linked Linear Issues",
+      "SHOPIFY_ORDERS": "Shopify Orders"
+    },
+    "SHOPIFY": {
+      "ORDER_ID": "Order #{id}",
+      "ERROR": "Error loading orders",
+      "NO_SHOPIFY_ORDERS": "No orders found",
+      "FINANCIAL_STATUS": {
+        "PENDING": "കെട്ടിക്കിടക്കുന്നു",
+        "AUTHORIZED": "Authorized",
+        "PARTIALLY_PAID": "Partially Paid",
+        "PAID": "Paid",
+        "PARTIALLY_REFUNDED": "Partially Refunded",
+        "REFUNDED": "Refunded",
+        "VOIDED": "Voided"
+      },
+      "FULFILLMENT_STATUS": {
+        "FULFILLED": "Fulfilled",
+        "PARTIALLY_FULFILLED": "Partially Fulfilled",
+        "UNFULFILLED": "Unfulfilled"
+      }
+    }
+  },
+  "CONVERSATION_CUSTOM_ATTRIBUTES": {
+    "ADD_BUTTON_TEXT": "Create attribute",
+    "NO_RECORDS_FOUND": "No attributes found",
+    "UPDATE": {
+      "SUCCESS": "Attribute updated successfully",
+      "ERROR": "Unable to update attribute. Please try again later"
+    },
+    "ADD": {
+      "TITLE": "ചേർക്കുക",
+      "SUCCESS": "Attribute added successfully",
+      "ERROR": "Unable to add attribute. Please try again later"
+    },
+    "DELETE": {
+      "SUCCESS": "Attribute deleted successfully",
+      "ERROR": "Unable to delete attribute. Please try again later"
+    },
+    "ATTRIBUTE_SELECT": {
+      "TITLE": "Add attributes",
+      "PLACEHOLDER": "Search attributes",
+      "NO_RESULT": "No attributes found"
+    }
+  },
+  "EMAIL_HEADER": {
+    "FROM": "From",
+    "TO": "To",
+    "BCC": "Bcc",
+    "CC": "Cc",
+    "SUBJECT": "Subject",
+    "EXPAND": "Expand email"
+  },
+  "CONVERSATION_PARTICIPANTS": {
+    "SIDEBAR_MENU_TITLE": "Participating",
+    "SIDEBAR_TITLE": "Conversation participants",
+    "NO_RECORDS_FOUND": "ഒരു ഫലവും കണ്ടെത്താനായില്ല",
+    "ADD_PARTICIPANTS": "Select participants",
+    "REMANING_PARTICIPANTS_TEXT": "+{count} others",
+    "REMANING_PARTICIPANT_TEXT": "+{count} other",
+    "TOTAL_PARTICIPANTS_TEXT": "{count} people are participating.",
+    "TOTAL_PARTICIPANT_TEXT": "{count} person is participating.",
+    "NO_PARTICIPANTS_TEXT": "No one is participating!.",
+    "WATCH_CONVERSATION": "Join conversation",
+    "YOU_ARE_WATCHING": "You are participating",
+    "API": {
+      "ERROR_MESSAGE": "Could not update, try again!",
+      "SUCCESS_MESSAGE": "Participants updated!"
+    }
+  },
+  "TRANSLATE_MODAL": {
+    "TITLE": "View translated content",
+    "DESC": "You can view the translated content in each langauge.",
+    "ORIGINAL_CONTENT": "Original Content",
+    "TRANSLATED_CONTENT": "Translated Content",
+    "NO_TRANSLATIONS_AVAILABLE": "No translations are available for this content"
+  },
+  "TYPING": {
+    "ONE": "{user} is typing",
+    "TWO": "{user} and {secondUser} are typing",
+    "MULTIPLE": "{user} and {count} others are typing"
+  },
+  "COPILOT": {
+    "TRY_THESE_PROMPTS": "Try these prompts"
+  },
+  "GALLERY_VIEW": {
+    "ERROR_DOWNLOADING": "Unable to download attachment. Please try again"
+  }
+}

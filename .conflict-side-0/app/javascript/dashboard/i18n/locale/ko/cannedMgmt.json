@@ -1,0 +1,77 @@
+{
+  "CANNED_MGMT": {
+    "HEADER": "미리 준비된 답변",
+    "LEARN_MORE": "Learn more about canned responses",
+    "DESCRIPTION": "미리 준비된 응답은 대화에 신속하게 응답할 수 있도록 도와주는 미리 작성된 응답입니다. 상담원은 대화 중에 '/' 문자 뒤에 단축 코드를 입력하여 미리 준비된 응답을 삽입할 수 있습니다. ",
+    "HEADER_BTN_TXT": "미리 준비된 응답 추가",
+    "LOADING": "Fetching canned responses...",
+    "SEARCH_404": "이 쿼리와 일치하는 항목이 없음.",
+    "LIST": {
+      "404": "이 계정에는 미리 준비된 답변이 없습니다.",
+      "TITLE": "미리 준비된 답변 관리",
+      "DESC": "Canned Responses are predefined reply templates which can be used to quickly send out replies to conversations.",
+      "TABLE_HEADER": {
+        "SHORT_CODE": "Short code",
+        "CONTENT": "내용",
+        "ACTIONS": "액션"
+      }
+    },
+    "ADD": {
+      "TITLE": "미리 준비된 응답 추가",
+      "DESC": "Canned Responses are predefined reply templates which can be used to quickly send out replies to conversations.",
+      "CANCEL_BUTTON_TEXT": "취소",
+      "FORM": {
+        "SHORT_CODE": {
+          "LABEL": "Short code",
+          "PLACEHOLDER": "Please enter a short code.",
+          "ERROR": "Short Code is required."
+        },
+        "CONTENT": {
+          "LABEL": "메시지",
+          "PLACEHOLDER": "Please write the message you want to save as a template to use later.",
+          "ERROR": "Message is required."
+        },
+        "SUBMIT": "보내기"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Canned response added successfully.",
+        "ERROR_MESSAGE": "Woot 서버에 연결할 수 없습니다. 나중에 다시 시도해 주세요."
+      }
+    },
+    "EDIT": {
+      "TITLE": "Edit canned response",
+      "CANCEL_BUTTON_TEXT": "취소",
+      "FORM": {
+        "SHORT_CODE": {
+          "LABEL": "Short code",
+          "PLACEHOLDER": "Please enter a shortcode.",
+          "ERROR": "Short code is required."
+        },
+        "CONTENT": {
+          "LABEL": "메시지",
+          "PLACEHOLDER": "Please write the message you want to save as a template to use later.",
+          "ERROR": "Message is required."
+        },
+        "SUBMIT": "보내기"
+      },
+      "BUTTON_TEXT": "수정",
+      "API": {
+        "SUCCESS_MESSAGE": "Canned response is updated successfully.",
+        "ERROR_MESSAGE": "Woot 서버에 연결할 수 없습니다. 나중에 다시 시도해 주세요."
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "삭제",
+      "API": {
+        "SUCCESS_MESSAGE": "Canned response deleted successfully.",
+        "ERROR_MESSAGE": "Woot 서버에 연결할 수 없습니다. 나중에 다시 시도해 주세요."
+      },
+      "CONFIRM": {
+        "TITLE": "Confirm deletion",
+        "MESSAGE": "삭제하시겠습니까? ",
+        "YES": "예, 삭제합니다. ",
+        "NO": "아니요, 유지합니다 "
+      }
+    }
+  }
+}

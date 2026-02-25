@@ -1,0 +1,119 @@
+{
+  "FILTER": {
+    "TITLE": "Görüşmeleri Filtrele",
+    "SUBTITLE": "Filtrelerinizi aşağı ekleyin ve sohbet karmaşasını azaltmak için 'Filtreleri Uygula' düğmesine tıklayın.",
+    "EDIT_CUSTOM_FILTER": "Klasörü Düzenle",
+    "CUSTOM_VIEWS_SUBTITLE": "Filtreleri ekleyin veya kaldırın ve klasörünüzü güncelleyin.",
+    "ADD_NEW_FILTER": "Filtre Ekle",
+    "FILTER_DELETE_ERROR": "Ups, hiçbir şey kaydedemiyoruz gibi görünüyor! Lütfen kaydetmek için en az bir filtre ekleyin.",
+    "SUBMIT_BUTTON_LABEL": "Filtreleri Uygula",
+    "UPDATE_BUTTON_LABEL": "Klasörü Güncelle",
+    "CANCEL_BUTTON_LABEL": "İptal Et",
+    "CLEAR_BUTTON_LABEL": "Filtreleri Temizle",
+    "FOLDER_LABEL": "Klasör Adı",
+    "FOLDER_QUERY_LABEL": "Klasör Sorgusu",
+    "EMPTY_VALUE_ERROR": "Değer gereklidir.",
+    "TOOLTIP_LABEL": "Görüşmeleri Filtrele",
+    "QUERY_DROPDOWN_LABELS": {
+      "AND": "VE",
+      "OR": "YA DA"
+    },
+    "INPUT_PLACEHOLDER": "Filtre verisini giriniz",
+    "OPERATOR_LABELS": {
+      "equal_to": "Eşit",
+      "not_equal_to": "Eşit Değil",
+      "does_not_contain": "İçermez",
+      "is_present": "Şu an",
+      "is_not_present": "Şu an değil",
+      "is_greater_than": "Şundan Büyük",
+      "is_less_than": "Şundan Daha Az",
+      "days_before": "x Gün Önce",
+      "starts_with": "İle Başlar",
+      "equalTo": "Eşit",
+      "notEqualTo": "Eşit Değil",
+      "contains": "İçerir",
+      "doesNotContain": "İçermez",
+      "isPresent": "Şu an",
+      "isNotPresent": "Şu an değil",
+      "isGreaterThan": "Şundan Büyük",
+      "isLessThan": "Şundan az",
+      "daysBefore": "x Gün Önce",
+      "startsWith": "İle Başlar"
+    },
+    "ATTRIBUTE_LABELS": {
+      "TRUE": "Doğru",
+      "FALSE": "Yanlış"
+    },
+    "ATTRIBUTES": {
+      "STATUS": "Durum",
+      "ASSIGNEE_NAME": "Atanan Kişi Adı",
+      "INBOX_NAME": "Gelen Kutusu Adı",
+      "TEAM_NAME": "Ekip Adı",
+      "CONVERSATION_IDENTIFIER": "Sohbet Kimliği",
+      "CAMPAIGN_NAME": "Kampanya Adı",
+      "LABELS": "Etiketler",
+      "BROWSER_LANGUAGE": "Tarayıcı Dili",
+      "PRIORITY": "Öncelik",
+      "COUNTRY_NAME": "Ülke Adı",
+      "REFERER_LINK": "Yönlendiren Bağlantı",
+      "CUSTOM_ATTRIBUTE_LIST": "Liste",
+      "CUSTOM_ATTRIBUTE_TEXT": "Metin",
+      "CUSTOM_ATTRIBUTE_NUMBER": "Sayı",
+      "CUSTOM_ATTRIBUTE_LINK": "Bağlantı",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "Onay Kutusu",
+      "CREATED_AT": "Oluşturulma Zamanı",
+      "LAST_ACTIVITY": "Son Aktivite"
+    },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Değer gereklidir",
+      "ATTRIBUTE_KEY_REQUIRED": "Özellik anahtarı zorunludur",
+      "FILTER_OPERATOR_REQUIRED": "Filtre operatörü zorunludur",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Değer 1 ile 998 arasında olmalıdır"
+    },
+    "GROUPS": {
+      "STANDARD_FILTERS": "Standart Filtreler",
+      "ADDITIONAL_FILTERS": "Ek Filtreler",
+      "CUSTOM_ATTRIBUTES": "Özel Özellikler"
+    },
+    "CUSTOM_VIEWS": {
+      "ADD": {
+        "TITLE": "Bu Filtreyi Kaydetmek İster Misiniz?",
+        "LABEL": "Bu Filtreye İsim Ver",
+        "PLACEHOLDER": "Filtrenize daha sonra başvurmak için bir isim verin.",
+        "ERROR_MESSAGE": "İsim gereklidir.",
+        "SAVE_BUTTON": "Filtreyi Kaydet",
+        "CANCEL_BUTTON": "İptal Et",
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "Klasör başarıyla oluşturuldu.",
+          "ERROR_MESSAGE": "Klasör oluşturulurken hata oluştu."
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "Segment başarıyla oluşturuldu.",
+          "ERROR_MESSAGE": "Segment oluşturulurken hata oluştu."
+        }
+      },
+      "EDIT": {
+        "EDIT_BUTTON": "Klasörü Düzenle"
+      },
+      "DELETE": {
+        "DELETE_BUTTON": "Filtreyi Sil",
+        "MODAL": {
+          "CONFIRM": {
+            "TITLE": "Silme İşlemini Onayla",
+            "MESSAGE": "Filtreyi silmek istediğinizden emin misiniz ",
+            "YES": "Evet, sil",
+            "NO": "Hayır, sakla"
+          }
+        },
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "Klasör başarıyla silindi.",
+          "ERROR_MESSAGE": "Klasör silinirken hata oluştu."
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "Segment başarıyla silindi.",
+          "ERROR_MESSAGE": "Segment silinirken hata oluştu."
+        }
+      }
+    }
+  }
+}

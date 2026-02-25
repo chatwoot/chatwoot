@@ -1,0 +1,26 @@
+tags:
+  - Account AgentBots
+operationId: create-an-account-agent-bot
+summary: Create an Agent Bot
+description: Create an agent bot in the account
+security:
+  - userApiKey: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/agent_bot_create_update_payload'
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/agent_bot'
+  '401':
+    description: Unauthorized
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

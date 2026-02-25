@@ -1,0 +1,68 @@
+{
+  "SEARCH": {
+    "TABS": {
+      "ALL": "All results",
+      "CONTACTS": "Kontaktpersonas",
+      "CONVERSATIONS": "Sarunas",
+      "MESSAGES": "Ziņojumi",
+      "ARTICLES": "Raksti"
+    },
+    "SECTION": {
+      "CONTACTS": "Kontaktpersonas",
+      "CONVERSATIONS": "Sarunas",
+      "MESSAGES": "Ziņojumi",
+      "ARTICLES": "Raksti"
+    },
+    "VIEW_MORE": "Skatīt vairāk",
+    "LOAD_MORE": "Ielādēt vairāk",
+    "SEARCHING_DATA": "Meklēšana",
+    "LOADING_DATA": "Notiek ielāde",
+    "EMPTY_STATE": "Vaicājumam '{query}' nav atrasts neviens {item} vienums",
+    "EMPTY_STATE_FULL": "Vaicājumam '{query}' nav atrasts neviens rezultāts",
+    "PLACEHOLDER_KEYBINDING": "/fokusēt",
+    "INPUT_PLACEHOLDER": "Ievadiet 3, vai vairāk, rakstzīmes, lai meklētu",
+    "RECENT_SEARCHES": "Recent searches",
+    "CLEAR_ALL": "Notīrīt visu",
+    "MOST_RECENT": "Most recent",
+    "EMPTY_STATE_DEFAULT": "Lai iegūtu labākus meklēšanas rezultātus, meklējiet pēc sarunas Id, e-pasta, tālruņa numura vai ziņām. ",
+    "BOT_LABEL": "Bot",
+    "READ_MORE": "Lasīt vairāk",
+    "READ_LESS": "Read less",
+    "WROTE": "rakstīja:",
+    "FROM": "No",
+    "EMAIL": "E-pasts",
+    "EMAIL_SUBJECT": "Tēma",
+    "PRIVATE": "Private note",
+    "TRANSCRIPT": "Transcript",
+    "CREATED_AT": "izveidots {time}",
+    "UPDATED_AT": "updated {time}",
+    "SORT_BY": {
+      "RELEVANCE": "Relevance"
+    },
+    "DATE_RANGE": {
+      "LAST_7_DAYS": "Pēdējās 7 dienas",
+      "LAST_30_DAYS": "Pēdējās 30 dienas",
+      "LAST_60_DAYS": "Pēdējās 60 dienas",
+      "LAST_90_DAYS": "Pēdējās 90 dienas",
+      "CUSTOM_RANGE": "Custom range:",
+      "CREATED_BETWEEN": "Created between",
+      "AND": "and",
+      "APPLY": "Pielietot",
+      "BEFORE_DATE": "Before {date}",
+      "AFTER_DATE": "After {date}",
+      "TIME_RANGE": "Filter by time",
+      "CLEAR_FILTER": "Notīrīt filtru"
+    },
+    "FILTERS": {
+      "FILTER_MESSAGE": "Filter messages by:",
+      "FROM": "Sūtītājs",
+      "IN": "Iesūtne",
+      "AGENTS": "Aģenti",
+      "CONTACTS": "Kontaktpersonas",
+      "INBOXES": "Iesūtnes",
+      "NO_AGENTS": "Aģenti nav atrasti",
+      "NO_CONTACTS": "Start by searching to see results",
+      "NO_INBOXES": "No inboxes found"
+    }
+  }
+}
