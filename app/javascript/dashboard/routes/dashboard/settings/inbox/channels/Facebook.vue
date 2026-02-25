@@ -211,7 +211,7 @@ export default {
       v-if="!hasLoginStarted"
       class="flex flex-col items-center justify-center h-full text-center"
     >
-      <a href="#" @click="startLogin()">
+      <a href="#" @click.prevent="startLogin()">
         <img
           class="w-auto h-10 rounded-md"
           src="~dashboard/assets/images/channels/facebook_login.png"
