@@ -592,8 +592,10 @@
         "DISABLED": "Išjungta"
       },
       "LOCK_TO_SINGLE_CONVERSATION": {
-        "ENABLED": "Leisti",
-        "DISABLED": "Išjungta"
+        "ENABLED": "Reopen same conversation",
+        "DISABLED": "Create new conversations",
+        "ENABLED_DESCRIPTION": "When a contact messages again, the previous conversation will be reopened.",
+        "DISABLED_DESCRIPTION": "A new conversation will be created each time after the previous one is resolved."
       },
       "ENABLE_HMAC": {
         "LABEL": "Leisti"
@@ -713,8 +715,8 @@
       "SENDER_NAME_SECTION_TEXT": "Įjungti/išjungti agento vardo rodymą el. pašte, jei išjungta, bus rodomas įmonės pavadinimas",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Leisti pokalbio tęstinumą el. paštu",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Jei kontaktinis el. pašto adresas yra pasiekiamas, pokalbiai bus tęsiami el. paštu.",
-      "LOCK_TO_SINGLE_CONVERSATION": "Laikykitės vieno pokalbio",
-      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Leisti arba neleisti kelis pokalbius tam pačiam kontaktui šiame gautų laiškų aplanke",
+      "LOCK_TO_SINGLE_CONVERSATION": "Conversation Routing",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Configure conversation creation for existing contacts",
       "INBOX_UPDATE_TITLE": "Gautų Laiškų Aplanko Nustatymai",
       "INBOX_UPDATE_SUB_TEXT": "Atnaujinkite gautų laiškų aplanko nustatymus",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Įjunkite arba išjunkite automatinį naujų pokalbių priskyrimą agentams, pridėtiems prie šio gautų laiškų aplanko.",
