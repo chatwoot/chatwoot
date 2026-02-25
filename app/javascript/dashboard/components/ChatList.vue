@@ -28,6 +28,7 @@ import DeleteCustomViews from 'dashboard/routes/dashboard/customviews/DeleteCust
 import ConversationBulkActions from './widgets/conversation/conversationBulkActions/Index.vue';
 import TeleportWithDirection from 'dashboard/components-next/TeleportWithDirection.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
+import IntersectionObserver from 'dashboard/components/IntersectionObserver.vue';
 import ConversationResolveAttributesModal from 'dashboard/components-next/ConversationWorkflow/ConversationResolveAttributesModal.vue';
 
 import { useUISettings } from 'dashboard/composables/useUISettings';
@@ -582,13 +583,10 @@ function loadMoreConversations() {
   }
 }
 
-function handleScroll(offset) {
-  const virtualizer = virtualListRef.value;
-  if (!virtualizer) return;
-  if (virtualizer.scrollSize - (offset + virtualizer.viewportSize) < 100) {
-    loadMoreConversations();
-  }
-}
+const intersectionObserverOptions = computed(() => ({
+  root: conversationListRef.value,
+  rootMargin: '100px 0px 100px 0px',
+}));
 
 function updateAssigneeTab(selectedTab) {
   if (activeAssigneeTab.value !== selectedTab) {
@@ -955,7 +953,6 @@ watch(conversationFilters, (newVal, oldVal) => {
         v-slot="{ item, index }"
         :data="conversationList"
         :overscan="10"
-        @scroll="handleScroll"
       >
         <ConversationItem
           :key="item.id"
@@ -979,6 +976,11 @@ watch(conversationFilters, (newVal, oldVal) => {
       >
         {{ $t('CHAT_LIST.EOF') }}
       </p>
+      <IntersectionObserver
+        v-else
+        :options="intersectionObserverOptions"
+        @observed="loadMoreConversations"
+      />
     </div>
     <Dialog
       ref="deleteConversationDialogRef"
