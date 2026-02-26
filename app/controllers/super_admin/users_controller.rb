@@ -3,9 +3,8 @@ class SuperAdmin::UsersController < SuperAdmin::ApplicationController
   # For example, you may want to send an email after a foo is updated.
 
   def create
-    resource = resource_class.new(resource_params)
+    resource = new_resource(resource_params)
     authorize_resource(resource)
-    resource.skip_confirmation! if resource.respond_to?(:skip_confirmation!)
 
     if resource.save
       redirect_to super_admin_user_path(resource), notice: translate_with_resource('create.success')
@@ -67,5 +66,9 @@ class SuperAdmin::UsersController < SuperAdmin::ApplicationController
   # for more information
   def find_resource(param)
     super.becomes(User)
+  end
+
+  def new_resource(params = {})
+    super(params.reverse_merge(confirmed_at: Time.current))
   end
 end
