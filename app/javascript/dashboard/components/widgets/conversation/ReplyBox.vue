@@ -200,9 +200,13 @@ export default {
     },
     messagePlaceHolder() {
       if (this.isEditorDisabled) {
-        return this.isAWhatsAppChannel || this.isAPIInbox
-          ? this.$t('CONVERSATION.FOOTER.MESSAGING_RESTRICTED_WHATSAPP')
-          : this.$t('CONVERSATION.FOOTER.MESSAGING_RESTRICTED');
+        if (this.isAWhatsAppChannel) {
+          return this.$t('CONVERSATION.FOOTER.MESSAGING_RESTRICTED_WHATSAPP');
+        }
+        if (this.isAPIInbox) {
+          return this.$t('CONVERSATION.FOOTER.MESSAGING_RESTRICTED_API');
+        }
+        return this.$t('CONVERSATION.FOOTER.MESSAGING_RESTRICTED');
       }
       return this.isPrivate
         ? this.$t('CONVERSATION.FOOTER.PRIVATE_MSG_INPUT')
