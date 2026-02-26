@@ -18,6 +18,23 @@ describe ReportingEventListener do
       expect(account.reporting_events.where(name: 'conversation_resolved').count).to be 1
     end
 
+    it 'stores source from captain_action_source when provided' do
+      event = Events::Base.new('conversation.resolved', Time.zone.now, conversation: conversation, captain_action_source: 'scheduler')
+      listener.conversation_resolved(event)
+
+      reporting_event = account.reporting_events.where(name: 'conversation_resolved').last
+      expect(reporting_event.source).to eq('scheduler')
+    end
+
+    it 'stores assistant source when performed by Captain assistant', if: defined?(Captain::Assistant) do
+      performed_by = create(:captain_assistant, account: account)
+      event = Events::Base.new('conversation.resolved', Time.zone.now, conversation: conversation, performed_by: performed_by)
+      listener.conversation_resolved(event)
+
+      reporting_event = account.reporting_events.where(name: 'conversation_resolved').last
+      expect(reporting_event.source).to eq('assistant')
+    end
+
     context 'when business hours enabled for inbox' do
       let(:created_at) { Time.zone.parse('March 20, 2022 00:00') }
       let(:updated_at) { Time.zone.parse('March 26, 2022 23:59') }
@@ -250,6 +267,23 @@ describe ReportingEventListener do
       event = Events::Base.new('conversation.bot_handoff', Time.zone.now, conversation: conversation)
       listener.conversation_bot_handoff(event)
       expect(account.reporting_events.where(name: 'conversation_bot_handoff').count).to be 1
+    end
+
+    it 'stores source from captain_action_source when provided' do
+      event = Events::Base.new('conversation.bot_handoff', Time.zone.now, conversation: conversation, captain_action_source: 'scheduler')
+      listener.conversation_bot_handoff(event)
+
+      reporting_event = account.reporting_events.where(name: 'conversation_bot_handoff').last
+      expect(reporting_event.source).to eq('scheduler')
+    end
+
+    it 'stores assistant source when performed by Captain assistant', if: defined?(Captain::Assistant) do
+      performed_by = create(:captain_assistant, account: account)
+      event = Events::Base.new('conversation.bot_handoff', Time.zone.now, conversation: conversation, performed_by: performed_by)
+      listener.conversation_bot_handoff(event)
+
+      reporting_event = account.reporting_events.where(name: 'conversation_bot_handoff').last
+      expect(reporting_event.source).to eq('assistant')
     end
 
     context 'when business hours enabled for inbox' do
