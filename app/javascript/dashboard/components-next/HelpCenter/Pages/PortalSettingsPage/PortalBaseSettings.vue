@@ -15,6 +15,7 @@ import Input from 'dashboard/components-next/input/Input.vue';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
 import ColorPicker from 'dashboard/components-next/colorpicker/ColorPicker.vue';
+import Switch from 'dashboard/components-next/switch/Switch.vue';
 
 const props = defineProps({
   activePortal: {
@@ -45,6 +46,7 @@ const state = reactive({
   liveChatWidgetInboxId: '',
   logoUrl: '',
   avatarBlobId: '',
+  showAuthor: true,
 });
 
 const originalState = reactive({ ...state });
@@ -117,6 +119,7 @@ watch(
         homePageLink: newVal.homepage_link,
         slug: newVal.slug,
         liveChatWidgetInboxId: newVal.inbox?.id || '',
+        showAuthor: newVal.config?.show_author !== false,
       });
       if (newVal.logo) {
         const {
@@ -149,6 +152,7 @@ const handleUpdatePortal = () => {
     homepage_link: state.homePageLink,
     blob_id: state.avatarBlobId,
     inbox_id: state.liveChatWidgetInboxId,
+    config: { show_author: state.showAuthor },
   };
   emit('updatePortal', portal);
 };
@@ -333,6 +337,21 @@ const handleAvatarDelete = () => {
         </label>
         <div class="w-[432px] justify-start">
           <ColorPicker v-model="state.widgetColor" />
+        </div>
+      </div>
+      <div
+        class="grid items-start justify-between w-full gap-2 grid-cols-[200px,1fr]"
+      >
+        <label
+          class="text-sm font-medium whitespace-nowrap py-2.5 text-n-slate-12"
+        >
+          {{ t('HELP_CENTER.PORTAL_SETTINGS.FORM.SHOW_AUTHOR.LABEL') }}
+        </label>
+        <div class="flex flex-col gap-1 py-2.5">
+          <Switch v-model="state.showAuthor" />
+          <span class="text-xs text-n-slate-11">
+            {{ t('HELP_CENTER.PORTAL_SETTINGS.FORM.SHOW_AUTHOR.HELP_TEXT') }}
+          </span>
         </div>
       </div>
       <div class="flex justify-end w-full gap-2">

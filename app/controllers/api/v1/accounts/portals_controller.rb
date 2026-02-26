@@ -23,7 +23,7 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
 
   def update
     ActiveRecord::Base.transaction do
-      @portal.update!(portal_params.merge(live_chat_widget_params)) if params[:portal].present?
+      @portal.update!(merged_portal_params.merge(live_chat_widget_params)) if params[:portal].present?
       # @portal.custom_domain = parsed_custom_domain
       process_attached_logo if params[:blob_id].present?
     rescue ActiveRecord::RecordInvalid => e
@@ -79,8 +79,18 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
   def portal_params
     params.require(:portal).permit(
       :id, :color, :custom_domain, :header_text, :homepage_link,
-      :name, :page_title, :slug, :archived, { config: [:default_locale, { allowed_locales: [] }] }
+      :name, :page_title, :slug, :archived, { config: [:default_locale, :show_author, { allowed_locales: [] }] }
     )
+  end
+
+  def merged_portal_params
+    update_params = portal_params.to_h
+    if update_params.key?('config')
+      base_config = @portal.config.is_a?(Hash) ? @portal.config : {}
+      incoming_config = update_params['config']
+      update_params['config'] = incoming_config.is_a?(Hash) ? base_config.merge(incoming_config) : base_config
+    end
+    update_params
   end
 
   def live_chat_widget_params

@@ -15,6 +15,7 @@ json.config do
       json.partial! 'api/v1/models/portal_config', formats: [:json], locale: locale, portal: portal
     end
   end
+  json.show_author portal.show_author?
 end
 
 if portal.channel_web_widget

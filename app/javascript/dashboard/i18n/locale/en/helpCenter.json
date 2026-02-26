@@ -747,6 +747,10 @@
         "BRAND_COLOR": {
           "LABEL": "Brand color"
         },
+        "SHOW_AUTHOR": {
+          "LABEL": "Show article authors",
+          "HELP_TEXT": "Display author information on category pages"
+        },
         "SAVE_CHANGES": "Save changes"
       },
       "CONFIGURATION_FORM": {

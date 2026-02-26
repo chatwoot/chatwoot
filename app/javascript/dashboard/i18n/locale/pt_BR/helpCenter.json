@@ -747,6 +747,10 @@
         "BRAND_COLOR": {
           "LABEL": "Cor da Marca"
         },
+        "SHOW_AUTHOR": {
+          "LABEL": "Mostrar autores dos artigos",
+          "HELP_TEXT": "Exibir informações de autoria nas páginas de categorias"
+        },
         "SAVE_CHANGES": "Salvar Alterações"
       },
       "CONFIGURATION_FORM": {
