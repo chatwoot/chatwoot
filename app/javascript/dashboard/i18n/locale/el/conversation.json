@@ -192,6 +192,7 @@
       "PRIVATE_MSG_INPUT": "Shift + enter για νέα γραμμή. Το κείμενο θα μπορούν να το δουν μόνο οι υπόλοιποι πράκτορες.",
       "MESSAGING_RESTRICTED": "You cannot reply to this conversation",
       "MESSAGING_RESTRICTED_WHATSAPP": "You can only reply using a template message due to 24-hour message window restriction",
+      "MESSAGING_RESTRICTED_API": "You can only reply using a template message due to message window restriction",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Δεν έχει ρυθμιστεί η υπογραφή μηνύματος, παρακαλώ ρυθμίστε την στις ρυθμίσεις προφίλ.",
       "COPILOT_MSG_INPUT": "Give copilot additional prompts, or ask anything else... Press enter to send follow-up",
       "CLICK_HERE": "Πατήστε εδώ για ενημέρωση",
@@ -305,6 +306,7 @@
     "CANCEL": "Άκυρο",
     "SEND_EMAIL_SUCCESS": "Η μεταγραφή της συνομιλίας έχει αποσταλεί επιτυχώς",
     "SEND_EMAIL_ERROR": "Υπήρξε ένα σφάλμα, παρακαλώ προσπαθήστε ξανά",
+    "SEND_EMAIL_PAYMENT_REQUIRED": "Email transcript is not available on your current plan. Please upgrade to use this feature.",
     "FORM": {
       "SEND_TO_CONTACT": "Στείλτε το αντίγραφο στον πελάτη",
       "SEND_TO_AGENT": "Στείλε το αντίγραφο στον αντιστοιχισμένο πράκτορα",
