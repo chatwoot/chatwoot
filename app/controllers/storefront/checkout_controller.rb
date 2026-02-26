@@ -20,7 +20,7 @@ class Storefront::CheckoutController < Storefront::BaseController
     redirect_to cart.payment_url, allow_other_host: true
   rescue StandardError => e
     flash[:error] = e.message
-    redirect_to storefront_checkout_path(@account, token: storefront_token_param)
+    redirect_to storefront_checkout_path(@account, **storefront_link_params)
   end
 
   private
@@ -28,7 +28,7 @@ class Storefront::CheckoutController < Storefront::BaseController
   def ensure_cart_not_empty
     return if session_cart.present?
 
-    redirect_to storefront_products_path(@account, token: storefront_token_param)
+    redirect_to storefront_products_path(@account, **storefront_link_params)
   end
 
   def update_contact_info!

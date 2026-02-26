@@ -47,7 +47,7 @@ class Storefront::CartController < Storefront::BaseController
   def respond_with_cart(message)
     respond_to do |format|
       format.json { render json: { cart_count: cart_count, message: message } }
-      format.html { redirect_to storefront_cart_path(@account, token: storefront_token_param) }
+      format.html { redirect_to storefront_cart_path(@account, **storefront_link_params) }
     end
   end
 

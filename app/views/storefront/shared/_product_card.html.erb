@@ -3,20 +3,21 @@
 <div class="flex flex-row px-1 py-2 gap-3">
   <%# Left side — product info %>
   <div class="flex-1 flex flex-col min-w-0">
-    <a href="<%= storefront_product_path(@account, product, token: storefront_token_param) %>"
+    <a href="<%= storefront_product_path(@account, product, **storefront_link_params) %>"
        class="text-sm font-medium text-slate-900 dark:text-white line-clamp-1 hover:text-woot-500">
-      <%= product.title_en %>
+      <%= product_title(product) %>
     </a>
 
-    <% if product.description_en.present? %>
-      <p class="text-xs text-slate-500 dark:text-slate-400 line-clamp-2 mt-1"><%= product.description_en %></p>
+    <% desc = product_description(product) %>
+    <% if desc.present? %>
+      <p class="text-xs text-slate-500 dark:text-slate-400 line-clamp-2 mt-1"><%= desc %></p>
     <% end %>
 
     <%# Stock status %>
     <% if product.stock.present? && product.stock <= 0 %>
-      <span class="mt-1 text-xs text-red-500 font-medium">Out of Stock</span>
+      <span class="mt-1 text-xs text-red-500 font-medium"><%= t('storefront.out_of_stock') %></span>
     <% elsif product.stock.present? && product.stock <= 5 %>
-      <span class="mt-1 text-xs text-amber-500 font-medium">Only <%= product.stock %> left</span>
+      <span class="mt-1 text-xs text-amber-500 font-medium"><%= t('storefront.only_n_left', count: product.stock) %></span>
     <% end %>
 
     <p class="text-sm font-bold text-woot-600 dark:text-woot-400 mt-auto pt-2">
@@ -26,11 +27,11 @@
 
   <%# Right side — image + cart controls %>
   <div class="w-28 h-28 flex-shrink-0 relative">
-    <a href="<%= storefront_product_path(@account, product, token: storefront_token_param) %>"
+    <a href="<%= storefront_product_path(@account, product, **storefront_link_params) %>"
        class="block w-full h-full rounded-lg overflow-hidden bg-slate-100 dark:bg-slate-700">
       <% if product.image_url.present? %>
         <img src="<%= product.image_url %>"
-             alt="<%= product.title_en %>"
+             alt="<%= product_title(product) %>"
              class="w-full h-full object-cover"
              loading="lazy" />
       <% else %>
@@ -47,19 +48,19 @@
       <div class="absolute -bottom-1 -right-1"
            data-cart-control
            data-product-id="<%= product.id %>"
-           data-update-url="<%= storefront_cart_update_item_path(@account, product.id, token: storefront_token_param) %>"
-           data-remove-url="<%= storefront_cart_remove_item_path(@account, product.id, token: storefront_token_param) %>">
+           data-update-url="<%= storefront_cart_update_item_path(@account, product.id, **storefront_link_params) %>"
+           data-remove-url="<%= storefront_cart_remove_item_path(@account, product.id, **storefront_link_params) %>">
 
         <%# Quantity stepper — shown when item is in cart %>
         <%= render 'storefront/shared/pill_stepper',
                    variant: :product_card,
                    quantity: qty,
                    visible: qty > 0,
-                   add_url: storefront_cart_add_item_path(@account, token: storefront_token_param),
+                   add_url: storefront_cart_add_item_path(@account, **storefront_link_params),
                    product_id: product.id %>
 
         <%# Single add button — shown when item is not in cart %>
-        <%= form_tag storefront_cart_add_item_path(@account, token: storefront_token_param),
+        <%= form_tag storefront_cart_add_item_path(@account, **storefront_link_params),
                      method: :post,
                      class: qty > 0 ? 'hidden' : '',
                      data: { add_to_cart: true, single_add: true } do %>
