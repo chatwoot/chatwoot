@@ -391,6 +391,39 @@ function initCartQuantity() {
   });
 }
 
+// ─── Checkout Loading State ──────────────────────────────────
+function initCheckoutLoading() {
+  const form = document.getElementById('checkout-form');
+  if (!form) return;
+
+  form.addEventListener('submit', () => {
+    const overlay = document.getElementById('checkout-loading-overlay');
+    if (overlay) overlay.classList.remove('hidden');
+
+    const btn = document.getElementById('checkout-submit-btn');
+    if (btn) {
+      btn.disabled = true;
+      btn.textContent = 'Processing...';
+      btn.classList.add('opacity-75', 'cursor-not-allowed');
+    }
+  });
+
+  // Re-enable on browser back (bfcache)
+  window.addEventListener('pageshow', event => {
+    if (event.persisted) {
+      const overlay = document.getElementById('checkout-loading-overlay');
+      if (overlay) overlay.classList.add('hidden');
+
+      const btn = document.getElementById('checkout-submit-btn');
+      if (btn) {
+        btn.disabled = false;
+        btn.textContent = 'Place Order & Pay';
+        btn.classList.remove('opacity-75', 'cursor-not-allowed');
+      }
+    }
+  });
+}
+
 // ─── Init ────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
   initAddToCart();
@@ -398,4 +431,5 @@ document.addEventListener('DOMContentLoaded', () => {
   initQuantityStepper();
   initCartQuantity();
   initCartRemove();
+  initCheckoutLoading();
 });
