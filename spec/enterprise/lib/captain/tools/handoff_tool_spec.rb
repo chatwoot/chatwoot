@@ -63,6 +63,34 @@ RSpec.describe Captain::Tools::HandoffTool, type: :model do
           tool.perform(tool_context, reason: 'Test reason')
         end
 
+        it 'dispatches handoff event with assistant source' do
+          reason = 'Customer needs specialized support'
+          allow(Rails.configuration.dispatcher).to receive(:dispatch).and_call_original
+
+          tool.perform(tool_context, reason: reason)
+
+          expect(Rails.configuration.dispatcher).to have_received(:dispatch).with(
+            'conversation.bot_handoff',
+            anything,
+            hash_including(captain_action_source: 'assistant')
+          )
+        end
+
+        it 'creates a captain_conversation_handoff reporting event with assistant source' do
+          create(:captain_inbox, captain_assistant: assistant, inbox: inbox)
+          Current.executed_by = assistant
+
+          perform_enqueued_jobs do
+            tool.perform(tool_context, reason: 'Customer needs specialized support')
+          end
+
+          reporting_event = ReportingEvent.find_by(conversation_id: conversation.id, name: 'captain_conversation_handoff')
+          expect(reporting_event).to be_present
+          expect(reporting_event.source).to eq('assistant')
+        ensure
+          Current.reset
+        end
+
         it 'logs tool usage with reason' do
           reason = 'Customer needs help'
           expect(tool).to receive(:log_tool_usage).with(

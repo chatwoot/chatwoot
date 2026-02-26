@@ -34,6 +34,31 @@ RSpec.describe Captain::Tools::ResolveConversationTool do
 
       expect(Current.captain_resolve_reason).to be_nil
     end
+
+    it 'dispatches resolved event with assistant source' do
+      allow(Rails.configuration.dispatcher).to receive(:dispatch).and_call_original
+
+      tool.perform(tool_context, reason: 'Possible spam')
+
+      expect(Rails.configuration.dispatcher).to have_received(:dispatch).with(
+        'conversation.resolved',
+        anything,
+        hash_including(captain_action_source: 'assistant')
+      )
+    end
+
+    it 'creates a captain_conversation_resolved reporting event with assistant source' do
+      create(:captain_inbox, captain_assistant: assistant, inbox: inbox)
+
+      expect do
+        perform_enqueued_jobs do
+          tool.perform(tool_context, reason: 'Possible spam')
+        end
+      end.to change { ReportingEvent.where(conversation_id: conversation.id, name: 'captain_conversation_resolved').count }.by(1)
+
+      reporting_event = ReportingEvent.find_by(conversation_id: conversation.id, name: 'captain_conversation_resolved')
+      expect(reporting_event.source).to eq('assistant')
+    end
   end
 
   describe 'resolving an already resolved conversation' do

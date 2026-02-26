@@ -11,7 +11,7 @@ class Captain::Tools::ResolveConversationTool < Captain::Tools::BasePublicTool
 
     Current.captain_resolve_reason = reason
     begin
-      conversation.resolved!
+      Current.with_captain_action_source('assistant') { conversation.resolved! }
     ensure
       Current.captain_resolve_reason = nil
     end

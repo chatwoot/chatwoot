@@ -18,7 +18,7 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
 
     resolvable_pending_conversations(inbox).each do |conversation|
       create_resolution_message(conversation, inbox)
-      with_captain_action_source('scheduler') { conversation.resolved! }
+      Current.with_captain_action_source('scheduler') { conversation.resolved! }
     end
   end
 
@@ -52,13 +52,13 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
   def resolve_conversation(conversation, inbox, reason)
     create_private_note(conversation, inbox, "Auto-resolved: #{reason}")
     create_resolution_message(conversation, inbox)
-    with_captain_action_source('scheduler') { conversation.resolved! }
+    Current.with_captain_action_source('scheduler') { conversation.resolved! }
   end
 
   def handoff_conversation(conversation, inbox, reason)
     create_private_note(conversation, inbox, "Auto-handoff: #{reason}")
     create_handoff_message(conversation, inbox)
-    with_captain_action_source('scheduler') { conversation.bot_handoff! }
+    Current.with_captain_action_source('scheduler') { conversation.bot_handoff! }
     send_out_of_office_message_if_applicable(conversation)
   end
 
@@ -92,14 +92,6 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
         sender: inbox.captain_assistant
       )
     end
-  end
-
-  def with_captain_action_source(source)
-    previous_source = Current.captain_action_source
-    Current.captain_action_source = source
-    yield
-  ensure
-    Current.captain_action_source = previous_source
   end
 
   def create_handoff_message(conversation, inbox)

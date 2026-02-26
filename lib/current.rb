@@ -7,6 +7,14 @@ module Current
   thread_mattr_accessor :captain_resolve_reason
   thread_mattr_accessor :captain_action_source
 
+  def self.with_captain_action_source(source)
+    previous_source = captain_action_source
+    self.captain_action_source = source
+    yield
+  ensure
+    self.captain_action_source = previous_source
+  end
+
   def self.reset
     Current.user = nil
     Current.account = nil
