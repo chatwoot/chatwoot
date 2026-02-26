@@ -52,48 +52,33 @@
         "ACTIVE": "Last activity"
       }
     },
-    "SORT_ORDER_GROUPS": {
-      "LAST_ACTIVITY": "Last Activity",
-      "CREATED_AT": "Created At",
-      "PRIORITY": "Priority",
-      "WAITING_SINCE": "Pending Response"
-    },
     "SORT_ORDER_ITEMS": {
       "last_activity_at_asc": {
-        "TEXT": "Last activity: Oldest first",
-        "SHORT": "Oldest first"
+        "TEXT": "Last activity: Oldest first"
       },
       "last_activity_at_desc": {
-        "TEXT": "Last activity: Newest first",
-        "SHORT": "Newest first"
+        "TEXT": "Last activity: Newest first"
       },
       "created_at_desc": {
-        "TEXT": "Created at: Newest first",
-        "SHORT": "Newest first"
+        "TEXT": "Created at: Newest first"
       },
       "created_at_asc": {
-        "TEXT": "Created at: Oldest first",
-        "SHORT": "Oldest first"
+        "TEXT": "Created at: Oldest first"
       },
       "priority_desc": {
-        "TEXT": "Priority: Highest first",
-        "SHORT": "Highest first"
+        "TEXT": "Priority: Highest first"
       },
       "priority_asc": {
-        "TEXT": "Priority: Lowest first",
-        "SHORT": "Lowest first"
+        "TEXT": "Priority: Lowest first"
       },
       "waiting_since_asc": {
-        "TEXT": "Pending Response: Longest first",
-        "SHORT": "Longest first"
+        "TEXT": "Pending Response: Longest first"
       },
       "waiting_since_desc": {
-        "TEXT": "Pending Response: Shortest first",
-        "SHORT": "Shortest first"
+        "TEXT": "Pending Response: Shortest first"
       },
       "priority_desc_created_at_asc": {
-        "TEXT": "Priority: Highest first, Created: Oldest first",
-        "SHORT": "Highest, oldest created"
+        "TEXT": "Priority: Highest first, Created: Oldest first"
       }
     },
     "ATTACHMENTS": {
