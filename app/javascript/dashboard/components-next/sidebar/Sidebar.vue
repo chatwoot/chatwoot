@@ -351,11 +351,11 @@ const menuItems = computed(() => {
             activeOn: ['payment_links'],
           },
           {
-            name: 'Carts',
-            label: t('SIDEBAR.CARTS'),
+            name: 'Orders',
+            label: t('SIDEBAR.ORDERS'),
             icon: 'i-lucide-shopping-cart',
-            to: accountScopedRoute('carts_list'),
-            activeOn: ['carts_list'],
+            to: accountScopedRoute('orders_list'),
+            activeOn: ['orders_list'],
           },
         ]
       : []),

@@ -9,11 +9,11 @@
       },
       "PAYMENT_PROVIDER": {
         "TITLE": "Payment Provider",
-        "DESCRIPTION": "Select a payment provider to enable cart functionality. Without a provider, you can only send catalog items as messages.",
+        "DESCRIPTION": "Select a payment provider to enable order functionality. Without a provider, you can only send catalog items as messages.",
         "OPTIONS": {
           "NONE": "None (Send items only)"
         },
-        "NO_PROVIDER_NOTE": "Without a payment provider, you can send catalog items to customers but won't be able to create carts with payment links."
+        "NO_PROVIDER_NOTE": "Without a payment provider, you can send catalog items to customers but won't be able to create orders with payment links."
       },
       "CURRENCY": {
         "TITLE": "Currency",

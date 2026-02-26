@@ -52,7 +52,7 @@ class Storefront::CheckoutController < Storefront::BaseController
     conversation = find_or_create_conversation!
     items = session_cart.map { |pid, qty| { product_id: pid.to_i, quantity: qty.to_i } }
 
-    Carts::CreateService.new(
+    Orders::CreateService.new(
       conversation: conversation,
       items: items,
       creator: storefront_creator

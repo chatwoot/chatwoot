@@ -40,6 +40,8 @@ RSpec.describe Account do
   it { is_expected.to have_many(:portals).dependent(:destroy_async) }
   it { is_expected.to have_many(:categories).dependent(:destroy_async) }
   it { is_expected.to have_many(:teams).dependent(:destroy_async) }
+  it { is_expected.to have_many(:orders).dependent(:destroy_async) }
+  it { is_expected.to have_many(:products).dependent(:destroy_async) }
 
   # This validation happens in ApplicationRecord
   describe 'length validations' do

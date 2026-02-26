@@ -18,8 +18,8 @@ module CatalogSupport
 
       1. Recommend relevant products when appropriate
       2. Use product_details tool for detailed inquiries
-      3. Use create_cart tool with product IDs and quantities
-      4. After cart creation, you will receive a payment_url — you MUST include this link in your reply to the customer
+      3. Use create_order tool with product IDs and quantities
+      4. After order creation, you will receive a payment_url — you MUST include this link in your reply to the customer
       5. Use send_storefront_link tool when the customer wants to browse products themselves or asks for a shopping link
       6. After generating a storefront link, you will receive a storefront_url — you MUST include this link in your reply to the customer
 
@@ -33,7 +33,7 @@ module CatalogSupport
   def catalog_tools
     return [] unless catalog_access_enabled?
 
-    [ProductDetailsTool, CreateCartTool, SendStorefrontLinkTool]
+    [ProductDetailsTool, CreateOrderTool, SendStorefrontLinkTool]
   end
 
   def catalog_enabled?

@@ -206,7 +206,7 @@
         },
         "CATALOG_ACCESS": {
           "LABEL": "Catalog Access",
-          "DESCRIPTION": "Allow the AI to access product information and create shopping carts for customers"
+          "DESCRIPTION": "Allow the AI to access product information and create orders for customers"
         },
         "MACROS": {
           "LABEL": "Execute Macros",
