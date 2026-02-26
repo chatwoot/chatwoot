@@ -371,7 +371,7 @@ const menuItems = computed(() => {
                 label: t('SIDEBAR.ORDERS'),
                 icon: 'i-lucide-receipt',
                 to: accountScopedRoute('orders_list'),
-                activeOn: ['orders_list'],
+                activeOn: ['orders_list', 'orders_show'],
               },
             ],
           },

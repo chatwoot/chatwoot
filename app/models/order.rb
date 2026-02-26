@@ -6,6 +6,7 @@ class Order < ApplicationRecord
   belongs_to :created_by, polymorphic: true
 
   has_many :order_items, dependent: :destroy
+  has_many :order_notes, dependent: :destroy
   has_many :products, through: :order_items
 
   before_validation :generate_external_payment_id

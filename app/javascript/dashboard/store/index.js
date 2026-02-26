@@ -11,6 +11,7 @@ import auditlogs from './modules/auditlogs';
 import auth from './modules/auth';
 import paymentLinks from './modules/paymentLinks';
 import orders from './modules/orders';
+import orderNotes from './modules/orderNotes';
 import automations from './modules/automations';
 import bulkActions from './modules/bulkActions';
 import campaigns from './modules/campaigns';
@@ -71,6 +72,7 @@ export default createStore({
     auth,
     paymentLinks,
     orders,
+    orderNotes,
     automations,
     bulkActions,
     campaigns,

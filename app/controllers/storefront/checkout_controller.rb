@@ -55,7 +55,8 @@ class Storefront::CheckoutController < Storefront::BaseController
     Orders::CreateService.new(
       conversation: conversation,
       items: items,
-      creator: storefront_creator
+      creator: storefront_creator,
+      delivery_address: current_contact.additional_attributes&.dig('address') || {}
     ).perform
   end
 

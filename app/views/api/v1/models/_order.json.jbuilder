@@ -7,6 +7,7 @@ json.subtotal resource.subtotal
 json.total resource.total
 json.currency resource.currency
 json.status resource.status
+json.delivery_address resource.delivery_address
 json.paid_at resource.paid_at
 json.created_at resource.created_at
 json.updated_at resource.updated_at
