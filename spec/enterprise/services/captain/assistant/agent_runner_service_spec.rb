@@ -384,6 +384,15 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
       expect(state[:channel_type]).to eq(inbox.channel_type)
     end
 
+    it 'includes contact inbox attributes when conversation is present' do
+      state = service.send(:build_state)
+
+      expect(state[:contact_inbox]).to include(
+        id: conversation.contact_inbox.id,
+        hmac_verified: conversation.contact_inbox.hmac_verified
+      )
+    end
+
     it 'includes contact attributes when contact is present' do
       state = service.send(:build_state)
 
