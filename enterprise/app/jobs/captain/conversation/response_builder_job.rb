@@ -42,33 +42,15 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   end
 
   def process_response
-    handoff = false
-
-    ActiveRecord::Base.transaction do
-      if handoff_requested?
-        I18n.with_locale(@assistant.account.locale) { create_handoff_message }
-        handoff = true
-      else
+    if handoff_requested?
+      process_action('handoff')
+    else
+      ActiveRecord::Base.transaction do
         create_messages
         Rails.logger.info("[CAPTAIN][ResponseBuilderJob] Incrementing response usage for #{account.id}")
         account.increment_response_usage
       end
     end
-
-    return unless handoff
-
-    I18n.with_locale(@assistant.account.locale) do
-      @conversation.bot_handoff!
-      send_out_of_office_message_if_applicable
-    end
-
-    # The handoff message's after_create_commit (Message#update_waiting_since)
-    # clears waiting_since because the message is a bot response. bot_handoff!
-    # sets it, but the deferred callback may wipe it out. Re-set here using
-    # update_column to bypass callbacks. See PR #13417.
-    # rubocop:disable Rails/SkipsModelValidations
-    @conversation.update_column(:waiting_since, Time.current)
-    # rubocop:enable Rails/SkipsModelValidations
   end
 
   def collect_previous_messages

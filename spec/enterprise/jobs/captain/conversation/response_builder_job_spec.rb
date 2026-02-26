@@ -92,10 +92,10 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
       end
     end
 
-    # Regression (PR #13417): when the handoff message (bot outgoing) and bot_handoff!
-    # both ran inside one transaction, the message's after_create_commit cleared
-    # waiting_since (because it's a bot_response), wiping the value bot_handoff! set.
-    # Fix: create the message in a transaction, then call bot_handoff! after it commits.
+    # Regression (PR #13417): wrapping create_handoff_message and bot_handoff! in the
+    # same transaction defers the message's after_create_commit until commit, at which
+    # point it clears waiting_since (bot_response). The handoff path must stay outside
+    # the transaction so the callback fires before bot_handoff! sets waiting_since.
     context 'when handoff is requested' do
       let(:conversation) { create(:conversation, inbox: inbox, account: account, status: :pending) }
       let(:agent) { create(:user, account: account, role: :agent) }
