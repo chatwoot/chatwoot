@@ -99,6 +99,10 @@ class Order < ApplicationRecord
     )
   end
 
+  def amount
+    total
+  end
+
   def paid_at
     payload['paid_at'] ? Time.zone.parse(payload['paid_at']) : nil
   end
