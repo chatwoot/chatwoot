@@ -38,6 +38,14 @@ RSpec.describe Inboxes::FetchImapEmailsJob do
       end
     end
 
+    context 'when channel is in backoff' do
+      it 'does not fetch emails' do
+        allow(imap_email_channel).to receive(:in_backoff?).and_return(true)
+        expect(Imap::FetchEmailService).not_to receive(:new)
+        described_class.perform_now(imap_email_channel)
+      end
+    end
+
     context 'when the channel is regular imap' do
       it 'calls the imap fetch service' do
         fetch_service = double
@@ -56,6 +64,17 @@ RSpec.describe Inboxes::FetchImapEmailsJob do
         described_class.perform_now(imap_email_channel, 4)
         expect(fetch_service).to have_received(:perform)
       end
+
+      it 'clears backoff after successful fetch' do
+        fetch_service = double
+        allow(Imap::FetchEmailService).to receive(:new).and_return(fetch_service)
+        allow(fetch_service).to receive(:perform).and_return([])
+        allow(imap_email_channel).to receive(:clear_backoff!)
+
+        described_class.perform_now(imap_email_channel)
+
+        expect(imap_email_channel).to have_received(:clear_backoff!)
+      end
     end
 
     context 'when the channel is Microsoft' do
@@ -66,6 +85,37 @@ RSpec.describe Inboxes::FetchImapEmailsJob do
 
         described_class.perform_now(microsoft_imap_email_channel)
         expect(fetch_service).to have_received(:perform)
+      end
+    end
+
+    context 'when authentication error is raised' do
+      it 'calls authorization_error! on the channel' do
+        allow(Imap::FetchEmailService).to receive(:new).and_raise(Imap::AuthenticationError)
+        allow(imap_email_channel).to receive(:authorization_error!)
+
+        described_class.perform_now(imap_email_channel)
+
+        expect(imap_email_channel).to have_received(:authorization_error!)
+      end
+    end
+
+    context 'when a transient IMAP error is raised' do
+      it 'calls apply_backoff! on the channel' do
+        allow(Imap::FetchEmailService).to receive(:new).and_raise(EOFError)
+        allow(imap_email_channel).to receive(:apply_backoff!)
+
+        described_class.perform_now(imap_email_channel)
+
+        expect(imap_email_channel).to have_received(:apply_backoff!)
+      end
+    end
+
+    context 'when lock acquisition fails' do
+      it 'does not raise an error' do
+        lock_manager = instance_double(Redis::LockManager, lock: false)
+        allow(Redis::LockManager).to receive(:new).and_return(lock_manager)
+
+        expect { described_class.perform_now(imap_email_channel) }.not_to raise_error
       end
     end
 
