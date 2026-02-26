@@ -23,7 +23,6 @@ export const FEATURE_FLAGS = {
   SLA: 'sla',
   CHANNEL_EMAIL: 'channel_email',
   CHANNEL_FACEBOOK: 'channel_facebook',
-  CHANNEL_TWITTER: 'channel_twitter',
   CHANNEL_WEBSITE: 'channel_website',
   CUSTOM_REPLY_DOMAIN: 'custom_reply_domain',
   CUSTOM_REPLY_EMAIL: 'custom_reply_email',

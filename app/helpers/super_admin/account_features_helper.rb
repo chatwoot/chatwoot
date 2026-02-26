@@ -22,7 +22,7 @@ module SuperAdmin::AccountFeaturesHelper
   end
 
   def self.filter_deprecated_features(features)
-    deprecated_features = account_features.select { |f| f['deprecated'] || f['removed'] }.pluck('name')
+    deprecated_features = account_features.select { |f| f['deprecated'] }.pluck('name')
     features.except(*deprecated_features)
   end
 

@@ -6,7 +6,6 @@
 # help_url: the url to the help center article
 # chatwoot_internal: whether the feature is internal to Chatwoot and should not be shown in the UI for other self hosted installations
 # deprecated: purpose of feature flag is done, no need to show it in the UI anymore
-# removed: flag is retired; bit slot is available for reuse — rename and remove this key to claim it
 - name: inbound_emails
   display_name: Inbound Emails
   enabled: true
@@ -21,6 +20,7 @@
 - name: channel_twitter
   display_name: Twitter Channel
   enabled: true
+  chatwoot_internal: true
   deprecated: true
 - name: ip_lookup
   display_name: IP Lookup
@@ -79,7 +79,7 @@
   display_name: Mobile App V2
   enabled: false
   chatwoot_internal: true
-  removed: true
+  deprecated: true
 - name: channel_website
   display_name: Website Channel
   enabled: true
@@ -111,17 +111,17 @@
   display_name: Response Bot
   enabled: false
   chatwoot_internal: true
-  removed: true
+  deprecated: true
 - name: message_reply_to
   display_name: Message Reply To
   enabled: false
   chatwoot_internal: true
-  removed: true
+  deprecated: true
 - name: insert_article_in_reply
   display_name: Insert Article in Reply
   enabled: false
   chatwoot_internal: true
-  removed: true
+  deprecated: true
 - name: inbox_view
   display_name: Inbox View
   enabled: false
@@ -154,7 +154,7 @@
   display_name: Report V4
   enabled: false
   chatwoot_internal: true
-  removed: true
+  deprecated: true
 - name: contact_chatwoot_support_team
   display_name: Contact Chatwoot Support Team
   enabled: true
@@ -188,7 +188,7 @@
   display_name: WhatsApp Embedded Signup
   enabled: false
   chatwoot_internal: true
-  removed: true
+  deprecated: true
 - name: whatsapp_campaign
   display_name: WhatsApp Campaign
   enabled: false
@@ -204,7 +204,7 @@
   display_name: Twilio Content Templates
   enabled: false
   chatwoot_internal: true
-  removed: true
+  deprecated: true
 - name: advanced_search
   display_name: Advanced Search
   enabled: false
