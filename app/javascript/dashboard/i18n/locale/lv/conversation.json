@@ -192,6 +192,7 @@
       "PRIVATE_MSG_INPUT": "Shift + Enter, lai pārietu uz jaunu rindu. Ziņojums būs redzams tikai Aģentiem",
       "MESSAGING_RESTRICTED": "You cannot reply to this conversation",
       "MESSAGING_RESTRICTED_WHATSAPP": "You can only reply using a template message due to 24-hour message window restriction",
+      "MESSAGING_RESTRICTED_API": "You can only reply using a template message due to message window restriction",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Ziņojuma paraksts nav nokonfigurēts. Lūdzu, nokonfigurējiet to profila iestatījumos.",
       "COPILOT_MSG_INPUT": "Give copilot additional prompts, or ask anything else... Press enter to send follow-up",
       "CLICK_HERE": "Noklikšķiniet šeit, lai atjauninātu",
@@ -305,6 +306,7 @@
     "CANCEL": "Atcelt",
     "SEND_EMAIL_SUCCESS": "Sarunas transkripts tika veiksmīgi nosūtīts",
     "SEND_EMAIL_ERROR": "Radās kļūda. Lūdzu, mēģiniet vēlreiz",
+    "SEND_EMAIL_PAYMENT_REQUIRED": "Email transcript is not available on your current plan. Please upgrade to use this feature.",
     "FORM": {
       "SEND_TO_CONTACT": "Nosūtīt transkriptu klientam",
       "SEND_TO_AGENT": "Nosūtīt transkriptu piešķirtajam aģentam",
