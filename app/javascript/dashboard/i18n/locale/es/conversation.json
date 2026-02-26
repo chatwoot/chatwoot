@@ -192,6 +192,7 @@
       "PRIVATE_MSG_INPUT": "Mayús + entrar para una nueva línea. Esto será visible sólo para los agentes",
       "MESSAGING_RESTRICTED": "You cannot reply to this conversation",
       "MESSAGING_RESTRICTED_WHATSAPP": "You can only reply using a template message due to 24-hour message window restriction",
+      "MESSAGING_RESTRICTED_API": "You can only reply using a template message due to message window restriction",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "La firma del mensaje no está configurada, por favor configúrela en la configuración del perfil.",
       "COPILOT_MSG_INPUT": "Give copilot additional prompts, or ask anything else... Press enter to send follow-up",
       "CLICK_HERE": "Haga clic aquí para actualizar",
@@ -305,6 +306,7 @@
     "CANCEL": "Cancelar",
     "SEND_EMAIL_SUCCESS": "La transcripción ha sido enviada",
     "SEND_EMAIL_ERROR": "Hubo un error, por favor inténtelo de nuevo",
+    "SEND_EMAIL_PAYMENT_REQUIRED": "Email transcript is not available on your current plan. Please upgrade to use this feature.",
     "FORM": {
       "SEND_TO_CONTACT": "Enviar la transcripción al cliente",
       "SEND_TO_AGENT": "Enviar la transcripción al agente asignado",
