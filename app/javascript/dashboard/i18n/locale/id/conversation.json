@@ -192,6 +192,7 @@
       "PRIVATE_MSG_INPUT": "Shift + enter untuk baris baru. Ini hanya akan terlihat oleh Agen",
       "MESSAGING_RESTRICTED": "You cannot reply to this conversation",
       "MESSAGING_RESTRICTED_WHATSAPP": "You can only reply using a template message due to 24-hour message window restriction",
+      "MESSAGING_RESTRICTED_API": "You can only reply using a template message due to message window restriction",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Tanda tangan pesan tidak dikonfigurasi, harap konfigurasikan di pengaturan profil.",
       "COPILOT_MSG_INPUT": "Give copilot additional prompts, or ask anything else... Press enter to send follow-up",
       "CLICK_HERE": "Klik di sini untuk memperbarui",
@@ -305,6 +306,7 @@
     "CANCEL": "Batalkan",
     "SEND_EMAIL_SUCCESS": "Transkrip percakapan berhasil terkirim",
     "SEND_EMAIL_ERROR": "Terjadi kesalahan, mohon coba lagi",
+    "SEND_EMAIL_PAYMENT_REQUIRED": "Email transcript is not available on your current plan. Please upgrade to use this feature.",
     "FORM": {
       "SEND_TO_CONTACT": "Kirim transkrip ke pelanggan",
       "SEND_TO_AGENT": "Kirim transkrip dari agen yang ditugaskan",
