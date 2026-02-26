@@ -528,15 +528,15 @@
     "SUCCESS": "Payment link sent successfully",
     "ERROR": "Failed to generate payment link"
   },
-  "CART": {
-    "TITLE": "Create Cart",
+  "ORDER": {
+    "TITLE": "Create Order",
     "DESC": "Add products to create an itemized invoice for the customer",
-    "BUTTON_TEXT": "Create Cart",
+    "BUTTON_TEXT": "Create Order",
     "SELECT_PRODUCTS": "Select Products",
     "SEARCH_PRODUCTS": "Search products...",
     "LOADING_PRODUCTS": "Loading products...",
     "NO_PRODUCTS": "No products found",
-    "CART_ITEMS": "Cart Items",
+    "ORDER_ITEMS": "Order Items",
     "CURRENCY": "Currency",
     "SUBTOTAL": "Subtotal",
     "TOTAL": "Total",
@@ -548,8 +548,8 @@
     "PAY_NOW": "Pay Now",
     "SUBMIT": "Send Invoice",
     "CANCEL": "Cancel",
-    "SUCCESS": "Cart invoice sent successfully",
-    "ERROR": "Failed to create cart invoice"
+    "SUCCESS": "Order invoice sent successfully",
+    "ERROR": "Failed to create order invoice"
   },
   "PAYMENT_LINKS": {
     "HEADER": "Payment Links",
@@ -639,13 +639,13 @@
       "SHOWING": "Showing {from} - {to} of {count} payment links"
     }
   },
-  "CARTS_LIST": {
-    "HEADER": "Carts",
-    "DESCRIPTION": "View and manage all carts created for your customers. Track cart statuses and access details.",
-    "LOADING": "Loading carts...",
-    "EMPTY_STATE": "No carts found. Create a cart from a conversation to see it here.",
+  "ORDERS_LIST": {
+    "HEADER": "Orders",
+    "DESCRIPTION": "View and manage all orders created for your customers. Track order statuses and access details.",
+    "LOADING": "Loading orders...",
+    "EMPTY_STATE": "No orders found. Create an order from a conversation to see it here.",
     "TABLE": {
-      "CART_ID": "Cart ID",
+      "ORDER_ID": "Order ID",
       "CONTACT": "Contact",
       "ITEMS": "Items",
       "ITEM": "item",
@@ -657,7 +657,7 @@
       "ACTIONS": "Actions",
       "COPY_URL": "Copy payment URL",
       "VIEW_PAYMENT": "View payment page",
-      "NO_RESULTS_SEARCH": "No carts found matching your search",
+      "NO_RESULTS_SEARCH": "No orders found matching your search",
       "EXPANDED_ITEMS": {
         "PRODUCT": "Product",
         "QUANTITY": "Qty",
@@ -674,7 +674,7 @@
       "CANCELLED": "Cancelled"
     },
     "HEADER_CONTROLS": {
-      "SEARCH_PLACEHOLDER": "Search carts by ID or contact name",
+      "SEARCH_PLACEHOLDER": "Search orders by ID or contact name",
       "ACTIONS": {
         "SORT_BY": {
           "LABEL": "Sort by",
@@ -694,7 +694,7 @@
       }
     },
     "PAGINATION_FOOTER": {
-      "SHOWING": "Showing {from} - {to} of {count} carts"
+      "SHOWING": "Showing {from} - {to} of {count} orders"
     }
   }
 }

@@ -1,0 +1,65 @@
+<%# Pill-shaped quantity stepper (woot-500 bg, rounded-full +/- buttons).
+    Shared between product cards and cart items.
+
+    Required locals:
+    - quantity:  Integer — current quantity to display
+    - variant:   :cart or :product_card
+
+    Cart variant locals:
+    - update_url: String — PATCH URL for quantity changes
+    - remove_url: String — DELETE URL for item removal
+
+    Product card variant locals:
+    - add_url:    String — POST URL for adding to cart
+    - product_id: Integer — product ID for hidden field
+    - visible:    Boolean — whether stepper is visible (qty > 0)
+%>
+<% is_cart = variant == :cart %>
+
+<div class="flex items-center bg-woot-500 rounded-full <%= is_cart ? 'shadow-sm' : 'shadow-md' %><%= ' hidden' if !is_cart && !visible %>"
+     <% if is_cart %>
+       data-cart-qty
+       data-cart-qty-url="<%= update_url %>"
+       data-cart-qty-remove-url="<%= remove_url %>"
+     <% else %>
+       data-stepper
+     <% end %>>
+
+  <%# Decrement button %>
+  <button type="button"
+          class="w-7 h-7 rounded-full text-white flex items-center justify-center hover:bg-woot-600 transition-colors active:scale-95"
+          <%= is_cart ? 'data-cart-qty-dec' : 'data-decrement' %>
+          aria-label="Decrease quantity">
+    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12h-15" />
+    </svg>
+  </button>
+
+  <%# Quantity display %>
+  <span class="text-white text-xs font-bold min-w-[1.25rem] text-center select-none"
+        <%= is_cart ? 'data-cart-qty-display' : 'data-qty-display' %>><%= quantity %></span>
+
+  <%# Increment — plain button for cart, form submit for product card %>
+  <% if is_cart %>
+    <button type="button"
+            class="w-7 h-7 rounded-full text-white flex items-center justify-center hover:bg-woot-600 transition-colors active:scale-95"
+            data-cart-qty-inc
+            aria-label="Increase quantity">
+      <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+      </svg>
+    </button>
+  <% else %>
+    <%= form_tag add_url, method: :post, class: 'flex', data: { add_to_cart: true } do %>
+      <input type="hidden" name="product_id" value="<%= product_id %>" />
+      <input type="hidden" name="quantity" value="1" />
+      <button type="submit"
+              class="w-7 h-7 rounded-full text-white flex items-center justify-center hover:bg-woot-600 transition-colors active:scale-95"
+              aria-label="Increase quantity">
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+        </svg>
+      </button>
+    <% end %>
+  <% end %>
+</div>

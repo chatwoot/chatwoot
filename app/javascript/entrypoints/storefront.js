@@ -28,6 +28,19 @@ function updateFloatingCart(count) {
   }
 }
 
+// ─── Header Cart Badge ───────────────────────────────────────
+function updateHeaderBadge(count) {
+  const badge = document.getElementById('header-cart-badge');
+  if (!badge) return;
+
+  if (count > 0) {
+    badge.textContent = count;
+    badge.classList.remove('hidden');
+  } else {
+    badge.classList.add('hidden');
+  }
+}
+
 // ─── Cart Badge ──────────────────────────────────────────────
 function updateCartBadge(count) {
   const badge = document.getElementById('cart-badge');
@@ -48,7 +61,45 @@ function updateCartBadge(count) {
     badge.remove();
   }
 
+  updateHeaderBadge(count);
   updateFloatingCart(count);
+}
+
+// ─── Product Detail: "X in your cart" Indicator ──────────────
+function updateCartIndicator(addedQty) {
+  const indicator = document.querySelector('[data-cart-indicator]');
+  const textEl = document.querySelector('[data-cart-indicator-text]');
+
+  if (textEl) {
+    // Already visible — increment the displayed count
+    const match = textEl.textContent.match(/(\d+)/);
+    const current = match ? parseInt(match[1], 10) : 0;
+    textEl.textContent = `${current + addedQty} in your cart`;
+  } else if (indicator === null) {
+    // Not on page yet — inject it after the price/stock row
+    const priceRow = document.querySelector(
+      '.flex.items-center.gap-2\\.5.mt-3'
+    );
+    if (!priceRow) return;
+
+    const link = document.createElement('a');
+    link.href = document
+      .querySelector('[data-add-to-cart]')
+      ?.action?.replace(/\/items$/, '');
+    link.className =
+      'flex items-center gap-2 mt-3 px-3 py-2 bg-woot-50 dark:bg-woot-500/10 rounded-lg group transition-colors hover:bg-woot-100 dark:hover:bg-woot-500/20';
+    link.setAttribute('data-cart-indicator', '');
+    link.innerHTML = `
+      <svg class="w-4 h-4 text-woot-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round"
+              d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+      </svg>
+      <span class="text-xs font-semibold text-woot-600 dark:text-woot-400" data-cart-indicator-text>${addedQty} in your cart</span>
+      <svg class="w-3.5 h-3.5 text-woot-400 dark:text-woot-500 ml-auto group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+      </svg>`;
+    priceRow.insertAdjacentElement('afterend', link);
+  }
 }
 
 // ─── Card Stepper Toggle ────────────────────────────────────
@@ -98,15 +149,20 @@ function initAddToCart() {
             return;
           }
 
-          // Detail page text button — "Added!" feedback
-          const btn = form.querySelector('button[type="submit"]');
-          if (btn && btn.textContent.trim().length > 0) {
-            const original = btn.textContent;
-            btn.textContent = 'Added!';
+          // Detail page button — "Added!" feedback + update cart indicator
+          const btn = form.querySelector('[data-add-btn]');
+          if (btn) {
+            // Update "X in your cart" indicator
+            const addedQty = parseInt(formData.get('quantity'), 10) || 1;
+            updateCartIndicator(addedQty);
+
+            const originalHTML = btn.innerHTML;
+            btn.innerHTML =
+              '<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg><span>Added!</span>';
             btn.classList.add('bg-green-500');
             btn.classList.remove('bg-woot-500');
             setTimeout(() => {
-              btn.textContent = original;
+              btn.innerHTML = originalHTML;
               btn.classList.remove('bg-green-500');
               btn.classList.add('bg-woot-500');
             }, 1200);
@@ -160,24 +216,38 @@ function initDecrement() {
 }
 
 // ─── Quantity Stepper (product detail page) ──────────────────
+function updateDetailSubtotal(form, qty) {
+  const unitPrice = parseFloat(form?.dataset?.unitPrice);
+  const subtotalEl = form?.querySelector('[data-add-subtotal]');
+  if (!subtotalEl || Number.isNaN(unitPrice)) return;
+  subtotalEl.textContent = (unitPrice * qty).toFixed(2);
+}
+
 function initQuantityStepper() {
   document.querySelectorAll('[data-qty-input]').forEach(input => {
     const wrapper = input.closest('[data-qty-stepper]');
     if (!wrapper) return;
 
+    const form = input.closest('form');
     const decBtn = wrapper.querySelector('[data-qty-dec]');
     const incBtn = wrapper.querySelector('[data-qty-inc]');
 
     if (decBtn) {
       decBtn.addEventListener('click', () => {
         const val = parseInt(input.value, 10) || 1;
-        if (val > 1) input.value = val - 1;
+        if (val > 1) {
+          input.value = val - 1;
+          updateDetailSubtotal(form, val - 1);
+        }
       });
     }
     if (incBtn) {
       incBtn.addEventListener('click', () => {
         const val = parseInt(input.value, 10) || 1;
-        if (val < 99) input.value = val + 1;
+        if (val < 99) {
+          input.value = val + 1;
+          updateDetailSubtotal(form, val + 1);
+        }
       });
     }
   });

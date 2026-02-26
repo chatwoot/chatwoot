@@ -350,23 +350,30 @@ const menuItems = computed(() => {
             to: accountScopedRoute('payment_links'),
             activeOn: ['payment_links'],
           },
-          {
-            name: 'Carts',
-            label: t('SIDEBAR.CARTS'),
-            icon: 'i-lucide-shopping-cart',
-            to: accountScopedRoute('carts_list'),
-            activeOn: ['carts_list'],
-          },
         ]
       : []),
     ...(catalogSettings.value?.enabled
       ? [
           {
-            name: 'Catalog',
-            label: t('SIDEBAR.CATALOG'),
-            icon: 'i-lucide-package',
-            to: accountScopedRoute('catalog_index'),
-            activeOn: ['catalog_index'],
+            name: 'Store',
+            label: t('SIDEBAR.STORE'),
+            icon: 'i-lucide-store',
+            children: [
+              {
+                name: 'Catalog',
+                label: t('SIDEBAR.CATALOG'),
+                icon: 'i-lucide-package',
+                to: accountScopedRoute('catalog_index'),
+                activeOn: ['catalog_index'],
+              },
+              {
+                name: 'Orders',
+                label: t('SIDEBAR.ORDERS'),
+                icon: 'i-lucide-receipt',
+                to: accountScopedRoute('orders_list'),
+                activeOn: ['orders_list'],
+              },
+            ],
           },
         ]
       : []),

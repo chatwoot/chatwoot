@@ -90,6 +90,10 @@ class JsonSchemaValidator < ActiveModel::Validator
     data = error['data_pointer']
 
     # if data starts with a "/" remove it
-    data[1..] if data[0] == '/'
+    if data[0] == '/'
+      data[1..]
+    else
+      data
+    end
   end
 end

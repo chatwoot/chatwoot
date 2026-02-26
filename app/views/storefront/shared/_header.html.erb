@@ -24,7 +24,23 @@
       <%= @account&.name %>
     </h1>
 
-    <%# Spacer to keep store name centered %>
-    <div class="w-5"></div>
+    <%# Cart icon — hidden on cart/checkout pages %>
+    <% if controller_name != 'cart' && controller_name != 'checkout' %>
+      <% header_cart_count = session["storefront_cart_#{@account&.id}_#{current_contact&.id}"]&.values&.sum(&:to_i) || 0 %>
+      <a href="<%= storefront_cart_path(@account, token: storefront_token_param) %>"
+         class="relative flex items-center justify-center w-9 h-9 rounded-full text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
+         id="header-cart-icon">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round"
+                d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+        </svg>
+        <span id="header-cart-badge"
+              class="absolute -top-0.5 -right-0.5 bg-woot-500 text-white text-[10px] font-bold rounded-full h-4 min-w-[1rem] flex items-center justify-center px-1 <%= header_cart_count > 0 ? '' : 'hidden' %>">
+          <%= header_cart_count %>
+        </span>
+      </a>
+    <% else %>
+      <div class="w-5"></div>
+    <% end %>
   </div>
 </header>

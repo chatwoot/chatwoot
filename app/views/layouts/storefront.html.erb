@@ -37,7 +37,7 @@
       <%= yield %>
     </main>
 
-    <% unless controller_name == 'cart' || controller_name == 'checkout' %>
+    <% unless controller_name == 'cart' || controller_name == 'checkout' || (controller_name == 'products' && action_name == 'show') %>
       <% cart_count = session["storefront_cart_#{@account&.id}_#{current_contact&.id}"]&.values&.sum(&:to_i) || 0 %>
       <div id="floating-cart"
            class="fixed bottom-6 left-4 right-4 z-50 max-w-lg mx-auto transition-all duration-300 <%= cart_count > 0 ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0 pointer-events-none' %>">

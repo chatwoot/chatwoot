@@ -1,5 +1,28 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: custom_attribute_definitions
+#
+#  id                     :bigint           not null, primary key
+#  attribute_description  :text
+#  attribute_display_name :string
+#  attribute_display_type :integer          default("text")
+#  attribute_key          :string
+#  attribute_model        :integer          default("conversation_attribute")
+#  attribute_values       :jsonb
+#  default_value          :integer
+#  regex_cue              :string
+#  regex_pattern          :string
+#  created_at             :datetime         not null
+#  updated_at             :datetime         not null
+#  account_id             :bigint
+#
+# Indexes
+#
+#  attribute_key_model_index                         (attribute_key,attribute_model,account_id) UNIQUE
+#  index_custom_attribute_definitions_on_account_id  (account_id)
+#
 require 'rails_helper'
 
 RSpec.describe CustomAttributeDefinition do

@@ -1,3 +1,24 @@
+# == Schema Information
+#
+# Table name: account_catalog_settings
+#
+#  id                       :bigint           not null, primary key
+#  currency                 :string           default("SAR")
+#  enabled                  :boolean          default(FALSE), not null
+#  order_notification_email :string
+#  payment_provider         :string
+#  created_at               :datetime         not null
+#  updated_at               :datetime         not null
+#  account_id               :bigint           not null
+#
+# Indexes
+#
+#  index_account_catalog_settings_on_account_id  (account_id) UNIQUE
+#
+# Foreign Keys
+#
+#  fk_rails_...  (account_id => accounts.id)
+#
 class AccountCatalogSettings < ApplicationRecord
   PAYMENT_PROVIDERS = %w[tap payzah].freeze
   TAP_CURRENCIES = %w[KWD USD EUR GBP SAR AED BHD QAR OMR EGP JOD].freeze

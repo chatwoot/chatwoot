@@ -1,5 +1,28 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: accounts
+#
+#  id                    :integer          not null, primary key
+#  auto_resolve_duration :integer
+#  custom_attributes     :jsonb
+#  domain                :string(100)
+#  feature_flags         :bigint           default(0), not null
+#  internal_attributes   :jsonb            not null
+#  limits                :jsonb
+#  locale                :integer          default("en")
+#  name                  :string           not null
+#  settings              :jsonb
+#  status                :integer          default("active")
+#  support_email         :string(100)
+#  created_at            :datetime         not null
+#  updated_at            :datetime         not null
+#
+# Indexes
+#
+#  index_accounts_on_status  (status)
+#
 require 'rails_helper'
 
 RSpec.describe Account do
@@ -17,6 +40,8 @@ RSpec.describe Account do
   it { is_expected.to have_many(:portals).dependent(:destroy_async) }
   it { is_expected.to have_many(:categories).dependent(:destroy_async) }
   it { is_expected.to have_many(:teams).dependent(:destroy_async) }
+  it { is_expected.to have_many(:orders).dependent(:destroy_async) }
+  it { is_expected.to have_many(:products).dependent(:destroy_async) }
 
   # This validation happens in ApplicationRecord
   describe 'length validations' do

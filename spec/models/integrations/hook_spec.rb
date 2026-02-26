@@ -1,3 +1,19 @@
+# == Schema Information
+#
+# Table name: integrations_hooks
+#
+#  id           :bigint           not null, primary key
+#  access_token :string
+#  hook_type    :integer          default("account")
+#  settings     :jsonb
+#  status       :integer          default("enabled")
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
+#  account_id   :integer
+#  app_id       :string
+#  inbox_id     :integer
+#  reference_id :string
+#
 require 'rails_helper'
 require Rails.root.join 'spec/models/concerns/reauthorizable_shared.rb'
 

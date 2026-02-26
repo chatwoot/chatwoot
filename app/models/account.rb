@@ -68,9 +68,7 @@ class Account < ApplicationRecord
 
   validates :name, presence: true
   validates :domain, length: { maximum: 100 }
-  validates_with JsonSchemaValidator,
-                 schema: SETTINGS_PARAMS_SCHEMA,
-                 attribute_resolver: ->(record) { record.settings }
+  validates_with JsonSchemaValidator, schema: SETTINGS_PARAMS_SCHEMA, attribute_resolver: ->(record) { record[:settings] }
 
   store_accessor :settings, :auto_resolve_after, :auto_resolve_message, :auto_resolve_ignore_waiting
   store_accessor :settings, :audio_transcriptions, :auto_resolve_label, :conversation_required_attributes
@@ -89,7 +87,7 @@ class Account < ApplicationRecord
   has_many :macros, dependent: :destroy_async
   has_many :campaigns, dependent: :destroy_async
   has_many :canned_responses, dependent: :destroy_async
-  has_many :carts, dependent: :destroy_async
+  has_many :orders, dependent: :destroy_async
   has_many :categories, dependent: :destroy_async, class_name: '::Category'
   has_many :contacts, dependent: :destroy_async
   has_many :conversations, dependent: :destroy_async

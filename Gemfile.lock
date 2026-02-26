@@ -130,7 +130,7 @@ GEM
       rails (>= 4.2, < 7.2)
       selectize-rails (~> 0.6)
     afm (1.0.0)
-    annotaterb (4.20.0)
+    annotaterb (4.22.0)
       activerecord (>= 6.0.0)
       activesupport (>= 6.0.0)
     appsignal (4.8.1)
@@ -565,7 +565,8 @@ GEM
     mini_magick (4.12.0)
     mini_mime (1.1.5)
     mini_portile2 (2.8.9)
-    minitest (6.0.1)
+    minitest (6.0.2)
+      drb (~> 2.0)
       prism (~> 1.5)
     mock_redis (0.36.0)
       ruby2_keywords

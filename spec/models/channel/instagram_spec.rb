@@ -1,5 +1,21 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: channel_instagram
+#
+#  id           :bigint           not null, primary key
+#  access_token :string           not null
+#  expires_at   :datetime         not null
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
+#  account_id   :integer          not null
+#  instagram_id :string           not null
+#
+# Indexes
+#
+#  index_channel_instagram_on_instagram_id  (instagram_id) UNIQUE
+#
 require 'rails_helper'
 require Rails.root.join 'spec/models/concerns/reauthorizable_shared.rb'
 

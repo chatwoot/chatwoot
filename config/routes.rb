@@ -45,8 +45,8 @@ Rails.application.routes.draw do
   get 'payment/success', to: 'payment#success', as: :payment_success
   get 'payment/failure', to: 'payment#failure', as: :payment_failure
 
-  # Public cart preview page
-  get 'cart/:id', to: 'cart#show', as: :cart_preview
+  # Public order preview page
+  get 'order/:id', to: 'order#show', as: :order_preview
 
   # Public storefront
   scope '/store/:account_id', as: :storefront, module: :storefront do
@@ -187,7 +187,7 @@ Rails.application.routes.draw do
               resources :assignments, only: [:create]
               resources :labels, only: [:create, :index]
               resources :payment_links, only: [:create]
-              resources :carts, only: [:create]
+              resources :orders, only: [:create]
               resources :catalog_items, only: [:create]
               resource :participants, only: [:show, :create, :update, :destroy]
               resource :direct_uploads, only: [:create]
@@ -251,7 +251,7 @@ Rails.application.routes.draw do
               post :export
             end
           end
-          resources :carts, only: [:index] do
+          resources :orders, only: [:index] do
             collection do
               get :search
             end

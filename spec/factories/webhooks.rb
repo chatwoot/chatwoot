@@ -1,3 +1,21 @@
+# == Schema Information
+#
+# Table name: webhooks
+#
+#  id            :bigint           not null, primary key
+#  name          :string
+#  subscriptions :jsonb
+#  url           :string
+#  webhook_type  :integer          default("account_type")
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#  account_id    :integer
+#  inbox_id      :integer
+#
+# Indexes
+#
+#  index_webhooks_on_account_id_and_url  (account_id,url) UNIQUE
+#
 FactoryBot.define do
   factory :webhook do
     account_id { 1 }
