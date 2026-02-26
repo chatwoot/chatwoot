@@ -2,18 +2,20 @@ name: Build and Push Chatwoot Image
 
 on:
   push:
-    branches: [ "master", "main", "develop" ]
+
+    branches: [ "master", "main", "develop" ] 
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: desenvolvimento-proxmon/flexiauto
+
+  IMAGE_NAME: ${{ github.repository }} 
 
 jobs:
   build:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      packages: write
+      packages: write 
 
     steps:
       - name: Checkout repository
@@ -24,7 +26,8 @@ jobs:
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
-          password: ${{ github.token }}
+
+          password: ${{ github.token }} 
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
@@ -32,4 +35,5 @@ jobs:
           context: .
           push: true
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
-          file: ./docker/Dockerfile 
+
+          file: ./docker/Dockerfile
