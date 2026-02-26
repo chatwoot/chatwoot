@@ -134,6 +134,7 @@ interface ChatwootProviderProps {
   pubsubToken?: string;   // PubSub authentication token
   disableUpload?: boolean; // Disable file attachments
   disableEditor?: boolean; // Disable reply editor
+  signature?: string;      // Custom message signature (overrides user profile signature)
 }
 ```
 
@@ -147,6 +148,7 @@ window.__PUBSUB_TOKEN__       // Real-time auth token
 window.__WOOT_CONVERSATION_ID__ // Active conversation
 window.__EDITOR_DISABLE_UPLOAD__ // Upload flag
 window.__DISABLE_EDITOR__     // Editor flag
+window.__WOOT_CUSTOM_SIGNATURE__ // Custom signature (overrides profile)
 window.__WOOT_ISOLATED_SHELL__ // Disables audio notifications
 window.__CHATWOOT_STORE__     // Vuex store reference
 window.WootConstants          // Global constants

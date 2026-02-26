@@ -38,6 +38,8 @@ export default {
       hasSlashCommand: false,
       doAutoSaveDraft: () => {},
       updateEditorSelectionWith: '',
+      // eslint-disable-next-line no-underscore-dangle
+      customSignatureValue: window.__WOOT_CUSTOM_SIGNATURE__ || '',
     };
   },
   computed: {
@@ -158,15 +160,26 @@ export default {
     editorStateId() {
       return `draft-${this.conversationId}-${this.replyType}`;
     },
+    customSignature() {
+      return this.customSignatureValue;
+    },
+    hasCustomSignature() {
+      return !!this.customSignature;
+    },
     signatureToApply() {
+      const signature = this.customSignature || this.messageSignature;
       return this.showRichContentEditor
-        ? this.messageSignature
-        : extractTextFromMarkdown(this.messageSignature);
+        ? signature
+        : extractTextFromMarkdown(signature);
     },
   },
   mounted() {
     document.addEventListener('paste', this.onPaste);
     document.addEventListener('keydown', this.handleKeyEvents);
+    window.addEventListener(
+      'chatwoot:signature-change',
+      this.onSignatureChange
+    );
 
     // // A hacky fix to solve the drag and drop
     // // Is showing on top of new conversation modal drag and drop
@@ -180,8 +193,15 @@ export default {
   unmounted() {
     document.removeEventListener('paste', this.onPaste);
     document.removeEventListener('keydown', this.handleKeyEvents);
+    window.removeEventListener(
+      'chatwoot:signature-change',
+      this.onSignatureChange
+    );
   },
   methods: {
+    onSignatureChange(event) {
+      this.customSignatureValue = event.detail || '';
+    },
     getElementToBind() {
       return this.replyEditor;
     },
@@ -404,6 +424,7 @@ export default {
         :variables="messageVariables"
         :signature="signatureToApply"
         allow-signature
+        :force-signature="hasCustomSignature"
         :channel-type="channelType"
         @typing-off="onTypingOff"
         @typing-on="onTypingOn"

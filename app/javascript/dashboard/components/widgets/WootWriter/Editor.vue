@@ -86,6 +86,7 @@ const props = defineProps({
   // are triggered except when this flag is true
   allowSignature: { type: Boolean, default: false },
   channelType: { type: String, default: '' },
+  forceSignature: { type: Boolean, default: false },
   medium: { type: String, default: '' },
   showImageResizeToolbar: { type: Boolean, default: false }, // A kill switch to show or hide the image toolbar
   focusOnMount: { type: Boolean, default: true },
@@ -304,6 +305,10 @@ const plugins = computed(() => {
 const sendWithSignature = computed(() => {
   // this is considered the source of truth, we watch this property
   // on change, we toggle the signature in the editor
+  if (props.forceSignature && props.allowSignature && !props.isPrivate) {
+    return true;
+  }
+
   if (props.allowSignature && !props.isPrivate && props.channelType) {
     return fetchSignatureFlagFromUISettings(props.channelType);
   }
