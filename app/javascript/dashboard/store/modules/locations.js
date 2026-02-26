@@ -35,22 +35,14 @@ export const getters = {
     return $state.meta;
   },
   getRootLocations($state) {
-    return $state.records.filter(loc => !loc.parent_location_ids?.length);
+    return $state.records.filter(
+      loc => !loc.parent_location_ids?.length || loc.has_children
+    );
   },
-  getLocationTree($state) {
-    const buildTree = (parentId = null) => {
-      return $state.records
-        .filter(loc =>
-          parentId === null
-            ? !loc.parent_location_ids?.length
-            : loc.parent_location_ids?.includes(parentId)
-        )
-        .map(loc => ({
-          ...loc,
-          children: buildTree(loc.id),
-        }));
-    };
-    return buildTree();
+  getChildrenOf: $state => parentId => {
+    return $state.records.filter(loc =>
+      loc.parent_location_ids?.includes(parentId)
+    );
   },
 };
 

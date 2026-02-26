@@ -21,7 +21,8 @@ const showDeleteConfirmationPopup = ref(false);
 const selectedLocation = ref({});
 const expandedLocations = ref(new Set());
 
-const locationTree = computed(() => getters['locations/getLocationTree'].value);
+const rootLocations = computed(() => getters['locations/getRootLocations'].value);
+const childrenOf = locationId => getters['locations/getChildrenOf'].value(locationId);
 const uiFlags = computed(() => getters['locations/getUIFlags'].value);
 
 const toggleExpand = locationId => {
@@ -114,7 +115,7 @@ onBeforeMount(() => {
     <template #body>
       <table class="min-w-full overflow-x-auto divide-y divide-n-weak">
         <tbody class="flex-1 divide-y divide-n-weak text-n-slate-12">
-          <template v-for="location in locationTree" :key="location.id">
+          <template v-for="location in rootLocations" :key="location.id">
             <!-- Parent row -->
             <tr class="bg-n-solid-2">
               <td
@@ -123,7 +124,7 @@ onBeforeMount(() => {
               >
                 <div class="flex items-start gap-2">
                   <button
-                    v-if="location.children?.length"
+                    v-if="location.has_children"
                     class="mt-0.5 shrink-0 text-n-slate-11 hover:text-n-slate-12 transition-colors"
                     @click="toggleExpand(location.id)"
                   >
@@ -139,10 +140,10 @@ onBeforeMount(() => {
                         {{ location.name }}
                       </span>
                       <span
-                        v-if="location.children?.length"
+                        v-if="location.has_children"
                         class="inline-flex items-center px-1.5 py-0.5 rounded-full text-xs font-medium bg-n-solid-3 text-n-slate-11"
                       >
-                        {{ location.children.length }}
+                        {{ childrenOf(location.id).length }}
                       </span>
                     </div>
                     <span class="text-sm text-n-slate-11 break-words">
@@ -197,7 +198,7 @@ onBeforeMount(() => {
             <!-- Child rows -->
             <template v-if="isExpanded(location.id)">
               <tr
-                v-for="(child, childIndex) in location.children"
+                v-for="(child, childIndex) in childrenOf(location.id)"
                 :key="child.id"
               >
                 <td class="py-0 ltr:pr-4 rtl:pl-4 ltr:border-l-2 rtl:border-r-2 border-n-solid-2 ltr:pl-3.5 rtl:pr-3.5">
@@ -208,7 +209,7 @@ onBeforeMount(() => {
                       <div class="w-full h-px bg-n-weak" />
                       <div
                         class="w-px flex-1"
-                        :class="childIndex < location.children.length - 1 ? 'bg-n-weak' : 'bg-transparent'"
+                        :class="childIndex < childrenOf(location.id).length - 1 ? 'bg-n-weak' : 'bg-transparent'"
                       />
                     </div>
                     <div class="flex flex-col gap-0.5 py-1">
