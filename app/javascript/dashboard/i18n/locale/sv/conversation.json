@@ -192,6 +192,7 @@
       "PRIVATE_MSG_INPUT": "Skift + Enter för ny rad. Detta kommer endast att vara synligt för agenter",
       "MESSAGING_RESTRICTED": "You cannot reply to this conversation",
       "MESSAGING_RESTRICTED_WHATSAPP": "You can only reply using a template message due to 24-hour message window restriction",
+      "MESSAGING_RESTRICTED_API": "You can only reply using a template message due to message window restriction",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Meddelandesignaturen är inte konfigurerad. Konfigurera den i profilinställningarna.",
       "COPILOT_MSG_INPUT": "Give copilot additional prompts, or ask anything else... Press enter to send follow-up",
       "CLICK_HERE": "Klicka här för att uppdatera",
@@ -305,6 +306,7 @@
     "CANCEL": "Avbryt",
     "SEND_EMAIL_SUCCESS": "Chattranskriberingen har skickats",
     "SEND_EMAIL_ERROR": "Ett fel uppstod, vänligen försök igen",
+    "SEND_EMAIL_PAYMENT_REQUIRED": "Email transcript is not available on your current plan. Please upgrade to use this feature.",
     "FORM": {
       "SEND_TO_CONTACT": "Skicka transkriberingen till kunden",
       "SEND_TO_AGENT": "Skicka transkriberingen till den tilldelade agenten",
