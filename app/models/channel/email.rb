@@ -72,6 +72,10 @@ class Channel::Email < ApplicationRecord
     imap_enabled && imap_address == 'imap.gmail.com'
   end
 
+  def backoff_log_identifier
+    "Error for email channel - #{inbox.id}"
+  end
+
   private
 
   def ensure_forward_to_email
