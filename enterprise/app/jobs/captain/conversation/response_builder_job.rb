@@ -55,18 +55,18 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
       end
     end
 
-    # The handoff message's after_create_commit (Message#update_waiting_since)
-    # is deferred until the transaction above commits. That callback clears
-    # waiting_since because the handoff message is a bot response. Since
-    # bot_handoff! already ran inside the transaction, its write is wiped out.
-    # Re-set waiting_since here — after the transaction and all after_commit
-    # callbacks have completed — using update_column to avoid re-triggering
-    # the same callback cycle. See PR #13417.
-    return unless handoff_requested?
+    return unless handoff
 
+    I18n.with_locale(@assistant.account.locale) do
+      @conversation.bot_handoff!
+      send_out_of_office_message_if_applicable
+    end
+
+    # The handoff message's after_create_commit (Message#update_waiting_since)
+    # clears waiting_since because the message is a bot response. bot_handoff!
+    # sets it, but the deferred callback may wipe it out. Re-set here using
+    # update_column to bypass callbacks. See PR #13417.
     # rubocop:disable Rails/SkipsModelValidations
-    # Directly writes to DB, skipping callbacks/validations so that
-    # Message#update_waiting_since is not re-triggered.
     @conversation.update_column(:waiting_since, Time.current)
     # rubocop:enable Rails/SkipsModelValidations
   end
