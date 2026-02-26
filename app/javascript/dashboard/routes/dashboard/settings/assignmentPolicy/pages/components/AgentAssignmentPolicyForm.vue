@@ -4,7 +4,7 @@ import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 import { useMapGetter } from 'dashboard/composables/store';
 import BaseInfo from 'dashboard/components-next/AssignmentPolicy/components/BaseInfo.vue';
-import RadioCard from 'dashboard/components-next/AssignmentPolicy/components/RadioCard.vue';
+import RadioCard from 'dashboard/components-next/radioCard/RadioCard.vue';
 import FairDistribution from 'dashboard/components-next/AssignmentPolicy/components/FairDistribution.vue';
 import DataTable from 'dashboard/components-next/AssignmentPolicy/components/DataTable.vue';
 import AddDataDropdown from 'dashboard/components-next/AssignmentPolicy/components/AddDataDropdown.vue';
