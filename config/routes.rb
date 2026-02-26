@@ -390,6 +390,7 @@ Rails.application.routes.draw do
             post :verify
             post :backup_codes
           end
+          resources :inbox_signatures, only: %i[index show update destroy], param: :inbox_id
         end
       end
 

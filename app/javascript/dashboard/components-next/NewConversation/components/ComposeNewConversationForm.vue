@@ -35,6 +35,7 @@ const props = defineProps({
   contactsUiFlags: { type: Object, default: null },
   messageSignature: { type: String, default: '' },
   sendWithSignature: { type: Boolean, default: false },
+  signatureSettings: { type: Object, default: null },
   formState: { type: Object, required: true },
 });
 
@@ -131,6 +132,7 @@ const newMessagePayload = () => {
     directUploadsEnabled: props.isDirectUploadsEnabled,
     sendWithSignature: props.sendWithSignature,
     messageSignature: props.messageSignature,
+    signatureSettings: props.signatureSettings,
   });
 };
 

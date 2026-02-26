@@ -3,6 +3,7 @@ import { defineAsyncComponent, useTemplateRef } from 'vue';
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import { useUISettings } from 'dashboard/composables/useUISettings';
+import { useInboxSignatures } from 'dashboard/composables/useInboxSignatures';
 import { useTrack } from 'dashboard/composables';
 import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
@@ -97,6 +98,14 @@ export default {
       fetchQuotedReplyFlagFromUISettings,
     } = useUISettings();
 
+    const {
+      fetchInboxSignatures,
+      getSignatureForInbox,
+      getSignatureSettingsForInbox,
+    } = useInboxSignatures();
+
+    fetchInboxSignatures();
+
     const { formatMessage } = useMessageFormatter();
 
     const replyEditor = useTemplateRef('replyEditor');
@@ -109,6 +118,8 @@ export default {
       fetchSignatureFlagFromUISettings,
       setQuotedReplyFlagForInbox,
       fetchQuotedReplyFlagFromUISettings,
+      getSignatureForInbox,
+      getSignatureSettingsForInbox,
       replyEditor,
       copilot,
       shortcutKey,
@@ -147,7 +158,6 @@ export default {
   computed: {
     ...mapGetters({
       currentChat: 'getSelectedChat',
-      messageSignature: 'getMessageSignature',
       currentUser: 'getCurrentUser',
       lastEmail: 'getLastEmailInSelectedChat',
       globalConfig: 'globalConfig/get',
@@ -344,6 +354,9 @@ export default {
     isSignatureEnabledForInbox() {
       return !this.isPrivate && this.sendWithSignature;
     },
+    messageSignature() {
+      return this.getSignatureForInbox(this.inboxId);
+    },
     isSignatureAvailable() {
       return !!this.messageSignature;
     },
@@ -449,10 +462,10 @@ export default {
       );
     },
     signaturePosition() {
-      return this.currentUser?.ui_settings?.signature_position || 'top';
+      return this.getSignatureSettingsForInbox(this.inboxId).position;
     },
     signatureSeparator() {
-      return this.currentUser?.ui_settings?.signature_separator || 'blank';
+      return this.getSignatureSettingsForInbox(this.inboxId).separator;
     },
     formattedSignature() {
       if (!this.messageSignature) return '';
@@ -703,11 +716,9 @@ export default {
       if (!this.sendWithSignature || !this.messageSignature) {
         return message;
       }
-      const { signature_position, signature_separator } =
-        this.currentUser?.ui_settings || {};
       const signatureSettings = {
-        position: signature_position || 'top',
-        separator: signature_separator || 'blank',
+        position: this.signaturePosition,
+        separator: this.signatureSeparator,
       };
       return appendSignature(message, this.messageSignature, signatureSettings);
     },
@@ -1354,6 +1365,8 @@ export default {
           :variables="messageVariables"
           :signature="messageSignature"
           allow-signature
+          :signature-position-override="signaturePosition"
+          :signature-separator-override="signatureSeparator"
           :channel-type="channelType"
           :medium="inbox.medium"
           @typing-off="onTypingOff"

@@ -132,20 +132,15 @@ export const prepareNewMessagePayload = ({
   directUploadsEnabled = false,
   sendWithSignature = false,
   messageSignature = '',
+  signatureSettings = null,
 }) => {
   let finalMessage = message;
   if (sendWithSignature && messageSignature) {
-    const { signature_position, signature_separator } =
-      currentUser?.ui_settings || {};
-    const signatureSettings = {
-      position: signature_position || 'top',
-      separator: signature_separator || 'blank',
+    const settings = signatureSettings || {
+      position: currentUser?.ui_settings?.signature_position || 'top',
+      separator: currentUser?.ui_settings?.signature_separator || 'blank',
     };
-    finalMessage = appendSignature(
-      message,
-      messageSignature,
-      signatureSettings
-    );
+    finalMessage = appendSignature(message, messageSignature, settings);
   }
 
   const payload = {

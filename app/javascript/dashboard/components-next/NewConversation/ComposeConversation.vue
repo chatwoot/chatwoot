@@ -4,6 +4,7 @@ import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useI18n } from 'vue-i18n';
 import { useWindowSize } from '@vueuse/core';
 import { useUISettings } from 'dashboard/composables/useUISettings';
+import { useInboxSignatures } from 'dashboard/composables/useInboxSignatures';
 import { vOnClickOutside } from '@vueuse/components';
 import { useAlert } from 'dashboard/composables';
 import { ExceptionWithMessage } from 'shared/helpers/CustomErrors';
@@ -83,6 +84,24 @@ const globalConfig = useMapGetter('globalConfig/get');
 const uiFlags = useMapGetter('contactConversations/getUIFlags');
 const messageSignature = useMapGetter('getMessageSignature');
 const inboxesList = useMapGetter('inboxes/getInboxes');
+
+const {
+  fetchInboxSignatures,
+  getSignatureForInbox,
+  getSignatureSettingsForInbox,
+} = useInboxSignatures();
+
+fetchInboxSignatures();
+
+const resolvedMessageSignature = computed(() => {
+  if (!targetInbox.value?.id) return messageSignature.value;
+  return getSignatureForInbox(targetInbox.value.id);
+});
+
+const resolvedSignatureSettings = computed(() => {
+  if (!targetInbox.value?.id) return null;
+  return getSignatureSettingsForInbox(targetInbox.value.id);
+});
 
 const sendWithSignature = computed(() =>
   fetchSignatureFlagFromUISettings(targetInbox.value?.channelType)
@@ -307,8 +326,9 @@ useKeyboardEvents(keyboardEvents);
         :is-direct-uploads-enabled="directUploadsEnabled"
         :contact-conversations-ui-flags="uiFlags"
         :contacts-ui-flags="contactsUiFlags"
-        :message-signature="messageSignature"
+        :message-signature="resolvedMessageSignature"
         :send-with-signature="sendWithSignature"
+        :signature-settings="resolvedSignatureSettings"
         @search-contacts="onContactSearch"
         @reset-contact-search="resetContacts"
         @update-selected-contact="handleSelectedContact"

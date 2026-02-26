@@ -2,8 +2,11 @@
 import { ref, watch, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
+import { useMapGetter } from 'dashboard/composables/store';
+import { useInboxSignatures } from 'dashboard/composables/useInboxSignatures';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import SingleSelect from 'dashboard/components-next/filter/inputs/SingleSelect.vue';
 
 const props = defineProps({
   messageSignature: {
@@ -22,14 +25,60 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['updateSignature']);
+const emit = defineEmits([
+  'updateSignature',
+  'updateInboxSignature',
+  'deleteInboxSignature',
+]);
+
+const INBOX_OPTION_DEFAULT = 'default';
 
 const { t } = useI18n();
 const { formatMessage } = useMessageFormatter();
 
+const inboxes = useMapGetter('inboxes/getInboxes');
+const { fetchInboxSignatures, getInboxSignature, hasInboxSignature } =
+  useInboxSignatures();
+
+const selectedInboxId = ref(INBOX_OPTION_DEFAULT);
+const selectedInbox = ref(null);
 const signature = ref(props.messageSignature);
 const signaturePosition = ref(props.signaturePosition);
 const signatureSeparator = ref(props.signatureSeparator);
+const isSaving = ref(false);
+
+const defaultOption = computed(() => ({
+  id: INBOX_OPTION_DEFAULT,
+  name: t(
+    'PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.INBOX_SELECTOR.DEFAULT'
+  ),
+}));
+
+const inboxOptions = computed(() => {
+  const customLabel = t(
+    'PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.INBOX_SELECTOR.CUSTOM'
+  );
+  const items = inboxes.value.map(inbox => ({
+    ...inbox,
+    icon: hasInboxSignature(inbox.id) ? 'i-lucide-pen-line' : undefined,
+    name: hasInboxSignature(inbox.id)
+      ? `${inbox.name} (${customLabel})`
+      : inbox.name,
+  }));
+  return [defaultOption.value, ...items];
+});
+
+const isDefaultSelected = computed(
+  () => selectedInboxId.value === INBOX_OPTION_DEFAULT
+);
+
+// Initialize the selected inbox object
+selectedInbox.value = defaultOption.value;
+
+const currentInboxHasOverride = computed(() => {
+  if (isDefaultSelected.value) return false;
+  return hasInboxSignature(selectedInboxId.value);
+});
 
 const positionOptions = computed(() => [
   {
@@ -83,10 +132,40 @@ const messagePreview = computed(() => {
   return `${sampleMessage.value}${separator}${formattedSignature.value}`;
 });
 
+const loadSignatureForSelection = () => {
+  if (isDefaultSelected.value) {
+    signature.value = props.messageSignature;
+    signaturePosition.value = props.signaturePosition;
+    signatureSeparator.value = props.signatureSeparator;
+    return;
+  }
+
+  const inboxSig = getInboxSignature(selectedInboxId.value);
+  if (inboxSig) {
+    signature.value = inboxSig.message_signature;
+    signaturePosition.value = inboxSig.signature_position || 'top';
+    signatureSeparator.value = inboxSig.signature_separator || 'blank';
+  } else {
+    // Pre-fill with global signature for convenience
+    signature.value = props.messageSignature;
+    signaturePosition.value = props.signaturePosition;
+    signatureSeparator.value = props.signatureSeparator;
+  }
+};
+
+// Keep selectedInboxId in sync with the SingleSelect object model
+watch(selectedInbox, newVal => {
+  selectedInboxId.value = newVal?.id ?? INBOX_OPTION_DEFAULT;
+  loadSignatureForSelection();
+});
+
+// Fetch inbox signatures on mount, then reload form values
+fetchInboxSignatures().then(() => loadSignatureForSelection());
+
 watch(
   () => props.signaturePosition,
   newValue => {
-    signaturePosition.value = newValue;
+    if (isDefaultSelected.value) signaturePosition.value = newValue;
   },
   { immediate: true }
 );
@@ -94,7 +173,7 @@ watch(
 watch(
   () => props.signatureSeparator,
   newValue => {
-    signatureSeparator.value = newValue;
+    if (isDefaultSelected.value) signatureSeparator.value = newValue;
   },
   { immediate: true }
 );
@@ -102,33 +181,77 @@ watch(
 watch(
   () => props.messageSignature ?? '',
   newValue => {
-    signature.value = newValue;
+    if (isDefaultSelected.value) signature.value = newValue;
   },
   { immediate: true }
 );
 
 const updateSignature = () => {
-  emit(
-    'updateSignature',
-    signature.value,
-    signaturePosition.value,
-    signatureSeparator.value
-  );
+  if (isDefaultSelected.value) {
+    emit(
+      'updateSignature',
+      signature.value,
+      signaturePosition.value,
+      signatureSeparator.value
+    );
+  } else {
+    isSaving.value = true;
+    emit(
+      'updateInboxSignature',
+      selectedInboxId.value,
+      {
+        message_signature: signature.value,
+        signature_position: signaturePosition.value,
+        signature_separator: signatureSeparator.value,
+      },
+      () => {
+        isSaving.value = false;
+      }
+    );
+  }
 };
 
 const handlePositionChange = value => {
   signaturePosition.value = value;
-  emit('updateSignature', signature.value, value, signatureSeparator.value);
 };
 
 const handleSeparatorChange = value => {
   signatureSeparator.value = value;
-  emit('updateSignature', signature.value, signaturePosition.value, value);
+};
+
+const resetToDefault = () => {
+  isSaving.value = true;
+  emit('deleteInboxSignature', selectedInboxId.value, () => {
+    loadSignatureForSelection();
+    isSaving.value = false;
+  });
 };
 </script>
 
 <template>
   <form class="flex flex-col gap-6" @submit.prevent="updateSignature()">
+    <div class="flex flex-col gap-2">
+      <label class="text-sm font-medium text-n-slate-12">
+        {{
+          t(
+            'PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.INBOX_SELECTOR.LABEL'
+          )
+        }}
+      </label>
+      <div class="flex items-center gap-2">
+        <SingleSelect
+          v-model="selectedInbox"
+          :options="inboxOptions"
+          :placeholder="
+            t(
+              'PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.INBOX_SELECTOR.DEFAULT'
+            )
+          "
+          disable-deselect
+          class="min-w-0 [&_button]:max-w-xs [&_button]:min-w-0"
+        />
+      </div>
+    </div>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <div class="flex flex-col gap-2">
         <label
@@ -190,7 +313,7 @@ const handleSeparatorChange = value => {
     <WootMessageEditor
       id="message-signature-input"
       v-model="signature"
-      class="message-editor h-[10rem] !px-3"
+      class="message-editor h-40 !px-3"
       is-format-mode
       :placeholder="$t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE.PLACEHOLDER')"
       channel-type="Context::MessageSignature"
@@ -226,10 +349,21 @@ const handleSeparatorChange = value => {
         {{ $t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.PREVIEW.NOTE') }}
       </p>
     </div>
-    <div>
+    <div class="flex items-center gap-3">
       <NextButton
         type="submit"
+        :is-loading="isSaving"
         :label="$t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.BTN_TEXT')"
+      />
+      <NextButton
+        v-if="!isDefaultSelected && currentInboxHasOverride"
+        type="button"
+        variant="faded"
+        color="ruby"
+        :label="
+          $t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.RESET_TO_DEFAULT')
+        "
+        @click="resetToDefault"
       />
     </div>
   </form>

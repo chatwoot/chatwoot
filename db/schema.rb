@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_02_01_162122) do
+ActiveRecord::Schema[7.1].define(version: 2026_02_26_194714) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -855,6 +855,18 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_01_162122) do
     t.datetime "updated_at", precision: nil, null: false
     t.index ["inbox_id", "user_id"], name: "index_inbox_members_on_inbox_id_and_user_id", unique: true
     t.index ["inbox_id"], name: "index_inbox_members_on_inbox_id"
+  end
+
+  create_table "inbox_signatures", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "inbox_id", null: false
+    t.text "message_signature", null: false
+    t.string "signature_position", default: "top", null: false
+    t.string "signature_separator", default: "blank", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["inbox_id"], name: "index_inbox_signatures_on_inbox_id"
+    t.index ["user_id", "inbox_id"], name: "index_inbox_signatures_on_user_id_and_inbox_id", unique: true
   end
 
   create_table "inboxes", id: :serial, force: :cascade do |t|

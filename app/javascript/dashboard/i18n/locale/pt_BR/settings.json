@@ -66,6 +66,13 @@
         "BTN_TEXT": "Salvar assinatura da mensagem",
         "API_ERROR": "Não foi possível salvar a assinatura! Tente novamente",
         "API_SUCCESS": "Assinatura salva com sucesso",
+        "RESET_TO_DEFAULT": "Restaurar para padrão",
+        "RESET_SUCCESS": "Assinatura da caixa de entrada removida, usando assinatura padrão",
+        "INBOX_SELECTOR": {
+          "LABEL": "Caixa de entrada",
+          "DEFAULT": "Padrão (todas as caixas de entrada)",
+          "CUSTOM": "Personalizada"
+        },
         "IMAGE_UPLOAD_ERROR": "Não foi possível fazer o upload da imagem! Tente novamente",
         "IMAGE_UPLOAD_SUCCESS": "Imagem adicionada com sucesso. Por favor clique em salvar para salvar a assinatura",
         "IMAGE_UPLOAD_SIZE_ERROR": "O tamanho da imagem deve ser menor que {size}MB",

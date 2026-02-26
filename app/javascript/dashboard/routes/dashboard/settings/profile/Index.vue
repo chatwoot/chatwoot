@@ -2,6 +2,7 @@
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import { useUISettings } from 'dashboard/composables/useUISettings';
+import { useInboxSignatures } from 'dashboard/composables/useInboxSignatures';
 import { useFontSize } from 'dashboard/composables/useFontSize';
 import { useBranding } from 'shared/composables/useBranding';
 import { clearCookiesOnLogout } from 'dashboard/store/utils/api.js';
@@ -46,6 +47,10 @@ export default {
     const { isEditorHotKeyEnabled, updateUISettings } = useUISettings();
     const { currentFontSize, updateFontSize } = useFontSize();
     const { replaceInstallationName } = useBranding();
+    const { upsertInboxSignature, deleteInboxSignature, fetchInboxSignatures } =
+      useInboxSignatures();
+
+    fetchInboxSignatures();
 
     return {
       currentFontSize,
@@ -53,6 +58,8 @@ export default {
       isEditorHotKeyEnabled,
       updateUISettings,
       replaceInstallationName,
+      upsertInboxSignature,
+      deleteInboxSignature,
     };
   },
   data() {
@@ -185,6 +192,37 @@ export default {
         );
       }
     },
+    async updateInboxSignature(inboxId, params, done) {
+      try {
+        await this.upsertInboxSignature(inboxId, params);
+        useAlert(
+          this.$t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.API_SUCCESS')
+        );
+      } catch (error) {
+        useAlert(
+          parseAPIErrorResponse(error) ||
+            this.$t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.API_ERROR')
+        );
+      } finally {
+        if (done) done();
+      }
+    },
+    async handleDeleteInboxSignature(inboxId, done) {
+      try {
+        await this.deleteInboxSignature(inboxId);
+        useAlert(
+          this.$t(
+            'PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.RESET_SUCCESS'
+          )
+        );
+      } catch (error) {
+        useAlert(
+          this.$t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.API_ERROR')
+        );
+      } finally {
+        if (done) done();
+      }
+    },
     updateProfilePicture({ file, url }) {
       this.avatarFile = file;
       this.avatarUrl = url;
@@ -274,6 +312,8 @@ export default {
         :signature-position="signaturePosition"
         :signature-separator="signatureSeparator"
         @update-signature="updateSignature"
+        @update-inbox-signature="updateInboxSignature"
+        @delete-inbox-signature="handleDeleteInboxSignature"
       />
     </FormSection>
     <FormSection
