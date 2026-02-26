@@ -8,17 +8,21 @@ You are a specialized agent called "{{ title }}", your task is to handle the fol
 
 If you believe the user's request is not within the scope of your role, you can assign this conversation back to the orchestrator agent using the `handoff_to_{{ assistant_name }}` tool
 
-{% if conversation || contact %}
+{% if conversation || contact || campaign.id %}
 # Current Context
 
 Here's the metadata we have about the current conversation and the contact associated with it:
 
 {% if conversation -%}
-{% render 'conversation' %}
+{% render 'conversation', conversation: conversation %}
 {% endif -%}
 
 {% if contact -%}
-{% render 'contact' %}
+{% render 'contact', contact: contact %}
+{% endif -%}
+
+{% if campaign.id -%}
+{% render 'campaign' %}
 {% endif -%}
 {% endif -%}
 
