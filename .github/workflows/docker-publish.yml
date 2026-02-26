@@ -1,39 +1,35 @@
-name: Build and Push Chatwoot Image
-
+name: Build and Publish Chatwoot
 on:
   push:
-
-    branches: [ "master", "main", "develop" ] 
+    branches:
+      - 'develop'
 
 env:
   REGISTRY: ghcr.io
-
-  IMAGE_NAME: ${{ github.repository }} 
+  IMAGE_NAME: ${{ github.repository }}
 
 jobs:
-  build:
+  build-and-push:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      packages: write 
+      packages: write
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
       - name: Log in to the Container registry
-        uses: docker/login-action@v3
+        uses: docker/login-action@v2
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
-
-          password: ${{ github.token }} 
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push Docker image
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v4
         with:
           context: .
+          file: ./docker/Dockerfile 
           push: true
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
-
-          file: ./docker/Dockerfile
