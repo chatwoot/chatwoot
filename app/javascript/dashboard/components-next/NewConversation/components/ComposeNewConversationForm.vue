@@ -42,6 +42,7 @@ const props = defineProps({
 
 const emit = defineEmits([
   'searchContacts',
+  'resetContactSearch',
   'discard',
   'updateSelectedContact',
   'updateTargetInbox',
@@ -157,7 +158,7 @@ const isAnyDropdownActive = computed(() => {
 });
 
 const handleContactSearch = value => {
-  showContactsDropdown.value = true;
+  showContactsDropdown.value = value.trim().length > 1;
   emit('searchContacts', value);
 };
 
@@ -172,12 +173,16 @@ const handleDropdownUpdate = (type, value) => {
 };
 
 const searchCcEmails = value => {
-  showCcEmailsDropdown.value = true;
+  showBccEmailsDropdown.value = false;
+  emit('resetContactSearch');
+  showCcEmailsDropdown.value = value.trim().length >= 2;
   emit('searchContacts', value);
 };
 
 const searchBccEmails = value => {
-  showBccEmailsDropdown.value = true;
+  showCcEmailsDropdown.value = false;
+  emit('resetContactSearch');
+  showBccEmailsDropdown.value = value.trim().length >= 2;
   emit('searchContacts', value);
 };
 
@@ -354,6 +359,7 @@ const shouldShowMessageEditor = computed(() => {
         :show-inboxes-dropdown="showInboxesDropdown"
         :contactable-inboxes-list="contactableInboxesList"
         :has-errors="validationStates.isInboxInvalid"
+        :is-fetching-inboxes="isFetchingInboxes"
         @update-inbox="removeTargetInbox"
         @toggle-dropdown="showInboxesDropdown = $event"
         @handle-inbox-action="handleInboxAction"

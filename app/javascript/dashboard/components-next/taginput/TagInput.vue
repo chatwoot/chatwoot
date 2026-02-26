@@ -72,7 +72,7 @@ const isNewTagInValidType = computed(() =>
 
 const showInput = computed(() =>
   props.mode === MODE.SINGLE
-    ? isFocused.value && !tags.value.length
+    ? !tags.value.length
     : isFocused.value || !tags.value.length
 );
 
@@ -235,7 +235,7 @@ const handleBlur = e => emit('blur', e);
         :placeholder="placeholder"
         :disabled="disabled"
         class="w-full"
-        :focus-on-mount="focusOnMount"
+        :focus-on-mount="focusOnMount || autoOpenDropdown"
         :custom-input-class="`w-full ${isNewTagInValidType ? '!text-n-ruby-9 dark:!text-n-ruby-9' : ''}`"
         @enter-press="addTag"
         @focus="handleFocus"

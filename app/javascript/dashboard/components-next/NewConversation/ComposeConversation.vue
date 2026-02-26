@@ -107,15 +107,18 @@ const onContactSearch = debounce(
     isSearching.value = true;
     contacts.value = [];
     try {
-      contacts.value = await searchContacts(query);
+      const results = await searchContacts(query);
+      // null means the request was aborted (a newer search is in-flight),
+      // don't touch state — the newer call will handle it
+      if (results === null) return;
+      contacts.value = results;
       isSearching.value = false;
     } catch (error) {
-      useAlert(t('COMPOSE_NEW_CONVERSATION.CONTACT_SEARCH.ERROR_MESSAGE'));
-    } finally {
       isSearching.value = false;
+      useAlert(t('COMPOSE_NEW_CONVERSATION.CONTACT_SEARCH.ERROR_MESSAGE'));
     }
   },
-  300,
+  400,
   false
 );
 
@@ -138,6 +141,7 @@ const handleSelectedContact = async ({ value, action, ...rest }) => {
     contact = rest;
   }
   selectedContact.value = contact;
+  contacts.value = [];
   if (contact?.id) {
     isFetchingInboxes.value = true;
     try {

@@ -365,7 +365,56 @@ describe('composeConversationHelper', () => {
           },
         ]);
 
-        expect(ContactAPI.search).toHaveBeenCalledWith('john');
+        expect(ContactAPI.search).toHaveBeenCalledWith(
+          'john',
+          1,
+          'name',
+          '',
+          expect.objectContaining({ signal: expect.any(AbortSignal) })
+        );
+      });
+
+      it('returns empty array for queries shorter than 2 characters', async () => {
+        const result = await helpers.searchContacts('j');
+        expect(result).toEqual([]);
+        expect(ContactAPI.search).not.toHaveBeenCalled();
+      });
+
+      it('returns empty array for empty or whitespace-only queries', async () => {
+        expect(await helpers.searchContacts('')).toEqual([]);
+        expect(await helpers.searchContacts('  ')).toEqual([]);
+        expect(await helpers.searchContacts(null)).toEqual([]);
+        expect(ContactAPI.search).not.toHaveBeenCalled();
+      });
+
+      it('aborts previous in-flight request when a new search starts', async () => {
+        const mockPayload = [
+          { id: 1, name: 'Result', email: 'r@test.com', phone_number: null },
+        ];
+
+        let resolveFirst;
+        const firstCall = new Promise(resolve => {
+          resolveFirst = resolve;
+        });
+        ContactAPI.search
+          .mockReturnValueOnce(firstCall)
+          .mockResolvedValueOnce({ data: { payload: mockPayload } });
+
+        // Start first search (will hang)
+        const first = helpers.searchContacts('alpha');
+        // Start second search (aborts first)
+        const second = helpers.searchContacts('beta');
+
+        // Resolve the first call with CanceledError (simulating axios abort)
+        const canceledError = new Error('canceled');
+        canceledError.name = 'CanceledError';
+        resolveFirst(Promise.reject(canceledError));
+
+        const [firstResult, secondResult] = await Promise.all([first, second]);
+        expect(firstResult).toBeNull();
+        expect(secondResult).toEqual([
+          { id: 1, name: 'Result', email: 'r@test.com', phoneNumber: null },
+        ]);
       });
 
       it('searches contacts and returns only contacts with email or phone number', async () => {
@@ -417,7 +466,13 @@ describe('composeConversationHelper', () => {
           },
         ]);
 
-        expect(ContactAPI.search).toHaveBeenCalledWith('john');
+        expect(ContactAPI.search).toHaveBeenCalledWith(
+          'john',
+          1,
+          'name',
+          '',
+          expect.objectContaining({ signal: expect.any(AbortSignal) })
+        );
       });
 
       it('handles empty search results', async () => {

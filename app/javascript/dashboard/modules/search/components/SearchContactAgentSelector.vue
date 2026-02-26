@@ -119,7 +119,10 @@ const debouncedSearch = debounce(async query => {
   }
 
   try {
-    const contacts = await searchContacts(query);
+    const contacts = await searchContacts(query, { skipMinLength: true });
+
+    // null means the request was aborted (a newer search is in-flight),
+    if (contacts === null) return;
 
     // Add selected contact to top if not already in results
     const allContacts = selectedContact.value
@@ -130,9 +133,8 @@ const debouncedSearch = debounce(async query => {
       : contacts;
 
     searchedContacts.value = allContacts;
+    isSearching.value = false;
   } catch {
-    // Ignore error
-  } finally {
     isSearching.value = false;
   }
 }, 300);
