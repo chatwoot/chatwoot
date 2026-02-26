@@ -27,7 +27,9 @@ class InstallationConfig < ApplicationRecord
   after_commit :clear_cache
 
   def serialized_value
-    (super || {}).with_indifferent_access
+    val = super
+    val = YAML.safe_load(val, permitted_classes: [ActiveSupport::HashWithIndifferentAccess, Symbol]) if val.is_a?(String)
+    (val || {}).with_indifferent_access
   end
 
   def value
