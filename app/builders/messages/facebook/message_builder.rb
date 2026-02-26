@@ -112,27 +112,29 @@ class Messages::Facebook::MessageBuilder < Messages::Messenger::MessageBuilder
   end
 
   def message_params
-    params = {
-      account_id: conversation.account_id,
-      inbox_id: conversation.inbox_id,
-      message_type: @message_type,
-      content: message_content,
-      source_id: response.identifier,
-      content_attributes: {
-        in_reply_to_external_id: response.in_reply_to_external_id
-      },
-      sender: @outgoing_echo ? nil : @contact_inbox.contact
+    content_attributes = {
+      in_reply_to_external_id: response.in_reply_to_external_id
     }
+    content_attributes[:external_echo] = true if @outgoing_echo
 
     # CHATWIT: Add postback/quick_reply payload to content_attributes
     # This enables SocialWise Flow to receive the button ID for intent detection
     if response.postback?
-      params[:content_attributes][:postback_payload] = response.postback_payload
+      content_attributes[:postback_payload] = response.postback_payload
     elsif response.quick_reply?
-      params[:content_attributes][:quick_reply_payload] = response.quick_reply_payload
+      content_attributes[:quick_reply_payload] = response.quick_reply_payload
     end
 
-    params
+    {
+      account_id: conversation.account_id,
+      inbox_id: conversation.inbox_id,
+      message_type: @message_type,
+      status: @outgoing_echo ? :delivered : :sent,
+      content: message_content,
+      source_id: response.identifier,
+      content_attributes: content_attributes,
+      sender: @outgoing_echo ? nil : @contact_inbox.contact
+    }
   end
 
   # CHATWIT: Extract message content from postback or regular message
