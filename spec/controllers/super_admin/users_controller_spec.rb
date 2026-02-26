@@ -51,6 +51,16 @@ RSpec.describe 'Super Admin Users API', type: :request do
         expect(response.body).to include(CGI.escapeHTML(user.name))
       end
 
+      it 'prefills confirmed_at on new user form' do
+        sign_in(super_admin, scope: :super_admin)
+        get '/super_admin/users/new'
+
+        expect(response).to have_http_status(:success)
+        expect(response.body).to include('name="user[confirmed_at]"')
+        confirmed_at_value = response.body[/name="user\[confirmed_at\]".*?value="([^"]+)"/m, 1]
+        expect(confirmed_at_value).to be_present
+      end
+
       it 'creates the new super_admin record' do
         sign_in(super_admin, scope: :super_admin)
 
@@ -63,13 +73,13 @@ RSpec.describe 'Super Admin Users API', type: :request do
         expect(response).to redirect_to('http://www.example.com/super_admin/users/new')
       end
 
-      it 'creates confirmed users by default when confirmed_at is not provided' do
+      it 'creates unconfirmed users when confirmed_at is not provided in payload' do
         sign_in(super_admin, scope: :super_admin)
 
         post '/super_admin/users', params: params_without_confirmed_at
 
         expect(response).to redirect_to("http://www.example.com/super_admin/users/#{User.last.id}")
-        expect(User.last).to be_confirmed
+        expect(User.last).not_to be_confirmed
       end
 
       it 'creates unconfirmed users when confirmed_at is explicitly cleared' do
