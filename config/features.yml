@@ -20,7 +20,6 @@
 - name: channel_twitter
   display_name: Twitter Channel
   enabled: true
-  chatwoot_internal: true
   deprecated: true
 - name: ip_lookup
   display_name: IP Lookup
@@ -78,7 +77,6 @@
 - name: mobile_v2
   display_name: Mobile App V2
   enabled: false
-  chatwoot_internal: true
   deprecated: true
 - name: channel_website
   display_name: Website Channel
@@ -110,17 +108,14 @@
 - name: response_bot
   display_name: Response Bot
   enabled: false
-  chatwoot_internal: true
   deprecated: true
 - name: message_reply_to
   display_name: Message Reply To
   enabled: false
-  chatwoot_internal: true
   deprecated: true
 - name: insert_article_in_reply
   display_name: Insert Article in Reply
   enabled: false
-  chatwoot_internal: true
   deprecated: true
 - name: inbox_view
   display_name: Inbox View
@@ -153,7 +148,6 @@
 - name: report_v4
   display_name: Report V4
   enabled: false
-  chatwoot_internal: true
   deprecated: true
 - name: contact_chatwoot_support_team
   display_name: Contact Chatwoot Support Team
@@ -187,7 +181,6 @@
 - name: whatsapp_embedded_signup
   display_name: WhatsApp Embedded Signup
   enabled: false
-  chatwoot_internal: true
   deprecated: true
 - name: whatsapp_campaign
   display_name: WhatsApp Campaign
@@ -203,7 +196,6 @@
 - name: twilio_content_templates
   display_name: Twilio Content Templates
   enabled: false
-  chatwoot_internal: true
   deprecated: true
 - name: advanced_search
   display_name: Advanced Search
