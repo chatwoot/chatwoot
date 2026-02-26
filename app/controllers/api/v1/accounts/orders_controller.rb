@@ -8,6 +8,7 @@ class Api::V1::Accounts::OrdersController < Api::V1::Accounts::BaseController
 
   before_action :check_authorization
   before_action :set_current_page, only: [:index, :search]
+  before_action :set_order, only: [:show]
 
   def index
     orders = Current.account.orders
@@ -16,6 +17,8 @@ class Api::V1::Accounts::OrdersController < Api::V1::Accounts::BaseController
     @orders = fetch_orders(orders)
     @orders_count = @orders.total_count
   end
+
+  def show; end
 
   def search
     render json: { error: 'Specify search string with parameter q' }, status: :unprocessable_entity if params[:q].blank? && return
@@ -37,6 +40,12 @@ class Api::V1::Accounts::OrdersController < Api::V1::Accounts::BaseController
       .includes(:contact, :created_by, :conversation, :order_items)
       .page(@current_page)
       .per(RESULTS_PER_PAGE)
+  end
+
+  def set_order
+    @order = Current.account.orders
+                    .includes(:contact, :created_by, :conversation, order_items: :product)
+                    .find(params[:id])
   end
 
   def check_authorization

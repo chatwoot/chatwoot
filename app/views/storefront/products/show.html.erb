@@ -3,7 +3,7 @@
   <div class="relative aspect-[4/3] bg-slate-100 dark:bg-slate-800 overflow-hidden">
     <% if @product.image_url.present? %>
       <img src="<%= @product.image_url %>"
-           alt="<%= @product.title_en %>"
+           alt="<%= product_title(@product) %>"
            class="w-full h-full object-cover" />
     <% else %>
       <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-800 dark:to-slate-700">
@@ -22,13 +22,8 @@
     <%# Title %>
     <div class="min-w-0">
       <h2 class="text-xl font-bold text-slate-900 dark:text-white leading-snug">
-        <%= @product.title_en %>
+        <%= product_title(@product) %>
       </h2>
-      <% if @product.title_ar.present? %>
-        <p class="text-sm text-slate-400 dark:text-slate-500 mt-0.5" dir="rtl">
-          <%= @product.title_ar %>
-        </p>
-      <% end %>
     </div>
 
     <%# Price + Stock row %>
@@ -43,17 +38,17 @@
         <% if @product.stock <= 0 %>
           <span class="inline-flex items-center gap-1 text-xs font-medium text-red-500 dark:text-red-400">
             <svg class="w-1.5 h-1.5" fill="currentColor" viewBox="0 0 8 8"><circle cx="4" cy="4" r="4" /></svg>
-            Out of Stock
+            <%= t('storefront.out_of_stock') %>
           </span>
         <% elsif @product.stock <= 5 %>
           <span class="inline-flex items-center gap-1 text-xs font-medium text-amber-500 dark:text-amber-400">
             <svg class="w-1.5 h-1.5" fill="currentColor" viewBox="0 0 8 8"><circle cx="4" cy="4" r="4" /></svg>
-            Only <%= @product.stock %> left
+            <%= t('storefront.only_n_left', count: @product.stock) %>
           </span>
         <% else %>
           <span class="inline-flex items-center gap-1 text-xs font-medium text-green-500 dark:text-green-400">
             <svg class="w-1.5 h-1.5" fill="currentColor" viewBox="0 0 8 8"><circle cx="4" cy="4" r="4" /></svg>
-            In Stock
+            <%= t('storefront.in_stock') %>
           </span>
         <% end %>
       <% end %>
@@ -61,7 +56,7 @@
 
     <%# "In your cart" indicator %>
     <% if @cart_qty > 0 %>
-      <a href="<%= storefront_cart_path(@account, token: storefront_token_param) %>"
+      <a href="<%= storefront_cart_path(@account, **storefront_link_params) %>"
          class="flex items-center gap-2 mt-3 px-3 py-2 bg-woot-50 dark:bg-woot-500/10 rounded-lg group transition-colors hover:bg-woot-100 dark:hover:bg-woot-500/20"
          data-cart-indicator>
         <svg class="w-4 h-4 text-woot-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -69,27 +64,21 @@
                 d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
         </svg>
         <span class="text-xs font-semibold text-woot-600 dark:text-woot-400" data-cart-indicator-text>
-          <%= @cart_qty %> in your cart
+          <%= t('storefront.in_your_cart', count: @cart_qty) %>
         </span>
-        <svg class="w-3.5 h-3.5 text-woot-400 dark:text-woot-500 ml-auto group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <svg class="w-3.5 h-3.5 text-woot-400 dark:text-woot-500 ml-auto group-hover:translate-x-0.5 transition-transform <%= 'rotate-180' if storefront_rtl? %>" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
         </svg>
       </a>
     <% end %>
 
     <%# Description %>
-    <% if @product.description_en.present? || @product.description_ar.present? %>
+    <% desc = product_description(@product) %>
+    <% if desc.present? %>
       <div class="mt-4 pt-4 border-t border-slate-100 dark:border-slate-700/50">
-        <% if @product.description_en.present? %>
-          <div class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-            <%= simple_format(@product.description_en) %>
-          </div>
-        <% end %>
-        <% if @product.description_ar.present? %>
-          <div class="text-sm text-slate-400 dark:text-slate-500 leading-relaxed <%= 'mt-3' if @product.description_en.present? %>" dir="rtl">
-            <%= simple_format(@product.description_ar) %>
-          </div>
-        <% end %>
+        <div class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+          <%= simple_format(desc) %>
+        </div>
       </div>
     <% end %>
   </div>
@@ -99,7 +88,7 @@
 
   <%# Sticky add-to-cart footer %>
   <% if @product.in_stock? %>
-    <%= form_tag storefront_cart_add_item_path(@account, token: storefront_token_param),
+    <%= form_tag storefront_cart_add_item_path(@account, **storefront_link_params),
                  method: :post,
                  class: 'fixed bottom-0 left-0 right-0 z-40 bg-white/95 dark:bg-slate-800/95 backdrop-blur-md border-t border-slate-200/80 dark:border-slate-700',
                  data: { add_to_cart: true, unit_price: @product.price } do %>
@@ -133,7 +122,7 @@
           <button type="submit"
                   class="flex-1 flex items-center justify-center gap-2 py-3 text-base font-semibold text-white bg-woot-500 hover:bg-woot-600 rounded-xl transition-all active:scale-[0.98] shadow-sm shadow-woot-500/25"
                   data-add-btn>
-            <span>Add to Cart</span>
+            <span><%= t('storefront.add_to_cart') %></span>
             <span class="text-white/70">·</span>
             <span data-add-subtotal><%= number_with_precision(@product.price, precision: 2) %></span>
             <span class="text-xs text-white/70"><%= @currency %></span>
@@ -146,7 +135,7 @@
       <div class="max-w-lg mx-auto px-4 py-3">
         <button disabled
                 class="w-full py-3 text-center text-base font-semibold text-slate-400 bg-slate-100 dark:bg-slate-700 dark:text-slate-500 rounded-xl cursor-not-allowed">
-          Out of Stock
+          <%= t('storefront.out_of_stock') %>
         </button>
       </div>
     </div>

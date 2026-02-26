@@ -2,7 +2,7 @@
   <% if @cart_items.any? %>
     <%# Cart header %>
     <h2 class="text-base font-semibold text-slate-900 dark:text-white mb-3" data-cart-header>
-      Cart (<%= @cart_items.sum(&:quantity) %>)
+      <%= t('storefront.cart_title', count: @cart_items.sum(&:quantity)) %>
     </h2>
 
     <%# Cart items card %>
@@ -13,9 +13,9 @@
 
     <%# Continue shopping %>
     <div class="mt-5 text-center">
-      <a href="<%= storefront_products_path(@account, token: storefront_token_param) %>"
+      <a href="<%= storefront_products_path(@account, **storefront_link_params) %>"
          class="text-sm text-woot-500 hover:text-woot-600 dark:text-woot-400 font-medium transition-colors">
-        Continue Shopping
+        <%= t('storefront.continue_shopping') %>
       </a>
     </div>
 

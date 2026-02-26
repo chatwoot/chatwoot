@@ -658,6 +658,7 @@
       "COPY_URL": "Copy payment URL",
       "VIEW_PAYMENT": "View payment page",
       "NO_RESULTS_SEARCH": "No orders found matching your search",
+      "DELIVERY_ADDRESS": "Delivery Address",
       "EXPANDED_ITEMS": {
         "PRODUCT": "Product",
         "QUANTITY": "Qty",
@@ -695,6 +696,43 @@
     },
     "PAGINATION_FOOTER": {
       "SHOWING": "Showing {from} - {to} of {count} orders"
+    }
+  },
+  "ORDER_DETAILS": {
+    "BREADCRUMB": {
+      "ORDERS": "Orders"
+    },
+    "LOADING": "Loading order details...",
+    "NOT_FOUND": "Order not found",
+    "INFO": {
+      "ORDER_ID": "Order ID",
+      "CONTACT": "Contact",
+      "CONVERSATION": "Conversation",
+      "CREATED_BY": "Created By",
+      "PROVIDER": "Provider",
+      "TOTAL": "Total",
+      "STATUS": "Status",
+      "ITEMS": "Items",
+      "DELIVERY_ADDRESS": "Delivery Address",
+      "PRODUCT": "Product",
+      "QUANTITY": "Qty",
+      "UNIT_PRICE": "Unit Price",
+      "ITEM_TOTAL": "Total",
+      "COPY_URL": "Copy payment URL",
+      "VIEW_PAYMENT": "Open payment page"
+    },
+    "TIMELINE": {
+      "TITLE": "Timeline",
+      "CREATED": "Order created",
+      "PAID": "Payment received"
+    },
+    "NOTES": {
+      "TITLE": "Notes",
+      "PLACEHOLDER": "Write a note...",
+      "SAVE": "Save note",
+      "EMPTY_STATE": "No notes added yet. Add a note to keep track of important details about this order.",
+      "YOU": "You",
+      "WROTE": "wrote"
     }
   }
 }

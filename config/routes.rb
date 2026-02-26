@@ -251,10 +251,11 @@ Rails.application.routes.draw do
               post :export
             end
           end
-          resources :orders, only: [:index] do
+          resources :orders, only: [:index, :show] do
             collection do
               get :search
             end
+            resources :order_notes, only: [:index, :create, :destroy]
           end
           resources :csat_survey_responses, only: [:index] do
             collection do

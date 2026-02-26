@@ -40,6 +40,18 @@
     <% end %>
   </div>
 
+  <!-- Delivery Address -->
+  <% address = @order.delivery_address || {} %>
+  <% address_parts = address.values_at('street', 'city', 'state', 'postal_code', 'country').select(&:present?) %>
+  <% if address_parts.any? %>
+    <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+      <p class="text-sm font-medium text-slate-900 dark:text-white mb-1">Delivery Address</p>
+      <p class="text-sm text-slate-600 dark:text-slate-400">
+        <%= address_parts.join(', ') %>
+      </p>
+    </div>
+  <% end %>
+
   <!-- Totals -->
   <div class="px-6 py-4 bg-slate-50 dark:bg-slate-700/50 border-t border-slate-200 dark:border-slate-700">
     <div class="flex justify-between items-center mb-2">

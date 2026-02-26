@@ -7,6 +7,10 @@ class OrderPolicy < ApplicationPolicy
     true
   end
 
+  def show?
+    true
+  end
+
   def search?
     true
   end

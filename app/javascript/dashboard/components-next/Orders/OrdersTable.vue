@@ -54,8 +54,26 @@ const navigateToContact = (accountId, contactId) => {
   });
 };
 
+const navigateToOrder = orderId => {
+  router.push({
+    name: 'orders_show',
+    params: {
+      accountId: router.currentRoute.value.params.accountId,
+      orderId,
+    },
+  });
+};
+
 const openPaymentLink = url => {
   window.open(url, '_blank', 'noopener,noreferrer');
+};
+
+const formatAddress = address => {
+  if (!address || typeof address !== 'object') return '';
+  return ['street', 'city', 'state', 'postal_code', 'country']
+    .map(key => address[key])
+    .filter(Boolean)
+    .join(', ');
 };
 
 const getStatusBadgeClasses = status => {
@@ -128,7 +146,10 @@ const getStatusBadgeClasses = status => {
         </td>
       </tr>
       <template v-for="order in orders" :key="order.id">
-        <tr>
+        <tr
+          class="cursor-pointer hover:bg-n-alpha-1 transition-colors"
+          @click="navigateToOrder(order.id)"
+        >
           <td class="py-4 ltr:pr-4 rtl:pl-4">
             <div class="flex flex-col gap-0.5">
               <span class="font-medium">{{ order.external_payment_id }}</span>
@@ -141,7 +162,7 @@ const getStatusBadgeClasses = status => {
             <button
               v-if="order.contact"
               class="text-n-iris-9 hover:text-n-iris-10 hover:underline"
-              @click="
+              @click.stop="
                 navigateToContact(
                   $store.state.auth.currentAccountId,
                   order.contact.id
@@ -160,7 +181,7 @@ const getStatusBadgeClasses = status => {
             <button
               v-if="order.items_count > 0"
               class="flex items-center gap-1.5 text-n-slate-11 hover:text-n-slate-12 transition-colors"
-              @click="toggleExpand(order.id)"
+              @click.stop="toggleExpand(order.id)"
             >
               <Icon
                 icon="i-lucide-chevron-right"
@@ -205,7 +226,7 @@ const getStatusBadgeClasses = status => {
             <button
               v-if="order.conversation"
               class="text-n-iris-9 hover:text-n-iris-10 hover:underline"
-              @click="
+              @click.stop="
                 navigateToConversation(
                   $store.state.auth.currentAccountId,
                   order.conversation.display_id
@@ -217,7 +238,7 @@ const getStatusBadgeClasses = status => {
             <span v-else class="text-n-slate-11">-</span>
           </td>
           <td class="py-4 ltr:pr-4 rtl:pl-4">
-            <div class="flex items-center gap-2">
+            <div class="flex items-center gap-2" @click.stop>
               <Button
                 v-if="order.preview_url"
                 v-tooltip.top="$t('ORDERS_LIST.TABLE.COPY_URL')"
@@ -277,6 +298,18 @@ const getStatusBadgeClasses = status => {
                   </tr>
                 </tbody>
               </table>
+              <div
+                v-if="formatAddress(order.delivery_address)"
+                class="mt-3 flex items-start gap-2 text-sm text-n-slate-11"
+              >
+                <Icon icon="i-lucide-map-pin" class="text-sm mt-0.5" />
+                <div>
+                  <span class="font-medium text-n-slate-12">
+                    {{ $t('ORDERS_LIST.TABLE.DELIVERY_ADDRESS') }}:
+                  </span>
+                  {{ formatAddress(order.delivery_address) }}
+                </div>
+              </div>
             </div>
           </td>
         </tr>

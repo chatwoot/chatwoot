@@ -8,6 +8,17 @@ import '../storefront/application.scss';
 const csrfToken = () =>
   document.querySelector('meta[name="csrf-token"]')?.content;
 
+const isRTL = () => document.documentElement.dir === 'rtl';
+
+// ─── i18n Helper — reads from server-injected window.STOREFRONT_I18N ─
+function i18n(key, replacements = {}) {
+  let str = (window.STOREFRONT_I18N && window.STOREFRONT_I18N[key]) || key;
+  Object.entries(replacements).forEach(([k, v]) => {
+    str = str.replace(`{${k}}`, v);
+  });
+  return str;
+}
+
 // ─── Floating Cart Bar ──────────────────────────────────────
 function updateFloatingCart(count) {
   const bar = document.getElementById('floating-cart');
@@ -74,7 +85,7 @@ function updateCartIndicator(addedQty) {
     // Already visible — increment the displayed count
     const match = textEl.textContent.match(/(\d+)/);
     const current = match ? parseInt(match[1], 10) : 0;
-    textEl.textContent = `${current + addedQty} in your cart`;
+    textEl.textContent = i18n('inYourCart', { count: current + addedQty });
   } else if (indicator === null) {
     // Not on page yet — inject it after the price/stock row
     const priceRow = document.querySelector(
@@ -94,8 +105,8 @@ function updateCartIndicator(addedQty) {
         <path stroke-linecap="round" stroke-linejoin="round"
               d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
       </svg>
-      <span class="text-xs font-semibold text-woot-600 dark:text-woot-400" data-cart-indicator-text>${addedQty} in your cart</span>
-      <svg class="w-3.5 h-3.5 text-woot-400 dark:text-woot-500 ml-auto group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+      <span class="text-xs font-semibold text-woot-600 dark:text-woot-400" data-cart-indicator-text>${i18n('inYourCart', { count: addedQty })}</span>
+      <svg class="w-3.5 h-3.5 text-woot-400 dark:text-woot-500 ml-auto group-hover:translate-x-0.5 transition-transform ${isRTL() ? 'rotate-180' : ''}" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
       </svg>`;
     priceRow.insertAdjacentElement('afterend', link);
@@ -157,8 +168,7 @@ function initAddToCart() {
             updateCartIndicator(addedQty);
 
             const originalHTML = btn.innerHTML;
-            btn.innerHTML =
-              '<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg><span>Added!</span>';
+            btn.innerHTML = `<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg><span>${i18n('added')}</span>`;
             btn.classList.add('bg-green-500');
             btn.classList.remove('bg-woot-500');
             setTimeout(() => {
@@ -288,7 +298,7 @@ function updateCartHeader() {
     .forEach(el => {
       totalQty += parseInt(el.textContent, 10) || 0;
     });
-  header.textContent = `Cart (${totalQty})`;
+  header.textContent = i18n('cartTitle', { count: totalQty });
 }
 
 // ─── Cart Page: Remove Item (fade + delete) ─────────────────
@@ -403,7 +413,7 @@ function initCheckoutLoading() {
     const btn = document.getElementById('checkout-submit-btn');
     if (btn) {
       btn.disabled = true;
-      btn.textContent = 'Processing...';
+      btn.textContent = i18n('processing');
       btn.classList.add('opacity-75', 'cursor-not-allowed');
     }
   });
@@ -417,7 +427,7 @@ function initCheckoutLoading() {
       const btn = document.getElementById('checkout-submit-btn');
       if (btn) {
         btn.disabled = false;
-        btn.textContent = 'Place Order & Pay';
+        btn.textContent = i18n('placeOrderAndPay');
         btn.classList.remove('opacity-75', 'cursor-not-allowed');
       }
     }

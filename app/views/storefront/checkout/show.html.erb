@@ -1,26 +1,26 @@
 <div class="max-w-lg mx-auto px-4 py-6">
   <%# Page header %>
-  <h2 class="text-base font-semibold text-slate-900 dark:text-white mb-4">Checkout</h2>
+  <h2 class="text-base font-semibold text-slate-900 dark:text-white mb-4"><%= t('storefront.checkout') %></h2>
 
-  <%= form_tag storefront_checkout_create_path(@account, token: storefront_token_param), method: :post, id: "checkout-form" do %>
+  <%= form_tag storefront_checkout_create_path(@account, **storefront_link_params), method: :post, id: "checkout-form" do %>
 
     <%# Contact Information %>
     <div class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 p-4 mb-4">
-      <h3 class="text-base font-semibold text-slate-900 dark:text-white mb-3">Contact Information</h3>
+      <h3 class="text-base font-semibold text-slate-900 dark:text-white mb-3"><%= t('storefront.contact_information') %></h3>
 
       <div class="space-y-3">
         <div>
-          <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Name *</label>
+          <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1"><%= t('storefront.name') %> *</label>
           <input type="text" name="contact[name]" value="<%= @contact.name %>" required
                  class="w-full px-3 py-2.5 text-sm rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-white placeholder-slate-400 focus:ring-2 focus:ring-woot-500 focus:border-transparent" />
         </div>
         <div>
-          <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Email</label>
+          <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1"><%= t('storefront.email') %></label>
           <input type="email" name="contact[email]" value="<%= @contact.email %>"
                  class="w-full px-3 py-2.5 text-sm rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-white placeholder-slate-400 focus:ring-2 focus:ring-woot-500 focus:border-transparent" />
         </div>
         <div>
-          <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Phone *</label>
+          <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1"><%= t('storefront.phone') %> *</label>
           <input type="tel" name="contact[phone_number]" value="<%= @contact.phone_number %>" required
                  placeholder="+966XXXXXXXXX"
                  class="w-full px-3 py-2.5 text-sm rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-white placeholder-slate-400 focus:ring-2 focus:ring-woot-500 focus:border-transparent" />
@@ -30,34 +30,34 @@
 
     <%# Delivery Address %>
     <div class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 p-4 mb-4">
-      <h3 class="text-base font-semibold text-slate-900 dark:text-white mb-3">Delivery Address</h3>
+      <h3 class="text-base font-semibold text-slate-900 dark:text-white mb-3"><%= t('storefront.delivery_address') %></h3>
 
       <div class="space-y-3">
         <div>
-          <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Street</label>
+          <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1"><%= t('storefront.street') %></label>
           <input type="text" name="contact[address][street]" value="<%= @address['street'] %>"
                  class="w-full px-3 py-2.5 text-sm rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-white placeholder-slate-400 focus:ring-2 focus:ring-woot-500 focus:border-transparent" />
         </div>
         <div class="grid grid-cols-2 gap-3">
           <div>
-            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">City</label>
+            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1"><%= t('storefront.city') %></label>
             <input type="text" name="contact[address][city]" value="<%= @address['city'] %>"
                    class="w-full px-3 py-2.5 text-sm rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-white placeholder-slate-400 focus:ring-2 focus:ring-woot-500 focus:border-transparent" />
           </div>
           <div>
-            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">State</label>
+            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1"><%= t('storefront.state') %></label>
             <input type="text" name="contact[address][state]" value="<%= @address['state'] %>"
                    class="w-full px-3 py-2.5 text-sm rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-white placeholder-slate-400 focus:ring-2 focus:ring-woot-500 focus:border-transparent" />
           </div>
         </div>
         <div class="grid grid-cols-2 gap-3">
           <div>
-            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Postal Code</label>
+            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1"><%= t('storefront.postal_code') %></label>
             <input type="text" name="contact[address][postal_code]" value="<%= @address['postal_code'] %>"
                    class="w-full px-3 py-2.5 text-sm rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-white placeholder-slate-400 focus:ring-2 focus:ring-woot-500 focus:border-transparent" />
           </div>
           <div>
-            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Country</label>
+            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1"><%= t('storefront.country') %></label>
             <input type="text" name="contact[address][country]" value="<%= @address['country'] %>"
                    class="w-full px-3 py-2.5 text-sm rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-white placeholder-slate-400 focus:ring-2 focus:ring-woot-500 focus:border-transparent" />
           </div>
@@ -71,13 +71,13 @@
   <div class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 divide-y divide-slate-200 dark:divide-slate-700 mb-4">
     <div class="p-4">
       <h3 class="text-base font-semibold text-slate-900 dark:text-white">
-        Order Summary (<%= @cart_items.sum(&:quantity) %>)
+        <%= t('storefront.order_summary', count: @cart_items.sum(&:quantity)) %>
       </h3>
     </div>
     <% @cart_items.each do |item| %>
       <div class="px-4 py-3 flex justify-between items-center text-sm">
         <span class="text-slate-600 dark:text-slate-400">
-          <%= item.quantity %> &times; <%= item.product.title_en %>
+          <%= item.quantity %> &times; <%= product_title(item.product) %>
         </span>
         <span class="text-slate-900 dark:text-white font-medium whitespace-nowrap">
           <%= number_with_precision(item.total_price, precision: 2) %> <%= @currency %>
@@ -93,14 +93,14 @@
   <div class="fixed bottom-0 left-0 right-0 z-40 bg-white dark:bg-slate-800 border-t border-slate-200 dark:border-slate-700 shadow-lg">
     <div class="max-w-lg mx-auto px-4 py-3">
       <div class="flex justify-between items-center mb-2">
-        <span class="text-sm text-slate-600 dark:text-slate-400">Total</span>
+        <span class="text-sm text-slate-600 dark:text-slate-400"><%= t('storefront.total') %></span>
         <span class="text-lg font-bold text-slate-900 dark:text-white">
           <%= number_with_precision(@cart_subtotal, precision: 2) %> <%= @currency %>
         </span>
       </div>
       <button type="submit" form="checkout-form" id="checkout-submit-btn"
               class="w-full py-3 text-center text-base font-semibold text-white bg-woot-500 hover:bg-woot-600 rounded-xl transition-colors active:scale-[0.98]">
-        Place Order &amp; Pay
+        <%= t('storefront.place_order_and_pay') %>
       </button>
     </div>
   </div>
@@ -109,8 +109,8 @@
   <div id="checkout-loading-overlay" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50">
     <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-xl px-8 py-10 flex flex-col items-center gap-4 max-w-xs mx-4">
       <div class="h-10 w-10 rounded-full border-4 border-slate-200 dark:border-slate-600 border-t-woot-500 animate-spin"></div>
-      <p class="text-base font-semibold text-slate-900 dark:text-white">Processing your order...</p>
-      <p class="text-sm text-slate-500 dark:text-slate-400">Please don't close this page</p>
+      <p class="text-base font-semibold text-slate-900 dark:text-white"><%= t('storefront.processing_your_order') %></p>
+      <p class="text-sm text-slate-500 dark:text-slate-400"><%= t('storefront.please_dont_close') %></p>
     </div>
   </div>
 </div>

@@ -5,6 +5,7 @@ import { throwErrorMessage } from 'dashboard/store/utils/api';
 
 const state = {
   records: [],
+  currentOrder: {},
   meta: {
     currentPage: 1,
     perPage: 15,
@@ -12,6 +13,7 @@ const state = {
   },
   uiFlags: {
     fetchingList: false,
+    fetchingItem: false,
   },
   filters: {
     status: 'all',
@@ -26,6 +28,9 @@ const getters = {
   getOrders(_state) {
     return _state.records;
   },
+  getCurrentOrder(_state) {
+    return _state.currentOrder;
+  },
   getUIFlags(_state) {
     return _state.uiFlags;
   },
@@ -38,6 +43,19 @@ const getters = {
 };
 
 const actions = {
+  async show({ commit, rootGetters }, { orderId }) {
+    commit(types.default.SET_ORDERS_UI_FLAG, { fetchingItem: true });
+    try {
+      const accountId = rootGetters.getCurrentAccountId;
+      const { data } = await OrdersAPI.show(accountId, orderId);
+      commit(types.default.SET_CURRENT_ORDER, data);
+      return data;
+    } catch (error) {
+      return throwErrorMessage(error);
+    } finally {
+      commit(types.default.SET_ORDERS_UI_FLAG, { fetchingItem: false });
+    }
+  },
   async fetch(
     { commit, rootGetters, state: storeState },
     { page, filters, sort = '', order = '' } = {}
@@ -118,6 +136,9 @@ const mutations = {
   },
 
   [types.default.SET_ORDERS]: MutationHelpers.set,
+  [types.default.SET_CURRENT_ORDER](_state, data) {
+    _state.currentOrder = data;
+  },
   [types.default.SET_ORDERS_META](_state, data) {
     _state.meta = {
       ..._state.meta,

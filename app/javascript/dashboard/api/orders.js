@@ -47,8 +47,13 @@ const search = (accountId, searchQuery, page = 1, sort = '', order = '') => {
   );
 };
 
+const show = (accountId, orderId) => {
+  return axios.get(`/api/v1/accounts/${accountId}/orders/${orderId}`);
+};
+
 export default {
   create,
   get,
+  show,
   search,
 };
