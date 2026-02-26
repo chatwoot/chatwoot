@@ -2,7 +2,10 @@ version: '3.8'
 
 services:
   base: &base
-    image: chatwoot/chatwoot:latest
+    build:
+      context: .
+      dockerfile: docker/Dockerfile  
+    image: chatwoot-thx-local:latest
     env_file: .env
     volumes:
       - storage_data:/app/storage

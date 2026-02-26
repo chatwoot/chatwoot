@@ -292,5 +292,46 @@
     --border-container: 255, 255, 255, 0;
     --white-alpha: 255, 255, 255, 0.1;
   }
+
+ [data-theme='secret'] {
+    // Escala Equilibrada - Rose Pastel / Muted Rose
+    --slate-1: 255 248 248;   // Fundo principal (Rosa muito suave, quase off-white)
+    --slate-2: 252 240 242;   // Superfícies secundárias
+    --slate-3: 249 228 232;   // Cards e Hover
+    --slate-4: 244 214 220;
+    --slate-5: 235 198 206;
+    --slate-6: 220 178 188;
+    --slate-7: 195 150 162;   // Bordas e tons médios
+    --slate-8: 168 120 132;
+    --slate-9: 190 18 60;     // Destaque (Ruby/Vinho)
+    --slate-10: 159 18 57;
+    --slate-11: 136 19 55;    // Texto Secundário
+    --slate-12: 76 5 25;      // Texto Principal (Vinho Profundo para leitura perfeita)
+
+    // Cores de Ação (Ruby equilibrado)
+    --blue-1: 255 250 251;
+    --blue-9: 210 60 100;     // O Rosa THX (Vibrante mas não fluorescente)
+    --blue-10: 190 18 60;
+    --blue-11: 159 18 57;
+    --blue-12: 88 15 35;
+
+    // Background e Superfícies
+    --background-color: 255 245 246; 
+    --surface-1: 255 255 255;
+    --surface-2: 252 240 242;
+    --surface-active: 249 226 230;
+    
+    --background-input-box: 190, 18, 60, 0.03;
+    --border-container: 244 210 218;
+    --border-strong: 225 170 185;
+    --border-weak: 250 230 235;
+
+    --solid-blue: 210 60 100;
+    --card-color: 255 255 255;
+    
+    --alpha-3: 255, 245, 246, 0.97;
+    --black-alpha-1: 76, 5, 25, 0.08;
+    --black-alpha-2: 76, 5, 25, 0.04;
+  }
 }
 // NEXT COLORS END

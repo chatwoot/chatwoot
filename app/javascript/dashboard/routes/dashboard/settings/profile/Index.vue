@@ -8,6 +8,11 @@ import { clearCookiesOnLogout } from 'dashboard/store/utils/api.js';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
 import { parseAPIErrorResponse } from 'dashboard/store/utils/api';
 import { parseBoolean } from '@chatwoot/utils';
+import { LocalStorage } from 'shared/helpers/localStorage';
+import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
+import { setColorTheme } from 'dashboard/helper/themeHelper';
+
+// Componentes
 import UserProfilePicture from './UserProfilePicture.vue';
 import UserBasicDetails from './UserBasicDetails.vue';
 import MessageSignature from './MessageSignature.vue';
@@ -22,6 +27,7 @@ import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import AccessToken from './AccessToken.vue';
 import MfaSettingsCard from './MfaSettingsCard.vue';
 import Policy from 'dashboard/components/policy.vue';
+
 import {
   ROLES,
   CONVERSATION_PERMISSIONS,
@@ -59,6 +65,7 @@ export default {
   },
   data() {
     return {
+      activeTheme: LocalStorage.get(LOCAL_STORAGE_KEYS.COLOR_SCHEME) || 'auto',
       avatarFile: '',
       avatarUrl: '',
       name: '',
@@ -68,26 +75,17 @@ export default {
       hotKeys: [
         {
           key: 'enter',
-          title: this.$t(
-            'PROFILE_SETTINGS.FORM.SEND_MESSAGE.CARD.ENTER_KEY.HEADING'
-          ),
-          description: this.$t(
-            'PROFILE_SETTINGS.FORM.SEND_MESSAGE.CARD.ENTER_KEY.CONTENT'
-          ),
+          title: this.$t('PROFILE_SETTINGS.FORM.SEND_MESSAGE.CARD.ENTER_KEY.HEADING'),
+          description: this.$t('PROFILE_SETTINGS.FORM.SEND_MESSAGE.CARD.ENTER_KEY.CONTENT'),
           lightImage: '/assets/images/dashboard/profile/hot-key-enter.svg',
           darkImage: '/assets/images/dashboard/profile/hot-key-enter-dark.svg',
         },
         {
           key: 'cmd_enter',
-          title: this.$t(
-            'PROFILE_SETTINGS.FORM.SEND_MESSAGE.CARD.CMD_ENTER_KEY.HEADING'
-          ),
-          description: this.$t(
-            'PROFILE_SETTINGS.FORM.SEND_MESSAGE.CARD.CMD_ENTER_KEY.CONTENT'
-          ),
+          title: this.$t('PROFILE_SETTINGS.FORM.SEND_MESSAGE.CARD.CMD_ENTER_KEY.HEADING'),
+          description: this.$t('PROFILE_SETTINGS.FORM.SEND_MESSAGE.CARD.CMD_ENTER_KEY.CONTENT'),
           lightImage: '/assets/images/dashboard/profile/hot-key-ctrl-enter.svg',
-          darkImage:
-            '/assets/images/dashboard/profile/hot-key-ctrl-enter-dark.svg',
+          darkImage: '/assets/images/dashboard/profile/hot-key-ctrl-enter-dark.svg',
         },
       ],
       notificationPermissions: [...ROLES, ...CONVERSATION_PERMISSIONS],
@@ -117,17 +115,21 @@ export default {
       this.displayName = this.currentUser.display_name;
       this.messageSignature = this.currentUser.message_signature;
     },
+    updateTheme(theme) {
+      this.activeTheme = theme;
+      LocalStorage.set(LOCAL_STORAGE_KEYS.COLOR_SCHEME, theme);
+      setColorTheme(window.matchMedia('(prefers-color-scheme: dark)').matches);
+      useAlert(this.$t('PROFILE_SETTINGS.UPDATE_SUCCESS'));
+    },
     async dispatchUpdate(payload, successMessage, errorMessage) {
       let alertMessage = '';
       try {
         await this.$store.dispatch('updateProfile', payload);
         alertMessage = successMessage;
-
-        return true; // return the value so that the status can be known
+        return true;
       } catch (error) {
         alertMessage = parseAPIErrorResponse(error) || errorMessage;
-
-        return false; // return the value so that the status can be known
+        return false;
       } finally {
         useAlert(alertMessage);
       }
@@ -158,13 +160,8 @@ export default {
     },
     async updateSignature(signature) {
       const payload = { message_signature: signature };
-      let successMessage = this.$t(
-        'PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.API_SUCCESS'
-      );
-      let errorMessage = this.$t(
-        'PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.API_ERROR'
-      );
-
+      let successMessage = this.$t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.API_SUCCESS');
+      let errorMessage = this.$t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.API_ERROR');
       await this.dispatchUpdate(payload, successMessage, errorMessage);
     },
     updateProfilePicture({ file, url }) {
@@ -207,6 +204,7 @@ export default {
 <template>
   <div class="grid max-w-2xl ltr:mr-auto rtl:ml-auto">
     <BaseSettingsHeader :title="$t('PROFILE_SETTINGS.TITLE')" description="" />
+    
     <SectionLayout title="" description="" class="!pt-0">
       <div class="flex flex-col gap-6">
         <UserProfilePicture
@@ -224,32 +222,54 @@ export default {
         />
       </div>
     </SectionLayout>
+
     <SectionLayout
       with-border
       :title="$t('PROFILE_SETTINGS.FORM.INTERFACE_SECTION.TITLE')"
-      :description="
-        replaceInstallationName(
-          $t('PROFILE_SETTINGS.FORM.INTERFACE_SECTION.NOTE')
-        )
-      "
+      :description="replaceInstallationName($t('PROFILE_SETTINGS.FORM.INTERFACE_SECTION.NOTE'))"
     >
-      <div class="flex flex-col gap-6 items-start">
+      <div class="flex flex-col gap-6 items-start w-full">
+        <div class="w-full">
+          <label class="mb-2 text-sm font-medium text-n-900 dark:text-n-500">
+            Aparência do Sistema
+          </label>
+          <div class="flex flex-wrap gap-3 mt-3">
+            <button 
+              @click="updateTheme('light')"
+              class="flex items-center gap-2 px-4 py-2 text-sm font-medium border rounded-lg transition-all"
+              :class="activeTheme === 'light' ? 'border-n-brand bg-n-brand/10 text-n-brand' : 'border-n-weak bg-white dark:bg-n-900'"
+            >
+              <woot-icon icon="sun" size="16" /> Claro
+            </button>
+            <button 
+              @click="updateTheme('dark')"
+              class="flex items-center gap-2 px-4 py-2 text-sm font-medium border rounded-lg transition-all"
+              :class="activeTheme === 'dark' ? 'border-n-brand bg-n-brand/10 text-n-brand' : 'border-n-weak bg-white dark:bg-n-900'"
+            >
+              <woot-icon icon="moon" size="16" /> Escuro
+            </button>
+            <button 
+              @click="updateTheme('secret')"
+              class="flex items-center gap-2 px-4 py-2 text-sm font-medium border rounded-lg transition-all secret-pink-btn shadow-sm"
+              :class="activeTheme === 'secret' ? 'active' : ''"
+            >
+              <woot-icon icon="flower" size="16" /> Secret Pink 🌸
+            </button>
+          </div>
+        </div>
         <FontSize
           :value="currentFontSize"
           :label="$t('PROFILE_SETTINGS.FORM.INTERFACE_SECTION.FONT_SIZE.TITLE')"
-          :description="
-            $t('PROFILE_SETTINGS.FORM.INTERFACE_SECTION.FONT_SIZE.NOTE')
-          "
+          :description="$t('PROFILE_SETTINGS.FORM.INTERFACE_SECTION.FONT_SIZE.NOTE')"
           @change="updateFontSize"
         />
         <UserLanguageSelect
           :label="$t('PROFILE_SETTINGS.FORM.INTERFACE_SECTION.LANGUAGE.TITLE')"
-          :description="
-            $t('PROFILE_SETTINGS.FORM.INTERFACE_SECTION.LANGUAGE.NOTE')
-          "
+          :description="$t('PROFILE_SETTINGS.FORM.INTERFACE_SECTION.LANGUAGE.NOTE')"
         />
       </div>
     </SectionLayout>
+
     <SectionLayout
       with-border
       :title="$t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.TITLE')"
@@ -260,23 +280,18 @@ export default {
         @update-signature="updateSignature"
       />
     </SectionLayout>
+
     <SectionLayout
       with-border
       :title="$t('PROFILE_SETTINGS.FORM.SEND_MESSAGE.TITLE')"
       :description="$t('PROFILE_SETTINGS.FORM.SEND_MESSAGE.NOTE')"
     >
-      <div
-        class="flex flex-col justify-between w-full gap-5 sm:gap-4 sm:flex-row"
-      >
+      <div class="flex flex-col justify-between w-full gap-5 sm:gap-4 sm:flex-row">
         <button
           v-for="hotKey in hotKeys"
           :key="hotKey.key"
           class="px-0 reset-base w-full sm:flex-1 rounded-xl outline-1 outline"
-          :class="
-            isEditorHotKeyEnabled(hotKey.key)
-              ? 'outline-n-brand/30'
-              : 'outline-n-weak'
-          "
+          :class="isEditorHotKeyEnabled(hotKey.key) ? 'outline-n-brand/30' : 'outline-n-weak'"
         >
           <HotKeyCard
             :key="hotKey.title"
@@ -290,6 +305,7 @@ export default {
         </button>
       </div>
     </SectionLayout>
+
     <SectionLayout
       v-if="!globalConfig.disableUserProfileUpdate"
       with-border
@@ -298,6 +314,7 @@ export default {
     >
       <ChangePassword />
     </SectionLayout>
+
     <SectionLayout
       v-if="isMfaEnabled"
       with-border
@@ -306,17 +323,17 @@ export default {
     >
       <MfaSettingsCard />
     </SectionLayout>
+
     <Policy :permissions="audioNotificationPermissions">
       <SectionLayout
         with-border
         :title="$t('PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.TITLE')"
-        :description="
-          $t('PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.NOTE')
-        "
+        :description="$t('PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.NOTE')"
       >
         <AudioNotifications />
       </SectionLayout>
     </Policy>
+
     <Policy :permissions="notificationPermissions">
       <SectionLayout
         with-border
@@ -326,12 +343,11 @@ export default {
         <NotificationPreferences />
       </SectionLayout>
     </Policy>
+
     <SectionLayout
       with-border
       :title="$t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.TITLE')"
-      :description="
-        replaceInstallationName($t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.NOTE'))
-      "
+      :description="replaceInstallationName($t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.NOTE'))"
     >
       <AccessToken
         :value="currentUser.access_token"
@@ -341,3 +357,32 @@ export default {
     </SectionLayout>
   </div>
 </template>
+
+<style lang="scss" scoped>
+.secret-pink-btn {
+  background: white;
+  border-color: #fda4af;
+  color: #e11d48;
+
+  &:hover {
+    background: #fff1f2;
+  }
+
+  &.active {
+    background: #e11d48;
+    color: white;
+    border-color: #be123c;
+    box-shadow: 0 0 10px rgba(225, 29, 72, 0.4);
+  }
+}
+
+.dark .secret-pink-btn {
+  background: #1e1e1e;
+  border-color: #881337;
+  
+  &.active {
+    background: #e11d48;
+    color: white;
+  }
+}
+</style>
