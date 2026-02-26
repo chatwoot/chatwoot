@@ -15,6 +15,25 @@ class AutomationRuleListener < BaseListener
     process_conversation_event(event, 'conversation_resolved')
   end
 
+  def deal_updated(event)
+    deal = event.data[:deal]
+    account = deal.account
+    changed_attributes = event.data[:changed_attributes]
+
+    return unless changed_attributes.key?('pipeline_stage_id')
+    return unless rule_present?('deal_stage_changed', account)
+
+    rules = current_account_rules('deal_stage_changed', account)
+    rules.each do |rule|
+      # Si el deal tiene una conversación asociada, la usamos para el contexto de la automatización
+      conversation = deal.conversation || deal.contact.conversations.last
+      next unless conversation
+
+      conditions_match = ::AutomationRules::ConditionsFilterService.new(rule, conversation, { changed_attributes: changed_attributes }).perform
+      ::AutomationRules::ActionService.new(rule, account, conversation).perform if conditions_match.present?
+    end
+  end
+
   def message_created(event)
     message = event.data[:message]
 

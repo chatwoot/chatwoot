@@ -64,4 +64,25 @@ class AutomationRules::ActionService < ActionService
       @account.increment_email_sent_count
     end
   end
+
+  def create_deal(params)
+    stage_id = params[0]
+    deal_name = "Deal: #{@conversation.contact.name} - #{@conversation.display_id}"
+    @account.deals.create!(
+      contact: @conversation.contact,
+      pipeline_stage_id: stage_id,
+      conversation: @conversation,
+      name: deal_name,
+      status: :open
+    )
+  end
+
+  def change_deal_stage(params)
+    stage_id = params[0]
+    # Intentamos encontrar el deal más reciente vinculado a esta conversación o contacto
+    deal = @account.deals.where(conversation: @conversation).order(created_at: :desc).first
+    deal ||= @account.deals.where(contact: @conversation.contact, status: :open).order(created_at: :desc).first
+
+    deal.update!(pipeline_stage_id: stage_id) if deal.present?
+  end
 end
