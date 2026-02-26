@@ -1,6 +1,0 @@
-in: path
-name: conversation_id
-schema:
-  type: integer
-required: true
-description: The numeric ID of the conversation

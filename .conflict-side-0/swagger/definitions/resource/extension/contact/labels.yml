@@ -1,7 +1,0 @@
-type: object
-properties:
-  payload:
-    type: array
-    description: Array of labels
-    items:
-      type: string
