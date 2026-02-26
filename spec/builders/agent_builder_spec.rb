@@ -23,6 +23,24 @@ RSpec.describe AgentBuilder, type: :model do
   end
 
   describe '#perform' do
+    context 'when SMTP is not configured' do
+      it 'auto confirms newly created users' do
+        with_modified_env SMTP_ADDRESS: '' do
+          user = agent_builder.perform
+          expect(user).to be_confirmed
+        end
+      end
+    end
+
+    context 'when SMTP is configured' do
+      it 'keeps newly created users unconfirmed' do
+        with_modified_env SMTP_ADDRESS: 'smtp.example.com' do
+          user = agent_builder.perform
+          expect(user).not_to be_confirmed
+        end
+      end
+    end
+
     context 'when user does not exist' do
       it 'creates a new user' do
         expect { agent_builder.perform }.to change(User, :count).by(1)

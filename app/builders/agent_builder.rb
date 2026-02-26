@@ -30,13 +30,20 @@ class AgentBuilder
     return user if user
 
     temp_password = "1!aA#{SecureRandom.alphanumeric(12)}"
-    User.create!(email: email, name: name, password: temp_password, password_confirmation: temp_password)
+    user = User.new(email: email, name: name, password: temp_password, password_confirmation: temp_password)
+    user.skip_confirmation! if smtp_not_configured?
+    user.save!
+    user
   end
 
   # Checks if the user needs confirmation.
   # @return [Boolean] true if the user is persisted and not confirmed, false otherwise.
   def user_needs_confirmation?
     @user.persisted? && !@user.confirmed?
+  end
+
+  def smtp_not_configured?
+    ENV['SMTP_ADDRESS'].blank?
   end
 
   # Creates an account user linking the user to the current account.

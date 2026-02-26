@@ -53,5 +53,30 @@ RSpec.describe AccountBuilder do
            .and change(AccountUser, :count).by(1)
       end
     end
+
+    context 'when confirmed param is not passed' do
+      let(:account_builder) do
+        described_class.new(
+          account_name: account_name,
+          email: email,
+          user_full_name: user_full_name,
+          user_password: user_password
+        )
+      end
+
+      it 'auto confirms user if SMTP is not configured' do
+        with_modified_env SMTP_ADDRESS: '' do
+          user, _account = account_builder.perform
+          expect(user).to be_confirmed
+        end
+      end
+
+      it 'keeps user unconfirmed if SMTP is configured' do
+        with_modified_env SMTP_ADDRESS: 'smtp.example.com' do
+          user, _account = account_builder.perform
+          expect(user).not_to be_confirmed
+        end
+      end
+    end
   end
 end
