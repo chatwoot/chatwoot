@@ -109,7 +109,6 @@ const onContactSearch = debounce(
     try {
       const results = await searchContacts(query);
       // null means the request was aborted (a newer search is in-flight),
-      // don't touch state — the newer call will handle it
       if (results === null) return;
       contacts.value = results;
       isSearching.value = false;

@@ -73,6 +73,17 @@ describe('#ContactsAPI', () => {
       );
     });
 
+    it('#search with signal', () => {
+      const controller = new AbortController();
+      contactAPI.search('leads', 1, 'date', 'customer-support', {
+        signal: controller.signal,
+      });
+      expect(axiosMock.get).toHaveBeenCalledWith(
+        '/api/v1/contacts/search?include_contact_inboxes=false&page=1&sort=date&q=leads&labels[]=customer-support',
+        { signal: controller.signal }
+      );
+    });
+
     it('#destroyCustomAttributes', () => {
       contactAPI.destroyCustomAttributes(1, ['cloudCustomer']);
       expect(axiosMock.post).toHaveBeenCalledWith(
