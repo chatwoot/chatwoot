@@ -192,6 +192,7 @@
       "PRIVATE_MSG_INPUT": "Shift + enter za novi red. Ovo će biti vidljivo samo agentima",
       "MESSAGING_RESTRICTED": "You cannot reply to this conversation",
       "MESSAGING_RESTRICTED_WHATSAPP": "You can only reply using a template message due to 24-hour message window restriction",
+      "MESSAGING_RESTRICTED_API": "You can only reply using a template message due to message window restriction",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Potpis poruke nije podešen, molim vas podesite ga u podešavanjima profila.",
       "COPILOT_MSG_INPUT": "Give copilot additional prompts, or ask anything else... Press enter to send follow-up",
       "CLICK_HERE": "Kliknite ovde da izmenite",
@@ -305,6 +306,7 @@
     "CANCEL": "Otkaži",
     "SEND_EMAIL_SUCCESS": "Transkript razgovora je uspešno poslat",
     "SEND_EMAIL_ERROR": "Pojavila se greška, molim vas pokušajte ponovo",
+    "SEND_EMAIL_PAYMENT_REQUIRED": "Email transcript is not available on your current plan. Please upgrade to use this feature.",
     "FORM": {
       "SEND_TO_CONTACT": "Pošaljite transkript potrošaču",
       "SEND_TO_AGENT": "Pošaljite transkript dodeljenom agentu",
