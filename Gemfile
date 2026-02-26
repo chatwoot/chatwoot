@@ -196,6 +196,7 @@ gem 'ai-agents', '>= 0.9.1'
 # TODO: Move this gem as a dependency of ai-agents
 gem 'ruby_llm', '>= 1.8.2'
 gem 'ruby_llm-schema'
+gem 'ruby-mcp-client'
 
 gem 'cld3', '~> 3.7'
 

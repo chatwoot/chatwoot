@@ -32,6 +32,10 @@ export function useCaptain() {
     return isCloudFeatureEnabled(FEATURE_FLAGS.CAPTAIN);
   });
 
+  const captainMcpEnabled = computed(() => {
+    return isCloudFeatureEnabled(FEATURE_FLAGS.CAPTAIN_MCP);
+  });
+
   const captainTasksEnabled = computed(() => {
     return isCloudFeatureEnabled(FEATURE_FLAGS.CAPTAIN_TASKS);
   });
@@ -223,6 +227,7 @@ export function useCaptain() {
   return {
     // Feature flags
     captainEnabled,
+    captainMcpEnabled,
     captainTasksEnabled,
 
     // Limits (Enterprise)

@@ -55,10 +55,16 @@ describe('useCaptain', () => {
   });
 
   it('initializes computed properties correctly', async () => {
-    const { captainEnabled, captainTasksEnabled, currentChat, draftMessage } =
-      useCaptain();
+    const {
+      captainEnabled,
+      captainMcpEnabled,
+      captainTasksEnabled,
+      currentChat,
+      draftMessage,
+    } = useCaptain();
 
     expect(captainEnabled.value).toBe(true);
+    expect(captainMcpEnabled.value).toBe(true);
     expect(captainTasksEnabled.value).toBe(true);
     expect(currentChat.value).toEqual({ id: '123' });
     expect(draftMessage.value).toBe('Draft message');

@@ -429,6 +429,121 @@
     "API": {
       "SUCCESS": "Captain settings updated successfully.",
       "ERROR": "Failed to update Captain settings. Please try again."
+    },
+    "MCP_SERVERS": {
+      "TITLE": "MCP Servers",
+      "DESCRIPTION": "Connect to Model Context Protocol (MCP) servers to extend your AI agents with external tools and capabilities.",
+      "SECTION_TITLE": "External Tools",
+      "SECTION_DESCRIPTION": "Extend your AI agents with tools from external MCP servers.",
+      "CARD_TITLE": "MCP Servers",
+      "CARD_DESCRIPTION": "Connect to external tool providers via Model Context Protocol",
+      "CONFIGURE": "Configure",
+      "LOADING": "Loading MCP servers...",
+      "NOT_ENABLED": "MCP servers are not enabled for your account.",
+      "ADD_NEW": "Add MCP Server",
+      "LAST_CONNECTED": "Connected {time}",
+      "TOOLS_COUNT": "{count} tools",
+      "AVAILABLE_TOOLS": "Available Tools",
+      "TOOLS_MORE": "+{count} more",
+      "EMPTY": {
+        "TITLE": "No MCP servers configured",
+        "DESCRIPTION": "Connect to MCP servers to provide your AI agents with additional tools and capabilities from external services."
+      },
+      "STATUS": {
+        "CONNECTED": "Connected",
+        "CONNECTING": "Connecting",
+        "DISCONNECTED": "Disconnected",
+        "ERROR": "Error"
+      },
+      "AUTH_TYPES": {
+        "NONE": "No authentication",
+        "BEARER": "Bearer token",
+        "API_KEY": "API key"
+      },
+      "OPTIONS": {
+        "CONNECT": "Connect",
+        "DISCONNECT": "Disconnect",
+        "REFRESH": "Refresh tools",
+        "EDIT": "Edit server",
+        "DELETE": "Delete server"
+      },
+      "CREATE": {
+        "TITLE": "Add MCP Server",
+        "SUCCESS_MESSAGE": "MCP server created successfully.",
+        "ERROR_MESSAGE": "Failed to create MCP server. Please try again."
+      },
+      "EDIT": {
+        "TITLE": "Edit MCP Server",
+        "SUCCESS_MESSAGE": "MCP server updated successfully.",
+        "ERROR_MESSAGE": "Failed to update MCP server. Please try again."
+      },
+      "DELETE": {
+        "TITLE": "Delete MCP Server",
+        "DESCRIPTION": "Are you sure you want to delete this MCP server? This will disconnect it from all assistants.",
+        "CONFIRM": "Delete",
+        "SUCCESS_MESSAGE": "MCP server deleted successfully.",
+        "ERROR_MESSAGE": "Failed to delete MCP server. Please try again."
+      },
+      "FORM": {
+        "HELP_TEXT": "Configure the connection details for your MCP server.",
+        "NAME": {
+          "LABEL": "Server name",
+          "PLACEHOLDER": "My MCP Server",
+          "ERROR": "Please enter a server name"
+        },
+        "DESCRIPTION": {
+          "LABEL": "Description",
+          "PLACEHOLDER": "Optional description of this MCP server"
+        },
+        "ENABLED": {
+          "LABEL": "Enable server",
+          "HINT": "Disable to prevent assistants from using this server."
+        },
+        "URL": {
+          "LABEL": "Server URL",
+          "PLACEHOLDER": "https://mcp.example.com/mcp",
+          "HINT": "The MCP server endpoint URL (HTTP or HTTPS)",
+          "ERROR": "Please enter a valid URL",
+          "INVALID": "Please enter a valid URL",
+          "HTTPS_REQUIRED": "URL must use HTTP or HTTPS protocol"
+        },
+        "TRANSPORT": {
+          "LABEL": "Transport",
+          "PLACEHOLDER": "Auto-detect transport",
+          "AUTO": "Auto-detect",
+          "STREAMABLE_HTTP": "Streamable HTTP (/mcp)",
+          "SSE": "SSE (/sse)",
+          "HTTP": "HTTP JSON-RPC"
+        },
+        "RPC_ENDPOINT": {
+          "LABEL": "RPC endpoint (optional)",
+          "PLACEHOLDER": "/rpc",
+          "HINT": "Override the JSON-RPC endpoint path if your server uses a custom route."
+        },
+        "AUTH_TYPE": {
+          "LABEL": "Authentication type",
+          "PLACEHOLDER": "Select authentication method"
+        },
+        "AUTH_CONFIG": {
+          "BEARER_TOKEN": {
+            "LABEL": "Bearer token",
+            "PLACEHOLDER": "Enter your bearer token"
+          },
+          "HEADER_NAME": {
+            "LABEL": "Header name",
+            "PLACEHOLDER": "X-API-Key"
+          },
+          "API_KEY": {
+            "LABEL": "API key",
+            "PLACEHOLDER": "Enter your API key"
+          },
+          "CREDENTIALS_CONFIGURED": "Credentials are already configured. Leave empty to keep existing credentials."
+        },
+        "GENERIC_ERROR": "Please check this field",
+        "CANCEL": "Cancel",
+        "CREATE": "Create server",
+        "UPDATE": "Update server"
+      }
     }
   },
   "BILLING_SETTINGS": {

@@ -66,6 +66,14 @@ Rails.application.routes.draw do
               end
               resources :inboxes, only: [:index, :create, :destroy], param: :inbox_id
               resources :scenarios
+              resources :mcp_servers, only: [:index, :create, :update, :destroy], controller: 'assistants/mcp_servers'
+            end
+            resources :mcp_servers do
+              member do
+                post :connect
+                post :disconnect
+                post :refresh
+              end
             end
             resources :assistant_responses
             resources :bulk_actions, only: [:create]

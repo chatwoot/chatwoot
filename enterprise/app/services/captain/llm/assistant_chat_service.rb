@@ -28,7 +28,24 @@ class Captain::Llm::AssistantChatService < Llm::BaseAiService
   private
 
   def build_tools
-    [Captain::Tools::SearchDocumentationService.new(@assistant, user: nil)]
+    tools = [Captain::Tools::SearchDocumentationService.new(@assistant, user: nil)]
+    tools.concat(build_mcp_tools)
+    tools
+  end
+
+  def build_mcp_tools
+    @assistant.assistant_mcp_servers
+              .enabled
+              .joins(:mcp_server)
+              .merge(Captain::McpServer.enabled.connected)
+              .flat_map { |ams| build_mcp_server_tools(ams) }
+  end
+
+  def build_mcp_server_tools(assistant_mcp_server)
+    mcp_server = assistant_mcp_server.mcp_server
+    assistant_mcp_server.filtered_tools.filter_map do |tool|
+      mcp_server.build_tool_instance(@assistant, tool['name'])
+    end
   end
 
   def system_message

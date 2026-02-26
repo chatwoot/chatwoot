@@ -79,7 +79,10 @@ class Captain::Scenario < ApplicationRecord
   def resolve_tool_instance(tool_metadata)
     tool_id = tool_metadata[:id]
 
-    if tool_metadata[:custom]
+    if tool_metadata[:mcp]
+      mcp_server = Captain::McpServer.find_by(id: tool_metadata[:mcp_server_id], account_id: account_id, enabled: true)
+      mcp_server&.build_tool_instance(assistant, tool_metadata[:mcp_tool_name])
+    elsif tool_metadata[:custom]
       custom_tool = Captain::CustomTool.find_by(slug: tool_id, account_id: account_id, enabled: true)
       custom_tool&.tool(assistant)
     else
