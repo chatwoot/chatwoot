@@ -71,15 +71,7 @@ class AccountBuilder
                      password_confirmation: user_password,
                      name: user_full_name)
     @user.type = 'SuperAdmin' if @super_admin
-    @user.confirm if should_confirm_user?
+    @user.confirm if @confirmed
     @user.save!
-  end
-
-  def should_confirm_user?
-    @confirmed || smtp_not_configured?
-  end
-
-  def smtp_not_configured?
-    ENV['SMTP_ADDRESS'].blank?
   end
 end

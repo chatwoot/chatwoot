@@ -23,6 +23,15 @@ RSpec.describe 'Super Admin Users API', type: :request do
           type: 'SuperAdmin'
         } }
       end
+      let!(:params_without_confirmed_at) do
+        { user: {
+          name: 'agent@example.com',
+          display_name: 'agent@example.com',
+          email: 'agent@example.com',
+          password: 'Password1!',
+          type: 'SuperAdmin'
+        } }
+      end
 
       it 'shows the list of users' do
         sign_in(super_admin, scope: :super_admin)
@@ -42,6 +51,15 @@ RSpec.describe 'Super Admin Users API', type: :request do
 
         post '/super_admin/users', params: params
         expect(response).to redirect_to('http://www.example.com/super_admin/users/new')
+      end
+
+      it 'creates confirmed users by default when confirmed_at is not provided' do
+        sign_in(super_admin, scope: :super_admin)
+
+        post '/super_admin/users', params: params_without_confirmed_at
+
+        expect(response).to redirect_to("http://www.example.com/super_admin/users/#{User.last.id}")
+        expect(User.last).to be_confirmed
       end
     end
   end

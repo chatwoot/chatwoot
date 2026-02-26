@@ -5,6 +5,7 @@ class SuperAdmin::UsersController < SuperAdmin::ApplicationController
   def create
     resource = resource_class.new(resource_params)
     authorize_resource(resource)
+    resource.skip_confirmation! if resource.respond_to?(:skip_confirmation!)
 
     if resource.save
       redirect_to super_admin_user_path(resource), notice: translate_with_resource('create.success')
