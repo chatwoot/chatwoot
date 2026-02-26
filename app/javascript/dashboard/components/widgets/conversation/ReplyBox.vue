@@ -200,7 +200,7 @@ export default {
     },
     messagePlaceHolder() {
       if (this.isEditorDisabled) {
-        return this.isAWhatsAppChannel
+        return this.isAWhatsAppChannel || this.isAPIInbox
           ? this.$t('CONVERSATION.FOOTER.MESSAGING_RESTRICTED_WHATSAPP')
           : this.$t('CONVERSATION.FOOTER.MESSAGING_RESTRICTED');
       }
@@ -427,7 +427,7 @@ export default {
     },
     isEditorDisabled() {
       return (
-        this.isAWhatsAppChannel &&
+        (this.isAWhatsAppChannel || this.isAPIInbox) &&
         !this.isOnPrivateNote &&
         !this.currentChat.can_reply
       );
