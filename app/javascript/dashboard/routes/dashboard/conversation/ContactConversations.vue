@@ -1,8 +1,13 @@
 <script setup>
 import { computed, ref, watch, onMounted } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { frontendURL, conversationUrl } from 'dashboard/helper/URLHelper';
+import {
+  isOnMentionsView,
+  isOnUnattendedView,
+  isOnFoldersView,
+} from 'dashboard/store/modules/conversations/helpers/actionHelpers';
 import ConversationCard from 'dashboard/components/widgets/conversation/ConversationCard.vue';
 import ContextMenu from 'dashboard/components/ui/ContextMenu.vue';
 import ConversationContextMenu from 'dashboard/components/widgets/conversation/contextMenu/Index.vue';
@@ -14,9 +19,9 @@ const props = defineProps({
 });
 
 const store = useStore();
+const route = useRoute();
 const router = useRouter();
 
-const accountId = useMapGetter('getCurrentAccountId');
 const currentChat = useMapGetter('getSelectedChat');
 const uiFlags = useMapGetter('contactConversations/getUIFlags');
 
@@ -35,20 +40,39 @@ const activeContextChat = ref(null);
 const showContextMenu = ref(false);
 const contextMenu = ref({ x: null, y: null });
 
-const conversationPath = computed(() => {
-  if (!activeContextChat.value) return '';
+const buildConversationUrl = conversationId => {
+  const {
+    params: { accountId, inbox_id: inboxId, label, teamId },
+    name,
+  } = route;
+
+  let conversationType = '';
+  if (isOnMentionsView({ route: { name } })) {
+    conversationType = 'mention';
+  } else if (isOnUnattendedView({ route: { name } })) {
+    conversationType = 'unattended';
+  }
+
   return frontendURL(
     conversationUrl({
-      accountId: accountId.value,
-      id: activeContextChat.value.id,
+      accountId,
+      activeInbox: inboxId,
+      id: conversationId,
+      label,
+      teamId,
+      foldersId: isOnFoldersView({ route: { name } }) ? route.params.id : 0,
+      conversationType,
     })
   );
+};
+
+const conversationPath = computed(() => {
+  if (!activeContextChat.value) return '';
+  return buildConversationUrl(activeContextChat.value.id);
 });
 
 const onCardClick = (conversation, e) => {
-  const path = frontendURL(
-    conversationUrl({ accountId: accountId.value, id: conversation.id })
-  );
+  const path = buildConversationUrl(conversation.id);
   if (!path) return;
 
   if (e.metaKey || e.ctrlKey) {
