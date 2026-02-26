@@ -192,6 +192,7 @@
       "PRIVATE_MSG_INPUT": "Shift + enter pentru linie nouă. Acest lucru va fi vizibil doar pentru Agenți",
       "MESSAGING_RESTRICTED": "You cannot reply to this conversation",
       "MESSAGING_RESTRICTED_WHATSAPP": "You can only reply using a template message due to 24-hour message window restriction",
+      "MESSAGING_RESTRICTED_API": "You can only reply using a template message due to message window restriction",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Semnătura mesajului nu este configurată, vă rugăm să o configurați în setările profilului.",
       "COPILOT_MSG_INPUT": "Give copilot additional prompts, or ask anything else... Press enter to send follow-up",
       "CLICK_HERE": "Click aici pentru a actualiza",
@@ -305,6 +306,7 @@
     "CANCEL": "Renunță",
     "SEND_EMAIL_SUCCESS": "Transscrisul de chat a fost trimis cu succes",
     "SEND_EMAIL_ERROR": "A apărut o eroare, încercați din nou",
+    "SEND_EMAIL_PAYMENT_REQUIRED": "Email transcript is not available on your current plan. Please upgrade to use this feature.",
     "FORM": {
       "SEND_TO_CONTACT": "Trimite transcrierea către client",
       "SEND_TO_AGENT": "Trimite transcrierea către agentul atribuit",
