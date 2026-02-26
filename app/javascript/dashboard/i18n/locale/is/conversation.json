@@ -192,6 +192,7 @@
       "PRIVATE_MSG_INPUT": "Shift + enter fyrir nýja línu. Þetta verður aðeins sýnilegt fyrir þjónustufulltrúa",
       "MESSAGING_RESTRICTED": "You cannot reply to this conversation",
       "MESSAGING_RESTRICTED_WHATSAPP": "You can only reply using a template message due to 24-hour message window restriction",
+      "MESSAGING_RESTRICTED_API": "You can only reply using a template message due to message window restriction",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Skilaboðundirskrift er ekki stillt, vinsamlegast stilltu hana í prófílstillingum.",
       "COPILOT_MSG_INPUT": "Give copilot additional prompts, or ask anything else... Press enter to send follow-up",
       "CLICK_HERE": "Click here to update",
@@ -305,6 +306,7 @@
     "CANCEL": "Hætta við",
     "SEND_EMAIL_SUCCESS": "Afritið af samtalinu var sent",
     "SEND_EMAIL_ERROR": "Það kom villa, vinsamlegas reyndu aftur",
+    "SEND_EMAIL_PAYMENT_REQUIRED": "Email transcript is not available on your current plan. Please upgrade to use this feature.",
     "FORM": {
       "SEND_TO_CONTACT": "Senda afritið á viðskiptavinin",
       "SEND_TO_AGENT": "Sendu afritið til úthlutaðs þjónustufulltrúa",
