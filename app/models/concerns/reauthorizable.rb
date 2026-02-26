@@ -13,6 +13,8 @@
 module Reauthorizable
   extend ActiveSupport::Concern
 
+  include Backoffable
+
   AUTHORIZATION_ERROR_THRESHOLD = 2
 
   # model attribute

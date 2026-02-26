@@ -53,7 +53,7 @@ module Redis::RedisKeys
   ## Account Email Rate Limiting
   ACCOUNT_OUTBOUND_EMAIL_COUNT_KEY = 'OUTBOUND_EMAIL_COUNT::%<account_id>d::%<date>s'.freeze
 
-  ## IMAP Backoff / Fetch Tracking (channel_email)
-  IMAP_BACKOFF_RETRY_COUNT = 'IMAP_BACKOFF:channel_email:%<channel_id>d:retry_count'.freeze
-  IMAP_BACKOFF_RETRY_AFTER = 'IMAP_BACKOFF:channel_email:%<channel_id>d:retry_after'.freeze
+  ## Transient Error Backoff
+  BACKOFF_RETRY_COUNT = 'BACKOFF:%<obj_type>s:%<obj_id>d:retry_count'.freeze
+  BACKOFF_RETRY_AFTER = 'BACKOFF:%<obj_type>s:%<obj_id>d:retry_after'.freeze
 end
