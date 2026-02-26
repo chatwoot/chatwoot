@@ -16,24 +16,16 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
   def perform_time_based(inbox)
     Current.executed_by = inbox.captain_assistant
 
-    resolvable_conversations = inbox.conversations.pending
-                                    .where('last_activity_at < ?', Time.now.utc - 1.hour)
-                                    .limit(Limits::BULK_ACTIONS_LIMIT)
-
-    resolvable_conversations.each do |conversation|
+    resolvable_pending_conversations(inbox).each do |conversation|
       create_resolution_message(conversation, inbox)
-      conversation.resolved!
+      with_captain_action_source('scheduler') { conversation.resolved! }
     end
   end
 
   def perform_with_evaluation(inbox)
     Current.executed_by = inbox.captain_assistant
 
-    resolvable_conversations = inbox.conversations.pending
-                                    .where('last_activity_at < ?', Time.now.utc - 1.hour)
-                                    .limit(Limits::BULK_ACTIONS_LIMIT)
-
-    resolvable_conversations.each do |conversation|
+    resolvable_pending_conversations(inbox).each do |conversation|
       evaluation = evaluate_conversation(conversation, inbox)
 
       if evaluation[:complete]
@@ -51,18 +43,22 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
     ).perform
   end
 
+  def resolvable_pending_conversations(inbox)
+    inbox.conversations.pending
+         .where('last_activity_at < ?', Time.now.utc - 1.hour)
+         .limit(Limits::BULK_ACTIONS_LIMIT)
+  end
+
   def resolve_conversation(conversation, inbox, reason)
     create_private_note(conversation, inbox, "Auto-resolved: #{reason}")
     create_resolution_message(conversation, inbox)
-    conversation.resolved!
-    create_captain_reporting_event(conversation, 'conversation_captain_resolved')
+    with_captain_action_source('scheduler') { conversation.resolved! }
   end
 
   def handoff_conversation(conversation, inbox, reason)
     create_private_note(conversation, inbox, "Auto-handoff: #{reason}")
     create_handoff_message(conversation, inbox)
-    conversation.bot_handoff!
-    create_captain_reporting_event(conversation, 'conversation_captain_handoff')
+    with_captain_action_source('scheduler') { conversation.bot_handoff! }
     send_out_of_office_message_if_applicable(conversation)
   end
 
@@ -98,6 +94,14 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
     end
   end
 
+  def with_captain_action_source(source)
+    previous_source = Current.captain_action_source
+    Current.captain_action_source = source
+    yield
+  ensure
+    Current.captain_action_source = previous_source
+  end
+
   def create_handoff_message(conversation, inbox)
     handoff_message = inbox.captain_assistant.config['handoff_message']
     return if handoff_message.blank?
@@ -108,19 +112,6 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
       account_id: conversation.account_id,
       inbox_id: conversation.inbox_id,
       content: handoff_message
-    )
-  end
-
-  def create_captain_reporting_event(conversation, event_name)
-    ReportingEvent.create!(
-      name: event_name,
-      value: conversation.updated_at.to_i - conversation.created_at.to_i,
-      account_id: conversation.account_id,
-      inbox_id: conversation.inbox_id,
-      user_id: conversation.assignee_id,
-      conversation_id: conversation.id,
-      event_start_time: conversation.created_at,
-      event_end_time: conversation.updated_at
     )
   end
 end

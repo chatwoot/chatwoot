@@ -309,9 +309,15 @@ class Conversation < ApplicationRecord
   end
 
   def dispatcher_dispatch(event_name, changed_attributes = nil)
-    Rails.configuration.dispatcher.dispatch(event_name, Time.zone.now, conversation: self, notifiable_assignee_change: notifiable_assignee_change?,
-                                                                       changed_attributes: changed_attributes,
-                                                                       performed_by: Current.executed_by)
+    data = {
+      conversation: self,
+      notifiable_assignee_change: notifiable_assignee_change?,
+      changed_attributes: changed_attributes,
+      performed_by: Current.executed_by
+    }
+    data[:captain_action_source] = Current.captain_action_source if Current.captain_action_source.present?
+
+    Rails.configuration.dispatcher.dispatch(event_name, Time.zone.now, data)
   end
 
   def conversation_status_changed_to_open?

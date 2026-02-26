@@ -130,15 +130,6 @@ RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
           }
         )
     end
-
-    it 'creates a conversation_captain_resolved reporting event' do
-      described_class.perform_now(inbox)
-
-      event = ReportingEvent.find_by(conversation_id: resolvable_pending_conversation.id, name: 'conversation_captain_resolved')
-      expect(event).to be_present
-      expect(event.account_id).to eq(resolvable_pending_conversation.account_id)
-      expect(event.inbox_id).to eq(resolvable_pending_conversation.inbox_id)
-    end
   end
 
   context 'when LLM evaluation returns incomplete' do
@@ -187,15 +178,6 @@ RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
       expect do
         described_class.perform_now(inbox)
       end.not_to(change { resolvable_pending_conversation.messages.where(private: false).count })
-    end
-
-    it 'creates a conversation_captain_handoff reporting event' do
-      described_class.perform_now(inbox)
-
-      event = ReportingEvent.find_by(conversation_id: resolvable_pending_conversation.id, name: 'conversation_captain_handoff')
-      expect(event).to be_present
-      expect(event.account_id).to eq(resolvable_pending_conversation.account_id)
-      expect(event.inbox_id).to eq(resolvable_pending_conversation.inbox_id)
     end
   end
 
