@@ -2,60 +2,34 @@ version: '3'
 
 services:
   base: &base
-    build:
-      context: .
-      dockerfile: ./docker/Dockerfile
-      args:
-        BUNDLE_WITHOUT: ''
-        EXECJS_RUNTIME: 'Node'
-        RAILS_ENV: 'development'
-        RAILS_SERVE_STATIC_FILES: 'false'
-    tty: true
-    stdin_open: true
-    image: chatwoot:development
+    image: chatwoot/chatwoot:v4.9.1
     env_file: .env
+    volumes:
+      - ./:/app:delegated
+      - node_modules_new:/app/node_modules
+      - packs_new:/app/public/packs
+      - cache_new:/app/tmp/cache
+      - bundle_new:/usr/local/bundle
 
   rails:
     <<: *base
-    build:
-      context: .
-      dockerfile: ./docker/dockerfiles/rails.Dockerfile
-    image: chatwoot-rails:development
-    volumes:
-      - ./:/app:delegated
-      - node_modules:/app/node_modules
-      - packs:/app/public/packs
-      - cache:/app/tmp/cache
-      - bundle:/usr/local/bundle
     depends_on:
       - postgres
       - redis
-      - vite
-      - mailhog
-      - sidekiq
     ports:
-      - 3000:3000
-    env_file: .env
+      - 3001:3000
     environment:
-      - VITE_DEV_SERVER_HOST=vite
       - NODE_ENV=development
       - RAILS_ENV=development
+      - VITE_DEV_SERVER_HOST=vite
     entrypoint: docker/entrypoints/rails.sh
     command: ["bundle", "exec", "rails", "s", "-p", "3000", "-b", "0.0.0.0"]
 
   sidekiq:
     <<: *base
-    image: chatwoot-rails:development
-    volumes:
-      - ./:/app:delegated
-      - node_modules:/app/node_modules
-      - packs:/app/public/packs
-      - cache:/app/tmp/cache
-      - bundle:/usr/local/bundle
     depends_on:
       - postgres
       - redis
-      - mailhog
     environment:
       - NODE_ENV=development
       - RAILS_ENV=development
@@ -63,36 +37,26 @@ services:
 
   vite:
     <<: *base
-    build:
-      context: .
-      dockerfile: ./docker/dockerfiles/vite.Dockerfile
-    image: chatwoot-vite:development
-    volumes:
-      - ./:/app:delegated
-      - node_modules:/app/node_modules
-      - packs:/app/public/packs
-      - cache:/app/tmp/cache
-      - bundle:/usr/local/bundle
     ports:
-      - "3036:3036" # Vite dev server
+      - "3037:3036" # Vite dev server on host 3037
     environment:
       - VITE_DEV_SERVER_HOST=0.0.0.0
       - NODE_ENV=development
       - RAILS_ENV=development
     entrypoint: docker/entrypoints/vite.sh
-    command: bin/vite dev
+    command: tail -f /dev/null
 
   postgres:
     image: pgvector/pgvector:pg16
     restart: always
     ports:
-      - '5432:5432'
+      - '5433:5432'
     volumes:
-      - postgres:/data/postgres
+      - postgres-new:/data/postgres
     environment:
       - POSTGRES_DB=chatwoot
       - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=
+      - POSTGRES_PASSWORD=postgres
 
   redis:
     image: redis:alpine
@@ -100,20 +64,20 @@ services:
     command: ["sh", "-c", "redis-server --requirepass \"$REDIS_PASSWORD\""]
     env_file: .env
     volumes:
-      - redis:/data/redis
+      - redis-new:/data/redis
     ports:
-      - '6379:6379'
+      - '6380:6379'
 
   mailhog:
     image: mailhog/mailhog
     ports:
-      - 1025:1025
-      - 8025:8025
+      - 1026:1025
+      - 8026:8025
 
 volumes:
-  postgres:
-  redis:
-  packs:
-  node_modules:
-  cache:
-  bundle:
+  postgres-new:
+  redis-new:
+  packs_new:
+  node_modules_new:
+  cache_new:
+  bundle_new:
