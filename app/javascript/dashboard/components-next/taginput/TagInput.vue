@@ -235,7 +235,7 @@ const handleBlur = e => emit('blur', e);
         :placeholder="placeholder"
         :disabled="disabled"
         class="w-full"
-        :focus-on-mount="focusOnMount || autoOpenDropdown"
+        :focus-on-mount="focusOnMount"
         :custom-input-class="`w-full ${isNewTagInValidType ? '!text-n-ruby-9 dark:!text-n-ruby-9' : ''}`"
         @enter-press="addTag"
         @focus="handleFocus"
