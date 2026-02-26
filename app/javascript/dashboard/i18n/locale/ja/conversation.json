@@ -192,6 +192,7 @@
       "PRIVATE_MSG_INPUT": "Shift + Enter で新しい行を作成します。これは担当者にのみ表示されます。",
       "MESSAGING_RESTRICTED": "You cannot reply to this conversation",
       "MESSAGING_RESTRICTED_WHATSAPP": "You can only reply using a template message due to 24-hour message window restriction",
+      "MESSAGING_RESTRICTED_API": "You can only reply using a template message due to message window restriction",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "メッセージ署名が構成されていません。プロフィール設定で構成してください。",
       "COPILOT_MSG_INPUT": "Give copilot additional prompts, or ask anything else... Press enter to send follow-up",
       "CLICK_HERE": "ここをクリックして更新",
@@ -305,6 +306,7 @@
     "CANCEL": "キャンセル",
     "SEND_EMAIL_SUCCESS": "チャットの記録は正常に送信されました",
     "SEND_EMAIL_ERROR": "エラーが発生しました。もう一度お試しください。",
+    "SEND_EMAIL_PAYMENT_REQUIRED": "Email transcript is not available on your current plan. Please upgrade to use this feature.",
     "FORM": {
       "SEND_TO_CONTACT": "顧客に会話の記録を転送する",
       "SEND_TO_AGENT": "担当者に記録を送信する",
