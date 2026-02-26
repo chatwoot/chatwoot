@@ -98,15 +98,16 @@ function initAddToCart() {
             return;
           }
 
-          // Detail page text button — "Added!" feedback
-          const btn = form.querySelector('button[type="submit"]');
-          if (btn && btn.textContent.trim().length > 0) {
-            const original = btn.textContent;
-            btn.textContent = 'Added!';
+          // Detail page button — "Added!" feedback
+          const btn = form.querySelector('[data-add-btn]');
+          if (btn) {
+            const originalHTML = btn.innerHTML;
+            btn.innerHTML =
+              '<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg><span>Added!</span>';
             btn.classList.add('bg-green-500');
             btn.classList.remove('bg-woot-500');
             setTimeout(() => {
-              btn.textContent = original;
+              btn.innerHTML = originalHTML;
               btn.classList.remove('bg-green-500');
               btn.classList.add('bg-woot-500');
             }, 1200);
@@ -160,24 +161,38 @@ function initDecrement() {
 }
 
 // ─── Quantity Stepper (product detail page) ──────────────────
+function updateDetailSubtotal(form, qty) {
+  const unitPrice = parseFloat(form?.dataset?.unitPrice);
+  const subtotalEl = form?.querySelector('[data-add-subtotal]');
+  if (!subtotalEl || Number.isNaN(unitPrice)) return;
+  subtotalEl.textContent = (unitPrice * qty).toFixed(2);
+}
+
 function initQuantityStepper() {
   document.querySelectorAll('[data-qty-input]').forEach(input => {
     const wrapper = input.closest('[data-qty-stepper]');
     if (!wrapper) return;
 
+    const form = input.closest('form');
     const decBtn = wrapper.querySelector('[data-qty-dec]');
     const incBtn = wrapper.querySelector('[data-qty-inc]');
 
     if (decBtn) {
       decBtn.addEventListener('click', () => {
         const val = parseInt(input.value, 10) || 1;
-        if (val > 1) input.value = val - 1;
+        if (val > 1) {
+          input.value = val - 1;
+          updateDetailSubtotal(form, val - 1);
+        }
       });
     }
     if (incBtn) {
       incBtn.addEventListener('click', () => {
         const val = parseInt(input.value, 10) || 1;
-        if (val < 99) input.value = val + 1;
+        if (val < 99) {
+          input.value = val + 1;
+          updateDetailSubtotal(form, val + 1);
+        }
       });
     }
   });

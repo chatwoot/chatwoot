@@ -1,0 +1,15 @@
+<%# Empty cart state %>
+<div class="text-center py-20 px-6">
+  <div class="w-20 h-20 mx-auto mb-5 rounded-2xl bg-slate-100 dark:bg-slate-700/50 flex items-center justify-center">
+    <svg class="w-9 h-9 text-slate-300 dark:text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+            d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z" />
+    </svg>
+  </div>
+  <h2 class="text-lg font-bold text-slate-900 dark:text-white mb-1.5">Your cart is empty</h2>
+  <p class="text-sm text-slate-500 dark:text-slate-400 mb-7">Browse products and add items to your cart.</p>
+  <a href="<%= storefront_products_path(@account, token: storefront_token_param) %>"
+     class="inline-block py-2.5 px-7 text-sm font-semibold text-white bg-woot-500 hover:bg-woot-600 rounded-xl transition-colors active:scale-[0.98] shadow-sm">
+    Browse Products
+  </a>
+</div>

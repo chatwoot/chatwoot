@@ -1,0 +1,20 @@
+<%# Local variables: cart_subtotal, currency %>
+<%# Spacer for sticky footer %>
+<div class="h-32"></div>
+
+<%# Sticky checkout footer %>
+<div class="fixed bottom-0 left-0 right-0 z-40 bg-white/95 dark:bg-slate-800/95 backdrop-blur-md border-t border-slate-200 dark:border-slate-700"
+     data-cart-footer>
+  <div class="max-w-lg mx-auto px-4 py-3.5">
+    <div class="flex justify-between items-center mb-2.5">
+      <span class="text-sm text-slate-500 dark:text-slate-400">Total</span>
+      <span class="text-lg font-bold text-slate-900 dark:text-white tracking-tight" data-cart-total>
+        <%= number_with_precision(cart_subtotal, precision: 2) %> <%= currency %>
+      </span>
+    </div>
+    <a href="<%= storefront_checkout_path(@account, token: storefront_token_param) %>"
+       class="block w-full py-3 text-center text-base font-semibold text-white bg-woot-500 hover:bg-woot-600 rounded-xl transition-all active:scale-[0.98] shadow-sm shadow-woot-500/20">
+      Proceed to Checkout
+    </a>
+  </div>
+</div>
