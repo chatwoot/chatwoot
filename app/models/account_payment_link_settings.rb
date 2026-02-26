@@ -1,3 +1,23 @@
+# == Schema Information
+#
+# Table name: account_payment_link_settings
+#
+#  id                 :bigint           not null, primary key
+#  default_currency   :string           default("KWD")
+#  default_provider   :string
+#  notification_email :string
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
+#  account_id         :bigint           not null
+#
+# Indexes
+#
+#  index_account_payment_link_settings_on_account_id  (account_id) UNIQUE
+#
+# Foreign Keys
+#
+#  fk_rails_...  (account_id => accounts.id)
+#
 class AccountPaymentLinkSettings < ApplicationRecord
   belongs_to :account
 

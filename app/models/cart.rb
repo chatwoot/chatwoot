@@ -3,6 +3,7 @@
 # Table name: carts
 #
 #  id                  :bigint           not null, primary key
+#  created_by_type     :string           default("User")
 #  currency            :string           not null
 #  payload             :jsonb            not null
 #  payment_url         :string
@@ -15,7 +16,7 @@
 #  account_id          :bigint           not null
 #  contact_id          :bigint           not null
 #  conversation_id     :bigint           not null
-#  created_by_id       :bigint           not null
+#  created_by_id       :bigint
 #  external_payment_id :string
 #  message_id          :bigint
 #
@@ -24,6 +25,7 @@
 #  index_carts_on_account_id           (account_id)
 #  index_carts_on_contact_id           (contact_id)
 #  index_carts_on_conversation_id      (conversation_id)
+#  index_carts_on_created_by           (created_by_type,created_by_id)
 #  index_carts_on_created_by_id        (created_by_id)
 #  index_carts_on_external_payment_id  (external_payment_id) UNIQUE
 #  index_carts_on_message_id           (message_id)
@@ -34,7 +36,6 @@
 #  fk_rails_...  (account_id => accounts.id)
 #  fk_rails_...  (contact_id => contacts.id)
 #  fk_rails_...  (conversation_id => conversations.id)
-#  fk_rails_...  (created_by_id => users.id)
 #  fk_rails_...  (message_id => messages.id)
 #
 class Cart < ApplicationRecord
