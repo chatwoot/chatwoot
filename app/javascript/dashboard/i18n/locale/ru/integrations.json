@@ -31,6 +31,14 @@
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "События с подпиской",
       "LEARN_MORE": "Узнать больше о вебхуках",
+      "SECRET": {
+        "LABEL": "Secret",
+        "COPY": "Copy secret to clipboard",
+        "COPY_SUCCESS": "Secret copied to clipboard",
+        "TOGGLE": "Toggle secret visibility",
+        "CREATED_DESC": "Your webhook has been created. Use the secret below to verify webhook signatures. Please copy it now — you can also find it later in the webhook edit form.",
+        "DONE": "Done"
+      },
       "COUNT": "{n} webhook | {n} webhooks",
       "SEARCH_PLACEHOLDER": "Search webhooks...",
       "NO_RESULTS": "No webhooks found matching your search",
