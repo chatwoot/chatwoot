@@ -192,6 +192,7 @@
       "PRIVATE_MSG_INPUT": "Yeni satır için Shift + enter. Bu yalnızca Temsilciler tarafından görülebilir",
       "MESSAGING_RESTRICTED": "You cannot reply to this conversation",
       "MESSAGING_RESTRICTED_WHATSAPP": "You can only reply using a template message due to 24-hour message window restriction",
+      "MESSAGING_RESTRICTED_API": "You can only reply using a template message due to message window restriction",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Mesaj imzası yapılandırılmamış, lütfen profil ayarlarında yapılandırın.",
       "COPILOT_MSG_INPUT": "Give copilot additional prompts, or ask anything else... Press enter to send follow-up",
       "CLICK_HERE": "Güncellemek için tıklayın",
@@ -305,6 +306,7 @@
     "CANCEL": "İptal Et",
     "SEND_EMAIL_SUCCESS": "İletişim kaydı başarıyla gönderildi",
     "SEND_EMAIL_ERROR": "Bir hata oluştu, lütfen tekrar deneyin",
+    "SEND_EMAIL_PAYMENT_REQUIRED": "Email transcript is not available on your current plan. Please upgrade to use this feature.",
     "FORM": {
       "SEND_TO_CONTACT": "İletişim kaydını müşteriye gönder",
       "SEND_TO_AGENT": "Atanan temsilciye iletişim kaydını gönder",
