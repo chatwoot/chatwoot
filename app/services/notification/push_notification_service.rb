@@ -31,7 +31,19 @@ class Notification::PushNotificationService
   end
 
   def notification_locale
-    user.ui_settings&.dig('locale') || notification.account.locale || I18n.default_locale
+    safe_locale(user.ui_settings&.dig('locale')) ||
+      safe_locale(notification.account.locale) ||
+      I18n.default_locale.to_s
+  end
+
+  def safe_locale(locale)
+    return nil if locale.blank?
+
+    available = I18n.available_locales.map(&:to_s)
+    return locale if available.include?(locale)
+
+    base = locale.split('_').first
+    base if available.include?(base)
   end
 
   def push_message
