@@ -192,6 +192,7 @@
       "PRIVATE_MSG_INPUT": "Shift + zadejte pro nový řádek. Toto bude viditelné pouze pro agenty",
       "MESSAGING_RESTRICTED": "You cannot reply to this conversation",
       "MESSAGING_RESTRICTED_WHATSAPP": "You can only reply using a template message due to 24-hour message window restriction",
+      "MESSAGING_RESTRICTED_API": "You can only reply using a template message due to message window restriction",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Podpis zprávy není nakonfigurován, prosím nakonfigurujte jej v nastavení profilu.",
       "COPILOT_MSG_INPUT": "Give copilot additional prompts, or ask anything else... Press enter to send follow-up",
       "CLICK_HERE": "Klikněte zde pro aktualizaci",
@@ -305,6 +306,7 @@
     "CANCEL": "Zrušit",
     "SEND_EMAIL_SUCCESS": "Přepis chatu byl úspěšně odeslán",
     "SEND_EMAIL_ERROR": "Došlo k chybě, zkuste to prosím znovu",
+    "SEND_EMAIL_PAYMENT_REQUIRED": "Email transcript is not available on your current plan. Please upgrade to use this feature.",
     "FORM": {
       "SEND_TO_CONTACT": "Poslat přepis zákazníkovi",
       "SEND_TO_AGENT": "Zašlete přepis přidělenému agentovi",
