@@ -16,7 +16,7 @@ RSpec.describe AgentBots::WebhookJob do
   end
 
   it 'executes perform' do
-    expect(Webhooks::Trigger).to receive(:execute).with(url, payload, webhook_type)
+    expect(Webhooks::Trigger).to receive(:execute).with(url, payload, webhook_type, secret: nil, delivery_id: nil)
     perform_enqueued_jobs { job }
   end
 end

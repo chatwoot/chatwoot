@@ -4,6 +4,7 @@ json.url webhook.url
 json.account_id webhook.account_id
 json.subscriptions webhook.subscriptions
 json.include_access_token webhook.include_access_token
+json.secret webhook.secret
 if webhook.inbox
   json.inbox do
     json.id webhook.inbox.id

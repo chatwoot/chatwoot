@@ -120,7 +120,9 @@ class WebhookListener < BaseListener
         final_payload[:ACCESS_TOKEN] = access_token if access_token.present?
       end
 
-      WebhookJob.perform_later(webhook.url, final_payload)
+      WebhookJob.perform_later(webhook.url, final_payload, :account_webhook,
+                               secret: webhook.secret,
+                               delivery_id: SecureRandom.uuid)
     end
   end
 
@@ -128,7 +130,8 @@ class WebhookListener < BaseListener
     return unless inbox.channel_type == 'Channel::Api'
     return if inbox.channel.webhook_url.blank?
 
-    WebhookJob.perform_later(inbox.channel.webhook_url, payload, :api_inbox_webhook)
+    WebhookJob.perform_later(inbox.channel.webhook_url, payload, :api_inbox_webhook,
+                             delivery_id: SecureRandom.uuid)
   end
 
   def deliver_webhook_payloads(payload, inbox)
