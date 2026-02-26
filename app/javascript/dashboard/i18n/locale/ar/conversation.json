@@ -192,6 +192,7 @@
       "PRIVATE_MSG_INPUT": "زر Shift + Enter لإضافة سطر جديد. سيكون هذا مرئياً للوكلاء فقط",
       "MESSAGING_RESTRICTED": "You cannot reply to this conversation",
       "MESSAGING_RESTRICTED_WHATSAPP": "You can only reply using a template message due to 24-hour message window restriction",
+      "MESSAGING_RESTRICTED_API": "You can only reply using a template message due to message window restriction",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "لم يتم تكوين توقيع الرسالة، الرجاء تكوينه في إعدادات الملف الشخصي.",
       "COPILOT_MSG_INPUT": "إعطاء copilot أوامر إضافية، أو السؤال عن أي شيء آخر... اضغط على مفتاح الإدخال لإرسال المتابعة",
       "CLICK_HERE": "انقر هنا للتحديث",
@@ -305,6 +306,7 @@
     "CANCEL": "إلغاء",
     "SEND_EMAIL_SUCCESS": "تم إرسال نص المحادثة بنجاح",
     "SEND_EMAIL_ERROR": "حدث خطأ، الرجاء المحاولة مرة أخرى",
+    "SEND_EMAIL_PAYMENT_REQUIRED": "Email transcript is not available on your current plan. Please upgrade to use this feature.",
     "FORM": {
       "SEND_TO_CONTACT": "إرسال نص المحادثة إلى العميل",
       "SEND_TO_AGENT": "إرسال نص المحادثة إلى وكيل خدمة العملاء المعين",
