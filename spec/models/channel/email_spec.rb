@@ -2,14 +2,12 @@
 
 require 'rails_helper'
 require Rails.root.join 'spec/models/concerns/reauthorizable_shared.rb'
-require Rails.root.join 'spec/models/concerns/backoffable_shared.rb'
 
 RSpec.describe Channel::Email do
   let(:channel) { create(:channel_email) }
 
   describe 'concerns' do
     it_behaves_like 'reauthorizable'
-    it_behaves_like 'backoffable'
 
     context 'when prompt_reauthorization!' do
       it 'calls channel notifier mail for email' do
