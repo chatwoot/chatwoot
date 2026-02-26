@@ -59,6 +59,36 @@ describe Messages::Facebook::MessageBuilder do
       expect(contact.name).to eq(default_name)
     end
 
+    it 'marks echo messages as external echo messages' do
+      allow(Koala::Facebook::API).to receive(:new).and_return(fb_object)
+      allow(fb_object).to receive(:get_object).and_return(
+        {
+          first_name: 'Jane',
+          last_name: 'Dae',
+          account_id: facebook_channel.inbox.account_id,
+          profile_pic: 'https://chatwoot-assets.local/sample.png'
+        }.with_indifferent_access
+      )
+
+      echo_message_object = {
+        messaging: {
+          sender: { id: facebook_channel.page_id },
+          recipient: { id: '3383290475046708' },
+          message: { mid: 'm_echo_1', text: 'Echo testing', is_echo: true, app_id: '263902037430900' }
+        }
+      }.to_json
+      echo_message = Integrations::Facebook::MessageParser.new(echo_message_object)
+
+      described_class.new(echo_message, facebook_channel.inbox, outgoing_echo: true).perform
+
+      message = facebook_channel.inbox.messages.find_by(source_id: 'm_echo_1')
+      expect(message).to be_present
+      expect(message.message_type).to eq('outgoing')
+      expect(message.sender).to be_nil
+      expect(message.status).to eq('delivered')
+      expect(message.content_attributes['external_echo']).to be true
+    end
+
     context 'when lock to single conversation' do
       subject(:mocked_message_builder) do
         described_class.new(mocked_incoming_fb_text_message, facebook_channel.inbox).perform
