@@ -192,6 +192,7 @@
       "PRIVATE_MSG_INPUT": "برای رفتن به سرخط shift+enter را بزنید. این پیام فقط به ایجنت ها نمایش داده میشود",
       "MESSAGING_RESTRICTED": "You cannot reply to this conversation",
       "MESSAGING_RESTRICTED_WHATSAPP": "You can only reply using a template message due to 24-hour message window restriction",
+      "MESSAGING_RESTRICTED_API": "You can only reply using a template message due to message window restriction",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "امضای پیام پیکربندی نشده است، لطفاً آن را در تنظیمات نمایه پیکربندی کنید.",
       "COPILOT_MSG_INPUT": "Give copilot additional prompts, or ask anything else... Press enter to send follow-up",
       "CLICK_HERE": "برای به روز رسانی اینجا را کلیک کنید",
@@ -305,6 +306,7 @@
     "CANCEL": "انصراف",
     "SEND_EMAIL_SUCCESS": "متن گفتگو با موفقیت ارسال شد",
     "SEND_EMAIL_ERROR": "خطایی پیش آمد. لطفا دوباره امتحان کنید",
+    "SEND_EMAIL_PAYMENT_REQUIRED": "Email transcript is not available on your current plan. Please upgrade to use this feature.",
     "FORM": {
       "SEND_TO_CONTACT": "متن گفتگو را برای مشتری ارسال کنید",
       "SEND_TO_AGENT": "متن گفتگو را به ایجنت اختصاص یافته ارسال کنید",
