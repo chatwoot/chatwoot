@@ -39,8 +39,6 @@ class Channel::Email < ApplicationRecord
   include Reauthorizable
 
   AUTHORIZATION_ERROR_THRESHOLD = 10
-  IMAP_BACKOFF_MAX_INTERVAL_MINUTES = 5
-  IMAP_BACKOFF_MAX_INTERVAL_COUNT = 5
 
   # TODO: Remove guard once encryption keys become mandatory (target 3-4 releases out).
   if Chatwoot.encryption_configured?
@@ -85,17 +83,14 @@ class Channel::Email < ApplicationRecord
 
   def apply_imap_backoff!
     new_count = imap_retry_count + 1
-    max_retries = (IMAP_BACKOFF_MAX_INTERVAL_MINUTES - 1) + IMAP_BACKOFF_MAX_INTERVAL_COUNT
+    max_retries = imap_backoff_max_retries
 
     if new_count > max_retries
       Rails.logger.warn "Error for email channel - #{inbox.id} exhausted backoff (#{new_count} failures), prompting reauthorization"
       clear_imap_backoff!
       prompt_reauthorization!
     else
-      wait_minutes = [new_count, IMAP_BACKOFF_MAX_INTERVAL_MINUTES].min
-      ::Redis::Alfred.set(imap_retry_count_key, new_count.to_s)
-      ::Redis::Alfred.set(imap_retry_after_key, wait_minutes.minutes.from_now.to_f.to_s)
-      Rails.logger.warn "Error for email channel - #{inbox.id} backoff retry #{new_count}/#{max_retries}, next attempt in #{wait_minutes}m"
+      schedule_imap_retry(new_count, max_retries)
     end
   end
 
@@ -108,6 +103,20 @@ class Channel::Email < ApplicationRecord
 
   def ensure_forward_to_email
     self.forward_to_email ||= "#{SecureRandom.hex}@#{account.inbound_email_domain}"
+  end
+
+  def imap_backoff_max_retries
+    max_interval = GlobalConfigService.load('IMAP_BACKOFF_MAX_INTERVAL_MINUTES', 5).to_i
+    max_count = GlobalConfigService.load('IMAP_BACKOFF_MAX_INTERVAL_COUNT', 10).to_i
+    (max_interval - 1) + max_count
+  end
+
+  def schedule_imap_retry(new_count, max_retries)
+    max_interval = GlobalConfigService.load('IMAP_BACKOFF_MAX_INTERVAL_MINUTES', 5).to_i
+    wait_minutes = [new_count, max_interval].min
+    ::Redis::Alfred.set(imap_retry_count_key, new_count.to_s)
+    ::Redis::Alfred.set(imap_retry_after_key, wait_minutes.minutes.from_now.to_f.to_s)
+    Rails.logger.warn "Error for email channel - #{inbox.id} backoff retry #{new_count}/#{max_retries}, next attempt in #{wait_minutes}m"
   end
 
   def imap_retry_count_key

@@ -1,7 +1,5 @@
 require 'net/imap'
 
-class Imap::AuthenticationError < StandardError; end
-
 module ExceptionList
   REST_CLIENT_EXCEPTIONS = [RestClient::NotFound, RestClient::GatewayTimeout, RestClient::BadRequest,
                             RestClient::MethodNotAllowed, RestClient::Forbidden, RestClient::InternalServerError,
