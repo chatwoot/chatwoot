@@ -192,6 +192,7 @@
       "PRIVATE_MSG_INPUT": "Spauksite Shift + Enter, pradėjimui iš naujos eilutės. Tai bus matoma tik Agentams",
       "MESSAGING_RESTRICTED": "You cannot reply to this conversation",
       "MESSAGING_RESTRICTED_WHATSAPP": "You can only reply using a template message due to 24-hour message window restriction",
+      "MESSAGING_RESTRICTED_API": "You can only reply using a template message due to message window restriction",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Pranešimo parašas nesukonfigūruotas, sukonfigūruokite jį profilio nustatymuose.",
       "COPILOT_MSG_INPUT": "Give copilot additional prompts, or ask anything else... Press enter to send follow-up",
       "CLICK_HERE": "Spausti čia kad atnaujinti",
@@ -305,6 +306,7 @@
     "CANCEL": "Atšaukti",
     "SEND_EMAIL_SUCCESS": "Pokalbio stenograma sėkmingai išsiųsta",
     "SEND_EMAIL_ERROR": "Įvyko klaida, prašau pabandykite dar kartą",
+    "SEND_EMAIL_PAYMENT_REQUIRED": "Email transcript is not available on your current plan. Please upgrade to use this feature.",
     "FORM": {
       "SEND_TO_CONTACT": "Siųsti stenogramą klientui",
       "SEND_TO_AGENT": "Siųsti stenogramą priskirtam agentui",
