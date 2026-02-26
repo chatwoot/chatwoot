@@ -92,13 +92,13 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
       end
     end
 
-    # Regression: the handoff message (bot outgoing) and bot_handoff! both run inside
-    # one ActiveRecord::Base.transaction in process_response. The message's after_create_commit
-    # (Message#update_waiting_since) is deferred until the transaction commits, at which point
-    # it clears waiting_since because the message is a bot_response. This wipes out the value
-    # bot_handoff! just wrote, leaving waiting_since nil and breaking human reply-time tracking.
-    context 'when handoff is requested it should track waiting_since for human reply time' do
+    # Regression (PR #13417): when the handoff message (bot outgoing) and bot_handoff!
+    # both ran inside one transaction, the message's after_create_commit cleared
+    # waiting_since (because it's a bot_response), wiping the value bot_handoff! set.
+    # Fix: create the message in a transaction, then call bot_handoff! after it commits.
+    context 'when handoff is requested' do
       let(:conversation) { create(:conversation, inbox: inbox, account: account, status: :pending) }
+      let(:agent) { create(:user, account: account, role: :agent) }
 
       before do
         allow(account).to receive(:feature_enabled?).and_return(false)
@@ -106,15 +106,27 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
         allow(mock_llm_chat_service).to receive(:generate_response).and_return({ 'response' => 'conversation_handoff' })
       end
 
-      it 'sets waiting_since after handoff so human reply time is tracked' do
-        # Pending conversation already has waiting_since set (ensure_waiting_since callback)
-        expect(conversation.reload.waiting_since).not_to be_nil
+      it 'sets waiting_since to approximately the handoff time' do
+        freeze_time do
+          described_class.perform_now(conversation, assistant)
 
+          conversation.reload
+          expect(conversation.status).to eq('open')
+          expect(conversation.waiting_since).to be_within(1.second).of(Time.current)
+        end
+      end
+
+      it 'preserves waiting_since so a human reply consumes it for reply_time tracking' do
         described_class.perform_now(conversation, assistant)
 
         conversation.reload
-        expect(conversation.status).to eq('open')
-        expect(conversation.waiting_since).not_to be_nil
+        expect(conversation.waiting_since).to be_present
+
+        # A human reply clears waiting_since (consumed by dispatch_create_events
+        # to emit FIRST_REPLY_CREATED or REPLY_CREATED for reply_time tracking).
+        create(:message, conversation: conversation, message_type: :outgoing,
+                         sender: agent, account: account, inbox: inbox)
+        expect(conversation.reload.waiting_since).to be_nil
       end
     end
 
