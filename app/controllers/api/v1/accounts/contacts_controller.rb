@@ -83,12 +83,31 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   end
 
   def create
-    ActiveRecord::Base.transaction do
-      @contact = Current.account.contacts.new(permitted_params.except(:avatar_url))
-      @contact.save!
-      @contact_inbox = build_contact_inbox
-      process_avatar_from_url
+    perform_create
+  end
+
+  def upsert
+    if params[:q].present?
+      contacts = Current.account.contacts.where(
+        'name ILIKE :search OR email ILIKE :search OR phone_number ILIKE :search OR contacts.identifier LIKE :search',
+        search: "%#{params[:q].strip}%"
+      )
+      @contact = contacts.first
     end
+
+    @contact ||= Current.account.contacts.find_by(identifier: params[:identifier]) if params[:identifier].present?
+    @contact ||= Current.account.contacts.find_by(email: params[:email].downcase) if params[:email].present?
+    @contact ||= Current.account.contacts.find_by(phone_number: params[:phone_number]) if params[:phone_number].present?
+
+    if @contact
+      @contact.assign_attributes(contact_update_params)
+      @contact.save!
+      process_avatar_from_url
+    else
+      perform_create
+    end
+
+    render :show
   end
 
   def update
@@ -210,5 +229,14 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
 
   def render_error(error, error_status)
     render json: error, status: error_status
+  end
+
+  def perform_create
+    ActiveRecord::Base.transaction do
+      @contact = Current.account.contacts.new(permitted_params.except(:avatar_url))
+      @contact.save!
+      @contact_inbox = build_contact_inbox
+      process_avatar_from_url
+    end
   end
 end

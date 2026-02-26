@@ -593,6 +593,61 @@ RSpec.describe 'Contacts API', type: :request do
     end
   end
 
+  describe 'POST /api/v1/accounts/{account.id}/contacts/upsert' do
+    context 'when it is an authenticated user' do
+      let(:admin) { create(:user, account: account, role: :administrator) }
+      let(:inbox) { create(:inbox, account: account) }
+      let(:valid_params) { { name: 'Alice', email: 'alice@example.com' } }
+
+      it 'creates a new contact if not found' do
+        expect do
+          post "/api/v1/accounts/#{account.id}/contacts/upsert",
+               headers: admin.create_new_auth_token,
+               params: valid_params
+        end.to change(Contact, :count).by(1)
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body['payload']['name']).to eq('Alice')
+      end
+
+      it 'updates existing contact if found by email' do
+        contact = create(:contact, account: account, email: 'alice@example.com', name: 'Bob')
+
+        expect do
+          post "/api/v1/accounts/#{account.id}/contacts/upsert",
+               headers: admin.create_new_auth_token,
+               params: valid_params
+        end.not_to change(Contact, :count)
+
+        expect(response).to have_http_status(:success)
+        expect(contact.reload.name).to eq('Alice')
+      end
+
+      it 'updates existing contact if found by q parameter (fuzzy match)' do
+        contact = create(:contact, account: account, email: 'alice@example.com', name: 'Bob')
+
+        expect do
+          post "/api/v1/accounts/#{account.id}/contacts/upsert",
+               headers: admin.create_new_auth_token,
+               params: { name: 'Alice', q: 'alice@example.com' }
+        end.not_to change(Contact, :count)
+
+        expect(response).to have_http_status(:success)
+        expect(contact.reload.name).to eq('Alice')
+      end
+
+      it 'creates contact inbox if inbox_id provided' do
+        expect do
+          post "/api/v1/accounts/#{account.id}/contacts/upsert",
+               headers: admin.create_new_auth_token,
+               params: valid_params.merge(inbox_id: inbox.id)
+        end.to change(ContactInbox, :count).by(1)
+
+        expect(response).to have_http_status(:success)
+      end
+    end
+  end
+
   describe 'PATCH /api/v1/accounts/{account.id}/contacts/:id' do
     let(:custom_attributes) { { test: 'test', test1: 'test1' } }
     let(:additional_attributes) { { attr1: 'attr1', attr2: 'attr2' } }
