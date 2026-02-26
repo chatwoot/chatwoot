@@ -45,7 +45,10 @@ const records = computed(() =>
 const filteredRecords = computed(() => {
   const query = searchQuery.value.trim();
   if (!query) return records.value;
-  return picoSearch(records.value, query, ['short_code', 'content']);
+  return picoSearch(records.value, query, [
+    { name: 'short_code', weight: 4 },
+    'content',
+  ]);
 });
 const uiFlags = computed(() => getters.getUIFlags.value);
 

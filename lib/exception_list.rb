@@ -16,4 +16,10 @@ module ExceptionList
     Errno::ECONNRESET, Errno::ENETUNREACH, Net::IMAP::ByeResponseError,
     SocketError
   ].freeze
+
+  IMAP_TRANSIENT_EXCEPTIONS = (IMAP_EXCEPTIONS + [
+    EOFError, OpenSSL::SSL::SSLError, Net::IMAP::NoResponseError, Net::IMAP::BadResponseError,
+    Net::IMAP::InvalidResponseError, Net::IMAP::ResponseParseError,
+    Net::IMAP::ResponseReadError, Net::IMAP::ResponseTooLargeError
+  ]).freeze
 end

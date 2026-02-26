@@ -168,6 +168,71 @@ describe Webhooks::Trigger do
     end
   end
 
+  describe 'request headers' do
+    let(:payload) { { event: 'message_created' } }
+    let(:body) { payload.to_json }
+
+    context 'without secret or delivery_id' do
+      it 'sends only content-type and accept headers' do
+        expect(RestClient::Request).to receive(:execute).with(
+          hash_including(headers: { content_type: :json, accept: :json })
+        )
+        trigger.execute(url, payload, webhook_type)
+      end
+    end
+
+    context 'with delivery_id' do
+      it 'adds X-Chatwoot-Delivery header' do
+        expect(RestClient::Request).to receive(:execute) do |args|
+          expect(args[:headers]['X-Chatwoot-Delivery']).to eq('test-uuid')
+          expect(args[:headers]).not_to have_key('X-Chatwoot-Signature')
+          expect(args[:headers]).not_to have_key('X-Chatwoot-Timestamp')
+        end
+        trigger.execute(url, payload, webhook_type, delivery_id: 'test-uuid')
+      end
+    end
+
+    context 'with secret' do
+      let(:secret) { 'test-secret' }
+
+      it 'adds X-Chatwoot-Timestamp header' do
+        expect(RestClient::Request).to receive(:execute) do |args|
+          expect(args[:headers]['X-Chatwoot-Timestamp']).to match(/\A\d+\z/)
+        end
+        trigger.execute(url, payload, webhook_type, secret: secret)
+      end
+
+      it 'adds X-Chatwoot-Signature header with correct HMAC' do
+        expect(RestClient::Request).to receive(:execute) do |args|
+          ts = args[:headers]['X-Chatwoot-Timestamp']
+          expected_sig = "sha256=#{OpenSSL::HMAC.hexdigest('SHA256', secret, "#{ts}.#{body}")}"
+          expect(args[:headers]['X-Chatwoot-Signature']).to eq(expected_sig)
+        end
+        trigger.execute(url, payload, webhook_type, secret: secret)
+      end
+
+      it 'signs timestamp.body not just body' do
+        expect(RestClient::Request).to receive(:execute) do |args|
+          args[:headers]['X-Chatwoot-Timestamp']
+          wrong_sig = "sha256=#{OpenSSL::HMAC.hexdigest('SHA256', secret, body)}"
+          expect(args[:headers]['X-Chatwoot-Signature']).not_to eq(wrong_sig)
+        end
+        trigger.execute(url, payload, webhook_type, secret: secret)
+      end
+    end
+
+    context 'with both secret and delivery_id' do
+      it 'includes all three security headers' do
+        expect(RestClient::Request).to receive(:execute) do |args|
+          expect(args[:headers]['X-Chatwoot-Delivery']).to eq('abc-123')
+          expect(args[:headers]['X-Chatwoot-Timestamp']).to be_present
+          expect(args[:headers]['X-Chatwoot-Signature']).to start_with('sha256=')
+        end
+        trigger.execute(url, payload, webhook_type, secret: 'mysecret', delivery_id: 'abc-123')
+      end
+    end
+  end
+
   it 'does not update message status if webhook fails for other events' do
     payload = { event: 'conversation_created', conversation: { id: conversation.id }, id: message.id }
 
