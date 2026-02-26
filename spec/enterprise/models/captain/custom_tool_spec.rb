@@ -341,6 +341,10 @@ RSpec.describe Captain::CustomTool, type: :model do
             id: conversation.id,
             display_id: conversation.display_id
           },
+          contact_inbox: {
+            id: conversation.contact_inbox.id,
+            hmac_verified: conversation.contact_inbox.hmac_verified
+          },
           contact: {
             id: contact.id,
             email: contact.email,
@@ -376,6 +380,13 @@ RSpec.describe Captain::CustomTool, type: :model do
         expect(headers['X-Chatwoot-Contact-Email']).to eq(contact.email)
       end
 
+      it 'includes contact inbox verification metadata when present' do
+        headers = tool.build_metadata_headers(state)
+
+        expect(headers['X-Chatwoot-Contact-Inbox-Id']).to eq(conversation.contact_inbox.id.to_s)
+        expect(headers['X-Chatwoot-Contact-Inbox-Verified']).to eq(conversation.contact_inbox.hmac_verified.to_s)
+      end
+
       it 'handles missing conversation gracefully' do
         state[:conversation] = nil
 
@@ -396,11 +407,21 @@ RSpec.describe Captain::CustomTool, type: :model do
         expect(headers['X-Chatwoot-Account-Id']).to eq(account.id.to_s)
       end
 
+      it 'handles missing contact inbox gracefully' do
+        state[:contact_inbox] = nil
+
+        headers = tool.build_metadata_headers(state)
+
+        expect(headers['X-Chatwoot-Contact-Inbox-Id']).to be_nil
+        expect(headers['X-Chatwoot-Contact-Inbox-Verified']).to eq('false')
+      end
+
       it 'handles empty state' do
         headers = tool.build_metadata_headers({})
 
         expect(headers).to be_a(Hash)
         expect(headers['X-Chatwoot-Tool-Slug']).to eq('custom_test_tool')
+        expect(headers['X-Chatwoot-Contact-Inbox-Verified']).to eq('false')
       end
 
       it 'omits contact email header when email is blank' do
@@ -417,6 +438,22 @@ RSpec.describe Captain::CustomTool, type: :model do
         headers = tool.build_metadata_headers(state)
 
         expect(headers).not_to have_key('X-Chatwoot-Contact-Phone')
+      end
+
+      it 'includes contact inbox verified header when false' do
+        state[:contact_inbox][:hmac_verified] = false
+
+        headers = tool.build_metadata_headers(state)
+
+        expect(headers['X-Chatwoot-Contact-Inbox-Verified']).to eq('false')
+      end
+
+      it 'defaults contact inbox verified header to false when value is nil' do
+        state[:contact_inbox][:hmac_verified] = nil
+
+        headers = tool.build_metadata_headers(state)
+
+        expect(headers['X-Chatwoot-Contact-Inbox-Verified']).to eq('false')
       end
     end
 
