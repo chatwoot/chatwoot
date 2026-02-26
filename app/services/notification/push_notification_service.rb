@@ -39,6 +39,7 @@ class Notification::PushNotificationService
   def safe_locale(locale)
     return nil if locale.blank?
 
+    locale = locale.to_s
     available = I18n.available_locales.map(&:to_s)
     return locale if available.include?(locale)
 
