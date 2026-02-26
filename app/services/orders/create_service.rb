@@ -124,6 +124,7 @@ class Orders::CreateService
   def update_with_payzah_data(order, payzah_response)
     order.update!(
       payment_url: payzah_response['transit_url'],
+      external_payment_id: payzah_response['PaymentID'],
       status: :pending,
       payload: order.payload.merge(
         payzah_payment_id: payzah_response['PaymentID'],
@@ -146,6 +147,7 @@ class Orders::CreateService
   def update_with_tap_data(order, tap_response)
     order.update!(
       payment_url: tap_response['url'],
+      external_payment_id: tap_response['id'],
       status: :pending,
       payload: order.payload.merge(
         tap_invoice_id: tap_response['id'],
