@@ -192,6 +192,7 @@
       "PRIVATE_MSG_INPUT": "Shift + enter per una línia nova. Això serà visible només per als Agents",
       "MESSAGING_RESTRICTED": "You cannot reply to this conversation",
       "MESSAGING_RESTRICTED_WHATSAPP": "You can only reply using a template message due to 24-hour message window restriction",
+      "MESSAGING_RESTRICTED_API": "You can only reply using a template message due to message window restriction",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "La signatura del missatge no està configurada, configura-la a la configuració del perfil.",
       "COPILOT_MSG_INPUT": "Give copilot additional prompts, or ask anything else... Press enter to send follow-up",
       "CLICK_HERE": "Fes clic aquí per actualitzar",
@@ -305,6 +306,7 @@
     "CANCEL": "Cancel·la",
     "SEND_EMAIL_SUCCESS": "La transcripció del xat s'ha enviat correctament",
     "SEND_EMAIL_ERROR": "S'ha produït un error; tornau-ho a provar",
+    "SEND_EMAIL_PAYMENT_REQUIRED": "Email transcript is not available on your current plan. Please upgrade to use this feature.",
     "FORM": {
       "SEND_TO_CONTACT": "Envia la transcripció al client",
       "SEND_TO_AGENT": "Envia la transcripció a l'agent assignat",
