@@ -24,7 +24,7 @@ json.created_by do
   if resource.created_by.present?
     json.id resource.created_by.id
     json.name resource.created_by.name
-    json.email resource.created_by.email
+    json.email resource.created_by.try(:email)
   end
 end
 
