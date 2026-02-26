@@ -1,0 +1,124 @@
+{
+  "AGENT_MGMT": {
+    "HEADER": "Agenter",
+    "HEADER_BTN_TXT": "Tilføj Agent",
+    "LOADING": "Henter Agent Liste",
+    "DESCRIPTION": "An agent is a member of your customer support team who can view and respond to user messages. The list below shows all the agents in your account.",
+    "LEARN_MORE": "Learn about user roles",
+    "AGENT_TYPES": {
+      "ADMINISTRATOR": "Administrator",
+      "AGENT": "Agent"
+    },
+    "LIST": {
+      "404": "Der er ingen agenter tilknyttet denne konto",
+      "TITLE": "Administrer agenter i dit team",
+      "DESC": "Du kan tilføje/fjerne agenter til/fra dit team.",
+      "NAME": "Navn",
+      "EMAIL": "E-MAIL",
+      "STATUS": "Status",
+      "ACTIONS": "Handlinger",
+      "VERIFIED": "Verificeret",
+      "VERIFICATION_PENDING": "Verifikation Afventer",
+      "AVAILABLE_CUSTOM_ROLE": "Available custom role permissions"
+    },
+    "ADD": {
+      "TITLE": "Tilføj agent til dit team",
+      "DESC": "Du kan tilføje personer, der vil være i stand til at håndtere support i dine indbakker.",
+      "CANCEL_BUTTON_TEXT": "Annuller",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Agentens Navn",
+          "PLACEHOLDER": "Indtast et navn på agenten"
+        },
+        "AGENT_TYPE": {
+          "LABEL": "Rolle",
+          "PLACEHOLDER": "Vælg venligst en rolle",
+          "ERROR": "Rolle er påkrævet"
+        },
+        "EMAIL": {
+          "LABEL": "E-Mail Adresse",
+          "PLACEHOLDER": "Indtast venligst en e-mail adresse på agenten"
+        },
+        "SUBMIT": "Tilføj Agent"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Agenten blev tilføjet",
+        "EXIST_MESSAGE": "Agent e-mail allerede i brug, Prøv venligst en anden e-mail adresse",
+        "ERROR_MESSAGE": "Kunne ikke oprette forbindelse til Woot Server, Prøv igen senere"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Slet",
+      "API": {
+        "SUCCESS_MESSAGE": "Agenten blev slettet",
+        "ERROR_MESSAGE": "Kunne ikke oprette forbindelse til Woot Server, Prøv igen senere"
+      },
+      "CONFIRM": {
+        "TITLE": "Bekræft Sletning",
+        "MESSAGE": "Er du sikker på du vil slette ",
+        "YES": "Ja, Slet ",
+        "NO": "Nej, Behold "
+      }
+    },
+    "EDIT": {
+      "TITLE": "Rediger agent",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Agentens Navn",
+          "PLACEHOLDER": "Indtast et navn på agenten"
+        },
+        "AGENT_TYPE": {
+          "LABEL": "Rolle",
+          "PLACEHOLDER": "Vælg venligst en rolle",
+          "ERROR": "Rolle er påkrævet"
+        },
+        "EMAIL": {
+          "LABEL": "E-Mail Adresse",
+          "PLACEHOLDER": "Indtast venligst en e-mail adresse på agenten"
+        },
+        "AGENT_AVAILABILITY": {
+          "LABEL": "Tilgængelighed",
+          "PLACEHOLDER": "Please select an availability status",
+          "ERROR": "Availability is required"
+        },
+        "SUBMIT": "Rediger Agent"
+      },
+      "BUTTON_TEXT": "Rediger",
+      "CANCEL_BUTTON_TEXT": "Annuller",
+      "API": {
+        "SUCCESS_MESSAGE": "Agenten blev opdateret",
+        "ERROR_MESSAGE": "Kunne ikke oprette forbindelse til Woot Server, Prøv igen senere"
+      },
+      "PASSWORD_RESET": {
+        "ADMIN_RESET_BUTTON": "Nulstil Adgangskode",
+        "ADMIN_SUCCESS_MESSAGE": "En e-mail med nulstilling af adgangskodeinstruktioner er blevet sendt til agenten",
+        "SUCCESS_MESSAGE": "Agentens adgangskode nulstillet",
+        "ERROR_MESSAGE": "Kunne ikke oprette forbindelse til Woot Server, Prøv igen senere"
+      }
+    },
+    "SEARCH": {
+      "NO_RESULTS": "Ingen resultater fundet."
+    },
+    "MULTI_SELECTOR": {
+      "PLACEHOLDER": "Ingen",
+      "TITLE": {
+        "AGENT": "Vælg agent",
+        "TEAM": "Vælg hold"
+      },
+      "LIST": {
+        "NONE": "Ingen"
+      },
+      "SEARCH": {
+        "NO_RESULTS": {
+          "AGENT": "Ingen agenter fundet",
+          "TEAM": "Ingen hold fundet"
+        },
+        "PLACEHOLDER": {
+          "AGENT": "Søg agenter",
+          "TEAM": "Søg i teams",
+          "INPUT": "Search for agents"
+        }
+      }
+    }
+  }
+}

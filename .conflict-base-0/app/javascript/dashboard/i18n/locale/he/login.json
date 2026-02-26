@@ -1,0 +1,41 @@
+{
+  "LOGIN": {
+    "TITLE": "התחבר ל Woot",
+    "EMAIL": {
+      "LABEL": "אימייל",
+      "PLACEHOLDER": "example@companyname.com",
+      "ERROR": "נא הכנס כתובת דוא\"ל תקינה"
+    },
+    "PASSWORD": {
+      "LABEL": "סיסמה",
+      "PLACEHOLDER": "סיסמה"
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "נכנסת בהצלחה",
+      "ERROR_MESSAGE": "לא ניתן להתחבר לשרת Woot, נסה שוב מאוחר יותר",
+      "UNAUTH": "שם משתמש / סיסמה שגויים. נסה שוב"
+    },
+    "OAUTH": {
+      "GOOGLE_LOGIN": "התחבר עם גוגל",
+      "BUSINESS_ACCOUNTS_ONLY": "אנא השתמש בכתובת הדוא\"ל של החברה שלך כדי להתחבר",
+      "NO_ACCOUNT_FOUND": "לא מצאנו חשבון עבור כתובת הדוא\"ל שלך."
+    },
+    "FORGOT_PASSWORD": "שכחת את הסיסמה?",
+    "CREATE_NEW_ACCOUNT": "צור חשבון",
+    "SUBMIT": "התחבר",
+    "SAML": {
+      "LABEL": "התחבר באמצעות SSO",
+      "TITLE": "Initiate Single Sign-on (SSO)",
+      "SUBTITLE": "הזן את הדוא\"ל הארגוני שלך כדי לגשת לארגון שלך",
+      "BACK_TO_LOGIN": "התחבר באמצעות סיסמה",
+      "WORK_EMAIL": {
+        "LABEL": "דוא\"ל ארגוני",
+        "PLACEHOLDER": "הזן את הדוא\"ל הארגוני שלך"
+      },
+      "SUBMIT": "המשך עם SSO",
+      "API": {
+        "ERROR_MESSAGE": "אימות SSO נכשל. אנא בדוק את פרטי הכניסה שלך ונסה שוב."
+      }
+    }
+  }
+}

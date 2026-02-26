@@ -1,0 +1,121 @@
+{
+  "TEAMS_SETTINGS": {
+    "NEW_TEAM": "Új csapat hozzárendelése",
+    "HEADER": "Csapatok",
+    "LOADING": "Fetching teams",
+    "DESCRIPTION": "Teams allow you to organize agents into groups based on their responsibilities. An agent can belong to multiple teams. When working collaboratively, you can assign conversations to specific teams.",
+    "LEARN_MORE": "Learn more about teams",
+    "LIST": {
+      "404": "Ebben a fiókban nincs csapat létrehozva.",
+      "EDIT_TEAM": "Csapat szerkesztése",
+      "NONE": "Nincs"
+    },
+    "CREATE_FLOW": {
+      "CREATE": {
+        "TITLE": "Új csapat létrehozása",
+        "DESC": "Adj nevet és leírást az új csapatodhoz."
+      },
+      "AGENTS": {
+        "BUTTON_TEXT": "Ügynökök hozzáadása a csapathoz",
+        "TITLE": "Ügynökök hozzárendelése a {teamName} csapathoz",
+        "DESC": "Adj hozzá ügynököket az újonan létrehozott csapatodhoz. Ez lehetővé teszi, hogy a csapatod a beszélgetéseken közösen dolgozzon és kapjon értesítést új eseményekről ezen beszélgetésekhez kapcsolódóan."
+      },
+      "WIZARD_CREATE": {
+        "TITLE": "Létrehozás",
+        "BODY": "Hozz létre új csapatot az ügynökeidből."
+      },
+      "WIZARD_ADD_AGENTS": {
+        "TITLE": "Ügynök Hozzádása",
+        "BODY": "Ügynökök hozzáadása a csapathoz."
+      },
+      "WIZARD_FINISH": {
+        "TITLE": "Befejezés",
+        "BODY": "Mindennel készen állsz!"
+      }
+    },
+    "EDIT_FLOW": {
+      "CREATE": {
+        "TITLE": "Szerkeszd a részleteidet",
+        "DESC": "Szerkesztd a csapat nevét és leírását.",
+        "BUTTON_TEXT": "Csapat frissítése"
+      },
+      "AGENTS": {
+        "BUTTON_TEXT": "Ügynökök frissítése a csapatban",
+        "TITLE": "Ügynökök hozzárendelése a {teamName} csapathoz",
+        "DESC": "Adj ügynököket az újonan létrehozott csapatodhoz. Minden hozzáadott ügynök értesítést kap amikor egy beszélgetés a csapatához lesz rendelve."
+      },
+      "EDIT_WIZARD_DETAILS": {
+        "TITLE": "Csapat részletek",
+        "ROUTE": "settings_teams_edit",
+        "BODY": "Változtass nevet, leírást és egyéb részleteket."
+      },
+      "EDIT_WIZARD_AGENTS": {
+        "TITLE": "Ügynök szerkesztése",
+        "ROUTE": "settings_teams_edit_members",
+        "BODY": "A csapatod ügynökeinek szerkesztése."
+      },
+      "EDIT_WIZARD_FINISH": {
+        "TITLE": "Befejezés",
+        "ROUTE": "settings_teams_edit_finish",
+        "BODY": "Mindennel készen állsz!"
+      }
+    },
+    "TEAM_FORM": {
+      "ERROR_MESSAGE": "Nem sikerült a csapat részleteinek mentése. Kérjük próbáld újra."
+    },
+    "AGENTS": {
+      "AGENT": "ÜGYNÖK",
+      "EMAIL": "EMAIL",
+      "BUTTON_TEXT": "Ügynök Hozzádása",
+      "ADD_AGENTS": "Ügynökök hozzáadása a csapathoz...",
+      "SELECT": "kiválasztás",
+      "SELECT_ALL": "összes kiválasztása",
+      "SELECTED_COUNT": "{selected} a {total}-ból kiválasztva."
+    },
+    "ADD": {
+      "TITLE": "Ügynökök hozzárendelése a {teamName} csapathoz",
+      "DESC": "Adj hozzá ügynököket az újonan létrehozott csapatodhoz. Ez lehetővé teszi, hogy a csapatod a beszélgetéseken közösen dolgozzon és kapjon értesítést új eseményekről ezen beszélgetésekhez kapcsolódóan.",
+      "SELECT": "kiválasztás",
+      "SELECT_ALL": "összes kiválasztása",
+      "SELECTED_COUNT": "{selected} a {total}-ból kiválasztva.",
+      "BUTTON_TEXT": "Ügynök Hozzádása",
+      "AGENT_VALIDATION_ERROR": "Kérlek válassz ki legalább egy ügynököt."
+    },
+    "FINISH": {
+      "TITLE": "A csapatod kész!",
+      "MESSAGE": "Most már tudtok csapatként együttműköni beszélgetéseken. Kellemes támogatást ",
+      "BUTTON_TEXT": "Befejezés"
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Törlés",
+      "API": {
+        "SUCCESS_MESSAGE": "Csapat sikeresen törölve.",
+        "ERROR_MESSAGE": "Nem sikerült a csapat törlés. Próbáld újra."
+      },
+      "CONFIRM": {
+        "TITLE": "Are you sure you want to delete the team?",
+        "PLACE_HOLDER": "Kérlek gépeld be, hogy {teamName} a megerősítéshez",
+        "MESSAGE": "A csapat letörlése a hozzárendelt beszélgetéseket is eltávolítja.",
+        "YES": "Törlés ",
+        "NO": "Mégse"
+      }
+    },
+    "SETTINGS": "Beállítások",
+    "FORM": {
+      "UPDATE": "Csapat frissítése",
+      "CREATE": "Új csapat létrehozása",
+      "NAME": {
+        "LABEL": "Csapatnév",
+        "PLACEHOLDER": "Példa: Értékesítés, ügyféltámogatás"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Csapat leírás",
+        "PLACEHOLDER": "Rövid csapatleírás."
+      },
+      "AUTO_ASSIGN": {
+        "LABEL": "Automatikus hozzárendelés ehhez a csapathoz."
+      },
+      "SUBMIT_CREATE": "Új csapat létrehozása"
+    }
+  }
+}

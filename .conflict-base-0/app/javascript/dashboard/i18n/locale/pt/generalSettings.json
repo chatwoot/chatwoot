@@ -1,0 +1,251 @@
+{
+  "GENERAL_SETTINGS": {
+    "LIMIT_MESSAGES": {
+      "CONVERSATION": "Excedeu o limite de conversas. O plano Hacker permite apenas 500 conversas.",
+      "INBOXES": "Excedeu o limite de caixas de entrada. O plano Hacker só suporta chat ao vivo no site. Caixas de entrada adicionais como email, WhatsApp, etc. requerem um plano pago.",
+      "AGENTS": "You have exceeded the agent limit. Your plan only allows {allowedAgents} agents.",
+      "NON_ADMIN": "Por favor, contacte o seu administrador para atualizar o plano e continuar a usar todas as funcionalidades."
+    },
+    "TITLE": "Configurações da conta",
+    "SUBMIT": "Atualizar configurações",
+    "BACK": "Voltar",
+    "DISMISS": "Descartar",
+    "UPDATE": {
+      "ERROR": "Não foi possível atualizar as configurações, por favor, tente novamente!",
+      "SUCCESS": "Configurações de conta atualizadas com sucesso"
+    },
+    "ACCOUNT_DELETE_SECTION": {
+      "TITLE": "Apagar a sua Conta",
+      "NOTE": "Após apagar a sua conta, todos os seus dados serão apagados.",
+      "BUTTON_TEXT": "Apagar a Sua Conta",
+      "CONFIRM": {
+        "TITLE": "Apagar Conta",
+        "MESSAGE": "Apagar a sua conta é irreversível. Introduza o nome da sua conta abaixo para confirmar que pretende apagá-la permanentemente.",
+        "BUTTON_TEXT": "Excluir",
+        "DISMISS": "Cancelar",
+        "PLACE_HOLDER": "Por favor, escreva {accountName} para confirmar"
+      },
+      "SUCCESS": "Conta selecionada para apagar",
+      "FAILURE": "Não foi possível apagar a conta, tente novamente!",
+      "SCHEDULED_DELETION": {
+        "TITLE": "Eliminação da conta agendada",
+        "MESSAGE_MANUAL": "Eliminação da conta agendada para {deletionDate}. Isto foi solicitado por um administrador. Pode cancelar a eliminação antes desta data.",
+        "MESSAGE_INACTIVITY": "Eliminação da conta está agendada para {deletionDate} devido à sua inatividade. Pode cancelar a eliminação antes desta data.",
+        "CLEAR_BUTTON": "Cancelar agendamento da eliminação"
+      }
+    },
+    "FORM": {
+      "ERROR": "Por favor, corrigir erros de formulário",
+      "GENERAL_SECTION": {
+        "TITLE": "Configurações gerais",
+        "NOTE": ""
+      },
+      "ACCOUNT_ID": {
+        "TITLE": "ID da conta",
+        "NOTE": "Este ID é necessário para integrações via API"
+      },
+      "AUTO_RESOLVE": {
+        "TITLE": "Auto-resolver conversas",
+        "NOTE": "Esta configuração permite-lhe resolver automaticamente a conversa após um determinado período de inatividade.",
+        "DURATION": {
+          "LABEL": "Duração da inatividade",
+          "HELP": "Período de inatividade após o qual a conversa é automaticamente resolvida",
+          "PLACEHOLDER": "30",
+          "ERROR": "A duração de auto-resolução deve ser entre 10 minutos e 999 dias",
+          "API": {
+            "SUCCESS": "Definições de auto-resolução atualizadas",
+            "ERROR": "Falha ao atualizar as definições de auto-resolução"
+          }
+        },
+        "MESSAGE": {
+          "LABEL": "Mensagem personalizada de auto-resolução",
+          "PLACEHOLDER": "A conversa foi marcada como resolvida pelo sistema devido a 15 dias de inatividade",
+          "HELP": "Mensagem enviada ao cliente após a conversa ser automaticamente resolvida"
+        },
+        "PREFERENCES": "Preferências",
+        "LABEL": {
+          "LABEL": "Adicionar etiqueta após auto-resolução",
+          "PLACEHOLDER": "Selecionar uma etiqueta"
+        },
+        "IGNORE_WAITING": {
+          "LABEL": "Ignorar conversas à espera de resposta do agente"
+        },
+        "UPDATE_BUTTON": "Salvar alterações"
+      },
+      "NAME": {
+        "LABEL": "Nome da conta",
+        "PLACEHOLDER": "Nome da sua conta",
+        "ERROR": "Por favor, insira um nome de conta válido"
+      },
+      "LANGUAGE": {
+        "LABEL": "Linguagem do site",
+        "PLACEHOLDER": "Nome da sua conta",
+        "ERROR": ""
+      },
+      "DOMAIN": {
+        "LABEL": "E-mail recebido do domínio",
+        "PLACEHOLDER": "O domínio onde irá receber os e-mails",
+        "ERROR": ""
+      },
+      "SUPPORT_EMAIL": {
+        "LABEL": "E-mail de suporte",
+        "PLACEHOLDER": "E-mail de suporte da sua empresa",
+        "ERROR": ""
+      },
+      "AUTO_RESOLVE_IGNORE_WAITING": {
+        "LABEL": "Excluir conversas não atendidas",
+        "HELP": "Quando ativado, o sistema irá ignorar a resolução de conversas que ainda estão à espera de resposta de um agente."
+      },
+      "AUDIO_TRANSCRIPTION": {
+        "TITLE": "Transcrever mensagens de áudio",
+        "NOTE": "Transcreva automaticamente mensagens de áudio nas conversas. Gere uma transcrição de texto sempre que uma mensagem de áudio for enviada ou recebida e apresente-a junto da mensagem.",
+        "API": {
+          "SUCCESS": "Definição de transcrição de áudio atualizada com sucesso",
+          "ERROR": "Falha ao atualizar a definição de transcrição de áudio"
+        }
+      },
+      "AUTO_RESOLVE_DURATION": {
+        "LABEL": "Duração de inatividade para resolução",
+        "HELP": "Duração após a qual a conversa deve ser automaticamente resolvida se não houver atividade",
+        "PLACEHOLDER": "30",
+        "ERROR": "A duração de auto-resolução deve ser entre 10 minutos e 999 dias",
+        "API": {
+          "SUCCESS": "Definições de auto-resolução atualizadas",
+          "ERROR": "Falha ao atualizar as definições de auto-resolução"
+        },
+        "UPDATE_BUTTON": "Atualização",
+        "MESSAGE_LABEL": "Mensagem personalizada de resolução",
+        "MESSAGE_PLACEHOLDER": "A conversa foi marcada como resolvida pelo sistema devido a 15 dias de inatividade",
+        "MESSAGE_HELP": "Esta mensagem é enviada ao cliente quando uma conversa é automaticamente resolvida pelo sistema devido à inatividade."
+      },
+      "FEATURES": {
+        "INBOUND_EMAIL_ENABLED": "A sua conta tem a opção de continuar as conversas por e-mail ativa.",
+        "CUSTOM_EMAIL_DOMAIN_ENABLED": "Já pode receber e-mails no domínio que escolheu."
+      }
+    },
+    "UPDATE_CHATWOOT": "Está disponível uma nova atualização {latestChatwootVersion} para o ChatWoot. Por favor, atualize a sua versão.",
+    "LEARN_MORE": "Saber mais",
+    "PAYMENT_PENDING": "O seu pagamento está pendente. Por favor, atualize as suas informações de pagamento para continuar a usar o Chatwoot",
+    "UPGRADE": "Atualize para continuar a usar o Chatwoot",
+    "LIMITS_UPGRADE": "A sua conta excedeu os limites de utilização. Por favor, faça um upgrade ao seu plano para continuar a utilizar o Chatwoot",
+    "OPEN_BILLING": "Abrir faturação"
+  },
+  "FORMS": {
+    "MULTISELECT": {
+      "ENTER_TO_SELECT": "Pressione Enter para escolher",
+      "ENTER_TO_REMOVE": "Pressione Enter para eliminar",
+      "NO_OPTIONS": "List is empty",
+      "SELECT_ONE": "Selecionar um",
+      "SELECT": "Selecionar"
+    }
+  },
+  "NOTIFICATIONS_PAGE": {
+    "HEADER": "Notificações",
+    "MARK_ALL_DONE": "Marcar todos como resolvidos",
+    "DELETE_TITLE": "Excluído",
+    "UNREAD_NOTIFICATION": {
+      "TITLE": "Notificações não lidas",
+      "ALL_NOTIFICATIONS": "Ver todas as notificações",
+      "LOADING_UNREAD_MESSAGE": "A carregar notificações não lidas...",
+      "EMPTY_MESSAGE": "Não há notificações não lidas"
+    },
+    "LIST": {
+      "LOADING_MESSAGE": "A carregar notificações...",
+      "404": "Sem notificações",
+      "TABLE_HEADER": [
+        "Nome",
+        "Número de telefone",
+        "Conversas",
+        "Último contacto"
+      ]
+    },
+    "TYPE_LABEL": {
+      "conversation_creation": "Nova conversa",
+      "conversation_assignment": "Conversa atribuída",
+      "assigned_conversation_new_message": "Nova mensagem",
+      "participating_conversation_new_message": "Nova mensagem",
+      "conversation_mention": "Mencionar",
+      "sla_missed_first_response": "SLA perdido",
+      "sla_missed_next_response": "SLA perdido",
+      "sla_missed_resolution": "SLA perdido"
+    }
+  },
+  "NETWORK": {
+    "NOTIFICATION": {
+      "OFFLINE": "Ausente",
+      "RECONNECTING": "A reconectar...",
+      "RECONNECT_SUCCESS": "Reconectado"
+    },
+    "BUTTON": {
+      "REFRESH": "Atualizar"
+    }
+  },
+  "COMMAND_BAR": {
+    "SEARCH_PLACEHOLDER": "Pesquisar ou passar para",
+    "SECTIONS": {
+      "GENERAL": "Geral",
+      "REPORTS": "Relatórios",
+      "CONVERSATION": "Conversa",
+      "BULK_ACTIONS": "Ações em massa",
+      "CHANGE_ASSIGNEE": "Alterar responsável",
+      "CHANGE_PRIORITY": "Alterar prioridade",
+      "CHANGE_TEAM": "Alterar equipa",
+      "SNOOZE_CONVERSATION": "Adiar conversa",
+      "ADD_LABEL": "Adicionar etiqueta à conversa",
+      "REMOVE_LABEL": "Remover etiqueta da conversa",
+      "SETTINGS": "Configurações",
+      "AI_ASSIST": "Assistente IA",
+      "APPEARANCE": "Aparência",
+      "SNOOZE_NOTIFICATION": "Suspender notificação"
+    },
+    "COMMANDS": {
+      "GO_TO_CONVERSATION_DASHBOARD": "Ir para o painel de conversação",
+      "GO_TO_CONTACTS_DASHBOARD": "Ir para o painel de contactos",
+      "GO_TO_REPORTS_OVERVIEW": "Ir para a visão geral de relatórios",
+      "GO_TO_CONVERSATION_REPORTS": "Ir para relatórios de conversa",
+      "GO_TO_AGENT_REPORTS": "Ir para relatórios de agentes",
+      "GO_TO_LABEL_REPORTS": "Ir para relatórios de etiquetas",
+      "GO_TO_INBOX_REPORTS": "Ir para relatórios da caixa de entrada",
+      "GO_TO_TEAM_REPORTS": "Ir para relatórios da equipa",
+      "GO_TO_SETTINGS_AGENTS": "Ir para configurações do agente",
+      "GO_TO_SETTINGS_TEAMS": "Ir para configurações da equipa",
+      "GO_TO_SETTINGS_INBOXES": "Ir para configurações da caixa de entrada",
+      "GO_TO_SETTINGS_LABELS": "Ir para configurações de etiquetas",
+      "GO_TO_SETTINGS_CANNED_RESPONSES": "Ir para configurações de resposta pronta",
+      "GO_TO_SETTINGS_APPLICATIONS": "Ir para configurações da aplicação",
+      "GO_TO_SETTINGS_ACCOUNT": "Ir para configurações da conta",
+      "GO_TO_SETTINGS_PROFILE": "Ir para configurações do perfil",
+      "GO_TO_NOTIFICATIONS": "Ir para notificações",
+      "ADD_LABELS_TO_CONVERSATION": "Adicionar etiqueta à conversa",
+      "ASSIGN_AN_AGENT": "Atribuir um agente",
+      "AI_ASSIST": "Assistente IA",
+      "ASSIGN_PRIORITY": "Atribuir prioridade",
+      "ASSIGN_A_TEAM": "Atribuir uma equipa",
+      "MUTE_CONVERSATION": "Silenciar conversa",
+      "UNMUTE_CONVERSATION": "Reativar conversa",
+      "REMOVE_LABEL_FROM_CONVERSATION": "Remover etiqueta da conversa",
+      "REOPEN_CONVERSATION": "Reabrir conversa",
+      "RESOLVE_CONVERSATION": "Resolver conversa",
+      "SEND_TRANSCRIPT": "Enviar transcrição por e-mail",
+      "SNOOZE_CONVERSATION": "Adiar conversa",
+      "UNTIL_NEXT_REPLY": "Até à próxima resposta",
+      "UNTIL_NEXT_WEEK": "Até à próxima semana",
+      "UNTIL_TOMORROW": "Até amanhã",
+      "UNTIL_NEXT_MONTH": "Até ao mês seguinte",
+      "AN_HOUR_FROM_NOW": "Até daqui a uma hora",
+      "UNTIL_CUSTOM_TIME": "Personalizar...",
+      "CHANGE_APPEARANCE": "Alterar aparência",
+      "LIGHT_MODE": "Claro",
+      "DARK_MODE": "Escuro",
+      "SYSTEM_MODE": "Sistema",
+      "SNOOZE_NOTIFICATION": "Suspender notificação"
+    }
+  },
+  "DASHBOARD_APPS": {
+    "LOADING_MESSAGE": "A carregar app do dashboard..."
+  },
+  "COMMON": {
+    "OR": "Ou",
+    "CLICK_HERE": "clique aqui"
+  }
+}

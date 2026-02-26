@@ -1,0 +1,91 @@
+{
+  "CUSTOM_ROLE": {
+    "HEADER": "Özel Roller",
+    "LEARN_MORE": "Özel roller hakkında daha fazla bilgi edinin",
+    "DESCRIPTION": "Özel roller, hesap sahibi veya yöneticiler tarafından oluşturulan rollerdir. Bu roller, temsilcilere hesabın içinde hangi erişim ve yetkilere sahip olacaklarını belirlemek için atanabilir. Özel roller, organizasyonun ihtiyaçlarına uygun olarak belirli izinler ve erişim seviyeleriyle oluşturulabilir.",
+    "HEADER_BTN_TXT": "Add custom role",
+    "LOADING": "Özel roller alınıyor...",
+    "SEARCH_404": "Bu sorgu ile eşleşen öğe yok.",
+    "PAYWALL": {
+      "TITLE": "Özel roller oluşturmak için yükseltin",
+      "AVAILABLE_ON": "The custom role feature is only available in the Business and Enterprise plans.",
+      "UPGRADE_PROMPT": "Upgrade your plan to get access to advanced features like team management, automations, custom attributes, and more.",
+      "UPGRADE_NOW": "Upgrade now",
+      "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
+    },
+    "ENTERPRISE_PAYWALL": {
+      "AVAILABLE_ON": "The custom role feature is only available in the paid plans.",
+      "UPGRADE_PROMPT": "Upgrade to a paid plan to access advanced features like audit logs, agent capacity, and more.",
+      "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
+    },
+    "LIST": {
+      "404": "Bu hesapta kullanılabilir özel rol bulunmamaktadır.",
+      "TITLE": "Özel rolleri yönet",
+      "DESC": "Özel roller, hesap sahibi veya yöneticiler tarafından oluşturulan rollerdir. Bu roller, temsilcilere hesap içindeki erişim ve yetkilerini tanımlamak için atanabilir. Özel roller, organizasyonun ihtiyaçlarına uygun olarak belirli izinler ve erişim seviyeleriyle oluşturulabilir.",
+      "TABLE_HEADER": {
+        "NAME": "İsim",
+        "DESCRIPTION": "Açıklama",
+        "PERMISSIONS": "Permissions",
+        "ACTIONS": "Hareketler"
+      }
+    },
+    "PERMISSIONS": {
+      "CONVERSATION_MANAGE": "Manage all conversations",
+      "CONVERSATION_UNASSIGNED_MANAGE": "Manage unassigned conversations and those assigned to them",
+      "CONVERSATION_PARTICIPATING_MANAGE": "Manage participating conversations and those assigned to them",
+      "CONTACT_MANAGE": "Manage contacts",
+      "REPORT_MANAGE": "Manage reports",
+      "KNOWLEDGE_BASE_MANAGE": "Manage knowledge base"
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "İsim",
+        "PLACEHOLDER": "Please enter a name.",
+        "ERROR": "İsim gereklidir."
+      },
+      "DESCRIPTION": {
+        "LABEL": "Açıklama",
+        "PLACEHOLDER": "Please enter a description.",
+        "ERROR": "Açıklama gerekli."
+      },
+      "PERMISSIONS": {
+        "LABEL": "Permissions",
+        "ERROR": "Permissions are required."
+      },
+      "CANCEL_BUTTON_TEXT": "İptal Et",
+      "API": {
+        "ERROR_MESSAGE": "Woot sunucusuna bağlanılamadı. Lütfen tekrar deneyin."
+      }
+    },
+    "ADD": {
+      "TITLE": "Add custom role",
+      "DESC": " Özel roller, organizasyonun ihtiyaçlarına uygun olarak belirli izinler ve erişim seviyeleriyle roller oluşturmanıza olanak tanır.",
+      "SUBMIT": "Gönder",
+      "API": {
+        "SUCCESS_MESSAGE": "Custom role added successfully."
+      }
+    },
+    "EDIT": {
+      "BUTTON_TEXT": "Düzenle",
+      "TITLE": "Edit custom role",
+      "DESC": " Özel roller, organizasyonun ihtiyaçlarına uygun olarak belirli izinler ve erişim seviyeleriyle roller oluşturmanıza olanak tanır.",
+      "SUBMIT": "Güncelleme",
+      "API": {
+        "SUCCESS_MESSAGE": "Custom role updated successfully."
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Sil",
+      "API": {
+        "SUCCESS_MESSAGE": "Custom role deleted successfully.",
+        "ERROR_MESSAGE": "Woot sunucusuna bağlanılamadı. Lütfen tekrar deneyin."
+      },
+      "CONFIRM": {
+        "TITLE": "Silme işlemini onayla",
+        "MESSAGE": "Silmek istediğinize emin misiniz ?",
+        "YES": "Evet, sil ",
+        "NO": "Hayır, sakla "
+      }
+    }
+  }
+}

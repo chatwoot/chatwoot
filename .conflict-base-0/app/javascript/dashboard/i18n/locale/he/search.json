@@ -1,0 +1,68 @@
+{
+  "SEARCH": {
+    "TABS": {
+      "ALL": "All results",
+      "CONTACTS": "איש קשר",
+      "CONVERSATIONS": "שיחות",
+      "MESSAGES": "הודעות",
+      "ARTICLES": "מאמרים"
+    },
+    "SECTION": {
+      "CONTACTS": "איש קשר",
+      "CONVERSATIONS": "שיחות",
+      "MESSAGES": "הודעות",
+      "ARTICLES": "מאמרים"
+    },
+    "VIEW_MORE": "הצג עוד",
+    "LOAD_MORE": "טען עוד",
+    "SEARCHING_DATA": "מחפש",
+    "LOADING_DATA": "טוען",
+    "EMPTY_STATE": "לא נמצא {item} עבור השאילתה '{query}'",
+    "EMPTY_STATE_FULL": "לא נמצאו תוצאות עבור השאילתה '{query}'",
+    "PLACEHOLDER_KEYBINDING": "/להתמקד",
+    "INPUT_PLACEHOLDER": "חפש הודעות, אנשי קשר או שיחות",
+    "RECENT_SEARCHES": "Recent searches",
+    "CLEAR_ALL": "נקה הכל",
+    "MOST_RECENT": "Most recent",
+    "EMPTY_STATE_DEFAULT": "חפש לפי מזהה שיחה, אימייל, מספר טלפון, הודעות לתוצאות חיפוש טובות יותר.",
+    "BOT_LABEL": "בוט",
+    "READ_MORE": "קרא עוד",
+    "READ_LESS": "Read less",
+    "WROTE": "נכתב:",
+    "FROM": "מאת",
+    "EMAIL": "אימייל",
+    "EMAIL_SUBJECT": "נושא",
+    "PRIVATE": "Private note",
+    "TRANSCRIPT": "Transcript",
+    "CREATED_AT": "נוצר ב-{time}",
+    "UPDATED_AT": "updated {time}",
+    "SORT_BY": {
+      "RELEVANCE": "Relevance"
+    },
+    "DATE_RANGE": {
+      "LAST_7_DAYS": "7 הימים האחרונים",
+      "LAST_30_DAYS": "30 הימים האחרונים",
+      "LAST_60_DAYS": "60 הימים האחרונים",
+      "LAST_90_DAYS": "90 הימים האחרונים",
+      "CUSTOM_RANGE": "Custom range:",
+      "CREATED_BETWEEN": "Created between",
+      "AND": "and",
+      "APPLY": "להגיש מועמדות",
+      "BEFORE_DATE": "Before {date}",
+      "AFTER_DATE": "After {date}",
+      "TIME_RANGE": "Filter by time",
+      "CLEAR_FILTER": "נקה מסנן"
+    },
+    "FILTERS": {
+      "FILTER_MESSAGE": "Filter messages by:",
+      "FROM": "שולח",
+      "IN": "תיבת הדואר הנכנס",
+      "AGENTS": "סוכנים",
+      "CONTACTS": "איש קשר",
+      "INBOXES": "תיבות דואר נכנס",
+      "NO_AGENTS": "לא נמצאו סוכנים",
+      "NO_CONTACTS": "Start by searching to see results",
+      "NO_INBOXES": "No inboxes found"
+    }
+  }
+}

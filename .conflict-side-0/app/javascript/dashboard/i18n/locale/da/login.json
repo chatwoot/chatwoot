@@ -1,0 +1,41 @@
+{
+  "LOGIN": {
+    "TITLE": "Log ind på Chatwoot",
+    "EMAIL": {
+      "LABEL": "E-mail",
+      "PLACEHOLDER": "navn{'@'}example.dk",
+      "ERROR": "Indtast venligst en gyldig e-mailadresse"
+    },
+    "PASSWORD": {
+      "LABEL": "Adgangskode",
+      "PLACEHOLDER": "Adgangskode"
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Login Lykkedes",
+      "ERROR_MESSAGE": "Kunne ikke oprette forbindelse til Woot Server, Prøv igen senere.",
+      "UNAUTH": "Brugernavn / adgangskode forkert. Prøv igen."
+    },
+    "OAUTH": {
+      "GOOGLE_LOGIN": "Login med Google",
+      "BUSINESS_ACCOUNTS_ONLY": "Brug venligst din virksomheds e-mailadresse til at logge ind",
+      "NO_ACCOUNT_FOUND": "Vi kunne ikke finde en konto til din e-mailadresse."
+    },
+    "FORGOT_PASSWORD": "Glemt din adgangskode?",
+    "CREATE_NEW_ACCOUNT": "Opret ny konto",
+    "SUBMIT": "Log Ind",
+    "SAML": {
+      "LABEL": "Login via SSO",
+      "TITLE": "Initiate Single Sign-on (SSO)",
+      "SUBTITLE": "Enter your work email to access your organization",
+      "BACK_TO_LOGIN": "Login via Password",
+      "WORK_EMAIL": {
+        "LABEL": "Work Email",
+        "PLACEHOLDER": "Enter your work email"
+      },
+      "SUBMIT": "Continue with SSO",
+      "API": {
+        "ERROR_MESSAGE": "SSO authentication failed. Please check your credentials and try again."
+      }
+    }
+  }
+}

@@ -1,0 +1,28 @@
+tags:
+  - Webhooks
+operationId: update-a-webhook
+summary: Update a webhook object
+security:
+  - userApiKey: []
+description: Update a webhook object in the account
+parameters:
+  - $ref: '#/components/parameters/account_id'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/webhook_create_update_payload'
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/webhook'
+  '401':
+    description: Unauthorized
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

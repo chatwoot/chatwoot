@@ -1,0 +1,11 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+# lint js and vue files
+npx --no-install lint-staged
+
+# lint only staged ruby files that still exist (not deleted)
+git diff --name-only --cached | xargs -I {} sh -c 'test -f "{}" && echo "{}"' | grep '\.rb$' | xargs -I {} bundle exec rubocop --force-exclusion -a "{}" || true
+
+# stage rubocop changes to files
+git diff --name-only --cached | xargs -I {} sh -c 'test -f "{}" && git add "{}"' || true

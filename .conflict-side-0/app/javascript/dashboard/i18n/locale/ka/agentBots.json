@@ -1,0 +1,103 @@
+{
+  "AGENT_BOTS": {
+    "HEADER": "Bots",
+    "LOADING_EDITOR": "Loading editor...",
+    "DESCRIPTION": "აგენტ-ბოტები თქვენი გუნდის ყველაზე გამორჩეული წევრებივით არიან. მათ შეუძლიათ მოაგვარონ წვრილმანები, რათა თქვენ ყურადღება მიაქციოთ ნამდვილად მნიშვნელოვან საკითხებს. სცადეთ. შეგიძლიათ მართოთ თქვენი ბოტები ამ გვერდიდან ან შექმნათ ახალი ღილაკით „ბოტის დამატება“.",
+    "LEARN_MORE": "Learn about agent bots",
+    "GLOBAL_BOT": "სისტემური ბოტი",
+    "GLOBAL_BOT_BADGE": "სისტემა",
+    "AVATAR": {
+      "SUCCESS_DELETE": "ბოტის ავატარი წარმატებით წაიშალა",
+      "ERROR_DELETE": "ბოტის ავატარის წაშლის დროს მოხდა შეცდომა. სცადეთ ხელახლა"
+    },
+    "BOT_CONFIGURATION": {
+      "TITLE": "Select an agent bot",
+      "DESC": "Assign an Agent Bot to your inbox. They can handle initial conversations and transfer them to a live agent when necessary.",
+      "SUBMIT": "Update",
+      "DISCONNECT": "Disconnect bot",
+      "SUCCESS_MESSAGE": "Successfully updated the agent bot.",
+      "DISCONNECTED_SUCCESS_MESSAGE": "Successfully disconnected the agent bot.",
+      "ERROR_MESSAGE": "Could not update the agent bot. Please try again.",
+      "DISCONNECTED_ERROR_MESSAGE": "Could not disconnect the agent bot. Please try again.",
+      "SELECT_PLACEHOLDER": "Select bot"
+    },
+    "ADD": {
+      "TITLE": "ბოტის დამატება",
+      "CANCEL_BUTTON_TEXT": "Cancel",
+      "API": {
+        "SUCCESS_MESSAGE": "Bot added successfully.",
+        "ERROR_MESSAGE": "Could not add bot. Please try again later."
+      }
+    },
+    "LIST": {
+      "404": "ბოტები ვერ მოიძებნა. შეგიძლიათ შექმნათ ბოტი ღილაკზე „ბოტის დამატება“ დაჭერით.",
+      "LOADING": "Fetching bots...",
+      "TABLE_HEADER": {
+        "DETAILS": "ბოტის დეტალები",
+        "URL": "ვებჰუკის URL"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Delete",
+      "TITLE": "Delete bot",
+      "CONFIRM": {
+        "TITLE": "წაშლის დადასტურება",
+        "MESSAGE": "დარწმუნებული ხართ, რომ გსურთ {name}-ის წაშლა?",
+        "YES": "დიახ, წაშლა",
+        "NO": "არა, დატოვე"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Bot deleted successfully.",
+        "ERROR_MESSAGE": "Could not delete bot. Please try again."
+      }
+    },
+    "EDIT": {
+      "BUTTON_TEXT": "Edit",
+      "TITLE": "Edit bot",
+      "API": {
+        "SUCCESS_MESSAGE": "Bot updated successfully.",
+        "ERROR_MESSAGE": "Could not update bot. Please try again."
+      }
+    },
+    "ACCESS_TOKEN": {
+      "TITLE": "წვდომის ტოკენი",
+      "DESCRIPTION": "დააკოპირეთ წვდომის ტოკენი და უსაფრთხოდ შეინახეთ",
+      "COPY_SUCCESSFUL": "წვდომის ტოკენი დაკოპირდა გაცვლის ბუფერში",
+      "RESET_SUCCESS": "წვდომის ტოკენი წარმატებით ხელახლა გენერირდა",
+      "RESET_ERROR": "წვდომის ტოკენის ხელახლა გენერაცია ვერ მოხერხდა. სცადეთ ხელახლა"
+    },
+    "FORM": {
+      "AVATAR": {
+        "LABEL": "ბოტის ავატარი"
+      },
+      "NAME": {
+        "LABEL": "ბოტის სახელი",
+        "PLACEHOLDER": "შეიყვანეთ ბოტის სახელი",
+        "REQUIRED": "ბოტის სახელი სავალდებულოა"
+      },
+      "DESCRIPTION": {
+        "LABEL": "აღწერა",
+        "PLACEHOLDER": "რას აკეთებს ეს ბოტი?"
+      },
+      "WEBHOOK_URL": {
+        "LABEL": "ვებჰუკის URL",
+        "PLACEHOLDER": "https://example.com/webhook",
+        "REQUIRED": "ვებჰუკის URL სავალდებულოა"
+      },
+      "ERRORS": {
+        "NAME": "ბოტის სახელი სავალდებულოა",
+        "URL": "ვებჰუკის URL სავალდებულოა",
+        "VALID_URL": "გთხოვთ მიუთითოთ სწორი URL, რომელიც იწყება http:// ან https://-ით"
+      },
+      "CANCEL": "გაუქმება",
+      "CREATE": "ბოტის შექმნა",
+      "UPDATE": "ბოტის განახლება"
+    },
+    "WEBHOOK": {
+      "DESCRIPTION": "დააკონფიგურირეთ ვებჰუკ-ბოტი თქვენს საკუთარ სერვისებთან ინტეგრაციისთვის. ბოტი მიიღებს და დაამუშავებს საუბრებიდან ივენთებს და შეძლებს მათზე პასუხის გაცემას."
+    },
+    "TYPES": {
+      "WEBHOOK": "Webhook bot"
+    }
+  }
+}

@@ -1,0 +1,184 @@
+{
+  "AUTOMATION": {
+    "HEADER": "Otomasyon",
+    "DESCRIPTION": "Otomasyon, etiket ekleme veya konuşmaları en uygun temsilciye atama gibi manuel çaba gerektiren mevcut süreçleri kolaylaştırabilir ve onların yerine geçebilir. Bu sayede ekip, rutin işlere harcanan zamanı azaltarak güçlü yönlerine odaklanabilir.",
+    "LEARN_MORE": "Learn more about automation",
+    "HEADER_BTN_TXT": "Otomasyon Kuralı Ekle",
+    "LOADING": "Otomasyon kuralları getiriliyor",
+    "ADD": {
+      "TITLE": "Otomasyon Kuralı Ekle",
+      "SUBMIT": "Yarat",
+      "CANCEL_BUTTON_TEXT": "İptal Et",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Kural Adı",
+          "PLACEHOLDER": "Kural ismi yazınız",
+          "ERROR": "İsim gereklidir"
+        },
+        "DESC": {
+          "LABEL": "Açıklama",
+          "PLACEHOLDER": "Kural açıklaması yazınız",
+          "ERROR": "Açıklama zorunludur"
+        },
+        "EVENT": {
+          "LABEL": "Olay",
+          "PLACEHOLDER": "Lütfen birini seçiniz",
+          "ERROR": "Olay seçilmelidir"
+        },
+        "CONDITIONS": {
+          "LABEL": "Koşullar"
+        },
+        "ACTIONS": {
+          "LABEL": "Hareketler"
+        }
+      },
+      "CONDITION_BUTTON_LABEL": "Koşul Ekle",
+      "ACTION_BUTTON_LABEL": "Olay Ekle",
+      "API": {
+        "SUCCESS_MESSAGE": "Otomasyon kuralı başarıyla eklendi",
+        "ERROR_MESSAGE": "Otomasyon kuralı oluşturulamadı, lütfen daha sonra tekrar deneyin"
+      }
+    },
+    "LIST": {
+      "TABLE_HEADER": {
+        "NAME": "İsim",
+        "DESCRIPTION": "Açıklama",
+        "ACTIVE": "Aktif",
+        "CREATED_ON": "Oluşturma"
+      },
+      "404": "Otomasyon kuralı bulunamadı"
+    },
+    "DELETE": {
+      "TITLE": "Otomasyon Kuralını Sil",
+      "SUBMIT": "Sil",
+      "CANCEL_BUTTON_TEXT": "İptal Et",
+      "CONFIRM": {
+        "TITLE": "Silmeyi onayla",
+        "MESSAGE": "Silmek istediğinize emin misiniz ?",
+        "YES": "Evet, Sil ",
+        "NO": "Hayır, Tut"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Otomasyon kuralı başarıyla silindi",
+        "ERROR_MESSAGE": "Otomasyon kuralı silinemedi, lütfen daha sonra tekrar deneyin"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Otomasyon Kuralını Düzenle",
+      "SUBMIT": "Güncelleme",
+      "CANCEL_BUTTON_TEXT": "İptal Et",
+      "API": {
+        "SUCCESS_MESSAGE": "Otomasyon kuralı başarıyla güncellendi",
+        "ERROR_MESSAGE": "Otomasyon kuralı güncellenemedi, lütfen daha sonra tekrar deneyin"
+      }
+    },
+    "CLONE": {
+      "TOOLTIP": "Kopyala",
+      "API": {
+        "SUCCESS_MESSAGE": "Otomasyon başarıyla kopyalandı",
+        "ERROR_MESSAGE": "Otomasyon kuralı kopyalanamadı, lütfen daha sonra tekrar deneyin"
+      }
+    },
+    "FORM": {
+      "EDIT": "Düzenle",
+      "CREATE": "Yarat",
+      "DELETE": "Sil",
+      "CANCEL": "İptal Et",
+      "RESET_MESSAGE": "Olay seçimini değiştirmek tüm koşulları ve aşağıda eklenmiş etkinlikleri değiştirecektir"
+    },
+    "CONDITION": {
+      "DELETE_MESSAGE": "Kaydetmek için en az bir koşul eklemelisiniz",
+      "CONTACT_CUSTOM_ATTR_LABEL": "İletişim Özel Nitelikleri",
+      "CONVERSATION_CUSTOM_ATTR_LABEL": "Konuşma Özel Nitelikleri"
+    },
+    "ACTION": {
+      "DELETE_MESSAGE": "Kaydetmek için en az bir olay seçmelisiniz",
+      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Mesajınızı buraya yazınız",
+      "TEAM_DROPDOWN_PLACEHOLDER": "Takımları seçin",
+      "EMAIL_INPUT_PLACEHOLDER": "Enter email",
+      "URL_INPUT_PLACEHOLDER": "Enter URL"
+    },
+    "TOGGLE": {
+      "ACTIVATION_TITLE": "Otomasyon Kuralını Etkinleştir",
+      "DEACTIVATION_TITLE": "Otomasyon Kuralını Pasifleştir",
+      "ACTIVATION_DESCRIPTION": "'{automationName}' isimli otomasyon kuralı etkinleştirilecek. Devam etmek istiyor musunuz?",
+      "DEACTIVATION_DESCRIPTION": "'{automationName}' isimli otomasyon kuralı pasifleştirilecek. Devam etmek istiyor musunuz?",
+      "ACTIVATION_SUCCESFUL": "Otomasyon Kuralı Başarıyla Etkinleştirildi",
+      "DEACTIVATION_SUCCESFUL": "Otomasyon Kuralı Başarıyla Pasifleştirildi",
+      "ACTIVATION_ERROR": "Otomasyon Kuralı Aktifleştirilemedi, Lütfen daha sonra tekrar deneyin",
+      "DEACTIVATION_ERROR": "Otomasyon Kuralı Pasifleştirilemedi, Lütfen daha sonra tekrar deneyin",
+      "CONFIRMATION_LABEL": "Evet",
+      "CANCEL_LABEL": "Hayır"
+    },
+    "ATTACHMENT": {
+      "UPLOAD_ERROR": "Ek yüklenemedi, Tekrar deneyin",
+      "LABEL_IDLE": "Dosya Yükle",
+      "LABEL_UPLOADING": "Yükleniyor ...",
+      "LABEL_UPLOADED": "Başarıyla Yüklendi",
+      "LABEL_UPLOAD_FAILED": "Yükleme Başarısız"
+    },
+    "ERRORS": {
+      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
+      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "VALUE_REQUIRED": "Değer gereklidir",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Değer 1 ile 998 arasında olmalıdır",
+      "ACTION_PARAMETERS_REQUIRED": "Eylem parametreleri gereklidir",
+      "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
+      "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
+    },
+    "NONE_OPTION": "Hiç",
+    "EVENTS": {
+      "CONVERSATION_CREATED": "Sohbet Oluşturuldu",
+      "CONVERSATION_UPDATED": "Sohbet Güncellendi",
+      "MESSAGE_CREATED": "Mesaj Oluşturuldu",
+      "CONVERSATION_RESOLVED": "Konuşma Çözüldü",
+      "CONVERSATION_OPENED": "Sohbet Açıldı"
+    },
+    "ACTIONS": {
+      "ASSIGN_AGENT": "Temsilciye Ata",
+      "ASSIGN_TEAM": "Bir Ekibe Ata",
+      "ADD_LABEL": "Etiket Ekle",
+      "REMOVE_LABEL": "Etiketi Kaldır",
+      "SEND_EMAIL_TO_TEAM": "Ekibe E-posta Gönder",
+      "SEND_EMAIL_TRANSCRIPT": "E-posta Dökümü Gönder",
+      "MUTE_CONVERSATION": "Konuşmayı Sessize Al",
+      "SNOOZE_CONVERSATION": "Konuşmayı Ertele",
+      "RESOLVE_CONVERSATION": "Görüşmeyi çöz",
+      "SEND_WEBHOOK_EVENT": "Webhook Olayı Gönder",
+      "SEND_ATTACHMENT": "Ek Gönder",
+      "SEND_MESSAGE": "Mesaj Gönder",
+      "ADD_PRIVATE_NOTE": "Özel Not Ekle",
+      "CHANGE_PRIORITY": "Önceliği Değiştir",
+      "ADD_SLA": "Add SLA",
+      "OPEN_CONVERSATION": "Görüşmeyi aç"
+    },
+    "MESSAGE_TYPES": {
+      "INCOMING": "Gelen Mesaj",
+      "OUTGOING": "Giden Mesaj"
+    },
+    "PRIORITY_TYPES": {
+      "NONE": "Hiç",
+      "LOW": "Düşük",
+      "MEDIUM": "Orta",
+      "HIGH": "Yüksek",
+      "URGENT": "Acil"
+    },
+    "ATTRIBUTES": {
+      "MESSAGE_TYPE": "Mesaj Türü",
+      "MESSAGE_CONTAINS": "Mesaj İçerir",
+      "EMAIL": "E-Posta",
+      "INBOX": "Gelen Kutusu",
+      "CONVERSATION_LANGUAGE": "Sohbet Dili",
+      "PHONE_NUMBER": "Telefon Numarası",
+      "STATUS": "Durum",
+      "BROWSER_LANGUAGE": "Tarayıcı Dili",
+      "MAIL_SUBJECT": "E-posta Konusu",
+      "COUNTRY_NAME": "Ülke",
+      "REFERER_LINK": "Yönlendiren Bağlantı",
+      "ASSIGNEE_NAME": "Assignee",
+      "TEAM_NAME": "Ekip",
+      "PRIORITY": "Öncelik",
+      "LABELS": "Etiketler"
+    }
+  }
+}

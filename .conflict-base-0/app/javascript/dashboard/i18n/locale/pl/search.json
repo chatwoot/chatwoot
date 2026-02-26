@@ -1,0 +1,68 @@
+{
+  "SEARCH": {
+    "TABS": {
+      "ALL": "All results",
+      "CONTACTS": "Kontakty",
+      "CONVERSATIONS": "Rozmowy",
+      "MESSAGES": "Wiadomości",
+      "ARTICLES": "Articles"
+    },
+    "SECTION": {
+      "CONTACTS": "Kontakty",
+      "CONVERSATIONS": "Rozmowy",
+      "MESSAGES": "Wiadomości",
+      "ARTICLES": "Articles"
+    },
+    "VIEW_MORE": "View more",
+    "LOAD_MORE": "Load more",
+    "SEARCHING_DATA": "Wyszukiwanie",
+    "LOADING_DATA": "Loading",
+    "EMPTY_STATE": "Nie znaleziono {item} dla zapytania '{query}'",
+    "EMPTY_STATE_FULL": "Nie znaleziono wyników dla zapytania '{query}'",
+    "PLACEHOLDER_KEYBINDING": "/aby skupić się",
+    "INPUT_PLACEHOLDER": "Wpisz co najmniej 3 znaki, aby wyszukać",
+    "RECENT_SEARCHES": "Recent searches",
+    "CLEAR_ALL": "Clear all",
+    "MOST_RECENT": "Most recent",
+    "EMPTY_STATE_DEFAULT": "Wyszukaj według identyfikatora rozmowy, adresu e-mail, numeru telefonu lub treści wiadomości, aby uzyskać lepsze wyniki wyszukiwania.",
+    "BOT_LABEL": "Bot",
+    "READ_MORE": "Czytaj więcej",
+    "READ_LESS": "Read less",
+    "WROTE": "napisał/a:",
+    "FROM": "Od",
+    "EMAIL": "E-mail",
+    "EMAIL_SUBJECT": "Temat",
+    "PRIVATE": "Private note",
+    "TRANSCRIPT": "Transcript",
+    "CREATED_AT": "created {time}",
+    "UPDATED_AT": "updated {time}",
+    "SORT_BY": {
+      "RELEVANCE": "Relevance"
+    },
+    "DATE_RANGE": {
+      "LAST_7_DAYS": "Ostatnie 7 dni",
+      "LAST_30_DAYS": "Ostatnie 30 dni",
+      "LAST_60_DAYS": "Ostatnie 60 dni",
+      "LAST_90_DAYS": "Ostatnie 90 dni",
+      "CUSTOM_RANGE": "Custom range:",
+      "CREATED_BETWEEN": "Created between",
+      "AND": "and",
+      "APPLY": "Zastosuj",
+      "BEFORE_DATE": "Before {date}",
+      "AFTER_DATE": "After {date}",
+      "TIME_RANGE": "Filter by time",
+      "CLEAR_FILTER": "Clear filter"
+    },
+    "FILTERS": {
+      "FILTER_MESSAGE": "Filter messages by:",
+      "FROM": "Nadawca",
+      "IN": "Skrzynka odbiorcza",
+      "AGENTS": "Agenci",
+      "CONTACTS": "Kontakty",
+      "INBOXES": "Zarządzanie skrzynkami",
+      "NO_AGENTS": "Nie znaleziono agentów",
+      "NO_CONTACTS": "Start by searching to see results",
+      "NO_INBOXES": "No inboxes found"
+    }
+  }
+}

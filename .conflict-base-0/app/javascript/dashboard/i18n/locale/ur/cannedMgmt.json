@@ -1,0 +1,77 @@
+{
+  "CANNED_MGMT": {
+    "HEADER": "محفوظ کردہ جوابات",
+    "LEARN_MORE": "Learn more about canned responses",
+    "DESCRIPTION": "Canned Responses are pre-written reply templates that help you quickly respond to a conversation. Agents can type the '/' character followed by the shortcode to insert a canned response during a conversation. ",
+    "HEADER_BTN_TXT": "Add canned response",
+    "LOADING": "Fetching canned responses...",
+    "SEARCH_404": "There are no items matching this query.",
+    "LIST": {
+      "404": "اس اکاؤنٹ میں کوئی محفوظ کردہ جوابات دستیاب نہیں ہیں۔.",
+      "TITLE": "محفوظ کردہ جوابات کو نظم کریں",
+      "DESC": "Canned Responses are predefined reply templates which can be used to quickly send out replies to conversations.",
+      "TABLE_HEADER": {
+        "SHORT_CODE": "Short code",
+        "CONTENT": "مواد",
+        "ACTIONS": "عمل"
+      }
+    },
+    "ADD": {
+      "TITLE": "Add canned response",
+      "DESC": "Canned Responses are predefined reply templates which can be used to quickly send out replies to conversations.",
+      "CANCEL_BUTTON_TEXT": "منسوخ کریں۔",
+      "FORM": {
+        "SHORT_CODE": {
+          "LABEL": "Short code",
+          "PLACEHOLDER": "Please enter a short code.",
+          "ERROR": "Short Code is required."
+        },
+        "CONTENT": {
+          "LABEL": "پیغام",
+          "PLACEHOLDER": "Please write the message you want to save as a template to use later.",
+          "ERROR": "Message is required."
+        },
+        "SUBMIT": "جمع کرائیں"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Canned response added successfully.",
+        "ERROR_MESSAGE": "Could not connect to Woot server. Please try again."
+      }
+    },
+    "EDIT": {
+      "TITLE": "Edit canned response",
+      "CANCEL_BUTTON_TEXT": "منسوخ کریں۔",
+      "FORM": {
+        "SHORT_CODE": {
+          "LABEL": "Short code",
+          "PLACEHOLDER": "Please enter a shortcode.",
+          "ERROR": "Short code is required."
+        },
+        "CONTENT": {
+          "LABEL": "پیغام",
+          "PLACEHOLDER": "Please write the message you want to save as a template to use later.",
+          "ERROR": "Message is required."
+        },
+        "SUBMIT": "جمع کرائیں"
+      },
+      "BUTTON_TEXT": "ترمیم",
+      "API": {
+        "SUCCESS_MESSAGE": "Canned response is updated successfully.",
+        "ERROR_MESSAGE": "Could not connect to Woot server. Please try again."
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "حذف کریں۔",
+      "API": {
+        "SUCCESS_MESSAGE": "Canned response deleted successfully.",
+        "ERROR_MESSAGE": "Could not connect to Woot server. Please try again."
+      },
+      "CONFIRM": {
+        "TITLE": "Confirm deletion",
+        "MESSAGE": "کیا آپ کو یقینی طور پر حذف کرنا ہے۔ ",
+        "YES": "Yes, delete ",
+        "NO": "No, keep "
+      }
+    }
+  }
+}

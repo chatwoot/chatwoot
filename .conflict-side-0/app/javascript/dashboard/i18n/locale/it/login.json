@@ -1,0 +1,41 @@
+{
+  "LOGIN": {
+    "TITLE": "Accedi a Chatwoot",
+    "EMAIL": {
+      "LABEL": "Email",
+      "PLACEHOLDER": "esempio{'@'}nomeazienda.com",
+      "ERROR": "Inserisci un indirizzo email valido"
+    },
+    "PASSWORD": {
+      "LABEL": "Password",
+      "PLACEHOLDER": "Password"
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Accesso riuscito",
+      "ERROR_MESSAGE": "Impossibile connettersi al server Woot. Riprova.",
+      "UNAUTH": "Nome utente o password errati. Riprova."
+    },
+    "OAUTH": {
+      "GOOGLE_LOGIN": "Accedi tramite Google",
+      "BUSINESS_ACCOUNTS_ONLY": "Utilizza il tuo indirizzo email aziendale per effettuare il login",
+      "NO_ACCOUNT_FOUND": "Non siamo riusciti a trovare un account per il tuo indirizzo email."
+    },
+    "FORGOT_PASSWORD": "Password dimenticata?",
+    "CREATE_NEW_ACCOUNT": "Crea un nuovo account",
+    "SUBMIT": "Accedi",
+    "SAML": {
+      "LABEL": "Accedi tramite SSO",
+      "TITLE": "Avvia Single Sign-on (SSO)",
+      "SUBTITLE": "Inserisci la tua email di lavoro per accedere alla tua organizzazione",
+      "BACK_TO_LOGIN": "Accedi tramite Password",
+      "WORK_EMAIL": {
+        "LABEL": "Email di Lavoro",
+        "PLACEHOLDER": "Inserisci la tua email di lavoro"
+      },
+      "SUBMIT": "Prosegui con SSO",
+      "API": {
+        "ERROR_MESSAGE": "Autenticazione SSO fallita. Verifica le credenziali e riprova."
+      }
+    }
+  }
+}

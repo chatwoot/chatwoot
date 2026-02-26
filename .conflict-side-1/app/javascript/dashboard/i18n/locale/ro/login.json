@@ -1,0 +1,41 @@
+{
+  "LOGIN": {
+    "TITLE": "Conectează-te la Chatwoot",
+    "EMAIL": {
+      "LABEL": "E-mail",
+      "PLACEHOLDER": "example{'@'}companyname.com",
+      "ERROR": "Vă rugăm să introduceți o adresă de e-mail validă"
+    },
+    "PASSWORD": {
+      "LABEL": "Parola",
+      "PLACEHOLDER": "Parola"
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Autentificare reușită",
+      "ERROR_MESSAGE": "Nu s-a putut conecta la serverul Woot. Vă rugăm să încercați din nou.",
+      "UNAUTH": "Numele de utilizator sau parola sunt incorecte. Vă rugăm să încercați din nou."
+    },
+    "OAUTH": {
+      "GOOGLE_LOGIN": "Autentifica-te cu Google+",
+      "BUSINESS_ACCOUNTS_ONLY": "Vă rugăm să utilizați adresa de e-mail a companiei pentru a vă autentifica",
+      "NO_ACCOUNT_FOUND": "Nu am putut găsi un cont pentru adresa ta de e-mail."
+    },
+    "FORGOT_PASSWORD": "Ai uitat parola?",
+    "CREATE_NEW_ACCOUNT": "Creează un cont nou",
+    "SUBMIT": "Conectează-te",
+    "SAML": {
+      "LABEL": "Login via SSO",
+      "TITLE": "Initiate Single Sign-on (SSO)",
+      "SUBTITLE": "Enter your work email to access your organization",
+      "BACK_TO_LOGIN": "Login via Password",
+      "WORK_EMAIL": {
+        "LABEL": "Work Email",
+        "PLACEHOLDER": "Enter your work email"
+      },
+      "SUBMIT": "Continue with SSO",
+      "API": {
+        "ERROR_MESSAGE": "SSO authentication failed. Please check your credentials and try again."
+      }
+    }
+  }
+}

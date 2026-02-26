@@ -1,0 +1,62 @@
+{
+  "INTEGRATION_APPS": {
+    "FETCHING": "Λήψη Indegrations",
+    "NO_HOOK_CONFIGURED": "Δεν υπάρχουν {integrationId} integrations ρυθμισμένες σε αυτόν το λογαριασμό.",
+    "HEADER": "Εφαρμογές",
+    "STATUS": {
+      "ENABLED": "Ενεργό",
+      "DISABLED": "Ανενεργό"
+    },
+    "CONFIGURE": "Διαμόρφωση",
+    "ADD_BUTTON": "Προσθήκη νέου hook",
+    "DELETE": {
+      "TITLE": {
+        "INBOX": "Επιβεβαίωση Διαγραφής",
+        "ACCOUNT": "Αποσύνδεση"
+      },
+      "MESSAGE": {
+        "INBOX": "Είσαστε σίγουροι για την διαγραφή?",
+        "ACCOUNT": "Είστε βέβαιοι ότι θα αποσυνδεθείτε;"
+      },
+      "CONFIRM_BUTTON_TEXT": {
+        "INBOX": "Ναι, Διέγραψε το",
+        "ACCOUNT": "Ναι, Αποσύνδεση"
+      },
+      "CANCEL_BUTTON_TEXT": "Άκυρο",
+      "API": {
+        "SUCCESS_MESSAGE": "Το hook διαγράφηκε επιτυχώς",
+        "ERROR_MESSAGE": "Αδυναμία σύνδεσης με τον Woot Server, Παρακαλώ προσπαθήστε αργότερα"
+      }
+    },
+    "LIST": {
+      "FETCHING": "Λήψη Integrations",
+      "INBOX": "Εισερχόμενα",
+      "DELETE": {
+        "BUTTON_TEXT": "Διαγραφή"
+      }
+    },
+    "ADD": {
+      "FORM": {
+        "INBOX": {
+          "LABEL": "Επιλογή Εισερχομένων",
+          "PLACEHOLDER": "Επιλογή Εισερχομένων"
+        },
+        "SUBMIT": "Δημιουργία",
+        "CANCEL": "Άκυρο"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Το Integration hook προστέθηκε επιτυχώς",
+        "ERROR_MESSAGE": "Αδυναμία σύνδεσης με τον Woot Server, Παρακαλώ προσπαθήστε αργότερα"
+      }
+    },
+    "CONNECT": {
+      "BUTTON_TEXT": "Σύνδεση"
+    },
+    "DISCONNECT": {
+      "BUTTON_TEXT": "Αποσύνδεση"
+    },
+    "SIDEBAR_DESCRIPTION": {
+      "DIALOGFLOW": "Dialogflow is a natural language processing platform for building conversational interfaces. Integrating it with {installationName} lets bots handle queries first and transfer them to agents when needed. It helps qualify leads and reduce agent workload by answering FAQs. To add Dialogflow, create a Service Account in Google Console and share the credentials. Refer to the docs for details"
+    }
+  }
+}

@@ -1,0 +1,77 @@
+{
+  "AUDIT_LOGS": {
+    "HEADER": "Denetim Kayıtları",
+    "HEADER_BTN_TXT": "Denetim Kaydı Ekle",
+    "LOADING": "Denetim Kayıtları Alınıyor",
+    "DESCRIPTION": "Denetim Kayıtları, hesabınızdaki faaliyetlerin kaydını tutar ve hesabınızı, ekibinizi veya hizmetlerinizi takip etmenize ve denetlemenize olanak sağlar.",
+    "LEARN_MORE": "Denetim kayıtları hakkında daha fazla bilgi edinin",
+    "SEARCH_404": "Bu sorgu ile eşleşen öğe yok",
+    "SIDEBAR_TXT": "<p><b>Denetim Kayıtları</b></p><p>Denetim Kayıtları, Chatwoot Sistemi'ndeki olaylar ve eylemler için izlerdir.</p>",
+    "LIST": {
+      "404": "Bu hesapta kullanılabilir denetim kaydı yok.",
+      "TITLE": "Denetim Kayıtlarını Yönet",
+      "DESC": "Denetim Kayıtları, Chatwoot Sistemi'ndeki olaylar ve eylemler için izlerdir.",
+      "TABLE_HEADER": {
+        "ACTIVITY": "Etkinlik",
+        "TIME": "Zaman",
+        "IP_ADDRESS": "IP Adresi"
+      }
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Denetim Kayıtları başarıyla alındı",
+      "ERROR_MESSAGE": "Woot Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
+    },
+    "DEFAULT_USER": "Sistem",
+    "AUTOMATION_RULE": {
+      "ADD": "{agentName}, yeni bir otomasyon kuralı oluşturdu (#{id})",
+      "EDIT": "{agentName}, bir otomasyon kuralını güncelledi (#{id})",
+      "DELETE": "{agentName}, bir otomasyon kuralını sildi (#{id})"
+    },
+    "ACCOUNT_USER": {
+      "ADD": "{agentName}, {invitee}'yi hesaba {role} rolünde davet etti",
+      "EDIT": {
+        "SELF": "{agentName}, {attributes} değerini {values} olarak değiştirdi",
+        "OTHER": "{agentName}, {user} kullanıcısının {attributes} değerini {values} olarak değiştirdi",
+        "DELETED": "{agentName}, silinmiş bir kullanıcının {attributes} değerini {values} olarak değiştirdi"
+      }
+    },
+    "INBOX": {
+      "ADD": "{agentName}, yeni bir gelen kutusu oluşturdu (#{id})",
+      "EDIT": "{agentName}, bir gelen kutusunu güncelledi (#{id})",
+      "DELETE": "{agentName}, bir gelen kutusunu sildi (#{id})"
+    },
+    "WEBHOOK": {
+      "ADD": "{agentName}, yeni bir webhook oluşturdu (#{id})",
+      "EDIT": "{agentName}, bir webhook'u güncelledi (#{id})",
+      "DELETE": "{agentName}, bir webhook'u sildi (#{id})"
+    },
+    "USER_ACTION": {
+      "SIGN_IN": "{agentName} giriş yaptı",
+      "SIGN_OUT": "{agentName} çıkış yaptı"
+    },
+    "TEAM": {
+      "ADD": "{agentName}, yeni bir ekip oluşturdu (#{id})",
+      "EDIT": "{agentName}, bir ekibi güncelledi (#{id})",
+      "DELETE": "{agentName}, bir ekibi sildi (#{id})"
+    },
+    "MACRO": {
+      "ADD": "{agentName}, yeni bir makro oluşturdu (#{id})",
+      "EDIT": "{agentName}, bir makroyu güncelledi (#{id})",
+      "DELETE": "{agentName}, bir makroyu sildi (#{id})"
+    },
+    "INBOX_MEMBER": {
+      "ADD": "{agentName}, {user} kullanıcısını gelen kutusuna (#{inbox_id}) ekledi",
+      "REMOVE": "{agentName}, {user} kullanıcısını gelen kutusundan (#{inbox_id}) çıkard"
+    },
+    "TEAM_MEMBER": {
+      "ADD": "{agentName}, {user} kullanıcısını ekibe (#{team_id}) ekledi",
+      "REMOVE": "{agentName}, {user} kullanıcısını ekipten (#{team_id}) çıkardı"
+    },
+    "ACCOUNT": {
+      "EDIT": "{agentName}, hesap yapılandırmasını güncelledi (#{id})"
+    },
+    "CONVERSATION": {
+      "DELETE": "{agentName} #{id} numaralı sohbeti sildi"
+    }
+  }
+}

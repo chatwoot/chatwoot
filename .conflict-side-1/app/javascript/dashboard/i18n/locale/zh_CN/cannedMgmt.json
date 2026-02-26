@@ -1,0 +1,77 @@
+{
+  "CANNED_MGMT": {
+    "HEADER": "预设回复",
+    "LEARN_MORE": "了解更多关于预设回复的内容",
+    "DESCRIPTION": "预设回复是预先写好的回复模板，可以帮助您在对话中快速响应。客服人员可以在对话中输入“/”字符，然后输入简码来插入预设回复。 ",
+    "HEADER_BTN_TXT": "新增预设回复",
+    "LOADING": "正在检索预定义回复...",
+    "SEARCH_404": "没有任何项目符合此查询.",
+    "LIST": {
+      "404": "此帐户中没有预设的回复。",
+      "TITLE": "管理预设回复",
+      "DESC": "预设回复是预先定义的回复模板，可用于快速回复对话。",
+      "TABLE_HEADER": {
+        "SHORT_CODE": "短代码",
+        "CONTENT": "内容",
+        "ACTIONS": "操作"
+      }
+    },
+    "ADD": {
+      "TITLE": "新增预设回复",
+      "DESC": "预设回复是预先定义的回复模板，可用于快速回复对话。",
+      "CANCEL_BUTTON_TEXT": "取消操作",
+      "FORM": {
+        "SHORT_CODE": {
+          "LABEL": "短代码",
+          "PLACEHOLDER": "请输入短代码。",
+          "ERROR": "短代码是必填项。"
+        },
+        "CONTENT": {
+          "LABEL": "消息",
+          "PLACEHOLDER": "请编写您希望保存为模板以便以后使用的消息。",
+          "ERROR": "请填写消息。"
+        },
+        "SUBMIT": "提交"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "预设回复已成功添加。",
+        "ERROR_MESSAGE": "无法与 Woot 服务器建立连接。请重试。"
+      }
+    },
+    "EDIT": {
+      "TITLE": "编辑预设回复",
+      "CANCEL_BUTTON_TEXT": "取消操作",
+      "FORM": {
+        "SHORT_CODE": {
+          "LABEL": "短代码",
+          "PLACEHOLDER": "请填写短代码。",
+          "ERROR": "短代码是必填项"
+        },
+        "CONTENT": {
+          "LABEL": "消息",
+          "PLACEHOLDER": "请编写您希望保存为模板以便以后使用的消息。",
+          "ERROR": "请填写消息。"
+        },
+        "SUBMIT": "提交"
+      },
+      "BUTTON_TEXT": "编辑",
+      "API": {
+        "SUCCESS_MESSAGE": "预设回复已成功更新。",
+        "ERROR_MESSAGE": "无法与 Woot 服务器建立连接。请重试。"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "删除",
+      "API": {
+        "SUCCESS_MESSAGE": "预设回复已成功删除。",
+        "ERROR_MESSAGE": "连接 Woot 服务器失败，请再试一次。"
+      },
+      "CONFIRM": {
+        "TITLE": "确认删除",
+        "MESSAGE": "您确定要删除吗？ ",
+        "YES": "是的，删除 ",
+        "NO": "不，保留 "
+      }
+    }
+  }
+}

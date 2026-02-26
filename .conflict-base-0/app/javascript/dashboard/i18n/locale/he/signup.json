@@ -1,0 +1,49 @@
+{
+  "REGISTER": {
+    "TRY_WOOT": "צור חשבון",
+    "TITLE": "הירשם",
+    "TESTIMONIAL_HEADER": "כל מה שצריך זה צעד אחד כדי להתקדם",
+    "TESTIMONIAL_CONTENT": "אתה במרחק צעד אחד מלהפעיל את הלקוחות שלך, לשמר אותם ולמצוא חדשים.",
+    "TERMS_ACCEPT": "על ידי יצירת חשבון, אתה מסכים ל<a href=\"https://www.chatwoot.com/terms\">תנאים וההגבלות</a> ול-<a href=\"https://www.chatwoot.com/ שלנו privacy-policy\">מדיניות הפרטיות</a>",
+    "OAUTH": {
+      "GOOGLE_SIGNUP": "הירשם לגוגל"
+    },
+    "COMPANY_NAME": {
+      "LABEL": "שם החברה",
+      "PLACEHOLDER": "הזן את שם החברה שלך. למשל: Wayne Enterprises",
+      "ERROR": "שם החברה קצר מדי"
+    },
+    "FULL_NAME": {
+      "LABEL": "שם מלא",
+      "PLACEHOLDER": "הזן את שמך המלא. למשל: ברוס וויין",
+      "ERROR": "השם המלא קצר מדי"
+    },
+    "EMAIL": {
+      "LABEL": "מייל עבודה",
+      "PLACEHOLDER": "הכנס את כתובת הדוא\"ל של מקום העבודה שלך. לדוגמא: bruce{'@'}wayne{'.'}enterprises",
+      "ERROR": "אנא הזן כתובת דוא\"ל חוקית לעבודה"
+    },
+    "PASSWORD": {
+      "LABEL": "סיסמה",
+      "PLACEHOLDER": "סיסמה",
+      "ERROR": "הסיסמה קצרה מדי",
+      "IS_INVALID_PASSWORD": "הסיסמה צריכה להכיל לפחות אות אחת גדולה, אות קטנה אחת, מספר אחד ותו מיוחד אחד",
+      "REQUIREMENTS_LENGTH": "לפחות 6 תווים",
+      "REQUIREMENTS_UPPERCASE": "לפחות אות אחת גדולה",
+      "REQUIREMENTS_LOWERCASE": "לפחות אות אחת קטנה",
+      "REQUIREMENTS_NUMBER": "לפחות מספר אחד",
+      "REQUIREMENTS_SPECIAL": "לפחות תו מיוחד אחד"
+    },
+    "CONFIRM_PASSWORD": {
+      "LABEL": "אמת סיסמה",
+      "PLACEHOLDER": "אמת סיסמה",
+      "ERROR": "סיסמאות לא תואמות"
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "ההרשמה הצליחה",
+      "ERROR_MESSAGE": "לא ניתן להתחבר לשרת Woot, נסה שוב מאוחר יותר"
+    },
+    "SUBMIT": "צור חשבון",
+    "HAVE_AN_ACCOUNT": "כבר יש לך חשבון?"
+  }
+}

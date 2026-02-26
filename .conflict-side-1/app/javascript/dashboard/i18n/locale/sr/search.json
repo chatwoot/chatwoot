@@ -1,0 +1,68 @@
+{
+  "SEARCH": {
+    "TABS": {
+      "ALL": "All results",
+      "CONTACTS": "Kontakti",
+      "CONVERSATIONS": "Razgovori",
+      "MESSAGES": "Poruke",
+      "ARTICLES": "Articles"
+    },
+    "SECTION": {
+      "CONTACTS": "Kontakti",
+      "CONVERSATIONS": "Razgovori",
+      "MESSAGES": "Poruke",
+      "ARTICLES": "Articles"
+    },
+    "VIEW_MORE": "View more",
+    "LOAD_MORE": "Load more",
+    "SEARCHING_DATA": "Searching",
+    "LOADING_DATA": "Loading",
+    "EMPTY_STATE": "No {item} found for query '{query}'",
+    "EMPTY_STATE_FULL": "No results found for query '{query}'",
+    "PLACEHOLDER_KEYBINDING": "/to focus",
+    "INPUT_PLACEHOLDER": "Type 3 or more characters to search",
+    "RECENT_SEARCHES": "Recent searches",
+    "CLEAR_ALL": "Clear all",
+    "MOST_RECENT": "Most recent",
+    "EMPTY_STATE_DEFAULT": "Search by conversation id, email, phone number, messages for better search results. ",
+    "BOT_LABEL": "Bot",
+    "READ_MORE": "Read more",
+    "READ_LESS": "Read less",
+    "WROTE": "wrote:",
+    "FROM": "Od",
+    "EMAIL": "E-pošta",
+    "EMAIL_SUBJECT": "Naslov",
+    "PRIVATE": "Private note",
+    "TRANSCRIPT": "Transcript",
+    "CREATED_AT": "created {time}",
+    "UPDATED_AT": "updated {time}",
+    "SORT_BY": {
+      "RELEVANCE": "Relevance"
+    },
+    "DATE_RANGE": {
+      "LAST_7_DAYS": "Poslednjih 7 dana",
+      "LAST_30_DAYS": "Poslednjih 30 dana",
+      "LAST_60_DAYS": "Poslednjih 60 dana",
+      "LAST_90_DAYS": "Poslednjih 90 dana",
+      "CUSTOM_RANGE": "Custom range:",
+      "CREATED_BETWEEN": "Created between",
+      "AND": "and",
+      "APPLY": "Primeni",
+      "BEFORE_DATE": "Before {date}",
+      "AFTER_DATE": "After {date}",
+      "TIME_RANGE": "Filter by time",
+      "CLEAR_FILTER": "Clear filter"
+    },
+    "FILTERS": {
+      "FILTER_MESSAGE": "Filter messages by:",
+      "FROM": "Pošiljalac",
+      "IN": "Prijemno sanduče",
+      "AGENTS": "Agenti",
+      "CONTACTS": "Kontakti",
+      "INBOXES": "Prijemni sandučići",
+      "NO_AGENTS": "Nema pronađenih agenata",
+      "NO_CONTACTS": "Start by searching to see results",
+      "NO_INBOXES": "No inboxes found"
+    }
+  }
+}

@@ -1,0 +1,138 @@
+{
+  "ATTRIBUTES_MGMT": {
+    "HEADER": "صفات مخصصة",
+    "HEADER_BTN_TXT": "إضافة صفة خاصة",
+    "LOADING": "جلب الصفات المخصصة",
+    "DESCRIPTION": "سمة مخصصة تتتبع تفاصيل إضافية حول جهات الاتصال أو المحادثات الخاصة بك - مثل خطة الاشتراك أو تاريخ الشراء الأول. يمكنك إضافة أنواع مختلفة من السمات المخصصة، مثل النص أو القوائم أو الأرقام، لالتقاط المعلومات المحددة التي تحتاجها.",
+    "LEARN_MORE": "تعرف على المزيد حول السمات المخصصة",
+    "ATTRIBUTE_MODELS": {
+      "CONVERSATION": "المحادثات",
+      "CONTACT": "جهات الاتصال"
+    },
+    "ATTRIBUTE_TYPES": {
+      "TEXT": "النص",
+      "NUMBER": "العدد",
+      "LINK": "الرابط",
+      "DATE": "Date",
+      "LIST": "القائمة",
+      "CHECKBOX": "خانة الاختيار"
+    },
+    "ADD": {
+      "TITLE": "إضافة صفة خاصة",
+      "SUBMIT": "إنشاء",
+      "CANCEL_BUTTON_TEXT": "إلغاء",
+      "FORM": {
+        "NAME": {
+          "LABEL": "اسم العرض",
+          "PLACEHOLDER": "أدخل اسم عرض الصفة",
+          "ERROR": "الاسم مطلوب"
+        },
+        "DESC": {
+          "LABEL": "الوصف",
+          "PLACEHOLDER": "أدخل وصف السمة",
+          "ERROR": "الوصف مطلوب"
+        },
+        "MODEL": {
+          "LABEL": "ينطبق على",
+          "PLACEHOLDER": "الرجاء اختيار واحد",
+          "ERROR": "النموذج مطلوب"
+        },
+        "TYPE": {
+          "LABEL": "النوع",
+          "PLACEHOLDER": "الرجاء تحديد نوع",
+          "ERROR": "النوع مطلوب",
+          "LIST": {
+            "LABEL": "قائمة القيم",
+            "PLACEHOLDER": "الرجاء إدخال القيمة واضغط على مفتاح الإدخال",
+            "ERROR": "يجب أن يكون لديك قيمة واحدة على الأقل"
+          }
+        },
+        "KEY": {
+          "LABEL": "المفتاح",
+          "PLACEHOLDER": "أدخل مفتاح الصفة المخصصة",
+          "ERROR": "المفتاح مطلوب",
+          "IN_VALID": "مفتاح غير صالح"
+        },
+        "REGEX_PATTERN": {
+          "LABEL": "نمط Regex",
+          "PLACEHOLDER": "الرجاء إدخال سمة مخصصة regex (اختياري)"
+        },
+        "REGEX_CUE": {
+          "LABEL": "Regex Cue",
+          "PLACEHOLDER": "الرجاء إدخال تلميح نمط regex (اختياري)"
+        },
+        "ENABLE_REGEX": {
+          "LABEL": "تمكين التحقق من صحة regex"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "تم إضافة صفة مخصصة بنجاح!",
+        "ERROR_MESSAGE": "تعذر إنشاء صفة مخصصة، الرجاء المحاولة مرة أخرى لاحقاً."
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "حذف",
+      "API": {
+        "SUCCESS_MESSAGE": "تم حذف الصفة المخصصة بنجاح.",
+        "ERROR_MESSAGE": "تعذر حذف الصفة المخصصة. حاول مرة أخرى."
+      },
+      "CONFIRM": {
+        "TITLE": "هل أنت متأكد من أنك تريد حذف - {attributeName}",
+        "PLACE_HOLDER": "الرجاء كتابة {attributeName} للتأكيد",
+        "MESSAGE": "الحذف سوف يزيل الصفة المخصصة",
+        "YES": "حذف ",
+        "NO": "إلغاء"
+      }
+    },
+    "EDIT": {
+      "TITLE": "تعديل صفة مخصصة",
+      "UPDATE_BUTTON_TEXT": "تحديث",
+      "TYPE": {
+        "LIST": {
+          "LABEL": "قائمة القيم",
+          "PLACEHOLDER": "الرجاء إدخال القيمة واضغط على مفتاح الإدخال"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "تم تحديث الصفة المخصصة بنجاح",
+        "ERROR_MESSAGE": "حدث خطأ أثناء تحديث الصفة المخصصة، الرجاء المحاولة مرة أخرى"
+      }
+    },
+    "TABS": {
+      "HEADER": "صفات مخصصة",
+      "CONVERSATION": "المحادثات",
+      "CONTACT": "جهات الاتصال"
+    },
+    "LIST": {
+      "TABLE_HEADER": {
+        "NAME": "الاسم",
+        "DESCRIPTION": "الوصف",
+        "TYPE": "النوع",
+        "KEY": "المفتاح"
+      },
+      "BUTTONS": {
+        "EDIT": "تعديل",
+        "DELETE": "حذف"
+      },
+      "EMPTY_RESULT": {
+        "404": "لا توجد سمات مخصصة تم إنشاؤها",
+        "NOT_FOUND": "لا توجد سمات مخصصة تم تكوينها"
+      },
+      "REGEX_PATTERN": {
+        "LABEL": "نمط Regex",
+        "PLACEHOLDER": "الرجاء إدخال صفة مخصصة regex (اختياري)"
+      },
+      "REGEX_CUE": {
+        "LABEL": "Regex Cue",
+        "PLACEHOLDER": "الرجاء إدخال تلميح نمط regex (اختياري)"
+      },
+      "ENABLE_REGEX": {
+        "LABEL": "تمكين التحقق من صحة regex"
+      }
+    },
+    "BADGES": {
+      "PRE_CHAT": "Pre-chat",
+      "RESOLUTION": "Resolution"
+    }
+  }
+}

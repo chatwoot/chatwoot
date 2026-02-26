@@ -1,0 +1,95 @@
+{
+  "INBOX": {
+    "LIST": {
+      "TITLE": "Gelen Kutusu",
+      "DISPLAY_DROPDOWN": "Görüntüle",
+      "LOADING": "Bildirimler yükleniyor",
+      "404": "Bu grupta aktif görüşme yok.",
+      "NO_NOTIFICATIONS": "Bildirim yok",
+      "NOTE": "Abone olunan tüm gelen kutularından bildirimler",
+      "NO_MESSAGES_AVAILABLE": "Oops! Not able to fetch messages",
+      "SNOOZED_UNTIL": "Susturulacak kadar ertelendi",
+      "SNOOZED_UNTIL_TOMORROW": "Yarına ertelendi",
+      "SNOOZED_UNTIL_NEXT_WEEK": "Önümüzdeki haftaya ertelendi"
+    },
+    "ACTION_HEADER": {
+      "SNOOZE": "Sessiz bildirim",
+      "DELETE": "Bildirimi Sil",
+      "BACK": "Geri"
+    },
+    "TYPES": {
+      "CONVERSATION_MENTION": "Bir konuşmada senden bahsedildi",
+      "CONVERSATION_CREATION": "Yeni bir görüşme oluşturuldu",
+      "CONVERSATION_ASSIGNMENT": "Size bir görüşme atandı",
+      "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Atandığınız görüşmeden bir yeni mesaj",
+      "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Katıldığınız sohbetteki yeni mesaj",
+      "SLA_MISSED_FIRST_RESPONSE": "SLA target first response missed for conversation",
+      "SLA_MISSED_NEXT_RESPONSE": "SLA target next response missed for conversation",
+      "SLA_MISSED_RESOLUTION": "SLA target resolution missed for conversation"
+    },
+    "TYPES_NEXT": {
+      "CONVERSATION_MENTION": "Mentioned",
+      "CONVERSATION_ASSIGNMENT": "Assigned to you",
+      "CONVERSATION_CREATION": "New Conversation",
+      "SLA_MISSED_FIRST_RESPONSE": "SLA breach",
+      "SLA_MISSED_NEXT_RESPONSE": "SLA breach",
+      "SLA_MISSED_RESOLUTION": "SLA breach",
+      "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Yeni Mesaj",
+      "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Yeni Mesaj",
+      "SNOOZED_UNTIL": "Snoozed for {time}",
+      "SNOOZED_ENDS": "Snooze ended"
+    },
+    "NO_CONTENT": "Kullanılabilir içerik yok",
+    "MENU_ITEM": {
+      "MARK_AS_READ": "Okundu olarak işaretle",
+      "MARK_AS_UNREAD": "Okunmamış olarak işaretle",
+      "SNOOZE": "Sustur",
+      "DELETE": "Sil",
+      "MARK_ALL_READ": "Tümünü okundu olarak işaretle",
+      "DELETE_ALL": "Tümünü sil",
+      "DELETE_ALL_READ": "Tüm okunmuşları sil"
+    },
+    "DISPLAY_MENU": {
+      "SORT": "Filtre",
+      "DISPLAY": "Görüntüle :",
+      "SORT_OPTIONS": {
+        "NEWEST": "En Yeni",
+        "OLDEST": "En Eski",
+        "PRIORITY": "Öncelik"
+      },
+      "DISPLAY_OPTIONS": {
+        "SNOOZED": "Susturuldu",
+        "READ": "Oku",
+        "LABELS": "Etiketler",
+        "CONVERSATION_ID": "Sohbet Kodu"
+      }
+    },
+    "ALERTS": {
+      "MARK_AS_READ": "Bildirim okundu olarak işaretlendi",
+      "MARK_AS_UNREAD": "Bildirim okunmamış olarak işaretlendi",
+      "SNOOZE": "Bildirim Sessize Alındı",
+      "DELETE": "Bildirim Silindi",
+      "MARK_ALL_READ": "Tüm Bildirimler Okundu Olarak İşaretlendi",
+      "DELETE_ALL": "Tüm Bildirimler Silindi",
+      "DELETE_ALL_READ": "Tüm Okunmuş Bildirimler Silindi"
+    },
+    "REAUTHORIZE": {
+      "TITLE": "Yeniden yetkilendirme gerekli",
+      "DESCRIPTION": "WhatsApp bağlantınızın süresi doldu. Mesaj almaya ve göndermeye devam etmek için lütfen yeniden bağlanın.",
+      "BUTTON_TEXT": "WhatsApp'ı yeniden bağla",
+      "LOADING_FACEBOOK": "Facebook SDK yükleniyor...",
+      "SUCCESS": "WhatsApp başarıyla yeniden bağlandı",
+      "ERROR": "WhatsApp'a yeniden bağlanılamadı. Lütfen tekrar deneyin.",
+      "WHATSAPP_APP_ID_MISSING": "WhatsApp Uygulama Kimliği yapılandırılmamış. Lütfen yöneticinize başvurun.",
+      "WHATSAPP_CONFIG_ID_MISSING": "WhatsApp Yapılandırma Kimliği yapılandırılmamış. Lütfen yöneticinize başvurun.",
+      "CONFIGURATION_ERROR": "Yeniden yetkilendirme sırasında yapılandırma hatası oluştu.",
+      "FACEBOOK_LOAD_ERROR": "Facebook SDK yüklenemedi. Lütfen tekrar deneyin.",
+      "TROUBLESHOOTING": {
+        "TITLE": "Sorun Giderme",
+        "POPUP_BLOCKED": "Bu site için açılır pencerelere izin verildiğinden emin olun",
+        "COOKIES": "Üçüncü taraf çerezlerin etkinleştirilmesi gerekir",
+        "ADMIN_ACCESS": "WhatsApp Business Hesabına yönetici erişiminizin olması gerekir"
+      }
+    }
+  }
+}

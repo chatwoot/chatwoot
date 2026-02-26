@@ -1,0 +1,13 @@
+{
+  "CSAT": {
+    "TITLE": "Valora la teva conversa",
+    "PLACEHOLDER": "Explica'ns més...",
+    "RATINGS": {
+      "POOR": "😞 Pobre",
+      "FAIR": "😑 Just",
+      "AVERAGE": "😐 Mitjana",
+      "GOOD": "😀 Bé",
+      "EXCELLENT": "😍 Excel·lent"
+    }
+  }
+}

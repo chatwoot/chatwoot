@@ -1,0 +1,214 @@
+{
+  "CAMPAIGN": {
+    "LIVE_CHAT": {
+      "HEADER_TITLE": "Live chat campaigns",
+      "NEW_CAMPAIGN": "Create campaign",
+      "CARD": {
+        "STATUS": {
+          "ENABLED": "Bật",
+          "DISABLED": "Không bật"
+        },
+        "CAMPAIGN_DETAILS": {
+          "SENT_BY": "Gửi bởi",
+          "BOT": "Bot",
+          "FROM": "từ",
+          "URL": "URL:"
+        }
+      },
+      "EMPTY_STATE": {
+        "TITLE": "No live chat campaigns are available",
+        "SUBTITLE": "Connect with your customers using proactive messages.  Click 'Create campaign' to get started."
+      },
+      "CREATE": {
+        "TITLE": "Create a live chat campaign",
+        "CANCEL_BUTTON_TEXT": "Huỷ",
+        "CREATE_BUTTON_TEXT": "Tạo",
+        "FORM": {
+          "TITLE": {
+            "LABEL": "Tiêu đề",
+            "PLACEHOLDER": "Vui lòng điền tiêu đề của chiến dịch",
+            "ERROR": "Tiêu đề bắt buộc có"
+          },
+          "MESSAGE": {
+            "LABEL": "Tin nhắn",
+            "PLACEHOLDER": "Vui lòng điền thông điệp của chiến dịch",
+            "ERROR": "Thông điệp bắt buộc có"
+          },
+          "INBOX": {
+            "LABEL": "Chọn Hộp thư đến",
+            "PLACEHOLDER": "Chọn Hộp thư đến",
+            "ERROR": "Cần phải có kênh"
+          },
+          "SENT_BY": {
+            "LABEL": "Gửi bởi",
+            "PLACEHOLDER": "Please select sender",
+            "ERROR": "Người gửi cần có"
+          },
+          "END_POINT": {
+            "LABEL": "URL",
+            "PLACEHOLDER": "Vui lòng nhập URL",
+            "ERROR": "Vui lòng nhập một URL hợp lệ"
+          },
+          "TIME_ON_PAGE": {
+            "LABEL": "Thời gian trên trang(Giây)",
+            "PLACEHOLDER": "Vui lòng nhập thời gian",
+            "ERROR": "Thời gian trên trang là bắt buộc"
+          },
+          "OTHER_PREFERENCES": {
+            "TITLE": "Other preferences",
+            "ENABLED": "Vận hành chiến dịch",
+            "TRIGGER_ONLY_BUSINESS_HOURS": "Chỉ kích hoạt trong giờ làm việc"
+          },
+          "BUTTONS": {
+            "CREATE": "Tạo",
+            "CANCEL": "Huỷ"
+          },
+          "API": {
+            "SUCCESS_MESSAGE": "Live chat campaign created successfully",
+            "ERROR_MESSAGE": "Đã có lỗi. Vui lòng thử lại."
+          }
+        }
+      },
+      "EDIT": {
+        "TITLE": "Edit live chat campaign",
+        "FORM": {
+          "API": {
+            "SUCCESS_MESSAGE": "Live chat campaign updated successfully",
+            "ERROR_MESSAGE": "Đã có lỗi. Vui lòng thử lại."
+          }
+        }
+      }
+    },
+    "SMS": {
+      "HEADER_TITLE": "SMS campaigns",
+      "NEW_CAMPAIGN": "Create campaign",
+      "EMPTY_STATE": {
+        "TITLE": "No SMS campaigns are available",
+        "SUBTITLE": "Launch an SMS campaign to reach your customers directly. Send offers or make announcements with ease. Click 'Create campaign' to get started."
+      },
+      "CARD": {
+        "STATUS": {
+          "COMPLETED": "Hoàn tất",
+          "SCHEDULED": "Scheduled"
+        },
+        "CAMPAIGN_DETAILS": {
+          "SENT_FROM": "Sent from",
+          "ON": "on"
+        }
+      },
+      "CREATE": {
+        "TITLE": "Create SMS campaign",
+        "CANCEL_BUTTON_TEXT": "Huỷ",
+        "CREATE_BUTTON_TEXT": "Tạo",
+        "FORM": {
+          "TITLE": {
+            "LABEL": "Tiêu đề",
+            "PLACEHOLDER": "Vui lòng điền tiêu đề của chiến dịch",
+            "ERROR": "Tiêu đề bắt buộc có"
+          },
+          "MESSAGE": {
+            "LABEL": "Tin nhắn",
+            "PLACEHOLDER": "Vui lòng điền thông điệp của chiến dịch",
+            "ERROR": "Thông điệp bắt buộc có"
+          },
+          "INBOX": {
+            "LABEL": "Chọn Hộp thư đến",
+            "PLACEHOLDER": "Chọn Hộp thư đến",
+            "ERROR": "Cần phải có kênh"
+          },
+          "AUDIENCE": {
+            "LABEL": "Khán giả",
+            "PLACEHOLDER": "Chọn nhãn người dùng",
+            "ERROR": "Khán giả bắt buộc có"
+          },
+          "SCHEDULED_AT": {
+            "LABEL": "Thời gian dự kiến",
+            "PLACEHOLDER": "Vui lòng chọn thời gian",
+            "ERROR": "Thời gian dự kiến là bắt buộc"
+          },
+          "BUTTONS": {
+            "CREATE": "Tạo",
+            "CANCEL": "Huỷ"
+          },
+          "API": {
+            "SUCCESS_MESSAGE": "SMS campaign created successfully",
+            "ERROR_MESSAGE": "Đã có lỗi. Vui lòng thử lại."
+          }
+        }
+      }
+    },
+    "WHATSAPP": {
+      "HEADER_TITLE": "WhatsApp campaigns",
+      "NEW_CAMPAIGN": "Create campaign",
+      "EMPTY_STATE": {
+        "TITLE": "No WhatsApp campaigns are available",
+        "SUBTITLE": "Launch a WhatsApp campaign to reach your customers directly. Send offers or make announcements with ease. Click 'Create campaign' to get started."
+      },
+      "CARD": {
+        "STATUS": {
+          "COMPLETED": "Hoàn tất",
+          "SCHEDULED": "Scheduled"
+        },
+        "CAMPAIGN_DETAILS": {
+          "SENT_FROM": "Sent from",
+          "ON": "on"
+        }
+      },
+      "CREATE": {
+        "TITLE": "Create WhatsApp campaign",
+        "CANCEL_BUTTON_TEXT": "Huỷ",
+        "CREATE_BUTTON_TEXT": "Tạo",
+        "FORM": {
+          "TITLE": {
+            "LABEL": "Tiêu đề",
+            "PLACEHOLDER": "Vui lòng điền tiêu đề của chiến dịch",
+            "ERROR": "Tiêu đề bắt buộc có"
+          },
+          "INBOX": {
+            "LABEL": "Chọn Hộp thư đến",
+            "PLACEHOLDER": "Chọn Hộp thư đến",
+            "ERROR": "Cần phải có kênh"
+          },
+          "TEMPLATE": {
+            "LABEL": "WhatsApp Template",
+            "PLACEHOLDER": "Select a template",
+            "INFO": "Select a template to use for this campaign.",
+            "ERROR": "Template is required",
+            "PREVIEW_TITLE": "Xử lý {templateName}",
+            "LANGUAGE": "Ngôn ngữ",
+            "CATEGORY": "Loại",
+            "VARIABLES_LABEL": "Biến",
+            "VARIABLE_PLACEHOLDER": "Enter value for {variable}"
+          },
+          "AUDIENCE": {
+            "LABEL": "Khán giả",
+            "PLACEHOLDER": "Chọn nhãn người dùng",
+            "ERROR": "Khán giả bắt buộc có"
+          },
+          "SCHEDULED_AT": {
+            "LABEL": "Thời gian dự kiến",
+            "PLACEHOLDER": "Vui lòng chọn thời gian",
+            "ERROR": "Thời gian dự kiến là bắt buộc"
+          },
+          "BUTTONS": {
+            "CREATE": "Tạo",
+            "CANCEL": "Huỷ"
+          },
+          "API": {
+            "SUCCESS_MESSAGE": "WhatsApp campaign created successfully",
+            "ERROR_MESSAGE": "Đã có lỗi. Vui lòng thử lại."
+          }
+        }
+      }
+    },
+    "CONFIRM_DELETE": {
+      "TITLE": "Bạn có chắc muốn xoá?",
+      "DESCRIPTION": "The delete action is permanent and cannot be reversed.",
+      "CONFIRM": "Xoá",
+      "API": {
+        "SUCCESS_MESSAGE": "Chiến dịch được xoá thành công",
+        "ERROR_MESSAGE": "Đã có lỗi. Vui lòng thử lại."
+      }
+    }
+  }
+}

@@ -1,0 +1,121 @@
+{
+  "TEAMS_SETTINGS": {
+    "NEW_TEAM": "チームを新規作成",
+    "HEADER": "チーム",
+    "LOADING": "チームを取得中",
+    "DESCRIPTION": "チームは担当者をその責務に基づいてグループ化することを可能にします。担当者は複数のチームに所属できます。共同作業では、会話を特定のチームに割り当てることができます。",
+    "LEARN_MORE": "チームについて詳しく学ぶ",
+    "LIST": {
+      "404": "このアカウントにはまだ作成されたチームがありません。",
+      "EDIT_TEAM": "チームを編集",
+      "NONE": "該当なし"
+    },
+    "CREATE_FLOW": {
+      "CREATE": {
+        "TITLE": "チームを新規作成",
+        "DESC": "新しいチームにタイトルと説明を追加してください。"
+      },
+      "AGENTS": {
+        "BUTTON_TEXT": "チームに担当者を追加",
+        "TITLE": "チームに担当者を追加 - {teamName}",
+        "DESC": "新しく作成したチームに担当者を追加してください。これにより、チームとして会話で協力したり、同じ会話での新しいイベントについて通知を受けたりできます。"
+      },
+      "WIZARD_CREATE": {
+        "TITLE": "作成",
+        "BODY": "新しい担当者チームを作成します。"
+      },
+      "WIZARD_ADD_AGENTS": {
+        "TITLE": "担当者を追加",
+        "BODY": "チームに担当者を追加します。"
+      },
+      "WIZARD_FINISH": {
+        "TITLE": "完了",
+        "BODY": "すべての準備が完了しました！"
+      }
+    },
+    "EDIT_FLOW": {
+      "CREATE": {
+        "TITLE": "チームの詳細を編集",
+        "DESC": "チームのタイトルや説明を編集します。",
+        "BUTTON_TEXT": "チームを更新"
+      },
+      "AGENTS": {
+        "BUTTON_TEXT": "チーム内の担当者を更新",
+        "TITLE": "チームに担当者を追加 - {teamName}",
+        "DESC": "新しく作成したチームに担当者を追加してください。追加された担当者は、このチームに割り当てられた会話について通知を受けます。"
+      },
+      "EDIT_WIZARD_DETAILS": {
+        "TITLE": "チームの詳細",
+        "ROUTE": "settings_teams_edit",
+        "BODY": "名前、説明、その他の詳細を変更します。"
+      },
+      "EDIT_WIZARD_AGENTS": {
+        "TITLE": "担当者を編集",
+        "ROUTE": "settings_teams_edit_members",
+        "BODY": "チーム内の担当者を編集します。"
+      },
+      "EDIT_WIZARD_FINISH": {
+        "TITLE": "完了",
+        "ROUTE": "settings_teams_edit_finish",
+        "BODY": "すべての準備が完了しました！"
+      }
+    },
+    "TEAM_FORM": {
+      "ERROR_MESSAGE": "チームの詳細を保存できませんでした。もう一度お試しください。"
+    },
+    "AGENTS": {
+      "AGENT": "担当者",
+      "EMAIL": "Eメール",
+      "BUTTON_TEXT": "担当者を追加",
+      "ADD_AGENTS": "チームに担当者を追加中...",
+      "SELECT": "選択",
+      "SELECT_ALL": "すべての担当者を選択",
+      "SELECTED_COUNT": "{total}人中{selected}人が選択されました。"
+    },
+    "ADD": {
+      "TITLE": "チームに担当者を追加 - {teamName}",
+      "DESC": "新しく作成したチームに担当者を追加してください。これにより、チームとして会話で協力したり、同じ会話での新しいイベントについて通知を受けたりできます。",
+      "SELECT": "選択",
+      "SELECT_ALL": "すべての担当者を選択",
+      "SELECTED_COUNT": "{total}人中{selected}人が選択されました。",
+      "BUTTON_TEXT": "担当者を追加",
+      "AGENT_VALIDATION_ERROR": "少なくとも1人の担当者を選択してください。"
+    },
+    "FINISH": {
+      "TITLE": "チームの準備ができました！",
+      "MESSAGE": "これで会話においてチームとして協力することができます。サポート活動を楽しんでください！",
+      "BUTTON_TEXT": "完了"
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "削除",
+      "API": {
+        "SUCCESS_MESSAGE": "チームが正常に削除されました。",
+        "ERROR_MESSAGE": "チームを削除できませんでした。もう一度お試しください。"
+      },
+      "CONFIRM": {
+        "TITLE": "本当にこのチームを削除しますか？",
+        "PLACE_HOLDER": "{teamName}と入力して確認してください",
+        "MESSAGE": "チームを削除すると、このチームに割り当てられた会話のチーム割り当てが削除されます。",
+        "YES": "削除",
+        "NO": "キャンセル"
+      }
+    },
+    "SETTINGS": "設定",
+    "FORM": {
+      "UPDATE": "チームを更新",
+      "CREATE": "チームを作成",
+      "NAME": {
+        "LABEL": "チーム名",
+        "PLACEHOLDER": "例: 営業、カスタマーサポート"
+      },
+      "DESCRIPTION": {
+        "LABEL": "チームの説明",
+        "PLACEHOLDER": "このチームに関する簡単な説明。"
+      },
+      "AUTO_ASSIGN": {
+        "LABEL": "このチームで自動割り当てを許可する"
+      },
+      "SUBMIT_CREATE": "チームを作成"
+    }
+  }
+}

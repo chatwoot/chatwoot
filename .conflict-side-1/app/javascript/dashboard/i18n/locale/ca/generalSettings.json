@@ -1,0 +1,251 @@
+{
+  "GENERAL_SETTINGS": {
+    "LIMIT_MESSAGES": {
+      "CONVERSATION": "You have exceeded the conversation limit. Hacker plan allows only 500 conversations.",
+      "INBOXES": "You have exceeded the inbox limit. Hacker plan only supports website live-chat. Additional inboxes like email, WhatsApp etc. require a paid plan.",
+      "AGENTS": "You have exceeded the agent limit. Your plan only allows {allowedAgents} agents.",
+      "NON_ADMIN": "Please contact your administrator to upgrade the plan and continue using all features."
+    },
+    "TITLE": "Configuració del compte",
+    "SUBMIT": "Actualització de la configuració",
+    "BACK": "Enrere",
+    "DISMISS": "Descartar",
+    "UPDATE": {
+      "ERROR": "No s'ha pogut actualitzar la configuració, torna-ho a provar!",
+      "SUCCESS": "La configuració del compte s'ha actualitzat correctament"
+    },
+    "ACCOUNT_DELETE_SECTION": {
+      "TITLE": "Delete your Account",
+      "NOTE": "Once you delete your account, all your data will be deleted.",
+      "BUTTON_TEXT": "Delete Your Account",
+      "CONFIRM": {
+        "TITLE": "Delete Account",
+        "MESSAGE": "Deleting your Account is irreversible. Enter your account name below to confirm you want to permanently delete it.",
+        "BUTTON_TEXT": "Esborrar",
+        "DISMISS": "Cancel·la",
+        "PLACE_HOLDER": "Escriu {accountName} per confirmar"
+      },
+      "SUCCESS": "Account marked for deletion",
+      "FAILURE": "Could not delete account, try again!",
+      "SCHEDULED_DELETION": {
+        "TITLE": "Account Scheduled for Deletion",
+        "MESSAGE_MANUAL": "This account is scheduled for deletion on {deletionDate}. This was requested by an administrator. You can cancel the deletion before this date.",
+        "MESSAGE_INACTIVITY": "This account is scheduled for deletion on {deletionDate} due to account inactivity. You can cancel the deletion before this date.",
+        "CLEAR_BUTTON": "Cancel Scheduled Deletion"
+      }
+    },
+    "FORM": {
+      "ERROR": "Corregiu els errors del formulari",
+      "GENERAL_SECTION": {
+        "TITLE": "Configuració general",
+        "NOTE": ""
+      },
+      "ACCOUNT_ID": {
+        "TITLE": "ID del compte",
+        "NOTE": "Aquest identificador és necessari si esteu creant una integració basada en API"
+      },
+      "AUTO_RESOLVE": {
+        "TITLE": "Auto-resolve conversations",
+        "NOTE": "This configuration would allow you to automatically resolve the conversation after a certain period of inactivity.",
+        "DURATION": {
+          "LABEL": "Inactivity duration",
+          "HELP": "Time period of inactivity after which conversation is auto-resolved",
+          "PLACEHOLDER": "30",
+          "ERROR": "Auto resolve duration should be between 10 minutes and 999 days",
+          "API": {
+            "SUCCESS": "Auto resolve settings updated successfully",
+            "ERROR": "Failed to update auto resolve settings"
+          }
+        },
+        "MESSAGE": {
+          "LABEL": "Custom auto-resolution message",
+          "PLACEHOLDER": "Conversation was marked resolved by system due to 15 days of inactivity",
+          "HELP": "Message sent to the customer after conversation is auto-resolved"
+        },
+        "PREFERENCES": "Preferences",
+        "LABEL": {
+          "LABEL": "Add label after auto-resolution",
+          "PLACEHOLDER": "Select a label"
+        },
+        "IGNORE_WAITING": {
+          "LABEL": "Skip conversations waiting for agent’s reply"
+        },
+        "UPDATE_BUTTON": "Save Changes"
+      },
+      "NAME": {
+        "LABEL": "Nom del compte",
+        "PLACEHOLDER": "El nom del vostre compte",
+        "ERROR": "Introduïu un nom de compte vàlid"
+      },
+      "LANGUAGE": {
+        "LABEL": "Idioma del lloc",
+        "PLACEHOLDER": "El nom del vostre compte",
+        "ERROR": ""
+      },
+      "DOMAIN": {
+        "LABEL": "Domini de correu electrònic entrant",
+        "PLACEHOLDER": "El domini on rebràs els correus electrònics",
+        "ERROR": ""
+      },
+      "SUPPORT_EMAIL": {
+        "LABEL": "Correu electrònic d'assistència",
+        "PLACEHOLDER": "Correu electrònic d'assistència de la vostra companya",
+        "ERROR": ""
+      },
+      "AUTO_RESOLVE_IGNORE_WAITING": {
+        "LABEL": "Exclude unattended conversations",
+        "HELP": "When enabled, the system will skip resolving conversations that are still waiting for an agent's reply."
+      },
+      "AUDIO_TRANSCRIPTION": {
+        "TITLE": "Transcribe Audio Messages",
+        "NOTE": "Automatically transcribe audio messages in conversations. Generate a text transcript whenever an audio message is sent or received, and display it alongside the message.",
+        "API": {
+          "SUCCESS": "Audio transcription setting updated successfully",
+          "ERROR": "Failed to update audio transcription setting"
+        }
+      },
+      "AUTO_RESOLVE_DURATION": {
+        "LABEL": "Inactivity duration for resolution",
+        "HELP": "Duration after a conversation should auto resolve if there is no activity",
+        "PLACEHOLDER": "30",
+        "ERROR": "Auto resolve duration should be between 10 minutes and 999 days",
+        "API": {
+          "SUCCESS": "Auto resolve settings updated successfully",
+          "ERROR": "Failed to update auto resolve settings"
+        },
+        "UPDATE_BUTTON": "Actualitza",
+        "MESSAGE_LABEL": "Custom resolution message",
+        "MESSAGE_PLACEHOLDER": "Conversation was marked resolved by system due to 15 days of inactivity",
+        "MESSAGE_HELP": "This message is sent to the customer when a conversation is automatically resolved by the system due to inactivity."
+      },
+      "FEATURES": {
+        "INBOUND_EMAIL_ENABLED": "La continuïtat de converses amb correus electrònics està habilitada per al vostre compte.",
+        "CUSTOM_EMAIL_DOMAIN_ENABLED": "Ara podeu rebre correus electrònics al vostre domini personalitzat."
+      }
+    },
+    "UPDATE_CHATWOOT": "L'actualització {latestChatwootVersion} per Chatwoot està disponible. Si us plau, actualitza l'instancia.",
+    "LEARN_MORE": "Aprèn més",
+    "PAYMENT_PENDING": "El teu pagament està pendent. Actualitzeu la vostra informació de pagament per continuar utilitzant Chatwoot",
+    "UPGRADE": "Upgrade to continue using Chatwoot",
+    "LIMITS_UPGRADE": "El teu compte ha superat els límits d'ús, actualitza el pla per continuar utilitzant Chatwoot",
+    "OPEN_BILLING": "Obrir facturació"
+  },
+  "FORMS": {
+    "MULTISELECT": {
+      "ENTER_TO_SELECT": "Presiona retorn (tecla enter) per seleccionar",
+      "ENTER_TO_REMOVE": "Presiona retorn (tecla enter) per eliminar",
+      "NO_OPTIONS": "List is empty",
+      "SELECT_ONE": "Selecciona un",
+      "SELECT": "Selecciona"
+    }
+  },
+  "NOTIFICATIONS_PAGE": {
+    "HEADER": "Notificacions",
+    "MARK_ALL_DONE": "Marca Tot Fet",
+    "DELETE_TITLE": "eliminat",
+    "UNREAD_NOTIFICATION": {
+      "TITLE": "Notificacions no llegides",
+      "ALL_NOTIFICATIONS": "Veure totes les notificacions",
+      "LOADING_UNREAD_MESSAGE": "S'estan carregant les notificacions no llegides...",
+      "EMPTY_MESSAGE": "No tens notificacions no llegides"
+    },
+    "LIST": {
+      "LOADING_MESSAGE": "Carregant notificacions...",
+      "404": "Cap Notificació",
+      "TABLE_HEADER": [
+        "Nom",
+        "Número de telèfon",
+        "Converses",
+        "Darrer contacte"
+      ]
+    },
+    "TYPE_LABEL": {
+      "conversation_creation": "Nova conversació",
+      "conversation_assignment": "Conversació Assignada",
+      "assigned_conversation_new_message": "Missatge Nou",
+      "participating_conversation_new_message": "Missatge Nou",
+      "conversation_mention": "Menció",
+      "sla_missed_first_response": "SLA perdut",
+      "sla_missed_next_response": "SLA perdut",
+      "sla_missed_resolution": "SLA perdut"
+    }
+  },
+  "NETWORK": {
+    "NOTIFICATION": {
+      "OFFLINE": "Fora de línia",
+      "RECONNECTING": "Reconnectant...",
+      "RECONNECT_SUCCESS": "Reconnectat"
+    },
+    "BUTTON": {
+      "REFRESH": "Actualitza"
+    }
+  },
+  "COMMAND_BAR": {
+    "SEARCH_PLACEHOLDER": "Cerca o salta a",
+    "SECTIONS": {
+      "GENERAL": "General",
+      "REPORTS": "Informes",
+      "CONVERSATION": "Conversa",
+      "BULK_ACTIONS": "Accions massives",
+      "CHANGE_ASSIGNEE": "Canvia l'assignat",
+      "CHANGE_PRIORITY": "Canvia la prioritat",
+      "CHANGE_TEAM": "Canvia l'equip",
+      "SNOOZE_CONVERSATION": "Posposa la conversa",
+      "ADD_LABEL": "Afegeix una etiqueta a la conversa",
+      "REMOVE_LABEL": "Elimina l'etiqueta de la conversa",
+      "SETTINGS": "Configuracions",
+      "AI_ASSIST": "Assistència IA",
+      "APPEARANCE": "Aparença",
+      "SNOOZE_NOTIFICATION": "Posposa la notificació"
+    },
+    "COMMANDS": {
+      "GO_TO_CONVERSATION_DASHBOARD": "Vés al Tauler de converses",
+      "GO_TO_CONTACTS_DASHBOARD": "Ves al Tauler de contactes",
+      "GO_TO_REPORTS_OVERVIEW": "Ves a Visió general dels informes",
+      "GO_TO_CONVERSATION_REPORTS": "Vés a Informes de converses",
+      "GO_TO_AGENT_REPORTS": "Ves a Informes d'agents",
+      "GO_TO_LABEL_REPORTS": "Ves a Informes d'etiquetes",
+      "GO_TO_INBOX_REPORTS": "Ves a Informes de la safata d'entrada",
+      "GO_TO_TEAM_REPORTS": "Ves a Informes d'equip",
+      "GO_TO_SETTINGS_AGENTS": "Ves a Configuració de l'agent",
+      "GO_TO_SETTINGS_TEAMS": "Ves a Configuració de l'equip",
+      "GO_TO_SETTINGS_INBOXES": "Ves a Configuració de la safata d'entrada",
+      "GO_TO_SETTINGS_LABELS": "Ves a Configuració de l'etiqueta",
+      "GO_TO_SETTINGS_CANNED_RESPONSES": "Ves a Configuració de resposta enllaunada",
+      "GO_TO_SETTINGS_APPLICATIONS": "Ves a Configuració de l'aplicació",
+      "GO_TO_SETTINGS_ACCOUNT": "Ves a Configuració del compte",
+      "GO_TO_SETTINGS_PROFILE": "Ves a Configuració del perfil",
+      "GO_TO_NOTIFICATIONS": "Ves a Notificacions",
+      "ADD_LABELS_TO_CONVERSATION": "Afegeix una etiqueta a la conversa",
+      "ASSIGN_AN_AGENT": "Assigna un agent",
+      "AI_ASSIST": "Assistència IA",
+      "ASSIGN_PRIORITY": "Assigna prioritat",
+      "ASSIGN_A_TEAM": "Assigna un equip",
+      "MUTE_CONVERSATION": "Silencia la conversa",
+      "UNMUTE_CONVERSATION": "No silenciïs la conversa",
+      "REMOVE_LABEL_FROM_CONVERSATION": "Elimina l'etiqueta de la conversa",
+      "REOPEN_CONVERSATION": "Torna a obrir la conversa",
+      "RESOLVE_CONVERSATION": "Resol la conversa",
+      "SEND_TRANSCRIPT": "Envia la transcripció per correu electrònic",
+      "SNOOZE_CONVERSATION": "Posposa la conversa",
+      "UNTIL_NEXT_REPLY": "Fins a la propera resposta",
+      "UNTIL_NEXT_WEEK": "Fins a la setmana vinent",
+      "UNTIL_TOMORROW": "Fins demà",
+      "UNTIL_NEXT_MONTH": "Fins al mes vinent",
+      "AN_HOUR_FROM_NOW": "Fins d'aquí una hora",
+      "UNTIL_CUSTOM_TIME": "Personalitzat...",
+      "CHANGE_APPEARANCE": "Canvia l'aparença",
+      "LIGHT_MODE": "Clar",
+      "DARK_MODE": "Fosc",
+      "SYSTEM_MODE": "Sistema",
+      "SNOOZE_NOTIFICATION": "Posposa la notificació"
+    }
+  },
+  "DASHBOARD_APPS": {
+    "LOADING_MESSAGE": "S'està carregant l'aplicació Tauler..."
+  },
+  "COMMON": {
+    "OR": "O",
+    "CLICK_HERE": "clica aquí"
+  }
+}

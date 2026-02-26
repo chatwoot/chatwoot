@@ -1,0 +1,68 @@
+{
+  "SEARCH": {
+    "TABS": {
+      "ALL": "All results",
+      "CONTACTS": "Kontakte",
+      "CONVERSATIONS": "Gespräche",
+      "MESSAGES": "Nachrichten",
+      "ARTICLES": "Articles"
+    },
+    "SECTION": {
+      "CONTACTS": "Kontakte",
+      "CONVERSATIONS": "Gespräche",
+      "MESSAGES": "Nachrichten",
+      "ARTICLES": "Articles"
+    },
+    "VIEW_MORE": "View more",
+    "LOAD_MORE": "Load more",
+    "SEARCHING_DATA": "Suchen",
+    "LOADING_DATA": "Wird geladen",
+    "EMPTY_STATE": "Keine {item} für Abfrage '{query} ' gefunden",
+    "EMPTY_STATE_FULL": "Kein Ergebnis für Abfrage '{query} ' gefunden",
+    "PLACEHOLDER_KEYBINDING": "/fokussieren",
+    "INPUT_PLACEHOLDER": "Search messages, contacts or conversations",
+    "RECENT_SEARCHES": "Recent searches",
+    "CLEAR_ALL": "Alle löschen",
+    "MOST_RECENT": "Most recent",
+    "EMPTY_STATE_DEFAULT": "Search by conversation id, email, phone number, messages for better search results.",
+    "BOT_LABEL": "Bot",
+    "READ_MORE": "Mehr erfahren",
+    "READ_LESS": "Read less",
+    "WROTE": "schrieb:",
+    "FROM": "Von",
+    "EMAIL": "E-Mail",
+    "EMAIL_SUBJECT": "Betreff",
+    "PRIVATE": "Private note",
+    "TRANSCRIPT": "Transcript",
+    "CREATED_AT": "erstellt am {time}",
+    "UPDATED_AT": "updated {time}",
+    "SORT_BY": {
+      "RELEVANCE": "Relevance"
+    },
+    "DATE_RANGE": {
+      "LAST_7_DAYS": "Letzte 7 Tage",
+      "LAST_30_DAYS": "Letzte 30 Tage",
+      "LAST_60_DAYS": "Letzten 60 Tage",
+      "LAST_90_DAYS": "Letzten 90 Tage",
+      "CUSTOM_RANGE": "Custom range:",
+      "CREATED_BETWEEN": "Created between",
+      "AND": "und",
+      "APPLY": "Übernehmen",
+      "BEFORE_DATE": "Before {date}",
+      "AFTER_DATE": "After {date}",
+      "TIME_RANGE": "Filter by time",
+      "CLEAR_FILTER": "Filter löschen"
+    },
+    "FILTERS": {
+      "FILTER_MESSAGE": "Filter messages by:",
+      "FROM": "Absender",
+      "IN": "Posteingang",
+      "AGENTS": "Agenten",
+      "CONTACTS": "Kontakte",
+      "INBOXES": "Posteingänge",
+      "NO_AGENTS": "Keine Agenten gefunden",
+      "NO_CONTACTS": "Start by searching to see results",
+      "NO_INBOXES": "No inboxes found"
+    }
+  }
+}

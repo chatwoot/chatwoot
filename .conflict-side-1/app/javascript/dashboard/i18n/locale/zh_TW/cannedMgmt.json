@@ -1,0 +1,77 @@
+{
+  "CANNED_MGMT": {
+    "HEADER": "預設回覆",
+    "LEARN_MORE": "Learn more about canned responses",
+    "DESCRIPTION": "Canned Responses are pre-written reply templates that help you quickly respond to a conversation. Agents can type the '/' character followed by the shortcode to insert a canned response during a conversation. ",
+    "HEADER_BTN_TXT": "Add canned response",
+    "LOADING": "Fetching canned responses...",
+    "SEARCH_404": "沒有任何項目符合此查詢.",
+    "LIST": {
+      "404": "此帳戶中沒有可用的罐頭回覆。",
+      "TITLE": "管理預設回覆",
+      "DESC": "Canned Responses are predefined reply templates which can be used to quickly send out replies to conversations.",
+      "TABLE_HEADER": {
+        "SHORT_CODE": "Short code",
+        "CONTENT": "内容",
+        "ACTIONS": "操作"
+      }
+    },
+    "ADD": {
+      "TITLE": "Add canned response",
+      "DESC": "Canned Responses are predefined reply templates which can be used to quickly send out replies to conversations.",
+      "CANCEL_BUTTON_TEXT": "取消操作",
+      "FORM": {
+        "SHORT_CODE": {
+          "LABEL": "Short code",
+          "PLACEHOLDER": "Please enter a short code.",
+          "ERROR": "Short Code is required."
+        },
+        "CONTENT": {
+          "LABEL": "訊息",
+          "PLACEHOLDER": "Please write the message you want to save as a template to use later.",
+          "ERROR": "訊息為必填."
+        },
+        "SUBMIT": "送出"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Canned response added successfully.",
+        "ERROR_MESSAGE": "Could not connect to Woot server. Please try again."
+      }
+    },
+    "EDIT": {
+      "TITLE": "編輯罐頭回覆",
+      "CANCEL_BUTTON_TEXT": "取消操作",
+      "FORM": {
+        "SHORT_CODE": {
+          "LABEL": "Short code",
+          "PLACEHOLDER": "Please enter a shortcode.",
+          "ERROR": "Short code is required."
+        },
+        "CONTENT": {
+          "LABEL": "訊息",
+          "PLACEHOLDER": "Please write the message you want to save as a template to use later.",
+          "ERROR": "訊息為必填."
+        },
+        "SUBMIT": "送出"
+      },
+      "BUTTON_TEXT": "編輯",
+      "API": {
+        "SUCCESS_MESSAGE": "Canned response is updated successfully.",
+        "ERROR_MESSAGE": "Could not connect to Woot server. Please try again."
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "刪除",
+      "API": {
+        "SUCCESS_MESSAGE": "Canned response deleted successfully.",
+        "ERROR_MESSAGE": "Could not connect to Woot server. Please try again."
+      },
+      "CONFIRM": {
+        "TITLE": "刪除確認",
+        "MESSAGE": "您確定要刪除嗎？ ",
+        "YES": "Yes, delete ",
+        "NO": "No, keep "
+      }
+    }
+  }
+}

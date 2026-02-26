@@ -1,0 +1,21 @@
+get:
+  tags:
+    - Profile
+  operationId: fetchProfile
+  summary: Fetch user profile
+  description: Get the user profile details
+  security:
+    - userApiKey: []
+  responses:
+    '200':
+      description: Success
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/user'
+    '401':
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/bad_request_error'

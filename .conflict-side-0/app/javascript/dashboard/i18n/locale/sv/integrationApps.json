@@ -1,0 +1,62 @@
+{
+  "INTEGRATION_APPS": {
+    "FETCHING": "Fetching Integrations",
+    "NO_HOOK_CONFIGURED": "There are no {integrationId} integrations configured in this account.",
+    "HEADER": "Applikationer",
+    "STATUS": {
+      "ENABLED": "Aktiverad",
+      "DISABLED": "Inaktiverad"
+    },
+    "CONFIGURE": "Konfigurera",
+    "ADD_BUTTON": "Add a new hook",
+    "DELETE": {
+      "TITLE": {
+        "INBOX": "Confirm deletion",
+        "ACCOUNT": "Disconnect"
+      },
+      "MESSAGE": {
+        "INBOX": "Är du säker på att ta bort?",
+        "ACCOUNT": "Are you sure to disconnect?"
+      },
+      "CONFIRM_BUTTON_TEXT": {
+        "INBOX": "Ja, ta bort",
+        "ACCOUNT": "Yes, Disconnect"
+      },
+      "CANCEL_BUTTON_TEXT": "Avbryt",
+      "API": {
+        "SUCCESS_MESSAGE": "Hook deleted successfully",
+        "ERROR_MESSAGE": "Kunde inte ansluta till Woot Server, försök igen senare"
+      }
+    },
+    "LIST": {
+      "FETCHING": "Fetching integration hooks",
+      "INBOX": "Inkorg",
+      "DELETE": {
+        "BUTTON_TEXT": "Radera"
+      }
+    },
+    "ADD": {
+      "FORM": {
+        "INBOX": {
+          "LABEL": "Select Inbox",
+          "PLACEHOLDER": "Select Inbox"
+        },
+        "SUBMIT": "Skapa",
+        "CANCEL": "Avbryt"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Integration hook added successfully",
+        "ERROR_MESSAGE": "Kunde inte ansluta till Woot Server, försök igen senare"
+      }
+    },
+    "CONNECT": {
+      "BUTTON_TEXT": "Anslut"
+    },
+    "DISCONNECT": {
+      "BUTTON_TEXT": "Disconnect"
+    },
+    "SIDEBAR_DESCRIPTION": {
+      "DIALOGFLOW": "Dialogflow is a natural language processing platform for building conversational interfaces. Integrating it with {installationName} lets bots handle queries first and transfer them to agents when needed. It helps qualify leads and reduce agent workload by answering FAQs. To add Dialogflow, create a Service Account in Google Console and share the credentials. Refer to the docs for details"
+    }
+  }
+}

@@ -1,0 +1,124 @@
+{
+  "AGENT_MGMT": {
+    "HEADER": "סוכנים",
+    "HEADER_BTN_TXT": "הוסף סוכן",
+    "LOADING": "טוען רשימת סוכנים",
+    "DESCRIPTION": "סוכן הוא חבר בצוות התמיכה שלך שיכול לראות ולהגיב להודעות משתמשים. הרשימה למטה מציגה את כל הסוכנים בחשבון שלך.",
+    "LEARN_MORE": "למד על תפקידי משתמשים",
+    "AGENT_TYPES": {
+      "ADMINISTRATOR": "מנהל",
+      "AGENT": "סוכן"
+    },
+    "LIST": {
+      "404": "אין סוכנים המקושרים לחשבון זה",
+      "TITLE": "נהל סוכנים בצוות שלך",
+      "DESC": "אתה יכול להוסיף/להסיר סוכנים לצוות שלך.",
+      "NAME": "שם",
+      "EMAIL": "דוא״ל",
+      "STATUS": "מצב",
+      "ACTIONS": "פעולות",
+      "VERIFIED": "מאומת",
+      "VERIFICATION_PENDING": "ממתין לאימות",
+      "AVAILABLE_CUSTOM_ROLE": "הרשאות תפקיד מותאמות אישית זמינות"
+    },
+    "ADD": {
+      "TITLE": "הוסף סוכן לצוות שלך",
+      "DESC": "אתה יכול להוסיף אנשים שיוכלו לטפל בתמיכה בתיבות הדואר הנכנס שלך.",
+      "CANCEL_BUTTON_TEXT": "ביטול",
+      "FORM": {
+        "NAME": {
+          "LABEL": "שם סוכן",
+          "PLACEHOLDER": "אנא הכנס את שם הסוכן"
+        },
+        "AGENT_TYPE": {
+          "LABEL": "תפקיד",
+          "PLACEHOLDER": "אנא בחר תפקיד",
+          "ERROR": "תפקיד נדרש"
+        },
+        "EMAIL": {
+          "LABEL": "כתובת דוא״ל",
+          "PLACEHOLDER": "אנא הכנס כתובת דוא״ל של הסוכן"
+        },
+        "SUBMIT": "הוסף סוכן"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "סוכן הוסף בהצלחה",
+        "EXIST_MESSAGE": "כתובת הדוא״ל כבר בשימוש, אנא נסה כתובת אחרת",
+        "ERROR_MESSAGE": "לא ניתן להתחבר לשרת ווט, נסה שוב מאוחר יותר"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "מחק",
+      "API": {
+        "SUCCESS_MESSAGE": "סוכן נמחק בהצלחה",
+        "ERROR_MESSAGE": "לא ניתן להתחבר לשרת ווט, נסה שוב מאוחר יותר"
+      },
+      "CONFIRM": {
+        "TITLE": "אשר מחיקה",
+        "MESSAGE": "האם אתה בטוח שברצונך למחוק ",
+        "YES": "כן, מחק ",
+        "NO": "לא, השאר "
+      }
+    },
+    "EDIT": {
+      "TITLE": "ערוך סוכן",
+      "FORM": {
+        "NAME": {
+          "LABEL": "שם סוכן",
+          "PLACEHOLDER": "אנא הכנס את שם הסוכן"
+        },
+        "AGENT_TYPE": {
+          "LABEL": "תפקיד",
+          "PLACEHOLDER": "אנא בחר תפקיד",
+          "ERROR": "תפקיד נדרש"
+        },
+        "EMAIL": {
+          "LABEL": "כתובת דוא״ל",
+          "PLACEHOLDER": "אנא הכנס כתובת דוא״ל של הסוכן"
+        },
+        "AGENT_AVAILABILITY": {
+          "LABEL": "זמינות",
+          "PLACEHOLDER": "אנא בחר מצב זמינות",
+          "ERROR": "זמינות נדרשת"
+        },
+        "SUBMIT": "ערוך סוכן"
+      },
+      "BUTTON_TEXT": "ערוך",
+      "CANCEL_BUTTON_TEXT": "ביטול",
+      "API": {
+        "SUCCESS_MESSAGE": "סוכן עודכן בהצלחה",
+        "ERROR_MESSAGE": "לא ניתן להתחבר לשרת ווט, נסה שוב מאוחר יותר"
+      },
+      "PASSWORD_RESET": {
+        "ADMIN_RESET_BUTTON": "איפוס סיסמה",
+        "ADMIN_SUCCESS_MESSAGE": "דוא״ל עם הוראות איפוס סיסמה נשלח לסוכן",
+        "SUCCESS_MESSAGE": "סיסמת הסוכן אופסה בהצלחה",
+        "ERROR_MESSAGE": "לא ניתן להתחבר לשרת ווט, נסה שוב מאוחר יותר"
+      }
+    },
+    "SEARCH": {
+      "NO_RESULTS": "לא נמצאו תוצאות."
+    },
+    "MULTI_SELECTOR": {
+      "PLACEHOLDER": "אין",
+      "TITLE": {
+        "AGENT": "בחר סוכן",
+        "TEAM": "בחר צוות"
+      },
+      "LIST": {
+        "NONE": "אין"
+      },
+      "SEARCH": {
+        "NO_RESULTS": {
+          "AGENT": "לא נמצאו סוכנים",
+          "TEAM": "לא נמצאו צוותים"
+        },
+        "PLACEHOLDER": {
+          "AGENT": "חפש סוכנים",
+          "TEAM": "חפש צוותים",
+          "INPUT": "חפש סוכנים"
+        }
+      }
+    }
+  }
+}

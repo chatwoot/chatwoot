@@ -1,0 +1,49 @@
+{
+  "REGISTER": {
+    "TRY_WOOT": "アカウントを作成",
+    "TITLE": "登録",
+    "TESTIMONIAL_HEADER": "前進するために必要なのはたった一歩",
+    "TESTIMONIAL_CONTENT": "顧客と関わり、維持し、新たな顧客を見つけるまであと一歩です。",
+    "TERMS_ACCEPT": "アカウントを作成することで、<a href=\"https://www.chatwoot.com/terms\">利用規約</a>および<a href=\"https://www.chatwoot.com/privacy-policy\">プライバシーポリシー</a>に同意したものとみなされます。",
+    "OAUTH": {
+      "GOOGLE_SIGNUP": "Googleで登録"
+    },
+    "COMPANY_NAME": {
+      "LABEL": "会社名",
+      "PLACEHOLDER": "会社名を入力してください。例: Wayne Enterprises",
+      "ERROR": "会社名が短すぎます"
+    },
+    "FULL_NAME": {
+      "LABEL": "氏名",
+      "PLACEHOLDER": "氏名を入力してください。例: Bruce Wayne",
+      "ERROR": "氏名が短すぎます"
+    },
+    "EMAIL": {
+      "LABEL": "勤務先のメールアドレス",
+      "PLACEHOLDER": "勤務先のメールアドレスを入力してください。例: bruce{'@'}wayne{'.'}enterprises",
+      "ERROR": "有効な勤務先のメールアドレスを入力してください"
+    },
+    "PASSWORD": {
+      "LABEL": "パスワード",
+      "PLACEHOLDER": "パスワード",
+      "ERROR": "パスワードが短すぎます",
+      "IS_INVALID_PASSWORD": "パスワードは少なくとも1つの大文字、1つの小文字、1つの数字、1つの特殊文字を含む必要があります",
+      "REQUIREMENTS_LENGTH": "At least 6 characters long",
+      "REQUIREMENTS_UPPERCASE": "At least one uppercase letter",
+      "REQUIREMENTS_LOWERCASE": "At least one lowercase letter",
+      "REQUIREMENTS_NUMBER": "At least one number",
+      "REQUIREMENTS_SPECIAL": "At least one special character"
+    },
+    "CONFIRM_PASSWORD": {
+      "LABEL": "パスワードの確認",
+      "PLACEHOLDER": "パスワードの確認",
+      "ERROR": "パスワードが一致しません"
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Registration Successful",
+      "ERROR_MESSAGE": "Wootサーバーに接続できませんでした。後でもう一度お試しください。"
+    },
+    "SUBMIT": "アカウントを作成",
+    "HAVE_AN_ACCOUNT": "すでにアカウントをお持ちですか？"
+  }
+}

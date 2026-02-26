@@ -1,0 +1,119 @@
+{
+  "FILTER": {
+    "TITLE": "Filtruoti pokalbius",
+    "SUBTITLE": "Add your filters below and hit 'Apply filters' to cut through the chat clutter.",
+    "EDIT_CUSTOM_FILTER": "Redaguoti papkę",
+    "CUSTOM_VIEWS_SUBTITLE": "Pridėkite arba pašalinkite filtrus ir atnaujinkite aplanką.",
+    "ADD_NEW_FILTER": "Pridėti Filtrą",
+    "FILTER_DELETE_ERROR": "Oops, looks like we can't save nothing! Please add at least one filter to save it.",
+    "SUBMIT_BUTTON_LABEL": "Taikyti filtrus",
+    "UPDATE_BUTTON_LABEL": "Atnaujinti aplanką",
+    "CANCEL_BUTTON_LABEL": "Atšaukti",
+    "CLEAR_BUTTON_LABEL": "Išvalyti filtrus",
+    "FOLDER_LABEL": "Aplanko Pavadinimas",
+    "FOLDER_QUERY_LABEL": "Aplanko užklausa",
+    "EMPTY_VALUE_ERROR": "Reikalinga vertė.",
+    "TOOLTIP_LABEL": "Filtruoti pokalbius",
+    "QUERY_DROPDOWN_LABELS": {
+      "AND": "IR",
+      "OR": "AR"
+    },
+    "INPUT_PLACEHOLDER": "Enter value",
+    "OPERATOR_LABELS": {
+      "equal_to": "Lygu",
+      "not_equal_to": "Nelygu",
+      "does_not_contain": "Sudėtyje nėra",
+      "is_present": "Pateikiamas",
+      "is_not_present": "Nepateikiamas",
+      "is_greater_than": "Yra didensni nei",
+      "is_less_than": "Yra mažesnis nei",
+      "days_before": "Yra prieš x dienų",
+      "starts_with": "Prasideda nuo",
+      "equalTo": "Lygu",
+      "notEqualTo": "Nelygu",
+      "contains": "Sudėtyje yra",
+      "doesNotContain": "Sudėtyje nėra",
+      "isPresent": "Pateikiamas",
+      "isNotPresent": "Nepateikiamas",
+      "isGreaterThan": "Yra didensni nei",
+      "isLessThan": "Yra mažesnis nei",
+      "daysBefore": "Yra prieš x dienų",
+      "startsWith": "Prasideda nuo"
+    },
+    "ATTRIBUTE_LABELS": {
+      "TRUE": "Tiesa",
+      "FALSE": "Netiesa"
+    },
+    "ATTRIBUTES": {
+      "STATUS": "Būsena",
+      "ASSIGNEE_NAME": "Priskirtojo vardas",
+      "INBOX_NAME": "Gautų laiškų aplanko pavadinimas",
+      "TEAM_NAME": "Komandos pavadinimas",
+      "CONVERSATION_IDENTIFIER": "Pokalbio identifikatorius",
+      "CAMPAIGN_NAME": "Akcijos Pavadinimas",
+      "LABELS": "Etiketės",
+      "BROWSER_LANGUAGE": "Naršyklės Kalba",
+      "PRIORITY": "Prioritetas",
+      "COUNTRY_NAME": "Šalies Pavadinimas",
+      "REFERER_LINK": "Siuntimo nuoroda",
+      "CUSTOM_ATTRIBUTE_LIST": "Sąrašas",
+      "CUSTOM_ATTRIBUTE_TEXT": "Tekstas",
+      "CUSTOM_ATTRIBUTE_NUMBER": "Numeris",
+      "CUSTOM_ATTRIBUTE_LINK": "Nuoroda",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "Žymimasis langelis",
+      "CREATED_AT": "Sukurta",
+      "LAST_ACTIVITY": "Paskutiniai veiksmai"
+    },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Reikalinga vertė",
+      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
+      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998"
+    },
+    "GROUPS": {
+      "STANDARD_FILTERS": "Standartinis Filtras",
+      "ADDITIONAL_FILTERS": "Papildomas Filtras",
+      "CUSTOM_ATTRIBUTES": "Personalizuoti Požymiai"
+    },
+    "CUSTOM_VIEWS": {
+      "ADD": {
+        "TITLE": "Ar nori išsaugoti šį filtrą?",
+        "LABEL": "Suteikti filtrui pavadinimą",
+        "PLACEHOLDER": "Name your filter to refer it later.",
+        "ERROR_MESSAGE": "Yra reikalingas vardas.",
+        "SAVE_BUTTON": "Išsaugoti filtrą",
+        "CANCEL_BUTTON": "Atšaukti",
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "Aplankas sukurtas sėkmingai.",
+          "ERROR_MESSAGE": "Kuriant aplanką įvyko klaida."
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "Segmentas sėkmingai sukurtas.",
+          "ERROR_MESSAGE": "Kuriant segmentą įvyko klaida."
+        }
+      },
+      "EDIT": {
+        "EDIT_BUTTON": "Redaguoti aplanką"
+      },
+      "DELETE": {
+        "DELETE_BUTTON": "Trinti filtrą",
+        "MODAL": {
+          "CONFIRM": {
+            "TITLE": "Patvirtinti Ištrynimą",
+            "MESSAGE": "Ar tikrai norite ištrinti filtrą ",
+            "YES": "Taip, Trinti",
+            "NO": "Ne, Išsaugoti"
+          }
+        },
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "Aplankas sėkmingai ištrintas.",
+          "ERROR_MESSAGE": "Trinant aplanką įvyko klaida."
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "Segmentas ištrintas sėkmingai.",
+          "ERROR_MESSAGE": "Trinant segmentą įvyko klaida."
+        }
+      }
+    }
+  }
+}

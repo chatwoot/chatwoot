@@ -1,0 +1,582 @@
+{
+  "REPORT": {
+    "HEADER": "Диалоги",
+    "LOADING_CHART": "Загрузка данных графика...",
+    "NO_ENOUGH_DATA": "Недостаточно данных для создания отчета, пожалуйста, повторите попытку позже.",
+    "DOWNLOAD_AGENT_REPORTS": "Сказать отчёт по агентам",
+    "DATA_FETCHING_FAILED": "Не удалось загрузить данные. Пожалуйста, попробуйте позже.",
+    "SUMMARY_FETCHING_FAILED": "Не удалось загрузить сводку. Пожалуйста, попробуйте позже.",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "Диалоги",
+        "DESC": "( Всего )"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "Входящие сообщения",
+        "DESC": "( Всего )"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "Исходящие сообщения",
+        "DESC": "( Всего )"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "Время первого ответа",
+        "DESC": "(Среднее)",
+        "INFO_TEXT": "Общее количество диалогов для расчета:",
+        "TOOLTIP_TEXT": "Время первого ответа — {metricValue} (на основе {conversationCount} сообщений)"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "Время Завершения",
+        "DESC": "(Среднее)",
+        "INFO_TEXT": "Общее количество диалогов для расчета:",
+        "TOOLTIP_TEXT": "Время на решение {metricValue} (основано на {conversationCount} разговорах)"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "Количество завершенных",
+        "DESC": "( Всего )"
+      },
+      "BOT_RESOLUTION_COUNT": {
+        "NAME": "Количество завершенных",
+        "DESC": "( Всего )"
+      },
+      "BOT_HANDOFF_COUNT": {
+        "NAME": "Количество передач",
+        "DESC": "( Всего )"
+      },
+      "REPLY_TIME": {
+        "NAME": "Время ожидания клиента",
+        "TOOLTIP_TEXT": "Время ожидания {metricValue} (на основе {conversationCount} ответов)",
+        "DESC": ""
+      }
+    },
+    "DATE_RANGE_OPTIONS": {
+      "LAST_7_DAYS": "Последние 7 дней",
+      "LAST_14_DAYS": "Последние 14 дней",
+      "LAST_30_DAYS": "Последние 30 дней",
+      "THIS_MONTH": "This month",
+      "LAST_MONTH": "Last month",
+      "LAST_3_MONTHS": "Последние 3 месяца",
+      "LAST_6_MONTHS": "Последние 6 месяцев",
+      "LAST_YEAR": "За прошлый год",
+      "CUSTOM_DATE_RANGE": "Настраиваемый диапазон даты"
+    },
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Применить",
+      "PLACEHOLDER": "Выберите диапазон дат"
+    },
+    "GROUP_BY_FILTER_DROPDOWN_LABEL": "Группировать по",
+    "DURATION_FILTER_LABEL": "Продолжительность",
+    "GROUPING_OPTIONS": {
+      "DAY": "День",
+      "WEEK": "Неделя",
+      "MONTH": "Месяц",
+      "YEAR": "Год"
+    },
+    "GROUP_BY_DAY_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "День"
+      }
+    ],
+    "GROUP_BY_WEEK_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "День"
+      },
+      {
+        "id": 2,
+        "groupBy": "Неделя"
+      }
+    ],
+    "GROUP_BY_MONTH_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "День"
+      },
+      {
+        "id": 2,
+        "groupBy": "Неделя"
+      },
+      {
+        "id": 3,
+        "groupBy": "Месяц"
+      }
+    ],
+    "GROUP_BY_YEAR_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "День"
+      },
+      {
+        "id": 2,
+        "groupBy": "Неделя"
+      },
+      {
+        "id": 3,
+        "groupBy": "Месяц"
+      }
+    ],
+    "BUSINESS_HOURS": "Время работы",
+    "FILTER_ACTIONS": {
+      "CLEAR_FILTER": "Очистить фильтр",
+      "EMPTY_LIST": "Результаты не найдены"
+    },
+    "PAGINATION": {
+      "RESULTS": "Показаны {start} - {end} из {total} результатов",
+      "PER_PAGE_TEMPLATE": "{size} / page"
+    }
+  },
+  "AGENT_REPORTS": {
+    "HEADER": "Обзор агентов",
+    "DESCRIPTION": "Легко отслеживайте эффективность работы агентов с помощью ключевых метрик, таких как количество бесед, время ответа, время решения проблем и количество решённых случаев. Нажмите на имя агента, чтобы узнать подробности.",
+    "LOADING_CHART": "Загрузка данных графика...",
+    "NO_ENOUGH_DATA": "Недостаточно данных для создания отчета, пожалуйста, повторите попытку позже.",
+    "DOWNLOAD_AGENT_REPORTS": "Сказать отчёт по агентам",
+    "FILTER_DROPDOWN_LABEL": "Выбрать Агента",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "Диалоги",
+        "DESC": "( Всего )"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "Входящие сообщения",
+        "DESC": "( Всего )"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "Исходящие сообщения",
+        "DESC": "( Всего )"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "Время первого ответа",
+        "DESC": "(Среднее)",
+        "INFO_TEXT": "Общее количество диалогов, используемых для вычисления:",
+        "TOOLTIP_TEXT": "Время первого ответа — {metricValue} (на основе {conversationCount} сообщений)"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "Время Завершения",
+        "DESC": "(Среднее)",
+        "INFO_TEXT": "Общее количество диалогов, используемых для вычисления:",
+        "TOOLTIP_TEXT": "Время на решение {metricValue} (основано на {conversationCount} разговорах)"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "Количество завершенных",
+        "DESC": "( Всего )"
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Последние 7 дней"
+      },
+      {
+        "id": 1,
+        "name": "Последние 30 дней"
+      },
+      {
+        "id": 2,
+        "name": "Последние 3 месяца"
+      },
+      {
+        "id": 3,
+        "name": "Последние 6 месяцев"
+      },
+      {
+        "id": 4,
+        "name": "За прошлый год"
+      },
+      {
+        "id": 5,
+        "name": "Настраиваемый диапазон даты"
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Применить",
+      "PLACEHOLDER": "Выберите диапазон дат"
+    }
+  },
+  "LABEL_REPORTS": {
+    "HEADER": "Обзор меток",
+    "DESCRIPTION": "Отслеживать производительность меток с ключевыми показателями, включая диалоги, время ответа, время разрешения и разрешенные случаи. Нажмите на название метки для детальных выводов.",
+    "LOADING_CHART": "Загрузка данных графика...",
+    "NO_ENOUGH_DATA": "Недостаточно данных для создания отчета, пожалуйста, повторите попытку позже.",
+    "DOWNLOAD_LABEL_REPORTS": "Скачать отчет по меткам",
+    "FILTER_DROPDOWN_LABEL": "Выбрать метку",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "Диалоги",
+        "DESC": "( Всего )"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "Входящие сообщения",
+        "DESC": "( Всего )"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "Исходящие сообщения",
+        "DESC": "( Всего )"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "Время первого ответа",
+        "DESC": "(Среднее)",
+        "INFO_TEXT": "Общее количество диалогов, используемых для вычисления:",
+        "TOOLTIP_TEXT": "Время первого ответа — {metricValue} (на основе {conversationCount} сообщений)"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "Время Завершения",
+        "DESC": "(Среднее)",
+        "INFO_TEXT": "Общее количество диалогов, используемых для вычисления:",
+        "TOOLTIP_TEXT": "Время на решение {metricValue} (основано на {conversationCount} разговорах)"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "Количество завершенных",
+        "DESC": "( Всего )"
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Последние 7 дней"
+      },
+      {
+        "id": 1,
+        "name": "Последние 30 дней"
+      },
+      {
+        "id": 2,
+        "name": "Последние 3 месяца"
+      },
+      {
+        "id": 3,
+        "name": "Последние 6 месяцев"
+      },
+      {
+        "id": 4,
+        "name": "За прошлый год"
+      },
+      {
+        "id": 5,
+        "name": "Настраиваемый диапазон даты"
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Применить",
+      "PLACEHOLDER": "Выберите диапазон дат"
+    }
+  },
+  "INBOX_REPORTS": {
+    "HEADER": "Обзор входящих",
+    "DESCRIPTION": "Быстро просматривайте эффективность источника входящих с основными метриками — количеством бесед, временем ответа, временем решения проблем и количеством решённых случаев — всё в одном месте. Нажмите на имя источника для получения подробной информации.",
+    "LOADING_CHART": "Загрузка данных графика...",
+    "NO_ENOUGH_DATA": "Недостаточно данных для создания отчета, пожалуйста, повторите попытку позже.",
+    "DOWNLOAD_INBOX_REPORTS": "Скачать отчет по входящим",
+    "FILTER_DROPDOWN_LABEL": "Выбрать \"Входящий\" канал",
+    "ALL_INBOXES": "Все входящие",
+    "SEARCH_INBOX": "Поиск входящих",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "Диалоги",
+        "DESC": "( Всего )"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "Входящие сообщения",
+        "DESC": "( Всего )"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "Исходящие сообщения",
+        "DESC": "( Всего )"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "Время первого ответа",
+        "DESC": "(Среднее)",
+        "INFO_TEXT": "Общее количество диалогов, используемых для вычисления:",
+        "TOOLTIP_TEXT": "Время первого ответа — {metricValue} (на основе {conversationCount} сообщений)"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "Время Завершения",
+        "DESC": "(Среднее)",
+        "INFO_TEXT": "Общее количество диалогов, используемых для вычисления:",
+        "TOOLTIP_TEXT": "Время на решение {metricValue} (основано на {conversationCount} разговорах)"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "Количество завершенных",
+        "DESC": "( Всего )"
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Последние 7 дней"
+      },
+      {
+        "id": 1,
+        "name": "Последние 30 дней"
+      },
+      {
+        "id": 2,
+        "name": "Последние 3 месяца"
+      },
+      {
+        "id": 3,
+        "name": "Последние 6 месяцев"
+      },
+      {
+        "id": 4,
+        "name": "За прошлый год"
+      },
+      {
+        "id": 5,
+        "name": "Настраиваемый диапазон даты"
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Применить",
+      "PLACEHOLDER": "Выберите диапазон дат"
+    }
+  },
+  "TEAM_REPORTS": {
+    "HEADER": "Обзор команды",
+    "DESCRIPTION": "Получите обзор работы вашей команды с основными метриками, такими как количество бесед, время ответа, время решения проблем и количество решённых случаев. Нажмите на имя команды для подробностей.",
+    "LOADING_CHART": "Загрузка данных графика...",
+    "NO_ENOUGH_DATA": "Недостаточно данных для создания отчета, пожалуйста, повторите попытку позже.",
+    "DOWNLOAD_TEAM_REPORTS": "Скачать отчет по команде",
+    "FILTER_DROPDOWN_LABEL": "Выберите команду",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "Диалоги",
+        "DESC": "( Всего )"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "Входящие сообщения",
+        "DESC": "( Всего )"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "Исходящие сообщения",
+        "DESC": "( Всего )"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "Время первого ответа",
+        "DESC": "(Среднее)",
+        "INFO_TEXT": "Общее количество диалогов, используемых для вычисления:",
+        "TOOLTIP_TEXT": "Время первого ответа — {metricValue} (на основе {conversationCount} сообщений)"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "Время Завершения",
+        "DESC": "(Среднее)",
+        "INFO_TEXT": "Общее количество диалогов, используемых для вычисления:",
+        "TOOLTIP_TEXT": "Время на решение {metricValue} (основано на {conversationCount} разговорах)"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "Количество завершенных",
+        "DESC": "( Всего )"
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Последние 7 дней"
+      },
+      {
+        "id": 1,
+        "name": "Последние 30 дней"
+      },
+      {
+        "id": 2,
+        "name": "Последние 3 месяца"
+      },
+      {
+        "id": 3,
+        "name": "Последние 6 месяцев"
+      },
+      {
+        "id": 4,
+        "name": "За прошлый год"
+      },
+      {
+        "id": 5,
+        "name": "Настраиваемый диапазон даты"
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Применить",
+      "PLACEHOLDER": "Выберите диапазон дат"
+    }
+  },
+  "CSAT_REPORTS": {
+    "HEADER": "Отчёты CSAT",
+    "NO_RECORDS": "Нет ответов на опрос CSAT.",
+    "DOWNLOAD": "Скачать отчёты CSAT",
+    "DOWNLOAD_FAILED": "Не удалось загрузить CSAT отчёты",
+    "FILTERS": {
+      "AGENTS": {
+        "PLACEHOLDER": "Выберите Операторов"
+      }
+    },
+    "TABLE": {
+      "HEADER": {
+        "CONTACT_NAME": "Контакт",
+        "AGENT_NAME": "Назначенный сотрудник",
+        "RATING": "Оценка",
+        "FEEDBACK_TEXT": "Комментарий отзыва"
+      }
+    },
+    "METRIC": {
+      "TOTAL_RESPONSES": {
+        "LABEL": "Всего ответов",
+        "TOOLTIP": "Общее количество собранных ответов"
+      },
+      "SATISFACTION_SCORE": {
+        "LABEL": "Оценка удовлетворенности",
+        "TOOLTIP": "Общее количество положительных ответов / Общее количество ответов * 100"
+      },
+      "RESPONSE_RATE": {
+        "LABEL": "Доля откликов",
+        "TOOLTIP": "Общее количество ответов / Общее количество отправленных сообщений CSAT опросов * 100"
+      }
+    }
+  },
+  "BOT_REPORTS": {
+    "HEADER": "Отчеты о боте",
+    "METRIC": {
+      "TOTAL_CONVERSATIONS": {
+        "LABEL": "Количество диалогов",
+        "TOOLTIP": "Общее количество диалогов, обработанных ботом"
+      },
+      "TOTAL_RESPONSES": {
+        "LABEL": "Всего ответов",
+        "TOOLTIP": "Общее количество ответов, отправленных ботом"
+      },
+      "RESOLUTION_RATE": {
+        "LABEL": "Скорость разрешения",
+        "TOOLTIP": "Общее количество диалогов, разрешенных ботом / Общее количество диалогов, обработанных ботом * 100"
+      },
+      "HANDOFF_RATE": {
+        "LABEL": "Частота передач",
+        "TOOLTIP": "Общее количество диалогов, передаваемых агентам / Общее количество диалогов, обрабатываемых ботом * 100"
+      }
+    }
+  },
+  "OVERVIEW_REPORTS": {
+    "HEADER": "Обзор",
+    "LIVE": "Онлайн",
+    "ACCOUNT_CONVERSATIONS": {
+      "HEADER": "Открытые диалоги",
+      "LOADING_MESSAGE": "Загрузка метрик диалогов...",
+      "OPEN": "Открытых",
+      "UNATTENDED": "Неотвеченные",
+      "UNASSIGNED": "Неназначен",
+      "PENDING": "В ожидании"
+    },
+    "CONVERSATION_HEATMAP": {
+      "HEADER": "Трафик сообщений",
+      "NO_CONVERSATIONS": "Нет сообщений",
+      "CONVERSATION": "{count} разговор",
+      "CONVERSATIONS": "{count} разговоров",
+      "DOWNLOAD_REPORT": "Скачать отчет"
+    },
+    "RESOLUTION_HEATMAP": {
+      "HEADER": "Резолюции",
+      "NO_CONVERSATIONS": "Нет сообщений",
+      "CONVERSATION": "{count} разговор",
+      "CONVERSATIONS": "{count} разговоров",
+      "DOWNLOAD_REPORT": "Скачать отчет"
+    },
+    "AGENT_CONVERSATIONS": {
+      "HEADER": "Диалоги по операторам",
+      "LOADING_MESSAGE": "Загрузка метрик оператора...",
+      "NO_AGENTS": "Нет диалогов связанных с операторами",
+      "TABLE_HEADER": {
+        "AGENT": "Оператор",
+        "OPEN": "Открыть",
+        "UNATTENDED": "Неотвеченные",
+        "STATUS": "Статус"
+      }
+    },
+    "TEAM_CONVERSATIONS": {
+      "ALL_TEAMS": "All Teams",
+      "HEADER": "Conversations by teams",
+      "LOADING_MESSAGE": "Loading team metrics...",
+      "NO_TEAMS": "There is no data available",
+      "TABLE_HEADER": {
+        "TEAM": "Команда",
+        "OPEN": "Открыть",
+        "UNATTENDED": "Неотвеченные",
+        "STATUS": "Статус"
+      }
+    },
+    "AGENT_STATUS": {
+      "HEADER": "Статус операторов",
+      "ONLINE": "В сети",
+      "BUSY": "Занят",
+      "OFFLINE": "Оффлайн"
+    }
+  },
+  "DAYS_OF_WEEK": {
+    "SUNDAY": "Воскресенье",
+    "MONDAY": "Понедельник",
+    "TUESDAY": "Вторник",
+    "WEDNESDAY": "Среда",
+    "THURSDAY": "Четверг",
+    "FRIDAY": "Пятница",
+    "SATURDAY": "Суббота"
+  },
+  "SLA_REPORTS": {
+    "HEADER": "Отчеты по SLA",
+    "NO_RECORDS": "Разговоры с применением SLA недоступны.",
+    "LOADING": "Загрузка данных по SLA...",
+    "DOWNLOAD_SLA_REPORTS": "Скачать отчеты по SLA",
+    "DOWNLOAD_FAILED": "Не удалось загрузить отчеты по SLA",
+    "DROPDOWN": {
+      "ADD_FIlTER": "Добавить фильтр",
+      "CLEAR_ALL": "Очистить всё",
+      "CLEAR_FILTER": "Очистить фильтр",
+      "EMPTY_LIST": "Результаты не найдены",
+      "NO_FILTER": "Нет доступных фильтров",
+      "SEARCH": "Поиск по фильтру",
+      "INPUT_PLACEHOLDER": {
+        "SLA": "Название SLA",
+        "AGENTS": "Имя оператора",
+        "INBOXES": "Имя источника",
+        "LABELS": "Название категории",
+        "TEAMS": "Название команды"
+      },
+      "SLA": "Политика SLA",
+      "INBOXES": "Входящие",
+      "AGENTS": "Оператор",
+      "LABELS": "Метка",
+      "TEAMS": "Команда"
+    },
+    "WITH": "с",
+    "METRICS": {
+      "HIT_RATE": {
+        "LABEL": "Уровень выполнения",
+        "TOOLTIP": "Процент успешно выполненных SLA из общего числа созданных"
+      },
+      "NO_OF_MISSES": {
+        "LABEL": "Количество пропущенных SLA",
+        "TOOLTIP": "Общее количество пропущенных SLA за определенный период"
+      },
+      "NO_OF_CONVERSATIONS": {
+        "LABEL": "Количество диалогов",
+        "TOOLTIP": "Общее количество диалогов с SLA"
+      }
+    },
+    "TABLE": {
+      "HEADER": {
+        "POLICY": "Политика",
+        "CONVERSATION": "Диалоги",
+        "AGENT": "Оператор"
+      },
+      "VIEW_DETAILS": "Просмотреть подробности"
+    }
+  },
+  "SUMMARY_REPORTS": {
+    "INBOX": "Электронная почта",
+    "AGENT": "Оператор",
+    "TEAM": "Команда",
+    "LABEL": "Метка",
+    "AVG_RESOLUTION_TIME": "Среднее время решения",
+    "AVG_FIRST_RESPONSE_TIME": "Среднее время первого ответа",
+    "AVG_REPLY_TIME": "Среднее время ожидания клиента",
+    "RESOLUTION_COUNT": "Количество завершенных",
+    "CONVERSATIONS": "Количество диалогов"
+  }
+}

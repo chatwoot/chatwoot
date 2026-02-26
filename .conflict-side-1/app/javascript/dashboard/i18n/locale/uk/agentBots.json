@@ -1,0 +1,103 @@
+{
+  "AGENT_BOTS": {
+    "HEADER": "Боти",
+    "LOADING_EDITOR": "Завантаження редактора...",
+    "DESCRIPTION": "Agent Bots are like the most fabulous members of your team. They can handle the small stuff, so you can focus on the stuff that matters. Give them a try. You can manage your bots from this page or create new ones using the 'Add Bot' button.",
+    "LEARN_MORE": "Learn about agent bots",
+    "GLOBAL_BOT": "System bot",
+    "GLOBAL_BOT_BADGE": "Система",
+    "AVATAR": {
+      "SUCCESS_DELETE": "Bot avatar deleted successfully",
+      "ERROR_DELETE": "Error deleting bot avatar, please try again"
+    },
+    "BOT_CONFIGURATION": {
+      "TITLE": "Виберіть агента - бота",
+      "DESC": "Призначте Agent Bot для вашої папки \"Вхідні\". Вони можуть обробляти початкові розмови та передавати їх живому агенту, за необхідності.",
+      "SUBMIT": "Оновити",
+      "DISCONNECT": "Від'єднати бота",
+      "SUCCESS_MESSAGE": "Успішно оновлено бота агента.",
+      "DISCONNECTED_SUCCESS_MESSAGE": "Бот агента успішно відключений.",
+      "ERROR_MESSAGE": "Не вдалося оновити бота агента. Будь ласка, спробуйте ще раз.",
+      "DISCONNECTED_ERROR_MESSAGE": "Не вдалося відключити бота. Будь ласка, спробуйте ще раз.",
+      "SELECT_PLACEHOLDER": "Виберіть бота"
+    },
+    "ADD": {
+      "TITLE": "Add Bot",
+      "CANCEL_BUTTON_TEXT": "Скасувати",
+      "API": {
+        "SUCCESS_MESSAGE": "Бота успішно додано.",
+        "ERROR_MESSAGE": "Не вдалося додати бота. Будь ласка, спробуйте ще раз пізніше."
+      }
+    },
+    "LIST": {
+      "404": "No bots found. You can create a bot by clicking the 'Add Bot' button.",
+      "LOADING": "Отримання ботів...",
+      "TABLE_HEADER": {
+        "DETAILS": "Bot Details",
+        "URL": "URL вебхука"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Видалити",
+      "TITLE": "Видалити бота",
+      "CONFIRM": {
+        "TITLE": "Підтвердження видалення",
+        "MESSAGE": "Are you sure you want to delete {name}?",
+        "YES": "Так, видалити",
+        "NO": "Ні, залишити"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Бот успішно видалений.",
+        "ERROR_MESSAGE": "Не вдалося видалити бота. Будь ласка, спробуйте ще раз."
+      }
+    },
+    "EDIT": {
+      "BUTTON_TEXT": "Редагувати",
+      "TITLE": "Редагувати бота",
+      "API": {
+        "SUCCESS_MESSAGE": "Бот успішно оновлений.",
+        "ERROR_MESSAGE": "Не вдалося оновити бота. Будь ласка, спробуйте ще раз."
+      }
+    },
+    "ACCESS_TOKEN": {
+      "TITLE": "Ключ доступу",
+      "DESCRIPTION": "Copy the access token and save it securely",
+      "COPY_SUCCESSFUL": "Access token copied to clipboard",
+      "RESET_SUCCESS": "Access token regenerated successfully",
+      "RESET_ERROR": "Unable to regenerate access token. Please try again"
+    },
+    "FORM": {
+      "AVATAR": {
+        "LABEL": "Bot avatar"
+      },
+      "NAME": {
+        "LABEL": "Ім'я бота",
+        "PLACEHOLDER": "Enter bot name",
+        "REQUIRED": "Ім'я бота обов'язкове"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Опис",
+        "PLACEHOLDER": "Що робить цей бот?"
+      },
+      "WEBHOOK_URL": {
+        "LABEL": "URL вебхука",
+        "PLACEHOLDER": "https://example.com/webhook",
+        "REQUIRED": "Webhook URL is required"
+      },
+      "ERRORS": {
+        "NAME": "Ім'я бота обов'язкове",
+        "URL": "Webhook URL is required",
+        "VALID_URL": "Please enter a valid URL starting with http:// or https://"
+      },
+      "CANCEL": "Скасувати",
+      "CREATE": "Create Bot",
+      "UPDATE": "Update Bot"
+    },
+    "WEBHOOK": {
+      "DESCRIPTION": "Configure a webhook bot to integrate with your custom services. The bot will receive and process events from conversations and can respond to them."
+    },
+    "TYPES": {
+      "WEBHOOK": "Webhook Бот"
+    }
+  }
+}

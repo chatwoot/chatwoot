@@ -1,0 +1,138 @@
+{
+  "ATTRIBUTES_MGMT": {
+    "HEADER": "Benutzerdefinierte Attribute",
+    "HEADER_BTN_TXT": "Benutzerdefiniertes Attribut hinzufügen",
+    "LOADING": "Benutzerdefinierte Attribute abrufen",
+    "DESCRIPTION": "A custom attribute tracks additional details about your contacts or conversations—such as the subscription plan or the date of their first purchase. You can add different types of custom attributes, such as text, lists, or numbers, to capture the specific information you need.",
+    "LEARN_MORE": "Learn more about custom attributes",
+    "ATTRIBUTE_MODELS": {
+      "CONVERSATION": "Konversation",
+      "CONTACT": "Kontakt"
+    },
+    "ATTRIBUTE_TYPES": {
+      "TEXT": "Text",
+      "NUMBER": "Nummer",
+      "LINK": "Link",
+      "DATE": "Date",
+      "LIST": "Liste",
+      "CHECKBOX": "Checkbox"
+    },
+    "ADD": {
+      "TITLE": "Benutzerdefiniertes Attribut hinzufügen",
+      "SUBMIT": "Erstellen",
+      "CANCEL_BUTTON_TEXT": "Abbrechen",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Anzeigename",
+          "PLACEHOLDER": "Geben Sie den Anzeigenamen des benutzerdefinierten Attributs ein",
+          "ERROR": "Name wird benötigt"
+        },
+        "DESC": {
+          "LABEL": "Beschreibung",
+          "PLACEHOLDER": "Geben Sie eine benutzerdefinierte Attributbeschreibung ein",
+          "ERROR": "Beschreibung wird benötigt"
+        },
+        "MODEL": {
+          "LABEL": "Gilt für",
+          "PLACEHOLDER": "Bitte auswählen",
+          "ERROR": "Modell wird benötigt"
+        },
+        "TYPE": {
+          "LABEL": "Typ",
+          "PLACEHOLDER": "Bitte Typ wählen",
+          "ERROR": "Typ wird benötigt",
+          "LIST": {
+            "LABEL": "Listenwerte",
+            "PLACEHOLDER": "Bitte Wert eingeben und Eingabetaste drücken",
+            "ERROR": "Muss mindestens einen Wert haben"
+          }
+        },
+        "KEY": {
+          "LABEL": "Schlüssel",
+          "PLACEHOLDER": "Benutzerdefinierten Attributschlüssel eingeben",
+          "ERROR": "Schlüssel ist erforderlich",
+          "IN_VALID": "Ungültiger Schlüssel"
+        },
+        "REGEX_PATTERN": {
+          "LABEL": "Regex Muster",
+          "PLACEHOLDER": "Bitte benutzerdefiniertes Attribut Regex Muster eingeben. (Optional)"
+        },
+        "REGEX_CUE": {
+          "LABEL": "Regex Hinweis",
+          "PLACEHOLDER": "Bitte geben Sie einen Hinweis zum Regex Muster ein. (Optional)"
+        },
+        "ENABLE_REGEX": {
+          "LABEL": "Regex Validierung aktivieren"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Benutzerdefiniertes Attribut erfolgreich hinzugefügt!",
+        "ERROR_MESSAGE": "Konnte kein benutzerdefiniertes Attribut erstellen, bitte versuchen Sie es später erneut."
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Löschen",
+      "API": {
+        "SUCCESS_MESSAGE": "Benutzerdefiniertes Attribut erfolgreich gelöscht.",
+        "ERROR_MESSAGE": "Das benutzerdefinierte Attribut konnte nicht gelöscht werden. Versuchen Sie es noch einmal."
+      },
+      "CONFIRM": {
+        "TITLE": "Sind Sie sicher, dass Sie {attributeName} löschen möchten",
+        "PLACE_HOLDER": "Bitte geben Sie {attributeName} zur Bestätigung ein",
+        "MESSAGE": "Beim Löschen wird das benutzerdefinierte Attribut entfernt",
+        "YES": "Löschen ",
+        "NO": "Abbrechen"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Benutzerdefiniertes Attribut bearbeiten",
+      "UPDATE_BUTTON_TEXT": "Aktualisieren",
+      "TYPE": {
+        "LIST": {
+          "LABEL": "Listenwerte",
+          "PLACEHOLDER": "Bitte Werte eingeben und Enter-Taste drücken"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Benutzerdefiniertes Attribut erfolgreich aktualisiert",
+        "ERROR_MESSAGE": "Beim Aktualisieren des benutzerdefinierten Attributs ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut"
+      }
+    },
+    "TABS": {
+      "HEADER": "Benutzerdefinierte Attribute",
+      "CONVERSATION": "Konversation",
+      "CONTACT": "Kontakt"
+    },
+    "LIST": {
+      "TABLE_HEADER": {
+        "NAME": "Name",
+        "DESCRIPTION": "Beschreibung",
+        "TYPE": "Typ",
+        "KEY": "Schlüssel"
+      },
+      "BUTTONS": {
+        "EDIT": "Bearbeiten",
+        "DELETE": "Löschen"
+      },
+      "EMPTY_RESULT": {
+        "404": "Es wurden keine benutzerdefinierten Attribute erstellt",
+        "NOT_FOUND": "Es sind keine benutzerdefinierten Attribute konfiguriert"
+      },
+      "REGEX_PATTERN": {
+        "LABEL": "Regex Muster",
+        "PLACEHOLDER": "Bitte benutzerdefiniertes Attribut Regex Muster eingeben. (Optional)"
+      },
+      "REGEX_CUE": {
+        "LABEL": "Regex Hinweis",
+        "PLACEHOLDER": "Bitte geben Sie einen Hinweis zum Regex Muster ein. (Optional)"
+      },
+      "ENABLE_REGEX": {
+        "LABEL": "Regex Validierung aktivieren"
+      }
+    },
+    "BADGES": {
+      "PRE_CHAT": "Pre-chat",
+      "RESOLUTION": "Resolution"
+    }
+  }
+}

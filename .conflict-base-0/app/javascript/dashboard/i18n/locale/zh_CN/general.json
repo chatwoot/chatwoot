@@ -1,0 +1,12 @@
+{
+  "GENERAL": {
+    "SHOWING_RESULTS": "显示第 {firstIndex} - {lastIndex} 项，共 {totalCount} 项",
+    "PHONE_INPUT": {
+      "PLACEHOLDER": "搜索",
+      "EMPTY_STATE": "没有检索到相关信息"
+    },
+    "CLOSE": "关闭",
+    "BETA": "测试版",
+    "BETA_DESCRIPTION": "This feature is in beta and may change as we improve it."
+  }
+}

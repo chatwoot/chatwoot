@@ -1,0 +1,13 @@
+{
+  "CSAT": {
+    "TITLE": "Đánh giá cuộc hội thoại",
+    "PLACEHOLDER": "Cho chúng tôi biết thêm...",
+    "RATINGS": {
+      "POOR": "😞 Poor",
+      "FAIR": "😑 Fair",
+      "AVERAGE": "😐 Average",
+      "GOOD": "😀 Good",
+      "EXCELLENT": "😍 Excellent"
+    }
+  }
+}

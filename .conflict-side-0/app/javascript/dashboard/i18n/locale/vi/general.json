@@ -1,0 +1,12 @@
+{
+  "GENERAL": {
+    "SHOWING_RESULTS": "Showing {firstIndex}-{lastIndex} of {totalCount} items",
+    "PHONE_INPUT": {
+      "PLACEHOLDER": "Tìm kiếm",
+      "EMPTY_STATE": "Không tìm thấy kết quả"
+    },
+    "CLOSE": "Đóng",
+    "BETA": "Beta",
+    "BETA_DESCRIPTION": "This feature is in beta and may change as we improve it."
+  }
+}

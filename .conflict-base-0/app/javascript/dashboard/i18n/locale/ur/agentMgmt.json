@@ -1,0 +1,124 @@
+{
+  "AGENT_MGMT": {
+    "HEADER": "ایجنٹ",
+    "HEADER_BTN_TXT": "ایجنٹ شامل کریں",
+    "LOADING": "ایجنٹ کی فہرست حاصل کی جا رہی ہے",
+    "DESCRIPTION": "An agent is a member of your customer support team who can view and respond to user messages. The list below shows all the agents in your account.",
+    "LEARN_MORE": "Learn about user roles",
+    "AGENT_TYPES": {
+      "ADMINISTRATOR": "منتظم",
+      "AGENT": "ایجنٹ"
+    },
+    "LIST": {
+      "404": "اس اکاؤنٹ سے کوئی ایجنٹ منسلک نہیں ہے",
+      "TITLE": "اپنی ٹیم میں ایجنٹوں کا انتظام کریں۔",
+      "DESC": "آپ اپنی ٹیم میں ایجنٹوں کو شامل يا ہٹا سکتے ہیں.",
+      "NAME": "نام",
+      "EMAIL": "ای میل",
+      "STATUS": "اسٹیٹس",
+      "ACTIONS": "عمل",
+      "VERIFIED": "تصدیق شدہ",
+      "VERIFICATION_PENDING": "تصدیق زیر التواء",
+      "AVAILABLE_CUSTOM_ROLE": "Available custom role permissions"
+    },
+    "ADD": {
+      "TITLE": "اپنی ٹیم میں ایجنٹ شامل کریں۔",
+      "DESC": "آپ ایسے لوگوں کو شامل کر سکتے ہیں جو آپ کے ان باکسز کے لیے سپورٹ کو سنبھال سکیں گے.",
+      "CANCEL_BUTTON_TEXT": "منسوخ کریں۔",
+      "FORM": {
+        "NAME": {
+          "LABEL": "ایجنٹ کا نام",
+          "PLACEHOLDER": "براہ کرم ایجنٹ کا نام درج کریں۔"
+        },
+        "AGENT_TYPE": {
+          "LABEL": "کردار",
+          "PLACEHOLDER": "براہ کرم ایک کردار منتخب کریں۔",
+          "ERROR": "کردار کی ضرورت ہے۔"
+        },
+        "EMAIL": {
+          "LABEL": "ای میل اڈریس",
+          "PLACEHOLDER": "براہ کرم ایجنٹ کا ای میل ایڈریس درج کریں۔"
+        },
+        "SUBMIT": "ایجنٹ شامل کریں"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "ایجنٹ کامیابی کے ساتھ شامل کرلیا گیا ہے",
+        "EXIST_MESSAGE": "ایجنٹ کا ای میل پہلے سے استعمال میں ہے، براہ کرم دوسرا ای میل آزمائیں۔",
+        "ERROR_MESSAGE": "ووٹ سرور کے ساتھ رابطہ ممکن نہی ہوسکا ، براہ کرم کچھ دیر بعد کوشش کریں"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "حذف کریں۔",
+      "API": {
+        "SUCCESS_MESSAGE": "ایجنٹ کامیابی کے ساتھ حذف ہو گیا۔",
+        "ERROR_MESSAGE": "ووٹ سرور کے ساتھ رابطہ ممکن نہی ہوسکا ، براہ کرم کچھ دیر بعد کوشش کریں"
+      },
+      "CONFIRM": {
+        "TITLE": "حذف کرنے کی تصدیق کریں۔",
+        "MESSAGE": "کیا آپ کو یقینی طور پر حذف کرنا ہے۔ ",
+        "YES": "ہاں، حذف کریں۔ ",
+        "NO": "نہیں ، رہنے دیں "
+      }
+    },
+    "EDIT": {
+      "TITLE": "ایجنٹ میں ترمیم کریں۔",
+      "FORM": {
+        "NAME": {
+          "LABEL": "ایجنٹ کا نام",
+          "PLACEHOLDER": "براہ کرم ایجنٹ کا نام درج کریں۔"
+        },
+        "AGENT_TYPE": {
+          "LABEL": "کردار",
+          "PLACEHOLDER": "براہ کرم ایک کردار منتخب کریں۔",
+          "ERROR": "کردار کی ضرورت ہے۔"
+        },
+        "EMAIL": {
+          "LABEL": "ای میل اڈریس",
+          "PLACEHOLDER": "براہ کرم ایجنٹ کا ای میل ایڈریس درج کریں۔"
+        },
+        "AGENT_AVAILABILITY": {
+          "LABEL": "Availability",
+          "PLACEHOLDER": "Please select an availability status",
+          "ERROR": "Availability is required"
+        },
+        "SUBMIT": "ایجنٹ میں ترمیم کریں۔"
+      },
+      "BUTTON_TEXT": "ترمیم",
+      "CANCEL_BUTTON_TEXT": "منسوخ کریں۔",
+      "API": {
+        "SUCCESS_MESSAGE": "ایجنٹ کامیابی کے ساتھ اپ ڈیٹ ہو گیا۔",
+        "ERROR_MESSAGE": "ووٹ سرور کے ساتھ رابطہ ممکن نہی ہوسکا ، براہ کرم کچھ دیر بعد کوشش کریں"
+      },
+      "PASSWORD_RESET": {
+        "ADMIN_RESET_BUTTON": "پاس ورڈ دوبارہ مرتب کریں",
+        "ADMIN_SUCCESS_MESSAGE": "ری سیٹ پاس ورڈ کی ہدایات کے ساتھ ایک ای میل ایجنٹ کو بھیج دی گئی ہے",
+        "SUCCESS_MESSAGE": "ایجنٹ کا پاس ورڈ کامیابی سے دوبارہ ترتیب ہو گیا ہے",
+        "ERROR_MESSAGE": "ووٹ سرور کے ساتھ رابطہ ممکن نہی ہوسکا ، براہ کرم کچھ دیر بعد کوشش کریں"
+      }
+    },
+    "SEARCH": {
+      "NO_RESULTS": "کوئی نتیجہ نہیں."
+    },
+    "MULTI_SELECTOR": {
+      "PLACEHOLDER": "کوئی نہیں۔",
+      "TITLE": {
+        "AGENT": "ایجنٹ منتخب کریں۔",
+        "TEAM": "ٹیم منتخب کریں۔"
+      },
+      "LIST": {
+        "NONE": "کوئی نہیں۔"
+      },
+      "SEARCH": {
+        "NO_RESULTS": {
+          "AGENT": "کوئی ایجنٹ نہیں ملا",
+          "TEAM": "کوئی ٹیمیں نہیں ملیں۔"
+        },
+        "PLACEHOLDER": {
+          "AGENT": "ایجنٹوں کو تلاش کریں۔",
+          "TEAM": "ٹیمیں تلاش کریں۔",
+          "INPUT": "Search for agents"
+        }
+      }
+    }
+  }
+}

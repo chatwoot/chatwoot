@@ -1,0 +1,85 @@
+{
+  "LABEL_MGMT": {
+    "HEADER": "Labelen",
+    "HEADER_BTN_TXT": "Label toevoegen",
+    "LOADING": "Labels ophalen",
+    "DESCRIPTION": "Labels help you categorize and prioritize conversations and leads. You can assign a label to a conversation or contact using the side panel.",
+    "LEARN_MORE": "Learn more about labels",
+    "SEARCH_404": "Er zijn geen items die overeenkomen met deze zoekopdracht",
+    "LIST": {
+      "404": "Er zijn geen labels beschikbaar in dit account.",
+      "TITLE": "Beheer labels",
+      "DESC": "Labels laten je gesprekken groeperen.",
+      "TABLE_HEADER": {
+        "NAME": "Naam",
+        "DESCRIPTION": "Beschrijving",
+        "COLOR": "Kleur"
+      }
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "Label naam",
+        "PLACEHOLDER": "Label naam",
+        "REQUIRED_ERROR": "Labelnaam is vereist",
+        "MINIMUM_LENGTH_ERROR": "Minimum lengte van 2 is vereist",
+        "VALID_ERROR": "Enkel letters, cijfers, liggend streepje & underscore zijn toegestaan"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Beschrijving",
+        "PLACEHOLDER": "Beschrijving label"
+      },
+      "COLOR": {
+        "LABEL": "Kleur"
+      },
+      "SHOW_ON_SIDEBAR": {
+        "LABEL": "Label op zijbalk weergeven"
+      },
+      "EDIT": "Bewerken",
+      "CREATE": "Aanmaken",
+      "DELETE": "Verwijderen",
+      "CANCEL": "Annuleren"
+    },
+    "SUGGESTIONS": {
+      "TOOLTIP": {
+        "SINGLE_SUGGESTION": "Label aan gesprek toevoegen",
+        "MULTIPLE_SUGGESTION": "Dit label selecteren",
+        "DESELECT": "Label deselecteren",
+        "DISMISS": "Voorstel negeren"
+      },
+      "POWERED_BY": "Chatwoot AI",
+      "DISMISS": "Negeren",
+      "ADD_SELECTED_LABELS": "Voeg geselecteerde labels toe",
+      "ADD_SELECTED_LABEL": "Geselecteerde label toevoegen",
+      "ADD_ALL_LABELS": "Voeg alle labels toe",
+      "SUGGESTED_LABELS": "Suggested labels"
+    },
+    "ADD": {
+      "TITLE": "Label toevoegen",
+      "DESC": "Labels laten je gesprekken groeperen.",
+      "API": {
+        "SUCCESS_MESSAGE": "Label succesvol toegevoegd",
+        "ERROR_MESSAGE": "Er is een fout opgetreden, probeer het opnieuw"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Bewerk label",
+      "API": {
+        "SUCCESS_MESSAGE": "Label succesvol bijgewerkt",
+        "ERROR_MESSAGE": "Er is een fout opgetreden, probeer het opnieuw"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Verwijderen",
+      "API": {
+        "SUCCESS_MESSAGE": "Label succesvol verwijderd",
+        "ERROR_MESSAGE": "Er is een fout opgetreden, probeer het opnieuw"
+      },
+      "CONFIRM": {
+        "TITLE": "Verwijdering bevestigen",
+        "MESSAGE": "Weet u zeker dat u wilt verwijderen ",
+        "YES": "Ja, verwijderen ",
+        "NO": "Nee, Behouden "
+      }
+    }
+  }
+}

@@ -1,0 +1,53 @@
+type: object
+properties:
+  id:
+    type: integer
+    description: Unique identifier for the audit log entry
+  auditable_id:
+    type: integer
+    description: The ID of the audited object
+  auditable_type:
+    type: string
+    description: The type of the audited object (e.g., Conversation, Contact, User)
+  auditable:
+    type: object
+    description: The audited object data
+  associated_id:
+    type: integer
+    description: The ID of the associated object (typically the account ID)
+  associated_type:
+    type: string
+    description: The type of the associated object
+  user_id:
+    type: integer
+    description: The ID of the user who performed the action
+  user_type:
+    type: string
+    description: The type of user who performed the action
+  username:
+    type: string
+    description: The email/username of the user who performed the action
+  action:
+    type: string
+    enum: ['create', 'update', 'destroy']
+    description: The action performed on the object
+  audited_changes:
+    type: object
+    description: JSON object containing the changes made to the audited object
+  version:
+    type: integer
+    description: Version number of the audit log entry
+  comment:
+    type: string
+    nullable: true
+    description: Optional comment associated with the audit log entry
+  request_uuid:
+    type: string
+    description: UUID to identify the request that generated this audit log
+  created_at:
+    type: integer
+    description: Unix timestamp when the audit log entry was created
+  remote_address:
+    type: string
+    nullable: true
+    description: IP address from which the action was performed

@@ -1,0 +1,49 @@
+{
+  "REGISTER": {
+    "TRY_WOOT": "Fiók létrehozása",
+    "TITLE": "Regisztrálás",
+    "TESTIMONIAL_HEADER": "Már csak egy lépés van hátra",
+    "TESTIMONIAL_CONTENT": "Már csak egy lépésre vagy!",
+    "TERMS_ACCEPT": "A fiók létrehozásával elfogadod az <a href=\"https://www.chatwoot.com/terms\">ÁSZF</a> és az <a href=\"https://www.chatwoot.com/privacy-policy\">Adatkezelési nyilatkozat</a> tartalmát",
+    "OAUTH": {
+      "GOOGLE_SIGNUP": "Regisztráció Google-el"
+    },
+    "COMPANY_NAME": {
+      "LABEL": "Cég neve",
+      "PLACEHOLDER": "Enter your company name. eg: Wayne Enterprises",
+      "ERROR": "Company name is too short"
+    },
+    "FULL_NAME": {
+      "LABEL": "Teljes név",
+      "PLACEHOLDER": "Add meg a teljes neved. Pl.: Kovács János",
+      "ERROR": "A teljes név túl rövid"
+    },
+    "EMAIL": {
+      "LABEL": "Munkahelyi e-mail",
+      "PLACEHOLDER": "Enter your work email address. E.g., bruce{'@'}wayne{'.'}enterprises",
+      "ERROR": "Please enter a valid work email address"
+    },
+    "PASSWORD": {
+      "LABEL": "Jelszó",
+      "PLACEHOLDER": "Jelszó",
+      "ERROR": "A jelszó túl rövid",
+      "IS_INVALID_PASSWORD": "Password should contain atleast 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character",
+      "REQUIREMENTS_LENGTH": "At least 6 characters long",
+      "REQUIREMENTS_UPPERCASE": "At least one uppercase letter",
+      "REQUIREMENTS_LOWERCASE": "At least one lowercase letter",
+      "REQUIREMENTS_NUMBER": "At least one number",
+      "REQUIREMENTS_SPECIAL": "At least one special character"
+    },
+    "CONFIRM_PASSWORD": {
+      "LABEL": "Jelszó megerősítése",
+      "PLACEHOLDER": "Jelszó megerősítése",
+      "ERROR": "A jelszavak nem egyeznek."
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Registration Successful",
+      "ERROR_MESSAGE": "Nem sikerült csatlakozni a Woot szerverhez, kérjük próbáld később"
+    },
+    "SUBMIT": "Fiók létrehozása",
+    "HAVE_AN_ACCOUNT": "Már van fiókod?"
+  }
+}

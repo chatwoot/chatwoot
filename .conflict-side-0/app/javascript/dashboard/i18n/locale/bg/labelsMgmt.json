@@ -1,0 +1,85 @@
+{
+  "LABEL_MGMT": {
+    "HEADER": "Labels",
+    "HEADER_BTN_TXT": "Add label",
+    "LOADING": "Fetching labels",
+    "DESCRIPTION": "Labels help you categorize and prioritize conversations and leads. You can assign a label to a conversation or contact using the side panel.",
+    "LEARN_MORE": "Learn more about labels",
+    "SEARCH_404": "Няма резултати отговарящи на тази заявка",
+    "LIST": {
+      "404": "There are no labels available in this account.",
+      "TITLE": "Manage labels",
+      "DESC": "Labels let you group the conversations together.",
+      "TABLE_HEADER": {
+        "NAME": "Име",
+        "DESCRIPTION": "Описание",
+        "COLOR": "Color"
+      }
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "Label Name",
+        "PLACEHOLDER": "Label name",
+        "REQUIRED_ERROR": "Label name is required",
+        "MINIMUM_LENGTH_ERROR": "Minimum length 2 is required",
+        "VALID_ERROR": "Only Alphabets, Numbers, Hyphen and Underscore are allowed"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Описание",
+        "PLACEHOLDER": "Label Description"
+      },
+      "COLOR": {
+        "LABEL": "Color"
+      },
+      "SHOW_ON_SIDEBAR": {
+        "LABEL": "Show label on sidebar"
+      },
+      "EDIT": "Редактирай",
+      "CREATE": "Create",
+      "DELETE": "Изтрий",
+      "CANCEL": "Отмени"
+    },
+    "SUGGESTIONS": {
+      "TOOLTIP": {
+        "SINGLE_SUGGESTION": "Add label to conversation",
+        "MULTIPLE_SUGGESTION": "Select this label",
+        "DESELECT": "Deselect label",
+        "DISMISS": "Dismiss suggestion"
+      },
+      "POWERED_BY": "Chatwoot AI",
+      "DISMISS": "Dismiss",
+      "ADD_SELECTED_LABELS": "Add selected labels",
+      "ADD_SELECTED_LABEL": "Add selected label",
+      "ADD_ALL_LABELS": "Add all labels",
+      "SUGGESTED_LABELS": "Suggested labels"
+    },
+    "ADD": {
+      "TITLE": "Add label",
+      "DESC": "Labels let you group the conversations together.",
+      "API": {
+        "SUCCESS_MESSAGE": "Label added successfully",
+        "ERROR_MESSAGE": "There was an error, please try again"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Edit label",
+      "API": {
+        "SUCCESS_MESSAGE": "Label updated successfully",
+        "ERROR_MESSAGE": "There was an error, please try again"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Изтрий",
+      "API": {
+        "SUCCESS_MESSAGE": "Label deleted successfully",
+        "ERROR_MESSAGE": "There was an error, please try again"
+      },
+      "CONFIRM": {
+        "TITLE": "Потвърди изтриването",
+        "MESSAGE": "Сигурни ли сте за изтриването ",
+        "YES": "Да, изтрий ",
+        "NO": "Не, запази "
+      }
+    }
+  }
+}

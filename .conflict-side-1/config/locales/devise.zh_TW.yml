@@ -1,0 +1,60 @@
+#Additional translations at https://github.com/plataformatec/devise/wiki/I18n
+zh_TW:
+  devise:
+    confirmations:
+      confirmed: "您的信箱已通過驗證，現在您已成功登入。"
+      send_instructions: "您將在幾分鐘後收到一封電子郵件，內有驗證帳號的步驟說明。"
+      send_paranoid_instructions: "如果我們有您的信箱，您將會收到一封驗證您的帳號的電子郵件。"
+    failure:
+      already_authenticated: "您已經登入。"
+      inactive: "您的帳號尚未被啟用。"
+      invalid: "%{authentication_keys}密碼或帳號尚未審核。"
+      locked: "您的帳號已被鎖定。"
+      last_attempt: "您還有最後一次嘗試機會，再次失敗您的帳號將會被鎖定。"
+      not_found_in_database: "%{authentication_keys}或密碼錯誤。"
+      timeout: "您的登入時效過期，請重新登入。"
+      unauthenticated: "您需要先登入或註冊後才能繼續。"
+      unconfirmed: "您的帳號需要經過驗證後，才能繼續。"
+    mailer:
+      confirmation_instructions:
+        subject: "確認指令"
+      reset_password_instructions:
+        subject: "重設密碼"
+      unlock_instructions:
+        subject: "帳號解鎖步驟"
+      password_change:
+        subject: "密碼已更改"
+    omniauth_callbacks:
+      failure: "因為 %{reason}，無法從 %{kind} 驗證。"
+      success: "成功從 %{kind} 驗證。"
+    passwords:
+      no_token: "這是密碼重設頁面，僅能透過密碼重設信件進入。如果您是透過重設信件進入的，請確認您的網址是完整的。"
+      send_instructions: "您將在幾分鐘後收到一封電子郵件，內有重新設定密碼的步驟說明。"
+      send_paranoid_instructions: "如果我們有您的信箱，您將會收到一封內含可重新設定密碼連結的電子郵件。"
+      updated: "您的密碼已被修改，您現在已經登入。"
+      updated_not_active: "您的密碼已被修改。"
+    registrations:
+      destroyed: "再會！您的帳號已被取消。有緣再會。"
+      signed_up: "註冊成功，歡迎！"
+      signed_up_but_inactive: "您已註冊成功。然而因為您的帳號尚未啓動，暫時無法登入，抱歉！"
+      signed_up_but_locked: "您已註冊成功。 然而因為您的帳號已被鎖定，暫時無法登入，抱歉！"
+      signed_up_but_unconfirmed: "確認信件已送至您的 Email 信箱，請點擊信件內連結以啓動您的帳號。"
+      update_needs_confirmation: "您已經成功的更新帳號資訊，但我們仍需確認您的電子信箱，請至新信箱收信並點擊連結以確認您的新電子郵件帳號。"
+      updated: "您已經成功的更新帳號資訊。"
+    sessions:
+      signed_in: "成功登入。"
+      signed_out: "成功登出。"
+      already_signed_out: "成功登出。"
+    unlocks:
+      send_instructions: "您將在幾分鐘後收到一封電子郵件，內有將帳號解除鎖定的步驟說明。"
+      send_paranoid_instructions: "如果您的帳號已存在，您的電子信箱將會收到如何解鎖帳號的指示。"
+      unlocked: "您的帳號已被解鎖，現在已經登入。"
+  errors:
+    messages:
+      already_confirmed: "已經驗證，請直接登入。"
+      confirmation_period_expired: "必須在 %{period} 內驗證，請重新申請。"
+      expired: "已經過期，請重新申請。"
+      not_found: "找不到。"
+      not_locked: "並未被鎖定。"
+      not_saved:
+        other: "有 %{count} 個錯誤導致 %{resource} 不能被儲存："

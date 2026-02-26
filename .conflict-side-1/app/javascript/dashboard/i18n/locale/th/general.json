@@ -1,0 +1,12 @@
+{
+  "GENERAL": {
+    "SHOWING_RESULTS": "Showing {firstIndex}-{lastIndex} of {totalCount} items",
+    "PHONE_INPUT": {
+      "PLACEHOLDER": "ค้นหา",
+      "EMPTY_STATE": "No results found"
+    },
+    "CLOSE": "ปิด",
+    "BETA": "Beta",
+    "BETA_DESCRIPTION": "This feature is in beta and may change as we improve it."
+  }
+}

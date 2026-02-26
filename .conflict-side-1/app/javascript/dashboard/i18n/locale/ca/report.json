@@ -1,0 +1,582 @@
+{
+  "REPORT": {
+    "HEADER": "Converses",
+    "LOADING_CHART": "S'estan carregant dades del gràfic...",
+    "NO_ENOUGH_DATA": "No hem rebut suficients punts de dades per generar l'informe. Torneu-ho a provar més endavant.",
+    "DOWNLOAD_AGENT_REPORTS": "Descarregar Informes d'Agent",
+    "DATA_FETCHING_FAILED": "No s'han pogut obtenir les dades. Intenta-ho més tard.",
+    "SUMMARY_FETCHING_FAILED": "No s'ha pogut obtenir el resum; torna-ho a provar més tard.",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "Converses",
+        "DESC": "( Total )"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "Missatges d'entrada",
+        "DESC": "( Total )"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "Missatges de sortida",
+        "DESC": "( Total )"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "Primer Temps de Resposta",
+        "DESC": "( Promig )",
+        "INFO_TEXT": "Nombre total de converses utilitzades per al càlcul:",
+        "TOOLTIP_TEXT": "El temps de primera resposta (FRT) és {metricValue} (basat en {conversationCount} converses)"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "Temps de resolució",
+        "DESC": "( Promig )",
+        "INFO_TEXT": "Nombre total de converses utilitzades per al càlcul:",
+        "TOOLTIP_TEXT": "El temps de resolució (RT) és {metricValue} (basat en {conversationCount} converses)"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "Total de resolucions",
+        "DESC": "( Total )"
+      },
+      "BOT_RESOLUTION_COUNT": {
+        "NAME": "Total de resolucions",
+        "DESC": "( Total )"
+      },
+      "BOT_HANDOFF_COUNT": {
+        "NAME": "Recompte de lliuraments",
+        "DESC": "( Total )"
+      },
+      "REPLY_TIME": {
+        "NAME": "Temps d'espera del client",
+        "TOOLTIP_TEXT": "El temps d'espera és {metricValue} (basat en {conversationCount} respostes)",
+        "DESC": ""
+      }
+    },
+    "DATE_RANGE_OPTIONS": {
+      "LAST_7_DAYS": "Últims 7 dies",
+      "LAST_14_DAYS": "Últims 14 dies",
+      "LAST_30_DAYS": "Últims 30 dies",
+      "THIS_MONTH": "This month",
+      "LAST_MONTH": "Last month",
+      "LAST_3_MONTHS": "Últims tres mesos",
+      "LAST_6_MONTHS": "Últims sis mesos",
+      "LAST_YEAR": "Darrer any",
+      "CUSTOM_DATE_RANGE": "Interval de dates personalitzat"
+    },
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Aplica",
+      "PLACEHOLDER": "Seleccioneu l'interval de dates"
+    },
+    "GROUP_BY_FILTER_DROPDOWN_LABEL": "Agrupar per",
+    "DURATION_FILTER_LABEL": "Durada",
+    "GROUPING_OPTIONS": {
+      "DAY": "Dia",
+      "WEEK": "Setmana",
+      "MONTH": "Mes",
+      "YEAR": "Any"
+    },
+    "GROUP_BY_DAY_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Dia"
+      }
+    ],
+    "GROUP_BY_WEEK_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Dia"
+      },
+      {
+        "id": 2,
+        "groupBy": "Setmana"
+      }
+    ],
+    "GROUP_BY_MONTH_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Dia"
+      },
+      {
+        "id": 2,
+        "groupBy": "Setmana"
+      },
+      {
+        "id": 3,
+        "groupBy": "Mes"
+      }
+    ],
+    "GROUP_BY_YEAR_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Day"
+      },
+      {
+        "id": 2,
+        "groupBy": "Week"
+      },
+      {
+        "id": 3,
+        "groupBy": "Month"
+      }
+    ],
+    "BUSINESS_HOURS": "Horari comercial",
+    "FILTER_ACTIONS": {
+      "CLEAR_FILTER": "Esborra els filtres",
+      "EMPTY_LIST": "No s'ha trobat agents"
+    },
+    "PAGINATION": {
+      "RESULTS": "Showing {start} to {end} of {total} results",
+      "PER_PAGE_TEMPLATE": "{size} / page"
+    }
+  },
+  "AGENT_REPORTS": {
+    "HEADER": "Visió general dels agents",
+    "DESCRIPTION": "Easily track agent performance with key metrics such as conversations, response times, resolution times, and resolved cases. Click an agent’s name to learn more.",
+    "LOADING_CHART": "S'estan carregant dades del gràfic...",
+    "NO_ENOUGH_DATA": "No hem rebut suficients punts de dades per generar l'informe. Torneu-ho a provar més endavant.",
+    "DOWNLOAD_AGENT_REPORTS": "Descarregar Informes d'Agent",
+    "FILTER_DROPDOWN_LABEL": "Seleccionar Agent",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "Converses",
+        "DESC": "( Total )"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "Missatges d'entrada",
+        "DESC": "( Total )"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "Missatges de sortida",
+        "DESC": "( Total )"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "Primer Temps de Resposta",
+        "DESC": "( Promig )",
+        "INFO_TEXT": "Nombre total de converses utilitzades per al càlcul:",
+        "TOOLTIP_TEXT": "El temps de primera resposta (FRT) és {metricValue} (basat en {conversationCount} converses)"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "Temps de resolució",
+        "DESC": "( Promig )",
+        "INFO_TEXT": "Nombre total de converses utilitzades per al càlcul:",
+        "TOOLTIP_TEXT": "El temps de resolució (RT) és {metricValue} (basat en {conversationCount} converses)"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "Total de resolucions",
+        "DESC": "( Total )"
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Últims 7 dies"
+      },
+      {
+        "id": 1,
+        "name": "Últims 30 dies"
+      },
+      {
+        "id": 2,
+        "name": "Últims tres mesos"
+      },
+      {
+        "id": 3,
+        "name": "Últims sis mesos"
+      },
+      {
+        "id": 4,
+        "name": "Darrer any"
+      },
+      {
+        "id": 5,
+        "name": "Interval de dates personalitzat"
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Aplica",
+      "PLACEHOLDER": "Seleccioneu l'interval de dates"
+    }
+  },
+  "LABEL_REPORTS": {
+    "HEADER": "Visió general de les etiquetes",
+    "DESCRIPTION": "Track label performance with key metrics including conversations, response times, resolution times, and resolved cases. Click a label name for detailed insights.",
+    "LOADING_CHART": "S'estan carregant dades del gràfic...",
+    "NO_ENOUGH_DATA": "No hem rebut suficients punts de dades per generar l'informe. Torneu-ho a provar més endavant.",
+    "DOWNLOAD_LABEL_REPORTS": "Descarregar Informes d'etiquetes",
+    "FILTER_DROPDOWN_LABEL": "Selecciona l'etiqueta",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "Converses",
+        "DESC": "( Total )"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "Missatges d'entrada",
+        "DESC": "( Total )"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "Missatges de sortida",
+        "DESC": "( Total )"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "Primer Temps de Resposta",
+        "DESC": "(Mitjana)",
+        "INFO_TEXT": "Nombre total de converses utilitzades per al càlcul:",
+        "TOOLTIP_TEXT": "El temps de primera resposta (FRT) és {metricValue} (basat en {conversationCount} converses)"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "Temps de resolució",
+        "DESC": "( Promig )",
+        "INFO_TEXT": "Nombre total de converses utilitzades per al càlcul:",
+        "TOOLTIP_TEXT": "El temps de resolució (RT) és {metricValue} (basat en {conversationCount} converses)"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "Total de resolucions",
+        "DESC": "( Total )"
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Últims 7 dies"
+      },
+      {
+        "id": 1,
+        "name": "Últims 30 dies"
+      },
+      {
+        "id": 2,
+        "name": "Últims tres mesos"
+      },
+      {
+        "id": 3,
+        "name": "Últims sis mesos"
+      },
+      {
+        "id": 4,
+        "name": "Darrer any"
+      },
+      {
+        "id": 5,
+        "name": "Interval de dates personalitzat"
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Aplica",
+      "PLACEHOLDER": "Seleccioneu l'interval de dates"
+    }
+  },
+  "INBOX_REPORTS": {
+    "HEADER": "Visió general de la safata d'entrada",
+    "DESCRIPTION": "Quickly view your inbox performance with key metrics like conversations, response times, resolution times, and resolved cases—all in one place. Click an inbox name for more details.",
+    "LOADING_CHART": "S'estan carregant dades del gràfic...",
+    "NO_ENOUGH_DATA": "No hem rebut suficients punts de dades per generar l'informe. Torneu-ho a provar més endavant.",
+    "DOWNLOAD_INBOX_REPORTS": "Baixa els informes de la safata d'entrada",
+    "FILTER_DROPDOWN_LABEL": "Selecciona Safata d'entrada",
+    "ALL_INBOXES": "All Inboxes",
+    "SEARCH_INBOX": "Search Inbox",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "Converses",
+        "DESC": "( Total )"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "Missatges d'entrada",
+        "DESC": "( Total )"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "Missatges de sortida",
+        "DESC": "( Total )"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "Primer Temps de Resposta",
+        "DESC": "( Promig )",
+        "INFO_TEXT": "Nombre total de converses utilitzades per al càlcul:",
+        "TOOLTIP_TEXT": "El temps de primera resposta (FRT) és {metricValue} (basat en {conversationCount} converses)"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "Temps de resolució",
+        "DESC": "( Promig )",
+        "INFO_TEXT": "Nombre total de converses utilitzades per al càlcul:",
+        "TOOLTIP_TEXT": "El temps de resolució (RT) és {metricValue} (basat en {conversationCount} converses)"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "Total de resolucions",
+        "DESC": "( Total )"
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Últims 7 dies"
+      },
+      {
+        "id": 1,
+        "name": "Últims 30 dies"
+      },
+      {
+        "id": 2,
+        "name": "Últims tres mesos"
+      },
+      {
+        "id": 3,
+        "name": "Últims sis mesos"
+      },
+      {
+        "id": 4,
+        "name": "Darrer any"
+      },
+      {
+        "id": 5,
+        "name": "Interval de dates personalitzat"
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Aplica",
+      "PLACEHOLDER": "Seleccioneu l'interval de dates"
+    }
+  },
+  "TEAM_REPORTS": {
+    "HEADER": "Visió general de l'equip",
+    "DESCRIPTION": "Get a snapshot of your team’s performance with essential metrics, including conversations, response times, resolution times, and resolved cases. Click a team name for more details.",
+    "LOADING_CHART": "S'estan carregant dades del gràfic...",
+    "NO_ENOUGH_DATA": "No hem rebut suficients punts de dades per generar l'informe. Torneu-ho a provar més endavant.",
+    "DOWNLOAD_TEAM_REPORTS": "Descarregar Informes d'equip",
+    "FILTER_DROPDOWN_LABEL": "Selecciona equip",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "Converses",
+        "DESC": "( Total )"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "Missatges d'entrada",
+        "DESC": "( Total )"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "Missatges de sortida",
+        "DESC": "( Total )"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "Primer Temps de Resposta",
+        "DESC": "( Promig )",
+        "INFO_TEXT": "Nombre total de converses utilitzades per al càlcul:",
+        "TOOLTIP_TEXT": "El temps de primera resposta (FRT) és {metricValue} (basat en {conversationCount} converses)"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "Temps de resolució",
+        "DESC": "( Promig )",
+        "INFO_TEXT": "Nombre total de converses utilitzades per al càlcul:",
+        "TOOLTIP_TEXT": "El temps de resolució (RT) és {metricValue} (basat en {conversationCount} converses)"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "Total de resolucions",
+        "DESC": "( Total )"
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Últims 7 dies"
+      },
+      {
+        "id": 1,
+        "name": "Últims 30 dies"
+      },
+      {
+        "id": 2,
+        "name": "Últims tres mesos"
+      },
+      {
+        "id": 3,
+        "name": "Últims sis mesos"
+      },
+      {
+        "id": 4,
+        "name": "Darrer any"
+      },
+      {
+        "id": 5,
+        "name": "Interval de dates personalitzat"
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Aplica",
+      "PLACEHOLDER": "Seleccioneu l'interval de dates"
+    }
+  },
+  "CSAT_REPORTS": {
+    "HEADER": "Informes CSAT",
+    "NO_RECORDS": "No hi ha respostes de l'enquesta CSAT disponibles.",
+    "DOWNLOAD": "Descarregar informes CSAT",
+    "DOWNLOAD_FAILED": "No s'han pogut baixar els informes CSAT",
+    "FILTERS": {
+      "AGENTS": {
+        "PLACEHOLDER": "Escull agents"
+      }
+    },
+    "TABLE": {
+      "HEADER": {
+        "CONTACT_NAME": "Contacte",
+        "AGENT_NAME": "Agent assignat",
+        "RATING": "Valoració",
+        "FEEDBACK_TEXT": "Comentaris"
+      }
+    },
+    "METRIC": {
+      "TOTAL_RESPONSES": {
+        "LABEL": "Respostes totals",
+        "TOOLTIP": "Nombre total de respostes recollides"
+      },
+      "SATISFACTION_SCORE": {
+        "LABEL": "Puntuació de satisfacció",
+        "TOOLTIP": "Nombre total de respostes positives / Nombre total de respostes * 100"
+      },
+      "RESPONSE_RATE": {
+        "LABEL": "Taxa de resposta",
+        "TOOLTIP": "Nombre total de respostes / Nombre total de missatges d'enquesta CSAT enviats * 100"
+      }
+    }
+  },
+  "BOT_REPORTS": {
+    "HEADER": "Informes de bot",
+    "METRIC": {
+      "TOTAL_CONVERSATIONS": {
+        "LABEL": "Nre. de converses",
+        "TOOLTIP": "Nombre total de converses gestionades pel bot"
+      },
+      "TOTAL_RESPONSES": {
+        "LABEL": "Respostes totals",
+        "TOOLTIP": "Nombre total de respostes enviades pel bot"
+      },
+      "RESOLUTION_RATE": {
+        "LABEL": "Taxa de resolució",
+        "TOOLTIP": "Nombre total de converses resoltes pel bot / Nombre total de converses gestionades pel bot * 100"
+      },
+      "HANDOFF_RATE": {
+        "LABEL": "Taxa de trasllat",
+        "TOOLTIP": "Nombre total de converses lliurades als agents / Nombre total de converses gestionades pel bot * 100"
+      }
+    }
+  },
+  "OVERVIEW_REPORTS": {
+    "HEADER": "Resum",
+    "LIVE": "En directe",
+    "ACCOUNT_CONVERSATIONS": {
+      "HEADER": "Obrir converses",
+      "LOADING_MESSAGE": "S'estan carregant les mètriques de les converses...",
+      "OPEN": "Obrir",
+      "UNATTENDED": "Sense assistència",
+      "UNASSIGNED": "Sense assignar",
+      "PENDING": "Pendent"
+    },
+    "CONVERSATION_HEATMAP": {
+      "HEADER": "Trànsit de conversa",
+      "NO_CONVERSATIONS": "Sense converses",
+      "CONVERSATION": "{count} conversa",
+      "CONVERSATIONS": "{count} converses",
+      "DOWNLOAD_REPORT": "Download report"
+    },
+    "RESOLUTION_HEATMAP": {
+      "HEADER": "Resolutions",
+      "NO_CONVERSATIONS": "Sense converses",
+      "CONVERSATION": "{count} conversa",
+      "CONVERSATIONS": "{count} converses",
+      "DOWNLOAD_REPORT": "Download report"
+    },
+    "AGENT_CONVERSATIONS": {
+      "HEADER": "Converses per agents",
+      "LOADING_MESSAGE": "S'estan carregant les mètriques dels agents...",
+      "NO_AGENTS": "No hi ha converses per part dels agents",
+      "TABLE_HEADER": {
+        "AGENT": "Agent",
+        "OPEN": "Obrir",
+        "UNATTENDED": "Sense assistència",
+        "STATUS": "Estat"
+      }
+    },
+    "TEAM_CONVERSATIONS": {
+      "ALL_TEAMS": "All Teams",
+      "HEADER": "Conversations by teams",
+      "LOADING_MESSAGE": "Loading team metrics...",
+      "NO_TEAMS": "There is no data available",
+      "TABLE_HEADER": {
+        "TEAM": "Equip",
+        "OPEN": "Obrir",
+        "UNATTENDED": "Sense assistència",
+        "STATUS": "Estat"
+      }
+    },
+    "AGENT_STATUS": {
+      "HEADER": "Estat de l'agent",
+      "ONLINE": "En línia",
+      "BUSY": "Ocupat",
+      "OFFLINE": "Fora de línia"
+    }
+  },
+  "DAYS_OF_WEEK": {
+    "SUNDAY": "Diumenge",
+    "MONDAY": "Dilluns",
+    "TUESDAY": "Dimarts",
+    "WEDNESDAY": "Dimecres",
+    "THURSDAY": "Dijous",
+    "FRIDAY": "Divendres",
+    "SATURDAY": "Dissabte"
+  },
+  "SLA_REPORTS": {
+    "HEADER": "Informes SLA",
+    "NO_RECORDS": "Les converses aplicades per l'SLA no estan disponibles.",
+    "LOADING": "S'estan carregant dades del SLA...",
+    "DOWNLOAD_SLA_REPORTS": "Descarregar informes SLA",
+    "DOWNLOAD_FAILED": "No s'han pogut baixar els informes SLA",
+    "DROPDOWN": {
+      "ADD_FIlTER": "Afegeix un filtre",
+      "CLEAR_ALL": "Esborrar tot",
+      "CLEAR_FILTER": "Esborra els filtres",
+      "EMPTY_LIST": "No s'ha trobat agents",
+      "NO_FILTER": "No hi ha filtres disponibles",
+      "SEARCH": "Cerca filtre",
+      "INPUT_PLACEHOLDER": {
+        "SLA": "Nom del SLA",
+        "AGENTS": "Nom de l'Agent",
+        "INBOXES": "Nom de la safata d'entrada",
+        "LABELS": "Nom de l'etiqueta",
+        "TEAMS": "Nom de l'equip"
+      },
+      "SLA": "Política SLA",
+      "INBOXES": "Safata d'entrada",
+      "AGENTS": "Agent",
+      "LABELS": "Etiqueta",
+      "TEAMS": "Equip"
+    },
+    "WITH": "with",
+    "METRICS": {
+      "HIT_RATE": {
+        "LABEL": "Proporció d'encerts",
+        "TOOLTIP": "El percentatge de SLA creats s'ha completat correctament"
+      },
+      "NO_OF_MISSES": {
+        "LABEL": "Nombre de faltes",
+        "TOOLTIP": "SLA total faltes en un període determinat"
+      },
+      "NO_OF_CONVERSATIONS": {
+        "LABEL": "Número de Converses",
+        "TOOLTIP": "Nombre total de converses amb SLA"
+      }
+    },
+    "TABLE": {
+      "HEADER": {
+        "POLICY": "Política",
+        "CONVERSATION": "Converses",
+        "AGENT": "Agent"
+      },
+      "VIEW_DETAILS": "Veure Detalls"
+    }
+  },
+  "SUMMARY_REPORTS": {
+    "INBOX": "Safata d'entrada",
+    "AGENT": "Agent",
+    "TEAM": "Equip",
+    "LABEL": "Etiqueta",
+    "AVG_RESOLUTION_TIME": "Avg. Resolution Time",
+    "AVG_FIRST_RESPONSE_TIME": "Avg. First Response Time",
+    "AVG_REPLY_TIME": "Avg. Customer Waiting Time",
+    "RESOLUTION_COUNT": "Total de resolucions",
+    "CONVERSATIONS": "Nre. de converses"
+  }
+}

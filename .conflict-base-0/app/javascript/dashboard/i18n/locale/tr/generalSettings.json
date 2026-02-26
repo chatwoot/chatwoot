@@ -1,0 +1,251 @@
+{
+  "GENERAL_SETTINGS": {
+    "LIMIT_MESSAGES": {
+      "CONVERSATION": "Konuşma limitini aştınız. Hacker planı yalnızca 500 konuşmaya izin vermektedir.",
+      "INBOXES": "Gelen kutusu limitini aştınız. Hacker planı yalnızca web sitesi canlı sohbetini desteklemektedir. E-posta, WhatsApp gibi ek gelen kutuları ücretli bir plan gerektirir.",
+      "AGENTS": "Temsilci sınırını aştınız. Planınız yalnızca {allowedAgents} temsilciye izin veriyor.",
+      "NON_ADMIN": "Tüm özellikleri kullanmaya devam etmek için lütfen yöneticinizle iletişime geçin ve planı yükseltin."
+    },
+    "TITLE": "Hesap Ayarları",
+    "SUBMIT": "Ayarları Güncelle",
+    "BACK": "Geri",
+    "DISMISS": "Kapat",
+    "UPDATE": {
+      "ERROR": "Ayarlar güncellenemedi, lütfen tekrar deneyin!",
+      "SUCCESS": "Hesap ayarları başarıyla güncellendi"
+    },
+    "ACCOUNT_DELETE_SECTION": {
+      "TITLE": "Hesabınızı silin",
+      "NOTE": "Hesabınızı sildikten sonra tüm verileriniz silinecektir.",
+      "BUTTON_TEXT": "Hesabınızı Silin",
+      "CONFIRM": {
+        "TITLE": "Hesabı Sil",
+        "MESSAGE": "Hesabınızı silmek geri alınamaz bir işlemdir. Kalıcı olarak silmek istediğinizi onaylamak için aşağıya hesap adınızı girin.",
+        "BUTTON_TEXT": "Sil",
+        "DISMISS": "İptal Et",
+        "PLACE_HOLDER": "Onaylamak için lütfen {accountName} yazın"
+      },
+      "SUCCESS": "Hesap silinmek üzere işaretlendi",
+      "FAILURE": "Hesap silinemedi, tekrar deneyin!",
+      "SCHEDULED_DELETION": {
+        "TITLE": "Hesap silinmek üzere planlandı",
+        "MESSAGE_MANUAL": "Bu hesap {deletionDate} tarihinde silinmek üzere planlandı. Bu, bir yönetici tarafından talep edildi. Bu tarihten önce silmeyi iptal edebilirsiniz.",
+        "MESSAGE_INACTIVITY": "Bu hesap, hesap etkinliği olmadığı için {deletionDate} tarihinde silinmek üzere planlandı. Bu tarihten önce silmeyi iptal edebilirsiniz.",
+        "CLEAR_BUTTON": "Planlanan Silmeyi İptal Et"
+      }
+    },
+    "FORM": {
+      "ERROR": "Lütfen formdaki hataları düzeltin",
+      "GENERAL_SECTION": {
+        "TITLE": "Genel Ayarlar",
+        "NOTE": ""
+      },
+      "ACCOUNT_ID": {
+        "TITLE": "Hesap Kimliği",
+        "NOTE": "API tabanlı bir entegrasyon oluşturuyorsanız bu kimlik gereklidir"
+      },
+      "AUTO_RESOLVE": {
+        "TITLE": "Konuşmaları Otomatik Çöz",
+        "NOTE": "Bu yapılandırma, belirli bir hareketsizlik süresinden sonra konuşmayı otomatik olarak çözümlemenize olanak tanır.",
+        "DURATION": {
+          "LABEL": "Hareketsizlik süresi",
+          "HELP": "Konuşmanın otomatik olarak çözümlenmesinden önceki hareketsizlik süresi",
+          "PLACEHOLDER": "30",
+          "ERROR": "Otomatik çözme süresi 10 dakika ile 999 gün arasında olmalıdır",
+          "API": {
+            "SUCCESS": "Otomatik çözme ayarları başarıyla güncellendi",
+            "ERROR": "Otomatik çözme ayarları güncellenemedi"
+          }
+        },
+        "MESSAGE": {
+          "LABEL": "Özel otomatik çözüm mesajı",
+          "PLACEHOLDER": "Konuşma, 15 günlük hareketsizlik nedeniyle sistem tarafından çözümlendi olarak işaretlendi",
+          "HELP": "Konuşma otomatik olarak çözüldükten sonra müşteriye gönderilen mesaj"
+        },
+        "PREFERENCES": "Tercihler",
+        "LABEL": {
+          "LABEL": "Otomatik çözümden sonra etiket ekle",
+          "PLACEHOLDER": "Etiket seç"
+        },
+        "IGNORE_WAITING": {
+          "LABEL": "Temsilci yanıtı bekleyen sohbetleri atla"
+        },
+        "UPDATE_BUTTON": "Değişiklikleri Kaydet"
+      },
+      "NAME": {
+        "LABEL": "Hesap Adı",
+        "PLACEHOLDER": "Hesap adınız",
+        "ERROR": "Lütfen geçerli bir hesap adı girin"
+      },
+      "LANGUAGE": {
+        "LABEL": "Site Dili",
+        "PLACEHOLDER": "Site diliniz",
+        "ERROR": ""
+      },
+      "DOMAIN": {
+        "LABEL": "Gelen E-posta Alanı",
+        "PLACEHOLDER": "E-postaları alacağınız alan",
+        "ERROR": ""
+      },
+      "SUPPORT_EMAIL": {
+        "LABEL": "Destek E-postası",
+        "PLACEHOLDER": "Şirketinizin destek e-postası",
+        "ERROR": ""
+      },
+      "AUTO_RESOLVE_IGNORE_WAITING": {
+        "LABEL": "Yanıtsız sohbetleri hariç tut",
+        "HELP": "Etkinleştirildiğinde, sistem hâlâ bir temsilcinin yanıtını bekleyen konuşmaları çözümlemeyi atlayacaktır."
+      },
+      "AUDIO_TRANSCRIPTION": {
+        "TITLE": "Sesli Mesajları Metne Çevir",
+        "NOTE": "Konuşmalardaki sesli mesajları otomatik olarak metne çevirin. Bir sesli mesaj gönderildiğinde veya alındığında bir metin dökümü (transkript) oluşturun ve mesajın yanında görüntüleyin.",
+        "API": {
+          "SUCCESS": "Sesli mesaj transkripsiyon ayarı başarıyla güncellendi",
+          "ERROR": "Ses transkripsiyon ayarı güncellenirken hata oluştu"
+        }
+      },
+      "AUTO_RESOLVE_DURATION": {
+        "LABEL": "Çözümleme için hareketsizlik süresi",
+        "HELP": "Bir konuşmanın, hiçbir etkinlik olmazsa otomatik olarak çözümlenmesi gereken süre",
+        "PLACEHOLDER": "30",
+        "ERROR": "Otomatik çözme süresi 10 dakika ile 999 gün arasında olmalıdır",
+        "API": {
+          "SUCCESS": "Otomatik çözme ayarları başarıyla güncellendi",
+          "ERROR": "Otomatik çözme ayarları güncellenemedi"
+        },
+        "UPDATE_BUTTON": "Güncelleme",
+        "MESSAGE_LABEL": "Özel çözüm mesajı",
+        "MESSAGE_PLACEHOLDER": "Konuşma, 15 günlük hareketsizlik nedeniyle sistem tarafından çözümlendi olarak işaretlendi",
+        "MESSAGE_HELP": "Bu mesaj, bir konuşma hareketsizlik nedeniyle sistem tarafından otomatik olarak çözümlendiğinde müşteriye gönderilir."
+      },
+      "FEATURES": {
+        "INBOUND_EMAIL_ENABLED": "Hesabınız için e-posta ile iletişim devre dışı bırakıldı.",
+        "CUSTOM_EMAIL_DOMAIN_ENABLED": "Artık özel alan adınızda e-postalar alabilirsiniz."
+      }
+    },
+    "UPDATE_CHATWOOT": "{latestChatwootVersion} chatwoot sürümü indirilebilir. Lütfen sürümü güncelleyin.",
+    "LEARN_MORE": "Daha Fazla",
+    "PAYMENT_PENDING": "Ödemeniz bekliyor. Devam etmek için ödeme bilgilerinizi güncelleyin.",
+    "UPGRADE": "Chatwoot'u kullanmaya devam etmek için yükseltin",
+    "LIMITS_UPGRADE": "Hesabınız kullanım sınırlarını aştı, lütfen Chatwoot'u kullanmaya devam etmek için planınızı yükseltin",
+    "OPEN_BILLING": "Fatura Detayları"
+  },
+  "FORMS": {
+    "MULTISELECT": {
+      "ENTER_TO_SELECT": "Seçmek için enter tuşuna basın",
+      "ENTER_TO_REMOVE": "Kaldırmak için enter tuşuna basın",
+      "NO_OPTIONS": "Liste boş",
+      "SELECT_ONE": "Birini seç",
+      "SELECT": "Seç"
+    }
+  },
+  "NOTIFICATIONS_PAGE": {
+    "HEADER": "Bildirimler",
+    "MARK_ALL_DONE": "Hepsini Tamamlandı İşaretle",
+    "DELETE_TITLE": "silindi",
+    "UNREAD_NOTIFICATION": {
+      "TITLE": "Okunmamış Bildirimler",
+      "ALL_NOTIFICATIONS": "Tüm bildirimleri görüntüle",
+      "LOADING_UNREAD_MESSAGE": "Okunmamış bildirimler yükleniyor...",
+      "EMPTY_MESSAGE": "Okunmamış bildiriminiz yok"
+    },
+    "LIST": {
+      "LOADING_MESSAGE": "Bildirimler yükleniyor...",
+      "404": "Bildirim yok",
+      "TABLE_HEADER": [
+        "İsim",
+        "Telefon Numarası",
+        "Konuşmalar",
+        "Son Görüşülen"
+      ]
+    },
+    "TYPE_LABEL": {
+      "conversation_creation": "Yeni Görüşme",
+      "conversation_assignment": "Atanan Görüşme",
+      "assigned_conversation_new_message": "Yeni Mesaj",
+      "participating_conversation_new_message": "Yeni Mesaj",
+      "conversation_mention": "Bahset",
+      "sla_missed_first_response": "SLA Missed",
+      "sla_missed_next_response": "SLA Missed",
+      "sla_missed_resolution": "SLA Missed"
+    }
+  },
+  "NETWORK": {
+    "NOTIFICATION": {
+      "OFFLINE": "Çevrimdışı",
+      "RECONNECTING": "Reconnecting...",
+      "RECONNECT_SUCCESS": "Reconnected"
+    },
+    "BUTTON": {
+      "REFRESH": "Yenile"
+    }
+  },
+  "COMMAND_BAR": {
+    "SEARCH_PLACEHOLDER": "Ara veya atla",
+    "SECTIONS": {
+      "GENERAL": "Genel",
+      "REPORTS": "Raporlar",
+      "CONVERSATION": "Konuşma",
+      "BULK_ACTIONS": "Bulk Actions",
+      "CHANGE_ASSIGNEE": "Atananı Değiştir",
+      "CHANGE_PRIORITY": "Önceliği Değiştir",
+      "CHANGE_TEAM": "Takım Değiştir",
+      "SNOOZE_CONVERSATION": "Konuşmayı Ertele",
+      "ADD_LABEL": "Konuşmaya Etiket Ekle",
+      "REMOVE_LABEL": "Konuşmadan Etiketi Kaldır",
+      "SETTINGS": "Ayarlar",
+      "AI_ASSIST": "AI Yardımı",
+      "APPEARANCE": "Görünüm",
+      "SNOOZE_NOTIFICATION": "Sessiz bildirim"
+    },
+    "COMMANDS": {
+      "GO_TO_CONVERSATION_DASHBOARD": "Konuşma Paneline Git",
+      "GO_TO_CONTACTS_DASHBOARD": "Kişiler Paneline Git",
+      "GO_TO_REPORTS_OVERVIEW": "Raporlara Genel Bakış'a Git",
+      "GO_TO_CONVERSATION_REPORTS": "Konuşma Raporlarına Git",
+      "GO_TO_AGENT_REPORTS": "Temsilci Raporlarına Git",
+      "GO_TO_LABEL_REPORTS": "Etiket Raporlarına Git",
+      "GO_TO_INBOX_REPORTS": "Gelen Kutusu Raporlarına Git",
+      "GO_TO_TEAM_REPORTS": "Ekip Raporlarına Git",
+      "GO_TO_SETTINGS_AGENTS": "Temsilci Ayarlarına Git",
+      "GO_TO_SETTINGS_TEAMS": "Takım Ayarlarına Git",
+      "GO_TO_SETTINGS_INBOXES": "Gelen Kutusu Ayarlarına Git",
+      "GO_TO_SETTINGS_LABELS": "Etiket Ayarlarına Git",
+      "GO_TO_SETTINGS_CANNED_RESPONSES": "Hazır Yanıt Ayarlarına Git",
+      "GO_TO_SETTINGS_APPLICATIONS": "Uygulama Ayarlarına Git",
+      "GO_TO_SETTINGS_ACCOUNT": "Hesap Ayarlarına Git",
+      "GO_TO_SETTINGS_PROFILE": "Profil Ayarlarına Git",
+      "GO_TO_NOTIFICATIONS": "Bildirimlere Git",
+      "ADD_LABELS_TO_CONVERSATION": "Konuşmaya Etiket Ekle",
+      "ASSIGN_AN_AGENT": "Bir Temsilci Ata",
+      "AI_ASSIST": "AI Yardımı",
+      "ASSIGN_PRIORITY": "Öncelik Ata",
+      "ASSIGN_A_TEAM": "Bir Takım Ata",
+      "MUTE_CONVERSATION": "Konuşmayı Sessize Al",
+      "UNMUTE_CONVERSATION": "Konuşmanın Sessizliğini Kaldır",
+      "REMOVE_LABEL_FROM_CONVERSATION": "Konuşmadan Etiketi Kaldır",
+      "REOPEN_CONVERSATION": "Görüşmeyi Yeniden Aç",
+      "RESOLVE_CONVERSATION": "Görüşmeyi Çöz",
+      "SEND_TRANSCRIPT": "E-posta Transkripti Gönder",
+      "SNOOZE_CONVERSATION": "Konuşmayı Ertele",
+      "UNTIL_NEXT_REPLY": "Bir sonraki yanıt'a kadar",
+      "UNTIL_NEXT_WEEK": "Bir sonraki haftaya kadar",
+      "UNTIL_TOMORROW": "Yarına kadar",
+      "UNTIL_NEXT_MONTH": "Bir sonraki aya kadar",
+      "AN_HOUR_FROM_NOW": "Bir saat sonra kadar",
+      "UNTIL_CUSTOM_TIME": "Özel...",
+      "CHANGE_APPEARANCE": "Görünümü Değiştir",
+      "LIGHT_MODE": "Açık Mod",
+      "DARK_MODE": "Koyu Mod",
+      "SYSTEM_MODE": "Sistem Modu",
+      "SNOOZE_NOTIFICATION": "Sessiz bildirim"
+    }
+  },
+  "DASHBOARD_APPS": {
+    "LOADING_MESSAGE": "Panel Uygulaması Yükleniyor..."
+  },
+  "COMMON": {
+    "OR": "Veya",
+    "CLICK_HERE": "buraya Tıkla"
+  }
+}

@@ -1,0 +1,51 @@
+// scss-lint:disable SpaceAfterPropertyColon
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+@import 'widget/assets/scss/reset';
+@import 'shared/assets/fonts/InterDisplay/inter-display';
+
+html,
+body {
+  font-family:
+    'InterDisplay',
+    -apple-system,
+    system-ui,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    'Helvetica Neue',
+    Tahoma,
+    Arial,
+    sans-serif,
+    'Noto Sans',
+    'Apple Color Emoji',
+    'Segoe UI Emoji',
+    'Noto Color Emoji';
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  height: 100%;
+  letter-spacing: 0.2px;
+}
+
+// Taking these utils from tailwind 3.x.x, need to remove once we upgrade
+.scroll-mt-24 {
+  scroll-margin-top: 6rem;
+}
+
+.top-24 {
+  top: 6rem;
+}
+
+.heading {
+  .permalink {
+    visibility: hidden;
+  }
+
+  &:hover {
+    .permalink {
+      visibility: visible;
+    }
+  }
+}

@@ -1,0 +1,6 @@
+in: path
+name: hook_id
+schema:
+  type: integer
+required: true
+description: The numeric ID of the integration hook

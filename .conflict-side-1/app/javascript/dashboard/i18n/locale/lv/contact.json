@@ -1,0 +1,655 @@
+{
+  "CONTACT_PANEL": {
+    "NOT_AVAILABLE": "Nav Pieejams",
+    "EMAIL_ADDRESS": "e-pasta Adrese",
+    "PHONE_NUMBER": "Telefona numurs",
+    "IDENTIFIER": "Identifikators",
+    "COPY_SUCCESSFUL": "Veiksmīgi nokopēts uz clipboard",
+    "COMPANY": "Uzņēmums",
+    "LOCATION": "Atrašanās Vieta",
+    "BROWSER_LANGUAGE": "Pārlūkprogrammas Valoda",
+    "CONVERSATION_TITLE": "Informācija Par Sarunu",
+    "VIEW_PROFILE": "Skatīt Profilu",
+    "BROWSER": "Pārlūkprogramma",
+    "OS": "Operētājsistēma",
+    "INITIATED_FROM": "Uzsākts no",
+    "INITIATED_AT": "Uzsākts plkst",
+    "IP_ADDRESS": "IP adrese",
+    "CREATED_AT_LABEL": "Izveidots",
+    "NEW_MESSAGE": "Jauns ziņojums",
+    "CALL": "Call",
+    "CALL_INITIATED": "Calling the contact…",
+    "CALL_FAILED": "Unable to start the call. Please try again.",
+    "VOICE_INBOX_PICKER": {
+      "TITLE": "Choose a voice inbox"
+    },
+    "CONVERSATIONS": {
+      "NO_RECORDS_FOUND": "Ar šo kontaktpersonu nav saistītas iepriekšējās sarunas.",
+      "TITLE": "Iepriekšējās Sarunas"
+    },
+    "LABELS": {
+      "CONTACT": {
+        "TITLE": "Kontaktpersonu Etiķetes",
+        "ERROR": "Nevarēja atjaunināt etiķetes"
+      },
+      "CONVERSATION": {
+        "TITLE": "Sarunu Etiķetes",
+        "ADD_BUTTON": "Pievienot Etiķetes"
+      },
+      "LABEL_SELECT": {
+        "TITLE": "Pievienot Etiķetes",
+        "PLACEHOLDER": "Meklēt etiķetes",
+        "NO_RESULT": "Etiķetes nav atrastas",
+        "CREATE_LABEL": "Izveidot jaunu etiķeti"
+      }
+    },
+    "MERGE_CONTACT": "Apvienot kontaktu",
+    "CONTACT_ACTIONS": "Kontaktpersonu darbības",
+    "MUTE_CONTACT": "Bloķēt Kontaktpersonu",
+    "UNMUTE_CONTACT": "Atbloķēt Kontaktpersonu",
+    "MUTED_SUCCESS": "Šī kontaktpersona ir veiksmīgi bloķēta. Jūs nesaņemsit paziņojumus par turpmākajām sarunām.",
+    "UNMUTED_SUCCESS": "Šī kontaktpersona ir veiksmīgi atbloķēta.",
+    "SEND_TRANSCRIPT": "Nosūtīt Transkriptu",
+    "EDIT_LABEL": "Rediģēt",
+    "SIDEBAR_SECTIONS": {
+      "CUSTOM_ATTRIBUTES": "Pielāgot Īpašības",
+      "CONTACT_LABELS": "Kontaktpersonu Etiķetes",
+      "PREVIOUS_CONVERSATIONS": "Iepriekšējās Sarunas",
+      "NO_RECORDS_FOUND": "Īpašības nav atrastas"
+    }
+  },
+  "EDIT_CONTACT": {
+    "BUTTON_LABEL": "Rediģēt Kontaktpersonu",
+    "TITLE": "Rediģēt kontaktpersonu",
+    "DESC": "Rediģēt kontaktinformāciju"
+  },
+  "DELETE_CONTACT": {
+    "BUTTON_LABEL": "Dzēst Kontaktpersonu",
+    "TITLE": "Dzēst kontaktpersonu",
+    "DESC": "Dzēst kontaktinformāciju",
+    "CONFIRM": {
+      "TITLE": "Apstiprināt Dzēšanu",
+      "MESSAGE": "Vai vēlaties izdzēst ",
+      "YES": "Jā, Dzēst",
+      "NO": "Nē, Paturēt"
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Kontaktpersona ir veiksmīgi izdzēsta",
+      "ERROR_MESSAGE": "Nevarēja izdzēst kontaktpersonu. Lūdzu, vēlāk pamēģiniet vēlreiz."
+    }
+  },
+  "CONTACT_FORM": {
+    "FORM": {
+      "SUBMIT": "Iesniegt",
+      "CANCEL": "Atcelt",
+      "AVATAR": {
+        "LABEL": "Kontaktpersonas Avatārs"
+      },
+      "NAME": {
+        "PLACEHOLDER": "Ievadiet kontaktpersonas pilno vārdu",
+        "LABEL": "Pilnais Vārds"
+      },
+      "BIO": {
+        "PLACEHOLDER": "Ievadiet kontaktpersonas biogrāfiju",
+        "LABEL": "Biogrāfija"
+      },
+      "EMAIL_ADDRESS": {
+        "PLACEHOLDER": "Ievadiet kontaktpersonas e-pasta adresi",
+        "LABEL": "e-pasta Adrese",
+        "DUPLICATE": "Šī e-pasta adrese tiek izmantota citai kontaktpersonai.",
+        "ERROR": "Lūdzu ievadiet derīgu e-pasta adresi."
+      },
+      "PHONE_NUMBER": {
+        "PLACEHOLDER": "Ievadiet kontaktpersonas tālruņa numuru",
+        "LABEL": "Telefona numurs",
+        "HELP": "Tālruņa numuram ir jābūt E.164 formātā, piemēram: +37155555555",
+        "ERROR": "Tālruņa numuram ir jābūt tukšam, vai E.164 formātā",
+        "DIAL_CODE_ERROR": "Lūdzu, izvēlieties sastādīšanas kodu no saraksta",
+        "DUPLICATE": "Šis tālruņa numurs tiek izmantots citai kontaktpersonai."
+      },
+      "LOCATION": {
+        "PLACEHOLDER": "Ievadiet kontaktpersonas atrašanās vietu",
+        "LABEL": "Atrašanās vieta"
+      },
+      "COMPANY_NAME": {
+        "PLACEHOLDER": "Ievadiet uzņēmuma nosaukumu",
+        "LABEL": "Uzņēmuma Nosaukums"
+      },
+      "COUNTRY": {
+        "PLACEHOLDER": "Ievadiet valsts nosaukumu",
+        "LABEL": "Valsts Nosaukums",
+        "SELECT_PLACEHOLDER": "Izvēlieties",
+        "REMOVE": "Noņemt",
+        "SELECT_COUNTRY": "Izvēlieties valsti"
+      },
+      "CITY": {
+        "PLACEHOLDER": "Ievadiet pilsētas nosaukumu",
+        "LABEL": "Pilsētas nosaukums"
+      },
+      "SOCIAL_PROFILES": {
+        "FACEBOOK": {
+          "PLACEHOLDER": "Ievadiet Facebook lietotājvārdu",
+          "LABEL": "Facebook"
+        },
+        "TWITTER": {
+          "PLACEHOLDER": "Ievadiet Twitter lietotājvārdu",
+          "LABEL": "Twitter"
+        },
+        "LINKEDIN": {
+          "PLACEHOLDER": "Ievadiet LinkedIn lietotājvārdu",
+          "LABEL": "LinkedIn"
+        },
+        "GITHUB": {
+          "PLACEHOLDER": "Ievadiet Github lietotājvārdu",
+          "LABEL": "Github"
+        }
+      }
+    },
+    "DELETE_AVATAR": {
+      "API": {
+        "SUCCESS_MESSAGE": "Kontaktpersonas avatars ir veiksmīgi izdzēsts",
+        "ERROR_MESSAGE": "Nevarēja izdzēst kontaktpersonas avataru. Lūdzu, vēlāk pamēģiniet vēlreiz."
+      }
+    },
+    "SUCCESS_MESSAGE": "Kontaktpersona ir veiksmīgi saglabāta",
+    "ERROR_MESSAGE": "Radās kļūda. Lūdzu, mēģiniet vēlreiz"
+  },
+  "NEW_CONVERSATION": {
+    "BUTTON_LABEL": "Sākt sarunu",
+    "TITLE": "Jauna saruna",
+    "DESC": "Sākt jaunu sarunu, nosūtot jaunu ziņojumu.",
+    "NO_INBOX": "Nevarēja atrast iesūtni, lai sāktu jaunu sarunu ar šo kontaktpersonu.",
+    "FORM": {
+      "TO": {
+        "LABEL": "Kam"
+      },
+      "INBOX": {
+        "LABEL": "Iesūtne",
+        "PLACEHOLDER": "Izvēlieties avota iesūtni",
+        "ERROR": "Izvēlieties iesūtni"
+      },
+      "SUBJECT": {
+        "LABEL": "Temats",
+        "PLACEHOLDER": "Temats",
+        "ERROR": "Temata lauks nedrīkst būt tukšs"
+      },
+      "MESSAGE": {
+        "LABEL": "Ziņojums",
+        "PLACEHOLDER": "Rakstiet savu ziņojumu šeit",
+        "ERROR": "Ziņojuma lauks nedrīkst būt tukšs"
+      },
+      "ATTACHMENTS": {
+        "SELECT": "Izvēlieties failus",
+        "HELP_TEXT": "Velciet un nometiet failus šeit vai izvēlieties failus, ko pievienot"
+      },
+      "SUBMIT": "Sūtīt ziņojumu",
+      "CANCEL": "Atcelt",
+      "SUCCESS_MESSAGE": "Ziņojums nosūtīts!",
+      "GO_TO_CONVERSATION": "Skatīt",
+      "ERROR_MESSAGE": "Nevarēja nosūtīt! mēģiniet vēlreiz"
+    }
+  },
+  "CONTACTS_PAGE": {
+    "LIST": {
+      "TABLE_HEADER": {
+        "SOCIAL_PROFILES": "Sociālie Profili"
+      }
+    }
+  },
+  "CUSTOM_ATTRIBUTES": {
+    "BUTTON": "Pievienot pielāgotu īpašību",
+    "COPY_SUCCESSFUL": "Veiksmīgi nokopēts uz clipboard",
+    "SHOW_MORE": "Rādīt visus atribūtus",
+    "SHOW_LESS": "Rādīt mazāk atribūtu",
+    "ACTIONS": {
+      "COPY": "Kopēt īpašību",
+      "DELETE": "Dzēst īpašību",
+      "EDIT": "Rediģēt īpašību"
+    },
+    "ADD": {
+      "TITLE": "Izveidot pielāgotu īpašību",
+      "DESC": "Pievienot šai kontaktpersonai pielāgotu informāciju."
+    },
+    "FORM": {
+      "CREATE": "Pievienot īpašību",
+      "CANCEL": "Atcelt",
+      "NAME": {
+        "LABEL": "Pielāgotās īpašības nosaukums",
+        "PLACEHOLDER": "Piemēram: shopify id",
+        "ERROR": "Nederīgs pielāgotās īpašības nosaukums"
+      },
+      "VALUE": {
+        "LABEL": "Īpašības vērtība",
+        "PLACEHOLDER": "Piemēram: 11901 "
+      },
+      "ADD": {
+        "TITLE": "Izveidot jaunu īpašību ",
+        "SUCCESS": "Īpašība ir veiksmīgi pievienota",
+        "ERROR": "Nevar pievienot īpašību. Lūdzu, pamēģiniet vēlāk vēlreiz"
+      },
+      "UPDATE": {
+        "SUCCESS": "Īpašība ir veiksmīgi atjaunināta",
+        "ERROR": "Nevar atjaunināt īpašību. Lūdzu, pamēģiniet vēlāk vēlreiz"
+      },
+      "DELETE": {
+        "SUCCESS": "Īpašība ir veiksmīgi izdzēsta",
+        "ERROR": "Nevar izdzēst īpašību. Lūdzu, pamēģiniet vēlāk vēlreiz"
+      },
+      "ATTRIBUTE_SELECT": {
+        "TITLE": "Pievienot īpašības",
+        "PLACEHOLDER": "Meklēt īpašības",
+        "NO_RESULT": "Īpašības nav atrastas"
+      },
+      "ATTRIBUTE_TYPE": {
+        "LIST": {
+          "PLACEHOLDER": "Izvēlieties vērtību",
+          "SEARCH_INPUT_PLACEHOLDER": "Meklēšanas vērtība",
+          "NO_RESULT": "Nav atrasts"
+        }
+      }
+    },
+    "VALIDATIONS": {
+      "REQUIRED": "Nepieciešama derīga vērtība",
+      "INVALID_URL": "Nederīgs URL",
+      "INVALID_INPUT": "Nepareizi Ievadīts"
+    }
+  },
+  "MERGE_CONTACTS": {
+    "TITLE": "Apvienot kontaktpersonas",
+    "DESCRIPTION": "Apvienojiet kontaktpersonas, lai apvienotu divus profilus vienā, tostarp visas īpašības un sarunas. Konfliktu gadījumā primārās kontaktpersonas īpašībām būs prioritāte.",
+    "PRIMARY": {
+      "TITLE": "Primārā kontaktpersona",
+      "HELP_LABEL": "Jādzēš"
+    },
+    "PARENT": {
+      "TITLE": "Apvienojamā Kontaktpersona",
+      "PLACEHOLDER": "Meklēt kontaktpersonu",
+      "HELP_LABEL": "Jāpatur"
+    },
+    "SUMMARY": {
+      "TITLE": "Kopsavilkums",
+      "DELETE_WARNING": "Kontaktpersona <strong>{primaryContactName}</strong> tiks dzēsta.",
+      "ATTRIBUTE_WARNING": "Kontaktpersonas <strong>{primaryContactName}</strong> informācija tiks kopēta uz <strong>{parentContactName}</strong>."
+    },
+    "SEARCH": {
+      "ERROR_MESSAGE": "Radās kļūda. Lūdzu, vēlāk mēģiniet vēlreiz."
+    },
+    "FORM": {
+      "SUBMIT": " Apvienot kontaktpersonas",
+      "CANCEL": "Atcelt",
+      "CHILD_CONTACT": {
+        "ERROR": "Izvēlieties pakārtoto kontaktpersonu, ko apvienot"
+      },
+      "SUCCESS_MESSAGE": "Kontaktpersona ir veiksmīgi apvienota",
+      "ERROR_MESSAGE": "Nevarēja apvienot kontaktpersonas, mēģiniet vēlreiz!"
+    },
+    "DROPDOWN_ITEM": {
+      "ID": "(ID: {identifier})"
+    }
+  },
+  "CONTACTS_LAYOUT": {
+    "HEADER": {
+      "TITLE": "Kontaktpersonas",
+      "SEARCH_TITLE": "Meklēt kontaktpersonas",
+      "ACTIVE_TITLE": "Active contacts",
+      "SEARCH_PLACEHOLDER": "Meklēt...",
+      "MESSAGE_BUTTON": "Ziņojums",
+      "SEND_MESSAGE": "Sūtīt ziņojumu",
+      "BLOCK_CONTACT": "Bloķēt kontaktpersonu",
+      "UNBLOCK_CONTACT": "Atbloķēt kontaktpersonu",
+      "BREADCRUMB": {
+        "CONTACTS": "Kontaktpersonas"
+      },
+      "ACTIONS": {
+        "CONTACT_CREATION": {
+          "ADD_CONTACT": "Pievienot kontaktpersonu",
+          "EXPORT_CONTACT": "Eksportēt kontaktpersonas",
+          "IMPORT_CONTACT": "Importēt kontaktpersonas",
+          "SAVE_CONTACT": "Saglabāt kontaktpersonu",
+          "EMAIL_ADDRESS_DUPLICATE": "Šī e-pasta adrese tiek izmantota citai kontaktpersonai.",
+          "PHONE_NUMBER_DUPLICATE": "Šis tālruņa numurs tiek izmantots citai kontaktpersonai.",
+          "SUCCESS_MESSAGE": "Kontaktpersona ir veiksmīgi saglabāta",
+          "ERROR_MESSAGE": "Nevar saglabāt kontaktpersonu. Lūdzu, vēlāk mēģiniet vēlreiz."
+        },
+        "BLOCK_SUCCESS_MESSAGE": "Šī kontaktpersona ir veiksmīgi bloķēta",
+        "BLOCK_ERROR_MESSAGE": "Nevar bloķēt kontaktpersonu. Lūdzu, vēlāk mēģiniet vēlreiz.",
+        "UNBLOCK_SUCCESS_MESSAGE": "Šī kontaktpersona ir veiksmīgi atbloķēta",
+        "UNBLOCK_ERROR_MESSAGE": "Nevar atbloķēt kontaktpersonu. Lūdzu, vēlāk mēģiniet vēlreiz.",
+        "IMPORT_CONTACT": {
+          "TITLE": "Importēt kontaktpersonas",
+          "DESCRIPTION": "Importēt kontaktpersonas, izmantojot CSV failu.",
+          "DOWNLOAD_LABEL": "Lejupielādēt csv paraugu.",
+          "LABEL": "CSV Fails:",
+          "CHOOSE_FILE": "Izvēlēties failu",
+          "CHANGE": "Mainīt",
+          "CANCEL": "Atcelt",
+          "IMPORT": "Importēt",
+          "SUCCESS_MESSAGE": "Kad importēšana būs pabeigta, jūs saņemsiet paziņojumu pa e-pastu.",
+          "ERROR_MESSAGE": "Radās kļūda. Lūdzu, mēģiniet vēlreiz"
+        },
+        "EXPORT_CONTACT": {
+          "TITLE": "Eksportēt kontaktpersonas",
+          "DESCRIPTION": "Ātri eksportējiet csv failu ar visaptverošu informāciju par jūsu kontaktpersonām",
+          "CONFIRM": "Eksportēt",
+          "SUCCESS_MESSAGE": "Notiek eksportēšana, Jūs saņemsit paziņojumu pa e-pastu, kad eksporta fails būs gatavs lejupielādei.",
+          "ERROR_MESSAGE": "Radās kļūda. Lūdzu, mēģiniet vēlreiz"
+        },
+        "SORT_BY": {
+          "LABEL": "Kārtot pēc",
+          "OPTIONS": {
+            "NAME": "Nosaukums",
+            "EMAIL": "E-pasts",
+            "PHONE_NUMBER": "Telefona numurs",
+            "COMPANY": "Uzņēmums",
+            "COUNTRY": "Valsts",
+            "CITY": "Pilsēta",
+            "LAST_ACTIVITY": "Pēdējā darbība",
+            "CREATED_AT": "Izveidots plkst"
+          }
+        },
+        "ORDER": {
+          "LABEL": "Šķirošana",
+          "OPTIONS": {
+            "ASCENDING": "Augoša",
+            "DESCENDING": "Dilstoša"
+          }
+        },
+        "FILTERS": {
+          "CREATE_SEGMENT": {
+            "TITLE": "Vai vēlaties saglabāt šo filtru?",
+            "CONFIRM": "Saglabāt filtru",
+            "LABEL": "Nosaukums",
+            "PLACEHOLDER": "Ievadiet filtra nosaukumu",
+            "ERROR": "Ievadiet derīgu nosaukumu",
+            "SUCCESS_MESSAGE": "Filtrs ir veiksmīgi saglabāts",
+            "ERROR_MESSAGE": "Nevar saglabāt filtru. Lūdzu, vēlāk mēģiniet vēlreiz."
+          },
+          "DELETE_SEGMENT": {
+            "TITLE": "Apstiprināt Dzēšanu",
+            "DESCRIPTION": "Vai tiešām vēlaties dzēst šo filtru?",
+            "CONFIRM": "Jā, Dzēst",
+            "CANCEL": "Nē, Atcelt",
+            "SUCCESS_MESSAGE": "Filtrs ir veiksmīgi izdzēsts",
+            "ERROR_MESSAGE": "Nevar izdzēst filtru. Lūdzu, vēlāk mēģiniet vēlreiz."
+          }
+        }
+      }
+    },
+    "PAGINATION_FOOTER": {
+      "SHOWING": "Rāda {startItem} - {endItem} no {totalItems} kontaktpersonām"
+    },
+    "FILTER": {
+      "NAME": "Nosaukums",
+      "EMAIL": "E-pasts",
+      "PHONE_NUMBER": "Telefona numurs",
+      "IDENTIFIER": "Identifikators",
+      "COUNTRY": "Valsts",
+      "CITY": "Pilsēta",
+      "CREATED_AT": "Izveidots plkst",
+      "LAST_ACTIVITY": "Pēdējā darbība",
+      "REFERER_LINK": "Atsauces saite",
+      "BLOCKED": "Bloķēts",
+      "BLOCKED_TRUE": "Patiesi",
+      "BLOCKED_FALSE": "Nepatiesi",
+      "BUTTONS": {
+        "CLEAR_FILTERS": "Notīrīt filtrus",
+        "UPDATE_SEGMENT": "Atjaunināt segmentu",
+        "APPLY_FILTERS": "Lietot filtrus",
+        "ADD_FILTER": "Pievienot filtru"
+      },
+      "TITLE": "Filtrēt kontaktpersonas",
+      "EDIT_SEGMENT": "Rediģēt segmentu",
+      "SEGMENT": {
+        "LABEL": "Segmenta nosaukums",
+        "INPUT_PLACEHOLDER": "Ievadiet segmenta nosaukumu"
+      },
+      "ACTIVE_FILTERS": {
+        "MORE_FILTERS": "+ {count} papildu filtri",
+        "CLEAR_FILTERS": "Notīrīt filtrus"
+      }
+    },
+    "CARD": {
+      "OF": "no",
+      "VIEW_DETAILS": "Skatīt detalizētu informāciju",
+      "EDIT_DETAILS_FORM": {
+        "TITLE": "Rediģēt kontaktinformāciju",
+        "FORM": {
+          "FIRST_NAME": {
+            "PLACEHOLDER": "Ievadiet vārdu"
+          },
+          "LAST_NAME": {
+            "PLACEHOLDER": "Ievadiet uzvārdu"
+          },
+          "EMAIL_ADDRESS": {
+            "PLACEHOLDER": "Ievadiet e-pasta adresi",
+            "DUPLICATE": "Šī e-pasta adrese tiek izmantota citai kontaktpersonai."
+          },
+          "PHONE_NUMBER": {
+            "PLACEHOLDER": "Ievadiet tālruņa numuru",
+            "DUPLICATE": "Šis tālruņa numurs tiek izmantots citai kontaktpersonai."
+          },
+          "CITY": {
+            "PLACEHOLDER": "Ievadiet pilsētas nosaukumu"
+          },
+          "COUNTRY": {
+            "PLACEHOLDER": "Izvēlieties valsti"
+          },
+          "BIO": {
+            "PLACEHOLDER": "Ievadiet biogrāfiju"
+          },
+          "COMPANY_NAME": {
+            "PLACEHOLDER": "Ievadiet uzņēmuma nosaukumu"
+          }
+        },
+        "UPDATE_BUTTON": "Atjaunināt kontaktpersonu",
+        "SUCCESS_MESSAGE": "Kontaktpersona ir veiksmīgi atjaunināta",
+        "ERROR_MESSAGE": "Nevar atjaunināt kontaktpersonu. Lūdzu, vēlāk mēģiniet vēlreiz."
+      },
+      "SOCIAL_MEDIA": {
+        "TITLE": "Rediģēt sociālās saites",
+        "FORM": {
+          "FACEBOOK": {
+            "PLACEHOLDER": "Pievienot Facebook"
+          },
+          "GITHUB": {
+            "PLACEHOLDER": "Pievienot Github"
+          },
+          "INSTAGRAM": {
+            "PLACEHOLDER": "Pievienot Instagram"
+          },
+          "TIKTOK": {
+            "PLACEHOLDER": "Add TikTok"
+          },
+          "LINKEDIN": {
+            "PLACEHOLDER": "Pievienot LinkedIn"
+          },
+          "TWITTER": {
+            "PLACEHOLDER": "Pievienot Twitter"
+          }
+        }
+      },
+      "DELETE_CONTACT": {
+        "MESSAGE": "This action is permanent and irreversible.",
+        "BUTTON": "Delete now"
+      }
+    },
+    "DETAILS": {
+      "CREATED_AT": "Izveidots {date}",
+      "LAST_ACTIVITY": "Pēdējā aktivitāte {date}",
+      "DELETE_CONTACT_DESCRIPTION": "Neatgriezeniski dzēst šo kontaktpersonu. Šī darbība ir neatgriezeniska",
+      "DELETE_CONTACT": "Dzēst kontaktpersonu",
+      "DELETE_DIALOG": {
+        "TITLE": "Apstiprināt Dzēšanu",
+        "DESCRIPTION": "Are you sure you want to delete this contact?",
+        "CONFIRM": "Jā, Dzēst",
+        "API": {
+          "SUCCESS_MESSAGE": "Kontaktpersona ir veiksmīgi izdzēsta",
+          "ERROR_MESSAGE": "Nevarēja izdzēst kontaktpersonu. Lūdzu, vēlāk pamēģiniet vēlreiz."
+        }
+      },
+      "AVATAR": {
+        "UPLOAD": {
+          "ERROR_MESSAGE": "Nevar augšupielādēt avataru. Lūdzu, vēlāk mēģiniet vēlreiz.",
+          "SUCCESS_MESSAGE": "Avatars ir veiksmīgi augšupielādēts"
+        },
+        "DELETE": {
+          "SUCCESS_MESSAGE": "Avatārs ir veiksmīgi izdzēsts",
+          "ERROR_MESSAGE": "Nevarēja izdzēst avataru. Lūdzu, vēlāk mēģiniet vēlreiz."
+        }
+      }
+    },
+    "SIDEBAR": {
+      "TABS": {
+        "ATTRIBUTES": "Atribūti",
+        "HISTORY": "Vēsture",
+        "NOTES": "Piezīmes",
+        "MERGE": "Apvienot"
+      },
+      "HISTORY": {
+        "EMPTY_STATE": "Ar šo kontaktpersonu nav saistītas iepriekšējās sarunas"
+      },
+      "ATTRIBUTES": {
+        "SEARCH_PLACEHOLDER": "Meklēt atribūtus",
+        "UNUSED_ATTRIBUTES": "{count} Izmantoti atribūti | {count} Neizmantoti atribūti",
+        "EMPTY_STATE": "Šajā kontā nav pieejami pielāgoti kontaktpersonu atribūti. Jūs varat iestatījumos izveidot pielāgotu atribūtu.",
+        "YES": "Jā",
+        "NO": "Nē",
+        "TRIGGER": {
+          "SELECT": "Izvēlieties vērtību",
+          "INPUT": "Ievadiet vērtību"
+        },
+        "VALIDATIONS": {
+          "INVALID_NUMBER": "Nederīgs numurs",
+          "REQUIRED": "Nepieciešama derīga vērtība",
+          "INVALID_INPUT": "Nederīga ievade",
+          "INVALID_URL": "Nederīgs URL",
+          "INVALID_DATE": "Nederīgs datums"
+        },
+        "NO_ATTRIBUTES": "Īpašības nav atrastas",
+        "API": {
+          "SUCCESS_MESSAGE": "Īpašība ir veiksmīgi atjaunināta",
+          "DELETE_SUCCESS_MESSAGE": "Īpašība ir veiksmīgi izdzēsta",
+          "UPDATE_ERROR": "Nevar atjaunināt īpašību. Lūdzu, pamēģiniet vēlāk vēlreiz",
+          "DELETE_ERROR": "Nevar izdzēst īpašību. Lūdzu, pamēģiniet vēlāk vēlreiz"
+        }
+      },
+      "MERGE": {
+        "TITLE": "Apvienot kontaktu",
+        "DESCRIPTION": "Apvienot divus profilus vienā, iekļaujot visus atribūtus un sarunas. Konfliktu gadījumā primārās kontaktpersonas atribūtiem būs prioritāte.",
+        "PRIMARY": "Primārā kontaktpersona",
+        "PRIMARY_HELP_LABEL": "Tiks saglabāts",
+        "PRIMARY_REQUIRED_ERROR": "Pirms turpināt, lūdzu, atlasiet kontaktpersonu, ar kuru apvienot",
+        "PARENT": "Tiks apvienots",
+        "PARENT_HELP_LABEL": "Jādzēš",
+        "EMPTY_STATE": "Netika atrasta neviena kontaktpersona",
+        "PLACEHOLDER": "Meklēt primāro kontaktpersonu",
+        "SEARCH_PLACEHOLDER": "Meklēt kontaktpersonu",
+        "SEARCH_ERROR_MESSAGE": "Radās kļūda meklējot kontaktpersonas. Lūdzu, vēlāk mēģiniet vēlreiz.",
+        "SUCCESS_MESSAGE": "Kontaktpersona ir veiksmīgi apvienota",
+        "ERROR_MESSAGE": "Nevarēja apvienot kontaktpersonas, mēģiniet vēlreiz!",
+        "IS_SEARCHING": "Meklēšana...",
+        "BUTTONS": {
+          "CANCEL": "Atcelt",
+          "CONFIRM": "Apvienot kontaktu"
+        }
+      },
+      "NOTES": {
+        "PLACEHOLDER": "Pievienot piezīmi",
+        "WROTE": "rakstīja",
+        "YOU": "Jūs",
+        "SAVE": "Saglabāt piezīmi",
+        "ADD_NOTE": "Add contact note",
+        "EXPAND": "Izvērst",
+        "COLLAPSE": "Collapse",
+        "NO_NOTES": "No notes, you can add notes from the contact details page.",
+        "EMPTY_STATE": "Ar šo kontaktpersonu nav saistītu piezīmju. Varat pievienot piezīmi, ierakstot iepriekšējā lodziņā.",
+        "CONVERSATION_EMPTY_STATE": "There are no notes yet. Use the Add note button to create one."
+      }
+    },
+    "EMPTY_STATE": {
+      "TITLE": "Šajā kontā nav atrasta neviena kontaktpersona",
+      "SUBTITLE": "Sāciet pievienot jaunas kontaktpersonas, noklikšķinot uz tālāk esošās pogas",
+      "BUTTON_LABEL": "Pievienot kontaktpersonu",
+      "SEARCH_EMPTY_STATE_TITLE": "Neviena kontaktpersona neatbilst jūsu meklēšanas vaicājumam 🔍",
+      "LIST_EMPTY_STATE_TITLE": "Šajā skatā nav pieejama neviena kontaktpersona 📋",
+      "ACTIVE_EMPTY_STATE_TITLE": "No contacts are active at the moment 🌙"
+    }
+  },
+  "CONTACTS_BULK_ACTIONS": {
+    "ASSIGN_LABELS": "Piešķirt Etiķetes",
+    "ASSIGN_LABELS_SUCCESS": "Etiķetes ir veiksmīgi piešķirtas.",
+    "ASSIGN_LABELS_FAILED": "Failed to assign labels",
+    "DESCRIPTION": "Select the labels you want to add to the selected contacts.",
+    "NO_LABELS_FOUND": "No labels available yet.",
+    "SELECTED_COUNT": "Atlasīti {count}",
+    "CLEAR_SELECTION": "Clear selection",
+    "SELECT_ALL": "Select all ({count})",
+    "DELETE_CONTACTS": "Dzēst",
+    "DELETE_SUCCESS": "Contacts deleted successfully.",
+    "DELETE_FAILED": "Failed to delete contacts.",
+    "DELETE_DIALOG": {
+      "TITLE": "Delete selected contacts",
+      "SINGULAR_TITLE": "Delete selected contact",
+      "DESCRIPTION": "This will permanently delete {count} selected contacts. This action cannot be undone.",
+      "SINGULAR_DESCRIPTION": "This will permanently delete the selected contact. This action cannot be undone.",
+      "CONFIRM_MULTIPLE": "Delete contacts",
+      "CONFIRM_SINGLE": "Dzēst kontaktpersonu"
+    }
+  },
+  "COMPOSE_NEW_CONVERSATION": {
+    "CONTACT_SEARCH": {
+      "ERROR_MESSAGE": "Mēs nevarējām pabeigt meklēšanu. Lūdzu, mēģiniet vēlreiz."
+    },
+    "FORM": {
+      "GO_TO_CONVERSATION": "Apskatīt",
+      "SUCCESS_MESSAGE": "Ziņa veiksmīgi nosūtīta!",
+      "ERROR_MESSAGE": "Veidojot sarunu, radās kļūda. Lūdzu, vēlāk mēģiniet vēlreiz.",
+      "NO_INBOX_ALERT": "Nav pieejamas iesūtnes, lai sāktu sarunu ar šo kontaktpersonu.",
+      "CONTACT_SELECTOR": {
+        "LABEL": "Kam:",
+        "TAG_INPUT_PLACEHOLDER": "Meklēt kontaktpersonu pēc vārda, e-pasta vai tālruņa numura",
+        "CONTACT_CREATING": "Notiek kontaktpersonas izveide..."
+      },
+      "INBOX_SELECTOR": {
+        "LABEL": "Izmantojot:",
+        "BUTTON": "Rādīt iesūtnes"
+      },
+      "EMAIL_OPTIONS": {
+        "SUBJECT_LABEL": "Tēma :",
+        "SUBJECT_PLACEHOLDER": "Ievadiet šeit sava e-pasta tēmu",
+        "CC_LABEL": "Cc:",
+        "CC_PLACEHOLDER": "Meklēt kontaktpersonu pēc e-pasta adreses",
+        "BCC_LABEL": "Bcc:",
+        "BCC_PLACEHOLDER": "Meklēt kontaktpersonu pēc e-pasta adreses",
+        "BCC_BUTTON": "Bcc"
+      },
+      "MESSAGE_EDITOR": {
+        "PLACEHOLDER": "Rakstiet savu ziņojumu šeit..."
+      },
+      "WHATSAPP_OPTIONS": {
+        "LABEL": "Izvēlieties veidni",
+        "SEARCH_PLACEHOLDER": "Meklēt veidnes",
+        "EMPTY_STATE": "Nav atrasta neviena veidne",
+        "TEMPLATE_PARSER": {
+          "TEMPLATE_NAME": "WhatsApp veidne: {templateName}",
+          "VARIABLES": "Mainīgie",
+          "BACK": "Atgriezties",
+          "SEND_MESSAGE": "Sūtīt ziņojumu"
+        }
+      },
+      "TWILIO_OPTIONS": {
+        "LABEL": "Izvēlieties veidni",
+        "SEARCH_PLACEHOLDER": "Meklēt veidnes",
+        "EMPTY_STATE": "Nav atrasta neviena veidne",
+        "TEMPLATE_PARSER": {
+          "BACK": "Atgriezties",
+          "SEND_MESSAGE": "Sūtīt ziņojumu"
+        }
+      },
+      "ACTION_BUTTONS": {
+        "DISCARD": "Izmest",
+        "SEND": "Sūtīt ({keyCode})"
+      }
+    }
+  }
+}

@@ -1,0 +1,42 @@
+tags:
+  - Conversation Assignments
+operationId: assign-a-conversation
+summary: Assign Conversation
+description: Assign a conversation to an agent or a team
+security:
+  - userApiKey: []
+  - agentBotApiKey: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          assignee_id:
+            type: number
+            description: Id of the assignee user
+            example: 1
+          team_id:
+            type: number
+            description: Id of the team. If the assignee_id is present, this param would be ignored
+            example: 1
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/user'
+  '401':
+    description: Unauthorized
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '404':
+    description: Conversation not found
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

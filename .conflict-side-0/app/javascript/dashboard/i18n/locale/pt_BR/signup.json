@@ -1,0 +1,49 @@
+{
+  "REGISTER": {
+    "TRY_WOOT": "Criar uma conta",
+    "TITLE": "Registrar",
+    "TESTIMONIAL_HEADER": "Tudo o que ele leva é um passo para avançar",
+    "TESTIMONIAL_CONTENT": "Você está a um passo de engajar seus clientes, mantê-los e encontrar novos.",
+    "TERMS_ACCEPT": "Ao criar uma conta, você concorda com nosso <a href=\"https://www.chatwoot.com/terms\">T & C</a> e nossa <a href=\"https://www.chatwoot.com/privacy-policy\">Política de privacidade</a>",
+    "OAUTH": {
+      "GOOGLE_SIGNUP": "Cadastre-se com o Google"
+    },
+    "COMPANY_NAME": {
+      "LABEL": "Nome Empresa",
+      "PLACEHOLDER": "Digite seu nome da sua empresa. Ex: Empresas Wayne",
+      "ERROR": "O nome da empresa é muito curto."
+    },
+    "FULL_NAME": {
+      "LABEL": "Nome Completo",
+      "PLACEHOLDER": "Digite seu nome completo. Ex.: Bruce Wayne",
+      "ERROR": "Nome completo é muito curto."
+    },
+    "EMAIL": {
+      "LABEL": "E-mail comercial",
+      "PLACEHOLDER": "Digite seu endereço de e-mail de trabalho. Ex: bruce{'@'}wayne{'.'}empresas",
+      "ERROR": "Por favor, insira um endereço de e-mail de trabalho válido."
+    },
+    "PASSWORD": {
+      "LABEL": "Senha",
+      "PLACEHOLDER": "Senha",
+      "ERROR": "A senha é muito curta.",
+      "IS_INVALID_PASSWORD": "A senha deve conter pelo menos 1 letra maiúscula, 1 letra minúscula, 1 número e 1 caractere especial.",
+      "REQUIREMENTS_LENGTH": "At least 6 characters long",
+      "REQUIREMENTS_UPPERCASE": "At least one uppercase letter",
+      "REQUIREMENTS_LOWERCASE": "At least one lowercase letter",
+      "REQUIREMENTS_NUMBER": "At least one number",
+      "REQUIREMENTS_SPECIAL": "At least one special character"
+    },
+    "CONFIRM_PASSWORD": {
+      "LABEL": "Confirmar senha",
+      "PLACEHOLDER": "Confirmar senha",
+      "ERROR": "As senhas não coincidem."
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Registration Successful",
+      "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot. Por favor, tente novamente."
+    },
+    "SUBMIT": "Criar conta",
+    "HAVE_AN_ACCOUNT": "Já possui uma conta?"
+  }
+}

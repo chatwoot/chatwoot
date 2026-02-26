@@ -1,0 +1,153 @@
+{
+  "COMPONENTS": {
+    "FILE_BUBBLE": {
+      "DOWNLOAD": "다운로드",
+      "UPLOADING": "업로드 중..."
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "보내기"
+    },
+    "MESSAGE_BUBBLE": {
+      "RETRY": "메시지 다시 보내기",
+      "ERROR_MESSAGE": "전송하지 못했습니다. 다시 시도해보세요."
+    }
+  },
+  "THUMBNAIL": {
+    "AUTHOR": {
+      "NOT_AVAILABLE": "사용 불가"
+    }
+  },
+  "TEAM_AVAILABILITY": {
+    "ONLINE": "온라인",
+    "OFFLINE": "부재중",
+    "BACK_AS_SOON_AS_POSSIBLE": "가능한 한 빨리 돌아오겠습니다"
+  },
+  "REPLY_TIME": {
+    "IN_A_FEW_MINUTES": "보통 몇 분 안에 응답",
+    "IN_A_FEW_HOURS": "보통 몇 시간 내에 응답",
+    "IN_A_DAY": "보통 하루 안에 응답",
+    "BACK_IN_HOURS": "{n}시간 후에 서비스를 재개할 예정입니다 | {n}시간 후에 서비스를 재개할 예정입니다",
+    "BACK_IN_MINUTES": "{time}분 후에 다시 접속 가능합니다.",
+    "BACK_AT_TIME": "We will be back online at {time}",
+    "BACK_ON_DAY": "We will be back online on {day}",
+    "BACK_TOMORROW": "We will be back online tomorrow",
+    "BACK_IN_SOME_TIME": "We will be back online in some time"
+  },
+  "DAY_NAMES": {
+    "SUNDAY": "일요일",
+    "MONDAY": "월요일",
+    "TUESDAY": "화요일",
+    "WEDNESDAY": "수요일",
+    "THURSDAY": "목요일",
+    "FRIDAY": "금요일",
+    "SATURDAY": "토요일"
+  },
+  "START_CONVERSATION": "대화 시작",
+  "END_CONVERSATION": "대화 끝내기",
+  "CONTINUE_CONVERSATION": "대화 계속하기",
+  "YOU": "나",
+  "START_NEW_CONVERSATION": "새 대화 시작하기",
+  "VIEW_UNREAD_MESSAGES": "읽지 않은 메시지가 있습니다",
+  "UNREAD_VIEW": {
+    "VIEW_MESSAGES_BUTTON": "새 메시지 보기",
+    "CLOSE_MESSAGES_BUTTON": "닫기",
+    "COMPANY_FROM": "에서",
+    "BOT": "봇"
+  },
+  "BUBBLE": {
+    "LABEL": "채팅하기"
+  },
+  "POWERED_BY": "Chatwoot 작동중",
+  "EMAIL_PLACEHOLDER": "이메일을 입력해주세요.",
+  "CHAT_PLACEHOLDER": "메시지 입력",
+  "TODAY": "오늘",
+  "YESTERDAY": "어제",
+  "PRE_CHAT_FORM": {
+    "FIELDS": {
+      "FULL_NAME": {
+        "LABEL": "전체 이름",
+        "PLACEHOLDER": "전체 이름을 입력하십시오.",
+        "REQUIRED_ERROR": "이름은 필수입니다."
+      },
+      "EMAIL_ADDRESS": {
+        "LABEL": "이메일 주소",
+        "PLACEHOLDER": "이메일을 입력해주세요.",
+        "REQUIRED_ERROR": "이메일 주소는 필수입니다.",
+        "VALID_ERROR": "올바른 전자 메일 주소를 입력하십시오."
+      },
+      "PHONE_NUMBER": {
+        "LABEL": "전화 번호",
+        "PLACEHOLDER": "휴대전화 번호를 입력하세요.",
+        "REQUIRED_ERROR": "휴대전화 번호는 필수입니다.",
+        "DIAL_CODE_VALID_ERROR": "국가 코드를 선택하세요.",
+        "VALID_ERROR": "올바른 휴대전화 번호를 입력하세요.",
+        "DROPDOWN_EMPTY": "검색 결과가 없습니다",
+        "DROPDOWN_SEARCH": "국가 검색"
+      },
+      "MESSAGE": {
+        "LABEL": "메시지",
+        "PLACEHOLDER": "메시지를 입력해 주세요.",
+        "ERROR": "너무 짧은 메시지"
+      }
+    },
+    "CAMPAIGN_HEADER": "대화를 시작하기 전에 이름과 이메일을 알려주세요",
+    "IS_REQUIRED": "(은)는 필수입니다.",
+    "REQUIRED": "필수",
+    "REGEX_ERROR": "올바른 값을 입력하세요."
+  },
+  "FILE_SIZE_LIMIT": "첨부파일이 최대 {MAXIMUM_FILE_UPLOAD_SIZE} 용량 제한을 넘어섭니다.",
+  "CHAT_FORM": {
+    "INVALID": {
+      "FIELD": "잘못된 입력"
+    }
+  },
+  "EMOJI": {
+    "PLACEHOLDER": "이모지 검색",
+    "NOT_FOUND": "검색과 일치하는 이모지 없음",
+    "ARIA_LABEL": "이모지 선택기"
+  },
+  "CSAT": {
+    "TITLE": "대화를 평가해주세요.",
+    "SUBMITTED_TITLE": "평가해주셔서 감사합니다!",
+    "PLACEHOLDER": "더 알려주세요..."
+  },
+  "EMAIL_TRANSCRIPT": {
+    "BUTTON_TEXT": "대화 내용 요청하기",
+    "SEND_EMAIL_SUCCESS": "대화 내용이 성공적으로 전송됨",
+    "SEND_EMAIL_ERROR": "오류가 발생했습니다. 다시 시도하십시오."
+  },
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "클릭해서 참여하기",
+      "LEAVE_THE_ROOM": "전화 종료"
+    }
+  },
+  "PORTAL": {
+    "POPULAR_ARTICLES": "인기 문서",
+    "VIEW_ALL_ARTICLES": "모든 문서 보기",
+    "IFRAME_LOAD_ERROR": "문서를 불러오는 중 오류가 발생했습니다. 페이지를 새로고침 한 후 다시 시도해 주세요."
+  },
+  "ATTACHMENTS": {
+    "image": {
+      "CONTENT": "사진 메시지"
+    },
+    "audio": {
+      "CONTENT": "음성 메시지"
+    },
+    "video": {
+      "CONTENT": "영상 메시지"
+    },
+    "file": {
+      "CONTENT": "파일 첨부"
+    },
+    "location": {
+      "CONTENT": "장소"
+    },
+    "fallback": {
+      "CONTENT": "URL을 공유함"
+    }
+  },
+  "FOOTER_REPLY_TO": {
+    "REPLY_TO": "답장:"
+  }
+}

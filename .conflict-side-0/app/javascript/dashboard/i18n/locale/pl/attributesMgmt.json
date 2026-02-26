@@ -1,0 +1,138 @@
+{
+  "ATTRIBUTES_MGMT": {
+    "HEADER": "Atrybuty Niestandardowe",
+    "HEADER_BTN_TXT": "Dodaj Atrybut Niestandardowy",
+    "LOADING": "Pobieranie atrybutów niestandardowych",
+    "DESCRIPTION": "A custom attribute tracks additional details about your contacts or conversations—such as the subscription plan or the date of their first purchase. You can add different types of custom attributes, such as text, lists, or numbers, to capture the specific information you need.",
+    "LEARN_MORE": "Learn more about custom attributes",
+    "ATTRIBUTE_MODELS": {
+      "CONVERSATION": "Rozmowa",
+      "CONTACT": "Kontakt"
+    },
+    "ATTRIBUTE_TYPES": {
+      "TEXT": "Tekst",
+      "NUMBER": "Numer",
+      "LINK": "Link",
+      "DATE": "Date",
+      "LIST": "Lista",
+      "CHECKBOX": "Pole Wyboru"
+    },
+    "ADD": {
+      "TITLE": "Dodaj Atrybut Niestandardowy",
+      "SUBMIT": "Utwórz",
+      "CANCEL_BUTTON_TEXT": "Anuluj",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Nazwa Wyświetlana",
+          "PLACEHOLDER": "Wprowadź nazwę wyświetlaną atrybutu niestandardowego",
+          "ERROR": "Nazwa jest wymagana"
+        },
+        "DESC": {
+          "LABEL": "Opis",
+          "PLACEHOLDER": "Wprowadź opis atrybutu niestandardowego",
+          "ERROR": "Opis jest wymagany"
+        },
+        "MODEL": {
+          "LABEL": "Dotyczy",
+          "PLACEHOLDER": "Proszę wybrać jedno",
+          "ERROR": "Model jest wymagany"
+        },
+        "TYPE": {
+          "LABEL": "Typ",
+          "PLACEHOLDER": "Proszę wybrać typ",
+          "ERROR": "Typ jest wymagany",
+          "LIST": {
+            "LABEL": "Wartości Listy",
+            "PLACEHOLDER": "Proszę wprowadzić wartość i nacisnąć klawisz enter",
+            "ERROR": "Musisz mieć przynajmniej jedną wartość"
+          }
+        },
+        "KEY": {
+          "LABEL": "Klucz",
+          "PLACEHOLDER": "Wprowadź klucz atrybutu niestandardowego",
+          "ERROR": "Klucz jest wymagany",
+          "IN_VALID": "Nieprawidłowy klucz"
+        },
+        "REGEX_PATTERN": {
+          "LABEL": "Wzorzec Regex",
+          "PLACEHOLDER": "Proszę wprowadzić wzorzec regex atrybutu niestandardowego. (Opcjonalnie)"
+        },
+        "REGEX_CUE": {
+          "LABEL": "Wskazówka Regex",
+          "PLACEHOLDER": "Proszę wprowadzić wskazówkę wzorca regex. (Opcjonalnie)"
+        },
+        "ENABLE_REGEX": {
+          "LABEL": "Włącz walidację regex"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Atrybut Niestandardowy został pomyślnie dodany!",
+        "ERROR_MESSAGE": "Nie udało się utworzyć Atrybutu Niestandardowego. Proszę spróbować później."
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Usuń",
+      "API": {
+        "SUCCESS_MESSAGE": "Atrybut Niestandardowy został pomyślnie usunięty.",
+        "ERROR_MESSAGE": "Nie udało się usunąć atrybutu niestandardowego. Spróbuj ponownie."
+      },
+      "CONFIRM": {
+        "TITLE": "Czy na pewno chcesz usunąć - {attributeName}",
+        "PLACE_HOLDER": "Proszę wpisać {attributeName}, aby potwierdzić",
+        "MESSAGE": "Usunięcie spowoduje usunięcie atrybutu niestandardowego",
+        "YES": "Usuń ",
+        "NO": "Anuluj"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Edytuj Atrybut Niestandardowy",
+      "UPDATE_BUTTON_TEXT": "Aktualizuj",
+      "TYPE": {
+        "LIST": {
+          "LABEL": "Wartości Listy",
+          "PLACEHOLDER": "Proszę wprowadzić wartości i nacisnąć klawisz enter"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Atrybut Niestandardowy został pomyślnie zaktualizowany",
+        "ERROR_MESSAGE": "Wystąpił błąd podczas aktualizacji atrybutu niestandardowego, proszę spróbować ponownie"
+      }
+    },
+    "TABS": {
+      "HEADER": "Atrybuty Niestandardowe",
+      "CONVERSATION": "Rozmowa",
+      "CONTACT": "Kontakt"
+    },
+    "LIST": {
+      "TABLE_HEADER": {
+        "NAME": "Imię",
+        "DESCRIPTION": "Opis",
+        "TYPE": "Typ",
+        "KEY": "Klucz"
+      },
+      "BUTTONS": {
+        "EDIT": "Edytuj",
+        "DELETE": "Usuń"
+      },
+      "EMPTY_RESULT": {
+        "404": "Nie utworzono żadnych atrybutów niestandardowych",
+        "NOT_FOUND": "Nie skonfigurowano żadnych atrybutów niestandardowych"
+      },
+      "REGEX_PATTERN": {
+        "LABEL": "Wzorzec Regex",
+        "PLACEHOLDER": "Proszę wprowadzić wzorzec regex atrybutu niestandardowego. (Opcjonalnie)"
+      },
+      "REGEX_CUE": {
+        "LABEL": "Wskazówka Regex",
+        "PLACEHOLDER": "Proszę wprowadzić wskazówkę wzorca regex. (Opcjonalnie)"
+      },
+      "ENABLE_REGEX": {
+        "LABEL": "Włącz walidację regex"
+      }
+    },
+    "BADGES": {
+      "PRE_CHAT": "Pre-chat",
+      "RESOLUTION": "Resolution"
+    }
+  }
+}

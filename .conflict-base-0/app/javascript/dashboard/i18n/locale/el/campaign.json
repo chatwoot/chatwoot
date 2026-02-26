@@ -1,0 +1,214 @@
+{
+  "CAMPAIGN": {
+    "LIVE_CHAT": {
+      "HEADER_TITLE": "Live chat campaigns",
+      "NEW_CAMPAIGN": "Create campaign",
+      "CARD": {
+        "STATUS": {
+          "ENABLED": "Ενεργό",
+          "DISABLED": "Ανενεργό"
+        },
+        "CAMPAIGN_DETAILS": {
+          "SENT_BY": "Αποστολή από",
+          "BOT": "Bot",
+          "FROM": "από",
+          "URL": "URL:"
+        }
+      },
+      "EMPTY_STATE": {
+        "TITLE": "No live chat campaigns are available",
+        "SUBTITLE": "Connect with your customers using proactive messages.  Click 'Create campaign' to get started."
+      },
+      "CREATE": {
+        "TITLE": "Create a live chat campaign",
+        "CANCEL_BUTTON_TEXT": "Άκυρο",
+        "CREATE_BUTTON_TEXT": "Δημιουργία",
+        "FORM": {
+          "TITLE": {
+            "LABEL": "Τίτλος",
+            "PLACEHOLDER": "Παρακαλώ εισάγετε τον τίτλο της καμπάνιας",
+            "ERROR": "Ο τίτλος είναι απαραίτητος"
+          },
+          "MESSAGE": {
+            "LABEL": "Μήνυμα",
+            "PLACEHOLDER": "Παρακαλώ εισάγετε το μήνυμα της καμπάνιας",
+            "ERROR": "Το μήνυμα είναι απαραίτητο"
+          },
+          "INBOX": {
+            "LABEL": "Επιλογή Εισερχομένων",
+            "PLACEHOLDER": "Επιλογή Εισερχομένων",
+            "ERROR": "Το κιβώτιο εισερχομένων είναι απαραίτητο"
+          },
+          "SENT_BY": {
+            "LABEL": "Αποστολή από",
+            "PLACEHOLDER": "Please select sender",
+            "ERROR": "Ο αποστολέας είναι απαραίτητος"
+          },
+          "END_POINT": {
+            "LABEL": "URL",
+            "PLACEHOLDER": "Παρακαλώ εισάγετε το URL",
+            "ERROR": "Παρακαλώ εισάγετε ένα έγκυρο URL"
+          },
+          "TIME_ON_PAGE": {
+            "LABEL": "Χρόνος στη σελίδα(δευτερόλεπτα)",
+            "PLACEHOLDER": "Παρακαλώ εισάγετε το χρόνο",
+            "ERROR": "Ο χρόνος στη σελίδα είναι απαραίτητος"
+          },
+          "OTHER_PREFERENCES": {
+            "TITLE": "Other preferences",
+            "ENABLED": "Ενεργοποίηση καμπάνιας",
+            "TRIGGER_ONLY_BUSINESS_HOURS": "Ενεργοποίηση μόνο κατά τη διάρκεια ωρών εργασίας"
+          },
+          "BUTTONS": {
+            "CREATE": "Δημιουργία",
+            "CANCEL": "Άκυρο"
+          },
+          "API": {
+            "SUCCESS_MESSAGE": "Live chat campaign created successfully",
+            "ERROR_MESSAGE": "Παρουσιάστηκε σφάλμα. Παρακαλώ δοκιμάστε ξανά."
+          }
+        }
+      },
+      "EDIT": {
+        "TITLE": "Edit live chat campaign",
+        "FORM": {
+          "API": {
+            "SUCCESS_MESSAGE": "Live chat campaign updated successfully",
+            "ERROR_MESSAGE": "Παρουσιάστηκε σφάλμα. Παρακαλώ δοκιμάστε ξανά."
+          }
+        }
+      }
+    },
+    "SMS": {
+      "HEADER_TITLE": "SMS campaigns",
+      "NEW_CAMPAIGN": "Create campaign",
+      "EMPTY_STATE": {
+        "TITLE": "No SMS campaigns are available",
+        "SUBTITLE": "Launch an SMS campaign to reach your customers directly. Send offers or make announcements with ease. Click 'Create campaign' to get started."
+      },
+      "CARD": {
+        "STATUS": {
+          "COMPLETED": "Ολοκληρώθηκε",
+          "SCHEDULED": "Scheduled"
+        },
+        "CAMPAIGN_DETAILS": {
+          "SENT_FROM": "Sent from",
+          "ON": "on"
+        }
+      },
+      "CREATE": {
+        "TITLE": "Create SMS campaign",
+        "CANCEL_BUTTON_TEXT": "Άκυρο",
+        "CREATE_BUTTON_TEXT": "Δημιουργία",
+        "FORM": {
+          "TITLE": {
+            "LABEL": "Τίτλος",
+            "PLACEHOLDER": "Παρακαλώ εισάγετε τον τίτλο της καμπάνιας",
+            "ERROR": "Ο τίτλος είναι απαραίτητος"
+          },
+          "MESSAGE": {
+            "LABEL": "Μήνυμα",
+            "PLACEHOLDER": "Παρακαλώ εισάγετε το μήνυμα της καμπάνιας",
+            "ERROR": "Το μήνυμα είναι απαραίτητο"
+          },
+          "INBOX": {
+            "LABEL": "Επιλογή Εισερχομένων",
+            "PLACEHOLDER": "Επιλογή Εισερχομένων",
+            "ERROR": "Το κιβώτιο εισερχομένων είναι απαραίτητο"
+          },
+          "AUDIENCE": {
+            "LABEL": "Ακροατήριο",
+            "PLACEHOLDER": "Επιλέξτε τις ετικέτες του πελάτη",
+            "ERROR": "Το ακροατήριο απαιτείται"
+          },
+          "SCHEDULED_AT": {
+            "LABEL": "Προγραμματισμένη ώρα",
+            "PLACEHOLDER": "Παρακαλώ επιλέξτε την ώρα",
+            "ERROR": "Απαιτείται η προγραμματισμένη ώρα"
+          },
+          "BUTTONS": {
+            "CREATE": "Δημιουργία",
+            "CANCEL": "Άκυρο"
+          },
+          "API": {
+            "SUCCESS_MESSAGE": "SMS campaign created successfully",
+            "ERROR_MESSAGE": "Παρουσιάστηκε σφάλμα. Παρακαλώ δοκιμάστε ξανά."
+          }
+        }
+      }
+    },
+    "WHATSAPP": {
+      "HEADER_TITLE": "WhatsApp campaigns",
+      "NEW_CAMPAIGN": "Create campaign",
+      "EMPTY_STATE": {
+        "TITLE": "No WhatsApp campaigns are available",
+        "SUBTITLE": "Launch a WhatsApp campaign to reach your customers directly. Send offers or make announcements with ease. Click 'Create campaign' to get started."
+      },
+      "CARD": {
+        "STATUS": {
+          "COMPLETED": "Ολοκληρώθηκε",
+          "SCHEDULED": "Scheduled"
+        },
+        "CAMPAIGN_DETAILS": {
+          "SENT_FROM": "Sent from",
+          "ON": "on"
+        }
+      },
+      "CREATE": {
+        "TITLE": "Create WhatsApp campaign",
+        "CANCEL_BUTTON_TEXT": "Άκυρο",
+        "CREATE_BUTTON_TEXT": "Δημιουργία",
+        "FORM": {
+          "TITLE": {
+            "LABEL": "Τίτλος",
+            "PLACEHOLDER": "Παρακαλώ εισάγετε τον τίτλο της καμπάνιας",
+            "ERROR": "Ο τίτλος είναι απαραίτητος"
+          },
+          "INBOX": {
+            "LABEL": "Επιλογή Εισερχομένων",
+            "PLACEHOLDER": "Επιλογή Εισερχομένων",
+            "ERROR": "Το κιβώτιο εισερχομένων είναι απαραίτητο"
+          },
+          "TEMPLATE": {
+            "LABEL": "WhatsApp Template",
+            "PLACEHOLDER": "Select a template",
+            "INFO": "Select a template to use for this campaign.",
+            "ERROR": "Template is required",
+            "PREVIEW_TITLE": "Επεξεργασία {templateName}",
+            "LANGUAGE": "Γλώσσα",
+            "CATEGORY": "Κατηγορία",
+            "VARIABLES_LABEL": "Μεταβλητές",
+            "VARIABLE_PLACEHOLDER": "Enter value for {variable}"
+          },
+          "AUDIENCE": {
+            "LABEL": "Ακροατήριο",
+            "PLACEHOLDER": "Επιλέξτε τις ετικέτες του πελάτη",
+            "ERROR": "Το ακροατήριο απαιτείται"
+          },
+          "SCHEDULED_AT": {
+            "LABEL": "Προγραμματισμένη ώρα",
+            "PLACEHOLDER": "Παρακαλώ επιλέξτε την ώρα",
+            "ERROR": "Απαιτείται η προγραμματισμένη ώρα"
+          },
+          "BUTTONS": {
+            "CREATE": "Δημιουργία",
+            "CANCEL": "Άκυρο"
+          },
+          "API": {
+            "SUCCESS_MESSAGE": "WhatsApp campaign created successfully",
+            "ERROR_MESSAGE": "Παρουσιάστηκε σφάλμα. Παρακαλώ δοκιμάστε ξανά."
+          }
+        }
+      }
+    },
+    "CONFIRM_DELETE": {
+      "TITLE": "Είσαστε σίγουροι για την διαγραφή?",
+      "DESCRIPTION": "The delete action is permanent and cannot be reversed.",
+      "CONFIRM": "Διαγραφή",
+      "API": {
+        "SUCCESS_MESSAGE": "Η καμπάνια διαγράφηκε επιτυχώς",
+        "ERROR_MESSAGE": "Παρουσιάστηκε σφάλμα. Παρακαλώ δοκιμάστε ξανά."
+      }
+    }
+  }
+}

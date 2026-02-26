@@ -1,0 +1,139 @@
+{
+  "PROFILE_SETTINGS": {
+    "LINK": "个人资料设置",
+    "TITLE": "个人资料设置",
+    "BTN_TEXT": "更新个人资料",
+    "AFTER_EMAIL_CHANGED": "您的个人资料已成功更新，请在您的登录凭据更改后重新登录",
+    "FORM": {
+      "AVATAR": "头像",
+      "ERROR": "请修正表单错误",
+      "REMOVE_IMAGE": "删除",
+      "UPLOAD_IMAGE": "上传头像",
+      "UPDATE_IMAGE": "更新头像",
+      "PROFILE_SECTION": {
+        "TITLE": "个人信息",
+        "NOTE": "您的电子邮件地址是您的身份并用于登录。"
+      },
+      "PASSWORD_SECTION": {
+        "TITLE": "密码",
+        "NOTE": "更新您的密码会在多个设备中重置您的登录信息。"
+      },
+      "ACCESS_TOKEN": {
+        "TITLE": "访问令牌",
+        "NOTE": "如果您正在构建基于 API 的集成，这个令牌可以被使用"
+      },
+      "EMAIL_NOTIFICATIONS_SECTION": {
+        "TITLE": "电子邮件通知",
+        "NOTE": "在此更新您的电子邮件通知设置",
+        "CONVERSATION_ASSIGNMENT": "当对话分配给我时发送电子邮件通知",
+        "CONVERSATION_CREATION": "当对话分配给我时发送电子邮件通知"
+      },
+      "API": {
+        "UPDATE_SUCCESS": "您的通知设置已成功更新",
+        "UPDATE_ERROR": "更新配置时出错，请再试一次"
+      },
+      "PUSH_NOTIFICATIONS_SECTION": {
+        "TITLE": "推送通知",
+        "NOTE": "在此更新您的电子邮件通知设置",
+        "CONVERSATION_ASSIGNMENT": "当对话被分配给我时发送推送通知",
+        "CONVERSATION_CREATION": "创建新对话时发送推送通知",
+        "HAS_ENABLED_PUSH": "您已启用此浏览器的推送。",
+        "REQUEST_PUSH": "启用推送通知"
+      },
+      "PROFILE_IMAGE": {
+        "LABEL": "头像"
+      },
+      "NAME": {
+        "LABEL": "Your full name",
+        "ERROR": "Please enter a valid full name",
+        "PLACEHOLDER": "Please enter your full name"
+      },
+      "DISPLAY_NAME": {
+        "LABEL": "Display name",
+        "ERROR": "Please enter a valid display name",
+        "PLACEHOLDER": "Please enter a display name, this would be displayed in conversations"
+      },
+      "AVAILABILITY": {
+        "LABEL": "有效的",
+        "STATUSES_LIST": [
+          "在线的",
+          "忙碌中",
+          "离线的"
+        ]
+      },
+      "EMAIL": {
+        "LABEL": "您的电子邮件地址",
+        "ERROR": "请输入一个有效的电子邮件",
+        "PLACEHOLDER": "请输入您的名字，这将会在对话中显示"
+      },
+      "PASSWORD": {
+        "LABEL": "密码",
+        "ERROR": "请输入长度6或更长的密码",
+        "PLACEHOLDER": "请输入新密码"
+      },
+      "PASSWORD_CONFIRMATION": {
+        "LABEL": "重新输入一次密码",
+        "ERROR": "两次密码不一致",
+        "PLACEHOLDER": "请重新输入密码"
+      }
+    }
+  },
+  "SIDEBAR_ITEMS": {
+    "CHANGE_AVAILABILITY_STATUS": "改變",
+    "CHANGE_ACCOUNTS": "切换账户",
+    "SELECTOR_SUBTITLE": "从以下列表中选择一个账户",
+    "PROFILE_SETTINGS": "个人资料设置",
+    "LOGOUT": "退出登录"
+  },
+  "APP_GLOBAL": {
+    "TRIAL_MESSAGE": "剩余试用期天数",
+    "TRAIL_BUTTON": "立即购买"
+  },
+  "COMPONENTS": {
+    "CODE": {
+      "BUTTON_TEXT": "复制",
+      "COPY_SUCCESSFUL": "代码复制到剪贴板成功"
+    },
+    "FILE_BUBBLE": {
+      "DOWNLOAD": "下载",
+      "UPLOADING": "上传中..."
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "提交"
+    }
+  },
+  "CONFIRM_EMAIL": "正在验证...",
+  "SETTINGS": {
+    "INBOXES": {
+      "NEW_INBOX": "添加收件箱"
+    }
+  },
+  "SIDEBAR": {
+    "CONVERSATIONS": "会话",
+    "REPORTS": "报告",
+    "SETTINGS": "设置",
+    "HOME": "首页",
+    "AGENTS": "客服代理们",
+    "INBOXES": "收件箱",
+    "CANNED_RESPONSES": "预设回复",
+    "INTEGRATIONS": "集成方式",
+    "ACCOUNT_SETTINGS": "帐户设置",
+    "LABELS": "标签"
+  },
+  "CREATE_ACCOUNT": {
+    "NEW_ACCOUNT": "New Account",
+    "SELECTOR_SUBTITLE": "Create a new account",
+    "API": {
+      "SUCCESS_MESSAGE": "Account created successfully",
+      "EXIST_MESSAGE": "Account already exists",
+      "ERROR_MESSAGE": "无法连接服务器，请稍后再试"
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "帐户名称",
+        "PLACEHOLDER": "Wayne企业"
+      },
+      "SUBMIT": "提交"
+    }
+  }
+}

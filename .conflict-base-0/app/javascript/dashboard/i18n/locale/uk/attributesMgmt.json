@@ -1,0 +1,138 @@
+{
+  "ATTRIBUTES_MGMT": {
+    "HEADER": "Свої атрибути",
+    "HEADER_BTN_TXT": "Додати свій атрибут",
+    "LOADING": "Отримання користувацьких атрибутів",
+    "DESCRIPTION": "A custom attribute tracks additional details about your contacts or conversations—such as the subscription plan or the date of their first purchase. You can add different types of custom attributes, such as text, lists, or numbers, to capture the specific information you need.",
+    "LEARN_MORE": "Learn more about custom attributes",
+    "ATTRIBUTE_MODELS": {
+      "CONVERSATION": "Розмови",
+      "CONTACT": "Контакт"
+    },
+    "ATTRIBUTE_TYPES": {
+      "TEXT": "Текст",
+      "NUMBER": "Номер",
+      "LINK": "Лінк",
+      "DATE": "Date",
+      "LIST": "Список",
+      "CHECKBOX": "Прапорець"
+    },
+    "ADD": {
+      "TITLE": "Додати свій атрибут",
+      "SUBMIT": "Створити",
+      "CANCEL_BUTTON_TEXT": "Скасувати",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Ім'я для відображення",
+          "PLACEHOLDER": "Введіть назву користувацького атрибута",
+          "ERROR": "Назва обов'язкова"
+        },
+        "DESC": {
+          "LABEL": "Опис",
+          "PLACEHOLDER": "Введіть опис користувацьких атрибутів",
+          "ERROR": "Необхідний опис"
+        },
+        "MODEL": {
+          "LABEL": "Застосовується до",
+          "PLACEHOLDER": "Будь ласка, виберіть",
+          "ERROR": "Необхідно вказати модель"
+        },
+        "TYPE": {
+          "LABEL": "Тип",
+          "PLACEHOLDER": "Будь ласка, оберіть тип",
+          "ERROR": "Потрібен тип",
+          "LIST": {
+            "LABEL": "Список значень",
+            "PLACEHOLDER": "Будь ласка, введіть значення і натисніть клавішу Enter",
+            "ERROR": "Має мати принаймні одне значення"
+          }
+        },
+        "KEY": {
+          "LABEL": "Ключ",
+          "PLACEHOLDER": "Введіть ключ користувацького атрибуту",
+          "ERROR": "Потрібен ключ",
+          "IN_VALID": "Невірний ключ"
+        },
+        "REGEX_PATTERN": {
+          "LABEL": "Шаблон регулярного виразу",
+          "PLACEHOLDER": "Будь ласка, введіть користувацький атрибут regex pattern. (Необов'язково)"
+        },
+        "REGEX_CUE": {
+          "LABEL": "Regex Cue",
+          "PLACEHOLDER": "Будь ласка, введіть підказку для регулярного виразу (необов'язково)"
+        },
+        "ENABLE_REGEX": {
+          "LABEL": "Увімкнути перевірку регулярного виразу"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Користувацький атрибут успішно додано!",
+        "ERROR_MESSAGE": "Не вдалося створити атрибут, спробуйте пізніше."
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Видалити",
+      "API": {
+        "SUCCESS_MESSAGE": "Користувацький атрибут успішно видалено.",
+        "ERROR_MESSAGE": "Не вдалося видалити користувацький атрибут. Повторіть спробу."
+      },
+      "CONFIRM": {
+        "TITLE": "Ви впевнені, що бажаєте видалити - {attributeName}",
+        "PLACE_HOLDER": "Будь ласка, введіть {attributeName} щоб підтвердити",
+        "MESSAGE": "Ця дія видалить користувацький атрибут",
+        "YES": "Видалити ",
+        "NO": "Скасувати"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Редагувати користувацький атрибут",
+      "UPDATE_BUTTON_TEXT": "Оновити",
+      "TYPE": {
+        "LIST": {
+          "LABEL": "Список значень",
+          "PLACEHOLDER": "Будь ласка, введіть значення і натисніть клавішу Enter"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Користувацький атрибут успішно оновлено",
+        "ERROR_MESSAGE": "Виникла помилка при оновленні користувацького атрибуту, будь ласка, спробуйте ще раз"
+      }
+    },
+    "TABS": {
+      "HEADER": "Свої атрибути",
+      "CONVERSATION": "Діалог",
+      "CONTACT": "Контакт"
+    },
+    "LIST": {
+      "TABLE_HEADER": {
+        "NAME": "Ім'я",
+        "DESCRIPTION": "Опис",
+        "TYPE": "Тип",
+        "KEY": "Ключ"
+      },
+      "BUTTONS": {
+        "EDIT": "Редагувати",
+        "DELETE": "Видалити"
+      },
+      "EMPTY_RESULT": {
+        "404": "Не створено жодного користувацького атрибуту",
+        "NOT_FOUND": "Немає налаштованих власних атрибутів"
+      },
+      "REGEX_PATTERN": {
+        "LABEL": "Шаблон регулярного виразу",
+        "PLACEHOLDER": "Будь ласка, введіть користувацький атрибут regex pattern. (Необов'язково)"
+      },
+      "REGEX_CUE": {
+        "LABEL": "Regex Cue",
+        "PLACEHOLDER": "Введіть підказку для регулярного виразу (необов'язково)"
+      },
+      "ENABLE_REGEX": {
+        "LABEL": "Увімкнути перевірку регулярного виразу"
+      }
+    },
+    "BADGES": {
+      "PRE_CHAT": "Pre-chat",
+      "RESOLUTION": "Resolution"
+    }
+  }
+}

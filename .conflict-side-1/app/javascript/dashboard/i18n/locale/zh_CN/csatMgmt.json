@@ -1,0 +1,13 @@
+{
+  "CSAT": {
+    "TITLE": "评价您的对话",
+    "PLACEHOLDER": "请告诉我们更多...",
+    "RATINGS": {
+      "POOR": "😞 差",
+      "FAIR": "😑 一般",
+      "AVERAGE": "😐 中等",
+      "GOOD": "😀 好",
+      "EXCELLENT": "😍 非常好"
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "REGISTER": {
+    "TRY_WOOT": "Utwórz konto",
+    "TITLE": "Rejestracja",
+    "TESTIMONIAL_HEADER": "Wszystko czego potrzebujesz to jeden krok do przodu",
+    "TESTIMONIAL_CONTENT": "Jesteś tylko jeden krok od zaangażowania swoich klientów, zatrzymania ich i znalezienia nowych.",
+    "TERMS_ACCEPT": "Tworząc konto, zgadzasz się na nasze <a href=\"https://www.chatwoot.com/terms\">Warunki korzystania</a> i <a href=\"https://www.chatwoot.com/privacy-policy\">Politykę prywatności</a>",
+    "OAUTH": {
+      "GOOGLE_SIGNUP": "Zarejestruj się za pomocą Google"
+    },
+    "COMPANY_NAME": {
+      "LABEL": "Nazwa firmy",
+      "PLACEHOLDER": "Wprowadź nazwę swojej firmy, np. Wayne Enterprises",
+      "ERROR": "Nazwa firmy jest zbyt krótka"
+    },
+    "FULL_NAME": {
+      "LABEL": "Imię i nazwisko",
+      "PLACEHOLDER": "Wprowadź swoje imię i nazwisko, np. Bruce Wayne",
+      "ERROR": "Imię i nazwisko są zbyt krótkie"
+    },
+    "EMAIL": {
+      "LABEL": "E-mail służbowy",
+      "PLACEHOLDER": "Enter your work email address. E.g., bruce{'@'}wayne{'.'}enterprises",
+      "ERROR": "Wprowadź poprawny adres e-mail służbowy"
+    },
+    "PASSWORD": {
+      "LABEL": "Hasło",
+      "PLACEHOLDER": "Hasło",
+      "ERROR": "Hasło jest zbyt krótkie",
+      "IS_INVALID_PASSWORD": "Hasło powinno zawierać co najmniej 1 wielką literę, 1 małą literę, 1 cyfrę i 1 znak specjalny",
+      "REQUIREMENTS_LENGTH": "At least 6 characters long",
+      "REQUIREMENTS_UPPERCASE": "At least one uppercase letter",
+      "REQUIREMENTS_LOWERCASE": "At least one lowercase letter",
+      "REQUIREMENTS_NUMBER": "At least one number",
+      "REQUIREMENTS_SPECIAL": "At least one special character"
+    },
+    "CONFIRM_PASSWORD": {
+      "LABEL": "Potwierdź hasło",
+      "PLACEHOLDER": "Potwierdź hasło",
+      "ERROR": "Hasła nie pasują."
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Registration Successful",
+      "ERROR_MESSAGE": "Nie można połączyć się z serwerem Woot. Spróbuj ponownie później"
+    },
+    "SUBMIT": "Utwórz konto",
+    "HAVE_AN_ACCOUNT": "Masz już konto?"
+  }
+}

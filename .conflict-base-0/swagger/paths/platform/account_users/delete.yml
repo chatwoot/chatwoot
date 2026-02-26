@@ -1,0 +1,22 @@
+tags:
+  - Account Users
+operationId: delete-an-account-user
+summary: Delete an Account User
+description: Delete an Account User
+security:
+  - platformAppApiKey: []
+responses:
+  '200':
+    description: Success
+  '401':
+    description: Unauthorized
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '404':
+    description: The account does not exist
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

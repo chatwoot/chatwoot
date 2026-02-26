@@ -1,0 +1,153 @@
+{
+  "COMPONENTS": {
+    "FILE_BUBBLE": {
+      "DOWNLOAD": "Звантажити",
+      "UPLOADING": "Завантажується..."
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "Додати"
+    },
+    "MESSAGE_BUBBLE": {
+      "RETRY": "Надіслати ще раз",
+      "ERROR_MESSAGE": "Не вдалося надіслати, спробуйте ще раз"
+    }
+  },
+  "THUMBNAIL": {
+    "AUTHOR": {
+      "NOT_AVAILABLE": "Not available"
+    }
+  },
+  "TEAM_AVAILABILITY": {
+    "ONLINE": "Ми онлайн",
+    "OFFLINE": "Нас наразі немає",
+    "BACK_AS_SOON_AS_POSSIBLE": "We will be back as soon as possible"
+  },
+  "REPLY_TIME": {
+    "IN_A_FEW_MINUTES": "Зазвичай, відповідаємо за декілька хвилин",
+    "IN_A_FEW_HOURS": "Зазвичай, відповідаємо за декілька годин",
+    "IN_A_DAY": "Зазвичай, відповідаємо протягом доби",
+    "BACK_IN_HOURS": "We will be back online in {n} hour | We will be back online in {n} hours",
+    "BACK_IN_MINUTES": "We will be back online in {time} minutes",
+    "BACK_AT_TIME": "We will be back online at {time}",
+    "BACK_ON_DAY": "We will be back online on {day}",
+    "BACK_TOMORROW": "We will be back online tomorrow",
+    "BACK_IN_SOME_TIME": "We will be back online in some time"
+  },
+  "DAY_NAMES": {
+    "SUNDAY": "Неділя",
+    "MONDAY": "Понеділок",
+    "TUESDAY": "Вівторок",
+    "WEDNESDAY": "Середа",
+    "THURSDAY": "Четвер",
+    "FRIDAY": "П'ятниця",
+    "SATURDAY": "Субота"
+  },
+  "START_CONVERSATION": "Розпочати розмову",
+  "END_CONVERSATION": "Закінчити спілкування",
+  "CONTINUE_CONVERSATION": "Продовжити спілкування",
+  "YOU": "Ви",
+  "START_NEW_CONVERSATION": "Розпочати нову розмову",
+  "VIEW_UNREAD_MESSAGES": "У Вас є непрочитані повідомлення",
+  "UNREAD_VIEW": {
+    "VIEW_MESSAGES_BUTTON": "Переглянути нові повідомлення",
+    "CLOSE_MESSAGES_BUTTON": "Закрити",
+    "COMPANY_FROM": "від",
+    "BOT": "Бот"
+  },
+  "BUBBLE": {
+    "LABEL": "Почніть розмову з нами"
+  },
+  "POWERED_BY": "Працює на Chatwoot",
+  "EMAIL_PLACEHOLDER": "Введіть адресу електронної пошти",
+  "CHAT_PLACEHOLDER": "Введіть Ваше повідомлення",
+  "TODAY": "Сьогодні",
+  "YESTERDAY": "Вчора",
+  "PRE_CHAT_FORM": {
+    "FIELDS": {
+      "FULL_NAME": {
+        "LABEL": "Повне ім`я",
+        "PLACEHOLDER": "Будь ласка, введіть своє повне ім'я",
+        "REQUIRED_ERROR": "Потрібне повне ім'я"
+      },
+      "EMAIL_ADDRESS": {
+        "LABEL": "Адреса електронної пошти",
+        "PLACEHOLDER": "Будь ласка, введіть адресу вашої електронної пошти",
+        "REQUIRED_ERROR": "Необхідно вказати адресу електронної пошти",
+        "VALID_ERROR": "Будь ласка, введіть коректну адресу електронної пошти"
+      },
+      "PHONE_NUMBER": {
+        "LABEL": "Номер телефону",
+        "PLACEHOLDER": "Будь ласка, введіть номер телефону",
+        "REQUIRED_ERROR": "Номер телефону є обов'язковим",
+        "DIAL_CODE_VALID_ERROR": "Будь ласка, оберіть код країни",
+        "VALID_ERROR": "Будь ласка, введіть правильний номер телефону",
+        "DROPDOWN_EMPTY": "Результатів не знайдено",
+        "DROPDOWN_SEARCH": "Search country"
+      },
+      "MESSAGE": {
+        "LABEL": "Текст повідомлення",
+        "PLACEHOLDER": "Будь ласка, введіть ваше повідомлення",
+        "ERROR": "Занадто коротке повідомлення"
+      }
+    },
+    "CAMPAIGN_HEADER": "Будь ласка, надайте своє ім'я та електронну пошту перед початком бесіди",
+    "IS_REQUIRED": "обов'язково",
+    "REQUIRED": "Обов'язково",
+    "REGEX_ERROR": "Будь ласка, введіть коректний текст"
+  },
+  "FILE_SIZE_LIMIT": "Файл перевищує ліміт вкладення {MAXIMUM_FILE_UPLOAD_SIZE}",
+  "CHAT_FORM": {
+    "INVALID": {
+      "FIELD": "Невірно заповнене поле"
+    }
+  },
+  "EMOJI": {
+    "PLACEHOLDER": "Пошук емодзі",
+    "NOT_FOUND": "Немає емодзі, що відповідають пошуковому запиту",
+    "ARIA_LABEL": "Emoji picker"
+  },
+  "CSAT": {
+    "TITLE": "Оцініть вашу бесіду",
+    "SUBMITTED_TITLE": "Дякуємо за оцінку",
+    "PLACEHOLDER": "Розкажіть докладніше..."
+  },
+  "EMAIL_TRANSCRIPT": {
+    "BUTTON_TEXT": "Запит на текст розмови",
+    "SEND_EMAIL_SUCCESS": "Текст розмови надісланий",
+    "SEND_EMAIL_ERROR": "Сталася помилка, будь ласка, спробуйте ще раз"
+  },
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Натисніть тут, щоб приєднатися",
+      "LEAVE_THE_ROOM": "Залишити дзвінок"
+    }
+  },
+  "PORTAL": {
+    "POPULAR_ARTICLES": "Популярні статті",
+    "VIEW_ALL_ARTICLES": "Переглянути всі статті",
+    "IFRAME_LOAD_ERROR": "Помилка при завантаженні статті, будь ласка, оновіть сторінку та повторіть спробу."
+  },
+  "ATTACHMENTS": {
+    "image": {
+      "CONTENT": "Повідомлення з картинкою"
+    },
+    "audio": {
+      "CONTENT": "Аудіо-повідомлення"
+    },
+    "video": {
+      "CONTENT": "Відеоповідомлення"
+    },
+    "file": {
+      "CONTENT": "Повідомлення з файлом"
+    },
+    "location": {
+      "CONTENT": "Місцезнаходження"
+    },
+    "fallback": {
+      "CONTENT": "поділився посиланням"
+    }
+  },
+  "FOOTER_REPLY_TO": {
+    "REPLY_TO": "Відповісти:"
+  }
+}

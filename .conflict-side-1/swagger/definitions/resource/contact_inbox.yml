@@ -1,0 +1,27 @@
+type: object
+properties:
+  source_id:
+    type: string
+    description: Source identifier for the contact inbox
+  inbox:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: ID of the inbox
+      avatar_url:
+        type: string
+        description: URL for the inbox avatar
+      channel_id:
+        type: integer
+        description: ID of the channel
+      name:
+        type: string
+        description: Name of the inbox
+      channel_type:
+        type: string
+        description: Type of channel
+      provider:
+        type: string
+        description: Provider of the inbox
+        nullable: true 

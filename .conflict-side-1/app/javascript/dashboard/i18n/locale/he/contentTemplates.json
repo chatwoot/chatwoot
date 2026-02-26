@@ -1,0 +1,52 @@
+{
+  "CONTENT_TEMPLATES": {
+    "MODAL": {
+      "TITLE": "תבניות Twilio",
+      "SUBTITLE": "בחר את תבנית Twilio שברצונך לשלוח",
+      "TEMPLATE_SELECTED_SUBTITLE": "הגדר תבנית: {templateName}"
+    },
+    "PICKER": {
+      "SEARCH_PLACEHOLDER": "חפש תבניות",
+      "NO_TEMPLATES_FOUND": "לא נמצאו תבניות עבור",
+      "NO_CONTENT": "אין תוכן",
+      "HEADER": "כותרת עליונה",
+      "BODY": "גוף",
+      "FOOTER": "כותרת תחתונה",
+      "BUTTONS": "כפתורים",
+      "CATEGORY": "קטגוריה",
+      "MEDIA_CONTENT": "תוכן מדיה",
+      "MEDIA_CONTENT_FALLBACK": "תוכן מדיה",
+      "NO_TEMPLATES_AVAILABLE": "אין תבניות Twilio זמינות. לחץ על רענן כדי לסנכרן תבניות מ-Twilio.",
+      "REFRESH_BUTTON": "רענן תבניות",
+      "REFRESH_SUCCESS": "רענון התבניות הופעל. העדכון עשוי להימשך כמה דקות.",
+      "REFRESH_ERROR": "רענון התבניות נכשל. אנא נסה שוב.",
+      "LABELS": {
+        "LANGUAGE": "שפה",
+        "TEMPLATE_BODY": "גוף התבנית",
+        "CATEGORY": "קטגוריה"
+      },
+      "TYPES": {
+        "MEDIA": "מדיה",
+        "QUICK_REPLY": "תגובה מהירה",
+        "CALL_TO_ACTION": "Call to Action",
+        "TEXT": "טקסט"
+      }
+    },
+    "PARSER": {
+      "VARIABLES_LABEL": "משתנים",
+      "LANGUAGE": "שפה",
+      "CATEGORY": "קטגוריה",
+      "VARIABLE_PLACEHOLDER": "הזן ערך {variable}",
+      "GO_BACK_LABEL": "חזור",
+      "SEND_MESSAGE_LABEL": "לשלוח הודעה",
+      "FORM_ERROR_MESSAGE": "נא למלא את כל המשתנים לפני השליחה",
+      "MEDIA_HEADER_LABEL": "כותרת עליונה {type}",
+      "MEDIA_URL_LABEL": "הזן כתובת URL מלאה של מדיה",
+      "MEDIA_URL_PLACEHOLDER": "https://example.com/image.jpg"
+    },
+    "FORM": {
+      "BACK_BUTTON": "חזור",
+      "SEND_MESSAGE_BUTTON": "לשלוח הודעה"
+    }
+  }
+}

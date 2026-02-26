@@ -1,0 +1,119 @@
+{
+  "FILTER": {
+    "TITLE": "Filtriraj razgovore",
+    "SUBTITLE": "Dodajte svoje filtre ispod i pritisnite 'Primijeni filtre' da biste se probili kroz nered u chatu.",
+    "EDIT_CUSTOM_FILTER": "Uredi mapu",
+    "CUSTOM_VIEWS_SUBTITLE": "Dodajte ili uklonite filtre i ažurirajte svoju mapu.",
+    "ADD_NEW_FILTER": "Dodaj filter",
+    "FILTER_DELETE_ERROR": "Ups, čini se da ne možemo ništa spremiti! Molimo dodajte barem jedan filter za spremanje.",
+    "SUBMIT_BUTTON_LABEL": "Primijeni filtre",
+    "UPDATE_BUTTON_LABEL": "Ažuriraj mapu",
+    "CANCEL_BUTTON_LABEL": "Odustani",
+    "CLEAR_BUTTON_LABEL": "Očisti filtre",
+    "FOLDER_LABEL": "Naziv mape",
+    "FOLDER_QUERY_LABEL": "Upit mape",
+    "EMPTY_VALUE_ERROR": "Vrijednost je obavezna.",
+    "TOOLTIP_LABEL": "Filtriraj razgovore",
+    "QUERY_DROPDOWN_LABELS": {
+      "AND": "I",
+      "OR": "ILI"
+    },
+    "INPUT_PLACEHOLDER": "Unesite vrijednost",
+    "OPERATOR_LABELS": {
+      "equal_to": "Jednako",
+      "not_equal_to": "Nije jednako",
+      "does_not_contain": "Ne sadrži",
+      "is_present": "Prisutno je",
+      "is_not_present": "Nije prisutno",
+      "is_greater_than": "Veće je od",
+      "is_less_than": "Manje je od",
+      "days_before": "Je x dana prije",
+      "starts_with": "Počinje s",
+      "equalTo": "Jednako",
+      "notEqualTo": "Nije jednako",
+      "contains": "Sadrži",
+      "doesNotContain": "Ne sadrži",
+      "isPresent": "Prisutno je",
+      "isNotPresent": "Nije prisutno",
+      "isGreaterThan": "Veće je od",
+      "isLessThan": "Manje je od",
+      "daysBefore": "Je x dana prije",
+      "startsWith": "Počinje s"
+    },
+    "ATTRIBUTE_LABELS": {
+      "TRUE": "Istina",
+      "FALSE": "Neistina"
+    },
+    "ATTRIBUTES": {
+      "STATUS": "Status",
+      "ASSIGNEE_NAME": "Ime dodijeljenog",
+      "INBOX_NAME": "Naziv sandučića",
+      "TEAM_NAME": "Naziv tima",
+      "CONVERSATION_IDENTIFIER": "Identifikator razgovora",
+      "CAMPAIGN_NAME": "Naziv kampanje",
+      "LABELS": "Oznake",
+      "BROWSER_LANGUAGE": "Jezik preglednika",
+      "PRIORITY": "Prioritet",
+      "COUNTRY_NAME": "Ime zemlje",
+      "REFERER_LINK": "Povezica preporuke",
+      "CUSTOM_ATTRIBUTE_LIST": "Popis",
+      "CUSTOM_ATTRIBUTE_TEXT": "Tekst",
+      "CUSTOM_ATTRIBUTE_NUMBER": "Broj",
+      "CUSTOM_ATTRIBUTE_LINK": "Povezica",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "Kvačica",
+      "CREATED_AT": "Kreirano",
+      "LAST_ACTIVITY": "Zadnja aktivnost"
+    },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Vrijednost je obavezna",
+      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
+      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998"
+    },
+    "GROUPS": {
+      "STANDARD_FILTERS": "Standardni filteri",
+      "ADDITIONAL_FILTERS": "Dodatni filteri",
+      "CUSTOM_ATTRIBUTES": "Dodatni atributi"
+    },
+    "CUSTOM_VIEWS": {
+      "ADD": {
+        "TITLE": "Želite li spremiti ovaj filteri?",
+        "LABEL": "Naziv ovog filtera",
+        "PLACEHOLDER": "Dajte ime ovom filteru da ga se prisjetite kasnije.",
+        "ERROR_MESSAGE": "Ime je obavezno.",
+        "SAVE_BUTTON": "Spremi filter",
+        "CANCEL_BUTTON": "Odustani",
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "Mapa uspješno kreirana.",
+          "ERROR_MESSAGE": "Greška prilikom brisanja mape."
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "Segment uspješno kreiran.",
+          "ERROR_MESSAGE": "Greška prilikom kreiranja segmenta."
+        }
+      },
+      "EDIT": {
+        "EDIT_BUTTON": "Uredi folder"
+      },
+      "DELETE": {
+        "DELETE_BUTTON": "Izbriši filter",
+        "MODAL": {
+          "CONFIRM": {
+            "TITLE": "Potvrdi brisanje",
+            "MESSAGE": "Jeste li sigurno da želite izbrisati filter?",
+            "YES": "Da, izbriši",
+            "NO": "Ne, zadrži"
+          }
+        },
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "Folder uspješno izbrisan.",
+          "ERROR_MESSAGE": "Greška prilikom brisanja mape."
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "Segment uspješno izbrisan.",
+          "ERROR_MESSAGE": "Greška prilikom brisanja segmenta."
+        }
+      }
+    }
+  }
+}

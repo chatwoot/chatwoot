@@ -1,0 +1,12 @@
+{
+  "GENERAL": {
+    "SHOWING_RESULTS": "Показаны {firstIndex}-{lastIndex} из {totalCount} элементов",
+    "PHONE_INPUT": {
+      "PLACEHOLDER": "Поиск",
+      "EMPTY_STATE": "Результаты не найдены"
+    },
+    "CLOSE": "Закрыть",
+    "BETA": "Бета",
+    "BETA_DESCRIPTION": "Эта функция находится в бета-версии и может измениться по мере её улучшения."
+  }
+}

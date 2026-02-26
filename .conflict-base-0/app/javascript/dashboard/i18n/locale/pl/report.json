@@ -1,0 +1,582 @@
+{
+  "REPORT": {
+    "HEADER": "Raporty rozmów",
+    "LOADING_CHART": "Ładowanie danych wykresów...",
+    "NO_ENOUGH_DATA": "Nie ma wystarczającej ilości danych do wygenerowania raportu. Spróbuj ponownie później.",
+    "DOWNLOAD_AGENT_REPORTS": "Pobierz raporty agenta",
+    "DATA_FETCHING_FAILED": "Nie udało się pobrać danych, spróbuj ponownie później.",
+    "SUMMARY_FETCHING_FAILED": "Nie udało się pobrać podsumowania, spróbuj ponownie później.",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "Rozmowy",
+        "DESC": "(łącznie)"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "Wiadomości przychodzące",
+        "DESC": "(łącznie)"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "Wiadomości wychodzące",
+        "DESC": "(łącznie)"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "Czas pierwszej odpowiedzi",
+        "DESC": "(średni)",
+        "INFO_TEXT": "Całkowita liczba rozmów używanych do obliczeń:",
+        "TOOLTIP_TEXT": "Czas pierwszej odpowiedzi to {metricValue} (na podstawie {conversationCount} rozmów)"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "Czas rozwiązania",
+        "DESC": "(średni)",
+        "INFO_TEXT": "Całkowita liczba rozmów używanych do obliczeń:",
+        "TOOLTIP_TEXT": "Czas rozwiązania to {metricValue} (na podstawie {conversationCount} rozmów)"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "Liczba rozwiązań",
+        "DESC": "(łącznie)"
+      },
+      "BOT_RESOLUTION_COUNT": {
+        "NAME": "Liczba rozwiązań",
+        "DESC": "(łącznie)"
+      },
+      "BOT_HANDOFF_COUNT": {
+        "NAME": "Handoff Count",
+        "DESC": "(łącznie)"
+      },
+      "REPLY_TIME": {
+        "NAME": "Customer waiting time",
+        "TOOLTIP_TEXT": "Waiting time is {metricValue} (based on {conversationCount} replies)",
+        "DESC": ""
+      }
+    },
+    "DATE_RANGE_OPTIONS": {
+      "LAST_7_DAYS": "Ostatnie 7 dni",
+      "LAST_14_DAYS": "Ostatnie 14 dni",
+      "LAST_30_DAYS": "Ostatnie 30 dni",
+      "THIS_MONTH": "This month",
+      "LAST_MONTH": "Last month",
+      "LAST_3_MONTHS": "Ostatnie 3 miesiące",
+      "LAST_6_MONTHS": "Ostatnie 6 miesięcy",
+      "LAST_YEAR": "Ostatni rok",
+      "CUSTOM_DATE_RANGE": "Niestandardowy zakres dat"
+    },
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Zastosuj",
+      "PLACEHOLDER": "Wybierz zakres dat"
+    },
+    "GROUP_BY_FILTER_DROPDOWN_LABEL": "Grupuj według",
+    "DURATION_FILTER_LABEL": "Czas trwania",
+    "GROUPING_OPTIONS": {
+      "DAY": "Dzień",
+      "WEEK": "Tydzień",
+      "MONTH": "Miesiąc",
+      "YEAR": "Rok"
+    },
+    "GROUP_BY_DAY_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Dzień"
+      }
+    ],
+    "GROUP_BY_WEEK_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Dzień"
+      },
+      {
+        "id": 2,
+        "groupBy": "Tydzień"
+      }
+    ],
+    "GROUP_BY_MONTH_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Dzień"
+      },
+      {
+        "id": 2,
+        "groupBy": "Tydzień"
+      },
+      {
+        "id": 3,
+        "groupBy": "Miesiąc"
+      }
+    ],
+    "GROUP_BY_YEAR_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Day"
+      },
+      {
+        "id": 2,
+        "groupBy": "Week"
+      },
+      {
+        "id": 3,
+        "groupBy": "Month"
+      }
+    ],
+    "BUSINESS_HOURS": "Godziny pracy",
+    "FILTER_ACTIONS": {
+      "CLEAR_FILTER": "Clear filter",
+      "EMPTY_LIST": "Nie znaleziono rekordów"
+    },
+    "PAGINATION": {
+      "RESULTS": "Showing {start} to {end} of {total} results",
+      "PER_PAGE_TEMPLATE": "{size} / page"
+    }
+  },
+  "AGENT_REPORTS": {
+    "HEADER": "Przegląd agentów",
+    "DESCRIPTION": "Easily track agent performance with key metrics such as conversations, response times, resolution times, and resolved cases. Click an agent’s name to learn more.",
+    "LOADING_CHART": "Ładowanie danych wykresów...",
+    "NO_ENOUGH_DATA": "Nie ma wystarczającej ilości danych do wygenerowania raportu. Spróbuj ponownie później.",
+    "DOWNLOAD_AGENT_REPORTS": "Pobierz raporty agenta",
+    "FILTER_DROPDOWN_LABEL": "Wybierz agenta",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "Rozmowy",
+        "DESC": "(łącznie)"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "Wiadomości przychodzące",
+        "DESC": "(łącznie)"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "Wiadomości wychodzące",
+        "DESC": "(łącznie)"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "Czas pierwszej odpowiedzi",
+        "DESC": "(średni)",
+        "INFO_TEXT": "Całkowita liczba rozmów używanych do obliczeń:",
+        "TOOLTIP_TEXT": "Czas pierwszej odpowiedzi to {metricValue} (na podstawie {conversationCount} rozmów)"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "Czas rozwiązania",
+        "DESC": "(średni)",
+        "INFO_TEXT": "Całkowita liczba rozmów używanych do obliczeń:",
+        "TOOLTIP_TEXT": "Czas rozwiązania to {metricValue} (na podstawie {conversationCount} rozmów)"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "Liczba rozwiązań",
+        "DESC": "(łącznie)"
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Ostatnie 7 dni"
+      },
+      {
+        "id": 1,
+        "name": "Ostatnie 30 dni"
+      },
+      {
+        "id": 2,
+        "name": "Ostatnie 3 miesiące"
+      },
+      {
+        "id": 3,
+        "name": "Ostatnie 6 miesięcy"
+      },
+      {
+        "id": 4,
+        "name": "Ostatni rok"
+      },
+      {
+        "id": 5,
+        "name": "Niestandardowy zakres dat"
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Zastosuj",
+      "PLACEHOLDER": "Wybierz zakres dat"
+    }
+  },
+  "LABEL_REPORTS": {
+    "HEADER": "Przegląd etykiet",
+    "DESCRIPTION": "Track label performance with key metrics including conversations, response times, resolution times, and resolved cases. Click a label name for detailed insights.",
+    "LOADING_CHART": "Ładowanie danych wykresów...",
+    "NO_ENOUGH_DATA": "Nie ma wystarczającej ilości danych do wygenerowania raportu. Spróbuj ponownie później.",
+    "DOWNLOAD_LABEL_REPORTS": "Pobierz raporty etykiety",
+    "FILTER_DROPDOWN_LABEL": "Wybierz etykietę",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "Rozmowy",
+        "DESC": "(łącznie)"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "Wiadomości przychodzące",
+        "DESC": "(łącznie)"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "Wiadomości wychodzące",
+        "DESC": "(łącznie)"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "Czas pierwszej odpowiedzi",
+        "DESC": "(średni)",
+        "INFO_TEXT": "Całkowita liczba rozmów używanych do obliczeń:",
+        "TOOLTIP_TEXT": "Czas pierwszej odpowiedzi to {metricValue} (na podstawie {conversationCount} rozmów)"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "Czas rozwiązania",
+        "DESC": "(średni)",
+        "INFO_TEXT": "Całkowita liczba rozmów używanych do obliczeń:",
+        "TOOLTIP_TEXT": "Czas rozwiązania to {metricValue} (na podstawie {conversationCount} rozmów)"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "Liczba rozwiązań",
+        "DESC": "(łącznie)"
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Ostatnie 7 dni"
+      },
+      {
+        "id": 1,
+        "name": "Ostatnie 30 dni"
+      },
+      {
+        "id": 2,
+        "name": "Ostatnie 3 miesiące"
+      },
+      {
+        "id": 3,
+        "name": "Ostatnie 6 miesięcy"
+      },
+      {
+        "id": 4,
+        "name": "Ostatni rok"
+      },
+      {
+        "id": 5,
+        "name": "Niestandardowy zakres dat"
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Zastosuj",
+      "PLACEHOLDER": "Wybierz zakres dat"
+    }
+  },
+  "INBOX_REPORTS": {
+    "HEADER": "Przegląd skrzynki odbiorczej",
+    "DESCRIPTION": "Quickly view your inbox performance with key metrics like conversations, response times, resolution times, and resolved cases—all in one place. Click an inbox name for more details.",
+    "LOADING_CHART": "Ładowanie danych wykresów...",
+    "NO_ENOUGH_DATA": "Nie ma wystarczającej ilości danych do wygenerowania raportu. Spróbuj ponownie później.",
+    "DOWNLOAD_INBOX_REPORTS": "Pobierz raporty skrzynki odbiorczej",
+    "FILTER_DROPDOWN_LABEL": "Wybierz skrzynkę odbiorczą",
+    "ALL_INBOXES": "All Inboxes",
+    "SEARCH_INBOX": "Search Inbox",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "Rozmowy",
+        "DESC": "(łącznie)"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "Wiadomości przychodzące",
+        "DESC": "(łącznie)"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "Wiadomości wychodzące",
+        "DESC": "(łącznie)"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "Czas pierwszej odpowiedzi",
+        "DESC": "(średni)",
+        "INFO_TEXT": "Całkowita liczba rozmów używanych do obliczeń:",
+        "TOOLTIP_TEXT": "Czas pierwszej odpowiedzi to {metricValue} (na podstawie {conversationCount} rozmów)"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "Czas rozwiązania",
+        "DESC": "(średni)",
+        "INFO_TEXT": "Całkowita liczba rozmów używanych do obliczeń:",
+        "TOOLTIP_TEXT": "Czas rozwiązania to {metricValue} (na podstawie {conversationCount} rozmów)"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "Liczba rozwiązań",
+        "DESC": "(łącznie)"
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Ostatnie 7 dni"
+      },
+      {
+        "id": 1,
+        "name": "Ostatnie 30 dni"
+      },
+      {
+        "id": 2,
+        "name": "Ostatnie 3 miesiące"
+      },
+      {
+        "id": 3,
+        "name": "Ostatnie 6 miesięcy"
+      },
+      {
+        "id": 4,
+        "name": "Ostatni rok"
+      },
+      {
+        "id": 5,
+        "name": "Niestandardowy zakres dat"
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Zastosuj",
+      "PLACEHOLDER": "Wybierz zakres dat"
+    }
+  },
+  "TEAM_REPORTS": {
+    "HEADER": "Przegląd zespołu",
+    "DESCRIPTION": "Get a snapshot of your team’s performance with essential metrics, including conversations, response times, resolution times, and resolved cases. Click a team name for more details.",
+    "LOADING_CHART": "Ładowanie danych wykresów...",
+    "NO_ENOUGH_DATA": "Nie ma wystarczającej ilości danych do wygenerowania raportu. Spróbuj ponownie później.",
+    "DOWNLOAD_TEAM_REPORTS": "Pobierz raporty zespołu",
+    "FILTER_DROPDOWN_LABEL": "Wybierz zespół",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "Rozmowy",
+        "DESC": "(łącznie)"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "Wiadomości przychodzące",
+        "DESC": "(łącznie)"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "Wiadomości wychodzące",
+        "DESC": "(łącznie)"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "Czas pierwszej odpowiedzi",
+        "DESC": "(średni)",
+        "INFO_TEXT": "Całkowita liczba rozmów używanych do obliczeń:",
+        "TOOLTIP_TEXT": "Czas pierwszej odpowiedzi to {metricValue} (na podstawie {conversationCount} rozmów)"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "Czas rozwiązania",
+        "DESC": "(średni)",
+        "INFO_TEXT": "Całkowita liczba rozmów używanych do obliczeń:",
+        "TOOLTIP_TEXT": "Czas rozwiązania to {metricValue} (na podstawie {conversationCount} rozmów)"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "Liczba rozwiązań",
+        "DESC": "(łącznie)"
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Ostatnie 7 dni"
+      },
+      {
+        "id": 1,
+        "name": "Ostatnie 30 dni"
+      },
+      {
+        "id": 2,
+        "name": "Ostatnie 3 miesiące"
+      },
+      {
+        "id": 3,
+        "name": "Ostatnie 6 miesięcy"
+      },
+      {
+        "id": 4,
+        "name": "Ostatni rok"
+      },
+      {
+        "id": 5,
+        "name": "Niestandardowy zakres dat"
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Zastosuj",
+      "PLACEHOLDER": "Wybierz zakres dat"
+    }
+  },
+  "CSAT_REPORTS": {
+    "HEADER": "Raporty CSAT",
+    "NO_RECORDS": "Brak dostępnych odpowiedzi w ankiecie CSAT.",
+    "DOWNLOAD": "Pobierz raporty CSAT",
+    "DOWNLOAD_FAILED": "Nie udało się pobrać raportów CSAT",
+    "FILTERS": {
+      "AGENTS": {
+        "PLACEHOLDER": "Wybierz agentów"
+      }
+    },
+    "TABLE": {
+      "HEADER": {
+        "CONTACT_NAME": "Kontakt",
+        "AGENT_NAME": "Przypisany agent",
+        "RATING": "Ocena",
+        "FEEDBACK_TEXT": "Tekst opinii"
+      }
+    },
+    "METRIC": {
+      "TOTAL_RESPONSES": {
+        "LABEL": "Łącznie odpowiedzi",
+        "TOOLTIP": "Całkowita liczba zebranych odpowiedzi"
+      },
+      "SATISFACTION_SCORE": {
+        "LABEL": "Wskaźnik zadowolenia",
+        "TOOLTIP": "Wskaźnik zadowolenia: (Liczba pozytywnych odpowiedzi / Całkowita liczba odpowiedzi) * 100"
+      },
+      "RESPONSE_RATE": {
+        "LABEL": "Wskaźnik odpowiedzi",
+        "TOOLTIP": "Wskaźnik odpowiedzi: (Całkowita liczba odpowiedzi / Całkowita liczba wysłanych ankiet CSAT) * 100"
+      }
+    }
+  },
+  "BOT_REPORTS": {
+    "HEADER": "Bot Reports",
+    "METRIC": {
+      "TOTAL_CONVERSATIONS": {
+        "LABEL": "No. of Conversations",
+        "TOOLTIP": "Total number of conversations handled by the bot"
+      },
+      "TOTAL_RESPONSES": {
+        "LABEL": "Total Responses",
+        "TOOLTIP": "Total number of responses sent by the bot"
+      },
+      "RESOLUTION_RATE": {
+        "LABEL": "Resolution Rate",
+        "TOOLTIP": "Total number of conversations resolved by the bot / Total number of conversations handled by the bot * 100"
+      },
+      "HANDOFF_RATE": {
+        "LABEL": "Handoff Rate",
+        "TOOLTIP": "Total number of conversations handed off to agents / Total number of conversations handled by the bot * 100"
+      }
+    }
+  },
+  "OVERVIEW_REPORTS": {
+    "HEADER": "Przegląd",
+    "LIVE": "Na żywo",
+    "ACCOUNT_CONVERSATIONS": {
+      "HEADER": "Aktywne rozmowy",
+      "LOADING_MESSAGE": "Ładowanie metryk rozmów...",
+      "OPEN": "Otwarte",
+      "UNATTENDED": "Nieobsługiwane",
+      "UNASSIGNED": "Nieprzypisane",
+      "PENDING": "Oczekujące"
+    },
+    "CONVERSATION_HEATMAP": {
+      "HEADER": "Ruch rozmów",
+      "NO_CONVERSATIONS": "Brak rozmów",
+      "CONVERSATION": "{count} rozmowa",
+      "CONVERSATIONS": "{count} rozmowy",
+      "DOWNLOAD_REPORT": "Download report"
+    },
+    "RESOLUTION_HEATMAP": {
+      "HEADER": "Resolutions",
+      "NO_CONVERSATIONS": "Brak rozmów",
+      "CONVERSATION": "{count} rozmowa",
+      "CONVERSATIONS": "{count} rozmowy",
+      "DOWNLOAD_REPORT": "Download report"
+    },
+    "AGENT_CONVERSATIONS": {
+      "HEADER": "Rozmowy według agentów",
+      "LOADING_MESSAGE": "Ładowanie metryk agentów...",
+      "NO_AGENTS": "Brak rozmów według agentów",
+      "TABLE_HEADER": {
+        "AGENT": "Agent",
+        "OPEN": "Otwórz",
+        "UNATTENDED": "Nieobsługiwane",
+        "STATUS": "Status"
+      }
+    },
+    "TEAM_CONVERSATIONS": {
+      "ALL_TEAMS": "All Teams",
+      "HEADER": "Conversations by teams",
+      "LOADING_MESSAGE": "Loading team metrics...",
+      "NO_TEAMS": "There is no data available",
+      "TABLE_HEADER": {
+        "TEAM": "Zespół",
+        "OPEN": "Otwórz",
+        "UNATTENDED": "Nieobsługiwane",
+        "STATUS": "Status"
+      }
+    },
+    "AGENT_STATUS": {
+      "HEADER": "Status agenta",
+      "ONLINE": "Dostępny",
+      "BUSY": "Zajęty",
+      "OFFLINE": "Niedostępny"
+    }
+  },
+  "DAYS_OF_WEEK": {
+    "SUNDAY": "Niedziela",
+    "MONDAY": "Poniedziałek",
+    "TUESDAY": "Wtorek",
+    "WEDNESDAY": "Środa",
+    "THURSDAY": "Czwartek",
+    "FRIDAY": "Piątek",
+    "SATURDAY": "Sobota"
+  },
+  "SLA_REPORTS": {
+    "HEADER": "SLA Reports",
+    "NO_RECORDS": "SLA applied conversations are not available.",
+    "LOADING": "Loading SLA data...",
+    "DOWNLOAD_SLA_REPORTS": "Download SLA reports",
+    "DOWNLOAD_FAILED": "Failed to download SLA Reports",
+    "DROPDOWN": {
+      "ADD_FIlTER": "Dodaj filtr",
+      "CLEAR_ALL": "Clear all",
+      "CLEAR_FILTER": "Clear filter",
+      "EMPTY_LIST": "Nie znaleziono rekordów",
+      "NO_FILTER": "No filters available",
+      "SEARCH": "Search filter",
+      "INPUT_PLACEHOLDER": {
+        "SLA": "SLA name",
+        "AGENTS": "Nazwa agenta",
+        "INBOXES": "Nazwa skrzynki odbiorczej",
+        "LABELS": "Nazwa etykiety",
+        "TEAMS": "Nazwa zespołu"
+      },
+      "SLA": "SLA Policy",
+      "INBOXES": "Skrzynka odbiorcza",
+      "AGENTS": "Agent",
+      "LABELS": "Etykieta",
+      "TEAMS": "Zespół"
+    },
+    "WITH": "with",
+    "METRICS": {
+      "HIT_RATE": {
+        "LABEL": "Hit Rate",
+        "TOOLTIP": "Percentage of SLAs created were completed successfully"
+      },
+      "NO_OF_MISSES": {
+        "LABEL": "Number of Misses",
+        "TOOLTIP": "Total SLA misses in a certain period"
+      },
+      "NO_OF_CONVERSATIONS": {
+        "LABEL": "Number of Conversations",
+        "TOOLTIP": "Total number of conversations with SLA"
+      }
+    },
+    "TABLE": {
+      "HEADER": {
+        "POLICY": "Policy",
+        "CONVERSATION": "Rozmowa",
+        "AGENT": "Agent"
+      },
+      "VIEW_DETAILS": "View Details"
+    }
+  },
+  "SUMMARY_REPORTS": {
+    "INBOX": "Skrzynka odbiorcza",
+    "AGENT": "Agent",
+    "TEAM": "Zespół",
+    "LABEL": "Etykieta",
+    "AVG_RESOLUTION_TIME": "Avg. Resolution Time",
+    "AVG_FIRST_RESPONSE_TIME": "Avg. First Response Time",
+    "AVG_REPLY_TIME": "Avg. Customer Waiting Time",
+    "RESOLUTION_COUNT": "Liczba rozwiązań",
+    "CONVERSATIONS": "Ilość rozmów"
+  }
+}

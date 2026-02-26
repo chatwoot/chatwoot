@@ -1,0 +1,22 @@
+tags:
+  - Teams
+operationId: delete-a-team
+summary: Delete a team
+security:
+  - userApiKey: []
+description: Delete a team from the account
+responses:
+  '200':
+    description: Success
+  '401':
+    description: Unauthorized
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '404':
+    description: The team does not exist in the account
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

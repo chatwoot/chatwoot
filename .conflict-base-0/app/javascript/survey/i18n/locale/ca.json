@@ -1,0 +1,19 @@
+{
+  "SURVEY": {
+    "DESCRIPTION": "Benvolgut client 👋, preneu-vos un moment per compartir uns comentaris sobre la conversa que heu tingut amb {inboxName}.",
+    "RATING": {
+      "LABEL": "Valora la teva conversa",
+      "SUCCESS_MESSAGE": "Gràcies per enviar la qualificació"
+    },
+    "FEEDBACK": {
+      "LABEL": "Tens alguna reflexió que t'agradaria compartir?",
+      "PLACEHOLDER": "Els teus comentaris (opcional)",
+      "BUTTON_TEXT": "Envieu comentaris"
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Enquesta actualitzada correctament",
+      "ERROR_MESSAGE": "No s'ha pogut connectar amb el servidor Woot. Torna-ho a provar més endavant"
+    }
+  },
+  "POWERED_BY": "Desenvolupat per Chatwoot"
+}

@@ -1,0 +1,13 @@
+allOf:
+  - $ref: '#/components/schemas/account_detail'
+  - type: object
+    properties:
+      latest_chatwoot_version:
+        type: string
+        description: Latest version of Chatwoot available
+        example: "3.0.0"
+      subscribed_features:
+        type: array
+        items:
+          type: string
+        description: List of subscribed enterprise features (if enterprise edition is enabled)

@@ -1,0 +1,214 @@
+{
+  "CAMPAIGN": {
+    "LIVE_CHAT": {
+      "HEADER_TITLE": "Live chat campaigns",
+      "NEW_CAMPAIGN": "Create campaign",
+      "CARD": {
+        "STATUS": {
+          "ENABLED": "പ്രവർത്തനക്ഷമമാക്കി",
+          "DISABLED": "പ്രവർത്തനരഹിതമാക്കി"
+        },
+        "CAMPAIGN_DETAILS": {
+          "SENT_BY": "അയച്ചത്",
+          "BOT": "ബോട്ട്",
+          "FROM": "നിന്ന്",
+          "URL": "URL:"
+        }
+      },
+      "EMPTY_STATE": {
+        "TITLE": "No live chat campaigns are available",
+        "SUBTITLE": "Connect with your customers using proactive messages.  Click 'Create campaign' to get started."
+      },
+      "CREATE": {
+        "TITLE": "Create a live chat campaign",
+        "CANCEL_BUTTON_TEXT": "റദ്ദാക്കുക",
+        "CREATE_BUTTON_TEXT": "സൃഷ്ടിക്കുക",
+        "FORM": {
+          "TITLE": {
+            "LABEL": "തലക്കെട്ട്",
+            "PLACEHOLDER": "കാമ്പെയ്‌നിന്റെ പേര് നൽകുക",
+            "ERROR": "ശീർഷകം ആവശ്യമാണ്"
+          },
+          "MESSAGE": {
+            "LABEL": "സന്ദേശം",
+            "PLACEHOLDER": "ദയവായി പ്രചാരണ സന്ദേശം നൽകുക",
+            "ERROR": "സന്ദേശം ആവശ്യമാണ്"
+          },
+          "INBOX": {
+            "LABEL": "ഇൻബോക്സ് തിരഞ്ഞെടുക്കുക",
+            "PLACEHOLDER": "ഇൻബോക്സ് തിരഞ്ഞെടുക്കുക",
+            "ERROR": "ഇൻബോക്സ് ആവശ്യമാണ്"
+          },
+          "SENT_BY": {
+            "LABEL": "അയച്ചത്",
+            "PLACEHOLDER": "Please select sender",
+            "ERROR": "അയച്ചയാളെ ആവശ്യമുണ്ട്"
+          },
+          "END_POINT": {
+            "LABEL": "URL",
+            "PLACEHOLDER": "ദയവായി URL നൽകുക",
+            "ERROR": "ദയവായി സാധുവായ ഒരു യുആർഎൽ നൽകുക"
+          },
+          "TIME_ON_PAGE": {
+            "LABEL": "പേജിലെ സമയം (സെക്കൻഡ്)",
+            "PLACEHOLDER": "ദയവായി സമയം നൽകുക",
+            "ERROR": "പേജിൽ സമയം ആവശ്യമാണ്"
+          },
+          "OTHER_PREFERENCES": {
+            "TITLE": "Other preferences",
+            "ENABLED": "പ്രചാരണം പ്രവർത്തനക്ഷമമാക്കുക",
+            "TRIGGER_ONLY_BUSINESS_HOURS": "Trigger only during business hours"
+          },
+          "BUTTONS": {
+            "CREATE": "സൃഷ്ടിക്കുക",
+            "CANCEL": "റദ്ദാക്കുക"
+          },
+          "API": {
+            "SUCCESS_MESSAGE": "Live chat campaign created successfully",
+            "ERROR_MESSAGE": "ഒരു തെറ്റുണ്ടായി. ദയവായി വീണ്ടും ശ്രമിക്കുക."
+          }
+        }
+      },
+      "EDIT": {
+        "TITLE": "Edit live chat campaign",
+        "FORM": {
+          "API": {
+            "SUCCESS_MESSAGE": "Live chat campaign updated successfully",
+            "ERROR_MESSAGE": "ഒരു തെറ്റുണ്ടായി. ദയവായി വീണ്ടും ശ്രമിക്കുക."
+          }
+        }
+      }
+    },
+    "SMS": {
+      "HEADER_TITLE": "SMS campaigns",
+      "NEW_CAMPAIGN": "Create campaign",
+      "EMPTY_STATE": {
+        "TITLE": "No SMS campaigns are available",
+        "SUBTITLE": "Launch an SMS campaign to reach your customers directly. Send offers or make announcements with ease. Click 'Create campaign' to get started."
+      },
+      "CARD": {
+        "STATUS": {
+          "COMPLETED": "പൂർത്തിയാക്കി",
+          "SCHEDULED": "Scheduled"
+        },
+        "CAMPAIGN_DETAILS": {
+          "SENT_FROM": "Sent from",
+          "ON": "on"
+        }
+      },
+      "CREATE": {
+        "TITLE": "Create SMS campaign",
+        "CANCEL_BUTTON_TEXT": "റദ്ദാക്കുക",
+        "CREATE_BUTTON_TEXT": "സൃഷ്ടിക്കുക",
+        "FORM": {
+          "TITLE": {
+            "LABEL": "തലക്കെട്ട്",
+            "PLACEHOLDER": "കാമ്പെയ്‌നിന്റെ പേര് നൽകുക",
+            "ERROR": "ശീർഷകം ആവശ്യമാണ്"
+          },
+          "MESSAGE": {
+            "LABEL": "സന്ദേശം",
+            "PLACEHOLDER": "ദയവായി പ്രചാരണ സന്ദേശം നൽകുക",
+            "ERROR": "സന്ദേശം ആവശ്യമാണ്"
+          },
+          "INBOX": {
+            "LABEL": "ഇൻബോക്സ് തിരഞ്ഞെടുക്കുക",
+            "PLACEHOLDER": "ഇൻബോക്സ് തിരഞ്ഞെടുക്കുക",
+            "ERROR": "ഇൻബോക്സ് ആവശ്യമാണ്"
+          },
+          "AUDIENCE": {
+            "LABEL": "പ്രേക്ഷകർ",
+            "PLACEHOLDER": "Select the customer labels",
+            "ERROR": "പ്രേക്ഷകർ ആവശ്യമാണ്"
+          },
+          "SCHEDULED_AT": {
+            "LABEL": "ഷെഡ്യൂൾ ചെയ്ത സമയം",
+            "PLACEHOLDER": "ദയവായി സമയം തിരഞ്ഞെടുക്കുക",
+            "ERROR": "ഷെഡ്യൂൾ ചെയ്ത സമയം ആവശ്യമാണ്"
+          },
+          "BUTTONS": {
+            "CREATE": "സൃഷ്ടിക്കുക",
+            "CANCEL": "റദ്ദാക്കുക"
+          },
+          "API": {
+            "SUCCESS_MESSAGE": "SMS campaign created successfully",
+            "ERROR_MESSAGE": "ഒരു തെറ്റുണ്ടായി. ദയവായി വീണ്ടും ശ്രമിക്കുക."
+          }
+        }
+      }
+    },
+    "WHATSAPP": {
+      "HEADER_TITLE": "WhatsApp campaigns",
+      "NEW_CAMPAIGN": "Create campaign",
+      "EMPTY_STATE": {
+        "TITLE": "No WhatsApp campaigns are available",
+        "SUBTITLE": "Launch a WhatsApp campaign to reach your customers directly. Send offers or make announcements with ease. Click 'Create campaign' to get started."
+      },
+      "CARD": {
+        "STATUS": {
+          "COMPLETED": "പൂർത്തിയാക്കി",
+          "SCHEDULED": "Scheduled"
+        },
+        "CAMPAIGN_DETAILS": {
+          "SENT_FROM": "Sent from",
+          "ON": "on"
+        }
+      },
+      "CREATE": {
+        "TITLE": "Create WhatsApp campaign",
+        "CANCEL_BUTTON_TEXT": "റദ്ദാക്കുക",
+        "CREATE_BUTTON_TEXT": "സൃഷ്ടിക്കുക",
+        "FORM": {
+          "TITLE": {
+            "LABEL": "തലക്കെട്ട്",
+            "PLACEHOLDER": "കാമ്പെയ്‌നിന്റെ പേര് നൽകുക",
+            "ERROR": "ശീർഷകം ആവശ്യമാണ്"
+          },
+          "INBOX": {
+            "LABEL": "Select Inbox",
+            "PLACEHOLDER": "Select Inbox",
+            "ERROR": "ഇൻബോക്സ് ആവശ്യമാണ്"
+          },
+          "TEMPLATE": {
+            "LABEL": "WhatsApp Template",
+            "PLACEHOLDER": "Select a template",
+            "INFO": "Select a template to use for this campaign.",
+            "ERROR": "Template is required",
+            "PREVIEW_TITLE": "Process {templateName}",
+            "LANGUAGE": "Language",
+            "CATEGORY": "Category",
+            "VARIABLES_LABEL": "Variables",
+            "VARIABLE_PLACEHOLDER": "Enter value for {variable}"
+          },
+          "AUDIENCE": {
+            "LABEL": "പ്രേക്ഷകർ",
+            "PLACEHOLDER": "Select the customer labels",
+            "ERROR": "പ്രേക്ഷകർ ആവശ്യമാണ്"
+          },
+          "SCHEDULED_AT": {
+            "LABEL": "ഷെഡ്യൂൾ ചെയ്ത സമയം",
+            "PLACEHOLDER": "ദയവായി സമയം തിരഞ്ഞെടുക്കുക",
+            "ERROR": "ഷെഡ്യൂൾ ചെയ്ത സമയം ആവശ്യമാണ്"
+          },
+          "BUTTONS": {
+            "CREATE": "സൃഷ്ടിക്കുക",
+            "CANCEL": "റദ്ദാക്കുക"
+          },
+          "API": {
+            "SUCCESS_MESSAGE": "WhatsApp campaign created successfully",
+            "ERROR_MESSAGE": "ഒരു തെറ്റുണ്ടായി. ദയവായി വീണ്ടും ശ്രമിക്കുക."
+          }
+        }
+      }
+    },
+    "CONFIRM_DELETE": {
+      "TITLE": "ഇല്ലാതാക്കുമെന്ന് ഉറപ്പാണോ?",
+      "DESCRIPTION": "The delete action is permanent and cannot be reversed.",
+      "CONFIRM": "ഇല്ലാതാക്കുക",
+      "API": {
+        "SUCCESS_MESSAGE": "കാമ്പെയ്‌ൻ വിജയകരമായി ഇല്ലാതാക്കിയിരിക്കുന്നു",
+        "ERROR_MESSAGE": "ഒരു തെറ്റുണ്ടായി. ദയവായി വീണ്ടും ശ്രമിക്കുക."
+      }
+    }
+  }
+}

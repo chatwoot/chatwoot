@@ -1,0 +1,62 @@
+{
+  "INTEGRATION_APPS": {
+    "FETCHING": "Fetching Integrations",
+    "NO_HOOK_CONFIGURED": "There are no {integrationId} integrations configured in this account.",
+    "HEADER": "Applications",
+    "STATUS": {
+      "ENABLED": "Aktivert",
+      "DISABLED": "Deaktivert"
+    },
+    "CONFIGURE": "Konfigurer",
+    "ADD_BUTTON": "Add a new hook",
+    "DELETE": {
+      "TITLE": {
+        "INBOX": "Confirm deletion",
+        "ACCOUNT": "Disconnect"
+      },
+      "MESSAGE": {
+        "INBOX": "Er du sikker på at du vil slette?",
+        "ACCOUNT": "Are you sure to disconnect?"
+      },
+      "CONFIRM_BUTTON_TEXT": {
+        "INBOX": "Ja, slett",
+        "ACCOUNT": "Yes, Disconnect"
+      },
+      "CANCEL_BUTTON_TEXT": "Avbryt",
+      "API": {
+        "SUCCESS_MESSAGE": "Hook deleted successfully",
+        "ERROR_MESSAGE": "Kunne ikke koble til Woot Server, vennligst prøv igjen senere"
+      }
+    },
+    "LIST": {
+      "FETCHING": "Fetching integration hooks",
+      "INBOX": "Inbox",
+      "DELETE": {
+        "BUTTON_TEXT": "Slett"
+      }
+    },
+    "ADD": {
+      "FORM": {
+        "INBOX": {
+          "LABEL": "Select Inbox",
+          "PLACEHOLDER": "Select Inbox"
+        },
+        "SUBMIT": "Opprett",
+        "CANCEL": "Avbryt"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Integration hook added successfully",
+        "ERROR_MESSAGE": "Kunne ikke koble til Woot Server, vennligst prøv igjen senere"
+      }
+    },
+    "CONNECT": {
+      "BUTTON_TEXT": "Koble til"
+    },
+    "DISCONNECT": {
+      "BUTTON_TEXT": "Disconnect"
+    },
+    "SIDEBAR_DESCRIPTION": {
+      "DIALOGFLOW": "Dialogflow is a natural language processing platform for building conversational interfaces. Integrating it with {installationName} lets bots handle queries first and transfer them to agents when needed. It helps qualify leads and reduce agent workload by answering FAQs. To add Dialogflow, create a Service Account in Google Console and share the credentials. Refer to the docs for details"
+    }
+  }
+}

@@ -1,0 +1,214 @@
+{
+  "CAMPAIGN": {
+    "LIVE_CHAT": {
+      "HEADER_TITLE": "Live chat campaigns",
+      "NEW_CAMPAIGN": "Create campaign",
+      "CARD": {
+        "STATUS": {
+          "ENABLED": "Habilita",
+          "DISABLED": "Inhabilita"
+        },
+        "CAMPAIGN_DETAILS": {
+          "SENT_BY": "Enviat per",
+          "BOT": "Bot",
+          "FROM": "des de",
+          "URL": "URL:"
+        }
+      },
+      "EMPTY_STATE": {
+        "TITLE": "No live chat campaigns are available",
+        "SUBTITLE": "Connect with your customers using proactive messages.  Click 'Create campaign' to get started."
+      },
+      "CREATE": {
+        "TITLE": "Create a live chat campaign",
+        "CANCEL_BUTTON_TEXT": "Cancel·la",
+        "CREATE_BUTTON_TEXT": "Crear",
+        "FORM": {
+          "TITLE": {
+            "LABEL": "Títol",
+            "PLACEHOLDER": "Introduïu el títol de la campanya",
+            "ERROR": "El títol és necessari"
+          },
+          "MESSAGE": {
+            "LABEL": "Missatge",
+            "PLACEHOLDER": "Introdueix el missatge de la campanya",
+            "ERROR": "El missatge és obligatori"
+          },
+          "INBOX": {
+            "LABEL": "Selecciona Safata d'entrada",
+            "PLACEHOLDER": "Selecciona Safata d'entrada",
+            "ERROR": "Safata d'entrada és necessària"
+          },
+          "SENT_BY": {
+            "LABEL": "Enviat per",
+            "PLACEHOLDER": "Please select sender",
+            "ERROR": "El remitent és obligatori"
+          },
+          "END_POINT": {
+            "LABEL": "URL",
+            "PLACEHOLDER": "Introdueix la URL vàlid",
+            "ERROR": "Introduïu una URL vàlid"
+          },
+          "TIME_ON_PAGE": {
+            "LABEL": "Temps a la pàgina (segons)",
+            "PLACEHOLDER": "Introdueix l'hora",
+            "ERROR": "L'hora a la pàgina és obligatori"
+          },
+          "OTHER_PREFERENCES": {
+            "TITLE": "Other preferences",
+            "ENABLED": "Activa la campanya",
+            "TRIGGER_ONLY_BUSINESS_HOURS": "Activa només durant l'horari comercial"
+          },
+          "BUTTONS": {
+            "CREATE": "Crear",
+            "CANCEL": "Cancel·la"
+          },
+          "API": {
+            "SUCCESS_MESSAGE": "Live chat campaign created successfully",
+            "ERROR_MESSAGE": "S'ha produït un error. Torna-ho a provar."
+          }
+        }
+      },
+      "EDIT": {
+        "TITLE": "Edit live chat campaign",
+        "FORM": {
+          "API": {
+            "SUCCESS_MESSAGE": "Live chat campaign updated successfully",
+            "ERROR_MESSAGE": "S'ha produït un error. Torna-ho a provar."
+          }
+        }
+      }
+    },
+    "SMS": {
+      "HEADER_TITLE": "SMS campaigns",
+      "NEW_CAMPAIGN": "Create campaign",
+      "EMPTY_STATE": {
+        "TITLE": "No SMS campaigns are available",
+        "SUBTITLE": "Launch an SMS campaign to reach your customers directly. Send offers or make announcements with ease. Click 'Create campaign' to get started."
+      },
+      "CARD": {
+        "STATUS": {
+          "COMPLETED": "Completat",
+          "SCHEDULED": "Scheduled"
+        },
+        "CAMPAIGN_DETAILS": {
+          "SENT_FROM": "Sent from",
+          "ON": "on"
+        }
+      },
+      "CREATE": {
+        "TITLE": "Create SMS campaign",
+        "CANCEL_BUTTON_TEXT": "Cancel·la",
+        "CREATE_BUTTON_TEXT": "Crear",
+        "FORM": {
+          "TITLE": {
+            "LABEL": "Títol",
+            "PLACEHOLDER": "Introduïu el títol de la campanya",
+            "ERROR": "El títol és necessari"
+          },
+          "MESSAGE": {
+            "LABEL": "Missatge",
+            "PLACEHOLDER": "Introdueix el missatge de la campanya",
+            "ERROR": "El missatge és obligatori"
+          },
+          "INBOX": {
+            "LABEL": "Selecciona Safata d'entrada",
+            "PLACEHOLDER": "Selecciona Safata d'entrada",
+            "ERROR": "Safata d'entrada és necessària"
+          },
+          "AUDIENCE": {
+            "LABEL": "Públic",
+            "PLACEHOLDER": "Selecciona les etiquetes dels clients",
+            "ERROR": "L'audiència és obligatòria"
+          },
+          "SCHEDULED_AT": {
+            "LABEL": "Hora programada",
+            "PLACEHOLDER": "Selecciona l'hora",
+            "ERROR": "Es requereix hora programada"
+          },
+          "BUTTONS": {
+            "CREATE": "Crear",
+            "CANCEL": "Cancel·la"
+          },
+          "API": {
+            "SUCCESS_MESSAGE": "SMS campaign created successfully",
+            "ERROR_MESSAGE": "S'ha produït un error. Torna-ho a provar."
+          }
+        }
+      }
+    },
+    "WHATSAPP": {
+      "HEADER_TITLE": "WhatsApp campaigns",
+      "NEW_CAMPAIGN": "Create campaign",
+      "EMPTY_STATE": {
+        "TITLE": "No WhatsApp campaigns are available",
+        "SUBTITLE": "Launch a WhatsApp campaign to reach your customers directly. Send offers or make announcements with ease. Click 'Create campaign' to get started."
+      },
+      "CARD": {
+        "STATUS": {
+          "COMPLETED": "Completat",
+          "SCHEDULED": "Scheduled"
+        },
+        "CAMPAIGN_DETAILS": {
+          "SENT_FROM": "Sent from",
+          "ON": "on"
+        }
+      },
+      "CREATE": {
+        "TITLE": "Create WhatsApp campaign",
+        "CANCEL_BUTTON_TEXT": "Cancel·la",
+        "CREATE_BUTTON_TEXT": "Crear",
+        "FORM": {
+          "TITLE": {
+            "LABEL": "Títol",
+            "PLACEHOLDER": "Introduïu el títol de la campanya",
+            "ERROR": "El títol és necessari"
+          },
+          "INBOX": {
+            "LABEL": "Selecciona Safata d'entrada",
+            "PLACEHOLDER": "Selecciona Safata d'entrada",
+            "ERROR": "Safata d'entrada és necessària"
+          },
+          "TEMPLATE": {
+            "LABEL": "WhatsApp Template",
+            "PLACEHOLDER": "Select a template",
+            "INFO": "Select a template to use for this campaign.",
+            "ERROR": "Template is required",
+            "PREVIEW_TITLE": "Procés {templateName}",
+            "LANGUAGE": "Idioma",
+            "CATEGORY": "Categoria",
+            "VARIABLES_LABEL": "Variables",
+            "VARIABLE_PLACEHOLDER": "Enter value for {variable}"
+          },
+          "AUDIENCE": {
+            "LABEL": "Públic",
+            "PLACEHOLDER": "Selecciona les etiquetes dels clients",
+            "ERROR": "L'audiència és obligatòria"
+          },
+          "SCHEDULED_AT": {
+            "LABEL": "Hora programada",
+            "PLACEHOLDER": "Selecciona l'hora",
+            "ERROR": "Es requereix hora programada"
+          },
+          "BUTTONS": {
+            "CREATE": "Crear",
+            "CANCEL": "Cancel·la"
+          },
+          "API": {
+            "SUCCESS_MESSAGE": "WhatsApp campaign created successfully",
+            "ERROR_MESSAGE": "S'ha produït un error. Torna-ho a provar."
+          }
+        }
+      }
+    },
+    "CONFIRM_DELETE": {
+      "TITLE": "N'estàs segur?",
+      "DESCRIPTION": "The delete action is permanent and cannot be reversed.",
+      "CONFIRM": "Esborrar",
+      "API": {
+        "SUCCESS_MESSAGE": "La campanya s'ha suprimit correctament",
+        "ERROR_MESSAGE": "S'ha produït un error. Torna-ho a provar."
+      }
+    }
+  }
+}

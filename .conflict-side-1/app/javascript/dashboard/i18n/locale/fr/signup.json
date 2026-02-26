@@ -1,0 +1,49 @@
+{
+  "REGISTER": {
+    "TRY_WOOT": "Créer un compte",
+    "TITLE": "Inscription",
+    "TESTIMONIAL_HEADER": "Il suffit d'une étape pour avancer",
+    "TESTIMONIAL_CONTENT": "Vous n'êtes plus qu'à un pas d'engager vos clients, de les fidéliser et d'en trouver de nouveaux.",
+    "TERMS_ACCEPT": "En créant un compte, vous acceptez nos <a href=\"https://www.chatwoot.com/terms\">CGU</a> et notre <a href=\"https://www.chatwoot.com/privacy-policy\">Politique de confidentialité</a>",
+    "OAUTH": {
+      "GOOGLE_SIGNUP": "Inscrivez-vous avec Google"
+    },
+    "COMPANY_NAME": {
+      "LABEL": "Nom de la société",
+      "PLACEHOLDER": "Entrez le nom de votre entreprise. Ex : Wayne Enterprises",
+      "ERROR": "Le nom de la société est trop court"
+    },
+    "FULL_NAME": {
+      "LABEL": "Nom complet",
+      "PLACEHOLDER": "Entrez votre nom complet. Ex. : Bruce Wayne",
+      "ERROR": "Le nom complet est trop court"
+    },
+    "EMAIL": {
+      "LABEL": "E-mail professionnel",
+      "PLACEHOLDER": "Enter your work email address. E.g., bruce{'@'}wayne{'.'}enterprises",
+      "ERROR": "Veuillez entrer une adresse e-mail professionnelle valide"
+    },
+    "PASSWORD": {
+      "LABEL": "Mot de passe",
+      "PLACEHOLDER": "Mot de passe",
+      "ERROR": "Le mot de passe est trop court",
+      "IS_INVALID_PASSWORD": "Le mot de passe doit contenir au moins 1 lettre majuscule, 1 lettre minuscule, 1 chiffre et 1 caractère spécial",
+      "REQUIREMENTS_LENGTH": "At least 6 characters long",
+      "REQUIREMENTS_UPPERCASE": "At least one uppercase letter",
+      "REQUIREMENTS_LOWERCASE": "At least one lowercase letter",
+      "REQUIREMENTS_NUMBER": "At least one number",
+      "REQUIREMENTS_SPECIAL": "At least one special character"
+    },
+    "CONFIRM_PASSWORD": {
+      "LABEL": "Confirmer le mot de passe",
+      "PLACEHOLDER": "Confirmer le mot de passe",
+      "ERROR": "Les mots de passe ne correspondent pas."
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Registration Successful",
+      "ERROR_MESSAGE": "Impossible de se connecter au serveur Woot, veuillez réessayer plus tard"
+    },
+    "SUBMIT": "Créer un compte",
+    "HAVE_AN_ACCOUNT": "Vous avez déjà un compte ?"
+  }
+}

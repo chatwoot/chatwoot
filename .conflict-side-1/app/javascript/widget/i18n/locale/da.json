@@ -1,0 +1,153 @@
+{
+  "COMPONENTS": {
+    "FILE_BUBBLE": {
+      "DOWNLOAD": "Download",
+      "UPLOADING": "Uploader..."
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "Send"
+    },
+    "MESSAGE_BUBBLE": {
+      "RETRY": "Send besked igen",
+      "ERROR_MESSAGE": "Kunne ikke sende, prøv igen"
+    }
+  },
+  "THUMBNAIL": {
+    "AUTHOR": {
+      "NOT_AVAILABLE": "Not available"
+    }
+  },
+  "TEAM_AVAILABILITY": {
+    "ONLINE": "Vi er online",
+    "OFFLINE": "Vi er ikke tilgængelige i øjeblikket",
+    "BACK_AS_SOON_AS_POSSIBLE": "We will be back as soon as possible"
+  },
+  "REPLY_TIME": {
+    "IN_A_FEW_MINUTES": "Svarer typisk på et par minutter",
+    "IN_A_FEW_HOURS": "Svarer typisk på et par timer",
+    "IN_A_DAY": "Svarer typisk på en dag",
+    "BACK_IN_HOURS": "We will be back online in {n} hour | We will be back online in {n} hours",
+    "BACK_IN_MINUTES": "We will be back online in {time} minutes",
+    "BACK_AT_TIME": "We will be back online at {time}",
+    "BACK_ON_DAY": "We will be back online on {day}",
+    "BACK_TOMORROW": "We will be back online tomorrow",
+    "BACK_IN_SOME_TIME": "We will be back online in some time"
+  },
+  "DAY_NAMES": {
+    "SUNDAY": "søndag",
+    "MONDAY": "mandag",
+    "TUESDAY": "tirsdag",
+    "WEDNESDAY": "onsdag",
+    "THURSDAY": "torsdag",
+    "FRIDAY": "fredag",
+    "SATURDAY": "lørdag"
+  },
+  "START_CONVERSATION": "Start Samtale",
+  "END_CONVERSATION": "Afslut Samtale",
+  "CONTINUE_CONVERSATION": "Fortsæt samtale",
+  "YOU": "Dig",
+  "START_NEW_CONVERSATION": "Start en ny samtale",
+  "VIEW_UNREAD_MESSAGES": "Du har ulæste beskeder",
+  "UNREAD_VIEW": {
+    "VIEW_MESSAGES_BUTTON": "Se nye beskeder",
+    "CLOSE_MESSAGES_BUTTON": "Luk",
+    "COMPANY_FROM": "fra",
+    "BOT": "Bot"
+  },
+  "BUBBLE": {
+    "LABEL": "Chat med os"
+  },
+  "POWERED_BY": "Drevet af Chatwoot",
+  "EMAIL_PLACEHOLDER": "Indtast venligst din e-mail",
+  "CHAT_PLACEHOLDER": "Skriv din besked",
+  "TODAY": "I dag",
+  "YESTERDAY": "I går",
+  "PRE_CHAT_FORM": {
+    "FIELDS": {
+      "FULL_NAME": {
+        "LABEL": "Fulde Navn",
+        "PLACEHOLDER": "Indtast venligst dit fulde navn",
+        "REQUIRED_ERROR": "Det fulde navn er påkrævet"
+      },
+      "EMAIL_ADDRESS": {
+        "LABEL": "E-Mail Adresse",
+        "PLACEHOLDER": "Indtast venligst din e-mail adresse",
+        "REQUIRED_ERROR": "E-mail adresse er påkrævet",
+        "VALID_ERROR": "Angiv venligst en gyldig e-mailadresse"
+      },
+      "PHONE_NUMBER": {
+        "LABEL": "Telefonnummer",
+        "PLACEHOLDER": "Indtast venligst dit telefonnummer",
+        "REQUIRED_ERROR": "Telefonnummer er påkrævet",
+        "DIAL_CODE_VALID_ERROR": "Vælg venligst en landekode",
+        "VALID_ERROR": "Indtast et gyldigt telefonnummer",
+        "DROPDOWN_EMPTY": "Ingen resultater fundet",
+        "DROPDOWN_SEARCH": "Søg land"
+      },
+      "MESSAGE": {
+        "LABEL": "Besked",
+        "PLACEHOLDER": "Indtast venligst din besked",
+        "ERROR": "Beskeden er for kort"
+      }
+    },
+    "CAMPAIGN_HEADER": "Angiv venligst dit navn og e-mail, før du starter samtalen",
+    "IS_REQUIRED": "er påkrævet",
+    "REQUIRED": "Påkrævet",
+    "REGEX_ERROR": "Angiv venligst et gyldigt input"
+  },
+  "FILE_SIZE_LIMIT": "Filen overskrider grænsen på {MAXIMUM_FILE_UPLOAD_SIZE} for vedhæftede filer",
+  "CHAT_FORM": {
+    "INVALID": {
+      "FIELD": "Ugyldigt felt"
+    }
+  },
+  "EMOJI": {
+    "PLACEHOLDER": "Søg efter emojis",
+    "NOT_FOUND": "Ingen emoji matcher din søgning",
+    "ARIA_LABEL": "Emoji vælger"
+  },
+  "CSAT": {
+    "TITLE": "Bedøm din samtale",
+    "SUBMITTED_TITLE": "Tak for din bedømmelse",
+    "PLACEHOLDER": "Fortæl os mere..."
+  },
+  "EMAIL_TRANSCRIPT": {
+    "BUTTON_TEXT": "Anmod om en samtaleudskrift",
+    "SEND_EMAIL_SUCCESS": "Chatudskriften blev sendt med succes",
+    "SEND_EMAIL_ERROR": "Der opstod en fejl. Prøv venligst igen"
+  },
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Tryk her for at deltage",
+      "LEAVE_THE_ROOM": "Forlad opkaldet"
+    }
+  },
+  "PORTAL": {
+    "POPULAR_ARTICLES": "Populære Artikler",
+    "VIEW_ALL_ARTICLES": "Se alle artikler",
+    "IFRAME_LOAD_ERROR": "Der opstod en fejl under indlæsning af artiklen. Genindlæs venligst siden og prøv igen."
+  },
+  "ATTACHMENTS": {
+    "image": {
+      "CONTENT": "Billedbesked"
+    },
+    "audio": {
+      "CONTENT": "Lydbesked"
+    },
+    "video": {
+      "CONTENT": "Video besked"
+    },
+    "file": {
+      "CONTENT": "Fil Vedhæftning"
+    },
+    "location": {
+      "CONTENT": "Lokation"
+    },
+    "fallback": {
+      "CONTENT": "har delt en URL"
+    }
+  },
+  "FOOTER_REPLY_TO": {
+    "REPLY_TO": "Besvarer til:"
+  }
+}

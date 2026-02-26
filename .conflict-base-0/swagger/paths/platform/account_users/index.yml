@@ -1,0 +1,20 @@
+tags:
+  - Account Users
+operationId: list-all-account-users
+summary: List all Account Users
+description: List all account users
+security:
+  - platformAppApiKey: []
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/account_user'
+  '401':
+    description: Unauthorized
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
