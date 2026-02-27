@@ -13,8 +13,6 @@
 module Reauthorizable
   extend ActiveSupport::Concern
 
-  include Backoffable
-
   AUTHORIZATION_ERROR_THRESHOLD = 2
 
   # model attribute
@@ -67,7 +65,6 @@ module Reauthorizable
   def reauthorized!
     ::Redis::Alfred.delete(authorization_error_count_key)
     ::Redis::Alfred.delete(reauthorization_required_key)
-    clear_backoff!
 
     invalidate_inbox_cache unless instance_of?(::AutomationRule)
   end
