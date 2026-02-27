@@ -4,6 +4,7 @@ import BaseBubble from './Base.vue';
 import AudioChip from 'next/message/chips/Audio.vue';
 import Icon from 'next/icon/Icon.vue';
 import { useLoadWithRetry } from 'dashboard/composables/loadWithRetry';
+import { timeStampAppendedURL } from 'dashboard/helper/URLHelper';
 import { useMessageContext } from '../provider.js';
 
 const { attachments } = useMessageContext();
@@ -18,7 +19,7 @@ const { isLoaded, hasError, loadWithRetry } = useLoadWithRetry({
 
 onMounted(() => {
   if (attachment.value?.dataUrl) {
-    loadWithRetry(attachment.value.dataUrl);
+    loadWithRetry(timeStampAppendedURL(attachment.value.dataUrl));
   }
 });
 </script>
