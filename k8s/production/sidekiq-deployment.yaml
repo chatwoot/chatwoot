@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: chatwoot-sidekiq
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: chatwoot-sidekiq
@@ -12,6 +12,15 @@ spec:
       labels:
         app: chatwoot-sidekiq
     spec:
+      affinity:
+        podAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchLabels:
+                  app: redis
+              topologyKey: kubernetes.io/hostname
       containers:
       - name: sidekiq
         image: wavai/chatwoot-rails:v1.0.102
