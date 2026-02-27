@@ -23,4 +23,32 @@ RSpec.describe Message do
     expect(conversation.first_reply_created_at).not_to be_nil
     expect(conversation.waiting_since).to be_nil
   end
+
+  describe '#mark_pending_conversation_as_open_for_human_response' do
+    let(:conversation) { create(:conversation, status: :pending) }
+    let(:captain_assistant) { create(:captain_assistant, account: conversation.account) }
+
+    before do
+      create(:captain_inbox, inbox: conversation.inbox, captain_assistant: captain_assistant)
+    end
+
+    it 'marks the conversation open when a human sends a public outgoing message' do
+      create(:message, message_type: :outgoing, conversation: conversation)
+
+      expect(conversation.reload.open?).to be true
+    end
+
+    it 'does not mark the conversation open for private outgoing messages' do
+      create(:message, message_type: :outgoing, conversation: conversation, private: true)
+
+      expect(conversation.reload.pending?).to be true
+    end
+
+    it 'does not mark the conversation open for bot outgoing messages' do
+      agent_bot = create(:agent_bot, account: conversation.account)
+      create(:message, message_type: :outgoing, conversation: conversation, sender: agent_bot)
+
+      expect(conversation.reload.pending?).to be true
+    end
+  end
 end

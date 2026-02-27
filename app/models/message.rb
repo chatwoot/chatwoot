@@ -392,11 +392,18 @@ class Message < ApplicationRecord
   end
 
   def mark_pending_conversation_as_open_for_human_response
-    return unless conversation.pending?
+    return unless captain_pending_conversation?
     return unless human_response?
     return if private?
 
     conversation.open!
+  end
+
+  def captain_pending_conversation?
+    return false unless conversation.pending?
+    return false unless defined?(::CaptainInbox)
+
+    ::CaptainInbox.exists?(inbox_id: conversation.inbox_id)
   end
 
   def reopen_resolved_conversation
