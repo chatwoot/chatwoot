@@ -98,6 +98,7 @@ export default createStore({
     inboxAssignableAgents,
     inboxes,
     inboxMembers,
+    insights,
     integrations,
     labels,
     macros,

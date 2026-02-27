@@ -21,6 +21,7 @@ export default {
       children: [
         ...captainRoutes,
         ...inboxRoutes,
+        ...insightsRoutes,
         ...conversation.routes,
         ...settings.routes,
         ...contactRoutes,

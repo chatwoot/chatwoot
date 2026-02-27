@@ -103,6 +103,13 @@ Rails.application.routes.draw do
             end
           end
           resources :canned_responses, only: [:index, :create, :update, :destroy]
+          resources :insights
+          namespace :crm do
+            resources :pipelines do
+              resources :stages
+            end
+            resources :leads
+          end
           resources :automation_rules, only: [:index, :create, :show, :update, :destroy] do
             post :clone
           end

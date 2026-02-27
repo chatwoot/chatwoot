@@ -65,6 +65,7 @@ export default {
   ...helpCenter,
   ...inbox,
   ...inboxMgmt,
+  ...insights,
   ...integrationApps,
   ...integrations,
   ...labelsMgmt,

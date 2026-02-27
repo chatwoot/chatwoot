@@ -500,6 +500,12 @@ const menuItems = computed(() => {
       ],
     },
     {
+      name: 'Insights',
+      label: t('SIDEBAR.INSIGHTS'),
+      icon: 'i-lucide-lightbulb',
+      to: accountScopedRoute('insights_index'),
+    },
+    {
       name: 'Campaigns',
       label: t('SIDEBAR.CAMPAIGNS'),
       icon: 'i-lucide-megaphone',

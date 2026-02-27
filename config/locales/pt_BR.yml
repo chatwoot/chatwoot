@@ -18,6 +18,16 @@
 #available at https://guides.rubyonrails.org/i18n.html.
 pt_BR:
   hello: 'Olá, mundo'
+  insights:
+    create:
+      success: 'Insight criado com sucesso'
+      error: 'Erro ao criar insight'
+    update:
+      success: 'Insight atualizado com sucesso'
+      error: 'Erro ao atualizar insight'
+    destroy:
+      success: 'Insight excluído com sucesso'
+      error: 'Erro ao excluir insight'
   inbox:
     reauthorization:
       success: 'Canal reautenticado com sucesso'

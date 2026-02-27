@@ -31,6 +31,16 @@
 
 en:
   hello: 'Hello world'
+  insights:
+    create:
+      success: 'Insight created successfully'
+      error: 'Error creating insight'
+    update:
+      success: 'Insight updated successfully'
+      error: 'Error updating insight'
+    destroy:
+      success: 'Insight deleted successfully'
+      error: 'Error deleting insight'
   inbox:
     reauthorization:
       success: 'Channel reauthorized successfully'

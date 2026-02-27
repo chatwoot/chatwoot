@@ -1,0 +1,12 @@
+{
+  "INSIGHTS": {
+    "HEADER": "Insights",
+    "EMPTY_STATE": "Nenhum insight encontrado",
+    "SIDEBAR": {
+      "INSIGHTS": "Insights"
+    }
+  },
+  "SIDEBAR": {
+    "INSIGHTS": "Insights"
+  }
+}
