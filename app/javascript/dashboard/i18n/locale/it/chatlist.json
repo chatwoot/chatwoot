@@ -78,7 +78,7 @@
         "TEXT": "In attesa di risposta: prima meno tempo in attesa"
       },
       "priority_desc_created_at_asc": {
-        "TEXT": "Priority: Highest first, Created: Oldest first"
+        "TEXT": "Priorità: prima le più importanti, Data creazione: prima le più vecchie"
       }
     },
     "ATTACHMENTS": {
