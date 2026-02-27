@@ -26,7 +26,7 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
       inbox_id: @web_widget.inbox.id
     ).perform
 
-    @contact_inbox = @contact.contact_inboxes.find_by!(inbox_id: @web_widget.inbox.id)
+    @contact_inbox = @contact.contact_inboxes.find_by!(source_id: @contact_inbox.source_id)
   end
 
   def update_last_seen
