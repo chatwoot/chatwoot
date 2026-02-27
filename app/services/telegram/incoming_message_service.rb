@@ -171,7 +171,7 @@ class Telegram::IncomingMessageService
     @message.attachments.new(
       account_id: @message.account_id,
       file_type: :location,
-      fallback_title: location_fallback_title,
+      fallback_title: params.dig(:message, :venue, :title).to_s,
       coordinates_lat: location['latitude'],
       coordinates_long: location['longitude']
     )
@@ -193,10 +193,6 @@ class Telegram::IncomingMessageService
 
   def file
     @file ||= visual_media_params || params[:message][:voice].presence || params[:message][:audio].presence || params[:message][:document].presence
-  end
-
-  def location_fallback_title
-    params.dig(:message, :venue, :title).to_s
   end
 
   def location
