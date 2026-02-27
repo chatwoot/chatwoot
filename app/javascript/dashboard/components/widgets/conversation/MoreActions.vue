@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onUnmounted } from 'vue';
+import { computed, onUnmounted, ref } from 'vue';
 import { useToggle } from '@vueuse/core';
 import { useStore } from 'vuex';
 import { useAlert } from 'dashboard/composables';
@@ -9,6 +9,7 @@ import EmailTranscriptModal from './EmailTranscriptModal.vue';
 import ResolveAction from '../../buttons/ResolveAction.vue';
 import ButtonV4 from 'dashboard/components-next/button/Button.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
+import BanDurationModal from './BanDurationModal.vue';
 
 import {
   CMD_MUTE_CONVERSATION,
@@ -22,6 +23,7 @@ const { t } = useI18n();
 
 const [showEmailActionsModal, toggleEmailModal] = useToggle(false);
 const [showActionsDropdown, toggleDropdown] = useToggle(false);
+const showBanModal = ref(false);
 
 const currentChat = computed(() => store.getters.getSelectedChat);
 
@@ -54,23 +56,13 @@ const actionMenuItems = computed(() => {
   return items;
 });
 
-const handleActionClick = ({ action }) => {
-  toggleDropdown(false);
-
-  if (action === 'mute') {
-    store.dispatch('muteConversation', currentChat.value.id);
-    useAlert(t('CONTACT_PANEL.MUTED_SUCCESS'));
-  } else if (action === 'unmute') {
-    store.dispatch('unmuteConversation', currentChat.value.id);
-    useAlert(t('CONTACT_PANEL.UNMUTED_SUCCESS'));
-  } else if (action === 'send_transcript') {
-    toggleEmailModal();
-  }
-};
-
-// These functions are needed for the event listeners
-const mute = () => {
-  store.dispatch('muteConversation', currentChat.value.id);
+// Defined before handleActionClick to satisfy no-use-before-define
+const mute = bannedUntil => {
+  showBanModal.value = false;
+  store.dispatch('muteConversation', {
+    conversationId: currentChat.value.id,
+    bannedUntil,
+  });
   useAlert(t('CONTACT_PANEL.MUTED_SUCCESS'));
 };
 
@@ -79,12 +71,38 @@ const unmute = () => {
   useAlert(t('CONTACT_PANEL.UNMUTED_SUCCESS'));
 };
 
-emitter.on(CMD_MUTE_CONVERSATION, mute);
+const handleBanCancel = () => {
+  showBanModal.value = false;
+};
+
+const handleActionClick = ({ action }) => {
+  toggleDropdown(false);
+
+  switch (action) {
+    case 'mute':
+      showBanModal.value = true;
+      break;
+    case 'unmute':
+      unmute();
+      break;
+    case 'send_transcript':
+      toggleEmailModal();
+      break;
+    default:
+      break;
+  }
+};
+
+const openBanModal = () => {
+  showBanModal.value = true;
+};
+
+emitter.on(CMD_MUTE_CONVERSATION, openBanModal);
 emitter.on(CMD_UNMUTE_CONVERSATION, unmute);
 emitter.on(CMD_SEND_TRANSCRIPT, toggleEmailModal);
 
 onUnmounted(() => {
-  emitter.off(CMD_MUTE_CONVERSATION, mute);
+  emitter.off(CMD_MUTE_CONVERSATION, openBanModal);
   emitter.off(CMD_UNMUTE_CONVERSATION, unmute);
   emitter.off(CMD_SEND_TRANSCRIPT, toggleEmailModal);
 });
@@ -121,6 +139,11 @@ onUnmounted(() => {
       :show="showEmailActionsModal"
       :current-chat="currentChat"
       @cancel="toggleEmailModal"
+    />
+    <BanDurationModal
+      v-if="showBanModal"
+      @confirm="mute"
+      @cancel="handleBanCancel"
     />
   </div>
 </template>

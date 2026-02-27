@@ -439,9 +439,12 @@ const actions = {
     commit(types.SET_ACTIVE_INBOX, inboxId);
   },
 
-  muteConversation: async ({ commit }, conversationId) => {
+  muteConversation: async (
+    { commit },
+    { conversationId, bannedUntil = null }
+  ) => {
     try {
-      await ConversationApi.mute(conversationId);
+      await ConversationApi.mute(conversationId, bannedUntil);
       commit(types.MUTE_CONVERSATION);
     } catch (error) {
       //
