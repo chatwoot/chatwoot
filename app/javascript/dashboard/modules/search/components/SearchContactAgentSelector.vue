@@ -5,7 +5,7 @@ import { useToggle } from '@vueuse/core';
 import { vOnClickOutside } from '@vueuse/components';
 import { debounce } from '@chatwoot/utils';
 import { useMapGetter } from 'dashboard/composables/store.js';
-import { searchContacts } from 'dashboard/components-next/NewConversation/helpers/composeConversationHelper';
+import { createContactSearcher } from 'dashboard/components-next/NewConversation/helpers/composeConversationHelper';
 import { useCamelCase } from 'dashboard/composables/useTransformKeys';
 import { fetchContactDetails } from '../helpers/searchHelper';
 
@@ -17,6 +17,8 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['change']);
+
+const searchContacts = createContactSearcher();
 
 const FROM_TYPE = {
   CONTACT: 'contact',

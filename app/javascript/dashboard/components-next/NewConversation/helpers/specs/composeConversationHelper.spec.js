@@ -337,7 +337,12 @@ describe('composeConversationHelper', () => {
   });
 
   describe('API calls', () => {
-    describe('searchContacts', () => {
+    describe('createContactSearcher', () => {
+      let searchContacts;
+      beforeEach(() => {
+        searchContacts = helpers.createContactSearcher();
+      });
+
       it('searches contacts and returns camelCase results', async () => {
         const mockPayload = [
           {
@@ -353,7 +358,7 @@ describe('composeConversationHelper', () => {
           data: { payload: mockPayload },
         });
 
-        const result = await helpers.searchContacts('john');
+        const result = await searchContacts('john');
 
         expect(result).toEqual([
           {
@@ -375,15 +380,15 @@ describe('composeConversationHelper', () => {
       });
 
       it('returns empty array for queries shorter than 2 characters', async () => {
-        const result = await helpers.searchContacts('j');
+        const result = await searchContacts('j');
         expect(result).toEqual([]);
         expect(ContactAPI.search).not.toHaveBeenCalled();
       });
 
       it('returns empty array for empty or whitespace-only queries', async () => {
-        expect(await helpers.searchContacts('')).toEqual([]);
-        expect(await helpers.searchContacts('  ')).toEqual([]);
-        expect(await helpers.searchContacts(null)).toEqual([]);
+        expect(await searchContacts('')).toEqual([]);
+        expect(await searchContacts('  ')).toEqual([]);
+        expect(await searchContacts(null)).toEqual([]);
         expect(ContactAPI.search).not.toHaveBeenCalled();
       });
 
@@ -401,9 +406,9 @@ describe('composeConversationHelper', () => {
           .mockResolvedValueOnce({ data: { payload: mockPayload } });
 
         // Start first search (will hang)
-        const first = helpers.searchContacts('alpha');
+        const first = searchContacts('alpha');
         // Start second search (aborts first)
-        const second = helpers.searchContacts('beta');
+        const second = searchContacts('beta');
 
         // Resolve the first call with CanceledError (simulating axios abort)
         const canceledError = new Error('canceled');
@@ -446,7 +451,7 @@ describe('composeConversationHelper', () => {
           data: { payload: mockPayload },
         });
 
-        const result = await helpers.searchContacts('john');
+        const result = await searchContacts('john');
 
         // Should only return contacts with either email or phone number
         expect(result).toEqual([
@@ -480,7 +485,7 @@ describe('composeConversationHelper', () => {
           data: { payload: [] },
         });
 
-        const result = await helpers.searchContacts('nonexistent');
+        const result = await searchContacts('nonexistent');
         expect(result).toEqual([]);
       });
 
@@ -507,7 +512,7 @@ describe('composeConversationHelper', () => {
           data: { payload: mockPayload },
         });
 
-        const result = await helpers.searchContacts('test');
+        const result = await searchContacts('test');
 
         expect(result).toEqual([
           {
@@ -525,6 +530,36 @@ describe('composeConversationHelper', () => {
               customFieldName: 'value',
             },
           },
+        ]);
+      });
+    });
+
+    describe('createContactSearcher isolation', () => {
+      it('creates isolated searcher instances that do not cancel each other', async () => {
+        const searcherA = helpers.createContactSearcher();
+        const searcherB = helpers.createContactSearcher();
+
+        const payloadA = [
+          { id: 1, name: 'Alice', email: 'a@test.com', phone_number: null },
+        ];
+        const payloadB = [
+          { id: 2, name: 'Bob', email: 'b@test.com', phone_number: null },
+        ];
+
+        ContactAPI.search
+          .mockResolvedValueOnce({ data: { payload: payloadA } })
+          .mockResolvedValueOnce({ data: { payload: payloadB } });
+
+        const [resultA, resultB] = await Promise.all([
+          searcherA('alice'),
+          searcherB('bob'),
+        ]);
+
+        expect(resultA).toEqual([
+          { id: 1, name: 'Alice', email: 'a@test.com', phoneNumber: null },
+        ]);
+        expect(resultB).toEqual([
+          { id: 2, name: 'Bob', email: 'b@test.com', phoneNumber: null },
         ]);
       });
     });

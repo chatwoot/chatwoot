@@ -12,7 +12,7 @@ import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import { emitter } from 'shared/helpers/mitt';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import {
-  searchContacts,
+  createContactSearcher,
   createNewContact,
   fetchContactableInboxes,
   processContactableInboxes,
@@ -39,6 +39,7 @@ const props = defineProps({
 
 const emit = defineEmits(['close']);
 
+const searchContacts = createContactSearcher();
 const store = useStore();
 const { t } = useI18n();
 const { width: windowWidth } = useWindowSize();

@@ -178,38 +178,41 @@ export const prepareWhatsAppMessagePayload = ({
 
 // API Calls
 const MIN_SEARCH_LENGTH = 2;
-let searchContactsController = null;
 
-export const searchContacts = async (query, { skipMinLength = false } = {}) => {
-  const trimmed = typeof query === 'string' ? query.trim() : '';
+export const createContactSearcher = () => {
+  let controller = null;
 
-  searchContactsController?.abort();
+  return async (query, { skipMinLength = false } = {}) => {
+    const trimmed = typeof query === 'string' ? query.trim() : '';
 
-  if (!trimmed || (!skipMinLength && trimmed.length < MIN_SEARCH_LENGTH))
-    return [];
+    controller?.abort();
 
-  searchContactsController = new AbortController();
-  const { signal } = searchContactsController;
+    if (!trimmed || (!skipMinLength && trimmed.length < MIN_SEARCH_LENGTH))
+      return [];
 
-  try {
-    const {
-      data: { payload },
-    } = await ContactAPI.search(trimmed, 1, 'name', '', { signal });
+    controller = new AbortController();
+    const { signal } = controller;
 
-    const camelCasedPayload = camelcaseKeys(payload, { deep: true });
-    // Filter contacts that have either phone_number or email
-    const filteredPayload = camelCasedPayload?.filter(
-      contact => contact.phoneNumber || contact.email
-    );
-    return filteredPayload || [];
-  } catch (error) {
-    // Return null for aborted requests so callers can distinguish
-    // "request was cancelled" from "no results found"
-    if (error?.name === 'AbortError' || error?.name === 'CanceledError') {
-      return null;
+    try {
+      const {
+        data: { payload },
+      } = await ContactAPI.search(trimmed, 1, 'name', '', { signal });
+
+      const camelCasedPayload = camelcaseKeys(payload, { deep: true });
+      // Filter contacts that have either phone_number or email
+      const filteredPayload = camelCasedPayload?.filter(
+        contact => contact.phoneNumber || contact.email
+      );
+      return filteredPayload || [];
+    } catch (error) {
+      // Return null for aborted requests so callers can distinguish
+      // "request was cancelled" from "no results found"
+      if (error?.name === 'AbortError' || error?.name === 'CanceledError') {
+        return null;
+      }
+      throw error;
     }
-    throw error;
-  }
+  };
 };
 
 export const createNewContact = async input => {
