@@ -15,7 +15,16 @@
   },
   "servers": [
     {
-      "url": "https://cx.aloochat.ai/"
+      "url": "https://staging.cx.aloochat.ai",
+      "description": "Staging"
+    },
+    {
+      "url": "http://localhost:3000",
+      "description": "Local Development"
+    },
+    {
+      "url": "https://cx.aloochat.ai",
+      "description": "Production"
     }
   ],
   "paths": {
