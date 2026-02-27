@@ -16,6 +16,10 @@ class Captain::Assistant::AgentRunnerService
     custom_attributes additional_attributes
   ].freeze
 
+  CONTACT_INBOX_STATE_ATTRIBUTES = %i[id hmac_verified].freeze
+
+  CAMPAIGN_STATE_ATTRIBUTES = %i[id title message campaign_type description].freeze
+
   def initialize(assistant:, conversation: nil, callbacks: {})
     @assistant = assistant
     @conversation = conversation
@@ -125,13 +129,19 @@ class Captain::Assistant::AgentRunnerService
       assistant_config: @assistant.config
     }
 
-    if @conversation
-      state[:conversation] = @conversation.attributes.symbolize_keys.slice(*CONVERSATION_STATE_ATTRIBUTES)
-      state[:channel_type] = @conversation.inbox&.channel_type
-      state[:contact] = @conversation.contact.attributes.symbolize_keys.slice(*CONTACT_STATE_ATTRIBUTES) if @conversation.contact
-    end
-
+    build_conversation_state(state) if @conversation
     state
+  end
+
+  def build_conversation_state(state)
+    state[:conversation] = @conversation.attributes.symbolize_keys.slice(*CONVERSATION_STATE_ATTRIBUTES)
+    state[:channel_type] = @conversation.inbox&.channel_type
+    state[:contact] = @conversation.contact.attributes.symbolize_keys.slice(*CONTACT_STATE_ATTRIBUTES) if @conversation.contact
+    state[:campaign] = @conversation.campaign.attributes.symbolize_keys.slice(*CAMPAIGN_STATE_ATTRIBUTES) if @conversation.campaign
+    return unless @conversation.contact_inbox
+
+    state[:contact_inbox] =
+      @conversation.contact_inbox.attributes.symbolize_keys.slice(*CONTACT_INBOX_STATE_ATTRIBUTES)
   end
 
   def build_and_wire_agents
