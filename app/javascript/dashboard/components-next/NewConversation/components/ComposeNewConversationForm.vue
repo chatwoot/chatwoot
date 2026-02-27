@@ -350,7 +350,7 @@ const onSubmitCopilotReply = () => {
 useKeyboardEvents({
   '$mod+Enter': {
     action: () => {
-      if (isCopilotActive.value) {
+      if (isCopilotActive.value && !copilot.isButtonDisabled.value) {
         onSubmitCopilotReply();
       }
     },
