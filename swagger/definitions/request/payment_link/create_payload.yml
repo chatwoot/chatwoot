@@ -1,0 +1,20 @@
+type: object
+required:
+  - conversation_id
+  - amount
+properties:
+  conversation_id:
+    type: integer
+    description: The ID of the conversation to associate the payment link with
+  amount:
+    type: number
+    format: decimal
+    description: The payment amount
+  currency:
+    type: string
+    description: Currency code (defaults from account payment link settings)
+    example: KWD
+  provider:
+    type: string
+    description: Payment provider (defaults from account settings)
+    enum: [tap, payzah]

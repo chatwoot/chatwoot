@@ -1,0 +1,43 @@
+tags:
+  - Payment Links
+operationId: search-payment-links
+summary: Search Payment Links
+description: |
+  Search payment links by external payment ID or contact name. Supports pagination.
+security:
+  - userApiKey: []
+parameters:
+  - in: query
+    name: q
+    schema:
+      type: string
+    required: true
+    description: Search query string
+  - in: query
+    name: page
+    schema:
+      type: integer
+    description: Page number for pagination
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            meta:
+              type: object
+              properties:
+                count:
+                  type: integer
+                current_page:
+                  type: integer
+            payload:
+              type: array
+              items:
+                $ref: '#/components/schemas/payment_link'
+  '401':
+    description: Unauthorized
+  '422':
+    description: Missing search parameter q

@@ -14,4 +14,12 @@ class OrderPolicy < ApplicationPolicy
   def search?
     true
   end
+
+  def cancel?
+    true
+  end
+
+  def destroy?
+    true
+  end
 end

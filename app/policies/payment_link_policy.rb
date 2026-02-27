@@ -18,4 +18,12 @@ class PaymentLinkPolicy < ApplicationPolicy
   def export?
     true
   end
+
+  def show?
+    true
+  end
+
+  def cancel?
+    true
+  end
 end

@@ -6324,6 +6324,903 @@
           }
         }
       }
+    },
+    "/api/v1/accounts/{account_id}/orders": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/account_id"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Orders"
+        ],
+        "operationId": "list-all-orders",
+        "summary": "List Orders",
+        "description": "List all orders for the account. Supports pagination, filtering by status, date range, and search.\n",
+        "security": [
+          {
+            "userApiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Page number for pagination"
+          },
+          {
+            "in": "query",
+            "name": "status",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "all",
+                "initiated",
+                "pending",
+                "paid",
+                "failed",
+                "expired",
+                "cancelled"
+              ]
+            },
+            "description": "Filter by order status"
+          },
+          {
+            "in": "query",
+            "name": "search",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Search by external payment ID or contact name"
+          },
+          {
+            "in": "query",
+            "name": "date_range",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "all",
+                "today",
+                "this_week",
+                "this_month",
+                "custom"
+              ]
+            },
+            "description": "Predefined date range filter"
+          },
+          {
+            "in": "query",
+            "name": "date_from",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            },
+            "description": "Custom date range start (used with date_range=custom)"
+          },
+          {
+            "in": "query",
+            "name": "date_to",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            },
+            "description": "Custom date range end (used with date_range=custom)"
+          },
+          {
+            "in": "query",
+            "name": "sort",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "created_at",
+                "-created_at",
+                "total",
+                "-total",
+                "contact_name",
+                "-contact_name"
+              ]
+            },
+            "description": "Sort field and direction (prefix with - for descending)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "meta": {
+                      "type": "object",
+                      "properties": {
+                        "count": {
+                          "type": "integer",
+                          "description": "Total number of orders matching the query"
+                        },
+                        "current_page": {
+                          "type": "integer",
+                          "description": "Current page number"
+                        }
+                      }
+                    },
+                    "payload": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/order"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/{account_id}/orders/{id}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/account_id"
+        },
+        {
+          "name": "id",
+          "in": "path",
+          "schema": {
+            "type": "integer"
+          },
+          "description": "ID of the order",
+          "required": true
+        }
+      ],
+      "get": {
+        "tags": [
+          "Orders"
+        ],
+        "operationId": "get-an-order",
+        "summary": "Get Order",
+        "description": "Get details of a single order including items, contact, and payment status.\n",
+        "security": [
+          {
+            "userApiKey": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/order"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Order not found"
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/{account_id}/orders/search": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/account_id"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Orders"
+        ],
+        "operationId": "search-orders",
+        "summary": "Search Orders",
+        "description": "Search orders by external payment ID or contact name. Supports pagination.\n",
+        "security": [
+          {
+            "userApiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "q",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "Search query string"
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Page number for pagination"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "meta": {
+                      "type": "object",
+                      "properties": {
+                        "count": {
+                          "type": "integer"
+                        },
+                        "current_page": {
+                          "type": "integer"
+                        }
+                      }
+                    },
+                    "payload": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/order"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "422": {
+            "description": "Missing search parameter q"
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/{account_id}/orders/{id}/cancel": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/account_id"
+        },
+        {
+          "name": "id",
+          "in": "path",
+          "schema": {
+            "type": "integer"
+          },
+          "description": "ID of the order",
+          "required": true
+        }
+      ],
+      "patch": {
+        "tags": [
+          "Orders"
+        ],
+        "operationId": "cancel-an-order",
+        "summary": "Cancel Order",
+        "description": "Cancel an order. Only orders with status `initiated` or `pending` can be cancelled.\nCancelling restores product stock.\n",
+        "security": [
+          {
+            "userApiKey": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/order"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Order not found"
+          },
+          "422": {
+            "description": "Order cannot be cancelled (already paid, failed, etc.)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/{account_id}/orders/{order_id}/order_notes": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/account_id"
+        },
+        {
+          "name": "order_id",
+          "in": "path",
+          "schema": {
+            "type": "integer"
+          },
+          "description": "ID of the order",
+          "required": true
+        }
+      ],
+      "get": {
+        "tags": [
+          "Order Notes"
+        ],
+        "operationId": "list-order-notes",
+        "summary": "List Order Notes",
+        "description": "List all notes for a specific order, ordered by most recent first.\n",
+        "security": [
+          {
+            "userApiKey": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/order_note"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Order not found"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Order Notes"
+        ],
+        "operationId": "create-an-order-note",
+        "summary": "Create Order Note",
+        "description": "Add a note to a specific order. The current authenticated user will be recorded as the note author.\n",
+        "security": [
+          {
+            "userApiKey": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/order_note_create_payload"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/order_note"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Order not found"
+          },
+          "422": {
+            "description": "Validation error (e.g., content blank)"
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/{account_id}/orders/{order_id}/order_notes/{id}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/account_id"
+        },
+        {
+          "name": "order_id",
+          "in": "path",
+          "schema": {
+            "type": "integer"
+          },
+          "description": "ID of the order",
+          "required": true
+        },
+        {
+          "name": "id",
+          "in": "path",
+          "schema": {
+            "type": "integer"
+          },
+          "description": "ID of the note",
+          "required": true
+        }
+      ],
+      "delete": {
+        "tags": [
+          "Order Notes"
+        ],
+        "operationId": "delete-an-order-note",
+        "summary": "Delete Order Note",
+        "description": "Delete a specific note from an order.\n",
+        "security": [
+          {
+            "userApiKey": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Order or note not found"
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/{account_id}/payment_links": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/account_id"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Payment Links"
+        ],
+        "operationId": "list-all-payment-links",
+        "summary": "List Payment Links",
+        "description": "List all payment links for the account. Supports pagination, filtering by status, date range, amount range, and search.\n",
+        "security": [
+          {
+            "userApiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Page number for pagination"
+          },
+          {
+            "in": "query",
+            "name": "status",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "all",
+                "initiated",
+                "pending",
+                "paid",
+                "failed",
+                "expired",
+                "cancelled"
+              ]
+            },
+            "description": "Filter by payment link status"
+          },
+          {
+            "in": "query",
+            "name": "search",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Search by external payment ID or contact name"
+          },
+          {
+            "in": "query",
+            "name": "amount_min",
+            "schema": {
+              "type": "number"
+            },
+            "description": "Minimum amount filter"
+          },
+          {
+            "in": "query",
+            "name": "amount_max",
+            "schema": {
+              "type": "number"
+            },
+            "description": "Maximum amount filter"
+          },
+          {
+            "in": "query",
+            "name": "date_range",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "all",
+                "today",
+                "this_week",
+                "this_month",
+                "custom"
+              ]
+            },
+            "description": "Predefined date range filter"
+          },
+          {
+            "in": "query",
+            "name": "date_from",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            },
+            "description": "Custom date range start"
+          },
+          {
+            "in": "query",
+            "name": "date_to",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            },
+            "description": "Custom date range end"
+          },
+          {
+            "in": "query",
+            "name": "sort",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "created_at",
+                "-created_at",
+                "amount",
+                "-amount",
+                "contact_name",
+                "-contact_name"
+              ]
+            },
+            "description": "Sort field and direction"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "meta": {
+                      "type": "object",
+                      "properties": {
+                        "count": {
+                          "type": "integer",
+                          "description": "Total number of payment links matching the query"
+                        },
+                        "current_page": {
+                          "type": "integer",
+                          "description": "Current page number"
+                        }
+                      }
+                    },
+                    "payload": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/payment_link"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Payment Links"
+        ],
+        "operationId": "create-a-payment-link",
+        "summary": "Create Payment Link",
+        "description": "Create a standalone payment link. Requires a conversation_id to associate the link with.\nThe payment link will be created using the configured payment provider and a message\nwill be sent in the conversation.\n",
+        "security": [
+          {
+            "userApiKey": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/payment_link_create_payload"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Payment link created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/payment_link"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "422": {
+            "description": "Validation error or payment provider error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/{account_id}/payment_links/{id}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/account_id"
+        },
+        {
+          "name": "id",
+          "in": "path",
+          "schema": {
+            "type": "integer"
+          },
+          "description": "ID of the payment link",
+          "required": true
+        }
+      ],
+      "get": {
+        "tags": [
+          "Payment Links"
+        ],
+        "operationId": "get-a-payment-link",
+        "summary": "Get Payment Link",
+        "description": "Get details of a single payment link including contact and conversation info.\n",
+        "security": [
+          {
+            "userApiKey": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/payment_link"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Payment link not found"
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/{account_id}/payment_links/search": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/account_id"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Payment Links"
+        ],
+        "operationId": "search-payment-links",
+        "summary": "Search Payment Links",
+        "description": "Search payment links by external payment ID or contact name. Supports pagination.\n",
+        "security": [
+          {
+            "userApiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "q",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "Search query string"
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Page number for pagination"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "meta": {
+                      "type": "object",
+                      "properties": {
+                        "count": {
+                          "type": "integer"
+                        },
+                        "current_page": {
+                          "type": "integer"
+                        }
+                      }
+                    },
+                    "payload": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/payment_link"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "422": {
+            "description": "Missing search parameter q"
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/{account_id}/payment_links/{id}/cancel": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/account_id"
+        },
+        {
+          "name": "id",
+          "in": "path",
+          "schema": {
+            "type": "integer"
+          },
+          "description": "ID of the payment link",
+          "required": true
+        }
+      ],
+      "patch": {
+        "tags": [
+          "Payment Links"
+        ],
+        "operationId": "cancel-a-payment-link",
+        "summary": "Cancel Payment Link",
+        "description": "Cancel a payment link. Only payment links with status `initiated` or `pending` can be cancelled.\n",
+        "security": [
+          {
+            "userApiKey": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/payment_link"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Payment link not found"
+          },
+          "422": {
+            "description": "Payment link cannot be cancelled",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/{account_id}/catalog_stats": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/account_id"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Catalog"
+        ],
+        "operationId": "get-catalog-stats",
+        "summary": "Get Catalog Stats",
+        "description": "Get aggregated statistics for products, orders, and payment links.\nUseful for dashboard summary cards on mobile.\n",
+        "security": [
+          {
+            "userApiKey": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/catalog_stats"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -8192,6 +9089,384 @@
           }
         }
       },
+      "order": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "The ID of the order"
+          },
+          "external_payment_id": {
+            "type": "string",
+            "description": "The external payment reference ID"
+          },
+          "payment_url": {
+            "type": "string",
+            "description": "URL to complete payment"
+          },
+          "preview_url": {
+            "type": "string",
+            "description": "URL to preview the order"
+          },
+          "provider": {
+            "type": "string",
+            "description": "Payment provider (tap, payzah)"
+          },
+          "subtotal": {
+            "type": "number",
+            "format": "decimal",
+            "description": "Order subtotal before fees"
+          },
+          "total": {
+            "type": "number",
+            "format": "decimal",
+            "description": "Order total amount"
+          },
+          "currency": {
+            "type": "string",
+            "description": "Currency code (e.g., KWD, SAR)"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "initiated",
+              "pending",
+              "paid",
+              "failed",
+              "expired",
+              "cancelled"
+            ],
+            "description": "Current order status"
+          },
+          "delivery_address": {
+            "type": "string",
+            "description": "Delivery address if provided"
+          },
+          "paid_at": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "Timestamp when the order was paid"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "contact": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "name": {
+                "type": "string"
+              },
+              "email": {
+                "type": "string"
+              },
+              "phone_number": {
+                "type": "string"
+              }
+            }
+          },
+          "created_by": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "name": {
+                "type": "string"
+              },
+              "email": {
+                "type": "string"
+              }
+            }
+          },
+          "conversation": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "display_id": {
+                "type": "integer"
+              }
+            }
+          },
+          "items_count": {
+            "type": "integer",
+            "description": "Number of items in the order"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer"
+                },
+                "quantity": {
+                  "type": "integer"
+                },
+                "unit_price": {
+                  "type": "number",
+                  "format": "decimal"
+                },
+                "total_price": {
+                  "type": "number",
+                  "format": "decimal"
+                },
+                "product": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "title_en": {
+                      "type": "string"
+                    },
+                    "title_ar": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "order_note": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "The ID of the note"
+          },
+          "content": {
+            "type": "string",
+            "description": "The note content"
+          },
+          "order_id": {
+            "type": "integer",
+            "description": "The ID of the associated order"
+          },
+          "user": {
+            "type": "object",
+            "description": "The agent who created the note",
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "name": {
+                "type": "string"
+              },
+              "email": {
+                "type": "string"
+              },
+              "avatar_url": {
+                "type": "string"
+              }
+            }
+          },
+          "created_at": {
+            "type": "integer",
+            "description": "Unix timestamp of creation"
+          },
+          "updated_at": {
+            "type": "integer",
+            "description": "Unix timestamp of last update"
+          }
+        }
+      },
+      "payment_link": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "The ID of the payment link"
+          },
+          "external_payment_id": {
+            "type": "string",
+            "description": "The external payment reference ID"
+          },
+          "payment_url": {
+            "type": "string",
+            "description": "URL to complete payment"
+          },
+          "provider": {
+            "type": "string",
+            "description": "Payment provider (tap, payzah)"
+          },
+          "amount": {
+            "type": "number",
+            "format": "decimal",
+            "description": "Payment amount"
+          },
+          "currency": {
+            "type": "string",
+            "description": "Currency code (e.g., KWD, SAR)"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "initiated",
+              "pending",
+              "paid",
+              "failed",
+              "expired",
+              "cancelled"
+            ],
+            "description": "Current payment link status"
+          },
+          "paid_at": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "Timestamp when the payment was completed"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "contact": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "name": {
+                "type": "string"
+              },
+              "email": {
+                "type": "string"
+              },
+              "phone_number": {
+                "type": "string"
+              }
+            }
+          },
+          "created_by": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "name": {
+                "type": "string"
+              },
+              "email": {
+                "type": "string"
+              }
+            }
+          },
+          "conversation": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "display_id": {
+                "type": "integer"
+              }
+            }
+          }
+        }
+      },
+      "catalog_stats": {
+        "type": "object",
+        "properties": {
+          "products": {
+            "type": "object",
+            "properties": {
+              "total": {
+                "type": "integer",
+                "description": "Total number of products"
+              },
+              "in_stock": {
+                "type": "integer",
+                "description": "Products with available stock"
+              },
+              "out_of_stock": {
+                "type": "integer",
+                "description": "Products with zero stock"
+              }
+            }
+          },
+          "orders": {
+            "type": "object",
+            "properties": {
+              "total": {
+                "type": "integer",
+                "description": "Total number of orders"
+              },
+              "paid": {
+                "type": "integer",
+                "description": "Number of paid orders"
+              },
+              "pending": {
+                "type": "integer",
+                "description": "Number of pending orders"
+              },
+              "initiated": {
+                "type": "integer",
+                "description": "Number of initiated orders"
+              },
+              "failed": {
+                "type": "integer",
+                "description": "Number of failed orders"
+              },
+              "cancelled": {
+                "type": "integer",
+                "description": "Number of cancelled orders"
+              },
+              "total_revenue": {
+                "type": "number",
+                "format": "decimal",
+                "description": "Total revenue from paid orders"
+              }
+            }
+          },
+          "payment_links": {
+            "type": "object",
+            "properties": {
+              "total": {
+                "type": "integer",
+                "description": "Total number of payment links"
+              },
+              "paid": {
+                "type": "integer",
+                "description": "Number of paid payment links"
+              },
+              "pending": {
+                "type": "integer",
+                "description": "Number of pending payment links"
+              },
+              "initiated": {
+                "type": "integer",
+                "description": "Number of initiated payment links"
+              },
+              "total_revenue": {
+                "type": "number",
+                "format": "decimal",
+                "description": "Total revenue from paid payment links"
+              }
+            }
+          },
+          "currency": {
+            "type": "string",
+            "description": "Account's configured catalog currency"
+          }
+        }
+      },
       "account_create_update_payload": {
         "type": "object",
         "properties": {
@@ -9281,6 +10556,57 @@
             "type": "object",
             "description": "The settings required by the integration",
             "example": {}
+          }
+        }
+      },
+      "order_note_create_payload": {
+        "type": "object",
+        "required": [
+          "order_note"
+        ],
+        "properties": {
+          "order_note": {
+            "type": "object",
+            "required": [
+              "content"
+            ],
+            "properties": {
+              "content": {
+                "type": "string",
+                "description": "The note content"
+              }
+            }
+          }
+        }
+      },
+      "payment_link_create_payload": {
+        "type": "object",
+        "required": [
+          "conversation_id",
+          "amount"
+        ],
+        "properties": {
+          "conversation_id": {
+            "type": "integer",
+            "description": "The ID of the conversation to associate the payment link with"
+          },
+          "amount": {
+            "type": "number",
+            "format": "decimal",
+            "description": "The payment amount"
+          },
+          "currency": {
+            "type": "string",
+            "description": "Currency code (defaults from account payment link settings)",
+            "example": "KWD"
+          },
+          "provider": {
+            "type": "string",
+            "description": "Payment provider (defaults from account settings)",
+            "enum": [
+              "tap",
+              "payzah"
+            ]
           }
         }
       },
@@ -11119,6 +12445,22 @@
     {
       "name": "Help Center",
       "description": "Knowledge base management"
+    },
+    {
+      "name": "Orders",
+      "description": "Order management APIs"
+    },
+    {
+      "name": "Order Notes",
+      "description": "Order notes management APIs"
+    },
+    {
+      "name": "Payment Links",
+      "description": "Payment link management APIs"
+    },
+    {
+      "name": "Catalog",
+      "description": "Catalog management and statistics APIs"
     }
   ],
   "x-tagGroups": [
@@ -11154,6 +12496,10 @@
         "Teams",
         "Webhooks",
         "Automation Rule",
+        "Orders",
+        "Order Notes",
+        "Payment Links",
+        "Catalog",
         "Help Center"
       ]
     },

@@ -8,6 +8,7 @@ class Api::V1::Accounts::PaymentLinksController < Api::V1::Accounts::BaseControl
 
   before_action :check_authorization
   before_action :set_current_page, only: [:index, :search, :filter]
+  before_action :set_payment_link, only: [:show, :cancel]
 
   def index
     payment_links = Current.account.payment_links
@@ -15,6 +16,33 @@ class Api::V1::Accounts::PaymentLinksController < Api::V1::Accounts::BaseControl
 
     @payment_links = fetch_payment_links(payment_links)
     @payment_links_count = @payment_links.total_count
+  end
+
+  def show; end
+
+  def cancel
+    unless @payment_link.initiated? || @payment_link.pending?
+      render json: { error: "Cannot cancel a payment link with status: #{@payment_link.status}" }, status: :unprocessable_entity
+      return
+    end
+
+    @payment_link.mark_as_cancelled!({})
+    render partial: 'api/v1/models/payment_link', locals: { resource: @payment_link }
+  end
+
+  def create
+    conversation = Current.account.conversations.find(params[:conversation_id])
+
+    @payment_link = PaymentLinks::CreateService.new(
+      conversation: conversation,
+      amount: params[:amount],
+      currency: params[:currency],
+      provider: params[:provider]
+    ).perform
+
+    render partial: 'api/v1/models/payment_link', locals: { resource: @payment_link }, status: :created
+  rescue ArgumentError, ActiveRecord::RecordInvalid => e
+    render json: { error: e.message }, status: :unprocessable_entity
   end
 
   def search
@@ -55,6 +83,12 @@ class Api::V1::Accounts::PaymentLinksController < Api::V1::Accounts::BaseControl
       .includes(:contact, :created_by, :conversation)
       .page(@current_page)
       .per(RESULTS_PER_PAGE)
+  end
+
+  def set_payment_link
+    @payment_link = Current.account.payment_links
+                           .includes(:contact, :created_by, :conversation)
+                           .find(params[:id])
   end
 
   def check_authorization

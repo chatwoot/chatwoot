@@ -1,0 +1,18 @@
+tags:
+  - Catalog
+operationId: get-catalog-stats
+summary: Get Catalog Stats
+description: |
+  Get aggregated statistics for products, orders, and payment links.
+  Useful for dashboard summary cards on mobile.
+security:
+  - userApiKey: []
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/catalog_stats'
+  '401':
+    description: Unauthorized

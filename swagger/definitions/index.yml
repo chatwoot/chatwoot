@@ -87,6 +87,15 @@ public_message:
 public_inbox:
   $ref: ./resource/public/inbox.yml
 
+order:
+  $ref: ./resource/order.yml
+order_note:
+  $ref: ./resource/order_note.yml
+payment_link:
+  $ref: ./resource/payment_link.yml
+catalog_stats:
+  $ref: ./resource/catalog_stats.yml
+
 ## ---------- REQUEST ------------- ##
 ## -------------------------------- ##
 
@@ -154,6 +163,14 @@ integrations_hook_create_payload:
 
 integrations_hook_update_payload:
   $ref: ./request/integrations/hook_update_payload.yml
+
+# Order Note
+order_note_create_payload:
+  $ref: ./request/order_note/create_payload.yml
+
+# Payment Link
+payment_link_create_payload:
+  $ref: ./request/payment_link/create_payload.yml
 
 # Automation Rule
 automation_rule_create_update_payload:

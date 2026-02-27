@@ -1,0 +1,12 @@
+type: object
+required:
+  - order_note
+properties:
+  order_note:
+    type: object
+    required:
+      - content
+    properties:
+      content:
+        type: string
+        description: The note content

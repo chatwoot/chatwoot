@@ -1,0 +1,82 @@
+tags:
+  - Payment Links
+operationId: list-all-payment-links
+summary: List Payment Links
+description: |
+  List all payment links for the account. Supports pagination, filtering by status, date range, amount range, and search.
+security:
+  - userApiKey: []
+parameters:
+  - in: query
+    name: page
+    schema:
+      type: integer
+    description: Page number for pagination
+  - in: query
+    name: status
+    schema:
+      type: string
+      enum: [all, initiated, pending, paid, failed, expired, cancelled]
+    description: Filter by payment link status
+  - in: query
+    name: search
+    schema:
+      type: string
+    description: Search by external payment ID or contact name
+  - in: query
+    name: amount_min
+    schema:
+      type: number
+    description: Minimum amount filter
+  - in: query
+    name: amount_max
+    schema:
+      type: number
+    description: Maximum amount filter
+  - in: query
+    name: date_range
+    schema:
+      type: string
+      enum: [all, today, this_week, this_month, custom]
+    description: Predefined date range filter
+  - in: query
+    name: date_from
+    schema:
+      type: string
+      format: date
+    description: Custom date range start
+  - in: query
+    name: date_to
+    schema:
+      type: string
+      format: date
+    description: Custom date range end
+  - in: query
+    name: sort
+    schema:
+      type: string
+      enum: [created_at, -created_at, amount, -amount, contact_name, -contact_name]
+    description: Sort field and direction
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            meta:
+              type: object
+              properties:
+                count:
+                  type: integer
+                  description: Total number of payment links matching the query
+                current_page:
+                  type: integer
+                  description: Current page number
+            payload:
+              type: array
+              items:
+                $ref: '#/components/schemas/payment_link'
+  '401':
+    description: Unauthorized

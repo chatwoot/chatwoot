@@ -244,16 +244,22 @@ Rails.application.routes.draw do
               post :call, on: :member, to: 'calls#create' if ChatwootApp.enterprise?
             end
           end
-          resources :payment_links, only: [:index] do
+          resources :payment_links, only: [:index, :show, :create] do
             collection do
               get :search
               post :filter
               post :export
             end
+            member do
+              patch :cancel
+            end
           end
           resources :orders, only: [:index, :show] do
             collection do
               get :search
+            end
+            member do
+              patch :cancel
             end
             resources :order_notes, only: [:index, :create, :destroy]
           end
@@ -297,6 +303,7 @@ Rails.application.routes.draw do
           end
           resources :labels, only: [:index, :show, :create, :update, :destroy]
           resources :products, only: [:index, :show, :create, :update, :destroy]
+          resource :catalog_stats, only: [:show], controller: 'catalog_stats'
           resources :storefront_links, only: [:create] do
             post :preview, on: :collection
           end
