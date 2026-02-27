@@ -3,6 +3,8 @@ require 'agents/instrumentation'
 
 class Captain::Assistant::AgentRunnerService
   include Integrations::LlmInstrumentationConstants
+  include Captain::Assistant::RunnerCallbacksHelper
+  include Captain::Assistant::TracePayloadHelper
 
   CONVERSATION_STATE_ATTRIBUTES = %i[
     id display_id inbox_id contact_id status priority
@@ -14,6 +16,10 @@ class Captain::Assistant::AgentRunnerService
     custom_attributes additional_attributes
   ].freeze
 
+  CONTACT_INBOX_STATE_ATTRIBUTES = %i[id hmac_verified].freeze
+
+  CAMPAIGN_STATE_ATTRIBUTES = %i[id title message campaign_type description].freeze
+
   def initialize(assistant:, conversation: nil, callbacks: {})
     @assistant = assistant
     @conversation = conversation
@@ -21,13 +27,7 @@ class Captain::Assistant::AgentRunnerService
   end
 
   def generate_response(message_history: [])
-    agents = build_and_wire_agents
-    context = build_context(message_history)
-    message_to_process = extract_last_user_message(message_history)
-    runner = Agents::Runner.with_agents(*agents)
-    runner = add_usage_metadata_callback(runner)
-    runner = add_callbacks_to_runner(runner) if @callbacks.any?
-    install_instrumentation(runner)
+    message_to_process, context = run_payload(message_history)
     result = runner.run(message_to_process, context: context, max_turns: 100)
 
     process_agent_result(result)
@@ -45,7 +45,10 @@ class Captain::Assistant::AgentRunnerService
 
   def build_context(message_history)
     conversation_history = message_history.map do |msg|
-      content = extract_text_from_content(msg[:content])
+      content = msg[:content]
+      # Preserve multimodal arrays (with image_url entries) as-is for the runner to restore with attachments.
+      # Only extract text from non-array formats (hashes from agent structured output, plain strings).
+      content = extract_text_from_content(content) unless content.is_a?(Array)
 
       {
         role: msg[:role].to_sym,
@@ -63,8 +66,22 @@ class Captain::Assistant::AgentRunnerService
 
   def extract_last_user_message(message_history)
     last_user_msg = message_history.reverse.find { |msg| msg[:role] == 'user' }
+    return '' if last_user_msg.blank?
 
-    extract_text_from_content(last_user_msg[:content])
+    content = last_user_msg[:content]
+    return extract_text_from_content(content) unless content.is_a?(Array)
+
+    text, attachments = Captain::OpenAiMessageBuilderService.extract_text_and_attachments(content)
+    return text if attachments.blank?
+
+    RubyLLM::Content.new(text, attachments)
+  end
+
+  def message_history_without_last_user_message(message_history)
+    last_user_index = message_history.rindex { |msg| msg[:role] == 'user' }
+    return message_history if last_user_index.nil?
+
+    message_history.reject.with_index { |_msg, index| index == last_user_index }
   end
 
   def extract_text_from_content(content)
@@ -112,13 +129,19 @@ class Captain::Assistant::AgentRunnerService
       assistant_config: @assistant.config
     }
 
-    if @conversation
-      state[:conversation] = @conversation.attributes.symbolize_keys.slice(*CONVERSATION_STATE_ATTRIBUTES)
-      state[:channel_type] = @conversation.inbox&.channel_type
-      state[:contact] = @conversation.contact.attributes.symbolize_keys.slice(*CONTACT_STATE_ATTRIBUTES) if @conversation.contact
-    end
-
+    build_conversation_state(state) if @conversation
     state
+  end
+
+  def build_conversation_state(state)
+    state[:conversation] = @conversation.attributes.symbolize_keys.slice(*CONVERSATION_STATE_ATTRIBUTES)
+    state[:channel_type] = @conversation.inbox&.channel_type
+    state[:contact] = @conversation.contact.attributes.symbolize_keys.slice(*CONTACT_STATE_ATTRIBUTES) if @conversation.contact
+    state[:campaign] = @conversation.campaign.attributes.symbolize_keys.slice(*CAMPAIGN_STATE_ATTRIBUTES) if @conversation.campaign
+    return unless @conversation.contact_inbox
+
+    state[:contact_inbox] =
+      @conversation.contact_inbox.attributes.symbolize_keys.slice(*CONTACT_INBOX_STATE_ATTRIBUTES)
   end
 
   def build_and_wire_agents
@@ -143,26 +166,23 @@ class Captain::Assistant::AgentRunnerService
       },
       attribute_provider: ->(context_wrapper) { dynamic_trace_attributes(context_wrapper) }
     )
+    register_trace_input_callback(runner)
   end
 
   def dynamic_trace_attributes(context_wrapper)
     state = context_wrapper&.context&.dig(:state) || {}
     conversation = state[:conversation] || {}
+    trace_input = context_wrapper&.context&.dig(:captain_v2_trace_input)
+
     {
       ATTR_LANGFUSE_USER_ID => state[:account_id],
       format(ATTR_LANGFUSE_METADATA, 'assistant_id') => state[:assistant_id],
       format(ATTR_LANGFUSE_METADATA, 'conversation_id') => conversation[:id],
       format(ATTR_LANGFUSE_METADATA, 'conversation_display_id') => conversation[:display_id],
-      format(ATTR_LANGFUSE_METADATA, 'channel_type') => state[:channel_type]
+      format(ATTR_LANGFUSE_METADATA, 'channel_type') => state[:channel_type],
+      ATTR_LANGFUSE_TRACE_INPUT => trace_input,
+      ATTR_LANGFUSE_OBSERVATION_INPUT => trace_input
     }.compact.transform_values(&:to_s)
-  end
-
-  def add_callbacks_to_runner(runner)
-    runner = add_agent_thinking_callback(runner) if @callbacks[:on_agent_thinking]
-    runner = add_tool_start_callback(runner) if @callbacks[:on_tool_start]
-    runner = add_tool_complete_callback(runner) if @callbacks[:on_tool_complete]
-    runner = add_agent_handoff_callback(runner) if @callbacks[:on_agent_handoff]
-    runner
   end
 
   def add_usage_metadata_callback(runner)
@@ -195,35 +215,20 @@ class Captain::Assistant::AgentRunnerService
     root_span.set_attribute(format(ATTR_LANGFUSE_METADATA, 'credit_used'), credit_used.to_s)
   end
 
-  def add_agent_thinking_callback(runner)
-    runner.on_agent_thinking do |*args|
-      @callbacks[:on_agent_thinking].call(*args)
-    rescue StandardError => e
-      Rails.logger.warn "[Captain] Callback error for agent_thinking: #{e.message}"
+  def runner
+    @runner ||= begin
+      configured_runner = Agents::Runner.with_agents(*build_and_wire_agents)
+      configured_runner = add_usage_metadata_callback(configured_runner)
+      configured_runner = add_callbacks_to_runner(configured_runner) if @callbacks.any?
+      install_instrumentation(configured_runner)
+      configured_runner
     end
   end
 
-  def add_tool_start_callback(runner)
-    runner.on_tool_start do |*args|
-      @callbacks[:on_tool_start].call(*args)
-    rescue StandardError => e
-      Rails.logger.warn "[Captain] Callback error for tool_start: #{e.message}"
-    end
-  end
-
-  def add_tool_complete_callback(runner)
-    runner.on_tool_complete do |*args|
-      @callbacks[:on_tool_complete].call(*args)
-    rescue StandardError => e
-      Rails.logger.warn "[Captain] Callback error for tool_complete: #{e.message}"
-    end
-  end
-
-  def add_agent_handoff_callback(runner)
-    runner.on_agent_handoff do |*args|
-      @callbacks[:on_agent_handoff].call(*args)
-    rescue StandardError => e
-      Rails.logger.warn "[Captain] Callback error for agent_handoff: #{e.message}"
-    end
+  def run_payload(message_history)
+    message_to_process = extract_last_user_message(message_history)
+    context = build_context(message_history_without_last_user_message(message_history))
+    enrich_context_with_trace_payload!(context, message_history, message_to_process)
+    [message_to_process, context]
   end
 end

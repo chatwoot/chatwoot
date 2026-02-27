@@ -71,6 +71,7 @@ module Concerns::Toolable
       add_base_headers(headers, state)
       add_conversation_headers(headers, state[:conversation]) if state[:conversation]
       add_contact_headers(headers, state[:contact]) if state[:contact]
+      add_contact_inbox_headers(headers, state[:contact_inbox])
     end
   end
 
@@ -89,6 +90,11 @@ module Concerns::Toolable
     headers['X-Chatwoot-Contact-Id'] = contact[:id].to_s if contact[:id]
     headers['X-Chatwoot-Contact-Email'] = contact[:email].to_s if contact[:email].present?
     headers['X-Chatwoot-Contact-Phone'] = contact[:phone_number].to_s if contact[:phone_number].present?
+  end
+
+  def add_contact_inbox_headers(headers, contact_inbox)
+    headers['X-Chatwoot-Contact-Inbox-Id'] = contact_inbox[:id].to_s if contact_inbox&.[](:id)
+    headers['X-Chatwoot-Contact-Inbox-Verified'] = (contact_inbox&.[](:hmac_verified) || false).to_s
   end
 
   def format_response(raw_response_body)

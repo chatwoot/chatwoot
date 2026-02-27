@@ -176,32 +176,14 @@ export const prepareWhatsAppMessagePayload = ({
   };
 };
 
-export const generateContactQuery = ({ keys = ['email'], query }) => {
-  return {
-    payload: keys.map(key => {
-      const filterPayload = {
-        attribute_key: key,
-        filter_operator: 'contains',
-        values: [query],
-        attribute_model: 'standard',
-      };
-      if (keys.findIndex(k => k === key) !== keys.length - 1) {
-        filterPayload.query_operator = 'or';
-      }
-      return filterPayload;
-    }),
-  };
-};
-
 // API Calls
-export const searchContacts = async ({ keys, query }) => {
+export const searchContacts = async query => {
+  const trimmed = typeof query === 'string' ? query.trim() : '';
+  if (!trimmed) return [];
+
   const {
     data: { payload },
-  } = await ContactAPI.filter(
-    undefined,
-    'name',
-    generateContactQuery({ keys, query })
-  );
+  } = await ContactAPI.search(trimmed);
   const camelCasedPayload = camelcaseKeys(payload, { deep: true });
   // Filter contacts that have either phone_number or email
   const filteredPayload = camelCasedPayload?.filter(
