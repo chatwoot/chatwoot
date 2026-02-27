@@ -234,8 +234,10 @@ en:
     activity:
       captain:
         resolved: 'Conversation was marked resolved by %{user_name} due to inactivity'
+        resolved_with_reason: 'Conversation was marked resolved by %{user_name} (%{reason})'
         resolved_by_tool: 'Conversation was marked resolved by %{user_name}: %{reason}'
         open: 'Conversation was marked open by %{user_name}'
+        open_with_reason: 'Conversation was marked open by %{user_name} (%{reason})'
       agent_bot:
         error_moved_to_open: 'Conversation was marked open by system due to an error with the agent bot.'
       status:

@@ -118,7 +118,11 @@ RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
     it 'adds the correct activity message after resolution' do
       described_class.perform_now(inbox)
 
-      expected_content = I18n.t('conversations.activity.captain.resolved', user_name: captain_assistant.name)
+      expected_content = I18n.t(
+        'conversations.activity.captain.resolved_with_reason',
+        user_name: captain_assistant.name,
+        reason: 'no outstanding questions'
+      )
       expect(Conversations::ActivityMessageJob)
         .to have_been_enqueued.with(
           resolvable_pending_conversation,
@@ -129,6 +133,16 @@ RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
             content: expected_content
           }
         )
+    end
+
+    it 'creates a captain inference resolved reporting event' do
+      described_class.perform_now(inbox)
+
+      inference_event = ReportingEvent.find_by(
+        conversation_id: resolvable_pending_conversation.id,
+        name: 'conversation_captain_inference_resolved'
+      )
+      expect(inference_event).to be_present
     end
   end
 
@@ -178,6 +192,36 @@ RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
       expect do
         described_class.perform_now(inbox)
       end.not_to(change { resolvable_pending_conversation.messages.where(private: false).count })
+    end
+
+    it 'adds the correct activity message after handoff' do
+      described_class.perform_now(inbox)
+
+      expected_content = I18n.t(
+        'conversations.activity.captain.open_with_reason',
+        user_name: captain_assistant.name,
+        reason: 'pending clarification from customer'
+      )
+      expect(Conversations::ActivityMessageJob)
+        .to have_been_enqueued.with(
+          resolvable_pending_conversation,
+          {
+            account_id: resolvable_pending_conversation.account_id,
+            inbox_id: resolvable_pending_conversation.inbox_id,
+            message_type: :activity,
+            content: expected_content
+          }
+        )
+    end
+
+    it 'creates a captain inference handoff reporting event' do
+      described_class.perform_now(inbox)
+
+      inference_event = ReportingEvent.find_by(
+        conversation_id: resolvable_pending_conversation.id,
+        name: 'conversation_captain_inference_handoff'
+      )
+      expect(inference_event).to be_present
     end
   end
 

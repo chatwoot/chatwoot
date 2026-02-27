@@ -1,4 +1,9 @@
 class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
+  CAPTAIN_INFERENCE_RESOLVED_EVENT = 'conversation_captain_inference_resolved'.freeze
+  CAPTAIN_INFERENCE_HANDOFF_EVENT = 'conversation_captain_inference_handoff'.freeze
+  CAPTAIN_INFERENCE_RESOLVE_ACTIVITY_REASON = 'no outstanding questions'.freeze
+  CAPTAIN_INFERENCE_HANDOFF_ACTIVITY_REASON = 'pending clarification from customer'.freeze
+
   queue_as :low
 
   def perform(inbox)
@@ -52,13 +57,15 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
   def resolve_conversation(conversation, inbox, reason)
     create_private_note(conversation, inbox, "Auto-resolved: #{reason}")
     create_resolution_message(conversation, inbox)
-    Current.with_captain_action_source('scheduler') { conversation.resolved! }
+    with_captain_inference_context(CAPTAIN_INFERENCE_RESOLVE_ACTIVITY_REASON) { conversation.resolved! }
+    create_captain_inference_reporting_event(conversation, CAPTAIN_INFERENCE_RESOLVED_EVENT)
   end
 
   def handoff_conversation(conversation, inbox, reason)
     create_private_note(conversation, inbox, "Auto-handoff: #{reason}")
     create_handoff_message(conversation, inbox)
-    Current.with_captain_action_source('scheduler') { conversation.bot_handoff! }
+    with_captain_inference_context(CAPTAIN_INFERENCE_HANDOFF_ACTIVITY_REASON) { conversation.bot_handoff! }
+    create_captain_inference_reporting_event(conversation, CAPTAIN_INFERENCE_HANDOFF_EVENT)
     send_out_of_office_message_if_applicable(conversation)
   end
 
@@ -104,6 +111,25 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
       account_id: conversation.account_id,
       inbox_id: conversation.inbox_id,
       content: handoff_message
+    )
+  end
+
+  def with_captain_inference_context(activity_reason, &)
+    Current.with_captain_activity_reason(activity_reason) do
+      Current.with_captain_action_source('scheduler', &)
+    end
+  end
+
+  def create_captain_inference_reporting_event(conversation, event_name)
+    ReportingEvent.create!(
+      name: event_name,
+      value: conversation.updated_at.to_i - conversation.created_at.to_i,
+      account_id: conversation.account_id,
+      inbox_id: conversation.inbox_id,
+      user_id: conversation.assignee_id,
+      conversation_id: conversation.id,
+      event_start_time: conversation.created_at,
+      event_end_time: conversation.updated_at
     )
   end
 end
