@@ -20,6 +20,22 @@
     "CALL": "Call",
     "CALL_INITIATED": "Calling the contact…",
     "CALL_FAILED": "Unable to start the call. Please try again.",
+    "BAN_DURATION_MODAL": {
+      "TITLE": "Mute contact",
+      "DESCRIPTION": "Select the muting period. After the expiration date, the contact is automatically unmuted.",
+      "PRESETS": {
+        "1_HOUR": "1 hour",
+        "8_HOURS": "8 hours",
+        "1_DAY": "1 day",
+        "7_DAYS": "7 days",
+        "CUSTOM": "Select a date…",
+        "FOREVER": "Permanently"
+      },
+      "CUSTOM_DATE_LABEL": "Date",
+      "CUSTOM_TIME_LABEL": "Time",
+      "CANCEL": "Cancel",
+      "CONFIRM": "Mute"
+    },
     "VOICE_INBOX_PICKER": {
       "TITLE": "Choose a voice inbox"
     },

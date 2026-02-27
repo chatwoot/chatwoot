@@ -20,6 +20,22 @@
     "CALL": "Вызов",
     "CALL_INITIATED": "Calling the contact…",
     "CALL_FAILED": "Unable to start the call. Please try again.",
+    "BAN_DURATION_MODAL": {
+      "TITLE": "Заблокировать контакт",
+      "DESCRIPTION": "Выберите срок блокировки. После истечения срока контакт автоматически разблокируется.",
+      "PRESETS": {
+        "1_HOUR": "1 час",
+        "8_HOURS": "8 часов",
+        "1_DAY": "1 день",
+        "7_DAYS": "7 дней",
+        "CUSTOM": "Свой срок…",
+        "FOREVER": "Навсегда"
+      },
+      "CUSTOM_DATE_LABEL": "Дата",
+      "CUSTOM_TIME_LABEL": "Время",
+      "CANCEL": "Отмена",
+      "CONFIRM": "Заблокировать"
+    },
     "VOICE_INBOX_PICKER": {
       "TITLE": "Выберите голосовую почту"
     },
