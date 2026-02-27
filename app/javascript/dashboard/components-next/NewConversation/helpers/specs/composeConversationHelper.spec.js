@@ -336,70 +336,6 @@ describe('composeConversationHelper', () => {
     });
   });
 
-  describe('generateContactQuery', () => {
-    it('generates correct query structure for contact search', () => {
-      const query = 'test@example.com';
-      const expected = {
-        payload: [
-          {
-            attribute_key: 'email',
-            filter_operator: 'contains',
-            values: [query],
-            attribute_model: 'standard',
-          },
-        ],
-      };
-
-      expect(helpers.generateContactQuery({ keys: ['email'], query })).toEqual(
-        expected
-      );
-    });
-
-    it('handles empty query', () => {
-      const expected = {
-        payload: [
-          {
-            attribute_key: 'email',
-            filter_operator: 'contains',
-            values: [''],
-            attribute_model: 'standard',
-          },
-        ],
-      };
-
-      expect(
-        helpers.generateContactQuery({ keys: ['email'], query: '' })
-      ).toEqual(expected);
-    });
-
-    it('handles mutliple keys', () => {
-      const expected = {
-        payload: [
-          {
-            attribute_key: 'email',
-            filter_operator: 'contains',
-            values: ['john'],
-            attribute_model: 'standard',
-            query_operator: 'or',
-          },
-          {
-            attribute_key: 'phone_number',
-            filter_operator: 'contains',
-            values: ['john'],
-            attribute_model: 'standard',
-          },
-        ],
-      };
-
-      expect(
-        helpers.generateContactQuery({
-          keys: ['email', 'phone_number'],
-          query: 'john',
-        })
-      ).toEqual(expected);
-    });
-  });
-
   describe('API calls', () => {
     describe('searchContacts', () => {
       it('searches contacts and returns camelCase results', async () => {
@@ -413,14 +349,11 @@ describe('composeConversationHelper', () => {
           },
         ];
 
-        ContactAPI.filter.mockResolvedValue({
+        ContactAPI.search.mockResolvedValue({
           data: { payload: mockPayload },
         });
 
-        const result = await helpers.searchContacts({
-          keys: ['email'],
-          query: 'john',
-        });
+        const result = await helpers.searchContacts('john');
 
         expect(result).toEqual([
           {
@@ -432,16 +365,7 @@ describe('composeConversationHelper', () => {
           },
         ]);
 
-        expect(ContactAPI.filter).toHaveBeenCalledWith(undefined, 'name', {
-          payload: [
-            {
-              attribute_key: 'email',
-              filter_operator: 'contains',
-              values: ['john'],
-              attribute_model: 'standard',
-            },
-          ],
-        });
+        expect(ContactAPI.search).toHaveBeenCalledWith('john');
       });
 
       it('searches contacts and returns only contacts with email or phone number', async () => {
@@ -469,14 +393,11 @@ describe('composeConversationHelper', () => {
           },
         ];
 
-        ContactAPI.filter.mockResolvedValue({
+        ContactAPI.search.mockResolvedValue({
           data: { payload: mockPayload },
         });
 
-        const result = await helpers.searchContacts({
-          keys: ['email'],
-          query: 'john',
-        });
+        const result = await helpers.searchContacts('john');
 
         // Should only return contacts with either email or phone number
         expect(result).toEqual([
@@ -496,20 +417,11 @@ describe('composeConversationHelper', () => {
           },
         ]);
 
-        expect(ContactAPI.filter).toHaveBeenCalledWith(undefined, 'name', {
-          payload: [
-            {
-              attribute_key: 'email',
-              filter_operator: 'contains',
-              values: ['john'],
-              attribute_model: 'standard',
-            },
-          ],
-        });
+        expect(ContactAPI.search).toHaveBeenCalledWith('john');
       });
 
       it('handles empty search results', async () => {
-        ContactAPI.filter.mockResolvedValue({
+        ContactAPI.search.mockResolvedValue({
           data: { payload: [] },
         });
 
@@ -536,7 +448,7 @@ describe('composeConversationHelper', () => {
           },
         ];
 
-        ContactAPI.filter.mockResolvedValue({
+        ContactAPI.search.mockResolvedValue({
           data: { payload: mockPayload },
         });
 
