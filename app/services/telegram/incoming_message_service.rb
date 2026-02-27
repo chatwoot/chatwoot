@@ -11,7 +11,6 @@ class Telegram::IncomingMessageService
     transform_business_message!
     acknowledge_callback_query!
     return unless private_message?
-
     set_contact
     update_contact_avatar
     set_conversation
