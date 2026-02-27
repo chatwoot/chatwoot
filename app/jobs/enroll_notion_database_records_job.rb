@@ -151,7 +151,7 @@ class EnrollNotionDatabaseRecordsJob < ApplicationJob
     Rails.logger.info "Creating new contact with phone: #{cleaned_phone}"
 
     # Generate source_id based on inbox channel type
-    source_id = generate_source_id_for_inbox(cleaned_phone, inbox)
+    source_id = generate_source_id_for_inbox(cleaned_phone, inbox, email: contact_email)
     Rails.logger.info "Using source_id: #{source_id} for channel type: #{inbox.channel_type}"
 
     # Create new contact and contact inbox
@@ -224,7 +224,7 @@ class EnrollNotionDatabaseRecordsJob < ApplicationJob
     contact_inbox = contact.contact_inboxes.find_by(inbox: inbox)
     unless contact_inbox
       # Generate source_id based on channel type
-      source_id = generate_source_id_for_inbox(contact.phone_number, inbox)
+      source_id = generate_source_id_for_inbox(contact.phone_number, inbox, email: contact.email)
 
       contact_inbox = ContactInbox.create!(
         contact: contact,
@@ -290,6 +290,8 @@ class EnrollNotionDatabaseRecordsJob < ApplicationJob
       send_whatsapp_template(sequence, conversation, contact, record, config)
     when 'sms'
       send_ai_sms_first_contact(sequence, conversation, config, record)
+    when 'email'
+      send_email_first_contact(sequence, conversation, contact, config, record)
     else
       Rails.logger.error "Unknown first contact channel: #{config['channel']}"
     end
@@ -617,14 +619,14 @@ class EnrollNotionDatabaseRecordsJob < ApplicationJob
     sequence.account.inboxes.find_by(id: inbox_id)
   end
 
-  def generate_source_id_for_inbox(phone_number, inbox)
-    # For WhatsApp, source_id should be digits only (no + sign)
-    # For other channels, use the full phone number with +
+  def generate_source_id_for_inbox(phone_number, inbox, email: nil)
     case inbox.channel_type
     when 'Channel::Whatsapp'
       phone_number.delete('+')
     when 'Channel::TwilioSms'
       phone_number
+    when 'Channel::Email'
+      email || phone_number
     else
       phone_number
     end
@@ -723,6 +725,43 @@ class EnrollNotionDatabaseRecordsJob < ApplicationJob
     Rails.logger.info "Sent SMS first contact request for conversation #{conversation.id}"
   rescue StandardError => e
     Rails.logger.error "Failed to send SMS first contact: #{e.message}"
+    raise
+  end
+
+  def send_email_first_contact(sequence, conversation, contact, config, record)
+    inbox = sequence.account.inboxes.find_by(id: config['inbox_id'])
+    raise "Email inbox #{config['inbox_id']} not found" unless inbox
+
+    agent_bot = inbox.agent_bot
+    raise "No agent bot configured for email inbox #{inbox.id}" unless agent_bot
+
+    context = build_context_with_notion_variables(config['email_context'] || '', record, sequence)
+    sender_email = config['sender_email'].presence || sequence.account.support_email
+
+    payload = {
+      event: 'lead_followup.first_contact_request',
+      conversation_id: conversation.id,
+      agent_bot_id: agent_bot.id,
+      channel: 'email',
+      context: context,
+      variables: {
+        to_email: contact.email,
+        sender_email: sender_email,
+        subject: config['subject'],
+        content: config['content']
+      },
+      notion_data: extract_notion_data(record, sequence)
+    }
+
+    HTTParty.post(agent_bot.outgoing_url, {
+      body: payload.to_json,
+      headers: { 'Content-Type' => 'application/json' },
+      timeout: 30
+    })
+
+    Rails.logger.info "Sent email first contact request for conversation #{conversation.id}"
+  rescue StandardError => e
+    Rails.logger.error "Failed to send email first contact: #{e.message}"
     raise
   end
 

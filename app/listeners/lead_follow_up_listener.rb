@@ -97,6 +97,10 @@ class LeadFollowUpListener < BaseListener
   def handle_agent_reply(follow_up, sequence, message)
     return unless sequence.settings.dig('stop_on_agent_reply')
 
+    # Ignorar mensajes enviados por el usuario API (mensajes automatizados)
+    api_user_id = ENV.fetch('COPILOT_API_USER_ID', '1').to_i
+    return if message.sender_type == 'User' && message.sender_id == api_user_id
+
     # Verificar que el mensaje fue creado después de la última acción del copilot
     return unless message.created_at > follow_up.updated_at
 

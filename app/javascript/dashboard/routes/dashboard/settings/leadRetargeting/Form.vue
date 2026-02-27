@@ -20,7 +20,18 @@ const store = useStore();
 const getters = useStoreGetters();
 
 const accountId = computed(() => getters.getCurrentAccountId.value);
-const inboxes = computed(() => getters['inboxes/getWhatsAppInboxes'].value);
+// Sequence-level inbox: WhatsApp, SMS and Email supported
+const inboxes = computed(() => {
+  const all = getters['inboxes/getInboxes'].value || [];
+  return all.filter(
+    inbox =>
+      ['Channel::Whatsapp', 'Channel::TwilioSms', 'Channel::Sms', 'Channel::Email'].includes(inbox.channel_type) &&
+      inbox.provider !== 'whatsapp_light'
+  );
+});
+const whatsappInboxes = computed(() => getters['inboxes/getWhatsAppInboxes'].value);
+const smsInboxes = computed(() => getters['inboxes/getSMSInboxes'].value);
+const emailInboxes = computed(() => getters['inboxes/getEmailInboxes'].value);
 const agents = computed(() => getters['agents/getAgents'].value);
 const teams = computed(() => getters['teams/getTeams'].value);
 const labels = computed(() => getters['labels/getLabels'].value);
@@ -413,7 +424,7 @@ const addStep = type => {
       name: 'Primer Contacto desde Notion',
       enabled: true,
       config: {
-        channel: 'whatsapp', // 'whatsapp' | 'sms'
+        channel: 'whatsapp', // 'whatsapp' | 'sms' | 'email'
         inbox_id: null, // Inbox donde se creará la conversación
         template_name: '',
         language: 'es',
@@ -421,6 +432,10 @@ const addStep = type => {
           body: {},
         },
         sms_context: '', // Contexto para AI (SMS)
+        email_context: '', // Contexto para AI (Email)
+        subject: '', // Asunto del email (opcional, AI lo genera si está vacío)
+        content: '', // Contenido del email (opcional, AI lo genera si está vacío)
+        sender_email: '', // Email remitente (opcional)
       },
     },
     wait: {
@@ -445,6 +460,10 @@ const addStep = type => {
           variables: {},
         },
         closed_window_action: 'send_template',
+        // Inbox opcional por tipo de acción
+        whatsapp_inbox_id: null,
+        sms_inbox_id: null,
+        email_inbox_id: null,
         template_config: {
           template_name: '',
           language: 'es',
@@ -454,6 +473,9 @@ const addStep = type => {
         },
         sms_config: {
           context: '',
+          variables: {},
+        },
+        email_config: {
           variables: {},
         },
       },
@@ -531,6 +553,7 @@ const addStep = type => {
       name: t('LEAD_RETARGETING.STEPS.SEND_EMAIL.DEFAULT_NAME'),
       enabled: true,
       config: {
+        email_inbox_id: null, // Email inbox para enviar (opcional, usa el inbox de la conversación si está vacío)
         subject: '',
         content: '',
         sender_email: '',
@@ -559,8 +582,36 @@ const moveStepDown = index => {
   sequence.value.steps = steps;
 };
 
+const getInboxesForChannel = channel => {
+  switch (channel) {
+    case 'whatsapp':
+      return whatsappInboxes.value;
+    case 'sms':
+      return smsInboxes.value;
+    case 'email':
+      return emailInboxes.value;
+    default:
+      return [];
+  }
+};
+
+const onSendMessageWhatsappInboxChange = async step => {
+  if (!step.config.whatsapp_inbox_id) return;
+  try {
+    const response = await leadFollowUpSequencesAPI.getAvailableTemplates(
+      step.config.whatsapp_inbox_id
+    );
+    availableTemplates.value = response.data.templates;
+    step.config.template_config.template_name = '';
+    step.config.template_config.template_params = { body: {} };
+  } catch (error) {
+    console.error('Failed to load templates for send_message step:', error);
+  }
+};
+
 const onFirstContactChannelChange = async step => {
-  // Reset template when changing channel
+  // Reset inbox and template when switching channel type
+  step.config.inbox_id = null;
   step.config.template_name = '';
   step.config.template_params = { body: {} };
 
@@ -2510,12 +2561,29 @@ const saveSequence = async () => {
                               class="text-n-teal-9"
                               @change="onFirstContactChannelChange(step)"
                             />
-                            <i class="i-lucide-mail text-n-blue-9" />
+                            <i class="i-lucide-smartphone text-n-blue-9" />
                             <span class="text-sm text-n-slate-12">SMS</span>
+                          </label>
+                          <label
+                            class="flex items-center gap-2 cursor-pointer px-3 py-2 border border-n-weak rounded-lg hover:bg-n-weak/30"
+                            :class="{
+                              'bg-n-teal-4 border-n-teal-8':
+                                step.config.channel === 'email',
+                            }"
+                          >
+                            <input
+                              v-model="step.config.channel"
+                              type="radio"
+                              value="email"
+                              class="text-n-teal-9"
+                              @change="onFirstContactChannelChange(step)"
+                            />
+                            <i class="i-lucide-mail text-n-amber-9" />
+                            <span class="text-sm text-n-slate-12">Email</span>
                           </label>
                         </div>
 
-                        <!-- Inbox Selection -->
+                        <!-- Inbox Selection (filtered by channel type) -->
                         <div>
                           <label
                             class="block text-xs font-medium text-n-slate-12 mb-1"
@@ -2532,7 +2600,7 @@ const saveSequence = async () => {
                               {{ t('LEAD_RETARGETING.STEPS.FIRST_CONTACT.SELECT_INBOX') }}
                             </option>
                             <option
-                              v-for="inbox in inboxes"
+                              v-for="inbox in getInboxesForChannel(step.config.channel)"
                               :key="inbox.id"
                               :value="inbox.id"
                             >
@@ -2681,6 +2749,75 @@ const saveSequence = async () => {
                             contexto y los datos del contacto.
                           </p>
                         </div>
+
+                        <!-- Email Config -->
+                        <div
+                          v-if="step.config.channel === 'email'"
+                          class="space-y-3"
+                        >
+                          <!-- Sender Email -->
+                          <div>
+                            <label
+                              class="block text-xs font-medium text-n-slate-12 mb-1"
+                            >
+                              {{ t('LEAD_RETARGETING.STEPS.SEND_EMAIL.SENDER_EMAIL') }}
+                            </label>
+                            <input
+                              v-model="step.config.sender_email"
+                              type="email"
+                              class="w-full text-sm"
+                              :placeholder="t('LEAD_RETARGETING.STEPS.SEND_EMAIL.SENDER_EMAIL_PLACEHOLDER')"
+                            />
+                          </div>
+                          <!-- Subject -->
+                          <div>
+                            <label
+                              class="block text-xs font-medium text-n-slate-12 mb-1"
+                            >
+                              {{ t('LEAD_RETARGETING.STEPS.SEND_EMAIL.SUBJECT') }}
+                            </label>
+                            <input
+                              v-model="step.config.subject"
+                              type="text"
+                              class="w-full text-sm"
+                              :placeholder="t('LEAD_RETARGETING.STEPS.SEND_EMAIL.SUBJECT_PLACEHOLDER')"
+                            />
+                          </div>
+                          <!-- Content -->
+                          <div>
+                            <label
+                              class="block text-xs font-medium text-n-slate-12 mb-1"
+                            >
+                              {{ t('LEAD_RETARGETING.STEPS.SEND_EMAIL.CONTENT') }}
+                            </label>
+                            <textarea
+                              v-model="step.config.content"
+                              rows="4"
+                              class="w-full text-sm font-mono"
+                              :placeholder="t('LEAD_RETARGETING.STEPS.SEND_EMAIL.CONTENT_PLACEHOLDER')"
+                            />
+                          </div>
+                          <!-- Email Context for AI -->
+                          <div>
+                            <label
+                              class="block text-xs font-medium text-n-slate-12 mb-1"
+                            >
+                              {{ t('LEAD_RETARGETING.STEPS.FIRST_CONTACT.EMAIL_CONTEXT') }}
+                              <span class="text-n-slate-11 font-normal">
+                                ({{ t('LEAD_RETARGETING.STEPS.SEND_MESSAGE.AI_CONFIG.OPTIONAL') }})
+                              </span>
+                            </label>
+                            <textarea
+                              v-model="step.config.email_context"
+                              rows="3"
+                              class="w-full text-sm"
+                              :placeholder="t('LEAD_RETARGETING.STEPS.FIRST_CONTACT.EMAIL_CONTEXT_PLACEHOLDER')"
+                            />
+                            <p class="text-xs text-n-slate-11 mt-1">
+                              {{ t('LEAD_RETARGETING.STEPS.FIRST_CONTACT.EMAIL_CONTEXT_HELP') }}
+                            </p>
+                          </div>
+                        </div>
                       </div>
                     </div>
 
@@ -2794,7 +2931,7 @@ const saveSequence = async () => {
                             )
                           }}
                         </label>
-                        <div class="flex gap-3">
+                        <div class="flex flex-wrap gap-3">
                           <label class="flex items-center gap-2 cursor-pointer">
                             <input
                               v-model="step.config.closed_window_action"
@@ -2802,6 +2939,7 @@ const saveSequence = async () => {
                               value="send_template"
                               class="text-n-blue-9"
                             />
+                            <i class="i-lucide-message-circle text-n-green-9 text-sm" />
                             <span class="text-sm text-n-slate-12">{{
                               t(
                                 'LEAD_RETARGETING.STEPS.SEND_MESSAGE.CLOSED_WINDOW.SEND_TEMPLATE'
@@ -2815,9 +2953,24 @@ const saveSequence = async () => {
                               value="send_sms"
                               class="text-n-blue-9"
                             />
+                            <i class="i-lucide-smartphone text-n-blue-9 text-sm" />
                             <span class="text-sm text-n-slate-12">{{
                               t(
                                 'LEAD_RETARGETING.STEPS.SEND_MESSAGE.CLOSED_WINDOW.SEND_SMS'
+                              )
+                            }}</span>
+                          </label>
+                          <label class="flex items-center gap-2 cursor-pointer">
+                            <input
+                              v-model="step.config.closed_window_action"
+                              type="radio"
+                              value="send_email"
+                              class="text-n-blue-9"
+                            />
+                            <i class="i-lucide-mail text-n-amber-9 text-sm" />
+                            <span class="text-sm text-n-slate-12">{{
+                              t(
+                                'LEAD_RETARGETING.STEPS.SEND_MESSAGE.CLOSED_WINDOW.SEND_EMAIL'
                               )
                             }}</span>
                           </label>
@@ -2830,6 +2983,29 @@ const saveSequence = async () => {
                           "
                           class="space-y-2 mt-3 pt-3 border-t border-n-amber-6"
                         >
+                          <!-- WhatsApp Inbox selector -->
+                          <div>
+                            <label class="block text-xs font-medium text-n-slate-12 mb-1">
+                              {{ t('LEAD_RETARGETING.STEPS.SEND_MESSAGE.CLOSED_WINDOW.WHATSAPP_INBOX') }}
+                            </label>
+                            <select
+                              v-model="step.config.whatsapp_inbox_id"
+                              class="w-full text-sm"
+                              @change="onSendMessageWhatsappInboxChange(step)"
+                            >
+                              <option :value="null">
+                                {{ t('LEAD_RETARGETING.STEPS.SEND_MESSAGE.CLOSED_WINDOW.USE_CONVERSATION_INBOX') }}
+                              </option>
+                              <option
+                                v-for="inbox in whatsappInboxes"
+                                :key="inbox.id"
+                                :value="inbox.id"
+                              >
+                                {{ inbox.name }}
+                              </option>
+                            </select>
+                          </div>
+
                           <div>
                             <label
                               class="block text-xs font-medium text-n-slate-12 mb-1"
@@ -2979,6 +3155,28 @@ const saveSequence = async () => {
                           v-if="step.config.closed_window_action === 'send_sms'"
                           class="space-y-2 mt-3 pt-3 border-t border-n-amber-6"
                         >
+                          <!-- SMS Inbox selector -->
+                          <div>
+                            <label class="block text-xs font-medium text-n-slate-12 mb-1">
+                              {{ t('LEAD_RETARGETING.STEPS.SEND_MESSAGE.CLOSED_WINDOW.SMS_INBOX') }}
+                            </label>
+                            <select
+                              v-model="step.config.sms_inbox_id"
+                              class="w-full text-sm"
+                            >
+                              <option :value="null">
+                                {{ t('LEAD_RETARGETING.STEPS.SEND_MESSAGE.CLOSED_WINDOW.USE_CONVERSATION_INBOX') }}
+                              </option>
+                              <option
+                                v-for="inbox in smsInboxes"
+                                :key="inbox.id"
+                                :value="inbox.id"
+                              >
+                                {{ inbox.name }}
+                              </option>
+                            </select>
+                          </div>
+
                           <!-- SMS Context (Optional) -->
                           <div>
                             <label
@@ -3014,6 +3212,35 @@ const saveSequence = async () => {
                             </p>
                           </div>
                         </div>
+
+                        <!-- Email Config (if send_email) -->
+                        <div
+                          v-if="step.config.closed_window_action === 'send_email'"
+                          class="space-y-2 mt-3 pt-3 border-t border-n-amber-6"
+                        >
+                          <!-- Email Inbox selector -->
+                          <div>
+                            <label class="block text-xs font-medium text-n-slate-12 mb-1">
+                              {{ t('LEAD_RETARGETING.STEPS.SEND_MESSAGE.CLOSED_WINDOW.EMAIL_INBOX') }}
+                            </label>
+                            <select
+                              v-model="step.config.email_inbox_id"
+                              class="w-full text-sm"
+                            >
+                              <option :value="null">
+                                {{ t('LEAD_RETARGETING.STEPS.SEND_MESSAGE.CLOSED_WINDOW.USE_CONVERSATION_INBOX') }}
+                              </option>
+                              <option
+                                v-for="inbox in emailInboxes"
+                                :key="inbox.id"
+                                :value="inbox.id"
+                              >
+                                {{ inbox.name }}
+                              </option>
+                            </select>
+                          </div>
+
+                        </div>
                       </div>
                     </div>
 
@@ -3025,6 +3252,30 @@ const saveSequence = async () => {
                       <div
                         class="p-3 bg-n-amber-2 dark:bg-n-amber-3 border border-n-amber-6 rounded-lg space-y-3"
                       >
+                        <!-- Email Inbox -->
+                        <div>
+                          <label
+                            class="block text-xs font-medium text-n-slate-12 mb-1"
+                          >
+                            {{ t('LEAD_RETARGETING.STEPS.SEND_EMAIL.EMAIL_INBOX') }}
+                          </label>
+                          <select
+                            v-model="step.config.email_inbox_id"
+                            class="w-full text-sm"
+                          >
+                            <option :value="null">
+                              {{ t('LEAD_RETARGETING.STEPS.SEND_EMAIL.SELECT_EMAIL_INBOX') }}
+                            </option>
+                            <option
+                              v-for="inbox in emailInboxes"
+                              :key="inbox.id"
+                              :value="inbox.id"
+                            >
+                              {{ inbox.name }}
+                            </option>
+                          </select>
+                        </div>
+
                         <!-- Sender Email -->
                         <div>
                           <label

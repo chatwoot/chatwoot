@@ -143,6 +143,10 @@ class KbResource < ApplicationRecord
       id: id,
       name: name,
       description: description,
+      file_name: file_name,
+      content_type: content_type,
+      file_size: file_size,
+      folder_path: folder_path,
       s3_url: presigned_url
     }
     # Only include product_ids for create (no changed_attributes), for update it's in changed_attributes
