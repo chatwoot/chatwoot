@@ -5,6 +5,8 @@ class ReportingEventListener < BaseListener
     conversation = extract_conversation_and_account(event)[0]
     return if conversation.resolved_at.blank?
 
+    log_prefix = "[ResolutionMetric] conv_id=#{conversation.id} inbox_id=#{conversation.inbox_id}"
+
     service = resolution_service(conversation)
     last_opened_event = service.find_last_opened_event
     start_time = last_opened_event&.event_end_time || conversation.created_at
@@ -15,12 +17,22 @@ class ReportingEventListener < BaseListener
     service.create_conversation_resolved_events(start_time, end_time, time_to_resolve)
 
     if conversation.inbox.active_bot?
-      bot_svc = bot_service(conversation)
-      without_bot_start_time = bot_svc.bot_handoff_time || first_operator_assigned_at(conversation)
+      without_bot_start_time = resolve_without_bot_start_time(conversation, start_time, log_prefix)
       return if without_bot_start_time.nil?
     else
       without_bot_start_time = start_time
+      Rails.logger.info("#{log_prefix} | has_bot=false | without_bot_start_time=conversation_start=#{start_time.iso8601}")
     end
+
+    Rails.logger.info(
+      "#{log_prefix} | " \
+      "creating resolution_time_without_bot | " \
+      "without_bot_start_time=#{without_bot_start_time.iso8601} | " \
+      "resolved_at=#{end_time.iso8601} | " \
+      "time_without_bot=#{(end_time - without_bot_start_time).to_i}s | " \
+      "total_resolution_time=#{time_to_resolve.to_i}s | " \
+      "difference=#{(without_bot_start_time - start_time).to_i}s"
+    )
 
     service.create_resolution_without_bot_events(without_bot_start_time)
   end
@@ -99,6 +111,54 @@ class ReportingEventListener < BaseListener
   end
 
   private
+
+  def resolve_without_bot_start_time(conversation, start_time, log_prefix)
+    bot_svc = bot_service(conversation)
+    bot_handoff_time = bot_svc.bot_handoff_time
+
+    if bot_handoff_time
+      Rails.logger.info("#{log_prefix} | has_bot=true | source=bot_handoff_event | without_bot_start_time=#{bot_handoff_time.iso8601}")
+      return bot_handoff_time
+    end
+
+    pending_to_open_time = find_pending_to_open_time(conversation)
+
+    if pending_to_open_time
+      Rails.logger.info(
+        "#{log_prefix} | has_bot=true | source=pending_to_open | " \
+        "without_bot_start_time=#{pending_to_open_time.iso8601} | " \
+        "bot_handoff_event=MISSING"
+      )
+      return pending_to_open_time
+    end
+
+    operator_time = first_operator_assigned_at(conversation)
+  
+    if operator_time
+      Rails.logger.info(
+        "#{log_prefix} | has_bot=true | source=first_operator_assigned_at | " \
+        "without_bot_start_time=#{operator_time.iso8601} | " \
+        "bot_handoff_event=MISSING | pending_to_open_event=MISSING"
+      )
+      return operator_time
+    end
+  
+    Rails.logger.warn(
+      "#{log_prefix} | has_bot=true | WITHOUT_BOT_EVENT_SKIPPED | " \
+      "reason=could_not_determine_handoff_time | " \
+      "bot_handoff_event=MISSING | pending_to_open_event=MISSING | first_operator=MISSING | " \
+      "fallback=no_event_created"
+    )
+  
+    nil
+  end
+  
+  def find_pending_to_open_time(conversation)
+    ReportingEvent.where(
+      conversation_id: conversation.id,
+      name: 'conversation_opened'
+    ).order(event_end_time: :asc).first&.event_end_time
+  end
 
   def first_operator_assigned_at(conversation)
     bot_svc = bot_service(conversation)
