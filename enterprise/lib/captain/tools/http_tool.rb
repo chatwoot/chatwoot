@@ -13,9 +13,10 @@ class Captain::Tools::HttpTool < Agents::Tool
 
   def perform(tool_context, **params)
     url = @custom_tool.build_request_url(params)
+    normalized_url = Addressable::URI.parse(url).normalize.to_s
     body = @custom_tool.build_request_body(params)
 
-    response = execute_http_request(url, body, tool_context)
+    response = execute_http_request(normalized_url, body, tool_context)
     @custom_tool.format_response(response.body)
   rescue StandardError => e
     Rails.logger.error("HttpTool execution error for #{@custom_tool.slug}: #{e.class} - #{e.message}")
