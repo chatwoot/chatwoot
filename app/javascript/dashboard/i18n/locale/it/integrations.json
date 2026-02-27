@@ -33,11 +33,11 @@
       "LEARN_MORE": "Scopri di più sui webhooks",
       "SECRET": {
         "LABEL": "Secret",
-        "COPY": "Copy secret to clipboard",
-        "COPY_SUCCESS": "Secret copied to clipboard",
-        "TOGGLE": "Toggle secret visibility",
-        "CREATED_DESC": "Your webhook has been created. Use the secret below to verify webhook signatures. Please copy it now — you can also find it later in the webhook edit form.",
-        "DONE": "Done"
+        "COPY": "Copia secret negli appunti",
+        "COPY_SUCCESS": "Secret copiato negli appunti",
+        "TOGGLE": "Cambia visibilità secret",
+        "CREATED_DESC": "Il tuo webhook è stato creato. Usa il secret qui sotto per verificare le signature del webhook. Per favore copialo ora — lo puoi ritrovare più tardi nel modulo di modifica webhook.",
+        "DONE": "Fatto"
       },
       "COUNT": "{n} webhook | {n} webhook",
       "SEARCH_PLACEHOLDER": "Cerca webhook...",
