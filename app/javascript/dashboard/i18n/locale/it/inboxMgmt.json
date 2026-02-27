@@ -592,10 +592,10 @@
         "DISABLED": "Disabilitato"
       },
       "LOCK_TO_SINGLE_CONVERSATION": {
-        "ENABLED": "Reopen same conversation",
-        "DISABLED": "Create new conversations",
-        "ENABLED_DESCRIPTION": "When a contact messages again, the previous conversation will be reopened.",
-        "DISABLED_DESCRIPTION": "A new conversation will be created each time after the previous one is resolved."
+        "ENABLED": "Riapri la stessa conversazione",
+        "DISABLED": "Crea una nuova conversazione",
+        "ENABLED_DESCRIPTION": "Quando un contatto invia un nuovo messaggio, la conversazione precedente viene riaperta.",
+        "DISABLED_DESCRIPTION": "Viene creata una nuova conversazione ogni volta dopo la risoluzione della precedente."
       },
       "ENABLE_HMAC": {
         "LABEL": "Abilita"
@@ -715,8 +715,8 @@
       "SENDER_NAME_SECTION_TEXT": "Abilita/Disabilita la visualizzazione del nome dell'Operatore nelle email. Se disabilitato, verrà mostrato il nome dell'azienda",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Abilita la continuità della conversazione via email",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Le conversazioni continueranno via email se l'indirizzo email del contatto è disponibile.",
-      "LOCK_TO_SINGLE_CONVERSATION": "Conversation Routing",
-      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Configure conversation creation for existing contacts",
+      "LOCK_TO_SINGLE_CONVERSATION": "Routing Conversazioni",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Gestisci come vengono create le conversazioni per i contatti esistenti",
       "INBOX_UPDATE_TITLE": "Impostazioni Inbox",
       "INBOX_UPDATE_SUB_TEXT": "Aggiorna le impostazioni inbox",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Abilita o disabilita l'assegnazione automatica di nuove conversazioni agli agenti aggiunti a questa casella.",
@@ -893,17 +893,17 @@
         "CANCEL": "Torna indietro"
       },
       "UTILITY_ANALYZER": {
-        "ACTION": "Check utility fit",
-        "HELPER_NOTE": "Check this message before submission to improve Utility fit. The system creates a dedicated CSAT template with buttons for reporting and submits it as Utility; Meta may still reclassify it as Marketing based on content.",
-        "RESULT_LABEL": "Meta category prediction",
-        "GUIDANCE_NOTE": "This is a guidance check, not a guarantee of Meta approval.",
-        "SUGGESTION_LABEL": "Suggested utility-safe rewrite",
-        "APPLY": "Use this rewrite",
-        "ERROR_MESSAGE": "Couldn't analyze the message. Please try again.",
+        "ACTION": "Verifica idoneità Utility",
+        "HELPER_NOTE": "Verifica questo messaggio prima di inviare la richiesta per aumentare le probabilità che venga classificato come Utility.\nIl sistema crea un template CSAT dedicato con pulsanti per la raccolta feedback e lo invia come Utility; Meta potrebbe comunque riclassificarlo come Marketing in base al contenuto.",
+        "RESULT_LABEL": "Previsione categoria Meta",
+        "GUIDANCE_NOTE": "Si tratta di una verifica orientativa, non di una garanzia di approvazione da parte di Meta.",
+        "SUGGESTION_LABEL": "Suggerisci riscrittura conforme a Utility",
+        "APPLY": "Usa questa versione",
+        "ERROR_MESSAGE": "Impossibile analizzare il messaggio. Riprova.",
         "CLASSIFICATION": {
-          "LIKELY_UTILITY": "Likely Utility",
-          "LIKELY_MARKETING": "Likely Marketing",
-          "UNCLEAR": "Needs clarification"
+          "LIKELY_UTILITY": "Probabile Utility",
+          "LIKELY_MARKETING": "Probabile Marketing",
+          "UNCLEAR": "Classificazione incerta"
         }
       },
       "SURVEY_RULE": {
@@ -917,7 +917,7 @@
         "SELECT_PLACEHOLDER": "seleziona etichette"
       },
       "NOTE": "Nota: I sondaggi CSAT vengono inviati solo una volta per conversazione",
-      "WHATSAPP_NOTE": "Note: When you save, the system creates a dedicated CSAT template in WhatsApp (used to capture rating and feedback in reports) and submits it as Utility for approval. Meta may still classify it as Marketing based on content. After approval, surveys are sent only once per conversation as per the survey rule.",
+      "WHATSAPP_NOTE": "Nota: al salvataggio, il sistema crea un template CSAT dedicato in WhatsApp (utilizzato per raccogliere valutazioni e feedback nei report) e lo invia come Utility per l’approvazione. Meta potrebbe comunque classificarlo come Marketing in base al contenuto. Dopo l’approvazione, il sondaggio viene inviato una sola volta per conversazione, secondo la regola impostata.",
       "API": {
         "SUCCESS_MESSAGE": "Impostazioni CSAT aggiornate correttamente",
         "ERROR_MESSAGE": "Impossibile aggiornare le impostazioni CSAT. Riprova più tardi."
