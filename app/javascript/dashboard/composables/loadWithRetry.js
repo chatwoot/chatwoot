@@ -1,9 +1,9 @@
 import { ref } from 'vue';
 
 export const useLoadWithRetry = (config = {}) => {
-  const maxRetry = config.max_retry || 3;
-  const backoff = config.backoff || 1000;
-  const mediaType = config.mediaType || 'image';
+  const maxRetry = (config.max_retry ?? config.maxRetry) || 3;
+  const backoff = (config.backoff ?? config.backOff) || 1000;
+  const mediaType = (config.mediaType ?? config.media_type) || 'image';
 
   const isLoaded = ref(false);
   const hasError = ref(false);
