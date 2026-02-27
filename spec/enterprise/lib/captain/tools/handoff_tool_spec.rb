@@ -76,7 +76,7 @@ RSpec.describe Captain::Tools::HandoffTool, type: :model do
           )
         end
 
-        it 'creates a conversation_bot_handoff reporting event with assistant source' do
+        it 'creates a conversation_bot_handoff reporting event' do
           create(:captain_inbox, captain_assistant: assistant, inbox: inbox)
           Current.executed_by = assistant
 
@@ -86,7 +86,6 @@ RSpec.describe Captain::Tools::HandoffTool, type: :model do
 
           reporting_event = ReportingEvent.find_by(conversation_id: conversation.id, name: 'conversation_bot_handoff')
           expect(reporting_event).to be_present
-          expect(reporting_event.source).to eq('assistant')
         ensure
           Current.reset
         end

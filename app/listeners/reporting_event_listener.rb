@@ -7,7 +7,6 @@ class ReportingEventListener < BaseListener
 
     reporting_event = ReportingEvent.new(
       name: 'conversation_resolved',
-      source: reporting_source(event),
       value: time_to_resolve,
       value_in_business_hours: business_hours(conversation.inbox, conversation.created_at,
                                               conversation.updated_at),
@@ -79,7 +78,6 @@ class ReportingEventListener < BaseListener
 
     reporting_event = ReportingEvent.new(
       name: 'conversation_bot_handoff',
-      source: reporting_source(event),
       value: time_to_handoff,
       value_in_business_hours: business_hours(conversation.inbox, conversation.created_at, conversation.updated_at),
       account_id: conversation.account_id,
@@ -141,14 +139,5 @@ class ReportingEventListener < BaseListener
     bot_resolved_event = reporting_event.dup
     bot_resolved_event.name = 'conversation_bot_resolved'
     bot_resolved_event.save!
-  end
-
-  def reporting_source(event)
-    return event.data[:captain_action_source] if event.data[:captain_action_source].present?
-
-    performed_by = event.data[:performed_by]
-    return 'assistant' if defined?(::Captain::Assistant) && performed_by.instance_of?(::Captain::Assistant)
-
-    nil
   end
 end
