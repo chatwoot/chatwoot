@@ -192,7 +192,7 @@
       "PRIVATE_MSG_INPUT": "Premi MAIUSC + INVIO per andare a capo. Sarà visibile solo agli Operatori",
       "MESSAGING_RESTRICTED": "Non è possibile rispondere a questa conversazione",
       "MESSAGING_RESTRICTED_WHATSAPP": "Puoi rispondere solamente con un messaggio modello: la finestra di 24 ore di WhatsApp è scaduta",
-      "MESSAGING_RESTRICTED_API": "You can only reply using a template message due to message window restriction",
+      "MESSAGING_RESTRICTED_API": "Puoi rispondere solamente con un messaggio modello: la finestra di messaggistica è scaduta",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "La firma del messaggio non è configurata, configurala nelle impostazioni del profilo.",
       "COPILOT_MSG_INPUT": "Dai ulteriori istruzioni a Copilot o fai un’altra richiesta. Premi Invio per inviare il messaggio successivo",
       "CLICK_HERE": "Clicca qui per aggiornare",
@@ -306,7 +306,7 @@
     "CANCEL": "Annulla",
     "SEND_EMAIL_SUCCESS": "La trascrizione della chat è stata inviata con successo",
     "SEND_EMAIL_ERROR": "Si è verificato un errore, riprova",
-    "SEND_EMAIL_PAYMENT_REQUIRED": "Email transcript is not available on your current plan. Please upgrade to use this feature.",
+    "SEND_EMAIL_PAYMENT_REQUIRED": "La trascrizione email non è disponibile sul tuo piano attuale. Per favore aggiorna per utilizzare questa funzionalità.",
     "FORM": {
       "SEND_TO_CONTACT": "Invia la trascrizione al cliente",
       "SEND_TO_AGENT": "Invia la trascrizione all'operatore assegnato",
