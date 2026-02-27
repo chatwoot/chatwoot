@@ -196,9 +196,7 @@ class Telegram::IncomingMessageService
   end
 
   def location_fallback_title
-    return '' if venue.blank?
-
-    venue[:title] || ''
+    venue&.[](:title).to_s
   end
 
   def venue
