@@ -421,7 +421,11 @@ describe Telegram::IncomingMessageService do
         expect(telegram_channel.inbox.conversations.count).not_to eq(0)
         expect(telegram_channel.inbox.messages.first.content).to eq('Option 1')
         expect(telegram_channel.inbox.messages.first.message_type).to eq('incoming')
-        expect(Contact.all.first.additional_attributes['social_telegram_user_id']).to eq(23)
+        contact = Contact.all.first
+        expect(contact.name).to eq('Sojan Jose')
+        expect(contact.additional_attributes['social_telegram_user_id']).to eq(23)
+        expect(contact.additional_attributes['social_telegram_user_name']).to eq('sojan')
+        expect(contact.additional_attributes['language_code']).to be_nil
         expect(a_request(:post, %r{/answerCallbackQuery})
           .with(body: hash_including('callback_query_id' => '2342342309929423'))).to have_been_made.once
       end

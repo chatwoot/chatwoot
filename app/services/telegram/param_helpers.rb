@@ -43,10 +43,23 @@ module Telegram::ParamHelpers
   end
 
   def contact_params
+    return callback_query_contact_params if callback_query_params?
+
     if business_message_outgoing?
       telegram_params_base_object[:chat]
     else
       telegram_params_base_object[:from]
+    end
+  end
+
+  def callback_query_contact_params
+    callback_message_chat = params.dig(:callback_query, :message, :chat)
+    callback_sender = params.dig(:callback_query, :from)
+
+    if business_message?
+      callback_message_chat.presence || callback_sender
+    else
+      callback_sender.presence || callback_message_chat
     end
   end
 
