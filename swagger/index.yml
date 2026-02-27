@@ -87,6 +87,14 @@ tags:
     description: Public conversation APIs
   - name: Messages API
     description: Public message APIs
+  - name: Orders
+    description: Order management APIs
+  - name: Order Notes
+    description: Order notes management APIs
+  - name: Payment Links
+    description: Payment link management APIs
+  - name: Catalog
+    description: Catalog management and statistics APIs
   - name: CSAT Survey Page
     description: Customer satisfaction survey
 x-tagGroups:
@@ -118,6 +126,10 @@ x-tagGroups:
       - Teams
       - Webhooks
       - Automation Rule
+      - Orders
+      - Order Notes
+      - Payment Links
+      - Catalog
       - Help Center
   - name: Client
     tags:

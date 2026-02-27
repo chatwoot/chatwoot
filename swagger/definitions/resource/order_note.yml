@@ -1,0 +1,29 @@
+type: object
+properties:
+  id:
+    type: integer
+    description: The ID of the note
+  content:
+    type: string
+    description: The note content
+  order_id:
+    type: integer
+    description: The ID of the associated order
+  user:
+    type: object
+    description: The agent who created the note
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      email:
+        type: string
+      avatar_url:
+        type: string
+  created_at:
+    type: integer
+    description: Unix timestamp of creation
+  updated_at:
+    type: integer
+    description: Unix timestamp of last update

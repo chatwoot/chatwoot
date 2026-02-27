@@ -1,0 +1,72 @@
+tags:
+  - Orders
+operationId: list-all-orders
+summary: List Orders
+description: |
+  List all orders for the account. Supports pagination, filtering by status, date range, and search.
+security:
+  - userApiKey: []
+parameters:
+  - in: query
+    name: page
+    schema:
+      type: integer
+    description: Page number for pagination
+  - in: query
+    name: status
+    schema:
+      type: string
+      enum: [all, initiated, pending, paid, failed, expired, cancelled]
+    description: Filter by order status
+  - in: query
+    name: search
+    schema:
+      type: string
+    description: Search by external payment ID or contact name
+  - in: query
+    name: date_range
+    schema:
+      type: string
+      enum: [all, today, this_week, this_month, custom]
+    description: Predefined date range filter
+  - in: query
+    name: date_from
+    schema:
+      type: string
+      format: date
+    description: Custom date range start (used with date_range=custom)
+  - in: query
+    name: date_to
+    schema:
+      type: string
+      format: date
+    description: Custom date range end (used with date_range=custom)
+  - in: query
+    name: sort
+    schema:
+      type: string
+      enum: [created_at, -created_at, total, -total, contact_name, -contact_name]
+    description: Sort field and direction (prefix with - for descending)
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            meta:
+              type: object
+              properties:
+                count:
+                  type: integer
+                  description: Total number of orders matching the query
+                current_page:
+                  type: integer
+                  description: Current page number
+            payload:
+              type: array
+              items:
+                $ref: '#/components/schemas/order'
+  '401':
+    description: Unauthorized

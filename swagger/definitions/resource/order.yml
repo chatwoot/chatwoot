@@ -1,0 +1,100 @@
+type: object
+properties:
+  id:
+    type: integer
+    description: The ID of the order
+  external_payment_id:
+    type: string
+    description: The external payment reference ID
+  payment_url:
+    type: string
+    description: URL to complete payment
+  preview_url:
+    type: string
+    description: URL to preview the order
+  provider:
+    type: string
+    description: Payment provider (tap, payzah)
+  subtotal:
+    type: number
+    format: decimal
+    description: Order subtotal before fees
+  total:
+    type: number
+    format: decimal
+    description: Order total amount
+  currency:
+    type: string
+    description: Currency code (e.g., KWD, SAR)
+  status:
+    type: string
+    enum: [initiated, pending, paid, failed, expired, cancelled]
+    description: Current order status
+  delivery_address:
+    type: string
+    description: Delivery address if provided
+  paid_at:
+    type: string
+    format: date-time
+    nullable: true
+    description: Timestamp when the order was paid
+  created_at:
+    type: string
+    format: date-time
+  updated_at:
+    type: string
+    format: date-time
+  contact:
+    type: object
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      email:
+        type: string
+      phone_number:
+        type: string
+  created_by:
+    type: object
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      email:
+        type: string
+  conversation:
+    type: object
+    properties:
+      id:
+        type: integer
+      display_id:
+        type: integer
+  items_count:
+    type: integer
+    description: Number of items in the order
+  items:
+    type: array
+    items:
+      type: object
+      properties:
+        id:
+          type: integer
+        quantity:
+          type: integer
+        unit_price:
+          type: number
+          format: decimal
+        total_price:
+          type: number
+          format: decimal
+        product:
+          type: object
+          properties:
+            id:
+              type: integer
+            title_en:
+              type: string
+            title_ar:
+              type: string

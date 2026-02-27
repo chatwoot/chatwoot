@@ -1,0 +1,63 @@
+type: object
+properties:
+  id:
+    type: integer
+    description: The ID of the payment link
+  external_payment_id:
+    type: string
+    description: The external payment reference ID
+  payment_url:
+    type: string
+    description: URL to complete payment
+  provider:
+    type: string
+    description: Payment provider (tap, payzah)
+  amount:
+    type: number
+    format: decimal
+    description: Payment amount
+  currency:
+    type: string
+    description: Currency code (e.g., KWD, SAR)
+  status:
+    type: string
+    enum: [initiated, pending, paid, failed, expired, cancelled]
+    description: Current payment link status
+  paid_at:
+    type: string
+    format: date-time
+    nullable: true
+    description: Timestamp when the payment was completed
+  created_at:
+    type: string
+    format: date-time
+  updated_at:
+    type: string
+    format: date-time
+  contact:
+    type: object
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      email:
+        type: string
+      phone_number:
+        type: string
+  created_by:
+    type: object
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      email:
+        type: string
+  conversation:
+    type: object
+    properties:
+      id:
+        type: integer
+      display_id:
+        type: integer
