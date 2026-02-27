@@ -229,16 +229,8 @@ class Telegram::IncomingMessageService
     callback_query_id = params.dig(:callback_query, :id)
     return if callback_query_id.blank?
 
-    HTTParty.post(
-      "#{inbox.channel.telegram_api_url}/answerCallbackQuery",
-      body: { callback_query_id: callback_query_id },
-      timeout: 3
-    )
+    HTTParty.post("#{inbox.channel.telegram_api_url}/answerCallbackQuery", body: { callback_query_id: callback_query_id }, timeout: 3)
   rescue StandardError => e
-    Rails.logger.warn(
-      "Telegram callback ack error " \
-      "inbox_id=#{inbox&.id} callback_query_id=#{callback_query_id} " \
-      "#{e.class}: #{e.message}"
-    )
+    Rails.logger.warn("Telegram callback ack error inbox_id=#{inbox&.id} callback_query_id=#{callback_query_id} #{e.class}: #{e.message}")
   end
 end

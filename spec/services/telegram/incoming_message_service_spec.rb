@@ -418,7 +418,6 @@ describe Telegram::IncomingMessageService do
 
         described_class.new(inbox: telegram_channel.inbox, params: params).perform
 
-        expect(telegram_channel.inbox.conversations.count).not_to eq(0)
         expect(telegram_channel.inbox.messages.first.content).to eq('Option 1')
         expect(telegram_channel.inbox.messages.first.message_type).to eq('incoming')
         contact = Contact.all.first
