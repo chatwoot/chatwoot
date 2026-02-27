@@ -64,4 +64,15 @@ RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
         }
       )
   end
+
+  it 'does not resolve conversations when auto-resolve is disabled at execution time' do
+    inbox.account.update!(captain_disable_auto_resolve: true)
+
+    expect do
+      described_class.perform_now(inbox)
+    end.not_to(change { resolvable_pending_conversation.reload.status })
+
+    expect(resolvable_pending_conversation.reload.status).to eq('pending')
+    expect(resolvable_pending_conversation.messages.outgoing).to be_empty
+  end
 end
