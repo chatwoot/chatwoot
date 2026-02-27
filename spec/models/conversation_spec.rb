@@ -313,6 +313,47 @@ RSpec.describe Conversation do
     end
   end
 
+  describe '#bot_handoff!' do
+    let(:conversation) { create(:conversation, status: :pending) }
+
+    before do
+      allow(Rails.configuration.dispatcher).to receive(:dispatch)
+    end
+
+    context 'when waiting_since is blank' do
+      before { conversation.update(waiting_since: nil) }
+
+      it 'sets waiting_since to current time' do
+        freeze_time do
+          conversation.bot_handoff!
+          expect(conversation.reload.waiting_since).to eq(Time.current)
+        end
+      end
+    end
+
+    context 'when waiting_since is already set' do
+      let(:original_time) { 1.hour.ago }
+
+      before { conversation.update(waiting_since: original_time) }
+
+      it 'preserves existing waiting_since' do
+        conversation.bot_handoff!
+        expect(conversation.reload.waiting_since).to be_within(1.second).of(original_time)
+      end
+    end
+
+    it 'changes status to open' do
+      conversation.bot_handoff!
+      expect(conversation.reload.status).to eq('open')
+    end
+
+    it 'dispatches CONVERSATION_BOT_HANDOFF event' do
+      expect(Rails.configuration.dispatcher).to receive(:dispatch)
+        .with(described_class::CONVERSATION_BOT_HANDOFF, anything, hash_including(conversation: conversation))
+      conversation.bot_handoff!
+    end
+  end
+
   describe '#toggle_priority' do
     it 'defaults priority to nil when created' do
       conversation = create(:conversation, status: 'open')

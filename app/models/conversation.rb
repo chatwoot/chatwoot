@@ -159,6 +159,7 @@ class Conversation < ApplicationRecord
   end
 
   def bot_handoff!
+    update(waiting_since: Time.current) if waiting_since.blank?
     open!
     dispatcher_dispatch(CONVERSATION_BOT_HANDOFF)
   end
