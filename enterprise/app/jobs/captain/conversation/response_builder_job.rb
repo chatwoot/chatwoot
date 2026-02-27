@@ -47,10 +47,10 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   def process_response
     return unless conversation_pending?
 
-    ActiveRecord::Base.transaction do
-      if handoff_requested?
-        process_action('handoff')
-      else
+    if handoff_requested?
+      process_action('handoff')
+    else
+      ActiveRecord::Base.transaction do
         create_messages
         Rails.logger.info("[CAPTAIN][ResponseBuilderJob] Incrementing response usage for #{account.id}")
         account.increment_response_usage
