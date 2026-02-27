@@ -226,24 +226,13 @@ class Telegram::IncomingMessageService
   end
 
   def acknowledge_callback_query!
-    return unless callback_query_params?
-
     callback_query_id = params.dig(:callback_query, :id)
     return if callback_query_id.blank?
 
-    response = HTTParty.post(
+    HTTParty.post(
       "#{inbox.channel.telegram_api_url}/answerCallbackQuery",
       body: { callback_query_id: callback_query_id },
       timeout: 3
-    )
-
-    return if callback_query_ack_successful?(response)
-    return if callback_query_ack_stale_or_invalid?(response)
-
-    Rails.logger.warn(
-      "Telegram callback ack failed " \
-      "inbox_id=#{inbox.id} callback_query_id=#{callback_query_id} " \
-      "status=#{response&.code} body=#{response&.body}"
     )
   rescue StandardError => e
     Rails.logger.warn(
@@ -251,22 +240,5 @@ class Telegram::IncomingMessageService
       "inbox_id=#{inbox&.id} callback_query_id=#{callback_query_id} " \
       "#{e.class}: #{e.message}"
     )
-  end
-
-  def callback_query_ack_successful?(response)
-    return false unless response&.respond_to?(:success?) && response.success?
-
-    parsed_response = response.respond_to?(:parsed_response) ? response.parsed_response : nil
-    return true unless parsed_response.is_a?(Hash)
-
-    parsed_response['ok'] != false
-  end
-
-  def callback_query_ack_stale_or_invalid?(response)
-    parsed_response = response.respond_to?(:parsed_response) ? response.parsed_response : nil
-    return false unless parsed_response.is_a?(Hash)
-
-    description = parsed_response['description'].to_s.downcase
-    description.include?('query is too old') || description.include?('query id is invalid')
   end
 end
