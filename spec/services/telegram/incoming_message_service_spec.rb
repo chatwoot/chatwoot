@@ -459,6 +459,7 @@ describe Telegram::IncomingMessageService do
           }
         }.with_indifferent_access
 
+        expect(Rails.logger).to receive(:warn).with(/Telegram callback ack failed/)
         expect { described_class.new(inbox: telegram_channel.inbox, params: params).perform }.not_to raise_error
         expect(telegram_channel.inbox.messages.first.content).to eq('Option 1')
       end
