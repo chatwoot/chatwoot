@@ -1,0 +1,15 @@
+tags:
+  - Order Notes
+operationId: delete-an-order-note
+summary: Delete Order Note
+description: |
+  Delete a specific note from an order.
+security:
+  - userApiKey: []
+responses:
+  '200':
+    description: Success
+  '401':
+    description: Unauthorized
+  '404':
+    description: Order or note not found

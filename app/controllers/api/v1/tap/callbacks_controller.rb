@@ -27,7 +27,8 @@ class Api::V1::Tap::CallbacksController < ActionController::API
   private
 
   def find_payment_link
-    PaymentLink.find_by(external_payment_id: reference_id, provider: 'tap')
+    PaymentLink.find_by(external_payment_id: reference_id, provider: 'tap') ||
+      Order.find_by(external_payment_id: reference_id, provider: 'tap')
   end
 
   def reference_id

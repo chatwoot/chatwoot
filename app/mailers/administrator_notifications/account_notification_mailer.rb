@@ -63,11 +63,11 @@ class AdministratorNotifications::AccountNotificationMailer < AdministratorNotif
     send_notification(subject, action_url: action_url, meta: meta)
   end
 
-  def order_paid(cart, to_email)
-    subject = "New Order Paid - ##{cart.external_payment_id}"
-    action_url = "#{ENV.fetch('FRONTEND_URL', nil)}/app/accounts/#{Current.account.id}/carts"
+  def order_paid(order, to_email)
+    subject = "New Order Paid - ##{order.external_payment_id}"
+    action_url = "#{ENV.fetch('FRONTEND_URL', nil)}/app/accounts/#{Current.account.id}/orders"
 
-    send_notification(subject, to: to_email, action_url: action_url, meta: order_paid_meta(cart))
+    send_notification(subject, to: to_email, action_url: action_url, meta: order_paid_meta(order))
   end
 
   def payment_link_paid(payment_link, to_email)
@@ -79,21 +79,21 @@ class AdministratorNotifications::AccountNotificationMailer < AdministratorNotif
 
   private
 
-  def order_paid_meta(cart)
+  def order_paid_meta(order)
     {
-      'order_id' => cart.external_payment_id,
-      'contact_name' => cart.contact&.name.to_s,
-      'contact_phone' => cart.contact&.phone_number.to_s,
-      'total' => cart.total.to_s,
-      'currency' => cart.currency,
-      'paid_at' => cart.paid_at&.strftime('%B %d, %Y %H:%M') || Time.current.strftime('%B %d, %Y %H:%M'),
-      'items' => format_cart_items(cart)
+      'order_id' => order.external_payment_id,
+      'contact_name' => order.contact&.name.to_s,
+      'contact_phone' => order.contact&.phone_number.to_s,
+      'total' => order.total.to_s,
+      'currency' => order.currency,
+      'paid_at' => order.paid_at&.strftime('%B %d, %Y %H:%M') || Time.current.strftime('%B %d, %Y %H:%M'),
+      'items' => format_order_items(order)
     }
   end
 
-  def format_cart_items(cart)
-    cart.cart_items.includes(:product).map do |item|
-      "#{item.quantity}x #{item.product.title_en} — #{item.unit_price} #{cart.currency}"
+  def format_order_items(order)
+    order.order_items.includes(:product).map do |item|
+      "#{item.quantity}x #{item.product.title_en} — #{item.unit_price} #{order.currency}"
     end.join(', ')
   end
 

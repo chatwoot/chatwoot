@@ -50,6 +50,7 @@ class Article < ApplicationRecord
   belongs_to :category, optional: true
   belongs_to :portal
   belongs_to :author, class_name: 'User', inverse_of: :articles
+  has_many :aloo_documents, class_name: 'Aloo::Document', dependent: :nullify
 
   before_validation :ensure_account_id
   before_validation :ensure_article_slug
@@ -63,6 +64,8 @@ class Article < ApplicationRecord
   # ensuring that the position is always set correctly
   before_create :add_position_to_article
   after_save :category_id_changed_action, if: :saved_change_to_category_id?
+  after_commit :sync_to_aloo_knowledge_base, on: %i[create update]
+  after_commit :remove_from_aloo_knowledge_base, on: :destroy
 
   enum status: { draft: 0, published: 1, archived: 2 }
 
@@ -190,6 +193,18 @@ class Article < ApplicationRecord
 
   def ensure_article_slug
     self.slug ||= "#{Time.now.utc.to_i}-#{title.underscore.parameterize(separator: '-')}" if title.present?
+  end
+
+  def sync_to_aloo_knowledge_base
+    if published?
+      Aloo::SyncArticleJob.perform_later(id)
+    elsif saved_change_to_status?
+      Aloo::RemoveArticleDocumentsJob.perform_later(id)
+    end
+  end
+
+  def remove_from_aloo_knowledge_base
+    Aloo::RemoveArticleDocumentsJob.perform_later(id)
   end
 end
 Article.include_mod_with('Concerns::Article')

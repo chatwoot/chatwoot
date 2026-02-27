@@ -246,8 +246,6 @@ class Api::V1::Accounts::Aloo::AssistantsController < Api::V1::Accounts::BaseCon
       :name,
       :description,
       :active,
-      :language,
-      :dialect,
       :tone,
       :formality,
       :empathy_level,
@@ -285,8 +283,6 @@ class Api::V1::Accounts::Aloo::AssistantsController < Api::V1::Accounts::BaseCon
       name: assistant.name,
       description: assistant.description,
       active: assistant.active,
-      language: assistant.language,
-      dialect: assistant.dialect,
       custom_instructions: assistant.custom_instructions,
       personality: {
         tone: assistant.tone,

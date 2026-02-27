@@ -42,6 +42,8 @@ class Tap::CreateInvoiceService
 
   def invoice_params
     {
+      mode: 'INVOICE',
+      currencies: [currency.to_s.upcase],
       due: due_timestamp,
       expiry: expiry_timestamp,
       reference: {
@@ -74,17 +76,14 @@ class Tap::CreateInvoiceService
   def parse_phone_number(phone)
     return nil if phone.blank?
 
-    cleaned = phone.to_s.gsub(/\s+/, '')
-
-    if cleaned.start_with?('+')
-      country_code = cleaned[1..3]
-      number = cleaned[4..]
+    parsed = TelephoneNumber.parse(phone.to_s)
+    if parsed.valid? && parsed.country
+      country_code = parsed.country.country_code
+      national_number = parsed.e164_number.sub(/^\+#{Regexp.escape(country_code)}/, '')
+      { country_code: country_code, number: national_number }
     else
-      country_code = '965'
-      number = cleaned
+      { country_code: '965', number: phone.to_s.gsub(/[^\d]/, '') }
     end
-
-    { country_code: country_code, number: number }
   end
 
   def order_params

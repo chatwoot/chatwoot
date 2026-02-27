@@ -1,5 +1,42 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: aloo_assistants
+#
+#  id                      :bigint           not null, primary key
+#  active                  :boolean          default(TRUE)
+#  admin_config            :jsonb
+#  custom_greeting         :text
+#  custom_instructions     :text
+#  description             :text
+#  emoji_usage             :string           default("minimal")
+#  empathy_level           :string           default("medium")
+#  formality               :string           default("medium")
+#  greeting_style          :string           default("warm")
+#  guardrails              :text
+#  name                    :string           not null
+#  personality_description :text
+#  response_guidelines     :text
+#  system_prompt           :text
+#  tone                    :string           default("friendly")
+#  verbosity               :string           default("balanced")
+#  voice_config            :jsonb
+#  voice_enabled           :boolean          default(FALSE)
+#  created_at              :datetime         not null
+#  updated_at              :datetime         not null
+#  account_id              :bigint           not null
+#
+# Indexes
+#
+#  index_aloo_assistants_on_account_id           (account_id)
+#  index_aloo_assistants_on_account_id_and_name  (account_id,name)
+#  index_aloo_assistants_on_voice_enabled        (voice_enabled)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (account_id => accounts.id)
+#
 FactoryBot.define do
   factory :aloo_assistant, class: 'Aloo::Assistant' do
     account
@@ -11,18 +48,12 @@ FactoryBot.define do
     verbosity { 'balanced' }
     emoji_usage { 'minimal' }
     greeting_style { 'warm' }
-    language { 'en' }
     active { true }
     system_prompt { 'You are a helpful customer support assistant.' }
     admin_config { {} }
 
     trait :inactive do
       active { false }
-    end
-
-    trait :arabic do
-      language { 'ar' }
-      dialect { 'EG' }
     end
 
     trait :professional do

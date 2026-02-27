@@ -25,7 +25,7 @@ RSpec.describe Conversations::AutoAssignService, type: :service do
     context 'with content-length threshold' do
       it 'processes a single message with 60+ characters' do
         create_incoming('I need help with my billing invoice, it shows the wrong amount charged')
-        stub_agent_call(ConversationTriageAgent, content: { 'label_id' => label1.id, 'team_id' => nil })
+        stub_agent_call(ConversationTriageAgent, content: { 'label_ids' => [label1.id], 'team_id' => nil })
 
         expect { service.perform }.to change { conversation.reload.label_list.to_a }.from([]).to(['billing'])
       end
@@ -40,7 +40,7 @@ RSpec.describe Conversations::AutoAssignService, type: :service do
       it 'processes 2+ messages with combined 30+ characters' do
         create_incoming('I have a billing issue')
         create_incoming('Can you help me?')
-        stub_agent_call(ConversationTriageAgent, content: { 'label_id' => label1.id, 'team_id' => nil })
+        stub_agent_call(ConversationTriageAgent, content: { 'label_ids' => [label1.id], 'team_id' => nil })
 
         expect { service.perform }.to change { conversation.reload.label_list.to_a }.from([]).to(['billing'])
       end
@@ -83,7 +83,7 @@ RSpec.describe Conversations::AutoAssignService, type: :service do
     context 'when both label and team are already assigned (early exit)' do
       before do
         create_incoming('I need help with my billing invoice, it shows the wrong amount charged')
-        conversation.label_list.add('existing-label')
+        conversation.label_list.add('existing-label-1', 'existing-label-2')
         conversation.save!
         conversation.update!(team: team2)
       end
@@ -102,7 +102,7 @@ RSpec.describe Conversations::AutoAssignService, type: :service do
       end
 
       it 'still processes to assign team' do
-        stub_agent_call(ConversationTriageAgent, content: { 'label_id' => nil, 'team_id' => team1.id })
+        stub_agent_call(ConversationTriageAgent, content: { 'label_ids' => [], 'team_id' => team1.id })
 
         expect { described_class.new(conversation).perform }.to change { conversation.reload.team_id }.from(nil).to(team1.id)
       end
@@ -115,7 +115,7 @@ RSpec.describe Conversations::AutoAssignService, type: :service do
       end
 
       it 'still processes to assign label' do
-        stub_agent_call(ConversationTriageAgent, content: { 'label_id' => label1.id, 'team_id' => nil })
+        stub_agent_call(ConversationTriageAgent, content: { 'label_ids' => [label1.id], 'team_id' => nil })
 
         expect { described_class.new(conversation).perform }.to change { conversation.reload.label_list.to_a }.from([]).to(['billing'])
       end
@@ -140,7 +140,7 @@ RSpec.describe Conversations::AutoAssignService, type: :service do
       before { create_incoming('I need help with my billing invoice, it shows the wrong amount charged') }
 
       it 'applies both label and team when suggested' do
-        stub_agent_call(ConversationTriageAgent, content: { 'label_id' => label1.id, 'team_id' => team1.id })
+        stub_agent_call(ConversationTriageAgent, content: { 'label_ids' => [label1.id], 'team_id' => team1.id })
 
         service.perform
         conversation.reload
@@ -150,7 +150,7 @@ RSpec.describe Conversations::AutoAssignService, type: :service do
       end
 
       it 'only applies label when no team suggested' do
-        stub_agent_call(ConversationTriageAgent, content: { 'label_id' => label1.id, 'team_id' => nil })
+        stub_agent_call(ConversationTriageAgent, content: { 'label_ids' => [label1.id], 'team_id' => nil })
 
         service.perform
         conversation.reload
@@ -160,7 +160,7 @@ RSpec.describe Conversations::AutoAssignService, type: :service do
       end
 
       it 'only applies team when no label suggested' do
-        stub_agent_call(ConversationTriageAgent, content: { 'label_id' => nil, 'team_id' => team1.id })
+        stub_agent_call(ConversationTriageAgent, content: { 'label_ids' => [], 'team_id' => team1.id })
 
         service.perform
         conversation.reload
@@ -169,11 +169,11 @@ RSpec.describe Conversations::AutoAssignService, type: :service do
         expect(conversation.team_id).to eq(team1.id)
       end
 
-      it 'does not apply label if conversation already has labels' do
-        conversation.label_list.add('existing-label')
+      it 'does not apply label if conversation already has max labels' do
+        conversation.label_list.add('existing-label-1', 'existing-label-2')
         conversation.save!
 
-        stub_agent_call(ConversationTriageAgent, content: { 'label_id' => label1.id, 'team_id' => team1.id })
+        stub_agent_call(ConversationTriageAgent, content: { 'label_ids' => [label1.id], 'team_id' => team1.id })
 
         described_class.new(conversation).perform
         conversation.reload
@@ -185,7 +185,7 @@ RSpec.describe Conversations::AutoAssignService, type: :service do
       it 'does not apply team if conversation already has team' do
         conversation.update!(team: team2)
 
-        stub_agent_call(ConversationTriageAgent, content: { 'label_id' => label1.id, 'team_id' => team1.id })
+        stub_agent_call(ConversationTriageAgent, content: { 'label_ids' => [label1.id], 'team_id' => team1.id })
 
         service.perform
         conversation.reload
@@ -204,7 +204,7 @@ RSpec.describe Conversations::AutoAssignService, type: :service do
 
         expect(ConversationTriageAgent).to receive(:call) do |args|
           expect(args[:available_teams]).to be_empty
-        end.and_return(instance_double('RubyLLM::Agents::Result', success?: true, content: { 'label_id' => label1.id, 'team_id' => nil }))
+        end.and_return(instance_double('RubyLLM::Agents::Result', success?: true, content: { 'label_ids' => [label1.id], 'team_id' => nil }))
 
         described_class.new(conversation).perform
       end
@@ -219,7 +219,7 @@ RSpec.describe Conversations::AutoAssignService, type: :service do
 
         expect(ConversationTriageAgent).to receive(:call) do |args|
           expect(args[:available_labels]).to be_empty
-        end.and_return(instance_double('RubyLLM::Agents::Result', success?: true, content: { 'label_id' => nil, 'team_id' => team1.id }))
+        end.and_return(instance_double('RubyLLM::Agents::Result', success?: true, content: { 'label_ids' => [], 'team_id' => team1.id }))
 
         described_class.new(conversation).perform
       end
@@ -243,7 +243,7 @@ RSpec.describe Conversations::AutoAssignService, type: :service do
       before { create_incoming('I need help with my billing invoice, it shows the wrong amount charged') }
 
       it 'does not apply anything' do
-        stub_agent_call(ConversationTriageAgent, content: { 'label_id' => nil, 'team_id' => nil })
+        stub_agent_call(ConversationTriageAgent, content: { 'label_ids' => [], 'team_id' => nil })
 
         service.perform
         conversation.reload
@@ -257,7 +257,7 @@ RSpec.describe Conversations::AutoAssignService, type: :service do
       before { create_incoming('I need help with my billing invoice, it shows the wrong amount charged') }
 
       it 'does not apply label' do
-        stub_agent_call(ConversationTriageAgent, content: { 'label_id' => 999_999, 'team_id' => nil })
+        stub_agent_call(ConversationTriageAgent, content: { 'label_ids' => [999_999], 'team_id' => nil })
 
         service.perform
         expect(conversation.reload.label_list.to_a).to be_empty
@@ -268,7 +268,7 @@ RSpec.describe Conversations::AutoAssignService, type: :service do
       before { create_incoming('I need help with my billing invoice, it shows the wrong amount charged') }
 
       it 'does not apply team' do
-        stub_agent_call(ConversationTriageAgent, content: { 'label_id' => nil, 'team_id' => 999_999 })
+        stub_agent_call(ConversationTriageAgent, content: { 'label_ids' => [], 'team_id' => 999_999 })
 
         service.perform
         expect(conversation.reload.team_id).to be_nil
@@ -308,7 +308,7 @@ RSpec.describe Conversations::AutoAssignService, type: :service do
         # New message arrives AFTER triage
         create_incoming('Actually the charge was $500 instead of $50, please fix this urgently')
 
-        stub_agent_call(ConversationTriageAgent, content: { 'label_id' => label1.id, 'team_id' => nil })
+        stub_agent_call(ConversationTriageAgent, content: { 'label_ids' => [label1.id], 'team_id' => nil })
 
         expect { described_class.new(conversation).perform }.to change { conversation.reload.label_list.to_a }.from([]).to(['billing'])
       end
@@ -319,7 +319,7 @@ RSpec.describe Conversations::AutoAssignService, type: :service do
 
       it 'processes the conversation' do
         conversation.update_column(:last_triaged_at, 31.minutes.ago)
-        stub_agent_call(ConversationTriageAgent, content: { 'label_id' => label1.id, 'team_id' => nil })
+        stub_agent_call(ConversationTriageAgent, content: { 'label_ids' => [label1.id], 'team_id' => nil })
 
         expect { service.perform }.to change { conversation.reload.label_list.to_a }.from([]).to(['billing'])
       end
@@ -330,7 +330,7 @@ RSpec.describe Conversations::AutoAssignService, type: :service do
 
       it 'processes the conversation' do
         expect(conversation.last_triaged_at).to be_nil
-        stub_agent_call(ConversationTriageAgent, content: { 'label_id' => label1.id, 'team_id' => nil })
+        stub_agent_call(ConversationTriageAgent, content: { 'label_ids' => [label1.id], 'team_id' => nil })
 
         expect { service.perform }.to change { conversation.reload.label_list.to_a }.from([]).to(['billing'])
       end
@@ -338,7 +338,7 @@ RSpec.describe Conversations::AutoAssignService, type: :service do
 
     it 'updates last_triaged_at when processing' do
       create_incoming('I need help with my billing invoice, it shows the wrong amount charged')
-      stub_agent_call(ConversationTriageAgent, content: { 'label_id' => nil, 'team_id' => nil })
+      stub_agent_call(ConversationTriageAgent, content: { 'label_ids' => [], 'team_id' => nil })
 
       expect { service.perform }.to change { conversation.reload.last_triaged_at }.from(nil)
     end
@@ -352,7 +352,7 @@ RSpec.describe Conversations::AutoAssignService, type: :service do
           conversation_id: conversation.id,
           inbox_id: conversation.inbox_id
         )
-      ).and_return(instance_double('RubyLLM::Agents::Result', success?: true, content: { 'label_id' => nil, 'team_id' => nil }))
+      ).and_return(instance_double('RubyLLM::Agents::Result', success?: true, content: { 'label_ids' => [], 'team_id' => nil }))
 
       service.perform
     end
@@ -364,7 +364,7 @@ RSpec.describe Conversations::AutoAssignService, type: :service do
         captured_account = nil
         allow(ConversationTriageAgent).to receive(:call) do
           captured_account = Aloo::Current.account
-          instance_double('RubyLLM::Agents::Result', success?: true, content: { 'label_id' => nil, 'team_id' => nil })
+          instance_double('RubyLLM::Agents::Result', success?: true, content: { 'label_ids' => [], 'team_id' => nil })
         end
 
         service.perform
@@ -372,7 +372,7 @@ RSpec.describe Conversations::AutoAssignService, type: :service do
       end
 
       it 'resets Aloo::Current.account after execution' do
-        stub_agent_call(ConversationTriageAgent, content: { 'label_id' => nil, 'team_id' => nil })
+        stub_agent_call(ConversationTriageAgent, content: { 'label_ids' => [], 'team_id' => nil })
 
         service.perform
         expect(Aloo::Current.account).to be_nil
@@ -393,7 +393,7 @@ RSpec.describe Conversations::AutoAssignService, type: :service do
     # where process_response returns symbol keys but the service expected string keys.
 
     it 'applies label and team from symbol-keyed hash (real agent output)' do
-      service.send(:apply_suggestions, { label_id: label1.id, team_id: team1.id })
+      service.send(:apply_suggestions, { label_ids: [label1.id], team_id: team1.id })
       conversation.reload
 
       expect(conversation.label_list.to_a).to include('billing')
@@ -401,15 +401,15 @@ RSpec.describe Conversations::AutoAssignService, type: :service do
     end
 
     it 'applies label and team from string-keyed hash' do
-      service.send(:apply_suggestions, { 'label_id' => label2.id, 'team_id' => team2.id })
+      service.send(:apply_suggestions, { 'label_ids' => [label2.id], 'team_id' => team2.id })
       conversation.reload
 
       expect(conversation.label_list.to_a).to include('support')
       expect(conversation.team_id).to eq(team2.id)
     end
 
-    it 'handles nil label_id with symbol keys' do
-      service.send(:apply_suggestions, { label_id: nil, team_id: team1.id })
+    it 'handles empty label_ids with symbol keys' do
+      service.send(:apply_suggestions, { label_ids: [], team_id: team1.id })
       conversation.reload
 
       expect(conversation.label_list.to_a).to be_empty
@@ -417,15 +417,15 @@ RSpec.describe Conversations::AutoAssignService, type: :service do
     end
 
     it 'handles nil team_id with symbol keys' do
-      service.send(:apply_suggestions, { label_id: label1.id, team_id: nil })
+      service.send(:apply_suggestions, { label_ids: [label1.id], team_id: nil })
       conversation.reload
 
       expect(conversation.label_list.to_a).to include('billing')
       expect(conversation.team_id).to be_nil
     end
 
-    it 'ignores non-existent label_id' do
-      service.send(:apply_suggestions, { label_id: 999_999, team_id: team1.id })
+    it 'ignores non-existent label_ids' do
+      service.send(:apply_suggestions, { label_ids: [999_999], team_id: team1.id })
       conversation.reload
 
       expect(conversation.label_list.to_a).to be_empty
@@ -433,7 +433,7 @@ RSpec.describe Conversations::AutoAssignService, type: :service do
     end
 
     it 'ignores non-existent team_id' do
-      service.send(:apply_suggestions, { label_id: label1.id, team_id: 999_999 })
+      service.send(:apply_suggestions, { label_ids: [label1.id], team_id: 999_999 })
       conversation.reload
 
       expect(conversation.label_list.to_a).to include('billing')
@@ -441,22 +441,22 @@ RSpec.describe Conversations::AutoAssignService, type: :service do
     end
 
     it 'ignores negative team_id returned by agent' do
-      service.send(:apply_suggestions, { label_id: label1.id, team_id: -1 })
+      service.send(:apply_suggestions, { label_ids: [label1.id], team_id: -1 })
       conversation.reload
 
       expect(conversation.label_list.to_a).to include('billing')
       expect(conversation.team_id).to be_nil
     end
 
-    it 'does not apply label when conversation already has labels' do
-      conversation.label_list.add('existing')
+    it 'does not apply label when conversation already has max labels' do
+      conversation.label_list.add('existing-1', 'existing-2')
       conversation.save!
       svc = described_class.new(conversation)
 
-      svc.send(:apply_suggestions, { label_id: label1.id, team_id: team1.id })
+      svc.send(:apply_suggestions, { label_ids: [label1.id], team_id: team1.id })
       conversation.reload
 
-      expect(conversation.label_list.to_a).to eq(['existing'])
+      expect(conversation.label_list.to_a).to match_array(%w[existing-1 existing-2])
       expect(conversation.team_id).to eq(team1.id)
     end
 
@@ -464,7 +464,7 @@ RSpec.describe Conversations::AutoAssignService, type: :service do
       conversation.update!(team: team2)
       svc = described_class.new(conversation)
 
-      svc.send(:apply_suggestions, { label_id: label1.id, team_id: team1.id })
+      svc.send(:apply_suggestions, { label_ids: [label1.id], team_id: team1.id })
       conversation.reload
 
       expect(conversation.label_list.to_a).to include('billing')
@@ -473,12 +473,31 @@ RSpec.describe Conversations::AutoAssignService, type: :service do
 
     it 'handles a real RubyLLM::Agents::Result content structure with symbol keys' do
       # Simulate what process_response actually returns: symbol keys
-      result = RubyLLM::Agents::Result.new(content: { label_id: label1.id, team_id: team1.id })
+      result = RubyLLM::Agents::Result.new(content: { label_ids: [label1.id], team_id: team1.id })
       service.send(:apply_suggestions, result.content)
       conversation.reload
 
       expect(conversation.label_list.to_a).to include('billing')
       expect(conversation.team_id).to eq(team1.id)
+    end
+
+    it 'applies up to 2 labels when agent suggests 2' do
+      service.send(:apply_suggestions, { label_ids: [label1.id, label2.id], team_id: nil })
+      conversation.reload
+
+      expect(conversation.label_list.to_a).to match_array(%w[billing support])
+    end
+
+    it 'adds only 1 more label when conversation already has 1' do
+      conversation.label_list.add('existing')
+      conversation.save!
+      svc = described_class.new(conversation)
+
+      svc.send(:apply_suggestions, { label_ids: [label1.id, label2.id], team_id: nil })
+      conversation.reload
+
+      expect(conversation.label_list.size).to eq(2)
+      expect(conversation.label_list.to_a).to include('existing')
     end
   end
 
@@ -493,6 +512,10 @@ RSpec.describe Conversations::AutoAssignService, type: :service do
 
     it 'has MIN_MESSAGES_MULTI set to 2' do
       expect(described_class::MIN_MESSAGES_MULTI).to eq(2)
+    end
+
+    it 'has MAX_AUTO_LABELS set to 2' do
+      expect(described_class::MAX_AUTO_LABELS).to eq(2)
     end
   end
 end

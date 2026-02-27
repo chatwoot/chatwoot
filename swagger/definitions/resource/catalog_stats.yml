@@ -1,0 +1,61 @@
+type: object
+properties:
+  products:
+    type: object
+    properties:
+      total:
+        type: integer
+        description: Total number of products
+      in_stock:
+        type: integer
+        description: Products with available stock
+      out_of_stock:
+        type: integer
+        description: Products with zero stock
+  orders:
+    type: object
+    properties:
+      total:
+        type: integer
+        description: Total number of orders
+      paid:
+        type: integer
+        description: Number of paid orders
+      pending:
+        type: integer
+        description: Number of pending orders
+      initiated:
+        type: integer
+        description: Number of initiated orders
+      failed:
+        type: integer
+        description: Number of failed orders
+      cancelled:
+        type: integer
+        description: Number of cancelled orders
+      total_revenue:
+        type: number
+        format: decimal
+        description: Total revenue from paid orders
+  payment_links:
+    type: object
+    properties:
+      total:
+        type: integer
+        description: Total number of payment links
+      paid:
+        type: integer
+        description: Number of paid payment links
+      pending:
+        type: integer
+        description: Number of pending payment links
+      initiated:
+        type: integer
+        description: Number of initiated payment links
+      total_revenue:
+        type: number
+        format: decimal
+        description: Total revenue from paid payment links
+  currency:
+    type: string
+    description: Account's configured catalog currency

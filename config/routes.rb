@@ -45,8 +45,8 @@ Rails.application.routes.draw do
   get 'payment/success', to: 'payment#success', as: :payment_success
   get 'payment/failure', to: 'payment#failure', as: :payment_failure
 
-  # Public cart preview page
-  get 'cart/:id', to: 'cart#show', as: :cart_preview
+  # Public order preview page
+  get 'order/:id', to: 'order#show', as: :order_preview
 
   # Public storefront
   scope '/store/:account_id', as: :storefront, module: :storefront do
@@ -187,7 +187,7 @@ Rails.application.routes.draw do
               resources :assignments, only: [:create]
               resources :labels, only: [:create, :index]
               resources :payment_links, only: [:create]
-              resources :carts, only: [:create]
+              resources :orders, only: [:create]
               resources :catalog_items, only: [:create]
               resource :participants, only: [:show, :create, :update, :destroy]
               resource :direct_uploads, only: [:create]
@@ -244,17 +244,24 @@ Rails.application.routes.draw do
               post :call, on: :member, to: 'calls#create' if ChatwootApp.enterprise?
             end
           end
-          resources :payment_links, only: [:index] do
+          resources :payment_links, only: [:index, :show, :create] do
             collection do
               get :search
               post :filter
               post :export
             end
+            member do
+              patch :cancel
+            end
           end
-          resources :carts, only: [:index] do
+          resources :orders, only: [:index, :show] do
             collection do
               get :search
             end
+            member do
+              patch :cancel
+            end
+            resources :order_notes, only: [:index, :create, :destroy]
           end
           resources :csat_survey_responses, only: [:index] do
             collection do
@@ -296,6 +303,7 @@ Rails.application.routes.draw do
           end
           resources :labels, only: [:index, :show, :create, :update, :destroy]
           resources :products, only: [:index, :show, :create, :update, :destroy]
+          resource :catalog_stats, only: [:show], controller: 'catalog_stats'
           resources :storefront_links, only: [:create] do
             post :preview, on: :collection
           end

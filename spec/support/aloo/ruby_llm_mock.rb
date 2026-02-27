@@ -65,7 +65,7 @@ module Aloo
       when 'MemoryExtractorAgent'
         { memories: [] }
       when 'ConversationTriageAgent'
-        { label_id: nil, team_id: nil }
+        { label_ids: [], team_id: nil }
       else
         'Default response'
       end

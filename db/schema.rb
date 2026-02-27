@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_02_18_210736) do
+ActiveRecord::Schema[7.1].define(version: 2026_02_27_000250) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -216,8 +216,6 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_18_210736) do
     t.string "emoji_usage", default: "minimal"
     t.string "greeting_style", default: "warm"
     t.text "custom_greeting"
-    t.string "language", default: "en"
-    t.string "dialect"
     t.text "personality_description"
     t.text "system_prompt"
     t.text "response_guidelines"
@@ -250,8 +248,11 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_18_210736) do
     t.boolean "auto_refresh", default: false, null: false
     t.datetime "last_refreshed_at"
     t.datetime "next_refresh_at"
+    t.bigint "article_id"
     t.index ["account_id"], name: "index_aloo_documents_on_account_id"
+    t.index ["aloo_assistant_id", "article_id"], name: "index_aloo_documents_on_assistant_and_article", unique: true, where: "(article_id IS NOT NULL)"
     t.index ["aloo_assistant_id"], name: "index_aloo_documents_on_aloo_assistant_id"
+    t.index ["article_id"], name: "index_aloo_documents_on_article_id"
     t.index ["auto_refresh"], name: "index_aloo_documents_on_auto_refresh"
     t.index ["next_refresh_at"], name: "index_aloo_documents_on_next_refresh_at", where: "(auto_refresh = true)"
   end
@@ -409,46 +410,6 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_18_210736) do
     t.text "content"
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
-  end
-
-  create_table "cart_items", force: :cascade do |t|
-    t.bigint "cart_id", null: false
-    t.bigint "product_id", null: false
-    t.integer "quantity", default: 1, null: false
-    t.decimal "unit_price", precision: 10, scale: 2, null: false
-    t.decimal "total_price", precision: 10, scale: 2, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["cart_id", "product_id"], name: "index_cart_items_on_cart_id_and_product_id", unique: true
-    t.index ["cart_id"], name: "index_cart_items_on_cart_id"
-    t.index ["product_id"], name: "index_cart_items_on_product_id"
-  end
-
-  create_table "carts", force: :cascade do |t|
-    t.bigint "account_id", null: false
-    t.bigint "conversation_id", null: false
-    t.bigint "message_id"
-    t.bigint "contact_id", null: false
-    t.bigint "created_by_id"
-    t.string "external_payment_id"
-    t.string "payment_url"
-    t.string "provider", null: false
-    t.decimal "subtotal", precision: 10, scale: 2, null: false
-    t.decimal "total", precision: 10, scale: 2, null: false
-    t.string "currency", null: false
-    t.integer "status", default: 0, null: false
-    t.jsonb "payload", default: {}, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "created_by_type", default: "User"
-    t.index ["account_id"], name: "index_carts_on_account_id"
-    t.index ["contact_id"], name: "index_carts_on_contact_id"
-    t.index ["conversation_id"], name: "index_carts_on_conversation_id"
-    t.index ["created_by_id"], name: "index_carts_on_created_by_id"
-    t.index ["created_by_type", "created_by_id"], name: "index_carts_on_created_by"
-    t.index ["external_payment_id"], name: "index_carts_on_external_payment_id", unique: true
-    t.index ["message_id"], name: "index_carts_on_message_id"
-    t.index ["status"], name: "index_carts_on_status"
   end
 
   create_table "categories", force: :cascade do |t|
@@ -1098,6 +1059,59 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_18_210736) do
     t.index ["user_id"], name: "index_notifications_on_user_id"
   end
 
+  create_table "order_items", force: :cascade do |t|
+    t.bigint "order_id", null: false
+    t.bigint "product_id", null: false
+    t.integer "quantity", default: 1, null: false
+    t.decimal "unit_price", precision: 10, scale: 2, null: false
+    t.decimal "total_price", precision: 10, scale: 2, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["order_id", "product_id"], name: "index_order_items_on_order_id_and_product_id", unique: true
+    t.index ["order_id"], name: "index_order_items_on_order_id"
+    t.index ["product_id"], name: "index_order_items_on_product_id"
+  end
+
+  create_table "order_notes", force: :cascade do |t|
+    t.text "content", null: false
+    t.bigint "account_id", null: false
+    t.bigint "order_id", null: false
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_order_notes_on_account_id"
+    t.index ["order_id"], name: "index_order_notes_on_order_id"
+    t.index ["user_id"], name: "index_order_notes_on_user_id"
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "conversation_id", null: false
+    t.bigint "message_id"
+    t.bigint "contact_id", null: false
+    t.bigint "created_by_id"
+    t.string "external_payment_id"
+    t.string "payment_url"
+    t.string "provider", null: false
+    t.decimal "subtotal", precision: 10, scale: 2, null: false
+    t.decimal "total", precision: 10, scale: 2, null: false
+    t.string "currency", null: false
+    t.integer "status", default: 0, null: false
+    t.jsonb "payload", default: {}, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "created_by_type", default: "User"
+    t.jsonb "delivery_address", default: {}
+    t.index ["account_id"], name: "index_orders_on_account_id"
+    t.index ["contact_id"], name: "index_orders_on_contact_id"
+    t.index ["conversation_id"], name: "index_orders_on_conversation_id"
+    t.index ["created_by_id"], name: "index_orders_on_created_by_id"
+    t.index ["created_by_type", "created_by_id"], name: "index_carts_on_created_by"
+    t.index ["external_payment_id"], name: "index_orders_on_external_payment_id", unique: true
+    t.index ["message_id"], name: "index_orders_on_message_id"
+    t.index ["status"], name: "index_orders_on_status"
+  end
+
   create_table "payment_links", force: :cascade do |t|
     t.bigint "account_id", null: false
     t.bigint "conversation_id", null: false
@@ -1298,6 +1312,18 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_18_210736) do
     t.boolean "inherit_global_defaults", default: true
     t.boolean "active", default: true
     t.json "metadata", default: {}, null: false
+    t.decimal "daily_cost_spent", precision: 12, scale: 6, default: "0.0", null: false
+    t.decimal "monthly_cost_spent", precision: 12, scale: 6, default: "0.0", null: false
+    t.bigint "daily_tokens_used", default: 0, null: false
+    t.bigint "monthly_tokens_used", default: 0, null: false
+    t.bigint "daily_executions_count", default: 0, null: false
+    t.bigint "monthly_executions_count", default: 0, null: false
+    t.bigint "daily_error_count", default: 0, null: false
+    t.bigint "monthly_error_count", default: 0, null: false
+    t.datetime "last_execution_at"
+    t.string "last_execution_status"
+    t.date "daily_reset_date"
+    t.date "monthly_reset_date"
     t.index ["active"], name: "index_ruby_llm_agents_tenants_on_active"
     t.index ["tenant_id"], name: "index_ruby_llm_agents_tenants_on_tenant_id", unique: true
     t.index ["tenant_record_type", "tenant_record_id"], name: "idx_tenant_budgets_on_tenant_record"
@@ -1485,13 +1511,13 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_18_210736) do
   add_foreign_key "aloo_embeddings", "accounts"
   add_foreign_key "aloo_embeddings", "aloo_assistants"
   add_foreign_key "aloo_embeddings", "aloo_documents"
-  add_foreign_key "cart_items", "carts"
-  add_foreign_key "cart_items", "products"
-  add_foreign_key "carts", "accounts"
-  add_foreign_key "carts", "contacts"
-  add_foreign_key "carts", "conversations"
-  add_foreign_key "carts", "messages"
   add_foreign_key "inboxes", "portals"
+  add_foreign_key "order_items", "orders"
+  add_foreign_key "order_items", "products"
+  add_foreign_key "orders", "accounts"
+  add_foreign_key "orders", "contacts"
+  add_foreign_key "orders", "conversations"
+  add_foreign_key "orders", "messages"
   add_foreign_key "payment_links", "accounts"
   add_foreign_key "payment_links", "contacts"
   add_foreign_key "payment_links", "conversations"

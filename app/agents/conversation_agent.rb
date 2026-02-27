@@ -15,6 +15,7 @@ class ConversationAgent < ApplicationAgent
   include Guardrails
   include ResponsePolicies
   include CatalogSupport
+  include PaymentLinkSupport
   include CalendlySupport
   include LanguageSupport
   include PersonalitySupport
@@ -23,11 +24,11 @@ class ConversationAgent < ApplicationAgent
   description 'Responds to customer messages using knowledge base and tools'
 
   model 'gpt-4.1'
-  temperature 0.7
+  temperature 0.6
   timeout 60
 
   on_failure do
-    fallback to: ['gemini-2.5-flash', 'claude-haiku-4-5']
+    fallback to: ['gemini-2.5-flash', 'gpt-4.1-mini']
   end
 
   param :message, required: true
@@ -67,6 +68,7 @@ class ConversationAgent < ApplicationAgent
     available_tools = [KnowledgeLookupTool, PrivateNoteTool]
     available_tools.concat(feature_gated_tools)
     available_tools.concat(catalog_tools)
+    available_tools.concat(payment_link_tools)
     available_tools << ExecuteMacroTool if current_assistant&.feature_macros_enabled? && macros_available?
     available_tools.concat(calendly_tools)
   end
@@ -101,8 +103,9 @@ class ConversationAgent < ApplicationAgent
 
   def content_prompt_sections
     [custom_instructions_section, personality_section, catalog_instructions,
-     macros_section, conversation_closing_section, risk_awareness_section,
-     human_handoff_section, conversation_context_info]
+     payment_link_instructions, calendly_instructions, macros_section,
+     conversation_closing_section, risk_awareness_section, human_handoff_section,
+     conversation_context_info]
   end
 
   def base_instructions

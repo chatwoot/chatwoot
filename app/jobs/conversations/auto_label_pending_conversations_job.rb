@@ -20,7 +20,7 @@ class Conversations::AutoLabelPendingConversationsJob < ApplicationJob
   def conversations_to_process
     base = Conversation
            .where(status: Conversation.statuses[:open])
-           .where(cached_label_list: [nil, ''])
+           .where("cached_label_list IS NULL OR cached_label_list = '' OR cached_label_list NOT LIKE '%,%'")
            .where(created_at: 24.hours.ago..)
            .joins(:messages)
            .where(messages: { message_type: Message.message_types[:incoming] })

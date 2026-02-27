@@ -633,6 +633,115 @@
   get:
     $ref: './application/reports/conversation/agent.yml'
 
+# Orders
+/api/v1/accounts/{account_id}/orders:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+  get:
+    $ref: ./application/orders/index.yml
+/api/v1/accounts/{account_id}/orders/{id}:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+    - name: id
+      in: path
+      schema:
+        type: integer
+      description: ID of the order
+      required: true
+  get:
+    $ref: ./application/orders/show.yml
+/api/v1/accounts/{account_id}/orders/search:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+  get:
+    $ref: ./application/orders/search.yml
+/api/v1/accounts/{account_id}/orders/{id}/cancel:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+    - name: id
+      in: path
+      schema:
+        type: integer
+      description: ID of the order
+      required: true
+  patch:
+    $ref: ./application/orders/cancel.yml
+
+# Order Notes
+/api/v1/accounts/{account_id}/orders/{order_id}/order_notes:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+    - name: order_id
+      in: path
+      schema:
+        type: integer
+      description: ID of the order
+      required: true
+  get:
+    $ref: ./application/orders/notes_index.yml
+  post:
+    $ref: ./application/orders/notes_create.yml
+/api/v1/accounts/{account_id}/orders/{order_id}/order_notes/{id}:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+    - name: order_id
+      in: path
+      schema:
+        type: integer
+      description: ID of the order
+      required: true
+    - name: id
+      in: path
+      schema:
+        type: integer
+      description: ID of the note
+      required: true
+  delete:
+    $ref: ./application/orders/notes_delete.yml
+
+# Payment Links
+/api/v1/accounts/{account_id}/payment_links:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+  get:
+    $ref: ./application/payment_links/index.yml
+  post:
+    $ref: ./application/payment_links/create.yml
+/api/v1/accounts/{account_id}/payment_links/{id}:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+    - name: id
+      in: path
+      schema:
+        type: integer
+      description: ID of the payment link
+      required: true
+  get:
+    $ref: ./application/payment_links/show.yml
+/api/v1/accounts/{account_id}/payment_links/search:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+  get:
+    $ref: ./application/payment_links/search.yml
+/api/v1/accounts/{account_id}/payment_links/{id}/cancel:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+    - name: id
+      in: path
+      schema:
+        type: integer
+      description: ID of the payment link
+      required: true
+  patch:
+    $ref: ./application/payment_links/cancel.yml
+
+# Catalog Stats
+/api/v1/accounts/{account_id}/catalog_stats:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+  get:
+    $ref: ./application/catalog_stats/show.yml
+
 # Conversations Messages
 /accounts/{account_id}/conversations/{conversation_id}/messages:
   parameters:

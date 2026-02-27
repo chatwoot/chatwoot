@@ -45,6 +45,7 @@ class Message < ApplicationRecord
   include MessageFilterHelpers
   include Liquidable
   NUMBER_OF_PERMITTED_ATTACHMENTS = 15
+  LLM_ATTACHMENT_TYPES = %i[image file].freeze
 
   TEMPLATE_PARAMS_SCHEMA = {
     'type': 'object',
@@ -270,7 +271,18 @@ class Message < ApplicationRecord
                           .presence
     return "[Voice Message] #{audio_transcription}" if audio_transcription.present?
 
+    return '[The customer sent an image]' if attachments.exists?(file_type: :image)
+    return '[The customer sent a file]' if attachments.exists?(file_type: :file)
+
     '[Attachment]' if attachments.any?
+  end
+
+  # Returns ActiveStorage blobs for image/file attachments suitable for LLM vision/document analysis.
+  # Passing blobs directly avoids URL expiration (Instagram CDN) and unreachable host issues (localhost signed URLs).
+  def attachments_for_llm
+    attachments
+      .where(file_type: LLM_ATTACHMENT_TYPES)
+      .filter_map { |att| att.file.blob if att.file.attached? }
   end
 
   private

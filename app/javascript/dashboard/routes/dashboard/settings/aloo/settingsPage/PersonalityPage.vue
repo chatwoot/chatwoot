@@ -63,44 +63,6 @@ const greetingStyleOptions = computed(() => [
 const showCustomGreeting = computed(
   () => props.assistant.greeting_style === 'custom'
 );
-
-const languageOptions = computed(() => [
-  { value: 'en', label: t('ALOO.FORM.LANGUAGE.OPTIONS.EN') },
-  { value: 'ar', label: t('ALOO.FORM.LANGUAGE.OPTIONS.AR') },
-  { value: 'fr', label: t('ALOO.FORM.LANGUAGE.OPTIONS.FR') },
-  { value: 'es', label: t('ALOO.FORM.LANGUAGE.OPTIONS.ES') },
-  { value: 'de', label: t('ALOO.FORM.LANGUAGE.OPTIONS.DE') },
-  { value: 'pt', label: t('ALOO.FORM.LANGUAGE.OPTIONS.PT') },
-  { value: 'it', label: t('ALOO.FORM.LANGUAGE.OPTIONS.IT') },
-  { value: 'nl', label: t('ALOO.FORM.LANGUAGE.OPTIONS.NL') },
-  { value: 'ru', label: t('ALOO.FORM.LANGUAGE.OPTIONS.RU') },
-  { value: 'ja', label: t('ALOO.FORM.LANGUAGE.OPTIONS.JA') },
-  { value: 'ko', label: t('ALOO.FORM.LANGUAGE.OPTIONS.KO') },
-  { value: 'zh', label: t('ALOO.FORM.LANGUAGE.OPTIONS.ZH') },
-]);
-
-const dialectOptions = computed(() => [
-  { value: 'EG', label: t('ALOO.FORM.DIALECT.OPTIONS.EG') },
-  { value: 'SA', label: t('ALOO.FORM.DIALECT.OPTIONS.SA') },
-  { value: 'AE', label: t('ALOO.FORM.DIALECT.OPTIONS.AE') },
-  { value: 'KW', label: t('ALOO.FORM.DIALECT.OPTIONS.KW') },
-  { value: 'QA', label: t('ALOO.FORM.DIALECT.OPTIONS.QA') },
-  { value: 'BH', label: t('ALOO.FORM.DIALECT.OPTIONS.BH') },
-  { value: 'OM', label: t('ALOO.FORM.DIALECT.OPTIONS.OM') },
-  { value: 'JO', label: t('ALOO.FORM.DIALECT.OPTIONS.JO') },
-  { value: 'LB', label: t('ALOO.FORM.DIALECT.OPTIONS.LB') },
-  { value: 'SY', label: t('ALOO.FORM.DIALECT.OPTIONS.SY') },
-  { value: 'IQ', label: t('ALOO.FORM.DIALECT.OPTIONS.IQ') },
-  { value: 'MA', label: t('ALOO.FORM.DIALECT.OPTIONS.MA') },
-  { value: 'TN', label: t('ALOO.FORM.DIALECT.OPTIONS.TN') },
-  { value: 'DZ', label: t('ALOO.FORM.DIALECT.OPTIONS.DZ') },
-  { value: 'LY', label: t('ALOO.FORM.DIALECT.OPTIONS.LY') },
-  { value: 'SD', label: t('ALOO.FORM.DIALECT.OPTIONS.SD') },
-  { value: 'PS', label: t('ALOO.FORM.DIALECT.OPTIONS.PS') },
-  { value: 'MSA', label: t('ALOO.FORM.DIALECT.OPTIONS.MSA') },
-]);
-
-const showDialect = computed(() => props.assistant.language === 'ar');
 </script>
 
 <template>
@@ -208,37 +170,6 @@ const showDialect = computed(() => props.assistant.language === 'ar');
             rows="2"
             @input="updateField('custom_greeting', $event.target.value)"
           />
-        </label>
-        <label>
-          {{ $t('ALOO.FORM.LANGUAGE.LABEL') }}
-          <select
-            :value="assistant.language"
-            @change="updateField('language', $event.target.value)"
-          >
-            <option
-              v-for="option in languageOptions"
-              :key="option.value"
-              :value="option.value"
-            >
-              {{ option.label }}
-            </option>
-          </select>
-        </label>
-        <label v-if="showDialect">
-          {{ $t('ALOO.FORM.DIALECT.LABEL') }}
-          <select
-            :value="assistant.dialect"
-            @change="updateField('dialect', $event.target.value)"
-          >
-            <option value="">{{ $t('ALOO.FORM.DIALECT.PLACEHOLDER') }}</option>
-            <option
-              v-for="option in dialectOptions"
-              :key="option.value"
-              :value="option.value"
-            >
-              {{ option.label }}
-            </option>
-          </select>
         </label>
         <label class="md:col-span-2">
           {{ $t('ALOO.FORM.PERSONALITY_DESCRIPTION.LABEL') }}

@@ -102,7 +102,7 @@ class User < ApplicationRecord
   alias_attribute :conversations, :assigned_conversations
   has_many :csat_survey_responses, foreign_key: 'assigned_agent_id', dependent: :nullify, inverse_of: :assigned_agent
   has_many :created_payment_links, foreign_key: 'created_by_id', class_name: 'PaymentLink', dependent: :nullify, inverse_of: :created_by
-  has_many :created_carts, as: :created_by, class_name: 'Cart', dependent: :nullify
+  has_many :created_orders, as: :created_by, class_name: 'Order', dependent: :nullify
   has_many :conversation_participants, dependent: :destroy_async
   has_many :participating_conversations, through: :conversation_participants, source: :conversation
 

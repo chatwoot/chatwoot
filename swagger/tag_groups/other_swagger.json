@@ -15,7 +15,16 @@
   },
   "servers": [
     {
-      "url": "https://cx.aloochat.ai/"
+      "url": "https://staging.cx.aloochat.ai",
+      "description": "Staging"
+    },
+    {
+      "url": "http://localhost:3000",
+      "description": "Local Development"
+    },
+    {
+      "url": "https://cx.aloochat.ai",
+      "description": "Production"
     }
   ],
   "paths": {
@@ -1907,6 +1916,384 @@
           }
         }
       },
+      "order": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "The ID of the order"
+          },
+          "external_payment_id": {
+            "type": "string",
+            "description": "The external payment reference ID"
+          },
+          "payment_url": {
+            "type": "string",
+            "description": "URL to complete payment"
+          },
+          "preview_url": {
+            "type": "string",
+            "description": "URL to preview the order"
+          },
+          "provider": {
+            "type": "string",
+            "description": "Payment provider (tap, payzah)"
+          },
+          "subtotal": {
+            "type": "number",
+            "format": "decimal",
+            "description": "Order subtotal before fees"
+          },
+          "total": {
+            "type": "number",
+            "format": "decimal",
+            "description": "Order total amount"
+          },
+          "currency": {
+            "type": "string",
+            "description": "Currency code (e.g., KWD, SAR)"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "initiated",
+              "pending",
+              "paid",
+              "failed",
+              "expired",
+              "cancelled"
+            ],
+            "description": "Current order status"
+          },
+          "delivery_address": {
+            "type": "string",
+            "description": "Delivery address if provided"
+          },
+          "paid_at": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "Timestamp when the order was paid"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "contact": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "name": {
+                "type": "string"
+              },
+              "email": {
+                "type": "string"
+              },
+              "phone_number": {
+                "type": "string"
+              }
+            }
+          },
+          "created_by": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "name": {
+                "type": "string"
+              },
+              "email": {
+                "type": "string"
+              }
+            }
+          },
+          "conversation": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "display_id": {
+                "type": "integer"
+              }
+            }
+          },
+          "items_count": {
+            "type": "integer",
+            "description": "Number of items in the order"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer"
+                },
+                "quantity": {
+                  "type": "integer"
+                },
+                "unit_price": {
+                  "type": "number",
+                  "format": "decimal"
+                },
+                "total_price": {
+                  "type": "number",
+                  "format": "decimal"
+                },
+                "product": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "title_en": {
+                      "type": "string"
+                    },
+                    "title_ar": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "order_note": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "The ID of the note"
+          },
+          "content": {
+            "type": "string",
+            "description": "The note content"
+          },
+          "order_id": {
+            "type": "integer",
+            "description": "The ID of the associated order"
+          },
+          "user": {
+            "type": "object",
+            "description": "The agent who created the note",
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "name": {
+                "type": "string"
+              },
+              "email": {
+                "type": "string"
+              },
+              "avatar_url": {
+                "type": "string"
+              }
+            }
+          },
+          "created_at": {
+            "type": "integer",
+            "description": "Unix timestamp of creation"
+          },
+          "updated_at": {
+            "type": "integer",
+            "description": "Unix timestamp of last update"
+          }
+        }
+      },
+      "payment_link": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "The ID of the payment link"
+          },
+          "external_payment_id": {
+            "type": "string",
+            "description": "The external payment reference ID"
+          },
+          "payment_url": {
+            "type": "string",
+            "description": "URL to complete payment"
+          },
+          "provider": {
+            "type": "string",
+            "description": "Payment provider (tap, payzah)"
+          },
+          "amount": {
+            "type": "number",
+            "format": "decimal",
+            "description": "Payment amount"
+          },
+          "currency": {
+            "type": "string",
+            "description": "Currency code (e.g., KWD, SAR)"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "initiated",
+              "pending",
+              "paid",
+              "failed",
+              "expired",
+              "cancelled"
+            ],
+            "description": "Current payment link status"
+          },
+          "paid_at": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "Timestamp when the payment was completed"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "contact": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "name": {
+                "type": "string"
+              },
+              "email": {
+                "type": "string"
+              },
+              "phone_number": {
+                "type": "string"
+              }
+            }
+          },
+          "created_by": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "name": {
+                "type": "string"
+              },
+              "email": {
+                "type": "string"
+              }
+            }
+          },
+          "conversation": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "display_id": {
+                "type": "integer"
+              }
+            }
+          }
+        }
+      },
+      "catalog_stats": {
+        "type": "object",
+        "properties": {
+          "products": {
+            "type": "object",
+            "properties": {
+              "total": {
+                "type": "integer",
+                "description": "Total number of products"
+              },
+              "in_stock": {
+                "type": "integer",
+                "description": "Products with available stock"
+              },
+              "out_of_stock": {
+                "type": "integer",
+                "description": "Products with zero stock"
+              }
+            }
+          },
+          "orders": {
+            "type": "object",
+            "properties": {
+              "total": {
+                "type": "integer",
+                "description": "Total number of orders"
+              },
+              "paid": {
+                "type": "integer",
+                "description": "Number of paid orders"
+              },
+              "pending": {
+                "type": "integer",
+                "description": "Number of pending orders"
+              },
+              "initiated": {
+                "type": "integer",
+                "description": "Number of initiated orders"
+              },
+              "failed": {
+                "type": "integer",
+                "description": "Number of failed orders"
+              },
+              "cancelled": {
+                "type": "integer",
+                "description": "Number of cancelled orders"
+              },
+              "total_revenue": {
+                "type": "number",
+                "format": "decimal",
+                "description": "Total revenue from paid orders"
+              }
+            }
+          },
+          "payment_links": {
+            "type": "object",
+            "properties": {
+              "total": {
+                "type": "integer",
+                "description": "Total number of payment links"
+              },
+              "paid": {
+                "type": "integer",
+                "description": "Number of paid payment links"
+              },
+              "pending": {
+                "type": "integer",
+                "description": "Number of pending payment links"
+              },
+              "initiated": {
+                "type": "integer",
+                "description": "Number of initiated payment links"
+              },
+              "total_revenue": {
+                "type": "number",
+                "format": "decimal",
+                "description": "Total revenue from paid payment links"
+              }
+            }
+          },
+          "currency": {
+            "type": "string",
+            "description": "Account's configured catalog currency"
+          }
+        }
+      },
       "account_create_update_payload": {
         "type": "object",
         "properties": {
@@ -2996,6 +3383,57 @@
             "type": "object",
             "description": "The settings required by the integration",
             "example": {}
+          }
+        }
+      },
+      "order_note_create_payload": {
+        "type": "object",
+        "required": [
+          "order_note"
+        ],
+        "properties": {
+          "order_note": {
+            "type": "object",
+            "required": [
+              "content"
+            ],
+            "properties": {
+              "content": {
+                "type": "string",
+                "description": "The note content"
+              }
+            }
+          }
+        }
+      },
+      "payment_link_create_payload": {
+        "type": "object",
+        "required": [
+          "conversation_id",
+          "amount"
+        ],
+        "properties": {
+          "conversation_id": {
+            "type": "integer",
+            "description": "The ID of the conversation to associate the payment link with"
+          },
+          "amount": {
+            "type": "number",
+            "format": "decimal",
+            "description": "The payment amount"
+          },
+          "currency": {
+            "type": "string",
+            "description": "Currency code (defaults from account payment link settings)",
+            "example": "KWD"
+          },
+          "provider": {
+            "type": "string",
+            "description": "Payment provider (defaults from account settings)",
+            "enum": [
+              "tap",
+              "payzah"
+            ]
           }
         }
       },
@@ -4797,6 +5235,10 @@
         "Teams",
         "Webhooks",
         "Automation Rule",
+        "Orders",
+        "Order Notes",
+        "Payment Links",
+        "Catalog",
         "Help Center"
       ]
     },

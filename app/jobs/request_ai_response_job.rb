@@ -738,7 +738,7 @@ class RequestAiResponseJob < ApplicationJob
     return unless inbox.channel_type == 'Channel::Whatsapp'
 
     channel = inbox.channel
-    return unless channel.respond_to?(:provider_name) && channel.provider_name == 'whatsapp_cloud'
+    return unless channel.provider == 'whatsapp_cloud'
 
     phone_number = conversation.contact_inbox.source_id
     return if phone_number.blank?
