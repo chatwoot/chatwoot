@@ -42,6 +42,8 @@ class Tap::CreateInvoiceService
 
   def invoice_params
     {
+      mode: 'INVOICE',
+      currencies: [currency.to_s.upcase],
       due: due_timestamp,
       expiry: expiry_timestamp,
       reference: {
