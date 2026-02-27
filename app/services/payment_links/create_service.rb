@@ -128,7 +128,6 @@ class PaymentLinks::CreateService
   def update_with_payzah_data(payment_link, payzah_response)
     payment_link.update!(
       payment_url: payzah_response['transit_url'],
-      external_payment_id: payzah_response['PaymentID'],
       status: :pending,
       payload: payment_link.payload.merge(
         payzah_payment_id: payzah_response['PaymentID'],
