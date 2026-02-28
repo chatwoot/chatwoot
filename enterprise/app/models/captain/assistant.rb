@@ -37,6 +37,7 @@ class Captain::Assistant < ApplicationRecord
   has_many :scenarios, class_name: 'Captain::Scenario', dependent: :destroy_async
 
   store_accessor :config, :temperature, :feature_faq, :feature_memory, :product_name
+  SHOPIFY_TOOL_IDS = %w[shopify_search_products shopify_get_orders].freeze
 
   validates :name, presence: true
   validates :description, presence: true
@@ -52,6 +53,7 @@ class Captain::Assistant < ApplicationRecord
 
   def available_agent_tools
     tools = self.class.built_in_agent_tools.dup
+    tools = filter_shopify_tool_metadata(tools)
 
     custom_tools = account.captain_custom_tools.enabled.map(&:to_tool_metadata)
     tools.concat(custom_tools)
@@ -92,10 +94,25 @@ class Captain::Assistant < ApplicationRecord
   end
 
   def agent_tools
-    [
+    tools = [
       self.class.resolve_tool_class('faq_lookup').new(self),
       self.class.resolve_tool_class('handoff').new(self)
     ]
+
+    if shopify_tools_enabled_for_v2?
+      tools.concat(
+        SHOPIFY_TOOL_IDS.filter_map do |tool_id|
+          tool_class = self.class.resolve_tool_class(tool_id)
+          tool_class&.new(self)
+        end
+      )
+    end
+
+    tools
+  end
+
+  def shopify_tools_enabled_for_v2?
+    account.feature_enabled?('captain_integration_v2') && shopify_connected?
   end
 
   def prompt_context
@@ -117,5 +134,15 @@ class Captain::Assistant < ApplicationRecord
 
   def default_avatar_url
     "#{ENV.fetch('FRONTEND_URL', nil)}/assets/images/dashboard/captain/logo.svg"
+  end
+
+  def filter_shopify_tool_metadata(tools)
+    return tools if shopify_tools_enabled_for_v2?
+
+    tools.reject { |tool| SHOPIFY_TOOL_IDS.include?(tool[:id]) }
+  end
+
+  def shopify_connected?
+    Integrations::Hook.exists?(account_id: account_id, app_id: 'shopify', status: :enabled)
   end
 end
