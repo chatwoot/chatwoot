@@ -4,12 +4,23 @@ module Whatsapp::IncomingMessageServiceHelpers
   end
 
   def conversation_params
-    {
+    params = {
       account_id: @inbox.account_id,
       inbox_id: @inbox.id,
       contact_id: @contact.id,
       contact_inbox_id: @contact_inbox.id
     }
+
+    # capture referral information provided by Meta/WhatsApp
+    # this is useful for attribution (e.g. ad IDs) and is stored
+    # on the conversation so it can be queried later.
+    if messages_data&.first&.dig(:referral).present?
+      params[:custom_attributes] = {
+        'whatsapp_referral' => messages_data.first[:referral]
+      }
+    end
+
+    params
   end
 
   def processed_params

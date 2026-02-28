@@ -122,7 +122,21 @@ class Whatsapp::IncomingMessageBaseService
                     else
                       conversations.where.not(status: :resolved).last
                     end
-    return if @conversation
+
+    if @conversation
+      # if referral metadata is present on the incoming message we store it
+      # on the conversation unless already persisted. this handles the case
+      # where a conversation already existed before we received a referral
+      if messages_data.first[:referral].present?
+        attrs = @conversation.custom_attributes || {}
+        if attrs['whatsapp_referral'].blank?
+          attrs['whatsapp_referral'] = messages_data.first[:referral]
+          @conversation.update!(custom_attributes: attrs)
+        end
+      end
+
+      return
+    end
 
     @conversation = ::Conversation.create!(conversation_params)
   end
