@@ -62,7 +62,7 @@ const handleAfterCreate = newAssistant => {
         :hide-actions="!isOnChatwootCloud"
         fallback-thumbnail="/assets/images/dashboard/captain/assistant-popover-light.svg"
         fallback-thumbnail-dark="/assets/images/dashboard/captain/assistant-popover-dark.svg"
-        learn-more-url="https://chwt.app/captain-assistant"
+        learn-more-url="crafty.app/captain-assistant"
       />
     </template>
     <template #emptyState>

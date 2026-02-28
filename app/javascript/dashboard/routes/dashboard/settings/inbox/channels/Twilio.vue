@@ -6,12 +6,14 @@ import { useAlert } from 'dashboard/composables';
 import { required } from '@vuelidate/validators';
 import router from '../../../../index';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import Checkbox from 'dashboard/components-next/checkbox/Checkbox.vue';
 import { isPhoneE164OrEmpty } from 'shared/helpers/Validators';
 import { parseAPIErrorResponse } from 'dashboard/store/utils/api';
 
 export default {
   components: {
     NextButton,
+    Checkbox,
   },
   props: {
     type: {
@@ -169,13 +171,8 @@ export default {
     </div>
 
     <div class="max-w-[65%] w-full messagingServiceHelptext">
-      <label for="useMessagingService">
-        <input
-          id="useMessagingService"
-          v-model="useMessagingService"
-          type="checkbox"
-          class="checkbox"
-        />
+      <label class="flex items-center gap-2">
+        <Checkbox v-model="useMessagingService" />
         {{
           $t(
             'INBOX_MGMT.ADD.TWILIO.MESSAGING_SERVICE_SID.USE_MESSAGING_SERVICE'
@@ -199,13 +196,8 @@ export default {
       </label>
     </div>
     <div class="max-w-[65%] w-full messagingServiceHelptext">
-      <label for="useAPIKey">
-        <input
-          id="useAPIKey"
-          v-model="useAPIKey"
-          type="checkbox"
-          class="checkbox"
-        />
+      <label class="flex items-center gap-2">
+        <Checkbox v-model="useAPIKey" />
         {{ $t('INBOX_MGMT.ADD.TWILIO.API_KEY.USE_API_KEY') }}
       </label>
     </div>
@@ -256,9 +248,5 @@ export default {
 .messagingServiceHelptext {
   margin-top: -10px;
   margin-bottom: 15px;
-
-  .checkbox {
-    margin: 0px 4px;
-  }
 }
 </style>

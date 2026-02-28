@@ -14,7 +14,7 @@ module SwitchLocale
     locale ||= locale_from_custom_domain
 
     # if locale is not set in account, let's use DEFAULT_LOCALE env variable
-    locale ||= ENV.fetch('DEFAULT_LOCALE', nil)
+    locale ||= ENV.fetch('DEFAULT_LOCALE', 'ru')
 
     set_locale(locale, &)
   end

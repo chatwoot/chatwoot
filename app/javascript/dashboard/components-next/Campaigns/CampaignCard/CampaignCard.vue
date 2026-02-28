@@ -76,8 +76,16 @@ const campaignStatus = computed(() => {
 const inboxName = computed(() => props.inbox?.name || '');
 
 const inboxIcon = computed(() => {
-  const { medium, channel_type: type } = props.inbox;
-  return getInboxIconByType(type, medium);
+  const {
+    medium,
+    channel_type: type,
+    additionalAttributes,
+    additional_attributes,
+  } = props.inbox;
+  const integrationType =
+    additionalAttributes?.integrationType ||
+    additional_attributes?.integration_type;
+  return getInboxIconByType(type, medium, 'fill', integrationType);
 });
 </script>
 

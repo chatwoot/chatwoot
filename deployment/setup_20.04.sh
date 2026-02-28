@@ -996,7 +996,7 @@ EOF
       echo "Proceeding with the upgrade..."
     else
       echo "Upgrade aborted. Please install pgvector support before upgrading."
-      echo "Read more at https://chwt.app/v4/migration"
+      echo "Read more at crafty.app/v4/migration"
       return 1
     fi
   fi

@@ -6,11 +6,13 @@ import { getRegexp } from 'shared/helpers/Validators';
 import { ATTRIBUTE_TYPES } from './constants';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import TagInput from 'dashboard/components-next/taginput/TagInput.vue';
+import Checkbox from 'dashboard/components-next/checkbox/Checkbox.vue';
 
 export default {
   components: {
     NextButton,
     TagInput,
+    Checkbox,
   },
   props: {
     selectedAttribute: {
@@ -159,8 +161,8 @@ export default {
         useAlert(this.alertMessage);
       }
     },
-    toggleRegexEnabled() {
-      this.regexEnabled = !this.regexEnabled;
+    toggleRegexEnabled(event) {
+      this.regexEnabled = event?.target?.checked ?? this.regexEnabled;
     },
   },
 };
@@ -242,13 +244,9 @@ export default {
             {{ $t('ATTRIBUTES_MGMT.ADD.FORM.TYPE.LIST.ERROR') }}
           </label>
         </div>
-        <div v-if="isAttributeTypeText">
-          <input
-            v-model="regexEnabled"
-            type="checkbox"
-            @input="toggleRegexEnabled"
-          />
-          {{ $t('ATTRIBUTES_MGMT.ADD.FORM.ENABLE_REGEX.LABEL') }}
+        <div v-if="isAttributeTypeText" class="flex items-center gap-2">
+          <Checkbox v-model="regexEnabled" @change="toggleRegexEnabled" />
+          <span>{{ $t('ATTRIBUTES_MGMT.ADD.FORM.ENABLE_REGEX.LABEL') }}</span>
         </div>
         <woot-input
           v-if="isAttributeTypeText && isRegexEnabled"

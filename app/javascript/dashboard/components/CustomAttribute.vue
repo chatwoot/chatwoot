@@ -10,6 +10,7 @@ import { useVuelidate } from '@vuelidate/core';
 import { emitter } from 'shared/helpers/mitt';
 
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import Checkbox from 'dashboard/components-next/checkbox/Checkbox.vue';
 
 const DATE_FORMAT = 'yyyy-MM-dd';
 
@@ -18,6 +19,7 @@ export default {
     MultiselectDropdown,
     HelperTextPopup,
     NextButton,
+    Checkbox,
   },
   props: {
     label: { type: String, required: true },
@@ -204,10 +206,9 @@ export default {
     <div class="flex items-center mb-1">
       <h4 class="flex items-center w-full m-0 text-sm error">
         <div v-if="isAttributeTypeCheckbox" class="flex items-center">
-          <input
+          <Checkbox
             v-model="editedValue"
             class="!my-0 ltr:mr-2 ltr:ml-0 rtl:mr-0 rtl:ml-2"
-            type="checkbox"
             @change="onUpdate"
           />
         </div>

@@ -242,7 +242,7 @@
     }
   },
   "DASHBOARD_APPS": {
-    "LOADING_MESSAGE": "Loading Dashboard App..."
+    "LOADING_MESSAGE": "Loading..."
   },
   "COMMON": {
     "OR": "Or",

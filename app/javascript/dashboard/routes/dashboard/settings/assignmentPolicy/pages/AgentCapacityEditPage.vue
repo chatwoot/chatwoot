@@ -64,13 +64,34 @@ const allInboxes = computed(
     inboxes.value
       ?.slice()
       .sort((a, b) => a.name.localeCompare(b.name))
-      .map(({ name, id, email, phoneNumber, channelType, medium }) => ({
-        name,
-        id,
-        email,
-        phoneNumber,
-        icon: getInboxIconByType(channelType, medium, 'line'),
-      })) || []
+      .map(
+        ({
+          name,
+          id,
+          email,
+          phoneNumber,
+          channelType,
+          medium,
+          additionalAttributes,
+          additional_attributes,
+        }) => {
+          const integrationType =
+            additionalAttributes?.integrationType ||
+            additional_attributes?.integration_type;
+          return {
+            name,
+            id,
+            email,
+            phoneNumber,
+            icon: getInboxIconByType(
+              channelType,
+              medium,
+              'line',
+              integrationType
+            ),
+          };
+        }
+      ) || []
 );
 
 const formData = computed(() => ({

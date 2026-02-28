@@ -44,6 +44,12 @@ export default {
     isAPIInbox() {
       return this.channelType === INBOX_TYPES.API;
     },
+    isWhatsAppWebApiInbox() {
+      return (
+        this.isAPIInbox &&
+        this.inbox?.additional_attributes?.integration_type === 'whatsapp_web'
+      );
+    },
     isATwitterInbox() {
       return this.channelType === INBOX_TYPES.TWITTER;
     },

@@ -188,6 +188,29 @@ RSpec.describe 'Inboxes API', type: :request do
 
         expect(data[:hmac_token]).to be_nil
       end
+
+      it 'does not expose whatsapp web connector secrets in additional attributes' do
+        api_channel = create(:channel_api, account: account)
+        api_channel.update!(
+          additional_attributes: {
+            integration_type: 'whatsapp_web',
+            whatsapp_web: {
+              evolution_base_url: 'https://evolution.example.com',
+              evolution_api_key: 'evo_super_secret',
+              instance_name: 'cw_1_100'
+            }
+          }
+        )
+        api_inbox = create(:inbox, channel: api_channel, account: account)
+
+        get "/api/v1/accounts/#{account.id}/inboxes/#{api_inbox.id}",
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        data = JSON.parse(response.body, symbolize_names: true)
+        expect(data.dig(:additional_attributes, :whatsapp_web, :evolution_api_key)).to be_nil
+      end
     end
   end
 

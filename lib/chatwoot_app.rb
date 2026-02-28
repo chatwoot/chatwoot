@@ -12,9 +12,13 @@ module ChatwootApp
   end
 
   def self.enterprise?
-    return if ENV.fetch('DISABLE_ENTERPRISE', false)
+    return false if enterprise_disabled?
 
     @enterprise ||= root.join('enterprise').exist?
+  end
+
+  def self.enterprise_disabled?
+    ActiveModel::Type::Boolean.new.cast(ENV.fetch('DISABLE_ENTERPRISE', false))
   end
 
   def self.chatwoot_cloud?

@@ -71,12 +71,13 @@ const computedVariant = computed(() => {
 
 const computedColor = computed(() => {
   if (props.color) return props.color;
+  if (attrs.primary || attrs.primary === '') return 'primary';
   if (attrs.blue || attrs.blue === '') return 'blue';
   if (attrs.ruby || attrs.ruby === '') return 'ruby';
   if (attrs.amber || attrs.amber === '') return 'amber';
   if (attrs.slate || attrs.slate === '') return 'slate';
   if (attrs.teal || attrs.teal === '') return 'teal';
-  return 'blue'; // Default color
+  return 'primary'; // Default color
 });
 
 const computedSize = computed(() => {
@@ -99,15 +100,27 @@ const computedJustify = computed(() => {
 
 const STYLE_CONFIG = {
   colors: {
+    primary: {
+      solid:
+        'bg-n-slate-12 text-n-slate-1 hover:enabled:opacity-90 focus-visible:opacity-90 outline-transparent',
+      faded:
+        'bg-n-slate-12/10 text-n-slate-12 hover:enabled:bg-n-slate-12/20 focus-visible:bg-n-slate-12/20 outline-transparent',
+      outline:
+        'text-n-slate-12 outline-n-weak hover:enabled:bg-n-slate-12/10 focus-visible:bg-n-slate-12/10',
+      ghost:
+        'text-n-slate-12 hover:enabled:bg-n-alpha-2 focus-visible:bg-n-alpha-2 outline-transparent',
+      link: 'text-n-slate-12 hover:enabled:underline focus-visible:underline outline-transparent',
+    },
     blue: {
       solid:
-        'bg-n-brand text-white hover:enabled:brightness-110 focus-visible:brightness-110 outline-transparent',
+        'bg-n-slate-12 text-n-slate-1 hover:enabled:opacity-90 focus-visible:opacity-90 outline-transparent',
       faded:
-        'bg-n-brand/10 text-n-blue-11 hover:enabled:bg-n-brand/20 focus-visible:bg-n-brand/20 outline-transparent',
-      outline: 'text-n-blue-11 outline-n-brand',
+        'bg-n-slate-12/10 text-n-slate-12 hover:enabled:bg-n-slate-12/20 focus-visible:bg-n-slate-12/20 outline-transparent',
+      outline:
+        'text-n-slate-12 outline-n-weak hover:enabled:bg-n-slate-12/10 focus-visible:bg-n-slate-12/10',
       ghost:
-        'text-n-blue-11 hover:enabled:bg-n-alpha-2 focus-visible:bg-n-alpha-2 outline-transparent',
-      link: 'text-n-blue-11 hover:enabled:underline focus-visible:underline outline-transparent',
+        'text-n-slate-12 hover:enabled:bg-n-alpha-2 focus-visible:bg-n-alpha-2 outline-transparent',
+      link: 'text-n-slate-12 hover:enabled:underline focus-visible:underline outline-transparent',
     },
     ruby: {
       solid:

@@ -1,7 +1,7 @@
 <script setup>
 defineProps({
   label: { type: String, default: '' },
-  name: { type: String, required: true },
+  name: { type: String, default: '' },
   icon: { type: String, default: '' },
   hasError: { type: Boolean, default: false },
   helpMessage: { type: String, default: '' },

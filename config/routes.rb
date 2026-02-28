@@ -119,6 +119,7 @@ Rails.application.routes.draw do
           end
           resources :campaigns, only: [:index, :create, :show, :update, :destroy]
           resources :dashboard_apps, only: [:index, :show, :create, :update, :destroy]
+          resource :external_app_context, only: [:show]
           namespace :channels do
             resource :twilio_channel, only: [:create]
           end
@@ -218,6 +219,19 @@ Rails.application.routes.draw do
             delete :avatar, on: :member
             post :sync_templates, on: :member
             get :health, on: :member
+            resource :whatsapp_web, only: [:show, :update], controller: 'inboxes/whatsapp_web' do
+              post :test_connection
+              post :setup
+              get :devices
+              get :status
+              post :login_qr
+              post :login_code
+              post :reconnect
+              post :logout
+              post :remove_device
+              post :sync
+              get :sync_status
+            end
             if ChatwootApp.enterprise?
               resource :conference, only: %i[create destroy], controller: 'conference' do
                 get :token, on: :member

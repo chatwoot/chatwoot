@@ -25,10 +25,18 @@ const { t } = useI18n();
 
 const inboxes = computed(() => {
   return props.inboxes.map(inbox => {
+    const integrationType =
+      inbox.additionalAttributes?.integrationType ||
+      inbox.additional_attributes?.integration_type;
     return {
       name: inbox.name,
       id: inbox.id,
-      icon: getInboxIconByType(inbox.channelType, inbox.medium, 'line'),
+      icon: getInboxIconByType(
+        inbox.channelType,
+        inbox.medium,
+        'line',
+        integrationType
+      ),
     };
   });
 });

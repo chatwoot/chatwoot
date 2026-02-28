@@ -242,7 +242,7 @@
     }
   },
   "DASHBOARD_APPS": {
-    "LOADING_MESSAGE": "Загрузка приложения панели управления..."
+    "LOADING_MESSAGE": "Загрузка..."
   },
   "COMMON": {
     "OR": "Или",

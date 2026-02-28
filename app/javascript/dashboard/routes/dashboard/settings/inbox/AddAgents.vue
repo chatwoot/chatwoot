@@ -79,6 +79,7 @@ export default {
             page: 'new',
             inbox_id: this.$route.params.inbox_id,
           },
+          query: this.$route.query,
         });
       } catch (error) {
         useAlert(error.message);

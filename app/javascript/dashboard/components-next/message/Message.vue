@@ -439,10 +439,20 @@ function handleReplyTo() {
 
 const avatarInfo = computed(() => {
   if (props.contentAttributes?.externalEcho) {
-    const { name, avatar_url, channel_type, medium } = inbox.value;
+    const {
+      name,
+      avatar_url,
+      channel_type,
+      medium,
+      additionalAttributes,
+      additional_attributes,
+    } = inbox.value;
+    const integrationType =
+      additionalAttributes?.integrationType ||
+      additional_attributes?.integration_type;
     const iconName = avatar_url
       ? null
-      : getInboxIconByType(channel_type, medium);
+      : getInboxIconByType(channel_type, medium, 'fill', integrationType);
     return {
       name: iconName ? '' : name || t('CONVERSATION.NATIVE_APP'),
       src: avatar_url || '',

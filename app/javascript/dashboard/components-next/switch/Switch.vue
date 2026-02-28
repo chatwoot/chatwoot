@@ -19,8 +19,8 @@ const updateValue = () => {
 <template>
   <button
     type="button"
-    class="group relative h-4 rounded-full w-7 flex-shrink-0 select-none focus:outline-none focus:ring-1 focus:ring-n-brand focus:ring-offset-n-slate-2 focus:ring-offset-2 transition-colors duration-200 ease-in-out"
-    :class="modelValue ? 'bg-n-brand' : 'bg-n-slate-6'"
+    class="group relative h-4 rounded-full w-7 flex-shrink-0 select-none focus:outline-none focus:ring-1 focus:ring-n-slate-12 focus:ring-offset-n-slate-2 focus:ring-offset-2 transition-colors duration-200 ease-in-out"
+    :class="modelValue ? 'bg-n-slate-12' : 'bg-n-slate-6'"
     role="switch"
     :aria-checked="modelValue"
     @click="updateValue"

@@ -1,0 +1,690 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+cd "$REPO_ROOT"
+
+ACTION="up"
+SKIP_DB_PREPARE=0
+TAIL_DEPS_LOGS=1
+DOWN_ON_EXIT=0
+REPLACE_RUNNING=0
+ENABLE_NGROK=0
+NGROK_UPDATE_ENV=1
+NGROK_DOMAIN="${NGROK_DOMAIN:-}"
+NGROK_API_URL="${NGROK_API_URL:-http://127.0.0.1:4040/api/tunnels}"
+NGROK_PUBLIC_URL=""
+NGROK_PIPE_PID=""
+RAILS_PORT="${RAILS_PORT:-3000}"
+VITE_PORT="${VITE_PORT:-3036}"
+VITE_HOST="${VITE_HOST:-127.0.0.1}"
+CHILD_PIDS=()
+CHILD_NAMES=()
+WATCHER_PID=""
+MAIN_PID="$$"
+DEV_LIGHT_TMP_DIR="$REPO_ROOT/tmp/dev-light"
+RAILS_LOG_FILE="$DEV_LIGHT_TMP_DIR/rails.log"
+PID_FILE="$DEV_LIGHT_TMP_DIR/dev-light.pid"
+PID_LOCK_ACQUIRED=0
+
+usage() {
+  cat <<'EOF'
+Usage: script/dev-light [up|down|status] [options]
+
+Lightweight Chatwoot dev runner:
+- Starts Postgres + Redis + Evolution API (+ manager) in Docker
+- Waits for readiness
+- Runs rails db:chatwoot_prepare
+- Runs Rails + Vite locally (no Sidekiq)
+- Streams logs for deps + app processes in one terminal
+
+Commands:
+  up      Start lightweight dev stack (default)
+  down    Stop Postgres + Redis containers
+  status  Show Postgres + Redis container status
+
+Options (for `up`):
+  --skip-db-prepare   Skip `bundle exec rails db:chatwoot_prepare`
+  --no-deps-logs      Don't stream docker logs for Postgres/Redis
+  --down-on-exit      Stop Postgres/Redis when script exits (Ctrl-C)
+  --replace           Stop a running `script/dev-light` instance first, then start
+  --fresh             Convenience mode: `--replace --down-on-exit`
+  --ngrok             Start ngrok tunnel to Rails and expose public HTTPS URL
+  --ngrok-domain <d>  Use reserved ngrok domain (requires `--ngrok`)
+  --no-ngrok-env      Do not update `FRONTEND_URL` in `.env` from ngrok URL
+  -h, --help          Show this help
+EOF
+}
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    up|down|status)
+      ACTION="$1"
+      shift
+      ;;
+    --skip-db-prepare)
+      SKIP_DB_PREPARE=1
+      shift
+      ;;
+    --no-deps-logs)
+      TAIL_DEPS_LOGS=0
+      shift
+      ;;
+    --down-on-exit)
+      DOWN_ON_EXIT=1
+      shift
+      ;;
+    --replace)
+      REPLACE_RUNNING=1
+      shift
+      ;;
+    --fresh)
+      REPLACE_RUNNING=1
+      DOWN_ON_EXIT=1
+      shift
+      ;;
+    --ngrok)
+      ENABLE_NGROK=1
+      shift
+      ;;
+    --ngrok-domain)
+      [[ $# -ge 2 ]] || { echo "Missing value for --ngrok-domain" >&2; exit 1; }
+      ENABLE_NGROK=1
+      NGROK_DOMAIN="$2"
+      shift 2
+      ;;
+    --no-ngrok-env)
+      NGROK_UPDATE_ENV=0
+      shift
+      ;;
+    -h|--help)
+      usage
+      exit 0
+      ;;
+    *)
+      echo "Unknown argument: $1" >&2
+      usage >&2
+      exit 1
+      ;;
+  esac
+done
+
+compose() {
+  local dev_compose="docker-compose.dev.yaml"
+  if [[ ! -f "$dev_compose" && -f "docker-compose.dev-light.yaml" ]]; then
+    dev_compose="docker-compose.dev-light.yaml"
+  fi
+  docker compose -f docker-compose.yaml -f "$dev_compose" "$@"
+}
+
+log() {
+  printf '[dev-light] %s\n' "$*"
+}
+
+prefix_stream() {
+  local tag="$1"
+  awk -v tag="$tag" '{ print "[" tag "] " $0; fflush(); }'
+}
+
+require_file() {
+  local path="$1"
+  local msg="$2"
+  if [[ ! -f "$path" ]]; then
+    echo "$msg" >&2
+    exit 1
+  fi
+}
+
+read_pid_file() {
+  if [[ -f "$PID_FILE" ]]; then
+    tr -d '[:space:]' < "$PID_FILE"
+  fi
+}
+
+is_pid_alive() {
+  local pid="$1"
+  [[ -n "$pid" ]] || return 1
+  [[ "$pid" =~ ^[0-9]+$ ]] || return 1
+  kill -0 "$pid" >/dev/null 2>&1
+}
+
+pid_command() {
+  local pid="$1"
+  ps -p "$pid" -o command= 2>/dev/null || true
+}
+
+pid_is_dev_light() {
+  local pid="$1"
+  local cmd
+  cmd="$(pid_command "$pid")"
+  [[ "$cmd" == *"script/dev-light"* ]]
+}
+
+wait_for_pid_exit() {
+  local pid="$1"
+  local timeout="${2:-20}"
+  local i
+  for i in $(seq 1 "$timeout"); do
+    if ! is_pid_alive "$pid"; then
+      return 0
+    fi
+    sleep 1
+  done
+  return 1
+}
+
+stop_existing_instance() {
+  local pid="$1"
+  log "Another dev-light instance is running (pid=$pid). Stopping it (--replace)."
+  kill -TERM "$pid" >/dev/null 2>&1 || true
+  if wait_for_pid_exit "$pid" 20; then
+    return 0
+  fi
+
+  log "Previous instance did not stop in time, sending SIGKILL (pid=$pid)"
+  kill -KILL "$pid" >/dev/null 2>&1 || true
+  wait_for_pid_exit "$pid" 5 || true
+}
+
+acquire_pid_lock() {
+  local existing_pid
+  mkdir -p "$DEV_LIGHT_TMP_DIR"
+
+  existing_pid="$(read_pid_file || true)"
+  if is_pid_alive "$existing_pid"; then
+    if [[ "$existing_pid" == "$MAIN_PID" ]]; then
+      :
+    elif pid_is_dev_light "$existing_pid"; then
+      if [[ "$REPLACE_RUNNING" -eq 1 ]]; then
+        stop_existing_instance "$existing_pid"
+      else
+        echo "Another script/dev-light is already running (pid=$existing_pid)." >&2
+        echo "Stop it with Ctrl-C in its terminal, or rerun with --replace (or --fresh)." >&2
+        exit 1
+      fi
+    else
+      echo "Refusing to overwrite $PID_FILE: pid $existing_pid is alive and is not script/dev-light." >&2
+      exit 1
+    fi
+  elif [[ -n "$existing_pid" ]]; then
+    rm -f "$PID_FILE"
+  fi
+
+  printf '%s\n' "$MAIN_PID" > "$PID_FILE"
+  PID_LOCK_ACQUIRED=1
+}
+
+release_pid_lock() {
+  local existing_pid
+  if [[ "$PID_LOCK_ACQUIRED" -ne 1 ]]; then
+    return 0
+  fi
+
+  existing_pid="$(read_pid_file || true)"
+  if [[ "$existing_pid" == "$MAIN_PID" ]]; then
+    rm -f "$PID_FILE"
+  fi
+  PID_LOCK_ACQUIRED=0
+}
+
+ensure_prereqs() {
+  command -v docker >/dev/null 2>&1 || { echo "docker is required" >&2; exit 1; }
+  command -v bundle >/dev/null 2>&1 || { echo "bundle is required" >&2; exit 1; }
+  command -v node >/dev/null 2>&1 || { echo "node is required" >&2; exit 1; }
+  command -v curl >/dev/null 2>&1 || { echo "curl is required" >&2; exit 1; }
+
+  if [[ "$ENABLE_NGROK" -eq 1 ]]; then
+    command -v ngrok >/dev/null 2>&1 || { echo "ngrok is required for --ngrok" >&2; exit 1; }
+  fi
+
+  require_file ".env" "Missing .env. Create it first (copy .env.dev.example or .env.example and set dev-light values)."
+  if [[ ! -f "docker-compose.dev.yaml" && ! -f "docker-compose.dev-light.yaml" ]]; then
+    echo "Missing docker-compose.dev.yaml (or legacy docker-compose.dev-light.yaml)." >&2
+    exit 1
+  fi
+
+  if [[ ! -x "bin/vite" ]]; then
+    echo "bin/vite not found or not executable. Run pnpm install first." >&2
+    exit 1
+  fi
+}
+
+maybe_init_rbenv() {
+  if command -v rbenv >/dev/null 2>&1; then
+    # shellcheck disable=SC1090
+    eval "$(rbenv init -)"
+  fi
+}
+
+clear_ruby_debug_env() {
+  unset DEBUG VERBOSE TALLY RP_STRTERM_DEBUG RP_LINENO_DEBUG
+}
+
+apply_vite_ruby_dev_env() {
+  # Force IPv4 localhost to avoid HMR ping failures when the page is opened via 127.0.0.1
+  export VITE_RUBY_HOST="${VITE_RUBY_HOST:-$VITE_HOST}"
+  export VITE_RUBY_PORT="${VITE_RUBY_PORT:-$VITE_PORT}"
+}
+
+set_env_value() {
+  local key="$1"
+  local value="$2"
+  local file="$REPO_ROOT/.env"
+  local tmp_file
+
+  tmp_file="$(mktemp)"
+  awk -v key="$key" -v value="$value" '
+    BEGIN { replaced = 0 }
+    index($0, key "=") == 1 {
+      print key "=" value
+      replaced = 1
+      next
+    }
+    { print }
+    END {
+      if (!replaced) print key "=" value
+    }
+  ' "$file" > "$tmp_file"
+  mv "$tmp_file" "$file"
+}
+
+read_env_value() {
+  local key="$1"
+  local file="$REPO_ROOT/.env"
+
+  awk -F= -v key="$key" '
+    index($0, key "=") == 1 {
+      sub("^" key "=", "", $0)
+      print $0
+      exit
+    }
+  ' "$file"
+}
+
+warn_external_app_mixed_content() {
+  local frontend_url
+  local external_app_url
+
+  frontend_url="$(read_env_value FRONTEND_URL)"
+  external_app_url="$(read_env_value EXTERNAL_APP_URL)"
+
+  if [[ "$frontend_url" == https://* && "$external_app_url" == http://* ]]; then
+    log "WARNING: FRONTEND_URL is https but EXTERNAL_APP_URL is http."
+    log "WARNING: Browser will block iframe as mixed content."
+    log "WARNING: Use https URL for EXTERNAL_APP_URL (for example: ngrok on app port)."
+  fi
+}
+
+sync_front_dashboard_app() {
+  local auto_sync
+
+  auto_sync="$(read_env_value FRONT_DASHBOARD_APP_AUTO_SYNC)"
+  if [[ "$auto_sync" == "false" || "$auto_sync" == "0" ]]; then
+    log "Skipping dashboard app sync (FRONT_DASHBOARD_APP_AUTO_SYNC=$auto_sync)"
+    return 0
+  fi
+
+  log "Ensuring front dashboard app configuration"
+  (
+    cd "$REPO_ROOT"
+    clear_ruby_debug_env
+    maybe_init_rbenv
+    script/sync-front-dashboard-app
+  ) 2>&1 | prefix_stream "dashboard_app"
+}
+
+start_deps() {
+  log "Starting Postgres + Redis + Evolution (Docker)"
+  compose up -d postgres redis evolution_api evolution_frontend >/dev/null
+}
+
+wait_for_postgres() {
+  local i
+  log "Waiting for Postgres"
+  for i in $(seq 1 90); do
+    if compose exec -T postgres pg_isready -U postgres >/dev/null 2>&1; then
+      log "Postgres is ready"
+      return 0
+    fi
+    sleep 1
+  done
+  echo "Postgres did not become ready in time" >&2
+  return 1
+}
+
+wait_for_redis() {
+  local i
+  log "Waiting for Redis"
+  for i in $(seq 1 60); do
+    if compose exec -T redis sh -lc 'redis-cli -a "$REDIS_PASSWORD" ping' 2>/dev/null | grep -q '^PONG$'; then
+      log "Redis is ready"
+      return 0
+    fi
+    sleep 1
+  done
+  echo "Redis did not become ready in time" >&2
+  return 1
+}
+
+is_port_listening() {
+  local port="$1"
+  if command -v lsof >/dev/null 2>&1; then
+    lsof -tiTCP:"$port" -sTCP:LISTEN >/dev/null 2>&1
+    return $?
+  fi
+
+  # Fallback if lsof is unavailable
+  nc -z 127.0.0.1 "$port" >/dev/null 2>&1
+}
+
+run_db_prepare() {
+  log "Running rails db:chatwoot_prepare"
+  (
+    cd "$REPO_ROOT"
+    clear_ruby_debug_env
+    maybe_init_rbenv
+    bundle exec rails db:chatwoot_prepare
+  ) 2>&1 | prefix_stream "db"
+}
+
+start_pipeline() {
+  local tag="$1"
+  shift
+  (
+    "$@"
+  ) > >(prefix_stream "$tag") 2>&1 &
+  CHILD_PIDS+=("$!")
+  CHILD_NAMES+=("$tag")
+}
+
+extract_ngrok_public_url() {
+  node -e '
+let data = "";
+process.stdin.setEncoding("utf8");
+process.stdin.on("data", chunk => (data += chunk));
+process.stdin.on("end", () => {
+  try {
+    const json = JSON.parse(data);
+    const tunnels = Array.isArray(json.tunnels) ? json.tunnels : [];
+    const preferred = tunnels.find(t => String(t.proto || "").toLowerCase() === "https") || tunnels[0];
+    if (!preferred || !preferred.public_url) process.exit(1);
+    process.stdout.write(String(preferred.public_url));
+  } catch (_e) {
+    process.exit(1);
+  }
+});
+' 2>/dev/null
+}
+
+start_ngrok() {
+  local before_count
+  local ngrok_cmd=(ngrok http "$RAILS_PORT" --log=stdout)
+
+  if [[ -n "$NGROK_DOMAIN" ]]; then
+    ngrok_cmd+=(--domain="$NGROK_DOMAIN")
+  fi
+
+  before_count="${#CHILD_PIDS[@]}"
+  start_pipeline ngrok "${ngrok_cmd[@]}"
+  NGROK_PIPE_PID="${CHILD_PIDS[$before_count]}"
+}
+
+wait_for_ngrok_url() {
+  local i url
+  log "Waiting for ngrok public URL"
+  for i in $(seq 1 45); do
+    if [[ -n "$NGROK_PIPE_PID" ]] && ! kill -0 "$NGROK_PIPE_PID" >/dev/null 2>&1; then
+      echo "ngrok exited before tunnel URL was available" >&2
+      return 1
+    fi
+
+    url="$(curl -fsS "$NGROK_API_URL" 2>/dev/null | extract_ngrok_public_url || true)"
+    if [[ "$url" == https://* ]]; then
+      NGROK_PUBLIC_URL="$url"
+      log "ngrok URL: $NGROK_PUBLIC_URL"
+      return 0
+    fi
+    sleep 1
+  done
+  echo "Could not get ngrok public URL from $NGROK_API_URL" >&2
+  return 1
+}
+
+maybe_start_ngrok() {
+  if [[ "$ENABLE_NGROK" -ne 1 ]]; then
+    return 0
+  fi
+
+  start_ngrok
+  wait_for_ngrok_url
+
+  if [[ "$NGROK_UPDATE_ENV" -eq 1 ]]; then
+    set_env_value FRONTEND_URL "$NGROK_PUBLIC_URL"
+    log "Updated .env FRONTEND_URL=$NGROK_PUBLIC_URL"
+  fi
+
+  warn_external_app_mixed_content
+}
+
+start_deps_logs() {
+  if [[ "$TAIL_DEPS_LOGS" -eq 1 ]]; then
+    start_pipeline deps compose logs -f --tail=0 postgres redis evolution_api evolution_frontend
+  fi
+}
+
+start_rails() {
+  mkdir -p "$DEV_LIGHT_TMP_DIR"
+  : > "$RAILS_LOG_FILE"
+
+  (
+    run_rails_foreground
+  ) >>"$RAILS_LOG_FILE" 2>&1 &
+  CHILD_PIDS+=("$!")
+  CHILD_NAMES+=("rails_boot")
+
+  start_pipeline rails tail -n 0 -F "$RAILS_LOG_FILE"
+}
+
+wait_for_rails() {
+  local i
+  log "Waiting for Rails on :${RAILS_PORT}"
+  for i in $(seq 1 90); do
+    if is_port_listening "$RAILS_PORT"; then
+      log "Rails is ready"
+      return 0
+    fi
+    sleep 1
+  done
+
+  echo "Rails did not become ready on port ${RAILS_PORT} in time." >&2
+  if [[ -s "$RAILS_LOG_FILE" ]]; then
+    echo "Last lines from $RAILS_LOG_FILE:" >&2
+    tail -n 120 "$RAILS_LOG_FILE" >&2
+  else
+    echo "Rails log is empty: $RAILS_LOG_FILE" >&2
+  fi
+  return 1
+}
+
+run_rails_foreground() {
+  cd "$REPO_ROOT"
+  clear_ruby_debug_env
+  maybe_init_rbenv
+  apply_vite_ruby_dev_env
+  exec bundle exec rails s -p "$RAILS_PORT"
+}
+
+run_vite_foreground() {
+  cd "$REPO_ROOT"
+  clear_ruby_debug_env
+  maybe_init_rbenv
+  apply_vite_ruby_dev_env
+  if [[ -r /dev/tty ]]; then
+    exec </dev/tty
+  fi
+  exec bin/vite dev
+}
+
+run_vite_foreground_prefixed() {
+  local status
+  set +e
+  run_vite_foreground 2>&1 | prefix_stream "vite"
+  status="${PIPESTATUS[0]}"
+  set -e
+  return "$status"
+}
+
+print_summary() {
+  log "Light dev stack is running (no Sidekiq)"
+  log "Rails: http://127.0.0.1:${RAILS_PORT}"
+  log "Vite (HMR): http://${VITE_HOST}:${VITE_PORT}/vite-dev/"
+  if [[ -n "$NGROK_PUBLIC_URL" ]]; then
+    log "ngrok: $NGROK_PUBLIC_URL"
+  fi
+  if [[ "$DOWN_ON_EXIT" -eq 1 ]]; then
+    log "Deps will be stopped on exit"
+  else
+    log "Deps will remain running on exit (use: script/dev-light down)"
+  fi
+}
+
+cleanup() {
+  local exit_code="$?"
+  local pid
+  local i
+  trap - EXIT INT TERM
+
+  if [[ -n "$WATCHER_PID" ]]; then
+    kill "$WATCHER_PID" >/dev/null 2>&1 || true
+  fi
+
+  if [[ "${#CHILD_PIDS[@]}" -gt 0 ]]; then
+    for pid in "${CHILD_PIDS[@]}"; do
+      kill "$pid" >/dev/null 2>&1 || true
+    done
+    sleep 1
+    for pid in "${CHILD_PIDS[@]}"; do
+      kill -9 "$pid" >/dev/null 2>&1 || true
+    done
+    for i in "${!CHILD_NAMES[@]}"; do
+      pid="${CHILD_PIDS[$i]}"
+      case "${CHILD_NAMES[$i]}" in
+        rails|rails_boot)
+          if command -v lsof >/dev/null 2>&1; then
+            pid="$(lsof -tiTCP:"$RAILS_PORT" -sTCP:LISTEN 2>/dev/null || true)"
+            if [[ -n "$pid" ]]; then
+              kill $pid >/dev/null 2>&1 || true
+            fi
+          fi
+          pkill -f 'puma .*chatwoot' >/dev/null 2>&1 || true
+          ;;
+        vite)
+          if command -v lsof >/dev/null 2>&1; then
+            pid="$(lsof -tiTCP:"$VITE_PORT" -sTCP:LISTEN 2>/dev/null || true)"
+            if [[ -n "$pid" ]]; then
+              kill $pid >/dev/null 2>&1 || true
+            fi
+          fi
+          pkill -f 'bin/vite dev' >/dev/null 2>&1 || true
+          ;;
+        ngrok)
+          pkill -f 'ngrok http' >/dev/null 2>&1 || true
+          ;;
+      esac
+    done
+    wait >/dev/null 2>&1 || true
+  fi
+
+  if [[ "$DOWN_ON_EXIT" -eq 1 ]]; then
+    log "Stopping Postgres + Redis + Evolution"
+    compose stop postgres redis evolution_api evolution_frontend >/dev/null 2>&1 || true
+  fi
+
+  release_pid_lock
+
+  exit "$exit_code"
+}
+
+monitor_children() {
+  local i pid status name
+  while true; do
+    for i in "${!CHILD_PIDS[@]}"; do
+      pid="${CHILD_PIDS[$i]}"
+      name="${CHILD_NAMES[$i]}"
+      if ! kill -0 "$pid" >/dev/null 2>&1; then
+        set +e
+        wait "$pid"
+        status="$?"
+        set -e
+        log "A process exited (${name}, pid=$pid, code=$status). Stopping the rest."
+        return "$status"
+      fi
+    done
+    sleep 1
+  done
+}
+
+start_watcher() {
+  (
+    local i pid name
+    while true; do
+      for i in "${!CHILD_PIDS[@]}"; do
+        pid="${CHILD_PIDS[$i]}"
+        name="${CHILD_NAMES[$i]}"
+        if ! kill -0 "$pid" >/dev/null 2>&1; then
+          log "Background process exited (${name}, pid=$pid). Stopping the stack."
+          kill -TERM "$MAIN_PID" >/dev/null 2>&1 || true
+          exit 1
+        fi
+      done
+      sleep 1
+    done
+  ) &
+  WATCHER_PID="$!"
+}
+
+run_up() {
+  ensure_prereqs
+  acquire_pid_lock
+  trap cleanup EXIT INT TERM
+
+  start_deps
+  wait_for_postgres
+  wait_for_redis
+  maybe_start_ngrok
+
+  if [[ "$SKIP_DB_PREPARE" -ne 1 ]]; then
+    run_db_prepare
+  fi
+
+  start_deps_logs
+  start_rails
+  wait_for_rails
+  sync_front_dashboard_app
+  start_watcher
+  print_summary
+
+  run_vite_foreground_prefixed
+}
+
+run_down() {
+  log "Stopping Postgres + Redis + Evolution"
+  compose stop postgres redis evolution_api evolution_frontend
+}
+
+run_status() {
+  compose ps
+}
+
+case "$ACTION" in
+  up)
+    run_up
+    ;;
+  down)
+    run_down
+    ;;
+  status)
+    run_status
+    ;;
+esac

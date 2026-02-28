@@ -62,6 +62,33 @@
 - The setup workflow in `.codex/environments/environment.toml` should dynamically generate per-worktree DB/port values (Rails, Vite, Redis DB index) to avoid collisions.
 - Start each worktree with its own Overmind socket/title so multiple instances can run at the same time.
 
+## Fork / Upstream Sync Workflow (Important)
+
+- This repository is a product fork of upstream Chatwoot. Primary goal: keep upstream platform updates easy to merge while developing fork-specific features safely.
+- Remote convention:
+  - `origin` = our fork (`demomastra2025-eng/chatwoot`)
+  - `upstream` = official Chatwoot (`https://github.com/chatwoot/chatwoot.git`)
+- If `upstream` is missing and the task involves platform updates/sync, add it first: `git remote add upstream https://github.com/chatwoot/chatwoot.git`
+- Treat upstream sync as explicit work: prefer `git fetch upstream --tags` + `git merge upstream/develop` (or rebase only when explicitly requested) instead of a blind `git pull`.
+- Prefer the repo helper script `script/fork-sync-upstream` for routine upstream syncs (it fetches `upstream`, can create a dated sync branch, and standardizes the flow).
+- Branch workflow (recommended):
+  - `develop` = fork integration branch (receives upstream updates and our merged features)
+  - short-lived feature branches from `develop` for all custom work
+  - `sync/upstream-YYYYMMDD` branch for conflict-heavy upstream merges before merging back to `develop`
+- When the user asks to "update/pull latest platform changes", assume they mean syncing from `upstream/develop` into our fork branch, not only pulling from `origin`.
+- Prefer `merge` for upstream sync in shared branches to preserve conflict resolution history; avoid rewriting shared branch history unless explicitly requested.
+- Enable local conflict reuse when helpful: `git config rerere.enabled true`
+
+## Fork-Safe Change Strategy (Reduce Future Merge Pain)
+
+- Prefer extension points, configuration, feature flags, and Enterprise overlay patterns (`enterprise/`) over deep patches in upstream core files.
+- Keep fork features additive and clearly namespaced (services/modules/components) instead of editing shared behavior in place when possible.
+- If modifying upstream files is unavoidable, keep diffs minimal and avoid drive-by refactors, mass formatting, or unrelated cleanups in the same commit.
+- Favor stable extension seams (hooks, `prepend_mod_with`, wrappers, new components) so upstream code can be updated with less conflict.
+- For fork-only behavior, use commit messages that make intent obvious (for example `feat(fork): ...`, `fix(fork): ...`).
+- Document recurring/high-conflict fork customizations in `install_manual.md` or a dedicated `docs/fork-overrides.md` (if created) so future syncs are predictable.
+- During conflict resolution, prefer restoring upstream behavior first and then reapplying our fork logic intentionally, instead of broad manual rewrites.
+
 ## Commit Messages
 
 - Prefer Conventional Commits: `type(scope): subject` (scope optional)

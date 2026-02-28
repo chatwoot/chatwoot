@@ -1,5 +1,6 @@
 <script setup>
 import { ref, watch } from 'vue';
+import Checkbox from 'dashboard/components-next/checkbox/Checkbox.vue';
 
 const props = defineProps({
   modelValue: {
@@ -32,9 +33,11 @@ watch(
   }
 );
 
-const handleInput = e => {
-  emit('update:modelValue', props.type, e);
-  emit('input', props.type, e);
+const isChecked = () => localFlags.value.includes(localValue.value);
+
+const handleInput = checked => {
+  emit('update:modelValue', props.type, localValue.value, checked);
+  emit('input', props.type, localValue.value, checked);
 };
 </script>
 
@@ -43,12 +46,6 @@ const handleInput = e => {
     class="flex items-start gap-2 px-0 text-sm tracking-[0.5] text-left rtl:text-right"
     :class="`col-span-${span}`"
   >
-    <input
-      v-model="localFlags"
-      class="mt-1 flex-shrink-0 border-n-weak border checked:border-none checked:bg-n-brand shadow appearance-none rounded-[4px] w-4 h-4 focus:ring-1 after:content-[''] after:text-white checked:after:content-['✓'] after:flex after:items-center after:justify-center after:text-center after:text-xs after:font-bold after:relative"
-      type="checkbox"
-      :value="localValue"
-      @input="handleInput"
-    />
+    <Checkbox :model-value="isChecked()" @update:model-value="handleInput" />
   </div>
 </template>

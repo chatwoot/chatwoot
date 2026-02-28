@@ -1,10 +1,11 @@
 <script setup>
 import { ref } from 'vue';
 import Flag from '../Flag.vue';
+import Checkbox from 'dashboard/components-next/checkbox/Checkbox.vue';
 import countries from 'shared/constants/countries';
 
 const BasicTemplate = {
-  components: { Flag },
+  components: { Flag, Checkbox },
   props: {
     country: {
       type: String,
@@ -31,7 +32,7 @@ const SizeVariants = {
   template: `
     <div class="flex flex-col gap-4">
       <label class="flex items-center gap-2">
-        <input type="checkbox" v-model="isSquared">
+        <Checkbox v-model="isSquared" />
         Squared flags
       </label>
       <div class="flex items-center gap-4 p-4 border rounded border-n-weak">
@@ -45,7 +46,7 @@ const SizeVariants = {
 };
 
 const AllFlags = {
-  components: { Flag },
+  components: { Flag, Checkbox },
   setup() {
     const isSquared = ref(false);
     return { countries, isSquared };
@@ -53,7 +54,7 @@ const AllFlags = {
   template: `
     <div class="flex flex-col gap-4">
       <label class="flex items-center gap-2">
-        <input type="checkbox" v-model="isSquared">
+        <Checkbox v-model="isSquared" />
         Squared flags
       </label>
 

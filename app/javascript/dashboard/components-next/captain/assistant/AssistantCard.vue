@@ -104,7 +104,7 @@ const handleAction = ({ action, value }) => {
     </div>
     <div class="flex items-center justify-between w-full gap-4">
       <span class="text-sm truncate text-n-slate-11">
-        {{ description || 'Description not available' }}
+        {{ description || 'Описание не указано' }}
       </span>
       <span class="text-sm text-n-slate-11 line-clamp-1 shrink-0">
         {{ lastUpdatedAt }}

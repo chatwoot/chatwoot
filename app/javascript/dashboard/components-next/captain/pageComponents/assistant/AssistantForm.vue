@@ -8,6 +8,7 @@ import { useMapGetter } from 'dashboard/composables/store';
 import Input from 'dashboard/components-next/input/Input.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Editor from 'dashboard/components-next/Editor/Editor.vue';
+import Checkbox from 'dashboard/components-next/checkbox/Checkbox.vue';
 
 const props = defineProps({
   mode: {
@@ -142,21 +143,21 @@ watch(
       </legend>
 
       <label class="flex items-center gap-2">
-        <input v-model="state.featureFaq" type="checkbox" />
+        <Checkbox v-model="state.featureFaq" />
         <span class="text-sm font-medium text-n-slate-12">
           {{ t('CAPTAIN.ASSISTANTS.FORM.FEATURES.ALLOW_CONVERSATION_FAQS') }}
         </span>
       </label>
 
       <label class="flex items-center gap-2">
-        <input v-model="state.featureMemory" type="checkbox" />
+        <Checkbox v-model="state.featureMemory" />
         <span class="text-sm font-medium text-n-slate-12">
           {{ t('CAPTAIN.ASSISTANTS.FORM.FEATURES.ALLOW_MEMORIES') }}
         </span>
       </label>
 
       <label class="flex items-center gap-2">
-        <input v-model="state.featureCitation" type="checkbox" />
+        <Checkbox v-model="state.featureCitation" />
         <span class="text-sm font-medium text-n-slate-12">
           {{ t('CAPTAIN.ASSISTANTS.FORM.FEATURES.ALLOW_CITATIONS') }}
         </span>

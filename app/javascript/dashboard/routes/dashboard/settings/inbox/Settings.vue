@@ -37,6 +37,7 @@ import { LocalStorage } from 'shared/helpers/localStorage';
 import Editor from 'dashboard/components-next/Editor/Editor.vue';
 import ColorPicker from 'dashboard/components-next/colorpicker/ColorPicker.vue';
 import SelectInput from 'dashboard/components-next/select/Select.vue';
+import Checkbox from 'dashboard/components-next/checkbox/Checkbox.vue';
 import Widget from 'dashboard/modules/widget-preview/components/Widget.vue';
 
 export default {
@@ -67,6 +68,7 @@ export default {
     Avatar,
     ColorPicker,
     SelectInput,
+    Checkbox,
     AccountHealth,
     Widget,
   },
@@ -214,7 +216,10 @@ export default {
     },
     inboxIcon() {
       const { medium, channel_type: type } = this.inbox;
-      return getInboxIconByType(type, medium, 'line');
+      const integrationType =
+        this.inbox.additional_attributes?.integration_type ||
+        this.inbox.additionalAttributes?.integrationType;
+      return getInboxIconByType(type, medium, 'line', integrationType);
     },
     bannerMaxWidth() {
       const narrowTabs = [
@@ -424,18 +429,23 @@ export default {
         this.isLoadingHealth = false;
       }
     },
-    handleFeatureFlag(e) {
-      this.selectedFeatureFlags = this.toggleInput(
-        this.selectedFeatureFlags,
-        e.target.value
+    handleFeatureFlag(featureFlag, event) {
+      if (event?.target?.checked) {
+        if (!this.selectedFeatureFlags.includes(featureFlag)) {
+          this.selectedFeatureFlags = [
+            ...this.selectedFeatureFlags,
+            featureFlag,
+          ];
+        }
+        return;
+      }
+
+      this.selectedFeatureFlags = this.selectedFeatureFlags.filter(
+        flag => flag !== featureFlag
       );
     },
-    toggleInput(selected, current) {
-      if (selected.includes(current)) {
-        const newSelectedFlags = selected.filter(flag => flag !== current);
-        return newSelectedFlags;
-      }
-      return [...selected, current];
+    isFeatureFlagEnabled(featureFlag) {
+      return this.selectedFeatureFlags.includes(featureFlag);
     },
     onTabChange(selectedTabIndex) {
       this.selectedTabIndex = selectedTabIndex;
@@ -761,8 +771,8 @@ export default {
             >
               <NextButton
                 v-if="!showBusinessNameInput"
-                ghost
-                blue
+                outline
+                primary
                 sm
                 :label="
                   $t(
@@ -976,50 +986,48 @@ export default {
                 class="[&>div]:!items-start [&>div>label]:mt-2"
               >
                 <div class="flex flex-col gap-1 items-start">
-                  <div class="flex gap-2 pt-2 py-0.5">
-                    <input
-                      v-model="selectedFeatureFlags"
-                      type="checkbox"
-                      value="attachments"
-                      @input="handleFeatureFlag"
+                  <label
+                    class="flex items-center gap-2 pt-2 py-0.5 cursor-pointer"
+                  >
+                    <Checkbox
+                      :model-value="isFeatureFlagEnabled('attachments')"
+                      @change="handleFeatureFlag('attachments', $event)"
                     />
-                    <label for="attachments">
+                    <span class="text-sm text-n-slate-12">
                       {{ $t('INBOX_MGMT.FEATURES.DISPLAY_FILE_PICKER') }}
-                    </label>
-                  </div>
-                  <div class="flex gap-2 py-0.5">
-                    <input
-                      v-model="selectedFeatureFlags"
-                      type="checkbox"
-                      value="emoji_picker"
-                      @input="handleFeatureFlag"
+                    </span>
+                  </label>
+                  <label class="flex items-center gap-2 py-0.5 cursor-pointer">
+                    <Checkbox
+                      :model-value="isFeatureFlagEnabled('emoji_picker')"
+                      @change="handleFeatureFlag('emoji_picker', $event)"
                     />
-                    <label for="emoji_picker">
+                    <span class="text-sm text-n-slate-12">
                       {{ $t('INBOX_MGMT.FEATURES.DISPLAY_EMOJI_PICKER') }}
-                    </label>
-                  </div>
-                  <div class="flex gap-2 py-0.5">
-                    <input
-                      v-model="selectedFeatureFlags"
-                      type="checkbox"
-                      value="end_conversation"
-                      @input="handleFeatureFlag"
+                    </span>
+                  </label>
+                  <label class="flex items-center gap-2 py-0.5 cursor-pointer">
+                    <Checkbox
+                      :model-value="isFeatureFlagEnabled('end_conversation')"
+                      @change="handleFeatureFlag('end_conversation', $event)"
                     />
-                    <label for="end_conversation">
+                    <span class="text-sm text-n-slate-12">
                       {{ $t('INBOX_MGMT.FEATURES.ALLOW_END_CONVERSATION') }}
-                    </label>
-                  </div>
-                  <div class="flex gap-2 py-0.5">
-                    <input
-                      v-model="selectedFeatureFlags"
-                      type="checkbox"
-                      value="use_inbox_avatar_for_bot"
-                      @input="handleFeatureFlag"
+                    </span>
+                  </label>
+                  <label class="flex items-center gap-2 py-0.5 cursor-pointer">
+                    <Checkbox
+                      :model-value="
+                        isFeatureFlagEnabled('use_inbox_avatar_for_bot')
+                      "
+                      @change="
+                        handleFeatureFlag('use_inbox_avatar_for_bot', $event)
+                      "
                     />
-                    <label for="use_inbox_avatar_for_bot">
+                    <span class="text-sm text-n-slate-12">
                       {{ $t('INBOX_MGMT.FEATURES.USE_INBOX_AVATAR_FOR_BOT') }}
-                    </label>
-                  </div>
+                    </span>
+                  </label>
                 </div>
               </SettingsFieldSection>
             </SettingsAccordion>

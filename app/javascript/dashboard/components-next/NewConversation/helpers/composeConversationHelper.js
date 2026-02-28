@@ -38,24 +38,29 @@ const transformInbox = ({
   phoneNumber,
   medium,
   ...rest
-}) => ({
-  id,
-  icon: getInboxIconByType(channelType, medium, 'line'),
-  label: generateLabelForContactableInboxesList({
+}) => {
+  const integrationType =
+    rest.additionalAttributes?.integrationType ||
+    rest.additional_attributes?.integration_type;
+  return {
+    id,
+    icon: getInboxIconByType(channelType, medium, 'line', integrationType),
+    label: generateLabelForContactableInboxesList({
+      name,
+      email,
+      channelType,
+      phoneNumber,
+    }),
+    action: 'inbox',
+    value: id,
     name,
     email,
-    channelType,
     phoneNumber,
-  }),
-  action: 'inbox',
-  value: id,
-  name,
-  email,
-  phoneNumber,
-  channelType,
-  medium,
-  ...rest,
-});
+    channelType,
+    medium,
+    ...rest,
+  };
+};
 
 export const compareInboxes = (a, b) => {
   // Channels that have no priority defined should come at the end.

@@ -7,6 +7,15 @@ describe('useChannelIcon', () => {
     expect(icon).toBe('i-woot-api');
   });
 
+  it('returns WhatsApp icon for WhatsApp Web API channel', () => {
+    const inbox = {
+      channel_type: 'Channel::Api',
+      additional_attributes: { integration_type: 'whatsapp_web' },
+    };
+    const { value: icon } = useChannelIcon(inbox);
+    expect(icon).toBe('i-woot-whatsapp');
+  });
+
   it('returns correct icon for Facebook channel', () => {
     const inbox = { channel_type: 'Channel::FacebookPage' };
     const { value: icon } = useChannelIcon(inbox);

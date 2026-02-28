@@ -8,7 +8,9 @@ import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import TextArea from 'next/textarea/TextArea.vue';
+import Checkbox from 'dashboard/components-next/checkbox/Checkbox.vue';
 import WhatsappReauthorize from '../channels/whatsapp/Reauthorize.vue';
+import WhatsappWebConfiguration from './components/WhatsappWebConfiguration.vue';
 import { sanitizeAllowedDomains } from 'dashboard/helper/URLHelper';
 
 export default {
@@ -18,7 +20,9 @@ export default {
     SmtpSettings,
     NextButton,
     TextArea,
+    Checkbox,
     WhatsappReauthorize,
+    WhatsappWebConfiguration,
   },
   mixins: [inboxMixin],
   props: {
@@ -252,50 +256,43 @@ export default {
         :label="$t('INBOX_MGMT.SETTINGS_POPUP.HMAC_MANDATORY_VERIFICATION')"
         :help-text="$t('INBOX_MGMT.SETTINGS_POPUP.HMAC_MANDATORY_DESCRIPTION')"
       >
-        <div class="flex gap-2 items-center">
-          <input
-            id="hmacMandatory"
-            v-model="hmacMandatory"
-            type="checkbox"
-            @change="handleHmacFlag"
-          />
-          <label for="hmacMandatory" class="text-body-main text-n-slate-12">
+        <label class="flex items-center gap-2 cursor-pointer">
+          <Checkbox v-model="hmacMandatory" @change="handleHmacFlag" />
+          <span class="text-body-main text-n-slate-12">
             {{ $t('INBOX_MGMT.EDIT.ENABLE_HMAC.LABEL') }}
-          </label>
-        </div>
+          </span>
+        </label>
       </SettingsFieldSection>
     </div>
   </div>
   <div v-else-if="isAPIInbox">
-    <SettingsFieldSection
-      :label="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_IDENTIFIER')"
-      :help-text="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_IDENTIFIER_SUB_TEXT')"
-    >
-      <woot-code :script="inbox.inbox_identifier" />
-    </SettingsFieldSection>
+    <WhatsappWebConfiguration v-if="isWhatsAppWebApiInbox" :inbox="inbox" />
+    <template v-else>
+      <SettingsFieldSection
+        :label="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_IDENTIFIER')"
+        :help-text="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_IDENTIFIER_SUB_TEXT')"
+      >
+        <woot-code :script="inbox.inbox_identifier" />
+      </SettingsFieldSection>
 
-    <SettingsFieldSection
-      :label="$t('INBOX_MGMT.SETTINGS_POPUP.HMAC_VERIFICATION')"
-      :help-text="$t('INBOX_MGMT.SETTINGS_POPUP.HMAC_DESCRIPTION')"
-    >
-      <woot-code :script="inbox.hmac_token" />
-    </SettingsFieldSection>
-    <SettingsFieldSection
-      :label="$t('INBOX_MGMT.SETTINGS_POPUP.HMAC_MANDATORY_VERIFICATION')"
-      :help-text="$t('INBOX_MGMT.SETTINGS_POPUP.HMAC_MANDATORY_DESCRIPTION')"
-    >
-      <div class="flex gap-2 items-center">
-        <input
-          id="hmacMandatory"
-          v-model="hmacMandatory"
-          type="checkbox"
-          @change="handleHmacFlag"
-        />
-        <label for="hmacMandatory" class="text-body-main text-n-slate-12">
-          {{ $t('INBOX_MGMT.EDIT.ENABLE_HMAC.LABEL') }}
+      <SettingsFieldSection
+        :label="$t('INBOX_MGMT.SETTINGS_POPUP.HMAC_VERIFICATION')"
+        :help-text="$t('INBOX_MGMT.SETTINGS_POPUP.HMAC_DESCRIPTION')"
+      >
+        <woot-code :script="inbox.hmac_token" />
+      </SettingsFieldSection>
+      <SettingsFieldSection
+        :label="$t('INBOX_MGMT.SETTINGS_POPUP.HMAC_MANDATORY_VERIFICATION')"
+        :help-text="$t('INBOX_MGMT.SETTINGS_POPUP.HMAC_MANDATORY_DESCRIPTION')"
+      >
+        <label class="flex items-center gap-2 cursor-pointer">
+          <Checkbox v-model="hmacMandatory" @change="handleHmacFlag" />
+          <span class="text-body-main text-n-slate-12">
+            {{ $t('INBOX_MGMT.EDIT.ENABLE_HMAC.LABEL') }}
+          </span>
         </label>
-      </div>
-    </SettingsFieldSection>
+      </SettingsFieldSection>
+    </template>
   </div>
   <div v-else-if="isAnEmailChannel">
     <div>

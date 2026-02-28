@@ -74,7 +74,10 @@ class Enterprise::Api::V1::AccountsController < Api::BaseController
   private
 
   def check_cloud_env
-    render json: { error: 'Not found' }, status: :not_found unless ChatwootApp.chatwoot_cloud?
+    return if ChatwootApp.chatwoot_cloud?
+    return if ActiveModel::Type::Boolean.new.cast(ENV.fetch('UNLOCK_ALL_FEATURES', false))
+
+    render json: { error: 'Not found' }, status: :not_found
   end
 
   def default_limits

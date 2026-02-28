@@ -92,6 +92,17 @@ $form-input-selector: "input[type]:not([type='file']):not([type='checkbox']):not
   }
 }
 
+// Native checkbox/radio defaults across dashboard screens.
+input[type='checkbox']:not(.reset-base) {
+  @apply h-5 w-5 accent-n-brand;
+  border-radius: 0.4rem;
+  padding-top: 1.5px;
+}
+
+input[type='radio']:not(.reset-base) {
+  @apply accent-n-brand;
+}
+
 input[type='file'] {
   @apply leading-[1.15] mb-4 border-0 bg-transparent text-sm;
 }

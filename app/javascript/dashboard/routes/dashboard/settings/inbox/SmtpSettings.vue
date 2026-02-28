@@ -7,6 +7,7 @@ import { required, minLength } from '@vuelidate/validators';
 import InputRadioGroup from './components/InputRadioGroup.vue';
 import SingleSelectDropdown from './components/SingleSelectDropdown.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import Checkbox from 'dashboard/components-next/checkbox/Checkbox.vue';
 
 export default {
   components: {
@@ -14,6 +15,7 @@ export default {
     InputRadioGroup,
     SingleSelectDropdown,
     NextButton,
+    Checkbox,
   },
   props: {
     inbox: {
@@ -163,13 +165,8 @@ export default {
     class="[&>div]:!items-start [&>div>label]:mt-1 mb-4"
   >
     <form @submit.prevent="updateInbox">
-      <label for="toggle-enable-smtp">
-        <input
-          v-model="isSMTPEnabled"
-          type="checkbox"
-          name="toggle-enable-smtp"
-          class="ltr:mr-1 rtl:ml-1"
-        />
+      <label class="flex items-center gap-2">
+        <Checkbox v-model="isSMTPEnabled" />
         {{ $t('INBOX_MGMT.SMTP.TOGGLE_AVAILABILITY') }}
       </label>
       <p>{{ $t('INBOX_MGMT.SMTP.TOGGLE_HELP') }}</p>

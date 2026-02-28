@@ -14,6 +14,7 @@ export function usePolicy() {
   const user = useMapGetter('getCurrentUser');
   const isFeatureEnabled = useMapGetter('accounts/isFeatureEnabledonAccount');
   const isOnChatwootCloud = useMapGetter('globalConfig/isOnChatwootCloud');
+  const globalConfig = useMapGetter('globalConfig/get');
   const isACustomBrandedInstance = useMapGetter(
     'globalConfig/isACustomBrandedInstance'
   );
@@ -61,6 +62,14 @@ export function usePolicy() {
     return true;
   });
 
+  const disablePremiumFeatures = computed(() => {
+    return globalConfig.value.disablePremiumFeatures;
+  });
+
+  const isAllFeaturesUnlocked = computed(() => {
+    return globalConfig.value.isAllFeaturesUnlocked;
+  });
+
   const shouldShow = (featureFlag, permissions, installationTypes) => {
     const flag = unref(featureFlag);
     const perms = unref(permissions);
@@ -71,6 +80,12 @@ export function usePolicy() {
     // This supersedes everything
     if (!checkPermissions(perms)) return false;
     if (!checkInstallationType(installation)) return false;
+    if (disablePremiumFeatures.value && flag && isPremiumFeature(flag)) {
+      return false;
+    }
+
+    // if all features are unlocked, show everything (permissions already checked above)
+    if (isAllFeaturesUnlocked.value) return true;
 
     if (isACustomBrandedInstance.value) {
       // if this is a custom branded instance, we just use the feature flag as a reference
@@ -107,6 +122,10 @@ export function usePolicy() {
   const shouldShowPaywall = featureFlag => {
     const flag = unref(featureFlag);
     if (!flag) return false;
+    if (disablePremiumFeatures.value && isPremiumFeature(flag)) return false;
+
+    // if all features are unlocked, never show paywall
+    if (isAllFeaturesUnlocked.value) return false;
 
     if (isACustomBrandedInstance.value) {
       // custom branded instances never show paywall

@@ -1,23 +1,24 @@
 export const ONGOING_CAMPAIGN_EMPTY_STATE_CONTENT = [
   {
     id: 1,
-    title: 'Chatbot Assistance',
+    title: 'Онлайн-консультант по заказам',
     inbox: {
       id: 2,
-      name: 'PaperLayer Website',
+      name: 'Сайт интернет-магазина',
       channel_type: 'Channel::WebWidget',
       phone_number: '',
     },
     sender: {
       id: 1,
-      name: 'Alexa Rivera',
+      name: 'Айгерим',
     },
-    message: 'Hello! 👋 Need help with our chatbot features? Feel free to ask!',
+    message:
+      'Здравствуйте! Нужна помощь с оформлением заказа и доставкой по Казахстану?',
     campaign_status: 'active',
     enabled: true,
     campaign_type: 'ongoing',
     trigger_rules: {
-      url: 'https://www.chatwoot.com/features/chatbot/',
+      url: 'https://shop.example.kz/catalog',
       time_on_page: 10,
     },
     trigger_only_during_business_hours: true,
@@ -26,23 +27,23 @@ export const ONGOING_CAMPAIGN_EMPTY_STATE_CONTENT = [
   },
   {
     id: 2,
-    title: 'Pricing Information Support',
+    title: 'Подсказка по ценам в тенге',
     inbox: {
       id: 2,
-      name: 'PaperLayer Website',
+      name: 'Сайт интернет-магазина',
       channel_type: 'Channel::WebWidget',
       phone_number: '',
     },
     sender: {
       id: 1,
-      name: 'Jamie Lee',
+      name: 'Дамир',
     },
-    message: 'Hello! 👋 Any questions on pricing? I’m here to help!',
+    message: 'Подсказать по ценам и акциям? Все суммы отображаются в тенге.',
     campaign_status: 'active',
     enabled: false,
     campaign_type: 'ongoing',
     trigger_rules: {
-      url: 'https://www.chatwoot.com/pricings',
+      url: 'https://shop.example.kz/pricing',
       time_on_page: 10,
     },
     trigger_only_during_business_hours: false,
@@ -51,23 +52,24 @@ export const ONGOING_CAMPAIGN_EMPTY_STATE_CONTENT = [
   },
   {
     id: 3,
-    title: 'Product Setup Assistance',
+    title: 'Помощь с подключением услуги',
     inbox: {
       id: 2,
-      name: 'PaperLayer Website',
+      name: 'Сайт интернет-магазина',
       channel_type: 'Channel::WebWidget',
       phone_number: '',
     },
     sender: {
       id: 1,
-      name: 'Chatwoot',
+      name: 'Бот поддержки',
     },
-    message: 'Hi! Chatwoot here. Need help setting up? Let me know!',
+    message:
+      'Поможем подключить услугу за 2 минуты. Если нужно, передам оператору.',
     campaign_status: 'active',
     enabled: false,
     campaign_type: 'ongoing',
     trigger_rules: {
-      url: 'https://{*.}?chatwoot.com/apps/account/*/settings/inboxes/new/',
+      url: 'https://shop.example.kz/setup',
       time_on_page: 10,
     },
     trigger_only_during_business_hours: false,
@@ -76,19 +78,18 @@ export const ONGOING_CAMPAIGN_EMPTY_STATE_CONTENT = [
   },
   {
     id: 4,
-    title: 'General Assistance Campaign',
+    title: 'Быстрая помощь по доставке',
     inbox: {
       id: 2,
-      name: 'PaperLayer Website',
+      name: 'Сайт интернет-магазина',
       channel_type: 'Channel::WebWidget',
       phone_number: '',
     },
     sender: {
       id: 1,
-      name: 'Chris Barlow',
+      name: 'Нуржан',
     },
-    message:
-      'Hi there! 👋 I’m here for any questions you may have. Let’s chat!',
+    message: 'Подскажем сроки доставки по Алматы, Астане и другим городам РК.',
     campaign_status: 'active',
     enabled: true,
     campaign_type: 'ongoing',
@@ -105,16 +106,16 @@ export const ONGOING_CAMPAIGN_EMPTY_STATE_CONTENT = [
 export const ONE_OFF_CAMPAIGN_EMPTY_STATE_CONTENT = [
   {
     id: 1,
-    title: 'Customer Feedback Request',
+    title: 'Запрос отзыва после доставки',
     inbox: {
       id: 6,
-      name: 'PaperLayer Mobile',
+      name: 'Мобильная рассылка KZ',
       channel_type: 'Channel::Sms',
-      phone_number: '+29818373149903',
+      phone_number: '+77071234567',
       provider: 'default',
     },
     message:
-      'Hello! Enjoying our product? Share your feedback on G2 and earn a $25 Amazon coupon: https://chwt.app/g2-review',
+      'Спасибо за покупку! Оцените сервис и получите промокод на следующую покупку.',
     campaign_status: 'active',
     enabled: true,
     campaign_type: 'one_off',
@@ -131,15 +132,16 @@ export const ONE_OFF_CAMPAIGN_EMPTY_STATE_CONTENT = [
   },
   {
     id: 2,
-    title: 'Welcome New Customer',
+    title: 'Приветствие нового клиента',
     inbox: {
       id: 6,
-      name: 'PaperLayer Mobile',
+      name: 'Мобильная рассылка KZ',
       channel_type: 'Channel::Sms',
-      phone_number: '+29818373149903',
+      phone_number: '+77071234567',
       provider: 'default',
     },
-    message: 'Welcome aboard! 🎉 Let us know if you have any questions.',
+    message:
+      'Добро пожаловать! Если нужен подбор товара или консультация, мы на связи.',
     campaign_status: 'completed',
     enabled: true,
     campaign_type: 'one_off',
@@ -158,15 +160,16 @@ export const ONE_OFF_CAMPAIGN_EMPTY_STATE_CONTENT = [
   },
   {
     id: 3,
-    title: 'New Business Welcome',
+    title: 'Предложение для нового B2B-клиента',
     inbox: {
       id: 6,
-      name: 'PaperLayer Mobile',
+      name: 'Мобильная рассылка KZ',
       channel_type: 'Channel::Sms',
-      phone_number: '+29818373149903',
+      phone_number: '+77071234567',
       provider: 'default',
     },
-    message: 'Hello! We’re excited to have your business with us!',
+    message:
+      'Рады сотрудничеству! Отправим прайс в тенге и условия оптовой доставки по РК.',
     campaign_status: 'active',
     enabled: true,
     campaign_type: 'one_off',
@@ -186,15 +189,16 @@ export const ONE_OFF_CAMPAIGN_EMPTY_STATE_CONTENT = [
   },
   {
     id: 4,
-    title: 'New Member Onboarding',
+    title: 'Стартовое сообщение для подписчиков',
     inbox: {
       id: 6,
-      name: 'PaperLayer Mobile',
+      name: 'Мобильная рассылка KZ',
       channel_type: 'Channel::Sms',
-      phone_number: '+29818373149903',
+      phone_number: '+77071234567',
       provider: 'default',
     },
-    message: 'Welcome to the team! Reach out if you have questions.',
+    message:
+      'Спасибо за подписку! Напишите нам, если нужно уточнить наличие или сроки доставки.',
     campaign_status: 'completed',
     enabled: true,
     campaign_type: 'one_off',

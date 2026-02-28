@@ -3,6 +3,7 @@ import { ref, watch } from 'vue';
 import Draggable from 'vuedraggable';
 import ToggleSwitch from 'dashboard/components-next/switch/Switch.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
+import Checkbox from 'dashboard/components-next/checkbox/Checkbox.vue';
 
 const props = defineProps({
   preChatFields: {
@@ -69,13 +70,10 @@ watch(
           {{ item.type }}
         </td>
         <td class="py-4 ltr:pr-3 rtl:pl-3 text-body-main">
-          <input
+          <Checkbox
             v-model="item['required']"
-            type="checkbox"
-            :value="`${item.name}-required`"
             :disabled="!item['enabled']"
-            class="m-0"
-            @click="handlePreChatFieldOptions($event, 'required', item)"
+            @change="handlePreChatFieldOptions($event, 'required', item)"
           />
         </td>
         <td

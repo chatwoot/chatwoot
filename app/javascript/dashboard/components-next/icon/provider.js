@@ -26,6 +26,9 @@ export function useChannelIcon(inbox) {
     const inboxDetails = inbox.value || inbox;
     const type = inboxDetails.channel_type;
     let icon = channelTypeIconMap[type];
+    const integrationType =
+      inboxDetails.additional_attributes?.integration_type ||
+      inboxDetails.additionalAttributes?.integrationType;
 
     if (type === 'Channel::Email' && inboxDetails.provider) {
       if (Object.keys(providerIconMap).includes(inboxDetails.provider)) {
@@ -35,6 +38,10 @@ export function useChannelIcon(inbox) {
 
     // Special case for Twilio whatsapp
     if (type === 'Channel::TwilioSms' && inboxDetails.medium === 'whatsapp') {
+      icon = 'i-woot-whatsapp';
+    }
+
+    if (type === 'Channel::Api' && integrationType === 'whatsapp_web') {
       icon = 'i-woot-whatsapp';
     }
 

@@ -11,6 +11,7 @@ import Input from 'dashboard/components-next/input/Input.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
 import Editor from 'dashboard/components-next/Editor/Editor.vue';
+import Checkbox from 'dashboard/components-next/checkbox/Checkbox.vue';
 
 const props = defineProps({
   mode: {
@@ -279,14 +280,14 @@ defineExpose({ prepareCampaignDetails, isSubmitDisabled });
       </legend>
 
       <label class="flex items-center gap-2">
-        <input v-model="state.enabled" type="checkbox" />
+        <Checkbox v-model="state.enabled" />
         <span class="text-sm font-medium text-n-slate-12">
           {{ t('CAMPAIGN.LIVE_CHAT.CREATE.FORM.OTHER_PREFERENCES.ENABLED') }}
         </span>
       </label>
 
       <label class="flex items-center gap-2">
-        <input v-model="state.triggerOnlyDuringBusinessHours" type="checkbox" />
+        <Checkbox v-model="state.triggerOnlyDuringBusinessHours" />
         <span class="text-sm font-medium text-n-slate-12">
           {{
             t(

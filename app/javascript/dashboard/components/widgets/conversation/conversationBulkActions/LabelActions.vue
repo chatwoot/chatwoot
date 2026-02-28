@@ -6,6 +6,7 @@ import { vOnClickOutside } from '@vueuse/components';
 
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
+import Checkbox from 'dashboard/components-next/checkbox/Checkbox.vue';
 
 const emit = defineEmits(['close', 'assign']);
 
@@ -28,6 +29,19 @@ const hasFilteredLabels = computed(() => filteredLabels.value.length > 0);
 
 const isLabelSelected = label => {
   return selectedLabels.value.includes(label);
+};
+
+const toggleLabel = (label, checked) => {
+  if (checked && !selectedLabels.value.includes(label)) {
+    selectedLabels.value = [...selectedLabels.value, label];
+    return;
+  }
+
+  if (!checked) {
+    selectedLabels.value = selectedLabels.value.filter(
+      selectedLabel => selectedLabel !== label
+    );
+  }
 };
 
 const onClose = () => {
@@ -90,14 +104,14 @@ const handleAssign = () => {
           :aria-selected="isLabelSelected(label.title)"
         >
           <label
-            class="items-center rounded-md cursor-pointer flex py-1 px-2.5 hover:bg-n-slate-3 dark:hover:bg-n-solid-3 has-[:checked]:bg-n-slate-2"
+            class="items-center rounded-md cursor-pointer flex py-1 px-2.5 hover:bg-n-slate-3 dark:hover:bg-n-solid-3"
+            :class="{ 'bg-n-slate-2': isLabelSelected(label.title) }"
           >
-            <input
-              v-model="selectedLabels"
-              type="checkbox"
-              :value="label.title"
+            <Checkbox
+              :model-value="isLabelSelected(label.title)"
               class="my-0 ltr:mr-2.5 rtl:ml-2.5"
               :aria-label="label.title"
+              @update:model-value="toggleLabel(label.title, $event)"
             />
             <span
               class="overflow-hidden flex-grow w-full text-sm whitespace-nowrap text-ellipsis"

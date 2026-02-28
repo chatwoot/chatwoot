@@ -78,7 +78,15 @@ class DashboardController < ActionController::Base
       WHATSAPP_APP_ID: GlobalConfigService.load('WHATSAPP_APP_ID', ''),
       WHATSAPP_CONFIGURATION_ID: GlobalConfigService.load('WHATSAPP_CONFIGURATION_ID', ''),
       IS_ENTERPRISE: ChatwootApp.enterprise?,
+      INSTALLATION_PRICING_PLAN: ENV.fetch(
+        'OVERRIDE_PRICING_PLAN',
+        GlobalConfigService.load('INSTALLATION_PRICING_PLAN', 'community')
+      ),
+      DISABLE_PREMIUM_FEATURES: ActiveModel::Type::Boolean.new.cast(ENV.fetch('DISABLE_PREMIUM_FEATURES', false)),
+      IS_ALL_FEATURES_UNLOCKED: ActiveModel::Type::Boolean.new.cast(ENV.fetch('UNLOCK_ALL_FEATURES', false)),
       AZURE_APP_ID: GlobalConfigService.load('AZURE_APP_ID', ''),
+      EXTERNAL_APP_URL: GlobalConfigService.load('EXTERNAL_APP_URL', ''),
+      EXTERNAL_APP_NAME: GlobalConfigService.load('EXTERNAL_APP_NAME', 'External App'),
       GIT_SHA: GIT_HASH,
       ALLOWED_LOGIN_METHODS: allowed_login_methods
     }

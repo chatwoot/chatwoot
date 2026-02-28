@@ -3,131 +3,122 @@ import { INBOX_TYPES } from 'dashboard/helper/inbox';
 export const assistantsList = [
   {
     account_id: 2,
-    config: { product_name: 'HelpDesk Pro' },
+    config: { product_name: 'Маркетплейс KZ' },
     created_at: 1736033561,
     description:
-      'An advanced AI assistant designed to enhance customer support solutions by automating workflows and providing instant responses.',
+      'Помогает отвечать клиентам по заказам, оплате в тенге и доставке по Казахстану.',
     id: 4,
-    name: 'Support Genie',
+    name: 'Alem Support AI',
   },
   {
     account_id: 3,
-    config: { product_name: 'CRM Tools' },
+    config: { product_name: 'CRM для продаж' },
     created_at: 1736033562,
     description:
-      'Helps streamline customer relationship management by organizing contacts, automating follow-ups, and providing insights.',
+      'Автоматизирует follow-up по лидам из Алматы и Астаны, помогает держать воронку под контролем.',
     id: 5,
-    name: 'CRM Assistant',
+    name: 'CRM Ассистент KZ',
   },
   {
     account_id: 4,
-    config: { product_name: 'SalesFlow' },
+    config: { product_name: 'Продажи и заявки' },
     created_at: 1736033563,
     description:
-      'Optimizes your sales pipeline by tracking prospects, forecasting sales, and automating administrative tasks.',
+      'Подсказывает менеджерам, как быстрее закрывать заявки и не терять повторные продажи.',
     id: 6,
-    name: 'SalesBot',
+    name: 'Sales Bot Qazaq',
   },
   {
     account_id: 5,
-    config: { product_name: 'TicketMaster AI' },
+    config: { product_name: 'Служба поддержки' },
     created_at: 1736033564,
     description:
-      'Automates ticket assignment, categorization, and customer query responses to enhance support efficiency.',
+      'Распределяет обращения по темам: доставка, возврат, оплата, и снижает нагрузку на операторов.',
     id: 7,
-    name: 'TicketBot',
+    name: 'Ticket Ассистент',
   },
   {
     account_id: 6,
-    config: { product_name: 'FinanceAssist' },
+    config: { product_name: 'Финансы и отчеты' },
     created_at: 1736033565,
     description:
-      'Provides financial analytics, reporting, and insights, helping teams make data-driven financial decisions.',
+      'Объясняет финансовые метрики и помогает собирать отчеты по продажам и возвратам.',
     id: 8,
-    name: 'Finance Wizard',
+    name: 'Finance Helper KZ',
   },
   {
     account_id: 8,
-    config: { product_name: 'HR Assistant' },
+    config: { product_name: 'Команда и HR' },
     created_at: 1736033567,
     description:
-      'Streamlines HR operations including employee management, payroll, and recruitment processes.',
+      'Помогает в адаптации сотрудников, внутренней базе знаний и стандартных HR-ответах.',
     id: 10,
-    name: 'HR Helper',
+    name: 'HR Көмекші',
   },
 ];
 
 export const documentsList = [
   {
     account_id: 1,
-    assistant: { id: 1, name: 'Helper Pro' },
+    assistant: { id: 1, name: 'Alem Support AI' },
     content:
-      'Comprehensive guide on using conversation filters to manage chats effectively.',
+      'Регламент обработки обращений: приоритеты, SLA и правила эскалации.',
     created_at: 1736143272,
-    external_link:
-      'https://www.chatwoot.com/hc/user-guide/articles/1677688192-how-to-use-conversation-filters',
+    external_link: 'https://help.example.kz/support/sla-and-escalation',
     id: 3059,
-    name: 'How to use Conversation Filters? | User Guide | Chatwoot',
+    name: 'SLA и эскалации: регламент поддержки',
     status: 'available',
   },
   {
     account_id: 2,
-    assistant: { id: 2, name: 'Support Genie' },
+    assistant: { id: 2, name: 'CRM Ассистент KZ' },
     content:
-      'Step-by-step guide for automating ticket assignments and improving support workflow in Chatwoot.',
+      'Скрипты продаж для операторов: как отвечать на частые вопросы клиентов.',
     created_at: 1736143273,
-    external_link:
-      'https://www.chatwoot.com/hc/user-guide/articles/1677688200-automating-ticket-assignments',
+    external_link: 'https://help.example.kz/sales/operator-scripts',
     id: 3060,
-    name: 'Automating Ticket Assignments | User Guide | Chatwoot',
+    name: 'Скрипты ответов для операторов',
     status: 'available',
   },
   {
     account_id: 3,
-    assistant: { id: 3, name: 'CRM Assistant' },
+    assistant: { id: 3, name: 'Sales Bot Qazaq' },
     content:
-      'A detailed guide on managing and organizing customer profiles for better relationship management.',
+      'Политика доставки по Казахстану: сроки, тарифы и регионы покрытия.',
     created_at: 1736143274,
-    external_link:
-      'https://www.chatwoot.com/hc/user-guide/articles/1677688210-managing-customer-profiles',
+    external_link: 'https://help.example.kz/delivery/kazakhstan-regions',
     id: 3061,
-    name: 'Managing Customer Profiles | User Guide | Chatwoot',
+    name: 'Доставка по Казахстану: сроки и тарифы',
     status: 'available',
   },
   {
     account_id: 4,
-    assistant: { id: 4, name: 'SalesBot' },
-    content:
-      'Learn how to optimize sales tracking and improve your sales forecasting using advanced features.',
+    assistant: { id: 4, name: 'Ticket Ассистент' },
+    content: 'Условия возврата и обмена: стандартные кейсы и исключения.',
     created_at: 1736143275,
-    external_link:
-      'https://www.chatwoot.com/hc/user-guide/articles/1677688220-sales-tracking-guide',
+    external_link: 'https://help.example.kz/returns/policy',
     id: 3062,
-    name: 'Sales Tracking Guide | User Guide | Chatwoot',
+    name: 'Возврат и обмен: политика компании',
     status: 'available',
   },
   {
     account_id: 5,
-    assistant: { id: 5, name: 'TicketBot' },
-    content:
-      'How to efficiently create, manage, and resolve tickets in Chatwoot.',
+    assistant: { id: 5, name: 'Finance Helper KZ' },
+    content: 'FAQ по оплате: Kaspi, карты Visa/Mastercard, счета для юрлиц.',
     created_at: 1736143276,
-    external_link:
-      'https://www.chatwoot.com/hc/user-guide/articles/1677688230-managing-tickets',
+    external_link: 'https://help.example.kz/payments/payment-methods',
     id: 3063,
-    name: 'Managing Tickets | User Guide | Chatwoot',
+    name: 'Оплата заказов: методы и частые вопросы',
     status: 'available',
   },
   {
     account_id: 6,
-    assistant: { id: 6, name: 'Finance Wizard' },
-    content:
-      'Detailed guide on how to use financial reporting tools and generate insightful analytics.',
+    assistant: { id: 6, name: 'HR Көмекші' },
+    content: 'Онбординг операторов: стандарты тона, время ответа и шаблоны.',
     created_at: 1736143277,
-    external_link:
-      'https://www.chatwoot.com/hc/user-guide/articles/1677688240-financial-reporting',
+    external_link: 'https://help.example.kz/team/onboarding-support',
     id: 3064,
-    name: 'Financial Reporting | User Guide | Chatwoot',
+    name: 'Онбординг операторов поддержки',
     status: 'available',
   },
 ];
@@ -136,99 +127,104 @@ export const responsesList = [
   {
     account_id: 1,
     answer:
-      'Messenger may be deactivated because you are on a free plan or the limit for inboxes might have been reached.',
+      'Канал мог отключиться из-за ограничений тарифа или если превышен лимит подключенных источников.',
     created_at: 1736283330,
     id: 87,
-    question: 'Why is my Messenger in Chatwoot deactivated?',
+    question: 'Почему канал Messenger/Instagram отключился?',
     status: 'pending',
     assistant: {
       account_id: 1,
-      config: { product_name: 'Chatwoot' },
+      config: { product_name: 'Маркетплейс KZ' },
       created_at: 1736033280,
-      description: 'Assists with general queries and system-wide issues.',
+      description:
+        'Отвечает на общие технические вопросы и помогает с настройкой каналов.',
       id: 1,
-      name: 'Assistant 2',
+      name: 'Alem Support AI',
     },
   },
   {
     account_id: 2,
     answer:
-      'You can integrate your WhatsApp account by navigating to the Integrations section and selecting the WhatsApp integration option.',
+      'Откройте раздел "Интеграции", выберите WhatsApp и пройдите подключение номера через Meta.',
     created_at: 1736283340,
     id: 88,
-    question: 'How do I integrate WhatsApp with Chatwoot?',
+    question: 'Как подключить WhatsApp Business?',
     assistant: {
       account_id: 2,
-      config: { product_name: 'Chatwoot' },
+      config: { product_name: 'Служба поддержки' },
       created_at: 1736033281,
-      description: 'Helps with integration and setup-related inquiries.',
+      description:
+        'Помогает с интеграциями и первоначальной настройкой проекта.',
       id: 2,
-      name: 'Assistant 3',
+      name: 'Ticket Ассистент',
     },
   },
   {
     account_id: 3,
     answer:
-      "To reset your password, go to the login page and click on 'Forgot Password', then follow the instructions sent to your email.",
+      'На странице входа нажмите "Забыли пароль?" и следуйте инструкции из письма.',
     created_at: 1736283350,
     id: 89,
-    question: 'How can I reset my password in Chatwoot?',
+    question: 'Как восстановить пароль сотрудника?',
     assistant: {
       account_id: 3,
-      config: { product_name: 'Chatwoot' },
+      config: { product_name: 'Команда и HR' },
       created_at: 1736033282,
-      description: 'Handles account management and recovery support.',
+      description:
+        'Закрывает вопросы по доступам и восстановлению учетных записей.',
       id: 3,
-      name: 'Assistant 4',
+      name: 'HR Көмекші',
     },
   },
   {
     account_id: 4,
     answer:
-      "You can enable the dark mode in settings by navigating to 'Appearance' and selecting 'Dark Mode'.",
+      'Да, в настройках интерфейса можно переключить светлую и темную тему.',
     created_at: 1736283360,
     id: 90,
-    question: 'How do I enable dark mode in Chatwoot?',
+    question: 'Можно включить темную тему интерфейса?',
     assistant: {
       account_id: 4,
-      config: { product_name: 'Chatwoot' },
+      config: { product_name: 'CRM для продаж' },
       created_at: 1736033283,
-      description: 'Helps with UI and theme-related inquiries.',
+      description:
+        'Помогает с вопросами по интерфейсу и личным настройкам операторов.',
       id: 4,
-      name: 'Assistant 5',
+      name: 'CRM Ассистент KZ',
     },
   },
   {
     account_id: 5,
     answer:
-      "To add a new team member, navigate to 'Settings', then 'Team', and click on 'Add Team Member'.",
+      'Перейдите в "Настройки" -> "Команда" -> "Добавить участника", затем назначьте роль и источники.',
     created_at: 1736283370,
     id: 91,
-    question: 'How do I add a new team member in Chatwoot?',
+    question: 'Как добавить нового оператора в команду?',
     assistant: {
       account_id: 5,
-      config: { product_name: 'Chatwoot' },
+      config: { product_name: 'Команда и HR' },
       created_at: 1736033284,
-      description: 'Supports team management and user access-related queries.',
+      description:
+        'Отвечает за админ-вопросы по ролям, доступам и структуре команды.',
       id: 5,
-      name: 'Assistant 6',
+      name: 'HR Көмекші',
     },
   },
   {
     account_id: 6,
     answer:
-      "Campaigns in Chatwoot allow you to send targeted messages to specific user segments. You can create them in the 'Campaigns' section.",
+      'Кампании позволяют отправлять адресные сообщения по сегментам клиентов, например отдельно по Алматы и Астане.',
     created_at: 1736283380,
     id: 92,
-    question: 'What are campaigns in Chatwoot?',
+    question: 'Для чего нужны кампании в Chatwoot?',
     assistant: {
       account_id: 6,
-      config: { product_name: 'Chatwoot' },
+      config: { product_name: 'Маркетинг и коммуникации' },
       created_at: 1736033285,
       description:
-        'Specialized in marketing, campaign management, and messaging strategies.',
+        'Специализируется на маркетинге, сегментах клиентов и массовых рассылках.',
       id: 6,
-      name: 'Assistant 7',
+      name: 'Sales Bot Qazaq',
     },
   },
 ];
@@ -236,51 +232,51 @@ export const responsesList = [
 export const inboxes = [
   {
     id: 7,
-    name: 'Email Support',
+    name: 'Поддержка по email',
     channel_type: INBOX_TYPES.EMAIL,
-    email: 'support@company.com',
+    email: 'support@example.kz',
   },
   {
     id: 1,
-    name: 'Website Chat',
+    name: 'Чат на сайте',
     channel_type: INBOX_TYPES.WEB,
   },
   {
     id: 2,
-    name: 'Facebook Support',
+    name: 'Поддержка в Facebook',
     channel_type: INBOX_TYPES.FB,
   },
   {
     id: 5,
-    name: 'SMS Service',
+    name: 'SMS-рассылки',
     channel_type: INBOX_TYPES.TWILIO,
     messaging_service_sid: 'MGxxxxxx',
   },
   {
     id: 6,
-    name: 'WhatsApp Support',
+    name: 'Поддержка в WhatsApp',
     channel_type: INBOX_TYPES.WHATSAPP,
-    phone_number: '+1987654321',
+    phone_number: '+77071234567',
   },
   {
     id: 8,
-    name: 'Telegram Support',
+    name: 'Поддержка в Telegram',
     channel_type: INBOX_TYPES.TELEGRAM,
   },
   {
     id: 9,
-    name: 'LINE Support',
+    name: 'LINE поддержка',
     channel_type: INBOX_TYPES.LINE,
   },
   {
     id: 10,
-    name: 'API Channel',
+    name: 'API-канал',
     channel_type: INBOX_TYPES.API,
   },
   {
     id: 11,
-    name: 'SMS Basic',
+    name: 'Сервисные SMS',
     channel_type: INBOX_TYPES.SMS,
-    phone_number: '+1555555555',
+    phone_number: '+77017654321',
   },
 ];

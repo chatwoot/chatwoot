@@ -1,0 +1,116 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+UPSTREAM_REMOTE="upstream"
+UPSTREAM_URL="https://github.com/chatwoot/chatwoot.git"
+UPSTREAM_BRANCH="develop"
+BASE_BRANCH="develop"
+CREATE_SYNC_BRANCH=0
+ALLOW_DIRTY=0
+
+usage() {
+  cat <<'EOF'
+Usage: script/fork-sync-upstream [options]
+
+Sync upstream Chatwoot changes into the current branch (default) or a dedicated sync branch.
+
+Options:
+  --sync-branch              Create sync/upstream-YYYYMMDD from BASE_BRANCH, then merge upstream branch
+  --upstream-branch <name>   Upstream branch to merge (default: develop)
+  --base-branch <name>       Local base branch for --sync-branch (default: develop)
+  --allow-dirty              Allow running with uncommitted changes
+  -h, --help                 Show this help
+
+Examples:
+  script/fork-sync-upstream
+  script/fork-sync-upstream --sync-branch
+  script/fork-sync-upstream --sync-branch --upstream-branch develop --base-branch develop
+EOF
+}
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --sync-branch)
+      CREATE_SYNC_BRANCH=1
+      shift
+      ;;
+    --upstream-branch)
+      [[ $# -ge 2 ]] || { echo "Missing value for --upstream-branch" >&2; exit 1; }
+      UPSTREAM_BRANCH="$2"
+      shift 2
+      ;;
+    --base-branch)
+      [[ $# -ge 2 ]] || { echo "Missing value for --base-branch" >&2; exit 1; }
+      BASE_BRANCH="$2"
+      shift 2
+      ;;
+    --allow-dirty)
+      ALLOW_DIRTY=1
+      shift
+      ;;
+    -h|--help)
+      usage
+      exit 0
+      ;;
+    *)
+      echo "Unknown option: $1" >&2
+      usage >&2
+      exit 1
+      ;;
+  esac
+done
+
+git rev-parse --is-inside-work-tree >/dev/null 2>&1 || {
+  echo "Not inside a git repository" >&2
+  exit 1
+}
+
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+cd "$REPO_ROOT"
+
+if ! git remote get-url "$UPSTREAM_REMOTE" >/dev/null 2>&1; then
+  echo "Adding upstream remote: $UPSTREAM_URL"
+  git remote add "$UPSTREAM_REMOTE" "$UPSTREAM_URL"
+fi
+
+if [[ "$ALLOW_DIRTY" -ne 1 ]] && [[ -n "$(git status --porcelain)" ]]; then
+  echo "Working tree is not clean. Commit/stash changes first or rerun with --allow-dirty." >&2
+  exit 1
+fi
+
+echo "Fetching $UPSTREAM_REMOTE (branches + tags)..."
+git fetch "$UPSTREAM_REMOTE" --tags --prune
+
+if ! git show-ref --verify --quiet "refs/remotes/$UPSTREAM_REMOTE/$UPSTREAM_BRANCH"; then
+  echo "Upstream branch not found: $UPSTREAM_REMOTE/$UPSTREAM_BRANCH" >&2
+  exit 1
+fi
+
+if [[ "$CREATE_SYNC_BRANCH" -eq 1 ]]; then
+  if ! git show-ref --verify --quiet "refs/heads/$BASE_BRANCH"; then
+    echo "Base branch not found: $BASE_BRANCH" >&2
+    exit 1
+  fi
+
+  SYNC_BRANCH="sync/upstream-$(date +%Y%m%d)"
+  if git show-ref --verify --quiet "refs/heads/$SYNC_BRANCH"; then
+    SYNC_BRANCH="${SYNC_BRANCH}-$(date +%H%M%S)"
+  fi
+
+  echo "Switching to base branch: $BASE_BRANCH"
+  git switch "$BASE_BRANCH"
+  echo "Creating sync branch: $SYNC_BRANCH"
+  git switch -c "$SYNC_BRANCH"
+fi
+
+CURRENT_BRANCH="$(git rev-parse --abbrev-ref HEAD)"
+echo "Merging $UPSTREAM_REMOTE/$UPSTREAM_BRANCH into $CURRENT_BRANCH"
+git merge "$UPSTREAM_REMOTE/$UPSTREAM_BRANCH"
+
+echo
+echo "Sync complete."
+echo "Current branch: $CURRENT_BRANCH"
+echo "Next steps:"
+echo "  1) Resolve conflicts if any (git status)"
+echo "  2) Run smoke tests"
+echo "  3) Push: git push origin $CURRENT_BRANCH"

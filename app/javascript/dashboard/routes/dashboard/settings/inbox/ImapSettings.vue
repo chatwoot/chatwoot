@@ -5,11 +5,13 @@ import SettingsFieldSection from 'dashboard/components-next/Settings/SettingsFie
 import { useVuelidate } from '@vuelidate/core';
 import { required, minLength } from '@vuelidate/validators';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import Checkbox from 'dashboard/components-next/checkbox/Checkbox.vue';
 
 export default {
   components: {
     SettingsFieldSection,
     NextButton,
+    Checkbox,
   },
   props: {
     inbox: {
@@ -101,13 +103,8 @@ export default {
     class="[&>div]:!items-start [&>div>label]:mt-1 mb-4"
   >
     <form @submit.prevent="updateInbox">
-      <label for="toggle-imap-enable">
-        <input
-          v-model="isIMAPEnabled"
-          type="checkbox"
-          class="ltr:mr-1 rtl:ml-1"
-          name="toggle-imap-enable"
-        />
+      <label class="flex items-center gap-2">
+        <Checkbox v-model="isIMAPEnabled" />
         {{ $t('INBOX_MGMT.IMAP.TOGGLE_AVAILABILITY') }}
       </label>
       <p>{{ $t('INBOX_MGMT.IMAP.TOGGLE_HELP') }}</p>
@@ -146,13 +143,8 @@ export default {
           type="password"
           @blur="v$.password.$touch"
         />
-        <label for="toggle-enable-ssl">
-          <input
-            v-model="isSSLEnabled"
-            type="checkbox"
-            class="ltr:mr-2 rtl:ml-2"
-            name="toggle-enable-ssl"
-          />
+        <label class="flex items-center gap-2">
+          <Checkbox v-model="isSSLEnabled" />
           {{ $t('INBOX_MGMT.IMAP.ENABLE_SSL') }}
         </label>
       </div>

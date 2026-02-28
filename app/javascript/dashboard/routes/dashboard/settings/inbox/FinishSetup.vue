@@ -1,15 +1,21 @@
 <script setup>
-import { computed, onMounted, reactive, watch } from 'vue';
+import { computed, onBeforeUnmount, onMounted, reactive, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
 import QRCode from 'qrcode';
+import { useAlert } from 'dashboard/composables';
 import EmptyState from '../../../../components/widgets/EmptyState.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import DuplicateInboxBanner from './channels/instagram/DuplicateInboxBanner.vue';
 import EmailInboxFinish from './channels/emailChannels/EmailInboxFinish.vue';
 import { useInbox } from 'dashboard/composables/useInbox';
 import { INBOX_TYPES } from 'dashboard/helper/inbox';
+import WhatsappWebChannel from 'dashboard/api/channel/whatsappWebChannel';
+import {
+  isValidWhatsappWebPhone,
+  normalizeWhatsappWebPhone,
+} from './channels/whatsappWebPhone';
 
 const { t } = useI18n();
 const route = useRoute();
@@ -20,6 +26,30 @@ const qrCodes = reactive({
   messenger: '',
   telegram: '',
 });
+
+const whatsappWeb = reactive({
+  isLoading: false,
+  isRequestingQr: false,
+  isRequestingCode: false,
+  isRefreshingStatus: false,
+  isReconnecting: false,
+  isLoggingOut: false,
+  isRemovingDevice: false,
+  errorMessage: '',
+  instanceName: '',
+  isConnected: false,
+  isLoggedIn: false,
+  qrLink: '',
+  qrDurationSeconds: 0,
+  qrSecondsLeft: 0,
+  qrExpiresAtMs: 0,
+  pairPhone: normalizeWhatsappWebPhone(route.query?.pair_phone?.toString() || ''),
+  pairCode: '',
+  hasShownConnectedAlert: false,
+});
+
+let qrCountdownTimer = null;
+let statusPollingTimer = null;
 
 const currentInbox = computed(() =>
   store.getters['inboxes/getInbox'](route.params.inbox_id)
@@ -37,6 +67,14 @@ const {
   isATelegramChannel,
   isATwilioWhatsAppChannel,
 } = useInbox(route.params.inbox_id);
+
+const isWhatsAppWebApiInbox = computed(() => {
+  return (
+    currentInbox.value?.channel_type === INBOX_TYPES.API &&
+    currentInbox.value?.additional_attributes?.integration_type ===
+      'whatsapp_web'
+  );
+});
 
 const hasDuplicateInstagramInbox = computed(() => {
   const instagramId = currentInbox.value.instagram_id;
@@ -62,7 +100,59 @@ const isWhatsAppEmbeddedSignup = computed(() => {
   );
 });
 
+const whatsappWebStatusLabel = computed(() => {
+  if (whatsappWeb.isLoggedIn && whatsappWeb.isConnected) {
+    return t('INBOX_MGMT.FINISH.WHATSAPP_WEB.STATUS_CONNECTED');
+  }
+  if (whatsappWeb.isLoggedIn) {
+    return t('INBOX_MGMT.FINISH.WHATSAPP_WEB.STATUS_LOGGED_IN');
+  }
+  if (whatsappWeb.isConnected) {
+    return t('INBOX_MGMT.FINISH.WHATSAPP_WEB.STATUS_CONNECTED_NO_LOGIN');
+  }
+  return t('INBOX_MGMT.FINISH.WHATSAPP_WEB.STATUS_WAITING');
+});
+
+const formattedQrTimeLeft = computed(() => {
+  const total = Math.max(0, Number(whatsappWeb.qrSecondsLeft) || 0);
+  const minutes = String(Math.floor(total / 60)).padStart(2, '0');
+  const seconds = String(total % 60).padStart(2, '0');
+  return `${minutes}:${seconds}`;
+});
+
+const formattedPairCode = computed(() => {
+  const normalized = (whatsappWeb.pairCode || '')
+    .toString()
+    .trim()
+    .toUpperCase()
+    .replace(/[^A-Z0-9]/g, '');
+
+  if (!normalized) return '';
+  if (normalized.length <= 4) return normalized;
+  return `${normalized.slice(0, 4)}-${normalized.slice(4, 8)}`;
+});
+
+const normalizedPairPhone = computed(() =>
+  normalizeWhatsappWebPhone(whatsappWeb.pairPhone)
+);
+
+const isPairPhoneValid = computed(() =>
+  isValidWhatsappWebPhone(whatsappWeb.pairPhone)
+);
+
+const pairPhoneError = computed(() => {
+  if (whatsappWeb.pairPhone.trim() && !isPairPhoneValid.value) {
+    return t('INBOX_MGMT.FINISH.WHATSAPP_WEB.PAIR_PHONE_INVALID');
+  }
+
+  return '';
+});
+
 const message = computed(() => {
+  if (isWhatsAppWebApiInbox.value) {
+    return t('INBOX_MGMT.FINISH.WHATSAPP_WEB.MESSAGE');
+  }
+
   if (isATwilioChannel.value) {
     return `${t('INBOX_MGMT.FINISH.MESSAGE')}. ${t(
       'INBOX_MGMT.ADD.TWILIO.API_CALLBACK.SUBTITLE'
@@ -99,6 +189,337 @@ const message = computed(() => {
 
   return t('INBOX_MGMT.FINISH.MESSAGE');
 });
+
+function clearQrCountdownTimer() {
+  if (qrCountdownTimer) {
+    clearInterval(qrCountdownTimer);
+    qrCountdownTimer = null;
+  }
+}
+
+function clearStatusPollingTimer() {
+  if (statusPollingTimer) {
+    clearInterval(statusPollingTimer);
+    statusPollingTimer = null;
+  }
+}
+
+function clearWhatsappWebTimers() {
+  clearQrCountdownTimer();
+  clearStatusPollingTimer();
+}
+
+function parseQrDurationSeconds(rawDuration) {
+  if (typeof rawDuration === 'number' && Number.isFinite(rawDuration)) {
+    if (rawDuration > 1_000_000) {
+      return Math.max(10, Math.round(rawDuration / 1_000_000_000));
+    }
+    return Math.max(10, Math.round(rawDuration));
+  }
+
+  if (typeof rawDuration === 'string') {
+    const normalized = rawDuration.trim().toLowerCase();
+    if (/^\d+$/.test(normalized)) {
+      const numeric = Number(normalized);
+      if (numeric > 1_000_000) {
+        return Math.max(10, Math.round(numeric / 1_000_000_000));
+      }
+      return Math.max(10, numeric);
+    }
+    if (/^\d+s$/.test(normalized)) {
+      return Math.max(10, Number(normalized.replace('s', '')));
+    }
+    if (/^\d+m$/.test(normalized)) {
+      return Math.max(10, Number(normalized.replace('m', '')) * 60);
+    }
+  }
+
+  return 30;
+}
+
+function whatsappWebError(error, fallbackMessage) {
+  return (
+    error?.response?.data?.error ||
+    error?.response?.data?.message ||
+    error?.message ||
+    fallbackMessage
+  );
+}
+
+async function loadWhatsappWebConfig() {
+  const response = await WhatsappWebChannel.showConfig(route.params.inbox_id);
+  whatsappWeb.instanceName = response.data?.config?.instance_name || '';
+  const configuredPhone = normalizeWhatsappWebPhone(response.data?.config?.phone || '');
+  if (configuredPhone) {
+    whatsappWeb.pairPhone = configuredPhone;
+  }
+}
+
+async function refreshWhatsappWebStatus({ silent = false } = {}) {
+  if (!whatsappWeb.instanceName) {
+    return;
+  }
+
+  if (!silent) {
+    whatsappWeb.isRefreshingStatus = true;
+  }
+
+  try {
+    const response = await WhatsappWebChannel.status(route.params.inbox_id, {
+      instance_name: whatsappWeb.instanceName,
+    });
+    const status = response.data?.status || {};
+    whatsappWeb.isConnected = !!status.is_connected;
+    whatsappWeb.isLoggedIn = !!status.is_logged_in;
+
+    if (whatsappWeb.isLoggedIn) {
+      clearQrCountdownTimer();
+      if (!whatsappWeb.hasShownConnectedAlert) {
+        useAlert(t('INBOX_MGMT.FINISH.WHATSAPP_WEB.CONNECTED_SUCCESS'));
+        whatsappWeb.hasShownConnectedAlert = true;
+      }
+    } else {
+      whatsappWeb.hasShownConnectedAlert = false;
+    }
+  } catch (error) {
+    whatsappWeb.errorMessage = whatsappWebError(
+      error,
+      t('INBOX_MGMT.FINISH.WHATSAPP_WEB.STATUS_ERROR')
+    );
+    if (!silent) {
+      useAlert(whatsappWeb.errorMessage);
+    }
+  } finally {
+    whatsappWeb.isRefreshingStatus = false;
+  }
+}
+
+function startQrCountdown(durationSeconds, onExpired) {
+  const seconds = Math.max(10, durationSeconds);
+  whatsappWeb.qrDurationSeconds = seconds;
+  whatsappWeb.qrSecondsLeft = seconds;
+  whatsappWeb.qrExpiresAtMs = Date.now() + seconds * 1000;
+
+  clearQrCountdownTimer();
+  qrCountdownTimer = setInterval(async () => {
+    const secondsLeft = Math.max(
+      0,
+      Math.ceil((whatsappWeb.qrExpiresAtMs - Date.now()) / 1000)
+    );
+    whatsappWeb.qrSecondsLeft = secondsLeft;
+
+    if (secondsLeft > 0) {
+      return;
+    }
+
+    clearQrCountdownTimer();
+    if (!whatsappWeb.isLoggedIn && onExpired) {
+      await onExpired();
+    }
+  }, 1000);
+}
+
+async function requestWhatsappWebQr({ silent = false } = {}) {
+  if (!whatsappWeb.instanceName || whatsappWeb.isRequestingQr) {
+    return;
+  }
+
+  if (!isPairPhoneValid.value) {
+    if (!whatsappWeb.pairPhone.trim()) {
+      if (!silent) {
+        useAlert(t('INBOX_MGMT.FINISH.WHATSAPP_WEB.PAIR_PHONE_REQUIRED'));
+      }
+      return;
+    }
+
+    if (!silent) {
+      useAlert(t('INBOX_MGMT.FINISH.WHATSAPP_WEB.PAIR_PHONE_INVALID'));
+    }
+    return;
+  }
+
+  whatsappWeb.isRequestingQr = true;
+  try {
+    const payload = {
+      instance_name: whatsappWeb.instanceName,
+      phone: normalizedPairPhone.value,
+    };
+
+    const response = await WhatsappWebChannel.loginQr(
+      route.params.inbox_id,
+      payload
+    );
+    const login = response.data?.login || {};
+    whatsappWeb.qrLink = login.qr_link || '';
+    whatsappWeb.pairCode = login.pair_code || '';
+    const durationSeconds = parseQrDurationSeconds(login.qr_duration);
+    startQrCountdown(durationSeconds, async () => {
+      await requestWhatsappWebQr({ silent: true });
+    });
+
+    if (!silent) {
+      useAlert(t('INBOX_MGMT.FINISH.WHATSAPP_WEB.QR_UPDATED'));
+    }
+    whatsappWeb.errorMessage = '';
+  } catch (error) {
+    whatsappWeb.errorMessage = whatsappWebError(
+      error,
+      t('INBOX_MGMT.FINISH.WHATSAPP_WEB.QR_ERROR')
+    );
+    if (!silent) {
+      useAlert(whatsappWeb.errorMessage);
+    }
+  } finally {
+    whatsappWeb.isRequestingQr = false;
+  }
+}
+
+async function requestWhatsappWebPairCode() {
+  if (!whatsappWeb.instanceName) {
+    return;
+  }
+
+  if (!isPairPhoneValid.value) {
+    if (!whatsappWeb.pairPhone.trim()) {
+      useAlert(t('INBOX_MGMT.FINISH.WHATSAPP_WEB.PAIR_PHONE_REQUIRED'));
+      return;
+    }
+
+    useAlert(t('INBOX_MGMT.FINISH.WHATSAPP_WEB.PAIR_PHONE_INVALID'));
+    return;
+  }
+
+  whatsappWeb.isRequestingCode = true;
+  try {
+    const response = await WhatsappWebChannel.loginCode(route.params.inbox_id, {
+      instance_name: whatsappWeb.instanceName,
+      phone: normalizedPairPhone.value,
+    });
+    whatsappWeb.pairCode = response.data?.login?.pair_code || '';
+    useAlert(t('INBOX_MGMT.FINISH.WHATSAPP_WEB.PAIR_CODE_SUCCESS'));
+  } catch (error) {
+    useAlert(
+      whatsappWebError(
+        error,
+        t('INBOX_MGMT.FINISH.WHATSAPP_WEB.PAIR_CODE_ERROR')
+      )
+    );
+  } finally {
+    whatsappWeb.isRequestingCode = false;
+  }
+}
+
+function onPairPhoneInput(event) {
+  whatsappWeb.pairPhone = normalizeWhatsappWebPhone(event.target.value);
+}
+
+async function reconnectWhatsappWeb() {
+  if (!whatsappWeb.instanceName) {
+    return;
+  }
+
+  whatsappWeb.isReconnecting = true;
+  try {
+    await WhatsappWebChannel.reconnect(route.params.inbox_id, {
+      instance_name: whatsappWeb.instanceName,
+    });
+    useAlert(t('INBOX_MGMT.FINISH.WHATSAPP_WEB.RECONNECT_SUCCESS'));
+    await refreshWhatsappWebStatus({ silent: true });
+    await requestWhatsappWebQr({ silent: true });
+  } catch (error) {
+    useAlert(
+      whatsappWebError(
+        error,
+        t('INBOX_MGMT.FINISH.WHATSAPP_WEB.RECONNECT_ERROR')
+      )
+    );
+  } finally {
+    whatsappWeb.isReconnecting = false;
+  }
+}
+
+async function logoutWhatsappWeb() {
+  if (!whatsappWeb.instanceName) {
+    return;
+  }
+
+  whatsappWeb.isLoggingOut = true;
+  try {
+    await WhatsappWebChannel.logout(route.params.inbox_id, {
+      instance_name: whatsappWeb.instanceName,
+    });
+    useAlert(t('INBOX_MGMT.FINISH.WHATSAPP_WEB.LOGOUT_SUCCESS'));
+    whatsappWeb.isConnected = false;
+    whatsappWeb.isLoggedIn = false;
+    await requestWhatsappWebQr({ silent: true });
+  } catch (error) {
+    useAlert(
+      whatsappWebError(error, t('INBOX_MGMT.FINISH.WHATSAPP_WEB.LOGOUT_ERROR'))
+    );
+  } finally {
+    whatsappWeb.isLoggingOut = false;
+  }
+}
+
+async function removeWhatsappWebDevice() {
+  if (!whatsappWeb.instanceName) {
+    return;
+  }
+
+  whatsappWeb.isRemovingDevice = true;
+  try {
+    await WhatsappWebChannel.removeDevice(route.params.inbox_id, {
+      instance_name: whatsappWeb.instanceName,
+    });
+    useAlert(t('INBOX_MGMT.FINISH.WHATSAPP_WEB.REMOVE_DEVICE_SUCCESS'));
+    whatsappWeb.isConnected = false;
+    whatsappWeb.isLoggedIn = false;
+    whatsappWeb.qrLink = '';
+    clearQrCountdownTimer();
+  } catch (error) {
+    useAlert(
+      whatsappWebError(
+        error,
+        t('INBOX_MGMT.FINISH.WHATSAPP_WEB.REMOVE_DEVICE_ERROR')
+      )
+    );
+  } finally {
+    whatsappWeb.isRemovingDevice = false;
+  }
+}
+
+function startStatusPolling() {
+  clearStatusPollingTimer();
+  statusPollingTimer = setInterval(() => {
+    refreshWhatsappWebStatus({ silent: true });
+  }, 5000);
+}
+
+async function bootstrapWhatsappWebConnection() {
+  whatsappWeb.isLoading = true;
+  whatsappWeb.errorMessage = '';
+  whatsappWeb.qrLink = '';
+  whatsappWeb.pairCode = '';
+  whatsappWeb.isConnected = false;
+  whatsappWeb.isLoggedIn = false;
+  clearWhatsappWebTimers();
+
+  try {
+    await loadWhatsappWebConfig();
+    await refreshWhatsappWebStatus({ silent: true });
+    if (!whatsappWeb.isLoggedIn) {
+      await requestWhatsappWebQr({ silent: true });
+    }
+    startStatusPolling();
+  } catch (error) {
+    whatsappWeb.errorMessage = whatsappWebError(
+      error,
+      t('INBOX_MGMT.FINISH.WHATSAPP_WEB.BOOTSTRAP_ERROR')
+    );
+  } finally {
+    whatsappWeb.isLoading = false;
+  }
+}
 
 async function generateQRCode(platform, identifier) {
   if (!identifier || !identifier.trim()) {
@@ -149,7 +570,6 @@ async function generateQRCodes() {
   }
 }
 
-// Watch for currentInbox changes and regenerate QR codes when available
 watch(
   currentInbox,
   newInbox => {
@@ -160,8 +580,24 @@ watch(
   { immediate: true }
 );
 
+watch(
+  isWhatsAppWebApiInbox,
+  enabled => {
+    if (enabled) {
+      bootstrapWhatsappWebConnection();
+      return;
+    }
+    clearWhatsappWebTimers();
+  },
+  { immediate: true }
+);
+
 onMounted(() => {
   generateQRCodes();
+});
+
+onBeforeUnmount(() => {
+  clearWhatsappWebTimers();
 });
 </script>
 
@@ -173,7 +609,13 @@ onMounted(() => {
     />
     <EmptyState
       :title="$t('INBOX_MGMT.FINISH.TITLE')"
-      :message="isAnEmailChannel && !currentInbox.provider ? '' : message"
+      :message="
+        isAnEmailChannel && !currentInbox.provider
+          ? ''
+          : isWhatsAppWebApiInbox
+            ? ''
+            : message
+      "
       :button-text="$t('INBOX_MGMT.FINISH.BUTTON_TEXT')"
     >
       <div class="w-full text-center">
@@ -275,6 +717,186 @@ onMounted(() => {
             />
           </div>
         </div>
+
+        <div
+          v-if="isWhatsAppWebApiInbox"
+          class="mt-8 max-w-2xl mx-auto rounded-xl border border-n-weak p-5 text-left"
+        >
+          <h3 class="text-base font-medium text-n-slate-12 mb-2">
+            {{ $t('INBOX_MGMT.FINISH.WHATSAPP_WEB.TITLE') }}
+          </h3>
+
+          <div class="text-sm text-n-slate-11 mb-3">
+            {{ $t('INBOX_MGMT.FINISH.WHATSAPP_WEB.STATUS_LABEL') }}
+            <span class="font-medium text-n-slate-12">{{
+              whatsappWebStatusLabel
+            }}</span>
+          </div>
+
+          <p
+            v-if="whatsappWeb.errorMessage"
+            class="mb-3 p-3 rounded-lg bg-n-ruby-3 text-n-ruby-11 text-sm"
+          >
+            {{ whatsappWeb.errorMessage }}
+          </p>
+
+          <div
+            v-if="whatsappWeb.isLoading"
+            class="text-sm text-n-slate-11 mb-3"
+          >
+            {{ $t('INBOX_MGMT.FINISH.WHATSAPP_WEB.LOADING') }}
+          </div>
+
+          <div
+            v-if="
+              (whatsappWeb.qrLink || formattedPairCode) &&
+              !whatsappWeb.isLoggedIn
+            "
+            class="mb-4 flex flex-col items-center"
+          >
+            <div v-if="whatsappWeb.qrLink" class="inline-block">
+              <div class="rounded-lg border border-n-weak p-2 inline-block">
+                <img
+                  :src="whatsappWeb.qrLink"
+                  alt="WhatsApp Web login QR"
+                  class="size-64 rounded-md"
+                />
+              </div>
+            </div>
+            <p
+              v-if="whatsappWeb.qrLink"
+              class="text-sm text-n-slate-11 mt-1 text-center"
+            >
+              {{ $t('INBOX_MGMT.FINISH.WHATSAPP_WEB.QR_TIME_LEFT') }}
+              <span class="font-medium">{{ formattedQrTimeLeft }}</span>
+            </p>
+          </div>
+
+          <div
+            v-if="whatsappWeb.isLoggedIn"
+            class="mb-4 text-sm text-n-teal-11"
+          >
+            {{ $t('INBOX_MGMT.FINISH.WHATSAPP_WEB.CONNECTED_SUCCESS') }}
+          </div>
+
+          <div class="mb-4 flex items-center justify-center gap-2 overflow-x-auto pb-1">
+            <div
+              v-if="formattedPairCode"
+              class="inline-flex shrink-0 items-center gap-2 rounded-lg border border-n-weak bg-n-alpha-2 px-3 py-2"
+            >
+              <span class="text-xs text-n-slate-11">
+                {{ $t('INBOX_MGMT.FINISH.WHATSAPP_WEB.PAIR_CODE_LABEL') }}
+              </span>
+              <span
+                class="font-mono text-base text-n-slate-12 tracking-[0.2em]"
+              >
+                {{ formattedPairCode }}
+              </span>
+            </div>
+            <div
+              class="inline-flex shrink-0 items-center gap-1 rounded-lg border border-n-weak bg-n-alpha-2 p-1"
+            >
+              <NextButton
+                ghost
+                slate
+                sm
+                icon="i-lucide-qr-code"
+                :is-loading="whatsappWeb.isRequestingQr"
+                :title="$t('INBOX_MGMT.FINISH.WHATSAPP_WEB.REFRESH_QR_BUTTON')"
+                :aria-label="
+                  $t('INBOX_MGMT.FINISH.WHATSAPP_WEB.REFRESH_QR_BUTTON')
+                "
+                @click="requestWhatsappWebQr"
+              />
+              <NextButton
+                ghost
+                slate
+                sm
+                icon="i-lucide-key-round"
+                :is-loading="whatsappWeb.isRequestingCode"
+                :title="$t('INBOX_MGMT.FINISH.WHATSAPP_WEB.PAIR_CODE_BUTTON')"
+                :aria-label="
+                  $t('INBOX_MGMT.FINISH.WHATSAPP_WEB.PAIR_CODE_BUTTON')
+                "
+                @click="requestWhatsappWebPairCode"
+              />
+              <NextButton
+                ghost
+                slate
+                sm
+                icon="i-lucide-refresh-ccw"
+                :is-loading="whatsappWeb.isReconnecting"
+                :title="$t('INBOX_MGMT.FINISH.WHATSAPP_WEB.RECONNECT_BUTTON')"
+                :aria-label="
+                  $t('INBOX_MGMT.FINISH.WHATSAPP_WEB.RECONNECT_BUTTON')
+                "
+                @click="reconnectWhatsappWeb"
+              />
+              <NextButton
+                ghost
+                slate
+                sm
+                icon="i-lucide-log-out"
+                :is-loading="whatsappWeb.isLoggingOut"
+                :title="$t('INBOX_MGMT.FINISH.WHATSAPP_WEB.LOGOUT_BUTTON')"
+                :aria-label="
+                  $t('INBOX_MGMT.FINISH.WHATSAPP_WEB.LOGOUT_BUTTON')
+                "
+                @click="logoutWhatsappWeb"
+              />
+              <NextButton
+                ghost
+                ruby
+                sm
+                icon="i-lucide-trash-2"
+                :is-loading="whatsappWeb.isRemovingDevice"
+                :title="
+                  $t('INBOX_MGMT.FINISH.WHATSAPP_WEB.REMOVE_DEVICE_BUTTON')
+                "
+                :aria-label="
+                  $t('INBOX_MGMT.FINISH.WHATSAPP_WEB.REMOVE_DEVICE_BUTTON')
+                "
+                @click="removeWhatsappWebDevice"
+              />
+            </div>
+          </div>
+
+          <div class="mb-4 w-full max-w-md mx-auto">
+            <label class="mb-0.5 text-heading-3 text-n-slate-12">
+              {{ $t('INBOX_MGMT.FINISH.WHATSAPP_WEB.PAIR_PHONE_LABEL') }}
+            </label>
+            <div class="mt-1 flex w-full items-center gap-2">
+              <span class="shrink-0 select-none text-base font-medium text-n-brand">
+                +
+              </span>
+              <div
+                class="flex h-10 w-full items-center rounded-lg bg-n-alpha-black2 outline outline-1 outline-offset-[-1px]"
+                :class="
+                  pairPhoneError
+                    ? 'outline-n-ruby-8'
+                    : 'outline-n-weak hover:outline-n-slate-6 focus-within:outline-n-brand'
+                "
+              >
+                <input
+                  :value="whatsappWeb.pairPhone"
+                  type="text"
+                  inputmode="numeric"
+                  pattern="[0-9]*"
+                  maxlength="11"
+                  :placeholder="
+                    $t('INBOX_MGMT.FINISH.WHATSAPP_WEB.PAIR_PHONE_PLACEHOLDER')
+                  "
+                  class="reset-base no-margin h-full min-w-0 flex-1 border-0 bg-transparent px-3 py-2.5 text-sm text-n-slate-12 shadow-none placeholder:text-n-slate-10 focus:outline-none"
+                  @input="onPairPhoneInput"
+                />
+              </div>
+            </div>
+            <p v-if="pairPhoneError" class="mt-1 text-label-small text-n-ruby-9">
+              {{ pairPhoneError }}
+            </p>
+          </div>
+        </div>
+
         <div class="flex gap-2 justify-center mt-4">
           <router-link
             :to="{
@@ -294,11 +916,7 @@ onMounted(() => {
               params: { inboxId: $route.params.inbox_id },
             }"
           >
-            <NextButton
-              solid
-              teal
-              :label="$t('INBOX_MGMT.FINISH.BUTTON_TEXT')"
-            />
+            <NextButton solid :label="$t('INBOX_MGMT.FINISH.BUTTON_TEXT')" />
           </router-link>
         </div>
       </div>

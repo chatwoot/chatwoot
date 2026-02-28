@@ -26,10 +26,14 @@ const inboxName = computed(() => props.inbox?.name || '');
 
 const inboxIcon = computed(() => {
   if (!props.inbox) return 'i-lucide-inbox';
+  const integrationType =
+    props.inbox.additionalAttributes?.integrationType ||
+    props.inbox.additional_attributes?.integration_type;
   return getInboxIconByType(
     props.inbox.channelType,
     props.inbox.medium,
-    'line'
+    'line',
+    integrationType
   );
 });
 

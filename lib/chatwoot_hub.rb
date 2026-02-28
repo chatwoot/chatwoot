@@ -37,12 +37,16 @@ class ChatwootHub
   end
 
   def self.pricing_plan
+    override = ENV.fetch('OVERRIDE_PRICING_PLAN', nil)
+    return override if override.present?
+
     return 'community' unless ChatwootApp.enterprise?
 
     InstallationConfig.find_by(name: 'INSTALLATION_PRICING_PLAN')&.value || 'community'
   end
 
   def self.pricing_plan_quantity
+    return ChatwootApp.max_limit if ENV.fetch('OVERRIDE_PRICING_PLAN', nil).present?
     return 0 unless ChatwootApp.enterprise?
 
     InstallationConfig.find_by(name: 'INSTALLATION_PRICING_PLAN_QUANTITY')&.value || 0

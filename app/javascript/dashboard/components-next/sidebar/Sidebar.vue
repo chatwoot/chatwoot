@@ -12,6 +12,7 @@ import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { useWindowSize, useEventListener } from '@vueuse/core';
 import { emitter } from 'shared/helpers/mitt';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
+import { useRoute } from 'vue-router';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import SidebarGroup from './SidebarGroup.vue';
@@ -46,6 +47,7 @@ const { t } = useI18n();
 const isACustomBrandedInstance = useMapGetter(
   'globalConfig/isACustomBrandedInstance'
 );
+const globalConfig = useMapGetter('globalConfig/get');
 const isRTL = useMapGetter('accounts/isRTL');
 
 const { width: windowWidth } = useWindowSize();
@@ -55,6 +57,7 @@ const accountId = useMapGetter('getCurrentAccountId');
 const isFeatureEnabledonAccount = useMapGetter(
   'accounts/isFeatureEnabledonAccount'
 );
+const route = useRoute();
 
 const hasAdvancedAssignment = computed(() => {
   return isFeatureEnabledonAccount.value(
@@ -220,6 +223,38 @@ const newReportRoutes = () => [
 ];
 
 const reportRoutes = computed(() => newReportRoutes());
+const shouldShowExternalApp = computed(() =>
+  Boolean(globalConfig.value.externalAppUrl)
+);
+const externalAppName = computed(
+  () => globalConfig.value.externalAppName || 'External App'
+);
+const routeConversationId = computed(
+  () =>
+    route.params.conversation_id ||
+    route.params.conversationId ||
+    route.query.conversation_id ||
+    route.query.conversationId
+);
+const routeInboxId = computed(
+  () =>
+    route.params.inbox_id ||
+    route.params.inboxId ||
+    route.query.inbox_id ||
+    route.query.inboxId
+);
+const externalAppRoute = computed(() => {
+  return accountScopedRoute(
+    'external_app_index',
+    {},
+    {
+      ...(routeConversationId.value
+        ? { conversation_id: routeConversationId.value }
+        : {}),
+      ...(routeInboxId.value ? { inbox_id: routeInboxId.value } : {}),
+    }
+  );
+});
 
 const menuItems = computed(() => {
   return [
@@ -315,6 +350,17 @@ const menuItems = computed(() => {
         },
       ],
     },
+    ...(shouldShowExternalApp.value
+      ? [
+          {
+            name: 'External App',
+            label: externalAppName.value,
+            icon: 'i-lucide-calendar',
+            to: externalAppRoute.value,
+            activeOn: ['external_app_index'],
+          },
+        ]
+      : []),
     {
       name: 'Captain',
       icon: 'i-woot-captain',
@@ -760,7 +806,7 @@ const menuItems = computed(() => {
         </template>
         <template v-else>
           <div class="grid flex-shrink-0 place-content-center size-6">
-            <Logo class="size-4" />
+            <Logo class="size-6" style="border-radius: 6px;"/>
           </div>
           <div class="flex-shrink-0 w-px h-3 bg-n-strong" />
           <SidebarAccountSwitcher

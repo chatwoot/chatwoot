@@ -15,6 +15,7 @@ import UpdateActions from './UpdateActions.vue';
 import LabelActions from './LabelActions.vue';
 import TeamActions from './TeamActions.vue';
 import CustomSnoozeModal from 'dashboard/components/CustomSnoozeModal.vue';
+import Checkbox from 'dashboard/components-next/checkbox/Checkbox.vue';
 export default {
   components: {
     AgentSelector,
@@ -23,6 +24,7 @@ export default {
     TeamActions,
     CustomSnoozeModal,
     NextButton,
+    Checkbox,
   },
   props: {
     conversations: {
@@ -157,11 +159,9 @@ export default {
   <div class="bulk-action__container">
     <div class="flex items-center justify-between">
       <label class="flex items-center justify-between bulk-action__panel">
-        <input
-          type="checkbox"
-          class="checkbox"
-          :checked="allConversationsSelected"
-          :indeterminate.prop="!allConversationsSelected"
+        <Checkbox
+          :model-value="allConversationsSelected"
+          :indeterminate="!allConversationsSelected"
           @change="selectAll($event)"
         />
         <span>
@@ -271,10 +271,6 @@ export default {
 
   span {
     @apply text-xs my-0 mx-1;
-  }
-
-  input[type='checkbox'] {
-    @apply cursor-pointer m-0;
   }
 }
 

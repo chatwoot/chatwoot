@@ -237,7 +237,9 @@
           "WHATSAPP_EMBEDDED": "WhatsApp Business",
           "TWILIO": "Twilio",
           "WHATSAPP_CLOUD": "WhatsApp Cloud",
+          "WHATSAPP_WEB": "WhatsApp Web",
           "WHATSAPP_CLOUD_DESC": "Quick setup through Meta",
+          "WHATSAPP_WEB_DESC": "Connect via WhatsApp Web",
           "TWILIO_DESC": "Connect via Twilio credentials",
           "360_DIALOG": "360Dialog"
         },
@@ -373,6 +375,63 @@
         "API": {
           "ERROR_MESSAGE": "We were not able to save the api channel"
         }
+      },
+      "WHATSAPP_WEB": {
+        "TITLE": "WhatsApp Web",
+        "DESC": "Create a WhatsApp Web source.",
+        "DESC_SIMPLE": "Create the source in one step. Shared settings are applied from system defaults.",
+        "CHANNEL_NAME": {
+          "LABEL": "Inbox Name",
+          "PLACEHOLDER": "Please enter an inbox name",
+          "ERROR": "This field is required"
+        },
+        "PAIR_PHONE": {
+          "LABEL": "Phone Number",
+          "PLACEHOLDER": "e.g. 77001234567",
+          "SUBTITLE": "Enter 11 digits. This number is used for pair code and inbox mapping.",
+          "ERROR": "Enter exactly 11 digits, for example 77475318623.",
+          "DUPLICATE": "This phone number is already connected to another WhatsApp Web inbox."
+        },
+        "EVOLUTION_URL": {
+          "LABEL": "WhatsApp Web URL",
+          "PLACEHOLDER": "http://localhost:8080"
+        },
+        "EVOLUTION_PATH": {
+          "LABEL": "Base Path (optional)",
+          "PLACEHOLDER": ""
+        },
+        "EVOLUTION_API_KEY": {
+          "LABEL": "API Key",
+          "PLACEHOLDER": ""
+        },
+        "INSTANCE_NAME": {
+          "LABEL": "Instance Name (optional)",
+          "PLACEHOLDER": "cw_1_42"
+        },
+        "SIGN_MSG": {
+          "LABEL": "Sign outgoing messages"
+        },
+        "REOPEN_CONVERSATION": {
+          "LABEL": "Reopen existing conversation"
+        },
+        "CONVERSATION_PENDING": {
+          "LABEL": "Keep reopened conversations pending"
+        },
+        "IMPORT_CONTACTS": {
+          "LABEL": "Import contacts from WhatsApp"
+        },
+        "MERGE_BRAZIL_CONTACTS": {
+          "LABEL": "Merge +55 contacts variations"
+        },
+        "DAYS_LIMIT": {
+          "LABEL": "Sync Days Limit",
+          "PLACEHOLDER": "60"
+        },
+        "IMPORT_MESSAGES": {
+          "LABEL": "Enable chat history import"
+        },
+        "SUBMIT_BUTTON": "Create WhatsApp Web Source",
+        "ERROR_MESSAGE": "Failed to configure WhatsApp Web source"
       },
       "EMAIL_CHANNEL": {
         "TITLE": "Email Channel",
@@ -546,7 +605,44 @@
       "WEBSITE_SUCCESS": "You have successfully finished creating a website channel. Copy the code shown below and paste it on your website. Next time a customer use the live chat, the conversation will automatically appear on your inbox.",
       "WHATSAPP_QR_INSTRUCTION": "Scan the QR code above to quickly test your WhatsApp inbox",
       "MESSENGER_QR_INSTRUCTION": "Scan the QR code above to quickly test your Facebook Messenger inbox",
-      "TELEGRAM_QR_INSTRUCTION": "Scan the QR code above to quickly test your Telegram inbox"
+      "TELEGRAM_QR_INSTRUCTION": "Scan the QR code above to quickly test your Telegram inbox",
+      "WHATSAPP_WEB": {
+        "TITLE": "Connect WhatsApp Web",
+        "SUBTITLE": "Scan the QR code or pair with code. QR is refreshed automatically to keep it valid.",
+        "MESSAGE": "Finish connecting your WhatsApp Web device now. After successful login this inbox starts receiving messages.",
+        "STATUS_LABEL": "Connection status",
+        "STATUS_CONNECTED": "Connected",
+        "STATUS_LOGGED_IN": "Logged in, waiting for active connection",
+        "STATUS_CONNECTED_NO_LOGIN": "Connected, login required",
+        "STATUS_WAITING": "Waiting for device login",
+        "LOADING": "Preparing device login...",
+        "QR_HINT": "Scan this QR in WhatsApp: Linked devices",
+        "QR_TIME_LEFT": "QR valid for",
+        "REFRESH_QR_BUTTON": "Refresh QR",
+        "REFRESH_STATUS_BUTTON": "Refresh Status",
+        "QR_UPDATED": "QR updated",
+        "QR_ERROR": "Failed to request QR",
+        "PAIR_PHONE_LABEL": "Phone number for pair code",
+        "PAIR_PHONE_PLACEHOLDER": "e.g. 77001234567",
+        "PAIR_PHONE_REQUIRED": "Enter a phone number to generate pair code",
+        "PAIR_PHONE_INVALID": "Enter exactly 11 digits, for example 77475318623.",
+        "PAIR_CODE_BUTTON": "Get Pair Code",
+        "PAIR_CODE_LABEL": "Pair code",
+        "PAIR_CODE_SUCCESS": "Pair code generated",
+        "PAIR_CODE_ERROR": "Failed to generate pair code",
+        "CONNECTED_SUCCESS": "Device connected successfully",
+        "STATUS_ERROR": "Failed to fetch device status",
+        "BOOTSTRAP_ERROR": "Failed to initialize WhatsApp Web connection flow",
+        "RECONNECT_BUTTON": "Reconnect",
+        "RECONNECT_SUCCESS": "Reconnect requested",
+        "RECONNECT_ERROR": "Failed to reconnect device",
+        "LOGOUT_BUTTON": "Stop Connection",
+        "LOGOUT_SUCCESS": "Logout requested",
+        "LOGOUT_ERROR": "Failed to logout device",
+        "REMOVE_DEVICE_BUTTON": "Remove Device",
+        "REMOVE_DEVICE_SUCCESS": "Device removed",
+        "REMOVE_DEVICE_ERROR": "Failed to remove device"
+      }
     },
     "REAUTH": "Reauthorize",
     "VIEW": "View",
@@ -759,6 +855,52 @@
       "WHATSAPP_TEMPLATES_SYNC_SUBHEADER": "Manually sync message templates from WhatsApp to update your available templates.",
       "WHATSAPP_TEMPLATES_SYNC_BUTTON": "Sync Templates",
       "WHATSAPP_TEMPLATES_SYNC_SUCCESS": "Templates sync initiated successfully. It may take a couple of minutes to update.",
+      "WHATSAPP_WEB": {
+        "CONFIG_TITLE": "WhatsApp Web",
+        "CONFIG_SUBTITLE": "Manage WhatsApp Web and Chatwoot sync settings for this inbox.",
+        "LOADING": "Loading WhatsApp Web configuration...",
+        "PASSWORD_PLACEHOLDER": "Password configured. Enter a new value to rotate.",
+        "INCLUDE_MEDIA": "Include media in history sync",
+        "INCLUDE_GROUPS": "Include groups in history sync",
+        "TEST_BUTTON": "Test Connection",
+        "SETUP_BUTTON": "Setup / Repair Mapping",
+        "WEBHOOK_URL_TITLE": "Webhook URL",
+        "WEBHOOK_URL_SUBTITLE": "Use this URL for Chatwoot message_created webhook delivery to WhatsApp Web.",
+        "DEVICE_ACTIONS_TITLE": "Device Actions",
+        "LOGIN_QR_BUTTON": "Get QR",
+        "LOGIN_CODE_BUTTON": "Get Pair Code",
+        "PAIR_PHONE_LABEL": "Phone number for pairing",
+        "PAIR_PHONE_REQUIRED": "Phone number is required.",
+        "PAIR_PHONE_ERROR": "Enter exactly 11 digits, for example 77475318623.",
+        "STATUS_BUTTON": "Refresh Status",
+        "RECONNECT_BUTTON": "Reconnect Device",
+        "LOGOUT_BUTTON": "Logout Device",
+        "QR_DURATION": "QR expires in",
+        "SYNC_TITLE": "History Sync",
+        "SYNC_START_BUTTON": "Start Sync",
+        "SYNC_STATUS_BUTTON": "Refresh Sync Status",
+        "LOAD_ERROR": "Failed to load WhatsApp Web configuration",
+        "SAVE_ERROR": "Failed to save WhatsApp Web configuration",
+        "TEST_SUCCESS": "WhatsApp Web connection is healthy",
+        "TEST_ERROR": "WhatsApp Web connection test failed",
+        "SETUP_SUCCESS": "WhatsApp Web setup completed",
+        "SETUP_ERROR": "WhatsApp Web setup failed",
+        "STATUS_ERROR": "Failed to fetch device status",
+        "LOGIN_QR_SUCCESS": "QR login request created",
+        "LOGIN_QR_ERROR": "Failed to request QR login",
+        "LOGIN_CODE_SUCCESS": "Pair code generated successfully",
+        "LOGIN_CODE_ERROR": "Failed to generate pair code",
+        "RECONNECT_SUCCESS": "Reconnect requested",
+        "RECONNECT_ERROR": "Failed to reconnect device",
+        "LOGOUT_SUCCESS": "Logout requested",
+        "LOGOUT_ERROR": "Failed to logout device",
+        "REMOVE_DEVICE_BUTTON": "Remove Device",
+        "REMOVE_DEVICE_SUCCESS": "Device removed successfully",
+        "REMOVE_DEVICE_ERROR": "Failed to remove device",
+        "SYNC_START_SUCCESS": "History sync started",
+        "SYNC_START_ERROR": "Failed to start history sync",
+        "SYNC_STATUS_ERROR": "Failed to fetch sync status"
+      },
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "Update Pre Chat Form Settings"
     },
     "HELP_CENTER": {

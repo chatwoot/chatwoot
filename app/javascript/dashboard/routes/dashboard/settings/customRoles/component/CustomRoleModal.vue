@@ -13,6 +13,7 @@ import {
 } from 'dashboard/constants/permissions.js';
 
 import Button from 'dashboard/components-next/button/Button.vue';
+import Checkbox from 'dashboard/components-next/checkbox/Checkbox.vue';
 
 const props = defineProps({
   mode: {
@@ -150,6 +151,22 @@ const handleCustomRole = async () => {
 const isSubmitDisabled = computed(
   () => v$.value.$invalid || addCustomRole.showLoading
 );
+
+const isPermissionSelected = permission =>
+  selectedPermissions.value.includes(permission);
+
+const togglePermission = (permission, checked) => {
+  if (checked && !selectedPermissions.value.includes(permission)) {
+    selectedPermissions.value = [...selectedPermissions.value, permission];
+    return;
+  }
+
+  if (!checked) {
+    selectedPermissions.value = selectedPermissions.value.filter(
+      selectedPermission => selectedPermission !== permission
+    );
+  }
+};
 </script>
 
 <template>
@@ -195,13 +212,10 @@ const isSubmitDisabled = computed(
             :key="permission"
             class="flex items-center"
           >
-            <input
-              :id="permission"
-              v-model="selectedPermissions"
-              type="checkbox"
-              :value="permission"
-              name="permissions"
+            <Checkbox
+              :model-value="isPermissionSelected(permission)"
               class="ltr:mr-2 rtl:ml-2"
+              @update:model-value="togglePermission(permission, $event)"
             />
             <label :for="permission" class="text-sm font-normal">
               {{ $t(`CUSTOM_ROLE.PERMISSIONS.${permission.toUpperCase()}`) }}

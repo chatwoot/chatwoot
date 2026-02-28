@@ -1,0 +1,8 @@
+services:
+  postgres:
+    environment:
+      - POSTGRES_PASSWORD=postgres
+
+  redis:
+    environment:
+      - REDIS_PASSWORD=devredis

@@ -62,6 +62,11 @@ module Featurable
   private
 
   def enable_default_features
+    if ActiveModel::Type::Boolean.new.cast(ENV.fetch('UNLOCK_ALL_FEATURES', false))
+      enable_features(*FEATURE_LIST.pluck('name'))
+      return
+    end
+
     config = InstallationConfig.find_by(name: 'ACCOUNT_LEVEL_FEATURE_DEFAULTS')
     return true if config.blank?
 

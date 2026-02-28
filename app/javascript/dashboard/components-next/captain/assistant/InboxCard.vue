@@ -58,8 +58,16 @@ const menuItems = computed(() => [
 ]);
 
 const icon = computed(() => {
-  const { medium, channel_type: type } = props.inbox;
-  return getInboxIconByType(type, medium, 'outline');
+  const {
+    medium,
+    channel_type: type,
+    additionalAttributes,
+    additional_attributes,
+  } = props.inbox;
+  const integrationType =
+    additionalAttributes?.integrationType ||
+    additional_attributes?.integration_type;
+  return getInboxIconByType(type, medium, 'outline', integrationType);
 });
 
 const handleAction = ({ action, value }) => {

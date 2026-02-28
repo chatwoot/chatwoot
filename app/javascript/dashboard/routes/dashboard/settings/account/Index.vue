@@ -41,7 +41,7 @@ export default {
     return {
       id: '',
       name: '',
-      locale: 'en',
+      locale: 'ru',
       domain: '',
       supportEmail: '',
       features: {},
@@ -69,10 +69,7 @@ export default {
       );
     },
     languagesSortedByCode() {
-      const enabledLanguages = [...this.enabledLanguages];
-      return enabledLanguages.sort((l1, l2) =>
-        l1.iso_639_1_code.localeCompare(l2.iso_639_1_code)
-      );
+      return this.enabledLanguages || [];
     },
     isUpdating() {
       return this.uiFlags.isUpdating;

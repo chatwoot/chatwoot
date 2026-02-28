@@ -5,11 +5,13 @@ import { reactive } from 'vue';
 import { useVuelidate } from '@vuelidate/core';
 
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import Checkbox from 'dashboard/components-next/checkbox/Checkbox.vue';
 
 export default {
   components: {
     NextButton,
     FormInput,
+    Checkbox,
   },
   props: {
     onSubmit: {
@@ -89,7 +91,7 @@ export default {
         @blur="v$.description.$touch"
       />
       <div class="w-full flex items-center gap-2">
-        <input v-model="state.allowAutoAssign" type="checkbox" :value="true" />
+        <Checkbox v-model="state.allowAutoAssign" />
         <label for="conversation_creation">
           {{ $t('TEAMS_SETTINGS.FORM.AUTO_ASSIGN.LABEL') }}
         </label>

@@ -79,13 +79,29 @@ const breadcrumbItems = computed(() => {
 });
 
 const buildInboxList = allInboxes =>
-  allInboxes?.map(({ name, id, email, phoneNumber, channelType, medium }) => ({
-    name,
-    id,
-    email,
-    phoneNumber,
-    icon: getInboxIconByType(channelType, medium, 'line'),
-  })) || [];
+  allInboxes?.map(
+    ({
+      name,
+      id,
+      email,
+      phoneNumber,
+      channelType,
+      medium,
+      additionalAttributes,
+      additional_attributes,
+    }) => {
+      const integrationType =
+        additionalAttributes?.integrationType ||
+        additional_attributes?.integration_type;
+      return {
+        name,
+        id,
+        email,
+        phoneNumber,
+        icon: getInboxIconByType(channelType, medium, 'line', integrationType),
+      };
+    }
+  ) || [];
 
 const policyInboxes = computed(() =>
   buildInboxList(selectedPolicy.value?.inboxes)

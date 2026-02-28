@@ -246,13 +246,13 @@ RSpec.describe MailPresenter do
 
       it 'matches notification sender emails case-insensitively' do
         mail_with_uppercase_sender = Mail.new do
-          from 'Chatwoot <ACCOUNTS@CHATWOOT.COM>'
+          from 'Crafty <ACCOUNTS@CRAFTY.COM>'
           to 'Inbox <inbox@example.com>'
           subject :header
           body 'Hi'
         end
 
-        with_modified_env MAILER_SENDER_EMAIL: 'Chatwoot <accounts@chatwoot.com>' do
+        with_modified_env MAILER_SENDER_EMAIL: 'Crafty <accounts@crafty.com>' do
           presenter = described_class.new(mail_with_uppercase_sender)
           expect(presenter.notification_email_from_chatwoot?).to be(true)
         end

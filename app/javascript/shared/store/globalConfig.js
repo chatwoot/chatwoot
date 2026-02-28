@@ -24,6 +24,10 @@ const {
   WIDGET_BRAND_URL: widgetBrandURL,
   DISABLE_USER_PROFILE_UPDATE: disableUserProfileUpdate,
   DEPLOYMENT_ENV: deploymentEnv,
+  DISABLE_PREMIUM_FEATURES: disablePremiumFeatures,
+  IS_ALL_FEATURES_UNLOCKED: isAllFeaturesUnlocked,
+  EXTERNAL_APP_NAME: externalAppName,
+  EXTERNAL_APP_URL: externalAppUrl,
 } = window.globalConfig || {};
 
 const state = {
@@ -34,10 +38,14 @@ const state = {
   brandName,
   chatwootInboxToken,
   deploymentEnv,
+  disablePremiumFeatures: parseBoolean(disablePremiumFeatures),
+  isAllFeaturesUnlocked: parseBoolean(isAllFeaturesUnlocked),
   createNewAccountFromDashboard,
   directUploadsEnabled: parseBoolean(directUploadsEnabled),
   disableUserProfileUpdate: parseBoolean(disableUserProfileUpdate),
   displayManifest,
+  externalAppName,
+  externalAppUrl,
   gitSha,
   maximumFileUploadSize: resolveMaximumFileUploadSize(maximumFileUploadSize),
   hCaptchaSiteKey,

@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
+REPO_ROOT="$(cd -- "$SCRIPT_DIR/.." >/dev/null 2>&1 && pwd)"
+
+cd "$REPO_ROOT"
+
+if [[ -n "${1:-}" ]]; then
+  export FRONT_DASHBOARD_APP_ACCOUNT_ID="$1"
+fi
+
+bundle exec rails runner '
+  account_id = ENV["FRONT_DASHBOARD_APP_ACCOUNT_ID"].presence
+  DashboardApps::FrontEmbedProvisioner.backfill!(account_id: account_id)
+'

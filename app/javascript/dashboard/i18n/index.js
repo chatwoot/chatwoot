@@ -16,6 +16,7 @@ import hu from './locale/hu';
 import id from './locale/id';
 import it from './locale/it';
 import ja from './locale/ja';
+import kk from './locale/kk';
 import ko from './locale/ko';
 import lv from './locale/lv';
 import ml from './locale/ml';
@@ -58,6 +59,7 @@ export default {
   id,
   it,
   ja,
+  kk,
   ko,
   ml,
   lv,

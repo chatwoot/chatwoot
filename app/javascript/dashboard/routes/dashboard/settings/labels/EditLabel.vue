@@ -5,10 +5,12 @@ import validations, { getLabelTitleErrorMessage } from './validations';
 import { useVuelidate } from '@vuelidate/core';
 
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import Checkbox from 'dashboard/components-next/checkbox/Checkbox.vue';
 
 export default {
   components: {
     NextButton,
+    Checkbox,
   },
   props: {
     selectedResponse: {
@@ -108,7 +110,7 @@ export default {
         </label>
       </div>
       <div class="flex items-center w-full gap-2">
-        <input v-model="showOnSidebar" type="checkbox" :value="true" />
+        <Checkbox v-model="showOnSidebar" />
         <label for="conversation_creation">
           {{ $t('LABEL_MGMT.FORM.SHOW_ON_SIDEBAR.LABEL') }}
         </label>

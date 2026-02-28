@@ -5,7 +5,7 @@ import Button from './Button.vue';
 const props = defineProps({
   label: { type: [String, Number], default: '' },
   confirmLabel: { type: [String, Number], default: '' },
-  color: { type: String, default: 'blue' },
+  color: { type: String, default: 'primary' },
   confirmColor: { type: String, default: 'ruby' },
   confirmHint: { type: String, default: '' },
   variant: { type: String, default: null },

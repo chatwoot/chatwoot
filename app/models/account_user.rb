@@ -36,7 +36,7 @@ class AccountUser < ApplicationRecord
 
   accepts_nested_attributes_for :account
 
-  after_create_commit :notify_creation, :create_notification_setting
+  after_create_commit :notify_creation, :create_notification_setting, :ensure_front_dashboard_app
   after_destroy :notify_deletion, :remove_user_from_account
   after_save :update_presence_in_redis, if: :saved_change_to_availability?
 
@@ -78,6 +78,12 @@ class AccountUser < ApplicationRecord
 
   def update_presence_in_redis
     OnlineStatusTracker.set_status(account.id, user.id, availability)
+  end
+
+  def ensure_front_dashboard_app
+    DashboardApps::FrontEmbedProvisioner.new(account: account).perform
+  rescue StandardError => e
+    Rails.logger.warn("[front-dashboard-app] account=#{account_id} sync failed: #{e.class} #{e.message}")
   end
 end
 

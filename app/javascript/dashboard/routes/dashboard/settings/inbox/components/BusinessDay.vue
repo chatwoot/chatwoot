@@ -4,6 +4,7 @@ import differenceInMinutes from 'date-fns/differenceInMinutes';
 import { generateTimeSlots } from '../helpers/businessHour';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import NextSelect from 'dashboard/components-next/select/Select.vue';
+import Checkbox from 'dashboard/components-next/checkbox/Checkbox.vue';
 
 const timeSlots = generateTimeSlots(30);
 
@@ -21,6 +22,7 @@ export default {
   components: {
     Icon,
     NextSelect,
+    Checkbox,
   },
   props: {
     dayName: {
@@ -151,11 +153,8 @@ export default {
   <tr>
     <td class="ltr:pl-4 ltr:pr-3 rtl:pl-3 rtl:pr-4">
       <div class="flex items-center gap-2 min-h-16">
-        <input
+        <Checkbox
           v-model="isDayEnabled"
-          name="enable-day"
-          class="m-0"
-          type="checkbox"
           :title="$t('INBOX_MGMT.BUSINESS_HOURS.DAY.ENABLE')"
         />
         <span class="text-body-main text-n-slate-12 font-medium">
@@ -167,11 +166,8 @@ export default {
       <div v-if="isDayEnabled" class="flex flex-col gap-1.5">
         <div class="flex items-center gap-4">
           <div class="flex items-center gap-2">
-            <input
+            <Checkbox
               v-model="isOpenAllDay"
-              name="enable-open-all-day"
-              class="m-0"
-              type="checkbox"
               :title="$t('INBOX_MGMT.BUSINESS_HOURS.ALL_DAY')"
             />
             <span class="text-body-main text-n-slate-12">{{

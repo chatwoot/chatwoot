@@ -4,6 +4,7 @@ import { required, url, minLength } from '@vuelidate/validators';
 import wootConstants from 'dashboard/constants/globals';
 import { getI18nKey } from 'dashboard/routes/dashboard/settings/helper/settingsHelper';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import Checkbox from 'dashboard/components-next/checkbox/Checkbox.vue';
 
 const { EXAMPLE_WEBHOOK_URL } = wootConstants;
 
@@ -23,6 +24,7 @@ const SUPPORTED_WEBHOOK_EVENTS = [
 export default {
   components: {
     NextButton,
+    Checkbox,
   },
   props: {
     value: {
@@ -74,6 +76,21 @@ export default {
     },
   },
   methods: {
+    isSubscribed(event) {
+      return this.subscriptions.includes(event);
+    },
+    toggleSubscription(event, checked) {
+      if (checked && !this.subscriptions.includes(event)) {
+        this.subscriptions = [...this.subscriptions, event];
+        return;
+      }
+
+      if (!checked) {
+        this.subscriptions = this.subscriptions.filter(
+          subscription => subscription !== event
+        );
+      }
+    },
     onSubmit() {
       this.$emit('submit', {
         url: this.url,
@@ -120,13 +137,10 @@ export default {
           :key="event"
           class="flex items-center"
         >
-          <input
-            :id="event"
-            v-model="subscriptions"
-            type="checkbox"
-            :value="event"
-            name="subscriptions"
+          <Checkbox
+            :model-value="isSubscribed(event)"
             class="mr-2"
+            @update:model-value="toggleSubscription(event, $event)"
           />
           <label :for="event" class="text-sm">
             {{

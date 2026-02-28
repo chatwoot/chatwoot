@@ -3,6 +3,8 @@
     "HEADER": "Источники",
     "DESCRIPTION": "Канал — это способ коммуникации, который ваш клиент выбирает для связи с вами. Входящие — это место, где вы управляете диалогами для определенного канала. Он может включать диалоги из различных источников, таких как электронная почта, онлайн чат или социальные сети.",
     "LEARN_MORE": "Узнать больше о «Входящих»",
+    "COUNT": "{n} источник | {n} источника | {n} источников",
+    "SEARCH_PLACEHOLDER": "Поиск источников...",
     "RECONNECTION_REQUIRED": "Входящие сообщения отключены. Вы не будете получать новые сообщения пока не пройдете авторизацию повторно.",
     "CLICK_TO_RECONNECT": "Нажмите здесь для повторного подключения.",
     "WHATSAPP_REGISTRATION_INCOMPLETE": "Ваша регистрация в WhatsApp Business не завершена. Пожалуйста, проверьте статус отображения в Meta Business Manager перед повторным подключением.",
@@ -24,8 +26,8 @@
         "BODY": "Добавить агента в созданный источник."
       },
       "FINISH": {
-        "TITLE": "Voilà!",
-        "BODY": "Все готово!"
+        "TITLE": "Готово!",
+        "BODY": "Подключение завершено!"
       }
     },
     "ADD": {
@@ -234,7 +236,9 @@
           "WHATSAPP_EMBEDDED": "WhatsApp Бизнес",
           "TWILIO": "Twilio",
           "WHATSAPP_CLOUD": "WhatsApp Cloud",
+          "WHATSAPP_WEB": "WhatsApp Web",
           "WHATSAPP_CLOUD_DESC": "Быстрая настройка через Meta",
+          "WHATSAPP_WEB_DESC": "Подключение через WhatsApp Web",
           "TWILIO_DESC": "Подключиться через Twilio",
           "360_DIALOG": "360Dialog"
         },
@@ -371,6 +375,63 @@
           "ERROR_MESSAGE": "Не удалось сохранить источник"
         }
       },
+      "WHATSAPP_WEB": {
+        "TITLE": "WhatsApp Web",
+        "DESC": "Создайте источник WhatsApp Web.",
+        "DESC_SIMPLE": "Создайте источник в один шаг. Общие настройки подставляются из системных значений.",
+        "CHANNEL_NAME": {
+          "LABEL": "Имя источника",
+          "PLACEHOLDER": "Введите имя источника",
+          "ERROR": "Это поле обязательно"
+        },
+        "PAIR_PHONE": {
+          "LABEL": "Номер телефона",
+          "PLACEHOLDER": "Например: 77001234567",
+          "SUBTITLE": "Введите 11 цифр. Этот номер используется для pair code и привязки источника.",
+          "ERROR": "Введите ровно 11 цифр, например 77475318623.",
+          "DUPLICATE": "Этот номер уже привязан к другому источнику WhatsApp Web."
+        },
+        "EVOLUTION_URL": {
+          "LABEL": "URL WhatsApp Web",
+          "PLACEHOLDER": "http://localhost:8080"
+        },
+        "EVOLUTION_PATH": {
+          "LABEL": "Base Path (необязательно)",
+          "PLACEHOLDER": ""
+        },
+        "EVOLUTION_API_KEY": {
+          "LABEL": "API ключ",
+          "PLACEHOLDER": ""
+        },
+        "INSTANCE_NAME": {
+          "LABEL": "Имя инстанса (необязательно)",
+          "PLACEHOLDER": "cw_1_42"
+        },
+        "SIGN_MSG": {
+          "LABEL": "Подписывать исходящие сообщения"
+        },
+        "REOPEN_CONVERSATION": {
+          "LABEL": "Переоткрывать существующий диалог"
+        },
+        "CONVERSATION_PENDING": {
+          "LABEL": "Оставлять переоткрытый диалог в pending"
+        },
+        "IMPORT_CONTACTS": {
+          "LABEL": "Импортировать контакты из WhatsApp"
+        },
+        "MERGE_BRAZIL_CONTACTS": {
+          "LABEL": "Объединять варианты контактов +55"
+        },
+        "DAYS_LIMIT": {
+          "LABEL": "Лимит дней синка",
+          "PLACEHOLDER": "60"
+        },
+        "IMPORT_MESSAGES": {
+          "LABEL": "Включить импорт истории"
+        },
+        "SUBMIT_BUTTON": "Создать источник WhatsApp Web",
+        "ERROR_MESSAGE": "Не удалось настроить источник WhatsApp Web"
+      },
       "EMAIL_CHANNEL": {
         "TITLE": "Email источник",
         "DESC": "Интегрируйте ваш почтовый ящик.",
@@ -440,7 +501,7 @@
         "TITLE": "Выберите источник",
         "DESC": "Chatwoot поддерживает виджет чата, страницу Facebook, профиль Twitter, Whatsapp, Email и т. д., как канал связи с пользователями. Если вы хотите настроить пользовательский канал, вы можете создать его с помощью канала API. Выберите один канал из списка ниже, чтобы продолжить.",
         "TITLE_NEXT": "Завершить установку",
-        "TITLE_FINISH": "Voilà!",
+        "TITLE_FINISH": "Готово!",
         "CHANNEL": {
           "WEBSITE": {
             "TITLE": "Сайт",
@@ -543,7 +604,44 @@
       "WEBSITE_SUCCESS": "Вы успешно создали источник-сайт. Скопируйте указанный ниже код и вставьте его на ваш сайт. В следующий раз, когда клиент напишет в чат, диалог автоматически появится здесь.",
       "WHATSAPP_QR_INSTRUCTION": "Отсканируйте QR-код выше, чтобы быстро протестировать ваш почтовый ящик WhatsApp",
       "MESSENGER_QR_INSTRUCTION": "Отсканируйте QR-код выше, чтобы быстро протестировать ваш почтовый ящик Facebook Messenger",
-      "TELEGRAM_QR_INSTRUCTION": "Отсканируйте QR-код выше, чтобы быстро протестировать ваш почтовый ящик Telegram"
+      "TELEGRAM_QR_INSTRUCTION": "Отсканируйте QR-код выше, чтобы быстро протестировать ваш почтовый ящик Telegram",
+      "WHATSAPP_WEB": {
+        "TITLE": "Подключение WhatsApp Web",
+        "SUBTITLE": "Отсканируйте QR или подключитесь по коду. QR обновляется автоматически, чтобы оставаться актуальным.",
+        "MESSAGE": "Завершите подключение устройства WhatsApp Web. После успешного входа источник начнет принимать сообщения.",
+        "STATUS_LABEL": "Статус подключения",
+        "STATUS_CONNECTED": "Подключено",
+        "STATUS_LOGGED_IN": "Вход выполнен, ожидается активное соединение",
+        "STATUS_CONNECTED_NO_LOGIN": "Есть соединение, требуется вход",
+        "STATUS_WAITING": "Ожидается вход устройства",
+        "LOADING": "Подготовка подключения устройства...",
+        "QR_HINT": "Отсканируйте QR в WhatsApp: Привязанные устройства",
+        "QR_TIME_LEFT": "QR действителен",
+        "REFRESH_QR_BUTTON": "Обновить QR",
+        "REFRESH_STATUS_BUTTON": "Обновить статус",
+        "QR_UPDATED": "QR обновлен",
+        "QR_ERROR": "Не удалось запросить QR",
+        "PAIR_PHONE_LABEL": "Номер телефона для pair code",
+        "PAIR_PHONE_PLACEHOLDER": "Например: 77001234567",
+        "PAIR_PHONE_REQUIRED": "Введите номер телефона для генерации pair code",
+        "PAIR_PHONE_INVALID": "Введите ровно 11 цифр, например 77475318623.",
+        "PAIR_CODE_BUTTON": "Получить Pair Code",
+        "PAIR_CODE_LABEL": "Pair code",
+        "PAIR_CODE_SUCCESS": "Pair code сгенерирован",
+        "PAIR_CODE_ERROR": "Не удалось сгенерировать pair code",
+        "CONNECTED_SUCCESS": "Устройство успешно подключено",
+        "STATUS_ERROR": "Не удалось получить статус устройства",
+        "BOOTSTRAP_ERROR": "Не удалось инициализировать процесс подключения WhatsApp Web",
+        "RECONNECT_BUTTON": "Переподключить",
+        "RECONNECT_SUCCESS": "Запрошено переподключение",
+        "RECONNECT_ERROR": "Не удалось переподключить устройство",
+        "LOGOUT_BUTTON": "Остановить подключение",
+        "LOGOUT_SUCCESS": "Запрошен logout",
+        "LOGOUT_ERROR": "Не удалось выполнить logout устройства",
+        "REMOVE_DEVICE_BUTTON": "Удалить устройство",
+        "REMOVE_DEVICE_SUCCESS": "Устройство удалено",
+        "REMOVE_DEVICE_ERROR": "Не удалось удалить устройство"
+      }
     },
     "REAUTH": "Войти заново",
     "VIEW": "Просмотр",
@@ -590,7 +688,9 @@
       },
       "LOCK_TO_SINGLE_CONVERSATION": {
         "ENABLED": "Включено",
-        "DISABLED": "Выключено"
+        "DISABLED": "Выключено",
+        "ENABLED_DESCRIPTION": "Когда контакт пишет снова, предыдущий диалог будет переоткрыт.",
+        "DISABLED_DESCRIPTION": "После завершения предыдущего диалога каждый раз будет создаваться новый."
       },
       "ENABLE_HMAC": {
         "LABEL": "Включить"
@@ -681,6 +781,8 @@
       }
     },
     "SETTINGS": "Настройки",
+    "CHANNEL_PREFERENCES": "Настройки канала",
+    "WIDGET_FEATURES": "Возможности виджета",
     "FEATURES": {
       "LABEL": "Возможности",
       "DISPLAY_FILE_PICKER": "Показывать выбор файла на виджете",
@@ -752,12 +854,59 @@
       "WHATSAPP_TEMPLATES_SYNC_SUBHEADER": "Вручную синхронизируйте шаблоны сообщений из WhatsApp, чтобы обновить доступные шаблоны.",
       "WHATSAPP_TEMPLATES_SYNC_BUTTON": "Синхронизировать шаблоны",
       "WHATSAPP_TEMPLATES_SYNC_SUCCESS": "Синхронизация шаблонов успешно запущена. Обновление может занять несколько минут.",
+      "WHATSAPP_WEB": {
+        "CONFIG_TITLE": "WhatsApp Web",
+        "CONFIG_SUBTITLE": "Управление настройками WhatsApp Web и синхронизации Chatwoot для этого источника.",
+        "LOADING": "Загрузка конфигурации WhatsApp Web...",
+        "PASSWORD_PLACEHOLDER": "Пароль настроен. Введите новое значение для ротации.",
+        "INCLUDE_MEDIA": "Включать медиа в синк истории",
+        "INCLUDE_GROUPS": "Включать группы в синк истории",
+        "TEST_BUTTON": "Проверить подключение",
+        "SETUP_BUTTON": "Настроить / исправить привязку",
+        "WEBHOOK_URL_TITLE": "Webhook URL",
+        "WEBHOOK_URL_SUBTITLE": "Используйте этот URL для доставки webhook message_created из Chatwoot в WhatsApp Web.",
+        "DEVICE_ACTIONS_TITLE": "Действия с устройством",
+        "LOGIN_QR_BUTTON": "Получить QR",
+        "LOGIN_CODE_BUTTON": "Получить pair code",
+        "PAIR_PHONE_LABEL": "Номер телефона для pair code",
+        "PAIR_PHONE_REQUIRED": "Номер телефона обязателен.",
+        "PAIR_PHONE_ERROR": "Введите ровно 11 цифр, например 77475318623.",
+        "STATUS_BUTTON": "Обновить статус",
+        "RECONNECT_BUTTON": "Переподключить устройство",
+        "LOGOUT_BUTTON": "Выйти из устройства",
+        "QR_DURATION": "QR истекает через",
+        "SYNC_TITLE": "Синк истории",
+        "SYNC_START_BUTTON": "Запустить синк",
+        "SYNC_STATUS_BUTTON": "Обновить статус синка",
+        "LOAD_ERROR": "Не удалось загрузить конфигурацию WhatsApp Web",
+        "SAVE_ERROR": "Не удалось сохранить конфигурацию WhatsApp Web",
+        "TEST_SUCCESS": "Подключение к WhatsApp Web успешно",
+        "TEST_ERROR": "Проверка подключения к WhatsApp Web не удалась",
+        "SETUP_SUCCESS": "Настройка WhatsApp Web завершена",
+        "SETUP_ERROR": "Настройка WhatsApp Web не удалась",
+        "STATUS_ERROR": "Не удалось получить статус устройства",
+        "LOGIN_QR_SUCCESS": "Запрос на QR-логин создан",
+        "LOGIN_QR_ERROR": "Не удалось запросить QR-логин",
+        "LOGIN_CODE_SUCCESS": "Pair code успешно создан",
+        "LOGIN_CODE_ERROR": "Не удалось создать pair code",
+        "RECONNECT_SUCCESS": "Запрошено переподключение",
+        "RECONNECT_ERROR": "Не удалось переподключить устройство",
+        "LOGOUT_SUCCESS": "Запрошен logout",
+        "LOGOUT_ERROR": "Не удалось выполнить logout устройства",
+        "REMOVE_DEVICE_BUTTON": "Удалить устройство",
+        "REMOVE_DEVICE_SUCCESS": "Устройство успешно удалено",
+        "REMOVE_DEVICE_ERROR": "Не удалось удалить устройство",
+        "SYNC_START_SUCCESS": "Синк истории запущен",
+        "SYNC_START_ERROR": "Не удалось запустить синк истории",
+        "SYNC_STATUS_ERROR": "Не удалось получить статус синка"
+      },
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "Обновить настройки формы для чата"
     },
     "HELP_CENTER": {
       "LABEL": "Центр поддержки",
       "PLACEHOLDER": "Выберите справочный центр",
       "SELECT_PLACEHOLDER": "Выберите справочный центр",
+      "NONE": "Нет",
       "REMOVE": "Удалить справочный центр",
       "SUB_TEXT": "Прикрепить справочный центр с помощью папки \"Входящие\""
     },
@@ -765,6 +914,53 @@
       "MAX_ASSIGNMENT_LIMIT": "Авто распределение лимита",
       "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Пожалуйста, введите значение больше 0",
       "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Ограничьте максимальное количество диалогов из этого почтового ящика, которые могут быть автоматически назначены агенту"
+    },
+    "ASSIGNMENT": {
+      "TITLE": "Назначение диалогов",
+      "DESCRIPTION": "Автоматически назначайте новые диалоги доступным агентам по правилам назначения",
+      "ENABLE_AUTO_ASSIGNMENT": "Включить автоматическое назначение диалогов",
+      "DEFAULT_RULES_TITLE": "Правила назначения по умолчанию",
+      "DEFAULT_RULES_DESCRIPTION": "Используется поведение назначения по умолчанию для всех диалогов",
+      "DEFAULT_RULE_1": "Сначала более ранние диалоги",
+      "DEFAULT_RULE_2": "Распределение round-robin",
+      "CUSTOMIZE_WITH_POLICY": "Настроить через policy назначения",
+      "USING_POLICY": "Для этого inbox используется кастомная policy назначения",
+      "CUSTOMIZE_POLICY": "Настроить policy назначения",
+      "DELETE_POLICY": "Удалить policy",
+      "POLICY_LABEL": "Policy назначения",
+      "ASSIGNMENT_ORDER_LABEL": "Порядок назначения",
+      "ASSIGNMENT_METHOD_LABEL": "Метод назначения",
+      "POLICY_STATUS": {
+        "ACTIVE": "Активна",
+        "INACTIVE": "Неактивна"
+      },
+      "PRIORITY": {
+        "EARLIEST_CREATED": "Самые ранние",
+        "LONGEST_WAITING": "Самые долго ожидающие"
+      },
+      "METHOD": {
+        "ROUND_ROBIN": "Round robin",
+        "BALANCED": "Сбалансированное назначение"
+      },
+      "UPGRADE_PROMPT": "Кастомные policy назначения доступны на Business плане",
+      "UPGRADE_TO_BUSINESS": "Перейти на Business",
+      "DEFAULT_POLICY_LINKED": "Привязана policy по умолчанию",
+      "DEFAULT_POLICY_DESCRIPTION": "Привяжите кастомную policy назначения, чтобы настроить, как диалоги назначаются агентам в этом inbox.",
+      "LINK_EXISTING_POLICY": "Привязать существующую policy",
+      "CREATE_NEW_POLICY": "Создать новую policy",
+      "NO_POLICIES": "Policy назначения не найдены",
+      "VIEW_ALL_POLICIES": "Показать все policy",
+      "CURRENT_BEHAVIOR": "Сейчас используется поведение назначения по умолчанию:",
+      "LINK_SUCCESS": "Policy назначения успешно привязана",
+      "LINK_ERROR": "Не удалось привязать policy назначения"
+    },
+    "ASSIGNMENT_POLICY": {
+      "DELETE_CONFIRM_TITLE": "Удалить policy назначения?",
+      "DELETE_CONFIRM_MESSAGE": "Удалить эту policy назначения из этого inbox? Inbox вернётся к правилам назначения по умолчанию.",
+      "CANCEL": "Отмена",
+      "CONFIRM_DELETE": "Удалить",
+      "DELETE_SUCCESS": "Policy назначения успешно удалена",
+      "DELETE_ERROR": "Не удалось удалить policy назначения"
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Войти заново",
@@ -973,8 +1169,8 @@
           "IN_A_DAY": "Через день"
         },
         "WIDGET_COLOR_LABEL": "Цвет виджета",
-        "WIDGET_BUBBLE_POSITION_LABEL": "Позиция конструктора виджетов",
-        "WIDGET_BUBBLE_TYPE_LABEL": "Тип рамки для виджета",
+        "WIDGET_BUBBLE_POSITION_LABEL": "Расположение",
+        "WIDGET_BUBBLE_TYPE_LABEL": "Тип рамки",
         "WIDGET_BUBBLE_LAUNCHER_TITLE": {
           "DEFAULT": "Пообщайтесь с нами",
           "LABEL": "Название виджета",
@@ -1021,7 +1217,7 @@
         "USER_MESSAGE": "Хай",
         "AGENT_MESSAGE": "Привет"
       },
-      "BRANDING_TEXT": "Работает на Chatwoot",
+      "BRANDING_TEXT": "Работает на Crafty",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
     },
     "EMAIL_PROVIDERS": {

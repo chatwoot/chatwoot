@@ -115,7 +115,19 @@ if resource.api?
   json.hmac_token resource.channel.try(:hmac_token) if Current.account_user&.administrator?
   json.webhook_url resource.channel.try(:webhook_url)
   json.inbox_identifier resource.channel.try(:identifier)
-  json.additional_attributes resource.channel.try(:additional_attributes)
+  additional_attributes = resource.channel.try(:additional_attributes)
+  integration_type = additional_attributes&.[]('integration_type') || additional_attributes&.[](:integration_type)
+  evolution_api_key = additional_attributes&.dig('whatsapp_web', 'evolution_api_key') ||
+                      additional_attributes&.dig(:whatsapp_web, :evolution_api_key)
+  if integration_type == 'whatsapp_web' && evolution_api_key.present?
+    additional_attributes = additional_attributes.deep_dup
+    if additional_attributes['whatsapp_web'].is_a?(Hash)
+      additional_attributes['whatsapp_web']['evolution_api_key'] = nil
+    elsif additional_attributes[:whatsapp_web].is_a?(Hash)
+      additional_attributes[:whatsapp_web][:evolution_api_key] = nil
+    end
+  end
+  json.additional_attributes additional_attributes
 end
 
 json.provider resource.channel.try(:provider)
