@@ -152,7 +152,7 @@ class Captain::Llm::SystemPromptsService
     # rubocop:enable Metrics/MethodLength
 
     # rubocop:disable Metrics/MethodLength
-    def assistant_response_generator(assistant_name, product_name, config = {})
+    def assistant_response_generator(assistant_name, product_name, config = {}, workflows: [], active_execution: nil)
       assistant_citation_guidelines = if config['feature_citation']
                                         <<~CITATION_TEXT
                                           - Always include citations for any information provided, referencing the specific source (document only - skip if it was derived from a conversation).
@@ -203,6 +203,7 @@ class Captain::Llm::SystemPromptsService
         ```
         - If the answer is not provided in context sections, Respond to the customer and ask whether they want to talk to another support agent . If they ask to Chat with another agent, return `conversation_handoff' as the response in JSON response
         #{'- You MUST provide numbered citations at the appropriate places in the text.' if config['feature_citation']}
+        #{workflow_prompt_section(workflows, active_execution)}
       SYSTEM_PROMPT_MESSAGE
     end
 
@@ -288,6 +289,39 @@ class Captain::Llm::SystemPromptsService
       PROMPT
     end
     # rubocop:enable Metrics/MethodLength
+
+    private
+
+    def workflow_prompt_section(workflows, active_execution)
+      return '' if workflows.blank? && active_execution.blank?
+
+      sections = []
+      sections << available_workflows_prompt(workflows) if workflows.present?
+      sections << active_execution_prompt(active_execution) if active_execution.present?
+      sections.join("\n")
+    end
+
+    def available_workflows_prompt(workflows)
+      workflow_list = workflows.map { |w| "- ID: #{w.id}, Name: \"#{w.name}\", Description: \"#{w.description}\"" }.join("\n")
+      <<~WORKFLOWS
+        [Available Workflows]
+        You can execute workflows to help the customer. Use the execute_workflow tool to start or continue a workflow.
+        #{workflow_list}
+      WORKFLOWS
+    end
+
+    def active_execution_prompt(active_execution)
+      paused_node = active_execution.workflow.nodes.find { |n| n['id'] == active_execution.current_node_id }
+      input_key = paused_node&.dig('data', 'input_key') || 'user_input'
+      prompt = paused_node&.dig('data', 'prompt') || 'Please provide input'
+
+      <<~EXECUTION
+        [Active Workflow Execution]
+        Execution ID: #{active_execution.id} is waiting for input.
+        Input key: "#{input_key}", Prompt: "#{prompt}"
+        Call execute_workflow(execution_id: #{active_execution.id}, user_input: "<user's response>") to continue.
+      EXECUTION
+    end
   end
 end
 # rubocop:enable Metrics/ClassLength

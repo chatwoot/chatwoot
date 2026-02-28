@@ -735,25 +735,18 @@
       },
       "WORKFLOWS": {
         "TITLE": "Workflows",
-        "DESCRIPTION": "Automate actions triggered by conversation events with a visual workflow builder.",
+        "DESCRIPTION": "Build interactive workflows that Captain can execute during conversations.",
         "ADD_BUTTON": "New Workflow",
         "DEFAULT_NAME": "New Workflow",
         "EMPTY_MESSAGE": "No workflows yet. Create one to automate conversation actions.",
-        "TRIGGERS": {
-          "CONVERSATION_CREATED": "Conversation Created",
-          "MESSAGE_CREATED": "Message Created",
-          "CONVERSATION_RESOLVED": "Conversation Resolved"
-        },
         "PALETTE": {
-          "TRIGGERS": "Triggers",
+          "INTERACTIVE": "Interactive",
           "LOGIC": "Logic",
           "ACTIONS": "Actions",
           "SHOPIFY": "Shopify"
         },
         "NODES": {
-          "TRIGGER_CONVERSATION_CREATED": "Conversation Created",
-          "TRIGGER_MESSAGE_CREATED": "Message Created",
-          "TRIGGER_CONVERSATION_RESOLVED": "Conversation Resolved",
+          "COLLECT_INPUT": "Collect Input",
           "CONDITION": "Condition",
           "SEND_MESSAGE": "Send Message",
           "ADD_LABEL": "Add Label",
@@ -776,6 +769,8 @@
           "ATTRIBUTE": "Attribute",
           "OPERATOR": "Operator",
           "VALUE": "Value",
+          "INPUT_KEY": "Input Key",
+          "PROMPT": "Prompt",
           "APPLY": "Apply",
           "DELETE": "Delete Node",
           "CONDITION_TRUE": "True",

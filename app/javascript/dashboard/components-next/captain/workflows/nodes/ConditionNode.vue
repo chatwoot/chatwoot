@@ -11,13 +11,13 @@ const { t } = useI18n();
 
 <template>
   <div
-    class="flex w-52 rounded-xl bg-n-solid-2 outline outline-1 -outline-offset-1 outline-n-container shadow-sm overflow-hidden"
+    class="flex w-32 rounded-xl bg-n-solid-2 outline outline-1 -outline-offset-1 outline-n-container shadow-sm"
   >
     <Handle type="target" :position="Position.Top" class="!bg-n-amber-9" />
     <div class="w-1 shrink-0 bg-n-amber-9" />
-    <div class="flex flex-col gap-1 px-3 py-2.5 min-w-0">
+    <div class="flex flex-col gap-0.5 px-2 py-1.5 min-w-0">
       <div class="flex items-center gap-2">
-        <span class="i-lucide-git-branch text-n-amber-11 size-3.5 shrink-0" />
+        <span class="i-lucide-git-branch text-n-amber-11 size-3 shrink-0" />
         <span class="text-xs font-medium text-n-slate-12 truncate">
           {{ data.label || 'Condition' }}
         </span>

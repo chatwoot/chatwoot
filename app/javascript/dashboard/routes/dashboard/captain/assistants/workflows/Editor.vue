@@ -9,10 +9,10 @@ import { VueFlow, useVueFlow } from '@vue-flow/core';
 import WorkflowToolbar from 'dashboard/components-next/captain/workflows/WorkflowToolbar.vue';
 import NodePalette from 'dashboard/components-next/captain/workflows/NodePalette.vue';
 import NodeConfigPanel from 'dashboard/components-next/captain/workflows/NodeConfigPanel.vue';
-import TriggerNode from 'dashboard/components-next/captain/workflows/nodes/TriggerNode.vue';
 import ActionNode from 'dashboard/components-next/captain/workflows/nodes/ActionNode.vue';
 import ConditionNode from 'dashboard/components-next/captain/workflows/nodes/ConditionNode.vue';
 import ShopifyNode from 'dashboard/components-next/captain/workflows/nodes/ShopifyNode.vue';
+import CollectInputNode from 'dashboard/components-next/captain/workflows/nodes/CollectInputNode.vue';
 
 const { t } = useI18n();
 const route = useRoute();
@@ -32,9 +32,7 @@ const nodes = ref([]);
 const edges = ref([]);
 
 const nodeTypes = {
-  trigger_conversation_created: TriggerNode,
-  trigger_message_created: TriggerNode,
-  trigger_conversation_resolved: TriggerNode,
+  collect_input: CollectInputNode,
   condition: ConditionNode,
   send_message: ActionNode,
   add_label: ActionNode,
@@ -115,14 +113,13 @@ const deleteNode = nodeId => {
   }
 };
 
-const saveWorkflow = async ({ name, description, trigger_event, enabled }) => {
+const saveWorkflow = async ({ name, description, enabled }) => {
   try {
     await store.dispatch('captainWorkflows/update', {
       id: workflowId.value,
       assistantId: assistantId.value,
       name,
       description,
-      trigger_event,
       enabled,
       nodes: nodes.value.map(n => ({
         id: n.id,
@@ -192,3 +189,40 @@ onMounted(async () => {
     </div>
   </div>
 </template>
+
+<style>
+.vue-flow__node {
+  padding: 0;
+  border-radius: 0;
+  border: none;
+  background: none;
+  box-shadow: none;
+  font-size: inherit;
+  min-width: 0;
+}
+
+.vue-flow__handle {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  border: 1px solid white;
+  min-width: 0;
+  min-height: 0;
+}
+
+.vue-flow__edge-path {
+  stroke: var(--n-alpha-7);
+  stroke-width: 1.5;
+}
+
+.vue-flow__edge.selected .vue-flow__edge-path,
+.vue-flow__edge:hover .vue-flow__edge-path {
+  stroke: var(--n-slate-9);
+  stroke-width: 2;
+}
+
+.vue-flow__connection-line {
+  stroke: var(--n-slate-9);
+  stroke-width: 1.5;
+}
+</style>

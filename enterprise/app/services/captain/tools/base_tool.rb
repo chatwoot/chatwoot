@@ -3,9 +3,10 @@ class Captain::Tools::BaseTool < RubyLLM::Tool
 
   attr_accessor :assistant
 
-  def initialize(assistant, user: nil)
+  def initialize(assistant, user: nil, conversation: nil)
     @assistant = assistant
     @user = user
+    @conversation = conversation
     super()
   end
 

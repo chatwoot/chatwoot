@@ -5,23 +5,13 @@ const { t } = useI18n();
 
 const NODE_CATEGORIES = [
   {
-    label: 'CAPTAIN.ASSISTANTS.WORKFLOWS.PALETTE.TRIGGERS',
-    color: 'n-teal',
-    icon: 'i-lucide-zap',
+    label: 'CAPTAIN.ASSISTANTS.WORKFLOWS.PALETTE.INTERACTIVE',
+    color: 'n-violet',
+    icon: 'i-lucide-message-circle-question',
     nodes: [
       {
-        type: 'trigger_conversation_created',
-        label:
-          'CAPTAIN.ASSISTANTS.WORKFLOWS.NODES.TRIGGER_CONVERSATION_CREATED',
-      },
-      {
-        type: 'trigger_message_created',
-        label: 'CAPTAIN.ASSISTANTS.WORKFLOWS.NODES.TRIGGER_MESSAGE_CREATED',
-      },
-      {
-        type: 'trigger_conversation_resolved',
-        label:
-          'CAPTAIN.ASSISTANTS.WORKFLOWS.NODES.TRIGGER_CONVERSATION_RESOLVED',
+        type: 'collect_input',
+        label: 'CAPTAIN.ASSISTANTS.WORKFLOWS.NODES.COLLECT_INPUT',
       },
     ],
   },

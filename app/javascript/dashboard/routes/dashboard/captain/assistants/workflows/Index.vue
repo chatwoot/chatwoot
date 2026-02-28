@@ -20,20 +20,11 @@ const uiFlags = useMapGetter('captainWorkflows/getUIFlags');
 const isFetching = computed(() => uiFlags.value.fetchingList);
 const workflows = useMapGetter('captainWorkflows/getRecords');
 
-const TRIGGER_LABELS = {
-  conversation_created:
-    'CAPTAIN.ASSISTANTS.WORKFLOWS.TRIGGERS.CONVERSATION_CREATED',
-  message_created: 'CAPTAIN.ASSISTANTS.WORKFLOWS.TRIGGERS.MESSAGE_CREATED',
-  conversation_resolved:
-    'CAPTAIN.ASSISTANTS.WORKFLOWS.TRIGGERS.CONVERSATION_RESOLVED',
-};
-
 const createWorkflow = async () => {
   try {
     const workflow = await store.dispatch('captainWorkflows/create', {
       assistantId: assistantId.value,
       name: t('CAPTAIN.ASSISTANTS.WORKFLOWS.DEFAULT_NAME'),
-      trigger_event: 'conversation_created',
       nodes: [],
       edges: [],
     });
@@ -143,9 +134,6 @@ onMounted(() => {
                 class="text-xs text-n-slate-11 truncate"
               >
                 {{ workflow.description }}
-              </span>
-              <span class="text-xs text-n-slate-10">
-                {{ $t(TRIGGER_LABELS[workflow.trigger_event]) }}
               </span>
             </div>
             <div class="flex items-center gap-3 flex-shrink-0">

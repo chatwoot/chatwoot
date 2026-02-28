@@ -1,10 +1,11 @@
 class Captain::Llm::AssistantChatService < Llm::BaseAiService
   include Captain::ChatHelper
 
-  def initialize(assistant: nil, conversation_id: nil)
+  def initialize(assistant: nil, conversation: nil, conversation_id: nil)
     super()
 
     @assistant = assistant
+    @conversation = conversation
     @conversation_id = conversation_id
 
     @messages = [system_message]
@@ -28,14 +29,26 @@ class Captain::Llm::AssistantChatService < Llm::BaseAiService
   private
 
   def build_tools
-    [Captain::Tools::SearchDocumentationService.new(@assistant, user: nil)]
+    tools = [Captain::Tools::SearchDocumentationService.new(@assistant, user: nil)]
+    if @conversation && @assistant.workflows.enabled.exists?
+      tools << Captain::Tools::ExecuteWorkflowService.new(@assistant, conversation: @conversation)
+    end
+    tools
   end
 
   def system_message
     {
       role: 'system',
-      content: Captain::Llm::SystemPromptsService.assistant_response_generator(@assistant.name, @assistant.config['product_name'], @assistant.config)
+      content: Captain::Llm::SystemPromptsService.assistant_response_generator(
+        @assistant.name, @assistant.config['product_name'], @assistant.config,
+        workflows: @assistant.workflows.enabled,
+        active_execution: @conversation ? find_active_execution : nil
+      )
     }
+  end
+
+  def find_active_execution
+    Captain::WorkflowExecution.where(conversation: @conversation, status: :waiting_for_input).last
   end
 
   def persist_message(message, message_type = 'assistant')

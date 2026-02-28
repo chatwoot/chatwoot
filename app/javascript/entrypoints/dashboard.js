@@ -32,6 +32,7 @@ import { vResizeObserver } from '@vueuse/components';
 import { directive as onClickaway } from 'vue3-click-away';
 
 import 'floating-vue/dist/style.css';
+import '@vue-flow/core/dist/style.css';
 
 const i18n = createI18n({
   legacy: false, // https://github.com/intlify/vue-i18n/issues/1902

@@ -1,8 +1,6 @@
 class Captain::Workflows::NodeRegistry
   REGISTRY = {
-    'trigger_conversation_created' => Captain::Workflows::Nodes::TriggerNode,
-    'trigger_message_created' => Captain::Workflows::Nodes::TriggerNode,
-    'trigger_conversation_resolved' => Captain::Workflows::Nodes::TriggerNode,
+    'collect_input' => Captain::Workflows::Nodes::CollectInputNode,
     'condition' => Captain::Workflows::Nodes::ConditionNode,
     'send_message' => Captain::Workflows::Nodes::SendMessageNode,
     'add_label' => Captain::Workflows::Nodes::AddLabelNode,

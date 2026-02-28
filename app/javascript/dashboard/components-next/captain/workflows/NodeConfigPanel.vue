@@ -64,6 +64,18 @@ const FIELD_CONFIGS = {
       label: 'CAPTAIN.ASSISTANTS.WORKFLOWS.CONFIG.PRIORITY',
     },
   ],
+  collect_input: [
+    {
+      key: 'input_key',
+      component: 'input',
+      label: 'CAPTAIN.ASSISTANTS.WORKFLOWS.CONFIG.INPUT_KEY',
+    },
+    {
+      key: 'prompt',
+      component: 'textarea',
+      label: 'CAPTAIN.ASSISTANTS.WORKFLOWS.CONFIG.PROMPT',
+    },
+  ],
   condition: [
     {
       key: 'attribute',
