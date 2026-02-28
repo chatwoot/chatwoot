@@ -732,6 +732,74 @@
             "ERROR": "There was an error deleting scenarios, please try again."
           }
         }
+      },
+      "WORKFLOWS": {
+        "TITLE": "Workflows",
+        "DESCRIPTION": "Automate actions triggered by conversation events with a visual workflow builder.",
+        "ADD_BUTTON": "New Workflow",
+        "DEFAULT_NAME": "New Workflow",
+        "EMPTY_MESSAGE": "No workflows yet. Create one to automate conversation actions.",
+        "TRIGGERS": {
+          "CONVERSATION_CREATED": "Conversation Created",
+          "MESSAGE_CREATED": "Message Created",
+          "CONVERSATION_RESOLVED": "Conversation Resolved"
+        },
+        "PALETTE": {
+          "TRIGGERS": "Triggers",
+          "LOGIC": "Logic",
+          "ACTIONS": "Actions",
+          "SHOPIFY": "Shopify"
+        },
+        "NODES": {
+          "TRIGGER_CONVERSATION_CREATED": "Conversation Created",
+          "TRIGGER_MESSAGE_CREATED": "Message Created",
+          "TRIGGER_CONVERSATION_RESOLVED": "Conversation Resolved",
+          "CONDITION": "Condition",
+          "SEND_MESSAGE": "Send Message",
+          "ADD_LABEL": "Add Label",
+          "ASSIGN_AGENT": "Assign Agent",
+          "ASSIGN_TEAM": "Assign Team",
+          "RESOLVE_CONVERSATION": "Resolve Conversation",
+          "ADD_PRIVATE_NOTE": "Add Private Note",
+          "UPDATE_PRIORITY": "Update Priority",
+          "SHOPIFY_SEARCH_CUSTOMER": "Search Customer",
+          "SHOPIFY_GET_CUSTOMER_ORDERS": "Get Customer Orders"
+        },
+        "CONFIG": {
+          "TITLE": "Node Configuration",
+          "LABEL_FIELD": "Label",
+          "MESSAGE": "Message",
+          "LABEL": "Label",
+          "AGENT_ID": "Agent ID",
+          "TEAM_ID": "Team ID",
+          "PRIORITY": "Priority",
+          "ATTRIBUTE": "Attribute",
+          "OPERATOR": "Operator",
+          "VALUE": "Value",
+          "APPLY": "Apply",
+          "DELETE": "Delete Node",
+          "CONDITION_TRUE": "True",
+          "CONDITION_FALSE": "False"
+        },
+        "TOOLBAR": {
+          "NAME_PLACEHOLDER": "Workflow name",
+          "ENABLED": "Enabled",
+          "SAVE": "Save"
+        },
+        "API": {
+          "CREATE": {
+            "SUCCESS": "Workflow created successfully",
+            "ERROR": "There was an error creating the workflow, please try again."
+          },
+          "UPDATE": {
+            "SUCCESS": "Workflow updated successfully",
+            "ERROR": "There was an error updating the workflow, please try again."
+          },
+          "DELETE": {
+            "SUCCESS": "Workflow deleted successfully",
+            "ERROR": "There was an error deleting the workflow, please try again."
+          }
+        }
       }
     },
     "DOCUMENTS": {

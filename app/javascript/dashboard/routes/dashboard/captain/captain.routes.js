@@ -12,6 +12,8 @@ import AssistantPlaygroundIndex from './assistants/playground/Index.vue';
 import AssistantGuardrailsIndex from './assistants/guardrails/Index.vue';
 import AssistantGuidelinesIndex from './assistants/guidelines/Index.vue';
 import AssistantScenariosIndex from './assistants/scenarios/Index.vue';
+import AssistantWorkflowsIndex from './assistants/workflows/Index.vue';
+import AssistantWorkflowEditor from './assistants/workflows/Editor.vue';
 import DocumentsIndex from './documents/Index.vue';
 import ResponsesIndex from './responses/Index.vue';
 import ResponsesPendingIndex from './responses/Pending.vue';
@@ -53,6 +55,20 @@ const assistantRoutes = [
     component: AssistantScenariosIndex,
     name: 'captain_assistants_scenarios_index',
     meta: metaV2,
+  },
+  {
+    path: frontendURL('accounts/:accountId/captain/:assistantId/workflows'),
+    component: AssistantWorkflowsIndex,
+    name: 'captain_assistants_workflows_index',
+    meta,
+  },
+  {
+    path: frontendURL(
+      'accounts/:accountId/captain/:assistantId/workflows/:workflowId'
+    ),
+    component: AssistantWorkflowEditor,
+    name: 'captain_assistants_workflow_editor',
+    meta,
   },
   {
     path: frontendURL('accounts/:accountId/captain/:assistantId/playground'),

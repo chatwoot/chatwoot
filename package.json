@@ -53,6 +53,7 @@
     "@tanstack/vue-table": "^8.20.5",
     "@twilio/voice-sdk": "^2.12.4",
     "@vitejs/plugin-vue": "^5.1.4",
+    "@vue-flow/core": "^1.48.2",
     "@vue/compiler-sfc": "^3.5.8",
     "@vuelidate/core": "^2.0.3",
     "@vuelidate/validators": "^2.0.4",

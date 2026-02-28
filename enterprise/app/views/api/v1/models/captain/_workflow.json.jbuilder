@@ -1,0 +1,12 @@
+json.id workflow.id
+json.name workflow.name
+json.description workflow.description
+json.trigger_event workflow.trigger_event
+json.trigger_conditions workflow.trigger_conditions
+json.nodes workflow.nodes
+json.edges workflow.edges
+json.enabled workflow.enabled
+json.assistant_id workflow.assistant_id
+json.account_id workflow.account_id
+json.created_at workflow.created_at
+json.updated_at workflow.updated_at

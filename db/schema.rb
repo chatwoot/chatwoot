@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_02_26_084618) do
+ActiveRecord::Schema[7.1].define(version: 2026_02_27_100002) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -26,6 +26,32 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_26_084618) do
     t.datetime "updated_at", null: false
     t.index ["owner_type", "owner_id"], name: "index_access_tokens_on_owner_type_and_owner_id"
     t.index ["token"], name: "index_access_tokens_on_token", unique: true
+  end
+
+  create_table "account_hourly_reports", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.datetime "hour", null: false
+    t.string "scope_type", default: "account", null: false
+    t.bigint "scope_id"
+    t.integer "conversations_count", default: 0, null: false
+    t.integer "incoming_messages_count", default: 0, null: false
+    t.integer "outgoing_messages_count", default: 0, null: false
+    t.integer "resolutions_count", default: 0, null: false
+    t.integer "bot_resolutions_count", default: 0, null: false
+    t.integer "bot_handoffs_count", default: 0, null: false
+    t.float "first_response_time_sum", default: 0.0, null: false
+    t.integer "first_response_time_count", default: 0, null: false
+    t.float "resolution_time_sum", default: 0.0, null: false
+    t.integer "resolution_time_count", default: 0, null: false
+    t.float "reply_time_sum", default: 0.0, null: false
+    t.integer "reply_time_count", default: 0, null: false
+    t.float "first_response_time_bh_sum", default: 0.0, null: false
+    t.float "resolution_time_bh_sum", default: 0.0, null: false
+    t.float "reply_time_bh_sum", default: 0.0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "hour", "scope_type", "scope_id"], name: "idx_account_hourly_reports_unique", unique: true
+    t.index ["account_id", "scope_type", "scope_id", "hour"], name: "idx_account_hourly_reports_lookup"
   end
 
   create_table "account_saml_settings", force: :cascade do |t|
@@ -71,6 +97,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_26_084618) do
     t.jsonb "limits", default: {}
     t.jsonb "custom_attributes", default: {}
     t.integer "status", default: 0
+    t.integer "contactable_contacts_count", default: 0
     t.jsonb "internal_attributes", default: {}, null: false
     t.jsonb "settings", default: {}
     t.index ["status"], name: "index_accounts_on_status"
@@ -384,6 +411,41 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_26_084618) do
     t.index ["enabled"], name: "index_captain_scenarios_on_enabled"
   end
 
+  create_table "captain_workflow_executions", force: :cascade do |t|
+    t.bigint "workflow_id", null: false
+    t.bigint "account_id", null: false
+    t.bigint "conversation_id"
+    t.bigint "contact_id"
+    t.integer "status", default: 0, null: false
+    t.datetime "started_at"
+    t.datetime "completed_at"
+    t.text "error_message"
+    t.jsonb "execution_log", default: []
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_captain_workflow_executions_on_account_id"
+    t.index ["contact_id"], name: "index_captain_workflow_executions_on_contact_id"
+    t.index ["conversation_id"], name: "index_captain_workflow_executions_on_conversation_id"
+    t.index ["workflow_id"], name: "index_captain_workflow_executions_on_workflow_id"
+  end
+
+  create_table "captain_workflows", force: :cascade do |t|
+    t.string "name", null: false
+    t.text "description"
+    t.bigint "account_id", null: false
+    t.bigint "assistant_id", null: false
+    t.string "trigger_event", null: false
+    t.jsonb "trigger_conditions", default: {}
+    t.jsonb "nodes", default: []
+    t.jsonb "edges", default: []
+    t.boolean "enabled", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "trigger_event", "enabled"], name: "index_captain_workflows_on_account_event_enabled"
+    t.index ["account_id"], name: "index_captain_workflows_on_account_id"
+    t.index ["assistant_id"], name: "index_captain_workflows_on_assistant_id"
+  end
+
   create_table "categories", force: :cascade do |t|
     t.integer "account_id", null: false
     t.integer "portal_id", null: false
@@ -589,13 +651,13 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_26_084618) do
     t.bigint "account_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "contacts_count"
+    t.integer "contacts_count", default: 0, null: false
     t.index ["account_id", "domain"], name: "index_companies_on_account_and_domain", unique: true, where: "(domain IS NOT NULL)"
     t.index ["account_id"], name: "index_companies_on_account_id"
     t.index ["name", "account_id"], name: "index_companies_on_name_and_account_id"
   end
 
-  create_table "contact_inboxes", force: :cascade do |t|
+  create_table "contact_inboxes", id: :bigint, default: -> { "nextval('contact_inboxes2_id_seq'::regclass)" }, force: :cascade do |t|
     t.bigint "contact_id"
     t.bigint "inbox_id"
     t.text "source_id", null: false
@@ -603,14 +665,14 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_26_084618) do
     t.datetime "updated_at", null: false
     t.boolean "hmac_verified", default: false
     t.string "pubsub_token"
-    t.index ["contact_id"], name: "index_contact_inboxes_on_contact_id"
-    t.index ["inbox_id", "source_id"], name: "index_contact_inboxes_on_inbox_id_and_source_id", unique: true
-    t.index ["inbox_id"], name: "index_contact_inboxes_on_inbox_id"
-    t.index ["pubsub_token"], name: "index_contact_inboxes_on_pubsub_token", unique: true
-    t.index ["source_id"], name: "index_contact_inboxes_on_source_id"
+    t.index ["contact_id"], name: "contact_inboxes2_contact_id_idx"
+    t.index ["inbox_id", "source_id"], name: "contact_inboxes2_inbox_id_source_id_idx", unique: true
+    t.index ["inbox_id"], name: "contact_inboxes2_inbox_id_idx"
+    t.index ["pubsub_token"], name: "contact_inboxes2_pubsub_token_idx", unique: true
+    t.index ["source_id"], name: "contact_inboxes2_source_id_idx"
   end
 
-  create_table "contacts", id: :serial, force: :cascade do |t|
+  create_table "contacts", id: :integer, default: -> { "nextval('contacts2_id_seq'::regclass)" }, force: :cascade do |t|
     t.string "name", default: ""
     t.string "email"
     t.string "phone_number"
@@ -621,25 +683,27 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_26_084618) do
     t.string "identifier"
     t.jsonb "custom_attributes", default: {}
     t.datetime "last_activity_at", precision: nil
-    t.integer "contact_type", default: 0
+    t.boolean "resolved", default: false, null: false
+    t.integer "contact_type", default: 0, null: false
     t.string "middle_name", default: ""
     t.string "last_name", default: ""
     t.string "location", default: ""
     t.string "country_code", default: ""
     t.boolean "blocked", default: false, null: false
     t.bigint "company_id"
-    t.index "lower((email)::text), account_id", name: "index_contacts_on_lower_email_account_id"
+    t.index "lower((email)::text), account_id", name: "contacts2_lower_account_id_idx"
     t.index ["account_id", "contact_type"], name: "index_contacts_on_account_id_and_contact_type"
-    t.index ["account_id", "email", "phone_number", "identifier"], name: "index_contacts_on_nonempty_fields", where: "(((email)::text <> ''::text) OR ((phone_number)::text <> ''::text) OR ((identifier)::text <> ''::text))"
+    t.index ["account_id", "email", "phone_number", "identifier"], name: "contacts2_account_id_email_phone_number_identifier_idx", where: "(((email)::text <> ''::text) OR ((phone_number)::text <> ''::text) OR ((identifier)::text <> ''::text))"
     t.index ["account_id", "last_activity_at"], name: "index_contacts_on_account_id_and_last_activity_at", order: { last_activity_at: "DESC NULLS LAST" }
-    t.index ["account_id"], name: "index_contacts_on_account_id"
-    t.index ["account_id"], name: "index_resolved_contact_account_id", where: "(((email)::text <> ''::text) OR ((phone_number)::text <> ''::text) OR ((identifier)::text <> ''::text))"
+    t.index ["account_id", "resolved"], name: "index_contacts_on_account_id_and_resolved"
+    t.index ["account_id"], name: "contacts2_account_id_idx"
+    t.index ["account_id"], name: "contacts2_account_id_idx1", where: "(((email)::text <> ''::text) OR ((phone_number)::text <> ''::text) OR ((identifier)::text <> ''::text))"
     t.index ["blocked"], name: "index_contacts_on_blocked"
     t.index ["company_id"], name: "index_contacts_on_company_id"
-    t.index ["email", "account_id"], name: "uniq_email_per_account_contact", unique: true
-    t.index ["identifier", "account_id"], name: "uniq_identifier_per_account_contact", unique: true
-    t.index ["name", "email", "phone_number", "identifier"], name: "index_contacts_on_name_email_phone_number_identifier", opclass: :gin_trgm_ops, using: :gin
-    t.index ["phone_number", "account_id"], name: "index_contacts_on_phone_number_and_account_id"
+    t.index ["email", "account_id"], name: "contacts2_email_account_id_idx", unique: true
+    t.index ["identifier", "account_id"], name: "contacts2_identifier_account_id_idx", unique: true
+    t.index ["name", "email", "phone_number", "identifier"], name: "contacts2_name_email_phone_number_identifier_idx", opclass: :gin_trgm_ops, using: :gin
+    t.index ["phone_number", "account_id"], name: "contacts2_phone_number_account_id_idx"
   end
 
   create_table "conversation_participants", force: :cascade do |t|
@@ -667,7 +731,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_26_084618) do
     t.datetime "agent_last_seen_at", precision: nil
     t.jsonb "additional_attributes", default: {}
     t.bigint "contact_inbox_id"
-    t.uuid "uuid", default: -> { "gen_random_uuid()" }, null: false
+    t.uuid "uuid", default: -> { "public.gen_random_uuid()" }, null: false
     t.string "identifier"
     t.datetime "last_activity_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.bigint "team_id"
@@ -681,6 +745,12 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_26_084618) do
     t.datetime "waiting_since"
     t.text "cached_label_list"
     t.bigint "assignee_agent_bot_id"
+    t.bigint "last_message_id"
+    t.bigint "last_incoming_message_id"
+    t.bigint "last_non_activity_message_id"
+    t.text "cached_summary"
+    t.datetime "cached_summary_at"
+    t.index ["account_id", "created_at", "inbox_id"], name: "index_conversations_on_account_created_inbox"
     t.index ["account_id", "display_id"], name: "index_conversations_on_account_id_and_display_id", unique: true
     t.index ["account_id", "id"], name: "index_conversations_on_id_and_account_id"
     t.index ["account_id", "inbox_id", "status", "assignee_id"], name: "conv_acid_inbid_stat_asgnid_idx"
@@ -692,6 +762,9 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_26_084618) do
     t.index ["first_reply_created_at"], name: "index_conversations_on_first_reply_created_at"
     t.index ["identifier", "account_id"], name: "index_conversations_on_identifier_and_account_id"
     t.index ["inbox_id"], name: "index_conversations_on_inbox_id"
+    t.index ["last_incoming_message_id"], name: "index_conversations_on_last_incoming_message_id"
+    t.index ["last_message_id"], name: "index_conversations_on_last_message_id"
+    t.index ["last_non_activity_message_id"], name: "index_conversations_on_last_non_activity_message_id"
     t.index ["priority"], name: "index_conversations_on_priority"
     t.index ["status", "account_id"], name: "index_conversations_on_status_and_account_id"
     t.index ["status", "priority"], name: "index_conversations_on_status_and_priority"
@@ -758,7 +831,6 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_26_084618) do
     t.string "regex_pattern"
     t.string "regex_cue"
     t.index ["account_id"], name: "index_custom_attribute_definitions_on_account_id"
-    t.index ["attribute_key", "attribute_model", "account_id"], name: "attribute_key_model_index", unique: true
   end
 
   create_table "custom_filters", force: :cascade do |t|
@@ -941,7 +1013,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_26_084618) do
     t.integer "visibility", default: 0
     t.bigint "created_by_id"
     t.bigint "updated_by_id"
-    t.jsonb "actions", default: {}, null: false
+    t.jsonb "actions", default: "{}", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["account_id"], name: "index_macros_on_account_id"
@@ -960,7 +1032,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_26_084618) do
     t.index ["user_id"], name: "index_mentions_on_user_id"
   end
 
-  create_table "messages", id: :serial, force: :cascade do |t|
+  create_table "messages", id: :integer, default: -> { "nextval('messages2_id_seq'::regclass)" }, force: :cascade do |t|
     t.text "content"
     t.integer "account_id", null: false
     t.integer "inbox_id", null: false
@@ -979,18 +1051,18 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_26_084618) do
     t.jsonb "additional_attributes", default: {}
     t.text "processed_message_content"
     t.jsonb "sentiment", default: {}
-    t.index "((additional_attributes -> 'campaign_id'::text))", name: "index_messages_on_additional_attributes_campaign_id", using: :gin
+    t.index "((additional_attributes -> 'campaign_id'::text))", name: "messages2_expr_idx", using: :gin
     t.index ["account_id", "content_type", "created_at"], name: "idx_messages_account_content_created"
     t.index ["account_id", "created_at", "message_type"], name: "index_messages_on_account_created_type"
-    t.index ["account_id", "inbox_id"], name: "index_messages_on_account_id_and_inbox_id"
-    t.index ["account_id"], name: "index_messages_on_account_id"
-    t.index ["content"], name: "index_messages_on_content", opclass: :gin_trgm_ops, using: :gin
-    t.index ["conversation_id", "account_id", "message_type", "created_at"], name: "index_messages_on_conversation_account_type_created"
-    t.index ["conversation_id"], name: "index_messages_on_conversation_id"
-    t.index ["created_at"], name: "index_messages_on_created_at"
-    t.index ["inbox_id"], name: "index_messages_on_inbox_id"
-    t.index ["sender_type", "sender_id"], name: "index_messages_on_sender_type_and_sender_id"
-    t.index ["source_id"], name: "index_messages_on_source_id"
+    t.index ["account_id", "inbox_id"], name: "messages2_account_id_inbox_id_idx"
+    t.index ["account_id"], name: "messages2_account_id_idx"
+    t.index ["content"], name: "messages2_content_idx", opclass: :gin_trgm_ops, using: :gin
+    t.index ["conversation_id", "account_id", "message_type", "created_at"], name: "messages2_conversation_id_account_id_message_type_created_a_idx"
+    t.index ["conversation_id"], name: "messages2_conversation_id_idx"
+    t.index ["created_at"], name: "messages2_created_at_idx"
+    t.index ["inbox_id"], name: "messages2_inbox_id_idx"
+    t.index ["sender_type", "sender_id"], name: "messages2_sender_type_sender_id_idx"
+    t.index ["source_id"], name: "messages2_source_id_idx"
   end
 
   create_table "notes", force: :cascade do |t|
@@ -1046,6 +1118,19 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_26_084618) do
     t.index ["secondary_actor_type", "secondary_actor_id"], name: "uniq_secondary_actor_per_account_notifications"
     t.index ["user_id", "account_id", "snoozed_until", "read_at"], name: "idx_notifications_performance"
     t.index ["user_id"], name: "index_notifications_on_user_id"
+  end
+
+  create_table "pg_search_documents", force: :cascade do |t|
+    t.text "content"
+    t.bigint "conversation_id"
+    t.bigint "account_id"
+    t.string "searchable_type"
+    t.bigint "searchable_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_pg_search_documents_on_account_id"
+    t.index ["conversation_id"], name: "index_pg_search_documents_on_conversation_id"
+    t.index ["searchable_type", "searchable_id"], name: "index_pg_search_documents_on_searchable"
   end
 
   create_table "platform_app_permissibles", force: :cascade do |t|
@@ -1114,6 +1199,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_26_084618) do
     t.float "value_in_business_hours"
     t.datetime "event_start_time", precision: nil
     t.datetime "event_end_time", precision: nil
+    t.index ["account_id", "name", "created_at", "inbox_id"], name: "index_reporting_events_on_account_name_created_inbox"
     t.index ["account_id", "name", "created_at"], name: "reporting_events__account_id__name__created_at"
     t.index ["account_id", "name", "inbox_id", "created_at"], name: "index_reporting_events_for_response_distribution"
     t.index ["account_id"], name: "index_reporting_events_on_account_id"
@@ -1231,7 +1317,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_26_084618) do
     t.text "message_signature"
     t.string "otp_secret"
     t.integer "consumed_timestep"
-    t.boolean "otp_required_for_login", default: false
+    t.boolean "otp_required_for_login", default: false, null: false
     t.text "otp_backup_codes"
     t.index ["email"], name: "index_users_on_email"
     t.index ["otp_required_for_login"], name: "index_users_on_otp_required_for_login"
@@ -1270,6 +1356,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_26_084618) do
     t.index ["inbox_id"], name: "index_working_hours_on_inbox_id"
   end
 
+  add_foreign_key "account_hourly_reports", "accounts"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "inboxes", "portals"

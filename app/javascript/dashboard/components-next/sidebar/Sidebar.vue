@@ -349,6 +349,17 @@ const menuItems = computed(() => {
           }),
         },
         {
+          name: 'Workflows',
+          label: t('SIDEBAR.CAPTAIN_WORKFLOWS'),
+          activeOn: [
+            'captain_assistants_workflows_index',
+            'captain_assistants_workflow_editor',
+          ],
+          to: accountScopedRoute('captain_assistants_index', {
+            navigationPath: 'captain_assistants_workflows_index',
+          }),
+        },
+        {
           name: 'Playground',
           label: t('SIDEBAR.CAPTAIN_PLAYGROUND'),
           activeOn: ['captain_assistants_playground_index'],

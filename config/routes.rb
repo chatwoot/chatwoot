@@ -66,6 +66,11 @@ Rails.application.routes.draw do
               end
               resources :inboxes, only: [:index, :create, :destroy], param: :inbox_id
               resources :scenarios
+              resources :workflows do
+                member do
+                  get :executions
+                end
+              end
             end
             resources :assistant_responses
             resources :bulk_actions, only: [:create]
