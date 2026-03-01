@@ -278,16 +278,16 @@ tr:
       description: 'Panel Uygulamaları, kullanıcı bilgilerini, siparişleri veya ödeme geçmişini gösteren uygulamalar oluşturmanıza ve bunları panelinize eklemenize olanak tanır. Bu sayede müşteri destek temsilcileriniz daha fazla bağlam bilgisine sahip olur.'
     dyte:
       name: 'Dyte'
-      short_description: 'Müşterilerle doğrudan Chatwoot üzerinden video/sesli arama başlatın.'
-      description: 'Dyte, uygulamanıza ses ve video işlevselliklerini entegre eden bir üründür. Bu entegrasyon sayesinde temsilcileriniz, Chatwoot üzerinden müşterilerinizle doğrudan video veya sesli görüşme başlatabilir.'
+      short_description: 'Müşterilerle doğrudan AirysChat üzerinden video/sesli arama başlatın.'
+      description: 'Dyte, uygulamanıza ses ve video işlevselliklerini entegre eden bir üründür. Bu entegrasyon sayesinde temsilcileriniz, AirysChat üzerinden müşterilerinizle doğrudan video veya sesli görüşme başlatabilir.'
       meeting_name: '%{agent_name} bir toplantı başlattı'
     slack:
       name: 'Slack'
       short_description: 'Doğrudan Slack''te bildirimler alın ve konuşmalara yanıt verin.'
-      description: "Chatwoot’u Slack ile entegre ederek ekibinizin senkronize çalışmasını sağlayın. Bu entegrasyon sayesinde yeni konuşmalar için bildirim alabilir ve onlara doğrudan Slack arayüzünden yanıt verebilirsiniz."
+      description: "AirysChat’u Slack ile entegre ederek ekibinizin senkronize çalışmasını sağlayın. Bu entegrasyon sayesinde yeni konuşmalar için bildirim alabilir ve onlara doğrudan Slack arayüzünden yanıt verebilirsiniz."
     webhooks:
       name: 'Webhooks'
-      description: 'Webhook etkinlikleri, Chatwoot hesabınızdaki faaliyetlerle ilgili gerçek zamanlı güncellemeler sağlar. Tercih ettiğiniz etkinliklere abone olabilir ve Chatwoot size bu güncellemelerle HTTP geri çağrıları (callback) gönderecektir.'
+      description: 'Webhook etkinlikleri, AirysChat hesabınızdaki faaliyetlerle ilgili gerçek zamanlı güncellemeler sağlar. Tercih ettiğiniz etkinliklere abone olabilir ve AirysChat size bu güncellemelerle HTTP geri çağrıları (callback) gönderecektir.'
     dialogflow:
       name: 'Dialogflow botu'
       short_description: 'Temsilcilere aktarmadan önce ilk soruları yanıtlayacak sohbet botları oluşturun.'
