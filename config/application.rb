@@ -39,17 +39,20 @@ module Chatwoot
     config.load_defaults 7.0
 
     config.eager_load_paths << Rails.root.join('lib')
-    config.eager_load_paths << Rails.root.join('enterprise/lib')
-    config.eager_load_paths << Rails.root.join('enterprise/listeners')
+    config.eager_load_paths << Rails.root.join('saas/lib')
+    config.eager_load_paths << Rails.root.join('saas/app/listeners')
     # rubocop:disable Rails/FilePath
-    config.eager_load_paths += Dir["#{Rails.root}/enterprise/app/**"]
+    config.eager_load_paths += Dir["#{Rails.root}/saas/app/**"]
     # rubocop:enable Rails/FilePath
-    # Add enterprise views to the view paths
-    config.paths['app/views'].unshift('enterprise/app/views')
+    # Add saas views to the view paths
+    config.paths['app/views'].unshift('saas/app/views')
 
-    # Load enterprise initializers alongside standard initializers
-    enterprise_initializers = Rails.root.join('enterprise/config/initializers')
-    Dir[enterprise_initializers.join('**/*.rb')].each { |f| require f } if enterprise_initializers.exist?
+    # Load saas initializers alongside standard initializers
+    saas_initializers = Rails.root.join('saas/config/initializers')
+    Dir[saas_initializers.join('**/*.rb')].each { |f| require f } if saas_initializers.exist?
+
+    # Require the SaaS tasks railtie
+    require Rails.root.join('saas/tasks_railtie')
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration can go into files in config/initializers

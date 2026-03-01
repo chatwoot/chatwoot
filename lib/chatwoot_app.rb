@@ -11,18 +11,22 @@ module ChatwootApp
     100_000
   end
 
-  def self.enterprise?
-    return if ENV.fetch('DISABLE_ENTERPRISE', false)
+  def self.saas?
+    @saas ||= root.join('saas').exist?
+  end
 
-    @enterprise ||= root.join('enterprise').exist?
+  # Kept for upstream core code compatibility. The enterprise/ directory was
+  # replaced by saas/. This always returns false.
+  def self.enterprise?
+    false
   end
 
   def self.chatwoot_cloud?
-    enterprise? && GlobalConfig.get_value('DEPLOYMENT_ENV') == 'cloud'
+    false
   end
 
   def self.self_hosted_enterprise?
-    enterprise? && !chatwoot_cloud? && GlobalConfig.get_value('INSTALLATION_PRICING_PLAN') == 'enterprise'
+    false
   end
 
   def self.custom?
@@ -34,17 +38,19 @@ module ChatwootApp
   end
 
   def self.extensions
-    if custom?
-      %w[enterprise custom]
-    elsif enterprise?
-      %w[enterprise]
+    if custom? && saas?
+      %w[saas custom]
+    elsif saas?
+      %w[saas]
+    elsif custom?
+      %w[custom]
     else
       %w[]
     end
   end
 
   def self.advanced_search_allowed?
-    enterprise? && ENV.fetch('OPENSEARCH_URL', nil).present?
+    ENV.fetch('OPENSEARCH_URL', nil).present?
   end
 
   def self.otel_enabled?
