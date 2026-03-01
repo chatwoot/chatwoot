@@ -3,6 +3,7 @@ import * as types from '../mutation-types';
 import AccountAPI from '../../api/account';
 import { differenceInDays } from 'date-fns';
 import EnterpriseAccountAPI from '../../api/enterprise/account';
+import SaasAccountAPI from '../../api/saas/account';
 import { throwErrorMessage } from '../utils/api';
 import { getLanguageDirection } from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
 
@@ -13,6 +14,7 @@ const TRIAL_PERIOD_DAYS = 15;
 
 const state = {
   records: [],
+  saasPlans: [],
   uiFlags: {
     isFetching: false,
     isFetchingItem: false,
@@ -51,6 +53,7 @@ export const getters = {
     const { features = {} } = findRecordById($state, id);
     return features[featureName] || false;
   },
+  getSaasPlans: $state => $state.saasPlans,
 };
 
 export const actions = {
@@ -118,10 +121,10 @@ export const actions = {
     }
   },
 
-  checkout: async ({ commit }) => {
+  checkout: async ({ commit }, planId) => {
     commit(types.default.SET_ACCOUNT_UI_FLAG, { isCheckoutInProcess: true });
     try {
-      const response = await EnterpriseAccountAPI.checkout();
+      const response = await SaasAccountAPI.checkout(planId);
       window.location = response.data.redirect_url;
     } catch (error) {
       throwErrorMessage(error);
@@ -133,7 +136,8 @@ export const actions = {
   subscription: async ({ commit }) => {
     commit(types.default.SET_ACCOUNT_UI_FLAG, { isCheckoutInProcess: true });
     try {
-      await EnterpriseAccountAPI.subscription();
+      const response = await SaasAccountAPI.subscription();
+      window.location = response.data.redirect_url;
     } catch (error) {
       throwErrorMessage(error);
     } finally {
@@ -144,12 +148,21 @@ export const actions = {
   limits: async ({ commit }) => {
     commit(types.default.SET_ACCOUNT_UI_FLAG, { isFetchingLimits: true });
     try {
-      const response = await EnterpriseAccountAPI.getLimits();
+      const response = await SaasAccountAPI.getLimits();
       commit(types.default.SET_ACCOUNT_LIMITS, response.data);
     } catch (error) {
       // silent error
     } finally {
       commit(types.default.SET_ACCOUNT_UI_FLAG, { isFetchingLimits: false });
+    }
+  },
+
+  fetchPlans: async ({ commit }) => {
+    try {
+      const response = await SaasAccountAPI.getPlans();
+      commit(types.default.SET_SAAS_PLANS, response.data);
+    } catch (error) {
+      // silent error
     }
   },
 
@@ -168,6 +181,9 @@ export const mutations = {
   [types.default.ADD_ACCOUNT]: MutationHelpers.setSingleRecord,
   [types.default.EDIT_ACCOUNT]: MutationHelpers.update,
   [types.default.SET_ACCOUNT_LIMITS]: MutationHelpers.updateAttributes,
+  [types.default.SET_SAAS_PLANS]($state, data) {
+    $state.saasPlans = data;
+  },
 };
 
 export default {

@@ -484,6 +484,25 @@ Rails.application.routes.draw do
     end
   end
 
+  if ChatwootApp.saas?
+    namespace :saas, defaults: { format: 'json' } do
+      namespace :api do
+        namespace :v1 do
+          resources :accounts, only: [] do
+            member do
+              post :checkout
+              post :subscription
+              get :limits
+              get :plans
+            end
+          end
+        end
+      end
+
+      post 'webhooks/stripe', to: 'webhooks/stripe#process_payload'
+    end
+  end
+
   # ----------------------------------------------------------------------
   # Routes for platform APIs
   namespace :platform, defaults: { format: 'json' } do
@@ -631,6 +650,7 @@ Rails.application.routes.draw do
         delete :avatar, on: :member, action: :destroy_avatar
       end
       resources :platform_apps, only: [:index, :new, :create, :show, :edit, :update, :destroy]
+      resources :saas_plans, only: [:index, :new, :create, :show, :edit, :update, :destroy]
       resource :instance_status, only: [:show]
 
       resource :settings, only: [:show] do

@@ -233,8 +233,8 @@
   value:
   description: 'Config to features and their associated plans'
 - name: DEPLOYMENT_ENV
-  value: self-hosted
-  description: 'The deployment environment of the installation, to differentiate between Chatwoot cloud and self-hosted'
+  value: cloud
+  description: 'The deployment environment of the installation, to differentiate between AirysChat cloud and self-hosted'
 - name: CLOUD_ANALYTICS_TOKEN
   value:
   display_title: 'Analytics Token'
