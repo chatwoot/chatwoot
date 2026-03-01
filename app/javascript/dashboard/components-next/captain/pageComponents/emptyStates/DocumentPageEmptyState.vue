@@ -23,7 +23,7 @@ const onClick = () => {
     :note="$t('CAPTAIN.DOCUMENTS.EMPTY_STATE.FEATURE_SPOTLIGHT.NOTE')"
     fallback-thumbnail="/assets/images/dashboard/captain/document-light.svg"
     fallback-thumbnail-dark="/assets/images/dashboard/captain/document-dark.svg"
-    learn-more-url="crafty.app/captain-document"
+    learn-more-url="onelink.app/captain-document"
     :hide-actions="!isOnChatwootCloud"
     class="mb-8"
   />

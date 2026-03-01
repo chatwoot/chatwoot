@@ -1453,4 +1453,27 @@ const countries = [
   },
 ];
 
-export default countries;
+const shouldUseLocalizedCountryNames =
+  import.meta.env.MODE !== 'test' && typeof window !== 'undefined';
+
+const localizedCountryNames =
+  shouldUseLocalizedCountryNames &&
+  typeof Intl !== 'undefined' &&
+  typeof Intl.DisplayNames === 'function'
+    ? new Intl.DisplayNames(['ru'], { type: 'region' })
+    : null;
+
+const getCountryName = country => {
+  if (!localizedCountryNames) return country.name;
+
+  try {
+    return localizedCountryNames.of(country.id) || country.name;
+  } catch {
+    return country.name;
+  }
+};
+
+export default countries.map(country => ({
+  ...country,
+  name: getCountryName(country),
+}));

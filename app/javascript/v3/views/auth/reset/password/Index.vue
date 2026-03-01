@@ -1,6 +1,7 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { useAlert } from 'dashboard/composables';
+import { useMapGetter } from 'dashboard/composables/store';
 import { required, minLength, email } from '@vuelidate/validators';
 import { useBranding } from 'shared/composables/useBranding';
 import FormInput from '../../../../components/Form/Input.vue';
@@ -11,7 +12,8 @@ export default {
   components: { FormInput, NextButton },
   setup() {
     const { replaceInstallationName } = useBranding();
-    return { v$: useVuelidate(), replaceInstallationName };
+    const globalConfig = useMapGetter('globalConfig/get');
+    return { v$: useVuelidate(), replaceInstallationName, globalConfig };
   },
   data() {
     return {
@@ -66,8 +68,21 @@ export default {
   <div
     class="flex flex-col justify-center w-full min-h-screen py-12 bg-n-brand/5 dark:bg-n-background sm:px-6 lg:px-8"
   >
+    <section class="max-w-5xl mx-auto">
+      <img
+        :src="globalConfig.logo"
+        :alt="globalConfig.installationName"
+        class="block w-auto h-8 mx-auto dark:hidden"
+      />
+      <img
+        v-if="globalConfig.logoDark"
+        :src="globalConfig.logoDark"
+        :alt="globalConfig.installationName"
+        class="hidden w-auto h-8 mx-auto dark:block"
+      />
+    </section>
     <form
-      class="bg-white shadow sm:mx-auto sm:w-full sm:max-w-lg dark:bg-n-solid-2 p-11 sm:shadow-lg sm:rounded-lg"
+      class="bg-white shadow sm:mx-auto sm:w-full sm:max-w-lg mt-11 dark:bg-n-solid-2 p-11 sm:shadow-lg sm:rounded-lg"
       @submit.prevent="submit"
     >
       <h1

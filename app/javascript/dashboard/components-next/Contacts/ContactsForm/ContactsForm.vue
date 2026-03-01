@@ -28,6 +28,10 @@ const props = defineProps({
 const emit = defineEmits(['update']);
 
 const { t } = useI18n();
+const defaultCountry = countries.find(({ id }) => id === 'KZ') || {
+  id: 'KZ',
+  name: 'Казахстан',
+};
 
 const FORM_CONFIG = {
   FIRST_NAME: { field: 'firstName' },
@@ -60,8 +64,8 @@ const defaultState = {
   additionalAttributes: {
     description: '',
     companyName: '',
-    countryCode: '',
-    country: '',
+    countryCode: defaultCountry.id,
+    country: defaultCountry.name,
     city: '',
     socialProfiles: {
       facebook: '',
@@ -217,7 +221,8 @@ const getMessageType = key => {
 
 const handleCountrySelection = value => {
   const selectedCountry = countries.find(option => option.id === value);
-  state.additionalAttributes.country = selectedCountry?.name || '';
+  state.additionalAttributes.country =
+    selectedCountry?.name || defaultCountry.name;
   emit('update', state);
 };
 

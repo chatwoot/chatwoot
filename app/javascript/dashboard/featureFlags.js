@@ -42,6 +42,7 @@ export const FEATURE_FLAGS = {
   CONTACT_CHATWOOT_SUPPORT_TEAM: 'contact_chatwoot_support_team',
   CAPTAIN_V2: 'captain_integration_v2',
   CAPTAIN_TASKS: 'captain_tasks',
+  CALENDAR_KASSA_ACCESS: 'calendar_kassa_access',
   SAML: 'saml',
   QUOTED_EMAIL_REPLY: 'quoted_email_reply',
   COMPANIES: 'companies',

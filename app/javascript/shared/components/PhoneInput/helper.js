@@ -1,13 +1,10 @@
-import { getPhoneCodeByTimezone } from 'timezone-phone-codes';
-import ct from 'countries-and-timezones';
-
-const getTimezone = () => Intl.DateTimeFormat().resolvedOptions().timeZone;
+export const DEFAULT_COUNTRY_CODE = 'KZ';
+export const DEFAULT_DIAL_CODE = '+7';
 
 export const getActiveDialCode = () => {
-  return getPhoneCodeByTimezone(getTimezone()) || '';
+  return DEFAULT_DIAL_CODE;
 };
 
 export const getActiveCountryCode = () => {
-  const country = ct.getCountryForTimezone(getTimezone()) || {};
-  return country.id || '';
+  return DEFAULT_COUNTRY_CODE;
 };

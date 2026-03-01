@@ -3,6 +3,8 @@ import { computed, onMounted, onUnmounted, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { useMapGetter } from 'dashboard/composables/store';
+import { LocalStorage } from 'shared/helpers/localStorage';
+import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 import ExternalAppContextAPI from 'dashboard/api/externalAppContext';
 import LoadingState from 'dashboard/components/widgets/LoadingState.vue';
 
@@ -10,11 +12,43 @@ const globalConfig = useMapGetter('globalConfig/get');
 const selectedChat = useMapGetter('getSelectedChat');
 const route = useRoute();
 const { t } = useI18n();
+const DEFAULT_EMBEDDED_APP_NAME = 'Касса';
+const DEFAULT_EMBEDDED_APP_PATH = '/widgets';
+const DEFAULT_EMBEDDED_APP_URL = 'http://127.0.0.1:3001/widgets';
 
-const externalAppName = computed(
-  () => globalConfig.value.externalAppName || 'External App'
+const embeddedAppName = computed(
+  () => String(route.meta?.embeddedAppName || '').trim() || DEFAULT_EMBEDDED_APP_NAME
 );
-const externalAppUrl = computed(() => globalConfig.value.externalAppUrl || '');
+const embeddedAppPath = computed(
+  () => String(route.meta?.embeddedAppPath || '').trim() || DEFAULT_EMBEDDED_APP_PATH
+);
+const buildEmbeddedAppUrl = path => {
+  const configuredUrl = (globalConfig.value.externalAppUrl || '').trim();
+
+  if (!configuredUrl) {
+    try {
+      const fallbackUrl = new URL(DEFAULT_EMBEDDED_APP_URL);
+      fallbackUrl.pathname = path;
+      fallbackUrl.search = '';
+      fallbackUrl.hash = '';
+      return fallbackUrl.toString();
+    } catch {
+      return '';
+    }
+  }
+
+  try {
+    const url = new URL(configuredUrl);
+    if (!['http:', 'https:'].includes(url.protocol)) return '';
+    url.pathname = path;
+    url.search = '';
+    url.hash = '';
+    return url.toString();
+  } catch {
+    return '';
+  }
+};
+const externalAppUrl = computed(() => buildEmbeddedAppUrl(embeddedAppPath.value));
 const missingConfigMessage = 'Configure EXTERNAL_APP_URL to enable this page.';
 const invalidConfigMessage =
   'EXTERNAL_APP_URL must be a valid http(s) URL to enable this page.';
@@ -25,6 +59,7 @@ const isLoading = ref(true);
 const externalAppContext = ref(null);
 const hasIframeHandshake = ref(false);
 let contextRequestId = 0;
+let themeObserver = null;
 
 const iframeOrigin = computed(() => {
   if (!externalAppUrl.value) return '';
@@ -59,6 +94,23 @@ const selectedConversationId = computed(
 const selectedInboxId = computed(
   () => selectedChat.value?.inbox_id || routeInboxId.value
 );
+
+const buildThemeContext = () => {
+  const selectedTheme = LocalStorage.get(LOCAL_STORAGE_KEYS.COLOR_SCHEME) || 'auto';
+  const resolvedTheme =
+    document.body.classList.contains('dark') ? 'dark' : 'light';
+
+  return {
+    selected: String(selectedTheme),
+    resolved: resolvedTheme,
+    isDark: resolvedTheme === 'dark',
+  };
+};
+
+const withThemeContext = payload => ({
+  ...payload,
+  theme: buildThemeContext(),
+});
 
 const postContextToIframe = () => {
   if (!iframeOrigin.value || !iframeRef.value?.contentWindow) return;
@@ -97,7 +149,7 @@ const fetchExternalAppContext = async () => {
     const { data } = await ExternalAppContextAPI.fetch(params);
     if (contextRequestId !== requestId) return;
 
-    externalAppContext.value = data;
+    externalAppContext.value = withThemeContext(data);
     postContextToIframe();
   } catch {
     if (contextRequestId !== requestId) return;
@@ -153,10 +205,20 @@ watch(
 
 onMounted(() => {
   window.addEventListener('message', onWindowMessage);
+  themeObserver = new MutationObserver(() => {
+    if (!externalAppContext.value) return;
+
+    externalAppContext.value = withThemeContext(externalAppContext.value);
+  });
+  themeObserver.observe(document.body, {
+    attributes: true,
+    attributeFilter: ['class'],
+  });
 });
 
 onUnmounted(() => {
   window.removeEventListener('message', onWindowMessage);
+  themeObserver?.disconnect();
 });
 </script>
 
@@ -187,7 +249,7 @@ onUnmounted(() => {
         v-else
         class="h-full flex items-center justify-center px-6 text-sm text-center text-n-slate-11"
       >
-        {{ missingConfigMessage }}
+        {{ missingConfigMessage }} {{ embeddedAppName }}
       </div>
     </div>
   </section>

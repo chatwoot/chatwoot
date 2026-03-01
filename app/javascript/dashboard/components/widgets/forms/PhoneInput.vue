@@ -53,7 +53,7 @@ export default {
       ];
     },
     dropdownFirstItemName() {
-      return this.activeCountryCode ? 'Clear selection' : 'Select Country';
+      return this.activeCountryCode ? 'Очистить выбор' : 'Выберите страну';
     },
     filteredCountriesBySearch() {
       return this.countries.filter(country => {

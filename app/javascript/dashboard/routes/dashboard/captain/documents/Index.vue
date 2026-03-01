@@ -114,7 +114,7 @@ onMounted(() => {
         :hide-actions="!isOnChatwootCloud"
         fallback-thumbnail="/assets/images/dashboard/captain/document-popover-light.svg"
         fallback-thumbnail-dark="/assets/images/dashboard/captain/document-popover-dark.svg"
-        learn-more-url="crafty.app/captain-document"
+        learn-more-url="onelink.app/captain-document"
       />
     </template>
 

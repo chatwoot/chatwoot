@@ -1,79 +1,79 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>SuperAdmin | Chatwoot</title>
+    <title>OneLink Setup</title>
     <%= vite_client_tag %>
     <%= vite_javascript_tag 'superadmin' %>
   </head>
-  <body>
-    <div class="h-full w-full antialiased">
-      <main class="flex flex-col bg-woot-25 min-h-screen w-full py-20 sm:px-6 lg:px-8 dark:bg-slate-900">
-        <section class="max-w-5xl mx-auto">
-          <img src="/brand-assets/logo.svg" alt="Chatwoot" class="mx-auto h-8 w-auto block dark:hidden">
-          <img src="/brand-assets/logo_dark.svg" alt="Chatwoot" class="mx-auto h-8 w-auto hidden dark:block">
-          <h2 class="mt-6 text-center text-3xl font-medium text-slate-900 dark:text-woot-50">
-            Howdy, Welcome to Chatwoot 👋
-          </h2>
-        </section>
-        <section class="bg-white shadow sm:mx-auto mt-11 sm:w-full sm:max-w-lg dark:bg-slate-800 p-11 sm:shadow-lg sm:rounded-lg mb-8 mt-15">
-          <div>
-            <%= form_tag('/installation/onboarding') do %>
+  <body class="antialiased bg-slate-50 dark:bg-slate-950">
+    <main class="relative flex min-h-screen items-center justify-center overflow-hidden px-4 py-10 sm:px-6 lg:px-8">
+      <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(15,118,110,0.18),_transparent_40%),radial-gradient(circle_at_bottom_right,_rgba(20,184,166,0.15),_transparent_35%)]"></div>
+      <section class="relative w-full max-w-5xl">
+        <div class="mb-8 text-center">
+          <img src="/brand-assets/logo.svg" alt="OneLink" class="mx-auto h-10 w-auto block dark:hidden">
+          <img src="/brand-assets/logo_dark.svg" alt="OneLink" class="mx-auto h-10 w-auto hidden dark:block">
+          <h1 class="mt-6 text-3xl font-semibold tracking-tight text-slate-900 dark:text-white">
+            Добро пожаловать в OneLink
+          </h1>
+          <p class="mt-3 text-sm text-slate-600 dark:text-slate-300">
+            Завершите первоначальную настройку и подготовьте рабочее пространство для команды.
+          </p>
+        </div>
+        <section class="mx-auto w-full max-w-xl rounded-2xl border border-slate-200/80 bg-white/95 p-8 shadow-xl shadow-slate-200/60 backdrop-blur sm:p-10 dark:border-slate-800 dark:bg-slate-900/95 dark:shadow-black/30">
+          <%= form_tag('/installation/onboarding') do %>
             <div class="space-y-5">
               <% if flash[:error].present? %>
-                <div class="rounded-md bg-red-500 p-4 text-white text-sm mb-5"><%= flash[:error] %></div>
+                <div class="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700 dark:border-red-900/70 dark:bg-red-950/40 dark:text-red-200"><%= flash[:error] %></div>
               <% end %>
 
               <div>
-                <label for="name" class="flex justify-between text-sm font-medium leading-6 text-slate-900 dark:text-white">
-                  Name
+                <label for="user_name" class="flex justify-between text-sm font-medium leading-6 text-slate-900 dark:text-white">
+                  Имя
                 </label>
-                <div class="mt-1">
-                  <%= text_field :user, :name, placeholder: "Enter your full name. eg: Bruce Wayne", required: true, class: "block w-full rounded-md border-0 px-3 py-3 appearance-none shadow-sm ring-1 ring-inset text-slate-900 dark:text-slate-100 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-woot-500 sm:text-sm sm:leading-6 outline-none dark:bg-slate-700 dark:ring-slate-600 dark:focus:ring-woot-500 ring-slate-200" %>
+                <div class="mt-1.5">
+                  <%= text_field :user, :name, placeholder: "Введите имя и фамилию", required: true, class: "block w-full rounded-xl border-0 px-3 py-3 appearance-none shadow-sm ring-1 ring-inset text-slate-900 dark:text-slate-100 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-teal-600 sm:text-sm sm:leading-6 outline-none dark:bg-slate-800 dark:ring-slate-700 dark:focus:ring-teal-500 ring-slate-200" %>
                 </div>
               </div>
 
               <div>
-                <label for="name" class="flex justify-between text-sm font-medium leading-6 text-slate-900 dark:text-white">
-                  Company Name
+                <label for="user_company" class="flex justify-between text-sm font-medium leading-6 text-slate-900 dark:text-white">
+                  Название компании
                 </label>
-                <div class="mt-1">
-                  <%= text_field :user, :company, placeholder: "Enter your company name. eg: Wayne Enterprises", required: true, class: "block w-full rounded-md border-0 px-3 py-3 appearance-none shadow-sm ring-1 ring-inset text-slate-900 dark:text-slate-100 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-woot-500 sm:text-sm sm:leading-6 outline-none dark:bg-slate-700 dark:ring-slate-600 dark:focus:ring-woot-500 ring-slate-200" %>
+                <div class="mt-1.5">
+                  <%= text_field :user, :company, placeholder: "Например, OneLink Commerce", required: true, class: "block w-full rounded-xl border-0 px-3 py-3 appearance-none shadow-sm ring-1 ring-inset text-slate-900 dark:text-slate-100 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-teal-600 sm:text-sm sm:leading-6 outline-none dark:bg-slate-800 dark:ring-slate-700 dark:focus:ring-teal-500 ring-slate-200" %>
                 </div>
               </div>
 
               <div>
-                <label for="name" class="flex justify-between text-sm font-medium leading-6 text-slate-900 dark:text-white">
-                  Work Email
+                <label for="user_email" class="flex justify-between text-sm font-medium leading-6 text-slate-900 dark:text-white">
+                  Рабочий email
                 </label>
-                <div class="mt-1">
-                  <%= email_field :user, :email, placeholder: "Enter your work email address. eg: bruce@wayne.enterprises", required: true, class: "block w-full rounded-md border-0 px-3 py-3 appearance-none shadow-sm ring-1 ring-inset text-slate-900 dark:text-slate-100 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-woot-500 sm:text-sm sm:leading-6 outline-none dark:bg-slate-700 dark:ring-slate-600 dark:focus:ring-woot-500 ring-slate-200" %>
+                <div class="mt-1.5">
+                  <%= email_field :user, :email, placeholder: "name@company.kz", required: true, class: "block w-full rounded-xl border-0 px-3 py-3 appearance-none shadow-sm ring-1 ring-inset text-slate-900 dark:text-slate-100 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-teal-600 sm:text-sm sm:leading-6 outline-none dark:bg-slate-800 dark:ring-slate-700 dark:focus:ring-teal-500 ring-slate-200" %>
                 </div>
               </div>
 
               <div>
-                <label for="name" class="flex justify-between text-sm font-medium leading-6 text-slate-900 dark:text-white">
-                  Password
+                <label for="user_password" class="flex justify-between text-sm font-medium leading-6 text-slate-900 dark:text-white">
+                  Пароль
                 </label>
-                <div class="mt-1">
-                  <%= password_field :user, :password, placeholder: "Enter a password with 6 characters or more.", required: true, class: "block w-full rounded-md border-0 px-3 py-3 appearance-none shadow-sm ring-1 ring-inset text-slate-900 dark:text-slate-100 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-woot-500 sm:text-sm sm:leading-6 outline-none dark:bg-slate-700 dark:ring-slate-600 dark:focus:ring-woot-500 ring-slate-200" %>
+                <div class="mt-1.5">
+                  <%= password_field :user, :password, placeholder: "Минимум 6 символов", required: true, class: "block w-full rounded-xl border-0 px-3 py-3 appearance-none shadow-sm ring-1 ring-inset text-slate-900 dark:text-slate-100 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-teal-600 sm:text-sm sm:leading-6 outline-none dark:bg-slate-800 dark:ring-slate-700 dark:focus:ring-teal-500 ring-slate-200" %>
                 </div>
               </div>
 
-              <div class="text-sm text-slate-900">
-                <%= check_box_tag "subscribe_to_updates", 'true', true %>
-                <label class="ml-2" for="subscribe_to_updates">
-                  Subscribe to release notes, newsletters & product feedback surveys.
-                </label>
-              </div>
+              <label for="subscribe_to_updates" class="flex items-start gap-3 text-sm text-slate-700 dark:text-slate-300">
+                <%= check_box_tag "subscribe_to_updates", 'true', true, class: "mt-1 rounded border-slate-300 text-teal-600 focus:ring-teal-500" %>
+                <span>Получать заметки о релизах, продуктовые обновления и редкие письма по развитию OneLink.</span>
+              </label>
 
-              <button type="submit" class="flex items-center w-full justify-center rounded-md bg-woot-500 py-3 px-3 text-base font-medium text-white shadow-sm hover:bg-woot-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-woot-500 cursor-pointer">
-                Finish Setup
+              <button type="submit" class="flex w-full items-center justify-center rounded-xl bg-teal-700 px-4 py-3 text-base font-medium text-white shadow-sm transition hover:bg-teal-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-700">
+                Завершить настройку
               </button>
             </div>
-            <% end %>
-          </div>
+          <% end %>
         </section>
-      </main>
-    </div>
+      </section>
+    </main>
   </body>
 </html>

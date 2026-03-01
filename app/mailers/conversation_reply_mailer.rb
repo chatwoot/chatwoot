@@ -5,7 +5,7 @@ class ConversationReplyMailer < ApplicationMailer
 
   include ConversationReplyMailerHelper
   include ReferencesHeaderBuilder
-  default from: ENV.fetch('MAILER_SENDER_EMAIL', 'Crafty <accounts@crafty.com>')
+  default from: ENV.fetch('MAILER_SENDER_EMAIL', 'OneLink <accounts@onelink.com>')
   layout :choose_layout
 
   def reply_with_summary(conversation, last_queued_id)

@@ -12,11 +12,11 @@
 - name: channel_email
   display_name: Email Channel
   enabled: true
-  help_url: crafty.app/hc/email
+  help_url: onelink.app/hc/email
 - name: channel_facebook
   display_name: Facebook Channel
   enabled: true
-  help_url: crafty.app/hc/fb
+  help_url: onelink.app/hc/fb
 - name: channel_twitter
   display_name: Twitter Channel
   enabled: true
@@ -34,11 +34,11 @@
 - name: help_center
   display_name: Help Center
   enabled: true
-  help_url: crafty.app/hc/help-center
+  help_url: onelink.app/hc/help-center
 - name: agent_bots
   display_name: Agent Bots
   enabled: true
-  help_url: crafty.app/hc/agent-bots
+  help_url: onelink.app/hc/agent-bots
 - name: macros
   display_name: Macros
   enabled: true
@@ -48,29 +48,29 @@
 - name: team_management
   display_name: Team Management
   enabled: true
-  help_url: crafty.app/hc/teams
+  help_url: onelink.app/hc/teams
 - name: inbox_management
   display_name: Inbox Management
   enabled: true
 - name: labels
   display_name: Labels
   enabled: true
-  help_url: crafty.app/hc/labels
+  help_url: onelink.app/hc/labels
 - name: custom_attributes
   display_name: Custom Attributes
   enabled: true
-  help_url: crafty.app/hc/custom-attributes
+  help_url: onelink.app/hc/custom-attributes
 - name: automations
   display_name: Automations
   enabled: true
 - name: canned_responses
   display_name: Canned Responses
   enabled: true
-  help_url: crafty.app/hc/canned
+  help_url: onelink.app/hc/canned
 - name: integrations
   display_name: Integrations
   enabled: true
-  help_url: crafty.app/hc/integrations
+  help_url: onelink.app/hc/integrations
 - name: voice_recorder
   display_name: Voice Recorder
   enabled: true
@@ -84,11 +84,11 @@
 - name: campaigns
   display_name: Campaigns
   enabled: true
-  help_url: crafty.app/hc/campaigns
+  help_url: onelink.app/hc/campaigns
 - name: reports
   display_name: Reports
   enabled: true
-  help_url: crafty.app/hc/reports
+  help_url: onelink.app/hc/reports
 - name: crm
   display_name: CRM
   enabled: true
@@ -113,7 +113,7 @@
 - name: message_reply_to
   display_name: Message Reply To
   enabled: false
-  help_url: crafty.app/hc/reply-to
+  help_url: onelink.app/hc/reply-to
   deprecated: true
 - name: insert_article_in_reply
   display_name: Insert Article in Reply
@@ -127,7 +127,7 @@
   display_name: SLA
   enabled: false
   premium: true
-  help_url: crafty.app/hc/sla
+  help_url: onelink.app/hc/sla
 - name: help_center_embedding_search
   display_name: Help Center Embedding Search
   enabled: false
@@ -195,10 +195,9 @@
   display_name: Assignment V2
   enabled: false
   chatwoot_internal: true
-- name: twilio_content_templates
-  display_name: Twilio Content Templates
+- name: calendar_kassa_access
+  display_name: Calendar & Kassa Access
   enabled: false
-  deprecated: true
 - name: advanced_search
   display_name: Advanced Search
   enabled: false

@@ -1,49 +1,51 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>SuperAdmin | Chatwoot</title>
+    <title>SuperAdmin | OneLink</title>
     <%= vite_client_tag %>
     <%= vite_javascript_tag 'superadmin' %>
   </head>
-  <body>
-    <div class="h-full w-full antialiased">
-      <main class="flex flex-col bg-woot-25 min-h-screen w-full py-20 sm:px-6 lg:px-8 dark:bg-slate-900">
-        <section class="max-w-5xl mx-auto">
-          <img src="/brand-assets/logo.svg" alt="Chatwoot" class="mx-auto h-8 w-auto block dark:hidden">
-          <img src="/brand-assets/logo_dark.svg" alt="Chatwoot" class="mx-auto h-8 w-auto hidden dark:block">
-          <h2 class="mt-6 text-center text-3xl font-medium text-slate-900 dark:text-woot-50">
-            Howdy, admin 👋
-          </h2>
-        </section>
-        <section class="bg-white shadow sm:mx-auto mt-11 sm:w-full sm:max-w-lg dark:bg-slate-800 p-11 sm:shadow-lg sm:rounded-lg mb-8 mt-15">
-          <div>
-            <%= form_for(resource, as: resource_name, url: '/super_admin/sign_in') do |f| %>
-              <% if flash[:error].present? %>
-                <div data-alert class="rounded-md bg-red-500 p-4 text-white text-sm mb-5"><%= flash[:error] %></div>
-              <% end %>
-              <div class="mb-5">
-                <label for="email_address" class="flex justify-between text-sm font-medium leading-6 text-slate-900 dark:text-white">
-                Email Address
-                </label>
-                <div class="mt-1">
-                  <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "Email eg: someone@example.com", class: "block w-full rounded-md border-0 px-3 py-3 appearance-none shadow-sm ring-1 ring-inset text-slate-900 dark:text-slate-100 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-woot-500 sm:text-sm sm:leading-6 outline-none dark:bg-slate-700 dark:ring-slate-600 dark:focus:ring-woot-500 ring-slate-200" %>
-                </div>
-              </div>
-              <div class="mb-5">
-                <label for="password" class="flex justify-between text-sm font-medium leading-6 text-slate-900 dark:text-white">
-                  Password
-                </label>
-                <div class="mt-1">
-                  <%= f.password_field :password, autocomplete: "current-password",  placeholder: "Password", class: "block w-full rounded-md border-0 px-3 py-3 appearance-none shadow-sm ring-1 ring-inset text-slate-900 dark:text-slate-100 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-woot-500 sm:text-sm sm:leading-6 outline-none dark:bg-slate-700 dark:ring-slate-600 dark:focus:ring-woot-500 ring-slate-200" %>
-                </div>
-              </div>
-              <button type="submit" class="flex items-center w-full justify-center rounded-md bg-woot-500 py-3 px-3 text-base font-medium text-white shadow-sm hover:bg-woot-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-woot-500 cursor-pointer">
-                <span>Login</span>
-              </button>
+  <body class="antialiased bg-slate-50 dark:bg-slate-950">
+    <main class="relative flex min-h-screen items-center justify-center overflow-hidden px-4 py-10 sm:px-6 lg:px-8">
+      <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(15,118,110,0.18),_transparent_38%),radial-gradient(circle_at_bottom_left,_rgba(20,184,166,0.12),_transparent_35%)]"></div>
+      <section class="relative w-full max-w-md">
+        <div class="mb-8 text-center">
+          <img src="/brand-assets/logo.svg" alt="OneLink" class="mx-auto h-10 w-auto block dark:hidden">
+          <img src="/brand-assets/logo_dark.svg" alt="OneLink" class="mx-auto h-10 w-auto hidden dark:block">
+          <h1 class="mt-6 text-3xl font-semibold tracking-tight text-slate-900 dark:text-white">
+            Вход администратора
+          </h1>
+          <p class="mt-3 text-sm text-slate-600 dark:text-slate-300">
+            Используйте super admin учетные данные для доступа к настройкам OneLink.
+          </p>
+        </div>
+        <section class="rounded-2xl border border-slate-200/80 bg-white/95 p-8 shadow-xl shadow-slate-200/60 backdrop-blur sm:p-10 dark:border-slate-800 dark:bg-slate-900/95 dark:shadow-black/30">
+          <%= form_for(resource, as: resource_name, url: '/super_admin/sign_in') do |f| %>
+            <% if flash[:error].present? %>
+              <div data-alert class="mb-5 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700 dark:border-red-900/70 dark:bg-red-950/40 dark:text-red-200"><%= flash[:error] %></div>
             <% end %>
-          </div>
+            <div class="mb-5">
+              <label for="email_address" class="flex justify-between text-sm font-medium leading-6 text-slate-900 dark:text-white">
+                Email
+              </label>
+              <div class="mt-1.5">
+                <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "admin@company.kz", class: "block w-full rounded-xl border-0 px-3 py-3 appearance-none shadow-sm ring-1 ring-inset text-slate-900 dark:text-slate-100 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-teal-600 sm:text-sm sm:leading-6 outline-none dark:bg-slate-800 dark:ring-slate-700 dark:focus:ring-teal-500 ring-slate-200" %>
+              </div>
+            </div>
+            <div class="mb-6">
+              <label for="password" class="flex justify-between text-sm font-medium leading-6 text-slate-900 dark:text-white">
+                Пароль
+              </label>
+              <div class="mt-1.5">
+                <%= f.password_field :password, autocomplete: "current-password", placeholder: "Введите пароль", class: "block w-full rounded-xl border-0 px-3 py-3 appearance-none shadow-sm ring-1 ring-inset text-slate-900 dark:text-slate-100 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-teal-600 sm:text-sm sm:leading-6 outline-none dark:bg-slate-800 dark:ring-slate-700 dark:focus:ring-teal-500 ring-slate-200" %>
+              </div>
+            </div>
+            <button type="submit" class="flex w-full items-center justify-center rounded-xl bg-teal-700 px-4 py-3 text-base font-medium text-white shadow-sm transition hover:bg-teal-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-700">
+              <span>Войти</span>
+            </button>
+          <% end %>
         </section>
-      </main>
-    </div>
+      </section>
+    </main>
   </body>
 </html>

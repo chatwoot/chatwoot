@@ -31,14 +31,26 @@ export default {
   },
   computed: {
     dashboardAppContext() {
-      return {
+      const context = {
         conversation: this.currentChat,
         contact: this.$store.getters['contacts/getContact'](this.contactId),
         currentAgent: this.currentAgent,
       };
+
+      if (this.currentAccount) {
+        context.account = this.currentAccount;
+      }
+
+      return context;
     },
     contactId() {
       return this.currentChat?.meta?.sender?.id;
+    },
+    currentAccount() {
+      const accountId = this.$store.getters.getCurrentAccountId;
+      if (!accountId) return null;
+      const { name } = this.$store.getters.getCurrentAccount || {};
+      return { id: accountId, name };
     },
     currentAgent() {
       const { id, name, email } = this.$store.getters.getCurrentUser;

@@ -29,7 +29,7 @@ const searchbarRef = useTemplateRef('searchbarRef');
 const placeholder = computed(() => context?.attrs?.placeholder || '');
 const hasErrorInPhoneInput = computed(() => context?.state?.invalid);
 const dropdownFirstItemName = computed(() =>
-  activeCountryCode.value ? 'Clear selection' : 'Select Country'
+  activeCountryCode.value ? 'Очистить выбор' : 'Выберите страну'
 );
 const countries = computed(() => [
   {

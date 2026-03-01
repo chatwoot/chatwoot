@@ -1,86 +1,45 @@
 <script setup>
-import { ref, computed, onBeforeMount } from 'vue';
+import { computed } from 'vue';
 import { useStore } from 'vuex';
+import { useBranding } from 'shared/composables/useBranding';
 import SignupForm from './components/Signup/Form.vue';
-import Testimonials from './components/Testimonials/Index.vue';
-import Spinner from 'shared/components/Spinner.vue';
-import signupBg from 'assets/images/auth/signup-bg.jpg';
 
 const store = useStore();
-
-const isLoading = ref(false);
+const { replaceInstallationName } = useBranding();
 const globalConfig = computed(() => store.getters['globalConfig/get']);
-const isAChatwootInstance = computed(
-  () => globalConfig.value.installationName === 'Chatwoot'
-);
-
-onBeforeMount(() => {
-  isLoading.value = isAChatwootInstance.value;
-});
-
-const resizeContainers = () => {
-  isLoading.value = false;
-};
 </script>
 
 <template>
-  <div
-    class="relative w-full h-full min-h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat p-4"
-    :style="{ backgroundImage: `url(${signupBg})` }"
+  <main
+    class="flex flex-col justify-center w-full min-h-screen py-12 bg-n-brand/5 dark:bg-n-background sm:px-6 lg:px-8"
   >
-    <div
-      class="absolute inset-0 bg-n-gray-12/60 dark:bg-n-gray-1/80 backdrop-blur-sm"
-    />
-    <div
-      v-show="!isLoading"
-      class="relative flex max-w-[960px] bg-white dark:bg-n-solid-2 rounded-lg outline outline-1 outline-n-container shadow-sm"
-      :class="{ 'w-auto xl:w-full': isAChatwootInstance }"
-    >
-      <div class="flex-1 flex items-center justify-center py-10 px-10">
-        <div class="max-w-[420px] w-full">
-          <div class="mb-6">
-            <img
-              :src="globalConfig.logo"
-              :alt="globalConfig.installationName"
-              class="block w-auto h-7 dark:hidden"
-            />
-            <img
-              v-if="globalConfig.logoDark"
-              :src="globalConfig.logoDark"
-              :alt="globalConfig.installationName"
-              class="hidden w-auto h-7 dark:block"
-            />
-            <h2 class="mt-6 text-2xl font-semibold text-n-slate-12">
-              {{
-                isAChatwootInstance
-                  ? $t('REGISTER.GET_STARTED')
-                  : $t('REGISTER.TRY_WOOT')
-              }}
-            </h2>
-            <p class="mt-2 text-sm text-n-slate-11">
-              {{ $t('REGISTER.HAVE_AN_ACCOUNT') }}{{ ' '
-              }}<router-link
-                class="text-n-blue-10 font-medium hover:text-n-blue-11"
-                to="/app/login"
-              >
-                {{ $t('LOGIN.SUBMIT') }}
-              </router-link>
-            </p>
-          </div>
-          <SignupForm />
-        </div>
-      </div>
-      <Testimonials
-        v-if="isAChatwootInstance"
-        class="flex-1 hidden xl:flex"
-        @resize-containers="resizeContainers"
+    <section class="max-w-5xl mx-auto">
+      <img
+        :src="globalConfig.logo"
+        :alt="globalConfig.installationName"
+        class="block w-auto h-8 mx-auto dark:hidden"
       />
-    </div>
-    <div
-      v-show="isLoading"
-      class="relative flex items-center justify-center w-full h-full"
+      <img
+        v-if="globalConfig.logoDark"
+        :src="globalConfig.logoDark"
+        :alt="globalConfig.installationName"
+        class="hidden w-auto h-8 mx-auto dark:block"
+      />
+      <h2 class="mt-6 text-3xl font-medium text-center text-n-slate-12">
+        {{ replaceInstallationName($t('REGISTER.GET_STARTED')) }}
+      </h2>
+      <p class="mt-3 text-sm text-center text-n-slate-11">
+        {{ $t('REGISTER.HAVE_AN_ACCOUNT') }}
+        <router-link to="/app/login" class="text-link text-n-brand">
+          {{ $t('LOGIN.SUBMIT') }}
+        </router-link>
+      </p>
+    </section>
+
+    <section
+      class="bg-white shadow sm:mx-auto mt-11 sm:w-full sm:max-w-lg dark:bg-n-solid-2 p-11 sm:shadow-lg sm:rounded-lg"
     >
-      <Spinner color-scheme="primary" size="" />
-    </div>
-  </div>
+      <SignupForm />
+    </section>
+  </main>
 </template>

@@ -15,7 +15,7 @@
 
 # ------- Branding Related Config ------- #
 - name: INSTALLATION_NAME
-  value: 'Chatwoot'
+  value: 'OneLink'
   display_title: 'Installation Name'
   description: 'The installation wide name that would be used in the dashboard, title etc.'
 - name: LOGO_THUMBNAIL
@@ -39,7 +39,7 @@
   display_title: 'Widget Brand URL'
   description: 'The URL that would be used in the widget under the section “Powered By”'
 - name: BRAND_NAME
-  value: 'Chatwoot'
+  value: 'OneLink'
   display_title: 'Brand Name'
   description: 'The name that would be used in emails and the widget'
 - name: TERMS_URL
@@ -173,7 +173,7 @@
 # MARK: Microsoft Email Channel Config
 - name: AZURE_APP_ID
   display_title: 'Azure App ID'
-  description: 'The App ID that will be used to authenticate with customer Microsoft accounts. Find more details on setting up Azure here: crafty.app/dev/ms'
+  description: 'The App ID that will be used to authenticate with customer Microsoft accounts. Find more details on setting up Azure here: onelink.app/dev/ms'
   locked: false
 - name: AZURE_APP_SECRET
   display_title: 'Azure App Secret'

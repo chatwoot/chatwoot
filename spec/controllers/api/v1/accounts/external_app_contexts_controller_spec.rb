@@ -66,7 +66,10 @@ RSpec.describe 'ExternalAppContextsController', type: :request do
         expected_payload = {
           account: {
             id: account.id,
-            name: account.name
+            name: account.name,
+            features: {
+              calendar_kassa_access: false
+            }
           },
           currentAgent: {
             id: agent.id,

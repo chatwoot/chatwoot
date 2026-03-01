@@ -263,7 +263,7 @@ onMounted(() => {
         :hide-actions="!isOnChatwootCloud"
         fallback-thumbnail="/assets/images/dashboard/captain/faqs-popover-light.svg"
         fallback-thumbnail-dark="/assets/images/dashboard/captain/faqs-popover-dark.svg"
-        learn-more-url="crafty.app/captain-faq"
+        learn-more-url="onelink.app/captain-faq"
       />
     </template>
 

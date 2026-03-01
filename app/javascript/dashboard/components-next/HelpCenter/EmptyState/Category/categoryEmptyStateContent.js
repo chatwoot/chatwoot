@@ -1,19 +1,19 @@
 export default [
   {
     id: 1,
-    name: 'Getting Started',
+    name: 'Быстрый старт',
     icon: '🚀',
-    description: 'Quick guides to help new users onboard.',
-    slug: 'getting-started',
+    description: 'Короткие инструкции для запуска портала и первых статей.',
+    slug: 'quick-start',
     meta: {
       articles_count: 5,
     },
   },
   {
     id: 2,
-    name: 'Advanced Features',
+    name: 'Продвинутые функции',
     icon: '💡',
-    description: 'Explore advanced features for power users.',
+    description: 'Сценарии для команд, которые уже автоматизировали поддержку.',
     slug: 'advanced-features',
     meta: {
       articles_count: 8,
@@ -21,9 +21,9 @@ export default [
   },
   {
     id: 3,
-    name: 'FAQs',
+    name: 'Частые вопросы',
     icon: '❓',
-    description: 'Commonly asked questions and helpful answers.',
+    description: 'Готовые ответы по оплате, доставке и возвратам.',
     slug: 'faqs',
     meta: {
       articles_count: 3,
@@ -31,9 +31,9 @@ export default [
   },
   {
     id: 4,
-    name: 'Troubleshooting',
+    name: 'Решение проблем',
     icon: '🛠️',
-    description: 'Resolve common issues with step-by-step guidance.',
+    description: 'Пошаговые инструкции для типовых ошибок и сбоев.',
     slug: 'troubleshooting',
     meta: {
       articles_count: 6,
@@ -41,19 +41,19 @@ export default [
   },
   {
     id: 5,
-    name: 'Community Guidelines',
+    name: 'Правила сервиса',
     icon: '👥',
-    description: 'Rules and practices for community engagement.',
-    slug: 'community-guidelines',
+    description: 'Регламенты общения, SLA и стандарты качества ответов.',
+    slug: 'service-guidelines',
     meta: {
       articles_count: 2,
     },
   },
   {
     id: 6,
-    name: 'Account Management',
+    name: 'Управление аккаунтом',
     icon: '🔑',
-    description: 'Manage your account and settings efficiently.',
+    description: 'Настройки аккаунта, роли, доступы и безопасность.',
     slug: 'account-management',
     meta: {
       articles_count: 7,
@@ -61,9 +61,9 @@ export default [
   },
   {
     id: 7,
-    name: 'Security Tips',
+    name: 'Безопасность',
     icon: '🔒',
-    description: 'Best practices for securing your account.',
+    description: 'Рекомендации по защите данных и контролю доступа.',
     slug: 'security-tips',
     meta: {
       articles_count: 4,
@@ -71,9 +71,9 @@ export default [
   },
   {
     id: 8,
-    name: 'Integrations',
+    name: 'Интеграции',
     icon: '🔗',
-    description: 'Connect to third-party services and tools easily.',
+    description: 'Подключение CRM, мессенджеров и внешних сервисов.',
     slug: 'integrations',
     meta: {
       articles_count: 9,
@@ -81,19 +81,19 @@ export default [
   },
   {
     id: 9,
-    name: 'Billing & Payments',
+    name: 'Оплата и счета',
     icon: '💳',
-    description: 'Manage your billing and payment details seamlessly.',
-    slug: 'billing-payments',
+    description: 'Вопросы по тарифам, счетам и закрывающим документам.',
+    slug: 'billing-and-payments',
     meta: {
       articles_count: 5,
     },
   },
   {
     id: 10,
-    name: 'Customization',
+    name: 'Брендинг',
     icon: '🎨',
-    description: 'Personalize and customize your user experience.',
+    description: 'Настройка логотипа, цветов и фирменных элементов OneLink.',
     slug: 'customization',
     meta: {
       articles_count: 7,
@@ -101,9 +101,9 @@ export default [
   },
   {
     id: 11,
-    name: 'Notifications',
+    name: 'Уведомления',
     icon: '🔔',
-    description: 'Adjust your notification settings and preferences.',
+    description: 'Управление оповещениями для агентов и руководителей.',
     slug: 'notifications',
     meta: {
       articles_count: 3,
@@ -111,9 +111,9 @@ export default [
   },
   {
     id: 12,
-    name: 'Privacy',
+    name: 'Конфиденциальность',
     icon: '🛡️',
-    description: 'Understand how your data is collected and used.',
+    description: 'Как хранятся данные клиентов и кто имеет к ним доступ.',
     slug: 'privacy',
     meta: {
       articles_count: 2,
@@ -121,9 +121,9 @@ export default [
   },
   {
     id: 13,
-    name: 'Mobile App',
+    name: 'Мобильное приложение',
     icon: '📱',
-    description: 'Guides for using the mobile app effectively.',
+    description: 'Сценарии для работы операторов со смартфона.',
     slug: 'mobile-app',
     meta: {
       articles_count: 6,
@@ -131,9 +131,9 @@ export default [
   },
   {
     id: 14,
-    name: 'Beta Features',
+    name: 'Бета-функции',
     icon: '🧪',
-    description: 'Learn about new experimental features in beta.',
+    description: 'Новые экспериментальные возможности и сценарии тестирования.',
     slug: 'beta-features',
     meta: {
       articles_count: 4,

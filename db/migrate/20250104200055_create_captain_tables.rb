@@ -27,7 +27,7 @@ class CreateCaptainTables < ActiveRecord::Migration[7.0]
     begin
       enable_extension 'vector'
     rescue ActiveRecord::StatementInvalid
-      raise StandardError, "Failed to enable 'vector' extension. Read more at crafty.app/v4/migration"
+      raise StandardError, "Failed to enable 'vector' extension. Read more at onelink.app/v4/migration"
     end
   end
 

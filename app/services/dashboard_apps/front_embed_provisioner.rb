@@ -7,8 +7,8 @@ module DashboardApps
     FRONT_URL_KEY = 'FRONT_DASHBOARD_APP_URL'.freeze
     EXTERNAL_NAME_KEY = 'EXTERNAL_APP_NAME'.freeze
     EXTERNAL_URL_KEY = 'EXTERNAL_APP_URL'.freeze
-    DEFAULT_TITLE = 'Запись к врачу'.freeze
-    DEFAULT_URL = 'http://127.0.0.1:3001/calendar'.freeze
+    DEFAULT_TITLE = 'Касса'.freeze
+    DEFAULT_URL = 'http://127.0.0.1:3001/widgets'.freeze
 
     def self.sync_global_config!(logger: Rails.logger)
       app_url = resolve_app_url(logger: logger)

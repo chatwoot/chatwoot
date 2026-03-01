@@ -32,7 +32,10 @@ class Api::V1::Accounts::ExternalAppContextsController < Api::V1::Accounts::Base
     {
       account: {
         id: Current.account.id,
-        name: Current.account.name
+        name: Current.account.name,
+        features: {
+          calendar_kassa_access: Current.account.feature_enabled?('calendar_kassa_access')
+        }
       },
       currentAgent: {
         id: Current.user.id,

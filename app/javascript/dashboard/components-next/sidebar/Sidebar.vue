@@ -49,6 +49,7 @@ const isACustomBrandedInstance = useMapGetter(
 );
 const globalConfig = useMapGetter('globalConfig/get');
 const isRTL = useMapGetter('accounts/isRTL');
+const DEFAULT_EMBEDDED_APP_URL = 'http://127.0.0.1:3001/widgets';
 
 const { width: windowWidth } = useWindowSize();
 const isMobile = computed(() => windowWidth.value < 768);
@@ -223,12 +224,11 @@ const newReportRoutes = () => [
 ];
 
 const reportRoutes = computed(() => newReportRoutes());
-const shouldShowExternalApp = computed(() =>
-  Boolean(globalConfig.value.externalAppUrl)
-);
-const externalAppName = computed(
-  () => globalConfig.value.externalAppName || 'External App'
-);
+const resolvedEmbeddedAppUrl = computed(() => {
+  const configuredUrl = (globalConfig.value.externalAppUrl || '').trim();
+  return configuredUrl || DEFAULT_EMBEDDED_APP_URL;
+});
+const shouldShowEmbeddedApps = computed(() => Boolean(resolvedEmbeddedAppUrl.value));
 const routeConversationId = computed(
   () =>
     route.params.conversation_id ||
@@ -243,9 +243,9 @@ const routeInboxId = computed(
     route.query.inbox_id ||
     route.query.inboxId
 );
-const externalAppRoute = computed(() => {
-  return accountScopedRoute(
-    'external_app_index',
+const buildEmbeddedAppRoute = routeName =>
+  accountScopedRoute(
+    routeName,
     {},
     {
       ...(routeConversationId.value
@@ -254,7 +254,6 @@ const externalAppRoute = computed(() => {
       ...(routeInboxId.value ? { inbox_id: routeInboxId.value } : {}),
     }
   );
-});
 
 const menuItems = computed(() => {
   return [
@@ -350,14 +349,21 @@ const menuItems = computed(() => {
         },
       ],
     },
-    ...(shouldShowExternalApp.value
+    ...(shouldShowEmbeddedApps.value
       ? [
           {
-            name: 'External App',
-            label: externalAppName.value,
+            name: 'Calendar Embed',
+            label: 'Календарь',
             icon: 'i-lucide-calendar',
-            to: externalAppRoute.value,
-            activeOn: ['external_app_index'],
+            to: buildEmbeddedAppRoute('calendar_embed_index'),
+            activeOn: ['calendar_embed_index'],
+          },
+          {
+            name: 'Kassa Embed',
+            label: 'Касса',
+            icon: 'i-lucide-wallet',
+            to: buildEmbeddedAppRoute('kassa_embed_index'),
+            activeOn: ['kassa_embed_index'],
           },
         ]
       : []),

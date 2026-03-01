@@ -13,6 +13,11 @@ import NextButton from 'dashboard/components-next/button/Button.vue';
 import Avatar from 'next/avatar/Avatar.vue';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
 
+const DEFAULT_COUNTRY = countries.find(({ id }) => id === 'KZ') || {
+  id: 'KZ',
+  name: 'Казахстан',
+};
+
 export default {
   components: {
     NextButton,
@@ -49,8 +54,8 @@ export default {
       avatarFile: null,
       avatarUrl: '',
       country: {
-        id: '',
-        name: '',
+        id: DEFAULT_COUNTRY.id,
+        name: DEFAULT_COUNTRY.name,
       },
       city: '',
       socialProfileUserNames: {
@@ -141,7 +146,7 @@ export default {
       const selected = this.countries.find(c => c.id === value);
       this.country = selected
         ? { id: selected.id, name: selected.name }
-        : { id: '', name: '' };
+        : { id: DEFAULT_COUNTRY.id, name: DEFAULT_COUNTRY.name };
     },
     setDialCode() {
       if (
@@ -165,11 +170,14 @@ export default {
       this.email = emailAddress || '';
       this.phoneNumber = phoneNumber || '';
       this.companyName = additionalAttributes.company_name || '';
+      const countryId = additionalAttributes.country_code || DEFAULT_COUNTRY.id;
+      const countryName =
+        additionalAttributes.country ||
+        this.countries.find(country => country.id === countryId)?.name ||
+        DEFAULT_COUNTRY.name;
       this.country = {
-        id: additionalAttributes.country_code || '',
-        name:
-          additionalAttributes.country ||
-          this.$t('CONTACT_FORM.FORM.COUNTRY.SELECT_COUNTRY'),
+        id: countryId,
+        name: countryName,
       };
       this.city = additionalAttributes.city || '';
       this.description = additionalAttributes.description || '';
@@ -192,8 +200,8 @@ export default {
     getContactObject() {
       if (this.country === null) {
         this.country = {
-          id: '',
-          name: '',
+          id: DEFAULT_COUNTRY.id,
+          name: DEFAULT_COUNTRY.name,
         };
       }
       const contactObject = {
@@ -206,11 +214,7 @@ export default {
           description: this.description,
           company_name: this.companyName,
           country_code: this.country.id,
-          country:
-            this.country.name ===
-            this.$t('CONTACT_FORM.FORM.COUNTRY.SELECT_COUNTRY')
-              ? ''
-              : this.country.name,
+          country: this.country.name,
           city: this.city,
           social_profiles: this.socialProfileUserNames,
         },

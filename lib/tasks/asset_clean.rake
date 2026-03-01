@@ -1,4 +1,4 @@
-# Asset clean logic taken from the article crafty.app/heroku-slug-size
+# Asset clean logic taken from the article onelink.app/heroku-slug-size
 
 namespace :assets do
   desc "Remove 'node_modules' folder"

@@ -45,6 +45,7 @@ class DashboardController < ActionController::Base
 
   def set_global_config
     @global_config = GlobalConfig.get(*GLOBAL_CONFIG_KEYS).merge(app_config)
+    apply_branding_overrides!
   end
 
   def set_dashboard_scripts
@@ -85,8 +86,14 @@ class DashboardController < ActionController::Base
       DISABLE_PREMIUM_FEATURES: ActiveModel::Type::Boolean.new.cast(ENV.fetch('DISABLE_PREMIUM_FEATURES', false)),
       IS_ALL_FEATURES_UNLOCKED: ActiveModel::Type::Boolean.new.cast(ENV.fetch('UNLOCK_ALL_FEATURES', false)),
       AZURE_APP_ID: GlobalConfigService.load('AZURE_APP_ID', ''),
-      EXTERNAL_APP_URL: GlobalConfigService.load('EXTERNAL_APP_URL', ''),
-      EXTERNAL_APP_NAME: GlobalConfigService.load('EXTERNAL_APP_NAME', 'External App'),
+      EXTERNAL_APP_URL: GlobalConfigService.load(
+        'EXTERNAL_APP_URL',
+        DashboardApps::FrontEmbedProvisioner::DEFAULT_URL
+      ),
+      EXTERNAL_APP_NAME: GlobalConfigService.load(
+        'EXTERNAL_APP_NAME',
+        DashboardApps::FrontEmbedProvisioner::DEFAULT_TITLE
+      ),
       GIT_SHA: GIT_HASH,
       ALLOWED_LOGIN_METHODS: allowed_login_methods
     }
@@ -115,5 +122,18 @@ class DashboardController < ActionController::Base
     current_path = request.path.gsub(%r{^/app}, '')
 
     sensitive_paths.include?(current_path)
+  end
+
+  def apply_branding_overrides!
+    @global_config['INSTALLATION_NAME'] = normalized_brand_name(@global_config['INSTALLATION_NAME'])
+    @global_config['BRAND_NAME'] = normalized_brand_name(@global_config['BRAND_NAME'])
+  end
+
+  def normalized_brand_name(value)
+    normalized_value = value.to_s.strip
+    return 'OneLink' if normalized_value.blank?
+    return 'OneLink' if normalized_value.casecmp('chatwoot').zero?
+
+    normalized_value
   end
 end
