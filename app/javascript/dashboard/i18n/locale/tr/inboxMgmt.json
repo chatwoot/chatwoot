@@ -2,7 +2,7 @@
   "INBOX_MGMT": {
     "HEADER": "Gelen kutuları",
     "DESCRIPTION": "Kanal, müşterinizin sizinle iletişim kurmak için seçtiği yöntemdir. Gelen kutusu (inbox) ise belirli bir kanal üzerinden gerçekleşen etkileşimleri yönettiğiniz yerdir. Gelen kutusu; e-posta, canlı sohbet ve sosyal medya gibi farklı kaynaklardan gelen iletişimleri içerebilir.",
-    "LEARN_MORE": "Learn more about inboxes",
+    "LEARN_MORE": "Gelen kutuları hakkında daha fazla bilgi edinin",
     "COUNT": "{n} inbox | {n} inboxes",
     "SEARCH_PLACEHOLDER": "Gelen kutularını ara...",
     "NO_RESULTS": "No inboxes found matching your search",
@@ -566,7 +566,7 @@
       },
       "SENDER_NAME_SECTION": {
         "TITLE": "Gönderen Adı",
-        "SUB_TEXT": "Select the name shown to your customer when they receive emails from your agents.",
+        "SUB_TEXT": "Müşterileriniz, temsilcilerinizden e-posta aldıklarında görecekleri adı seçin.",
         "FOR_EG": "Örneğin:",
         "FRIENDLY": {
           "TITLE": "Dostça",
