@@ -18,7 +18,7 @@
     },
     "HEADER": "Entegrasyonlar",
     "DESCRIPTION": "Chatwoot, ekibinizin verimliliğini artırmak için birden fazla araç ve hizmetle entegre olur. Favori uygulamalarınızı yapılandırmak için aşağıdaki listeyi inceleyin.",
-    "LEARN_MORE": "Learn more about integrations",
+    "LEARN_MORE": "Entegrasyonlar hakkında daha fazla bilgi edinin",
     "LOADING": "Fetching integrations",
     "SEARCH_PLACEHOLDER": "Search integrations...",
     "NO_RESULTS": "No integrations found matching your search",
@@ -442,19 +442,19 @@
       "CREDIT_NOTE": "Buradan gönderilen mesajlar Captain kredilerinize sayılacaktır."
     },
     "PAYWALL": {
-      "TITLE": "Upgrade to use Captain AI",
+      "TITLE": "Captain AI kullanmak için yükseltin",
       "AVAILABLE_ON": "Captain is not available on the free plan.",
       "UPGRADE_PROMPT": "Asistanlarımıza, Copilot'a ve daha fazlasına erişim sağlamak için planınızı yükseltin.",
-      "UPGRADE_NOW": "Upgrade now",
+      "UPGRADE_NOW": "Şimdi yükselt",
       "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
     },
     "ENTERPRISE_PAYWALL": {
-      "AVAILABLE_ON": "Captain AI is only available in the Enterprise plans.",
+      "AVAILABLE_ON": "Captain AI yalnızca Enterprise planlarında mevcuttur.",
       "UPGRADE_PROMPT": "Asistanlarımıza, Copilot'a ve daha fazlasına erişim sağlamak için planınızı yükseltin.",
       "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
     },
     "BANNER": {
-      "RESPONSES": "You've used over 80% of your response limit. To continue using Captain AI, please upgrade.",
+      "RESPONSES": "Yanıt sınırınızın %80'inden fazlasını kullandınız. Captain AI'yı kullanmaya devam etmek için lütfen yükseltin.",
       "DOCUMENTS": "Belge sınırı aşıldı. Captain AI'yı kullanmaya devam etmek için yükseltme yapın."
     },
     "FORM": {
@@ -683,7 +683,7 @@
             "TITLE": "Örnek senaryolar",
             "ADD": "Tümünü ekle",
             "ADD_SINGLE": "Bunu ekle",
-            "TOOLS_USED": "Tools used :"
+            "TOOLS_USED": "Kullanılan araçlar:"
           },
           "NEW": {
             "CREATE": "Senaryo ekle",
@@ -716,19 +716,19 @@
         "LIST": {
           "SEARCH_PLACEHOLDER": "Ara..."
         },
-        "EMPTY_MESSAGE": "No scenarios found. Create or add examples to begin.",
+        "EMPTY_MESSAGE": "Hiçbir senaryo bulunamadı. Başlamak için örnekler oluşturun veya ekleyin.",
         "SEARCH_EMPTY_MESSAGE": "No scenarios found for this search.",
         "API": {
           "ADD": {
-            "SUCCESS": "Scenarios added successfully",
+            "SUCCESS": "Senaryolar başarıyla eklendi",
             "ERROR": "There was an error adding scenarios, please try again."
           },
           "UPDATE": {
-            "SUCCESS": "Scenarios updated successfully",
+            "SUCCESS": "Senaryolar başarıyla güncellendi",
             "ERROR": "There was an error updating scenarios, please try again."
           },
           "DELETE": {
-            "SUCCESS": "Scenarios deleted successfully",
+            "SUCCESS": "Senaryolar başarıyla silindi",
             "ERROR": "There was an error deleting scenarios, please try again."
           }
         }
