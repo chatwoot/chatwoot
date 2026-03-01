@@ -1,6 +1,6 @@
 {
   "LOGIN": {
-    "TITLE": "Zaloguj się do Chatwoot",
+    "TITLE": "Zaloguj się do AirysChat",
     "EMAIL": {
       "LABEL": "E-mail",
       "PLACEHOLDER": "example{'@'}companyname.com",
