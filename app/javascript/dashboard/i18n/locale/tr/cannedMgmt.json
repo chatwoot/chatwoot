@@ -1,7 +1,7 @@
 {
   "CANNED_MGMT": {
     "HEADER": "Hazır Yanıtlar",
-    "LEARN_MORE": "Learn more about canned responses",
+    "LEARN_MORE": "Hazır yanıtlar hakkında daha fazla bilgi edinin",
     "DESCRIPTION": "Hazır Yanıtlar, bir konuşmaya hızlı yanıt vermenizi sağlayan önceden hazırlanmış şablonlardır. Temsilciler, bir konuşma sırasında hazır yanıt eklemek için '/' karakterini ve ardından kısa kodu yazabilirler. ",
     "COUNT": "{n} canned response | {n} canned responses",
     "HEADER_BTN_TXT": "Hazır yanıt ekle",
