@@ -21,6 +21,7 @@ import general from './general.json';
 import generalSettings from './generalSettings.json';
 import helpCenter from './helpCenter.json';
 import inbox from './inbox.json';
+import influencer from './influencer.json';
 import inboxMgmt from './inboxMgmt.json';
 import integrationApps from './integrationApps.json';
 import integrations from './integrations.json';
@@ -64,6 +65,7 @@ export default {
   ...generalSettings,
   ...helpCenter,
   ...inbox,
+  ...influencer,
   ...inboxMgmt,
   ...integrationApps,
   ...integrations,

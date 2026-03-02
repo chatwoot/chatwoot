@@ -44,6 +44,16 @@ if (isLibraryMode) {
 
 export default defineConfig({
   plugins: plugins,
+  server: {
+    fs: {
+      allow: [
+        // Allow serving files from the worktree path
+        path.resolve(__dirname),
+        // Allow node_modules and other standard paths
+        path.resolve(__dirname, 'node_modules'),
+      ],
+    },
+  },
   build: {
     rollupOptions: {
       output: {

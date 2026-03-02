@@ -450,6 +450,37 @@ const menuItems = computed(() => {
       ],
     },
     {
+      name: 'Influencers',
+      label: t('SIDEBAR.INFLUENCERS'),
+      icon: 'i-lucide-sparkles',
+      children: [
+        {
+          name: 'Influencer Search',
+          label: t('SIDEBAR.INFLUENCER_SEARCH'),
+          to: accountScopedRoute('influencers_search'),
+          activeOn: ['influencers_search', 'influencers_dashboard_index'],
+        },
+        {
+          name: 'Influencer Review',
+          label: t('SIDEBAR.INFLUENCER_REVIEW'),
+          to: accountScopedRoute('influencers_review'),
+          activeOn: ['influencers_review'],
+        },
+        {
+          name: 'Influencer Pipeline',
+          label: t('SIDEBAR.INFLUENCER_PIPELINE'),
+          to: accountScopedRoute('influencers_pipeline'),
+          activeOn: ['influencers_pipeline'],
+        },
+        {
+          name: 'Influencer Rejected',
+          label: t('SIDEBAR.INFLUENCER_REJECTED'),
+          to: accountScopedRoute('influencers_rejected'),
+          activeOn: ['influencers_rejected'],
+        },
+      ],
+    },
+    {
       name: 'Companies',
       label: t('SIDEBAR.COMPANIES'),
       icon: 'i-lucide-building-2',
