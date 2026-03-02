@@ -41,7 +41,8 @@ module Agent
         @conversation.messages.create!(
           message_type: :activity,
           content: "AI agent handed off to human: #{reason}",
-          account_id: @conversation.account_id
+          account_id: @conversation.account_id,
+          inbox_id: @conversation.inbox_id
         )
       end
 
