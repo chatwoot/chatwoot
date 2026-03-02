@@ -32,7 +32,10 @@ RSpec.describe ConversationTriageAgent do
           conversation_messages: conversation_messages,
           available_labels: available_labels,
           available_teams: available_teams,
-          dry_run: true
+          dry_run: true,
+          account_id: account.id,
+          conversation_id: conversation.id,
+          inbox_id: conversation.inbox_id
         )
 
         expect(result).to respond_to(:content)
@@ -46,7 +49,10 @@ RSpec.describe ConversationTriageAgent do
           conversation_messages: conversation_messages,
           available_labels: available_labels,
           available_teams: available_teams,
-          dry_run: true
+          dry_run: true,
+          account_id: account.id,
+          conversation_id: conversation.id,
+          inbox_id: conversation.inbox_id
         )
 
         expect(result.content[:user_prompt]).to include('Customer message 1')
@@ -59,7 +65,10 @@ RSpec.describe ConversationTriageAgent do
           conversation_messages: conversation_messages,
           available_labels: available_labels,
           available_teams: [],
-          dry_run: true
+          dry_run: true,
+          account_id: account.id,
+          conversation_id: conversation.id,
+          inbox_id: conversation.inbox_id
         )
 
         expect(result.content[:user_prompt]).to include('billing')
@@ -71,7 +80,10 @@ RSpec.describe ConversationTriageAgent do
           conversation_messages: conversation_messages,
           available_labels: [],
           available_teams: available_teams,
-          dry_run: true
+          dry_run: true,
+          account_id: account.id,
+          conversation_id: conversation.id,
+          inbox_id: conversation.inbox_id
         )
 
         expect(result.content[:user_prompt]).to include('Support Team')

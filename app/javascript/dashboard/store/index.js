@@ -10,7 +10,8 @@ import attributes from './modules/attributes';
 import auditlogs from './modules/auditlogs';
 import auth from './modules/auth';
 import paymentLinks from './modules/paymentLinks';
-import carts from './modules/carts';
+import orders from './modules/orders';
+import orderNotes from './modules/orderNotes';
 import automations from './modules/automations';
 import bulkActions from './modules/bulkActions';
 import campaigns from './modules/campaigns';
@@ -53,7 +54,7 @@ import userNotificationSettings from './modules/userNotificationSettings';
 import webhooks from './modules/webhooks';
 import alooAssistants from './aloo/assistant';
 import alooDocuments from './aloo/document';
-import alooWizard from './aloo/wizard';
+
 import alooConversations from './aloo/conversation';
 
 const plugins = [];
@@ -70,7 +71,8 @@ export default createStore({
     auditlogs,
     auth,
     paymentLinks,
-    carts,
+    orders,
+    orderNotes,
     automations,
     bulkActions,
     campaigns,
@@ -113,7 +115,7 @@ export default createStore({
     webhooks,
     alooAssistants,
     alooDocuments,
-    alooWizard,
+
     alooConversations,
   },
   plugins,

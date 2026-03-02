@@ -1,3 +1,21 @@
+# == Schema Information
+#
+# Table name: data_imports
+#
+#  id                :bigint           not null, primary key
+#  data_type         :string           not null
+#  processed_records :integer
+#  processing_errors :text
+#  status            :integer          default("pending"), not null
+#  total_records     :integer
+#  created_at        :datetime         not null
+#  updated_at        :datetime         not null
+#  account_id        :bigint           not null
+#
+# Indexes
+#
+#  index_data_imports_on_account_id  (account_id)
+#
 require 'rails_helper'
 
 RSpec.describe DataImport do

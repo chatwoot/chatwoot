@@ -39,15 +39,15 @@ class Api::V1::Accounts::Aloo::AssistantsController < Api::V1::Accounts::BaseCon
 
   # GET /api/v1/accounts/:account_id/aloo/assistants/:id/stats
   def stats
-    # Scope executions by current account (tenant)
-    executions = RubyLLM::Agents::Execution
-                 .by_agent('ConversationAgent')
-                 .by_tenant(Current.account.id.to_s)
+    assistant_messages = @assistant.messages
 
     render json: {
-      total_conversations: executions.count,
-      total_messages: executions.count,
-      total_tokens: executions.total_tokens_sum,
+      total_conversations: assistant_messages.distinct.count(:conversation_id),
+      total_messages: assistant_messages.count,
+      total_tokens: assistant_messages.sum(
+        "COALESCE((content_attributes->>'input_tokens')::integer, 0) + " \
+        "COALESCE((content_attributes->>'output_tokens')::integer, 0)"
+      ),
       total_documents: @assistant.documents.available.count
     }
   end
@@ -55,40 +55,14 @@ class Api::V1::Accounts::Aloo::AssistantsController < Api::V1::Accounts::BaseCon
   # GET /api/v1/accounts/:account_id/aloo/assistants/:id/performance
   def performance
     days = parse_days_from_range(params[:range] || '7d')
-    # Scope executions by current account (tenant)
-    executions = RubyLLM::Agents::Execution
-                 .by_agent('ConversationAgent')
-                 .by_tenant(Current.account.id.to_s)
-                 .last_n_days(days)
-
-    total_conversations = executions.count
-    successful_responses = executions.successful.count
-    failed_responses = executions.failed.count
-    total_responses = successful_responses + failed_responses
-
-    # Calculate average response time from executions
-    avg_response_time = executions.avg_duration&.round(2) || 0
-
-    # Calculate handoff rate from tool calls in executions
-    handoff_count = executions.with_tool_calls
-                              .where('tool_calls::text LIKE ?', '%HandoffTool%')
-                              .count
-    handoff_rate = total_conversations.positive? ? (handoff_count.to_f / total_conversations * 100).round(2) : 0
-
-    # Token usage from executions
-    total_input_tokens = executions.sum(:input_tokens)
-    total_output_tokens = executions.sum(:output_tokens)
+    msg_metrics = message_performance_metrics(days)
+    exec_metrics = execution_performance_metrics(days)
 
     render json: {
-      response_rate: total_responses.positive? ? (successful_responses.to_f / total_responses * 100).round(2) : 100,
-      avg_response_time_ms: avg_response_time,
-      handoff_rate: handoff_rate,
-      total_conversations: total_conversations,
-      token_usage: {
-        total_input: total_input_tokens,
-        total_output: total_output_tokens,
-        total: total_input_tokens + total_output_tokens
-      },
+      **exec_metrics,
+      handoff_rate: msg_metrics[:handoff_rate],
+      total_conversations: msg_metrics[:total_conversations],
+      token_usage: msg_metrics[:token_usage],
       time_range: params[:range] || '7d'
     }
   end
@@ -171,25 +145,13 @@ class Api::V1::Accounts::Aloo::AssistantsController < Api::V1::Accounts::BaseCon
   def voice_usage
     period_start = parse_date_param(:period_start, Time.current.beginning_of_month)
     period_end = parse_date_param(:period_end, Time.current.end_of_month)
-
-    usage = @assistant.voice_usage_records.for_period(period_start, period_end)
-
-    transcription_stats = usage.transcriptions.successful
-    synthesis_stats = usage.synthesis.successful
+    usage = assistant_executions_scope.where(started_at: period_start..period_end)
 
     render json: {
       period: { start: period_start.iso8601, end: period_end.iso8601 },
-      transcription: {
-        count: transcription_stats.count,
-        total_duration_seconds: transcription_stats.sum(:audio_duration_seconds),
-        estimated_cost: transcription_stats.sum(:estimated_cost).to_f.round(4)
-      },
-      synthesis: {
-        count: synthesis_stats.count,
-        total_characters: synthesis_stats.sum(:characters_used),
-        estimated_cost: synthesis_stats.sum(:estimated_cost).to_f.round(4)
-      },
-      total_estimated_cost: usage.successful.sum(:estimated_cost).to_f.round(4),
+      transcription: transcription_summary(usage),
+      synthesis: synthesis_summary(usage),
+      total_estimated_cost: usage.successful.sum(:total_cost).to_f.round(4),
       failed_operations: usage.failed.count
     }
   end
@@ -204,25 +166,17 @@ class Api::V1::Accounts::Aloo::AssistantsController < Api::V1::Accounts::BaseCon
     Aloo::Current.assistant = @assistant
     Aloo::Current.request_id = SecureRandom.uuid
     Aloo::Current.playground_mode = true
+    Aloo::Current.conversation_history = parse_playground_history
 
     start_time = Process.clock_gettime(Process::CLOCK_MONOTONIC)
 
     result = ConversationAgent.call(
-      message: message,
-      conversation_history: params[:conversation_history]
+      message: message
     )
 
     duration_ms = ((Process.clock_gettime(Process::CLOCK_MONOTONIC) - start_time) * 1000).round
 
-    render json: {
-      response: result.content,
-      success: result.success?,
-      input_tokens: result.input_tokens,
-      output_tokens: result.output_tokens,
-      total_tokens: (result.input_tokens || 0) + (result.output_tokens || 0),
-      duration_ms: duration_ms,
-      tool_calls: result.tool_calls&.map { |tc| { name: tc.try(:name) || tc[:name], arguments: tc.try(:arguments) || tc[:arguments] } }
-    }
+    render json: playground_response_json(result, duration_ms)
   rescue RubyLLM::Error => e
     render json: { error: e.message, success: false }, status: :unprocessable_entity
   ensure
@@ -235,13 +189,63 @@ class Api::V1::Accounts::Aloo::AssistantsController < Api::V1::Accounts::BaseCon
     @assistant = Current.account.aloo_assistants.find(params[:id])
   end
 
+  def playground_response_json(result, duration_ms)
+    {
+      response: result.content,
+      success: result.success?,
+      input_tokens: result.input_tokens,
+      output_tokens: result.output_tokens,
+      total_tokens: (result.input_tokens || 0) + (result.output_tokens || 0),
+      duration_ms: duration_ms,
+      tool_calls: result.tool_calls&.map do |tc|
+        {
+          name: tc.try(:name) || tc[:name],
+          arguments: tc.try(:arguments) || tc[:arguments],
+          result: tc.try(:result) || tc[:result],
+          status: tc.try(:status) || tc[:status]
+        }
+      end
+    }
+  end
+
+  def parse_playground_history
+    raw = params[:conversation_history]
+    return [] if raw.blank? || !raw.is_a?(Array)
+
+    raw.first(ConversationAgent::MAX_CONVERSATION_HISTORY).filter_map do |entry|
+      role = entry[:role].to_s
+      content = entry[:content].to_s.strip
+      next if content.blank? || %w[user assistant].exclude?(role)
+
+      { role: role, content: content }
+    end
+  end
+
+  def assistant_executions_scope
+    audio_agents = %w[Audio::AlooSpeaker Audio::AlooOpenaiSpeaker Audio::AlooTranscriber]
+    RubyLLM::Agents::Execution
+      .by_tenant(Current.account.id.to_s)
+      .where(agent_type: audio_agents)
+      .metadata_value('aloo_assistant_id', @assistant.id.to_s)
+  end
+
+  def transcription_summary(usage)
+    stats = usage.successful.where(agent_type: 'Audio::AlooTranscriber')
+    { count: stats.count, total_duration_seconds: stats.sum(:duration_ms).to_i / 1000,
+      estimated_cost: stats.sum(:total_cost).to_f.round(4) }
+  end
+
+  def synthesis_summary(usage)
+    stats = usage.successful.where(agent_type: %w[Audio::AlooSpeaker Audio::AlooOpenaiSpeaker])
+    { count: stats.count, total_characters: stats.sum(:input_tokens),
+      estimated_cost: stats.sum(:total_cost).to_f.round(4) }
+  end
+
   def assistant_params
     params.require(:assistant).permit(
       :name,
       :description,
       :active,
-      :language,
-      :dialect,
       :tone,
       :formality,
       :empathy_level,
@@ -252,8 +256,6 @@ class Api::V1::Accounts::Aloo::AssistantsController < Api::V1::Accounts::BaseCon
       :personality_description,
       :custom_instructions,
       :voice_enabled,
-      :voice_input_enabled,
-      :voice_output_enabled,
       voice_config: %i[
         transcription_provider
         transcription_model
@@ -271,6 +273,7 @@ class Api::V1::Accounts::Aloo::AssistantsController < Api::V1::Accounts::BaseCon
         feature_labels
         feature_catalog_access
         feature_macros
+        feature_contact_update
       ]
     )
   end
@@ -281,8 +284,6 @@ class Api::V1::Accounts::Aloo::AssistantsController < Api::V1::Accounts::BaseCon
       name: assistant.name,
       description: assistant.description,
       active: assistant.active,
-      language: assistant.language,
-      dialect: assistant.dialect,
       custom_instructions: assistant.custom_instructions,
       personality: {
         tone: assistant.tone,
@@ -295,18 +296,16 @@ class Api::V1::Accounts::Aloo::AssistantsController < Api::V1::Accounts::BaseCon
         personality_description: assistant.personality_description
       },
       features: {
-        faq_enabled: assistant.feature_faq_enabled?,
         handoff_enabled: assistant.feature_handoff_enabled?,
         resolve_enabled: assistant.feature_resolve_enabled?,
         snooze_enabled: assistant.feature_snooze_enabled?,
         labels_enabled: assistant.feature_labels_enabled?,
         catalog_access_enabled: assistant.feature_catalog_access_enabled?,
-        macros_enabled: assistant.feature_macros_enabled?
+        macros_enabled: assistant.feature_macros_enabled?,
+        contact_update_enabled: assistant.feature_contact_update_enabled?
       },
       voice: {
         enabled: assistant.voice_enabled?,
-        input_enabled: assistant.voice_input_enabled?,
-        output_enabled: assistant.voice_output_enabled?,
         config: assistant.voice_config || {},
         transcription_enabled: assistant.voice_transcription_enabled?,
         reply_enabled: assistant.voice_reply_enabled?
@@ -319,6 +318,34 @@ class Api::V1::Accounts::Aloo::AssistantsController < Api::V1::Accounts::BaseCon
 
   def check_authorization
     authorize(Current.account, :update?)
+  end
+
+  def message_performance_metrics(days)
+    assistant_msgs = @assistant.messages.where('messages.created_at >= ?', days.days.ago)
+    total_conversations = assistant_msgs.distinct.count(:conversation_id)
+
+    total_input = assistant_msgs.sum("COALESCE((content_attributes->>'input_tokens')::integer, 0)")
+    total_output = assistant_msgs.sum("COALESCE((content_attributes->>'output_tokens')::integer, 0)")
+
+    handoff_count = assistant_msgs.where("content_attributes->>'tool_calls' LIKE ?", '%HandoffTool%').count
+    handoff_rate = total_conversations.positive? ? (handoff_count.to_f / total_conversations * 100).round(2) : 0
+
+    { total_conversations: total_conversations, handoff_rate: handoff_rate,
+      token_usage: { total_input: total_input, total_output: total_output, total: total_input + total_output } }
+  end
+
+  def execution_performance_metrics(days)
+    assistant_msgs = @assistant.messages.where('messages.created_at >= ?', days.days.ago)
+    total = assistant_msgs.count
+
+    return { response_rate: nil, avg_response_time_ms: nil } if total.zero?
+
+    avg_time = assistant_msgs
+               .where("content_attributes->>'response_time_ms' IS NOT NULL")
+               .average("(content_attributes->>'response_time_ms')::float")
+               &.round(2)
+
+    { response_rate: 100, avg_response_time_ms: avg_time }
   end
 
   def parse_time_range(range)

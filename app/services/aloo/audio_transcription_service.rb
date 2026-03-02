@@ -20,11 +20,9 @@ module Aloo
       transcribe_and_store
     rescue RubyLLM::Error => e
       Rails.logger.error("[Aloo::AudioTranscription] RubyLLM error: #{e.message}")
-      record_usage(success: false, error: e.message)
       error_result(e.message)
     rescue StandardError => e
       Rails.logger.error("[Aloo::AudioTranscription] Unexpected error: #{e.message}")
-      record_usage(success: false, error: e.message)
       error_result(e.message)
     end
 
@@ -34,17 +32,18 @@ module Aloo
       start_time = Process.clock_gettime(Process::CLOCK_MONOTONIC)
 
       temp_file = download_to_tempfile
-      result = RubyLLM.transcribe(
-        temp_file.path,
+      result = Audio::AlooTranscriber.call(
+        audio: temp_file.path,
+        language: language_hint,
         model: transcription_model,
-        language: language_hint
+        tenant: assistant.account
       )
+      raise result.error_message if result.error?
 
-      duration_seconds = result.duration || estimate_duration(temp_file.path)
+      duration_seconds = result.audio_duration || estimate_duration(temp_file.path)
       transcription = result.text
 
       store_transcription(transcription)
-      record_usage(success: true, duration_seconds: duration_seconds)
       notify_message_updated
 
       log_success(transcription, duration_seconds, start_time)
@@ -59,12 +58,61 @@ module Aloo
       temp_file = Tempfile.new(['aloo_audio', extension], Rails.root.join('tmp'))
       temp_file.binmode
 
-      attachment.file.blob.open do |blob_file|
-        IO.copy_stream(blob_file, temp_file)
+      if whatsapp_media_id.present?
+        download_from_whatsapp(temp_file)
+      elsif telegram_file_id.present?
+        download_from_telegram(temp_file)
+      else
+        download_from_storage(temp_file)
       end
 
       temp_file.rewind
       temp_file
+    end
+
+    def download_from_whatsapp(temp_file)
+      channel = message.inbox.channel
+      phone_number_id = channel.provider_config['phone_number_id']
+
+      # Step 1: Get the temporary download URL from WhatsApp media endpoint
+      url_response = HTTParty.get(
+        channel.media_url(whatsapp_media_id, phone_number_id),
+        headers: channel.api_headers
+      )
+      raise "WhatsApp media API returned #{url_response.code}" unless url_response.success?
+
+      # Step 2: Download the actual audio file from the temporary URL
+      downloaded = Down.download(url_response.parsed_response['url'], headers: channel.api_headers)
+      IO.copy_stream(downloaded, temp_file)
+    rescue StandardError => e
+      Rails.logger.warn("[Aloo::AudioTranscription] WhatsApp download failed (#{e.message}), falling back to S3")
+      download_from_storage(temp_file)
+    end
+
+    def download_from_telegram(temp_file)
+      channel = message.inbox.channel
+      download_url = channel.get_telegram_file_path(telegram_file_id)
+      raise "Telegram file path is blank for #{telegram_file_id}" if download_url.blank?
+
+      downloaded = Down.download(download_url)
+      IO.copy_stream(downloaded, temp_file)
+    rescue StandardError => e
+      Rails.logger.warn("[Aloo::AudioTranscription] Telegram download failed (#{e.message}), falling back to S3")
+      download_from_storage(temp_file)
+    end
+
+    def download_from_storage(temp_file)
+      attachment.file.blob.open do |blob_file|
+        IO.copy_stream(blob_file, temp_file)
+      end
+    end
+
+    def whatsapp_media_id
+      attachment.meta&.dig('whatsapp_media_id')
+    end
+
+    def telegram_file_id
+      attachment.meta&.dig('telegram_file_id')
     end
 
     def transcription_model
@@ -72,12 +120,7 @@ module Aloo
     end
 
     def language_hint
-      # Map assistant language to ISO 639-1 code
-      case assistant.language
-      when 'ar' then 'ar'
-      when 'en' then 'en'
-      else assistant.language
-      end
+      nil
     end
 
     def store_transcription(text)
@@ -104,20 +147,6 @@ module Aloo
 
     def notify_message_updated
       message.reload.send_update_event
-    end
-
-    def record_usage(success:, duration_seconds: 0, error: nil)
-      return unless assistant
-
-      Aloo::VoiceUsageRecord.record_transcription(
-        account: assistant.account,
-        assistant: assistant,
-        message: message,
-        duration_seconds: duration_seconds.to_i,
-        model: transcription_model,
-        success: success,
-        error: error
-      )
     end
 
     def estimate_duration(file_path)

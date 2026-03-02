@@ -1,5 +1,41 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: aloo_documents
+#
+#  id                :bigint           not null, primary key
+#  auto_refresh      :boolean          default(FALSE), not null
+#  error_message     :string
+#  last_refreshed_at :datetime
+#  metadata          :jsonb
+#  next_refresh_at   :datetime
+#  selected_pages    :jsonb
+#  source_type       :string           not null
+#  source_url        :string
+#  status            :integer          default("pending")
+#  text_content      :text
+#  title             :string
+#  created_at        :datetime         not null
+#  updated_at        :datetime         not null
+#  account_id        :bigint           not null
+#  aloo_assistant_id :bigint           not null
+#  article_id        :bigint
+#
+# Indexes
+#
+#  index_aloo_documents_on_account_id             (account_id)
+#  index_aloo_documents_on_aloo_assistant_id      (aloo_assistant_id)
+#  index_aloo_documents_on_article_id             (article_id)
+#  index_aloo_documents_on_assistant_and_article  (aloo_assistant_id,article_id) UNIQUE WHERE (article_id IS NOT NULL)
+#  index_aloo_documents_on_auto_refresh           (auto_refresh)
+#  index_aloo_documents_on_next_refresh_at        (next_refresh_at) WHERE (auto_refresh = true)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (account_id => accounts.id)
+#  fk_rails_...  (aloo_assistant_id => aloo_assistants.id)
+#
 module Aloo
   class Document < ApplicationRecord
     self.table_name = 'aloo_documents'
@@ -7,6 +43,7 @@ module Aloo
     include Aloo::AccountScoped
 
     belongs_to :assistant, class_name: 'Aloo::Assistant', foreign_key: 'aloo_assistant_id', inverse_of: :documents
+    belongs_to :article, class_name: 'Article', optional: true
     has_many :embeddings, class_name: 'Aloo::Embedding', foreign_key: 'aloo_document_id', dependent: :destroy, inverse_of: :document
 
     has_one_attached :file
@@ -24,10 +61,11 @@ module Aloo
     # V2: website, text
     validates :source_type, inclusion: { in: Aloo::SUPPORTED_SOURCE_TYPES }
     validates :title, presence: true, if: :available?
-    validates :text_content, presence: true, if: -> { source_type == 'text' }
+    validates :text_content, presence: true, length: { maximum: 50_000 }, if: -> { source_type == 'text' }
     validate :validate_selected_pages_for_website
 
     scope :available, -> { where(status: :available) }
+    scope :for_article, ->(article_id) { where(article_id: article_id) }
     scope :by_source_type, ->(type) { where(source_type: type) }
     scope :due_for_refresh, -> { where(auto_refresh: true).where('next_refresh_at <= ?', Time.current) }
     scope :websites_with_auto_refresh, -> { where(source_type: 'website', auto_refresh: true) }

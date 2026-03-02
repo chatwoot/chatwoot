@@ -1,5 +1,42 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: aloo_assistants
+#
+#  id                      :bigint           not null, primary key
+#  active                  :boolean          default(TRUE)
+#  admin_config            :jsonb
+#  custom_greeting         :text
+#  custom_instructions     :text
+#  description             :text
+#  emoji_usage             :string           default("minimal")
+#  empathy_level           :string           default("medium")
+#  formality               :string           default("medium")
+#  greeting_style          :string           default("warm")
+#  guardrails              :text
+#  name                    :string           not null
+#  personality_description :text
+#  response_guidelines     :text
+#  system_prompt           :text
+#  tone                    :string           default("friendly")
+#  verbosity               :string           default("balanced")
+#  voice_config            :jsonb
+#  voice_enabled           :boolean          default(FALSE)
+#  created_at              :datetime         not null
+#  updated_at              :datetime         not null
+#  account_id              :bigint           not null
+#
+# Indexes
+#
+#  index_aloo_assistants_on_account_id           (account_id)
+#  index_aloo_assistants_on_account_id_and_name  (account_id,name)
+#  index_aloo_assistants_on_voice_enabled        (voice_enabled)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (account_id => accounts.id)
+#
 require 'rails_helper'
 
 RSpec.describe Aloo::Assistant do
@@ -22,26 +59,6 @@ RSpec.describe Aloo::Assistant do
     it { is_expected.to validate_inclusion_of(:verbosity).in_array(described_class::VERBOSITY_LEVELS) }
     it { is_expected.to validate_inclusion_of(:emoji_usage).in_array(described_class::EMOJI_USAGE_LEVELS) }
     it { is_expected.to validate_inclusion_of(:greeting_style).in_array(described_class::GREETING_STYLES) }
-    it { is_expected.to validate_inclusion_of(:language).in_array(Aloo::SUPPORTED_LANGUAGES.keys) }
-
-    context 'with valid dialect' do
-      let(:account) { create(:account) }
-
-      it 'validates arabic dialects' do
-        assistant.account = account
-        assistant.language = 'ar'
-        assistant.dialect = 'EG'
-        expect(assistant).to be_valid
-      end
-    end
-
-    context 'with invalid dialect' do
-      it 'rejects invalid dialect codes' do
-        assistant.language = 'ar'
-        assistant.dialect = 'INVALID'
-        expect(assistant).not_to be_valid
-      end
-    end
   end
 
   describe 'scopes' do
@@ -62,31 +79,6 @@ RSpec.describe Aloo::Assistant do
       allow(Aloo::PersonalityBuilder).to receive(:new).with(assistant).and_return(builder)
 
       expect(assistant.personality_prompt).to eq('personality prompt')
-    end
-  end
-
-  describe '#language_instruction' do
-    context 'when language is English without dialect' do
-      it 'returns empty string' do
-        assistant.language = 'en'
-        assistant.dialect = nil
-        expect(assistant.language_instruction).to eq('')
-      end
-    end
-
-    context 'when language is Arabic with dialect' do
-      it 'returns dialect-specific instruction' do
-        assistant.language = 'ar'
-        assistant.dialect = 'EG'
-        expect(assistant.language_instruction).to include('Egyptian Arabic')
-      end
-    end
-
-    context 'when language is not English' do
-      it 'returns language instruction' do
-        assistant.language = 'fr'
-        expect(assistant.language_instruction).to eq('Respond in French.')
-      end
     end
   end
 
@@ -115,23 +107,6 @@ RSpec.describe Aloo::Assistant do
     it 'returns configured value' do
       assistant.admin_config = { 'temperature' => 0.5 }
       expect(assistant.temperature).to eq(0.5)
-    end
-  end
-
-  describe '#feature_faq_enabled?' do
-    it 'returns true when enabled in admin_config' do
-      assistant.admin_config = { 'feature_faq' => true }
-      expect(assistant.feature_faq_enabled?).to be true
-    end
-
-    it 'returns false when not enabled' do
-      assistant.admin_config = {}
-      expect(assistant.feature_faq_enabled?).to be false
-    end
-
-    it 'returns false when explicitly disabled' do
-      assistant.admin_config = { 'feature_faq' => false }
-      expect(assistant.feature_faq_enabled?).to be false
     end
   end
 
@@ -176,16 +151,62 @@ RSpec.describe Aloo::Assistant do
     end
   end
 
-  describe '#language_name' do
-    it 'returns language name from SUPPORTED_LANGUAGES' do
-      assistant.language = 'fr'
-      expect(assistant.language_name).to eq('French')
+  describe '#voice_transcription_enabled?' do
+    it 'returns true when voice is enabled' do
+      assistant.voice_enabled = true
+      expect(assistant.voice_transcription_enabled?).to be true
     end
 
-    it 'returns English as default' do
-      assistant.language = 'unknown'
-      # Will fail validation but test the fallback
-      expect(assistant.language_name).to eq('English')
+    it 'returns false when voice is disabled' do
+      assistant.voice_enabled = false
+      expect(assistant.voice_transcription_enabled?).to be false
+    end
+  end
+
+  describe '#voice_reply_enabled?' do
+    context 'when voice is disabled' do
+      it 'returns false regardless of config' do
+        assistant.voice_enabled = false
+        assistant.voice_config = { 'tts_provider' => 'elevenlabs', 'elevenlabs_voice_id' => 'abc123' }
+        expect(assistant.voice_reply_enabled?).to be false
+      end
+    end
+
+    context 'when voice is enabled with ElevenLabs' do
+      before { assistant.voice_enabled = true }
+
+      it 'returns true when elevenlabs_voice_id is set' do
+        assistant.voice_config = { 'tts_provider' => 'elevenlabs', 'elevenlabs_voice_id' => 'abc123' }
+        expect(assistant.voice_reply_enabled?).to be true
+      end
+
+      it 'returns false when elevenlabs_voice_id is blank' do
+        assistant.voice_config = { 'tts_provider' => 'elevenlabs' }
+        expect(assistant.voice_reply_enabled?).to be false
+      end
+    end
+
+    context 'when voice is enabled with OpenAI' do
+      before { assistant.voice_enabled = true }
+
+      it 'returns true without needing a specific voice ID' do
+        assistant.voice_config = { 'tts_provider' => 'openai' }
+        expect(assistant.voice_reply_enabled?).to be true
+      end
+    end
+
+    context 'when voice is enabled with no tts_provider (defaults to ElevenLabs)' do
+      before { assistant.voice_enabled = true }
+
+      it 'returns true when elevenlabs_voice_id is set' do
+        assistant.voice_config = { 'elevenlabs_voice_id' => 'abc123' }
+        expect(assistant.voice_reply_enabled?).to be true
+      end
+
+      it 'returns false when elevenlabs_voice_id is missing' do
+        assistant.voice_config = {}
+        expect(assistant.voice_reply_enabled?).to be false
+      end
     end
   end
 end

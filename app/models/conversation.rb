@@ -10,8 +10,10 @@
 #  contact_last_seen_at   :datetime
 #  custom_attributes      :jsonb
 #  first_reply_created_at :datetime
+#  has_unread_messages    :boolean          default(FALSE), not null
 #  identifier             :string
 #  last_activity_at       :datetime         not null
+#  last_triaged_at        :datetime
 #  priority               :integer
 #  snoozed_until          :datetime
 #  status                 :integer          default("open"), not null
@@ -33,6 +35,7 @@
 # Indexes
 #
 #  conv_acid_inbid_stat_asgnid_idx                    (account_id,inbox_id,status,assignee_id)
+#  index_conversations_on_account_has_unread          (account_id,has_unread_messages) WHERE (has_unread_messages = true)
 #  index_conversations_on_account_id                  (account_id)
 #  index_conversations_on_account_id_and_display_id   (account_id,display_id) UNIQUE
 #  index_conversations_on_assignee_id_and_account_id  (assignee_id,account_id)
@@ -42,6 +45,7 @@
 #  index_conversations_on_first_reply_created_at      (first_reply_created_at)
 #  index_conversations_on_id_and_account_id           (account_id,id)
 #  index_conversations_on_identifier_and_account_id   (identifier,account_id)
+#  index_conversations_on_inbox_has_unread            (inbox_id,has_unread_messages) WHERE (has_unread_messages = true)
 #  index_conversations_on_inbox_id                    (inbox_id)
 #  index_conversations_on_priority                    (priority)
 #  index_conversations_on_status_and_account_id       (status,account_id)
@@ -80,6 +84,7 @@ class Conversation < ApplicationRecord
   scope :assigned_to, ->(agent) { where(assignee_id: agent.id) }
   scope :with_unread_messages, -> { where(has_unread_messages: true) }
   scope :unattended, -> { where(first_reply_created_at: nil).or(where.not(waiting_since: nil)) }
+  scope :human_assistance_requested, -> { where("custom_attributes->>'human_assistance_requested' = 'true'").where(assignee_id: nil) }
   scope :resolvable_not_waiting, lambda { |auto_resolve_after|
     return none if auto_resolve_after.to_i.zero?
 

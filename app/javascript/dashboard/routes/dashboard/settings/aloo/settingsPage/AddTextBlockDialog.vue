@@ -12,15 +12,18 @@ const dialogRef = ref(null);
 const title = ref('');
 const content = ref('');
 const isSubmitting = ref(false);
+const editingDocument = ref(null);
 
+const isEditMode = computed(() => !!editingDocument.value);
 const isOverLimit = computed(() => content.value.length > MAX_CONTENT_LENGTH);
 const isValid = computed(
   () => title.value.trim() && content.value.trim() && !isOverLimit.value
 );
 
-const open = () => {
-  title.value = '';
-  content.value = '';
+const open = (document = null) => {
+  editingDocument.value = document;
+  title.value = document?.title || '';
+  content.value = document?.text_content || '';
   isSubmitting.value = false;
   dialogRef.value?.open();
 };
@@ -35,8 +38,10 @@ const handleSubmit = async () => {
   isSubmitting.value = true;
   try {
     await emit('submit', {
+      id: editingDocument.value?.id,
       title: title.value.trim(),
       content: content.value.trim(),
+      isEdit: isEditMode.value,
     });
     close();
   } finally {
@@ -50,8 +55,14 @@ defineExpose({ open, close });
 <template>
   <Dialog
     ref="dialogRef"
-    :title="$t('ALOO.KNOWLEDGE.TEXT_BLOCK.TITLE')"
-    :confirm-button-label="$t('ALOO.KNOWLEDGE.TEXT_BLOCK.ADD')"
+    :title="
+      isEditMode
+        ? $t('ALOO.KNOWLEDGE.TEXT_BLOCK.EDIT_TITLE')
+        : $t('ALOO.KNOWLEDGE.TEXT_BLOCK.TITLE')
+    "
+    :confirm-button-label="
+      isEditMode ? $t('ALOO.ACTIONS.SAVE') : $t('ALOO.KNOWLEDGE.TEXT_BLOCK.ADD')
+    "
     :disable-confirm-button="!isValid"
     :is-loading="isSubmitting"
     width="xl"

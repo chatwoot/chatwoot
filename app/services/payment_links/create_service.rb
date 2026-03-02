@@ -1,4 +1,6 @@
 class PaymentLinks::CreateService
+  include PaymentCustomerSanitizable
+
   PROVIDERS = %w[payzah tap].freeze
 
   attr_reader :conversation, :user, :amount, :currency, :provider, :account
@@ -170,7 +172,7 @@ class PaymentLinks::CreateService
 
   def customer_data
     @customer_data ||= {
-      name: conversation.contact&.name,
+      name: sanitize_customer_name(conversation.contact&.name),
       email: conversation.contact&.email,
       phone: conversation.contact&.phone_number
     }.compact

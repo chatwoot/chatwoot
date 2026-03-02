@@ -1,5 +1,40 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: channel_email
+#
+#  id                        :bigint           not null, primary key
+#  email                     :string           not null
+#  forward_to_email          :string           not null
+#  imap_address              :string           default("")
+#  imap_enable_ssl           :boolean          default(TRUE)
+#  imap_enabled              :boolean          default(FALSE)
+#  imap_login                :string           default("")
+#  imap_password             :string           default("")
+#  imap_port                 :integer          default(0)
+#  provider                  :string
+#  provider_config           :jsonb
+#  smtp_address              :string           default("")
+#  smtp_authentication       :string           default("login")
+#  smtp_domain               :string           default("")
+#  smtp_enable_ssl_tls       :boolean          default(FALSE)
+#  smtp_enable_starttls_auto :boolean          default(TRUE)
+#  smtp_enabled              :boolean          default(FALSE)
+#  smtp_login                :string           default("")
+#  smtp_openssl_verify_mode  :string           default("none")
+#  smtp_password             :string           default("")
+#  smtp_port                 :integer          default(0)
+#  verified_for_sending      :boolean          default(FALSE), not null
+#  created_at                :datetime         not null
+#  updated_at                :datetime         not null
+#  account_id                :integer          not null
+#
+# Indexes
+#
+#  index_channel_email_on_email             (email) UNIQUE
+#  index_channel_email_on_forward_to_email  (forward_to_email) UNIQUE
+#
 require 'rails_helper'
 require Rails.root.join 'spec/models/concerns/reauthorizable_shared.rb'
 

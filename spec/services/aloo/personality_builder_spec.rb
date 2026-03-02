@@ -103,11 +103,10 @@ RSpec.describe Aloo::PersonalityBuilder do
         assistant.language = 'fr'
       end
 
-      it 'includes language instruction' do
+      it 'does not include language section (handled by ConversationAgent)' do
         result = builder.build
 
-        expect(result).to include('## Language')
-        expect(result).to include('Respond in French.')
+        expect(result).not_to include('## Language')
       end
     end
 
@@ -117,11 +116,10 @@ RSpec.describe Aloo::PersonalityBuilder do
         assistant.dialect = 'EG'
       end
 
-      it 'includes dialect-specific instruction' do
+      it 'does not include language section (handled by ConversationAgent)' do
         result = builder.build
 
-        expect(result).to include('## Language')
-        expect(result).to include('Egyptian Arabic')
+        expect(result).not_to include('## Language')
       end
     end
 

@@ -40,6 +40,25 @@ class AlooDocument extends ApiClient {
     });
   }
 
+  updateTextBlock(assistantId, documentId, { title, content }) {
+    return axios.patch(`${this.url}/${assistantId}/documents/${documentId}`, {
+      title,
+      text_content: content,
+    });
+  }
+
+  updateWebsite(
+    assistantId,
+    documentId,
+    { title, autoRefresh, selectedPages }
+  ) {
+    return axios.patch(`${this.url}/${assistantId}/documents/${documentId}`, {
+      title,
+      auto_refresh: autoRefresh,
+      selected_pages: selectedPages,
+    });
+  }
+
   // Discover available pages from a website URL
   discoverPages(assistantId, url) {
     return axios.post(`${this.url}/${assistantId}/documents/discover_pages`, {

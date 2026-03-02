@@ -164,7 +164,8 @@ class Telegram::IncomingMessageService
         io: attachment_file,
         filename: attachment_file.original_filename,
         content_type: attachment_file.content_type
-      }
+      },
+      meta: { 'telegram_file_id' => file[:file_id] }
     )
   end
 

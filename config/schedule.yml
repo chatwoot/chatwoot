@@ -60,6 +60,13 @@ periodic_assignment_job:
   class: 'AutoAssignment::PeriodicAssignmentJob'
   queue: scheduled_jobs
 
+# executed every hour
+# to auto-label pending conversations that missed real-time triage
+auto_label_pending_conversations_job:
+  cron: '0 * * * *'
+  class: 'Conversations::AutoLabelPendingConversationsJob'
+  queue: scheduled_jobs
+
 # executed weekly on Sunday at 3:00 AM UTC
 # to refresh website documents with auto_refresh enabled
 aloo_refresh_website_documents_job:

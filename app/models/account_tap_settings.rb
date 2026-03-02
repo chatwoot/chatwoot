@@ -3,8 +3,8 @@
 # Table name: account_tap_settings
 #
 #  id         :bigint           not null, primary key
-#  secret_key :string
 #  enabled    :boolean          default(FALSE), not null
+#  secret_key :string
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  account_id :bigint           not null

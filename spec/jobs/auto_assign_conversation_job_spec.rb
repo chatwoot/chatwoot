@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe AutoAssignConversationJob do
+RSpec.describe AutoAssignConversationJob, type: :job do
   include ActiveJob::TestHelper
 
   let(:account) { create(:account) }
@@ -65,25 +65,21 @@ RSpec.describe AutoAssignConversationJob do
   describe 'integration test' do
     before do
       account.update!(settings: { auto_label_enabled: true, auto_team_enabled: true })
-      create_list(:message, 3, conversation: conversation, message_type: :incoming, content: 'Test message')
+      create(:message, conversation: conversation, message_type: :incoming,
+                       content: 'I need help with my billing invoice, it shows the wrong amount charged')
     end
 
     it 'processes the job successfully' do
-      label = create(:label, title: 'support', account: account)
-      team = create(:team, name: 'Support Team', account: account)
+      label = create(:label, title: 'support', account: account, allow_auto_assign: true)
+      team = create(:team, name: 'Support Team', account: account, allow_auto_assign: true)
 
-      allow(ConversationTriageAgent).to receive(:run).and_return({
-                                                                   'label_id' => label.id,
-                                                                   'team_id' => team.id
-                                                                 })
+      stub_agent_call(ConversationTriageAgent, content: { 'label_id' => label.id, 'team_id' => team.id })
 
-      expect do
-        perform_enqueued_jobs do
-          described_class.perform_later(conversation.id)
-        end
-      end.to change { conversation.reload.label_list.count }.by(1)
-                                                            .and change { conversation.reload.team_id }.from(nil).to(team.id)
+      perform_enqueued_jobs do
+        described_class.perform_later(conversation.id)
+      end
 
+      conversation.reload
       expect(conversation.label_list).to include('support')
       expect(conversation.team).to eq(team)
     end

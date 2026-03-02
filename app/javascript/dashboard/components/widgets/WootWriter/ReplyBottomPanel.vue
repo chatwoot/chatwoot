@@ -11,8 +11,10 @@ import { ALLOWED_FILE_TYPES } from 'shared/constants/messages';
 import VideoCallButton from '../VideoCallButton.vue';
 import AIAssistanceButton from '../AIAssistanceButton.vue';
 import PaymentLinkButton from '../PaymentLinkButton.vue';
-import CartButton from '../CartButton.vue';
+import OrderButton from '../OrderButton.vue';
 import CatalogButton from '../CatalogButton.vue';
+import StorefrontLinkButton from '../StorefrontLinkButton.vue';
+import CalendlyScheduleButton from '../CalendlyScheduleButton.vue';
 import { INBOX_TYPES } from 'dashboard/helper/inbox';
 import { mapGetters } from 'vuex';
 import NextButton from 'dashboard/components-next/button/Button.vue';
@@ -28,8 +30,10 @@ export default {
     VideoCallButton,
     AIAssistanceButton,
     PaymentLinkButton,
-    CartButton,
+    OrderButton,
     CatalogButton,
+    StorefrontLinkButton,
+    CalendlyScheduleButton,
   },
   mixins: [inboxMixin],
   props: {
@@ -278,7 +282,7 @@ export default {
     paymentEnabled() {
       return this.payzahEnabled || this.tapEnabled;
     },
-    showCartButton() {
+    showOrderButton() {
       return (
         this.catalogSettings?.enabled && this.catalogSettings?.payment_provider
       );
@@ -432,12 +436,20 @@ export default {
         v-if="!isOnPrivateNote && paymentEnabled"
         :conversation-id="conversationId"
       />
-      <CartButton
-        v-if="!isOnPrivateNote && showCartButton"
+      <OrderButton
+        v-if="!isOnPrivateNote && showOrderButton"
         :conversation-id="conversationId"
       />
       <CatalogButton
         v-if="!isOnPrivateNote && showCatalogSendButton"
+        :conversation-id="conversationId"
+      />
+      <StorefrontLinkButton
+        v-if="!isOnPrivateNote && catalogSettings?.enabled"
+        :conversation-id="conversationId"
+      />
+      <CalendlyScheduleButton
+        v-if="!isOnPrivateNote"
         :conversation-id="conversationId"
       />
       <AIAssistanceButton

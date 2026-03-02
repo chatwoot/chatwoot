@@ -79,7 +79,7 @@ export default {
 
 <template>
   <div
-    class="flex items-center justify-center h-12 gap-4 px-4 py-3 text-xs text-white banner dark:text-white woot-banner"
+    class="flex items-center justify-center h-12 gap-4 px-4 py-3 text-xs banner woot-banner"
     :class="bannerClasses"
   >
     <span class="banner-message">
@@ -106,8 +106,9 @@ export default {
       <NextButton
         v-if="hasCloseButton"
         xs
+        faded
         icon="i-lucide-circle-x"
-        :color="getButtonColor"
+        color="slate"
         :label="$t('GENERAL_SETTINGS.DISMISS')"
         @click="onClickClose"
       />
@@ -118,7 +119,7 @@ export default {
 <style lang="scss" scoped>
 .banner {
   &.primary {
-    @apply bg-n-brand;
+    @apply bg-n-brand text-white dark:text-white;
   }
 
   &.secondary {
@@ -137,7 +138,7 @@ export default {
   }
 
   &.warning {
-    @apply bg-n-amber-5 text-n-amber-12;
+    @apply bg-n-amber-3 text-n-amber-12 border border-n-amber-7;
     a {
       @apply text-n-amber-12;
     }
@@ -148,7 +149,7 @@ export default {
   }
 
   a {
-    @apply ml-1 underline text-n-amber-12 text-xs;
+    @apply ml-1 underline text-xs;
   }
 
   .banner-message {

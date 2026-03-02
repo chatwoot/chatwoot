@@ -3,10 +3,10 @@
 # Table name: products
 #
 #  id             :bigint           not null, primary key
-#  currency       :string           default("SAR"), not null
 #  description_ar :text
 #  description_en :text
 #  price          :decimal(10, 2)   not null
+#  stock          :integer
 #  title_ar       :string
 #  title_en       :string           not null
 #  created_at     :datetime         not null

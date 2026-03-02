@@ -4,6 +4,9 @@
 # or operating system, you probably want to add a global ignore instead:
 #   git config --global core.excludesfile '~/.gitignore_global'
 
+# Ignore MCP config (contains API keys).
+.mcp.json
+
 # Ignore bundler config.
 /.bundle
 
@@ -97,8 +100,13 @@ yarn-debug.log*
 CLAUDE.local.md
 plans/
 
+# direnv & local dev scripts
+.envrc
+.devbin/
+
 # Histoire deployment
 .netlify
 .histoire
 .pnpm-store/*
 local/
+.mcp.json

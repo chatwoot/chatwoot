@@ -1,5 +1,32 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: aloo_embeddings
+#
+#  id                :bigint           not null, primary key
+#  content           :text             not null
+#  embedding         :vector(1536)
+#  metadata          :jsonb
+#  created_at        :datetime         not null
+#  updated_at        :datetime         not null
+#  account_id        :bigint           not null
+#  aloo_assistant_id :bigint           not null
+#  aloo_document_id  :bigint
+#
+# Indexes
+#
+#  aloo_embeddings_embedding_idx               (embedding) USING hnsw
+#  index_aloo_embeddings_on_account_id         (account_id)
+#  index_aloo_embeddings_on_aloo_assistant_id  (aloo_assistant_id)
+#  index_aloo_embeddings_on_aloo_document_id   (aloo_document_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (account_id => accounts.id)
+#  fk_rails_...  (aloo_assistant_id => aloo_assistants.id)
+#  fk_rails_...  (aloo_document_id => aloo_documents.id)
+#
 require 'rails_helper'
 
 RSpec.describe Aloo::Embedding do

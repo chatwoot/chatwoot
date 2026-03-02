@@ -1,10 +1,13 @@
 # frozen_string_literal: true
 
 class Aloo::ResponseService
+  include Aloo::TypingIndicatable
+
   def initialize(conversation, message)
     @conversation = conversation
     @message = message
     @assistant = conversation.aloo_assistant
+    @response_time_ms = nil
   end
 
   def call
@@ -40,48 +43,23 @@ class Aloo::ResponseService
 
   def with_typing_indicator
     dispatch_typing(Events::Types::CONVERSATION_TYPING_ON)
-    send_whatsapp_typing_indicator
+    send_channel_typing_indicator
     yield
   ensure
     dispatch_typing(Events::Types::CONVERSATION_TYPING_OFF)
   end
 
-  def dispatch_typing(event)
-    Rails.configuration.dispatcher.dispatch(
-      event, Time.zone.now,
-      conversation: @conversation, user: @assistant, is_private: false
-    )
-  end
-
-  def send_whatsapp_typing_indicator
-    channel = whatsapp_cloud_channel
-    return unless channel
-
-    phone_number = @conversation.contact_inbox.source_id
-    return if phone_number.blank?
-
-    Rails.logger.info "[ALOO] Sending WhatsApp typing indicator to #{phone_number}"
-    service = Whatsapp::Providers::WhatsappCloudService.new(whatsapp_channel: channel)
-    service.send_typing_indicator(phone_number, message_id: @message.source_id)
-  rescue StandardError => e
-    Rails.logger.error "[ALOO] Failed to send WhatsApp typing indicator: #{e.message}"
-  end
-
-  def whatsapp_cloud_channel
-    inbox = @conversation.inbox
-    return unless inbox.channel_type == 'Channel::Whatsapp'
-
-    channel = inbox.channel
-    return unless channel.respond_to?(:provider_name) && channel.provider_name == 'whatsapp_cloud'
-
-    channel
-  end
-
   def generate_response
     message_content = @message.content_for_llm
-    return OpenStruct.new(success?: false) if message_content.blank?
+    blobs = @message.attachments_for_llm
+    return OpenStruct.new(success?: false) if message_content.blank? && blobs.blank?
 
-    ConversationAgent.call(message: message_content)
+    started_at = Process.clock_gettime(Process::CLOCK_MONOTONIC, :millisecond)
+    agent_params = { message: message_content || '' }
+    agent_params[:with] = blobs if blobs.present?
+    result = ConversationAgent.call(**agent_params)
+    @response_time_ms = Process.clock_gettime(Process::CLOCK_MONOTONIC, :millisecond) - started_at
+    result
   end
 
   def send_response(result)
@@ -112,6 +90,7 @@ class Aloo::ResponseService
           'aloo_assistant_id' => @assistant.id,
           'input_tokens' => result.input_tokens,
           'output_tokens' => result.output_tokens,
+          'response_time_ms' => @response_time_ms,
           'tool_calls' => result.tool_calls&.pluck('name')
         }
       }

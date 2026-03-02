@@ -208,6 +208,44 @@ shopify:
   hook_type: account
   allow_multiple_hooks: false
 
+calendly:
+  id: calendly
+  logo: calendly.png
+  i18n_key: calendly
+  action: https://auth.calendly.com/oauth/authorize
+  hook_type: account
+  allow_multiple_hooks: false
+  settings_json_schema:
+    {
+      'type': 'object',
+      'properties':
+        {
+          'calendly_access_token': { 'type': 'string' },
+          'calendly_user_uri': { 'type': 'string' },
+          'calendly_organization_uri': { 'type': 'string' },
+          'webhook_subscription_uri': { 'type': ['string', 'null'] },
+          'default_event_type_uri': { 'type': ['string', 'null'] },
+          'default_event_type_name': { 'type': ['string', 'null'] },
+          'signing_key': { 'type': 'string' },
+          'refresh_token': { 'type': 'string' },
+          'token_expires_at': { 'type': 'string' },
+          'calendly_templates':
+            {
+              'type': 'object',
+              'properties':
+                {
+                  'booked': { 'type': ['string', 'null'] },
+                  'rescheduled': { 'type': ['string', 'null'] },
+                  'canceled': { 'type': ['string', 'null'] },
+                },
+              'additionalProperties': false,
+            },
+        },
+      'required': [],
+      'additionalProperties': false,
+    }
+  visible_properties: ['default_event_type_name']
+
 leadsquared:
   id: leadsquared
   feature_flag: crm_integration

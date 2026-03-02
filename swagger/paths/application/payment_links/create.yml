@@ -1,0 +1,34 @@
+tags:
+  - Payment Links
+operationId: create-a-payment-link
+summary: Create Payment Link
+description: |
+  Create a standalone payment link. Requires a conversation_id to associate the link with.
+  The payment link will be created using the configured payment provider and a message
+  will be sent in the conversation.
+security:
+  - userApiKey: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/payment_link_create_payload'
+responses:
+  '201':
+    description: Payment link created
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/payment_link'
+  '401':
+    description: Unauthorized
+  '422':
+    description: Validation error or payment provider error
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string

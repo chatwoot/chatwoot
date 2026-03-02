@@ -49,6 +49,8 @@ module Reauthorizable
       AdministratorNotifications::IntegrationsNotificationMailer.with(account: account).slack_disconnect.deliver_later
     elsif dialogflow?
       AdministratorNotifications::IntegrationsNotificationMailer.with(account: account).dialogflow_disconnect.deliver_later
+    elsif calendly?
+      AdministratorNotifications::IntegrationsNotificationMailer.with(account: account).calendly_disconnect.deliver_later
     end
   end
 

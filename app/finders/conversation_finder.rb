@@ -39,7 +39,7 @@ class ConversationFinder
   def perform
     set_up
 
-    mine_count, unassigned_count, all_count, = set_count_for_all_conversations
+    mine_count, unassigned_count, all_count, help_needed_count = set_count_for_all_conversations
     assigned_count = all_count - unassigned_count
 
     filter_by_assignee_type
@@ -50,7 +50,8 @@ class ConversationFinder
         mine_count: mine_count,
         assigned_count: assigned_count,
         unassigned_count: unassigned_count,
-        all_count: all_count
+        all_count: all_count,
+        help_needed_count: help_needed_count
       }
     }
   end
@@ -114,6 +115,8 @@ class ConversationFinder
       @conversations = @conversations.unassigned
     when 'assigned'
       @conversations = @conversations.assigned
+    when 'help_needed'
+      @conversations = @conversations.human_assistance_requested
     end
     @conversations
   end
@@ -127,6 +130,8 @@ class ConversationFinder
       @conversations = current_user.participating_conversations.where(account_id: current_account.id)
     when 'unattended'
       @conversations = @conversations.unattended
+    when 'help_needed'
+      @conversations = @conversations.human_assistance_requested
     end
     @conversations
   end
@@ -170,7 +175,8 @@ class ConversationFinder
     [
       @conversations.assigned_to(current_user).count,
       @conversations.unassigned.count,
-      @conversations.count
+      @conversations.count,
+      @conversations.human_assistance_requested.count
     ]
   end
 

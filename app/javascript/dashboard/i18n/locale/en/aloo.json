@@ -87,47 +87,6 @@
         "LABEL": "Custom Greeting",
         "PLACEHOLDER": "Enter your custom greeting message"
       },
-      "LANGUAGE": {
-        "LABEL": "Language",
-        "OPTIONS": {
-          "EN": "English",
-          "AR": "Arabic",
-          "FR": "French",
-          "ES": "Spanish",
-          "DE": "German",
-          "PT": "Portuguese",
-          "IT": "Italian",
-          "NL": "Dutch",
-          "RU": "Russian",
-          "JA": "Japanese",
-          "KO": "Korean",
-          "ZH": "Chinese"
-        }
-      },
-      "DIALECT": {
-        "LABEL": "Dialect",
-        "PLACEHOLDER": "Select dialect",
-        "OPTIONS": {
-          "EG": "Egyptian",
-          "SA": "Saudi",
-          "AE": "Emirati",
-          "KW": "Kuwaiti",
-          "QA": "Qatari",
-          "BH": "Bahraini",
-          "OM": "Omani",
-          "JO": "Jordanian",
-          "LB": "Lebanese",
-          "SY": "Syrian",
-          "IQ": "Iraqi",
-          "MA": "Moroccan",
-          "TN": "Tunisian",
-          "DZ": "Algerian",
-          "LY": "Libyan",
-          "SD": "Sudanese",
-          "PS": "Palestinian",
-          "MSA": "Modern Standard Arabic"
-        }
-      },
       "PERSONALITY_DESCRIPTION": {
         "LABEL": "Personality Description",
         "PLACEHOLDER": "Describe the personality traits and behavior of your assistant"
@@ -208,7 +167,9 @@
         "DURATION": "Time",
         "TOKENS_UNIT": "tokens",
         "MS_UNIT": "ms",
-        "TOOLS_LABEL": "Tools"
+        "TOOLS_LABEL": "Tools",
+        "TOOL_ARGUMENTS": "Arguments",
+        "TOOL_RESULT": "Result"
       }
     },
     "SETTINGS": {
@@ -245,11 +206,15 @@
         },
         "CATALOG_ACCESS": {
           "LABEL": "Catalog Access",
-          "DESCRIPTION": "Allow the AI to access product information and create shopping carts for customers"
+          "DESCRIPTION": "Allow the AI to access product information and create orders for customers"
         },
         "MACROS": {
           "LABEL": "Execute Macros",
           "DESCRIPTION": "Allow the AI to trigger predefined macros/workflows during conversations"
+        },
+        "CONTACT_UPDATE": {
+          "LABEL": "Update Contact Details",
+          "DESCRIPTION": "Allow the AI to update the customer's profile (name, email, location) when they request it"
         }
       },
       "VOICE": {
@@ -306,6 +271,7 @@
         "CONTENT_LABEL": "Content",
         "CONTENT_PLACEHOLDER": "Enter your text content here...\n\nThis can include FAQs, product information, policies, or any other text you want the assistant to know about.",
         "ADD": "Add Text Block",
+        "EDIT_TITLE": "Edit Text Block",
         "CHARACTERS": "characters",
         "CHARACTER_COUNT": "{current} / {max}",
         "OVER_LIMIT": "Content exceeds maximum length"
@@ -317,6 +283,7 @@
         "URL_LABEL": "Website URL",
         "URL_PLACEHOLDER": "https://example.com",
         "ADD": "Add Website",
+        "EDIT_TITLE": "Edit Website",
         "CRAWL_FULL_SITE": "Crawl full website",
         "CRAWL_DESCRIPTION": "When enabled, will crawl all pages on the same domain (up to 50 pages)",
         "PAGES": "pages",
@@ -452,6 +419,7 @@
       "DOCUMENT_REPROCESSING": "Document reprocessing started",
       "WEBSITE_ADDED": "Website added and queued for processing",
       "TEXT_BLOCK_ADDED": "Text block added and queued for processing",
+      "DOCUMENT_UPDATED": "Document updated and queued for reprocessing",
       "INBOX_ASSIGNED": "Inbox assigned successfully",
       "INBOX_UNASSIGNED": "Inbox unassigned successfully",
       "ERROR": "An error occurred. Please try again."

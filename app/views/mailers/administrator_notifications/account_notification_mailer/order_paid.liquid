@@ -1,0 +1,16 @@
+<p>Hello,</p>
+
+<p>A new order has been paid!</p>
+
+<p><b>Order ID:</b> #{{meta['order_id']}}</p>
+<p><b>Customer:</b> {{meta['contact_name']}}</p>
+{% if meta['contact_phone'] != blank %}
+<p><b>Phone:</b> {{meta['contact_phone']}}</p>
+{% endif %}
+<p><b>Items:</b> {{meta['items']}}</p>
+<p><b>Total:</b> {{meta['total']}} {{meta['currency']}}</p>
+<p><b>Paid at:</b> {{meta['paid_at']}}</p>
+
+<p>
+  Click <a href="{{action_url}}">here</a> to view orders in your dashboard.
+</p>

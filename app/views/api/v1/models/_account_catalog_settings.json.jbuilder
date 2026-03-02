@@ -3,6 +3,7 @@ json.account_id account_catalog_settings.account_id
 json.enabled account_catalog_settings.enabled
 json.payment_provider account_catalog_settings.payment_provider
 json.currency account_catalog_settings.currency
+json.order_notification_email account_catalog_settings.order_notification_email
 json.available_currencies account_catalog_settings.available_currencies
 json.created_at account_catalog_settings.created_at
 json.updated_at account_catalog_settings.updated_at

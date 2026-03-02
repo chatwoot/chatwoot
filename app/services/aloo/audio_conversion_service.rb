@@ -93,7 +93,7 @@ module Aloo
       when 'ogg'
         # Opus codec for WhatsApp voice notes
         # Using libopus for better quality and smaller file size
-        base_cmd + ['-c:a', 'libopus', '-b:a', '64k', '-vbr', 'on', '-application', 'voip', output_path]
+        base_cmd + ['-c:a', 'libopus', '-ac', '1', '-ar', '48000', '-b:a', '64k', '-vbr', 'on', '-application', 'voip', output_path]
       when 'mp3'
         base_cmd + ['-c:a', 'libmp3lame', '-b:a', '128k', output_path]
       when 'wav'

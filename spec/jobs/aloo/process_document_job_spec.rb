@@ -112,6 +112,77 @@ RSpec.describe Aloo::ProcessDocumentJob, type: :job do
         end
       end
 
+      context 'with csv file' do
+        let(:document) { create(:aloo_document, :with_csv, assistant: assistant, account: account) }
+
+        it 'extracts CSV rows as key-value pairs and marks as available' do
+          allow(Aloo::Embedding).to receive(:create_from_chunks) do |chunks:, **_opts|
+            combined = chunks.join("\n")
+            expect(combined).to include('Store_Name:')
+            expect(combined).to include('Café Arabica')
+            []
+          end
+
+          described_class.new.perform(document.id)
+          expect(document.reload.status).to eq('available')
+        end
+      end
+
+      context 'with Windows-1252 encoded csv file' do
+        let(:document) { create(:aloo_document, :with_windows1252_csv, assistant: assistant, account: account) }
+
+        it 'converts encoding to UTF-8 and extracts content' do
+          allow(Aloo::Embedding).to receive(:create_from_chunks) do |chunks:, **_opts|
+            combined = chunks.join("\n")
+            expect(combined.encoding).to eq(Encoding::UTF_8)
+            expect(combined).to be_valid_encoding
+            expect(combined).to include('Café')
+            []
+          end
+
+          described_class.new.perform(document.id)
+          expect(document.reload.status).to eq('available')
+        end
+
+        it 'produces content that can be JSON-serialized' do
+          serializable = true
+          allow(Aloo::Embedding).to receive(:create_from_chunks) do |chunks:, **_opts|
+            chunks.each do |chunk|
+              { text: chunk }.to_json
+            rescue JSON::GeneratorError, Encoding::UndefinedConversionError
+              serializable = false
+            end
+            []
+          end
+
+          described_class.new.perform(document.id)
+          expect(serializable).to be(true)
+        end
+      end
+
+      context 'with Windows-1252 encoded text file' do
+        let(:document) do
+          doc = create(:aloo_document, assistant: assistant, account: account)
+          # Simulate a Windows-1252 encoded text file (e.g. "Café menu" with \xE9 for é)
+          content = "Welcome to our Caf\xE9!\nEnjoy your stay.".b
+          doc.file.attach(io: StringIO.new(content), filename: 'menu.txt', content_type: 'text/plain')
+          doc
+        end
+
+        it 'converts to valid UTF-8' do
+          allow(Aloo::Embedding).to receive(:create_from_chunks) do |chunks:, **_opts|
+            combined = chunks.join("\n")
+            expect(combined.encoding).to eq(Encoding::UTF_8)
+            expect(combined).to be_valid_encoding
+            expect(combined).to include('Caf')
+            []
+          end
+
+          described_class.new.perform(document.id)
+          expect(document.reload.status).to eq('available')
+        end
+      end
+
       context 'with unsupported type' do
         before do
           document.file.attach(
@@ -226,6 +297,46 @@ RSpec.describe Aloo::ProcessDocumentJob, type: :job do
       chunks[0..-2].each do |chunk| # Skip last chunk
         expect(chunk).to match(/[.!\?]$|\n$/)
       end
+    end
+  end
+
+  describe '#ensure_utf8' do
+    let(:job) { described_class.new }
+
+    it 'returns UTF-8 content unchanged' do
+      content = 'Hello Café'.encode('UTF-8')
+      result = job.send(:ensure_utf8, content)
+
+      expect(result.encoding).to eq(Encoding::UTF_8)
+      expect(result).to eq('Hello Café')
+    end
+
+    it 'converts Windows-1252 content to UTF-8' do
+      # \xE9 is é in Windows-1252, \x92 is right single quote
+      content = "Caf\xE9 & Chang\x92s".b
+      result = job.send(:ensure_utf8, content)
+
+      expect(result.encoding).to eq(Encoding::UTF_8)
+      expect(result).to be_valid_encoding
+      expect(result).to include('Café')
+      expect { { text: result }.to_json }.not_to raise_error
+    end
+
+    it 'converts ISO-8859-1 content to UTF-8' do
+      content = "R\xE9sum\xE9".b
+      result = job.send(:ensure_utf8, content)
+
+      expect(result.encoding).to eq(Encoding::UTF_8)
+      expect(result).to be_valid_encoding
+      expect(result).to include('Résumé')
+    end
+
+    it 'handles pure ASCII content' do
+      content = 'Plain ASCII text'.b
+      result = job.send(:ensure_utf8, content)
+
+      expect(result.encoding).to eq(Encoding::UTF_8)
+      expect(result).to eq('Plain ASCII text')
     end
   end
 

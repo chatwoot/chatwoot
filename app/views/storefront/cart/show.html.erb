@@ -1,0 +1,28 @@
+<div class="max-w-lg mx-auto px-4 py-6">
+  <% if @cart_items.any? %>
+    <%# Cart header %>
+    <h2 class="text-base font-semibold text-slate-900 dark:text-white mb-3" data-cart-header>
+      <%= t('storefront.cart_title', count: @cart_items.sum(&:quantity)) %>
+    </h2>
+
+    <%# Cart items card %>
+    <div class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 divide-y divide-slate-100 dark:divide-slate-700/50 shadow-sm"
+         data-cart-container data-currency="<%= @currency %>">
+      <%= render partial: 'storefront/cart/cart_item', collection: @cart_items, as: :item, locals: { currency: @currency } %>
+    </div>
+
+    <%# Continue shopping %>
+    <div class="mt-5 text-center">
+      <a href="<%= storefront_products_path(@account, **storefront_link_params) %>"
+         class="text-sm text-woot-500 hover:text-woot-600 dark:text-woot-400 font-medium transition-colors">
+        <%= t('storefront.continue_shopping') %>
+      </a>
+    </div>
+
+    <%# Checkout footer %>
+    <%= render 'storefront/cart/checkout_footer', cart_subtotal: @cart_subtotal, currency: @currency %>
+
+  <% else %>
+    <%= render 'storefront/cart/empty_cart' %>
+  <% end %>
+</div>

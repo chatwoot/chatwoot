@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
 class Conversations::AutoAssignService
-  MIN_MESSAGES = 3
-  MAX_MESSAGES = 10
+  MIN_CONTENT_LENGTH = 60
+  MIN_CONTENT_LENGTH_MULTI = 30
+  MIN_MESSAGES_MULTI = 2
+  MAX_AUTO_LABELS = 2
 
   attr_reader :conversation, :account, :labels, :teams
 
@@ -16,13 +18,12 @@ class Conversations::AutoAssignService
   def perform
     return unless should_process?
 
-    conversation.update_column(:last_triaged_at, Time.current)
+    with_context do
+      conversation.update_column(:last_triaged_at, Time.current) # rubocop:disable Rails/SkipsModelValidations
 
-    suggestions = fetch_suggestions
-    return if suggestions.nil?
-
-    apply_label(suggestions['label_id']) if suggestions['label_id'].present? && should_apply_label?
-    apply_team(suggestions['team_id']) if suggestions['team_id'].present? && should_apply_team?
+      suggestions = fetch_suggestions
+      apply_suggestions(suggestions) if suggestions
+    end
   rescue StandardError => e
     Rails.logger.error("Auto-classification failed for conversation #{conversation.id}: #{e.message}")
     raise
@@ -30,33 +31,56 @@ class Conversations::AutoAssignService
 
   private
 
-  def should_process?
-    return false unless conversation.open?
-    return false unless threshold_met?
-    return false if recently_triaged?
-    return false if labels.empty? && teams.empty?
+  def with_context
+    Aloo::Current.account = account
+    yield
+  ensure
+    Aloo::Current.reset
+  end
 
-    true
+  def should_process?
+    conversation.open? && threshold_met? && !recently_triaged? && has_auto_assign_options? && needs_assignment?
+  end
+
+  def has_auto_assign_options? # rubocop:disable Naming/PredicateName
+    labels.any? || teams.any?
+  end
+
+  def needs_assignment?
+    should_apply_label? || should_apply_team?
+  end
+
+  def apply_suggestions(suggestions)
+    suggestions = suggestions.with_indifferent_access if suggestions.is_a?(Hash)
+    apply_labels(suggestions['label_ids']) if suggestions['label_ids'].present? && should_apply_label?
+    apply_team(suggestions['team_id']) if suggestions['team_id'].present? && should_apply_team?
   end
 
   def recently_triaged?
     return false if conversation.last_triaged_at.nil?
 
-    conversation.last_triaged_at > 30.minutes.ago
+    conversation.last_triaged_at > 30.minutes.ago && !new_messages_since_triage?
+  end
+
+  def new_messages_since_triage?
+    conversation.messages.incoming.exists?(['created_at > ?', conversation.last_triaged_at])
   end
 
   def threshold_met?
-    message_threshold = 3
-    time_threshold = 5.minutes
+    incoming = conversation.messages.incoming
+    message_count = incoming.count
+    return false if message_count.zero?
 
-    message_count = conversation.messages.incoming.count
-    conversation_age = Time.current - conversation.created_at
+    total_length = incoming.sum("LENGTH(COALESCE(content, ''))")
 
-    message_count >= message_threshold || (conversation_age >= time_threshold && conversation.label_list.empty?)
+    return true if message_count == 1 && total_length >= MIN_CONTENT_LENGTH
+    return true if message_count >= MIN_MESSAGES_MULTI && total_length >= MIN_CONTENT_LENGTH_MULTI
+
+    false
   end
 
   def should_apply_label?
-    conversation.label_list.empty?
+    conversation.label_list.size < MAX_AUTO_LABELS
   end
 
   def should_apply_team?
@@ -71,7 +95,10 @@ class Conversations::AutoAssignService
     result = ConversationTriageAgent.call(
       conversation_messages: conversation_messages,
       available_labels: labels,
-      available_teams: teams
+      available_teams: teams,
+      account_id: account.id,
+      conversation_id: conversation.id,
+      inbox_id: conversation.inbox_id
     )
 
     return nil unless result.success?
@@ -79,12 +106,20 @@ class Conversations::AutoAssignService
     result.content
   end
 
-  def apply_label(label_id)
-    label = account.labels.find_by(id: label_id)
-    return unless label
+  def apply_labels(label_ids)
+    label_ids = Array(label_ids).compact.uniq
+    return if label_ids.empty?
 
-    conversation.add_labels([label.title])
-    Rails.logger.info("Auto-labeled conversation #{conversation.id} with: #{label.title}")
+    current_count = conversation.label_list.size
+    slots_available = MAX_AUTO_LABELS - current_count
+    return if slots_available <= 0
+
+    labels_to_add = account.labels.where(id: label_ids.first(slots_available))
+    return if labels_to_add.empty?
+
+    titles = labels_to_add.map(&:title)
+    conversation.add_labels(titles)
+    Rails.logger.info("Auto-labeled conversation #{conversation.id} with: #{titles.join(', ')}")
   end
 
   def apply_team(team_id)

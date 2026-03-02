@@ -11,6 +11,7 @@ import Icon from 'dashboard/components-next/icon/Icon.vue';
 import Spinner from 'shared/components/Spinner.vue';
 import ProductDialog from './ProductDialog.vue';
 import ConfirmDeleteProductDialog from './ConfirmDeleteProductDialog.vue';
+import StorefrontLinksAPI from 'dashboard/api/storefrontLinks';
 
 const { t } = useI18n();
 const store = useStore();
@@ -111,6 +112,21 @@ const onSearch = event => {
   searchValue.value = event.target.value;
 };
 
+const accountId = computed(() => store.getters.getCurrentAccountId);
+const isPreviewLoading = ref(false);
+
+const previewStorefront = async () => {
+  isPreviewLoading.value = true;
+  try {
+    const { data } = await StorefrontLinksAPI.preview(accountId.value);
+    window.open(data.storefront_url, '_blank');
+  } catch {
+    useAlert(t('CATALOG.PREVIEW_ERROR'));
+  } finally {
+    isPreviewLoading.value = false;
+  }
+};
+
 const formatPrice = price => {
   return `${Number(price).toFixed(2)} ${catalogCurrency.value}`;
 };
@@ -153,6 +169,15 @@ onMounted(() => {
                 </template>
               </Input>
             </div>
+            <Button
+              icon="i-ph-storefront"
+              :label="t('CATALOG.PREVIEW_STOREFRONT')"
+              sm
+              slate
+              faded
+              :is-loading="isPreviewLoading"
+              @click="previewStorefront"
+            />
             <Button
               icon="i-lucide-plus"
               :label="t('CATALOG.ADD_PRODUCT')"

@@ -1,5 +1,42 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: aloo_assistants
+#
+#  id                      :bigint           not null, primary key
+#  active                  :boolean          default(TRUE)
+#  admin_config            :jsonb
+#  custom_greeting         :text
+#  custom_instructions     :text
+#  description             :text
+#  emoji_usage             :string           default("minimal")
+#  empathy_level           :string           default("medium")
+#  formality               :string           default("medium")
+#  greeting_style          :string           default("warm")
+#  guardrails              :text
+#  name                    :string           not null
+#  personality_description :text
+#  response_guidelines     :text
+#  system_prompt           :text
+#  tone                    :string           default("friendly")
+#  verbosity               :string           default("balanced")
+#  voice_config            :jsonb
+#  voice_enabled           :boolean          default(FALSE)
+#  created_at              :datetime         not null
+#  updated_at              :datetime         not null
+#  account_id              :bigint           not null
+#
+# Indexes
+#
+#  index_aloo_assistants_on_account_id           (account_id)
+#  index_aloo_assistants_on_account_id_and_name  (account_id,name)
+#  index_aloo_assistants_on_voice_enabled        (voice_enabled)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (account_id => accounts.id)
+#
 FactoryBot.define do
   factory :aloo_assistant, class: 'Aloo::Assistant' do
     account
@@ -11,7 +48,6 @@ FactoryBot.define do
     verbosity { 'balanced' }
     emoji_usage { 'minimal' }
     greeting_style { 'warm' }
-    language { 'en' }
     active { true }
     system_prompt { 'You are a helpful customer support assistant.' }
     admin_config { {} }
@@ -20,18 +56,9 @@ FactoryBot.define do
       active { false }
     end
 
-    trait :arabic do
-      language { 'ar' }
-      dialect { 'EG' }
-    end
-
     trait :professional do
       tone { 'professional' }
       formality { 'high' }
-    end
-
-    trait :with_faq_enabled do
-      admin_config { { 'feature_faq' => true } }
     end
 
     trait :with_memory_enabled do
@@ -39,7 +66,7 @@ FactoryBot.define do
     end
 
     trait :with_all_features do
-      admin_config { { 'feature_faq' => true, 'feature_memory' => true } }
+      admin_config { { 'feature_memory' => true } }
     end
 
     trait :with_custom_model do
@@ -48,13 +75,11 @@ FactoryBot.define do
 
     trait :with_voice_input do
       voice_enabled { true }
-      voice_input_enabled { true }
       voice_config { { 'transcription_provider' => 'openai', 'transcription_model' => 'whisper-1' } }
     end
 
     trait :with_voice_output do
       voice_enabled { true }
-      voice_output_enabled { true }
       voice_config do
         {
           'tts_provider' => 'elevenlabs',
@@ -69,8 +94,6 @@ FactoryBot.define do
 
     trait :with_voice_features do
       voice_enabled { true }
-      voice_input_enabled { true }
-      voice_output_enabled { true }
       voice_config do
         {
           'transcription_provider' => 'openai',

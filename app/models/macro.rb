@@ -4,6 +4,8 @@
 #
 #  id            :bigint           not null, primary key
 #  actions       :jsonb            not null
+#  ai_enabled    :boolean          default(FALSE), not null
+#  description   :text
 #  name          :string           not null
 #  visibility    :integer          default("personal")
 #  created_at    :datetime         not null
@@ -14,7 +16,8 @@
 #
 # Indexes
 #
-#  index_macros_on_account_id  (account_id)
+#  index_macros_on_account_id             (account_id)
+#  index_macros_on_account_id_ai_enabled  (account_id,ai_enabled) WHERE (ai_enabled = true)
 #
 class Macro < ApplicationRecord
   include Rails.application.routes.url_helpers

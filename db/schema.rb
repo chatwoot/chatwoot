@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_02_03_175048) do
+ActiveRecord::Schema[7.1].define(version: 2026_02_27_000250) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -35,7 +35,18 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_03_175048) do
     t.string "currency", default: "SAR"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "order_notification_email"
     t.index ["account_id"], name: "index_account_catalog_settings_on_account_id", unique: true
+  end
+
+  create_table "account_payment_link_settings", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.string "default_provider"
+    t.string "default_currency", default: "KWD"
+    t.string "notification_email"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_account_payment_link_settings_on_account_id", unique: true
   end
 
   create_table "account_payzah_settings", force: :cascade do |t|
@@ -205,8 +216,6 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_03_175048) do
     t.string "emoji_usage", default: "minimal"
     t.string "greeting_style", default: "warm"
     t.text "custom_greeting"
-    t.string "language", default: "en"
-    t.string "dialect"
     t.text "personality_description"
     t.text "system_prompt"
     t.text "response_guidelines"
@@ -216,15 +225,11 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_03_175048) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "voice_enabled", default: false
-    t.boolean "voice_input_enabled", default: false
-    t.boolean "voice_output_enabled", default: false
     t.jsonb "voice_config", default: {}
     t.text "custom_instructions"
     t.index ["account_id", "name"], name: "index_aloo_assistants_on_account_id_and_name"
     t.index ["account_id"], name: "index_aloo_assistants_on_account_id"
     t.index ["voice_enabled"], name: "index_aloo_assistants_on_voice_enabled"
-    t.index ["voice_input_enabled"], name: "index_aloo_assistants_on_voice_input_enabled"
-    t.index ["voice_output_enabled"], name: "index_aloo_assistants_on_voice_output_enabled"
   end
 
   create_table "aloo_documents", force: :cascade do |t|
@@ -243,8 +248,11 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_03_175048) do
     t.boolean "auto_refresh", default: false, null: false
     t.datetime "last_refreshed_at"
     t.datetime "next_refresh_at"
+    t.bigint "article_id"
     t.index ["account_id"], name: "index_aloo_documents_on_account_id"
+    t.index ["aloo_assistant_id", "article_id"], name: "index_aloo_documents_on_assistant_and_article", unique: true, where: "(article_id IS NOT NULL)"
     t.index ["aloo_assistant_id"], name: "index_aloo_documents_on_aloo_assistant_id"
+    t.index ["article_id"], name: "index_aloo_documents_on_article_id"
     t.index ["auto_refresh"], name: "index_aloo_documents_on_auto_refresh"
     t.index ["next_refresh_at"], name: "index_aloo_documents_on_next_refresh_at", where: "(auto_refresh = true)"
   end
@@ -262,29 +270,6 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_03_175048) do
     t.index ["aloo_assistant_id"], name: "index_aloo_embeddings_on_aloo_assistant_id"
     t.index ["aloo_document_id"], name: "index_aloo_embeddings_on_aloo_document_id"
     t.index ["embedding"], name: "aloo_embeddings_embedding_idx", opclass: :vector_cosine_ops, using: :hnsw
-  end
-
-  create_table "aloo_voice_usage_records", force: :cascade do |t|
-    t.bigint "account_id", null: false
-    t.bigint "aloo_assistant_id", null: false
-    t.bigint "message_id"
-    t.string "operation_type", null: false
-    t.string "provider", null: false
-    t.integer "characters_used", default: 0
-    t.integer "audio_duration_seconds", default: 0
-    t.decimal "estimated_cost", precision: 10, scale: 6
-    t.string "model_used"
-    t.string "voice_id"
-    t.string "status", default: "success"
-    t.jsonb "metadata", default: {}
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["account_id", "created_at"], name: "index_aloo_voice_usage_records_on_account_id_and_created_at"
-    t.index ["account_id", "operation_type"], name: "index_aloo_voice_usage_records_on_account_id_and_operation_type"
-    t.index ["account_id"], name: "index_aloo_voice_usage_records_on_account_id"
-    t.index ["aloo_assistant_id"], name: "index_aloo_voice_usage_records_on_aloo_assistant_id"
-    t.index ["created_at"], name: "index_aloo_voice_usage_records_on_created_at"
-    t.index ["message_id"], name: "index_aloo_voice_usage_records_on_message_id"
   end
 
   create_table "applied_slas", force: :cascade do |t|
@@ -425,46 +410,6 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_03_175048) do
     t.text "content"
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
-  end
-
-  create_table "cart_items", force: :cascade do |t|
-    t.bigint "cart_id", null: false
-    t.bigint "product_id", null: false
-    t.integer "quantity", default: 1, null: false
-    t.decimal "unit_price", precision: 10, scale: 2, null: false
-    t.decimal "total_price", precision: 10, scale: 2, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["cart_id", "product_id"], name: "index_cart_items_on_cart_id_and_product_id", unique: true
-    t.index ["cart_id"], name: "index_cart_items_on_cart_id"
-    t.index ["product_id"], name: "index_cart_items_on_product_id"
-  end
-
-  create_table "carts", force: :cascade do |t|
-    t.bigint "account_id", null: false
-    t.bigint "conversation_id", null: false
-    t.bigint "message_id"
-    t.bigint "contact_id", null: false
-    t.bigint "created_by_id"
-    t.string "external_payment_id"
-    t.string "payment_url"
-    t.string "provider", null: false
-    t.decimal "subtotal", precision: 10, scale: 2, null: false
-    t.decimal "total", precision: 10, scale: 2, null: false
-    t.string "currency", null: false
-    t.integer "status", default: 0, null: false
-    t.jsonb "payload", default: {}, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "created_by_type", default: "User"
-    t.index ["account_id"], name: "index_carts_on_account_id"
-    t.index ["contact_id"], name: "index_carts_on_contact_id"
-    t.index ["conversation_id"], name: "index_carts_on_conversation_id"
-    t.index ["created_by_id"], name: "index_carts_on_created_by_id"
-    t.index ["created_by_type", "created_by_id"], name: "index_carts_on_created_by"
-    t.index ["external_payment_id"], name: "index_carts_on_external_payment_id", unique: true
-    t.index ["message_id"], name: "index_carts_on_message_id"
-    t.index ["status"], name: "index_carts_on_status"
   end
 
   create_table "categories", force: :cascade do |t|
@@ -1136,6 +1081,59 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_03_175048) do
     t.index ["user_id"], name: "index_notifications_on_user_id"
   end
 
+  create_table "order_items", force: :cascade do |t|
+    t.bigint "order_id", null: false
+    t.bigint "product_id", null: false
+    t.integer "quantity", default: 1, null: false
+    t.decimal "unit_price", precision: 10, scale: 2, null: false
+    t.decimal "total_price", precision: 10, scale: 2, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["order_id", "product_id"], name: "index_order_items_on_order_id_and_product_id", unique: true
+    t.index ["order_id"], name: "index_order_items_on_order_id"
+    t.index ["product_id"], name: "index_order_items_on_product_id"
+  end
+
+  create_table "order_notes", force: :cascade do |t|
+    t.text "content", null: false
+    t.bigint "account_id", null: false
+    t.bigint "order_id", null: false
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_order_notes_on_account_id"
+    t.index ["order_id"], name: "index_order_notes_on_order_id"
+    t.index ["user_id"], name: "index_order_notes_on_user_id"
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "conversation_id", null: false
+    t.bigint "message_id"
+    t.bigint "contact_id", null: false
+    t.bigint "created_by_id"
+    t.string "external_payment_id"
+    t.string "payment_url"
+    t.string "provider", null: false
+    t.decimal "subtotal", precision: 10, scale: 2, null: false
+    t.decimal "total", precision: 10, scale: 2, null: false
+    t.string "currency", null: false
+    t.integer "status", default: 0, null: false
+    t.jsonb "payload", default: {}, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "created_by_type", default: "User"
+    t.jsonb "delivery_address", default: {}
+    t.index ["account_id"], name: "index_orders_on_account_id"
+    t.index ["contact_id"], name: "index_orders_on_contact_id"
+    t.index ["conversation_id"], name: "index_orders_on_conversation_id"
+    t.index ["created_by_id"], name: "index_orders_on_created_by_id"
+    t.index ["created_by_type", "created_by_id"], name: "index_carts_on_created_by"
+    t.index ["external_payment_id"], name: "index_orders_on_external_payment_id", unique: true
+    t.index ["message_id"], name: "index_orders_on_message_id"
+    t.index ["status"], name: "index_orders_on_status"
+  end
+
   create_table "payment_links", force: :cascade do |t|
     t.bigint "account_id", null: false
     t.bigint "conversation_id", null: false
@@ -1250,9 +1248,29 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_03_175048) do
     t.index ["user_id"], name: "index_reporting_events_on_user_id"
   end
 
+  create_table "ruby_llm_agents_execution_details", force: :cascade do |t|
+    t.bigint "execution_id", null: false
+    t.text "error_message"
+    t.text "system_prompt"
+    t.text "user_prompt"
+    t.json "response", default: {}
+    t.json "messages_summary", default: {}, null: false
+    t.json "tool_calls", default: [], null: false
+    t.json "attempts", default: [], null: false
+    t.json "fallback_chain"
+    t.json "parameters", default: {}, null: false
+    t.string "routed_to"
+    t.json "classification_result"
+    t.datetime "cached_at"
+    t.integer "cache_creation_tokens", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.text "assistant_prompt"
+    t.index ["execution_id"], name: "index_ruby_llm_agents_execution_details_on_execution_id", unique: true
+  end
+
   create_table "ruby_llm_agents_executions", force: :cascade do |t|
     t.string "agent_type", null: false
-    t.string "agent_version", default: "1.0"
     t.string "model_id", null: false
     t.string "model_provider"
     t.decimal "temperature", precision: 3, scale: 2
@@ -1260,73 +1278,41 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_03_175048) do
     t.datetime "completed_at"
     t.integer "duration_ms"
     t.boolean "streaming", default: false
-    t.integer "time_to_first_token_ms"
     t.string "finish_reason"
     t.string "request_id"
     t.string "trace_id"
-    t.string "span_id"
     t.bigint "parent_execution_id"
     t.bigint "root_execution_id"
-    t.string "fallback_reason"
-    t.boolean "retryable"
-    t.boolean "rate_limited"
     t.boolean "cache_hit", default: false
-    t.string "response_cache_key"
-    t.datetime "cached_at"
     t.string "status", default: "success", null: false
     t.integer "input_tokens"
     t.integer "output_tokens"
     t.integer "total_tokens"
     t.integer "cached_tokens", default: 0
-    t.integer "cache_creation_tokens", default: 0
     t.decimal "input_cost", precision: 12, scale: 6
     t.decimal "output_cost", precision: 12, scale: 6
     t.decimal "total_cost", precision: 12, scale: 6
-    t.jsonb "parameters", default: {}, null: false
-    t.jsonb "response", default: {}
     t.jsonb "metadata", default: {}, null: false
     t.string "error_class"
-    t.text "error_message"
-    t.text "system_prompt"
-    t.text "user_prompt"
-    t.jsonb "tool_calls", default: [], null: false
     t.integer "tool_calls_count", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.json "attempts", default: [], null: false
     t.integer "attempts_count", default: 0, null: false
     t.string "chosen_model_id"
-    t.json "fallback_chain", default: [], null: false
-    t.string "workflow_id"
-    t.string "workflow_type"
-    t.string "workflow_step"
-    t.string "routed_to"
-    t.json "classification_result"
     t.string "tenant_id"
     t.string "execution_type", default: "chat"
-    t.index ["agent_type", "agent_version"], name: "idx_on_agent_type_agent_version_6719e42ac5"
+    t.integer "messages_count", default: 0, null: false
     t.index ["agent_type", "created_at"], name: "index_ruby_llm_agents_executions_on_agent_type_and_created_at"
     t.index ["agent_type", "status"], name: "index_ruby_llm_agents_executions_on_agent_type_and_status"
-    t.index ["agent_type"], name: "index_ruby_llm_agents_executions_on_agent_type"
-    t.index ["attempts_count"], name: "index_ruby_llm_agents_executions_on_attempts_count"
-    t.index ["chosen_model_id"], name: "index_ruby_llm_agents_executions_on_chosen_model_id"
     t.index ["created_at"], name: "index_ruby_llm_agents_executions_on_created_at"
-    t.index ["duration_ms"], name: "index_ruby_llm_agents_executions_on_duration_ms"
-    t.index ["execution_type"], name: "index_ruby_llm_agents_executions_on_execution_type"
     t.index ["parent_execution_id"], name: "index_ruby_llm_agents_executions_on_parent_execution_id"
     t.index ["request_id"], name: "index_ruby_llm_agents_executions_on_request_id"
-    t.index ["response_cache_key"], name: "index_ruby_llm_agents_executions_on_response_cache_key"
     t.index ["root_execution_id"], name: "index_ruby_llm_agents_executions_on_root_execution_id"
     t.index ["status"], name: "index_ruby_llm_agents_executions_on_status"
     t.index ["tenant_id", "agent_type"], name: "index_ruby_llm_agents_executions_on_tenant_id_and_agent_type"
     t.index ["tenant_id", "created_at"], name: "index_ruby_llm_agents_executions_on_tenant_id_and_created_at"
-    t.index ["tenant_id"], name: "index_ruby_llm_agents_executions_on_tenant_id"
-    t.index ["tool_calls_count"], name: "index_ruby_llm_agents_executions_on_tool_calls_count"
-    t.index ["total_cost"], name: "index_ruby_llm_agents_executions_on_total_cost"
+    t.index ["tenant_id", "status"], name: "index_ruby_llm_agents_executions_on_tenant_id_and_status"
     t.index ["trace_id"], name: "index_ruby_llm_agents_executions_on_trace_id"
-    t.index ["workflow_id", "workflow_step"], name: "idx_on_workflow_id_workflow_step_85a6d10aef"
-    t.index ["workflow_id"], name: "index_ruby_llm_agents_executions_on_workflow_id"
-    t.index ["workflow_type"], name: "index_ruby_llm_agents_executions_on_workflow_type"
   end
 
   create_table "ruby_llm_agents_tenants", force: :cascade do |t|
@@ -1348,6 +1334,18 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_03_175048) do
     t.boolean "inherit_global_defaults", default: true
     t.boolean "active", default: true
     t.json "metadata", default: {}, null: false
+    t.decimal "daily_cost_spent", precision: 12, scale: 6, default: "0.0", null: false
+    t.decimal "monthly_cost_spent", precision: 12, scale: 6, default: "0.0", null: false
+    t.bigint "daily_tokens_used", default: 0, null: false
+    t.bigint "monthly_tokens_used", default: 0, null: false
+    t.bigint "daily_executions_count", default: 0, null: false
+    t.bigint "monthly_executions_count", default: 0, null: false
+    t.bigint "daily_error_count", default: 0, null: false
+    t.bigint "monthly_error_count", default: 0, null: false
+    t.datetime "last_execution_at"
+    t.string "last_execution_status"
+    t.date "daily_reset_date"
+    t.date "monthly_reset_date"
     t.index ["active"], name: "index_ruby_llm_agents_tenants_on_active"
     t.index ["tenant_id"], name: "index_ruby_llm_agents_tenants_on_tenant_id", unique: true
     t.index ["tenant_record_type", "tenant_record_id"], name: "idx_tenant_budgets_on_tenant_record"
@@ -1381,6 +1379,22 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_03_175048) do
     t.string "description"
     t.float "resolution_time_threshold"
     t.index ["account_id"], name: "index_sla_policies_on_account_id"
+  end
+
+  create_table "storefront_tokens", force: :cascade do |t|
+    t.string "token", null: false
+    t.bigint "account_id", null: false
+    t.bigint "contact_id", null: false
+    t.bigint "conversation_id"
+    t.datetime "expires_at"
+    t.datetime "last_used_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "contact_id"], name: "index_storefront_tokens_on_account_id_and_contact_id"
+    t.index ["account_id"], name: "index_storefront_tokens_on_account_id"
+    t.index ["contact_id"], name: "index_storefront_tokens_on_contact_id"
+    t.index ["conversation_id"], name: "index_storefront_tokens_on_conversation_id"
+    t.index ["token"], name: "index_storefront_tokens_on_token", unique: true
   end
 
   create_table "taggings", id: :serial, force: :cascade do |t|
@@ -1505,6 +1519,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_03_175048) do
   end
 
   add_foreign_key "account_catalog_settings", "accounts"
+  add_foreign_key "account_payment_link_settings", "accounts"
   add_foreign_key "account_payzah_settings", "accounts"
   add_foreign_key "account_tap_settings", "accounts"
   add_foreign_key "account_whatsapp_settings", "accounts"
@@ -1518,28 +1533,29 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_03_175048) do
   add_foreign_key "aloo_embeddings", "accounts"
   add_foreign_key "aloo_embeddings", "aloo_assistants"
   add_foreign_key "aloo_embeddings", "aloo_documents"
-  add_foreign_key "aloo_voice_usage_records", "accounts"
-  add_foreign_key "aloo_voice_usage_records", "aloo_assistants"
-  add_foreign_key "aloo_voice_usage_records", "messages"
-  add_foreign_key "cart_items", "carts"
-  add_foreign_key "cart_items", "products"
-  add_foreign_key "carts", "accounts"
-  add_foreign_key "carts", "contacts"
-  add_foreign_key "carts", "conversations"
-  add_foreign_key "carts", "messages"
   add_foreign_key "inboxes", "portals"
   add_foreign_key "moengage_webhook_event_logs", "accounts"
   add_foreign_key "moengage_webhook_event_logs", "contacts"
   add_foreign_key "moengage_webhook_event_logs", "conversations"
   add_foreign_key "moengage_webhook_event_logs", "integrations_hooks", column: "hook_id"
+  add_foreign_key "order_items", "orders"
+  add_foreign_key "order_items", "products"
+  add_foreign_key "orders", "accounts"
+  add_foreign_key "orders", "contacts"
+  add_foreign_key "orders", "conversations"
+  add_foreign_key "orders", "messages"
   add_foreign_key "payment_links", "accounts"
   add_foreign_key "payment_links", "contacts"
   add_foreign_key "payment_links", "conversations"
   add_foreign_key "payment_links", "messages"
   add_foreign_key "payment_links", "users", column: "created_by_id"
   add_foreign_key "products", "accounts"
+  add_foreign_key "ruby_llm_agents_execution_details", "ruby_llm_agents_executions", column: "execution_id", on_delete: :cascade
   add_foreign_key "ruby_llm_agents_executions", "ruby_llm_agents_executions", column: "parent_execution_id", on_delete: :nullify
   add_foreign_key "ruby_llm_agents_executions", "ruby_llm_agents_executions", column: "root_execution_id", on_delete: :nullify
+  add_foreign_key "storefront_tokens", "accounts"
+  add_foreign_key "storefront_tokens", "contacts"
+  add_foreign_key "storefront_tokens", "conversations"
   add_foreign_key "users", "users", column: "human_agent_id"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
       on("accounts").

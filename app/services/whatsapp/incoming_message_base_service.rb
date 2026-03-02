@@ -163,6 +163,7 @@ class Whatsapp::IncomingMessageBaseService
     @message.attachments.new(
       account_id: @message.account_id,
       file_type: file_content_type(message_type),
+      meta: { 'whatsapp_media_id' => attachment_payload[:id] },
       file: {
         io: attachment_file,
         filename: attachment_file.original_filename,

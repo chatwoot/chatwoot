@@ -29,9 +29,9 @@ const stats = ref({
   total_documents: 0,
 });
 const performance = ref({
-  response_rate: 100,
-  avg_response_time_ms: 0,
-  handoff_rate: 0,
+  response_rate: null,
+  avg_response_time_ms: null,
+  handoff_rate: null,
   token_usage: { total_input: 0, total_output: 0, total: 0 },
 });
 const timeRange = ref('7d');
@@ -87,8 +87,9 @@ const openConversation = conversationId => {
 };
 
 const formatDuration = ms => {
+  if (ms === null || ms === undefined) return '-';
   if (!ms) return '0s';
-  if (ms < 1000) return `${ms}ms`;
+  if (ms < 1000) return `${Math.round(ms)}ms`;
   return `${(ms / 1000).toFixed(1)}s`;
 };
 
@@ -185,7 +186,11 @@ const timeRangeOptions = [
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
           <div class="p-4 bg-n-alpha-1 rounded-lg border border-n-weak">
             <p class="text-2xl font-semibold text-n-green-11">
-              {{ performance.response_rate }}%
+              {{
+                performance.response_rate !== null
+                  ? `${performance.response_rate}%`
+                  : '-'
+              }}
             </p>
             <p class="text-sm text-n-slate-10">
               {{ $t('ALOO.ANALYTICS.PERFORMANCE.RESPONSE_RATE') }}
@@ -201,7 +206,11 @@ const timeRangeOptions = [
           </div>
           <div class="p-4 bg-n-alpha-1 rounded-lg border border-n-weak">
             <p class="text-2xl font-semibold text-n-amber-11">
-              {{ performance.handoff_rate }}%
+              {{
+                performance.handoff_rate !== null
+                  ? `${performance.handoff_rate}%`
+                  : '-'
+              }}
             </p>
             <p class="text-sm text-n-slate-10">
               {{ $t('ALOO.ANALYTICS.PERFORMANCE.HANDOFF_RATE') }}

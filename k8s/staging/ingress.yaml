@@ -14,6 +14,9 @@ metadata:
     nginx.ingress.kubernetes.io/proxy-read-timeout: '3600'
     nginx.ingress.kubernetes.io/proxy-send-timeout: '3600'
     nginx.ingress.kubernetes.io/websocket-services: 'chatwoot-rails-staging'
+    # Increased body size limits for file uploads
+    nginx.ingress.kubernetes.io/proxy-body-size: '100m'
+    nginx.ingress.kubernetes.io/client-body-buffer-size: '10m'
 spec:
   ingressClassName: nginx-staging
   tls:

@@ -88,6 +88,40 @@ export default createStore({
         commit(mutationTypes.SET_UI_FLAG, { creatingItem: false });
       }
     },
+    async updateTextBlock(
+      { commit },
+      { assistantId, documentId, title, content }
+    ) {
+      commit(mutationTypes.SET_UI_FLAG, { updatingItem: true });
+      try {
+        const response = await AlooDocumentAPI.updateTextBlock(
+          assistantId,
+          documentId,
+          { title, content }
+        );
+        commit(mutationTypes.EDIT, response.data);
+        return response.data;
+      } finally {
+        commit(mutationTypes.SET_UI_FLAG, { updatingItem: false });
+      }
+    },
+    async updateWebsite(
+      { commit },
+      { assistantId, documentId, title, autoRefresh, selectedPages }
+    ) {
+      commit(mutationTypes.SET_UI_FLAG, { updatingItem: true });
+      try {
+        const response = await AlooDocumentAPI.updateWebsite(
+          assistantId,
+          documentId,
+          { title, autoRefresh, selectedPages }
+        );
+        commit(mutationTypes.EDIT, response.data);
+        return response.data;
+      } finally {
+        commit(mutationTypes.SET_UI_FLAG, { updatingItem: false });
+      }
+    },
     async discoverPages(_, { assistantId, url }) {
       // Note: No commit needed, just return the discovered pages
       const response = await AlooDocumentAPI.discoverPages(assistantId, url);

@@ -323,6 +323,20 @@
   description: 'Contents on your firebase credentials json file'
 ## ------ End of Configs added for FCM v1 notifications ------ ##
 
+## ------ Configs added for Calendly ------ ##
+- name: CALENDLY_CLIENT_ID
+  display_title: 'Calendly Client ID'
+  value:
+  locked: false
+  description: 'Calendly OAuth application client ID'
+- name: CALENDLY_CLIENT_SECRET
+  display_title: 'Calendly Client Secret'
+  value:
+  locked: false
+  description: 'Calendly OAuth application client secret'
+  type: secret
+## ------ End of Configs added for Calendly ------ ##
+
 ## ------ Configs added for Linear ------ ##
 - name: LINEAR_CLIENT_ID
   display_title: 'Linear Client ID'

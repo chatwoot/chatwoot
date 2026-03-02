@@ -1,5 +1,61 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: conversations
+#
+#  id                     :integer          not null, primary key
+#  additional_attributes  :jsonb
+#  agent_last_seen_at     :datetime
+#  assignee_last_seen_at  :datetime
+#  cached_label_list      :text
+#  contact_last_seen_at   :datetime
+#  custom_attributes      :jsonb
+#  first_reply_created_at :datetime
+#  has_unread_messages    :boolean          default(FALSE), not null
+#  identifier             :string
+#  last_activity_at       :datetime         not null
+#  last_triaged_at        :datetime
+#  priority               :integer
+#  snoozed_until          :datetime
+#  status                 :integer          default("open"), not null
+#  uuid                   :uuid             not null
+#  waiting_since          :datetime
+#  created_at             :datetime         not null
+#  updated_at             :datetime         not null
+#  account_id             :integer          not null
+#  assignee_agent_bot_id  :bigint
+#  assignee_id            :integer
+#  campaign_id            :bigint
+#  contact_id             :bigint
+#  contact_inbox_id       :bigint
+#  display_id             :integer          not null
+#  inbox_id               :integer          not null
+#  sla_policy_id          :bigint
+#  team_id                :bigint
+#
+# Indexes
+#
+#  conv_acid_inbid_stat_asgnid_idx                    (account_id,inbox_id,status,assignee_id)
+#  index_conversations_on_account_has_unread          (account_id,has_unread_messages) WHERE (has_unread_messages = true)
+#  index_conversations_on_account_id                  (account_id)
+#  index_conversations_on_account_id_and_display_id   (account_id,display_id) UNIQUE
+#  index_conversations_on_assignee_id_and_account_id  (assignee_id,account_id)
+#  index_conversations_on_campaign_id                 (campaign_id)
+#  index_conversations_on_contact_id                  (contact_id)
+#  index_conversations_on_contact_inbox_id            (contact_inbox_id)
+#  index_conversations_on_first_reply_created_at      (first_reply_created_at)
+#  index_conversations_on_id_and_account_id           (account_id,id)
+#  index_conversations_on_identifier_and_account_id   (identifier,account_id)
+#  index_conversations_on_inbox_has_unread            (inbox_id,has_unread_messages) WHERE (has_unread_messages = true)
+#  index_conversations_on_inbox_id                    (inbox_id)
+#  index_conversations_on_priority                    (priority)
+#  index_conversations_on_status_and_account_id       (status,account_id)
+#  index_conversations_on_status_and_priority         (status,priority)
+#  index_conversations_on_team_id                     (team_id)
+#  index_conversations_on_uuid                        (uuid) UNIQUE
+#  index_conversations_on_waiting_since               (waiting_since)
+#
 require 'rails_helper'
 require Rails.root.join 'spec/models/concerns/assignment_handler_shared.rb'
 require Rails.root.join 'spec/models/concerns/auto_assignment_handler_shared.rb'

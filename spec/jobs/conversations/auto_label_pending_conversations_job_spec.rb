@@ -21,12 +21,12 @@ RSpec.describe Conversations::AutoLabelPendingConversationsJob do
     end
   end
 
-  context 'when conversation already has labels' do
-    it 'does not enqueue job for conversations with labels' do
+  context 'when conversation already has max labels' do
+    it 'does not enqueue job for conversations with 2 labels' do
       account = create(:account)
       create(:label, account: account, allow_auto_assign: true)
       conversation = create(:conversation, account: account, status: :open, created_at: 10.minutes.ago,
-                                           cached_label_list: 'existing_label')
+                                           cached_label_list: 'label1, label2')
       create(:message, conversation: conversation, message_type: :incoming)
 
       expect { described_class.perform_now }
@@ -35,15 +35,16 @@ RSpec.describe Conversations::AutoLabelPendingConversationsJob do
     end
   end
 
-  context 'when conversation is less than 5 minutes old' do
-    it 'does not enqueue job for recent conversations' do
+  context 'when conversation has only 1 label' do
+    it 'enqueues job for conversations that can still receive another label' do
       account = create(:account)
       create(:label, account: account, allow_auto_assign: true)
-      conversation = create(:conversation, account: account, status: :open, created_at: 2.minutes.ago)
+      conversation = create(:conversation, account: account, status: :open, created_at: 10.minutes.ago,
+                                           cached_label_list: 'existing_label')
       create(:message, conversation: conversation, message_type: :incoming)
 
       expect { described_class.perform_now }
-        .not_to have_enqueued_job(AutoAssignConversationJob)
+        .to have_enqueued_job(AutoAssignConversationJob)
         .with(conversation.id)
     end
   end
@@ -70,6 +71,65 @@ RSpec.describe Conversations::AutoLabelPendingConversationsJob do
       expect { described_class.perform_now }
         .not_to have_enqueued_job(AutoAssignConversationJob)
         .with(conversation.id)
+    end
+  end
+
+  context 'when conversation was already triaged with no new messages' do
+    it 'does not enqueue job for already-triaged conversations' do
+      account = create(:account)
+      create(:label, account: account, allow_auto_assign: true)
+      conversation = create(:conversation, account: account, status: :open, created_at: 10.minutes.ago)
+      create(:message, conversation: conversation, message_type: :incoming, created_at: 8.minutes.ago)
+      conversation.update_column(:last_triaged_at, 5.minutes.ago)
+
+      expect { described_class.perform_now }
+        .not_to have_enqueued_job(AutoAssignConversationJob)
+        .with(conversation.id)
+    end
+  end
+
+  context 'when conversation was triaged but has new messages since' do
+    it 'enqueues job for conversations with new incoming messages' do
+      account = create(:account)
+      create(:label, account: account, allow_auto_assign: true)
+      conversation = create(:conversation, account: account, status: :open, created_at: 10.minutes.ago)
+      create(:message, conversation: conversation, message_type: :incoming, created_at: 8.minutes.ago)
+      conversation.update_column(:last_triaged_at, 6.minutes.ago)
+      # New message after triage
+      create(:message, conversation: conversation, message_type: :incoming, created_at: 2.minutes.ago)
+
+      expect { described_class.perform_now }
+        .to have_enqueued_job(AutoAssignConversationJob)
+        .with(conversation.id)
+    end
+  end
+
+  context 'when conversation is older than 24 hours' do
+    it 'does not enqueue job for old conversations' do
+      account = create(:account)
+      create(:label, account: account, allow_auto_assign: true)
+      conversation = create(:conversation, account: account, status: :open, created_at: 25.hours.ago)
+      create(:message, conversation: conversation, message_type: :incoming)
+
+      expect { described_class.perform_now }
+        .not_to have_enqueued_job(AutoAssignConversationJob)
+        .with(conversation.id)
+    end
+  end
+
+  context 'when there are more conversations than BATCH_LIMIT' do
+    it 'only enqueues up to BATCH_LIMIT conversations' do
+      account = create(:account)
+      create(:label, account: account, allow_auto_assign: true)
+
+      55.times do
+        conv = create(:conversation, account: account, status: :open, created_at: 10.minutes.ago)
+        create(:message, conversation: conv, message_type: :incoming)
+      end
+
+      described_class.perform_now
+
+      expect(AutoAssignConversationJob).to have_been_enqueued.exactly(50).times
     end
   end
 end

@@ -6,9 +6,22 @@ RSpec.describe 'Aloo Voice Usage API', type: :request do
   let(:account) { create(:account) }
   let(:admin) { create(:user, account: account, role: :administrator) }
   let(:assistant) { create(:aloo_assistant, :with_voice_features, account: account) }
+  let(:tenant_id) { account.id.to_s }
 
-  # NOTE: voice_usage is a singular resource, so we test against /aloo/voice_usage (show action)
-  # The controller#index action maps to the show route
+  def create_execution(agent_type:, status: 'success', started_at: Time.current, cost: 0.001, duration_ms: 500, metadata: {})
+    RubyLLM::Agents::Execution.create!(
+      agent_type: agent_type,
+      model_id: agent_type.include?('Transcriber') ? 'whisper-1' : 'eleven_v3',
+      status: status,
+      started_at: started_at,
+      completed_at: started_at + (duration_ms / 1000.0).seconds,
+      duration_ms: duration_ms,
+      total_cost: cost,
+      tenant_id: tenant_id,
+      metadata: metadata
+    )
+  end
+
   describe 'GET /api/v1/accounts/:account_id/aloo/voice_usage (show)' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
@@ -20,10 +33,14 @@ RSpec.describe 'Aloo Voice Usage API', type: :request do
 
     context 'when it is an authenticated user' do
       before do
-        create(:aloo_voice_usage_record, :transcription, account: account, assistant: assistant, audio_duration_seconds: 120)
-        create(:aloo_voice_usage_record, :transcription, account: account, assistant: assistant, audio_duration_seconds: 60)
-        create(:aloo_voice_usage_record, :synthesis, account: account, assistant: assistant, characters_used: 1000)
-        create(:aloo_voice_usage_record, :failed, account: account, assistant: assistant)
+        create_execution(agent_type: 'Audio::AlooTranscriber', duration_ms: 120_000,
+                         metadata: { 'aloo_assistant_id' => assistant.id.to_s })
+        create_execution(agent_type: 'Audio::AlooTranscriber', duration_ms: 60_000,
+                         metadata: { 'aloo_assistant_id' => assistant.id.to_s })
+        create_execution(agent_type: 'Audio::AlooSpeaker', cost: 0.03,
+                         metadata: { 'aloo_assistant_id' => assistant.id.to_s })
+        create_execution(agent_type: 'Audio::AlooTranscriber', status: 'error',
+                         metadata: { 'aloo_assistant_id' => assistant.id.to_s })
       end
 
       it 'returns account-wide voice usage statistics' do
@@ -35,9 +52,7 @@ RSpec.describe 'Aloo Voice Usage API', type: :request do
         data = response.parsed_body
 
         expect(data['transcription']['count']).to eq(2)
-        expect(data['transcription']['total_duration_seconds']).to eq(180)
         expect(data['synthesis']['count']).to eq(1)
-        expect(data['synthesis']['total_characters']).to eq(1000)
         expect(data['failed_operations']).to eq(1)
         expect(data).to have_key('by_assistant')
         expect(data).to have_key('daily_breakdown')
@@ -85,12 +100,16 @@ RSpec.describe 'Aloo Voice Usage API', type: :request do
     context 'when it is an authenticated user' do
       before do
         # Current month records
-        create(:aloo_voice_usage_record, :transcription, account: account, assistant: assistant)
-        create(:aloo_voice_usage_record, :synthesis, account: account, assistant: assistant, characters_used: 500)
+        create_execution(agent_type: 'Audio::AlooTranscriber',
+                         metadata: { 'aloo_assistant_id' => assistant.id.to_s })
+        create_execution(agent_type: 'Audio::AlooSpeaker', cost: 0.015,
+                         metadata: { 'aloo_assistant_id' => assistant.id.to_s })
 
         # Last month records
-        create(:aloo_voice_usage_record, :transcription, account: account, assistant: assistant, created_at: 1.month.ago)
-        create(:aloo_voice_usage_record, :synthesis, account: account, assistant: assistant, characters_used: 1000, created_at: 1.month.ago)
+        create_execution(agent_type: 'Audio::AlooTranscriber', started_at: 1.month.ago,
+                         metadata: { 'aloo_assistant_id' => assistant.id.to_s })
+        create_execution(agent_type: 'Audio::AlooSpeaker', cost: 0.03, started_at: 1.month.ago,
+                         metadata: { 'aloo_assistant_id' => assistant.id.to_s })
       end
 
       it 'returns summary with current and last month comparison' do

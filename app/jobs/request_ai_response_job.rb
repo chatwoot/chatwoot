@@ -11,7 +11,7 @@ class RequestAiResponseJob < ApplicationJob
 
     # Additional job-level deduplication check using same key strategy as trigger service
     dedup_key = (message.source_id.presence || "msg_#{message.id}")
-    job_redis_key = "ai_job_running:#{dedup_key}"
+    job_redis_key = "ai_response_lock:#{dedup_key}"
     job_lock_acquired = Redis::Alfred.set(job_redis_key, Time.current.iso8601, nx: true, ex: 300) # 5 min expiry
 
     unless job_lock_acquired
@@ -38,7 +38,9 @@ class RequestAiResponseJob < ApplicationJob
     clerk_id = human_agent&.clerk_user_id
 
     Rails.logger.info "AI Agent: #{ai_agent.id}, Human Agent: #{human_agent&.id}, Clerk ID: #{clerk_id || 'NOT_FOUND'}, Agent Key: #{ai_agent.agent_key}"
-    Rails.logger.info "Deployment URL: #{deployment_url}, API Token Present: #{api_token != 'TOKEN_NOT_SET'}"
+    Rails.logger.info "Deployment URL: #{deployment_url}, API Token Present: #{api_token != 'TOKEN_NOT_SET'} - #{api_token}"
+    Rails.logger.info "Clerk ID Present: #{clerk_id.present?} - #{clerk_id}"
+    Rails.logger.info "Agent Key Present: #{ai_agent.agent_key.present?} - #{ai_agent.agent_key}"
 
     unless deployment_url.present? && api_token.present? && clerk_id.present? && ai_agent.agent_key.present?
       error_message = "AI agent configuration is missing. URL, token, clerk_id, or agent_key not found for AI agent #{ai_agent.id}"
@@ -102,12 +104,6 @@ class RequestAiResponseJob < ApplicationJob
     Rails.logger.info "Agent Key Present: #{ai_agent.agent_key.present?}"
     Rails.logger.info "Messages Count: #{messages_for_payload.length}"
     Rails.logger.info "Messages JSON: #{messages_for_payload.to_json}"
-
-    headers = {
-      'x-api-token' => api_token,
-      'clerk-id' => clerk_id
-      # NOTE: Removed Content-Type header - RestClient will set it automatically for form data
-    }
 
     begin
       Rails.logger.info "Sending AI request for conversation #{conversation.id} to #{deployment_url}"
@@ -190,13 +186,27 @@ class RequestAiResponseJob < ApplicationJob
           end
         end
       else
-        # Regular form data request for text messages
-        Rails.logger.info "[AI_JOB] 📝 Sending regular form data request with fields: #{form_data.keys}"
-        response = HTTParty.post(
-          deployment_url,
-          body: form_data,
-          headers: headers,
-          timeout: 180 # 3 minutes for AI response
+        # Form data request for text messages (AI engine expects Form(...) parameters)
+        Rails.logger.info "[AI_JOB] 📝 Sending form data request with fields: #{form_data.keys}"
+
+        # Use RestClient for consistent multipart/form-data handling
+        require 'rest-client'
+
+        rest_response = RestClient::Request.execute(
+          method: :post,
+          url: deployment_url,
+          payload: form_data,
+          headers: {
+            'x-api-token' => api_token,
+            'clerk-id' => clerk_id
+          },
+          timeout: 180,
+          open_timeout: 30
+        )
+
+        response = OpenStruct.new(
+          code: rest_response.code,
+          body: rest_response.body
         )
       end
 
@@ -297,7 +307,7 @@ class RequestAiResponseJob < ApplicationJob
 
       # Clean up job lock using same key strategy
       dedup_key = (message.source_id.presence || "msg_#{message.id}")
-      job_redis_key = "ai_job_running:#{dedup_key}"
+      job_redis_key = "ai_response_lock:#{dedup_key}"
       Redis::Alfred.delete(job_redis_key)
       Rails.logger.info "[AI_JOB] 🧹 Cleaned up job lock for source_id #{message.source_id} (message #{message.id})"
     end
@@ -537,6 +547,8 @@ class RequestAiResponseJob < ApplicationJob
     human_agent = ai_agent&.human_agent
 
     {
+      # Account ID for payment gateway and other account-level feature checks
+      account_id: conversation.account_id,
       # IMPORTANT: Use conversation_id (actual database ID) for API calls, not display_id
       conversation_id: conversation.id, # Actual database ID - use this for API endpoints
       conversation_display_id: conversation.display_id, # Display ID - for UI/reference only
@@ -726,7 +738,7 @@ class RequestAiResponseJob < ApplicationJob
     return unless inbox.channel_type == 'Channel::Whatsapp'
 
     channel = inbox.channel
-    return unless channel.respond_to?(:provider_name) && channel.provider_name == 'whatsapp_cloud'
+    return unless channel.provider == 'whatsapp_cloud'
 
     phone_number = conversation.contact_inbox.source_id
     return if phone_number.blank?

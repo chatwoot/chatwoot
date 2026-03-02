@@ -41,7 +41,6 @@ module Aloo
     def build
       sections = []
 
-      sections << '## Communication Style'
       sections << TONE_PROMPTS[@assistant.tone]
       sections << FORMALITY_PROMPTS[@assistant.formality]
       sections << EMPATHY_PROMPTS[@assistant.empathy_level]
@@ -51,11 +50,6 @@ module Aloo
       if @assistant.personality_description.present?
         sections << "\n## Additional Personality Traits"
         sections << @assistant.personality_description
-      end
-
-      if @assistant.language_instruction.present?
-        sections << "\n## Language"
-        sections << @assistant.language_instruction
       end
 
       sections.compact.join("\n")

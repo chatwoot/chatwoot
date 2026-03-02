@@ -47,6 +47,20 @@ class NotificationListener < BaseListener
     ).perform
   end
 
+  def conversation_human_assistance_requested(event)
+    conversation, account = extract_conversation_and_account(event)
+
+    # Notify all human agents in the inbox (not AI/bot users)
+    conversation.inbox.members.each do |agent|
+      NotificationBuilder.new(
+        notification_type: 'ai_human_assistance_requested',
+        user: agent,
+        account: account,
+        primary_actor: conversation
+      ).perform
+    end
+  end
+
   def message_created(event)
     message = extract_message_and_account(event)[0]
 

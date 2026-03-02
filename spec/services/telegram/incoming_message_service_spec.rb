@@ -264,13 +264,26 @@ describe Telegram::IncomingMessageService do
     end
 
     context 'when valid voice attachment params' do
+      let(:voice_file_id) { 'AwACAgUAAxkBAANjYVwnWF_w8LYTchqVdK9dY7mbwYEAAskDAALCoeBWFvS2u4zS6HAhBA' }
+
+      before do
+        stub_request(:get, 'https://api.telegram.org/bot2324234324/getFile')
+          .with(query: { 'file_id' => voice_file_id })
+          .to_return(
+            status: 200,
+            headers: { content_type: 'application/json' },
+            body: { 'ok' => true, 'result' => { 'file_path' => 'voice/test_voice.ogg' } }.to_json
+          )
+        stub_request(:get, 'https://api.telegram.org/file/bot2324234324/voice/test_voice.ogg')
+          .to_return(status: 200, body: File.read('spec/assets/sample.ogg'), headers: { 'content-type' => 'audio/ogg' })
+      end
+
       it 'creates appropriate conversations, message and contacts' do
-        allow(telegram_channel.inbox.channel).to receive(:get_telegram_file_path).and_return('https://chatwoot-assets.local/sample.ogg')
         params = {
           'update_id' => 2_342_342_343_242,
           'message' => {
             'voice' => {
-              'duration' => 2, 'mime_type' => 'audio/ogg', 'file_id' => 'AwACAgUAAxkBAANjYVwnWF_w8LYTchqVdK9dY7mbwYEAAskDAALCoeBWFvS2u4zS6HAhBA',
+              'duration' => 2, 'mime_type' => 'audio/ogg', 'file_id' => voice_file_id,
               'file_unique_id' => 'AgADyQMAAsKh4FY', 'file_size' => 11_833
             }
           }.merge(message_params)
@@ -279,6 +292,23 @@ describe Telegram::IncomingMessageService do
         expect(telegram_channel.inbox.conversations.count).not_to eq(0)
         expect(Contact.all.first.name).to eq('Sojan Jose')
         expect(telegram_channel.inbox.messages.first.attachments.first.file_type).to eq('audio')
+      end
+
+      it 'stores telegram_file_id in attachment meta' do
+        params = {
+          'update_id' => 2_342_342_343_242,
+          'message' => {
+            'voice' => {
+              'duration' => 2, 'mime_type' => 'audio/ogg', 'file_id' => voice_file_id,
+              'file_unique_id' => 'AgADyQMAAsKh4FY', 'file_size' => 11_833
+            }
+          }.merge(message_params)
+        }.with_indifferent_access
+
+        described_class.new(inbox: telegram_channel.inbox, params: params).perform
+
+        attachment = telegram_channel.inbox.messages.first.attachments.first
+        expect(attachment.meta['telegram_file_id']).to eq(voice_file_id)
       end
     end
 

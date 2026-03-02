@@ -1,5 +1,6 @@
 class Integrations::App
   include Linear::IntegrationHelper
+  include Calendly::IntegrationHelper
   attr_accessor :params
 
   def initialize(params)
@@ -30,10 +31,15 @@ class Integrations::App
     params[:fields]
   end
 
-  # There is no way to get the account_id from the linear callback
-  # so we are using the generate_linear_token method to generate a token and encode it in the state parameter
-  def encode_state
-    generate_linear_token(Current.account.id)
+  # There is no way to get the account_id from the linear/calendly callback
+  # so we are using JWT tokens to encode the account_id in the state parameter
+  def encode_state(provider = :linear)
+    case provider
+    when :calendly
+      generate_calendly_token(Current.account.id)
+    else
+      generate_linear_token(Current.account.id)
+    end
   end
 
   def action
@@ -43,26 +49,37 @@ class Integrations::App
       "#{params[:action]}&client_id=#{client_id}&redirect_uri=#{self.class.slack_integration_url}"
     when 'linear'
       build_linear_action
+    when 'calendly'
+      build_calendly_action
     else
       params[:action]
     end
   end
 
+  ACTIVE_CHECKS = {
+    'slack' => ->(_account) { GlobalConfigService.load('SLACK_CLIENT_SECRET', nil).present? },
+    'linear' => ->(account) { account.feature_enabled?('linear_integration') && GlobalConfigService.load('LINEAR_CLIENT_ID', nil).present? },
+    'shopify' => ->(account) { account.feature_enabled?('shopify_integration') && GlobalConfigService.load('SHOPIFY_CLIENT_ID', nil).present? },
+    'leadsquared' => ->(account) { account.feature_enabled?('crm_integration') },
+    'notion' => ->(account) { account.feature_enabled?('notion_integration') && GlobalConfigService.load('NOTION_CLIENT_ID', nil).present? },
+    'calendly' => ->(_account) { GlobalConfigService.load('CALENDLY_CLIENT_ID', nil).present? }
+  }.freeze
+
   def active?(account)
-    case params[:id]
-    when 'slack'
-      GlobalConfigService.load('SLACK_CLIENT_SECRET', nil).present?
-    when 'linear'
-      account.feature_enabled?('linear_integration') && GlobalConfigService.load('LINEAR_CLIENT_ID', nil).present?
-    when 'shopify'
-      shopify_enabled?(account)
-    when 'leadsquared'
-      account.feature_enabled?('crm_integration')
-    when 'notion'
-      notion_enabled?(account)
-    else
-      true
-    end
+    check = ACTIVE_CHECKS[params[:id]]
+    return true if check.nil?
+
+    check.call(account)
+  end
+
+  def build_calendly_action
+    app_id = GlobalConfigService.load('CALENDLY_CLIENT_ID', nil)
+    [
+      "#{params[:action]}?response_type=code",
+      "client_id=#{app_id}",
+      "redirect_uri=#{self.class.calendly_integration_url}",
+      "state=#{encode_state(:calendly)}"
+    ].join('&')
   end
 
   def build_linear_action
@@ -97,6 +114,10 @@ class Integrations::App
     "#{ENV.fetch('FRONTEND_URL', nil)}/app/accounts/#{Current.account.id}/settings/integrations/slack"
   end
 
+  def self.calendly_integration_url
+    "#{ENV.fetch('FRONTEND_URL', nil)}/calendly/callback"
+  end
+
   def self.linear_integration_url
     "#{ENV.fetch('FRONTEND_URL', nil)}/linear/callback"
   end
@@ -115,15 +136,5 @@ class Integrations::App
     def find(params)
       all.detect { |app| app.id == params[:id] }
     end
-  end
-
-  private
-
-  def shopify_enabled?(account)
-    account.feature_enabled?('shopify_integration') && GlobalConfigService.load('SHOPIFY_CLIENT_ID', nil).present?
-  end
-
-  def notion_enabled?(account)
-    account.feature_enabled?('notion_integration') && GlobalConfigService.load('NOTION_CLIENT_ID', nil).present?
   end
 end

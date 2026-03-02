@@ -1,5 +1,41 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: aloo_documents
+#
+#  id                :bigint           not null, primary key
+#  auto_refresh      :boolean          default(FALSE), not null
+#  error_message     :string
+#  last_refreshed_at :datetime
+#  metadata          :jsonb
+#  next_refresh_at   :datetime
+#  selected_pages    :jsonb
+#  source_type       :string           not null
+#  source_url        :string
+#  status            :integer          default("pending")
+#  text_content      :text
+#  title             :string
+#  created_at        :datetime         not null
+#  updated_at        :datetime         not null
+#  account_id        :bigint           not null
+#  aloo_assistant_id :bigint           not null
+#  article_id        :bigint
+#
+# Indexes
+#
+#  index_aloo_documents_on_account_id             (account_id)
+#  index_aloo_documents_on_aloo_assistant_id      (aloo_assistant_id)
+#  index_aloo_documents_on_article_id             (article_id)
+#  index_aloo_documents_on_assistant_and_article  (aloo_assistant_id,article_id) UNIQUE WHERE (article_id IS NOT NULL)
+#  index_aloo_documents_on_auto_refresh           (auto_refresh)
+#  index_aloo_documents_on_next_refresh_at        (next_refresh_at) WHERE (auto_refresh = true)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (account_id => accounts.id)
+#  fk_rails_...  (aloo_assistant_id => aloo_assistants.id)
+#
 FactoryBot.define do
   factory :aloo_document, class: 'Aloo::Document' do
     account
@@ -89,6 +125,26 @@ FactoryBot.define do
           io: Rails.root.join('spec/fixtures/files/test_document.pptx').open,
           filename: 'test_document.pptx',
           content_type: 'application/vnd.openxmlformats-officedocument.presentationml.presentation'
+        )
+      end
+    end
+
+    trait :with_csv do
+      after(:build) do |document|
+        document.file.attach(
+          io: Rails.root.join('spec/fixtures/files/test_document.csv').open,
+          filename: 'test_document.csv',
+          content_type: 'text/csv'
+        )
+      end
+    end
+
+    trait :with_windows1252_csv do
+      after(:build) do |document|
+        document.file.attach(
+          io: Rails.root.join('spec/fixtures/files/test_document_windows1252.csv').open('rb'),
+          filename: 'test_document_windows1252.csv',
+          content_type: 'text/csv'
         )
       end
     end

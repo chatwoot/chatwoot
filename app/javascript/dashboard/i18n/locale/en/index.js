@@ -10,6 +10,7 @@ import campaign from './campaign.json';
 import cannedMgmt from './cannedMgmt.json';
 import catalog from './catalog.json';
 import catalogSettings from './catalogSettings.json';
+import paymentLinkSettings from './paymentLinkSettings.json';
 import chatlist from './chatlist.json';
 import companies from './companies.json';
 import components from './components.json';
@@ -56,6 +57,7 @@ export default {
   ...cannedMgmt,
   ...catalog,
   ...catalogSettings,
+  ...paymentLinkSettings,
   ...chatlist,
   ...companies,
   ...components,

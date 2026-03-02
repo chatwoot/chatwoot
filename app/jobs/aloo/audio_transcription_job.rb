@@ -43,11 +43,11 @@ module Aloo
 
     def claim_transcription_lock
       # Atomic update to prevent race conditions
-      # Only claim if status is nil or 'pending'
+      # Allow claiming if status is nil, 'pending', or 'failed' (for retries on transient errors)
       updated = Attachment
                 .where(id: @attachment.id)
                 .where(
-                  "meta->>'transcription_status' IS NULL OR meta->>'transcription_status' = 'pending'"
+                  "meta->>'transcription_status' IS NULL OR meta->>'transcription_status' IN ('pending', 'failed')"
                 )
                 .update_all(
                   "meta = jsonb_set(COALESCE(meta, '{}'), '{transcription_status}', '\"processing\"')"

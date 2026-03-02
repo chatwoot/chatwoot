@@ -45,8 +45,22 @@ Rails.application.routes.draw do
   get 'payment/success', to: 'payment#success', as: :payment_success
   get 'payment/failure', to: 'payment#failure', as: :payment_failure
 
-  # Public cart preview page
-  get 'cart/:id', to: 'cart#show', as: :cart_preview
+  # Public order preview page
+  get 'order/:id', to: 'order#show', as: :order_preview
+
+  # Public storefront
+  scope '/store/:account_id', as: :storefront, module: :storefront do
+    get '/', to: 'products#index', as: :products
+    get '/products/:id', to: 'products#show', as: :product
+
+    get '/cart', to: 'cart#show', as: :cart
+    post '/cart/items', to: 'cart#add_item', as: :cart_add_item
+    patch '/cart/items/:id', to: 'cart#update_item', as: :cart_update_item
+    delete '/cart/items/:id', to: 'cart#remove_item', as: :cart_remove_item
+
+    get '/checkout', to: 'checkout#show', as: :checkout
+    post '/checkout', to: 'checkout#create', as: :checkout_create
+  end
 
   get '/api', to: 'api#index'
   namespace :api, defaults: { format: 'json' } do
@@ -87,7 +101,7 @@ Rails.application.routes.draw do
                 post :preview_voice
                 get :voice_usage
               end
-              resources :documents, only: [:index, :show, :create, :destroy] do
+              resources :documents, only: [:index, :show, :create, :update, :destroy] do
                 collection do
                   post :discover_pages
                 end
@@ -107,6 +121,7 @@ Rails.application.routes.draw do
           resource :payzah_settings, only: [:show, :create, :update, :destroy]
           resource :tap_settings, only: [:show, :create, :update, :destroy]
           resource :catalog_settings, only: [:show, :create, :update]
+          resource :payment_link_settings, only: [:show, :create, :update]
           resources :agent_bots, only: [:index, :create, :show, :update, :destroy] do
             delete :avatar, on: :member
             post :reset_access_token, on: :member
@@ -172,7 +187,7 @@ Rails.application.routes.draw do
               resources :assignments, only: [:create]
               resources :labels, only: [:create, :index]
               resources :payment_links, only: [:create]
-              resources :carts, only: [:create]
+              resources :orders, only: [:create]
               resources :catalog_items, only: [:create]
               resource :participants, only: [:show, :create, :update, :destroy]
               resource :direct_uploads, only: [:create]
@@ -229,17 +244,24 @@ Rails.application.routes.draw do
               post :call, on: :member, to: 'calls#create' if ChatwootApp.enterprise?
             end
           end
-          resources :payment_links, only: [:index] do
+          resources :payment_links, only: [:index, :show, :create] do
             collection do
               get :search
               post :filter
               post :export
             end
+            member do
+              patch :cancel
+            end
           end
-          resources :carts, only: [:index] do
+          resources :orders, only: [:index, :show] do
             collection do
               get :search
             end
+            member do
+              patch :cancel
+            end
+            resources :order_notes, only: [:index, :create, :destroy]
           end
           resources :csat_survey_responses, only: [:index] do
             collection do
@@ -281,6 +303,10 @@ Rails.application.routes.draw do
           end
           resources :labels, only: [:index, :show, :create, :update, :destroy]
           resources :products, only: [:index, :show, :create, :update, :destroy]
+          resource :catalog_stats, only: [:show], controller: 'catalog_stats'
+          resources :storefront_links, only: [:create] do
+            post :preview, on: :collection
+          end
 
           resources :notifications, only: [:index, :update, :destroy] do
             collection do
@@ -389,6 +415,17 @@ Rails.application.routes.draw do
                 get :webhook_event_logs
               end
             end
+            resource :calendly, controller: 'calendly', only: [:destroy] do
+              collection do
+                get :event_types
+                post :scheduling_link, action: :create_scheduling_link
+                get :scheduled_events
+                post :cancel_event
+                get :available_times
+                patch :update_settings
+                post :resubscribe_webhook
+              end
+            end
           end
           resources :working_hours, only: [:update]
 
@@ -490,6 +527,13 @@ Rails.application.routes.draw do
       namespace :ai do
         resource :handoff, only: [:create]
         post 'whatsapp_template', to: 'whatsapp_template#create'
+
+        # Payment gateway endpoints for AlooStudio
+        scope :payments do
+          get 'config', to: 'payments#check_config'
+          post 'create_link', to: 'payments#create_link'
+          get 'status', to: 'payments#status'
+        end
       end
     end
 
@@ -635,6 +679,7 @@ Rails.application.routes.draw do
   post 'webhooks/clerk', to: 'api/v1/webhooks/clerk#create'
   post 'webhooks/tiktok', to: 'webhooks/tiktok#events'
   post 'webhooks/moengage/:webhook_token', to: 'webhooks/moengage#process_payload'
+  post 'webhooks/calendly', to: 'webhooks/calendly#receive'
 
   namespace :twitter do
   end
@@ -663,6 +708,7 @@ Rails.application.routes.draw do
   get 'instagram/callback', to: 'instagram/callbacks#show'
   get 'tiktok/callback', to: 'tiktok/callbacks#show'
   get 'notion/callback', to: 'notion/callbacks#show'
+  get 'calendly/callback', to: 'calendly/callbacks#show'
   # ----------------------------------------------------------------------
   # Routes for external service verifications
   get '.well-known/assetlinks.json' => 'android_app#assetlinks'
