@@ -8,8 +8,11 @@ class Messages::Messenger::MessageBuilder
     params = attachment_params(attachment)
     attachment_obj = @message.attachments.new(params.except(:remote_file_url))
     attachment_obj.save!
-    attach_file(attachment_obj, params[:remote_file_url]) if params[:remote_file_url] && !facebook_reel?(attachment)
-    set_facebook_reel_content(attachment) if facebook_reel?(attachment)
+    if facebook_reel?(attachment)
+      update_facebook_reel_content(attachment)
+    elsif params[:remote_file_url]
+      attach_file(attachment_obj, params[:remote_file_url])
+    end
     fetch_story_link(attachment_obj) if attachment_obj.file_type == 'story_mention'
     fetch_ig_story_link(attachment_obj) if attachment_obj.file_type == 'ig_story'
     fetch_ig_post_link(attachment_obj) if attachment_obj.file_type == 'ig_post'
@@ -117,7 +120,7 @@ class Messages::Messenger::MessageBuilder
     attachment['type'].to_sym == :reel
   end
 
-  def set_facebook_reel_content(attachment)
+  def update_facebook_reel_content(attachment)
     url = attachment.dig('payload', 'url')
     return if url.blank?
 
