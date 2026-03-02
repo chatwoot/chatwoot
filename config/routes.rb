@@ -678,7 +678,7 @@ Rails.application.routes.draw do
   post 'webhooks/instagram', to: 'webhooks/instagram#events'
   post 'webhooks/clerk', to: 'api/v1/webhooks/clerk#create'
   post 'webhooks/tiktok', to: 'webhooks/tiktok#events'
-  post 'webhooks/moengage/:webhook_token', to: 'webhooks/moengage#process_payload'
+  match 'webhooks/moengage/:webhook_token', to: 'webhooks/moengage#process_payload', via: [:get, :post]
   post 'webhooks/calendly', to: 'webhooks/calendly#receive'
 
   namespace :twitter do

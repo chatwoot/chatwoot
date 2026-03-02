@@ -4,6 +4,9 @@ class Webhooks::MoengageController < ActionController::API
     return head :not_found unless hook
     return head :forbidden unless hook.account.active?
 
+    # GET requests are used by MoEngage to verify the webhook URL
+    return head :ok if request.get?
+
     # Store webhook immediately for durability and visibility
     event_log = create_pending_log(hook)
 
