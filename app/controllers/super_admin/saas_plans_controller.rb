@@ -14,7 +14,7 @@ class SuperAdmin::SaasPlansController < SuperAdmin::ApplicationController
   private
 
   def dashboard
-    SaasPlanDashboard
+    @dashboard ||= SaasPlanDashboard.new
   end
 
   def resource_params

@@ -1,10 +1,12 @@
-aproviders:
+providers:
   openai:
     display_name: 'OpenAI'
   anthropic:
     display_name: 'Anthropic'
   gemini:
     display_name: 'Gemini'
+  elevenlabs:
+    display_name: 'ElevenLabs'
 
 models:
   gpt-4.1:
@@ -63,6 +65,26 @@ models:
     provider: openai
     display_name: 'Text Embedding 3 Small'
     credit_multiplier: 1
+  tts-1:
+    provider: openai
+    display_name: 'TTS-1'
+    credit_multiplier: 1
+  tts-1-hd:
+    provider: openai
+    display_name: 'TTS-1 HD'
+    credit_multiplier: 2
+  gpt-4o-realtime-preview:
+    provider: openai
+    display_name: 'GPT-4o Realtime'
+    credit_multiplier: 5
+  eleven_turbo_v2_5:
+    provider: elevenlabs
+    display_name: 'ElevenLabs Turbo v2.5'
+    credit_multiplier: 2
+  eleven_multilingual_v2:
+    provider: elevenlabs
+    display_name: 'ElevenLabs Multilingual v2'
+    credit_multiplier: 3
 
 features:
   editor:
@@ -115,3 +137,18 @@ features:
   help_center_search:
     models: [text-embedding-3-small]
     default: text-embedding-3-small
+  voice_tts:
+    models: [tts-1, tts-1-hd, eleven_turbo_v2_5, eleven_multilingual_v2]
+    default: tts-1
+  voice_realtime:
+    models: [gpt-4o-realtime-preview, eleven_turbo_v2_5]
+    default: gpt-4o-realtime-preview
+  voice_agent:
+    models:
+      [
+        gpt-5-mini,
+        gpt-4.1,
+        gpt-5.1,
+        gpt-5.2,
+      ]
+    default: gpt-5-mini

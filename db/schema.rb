@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_02_26_084618) do
+ActiveRecord::Schema[7.1].define(version: 2026_03_02_000005) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -142,6 +142,59 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_26_084618) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["account_id"], name: "index_agent_capacity_policies_on_account_id"
+  end
+
+  create_table "agent_tools", force: :cascade do |t|
+    t.bigint "ai_agent_id", null: false
+    t.bigint "account_id", null: false
+    t.string "name", null: false
+    t.text "description"
+    t.integer "tool_type", default: 0, null: false
+    t.string "http_method", default: "POST"
+    t.string "url_template"
+    t.jsonb "headers_template", default: {}
+    t.text "body_template"
+    t.jsonb "parameters_schema", default: {}
+    t.string "auth_type"
+    t.string "auth_token"
+    t.boolean "active", default: true
+    t.jsonb "config", default: {}
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_agent_tools_on_account_id"
+    t.index ["ai_agent_id", "active"], name: "index_agent_tools_on_ai_agent_id_and_active"
+    t.index ["ai_agent_id"], name: "index_agent_tools_on_ai_agent_id"
+    t.index ["tool_type"], name: "index_agent_tools_on_tool_type"
+  end
+
+  create_table "ai_agent_inboxes", force: :cascade do |t|
+    t.bigint "ai_agent_id", null: false
+    t.bigint "inbox_id", null: false
+    t.boolean "auto_reply", default: true
+    t.integer "status", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["ai_agent_id", "inbox_id"], name: "index_ai_agent_inboxes_on_ai_agent_id_and_inbox_id", unique: true
+    t.index ["ai_agent_id"], name: "index_ai_agent_inboxes_on_ai_agent_id"
+    t.index ["inbox_id"], name: "index_ai_agent_inboxes_on_inbox_id"
+  end
+
+  create_table "ai_agents", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.string "name", null: false
+    t.text "description"
+    t.integer "agent_type", default: 0, null: false
+    t.integer "status", default: 0, null: false
+    t.string "model", default: "gpt-4.1-mini"
+    t.text "system_prompt"
+    t.jsonb "llm_config", default: {}
+    t.jsonb "voice_config", default: {}
+    t.jsonb "config", default: {}
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "status"], name: "index_ai_agents_on_account_id_and_status"
+    t.index ["account_id"], name: "index_ai_agents_on_account_id"
+    t.index ["agent_type"], name: "index_ai_agents_on_agent_type"
   end
 
   create_table "applied_slas", force: :cascade do |t|
@@ -905,6 +958,41 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_26_084618) do
     t.jsonb "settings", default: {}
   end
 
+  create_table "knowledge_bases", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "ai_agent_id", null: false
+    t.string "name", null: false
+    t.text "description"
+    t.integer "status", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_knowledge_bases_on_account_id"
+    t.index ["ai_agent_id"], name: "index_knowledge_bases_on_ai_agent_id"
+  end
+
+  create_table "knowledge_documents", force: :cascade do |t|
+    t.bigint "knowledge_base_id", null: false
+    t.bigint "account_id", null: false
+    t.string "title", null: false
+    t.integer "source_type", default: 0, null: false
+    t.string "source_url"
+    t.text "content"
+    t.integer "status", default: 0, null: false
+    t.string "content_type"
+    t.integer "file_size"
+    t.integer "chunk_count", default: 0
+    t.vector "embedding", limit: 1536
+    t.jsonb "metadata", default: {}
+    t.text "error_message"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_knowledge_documents_on_account_id"
+    t.index ["embedding"], name: "index_knowledge_documents_on_embedding", opclass: :vector_cosine_ops, using: :ivfflat
+    t.index ["knowledge_base_id"], name: "index_knowledge_documents_on_knowledge_base_id"
+    t.index ["source_type"], name: "index_knowledge_documents_on_source_type"
+    t.index ["status"], name: "index_knowledge_documents_on_status"
+  end
+
   create_table "labels", force: :cascade do |t|
     t.string "title"
     t.text "description"
@@ -1124,6 +1212,60 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_26_084618) do
     t.index ["user_id"], name: "index_reporting_events_on_user_id"
   end
 
+  create_table "saas_ai_usage_records", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.string "provider", null: false
+    t.string "model", null: false
+    t.integer "tokens_input", default: 0, null: false
+    t.integer "tokens_output", default: 0, null: false
+    t.integer "cost_microcents", default: 0, null: false
+    t.string "feature"
+    t.date "recorded_on", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "recorded_on"], name: "index_saas_ai_usage_records_on_account_id_and_recorded_on"
+    t.index ["account_id"], name: "index_saas_ai_usage_records_on_account_id"
+    t.index ["recorded_on"], name: "index_saas_ai_usage_records_on_recorded_on"
+  end
+
+  create_table "saas_plans", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "stripe_product_id"
+    t.string "stripe_price_id"
+    t.integer "price_cents", default: 0, null: false
+    t.string "interval", default: "month", null: false
+    t.integer "agent_limit", default: 2
+    t.integer "inbox_limit", default: 5
+    t.integer "ai_tokens_monthly", default: 100000
+    t.jsonb "features", default: {}
+    t.boolean "active", default: true, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["active"], name: "index_saas_plans_on_active"
+    t.index ["stripe_price_id"], name: "index_saas_plans_on_stripe_price_id", unique: true
+    t.index ["stripe_product_id"], name: "index_saas_plans_on_stripe_product_id", unique: true
+  end
+
+  create_table "saas_subscriptions", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "saas_plan_id", null: false
+    t.string "stripe_subscription_id"
+    t.string "stripe_customer_id"
+    t.integer "status", default: 0, null: false
+    t.datetime "current_period_start"
+    t.datetime "current_period_end"
+    t.datetime "trial_end"
+    t.jsonb "metadata", default: {}
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "status"], name: "index_saas_subscriptions_on_account_id_and_status"
+    t.index ["account_id"], name: "index_saas_subscriptions_on_account_id"
+    t.index ["saas_plan_id"], name: "index_saas_subscriptions_on_saas_plan_id"
+    t.index ["status"], name: "index_saas_subscriptions_on_status"
+    t.index ["stripe_customer_id"], name: "index_saas_subscriptions_on_stripe_customer_id"
+    t.index ["stripe_subscription_id"], name: "index_saas_subscriptions_on_stripe_subscription_id", unique: true
+  end
+
   create_table "sla_events", force: :cascade do |t|
     t.bigint "applied_sla_id", null: false
     t.bigint "conversation_id", null: false
@@ -1272,7 +1414,19 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_26_084618) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "agent_tools", "accounts"
+  add_foreign_key "agent_tools", "ai_agents"
+  add_foreign_key "ai_agent_inboxes", "ai_agents"
+  add_foreign_key "ai_agent_inboxes", "inboxes"
+  add_foreign_key "ai_agents", "accounts"
   add_foreign_key "inboxes", "portals"
+  add_foreign_key "knowledge_bases", "accounts"
+  add_foreign_key "knowledge_bases", "ai_agents"
+  add_foreign_key "knowledge_documents", "accounts"
+  add_foreign_key "knowledge_documents", "knowledge_bases", column: "knowledge_base_id"
+  add_foreign_key "saas_ai_usage_records", "accounts"
+  add_foreign_key "saas_subscriptions", "accounts"
+  add_foreign_key "saas_subscriptions", "saas_plans"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
       on("accounts").
       after(:insert).

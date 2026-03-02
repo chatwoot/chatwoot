@@ -1,0 +1,108 @@
+# LiteLLM Proxy Configuration
+# Docs: https://docs.litellm.ai/docs/proxy/configs
+#
+# This config defines all available models routed through the LiteLLM proxy.
+# The proxy exposes an OpenAI-compatible /v1/chat/completions endpoint at :4000.
+#
+# BYOK (Bring Your Own Key) is supported per-request via the `api_key` header.
+# Provider API keys can also be set globally via environment variables.
+
+model_list:
+  # ── OpenAI ──────────────────────────────────────────────
+  - model_name: gpt-4.1
+    litellm_params:
+      model: openai/gpt-4.1
+      api_key: os.environ/OPENAI_API_KEY
+
+  - model_name: gpt-4.1-mini
+    litellm_params:
+      model: openai/gpt-4.1-mini
+      api_key: os.environ/OPENAI_API_KEY
+
+  - model_name: gpt-4.1-nano
+    litellm_params:
+      model: openai/gpt-4.1-nano
+      api_key: os.environ/OPENAI_API_KEY
+
+  - model_name: gpt-5.1
+    litellm_params:
+      model: openai/gpt-5.1
+      api_key: os.environ/OPENAI_API_KEY
+
+  - model_name: gpt-5-mini
+    litellm_params:
+      model: openai/gpt-5-mini
+      api_key: os.environ/OPENAI_API_KEY
+
+  - model_name: gpt-5-nano
+    litellm_params:
+      model: openai/gpt-5-nano
+      api_key: os.environ/OPENAI_API_KEY
+
+  - model_name: gpt-5.2
+    litellm_params:
+      model: openai/gpt-5.2
+      api_key: os.environ/OPENAI_API_KEY
+
+  # ── OpenAI Embeddings ───────────────────────────────────
+  - model_name: text-embedding-3-small
+    litellm_params:
+      model: openai/text-embedding-3-small
+      api_key: os.environ/OPENAI_API_KEY
+
+  # ── OpenAI Audio ────────────────────────────────────────
+  - model_name: whisper-1
+    litellm_params:
+      model: openai/whisper-1
+      api_key: os.environ/OPENAI_API_KEY
+
+  # ── Anthropic ───────────────────────────────────────────
+  - model_name: claude-haiku-4.5
+    litellm_params:
+      model: anthropic/claude-haiku-4.5
+      api_key: os.environ/ANTHROPIC_API_KEY
+
+  - model_name: claude-sonnet-4.5
+    litellm_params:
+      model: anthropic/claude-sonnet-4.5
+      api_key: os.environ/ANTHROPIC_API_KEY
+
+  # ── Google Gemini ───────────────────────────────────────
+  - model_name: gemini-3-flash
+    litellm_params:
+      model: gemini/gemini-3-flash
+      api_key: os.environ/GEMINI_API_KEY
+
+  - model_name: gemini-3-pro
+    litellm_params:
+      model: gemini/gemini-3-pro
+      api_key: os.environ/GEMINI_API_KEY
+
+  # ── OpenAI TTS ──────────────────────────────────────────
+  - model_name: tts-1
+    litellm_params:
+      model: openai/tts-1
+      api_key: os.environ/OPENAI_API_KEY
+
+  - model_name: tts-1-hd
+    litellm_params:
+      model: openai/tts-1-hd
+      api_key: os.environ/OPENAI_API_KEY
+
+litellm_settings:
+  # Drop provider-specific params that aren't supported
+  drop_params: true
+  # Enable detailed usage tracking in responses
+  set_verbose: false
+  # Cache responses (optional, disable in dev)
+  cache: false
+  # Max budget per month (USD) — safety net
+  max_budget: 1000
+  # Request timeout in seconds
+  request_timeout: 120
+
+general_settings:
+  # Master key for admin access to /health, /model/info, etc.
+  master_key: os.environ/LITELLM_MASTER_KEY
+  # Allow requests without auth if BYOK key is provided in the request
+  allow_user_auth: true

@@ -57,6 +57,16 @@ services:
     ports:
       - '127.0.0.1:6379:6379'
 
+  litellm:
+    image: ghcr.io/berriai/litellm:main-latest
+    restart: always
+    ports:
+      - '127.0.0.1:4000:4000'
+    volumes:
+      - ./config/litellm.yml:/app/config.yaml
+    command: ["--config", "/app/config.yaml", "--port", "4000"]
+    env_file: .env
+
 volumes:
   storage_data:
   postgres_data:

@@ -1,7 +1,7 @@
 class Saas::Subscription < ApplicationRecord
   self.table_name = 'saas_subscriptions'
 
-  belongs_to :account
+  belongs_to :account, class_name: '::Account', optional: false
   belongs_to :plan, class_name: 'Saas::Plan', foreign_key: :saas_plan_id, inverse_of: :subscriptions
 
   enum :status, { active: 0, trialing: 1, past_due: 2, canceled: 3, unpaid: 4, incomplete: 5 }

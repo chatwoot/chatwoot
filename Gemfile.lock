@@ -287,6 +287,7 @@ GEM
     et-orbi (1.2.11)
       tzinfo
     event_stream_parser (1.0.0)
+    eventmachine (1.2.7)
     execjs (2.8.1)
     facebook-messenger (2.0.1)
       httparty (~> 0.13, >= 0.13.7)
@@ -326,6 +327,9 @@ GEM
       json (~> 2.0)
       mime-types (~> 3.4)
       rack (~> 3.1)
+    faye-websocket (0.11.4)
+      eventmachine (>= 0.12.0)
+      websocket-driver (>= 0.5.1, < 0.8.0)
     fcm (1.0.8)
       faraday (>= 1.0.0, < 3.0)
       googleauth (~> 1)
@@ -1058,6 +1062,7 @@ DEPENDENCIES
   factory_bot_rails (>= 6.4.3)
   faker
   faraday_middleware-aws-sigv4
+  faye-websocket
   fcm
   flag_shih_tzu
   foreman

@@ -495,11 +495,30 @@ Rails.application.routes.draw do
               get :limits
               get :plans
             end
+
+            # LLM proxy endpoints (nested under accounts for account_id)
+            resource :llm, only: [], controller: 'llm' do
+              post :completions
+              post :embeddings
+              get :models
+              get :health
+            end
           end
         end
       end
 
       post 'webhooks/stripe', to: 'webhooks/stripe#process_payload'
+
+      # Voice agent webhooks (Twilio → AI agent)
+      namespace :api do
+        namespace :v1 do
+          namespace :voice do
+            post 'twilio/incoming', to: 'twilio#incoming'
+            post 'twilio/status', to: 'twilio#status'
+            post 'twilio/fallback', to: 'twilio#fallback'
+          end
+        end
+      end
     end
   end
 
