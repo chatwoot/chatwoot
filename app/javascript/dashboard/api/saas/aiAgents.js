@@ -1,5 +1,5 @@
+/* global axios */
 import ApiClient from '../ApiClient';
-import axios from 'axios';
 
 class AiAgentsAPI extends ApiClient {
   constructor() {
@@ -77,6 +77,12 @@ class AiAgentsAPI extends ApiClient {
 
   deleteInboxLink(agentId, linkId) {
     return axios.delete(`${this.url}/${agentId}/ai_agent_inboxes/${linkId}`);
+  }
+
+  saveWorkflow(agentId, workflow) {
+    return axios.patch(`${this.url}/${agentId}`, {
+      ai_agent: { workflow },
+    });
   }
 }
 

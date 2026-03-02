@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_03_02_000006) do
+ActiveRecord::Schema[7.1].define(version: 2026_03_02_000008) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -193,6 +193,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_03_02_000006) do
     t.jsonb "config", default: {}
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.jsonb "workflow"
     t.index ["account_id", "status"], name: "index_ai_agents_on_account_id_and_status"
     t.index ["account_id"], name: "index_ai_agents_on_account_id"
     t.index ["agent_type"], name: "index_ai_agents_on_agent_type"
@@ -1400,6 +1401,22 @@ ActiveRecord::Schema[7.1].define(version: 2026_03_02_000006) do
     t.index ["account_id", "url"], name: "index_webhooks_on_account_id_and_url", unique: true
   end
 
+  create_table "workflow_runs", force: :cascade do |t|
+    t.bigint "ai_agent_id", null: false
+    t.bigint "conversation_id", null: false
+    t.integer "status", default: 0, null: false
+    t.string "current_node_id"
+    t.jsonb "variables", default: {}
+    t.jsonb "messages", default: []
+    t.jsonb "execution_log", default: []
+    t.datetime "started_at"
+    t.datetime "completed_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["ai_agent_id", "status"], name: "index_workflow_runs_on_ai_agent_id_and_status"
+    t.index ["conversation_id"], name: "index_workflow_runs_on_conversation_id"
+  end
+
   create_table "working_hours", force: :cascade do |t|
     t.bigint "inbox_id"
     t.bigint "account_id"
@@ -1431,6 +1448,8 @@ ActiveRecord::Schema[7.1].define(version: 2026_03_02_000006) do
   add_foreign_key "saas_ai_usage_records", "accounts"
   add_foreign_key "saas_subscriptions", "accounts"
   add_foreign_key "saas_subscriptions", "saas_plans"
+  add_foreign_key "workflow_runs", "ai_agents"
+  add_foreign_key "workflow_runs", "conversations"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
       on("accounts").
       after(:insert).

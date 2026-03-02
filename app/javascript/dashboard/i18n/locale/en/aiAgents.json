@@ -82,7 +82,70 @@
       "KNOWLEDGE": "Knowledge",
       "TOOLS": "Tools",
       "VOICE": "Voice",
+      "WORKFLOW": "Workflow",
       "DEPLOY": "Deploy"
+    },
+    "WORKFLOW": {
+      "PALETTE": {
+        "TITLE": "Nodes",
+        "SEARCH": "Search nodes...",
+        "NO_RESULTS": "No matching nodes"
+      },
+      "TOOLBAR": {
+        "TITLE": "Workflow Editor",
+        "SAVE": "Save",
+        "AUTO_LAYOUT": "Auto Layout",
+        "FIT_VIEW": "Fit View",
+        "DELETE": "Delete"
+      },
+      "CONFIG_PANEL": {
+        "DELETE_NODE": "Delete Node",
+        "ENABLED": "Enabled",
+        "DISABLED": "Disabled"
+      },
+      "NODES": {
+        "TRIGGER": {
+          "MESSAGE_RECEIVED": "Message Received",
+          "PHONE_CALL": "Phone Call",
+          "WEBHOOK": "Webhook"
+        },
+        "DELAY": {
+          "SECONDS_DELAY": "{seconds}s delay"
+        },
+        "HANDOFF": {
+          "TRANSFER_TO_HUMAN": "Transfer to human"
+        },
+        "KNOWLEDGE_RETRIEVAL": {
+          "TOP_RESULTS": "Top {count} results",
+          "KNOWLEDGE_BASES": "{count} knowledge base(s)",
+          "NO_KNOWLEDGE_BASES": "No knowledge bases selected"
+        },
+        "LLM_CALL": {
+          "AGENT_DEFAULT": "Agent default",
+          "TEMPERATURE": "temp: {value}",
+          "TOOLS_ON": "tools: on"
+        },
+        "LOOP": {
+          "MAX_ITERATIONS": "Max {count} iterations"
+        },
+        "REPLY": {
+          "TEMPLATE": "Template",
+          "TEXT": "Text",
+          "REPLY_SUFFIX": "reply",
+          "AI_GENERATED": "AI Generated"
+        },
+        "SYSTEM_PROMPT": {
+          "NO_PROMPT": "No prompt configured",
+          "CONTEXT": "context"
+        },
+        "SET_VARIABLE": {
+          "UNNAMED": "unnamed"
+        }
+      },
+      "SAVE": {
+        "SUCCESS_MESSAGE": "Workflow saved successfully",
+        "ERROR_MESSAGE": "Failed to save workflow"
+      }
     },
     "KNOWLEDGE": {
       "TITLE": "Knowledge Bases",

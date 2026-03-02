@@ -1,0 +1,27 @@
+# Docker Compose for AirysChat dev infrastructure
+# Usage: docker compose -f docker-compose.dev-infra.yml up -d
+#
+# This runs only LiteLLM. Postgres and Redis run natively via Homebrew.
+# App processes (Rails, Sidekiq, Vite) run via: overmind start -f Procfile.dev
+
+services:
+  litellm:
+    image: ghcr.io/berriai/litellm:main-latest
+    container_name: airyschat-litellm
+    restart: unless-stopped
+    ports:
+      - '4000:4000'
+    volumes:
+      - ./config/litellm.yml:/app/config.yaml:ro
+    command: ['--config', '/app/config.yaml', '--port', '4000']
+    environment:
+      - LITELLM_MASTER_KEY=${LITELLM_MASTER_KEY:-sk-litellm-master-key}
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
+      - GEMINI_API_KEY=${GEMINI_API_KEY:-}
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://localhost:4000/health']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s

@@ -11,6 +11,7 @@ class Saas::AiAgent < ApplicationRecord
   has_many :inboxes, through: :ai_agent_inboxes, class_name: '::Inbox', source: :inbox
   has_many :knowledge_bases, class_name: 'Saas::KnowledgeBase', dependent: :destroy_async
   has_many :agent_tools, class_name: 'Saas::AgentTool', dependent: :destroy_async
+  has_many :workflow_runs, class_name: 'Saas::WorkflowRun', dependent: :destroy_async
 
   enum :agent_type, { rag: 0, tool_calling: 1, voice: 2, hybrid: 3 }
   enum :status, { active: 0, paused: 1, archived: 2 }
@@ -21,6 +22,11 @@ class Saas::AiAgent < ApplicationRecord
 
   scope :available, -> { where(status: :active) }
   scope :for_account, ->(account_id) { where(account_id: account_id) }
+
+  # Whether this agent uses a visual workflow graph instead of the linear pipeline
+  def has_workflow? # rubocop:disable Naming/PredicateName
+    workflow.present?
+  end
 
   # Default LLM config values
   def temperature

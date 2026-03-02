@@ -82,6 +82,18 @@ export const actions = {
       commit(types.default.SET_AI_AGENTS_UI_FLAG, { isDeleting: false });
     }
   },
+
+  saveWorkflow: async ({ commit }, { id, workflow }) => {
+    commit(types.default.SET_AI_AGENTS_UI_FLAG, { isUpdating: true });
+    try {
+      const response = await AiAgentsAPI.saveWorkflow(id, workflow);
+      commit(types.default.EDIT_AI_AGENT, response.data);
+      commit(types.default.SET_AI_AGENT_CURRENT, response.data);
+      return response.data;
+    } finally {
+      commit(types.default.SET_AI_AGENTS_UI_FLAG, { isUpdating: false });
+    }
+  },
 };
 
 export const mutations = {

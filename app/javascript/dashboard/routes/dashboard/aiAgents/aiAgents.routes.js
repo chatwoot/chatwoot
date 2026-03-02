@@ -35,6 +35,12 @@ const agentDetailRoutes = [
     meta,
   },
   {
+    path: frontendURL('accounts/:accountId/ai-agents/:agentId/workflow'),
+    component: AgentDetailPage,
+    name: 'ai_agents_workflow',
+    meta,
+  },
+  {
     path: frontendURL('accounts/:accountId/ai-agents/:agentId/deploy'),
     component: AgentDetailPage,
     name: 'ai_agents_deploy',
