@@ -74,10 +74,9 @@
 - name: voice_recorder
   display_name: Voice Recorder
   enabled: true
-- name: mobile_v2
-  display_name: Mobile App V2
+- name: report_rollup
+  display_name: Report Rollup
   enabled: false
-  deprecated: true
 - name: channel_website
   display_name: Website Channel
   enabled: true
