@@ -48,7 +48,7 @@ const fileType = computed(() => {
 
     <div
       v-else-if="mediaType === 'video'"
-      class="overflow-hidden relative bg-gray-100 rounded-lg"
+      class="overflow-hidden relative rounded-lg"
     >
       <video
         :src="message.image_url"
