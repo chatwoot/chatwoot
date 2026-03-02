@@ -62,7 +62,7 @@ export default {
           name: 'agent_capacity_policy_index',
           component: AgentCapacityIndex,
           meta: {
-            featureFlag: FEATURE_FLAGS.ASSIGNMENT_V2,
+            featureFlag: FEATURE_FLAGS.ADVANCED_ASSIGNMENT,
             permissions: ['administrator'],
           },
         },
@@ -71,7 +71,7 @@ export default {
           name: 'agent_capacity_policy_create',
           component: AgentCapacityCreate,
           meta: {
-            featureFlag: FEATURE_FLAGS.ASSIGNMENT_V2,
+            featureFlag: FEATURE_FLAGS.ADVANCED_ASSIGNMENT,
             permissions: ['administrator'],
           },
         },
@@ -80,7 +80,7 @@ export default {
           name: 'agent_capacity_policy_edit',
           component: AgentCapacityEdit,
           meta: {
-            featureFlag: FEATURE_FLAGS.ASSIGNMENT_V2,
+            featureFlag: FEATURE_FLAGS.ADVANCED_ASSIGNMENT,
             permissions: ['administrator'],
           },
         },
