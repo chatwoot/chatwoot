@@ -12,7 +12,8 @@ class V2::Reports::BotMetricsBuilder
       conversation_count: bot_conversations.count,
       message_count: bot_messages.count,
       resolution_rate: bot_resolution_rate.to_i,
-      handoff_rate: bot_handoff_rate.to_i
+      handoff_rate: bot_handoff_rate.to_i,
+      avg_resolution_time: avg_resolution_time
     }
   end
 
@@ -59,6 +60,18 @@ class V2::Reports::BotMetricsBuilder
     return 0 if bot_conversations.count.zero?
 
     bot_resolutions_count.to_f / bot_conversations.count * 100
+  end
+
+  def avg_resolution_time
+    account.reporting_events
+           .where(account_id: account.id, name: 'conversation_bot_resolved', created_at: range)
+           .where.not(agent_bot_id: nil)
+           .filter_by_inbox_id(selected_inbox_ids)
+           .average(average_value_key)
+  end
+  
+  def average_value_key
+    ActiveModel::Type::Boolean.new.cast(params[:business_hours]) ? :value_in_business_hours : :value
   end
 
   def bot_handoff_rate
