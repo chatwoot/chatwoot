@@ -1,0 +1,56 @@
+# Traefik v3 static configuration for AirysChat
+# Docs: https://doc.traefik.io/traefik/
+
+# ── API / Dashboard ──────────────────────────────────────────────
+api:
+  dashboard: true
+  insecure: false # secured via router + basicAuth middleware
+
+# ── Entrypoints ──────────────────────────────────────────────────
+entryPoints:
+  web:
+    address: ':80'
+    http:
+      redirections:
+        entryPoint:
+          to: websecure
+          scheme: https
+          permanent: true
+
+  websecure:
+    address: ':443'
+    http:
+      tls:
+        certResolver: letsencrypt
+
+# ── Certificate Resolvers (Let's Encrypt) ────────────────────────
+certificatesResolvers:
+  letsencrypt:
+    acme:
+      email: '{{ env "ACME_EMAIL" }}'
+      storage: /letsencrypt/acme.json
+      tlsChallenge: {}
+      # Uncomment for staging/testing (avoids rate limits):
+      # caServer: https://acme-staging-v02.api.letsencrypt.org/directory
+
+# ── Providers ────────────────────────────────────────────────────
+providers:
+  docker:
+    endpoint: unix:///var/run/docker.sock
+    exposedByDefault: false # only containers with traefik.enable=true
+    network: airyschat_web
+
+  file:
+    directory: /etc/traefik/dynamic
+    watch: true
+
+# ── Logging ──────────────────────────────────────────────────────
+log:
+  level: WARN
+  format: json
+
+accessLog:
+  format: json
+  filters:
+    statusCodes:
+      - '400-599'

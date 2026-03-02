@@ -6,6 +6,10 @@
 class Saas::StripeWebhookJob < ApplicationJob
   queue_as :default
 
+  retry_on Stripe::APIConnectionError, wait: :polynomially_longer, attempts: 5
+  retry_on Stripe::RateLimitError, wait: 30.seconds, attempts: 3
+  discard_on JSON::ParserError
+
   def perform(event_json)
     event = Stripe::Event.construct_from(JSON.parse(event_json, symbolize_names: true))
 

@@ -24,10 +24,10 @@
 | — | Voice Provider Audit | ✅ Complete | `7f20405` |
 | — | Best Practices Review | ✅ Complete | — |
 | 5 | Agent Builder UI | ✅ Complete | `8ccb3cb` |
-| 6 | Docker Deployment | ⬜ Not Started | — |
-| 7 | Testing & Quality | ⬜ Not Started | — |
-| 8 | Security & Auth Policies | ⬜ Not Started | — |
-| 9 | Production Hardening | ⬜ Not Started | — |
+| 6 | Docker Deployment | ✅ Complete | `80fb27e` |
+| 7 | Testing & Quality | ✅ Complete | `26272d0` |
+| 8 | Security & Auth Policies | ✅ Complete | `9e92e3e` |
+| 9 | Production Hardening | ✅ Complete | `3795d1b` |
 
 ---
 
@@ -417,149 +417,274 @@ Route: `app/javascript/dashboard/routes/dashboard/aiAgents/`
 
 ---
 
-## Phase 6 — Docker Compose Deployment ⬜
+## Phase 6 — Docker Compose Deployment (Traefik) ✅
 
-Production-ready Docker Compose stack with all services, health checks, and deploy tooling.
+**Commit:** `80fb27e16`
+
+Production-ready Docker Compose stack with Traefik v3 reverse proxy, Let's Encrypt SSL, health checks, resource limits, and deploy/backup tooling.
+
+### Architecture
+
+```
+┌─────────────┐     ┌──────────────────────────────────────────┐
+│  Internet   │────▶│  Traefik v3 (:80 → :443 redirect)        │
+│             │◀────│  Let's Encrypt ACME auto-renewal         │
+└─────────────┘     └─┬──────────────────────────────────────┬─┘
+                      │ web network                         │
+              ┌───────▼───────┐                             │
+              │  Rails/Puma   │                              │
+              │  :3000        │                              │
+              │  (+ /cable WS)│                              │
+              └───────┬───────┘                              │
+                      │ internal network                    │
+           ┌──────────┼──────────┬──────────────┐           │
+           ▼          ▼          ▼              ▼           │
+      ┌─────────┐ ┌────────┐ ┌────────┐ ┌────────────┐     │
+      │Postgres │ │ Redis  │ │Sidekiq │ │  LiteLLM   │     │
+      │ pg17    │ │7-alpine│ │        │ │  :4000     │     │
+      │pgvector │ │AOF+RDB │ │        │ │ (internal) │     │
+      └─────────┘ └────────┘ └────────┘ └────────────┘
+```
 
 ### Services
 
-```yaml
-services:
-  rails:         # Puma app server (existing, needs health check + env)
-  sidekiq:       # Background jobs (existing, needs queue config)
-  postgres:      # pgvector/pgvector:pg17 (upgrade from pg16)
-  redis:         # Cache + ActionCable + Sidekiq broker (existing)
-  litellm:       # ghcr.io/berriai/litellm:main-latest (port 4000)
-  nginx:         # Reverse proxy + SSL termination (new)
-```
+| Service | Image | Exposed | Memory Limit |
+|---------|-------|---------|--------------|
+| traefik | `traefik:v3.3` | :80, :443 | 128M |
+| rails | AirysChat image | via Traefik | 1G |
+| sidekiq | AirysChat image | — | 1G |
+| postgres | `pgvector/pgvector:pg17` | — | 512M |
+| redis | `redis:7-alpine` | — | 300M |
+| litellm | `ghcr.io/berriai/litellm:main-latest` | — (internal only) | 512M |
 
-### What needs to be done
+### What was done
 
-1. **Production docker-compose** — Consolidate `docker-compose.production.yaml`:
-   - Add health checks for all services (pg_isready, redis-cli ping, curl litellm/health)
-   - Proper volume mounts for persistent data (postgres, redis, uploads)
-   - Resource limits (memory, CPU) per service
-   - Restart policies (`unless-stopped`)
-   - Logging configuration (JSON driver with rotation)
+1. **`docker-compose.production.yaml`** — Full rewrite:
+   - Traefik v3 as entrypoint with automatic HTTPS via Let's Encrypt ACME
+   - Docker labels for routing (no separate nginx config to maintain)
+   - Two networks: `web` (Traefik ↔ Rails) and `internal` (all backend services)
+   - Health checks on all services (pg_isready, redis-cli ping, wget rails, curl litellm)
+   - `depends_on` with `condition: service_healthy` for startup ordering
+   - `deploy.resources.limits.memory` on every service
+   - `restart: unless-stopped` across the board
+   - LiteLLM has NO Traefik labels → not exposed to internet
+   - pgvector upgraded from pg16 → pg17
+   - Redis upgraded to `redis:7-alpine` with AOF persistence + 256MB maxmemory
 
-2. **Nginx config** — `deployment/nginx_airyschat.conf`:
-   - SSL termination with Let's Encrypt (certbot)
-   - WebSocket upgrade for ActionCable (`/cable`) and Twilio streams
-   - Proxy to Rails (port 3000) and LiteLLM (port 4000, internal only)
-   - Rate limiting, security headers, gzip compression
+2. **Traefik static config** — `deployment/traefik/traefik.yml`:
+   - Entrypoints: `:80` (auto-redirects to HTTPS), `:443` (TLS)
+   - Let's Encrypt ACME `tlsChallenge` cert resolver
+   - Docker provider with `exposedByDefault: false` (opt-in via labels)
+   - File provider for dynamic middleware config
+   - JSON access logging (4xx/5xx only)
 
-3. **Environment management** — `.env.production.example`:
-   - All required env vars documented with descriptions
-   - Secret generation script for `SECRET_KEY_BASE`, keys, etc.
-   - Stripe, LiteLLM, Twilio, Firecrawl credential placeholders
+3. **Traefik dynamic middleware** — `deployment/traefik/dynamic/middleware.yml`:
+   - `security-headers` — XSS filter, nosniff, HSTS, frame options, referrer policy, permissions policy
+   - `gzip-compress` — compression (excludes `text/event-stream` for SSE)
+   - `dashboard-auth` — basicAuth for Traefik dashboard
+   - `rate-limit` — global fallback rate limiter (100 req/s, burst 200)
 
-4. **Deploy script** — `./bin/deploy.sh`:
-   - Pull latest images
-   - Run `db:migrate` and `db:seed` (idempotent)
-   - Precompile assets (`bundle exec rails assets:precompile`)
-   - Zero-downtime restart (rolling container replacement)
-   - Health check verification post-deploy
+4. **`.env.production.example`** — Complete production env template:
+   - Domain + ACME email for Traefik/SSL
+   - Rails core (SECRET_KEY_BASE, FORCE_SSL, WEB_CONCURRENCY)
+   - Active Record encryption keys (for AgentTool auth_token)
+   - PostgreSQL + Redis credentials
+   - SMTP/mailer config
+   - Stripe, LiteLLM, OpenAI/Anthropic/Gemini keys
+   - Twilio, ElevenLabs, Firecrawl (optional)
+   - Rate limiting, storage, push notifications, Sentry
 
-5. **Backup script** — `./bin/backup.sh`:
-   - PostgreSQL pg_dump with timestamp
-   - Redis RDB snapshot
-   - Upload to S3/compatible storage (optional)
+5. **`bin/deploy.sh`** — Zero-downtime deploy script:
+   - `--skip-pull` and `--skip-migrate` flags
+   - Pulls latest images, runs `db:migrate` in disposable container
+   - Rolling restart: sidekiq first, then rails
+   - Post-deploy health check on all 4 services
 
----
+6. **`bin/backup.sh`** — Automated backup script:
+   - PostgreSQL `pg_dump` in compressed custom format (-Fc)
+   - Redis BGSAVE + RDB copy
+   - Optional S3 upload with `--s3 BUCKET_NAME`
+   - Auto-cleanup: keeps last 7 local backups
 
-## Phase 7 — Testing & Quality ⬜
+### Files changed
 
-Comprehensive test coverage for all SaaS-specific code.
-
-### What needs to be done
-
-1. **Model specs** — All 8 SaaS models:
-   - `Saas::AiAgent` — validations, associations, type enum, JSONB config
-   - `Saas::AiAgentInbox` — unique constraint, active_agent_for scope
-   - `Saas::KnowledgeBase` / `KnowledgeDocument` — embedding vector, associations
-   - `Saas::AgentTool` — `to_llm_tool` format, Liquid template rendering
-   - `Saas::Plan` / `Subscription` / `AiUsageRecord` — billing logic
-   - `Channel::Voice` — provider config, Twilio client
-
-2. **Service specs**:
-   - `Llm::Client` — chat, chat_stream, embed, error handling (mock HTTP)
-   - `Agent::Executor` — multi-turn loop, tool-calling, RAG injection, usage tracking
-   - `Agent::ToolRunner` — HTTP execution, Liquid interpolation, handoff
-   - `Rag::TextChunker` — chunk sizes, overlap, edge cases
-   - `Rag::EmbeddingService` — batching, vector storage
-   - `Rag::SearchService` — cosine similarity, context building
-   - `Saas::StripeService` — customer creation, checkout, webhook handling
-   - Voice providers — WebSocket mocking, audio format validation
-
-3. **Controller specs** — All SaaS API endpoints:
-   - Authentication + authorization (admin-only)
-   - CRUD operations with proper status codes
-   - Error responses (422, 404, 402 quota exceeded)
-   - Stripe webhook signature verification
-
-4. **Job specs**:
-   - `AiAgentReplyJob` — conversation history, executor call, reply creation
-   - `LlmStreamJob` — streaming, ActionCable broadcast, usage recording
-   - `Rag::DocumentIngestionJob` — chunking → embedding pipeline
-   - `Saas::StripeWebhookJob` — event routing, idempotency
-
-5. **Frontend specs** (Vitest):
-   - Vuex store module — actions, mutations, getters
-   - API client — request formatting, error handling
-   - Key Vue components — AgentListPage, CreateAgentDialog, tab components
+| File | Action |
+|------|--------|
+| `docker-compose.production.yaml` | Rewritten — Traefik, health checks, resource limits, networks |
+| `deployment/traefik/traefik.yml` | New — static Traefik config |
+| `deployment/traefik/dynamic/middleware.yml` | New — security headers, compression, auth |
+| `.env.production.example` | New — complete production env template |
+| `bin/deploy.sh` | New — zero-downtime deploy script |
+| `bin/backup.sh` | New — PostgreSQL + Redis backup with S3 optional upload |
 
 ---
 
-## Phase 8 — Security & Authorization Policies ⬜
+## Phase 7 — Testing & Quality ✅
 
-Proper Pundit policies, input validation, and multi-tenant security.
+**Commit:** `26272d086` — `test: add specs for policies, SSRF, models, services, and jobs`
+**17 files changed, +783 / -9 lines — 73 examples, 0 failures**
 
-### What needs to be done
+### What was done
 
-1. **Pundit policies** for all SaaS resources:
-   - `AiAgentPolicy` — admin-only CRUD, account scoping
-   - `KnowledgeBasePolicy` / `KnowledgeDocumentPolicy`
-   - `AgentToolPolicy` / `AiAgentInboxPolicy`
-   - `BillingPolicy` — owner-only for checkout/subscription management
+1. **FactoryBot factories** — 5 factories under `spec/factories/saas/`:
+   - `ai_agents` — traits: `:tool_calling`, `:voice`, `:hybrid`, `:paused`, `:archived`
+   - `agent_tools` — traits: `:inactive`, `:with_auth`, `:handoff`, `:built_in`
+   - `knowledge_bases` — traits: `:processing`, `:error`
+   - `knowledge_documents` — traits: `:pending`, `:processing`, `:error`, `:from_url`
+   - `ai_agent_inboxes` — traits: `:paused`
 
-2. **Account scoping audit** — Every SaaS controller query must be scoped to `Current.account`
+2. **Pundit policy specs** — 6 policy specs (20 examples) under `spec/policies/saas/`:
+   - `AiAgentPolicy` — index/show allow both admin & agent; CUD admin-only
+   - `AgentToolPolicy` — index allows both roles; CUD admin-only
+   - `KnowledgeBasePolicy` — index/show both roles; CUD admin-only
+   - `KnowledgeDocumentPolicy` — create/destroy admin-only
+   - `AiAgentInboxPolicy` — CUD admin-only
+   - `LlmPolicy` — completions/embeddings/models both roles; health admin-only
 
-3. **Input sanitization** — System prompts, tool URLs, headers (prevent SSRF)
+3. **SSRF validator spec** — `spec/lib/url_ssrf_validator_spec.rb` (21 examples):
+   - Blocked schemes (file://, ftp://, gopher://)
+   - Private IP ranges (127.0.0.0/8, 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16, 169.254.0.0/16, 0.0.0.0, ::1)
+   - DNS rebinding protection (hostnames resolving to private IPs)
+   - Unresolvable hostnames, missing hosts
+   - `safe?` convenience method
 
-4. **Rate limiting** — Per-account API rate limits for LLM endpoints
+4. **AgentTool model spec** — `spec/models/saas/agent_tool_spec.rb` (17 examples):
+   - Associations (`belongs_to :ai_agent`, `belongs_to :account`)
+   - Validations (presence, length)
+   - URL template internal-address blocking (localhost, 127.0.0.1, metadata, .local)
+   - `to_llm_tool` OpenAI function-calling format
+   - `rendered_url` / `rendered_body` Liquid template rendering
 
-5. **BYOK key encryption** — Encrypt user-provided API keys at rest
+5. **ToolRunner service spec** — `spec/services/agent/tool_runner_spec.rb` (8 examples):
+   - Handoff tool (conversation unassignment + activity message)
+   - Unknown tool error handling
+   - HTTP tool execution (WebMock with DNS stub)
+   - SSRF blocking (cloud metadata, DNS rebinding)
+   - Network error handling
+   - Response truncation (4000 char limit)
+
+6. **AiAgentReplyJob spec** — `spec/jobs/ai_agent_reply_job_spec.rb` (7 examples):
+   - `retry_on` RateLimitError / TimeoutError (behavioral tests via `assert_enqueued_jobs`)
+   - `discard_on` ActiveRecord::RecordNotFound
+   - Outgoing message creation with `ai_generated` content attribute
+   - Handoff skips reply
+   - Error tracking + re-raise
+
+### Bugs discovered and fixed during testing
+
+| # | Issue | Fix |
+|---|-------|-----|
+| 1 | SSRF validator checked host before scheme → `file:///etc/passwd` errored as "missing host" | Reordered: scheme validation runs first |
+| 2 | `ToolRunner#handle_handoff` created activity message without `inbox_id` → `RecordInvalid` | Added `inbox_id: conversation.inbox_id` |
 
 ---
 
-## Phase 9 — Production Hardening ⬜
+## Phase 8 — Security & Authorization Policies ✅
 
-Observability, performance, CI/CD, and operational readiness.
+**Commit:** `9e92e3efd` — `feat(security): add Pundit policies, SSRF protection, and rate limiting`
 
-### What needs to be done
+### What was done
 
-1. **CI/CD pipeline** — GitHub Actions:
-   - RSpec + Vitest on PR
-   - ESLint + Rubocop checks
-   - Docker image build + push to registry
-   - Auto-deploy to staging on `develop` merge
+1. **Pundit policies** — 6 policies under `saas/app/policies/saas/`:
+   - `AiAgentPolicy` — index/show for all roles; create/update/destroy admin-only
+   - `AgentToolPolicy` — index for all roles; CUD admin-only
+   - `KnowledgeBasePolicy` — index/show for all roles; CUD admin-only
+   - `KnowledgeDocumentPolicy` — create/destroy admin-only
+   - `AiAgentInboxPolicy` — CUD admin-only
+   - `LlmPolicy` — completions/embeddings/models for all roles; health admin-only
+   - All policies use `{ user:, account:, account_user: }` context hash pattern
 
-2. **Monitoring**:
-   - Sentry/exception tracking integration
-   - Sidekiq dashboard (protected route)
-   - LiteLLM proxy metrics
-   - AI usage dashboards (per-account token consumption)
+2. **Controller authorization** — Added `before_action :authorize_*` to all 6 SaaS controllers:
+   - `AiAgentsController`, `AgentToolsController`, `KnowledgeBasesController`
+   - `KnowledgeDocumentsController`, `AiAgentInboxesController`, `LlmController`
 
-3. **Performance**:
-   - Database query optimization (N+1 detection)
-   - Redis caching for hot paths (plan limits, agent config)
-   - Connection pooling for LiteLLM HTTP client
-   - pgvector index tuning (IVFFlat lists parameter)
+3. **SSRF protection** — `saas/lib/url_ssrf_validator.rb`:
+   - Blocks private IP ranges: RFC 1918, loopback, link-local, metadata, multicast, reserved
+   - Blocks IPv6 private ranges: `::1`, `fc00::/7`, `fe80::/10`
+   - DNS rebinding protection: resolves hostnames and checks all resolved IPs
+   - Blocked URL schemes: `file://`, `ftp://`, `gopher://`
+   - Integrated into `Agent::ToolRunner` (runtime) and `AgentTool` model (validation)
 
-4. **Operational docs**:
-   - Runbook for common operations (scaling, backups, migrations)
-   - API documentation (OpenAPI/Swagger for SaaS endpoints)
-   - User-facing docs for Agent Builder
+4. **Rate limiting** — `config/initializers/rack_attack.rb`:
+   - LLM completions: 60 requests/minute per account (configurable via `RATE_LIMIT_LLM_COMPLETIONS`)
+   - LLM embeddings: 120 requests/minute per account (configurable via `RATE_LIMIT_LLM_EMBEDDINGS`)
+   - Returns 429 with `Retry-After` header
+
+5. **Model-level URL validation** — `AgentTool#url_template_not_obviously_internal`:
+   - Rejects `localhost`, `127.x.x.x`, `169.254.169.254`, `metadata.google.internal`, `.local` domains
+   - Rejects non-HTTP schemes (ftp, file, gopher)
+   - Only applies to `http` tool_type with non-blank `url_template`
+
+### Files changed
+
+| File | Action |
+|------|--------|
+| `saas/app/policies/saas/ai_agent_policy.rb` | New — Pundit policy |
+| `saas/app/policies/saas/agent_tool_policy.rb` | New — Pundit policy |
+| `saas/app/policies/saas/knowledge_base_policy.rb` | New — Pundit policy |
+| `saas/app/policies/saas/knowledge_document_policy.rb` | New — Pundit policy |
+| `saas/app/policies/saas/ai_agent_inbox_policy.rb` | New — Pundit policy |
+| `saas/app/policies/saas/llm_policy.rb` | New — Pundit policy |
+| `saas/lib/url_ssrf_validator.rb` | New — SSRF validation module |
+| `saas/app/models/saas/agent_tool.rb` | Added URL validation |
+| `saas/app/services/agent/tool_runner.rb` | Added SSRF check before HTTP calls |
+| `config/initializers/rack_attack.rb` | Added LLM rate limiting |
+
+---
+
+## Phase 9 — Production Hardening ✅
+
+**Commit:** `3795d1bb0` — `feat(hardening): structured logging, job resilience, health checks, encryption, indexes`
+
+### What was done
+
+1. **Structured logging** — `Saas::Api::V1::LlmController`:
+   - `[SaaS::LLM]` tagged log lines with `account_id`, `model`, `tokens`, `duration_ms`, `status`
+   - Covers completions, embeddings, streaming, and error paths
+
+2. **Thread-safe LLM config** — Fixed `@@llm_config` class variable (shared across threads):
+   - Replaced with `Mutex` + `self.class.instance_variable_get/set(:@_llm_config)`
+   - Thread-safe lazy initialization with double-checked locking
+
+3. **Expanded health endpoint** — `GET /llm/health`:
+   - LiteLLM proxy check (existing)
+   - Database connectivity (`ActiveRecord::Base.connection.execute('SELECT 1')`)
+   - pgvector extension (`SELECT extversion FROM pg_extension WHERE extname='vector'`)
+   - Redis connectivity (`$velma.with { |conn| conn.ping }`)
+   - Returns per-component status JSON
+
+4. **Job resilience** — `retry_on` / `discard_on` on all 4 SaaS background jobs:
+   - `AiAgentReplyJob` — retry on `RateLimitError` (5 attempts, polynomially_longer) + `TimeoutError` (3 attempts, 10s); discard on `RecordNotFound`
+   - `LlmStreamJob` — `sidekiq_options retry: 0`; discard on `RecordNotFound`
+   - `Rag::DocumentIngestionJob` — retry on `RateLimitError` (5 attempts) + `TimeoutError` (3 attempts); discard on `RecordNotFound`
+   - `Saas::StripeWebhookJob` — retry on `APIConnectionError` + `RateLimitError` (5 attempts each); discard on `JSON::ParserError`
+
+5. **Auth token encryption** — `Saas::AgentTool`:
+   - `encrypts :auth_token` (guarded by `Chatwoot.encryption_configured?`)
+   - Requires `ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY`, `_DETERMINISTIC_KEY`, `_KEY_DERIVATION_SALT`
+
+6. **Missing database indexes** — Migration `20260302000006_add_missing_indexes_to_saas_tables`:
+   - `ai_agent_inboxes.inbox_id` — fast inbox → agent lookup
+   - `knowledge_documents.knowledge_base_id` — document listing
+   - `agent_tools.ai_agent_id` — tool loading per agent
+   - `ai_usage_records.(account_id, recorded_on)` — usage aggregation queries
+
+7. **Rate limit documentation** — `.env.example`:
+   - `RATE_LIMIT_LLM_COMPLETIONS` (default: 60/min)
+   - `RATE_LIMIT_LLM_EMBEDDINGS` (default: 120/min)
+
+### Files changed
+
+| File | Action |
+|------|--------|
+| `saas/app/controllers/saas/api/v1/llm_controller.rb` | Structured logging, thread-safe config, expanded health |
+| `saas/app/jobs/ai_agent_reply_job.rb` | Added retry_on / discard_on |
+| `saas/app/jobs/llm_stream_job.rb` | Added sidekiq_options retry: 0, discard_on |
+| `saas/app/jobs/rag/document_ingestion_job.rb` | Added retry_on / discard_on |
+| `saas/app/jobs/saas/stripe_webhook_job.rb` | Added retry_on / discard_on |
+| `saas/app/models/saas/agent_tool.rb` | Added `encrypts :auth_token` |
+| `db/migrate/20260302000006_add_missing_indexes_to_saas_tables.rb` | New — 4 indexes |
+| `.env.example` | Documented rate limit env vars |
 
 ---
 

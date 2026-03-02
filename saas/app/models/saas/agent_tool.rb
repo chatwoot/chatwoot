@@ -8,6 +8,8 @@ class Saas::AgentTool < ApplicationRecord
 
   enum :tool_type, { http: 0, handoff: 1, built_in: 2 }
 
+  encrypts :auth_token if Chatwoot.encryption_configured?
+
   validates :name, presence: true, length: { maximum: 255 }
   validate :url_template_not_obviously_internal, if: -> { url_template.present? && http? }
 

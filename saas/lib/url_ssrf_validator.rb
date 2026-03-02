@@ -36,8 +36,10 @@ module UrlSsrfValidator
 
   class << self
     def validate!(url)
-      uri = parse_uri(url)
+      uri = URI.parse(url.to_s.strip)
       validate_scheme!(uri)
+      raise SsrfError, "Invalid URL: missing host" if uri.host.nil? || uri.host.empty?
+
       validate_host!(uri)
       true
     end
@@ -49,13 +51,6 @@ module UrlSsrfValidator
     end
 
     private
-
-    def parse_uri(url)
-      uri = URI.parse(url.to_s.strip)
-      raise SsrfError, "Invalid URL: missing host" if uri.host.nil? || uri.host.empty?
-
-      uri
-    end
 
     def validate_scheme!(uri)
       scheme = uri.scheme&.downcase

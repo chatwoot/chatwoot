@@ -25,13 +25,22 @@ class Saas::Api::V1::LlmController < Api::V1::Accounts::BaseController
   end
 
   def embeddings
+    started_at = Process.clock_gettime(Process::CLOCK_MONOTONIC)
+    model = params[:model] || 'text-embedding-3-small'
     client = build_client
+
     response = client.embed(
       input: params[:input],
-      model: params[:model]
+      model: model
     )
+
+    duration_ms = ((Process.clock_gettime(Process::CLOCK_MONOTONIC) - started_at) * 1000).round
+    log_llm_request(action: 'embeddings', model: model, duration_ms: duration_ms, status: 'success')
+
     render json: response
   rescue Llm::Client::RequestError => e
+    duration_ms = ((Process.clock_gettime(Process::CLOCK_MONOTONIC) - started_at) * 1000).round
+    log_llm_request(action: 'embeddings', model: model, duration_ms: duration_ms, status: 'error', error: e.message)
     render json: { error: e.message }, status: e.status || :bad_gateway
   end
 
@@ -49,8 +58,17 @@ class Saas::Api::V1::LlmController < Api::V1::Accounts::BaseController
   end
 
   def health
-    client = Llm::Client.new
-    render json: { healthy: client.healthy? }
+    checks = {
+      litellm: check_litellm,
+      database: check_database,
+      pgvector: check_pgvector,
+      redis: check_redis
+    }
+
+    healthy = checks.values.all? { |c| c[:status] == 'ok' }
+    status_code = healthy ? :ok : :service_unavailable
+
+    render json: { healthy: healthy, checks: checks }, status: status_code
   end
 
   private
@@ -60,17 +78,33 @@ class Saas::Api::V1::LlmController < Api::V1::Accounts::BaseController
   end
 
   def handle_blocking_completion
+    started_at = Process.clock_gettime(Process::CLOCK_MONOTONIC)
     client = build_client
+    model = completion_params[:model] || LlmConstants::DEFAULT_MODEL
+
     response = client.chat(
       messages: completion_params[:messages],
       **completion_options
     )
 
+    duration_ms = ((Process.clock_gettime(Process::CLOCK_MONOTONIC) - started_at) * 1000).round
+
     # Record usage for billing
     record_usage(response) if response['usage'].present?
 
+    log_llm_request(
+      action: 'completions',
+      model: model,
+      tokens_input: response.dig('usage', 'prompt_tokens'),
+      tokens_output: response.dig('usage', 'completion_tokens'),
+      duration_ms: duration_ms,
+      status: 'success'
+    )
+
     render json: response
   rescue Llm::Client::RequestError => e
+    duration_ms = ((Process.clock_gettime(Process::CLOCK_MONOTONIC) - started_at) * 1000).round
+    log_llm_request(action: 'completions', model: model, duration_ms: duration_ms, status: 'error', error: e.message)
     render json: { error: e.message }, status: e.status || :bad_gateway
   end
 
@@ -149,13 +183,58 @@ class Saas::Api::V1::LlmController < Api::V1::Accounts::BaseController
     total_tokens * multiplier
   end
 
-  # Cache the LLM config YAML — reloaded per-request in dev, cached in production
+  # Cache the LLM config YAML — thread-safe via Mutex
+  LLM_CONFIG_MUTEX = Mutex.new
+
   def llm_config
-    if Rails.env.production?
-      @@llm_config ||= YAML.safe_load(Rails.root.join('config/llm.yml').read) # rubocop:disable Style/ClassVars
-    else
-      YAML.safe_load(Rails.root.join('config/llm.yml').read)
+    return YAML.safe_load(Rails.root.join('config/llm.yml').read) unless Rails.env.production?
+
+    LLM_CONFIG_MUTEX.synchronize do
+      self.class.instance_variable_get(:@_llm_config) || begin
+        config = YAML.safe_load(Rails.root.join('config/llm.yml').read)
+        self.class.instance_variable_set(:@_llm_config, config)
+        config
+      end
     end
+  end
+
+  def log_llm_request(action:, model: nil, tokens_input: nil, tokens_output: nil, duration_ms: nil, status: 'success', error: nil)
+    Rails.logger.info(
+      "[SaaS::LLM] account_id=#{current_account.id} action=#{action} model=#{model} " \
+      "tokens_in=#{tokens_input || '-'} tokens_out=#{tokens_output || '-'} " \
+      "duration_ms=#{duration_ms || '-'} status=#{status}" \
+      "#{error ? " error=#{error.truncate(200)}" : ''}"
+    )
+  end
+
+  # --- Health check helpers ---
+
+  def check_litellm
+    healthy = Llm::Client.new.healthy?
+    { status: healthy ? 'ok' : 'error' }
+  rescue StandardError => e
+    { status: 'error', message: e.message.truncate(100) }
+  end
+
+  def check_database
+    ActiveRecord::Base.connection.execute('SELECT 1')
+    { status: 'ok' }
+  rescue StandardError => e
+    { status: 'error', message: e.message.truncate(100) }
+  end
+
+  def check_pgvector
+    ActiveRecord::Base.connection.execute("SELECT '[1,2,3]'::vector")
+    { status: 'ok' }
+  rescue StandardError => e
+    { status: 'error', message: e.message.truncate(100) }
+  end
+
+  def check_redis
+    $velma.with { |conn| conn.ping }
+    { status: 'ok' }
+  rescue StandardError => e
+    { status: 'error', message: e.message.truncate(100) }
   end
 
   def completion_params
