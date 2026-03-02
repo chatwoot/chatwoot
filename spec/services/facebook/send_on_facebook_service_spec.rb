@@ -91,14 +91,14 @@ describe Facebook::SendOnFacebookService do
       end
 
       it 'sends with HUMAN_AGENT tag when ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT is enabled' do
-        create(:installation_config, name: 'ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT', value: true)
-        GlobalConfig.clear_cache
-        message = create(:message, message_type: 'outgoing', inbox: facebook_inbox, account: account, conversation: conversation)
-        described_class.new(message: message).perform
-        expect(bot).to have_received(:deliver).with(
-          hash_including(tag: 'HUMAN_AGENT'),
-          { page_id: facebook_channel.page_id }
-        )
+        with_modified_env ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT: 'true' do
+          message = create(:message, message_type: 'outgoing', inbox: facebook_inbox, account: account, conversation: conversation)
+          described_class.new(message: message).perform
+          expect(bot).to have_received(:deliver).with(
+            hash_including(tag: 'HUMAN_AGENT'),
+            { page_id: facebook_channel.page_id }
+          )
+        end
       end
 
       it 'if message is sent with multiple attachments' do
