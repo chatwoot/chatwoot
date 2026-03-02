@@ -171,7 +171,7 @@ RSpec.describe Attachment do
     it 'returns file_url as data_url when file is attached' do
       attachment = message.attachments.new(account_id: message.account_id, file_type: :ig_reel,
                                            external_url: 'https://www.instagram.com/reel/123')
-      attachment.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'reel.mp4', content_type: 'video/mp4')
+      attachment.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
       attachment.save!
 
       event_data = attachment.push_event_data
