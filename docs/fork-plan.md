@@ -23,8 +23,11 @@
 | 4e | Voice Agents | ✅ Complete | `7f20405` |
 | — | Voice Provider Audit | ✅ Complete | `7f20405` |
 | — | Best Practices Review | ✅ Complete | — |
-| 5 | Agent Builder UI | ✅ Complete | — |
+| 5 | Agent Builder UI | ✅ Complete | `8ccb3cb` |
 | 6 | Docker Deployment | ⬜ Not Started | — |
+| 7 | Testing & Quality | ⬜ Not Started | — |
+| 8 | Security & Auth Policies | ⬜ Not Started | — |
+| 9 | Production Hardening | ⬜ Not Started | — |
 
 ---
 
@@ -416,22 +419,147 @@ Route: `app/javascript/dashboard/routes/dashboard/aiAgents/`
 
 ## Phase 6 — Docker Compose Deployment ⬜
 
+Production-ready Docker Compose stack with all services, health checks, and deploy tooling.
+
 ### Services
 
 ```yaml
 services:
-  rails:        # existing
-  sidekiq:      # existing
-  postgres:     # pgvector:pg16
-  redis:        # existing
-  litellm:      # ghcr.io/berriai/litellm:main (new)
-  voice-bridge: # Twilio ↔ OpenAI Realtime bridge (new)
-  nginx:        # reverse proxy + SSL (new)
+  rails:         # Puma app server (existing, needs health check + env)
+  sidekiq:       # Background jobs (existing, needs queue config)
+  postgres:      # pgvector/pgvector:pg17 (upgrade from pg16)
+  redis:         # Cache + ActionCable + Sidekiq broker (existing)
+  litellm:       # ghcr.io/berriai/litellm:main-latest (port 4000)
+  nginx:         # Reverse proxy + SSL termination (new)
 ```
 
-### Deploy script
+### What needs to be done
 
-`./bin/deploy.sh` — pull images → `db:migrate` → `assets:precompile` → restart containers.
+1. **Production docker-compose** — Consolidate `docker-compose.production.yaml`:
+   - Add health checks for all services (pg_isready, redis-cli ping, curl litellm/health)
+   - Proper volume mounts for persistent data (postgres, redis, uploads)
+   - Resource limits (memory, CPU) per service
+   - Restart policies (`unless-stopped`)
+   - Logging configuration (JSON driver with rotation)
+
+2. **Nginx config** — `deployment/nginx_airyschat.conf`:
+   - SSL termination with Let's Encrypt (certbot)
+   - WebSocket upgrade for ActionCable (`/cable`) and Twilio streams
+   - Proxy to Rails (port 3000) and LiteLLM (port 4000, internal only)
+   - Rate limiting, security headers, gzip compression
+
+3. **Environment management** — `.env.production.example`:
+   - All required env vars documented with descriptions
+   - Secret generation script for `SECRET_KEY_BASE`, keys, etc.
+   - Stripe, LiteLLM, Twilio, Firecrawl credential placeholders
+
+4. **Deploy script** — `./bin/deploy.sh`:
+   - Pull latest images
+   - Run `db:migrate` and `db:seed` (idempotent)
+   - Precompile assets (`bundle exec rails assets:precompile`)
+   - Zero-downtime restart (rolling container replacement)
+   - Health check verification post-deploy
+
+5. **Backup script** — `./bin/backup.sh`:
+   - PostgreSQL pg_dump with timestamp
+   - Redis RDB snapshot
+   - Upload to S3/compatible storage (optional)
+
+---
+
+## Phase 7 — Testing & Quality ⬜
+
+Comprehensive test coverage for all SaaS-specific code.
+
+### What needs to be done
+
+1. **Model specs** — All 8 SaaS models:
+   - `Saas::AiAgent` — validations, associations, type enum, JSONB config
+   - `Saas::AiAgentInbox` — unique constraint, active_agent_for scope
+   - `Saas::KnowledgeBase` / `KnowledgeDocument` — embedding vector, associations
+   - `Saas::AgentTool` — `to_llm_tool` format, Liquid template rendering
+   - `Saas::Plan` / `Subscription` / `AiUsageRecord` — billing logic
+   - `Channel::Voice` — provider config, Twilio client
+
+2. **Service specs**:
+   - `Llm::Client` — chat, chat_stream, embed, error handling (mock HTTP)
+   - `Agent::Executor` — multi-turn loop, tool-calling, RAG injection, usage tracking
+   - `Agent::ToolRunner` — HTTP execution, Liquid interpolation, handoff
+   - `Rag::TextChunker` — chunk sizes, overlap, edge cases
+   - `Rag::EmbeddingService` — batching, vector storage
+   - `Rag::SearchService` — cosine similarity, context building
+   - `Saas::StripeService` — customer creation, checkout, webhook handling
+   - Voice providers — WebSocket mocking, audio format validation
+
+3. **Controller specs** — All SaaS API endpoints:
+   - Authentication + authorization (admin-only)
+   - CRUD operations with proper status codes
+   - Error responses (422, 404, 402 quota exceeded)
+   - Stripe webhook signature verification
+
+4. **Job specs**:
+   - `AiAgentReplyJob` — conversation history, executor call, reply creation
+   - `LlmStreamJob` — streaming, ActionCable broadcast, usage recording
+   - `Rag::DocumentIngestionJob` — chunking → embedding pipeline
+   - `Saas::StripeWebhookJob` — event routing, idempotency
+
+5. **Frontend specs** (Vitest):
+   - Vuex store module — actions, mutations, getters
+   - API client — request formatting, error handling
+   - Key Vue components — AgentListPage, CreateAgentDialog, tab components
+
+---
+
+## Phase 8 — Security & Authorization Policies ⬜
+
+Proper Pundit policies, input validation, and multi-tenant security.
+
+### What needs to be done
+
+1. **Pundit policies** for all SaaS resources:
+   - `AiAgentPolicy` — admin-only CRUD, account scoping
+   - `KnowledgeBasePolicy` / `KnowledgeDocumentPolicy`
+   - `AgentToolPolicy` / `AiAgentInboxPolicy`
+   - `BillingPolicy` — owner-only for checkout/subscription management
+
+2. **Account scoping audit** — Every SaaS controller query must be scoped to `Current.account`
+
+3. **Input sanitization** — System prompts, tool URLs, headers (prevent SSRF)
+
+4. **Rate limiting** — Per-account API rate limits for LLM endpoints
+
+5. **BYOK key encryption** — Encrypt user-provided API keys at rest
+
+---
+
+## Phase 9 — Production Hardening ⬜
+
+Observability, performance, CI/CD, and operational readiness.
+
+### What needs to be done
+
+1. **CI/CD pipeline** — GitHub Actions:
+   - RSpec + Vitest on PR
+   - ESLint + Rubocop checks
+   - Docker image build + push to registry
+   - Auto-deploy to staging on `develop` merge
+
+2. **Monitoring**:
+   - Sentry/exception tracking integration
+   - Sidekiq dashboard (protected route)
+   - LiteLLM proxy metrics
+   - AI usage dashboards (per-account token consumption)
+
+3. **Performance**:
+   - Database query optimization (N+1 detection)
+   - Redis caching for hot paths (plan limits, agent config)
+   - Connection pooling for LiteLLM HTTP client
+   - pgvector index tuning (IVFFlat lists parameter)
+
+4. **Operational docs**:
+   - Runbook for common operations (scaling, backups, migrations)
+   - API documentation (OpenAPI/Swagger for SaaS endpoints)
+   - User-facing docs for Agent Builder
 
 ---
 

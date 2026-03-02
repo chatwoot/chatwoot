@@ -81,6 +81,11 @@ AirysChat/
 │   │   │   └── saas/
 │   │   │       ├── api/v1/
 │   │   │       │   ├── accounts_controller.rb
+│   │   │       │   ├── ai_agents_controller.rb
+│   │   │       │   ├── ai_agent_inboxes_controller.rb
+│   │   │       │   ├── agent_tools_controller.rb
+│   │   │       │   ├── knowledge_bases_controller.rb
+│   │   │       │   ├── knowledge_documents_controller.rb
 │   │   │       │   ├── llm_controller.rb
 │   │   │       │   └── voice/twilio_controller.rb
 │   │   │       └── webhooks/stripe_controller.rb
@@ -192,6 +197,35 @@ Frontend additions use the existing Vue 3 architecture:
 - Store modules: extend existing Vuex stores
 - Routes: add to existing route definitions
 - Components: use Composition API with `<script setup>`
+
+### Agent Builder UI (Phase 5)
+
+The Agent Builder is a full Vue 3 SPA section under `/ai-agents`:
+
+```
+app/javascript/dashboard/
+├── api/saas/aiAgents.js                    # API client (extends ApiClient)
+├── store/modules/aiAgents.js               # Vuex store module
+├── i18n/locale/en/aiAgents.json            # i18n translations
+└── routes/dashboard/aiAgents/
+    ├── AiAgentsRouteView.vue               # Router-view wrapper
+    ├── aiAgents.routes.js                  # Route definitions
+    ├── pages/
+    │   ├── AgentListPage.vue               # Grid of agent cards
+    │   └── AgentDetailPage.vue             # Tabbed detail view
+    └── components/
+        ├── AgentCard.vue                   # Card with type/status/counts
+        ├── CreateAgentDialog.vue           # Create/edit modal
+        ├── DeleteAgentDialog.vue           # Delete confirmation
+        └── tabs/
+            ├── SetupTab.vue                # Name, type, model, prompt, temperature
+            ├── KnowledgeTab.vue            # KB + document CRUD
+            ├── ToolsTab.vue                # HTTP tool builder
+            ├── VoiceTab.vue                # Voice provider config
+            └── DeployTab.vue               # Inbox connections
+```
+
+Routes are lazy-loaded and restricted to `administrator` permission. The sidebar entry appears after the Captain section.
 
 ## Database
 
