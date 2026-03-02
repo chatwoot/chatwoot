@@ -27,7 +27,7 @@
       "404": "There are no SLAs available in this account.",
       "TABLE_HEADER": {
         "SLA": "SLA",
-        "BUSINESS_HOURS": "Business hours"
+        "BUSINESS_HOURS": "Çalışma saatleri"
       },
       "EMPTY": {
         "TITLE_1": "Enterprise P0",
