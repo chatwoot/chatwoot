@@ -23,10 +23,12 @@ const {
   createAgentFromWizard,
   startWizard,
   disconnect,
+  error: wizardError,
 } = useSetupWizard();
 
 const userInput = ref('');
 const chatContainer = ref(null);
+const hasInitError = ref(false);
 
 const scrollToBottom = async () => {
   await nextTick();
@@ -58,12 +60,35 @@ const handleCreate = async () => {
   }
 };
 
+const sendInitialGreeting = async () => {
+  hasInitError.value = false;
+  await sendWizardMessage(
+    'Hi! I want to create an AI assistant for my business.'
+  );
+  scrollToBottom();
+
+  // Check if the last assistant message has an error
+  const lastAssistant = messages.value
+    .slice()
+    .reverse()
+    .find(m => m.role === 'assistant');
+  if (lastAssistant?.error) {
+    hasInitError.value = true;
+  }
+};
+
+const handleRetry = () => {
+  // Remove the failed assistant message and user message, then retry
+  const lastTwo = messages.value.slice(-2);
+  if (lastTwo.length === 2 && lastTwo[1]?.error) {
+    messages.value.splice(-2, 2);
+  }
+  sendInitialGreeting();
+};
+
 onMounted(() => {
   startWizard();
-  // Send an initial empty trigger so the wizard greets the user
-  sendWizardMessage(
-    'Hi! I want to create an AI assistant for my business.'
-  ).then(scrollToBottom);
+  sendInitialGreeting();
 });
 
 onUnmounted(() => {
@@ -109,7 +134,8 @@ onUnmounted(() => {
           v-if="msg.role !== 'system'"
           :role="msg.role"
           :content="msg.content"
-          :is-streaming="msg.isStreaming"
+          :is-streaming="msg.streaming"
+          :error="msg.error"
         />
       </template>
     </div>
@@ -177,21 +203,40 @@ onUnmounted(() => {
     </div>
 
     <!-- Input Area -->
-    <div v-else class="flex items-end gap-2 px-5 py-3 border-t border-n-weak">
-      <textarea
-        v-model="userInput"
-        :placeholder="t('AI_AGENTS.WIZARD.INPUT_PLACEHOLDER')"
-        rows="1"
-        class="flex-1 px-3 py-2 text-sm rounded-lg border border-n-weak bg-n-solid-2 text-n-slate-12 placeholder:text-n-slate-9 focus:outline-none focus:ring-2 focus:ring-n-blue-7 resize-none"
-        :disabled="isStreaming"
-        @keydown="handleKeydown"
-      />
-      <Button
-        :label="t('AI_AGENTS.WIZARD.SEND')"
-        :disabled="isStreaming || !userInput.trim()"
-        size="sm"
-        @click="handleSend"
-      />
+    <div v-else class="px-5 py-3 border-t border-n-weak">
+      <!-- Error recovery -->
+      <div
+        v-if="hasInitError"
+        class="flex items-center justify-between gap-3 mb-3 px-3 py-2 rounded-lg bg-n-ruby-2 border border-n-ruby-7"
+      >
+        <span class="text-xs text-n-ruby-11">
+          {{ t('AI_AGENTS.WIZARD.CONNECTION_ERROR') }}
+        </span>
+        <button
+          type="button"
+          class="flex items-center gap-1 text-xs font-medium text-n-ruby-11 hover:text-n-ruby-12"
+          @click="handleRetry"
+        >
+          <span class="i-lucide-refresh-cw size-3" />
+          {{ t('AI_AGENTS.WIZARD.RETRY') }}
+        </button>
+      </div>
+      <div class="flex items-end gap-2">
+        <textarea
+          v-model="userInput"
+          :placeholder="t('AI_AGENTS.WIZARD.INPUT_PLACEHOLDER')"
+          rows="1"
+          class="flex-1 px-3 py-2 text-sm rounded-lg border border-n-weak bg-n-solid-2 text-n-slate-12 placeholder:text-n-slate-9 focus:outline-none focus:ring-2 focus:ring-n-blue-7 resize-none"
+          :disabled="isStreaming"
+          @keydown="handleKeydown"
+        />
+        <Button
+          :label="t('AI_AGENTS.WIZARD.SEND')"
+          :disabled="isStreaming || !userInput.trim()"
+          size="sm"
+          @click="handleSend"
+        />
+      </div>
     </div>
   </div>
 </template>

@@ -102,8 +102,8 @@ const handleRestart = () => {
           v-if="msg.role !== 'system'"
           :role="msg.role"
           :content="msg.content"
-          :is-streaming="msg.isStreaming"
-          :is-error="msg.isError"
+          :is-streaming="msg.streaming"
+          :is-error="!!msg.error"
         />
       </template>
     </div>

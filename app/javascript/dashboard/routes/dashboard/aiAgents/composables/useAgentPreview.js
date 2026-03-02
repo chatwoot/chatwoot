@@ -1,4 +1,4 @@
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { useLlmChat } from 'dashboard/composables/useLlmChat';
 import AiAgentsAPI from 'dashboard/api/saas/aiAgents';
 
@@ -10,13 +10,14 @@ import AiAgentsAPI from 'dashboard/api/saas/aiAgents';
  * agent executor pipeline (structured prompt sections, tools, RAG, etc).
  */
 export function useAgentPreview(agent) {
-  const { messages, isStreaming, error, connect, disconnect, clearMessages } =
-    useLlmChat({
-      model: computed(() => agent.value?.model || 'litellm/gpt-4.1-mini'),
-      systemPrompt: '',
-      temperature: 0.7,
-      feature: 'agent_preview',
-    });
+  const { messages, error, connect, disconnect, clearMessages } = useLlmChat({
+    model: computed(() => agent.value?.model || 'litellm/gpt-4.1-mini'),
+    systemPrompt: '',
+    temperature: 0.7,
+    feature: 'agent_preview',
+  });
+
+  const isStreaming = ref(false);
 
   /**
    * Send a message to the agent preview endpoint.
@@ -24,6 +25,8 @@ export function useAgentPreview(agent) {
    */
   const sendPreviewMessage = async content => {
     if (!content?.trim() || isStreaming.value) return;
+
+    isStreaming.value = true;
 
     const userMessage = {
       id: `user-${Date.now()}`,
@@ -37,14 +40,14 @@ export function useAgentPreview(agent) {
       id: `assistant-${Date.now()}`,
       role: 'assistant',
       content: '',
-      isStreaming: true,
+      streaming: true,
       timestamp: Date.now(),
     };
     messages.value.push(assistantMessage);
 
     try {
       const history = messages.value
-        .filter(m => !m.isStreaming && m.role !== 'system')
+        .filter(m => !m.streaming && m.role !== 'system')
         .map(m => ({ role: m.role, content: m.content }));
 
       const response = await AiAgentsAPI.preview(agent.value.id, {
@@ -57,11 +60,13 @@ export function useAgentPreview(agent) {
         response.data?.content ||
         response.data?.choices?.[0]?.message?.content ||
         '';
-      assistantMessage.isStreaming = false;
+      assistantMessage.streaming = false;
     } catch (err) {
       assistantMessage.content = err?.message || 'Error generating response';
-      assistantMessage.isStreaming = false;
-      assistantMessage.isError = true;
+      assistantMessage.streaming = false;
+      assistantMessage.error = true;
+    } finally {
+      isStreaming.value = false;
     }
   };
 

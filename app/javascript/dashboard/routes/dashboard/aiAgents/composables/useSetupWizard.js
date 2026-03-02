@@ -71,7 +71,7 @@ export function useSetupWizard() {
     // Check the latest assistant message for completion
     const lastAssistant = [...messages.value]
       .reverse()
-      .find(m => m.role === 'assistant' && !m.isStreaming);
+      .find(m => m.role === 'assistant' && !m.streaming);
 
     if (lastAssistant) {
       const result = extractWizardResult(lastAssistant.content);

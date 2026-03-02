@@ -3,7 +3,10 @@ defineProps({
   role: { type: String, required: true },
   content: { type: String, default: '' },
   isStreaming: { type: Boolean, default: false },
+  error: { type: String, default: '' },
 });
+
+defineEmits(['retry']);
 </script>
 
 <template>
@@ -13,11 +16,12 @@ defineProps({
   >
     <div
       class="max-w-[85%] rounded-2xl px-4 py-2.5 text-sm leading-relaxed"
-      :class="
+      :class="[
         role === 'user'
           ? 'bg-n-blue-9 text-white rounded-br-md'
-          : 'bg-n-solid-3 text-n-slate-12 rounded-bl-md'
-      "
+          : 'bg-n-solid-3 text-n-slate-12 rounded-bl-md',
+        error ? 'border border-n-ruby-7' : '',
+      ]"
     >
       <span v-if="content" class="whitespace-pre-wrap">{{ content }}</span>
       <span v-if="isStreaming && !content" class="flex items-center gap-1">
@@ -33,6 +37,10 @@ defineProps({
         v-if="isStreaming && content"
         class="inline-block w-1 h-4 bg-n-slate-9 ml-0.5 animate-pulse align-text-bottom"
       />
+      <div v-if="error" class="mt-1.5 flex items-center gap-1.5">
+        <span class="i-lucide-alert-circle size-3.5 text-n-ruby-9" />
+        <span class="text-xs text-n-ruby-9">{{ error }}</span>
+      </div>
     </div>
   </div>
 </template>

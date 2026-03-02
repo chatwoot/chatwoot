@@ -164,7 +164,9 @@
       "REVIEW_DESCRIPTION_LABEL": "Description:",
       "REVIEW_SECTIONS_FILLED": "Sections filled:",
       "REVIEW_SECTIONS_COUNT": "{count}/8",
-      "GUIDED_DESCRIPTION": "I'll interview you about your business and generate a complete agent configuration with all 7 sections."
+      "GUIDED_DESCRIPTION": "I'll interview you about your business and generate a complete agent configuration with all 7 sections.",
+      "CONNECTION_ERROR": "Could not connect to the AI service. Check that LiteLLM and Sidekiq are running.",
+      "RETRY": "Retry"
     },
     "PREVIEW": {
       "TITLE": "Test Agent",

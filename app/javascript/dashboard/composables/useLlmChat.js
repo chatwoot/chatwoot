@@ -3,6 +3,8 @@ import { useStore } from 'dashboard/composables/store';
 import LlmAPI from 'dashboard/api/saas/llm';
 import LlmCableSubscription from 'dashboard/helpers/llmCable';
 
+const STREAM_TIMEOUT_MS = 45_000; // 45 seconds
+
 /**
  * Composable for real-time LLM chat with ActionCable streaming.
  *
@@ -15,7 +17,7 @@ import LlmCableSubscription from 'dashboard/helpers/llmCable';
  *   });
  *
  *   connect();
- *   await sendMessage('Hello!');
+ *   await sendMessage('Hello!'); // resolves when streaming completes or times out
  */
 export function useLlmChat({
   model = 'gpt-4.1-mini',
@@ -31,9 +33,26 @@ export function useLlmChat({
   const activeRequestId = ref(null);
 
   let cable = null;
+  let streamResolve = null;
+  let streamTimeoutId = null;
 
   const currentUser = () => store.getters.getCurrentUser || {};
   const accountId = () => store.getters.getCurrentAccountId;
+
+  /**
+   * Resolve the pending stream promise and clear timeout.
+   */
+  function resolveStream() {
+    if (streamTimeoutId) {
+      clearTimeout(streamTimeoutId);
+      streamTimeoutId = null;
+    }
+    if (streamResolve) {
+      const resolve = streamResolve;
+      streamResolve = null;
+      resolve();
+    }
+  }
 
   function handleChunk({ request_id: reqId, delta }) {
     if (reqId !== activeRequestId.value) return;
@@ -55,6 +74,7 @@ export function useLlmChat({
     }
     isStreaming.value = false;
     activeRequestId.value = null;
+    resolveStream();
   }
 
   function handleError({ request_id: reqId, error: errorMsg }) {
@@ -68,6 +88,7 @@ export function useLlmChat({
     error.value = errorMsg;
     isStreaming.value = false;
     activeRequestId.value = null;
+    resolveStream();
   }
 
   function connect() {
@@ -107,6 +128,10 @@ export function useLlmChat({
     return apiMessages;
   }
 
+  /**
+   * Send a user message and wait for the assistant response to complete.
+   * Resolves when streaming finishes, errors, or times out (45s).
+   */
   async function sendMessage(content) {
     if (isStreaming.value) return;
 
@@ -130,6 +155,24 @@ export function useLlmChat({
     isStreaming.value = true;
     error.value = null;
 
+    // Promise that resolves when streaming completes, errors, or times out
+    const streamCompleted = new Promise(resolve => {
+      streamResolve = resolve;
+    });
+
+    // Safety timeout — unlock the UI if streaming never completes
+    streamTimeoutId = setTimeout(() => {
+      if (!isStreaming.value) return;
+      const lastMsg = messages.value[messages.value.length - 1];
+      if (lastMsg && lastMsg.streaming) {
+        lastMsg.streaming = false;
+        lastMsg.error = 'Response timed out. Please try again.';
+      }
+      isStreaming.value = false;
+      activeRequestId.value = null;
+      resolveStream();
+    }, STREAM_TIMEOUT_MS);
+
     try {
       const apiMessages = buildApiMessages();
       // Remove the empty assistant placeholder from API messages
@@ -151,7 +194,12 @@ export function useLlmChat({
         lastMsg.error = err?.message || 'Failed to send message';
       }
       isStreaming.value = false;
+      resolveStream();
+      return;
     }
+
+    // Wait for streaming to actually finish (or timeout)
+    await streamCompleted;
   }
 
   function clearMessages() {
@@ -159,6 +207,7 @@ export function useLlmChat({
     isStreaming.value = false;
     activeRequestId.value = null;
     error.value = null;
+    resolveStream();
   }
 
   function updateSystemPrompt(newPrompt) {
@@ -170,6 +219,7 @@ export function useLlmChat({
   }
 
   onUnmounted(() => {
+    resolveStream();
     disconnect();
   });
 
