@@ -5,7 +5,7 @@ class Saas::AiAgent < ApplicationRecord
 
   include Avatarable
 
-  belongs_to :account
+  belongs_to :account, class_name: '::Account'
 
   has_many :ai_agent_inboxes, class_name: 'Saas::AiAgentInbox', dependent: :destroy_async
   has_many :inboxes, through: :ai_agent_inboxes

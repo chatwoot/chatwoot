@@ -3,7 +3,7 @@
 class Saas::KnowledgeBase < ApplicationRecord
   self.table_name = 'knowledge_bases'
 
-  belongs_to :account
+  belongs_to :account, class_name: '::Account'
   belongs_to :ai_agent, class_name: 'Saas::AiAgent'
 
   has_many :knowledge_documents, class_name: 'Saas::KnowledgeDocument', dependent: :destroy_async

@@ -4,7 +4,7 @@ class Saas::AgentTool < ApplicationRecord
   self.table_name = 'agent_tools'
 
   belongs_to :ai_agent, class_name: 'Saas::AiAgent'
-  belongs_to :account
+  belongs_to :account, class_name: '::Account'
 
   enum :tool_type, { http: 0, handoff: 1, built_in: 2 }
 

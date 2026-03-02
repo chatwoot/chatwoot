@@ -6,7 +6,7 @@ class Saas::KnowledgeDocument < ApplicationRecord
   has_neighbors :embedding
 
   belongs_to :knowledge_base, class_name: 'Saas::KnowledgeBase'
-  belongs_to :account
+  belongs_to :account, class_name: '::Account'
 
   enum :source_type, { file_upload: 0, url: 1, text: 2 }
   enum :status, { pending: 0, processing: 1, ready: 2, error: 3 }

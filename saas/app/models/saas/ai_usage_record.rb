@@ -1,7 +1,7 @@
 class Saas::AiUsageRecord < ApplicationRecord
   self.table_name = 'saas_ai_usage_records'
 
-  belongs_to :account
+  belongs_to :account, class_name: '::Account'
 
   validates :provider, :model, :recorded_on, presence: true
   validates :tokens_input, :tokens_output, numericality: { greater_than_or_equal_to: 0 }
