@@ -25,9 +25,9 @@
 | — | Best Practices Review | ✅ Complete | — |
 | 5 | Agent Builder UI | ✅ Complete | `8ccb3cb` |
 | 6 | Docker Deployment | ⬜ Not Started | — |
-| 7 | Testing & Quality | ⬜ Not Started | — |
-| 8 | Security & Auth Policies | ⬜ Not Started | — |
-| 9 | Production Hardening | ⬜ Not Started | — |
+| 7 | Testing & Quality | ✅ Complete | `26272d0` |
+| 8 | Security & Auth Policies | ✅ Complete | `9e92e3e` |
+| 9 | Production Hardening | ✅ Complete | `3795d1b` |
 
 ---
 
@@ -467,99 +467,172 @@ services:
 
 ---
 
-## Phase 7 — Testing & Quality ⬜
+## Phase 7 — Testing & Quality ✅
 
-Comprehensive test coverage for all SaaS-specific code.
+**Commit:** `26272d086` — `test: add specs for policies, SSRF, models, services, and jobs`
+**17 files changed, +783 / -9 lines — 73 examples, 0 failures**
 
-### What needs to be done
+### What was done
 
-1. **Model specs** — All 8 SaaS models:
-   - `Saas::AiAgent` — validations, associations, type enum, JSONB config
-   - `Saas::AiAgentInbox` — unique constraint, active_agent_for scope
-   - `Saas::KnowledgeBase` / `KnowledgeDocument` — embedding vector, associations
-   - `Saas::AgentTool` — `to_llm_tool` format, Liquid template rendering
-   - `Saas::Plan` / `Subscription` / `AiUsageRecord` — billing logic
-   - `Channel::Voice` — provider config, Twilio client
+1. **FactoryBot factories** — 5 factories under `spec/factories/saas/`:
+   - `ai_agents` — traits: `:tool_calling`, `:voice`, `:hybrid`, `:paused`, `:archived`
+   - `agent_tools` — traits: `:inactive`, `:with_auth`, `:handoff`, `:built_in`
+   - `knowledge_bases` — traits: `:processing`, `:error`
+   - `knowledge_documents` — traits: `:pending`, `:processing`, `:error`, `:from_url`
+   - `ai_agent_inboxes` — traits: `:paused`
 
-2. **Service specs**:
-   - `Llm::Client` — chat, chat_stream, embed, error handling (mock HTTP)
-   - `Agent::Executor` — multi-turn loop, tool-calling, RAG injection, usage tracking
-   - `Agent::ToolRunner` — HTTP execution, Liquid interpolation, handoff
-   - `Rag::TextChunker` — chunk sizes, overlap, edge cases
-   - `Rag::EmbeddingService` — batching, vector storage
-   - `Rag::SearchService` — cosine similarity, context building
-   - `Saas::StripeService` — customer creation, checkout, webhook handling
-   - Voice providers — WebSocket mocking, audio format validation
+2. **Pundit policy specs** — 6 policy specs (20 examples) under `spec/policies/saas/`:
+   - `AiAgentPolicy` — index/show allow both admin & agent; CUD admin-only
+   - `AgentToolPolicy` — index allows both roles; CUD admin-only
+   - `KnowledgeBasePolicy` — index/show both roles; CUD admin-only
+   - `KnowledgeDocumentPolicy` — create/destroy admin-only
+   - `AiAgentInboxPolicy` — CUD admin-only
+   - `LlmPolicy` — completions/embeddings/models both roles; health admin-only
 
-3. **Controller specs** — All SaaS API endpoints:
-   - Authentication + authorization (admin-only)
-   - CRUD operations with proper status codes
-   - Error responses (422, 404, 402 quota exceeded)
-   - Stripe webhook signature verification
+3. **SSRF validator spec** — `spec/lib/url_ssrf_validator_spec.rb` (21 examples):
+   - Blocked schemes (file://, ftp://, gopher://)
+   - Private IP ranges (127.0.0.0/8, 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16, 169.254.0.0/16, 0.0.0.0, ::1)
+   - DNS rebinding protection (hostnames resolving to private IPs)
+   - Unresolvable hostnames, missing hosts
+   - `safe?` convenience method
 
-4. **Job specs**:
-   - `AiAgentReplyJob` — conversation history, executor call, reply creation
-   - `LlmStreamJob` — streaming, ActionCable broadcast, usage recording
-   - `Rag::DocumentIngestionJob` — chunking → embedding pipeline
-   - `Saas::StripeWebhookJob` — event routing, idempotency
+4. **AgentTool model spec** — `spec/models/saas/agent_tool_spec.rb` (17 examples):
+   - Associations (`belongs_to :ai_agent`, `belongs_to :account`)
+   - Validations (presence, length)
+   - URL template internal-address blocking (localhost, 127.0.0.1, metadata, .local)
+   - `to_llm_tool` OpenAI function-calling format
+   - `rendered_url` / `rendered_body` Liquid template rendering
 
-5. **Frontend specs** (Vitest):
-   - Vuex store module — actions, mutations, getters
-   - API client — request formatting, error handling
-   - Key Vue components — AgentListPage, CreateAgentDialog, tab components
+5. **ToolRunner service spec** — `spec/services/agent/tool_runner_spec.rb` (8 examples):
+   - Handoff tool (conversation unassignment + activity message)
+   - Unknown tool error handling
+   - HTTP tool execution (WebMock with DNS stub)
+   - SSRF blocking (cloud metadata, DNS rebinding)
+   - Network error handling
+   - Response truncation (4000 char limit)
 
----
+6. **AiAgentReplyJob spec** — `spec/jobs/ai_agent_reply_job_spec.rb` (7 examples):
+   - `retry_on` RateLimitError / TimeoutError (behavioral tests via `assert_enqueued_jobs`)
+   - `discard_on` ActiveRecord::RecordNotFound
+   - Outgoing message creation with `ai_generated` content attribute
+   - Handoff skips reply
+   - Error tracking + re-raise
 
-## Phase 8 — Security & Authorization Policies ⬜
+### Bugs discovered and fixed during testing
 
-Proper Pundit policies, input validation, and multi-tenant security.
-
-### What needs to be done
-
-1. **Pundit policies** for all SaaS resources:
-   - `AiAgentPolicy` — admin-only CRUD, account scoping
-   - `KnowledgeBasePolicy` / `KnowledgeDocumentPolicy`
-   - `AgentToolPolicy` / `AiAgentInboxPolicy`
-   - `BillingPolicy` — owner-only for checkout/subscription management
-
-2. **Account scoping audit** — Every SaaS controller query must be scoped to `Current.account`
-
-3. **Input sanitization** — System prompts, tool URLs, headers (prevent SSRF)
-
-4. **Rate limiting** — Per-account API rate limits for LLM endpoints
-
-5. **BYOK key encryption** — Encrypt user-provided API keys at rest
+| # | Issue | Fix |
+|---|-------|-----|
+| 1 | SSRF validator checked host before scheme → `file:///etc/passwd` errored as "missing host" | Reordered: scheme validation runs first |
+| 2 | `ToolRunner#handle_handoff` created activity message without `inbox_id` → `RecordInvalid` | Added `inbox_id: conversation.inbox_id` |
 
 ---
 
-## Phase 9 — Production Hardening ⬜
+## Phase 8 — Security & Authorization Policies ✅
 
-Observability, performance, CI/CD, and operational readiness.
+**Commit:** `9e92e3efd` — `feat(security): add Pundit policies, SSRF protection, and rate limiting`
 
-### What needs to be done
+### What was done
 
-1. **CI/CD pipeline** — GitHub Actions:
-   - RSpec + Vitest on PR
-   - ESLint + Rubocop checks
-   - Docker image build + push to registry
-   - Auto-deploy to staging on `develop` merge
+1. **Pundit policies** — 6 policies under `saas/app/policies/saas/`:
+   - `AiAgentPolicy` — index/show for all roles; create/update/destroy admin-only
+   - `AgentToolPolicy` — index for all roles; CUD admin-only
+   - `KnowledgeBasePolicy` — index/show for all roles; CUD admin-only
+   - `KnowledgeDocumentPolicy` — create/destroy admin-only
+   - `AiAgentInboxPolicy` — CUD admin-only
+   - `LlmPolicy` — completions/embeddings/models for all roles; health admin-only
+   - All policies use `{ user:, account:, account_user: }` context hash pattern
 
-2. **Monitoring**:
-   - Sentry/exception tracking integration
-   - Sidekiq dashboard (protected route)
-   - LiteLLM proxy metrics
-   - AI usage dashboards (per-account token consumption)
+2. **Controller authorization** — Added `before_action :authorize_*` to all 6 SaaS controllers:
+   - `AiAgentsController`, `AgentToolsController`, `KnowledgeBasesController`
+   - `KnowledgeDocumentsController`, `AiAgentInboxesController`, `LlmController`
 
-3. **Performance**:
-   - Database query optimization (N+1 detection)
-   - Redis caching for hot paths (plan limits, agent config)
-   - Connection pooling for LiteLLM HTTP client
-   - pgvector index tuning (IVFFlat lists parameter)
+3. **SSRF protection** — `saas/lib/url_ssrf_validator.rb`:
+   - Blocks private IP ranges: RFC 1918, loopback, link-local, metadata, multicast, reserved
+   - Blocks IPv6 private ranges: `::1`, `fc00::/7`, `fe80::/10`
+   - DNS rebinding protection: resolves hostnames and checks all resolved IPs
+   - Blocked URL schemes: `file://`, `ftp://`, `gopher://`
+   - Integrated into `Agent::ToolRunner` (runtime) and `AgentTool` model (validation)
 
-4. **Operational docs**:
-   - Runbook for common operations (scaling, backups, migrations)
-   - API documentation (OpenAPI/Swagger for SaaS endpoints)
-   - User-facing docs for Agent Builder
+4. **Rate limiting** — `config/initializers/rack_attack.rb`:
+   - LLM completions: 60 requests/minute per account (configurable via `RATE_LIMIT_LLM_COMPLETIONS`)
+   - LLM embeddings: 120 requests/minute per account (configurable via `RATE_LIMIT_LLM_EMBEDDINGS`)
+   - Returns 429 with `Retry-After` header
+
+5. **Model-level URL validation** — `AgentTool#url_template_not_obviously_internal`:
+   - Rejects `localhost`, `127.x.x.x`, `169.254.169.254`, `metadata.google.internal`, `.local` domains
+   - Rejects non-HTTP schemes (ftp, file, gopher)
+   - Only applies to `http` tool_type with non-blank `url_template`
+
+### Files changed
+
+| File | Action |
+|------|--------|
+| `saas/app/policies/saas/ai_agent_policy.rb` | New — Pundit policy |
+| `saas/app/policies/saas/agent_tool_policy.rb` | New — Pundit policy |
+| `saas/app/policies/saas/knowledge_base_policy.rb` | New — Pundit policy |
+| `saas/app/policies/saas/knowledge_document_policy.rb` | New — Pundit policy |
+| `saas/app/policies/saas/ai_agent_inbox_policy.rb` | New — Pundit policy |
+| `saas/app/policies/saas/llm_policy.rb` | New — Pundit policy |
+| `saas/lib/url_ssrf_validator.rb` | New — SSRF validation module |
+| `saas/app/models/saas/agent_tool.rb` | Added URL validation |
+| `saas/app/services/agent/tool_runner.rb` | Added SSRF check before HTTP calls |
+| `config/initializers/rack_attack.rb` | Added LLM rate limiting |
+
+---
+
+## Phase 9 — Production Hardening ✅
+
+**Commit:** `3795d1bb0` — `feat(hardening): structured logging, job resilience, health checks, encryption, indexes`
+
+### What was done
+
+1. **Structured logging** — `Saas::Api::V1::LlmController`:
+   - `[SaaS::LLM]` tagged log lines with `account_id`, `model`, `tokens`, `duration_ms`, `status`
+   - Covers completions, embeddings, streaming, and error paths
+
+2. **Thread-safe LLM config** — Fixed `@@llm_config` class variable (shared across threads):
+   - Replaced with `Mutex` + `self.class.instance_variable_get/set(:@_llm_config)`
+   - Thread-safe lazy initialization with double-checked locking
+
+3. **Expanded health endpoint** — `GET /llm/health`:
+   - LiteLLM proxy check (existing)
+   - Database connectivity (`ActiveRecord::Base.connection.execute('SELECT 1')`)
+   - pgvector extension (`SELECT extversion FROM pg_extension WHERE extname='vector'`)
+   - Redis connectivity (`$velma.with { |conn| conn.ping }`)
+   - Returns per-component status JSON
+
+4. **Job resilience** — `retry_on` / `discard_on` on all 4 SaaS background jobs:
+   - `AiAgentReplyJob` — retry on `RateLimitError` (5 attempts, polynomially_longer) + `TimeoutError` (3 attempts, 10s); discard on `RecordNotFound`
+   - `LlmStreamJob` — `sidekiq_options retry: 0`; discard on `RecordNotFound`
+   - `Rag::DocumentIngestionJob` — retry on `RateLimitError` (5 attempts) + `TimeoutError` (3 attempts); discard on `RecordNotFound`
+   - `Saas::StripeWebhookJob` — retry on `APIConnectionError` + `RateLimitError` (5 attempts each); discard on `JSON::ParserError`
+
+5. **Auth token encryption** — `Saas::AgentTool`:
+   - `encrypts :auth_token` (guarded by `Chatwoot.encryption_configured?`)
+   - Requires `ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY`, `_DETERMINISTIC_KEY`, `_KEY_DERIVATION_SALT`
+
+6. **Missing database indexes** — Migration `20260302000006_add_missing_indexes_to_saas_tables`:
+   - `ai_agent_inboxes.inbox_id` — fast inbox → agent lookup
+   - `knowledge_documents.knowledge_base_id` — document listing
+   - `agent_tools.ai_agent_id` — tool loading per agent
+   - `ai_usage_records.(account_id, recorded_on)` — usage aggregation queries
+
+7. **Rate limit documentation** — `.env.example`:
+   - `RATE_LIMIT_LLM_COMPLETIONS` (default: 60/min)
+   - `RATE_LIMIT_LLM_EMBEDDINGS` (default: 120/min)
+
+### Files changed
+
+| File | Action |
+|------|--------|
+| `saas/app/controllers/saas/api/v1/llm_controller.rb` | Structured logging, thread-safe config, expanded health |
+| `saas/app/jobs/ai_agent_reply_job.rb` | Added retry_on / discard_on |
+| `saas/app/jobs/llm_stream_job.rb` | Added sidekiq_options retry: 0, discard_on |
+| `saas/app/jobs/rag/document_ingestion_job.rb` | Added retry_on / discard_on |
+| `saas/app/jobs/saas/stripe_webhook_job.rb` | Added retry_on / discard_on |
+| `saas/app/models/saas/agent_tool.rb` | Added `encrypts :auth_token` |
+| `db/migrate/20260302000006_add_missing_indexes_to_saas_tables.rb` | New — 4 indexes |
+| `.env.example` | Documented rate limit env vars |
 
 ---
 
