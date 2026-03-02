@@ -10,7 +10,7 @@ class EnhanceInfluencerStatusesAndApify < ActiveRecord::Migration[7.1]
     add_column :influencer_profiles, :recent_posts, :jsonb, default: []
 
     # Loading flag for async IC enrich
-    add_column :influencer_profiles, :enrichment_pending, :boolean, default: false
+    add_column :influencer_profiles, :enrichment_pending, :boolean, default: false, null: false
 
     # Remap statuses:
     #   report_pending (1) → discovered (0)  — not yet enriched
