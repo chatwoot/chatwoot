@@ -39,6 +39,7 @@ export function useSetupWizard() {
     systemPrompt: WIZARD_SYSTEM_PROMPT,
     temperature: 0.7,
     feature: 'agent_wizard',
+    streaming: false,
   });
 
   const isComplete = computed(() => !!wizardResult.value);

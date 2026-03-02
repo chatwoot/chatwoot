@@ -6,24 +6,31 @@ import LlmCableSubscription from 'dashboard/helpers/llmCable';
 const STREAM_TIMEOUT_MS = 45_000; // 45 seconds
 
 /**
- * Composable for real-time LLM chat with ActionCable streaming.
+ * Composable for LLM chat with optional ActionCable streaming.
  *
- * Usage:
- *   const { messages, isStreaming, sendMessage, clearMessages, connect, disconnect } = useLlmChat({
+ * Usage (streaming via ActionCable — requires connect()):
+ *   const { messages, isStreaming, sendMessage, connect, disconnect } = useLlmChat({
  *     model: 'gpt-4.1-mini',
  *     systemPrompt: 'You are a helpful assistant.',
- *     temperature: 0.7,
- *     feature: 'assistant',
+ *     streaming: true,  // default
  *   });
- *
  *   connect();
- *   await sendMessage('Hello!'); // resolves when streaming completes or times out
+ *   await sendMessage('Hello!');
+ *
+ * Usage (non-streaming HTTP — no ActionCable needed):
+ *   const { messages, isStreaming, sendMessage } = useLlmChat({
+ *     model: 'gpt-4.1-mini',
+ *     systemPrompt: 'You are a helpful assistant.',
+ *     streaming: false,
+ *   });
+ *   await sendMessage('Hello!'); // resolves when HTTP response arrives
  */
 export function useLlmChat({
   model = 'gpt-4.1-mini',
   systemPrompt = '',
   temperature = 0.7,
   feature = 'assistant',
+  streaming = true,
 } = {}) {
   const store = useStore();
 
@@ -92,6 +99,7 @@ export function useLlmChat({
   }
 
   function connect() {
+    if (!streaming) return; // No cable needed in non-streaming mode
     if (cable) return;
 
     const user = currentUser();
@@ -129,10 +137,72 @@ export function useLlmChat({
   }
 
   /**
-   * Send a user message and wait for the assistant response to complete.
+   * Send a message using non-streaming HTTP (stream: false).
+   * The full response is returned in a single HTTP response.
+   */
+  async function sendMessageHttp(content) {
+    if (isStreaming.value) return;
+
+    // Add user message
+    messages.value.push({
+      id: crypto.randomUUID(),
+      role: 'user',
+      content,
+      timestamp: new Date().toISOString(),
+    });
+
+    // Add placeholder assistant message (shown as loading)
+    messages.value.push({
+      id: crypto.randomUUID(),
+      role: 'assistant',
+      content: '',
+      streaming: true,
+      timestamp: new Date().toISOString(),
+    });
+
+    isStreaming.value = true;
+    error.value = null;
+
+    try {
+      const apiMessages = buildApiMessages();
+      // Remove the empty assistant placeholder from API messages
+      apiMessages.pop();
+
+      const { data } = await LlmAPI.completions({
+        model,
+        messages: apiMessages,
+        stream: false,
+        temperature,
+        feature,
+      });
+
+      const assistantContent =
+        data?.choices?.[0]?.message?.content || data?.content || '';
+      const usage = data?.usage || {};
+
+      const lastMsg = messages.value[messages.value.length - 1];
+      if (lastMsg && lastMsg.role === 'assistant') {
+        lastMsg.content = assistantContent;
+        lastMsg.streaming = false;
+        lastMsg.usage = usage;
+      }
+    } catch (err) {
+      const lastMsg = messages.value[messages.value.length - 1];
+      if (lastMsg && lastMsg.role === 'assistant' && lastMsg.streaming) {
+        lastMsg.streaming = false;
+        lastMsg.error = err?.message || 'Failed to send message';
+      }
+      error.value = err?.message || 'Failed to send message';
+    } finally {
+      isStreaming.value = false;
+    }
+  }
+
+  /**
+   * Send a message using ActionCable streaming (stream: true).
    * Resolves when streaming finishes, errors, or times out (45s).
    */
-  async function sendMessage(content) {
+  async function sendMessageStreaming(content) {
     if (isStreaming.value) return;
 
     // Add user message
@@ -200,6 +270,17 @@ export function useLlmChat({
 
     // Wait for streaming to actually finish (or timeout)
     await streamCompleted;
+  }
+
+  /**
+   * Send a user message. Delegates to streaming or non-streaming based on config.
+   */
+  async function sendMessage(content) {
+    if (streaming) {
+      await sendMessageStreaming(content);
+    } else {
+      await sendMessageHttp(content);
+    }
   }
 
   function clearMessages() {
