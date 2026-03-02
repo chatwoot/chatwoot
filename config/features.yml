@@ -74,10 +74,9 @@
 - name: voice_recorder
   display_name: Voice Recorder
   enabled: true
-- name: mobile_v2
-  display_name: Mobile App V2
+- name: report_rollup
+  display_name: Report Rollup
   enabled: false
-  deprecated: true
 - name: channel_website
   display_name: Website Channel
   enabled: true
@@ -108,12 +107,10 @@
 - name: response_bot
   display_name: Response Bot
   enabled: false
-  premium: true
   deprecated: true
 - name: message_reply_to
   display_name: Message Reply To
   enabled: false
-  help_url: https://chwt.app/hc/reply-to
   deprecated: true
 - name: insert_article_in_reply
   display_name: Insert Article in Reply
@@ -149,7 +146,7 @@
   enabled: true
 - name: report_v4
   display_name: Report V4
-  enabled: true
+  enabled: false
   deprecated: true
 - name: contact_chatwoot_support_team
   display_name: Contact Chatwoot Support Team

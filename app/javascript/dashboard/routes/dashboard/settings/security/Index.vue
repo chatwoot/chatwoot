@@ -31,10 +31,7 @@ const showPaywall = computed(() => shouldShowPaywall('saml'));
 </script>
 
 <template>
-  <SettingsLayout
-    class="max-w-2xl mx-auto"
-    :loading-message="$t('ATTRIBUTES_MGMT.LOADING')"
-  >
+  <SettingsLayout :loading-message="$t('ATTRIBUTES_MGMT.LOADING')">
     <template #header>
       <BaseSettingsHeader
         :title="$t('SECURITY_SETTINGS.TITLE')"
