@@ -1,0 +1,201 @@
+{
+  "AI_AGENTS": {
+    "TITLE": "AI Agents",
+    "DESCRIPTION": "Create and manage AI agents for automated conversations",
+    "HEADER_BTN_TXT": "New Agent",
+    "EMPTY_STATE": {
+      "TITLE": "No AI agents yet",
+      "DESCRIPTION": "Create your first AI agent to automate conversations with RAG, tool-calling, or voice capabilities."
+    },
+    "STATUS": {
+      "ACTIVE": "Active",
+      "PAUSED": "Paused",
+      "ARCHIVED": "Archived"
+    },
+    "TYPES": {
+      "RAG": "RAG",
+      "TOOL_CALLING": "Tool Calling",
+      "VOICE": "Voice",
+      "HYBRID": "Hybrid"
+    },
+    "LIST": {
+      "INBOXES": "{count} inbox | {count} inboxes",
+      "KNOWLEDGE_BASES": "{count} knowledge base | {count} knowledge bases",
+      "TOOLS": "{count} tool | {count} tools"
+    },
+    "CREATE": {
+      "TITLE": "Create AI Agent",
+      "SUCCESS": "AI agent created successfully",
+      "ERROR": "Failed to create AI agent"
+    },
+    "EDIT": {
+      "TITLE": "Edit AI Agent",
+      "SUCCESS": "AI agent updated successfully",
+      "ERROR": "Failed to update AI agent"
+    },
+    "DELETE": {
+      "TITLE": "Delete AI Agent",
+      "CONFIRM": "Are you sure you want to delete this agent? This action cannot be undone.",
+      "SUCCESS": "AI agent deleted successfully",
+      "ERROR": "Failed to delete AI agent"
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "Name",
+        "PLACEHOLDER": "e.g. Customer Support Agent"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Description",
+        "PLACEHOLDER": "Describe what this agent does"
+      },
+      "TYPE": {
+        "LABEL": "Agent Type"
+      },
+      "MODEL": {
+        "LABEL": "LLM Model",
+        "PLACEHOLDER": "Select a model"
+      },
+      "SYSTEM_PROMPT": {
+        "LABEL": "System Prompt",
+        "PLACEHOLDER": "You are a helpful customer support agent..."
+      },
+      "STATUS": {
+        "LABEL": "Status"
+      },
+      "TEMPERATURE": {
+        "LABEL": "Temperature"
+      },
+      "MAX_TOKENS": {
+        "LABEL": "Max Tokens"
+      }
+    },
+    "TABS": {
+      "SETUP": "Setup",
+      "KNOWLEDGE": "Knowledge",
+      "TOOLS": "Tools",
+      "VOICE": "Voice",
+      "DEPLOY": "Deploy"
+    },
+    "KNOWLEDGE": {
+      "TITLE": "Knowledge Bases",
+      "ADD_BTN": "Add Knowledge Base",
+      "EMPTY": "No knowledge bases yet. Add documents to give your agent context.",
+      "ADD_DOCUMENT": "Add Document",
+      "DOCUMENT_TYPES": {
+        "URL": "URL",
+        "TEXT": "Text",
+        "FILE": "File Upload"
+      },
+      "STATUS": {
+        "PENDING": "Pending",
+        "PROCESSING": "Processing",
+        "READY": "Ready",
+        "ERROR": "Error"
+      },
+      "CREATE_KB": {
+        "TITLE": "Create Knowledge Base",
+        "NAME_LABEL": "Name",
+        "NAME_PLACEHOLDER": "e.g. Product Documentation",
+        "DESCRIPTION_LABEL": "Description",
+        "SUCCESS": "Knowledge base created",
+        "ERROR": "Failed to create knowledge base"
+      },
+      "ADD_DOC": {
+        "TITLE": "Add Document",
+        "TITLE_LABEL": "Title",
+        "TITLE_PLACEHOLDER": "Document title",
+        "URL_LABEL": "URL",
+        "URL_PLACEHOLDER": "https://example.com/docs",
+        "CONTENT_LABEL": "Content",
+        "CONTENT_PLACEHOLDER": "Paste text content here...",
+        "SUCCESS": "Document added and queued for processing",
+        "ERROR": "Failed to add document"
+      },
+      "DELETE_DOC": {
+        "SUCCESS": "Document deleted",
+        "ERROR": "Failed to delete document"
+      },
+      "DELETE_KB": {
+        "CONFIRM": "Delete this knowledge base and all its documents?",
+        "SUCCESS": "Knowledge base deleted",
+        "ERROR": "Failed to delete knowledge base"
+      }
+    },
+    "TOOLS": {
+      "TITLE": "Tools",
+      "ADD_BTN": "Add Tool",
+      "EMPTY": "No tools configured. Add HTTP tools or built-in actions for your agent.",
+      "FORM": {
+        "NAME_LABEL": "Tool Name",
+        "NAME_PLACEHOLDER": "e.g. lookup_order",
+        "DESCRIPTION_LABEL": "Description",
+        "DESCRIPTION_PLACEHOLDER": "Looks up an order by ID",
+        "TYPE_LABEL": "Type",
+        "METHOD_LABEL": "Method",
+        "METHODS": {
+          "GET": "GET",
+          "POST": "POST",
+          "PUT": "PUT",
+          "PATCH": "PATCH",
+          "DELETE": "DELETE"
+        },
+        "URL_LABEL": "URL Template",
+        "URL_PLACEHOLDER": "https://api.example.com/orders/{{order_id}}",
+        "HEADERS_LABEL": "Headers (JSON)",
+        "BODY_LABEL": "Body Template",
+        "BODY_PLACEHOLDER": "{\"order_id\": \"{{order_id}}\"}",
+        "PARAMS_LABEL": "Parameters Schema (JSON)",
+        "ACTIVE_LABEL": "Active"
+      },
+      "CREATE": {
+        "TITLE": "Create Tool",
+        "SUCCESS": "Tool created successfully",
+        "ERROR": "Failed to create tool"
+      },
+      "DELETE": {
+        "CONFIRM": "Delete this tool?",
+        "SUCCESS": "Tool deleted",
+        "ERROR": "Failed to delete tool"
+      }
+    },
+    "VOICE": {
+      "TITLE": "Voice Settings",
+      "DESCRIPTION": "Configure voice agents for phone conversations (requires Voice or Hybrid agent type)",
+      "PROVIDER_LABEL": "Voice Provider",
+      "VOICE_LABEL": "Voice",
+      "LANGUAGE_LABEL": "Language",
+      "SPEED_LABEL": "Speed",
+      "GREETING_LABEL": "Greeting Message",
+      "GREETING_PLACEHOLDER": "Hello! How can I help you today?",
+      "SENSITIVITY_LABEL": "Interruption Sensitivity",
+      "REALTIME_LABEL": "Enable Realtime Streaming",
+      "NOT_AVAILABLE": "Voice settings are only available for Voice and Hybrid agent types."
+    },
+    "DEPLOY": {
+      "TITLE": "Deploy",
+      "DESCRIPTION": "Connect this agent to inboxes to start handling conversations automatically.",
+      "ADD_INBOX": "Connect Inbox",
+      "EMPTY": "No inboxes connected. Connect an inbox to deploy this agent.",
+      "AUTO_REPLY": "Auto-reply",
+      "INBOX_STATUS": {
+        "ACTIVE": "Active",
+        "PAUSED": "Paused"
+      },
+      "CREATE": {
+        "TITLE": "Connect Inbox",
+        "SELECT_LABEL": "Select Inbox",
+        "AUTO_REPLY_LABEL": "Enable auto-reply",
+        "SUCCESS": "Inbox connected",
+        "ERROR": "Failed to connect inbox"
+      },
+      "DELETE": {
+        "CONFIRM": "Disconnect this inbox?",
+        "SUCCESS": "Inbox disconnected",
+        "ERROR": "Failed to disconnect inbox"
+      }
+    }
+  },
+  "SIDEBAR": {
+    "AI_AGENTS": "AI Agents"
+  }
+}

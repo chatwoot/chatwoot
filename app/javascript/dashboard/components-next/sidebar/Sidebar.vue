@@ -387,6 +387,26 @@ const menuItems = computed(() => {
       ],
     },
     {
+      name: 'AI Agents',
+      icon: 'i-lucide-bot',
+      label: t('SIDEBAR.AI_AGENTS'),
+      children: [
+        {
+          name: 'All Agents',
+          label: t('SIDEBAR.AI_AGENTS'),
+          activeOn: [
+            'ai_agents_list',
+            'ai_agents_setup',
+            'ai_agents_knowledge',
+            'ai_agents_tools',
+            'ai_agents_voice',
+            'ai_agents_deploy',
+          ],
+          to: accountScopedRoute('ai_agents_list'),
+        },
+      ],
+    },
+    {
       name: 'Contacts',
       label: t('SIDEBAR.CONTACTS'),
       icon: 'i-lucide-contact',

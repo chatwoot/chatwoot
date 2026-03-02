@@ -23,7 +23,7 @@
 | 4e | Voice Agents | ✅ Complete | `7f20405` |
 | — | Voice Provider Audit | ✅ Complete | `7f20405` |
 | — | Best Practices Review | ✅ Complete | — |
-| 5 | Agent Builder UI | ⬜ Not Started | — |
+| 5 | Agent Builder UI | ✅ Complete | — |
 | 6 | Docker Deployment | ⬜ Not Started | — |
 
 ---
@@ -358,15 +358,50 @@ Cross-referenced all implementations against official API docs (OpenAI Realtime 
 
 ---
 
-## Phase 5 — Agent Builder UI (Vue 3) ⬜
+## Phase 5 — Agent Builder UI (Vue 3) ✅
 
-Route: `app/javascript/dashboard/routes/agentBuilder/`
+Route: `app/javascript/dashboard/routes/dashboard/aiAgents/`
+
+### What was done
+
+1. **Backend API** — 5 SaaS controllers under `saas/app/controllers/saas/api/v1/`:
+   - `AiAgentsController` — Full CRUD for AI agents with detailed JSON serialization
+   - `KnowledgeBasesController` — CRUD nested under ai_agents
+   - `KnowledgeDocumentsController` — Create/destroy with auto-enqueue `Rag::DocumentIngestionJob`
+   - `AgentToolsController` — CRUD nested under ai_agents
+   - `AiAgentInboxesController` — Create/update/destroy for inbox connections
+
+2. **API Routes** — Nested resources under `/saas/api/v1/accounts/:account_id/ai_agents`
+
+3. **Frontend API Client** — `api/saas/aiAgents.js` extending `ApiClient` with `{ accountScoped: true, saas: true }`
+
+4. **Vuex Store** — `store/modules/aiAgents.js` with state, getters, CRUD actions, and mutations using `MutationHelpers`
+
+5. **Vue Components** — Full Agent Builder UI:
+   - **Agent List Page** — Grid of agent cards with name, type, status, counts
+   - **Agent Detail Page** — Tabbed layout with 5 tabs (Setup, Knowledge, Tools, Voice, Deploy)
+   - **Create/Edit Agent Dialog** — Modal form with name, description, type, model, system prompt
+   - **Delete Agent Dialog** — Confirmation dialog with Vuex delete action
+   - **Setup Tab** — Full agent settings form (name, description, type, model, system prompt, temperature)
+   - **Knowledge Tab** — CRUD for knowledge bases + document management (URL/text/file)
+   - **Tools Tab** — CRUD for HTTP/handoff/built-in tools with method, URL, headers, body template
+   - **Voice Tab** — Provider, voice ID, language, speed, greeting, interruption sensitivity, realtime model
+   - **Deploy Tab** — Connect/disconnect inboxes, auto-reply toggle, status indicators
+
+6. **Frontend Routes** — `aiAgents.routes.js` with parent wrapper + lazy-loaded child routes
+
+7. **Sidebar Navigation** — "AI Agents" entry with bot icon added after Captain section
+
+8. **i18n** — Comprehensive English translations (`aiAgents.json`) registered in locale index
 
 | Page | Description |
 |------|-------------|
-| Agent List (`/agents`) | Cards with name, type, status, linked inboxes |
-| Agent Create/Edit (`/agents/:id`) | Multi-tab wizard |
-| Agent Analytics (`/agents/:id/analytics`) | Messages, handoff rate, token usage |
+| Agent List (`/ai-agents`) | Cards with name, type, status, linked inboxes |
+| Agent Detail (`/ai-agents/:id/setup`) | Multi-tab settings page |
+| Agent Detail (`/ai-agents/:id/knowledge`) | Knowledge base & document management |
+| Agent Detail (`/ai-agents/:id/tools`) | Tool CRUD with HTTP config |
+| Agent Detail (`/ai-agents/:id/voice`) | Voice configuration |
+| Agent Detail (`/ai-agents/:id/deploy`) | Inbox connections |
 
 ### Builder tabs
 

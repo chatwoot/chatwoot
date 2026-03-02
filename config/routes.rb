@@ -503,6 +503,15 @@ Rails.application.routes.draw do
               get :models
               get :health
             end
+
+            # AI Agent Builder endpoints
+            resources :ai_agents, only: [:index, :show, :create, :update, :destroy] do
+              resources :knowledge_bases, only: [:index, :show, :create, :update, :destroy] do
+                resources :knowledge_documents, only: [:create, :destroy]
+              end
+              resources :agent_tools, only: [:index, :create, :update, :destroy]
+              resources :ai_agent_inboxes, only: [:create, :update, :destroy]
+            end
           end
         end
       end
