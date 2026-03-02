@@ -66,7 +66,7 @@ const selectEventType = async eventType => {
         url: bookingUrl,
       });
 
-      await store.dispatch('sendMessage', {
+      await store.dispatch('createPendingMessageAndSend', {
         conversationId: props.conversationId,
         message,
       });
