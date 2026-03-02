@@ -1,14 +1,16 @@
 <script setup>
-import { computed, onUnmounted } from 'vue';
+import { computed, onUnmounted, ref, onMounted } from 'vue';
 import { useToggle } from '@vueuse/core';
 import { useStore } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
 import { emitter } from 'shared/helpers/mitt';
 import EmailTranscriptModal from './EmailTranscriptModal.vue';
+import VirtiInfoModal from './VirtiInfoModal.vue';
 import ResolveAction from '../../buttons/ResolveAction.vue';
 import ButtonV4 from 'dashboard/components-next/button/Button.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
+import virtiAuth from 'dashboard/api/virtiAuth';
 
 import {
   CMD_MUTE_CONVERSATION,
@@ -22,6 +24,14 @@ const { t } = useI18n();
 
 const [showEmailActionsModal, toggleEmailModal] = useToggle(false);
 const [showActionsDropdown, toggleDropdown] = useToggle(false);
+const [showVirtiInfoModal, toggleVirtiInfoModal] = useToggle(false);
+
+const virtiAvailable = ref(false);
+
+onMounted(async () => {
+  await virtiAuth.ensureToken();
+  virtiAvailable.value = virtiAuth.getAvailability();
+});
 
 const currentChat = computed(() => store.getters.getSelectedChat);
 
@@ -92,6 +102,16 @@ onUnmounted(() => {
 
 <template>
   <div class="relative flex items-center gap-2 actions--container">
+    <ButtonV4
+      v-if="virtiAvailable"
+      v-tooltip="'Informações do contato'"
+      size="sm"
+      variant="ghost"
+      color="slate"
+      icon="i-lucide-info"
+      class="rounded-md"
+      @click="toggleVirtiInfoModal(true)"
+    />
     <ResolveAction
       :conversation-id="currentChat.id"
       :status="currentChat.status"
@@ -121,6 +141,11 @@ onUnmounted(() => {
       :show="showEmailActionsModal"
       :current-chat="currentChat"
       @cancel="toggleEmailModal"
+    />
+    <VirtiInfoModal
+      v-if="showVirtiInfoModal"
+      :conversation-id="currentChat.id"
+      @close="toggleVirtiInfoModal(false)"
     />
   </div>
 </template>
