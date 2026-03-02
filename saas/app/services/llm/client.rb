@@ -37,7 +37,7 @@ module Llm
     attr_reader :model, :base_url, :api_key, :timeout
 
     def initialize(model: nil, api_key: nil, base_url: nil, timeout: nil)
-      @model = model || LlmConstants::DEFAULT_MODEL
+      @model = (model || LlmConstants::DEFAULT_MODEL).sub(%r{^litellm/}, '')
       @base_url = base_url || litellm_base_url
       @api_key = api_key || litellm_api_key
       @timeout = timeout || DEFAULT_TIMEOUT

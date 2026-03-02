@@ -75,14 +75,98 @@
       "CANCEL": "Cancelar",
       "CREATE": "Criar",
       "EDIT": "Atualizar",
-      "SAVE": "Salvar Alterações"
+      "SAVE": "Salvar Alterações",
+      "ADVANCED_MODE": "Modo Avançado",
+      "ADVANCED_DESCRIPTION": "Edite o prompt do sistema diretamente para controle total.",
+      "GENERATE_WITH_AI": "Gerar com IA",
+      "GUIDED_SETUP": "Configuração Guiada",
+      "QUICK_CREATE": "Criação Rápida",
+      "SECTIONS": {
+        "INITIAL_MESSAGE": {
+          "LABEL": "Mensagem Inicial",
+          "DESCRIPTION": "A mensagem de saudação enviada ao cliente quando a conversa começa.",
+          "PLACEHOLDER": "Olá! Bem-vindo ao nosso suporte. Como posso ajudá-lo hoje?",
+          "TOOLTIP": "Esta mensagem é enviada automaticamente quando uma nova conversa começa. Use {{contact_name}} para personalização."
+        },
+        "INSTRUCTIONS": {
+          "LABEL": "Instruções",
+          "DESCRIPTION": "Defina o comportamento, personalidade e o que o assistente deve fazer.",
+          "PLACEHOLDER": "Você é um agente de suporte ao cliente amigável para a nossa empresa. Ajude os clientes com pedidos, devoluções e dúvidas gerais. Seja sempre educado e objetivo.",
+          "TOOLTIP": "Estas instruções definem o papel e as diretrizes de comportamento do assistente."
+        },
+        "GENERAL_CONTEXT": {
+          "LABEL": "Contexto Geral",
+          "DESCRIPTION": "Conhecimento estático sobre o seu negócio que o assistente deve saber.",
+          "PLACEHOLDER": "Empresa: AcmeCorp\nProdutos: Widget A (R$ 29,99), Widget B (R$ 49,99)\nHorário: Seg–Sex 9h–18h\nPolítica de devolução: 30 dias, comprovante necessário",
+          "TOOLTIP": "Adicione informações do negócio, catálogos de produtos, FAQs — tudo que o assistente precisar como contexto. Para documentos, use a aba Conhecimento.",
+          "UPLOAD_HINT": "Para upload de documentos (PDF, CSV), vá para a aba Conhecimento."
+        },
+        "SUCCESS_CRITERIA": {
+          "LABEL": "Critérios de Sucesso",
+          "DESCRIPTION": "Defina quando uma conversa é considerada concluída com sucesso.",
+          "PLACEHOLDER": "A conversa é bem-sucedida quando:\n- A dúvida do cliente foi respondida\n- Um pedido foi realizado com todos os dados necessários\n- O cliente confirma que não tem mais dúvidas",
+          "TOOLTIP": "Ajude a IA a entender quando encerrar a conversa."
+        },
+        "INTERRUPTION_RULES": {
+          "LABEL": "Regras de Escalonamento",
+          "DESCRIPTION": "Defina quando o assistente deve transferir para um agente humano.",
+          "PLACEHOLDER": "Escalonar para um agente humano quando:\n- O cliente pede para falar com um humano\n- O problema envolve disputas de cobrança ou reembolsos acima de R$ 100\n- O cliente está frustrado ou a IA não consegue resolver",
+          "TOOLTIP": "Estas regras disparam a transferência para um agente humano."
+        },
+        "INACTIVITY": {
+          "LABEL": "Tratamento de Inatividade",
+          "DESCRIPTION": "Configure o que acontece quando o cliente para de responder.",
+          "TIMEOUT_LABEL": "Tempo limite (minutos)",
+          "TIMEOUT_PLACEHOLDER": "30",
+          "MESSAGE_LABEL": "Mensagem de inatividade",
+          "MESSAGE_PLACEHOLDER": "Parece que você se ausentou. Se ainda precisar de ajuda, envie uma mensagem!",
+          "TOOLTIP": "O assistente enviará esta mensagem após o período de inatividade."
+        },
+        "ERROR_MESSAGE": {
+          "LABEL": "Mensagem de Erro",
+          "DESCRIPTION": "Mensagem de fallback enviada quando ocorre um erro técnico.",
+          "PLACEHOLDER": "Desculpe, ocorreu um erro técnico. Por favor, tente novamente ou entre em contato com o suporte.",
+          "TOOLTIP": "Esta mensagem é enviada automaticamente quando a IA encontra um erro."
+        }
+      }
     },
     "TABS": {
       "SETUP": "Configuração",
       "KNOWLEDGE": "Conhecimento",
       "TOOLS": "Ferramentas",
       "VOICE": "Voz",
+      "WORKFLOW": "Fluxo de Trabalho",
+      "RUNS": "Execuções",
+      "TEST": "Testar",
       "DEPLOY": "Implantação"
+    },
+    "WIZARD": {
+      "TITLE": "Construtor de Assistente IA",
+      "SUBTITLE": "Vamos criar seu assistente de IA ideal",
+      "DESCRIPTION": "Descreva seu negócio e como você gostaria que o assistente funcionasse. Eu vou gerar toda a configuração para você.",
+      "SKIP": "Pular para configuração manual",
+      "STEPS": {
+        "BUSINESS_INFO": "Info do Negócio",
+        "PERSONA": "Persona",
+        "INSTRUCTIONS": "Instruções",
+        "KNOWLEDGE": "Conhecimento",
+        "SUCCESS_EXIT": "Sucesso e Saída",
+        "ERROR_HANDLING": "Tratamento de Erros",
+        "REVIEW": "Revisar e Criar"
+      },
+      "INPUT_PLACEHOLDER": "Digite sua resposta...",
+      "SEND": "Enviar",
+      "CREATING": "Criando seu agente...",
+      "CREATE_AGENT": "Criar Agente",
+      "REVIEW_TITLE": "Revisar Configuração",
+      "REVIEW_DESCRIPTION": "Aqui está o que eu gerei. Você pode revisar e ajustar após a criação.",
+      "REVIEW_NAME": "Nome:",
+      "REVIEW_DESCRIPTION_LABEL": "Descrição:",
+      "REVIEW_SECTIONS_FILLED": "Seções preenchidas:",
+      "REVIEW_SECTIONS_COUNT": "{count}/8",
+      "GUIDED_DESCRIPTION": "Eu vou entrevistá-lo sobre seu negócio e gerar uma configuração completa do agente com todas as 7 seções.",
+      "CONNECTION_ERROR": "Não foi possível conectar ao serviço de IA. Verifique se o LiteLLM e o Sidekiq estão rodando.",
+      "RETRY": "Tentar Novamente"
     },
     "KNOWLEDGE": {
       "TITLE": "Bases de Conhecimento",

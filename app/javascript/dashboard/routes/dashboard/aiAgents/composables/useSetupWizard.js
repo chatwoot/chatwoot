@@ -35,7 +35,7 @@ export function useSetupWizard() {
     disconnect,
     clearMessages,
   } = useLlmChat({
-    model: 'litellm/gpt-4.1-mini',
+    model: 'gpt-4.1-mini',
     systemPrompt: WIZARD_SYSTEM_PROMPT,
     temperature: 0.7,
     feature: 'agent_wizard',

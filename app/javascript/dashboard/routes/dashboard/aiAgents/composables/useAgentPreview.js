@@ -11,7 +11,7 @@ import AiAgentsAPI from 'dashboard/api/saas/aiAgents';
  */
 export function useAgentPreview(agent) {
   const { messages, error, connect, disconnect, clearMessages } = useLlmChat({
-    model: computed(() => agent.value?.model || 'litellm/gpt-4.1-mini'),
+    model: computed(() => (agent.value?.model || 'gpt-4.1-mini').replace(/^litellm\//, '')),
     systemPrompt: '',
     temperature: 0.7,
     feature: 'agent_preview',

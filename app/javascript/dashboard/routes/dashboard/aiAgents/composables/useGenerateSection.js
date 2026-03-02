@@ -48,7 +48,7 @@ Use the user's language if you can detect it from context, otherwise default to 
         `Generate content for the "${sectionKey}" section of an AI agent configuration.`;
 
       const response = await LlmAPI.completions({
-        model: 'litellm/gpt-4.1-mini',
+        model: 'gpt-4.1-mini',
         messages: [
           { role: 'system', content: systemPrompt },
           { role: 'user', content: userPrompt },
