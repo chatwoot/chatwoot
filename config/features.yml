@@ -17,10 +17,10 @@
   display_name: Facebook Channel
   enabled: true
   help_url: https://chwt.app/hc/fb
-- name: channel_twitter
-  display_name: Twitter Channel
-  enabled: true
-  deprecated: true
+- name: counter_cache_optimization
+  display_name: Counter Cache Optimization
+  enabled: false
+  chatwoot_internal: true
 - name: ip_lookup
   display_name: IP Lookup
   enabled: false

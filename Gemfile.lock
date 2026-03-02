@@ -192,6 +192,9 @@ GEM
     commonmarker (0.23.10)
     concurrent-ruby (1.3.5)
     connection_pool (2.5.3)
+    counter_culture (3.12.1)
+      activerecord (>= 4.2)
+      activesupport (>= 4.2)
     crack (1.0.0)
       bigdecimal
       rexml
@@ -1041,6 +1044,7 @@ DEPENDENCIES
   cld3 (~> 3.7)
   climate_control
   commonmarker
+  counter_culture
   csv-safe
   database_cleaner
   datadog (~> 2.0)
