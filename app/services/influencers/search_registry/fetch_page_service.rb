@@ -16,13 +16,14 @@ class Influencers::SearchRegistry::FetchPageService
   def initialize(account:, filter_params:, page:, discovery_service: nil)
     @account = account
     @filter_params = filter_params || {}
-    @page = [page.to_i, 1].max
+    @requested_page = [page.to_i, 1].max
     @discovery_service = discovery_service || InfluencersClub::DiscoveryService.new(account: account)
   end
 
   # rubocop:disable Metrics/MethodLength
   def perform
     search = find_or_initialize_search
+    @page = clamp_page(search)
     cached = ensure_page_loaded(search)
     raw_results = search.page_results(@page)
     imported = 0
@@ -81,14 +82,12 @@ class Influencers::SearchRegistry::FetchPageService
         next
       end
 
-      ((search.pages_fetched.to_i + 1)..@page).each do |page_number|
-        response = @discovery_service.perform(
-          filter_params: search.query_params.deep_symbolize_keys,
-          paging: { limit: search.page_size, page: page_number }
-        )
-        merge_response!(search, response, page_number)
-        break if page_number >= total_pages(search)
-      end
+      next_page = search.pages_fetched.to_i + 1
+      response = @discovery_service.perform(
+        filter_params: search.query_params.deep_symbolize_keys,
+        paging: { limit: search.page_size, page: next_page }
+      )
+      merge_response!(search, response, next_page)
     end
 
     cached
@@ -118,6 +117,12 @@ class Influencers::SearchRegistry::FetchPageService
     ).perform
 
     [profile, profile.present?]
+  end
+
+  # Only allow jumping one page beyond what's cached to avoid mass API calls
+  def clamp_page(search)
+    max_allowed = search.pages_fetched.to_i + 1
+    [@requested_page, max_allowed].min
   end
 
   def target_market
