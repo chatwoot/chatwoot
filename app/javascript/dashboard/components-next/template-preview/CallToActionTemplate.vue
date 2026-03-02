@@ -26,7 +26,7 @@ defineProps({
         :key="index"
         :label="button.text || button.title || 'Button'"
         slate
-        class="!text-n-blue-text w-full"
+        class="!text-n-blue-11 w-full"
       />
     </div>
   </div>
