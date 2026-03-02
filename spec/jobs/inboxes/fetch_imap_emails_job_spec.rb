@@ -89,13 +89,13 @@ RSpec.describe Inboxes::FetchImapEmailsJob do
     end
 
     context 'when authentication error is raised' do
-      it 'calls authorization_error! on the channel' do
+      it 'calls apply_backoff! on the channel' do
         allow(Imap::FetchEmailService).to receive(:new).and_raise(Imap::AuthenticationError)
-        allow(imap_email_channel).to receive(:authorization_error!)
+        allow(imap_email_channel).to receive(:apply_backoff!)
 
         described_class.perform_now(imap_email_channel)
 
-        expect(imap_email_channel).to have_received(:authorization_error!)
+        expect(imap_email_channel).to have_received(:apply_backoff!)
       end
     end
 
@@ -120,7 +120,7 @@ RSpec.describe Inboxes::FetchImapEmailsJob do
     end
 
     context 'when IMAP OAuth errors out' do
-      it 'marks the connection as requiring authorization' do
+      it 'calls authorization_error! on the channel' do
         error_response = double
         oauth_error = OAuth2::Error.new(error_response)
 
@@ -128,12 +128,11 @@ RSpec.describe Inboxes::FetchImapEmailsJob do
           .with(channel: microsoft_imap_email_channel, interval: 1)
           .and_raise(oauth_error)
 
-        allow(Redis::Alfred).to receive(:incr)
-
-        expect(Redis::Alfred).to receive(:incr)
-          .with("AUTHORIZATION_ERROR_COUNT:channel_email:#{microsoft_imap_email_channel.id}")
+        allow(microsoft_imap_email_channel).to receive(:authorization_error!)
 
         described_class.perform_now(microsoft_imap_email_channel)
+
+        expect(microsoft_imap_email_channel).to have_received(:authorization_error!)
       end
     end
 

@@ -19,7 +19,7 @@ class Inboxes::FetchImapEmailsJob < MutexApplicationJob
     channel.clear_backoff!
   rescue Imap::AuthenticationError => e
     Rails.logger.error "#{channel.backoff_log_identifier} authentication error : #{e.message}"
-    channel.authorization_error!
+    channel.apply_backoff!
   rescue *ExceptionList::IMAP_TRANSIENT_EXCEPTIONS => e
     Rails.logger.error "#{channel.backoff_log_identifier} transient error : #{e.message}"
     channel.apply_backoff!
