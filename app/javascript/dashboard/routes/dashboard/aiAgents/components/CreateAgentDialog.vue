@@ -5,6 +5,7 @@ import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
 import { useVuelidate } from '@vuelidate/core';
 import { required, minLength } from '@vuelidate/validators';
+import { useAvailableModels } from 'dashboard/composables/useAvailableModels';
 
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
@@ -48,6 +49,8 @@ const rules = {
 };
 
 const v$ = useVuelidate(rules, state);
+
+const { modelGroupOptions, isLoadingModels } = useAvailableModels();
 
 const i18nKey = computed(() => `AI_AGENTS.${props.type.toUpperCase()}`);
 
@@ -149,11 +152,38 @@ defineExpose({ dialogRef });
         </select>
       </fieldset>
 
-      <Input
-        v-model="state.model"
-        :label="t('AI_AGENTS.FORM.MODEL.LABEL')"
-        :placeholder="t('AI_AGENTS.FORM.MODEL.PLACEHOLDER')"
-      />
+      <fieldset class="flex flex-col gap-1.5">
+        <label class="text-sm font-medium text-n-slate-12">
+          {{ t('AI_AGENTS.FORM.MODEL.LABEL') }}
+        </label>
+        <select
+          v-model="state.model"
+          :disabled="isLoadingModels"
+          class="w-full px-3 py-2 text-sm rounded-lg border border-n-weak bg-n-solid-2 text-n-slate-12 focus:outline-none focus:ring-2 focus:ring-n-blue-7"
+        >
+          <option value="" disabled>
+            {{
+              isLoadingModels
+                ? t('AI_AGENTS.FORM.MODEL.LOADING')
+                : t('AI_AGENTS.FORM.MODEL.PLACEHOLDER')
+            }}
+          </option>
+          <optgroup
+            v-for="group in modelGroupOptions"
+            :key="group.label"
+            :label="group.label"
+          >
+            <option
+              v-for="opt in group.options"
+              :key="opt.value"
+              :value="opt.value"
+              :disabled="opt.disabled"
+            >
+              {{ opt.label }}
+            </option>
+          </optgroup>
+        </select>
+      </fieldset>
 
       <fieldset class="flex flex-col gap-1.5">
         <label class="text-sm font-medium text-n-slate-12">

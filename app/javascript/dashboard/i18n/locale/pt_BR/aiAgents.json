@@ -55,7 +55,8 @@
       },
       "MODEL": {
         "LABEL": "Modelo LLM",
-        "PLACEHOLDER": "Selecione um modelo"
+        "PLACEHOLDER": "Selecione um modelo",
+        "LOADING": "Carregando modelos..."
       },
       "SYSTEM_PROMPT": {
         "LABEL": "Prompt do Sistema",
