@@ -109,7 +109,7 @@ const statusColors = {
 
       <!-- Load more -->
       <button
-        v-if="hasMore && !loading"
+        v-if="hasMore && !loading && profiles.length < count"
         class="flex items-center justify-center gap-1 py-2 text-xs font-medium text-n-brand rounded-lg border border-dashed border-n-weak hover:bg-n-solid-1 transition-colors"
         @click="emit('loadMore')"
       >

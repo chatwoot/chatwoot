@@ -106,3 +106,4 @@ CLAUDE.local.md
 .pnpm-store/*
 local/
 Procfile.worktree
+db/fixtures/influencer_profiles.json
