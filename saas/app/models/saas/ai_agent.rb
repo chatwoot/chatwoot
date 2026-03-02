@@ -8,7 +8,7 @@ class Saas::AiAgent < ApplicationRecord
   belongs_to :account, class_name: '::Account'
 
   has_many :ai_agent_inboxes, class_name: 'Saas::AiAgentInbox', dependent: :destroy_async
-  has_many :inboxes, through: :ai_agent_inboxes
+  has_many :inboxes, through: :ai_agent_inboxes, class_name: '::Inbox', source: :inbox
   has_many :knowledge_bases, class_name: 'Saas::KnowledgeBase', dependent: :destroy_async
   has_many :agent_tools, class_name: 'Saas::AgentTool', dependent: :destroy_async
 

@@ -4,7 +4,7 @@ class Saas::AiAgentInbox < ApplicationRecord
   self.table_name = 'ai_agent_inboxes'
 
   belongs_to :ai_agent, class_name: 'Saas::AiAgent'
-  belongs_to :inbox
+  belongs_to :inbox, class_name: '::Inbox'
 
   enum :status, { active: 0, paused: 1 }
 
