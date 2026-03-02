@@ -7,6 +7,7 @@ describe Facebook::SendOnFacebookService do
     allow(Facebook::Messenger::Subscriptions).to receive(:subscribe).and_return(true)
     allow(bot).to receive(:deliver).and_return({ recipient_id: '1008372609250235', message_id: 'mid.1456970487936:c34767dfe57ee6e339' }.to_json)
     create(:message, message_type: :incoming, inbox: facebook_inbox, account: account, conversation: conversation)
+    GlobalConfig.clear_cache
   end
 
   let!(:account) { create(:account) }
