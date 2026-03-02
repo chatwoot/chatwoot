@@ -93,7 +93,7 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
     Account.find_by(id: account_id)
   end
 
-  def join_existing_account
+  def join_existing_account # rubocop:disable Metrics/AbcSize
     account = auto_join_account
     email = auth_hash['info']['email']
     name = auth_hash['info']['name']

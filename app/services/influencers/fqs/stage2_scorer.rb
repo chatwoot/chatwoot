@@ -6,6 +6,7 @@ class Influencers::Fqs::Stage2Scorer
   ].freeze
   TARGET_INTEREST_IDS = [1560, 36, 11, 1708, 291, 190, 43].freeze
   INTEREST_WEIGHT_THRESHOLD = 0.30
+  SUSPICIOUS_TYPE_CODES = %w[mass_followers suspicious].freeze
   FLOOR = 0.1
 
   def initialize(profile, target_market:)
@@ -43,7 +44,7 @@ class Influencers::Fqs::Stage2Scorer
     return 0.5 if types.empty?
 
     suspicious_weight = types
-                        .select { |t| %w[mass_followers suspicious].include?(t['code']) || t['name'].to_s.downcase.match?(/mass|suspicious/) }
+                        .select { |t| SUSPICIOUS_TYPE_CODES.include?(t['code']) || t['name'].to_s.downcase.match?(/mass|suspicious/) }
                         .sum { |t| t['weight'].to_f }
 
     [1.0 - suspicious_weight, 0.0].max
@@ -60,7 +61,7 @@ class Influencers::Fqs::Stage2Scorer
   def eu_audience_ratio
     @eu_audience_ratio ||= begin
       countries = extract_audience_geo
-      return 0.0 if countries.empty?
+      return 0.0 if countries.empty? # rubocop:disable Lint/NoReturnInBeginEndBlocks
 
       countries
         .select { |c| EUROPE_COUNTRY_CODES.include?(c['code'].to_s.upcase) }
@@ -71,7 +72,7 @@ class Influencers::Fqs::Stage2Scorer
   def interest_match_ratio
     @interest_match_ratio ||= begin
       interests = extract_audience_interests
-      return 0.0 if interests.empty?
+      return 0.0 if interests.empty? # rubocop:disable Lint/NoReturnInBeginEndBlocks
 
       matched = TARGET_INTEREST_IDS.count do |interest_id|
         interest_pct_for(interests, interest_id) >= INTEREST_WEIGHT_THRESHOLD
@@ -90,7 +91,7 @@ class Influencers::Fqs::Stage2Scorer
     fallback.is_a?(Array) ? fallback : []
   end
 
-  def extract_audience_geo
+  def extract_audience_geo # rubocop:disable Metrics/CyclomaticComplexity
     geo = @profile.audience_geo
     countries = geo.is_a?(Hash) ? (geo['countries'] || []) : []
     return countries if countries.is_a?(Array) && countries.present?

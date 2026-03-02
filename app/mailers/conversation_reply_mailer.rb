@@ -70,7 +70,7 @@ class ConversationReplyMailer < ApplicationMailer
     @channel = @inbox.channel
   end
 
-  def channel_has_own_delivery_method?
+  def channel_has_own_delivery_method? # rubocop:disable Metrics/CyclomaticComplexity
     return false unless @inbox&.email?
 
     @channel&.smtp_enabled || @channel&.google? || @channel&.microsoft?

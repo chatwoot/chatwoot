@@ -80,7 +80,7 @@ class Influencers::Fqs::Stage1Scorer
     [api_er, computed].max
   end
 
-  def reel_views_score
+  def reel_views_score # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
     followers = @profile.followers_count.to_f
     views = @profile.median_reel_views.to_f.nonzero? || @profile.avg_reel_views.to_f
     return 0 if followers.zero? || views.zero?
@@ -114,7 +114,7 @@ class Influencers::Fqs::Stage1Scorer
       18
     elsif pct.between?(0.0, 0.5)
       10
-    elsif pct > 5.0
+    elsif pct > 5.0 # rubocop:disable Lint/DuplicateBranch
       10
     elsif pct >= -2.0
       5

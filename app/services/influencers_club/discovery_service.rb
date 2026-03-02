@@ -18,7 +18,7 @@ class InfluencersClub::DiscoveryService
 
   private
 
-  def build_filters(params)
+  def build_filters(params) # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
     filters = {}
     filters[:ai_search] = params[:ai_search] if params[:ai_search].present?
     filters[:number_of_followers] = range_filter(params[:followers]) if params[:followers].present?

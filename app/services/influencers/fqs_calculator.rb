@@ -14,7 +14,7 @@ class Influencers::FqsCalculator
     @profile = profile
   end
 
-  def perform
+  def perform # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
     return skip_discovery unless @profile.report_available?
 
     backfill_median_reel_views
@@ -95,7 +95,7 @@ class Influencers::FqsCalculator
     ratio = eu_audience_ratio
     return FACTOR_FLOOR if ratio.zero?
 
-    [[ratio / GEO_BASELINE, 1.0].min, FACTOR_FLOOR].max
+    (ratio / GEO_BASELINE).clamp(FACTOR_FLOOR, 1.0)
   end
 
   # Audience Quality factor: audience_credibility (0-1), floor 0.1
@@ -113,7 +113,7 @@ class Influencers::FqsCalculator
   def af_raw_score
     @af_raw_score ||= begin
       interests = @profile.audience_interests
-      return 0.0 unless interests.is_a?(Array)
+      return 0.0 unless interests.is_a?(Array) # rubocop:disable Lint/NoReturnInBeginEndBlocks
 
       AF_TARGET_INTERESTS.sum do |name|
         i = interests.find { |x| x['name'] == name }
@@ -125,7 +125,7 @@ class Influencers::FqsCalculator
   def eu_audience_ratio
     @eu_audience_ratio ||= begin
       countries = extract_audience_geo
-      return 0.0 if countries.empty?
+      return 0.0 if countries.empty? # rubocop:disable Lint/NoReturnInBeginEndBlocks
 
       countries
         .select { |c| EUROPE_COUNTRY_CODES.include?(c['code'].to_s.upcase) }
@@ -133,7 +133,7 @@ class Influencers::FqsCalculator
     end
   end
 
-  def extract_audience_geo
+  def extract_audience_geo # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
     geo = @profile.audience_geo
     countries = geo.is_a?(Hash) ? (geo['countries'] || []) : []
     return countries if countries.is_a?(Array) && countries.present?

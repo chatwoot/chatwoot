@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/ClassLength
 class Api::V1::Accounts::InfluencerProfilesController < Api::V1::Accounts::BaseController
   RESULTS_PER_PAGE = 25
 
@@ -55,13 +56,13 @@ class Api::V1::Accounts::InfluencerProfilesController < Api::V1::Accounts::BaseC
   end
 
   def bulk_import
-    profiles = params[:search_results].map do |result|
+    profiles = params[:search_results].filter_map do |result|
       Influencers::ImportService.new(
         account: Current.account,
         search_result: result.to_unsafe_h,
         target_market: params[:target_market]
       ).perform
-    end.compact
+    end
 
     render json: { payload: profiles.map { |p| profile_json(p) }, meta: { imported: profiles.size } }
   end
@@ -149,6 +150,7 @@ class Api::V1::Accounts::InfluencerProfilesController < Api::V1::Accounts::BaseC
     search_params[:page].presence || 1
   end
 
+  # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
   def extract_recent_posts(profile)
     post_data = profile.raw_report_data&.dig('result', 'instagram', 'post_data')
     return [] if post_data.blank?
@@ -170,6 +172,7 @@ class Api::V1::Accounts::InfluencerProfilesController < Api::V1::Accounts::BaseC
         }
       end
   end
+  # rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
 
   def niche_details(profile)
     return nil unless profile.report_available?
@@ -191,6 +194,7 @@ class Api::V1::Accounts::InfluencerProfilesController < Api::V1::Accounts::BaseC
     render json: { error: message }, status: :unprocessable_entity
   end
 
+  # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
   def profile_json(profile)
     {
       id: profile.id,
@@ -235,4 +239,6 @@ class Api::V1::Accounts::InfluencerProfilesController < Api::V1::Accounts::BaseC
       updated_at: profile.updated_at
     }
   end
+  # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 end
+# rubocop:enable Metrics/ClassLength

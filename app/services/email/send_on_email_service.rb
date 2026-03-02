@@ -5,7 +5,7 @@ class Email::SendOnEmailService < Base::SendOnChannelService
     Channel::Email
   end
 
-  def perform_reply
+  def perform_reply # rubocop:disable Metrics/AbcSize
     return unless message.email_notifiable_message?
 
     reply_mail = ConversationReplyMailer.with(account: message.account).email_reply(message).deliver_now

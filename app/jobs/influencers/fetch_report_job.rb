@@ -2,7 +2,7 @@ class Influencers::FetchReportJob < ApplicationJob
   queue_as :medium
   retry_on InfluencersClub::Client::ApiError, wait: :polynomially_longer, attempts: 3
 
-  def perform(profile_id)
+  def perform(profile_id) # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity
     profile = InfluencerProfile.find(profile_id)
     return unless profile.report_pending? || profile.discovered?
 
