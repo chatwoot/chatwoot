@@ -273,6 +273,7 @@ class Api::V1::Accounts::Aloo::AssistantsController < Api::V1::Accounts::BaseCon
         feature_labels
         feature_catalog_access
         feature_macros
+        feature_contact_update
       ]
     )
   end
@@ -300,7 +301,8 @@ class Api::V1::Accounts::Aloo::AssistantsController < Api::V1::Accounts::BaseCon
         snooze_enabled: assistant.feature_snooze_enabled?,
         labels_enabled: assistant.feature_labels_enabled?,
         catalog_access_enabled: assistant.feature_catalog_access_enabled?,
-        macros_enabled: assistant.feature_macros_enabled?
+        macros_enabled: assistant.feature_macros_enabled?,
+        contact_update_enabled: assistant.feature_contact_update_enabled?
       },
       voice: {
         enabled: assistant.voice_enabled?,

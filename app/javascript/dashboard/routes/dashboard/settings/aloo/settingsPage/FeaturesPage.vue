@@ -53,6 +53,12 @@ const features = [
     label: 'ALOO.SETTINGS.FEATURES.MACROS.LABEL',
     description: 'ALOO.SETTINGS.FEATURES.MACROS.DESCRIPTION',
   },
+  {
+    key: 'contact_update_enabled',
+    adminKey: 'feature_contact_update',
+    label: 'ALOO.SETTINGS.FEATURES.CONTACT_UPDATE.LABEL',
+    description: 'ALOO.SETTINGS.FEATURES.CONTACT_UPDATE.DESCRIPTION',
+  },
 ];
 
 const updateFeature = (adminKey, value) => {

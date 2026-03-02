@@ -40,7 +40,8 @@ class ConversationAgent < ApplicationAgent
     [:feature_handoff_enabled?, HandoffTool],
     [:feature_resolve_enabled?, ResolveTool],
     [:feature_snooze_enabled?,  SnoozeTool],
-    [:feature_labels_enabled?,  LabelsTool]
+    [:feature_labels_enabled?,  LabelsTool],
+    [:feature_contact_update_enabled?, UpdateContactTool]
   ].freeze
 
   def system_prompt
@@ -147,11 +148,15 @@ class ConversationAgent < ApplicationAgent
     inbox = current_conversation.inbox
 
     parts = []
-    parts << "Contact: #{contact.name}" if contact&.name.present?
+    parts << contact.to_llm_text if contact
     parts << "Channel: #{inbox.channel_type}" if inbox
     return nil if parts.empty?
 
-    parts.join(' | ')
+    <<~PROMPT
+      #{section_header('CURRENT CONVERSATION CONTEXT')}
+
+      #{parts.join("\n")}
+    PROMPT
   end
 
   def first_message?
