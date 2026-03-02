@@ -67,14 +67,17 @@ const isEnrichmentPending = computed(
       </div>
     </div>
 
-    <!-- Apify failed badge -->
+    <!-- Apify failed banner -->
     <div
       v-if="isApifyFailed && profile.status === 'discovered'"
-      class="absolute top-2 right-2 z-10 flex items-center gap-1"
+      class="flex items-center justify-between gap-1 px-2 py-1 text-xs rounded bg-n-amber-2 text-n-amber-11"
     >
+      <span class="truncate" :title="profile.apify_error">
+        <span class="i-lucide-alert-triangle size-3 mr-1 align-text-bottom" />
+        {{ profile.apify_error || t('INFLUENCER.KANBAN.APIFY_FAILED') }}
+      </span>
       <button
-        class="flex items-center gap-1 px-2 py-0.5 text-xs font-medium rounded bg-n-amber-2 text-n-amber-11 hover:bg-n-amber-3"
-        :title="profile.apify_error || t('INFLUENCER.KANBAN.APIFY_FAILED')"
+        class="flex-shrink-0 flex items-center gap-1 px-1.5 py-0.5 rounded font-medium hover:bg-n-amber-3"
         @click.stop="emit('retryApify', profile.id)"
       >
         <span class="i-lucide-refresh-cw size-3" />

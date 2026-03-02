@@ -1,8 +1,9 @@
 <script setup>
+import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import InfluencerKanbanCard from './InfluencerKanbanCard.vue';
 
-defineProps({
+const props = defineProps({
   status: { type: String, required: true },
   label: { type: String, required: true },
   profiles: { type: Array, default: () => [] },
@@ -14,6 +15,17 @@ defineProps({
 const emit = defineEmits(['select', 'loadMore', 'retryApify']);
 
 const { t } = useI18n();
+
+const apifyFailedCount = computed(
+  () => props.profiles.filter(p => p.apify_status === 'apify_failed').length
+);
+const hasCreditsError = computed(() =>
+  props.profiles.some(
+    p =>
+      p.apify_status === 'apify_failed' &&
+      p.apify_error?.includes('insufficient credits')
+  )
+);
 
 const statusColors = {
   discovered: 'bg-n-blue-3 text-n-blue-11',
@@ -39,6 +51,32 @@ const statusColors = {
       </div>
       <span class="text-xs font-medium text-n-slate-10">
         {{ count }}
+      </span>
+    </div>
+
+    <!-- Apify credits warning -->
+    <div
+      v-if="hasCreditsError"
+      class="flex items-start gap-2 px-3 py-2 mb-2 text-xs rounded-lg bg-n-ruby-2 text-n-ruby-11"
+    >
+      <span class="i-lucide-alert-circle size-4 flex-shrink-0 mt-0.5" />
+      <span>
+        {{ t('INFLUENCER.KANBAN.APIFY_NO_CREDITS') }}
+      </span>
+    </div>
+
+    <!-- Apify failed count warning (non-credits errors) -->
+    <div
+      v-else-if="apifyFailedCount > 0"
+      class="flex items-center gap-2 px-3 py-2 mb-2 text-xs rounded-lg bg-n-amber-2 text-n-amber-11"
+    >
+      <span class="i-lucide-alert-triangle size-4 flex-shrink-0" />
+      <span>
+        {{
+          t('INFLUENCER.KANBAN.APIFY_FAILED_COUNT', {
+            count: apifyFailedCount,
+          })
+        }}
       </span>
     </div>
 

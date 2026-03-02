@@ -131,6 +131,8 @@
       "LOAD_MORE": "Load more",
       "APIFY_PENDING": "Fetching profile...",
       "APIFY_FAILED": "Scraping failed",
+      "APIFY_NO_CREDITS": "Apify account has no credits remaining. Top up your Apify account to continue fetching profiles.",
+      "APIFY_FAILED_COUNT": "{count} profile(s) failed to fetch. Click Retry on each card to try again.",
       "RETRY": "Retry",
       "ENRICHING": "Enriching...",
       "REJECT_TITLE": "Reject Profile",
