@@ -163,10 +163,10 @@
           "DELETE": "DELETE"
         },
         "URL_LABEL": "URL Template",
-        "URL_PLACEHOLDER": "https://api.example.com/orders/{{order_id}}",
+        "URL_PLACEHOLDER": "https://api.example.com/orders/{'{{'} order_id {'}}'}",
         "HEADERS": "Headers (JSON)",
         "BODY_TEMPLATE": "Body Template",
-        "BODY_PLACEHOLDER": "{\"order_id\": \"{{order_id}}\"}",
+        "BODY_PLACEHOLDER": "{'{'}\"order_id\": \"{'{{'} order_id {'}}'}\"{'}'}",
         "PARAMS_LABEL": "Parameters Schema (JSON)",
         "ACTIVE_LABEL": "Active"
       },

@@ -163,10 +163,10 @@
           "DELETE": "DELETE"
         },
         "URL_LABEL": "Modelo de URL",
-        "URL_PLACEHOLDER": "https://api.exemplo.com/pedidos/{{pedido_id}}",
+        "URL_PLACEHOLDER": "https://api.exemplo.com/pedidos/{'{{'} pedido_id {'}}'}",
         "HEADERS": "Cabeçalhos (JSON)",
         "BODY_TEMPLATE": "Modelo de Corpo",
-        "BODY_PLACEHOLDER": "{\"pedido_id\": \"{{pedido_id}}\"}",
+        "BODY_PLACEHOLDER": "{'{'}\"pedido_id\": \"{'{{'} pedido_id {'}}'}\"{'}'}",
         "PARAMS_LABEL": "Esquema de Parâmetros (JSON)",
         "ACTIVE_LABEL": "Ativo"
       },
