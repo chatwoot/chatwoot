@@ -10,10 +10,22 @@ import DropdownBody from 'next/dropdown-menu/base/DropdownBody.vue';
 
 import Icon from 'next/icon/Icon.vue';
 
-defineProps({
+const props = defineProps({
   hasSelection: {
     type: Boolean,
     default: false,
+  },
+  isEditorMenuPopover: {
+    type: Boolean,
+    default: false,
+  },
+  editorContent: {
+    type: String,
+    default: undefined,
+  },
+  conversationId: {
+    type: Number,
+    default: null,
   },
 });
 
@@ -24,6 +36,13 @@ const { t } = useI18n();
 const { draftMessage } = useCaptain();
 
 const replyMode = useMapGetter('draftMessages/getReplyEditorMode');
+
+// When editorContent prop is passed, use it exclusively (even if empty)
+// This ensures each editor instance shows menu items based on its own content
+// Falls back to global draftMessage only when editorContent is not provided
+const effectiveContent = computed(() =>
+  props.editorContent !== undefined ? props.editorContent : draftMessage.value
+);
 
 // Selection-based menu items (when text is selected)
 const menuItems = computed(() => {
@@ -42,8 +61,9 @@ const menuItems = computed(() => {
       icon: 'i-fluent-pen-sparkle-24-regular',
     });
   } else if (
+    props.conversationId &&
     replyMode.value === REPLY_EDITOR_MODES.REPLY &&
-    draftMessage.value
+    effectiveContent.value
   ) {
     items.push({
       label: t('INTEGRATION_SETTINGS.OPEN_AI.REPLY_OPTIONS.IMPROVE_REPLY'),
@@ -52,7 +72,7 @@ const menuItems = computed(() => {
     });
   }
 
-  if (draftMessage.value) {
+  if (effectiveContent.value) {
     items.push(
       {
         label: t(
@@ -105,7 +125,7 @@ const menuItems = computed(() => {
 
 const generalMenuItems = computed(() => {
   const items = [];
-  if (replyMode.value === REPLY_EDITOR_MODES.REPLY) {
+  if (props.conversationId && replyMode.value === REPLY_EDITOR_MODES.REPLY) {
     items.push({
       label: t('INTEGRATION_SETTINGS.OPEN_AI.REPLY_OPTIONS.SUGGESTION'),
       key: 'reply_suggestion',
@@ -113,7 +133,10 @@ const generalMenuItems = computed(() => {
     });
   }
 
-  if (replyMode.value === REPLY_EDITOR_MODES.NOTE || true) {
+  if (
+    props.conversationId &&
+    (replyMode.value === REPLY_EDITOR_MODES.NOTE || true)
+  ) {
     items.push({
       label: t('INTEGRATION_SETTINGS.OPEN_AI.REPLY_OPTIONS.SUMMARIZE'),
       key: 'summarize',
@@ -176,8 +199,8 @@ const handleSubMenuItemClick = (parentItem, subItem) => {
   <DropdownBody
     ref="menuRef"
     class="min-w-56 [&>ul]:gap-3 z-50 [&>ul]:px-4 [&>ul]:py-3.5"
-    :class="{ 'selection-menu': hasSelection }"
-    :style="hasSelection ? selectionMenuStyle : {}"
+    :class="{ 'selection-menu': hasSelection && isEditorMenuPopover }"
+    :style="hasSelection && isEditorMenuPopover ? selectionMenuStyle : {}"
   >
     <div v-if="menuItems.length > 0" class="flex flex-col items-start gap-2.5">
       <div
