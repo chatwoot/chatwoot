@@ -865,19 +865,19 @@
       },
       "BUTTON_TEXT": {
         "LABEL": "Button text",
-        "PLACEHOLDER": "Please rate us"
+        "PLACEHOLDER": "Lütfen bizi değerlendirin"
       },
       "LANGUAGE": {
         "LABEL": "Dil",
         "PLACEHOLDER": "Select template language"
       },
       "MESSAGE_PREVIEW": {
-        "LABEL": "Message preview",
+        "LABEL": "Mesaj önizlemesi",
         "TOOLTIP": "This may vary slightly when rendered on WhatsApp's platform."
       },
       "TEMPLATE_STATUS": {
-        "APPROVED": "Approved by WhatsApp",
-        "PENDING": "Pending WhatsApp approval",
+        "APPROVED": "WhatsApp tarafından onaylandı",
+        "PENDING": "WhatsApp onayı bekleniyor",
         "REJECTED": "Meta rejected the template",
         "DEFAULT": "Needs WhatsApp approval",
         "NOT_FOUND": "The template does not exist in the Meta platform."
@@ -887,9 +887,9 @@
         "ERROR_MESSAGE": "Failed to create WhatsApp template"
       },
       "TEMPLATE_UPDATE_DIALOG": {
-        "TITLE": "Edit survey details",
+        "TITLE": "Anket ayrıntılarını düzenle",
         "DESCRIPTION": "We will delete the previous template and make a new one which will be sent again for WhatsApp approval",
-        "CONFIRM": "Create new template",
+        "CONFIRM": "Yeni şablon oluştur",
         "CANCEL": "Geri git"
       },
       "UTILITY_ANALYZER": {
