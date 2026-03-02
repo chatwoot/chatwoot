@@ -2,6 +2,7 @@
 
 class Saas::Api::V1::AiAgentsController < Api::V1::Accounts::BaseController
   before_action :set_ai_agent, only: [:show, :update, :destroy]
+  before_action :authorize_ai_agent
 
   def index
     @ai_agents = Current.account.ai_agents
@@ -40,6 +41,10 @@ class Saas::Api::V1::AiAgentsController < Api::V1::Accounts::BaseController
 
   def set_ai_agent
     @ai_agent = Current.account.ai_agents.find(params[:id])
+  end
+
+  def authorize_ai_agent
+    authorize(@ai_agent || Saas::AiAgent)
   end
 
   def ai_agent_params

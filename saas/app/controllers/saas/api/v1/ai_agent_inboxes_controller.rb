@@ -3,6 +3,7 @@
 class Saas::Api::V1::AiAgentInboxesController < Api::V1::Accounts::BaseController
   before_action :set_ai_agent
   before_action :set_ai_agent_inbox, only: [:update, :destroy]
+  before_action :authorize_ai_agent_inbox
 
   def create
     @ai_agent_inbox = @ai_agent.ai_agent_inboxes.new(inbox_params)
@@ -34,6 +35,10 @@ class Saas::Api::V1::AiAgentInboxesController < Api::V1::Accounts::BaseControlle
 
   def set_ai_agent_inbox
     @ai_agent_inbox = @ai_agent.ai_agent_inboxes.find(params[:id])
+  end
+
+  def authorize_ai_agent_inbox
+    authorize(@ai_agent_inbox || Saas::AiAgentInbox)
   end
 
   def inbox_params

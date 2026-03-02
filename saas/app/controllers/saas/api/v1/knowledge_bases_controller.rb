@@ -3,6 +3,7 @@
 class Saas::Api::V1::KnowledgeBasesController < Api::V1::Accounts::BaseController
   before_action :set_ai_agent
   before_action :set_knowledge_base, only: [:show, :update, :destroy]
+  before_action :authorize_knowledge_base
 
   def index
     @knowledge_bases = @ai_agent.knowledge_bases.includes(:knowledge_documents)
@@ -43,6 +44,10 @@ class Saas::Api::V1::KnowledgeBasesController < Api::V1::Accounts::BaseControlle
 
   def set_knowledge_base
     @knowledge_base = @ai_agent.knowledge_bases.find(params[:id])
+  end
+
+  def authorize_knowledge_base
+    authorize(@knowledge_base || Saas::KnowledgeBase)
   end
 
   def knowledge_base_params

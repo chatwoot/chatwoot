@@ -235,6 +235,24 @@ class Rack::Attack
   end
 
   ## ----------------------------------------------- ##
+
+  ###-----------------------------------------------###
+  ###-----------SaaS LLM API Throttling-------------###
+  ###-----------------------------------------------###
+
+  ## Prevent abuse of LLM completions API (expensive external calls)
+  throttle('saas/llm/completions/account', limit: ENV.fetch('RATE_LIMIT_LLM_COMPLETIONS', '60').to_i, period: 1.minute) do |req|
+    match_data = %r{/saas/api/v1/accounts/(?<account_id>\d+)/llm/completions}.match(req.path)
+    match_data[:account_id] if match_data.present? && req.post?
+  end
+
+  ## Prevent abuse of LLM embeddings API
+  throttle('saas/llm/embeddings/account', limit: ENV.fetch('RATE_LIMIT_LLM_EMBEDDINGS', '120').to_i, period: 1.minute) do |req|
+    match_data = %r{/saas/api/v1/accounts/(?<account_id>\d+)/llm/embeddings}.match(req.path)
+    match_data[:account_id] if match_data.present? && req.post?
+  end
+
+  ## ----------------------------------------------- ##
 end
 
 # Log blocked events

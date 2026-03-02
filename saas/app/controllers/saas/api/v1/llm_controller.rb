@@ -13,6 +13,7 @@
 #   - Returns available models from config/llm.yml
 #
 class Saas::Api::V1::LlmController < Api::V1::Accounts::BaseController
+  before_action :authorize_llm
   before_action :check_usage_limits, only: [:completions]
 
   def completions
@@ -53,6 +54,10 @@ class Saas::Api::V1::LlmController < Api::V1::Accounts::BaseController
   end
 
   private
+
+  def authorize_llm
+    authorize(:llm, policy_class: Saas::LlmPolicy)
+  end
 
   def handle_blocking_completion
     client = build_client

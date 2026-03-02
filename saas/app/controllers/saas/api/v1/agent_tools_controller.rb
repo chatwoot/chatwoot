@@ -3,6 +3,7 @@
 class Saas::Api::V1::AgentToolsController < Api::V1::Accounts::BaseController
   before_action :set_ai_agent
   before_action :set_tool, only: [:update, :destroy]
+  before_action :authorize_agent_tool
 
   def index
     @tools = @ai_agent.agent_tools.order(:name)
@@ -39,6 +40,10 @@ class Saas::Api::V1::AgentToolsController < Api::V1::Accounts::BaseController
 
   def set_tool
     @tool = @ai_agent.agent_tools.find(params[:id])
+  end
+
+  def authorize_agent_tool
+    authorize(@tool || Saas::AgentTool)
   end
 
   def tool_params

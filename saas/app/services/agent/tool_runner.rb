@@ -59,12 +59,16 @@ module Agent
       else
         Result.new(name: tool.name, content: "Unsupported tool type: #{tool.tool_type}", handoff?: false)
       end
+    rescue UrlSsrfValidator::SsrfError => e
+      Result.new(name: tool.name, content: "Blocked: #{e.message}", handoff?: false)
     rescue StandardError => e
       Result.new(name: tool.name, content: "Tool error: #{e.message}", handoff?: false)
     end
 
     def execute_http(tool, variables)
       url = tool.rendered_url(variables)
+      UrlSsrfValidator.validate!(url)
+
       body = tool.rendered_body(variables)
       headers = render_headers(tool, variables)
 

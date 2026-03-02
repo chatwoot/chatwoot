@@ -4,6 +4,7 @@ class Saas::Api::V1::KnowledgeDocumentsController < Api::V1::Accounts::BaseContr
   before_action :set_ai_agent
   before_action :set_knowledge_base
   before_action :set_document, only: [:destroy]
+  before_action :authorize_knowledge_document
 
   def create
     @document = @knowledge_base.knowledge_documents.new(document_params.merge(account: Current.account))
@@ -32,6 +33,10 @@ class Saas::Api::V1::KnowledgeDocumentsController < Api::V1::Accounts::BaseContr
 
   def set_document
     @document = @knowledge_base.knowledge_documents.find(params[:id])
+  end
+
+  def authorize_knowledge_document
+    authorize(@document || Saas::KnowledgeDocument)
   end
 
   def document_params
