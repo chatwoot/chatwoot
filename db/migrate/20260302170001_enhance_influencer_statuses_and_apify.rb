@@ -18,7 +18,20 @@ class EnhanceInfluencerStatusesAndApify < ActiveRecord::Migration[7.1]
     #   approved (3) stays at 3               — now called "accepted"
     #   rejected (4) unchanged
     #   contacted (5) unchanged
-    InfluencerProfile.where(status: 1).update_all(status: 0) # rubocop:disable Rails/SkipsModelValidations
+    # rubocop:disable Rails/SkipsModelValidations
+    InfluencerProfile.where(status: 1).update_all(status: 0)
+
+    # Data migration: rejected → enriched (if IC report exists) or discovered, clear rejection reason
+    InfluencerProfile.where(status: 4).find_each do |profile|
+      new_status = profile.report_fetched_at.present? ? 2 : 0
+      profile.update_columns(status: new_status, rejection_reason: nil)
+    end
+
+    # Queue Apify enrichment for profiles without data
+    InfluencerProfile.where(apify_enriched_at: nil).find_each do |profile|
+      Influencers::ApifyEnrichJob.perform_later(profile.id)
+    end
+    # rubocop:enable Rails/SkipsModelValidations
   end
 
   def down
