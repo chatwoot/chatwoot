@@ -8,6 +8,10 @@ module Rag
   class DocumentIngestionJob < ApplicationJob
     queue_as :low
 
+    retry_on Llm::Client::RateLimitError, wait: :polynomially_longer, attempts: 5
+    retry_on Llm::Client::TimeoutError, wait: 30.seconds, attempts: 3
+    discard_on ActiveRecord::RecordNotFound
+
     def perform(knowledge_base_id:, text: nil, title: 'Document', source_type: 'text',
                 source_url: nil, content_type: nil, file_size: nil)
       knowledge_base = Saas::KnowledgeBase.find(knowledge_base_id)

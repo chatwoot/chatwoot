@@ -5,6 +5,10 @@
 class AiAgentReplyJob < ApplicationJob
   queue_as :default
 
+  retry_on Llm::Client::RateLimitError, wait: :polynomially_longer, attempts: 5
+  retry_on Llm::Client::TimeoutError, wait: 10.seconds, attempts: 3
+  discard_on ActiveRecord::RecordNotFound
+
   MAX_HISTORY_MESSAGES = 20
 
   def perform(message_id:, ai_agent_id:, account_id:)
@@ -38,6 +42,7 @@ class AiAgentReplyJob < ApplicationJob
     record_usage(account, ai_agent, result.usage) if result.usage
   rescue StandardError => e
     ChatwootExceptionTracker.new(e, account: Account.find_by(id: account_id)).capture_exception
+    raise # Re-raise so Sidekiq can retry
   end
 
   private

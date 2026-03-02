@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_03_02_000005) do
+ActiveRecord::Schema[7.1].define(version: 2026_03_02_000006) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -161,6 +161,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_03_02_000005) do
     t.jsonb "config", default: {}
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["account_id", "tool_type"], name: "idx_agent_tools_on_account_tool_type"
     t.index ["account_id"], name: "index_agent_tools_on_account_id"
     t.index ["ai_agent_id", "active"], name: "index_agent_tools_on_ai_agent_id_and_active"
     t.index ["ai_agent_id"], name: "index_agent_tools_on_ai_agent_id"
@@ -988,6 +989,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_03_02_000005) do
     t.datetime "updated_at", null: false
     t.index ["account_id"], name: "index_knowledge_documents_on_account_id"
     t.index ["embedding"], name: "index_knowledge_documents_on_embedding", opclass: :vector_cosine_ops, using: :ivfflat
+    t.index ["knowledge_base_id", "status"], name: "idx_knowledge_docs_on_kb_status"
     t.index ["knowledge_base_id"], name: "index_knowledge_documents_on_knowledge_base_id"
     t.index ["source_type"], name: "index_knowledge_documents_on_source_type"
     t.index ["status"], name: "index_knowledge_documents_on_status"
@@ -1223,8 +1225,10 @@ ActiveRecord::Schema[7.1].define(version: 2026_03_02_000005) do
     t.date "recorded_on", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["account_id", "model"], name: "idx_ai_usage_records_on_account_model"
     t.index ["account_id", "recorded_on"], name: "index_saas_ai_usage_records_on_account_id_and_recorded_on"
     t.index ["account_id"], name: "index_saas_ai_usage_records_on_account_id"
+    t.index ["feature"], name: "idx_ai_usage_records_on_feature"
     t.index ["recorded_on"], name: "index_saas_ai_usage_records_on_recorded_on"
   end
 

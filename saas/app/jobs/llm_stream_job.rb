@@ -12,6 +12,10 @@
 class LlmStreamJob < ApplicationJob
   queue_as :default
 
+  # Streaming jobs should not retry — the client is waiting on ActionCable
+  discard_on ActiveRecord::RecordNotFound
+  sidekiq_options retry: 0
+
   def perform(account_id, request_id, params)
     account = Account.find(account_id)
     model = params['model'] || LlmConstants::DEFAULT_MODEL
