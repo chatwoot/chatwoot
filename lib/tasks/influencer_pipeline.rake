@@ -99,8 +99,8 @@ namespace :influencers do
           value = Time.zone.parse(value) if value.is_a?(String) && col.end_with?('_at')
           profile.write_attribute(col, value)
         end
-        # Reset rejected profiles to report_fetched for fresh review on production
-        profile.status = :report_fetched if profile.rejected?
+        # Reset rejected profiles to enriched for fresh review on production
+        profile.status = :enriched if profile.rejected?
         profile.save!
         imported += 1
         puts "  Imported: #{data['username']} (status: #{profile.status})"

@@ -472,12 +472,6 @@ const menuItems = computed(() => {
           to: accountScopedRoute('influencers_pipeline'),
           activeOn: ['influencers_pipeline'],
         },
-        {
-          name: 'Influencer Rejected',
-          label: t('SIDEBAR.INFLUENCER_REJECTED'),
-          to: accountScopedRoute('influencers_rejected'),
-          activeOn: ['influencers_rejected'],
-        },
       ],
     },
     {

@@ -2,11 +2,11 @@ class Influencers::FetchReportJob < ApplicationJob
   queue_as :medium
   retry_on InfluencersClub::Client::ApiError, wait: :polynomially_longer, attempts: 3
 
-  def perform(profile_id) # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity
+  def perform(profile_id)
     profile = InfluencerProfile.find(profile_id)
-    return unless profile.report_pending? || profile.discovered?
+    return unless profile.discovered?
 
-    profile.update!(status: :report_pending) if profile.discovered?
+    profile.update!(enrichment_pending: true)
 
     response = InfluencersClub::EnrichService.new.perform(username: profile.username)
     return handle_empty_report(profile) if response.blank?
@@ -15,7 +15,8 @@ class Influencers::FetchReportJob < ApplicationJob
     profile.update!(
       attrs.merge(
         report_fetched_at: Time.current,
-        status: :report_fetched,
+        status: :enriched,
+        enrichment_pending: false,
         last_synced_at: Time.current
       )
     )
@@ -31,7 +32,7 @@ class Influencers::FetchReportJob < ApplicationJob
 
   def handle_empty_report(profile)
     Rails.logger.warn("[Influencers::FetchReportJob] Empty enrich for profile #{profile.id} (#{profile.username})")
-    profile.update!(status: :discovered, rejection_reason: 'Enrichment returned empty report')
+    profile.update!(enrichment_pending: false, rejection_reason: 'Enrichment returned empty report')
   end
 
   def handle_api_failure(profile, error)
@@ -40,7 +41,7 @@ class Influencers::FetchReportJob < ApplicationJob
              else
                "API error: #{error.code}"
              end
-    profile.update!(status: :discovered, rejection_reason: "Enrich failed: #{reason}")
+    profile.update!(enrichment_pending: false, rejection_reason: "Enrich failed: #{reason}")
     Rails.logger.error("[Influencers::FetchReportJob] Failed for #{profile.username}: #{error.message}")
   end
 

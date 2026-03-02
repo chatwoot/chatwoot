@@ -60,6 +60,10 @@ class InfluencerProfilesAPI extends ApiClient {
     return axios.post(`${this.url}/${id}/recalculate`);
   }
 
+  retryApify(id) {
+    return axios.post(`${this.url}/${id}/retry_apify`);
+  }
+
   proxyImageUrl(externalUrl) {
     return `${this.url}/proxy_image?url=${encodeURIComponent(externalUrl)}`;
   }

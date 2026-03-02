@@ -20,4 +20,16 @@ export const getters = {
   getLastSearchParams($state) {
     return $state.lastSearchParams;
   },
+  getKanbanColumn: $state => status => {
+    return (
+      $state.kanban[status] || {
+        records: [],
+        meta: { count: 0, currentPage: 1, hasMore: false },
+        loading: false,
+      }
+    );
+  },
+  getKanban($state) {
+    return $state.kanban;
+  },
 };

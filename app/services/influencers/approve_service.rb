@@ -8,7 +8,7 @@ class Influencers::ApproveService
 
   def perform
     ActiveRecord::Base.transaction do
-      @profile.transition_to!(:approved)
+      @profile.transition_to!(:accepted)
       @profile.update!(rejection_reason: nil)
       add_influencer_label
       assign_pipeline_stage

@@ -17,6 +17,7 @@ class Influencers::ImportService
     end
 
     Avatar::AvatarFromUrlJob.perform_later(profile.contact, attrs[:profile_picture_url]) if attrs[:profile_picture_url].present?
+    Influencers::ApifyEnrichJob.perform_later(profile.id) if profile.apify_enriched_at.blank?
 
     profile
   end

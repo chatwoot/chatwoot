@@ -19,7 +19,9 @@ const formattedER = computed(() => {
   return `${(er * 100).toFixed(2)}%`;
 });
 
-const isEnriched = computed(() => !!props.result.report_fetched_at);
+const isEnriched = computed(
+  () => props.result.status !== 'discovered' && !!props.result.report_fetched_at
+);
 </script>
 
 <!-- eslint-disable vue/no-bare-strings-in-template, @intlify/vue-i18n/no-raw-text -->

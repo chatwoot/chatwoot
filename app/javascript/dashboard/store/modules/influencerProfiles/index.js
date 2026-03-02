@@ -2,14 +2,27 @@ import { getters } from './getters';
 import { actions } from './actions';
 import { mutations } from './mutations';
 
+const defaultColumnState = () => ({
+  records: [],
+  meta: { count: 0, currentPage: 1, hasMore: false },
+  loading: false,
+});
+
 const state = {
   meta: {
     count: 0,
     currentPage: 1,
     hasMore: false,
+    perStatusCounts: {},
   },
   records: {},
   sortOrder: [],
+  kanban: {
+    discovered: defaultColumnState(),
+    enriched: defaultColumnState(),
+    accepted: defaultColumnState(),
+    rejected: defaultColumnState(),
+  },
   searchResults: [],
   searchMeta: {
     total: 0,

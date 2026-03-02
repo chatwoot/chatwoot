@@ -15,8 +15,15 @@ const emit = defineEmits(['close', 'approve', 'reject']);
 const { t } = useI18n();
 const rejectReason = ref('');
 
-const isEnriched = computed(() => !!props.profile.report_fetched_at);
+const isEnriched = computed(
+  () =>
+    props.profile.status !== 'discovered' && !!props.profile.report_fetched_at
+);
 const isImported = computed(() => !!props.profile.id);
+const isDiscovered = computed(() => props.profile.status === 'discovered');
+const showFqs = computed(
+  () => isEnriched.value && props.profile.fqs_score != null
+);
 
 const breakdown = computed(() => props.profile.fqs_breakdown || {});
 
@@ -479,9 +486,9 @@ function handleReject() {
         {{ profile.bio }}
       </p>
 
-      <!-- FQS Score (only for enriched) -->
+      <!-- FQS Score (only for enriched+) -->
       <FqsScoreBadge
-        v-if="isEnriched && profile.fqs_score != null"
+        v-if="showFqs"
         :score="profile.fqs_score"
         :breakdown="profile.fqs_breakdown"
         class="mb-4"
@@ -762,9 +769,9 @@ function handleReject() {
         </div>
       </div>
 
-      <!-- Not enriched hint -->
+      <!-- Not enriched hint (discovered profiles) -->
       <div
-        v-if="!isEnriched && isImported"
+        v-if="isDiscovered && isImported"
         class="mb-6 rounded-lg bg-n-blue/10 p-3"
       >
         <p class="text-xs text-n-blue-11">
@@ -806,9 +813,9 @@ function handleReject() {
       </div>
     </div>
 
-    <!-- Actions for report_fetched profiles -->
+    <!-- Actions for enriched profiles -->
     <div
-      v-if="profile.status === 'report_fetched'"
+      v-if="profile.status === 'enriched'"
       class="border-t border-n-weak p-4"
     >
       <div class="mb-3">
@@ -825,6 +832,35 @@ function handleReject() {
           @click="emit('approve', profile.id)"
         >
           {{ t('INFLUENCER.DETAIL.APPROVE') }}
+        </button>
+        <button
+          class="flex-1 rounded-lg bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700"
+          @click="handleReject"
+        >
+          {{ t('INFLUENCER.DETAIL.REJECT') }}
+        </button>
+      </div>
+    </div>
+
+    <!-- Actions for discovered profiles -->
+    <div
+      v-else-if="profile.status === 'discovered'"
+      class="border-t border-n-weak p-4"
+    >
+      <div class="mb-3">
+        <input
+          v-model="rejectReason"
+          type="text"
+          class="w-full rounded-lg border border-n-weak bg-n-solid-1 px-3 py-1.5 text-sm"
+          :placeholder="t('INFLUENCER.DETAIL.REJECT_REASON_PLACEHOLDER')"
+        />
+      </div>
+      <div class="flex gap-2">
+        <button
+          class="flex-1 rounded-lg bg-n-brand px-4 py-2 text-sm font-medium text-white hover:opacity-90"
+          @click="emit('approve', profile.id)"
+        >
+          {{ t('INFLUENCER.REVIEW.FETCH_REPORT') }}
         </button>
         <button
           class="flex-1 rounded-lg bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700"

@@ -6,8 +6,7 @@ import { useStore } from 'dashboard/composables/store';
 
 import InfluencerSearchPanel from 'dashboard/components-next/Influencers/InfluencerSearchPanel.vue';
 import InfluencerSearchResults from 'dashboard/components-next/Influencers/InfluencerSearchResults.vue';
-import InfluencerReviewList from 'dashboard/components-next/Influencers/InfluencerReviewList.vue';
-import InfluencerRejectedList from 'dashboard/components-next/Influencers/InfluencerRejectedList.vue';
+import InfluencerKanbanBoard from 'dashboard/components-next/Influencers/InfluencerKanbanBoard.vue';
 import InfluencerProfileDetail from 'dashboard/components-next/Influencers/InfluencerProfileDetail.vue';
 
 const store = useStore();
@@ -18,7 +17,6 @@ const activeTab = computed(() => {
   const name = route.name;
   if (name === 'influencers_review') return 'review';
   if (name === 'influencers_pipeline') return 'pipeline';
-  if (name === 'influencers_rejected') return 'rejected';
   return 'search';
 });
 
@@ -41,11 +39,6 @@ const tabs = computed(() => [
     label: t('INFLUENCER.TABS.PIPELINE'),
     route: 'influencers_pipeline',
   },
-  {
-    key: 'rejected',
-    label: t('INFLUENCER.TABS.REJECTED'),
-    route: 'influencers_rejected',
-  },
 ]);
 
 function openProfile(profile) {
@@ -64,7 +57,12 @@ async function handleApprove(profileId) {
 }
 
 async function handleReject(profileId, reason) {
-  await store.dispatch('influencerProfiles/reject', { id: profileId, reason });
+  const previousStatus = selectedProfile.value?.status;
+  await store.dispatch('influencerProfiles/reject', {
+    id: profileId,
+    reason,
+    previousStatus,
+  });
   closeDetail();
 }
 </script>
@@ -99,25 +97,14 @@ async function handleReject(profileId, reason) {
         <InfluencerSearchResults @select="openProfile" />
       </template>
 
-      <InfluencerReviewList
+      <InfluencerKanbanBoard
         v-else-if="activeTab === 'review'"
         @select="openProfile"
       />
 
-      <div v-else-if="activeTab === 'pipeline'" class="p-6">
-        <p class="text-sm text-n-slate-11">
-          {{ t('INFLUENCER.PIPELINE.DESCRIPTION') }}
-        </p>
-        <a
-          :href="`/app/accounts/${route.params.accountId}/contacts/labels/influencer`"
-          class="mt-2 inline-block text-sm text-n-brand hover:underline"
-        >
-          {{ t('INFLUENCER.PIPELINE.OPEN_KANBAN') }}
-        </a>
-      </div>
-
-      <InfluencerRejectedList
-        v-else-if="activeTab === 'rejected'"
+      <InfluencerKanbanBoard
+        v-else-if="activeTab === 'pipeline'"
+        :statuses="['accepted']"
         @select="openProfile"
       />
     </div>

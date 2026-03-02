@@ -185,7 +185,7 @@ function loadMore() {
                 {{ t('INFLUENCER.REVIEW.FETCH_REPORT') }}
               </button>
               <button
-                v-if="profile.status === 'report_fetched'"
+                v-if="profile.status === 'enriched'"
                 class="rounded px-2 py-1 text-xs text-green-600 hover:bg-green-50"
                 @click="handleApprove(profile)"
               >
@@ -193,7 +193,7 @@ function loadMore() {
               </button>
               <button
                 v-if="
-                  profile.status !== 'rejected' && profile.status !== 'approved'
+                  profile.status !== 'rejected' && profile.status !== 'accepted'
                 "
                 class="rounded px-2 py-1 text-xs text-red-600 hover:bg-red-50"
                 @click="handleReject(profile)"

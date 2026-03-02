@@ -35,11 +35,10 @@ export const routes = [
         component: InfluencersIndex,
         meta: commonMeta,
       },
+      // Rejected tab removed — now a column in the Review kanban
       {
         path: 'rejected',
-        name: 'influencers_rejected',
-        component: InfluencersIndex,
-        meta: commonMeta,
+        redirect: { name: 'influencers_review' },
       },
     ],
   },

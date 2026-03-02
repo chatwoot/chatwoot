@@ -2,25 +2,24 @@ class InfluencerProfile < ApplicationRecord
   class InvalidTransitionError < StandardError; end
 
   VALID_TRANSITIONS = {
-    discovered: %i[report_pending rejected],
-    report_pending: %i[report_fetched rejected],
-    report_fetched: %i[approved rejected],
-    approved: %i[contacted rejected],
+    discovered: %i[enriched rejected],
+    enriched: %i[accepted rejected],
+    accepted: %i[contacted rejected],
     rejected: %i[discovered],
-    contacted: %i[approved]
+    contacted: %i[accepted]
   }.freeze
 
   belongs_to :contact
   belongs_to :account
 
-  enum :status, { discovered: 0, report_pending: 1, report_fetched: 2, approved: 3, rejected: 4, contacted: 5 }
+  enum :status, { discovered: 0, enriched: 2, accepted: 3, rejected: 4, contacted: 5 }
+  enum :apify_status, { apify_none: 0, apify_pending: 1, apify_done: 2, apify_failed: 3 }, prefix: :apify
 
   validates :username, presence: true, uniqueness: { scope: %i[account_id platform] }
   validates :contact_id, uniqueness: true
 
-  scope :pending_report, -> { where(status: :report_pending) }
-  scope :scoreable, -> { where(status: :report_fetched) }
-  scope :actionable, -> { where(status: %i[report_fetched approved]) }
+  scope :scoreable, -> { where(status: :enriched) }
+  scope :actionable, -> { where(status: %i[enriched accepted]) }
 
   def transition_to!(new_status)
     allowed = VALID_TRANSITIONS[status.to_sym] || []

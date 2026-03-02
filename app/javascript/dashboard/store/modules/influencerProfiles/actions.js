@@ -86,6 +86,10 @@ export const actions = {
   requestReport: async ({ commit }, { id }) => {
     const { data } = await InfluencerProfilesAPI.requestReport(id);
     commit(types.EDIT_INFLUENCER, data.payload);
+    commit(types.UPDATE_KANBAN_ITEM, {
+      oldStatus: 'discovered',
+      newProfile: data.payload,
+    });
   },
 
   bulkRequestReport: async (_, { profileIds }) => {
@@ -97,16 +101,24 @@ export const actions = {
     try {
       const { data } = await InfluencerProfilesAPI.approve(id);
       commit(types.EDIT_INFLUENCER, data.payload);
+      commit(types.UPDATE_KANBAN_ITEM, {
+        oldStatus: 'enriched',
+        newProfile: data.payload,
+      });
     } finally {
       commit(types.SET_INFLUENCER_UI_FLAG, { isApproving: false });
     }
   },
 
-  reject: async ({ commit }, { id, reason }) => {
+  reject: async ({ commit }, { id, reason, previousStatus }) => {
     commit(types.SET_INFLUENCER_UI_FLAG, { isRejecting: true });
     try {
       const { data } = await InfluencerProfilesAPI.reject(id, reason);
       commit(types.EDIT_INFLUENCER, data.payload);
+      commit(types.UPDATE_KANBAN_ITEM, {
+        oldStatus: previousStatus,
+        newProfile: data.payload,
+      });
     } finally {
       commit(types.SET_INFLUENCER_UI_FLAG, { isRejecting: false });
     }
@@ -116,8 +128,60 @@ export const actions = {
     await InfluencerProfilesAPI.recalculate(id);
   },
 
+  retryApify: async ({ commit }, { id }) => {
+    const { data } = await InfluencerProfilesAPI.retryApify(id);
+    commit(types.EDIT_INFLUENCER, data.payload);
+    // Update in kanban discovered column
+    const col = 'discovered';
+    commit(types.UPDATE_KANBAN_ITEM, {
+      oldStatus: col,
+      newProfile: data.payload,
+    });
+    // Re-add since UPDATE_KANBAN_ITEM removes+adds
+  },
+
   clearSearchResults: ({ commit }) => {
     commit(types.CLEAR_INFLUENCER_SEARCH_RESULTS);
     commit(types.SET_INFLUENCER_LAST_SEARCH_PARAMS, null);
+  },
+
+  // Kanban actions
+  fetchKanbanColumn: async ({ commit }, { status, page = 1 }) => {
+    commit(types.SET_KANBAN_COLUMN_LOADING, { status, loading: true });
+    try {
+      const {
+        data: { payload, meta },
+      } = await InfluencerProfilesAPI.get(page, { status });
+      if (page === 1) {
+        commit(types.SET_KANBAN_COLUMN, { status, records: payload, meta });
+      } else {
+        commit(types.APPEND_KANBAN_COLUMN, { status, records: payload, meta });
+      }
+    } catch (error) {
+      commit(types.SET_KANBAN_COLUMN_LOADING, { status, loading: false });
+    }
+  },
+
+  loadMoreKanban: async ({ commit, state }, { status }) => {
+    const column = state.kanban[status];
+    if (!column.meta.hasMore || column.loading) return;
+
+    const nextPage = column.meta.currentPage + 1;
+    commit(types.SET_KANBAN_COLUMN_LOADING, { status, loading: true });
+    try {
+      const {
+        data: { payload, meta },
+      } = await InfluencerProfilesAPI.get(nextPage, { status });
+      commit(types.APPEND_KANBAN_COLUMN, { status, records: payload, meta });
+    } catch (error) {
+      commit(types.SET_KANBAN_COLUMN_LOADING, { status, loading: false });
+    }
+  },
+
+  refreshAllKanbanColumns: async ({ dispatch }) => {
+    const statuses = ['discovered', 'enriched', 'accepted', 'rejected'];
+    await Promise.all(
+      statuses.map(status => dispatch('fetchKanbanColumn', { status, page: 1 }))
+    );
   },
 };

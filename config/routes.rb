@@ -206,6 +206,7 @@ Rails.application.routes.draw do
               post :approve
               post :reject
               post :recalculate
+              post :retry_apify
             end
           end
           resources :csat_survey_responses, only: [:index] do

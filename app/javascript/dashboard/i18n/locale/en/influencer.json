@@ -121,6 +121,23 @@
       "REJECT": "Reject",
       "RAW_DATA": "All data in DB"
     },
+    "KANBAN": {
+      "STATUS_DISCOVERED": "Discovered",
+      "STATUS_ENRICHED": "Enriched",
+      "STATUS_ACCEPTED": "Accepted",
+      "STATUS_REJECTED": "Rejected",
+      "EMPTY_COLUMN": "No profiles in this column",
+      "LOADING": "Loading...",
+      "LOAD_MORE": "Load more",
+      "APIFY_PENDING": "Fetching profile...",
+      "APIFY_FAILED": "Scraping failed",
+      "RETRY": "Retry",
+      "ENRICHING": "Enriching...",
+      "REJECT_TITLE": "Reject Profile",
+      "REJECT_PLACEHOLDER": "Why are you rejecting this profile?",
+      "CANCEL": "Cancel",
+      "CONFIRM_REJECT": "Reject"
+    },
     "VOUCHER": {
       "TITLE": "Voucher Valuation",
       "CONTENT_PACKAGE": "Content package",
