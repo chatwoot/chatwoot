@@ -26,7 +26,7 @@ class Messages::Messenger::MessageBuilder
   end
 
   def attachment_params(attachment)
-    file_type = attachment['type'].to_sym
+    file_type = normalize_file_type(attachment['type'])
     params = { file_type: file_type, account_id: @message.account_id }
 
     if [:image, :file, :audio, :video, :share, :story_mention, :ig_reel, :ig_post, :ig_story].include? file_type
@@ -99,6 +99,15 @@ class Messages::Messenger::MessageBuilder
   end
 
   private
+
+  # Facebook may send attachment types that don't directly match our file_type enum.
+  # Map known aliases to their canonical enum values.
+  FACEBOOK_FILE_TYPE_MAP = { reel: :ig_reel }.freeze
+
+  def normalize_file_type(type)
+    sym = type.to_sym
+    FACEBOOK_FILE_TYPE_MAP.fetch(sym, sym)
+  end
 
   def unsupported_file_type?(attachment_type)
     [:template, :unsupported_type, :ephemeral].include? attachment_type.to_sym
