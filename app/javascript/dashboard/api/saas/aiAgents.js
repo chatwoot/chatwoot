@@ -84,6 +84,14 @@ class AiAgentsAPI extends ApiClient {
       ai_agent: { workflow },
     });
   }
+
+  getWorkflowRuns(agentId, params = {}) {
+    return axios.get(`${this.url}/${agentId}/workflow_runs`, { params });
+  }
+
+  getWorkflowRun(agentId, runId) {
+    return axios.get(`${this.url}/${agentId}/workflow_runs/${runId}`);
+  }
 }
 
 export default new AiAgentsAPI();

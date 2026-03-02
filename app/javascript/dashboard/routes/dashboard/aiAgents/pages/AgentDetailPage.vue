@@ -12,6 +12,7 @@ import KnowledgeTab from '../components/tabs/KnowledgeTab.vue';
 import ToolsTab from '../components/tabs/ToolsTab.vue';
 import VoiceTab from '../components/tabs/VoiceTab.vue';
 import WorkflowTab from '../components/tabs/WorkflowTab.vue';
+import RunInspectorTab from '../components/tabs/RunInspectorTab.vue';
 import DeployTab from '../components/tabs/DeployTab.vue';
 
 const { t } = useI18n();
@@ -57,6 +58,12 @@ const tabs = computed(() => [
     route: 'ai_agents_workflow',
   },
   {
+    key: 'runs',
+    label: t('AI_AGENTS.TABS.RUNS'),
+    icon: 'i-lucide-play-circle',
+    route: 'ai_agents_runs',
+  },
+  {
     key: 'deploy',
     label: t('AI_AGENTS.TABS.DEPLOY'),
     icon: 'i-lucide-rocket',
@@ -77,6 +84,7 @@ const activeComponent = computed(() => {
     tools: ToolsTab,
     voice: VoiceTab,
     workflow: WorkflowTab,
+    runs: RunInspectorTab,
     deploy: DeployTab,
   };
   return componentMap[activeTabKey.value] || SetupTab;
@@ -154,11 +162,13 @@ onMounted(fetchAgent);
 
     <main
       class="flex-1 overflow-y-auto"
-      :class="activeTabKey === 'workflow' ? 'px-2' : 'px-6'"
+      :class="['workflow', 'runs'].includes(activeTabKey) ? 'px-2' : 'px-6'"
     >
       <div
         class="w-full py-6"
-        :class="activeTabKey === 'workflow' ? '' : 'max-w-5xl mx-auto'"
+        :class="
+          ['workflow', 'runs'].includes(activeTabKey) ? '' : 'max-w-5xl mx-auto'
+        "
       >
         <div
           v-if="isFetching"

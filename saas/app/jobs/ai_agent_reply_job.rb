@@ -23,11 +23,38 @@ class AiAgentReplyJob < ApplicationJob
     # Build conversation history
     history = build_history(conversation)
 
-    # Execute the agent
+    # Route to workflow executor or classic executor
+    if ai_agent.has_workflow?
+      execute_workflow(ai_agent, conversation, message, history, account)
+    else
+      execute_classic(ai_agent, conversation, message, history, account)
+    end
+  rescue StandardError => e
+    ChatwootExceptionTracker.new(e, account: Account.find_by(id: account_id)).capture_exception
+    raise # Re-raise so Sidekiq can retry
+  end
+
+  private
+
+  def execute_workflow(ai_agent, conversation, message, history, account)
+    executor = Agent::WorkflowExecutor.new(
+      ai_agent: ai_agent,
+      conversation: conversation,
+      user_message: message.content,
+      conversation_history: history
+    )
+    result = executor.run
+
+    # Workflow executor handles reply posting via ReplyNode.
+    # Record token usage from the run log.
+    total_tokens = result.workflow_run&.total_tokens || 0
+    record_usage(account, ai_agent, { 'total_tokens' => total_tokens, 'prompt_tokens' => 0, 'completion_tokens' => 0 }) if total_tokens.positive?
+  end
+
+  def execute_classic(ai_agent, conversation, message, history, account)
     executor = Agent::Executor.new(ai_agent: ai_agent, conversation: conversation)
     result = executor.execute(user_message: message.content, conversation_history: history)
 
-    # Post the reply unless handed off
     unless result.handed_off?
       conversation.messages.create!(
         content: result.reply,
@@ -38,14 +65,8 @@ class AiAgentReplyJob < ApplicationJob
       )
     end
 
-    # Record token usage
     record_usage(account, ai_agent, result.usage) if result.usage
-  rescue StandardError => e
-    ChatwootExceptionTracker.new(e, account: Account.find_by(id: account_id)).capture_exception
-    raise # Re-raise so Sidekiq can retry
   end
-
-  private
 
   def build_history(conversation)
     conversation.messages

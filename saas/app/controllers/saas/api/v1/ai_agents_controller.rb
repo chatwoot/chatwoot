@@ -25,6 +25,8 @@ class Saas::Api::V1::AiAgentsController < Api::V1::Accounts::BaseController
   end
 
   def update
+    return render_workflow_errors unless workflow_valid?
+
     if @ai_agent.update(ai_agent_params)
       render json: agent_json(@ai_agent)
     else
@@ -52,7 +54,8 @@ class Saas::Api::V1::AiAgentsController < Api::V1::Accounts::BaseController
       :name, :description, :agent_type, :status, :model, :system_prompt,
       llm_config: {},
       voice_config: {},
-      config: {}
+      config: {},
+      workflow: {}
     )
   end
 
@@ -68,6 +71,7 @@ class Saas::Api::V1::AiAgentsController < Api::V1::Accounts::BaseController
       agent_type: agent.agent_type, status: agent.status, model: agent.model,
       system_prompt: agent.system_prompt, llm_config: agent.llm_config,
       voice_config: agent.voice_config, config: agent.config,
+      workflow: agent.workflow, has_workflow: agent.has_workflow?,
       inboxes_count: agent.inboxes.size, knowledge_bases_count: agent.knowledge_bases.size,
       tools_count: agent.agent_tools.size, created_at: agent.created_at, updated_at: agent.updated_at
     }
@@ -94,5 +98,20 @@ class Saas::Api::V1::AiAgentsController < Api::V1::Accounts::BaseController
   def tool_summary(tool)
     { id: tool.id, name: tool.name, description: tool.description,
       tool_type: tool.tool_type, http_method: tool.http_method, active: tool.active }
+  end
+
+  def workflow_valid?
+    workflow_data = params.dig(:ai_agent, :workflow)
+    return true if workflow_data.blank?
+
+    validator = Agent::WorkflowValidator.new(workflow_data.to_unsafe_h)
+    return true if validator.valid?
+
+    @workflow_errors = validator.errors
+    false
+  end
+
+  def render_workflow_errors
+    render json: { errors: @workflow_errors }, status: :unprocessable_entity
   end
 end

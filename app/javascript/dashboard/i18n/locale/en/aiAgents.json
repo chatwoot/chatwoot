@@ -83,6 +83,7 @@
       "TOOLS": "Tools",
       "VOICE": "Voice",
       "WORKFLOW": "Workflow",
+      "RUNS": "Runs",
       "DEPLOY": "Deploy"
     },
     "WORKFLOW": {
@@ -145,6 +146,24 @@
       "SAVE": {
         "SUCCESS_MESSAGE": "Workflow saved successfully",
         "ERROR_MESSAGE": "Failed to save workflow"
+      },
+      "TEMPLATES": {
+        "TITLE": "Start with a template",
+        "DESCRIPTION": "Choose a pre-built workflow to get started, or drag nodes from the palette to build your own.",
+        "OR_DRAG": "Or drag nodes from the left palette to build from scratch."
+      },
+      "RUNS": {
+        "TITLE": "Workflow Runs",
+        "EMPTY": "No workflow runs yet. Runs will appear here once conversations trigger this agent's workflow.",
+        "SELECT_RUN": "Select a run from the list to view its details.",
+        "CONVERSATION_ID": "Conversation",
+        "CONVERSATION_LABEL": "Conversation: {id}",
+        "DURATION": "Duration",
+        "DURATION_LABEL": "Duration: {value}",
+        "TOKENS": "Tokens",
+        "TOKENS_LABEL": "Tokens: {count}",
+        "EXECUTION_LOG": "Execution Log",
+        "VARIABLES": "Variables"
       }
     },
     "KNOWLEDGE": {

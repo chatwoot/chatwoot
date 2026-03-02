@@ -511,6 +511,7 @@ Rails.application.routes.draw do
               end
               resources :agent_tools, only: [:index, :create, :update, :destroy]
               resources :ai_agent_inboxes, only: [:create, :update, :destroy]
+              resources :workflow_runs, only: [:index, :show]
             end
           end
         end

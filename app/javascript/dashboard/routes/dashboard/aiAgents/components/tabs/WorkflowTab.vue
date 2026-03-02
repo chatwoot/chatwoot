@@ -7,6 +7,7 @@ import WorkflowCanvas from '../workflow/WorkflowCanvas.vue';
 import NodePalette from '../workflow/NodePalette.vue';
 import WorkflowToolbar from '../workflow/WorkflowToolbar.vue';
 import NodeConfigPanel from '../workflow/NodeConfigPanel.vue';
+import TemplatePicker from '../workflow/TemplatePicker.vue';
 
 const props = defineProps({
   agent: { type: Object, required: true },
@@ -103,6 +104,13 @@ function onNodeUpdate(nodeId, data) {
 function onNodeDelete(nodeId) {
   removeNode(nodeId);
 }
+
+// Handle template selection
+function onSelectTemplate(template) {
+  loadWorkflow(template);
+}
+
+const hasNodes = computed(() => nodes.value.length > 0);
 </script>
 
 <template>
@@ -123,7 +131,9 @@ function onNodeDelete(nodeId) {
         @delete-selected="deleteSelected"
       />
       <div class="flex-1">
+        <TemplatePicker v-if="!hasNodes" @select-template="onSelectTemplate" />
         <WorkflowCanvas
+          v-else
           :nodes="nodes"
           :edges="edges"
           :is-valid-connection="isValidConnection"
