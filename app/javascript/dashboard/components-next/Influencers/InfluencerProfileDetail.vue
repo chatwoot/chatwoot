@@ -11,7 +11,7 @@ const props = defineProps({
   profile: { type: Object, required: true },
 });
 
-const emit = defineEmits(['close', 'approve', 'reject']);
+const emit = defineEmits(['close', 'approve', 'reject', 'requestReport']);
 const { t } = useI18n();
 const rejectReason = ref('');
 
@@ -858,7 +858,7 @@ function handleReject() {
       <div class="flex gap-2">
         <button
           class="flex-1 rounded-lg bg-n-brand px-4 py-2 text-sm font-medium text-white hover:opacity-90"
-          @click="emit('approve', profile.id)"
+          @click="emit('requestReport', profile.id)"
         >
           {{ t('INFLUENCER.REVIEW.FETCH_REPORT') }}
         </button>

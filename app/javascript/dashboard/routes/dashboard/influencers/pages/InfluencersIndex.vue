@@ -56,6 +56,13 @@ async function handleApprove(profileId) {
   closeDetail();
 }
 
+async function handleRequestReport(profileId) {
+  await store.dispatch('influencerProfiles/requestReport', {
+    id: profileId,
+  });
+  closeDetail();
+}
+
 async function handleReject(profileId, reason) {
   const previousStatus = selectedProfile.value?.status;
   await store.dispatch('influencerProfiles/reject', {
@@ -115,6 +122,7 @@ async function handleReject(profileId, reason) {
       @close="closeDetail"
       @approve="handleApprove"
       @reject="handleReject"
+      @request-report="handleRequestReport"
     />
   </div>
 </template>

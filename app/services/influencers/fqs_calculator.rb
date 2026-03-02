@@ -2,7 +2,7 @@ class Influencers::FqsCalculator
   EUROPE_COUNTRY_CODES = %w[
     AD AL AM AT AZ BA BE BG BY CH CY CZ DE DK EE ES FI FR GB GE GR
     HR HU IE IS IT LI LT LU LV MC MD ME MK MT NL NO PL PT RO RS RU
-    SE SI SK SM TR UA VA XK
+    SE SI SK SM UA VA XK
   ].freeze
 
   GEO_BASELINE = 0.8 # 80% EU audience = factor 1.0
@@ -41,7 +41,8 @@ class Influencers::FqsCalculator
       followers_count: @profile.followers_count,
       eu_audience_ratio: eu_audience_ratio.round(4),
       audience_credibility: @profile.audience_credibility.to_f.round(4),
-      af_score: af_raw_score.round(4)
+      af_score: af_raw_score.round(4),
+      audience_data_available: audience_data_available?
     }
 
     @profile.update!(
@@ -91,7 +92,10 @@ class Influencers::FqsCalculator
   end
 
   # Geo factor: eu_audience_ratio / 0.8, capped at 1.0, floor 0.1
+  # Neutral (1.0) when no audience geo data available
   def geo_factor
+    return 1.0 unless audience_data_available?
+
     ratio = eu_audience_ratio
     return FACTOR_FLOOR if ratio.zero?
 
@@ -99,14 +103,20 @@ class Influencers::FqsCalculator
   end
 
   # Audience Quality factor: audience_credibility (0-1), floor 0.1
+  # Neutral (1.0) when no audience data available
   def aq_factor
     credibility = @profile.audience_credibility.to_f
-    credibility = 0.5 if credibility.zero? # fallback when missing
+    return 1.0 if credibility.zero? && !audience_data_available?
+
+    credibility = 0.5 if credibility.zero?
     [credibility, FACTOR_FLOOR].max
   end
 
   # Audience Fit factor: sum(weight × affinity) for target interests, normalized by 5.0
+  # Neutral (1.0) when no audience data available
   def af_factor
+    return 1.0 unless audience_data_available?
+
     [af_raw_score / AF_BASELINE, FACTOR_FLOOR].max
   end
 
@@ -142,6 +152,10 @@ class Influencers::FqsCalculator
     fallback = report_data.dig('result', 'instagram', 'audience', 'audience_likers', 'data', 'audience_geo', 'countries') ||
                report_data.dig('result', 'instagram', 'audience', 'audience_followers', 'data', 'audience_geo', 'countries') || []
     fallback.is_a?(Array) ? fallback : []
+  end
+
+  def audience_data_available?
+    @audience_data_available ||= extract_audience_geo.present? || @profile.audience_credibility.present?
   end
 
   def backfill_median_reel_views

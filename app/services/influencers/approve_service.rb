@@ -39,7 +39,8 @@ class Influencers::ApproveService
 
     ContactPipelineStage.find_or_create_by!(
       contact: contact,
-      pipeline_stage: first_stage
+      pipeline_stage: first_stage,
+      account: account
     )
   end
 
