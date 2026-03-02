@@ -24,7 +24,7 @@
 | — | Voice Provider Audit | ✅ Complete | `7f20405` |
 | — | Best Practices Review | ✅ Complete | — |
 | 5 | Agent Builder UI | ✅ Complete | `8ccb3cb` |
-| 6 | Docker Deployment | ✅ Complete | `pending` |
+| 6 | Docker Deployment | ✅ Complete | `80fb27e` |
 | 7 | Testing & Quality | ✅ Complete | `26272d0` |
 | 8 | Security & Auth Policies | ✅ Complete | `9e92e3e` |
 | 9 | Production Hardening | ✅ Complete | `3795d1b` |
@@ -419,7 +419,7 @@ Route: `app/javascript/dashboard/routes/dashboard/aiAgents/`
 
 ## Phase 6 — Docker Compose Deployment (Traefik) ✅
 
-**Commit:** `pending`
+**Commit:** `80fb27e16`
 
 Production-ready Docker Compose stack with Traefik v3 reverse proxy, Let's Encrypt SSL, health checks, resource limits, and deploy/backup tooling.
 
