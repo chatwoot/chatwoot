@@ -1,0 +1,247 @@
+{
+  "AI_AGENTS": {
+    "TITLE": "Agentes IA",
+    "DESCRIPTION": "Crie e gerencie agentes de IA para conversas automatizadas",
+    "HEADER_BTN_TXT": "Novo Agente",
+    "EMPTY": {
+      "TITLE": "Nenhum agente IA ainda",
+      "DESCRIPTION": "Crie seu primeiro agente IA para automatizar conversas com RAG, chamada de ferramentas ou recursos de voz."
+    },
+    "STATUS": {
+      "ACTIVE": "Ativo",
+      "PAUSED": "Pausado",
+      "ARCHIVED": "Arquivado"
+    },
+    "TYPES": {
+      "RAG": "RAG",
+      "TOOL_CALLING": "Chamada de Ferramentas",
+      "VOICE": "Voz",
+      "HYBRID": "Híbrido"
+    },
+    "LIST": {
+      "INBOXES_COUNT": "{count} caixa de entrada | {count} caixas de entrada",
+      "KB_COUNT": "{count} base de conhecimento | {count} bases de conhecimento",
+      "TOOLS_COUNT": "{count} ferramenta | {count} ferramentas"
+    },
+    "CREATE": {
+      "TITLE": "Criar Agente IA",
+      "SUCCESS_MESSAGE": "Agente IA criado com sucesso",
+      "ERROR_MESSAGE": "Falha ao criar agente IA"
+    },
+    "EDIT": {
+      "TITLE": "Editar Agente IA",
+      "SUCCESS_MESSAGE": "Agente IA atualizado com sucesso",
+      "ERROR_MESSAGE": "Falha ao atualizar agente IA"
+    },
+    "DELETE": {
+      "TITLE": "Excluir Agente IA",
+      "DESCRIPTION": "Tem certeza que deseja excluir este agente?",
+      "CONFIRM": "Tem certeza que deseja excluir este agente? Esta ação não pode ser desfeita.",
+      "SUCCESS_MESSAGE": "Agente IA excluído com sucesso",
+      "ERROR_MESSAGE": "Falha ao excluir agente IA"
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "Nome",
+        "PLACEHOLDER": "ex. Agente de Suporte ao Cliente",
+        "ERROR": "O nome é obrigatório"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Descrição",
+        "PLACEHOLDER": "Descreva o que este agente faz"
+      },
+      "TYPE": {
+        "LABEL": "Tipo de Agente"
+      },
+      "MODEL": {
+        "LABEL": "Modelo LLM",
+        "PLACEHOLDER": "Selecione um modelo"
+      },
+      "SYSTEM_PROMPT": {
+        "LABEL": "Prompt do Sistema",
+        "PLACEHOLDER": "Você é um agente de suporte ao cliente prestativo..."
+      },
+      "STATUS": {
+        "LABEL": "Status"
+      },
+      "TEMPERATURE": {
+        "LABEL": "Temperatura"
+      },
+      "MAX_TOKENS": {
+        "LABEL": "Máximo de Tokens"
+      },
+      "SETUP_DESCRIPTION": "Configure as definições básicas do seu agente IA.",
+      "CANCEL": "Cancelar",
+      "CREATE": "Criar",
+      "EDIT": "Atualizar",
+      "SAVE": "Salvar Alterações"
+    },
+    "TABS": {
+      "SETUP": "Configuração",
+      "KNOWLEDGE": "Conhecimento",
+      "TOOLS": "Ferramentas",
+      "VOICE": "Voz",
+      "DEPLOY": "Implantação"
+    },
+    "KNOWLEDGE": {
+      "TITLE": "Bases de Conhecimento",
+      "DESCRIPTION": "Adicione bases de conhecimento para dar contexto ao seu agente responder perguntas.",
+      "ADD_BTN": "Adicionar Base de Conhecimento",
+      "EMPTY": "Nenhuma base de conhecimento ainda. Adicione documentos para dar contexto ao seu agente.",
+      "FETCH_ERROR": "Falha ao carregar bases de conhecimento",
+      "ADD_DOCUMENT": "Adicionar Documento",
+      "DOCUMENT_TYPES": {
+        "URL": "URL",
+        "TEXT": "Texto",
+        "FILE": "Upload de Arquivo"
+      },
+      "STATUS": {
+        "PENDING": "Pendente",
+        "PROCESSING": "Processando",
+        "READY": "Pronto",
+        "ERROR": "Erro"
+      },
+      "CREATE": {
+        "TITLE": "Criar Base de Conhecimento",
+        "SUCCESS_MESSAGE": "Base de conhecimento criada",
+        "ERROR_MESSAGE": "Falha ao criar base de conhecimento"
+      },
+      "DELETE": {
+        "CONFIRM": "Excluir esta base de conhecimento e todos os seus documentos?",
+        "SUCCESS_MESSAGE": "Base de conhecimento excluída",
+        "ERROR_MESSAGE": "Falha ao excluir base de conhecimento"
+      },
+      "FORM": {
+        "NAME": {
+          "LABEL": "Nome",
+          "PLACEHOLDER": "ex. Documentação do Produto"
+        },
+        "DESCRIPTION": {
+          "LABEL": "Descrição",
+          "PLACEHOLDER": "Descreva o conteúdo desta base de conhecimento"
+        }
+      },
+      "DOCUMENTS": {
+        "TITLE": "Documentos",
+        "SOURCE_TYPE": "Tipo de Fonte",
+        "CONTENT_PLACEHOLDER": "Digite a URL ou cole o conteúdo de texto...",
+        "CREATE": {
+          "SUCCESS_MESSAGE": "Documento adicionado e enfileirado para processamento",
+          "ERROR_MESSAGE": "Falha ao adicionar documento"
+        },
+        "DELETE": {
+          "SUCCESS_MESSAGE": "Documento excluído",
+          "ERROR_MESSAGE": "Falha ao excluir documento"
+        }
+      }
+    },
+    "TOOLS": {
+      "TITLE": "Ferramentas",
+      "DESCRIPTION": "Configure ferramentas HTTP e ações integradas para o seu agente.",
+      "ADD_BTN": "Adicionar Ferramenta",
+      "EMPTY": "Nenhuma ferramenta configurada. Adicione ferramentas HTTP ou ações integradas para o seu agente.",
+      "FETCH_ERROR": "Falha ao carregar ferramentas",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Nome da Ferramenta",
+          "PLACEHOLDER": "ex. buscar_pedido"
+        },
+        "DESCRIPTION": {
+          "LABEL": "Descrição",
+          "PLACEHOLDER": "Busca um pedido pelo ID"
+        },
+        "TYPE": {
+          "LABEL": "Tipo"
+        },
+        "METHOD_LABEL": "Método",
+        "METHODS": {
+          "GET": "GET",
+          "POST": "POST",
+          "PUT": "PUT",
+          "PATCH": "PATCH",
+          "DELETE": "DELETE"
+        },
+        "URL_LABEL": "Modelo de URL",
+        "URL_PLACEHOLDER": "https://api.exemplo.com/pedidos/{{pedido_id}}",
+        "HEADERS": "Cabeçalhos (JSON)",
+        "BODY_TEMPLATE": "Modelo de Corpo",
+        "BODY_PLACEHOLDER": "{\"pedido_id\": \"{{pedido_id}}\"}",
+        "PARAMS_LABEL": "Esquema de Parâmetros (JSON)",
+        "ACTIVE_LABEL": "Ativo"
+      },
+      "CREATE": {
+        "TITLE": "Criar Ferramenta",
+        "SUCCESS_MESSAGE": "Ferramenta criada com sucesso",
+        "ERROR_MESSAGE": "Falha ao criar ferramenta"
+      },
+      "EDIT": {
+        "TITLE": "Editar Ferramenta",
+        "SUCCESS_MESSAGE": "Ferramenta atualizada com sucesso",
+        "ERROR_MESSAGE": "Falha ao atualizar ferramenta"
+      },
+      "DELETE": {
+        "CONFIRM": "Excluir esta ferramenta?",
+        "SUCCESS_MESSAGE": "Ferramenta excluída",
+        "ERROR_MESSAGE": "Falha ao excluir ferramenta"
+      }
+    },
+    "VOICE": {
+      "TITLE": "Configurações de Voz",
+      "DESCRIPTION": "Configure agentes de voz para conversas telefônicas (requer tipo de agente Voz ou Híbrido)",
+      "NOT_VOICE_AGENT": "Configurações de voz estão disponíveis apenas para agentes do tipo Voz e Híbrido.",
+      "PROVIDER": {
+        "LABEL": "Provedor de Voz"
+      },
+      "VOICE_ID": {
+        "LABEL": "Voz",
+        "PLACEHOLDER": "Selecione um ID de voz"
+      },
+      "LANGUAGE": {
+        "LABEL": "Idioma",
+        "PLACEHOLDER": "ex. pt-BR"
+      },
+      "SPEED": {
+        "LABEL": "Velocidade"
+      },
+      "GREETING": {
+        "LABEL": "Mensagem de Saudação",
+        "PLACEHOLDER": "Olá! Como posso ajudá-lo hoje?"
+      },
+      "SENSITIVITY": {
+        "LABEL": "Sensibilidade de Interrupção",
+        "LOW": "Baixa",
+        "MEDIUM": "Média",
+        "HIGH": "Alta"
+      },
+      "REALTIME_MODEL": {
+        "LABEL": "Modelo em Tempo Real",
+        "PLACEHOLDER": "ex. gpt-realtime"
+      }
+    },
+    "DEPLOY": {
+      "TITLE": "Implantação",
+      "DESCRIPTION": "Conecte este agente a caixas de entrada para começar a lidar com conversas automaticamente.",
+      "ADD_INBOX": "Conectar Caixa de Entrada",
+      "EMPTY": "Nenhuma caixa de entrada conectada. Conecte uma caixa de entrada para implantar este agente.",
+      "AUTO_REPLY": "Resposta automática",
+      "SELECT_INBOX": "Selecionar Caixa de Entrada",
+      "SELECT_INBOX_PLACEHOLDER": "Escolha uma caixa de entrada para conectar...",
+      "UPDATE_ERROR": "Falha ao atualizar conexão da caixa de entrada",
+      "INBOX_STATUS": {
+        "ACTIVE": "Ativo",
+        "PAUSED": "Pausado"
+      },
+      "CONNECT": {
+        "TITLE": "Conectar Caixa de Entrada",
+        "BUTTON": "Conectar",
+        "SUCCESS_MESSAGE": "Caixa de entrada conectada",
+        "ERROR_MESSAGE": "Falha ao conectar caixa de entrada"
+      },
+      "DISCONNECT": {
+        "CONFIRM": "Desconectar esta caixa de entrada?",
+        "SUCCESS_MESSAGE": "Caixa de entrada desconectada",
+        "ERROR_MESSAGE": "Falha ao desconectar caixa de entrada"
+      }
+    }
+  }
+}
