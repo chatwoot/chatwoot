@@ -13,7 +13,6 @@ import PasswordRequirements from './PasswordRequirements.vue';
 import { isValidPassword } from 'shared/helpers/Validators';
 import GoogleOAuthButton from '../../../../../components/GoogleOauth/Button.vue';
 import { register } from '../../../../../api/auth';
-import * as CompanyEmailValidator from 'company-email-validator';
 
 const MIN_PASSWORD_LENGTH = 6;
 
@@ -35,9 +34,6 @@ const rules = {
     email: {
       required,
       email,
-      businessEmailValidator(value) {
-        return CompanyEmailValidator.isCompanyEmail(value);
-      },
     },
     password: {
       required,

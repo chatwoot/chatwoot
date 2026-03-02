@@ -3,7 +3,7 @@
     "TITLE": "Login to Chatwoot",
     "EMAIL": {
       "LABEL": "Email",
-      "PLACEHOLDER": "example{'@'}companyname.com",
+      "PLACEHOLDER": "name{'@'}example.com",
       "ERROR": "Please enter a valid email address"
     },
     "PASSWORD": {
@@ -21,6 +21,7 @@
       "NO_ACCOUNT_FOUND": "We couldn't find an account for your email address."
     },
     "FORGOT_PASSWORD": "Forgot your password?",
+    "NO_ACCOUNT": "Don't have an account?",
     "CREATE_NEW_ACCOUNT": "Create a new account",
     "SUBMIT": "Login",
     "SAML": {
@@ -30,7 +31,7 @@
       "BACK_TO_LOGIN": "Login via Password",
       "WORK_EMAIL": {
         "LABEL": "Work Email",
-        "PLACEHOLDER": "Enter your work email"
+        "PLACEHOLDER": "Enter your email address"
       },
       "SUBMIT": "Continue with SSO",
       "API": {

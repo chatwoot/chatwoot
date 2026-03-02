@@ -1,11 +1,9 @@
 <script setup>
 import { computed } from 'vue';
 import { useStore } from 'vuex';
-import { useBranding } from 'shared/composables/useBranding';
 import SignupForm from './components/Signup/Form.vue';
 
 const store = useStore();
-const { replaceInstallationName } = useBranding();
 const globalConfig = computed(() => store.getters['globalConfig/get']);
 </script>
 
@@ -15,22 +13,28 @@ const globalConfig = computed(() => store.getters['globalConfig/get']);
   >
     <section class="max-w-5xl mx-auto">
       <img
-        :src="globalConfig.logo"
+        :src="globalConfig.logo || '/brand-assets/logo.svg'"
         :alt="globalConfig.installationName"
-        class="block w-auto h-8 mx-auto dark:hidden"
+        class="block w-auto h-24 mx-auto rounded-2xl"
+        :class="{
+          'dark:hidden': !globalConfig.logo || !!globalConfig.logoDark,
+        }"
       />
       <img
-        v-if="globalConfig.logoDark"
-        :src="globalConfig.logoDark"
+        v-if="!globalConfig.logo || globalConfig.logoDark"
+        :src="globalConfig.logoDark || '/brand-assets/logo_dark.svg'"
         :alt="globalConfig.installationName"
-        class="hidden w-auto h-8 mx-auto dark:block"
+        class="hidden w-auto h-24 mx-auto rounded-2xl dark:block"
       />
       <h2 class="mt-6 text-3xl font-medium text-center text-n-slate-12">
-        {{ replaceInstallationName($t('REGISTER.GET_STARTED')) }}
+        {{ $t('REGISTER.TRY_WOOT') }}
       </h2>
-      <p class="mt-3 text-sm text-center text-n-slate-11">
+      <p class="mt-3 text-sm font-medium text-center text-n-slate-12">
         {{ $t('REGISTER.HAVE_AN_ACCOUNT') }}
-        <router-link to="/app/login" class="text-link text-n-brand">
+        <router-link
+          to="/app/login"
+          class="font-medium text-n-blue-10 hover:text-n-blue-15"
+        >
           {{ $t('LOGIN.SUBMIT') }}
         </router-link>
       </p>

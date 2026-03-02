@@ -7,20 +7,17 @@ import { required, email } from '@vuelidate/validators';
 import { useVuelidate } from '@vuelidate/core';
 import { SESSION_STORAGE_KEYS } from 'dashboard/constants/sessionStorage';
 import SessionStorage from 'shared/helpers/sessionStorage';
-import { useBranding } from 'shared/composables/useBranding';
 
 // components
 import SimpleDivider from '../../components/Divider/SimpleDivider.vue';
 import FormInput from '../../components/Form/Input.vue';
 import GoogleOAuthButton from '../../components/GoogleOauth/Button.vue';
 import Spinner from 'shared/components/Spinner.vue';
-import Icon from 'dashboard/components-next/icon/Icon.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import MfaVerification from 'dashboard/components/auth/MfaVerification.vue';
 
 const ERROR_MESSAGES = {
   'no-account-found': 'LOGIN.OAUTH.NO_ACCOUNT_FOUND',
-  'business-account-only': 'LOGIN.OAUTH.BUSINESS_ACCOUNTS_ONLY',
   'saml-authentication-failed': 'LOGIN.SAML.API.ERROR_MESSAGE',
   'saml-not-enabled': 'LOGIN.SAML.API.ERROR_MESSAGE',
 };
@@ -35,7 +32,6 @@ export default {
     NextButton,
     SimpleDivider,
     MfaVerification,
-    Icon,
   },
   props: {
     ssoAuthToken: { type: String, default: '' },
@@ -45,11 +41,7 @@ export default {
     authError: { type: String, default: '' },
   },
   setup() {
-    const { replaceInstallationName } = useBranding();
-    return {
-      replaceInstallationName,
-      v$: useVuelidate(),
-    };
+    return { v$: useVuelidate() };
   },
   data() {
     return {
@@ -96,9 +88,6 @@ export default {
     showSignupLink() {
       return window.chatwootConfig.signupEnabled === 'true';
     },
-    showSamlLogin() {
-      return this.allowedLoginMethods.includes('saml');
-    },
   },
   created() {
     if (this.ssoAuthToken) {
@@ -123,8 +112,6 @@ export default {
       switch (key) {
         case 'LOGIN.OAUTH.NO_ACCOUNT_FOUND':
           return this.$t('LOGIN.OAUTH.NO_ACCOUNT_FOUND');
-        case 'LOGIN.OAUTH.BUSINESS_ACCOUNTS_ONLY':
-          return this.$t('LOGIN.OAUTH.BUSINESS_ACCOUNTS_ONLY');
         case 'LOGIN.API.UNAUTH':
         default:
           return this.$t('LOGIN.API.UNAUTH');
@@ -224,22 +211,31 @@ export default {
   >
     <section class="max-w-5xl mx-auto">
       <img
-        :src="globalConfig.logo"
+        :src="globalConfig.logo || '/brand-assets/logo.svg'"
         :alt="globalConfig.installationName"
-        class="block w-auto h-8 mx-auto dark:hidden"
+        class="block w-auto h-24 mx-auto rounded-2xl"
+        :class="{
+          'dark:hidden': !globalConfig.logo || !!globalConfig.logoDark,
+        }"
       />
       <img
-        v-if="globalConfig.logoDark"
-        :src="globalConfig.logoDark"
+        v-if="!globalConfig.logo || globalConfig.logoDark"
+        :src="globalConfig.logoDark || '/brand-assets/logo_dark.svg'"
         :alt="globalConfig.installationName"
-        class="hidden w-auto h-8 mx-auto dark:block"
+        class="hidden w-auto h-24 mx-auto rounded-2xl dark:block"
       />
       <h2 class="mt-6 text-3xl font-medium text-center text-n-slate-12">
-        {{ replaceInstallationName($t('LOGIN.TITLE')) }}
+        {{ $t('LOGIN.SUBMIT') }}
       </h2>
-      <p v-if="showSignupLink" class="mt-3 text-sm text-center text-n-slate-11">
-        {{ $t('COMMON.OR') }}
-        <router-link to="auth/signup" class="lowercase text-link text-n-brand">
+      <p
+        v-if="showSignupLink"
+        class="mt-3 text-sm font-medium text-center text-n-slate-12"
+      >
+        {{ $t('LOGIN.NO_ACCOUNT') }}
+        <router-link
+          to="/app/auth/signup"
+          class="font-medium text-n-blue-10 hover:text-n-blue-11"
+        >
           {{ $t('LOGIN.CREATE_NEW_ACCOUNT') }}
         </router-link>
       </p>
@@ -266,22 +262,8 @@ export default {
       <div v-if="!email">
         <div class="flex flex-col gap-4">
           <GoogleOAuthButton v-if="showGoogleOAuth" />
-          <div v-if="showSamlLogin" class="text-center">
-            <router-link
-              to="/app/login/sso"
-              class="inline-flex justify-center w-full px-4 py-3 items-center bg-n-background dark:bg-n-solid-3 rounded-md shadow-sm ring-1 ring-inset ring-n-container dark:ring-n-container focus:outline-offset-0 hover:bg-n-alpha-2 dark:hover:bg-n-alpha-2"
-            >
-              <Icon
-                icon="i-lucide-lock-keyhole"
-                class="size-5 text-n-slate-11"
-              />
-              <span class="ml-2 text-base font-medium text-n-slate-12">
-                {{ $t('LOGIN.SAML.LABEL') }}
-              </span>
-            </router-link>
-          </div>
           <SimpleDivider
-            v-if="showGoogleOAuth || showSamlLogin"
+            v-if="showGoogleOAuth"
             :label="$t('COMMON.OR')"
             class="uppercase"
           />
@@ -295,7 +277,7 @@ export default {
             :tabindex="1"
             required
             :label="$t('LOGIN.EMAIL.LABEL')"
-            :placeholder="$t('LOGIN.EMAIL.PLACEHOLDER')"
+            :placeholder="$t('REGISTER.EMAIL.PLACEHOLDER')"
             :has-error="v$.credentials.email.$error"
             @input="v$.credentials.email.$touch"
           />
@@ -310,17 +292,7 @@ export default {
             :placeholder="$t('LOGIN.PASSWORD.PLACEHOLDER')"
             :has-error="v$.credentials.password.$error"
             @input="v$.credentials.password.$touch"
-          >
-            <p v-if="!globalConfig.disableUserProfileUpdate">
-              <router-link
-                to="auth/reset/password"
-                class="text-sm text-link"
-                tabindex="4"
-              >
-                {{ $t('LOGIN.FORGOT_PASSWORD') }}
-              </router-link>
-            </p>
-          </FormInput>
+          />
           <NextButton
             lg
             type="submit"
@@ -331,6 +303,18 @@ export default {
             :disabled="loginApi.showLoading"
             :is-loading="loginApi.showLoading"
           />
+          <p
+            v-if="!globalConfig.disableUserProfileUpdate"
+            class="text-sm font-medium text-center text-n-slate-12"
+          >
+            <router-link
+              to="/app/auth/reset/password"
+              class="font-medium text-n-blue-10 hover:text-n-blue-11"
+              tabindex="4"
+            >
+              {{ $t('LOGIN.FORGOT_PASSWORD') }}
+            </router-link>
+          </p>
         </form>
       </div>
       <div v-else class="flex items-center justify-center">

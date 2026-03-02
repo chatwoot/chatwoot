@@ -37,9 +37,10 @@ By default, it renders:
       <title><%= @portal.page_title%></title>
     <% end %>
     
-    <% if @portal.logo.present? %>
-      <link rel="icon" href="<%= url_for(@portal.logo) %>">
-    <% end %>
+    <link
+      rel="icon"
+      href="<%= @portal.logo.present? ? url_for(@portal.logo) : '/brand-assets/logo_thumbnail.svg' %>"
+    >
 
     <% unless @theme_from_params.blank? %>
     <%# this adds the theme from params, ensuring that there a localstorage value set %>

@@ -188,7 +188,10 @@ const handleToggleWidget = () => {
               >
                 <img
                   class="max-w-2.5 max-h-2.5"
-                  :src="globalConfig.logoThumbnail"
+                  :src="
+                    globalConfig.logoThumbnail ||
+                    '/brand-assets/logo_thumbnail.svg'
+                  "
                 />
                 <span>
                   {{

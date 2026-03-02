@@ -70,15 +70,18 @@ export default {
   >
     <section class="max-w-5xl mx-auto">
       <img
-        :src="globalConfig.logo"
+        :src="globalConfig.logo || '/brand-assets/logo.svg'"
         :alt="globalConfig.installationName"
-        class="block w-auto h-8 mx-auto dark:hidden"
+        class="block w-auto h-24 mx-auto rounded-2xl"
+        :class="{
+          'dark:hidden': !globalConfig.logo || !!globalConfig.logoDark,
+        }"
       />
       <img
-        v-if="globalConfig.logoDark"
-        :src="globalConfig.logoDark"
+        v-if="!globalConfig.logo || globalConfig.logoDark"
+        :src="globalConfig.logoDark || '/brand-assets/logo_dark.svg'"
         :alt="globalConfig.installationName"
-        class="hidden w-auto h-8 mx-auto dark:block"
+        class="hidden w-auto h-24 mx-auto rounded-2xl dark:block"
       />
     </section>
     <form
@@ -114,10 +117,13 @@ export default {
           :is-loading="resetPassword.showLoading"
         />
       </div>
-      <p class="mt-4 -mb-1 text-sm text-n-slate-11">
+      <p class="mt-4 -mb-1 text-sm font-medium text-n-slate-12">
         {{ $t('RESET_PASSWORD.GO_BACK_TO_LOGIN') }}
-        <router-link to="/auth/login" class="text-link text-n-brand">
-          {{ $t('COMMON.CLICK_HERE') }}.
+        <router-link
+          to="/app/login"
+          class="font-medium text-n-blue-10 hover:text-n-blue-15"
+        >
+          {{ $t('LOGIN.SUBMIT') }}
         </router-link>
       </p>
     </form>

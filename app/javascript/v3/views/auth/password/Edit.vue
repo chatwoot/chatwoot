@@ -93,15 +93,18 @@ export default {
   >
     <section class="max-w-5xl mx-auto">
       <img
-        :src="globalConfig.logo"
+        :src="globalConfig.logo || '/brand-assets/logo.svg'"
         :alt="globalConfig.installationName"
-        class="block w-auto h-8 mx-auto dark:hidden"
+        class="block w-auto h-24 mx-auto rounded-2xl"
+        :class="{
+          'dark:hidden': !globalConfig.logo || !!globalConfig.logoDark,
+        }"
       />
       <img
-        v-if="globalConfig.logoDark"
-        :src="globalConfig.logoDark"
+        v-if="!globalConfig.logo || globalConfig.logoDark"
+        :src="globalConfig.logoDark || '/brand-assets/logo_dark.svg'"
         :alt="globalConfig.installationName"
-        class="hidden w-auto h-8 mx-auto dark:block"
+        class="hidden w-auto h-24 mx-auto rounded-2xl dark:block"
       />
     </section>
     <form

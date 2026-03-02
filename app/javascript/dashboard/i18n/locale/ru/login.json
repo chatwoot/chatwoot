@@ -21,16 +21,17 @@
       "NO_ACCOUNT_FOUND": "Мы не смогли найти учетную запись для вашего адреса электронной почты."
     },
     "FORGOT_PASSWORD": "Забыли пароль?",
+    "NO_ACCOUNT": "У вас нет аккаунта?",
     "CREATE_NEW_ACCOUNT": "Создать новый аккаунт",
     "SUBMIT": "Вход",
     "SAML": {
       "LABEL": "Войти через SSO",
       "TITLE": "Инициировать Единый вход (SSO)",
-      "SUBTITLE": "Введите ваш рабочий email для доступа к вашей организации",
+      "SUBTITLE": "Введите ваш email для доступа к вашей организации",
       "BACK_TO_LOGIN": "Войти с помощью пароля",
       "WORK_EMAIL": {
-        "LABEL": "Рабочий email",
-        "PLACEHOLDER": "Введите ваш рабочий email"
+        "LABEL": "Email",
+        "PLACEHOLDER": "Введите ваш email"
       },
       "SUBMIT": "Продолжить через SSO",
       "API": {
