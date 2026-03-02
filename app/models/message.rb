@@ -400,10 +400,7 @@ class Message < ApplicationRecord
   end
 
   def captain_pending_conversation?
-    return false unless conversation.pending?
-    return false unless defined?(::CaptainInbox)
-
-    ::CaptainInbox.exists?(inbox_id: conversation.inbox_id)
+    false
   end
 
   def reopen_resolved_conversation
