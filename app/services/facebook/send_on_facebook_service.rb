@@ -95,10 +95,10 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
   end
 
   def message_tag
-    global_config = GlobalConfig.get('ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT')
-    return 'HUMAN_AGENT' if global_config['ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT']
-
-    'ACCOUNT_UPDATE'
+    @message_tag ||= begin
+      global_config = GlobalConfig.get('ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT')
+      global_config['ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT'] ? 'HUMAN_AGENT' : 'ACCOUNT_UPDATE'
+    end
   end
 
   def attachment_type(attachment)
