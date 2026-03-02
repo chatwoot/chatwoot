@@ -15,8 +15,12 @@ on:
       - v*
   workflow_dispatch:
 
+permissions:
+  contents: read
+  id-token: write
+
 env:
-  DOCKER_REPO: chatwoot/chatwoot
+  DOCKER_REPO: gcr.io/beet-digital-dev-terraform/beetdigital
 
 jobs:
   build:
@@ -34,6 +38,18 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: projects/145304978554/locations/global/workloadIdentityPools/github-actions/providers/github
+          service_account: github-actions-registry@beet-digital-dev-terraform.iam.gserviceaccount.com
+
+      - name: Set up gcloud
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Configure Docker auth for GCR
+        run: gcloud auth configure-docker gcr.io --quiet
 
       - name: Prepare
         run: |
@@ -63,13 +79,6 @@ jobs:
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
-
-      - name: Login to DockerHub
-        if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build and push by digest
         id: build
@@ -107,11 +116,17 @@ jobs:
           pattern: digests-*
           merge-multiple: true
 
-      - name: Login to DockerHub
-        uses: docker/login-action@v3
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          workload_identity_provider: projects/145304978554/locations/global/workloadIdentityPools/github-actions/providers/github
+          service_account: github-actions-registry@beet-digital-dev-terraform.iam.gserviceaccount.com
+
+      - name: Set up gcloud
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Configure Docker auth for GCR
+        run: gcloud auth configure-docker gcr.io --quiet
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
