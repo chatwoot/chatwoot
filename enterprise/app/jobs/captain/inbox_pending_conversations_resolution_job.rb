@@ -7,6 +7,8 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
   queue_as :low
 
   def perform(inbox)
+    return if inbox.account.captain_disable_auto_resolve
+
     if inbox.account.feature_enabled?('captain_tasks')
       perform_with_evaluation(inbox)
     else
