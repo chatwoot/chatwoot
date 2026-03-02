@@ -4,6 +4,7 @@ RSpec.describe 'Influencer profile search', type: :request do
   let(:account) { create(:account) }
   let(:admin) { create(:user, account: account, role: :administrator) }
   let(:headers) { admin.create_new_auth_token }
+  let(:discovery_service) { instance_double(InfluencersClub::DiscoveryService) }
   let(:base_filters) do
     {
       ai_search: 'home decor',
@@ -27,6 +28,10 @@ RSpec.describe 'Influencer profile search', type: :request do
     }
   end
 
+  before do
+    allow(InfluencersClub::DiscoveryService).to receive(:new).and_return(discovery_service)
+  end
+
   def build_results(range)
     range.map do |index|
       {
@@ -42,9 +47,10 @@ RSpec.describe 'Influencer profile search', type: :request do
     end
   end
 
+  # rubocop:disable RSpec/MultipleExpectations
   describe 'POST /api/v1/accounts/{account.id}/influencer_profiles/search' do
     it 'creates a registry entry and returns the first page from the API on first search' do
-      expect_any_instance_of(InfluencersClub::DiscoveryService).to receive(:perform).once.and_return(page_1_response)
+      expect(discovery_service).to receive(:perform).once.and_return(page_1_response)
 
       post "/api/v1/accounts/#{account.id}/influencer_profiles/search",
            params: base_filters,
@@ -76,7 +82,7 @@ RSpec.describe 'Influencer profile search', type: :request do
     end
 
     it 'serves repeated searches for the same filters from cache without calling the API again' do
-      expect_any_instance_of(InfluencersClub::DiscoveryService).to receive(:perform).once.and_return(page_1_response)
+      expect(discovery_service).to receive(:perform).once.and_return(page_1_response)
 
       2.times do
         post "/api/v1/accounts/#{account.id}/influencer_profiles/search",
@@ -96,7 +102,7 @@ RSpec.describe 'Influencer profile search', type: :request do
     end
 
     it 'fetches the next page only when it has not been cached yet' do
-      expect_any_instance_of(InfluencersClub::DiscoveryService).to receive(:perform).twice.and_return(page_1_response, page_2_response)
+      expect(discovery_service).to receive(:perform).twice.and_return(page_1_response, page_2_response)
 
       post "/api/v1/accounts/#{account.id}/influencer_profiles/search",
            params: base_filters,
@@ -135,7 +141,7 @@ RSpec.describe 'Influencer profile search', type: :request do
     end
 
     it 'reuses the same registry entry for equivalent filters with different array ordering' do
-      expect_any_instance_of(InfluencersClub::DiscoveryService).to receive(:perform).once.and_return(page_1_response)
+      expect(discovery_service).to receive(:perform).once.and_return(page_1_response)
 
       post "/api/v1/accounts/#{account.id}/influencer_profiles/search",
            params: base_filters.merge(location: %w[Germany Poland], hashtags: %w[decor interior]),
@@ -148,7 +154,8 @@ RSpec.describe 'Influencer profile search', type: :request do
            as: :json
 
       expect(account.influencer_searches.count).to eq(1)
-      expect(response.parsed_body.dig('meta', 'cached')).to eq(true)
+      expect(response.parsed_body.dig('meta', 'cached')).to be(true)
     end
   end
+  # rubocop:enable RSpec/MultipleExpectations
 end
