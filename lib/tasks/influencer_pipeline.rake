@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/BlockLength
 namespace :influencers do
   desc 'Create influencer label and pipeline stages for an account'
   task :setup_pipeline, [:account_id] => :environment do |_t, args|
@@ -118,3 +119,4 @@ namespace :influencers do
     puts "\nDone. Imported: #{imported}, Skipped: #{skipped}, Searches: #{searches_data.size}"
   end
 end
+# rubocop:enable Metrics/BlockLength
