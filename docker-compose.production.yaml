@@ -1,73 +1,192 @@
-version: '3'
+# AirysChat Production Stack
+# Usage:
+#   cp .env.production.example .env
+#   docker compose -f docker-compose.production.yaml up -d
+#
+# Traefik handles SSL (Let's Encrypt), reverse proxy, and WebSocket upgrade
+# for ActionCable (/cable) and Twilio voice streams.
 
 services:
+  # ── Reverse Proxy ──────────────────────────────────────────────
+  traefik:
+    image: traefik:v3.3
+    container_name: airyschat-traefik
+    restart: unless-stopped
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./deployment/traefik/traefik.yml:/etc/traefik/traefik.yml:ro
+      - ./deployment/traefik/dynamic:/etc/traefik/dynamic:ro
+      - traefik_certs:/letsencrypt
+    environment:
+      - ACME_EMAIL=${ACME_EMAIL:?Set ACME_EMAIL in .env}
+    labels:
+      # Traefik dashboard (optional, secured by basicAuth in dynamic config)
+      - 'traefik.enable=true'
+      - 'traefik.http.routers.traefik-dashboard.rule=Host(`traefik.${DOMAIN}`)'
+      - 'traefik.http.routers.traefik-dashboard.entrypoints=websecure'
+      - 'traefik.http.routers.traefik-dashboard.tls.certresolver=letsencrypt'
+      - 'traefik.http.routers.traefik-dashboard.service=api@internal'
+      - 'traefik.http.routers.traefik-dashboard.middlewares=dashboard-auth@file'
+    networks:
+      - web
+      - internal
+    deploy:
+      resources:
+        limits:
+          memory: 128M
+
+  # ── Rails (Puma) ───────────────────────────────────────────────
   base: &base
-    image: chatwoot/chatwoot:latest
-    env_file: .env ## Change this file for customized env variables
+    image: ${DOCKER_IMAGE:-ghcr.io/gabrieldeholanda/airyschat:latest}
+    env_file: .env
     volumes:
       - storage_data:/app/storage
 
   rails:
     <<: *base
+    container_name: airyschat-rails
+    restart: unless-stopped
     depends_on:
-      - postgres
-      - redis
-    ports:
-      - '127.0.0.1:3000:3000'
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
     environment:
       - NODE_ENV=production
       - RAILS_ENV=production
       - INSTALLATION_ENV=docker
+      - RAILS_LOG_TO_STDOUT=true
     entrypoint: docker/entrypoints/rails.sh
     command: ['bundle', 'exec', 'rails', 's', '-p', '3000', '-b', '0.0.0.0']
-    restart: always
+    healthcheck:
+      test: ['CMD', 'wget', '-q', '--spider', 'http://localhost:3000/auth/sign_in']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    labels:
+      - 'traefik.enable=true'
+      # Main HTTPS router
+      - 'traefik.http.routers.rails.rule=Host(`${DOMAIN}`)'
+      - 'traefik.http.routers.rails.entrypoints=websecure'
+      - 'traefik.http.routers.rails.tls.certresolver=letsencrypt'
+      - 'traefik.http.routers.rails.middlewares=security-headers@file,gzip-compress@file'
+      - 'traefik.http.services.rails.loadbalancer.server.port=3000'
+    networks:
+      - web
+      - internal
+    deploy:
+      resources:
+        limits:
+          memory: 1G
 
+  # ── Sidekiq (Background Jobs) ──────────────────────────────────
   sidekiq:
     <<: *base
+    container_name: airyschat-sidekiq
+    restart: unless-stopped
     depends_on:
-      - postgres
-      - redis
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
     environment:
       - NODE_ENV=production
       - RAILS_ENV=production
       - INSTALLATION_ENV=docker
+      - RAILS_LOG_TO_STDOUT=true
     command: ['bundle', 'exec', 'sidekiq', '-C', 'config/sidekiq.yml']
-    restart: always
+    healthcheck:
+      test: ['CMD-SHELL', 'bundle exec sidekiqmon processes | grep -q "busy"']
+      interval: 60s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    networks:
+      - internal
+    deploy:
+      resources:
+        limits:
+          memory: 1G
 
+  # ── PostgreSQL + pgvector ──────────────────────────────────────
   postgres:
-    image: pgvector/pgvector:pg16
-    restart: always
-    ports:
-      - '127.0.0.1:5432:5432'
+    image: pgvector/pgvector:pg17
+    container_name: airyschat-postgres
+    restart: unless-stopped
     volumes:
       - postgres_data:/var/lib/postgresql/data
     environment:
-      - POSTGRES_DB=chatwoot
-      - POSTGRES_USER=postgres
-      # Please provide your own password.
-      - POSTGRES_PASSWORD=
+      - POSTGRES_DB=${POSTGRES_DATABASE:-chatwoot_production}
+      - POSTGRES_USER=${POSTGRES_USERNAME:-postgres}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U ${POSTGRES_USERNAME:-postgres} -d ${POSTGRES_DATABASE:-chatwoot_production}']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    networks:
+      - internal
+    deploy:
+      resources:
+        limits:
+          memory: 512M
 
+  # ── Redis ──────────────────────────────────────────────────────
   redis:
-    image: redis:alpine
-    restart: always
-    command: ["sh", "-c", "redis-server --requirepass \"$REDIS_PASSWORD\""]
-    env_file: .env
+    image: redis:7-alpine
+    container_name: airyschat-redis
+    restart: unless-stopped
+    command: ['redis-server', '--requirepass', '${REDIS_PASSWORD}', '--appendonly', 'yes', '--maxmemory', '256mb', '--maxmemory-policy', 'noeviction']
     volumes:
       - redis_data:/data
-    ports:
-      - '127.0.0.1:6379:6379'
+    healthcheck:
+      test: ['CMD', 'redis-cli', '-a', '${REDIS_PASSWORD}', 'ping']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - internal
+    deploy:
+      resources:
+        limits:
+          memory: 300M
 
+  # ── LiteLLM Proxy ─────────────────────────────────────────────
   litellm:
     image: ghcr.io/berriai/litellm:main-latest
-    restart: always
-    ports:
-      - '127.0.0.1:4000:4000'
+    container_name: airyschat-litellm
+    restart: unless-stopped
     volumes:
-      - ./config/litellm.yml:/app/config.yaml
-    command: ["--config", "/app/config.yaml", "--port", "4000"]
+      - ./config/litellm.yml:/app/config.yaml:ro
+    command: ['--config', '/app/config.yaml', '--port', '4000']
     env_file: .env
+    healthcheck:
+      test: ['CMD', 'curl', '-sf', 'http://localhost:4000/health']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+    # No traefik labels = NOT exposed to the internet
+    networks:
+      - internal
+    deploy:
+      resources:
+        limits:
+          memory: 512M
 
 volumes:
+  traefik_certs:
   storage_data:
   postgres_data:
   redis_data:
+
+networks:
+  web:
+    name: airyschat_web
+  internal:
+    name: airyschat_internal

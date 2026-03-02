@@ -1,0 +1,42 @@
+# Traefik dynamic configuration — middleware definitions
+# These are referenced by Docker labels as middleware@file
+
+http:
+  middlewares:
+    # ── Security Headers ───────────────────────────────────────────
+    security-headers:
+      headers:
+        browserXssFilter: true
+        contentTypeNosniff: true
+        frameDeny: true
+        stsIncludeSubdomains: true
+        stsPreload: true
+        stsSeconds: 31536000
+        customFrameOptionsValue: SAMEORIGIN
+        referrerPolicy: strict-origin-when-cross-origin
+        permissionsPolicy: camera=(), microphone=(self), geolocation=(), payment=()
+        customResponseHeaders:
+          X-Powered-By: ''
+          Server: ''
+
+    # ── Gzip Compression ──────────────────────────────────────────
+    gzip-compress:
+      compress:
+        excludedContentTypes:
+          - text/event-stream
+
+    # ── Dashboard Basic Auth ──────────────────────────────────────
+    # Generate credentials: htpasswd -nB admin
+    # Then set TRAEFIK_DASHBOARD_AUTH in .env
+    # Format: admin:$2y$05$...
+    dashboard-auth:
+      basicAuth:
+        users:
+          - '{{ env "TRAEFIK_DASHBOARD_AUTH" }}'
+
+    # ── Rate Limiting (global fallback) ───────────────────────────
+    rate-limit:
+      rateLimit:
+        average: 100
+        burst: 200
+        period: 1s

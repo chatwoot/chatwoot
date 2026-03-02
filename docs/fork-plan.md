@@ -24,7 +24,7 @@
 | — | Voice Provider Audit | ✅ Complete | `7f20405` |
 | — | Best Practices Review | ✅ Complete | — |
 | 5 | Agent Builder UI | ✅ Complete | `8ccb3cb` |
-| 6 | Docker Deployment | ⬜ Not Started | — |
+| 6 | Docker Deployment | ✅ Complete | `pending` |
 | 7 | Testing & Quality | ✅ Complete | `26272d0` |
 | 8 | Security & Auth Policies | ✅ Complete | `9e92e3e` |
 | 9 | Production Hardening | ✅ Complete | `3795d1b` |
@@ -417,53 +417,105 @@ Route: `app/javascript/dashboard/routes/dashboard/aiAgents/`
 
 ---
 
-## Phase 6 — Docker Compose Deployment ⬜
+## Phase 6 — Docker Compose Deployment (Traefik) ✅
 
-Production-ready Docker Compose stack with all services, health checks, and deploy tooling.
+**Commit:** `pending`
+
+Production-ready Docker Compose stack with Traefik v3 reverse proxy, Let's Encrypt SSL, health checks, resource limits, and deploy/backup tooling.
+
+### Architecture
+
+```
+┌─────────────┐     ┌──────────────────────────────────────────┐
+│  Internet   │────▶│  Traefik v3 (:80 → :443 redirect)        │
+│             │◀────│  Let's Encrypt ACME auto-renewal         │
+└─────────────┘     └─┬──────────────────────────────────────┬─┘
+                      │ web network                         │
+              ┌───────▼───────┐                             │
+              │  Rails/Puma   │                              │
+              │  :3000        │                              │
+              │  (+ /cable WS)│                              │
+              └───────┬───────┘                              │
+                      │ internal network                    │
+           ┌──────────┼──────────┬──────────────┐           │
+           ▼          ▼          ▼              ▼           │
+      ┌─────────┐ ┌────────┐ ┌────────┐ ┌────────────┐     │
+      │Postgres │ │ Redis  │ │Sidekiq │ │  LiteLLM   │     │
+      │ pg17    │ │7-alpine│ │        │ │  :4000     │     │
+      │pgvector │ │AOF+RDB │ │        │ │ (internal) │     │
+      └─────────┘ └────────┘ └────────┘ └────────────┘
+```
 
 ### Services
 
-```yaml
-services:
-  rails:         # Puma app server (existing, needs health check + env)
-  sidekiq:       # Background jobs (existing, needs queue config)
-  postgres:      # pgvector/pgvector:pg17 (upgrade from pg16)
-  redis:         # Cache + ActionCable + Sidekiq broker (existing)
-  litellm:       # ghcr.io/berriai/litellm:main-latest (port 4000)
-  nginx:         # Reverse proxy + SSL termination (new)
-```
+| Service | Image | Exposed | Memory Limit |
+|---------|-------|---------|--------------|
+| traefik | `traefik:v3.3` | :80, :443 | 128M |
+| rails | AirysChat image | via Traefik | 1G |
+| sidekiq | AirysChat image | — | 1G |
+| postgres | `pgvector/pgvector:pg17` | — | 512M |
+| redis | `redis:7-alpine` | — | 300M |
+| litellm | `ghcr.io/berriai/litellm:main-latest` | — (internal only) | 512M |
 
-### What needs to be done
+### What was done
 
-1. **Production docker-compose** — Consolidate `docker-compose.production.yaml`:
-   - Add health checks for all services (pg_isready, redis-cli ping, curl litellm/health)
-   - Proper volume mounts for persistent data (postgres, redis, uploads)
-   - Resource limits (memory, CPU) per service
-   - Restart policies (`unless-stopped`)
-   - Logging configuration (JSON driver with rotation)
+1. **`docker-compose.production.yaml`** — Full rewrite:
+   - Traefik v3 as entrypoint with automatic HTTPS via Let's Encrypt ACME
+   - Docker labels for routing (no separate nginx config to maintain)
+   - Two networks: `web` (Traefik ↔ Rails) and `internal` (all backend services)
+   - Health checks on all services (pg_isready, redis-cli ping, wget rails, curl litellm)
+   - `depends_on` with `condition: service_healthy` for startup ordering
+   - `deploy.resources.limits.memory` on every service
+   - `restart: unless-stopped` across the board
+   - LiteLLM has NO Traefik labels → not exposed to internet
+   - pgvector upgraded from pg16 → pg17
+   - Redis upgraded to `redis:7-alpine` with AOF persistence + 256MB maxmemory
 
-2. **Nginx config** — `deployment/nginx_airyschat.conf`:
-   - SSL termination with Let's Encrypt (certbot)
-   - WebSocket upgrade for ActionCable (`/cable`) and Twilio streams
-   - Proxy to Rails (port 3000) and LiteLLM (port 4000, internal only)
-   - Rate limiting, security headers, gzip compression
+2. **Traefik static config** — `deployment/traefik/traefik.yml`:
+   - Entrypoints: `:80` (auto-redirects to HTTPS), `:443` (TLS)
+   - Let's Encrypt ACME `tlsChallenge` cert resolver
+   - Docker provider with `exposedByDefault: false` (opt-in via labels)
+   - File provider for dynamic middleware config
+   - JSON access logging (4xx/5xx only)
 
-3. **Environment management** — `.env.production.example`:
-   - All required env vars documented with descriptions
-   - Secret generation script for `SECRET_KEY_BASE`, keys, etc.
-   - Stripe, LiteLLM, Twilio, Firecrawl credential placeholders
+3. **Traefik dynamic middleware** — `deployment/traefik/dynamic/middleware.yml`:
+   - `security-headers` — XSS filter, nosniff, HSTS, frame options, referrer policy, permissions policy
+   - `gzip-compress` — compression (excludes `text/event-stream` for SSE)
+   - `dashboard-auth` — basicAuth for Traefik dashboard
+   - `rate-limit` — global fallback rate limiter (100 req/s, burst 200)
 
-4. **Deploy script** — `./bin/deploy.sh`:
-   - Pull latest images
-   - Run `db:migrate` and `db:seed` (idempotent)
-   - Precompile assets (`bundle exec rails assets:precompile`)
-   - Zero-downtime restart (rolling container replacement)
-   - Health check verification post-deploy
+4. **`.env.production.example`** — Complete production env template:
+   - Domain + ACME email for Traefik/SSL
+   - Rails core (SECRET_KEY_BASE, FORCE_SSL, WEB_CONCURRENCY)
+   - Active Record encryption keys (for AgentTool auth_token)
+   - PostgreSQL + Redis credentials
+   - SMTP/mailer config
+   - Stripe, LiteLLM, OpenAI/Anthropic/Gemini keys
+   - Twilio, ElevenLabs, Firecrawl (optional)
+   - Rate limiting, storage, push notifications, Sentry
 
-5. **Backup script** — `./bin/backup.sh`:
-   - PostgreSQL pg_dump with timestamp
-   - Redis RDB snapshot
-   - Upload to S3/compatible storage (optional)
+5. **`bin/deploy.sh`** — Zero-downtime deploy script:
+   - `--skip-pull` and `--skip-migrate` flags
+   - Pulls latest images, runs `db:migrate` in disposable container
+   - Rolling restart: sidekiq first, then rails
+   - Post-deploy health check on all 4 services
+
+6. **`bin/backup.sh`** — Automated backup script:
+   - PostgreSQL `pg_dump` in compressed custom format (-Fc)
+   - Redis BGSAVE + RDB copy
+   - Optional S3 upload with `--s3 BUCKET_NAME`
+   - Auto-cleanup: keeps last 7 local backups
+
+### Files changed
+
+| File | Action |
+|------|--------|
+| `docker-compose.production.yaml` | Rewritten — Traefik, health checks, resource limits, networks |
+| `deployment/traefik/traefik.yml` | New — static Traefik config |
+| `deployment/traefik/dynamic/middleware.yml` | New — security headers, compression, auth |
+| `.env.production.example` | New — complete production env template |
+| `bin/deploy.sh` | New — zero-downtime deploy script |
+| `bin/backup.sh` | New — PostgreSQL + Redis backup with S3 optional upload |
 
 ---
 
