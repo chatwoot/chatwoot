@@ -87,6 +87,8 @@ gem 'devise-two-factor', '>= 5.0.0'
 # authorization
 gem 'jwt'
 gem 'pundit'
+# OpenID Connect provider for Keycloak authentication
+gem 'omniauth_openid_connect', '~> 0.8'
 
 # super admin
 gem 'administrate', '>= 0.20.1'
