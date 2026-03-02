@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_02_27_000250) do
+ActiveRecord::Schema[7.1].define(version: 2026_03_02_192422) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -910,6 +910,22 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_27_000250) do
     t.jsonb "settings", default: {}
   end
 
+  create_table "integrations_webhook_logs", force: :cascade do |t|
+    t.bigint "hook_id", null: false
+    t.string "event_type", null: false
+    t.integer "status", default: 0, null: false
+    t.jsonb "payload", default: {}
+    t.jsonb "response_data", default: {}
+    t.text "error_message"
+    t.datetime "processed_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["created_at"], name: "index_integrations_webhook_logs_on_created_at"
+    t.index ["hook_id", "created_at"], name: "index_integrations_webhook_logs_on_hook_id_and_created_at"
+    t.index ["hook_id"], name: "index_integrations_webhook_logs_on_hook_id"
+    t.index ["status"], name: "index_integrations_webhook_logs_on_status"
+  end
+
   create_table "labels", force: :cascade do |t|
     t.string "title"
     t.text "description"
@@ -1534,6 +1550,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_27_000250) do
   add_foreign_key "aloo_embeddings", "aloo_assistants"
   add_foreign_key "aloo_embeddings", "aloo_documents"
   add_foreign_key "inboxes", "portals"
+  add_foreign_key "integrations_webhook_logs", "integrations_hooks", column: "hook_id"
   add_foreign_key "moengage_webhook_event_logs", "accounts"
   add_foreign_key "moengage_webhook_event_logs", "contacts"
   add_foreign_key "moengage_webhook_event_logs", "conversations"
