@@ -1,10 +1,12 @@
 require 'digest'
 
+# rubocop:disable Style/OneClassPerFile
 class AddRegistryFieldsToInfluencerSearches < ActiveRecord::Migration[7.0]
   class MigrationInfluencerSearch < ApplicationRecord
     self.table_name = 'influencer_searches'
   end
 
+  # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
   def up
     add_column :influencer_searches, :query_signature, :string
     add_column :influencer_searches, :page_size, :integer, default: 5, null: false
@@ -21,12 +23,14 @@ class AddRegistryFieldsToInfluencerSearches < ActiveRecord::Migration[7.0]
                         (Array(search.results).size.to_f / 5).ceil
                       end
 
+      # rubocop:disable Rails/SkipsModelValidations
       search.update_columns(
         query_params: normalized_params,
         query_signature: Digest::SHA256.hexdigest(JSON.generate(normalized_params)),
         page_size: 5,
         pages_fetched: pages_fetched
       )
+      # rubocop:enable Rails/SkipsModelValidations
     end
 
     deduplicate_searches!
@@ -34,6 +38,7 @@ class AddRegistryFieldsToInfluencerSearches < ActiveRecord::Migration[7.0]
     change_column_null :influencer_searches, :query_signature, false
     add_index :influencer_searches, %i[account_id query_signature], unique: true
   end
+  # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 
   def down
     remove_index :influencer_searches, column: %i[account_id query_signature]
@@ -72,10 +77,12 @@ class AddRegistryFieldsToInfluencerSearches < ActiveRecord::Migration[7.0]
   end
 
   def normalize_array(value)
-    value.filter_map do |item|
+    normalized_items = value.filter_map do |item|
       normalized_item = normalize_value(item)
       normalized_item unless blank_value?(normalized_item)
-    end.sort_by { |item| JSON.generate(item) }
+    end
+
+    normalized_items.sort_by { |item| JSON.generate(item) }
   end
 
   def normalize_value(value)
@@ -85,23 +92,28 @@ class AddRegistryFieldsToInfluencerSearches < ActiveRecord::Migration[7.0]
     when Array
       normalize_array(value)
     when String
-      normalized = value.strip
-      return normalized.to_i if normalized.match?(/\A-?\d+\z/)
-      return normalized.to_f if normalized.match?(/\A-?\d+\.\d+\z/)
-
-      normalized.presence
+      normalize_string(value)
     when Integer
       value
     when Float, BigDecimal
       value.to_f
     when NilClass
       nil
-    else
-      value
     end
+  end
+
+  def normalize_string(value)
+    normalized = value.strip
+    return if normalized.blank?
+
+    return normalized.to_i if normalized.match?(/\A-?\d+\z/)
+    return normalized.to_f if normalized.match?(/\A-?\d+\.\d+\z/)
+
+    normalized
   end
 
   def blank_value?(value)
     value.respond_to?(:blank?) ? value.blank? : value.nil?
   end
 end
+# rubocop:enable Style/OneClassPerFile
