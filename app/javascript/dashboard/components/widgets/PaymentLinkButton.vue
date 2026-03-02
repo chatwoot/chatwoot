@@ -45,7 +45,7 @@ export default {
         );
 
         // Send the payment link as a message in the conversation
-        await this.$store.dispatch('sendMessage', {
+        await this.$store.dispatch('createPendingMessageAndSend', {
           conversationId: this.conversationId,
           message: this.formatPaymentLinkMessage(response.data),
         });
