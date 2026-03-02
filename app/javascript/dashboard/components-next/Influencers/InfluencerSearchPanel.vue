@@ -164,7 +164,8 @@ async function handleSearch() {
   searchError.value = '';
   try {
     await store.dispatch('influencerProfiles/search', {
-      filters: payload, page: 1,
+      filters: payload,
+      page: 1,
     });
   } catch (error) {
     const message =
