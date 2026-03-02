@@ -4,7 +4,7 @@ import { useStore } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
 import { useLlmChat } from 'dashboard/composables/useLlmChat';
 import {
-  WIZARD_SYSTEM_PROMPT,
+  buildWizardSystemPrompt,
   WIZARD_STEPS,
   extractWizardResult,
   estimateWizardStep,
@@ -19,12 +19,14 @@ import {
  * - Creates the agent with the generated config
  */
 export function useSetupWizard() {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
   const store = useStore();
 
   const wizardResult = ref(null);
   const isCreatingAgent = ref(false);
   const currentStepIndex = ref(0);
+
+  const systemPrompt = buildWizardSystemPrompt(locale.value);
 
   const {
     messages,
@@ -36,7 +38,7 @@ export function useSetupWizard() {
     clearMessages,
   } = useLlmChat({
     model: 'gpt-4.1-mini',
-    systemPrompt: WIZARD_SYSTEM_PROMPT,
+    systemPrompt,
     temperature: 0.7,
     feature: 'agent_wizard',
     streaming: false,

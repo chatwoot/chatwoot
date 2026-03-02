@@ -145,15 +145,17 @@
       "SUBTITLE": "Vamos criar seu assistente de IA ideal",
       "DESCRIPTION": "Descreva seu negócio e como você gostaria que o assistente funcionasse. Eu vou gerar toda a configuração para você.",
       "SKIP": "Pular para configuração manual",
+      "INITIAL_GREETING": "Olá! Quero criar um assistente de IA para o meu negócio.",
       "STEPS": {
-        "BUSINESS_INFO": "Info do Negócio",
+        "BUSINESS_INFO": "Negócio",
         "PERSONA": "Persona",
         "INSTRUCTIONS": "Instruções",
         "KNOWLEDGE": "Conhecimento",
-        "SUCCESS_EXIT": "Sucesso e Saída",
-        "ERROR_HANDLING": "Tratamento de Erros",
-        "REVIEW": "Revisar e Criar"
+        "SUCCESS_EXIT": "Sucesso",
+        "ERROR_HANDLING": "Erros",
+        "REVIEW": "Revisão"
       },
+      "STEP_COUNTER": "Etapa {current} de {total}",
       "INPUT_PLACEHOLDER": "Digite sua resposta...",
       "SEND": "Enviar",
       "CREATING": "Criando seu agente...",

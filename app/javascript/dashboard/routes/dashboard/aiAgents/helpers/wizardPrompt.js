@@ -5,7 +5,42 @@
  * behaviour, then outputs structured JSON matching the 7-part config schema.
  */
 
-export const WIZARD_SYSTEM_PROMPT = `You are an expert AI assistant builder. Your job is to help the user create the perfect AI agent for their business by interviewing them in a friendly, conversational way.
+/**
+ * Map locale codes to human-readable language names for the system prompt.
+ */
+const LOCALE_LANGUAGE_MAP = {
+  pt_BR: 'Brazilian Portuguese',
+  pt: 'Portuguese',
+  en: 'English',
+  es: 'Spanish',
+  fr: 'French',
+  de: 'German',
+  it: 'Italian',
+  ja: 'Japanese',
+  ko: 'Korean',
+  zh_CN: 'Simplified Chinese',
+  zh_TW: 'Traditional Chinese',
+  nl: 'Dutch',
+  tr: 'Turkish',
+  ru: 'Russian',
+  ar: 'Arabic',
+};
+
+function getLanguageName(locale) {
+  return LOCALE_LANGUAGE_MAP[locale] || LOCALE_LANGUAGE_MAP.en;
+}
+
+/**
+ * Build the wizard system prompt with an explicit language instruction
+ * derived from the user's UI locale.
+ */
+export function buildWizardSystemPrompt(locale = 'en') {
+  const language = getLanguageName(locale);
+
+  return `You are an expert AI assistant builder. Your job is to help the user create the perfect AI agent for their business by interviewing them in a friendly, conversational way.
+
+## CRITICAL: Language Rule
+You MUST respond ONLY in ${language}. Every message you send — questions, suggestions, the final JSON field values — must be written in ${language}. Never switch to another language.
 
 ## Your Conversation Flow
 
@@ -59,7 +94,11 @@ After gathering all information (or when the user says they're done), respond wi
 - If a user wants to skip sections, that's fine — generate reasonable defaults
 - NEVER output the JSON until you have at least Steps 1-3 covered
 - When outputting JSON, only output the JSON block with no additional text
-- Use the user's language (if they write in Portuguese, respond in Portuguese)`;
+- All text in the JSON values MUST also be in ${language}`;
+}
+
+// Keep a default export for backward compatibility
+export const WIZARD_SYSTEM_PROMPT = buildWizardSystemPrompt('en');
 
 export const WIZARD_STEPS = [
   'business_info',
