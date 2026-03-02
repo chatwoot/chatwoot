@@ -557,6 +557,10 @@
       "AVG_RESOLUTION_TIME": "Avg. Resolution Time"
     },
     "METRIC": {
+      "AVG_RESOLUTION_TIME": {
+        "LABEL": "Avg Resolution Time",
+        "TOOLTIP": "Average total time from conversation start to resolution"
+      },
       "TOTAL_CONVERSATIONS": {
         "LABEL": "No. of Conversations",
         "TOOLTIP": "Total number of conversations handled by the bot"
