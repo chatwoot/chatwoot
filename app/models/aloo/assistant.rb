@@ -149,6 +149,9 @@ module Aloo
     # Calendly tool feature flag
     def feature_calendly_enabled? = admin_config['feature_calendly'] != false
 
+    # Contact update tool feature flag
+    def feature_contact_update_enabled? = admin_config['feature_contact_update'] != false
+
     # Full system prompt combining base + personality + guardrails
     def full_system_prompt
       [

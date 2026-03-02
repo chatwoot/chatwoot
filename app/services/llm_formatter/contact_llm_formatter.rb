@@ -21,15 +21,21 @@ class LLMFormatter::ContactLLMFormatter < LLMFormatter::DefaultLLMFormatter
   end
 
   def build_attributes
-    attributes = []
-    attributes << "Name: #{@record.name}"
-    attributes << "Email: #{@record.email}"
-    attributes << "Phone: #{@record.phone_number}"
-    attributes << "Location: #{@record.location}"
-    attributes << "Country Code: #{@record.country_code}"
-    @record.account.custom_attribute_definitions.with_attribute_model('contact_attribute').each do |attribute|
-      attributes << "#{attribute.attribute_display_name}: #{@record.custom_attributes[attribute.attribute_key]}"
+    (core_attributes + custom_attributes_list).join("\n")
+  end
+
+  def core_attributes
+    attrs = ["Name: #{@record.name}"]
+    attrs << "Middle Name: #{@record.middle_name}" if @record.middle_name.present?
+    attrs << "Last Name: #{@record.last_name}" if @record.last_name.present?
+    attrs << "Contact Type: #{@record.contact_type}" if @record.contact_type.present?
+    attrs.push("Email: #{@record.email}", "Phone: #{@record.phone_number}",
+               "Location: #{@record.location}", "Country Code: #{@record.country_code}")
+  end
+
+  def custom_attributes_list
+    @record.account.custom_attribute_definitions.with_attribute_model('contact_attribute').map do |attribute|
+      "#{attribute.attribute_display_name}: #{@record.custom_attributes[attribute.attribute_key]}"
     end
-    attributes.join("\n")
   end
 end
