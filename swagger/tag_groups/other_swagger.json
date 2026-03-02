@@ -1763,6 +1763,10 @@
             "type": "string",
             "description": "Email of the contact"
           },
+          "phone_number": {
+            "type": "string",
+            "description": "Phone number of the contact"
+          },
           "pubsub_token": {
             "type": "string",
             "description": "The token to be used to connect to chatwoot websocket"
@@ -1776,20 +1780,60 @@
             "type": "integer",
             "description": "Id of the conversation"
           },
-          "inbox_id": {
+          "uuid": {
             "type": "string",
+            "description": "UUID of the conversation"
+          },
+          "inbox_id": {
+            "type": "integer",
             "description": "The inbox id of the conversation"
+          },
+          "contact_last_seen_at": {
+            "type": "integer",
+            "description": "Timestamp of when the contact last seen the conversation (Unix timestamp)"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "open",
+              "resolved",
+              "pending",
+              "snoozed"
+            ],
+            "description": "The status of the conversation"
+          },
+          "agent_last_seen_at": {
+            "type": "integer",
+            "description": "Timestamp of when the agent last seen the conversation (Unix timestamp)"
           },
           "messages": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/message"
+              "$ref": "#/components/schemas/public_message"
             },
             "description": "Messages in the conversation"
           },
           "contact": {
             "type": "object",
-            "description": "The contact information associated to the conversation"
+            "description": "The contact information associated to the conversation",
+            "properties": {
+              "id": {
+                "type": "integer",
+                "description": "Id of the contact"
+              },
+              "name": {
+                "type": "string",
+                "description": "Name of the contact"
+              },
+              "email": {
+                "type": "string",
+                "description": "Email of the contact"
+              },
+              "phone_number": {
+                "type": "string",
+                "description": "Phone number of the contact"
+              }
+            }
           }
         }
       },
@@ -1797,7 +1841,7 @@
         "type": "object",
         "properties": {
           "id": {
-            "type": "string",
+            "type": "integer",
             "description": "Id of the message"
           },
           "content": {
@@ -1805,35 +1849,107 @@
             "description": "Text content of the message"
           },
           "message_type": {
-            "type": "string",
-            "description": "Denotes the message type"
+            "type": "integer",
+            "description": "Denotes the message type. Possible values: 0 (incoming), 1 (outgoing), 2 (activity), 3 (template)"
           },
           "content_type": {
             "type": "string",
             "description": "Content type of the message"
           },
           "content_attributes": {
-            "type": "string",
+            "type": "object",
             "description": "Additional content attributes of the message"
           },
           "created_at": {
-            "type": "string",
-            "description": "Created at time stamp of the message"
+            "type": "integer",
+            "description": "Created at Unix timestamp of the message"
           },
           "conversation_id": {
-            "type": "string",
-            "description": "Conversation Id of the message"
+            "type": "integer",
+            "description": "Display Id of the conversation the message belongs to"
           },
           "attachments": {
             "type": "array",
+            "description": "Attachments if any",
             "items": {
-              "type": "object"
-            },
-            "description": "Attachments if any"
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "description": "Id of the attachment"
+                },
+                "message_id": {
+                  "type": "integer",
+                  "description": "Id of the parent message"
+                },
+                "file_type": {
+                  "type": "string",
+                  "enum": [
+                    "image",
+                    "audio",
+                    "video",
+                    "file",
+                    "location",
+                    "fallback",
+                    "share",
+                    "story_mention",
+                    "contact",
+                    "ig_reel",
+                    "ig_post",
+                    "ig_story",
+                    "embed"
+                  ],
+                  "description": "Type of the attached file"
+                },
+                "account_id": {
+                  "type": "integer",
+                  "description": "Id of the account"
+                },
+                "extension": {
+                  "type": "string",
+                  "description": "File extension"
+                },
+                "data_url": {
+                  "type": "string",
+                  "description": "URL of the file"
+                },
+                "thumb_url": {
+                  "type": "string",
+                  "description": "URL of the file thumbnail"
+                },
+                "file_size": {
+                  "type": "integer",
+                  "description": "File size in bytes"
+                }
+              }
+            }
           },
           "sender": {
             "type": "object",
-            "description": "Details of the sender"
+            "description": "Details of the sender",
+            "properties": {
+              "id": {
+                "type": "integer",
+                "description": "Id of the sender"
+              },
+              "name": {
+                "type": "string",
+                "description": "Name of the sender"
+              },
+              "avatar_url": {
+                "type": "string",
+                "description": "Avatar URL of the sender"
+              },
+              "type": {
+                "type": "string",
+                "enum": [
+                  "contact",
+                  "user",
+                  "agent_bot"
+                ],
+                "description": "Type of the sender"
+              }
+            }
           }
         }
       },

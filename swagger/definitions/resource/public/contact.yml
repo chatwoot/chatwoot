@@ -12,6 +12,9 @@ properties:
   email:
     type: string
     description: Email of the contact
+  phone_number:
+    type: string
+    description: Phone number of the contact
   pubsub_token:
     type: string
     description: The token to be used to connect to chatwoot websocket
