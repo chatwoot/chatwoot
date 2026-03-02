@@ -392,9 +392,9 @@
     "MODEL_CONFIG": {
       "TITLE": "Model Configuration",
       "DESCRIPTION": "Select AI models for different features.",
-      "SELECT_MODEL": "Select model",
+      "SELECT_MODEL": "Model seç",
       "CREDITS_PER_MESSAGE": "{credits} credit/message",
-      "COMING_SOON": "Coming soon",
+      "COMING_SOON": "Çok yakında",
       "EDITOR": {
         "TITLE": "Editor Features",
         "DESCRIPTION": "Powers smart compose, grammar corrections, tone adjustments, and content enhancement in your message editor."
