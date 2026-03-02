@@ -28,27 +28,23 @@ for a collection of resources.
 %>
 
 <% if dashboard_class.const_defined?(:COLLECTION_FILTERS) && !dashboard_class::COLLECTION_FILTERS.empty? %>
-  <div class="flex items-center bg-gray-100 border-0 rounded-md shadow-none relative w-[260px]">
-    <div class="flex items-center h-10 px-2 w-full">
-      <div class="flex items-center justify-center flex-shrink-0 mr-2 text-gray-500" title="Filter by">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
-        </svg>
-      </div>
-      <div class="flex-1 h-full min-w-0 relative">
-        <select id="filter-select" class="appearance-none bg-transparent border-0 text-gray-700 cursor-pointer text-sm h-full overflow-hidden truncate whitespace-nowrap w-full pr-7 pl-0 py-2 focus:outline-none bg-[url('data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2712%27 height=%2712%27 viewBox=%270 0 12 12%27%3E%3Cpath fill=%27%23293f54%27 d=%27M6 9L1 4h10z%27/%3E%3C/svg%3E')] bg-[right_0.25rem_center] bg-no-repeat bg-[length:0.75rem]" onchange="applyFilter(this.value)">
-          <option value="">All records</option>
-          <% dashboard_class::COLLECTION_FILTERS.each do |filter_name, _| %>
-            <option value="<%= filter_name %>" <%= 'selected' if filter_name.to_s == current_filter %>>
-              <%= filter_name.to_s.titleize %>
-            </option>
-          <% end %>
-        </select>
-        <% if current_filter %>
-          <a href="?" class="flex items-center justify-center rounded-full text-gray-500 text-xl font-bold h-[18px] w-[18px] leading-none absolute right-5 top-1/2 -translate-y-1/2 no-underline z-2 hover:text-gray-900" title="Clear filter">×</a>
-        <% end %>
-      </div>
+  <div class="relative flex items-center">
+    <div class="absolute left-3 text-n-slate-10">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+      </svg>
     </div>
+    <select id="filter-select" class="h-9 pl-9 pr-8 text-sm text-n-slate-12 bg-n-solid-2 border border-n-weak rounded-lg cursor-pointer appearance-none focus:ring-2 focus:ring-woot-500 focus:border-woot-500 outline-none bg-[url('data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2712%27 height=%2712%27 viewBox=%270 0 12 12%27%3E%3Cpath fill=%27%236b7280%27 d=%27M6 9L1 4h10z%27/%3E%3C/svg%3E')] bg-[right_0.5rem_center] bg-no-repeat bg-[length:0.75rem]" onchange="applyFilter(this.value)">
+      <option value="">All records</option>
+      <% dashboard_class::COLLECTION_FILTERS.each do |filter_name, _| %>
+        <option value="<%= filter_name %>" <%= 'selected' if filter_name.to_s == current_filter %>>
+          <%= filter_name.to_s.titleize %>
+        </option>
+      <% end %>
+    </select>
+    <% if current_filter %>
+      <a href="?" class="absolute right-6 text-n-slate-10 hover:text-n-slate-12 text-lg font-medium" title="Clear filter">&times;</a>
+    <% end %>
   </div>
 
   <script>

@@ -1,23 +1,49 @@
 <% content_for(:title) do %>
   Instance Status
 <% end %>
-<header class="main-content__header" role="banner">
-  <h1 class="main-content__page-title" id="page-title">
-    <%= content_for(:title) %>
-  </h1>
-</header>
-<section class="main-content__body">
-  <table>
-  <tr>
-    <th>Metric</th>
-    <th>Value</th>
-  </tr>
-  <% @metrics.each do |key,value| %>
-   <tr>
-   <td> <%= key %> </td>
-   <td> <%= value %></td>
-  </tr>
-  <% end %>
-</table>
 
+<section class="flex flex-col w-full h-full">
+  <header class="sticky top-0 z-10 bg-n-background border-b border-n-weak" role="banner">
+    <div class="flex items-center justify-between w-full h-16 mx-auto max-w-[60rem]">
+      <div class="flex items-center gap-3">
+        <div class="border border-n-weak p-2 rounded-full text-n-slate-11">
+          <svg width="24" height="24"><use xlink:href="#icon-heart-pulse" /></svg>
+        </div>
+        <div class="flex flex-col justify-center">
+          <h1 class="text-base font-medium tracking-tight text-n-slate-12" id="page-title">
+            <%= content_for(:title) %>
+          </h1>
+          <p class="text-xs text-n-slate-11 m-0">Chatwoot version and system information</p>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-1 px-6 overflow-y-auto">
+    <div class="w-full mx-auto max-w-[60rem] py-6">
+      <div class="rounded-xl bg-n-solid-2 shadow outline-1 outline outline-n-container overflow-hidden">
+        <div class="px-6 py-4 border-b border-n-weak">
+          <h2 class="text-base font-medium text-n-slate-12">System Metrics</h2>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full">
+            <thead class="border-b border-n-weak">
+              <tr>
+                <th class="text-left py-3 pl-8 pr-4 text-sm text-n-slate-11">Metric</th>
+                <th class="text-left py-3 pl-4 pr-8 text-sm text-n-slate-11">Value</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-n-weak">
+              <% @metrics.each do |key, value| %>
+                <tr class="hover:bg-n-alpha-1">
+                  <td class="py-4 pl-8 pr-4 text-sm text-n-slate-12 font-medium"><%= key %></td>
+                  <td class="py-4 pl-4 pr-8 text-sm text-n-slate-11 font-mono"><%= value %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
 </section>
