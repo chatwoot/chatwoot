@@ -103,3 +103,6 @@ CLAUDE.local.md
 .pnpm-store/*
 local/
 Procfile.worktree
+
+# Local launcher script
+/scripts/local-launch.sh
