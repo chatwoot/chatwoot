@@ -1,3 +1,44 @@
+# == Schema Information
+#
+# Table name: orders
+#
+#  id                  :bigint           not null, primary key
+#  created_by_type     :string           default("User")
+#  currency            :string           not null
+#  delivery_address    :jsonb
+#  payload             :jsonb            not null
+#  payment_url         :string
+#  provider            :string           not null
+#  status              :integer          default("initiated"), not null
+#  subtotal            :decimal(10, 2)   not null
+#  total               :decimal(10, 2)   not null
+#  created_at          :datetime         not null
+#  updated_at          :datetime         not null
+#  account_id          :bigint           not null
+#  contact_id          :bigint           not null
+#  conversation_id     :bigint           not null
+#  created_by_id       :bigint
+#  external_payment_id :string
+#  message_id          :bigint
+#
+# Indexes
+#
+#  index_carts_on_created_by            (created_by_type,created_by_id)
+#  index_orders_on_account_id           (account_id)
+#  index_orders_on_contact_id           (contact_id)
+#  index_orders_on_conversation_id      (conversation_id)
+#  index_orders_on_created_by_id        (created_by_id)
+#  index_orders_on_external_payment_id  (external_payment_id) UNIQUE
+#  index_orders_on_message_id           (message_id)
+#  index_orders_on_status               (status)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (account_id => accounts.id)
+#  fk_rails_...  (contact_id => contacts.id)
+#  fk_rails_...  (conversation_id => conversations.id)
+#  fk_rails_...  (message_id => messages.id)
+#
 class Order < ApplicationRecord
   belongs_to :account
   belongs_to :conversation
