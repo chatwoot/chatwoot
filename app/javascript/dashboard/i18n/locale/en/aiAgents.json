@@ -71,11 +71,64 @@
       "MAX_TOKENS": {
         "LABEL": "Max Tokens"
       },
-      "SETUP_DESCRIPTION": "Configure the basic settings for your AI agent.",
+      "SETUP_DESCRIPTION": "Configure the basic settings and behavior for your AI agent.",
       "CANCEL": "Cancel",
       "CREATE": "Create",
       "EDIT": "Update",
-      "SAVE": "Save Changes"
+      "SAVE": "Save Changes",
+      "ADVANCED_MODE": "Advanced Mode",
+      "ADVANCED_DESCRIPTION": "Edit the raw system prompt directly for full control.",
+      "GENERATE_WITH_AI": "Generate with AI",
+      "GUIDED_SETUP": "Guided Setup",
+      "QUICK_CREATE": "Quick Create",
+      "SECTIONS": {
+        "INITIAL_MESSAGE": {
+          "LABEL": "Initial Message",
+          "DESCRIPTION": "The greeting message sent to the customer when the conversation starts.",
+          "PLACEHOLDER": "Hello! Welcome to our support. How can I help you today?",
+          "TOOLTIP": "This message is automatically sent when a new conversation begins. Use {{contact_name}} for personalization."
+        },
+        "INSTRUCTIONS": {
+          "LABEL": "Instructions",
+          "DESCRIPTION": "Define the assistant's behavior, personality, and what it should do.",
+          "PLACEHOLDER": "You are a friendly customer support agent for our company. Help customers with orders, returns, and general inquiries. Always be polite and concise.",
+          "TOOLTIP": "These instructions define the assistant's role and behavioral guidelines."
+        },
+        "GENERAL_CONTEXT": {
+          "LABEL": "General Context",
+          "DESCRIPTION": "Static knowledge about your business that the assistant should know.",
+          "PLACEHOLDER": "Company: AcmeCorp\nProducts: Widget A ($29.99), Widget B ($49.99)\nHours: Mon–Fri 9am–6pm\nReturn policy: 30 days, receipt required",
+          "TOOLTIP": "Add business information, product catalogs, FAQs — anything the assistant needs as context. For documents, use the Knowledge tab.",
+          "UPLOAD_HINT": "For uploading documents (PDF, CSV), go to the Knowledge tab."
+        },
+        "SUCCESS_CRITERIA": {
+          "LABEL": "Success Criteria",
+          "DESCRIPTION": "Define when a conversation is considered successfully completed.",
+          "PLACEHOLDER": "The conversation is successful when:\n- The customer's question has been answered\n- An order has been placed with all required details\n- The customer confirms they have no further questions",
+          "TOOLTIP": "Help the AI understand when to wrap up the conversation."
+        },
+        "INTERRUPTION_RULES": {
+          "LABEL": "Escalation Rules",
+          "DESCRIPTION": "Define when the assistant should hand off to a human agent.",
+          "PLACEHOLDER": "Escalate to a human agent when:\n- The customer asks to speak with a human\n- The issue involves billing disputes or refunds over $100\n- The customer is frustrated or the AI cannot resolve the issue",
+          "TOOLTIP": "These rules trigger a handoff to a human agent."
+        },
+        "INACTIVITY": {
+          "LABEL": "Inactivity Handling",
+          "DESCRIPTION": "Configure what happens when the customer stops responding.",
+          "TIMEOUT_LABEL": "Timeout (minutes)",
+          "TIMEOUT_PLACEHOLDER": "30",
+          "MESSAGE_LABEL": "Inactivity message",
+          "MESSAGE_PLACEHOLDER": "It looks like you've been away. If you still need help, just send a message!",
+          "TOOLTIP": "The assistant will send this message after the timeout period of inactivity."
+        },
+        "ERROR_MESSAGE": {
+          "LABEL": "Error Message",
+          "DESCRIPTION": "Fallback message sent when a technical error occurs.",
+          "PLACEHOLDER": "I'm sorry, I encountered a technical issue. Please try again or contact support.",
+          "TOOLTIP": "This message is sent automatically when the AI encounters an error."
+        }
+      }
     },
     "TABS": {
       "SETUP": "Setup",
@@ -84,7 +137,51 @@
       "VOICE": "Voice",
       "WORKFLOW": "Workflow",
       "RUNS": "Runs",
+      "TEST": "Test",
       "DEPLOY": "Deploy"
+    },
+    "WIZARD": {
+      "TITLE": "AI Assistant Builder",
+      "SUBTITLE": "Let's create your ideal AI assistant",
+      "DESCRIPTION": "Describe your business and how you'd like the assistant to work. I'll generate all the configuration for you.",
+      "SKIP": "Skip to manual setup",
+      "STEPS": {
+        "BUSINESS_INFO": "Business Info",
+        "PERSONA": "Persona",
+        "INSTRUCTIONS": "Instructions",
+        "KNOWLEDGE": "Knowledge",
+        "SUCCESS_EXIT": "Success & Exit",
+        "ERROR_HANDLING": "Error Handling",
+        "REVIEW": "Review & Create"
+      },
+      "INPUT_PLACEHOLDER": "Type your answer...",
+      "SEND": "Send",
+      "CREATING": "Creating your agent...",
+      "CREATE_AGENT": "Create Agent",
+      "REVIEW_TITLE": "Review Configuration",
+      "REVIEW_DESCRIPTION": "Here's what I've generated. You can review and adjust after creation.",
+      "REVIEW_NAME": "Name:",
+      "REVIEW_DESCRIPTION_LABEL": "Description:",
+      "REVIEW_SECTIONS_FILLED": "Sections filled:",
+      "REVIEW_SECTIONS_COUNT": "{count}/8",
+      "GUIDED_DESCRIPTION": "I'll interview you about your business and generate a complete agent configuration with all 7 sections."
+    },
+    "PREVIEW": {
+      "TITLE": "Test Agent",
+      "CLEAR": "Clear Chat",
+      "RESTART": "Restart",
+      "INPUT_PLACEHOLDER": "Type a test message...",
+      "SEND": "Send",
+      "EMPTY": "Send a message to test your agent's responses.",
+      "STREAMING": "Generating...",
+      "ERROR": "An error occurred while generating a response.",
+      "DEBUG": {
+        "TITLE": "Debug Info",
+        "TOKENS": "Tokens used",
+        "MODEL": "Model",
+        "VARIABLES": "Variables",
+        "EXECUTION_PATH": "Execution Path"
+      }
     },
     "WORKFLOW": {
       "PALETTE": {

@@ -10,6 +10,7 @@ import { useAvailableModels } from 'dashboard/composables/useAvailableModels';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
+import SetupWizardChat from './wizard/SetupWizardChat.vue';
 
 const props = defineProps({
   selectedAgent: {
@@ -28,6 +29,9 @@ const emit = defineEmits(['close', 'created']);
 const { t } = useI18n();
 const store = useStore();
 const dialogRef = ref(null);
+
+// 'choose' | 'wizard' | 'quick'
+const creationMode = ref(props.type === 'edit' ? 'quick' : 'choose');
 
 const uiFlags = useMapGetter('aiAgents/getUIFlags');
 const isLoading = computed(
@@ -53,6 +57,12 @@ const v$ = useVuelidate(rules, state);
 const { modelGroupOptions, isLoadingModels } = useAvailableModels();
 
 const i18nKey = computed(() => `AI_AGENTS.${props.type.toUpperCase()}`);
+
+const dialogTitle = computed(() => {
+  if (props.type === 'edit') return t(`${i18nKey.value}.TITLE`);
+  if (creationMode.value === 'wizard') return t('AI_AGENTS.WIZARD.TITLE');
+  return t(`${i18nKey.value}.TITLE`);
+});
 
 const agentTypeOptions = [
   { value: 'rag', label: 'RAG (Knowledge Base)' },
@@ -90,6 +100,11 @@ const handleSubmit = async () => {
   }
 };
 
+const handleWizardCreated = agent => {
+  emit('created', agent);
+  dialogRef.value.close();
+};
+
 const handleClose = () => emit('close');
 
 watch(
@@ -113,13 +128,65 @@ defineExpose({ dialogRef });
   <Dialog
     ref="dialogRef"
     type="edit"
-    :title="t(`${i18nKey}.TITLE`)"
+    :title="dialogTitle"
     :show-cancel-button="false"
     :show-confirm-button="false"
     overflow-y-auto
     @close="handleClose"
   >
-    <form class="flex flex-col gap-4" @submit.prevent="handleSubmit">
+    <!-- Creation Mode Chooser -->
+    <div
+      v-if="type === 'create' && creationMode === 'choose'"
+      class="flex flex-col gap-4"
+    >
+      <p class="text-sm text-n-slate-11">
+        {{ t('AI_AGENTS.FORM.SETUP_DESCRIPTION') }}
+      </p>
+      <div class="grid grid-cols-2 gap-3">
+        <!-- Guided Wizard -->
+        <button
+          type="button"
+          class="flex flex-col items-center gap-3 p-5 rounded-xl border-2 border-n-weak hover:border-n-blue-7 bg-n-solid-2 hover:bg-n-alpha-2 transition-all group text-center"
+          @click="creationMode = 'wizard'"
+        >
+          <span
+            class="i-lucide-sparkles size-8 text-n-blue-9 group-hover:text-n-blue-11 transition-colors"
+          />
+          <span class="text-sm font-medium text-n-slate-12">
+            {{ t('AI_AGENTS.FORM.GUIDED_SETUP') }}
+          </span>
+          <span class="text-xs text-n-slate-10">
+            {{ t('AI_AGENTS.WIZARD.GUIDED_DESCRIPTION') }}
+          </span>
+        </button>
+        <!-- Quick Create -->
+        <button
+          type="button"
+          class="flex flex-col items-center gap-3 p-5 rounded-xl border-2 border-n-weak hover:border-n-blue-7 bg-n-solid-2 hover:bg-n-alpha-2 transition-all group text-center"
+          @click="creationMode = 'quick'"
+        >
+          <span
+            class="i-lucide-zap size-8 text-n-slate-10 group-hover:text-n-blue-11 transition-colors"
+          />
+          <span class="text-sm font-medium text-n-slate-12">
+            {{ t('AI_AGENTS.FORM.QUICK_CREATE') }}
+          </span>
+          <span class="text-xs text-n-slate-10">
+            {{ t('AI_AGENTS.FORM.SETUP_DESCRIPTION') }}
+          </span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Wizard Mode -->
+    <SetupWizardChat
+      v-else-if="type === 'create' && creationMode === 'wizard'"
+      @created="handleWizardCreated"
+      @skip="creationMode = 'quick'"
+    />
+
+    <!-- Quick Create / Edit Form -->
+    <form v-else class="flex flex-col gap-4" @submit.prevent="handleSubmit">
       <Input
         v-model="state.name"
         :label="t('AI_AGENTS.FORM.NAME.LABEL')"

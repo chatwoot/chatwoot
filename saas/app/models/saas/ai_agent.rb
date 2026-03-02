@@ -28,6 +28,15 @@ class Saas::AiAgent < ApplicationRecord
     workflow.present?
   end
 
+  # Access the structured prompt sections from config
+  def prompt_sections
+    config&.dig('prompt_sections') || {}
+  end
+
+  def has_prompt_sections? # rubocop:disable Naming/PredicateName
+    prompt_sections.values.any?(&:present?)
+  end
+
   # Default LLM config values
   def temperature
     llm_config&.dig('temperature') || 0.7
@@ -48,7 +57,7 @@ class Saas::AiAgent < ApplicationRecord
 
   # Check if this agent has any active knowledge bases with documents
   def has_knowledge? # rubocop:disable Naming/PredicateName
-    knowledge_bases.active.joins(:knowledge_documents).where(knowledge_documents: { status: :ready }).exists?
+    knowledge_bases.active.joins(:knowledge_documents).exists?(knowledge_documents: { status: :ready })
   end
 
   # Returns the active inboxes for this agent

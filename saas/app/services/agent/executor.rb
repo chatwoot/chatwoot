@@ -115,7 +115,15 @@ module Agent
     end
 
     def build_system_prompt(user_message)
-      parts = [@ai_agent.system_prompt.presence || default_system_prompt]
+      # Prefer structured prompt sections over raw system_prompt
+      sections_builder = Agent::PromptSectionsBuilder.new(@ai_agent)
+      base_prompt = if sections_builder.sections?
+                      sections_builder.build
+                    else
+                      @ai_agent.system_prompt.presence || default_system_prompt
+                    end
+
+      parts = [base_prompt]
 
       # Inject RAG context if available
       if @rag_service

@@ -1,11 +1,12 @@
 <script setup>
-import { computed, watch, onMounted } from 'vue';
+import { computed, ref, watch, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
+import ChatPreviewPanel from '../components/preview/ChatPreviewPanel.vue';
 
 import SetupTab from '../components/tabs/SetupTab.vue';
 import KnowledgeTab from '../components/tabs/KnowledgeTab.vue';
@@ -13,6 +14,7 @@ import ToolsTab from '../components/tabs/ToolsTab.vue';
 import VoiceTab from '../components/tabs/VoiceTab.vue';
 import WorkflowTab from '../components/tabs/WorkflowTab.vue';
 import RunInspectorTab from '../components/tabs/RunInspectorTab.vue';
+import TestTab from '../components/tabs/TestTab.vue';
 import DeployTab from '../components/tabs/DeployTab.vue';
 
 const { t } = useI18n();
@@ -64,6 +66,12 @@ const tabs = computed(() => [
     route: 'ai_agents_runs',
   },
   {
+    key: 'test',
+    label: t('AI_AGENTS.TABS.TEST'),
+    icon: 'i-lucide-message-square',
+    route: 'ai_agents_test',
+  },
+  {
     key: 'deploy',
     label: t('AI_AGENTS.TABS.DEPLOY'),
     icon: 'i-lucide-rocket',
@@ -85,6 +93,7 @@ const activeComponent = computed(() => {
     voice: VoiceTab,
     workflow: WorkflowTab,
     runs: RunInspectorTab,
+    test: TestTab,
     deploy: DeployTab,
   };
   return componentMap[activeTabKey.value] || SetupTab;
@@ -115,6 +124,8 @@ const fetchAgent = () => {
 
 watch(agentId, fetchAgent);
 onMounted(fetchAgent);
+
+const showPreviewPanel = ref(false);
 </script>
 
 <template>
@@ -183,5 +194,47 @@ onMounted(fetchAgent);
         />
       </div>
     </main>
+
+    <!-- Floating Test Button -->
+    <button
+      v-if="currentAgent && activeTabKey !== 'test' && !showPreviewPanel"
+      type="button"
+      class="fixed bottom-6 right-6 z-30 flex items-center gap-2 px-4 py-3 rounded-full bg-n-blue-9 text-white shadow-lg hover:bg-n-blue-10 transition-all hover:shadow-xl"
+      @click="showPreviewPanel = true"
+    >
+      <span class="i-lucide-message-square size-5" />
+      <span class="text-sm font-medium">{{
+        t('AI_AGENTS.PREVIEW.TITLE')
+      }}</span>
+    </button>
+
+    <!-- Slide-over Preview Panel -->
+    <Teleport to="body">
+      <Transition name="slide">
+        <div
+          v-if="showPreviewPanel && currentAgent"
+          class="fixed inset-y-0 right-0 z-50 flex"
+        >
+          <!-- Backdrop -->
+          <div
+            class="fixed inset-0 bg-black/20"
+            @click="showPreviewPanel = false"
+          />
+          <!-- Panel -->
+          <div
+            class="relative ml-auto w-[400px] max-w-full h-full bg-n-surface-1 border-l border-n-weak shadow-2xl flex flex-col"
+          >
+            <button
+              type="button"
+              class="absolute top-3 right-3 z-10 flex items-center justify-center size-7 rounded-lg hover:bg-n-alpha-2 text-n-slate-10"
+              @click="showPreviewPanel = false"
+            >
+              <span class="i-lucide-x size-4" />
+            </button>
+            <ChatPreviewPanel :agent="currentAgent" />
+          </div>
+        </div>
+      </Transition>
+    </Teleport>
   </section>
 </template>

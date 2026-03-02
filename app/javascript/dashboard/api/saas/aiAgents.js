@@ -92,6 +92,18 @@ class AiAgentsAPI extends ApiClient {
   getWorkflowRun(agentId, runId) {
     return axios.get(`${this.url}/${agentId}/workflow_runs/${runId}`);
   }
+
+  /**
+   * Send a preview/test message to the agent without creating a real conversation.
+   * When stream=true, returns { request_id, stream: true } — subscribe to LlmChannel.
+   */
+  preview(agentId, { message, messages = [], stream = true }) {
+    return axios.post(`${this.url}/${agentId}/preview`, {
+      message,
+      messages,
+      stream,
+    });
+  }
 }
 
 export default new AiAgentsAPI();

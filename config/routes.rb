@@ -506,6 +506,9 @@ Rails.application.routes.draw do
 
             # AI Agent Builder endpoints
             resources :ai_agents, only: [:index, :show, :create, :update, :destroy] do
+              member do
+                post :preview
+              end
               resources :knowledge_bases, only: [:index, :show, :create, :update, :destroy] do
                 resources :knowledge_documents, only: [:create, :destroy]
               end

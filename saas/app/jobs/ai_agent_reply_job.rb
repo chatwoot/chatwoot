@@ -23,6 +23,9 @@ class AiAgentReplyJob < ApplicationJob
     # Build conversation history
     history = build_history(conversation)
 
+    # Send initial greeting on the very first message if configured
+    send_initial_message(ai_agent, conversation, account) if history.size <= 1
+
     # Route to workflow executor or classic executor
     if ai_agent.has_workflow?
       execute_workflow(ai_agent, conversation, message, history, account)
@@ -109,6 +112,23 @@ class AiAgentReplyJob < ApplicationJob
       account_id: account.id,
       inbox_id: conversation.inbox_id,
       content_attributes: { ai_generated: true, system_message: true }
+    )
+  end
+
+  def send_initial_message(ai_agent, conversation, account)
+    builder = Agent::PromptSectionsBuilder.new(ai_agent)
+    greeting = builder.initial_message
+    return if greeting.blank?
+
+    # Only send if this is the first interaction (no outgoing AI messages exist yet)
+    return if conversation.messages.where(message_type: :outgoing).where("content_attributes->>'ai_generated' = 'true'").exists?
+
+    conversation.messages.create!(
+      content: greeting,
+      message_type: :outgoing,
+      account_id: account.id,
+      inbox_id: conversation.inbox_id,
+      content_attributes: { ai_generated: true, ai_agent_id: ai_agent.id, initial_message: true }
     )
   end
 end

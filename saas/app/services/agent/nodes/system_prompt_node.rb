@@ -16,7 +16,20 @@ class Agent::Nodes::SystemPromptNode < BaseNode
   private
 
   def build_prompt
-    prompt = render_template(data['prompt_template'] || context.ai_agent.system_prompt)
+    template = data['prompt_template']
+
+    # If no explicit template, try structured prompt sections, then fall back to system_prompt
+    if template.blank?
+      sections_builder = Agent::PromptSectionsBuilder.new(context.ai_agent)
+      prompt = if sections_builder.sections?
+                 sections_builder.build
+               else
+                 context.ai_agent.system_prompt || ''
+               end
+    else
+      prompt = render_template(template)
+    end
+
     return prompt unless data['append_context'] && context.conversation
 
     prompt += "\n\nConversation context:\n"
