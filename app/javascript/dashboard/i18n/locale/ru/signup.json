@@ -15,12 +15,12 @@
     },
     "FULL_NAME": {
       "LABEL": "Полное имя",
-      "PLACEHOLDER": "Введите ваше полное имя. Например: Брюс Уэйн",
+      "PLACEHOLDER": "Например: Брюс Уэйн",
       "ERROR": "Имя слишком короткое."
     },
     "EMAIL": {
       "LABEL": "Email",
-      "PLACEHOLDER": "Введите вашу почты. Например: onelink@gmail.com",
+      "PLACEHOLDER": "Например: onelink{'@'}gmail.com",
       "ERROR": "Пожалуйста, введите действительный адрес почты."
     },
     "PASSWORD": {
