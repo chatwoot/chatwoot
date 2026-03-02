@@ -38,6 +38,16 @@ class CalendlyAPI extends ApiClient {
     });
   }
 
+  getWebhookLogs({ page, status, eventType } = {}) {
+    return axios.get(`${this.url}/webhook_logs`, {
+      params: {
+        page,
+        status,
+        event_type: eventType,
+      },
+    });
+  }
+
   updateSettings(settings) {
     return axios.patch(`${this.url}/update_settings`, settings);
   }

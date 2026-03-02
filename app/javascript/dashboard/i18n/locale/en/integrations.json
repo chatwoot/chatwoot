@@ -506,6 +506,30 @@
         "RESUBSCRIBE_SUCCESS": "Webhook registered successfully. Calendly events will now be received.",
         "RESUBSCRIBE_ERROR": "Failed to register webhook. Please check your Calendly connection and try again."
       },
+      "WEBHOOK_LOGS": {
+        "TITLE": "Webhook Activity",
+        "DESCRIPTION": "View recent webhook events received from Calendly and their processing status.",
+        "EMPTY": "No webhook events received yet.",
+        "FETCH_ERROR": "Failed to load webhook logs. Please try again.",
+        "STATUS": {
+          "ALL": "All statuses",
+          "RECEIVED": "Received",
+          "PROCESSING": "Processing",
+          "PROCESSED": "Processed",
+          "FAILED": "Failed"
+        },
+        "COLUMNS": {
+          "TIME": "Time",
+          "EVENT": "Event",
+          "STATUS": "Status",
+          "SUMMARY": "Summary"
+        },
+        "DETAILS": {
+          "ERROR": "Error",
+          "PAYLOAD": "Payload",
+          "RESPONSE": "Processing result"
+        }
+      },
       "TEMPLATES": {
         "TITLE": "WhatsApp Notification Templates",
         "DESCRIPTION": "Map approved WhatsApp templates to Calendly booking events. These are used to notify customers outside the 24-hour messaging window.",

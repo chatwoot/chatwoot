@@ -50,6 +50,19 @@ class Api::V1::Accounts::Integrations::CalendlyController < Api::V1::Accounts::B
     render json: { error: e.message }, status: :unprocessable_entity
   end
 
+  def webhook_logs
+    logs = filtered_webhook_logs
+    page = (params[:page] || 1).to_i
+    paginated = logs.offset((page - 1) * 15).limit(15)
+
+    render json: {
+      meta: { count: logs.count, current_page: page },
+      payload: paginated.map { |log| serialize_webhook_log(log) }
+    }, status: :ok
+  rescue StandardError => e
+    render json: { error: e.message }, status: :unprocessable_entity
+  end
+
   def update_settings
     permitted = params.permit(:default_event_type_uri, :default_event_type_name, calendly_templates: %i[booked rescheduled canceled])
     @hook.settings.merge!(permitted.to_h)
@@ -102,6 +115,26 @@ class Api::V1::Accounts::Integrations::CalendlyController < Api::V1::Accounts::B
 
   def resolve_end_time
     params[:end_time] ? Time.zone.parse(params[:end_time]) : 7.days.from_now
+  end
+
+  def filtered_webhook_logs
+    logs = @hook.webhook_logs.recent
+    logs = logs.by_status(params[:status]) if params[:status].present?
+    logs = logs.by_event_type(params[:event_type]) if params[:event_type].present?
+    logs
+  end
+
+  def serialize_webhook_log(log)
+    {
+      id: log.id,
+      event_type: log.event_type,
+      status: log.status,
+      payload: log.payload,
+      response_data: log.response_data,
+      error_message: log.error_message,
+      processed_at: log.processed_at,
+      created_at: log.created_at
+    }
   end
 
   def delete_webhook_subscription
