@@ -35,7 +35,7 @@ const fetchEventTypes = async () => {
   try {
     loadingEventTypes.value = true;
     const response = await CalendlyAPI.getEventTypes();
-    eventTypes.value = response.data?.event_types || [];
+    eventTypes.value = response.data || [];
   } catch (e) {
     useAlert(t('CONVERSATION_SIDEBAR.CALENDLY.EVENT_TYPES_ERROR'));
   } finally {
