@@ -88,6 +88,8 @@ class Attachment < ApplicationRecord
       audio_metadata
     when :embed
       embed_data
+    when :ig_reel
+      file.attached? ? file_metadata : { data_url: external_url, thumb_url: '' }
     else
       file_metadata
     end

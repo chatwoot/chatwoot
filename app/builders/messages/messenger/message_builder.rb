@@ -5,9 +5,11 @@ class Messages::Messenger::MessageBuilder
     # This check handles very rare case if there are multiple files to attach with only one usupported file
     return if unsupported_file_type?(attachment['type'])
 
-    attachment_obj = @message.attachments.new(attachment_params(attachment).except(:remote_file_url))
+    params = attachment_params(attachment)
+    attachment_obj = @message.attachments.new(params.except(:remote_file_url))
     attachment_obj.save!
-    attach_file(attachment_obj, attachment_params(attachment)[:remote_file_url]) if attachment_params(attachment)[:remote_file_url]
+    attach_file(attachment_obj, params[:remote_file_url]) if params[:remote_file_url] && !facebook_reel?(attachment)
+    set_facebook_reel_content(attachment) if facebook_reel?(attachment)
     fetch_story_link(attachment_obj) if attachment_obj.file_type == 'story_mention'
     fetch_ig_story_link(attachment_obj) if attachment_obj.file_type == 'ig_story'
     fetch_ig_post_link(attachment_obj) if attachment_obj.file_type == 'ig_post'
@@ -107,6 +109,19 @@ class Messages::Messenger::MessageBuilder
   def normalize_file_type(type)
     sym = type.to_sym
     FACEBOOK_FILE_TYPE_MAP.fetch(sym, sym)
+  end
+
+  # Facebook sends reel URLs as webpage links (facebook.com/reel/...) rather than
+  # direct video URLs. Downloading these yields HTML, not video content.
+  def facebook_reel?(attachment)
+    attachment['type'].to_sym == :reel
+  end
+
+  def set_facebook_reel_content(attachment)
+    url = attachment.dig('payload', 'url')
+    return if url.blank?
+
+    @message.update!(content: url) if @message.content.blank?
   end
 
   def unsupported_file_type?(attachment_type)
