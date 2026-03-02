@@ -133,13 +133,51 @@ Returns current usage vs. plan limits:
 
 ```
 Stripe → POST /saas/webhooks/stripe → StripeController
-  ├── checkout.session.completed   → Create Subscription record
-  ├── customer.subscription.updated → Update status/period/plan
-  ├── customer.subscription.deleted → Mark as canceled
-  └── invoice.payment_failed       → Mark as past_due
+  │
+  ├── 1. Verify signature (STRIPE_WEBHOOK_SECRET)
+  │      └── Production: rejects unsigned webhooks (returns 400)
+  │
+  ├── 2. Return 200 immediately (Stripe best practice)
+  │
+  └── 3. Enqueue Saas::StripeWebhookJob (async processing)
+         │
+         ├── Idempotency check (Rails.cache, 24h TTL)
+         │
+         ├── checkout.session.completed   → Create Subscription record
+         ├── customer.subscription.updated → Update status/period/plan
+         ├── customer.subscription.deleted → Mark as canceled
+         └── invoice.payment_failed       → Mark as past_due
 ```
 
-The controller verifies the Stripe signature using `STRIPE_WEBHOOK_SECRET` before processing.
+### Async Webhook Processing
+
+Per Stripe best practices, the webhook controller returns `200 OK` immediately and delegates processing to `Saas::StripeWebhookJob`:
+
+```ruby
+# saas/app/controllers/saas/webhooks/stripe_controller.rb
+def create
+  payload = request.body.read
+  event = verify_signature(payload)
+  Saas::StripeWebhookJob.perform_later(event.type, event.data.object.to_json)
+  head :ok
+end
+```
+
+### Idempotency
+
+`Saas::StripeWebhookJob` uses cache-based idempotency to prevent duplicate processing:
+
+```ruby
+# saas/app/jobs/saas/stripe_webhook_job.rb
+cache_key = "stripe_webhook:#{event_id}"
+return if Rails.cache.read(cache_key)
+Rails.cache.write(cache_key, true, expires_in: 24.hours)
+# ... process event
+```
+
+### Production Signature Enforcement
+
+In production, unsigned webhooks are rejected with a 400 response. In development/test, signature verification is skipped if `STRIPE_WEBHOOK_SECRET` is not set.
 
 ## StripeService
 
@@ -150,6 +188,10 @@ Saas::StripeService.create_customer(account)
 Saas::StripeService.create_checkout_session(account, plan)
 Saas::StripeService.create_billing_portal_session(account)
 ```
+
+### Dynamic Payment Methods
+
+Checkout sessions omit `payment_method_types` to let Stripe automatically present the best payment methods based on the customer's location and currency (cards, bank transfers, wallets, etc.).
 
 ## Account Extensions
 

@@ -12,9 +12,10 @@ class Saas::StripeService
     def create_checkout_session(account, plan)
       customer_id = ensure_customer(account)
 
+      # Omit payment_method_types to let Stripe dynamically show
+      # the best payment methods for the customer's region
       Stripe::Checkout::Session.create(
         customer: customer_id,
-        payment_method_types: ['card'],
         line_items: [{
           price: plan.stripe_price_id,
           quantity: 1
@@ -110,7 +111,7 @@ class Saas::StripeService
       update_account_limits(account, plan)
     end
 
-    def cancel_subscription(account, stripe_sub)
+    def cancel_subscription(account, _stripe_sub)
       subscription = account.saas_subscription
       return unless subscription
 
@@ -120,9 +121,9 @@ class Saas::StripeService
 
     def update_account_limits(account, plan)
       account.update!(limits: {
-        agents: plan.agent_limit,
-        inboxes: plan.inbox_limit
-      })
+                        agents: plan.agent_limit,
+                        inboxes: plan.inbox_limit
+                      })
     end
 
     def map_stripe_status(status)

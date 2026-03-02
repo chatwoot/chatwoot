@@ -33,6 +33,8 @@ Or equivalently: `pnpm dev`
 - **PostgreSQL 17**: `brew services start postgresql@17`
 - **rbenv**: Ruby 3.4.4 via `eval "$(rbenv init -)"`
 - **PATH**: `/opt/homebrew/opt/postgresql@17/bin` must be in PATH
+- **LiteLLM** (for AI features): `docker compose up -d litellm` — runs on port 4000
+- **pgvector**: PostgreSQL extension for RAG embeddings (`CREATE EXTENSION vector;`)
 
 ### Before Starting (cleanup)
 
@@ -57,8 +59,39 @@ kill -9 $(lsof -ti:3036) 2>/dev/null
 - Incoming message processing
 - Email/notification delivery
 - Webhook dispatches
+- AI agent reply generation (`AiAgentReplyJob`)
+- LLM streaming (`LlmStreamJob`)
+- RAG document ingestion (`Rag::DocumentIngestionJob`)
+- Stripe webhook processing (`Saas::StripeWebhookJob`)
 - Campaign execution
 - Scheduled jobs (CSAT surveys, auto-resolve, etc.)
+
+### Environment Variables for AI/Voice Features
+
+```env
+# LiteLLM (required for AI features)
+LITELLM_BASE_URL=http://localhost:4000
+LITELLM_MASTER_KEY=sk-litellm-...
+LITELLM_API_KEY=sk-litellm-...
+
+# LLM Providers (at least one required)
+OPENAI_API_KEY=sk-...
+ANTHROPIC_API_KEY=sk-ant-...
+GEMINI_API_KEY=...
+
+# Stripe (required for billing)
+STRIPE_SECRET_KEY=sk_test_...
+STRIPE_WEBHOOK_SECRET=whsec_...
+STRIPE_PUBLISHABLE_KEY=pk_test_...
+
+# Twilio (required for voice)
+TWILIO_ACCOUNT_SID=AC...
+TWILIO_AUTH_TOKEN=...
+TWILIO_PHONE_NUMBER=+1...
+
+# ElevenLabs (optional — alternative voice provider)
+ELEVENLABS_API_KEY=...
+```
 
 ### Performance Optimizations Applied
 

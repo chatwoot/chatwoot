@@ -11,8 +11,8 @@ module Voice
   module Provider
     class Openai < Base
       OPENAI_REALTIME_URL = 'wss://api.openai.com/v1/realtime'
-      DEFAULT_VOICE = 'alloy'
-      DEFAULT_MODEL = 'gpt-4o-realtime-preview'
+      DEFAULT_VOICE = 'coral' # OpenAI recommends 'marin' or 'cedar'; 'coral' is a good neutral default
+      DEFAULT_MODEL = 'gpt-4o-realtime-preview' # Also supports 'gpt-realtime' (GA)
       CONNECT_TIMEOUT = 10 # seconds
 
       def initialize(ai_agent:, conversation: nil, api_key: nil)
@@ -43,8 +43,7 @@ module Voice
         url = "#{OPENAI_REALTIME_URL}?model=#{model}"
 
         headers = {
-          'Authorization' => "Bearer #{@api_key}",
-          'OpenAI-Beta' => 'realtime=v1'
+          'Authorization' => "Bearer #{@api_key}"
         }
 
         @state = :connecting
@@ -127,7 +126,7 @@ module Voice
         File.open(audio_file_path) do |file|
           form_data = [
             ['file', file],
-            ['model', 'whisper-1']
+            %w[model whisper-1]
           ]
           form_data << ['language', language] if language.present?
           request.set_form(form_data, 'multipart/form-data')
@@ -174,28 +173,44 @@ module Voice
         end
 
         # Wait for connection with timeout
-        unless connected.wait(CONNECT_TIMEOUT)
-          @state = :error
-          fire_error("Connection timeout after #{CONNECT_TIMEOUT}s")
-        end
+        return if connected.wait(CONNECT_TIMEOUT)
+
+        @state = :error
+        fire_error("Connection timeout after #{CONNECT_TIMEOUT}s")
       end
 
       def configure_session!
         voice = voice_config_value('voice') || DEFAULT_VOICE
         instructions = @ai_agent.system_prompt.presence || 'You are a helpful voice assistant. Be concise and natural.'
 
-        config = {
-          modalities: %w[text audio],
-          instructions: instructions,
-          voice: voice,
-          input_audio_format: 'g711_ulaw',
-          output_audio_format: 'g711_ulaw',
-          input_audio_transcription: { model: 'whisper-1' },
-          turn_detection: {
-            type: 'server_vad',
+        # GA Realtime API format (nested audio config)
+        # Reference: https://platform.openai.com/docs/guides/realtime-conversations
+        vad_type = voice_config_value('vad_type') || 'server_vad'
+        turn_detection = { type: vad_type }
+
+        if vad_type == 'server_vad'
+          turn_detection.merge!(
             threshold: voice_config_value('vad_threshold') || 0.5,
             prefix_padding_ms: 300,
             silence_duration_ms: voice_config_value('silence_duration_ms') || 500
+          )
+        end
+
+        config = {
+          type: 'realtime',
+          instructions: instructions,
+          output_modalities: %w[text audio],
+          audio: {
+            input: {
+              format: { type: 'audio/g711-ulaw' },
+              transcription: { model: 'gpt-4o-transcribe' },
+              turn_detection: turn_detection,
+              noise_reduction: { type: voice_config_value('noise_reduction') || 'far_field' }
+            },
+            output: {
+              format: { type: 'audio/g711-ulaw' },
+              voice: voice
+            }
           }
         }
 
@@ -211,16 +226,23 @@ module Voice
         type = event['type']
 
         case type
-        when 'response.audio.delta'
+        # GA event names (also handle legacy beta names for backward compat)
+        when 'response.audio.delta', 'response.output_audio.delta'
           fire_audio_delta(event['delta'])
-        when 'response.audio_transcript.delta'
+        when 'response.audio_transcript.delta', 'response.output_audio_transcript.delta'
           fire_transcript(event['delta'], :partial)
-        when 'response.audio_transcript.done'
+        when 'response.audio_transcript.done', 'response.output_audio_transcript.done'
           fire_transcript(event['transcript'], :final)
         when 'conversation.item.input_audio_transcription.completed'
           save_user_transcript(event['transcript'])
         when 'response.done'
           handle_response_done(event)
+        when 'input_audio_buffer.speech_started'
+          Rails.logger.debug('[Voice::Provider::Openai] Speech started (VAD)')
+        when 'input_audio_buffer.speech_stopped'
+          Rails.logger.debug('[Voice::Provider::Openai] Speech stopped (VAD)')
+        when 'session.created', 'session.updated'
+          Rails.logger.info("[Voice::Provider::Openai] #{type}")
         when 'error'
           fire_error(event.dig('error', 'message') || 'Unknown realtime error')
         end

@@ -14,8 +14,15 @@
 | 1 | Custom Branding | ✅ Complete | `b5920d6` |
 | 1.5 | All-locale Branding Fix | ✅ Complete | `c5e114c` |
 | 2 | Stripe Billing | ✅ Complete | `a63e52c` |
-| 3 | LiteLLM Sidecar | ✅ Complete | — |
-| 4 | AI Agent Engine | ⬜ Not Started | — |
+| 3 | LiteLLM Sidecar | ✅ Complete | `7f20405` |
+| 4 | AI Agent Engine | ✅ Complete | `7f20405` |
+| 4a | Core Agent Models | ✅ Complete | `7f20405` |
+| 4b | RAG Pipeline | ✅ Complete | `7f20405` |
+| 4c | Tool-Calling Workflow | ✅ Complete | `7f20405` |
+| 4d | Conversation Routing | ✅ Complete | `7f20405` |
+| 4e | Voice Agents | ✅ Complete | `7f20405` |
+| — | Voice Provider Audit | ✅ Complete | `7f20405` |
+| — | Best Practices Review | ✅ Complete | — |
 | 5 | Agent Builder UI | ⬜ Not Started | — |
 | 6 | Docker Deployment | ⬜ Not Started | — |
 
@@ -277,6 +284,77 @@ Bug fixes from deep audit:
 - Fixed file handle leak in transcribe (File.open block form)
 - Removed dead code (@llm_client, unused constants)
 - Added HTTP error handling in provider methods
+
+---
+
+## Voice Provider Audit ✅
+
+Deep audit of the voice implementation revealed 12+ bugs. All fixed in commit `7f20405`.
+
+### Bugs found & fixed
+
+| # | Issue | Fix |
+|---|-------|-----|
+| 1 | `aproviders:` typo in `config/llm.yml` | Fixed to `providers:` |
+| 2 | Missing `Channel::Voice` model class | Created `saas/app/models/channel/voice.rb` |
+| 3 | Audio format mismatch (`pcm16` sent to Twilio) | Changed to `g711_ulaw` native µ-law |
+| 4 | Infinite busy-wait `sleep` loop waiting for WebSocket | Added `connect_timeout` with `Timeout.timeout` |
+| 5 | Thread-safety issues in WebSocket operations | Added `Mutex` for `@ws` access |
+| 6 | `Object#send` override in `VoiceRealtimeChannel` | Renamed to `transmit_audio` |
+| 7 | Missing Twilio signature verification | Added `Twilio::Security::RequestValidator` to controller |
+| 8 | Broken route `_url` helpers | Use explicit URL strings |
+| 9 | File handle leak in `transcribe` | Use `File.open` block form |
+| 10 | Dead code (`@llm_client`, unused constants) | Removed |
+| 11 | Missing HTTP error handling in provider methods | Added `Net::HTTPSuccess` checks |
+| 12 | ElevenLabs missing native µ-law output format | Set `output_format: 'ulaw_8000'` |
+
+---
+
+## Best Practices Review ✅
+
+Cross-referenced all implementations against official API docs (OpenAI Realtime GA, Stripe Webhooks, Stripe Billing). Found and fixed 15 issues.
+
+### OpenAI Realtime API — GA migration
+
+| # | Issue | Fix |
+|---|-------|-----|
+| 1 | Used beta flat `voice`/`input_audio_format` params | Migrated to GA nested `audio {}` config |
+| 2 | Sent deprecated `OpenAI-Beta: realtime=v1` header | Removed header |
+| 3 | Only handled beta event names | Added dual event handling (beta + GA names) |
+| 4 | Missing noise reduction for phone calls | Added `noise_reduction: { type: 'far_field' }` |
+| 5 | VAD type hardcoded to `server_vad` | Made configurable (`server_vad` or `semantic_vad`) |
+| 6 | Transcription used `whisper-1` | Updated to `gpt-4o-transcribe` |
+| 7 | Default voice was `alloy` | Updated to `coral` |
+| 8 | Missing GA realtime models in config | Added `gpt-realtime` and `gpt-realtime-mini` to `config/llm.yml` |
+
+### Stripe best practices
+
+| # | Issue | Fix |
+|---|-------|-----|
+| 9 | Webhook processed synchronously (blocking Stripe) | Returns 200 immediately, processes async via `Saas::StripeWebhookJob` |
+| 10 | No idempotency protection | Added `Rails.cache`-based idempotency for webhook events |
+| 11 | Unsigned webhooks accepted in production | Added production guard rejecting unsigned webhooks |
+| 12 | Hardcoded `payment_method_types: ['card']` | Removed to allow Stripe's dynamic payment methods |
+
+### Other fixes
+
+| # | Issue | Fix |
+|---|-------|-----|
+| 13 | `AiAgentReplyJob` used wrong param names | Fixed `input_tokens`/`output_tokens` → `tokens_input`/`tokens_output` |
+| 14 | `AiAgentReplyJob` missing `provider:` param | Added `provider:` to `record_usage!` call |
+| 15 | LLM controller re-parsed YAML config on every request | Added `Rails.cache.fetch` for production config caching |
+
+### Files changed
+
+| File | Change |
+|------|--------|
+| `saas/app/services/voice/provider/openai.rb` | GA format migration, dual events, noise reduction, semantic VAD |
+| `saas/app/jobs/ai_agent_reply_job.rb` | Fixed param names + added `provider:` |
+| `saas/app/controllers/saas/webhooks/stripe_controller.rb` | Async processing via job, production signature guard |
+| `saas/app/jobs/saas/stripe_webhook_job.rb` | **New** — background webhook processing with idempotency |
+| `saas/app/controllers/saas/api/v1/llm_controller.rb` | Config caching in production |
+| `saas/app/services/saas/stripe_service.rb` | Removed hardcoded payment methods |
+| `config/llm.yml` | Added GA realtime models, updated defaults |
 
 ---
 

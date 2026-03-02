@@ -75,8 +75,16 @@ models:
     credit_multiplier: 2
   gpt-4o-realtime-preview:
     provider: openai
-    display_name: 'GPT-4o Realtime'
+    display_name: 'GPT-4o Realtime (Legacy)'
     credit_multiplier: 5
+  gpt-realtime:
+    provider: openai
+    display_name: 'GPT Realtime (GA)'
+    credit_multiplier: 5
+  gpt-realtime-mini:
+    provider: openai
+    display_name: 'GPT Realtime Mini'
+    credit_multiplier: 3
   eleven_turbo_v2_5:
     provider: elevenlabs
     display_name: 'ElevenLabs Turbo v2.5'
@@ -141,8 +149,8 @@ features:
     models: [tts-1, tts-1-hd, eleven_turbo_v2_5, eleven_multilingual_v2]
     default: tts-1
   voice_realtime:
-    models: [gpt-4o-realtime-preview, eleven_turbo_v2_5]
-    default: gpt-4o-realtime-preview
+    models: [gpt-realtime, gpt-realtime-mini, gpt-4o-realtime-preview, eleven_turbo_v2_5]
+    default: gpt-realtime
   voice_agent:
     models:
       [

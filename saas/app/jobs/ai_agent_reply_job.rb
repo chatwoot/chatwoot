@@ -61,10 +61,19 @@ class AiAgentReplyJob < ApplicationJob
 
     Saas::AiUsageRecord.record_usage!(
       account: account,
+      provider: resolve_provider(ai_agent.model),
       model: ai_agent.model,
-      input_tokens: usage['prompt_tokens'].to_i,
-      output_tokens: usage['completion_tokens'].to_i
+      tokens_input: usage['prompt_tokens'].to_i,
+      tokens_output: usage['completion_tokens'].to_i,
+      feature: 'ai_agent'
     )
+  end
+
+  def resolve_provider(model)
+    LlmConstants::PROVIDER_PREFIXES.each do |provider, prefixes|
+      return provider if prefixes.any? { |prefix| model.start_with?(prefix) }
+    end
+    'unknown'
   end
 
   def post_limit_reply(conversation, account)

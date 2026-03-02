@@ -35,8 +35,7 @@ class Saas::Api::V1::LlmController < Api::V1::Accounts::BaseController
   end
 
   def models
-    config = YAML.safe_load(Rails.root.join('config/llm.yml').read)
-    available_models = config['models'].map do |name, details|
+    available_models = llm_config['models'].map do |name, details|
       {
         id: name,
         provider: details['provider'],
@@ -137,13 +136,21 @@ class Saas::Api::V1::LlmController < Api::V1::Accounts::BaseController
   end
 
   def calculate_cost(model, usage)
-    config = YAML.safe_load(Rails.root.join('config/llm.yml').read)
-    model_config = config.dig('models', model)
+    model_config = llm_config.dig('models', model)
     return 0 unless model_config
 
     multiplier = model_config['credit_multiplier'] || 1
     total_tokens = (usage['prompt_tokens'] || 0) + (usage['completion_tokens'] || 0)
     total_tokens * multiplier
+  end
+
+  # Cache the LLM config YAML — reloaded per-request in dev, cached in production
+  def llm_config
+    if Rails.env.production?
+      @@llm_config ||= YAML.safe_load(Rails.root.join('config/llm.yml').read) # rubocop:disable Style/ClassVars
+    else
+      YAML.safe_load(Rails.root.join('config/llm.yml').read)
+    end
   end
 
   def completion_params

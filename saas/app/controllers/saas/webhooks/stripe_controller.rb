@@ -1,4 +1,6 @@
 class Saas::Webhooks::StripeController < ActionController::API
+  # Stripe best practice: return 200 immediately, process asynchronously.
+  # Reference: https://docs.stripe.com/webhooks#best-practices
   def process_payload
     payload = request.body.read
     sig_header = request.env['HTTP_STRIPE_SIGNATURE']
@@ -13,6 +15,11 @@ class Saas::Webhooks::StripeController < ActionController::API
                 head :bad_request and return
               end
             else
+              # Development only — no signature verification
+              if Rails.env.production?
+                Rails.logger.warn('[Stripe] Webhook received without endpoint_secret in production!')
+                head :bad_request and return
+              end
               begin
                 JSON.parse(payload, object_class: Stripe::StripeObject)
               rescue JSON::ParserError
@@ -20,32 +27,10 @@ class Saas::Webhooks::StripeController < ActionController::API
               end
             end
 
-    handle_event(event)
+    # Return 200 immediately — Stripe retries on non-2xx
     head :ok
-  end
 
-  private
-
-  def handle_event(event)
-    case event.type
-    when 'checkout.session.completed'
-      Saas::StripeService.handle_checkout_completed(event)
-    when 'customer.subscription.created',
-         'customer.subscription.updated',
-         'customer.subscription.deleted'
-      Saas::StripeService.handle_subscription_event(event)
-    when 'invoice.payment_failed'
-      handle_payment_failed(event)
-    end
-  end
-
-  def handle_payment_failed(event)
-    invoice = event.data.object
-    customer_id = invoice.customer
-
-    subscription = Saas::Subscription.find_by(stripe_customer_id: customer_id)
-    return unless subscription
-
-    subscription.update!(status: :past_due)
+    # Process event asynchronously in a background job
+    Saas::StripeWebhookJob.perform_later(event.to_json)
   end
 end
