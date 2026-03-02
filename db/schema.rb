@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_02_24_100001) do
+ActiveRecord::Schema[7.1].define(version: 2026_03_02_170000) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -894,6 +894,85 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_24_100001) do
     t.index ["portal_id"], name: "index_inboxes_on_portal_id"
   end
 
+  create_table "influencer_profiles", force: :cascade do |t|
+    t.bigint "contact_id", null: false
+    t.bigint "account_id", null: false
+    t.string "platform", default: "instagram", null: false
+    t.string "username", null: false
+    t.text "profile_url"
+    t.text "profile_picture_url"
+    t.string "fullname"
+    t.text "bio"
+    t.boolean "is_verified", default: false
+    t.integer "followers_count"
+    t.integer "following_count"
+    t.integer "posts_count"
+    t.float "engagement_rate"
+    t.float "avg_reel_views"
+    t.float "avg_likes"
+    t.float "avg_comments"
+    t.float "avg_saves"
+    t.float "avg_shares"
+    t.float "follower_growth_rate"
+    t.float "hidden_like_posts_rate"
+    t.float "paid_post_performance"
+    t.datetime "last_post_at"
+    t.float "audience_credibility"
+    t.string "audience_credibility_class"
+    t.float "audience_reachability"
+    t.jsonb "audience_genders", default: {}
+    t.jsonb "audience_ages", default: {}
+    t.jsonb "audience_geo", default: {}
+    t.jsonb "audience_interests", default: {}
+    t.jsonb "audience_brand_affinity", default: {}
+    t.jsonb "audience_types", default: {}
+    t.jsonb "top_hashtags", default: []
+    t.jsonb "interests", default: []
+    t.jsonb "recent_reels", default: []
+    t.jsonb "stat_history", default: []
+    t.string "external_report_id"
+    t.string "external_search_id"
+    t.jsonb "raw_report_data", default: {}
+    t.integer "fqs_score"
+    t.integer "fqs_stage1_score"
+    t.integer "fqs_stage2_score"
+    t.jsonb "fqs_breakdown", default: {}
+    t.jsonb "fqs_hard_filter_results", default: {}
+    t.integer "status", default: 0
+    t.string "rejection_reason"
+    t.string "target_market"
+    t.datetime "report_fetched_at"
+    t.datetime "last_synced_at"
+    t.integer "lock_version", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.float "search_engagement_rate"
+    t.float "effective_er"
+    t.float "median_reel_views"
+    t.index ["account_id", "fqs_score"], name: "index_influencer_profiles_on_account_id_and_fqs_score"
+    t.index ["account_id", "status"], name: "index_influencer_profiles_on_account_id_and_status"
+    t.index ["account_id", "username", "platform"], name: "idx_influencer_profiles_account_username_platform", unique: true
+    t.index ["account_id"], name: "index_influencer_profiles_on_account_id"
+    t.index ["contact_id"], name: "index_influencer_profiles_on_contact_id", unique: true
+  end
+
+  create_table "influencer_searches", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.jsonb "query_params", default: {}
+    t.jsonb "results", default: []
+    t.integer "results_count", default: 0
+    t.float "credits_used"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "query_signature", null: false
+    t.integer "page_size", default: 5, null: false
+    t.integer "pages_fetched", default: 0, null: false
+    t.float "last_credits_left"
+    t.index ["account_id", "created_at"], name: "index_influencer_searches_on_account_id_and_created_at"
+    t.index ["account_id", "query_signature"], name: "index_influencer_searches_on_account_id_and_query_signature", unique: true
+    t.index ["account_id"], name: "index_influencer_searches_on_account_id"
+  end
+
   create_table "installation_configs", force: :cascade do |t|
     t.string "name", null: false
     t.jsonb "serialized_value", default: {}, null: false
@@ -1298,6 +1377,9 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_24_100001) do
   add_foreign_key "contact_pipeline_stages", "contacts"
   add_foreign_key "contact_pipeline_stages", "pipeline_stages"
   add_foreign_key "inboxes", "portals"
+  add_foreign_key "influencer_profiles", "accounts"
+  add_foreign_key "influencer_profiles", "contacts"
+  add_foreign_key "influencer_searches", "accounts"
   add_foreign_key "pipeline_stages", "labels"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
       on("accounts").

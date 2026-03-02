@@ -193,6 +193,21 @@ Rails.application.routes.draw do
               post :call, on: :member, to: 'calls#create' if ChatwootApp.enterprise?
             end
           end
+          resources :influencer_profiles, only: %i[index show] do
+            collection do
+              post :search
+              post :import
+              post :bulk_import
+              post :bulk_request_report
+              get :proxy_image
+            end
+            member do
+              post :request_report
+              post :approve
+              post :reject
+              post :recalculate
+            end
+          end
           resources :csat_survey_responses, only: [:index] do
             collection do
               get :metrics

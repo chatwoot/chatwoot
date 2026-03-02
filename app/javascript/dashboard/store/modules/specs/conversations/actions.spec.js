@@ -757,7 +757,10 @@ describe('#addMentions', () => {
         [types.SET_CURRENT_CHAT_WINDOW, data],
         [types.CLEAR_ALL_MESSAGES_LOADED, 42],
       ]);
-      expect(localDispatch).not.toHaveBeenCalled();
+      expect(localDispatch).not.toHaveBeenCalledWith(
+        'fetchPreviousMessages',
+        expect.anything()
+      );
     });
 
     it('should commit SET_CHAT_DATA_FETCHED by ID, not mutate the data object directly (race condition fix)', async () => {

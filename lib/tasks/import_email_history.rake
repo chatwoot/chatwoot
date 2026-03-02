@@ -15,6 +15,7 @@ namespace :email do
   end
 end
 
+# rubocop:disable Metrics/ClassLength
 class EmailHistoryImporter
   BATCH_SIZE = 50
   GMAIL_SENT_FOLDER = '[Gmail]/Sent Mail'.freeze
@@ -30,6 +31,7 @@ class EmailHistoryImporter
     @stats = { inbox_fetched: 0, sent_fetched: 0, created: 0, skipped: 0, errors: 0 }
   end
 
+  # rubocop:disable Metrics/AbcSize, Metrics/MethodLength, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
   def perform
     log "Starting email history import for #{channel.email}"
     log "Importing last #{days_back} days (since #{since_date})"
@@ -72,6 +74,7 @@ class EmailHistoryImporter
 
     log "Import complete! #{stats}"
   end
+  # rubocop:enable Metrics/AbcSize, Metrics/MethodLength, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
 
   private
 
@@ -82,6 +85,7 @@ class EmailHistoryImporter
     imap
   end
 
+  # rubocop:disable Metrics/AbcSize, Metrics/MethodLength, Metrics/CyclomaticComplexity
   def fetch_folder(imap, folder_name, direction)
     log "Fetching from #{folder_name}..."
     imap.select(folder_name)
@@ -121,7 +125,9 @@ class EmailHistoryImporter
     # Now fetch full RFC822 content for new emails
     fetch_full_content(imap, folder_name, emails)
   end
+  # rubocop:enable Metrics/AbcSize, Metrics/MethodLength, Metrics/CyclomaticComplexity
 
+  # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
   def fetch_full_content(imap, folder_name, emails)
     return emails if emails.empty?
 
@@ -144,7 +150,9 @@ class EmailHistoryImporter
     # Remove entries where we failed to fetch content
     emails.reject { |e| e[:raw].blank? }
   end
+  # rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
 
+  # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
   def process_email(email_data)
     mail = Mail.read_from_string(email_data[:raw])
     processed_mail = MailPresenter.new(mail, account)
@@ -174,6 +182,7 @@ class EmailHistoryImporter
     stats[:errors] += 1
     log "Error processing #{email_data[:message_id]}: #{e.message}"
   end
+  # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 
   def create_incoming_message(mail, processed_mail)
     contact, contact_inbox = find_or_create_contact(processed_mail.original_sender, sender_name(processed_mail))
@@ -200,7 +209,7 @@ class EmailHistoryImporter
     conversation = find_or_create_conversation(mail, processed_mail, contact, contact_inbox)
 
     # Find the agent user who sent this (match by email)
-    sender_user = account.users.find_by(email: channel.email) || account.users.find_by(email: processed_mail.original_sender)
+    sender_user = account.users.from_email(channel.email) || account.users.from_email(processed_mail.original_sender)
 
     create_message(
       conversation: conversation,
@@ -277,6 +286,7 @@ class EmailHistoryImporter
     nil
   end
 
+  # rubocop:disable Metrics/MethodLength
   def create_message(conversation:, processed_mail:, message_type:, sender:, created_at:)
     content = mail_content(processed_mail)
 
@@ -304,6 +314,7 @@ class EmailHistoryImporter
     end
     message.save! if all_attachments.any?
   end
+  # rubocop:enable Metrics/MethodLength
 
   def mail_content(processed_mail)
     if processed_mail.text_content.present?
@@ -347,3 +358,4 @@ class EmailHistoryImporter
     Rails.logger.info("[EmailHistoryImporter] #{message}")
   end
 end
+# rubocop:enable Metrics/ClassLength
