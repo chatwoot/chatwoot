@@ -3,8 +3,9 @@
 # counter_cache_optimization is enabled: false, so we must clear bit 4 for all accounts.
 class DisableCounterCacheOptimizationForExistingAccounts < ActiveRecord::Migration[7.0]
   def up
-    Account.find_in_batches(batch_size: 100) do |accounts|
-      accounts.each { |account| account.disable_features!(:counter_cache_optimization) }
+    Account.feature_counter_cache_optimization.find_each(batch_size: 100) do |account|
+      account.disable_features(:counter_cache_optimization)
+      account.save!(validate: false)
     end
   end
 end
