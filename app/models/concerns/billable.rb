@@ -24,6 +24,12 @@ module Billable
     has_many :usage_records, class_name: 'AccountUsageRecord', dependent: :destroy
   end
 
+  # Pay gem delegates :email to the owner (Account). Account has no email
+  # column, so we provide one that returns the billing contact address.
+  def email
+    billing_email
+  end
+
   # ── Plan Resolution ────────────────────────────────────────────
 
   def active_subscription
