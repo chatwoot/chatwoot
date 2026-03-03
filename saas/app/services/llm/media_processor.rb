@@ -70,10 +70,15 @@ class Llm::MediaProcessor
   end
 
   def whisper_transcribe(audio_file_path)
-    uri = whisper_uri
-    request = build_whisper_request(uri, audio_file_path)
-    response = execute_whisper_request(uri, request)
+    uri, api_key = whisper_config
 
+    # File must stay open during the entire HTTP request lifecycle
+    file = File.open(audio_file_path, 'rb')
+    request = Net::HTTP::Post.new(uri)
+    request['Authorization'] = "Bearer #{api_key}" if api_key.present?
+    request.set_form([['file', file], %w[model whisper-1], %w[language pt]], 'multipart/form-data')
+
+    response = execute_http(uri, request)
     Rails.logger.info "[MEDIA_PROCESSOR] Whisper response: #{response.code}"
     return nil unless response.is_a?(Net::HTTPSuccess)
 
@@ -81,25 +86,16 @@ class Llm::MediaProcessor
   rescue StandardError => e
     Rails.logger.warn "[MEDIA_PROCESSOR] Whisper transcription failed: #{e.class} — #{e.message}"
     nil
+  ensure
+    file&.close
   end
 
-  def whisper_uri
+  def whisper_config
     base_url = ENV.fetch('LITELLM_BASE_URL', 'http://localhost:4000')
-    URI("#{base_url}/v1/audio/transcriptions")
+    [URI("#{base_url}/v1/audio/transcriptions"), ENV.fetch('LITELLM_API_KEY', nil)]
   end
 
-  def build_whisper_request(uri, audio_file_path)
-    request = Net::HTTP::Post.new(uri)
-    api_key = ENV.fetch('LITELLM_API_KEY', nil)
-    request['Authorization'] = "Bearer #{api_key}" if api_key.present?
-
-    File.open(audio_file_path) do |file|
-      request.set_form([['file', file], %w[model whisper-1], %w[language pt]], 'multipart/form-data')
-    end
-    request
-  end
-
-  def execute_whisper_request(uri, request)
+  def execute_http(uri, request)
     http = Net::HTTP.new(uri.host, uri.port)
     http.use_ssl = uri.scheme == 'https'
     http.open_timeout = 10
@@ -117,17 +113,25 @@ class Llm::MediaProcessor
   def process_image(attachment)
     return '[Imagem recebida — arquivo não disponível]' unless attachment.file.attached?
 
-    image_url = attachment_public_url(attachment)
-    return '[Imagem recebida — URL não disponível]' if image_url.blank?
+    base64_url = encode_attachment_as_base64(attachment)
+    return '[Imagem recebida — não foi possível codificar]' if base64_url.blank?
 
-    description = describe_image(image_url)
+    description = describe_image(base64_url)
     return '[Imagem recebida — não foi possível analisar]' if description.blank?
 
     "🖼️ Imagem recebida — Descrição:\n#{description}"
   end
 
-  def describe_image(image_url)
-    messages = [{ role: 'user', content: vision_content(image_url) }]
+  def describe_image(image_data_url)
+    description = 'Descreva esta imagem de forma concisa em português. ' \
+                  'Se for um documento, extraia o texto. Se for uma foto de um imóvel, descreva-o.'
+    messages = [{
+      role: 'user',
+      content: [
+        { type: 'text', text: description },
+        { type: 'image_url', image_url: { url: image_data_url } }
+      ]
+    }]
     response = @client.chat(messages: messages, max_tokens: VISION_MAX_TOKENS)
     response.dig('choices', 0, 'message', 'content')
   rescue StandardError => e
@@ -135,13 +139,15 @@ class Llm::MediaProcessor
     nil
   end
 
-  def vision_content(image_url)
-    description = 'Descreva esta imagem de forma concisa em português. ' \
-                  'Se for um documento, extraia o texto. Se for uma foto de um imóvel, descreva-o.'
-    [
-      { type: 'text', text: description },
-      { type: 'image_url', image_url: { url: image_url } }
-    ]
+  def encode_attachment_as_base64(attachment)
+    content_type = attachment.file.content_type || 'image/jpeg'
+    raw = nil
+    attachment.file.blob.open { |io| raw = io.read }
+    encoded = Base64.strict_encode64(raw)
+    "data:#{content_type};base64,#{encoded}"
+  rescue StandardError => e
+    Rails.logger.warn "[MEDIA_PROCESSOR] Base64 encoding failed: #{e.message}"
+    nil
   end
 
   # --- Document: text extraction ---
@@ -195,17 +201,5 @@ class Llm::MediaProcessor
     tempfile&.close
     tempfile&.unlink
     nil
-  end
-
-  def attachment_public_url(attachment)
-    url = attachment.download_url
-    return nil if url.blank?
-
-    if url.start_with?('/')
-      frontend_url = ENV.fetch('FRONTEND_URL', 'http://localhost:3000')
-      "#{frontend_url}#{url}"
-    else
-      url
-    end
   end
 end
