@@ -33,6 +33,20 @@ RSpec.describe Captain::Llm::ConversationFaqService do
         allow(captain_assistant.responses).to receive(:nearest_neighbors).and_return([])
       end
 
+      it 'requests strict JSON schema response format' do
+        expect(mock_chat).to receive(:with_params).with(
+          response_format: hash_including(
+            type: 'json_schema',
+            json_schema: hash_including(
+              name: 'conversation_faq_response',
+              strict: true
+            )
+          )
+        ).and_return(mock_chat)
+
+        service.generate_and_deduplicate
+      end
+
       it 'creates new FAQs for valid conversation content' do
         expect do
           service.generate_and_deduplicate

@@ -11,7 +11,7 @@ class Captain::Llm::FaqGeneratorService < Llm::BaseAiService
   def generate
     response = instrument_llm_call(instrumentation_params) do
       chat
-        .with_params(response_format: { type: 'json_object' })
+        .with_params(response_format: faq_response_format)
         .with_instructions(system_prompt)
         .ask(@content)
     end
@@ -51,5 +51,34 @@ class Captain::Llm::FaqGeneratorService < Llm::BaseAiService
   rescue JSON::ParserError => e
     Rails.logger.error "Error in parsing GPT processed response: #{e.message}"
     []
+  end
+
+  def faq_response_format
+    {
+      type: 'json_schema',
+      json_schema: {
+        name: 'faq_generator_response',
+        strict: true,
+        schema: {
+          type: 'object',
+          properties: {
+            faqs: {
+              type: 'array',
+              items: {
+                type: 'object',
+                properties: {
+                  question: { type: 'string' },
+                  answer: { type: 'string' }
+                },
+                required: %w[question answer],
+                additionalProperties: false
+              }
+            }
+          },
+          required: ['faqs'],
+          additionalProperties: false
+        }
+      }
+    }
   end
 end

@@ -68,6 +68,22 @@ RSpec.describe Captain::Llm::PaginatedFaqGeneratorService do
         expect(faqs.first['question']).to eq('What is this document about?')
       end
 
+      it 'uses strict JSON schema for chunk generation response format' do
+        expect(openai_client).to receive(:chat).with(
+          parameters: hash_including(
+            response_format: hash_including(
+              type: 'json_schema',
+              json_schema: hash_including(
+                name: 'paginated_faq_chunk_response',
+                strict: true
+              )
+            )
+          )
+        ).and_return(empty_response)
+
+        service.generate
+      end
+
       it 'stops when no more content' do
         allow(openai_client).to receive(:chat).and_return(empty_response)
 

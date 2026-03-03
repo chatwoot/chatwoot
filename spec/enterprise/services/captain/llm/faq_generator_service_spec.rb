@@ -32,7 +32,15 @@ RSpec.describe Captain::Llm::FaqGeneratorService do
       end
 
       it 'sends content to LLM with JSON response format' do
-        expect(mock_chat).to receive(:with_params).with(response_format: { type: 'json_object' }).and_return(mock_chat)
+        expect(mock_chat).to receive(:with_params).with(
+          response_format: hash_including(
+            type: 'json_schema',
+            json_schema: hash_including(
+              name: 'faq_generator_response',
+              strict: true
+            )
+          )
+        ).and_return(mock_chat)
         service.generate
       end
 

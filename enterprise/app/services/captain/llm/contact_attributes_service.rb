@@ -20,7 +20,7 @@ class Captain::Llm::ContactAttributesService < Llm::BaseAiService
   def generate_attributes
     response = instrument_llm_call(instrumentation_params) do
       chat
-        .with_params(response_format: { type: 'json_object' })
+        .with_params(response_format: attributes_response_format)
         .with_instructions(system_prompt)
         .ask(@content)
     end
@@ -56,5 +56,34 @@ class Captain::Llm::ContactAttributesService < Llm::BaseAiService
   rescue JSON::ParserError => e
     Rails.logger.error "Error in parsing GPT processed response: #{e.message}"
     []
+  end
+
+  def attributes_response_format
+    {
+      type: 'json_schema',
+      json_schema: {
+        name: 'contact_attributes_response',
+        strict: true,
+        schema: {
+          type: 'object',
+          properties: {
+            attributes: {
+              type: 'array',
+              items: {
+                type: 'object',
+                properties: {
+                  attribute: { type: 'string' },
+                  value: { type: 'string' }
+                },
+                required: %w[attribute value],
+                additionalProperties: false
+              }
+            }
+          },
+          required: ['attributes'],
+          additionalProperties: false
+        }
+      }
+    }
   end
 end
