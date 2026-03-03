@@ -162,13 +162,15 @@ class AiAgentReplyJob < ApplicationJob
   # --- Contact context ---
 
   # Builds the text content to send to the LLM, handling media messages.
-  # If the message is a pure media (audio/image/video with no text), we describe it.
+  # Audio → transcribed via Whisper, Image → described via GPT-4 Vision,
+  # Document → text extracted, Location → coordinates + title.
   def message_content_for_llm(message)
     text = message.content.presence
     attachments = message.attachments
 
     if attachments.any?
-      descriptions = attachments.map { |a| "[#{a.file_type} anexado]" }
+      processor = Llm::MediaProcessor.new
+      descriptions = attachments.map { |a| processor.process_attachment(a) }
       [text, *descriptions].compact.join("\n")
     else
       text || '[mensagem vazia]'
