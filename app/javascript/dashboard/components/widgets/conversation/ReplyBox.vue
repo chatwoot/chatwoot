@@ -200,9 +200,13 @@ export default {
     },
     messagePlaceHolder() {
       if (this.isEditorDisabled) {
-        return this.isAWhatsAppChannel
-          ? this.$t('CONVERSATION.FOOTER.MESSAGING_RESTRICTED_WHATSAPP')
-          : this.$t('CONVERSATION.FOOTER.MESSAGING_RESTRICTED');
+        if (this.isAWhatsAppChannel) {
+          return this.$t('CONVERSATION.FOOTER.MESSAGING_RESTRICTED_WHATSAPP');
+        }
+        if (this.isAPIInbox) {
+          return this.$t('CONVERSATION.FOOTER.MESSAGING_RESTRICTED_API');
+        }
+        return this.$t('CONVERSATION.FOOTER.MESSAGING_RESTRICTED');
       }
       return this.isPrivate
         ? this.$t('CONVERSATION.FOOTER.PRIVATE_MSG_INPUT')
@@ -279,7 +283,8 @@ export default {
         this.isASmsInbox ||
         this.isATelegramChannel ||
         this.isALineChannel ||
-        this.isAnInstagramChannel
+        this.isAnInstagramChannel ||
+        this.isATiktokChannel
       );
     },
     replyButtonLabel() {
@@ -426,7 +431,7 @@ export default {
     },
     isEditorDisabled() {
       return (
-        this.isAWhatsAppChannel &&
+        (this.isAWhatsAppChannel || this.isAPIInbox) &&
         !this.isOnPrivateNote &&
         !this.currentChat.can_reply
       );
@@ -751,11 +756,13 @@ export default {
           this.isATwilioWhatsAppChannel ||
           this.isAWhatsAppCloudChannel ||
           this.is360DialogWhatsAppChannel;
-        // When users send messages containing both text and attachments on Instagram, Instagram treats them as separate messages.
-        // Although Chatwoot combines these into a single message, Instagram sends separate echo events for each component.
-        // This can create duplicate messages in Chatwoot. To prevent this issue, we'll handle text and attachments as separate messages.
+        // Instagram and TikTok do not support sending text and attachments in the same message.
+        // For Instagram, combining them causes duplicate messages due to separate echo events per component.
+        // For TikTok, the API rejects messages that mix text and media.
+        // To handle both cases, text and attachments are always sent as separate messages.
         const isOnInstagram = this.isAnInstagramChannel;
-        if ((isOnWhatsApp || isOnInstagram) && !this.isPrivate) {
+        const isOnTiktok = this.isATiktokChannel;
+        if ((isOnWhatsApp || isOnInstagram || isOnTiktok) && !this.isPrivate) {
           this.sendMessageAsMultipleMessages(
             this.message,
             copilotAcceptedMessage
@@ -1069,7 +1076,8 @@ export default {
       const multipleMessagePayload = [];
 
       if (this.attachedFiles && this.attachedFiles.length) {
-        let caption = this.isAnInstagramChannel ? '' : message;
+        let caption =
+          this.isAnInstagramChannel || this.isATiktokChannel ? '' : message;
         this.attachedFiles.forEach(attachment => {
           const attachedFile = this.globalConfig.directUploadsEnabled
             ? attachment.blobSignedId
@@ -1091,11 +1099,13 @@ export default {
 
       const hasNoAttachments =
         !this.attachedFiles || !this.attachedFiles.length;
-      // For Instagram, we need a separate text message
-      // For WhatsApp, we only need a text message if there are no attachments
+      // For Instagram and TikTok, text must always be sent as a separate message (no captions on attachments).
+      // For WhatsApp, we only need a text message if there are no attachments.
       if (
-        (this.isAnInstagramChannel && this.message) ||
-        (!this.isAnInstagramChannel && hasNoAttachments)
+        ((this.isAnInstagramChannel || this.isATiktokChannel) &&
+          this.message) ||
+        (!(this.isAnInstagramChannel || this.isATiktokChannel) &&
+          hasNoAttachments)
       ) {
         let messagePayload = {
           conversationId: this.currentChat.id,
@@ -1235,6 +1245,7 @@ export default {
       :is-editor-disabled="isEditorDisabled"
       :is-message-length-reaching-threshold="isMessageLengthReachingThreshold"
       :characters-remaining="charactersRemaining"
+      :editor-content="message"
       :popout-reply-box="popOutReplyBox"
       @set-reply-mode="setReplyMode"
       @toggle-popout="togglePopout"

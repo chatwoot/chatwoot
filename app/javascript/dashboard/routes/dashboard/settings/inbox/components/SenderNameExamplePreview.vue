@@ -2,7 +2,7 @@
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import Avatar from 'next/avatar/Avatar.vue';
-import RadioCard from 'dashboard/components-next/AssignmentPolicy/components/RadioCard.vue';
+import RadioCard from 'dashboard/components-next/radioCard/RadioCard.vue';
 
 const props = defineProps({
   senderNameType: {
