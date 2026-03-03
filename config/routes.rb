@@ -193,12 +193,13 @@ Rails.application.routes.draw do
               post :call, on: :member, to: 'calls#create' if ChatwootApp.enterprise?
             end
           end
-          resources :influencer_profiles, only: %i[index show] do
+          resources :influencer_profiles, only: %i[index show destroy] do
             collection do
               post :search
               post :import
               post :bulk_import
               post :bulk_request_report
+              post :add_by_handle
               get :proxy_image
             end
             member do
@@ -207,6 +208,10 @@ Rails.application.routes.draw do
               post :reject
               post :recalculate
               post :retry_apify
+              get :conversations
+              post :send_message
+              post :create_offer
+              get :offers
             end
           end
           resources :csat_survey_responses, only: [:index] do
@@ -552,9 +557,18 @@ Rails.application.routes.draw do
         end
 
         resources :csat_survey, only: [:show, :update]
+
+        scope 'influencer_offers/:token', controller: 'influencer_offers' do
+          get '/', action: :show
+          post 'accept', action: :accept
+          get 'calculate', action: :calculate
+        end
       end
     end
   end
+
+  # Influencer offer landing page (HTML)
+  get 'offer/:token', to: 'influencer_offer_page#show', as: :influencer_offer_page
 
   get 'hc/:slug', to: 'public/api/v1/portals#show'
   get 'hc/:slug/sitemap.xml', to: 'public/api/v1/portals#sitemap'

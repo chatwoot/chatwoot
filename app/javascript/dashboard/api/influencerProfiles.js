@@ -64,6 +64,37 @@ class InfluencerProfilesAPI extends ApiClient {
     return axios.post(`${this.url}/${id}/retry_apify`);
   }
 
+  getConversations(profileId) {
+    return axios.get(`${this.url}/${profileId}/conversations`);
+  }
+
+  sendMessage(profileId, { inboxId, content }) {
+    return axios.post(`${this.url}/${profileId}/send_message`, {
+      inbox_id: inboxId,
+      content,
+    });
+  }
+
+  createOffer(profileId, { packages, rightsLevel, currency }) {
+    return axios.post(`${this.url}/${profileId}/create_offer`, {
+      packages,
+      rights_level: rightsLevel,
+      currency,
+    });
+  }
+
+  getOffers(profileId) {
+    return axios.get(`${this.url}/${profileId}/offers`);
+  }
+
+  addByHandle(handle) {
+    return axios.post(`${this.url}/add_by_handle`, { handle });
+  }
+
+  delete(id) {
+    return axios.delete(`${this.url}/${id}`);
+  }
+
   proxyImageUrl(externalUrl) {
     return `${this.url}/proxy_image?url=${encodeURIComponent(externalUrl)}`;
   }

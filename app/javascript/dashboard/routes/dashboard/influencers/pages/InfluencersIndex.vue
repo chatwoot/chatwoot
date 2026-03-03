@@ -22,6 +22,13 @@ const activeTab = computed(() => {
 
 const selectedProfile = ref(null);
 const showDetail = ref(false);
+const showAddInput = ref(false);
+const addHandle = ref('');
+const addError = ref('');
+
+const isAdding = computed(
+  () => store.getters['influencerProfiles/getUIFlags'].isAdding
+);
 
 const tabs = computed(() => [
   {
@@ -72,6 +79,34 @@ async function handleReject(profileId, reason) {
   });
   closeDetail();
 }
+
+async function handleAddByHandle() {
+  if (!addHandle.value.trim()) return;
+  addError.value = '';
+  try {
+    const data = await store.dispatch('influencerProfiles/addByHandle', {
+      handle: addHandle.value.trim(),
+    });
+    addHandle.value = '';
+    showAddInput.value = false;
+    if (data.existing) {
+      addError.value = t('INFLUENCER.ADD.EXISTS');
+    }
+  } catch {
+    addError.value = t('INFLUENCER.ADD.ERROR');
+  }
+}
+
+async function handleDelete() {
+  if (!selectedProfile.value) return;
+  // eslint-disable-next-line no-alert
+  if (!window.confirm(t('INFLUENCER.DELETE.CONFIRM'))) return;
+  await store.dispatch('influencerProfiles/deleteProfile', {
+    id: selectedProfile.value.id,
+    status: selectedProfile.value.status,
+  });
+  closeDetail();
+}
 </script>
 
 <template>
@@ -80,6 +115,45 @@ async function handleReject(profileId, reason) {
       <h1 class="text-lg font-semibold text-n-slate-12">
         {{ t('INFLUENCER.TITLE') }}
       </h1>
+      <div class="ml-auto flex items-center gap-2">
+        <template v-if="showAddInput">
+          <input
+            v-model="addHandle"
+            type="text"
+            class="w-64 rounded-lg border border-n-weak bg-n-solid-1 px-3 py-1.5 text-sm"
+            :placeholder="t('INFLUENCER.ADD.PLACEHOLDER')"
+            :disabled="isAdding"
+            @keydown.enter="handleAddByHandle"
+            @keydown.escape="showAddInput = false"
+          />
+          <button
+            class="rounded-lg bg-n-brand px-3 py-1.5 text-sm font-medium text-white hover:opacity-90 disabled:opacity-50"
+            :disabled="isAdding || !addHandle.trim()"
+            @click="handleAddByHandle"
+          >
+            <span
+              v-if="isAdding"
+              class="i-lucide-loader-2 size-4 animate-spin"
+            />
+            <template v-else>{{ t('INFLUENCER.ADD.BUTTON') }}</template>
+          </button>
+          <button
+            class="rounded-md p-1 text-n-slate-11 hover:bg-n-background"
+            @click="showAddInput = false"
+          >
+            <span class="i-lucide-x size-4" />
+          </button>
+        </template>
+        <button
+          v-else
+          class="rounded-md p-1 text-n-slate-11 hover:bg-n-background"
+          :title="t('INFLUENCER.ADD.BUTTON')"
+          @click="showAddInput = true"
+        >
+          <span class="i-lucide-plus size-5" />
+        </button>
+      </div>
+      <p v-if="addError" class="text-xs text-red-600">{{ addError }}</p>
     </div>
 
     <div class="flex gap-1 border-b border-n-weak px-6">
@@ -123,6 +197,7 @@ async function handleReject(profileId, reason) {
       @approve="handleApprove"
       @reject="handleReject"
       @request-report="handleRequestReport"
+      @delete="handleDelete"
     />
   </div>
 </template>

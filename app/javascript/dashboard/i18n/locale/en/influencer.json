@@ -121,6 +121,18 @@
       "REJECT": "Reject",
       "RAW_DATA": "All data in DB"
     },
+    "ADD": {
+      "BUTTON": "Add",
+      "PLACEHOLDER": "Instagram handle or URL...",
+      "SUCCESS": "Profile added. Fetching details...",
+      "ERROR": "Failed to add profile",
+      "EXISTS": "Profile already exists"
+    },
+    "DELETE": {
+      "BUTTON": "Delete",
+      "CONFIRM": "Are you sure you want to delete this profile?",
+      "SUCCESS": "Profile deleted"
+    },
     "KANBAN": {
       "STATUS_DISCOVERED": "Discovered",
       "STATUS_ENRICHED": "Enriched",
@@ -139,6 +151,28 @@
       "REJECT_PLACEHOLDER": "Why are you rejecting this profile?",
       "CANCEL": "Cancel",
       "CONFIRM_REJECT": "Reject"
+    },
+    "OFFERS": {
+      "TITLE": "Collaboration Offers",
+      "GENERATE": "Generate Offer",
+      "CREATING": "Creating...",
+      "LOADING": "Loading offers...",
+      "EMPTY": "No offers created yet.",
+      "COPY_LINK": "Copy link",
+      "COPIED": "Copied!",
+      "EXPIRES": "expires"
+    },
+    "MESSAGING": {
+      "TITLE": "Messages",
+      "NEW_MESSAGE": "New Message",
+      "SEND_VIA": "Send via",
+      "PLACEHOLDER": "Type your message...",
+      "SEND": "Send",
+      "SENDING": "Sending...",
+      "CANCEL": "Cancel",
+      "LOADING": "Loading conversations...",
+      "NO_CONVERSATIONS": "No conversations yet. Send the first message.",
+      "NO_INBOXES": "No email or Instagram inboxes configured."
     },
     "VOUCHER": {
       "TITLE": "Voucher Valuation",

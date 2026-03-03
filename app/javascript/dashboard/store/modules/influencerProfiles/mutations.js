@@ -149,6 +149,18 @@ export const mutations = {
     };
   },
 
+  [types.REMOVE_KANBAN_ITEM]($state, { status, profileId }) {
+    if ($state.kanban[status]) {
+      $state.kanban[status].records = $state.kanban[status].records.filter(
+        p => p.id !== profileId
+      );
+      $state.kanban[status].meta.count = Math.max(
+        0,
+        $state.kanban[status].meta.count - 1
+      );
+    }
+  },
+
   [types.UPDATE_KANBAN_ITEM]($state, { oldStatus, newProfile }) {
     // Remove from old column
     if (oldStatus && $state.kanban[oldStatus]) {

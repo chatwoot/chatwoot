@@ -43,6 +43,8 @@ const state = {
     isImporting: false,
     isApproving: false,
     isRejecting: false,
+    isAdding: false,
+    isDeleting: false,
   },
 };
 

@@ -11,6 +11,7 @@ class InfluencerProfile < ApplicationRecord
 
   belongs_to :contact
   belongs_to :account
+  has_many :influencer_offers, dependent: :destroy
 
   enum :status, { discovered: 0, enriched: 2, accepted: 3, rejected: 4, contacted: 5 }
   enum :apify_status, { apify_none: 0, apify_pending: 1, apify_done: 2, apify_failed: 3 }, prefix: :apify

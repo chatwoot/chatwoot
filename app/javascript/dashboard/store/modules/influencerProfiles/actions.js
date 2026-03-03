@@ -140,6 +140,65 @@ export const actions = {
     // Re-add since UPDATE_KANBAN_ITEM removes+adds
   },
 
+  getConversations: async (_, { profileId }) => {
+    const { data } = await InfluencerProfilesAPI.getConversations(profileId);
+    return { conversations: data.payload, channels: data.channels };
+  },
+
+  createOffer: async (_, { profileId, packages, rightsLevel, currency }) => {
+    const { data } = await InfluencerProfilesAPI.createOffer(profileId, {
+      packages,
+      rightsLevel,
+      currency,
+    });
+    return data;
+  },
+
+  getOffers: async (_, { profileId }) => {
+    const { data } = await InfluencerProfilesAPI.getOffers(profileId);
+    return data.payload;
+  },
+
+  sendMessage: async (_, { profileId, inboxId, content }) => {
+    const { data } = await InfluencerProfilesAPI.sendMessage(profileId, {
+      inboxId,
+      content,
+    });
+    return data;
+  },
+
+  addByHandle: async ({ commit, dispatch }, { handle }) => {
+    commit(types.SET_INFLUENCER_UI_FLAG, { isAdding: true });
+    try {
+      const { data } = await InfluencerProfilesAPI.addByHandle(handle);
+      commit(types.SET_INFLUENCER_ITEM, data.payload);
+      commit(types.UPDATE_KANBAN_ITEM, {
+        oldStatus: null,
+        newProfile: data.payload,
+      });
+      // Apify runs in the background (~15s); refresh discovered column after a delay
+      if (!data.existing) {
+        setTimeout(
+          () => dispatch('fetchKanbanColumn', { status: 'discovered' }),
+          20000
+        );
+      }
+      return data;
+    } finally {
+      commit(types.SET_INFLUENCER_UI_FLAG, { isAdding: false });
+    }
+  },
+
+  deleteProfile: async ({ commit }, { id, status }) => {
+    commit(types.SET_INFLUENCER_UI_FLAG, { isDeleting: true });
+    try {
+      await InfluencerProfilesAPI.delete(id);
+      commit(types.REMOVE_KANBAN_ITEM, { status, profileId: id });
+    } finally {
+      commit(types.SET_INFLUENCER_UI_FLAG, { isDeleting: false });
+    }
+  },
+
   clearSearchResults: ({ commit }) => {
     commit(types.CLEAR_INFLUENCER_SEARCH_RESULTS);
     commit(types.SET_INFLUENCER_LAST_SEARCH_PARAMS, null);

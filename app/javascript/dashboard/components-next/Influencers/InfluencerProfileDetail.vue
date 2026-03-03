@@ -6,12 +6,19 @@ import FqsScoreBadge from './FqsScoreBadge.vue';
 import VoucherCalculator from './VoucherCalculator.vue';
 import InfluencerReelPreview from './InfluencerReelPreview.vue';
 import InfluencerPostPreview from './InfluencerPostPreview.vue';
+import InfluencerOffers from './InfluencerOffers.vue';
 
 const props = defineProps({
   profile: { type: Object, required: true },
 });
 
-const emit = defineEmits(['close', 'approve', 'reject', 'requestReport']);
+const emit = defineEmits([
+  'close',
+  'approve',
+  'reject',
+  'requestReport',
+  'delete',
+]);
 const { t } = useI18n();
 const rejectReason = ref('');
 
@@ -24,7 +31,6 @@ const isDiscovered = computed(() => props.profile.status === 'discovered');
 const showFqs = computed(
   () => isEnriched.value && props.profile.fqs_score != null
 );
-
 const breakdown = computed(() => props.profile.fqs_breakdown || {});
 
 // Warnings from hard filter checks
@@ -588,6 +594,9 @@ function handleReject() {
       <!-- Voucher Calculator -->
       <VoucherCalculator :profile="profile" class="mb-6" />
 
+      <!-- Offers (accepted+ profiles) -->
+      <InfluencerOffers :profile="profile" />
+
       <!-- Audience Types breakdown -->
       <div v-if="isEnriched && audienceTypes.length" class="mb-6">
         <h4 class="mb-3 text-sm font-semibold text-n-slate-12">
@@ -840,6 +849,12 @@ function handleReject() {
           {{ t('INFLUENCER.DETAIL.REJECT') }}
         </button>
       </div>
+      <button
+        class="mt-2 w-full rounded-lg border border-n-weak px-4 py-1.5 text-sm text-n-slate-11 hover:bg-n-background"
+        @click="emit('delete')"
+      >
+        {{ t('INFLUENCER.DELETE.BUTTON') }}
+      </button>
     </div>
 
     <!-- Actions for discovered profiles -->
@@ -869,6 +884,22 @@ function handleReject() {
           {{ t('INFLUENCER.DETAIL.REJECT') }}
         </button>
       </div>
+      <button
+        class="mt-2 w-full rounded-lg border border-n-weak px-4 py-1.5 text-sm text-n-slate-11 hover:bg-n-background"
+        @click="emit('delete')"
+      >
+        {{ t('INFLUENCER.DELETE.BUTTON') }}
+      </button>
+    </div>
+
+    <!-- Actions for accepted/rejected profiles (delete only) -->
+    <div v-else class="border-t border-n-weak p-4">
+      <button
+        class="w-full rounded-lg border border-n-weak px-4 py-1.5 text-sm text-n-slate-11 hover:bg-n-background"
+        @click="emit('delete')"
+      >
+        {{ t('INFLUENCER.DELETE.BUTTON') }}
+      </button>
     </div>
   </div>
 </template>
