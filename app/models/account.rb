@@ -166,7 +166,7 @@ class Account < ApplicationRecord
   scope :with_auto_resolve, -> { where("(settings ->> 'auto_resolve_after')::int IS NOT NULL") }
 
   before_validation :validate_limit_keys
-  after_create_commit :notify_creation
+  after_create_commit :notify_creation, :setup_nauto_webhooks
   after_destroy :remove_account_sequences
 
   def agents
@@ -274,6 +274,10 @@ class Account < ApplicationRecord
 
   def notify_creation
     Rails.configuration.dispatcher.dispatch(ACCOUNT_CREATED, Time.zone.now, account: self)
+  end
+
+  def setup_nauto_webhooks
+    Accounts::SetupNautoWebhooksService.new(self).perform
   end
 
   trigger.after(:insert).for_each(:row) do
