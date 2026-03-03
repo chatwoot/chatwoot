@@ -222,6 +222,7 @@ ru:
         resolved: 'Диалог был решен %{user_name} из-за бездействия'
         resolved_by_tool: 'Conversation was marked resolved by %{user_name}: %{reason}'
         open: 'Диалог был открыт %{user_name}'
+        auto_opened_after_agent_reply: 'Conversation was marked open automatically after an agent reply'
       agent_bot:
         error_moved_to_open: 'Диалог был открыт системой из-за ошибки бота агента.'
       status:
