@@ -25,7 +25,7 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
 
     resolvable_pending_conversations(inbox).each do |conversation|
       create_resolution_message(conversation, inbox)
-      Current.with_captain_action_source('scheduler') { conversation.resolved! }
+      conversation.resolved!
     end
   end
 
@@ -59,14 +59,20 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
   def resolve_conversation(conversation, inbox, reason)
     create_private_note(conversation, inbox, "Auto-resolved: #{reason}")
     create_resolution_message(conversation, inbox)
-    with_captain_inference_context(CAPTAIN_INFERENCE_RESOLVE_ACTIVITY_REASON) { conversation.resolved! }
+    conversation.with_captain_activity_context(
+      reason: CAPTAIN_INFERENCE_RESOLVE_ACTIVITY_REASON,
+      reason_type: :inference
+    ) { conversation.resolved! }
     create_captain_inference_reporting_event(conversation, CAPTAIN_INFERENCE_RESOLVED_EVENT)
   end
 
   def handoff_conversation(conversation, inbox, reason)
     create_private_note(conversation, inbox, "Auto-handoff: #{reason}")
     create_handoff_message(conversation, inbox)
-    with_captain_inference_context(CAPTAIN_INFERENCE_HANDOFF_ACTIVITY_REASON) { conversation.bot_handoff! }
+    conversation.with_captain_activity_context(
+      reason: CAPTAIN_INFERENCE_HANDOFF_ACTIVITY_REASON,
+      reason_type: :inference
+    ) { conversation.bot_handoff! }
     create_captain_inference_reporting_event(conversation, CAPTAIN_INFERENCE_HANDOFF_EVENT)
     send_out_of_office_message_if_applicable(conversation)
   end
@@ -114,12 +120,6 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
       inbox_id: conversation.inbox_id,
       content: handoff_message
     )
-  end
-
-  def with_captain_inference_context(activity_reason, &)
-    Current.with_captain_activity_reason(activity_reason) do
-      Current.with_captain_action_source('scheduler', &)
-    end
   end
 
   def create_captain_inference_reporting_event(conversation, event_name)

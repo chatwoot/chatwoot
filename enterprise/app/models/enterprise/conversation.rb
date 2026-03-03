@@ -1,6 +1,20 @@
 module Enterprise::Conversation
+  attr_accessor :captain_activity_reason, :captain_activity_reason_type
+
   def list_of_keys
     super + %w[sla_policy_id]
+  end
+
+  def with_captain_activity_context(reason:, reason_type:)
+    previous_reason = captain_activity_reason
+    previous_reason_type = captain_activity_reason_type
+
+    self.captain_activity_reason = reason
+    self.captain_activity_reason_type = reason_type
+    yield
+  ensure
+    self.captain_activity_reason = previous_reason
+    self.captain_activity_reason_type = previous_reason_type
   end
 
   # Include select additional_attributes keys (call related) for update events

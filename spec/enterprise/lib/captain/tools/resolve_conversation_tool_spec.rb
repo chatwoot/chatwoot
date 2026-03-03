@@ -29,24 +29,6 @@ RSpec.describe Captain::Tools::ResolveConversationTool do
       )
     end
 
-    it 'clears captain_resolve_reason after execution' do
-      tool.perform(tool_context, reason: 'Possible spam')
-
-      expect(Current.captain_resolve_reason).to be_nil
-    end
-
-    it 'dispatches resolved event with assistant source' do
-      allow(Rails.configuration.dispatcher).to receive(:dispatch).and_call_original
-
-      tool.perform(tool_context, reason: 'Possible spam')
-
-      expect(Rails.configuration.dispatcher).to have_received(:dispatch).with(
-        'conversation.resolved',
-        anything,
-        hash_including(captain_action_source: 'assistant')
-      )
-    end
-
     it 'creates a conversation_resolved reporting event' do
       create(:captain_inbox, captain_assistant: assistant, inbox: inbox)
 

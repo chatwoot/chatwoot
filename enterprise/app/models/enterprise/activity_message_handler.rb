@@ -6,13 +6,13 @@ module Enterprise::ActivityMessageHandler
     key = captain_activity_key
     return unless key
 
-    I18n.t(key, user_name: Current.executed_by.name, reason: captain_activity_reason, locale: locale)
+    I18n.t(key, user_name: Current.executed_by.name, reason: captain_status_reason, locale: locale)
   end
 
   private
 
-  def captain_activity_reason
-    Current.captain_activity_reason.presence || Current.captain_resolve_reason
+  def captain_status_reason
+    captain_activity_reason.presence
   end
 
   def captain_activity_key
@@ -21,14 +21,14 @@ module Enterprise::ActivityMessageHandler
   end
 
   def captain_resolved_activity_key
-    return 'conversations.activity.captain.resolved_by_tool' if Current.captain_resolve_reason.present?
-    return 'conversations.activity.captain.resolved_with_reason' if Current.captain_activity_reason.present?
+    return 'conversations.activity.captain.resolved_by_tool' if captain_activity_reason_type == :tool && captain_status_reason.present?
+    return 'conversations.activity.captain.resolved_with_reason' if captain_status_reason.present?
 
     'conversations.activity.captain.resolved'
   end
 
   def captain_open_activity_key
-    return 'conversations.activity.captain.open_with_reason' if Current.captain_activity_reason.present?
+    return 'conversations.activity.captain.open_with_reason' if captain_status_reason.present?
 
     'conversations.activity.captain.open'
   end
