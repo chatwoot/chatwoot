@@ -34,6 +34,13 @@ ActiveSupport.on_load(:pay) do
     BillingWebhookHandlers.handle_charge_succeeded(pay_customer)
   }
 
+  # ── Overage billing: add AI overage line items to upcoming invoices
+  Pay::Webhooks.delegator.subscribe 'stripe.invoice.created', lambda { |event|
+    stripe_customer_id = event.data.object.customer
+    pay_customer = Pay::Customer.find_by(processor: :stripe, processor_id: stripe_customer_id)
+    BillingWebhookHandlers.handle_invoice_created(pay_customer)
+  }
+
   # ── Post-checkout: sync features after first successful checkout
   Pay::Webhooks.delegator.subscribe 'stripe.checkout.session.completed', lambda { |event|
     stripe_customer_id = event.data.object.customer

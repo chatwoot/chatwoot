@@ -7,6 +7,10 @@ export const useBillingStore = defineStore('billing', {
     plan: null,
     usage: null,
     plans: [],
+    onTrial: false,
+    trialActiveFlag: false,
+    trialCreditsRemaining: 0,
+    aiResponsesAllowed: true,
     uiFlags: {
       isFetching: false,
       isCheckingOut: false,
@@ -15,12 +19,21 @@ export const useBillingStore = defineStore('billing', {
 
   getters: {
     isSubscribed: state => state.subscription?.status === 'active',
-    isOnTrial: state =>
-      state.subscription?.status === 'active' &&
-      !!state.subscription?.trial_ends_at,
+    isOnTrial: state => state.onTrial,
+    trialActive: state => state.trialActiveFlag,
     onGracePeriod: state => state.subscription?.on_grace_period || false,
     planTier: state => state.plan?.tier || null,
     usagePercentage: state => state.usage?.usage_percentage || 0,
+    overageCount: state => state.usage?.overage_count || 0,
+    inOverage: state => (state.usage?.overage_count || 0) > 0,
+    shouldShowPaywall(state) {
+      // Show paywall when on trial but trial is no longer active
+      // (time expired OR credits exhausted) and not on a paid plan
+      if (state.onTrial && !state.trialActiveFlag) return true;
+      // Show paywall when no subscription and no trial
+      if (!state.subscription && !state.onTrial) return false;
+      return !state.aiResponsesAllowed && !state.isSubscribed;
+    },
   },
 
   actions: {
@@ -32,6 +45,10 @@ export const useBillingStore = defineStore('billing', {
         this.plan = data.plan;
         this.usage = data.usage;
         this.plans = data.plans;
+        this.onTrial = data.on_trial || false;
+        this.trialActiveFlag = data.trial_active || false;
+        this.trialCreditsRemaining = data.trial_credits_remaining || 0;
+        this.aiResponsesAllowed = data.ai_responses_allowed ?? true;
       } finally {
         this.uiFlags.isFetching = false;
       }

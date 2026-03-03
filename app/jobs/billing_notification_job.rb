@@ -56,7 +56,11 @@ class BillingNotificationJob < ApplicationJob
       percentage = (usage.ai_responses_count.to_f / limit * 100).round(1)
       next unless percentage >= 80
 
-      BillingMailer.with(account: account).usage_warning(account, percentage: percentage).deliver_later
+      if usage.overage_count.positive?
+        BillingMailer.with(account: account).overage_notice(account, overage_count: usage.overage_count).deliver_later
+      else
+        BillingMailer.with(account: account).usage_warning(account, percentage: percentage).deliver_later
+      end
     end
   end
 end

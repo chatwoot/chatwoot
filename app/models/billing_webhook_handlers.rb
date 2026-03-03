@@ -42,13 +42,34 @@ module BillingWebhookHandlers
     account.reactivate_after_payment!
   end
 
+  # Called on invoice.created — appends overage line items before Stripe finalizes.
+  # KWD is 3-decimal: 0.010 KD = 10 fils = amount 10 in Stripe API.
+  def handle_invoice_created(pay_customer)
+    account = pay_customer&.owner
+    return unless account.is_a?(Account)
+
+    usage = account.current_usage
+    return unless usage.overage_count.positive?
+
+    amount = usage.overage_count * 10
+
+    ::Stripe::InvoiceItem.create(
+      customer: pay_customer.processor_id,
+      amount: amount,
+      currency: 'kwd',
+      description: "AI response overage: #{usage.overage_count} responses \u00d7 0.010 KD"
+    )
+  end
+
   # Called on checkout.session.completed — syncs features after first checkout.
+  # Clears trial credits so the account transitions to paid plan limits.
   def handle_checkout_completed(pay_customer)
     return unless pay_customer
 
     account = pay_customer.owner
     return unless account.is_a?(Account)
 
+    account.clear_trial_credits!
     account.sync_plan_features!
   end
 end

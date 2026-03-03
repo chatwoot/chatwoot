@@ -2,11 +2,16 @@ class Api::V1::Accounts::SubscriptionsController < Api::V1::Accounts::BaseContro
   before_action :authorize_billing
 
   def show
+    account = Current.account
     render json: {
       subscription: subscription_payload,
-      plan: Current.account.active_plan&.to_h,
-      usage: Current.account.usage_summary,
-      plans: PlanConfig.all.map(&:to_h)
+      plan: account.active_plan&.to_h,
+      usage: account.usage_summary,
+      plans: PlanConfig.all.map(&:to_h),
+      on_trial: account.on_trial?,
+      trial_active: account.trial_active?,
+      trial_credits_remaining: account.trial_credits_remaining,
+      ai_responses_allowed: account.ai_responses_allowed?
     }
   end
 

@@ -6,6 +6,28 @@
 #   record.increment_voice_notes!     # adds 1 voice note + 6 AI responses
 #   record.ai_responses_count         # => 142
 #
+# == Schema Information
+#
+# Table name: account_usage_records
+#
+#  id                 :bigint           not null, primary key
+#  ai_responses_count :integer          default(0), not null
+#  bonus_credits      :integer          default(0), not null
+#  overage_count      :integer          default(0), not null
+#  period_date        :date             not null
+#  voice_notes_count  :integer          default(0), not null
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
+#  account_id         :bigint           not null
+#
+# Indexes
+#
+#  idx_usage_account_period  (account_id,period_date) UNIQUE
+#
+# Foreign Keys
+#
+#  fk_rails_...  (account_id => accounts.id)
+#
 class AccountUsageRecord < ApplicationRecord
   belongs_to :account
 

@@ -51,6 +51,18 @@ class BillingMailer < AdministratorNotifications::BaseMailer
     send_notification(subject, action_url: action_url, meta: meta)
   end
 
+  def overage_notice(account, overage_count:)
+    subject = "AI overage: #{overage_count} responses will be billed"
+    action_url = billing_url(account)
+    meta = {
+      'account_name' => account.name,
+      'overage_count' => overage_count.to_s,
+      'overage_cost' => format('%.3f', overage_count * 0.010)
+    }
+
+    send_notification(subject, action_url: action_url, meta: meta)
+  end
+
   def usage_limit_reached(account)
     subject = 'Monthly AI response limit reached'
     action_url = billing_url(account)

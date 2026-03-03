@@ -13,6 +13,7 @@ class AsyncDispatcher < BaseDispatcher
       AlooAgentListener.instance,
       AutoAssignConversationListener.instance,
       AutomationRuleListener.instance,
+      BillingListener.instance,
       CampaignListener.instance,
       CsatSurveyListener.instance,
       HookListener.instance,

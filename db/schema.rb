@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_03_03_012839) do
+ActiveRecord::Schema[7.1].define(version: 2026_03_03_045954) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -87,6 +87,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_03_03_012839) do
     t.date "period_date", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "overage_count", default: 0, null: false
     t.index ["account_id", "period_date"], name: "idx_usage_account_period", unique: true
   end
 
@@ -135,6 +136,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_03_03_012839) do
     t.integer "status", default: 0
     t.jsonb "internal_attributes", default: {}, null: false
     t.jsonb "settings", default: {}
+    t.integer "trial_credits_remaining", default: 0, null: false
     t.index ["status"], name: "index_accounts_on_status"
   end
 

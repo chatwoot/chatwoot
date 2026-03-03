@@ -466,6 +466,20 @@
         "GO_BACK": "Go Back",
         "CONFIRM_PURCHASE": "Confirm Purchase"
       }
+    },
+    "TRIAL_BANNER": {
+      "MESSAGE": "Trial: {days} days and {credits} AI credits remaining",
+      "ACTION": "Subscribe now"
+    },
+    "PAYWALL": {
+      "TITLE": "Your trial has ended",
+      "DESCRIPTION_ADMIN": "Your free trial has expired. Subscribe to a plan to continue using AI features and keep all your conversations.",
+      "DESCRIPTION_AGENT": "Your free trial has expired. Please contact your administrator to subscribe to a plan.",
+      "ACTION": "Choose a plan"
+    },
+    "OVERAGE": {
+      "LABEL": "Overage",
+      "MESSAGE": "{count} responses over limit (0.010 KD each)"
     }
   },
   "SECURITY_SETTINGS": {

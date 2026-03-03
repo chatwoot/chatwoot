@@ -51,6 +51,23 @@ module Billable
     active_subscription&.active? || active_subscription&.on_trial? || false
   end
 
+  def on_trial?
+    sub = active_subscription
+    sub&.on_trial? && sub.trial_ends_at.present? && sub.trial_ends_at > Time.current
+  end
+
+  def trial_active?
+    on_trial? && trial_credits_remaining.positive?
+  end
+
+  # The gate method: can this account use AI responses right now?
+  def ai_responses_allowed?
+    return trial_active? if on_trial?
+    return true if subscribed?
+
+    false
+  end
+
   # ── Usage Tracking ─────────────────────────────────────────────
 
   def current_usage
@@ -58,6 +75,8 @@ module Billable
   end
 
   def within_ai_limit?
+    return trial_credits_remaining.positive? if on_trial?
+
     plan = active_plan
     return true unless plan
 
@@ -84,11 +103,31 @@ module Billable
   end
 
   def track_ai_response!(count = 1)
-    current_usage.increment_ai_responses!(count)
+    if on_trial?
+      new_remaining = [trial_credits_remaining - count, 0].max
+      update!(trial_credits_remaining: new_remaining)
+    end
+
+    usage = current_usage
+    usage.increment_ai_responses!(count)
+
+    # Track overage for paid (non-trial) subscriptions
+    return unless subscribed? && !on_trial?
+
+    plan = active_plan
+    return unless plan
+
+    effective_limit = plan.ai_response_limit + (usage.bonus_credits || 0)
+    overage = [usage.ai_responses_count - effective_limit, 0].max
+    usage.update!(overage_count: overage) if overage != usage.overage_count
   end
 
   def track_voice_note!(count = 1)
     current_usage.increment_voice_notes!(count)
+  end
+
+  def clear_trial_credits!
+    update!(trial_credits_remaining: 0) if trial_credits_remaining.positive?
   end
 
   def usage_summary
@@ -100,7 +139,11 @@ module Billable
       ai_responses_limit: plan&.ai_response_limit,
       voice_notes_count: usage.voice_notes_count,
       period_date: usage.period_date,
-      usage_percentage: plan ? (usage.ai_responses_count.to_f / plan.ai_response_limit * 100).round(1) : nil
+      usage_percentage: plan ? (usage.ai_responses_count.to_f / plan.ai_response_limit * 100).round(1) : nil,
+      trial_credits_remaining: trial_credits_remaining,
+      on_trial: on_trial?,
+      trial_active: trial_active?,
+      overage_count: usage.overage_count
     }
   end
 
@@ -186,7 +229,7 @@ module Billable
 
   # ── Admin Toolkit ──────────────────────────────────────────────
 
-  def grant_trial!(days:, plan_key: 'pro_monthly')
+  def grant_trial!(days:, credits: 500, plan_key: 'pro_monthly')
     plan = PlanConfig.find(plan_key)
     trial_end = days.days.from_now
 
@@ -196,6 +239,7 @@ module Billable
       trial_ends_at: trial_end,
       ends_at: trial_end
     )
+    update!(trial_credits_remaining: credits)
     sync_plan_features!
   end
 
@@ -290,6 +334,10 @@ module Billable
       trial_ends_at: sub&.trial_ends_at,
       ends_at: sub&.ends_at,
       on_grace_period: sub&.on_grace_period? || false,
+      on_trial: on_trial?,
+      trial_active: trial_active?,
+      trial_credits_remaining: trial_credits_remaining,
+      ai_responses_allowed: ai_responses_allowed?,
       usage: usage_summary
     }
   end
