@@ -99,6 +99,19 @@ export default {
         ? this.$t('CONTACT_PANEL.AUTHORIZATION.AUTHORIZED')
         : this.$t('CONTACT_PANEL.AUTHORIZATION.NOT_AUTHORIZED');
     },
+    blockedUntilText() {
+      if (!this.contact.blocked_until) {
+        return this.$t('CONTACT_PANEL.BLOCKED_PERMANENTLY');
+      }
+      const date = new Date(this.contact.blocked_until).toLocaleString([], {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+      });
+      return `${this.$t('CONTACT_PANEL.BLOCKED_UNTIL')} ${date}`;
+    },
     // Delete Modal
     confirmDeleteMessage() {
       return ` ${this.contact.name}?`;
@@ -278,6 +291,14 @@ export default {
             emoji="🔓"
             :title="$t('CONTACT_PANEL.AUTHORIZATION.LABEL')"
             :class="isAuthorized ? 'text-green-500' : 'text-red-500'"
+          />
+          <ContactInfoRow
+            v-if="contact.blocked"
+            :value="blockedUntilText"
+            icon="dismiss-circle"
+            emoji="🚫"
+            :title="$t('CONTACT_PANEL.BLOCKED_UNTIL')"
+            class="text-red-500"
           />
           <SocialIcons :social-profiles="socialProfiles" />
         </div>

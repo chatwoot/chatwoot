@@ -87,6 +87,7 @@ class ConversationApi extends ApiClient {
   mute(conversationId, bannedUntil = null) {
     return axios.post(`${this.url}/${conversationId}/mute`, {
       banned_until: bannedUntil,
+      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
     });
   }
 

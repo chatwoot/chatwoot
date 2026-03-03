@@ -5,6 +5,7 @@ json.id resource.id
 json.name resource.name
 json.phone_number resource.phone_number
 json.blocked resource.blocked
+json.blocked_until resource.blocked_until&.iso8601
 json.identifier resource.identifier
 json.thumbnail resource.avatar_url
 json.custom_attributes resource.custom_attributes
