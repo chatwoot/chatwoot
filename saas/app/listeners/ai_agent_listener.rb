@@ -8,12 +8,17 @@ class AiAgentListener < BaseListener
 
     return unless processable?(message)
 
-    ai_agent = Saas::AiAgentInbox.active_agent_for(message.inbox)
-    return unless ai_agent
+    agent_inbox = Saas::AiAgentInbox.active_for(message.inbox)
+    return unless agent_inbox
+
+    # Deduplicate: skip if another AiAgentReplyJob is already enqueued for this conversation
+    # within the last few seconds (prevents double-replies when multiple messages arrive rapidly)
+    dedup_key = "ai_agent_reply:#{message.conversation_id}"
+    return unless Redis::Alfred.set(dedup_key, '1', nx: true, ex: 5)
 
     AiAgentReplyJob.perform_later(
       message_id: message.id,
-      ai_agent_id: ai_agent.id,
+      ai_agent_id: agent_inbox.ai_agent_id,
       account_id: account.id
     )
   end
@@ -23,8 +28,6 @@ class AiAgentListener < BaseListener
   def processable?(message)
     # Only process incoming customer messages (not outgoing, activity, etc.)
     return false unless message.incoming?
-    # Skip if conversation is already assigned to a human agent
-    return false if message.conversation.assignee_id.present? && !message.conversation.assignee.is_a?(AgentBot)
     # Skip if conversation is resolved
     return false if message.conversation.resolved?
 

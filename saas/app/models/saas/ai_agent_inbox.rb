@@ -17,4 +17,9 @@ class Saas::AiAgentInbox < ApplicationRecord
   def self.active_agent_for(inbox)
     active.find_by(inbox: inbox)&.ai_agent
   end
+
+  # Find the active AI agent inbox record with auto_reply enabled
+  def self.active_for(inbox)
+    active.where(auto_reply: true).find_by(inbox: inbox)
+  end
 end
