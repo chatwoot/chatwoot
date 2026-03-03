@@ -32,12 +32,12 @@
       "SUBSCRIBED_EVENTS": "Eventos Inscritos",
       "LEARN_MORE": "Saiba mais sobre webhooks",
       "SECRET": {
-        "LABEL": "Secret",
-        "COPY": "Copy secret to clipboard",
-        "COPY_SUCCESS": "Secret copied to clipboard",
-        "TOGGLE": "Toggle secret visibility",
-        "CREATED_DESC": "Your webhook has been created. Use the secret below to verify webhook signatures. Please copy it now — you can also find it later in the webhook edit form.",
-        "DONE": "Done"
+        "LABEL": "Segredo",
+        "COPY": "Copiar segredo para a área de transferência",
+        "COPY_SUCCESS": "Segredo copiado para a área de transferência",
+        "TOGGLE": "Alternar visibilidade do segredo",
+        "CREATED_DESC": "Seu webhook foi criado. Use o segredo abaixo para verificar as assinaturas do webhook. Copie-o agora — você também poderá encontrá-lo posteriormente no formulário de edição do webhook.",
+        "DONE": "Concluído"
       },
       "COUNT": "{n} webhook | {n} webhooks",
       "SEARCH_PLACEHOLDER": "Pesquisar webhooks...",
