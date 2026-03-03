@@ -44,7 +44,7 @@ module Whatsapp::IncomingMessageServiceHelpers
   end
 
   def unprocessable_message_type?(message_type)
-    %w[reaction ephemeral unsupported request_welcome].include?(message_type)
+    %w[ephemeral unsupported request_welcome].include?(message_type)
   end
 
   def processed_waid(waid)

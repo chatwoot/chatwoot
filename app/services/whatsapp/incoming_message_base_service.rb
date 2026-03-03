@@ -24,8 +24,10 @@ class Whatsapp::IncomingMessageBaseService
   private
 
   def process_messages
-    # We don't support reactions & ephemeral message now, we need to skip processing the message
-    # if the webhook event is a reaction or an ephermal message or an unsupported message.
+    # Handle reactions separately — they update an existing message rather than creating a new one
+    return process_reaction if message_type == 'reaction'
+
+    # We don't support ephemeral or unsupported messages, skip processing them.
     return if unprocessable_message_type?(message_type)
 
     # Multiple webhook events can be received for the same message due to
@@ -50,6 +52,28 @@ class Whatsapp::IncomingMessageBaseService
     update_message_with_status(@message, @processed_params[:statuses].first)
   rescue ArgumentError => e
     Rails.logger.error "Error while processing whatsapp status update #{e.message}"
+  end
+
+  # Process incoming reaction webhook events.
+  # WhatsApp reaction payload: { reaction: { message_id: "wamid...", emoji: "👍" } }
+  # An empty emoji means the user removed the reaction.
+  def process_reaction
+    reaction_data = messages_data.first[:reaction]
+    return if reaction_data.blank?
+
+    reacted_message = Message.find_by(source_id: reaction_data[:message_id])
+    return unless reacted_message
+
+    update_message_reactions(reacted_message, messages_data.first[:from], reaction_data[:emoji])
+  rescue StandardError => e
+    Rails.logger.warn "[WHATSAPP] Error processing reaction: #{e.message}"
+  end
+
+  def update_message_reactions(message, sender_id, emoji)
+    reactions = message.content_attributes&.dig('reactions') || []
+    reactions.reject! { |r| r['sender'] == sender_id }
+    reactions << { 'sender' => sender_id, 'emoji' => emoji, 'timestamp' => Time.current.iso8601 } if emoji.present?
+    message.update!(content_attributes: message.content_attributes.merge('reactions' => reactions))
   end
 
   def update_message_with_status(message, status)

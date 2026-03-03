@@ -59,6 +59,10 @@ class Channel::Whatsapp < ApplicationRecord
   delegate :sync_templates, to: :provider_service
   delegate :media_url, to: :provider_service
   delegate :api_headers, to: :provider_service
+  delegate :send_reaction, to: :provider_service
+  delegate :mark_as_read, to: :provider_service
+  delegate :send_button_message, to: :provider_service
+  delegate :send_list_message, to: :provider_service
 
   def setup_webhooks
     perform_webhook_setup

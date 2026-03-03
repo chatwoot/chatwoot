@@ -12,32 +12,34 @@ class AiAgentReplyJob < ApplicationJob
   MAX_HISTORY_MESSAGES = 20
 
   def perform(message_id:, ai_agent_id:, account_id:)
-    message = Message.find(message_id)
+    @message = Message.find(message_id)
     ai_agent = Saas::AiAgent.find(ai_agent_id)
     account = Account.find(account_id)
-    conversation = message.conversation
+    conversation = @message.conversation
 
-    # Check usage limits
     return post_limit_reply(conversation, account) if account.respond_to?(:ai_usage_exceeded?) && account.ai_usage_exceeded?
 
-    # Build conversation history
-    history = build_history(conversation)
+    send_whatsapp_presence(@message, conversation)
+    execute_agent(ai_agent, conversation, @message, account)
+    remove_whatsapp_reaction(@message, conversation)
+  rescue StandardError => e
+    remove_whatsapp_reaction(@message, conversation) if @message && conversation
+    ChatwootExceptionTracker.new(e, account: Account.find_by(id: account_id)).capture_exception
+    raise
+  end
 
-    # Send initial greeting on the very first message if configured
+  private
+
+  def execute_agent(ai_agent, conversation, message, account)
+    history = build_history(conversation)
     send_initial_message(ai_agent, conversation, account) if history.size <= 1
 
-    # Route to workflow executor or classic executor
     if ai_agent.has_workflow?
       execute_workflow(ai_agent, conversation, message, history, account)
     else
       execute_classic(ai_agent, conversation, message, history, account)
     end
-  rescue StandardError => e
-    ChatwootExceptionTracker.new(e, account: Account.find_by(id: account_id)).capture_exception
-    raise # Re-raise so Sidekiq can retry
   end
-
-  private
 
   def execute_workflow(ai_agent, conversation, message, history, account)
     executor = Agent::WorkflowExecutor.new(
@@ -130,5 +132,48 @@ class AiAgentReplyJob < ApplicationJob
       inbox_id: conversation.inbox_id,
       content_attributes: { ai_generated: true, ai_agent_id: ai_agent.id, initial_message: true }
     )
+  end
+
+  # --- WhatsApp presence helpers ---
+  # These provide a better UX by showing the AI is "thinking":
+  # 1. Mark the incoming message as read (blue double-check)
+  # 2. React with 👀 to signal the AI has seen the message
+
+  def whatsapp_channel?(conversation)
+    conversation.inbox&.channel_type == 'Channel::Whatsapp' &&
+      conversation.inbox&.channel&.provider == 'whatsapp_cloud'
+  end
+
+  def contact_phone(conversation)
+    conversation.contact&.phone_number&.delete('+')
+  end
+
+  def send_whatsapp_presence(message, conversation)
+    return unless whatsapp_channel?(conversation)
+
+    channel = conversation.inbox.channel
+    phone = contact_phone(conversation)
+    return if phone.blank?
+
+    # Mark incoming message as read
+    channel.mark_as_read(message.source_id) if message.source_id.present?
+
+    # React with 👀 (eyes) to show the AI is processing the message
+    channel.send_reaction(phone, message.source_id, '👀') if message.source_id.present?
+  rescue StandardError => e
+    Rails.logger.warn "[AI_AGENT] WhatsApp presence failed: #{e.message}"
+  end
+
+  def remove_whatsapp_reaction(message, conversation)
+    return unless whatsapp_channel?(conversation)
+
+    channel = conversation.inbox.channel
+    phone = contact_phone(conversation)
+    return if phone.blank? || message.source_id.blank?
+
+    # Remove the 👀 reaction by sending an empty emoji
+    channel.send_reaction(phone, message.source_id, '')
+  rescue StandardError => e
+    Rails.logger.warn "[AI_AGENT] WhatsApp remove reaction failed: #{e.message}"
   end
 end

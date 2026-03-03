@@ -11,6 +11,49 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     end
   end
 
+  # --- WhatsApp Cloud API: Mark as Read ---
+  # Marks a message as read (sends blue double-check to the user).
+  # This is the closest thing to a "typing indicator" in WhatsApp Cloud API.
+  # Combined with a reaction (e.g. 👀), it signals the AI is processing.
+  def mark_as_read(message_id)
+    response = HTTParty.post(
+      "#{phone_id_path}/messages",
+      headers: api_headers,
+      body: {
+        messaging_product: 'whatsapp',
+        status: 'read',
+        message_id: message_id
+      }.to_json
+    )
+    Rails.logger.debug { "[WHATSAPP] Mark as read for #{message_id}: #{response.code}" }
+    response.success?
+  rescue StandardError => e
+    Rails.logger.warn "[WHATSAPP] Failed to mark as read: #{e.message}"
+    false
+  end
+
+  # Reacts to a message with an emoji. Pass empty emoji to remove.
+  def send_reaction(phone_number, message_id, emoji)
+    response = post_message(reaction_payload(phone_number, message_id, emoji))
+    log_result('Reaction', response)
+  rescue StandardError => e
+    Rails.logger.warn "[WHATSAPP] Failed to send reaction: #{e.message}"
+    false
+  end
+
+  # Sends a message with up to 3 reply buttons.
+  def send_button_message(phone_number, body_text, buttons, header: nil, footer: nil)
+    interactive = build_button_interactive(body_text, buttons, header: header, footer: footer)
+    post_interactive_message(phone_number, interactive)
+  end
+
+  # Sends a message with a list of options (up to 10 rows).
+  # options: { header:, footer: } optional
+  def send_list_message(phone_number, body_text, button_text, sections, **)
+    interactive = build_list_interactive(body_text, button_text, sections, **)
+    post_interactive_message(phone_number, interactive)
+  end
+
   def send_template(phone_number, template_info, message)
     template_body = template_body_parameters(template_info)
 
@@ -203,5 +246,54 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     )
 
     process_response(response, message)
+  end
+
+  def post_message(payload)
+    HTTParty.post("#{phone_id_path}/messages", headers: api_headers, body: payload.to_json)
+  end
+
+  def reaction_payload(phone_number, message_id, emoji)
+    { messaging_product: 'whatsapp', recipient_type: 'individual',
+      to: phone_number, type: 'reaction',
+      reaction: { message_id: message_id, emoji: emoji } }
+  end
+
+  def log_result(label, response)
+    if response.success?
+      Rails.logger.info { "[WHATSAPP] #{label} sent successfully" }
+    else
+      Rails.logger.warn "[WHATSAPP] Failed to send #{label.downcase}: #{response.body}"
+    end
+    response.success?
+  end
+
+  def build_button_interactive(body_text, buttons, header: nil, footer: nil)
+    reply_buttons = buttons.first(3).map do |btn|
+      { type: 'reply', reply: { id: btn[:id] || btn['id'], title: btn[:title] || btn['title'] } }
+    end
+    interactive = { type: 'button', body: { text: body_text }, action: { buttons: reply_buttons } }
+    apply_header_footer(interactive, header, footer)
+  end
+
+  def build_list_interactive(body_text, button_text, sections, header: nil, footer: nil)
+    interactive = { type: 'list', body: { text: body_text }, action: { button: button_text, sections: sections } }
+    apply_header_footer(interactive, header, footer)
+  end
+
+  def apply_header_footer(interactive, header, footer)
+    interactive[:header] = { type: 'text', text: header } if header.present?
+    interactive[:footer] = { text: footer } if footer.present?
+    interactive
+  end
+
+  def post_interactive_message(phone_number, interactive)
+    response = post_message(
+      messaging_product: 'whatsapp', recipient_type: 'individual',
+      to: phone_number, type: 'interactive', interactive: interactive
+    )
+    return response.parsed_response.dig('messages', 0, 'id') if response.success?
+
+    Rails.logger.warn "[WHATSAPP] Failed to send interactive message: #{response.body}"
+    nil
   end
 end
