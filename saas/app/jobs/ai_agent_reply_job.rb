@@ -23,8 +23,8 @@ class AiAgentReplyJob < ApplicationJob
 
     return post_limit_reply(@conversation, account) if account.respond_to?(:ai_usage_exceeded?) && account.ai_usage_exceeded?
 
-    # Mark the incoming message as read (blue double-check) — no reaction yet
-    mark_whatsapp_read(@message)
+    # Mark as read + show typing indicator ("digitando..." bubble on WhatsApp)
+    send_whatsapp_typing(@message)
 
     execute_agent(ai_agent, @conversation, @message, account)
   rescue StandardError => e
@@ -170,13 +170,15 @@ class AiAgentReplyJob < ApplicationJob
     conversation.contact&.phone_number&.delete('+')
   end
 
-  def mark_whatsapp_read(message)
+  def send_whatsapp_typing(message)
     return unless whatsapp_channel?(message.conversation)
+    return if message.source_id.blank?
 
     channel = message.conversation.inbox.channel
-    channel.mark_as_read(message.source_id) if message.source_id.present?
+    # send_typing_indicator also marks the message as read (blue double-check)
+    channel.send_typing_indicator(message.source_id)
   rescue StandardError => e
-    Rails.logger.warn "[AI_AGENT] WhatsApp mark_as_read failed: #{e.message}"
+    Rails.logger.warn "[AI_AGENT] WhatsApp typing indicator failed: #{e.message}"
   end
 
   def send_whatsapp_reaction(message, emoji)

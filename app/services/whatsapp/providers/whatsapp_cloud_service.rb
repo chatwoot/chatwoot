@@ -13,8 +13,6 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
 
   # --- WhatsApp Cloud API: Mark as Read ---
   # Marks a message as read (sends blue double-check to the user).
-  # This is the closest thing to a "typing indicator" in WhatsApp Cloud API.
-  # Combined with a reaction (e.g. 👀), it signals the AI is processing.
   def mark_as_read(message_id)
     response = HTTParty.post(
       "#{phone_id_path}/messages",
@@ -29,6 +27,28 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     response.success?
   rescue StandardError => e
     Rails.logger.warn "[WHATSAPP] Failed to mark as read: #{e.message}"
+    false
+  end
+
+  # --- WhatsApp Cloud API: Typing Indicator ---
+  # Shows a typing bubble ("digitando...") in the WhatsApp client.
+  # Also marks the message as read. Requires API v21.0+.
+  # The indicator auto-dismisses after 25 seconds or when you send a reply.
+  def send_typing_indicator(message_id)
+    response = HTTParty.post(
+      "#{modern_phone_id_path}/messages",
+      headers: api_headers,
+      body: {
+        messaging_product: 'whatsapp',
+        status: 'read',
+        message_id: message_id,
+        typing_indicator: { type: 'text' }
+      }.to_json
+    )
+    Rails.logger.debug { "[WHATSAPP] Typing indicator for #{message_id}: #{response.code}" }
+    response.success?
+  rescue StandardError => e
+    Rails.logger.warn "[WHATSAPP] Failed to send typing indicator: #{e.message}"
     false
   end
 
@@ -135,6 +155,11 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
   # TODO: See if we can unify the API versions and for both paths and make it consistent with out facebook app API versions
   def phone_id_path
     "#{api_base_path}/v13.0/#{whatsapp_channel.provider_config['phone_number_id']}"
+  end
+
+  # Modern API path (v21.0+) for features like typing indicators that require newer versions.
+  def modern_phone_id_path
+    "#{api_base_path}/v21.0/#{whatsapp_channel.provider_config['phone_number_id']}"
   end
 
   def business_account_path

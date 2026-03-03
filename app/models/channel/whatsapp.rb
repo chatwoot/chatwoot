@@ -61,6 +61,7 @@ class Channel::Whatsapp < ApplicationRecord
   delegate :api_headers, to: :provider_service
   delegate :send_reaction, to: :provider_service
   delegate :mark_as_read, to: :provider_service
+  delegate :send_typing_indicator, to: :provider_service
   delegate :send_button_message, to: :provider_service
   delegate :send_list_message, to: :provider_service
 
