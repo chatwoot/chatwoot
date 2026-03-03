@@ -10,7 +10,7 @@ import { useCamelCase } from 'dashboard/composables/useTransformKeys';
 import { useAlert } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
-import TasksAPI from 'dashboard/api/captain/tasks';
+import TasksAPI from 'dashboard/api/nauto_assistant/tasks';
 
 export function useCaptain() {
   const store = useStore();
