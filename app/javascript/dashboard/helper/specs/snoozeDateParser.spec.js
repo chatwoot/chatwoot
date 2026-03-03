@@ -642,6 +642,27 @@ describe('parseDateFromText: formal date formats', () => {
     expect(result.date.getDate()).toEqual(15);
     expect(result.date.getMonth()).toEqual(0);
   });
+
+  it('"05-04-2027" ambiguous dash → day-first (April 5)', () => {
+    const result = parseDateFromText('05-04-2027', now);
+    expect(result).not.toBeNull();
+    expect(result.date.getDate()).toEqual(5);
+    expect(result.date.getMonth()).toEqual(3);
+  });
+
+  it('"05.04.2027" ambiguous dot → day-first (April 5)', () => {
+    const result = parseDateFromText('05.04.2027', now);
+    expect(result).not.toBeNull();
+    expect(result.date.getDate()).toEqual(5);
+    expect(result.date.getMonth()).toEqual(3);
+  });
+
+  it('"05/04/2027" ambiguous slash → month-first (May 4)', () => {
+    const result = parseDateFromText('05/04/2027', now);
+    expect(result).not.toBeNull();
+    expect(result.date.getMonth()).toEqual(4);
+    expect(result.date.getDate()).toEqual(4);
+  });
 });
 
 describe('parseDateFromText: returns null for garbage', () => {

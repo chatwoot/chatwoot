@@ -188,7 +188,6 @@ const DASH_DATE_RE = new RegExp(
 const DOT_DATE_RE = new RegExp(
   `^(\\d{1,2})\\.(\\d{1,2})\\.(\\d{4})${TIME_SUFFIX_COMPILED.source}`
 );
-const AMBIGUOUS_DATE_RES = [SLASH_DATE_RE, DASH_DATE_RE, DOT_DATE_RE];
 
 // ─── Pattern Matchers ───────────────────────────────────────────────────────
 
@@ -616,11 +615,13 @@ const buildDateWithOptionalTime = (year, month, day, timeStr) => {
   return applyTimeOrDefault(date, timeStr);
 };
 
-// When both values are ≤ 12 (ambiguous), defaults to M/D (US format).
-const disambiguateDayMonth = (a, b) => {
+// When both values are ≤ 12 (ambiguous), dayFirst controls the fallback:
+//   dayFirst=false (slash M/D/Y) → month first
+//   dayFirst=true  (dash/dot D-M-Y, D.M.Y) → day first
+const disambiguateDayMonth = (a, b, dayFirst = false) => {
   if (a > 12) return { day: a, month: b - 1 };
   if (b > 12) return { month: a - 1, day: b };
-  return { month: a - 1, day: b };
+  return dayFirst ? { day: a, month: b - 1 } : { month: a - 1, day: b };
 };
 
 /** Handle formal dates: "2025-01-15", "1/15/2025", "15.01.2025". */
@@ -639,13 +640,20 @@ const matchFormalDate = (text, now) => {
     );
   }
 
+  // Slash = M/D/Y (US), Dash/Dot = D-M-Y / D.M.Y (European)
+  const formats = [
+    { re: SLASH_DATE_RE, dayFirst: false },
+    { re: DASH_DATE_RE, dayFirst: true },
+    { re: DOT_DATE_RE, dayFirst: true },
+  ];
   let result = null;
-  AMBIGUOUS_DATE_RES.some(re => {
+  formats.some(({ re, dayFirst }) => {
     const m = text.match(re);
     if (!m) return false;
     const { month, day } = disambiguateDayMonth(
       parseInt(m[1], 10),
-      parseInt(m[2], 10)
+      parseInt(m[2], 10),
+      dayFirst
     );
     result = ensureFuture(
       buildDateWithOptionalTime(parseInt(m[3], 10), month, day, m[4])

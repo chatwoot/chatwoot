@@ -152,8 +152,6 @@ const ENGLISH_VOCAB = new Set([
   ...EN_MONTHS_LIST,
   ...STRUCTURAL_WORDS,
 ]);
-const ENGLISH_VOCAB_LIST = [...ENGLISH_VOCAB];
-const hasVocabPrefix = w => ENGLISH_VOCAB_LIST.some(v => v.startsWith(w));
 
 // ─── Regex for token replacement ────────────────────────────────────────────
 
@@ -364,26 +362,29 @@ export const generateDateSuggestions = (
       ? buildReplacementPairs(translations, locale)
       : [];
 
-  // Try English first — if user types English in a non-English locale, skip translation
+  // Try English parse first, then translated parse if we have locale pairs.
+  // This avoids the problem where a single overlapping word (e.g. "in" in German)
+  // would skip token translation entirely.
   const directParse = parseDateFromText(stripped, referenceDate);
-  const looksEnglish =
-    directParse ||
-    stripped
-      .split(/\s+/)
-      .filter(w => !/^\d/.test(w))
-      .some(w => ENGLISH_VOCAB.has(w) || (w.length >= 2 && hasVocabPrefix(w)));
-  const useEnglish = !pairs.length || looksEnglish;
 
-  const englishInput = useEnglish ? stripped : replaceTokens(normalized, pairs);
+  const translated = pairs.length ? replaceTokens(normalized, pairs) : null;
+  const translatedParse =
+    translated && translated !== stripped
+      ? parseDateFromText(translated, referenceDate)
+      : null;
+
+  // Prefer direct English parse; fall back to translated parse
+  const useTranslated = !directParse && !!translatedParse;
+  const englishInput = useTranslated ? translated : stripped;
 
   const seen = new Set();
   const results = [];
 
-  const exact = directParse || parseDateFromText(englishInput, referenceDate);
+  const exact = directParse || translatedParse;
   if (exact) {
     seen.add(exact.unix);
     const exactLabel =
-      !useEnglish && pairs.length
+      useTranslated && pairs.length
         ? reverseTokens(englishInput, pairs)
         : englishInput;
     results.push({ label: exactLabel, query: englishInput, ...exact });
@@ -395,7 +396,7 @@ export const generateDateSuggestions = (
     if (result && !seen.has(result.unix)) {
       seen.add(result.unix);
       const label =
-        !useEnglish && pairs.length
+        useTranslated && pairs.length
           ? reverseTokens(candidate, pairs)
           : candidate;
       results.push({ label, query: candidate, ...result });
