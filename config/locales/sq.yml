@@ -222,6 +222,7 @@ sq:
         resolved: 'Biseda u shënua si e zgjidhur nga %{user_name} për shkak të mungesës së aktivitetit'
         resolved_by_tool: 'Conversation was marked resolved by %{user_name}: %{reason}'
         open: 'Biseda u shënua si e hapur nga %{user_name}'
+        auto_opened_after_agent_reply: 'Conversation was marked open automatically after an agent reply'
       agent_bot:
         error_moved_to_open: 'Conversation was marked open by system due to an error with the agent bot.'
       status:
