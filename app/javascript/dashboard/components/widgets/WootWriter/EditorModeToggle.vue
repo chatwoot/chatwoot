@@ -16,10 +16,6 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-  showOnlyPrivateNote: {
-    type: Boolean,
-    default: false,
-  },
 });
 
 defineEmits(['toggleMode']);
@@ -30,18 +26,9 @@ const wootEditorPrivateMode = useTemplateRef('wootEditorPrivateMode');
 const replyModeSize = useElementSize(wootEditorReplyMode);
 const privateModeSize = useElementSize(wootEditorPrivateMode);
 
-/**
- * Computed boolean indicating if the editor is in private note mode
- * When isReplyRestricted is true, force switch to private note
- * Otherwise, respect the current mode prop
- * @type {ComputedRef<boolean>}
- */
+
 const isPrivate = computed(() => {
-  if (props.isReplyRestricted) {
-    // Force switch to private note when replies are restricted
-    return true;
-  }
-  // Otherwise respect the current mode
+  if (props.disabled) return true;
   return props.mode === REPLY_EDITOR_MODES.NOTE;
 });
 
@@ -85,7 +72,7 @@ const translateValue = computed(() => {
     class="flex items-center w-auto h-8 p-1 transition-all border rounded-full bg-n-alpha-2 group relative duration-300 ease-in-out z-0"
     :disabled="disabled"
     :class="{
-      'cursor-not-allowed': disabled || isReplyRestricted,
+      'cursor-not-allowed': disabled,
     }"
     @click="$emit('toggleMode')"
   >
@@ -98,7 +85,7 @@ const translateValue = computed(() => {
     <div
       class="absolute shadow-sm rounded-full h-6 w-[var(--chip-width)] ease-in-out translate-x-[var(--translate-x)] rtl:translate-x-[var(--rtl-translate-x)] bg-n-solid-1"
       :class="{
-        'transition-all duration-300': !disabled && !isReplyRestricted,
+        'transition-all duration-300': !disabled,
       }"
       :style="{
         '--chip-width': width,
