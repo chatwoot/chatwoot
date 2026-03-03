@@ -54,10 +54,11 @@ class AiAgentReplyJob < ApplicationJob
   end
 
   def execute_workflow(ai_agent, conversation, message, history, account)
+    user_content = message_content_for_llm(message)
     executor = Agent::WorkflowExecutor.new(
       ai_agent: ai_agent,
       conversation: conversation,
-      user_message: message.content,
+      user_message: user_content,
       conversation_history: history
     )
     result = executor.run
@@ -70,8 +71,9 @@ class AiAgentReplyJob < ApplicationJob
 
   def execute_classic(ai_agent, conversation, message, history, account)
     contact_context = build_contact_context(conversation)
+    user_content = message_content_for_llm(message)
     executor = Agent::Executor.new(ai_agent: ai_agent, conversation: conversation)
-    result = executor.execute(user_message: message.content, conversation_history: history, contact_context: contact_context)
+    result = executor.execute(user_message: user_content, conversation_history: history, contact_context: contact_context)
 
     unless result.handed_off?
       reply_text, emoji = extract_reaction(result.reply)
@@ -158,6 +160,20 @@ class AiAgentReplyJob < ApplicationJob
   end
 
   # --- Contact context ---
+
+  # Builds the text content to send to the LLM, handling media messages.
+  # If the message is a pure media (audio/image/video with no text), we describe it.
+  def message_content_for_llm(message)
+    text = message.content.presence
+    attachments = message.attachments
+
+    if attachments.any?
+      descriptions = attachments.map { |a| "[#{a.file_type} anexado]" }
+      [text, *descriptions].compact.join("\n")
+    else
+      text || '[mensagem vazia]'
+    end
+  end
 
   def build_contact_context(conversation)
     contact = conversation.contact

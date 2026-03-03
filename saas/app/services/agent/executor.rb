@@ -140,10 +140,26 @@ module Agent
                  'If you cannot help the customer, use the handoff_to_human tool.'
       end
 
+      # WhatsApp formatting tips
+      parts << whatsapp_formatting_instruction
+
       # Reaction instruction: let the LLM naturally decide when to react
       parts << reaction_instruction
 
       parts.join("\n\n")
+    end
+
+    def whatsapp_formatting_instruction
+      <<~INSTRUCTION.strip
+        ## Formatação WhatsApp
+        Use a formatação nativa do WhatsApp para tornar suas respostas mais legíveis:
+        - *negrito* para palavras ou frases importantes
+        - _itálico_ para ênfase sutil
+        - ~tachado~ quando necessário
+        - ```código``` para termos técnicos
+        - Use listas com bullet points (• ou -) quando listar opções
+        Use formatação com moderação — apenas quando melhorar a legibilidade.
+      INSTRUCTION
     end
 
     def reaction_instruction

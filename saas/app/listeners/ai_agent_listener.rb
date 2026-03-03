@@ -30,6 +30,8 @@ class AiAgentListener < BaseListener
     return false unless message.incoming?
     # Skip if conversation is resolved
     return false if message.conversation.resolved?
+    # Skip messages without any textual content (pure media without caption)
+    return false if message.content.blank? && message.attachments.none?
 
     true
   end
