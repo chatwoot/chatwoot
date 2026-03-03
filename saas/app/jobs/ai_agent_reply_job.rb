@@ -11,6 +11,14 @@ class AiAgentReplyJob < ApplicationJob
 
   MAX_HISTORY_MESSAGES = 20
 
+  # Natural typing delay: simulates human typing speed.
+  # MIN = minimum delay in seconds (always wait at least this long after LLM responds)
+  # PER_CHAR = extra seconds per character in the reply
+  # MAX = cap to avoid excessively long waits
+  TYPING_DELAY_MIN = 1.0
+  TYPING_DELAY_PER_CHAR = 0.03
+  TYPING_DELAY_MAX = 8.0
+
   # Regex to extract an optional reaction directive from the LLM reply.
   # The LLM may prefix its reply with [REACT:😊] to react to the user's message.
   REACTION_PATTERN = /\A\s*\[REACT:([^\]]+)\]\s*/
@@ -70,6 +78,9 @@ class AiAgentReplyJob < ApplicationJob
 
       # Send the natural reaction on WhatsApp before replying
       send_whatsapp_reaction(message, emoji) if emoji.present?
+
+      # Simulate natural typing delay so the reply doesn't appear instantly
+      simulate_typing_delay(message, reply_text)
 
       conversation.messages.create!(
         content: reply_text,
@@ -176,9 +187,28 @@ class AiAgentReplyJob < ApplicationJob
 
     channel = message.conversation.inbox.channel
     # send_typing_indicator also marks the message as read (blue double-check)
-    channel.send_typing_indicator(message.source_id)
+    result = channel.send_typing_indicator(message.source_id)
+    Rails.logger.info "[AI_AGENT] Typing indicator sent for message #{message.id} (source_id=#{message.source_id}): #{result}"
   rescue StandardError => e
-    Rails.logger.warn "[AI_AGENT] WhatsApp typing indicator failed: #{e.message}"
+    Rails.logger.warn "[AI_AGENT] WhatsApp typing indicator failed: #{e.class} — #{e.message}"
+  end
+
+  # Calculates and applies a natural typing delay based on reply length.
+  # Also re-sends the typing indicator right before the delay so the user
+  # still sees "digitando..." even if the LLM call took > 25s.
+  def simulate_typing_delay(message, reply_text)
+    return unless whatsapp_channel?(message.conversation)
+    return if reply_text.blank?
+
+    delay = [TYPING_DELAY_MIN + (reply_text.length * TYPING_DELAY_PER_CHAR), TYPING_DELAY_MAX].min
+    Rails.logger.info "[AI_AGENT] Typing delay: #{delay.round(1)}s for #{reply_text.length} chars"
+
+    # Re-send typing indicator so it's fresh (the previous one may have expired)
+    send_whatsapp_typing(message)
+
+    sleep(delay)
+  rescue StandardError => e
+    Rails.logger.warn "[AI_AGENT] Typing delay failed: #{e.message}"
   end
 
   def send_whatsapp_reaction(message, emoji)

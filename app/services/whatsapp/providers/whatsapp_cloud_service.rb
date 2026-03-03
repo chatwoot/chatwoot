@@ -35,20 +35,19 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
   # Also marks the message as read. Requires API v21.0+.
   # The indicator auto-dismisses after 25 seconds or when you send a reply.
   def send_typing_indicator(message_id)
-    response = HTTParty.post(
-      "#{modern_phone_id_path}/messages",
-      headers: api_headers,
-      body: {
-        messaging_product: 'whatsapp',
-        status: 'read',
-        message_id: message_id,
-        typing_indicator: { type: 'text' }
-      }.to_json
-    )
-    Rails.logger.debug { "[WHATSAPP] Typing indicator for #{message_id}: #{response.code}" }
+    url = "#{modern_phone_id_path}/messages"
+    payload = {
+      messaging_product: 'whatsapp',
+      status: 'read',
+      message_id: message_id,
+      typing_indicator: { type: 'text' }
+    }
+    Rails.logger.info "[WHATSAPP] Sending typing indicator for #{message_id} to #{url}"
+    response = HTTParty.post(url, headers: api_headers, body: payload.to_json)
+    Rails.logger.info "[WHATSAPP] Typing indicator response: #{response.code} — #{response.body}"
     response.success?
   rescue StandardError => e
-    Rails.logger.warn "[WHATSAPP] Failed to send typing indicator: #{e.message}"
+    Rails.logger.warn "[WHATSAPP] Failed to send typing indicator: #{e.class} — #{e.message}"
     false
   end
 
