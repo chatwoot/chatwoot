@@ -159,6 +159,7 @@ class Saas::Api::V1::LlmController < Api::V1::Accounts::BaseController
   end
 
   def check_usage_limits
+    return if Rails.env.development?
     return unless current_account.respond_to?(:ai_usage_exceeded?) && current_account.ai_usage_exceeded?
 
     render json: {
