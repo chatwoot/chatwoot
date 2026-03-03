@@ -1,0 +1,57 @@
+<% content_for(:title) do %>
+  Billing Dashboard
+<% end %>
+
+<header class="main-content__header" role="banner">
+  <h1 class="main-content__page-title">Billing Dashboard</h1>
+</header>
+
+<section class="main-content__body">
+  <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 2rem;">
+
+    <div style="background: #f8f9fa; border-radius: 8px; padding: 1.5rem; text-align: center;">
+      <div style="font-size: 2rem; font-weight: bold; color: #2563eb;"><%= @metrics[:active_subscriptions] %></div>
+      <div style="color: #6b7280; margin-top: 0.25rem;">Active Subscriptions</div>
+    </div>
+
+    <div style="background: #f8f9fa; border-radius: 8px; padding: 1.5rem; text-align: center;">
+      <div style="font-size: 2rem; font-weight: bold; color: #7c3aed;"><%= @metrics[:trials] %></div>
+      <div style="color: #6b7280; margin-top: 0.25rem;">Trials</div>
+    </div>
+
+    <div style="background: #f8f9fa; border-radius: 8px; padding: 1.5rem; text-align: center;">
+      <div style="font-size: 2rem; font-weight: bold; color: #f59e0b;"><%= @metrics[:trials_expiring_7_days] %></div>
+      <div style="color: #6b7280; margin-top: 0.25rem;">Trials Expiring (7 days)</div>
+    </div>
+
+    <div style="background: #f8f9fa; border-radius: 8px; padding: 1.5rem; text-align: center;">
+      <div style="font-size: 2rem; font-weight: bold; color: #10b981;"><%= @metrics[:complimentary] %></div>
+      <div style="color: #6b7280; margin-top: 0.25rem;">Complimentary</div>
+    </div>
+
+    <div style="background: #f8f9fa; border-radius: 8px; padding: 1.5rem; text-align: center;">
+      <div style="font-size: 2rem; font-weight: bold; color: #6b7280;"><%= @metrics[:no_subscription] %></div>
+      <div style="color: #6b7280; margin-top: 0.25rem;">No Subscription</div>
+    </div>
+
+    <div style="background: #fff1f2; border-radius: 8px; padding: 1.5rem; text-align: center;">
+      <div style="font-size: 2rem; font-weight: bold; color: #ef4444;"><%= @metrics[:suspended] %></div>
+      <div style="color: #6b7280; margin-top: 0.25rem;">Suspended</div>
+    </div>
+
+    <div style="background: #f8f9fa; border-radius: 8px; padding: 1.5rem; text-align: center;">
+      <div style="font-size: 2rem; font-weight: bold; color: #374151;"><%= @metrics[:total_accounts] %></div>
+      <div style="color: #6b7280; margin-top: 0.25rem;">Total Accounts</div>
+    </div>
+
+  </div>
+
+  <h3 style="margin-bottom: 1rem;"><strong>Quick Filters</strong></h3>
+  <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+    <a href="/super_admin/accounts?search=subscribed%3A" class="button">Subscribed Accounts</a>
+    <a href="/super_admin/accounts?search=on_trial%3A" class="button">On Trial</a>
+    <a href="/super_admin/accounts?search=no_subscription%3A" class="button">No Subscription</a>
+    <a href="/super_admin/accounts?search=complimentary%3A" class="button">Complimentary</a>
+    <a href="/super_admin/accounts?search=suspended%3A" class="button">Suspended</a>
+  </div>
+</section>

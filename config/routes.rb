@@ -769,6 +769,9 @@ Rails.application.routes.draw do
       # Aloo AI Analytics Dashboard
       resource :aloo_analytics, only: [:show], controller: 'aloo_analytics', action: 'index'
 
+      # Billing Dashboard
+      resource :billing_dashboard, only: [:show], controller: 'billing_dashboard'
+
       # resources that doesn't appear in primary navigation in super admin
       resources :account_users, only: [:new, :create, :show, :destroy]
     end
