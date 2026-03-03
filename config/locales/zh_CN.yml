@@ -222,6 +222,7 @@ zh_CN:
         resolved: '对话被系统标记为已解决, 原因是 %{user_name} 不活跃'
         resolved_by_tool: 'Conversation was marked resolved by %{user_name}: %{reason}'
         open: '对话被 %{user_name} 打开'
+        auto_opened_after_agent_reply: 'Conversation was marked open automatically after an agent reply'
       agent_bot:
         error_moved_to_open: 'Conversation was marked open by system due to an error with the agent bot.'
       status:
