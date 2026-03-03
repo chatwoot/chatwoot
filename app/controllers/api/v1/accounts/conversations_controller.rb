@@ -27,10 +27,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
 
   def attachments
     @attachments_count = @conversation.attachments.count
-    @attachments = @conversation.attachments
-                                .includes(:message)
-                                .order(created_at: :desc)
-                                .page(attachment_params[:page])
+    @attachments = @conversation.attachments.includes(:message).order(created_at: :desc).page(attachment_params[:page])
                                 .per(ATTACHMENT_RESULTS_PER_PAGE)
   end
 
@@ -59,7 +56,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   end
 
   def mute
-    @conversation.mute!(banned_until: parse_banned_until_param)
+    @conversation.mute!(banned_until: parse_banned_until_param, timezone: params[:timezone])
     head :ok
   end
 
@@ -152,11 +149,11 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   end
 
   private
-  
+
   def parse_banned_until_param
     raw = params[:banned_until]
     return nil if raw.blank?
-  
+
     if ConversationMuteHelpers::BAN_DURATIONS.key?(raw.to_s)
       Time.current + ConversationMuteHelpers::BAN_DURATIONS[raw.to_s]
     else

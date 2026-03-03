@@ -1,5 +1,7 @@
 {
   "CONTACT_PANEL": {
+    "BLOCKED_UNTIL": "Blocked for",
+    "BLOCKED_PERMANENTLY": "Blocked Forever",
     "NOT_AVAILABLE": "Not Available",
     "EMAIL_ADDRESS": "Email Address",
     "PHONE_NUMBER": "Phone number",

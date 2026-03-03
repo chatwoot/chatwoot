@@ -2,18 +2,19 @@ module ConversationMuteHelpers
   extend ActiveSupport::Concern
 
   BAN_DURATIONS = {
-    '1_hour'  => 1.hour,
+    '1_hour' => 1.hour,
     '8_hours' => 8.hours,
-    '1_day'   => 1.day,
-    '7_days'  => 7.days,
+    '1_day' => 1.day,
+    '7_days' => 7.days
   }.freeze
 
-  def mute!(banned_until: nil)
+  def mute!(banned_until: nil, timezone: nil)
     return unless contact
 
     resolved!
-    contact.update!(blocked: true, blocked_until: parse_banned_until(banned_until))
-    create_muted_message
+    blocked_until = parse_banned_until(banned_until)
+    contact.update!(blocked: true, blocked_until: blocked_until)
+    create_muted_message(blocked_until: blocked_until, timezone: timezone)
   end
 
   def unmute!

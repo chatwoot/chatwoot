@@ -91,18 +91,25 @@ module ActivityMessageHandler
     { account_id: account_id, inbox_id: inbox_id, message_type: :activity, content: content }
   end
 
-  def create_muted_message
-    create_mute_change_activity('muted')
+  def create_muted_message(blocked_until: nil, timezone: nil)
+    create_mute_change_activity('muted', blocked_until: blocked_until, timezone: timezone)
   end
 
   def create_unmuted_message
     create_mute_change_activity('unmuted')
   end
 
-  def create_mute_change_activity(change_type)
+  def create_mute_change_activity(change_type, blocked_until: nil, timezone: nil)
     return unless Current.user
 
-    content = I18n.t("conversations.activity.#{change_type}", user_name: Current.user.name)
+    formatted_time = if blocked_until
+                       tz = timezone.presence || 'UTC'
+                       blocked_until.in_time_zone(tz).strftime('%H:%M %d.%m.%Y')
+                     else
+                       ''
+                     end
+
+    content = I18n.t("conversations.activity.#{change_type}", user_name: Current.user.name, blocked_until: formatted_time)
     ::Conversations::ActivityMessageJob.perform_later(self, activity_message_params(content)) if content
   end
 end

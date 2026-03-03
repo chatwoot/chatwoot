@@ -1,5 +1,7 @@
 {
   "CONTACT_PANEL": {
+    "BLOCKED_UNTIL": "Заблокирован до",
+    "BLOCKED_PERMANENTLY": "Заблокирован навсегда",
     "NOT_AVAILABLE": "Недоступен",
     "EMAIL_ADDRESS": "Email",
     "PHONE_NUMBER": "Номер телефона",
