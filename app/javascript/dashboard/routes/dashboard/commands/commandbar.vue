@@ -11,7 +11,10 @@ import { useGoToCommandHotKeys } from 'dashboard/composables/commands/useGoToCom
 import { useBulkActionsHotKeys } from 'dashboard/composables/commands/useBulkActionsHotKeys';
 import { useConversationHotKeys } from 'dashboard/composables/commands/useConversationHotKeys';
 import wootConstants from 'dashboard/constants/globals';
-import { GENERAL_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
+import {
+  GENERAL_EVENTS,
+  SNOOZE_EVENTS,
+} from 'dashboard/helper/AnalyticsHelper/events';
 import { generateSnoozeSuggestions } from 'dashboard/helper/snoozeHelpers';
 import { ICON_SNOOZE_CONVERSATION } from 'dashboard/helper/commandbar/icons';
 import {
@@ -107,7 +110,10 @@ const buildDynamicSnoozeActions = (search, parentId) => {
     section,
     icon: ICON_SNOOZE_CONVERSATION,
     keywords: search,
-    handler: () => emitter.emit(busEvent, parsed.resolve()),
+    handler: () => {
+      emitter.emit(busEvent, parsed.resolve());
+      useTrack(SNOOZE_EVENTS.NLP_SNOOZE_APPLIED, { label: parsed.label });
+    },
   }));
 };
 
