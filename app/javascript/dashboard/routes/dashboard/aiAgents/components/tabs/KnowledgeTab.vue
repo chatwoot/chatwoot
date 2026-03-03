@@ -78,11 +78,20 @@ const toggleExpandKb = kb => {
 const handleAddDoc = async kb => {
   if (!newDoc.content.trim()) return;
   try {
-    const { data } = await AiAgentsAPI.createDocument(props.agent.id, kb.id, {
+    const payload = {
       source_type: newDoc.sourceType,
-      content: newDoc.content,
       title: newDoc.content.substring(0, 80),
-    });
+    };
+    if (newDoc.sourceType === 'url') {
+      payload.source_url = newDoc.content;
+    } else {
+      payload.content = newDoc.content;
+    }
+    const { data } = await AiAgentsAPI.createDocument(
+      props.agent.id,
+      kb.id,
+      payload
+    );
     const kbIndex = knowledgeBases.value.findIndex(k => k.id === kb.id);
     if (kbIndex !== -1) {
       const updated = { ...knowledgeBases.value[kbIndex] };

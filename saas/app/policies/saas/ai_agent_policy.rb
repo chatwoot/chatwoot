@@ -20,4 +20,8 @@ class Saas::AiAgentPolicy < ApplicationPolicy
   def destroy?
     @account_user.administrator?
   end
+
+  def preview?
+    @account_user.administrator? || @account_user.agent?
+  end
 end

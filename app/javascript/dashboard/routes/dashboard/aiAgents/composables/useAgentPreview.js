@@ -11,7 +11,9 @@ import AiAgentsAPI from 'dashboard/api/saas/aiAgents';
  */
 export function useAgentPreview(agent) {
   const { messages, error, connect, disconnect, clearMessages } = useLlmChat({
-    model: computed(() => (agent.value?.model || 'gpt-4.1-mini').replace(/^litellm\//, '')),
+    model: computed(() =>
+      (agent.value?.model || 'gpt-4.1-mini').replace(/^litellm\//, '')
+    ),
     systemPrompt: '',
     temperature: 0.7,
     feature: 'agent_preview',
@@ -57,6 +59,7 @@ export function useAgentPreview(agent) {
       });
 
       assistantMessage.content =
+        response.data?.reply ||
         response.data?.content ||
         response.data?.choices?.[0]?.message?.content ||
         '';

@@ -71,18 +71,15 @@ const submitConnect = async () => {
 
 const handleToggleAutoReply = async link => {
   try {
-    const newConfig = {
-      ...link.config,
-      auto_reply: !link.config?.auto_reply,
-    };
+    const newAutoReply = !link.auto_reply;
     await AiAgentsAPI.updateInboxLink(props.agent.id, link.id, {
-      config: newConfig,
+      auto_reply: newAutoReply,
     });
     const idx = linkedInboxes.value.findIndex(l => l.id === link.id);
     if (idx !== -1) {
       linkedInboxes.value[idx] = {
         ...linkedInboxes.value[idx],
-        config: newConfig,
+        auto_reply: newAutoReply,
       };
     }
   } catch {
@@ -160,7 +157,7 @@ onMounted(() => {
             <label class="flex items-center gap-2 cursor-pointer">
               <input
                 type="checkbox"
-                :checked="link.config?.auto_reply"
+                :checked="link.auto_reply"
                 class="rounded"
                 @change="handleToggleAutoReply(link)"
               />
