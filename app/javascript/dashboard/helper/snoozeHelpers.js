@@ -17,6 +17,7 @@ import {
   generateDateSuggestions,
   parseDateFromText,
 } from 'dashboard/helper/snoozeDateParser';
+import { UNIT_MAP } from 'dashboard/helper/snoozeDateParser/tokenMaps';
 
 const SNOOZE_OPTIONS = wootConstants.SNOOZE_OPTIONS;
 
@@ -87,7 +88,25 @@ const formatSnoozeDate = (snoozeDate, currentDate, locale = 'en') => {
   }
 };
 
-const capitalizeLabel = text => text.replace(/^\w/, c => c.toUpperCase());
+const expandUnit = (num, abbr) => {
+  const full = UNIT_MAP[abbr];
+  if (!full) return `${num} ${abbr}`;
+  return parseFloat(num) === 1
+    ? `${num} ${full.replace(/s$/, '')}`
+    : `${num} ${full}`;
+};
+
+const capitalizeLabel = text => {
+  const expanded = text
+    .replace(
+      /^(\d+)h(\d+)m(?:in)?$/i,
+      (_, h, m) => `${expandUnit(h, 'h')} ${expandUnit(m, 'm')}`
+    )
+    .replace(/^(\d+(?:\.5)?)\s*([a-z]+)$/i, (_, n, u) =>
+      UNIT_MAP[u.toLowerCase()] ? expandUnit(n, u.toLowerCase()) : `${n} ${u}`
+    );
+  return expanded.replace(/^\w/, c => c.toUpperCase());
+};
 
 export const generateSnoozeSuggestions = (
   searchText,

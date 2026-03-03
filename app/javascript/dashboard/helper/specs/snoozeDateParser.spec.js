@@ -1593,3 +1593,40 @@ describe('generateDateSuggestions — localized input regressions', () => {
     });
   });
 });
+
+describe('no-space duration suggestions', () => {
+  it('"1d" generates day suggestions', () => {
+    const results = generateDateSuggestions('1d', now);
+    expect(results.length).toBeGreaterThan(0);
+    expect(results[0].label).toBe('1 days');
+  });
+
+  it('"2min" generates minute suggestions', () => {
+    const results = generateDateSuggestions('2min', now);
+    expect(results.length).toBeGreaterThan(0);
+    expect(results[0].label).toBe('2 minutes');
+  });
+
+  it('"1h" generates hour suggestions', () => {
+    const results = generateDateSuggestions('1h', now);
+    expect(results.length).toBeGreaterThan(0);
+    expect(results[0].label).toBe('1 hours');
+  });
+
+  it('"2ho" generates hour suggestions (partial match)', () => {
+    const results = generateDateSuggestions('2ho', now);
+    expect(results.length).toBeGreaterThan(0);
+    expect(results[0].label).toBe('2 hours');
+  });
+
+  it('"3w" generates week suggestions', () => {
+    const results = generateDateSuggestions('3w', now);
+    expect(results.length).toBeGreaterThan(0);
+    expect(results[0].label).toBe('3 weeks');
+  });
+
+  it('"1h30m" generates compound suggestion', () => {
+    const results = generateDateSuggestions('1h30m', now);
+    expect(results.length).toBeGreaterThan(0);
+  });
+});

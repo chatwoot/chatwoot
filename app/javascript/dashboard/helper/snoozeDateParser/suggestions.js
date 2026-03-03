@@ -70,8 +70,9 @@ export const buildSuggestionCandidates = text => {
     const num = text.match(/^\d+(?:\.5)?/)[0];
     const candidates = SUGGESTION_UNITS.map(u => `${num} ${u}`);
     const trimmed = text.replace(/\s+/g, ' ').trim();
-    return trimmed.length > num.length
-      ? candidates.filter(c => c.startsWith(trimmed))
+    const spaced = trimmed.replace(/(\d)([a-z])/i, '$1 $2');
+    return spaced.length > num.length
+      ? candidates.filter(c => c.startsWith(spaced))
       : candidates;
   }
 
