@@ -103,7 +103,28 @@ class AccountDashboard < Administrate::BaseDashboard
     active: ->(resources) { resources.where(status: :active) },
     suspended: ->(resources) { resources.where(status: :suspended) },
     recent: ->(resources) { resources.where('created_at > ?', 30.days.ago) },
-    marked_for_deletion: ->(resources) { resources.where("custom_attributes->>'marked_for_deletion_at' IS NOT NULL") }
+    marked_for_deletion: ->(resources) { resources.where("custom_attributes->>'marked_for_deletion_at' IS NOT NULL") },
+    # Billing filters — type "subscribed:" in the search box to filter
+    subscribed: lambda { |resources|
+      resources.joins('INNER JOIN pay_customers ON pay_customers.owner_id = accounts.id AND pay_customers.owner_type = \'Account\'')
+               .joins('INNER JOIN pay_subscriptions ON pay_subscriptions.customer_id = pay_customers.id')
+               .where(pay_subscriptions: { status: 'active' })
+               .distinct
+    },
+    on_trial: lambda { |resources|
+      resources.joins('INNER JOIN pay_customers ON pay_customers.owner_id = accounts.id AND pay_customers.owner_type = \'Account\'')
+               .joins('INNER JOIN pay_subscriptions ON pay_subscriptions.customer_id = pay_customers.id')
+               .where('pay_subscriptions.trial_ends_at > ?', Time.current)
+               .distinct
+    },
+    no_subscription: lambda { |resources|
+      resources.where.not(id: Pay::Customer.where(owner_type: 'Account').select(:owner_id))
+    },
+    complimentary: lambda { |resources|
+      resources.joins('INNER JOIN pay_customers ON pay_customers.owner_id = accounts.id AND pay_customers.owner_type = \'Account\'')
+               .where(pay_customers: { processor: 'fake_processor' })
+               .distinct
+    }
   }.freeze
 
   # Overwrite this method to customize how accounts are displayed

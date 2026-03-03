@@ -736,6 +736,19 @@ Rails.application.routes.draw do
       resources :accounts, only: [:index, :new, :create, :show, :edit, :update, :destroy] do
         post :seed, on: :member
         post :reset_cache, on: :member
+
+        # Billing admin actions
+        member do
+          post :grant_trial
+          post :extend_trial
+          post :grant_complimentary
+          post :override_plan
+          post :add_bonus_credits
+          post :reset_usage
+          post :cancel_subscription
+          post :suspend
+          post :reactivate
+        end
       end
       resources :users, only: [:index, :new, :create, :show, :edit, :update, :destroy] do
         delete :avatar, on: :member, action: :destroy_avatar
