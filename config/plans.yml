@@ -1,0 +1,52 @@
+plans:
+  basic_monthly:
+    name: Basic
+    tier: basic
+    interval: month
+    amount_kd: 60
+    stripe_price_id: <%= ENV.fetch("STRIPE_BASIC_MONTHLY_PRICE_ID", "price_basic_monthly_test") %>
+    limits:
+      ai_responses_per_month: 10000
+      knowledge_base_documents: 100
+    features:
+      crm_integration: false
+      api_access: false
+
+  basic_annual:
+    name: Basic
+    tier: basic
+    interval: year
+    amount_kd: 600
+    stripe_price_id: <%= ENV.fetch("STRIPE_BASIC_ANNUAL_PRICE_ID", "price_basic_annual_test") %>
+    limits:
+      ai_responses_per_month: 10000
+      knowledge_base_documents: 100
+    features:
+      crm_integration: false
+      api_access: false
+
+  pro_monthly:
+    name: Pro
+    tier: pro
+    interval: month
+    amount_kd: 75
+    stripe_price_id: <%= ENV.fetch("STRIPE_PRO_MONTHLY_PRICE_ID", "price_pro_monthly_test") %>
+    limits:
+      ai_responses_per_month: 25000
+      knowledge_base_documents: 200
+    features:
+      crm_integration: true
+      api_access: true
+
+  pro_annual:
+    name: Pro
+    tier: pro
+    interval: year
+    amount_kd: 900
+    stripe_price_id: <%= ENV.fetch("STRIPE_PRO_ANNUAL_PRICE_ID", "price_pro_annual_test") %>
+    limits:
+      ai_responses_per_month: 25000
+      knowledge_base_documents: 200
+    features:
+      crm_integration: true
+      api_access: true

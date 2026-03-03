@@ -28,6 +28,7 @@ class Account < ApplicationRecord
   include Reportable
   include Featurable
   include CacheKeys
+  include Billable
   include RubyLLM::Agents::LLMTenant
 
   llm_tenant(
