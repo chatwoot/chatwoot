@@ -67,6 +67,13 @@ auto_label_pending_conversations_job:
   class: 'Conversations::AutoLabelPendingConversationsJob'
   queue: scheduled_jobs
 
+# executed daily at 0900 UTC
+# sends trial expiring, trial expired, and high usage notifications
+billing_notification_job:
+  cron: '0 9 * * *'
+  class: 'BillingNotificationJob'
+  queue: scheduled_jobs
+
 # executed weekly on Sunday at 3:00 AM UTC
 # to refresh website documents with auto_refresh enabled
 aloo_refresh_website_documents_job:
