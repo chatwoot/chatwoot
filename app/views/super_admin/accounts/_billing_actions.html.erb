@@ -1,121 +1,179 @@
 <section class="main-content__body">
-  <hr/>
-  <h3 class="pb-3"><strong>Billing</strong></h3>
-
   <% account = page.resource %>
   <% status = account.billing_status %>
+  <% usage = status[:usage] || {} %>
 
-  <%# ── Billing Status Display ─────────────────────────────────── %>
-  <div class="pb-4" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;">
-    <div>
-      <strong>Plan:</strong> <%= status[:plan_name] || 'None' %>
-      <% if status[:plan_tier] %>(<%= status[:plan_tier] %>)<% end %>
+  <%# ── Status ────────────────────────────────────────────────── %>
+  <div class="outline outline-1 outline-n-container rounded-lg shadow-sm mb-4">
+    <div class="px-4 py-3 border-b border-n-weak">
+      <h4 class="text-n-slate-12 font-medium text-sm">Billing</h4>
     </div>
-    <div>
-      <strong>Status:</strong> <%= status[:subscription_status] || 'No subscription' %>
-    </div>
-    <div>
-      <strong>Processor:</strong> <%= status[:processor] || 'N/A' %>
-      <% if status[:is_complimentary] %>(complimentary)<% end %>
-    </div>
-    <% if status[:trial_ends_at] %>
-      <div><strong>Trial ends:</strong> <%= status[:trial_ends_at]&.strftime('%Y-%m-%d %H:%M') %></div>
-    <% end %>
-    <% if status[:usage] %>
+    <div class="px-4 py-3 grid grid-cols-2 md:grid-cols-4 gap-y-2 gap-x-6 text-sm">
       <div>
-        <strong>AI Usage:</strong>
-        <%= status[:usage][:ai_responses_count] %> / <%= status[:usage][:ai_responses_limit] || '∞' %>
-        <% if status[:usage][:usage_percentage] %>
-          (<%= status[:usage][:usage_percentage] %>%)
-        <% end %>
+        <span class="text-n-slate-11">Plan</span>
+        <p class="text-n-slate-12 font-medium m-0">
+          <%= status[:plan_name] || 'None' %><% if status[:plan_tier] %> (<%= status[:plan_tier] %>)<% end %>
+        </p>
       </div>
-    <% end %>
+      <div>
+        <span class="text-n-slate-11">Status</span>
+        <p class="text-n-slate-12 font-medium m-0">
+          <% sub_status = status[:subscription_status] || 'none' %>
+          <%= sub_status %><% if status[:is_complimentary] %> &middot; complimentary<% end %>
+        </p>
+      </div>
+      <div>
+        <span class="text-n-slate-11">Trial</span>
+        <p class="text-n-slate-12 font-medium m-0">
+          <% if status[:on_trial] %>
+            <%= status[:trial_credits_remaining] || 0 %> credits &middot; ends <%= status[:trial_ends_at]&.strftime('%b %d, %Y') || 'N/A' %>
+          <% else %>
+            None
+          <% end %>
+        </p>
+      </div>
+      <div>
+        <span class="text-n-slate-11">AI Usage</span>
+        <p class="text-n-slate-12 font-medium m-0">
+          <%= usage[:ai_responses_count] || 0 %> / <%= usage[:ai_responses_limit] || '∞' %><% if (usage[:overage_count] || 0) > 0 %> <span class="text-red-600">(+<%= usage[:overage_count] %> overage)</span><% end %>
+        </p>
+      </div>
+    </div>
   </div>
 
-  <%# ── Quick Actions ──────────────────────────────────────────── %>
-  <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem;">
+  <%# ── Actions ───────────────────────────────────────────────── %>
+  <div class="outline outline-1 outline-n-container rounded-lg shadow-sm mb-4">
+    <div class="px-4 py-3 border-b border-n-weak">
+      <h4 class="text-n-slate-12 font-medium text-sm">Actions</h4>
+    </div>
+    <div class="divide-y divide-n-weak">
 
-    <%# Grant Trial %>
-    <%= form_for([:grant_trial, namespace, account], method: :post, html: { class: "form", style: "margin:0" }) do |_f| %>
-      <div>
-        <label>Days: <input type="number" name="days" value="14" min="1" max="365" style="width:60px" /></label>
-        <label>Plan:
-          <select name="plan_key">
+      <%# Grant Trial %>
+      <%= form_for([:grant_trial, namespace, account], method: :post) do |_f| %>
+        <div class="px-4 py-3 flex items-center gap-3 flex-wrap">
+          <span class="text-sm text-n-slate-12 w-36">Grant Trial</span>
+          <input type="number" name="days" value="14" min="1" max="365"
+            class="h-8 w-20 rounded border border-n-weak px-2 text-sm text-n-slate-12 focus:outline-none focus:ring-1 focus:ring-woot-500" />
+          <span class="text-xs text-n-slate-11">days on</span>
+          <select name="plan_key"
+            class="h-8 rounded border border-n-weak px-2 text-sm text-n-slate-12 focus:outline-none focus:ring-1 focus:ring-woot-500">
             <% PlanConfig.all.each do |plan| %>
               <option value="<%= plan.key %>" <%= 'selected' if plan.key == 'pro_monthly' %>><%= plan.name %></option>
             <% end %>
           </select>
-        </label>
-        <button type="submit" class="button">Grant Trial</button>
-      </div>
-    <% end %>
+          <button type="submit"
+            class="h-8 px-3 rounded text-sm font-medium bg-transparent outline outline-1 outline-n-container text-n-slate-11 hover:bg-slate-50 hover:text-n-slate-12 focus:outline-none">
+            Apply
+          </button>
+        </div>
+      <% end %>
 
-    <%# Extend Trial %>
-    <%= form_for([:extend_trial, namespace, account], method: :post, html: { class: "form", style: "margin:0" }) do |_f| %>
-      <div>
-        <label>Days: <input type="number" name="days" value="14" min="1" max="365" style="width:60px" /></label>
-        <button type="submit" class="button">Extend Trial</button>
-      </div>
-    <% end %>
+      <%# Extend Trial %>
+      <%= form_for([:extend_trial, namespace, account], method: :post) do |_f| %>
+        <div class="px-4 py-3 flex items-center gap-3 flex-wrap">
+          <span class="text-sm text-n-slate-12 w-36">Extend Trial</span>
+          <input type="number" name="days" value="14" min="1" max="365"
+            class="h-8 w-20 rounded border border-n-weak px-2 text-sm text-n-slate-12 focus:outline-none focus:ring-1 focus:ring-woot-500" />
+          <span class="text-xs text-n-slate-11">days</span>
+          <button type="submit"
+            class="h-8 px-3 rounded text-sm font-medium bg-transparent outline outline-1 outline-n-container text-n-slate-11 hover:bg-slate-50 hover:text-n-slate-12 focus:outline-none">
+            Apply
+          </button>
+        </div>
+      <% end %>
 
-    <%# Grant Complimentary %>
-    <%= form_for([:grant_complimentary, namespace, account], method: :post, html: { class: "form", style: "margin:0" }) do |_f| %>
-      <div>
-        <label>Plan:
-          <select name="plan_key">
+      <%# Grant Complimentary %>
+      <%= form_for([:grant_complimentary, namespace, account], method: :post) do |_f| %>
+        <div class="px-4 py-3 flex items-center gap-3 flex-wrap">
+          <span class="text-sm text-n-slate-12 w-36">Grant Complimentary</span>
+          <select name="plan_key"
+            class="h-8 rounded border border-n-weak px-2 text-sm text-n-slate-12 focus:outline-none focus:ring-1 focus:ring-woot-500">
             <% PlanConfig.all.each do |plan| %>
               <option value="<%= plan.key %>" <%= 'selected' if plan.key == 'pro_monthly' %>><%= plan.name %></option>
             <% end %>
           </select>
-        </label>
-        <button type="submit" class="button">Grant Complimentary</button>
-      </div>
-    <% end %>
+          <button type="submit"
+            class="h-8 px-3 rounded text-sm font-medium bg-transparent outline outline-1 outline-n-container text-n-slate-11 hover:bg-slate-50 hover:text-n-slate-12 focus:outline-none">
+            Apply
+          </button>
+        </div>
+      <% end %>
 
-    <%# Override Plan %>
-    <%= form_for([:override_plan, namespace, account], method: :post, html: { class: "form", style: "margin:0" }) do |_f| %>
-      <div>
-        <label>Plan:
-          <select name="plan_key">
+      <%# Override Plan %>
+      <%= form_for([:override_plan, namespace, account], method: :post) do |_f| %>
+        <div class="px-4 py-3 flex items-center gap-3 flex-wrap">
+          <span class="text-sm text-n-slate-12 w-36">Override Plan</span>
+          <select name="plan_key"
+            class="h-8 rounded border border-n-weak px-2 text-sm text-n-slate-12 focus:outline-none focus:ring-1 focus:ring-woot-500">
             <% PlanConfig.all.each do |plan| %>
               <option value="<%= plan.key %>"><%= plan.name %></option>
             <% end %>
           </select>
-        </label>
-        <button type="submit" class="button">Override Plan</button>
-      </div>
-    <% end %>
-
-    <%# Add Bonus Credits %>
-    <%= form_for([:add_bonus_credits, namespace, account], method: :post, html: { class: "form", style: "margin:0" }) do |_f| %>
-      <div>
-        <label>Credits: <input type="number" name="amount" value="1000" min="1" style="width:80px" /></label>
-        <button type="submit" class="button">Add Bonus Credits</button>
-      </div>
-    <% end %>
-
-    <%# Reset Usage %>
-    <%= form_for([:reset_usage, namespace, account], method: :post, html: { class: "form", style: "margin:0" }) do |_f| %>
-      <button type="submit" class="button" onclick="return confirm('Reset all usage counters to zero?')">Reset Usage</button>
-    <% end %>
-
-    <%# Cancel Subscription %>
-    <% if account.subscribed? %>
-      <%= form_for([:cancel_subscription, namespace, account], method: :post, html: { class: "form", style: "margin:0" }) do |_f| %>
-        <button type="submit" class="button" onclick="return confirm('Cancel this subscription?')">Cancel Subscription</button>
+          <button type="submit"
+            class="h-8 px-3 rounded text-sm font-medium bg-transparent outline outline-1 outline-n-container text-n-slate-11 hover:bg-slate-50 hover:text-n-slate-12 focus:outline-none">
+            Apply
+          </button>
+        </div>
       <% end %>
-    <% end %>
 
-    <%# Suspend / Reactivate %>
-    <% if account.status == 'active' %>
-      <%= form_for([:suspend, namespace, account], method: :post, html: { class: "form", style: "margin:0" }) do |_f| %>
-        <button type="submit" class="button" onclick="return confirm('Suspend this account?')">Suspend Account</button>
+      <%# Add Bonus Credits %>
+      <%= form_for([:add_bonus_credits, namespace, account], method: :post) do |_f| %>
+        <div class="px-4 py-3 flex items-center gap-3 flex-wrap">
+          <span class="text-sm text-n-slate-12 w-36">Add Bonus Credits</span>
+          <input type="number" name="amount" value="1000" min="1"
+            class="h-8 w-24 rounded border border-n-weak px-2 text-sm text-n-slate-12 focus:outline-none focus:ring-1 focus:ring-woot-500" />
+          <button type="submit"
+            class="h-8 px-3 rounded text-sm font-medium bg-transparent outline outline-1 outline-n-container text-n-slate-11 hover:bg-slate-50 hover:text-n-slate-12 focus:outline-none">
+            Apply
+          </button>
+        </div>
       <% end %>
-    <% else %>
-      <%= form_for([:reactivate, namespace, account], method: :post, html: { class: "form", style: "margin:0" }) do |_f| %>
-        <button type="submit" class="button">Reactivate Account</button>
-      <% end %>
-    <% end %>
 
+      <%# Reset Usage %>
+      <%= form_for([:reset_usage, namespace, account], method: :post) do |_f| %>
+        <div class="px-4 py-3 flex items-center gap-3 flex-wrap">
+          <span class="text-sm text-n-slate-12 w-36">Reset Usage</span>
+          <span class="text-xs text-n-slate-11">Set all counters to zero</span>
+          <button type="submit"
+            onclick="return confirm('Reset all usage counters to zero?')"
+            class="h-8 px-3 rounded text-sm font-medium bg-amber-50 outline outline-1 outline-amber-300 text-amber-700 hover:bg-amber-100 focus:outline-none">
+            Reset
+          </button>
+        </div>
+      <% end %>
+
+    </div>
+  </div>
+
+  <%# ── Danger Zone ───────────────────────────────────────────── %>
+  <div class="outline outline-1 outline-red-200 rounded-lg shadow-sm bg-red-50/30 mb-4">
+    <div class="px-4 py-3 flex items-center gap-3 flex-wrap">
+      <% if account.subscribed? %>
+        <%= form_for([:cancel_subscription, namespace, account], method: :post) do |_f| %>
+          <button type="submit"
+            onclick="return confirm('Cancel this account\'s subscription?')"
+            class="h-8 px-3 rounded text-sm font-medium bg-red-100 outline outline-1 outline-red-400 text-red-700 hover:bg-red-200 focus:outline-none">
+            Cancel Subscription
+          </button>
+        <% end %>
+      <% end %>
+      <% if account.status == 'active' %>
+        <%= form_for([:suspend, namespace, account], method: :post) do |_f| %>
+          <button type="submit"
+            onclick="return confirm('Suspend this account? Users will be locked out.')"
+            class="h-8 px-3 rounded text-sm font-medium bg-red-100 outline outline-1 outline-red-400 text-red-700 hover:bg-red-200 focus:outline-none">
+            Suspend Account
+          </button>
+        <% end %>
+      <% else %>
+        <%= form_for([:reactivate, namespace, account], method: :post) do |_f| %>
+          <button type="submit"
+            onclick="return confirm('Reactivate this account?')"
+            class="h-8 px-3 rounded text-sm font-medium bg-red-100 outline outline-1 outline-red-400 text-red-700 hover:bg-red-200 focus:outline-none">
+            Reactivate Account
+          </button>
+        <% end %>
+      <% end %>
+    </div>
   </div>
 </section>
