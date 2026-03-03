@@ -5,6 +5,11 @@
 module WhatsappInteraction
   extend ActiveSupport::Concern
 
+  TYPING_DELAY_MIN = 1.0
+  TYPING_DELAY_PER_CHAR = 0.03
+  TYPING_DELAY_MAX = 8.0
+  REACTION_PATTERN = /\A\s*\[REACT:([^\]]+)\]\s*/
+
   private
 
   def whatsapp_channel?(conversation)

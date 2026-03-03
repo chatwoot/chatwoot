@@ -14,18 +14,6 @@ class AiAgentReplyJob < ApplicationJob
 
   MAX_HISTORY_MESSAGES = 20
 
-  # Natural typing delay: simulates human typing speed.
-  # MIN = minimum delay in seconds (always wait at least this long after LLM responds)
-  # PER_CHAR = extra seconds per character in the reply
-  # MAX = cap to avoid excessively long waits
-  TYPING_DELAY_MIN = 1.0
-  TYPING_DELAY_PER_CHAR = 0.03
-  TYPING_DELAY_MAX = 8.0
-
-  # Regex to extract an optional reaction directive from the LLM reply.
-  # The LLM may prefix its reply with [REACT:😊] to react to the user's message.
-  REACTION_PATTERN = /\A\s*\[REACT:([^\]]+)\]\s*/
-
   def perform(message_id:, ai_agent_id:, account_id:)
     @message = Message.find(message_id)
     ai_agent = Saas::AiAgent.find(ai_agent_id)
