@@ -8,9 +8,10 @@ class Public::Api::V1::InfluencerOffersController < PublicController
 
   def accept
     apply_selections
-    voucher_code = Influencers::CreateVoucherService.new(offer: @offer).perform
-    finalize_acceptance(voucher_code)
-    render json: { voucher_code: voucher_code, voucher_value: @offer.voucher_value }
+    apply_consents
+    result = Influencers::CreateVoucherService.new(offer: @offer).perform
+    finalize_acceptance(result[:voucher_code], result[:referral_link])
+    render json: { voucher_code: result[:voucher_code], voucher_value: @offer.voucher_value, referral_link: result[:referral_link] }
   rescue Influencers::CreateVoucherService::VoucherCreationError => e
     render json: { error: e.message }, status: :unprocessable_entity
   end
@@ -38,8 +39,15 @@ class Public::Api::V1::InfluencerOffersController < PublicController
     @offer.voucher_value = @offer.calculate_voucher_value(@offer.selected_packages, @offer.rights_level)
   end
 
-  def finalize_acceptance(voucher_code)
-    @offer.update!(status: :accepted, voucher_code: voucher_code, terms_accepted_at: Time.current)
+  def apply_consents
+    @offer.consent_data_processing = ActiveModel::Type::Boolean.new.cast(params[:consent_data_processing])
+    @offer.consent_terms = ActiveModel::Type::Boolean.new.cast(params[:consent_terms])
+  end
+
+  def finalize_acceptance(voucher_code, referral_link)
+    version = params[:offer_page_version].presence || InfluencerOffer::CURRENT_OFFER_PAGE_VERSION
+    @offer.update!(status: :accepted, voucher_code: voucher_code, referral_link: referral_link, terms_accepted_at: Time.current,
+                   offer_page_version: version)
     @offer.influencer_profile.transition_to!(:contacted) if @offer.influencer_profile.accepted?
   end
 

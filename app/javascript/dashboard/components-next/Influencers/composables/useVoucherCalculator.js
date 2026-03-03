@@ -27,7 +27,7 @@ export function useVoucherCalculator(profile) {
     if (includeReel.value) sum += CONTENT_ELEMENTS.reel.weight;
     if (includeCarousel.value) sum += CONTENT_ELEMENTS.carousel.weight;
     if (includeStories.value) sum += CONTENT_ELEMENTS.stories.weight;
-    return Math.max(sum, CONTENT_FLOOR);
+    return sum > 0 ? Math.max(sum, CONTENT_FLOOR) : 0;
   });
 
   const rightsMultiplier = computed(
@@ -35,9 +35,9 @@ export function useVoucherCalculator(profile) {
   );
 
   const voucherValue = computed(() => {
-    const fqs = profile.value?.fqs_score;
+    const fqs = profile.value?.fqs_score ?? 50;
     const followers = Number(profile.value?.followers_count || 0);
-    if (fqs == null || !followers) return null;
+    if (!followers) return null;
     return (
       followers *
       (fqs / 100) *

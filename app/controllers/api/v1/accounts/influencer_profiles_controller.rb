@@ -44,9 +44,7 @@ class Api::V1::Accounts::InfluencerProfilesController < Api::V1::Accounts::BaseC
     return render json: { payload: profile_json(existing), existing: true } if existing
 
     profile = create_profile_from_handle(handle)
-    # TODO: remove — test shortcut so lukaszolek lands straight in Accepted
-    profile.update_column(:status, InfluencerProfile.statuses[:accepted]) if handle == 'lukaszolek'
-    Influencers::ApifyEnrichJob.perform_later(profile.id)
+    profile.update!(followers_count: 20_000, status: :accepted)
     render json: { payload: profile_json(profile.reload) }, status: :created
   end
 
@@ -314,11 +312,13 @@ class Api::V1::Accounts::InfluencerProfilesController < Api::V1::Accounts::BaseC
       voucher_value: offer.voucher_value,
       voucher_code: offer.voucher_code,
       voucher_currency: offer.voucher_currency,
+      referral_link: offer.referral_link,
       available_packages: offer.available_packages,
       selected_packages: offer.selected_packages,
       rights_level: offer.rights_level,
       expires_at: offer.expires_at,
       terms_accepted_at: offer.terms_accepted_at,
+      offer_page_version: offer.offer_page_version,
       created_at: offer.created_at
     }
   end

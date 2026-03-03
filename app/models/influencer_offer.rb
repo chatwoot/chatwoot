@@ -1,4 +1,6 @@
 class InfluencerOffer < ApplicationRecord
+  CURRENT_OFFER_PAGE_VERSION = '1.0'
+
   belongs_to :influencer_profile
   belongs_to :account
   belongs_to :created_by, class_name: 'User', optional: true
@@ -16,6 +18,10 @@ class InfluencerOffer < ApplicationRecord
 
   def expired?
     expires_at.present? && expires_at < Time.current
+  end
+
+  def referral_url
+    "https://framky.com/#{influencer_profile.username}"
   end
 
   def calculate_voucher_value(packages, rights)

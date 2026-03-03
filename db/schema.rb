@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_03_02_234120) do
+ActiveRecord::Schema[7.1].define(version: 2026_03_03_131047) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -911,6 +911,10 @@ ActiveRecord::Schema[7.1].define(version: 2026_03_02_234120) do
     t.datetime "expires_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "referral_link"
+    t.boolean "consent_data_processing", default: false
+    t.boolean "consent_terms", default: false
+    t.string "offer_page_version"
     t.index ["account_id"], name: "index_influencer_offers_on_account_id"
     t.index ["created_by_id"], name: "index_influencer_offers_on_created_by_id"
     t.index ["influencer_profile_id"], name: "index_influencer_offers_on_influencer_profile_id"

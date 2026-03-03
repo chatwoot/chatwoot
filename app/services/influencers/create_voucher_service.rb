@@ -15,7 +15,10 @@ class Influencers::CreateVoucherService
     )
     raise VoucherCreationError, "Voucher creation failed: #{response.code} — #{response.body}" unless response.success?
 
-    response.parsed_response['code']
+    {
+      voucher_code: response.parsed_response['code'],
+      referral_link: build_referral_link
+    }
   end
 
   private
@@ -34,6 +37,11 @@ class Influencers::CreateVoucherService
     username = @offer.influencer_profile.username.upcase.gsub(/[^A-Z0-9]/, '')[0..8]
     suffix = SecureRandom.alphanumeric(4).upcase
     "INF-#{username}-#{suffix}"
+  end
+
+  def build_referral_link
+    username = @offer.influencer_profile.username
+    "https://framky.com/#{username}"
   end
 
   def auth_headers

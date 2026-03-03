@@ -21,7 +21,9 @@ const {
   voucherValue,
 } = useVoucherCalculator(profileRef);
 
-const isEnriched = computed(() => props.profile.fqs_score != null);
+const canCalculate = computed(
+  () => props.profile.fqs_score != null || props.profile.followers_count > 0
+);
 
 const toggles = computed(() => [
   {
@@ -57,7 +59,7 @@ function formatVoucher(value) {
       {{ t('INFLUENCER.VOUCHER.TITLE') }}
     </h4>
 
-    <template v-if="isEnriched">
+    <template v-if="canCalculate">
       <!-- Content Package toggles -->
       <p class="mb-1.5 text-xs text-n-slate-11">
         {{ t('INFLUENCER.VOUCHER.CONTENT_PACKAGE') }}
