@@ -2699,16 +2699,21 @@
               },
               "avatar_url": {
                 "type": "string",
-                "description": "Avatar URL of the sender"
+                "description": "Avatar URL of the sender. Present for senders of type user, agent_bot, and captain_assistant. Not present for contact senders (use thumbnail instead)."
+              },
+              "thumbnail": {
+                "type": "string",
+                "description": "Avatar/thumbnail URL of the sender. Contact senders (type 'contact') use this field via Contact#push_event_data; other sender types may use avatar_url."
               },
               "type": {
                 "type": "string",
                 "enum": [
                   "contact",
                   "user",
-                  "agent_bot"
+                  "agent_bot",
+                  "captain_assistant"
                 ],
-                "description": "Type of the sender"
+                "description": "Type of the sender. 'captain_assistant' is returned in Enterprise when the message is sent by a Captain assistant."
               }
             }
           }
