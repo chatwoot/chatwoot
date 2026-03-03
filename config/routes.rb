@@ -122,6 +122,16 @@ Rails.application.routes.draw do
           resource :tap_settings, only: [:show, :create, :update, :destroy]
           resource :catalog_settings, only: [:show, :create, :update]
           resource :payment_link_settings, only: [:show, :create, :update]
+
+          # Billing
+          resource :subscription, only: [:show] do
+            post :checkout, on: :collection
+            post :portal, on: :member
+            post :swap, on: :member
+            post :cancel, on: :member
+            post :resume, on: :member
+          end
+
           resources :agent_bots, only: [:index, :create, :show, :update, :destroy] do
             delete :avatar, on: :member
             post :reset_access_token, on: :member

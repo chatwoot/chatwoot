@@ -34,4 +34,8 @@ class AccountPolicy < ApplicationPolicy
   def topup_checkout?
     @account_user.administrator?
   end
+
+  def manage_billing?
+    @account_user.administrator?
+  end
 end
