@@ -1,170 +1,198 @@
 <script setup>
-import { computed, onMounted, ref } from 'vue';
-import { useRouter } from 'vue-router';
-import { useMapGetter, useStore } from 'dashboard/composables/store.js';
-import { useAccount } from 'dashboard/composables/useAccount';
+import { computed, onMounted } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useBillingStore } from 'dashboard/stores/billing';
+import { useAlert } from 'dashboard/composables';
 import { format } from 'date-fns';
-import sessionStorage from 'shared/helpers/sessionStorage';
 
 import BillingCard from './components/BillingCard.vue';
 import BillingHeader from './components/BillingHeader.vue';
+import BillingMeter from './components/BillingMeter.vue';
 import DetailItem from './components/DetailItem.vue';
+import PlanSelector from './components/PlanSelector.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import SettingsLayout from '../SettingsLayout.vue';
 import ButtonV4 from 'next/button/Button.vue';
 
-const router = useRouter();
-const { currentAccount, isOnChatwootCloud } = useAccount();
+const { t } = useI18n();
+const billingStore = useBillingStore();
 
-const uiFlags = useMapGetter('accounts/getUIFlags');
-const store = useStore();
+const hasSubscription = computed(() => !!billingStore.subscription);
 
-const BILLING_REFRESH_ATTEMPTED = 'billing_refresh_attempted';
+const planName = computed(
+  () => billingStore.plan?.name || t('BILLING_SETTINGS.NO_PLAN')
+);
 
-// State for handling refresh attempts and loading
-const isWaitingForBilling = ref(false);
+const subscriptionStatus = computed(
+  () => billingStore.subscription?.status || ''
+);
 
-const customAttributes = computed(() => {
-  return currentAccount.value.custom_attributes || {};
+const renewsOn = computed(() => {
+  const endDate = billingStore.subscription?.current_period_end;
+  if (!endDate) return '';
+  return format(new Date(endDate), 'dd MMM, yyyy');
 });
 
-/**
- * Computed property for plan name
- * @returns {string|undefined}
- */
-const planName = computed(() => {
-  return customAttributes.value.plan_name;
+const trialEndsOn = computed(() => {
+  const endDate = billingStore.subscription?.trial_ends_at;
+  if (!endDate) return '';
+  return format(new Date(endDate), 'dd MMM, yyyy');
 });
 
-/**
- * Computed property for subscribed quantity
- * @returns {number|undefined}
- */
-const subscribedQuantity = computed(() => {
-  return customAttributes.value.subscribed_quantity;
-});
+const aiUsage = computed(() => billingStore.usage?.ai_responses_count || 0);
+const aiLimit = computed(() => billingStore.usage?.ai_responses_limit || 0);
 
-const subscriptionRenewsOn = computed(() => {
-  if (!customAttributes.value.subscription_ends_on) return '';
-  const endDate = new Date(customAttributes.value.subscription_ends_on);
-  // return date as 12 Jan, 2034
-  return format(endDate, 'dd MMM, yyyy');
-});
-
-/**
- * Computed property indicating if user has a billing plan
- * @returns {boolean}
- */
-const hasABillingPlan = computed(() => {
-  return !!planName.value;
-});
-
-const fetchAccountDetails = async () => {
-  if (!hasABillingPlan.value) {
-    await store.dispatch('accounts/subscription');
+const onManageBilling = async () => {
+  try {
+    await billingStore.openPortal();
+  } catch {
+    useAlert(t('BILLING_SETTINGS.API.PORTAL_ERROR'));
   }
 };
 
-const handleBillingPageLogic = async () => {
-  // If self-hosted, redirect to dashboard
-  if (!isOnChatwootCloud.value) {
-    router.push({ name: 'home' });
-    return;
-  }
-
-  // Check if we've already attempted a refresh for billing setup
-  const billingRefreshAttempted = sessionStorage.get(BILLING_REFRESH_ATTEMPTED);
-
-  // If cloud user, fetch account details first
-  await fetchAccountDetails();
-
-  // If still no billing plan after fetch
-  if (!hasABillingPlan.value) {
-    // If we haven't attempted refresh yet, do it once
-    if (!billingRefreshAttempted) {
-      isWaitingForBilling.value = true;
-      sessionStorage.set(BILLING_REFRESH_ATTEMPTED, true);
-
-      setTimeout(() => {
-        window.location.reload();
-      }, 5000);
-    } else {
-      // We've already tried refreshing, so just show the no billing message
-      // Clear the flag for future visits
-      sessionStorage.remove(BILLING_REFRESH_ATTEMPTED);
-    }
-  } else {
-    // Billing plan found, clear any existing refresh flag
-    sessionStorage.remove(BILLING_REFRESH_ATTEMPTED);
+const onCancel = async () => {
+  try {
+    await billingStore.cancel();
+    useAlert(t('BILLING_SETTINGS.API.CANCEL_SUCCESS'));
+  } catch {
+    useAlert(t('BILLING_SETTINGS.API.CANCEL_ERROR'));
   }
 };
 
-const onClickBillingPortal = () => {
-  store.dispatch('accounts/checkout');
-};
-
-const onToggleChatWindow = () => {
-  if (window.$chatwoot) {
-    window.$chatwoot.toggle();
+const onResume = async () => {
+  try {
+    await billingStore.resume();
+    useAlert(t('BILLING_SETTINGS.API.RESUME_SUCCESS'));
+  } catch {
+    useAlert(t('BILLING_SETTINGS.API.RESUME_ERROR'));
   }
 };
 
-onMounted(handleBillingPageLogic);
+const onSelectPlan = async planKey => {
+  try {
+    await billingStore.checkout(planKey);
+  } catch {
+    useAlert(t('BILLING_SETTINGS.API.CHECKOUT_ERROR'));
+  }
+};
+
+const onSwapPlan = async planKey => {
+  try {
+    await billingStore.swapPlan(planKey);
+    useAlert(t('BILLING_SETTINGS.API.SWAP_SUCCESS'));
+  } catch {
+    useAlert(t('BILLING_SETTINGS.API.SWAP_ERROR'));
+  }
+};
+
+onMounted(() => billingStore.fetch());
 </script>
 
 <template>
   <SettingsLayout
-    :is-loading="uiFlags.isFetchingItem || isWaitingForBilling"
-    :loading-message="
-      isWaitingForBilling
-        ? $t('BILLING_SETTINGS.NO_BILLING_USER')
-        : $t('ATTRIBUTES_MGMT.LOADING')
-    "
-    :no-records-found="!hasABillingPlan && !isWaitingForBilling"
-    :no-records-message="$t('BILLING_SETTINGS.NO_BILLING_USER')"
+    :is-loading="billingStore.uiFlags.isFetching"
+    :loading-message="$t('BILLING_SETTINGS.LOADING')"
   >
     <template #header>
       <BaseSettingsHeader
         :title="$t('BILLING_SETTINGS.TITLE')"
         :description="$t('BILLING_SETTINGS.DESCRIPTION')"
-        :link-text="$t('BILLING_SETTINGS.VIEW_PRICING')"
         feature-name="billing"
       />
     </template>
     <template #body>
-      <section class="grid gap-4">
+      <section class="grid gap-6">
+        <!-- Current Plan Card -->
         <BillingCard
-          :title="$t('BILLING_SETTINGS.MANAGE_SUBSCRIPTION.TITLE')"
+          :title="$t('BILLING_SETTINGS.CURRENT_PLAN.TITLE')"
           :description="$t('BILLING_SETTINGS.MANAGE_SUBSCRIPTION.DESCRIPTION')"
         >
           <template #action>
-            <ButtonV4 sm solid blue @click="onClickBillingPortal">
-              {{ $t('BILLING_SETTINGS.MANAGE_SUBSCRIPTION.BUTTON_TXT') }}
-            </ButtonV4>
+            <div class="flex gap-2">
+              <ButtonV4
+                v-if="hasSubscription"
+                sm
+                solid
+                blue
+                @click="onManageBilling"
+              >
+                {{ $t('BILLING_SETTINGS.MANAGE_SUBSCRIPTION.BUTTON_TXT') }}
+              </ButtonV4>
+              <ButtonV4
+                v-if="hasSubscription && !billingStore.onGracePeriod"
+                sm
+                faded
+                slate
+                @click="onCancel"
+              >
+                {{ $t('BILLING_SETTINGS.ACTIONS.CANCEL') }}
+              </ButtonV4>
+              <ButtonV4
+                v-if="billingStore.onGracePeriod"
+                sm
+                solid
+                blue
+                @click="onResume"
+              >
+                {{ $t('BILLING_SETTINGS.ACTIONS.RESUME') }}
+              </ButtonV4>
+            </div>
           </template>
+
           <div
-            v-if="planName || subscribedQuantity || subscriptionRenewsOn"
-            class="grid lg:grid-cols-4 sm:grid-cols-3 grid-cols-1 gap-2 divide-x divide-n-weak"
+            v-if="hasSubscription"
+            class="grid lg:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-2 divide-x divide-n-weak px-5"
           >
             <DetailItem
-              :label="$t('BILLING_SETTINGS.CURRENT_PLAN.TITLE')"
+              :label="$t('BILLING_SETTINGS.CURRENT_PLAN.PLAN_LABEL')"
               :value="planName"
             />
             <DetailItem
-              v-if="subscribedQuantity"
-              :label="$t('BILLING_SETTINGS.CURRENT_PLAN.SEAT_COUNT')"
-              :value="subscribedQuantity"
+              :label="$t('BILLING_SETTINGS.CURRENT_PLAN.STATUS')"
+              :value="subscriptionStatus"
             />
             <DetailItem
-              v-if="subscriptionRenewsOn"
+              v-if="renewsOn"
               :label="$t('BILLING_SETTINGS.CURRENT_PLAN.RENEWS_ON')"
-              :value="subscriptionRenewsOn"
+              :value="renewsOn"
+            />
+            <DetailItem
+              v-if="trialEndsOn"
+              :label="$t('BILLING_SETTINGS.CURRENT_PLAN.TRIAL_ENDS')"
+              :value="trialEndsOn"
+            />
+          </div>
+          <div v-else class="px-5 text-sm text-n-slate-11">
+            {{ $t('BILLING_SETTINGS.NO_PLAN') }}
+          </div>
+        </BillingCard>
+
+        <!-- Usage Card -->
+        <BillingCard
+          v-if="hasSubscription && aiLimit"
+          :title="$t('BILLING_SETTINGS.USAGE.TITLE')"
+          :description="$t('BILLING_SETTINGS.USAGE.DESCRIPTION')"
+        >
+          <div class="px-5 pb-2">
+            <BillingMeter
+              :title="$t('BILLING_SETTINGS.USAGE.AI_RESPONSES')"
+              :consumed="aiUsage"
+              :total-count="aiLimit"
             />
           </div>
         </BillingCard>
 
+        <!-- Plan Selector -->
+        <PlanSelector
+          :plans="billingStore.plans"
+          :current-plan="billingStore.plan"
+          :is-checking-out="billingStore.uiFlags.isCheckingOut"
+          @select="hasSubscription ? onSwapPlan($event) : onSelectPlan($event)"
+        />
+
+        <!-- Help Section -->
         <BillingHeader
-          class="px-1 mt-5"
+          class="px-1 mt-2"
           :title="$t('BILLING_SETTINGS.CHAT_WITH_US.TITLE')"
           :description="$t('BILLING_SETTINGS.CHAT_WITH_US.DESCRIPTION')"
         >
@@ -173,7 +201,7 @@ onMounted(handleBillingPageLogic);
             solid
             slate
             icon="i-lucide-life-buoy"
-            @click="onToggleChatWindow"
+            @click="$chatwoot && $chatwoot.toggle()"
           >
             {{ $t('BILLING_SETTINGS.CHAT_WITH_US.BUTTON_TXT') }}
           </ButtonV4>

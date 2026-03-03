@@ -390,32 +390,58 @@
   },
   "BILLING_SETTINGS": {
     "TITLE": "Billing",
-    "DESCRIPTION": "Manage your subscription here, upgrade your plan and get more for your team.",
+    "DESCRIPTION": "Manage your subscription, view usage, and upgrade your plan.",
+    "LOADING": "Loading billing information...",
+    "NO_PLAN": "No active plan",
     "CURRENT_PLAN": {
       "TITLE": "Current Plan",
-      "PLAN_NOTE": "You are currently subscribed to the **{plan}** plan with **{quantity}** licenses",
-      "SEAT_COUNT": "Number of seats",
-      "RENEWS_ON": "Renews on"
+      "PLAN_LABEL": "Plan",
+      "STATUS": "Status",
+      "RENEWS_ON": "Renews on",
+      "TRIAL_ENDS": "Trial ends"
     },
-    "VIEW_PRICING": "View Pricing",
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "Manage your subscription",
       "DESCRIPTION": "View your previous invoices, edit your billing details, or cancel your subscription.",
       "BUTTON_TXT": "Go to the billing portal"
     },
-    "CAPTAIN": {
-      "TITLE": "Captain",
-      "DESCRIPTION": "Manage usage and credits for Captain AI.",
-      "BUTTON_TXT": "Buy more credits",
-      "DOCUMENTS": "Documents",
-      "RESPONSES": "Credits",
-      "UPGRADE": "Captain is not available on the free plan, upgrade now to get access to assistants, copilot and more.",
-      "REFRESH_CREDITS": "Refresh"
+    "ACTIONS": {
+      "CANCEL": "Cancel subscription",
+      "RESUME": "Resume subscription"
+    },
+    "USAGE": {
+      "TITLE": "Usage This Month",
+      "DESCRIPTION": "Track your AI response usage for the current billing period.",
+      "AI_RESPONSES": "AI Responses"
+    },
+    "PLAN_SELECTOR": {
+      "TITLE": "Choose a Plan",
+      "MONTHLY": "Monthly",
+      "ANNUAL": "Annual",
+      "PER_MONTH": "month",
+      "PER_YEAR": "year",
+      "CURRENT": "Current",
+      "SUBSCRIBE": "Subscribe",
+      "AI_RESPONSES": "{count} AI responses/month",
+      "KB_DOCS": "{count} knowledge base documents",
+      "CRM": "CRM Integration",
+      "API_ACCESS": "API Access",
+      "PRICE": "{amount} KD/{interval}"
     },
     "CHAT_WITH_US": {
       "TITLE": "Need help?",
       "DESCRIPTION": "Do you face any issues in billing? We are here to help.",
       "BUTTON_TXT": "Chat with us"
+    },
+    "API": {
+      "PORTAL_ERROR": "Could not open billing portal. Please try again.",
+      "CANCEL_SUCCESS": "Subscription will cancel at the end of the billing period.",
+      "CANCEL_ERROR": "Could not cancel subscription. Please try again.",
+      "RESUME_SUCCESS": "Subscription resumed successfully.",
+      "RESUME_ERROR": "Could not resume subscription. Please try again.",
+      "CHECKOUT_ERROR": "Could not start checkout. Please try again.",
+      "SWAP_SUCCESS": "Plan updated successfully.",
+      "SWAP_ERROR": "Could not update plan. Please try again."
     },
     "NO_BILLING_USER": "Your billing account is being configured. Please refresh the page and try again.",
     "TOPUP": {
