@@ -11,13 +11,15 @@ module Enterprise::Message
     Current.user = nil
     Current.executed_by = nil
 
-    conversation.open!
-    return unless conversation.saved_change_to_status?
+    begin
+      conversation.open!
+      return unless conversation.saved_change_to_status?
 
-    create_captain_auto_open_activity_message
-  ensure
-    Current.user = previous_user
-    Current.executed_by = previous_executed_by
+      create_captain_auto_open_activity_message
+    ensure
+      Current.user = previous_user
+      Current.executed_by = previous_executed_by
+    end
   end
 
   def captain_pending_conversation?
