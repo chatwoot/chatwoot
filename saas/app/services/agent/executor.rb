@@ -24,8 +24,8 @@ module Agent
       @executed_tools = []
     end
 
-    def execute(user_message:, conversation_history: [])
-      messages = build_messages(user_message, conversation_history)
+    def execute(user_message:, conversation_history: [], contact_context: nil)
+      messages = build_messages(user_message, conversation_history, contact_context)
       tools = @ai_agent.tool_definitions
 
       iteration = 0
@@ -96,14 +96,14 @@ module Agent
 
     private
 
-    def build_messages(user_message, conversation_history)
+    def build_messages(user_message, conversation_history, contact_context)
       messages = []
 
       # System prompt
-      system_prompt = build_system_prompt(user_message)
+      system_prompt = build_system_prompt(user_message, contact_context)
       messages << { role: 'system', content: system_prompt }
 
-      # Conversation history
+      # Conversation history (excludes the current message — it's added below)
       conversation_history.each do |msg|
         messages << { role: msg[:role] || msg['role'], content: msg[:content] || msg['content'] }
       end
@@ -114,7 +114,7 @@ module Agent
       messages
     end
 
-    def build_system_prompt(user_message)
+    def build_system_prompt(user_message, contact_context = nil)
       # Prefer structured prompt sections over raw system_prompt
       sections_builder = Agent::PromptSectionsBuilder.new(@ai_agent)
       base_prompt = if sections_builder.sections?
@@ -124,6 +124,9 @@ module Agent
                     end
 
       parts = [base_prompt]
+
+      # Inject contact information so the AI knows who it's talking to
+      parts << "## Informações do cliente\n#{contact_context}" if contact_context.present?
 
       # Inject RAG context if available
       if @rag_service
@@ -137,7 +140,22 @@ module Agent
                  'If you cannot help the customer, use the handoff_to_human tool.'
       end
 
+      # Reaction instruction: let the LLM naturally decide when to react
+      parts << reaction_instruction
+
       parts.join("\n\n")
+    end
+
+    def reaction_instruction
+      <<~INSTRUCTION.strip
+        ## Reações em mensagens
+        Quando a mensagem do cliente expressar uma emoção, saudação, agradecimento, humor ou algo que mereça uma reação \
+        natural, você pode OPCIONALMENTE iniciar sua resposta com [REACT:emoji] usando um único emoji apropriado. \
+        Exemplos: [REACT:😊], [REACT:👍], [REACT:❤️], [REACT:😂], [REACT:🙏].
+        NÃO reaja em todas as mensagens — apenas quando for natural e humano reagir. \
+        Nunca reaja a perguntas simples, informações ou mensagens neutras. \
+        O [REACT:emoji] será removido da resposta antes de enviá-la ao cliente.
+      INSTRUCTION
     end
 
     def default_system_prompt

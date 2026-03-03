@@ -11,19 +11,23 @@ class AiAgentReplyJob < ApplicationJob
 
   MAX_HISTORY_MESSAGES = 20
 
+  # Regex to extract an optional reaction directive from the LLM reply.
+  # The LLM may prefix its reply with [REACT:😊] to react to the user's message.
+  REACTION_PATTERN = /\A\s*\[REACT:([^\]]+)\]\s*/
+
   def perform(message_id:, ai_agent_id:, account_id:)
     @message = Message.find(message_id)
     ai_agent = Saas::AiAgent.find(ai_agent_id)
     account = Account.find(account_id)
-    conversation = @message.conversation
+    @conversation = @message.conversation
 
-    return post_limit_reply(conversation, account) if account.respond_to?(:ai_usage_exceeded?) && account.ai_usage_exceeded?
+    return post_limit_reply(@conversation, account) if account.respond_to?(:ai_usage_exceeded?) && account.ai_usage_exceeded?
 
-    send_whatsapp_presence(@message, conversation)
-    execute_agent(ai_agent, conversation, @message, account)
-    remove_whatsapp_reaction(@message, conversation)
+    # Mark the incoming message as read (blue double-check) — no reaction yet
+    mark_whatsapp_read(@message)
+
+    execute_agent(ai_agent, @conversation, @message, account)
   rescue StandardError => e
-    remove_whatsapp_reaction(@message, conversation) if @message && conversation
     ChatwootExceptionTracker.new(e, account: Account.find_by(id: account_id)).capture_exception
     raise
   end
@@ -57,12 +61,18 @@ class AiAgentReplyJob < ApplicationJob
   end
 
   def execute_classic(ai_agent, conversation, message, history, account)
+    contact_context = build_contact_context(conversation)
     executor = Agent::Executor.new(ai_agent: ai_agent, conversation: conversation)
-    result = executor.execute(user_message: message.content, conversation_history: history)
+    result = executor.execute(user_message: message.content, conversation_history: history, contact_context: contact_context)
 
     unless result.handed_off?
+      reply_text, emoji = extract_reaction(result.reply)
+
+      # Send the natural reaction on WhatsApp before replying
+      send_whatsapp_reaction(message, emoji) if emoji.present?
+
       conversation.messages.create!(
-        content: result.reply,
+        content: reply_text,
         message_type: :outgoing,
         account_id: account.id,
         inbox_id: conversation.inbox_id,
@@ -74,8 +84,10 @@ class AiAgentReplyJob < ApplicationJob
   end
 
   def build_history(conversation)
+    # Fetch recent messages excluding the current one (it's passed separately as user_message)
     conversation.messages
                 .where(message_type: [:incoming, :outgoing])
+                .where.not(id: @message.id)
                 .order(created_at: :desc)
                 .limit(MAX_HISTORY_MESSAGES)
                 .reverse
@@ -134,10 +146,20 @@ class AiAgentReplyJob < ApplicationJob
     )
   end
 
-  # --- WhatsApp presence helpers ---
-  # These provide a better UX by showing the AI is "thinking":
-  # 1. Mark the incoming message as read (blue double-check)
-  # 2. React with 👀 to signal the AI has seen the message
+  # --- Contact context ---
+
+  def build_contact_context(conversation)
+    contact = conversation.contact
+    return nil unless contact
+
+    parts = []
+    parts << "Nome do cliente: #{contact.name}" if contact.name.present?
+    parts << "Telefone: #{contact.phone_number}" if contact.phone_number.present?
+    parts << "Email: #{contact.email}" if contact.email.present?
+    parts.join("\n")
+  end
+
+  # --- WhatsApp helpers ---
 
   def whatsapp_channel?(conversation)
     conversation.inbox&.channel_type == 'Channel::Whatsapp' &&
@@ -148,32 +170,37 @@ class AiAgentReplyJob < ApplicationJob
     conversation.contact&.phone_number&.delete('+')
   end
 
-  def send_whatsapp_presence(message, conversation)
-    return unless whatsapp_channel?(conversation)
+  def mark_whatsapp_read(message)
+    return unless whatsapp_channel?(message.conversation)
 
-    channel = conversation.inbox.channel
-    phone = contact_phone(conversation)
-    return if phone.blank?
-
-    # Mark incoming message as read
+    channel = message.conversation.inbox.channel
     channel.mark_as_read(message.source_id) if message.source_id.present?
-
-    # React with 👀 (eyes) to show the AI is processing the message
-    channel.send_reaction(phone, message.source_id, '👀') if message.source_id.present?
   rescue StandardError => e
-    Rails.logger.warn "[AI_AGENT] WhatsApp presence failed: #{e.message}"
+    Rails.logger.warn "[AI_AGENT] WhatsApp mark_as_read failed: #{e.message}"
   end
 
-  def remove_whatsapp_reaction(message, conversation)
-    return unless whatsapp_channel?(conversation)
+  def send_whatsapp_reaction(message, emoji)
+    return unless whatsapp_channel?(message.conversation)
 
-    channel = conversation.inbox.channel
-    phone = contact_phone(conversation)
+    channel = message.conversation.inbox.channel
+    phone = contact_phone(message.conversation)
     return if phone.blank? || message.source_id.blank?
 
-    # Remove the 👀 reaction by sending an empty emoji
-    channel.send_reaction(phone, message.source_id, '')
+    channel.send_reaction(phone, message.source_id, emoji)
   rescue StandardError => e
-    Rails.logger.warn "[AI_AGENT] WhatsApp remove reaction failed: #{e.message}"
+    Rails.logger.warn "[AI_AGENT] WhatsApp reaction failed: #{e.message}"
+  end
+
+  # Extracts optional [REACT:emoji] prefix from the LLM reply.
+  # Returns [clean_reply, emoji_or_nil].
+  def extract_reaction(reply)
+    return [reply, nil] if reply.blank?
+
+    match = reply.match(REACTION_PATTERN)
+    return [reply, nil] unless match
+
+    emoji = match[1].strip
+    clean_reply = reply.sub(REACTION_PATTERN, '').strip
+    [clean_reply, emoji]
   end
 end
