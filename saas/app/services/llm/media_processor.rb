@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'pdf-reader'
+
 # Processes media attachments (audio, image, document) for AI agent consumption.
 # - Audio: transcribes via Whisper (OpenAI) and caches in attachment.meta['transcribed_text']
 # - Image: describes via GPT-4 vision and returns description text
