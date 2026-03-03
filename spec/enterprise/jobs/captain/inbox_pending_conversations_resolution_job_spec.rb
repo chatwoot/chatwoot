@@ -136,7 +136,9 @@ RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
     end
 
     it 'creates a captain inference resolved reporting event' do
-      described_class.perform_now(inbox)
+      perform_enqueued_jobs do
+        described_class.perform_now(inbox)
+      end
 
       inference_event = ReportingEvent.find_by(
         conversation_id: resolvable_pending_conversation.id,
@@ -215,7 +217,9 @@ RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
     end
 
     it 'creates a captain inference handoff reporting event' do
-      described_class.perform_now(inbox)
+      perform_enqueued_jobs do
+        described_class.perform_now(inbox)
+      end
 
       inference_event = ReportingEvent.find_by(
         conversation_id: resolvable_pending_conversation.id,

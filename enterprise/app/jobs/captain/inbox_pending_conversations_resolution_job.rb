@@ -1,6 +1,6 @@
 class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
-  CAPTAIN_INFERENCE_RESOLVED_EVENT = 'conversation_captain_inference_resolved'.freeze
-  CAPTAIN_INFERENCE_HANDOFF_EVENT = 'conversation_captain_inference_handoff'.freeze
+  CAPTAIN_INFERENCE_RESOLVED_EVENT = Events::Types::CONVERSATION_CAPTAIN_INFERENCE_RESOLVED
+  CAPTAIN_INFERENCE_HANDOFF_EVENT = Events::Types::CONVERSATION_CAPTAIN_INFERENCE_HANDOFF
   CAPTAIN_INFERENCE_RESOLVE_ACTIVITY_REASON = 'no outstanding questions'.freeze
   CAPTAIN_INFERENCE_HANDOFF_ACTIVITY_REASON = 'pending clarification from customer'.freeze
 
@@ -63,7 +63,7 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
       reason: CAPTAIN_INFERENCE_RESOLVE_ACTIVITY_REASON,
       reason_type: :inference
     ) { conversation.resolved! }
-    create_captain_inference_reporting_event(conversation, CAPTAIN_INFERENCE_RESOLVED_EVENT)
+    dispatch_captain_inference_event(conversation, CAPTAIN_INFERENCE_RESOLVED_EVENT)
   end
 
   def handoff_conversation(conversation, inbox, reason)
@@ -73,7 +73,7 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
       reason: CAPTAIN_INFERENCE_HANDOFF_ACTIVITY_REASON,
       reason_type: :inference
     ) { conversation.bot_handoff! }
-    create_captain_inference_reporting_event(conversation, CAPTAIN_INFERENCE_HANDOFF_EVENT)
+    dispatch_captain_inference_event(conversation, CAPTAIN_INFERENCE_HANDOFF_EVENT)
     send_out_of_office_message_if_applicable(conversation)
   end
 
@@ -122,16 +122,12 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
     )
   end
 
-  def create_captain_inference_reporting_event(conversation, event_name)
-    ReportingEvent.create!(
-      name: event_name,
-      value: conversation.updated_at.to_i - conversation.created_at.to_i,
-      account_id: conversation.account_id,
-      inbox_id: conversation.inbox_id,
-      user_id: conversation.assignee_id,
-      conversation_id: conversation.id,
-      event_start_time: conversation.created_at,
-      event_end_time: conversation.updated_at
+  def dispatch_captain_inference_event(conversation, event_name)
+    Rails.configuration.dispatcher.dispatch(
+      event_name,
+      Time.zone.now,
+      conversation: conversation,
+      performed_by: Current.executed_by
     )
   end
 end

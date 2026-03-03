@@ -268,6 +268,24 @@ describe ReportingEventListener do
     end
   end
 
+  describe '#conversation_captain_inference_resolved' do
+    it 'creates conversation_captain_inference_resolved event' do
+      expect(account.reporting_events.where(name: 'conversation_captain_inference_resolved').count).to be 0
+      event = Events::Base.new('conversation.captain_inference_resolved', Time.zone.now, conversation: conversation)
+      listener.conversation_captain_inference_resolved(event)
+      expect(account.reporting_events.where(name: 'conversation_captain_inference_resolved').count).to be 1
+    end
+  end
+
+  describe '#conversation_captain_inference_handoff' do
+    it 'creates conversation_captain_inference_handoff event' do
+      expect(account.reporting_events.where(name: 'conversation_captain_inference_handoff').count).to be 0
+      event = Events::Base.new('conversation.captain_inference_handoff', Time.zone.now, conversation: conversation)
+      listener.conversation_captain_inference_handoff(event)
+      expect(account.reporting_events.where(name: 'conversation_captain_inference_handoff').count).to be 1
+    end
+  end
+
   describe '#conversation_opened' do
     context 'when conversation is opened for the first time' do
       let(:new_conversation) { create(:conversation, account: account, inbox: inbox, assignee: user) }
