@@ -222,6 +222,7 @@ pt_BR:
         resolved: 'A conversa foi marcada como resolvida por %{user_name} por inatividade'
         resolved_by_tool: 'A conversa foi marcada como resolvida por %{user_name}: %{reason}'
         open: 'A conversa foi aberta por %{user_name}'
+        auto_opened_after_agent_reply: 'A conversa foi marcada como aberta automaticamente após a resposta de um agente'
       agent_bot:
         error_moved_to_open: 'A conversa foi marcada como aberta pelo sistema devido a um erro com o robô de atendimento.'
       status:
