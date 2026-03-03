@@ -217,6 +217,8 @@ group :production do
   # for heroku autoscaling
   gem 'judoscale-rails', require: false
   gem 'judoscale-sidekiq', require: false
+  # PDF text extraction
+  gem 'pdf-reader'
 end
 
 group :development do

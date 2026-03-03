@@ -161,6 +161,8 @@ class Llm::MediaProcessor
     case extension
     when '.txt', '.csv', '.json', '.md', '.yml', '.yaml', '.xml', '.html'
       extract_text_file(attachment)
+    when '.pdf'
+      extract_pdf_file(attachment)
     else
       "[📄 Documento recebido: #{filename}]"
     end
@@ -173,6 +175,35 @@ class Llm::MediaProcessor
   rescue StandardError => e
     Rails.logger.warn "[MEDIA_PROCESSOR] Text extraction failed: #{e.message}"
     "[📄 Documento recebido: #{attachment.file.filename}]"
+  end
+
+  def extract_pdf_file(attachment)
+    tempfile = download_to_tempfile(attachment, extension: '.pdf')
+    return "[📄 Documento PDF recebido: #{attachment.file.filename}]" unless tempfile
+
+    text = read_pdf_text(tempfile, attachment.file.filename)
+    format_pdf_result(text, attachment.file.filename)
+  rescue StandardError => e
+    Rails.logger.warn "[MEDIA_PROCESSOR] PDF extraction failed: #{e.class} — #{e.message}"
+    "[📄 Documento PDF recebido: #{attachment.file.filename}]"
+  end
+
+  def read_pdf_text(tempfile, filename)
+    reader = PDF::Reader.new(tempfile.path)
+    text = reader.pages.map(&:text).join("\n").strip.truncate(3000)
+    Rails.logger.info "[MEDIA_PROCESSOR] PDF extracted #{text.length} chars from #{filename}"
+    text
+  ensure
+    tempfile.close
+    tempfile.unlink
+  end
+
+  def format_pdf_result(text, filename)
+    if text.present?
+      "📄 Conteúdo do PDF (#{filename}):\n#{text}"
+    else
+      "[📄 Documento PDF recebido (sem texto extraível): #{filename}]"
+    end
   end
 
   # --- Location ---
