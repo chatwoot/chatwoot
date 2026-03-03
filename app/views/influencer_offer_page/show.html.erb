@@ -115,8 +115,7 @@
       <!-- Voucher Value Section -->
       <div class="mb-14">
         <h2 class="mb-5 text-xl sm:text-2xl font-normal text-brand-900"><span class="mr-1 text-secondary-500">2.</span> <span data-i18n="voucher_title">Wartość vouchera</span></h2>
-        <p class="mb-4 text-base leading-relaxed text-brand-500" data-i18n="voucher_desc">Wartość vouchera jest wyliczana indywidualnie na podstawie wielu parametrów. Staramy się oszacować, do ilu osób potencjalnie zainteresowanych Framky dotrze opublikowany materiał — biorąc pod uwagę wielkość konta, typ obserwujących, poziom zaangażowania, lokalizację oraz zainteresowania odbiorców.</p>
-        <p class="mb-6 text-base leading-relaxed text-brand-500" data-i18n="voucher_desc2">Wartość vouchera zależy też od zakresu współpracy — możesz zmienić go poniżej, wartość vouchera zaktualizuje się automatycznie.</p>
+        <p class="mb-6 text-base leading-relaxed text-brand-500" data-i18n="voucher_desc">Wartość vouchera zależy od wielkości i parametrów Twojego konta oraz od zakresu współpracy jaki wybierzesz poniżej.</p>
 
         <!-- Voucher value card -->
         <div class="bg-gradient-to-r from-primary-950 to-primary-900 p-8 sm:p-10 text-center text-white">
@@ -153,7 +152,7 @@
           </div>
           <div class="flex items-start gap-3">
             <svg class="mt-0.5 h-5 w-5 shrink-0 text-secondary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-            <span class="text-base text-brand-600" data-i18n="deliverable_4">Zamieszczenia linku do framky.com</span>
+            <span class="text-base text-brand-600" data-i18n="deliverable_4">Zamieszczenia linku dla Twoich followersów (framky.com/{handle})</span>
           </div>
           <div class="flex items-start gap-3">
             <svg class="mt-0.5 h-5 w-5 shrink-0 text-secondary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
@@ -206,7 +205,7 @@
               </div>
               <span class="rights-eur-value text-base font-medium text-secondary-600" data-rights="extended"></span>
             </div>
-            <p class="mt-3 pl-8 text-base leading-relaxed text-brand-500" data-i18n="rights_extended_desc">Oprócz repostu na profilu Framky, autor/ka dostarcza zmontowane wideo bez nałożonych tytułów, naklejek i tekstów, z oryginalnym dźwiękiem, w rozdzielczości co najmniej 1080×1920 (Full HD vertical), kadrowane w pionie (9:16) lub w kwadracie (1:1). Obejmuje: wystawianie w marketplace, płatne reklamy (Meta, TikTok, Google), retargeting, materiały promocyjne. Framky ma prawo do edycji materiału (kadrowanie, zmiana rozmiaru, dodanie napisów, adaptacja formatu). Licencja udzielona na cały czas trwania ochrony prawnoautorskiej, bez ograniczeń terytorialnych. Obejmuje zgodę na wykorzystanie wizerunku. Dostarczenie surowego/nieedytowanego pliku na żądanie Framky (w ciągu 3 dni roboczych).</p>
+            <p class="mt-3 pl-8 text-base leading-relaxed text-brand-500" data-i18n="rights_extended_desc">Oprócz repostu na profilu Framky, autor/ka dostarcza zmontowane wideo bez nałożonych tytułów, naklejek i tekstów, z oryginalnym dźwiękiem, w rozdzielczości co najmniej 1080×1920 (Full HD vertical), kadrowane w pionie (9:16) lub w kwadracie (1:1). Obejmuje: wystawianie w marketplace, płatne reklamy (Meta, TikTok, Google), retargeting, materiały promocyjne. Framky ma prawo do edycji materiału (kadrowanie, zmiana rozmiaru, dodanie napisów, adaptacja formatu). Licencja udzielona na cały czas trwania ochrony prawnoautorskiej, bez ograniczeń terytorialnych. Obejmuje zgodę na wykorzystanie wizerunku. Dostarczenie zmontowanego pliku wideo bez nakładek typu naklejki, czy tytuły, bez muzyki, w ciągu 3 dni od terminu publikacji materiału.</p>
           </label>
         </div>
       </div>
@@ -267,10 +266,6 @@
           <div class="flex items-start gap-3">
             <svg class="mt-0.5 h-5 w-5 shrink-0 text-brand-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
             <span class="text-base text-brand-600" data-i18n="voucher_term_6">Ważny przez 30 dni od daty wystawienia.</span>
-          </div>
-          <div class="flex items-start gap-3">
-            <svg class="mt-0.5 h-5 w-5 shrink-0 text-brand-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-            <span class="text-base text-brand-600" data-i18n="voucher_term_7">Koszty wysyłki nie są pokrywane przez voucher.</span>
           </div>
         </div>
       </div>
@@ -343,6 +338,7 @@
         <span data-i18n="accept_btn">Zatwierdź współpracę</span>
       </button>
       <p id="accept-hint" class="mt-3 hidden text-center text-base text-amber-600" data-i18n="accept_hint">Zaznacz co najmniej jeden pakiet i obie zgody, aby kontynuować.</p>
+      <p class="mt-6 text-center text-sm text-brand-400" data-i18n-html="contact_info">W razie pytań prosimy o kontakt: <a href="mailto:hello@framky.com" class="underline hover:text-brand-600">hello@framky.com</a></p>
     </div>
 
     <!-- Success state -->
@@ -398,15 +394,14 @@
         about_desc2: 'Cenimy autentyczną prezentację produktów w prawdziwych wnętrzach — w naturalnym stylu i otoczeniu.',
         about_barter: 'Ta współpraca opiera się na barterze: Ty tworzysz treści, a my dostarczamy galerię o równoważnej wartości.',
         voucher_title: 'Wartość vouchera',
-        voucher_desc: 'Wartość vouchera jest wyliczana indywidualnie na podstawie wielu parametrów. Staramy się oszacować, do ilu osób potencjalnie zainteresowanych Framky dotrze opublikowany materiał — biorąc pod uwagę wielkość konta, typ obserwujących, poziom zaangażowania, lokalizację oraz zainteresowania odbiorców.',
-        voucher_desc2: 'Wartość vouchera zależy też od zakresu współpracy — możesz zmienić go poniżej, wartość vouchera zaktualizuje się automatycznie.',
+        voucher_desc: 'Wartość vouchera zależy od wielkości i parametrów Twojego konta oraz od zakresu współpracy jaki wybierzesz poniżej.',
         voucher_label: 'Wartość Twojego vouchera',
         scope_title: 'Zakres współpracy',
         scope_desc: 'Można zaznaczyć jedną lub kilka opcji.',
         pkg_reel: 'Reel',
-        pkg_reel_desc: '1 Reel (min. 15 sek) — krótkie wideo prezentujące galerię Framky w domowym wnętrzu. Może to być unboxing, montaż, metamorfoza ściany (before → after) lub reakcja domowników. Oznaczenie @framky_gallery_walls + link do strony.',
-        pkg_stories: '3× Stories',
-        pkg_stories_desc: 'Seria 3 Stories z linkiem + oznaczenie @framky_gallery_walls. Krótka, autentyczna relacja — np. pokaz galerii na ścianie, pierwsze wrażenia, opinia o produkcie. Każde Story powinno zawierać naklejkę z linkiem do framky.com.',
+        pkg_reel_desc: '1 Reel (min. 25 sek) — krótkie wideo prezentujące galerię Framky w domowym wnętrzu. Może to być unboxing, montaż, metamorfoza ściany (before → after) lub reakcja domowników. Oznaczenie @framky_gallery_walls. Link dla Twoich followersów (framky.com/{handle}) musi pojawić się graficznie na filmie przez co najmniej 3 sekundy.',
+        pkg_stories: '4× Stories',
+        pkg_stories_desc: 'Seria min. 4 Stories z oznaczeniem @framky_gallery_walls. Krótka, autentyczna relacja — np. pokaz galerii na ścianie, pierwsze wrażenia, opinia o produkcie. Każde Story powinno zawierać naklejkę z linkiem dla Twoich followersów (framky.com/{handle}).',
         pkg_carousel: 'Carousel Post',
         pkg_carousel_desc: '1 post karuzelowy (min. 4 slajdy) — statyczna prezentacja efektu końcowego. Slajdy mogą pokazywać pustą ścianę, wizualizację projektu w kreatorze Framky, proces montażu i gotowy efekt. Opis posta z oznaczeniem @framky_gallery_walls.',
         deliverables_title: 'Obowiązki twórcy',
@@ -414,7 +409,7 @@
         deliverable_1: 'Opublikowania wybranych formatów treści',
         deliverable_2: 'Wyraźnej prezentacji produktu galerii Framky',
         deliverable_3: 'Oznaczenia @framky_gallery_walls',
-        deliverable_4: 'Zamieszczenia linku do framky.com',
+        deliverable_4: 'Zamieszczenia linku dla Twoich followersów (framky.com/{handle})',
         deliverable_5: 'Oznaczenia treści jako współpraca reklamowa (#ad / #gifted / #współpraca)',
         content_brief_title: 'Brief kreatywny',
         content_brief_tag: 'Oznacz: @framky_gallery_walls',
@@ -425,7 +420,7 @@
         rights_standard: 'Podstawowe (repost / reshare)',
         rights_standard_desc: 'Framky może udostępnić opublikowany materiał (repost / reshare) na profilu @framky_gallery_walls na Instagramie. Obejmuje: udostępnianie w mediach społecznościowych, wykorzystanie na stronie internetowej i w sklepie online, wykorzystanie w newsletterze. NIE obejmuje: płatnych reklam ani kampanii sponsorowanych. Materiał pozostaje w oryginalnej formie, bez modyfikacji.',
         rights_extended: 'Rozszerzone — licencja na kreacje reklamowe (w tym płatne reklamy)',
-        rights_extended_desc: 'Oprócz repostu na profilu Framky, autor/ka dostarcza zmontowane wideo bez nałożonych tytułów, naklejek i tekstów, z oryginalnym dźwiękiem, w rozdzielczości co najmniej 1080×1920 (Full HD vertical), kadrowane w pionie (9:16) lub w kwadracie (1:1). Obejmuje: wystawianie w marketplace, płatne reklamy (Meta, TikTok, Google), retargeting, materiały promocyjne. Framky ma prawo do edycji materiału (kadrowanie, zmiana rozmiaru, dodanie napisów, adaptacja formatu). Licencja udzielona na cały czas trwania ochrony prawnoautorskiej, bez ograniczeń terytorialnych. Obejmuje zgodę na wykorzystanie wizerunku. Dostarczenie surowego/nieedytowanego pliku na żądanie Framky (w ciągu 3 dni roboczych).',
+        rights_extended_desc: 'Oprócz repostu na profilu Framky, autor/ka dostarcza zmontowane wideo bez nałożonych tytułów, naklejek i tekstów, z oryginalnym dźwiękiem, w rozdzielczości co najmniej 1080×1920 (Full HD vertical), kadrowane w pionie (9:16) lub w kwadracie (1:1). Obejmuje: wystawianie w marketplace, płatne reklamy (Meta, TikTok, Google), retargeting, materiały promocyjne. Framky ma prawo do edycji materiału (kadrowanie, zmiana rozmiaru, dodanie napisów, adaptacja formatu). Licencja udzielona na cały czas trwania ochrony prawnoautorskiej, bez ograniczeń terytorialnych. Obejmuje zgodę na wykorzystanie wizerunku. Dostarczenie zmontowanego pliku wideo bez nakładek typu naklejki, czy tytuły, bez muzyki, w ciągu 3 dni od terminu publikacji materiału.',
         howto_title: 'Jak zamówić galerię?',
         howto_step1: 'Zaakceptuj ofertę współpracy',
         howto_step2: 'Otrzymaj kod vouchera e-mailem',
@@ -439,7 +434,6 @@
         voucher_term_4: 'Nie łączy się z innymi promocjami',
         voucher_term_5: 'Jeśli zamówienie przekroczy wartość vouchera — różnicę można dopłacić',
         voucher_term_6: 'Ważny przez 30 dni od daty wystawienia.',
-        voucher_term_7: 'Koszty wysyłki nie są pokrywane przez voucher.',
         legal_title: 'Warunki prawne',
         publication_deadline: 'Materiał musi zostać opublikowany w ciągu 30 dni od otrzymania produktu.',
         post_retention: 'Treść musi pozostać online przez co najmniej 12 miesięcy.',
@@ -458,6 +452,7 @@
         accept_confirm: 'Klikając „Zatwierdź współpracę", potwierdzasz, że zapoznałeś/aś się z warunkami, zgadzasz się na wybraną licencję na treści i rozumiesz, że jest to współpraca barterowa.',
         accept_btn: 'Zatwierdź współpracę',
         accept_hint: 'Zaznacz co najmniej jeden pakiet i obie zgody, aby kontynuować.',
+        contact_info: 'W razie pytań prosimy o kontakt: <a href="mailto:hello@framky.com" class="underline hover:text-brand-600">hello@framky.com</a>',
         processing: 'Przetwarzanie...',
         success_title: 'Współpraca zatwierdzona!',
         success_subtitle: 'Oto Twój voucher Framky',
@@ -482,15 +477,14 @@
         about_desc2: 'We value authentic product presentation in real interiors — in a natural style and setting.',
         about_barter: 'This collaboration is a barter agreement: you create content, and we provide a gallery of equivalent value.',
         voucher_title: 'Voucher Value',
-        voucher_desc: 'The voucher value is calculated individually based on multiple parameters. We estimate how many people potentially interested in Framky your published content will reach — considering account size, follower type, engagement level, location, and audience interests.',
-        voucher_desc2: 'The voucher value also depends on the scope of collaboration — you can change it below, and the voucher value will update automatically.',
+        voucher_desc: 'The voucher value depends on the size and parameters of your account, as well as the scope of collaboration you choose below.',
         voucher_label: 'Your voucher value',
         scope_title: 'Scope of Collaboration',
         scope_desc: 'You can select one or more options.',
         pkg_reel: 'Reel',
-        pkg_reel_desc: '1 Reel (min. 15 sec) — short video showcasing a Framky gallery in a home interior. Can be an unboxing, installation, wall transformation (before → after), or household reaction. Tag @framky_gallery_walls + link to the website.',
-        pkg_stories: '3× Stories',
-        pkg_stories_desc: 'A series of 3 Stories with link + tag @framky_gallery_walls. A short, authentic story — e.g. showing the gallery on the wall, first impressions, product review. Each Story should include a link sticker to framky.com.',
+        pkg_reel_desc: '1 Reel (min. 25 sec) — short video showcasing a Framky gallery in a home interior. Can be an unboxing, installation, wall transformation (before → after), or household reaction. Tag @framky_gallery_walls. Your follower link (framky.com/{handle}) must appear visually on the video for at least 3 seconds.',
+        pkg_stories: '4× Stories',
+        pkg_stories_desc: 'A series of min. 4 Stories with @framky_gallery_walls tag. A short, authentic story — e.g. showing the gallery on the wall, first impressions, product review. Each Story should include a link sticker with your follower link (framky.com/{handle}).',
         pkg_carousel: 'Carousel Post',
         pkg_carousel_desc: '1 carousel post (min. 4 slides) — static presentation of the final result. Slides can show the empty wall, design visualization in the Framky creator, installation process, and the finished look. Post caption with @framky_gallery_walls tag.',
         deliverables_title: 'Your Deliverables',
@@ -498,7 +492,7 @@
         deliverable_1: 'Publish the selected content format(s)',
         deliverable_2: 'Clearly present the Framky gallery product',
         deliverable_3: 'Tag @framky_gallery_walls',
-        deliverable_4: 'Include a link to framky.com',
+        deliverable_4: 'Include your follower link (framky.com/{handle})',
         deliverable_5: 'Use proper advertising disclosure (#ad / #gifted / #collaboration)',
         content_brief_title: 'Content Brief',
         content_brief_tag: 'Tag: @framky_gallery_walls',
@@ -523,7 +517,6 @@
         voucher_term_4: 'Cannot be combined with other promotions',
         voucher_term_5: 'If the order exceeds the voucher value — you pay the difference',
         voucher_term_6: 'Valid for 30 days from the date of issue.',
-        voucher_term_7: 'Shipping costs are not covered by the voucher.',
         legal_title: 'Legal Terms',
         publication_deadline: 'Content must be published within 30 days of receiving the product.',
         post_retention: 'Content must remain online for at least 12 months.',
@@ -542,6 +535,7 @@
         accept_confirm: 'By clicking "Accept Collaboration", you confirm that you have read and understood the terms, agree to the selected content license, and understand this is a barter agreement.',
         accept_btn: 'Accept Collaboration',
         accept_hint: 'Select at least one package and both consents to continue.',
+        contact_info: 'If you have any questions, please contact us: <a href="mailto:hello@framky.com" class="underline hover:text-brand-600">hello@framky.com</a>',
         processing: 'Processing...',
         success_title: 'Collaboration Accepted!',
         success_subtitle: 'Here\'s your Framky voucher',
@@ -566,15 +560,14 @@
         about_desc2: 'Wir schätzen authentische Produktpräsentation in echten Wohnräumen — in natürlichem Stil und Ambiente.',
         about_barter: 'Diese Zusammenarbeit basiert auf einem Tauschgeschäft: Du erstellst Inhalte, und wir liefern eine Galerie im entsprechenden Wert.',
         voucher_title: 'Gutscheinwert',
-        voucher_desc: 'Der Gutscheinwert wird individuell anhand verschiedener Parameter berechnet. Wir schätzen, wie viele potenziell an Framky interessierte Personen der veröffentlichte Inhalt erreicht — unter Berücksichtigung der Kontogröße, des Follower-Typs, des Engagements, des Standorts und der Interessen.',
-        voucher_desc2: 'Der Gutscheinwert hängt auch vom Umfang der Zusammenarbeit ab — du kannst ihn unten ändern, der Wert aktualisiert sich automatisch.',
+        voucher_desc: 'Der Gutscheinwert hängt von der Größe und den Parametern deines Kontos sowie vom Umfang der Zusammenarbeit ab, den du unten wählst.',
         voucher_label: 'Dein Gutscheinwert',
         scope_title: 'Umfang der Zusammenarbeit',
         scope_desc: 'Du kannst eine oder mehrere Optionen auswählen.',
         pkg_reel: 'Reel',
-        pkg_reel_desc: '1 Reel (mind. 15 Sek.) — kurzes Video einer Framky-Galerie im Wohnraum. Unboxing, Montage, Wandtransformation (vorher → nachher) oder Reaktion der Mitbewohner. Markierung @framky_gallery_walls + Link zur Website.',
-        pkg_stories: '3× Stories',
-        pkg_stories_desc: 'Serie von 3 Stories mit Link + Markierung @framky_gallery_walls. Kurze, authentische Erzählung — z.B. Galerie an der Wand, erste Eindrücke, Produktmeinung. Jede Story sollte einen Link-Sticker zu framky.com enthalten.',
+        pkg_reel_desc: '1 Reel (mind. 25 Sek.) — kurzes Video einer Framky-Galerie im Wohnraum. Unboxing, Montage, Wandtransformation (vorher → nachher) oder Reaktion der Mitbewohner. Markierung @framky_gallery_walls. Dein Follower-Link (framky.com/{handle}) muss mindestens 3 Sekunden lang grafisch im Video sichtbar sein.',
+        pkg_stories: '4× Stories',
+        pkg_stories_desc: 'Serie von mind. 4 Stories mit Markierung @framky_gallery_walls. Kurze, authentische Erzählung — z.B. Galerie an der Wand, erste Eindrücke, Produktmeinung. Jede Story sollte einen Link-Sticker mit deinem Follower-Link (framky.com/{handle}) enthalten.',
         pkg_carousel: 'Karussell-Post',
         pkg_carousel_desc: '1 Karussell-Post (mind. 4 Slides) — statische Präsentation des Endergebnisses. Slides können die leere Wand, den Designentwurf im Framky-Creator, den Montageprozess und das fertige Ergebnis zeigen. Beschreibung mit @framky_gallery_walls.',
         deliverables_title: 'Deine Leistungen',
@@ -582,7 +575,7 @@
         deliverable_1: 'Veröffentlichung der gewählten Inhaltsformate',
         deliverable_2: 'Klare Präsentation des Framky-Galerieprodukts',
         deliverable_3: 'Markierung @framky_gallery_walls',
-        deliverable_4: 'Link zu framky.com einfügen',
+        deliverable_4: 'Deinen Follower-Link einfügen (framky.com/{handle})',
         deliverable_5: 'Werbekennzeichnung verwenden (#ad / #gifted / #Kooperation)',
         content_brief_title: 'Content-Brief',
         content_brief_tag: 'Tag: @framky_gallery_walls',
@@ -607,7 +600,6 @@
         voucher_term_4: 'Nicht mit anderen Aktionen kombinierbar',
         voucher_term_5: 'Wenn die Bestellung den Gutscheinwert übersteigt — die Differenz wird berechnet',
         voucher_term_6: 'Gültig für 30 Tage ab Ausstellungsdatum.',
-        voucher_term_7: 'Versandkosten werden nicht durch den Gutschein abgedeckt.',
         legal_title: 'Rechtliche Bedingungen',
         publication_deadline: 'Der Inhalt muss innerhalb von 30 Tagen nach Erhalt des Produkts veröffentlicht werden.',
         post_retention: 'Der Inhalt muss mindestens 12 Monate online bleiben.',
@@ -626,6 +618,7 @@
         accept_confirm: 'Mit Klick auf „Zusammenarbeit bestätigen" bestätigst du, dass du die Bedingungen gelesen und verstanden hast, der gewählten Inhaltslizenz zustimmst und verstehst, dass dies ein Tauschgeschäft ist.',
         accept_btn: 'Zusammenarbeit bestätigen',
         accept_hint: 'Wähle mindestens ein Paket und beide Einwilligungen, um fortzufahren.',
+        contact_info: 'Bei Fragen kontaktieren Sie uns bitte: <a href="mailto:hello@framky.com" class="underline hover:text-brand-600">hello@framky.com</a>',
         processing: 'Wird verarbeitet...',
         success_title: 'Zusammenarbeit bestätigt!',
         success_subtitle: 'Hier ist dein Framky-Gutschein',
@@ -650,15 +643,14 @@
         about_desc2: 'Nous valorisons la présentation authentique des produits dans de vrais intérieurs — dans un style et un cadre naturels.',
         about_barter: 'Cette collaboration repose sur un échange : vous créez du contenu, et nous fournissons une galerie de valeur équivalente.',
         voucher_title: 'Valeur du bon',
-        voucher_desc: 'La valeur du bon est calculée individuellement selon plusieurs paramètres. Nous estimons combien de personnes potentiellement intéressées par Framky votre contenu publié atteindra — en tenant compte de la taille du compte, du type de followers, du niveau d\'engagement, de la localisation et des intérêts.',
-        voucher_desc2: 'La valeur du bon dépend aussi du périmètre de la collaboration — vous pouvez le modifier ci-dessous, la valeur se mettra à jour automatiquement.',
+        voucher_desc: 'La valeur du bon dépend de la taille et des paramètres de votre compte, ainsi que du périmètre de collaboration que vous choisissez ci-dessous.',
         voucher_label: 'Valeur de votre bon',
         scope_title: 'Périmètre de la collaboration',
         scope_desc: 'Vous pouvez sélectionner une ou plusieurs options.',
         pkg_reel: 'Reel',
-        pkg_reel_desc: '1 Reel (min. 15 sec) — courte vidéo présentant une galerie Framky dans un intérieur. Unboxing, installation, transformation du mur (avant → après) ou réaction des proches. Mention @framky_gallery_walls + lien vers le site.',
-        pkg_stories: '3× Stories',
-        pkg_stories_desc: 'Série de 3 Stories avec lien + mention @framky_gallery_walls. Récit court et authentique — ex. galerie au mur, premières impressions, avis produit. Chaque Story doit contenir un sticker lien vers framky.com.',
+        pkg_reel_desc: '1 Reel (min. 25 sec) — courte vidéo présentant une galerie Framky dans un intérieur. Unboxing, installation, transformation du mur (avant → après) ou réaction des proches. Mention @framky_gallery_walls. Votre lien followers (framky.com/{handle}) doit apparaître visuellement dans la vidéo pendant au moins 3 secondes.',
+        pkg_stories: '4× Stories',
+        pkg_stories_desc: 'Série de min. 4 Stories avec mention @framky_gallery_walls. Récit court et authentique — ex. galerie au mur, premières impressions, avis produit. Chaque Story doit contenir un sticker avec votre lien followers (framky.com/{handle}).',
         pkg_carousel: 'Post Carrousel',
         pkg_carousel_desc: '1 post carrousel (min. 4 slides) — présentation statique du résultat final. Les slides peuvent montrer le mur vide, la visualisation dans le créateur Framky, le processus de montage et le résultat final. Description avec @framky_gallery_walls.',
         deliverables_title: 'Vos engagements',
@@ -666,7 +658,7 @@
         deliverable_1: 'Publier le(s) format(s) de contenu sélectionné(s)',
         deliverable_2: 'Présenter clairement le produit galerie Framky',
         deliverable_3: 'Mentionner @framky_gallery_walls',
-        deliverable_4: 'Inclure un lien vers framky.com',
+        deliverable_4: 'Inclure votre lien followers (framky.com/{handle})',
         deliverable_5: 'Utiliser la mention publicitaire requise (#ad / #gifted / #collaboration)',
         content_brief_title: 'Brief créatif',
         content_brief_tag: 'Tag : @framky_gallery_walls',
@@ -691,7 +683,6 @@
         voucher_term_4: 'Non cumulable avec d\'autres promotions',
         voucher_term_5: 'Si la commande dépasse la valeur du bon — la différence est à votre charge',
         voucher_term_6: 'Valable 30 jours à compter de la date d\'émission.',
-        voucher_term_7: 'Les frais de livraison ne sont pas couverts par le bon.',
         legal_title: 'Conditions juridiques',
         publication_deadline: 'Le contenu doit être publié dans les 30 jours suivant la réception du produit.',
         post_retention: 'Le contenu doit rester en ligne pendant au moins 12 mois.',
@@ -710,6 +701,7 @@
         accept_confirm: 'En cliquant sur « Valider la collaboration », vous confirmez avoir lu et compris les conditions, accepter la licence de contenu sélectionnée et comprendre qu\'il s\'agit d\'un accord de troc.',
         accept_btn: 'Valider la collaboration',
         accept_hint: 'Sélectionnez au moins un package et les deux consentements pour continuer.',
+        contact_info: 'Pour toute question, veuillez nous contacter : <a href="mailto:hello@framky.com" class="underline hover:text-brand-600">hello@framky.com</a>',
         processing: 'Traitement en cours...',
         success_title: 'Collaboration validée !',
         success_subtitle: 'Voici votre bon Framky',
@@ -734,15 +726,14 @@
         about_desc2: 'We waarderen authentieke productpresentatie in echte interieurs — in een natuurlijke stijl en omgeving.',
         about_barter: 'Deze samenwerking is een ruilovereenkomst: jij maakt content, en wij leveren een galerij van gelijke waarde.',
         voucher_title: 'Waarde van de voucher',
-        voucher_desc: 'De voucherwaarde wordt individueel berekend op basis van meerdere parameters. We schatten hoeveel potentieel geïnteresseerde mensen je gepubliceerde content bereikt — rekening houdend met accountgrootte, type volgers, betrokkenheid, locatie en interesses.',
-        voucher_desc2: 'De voucherwaarde hangt ook af van de omvang van de samenwerking — je kunt dit hieronder aanpassen, de waarde wordt automatisch bijgewerkt.',
+        voucher_desc: 'De voucherwaarde hangt af van de grootte en parameters van je account, en van de omvang van de samenwerking die je hieronder kiest.',
         voucher_label: 'Jouw voucherwaarde',
         scope_title: 'Omvang van de samenwerking',
         scope_desc: 'Je kunt een of meer opties selecteren.',
         pkg_reel: 'Reel',
-        pkg_reel_desc: '1 Reel (min. 15 sec) — korte video van een Framky-galerij in een huiselijk interieur. Unboxing, montage, muurtransformatie (voor → na) of reactie van huisgenoten. Vermelding @framky_gallery_walls + link naar de website.',
-        pkg_stories: '3× Stories',
-        pkg_stories_desc: 'Serie van 3 Stories met link + vermelding @framky_gallery_walls. Kort, authentiek verhaal — bijv. galerij aan de muur, eerste indrukken, productmening. Elke Story moet een linksticker naar framky.com bevatten.',
+        pkg_reel_desc: '1 Reel (min. 25 sec) — korte video van een Framky-galerij in een huiselijk interieur. Unboxing, montage, muurtransformatie (voor → na) of reactie van huisgenoten. Vermelding @framky_gallery_walls. Je followerlink (framky.com/{handle}) moet minstens 3 seconden grafisch zichtbaar zijn in de video.',
+        pkg_stories: '4× Stories',
+        pkg_stories_desc: 'Serie van min. 4 Stories met vermelding @framky_gallery_walls. Kort, authentiek verhaal — bijv. galerij aan de muur, eerste indrukken, productmening. Elke Story moet een linksticker bevatten met je followerlink (framky.com/{handle}).',
         pkg_carousel: 'Carrousel Post',
         pkg_carousel_desc: '1 carrouselpost (min. 4 slides) — statische presentatie van het eindresultaat. Slides kunnen de lege muur, ontwerpvisualisatie in de Framky-creator, het montageproces en het eindresultaat tonen. Beschrijving met @framky_gallery_walls.',
         deliverables_title: 'Jouw verplichtingen',
@@ -750,7 +741,7 @@
         deliverable_1: 'De geselecteerde contentformaten publiceren',
         deliverable_2: 'Het Framky-galerijproduct duidelijk presenteren',
         deliverable_3: '@framky_gallery_walls taggen',
-        deliverable_4: 'Een link naar framky.com opnemen',
+        deliverable_4: 'Je followerlink opnemen (framky.com/{handle})',
         deliverable_5: 'Juiste advertentievermelding gebruiken (#ad / #gifted / #samenwerking)',
         content_brief_title: 'Content Brief',
         content_brief_tag: 'Tag: @framky_gallery_walls',
@@ -775,7 +766,6 @@
         voucher_term_4: 'Niet te combineren met andere acties',
         voucher_term_5: 'Als de bestelling de voucherwaarde overschrijdt — betaal je het verschil',
         voucher_term_6: 'Geldig gedurende 30 dagen vanaf de uitgiftedatum.',
-        voucher_term_7: 'Verzendkosten worden niet gedekt door de voucher.',
         legal_title: 'Juridische voorwaarden',
         publication_deadline: 'Content moet binnen 30 dagen na ontvangst van het product worden gepubliceerd.',
         post_retention: 'Content moet minimaal 12 maanden online blijven.',
@@ -794,6 +784,7 @@
         accept_confirm: 'Door op „Samenwerking bevestigen" te klikken, bevestig je dat je de voorwaarden hebt gelezen en begrepen, akkoord gaat met de gekozen contentlicentie, en begrijpt dat dit een ruilovereenkomst is.',
         accept_btn: 'Samenwerking bevestigen',
         accept_hint: 'Selecteer ten minste één pakket en beide toestemmingen om door te gaan.',
+        contact_info: 'Heeft u vragen? Neem contact met ons op: <a href="mailto:hello@framky.com" class="underline hover:text-brand-600">hello@framky.com</a>',
         processing: 'Verwerken...',
         success_title: 'Samenwerking bevestigd!',
         success_subtitle: 'Hier is je Framky-voucher',
@@ -818,15 +809,14 @@
         about_desc2: 'Apprezziamo la presentazione autentica dei prodotti in interni reali — in uno stile e un contesto naturali.',
         about_barter: 'Questa collaborazione è un accordo di baratto: tu crei contenuti, e noi forniamo una galleria di valore equivalente.',
         voucher_title: 'Valore del voucher',
-        voucher_desc: 'Il valore del voucher viene calcolato individualmente sulla base di diversi parametri. Stimiamo quante persone potenzialmente interessate a Framky raggiungerà il tuo contenuto pubblicato — considerando la dimensione dell\'account, il tipo di follower, il livello di engagement, la posizione e gli interessi.',
-        voucher_desc2: 'Il valore del voucher dipende anche dall\'ambito della collaborazione — puoi modificarlo qui sotto, il valore si aggiorna automaticamente.',
+        voucher_desc: 'Il valore del voucher dipende dalle dimensioni e dai parametri del tuo account, nonché dall\'ambito di collaborazione che scegli qui sotto.',
         voucher_label: 'Valore del tuo voucher',
         scope_title: 'Ambito della collaborazione',
         scope_desc: 'Puoi selezionare una o più opzioni.',
         pkg_reel: 'Reel',
-        pkg_reel_desc: '1 Reel (min. 15 sec) — breve video che presenta una galleria Framky in un interno domestico. Può essere un unboxing, installazione, trasformazione della parete (prima → dopo) o reazione dei familiari. Tag @framky_gallery_walls + link al sito.',
-        pkg_stories: '3× Stories',
-        pkg_stories_desc: 'Serie di 3 Stories con link + tag @framky_gallery_walls. Breve racconto autentico — es. galleria al muro, prime impressioni, opinione sul prodotto. Ogni Story deve contenere un adesivo link a framky.com.',
+        pkg_reel_desc: '1 Reel (min. 25 sec) — breve video che presenta una galleria Framky in un interno domestico. Può essere un unboxing, installazione, trasformazione della parete (prima → dopo) o reazione dei familiari. Tag @framky_gallery_walls. Il tuo link follower (framky.com/{handle}) deve apparire visivamente nel video per almeno 3 secondi.',
+        pkg_stories: '4× Stories',
+        pkg_stories_desc: 'Serie di min. 4 Stories con tag @framky_gallery_walls. Breve racconto autentico — es. galleria al muro, prime impressioni, opinione sul prodotto. Ogni Story deve contenere un adesivo con il tuo link follower (framky.com/{handle}).',
         pkg_carousel: 'Post Carosello',
         pkg_carousel_desc: '1 post carosello (min. 4 slide) — presentazione statica del risultato finale. Le slide possono mostrare la parete vuota, la visualizzazione del progetto nel creator Framky, il processo di montaggio e il risultato finale. Descrizione con tag @framky_gallery_walls.',
         deliverables_title: 'I tuoi impegni',
@@ -834,7 +824,7 @@
         deliverable_1: 'Pubblicare i formati di contenuto selezionati',
         deliverable_2: 'Presentare chiaramente il prodotto galleria Framky',
         deliverable_3: 'Taggare @framky_gallery_walls',
-        deliverable_4: 'Includere un link a framky.com',
+        deliverable_4: 'Includere il tuo link follower (framky.com/{handle})',
         deliverable_5: 'Utilizzare la dichiarazione pubblicitaria richiesta (#ad / #gifted / #collaborazione)',
         content_brief_title: 'Brief creativo',
         content_brief_tag: 'Tag: @framky_gallery_walls',
@@ -859,7 +849,6 @@
         voucher_term_4: 'Non cumulabile con altre promozioni',
         voucher_term_5: 'Se l\'ordine supera il valore del voucher — paghi la differenza',
         voucher_term_6: 'Valido per 30 giorni dalla data di emissione.',
-        voucher_term_7: 'Le spese di spedizione non sono coperte dal voucher.',
         legal_title: 'Condizioni legali',
         publication_deadline: 'Il contenuto deve essere pubblicato entro 30 giorni dalla ricezione del prodotto.',
         post_retention: 'Il contenuto deve rimanere online per almeno 12 mesi.',
@@ -878,6 +867,7 @@
         accept_confirm: 'Cliccando "Conferma la collaborazione", confermi di aver letto e compreso le condizioni, accetti la licenza sui contenuti selezionata e comprendi che si tratta di un accordo di baratto.',
         accept_btn: 'Conferma la collaborazione',
         accept_hint: 'Seleziona almeno un pacchetto ed entrambi i consensi per continuare.',
+        contact_info: 'Per qualsiasi domanda, contattateci: <a href="mailto:hello@framky.com" class="underline hover:text-brand-600">hello@framky.com</a>',
         processing: 'Elaborazione...',
         success_title: 'Collaborazione confermata!',
         success_subtitle: 'Ecco il tuo voucher Framky',
@@ -902,7 +892,11 @@
     }
 
     function t(key) {
-      return (TRANSLATIONS[currentLang] && TRANSLATIONS[currentLang][key]) || TRANSLATIONS.pl[key] || key;
+      let val = (TRANSLATIONS[currentLang] && TRANSLATIONS[currentLang][key]) || TRANSLATIONS.pl[key] || key;
+      if (offerData && offerData.influencer) {
+        val = val.replace(/\{handle\}/g, offerData.influencer.username);
+      }
+      return val;
     }
 
     function setLang(lang) {
@@ -1081,17 +1075,17 @@
         card.innerHTML = `
           <div class="flex items-center justify-between">
             <div class="flex items-center gap-3">
+              <span class="pkg-checkbox flex h-5 w-5 shrink-0 items-center justify-center rounded border-2 transition-colors ${isSelected ? 'border-secondary-600 bg-secondary-600' : 'border-brand-300 bg-white'}">
+                <svg class="h-3.5 w-3.5 text-white ${isSelected ? '' : 'hidden'}" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                </svg>
+              </span>
               <span class="text-xl">${cfg.icon}</span>
               <span class="text-base font-semibold text-brand-900">${t(cfg.titleKey)}</span>
             </div>
-            <div class="flex items-center gap-3">
-              <span class="pkg-eur-value text-base font-medium text-secondary-600" data-pkg="${key}">+ ${packageEurValue(key)} EUR</span>
-              <svg class="pkg-check-icon h-6 w-6 ${isSelected ? 'text-secondary-600' : 'hidden text-secondary-600'}" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-              </svg>
-            </div>
+            <span class="pkg-eur-value text-base font-medium text-secondary-600" data-pkg="${key}">+ ${packageEurValue(key)} EUR</span>
           </div>
-          <p class="mt-3 pl-9 text-base leading-relaxed text-brand-500">${t(cfg.descKey)}</p>
+          <p class="mt-3 pl-11 text-base leading-relaxed text-brand-500">${t(cfg.descKey)}</p>
         `;
         container.appendChild(card);
       }
@@ -1101,15 +1095,20 @@
         card.addEventListener('click', function() {
           const key = this.dataset.pkg;
           selectedPackages[key] = !selectedPackages[key];
-          const icon = this.querySelector('.pkg-check-icon');
+          const cb = this.querySelector('.pkg-checkbox');
+          const tick = cb.querySelector('svg');
           if (selectedPackages[key]) {
             this.classList.add('border-l-secondary-600', 'bg-secondary-50/30');
             this.classList.remove('border-l-brand-200');
-            icon.classList.remove('hidden');
+            cb.classList.add('border-secondary-600', 'bg-secondary-600');
+            cb.classList.remove('border-brand-300', 'bg-white');
+            tick.classList.remove('hidden');
           } else {
             this.classList.remove('border-l-secondary-600', 'bg-secondary-50/30');
             this.classList.add('border-l-brand-200');
-            icon.classList.add('hidden');
+            cb.classList.remove('border-secondary-600', 'bg-secondary-600');
+            cb.classList.add('border-brand-300', 'bg-white');
+            tick.classList.add('hidden');
           }
           recalculate();
         });

@@ -6,7 +6,7 @@ class Api::V1::Accounts::InfluencerProfilesController < Api::V1::Accounts::BaseC
   skip_before_action :authenticate_user!, only: [:proxy_image]
   skip_before_action :current_account, only: [:proxy_image]
   before_action :set_profile, only: %i[show destroy request_report approve reject recalculate retry_apify conversations send_message
-                                       create_offer offers]
+                                       create_offer offers update_email]
   rescue_from InfluencersClub::Client::ApiError, with: :handle_api_error
 
   def index
@@ -154,6 +154,9 @@ class Api::V1::Accounts::InfluencerProfilesController < Api::V1::Accounts::BaseC
   end
 
   def create_offer
+    active_offer = @profile.influencer_offers.pending.where('expires_at > ?', Time.current).first
+    return render json: { error: 'An active offer already exists for this profile' }, status: :unprocessable_entity if active_offer
+
     offer = @profile.influencer_offers.create!(
       account: Current.account,
       created_by: Current.user,
@@ -169,6 +172,23 @@ class Api::V1::Accounts::InfluencerProfilesController < Api::V1::Accounts::BaseC
   def offers
     offers = @profile.influencer_offers.order(created_at: :desc)
     render json: { payload: offers.map { |o| offer_list_json(o) } }
+  end
+
+  def update_email
+    email = params[:email].presence
+    contact = @profile.contact
+
+    existing = email && Current.account.contacts.find_by('LOWER(email) = ?', email.downcase)
+    if existing && existing.id != contact.id
+      ContactMergeAction.new(account: Current.account, base_contact: contact, mergee_contact: existing).perform
+      contact.reload
+    end
+
+    if contact.update(email: email)
+      render json: { payload: profile_json(@profile.reload) }
+    else
+      render json: { error: contact.errors.full_messages.join(', ') }, status: :unprocessable_entity
+    end
   end
 
   ALLOWED_IMAGE_HOSTS = /\A[a-z0-9-]+\.(cdninstagram|fbcdn)\.com\z/i
@@ -399,6 +419,7 @@ class Api::V1::Accounts::InfluencerProfilesController < Api::V1::Accounts::BaseC
       apify_enriched_at: profile.apify_enriched_at,
       enrichment_pending: profile.enrichment_pending,
       contact_id: profile.contact_id,
+      email: profile.contact&.email,
       created_at: profile.created_at,
       updated_at: profile.updated_at
     }

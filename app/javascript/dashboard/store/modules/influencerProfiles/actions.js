@@ -159,6 +159,12 @@ export const actions = {
     return data.payload;
   },
 
+  updateEmail: async ({ commit }, { profileId, email }) => {
+    const { data } = await InfluencerProfilesAPI.updateEmail(profileId, email);
+    commit(types.EDIT_INFLUENCER, data.payload);
+    return data.payload;
+  },
+
   sendMessage: async (_, { profileId, inboxId, content }) => {
     const { data } = await InfluencerProfilesAPI.sendMessage(profileId, {
       inboxId,

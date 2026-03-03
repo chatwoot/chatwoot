@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore } from 'vuex';
 
@@ -20,6 +20,12 @@ const isAccepted = computed(
     props.profile.status === 'accepted' || props.profile.status === 'contacted'
 );
 
+const hasActiveOffer = computed(() =>
+  offers.value.some(
+    o => o.status === 'pending' && new Date(o.expires_at) > new Date()
+  )
+);
+
 async function fetchOffers() {
   loading.value = true;
   try {
@@ -33,8 +39,11 @@ async function fetchOffers() {
   }
 }
 
+const offerError = ref('');
+
 async function handleGenerate() {
   creating.value = true;
+  offerError.value = '';
   try {
     await store.dispatch('influencerProfiles/createOffer', {
       profileId: props.profile.id,
@@ -42,6 +51,10 @@ async function handleGenerate() {
       rightsLevel: 'standard',
       currency: 'EUR',
     });
+    await fetchOffers();
+  } catch (err) {
+    offerError.value =
+      err?.response?.data?.error || t('INFLUENCER.OFFERS.CREATE_ERROR');
     await fetchOffers();
   } finally {
     creating.value = false;
@@ -76,9 +89,14 @@ function formatDate(dateStr) {
   return new Date(dateStr).toLocaleDateString();
 }
 
-onMounted(() => {
+function reset() {
+  offers.value = [];
+  offerError.value = '';
   if (isAccepted.value) fetchOffers();
-});
+}
+
+onMounted(reset);
+watch(() => props.profile.id, reset);
 </script>
 
 <!-- eslint-disable vue/no-bare-strings-in-template -->
@@ -90,7 +108,10 @@ onMounted(() => {
       </h4>
       <button
         class="flex items-center gap-1 rounded-lg bg-violet-600 px-3 py-1.5 text-xs font-medium text-white hover:bg-violet-700 disabled:opacity-50"
-        :disabled="creating"
+        :disabled="creating || hasActiveOffer"
+        :title="
+          hasActiveOffer ? t('INFLUENCER.OFFERS.ACTIVE_EXISTS') : undefined
+        "
         @click="handleGenerate"
       >
         <span v-if="creating" class="i-lucide-loader-2 size-3 animate-spin" />
@@ -102,6 +123,10 @@ onMounted(() => {
         }}
       </button>
     </div>
+
+    <p v-if="offerError" class="mb-2 text-xs text-red-600">
+      {{ offerError }}
+    </p>
 
     <!-- Offers list -->
     <div v-if="loading" class="py-3 text-center text-xs text-n-slate-10">

@@ -111,6 +111,8 @@
       "AUDIENCE_TYPES_TITLE": "Audience Types",
       "AUDIENCE_GEO_TITLE": "Audience Geography",
       "NICHE_TITLE": "Niche & Content",
+      "EMAIL_PLACEHOLDER": "email{'@'}example.com",
+      "ADD_EMAIL": "add email",
       "NEEDS_ENRICH": "enrich",
       "ENRICH_HINT": "Import and enrich this profile to unlock FQS scoring, audience data, reel views, and recent posts.",
       "RECENT_REELS": "Recent Reels",
@@ -160,7 +162,9 @@
       "EMPTY": "No offers created yet.",
       "COPY_LINK": "Copy link",
       "COPIED": "Copied!",
-      "EXPIRES": "expires"
+      "EXPIRES": "expires",
+      "ACTIVE_EXISTS": "An active offer already exists",
+      "CREATE_ERROR": "Failed to create offer"
     },
     "MESSAGING": {
       "TITLE": "Messages",
@@ -179,7 +183,7 @@
       "CONTENT_PACKAGE": "Content package",
       "REEL": "Reel",
       "CAROUSEL": "Carousel",
-      "STORIES": "3 Stories",
+      "STORIES": "4 Stories",
       "RIGHTS": "Content rights",
       "STANDARD": "Standard",
       "EXTENDED": "Extended",

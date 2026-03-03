@@ -27,13 +27,16 @@ class InfluencersClub::ResponseParser
     audience_attrs = parse_audience_fields(audience_data)
     growth = parse_growth(ig['creator_follower_growth'])
 
+    result = data['result'] || {}
+
     profile_attrs.merge(audience_attrs).merge(
       follower_growth_rate: growth[:monthly_growth],
       stat_history: ig['creator_follower_growth'] || {},
       recent_reels: extract_reels(ig['post_data']),
       last_post_at: parse_date(ig['most_recent_post_date']),
       target_market: ig['country']&.upcase,
-      raw_report_data: data
+      raw_report_data: data,
+      _contact_email: result['email'].presence
     ).compact
   end
 

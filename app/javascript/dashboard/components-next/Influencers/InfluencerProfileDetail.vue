@@ -2,11 +2,13 @@
 /* eslint-disable no-use-before-define, no-shadow */
 import { ref, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useStore } from 'vuex';
 import FqsScoreBadge from './FqsScoreBadge.vue';
 import VoucherCalculator from './VoucherCalculator.vue';
 import InfluencerReelPreview from './InfluencerReelPreview.vue';
 import InfluencerPostPreview from './InfluencerPostPreview.vue';
 import InfluencerOffers from './InfluencerOffers.vue';
+import InfluencerMessaging from './InfluencerMessaging.vue';
 
 const props = defineProps({
   profile: { type: Object, required: true },
@@ -18,9 +20,39 @@ const emit = defineEmits([
   'reject',
   'requestReport',
   'delete',
+  'update:profile',
 ]);
 const { t } = useI18n();
+const store = useStore();
 const rejectReason = ref('');
+const rejectReasonMissing = ref(false);
+const editingEmail = ref(false);
+const emailInput = ref('');
+const savingEmail = ref(false);
+const emailError = ref('');
+
+function startEditEmail() {
+  emailInput.value = props.profile.email || '';
+  emailError.value = '';
+  editingEmail.value = true;
+}
+
+async function saveEmail() {
+  savingEmail.value = true;
+  emailError.value = '';
+  try {
+    const updated = await store.dispatch('influencerProfiles/updateEmail', {
+      profileId: props.profile.id,
+      email: emailInput.value,
+    });
+    emit('update:profile', updated);
+    editingEmail.value = false;
+  } catch (err) {
+    emailError.value = err?.response?.data?.error || 'Failed to save email';
+  } finally {
+    savingEmail.value = false;
+  }
+}
 
 const isEnriched = computed(
   () =>
@@ -313,6 +345,7 @@ const rawDataFields = computed(() => {
   const fields = [
     { label: 'Username', value: p.username },
     { label: 'Full Name', value: p.fullname },
+    { label: 'Email', value: p.email },
     { label: 'Platform', value: p.platform },
     { label: 'Followers', value: p.followers_count },
     { label: 'Following', value: p.following_count },
@@ -400,6 +433,13 @@ function audienceTypeColor(code) {
 }
 
 function handleReject() {
+  if (!rejectReason.value.trim()) {
+    rejectReasonMissing.value = true;
+    setTimeout(() => {
+      rejectReasonMissing.value = false;
+    }, 1500);
+    return;
+  }
   emit('reject', props.profile.id, rejectReason.value);
 }
 </script>
@@ -485,6 +525,61 @@ function handleReject() {
           >
             {{ t('INFLUENCER.DETAIL.VIEW_INSTAGRAM') }}
           </a>
+
+          <!-- Editable email -->
+          <div class="mt-1">
+            <div class="flex items-center gap-1.5">
+              <span class="i-lucide-mail size-3 text-n-slate-10" />
+              <template v-if="editingEmail">
+                <input
+                  v-model="emailInput"
+                  type="email"
+                  class="w-44 rounded border px-1.5 py-0.5 text-xs"
+                  :class="
+                    emailError
+                      ? 'border-red-400 bg-red-50'
+                      : 'border-n-weak bg-n-solid-1'
+                  "
+                  :placeholder="t('INFLUENCER.DETAIL.EMAIL_PLACEHOLDER')"
+                  @keyup.enter="saveEmail"
+                  @keyup.escape="editingEmail = false"
+                />
+                <button
+                  class="text-xs text-green-600 hover:text-green-700 disabled:opacity-50"
+                  :disabled="savingEmail"
+                  @click="saveEmail"
+                >
+                  <span class="i-lucide-check size-3.5" />
+                </button>
+                <button
+                  class="text-xs text-n-slate-10 hover:text-n-slate-12"
+                  @click="editingEmail = false"
+                >
+                  <span class="i-lucide-x size-3.5" />
+                </button>
+              </template>
+              <template v-else>
+                <span
+                  class="cursor-pointer text-xs hover:underline"
+                  :class="
+                    profile.email ? 'text-n-slate-12' : 'italic text-n-slate-10'
+                  "
+                  @click="startEditEmail"
+                >
+                  {{ profile.email || t('INFLUENCER.DETAIL.ADD_EMAIL') }}
+                </span>
+                <button
+                  class="text-n-slate-10 hover:text-n-brand"
+                  @click="startEditEmail"
+                >
+                  <span class="i-lucide-pencil size-3" />
+                </button>
+              </template>
+            </div>
+            <p v-if="emailError" class="ml-4.5 mt-0.5 text-[11px] text-red-600">
+              {{ emailError }}
+            </p>
+          </div>
         </div>
       </div>
 
@@ -596,6 +691,9 @@ function handleReject() {
 
       <!-- Offers (accepted+ profiles) -->
       <InfluencerOffers :profile="profile" />
+
+      <!-- Messaging -->
+      <InfluencerMessaging :profile="profile" />
 
       <!-- Audience Types breakdown -->
       <div v-if="isEnriched && audienceTypes.length" class="mb-6">
@@ -831,8 +929,14 @@ function handleReject() {
         <input
           v-model="rejectReason"
           type="text"
-          class="w-full rounded-lg border border-n-weak bg-n-solid-1 px-3 py-1.5 text-sm"
+          class="w-full rounded-lg border bg-n-solid-1 px-3 py-1.5 text-sm transition-colors"
+          :class="
+            rejectReasonMissing
+              ? 'animate-shake border-2 border-red-500 ring-2 ring-red-300'
+              : 'border-n-weak'
+          "
           :placeholder="t('INFLUENCER.DETAIL.REJECT_REASON_PLACEHOLDER')"
+          @input="rejectReasonMissing = false"
         />
       </div>
       <div class="flex gap-2">
@@ -866,8 +970,14 @@ function handleReject() {
         <input
           v-model="rejectReason"
           type="text"
-          class="w-full rounded-lg border border-n-weak bg-n-solid-1 px-3 py-1.5 text-sm"
+          class="w-full rounded-lg border bg-n-solid-1 px-3 py-1.5 text-sm transition-colors"
+          :class="
+            rejectReasonMissing
+              ? 'animate-shake border-2 border-red-500 ring-2 ring-red-300'
+              : 'border-n-weak'
+          "
           :placeholder="t('INFLUENCER.DETAIL.REJECT_REASON_PLACEHOLDER')"
+          @input="rejectReasonMissing = false"
         />
       </div>
       <div class="flex gap-2">

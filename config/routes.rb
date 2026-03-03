@@ -212,6 +212,7 @@ Rails.application.routes.draw do
               post :send_message
               post :create_offer
               get :offers
+              patch :update_email
             end
           end
           resources :csat_survey_responses, only: [:index] do

@@ -36,17 +36,32 @@ class Influencers::ConversationService
                when 'Channel::Email'
                  'No email address on contact' if contact.email.blank?
                when 'Channel::Instagram'
-                 'Instagram DM inbox not connected' # TODO: check real IG connection
+                 instagram_unavailable_reason(inbox.channel)
                end
       result[inbox.id] = { available: reason.nil?, reason: reason, name: inbox.name, channel_type: inbox.channel_type }
     end
+  end
+
+  def self.instagram_unavailable_reason(channel)
+    return 'Instagram channel not configured' if channel.blank?
+    return 'Instagram requires reconnection' if channel.reauthorization_required?
+    return 'Instagram token expired' if channel.access_token.blank?
+
+    nil
   end
 
   private
 
   def validate_channel!
     source = resolve_source_id
-    raise ChannelUnavailableError, 'Contact has no email address. Add an email to send messages.' if source.blank?
+    return if source.present?
+
+    message = case @inbox.channel_type
+              when 'Channel::Email' then 'Contact has no email address. Add an email to send messages.'
+              when 'Channel::Instagram' then 'Influencer has no Instagram username.'
+              else 'Channel source not available.'
+              end
+    raise ChannelUnavailableError, message
   end
 
   def find_or_create_contact_inbox

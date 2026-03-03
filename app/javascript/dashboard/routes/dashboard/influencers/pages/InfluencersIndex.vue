@@ -198,6 +198,7 @@ async function handleDelete() {
       @reject="handleReject"
       @request-report="handleRequestReport"
       @delete="handleDelete"
+      @update:profile="p => (selectedProfile = p)"
     />
   </div>
 </template>

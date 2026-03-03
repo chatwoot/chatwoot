@@ -87,6 +87,10 @@ class InfluencerProfilesAPI extends ApiClient {
     return axios.get(`${this.url}/${profileId}/offers`);
   }
 
+  updateEmail(profileId, email) {
+    return axios.patch(`${this.url}/${profileId}/update_email`, { email });
+  }
+
   addByHandle(handle) {
     return axios.post(`${this.url}/add_by_handle`, { handle });
   }

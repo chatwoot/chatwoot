@@ -12,6 +12,7 @@ class Influencers::FetchReportJob < ApplicationJob
     return handle_empty_report(profile) if response.blank?
 
     attrs = InfluencersClub::ResponseParser.parse_enrich(response)
+    contact_email = attrs.delete(:_contact_email)
     profile.update!(
       attrs.merge(
         report_fetched_at: Time.current,
@@ -20,6 +21,7 @@ class Influencers::FetchReportJob < ApplicationJob
         last_synced_at: Time.current
       )
     )
+    profile.contact.update!(email: contact_email) if contact_email.present? && profile.contact.email.blank?
 
     Avatar::AvatarFromUrlJob.perform_later(profile.contact, profile.profile_picture_url) if profile.profile_picture_url.present?
     Influencers::ScoreProfileJob.perform_later(profile.id)
