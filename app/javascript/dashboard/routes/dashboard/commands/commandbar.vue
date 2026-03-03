@@ -59,14 +59,23 @@ const placeholder = computed(() =>
     : t('COMMAND_BAR.SEARCH_PLACEHOLDER')
 );
 
-const hotKeys = computed(() => [
-  ...dynamicSnoozeActions.value,
-  ...inboxHotKeys.value,
-  ...goToCommandHotKeys.value,
-  ...goToAppearanceHotKeys.value,
-  ...bulkActionsHotKeys.value,
-  ...conversationHotKeys.value,
-]);
+const SNOOZE_PRESET_IDS = new Set(Object.values(wootConstants.SNOOZE_OPTIONS));
+
+const hotKeys = computed(() => {
+  const allActions = [
+    ...dynamicSnoozeActions.value,
+    ...inboxHotKeys.value,
+    ...goToCommandHotKeys.value,
+    ...goToAppearanceHotKeys.value,
+    ...bulkActionsHotKeys.value,
+    ...conversationHotKeys.value,
+  ];
+  // When dynamic NLP snooze suggestions exist, hide all preset snooze actions to avoid duplication
+  if (!dynamicSnoozeActions.value.length) return allActions;
+  return allActions.filter(
+    a => !SNOOZE_PRESET_IDS.has(a.id) || !SNOOZE_PARENT_IDS.includes(a.parent)
+  );
+});
 
 const setCommandBarData = () => {
   ninjakeys.value.data = hotKeys.value;
@@ -104,7 +113,7 @@ const buildDynamicSnoozeActions = (search, parentId) => {
     id: `${DYNAMIC_SNOOZE_PREFIX}${index}`,
     title:
       parsed.label !== parsed.formattedDate
-        ? `${parsed.label} — ${parsed.formattedDate}`
+        ? `${parsed.label} - ${parsed.formattedDate}`
         : parsed.formattedDate,
     parent: parentId,
     section,
