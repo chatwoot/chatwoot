@@ -11,6 +11,7 @@ import ResolveAction from '../../buttons/ResolveAction.vue';
 import ButtonV4 from 'dashboard/components-next/button/Button.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
 import virtiAuth from 'dashboard/api/virtiAuth';
+import { virtiGet, virtiPost, virtiDelete } from 'dashboard/api/virtiBackend';
 
 import {
   CMD_MUTE_CONVERSATION,
@@ -27,13 +28,62 @@ const [showActionsDropdown, toggleDropdown] = useToggle(false);
 const [showVirtiInfoModal, toggleVirtiInfoModal] = useToggle(false);
 
 const virtiAvailable = ref(false);
+const followUpAtivado = ref(false);
+const followUpLoading = ref(false);
 
 onMounted(async () => {
   await virtiAuth.ensureToken();
   virtiAvailable.value = virtiAuth.getAvailability();
+
+  if (virtiAvailable.value) {
+    const idRobo = virtiAuth.getIdRobo();
+    const userId = idUsuario.value;
+    if (idRobo && userId) {
+      try {
+        const res = await virtiGet(
+          `/api/v1/infos_user/${idRobo}/${userId}/all`
+        );
+        followUpAtivado.value = Boolean(res?.data?.ProximoFollowUp);
+      } catch {
+        // silently fail — não impede o uso do resto
+      }
+    }
+  }
 });
 
 const currentChat = computed(() => store.getters.getSelectedChat);
+
+const idUsuario = computed(() => {
+  const senderId = currentChat.value?.meta?.sender?.id;
+  if (!senderId) return null;
+  const contact = store.getters['contacts/getContact'](senderId);
+  const phone = contact?.phone_number;
+  if (!phone) return null;
+  return `chatwoot_${phone.replace('+', '')}`;
+});
+
+const toggleFollowUp = async () => {
+  const idRobo = virtiAuth.getIdRobo();
+  const userId = idUsuario.value;
+  if (!idRobo || !userId) return;
+
+  followUpLoading.value = true;
+  try {
+    if (!followUpAtivado.value) {
+      await virtiPost(`/api/v1/conversas/follow-up/${idRobo}/${userId}`);
+      followUpAtivado.value = true;
+      useAlert('Follow-up ativado com sucesso.');
+    } else {
+      await virtiDelete(`/api/v1/conversas/follow-up/${idRobo}/${userId}`);
+      followUpAtivado.value = false;
+      useAlert('Follow-up desativado com sucesso.');
+    }
+  } catch {
+    useAlert('Erro ao alterar follow-up.');
+  } finally {
+    followUpLoading.value = false;
+  }
+};
 
 const actionMenuItems = computed(() => {
   const items = [];
@@ -111,6 +161,17 @@ onUnmounted(() => {
       icon="i-lucide-info"
       class="rounded-md"
       @click="toggleVirtiInfoModal(true)"
+    />
+    <ButtonV4
+      v-if="virtiAvailable"
+      v-tooltip="followUpAtivado ? 'Desativar Follow-up' : 'Ativar Follow-up'"
+      size="sm"
+      variant="ghost"
+      :color="followUpAtivado ? 'blue' : 'slate'"
+      icon="i-lucide-timer-reset"
+      class="rounded-md"
+      :disabled="followUpLoading"
+      @click="toggleFollowUp"
     />
     <ResolveAction
       :conversation-id="currentChat.id"
