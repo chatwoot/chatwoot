@@ -74,6 +74,34 @@ describe WebhookListener do
         expect(WebhookJob).not_to receive(:perform_later)
         listener.message_created(api_event)
       end
+
+      it 'uses the dedicated whatsapp web webhook type for whatsapp web api inboxes' do
+        channel_api = create(
+          :channel_api,
+          account: account,
+          additional_attributes: {
+            'integration_type' => 'whatsapp_web'
+          }
+        )
+        api_inbox = channel_api.inbox
+        api_conversation = create(:conversation, account: account, inbox: api_inbox, assignee: user)
+        api_message = create(
+          :message,
+          message_type: 'outgoing',
+          account: account,
+          inbox: api_inbox,
+          conversation: api_conversation
+        )
+        api_event = Events::Base.new(event_name, Time.zone.now, message: api_message)
+
+        expect(WebhookJob).to receive(:perform_later).with(
+          channel_api.webhook_url,
+          api_message.webhook_data.merge(event: 'message_created'),
+          :whatsapp_web_inbox_webhook
+        ).once
+
+        listener.message_created(api_event)
+      end
     end
   end
 

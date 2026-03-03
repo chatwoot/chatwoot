@@ -46,6 +46,10 @@ class WhatsappWebChannel extends ApiClient {
     return axios.post(`${this.basePath(inboxId)}/reconnect`, payload);
   }
 
+  cancel(inboxId, payload = {}) {
+    return axios.post(`${this.basePath(inboxId)}/cancel`, payload);
+  }
+
   logout(inboxId, payload = {}) {
     return axios.post(`${this.basePath(inboxId)}/logout`, payload);
   }

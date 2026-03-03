@@ -387,7 +387,7 @@
         "PAIR_PHONE": {
           "LABEL": "Номер телефона",
           "PLACEHOLDER": "Например: 77001234567",
-          "SUBTITLE": "Введите 11 цифр. Этот номер используется для pair code и привязки источника.",
+          "SUBTITLE": "Введите 11 цифр. Этот номер используется для pin-code и привязки источника.",
           "ERROR": "Введите ровно 11 цифр, например 77475318623.",
           "DUPLICATE": "Этот номер уже привязан к другому источнику WhatsApp Web."
         },
@@ -410,6 +410,10 @@
         "SIGN_MSG": {
           "LABEL": "Подписывать исходящие сообщения"
         },
+        "SIGN_DELIMITER": {
+          "LABEL": "Разделитель подписи",
+          "PLACEHOLDER": "\\n"
+        },
         "REOPEN_CONVERSATION": {
           "LABEL": "Переоткрывать существующий диалог"
         },
@@ -419,15 +423,40 @@
         "IMPORT_CONTACTS": {
           "LABEL": "Импортировать контакты из WhatsApp"
         },
-        "MERGE_BRAZIL_CONTACTS": {
-          "LABEL": "Объединять варианты контактов +55"
+        "IGNORE_JIDS": {
+          "LABEL": "Игнорируемые номера",
+          "PLACEHOLDER": "77001234567",
+          "SUBTITLE": "По одному номеру на строку. Можно вставлять JID, суффикс после @ будет удален автоматически."
         },
         "DAYS_LIMIT": {
-          "LABEL": "Лимит дней синка",
+          "LABEL": "Лимит дней импорта",
           "PLACEHOLDER": "60"
         },
         "IMPORT_MESSAGES": {
           "LABEL": "Включить импорт истории"
+        },
+        "REJECT_CALL": {
+          "LABEL": "Отклонять входящие звонки"
+        },
+        "MSG_CALL": {
+          "LABEL": "Автоответ после отклонения звонка",
+          "PLACEHOLDER": "Сейчас не можем ответить на звонок, напишите нам сообщением.",
+          "SUBTITLE": "Этот текст будет отправлен сразу после сброса входящего звонка."
+        },
+        "IGNORE_GROUPS": {
+          "LABEL": "Игнорировать групповые чаты"
+        },
+        "ALWAYS_ONLINE": {
+          "LABEL": "Поддерживать постоянный онлайн"
+        },
+        "READ_MESSAGES": {
+          "LABEL": "Автоматически читать сообщения"
+        },
+        "READ_STATUS": {
+          "LABEL": "Автоматически читать статусы"
+        },
+        "SYNC_FULL_HISTORY": {
+          "LABEL": "Синхронизировать полную историю при подключении"
         },
         "SUBMIT_BUTTON": "Создать источник WhatsApp Web",
         "ERROR_MESSAGE": "Не удалось настроить источник WhatsApp Web"
@@ -610,7 +639,7 @@
         "SUBTITLE": "Отсканируйте QR или подключитесь по коду. QR обновляется автоматически, чтобы оставаться актуальным.",
         "MESSAGE": "Завершите подключение устройства WhatsApp Web. После успешного входа источник начнет принимать сообщения.",
         "STATUS_LABEL": "Статус подключения",
-        "STATUS_CONNECTED": "Подключено",
+        "STATUS_CONNECTED": "В сети",
         "STATUS_LOGGED_IN": "Вход выполнен, ожидается активное соединение",
         "STATUS_CONNECTED_NO_LOGIN": "Есть соединение, требуется вход",
         "STATUS_WAITING": "Ожидается вход устройства",
@@ -621,15 +650,15 @@
         "REFRESH_STATUS_BUTTON": "Обновить статус",
         "QR_UPDATED": "QR обновлен",
         "QR_ERROR": "Не удалось запросить QR",
-        "PAIR_PHONE_LABEL": "Номер телефона для pair code",
+        "PAIR_PHONE_LABEL": "Pin-code",
         "PAIR_PHONE_PLACEHOLDER": "Например: 77001234567",
-        "PAIR_PHONE_REQUIRED": "Введите номер телефона для генерации pair code",
+        "PAIR_PHONE_REQUIRED": "Введите номер телефона для генерации pin-code",
         "PAIR_PHONE_INVALID": "Введите ровно 11 цифр, например 77475318623.",
-        "PAIR_CODE_BUTTON": "Получить Pair Code",
-        "PAIR_CODE_LABEL": "Pair code",
-        "PAIR_CODE_SUCCESS": "Pair code сгенерирован",
-        "PAIR_CODE_ERROR": "Не удалось сгенерировать pair code",
-        "CONNECTED_SUCCESS": "Устройство успешно подключено",
+        "PAIR_CODE_BUTTON": "Получить Pin-code",
+        "PAIR_CODE_LABEL": "Pin-code",
+        "PAIR_CODE_SUCCESS": "Pin-code сгенерирован",
+        "PAIR_CODE_ERROR": "Не удалось сгенерировать pin-code",
+        "CONNECTED_SUCCESS": "WhatsApp Web готов к работе",
         "STATUS_ERROR": "Не удалось получить статус устройства",
         "BOOTSTRAP_ERROR": "Не удалось инициализировать процесс подключения WhatsApp Web",
         "RECONNECT_BUTTON": "Переподключить",
@@ -714,6 +743,7 @@
       }
     },
     "TABS": {
+      "PROFILE": "Профиль",
       "SETTINGS": "Настройки",
       "COLLABORATORS": "Соавторы",
       "CONFIGURATION": "Настройки",
@@ -857,6 +887,20 @@
       "WHATSAPP_WEB": {
         "CONFIG_TITLE": "WhatsApp Web",
         "CONFIG_SUBTITLE": "Управление настройками WhatsApp Web и синхронизации Chatwoot для этого источника.",
+        "GROUPS": {
+          "CONVERSATIONS": {
+            "TITLE": "Диалоги и подпись",
+            "SUBTITLE": "Правила открытия диалогов и подпись исходящих сообщений."
+          },
+          "SYNC": {
+            "TITLE": "Импорт и синхронизация",
+            "SUBTITLE": "Управление импортом контактов, историей и поведением синхронизации."
+          },
+          "FILTERS": {
+            "TITLE": "Фильтрация и присутствие",
+            "SUBTITLE": "Ограничения по чатам и поведение аккаунта в сети."
+          }
+        },
         "LOADING": "Загрузка конфигурации WhatsApp Web...",
         "PASSWORD_PLACEHOLDER": "Пароль настроен. Введите новое значение для ротации.",
         "INCLUDE_MEDIA": "Включать медиа в синк истории",
@@ -867,17 +911,17 @@
         "WEBHOOK_URL_SUBTITLE": "Используйте этот URL для доставки webhook message_created из Chatwoot в WhatsApp Web.",
         "DEVICE_ACTIONS_TITLE": "Действия с устройством",
         "LOGIN_QR_BUTTON": "Получить QR",
-        "LOGIN_CODE_BUTTON": "Получить pair code",
-        "PAIR_PHONE_LABEL": "Номер телефона для pair code",
+        "LOGIN_CODE_BUTTON": "Получить pin-code",
+        "PAIR_PHONE_LABEL": "Номер телефона",
         "PAIR_PHONE_REQUIRED": "Номер телефона обязателен.",
         "PAIR_PHONE_ERROR": "Введите ровно 11 цифр, например 77475318623.",
         "STATUS_BUTTON": "Обновить статус",
         "RECONNECT_BUTTON": "Переподключить устройство",
         "LOGOUT_BUTTON": "Выйти из устройства",
         "QR_DURATION": "QR истекает через",
-        "SYNC_TITLE": "Синк истории",
-        "SYNC_START_BUTTON": "Запустить синк",
-        "SYNC_STATUS_BUTTON": "Обновить статус синка",
+        "SYNC_TITLE": "Синхронизация истории",
+        "SYNC_START_BUTTON": "Запустить синхронизацию",
+        "SYNC_STATUS_BUTTON": "Обновить статус синхронизации",
         "LOAD_ERROR": "Не удалось загрузить конфигурацию WhatsApp Web",
         "SAVE_ERROR": "Не удалось сохранить конфигурацию WhatsApp Web",
         "TEST_SUCCESS": "Подключение к WhatsApp Web успешно",
@@ -887,8 +931,8 @@
         "STATUS_ERROR": "Не удалось получить статус устройства",
         "LOGIN_QR_SUCCESS": "Запрос на QR-логин создан",
         "LOGIN_QR_ERROR": "Не удалось запросить QR-логин",
-        "LOGIN_CODE_SUCCESS": "Pair code успешно создан",
-        "LOGIN_CODE_ERROR": "Не удалось создать pair code",
+        "LOGIN_CODE_SUCCESS": "Pin-code успешно создан",
+        "LOGIN_CODE_ERROR": "Не удалось создать pin-code",
         "RECONNECT_SUCCESS": "Запрошено переподключение",
         "RECONNECT_ERROR": "Не удалось переподключить устройство",
         "LOGOUT_SUCCESS": "Запрошен logout",
@@ -896,9 +940,9 @@
         "REMOVE_DEVICE_BUTTON": "Удалить устройство",
         "REMOVE_DEVICE_SUCCESS": "Устройство успешно удалено",
         "REMOVE_DEVICE_ERROR": "Не удалось удалить устройство",
-        "SYNC_START_SUCCESS": "Синк истории запущен",
-        "SYNC_START_ERROR": "Не удалось запустить синк истории",
-        "SYNC_STATUS_ERROR": "Не удалось получить статус синка"
+        "SYNC_START_SUCCESS": "Синхронизация истории запущена",
+        "SYNC_START_ERROR": "Не удалось запустить синхронизацию истории",
+        "SYNC_STATUS_ERROR": "Не удалось получить статус синхронизации"
       },
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "Обновить настройки формы для чата"
     },
@@ -1245,6 +1289,7 @@
       "TELEGRAM": "Telegram",
       "LINE": "Line",
       "API": "Источник API",
+      "WHATSAPP_WEB": "WhatsApp Web",
       "INSTAGRAM": "Instagram",
       "TIKTOK": "TikTok",
       "VOICE": "Голосовая связь"

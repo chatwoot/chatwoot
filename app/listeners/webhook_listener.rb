@@ -119,11 +119,23 @@ class WebhookListener < BaseListener
     return unless inbox.channel_type == 'Channel::Api'
     return if inbox.channel.webhook_url.blank?
 
-    WebhookJob.perform_later(inbox.channel.webhook_url, payload, :api_inbox_webhook)
+    WebhookJob.perform_later(inbox.channel.webhook_url, payload, api_inbox_webhook_type(inbox))
   end
 
   def deliver_webhook_payloads(payload, inbox)
     deliver_account_webhooks(payload, inbox.account)
     deliver_api_inbox_webhooks(payload, inbox)
+  end
+
+  def api_inbox_webhook_type(inbox)
+    return :whatsapp_web_inbox_webhook if whatsapp_web_api_inbox?(inbox)
+
+    :api_inbox_webhook
+  end
+
+  def whatsapp_web_api_inbox?(inbox)
+    return false unless inbox.channel_type == 'Channel::Api'
+
+    inbox.channel.additional_attributes&.with_indifferent_access&.[](:integration_type) == 'whatsapp_web'
   end
 end

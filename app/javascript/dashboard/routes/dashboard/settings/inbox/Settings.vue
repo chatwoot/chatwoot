@@ -135,7 +135,7 @@ export default {
       let visibleToAllChannelTabs = [
         {
           key: 'inbox-settings',
-          name: this.$t('INBOX_MGMT.TABS.SETTINGS'),
+          name: this.$t('INBOX_MGMT.TABS.PROFILE'),
         },
         {
           key: 'collaborators',
@@ -668,7 +668,14 @@ export default {
               />
             </div>
             <SettingsFieldSection :label="inboxNameLabel">
+              <div
+                v-if="isWhatsAppWebApiInbox"
+                class="flex min-h-10 w-full items-center rounded-lg bg-n-alpha-black2 px-3 py-2.5 text-sm text-n-slate-12 opacity-70 cursor-not-allowed"
+              >
+                {{ selectedInboxName }}
+              </div>
               <woot-input
+                v-else
                 v-model="selectedInboxName"
                 class="[&>input]:!mb-0"
                 :class="{ error: v$.selectedInboxName.$error }"
@@ -682,7 +689,7 @@ export default {
               />
             </SettingsFieldSection>
             <SettingsFieldSection
-              v-if="isAPIInbox"
+              v-if="isAPIInbox && !isWhatsAppWebApiInbox"
               :label="
                 $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WEBHOOK_URL.LABEL')
               "

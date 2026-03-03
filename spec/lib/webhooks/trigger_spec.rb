@@ -21,6 +21,7 @@ describe Webhooks::Trigger do
     allow(GlobalConfig).to receive(:get_value).and_call_original
     allow(GlobalConfig).to receive(:get_value).with('WEBHOOK_TIMEOUT').and_return(webhook_timeout)
     allow(GlobalConfig).to receive(:get_value).with('DEPLOYMENT_ENV').and_return(nil)
+    allow(ENV).to receive(:fetch).and_call_original
   end
 
   after do
@@ -218,6 +219,56 @@ describe Webhooks::Trigger do
         ).once
 
       trigger.execute(url, payload, webhook_type)
+    end
+  end
+
+  context 'when webhook type is whatsapp web api inbox webhook' do
+    let(:webhook_type) { :whatsapp_web_inbox_webhook }
+    let(:url) { 'https://evolution.example.com/chatwoot/webhook/cw_1_77001234567' }
+    let(:timestamp) { '1700000000' }
+    let(:nonce) { 'f' * 32 }
+
+    before do
+      allow(Time).to receive(:current).and_return(Time.zone.at(timestamp.to_i))
+      allow(SecureRandom).to receive(:hex).with(16).and_return(nonce)
+      allow(ENV).to receive(:fetch).with('WHATSAPP_WEB_WEBHOOK_TIMEOUT', '').and_return('9')
+      allow(ENV).to receive(:fetch).with('WHATSAPP_WEB_WEBHOOK_SECRET', '').and_return('super_secret')
+      allow(ENV).to receive(:fetch).with('WHATSAPP_WEB_WEBHOOK_ALLOWED_HOSTS', '').and_return('evolution.example.com')
+    end
+
+    it 'adds whatsapp web security headers and dedicated timeout' do
+      payload = { hello: :hello }
+      signature = OpenSSL::HMAC.hexdigest('sha256', 'super_secret', "#{timestamp}.#{nonce}.#{payload.to_json}")
+
+      expect(RestClient::Request).to receive(:execute)
+        .with(
+          method: :post,
+          url: url,
+          payload: payload.to_json,
+          headers: {
+            content_type: :json,
+            accept: :json,
+            'X-Chatwoot-Webhook-Type' => 'whatsapp_web',
+            'X-Chatwoot-Signature-Timestamp' => timestamp,
+            'X-Chatwoot-Signature-Nonce' => nonce,
+            'X-Chatwoot-Signature-Algorithm' => 'HMAC-SHA256',
+            'X-Chatwoot-Signature' => signature
+          },
+          timeout: 9
+        ).once
+
+      trigger.execute(url, payload, webhook_type)
+    end
+
+    it 'fails fast when the destination host is outside the allowlist' do
+      payload = { event: 'message_created', conversation: { id: conversation.id }, id: message.id }
+      allow(ENV).to receive(:fetch).with('WHATSAPP_WEB_WEBHOOK_ALLOWED_HOSTS', '').and_return('trusted.example.com')
+
+      expect(RestClient::Request).not_to receive(:execute)
+
+      expect do
+        trigger.execute(url, payload, webhook_type)
+      end.to change { message.reload.status }.from('sent').to('failed')
     end
   end
 end

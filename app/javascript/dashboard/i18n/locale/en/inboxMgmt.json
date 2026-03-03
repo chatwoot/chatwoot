@@ -411,6 +411,10 @@
         "SIGN_MSG": {
           "LABEL": "Sign outgoing messages"
         },
+        "SIGN_DELIMITER": {
+          "LABEL": "Signature delimiter",
+          "PLACEHOLDER": "\\n"
+        },
         "REOPEN_CONVERSATION": {
           "LABEL": "Reopen existing conversation"
         },
@@ -420,15 +424,40 @@
         "IMPORT_CONTACTS": {
           "LABEL": "Import contacts from WhatsApp"
         },
-        "MERGE_BRAZIL_CONTACTS": {
-          "LABEL": "Merge +55 contacts variations"
+        "IGNORE_JIDS": {
+          "LABEL": "Ignored numbers",
+          "PLACEHOLDER": "77001234567",
+          "SUBTITLE": "One number per line. You can paste a JID, everything after @ will be removed automatically."
         },
         "DAYS_LIMIT": {
-          "LABEL": "Sync Days Limit",
+          "LABEL": "Import Days Limit",
           "PLACEHOLDER": "60"
         },
         "IMPORT_MESSAGES": {
           "LABEL": "Enable chat history import"
+        },
+        "REJECT_CALL": {
+          "LABEL": "Reject incoming calls"
+        },
+        "MSG_CALL": {
+          "LABEL": "Auto-reply after rejected call",
+          "PLACEHOLDER": "We cannot take calls right now. Please send us a message.",
+          "SUBTITLE": "This text is sent immediately after the incoming call is rejected."
+        },
+        "IGNORE_GROUPS": {
+          "LABEL": "Ignore group chats"
+        },
+        "ALWAYS_ONLINE": {
+          "LABEL": "Keep WhatsApp always online"
+        },
+        "READ_MESSAGES": {
+          "LABEL": "Mark incoming messages as read"
+        },
+        "READ_STATUS": {
+          "LABEL": "Mark statuses as read"
+        },
+        "SYNC_FULL_HISTORY": {
+          "LABEL": "Sync full history on connect"
         },
         "SUBMIT_BUTTON": "Create WhatsApp Web Source",
         "ERROR_MESSAGE": "Failed to configure WhatsApp Web source"
@@ -611,7 +640,7 @@
         "SUBTITLE": "Scan the QR code or pair with code. QR is refreshed automatically to keep it valid.",
         "MESSAGE": "Finish connecting your WhatsApp Web device now. After successful login this inbox starts receiving messages.",
         "STATUS_LABEL": "Connection status",
-        "STATUS_CONNECTED": "Connected",
+        "STATUS_CONNECTED": "Online",
         "STATUS_LOGGED_IN": "Logged in, waiting for active connection",
         "STATUS_CONNECTED_NO_LOGIN": "Connected, login required",
         "STATUS_WAITING": "Waiting for device login",
@@ -630,7 +659,7 @@
         "PAIR_CODE_LABEL": "Pair code",
         "PAIR_CODE_SUCCESS": "Pair code generated",
         "PAIR_CODE_ERROR": "Failed to generate pair code",
-        "CONNECTED_SUCCESS": "Device connected successfully",
+        "CONNECTED_SUCCESS": "WhatsApp Web is ready",
         "STATUS_ERROR": "Failed to fetch device status",
         "BOOTSTRAP_ERROR": "Failed to initialize WhatsApp Web connection flow",
         "RECONNECT_BUTTON": "Reconnect",
@@ -715,6 +744,7 @@
       }
     },
     "TABS": {
+      "PROFILE": "Profile",
       "SETTINGS": "Settings",
       "COLLABORATORS": "Collaborators",
       "CONFIGURATION": "Configuration",
@@ -858,6 +888,20 @@
       "WHATSAPP_WEB": {
         "CONFIG_TITLE": "WhatsApp Web",
         "CONFIG_SUBTITLE": "Manage WhatsApp Web and Chatwoot sync settings for this inbox.",
+        "GROUPS": {
+          "CONVERSATIONS": {
+            "TITLE": "Conversations and signature",
+            "SUBTITLE": "Controls for reopening conversations and signing outgoing replies."
+          },
+          "SYNC": {
+            "TITLE": "Import and synchronization",
+            "SUBTITLE": "Controls for contacts, history import, and synchronization behavior."
+          },
+          "FILTERS": {
+            "TITLE": "Filtering and presence",
+            "SUBTITLE": "Chat restrictions and WhatsApp presence behavior."
+          }
+        },
         "LOADING": "Loading WhatsApp Web configuration...",
         "PASSWORD_PLACEHOLDER": "Password configured. Enter a new value to rotate.",
         "INCLUDE_MEDIA": "Include media in history sync",
@@ -876,9 +920,9 @@
         "RECONNECT_BUTTON": "Reconnect Device",
         "LOGOUT_BUTTON": "Logout Device",
         "QR_DURATION": "QR expires in",
-        "SYNC_TITLE": "History Sync",
-        "SYNC_START_BUTTON": "Start Sync",
-        "SYNC_STATUS_BUTTON": "Refresh Sync Status",
+        "SYNC_TITLE": "History Synchronization",
+        "SYNC_START_BUTTON": "Start Synchronization",
+        "SYNC_STATUS_BUTTON": "Refresh Synchronization Status",
         "LOAD_ERROR": "Failed to load WhatsApp Web configuration",
         "SAVE_ERROR": "Failed to save WhatsApp Web configuration",
         "TEST_SUCCESS": "WhatsApp Web connection is healthy",
@@ -897,9 +941,9 @@
         "REMOVE_DEVICE_BUTTON": "Remove Device",
         "REMOVE_DEVICE_SUCCESS": "Device removed successfully",
         "REMOVE_DEVICE_ERROR": "Failed to remove device",
-        "SYNC_START_SUCCESS": "History sync started",
-        "SYNC_START_ERROR": "Failed to start history sync",
-        "SYNC_STATUS_ERROR": "Failed to fetch sync status"
+        "SYNC_START_SUCCESS": "History synchronization started",
+        "SYNC_START_ERROR": "Failed to start history synchronization",
+        "SYNC_STATUS_ERROR": "Failed to fetch synchronization status"
       },
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "Update Pre Chat Form Settings"
     },
@@ -1263,6 +1307,7 @@
       "TELEGRAM": "Telegram",
       "LINE": "Line",
       "API": "API Channel",
+      "WHATSAPP_WEB": "WhatsApp Web",
       "INSTAGRAM": "Instagram",
       "TIKTOK": "TikTok",
       "VOICE": "Voice"

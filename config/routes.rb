@@ -227,6 +227,7 @@ Rails.application.routes.draw do
               post :login_qr
               post :login_code
               post :reconnect
+              post :cancel
               post :logout
               post :remove_device
               post :sync

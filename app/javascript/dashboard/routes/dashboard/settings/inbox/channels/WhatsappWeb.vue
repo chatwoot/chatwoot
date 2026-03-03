@@ -120,7 +120,6 @@ export default {
             page: 'new',
             inbox_id: channel.id,
           },
-          query: { pair_phone: phone },
         });
       } catch (error) {
         useAlert(this.setupErrorMessage(error));
