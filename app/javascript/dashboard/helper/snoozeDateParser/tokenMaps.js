@@ -114,6 +114,8 @@ export const WORD_NUMBER_MAP = {
   a: 1,
   an: 1,
   one: 1,
+  couple: 2,
+  few: 3,
   two: 2,
   three: 3,
   four: 4,
@@ -139,8 +141,6 @@ export const WORD_NUMBER_MAP = {
   sixty: 60,
   ninety: 90,
   half: 0.5,
-  couple: 2,
-  few: 3,
 };
 
 /** Day index → the date-fns function that finds the next occurrence. */
@@ -235,7 +235,7 @@ const ARABIC_PUNCT_MAP = {
 };
 
 const NOISE_RE =
-  /^(?:(?:can|could|will|would)\s+you\s+)?(?:(?:please|pls|plz|kindly)\s+)?(?:(?:snooze|remind(?:\s+me)?|set(?:\s+(?:a|the))?(?:\s+(?:reminder|deadline|snooze|timer))?|add(?:\s+(?:a|the))?(?:\s+(?:reminder|deadline|snooze))?|schedule|postpone|defer|delay|push)(?:\s+(?:it|this))?\s+)?(?:(?:on|to|for|at|until|till|by|from)\s+)?/;
+  /^(?:(?:can|could|will|would)\s+you\s+)?(?:(?:please|pls|plz|kindly)\s+)?(?:(?:snooze|remind(?:\s+me)?|set(?:\s+(?:a|the))?(?:\s+(?:reminder|deadline|snooze|timer))?|add(?:\s+(?:a|the))?(?:\s+(?:reminder|deadline|snooze))?|schedule|postpone|defer|delay|push)(?:\s+(?:it|this))?\s+)?(?:(?:on|to|for|at|until|till|by|from|after|within)\s+)?/;
 
 const APPROX_RE = /^(?:approx(?:imately)?|around|about|roughly|~)\s+/;
 
@@ -256,15 +256,35 @@ export const sanitize = text =>
     .trim();
 
 /** Strip filler words like "please snooze for" and fix typos like "tommorow". */
-export const stripNoise = text =>
-  text
+export const stripNoise = text => {
+  let r = text
+    .replace(/\ba\s+fortnight\b/g, '2 weeks')
+    .replace(/\bfortnight\b/g, '2 weeks')
     .replace(NOISE_RE, '')
     .replace(APPROX_RE, '')
+    .replace(/^the\s+/, '')
     .replace(/\bnxt\b/g, 'next')
+    .replace(/\ba\s+couple\s+of\b/g, 'couple')
     .replace(/\bcouple\s+of\b/g, 'couple')
-    .replace(/\b(\d+)h(\d+)m?\b/g, '$1 hours $2 minutes')
+    .replace(/\ba\s+couple\b/g, 'couple')
+    .replace(/\ba\s+few\b/g, 'few')
+    .replace(
+      /\b(\d+)\s*(?:h|hr|hours?)[\s]*(\d+)\s*(?:m|min|minutes?)\b/g,
+      (_, h, m) =>
+        `${h} ${h === '1' ? 'hour' : 'hours'} ${m} ${m === '1' ? 'minute' : 'minutes'}`
+    )
+    .replace(/\b(\d+)h\b/g, (_, h) => `${h} ${h === '1' ? 'hour' : 'hours'}`)
+    .replace(
+      /\b(\d+)m\b/g,
+      (_, m) => `${m} ${m === '1' ? 'minute' : 'minutes'}`
+    )
     .replace(/\btomm?orow\b/g, 'tomorrow')
+    .replace(/\s+later$/, '')
     .trim();
+  // bare unit without number: "month later" → "1 month", "week" stays
+  r = r.replace(/^(minutes?|hours?|days?|weeks?|months?|years?)$/, '1 $1');
+  return r;
+};
 
 // ─── Utility Functions ──────────────────────────────────────────────────────
 

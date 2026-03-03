@@ -1007,6 +1007,32 @@ describe('golden tests: pinned phrase → exact date/time', () => {
     ['march 5 at 2pm', 2024, 2, 5, 14, 0],
     ['dec 25 2025', 2025, 11, 25, 9, 0],
 
+    // ── Month ordinal week ──
+    ['july 1st week', 2023, 6, 1, 9, 0], // July 1st week = July 1
+    ['july 2nd week', 2023, 6, 8, 9, 0], // July 2nd week = July 8
+    ['july 3rd week', 2023, 6, 15, 9, 0], // July 3rd week = July 15
+    ['aug 1st week', 2023, 7, 1, 9, 0], // August 1st week = Aug 1
+    ['feb 2nd week at 3pm', 2024, 1, 8, 15, 0], // Feb 2nd week with time
+    ['march first week', 2024, 2, 1, 9, 0], // Ordinal: first
+    ['march second week', 2024, 2, 8, 9, 0], // Ordinal: second
+    ['april third week', 2024, 3, 15, 9, 0], // Ordinal: third
+    ['may fourth week', 2024, 4, 22, 9, 0], // Ordinal: fourth
+    ['june fifth week', 2023, 5, 29, 9, 0], // Ordinal: fifth (same year since we're before week 5)
+
+    // ── Month ordinal day ──
+    ['april first day', 2024, 3, 1, 9, 0],
+    ['april second day', 2024, 3, 2, 9, 0],
+    ['july third day', 2023, 6, 3, 9, 0],
+    ['march 5th day', 2024, 2, 5, 9, 0],
+    ['jan tenth day at 2pm', 2024, 0, 10, 14, 0],
+
+    // ── Reversed order: ordinal unit of month ──
+    ['first week of april', 2024, 3, 1, 9, 0],
+    ['2nd week of july', 2023, 6, 8, 9, 0],
+    ['third day of march', 2024, 2, 3, 9, 0],
+    ['5th day of jan at 2pm', 2024, 0, 5, 14, 0],
+    ['second week of feb at 3pm', 2024, 1, 8, 15, 0],
+
     // ── Formal dates ──
     ['2025-01-15', 2025, 0, 15, 9, 0],
     ['01/15/2025', 2025, 0, 15, 9, 0],
@@ -1016,6 +1042,57 @@ describe('golden tests: pinned phrase → exact date/time', () => {
     ['tonite 7', 2023, 5, 16, 19, 0],
     ['tonight 11', 2023, 5, 16, 23, 0],
     ['today 8', 2023, 5, 17, 8, 0], // 8am is past → rolls to next day
+
+    // ── Shorthand durations ──
+    ['2h', 2023, 5, 16, 12, 0],
+    ['30m', 2023, 5, 16, 10, 30],
+    ['1h30minutes', 2023, 5, 16, 11, 30],
+    ['2hr15min', 2023, 5, 16, 12, 15],
+
+    // ── Couple / few ──
+    ['couple hours', 2023, 5, 16, 12, 0],
+    ['a couple of days', 2023, 5, 18, 10, 0],
+    ['a few minutes', 2023, 5, 16, 10, 3],
+    ['in a few hours', 2023, 5, 16, 13, 0],
+
+    // ── Fortnight ──
+    ['fortnight', 2023, 5, 30, 10, 0],
+    ['in a fortnight', 2023, 5, 30, 10, 0],
+
+    // ── X later ──
+    ['2 days later', 2023, 5, 18, 10, 0],
+    ['a week later', 2023, 5, 23, 10, 0],
+    ['month later', 2023, 6, 16, 10, 0],
+
+    // ── Same time reversed ──
+    ['same time tomorrow', 2023, 5, 17, 10, 0],
+
+    // ── Early / late time of day ──
+    ['early morning', 2023, 5, 17, 8, 0],
+    ['late evening', 2023, 5, 16, 20, 0],
+    ['late night', 2023, 5, 16, 22, 0],
+
+    // ── Beginning / end of next ──
+    ['beginning of next week', 2023, 5, 19, 9, 0],
+    ['start of next week', 2023, 5, 19, 9, 0],
+    ['end of next week', 2023, 5, 23, 17, 0],
+    ['end of next month', 2023, 6, 31, 17, 0],
+    ['beginning of next month', 2023, 6, 1, 9, 0],
+
+    // ── Next business day ──
+    ['next business day', 2023, 5, 19, 9, 0],
+    ['next working day', 2023, 5, 19, 9, 0],
+
+    // ── One and a half ──
+    ['one and a half hours', 2023, 5, 16, 11, 30],
+    ['an hour and a half', 2023, 5, 16, 11, 30],
+
+    // ── Noise prefix: after / within ──
+    ['after 2 hours', 2023, 5, 16, 12, 0],
+    ['within a week', 2023, 5, 23, 10, 0],
+
+    // ── The day after tomorrow ──
+    ['the day after tomorrow', 2023, 5, 18, 9, 0],
 
     // ── Special ──
     ['this weekend', 2023, 5, 17, 9, 0],
@@ -1032,6 +1109,20 @@ describe('golden tests: pinned phrase → exact date/time', () => {
       expect(result.date.getHours()).toBe(hr);
       expect(result.date.getMinutes()).toBe(min);
     });
+  });
+});
+
+describe('regression: month-ordinal week overflow (P1)', () => {
+  it('"feb fifth week" returns null in non-leap year (would overflow into March)', () => {
+    const ref = new Date(2023, 0, 10, 10, 0, 0);
+    expect(parseDateFromText('feb fifth week', ref)).toBeNull();
+  });
+
+  it('"feb fourth week" is still valid', () => {
+    const ref = new Date(2023, 0, 10, 10, 0, 0);
+    const result = parseDateFromText('feb fourth week', ref);
+    expect(result).not.toBeNull();
+    expect(result.date.getMonth()).toBe(1);
   });
 });
 
@@ -1309,6 +1400,23 @@ describe('noise word stripping', () => {
   it('"snooze this until tomorrow" parses', () => {
     const result = parseDateFromText('snooze this until tomorrow', now);
     expect(result).not.toBeNull();
+  });
+
+  it('"after ten year" strips "after" and parses as duration', () => {
+    const result = parseDateFromText('after ten year', now);
+    expect(result).not.toBeNull();
+  });
+
+  it('"after 2 hours" strips "after" and parses as duration', () => {
+    const result = parseDateFromText('after 2 hours', now);
+    expect(result).not.toBeNull();
+    expect(result.date.getHours()).toEqual(12);
+  });
+
+  it('"after 3 days" strips "after" and parses as duration', () => {
+    const result = parseDateFromText('after 3 days', now);
+    expect(result).not.toBeNull();
+    expect(result.date.getDate()).toEqual(19);
   });
 
   it('"schedule this for 2025-01-15" parses', () => {
@@ -1610,7 +1718,7 @@ describe('no-space duration suggestions', () => {
   it('"1h" generates hour suggestions', () => {
     const results = generateDateSuggestions('1h', now);
     expect(results.length).toBeGreaterThan(0);
-    expect(results[0].label).toBe('1 hours');
+    expect(results[0].label).toBe('1 hour');
   });
 
   it('"2ho" generates hour suggestions (partial match)', () => {

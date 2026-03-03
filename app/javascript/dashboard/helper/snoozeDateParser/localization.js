@@ -93,12 +93,23 @@ const EN_DEFAULTS = {
     TWENTY: 'twenty',
     THIRTY: 'thirty',
   },
+  ORDINALS: {
+    FIRST: 'first',
+    SECOND: 'second',
+    THIRD: 'third',
+    FOURTH: 'fourth',
+    FIFTH: 'fifth',
+  },
   MERIDIEM: { AM: 'am', PM: 'pm' },
   HALF: 'half',
   NEXT: 'next',
   THIS: 'this',
   AT: 'at',
   IN: 'in',
+  OF: 'of',
+  AFTER: 'after',
+  WEEK: 'week',
+  DAY: 'day',
   FROM_NOW: 'from now',
   NEXT_YEAR: 'next year',
 };
@@ -121,6 +132,13 @@ const STRUCTURAL_WORDS = [
   'eod',
   'am',
   'pm',
+  'week',
+  'day',
+  'first',
+  'second',
+  'third',
+  'fourth',
+  'fifth',
 ];
 
 const ENGLISH_VOCAB = new Set([
@@ -161,6 +179,7 @@ const CACHE_SECTIONS = [
   'RELATIVE',
   'TIME_OF_DAY',
   'WORD_NUMBERS',
+  'ORDINALS',
   'MERIDIEM',
 ];
 const SINGLE_KEYS = [
@@ -169,6 +188,10 @@ const SINGLE_KEYS = [
   'THIS',
   'AT',
   'IN',
+  'OF',
+  'AFTER',
+  'WEEK',
+  'DAY',
   'FROM_NOW',
   'NEXT_YEAR',
 ];
@@ -359,7 +382,11 @@ export const generateDateSuggestions = (
   const exact = directParse || parseDateFromText(englishInput, referenceDate);
   if (exact) {
     seen.add(exact.unix);
-    results.push({ label: normalized, query: englishInput, ...exact });
+    const exactLabel =
+      !useEnglish && pairs.length
+        ? reverseTokens(englishInput, pairs)
+        : englishInput;
+    results.push({ label: exactLabel, query: englishInput, ...exact });
   }
 
   buildSuggestionCandidates(englishInput).some(candidate => {

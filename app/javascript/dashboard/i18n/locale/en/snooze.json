@@ -56,6 +56,17 @@
       "FIFTEEN": "fifteen",
       "TWENTY": "twenty",
       "THIRTY": "thirty"
-    }
+    },
+    "ORDINALS": {
+      "FIRST": "first",
+      "SECOND": "second",
+      "THIRD": "third",
+      "FOURTH": "fourth",
+      "FIFTH": "fifth"
+    },
+    "OF": "of",
+    "AFTER": "after",
+    "WEEK": "week",
+    "DAY": "day"
   }
 }

@@ -59,6 +59,25 @@ const UNIT_RE = `(${UNIT_NAMES})`;
 const TIME_SUFFIX_RE =
   '(?:\\s+(?:at\\s+)?(\\d{1,2}(?::\\d{2})?\\s*(?:am|pm|a\\.m\\.?|p\\.m\\.?)?|\\d{1,2}:\\d{2}))?';
 
+const ORDINAL_MAP = {
+  first: 1,
+  second: 2,
+  third: 3,
+  fourth: 4,
+  fifth: 5,
+  sixth: 6,
+  seventh: 7,
+  eighth: 8,
+  ninth: 9,
+  tenth: 10,
+};
+const parseOrdinal = str => {
+  if (ORDINAL_MAP[str]) return ORDINAL_MAP[str];
+  return parseInt(str.replace(/(?:st|nd|rd|th)$/, ''), 10) || null;
+};
+const ORDINAL_WORDS = Object.keys(ORDINAL_MAP).join('|');
+const ORDINAL_RE = `(\\d{1,2}(?:st|nd|rd|th)?|${ORDINAL_WORDS})`;
+
 // ─── Pre-compiled Regexes ───────────────────────────────────────────────────
 
 const HALF_UNIT_RE = /^(?:in\s+)?half\s+(?:an?\s+)?(hour|day|week|month|year)$/;
@@ -79,7 +98,7 @@ const RELATIVE_DAY_AT_TIME_RE = new RegExp(
     '(?:am|pm|a\\.m\\.?|p\\.m\\.?)?|\\d{1,2}:\\d{2})$'
 );
 const RELATIVE_DAY_SAME_TIME_RE = new RegExp(
-  `^(${RELATIVE_DAYS})\\s+(?:same\\s+time|this\\s+time)$`
+  `^(?:(${RELATIVE_DAYS})\\s+(?:same\\s+time|this\\s+time)|(?:same\\s+time|this\\s+time)\\s+(${RELATIVE_DAYS}))$`
 );
 const NEXT_UNIT_RE = new RegExp(
   `^next\\s+(hour|minute|week|month|year)${TIME_SUFFIX_RE}$`
@@ -128,6 +147,10 @@ const ABSOLUTE_DATE_REVERSED_RE = new RegExp(
     `(?:[,\\s]+(\\d{4}|next\\s+year))?${TIME_SUFFIX_RE}$`
 );
 const MONTH_YEAR_RE = new RegExp(`^(${MONTH_NAMES})\\s+(\\d{4})$`);
+// "april first week", "first week of april", "march 2nd day", "5th day of jan"
+const MONTH_ORDINAL_RE = new RegExp(
+  `^(?:(${MONTH_NAMES})\\s+${ORDINAL_RE}\\s+(week|day)|${ORDINAL_RE}\\s+(week|day)\\s+of\\s+(${MONTH_NAMES}))${TIME_SUFFIX_RE}$`
+);
 const DAY_AFTER_TOMORROW_RE = new RegExp(
   `^day\\s+after\\s+tomorrow${TIME_SUFFIX_RE}$`
 );
@@ -140,7 +163,17 @@ const DURATION_AT_TIME_RE = new RegExp(
     '(\\d{1,2}(?::\\d{2})?\\s*(?:am|pm|a\\.m\\.?|p\\.m\\.?)?)$'
 );
 const END_OF_RE = /^end\s+of\s+(?:the\s+)?(week|month|day)$/;
+const END_OF_NEXT_RE = /^end\s+of\s+(?:the\s+)?next\s+(week|month)$/;
+const START_OF_NEXT_RE =
+  /^(?:beginning|start)\s+of\s+(?:the\s+)?next\s+(week|month)$/;
 const LATER_TODAY_RE = /^later\s+(?:today|this\s+(?:afternoon|evening))$/;
+const EARLY_LATE_TOD_RE = new RegExp(
+  `^(early|late)\\s+(${TIME_OF_DAY_NAMES})$`
+);
+const ONE_AND_HALF_RE = new RegExp(
+  `^(?:in\\s+)?(?:one\\s+and\\s+(?:a\\s+)?half|an?\\s+hour\\s+and\\s+(?:a\\s+)?half)(?:\\s+${UNIT_RE})?$`
+);
+const NEXT_BUSINESS_DAY_RE = /^next\s+(?:business|working)\s+day$/;
 
 const TIME_SUFFIX_COMPILED = new RegExp(`${TIME_SUFFIX_RE}$`);
 const ISO_DATE_RE = new RegExp(
@@ -175,6 +208,13 @@ const matchDuration = (text, now) => {
     return HALF_UNIT_DURATIONS[half[1]]
       ? add(now, HALF_UNIT_DURATIONS[half[1]])
       : null;
+  }
+
+  // "one and a half hours", "an hour and a half"
+  const oneHalf = text.match(ONE_AND_HALF_RE);
+  if (oneHalf) {
+    const unit = UNIT_MAP[oneHalf[1]] || 'hours';
+    return addFractionalSafe(now, unit, 1.5);
   }
 
   const compound = text.match(COMPOUND_DURATION_RE);
@@ -282,7 +322,7 @@ const matchRelativeDay = (text, now) => {
 
   const sameTimeMatch = text.match(RELATIVE_DAY_SAME_TIME_RE);
   if (sameTimeMatch) {
-    const offset = RELATIVE_DAY_MAP[sameTimeMatch[1]];
+    const offset = RELATIVE_DAY_MAP[sameTimeMatch[1] || sameTimeMatch[2]];
     if (offset <= 0) return null;
     return applyTimeToDate(
       add(startOfDay(now), { days: offset }),
@@ -455,6 +495,18 @@ const matchTimeOfDay = (text, now) => {
     );
   }
 
+  // "early morning" → 7am, "late evening" → 21:00, "late night" → 23:00
+  const earlyLate = text.match(EARLY_LATE_TOD_RE);
+  if (earlyLate) {
+    const tod = TIME_OF_DAY_MAP[earlyLate[2]];
+    if (!tod) return null;
+    const shift = earlyLate[1] === 'early' ? -1 : 2;
+    return ensureFutureOrNextDay(
+      applyTimeToDate(now, tod.hours + shift, 0),
+      now
+    );
+  }
+
   const match = text.match(TOD_PLAIN_RE);
   if (!match) return null;
 
@@ -517,6 +569,41 @@ const matchNamedDate = (text, now) => {
     if (!isValid(date)) return null;
     const result = applyTimeToDate(date, 9, 0);
     return isAfter(result, now) ? result : null;
+  }
+
+  // "april first week", "first week of april", "march 2nd day", etc.
+  const mo = text.match(MONTH_ORDINAL_RE);
+  if (mo) {
+    // Groups: (1)month-A (2)ordinal-A (3)unit-A | (4)ordinal-B (5)unit-B (6)month-B (7)time
+    const monthIdx = MONTH_MAP[mo[1] || mo[6]];
+    const num = parseOrdinal(mo[2] || mo[4]);
+    const unit = mo[3] || mo[5];
+    const timeStr = mo[7];
+
+    if (!num || num < 1) return null;
+
+    if (unit === 'day') {
+      if (num > 31) return null;
+      return resolveAbsoluteDate(monthIdx, num, null, timeStr, now);
+    }
+
+    // unit === 'week'
+    if (num > 5) return null;
+    const weekStartDay = (num - 1) * 7 + 1;
+    let year = now.getFullYear();
+    if (
+      monthIdx < now.getMonth() ||
+      (monthIdx === now.getMonth() && now.getDate() > weekStartDay)
+    ) {
+      year += 1;
+    }
+    // Reject if weekStartDay overflows the month (e.g. feb fifth week = day 29 in non-leap)
+    const daysInMonth = new Date(year, monthIdx + 1, 0).getDate();
+    if (weekStartDay > daysInMonth) return null;
+    const d = new Date(year, monthIdx, weekStartDay);
+    if (!isValid(d)) return null;
+    const result = applyTimeOrDefault(d, timeStr);
+    return result && isAfter(result, now) ? result : null;
   }
 
   return null;
@@ -586,6 +673,41 @@ const matchSpecial = (text, now) => {
       if (isAfter(eom, now)) return eom;
       return applyTimeToDate(endOfMonth(add(now, { months: 1 })), 17, 0);
     }
+  }
+
+  // "end of next week", "end of next month"
+  const eofNext = text.match(END_OF_NEXT_RE);
+  if (eofNext) {
+    if (eofNext[1] === 'week') {
+      const nextWeekStart = startOfWeek(addWeeks(now, 1), { weekStartsOn: 1 });
+      return applyTimeToDate(add(nextWeekStart, { days: 4 }), 17, 0);
+    }
+    if (eofNext[1] === 'month') {
+      return applyTimeToDate(endOfMonth(add(now, { months: 1 })), 17, 0);
+    }
+  }
+
+  // "beginning of next week", "start of next month"
+  const sofNext = text.match(START_OF_NEXT_RE);
+  if (sofNext) {
+    if (sofNext[1] === 'week') {
+      return applyTimeToDate(
+        startOfWeek(addWeeks(now, 1), { weekStartsOn: 1 }),
+        9,
+        0
+      );
+    }
+    if (sofNext[1] === 'month') {
+      const nextMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+      return applyTimeToDate(nextMonth, 9, 0);
+    }
+  }
+
+  // "next business day", "next working day"
+  if (NEXT_BUSINESS_DAY_RE.test(text)) {
+    let d = add(startOfDay(now), { days: 1 });
+    while (isSaturday(d) || isSunday(d)) d = add(d, { days: 1 });
+    return applyTimeToDate(d, 9, 0);
   }
 
   if (LATER_TODAY_RE.test(text)) return add(now, { hours: 3 });
