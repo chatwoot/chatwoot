@@ -438,3 +438,78 @@ pt_BR:
       subject: 'Termine de configurar %{custom_domain}'
     ssl_status:
       custom_domain_not_configured: 'Domínio personalizado não está configurado'
+  activerecord:
+    models:
+      account: 'Contas'
+      user: 'Usuários'
+      agent_bot: 'Bots de Agente'
+      platform_app: 'Apps de Plataforma'
+      access_token: 'Tokens de Acesso'
+      installation_config: 'Configurações de Instalação'
+    attributes:
+      account:
+        id: "ID"
+        name: "Nome de Conta"
+        custom_domain: "Domínio Customizado"
+        support_email: "E-mail de Suporte"
+        created_at: "Criado em"
+        status: "Status"
+      user:
+        id: "ID"
+        name: "Nome"
+        display_name: "Nome de Exibição"
+        email: "E-mail"
+        password: "Senha"
+        password_confirmation: "Confirmação de Senha"
+        type: "Tipo"
+        created_at: "Criado em"
+        confirmed_at: "Confirmado em"
+      agent_bot:
+        id: "ID"
+        name: "Nome do Bot"
+        description: "Descrição"
+        outgoing_url: "URL de Saída"
+        created_at: "Criado em"
+      platform_app:
+        id: "ID"
+        name: "Nome do Aplicativo"
+        created_at: "Criado em"
+      access_token:
+        id: "ID"
+        token: "Token"
+        owner: "Dono"
+        owner_type: "Tipo do Dono"
+        created_at: "Criado em"
+      installation_config:
+        name: "Nome"
+        value: "Valor"
+        locked: "Bloqueado"
+      account_user:
+        account: "Conta"
+        user: "Usuário"
+        role: "Nível de Acesso"
+        inviter: "Convidado por"
+  administrate:
+    actions:
+      confirm: 'Tem certeza?'
+      destroy: 'Excluir'
+      edit: 'Editar'
+      edit_resource: 'Editar %{name}'
+      show: 'Mostrar'
+      new_resource: 'Novo(a) %{name}'
+      back: 'Voltar'
+    controller:
+      create:
+        success: '%{resource} foi criado(a) com sucesso.'
+      destroy:
+        success: '%{resource} foi excluído(a) com sucesso.'
+      update:
+        success: '%{resource} foi atualizado(a) com sucesso.'
+    form:
+      error: 'ocorreu um erro'
+      errors: '%{pluralized_errors} impediram que este %{resource_name} fosse salvo:'
+    navigation:
+      back_to_app: 'Voltar para o App'
+    search:
+      clear: 'Limpar busca'
+      label: 'Buscar %{resource}'

@@ -51,6 +51,9 @@ class GlobalConfig
     end
 
     def db_fallback(config_key)
+      return 'enterprise' if config_key == 'INSTALLATION_PRICING_PLAN'
+      return 9_999_999 if config_key == 'INSTALLATION_PRICING_PLAN_QUANTITY'
+
       InstallationConfig.find_by(name: config_key)&.value
     end
   end

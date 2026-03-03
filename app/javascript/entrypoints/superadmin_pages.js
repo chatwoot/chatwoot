@@ -4,10 +4,12 @@ import VueDOMPurifyHTML from 'vue-dompurify-html';
 
 import PlaygroundIndex from '../superadmin_pages/views/playground/Index.vue';
 import DashboardIndex from '../superadmin_pages/views/dashboard/Index.vue';
+import ConnectionHealthDashboard from '../superadmin_pages/views/connection_health/Index.vue';
 
 const ComponentMapping = {
   PlaygroundIndex: PlaygroundIndex,
   DashboardIndex: DashboardIndex,
+  ConnectionHealthDashboard: ConnectionHealthDashboard,
 };
 
 const renderComponent = (componentName, props) => {

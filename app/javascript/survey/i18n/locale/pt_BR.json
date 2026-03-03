@@ -12,8 +12,8 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "Pesquisa atualizada com sucesso",
-      "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot, por favor tente novamente mais tarde"
+      "ERROR_MESSAGE": "Não foi possível conectar ao servidor Eduq, por favor tente novamente mais tarde"
     }
   },
-  "POWERED_BY": "Desenvolvido por Chatwoot"
+  "POWERED_BY": "Desenvolvido por Eduq Tecnologia"
 }

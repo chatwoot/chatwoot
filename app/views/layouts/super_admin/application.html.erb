@@ -18,15 +18,17 @@ By default, it renders:
   <meta charset="utf-8">
   <meta name="ROBOTS" content="NOODP">
   <meta name="viewport" content="initial-scale=1">
+  <meta name="turbolinks-visit-control" content="reload">
   <title>
     <%= content_for(:title) %> - <%= application_title %>
   </title>
   <%= render "stylesheet" %>
   <%= vite_client_tag %>
   <%= vite_javascript_tag 'superadmin' %>
+  <%= vite_javascript_tag 'superadmin_pages' %>
   <%= csrf_meta_tags %>
 </head>
-<body class="antialiased w-full h-full">
+<body class="antialiased w-full h-full" data-turbolinks="false" data-turbo="false">
   <%= render "icons" %>
   <div class="flex w-full h-full">
     <%= render "navigation" -%>

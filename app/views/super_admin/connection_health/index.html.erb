@@ -1,0 +1,6 @@
+<% content_for(:title) do %>
+  Saúde das Conexões
+<% end %>
+<div class="flex-grow p-4 md:p-8 m-0 w-full xl:w-full overflow-hidden h-full flex flex-col bg-slate-50">
+  <%= render_vue_component('ConnectionHealthDashboard') %>
+</div>

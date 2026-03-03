@@ -9,7 +9,7 @@
       <meta name="msapplication-TileColor" content="#1f93ff">
       <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
       <meta name="theme-color" content="#1f93ff">
-      <meta name="description" content="<%= @global_config['INSTALLATION_NAME'] %> is a customer support solution that helps companies engage customers over Messenger, Twitter, Telegram, WeChat, Whatsapp. Simply connect your channels and converse with your customers from a single place. Easily add new agents to your system and have them own and resolve conversations with customers. <%= @global_config['INSTALLATION_NAME'] %> also gives you real-time reports to measure your team's performance, canned responses to easily respond to frequently asked questions and private notes for agents to collaborate among themselves.">
+      <meta name="description" content="<%= @global_config['INSTALLATION_NAME'] %> é uma solução de suporte ao cliente que ajuda empresas a engajar clientes via Messenger, Twitter, Telegram, WeChat, Whatsapp. Basta conectar seus canais e conversar com seus clientes de um único lugar. Adicione facilmente novos agentes ao seu sistema e deixe que eles assumam e resolvam conversas com clientes. <%= @global_config['INSTALLATION_NAME'] %> também fornece relatórios em tempo real para medir o desempenho da sua equipe, respostas prontas para responder facilmente perguntas frequentes e notas privadas para os agentes colaborarem entre si.">
       <% if ENV['IOS_APP_IDENTIFIER'].present? %>
         <meta name="apple-itunes-app" content='app-id=<%= ENV['IOS_APP_IDENTIFIER'] %>'>
       <% end %>
@@ -75,7 +75,7 @@
   </head>
   <body class="text-slate-600">
     <div id="app"></div>
-    <noscript id="noscript">This app works best with JavaScript enabled.</noscript>
+    <noscript id="noscript">Este aplicativo funciona melhor com JavaScript habilitado.</noscript>
     <%= yield %>
     <% if @dashboard_scripts.present? %>
       <%= @dashboard_scripts.html_safe %>

@@ -7,9 +7,6 @@ for all resources in the admin dashboard,
 as defined by the routes in the `admin/` namespace
 %>
 
-<%= vite_client_tag %>
-<%= vite_javascript_tag 'superadmin_pages' %>
-
 <%
   sidebar_icons = {
     accounts: 'icon-building-4-line',
@@ -22,17 +19,17 @@ as defined by the routes in the `admin/` namespace
 <div class="border-slate-100 border-r w-56 flex-shrink-0 justify-between h-full flex flex-col" role="navigation">
   <div>
     <div class="flex mx-4 mb-4 border-slate-100 border-b py-6">
-      <%= link_to image_tag('/brand-assets/logo_thumbnail.svg', alt: 'Chatwoot Admin Dashboard', class: 'h-10'), super_admin_root_url %>
+      <%= link_to image_tag('/brand-assets/logo_thumbnail.svg', alt: 'Eduq Chat Admin Dashboard', class: 'h-10'), super_admin_root_url, data: { turbolinks: false } %>
       <div class="flex flex-col ml-3">
-        <div class="text-sm">Chatwoot <%= Chatwoot.config[:version] %></div>
-        <div class="text-xs text-slate-700 mt-0.5">Super Admin Console</div>
+        <div class="text-sm">Eduq Chat <%= Chatwoot.config[:version] %></div>
+        <div class="text-xs text-slate-700 mt-0.5">Console Admin</div>
       </div>
     </div>
 
     <ul class="my-4">
-      <%= render partial: "nav_item", locals: { icon: 'icon-grid-line', url: super_admin_root_url, label: 'Dashboard' } %>
+      <%= render partial: "nav_item", locals: { icon: 'icon-grid-line', url: super_admin_root_url, label: 'Painel de Controle' } %>
       <% Administrate::Namespace.new(namespace).resources.each do |resource| %>
-        <% next if ["account_users", "access_tokens", "installation_configs", "dashboard", "devise/sessions", "app_configs", "instance_statuses", "settings"].include?  resource.resource %>
+        <% next if ["account_users", "access_tokens", "installation_configs", "dashboard", "devise/sessions", "app_configs", "instance_statuses", "settings", "api/connection_health", "connection_health"].include?  resource.resource %>
         <%= render partial: "nav_item", locals: {
             icon: sidebar_icons[resource.resource.to_sym],
             url: resource_index_route(resource),
@@ -46,10 +43,11 @@ as defined by the routes in the `admin/` namespace
   </div>
   <div>
     <ul class="my-4">
-      <%= render partial: "nav_item", locals: { icon: 'icon-mist-fill', url: sidekiq_web_url, label: 'Sidekiq Dashboard' } %>
-      <%= render partial: "nav_item", locals: { icon: 'icon-health-book-line', url: super_admin_instance_status_url, label: 'Instance Health' } %>
-      <%= render partial: "nav_item", locals: { icon: 'icon-dashboard-line', url: '/', label: 'Agent Dashboard' } %>
-      <%= render partial: "nav_item", locals: { icon: 'icon-logout-circle-r-line', url: super_admin_logout_url, label: 'Logout' } %>
+      <%= render partial: "nav_item", locals: { icon: 'icon-mist-fill', url: sidekiq_web_url, label: 'Painel Sidekiq', data: { turbolinks: false } } %>
+      <%= render partial: "nav_item", locals: { icon: 'icon-health-book-line', url: super_admin_instance_status_url, label: 'Saúde da Instância', data: { turbolinks: false } } %>
+      <%= render partial: "nav_item", locals: { icon: 'icon-activity', url: super_admin_connection_health_index_url, label: 'Saúde das Conexões', data: { turbolinks: false } } %>
+      <%= render partial: "nav_item", locals: { icon: 'icon-dashboard-line', url: '/', label: 'Painel do Agente', data: { turbolinks: false } } %>
+      <%= render partial: "nav_item", locals: { icon: 'icon-logout-circle-r-line', url: super_admin_logout_url, label: 'Sair', data: { turbolinks: false } } %>
     </ul>
   </div>
 </div>

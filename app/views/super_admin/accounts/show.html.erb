@@ -88,6 +88,40 @@ as well as a link to its edit page.
           </fieldset>
         <% end %>
       <% end %>
+
+      <% inboxes = page.resource.inboxes.where(channel_type: 'Channel::Whatsapp') %>
+      <% if inboxes.present? %>
+        <fieldset>
+          <div class="attribute-label" id="inboxes">
+            Caixas de Entrada Conectadas (WhatsApp)
+          </div>
+
+          <% inboxes.each do |inbox| %>
+            <details class="attribute-data attribute-data--string m-0">
+              <summary class="attribute-data attribute-data--select" style="cursor: pointer; font-size: 1.1em; font-weight: 600; outline: none; border: 1px solid #e2e8f0; border-radius: 6px; padding: 0.5rem 1rem; background: white; margin-bottom: 0.5rem;">
+                <%= inbox.name %> (<%= inbox.channel.phone_number %>)
+              </summary>
+
+              <div class="attribute-data attribute-data--string">
+                <div class="attribute-label">Token (API Key)</div>
+                <div class="attribute-data attribute-data--string" style="word-break: break-all;">
+                  <%= inbox.channel.provider_config&.dig('api_key') || '-' %>
+                </div>
+
+                <div class="attribute-label">WABA ID (Business Account ID)</div>
+                <div class="attribute-data attribute-data--string">
+                  <%= inbox.channel.provider_config&.dig('business_account_id') || '-' %>
+                </div>
+
+                <div class="attribute-label">Phone ID (Phone Number ID)</div>
+                <div class="attribute-data attribute-data--string" style="margin-bottom: 1.5rem;">
+                  <%= inbox.channel.provider_config&.dig('phone_number_id') || '-' %>
+                </div>
+              </div>
+            </details>
+          <% end %>
+        </fieldset>
+      <% end %>
     </div>
   </section>
 

@@ -617,6 +617,11 @@ Rails.application.routes.draw do
       resource :app_config, only: [:show, :create]
 
       # order of resources affect the order of sidebar navigation in super admin
+      namespace :api, defaults: { format: 'json' } do
+        resources :connection_health, only: [:index]
+      end
+      resources :connection_health, only: [:index]
+
       resources :accounts, only: [:index, :new, :create, :show, :edit, :update, :destroy] do
         post :seed, on: :member
         post :reset_cache, on: :member

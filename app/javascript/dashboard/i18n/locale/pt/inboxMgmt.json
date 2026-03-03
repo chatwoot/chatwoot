@@ -590,7 +590,9 @@
       },
       "LOCK_TO_SINGLE_CONVERSATION": {
         "ENABLED": "Ativado",
-        "DISABLED": "Desativado"
+        "DISABLED": "Desativado",
+        "ENABLED_DESCRIPTION": "Quando um contacto enviar mensagem novamente, a conversa anterior será reaberta.",
+        "DISABLED_DESCRIPTION": "Uma nova conversa será criada cada vez que a anterior for resolvida."
       },
       "ENABLE_HMAC": {
         "LABEL": "Ativar"

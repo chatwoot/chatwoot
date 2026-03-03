@@ -2,21 +2,21 @@
   "INTEGRATION_SETTINGS": {
     "SHOPIFY": {
       "DELETE": {
-        "TITLE": "Delete Shopify Integration",
-        "MESSAGE": "Are you sure you want to delete the Shopify integration?"
+        "TITLE": "Deletar Integração Shopify",
+        "MESSAGE": "Tem certeza que deseja deletar a integração Shopify?"
       },
       "STORE_URL": {
-        "TITLE": "Connect Shopify Store",
-        "LABEL": "Store URL",
+        "TITLE": "Conectar Loja Shopify",
+        "LABEL": "URL da Loja",
         "PLACEHOLDER": "your-store.myshopify.com",
-        "HELP": "Enter your Shopify store's myshopify.com URL",
+        "HELP": "Digite a URL myshopify.com da sua loja Shopify",
         "CANCEL": "Cancelar",
-        "SUBMIT": "Connect Store"
+        "SUBMIT": "Conectar Loja"
       },
-      "ERROR": "There was an error connecting to Shopify. Please try again or contact support if the issue persists."
+      "ERROR": "Houve um erro ao conectar ao Shopify. Por favor, tente novamente ou entre em contato com o suporte se o problema persistir."
     },
     "HEADER": "Integrações",
-    "DESCRIPTION": "Chatwoot se integra com várias ferramentas e serviços para melhorar a eficiência de seu time. Explore a lista abaixo para configurar seus aplicativos favoritos.",
+    "DESCRIPTION": "O Eduq Chat se integra com várias ferramentas e serviços para melhorar a eficiência de seu time. Explore a lista abaixo para configurar seus aplicativos favoritos.",
     "LEARN_MORE": "Aprenda mais sobre integrações",
     "LOADING": "Obtendo integrações",
     "CAPTAIN": {
@@ -30,7 +30,7 @@
       "LEARN_MORE": "Saiba mais sobre webhooks",
       "FORM": {
         "CANCEL": "Cancelar",
-        "DESC": "Webhook Os eventos fornecem informações em tempo real sobre o que está acontecendo na sua conta do Chatwoot. Digite um URL válido para configurar um retorno de chamada.",
+        "DESC": "Webhook Os eventos fornecem informações em tempo real sobre o que está acontecendo na sua conta do Eduq Chat. Digite um URL válido para configurar um retorno de chamada.",
         "SUBSCRIPTIONS": {
           "LABEL": "Eventos",
           "EVENTS": {
