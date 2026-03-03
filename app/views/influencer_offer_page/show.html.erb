@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Framky — Collaboration Offer</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { font-family: 'Inter', system-ui, -apple-system, sans-serif; }
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+  </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
+  <div id="app" class="mx-auto max-w-lg px-4 py-8">
+    <!-- Loading state -->
+    <div id="loading" class="flex flex-col items-center justify-center py-24">
+      <div class="mb-4 h-8 w-8 animate-spin rounded-full border-2 border-slate-300 border-t-violet-600"></div>
+      <p class="text-sm text-slate-500">Loading offer...</p>
+    </div>
+
+    <!-- Error state -->
+    <div id="error" class="hidden py-24 text-center">
+      <div class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-red-100">
+        <svg class="h-8 w-8 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </div>
+      <h2 class="mb-2 text-lg font-semibold text-slate-900">Offer Unavailable</h2>
+      <p id="error-message" class="text-sm text-slate-500">This offer has expired or is no longer available.</p>
+    </div>
+
+    <!-- Offer content -->
+    <div id="offer" class="hidden">
+      <!-- Header -->
+      <div class="mb-6 text-center">
+        <div class="mb-3 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-violet-600 text-xl font-bold text-white">F</div>
+        <h1 class="text-xl font-bold text-slate-900">Collaboration Offer</h1>
+        <p class="mt-1 text-sm text-slate-500">from <span class="font-medium text-violet-600">Framky</span></p>
+      </div>
+
+      <!-- Custom message -->
+      <div id="custom-message-wrap" class="mb-6 hidden rounded-xl bg-violet-50 p-4">
+        <p id="custom-message" class="text-sm text-violet-900"></p>
+      </div>
+
+      <!-- Influencer info -->
+      <div class="mb-6 rounded-xl bg-white p-4 shadow-sm ring-1 ring-slate-200">
+        <p class="mb-1 text-xs font-medium uppercase tracking-wide text-slate-400">For</p>
+        <p class="text-lg font-semibold text-slate-900">
+          <span id="influencer-name"></span>
+          <span id="influencer-username" class="text-sm font-normal text-slate-500"></span>
+        </p>
+        <p id="expires" class="mt-2 text-xs text-slate-400"></p>
+      </div>
+
+      <!-- Package selection -->
+      <div class="mb-6 rounded-xl bg-white p-4 shadow-sm ring-1 ring-slate-200">
+        <h3 class="mb-3 text-sm font-semibold text-slate-900">Select content package</h3>
+        <div id="packages" class="space-y-2"></div>
+      </div>
+
+      <!-- Rights level -->
+      <div class="mb-6 rounded-xl bg-white p-4 shadow-sm ring-1 ring-slate-200">
+        <h3 class="mb-3 text-sm font-semibold text-slate-900">Content rights</h3>
+        <div class="flex gap-2">
+          <button data-rights="standard" class="rights-btn flex-1 rounded-lg border-2 border-violet-600 bg-violet-50 px-3 py-2 text-sm font-medium text-violet-700 transition-all">
+            Standard <span class="block text-xs font-normal text-slate-400">Brand social media</span>
+          </button>
+          <button data-rights="extended" class="rights-btn flex-1 rounded-lg border-2 border-slate-200 px-3 py-2 text-sm font-medium text-slate-600 transition-all hover:border-slate-300">
+            Extended <span class="block text-xs font-normal text-slate-400">All marketing channels</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Voucher value -->
+      <div class="mb-6 rounded-xl bg-gradient-to-r from-violet-600 to-purple-600 p-6 text-center text-white shadow-lg">
+        <p class="mb-1 text-xs font-medium uppercase tracking-wide text-violet-200">Your voucher value</p>
+        <p id="voucher-value" class="text-4xl font-bold">—</p>
+        <p id="voucher-currency" class="text-sm text-violet-200">EUR</p>
+      </div>
+
+      <!-- Terms -->
+      <div class="mb-6 rounded-xl bg-white p-4 shadow-sm ring-1 ring-slate-200">
+        <label class="flex cursor-pointer items-start gap-3">
+          <input id="terms-check" type="checkbox" class="mt-1 h-4 w-4 rounded border-slate-300 text-violet-600 focus:ring-violet-500">
+          <span class="text-xs text-slate-600">
+            I agree to the collaboration terms. I will create the selected content within 30 days and grant the specified content rights.
+            The voucher is valid for 90 days and can be used for any Framky product.
+          </span>
+        </label>
+      </div>
+
+      <!-- Accept button -->
+      <button id="accept-btn" disabled class="w-full rounded-xl bg-violet-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition-all hover:bg-violet-700 disabled:cursor-not-allowed disabled:opacity-50">
+        Accept Collaboration
+      </button>
+    </div>
+
+    <!-- Success state -->
+    <div id="success" class="hidden py-12 text-center">
+      <div class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-green-100">
+        <svg class="h-8 w-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+        </svg>
+      </div>
+      <h2 class="mb-2 text-lg font-semibold text-slate-900">Collaboration Accepted!</h2>
+      <p class="mb-6 text-sm text-slate-500">Here's your Framky voucher</p>
+      <div class="mx-auto max-w-xs rounded-xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
+        <p class="mb-1 text-xs font-medium text-slate-400">Voucher Code</p>
+        <p id="voucher-code" class="mb-3 text-2xl font-bold tracking-wider text-violet-600"></p>
+        <p class="mb-1 text-xs font-medium text-slate-400">Value</p>
+        <p id="final-value" class="text-lg font-semibold text-slate-900"></p>
+      </div>
+      <p class="mt-6 text-xs text-slate-400">
+        Use this code at <a href="https://framky.com" class="text-violet-600 hover:underline">framky.com</a> checkout.
+        Valid for 90 days.
+      </p>
+    </div>
+  </div>
+
+  <script>
+    const TOKEN = '<%= @token %>';
+    const API_BASE = '/public/api/v1/influencer_offers/' + TOKEN;
+
+    let offerData = null;
+    let selectedPackages = {};
+    let selectedRights = 'standard';
+
+    async function init() {
+      try {
+        const res = await fetch(API_BASE);
+        if (!res.ok) {
+          showError(res.status === 410 ? 'This offer has expired or is no longer available.' : 'Unable to load offer.');
+          return;
+        }
+        offerData = await res.json();
+        renderOffer();
+      } catch {
+        showError('Unable to load offer. Please try again later.');
+      }
+    }
+
+    function renderOffer() {
+      document.getElementById('loading').classList.add('hidden');
+      document.getElementById('offer').classList.remove('hidden');
+
+      const inf = offerData.influencer;
+      document.getElementById('influencer-name').textContent = inf.fullname || inf.username;
+      document.getElementById('influencer-username').textContent = '@' + inf.username;
+
+      if (offerData.custom_message) {
+        document.getElementById('custom-message-wrap').classList.remove('hidden');
+        document.getElementById('custom-message').textContent = offerData.custom_message;
+      }
+
+      if (offerData.expires_at) {
+        const date = new Date(offerData.expires_at);
+        document.getElementById('expires').textContent = 'Expires ' + date.toLocaleDateString();
+      }
+
+      // Render package toggles
+      const pkgs = offerData.available_packages;
+      const container = document.getElementById('packages');
+      const labels = { reel: 'Reel', carousel: 'Carousel Post', stories: '3x Stories' };
+      const weights = { reel: '0.5×', carousel: '0.2×', stories: '0.3×' };
+
+      for (const [key, enabled] of Object.entries(pkgs)) {
+        if (!enabled) continue;
+        selectedPackages[key] = true;
+        const div = document.createElement('label');
+        div.className = 'flex cursor-pointer items-center justify-between rounded-lg border-2 border-violet-600 bg-violet-50 p-3 transition-all pkg-item';
+        div.dataset.pkg = key;
+        div.innerHTML = `
+          <div class="flex items-center gap-3">
+            <input type="checkbox" checked class="h-4 w-4 rounded border-slate-300 text-violet-600 focus:ring-violet-500 pkg-check" data-pkg="${key}">
+            <span class="text-sm font-medium text-slate-900">${labels[key] || key}</span>
+          </div>
+          <span class="text-xs text-slate-400">${weights[key] || ''}</span>
+        `;
+        container.appendChild(div);
+      }
+
+      document.querySelectorAll('.pkg-check').forEach(cb => {
+        cb.addEventListener('change', function() {
+          selectedPackages[this.dataset.pkg] = this.checked;
+          const item = this.closest('.pkg-item');
+          if (this.checked) {
+            item.classList.add('border-violet-600', 'bg-violet-50');
+            item.classList.remove('border-slate-200');
+          } else {
+            item.classList.remove('border-violet-600', 'bg-violet-50');
+            item.classList.add('border-slate-200');
+          }
+          recalculate();
+        });
+      });
+
+      document.querySelectorAll('.rights-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          selectedRights = this.dataset.rights;
+          document.querySelectorAll('.rights-btn').forEach(b => {
+            b.classList.remove('border-violet-600', 'bg-violet-50', 'text-violet-700');
+            b.classList.add('border-slate-200', 'text-slate-600');
+          });
+          this.classList.add('border-violet-600', 'bg-violet-50', 'text-violet-700');
+          this.classList.remove('border-slate-200', 'text-slate-600');
+          recalculate();
+        });
+      });
+
+      document.getElementById('terms-check').addEventListener('change', function() {
+        document.getElementById('accept-btn').disabled = !this.checked;
+      });
+
+      document.getElementById('accept-btn').addEventListener('click', acceptOffer);
+
+      recalculate();
+    }
+
+    const RATE = 0.019;
+    const CONTENT_WEIGHTS = { reel: 0.5, carousel: 0.2, stories: 0.3 };
+    const RIGHTS_MULTIPLIERS = { standard: 1.0, extended: 1.5 };
+
+    function recalculate() {
+      const calc = offerData.calculator;
+      let contentMult = 0;
+      for (const [k, v] of Object.entries(selectedPackages)) {
+        if (v) contentMult += (CONTENT_WEIGHTS[k] || 0);
+      }
+      contentMult = Math.max(contentMult, 0.1);
+      const rightsMult = RIGHTS_MULTIPLIERS[selectedRights] || 1.0;
+      const value = calc.followers * (calc.fqs_score / 100) * RATE * contentMult * rightsMult;
+      document.getElementById('voucher-value').textContent = '≈ ' + Math.round(value).toLocaleString('pl-PL');
+    }
+
+    async function acceptOffer() {
+      const btn = document.getElementById('accept-btn');
+      btn.disabled = true;
+      btn.textContent = 'Processing...';
+
+      try {
+        const res = await fetch(API_BASE + '/accept', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ packages: selectedPackages, rights_level: selectedRights })
+        });
+
+        if (!res.ok) {
+          const err = await res.json();
+          alert(err.error || 'Failed to process offer. Please try again.');
+          btn.disabled = false;
+          btn.textContent = 'Accept Collaboration';
+          return;
+        }
+
+        const data = await res.json();
+        document.getElementById('offer').classList.add('hidden');
+        document.getElementById('success').classList.remove('hidden');
+        document.getElementById('voucher-code').textContent = data.voucher_code;
+        document.getElementById('final-value').textContent = Math.round(data.voucher_value).toLocaleString('pl-PL') + ' EUR';
+      } catch {
+        alert('An error occurred. Please try again.');
+        btn.disabled = false;
+        btn.textContent = 'Accept Collaboration';
+      }
+    }
+
+    function showError(message) {
+      document.getElementById('loading').classList.add('hidden');
+      document.getElementById('error').classList.remove('hidden');
+      document.getElementById('error-message').textContent = message;
+    }
+
+    init();
+  </script>
+</body>
+</html>

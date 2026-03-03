@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_03_02_170001) do
+ActiveRecord::Schema[7.1].define(version: 2026_03_02_234120) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -894,6 +894,29 @@ ActiveRecord::Schema[7.1].define(version: 2026_03_02_170001) do
     t.index ["portal_id"], name: "index_inboxes_on_portal_id"
   end
 
+  create_table "influencer_offers", force: :cascade do |t|
+    t.bigint "influencer_profile_id", null: false
+    t.bigint "account_id", null: false
+    t.bigint "created_by_id"
+    t.string "token", null: false
+    t.integer "status", default: 0, null: false
+    t.jsonb "available_packages", default: {}
+    t.jsonb "selected_packages", default: {}
+    t.string "rights_level", default: "standard"
+    t.decimal "voucher_value", precision: 10, scale: 2
+    t.string "voucher_currency", default: "EUR"
+    t.string "voucher_code"
+    t.text "custom_message"
+    t.datetime "terms_accepted_at"
+    t.datetime "expires_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_influencer_offers_on_account_id"
+    t.index ["created_by_id"], name: "index_influencer_offers_on_created_by_id"
+    t.index ["influencer_profile_id"], name: "index_influencer_offers_on_influencer_profile_id"
+    t.index ["token"], name: "index_influencer_offers_on_token", unique: true
+  end
+
   create_table "influencer_profiles", force: :cascade do |t|
     t.bigint "contact_id", null: false
     t.bigint "account_id", null: false
@@ -1383,6 +1406,9 @@ ActiveRecord::Schema[7.1].define(version: 2026_03_02_170001) do
   add_foreign_key "contact_pipeline_stages", "contacts"
   add_foreign_key "contact_pipeline_stages", "pipeline_stages"
   add_foreign_key "inboxes", "portals"
+  add_foreign_key "influencer_offers", "accounts"
+  add_foreign_key "influencer_offers", "influencer_profiles"
+  add_foreign_key "influencer_offers", "users", column: "created_by_id"
   add_foreign_key "influencer_profiles", "accounts"
   add_foreign_key "influencer_profiles", "contacts"
   add_foreign_key "influencer_searches", "accounts"
