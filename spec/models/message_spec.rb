@@ -271,6 +271,15 @@ RSpec.describe Message do
     end
   end
 
+  describe '#mark_pending_conversation_as_open_for_human_response' do
+    let(:conversation) { create(:conversation, status: :pending) }
+
+    it 'does not mark the conversation open when pending is used without captain' do
+      create(:message, message_type: :outgoing, conversation: conversation)
+      expect(conversation.reload.pending?).to be true
+    end
+  end
+
   describe '#waiting since' do
     let(:conversation) { create(:conversation) }
     let(:agent) { create(:user, account: conversation.account) }
