@@ -27,6 +27,7 @@ RSpec.describe Message do
   describe '#mark_pending_conversation_as_open_for_human_response' do
     let(:conversation) { create(:conversation, status: :pending) }
     let(:captain_assistant) { create(:captain_assistant, account: conversation.account) }
+    let(:auto_open_activity_content) { I18n.t('conversations.activity.captain.auto_opened_after_agent_reply', locale: conversation.account.locale) }
 
     before do
       create(:captain_inbox, inbox: conversation.inbox, captain_assistant: captain_assistant)
@@ -36,6 +37,42 @@ RSpec.describe Message do
       create(:message, message_type: :outgoing, conversation: conversation)
 
       expect(conversation.reload.open?).to be true
+    end
+
+    it 'creates an activity message when a human sends a public outgoing message' do
+      expect do
+        create(:message, message_type: :outgoing, conversation: conversation)
+      end.to have_enqueued_job(Conversations::ActivityMessageJob).with(
+        conversation,
+        {
+          account_id: conversation.account_id,
+          inbox_id: conversation.inbox_id,
+          message_type: :activity,
+          content: auto_open_activity_content
+        }
+      )
+    end
+
+    it 'creates an activity message for external echo replies' do
+      message = build(
+        :message,
+        message_type: :outgoing,
+        conversation: conversation,
+        content_attributes: { external_echo: true }
+      )
+      message.sender = nil
+
+      expect do
+        message.save!
+      end.to have_enqueued_job(Conversations::ActivityMessageJob).with(
+        conversation,
+        {
+          account_id: conversation.account_id,
+          inbox_id: conversation.inbox_id,
+          message_type: :activity,
+          content: auto_open_activity_content
+        }
+      )
     end
 
     it 'does not mark the conversation open for private outgoing messages' do
