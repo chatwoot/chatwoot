@@ -77,23 +77,20 @@ class AiAgentReplyJob < ApplicationJob
 
     unless result.handed_off?
       reply_text, emoji = extract_reaction(result.reply)
-
-      # Send the natural reaction on WhatsApp before replying
       send_whatsapp_reaction(message, emoji) if emoji.present?
-
-      # Simulate natural typing delay so the reply doesn't appear instantly
       simulate_typing_delay(message, reply_text)
-
-      conversation.messages.create!(
-        content: reply_text,
-        message_type: :outgoing,
-        account_id: account.id,
-        inbox_id: conversation.inbox_id,
-        content_attributes: { ai_generated: true, ai_agent_id: ai_agent.id }
-      )
+      post_reply(conversation, account, ai_agent, message, reply_text)
     end
 
     record_usage(account, ai_agent, result.usage) if result.usage
+  end
+
+  def post_reply(conversation, account, ai_agent, message, reply_text)
+    if incoming_has_audio?(message) && whatsapp_channel?(conversation)
+      send_audio_reply(conversation, account, ai_agent, reply_text)
+    else
+      create_text_reply(conversation, account, ai_agent, reply_text)
+    end
   end
 
   def build_history(conversation)
@@ -252,5 +249,46 @@ class AiAgentReplyJob < ApplicationJob
     emoji = match[1].strip
     clean_reply = reply.sub(REACTION_PATTERN, '').strip
     [clean_reply, emoji]
+  end
+
+  # --- Audio reply (TTS) ---
+
+  def incoming_has_audio?(message)
+    message.attachments.any? { |a| a.file_type.to_s == 'audio' }
+  end
+
+  def send_audio_reply(conversation, account, ai_agent, reply_text)
+    audio_bytes = generate_speech(reply_text)
+    return create_text_reply(conversation, account, ai_agent, reply_text) if audio_bytes.blank?
+
+    msg = create_text_reply(conversation, account, ai_agent, reply_text)
+    attach_audio(msg, account, audio_bytes)
+  end
+
+  def attach_audio(message, account, audio_bytes)
+    attachment = message.attachments.new(account_id: account.id, file_type: :audio)
+    attachment.file.attach(io: StringIO.new(audio_bytes), filename: 'reply.ogg', content_type: 'audio/ogg')
+    attachment.save!
+    Rails.logger.info "[AI_AGENT] Audio reply sent (#{audio_bytes.bytesize} bytes)"
+  end
+
+  def create_text_reply(conversation, account, ai_agent, reply_text)
+    conversation.messages.create!(
+      content: reply_text,
+      message_type: :outgoing,
+      account_id: account.id,
+      inbox_id: conversation.inbox_id,
+      content_attributes: { ai_generated: true, ai_agent_id: ai_agent.id }
+    )
+  end
+
+  def generate_speech(text)
+    return nil if text.blank?
+
+    client = Llm::Client.new
+    client.speech(input: text, voice: 'nova', response_format: 'opus')
+  rescue StandardError => e
+    Rails.logger.warn "[AI_AGENT] TTS failed: #{e.class} — #{e.message}"
+    nil
   end
 end

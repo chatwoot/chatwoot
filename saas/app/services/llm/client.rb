@@ -45,17 +45,17 @@ module Llm
 
     # Blocking chat completion
     # Returns parsed JSON response hash
-    def chat(messages:, **options)
-      payload = build_payload(messages: messages, stream: false, **options)
+    def chat(messages:, **)
+      payload = build_payload(messages: messages, stream: false, **)
       response = post('/v1/chat/completions', payload)
       parse_response(response)
     end
 
     # Streaming chat completion via SSE
     # Yields parsed chunk hashes as they arrive
-    def chat_stream(messages:, **options, &block)
-      payload = build_payload(messages: messages, stream: true, **options)
-      stream_post('/v1/chat/completions', payload, &block)
+    def chat_stream(messages:, **, &)
+      payload = build_payload(messages: messages, stream: true, **)
+      stream_post('/v1/chat/completions', payload, &)
     end
 
     # Embeddings endpoint
@@ -66,6 +66,21 @@ module Llm
       }
       response = post('/v1/embeddings', payload)
       parse_response(response)
+    end
+
+    # Text-to-Speech — returns raw audio bytes (mp3 or opus)
+    # Options: voice (alloy, echo, fable, onyx, nova, shimmer), response_format (mp3, opus, aac, flac)
+    def speech(input:, model: 'tts-1', voice: 'nova', response_format: 'opus')
+      payload = { model: model, input: input, voice: voice, response_format: response_format }
+      uri = URI.parse("#{base_url}/v1/audio/speech")
+      http = build_http(uri)
+      request = Net::HTTP::Post.new(uri)
+      request['Content-Type'] = 'application/json'
+      request['Authorization'] = "Bearer #{api_key}" if api_key.present?
+      request.body = payload.to_json
+      response = http.request(request)
+      handle_errors(response)
+      response.body
     end
 
     # Health check — pings the LiteLLM proxy
@@ -122,7 +137,7 @@ module Llm
       response
     end
 
-    def stream_post(path, payload, &block)
+    def stream_post(path, payload, &)
       uri = URI.parse("#{base_url}#{path}")
       http = build_http(uri, timeout: STREAM_TIMEOUT)
 
@@ -133,7 +148,7 @@ module Llm
 
       http.request(request) do |response|
         handle_errors(response)
-        parse_sse_stream(response, &block)
+        parse_sse_stream(response, &)
       end
     end
 
