@@ -115,7 +115,7 @@ class Captain::Llm::PaginatedFaqGeneratorService < Llm::LegacyBaseOpenAiService
   def build_chunk_parameters(start_page, end_page)
     {
       model: @model,
-      response_format: chunk_response_format,
+      response_format: Captain::Llm::ResponseFormatSchema.paginated_chunk,
       messages: [
         {
           role: 'user',
@@ -145,7 +145,7 @@ class Captain::Llm::PaginatedFaqGeneratorService < Llm::LegacyBaseOpenAiService
   def standard_chat_parameters
     {
       model: @model,
-      response_format: faq_response_format,
+      response_format: Captain::Llm::ResponseFormatSchema.faq,
       messages: [
         {
           role: 'system',
@@ -219,65 +219,6 @@ class Captain::Llm::PaginatedFaqGeneratorService < Llm::LegacyBaseOpenAiService
         start_page: start_page,
         end_page: end_page,
         iteration: @iterations_completed + 1
-      }
-    }
-  end
-
-  def faq_response_format
-    {
-      type: 'json_schema',
-      json_schema: {
-        name: 'faq_generator_response',
-        strict: true,
-        schema: {
-          type: 'object',
-          properties: {
-            faqs: {
-              type: 'array',
-              items: {
-                type: 'object',
-                properties: {
-                  question: { type: 'string' },
-                  answer: { type: 'string' }
-                },
-                required: %w[question answer],
-                additionalProperties: false
-              }
-            }
-          },
-          required: ['faqs'],
-          additionalProperties: false
-        }
-      }
-    }
-  end
-
-  def chunk_response_format
-    {
-      type: 'json_schema',
-      json_schema: {
-        name: 'paginated_faq_chunk_response',
-        strict: true,
-        schema: {
-          type: 'object',
-          properties: {
-            faqs: {
-              type: 'array',
-              items: {
-                type: 'object',
-                properties: {
-                  question: { type: 'string' },
-                  answer: { type: 'string' }
-                },
-                required: %w[question answer],
-                additionalProperties: false
-              }
-            },
-            has_content: { type: 'boolean' }
-          },
-          required: %w[faqs has_content],
-          additionalProperties: false
-        }
       }
     }
   end
