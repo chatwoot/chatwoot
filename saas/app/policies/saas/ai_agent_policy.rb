@@ -24,4 +24,12 @@ class Saas::AiAgentPolicy < ApplicationPolicy
   def preview?
     @account_user.administrator? || @account_user.agent?
   end
+
+  def voice_catalog?
+    @account_user.administrator? || @account_user.agent?
+  end
+
+  def voice_preview?
+    @account_user.administrator?
+  end
 end

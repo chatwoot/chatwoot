@@ -14,6 +14,9 @@ import { requiredIf } from '@vuelidate/validators';
 import { useI18n } from 'vue-i18n';
 
 import Input from 'dashboard/components-next/input/Input.vue';
+import Button from 'dashboard/components-next/button/Button.vue';
+import Spinner from 'shared/components/Spinner.vue';
+import { uploadFile } from 'dashboard/helper/uploadHelper';
 import {
   buildTemplateParameters,
   allKeysRequired,
@@ -22,6 +25,7 @@ import {
   DEFAULT_CATEGORY,
   COMPONENT_TYPES,
   MEDIA_FORMATS,
+  UPLOAD_CONFIG,
   findComponentByType,
 } from 'dashboard/helper/templateHelper';
 
@@ -135,6 +139,57 @@ const updateMediaName = value => {
   processedParams.value.header.media_name = value;
 };
 
+// File upload state for media headers
+const fileInputRef = ref(null);
+const isUploading = ref(false);
+const uploadError = ref('');
+const uploadedPreview = ref(null);
+
+const acceptTypes = computed(() => {
+  const format = headerComponent.value?.format;
+  return UPLOAD_CONFIG[format]?.accept || '';
+});
+
+const triggerFileUpload = () => {
+  fileInputRef.value?.click();
+};
+
+const handleFileSelected = async event => {
+  const file = event.target.files?.[0];
+  if (!file) return;
+
+  isUploading.value = true;
+  uploadError.value = '';
+
+  try {
+    const { fileUrl } = await uploadFile(file);
+    updateMediaUrl(fileUrl);
+    uploadedPreview.value = {
+      url: fileUrl,
+      name: file.name,
+      type: file.type,
+    };
+
+    if (isDocumentTemplate.value) {
+      updateMediaName(file.name);
+    }
+  } catch {
+    uploadError.value = t('WHATSAPP_TEMPLATES.PARSER.UPLOAD_ERROR');
+  } finally {
+    isUploading.value = false;
+    if (fileInputRef.value) fileInputRef.value.value = '';
+  }
+};
+
+const removeUploadedMedia = () => {
+  updateMediaUrl('');
+  uploadedPreview.value = null;
+  uploadError.value = '';
+  if (isDocumentTemplate.value) {
+    updateMediaName('');
+  }
+};
+
 const sendMessage = () => {
   v$.value.$touch();
   if (v$.value.$invalid) return;
@@ -223,7 +278,84 @@ defineExpose({
             }) || `${formatType} Header`
           }}
         </p>
-        <div class="flex items-center mb-2.5">
+
+        <input
+          ref="fileInputRef"
+          type="file"
+          :accept="acceptTypes"
+          class="hidden"
+          @change="handleFileSelected"
+        />
+
+        <!-- Uploaded/selected media preview -->
+        <div v-if="uploadedPreview" class="mb-2.5">
+          <div
+            class="rounded-lg border border-n-weak overflow-hidden bg-n-solid-3"
+          >
+            <img
+              v-if="headerComponent?.format === 'IMAGE'"
+              :src="uploadedPreview.url"
+              alt=""
+              class="w-full max-h-36 object-cover"
+            />
+            <div v-else class="flex items-center gap-3 p-3">
+              <span
+                :class="
+                  headerComponent?.format === 'VIDEO'
+                    ? 'i-lucide-video'
+                    : 'i-lucide-file-text'
+                "
+                class="size-5 text-n-slate-11"
+              />
+              <span class="text-sm text-n-slate-12 truncate flex-1">
+                {{ uploadedPreview.name }}
+              </span>
+            </div>
+          </div>
+          <div class="flex items-center gap-2 mt-1.5">
+            <Button
+              :label="t('WHATSAPP_TEMPLATES.PARSER.REPLACE_MEDIA')"
+              icon="i-lucide-refresh-cw"
+              size="xs"
+              variant="ghost"
+              color="slate"
+              @click="triggerFileUpload"
+            />
+            <Button
+              :label="t('WHATSAPP_TEMPLATES.PARSER.REMOVE_MEDIA')"
+              icon="i-lucide-trash-2"
+              size="xs"
+              variant="ghost"
+              color="ruby"
+              @click="removeUploadedMedia"
+            />
+          </div>
+        </div>
+
+        <!-- Upload button + URL input when no media selected -->
+        <div v-else class="space-y-2.5">
+          <div class="flex items-center gap-2">
+            <Button
+              :label="
+                isUploading
+                  ? t('WHATSAPP_TEMPLATES.PARSER.UPLOADING')
+                  : t('WHATSAPP_TEMPLATES.PARSER.UPLOAD_MEDIA')
+              "
+              :icon="isUploading ? '' : 'i-lucide-upload'"
+              size="sm"
+              variant="outline"
+              color="slate"
+              :disabled="isUploading"
+              @click="triggerFileUpload"
+            >
+              <template v-if="isUploading" #icon>
+                <Spinner size="small" />
+              </template>
+            </Button>
+            <span class="text-xs text-n-slate-11">
+              {{ t('WHATSAPP_TEMPLATES.PARSER.OR_PASTE_URL') }}
+            </span>
+          </div>
           <Input
             :model-value="processedParams.header?.media_url || ''"
             type="url"
@@ -236,7 +368,12 @@ defineExpose({
             @update:model-value="updateMediaUrl"
           />
         </div>
-        <div v-if="isDocumentTemplate" class="flex items-center mb-2.5">
+
+        <p v-if="uploadError" class="mt-1.5 text-xs text-n-ruby-11">
+          {{ uploadError }}
+        </p>
+
+        <div v-if="isDocumentTemplate && !uploadedPreview" class="mt-2.5">
           <Input
             :model-value="processedParams.header?.media_name || ''"
             type="text"

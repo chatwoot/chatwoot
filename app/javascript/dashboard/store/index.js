@@ -38,7 +38,9 @@ import inboxMembers from './modules/inboxMembers';
 import integrations from './modules/integrations';
 import labels from './modules/labels';
 import macros from './modules/macros';
+import messageTemplates from './modules/messageTemplates';
 import notifications from './modules/notifications';
+import whatsappFlows from './modules/whatsappFlows';
 import portals from './modules/helpCenterPortals';
 import reports from './modules/reports';
 import sla from './modules/sla';
@@ -102,6 +104,7 @@ export default createStore({
     integrations,
     labels,
     macros,
+    messageTemplates,
     notifications,
     portals,
     reports,
@@ -112,6 +115,7 @@ export default createStore({
     teams,
     userNotificationSettings,
     webhooks,
+    whatsappFlows,
     captainAssistants,
     captainDocuments,
     captainResponses,

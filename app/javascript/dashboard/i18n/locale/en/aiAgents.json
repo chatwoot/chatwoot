@@ -371,21 +371,36 @@
     },
     "VOICE": {
       "TITLE": "Voice Settings",
-      "DESCRIPTION": "Configure voice agents for phone conversations (requires Voice or Hybrid agent type)",
+      "DESCRIPTION": "Configure how your agent sounds in voice conversations.",
       "NOT_VOICE_AGENT": "Voice settings are only available for Voice and Hybrid agent types.",
       "PROVIDER": {
-        "LABEL": "Voice Provider"
+        "LABEL": "Voice Engine",
+        "STANDARD": "Standard TTS",
+        "REALTIME": "Realtime Voice"
       },
       "VOICE_ID": {
         "LABEL": "Voice",
-        "PLACEHOLDER": "Select a voice ID"
+        "PLACEHOLDER": "Search voices..."
+      },
+      "VOICE_SELECTOR": {
+        "SEARCH_PLACEHOLDER": "Search by name, accent, or gender...",
+        "NO_RESULTS": "No voices found",
+        "LOADING": "Loading available voices...",
+        "PREVIEW": "Preview"
       },
       "LANGUAGE": {
         "LABEL": "Language",
-        "PLACEHOLDER": "e.g. en-US"
+        "PLACEHOLDER": "Select language"
+      },
+      "MODEL": {
+        "LABEL": "Voice Model",
+        "PLACEHOLDER": "Select a voice model"
       },
       "SPEED": {
-        "LABEL": "Speed"
+        "LABEL": "Speed",
+        "SLOW": "Slow",
+        "NORMAL": "Normal",
+        "FAST": "Fast"
       },
       "GREETING": {
         "LABEL": "Greeting Message",
@@ -396,6 +411,11 @@
         "LOW": "Low",
         "MEDIUM": "Medium",
         "HIGH": "High"
+      },
+      "TEST": {
+        "LABEL": "Test Voice",
+        "TESTING": "Playing...",
+        "ERROR": "Could not generate voice preview"
       },
       "REALTIME_MODEL": {
         "LABEL": "Realtime Model",

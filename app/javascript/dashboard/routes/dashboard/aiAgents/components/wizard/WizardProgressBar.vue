@@ -23,19 +23,14 @@ defineProps({
           ]"
           :title="step"
         >
-          <span
-            v-if="idx < currentIndex"
-            class="i-lucide-check size-3.5"
-          />
+          <span v-if="idx < currentIndex" class="i-lucide-check size-3.5" />
           <span v-else>{{ idx + 1 }}</span>
         </div>
         <!-- Connector line -->
         <div
           v-if="idx < steps.length - 1"
           class="flex-1 h-[2px] mx-0.5 rounded-full transition-colors duration-300"
-          :class="
-            idx < currentIndex ? 'bg-n-blue-9' : 'bg-n-solid-3'
-          "
+          :class="idx < currentIndex ? 'bg-n-blue-9' : 'bg-n-solid-3'"
         />
       </template>
     </div>

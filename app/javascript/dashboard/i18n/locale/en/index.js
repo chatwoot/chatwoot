@@ -28,6 +28,7 @@ import integrations from './integrations.json';
 import labelsMgmt from './labelsMgmt.json';
 import login from './login.json';
 import macros from './macros.json';
+import messageTemplates from './messageTemplates.json';
 import report from './report.json';
 import resetPassword from './resetPassword.json';
 import search from './search.json';
@@ -37,6 +38,7 @@ import signup from './signup.json';
 import sla from './sla.json';
 import teamsSettings from './teamsSettings.json';
 import whatsappTemplates from './whatsappTemplates.json';
+import whatsappFlows from './whatsappFlows.json';
 import contentTemplates from './contentTemplates.json';
 import mfa from './mfa.json';
 import yearInReview from './yearInReview.json';
@@ -72,6 +74,7 @@ export default {
   ...labelsMgmt,
   ...login,
   ...macros,
+  ...messageTemplates,
   ...report,
   ...resetPassword,
   ...search,
@@ -81,6 +84,7 @@ export default {
   ...sla,
   ...teamsSettings,
   ...whatsappTemplates,
+  ...whatsappFlows,
   ...contentTemplates,
   ...mfa,
   ...yearInReview,

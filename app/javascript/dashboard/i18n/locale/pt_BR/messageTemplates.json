@@ -1,0 +1,132 @@
+{
+  "MESSAGE_TEMPLATES": {
+    "HEADER_TITLE": "Templates de Mensagem",
+    "NEW_TEMPLATE": "Criar Template",
+    "SYNC": "Sincronizar do Meta",
+    "ALL_INBOXES": "Todas as caixas",
+    "CATEGORIES": {
+      "MARKETING": "Marketing",
+      "UTILITY": "Utilidade",
+      "AUTHENTICATION": "Autenticação"
+    },
+    "TABLE": {
+      "NAME": "Nome",
+      "CATEGORY": "Categoria",
+      "LANGUAGE": "Idioma",
+      "STATUS": "Status",
+      "ACTIONS": "Ações"
+    },
+    "EMPTY_STATE": {
+      "TITLE": "Nenhum template ainda",
+      "SUBTITLE": "Crie templates de mensagem do WhatsApp para campanhas, notificações e mensagens proativas."
+    },
+    "DELETE": {
+      "TITLE": "Excluir template",
+      "DESCRIPTION": "Tem certeza de que deseja excluir este template? Esta ação não pode ser desfeita.",
+      "CONFIRM": "Excluir",
+      "CANCEL": "Cancelar"
+    },
+    "BUILDER": {
+      "TITLE": "Criar template",
+      "EDIT_TITLE": "Editar template",
+      "DISCARD": "Descartar",
+      "SUBMIT": "Salvar e Enviar",
+      "UPDATE": "Salvar Alterações",
+      "SUCCESS": "Template enviado para revisão com sucesso",
+      "UPDATE_SUCCESS": "Template atualizado com sucesso",
+      "NOT_FOUND": "Template não encontrado",
+      "ERROR": "Falha ao criar template. Verifique os dados e tente novamente.",
+      "TEMPLATE_INFO": "Informações do Template",
+      "NAME_LABEL": "Nome do template",
+      "NAME_PLACEHOLDER": "confirmacao_pedido",
+      "NAME_HINT": "Apenas letras minúsculas, números e underscores permitidos",
+      "CATEGORY_LABEL": "Categoria",
+      "LANGUAGE_LABEL": "Idioma",
+      "INBOX_LABEL": "Caixa de entrada WhatsApp",
+      "INBOX_PLACEHOLDER": "Selecione uma caixa de entrada",
+      "OPTIONAL": "Opcional",
+      "REQUIRED": "Obrigatório",
+      "PARAMETER_TYPE": {
+        "LABEL": "Tipo de parâmetro",
+        "POSITIONAL": "Posicional",
+        "POSITIONAL_DESC": "Variáveis como {{1}}, {{2}}, etc.",
+        "NAMED": "Nomeado",
+        "NAMED_DESC": "Variáveis como {{nome_cliente}}"
+      },
+      "HEADER": {
+        "TITLE": "Cabeçalho",
+        "TYPE": "Tipo de cabeçalho",
+        "TEXT_LABEL": "Texto do cabeçalho",
+        "TEXT_PLACEHOLDER": "Digite o texto do cabeçalho",
+        "TEXT_HELP": "Máx. 60 caracteres. Use variáveis como {{1}} para conteúdo dinâmico.",
+        "MEDIA_UPLOAD": "Clique para fazer upload de mídia para este cabeçalho",
+        "MEDIA_FORMAT_HINT": "Faça upload de um arquivo {format}",
+        "MEDIA_UPLOADING": "Enviando arquivo...",
+        "MEDIA_UPLOAD_ERROR": "Falha ao enviar arquivo. Tente novamente.",
+        "MEDIA_REPLACE": "Substituir",
+        "MEDIA_REMOVE": "Remover",
+        "LOCATION_HINT": "As coordenadas de localização serão configuradas ao enviar a mensagem.",
+        "DISABLED_TEXT": "Ative o cabeçalho para adicionar um título ou mídia ao seu template"
+      },
+      "BODY": {
+        "TITLE": "Corpo",
+        "TEXT_LABEL": "Corpo da mensagem",
+        "TEXT_PLACEHOLDER": "Olá {{1}}, seu pedido {{2}} foi confirmado.\n\nObrigado por nos escolher!"
+      },
+      "FOOTER": {
+        "TITLE": "Rodapé",
+        "TEXT_LABEL": "Texto do rodapé",
+        "TEXT_PLACEHOLDER": "Digite o texto do rodapé",
+        "TEXT_HELP": "Máx. 60 caracteres",
+        "GUIDELINES": "O texto do rodapé aparece em uma fonte menor e mais clara abaixo do corpo da mensagem.",
+        "DISABLED_TEXT": "Ative o rodapé para adicionar texto adicional abaixo da sua mensagem"
+      },
+      "BUTTONS": {
+        "BUTTONS_LABEL": "Botões",
+        "DESCRIPTION": "Adicione botões interativos ao seu template. Você pode adicionar até 10 botões.",
+        "ADD_BUTTON": "Adicionar Botão",
+        "BUTTON_TEXT": "Texto do botão",
+        "URL": "URL",
+        "URL_PLACEHOLDER": "https://exemplo.com/{{1}}",
+        "PHONE_NUMBER": "Número de telefone",
+        "EXAMPLE_CODE_LABEL": "Código de exemplo",
+        "EXAMPLE_CODE_PLACEHOLDER": "Digite o código de exemplo",
+        "SEE_ALL_OPTIONS": "Ver todas as opções",
+        "DROPDOWN": {
+          "VISIT_WEBSITE": "Visitar site",
+          "CALL_PHONE": "Ligar para número",
+          "QUICK_REPLY": "Resposta rápida",
+          "COPY_CODE": "Copiar código"
+        },
+        "PLACEHOLDERS": {
+          "QUICK_REPLY": "Texto de resposta rápida",
+          "BUTTON_TEXT": "Texto do botão",
+          "PHONE_NUMBER": "+5511999999999"
+        }
+      },
+      "VARIABLES": {
+        "TITLE": "Variáveis",
+        "ADD_VARIABLE": "Adicionar variável",
+        "INSERT": "Inserir",
+        "NAMED_VARIABLE_PLACEHOLDER": "nome_variavel",
+        "POSITIONAL_HELP": "Use {example1}, {example2}, etc. para valores dinâmicos",
+        "NAMED_HELP": "Use {example_param} para valores dinâmicos",
+        "EXAMPLE_PLACEHOLDER": "Valor de exemplo para a variável {index}",
+        "NAMED_EXAMPLE_PLACEHOLDER": "Exemplo para {name}",
+        "ERRORS": {
+          "NAMED_IN_POSITIONAL": "Variáveis nomeadas detectadas, mas o modo posicional está selecionado. Use o formato {{1}}, {{2}}.",
+          "POSITIONAL_IN_NAMED": "Variáveis posicionais detectadas, mas o modo nomeado está selecionado. Use o formato {{nome}}.",
+          "DUPLICATE_VARIABLES": "Nomes de variáveis duplicados encontrados. Cada variável deve ter um nome único.",
+          "MAX_VARIABLES_EXCEEDED": "Máximo de {count} variáveis permitido."
+        }
+      },
+      "PREVIEW": {
+        "TITLE": "Pré-visualização",
+        "NO_CONTENT": "Comece a criar seu template para ver uma pré-visualização",
+        "IMAGE_HEADER": "Pré-visualização do cabeçalho de imagem",
+        "VIDEO_HEADER": "Pré-visualização do cabeçalho de vídeo",
+        "DOCUMENT_HEADER": "Pré-visualização do cabeçalho de documento"
+      }
+    }
+  }
+}

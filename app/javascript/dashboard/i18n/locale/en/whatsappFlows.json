@@ -1,0 +1,98 @@
+{
+  "WHATSAPP_FLOWS": {
+    "TITLE": "WhatsApp Flows",
+    "DESCRIPTION": "Build interactive multi-screen forms for WhatsApp conversations.",
+    "LIST": {
+      "CREATE": "Create Flow",
+      "CREATE_FIRST": "Create your first flow",
+      "EMPTY": "No flows yet. Create one to get started.",
+      "ALL_INBOXES": "All Inboxes",
+      "SCREENS": "screens",
+      "EDIT": "Edit",
+      "DELETE": "Delete",
+      "PUBLISH": "Publish",
+      "PUBLISH_SUCCESS": "Flow published successfully",
+      "PUBLISH_ERROR": "Failed to publish flow",
+      "DELETE_SUCCESS": "Flow deleted successfully",
+      "DELETE_ERROR": "Failed to delete flow",
+      "DELETE_CONFIRM_TITLE": "Delete this flow?",
+      "DELETE_CONFIRM_DESC": "This action cannot be undone. The flow will be removed from Meta.",
+      "CANCEL": "Cancel"
+    },
+    "BUILDER": {
+      "FLOW_NAME_PLACEHOLDER": "Flow name",
+      "SELECT_INBOX": "Select WhatsApp inbox",
+      "JSON_EDITOR": "JSON",
+      "SAVE": "Save",
+      "UPDATE": "Update",
+      "CREATE_SUCCESS": "Flow created successfully",
+      "UPDATE_SUCCESS": "Flow updated successfully",
+      "SAVE_ERROR": "Failed to save flow",
+      "LOAD_ERROR": "Failed to load flow",
+      "JSON_APPLIED": "JSON applied successfully",
+      "JSON_INVALID": "Invalid JSON format"
+    },
+    "SCREENS": {
+      "TITLE": "Screens",
+      "ADD": "Add Screen",
+      "TERMINAL": "End",
+      "SUMMARY": "Summary",
+      "SCREEN_COUNT": "screen(s)"
+    },
+    "CANVAS": {
+      "ADD_COMPONENT": "Add Component"
+    },
+    "PALETTE": {
+      "TITLE": "Add Component",
+      "DISPLAY": "Display",
+      "INPUT": "Input",
+      "ACTION": "Action"
+    },
+    "PROPERTIES": {
+      "TEXT": "Text",
+      "LABEL": "Label",
+      "VARIABLE_NAME": "Variable Name",
+      "VARIABLE_NAME_HINT": "Used to reference this field's value in the response data",
+      "REQUIRED": "Required",
+      "INPUT_TYPE": "Input Type",
+      "HELPER_TEXT": "Helper Text",
+      "IMAGE_URL": "Image URL",
+      "IMAGE_UPLOAD": "Upload Image",
+      "CHOOSE_IMAGE": "Choose an image file",
+      "IMAGE_HINT": "JPG, PNG, or WebP. Max 5 MB.",
+      "IMAGE_INVALID_TYPE": "Please select a JPG, PNG, or WebP image.",
+      "IMAGE_TOO_LARGE": "Image must be smaller than 5 MB.",
+      "SCALE_TYPE": "Scale Type",
+      "SCALE_CONTAIN": "Contain",
+      "SCALE_COVER": "Cover",
+      "IMAGE_URL_PLACEHOLDER": "https://...",
+      "OPTION_ID": "ID",
+      "HEIGHT": "Height (px)",
+      "OPTIONS": "Options",
+      "OPTION_TITLE": "Option title",
+      "ADD_OPTION": "Add option",
+      "ACTION": "Button Action",
+      "ACTION_COMPLETE": "Complete flow",
+      "ACTION_NAVIGATE": "Navigate to screen",
+      "NEXT_SCREEN": "Next Screen",
+      "SELECT_SCREEN": "Select a screen"
+    },
+    "JSON_EDITOR": {
+      "TITLE": "Flow JSON Editor",
+      "CLOSE": "Close",
+      "APPLY": "Apply Changes"
+    },
+    "TEMPLATE_BUILDER": {
+      "FLOW_BUTTON": "Flow",
+      "FLOW_ID": "Flow ID",
+      "FLOW_ID_PLACEHOLDER": "Enter Meta Flow ID",
+      "FLOW_ACTION": "Flow Action",
+      "ACTION_NAVIGATE": "Navigate",
+      "ACTION_DATA_EXCHANGE": "Data Exchange",
+      "NAVIGATE_SCREEN": "Start Screen (optional)",
+      "NAVIGATE_SCREEN_PLACEHOLDER": "e.g. SCREEN_1",
+      "SELECT_FLOW": "Select a flow",
+      "NO_FLOWS": "No flows available. Create one first."
+    }
+  }
+}

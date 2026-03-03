@@ -118,6 +118,19 @@ Rails.application.routes.draw do
             end
           end
           resources :campaigns, only: [:index, :create, :show, :update, :destroy]
+          resources :message_templates, only: [:index, :create, :show, :update, :destroy] do
+            collection do
+              post :sync
+            end
+          end
+          resources :whatsapp_flows, only: [:index, :create, :show, :update, :destroy] do
+            member do
+              post :publish
+              post :deprecate
+              post :sync
+              get :preview
+            end
+          end
           resources :dashboard_apps, only: [:index, :show, :create, :update, :destroy]
           namespace :channels do
             resource :twilio_channel, only: [:create]
@@ -508,6 +521,8 @@ Rails.application.routes.draw do
             resources :ai_agents, only: [:index, :show, :create, :update, :destroy] do
               member do
                 post :preview
+                get :voice_catalog
+                post :voice_preview
               end
               resources :knowledge_bases, only: [:index, :show, :create, :update, :destroy] do
                 resources :knowledge_documents, only: [:create, :destroy]

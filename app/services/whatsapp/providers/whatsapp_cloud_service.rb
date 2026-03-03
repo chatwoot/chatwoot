@@ -310,6 +310,37 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     interactive
   end
 
+  # Sends a WhatsApp Flow message to the user.
+  # flow_id:     Meta Flow ID
+  # flow_cta:    Button text (e.g. "Book Appointment")
+  # body_text:   Message body
+  # screen:      Initial screen to show (default: first screen)
+  # flow_action: "navigate" (show specific screen) or "data_exchange"
+  # data:        Initial data to pass to the flow
+  def send_flow_message(phone_number, flow_params)
+    action_payload = {
+      name: 'flow',
+      parameters: {
+        flow_message_version: '3',
+        flow_token: SecureRandom.uuid,
+        flow_id: flow_params[:flow_id],
+        flow_cta: flow_params[:flow_cta],
+        flow_action: flow_params[:flow_action] || 'navigate'
+      }
+    }
+
+    if flow_params[:screen].present?
+      action_payload[:parameters][:flow_action_payload] = {
+        screen: flow_params[:screen], data: flow_params[:data] || {}
+      }
+    end
+
+    interactive = { type: 'flow', body: { text: flow_params[:body_text] }, action: action_payload }
+    interactive = apply_header_footer(interactive, flow_params[:header], flow_params[:footer])
+
+    post_interactive_message(phone_number, interactive)
+  end
+
   def post_interactive_message(phone_number, interactive)
     response = post_message(
       messaging_product: 'whatsapp', recipient_type: 'individual',

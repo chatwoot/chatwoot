@@ -542,6 +542,23 @@ const menuItems = computed(() => {
       ],
     },
     {
+      name: 'WhatsApp Tools',
+      label: t('SIDEBAR.WHATSAPP_TOOLS'),
+      icon: 'i-ri-whatsapp-fill',
+      children: [
+        {
+          name: 'All Templates',
+          label: t('SIDEBAR.ALL_TEMPLATES'),
+          to: accountScopedRoute('message_templates_index'),
+        },
+        {
+          name: 'WhatsApp Flows',
+          label: t('SIDEBAR.WHATSAPP_FLOWS'),
+          to: accountScopedRoute('whatsapp_flows_index'),
+        },
+      ],
+    },
+    {
       name: 'Portals',
       label: t('SIDEBAR.HELP_CENTER.TITLE'),
       icon: 'i-lucide-library-big',

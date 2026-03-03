@@ -104,6 +104,30 @@ class AiAgentsAPI extends ApiClient {
       stream,
     });
   }
+
+  /**
+   * Fetch available voices and models for the given provider.
+   * Returns { voices: [...], models: [...] }
+   */
+  getVoiceCatalog(agentId, provider) {
+    return axios.get(`${this.url}/${agentId}/voice_catalog`, {
+      params: { provider },
+    });
+  }
+
+  /**
+   * Synthesize a short text preview for the given voice.
+   * Returns { audio: 'base64...', content_type: 'audio/mpeg' }
+   */
+  previewVoice(agentId, { voiceId, text, modelId, provider, language }) {
+    return axios.post(`${this.url}/${agentId}/voice_preview`, {
+      voice_id: voiceId,
+      text,
+      model_id: modelId,
+      provider,
+      language,
+    });
+  }
 }
 
 export default new AiAgentsAPI();

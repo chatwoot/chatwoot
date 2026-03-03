@@ -1,0 +1,98 @@
+{
+  "WHATSAPP_FLOWS": {
+    "TITLE": "WhatsApp Flows",
+    "DESCRIPTION": "Crie formulários interativos com múltiplas telas para conversas no WhatsApp.",
+    "LIST": {
+      "CREATE": "Criar Flow",
+      "CREATE_FIRST": "Crie seu primeiro flow",
+      "EMPTY": "Nenhum flow ainda. Crie um para começar.",
+      "ALL_INBOXES": "Todas as Caixas",
+      "SCREENS": "telas",
+      "EDIT": "Editar",
+      "DELETE": "Excluir",
+      "PUBLISH": "Publicar",
+      "PUBLISH_SUCCESS": "Flow publicado com sucesso",
+      "PUBLISH_ERROR": "Falha ao publicar o flow",
+      "DELETE_SUCCESS": "Flow excluído com sucesso",
+      "DELETE_ERROR": "Falha ao excluir o flow",
+      "DELETE_CONFIRM_TITLE": "Excluir este flow?",
+      "DELETE_CONFIRM_DESC": "Esta ação não pode ser desfeita. O flow será removido do Meta.",
+      "CANCEL": "Cancelar"
+    },
+    "BUILDER": {
+      "FLOW_NAME_PLACEHOLDER": "Nome do flow",
+      "SELECT_INBOX": "Selecione a caixa WhatsApp",
+      "JSON_EDITOR": "JSON",
+      "SAVE": "Salvar",
+      "UPDATE": "Atualizar",
+      "CREATE_SUCCESS": "Flow criado com sucesso",
+      "UPDATE_SUCCESS": "Flow atualizado com sucesso",
+      "SAVE_ERROR": "Falha ao salvar o flow",
+      "LOAD_ERROR": "Falha ao carregar o flow",
+      "JSON_APPLIED": "JSON aplicado com sucesso",
+      "JSON_INVALID": "Formato JSON inválido"
+    },
+    "SCREENS": {
+      "TITLE": "Telas",
+      "ADD": "Adicionar Tela",
+      "TERMINAL": "Fim",
+      "SUMMARY": "Resumo",
+      "SCREEN_COUNT": "tela(s)"
+    },
+    "CANVAS": {
+      "ADD_COMPONENT": "Adicionar Componente"
+    },
+    "PALETTE": {
+      "TITLE": "Adicionar Componente",
+      "DISPLAY": "Exibição",
+      "INPUT": "Entrada",
+      "ACTION": "Ação"
+    },
+    "PROPERTIES": {
+      "TEXT": "Texto",
+      "LABEL": "Rótulo",
+      "VARIABLE_NAME": "Nome da Variável",
+      "VARIABLE_NAME_HINT": "Usado para referenciar o valor deste campo nos dados de resposta",
+      "REQUIRED": "Obrigatório",
+      "INPUT_TYPE": "Tipo de Entrada",
+      "HELPER_TEXT": "Texto de Ajuda",
+      "IMAGE_URL": "URL da Imagem",
+      "IMAGE_UPLOAD": "Enviar Imagem",
+      "CHOOSE_IMAGE": "Escolha um arquivo de imagem",
+      "IMAGE_HINT": "JPG, PNG ou WebP. Máx. 5 MB.",
+      "IMAGE_INVALID_TYPE": "Selecione uma imagem JPG, PNG ou WebP.",
+      "IMAGE_TOO_LARGE": "A imagem deve ter menos de 5 MB.",
+      "SCALE_TYPE": "Tipo de Escala",
+      "SCALE_CONTAIN": "Conter",
+      "SCALE_COVER": "Cobrir",
+      "IMAGE_URL_PLACEHOLDER": "https://...",
+      "OPTION_ID": "ID",
+      "HEIGHT": "Altura (px)",
+      "OPTIONS": "Opções",
+      "OPTION_TITLE": "Título da opção",
+      "ADD_OPTION": "Adicionar opção",
+      "ACTION": "Ação do Botão",
+      "ACTION_COMPLETE": "Finalizar flow",
+      "ACTION_NAVIGATE": "Navegar para tela",
+      "NEXT_SCREEN": "Próxima Tela",
+      "SELECT_SCREEN": "Selecione uma tela"
+    },
+    "JSON_EDITOR": {
+      "TITLE": "Editor JSON do Flow",
+      "CLOSE": "Fechar",
+      "APPLY": "Aplicar Alterações"
+    },
+    "TEMPLATE_BUILDER": {
+      "FLOW_BUTTON": "Flow",
+      "FLOW_ID": "ID do Flow",
+      "FLOW_ID_PLACEHOLDER": "Digite o ID do Flow no Meta",
+      "FLOW_ACTION": "Ação do Flow",
+      "ACTION_NAVIGATE": "Navegar",
+      "ACTION_DATA_EXCHANGE": "Troca de Dados",
+      "NAVIGATE_SCREEN": "Tela Inicial (opcional)",
+      "NAVIGATE_SCREEN_PLACEHOLDER": "ex: SCREEN_1",
+      "SELECT_FLOW": "Selecione um flow",
+      "NO_FLOWS": "Nenhum flow disponível. Crie um primeiro."
+    }
+  }
+}

@@ -30,7 +30,29 @@ module Whatsapp::IncomingMessageServiceHelpers
       message.dig(:button, :text) ||
       message.dig(:interactive, :button_reply, :title) ||
       message.dig(:interactive, :list_reply, :title) ||
+      extract_nfm_reply_content(message) ||
       message.dig(:name, :formatted_name)
+  end
+
+  def extract_nfm_reply_content(message)
+    nfm_reply = message.dig(:interactive, :nfm_reply)
+    return nil unless nfm_reply
+
+    body = nfm_reply[:body] || 'Flow response'
+    response_json = parse_nfm_response_json(nfm_reply[:response_json])
+    return body if response_json.blank?
+
+    # Format flow response data as readable text
+    formatted = response_json.map { |k, v| "#{k.humanize}: #{v}" }.join("\n")
+    "#{body}\n#{formatted}"
+  end
+
+  def parse_nfm_response_json(json_string)
+    return {} if json_string.blank?
+
+    JSON.parse(json_string)
+  rescue JSON::ParserError
+    {}
   end
 
   def file_content_type(file_type)

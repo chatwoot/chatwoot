@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Saas::Api::V1::AiAgentsController < Api::V1::Accounts::BaseController
-  before_action :set_ai_agent, only: [:show, :update, :destroy, :preview]
+  before_action :set_ai_agent, only: [:show, :update, :destroy, :preview, :voice_catalog, :voice_preview]
   before_action :authorize_ai_agent
 
   def index
@@ -37,6 +37,30 @@ class Saas::Api::V1::AiAgentsController < Api::V1::Accounts::BaseController
   def destroy
     @ai_agent.destroy!
     head :no_content
+  end
+
+  # GET /ai_agents/:id/voice_catalog — list available voices and models for the provider
+  def voice_catalog
+    provider = params[:provider].presence || @ai_agent.voice_provider
+    catalog = Voice::CatalogService.new(provider: provider)
+    render json: { voices: catalog.voices, models: catalog.models }
+  end
+
+  # POST /ai_agents/:id/voice_preview — synthesize a short text sample
+  def voice_preview
+    provider = params[:provider].presence || @ai_agent.voice_provider
+    catalog = Voice::CatalogService.new(provider: provider)
+    audio = catalog.preview(
+      voice_id: params[:voice_id],
+      text: params[:text].presence || 'Hello! How can I help you today?',
+      model_id: params[:model_id],
+      language: params[:language]
+    )
+    if audio
+      render json: { audio: audio, content_type: 'audio/mpeg' }
+    else
+      render json: { error: 'Preview unavailable' }, status: :unprocessable_entity
+    end
   end
 
   # POST /ai_agents/:id/preview — test the agent without creating a real conversation

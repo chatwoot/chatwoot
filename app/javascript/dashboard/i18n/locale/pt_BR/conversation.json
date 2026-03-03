@@ -68,6 +68,9 @@
     "RATING_TITLE": "Classificação",
     "FEEDBACK_TITLE": "Feedback",
     "REPLY_MESSAGE_NOT_FOUND": "Mensagem não disponível",
+    "WHATSAPP_TEMPLATE": {
+      "VIEW_DOCUMENT": "Ver documento"
+    },
     "CARD": {
       "SHOW_LABELS": "Mostrar etiquetas",
       "HIDE_LABELS": "Ocultar as etiquetas"

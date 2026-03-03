@@ -39,6 +39,12 @@ class Whatsapp::PopulateTemplateParametersService
     build_media_type_parameter(normalized_url, media_type.downcase, media_name)
   end
 
+  def build_media_id_parameter(media_id, media_type, media_name = nil)
+    return nil if media_id.blank?
+
+    build_media_id_type_parameter(media_id, media_type.downcase, media_name)
+  end
+
   def build_named_parameter(parameter_name, value)
     sanitized_value = sanitize_parameter(value.to_s)
     { type: 'text', parameter_name: parameter_name, text: sanitized_value }
@@ -98,6 +104,21 @@ class Whatsapp::PopulateTemplateParametersService
       build_video_parameter(sanitized_url)
     when 'document'
       build_document_parameter(sanitized_url, media_name)
+    else
+      raise ArgumentError, "Unsupported media type: #{media_type}"
+    end
+  end
+
+  def build_media_id_type_parameter(media_id, media_type, media_name = nil)
+    case media_type
+    when 'image'
+      { type: 'image', image: { id: media_id } }
+    when 'video'
+      { type: 'video', video: { id: media_id } }
+    when 'document'
+      doc = { id: media_id }
+      doc[:filename] = media_name if media_name.present?
+      { type: 'document', document: doc }
     else
       raise ArgumentError, "Unsupported media type: #{media_type}"
     end

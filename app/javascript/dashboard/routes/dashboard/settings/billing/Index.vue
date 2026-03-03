@@ -30,7 +30,10 @@ const subscriptionStatus = computed(() => subscription.value?.status || '');
 
 const renewsOn = computed(() => {
   if (!subscription.value?.current_period_end) return '';
-  return format(new Date(subscription.value.current_period_end), 'dd MMM, yyyy');
+  return format(
+    new Date(subscription.value.current_period_end),
+    'dd MMM, yyyy'
+  );
 });
 
 const formatTokens = value => {

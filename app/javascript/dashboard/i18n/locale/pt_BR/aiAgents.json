@@ -274,21 +274,36 @@
     },
     "VOICE": {
       "TITLE": "Configurações de Voz",
-      "DESCRIPTION": "Configure agentes de voz para conversas telefônicas (requer tipo de agente Voz ou Híbrido)",
+      "DESCRIPTION": "Configure como seu agente soa em conversas por voz.",
       "NOT_VOICE_AGENT": "Configurações de voz estão disponíveis apenas para agentes do tipo Voz e Híbrido.",
       "PROVIDER": {
-        "LABEL": "Provedor de Voz"
+        "LABEL": "Motor de Voz",
+        "STANDARD": "TTS Padrão",
+        "REALTIME": "Voz em Tempo Real"
       },
       "VOICE_ID": {
         "LABEL": "Voz",
-        "PLACEHOLDER": "Selecione um ID de voz"
+        "PLACEHOLDER": "Buscar vozes..."
+      },
+      "VOICE_SELECTOR": {
+        "SEARCH_PLACEHOLDER": "Buscar por nome, sotaque ou gênero...",
+        "NO_RESULTS": "Nenhuma voz encontrada",
+        "LOADING": "Carregando vozes disponíveis...",
+        "PREVIEW": "Ouvir"
       },
       "LANGUAGE": {
         "LABEL": "Idioma",
-        "PLACEHOLDER": "ex. pt-BR"
+        "PLACEHOLDER": "Selecione o idioma"
+      },
+      "MODEL": {
+        "LABEL": "Modelo de Voz",
+        "PLACEHOLDER": "Selecione um modelo de voz"
       },
       "SPEED": {
-        "LABEL": "Velocidade"
+        "LABEL": "Velocidade",
+        "SLOW": "Lento",
+        "NORMAL": "Normal",
+        "FAST": "Rápido"
       },
       "GREETING": {
         "LABEL": "Mensagem de Saudação",
@@ -299,6 +314,11 @@
         "LOW": "Baixa",
         "MEDIUM": "Média",
         "HIGH": "Alta"
+      },
+      "TEST": {
+        "LABEL": "Testar Voz",
+        "TESTING": "Reproduzindo...",
+        "ERROR": "Não foi possível gerar a prévia da voz"
       },
       "REALTIME_MODEL": {
         "LABEL": "Modelo em Tempo Real",

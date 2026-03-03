@@ -40,6 +40,8 @@ import LocationBubble from './bubbles/Location.vue';
 import CSATBubble from './bubbles/CSAT.vue';
 import FormBubble from './bubbles/Form.vue';
 import VoiceCallBubble from './bubbles/VoiceCall.vue';
+import WhatsAppTemplateBubble from './bubbles/WhatsAppTemplate.vue';
+import WhatsAppFlowResponseBubble from './bubbles/WhatsAppFlowResponse.vue';
 
 import MessageError from './MessageError.vue';
 import ContextMenu from 'dashboard/modules/conversations/components/MessageContextMenu.vue';
@@ -286,6 +288,14 @@ const componentToRender = computed(() => {
   if (props.isEmailInbox && !props.private) {
     const emailInboxTypes = [MESSAGE_TYPES.INCOMING, MESSAGE_TYPES.OUTGOING];
     if (emailInboxTypes.includes(props.messageType)) return EmailBubble;
+  }
+
+  if (props.contentAttributes?.templateInfo) {
+    return WhatsAppTemplateBubble;
+  }
+
+  if (props.contentAttributes?.flowResponse) {
+    return WhatsAppFlowResponseBubble;
   }
 
   if (props.contentType === CONTENT_TYPES.INPUT_CSAT) {

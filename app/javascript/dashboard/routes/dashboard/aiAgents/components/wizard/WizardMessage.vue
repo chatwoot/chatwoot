@@ -17,10 +17,7 @@ defineEmits(['retry']);
     :class="role === 'user' ? 'justify-end' : 'justify-start'"
   >
     <!-- AI Avatar -->
-    <div
-      v-if="role === 'assistant'"
-      class="flex shrink-0 items-start pt-0.5"
-    >
+    <div v-if="role === 'assistant'" class="flex shrink-0 items-start pt-0.5">
       <div
         class="flex items-center justify-center size-8 rounded-full bg-gradient-to-br from-n-blue-9 to-n-blue-11 shadow-sm"
       >
@@ -41,7 +38,10 @@ defineEmits(['retry']);
       <span v-if="content" class="whitespace-pre-wrap">{{ content }}</span>
 
       <!-- Typing indicator (no content yet) -->
-      <span v-if="isStreaming && !content" class="flex items-center gap-1.5 py-1">
+      <span
+        v-if="isStreaming && !content"
+        class="flex items-center gap-1.5 py-1"
+      >
         <span class="size-2 rounded-full bg-n-slate-8 animate-bounce" />
         <span
           class="size-2 rounded-full bg-n-slate-8 animate-bounce [animation-delay:0.15s]"

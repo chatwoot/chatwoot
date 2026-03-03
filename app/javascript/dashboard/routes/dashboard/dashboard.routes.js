@@ -8,6 +8,8 @@ import { routes as inboxRoutes } from './inbox/routes';
 import { frontendURL } from '../../helper/URLHelper';
 import helpcenterRoutes from './helpcenter/helpcenter.routes';
 import campaignsRoutes from './campaigns/campaigns.routes';
+import messageTemplatesRoutes from './messageTemplates/messageTemplates.routes';
+import whatsappFlowsRoutes from './whatsappFlows/whatsappFlows.routes';
 import { routes as captainRoutes } from './captain/captain.routes';
 import { routes as aiAgentRoutes } from './aiAgents/aiAgents.routes';
 import AppContainer from './Dashboard.vue';
@@ -31,6 +33,8 @@ export default {
         ...notificationRoutes,
         ...helpcenterRoutes.routes,
         ...campaignsRoutes.routes,
+        ...messageTemplatesRoutes.routes,
+        ...whatsappFlowsRoutes.routes,
       ],
     },
     {

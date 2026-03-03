@@ -105,9 +105,25 @@ class Whatsapp::IncomingMessageBaseService
 
   def create_regular_message(message)
     create_message(message, source_id: message[:id])
+    store_flow_response(message)
     attach_files
     attach_location if message_type == 'location'
     @message.save!
+  end
+
+  # Store WhatsApp Flow nfm_reply data in content_attributes for rich rendering
+  def store_flow_response(message)
+    nfm_reply = message.dig(:interactive, :nfm_reply)
+    return unless nfm_reply
+
+    response_data = parse_nfm_response_json(nfm_reply[:response_json])
+    @message.content_attributes = @message.content_attributes.merge(
+      'flow_response' => {
+        'body' => nfm_reply[:body],
+        'name' => nfm_reply[:name],
+        'response_data' => response_data
+      }
+    )
   end
 
   def set_contact

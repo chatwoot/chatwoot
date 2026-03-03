@@ -114,7 +114,9 @@ onUnmounted(() => {
 <template>
   <div class="flex flex-col h-full max-h-[75vh]">
     <!-- Header -->
-    <div class="flex flex-col gap-4 px-6 py-4 border-b border-n-weak bg-n-solid-1">
+    <div
+      class="flex flex-col gap-4 px-6 py-4 border-b border-n-weak bg-n-solid-1"
+    >
       <div class="flex items-center justify-between">
         <p class="text-sm text-n-slate-10">
           {{ t('AI_AGENTS.WIZARD.SUBTITLE') }}

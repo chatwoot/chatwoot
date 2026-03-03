@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_03_02_000008) do
+ActiveRecord::Schema[7.1].define(version: 2026_03_04_000001) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -1051,6 +1051,31 @@ ActiveRecord::Schema[7.1].define(version: 2026_03_02_000008) do
     t.index ["user_id"], name: "index_mentions_on_user_id"
   end
 
+  create_table "message_templates", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "inbox_id"
+    t.bigint "created_by_id"
+    t.bigint "updated_by_id"
+    t.string "name", limit: 255, null: false
+    t.string "language", limit: 10, default: "en", null: false
+    t.string "channel_type", limit: 50, null: false
+    t.integer "category", default: 0, null: false
+    t.integer "status", default: 0
+    t.jsonb "content", default: {}, null: false
+    t.jsonb "metadata", default: {}
+    t.string "platform_template_id", limit: 255
+    t.datetime "last_synced_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "name", "language", "channel_type"], name: "idx_message_templates_unique_per_account", unique: true
+    t.index ["account_id"], name: "index_message_templates_on_account_id"
+    t.index ["channel_type"], name: "index_message_templates_on_channel_type"
+    t.index ["created_by_id"], name: "index_message_templates_on_created_by_id"
+    t.index ["inbox_id"], name: "index_message_templates_on_inbox_id"
+    t.index ["status"], name: "index_message_templates_on_status"
+    t.index ["updated_by_id"], name: "index_message_templates_on_updated_by_id"
+  end
+
   create_table "messages", id: :serial, force: :cascade do |t|
     t.text "content"
     t.integer "account_id", null: false
@@ -1401,6 +1426,28 @@ ActiveRecord::Schema[7.1].define(version: 2026_03_02_000008) do
     t.index ["account_id", "url"], name: "index_webhooks_on_account_id_and_url", unique: true
   end
 
+  create_table "whatsapp_flows", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "inbox_id", null: false
+    t.bigint "created_by_id"
+    t.string "name", limit: 255, null: false
+    t.integer "status", default: 0, null: false
+    t.string "flow_id", limit: 255
+    t.jsonb "categories", default: []
+    t.jsonb "flow_json", default: {}, null: false
+    t.jsonb "validation_errors", default: []
+    t.string "preview_url"
+    t.jsonb "endpoint_uri"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "inbox_id"], name: "index_whatsapp_flows_on_account_id_and_inbox_id"
+    t.index ["account_id"], name: "index_whatsapp_flows_on_account_id"
+    t.index ["created_by_id"], name: "index_whatsapp_flows_on_created_by_id"
+    t.index ["flow_id"], name: "index_whatsapp_flows_on_flow_id", unique: true, where: "(flow_id IS NOT NULL)"
+    t.index ["inbox_id"], name: "index_whatsapp_flows_on_inbox_id"
+    t.index ["status"], name: "index_whatsapp_flows_on_status"
+  end
+
   create_table "workflow_runs", force: :cascade do |t|
     t.bigint "ai_agent_id", null: false
     t.bigint "conversation_id", null: false
@@ -1444,10 +1491,17 @@ ActiveRecord::Schema[7.1].define(version: 2026_03_02_000008) do
   add_foreign_key "knowledge_bases", "accounts"
   add_foreign_key "knowledge_bases", "ai_agents"
   add_foreign_key "knowledge_documents", "accounts"
-  add_foreign_key "knowledge_documents", "knowledge_bases", column: "knowledge_base_id"
+  add_foreign_key "knowledge_documents", "knowledge_bases"
+  add_foreign_key "message_templates", "accounts"
+  add_foreign_key "message_templates", "inboxes"
+  add_foreign_key "message_templates", "users", column: "created_by_id"
+  add_foreign_key "message_templates", "users", column: "updated_by_id"
   add_foreign_key "saas_ai_usage_records", "accounts"
   add_foreign_key "saas_subscriptions", "accounts"
   add_foreign_key "saas_subscriptions", "saas_plans"
+  add_foreign_key "whatsapp_flows", "accounts"
+  add_foreign_key "whatsapp_flows", "inboxes"
+  add_foreign_key "whatsapp_flows", "users", column: "created_by_id"
   add_foreign_key "workflow_runs", "ai_agents"
   add_foreign_key "workflow_runs", "conversations"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).

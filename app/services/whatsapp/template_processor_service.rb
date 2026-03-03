@@ -52,24 +52,44 @@ class Whatsapp::TemplateProcessorService
   def process_header_components(processed_params)
     return [] if processed_params['header'].blank?
 
-    header_params = build_header_params(processed_params['header'])
+    header_data = upload_media_if_needed(processed_params['header'])
+    header_params = build_header_params(header_data)
     header_params.present? ? [{ type: 'header', parameters: header_params }] : []
   end
 
+  def upload_media_if_needed(header_data)
+    return header_data unless header_data['media_url'].present? && header_data['media_type'].present?
+
+    media_id = media_upload_service.upload_from_url(
+      header_data['media_url'],
+      content_type_for(header_data['media_type'])
+    )
+
+    return header_data if media_id.blank?
+
+    header_data.merge('media_id' => media_id)
+  end
+
+  def content_type_for(media_type)
+    { 'image' => 'image/jpeg', 'video' => 'video/mp4', 'document' => 'application/pdf' }[media_type.downcase]
+  end
+
   def build_header_params(header_data)
-    header_params = []
-    header_data.each do |key, value|
+    header_data.filter_map do |key, value|
       next if value.blank?
 
-      if media_url_with_type?(key, header_data)
-        media_name = header_data['media_name']
-        media_param = parameter_builder.build_media_parameter(value, header_data['media_type'], media_name)
-        header_params << media_param if media_param
-      elsif key != 'media_type' && key != 'media_name'
-        header_params << parameter_builder.build_parameter(value)
-      end
+      build_single_header_param(key, value, header_data)
     end
-    header_params
+  end
+
+  def build_single_header_param(key, value, header_data)
+    if key == 'media_url' && header_data['media_id'].present?
+      parameter_builder.build_media_id_parameter(header_data['media_id'], header_data['media_type'], header_data['media_name'])
+    elsif media_url_with_type?(key, header_data) && header_data['media_id'].blank?
+      parameter_builder.build_media_parameter(value, header_data['media_type'], header_data['media_name'])
+    elsif %w[media_type media_name media_id].exclude?(key)
+      parameter_builder.build_parameter(value)
+    end
   end
 
   def media_url_with_type?(key, header_data)
@@ -126,5 +146,9 @@ class Whatsapp::TemplateProcessorService
 
   def parameter_builder
     @parameter_builder ||= Whatsapp::PopulateTemplateParametersService.new
+  end
+
+  def media_upload_service
+    @media_upload_service ||= Whatsapp::MediaUploadService.new(channel: channel)
   end
 end
