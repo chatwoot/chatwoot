@@ -3,6 +3,7 @@
     "HEADER": "Conversaciones",
     "LOADING_CHART": "Cargando datos del gráfico...",
     "NO_ENOUGH_DATA": "No hemos recibido suficientes puntos de datos para generar el informe. Inténtalo de nuevo más tarde.",
+    "DOWNLOAD_CONVERSATION_REPORTS": "Descargar reportes de conversaciones",
     "DOWNLOAD_AGENT_REPORTS": "Descargar reportes de agente",
     "DATA_FETCHING_FAILED": "Error al obtener datos, por favor intente nuevamente.",
     "SUMMARY_FETCHING_FAILED": "No se pudo obtener el resumen, por favor inténtalo de nuevo más tarde.",
@@ -460,7 +461,7 @@
     "ACCOUNT_CONVERSATIONS": {
       "HEADER": "Conversaciones abiertas",
       "LOADING_MESSAGE": "Cargando métricas de conversación...",
-      "OPEN": "Abrir",
+      "OPEN": "Abiertas",
       "UNATTENDED": "Desatendido",
       "UNASSIGNED": "Sin asignar",
       "PENDING": "Pendientes"
@@ -485,7 +486,7 @@
       "NO_AGENTS": "No hay conversaciones por agentes",
       "TABLE_HEADER": {
         "AGENT": "Agente",
-        "OPEN": "Abrir",
+        "OPEN": "Abiertas",
         "UNATTENDED": "Desatendido",
         "STATUS": "Estado"
       }
@@ -497,7 +498,7 @@
       "NO_TEAMS": "No hay datos disponibles",
       "TABLE_HEADER": {
         "TEAM": "Equipo",
-        "OPEN": "Abrir",
+        "OPEN": "Abiertas",
         "UNATTENDED": "Desatendido",
         "STATUS": "Estado"
       }
