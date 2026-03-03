@@ -1,5 +1,5 @@
 class InfluencerOffer < ApplicationRecord
-  CURRENT_OFFER_PAGE_VERSION = '1.0'
+  CURRENT_OFFER_PAGE_VERSION = '1.0'.freeze
 
   belongs_to :influencer_profile
   belongs_to :account
