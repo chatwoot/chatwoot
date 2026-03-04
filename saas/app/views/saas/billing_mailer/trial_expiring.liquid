@@ -1,19 +1,19 @@
 <tr>
   <td style="vertical-align: top; padding-bottom: 15px;">
-    <h2 style="font-size: 20px; color: #1a1a2e; margin: 0 0 10px;">Your trial ends in {{ days_left }} day{{ days_left | pluralize: "", "s" }}</h2>
+    <h2 style="font-size: 20px; color: #1a1a2e; margin: 0 0 10px;">Seu período de teste termina em {{ days_left }} dia{% if days_left != 1 %}s{% endif %}</h2>
   </td>
 </tr>
 <tr>
   <td style="vertical-align: top; padding-bottom: 10px;">
     <p style="font-size: 14px; color: #333; line-height: 1.6; margin: 0 0 15px;">
-      Hi {{ admin.name | default: "there" }},
+      Olá {{ admin_name | default: "" }},
     </p>
     <p style="font-size: 14px; color: #333; line-height: 1.6; margin: 0 0 15px;">
-      Your AirysChat trial for <strong>{{ account.name }}</strong> will expire
-      {% if days_left == 0 %}today{% elsif days_left == 1 %}tomorrow{% else %}in {{ days_left }} days{% endif %}.
+      Seu período de teste do AirysChat para <strong>{{ account.name }}</strong> expira
+      {% if days_left == 0 %}hoje{% elsif days_left == 1 %}amanhã{% else %}em {{ days_left }} dias{% endif %}.
     </p>
     <p style="font-size: 14px; color: #333; line-height: 1.6; margin: 0 0 15px;">
-      To keep your AI agents, inboxes, and automations running without interruption, upgrade to a paid plan now.
+      Para manter seus agentes de IA, caixas de entrada e automações funcionando sem interrupção, faça upgrade para um plano pago agora.
     </p>
   </td>
 </tr>
@@ -21,14 +21,14 @@
   <td style="vertical-align: top; padding: 15px 0;">
     <a href="{{ billing_url }}"
        style="display: inline-block; padding: 12px 24px; background-color: #0080f8; color: #fff; text-decoration: none; border-radius: 6px; font-size: 14px; font-weight: 600;">
-      Upgrade now
+      Fazer upgrade agora
     </a>
   </td>
 </tr>
 <tr>
   <td style="vertical-align: top; padding-top: 15px;">
     <p style="font-size: 13px; color: #666; line-height: 1.5; margin: 0;">
-      After your trial ends, your account will be downgraded to the Free plan with limited features.
+      Após o período de teste, sua conta será rebaixada para o plano Gratuito com recursos limitados.
     </p>
   </td>
 </tr>

@@ -1,32 +1,32 @@
 <tr>
   <td style="vertical-align: top; padding-bottom: 15px;">
-    <h2 style="font-size: 20px; color: #f59e0b; margin: 0 0 10px;">🔔 AI usage at {{ percentage }}%</h2>
+    <h2 style="font-size: 20px; color: #f59e0b; margin: 0 0 10px;">🔔 Uso de IA em {{ percentage }}%</h2>
   </td>
 </tr>
 <tr>
   <td style="vertical-align: top; padding-bottom: 10px;">
     <p style="font-size: 14px; color: #333; line-height: 1.6; margin: 0 0 15px;">
-      Hi {{ admin.name | default: "there" }},
+      Olá {{ admin_name | default: "" }},
     </p>
     <p style="font-size: 14px; color: #333; line-height: 1.6; margin: 0 0 15px;">
-      Your AirysChat account <strong>{{ account.name }}</strong> has used
-      <strong>{{ percentage }}%</strong> of its monthly AI token quota.
+      Sua conta AirysChat <strong>{{ account.name }}</strong> utilizou
+      <strong>{{ percentage }}%</strong> da cota mensal de tokens de IA.
     </p>
     <table style="width: 100%; margin: 15px 0; border-collapse: collapse;">
       <tr>
-        <td style="padding: 8px 12px; background: #f8fafc; border: 1px solid #e2e8f0; font-size: 13px; color: #666;">Tokens used</td>
+        <td style="padding: 8px 12px; background: #f8fafc; border: 1px solid #e2e8f0; font-size: 13px; color: #666;">Tokens utilizados</td>
         <td style="padding: 8px 12px; background: #f8fafc; border: 1px solid #e2e8f0; font-size: 13px; font-weight: 600; color: #333;">{{ tokens_used }}</td>
       </tr>
       <tr>
-        <td style="padding: 8px 12px; border: 1px solid #e2e8f0; font-size: 13px; color: #666;">Monthly limit</td>
+        <td style="padding: 8px 12px; border: 1px solid #e2e8f0; font-size: 13px; color: #666;">Limite mensal</td>
         <td style="padding: 8px 12px; border: 1px solid #e2e8f0; font-size: 13px; font-weight: 600; color: #333;">{{ tokens_limit }}</td>
       </tr>
     </table>
     <p style="font-size: 14px; color: #333; line-height: 1.6; margin: 0 0 15px;">
       {% if percentage >= 100 %}
-      You've exceeded your limit. AI features are paused until your usage resets next month, or you can upgrade your plan for more tokens.
+      Você excedeu seu limite. Os recursos de IA estão pausados até que seu uso seja resetado no próximo mês, ou você pode fazer upgrade do seu plano para mais tokens.
       {% else %}
-      Consider upgrading your plan if you expect to exceed the limit before the month ends.
+      Considere fazer upgrade do seu plano se você espera exceder o limite antes do fim do mês.
       {% endif %}
     </p>
   </td>
@@ -35,7 +35,7 @@
   <td style="vertical-align: top; padding: 15px 0;">
     <a href="{{ billing_url }}"
        style="display: inline-block; padding: 12px 24px; background-color: #0080f8; color: #fff; text-decoration: none; border-radius: 6px; font-size: 14px; font-weight: 600;">
-      View plans & upgrade
+      Ver planos e fazer upgrade
     </a>
   </td>
 </tr>

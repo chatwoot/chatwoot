@@ -1,29 +1,29 @@
 <tr>
   <td style="vertical-align: top; padding-bottom: 15px;">
-    <h2 style="font-size: 20px; color: #1a1a2e; margin: 0 0 10px;">Your plan has been updated</h2>
+    <h2 style="font-size: 20px; color: #1a1a2e; margin: 0 0 10px;">Seu plano foi atualizado</h2>
   </td>
 </tr>
 <tr>
   <td style="vertical-align: top; padding-bottom: 10px;">
     <p style="font-size: 14px; color: #333; line-height: 1.6; margin: 0 0 15px;">
-      Hi {{ admin.name | default: "there" }},
+      Olá {{ admin_name | default: "" }},
     </p>
     <p style="font-size: 14px; color: #333; line-height: 1.6; margin: 0 0 15px;">
-      Your AirysChat plan for <strong>{{ account.name }}</strong> has been changed
-      from <strong>{{ old_plan_name }}</strong> to <strong>{{ new_plan_name }}</strong>.
+      Seu plano AirysChat para <strong>{{ account.name }}</strong> foi alterado
+      de <strong>{{ old_plan_name }}</strong> para <strong>{{ new_plan_name }}</strong>.
     </p>
     {% if plan %}
     <table style="width: 100%; margin: 15px 0; border-collapse: collapse;">
       <tr>
-        <td style="padding: 8px 12px; background: #f8fafc; border: 1px solid #e2e8f0; font-size: 13px; color: #666;">Agents</td>
-        <td style="padding: 8px 12px; background: #f8fafc; border: 1px solid #e2e8f0; font-size: 13px; font-weight: 600; color: #333;">Up to {{ plan.agent_limit }}</td>
+        <td style="padding: 8px 12px; background: #f8fafc; border: 1px solid #e2e8f0; font-size: 13px; color: #666;">Agentes</td>
+        <td style="padding: 8px 12px; background: #f8fafc; border: 1px solid #e2e8f0; font-size: 13px; font-weight: 600; color: #333;">Até {{ plan.agent_limit }}</td>
       </tr>
       <tr>
-        <td style="padding: 8px 12px; border: 1px solid #e2e8f0; font-size: 13px; color: #666;">Inboxes</td>
-        <td style="padding: 8px 12px; border: 1px solid #e2e8f0; font-size: 13px; font-weight: 600; color: #333;">Up to {{ plan.inbox_limit }}</td>
+        <td style="padding: 8px 12px; border: 1px solid #e2e8f0; font-size: 13px; color: #666;">Caixas de entrada</td>
+        <td style="padding: 8px 12px; border: 1px solid #e2e8f0; font-size: 13px; font-weight: 600; color: #333;">Até {{ plan.inbox_limit }}</td>
       </tr>
       <tr>
-        <td style="padding: 8px 12px; background: #f8fafc; border: 1px solid #e2e8f0; font-size: 13px; color: #666;">AI tokens/month</td>
+        <td style="padding: 8px 12px; background: #f8fafc; border: 1px solid #e2e8f0; font-size: 13px; color: #666;">Tokens de IA/mês</td>
         <td style="padding: 8px 12px; background: #f8fafc; border: 1px solid #e2e8f0; font-size: 13px; font-weight: 600; color: #333;">{{ plan.ai_tokens_monthly }}</td>
       </tr>
     </table>
@@ -34,7 +34,7 @@
   <td style="vertical-align: top; padding: 15px 0;">
     <a href="{{ billing_url }}"
        style="display: inline-block; padding: 12px 24px; background-color: #0080f8; color: #fff; text-decoration: none; border-radius: 6px; font-size: 14px; font-weight: 600;">
-      View your billing
+      Ver sua cobrança
     </a>
   </td>
 </tr>

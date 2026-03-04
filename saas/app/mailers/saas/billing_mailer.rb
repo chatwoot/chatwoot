@@ -12,6 +12,7 @@ class Saas::BillingMailer < ApplicationMailer
 
     @plan = account.saas_plan
     @billing_url = billing_url(account)
+    @dashboard_url = dashboard_url(account)
 
     subject = I18n.t('saas.mailer.welcome.subject')
     mail(to: @admin.email, subject: subject)
@@ -97,7 +98,28 @@ class Saas::BillingMailer < ApplicationMailer
 
   private
 
+  def liquid_locals
+    super.merge(
+      billing_url: @billing_url,
+      dashboard_url: @dashboard_url,
+      admin_name: @admin&.name,
+      plan_name: @plan&.name || 'Free',
+      old_plan_name: @old_plan_name,
+      new_plan_name: @new_plan_name,
+      days_left: @days_left,
+      attempt_count: @attempt_count,
+      is_final_warning: @is_final_warning,
+      percentage: @percentage,
+      tokens_used: @tokens_used,
+      tokens_limit: @tokens_limit
+    )
+  end
+
   def billing_url(account)
     "#{ENV.fetch('FRONTEND_URL', '')}/app/accounts/#{account.id}/settings/billing"
+  end
+
+  def dashboard_url(account)
+    "#{ENV.fetch('FRONTEND_URL', '')}/app/accounts/#{account.id}/dashboard"
   end
 end

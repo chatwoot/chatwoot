@@ -477,14 +477,14 @@ en:
   saas:
     mailer:
       welcome:
-        subject: 'Welcome to AirysChat!'
+        subject: 'Bem-vindo ao AirysChat!'
       trial_expiring:
-        subject: 'Your AirysChat trial expires in %{days} days'
+        subject: 'Seu período de teste do AirysChat expira em %{days} dias'
       payment_failed:
-        subject: 'Action required: Payment failed for your AirysChat account'
+        subject: 'Ação necessária: Falha no pagamento da sua conta AirysChat'
       usage_alert:
-        subject: "You've used %{percentage}%% of your AI tokens this month"
+        subject: "Você utilizou %{percentage}%% dos seus tokens de IA este mês"
       subscription_canceled:
-        subject: 'Your AirysChat subscription has been canceled'
+        subject: 'Sua assinatura AirysChat foi cancelada'
       plan_changed:
-        subject: 'Your AirysChat plan has been changed to %{plan}'
+        subject: 'Seu plano AirysChat foi alterado para %{plan}'
