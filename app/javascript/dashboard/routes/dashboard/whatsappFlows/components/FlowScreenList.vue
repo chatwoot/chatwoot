@@ -1,20 +1,26 @@
 <script setup>
 import { useI18n } from 'vue-i18n';
 
-const { t } = useI18n();
-
 const props = defineProps({
   screens: { type: Array, required: true },
   activeIndex: { type: Number, required: true },
 });
 
-const emit = defineEmits(['select', 'add', 'remove', 'updateTitle', 'updateId']);
+const emit = defineEmits(['select', 'add', 'remove']);
+
+const { t } = useI18n();
 </script>
 
 <template>
-  <aside class="w-56 border-r border-n-weak bg-white flex flex-col overflow-hidden">
-    <div class="flex items-center justify-between px-3 py-3 border-b border-n-weak">
-      <span class="text-xs font-semibold text-n-slate-11 uppercase tracking-wide">
+  <aside
+    class="w-56 border-r border-n-weak bg-white flex flex-col overflow-hidden"
+  >
+    <div
+      class="flex items-center justify-between px-3 py-3 border-b border-n-weak"
+    >
+      <span
+        class="text-xs font-semibold text-n-slate-11 uppercase tracking-wide"
+      >
         {{ t('WHATSAPP_FLOWS.SCREENS.TITLE') }}
       </span>
       <button
@@ -30,8 +36,8 @@ const emit = defineEmits(['select', 'add', 'remove', 'updateTitle', 'updateId'])
       <div
         v-for="(screen, index) in props.screens"
         :key="screen.id"
+        class="group flex items-center justify-between px-3 py-2 rounded-lg cursor-pointer text-sm transition-colors"
         :class="[
-          'group flex items-center justify-between px-3 py-2 rounded-lg cursor-pointer text-sm transition-colors',
           index === props.activeIndex
             ? 'bg-n-brand-subtle text-n-brand-dark font-medium'
             : 'text-n-slate-11 hover:bg-n-alpha-1',
@@ -60,11 +66,14 @@ const emit = defineEmits(['select', 'add', 'remove', 'updateTitle', 'updateId'])
 
     <!-- Variables summary -->
     <div class="border-t border-n-weak px-3 py-2">
-      <span class="text-[10px] font-semibold text-n-slate-9 uppercase tracking-wide">
+      <span
+        class="text-[10px] font-semibold text-n-slate-9 uppercase tracking-wide"
+      >
         {{ t('WHATSAPP_FLOWS.SCREENS.SUMMARY') }}
       </span>
       <div class="text-xs text-n-slate-11 mt-1">
-        {{ props.screens.length }} {{ t('WHATSAPP_FLOWS.SCREENS.SCREEN_COUNT') }}
+        {{ props.screens.length }}
+        {{ t('WHATSAPP_FLOWS.SCREENS.SCREEN_COUNT') }}
       </div>
     </div>
   </aside>

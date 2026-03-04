@@ -36,6 +36,20 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
     render_could_not_create_error(e.message)
   end
 
+  def react
+    channel = @conversation.inbox.channel
+
+    unless channel.is_a?(Channel::Whatsapp)
+      return render json: { error: 'Reactions are only supported for WhatsApp channels' }, status: :unprocessable_entity
+    end
+    return render json: { error: 'Message has no source ID' }, status: :unprocessable_entity if message.source_id.blank?
+
+    phone = contact_phone_number
+    return render json: { error: 'Contact has no phone number' }, status: :unprocessable_entity if phone.blank?
+
+    send_whatsapp_reaction(channel, phone, permitted_params[:emoji].to_s)
+  end
+
   def translate
     return head :ok if already_translated_content_available?
 
@@ -65,11 +79,33 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
   end
 
   def permitted_params
-    params.permit(:id, :target_language, :status, :external_error)
+    params.permit(:id, :target_language, :status, :external_error, :emoji)
   end
 
   def already_translated_content_available?
     message.translations.present? && message.translations[permitted_params[:target_language]].present?
+  end
+
+  def update_local_reactions(msg, emoji)
+    agent_id = "agent_#{Current.user.id}"
+    reactions = msg.content_attributes&.dig('reactions') || []
+    reactions.reject! { |r| r['sender'] == agent_id }
+    reactions << { 'sender' => agent_id, 'emoji' => emoji, 'timestamp' => Time.current.iso8601 } if emoji.present?
+    msg.update!(content_attributes: msg.content_attributes.merge('reactions' => reactions))
+  end
+
+  def contact_phone_number
+    @conversation.contact.phone_number&.delete('+')
+  end
+
+  def send_whatsapp_reaction(channel, phone, emoji)
+    result = channel.send_reaction(phone, message.source_id, emoji)
+    if result
+      update_local_reactions(message, emoji)
+      render json: { success: true, reactions: message.content_attributes['reactions'] || [] }
+    else
+      render json: { error: 'Failed to send reaction via WhatsApp' }, status: :unprocessable_entity
+    end
   end
 
   # API inbox check

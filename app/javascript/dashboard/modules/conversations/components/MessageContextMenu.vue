@@ -50,6 +50,7 @@ export default {
 
     return {
       getPlainText,
+      quickReactionEmojis: ['👍', '❤️', '😂', '😮', '🙏'],
     };
   },
   data() {
@@ -133,6 +134,14 @@ export default {
       this.$emit('replyTo', this.message);
       this.handleClose();
     },
+    handleReact(emoji) {
+      this.$store.dispatch('reactToMessage', {
+        conversationId: this.conversationId,
+        messageId: this.messageId,
+        emoji,
+      });
+      this.handleClose();
+    },
     openDeleteModal() {
       this.handleClose();
       this.showDeleteModal = true;
@@ -197,6 +206,21 @@ export default {
       @close="handleClose"
     >
       <div class="menu-container">
+        <div
+          v-if="enabledOptions['react']"
+          class="flex items-center justify-center gap-1 p-1"
+        >
+          <div
+            v-for="emoji in quickReactionEmojis"
+            :key="emoji"
+            role="button"
+            class="flex items-center justify-center w-8 h-8 text-lg rounded-md hover:bg-n-slate-3 dark:hover:bg-n-slate-3 transition-colors cursor-pointer"
+            @click.stop="handleReact(emoji)"
+          >
+            {{ emoji }}
+          </div>
+        </div>
+        <hr v-if="enabledOptions['react']" />
         <MenuItem
           v-if="enabledOptions['replyTo']"
           :option="{

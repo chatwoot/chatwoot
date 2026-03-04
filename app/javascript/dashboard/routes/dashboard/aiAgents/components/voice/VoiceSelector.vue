@@ -91,7 +91,12 @@ onBeforeUnmount(() => {
 });
 
 const genderLabel = gender => {
-  const labels = { female: 'Female', male: 'Male', neutral: 'Neutral', other: 'Other' };
+  const labels = {
+    female: 'Female',
+    male: 'Male',
+    neutral: 'Neutral',
+    other: 'Other',
+  };
   return labels[gender] || gender;
 };
 
@@ -135,13 +140,18 @@ const shortDescription = voice => {
       </span>
     </div>
 
-    <div v-else class="flex flex-col gap-3 max-h-72 overflow-y-auto overflow-x-hidden">
+    <div
+      v-else
+      class="flex flex-col gap-3 max-h-72 overflow-y-auto overflow-x-hidden"
+    >
       <div
         v-for="group in groupedVoices"
         :key="group.gender"
         class="flex flex-col gap-0.5"
       >
-        <span class="text-xs font-medium text-n-slate-10 uppercase tracking-wider px-1 mb-1">
+        <span
+          class="text-xs font-medium text-n-slate-10 uppercase tracking-wider px-1 mb-1"
+        >
           {{ genderLabel(group.gender) }}
         </span>
 

@@ -7,9 +7,8 @@ import {
   createDefaultComponent,
 } from 'dashboard/helper/whatsappFlowHelper';
 
-const { t } = useI18n();
 const emit = defineEmits(['select', 'close']);
-
+const { t } = useI18n();
 function onSelect(type) {
   emit('select', createDefaultComponent(type));
 }
@@ -20,8 +19,12 @@ function onSelect(type) {
     class="absolute inset-0 z-20 bg-black/30 flex items-center justify-center"
     @click.self="emit('close')"
   >
-    <div class="bg-white rounded-xl shadow-xl w-96 max-h-[80vh] overflow-hidden flex flex-col">
-      <div class="flex items-center justify-between px-4 py-3 border-b border-n-weak">
+    <div
+      class="bg-white rounded-xl shadow-xl w-96 max-h-[80vh] overflow-hidden flex flex-col"
+    >
+      <div
+        class="flex items-center justify-between px-4 py-3 border-b border-n-weak"
+      >
         <h3 class="text-sm font-semibold text-n-slate-12">
           {{ t('WHATSAPP_FLOWS.PALETTE.TITLE') }}
         </h3>
@@ -35,7 +38,9 @@ function onSelect(type) {
 
       <div class="flex-1 overflow-y-auto p-4 space-y-4">
         <div v-for="category in COMPONENT_CATEGORIES" :key="category.key">
-          <h4 class="text-[10px] font-semibold text-n-slate-9 uppercase tracking-wide mb-2">
+          <h4
+            class="text-[10px] font-semibold text-n-slate-9 uppercase tracking-wide mb-2"
+          >
             {{ t(category.label) }}
           </h4>
           <div class="grid grid-cols-2 gap-2">
@@ -46,7 +51,8 @@ function onSelect(type) {
               @click="onSelect(type)"
             >
               <span
-                :class="[COMPONENT_ICONS[type], 'size-4 text-n-slate-9']"
+                class="size-4 text-n-slate-9"
+                :class="[COMPONENT_ICONS[type]]"
               />
               <span class="text-xs font-medium text-n-slate-11">
                 {{ COMPONENT_LABELS[type] }}

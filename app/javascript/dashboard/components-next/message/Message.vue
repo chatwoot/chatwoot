@@ -44,6 +44,7 @@ import WhatsAppTemplateBubble from './bubbles/WhatsAppTemplate.vue';
 import WhatsAppFlowResponseBubble from './bubbles/WhatsAppFlowResponse.vue';
 
 import MessageError from './MessageError.vue';
+import MessageReactions from './MessageReactions.vue';
 import ContextMenu from 'dashboard/modules/conversations/components/MessageContextMenu.vue';
 import { useBranding } from 'shared/composables/useBranding';
 
@@ -396,6 +397,11 @@ const contextMenuEnabledOptions = computed(() => {
       !props.private &&
       props.inboxSupportsReplyTo.outgoing &&
       !isFailedOrProcessing,
+    react:
+      inbox.value.channel_type === 'Channel::Whatsapp' &&
+      !!props.sourceId &&
+      !isFailedOrProcessing &&
+      !isMessageDeleted.value,
   };
 });
 
@@ -573,6 +579,11 @@ provideMessageContext({
       >
         <Component :is="componentToRender" />
       </div>
+      <MessageReactions
+        v-if="contentAttributes.reactions && contentAttributes.reactions.length"
+        :class="flexOrientationClass"
+        :reactions="contentAttributes.reactions"
+      />
       <MessageError
         v-if="contentAttributes.externalError"
         class="[grid-area:meta]"

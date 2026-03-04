@@ -1,10 +1,16 @@
 <script setup>
-import { reactive, ref, watch, computed, onMounted, onBeforeUnmount } from 'vue';
+import {
+  reactive,
+  ref,
+  watch,
+  computed,
+  onMounted,
+  onBeforeUnmount,
+} from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
 
-import Input from 'dashboard/components-next/input/Input.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import VoiceSelector from '../voice/VoiceSelector.vue';
 import AiAgentsAPI from 'dashboard/api/saas/aiAgents';
@@ -79,7 +85,7 @@ const DEFAULT_TEST_PHRASES = {
   en: 'Hello! How can I help you today?',
   es: '¡Hola! ¿En qué puedo ayudarte hoy?',
   pt: 'Olá! Como posso te ajudar hoje?',
-  fr: 'Bonjour ! Comment puis-je vous aider aujourd\'hui ?',
+  fr: "Bonjour ! Comment puis-je vous aider aujourd'hui ?",
   de: 'Hallo! Wie kann ich Ihnen heute helfen?',
   it: 'Ciao! Come posso aiutarti oggi?',
   ja: 'こんにちは！今日はどのようにお手伝いできますか？',
@@ -123,23 +129,16 @@ const isCatalogLoading = ref(false);
 const isTestingVoice = ref(false);
 const testAudio = ref(null);
 
-const selectedVoiceName = computed(() => {
-  const v = voices.value.find(voice => voice.id === state.voiceId);
-  return v ? v.name : state.voiceId;
-});
-
 const syncFromAgent = agent => {
   if (!agent?.voice_config) return;
   const vc = agent.voice_config;
   state.provider = vc.provider || 'elevenlabs';
-  state.voiceId =
-    vc.elevenlabs_voice_id || vc.voice_id || vc.voice || '';
+  state.voiceId = vc.elevenlabs_voice_id || vc.voice_id || vc.voice || '';
   state.language = vc.language || 'en';
   state.speed = vc.speed ?? 1.0;
   state.greeting = vc.greeting || '';
   state.interruptionSensitivity = vc.interruption_sensitivity || 'medium';
-  state.modelId =
-    vc.elevenlabs_model_id || vc.realtime_model || '';
+  state.modelId = vc.elevenlabs_model_id || vc.realtime_model || '';
 };
 
 watch(() => props.agent, syncFromAgent, { immediate: true });
@@ -344,11 +343,7 @@ const speedLabel = computed(() => {
           <option value="" disabled>
             {{ t('AI_AGENTS.VOICE.MODEL.PLACEHOLDER') }}
           </option>
-          <option
-            v-for="m in models"
-            :key="m.id"
-            :value="m.id"
-          >
+          <option v-for="m in models" :key="m.id" :value="m.id">
             {{ m.name }}
           </option>
         </select>
@@ -377,6 +372,7 @@ const speedLabel = computed(() => {
         </div>
         <div class="flex justify-center">
           <span class="text-xs text-n-slate-11 font-mono">
+            <!-- eslint-disable-next-line vue/no-bare-strings-in-template -->
             {{ state.speed.toFixed(1) }}x · {{ speedLabel }}
           </span>
         </div>

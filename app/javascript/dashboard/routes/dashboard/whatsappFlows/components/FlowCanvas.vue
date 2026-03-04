@@ -1,16 +1,20 @@
 <script setup>
 import { useI18n } from 'vue-i18n';
-import { COMPONENT_ICONS, COMPONENT_LABELS } from 'dashboard/helper/whatsappFlowHelper';
-
-const { t } = useI18n();
+import {
+  COMPONENT_ICONS,
+  COMPONENT_LABELS,
+} from 'dashboard/helper/whatsappFlowHelper';
 
 const props = defineProps({
   screen: { type: Object, required: true },
   selectedIndex: { type: Number, default: null },
+  // eslint-disable-next-line vue/no-unused-properties
   screens: { type: Array, required: true },
 });
 
 const emit = defineEmits(['select', 'remove', 'move', 'add']);
+
+const { t } = useI18n();
 
 function moveUp(index) {
   if (index > 0) emit('move', index, index - 1);
@@ -53,7 +57,9 @@ function getComponentPreview(component) {
 
     <!-- Phone frame preview -->
     <div class="max-w-sm mx-auto">
-      <div class="bg-white rounded-2xl shadow-lg border border-n-weak overflow-hidden">
+      <div
+        class="bg-white rounded-2xl shadow-lg border border-n-weak overflow-hidden"
+      >
         <!-- Phone status bar -->
         <div class="bg-[#075E54] px-4 py-2 flex items-center gap-2">
           <span class="i-lucide-arrow-left size-4 text-white" />
@@ -67,8 +73,8 @@ function getComponentPreview(component) {
           <div
             v-for="(child, index) in props.screen.layout.children"
             :key="child._id || index"
+            class="group relative rounded-lg border-2 p-3 cursor-pointer transition-all"
             :class="[
-              'group relative rounded-lg border-2 p-3 cursor-pointer transition-all',
               index === props.selectedIndex
                 ? 'border-n-brand bg-n-brand-subtle/30'
                 : 'border-transparent hover:border-n-weak',
@@ -77,8 +83,13 @@ function getComponentPreview(component) {
           >
             <!-- Component icon + label -->
             <div class="flex items-center gap-2 mb-1">
-              <span :class="[getComponentIcon(child.type), 'size-3.5 text-n-slate-9']" />
-              <span class="text-[10px] font-medium text-n-slate-9 uppercase tracking-wide">
+              <span
+                class="size-3.5 text-n-slate-9"
+                :class="[getComponentIcon(child.type)]"
+              />
+              <span
+                class="text-[10px] font-medium text-n-slate-9 uppercase tracking-wide"
+              >
                 {{ getComponentLabel(child.type) }}
               </span>
             </div>
@@ -116,21 +127,27 @@ function getComponentPreview(component) {
 
               <!-- Text Input -->
               <template v-else-if="child.type === 'TextInput'">
-                <div class="border border-n-weak rounded-lg px-3 py-2 bg-n-alpha-1">
+                <div
+                  class="border border-n-weak rounded-lg px-3 py-2 bg-n-alpha-1"
+                >
                   <span class="text-xs text-n-slate-9">{{ child.label }}</span>
                 </div>
               </template>
 
               <!-- Text Area -->
               <template v-else-if="child.type === 'TextArea'">
-                <div class="border border-n-weak rounded-lg px-3 py-4 bg-n-alpha-1">
+                <div
+                  class="border border-n-weak rounded-lg px-3 py-4 bg-n-alpha-1"
+                >
                   <span class="text-xs text-n-slate-9">{{ child.label }}</span>
                 </div>
               </template>
 
               <!-- Dropdown -->
               <template v-else-if="child.type === 'Dropdown'">
-                <div class="border border-n-weak rounded-lg px-3 py-2 bg-n-alpha-1 flex items-center justify-between">
+                <div
+                  class="border border-n-weak rounded-lg px-3 py-2 bg-n-alpha-1 flex items-center justify-between"
+                >
                   <span class="text-xs text-n-slate-9">{{ child.label }}</span>
                   <span class="i-lucide-chevron-down size-4 text-n-slate-7" />
                 </div>
@@ -168,7 +185,9 @@ function getComponentPreview(component) {
 
               <!-- Date Picker -->
               <template v-else-if="child.type === 'DatePicker'">
-                <div class="border border-n-weak rounded-lg px-3 py-2 bg-n-alpha-1 flex items-center justify-between">
+                <div
+                  class="border border-n-weak rounded-lg px-3 py-2 bg-n-alpha-1 flex items-center justify-between"
+                >
                   <span class="text-xs text-n-slate-9">{{ child.label }}</span>
                   <span class="i-lucide-calendar size-4 text-n-slate-7" />
                 </div>
@@ -184,27 +203,35 @@ function getComponentPreview(component) {
 
               <!-- Footer (Submit button) -->
               <template v-else-if="child.type === 'Footer'">
-                <div class="bg-[#25D366] text-white text-center py-2 rounded-lg text-sm font-medium">
+                <div
+                  class="bg-[#25D366] text-white text-center py-2 rounded-lg text-sm font-medium"
+                >
                   {{ child.label }}
                 </div>
               </template>
 
               <!-- Embedded Link -->
               <template v-else-if="child.type === 'EmbeddedLink'">
-                <span class="text-n-brand underline text-sm">{{ child.text }}</span>
+                <span class="text-n-brand underline text-sm">{{
+                  child.text
+                }}</span>
               </template>
 
               <!-- Fallback -->
               <template v-else>
-                <span class="text-xs text-n-slate-9">{{ getComponentPreview(child) }}</span>
+                <span class="text-xs text-n-slate-9">{{
+                  getComponentPreview(child)
+                }}</span>
               </template>
             </div>
 
             <!-- Action buttons (visible on hover/selection) -->
             <div
+              class="absolute top-1 right-1 flex items-center gap-0.5"
               :class="[
-                'absolute top-1 right-1 flex items-center gap-0.5',
-                index === props.selectedIndex ? 'opacity-100' : 'opacity-0 group-hover:opacity-100',
+                index === props.selectedIndex
+                  ? 'opacity-100'
+                  : 'opacity-0 group-hover:opacity-100',
               ]"
             >
               <button

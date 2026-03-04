@@ -1,14 +1,14 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-
-const { t } = useI18n();
 
 const props = defineProps({
   flowJson: { type: Object, required: true },
 });
 
 const emit = defineEmits(['apply', 'close']);
+
+const { t } = useI18n();
 
 const jsonText = ref(JSON.stringify(props.flowJson, null, 2));
 const parseError = ref('');
@@ -33,7 +33,9 @@ function apply() {
 
 <template>
   <div class="flex flex-col flex-1 overflow-hidden">
-    <div class="flex items-center justify-between px-4 py-2 border-b border-n-weak bg-n-slate-2">
+    <div
+      class="flex items-center justify-between px-4 py-2 border-b border-n-weak bg-n-slate-2"
+    >
       <div class="flex items-center gap-2">
         <span class="i-lucide-code size-4 text-n-slate-9" />
         <span class="text-sm font-medium text-n-slate-12">
