@@ -64,7 +64,7 @@ class Whatsapp::EmbeddedSignupService
       account: @account,
       inbox_id: @inbox_id,
       phone_number_id: @phone_number_id,
-      business_id: @business_id
+      business_id: @waba_id
     ).perform(access_token, phone_info)
   end
 
@@ -79,7 +79,7 @@ class Whatsapp::EmbeddedSignupService
         account: @account,
         inbox_id: existing_channel.inbox.id,
         phone_number_id: @phone_number_id,
-        business_id: @business_id
+        business_id: @waba_id
       ).perform(access_token, phone_info)
     else
       waba_info = { waba_id: @waba_id, business_name: phone_info[:business_name] }
