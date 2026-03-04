@@ -98,6 +98,13 @@ const handleAction = ({ action, id, category: categoryData }) => {
     deleteCategory(categoryData);
   }
 };
+
+const reorderCategories = reorderedGroup => {
+  return store.dispatch('categories/reorder', {
+    portalSlug: route.params.portalSlug,
+    reorderedGroup,
+  });
+};
 </script>
 
 <template>
@@ -122,6 +129,7 @@ const handleAction = ({ action, id, category: categoryData }) => {
         :categories="categories"
         @click="openCategoryArticles"
         @action="handleAction"
+        @reorder="reorderCategories"
       />
       <CategoryEmptyState
         v-else

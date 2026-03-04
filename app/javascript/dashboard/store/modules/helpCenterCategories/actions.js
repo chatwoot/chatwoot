@@ -92,4 +92,17 @@ export const actions = {
       });
     }
   },
+
+  reorder: async (_, { portalSlug, reorderedGroup }) => {
+    try {
+      await categoriesAPI.reorder({
+        portalSlug,
+        reorderedGroup,
+      });
+    } catch (error) {
+      throwErrorMessage(error);
+    }
+
+    return '';
+  },
 };

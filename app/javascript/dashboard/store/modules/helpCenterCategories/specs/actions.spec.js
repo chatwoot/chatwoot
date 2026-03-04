@@ -161,4 +161,42 @@ describe('#actions', () => {
       ]);
     });
   });
+
+  describe('#reorder', () => {
+    it('reorders categories when API call is success', async () => {
+      axios.post.mockResolvedValue({ data: {} });
+
+      await actions.reorder(
+        { commit },
+        {
+          portalSlug: 'room-rental',
+          reorderedGroup: { 2: 10, 1: 20 },
+        }
+      );
+
+      expect(commit.mock.calls).toEqual([]);
+      expect(axios.post).toHaveBeenCalledWith(
+        expect.stringContaining('/portals/room-rental/categories/reorder'),
+        {
+          positions_hash: { 2: 10, 1: 20 },
+        }
+      );
+    });
+
+    it('throws if reorder API call fails', async () => {
+      axios.post.mockRejectedValue({ message: 'Incorrect header' });
+
+      await expect(
+        actions.reorder(
+          { commit },
+          {
+            portalSlug: 'room-rental',
+            reorderedGroup: { 2: 10, 1: 20 },
+          }
+        )
+      ).rejects.toThrow(Error);
+
+      expect(commit.mock.calls).toEqual([]);
+    });
+  });
 });
