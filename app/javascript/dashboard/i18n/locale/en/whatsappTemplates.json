@@ -48,6 +48,10 @@
       "UPLOAD_ERROR": "Upload failed. Please try again.",
       "REPLACE_MEDIA": "Replace",
       "REMOVE_MEDIA": "Remove"
+    },
+    "PREVIEW": {
+      "TITLE": "Message preview",
+      "SEE_ALL_OPTIONS": "See all options"
     }
   }
 }

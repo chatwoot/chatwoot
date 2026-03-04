@@ -8,6 +8,7 @@ import InboxName from '../InboxName.vue';
 import MoreActions from './MoreActions.vue';
 import Avatar from 'next/avatar/Avatar.vue';
 import SLACardLabel from './components/SLACardLabel.vue';
+import WhatsAppSessionTimer from './WhatsAppSessionTimer.vue';
 import wootConstants from 'dashboard/constants/globals';
 import { conversationListPageURL } from 'dashboard/helper/URLHelper';
 import { snoozedReopenTime } from 'dashboard/helper/snoozeHelpers';
@@ -90,6 +91,14 @@ const hasMultipleInboxes = computed(
 );
 
 const hasSlaPolicyId = computed(() => props.chat?.sla_policy_id);
+
+const isWhatsApp = computed(
+  () => inbox.value?.channel_type === 'Channel::Whatsapp'
+);
+
+const lastIncomingMessageAt = computed(
+  () => props.chat?.last_incoming_message_at || 0
+);
 </script>
 
 <template>
@@ -135,6 +144,10 @@ const hasSlaPolicyId = computed(() => props.chat?.sla_policy_id);
           class="flex items-center gap-2 overflow-hidden text-xs conversation--header--actions text-ellipsis whitespace-nowrap"
         >
           <InboxName v-if="hasMultipleInboxes" :inbox="inbox" class="!mx-0" />
+          <WhatsAppSessionTimer
+            :last-incoming-message-at="lastIncomingMessageAt"
+            :is-whats-app="isWhatsApp"
+          />
           <span v-if="isSnoozed" class="font-medium text-n-amber-10">
             {{ snoozedDisplayText }}
           </span>

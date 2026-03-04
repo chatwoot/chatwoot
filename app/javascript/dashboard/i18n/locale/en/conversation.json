@@ -108,6 +108,11 @@
         "DUE": "due"
       }
     },
+    "WHATSAPP_SESSION": {
+      "EXPIRED": "Session expired",
+      "EXPIRED_TOOLTIP": "24h session expired. Send a template message.",
+      "ACTIVE_TOOLTIP": "Session expires in {time}"
+    },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Mark as pending",
       "SNOOZE_UNTIL": "Snooze",

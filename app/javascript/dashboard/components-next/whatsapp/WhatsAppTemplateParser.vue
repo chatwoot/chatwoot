@@ -28,6 +28,7 @@ import {
   UPLOAD_CONFIG,
   findComponentByType,
 } from 'dashboard/helper/templateHelper';
+import WhatsAppTemplatePreview from './WhatsAppTemplatePreview.vue';
 
 const props = defineProps({
   template: {
@@ -268,6 +269,13 @@ defineExpose({
         {{ categoryLabel }}
       </div>
     </div>
+
+    <!-- Live WhatsApp preview -->
+    <WhatsAppTemplatePreview
+      :template="template"
+      :processed-params="processedParams"
+      class="mb-4"
+    />
 
     <div v-if="hasVariables || hasMediaHeader">
       <div v-if="hasMediaHeader" class="mb-4">
