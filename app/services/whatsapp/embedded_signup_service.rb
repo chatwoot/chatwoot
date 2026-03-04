@@ -50,9 +50,34 @@ class Whatsapp::EmbeddedSignupService
 
   def create_or_reauthorize_channel(access_token, phone_info)
     if @inbox_id.present?
+      reauthorize_channel_by_inbox(access_token, phone_info)
+    elsif @is_business_app_onboarding
+      reauthorize_existing_or_create_channel(access_token, phone_info)
+    else
+      waba_info = { waba_id: @waba_id, business_name: phone_info[:business_name] }
+      Whatsapp::ChannelCreationService.new(@account, waba_info, phone_info, access_token).perform
+    end
+  end
+
+  def reauthorize_channel_by_inbox(access_token, phone_info)
+    Whatsapp::ReauthorizationService.new(
+      account: @account,
+      inbox_id: @inbox_id,
+      phone_number_id: @phone_number_id,
+      business_id: @business_id
+    ).perform(access_token, phone_info)
+  end
+
+  # For business app onboarding: find existing channel by phone number and reauthorize it.
+  # If no existing channel found, create a new one.
+  def reauthorize_existing_or_create_channel(access_token, phone_info)
+    existing_channel = Channel::Whatsapp.find_by(phone_number: phone_info[:phone_number])
+
+    if existing_channel
+      Rails.logger.info "[WHATSAPP COEXISTENCE] Reauthorizing existing channel for #{phone_info[:phone_number]}"
       Whatsapp::ReauthorizationService.new(
         account: @account,
-        inbox_id: @inbox_id,
+        inbox_id: existing_channel.inbox.id,
         phone_number_id: @phone_number_id,
         business_id: @business_id
       ).perform(access_token, phone_info)
