@@ -33,7 +33,7 @@ responses:
                   categories_count: 9
             custom_domain: "chatwoot.help"
             header_text: "Handbook"
-            homepage_link: "https://www.chatwoot.com"
+            homepage_link: "https://one-link.kz"
             name: "Handbook"
             slug: "handbook"
             page_title: "Handbook"
@@ -41,7 +41,7 @@ responses:
             inbox:
               id: 123
               name: "Chatwoot"
-              website_url: "chatwoot.com"
+              website_url: "one-link.kz"
               channel_type: "Channel::WebWidget"
               avatar_url: "https://example.com/avatar.png"
               widget_color: "#1F93FF"

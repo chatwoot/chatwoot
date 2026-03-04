@@ -47,7 +47,7 @@
     "ATTRIBUTES": {
       "STATUS": "Статус",
       "ASSIGNEE_NAME": "Имя назначенного",
-      "INBOX_NAME": "Имя источника",
+      "INBOX_NAME": "Имя канала",
       "TEAM_NAME": "Название команды",
       "CONVERSATION_IDENTIFIER": "Идентификатор беседы",
       "CAMPAIGN_NAME": "Название кампании",
@@ -73,7 +73,7 @@
     "GROUPS": {
       "STANDARD_FILTERS": "Стандартные фильтры",
       "ADDITIONAL_FILTERS": "Дополнительные фильтры",
-      "CUSTOM_ATTRIBUTES": "Пользовательские атрибуты"
+      "CUSTOM_ATTRIBUTES": "Атрибуты контактов"
     },
     "CUSTOM_VIEWS": {
       "ADD": {

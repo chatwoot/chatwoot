@@ -3,14 +3,14 @@ info:
   title: Chatwoot - Platform API
   description: Platform API endpoints for Chatwoot
   version: 1.1.0
-  termsOfService: https://www.chatwoot.com/terms-of-service/
+  termsOfService: https://one-link.kz/terms-of-service/
   contact:
-    email: hello@chatwoot.com
+    email: hello@one-link.kz
   license:
     name: MIT License
     url: https://opensource.org/licenses/MIT
 servers:
-  - url: https://app.chatwoot.com/
+  - url: https://one-link.kz/
 tags:
   - name: Accounts
     description: Platform account management

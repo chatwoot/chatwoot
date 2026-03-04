@@ -397,7 +397,7 @@
         "SLUG": {
           "LABEL": "Slug",
           "PLACEHOLDER": "URL'ler için kategori slug'ı",
-          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
+          "HELP_TEXT": "one-link.kz/hc/my-portal/en-US/categories/my-slug",
           "ERROR": "Slug gereklidir"
         },
         "DESCRIPTION": {
@@ -428,7 +428,7 @@
         "SLUG": {
           "LABEL": "Slug",
           "PLACEHOLDER": "URL'ler için kategori slug'ı",
-          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
+          "HELP_TEXT": "one-link.kz/hc/my-portal/en-US/categories/my-slug",
           "ERROR": "Slug gereklidir"
         },
         "DESCRIPTION": {
@@ -612,7 +612,7 @@
             "LABEL": "Slug",
             "PLACEHOLDER": "URL'ler için kategori slug'ı",
             "ERROR": "Slug gereklidir",
-            "HELP_TEXT": "app.chatwoot.com/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
+            "HELP_TEXT": "one-link.kz/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
           },
           "DESCRIPTION": {
             "LABEL": "Açıklama",
@@ -695,7 +695,7 @@
       "CONFIRM_BUTTON_LABEL": "Yarat",
       "NAME": {
         "LABEL": "İsim",
-        "PLACEHOLDER": "User Guide | Chatwoot",
+        "PLACEHOLDER": "User Guide | OneLink",
         "MESSAGE": "Choose an name for your portal.",
         "ERROR": "Ad gerekli"
       },

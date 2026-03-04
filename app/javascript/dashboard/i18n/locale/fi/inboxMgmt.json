@@ -39,7 +39,7 @@
         "PLACEHOLDER": "Anna sivuston nimi (esim. Acme Oy)"
       },
       "FB": {
-        "HELP": "PS: Kirjautumalla sisään saamme vain pääsyn sivusi viesteihin. Chatwoot ei koskaan näe yksityisviestejäsi.",
+        "HELP": "PS: Kirjautumalla sisään saamme vain pääsyn sivusi viesteihin. OneLink ei koskaan näe yksityisviestejäsi.",
         "CHOOSE_PAGE": "Valitse sivu",
         "CHOOSE_PLACEHOLDER": "Valitse sivu listasta",
         "INBOX_NAME": "Kansion nimi",
@@ -438,7 +438,7 @@
       },
       "AUTH": {
         "TITLE": "Choose a channel",
-        "DESC": "Chatwoot tukee live-chat-widgetejä, Facebook Messenger, WhatsApp, sähköpostit jne. kanavina. Jos haluat rakentaa mukautetun kanavan, voit luoda sen API-kanavalla. Päästäksesi alkuun, valitse jokin kanava alta.",
+        "DESC": "OneLink tukee live-chat-widgetejä, Facebook Messenger, WhatsApp, sähköpostit jne. kanavina. Jos haluat rakentaa mukautetun kanavan, voit luoda sen API-kanavalla. Päästäksesi alkuun, valitse jokin kanava alta.",
         "TITLE_NEXT": "Complete the setup",
         "TITLE_FINISH": "Voilà!",
         "CHANNEL": {
@@ -693,8 +693,8 @@
       "MESSENGER_SUB_HEAD": "Aseta tämä painike body-tagiisi",
       "ALLOWED_DOMAINS": {
         "TITLE": "Allowed Domains",
-        "SUBTITLE": "Add wildcard or regular domains separated by commas (leave blank to allow all), e.g. *.chatwoot.dev, chatwoot.com.",
-        "PLACEHOLDER": "Enter domains separated by commas (eg: *.chatwoot.dev, chatwoot.com)"
+        "SUBTITLE": "Add wildcard or regular domains separated by commas (leave blank to allow all), e.g. *.chatwoot.dev, one-link.kz.",
+        "PLACEHOLDER": "Enter domains separated by commas (eg: *.chatwoot.dev, one-link.kz)"
       },
       "INBOX_AGENTS": "Edustajat",
       "INBOX_AGENTS_SUB_TEXT": "Lisää tai poista edustajia tästä saapuneet-kansiosta",
@@ -1021,7 +1021,7 @@
         "USER_MESSAGE": "Hei",
         "AGENT_MESSAGE": "Moi"
       },
-      "BRANDING_TEXT": "Palvelun tarjoaa Chatwoot",
+      "BRANDING_TEXT": "OneLink",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
     },
     "EMAIL_PROVIDERS": {

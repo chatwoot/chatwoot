@@ -397,7 +397,7 @@
         "SLUG": {
           "LABEL": "Slug",
           "PLACEHOLDER": "Slug kategorija, skirta URL",
-          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
+          "HELP_TEXT": "one-link.kz/hc/my-portal/en-US/categories/my-slug",
           "ERROR": "Yra reikalingas slug"
         },
         "DESCRIPTION": {
@@ -428,7 +428,7 @@
         "SLUG": {
           "LABEL": "Slug",
           "PLACEHOLDER": "Slug kategorija, skirta URL",
-          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
+          "HELP_TEXT": "one-link.kz/hc/my-portal/en-US/categories/my-slug",
           "ERROR": "Yra reikalingas slug"
         },
         "DESCRIPTION": {
@@ -612,7 +612,7 @@
             "LABEL": "Slug",
             "PLACEHOLDER": "Slug kategorija, skirta URL",
             "ERROR": "Yra reikalingas slug",
-            "HELP_TEXT": "app.chatwoot.com/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
+            "HELP_TEXT": "one-link.kz/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
           },
           "DESCRIPTION": {
             "LABEL": "Aprašymas",
@@ -695,7 +695,7 @@
       "CONFIRM_BUTTON_LABEL": "Sukurti",
       "NAME": {
         "LABEL": "Vardas",
-        "PLACEHOLDER": "User Guide | Chatwoot",
+        "PLACEHOLDER": "User Guide | OneLink",
         "MESSAGE": "Choose an name for your portal.",
         "ERROR": "Yra reikalingas vardas"
       },

@@ -54,7 +54,7 @@
     "GROUPS": {
       "STANDARD_FILTERS": "Стандартные фильтры",
       "ADDITIONAL_FILTERS": "Дополнительные фильтры",
-      "CUSTOM_ATTRIBUTES": "Пользовательские атрибуты"
+      "CUSTOM_ATTRIBUTES": "Атрибуты контактов"
     }
   }
 }

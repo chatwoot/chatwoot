@@ -4,9 +4,9 @@
     "title": "Chatwoot",
     "description": "This is the API documentation for Chatwoot server.",
     "version": "1.1.0",
-    "termsOfService": "https://www.chatwoot.com/terms-of-service/",
+    "termsOfService": "https://one-link.kz/terms-of-service/",
     "contact": {
-      "email": "hello@chatwoot.com"
+      "email": "hello@one-link.kz"
     },
     "license": {
       "name": "MIT License",
@@ -15,7 +15,7 @@
   },
   "servers": [
     {
-      "url": "https://app.chatwoot.com/"
+      "url": "https://one-link.kz/"
     }
   ],
   "paths": {
@@ -3078,7 +3078,7 @@
           "homepage_link": {
             "type": "string",
             "description": "link to main dashboard",
-            "example": "https://www.chatwoot.com/"
+            "example": "https://one-link.kz/"
           },
           "name": {
             "type": "string",

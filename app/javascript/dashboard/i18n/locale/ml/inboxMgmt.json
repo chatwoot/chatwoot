@@ -438,7 +438,7 @@
       },
       "AUTH": {
         "TITLE": "Choose a channel",
-        "DESC": "Chatwoot supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below.",
+        "DESC": "OneLink supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below.",
         "TITLE_NEXT": "Complete the setup",
         "TITLE_FINISH": "Voilà!",
         "CHANNEL": {
@@ -693,8 +693,8 @@
       "MESSENGER_SUB_HEAD": "ഈ ബട്ടൺ നിങ്ങളുടെ ബോഡി ടാഗിനുള്ളിൽ സ്ഥാപിക്കുക",
       "ALLOWED_DOMAINS": {
         "TITLE": "Allowed Domains",
-        "SUBTITLE": "Add wildcard or regular domains separated by commas (leave blank to allow all), e.g. *.chatwoot.dev, chatwoot.com.",
-        "PLACEHOLDER": "Enter domains separated by commas (eg: *.chatwoot.dev, chatwoot.com)"
+        "SUBTITLE": "Add wildcard or regular domains separated by commas (leave blank to allow all), e.g. *.chatwoot.dev, one-link.kz.",
+        "PLACEHOLDER": "Enter domains separated by commas (eg: *.chatwoot.dev, one-link.kz)"
       },
       "INBOX_AGENTS": "ഏജന്റുമാർ",
       "INBOX_AGENTS_SUB_TEXT": "ഈ ഇൻ‌ബോക്സിൽ നിന്ന് ഏജന്റുമാരെ ചേർക്കുക അല്ലെങ്കിൽ നീക്കംചെയ്യുക",
@@ -1021,7 +1021,7 @@
         "USER_MESSAGE": "Hi",
         "AGENT_MESSAGE": "Hello"
       },
-      "BRANDING_TEXT": "പ്രായോജകർ Chatwoot",
+      "BRANDING_TEXT": "OneLink",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
     },
     "EMAIL_PROVIDERS": {

@@ -397,7 +397,7 @@
         "SLUG": {
           "LABEL": "Slug",
           "PLACEHOLDER": "Kategória az URL-ekhez",
-          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
+          "HELP_TEXT": "one-link.kz/hc/my-portal/en-US/categories/my-slug",
           "ERROR": "Érme megadása kötelező"
         },
         "DESCRIPTION": {
@@ -428,7 +428,7 @@
         "SLUG": {
           "LABEL": "Slug",
           "PLACEHOLDER": "Kategória az URL-ekhez",
-          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
+          "HELP_TEXT": "one-link.kz/hc/my-portal/en-US/categories/my-slug",
           "ERROR": "Slug megadása kötelező"
         },
         "DESCRIPTION": {
@@ -612,7 +612,7 @@
             "LABEL": "Slug",
             "PLACEHOLDER": "Kategória az URL-ekhez",
             "ERROR": "Érme megadása kötelező",
-            "HELP_TEXT": "app.chatwoot.com/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
+            "HELP_TEXT": "one-link.kz/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
           },
           "DESCRIPTION": {
             "LABEL": "Leírás",
@@ -695,7 +695,7 @@
       "CONFIRM_BUTTON_LABEL": "Létrehozás",
       "NAME": {
         "LABEL": "Név",
-        "PLACEHOLDER": "User Guide | Chatwoot",
+        "PLACEHOLDER": "User Guide | OneLink",
         "MESSAGE": "Choose an name for your portal.",
         "ERROR": "Név kötelező"
       },

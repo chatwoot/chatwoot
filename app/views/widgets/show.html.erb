@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
     <script>
       window.chatwootWebChannel = {
-        avatarUrl: '<%= @web_widget.inbox.avatar_url %>',
+        avatarUrl: '<%= @web_widget.inbox.agent_bot&.avatar_url || @web_widget.inbox.avatar_url %>',
         hasAConnectedAgentBot: '<%= @web_widget.inbox.agent_bot&.name %>',
         locale: '<%= @web_widget.account.locale %>',
         websiteName: '<%= @web_widget.inbox.name %>',

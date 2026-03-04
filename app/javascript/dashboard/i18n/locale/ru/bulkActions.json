@@ -1,21 +1,21 @@
 {
   "BULK_ACTION": {
     "CONVERSATIONS_SELECTED": "{conversationCount} бесед выбрано",
-    "AGENT_SELECT_LABEL": "Выбрать Агента",
+    "AGENT_SELECT_LABEL": "Выбрать Сотрудника",
     "ASSIGN_CONFIRMATION_LABEL": "Вы уверены, что хотите назначить {conversationCount} {conversationLabel}",
     "UNASSIGN_CONFIRMATION_LABEL": "Вы уверены, что хотите отменить назначение {conversationCount} {conversationLabel}?",
     "GO_BACK_LABEL": "Вернуться",
     "ASSIGN_LABEL": "Назначить",
     "YES": "Да",
     "SEARCH_INPUT_PLACEHOLDER": "Поиск",
-    "ASSIGN_AGENT_TOOLTIP": "Назначить агента",
+    "ASSIGN_AGENT_TOOLTIP": "Назначить сотрудника",
     "ASSIGN_TEAM_TOOLTIP": "Назначить команду",
     "ASSIGN_SUCCESFUL": "Беседы успешно назначены.",
     "ASSIGN_FAILED": "Не удалось назначить диалоги, попробуйте еще раз.",
     "RESOLVE_SUCCESFUL": "Беседы успешно завершены.",
     "RESOLVE_FAILED": "Не удалось завершить диалоги, попробуйте еще раз.",
     "ALL_CONVERSATIONS_SELECTED_ALERT": "Беседы, видимые на этой странице, выбраны.",
-    "AGENT_LIST_LOADING": "Загрузка агентов",
+    "AGENT_LIST_LOADING": "Загрузка сотрудников",
     "UPDATE": {
       "CHANGE_STATUS": "Изменить статус",
       "SNOOZE_UNTIL": "Отложено",
@@ -32,7 +32,7 @@
     "TEAMS": {
       "TEAM_SELECT_LABEL": "Выберите команду",
       "NONE": "Ничего",
-      "NO_TEAMS_AVAILABLE": "Нет команд, добавленных в этот аккаунт.",
+      "NO_TEAMS_AVAILABLE": "Нет команд, добавленных в этот workspace.",
       "ASSIGN_SELECTED_TEAMS": "Назначить выбранную команду.",
       "ASSIGN_SUCCESFUL": "Команды, назначены успешно.",
       "ASSIGN_FAILED": "Не удалось назначить команду, попробуйте еще раз."

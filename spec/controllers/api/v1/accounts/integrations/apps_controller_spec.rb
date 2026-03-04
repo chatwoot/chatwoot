@@ -66,6 +66,16 @@ RSpec.describe 'Integration Apps API', type: :request do
         end
       end
 
+      it 'does not return hidden apps in the integrations list' do
+        get api_v1_account_integrations_apps_url(account),
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        app_ids = response.parsed_body['payload'].pluck('id')
+        expect(app_ids).not_to include('dialogflow', 'dyte', 'leadsquared')
+      end
+
       it 'will return sensitive information for openai app for admins' do
         openai = create(:integrations_hook, :openai, account: account)
         get api_v1_account_integrations_apps_url(account),
@@ -101,6 +111,14 @@ RSpec.describe 'Integration Apps API', type: :request do
         app = response.parsed_body
         expect(app['id']).to eql('slack')
         expect(app['name']).to eql('Slack')
+      end
+
+      it 'returns not found for hidden apps' do
+        get api_v1_account_integrations_app_url(account_id: account.id, id: 'dialogflow'),
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:not_found)
       end
 
       it 'will not return sensitive information for openai app for agents' do

@@ -85,7 +85,7 @@ const handleDismiss = slug => {
 const handleReadMore = () => {
   const currentPost = unDismissedPosts.value[currentIndex.value];
   if (currentPost?.slug) {
-    window.open(`https://www.chatwoot.com/blog/${currentPost.slug}`, '_blank');
+    window.open(`https://one-link.kz/blog/${currentPost.slug}`, '_blank');
   }
 };
 

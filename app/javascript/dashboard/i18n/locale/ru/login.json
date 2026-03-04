@@ -1,6 +1,6 @@
 {
   "LOGIN": {
-    "TITLE": "Войти в Chatwoot",
+    "TITLE": "Войти в OneLink",
     "EMAIL": {
       "LABEL": "Email",
       "PLACEHOLDER": "example{'@'}companyname.com",
@@ -21,8 +21,8 @@
       "NO_ACCOUNT_FOUND": "Мы не смогли найти учетную запись для вашего адреса электронной почты."
     },
     "FORGOT_PASSWORD": "Забыли пароль?",
-    "NO_ACCOUNT": "У вас нет аккаунта?",
-    "CREATE_NEW_ACCOUNT": "Создать новый аккаунт",
+    "NO_ACCOUNT": "У вас нет workspace?",
+    "CREATE_NEW_ACCOUNT": "Создать новый workspace",
     "SUBMIT": "Вход",
     "SAML": {
       "LABEL": "Войти через SSO",

@@ -35,6 +35,22 @@ const generateKeys = str =>
     .replace(/\+/g, '-')
     .replace(/\//g, '_');
 
+const urlBase64ToUint8Array = base64String => {
+  const padding = '='.repeat((4 - (base64String.length % 4)) % 4);
+  const base64 = `${base64String}${padding}`
+    .replace(/-/g, '+')
+    .replace(/_/g, '/');
+
+  const rawData = window.atob(base64);
+  const outputArray = new Uint8Array(rawData.length);
+
+  for (let i = 0; i < rawData.length; i += 1) {
+    outputArray[i] = rawData.charCodeAt(i);
+  }
+
+  return outputArray;
+};
+
 export const getPushSubscriptionPayload = subscription => ({
   subscription_type: 'browser_push',
   subscription_attributes: {
@@ -46,9 +62,9 @@ export const getPushSubscriptionPayload = subscription => ({
 
 export const sendRegistrationToServer = subscription => {
   if (auth.hasAuthCookie()) {
-    return NotificationSubscriptions.create(
-      getPushSubscriptionPayload(subscription)
-    );
+    return NotificationSubscriptions.create({
+      notification_subscription: getPushSubscriptionPayload(subscription),
+    });
   }
   return null;
 };
@@ -61,7 +77,9 @@ export const registerSubscription = (onSuccess = () => {}) => {
     .then(serviceWorkerRegistration =>
       serviceWorkerRegistration.pushManager.subscribe({
         userVisibleOnly: true,
-        applicationServerKey: window.chatwootConfig.vapidPublicKey,
+        applicationServerKey: urlBase64ToUint8Array(
+          window.chatwootConfig.vapidPublicKey
+        ),
       })
     )
     .then(sendRegistrationToServer)

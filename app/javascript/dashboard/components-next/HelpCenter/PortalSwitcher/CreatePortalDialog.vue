@@ -15,7 +15,7 @@ import Input from 'dashboard/components-next/input/Input.vue';
 
 const emit = defineEmits(['create']);
 
-const { t } = useI18n();
+const { t, locale } = useI18n();
 const store = useStore();
 
 const dialogRef = ref(null);
@@ -56,6 +56,11 @@ const slugError = computed(() => {
 
 const isSubmitDisabled = computed(() => v$.value.$invalid);
 
+const defaultPortalLocale = computed(() => {
+  const localeCode = locale.value?.toString() || 'en';
+  return localeCode.split(/[-_]/)[0] || 'en';
+});
+
 watch(
   () => state.name,
   () => {
@@ -64,7 +69,7 @@ watch(
 );
 
 const redirectToPortal = portal => {
-  emit('create', { slug: portal.slug, locale: 'en' });
+  emit('create', { slug: portal.slug, locale: defaultPortalLocale.value });
 };
 
 const resetForm = () => {
@@ -110,6 +115,10 @@ const handleDialogConfirm = async () => {
     custom_domain: state.domain,
     blob_id: state.avatarBlobId || null,
     color: '#2781F6', // The default color is set to Chatwoot brand color
+    config: {
+      default_locale: defaultPortalLocale.value,
+      allowed_locales: [defaultPortalLocale.value],
+    },
   };
   await createPortal(portal);
 };

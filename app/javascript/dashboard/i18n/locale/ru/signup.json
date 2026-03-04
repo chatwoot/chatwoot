@@ -1,10 +1,10 @@
 {
   "REGISTER": {
-    "TRY_WOOT": "Создать новый аккаунт",
+    "TRY_WOOT": "Создать новый workspace",
     "TITLE": "Регистрация",
     "TESTIMONIAL_HEADER": "Все, что нужно сделать, это один шаг для продвижения вперед",
     "TESTIMONIAL_CONTENT": "Вы находитесь на расстоянии всего одного шага от привлечения своих клиентов, удержав их и находя новые.",
-    "TERMS_ACCEPT": "Создавая учетную запись, вы соглашаетесь с нашими <a href=\"https://www.chatwoot.com/terms\">Т и С</a> и <a href=\"https://www.chatwoot.com/privacy-policy\">политикой конфиденциальности</a>",
+    "TERMS_ACCEPT": "Создавая учетную запись, вы соглашаетесь с нашими <a href=\"https://one-link.kz/terms\">Т и С</a> и <a href=\"https://one-link.kz/privacy-policy\">политикой конфиденциальности</a>",
     "OAUTH": {
       "GOOGLE_SIGNUP": "Регистрация через Google"
     },
@@ -43,7 +43,7 @@
       "SUCCESS_MESSAGE": "Регистрация прошла успешно",
       "ERROR_MESSAGE": "Не удалось подключиться к Woot серверу. Пожалуйста, попробуйте еще раз."
     },
-    "SUBMIT": "Создать новый аккаунт",
-    "HAVE_AN_ACCOUNT": "Уже есть аккаунт?"
+    "SUBMIT": "Создать новый workspace",
+    "HAVE_AN_ACCOUNT": "Уже есть workspace?"
   }
 }

@@ -2,7 +2,7 @@
   "HELP_CENTER": {
     "TITLE": "Центр поддержки",
     "NEW_PAGE": {
-      "DESCRIPTION": "Создайте порталы самообслуживания для вашего центра поддержки. Помогите вашим клиентам быстро находить ответы, без ожидания. Оптимизируйте запросы, повысите эффективность агентов и улучшите поддержку клиентов.",
+      "DESCRIPTION": "Создайте порталы самообслуживания для вашего центра поддержки. Помогите вашим клиентам быстро находить ответы, без ожидания. Оптимизируйте запросы, повысите эффективность сотрудников и улучшите поддержку клиентов.",
       "CREATE_PORTAL_BUTTON": "Создать портал"
     },
     "HEADER": {
@@ -397,7 +397,7 @@
         "SLUG": {
           "LABEL": "Метка",
           "PLACEHOLDER": "Метка категории для url",
-          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
+          "HELP_TEXT": "one-link.kz/hc/my-portal/en-US/categories/my-slug",
           "ERROR": "Необходимо указать метку"
         },
         "DESCRIPTION": {
@@ -428,7 +428,7 @@
         "SLUG": {
           "LABEL": "Метка",
           "PLACEHOLDER": "Метка категории для url",
-          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
+          "HELP_TEXT": "one-link.kz/hc/my-portal/en-US/categories/my-slug",
           "ERROR": "Необходимо указать метку"
         },
         "DESCRIPTION": {
@@ -478,7 +478,7 @@
       "FEATURES": {
         "PORTALS": {
           "TITLE": "Несколько порталов",
-          "DESCRIPTION": "Создайте несколько порталов справочного центра для разных товаров с использованием одного аккаунта."
+          "DESCRIPTION": "Создайте несколько порталов справочного центра для разных товаров с использованием одного workspace."
         },
         "LOCALES": {
           "TITLE": "Полная поддержка языков",
@@ -612,7 +612,7 @@
             "LABEL": "Метка",
             "PLACEHOLDER": "Метка категории для url",
             "ERROR": "Необходимо указать метку",
-            "HELP_TEXT": "app.chatwoot.com/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
+            "HELP_TEXT": "one-link.kz/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
           },
           "DESCRIPTION": {
             "LABEL": "Описание",

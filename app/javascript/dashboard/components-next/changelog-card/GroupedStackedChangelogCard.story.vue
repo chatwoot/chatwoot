@@ -10,8 +10,7 @@ const sampleCards = [
     meta_description:
       'Watch how our latest feature can transform your workflow with powerful automation tools.',
     slug: 'chatwoot-captain',
-    feature_image:
-      'https://www.chatwoot.com/images/captain/captain_thumbnail.jpg',
+    feature_image: 'https://one-link.kz/images/captain/captain_thumbnail.jpg',
   },
   {
     id: 'smart-routing',
@@ -20,7 +19,7 @@ const sampleCards = [
     meta_description:
       'Screen bookers with intelligent forms and route them to the right team member.',
     slug: 'smart-routing',
-    feature_image: 'https://www.chatwoot.com/images/dashboard-dark.webp',
+    feature_image: 'https://one-link.kz/images/dashboard-dark.webp',
   },
   {
     id: 'instant-meetings',

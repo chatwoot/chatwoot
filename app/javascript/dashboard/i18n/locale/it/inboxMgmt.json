@@ -13,7 +13,7 @@
     "CREATE_FLOW": {
       "CHANNEL": {
         "TITLE": "Scegli il canale",
-        "BODY": "Scegli il provider che vuoi integrare con Chatwoot."
+        "BODY": "Scegli il provider che vuoi integrare con OneLink."
       },
       "INBOX": {
         "TITLE": "Crea Inbox",
@@ -39,7 +39,7 @@
         "PLACEHOLDER": "Inserisci il nome del tuo sito web (ad esempio: Acme Srl)"
       },
       "FB": {
-        "HELP": "PS: Accedendo, abbiamo accesso solo ai messaggi della tua pagina. Chatwoot non potrà accedere ai tuoi messaggi privati.",
+        "HELP": "PS: Accedendo, abbiamo accesso solo ai messaggi della tua pagina. OneLink non potrà accedere ai tuoi messaggi privati.",
         "CHOOSE_PAGE": "Scegli una Pagina",
         "CHOOSE_PLACEHOLDER": "Seleziona una pagina dalla lista",
         "INBOX_NAME": "Nome Inbox",
@@ -438,7 +438,7 @@
       },
       "AUTH": {
         "TITLE": "Scegli un canale",
-        "DESC": "Chatwoot supporta widget di live chat, Facebook Messenger, WhatsApp, Email e altro, come canali di comunicazione. Se vuoi creare un canale personalizzato, puoi farlo tramite il canale API. Per iniziare, scegli uno dei canali qui sotto.",
+        "DESC": "OneLink supporta widget di live chat, Facebook Messenger, WhatsApp, Email e altro, come canali di comunicazione. Se vuoi creare un canale personalizzato, puoi farlo tramite il canale API. Per iniziare, scegli uno dei canali qui sotto.",
         "TITLE_NEXT": "Completa la configurazione",
         "TITLE_FINISH": "Voilà!",
         "CHANNEL": {
@@ -496,11 +496,11 @@
       },
       "DETAILS": {
         "TITLE": "Dettagli Inbox",
-        "DESC": "Dal menu a tendina qui sotto, seleziona la pagina Facebook che vuoi collegare a Chatwoot. Puoi anche assegnare un nome personalizzato alla tua inbox per una migliore identificazione."
+        "DESC": "Dal menu a tendina qui sotto, seleziona la pagina Facebook che vuoi collegare a OneLink. Puoi anche assegnare un nome personalizzato alla tua inbox per una migliore identificazione."
       },
       "FINISH": {
         "TITLE": "Azzeccato!",
-        "DESC": "Hai completato con successo l'integrazione della tua pagina Facebook con Chatwoot. La prossima volta che un cliente invia un messaggio alla tua pagina, la conversazione apparirà automaticamente nella tua inbox.<br>Ti forniamo anche uno script per widget che puoi facilmente aggiungere al tuo sito web. Una volta dal vivo sul tuo sito web, i clienti possono inviarti messaggi direttamente dal tuo sito web senza l'aiuto di alcuno strumento esterno e la conversazione apparirà proprio qui, su Chatwoot.<br>Bello, eh? Beh, ce la mettiamo tutta :)"
+        "DESC": "Hai completato con successo l'integrazione della tua pagina Facebook con OneLink. La prossima volta che un cliente invia un messaggio alla tua pagina, la conversazione apparirà automaticamente nella tua inbox.<br>Ti forniamo anche uno script per widget che puoi facilmente aggiungere al tuo sito web. Una volta dal vivo sul tuo sito web, i clienti possono inviarti messaggi direttamente dal tuo sito web senza l'aiuto di alcuno strumento esterno e la conversazione apparirà proprio qui, su OneLink.<br>Bello, eh? Beh, ce la mettiamo tutta :)"
       },
       "EMAIL_PROVIDER": {
         "TITLE": "Seleziona il tuo provider email",
@@ -693,8 +693,8 @@
       "MESSENGER_SUB_HEAD": "Incolla questo script alla fine del tag body",
       "ALLOWED_DOMAINS": {
         "TITLE": "Domini Consentiti",
-        "SUBTITLE": "Aggiungi caratteri jolly o domini regolari separati da virgole (lasciare vuoto per consentire tutti), ad esempio *.chatwoot.dev, chatwoot.com.",
-        "PLACEHOLDER": "Inserisci i domini separati da virgole (ad esempio: *.chatwoot.dev, chatwoot.com)"
+        "SUBTITLE": "Aggiungi caratteri jolly o domini regolari separati da virgole (lasciare vuoto per consentire tutti), ad esempio *.chatwoot.dev, one-link.kz.",
+        "PLACEHOLDER": "Inserisci i domini separati da virgole (ad esempio: *.chatwoot.dev, one-link.kz)"
       },
       "INBOX_AGENTS": "Operatori",
       "INBOX_AGENTS_SUB_TEXT": "Aggiungi o rimuovi operatori da questa inbox",
@@ -1021,7 +1021,7 @@
         "USER_MESSAGE": "Salve",
         "AGENT_MESSAGE": "Ciao"
       },
-      "BRANDING_TEXT": "Offerto da Chatwoot",
+      "BRANDING_TEXT": "OneLink",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
     },
     "EMAIL_PROVIDERS": {

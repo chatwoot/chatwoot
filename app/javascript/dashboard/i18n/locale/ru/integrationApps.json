@@ -1,7 +1,7 @@
 {
   "INTEGRATION_APPS": {
     "FETCHING": "Загрузка интеграций",
-    "NO_HOOK_CONFIGURED": "В этой учетной записи не настроено ни одной {integrationId} интеграции.",
+    "NO_HOOK_CONFIGURED": "В этом workspace не настроено ни одной {integrationId} интеграции.",
     "HEADER": "Приложения",
     "STATUS": {
       "ENABLED": "Включено",

@@ -397,7 +397,7 @@
         "SLUG": {
           "LABEL": "Slug",
           "PLACEHOLDER": "Categoria de slug para URLs",
-          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
+          "HELP_TEXT": "one-link.kz/hc/my-portal/en-US/categories/my-slug",
           "ERROR": "Slug é obrigatório"
         },
         "DESCRIPTION": {
@@ -428,7 +428,7 @@
         "SLUG": {
           "LABEL": "Slug",
           "PLACEHOLDER": "Categoria de slug para URLs",
-          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
+          "HELP_TEXT": "one-link.kz/hc/my-portal/en-US/categories/my-slug",
           "ERROR": "Slug é obrigatório"
         },
         "DESCRIPTION": {
@@ -695,7 +695,7 @@
       "CONFIRM_BUTTON_LABEL": "Criar",
       "NAME": {
         "LABEL": "Nome",
-        "PLACEHOLDER": "Guia do Usuário | Chatwoot",
+        "PLACEHOLDER": "Guia do Usuário | OneLink",
         "MESSAGE": "Escolha um nome para o seu portal.",
         "ERROR": "O nome é obrigatório"
       },

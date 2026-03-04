@@ -397,7 +397,7 @@
         "SLUG": {
           "LABEL": "Snegl",
           "PLACEHOLDER": "Kategori slug for webls",
-          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/da-DK/categories/my-slug",
+          "HELP_TEXT": "one-link.kz/hc/my-portal/da-DK/categories/my-slug",
           "ERROR": "Slug er påkrævet"
         },
         "DESCRIPTION": {
@@ -428,7 +428,7 @@
         "SLUG": {
           "LABEL": "Slug",
           "PLACEHOLDER": "Kategori slug for urls",
-          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/da-DK/categories/my-slug",
+          "HELP_TEXT": "one-link.kz/hc/my-portal/da-DK/categories/my-slug",
           "ERROR": "Slug er påkrævet"
         },
         "DESCRIPTION": {
@@ -612,7 +612,7 @@
             "LABEL": "Snegl",
             "PLACEHOLDER": "Kategori slug for webls",
             "ERROR": "Slug er påkrævet",
-            "HELP_TEXT": "app.chatwoot.com/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
+            "HELP_TEXT": "one-link.kz/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
           },
           "DESCRIPTION": {
             "LABEL": "Beskrivelse",
@@ -695,7 +695,7 @@
       "CONFIRM_BUTTON_LABEL": "Opret",
       "NAME": {
         "LABEL": "Navn",
-        "PLACEHOLDER": "User Guide | Chatwoot",
+        "PLACEHOLDER": "User Guide | OneLink",
         "MESSAGE": "Choose an name for your portal.",
         "ERROR": "Navn er påkrævet"
       },

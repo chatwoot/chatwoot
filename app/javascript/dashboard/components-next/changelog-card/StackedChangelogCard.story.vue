@@ -8,8 +8,7 @@ const imageCards = {
   meta_description:
     'Watch how our latest feature can transform your workflow with powerful automation tools.',
   slug: 'chatwoot-captain',
-  feature_image:
-    'https://www.chatwoot.com/images/captain/captain_thumbnail.jpg',
+  feature_image: 'https://one-link.kz/images/captain/captain_thumbnail.jpg',
 };
 
 const handleReadMore = () => {

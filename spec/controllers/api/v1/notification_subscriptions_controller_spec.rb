@@ -36,6 +36,25 @@ RSpec.describe 'Notifications Subscriptions API', type: :request do
         expect(json_response['subscription_attributes']['auth']).to eq('test')
       end
 
+      it 'creates a notification subscription from flat params' do
+        post '/api/v1/notification_subscriptions',
+             params: {
+               subscription_type: 'browser_push',
+               subscription_attributes: {
+                 endpoint: 'test',
+                 p256dh: 'test',
+                 auth: 'test'
+               }
+             },
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        json_response = response.parsed_body
+        expect(json_response['subscription_type']).to eq('browser_push')
+        expect(json_response['subscription_attributes']['endpoint']).to eq('test')
+      end
+
       it 'returns existing notification subscription if subscription exists' do
         subscription = create(:notification_subscription, user: agent)
         post '/api/v1/notification_subscriptions',

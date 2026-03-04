@@ -13,7 +13,7 @@
     "CREATE_FLOW": {
       "CHANNEL": {
         "TITLE": "チャンネルを選択",
-        "BODY": "Chatwootと統合するプロバイダを選択してください。"
+        "BODY": "OneLinkと統合するプロバイダを選択してください。"
       },
       "INBOX": {
         "TITLE": "受信トレイを作成",
@@ -39,7 +39,7 @@
         "PLACEHOLDER": "ウェブサイト名を入力してください(例：Acme Inc)"
       },
       "FB": {
-        "HELP": "PS: サインインすることで、私たちはあなたのページのメッセージにのみアクセスできます。あなたのプライベートメッセージはChatwootによってアクセスすることはできません。",
+        "HELP": "PS: サインインすることで、私たちはあなたのページのメッセージにのみアクセスできます。あなたのプライベートメッセージはOneLinkによってアクセスすることはできません。",
         "CHOOSE_PAGE": "ページを選択",
         "CHOOSE_PLACEHOLDER": "リストからページを選択",
         "INBOX_NAME": "受信トレイ名",
@@ -438,7 +438,7 @@
       },
       "AUTH": {
         "TITLE": "チャンネルを選択",
-        "DESC": "Chatwootは、ライブチャットウィジェット、Facebook Messenger、Twitterプロフィール、WhatsApp、Eメールなどのチャンネルをサポートしています。カスタムチャンネルを作成したい場合は、APIチャンネルを使用して作成できます。開始するには、以下のチャンネルのいずれかを選択してください。",
+        "DESC": "OneLinkは、ライブチャットウィジェット、Facebook Messenger、Twitterプロフィール、WhatsApp、Eメールなどのチャンネルをサポートしています。カスタムチャンネルを作成したい場合は、APIチャンネルを使用して作成できます。開始するには、以下のチャンネルのいずれかを選択してください。",
         "TITLE_NEXT": "Complete the setup",
         "TITLE_FINISH": "Voilà!",
         "CHANNEL": {
@@ -496,11 +496,11 @@
       },
       "DETAILS": {
         "TITLE": "受信トレイの詳細",
-        "DESC": "下のドロップダウンから、Chatwootに接続するFacebookページを選択してください。わかりやすくするために受信トレイの名前をカスタマイズすることもできます。"
+        "DESC": "下のドロップダウンから、OneLinkに接続するFacebookページを選択してください。わかりやすくするために受信トレイの名前をカスタマイズすることもできます。"
       },
       "FINISH": {
         "TITLE": "ばっちりです！",
-        "DESC": "FacebookページとChatwootとの統合が正常に完了しました。次回から、あなたのページに送信された顧客からのメッセージや会話は、自動的に受信トレイに表示されます。<br>また、ウェブサイトに簡単に追加できるウィジェットスクリプトを提供しています。一度これをあなたのウェブサイトに設定すれば、顧客は他のツールの助けを借りずにWebサイトから直接メッセージを送信でき、Chatwoot上に会話が表示されます。<br><br>素敵でしょ？まあ、私たちはきっとそうしますけどね:)"
+        "DESC": "FacebookページとOneLinkとの統合が正常に完了しました。次回から、あなたのページに送信された顧客からのメッセージや会話は、自動的に受信トレイに表示されます。<br>また、ウェブサイトに簡単に追加できるウィジェットスクリプトを提供しています。一度これをあなたのウェブサイトに設定すれば、顧客は他のツールの助けを借りずにWebサイトから直接メッセージを送信でき、OneLink上に会話が表示されます。<br><br>素敵でしょ？まあ、私たちはきっとそうしますけどね:)"
       },
       "EMAIL_PROVIDER": {
         "TITLE": "メールプロバイダーを選択",
@@ -693,8 +693,8 @@
       "MESSENGER_SUB_HEAD": "このボタンをbodyタグの中に配置してください。",
       "ALLOWED_DOMAINS": {
         "TITLE": "Allowed Domains",
-        "SUBTITLE": "Add wildcard or regular domains separated by commas (leave blank to allow all), e.g. *.chatwoot.dev, chatwoot.com.",
-        "PLACEHOLDER": "Enter domains separated by commas (eg: *.chatwoot.dev, chatwoot.com)"
+        "SUBTITLE": "Add wildcard or regular domains separated by commas (leave blank to allow all), e.g. *.chatwoot.dev, one-link.kz.",
+        "PLACEHOLDER": "Enter domains separated by commas (eg: *.chatwoot.dev, one-link.kz)"
       },
       "INBOX_AGENTS": "担当者",
       "INBOX_AGENTS_SUB_TEXT": "この受信トレイから担当者を追加または削除する",
@@ -1021,7 +1021,7 @@
         "USER_MESSAGE": "こんにちは",
         "AGENT_MESSAGE": "こんにちは"
       },
-      "BRANDING_TEXT": "提供：Chatwoot",
+      "BRANDING_TEXT": "OneLink",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
     },
     "EMAIL_PROVIDERS": {

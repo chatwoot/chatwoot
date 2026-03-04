@@ -564,7 +564,7 @@ env.S3_BUCKET_NAME	S3 bucket name	""
 env.AWS_ACCESS_KEY_ID	Amazon access key ID	""
 env.AWS_REGION	Amazon region	""
 env.AWS_SECRET_ACCESS_KEY	Amazon secret key ID	""
-env.FB_APP_ID	For facebook channel https://www.chatwoot.com/docs/facebook-setup	""
+env.FB_APP_ID	For facebook channel https://one-link.kz/docs/facebook-setup	""
 env.FB_APP_SECRET	For facebook channel	""
 env.FB_VERIFY_TOKEN	For facebook channel	""
 env.SLACK_CLIENT_ID	For slack integration	""
@@ -1275,7 +1275,7 @@ Add your Chatwoot URL to the AllowedOrigin as shown below.
       "GET"
     ],
     "AllowedOrigins": [
-      "<add-your-domain-here eg: https://app.chatwoot.com>"
+      "<add-your-domain-here eg: https://one-link.kz>"
     ],
     "ExposeHeaders": [
       "Origin",
@@ -2728,7 +2728,7 @@ Support Options: Based on your plan, applicable support options will be displaye
 FAQ
 ​
 Do you have Instance level plans?
-No, at the moment Chatwoot only offers per agent per month plans. If you are looking at a large number of agents, you can reach out to us at sales@chatwoot.com for custom plans.
+No, at the moment Chatwoot only offers per agent per month plans. If you are looking at a large number of agents, you can reach out to us at sales@one-link.kz for custom plans.
 ​
 Transferring licenses?
 If you are moving the installation between servers and doing so with a database backup, the original installation identifier is retained, and you don’t need to activate the license again.

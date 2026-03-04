@@ -57,10 +57,10 @@
       "FILTER_MESSAGE": "Filter messages by:",
       "FROM": "Отправитель",
       "IN": "Электронная почта",
-      "AGENTS": "Операторы",
+      "AGENTS": "Сотрудники",
       "CONTACTS": "Контакты",
-      "INBOXES": "Источники",
-      "NO_AGENTS": "Операторы не найдены",
+      "INBOXES": "Каналы",
+      "NO_AGENTS": "Сотрудники не найдены",
       "NO_CONTACTS": "Start by searching to see results",
       "NO_INBOXES": "No inboxes found"
     }

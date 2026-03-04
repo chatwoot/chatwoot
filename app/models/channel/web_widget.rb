@@ -30,6 +30,8 @@ class Channel::WebWidget < ApplicationRecord
   include Channelable
   include FlagShihTzu
 
+  DEFAULT_WIDGET_COLOR = '#2781F6'.freeze
+
   self.table_name = 'channel_web_widgets'
   EDITABLE_ATTRS = [:website_url, :widget_color, :welcome_title, :welcome_tagline, :reply_time, :pre_chat_form_enabled,
                     :continuity_via_email, :hmac_mandatory, :allowed_domains,
@@ -39,6 +41,7 @@ class Channel::WebWidget < ApplicationRecord
                                                  :locale, { values: [] }, :regex_pattern, :regex_cue] }] },
                     { selected_feature_flags: [] }].freeze
 
+  before_validation :set_default_widget_color
   before_validation :validate_pre_chat_options
   validates :website_url, presence: true
   validates :widget_color, presence: true
@@ -97,6 +100,10 @@ class Channel::WebWidget < ApplicationRecord
         }
       ]
     }
+  end
+
+  def set_default_widget_color
+    self.widget_color = DEFAULT_WIDGET_COLOR if widget_color.blank?
   end
 
   def create_contact_inbox(additional_attributes = {})

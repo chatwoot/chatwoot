@@ -9,7 +9,7 @@ export default [
     attributeKey: 'linkContact',
     attributeDisplayName: 'URL Input',
     attributeDisplayType: 'link',
-    value: 'https://www.chatwoot.com',
+    value: 'https://one-link.kz',
   },
   {
     attributeKey: 'numberContact',
