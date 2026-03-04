@@ -1,69 +1,76 @@
-# Fetches a WhatsApp contact's profile picture via the Cloud API.
+# Generates an initials-based avatar for WhatsApp contacts.
 #
-# The WhatsApp Cloud API profile picture availability depends on the contact's
-# privacy settings — many users restrict it to "My Contacts" or "Nobody".
-# This job silently fails when the picture is unavailable.
+# The WhatsApp Cloud API does not provide an endpoint to fetch a contact's
+# profile picture (the /contacts endpoint only exists in the On-Premises API).
+# Instead, this job generates a PNG avatar with the contact's initials on a
+# deterministic color background, similar to how WhatsApp itself renders
+# contacts without a profile picture.
 class Avatar::AvatarFromWhatsappJob < ApplicationJob
   queue_as :purgable
 
-  RATE_LIMIT_WINDOW = 1.day
+  # WhatsApp-inspired palette for avatar backgrounds
+  AVATAR_COLORS = %w[
+    #00A884 #25D366 #128C7E #075E54 #34B7F1
+    #7C3AED #E11D48 #0891B2 #D97706 #059669
+    #6366F1 #EC4899 #14B8A6 #F97316 #8B5CF6
+  ].freeze
 
-  def perform(contact, channel)
-    return unless channel.provider == 'whatsapp_cloud'
+  def perform(contact, _channel = nil)
+    return if contact.avatar.attached?
 
-    phone_number = contact.phone_number&.delete('+')
-    return if phone_number.blank?
-    return if within_rate_limit?(contact)
+    initials = extract_initials(contact.name)
+    bg_color = deterministic_color(contact.name)
 
-    profile_pic_url = fetch_profile_picture_url(channel, phone_number)
-    return if profile_pic_url.blank?
+    tempfile = generate_png(initials, bg_color)
+    return if tempfile.blank?
 
-    Avatar::AvatarFromUrlJob.perform_later(contact, profile_pic_url)
+    contact.avatar.attach(
+      io: File.open(tempfile.path),
+      filename: "whatsapp_avatar_#{contact.id}.png",
+      content_type: 'image/png'
+    )
   rescue StandardError => e
-    Rails.logger.info "[WHATSAPP AVATAR] Could not fetch profile picture for #{phone_number}: #{e.message}"
+    Rails.logger.info "[WHATSAPP AVATAR] Could not generate avatar for contact #{contact.id}: #{e.message}"
+  ensure
+    tempfile&.close!
   end
 
   private
 
-  def within_rate_limit?(contact)
-    last_sync = contact.additional_attributes&.dig('whatsapp_avatar_checked_at')
-    return false if last_sync.blank?
+  def extract_initials(name)
+    return '?' if name.blank?
 
-    Time.zone.parse(last_sync) > RATE_LIMIT_WINDOW.ago
-  rescue ArgumentError
-    false
+    parts = name.strip.split(/\s+/)
+    if parts.length >= 2
+      "#{parts.first[0]}#{parts.last[0]}".upcase
+    else
+      parts.first[0..1].upcase
+    end
   end
 
-  def fetch_profile_picture_url(channel, phone_number)
-    api_base = ENV.fetch('WHATSAPP_CLOUD_BASE_URL', 'https://graph.facebook.com')
-    api_version = GlobalConfigService.load('WHATSAPP_API_VERSION', 'v22.0')
-    phone_number_id = channel.provider_config['phone_number_id']
-    api_key = channel.provider_config['api_key']
-
-    response = HTTParty.get(
-      "#{api_base}/#{api_version}/#{phone_number_id}/contacts",
-      headers: { 'Authorization' => "Bearer #{api_key}", 'Content-Type' => 'application/json' },
-      body: { blocking: 'wait', contacts: ["+#{phone_number}"] }.to_json
-    )
-
-    update_check_timestamp(contact_for_update(phone_number, channel))
-
-    return nil unless response.success?
-
-    response.parsed_response&.dig('contacts', 0, 'profile_pic')
+  def deterministic_color(name)
+    AVATAR_COLORS[name.to_s.bytes.sum % AVATAR_COLORS.length]
   end
 
-  def contact_for_update(phone_number, channel)
-    Contact.joins(:contact_inboxes).find_by(
-      contact_inboxes: { inbox_id: channel.inbox.id },
-      phone_number: "+#{phone_number}"
-    )
-  end
+  def generate_png(initials, bg_color)
+    tempfile = Tempfile.new(['avatar', '.png'])
 
-  def update_check_timestamp(contact)
-    return if contact.blank?
+    MiniMagick::Tool::Convert.new do |convert|
+      convert.size '256x256'
+      convert << "xc:#{bg_color}"
+      convert.gravity 'center'
+      convert.fill 'white'
+      convert.font 'Noto-Sans-Bold'
+      convert.pointsize '96'
+      convert.annotate '+0+0', initials
+      convert << tempfile.path
+    end
 
-    attrs = (contact.additional_attributes || {}).merge('whatsapp_avatar_checked_at' => Time.current.iso8601)
-    contact.update!(additional_attributes: attrs)
+    tempfile.rewind
+    tempfile
+  rescue StandardError => e
+    Rails.logger.info "[WHATSAPP AVATAR] ImageMagick error: #{e.message}"
+    tempfile&.close!
+    nil
   end
 end

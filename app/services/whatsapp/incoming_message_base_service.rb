@@ -188,9 +188,8 @@ class Whatsapp::IncomingMessageBaseService
 
   def fetch_whatsapp_profile_picture
     return if @contact.blank? || @contact.avatar.attached?
-    return unless inbox.channel.provider == 'whatsapp_cloud'
 
-    Avatar::AvatarFromWhatsappJob.perform_later(@contact, inbox.channel)
+    Avatar::AvatarFromWhatsappJob.perform_later(@contact)
   end
 
   def set_conversation

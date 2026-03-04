@@ -126,6 +126,7 @@ RUN apk update && apk add --no-cache \
   tzdata \
   postgresql-client \
   imagemagick \
+  font-noto \
   git \
   vips \
   && gem install bundler -v "$BUNDLER_VERSION"
