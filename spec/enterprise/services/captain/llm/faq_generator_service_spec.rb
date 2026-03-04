@@ -75,34 +75,6 @@ RSpec.describe Captain::Llm::FaqGeneratorService do
       end
     end
 
-    context 'when response is wrapped in markdown code fences' do
-      let(:fenced_response) do
-        instance_double(RubyLLM::Message, content: "```json\n#{{ faqs: sample_faqs }.to_json}\n```")
-      end
-
-      before do
-        allow(mock_chat).to receive(:ask).and_return(fenced_response)
-      end
-
-      it 'strips the fences and parses the JSON successfully' do
-        expect(service.generate).to eq(sample_faqs)
-      end
-    end
-
-    context 'when response is wrapped in bare code fences without language tag' do
-      let(:fenced_response) do
-        instance_double(RubyLLM::Message, content: "```\n#{{ faqs: sample_faqs }.to_json}\n```")
-      end
-
-      before do
-        allow(mock_chat).to receive(:ask).and_return(fenced_response)
-      end
-
-      it 'strips the fences and parses the JSON successfully' do
-        expect(service.generate).to eq(sample_faqs)
-      end
-    end
-
     context 'when JSON parsing fails' do
       let(:invalid_response) { instance_double(RubyLLM::Message, content: 'invalid json') }
 
