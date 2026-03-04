@@ -44,7 +44,7 @@ class Api::V1::Accounts::CategoriesController < Api::V1::Accounts::BaseControlle
   end
 
   def portal
-    @portal ||= Current.account.portals.find_by(slug: params[:portal_id])
+    @portal ||= Current.account.portals.find_by!(slug: params[:portal_id])
   end
 
   def related_categories_records

@@ -267,6 +267,14 @@ RSpec.describe 'Api::V1::Accounts::Categories', type: :request do
         expect(related_category_1.reload.position).to eq(30)
         expect(related_category_2.reload.position).to eq(20)
       end
+
+      it 'returns not found when portal does not exist' do
+        post "/api/v1/accounts/#{account.id}/portals/invalid-portal-slug/categories/reorder",
+             params: { positions_hash: positions_hash },
+             headers: admin.create_new_auth_token
+
+        expect(response).to have_http_status(:not_found)
+      end
     end
   end
 
