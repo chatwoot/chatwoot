@@ -1,6 +1,4 @@
 class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
-  CAPTAIN_INFERENCE_RESOLVED_EVENT = Events::Types::CONVERSATION_CAPTAIN_INFERENCE_RESOLVED
-  CAPTAIN_INFERENCE_HANDOFF_EVENT = Events::Types::CONVERSATION_CAPTAIN_INFERENCE_HANDOFF
   CAPTAIN_INFERENCE_RESOLVE_ACTIVITY_REASON = 'no outstanding questions'.freeze
   CAPTAIN_INFERENCE_HANDOFF_ACTIVITY_REASON = 'pending clarification from customer'.freeze
 
@@ -63,7 +61,7 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
       reason: CAPTAIN_INFERENCE_RESOLVE_ACTIVITY_REASON,
       reason_type: :inference
     ) { conversation.resolved! }
-    dispatch_captain_inference_event(conversation, CAPTAIN_INFERENCE_RESOLVED_EVENT)
+    conversation.dispatch_captain_inference_resolved_event
   end
 
   def handoff_conversation(conversation, inbox, reason)
@@ -73,7 +71,7 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
       reason: CAPTAIN_INFERENCE_HANDOFF_ACTIVITY_REASON,
       reason_type: :inference
     ) { conversation.bot_handoff! }
-    dispatch_captain_inference_event(conversation, CAPTAIN_INFERENCE_HANDOFF_EVENT)
+    conversation.dispatch_captain_inference_handoff_event
     send_out_of_office_message_if_applicable(conversation)
   end
 
@@ -119,15 +117,6 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
       account_id: conversation.account_id,
       inbox_id: conversation.inbox_id,
       content: handoff_message
-    )
-  end
-
-  def dispatch_captain_inference_event(conversation, event_name)
-    Rails.configuration.dispatcher.dispatch(
-      event_name,
-      Time.zone.now,
-      conversation: conversation,
-      performed_by: Current.executed_by
     )
   end
 end

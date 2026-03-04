@@ -1,6 +1,14 @@
 module Enterprise::Conversation
   attr_accessor :captain_activity_reason, :captain_activity_reason_type
 
+  def dispatch_captain_inference_resolved_event
+    dispatch_captain_inference_event(Events::Types::CONVERSATION_CAPTAIN_INFERENCE_RESOLVED)
+  end
+
+  def dispatch_captain_inference_handoff_event
+    dispatch_captain_inference_event(Events::Types::CONVERSATION_CAPTAIN_INFERENCE_HANDOFF)
+  end
+
   def list_of_keys
     super + %w[sla_policy_id]
   end
@@ -26,5 +34,11 @@ module Enterprise::Conversation
 
     changed_attr_keys = attrs_change[1].keys
     changed_attr_keys.intersect?(%w[call_status])
+  end
+
+  private
+
+  def dispatch_captain_inference_event(event_name)
+    dispatcher_dispatch(event_name)
   end
 end
