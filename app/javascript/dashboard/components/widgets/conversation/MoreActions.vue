@@ -1,6 +1,6 @@
 <script setup>
 import { computed, onUnmounted, ref, onMounted } from 'vue';
-import { useToggle } from '@vueuse/core';
+import { useToggle, useWindowSize } from '@vueuse/core';
 import { useStore } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
@@ -26,6 +26,9 @@ const { t } = useI18n();
 const [showEmailActionsModal, toggleEmailModal] = useToggle(false);
 const [showActionsDropdown, toggleDropdown] = useToggle(false);
 const [showVirtiInfoModal, toggleVirtiInfoModal] = useToggle(false);
+
+const { width: windowWidth } = useWindowSize();
+const isMobile = computed(() => windowWidth.value < 1280);
 
 const virtiAvailable = ref(false);
 const followUpAtivado = ref(false);
@@ -88,6 +91,23 @@ const toggleFollowUp = async () => {
 const actionMenuItems = computed(() => {
   const items = [];
 
+  if (virtiAvailable.value && isMobile.value) {
+    items.push({
+      icon: 'i-lucide-info',
+      label: 'Info do Contato',
+      action: 'virti_info',
+      value: 'virti_info',
+    });
+    items.push({
+      icon: 'i-lucide-timer-reset',
+      label: followUpAtivado.value
+        ? 'Desativar Follow-up'
+        : 'Ativar Follow-up',
+      action: 'virti_follow_up',
+      value: 'virti_follow_up',
+    });
+  }
+
   if (!currentChat.value.muted) {
     items.push({
       icon: 'i-lucide-volume-off',
@@ -117,7 +137,11 @@ const actionMenuItems = computed(() => {
 const handleActionClick = ({ action }) => {
   toggleDropdown(false);
 
-  if (action === 'mute') {
+  if (action === 'virti_info') {
+    toggleVirtiInfoModal(true);
+  } else if (action === 'virti_follow_up') {
+    toggleFollowUp();
+  } else if (action === 'mute') {
     store.dispatch('muteConversation', currentChat.value.id);
     useAlert(t('CONTACT_PANEL.MUTED_SUCCESS'));
   } else if (action === 'unmute') {
@@ -154,23 +178,24 @@ onUnmounted(() => {
   <div class="relative flex items-center gap-2 actions--container">
     <ButtonV4
       v-if="virtiAvailable"
-      v-tooltip="'Informações do contato'"
       size="sm"
-      variant="ghost"
+      variant="faded"
       color="slate"
       icon="i-lucide-info"
-      class="rounded-md"
+      label="Info do Contato"
+      class="hidden xl:inline-flex rounded-md"
       @click="toggleVirtiInfoModal(true)"
     />
     <ButtonV4
       v-if="virtiAvailable"
-      v-tooltip="followUpAtivado ? 'Desativar Follow-up' : 'Ativar Follow-up'"
       size="sm"
-      variant="ghost"
+      variant="faded"
       :color="followUpAtivado ? 'blue' : 'slate'"
       icon="i-lucide-timer-reset"
-      class="rounded-md"
+      :label="followUpAtivado ? 'Desativar Follow-up' : 'Ativar Follow-up'"
+      :is-loading="followUpLoading"
       :disabled="followUpLoading"
+      class="hidden xl:inline-flex rounded-md"
       @click="toggleFollowUp"
     />
     <ResolveAction
