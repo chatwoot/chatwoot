@@ -86,11 +86,45 @@ class Whatsapp::FacebookApiClient
       body: {
         override_callback_uri: callback_url,
         verify_token: verify_token,
-        subscribed_fields: %w[messages smb_message_echoes]
+        subscribed_fields: %w[messages smb_message_echoes history smb_app_state_sync account_update]
       }.to_json
     )
 
     handle_response(response, 'Webhook callback override failed')
+  end
+
+  # Initiate contact synchronization for WhatsApp Business App coexistence.
+  # Triggers smb_app_state_sync webhooks with the business's WhatsApp contacts.
+  def initiate_contacts_sync(phone_number_id)
+    response = HTTParty.post(
+      "#{BASE_URI}/#{@api_version}/#{phone_number_id}/smb_app_data",
+      headers: request_headers,
+      body: { messaging_product: 'whatsapp', sync_type: 'smb_app_state_sync' }.to_json
+    )
+
+    handle_response(response, 'Contacts sync initiation failed')
+  end
+
+  # Initiate message history synchronization for WhatsApp Business App coexistence.
+  # Triggers history webhooks with up to 180 days of message history.
+  def initiate_history_sync(phone_number_id)
+    response = HTTParty.post(
+      "#{BASE_URI}/#{@api_version}/#{phone_number_id}/smb_app_data",
+      headers: request_headers,
+      body: { messaging_product: 'whatsapp', sync_type: 'history' }.to_json
+    )
+
+    handle_response(response, 'History sync initiation failed')
+  end
+
+  # Check if a phone number is onboarded for coexistence (both Cloud API and WhatsApp Business App).
+  def check_coexistence_status(phone_number_id)
+    response = HTTParty.get(
+      "#{BASE_URI}/#{@api_version}/#{phone_number_id}",
+      query: { fields: 'is_on_biz_app,platform_type', access_token: @access_token }
+    )
+
+    handle_response(response, 'Coexistence status check failed')
   end
 
   def unsubscribe_waba_webhook(waba_id)

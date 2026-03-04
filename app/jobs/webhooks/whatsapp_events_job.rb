@@ -9,11 +9,28 @@ class Webhooks::WhatsappEventsJob < ApplicationJob
       return
     end
 
-    if message_echo_event?(params)
+    route_webhook_event(channel, params)
+  end
+
+  def route_webhook_event(channel, params)
+    case extract_webhook_field(params)
+    when 'smb_message_echoes'
       handle_message_echo(channel, params)
+    when 'history'
+      handle_history_sync(channel, params)
+    when 'smb_app_state_sync'
+      handle_contact_sync(channel, params)
+    when 'account_update'
+      handle_account_update(channel, params)
     else
       handle_message_events(channel, params)
     end
+  end
+
+  # Extracts the webhook field type from the payload.
+  # Possible values: 'messages', 'smb_message_echoes', 'history', 'smb_app_state_sync', 'account_update'
+  def extract_webhook_field(params)
+    params.dig(:entry, 0, :changes, 0, :field)
   end
 
   # Detects if the webhook is an SMB message echo event (message sent from WhatsApp Business app)
@@ -58,6 +75,44 @@ class Webhooks::WhatsappEventsJob < ApplicationJob
     Whatsapp::IncomingMessageWhatsappCloudService.new(inbox: channel.inbox, params: params, outgoing_echo: true).perform
   end
 
+  # Handles history webhook payloads from WhatsApp Business App coexistence.
+  # Contains up to 180 days of past message threads, delivered in phases/chunks.
+  def handle_history_sync(channel, params)
+    Whatsapp::HistorySyncService.new(inbox: channel.inbox, params: params).perform
+  end
+
+  # Handles contact sync webhook payloads from WhatsApp Business App coexistence.
+  # Contains contact add/edit/remove events from the Business App.
+  def handle_contact_sync(channel, params)
+    Whatsapp::ContactSyncService.new(inbox: channel.inbox, params: params).perform
+  end
+
+  # Handles account update webhook payloads from WhatsApp Business App coexistence.
+  # Detects events like PARTNER_REMOVED, ACCOUNT_OFFBOARDED, ACCOUNT_RECONNECTED.
+  def handle_account_update(channel, params)
+    event = params.dig(:entry, 0, :changes, 0, :value, :event)
+    return if event.blank?
+
+    case event
+    when 'PARTNER_REMOVED'
+      Rails.logger.info "[WHATSAPP COEXISTENCE] Business disconnected from Cloud API: #{channel.phone_number}"
+      update_coexistence_config(channel, 'status', 'disconnected')
+    when 'ACCOUNT_OFFBOARDED'
+      Rails.logger.info "[WHATSAPP COEXISTENCE] Business offboarded (device change): #{channel.phone_number}"
+      update_coexistence_config(channel, 'status', 'offboarded')
+    when 'ACCOUNT_RECONNECTED'
+      Rails.logger.info "[WHATSAPP COEXISTENCE] Business reconnected: #{channel.phone_number}"
+      update_coexistence_config(channel, 'status', 'active')
+    end
+  end
+
+  def update_coexistence_config(channel, key, value)
+    config = channel.provider_config.dup
+    config['coexistence'] ||= {}
+    config['coexistence'][key] = value
+    channel.update!(provider_config: config)
+  end
+
   def handle_message_events(channel, params)
     case channel.provider
     when 'whatsapp_cloud'
@@ -93,8 +148,18 @@ class Webhooks::WhatsappEventsJob < ApplicationJob
   end
 
   def get_channel_from_wb_payload(wb_params)
-    phone_number = "+#{wb_params[:entry].first[:changes].first.dig(:value, :metadata, :display_phone_number)}"
-    phone_number_id = wb_params[:entry].first[:changes].first.dig(:value, :metadata, :phone_number_id)
+    change = wb_params[:entry].first[:changes].first
+    field = change[:field]
+
+    # account_update webhooks have phone_number at the value level, not in metadata
+    if field == 'account_update'
+      phone_number = "+#{change.dig(:value, :phone_number)}"
+      return Channel::Whatsapp.find_by(phone_number: phone_number)
+    end
+
+    # For history/smb_app_state_sync/messages/smb_message_echoes, phone is in metadata
+    phone_number = "+#{change.dig(:value, :metadata, :display_phone_number)}"
+    phone_number_id = change.dig(:value, :metadata, :phone_number_id)
     channel = Channel::Whatsapp.find_by(phone_number: phone_number)
     # validate to ensure the phone number id matches the whatsapp channel
     return channel if channel && channel.provider_config['phone_number_id'] == phone_number_id

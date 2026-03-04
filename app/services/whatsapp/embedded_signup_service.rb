@@ -6,6 +6,7 @@ class Whatsapp::EmbeddedSignupService
     @waba_id = params[:waba_id]
     @phone_number_id = params[:phone_number_id]
     @inbox_id = inbox_id
+    @is_business_app_onboarding = params[:is_business_app_onboarding].present?
   end
 
   def perform
@@ -22,6 +23,10 @@ class Whatsapp::EmbeddedSignupService
     # 3. The channel is marked with source: 'embedded_signup' to skip the after_commit callback
     channel.setup_webhooks
     check_channel_health_and_prompt_reauth(channel)
+
+    # For WhatsApp Business App onboarding (coexistence), initiate data sync
+    initiate_coexistence_sync(channel) if @is_business_app_onboarding
+
     channel
 
   rescue StandardError => e
@@ -73,6 +78,22 @@ class Whatsapp::EmbeddedSignupService
   def channel_in_pending_state?(health_data)
     health_data[:platform_type] == 'NOT_APPLICABLE' ||
       health_data.dig(:throughput, 'level') == 'NOT_APPLICABLE'
+  end
+
+  # Initiates WhatsApp Business App coexistence sync.
+  # Must be done within 24 hours of onboarding.
+  def initiate_coexistence_sync(channel)
+    config = channel.provider_config.dup
+    config['coexistence'] = {
+      'status' => 'pending',
+      'is_business_app_onboarding' => true,
+      'onboarded_at' => Time.current.iso8601
+    }
+    channel.update!(provider_config: config)
+
+    Whatsapp::CoexistenceSyncJob.perform_later(channel)
+  rescue StandardError => e
+    Rails.logger.error "[WHATSAPP COEXISTENCE] Failed to initiate sync: #{e.message}"
   end
 
   def validate_parameters!
