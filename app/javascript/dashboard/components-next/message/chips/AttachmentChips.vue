@@ -1,10 +1,16 @@
 <script setup>
 import { computed, defineOptions, useAttrs } from 'vue';
+import { useI18n } from 'vue-i18n';
+
+import { useBulkDownload } from 'dashboard/composables/useBulkDownload';
+import { useAlert } from 'dashboard/composables';
 
 import ImageChip from 'next/message/chips/Image.vue';
 import VideoChip from 'next/message/chips/Video.vue';
 import AudioChip from 'next/message/chips/Audio.vue';
 import FileChip from 'next/message/chips/File.vue';
+import Button from 'next/button/Button.vue';
+import Icon from 'next/icon/Icon.vue';
 import { useMessageContext } from '../provider.js';
 
 import { ATTACHMENT_TYPES } from '../constants';
@@ -73,9 +79,44 @@ const files = computed(() => {
     attachment => attachment.fileType === ATTACHMENT_TYPES.FILE
   );
 });
+
+const hasMultipleAttachments = computed(() => allAttachments.value.length > 1);
+
+const { t } = useI18n();
+const { isDownloading, downloadProgress, downloadAllFiles } = useBulkDownload();
+
+const onClickDownloadAll = async () => {
+  const result = await downloadAllFiles(allAttachments.value);
+  if (result.failed > 0) {
+    useAlert(t('CONVERSATION.BULK_DOWNLOAD_ERROR'));
+  }
+};
 </script>
 
 <template>
+  <div v-if="hasMultipleAttachments" :class="classToApply">
+    <Button
+      variant="ghost"
+      size="small"
+      color="slate"
+      :is-loading="isDownloading"
+      :disabled="isDownloading"
+      class="mb-1"
+      @click="onClickDownloadAll"
+    >
+      <template #icon>
+        <Icon v-if="!isDownloading" icon="i-lucide-download" class="shrink-0" />
+      </template>
+      {{
+        isDownloading
+          ? t('CONVERSATION.DOWNLOADING_FILES', {
+              current: downloadProgress.current,
+              total: downloadProgress.total,
+            })
+          : t('CONVERSATION.DOWNLOAD_ALL_FILES')
+      }}
+    </Button>
+  </div>
   <div v-if="mediaAttachments.length" :class="classToApply">
     <template v-for="attachment in mediaAttachments" :key="attachment.id">
       <ImageChip

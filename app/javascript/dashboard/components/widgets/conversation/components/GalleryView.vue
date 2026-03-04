@@ -6,6 +6,7 @@ import { useAlert } from 'dashboard/composables';
 import { useStoreGetters } from 'dashboard/composables/store';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import { useImageZoom } from 'dashboard/composables/useImageZoom';
+import { useBulkDownload } from 'dashboard/composables/useBulkDownload';
 import { messageTimestamp } from 'shared/helpers/timeHelper';
 import { downloadFile } from '@chatwoot/utils';
 
@@ -60,6 +61,8 @@ const {
   onMouseLeave,
   resetZoomAndRotation,
 } = useImageZoom(imageRef);
+
+const { isDownloading: isDownloadingAll, downloadAllFiles } = useBulkDownload();
 
 const currentUser = computed(() => getters.getCurrentUser.value);
 const hasMoreThanOneAttachment = computed(
@@ -136,6 +139,13 @@ const onClickDownload = async () => {
     useAlert(t('GALLERY_VIEW.ERROR_DOWNLOADING'));
   } finally {
     isDownloading.value = false;
+  }
+};
+
+const onClickDownloadAll = async () => {
+  const result = await downloadAllFiles(props.allAttachments);
+  if (result.failed > 0) {
+    useAlert(t('CONVERSATION.BULK_DOWNLOAD_ERROR'));
   }
 };
 
@@ -244,6 +254,15 @@ onMounted(() => {
               slate
               ghost
               @click="onRotate('clockwise')"
+            />
+            <NextButton
+              v-if="hasMoreThanOneAttachment"
+              icon="i-lucide-folder-down"
+              slate
+              ghost
+              :is-loading="isDownloadingAll"
+              :disabled="isDownloadingAll"
+              @click="onClickDownloadAll"
             />
             <NextButton
               icon="i-lucide-download"
