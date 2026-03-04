@@ -13,7 +13,7 @@ class Whatsapp::PopulateTemplateParametersService
   def build_button_parameter(button)
     return { type: 'text', text: '' } if button.blank?
 
-    case button['type']
+    case button['type']&.downcase
     when 'copy_code'
       coupon_code = button['parameter'].to_s.strip
       raise ArgumentError, 'Coupon code cannot be empty' if coupon_code.blank?
@@ -28,6 +28,13 @@ class Whatsapp::PopulateTemplateParametersService
       # If parameter is blank, use empty string (required for URL buttons)
       { type: 'text', text: button['parameter'].to_s.strip }
     end
+  end
+
+  def build_flow_button_parameter(flow_token)
+    {
+      type: 'action',
+      action: { flow_token: flow_token }
+    }
   end
 
   def build_media_parameter(url, media_type, media_name = nil)

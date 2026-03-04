@@ -44,7 +44,7 @@ class Whatsapp::TemplateProcessorService
     components.concat(process_header_components(processed_params))
     components.concat(process_body_components(processed_params, template))
     components.concat(process_footer_components(processed_params))
-    components.concat(process_button_components(processed_params))
+    components.concat(process_button_components(processed_params, template))
 
     @template_params = components
   end
@@ -125,23 +125,52 @@ class Whatsapp::TemplateProcessorService
     footer_params.present? ? [{ type: 'footer', parameters: footer_params }] : []
   end
 
-  def process_button_components(processed_params)
-    return [] if processed_params['buttons'].blank?
+  def process_button_components(processed_params, template = nil)
+    if processed_params['buttons'].present?
+      button_params = processed_params['buttons'].filter_map.with_index do |button, index|
+        next if button.blank?
 
-    button_params = processed_params['buttons'].filter_map.with_index do |button, index|
-      next if button.blank?
-
-      if button['type'] == 'url' || button['parameter'].present?
-        {
-          type: 'button',
-          sub_type: button['type'] || 'url',
-          index: index,
-          parameters: [parameter_builder.build_button_parameter(button)]
-        }
+        if button['type']&.downcase == 'flow'
+          build_flow_button_component(button, index)
+        elsif button['type'] == 'url' || button['parameter'].present?
+          {
+            type: 'button',
+            sub_type: button['type'] || 'url',
+            index: index,
+            parameters: [parameter_builder.build_button_parameter(button)]
+          }
+        end
       end
+
+      return button_params.compact
     end
 
-    button_params.compact
+    # When no explicit button params provided, auto-include required FLOW button components
+    # from the template definition — the WhatsApp API requires the button component for FLOW
+    # templates even when there are no dynamic parameters.
+    return [] if template.blank?
+
+    buttons_component = template['components']&.find { |c| c['type'] == 'BUTTONS' }
+    return [] if buttons_component.blank?
+
+    buttons_component['buttons']&.filter_map&.with_index do |button, index|
+      next unless button['type'] == 'FLOW'
+
+      build_flow_button_component({}, index)
+    end || []
+  end
+
+  def build_flow_button_component(button, index)
+    params = []
+    flow_token = button['parameter'].to_s.strip
+    params = [parameter_builder.build_flow_button_parameter(flow_token)] if flow_token.present?
+
+    {
+      type: 'button',
+      sub_type: 'flow',
+      index: index,
+      parameters: params
+    }
   end
 
   def parameter_builder
