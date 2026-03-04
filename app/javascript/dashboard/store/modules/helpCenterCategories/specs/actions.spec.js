@@ -163,40 +163,48 @@ describe('#actions', () => {
   });
 
   describe('#reorder', () => {
-    it('reorders categories when API call is success', async () => {
+    it('commits SET_CATEGORY_POSITIONS and calls API when reorder is successful', async () => {
       axios.post.mockResolvedValue({ data: {} });
+      const reorderedGroup = { 2: 1, 1: 2 };
 
       await actions.reorder(
         { commit },
         {
           portalSlug: 'room-rental',
-          reorderedGroup: { 2: 10, 1: 20 },
+          reorderedGroup,
         }
       );
 
-      expect(commit.mock.calls).toEqual([]);
+      expect(commit).toHaveBeenCalledWith(
+        types.default.SET_CATEGORY_POSITIONS,
+        reorderedGroup
+      );
       expect(axios.post).toHaveBeenCalledWith(
         expect.stringContaining('/portals/room-rental/categories/reorder'),
         {
-          positions_hash: { 2: 10, 1: 20 },
+          positions_hash: { 2: 1, 1: 2 },
         }
       );
     });
 
-    it('throws if reorder API call fails', async () => {
+    it('commits SET_CATEGORY_POSITIONS even if API call fails', async () => {
       axios.post.mockRejectedValue({ message: 'Incorrect header' });
+      const reorderedGroup = { 2: 1, 1: 2 };
 
       await expect(
         actions.reorder(
           { commit },
           {
             portalSlug: 'room-rental',
-            reorderedGroup: { 2: 10, 1: 20 },
+            reorderedGroup,
           }
         )
       ).rejects.toThrow(Error);
 
-      expect(commit.mock.calls).toEqual([]);
+      expect(commit).toHaveBeenCalledWith(
+        types.default.SET_CATEGORY_POSITIONS,
+        reorderedGroup
+      );
     });
   });
 });

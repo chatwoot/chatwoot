@@ -279,4 +279,49 @@ describe('#actions', () => {
       ).rejects.toThrow('Upload failed');
     });
   });
+
+  describe('#reorder', () => {
+    it('commits SET_ARTICLE_POSITIONS and calls API when reorder is successful', async () => {
+      axios.post.mockResolvedValue({ data: {} });
+      const reorderedGroup = { 1: 1, 2: 2, 3: 3 };
+
+      await actions.reorder(
+        { commit },
+        {
+          portalSlug: 'test-portal',
+          categorySlug: 'test-category',
+          reorderedGroup,
+        }
+      );
+
+      expect(commit).toHaveBeenCalledWith(
+        types.default.SET_ARTICLE_POSITIONS,
+        reorderedGroup
+      );
+      expect(axios.post).toHaveBeenCalledWith(
+        expect.stringContaining('/portals/test-portal/articles/reorder'),
+        { positions_hash: reorderedGroup, category_slug: 'test-category' }
+      );
+    });
+
+    it('commits SET_ARTICLE_POSITIONS even if API call fails', async () => {
+      axios.post.mockRejectedValue({ message: 'Network error' });
+      const reorderedGroup = { 1: 1, 2: 2 };
+
+      await expect(
+        actions.reorder(
+          { commit },
+          {
+            portalSlug: 'test-portal',
+            reorderedGroup,
+          }
+        )
+      ).rejects.toThrow(Error);
+
+      expect(commit).toHaveBeenCalledWith(
+        types.default.SET_ARTICLE_POSITIONS,
+        reorderedGroup
+      );
+    });
+  });
 });

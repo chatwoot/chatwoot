@@ -25,4 +25,73 @@ describe('#getters', () => {
   it('isFetchingCategories', () => {
     expect(getters.isFetching(state)).toEqual(true);
   });
+
+  describe('allCategoriesSortedByPosition', () => {
+    it('returns categories sorted by position in ascending order', () => {
+      const stateWithPositions = {
+        ...state,
+        categories: {
+          ...state.categories,
+          byId: {
+            1: { id: 1, name: 'Category 1', position: 3 },
+            2: { id: 2, name: 'Category 2', position: 1 },
+            3: { id: 3, name: 'Category 3', position: 2 },
+          },
+          allIds: [1, 2, 3],
+        },
+      };
+
+      const result = getters.allCategoriesSortedByPosition(
+        stateWithPositions,
+        getters
+      );
+
+      expect(result.map(c => c.id)).toEqual([2, 3, 1]);
+      expect(result.map(c => c.position)).toEqual([1, 2, 3]);
+    });
+
+    it('places categories with null position at the end', () => {
+      const stateWithNullPositions = {
+        ...state,
+        categories: {
+          ...state.categories,
+          byId: {
+            1: { id: 1, name: 'Category 1', position: 1 },
+            2: { id: 2, name: 'Category 2', position: null },
+            3: { id: 3, name: 'Category 3', position: 2 },
+          },
+          allIds: [1, 2, 3],
+        },
+      };
+
+      const result = getters.allCategoriesSortedByPosition(
+        stateWithNullPositions,
+        getters
+      );
+
+      expect(result.map(c => c.id)).toEqual([1, 3, 2]);
+    });
+
+    it('handles categories with undefined position', () => {
+      const stateWithUndefinedPositions = {
+        ...state,
+        categories: {
+          ...state.categories,
+          byId: {
+            1: { id: 1, name: 'Category 1', position: 1 },
+            2: { id: 2, name: 'Category 2' },
+            3: { id: 3, name: 'Category 3', position: 2 },
+          },
+          allIds: [1, 2, 3],
+        },
+      };
+
+      const result = getters.allCategoriesSortedByPosition(
+        stateWithUndefinedPositions,
+        getters
+      );
+
+      expect(result.map(c => c.id)).toEqual([1, 3, 2]);
+    });
+  });
 });

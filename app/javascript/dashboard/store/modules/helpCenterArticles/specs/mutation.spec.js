@@ -154,4 +154,43 @@ describe('#mutations', () => {
       });
     });
   });
+
+  describe('#SET_ARTICLE_POSITIONS', () => {
+    it('updates positions for articles in the store', () => {
+      const positionsHash = { 1: 1, 2: 2 };
+      mutations[types.SET_ARTICLE_POSITIONS](state, positionsHash);
+
+      expect(state.articles.byId[1].position).toEqual(1);
+      expect(state.articles.byId[2].position).toEqual(2);
+    });
+
+    it('does not update articles that are not in the store', () => {
+      const positionsHash = { 999: 5 };
+      mutations[types.SET_ARTICLE_POSITIONS](state, positionsHash);
+
+      expect(state.articles.byId[999]).toBeUndefined();
+    });
+
+    it('preserves other article properties when updating position', () => {
+      const originalTitle = state.articles.byId[1].title;
+      const positionsHash = { 1: 3 };
+      mutations[types.SET_ARTICLE_POSITIONS](state, positionsHash);
+
+      expect(state.articles.byId[1].position).toEqual(3);
+      expect(state.articles.byId[1].title).toEqual(originalTitle);
+    });
+
+    it('UPDATE_ARTICLE preserves reordered position after SET_ARTICLE_POSITIONS', () => {
+      mutations[types.SET_ARTICLE_POSITIONS](state, { 2: 1 });
+      expect(state.articles.byId[2].position).toEqual(1);
+
+      mutations[types.UPDATE_ARTICLE](state, {
+        id: 2,
+        title: 'Updated Title',
+        status: 'published',
+      });
+      expect(state.articles.byId[2].position).toEqual(1);
+      expect(state.articles.byId[2].title).toEqual('Updated Title');
+    });
+  });
 });

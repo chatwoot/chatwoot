@@ -98,4 +98,30 @@ describe('#mutations', () => {
   //     expect(state.categories.uiFlags).toEqual({});
   //   });
   // });
+
+  describe('#SET_CATEGORY_POSITIONS', () => {
+    it('updates positions for categories in the store', () => {
+      const positionsHash = { 1: 1, 2: 2 };
+      mutations[types.SET_CATEGORY_POSITIONS](state, positionsHash);
+
+      expect(state.categories.byId[1].position).toEqual(1);
+      expect(state.categories.byId[2].position).toEqual(2);
+    });
+
+    it('does not update categories that are not in the store', () => {
+      const positionsHash = { 999: 5 };
+      mutations[types.SET_CATEGORY_POSITIONS](state, positionsHash);
+
+      expect(state.categories.byId[999]).toBeUndefined();
+    });
+
+    it('preserves other category properties when updating position', () => {
+      const originalName = state.categories.byId[1].name;
+      const positionsHash = { 1: 3 };
+      mutations[types.SET_CATEGORY_POSITIONS](state, positionsHash);
+
+      expect(state.categories.byId[1].position).toEqual(3);
+      expect(state.categories.byId[1].name).toEqual(originalName);
+    });
+  });
 });

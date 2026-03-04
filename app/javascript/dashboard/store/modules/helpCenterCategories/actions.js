@@ -93,7 +93,9 @@ export const actions = {
     }
   },
 
-  reorder: async (_, { portalSlug, reorderedGroup }) => {
+  reorder: async ({ commit }, { portalSlug, reorderedGroup }) => {
+    // Update positions in the store immediately so subsequent mutations preserve correct positions
+    commit(types.SET_CATEGORY_POSITIONS, reorderedGroup);
     try {
       await categoriesAPI.reorder({
         portalSlug,
@@ -102,7 +104,5 @@ export const actions = {
     } catch (error) {
       throwErrorMessage(error);
     }
-
-    return '';
   },
 };
