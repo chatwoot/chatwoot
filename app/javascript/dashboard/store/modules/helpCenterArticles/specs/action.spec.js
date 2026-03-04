@@ -281,12 +281,22 @@ describe('#actions', () => {
   });
 
   describe('#reorder', () => {
+    const state = {
+      articles: {
+        byId: {
+          1: { id: 1, title: 'Article 1', position: 10 },
+          2: { id: 2, title: 'Article 2', position: 20 },
+          3: { id: 3, title: 'Article 3', position: 30 },
+        },
+      },
+    };
+
     it('commits SET_ARTICLE_POSITIONS and calls API when reorder is successful', async () => {
       axios.post.mockResolvedValue({ data: {} });
       const reorderedGroup = { 1: 1, 2: 2, 3: 3 };
 
       await actions.reorder(
-        { commit },
+        { commit, state },
         {
           portalSlug: 'test-portal',
           categorySlug: 'test-category',
@@ -304,24 +314,28 @@ describe('#actions', () => {
       );
     });
 
-    it('commits SET_ARTICLE_POSITIONS even if API call fails', async () => {
+    it('rolls back positions and throws when API call fails', async () => {
       axios.post.mockRejectedValue({ message: 'Network error' });
       const reorderedGroup = { 1: 1, 2: 2 };
 
       await expect(
         actions.reorder(
-          { commit },
+          { commit, state },
           {
             portalSlug: 'test-portal',
             reorderedGroup,
           }
         )
-      ).rejects.toThrow(Error);
+      ).rejects.toEqual({ message: 'Network error' });
 
       expect(commit).toHaveBeenCalledWith(
         types.default.SET_ARTICLE_POSITIONS,
         reorderedGroup
       );
+      expect(commit).toHaveBeenCalledWith(types.default.SET_ARTICLE_POSITIONS, {
+        1: 10,
+        2: 20,
+      });
     });
   });
 });

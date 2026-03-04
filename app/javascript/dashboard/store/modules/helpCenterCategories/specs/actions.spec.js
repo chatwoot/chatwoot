@@ -163,12 +163,21 @@ describe('#actions', () => {
   });
 
   describe('#reorder', () => {
+    const state = {
+      categories: {
+        byId: {
+          1: { id: 1, name: 'Category 1', position: 10 },
+          2: { id: 2, name: 'Category 2', position: 20 },
+        },
+      },
+    };
+
     it('commits SET_CATEGORY_POSITIONS and calls API when reorder is successful', async () => {
       axios.post.mockResolvedValue({ data: {} });
       const reorderedGroup = { 2: 1, 1: 2 };
 
       await actions.reorder(
-        { commit },
+        { commit, state },
         {
           portalSlug: 'room-rental',
           reorderedGroup,
@@ -187,23 +196,27 @@ describe('#actions', () => {
       );
     });
 
-    it('commits SET_CATEGORY_POSITIONS even if API call fails', async () => {
+    it('rolls back positions and throws when API call fails', async () => {
       axios.post.mockRejectedValue({ message: 'Incorrect header' });
       const reorderedGroup = { 2: 1, 1: 2 };
 
       await expect(
         actions.reorder(
-          { commit },
+          { commit, state },
           {
             portalSlug: 'room-rental',
             reorderedGroup,
           }
         )
-      ).rejects.toThrow(Error);
+      ).rejects.toEqual({ message: 'Incorrect header' });
 
       expect(commit).toHaveBeenCalledWith(
         types.default.SET_CATEGORY_POSITIONS,
         reorderedGroup
+      );
+      expect(commit).toHaveBeenCalledWith(
+        types.default.SET_CATEGORY_POSITIONS,
+        { 1: 10, 2: 20 }
       );
     });
   });

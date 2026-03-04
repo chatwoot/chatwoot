@@ -99,11 +99,15 @@ const handleAction = ({ action, id, category: categoryData }) => {
   }
 };
 
-const reorderCategories = reorderedGroup => {
-  return store.dispatch('categories/reorder', {
-    portalSlug: route.params.portalSlug,
-    reorderedGroup,
-  });
+const reorderCategories = async reorderedGroup => {
+  try {
+    await store.dispatch('categories/reorder', {
+      portalSlug: route.params.portalSlug,
+      reorderedGroup,
+    });
+  } catch {
+    useAlert(t('HELP_CENTER.REORDER_CATEGORY.API.ERROR_MESSAGE'));
+  }
 };
 </script>
 

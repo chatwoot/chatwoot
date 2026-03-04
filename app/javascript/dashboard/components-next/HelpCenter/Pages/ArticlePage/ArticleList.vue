@@ -58,11 +58,15 @@ const openArticle = id => {
   }
 };
 
-const onReorder = reorderedGroup => {
-  store.dispatch('articles/reorder', {
-    reorderedGroup,
-    portalSlug: route.params.portalSlug,
-  });
+const onReorder = async reorderedGroup => {
+  try {
+    await store.dispatch('articles/reorder', {
+      reorderedGroup,
+      portalSlug: route.params.portalSlug,
+    });
+  } catch {
+    useAlert(t('HELP_CENTER.REORDER_ARTICLE.API.ERROR_MESSAGE'));
+  }
 };
 
 const onDragEnd = () => {
