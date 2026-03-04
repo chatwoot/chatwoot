@@ -218,7 +218,7 @@ RSpec.describe Webhooks::WhatsappEventsJob do
     end
 
     it 'finds channel using normalized Brazil phone number when display_phone_number is missing the 9 digit' do
-      brazil_channel = create(:channel_whatsapp, phone_number: '+5541988136369', provider: 'whatsapp_cloud',
+      brazil_channel = create(:channel_whatsapp, phone_number: '+5541999887766', provider: 'whatsapp_cloud',
                                                  sync_templates: false, validate_provider_config: false)
       wb_params = {
         object: 'whatsapp_business_account',
@@ -227,7 +227,7 @@ RSpec.describe Webhooks::WhatsappEventsJob do
             value: {
               metadata: {
                 phone_number_id: brazil_channel.provider_config['phone_number_id'],
-                display_phone_number: '554188136369'
+                display_phone_number: '554199887766'
               }
             }
           }]
