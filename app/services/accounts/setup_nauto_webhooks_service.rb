@@ -2,7 +2,7 @@ module Accounts
   class SetupNautoWebhooksService
     WEBHOOKS = [
       { subscription: 'faq_catalog_updated', path: '/sync/faqs', name: 'Catálogo de FAQs Actualizado' },
-      { subscription: 'product_catalog_updated', path: '/sync/product_catalog_updated', name: 'Catálogo de Productos Actualizado' },
+      { subscription: 'product_catalog_updated', path: '/sync/products_catalog', name: 'Catálogo de Productos Actualizado' },
       { subscription: 'kb_resource_updated', path: '/sync/knowledge', name: 'Recurso de Base de Conocimiento Actualizado' }
     ].freeze
 
