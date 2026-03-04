@@ -3,24 +3,25 @@ class InfluencerProfile < ApplicationRecord
 
   VALID_TRANSITIONS = {
     discovered: %i[enriched rejected],
-    enriched: %i[accepted rejected],
-    accepted: %i[contacted rejected],
+    enriched: %i[approved rejected],
+    approved: %i[contacted rejected],
     rejected: %i[discovered],
-    contacted: %i[accepted]
+    contacted: %i[confirmed],
+    confirmed: %i[]
   }.freeze
 
   belongs_to :contact
   belongs_to :account
   has_many :influencer_offers, dependent: :destroy
 
-  enum :status, { discovered: 0, enriched: 2, accepted: 3, rejected: 4, contacted: 5 }
+  enum :status, { discovered: 0, enriched: 2, approved: 3, rejected: 4, contacted: 5, confirmed: 6 }
   enum :apify_status, { apify_none: 0, apify_pending: 1, apify_done: 2, apify_failed: 3 }, prefix: :apify
 
   validates :username, presence: true, uniqueness: { scope: %i[account_id platform] }
   validates :contact_id, uniqueness: true
 
   scope :scoreable, -> { where(status: :enriched) }
-  scope :actionable, -> { where(status: %i[enriched accepted]) }
+  scope :actionable, -> { where(status: %i[enriched approved]) }
 
   def transition_to!(new_status)
     allowed = VALID_TRANSITIONS[status.to_sym] || []

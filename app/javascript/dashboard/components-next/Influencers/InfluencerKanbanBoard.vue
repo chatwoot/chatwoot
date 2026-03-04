@@ -7,7 +7,7 @@ import InfluencerKanbanColumn from './InfluencerKanbanColumn.vue';
 defineProps({
   statuses: {
     type: Array,
-    default: () => ['discovered', 'enriched', 'accepted', 'rejected'],
+    default: () => ['discovered', 'enriched', 'approved', 'rejected'],
   },
 });
 
@@ -19,8 +19,10 @@ const store = useStore();
 const statusLabels = {
   discovered: t('INFLUENCER.KANBAN.STATUS_DISCOVERED'),
   enriched: t('INFLUENCER.KANBAN.STATUS_ENRICHED'),
-  accepted: t('INFLUENCER.KANBAN.STATUS_ACCEPTED'),
+  approved: t('INFLUENCER.KANBAN.STATUS_APPROVED'),
   rejected: t('INFLUENCER.KANBAN.STATUS_REJECTED'),
+  contacted: t('INFLUENCER.KANBAN.STATUS_CONTACTED'),
+  confirmed: t('INFLUENCER.KANBAN.STATUS_CONFIRMED'),
 };
 
 const getColumn = status => {

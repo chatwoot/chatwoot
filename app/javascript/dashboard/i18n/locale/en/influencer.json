@@ -138,8 +138,10 @@
     "KANBAN": {
       "STATUS_DISCOVERED": "Discovered",
       "STATUS_ENRICHED": "Enriched",
-      "STATUS_ACCEPTED": "Accepted",
+      "STATUS_APPROVED": "Approved",
       "STATUS_REJECTED": "Rejected",
+      "STATUS_CONTACTED": "Contacted",
+      "STATUS_CONFIRMED": "Confirmed",
       "EMPTY_COLUMN": "No profiles in this column",
       "LOADING": "Loading...",
       "LOAD_MORE": "Load more",

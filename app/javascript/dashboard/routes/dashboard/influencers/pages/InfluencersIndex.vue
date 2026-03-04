@@ -185,7 +185,7 @@ async function handleDelete() {
 
       <InfluencerKanbanBoard
         v-else-if="activeTab === 'pipeline'"
-        :statuses="['accepted']"
+        :statuses="['contacted', 'confirmed']"
         @select="openProfile"
       />
     </div>

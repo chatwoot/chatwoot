@@ -244,7 +244,14 @@ export const actions = {
   },
 
   refreshAllKanbanColumns: async ({ dispatch }) => {
-    const statuses = ['discovered', 'enriched', 'accepted', 'rejected'];
+    const statuses = [
+      'discovered',
+      'enriched',
+      'approved',
+      'rejected',
+      'contacted',
+      'confirmed',
+    ];
     await Promise.all(
       statuses.map(status => dispatch('fetchKanbanColumn', { status, page: 1 }))
     );

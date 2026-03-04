@@ -359,6 +359,11 @@
         <p id="voucher-code" class="mb-4 text-3xl font-bold tracking-wider text-secondary-600"></p>
         <p class="mb-1 text-base font-medium uppercase tracking-widest text-brand-400" data-i18n="voucher_value_label">Wartość</p>
         <p id="final-value" class="text-xl font-semibold text-brand-900"></p>
+        <p class="mt-4 text-sm text-brand-400">
+          <span data-i18n="success_use_code">Użyj kodu w sklepie</span>
+          <a href="https://framky.com" class="text-secondary-600 hover:underline">framky.com</a>.
+          <span data-i18n="success_valid">Ważny 30 dni.</span>
+        </p>
       </div>
 
       <!-- Referral link card -->
@@ -370,12 +375,6 @@
           <button id="copy-referral" class="shrink-0 rounded-lg bg-white/30 px-4 py-1.5 text-base font-medium transition-all hover:bg-white/40" data-i18n="copy_btn">Kopiuj</button>
         </div>
       </div>
-
-      <p class="text-center text-base text-brand-400">
-        <span data-i18n="success_use_code">Użyj kodu w sklepie</span>
-        <a href="https://framky.com" class="text-secondary-600 hover:underline">framky.com</a>.
-        <span data-i18n="success_valid">Ważny 30 dni.</span>
-      </p>
     </div>
 
   </div>
@@ -465,7 +464,11 @@
         success_use_code: 'Użyj kodu w sklepie',
         success_valid: 'Ważny 30 dni.',
         expires_prefix: 'Wygasa',
-        offer_to: 'Do'
+        offer_to: 'Do',
+        banner_title: 'Współpraca zatwierdzona',
+        banner_use_code: 'Użyj kodu w sklepie',
+        banner_valid: 'Ważny 30 dni.',
+        banner_referral: 'Twój link dla followersów'
       },
       en: {
         loading: 'Loading offer...',
@@ -548,7 +551,11 @@
         success_use_code: 'Use the code at',
         success_valid: 'Valid for 30 days.',
         expires_prefix: 'Expires',
-        offer_to: 'To'
+        offer_to: 'To',
+        banner_title: 'Collaboration Accepted',
+        banner_use_code: 'Use the code at',
+        banner_valid: 'Valid for 30 days.',
+        banner_referral: 'Your follower link'
       },
       de: {
         loading: 'Angebot wird geladen...',
@@ -631,7 +638,11 @@
         success_use_code: 'Verwende den Code bei',
         success_valid: '30 Tage gültig.',
         expires_prefix: 'Läuft ab',
-        offer_to: 'An'
+        offer_to: 'An',
+        banner_title: 'Zusammenarbeit bestätigt',
+        banner_use_code: 'Verwende den Code bei',
+        banner_valid: '30 Tage gültig.',
+        banner_referral: 'Dein Follower-Link'
       },
       fr: {
         loading: 'Chargement de l\'offre...',
@@ -714,7 +725,11 @@
         success_use_code: 'Utilisez le code sur',
         success_valid: 'Valable 30 jours.',
         expires_prefix: 'Expire le',
-        offer_to: 'À'
+        offer_to: 'À',
+        banner_title: 'Collaboration validée',
+        banner_use_code: 'Utilisez le code sur',
+        banner_valid: 'Valable 30 jours.',
+        banner_referral: 'Votre lien followers'
       },
       nl: {
         loading: 'Aanbieding laden...',
@@ -797,7 +812,11 @@
         success_use_code: 'Gebruik de code bij',
         success_valid: '30 dagen geldig.',
         expires_prefix: 'Verloopt',
-        offer_to: 'Aan'
+        offer_to: 'Aan',
+        banner_title: 'Samenwerking bevestigd',
+        banner_use_code: 'Gebruik de code bij',
+        banner_valid: '30 dagen geldig.',
+        banner_referral: 'Jouw followerlink'
       },
       it: {
         loading: 'Caricamento dell\'offerta...',
@@ -880,7 +899,11 @@
         success_use_code: 'Usa il codice su',
         success_valid: 'Valido 30 giorni.',
         expires_prefix: 'Scade il',
-        offer_to: 'A'
+        offer_to: 'A',
+        banner_title: 'Collaborazione confermata',
+        banner_use_code: 'Usa il codice su',
+        banner_valid: 'Valido 30 giorni.',
+        banner_referral: 'Il tuo link follower'
       }
     };
 
@@ -1008,6 +1031,8 @@
           return;
         }
         offerData = await res.json();
+        // Re-translate static elements now that {handle} can be resolved
+        setLang(currentLang);
         renderOffer();
       } catch {
         showError(t('error_message'));
@@ -1040,6 +1065,11 @@
         document.getElementById('expires').textContent = t('expires_prefix') + ' ' + date.toLocaleDateString();
       }
 
+      if (offerData.status === 'accepted') {
+        renderAcceptedOffer();
+        return;
+      }
+
       // Set initial rights
       selectedRights = 'extended';
 
@@ -1048,6 +1078,127 @@
       setupConsents();
       document.getElementById('accept-btn').addEventListener('click', acceptOffer);
       recalculate();
+    }
+
+    function renderAcceptedOffer() {
+      // Insert summary banner before the offer content
+      const banner = document.createElement('div');
+      banner.className = 'mb-10 rounded-2xl bg-white p-6 sm:p-8 shadow-sm ring-1 ring-green-200';
+
+      let bannerHTML = `
+        <div class="flex items-center gap-3 mb-4">
+          <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-green-100">
+            <svg class="h-5 w-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+            </svg>
+          </div>
+          <h2 class="text-xl font-semibold text-brand-900">${t('banner_title')}</h2>
+        </div>
+        <div class="mb-1 text-base font-medium uppercase tracking-widest text-brand-400">${t('voucher_code_label')}</div>
+        <div class="mb-3 text-2xl font-bold tracking-wider text-secondary-600">${offerData.voucher_code}</div>
+        <div class="mb-1 text-base font-medium uppercase tracking-widest text-brand-400">${t('voucher_value_label')}</div>
+        <div class="mb-4 text-lg font-semibold text-brand-900">${Math.round(offerData.voucher_value).toLocaleString('pl-PL')} ${offerData.voucher_currency || 'EUR'}</div>
+        <p class="text-sm text-brand-500">
+          ${t('banner_use_code')} <a href="https://framky.com" class="text-secondary-600 hover:underline">framky.com</a>. ${t('banner_valid')}
+        </p>`;
+
+      if (offerData.referral_link) {
+        bannerHTML += `
+        <div class="mt-5 rounded-xl bg-gradient-to-r from-tertiary-500 to-tertiary-600 p-4 text-white">
+          <div class="mb-2 text-sm font-semibold">${t('banner_referral')}</div>
+          <div class="flex items-center gap-2 rounded-lg bg-white/20 px-3 py-2">
+            <span class="flex-1 truncate text-sm font-medium">${offerData.referral_link.replace('https://', '')}</span>
+            <button id="banner-copy-referral" class="shrink-0 rounded-lg bg-white/30 px-3 py-1 text-sm font-medium transition-all hover:bg-white/40">${t('copy_btn')}</button>
+          </div>
+        </div>`;
+      }
+
+      banner.innerHTML = bannerHTML;
+      const offerEl = document.getElementById('offer');
+      offerEl.insertBefore(banner, offerEl.querySelector('h1'));
+
+      // Setup copy button
+      if (offerData.referral_link) {
+        document.getElementById('banner-copy-referral').addEventListener('click', function() {
+          navigator.clipboard.writeText(offerData.referral_link).then(() => {
+            this.textContent = t('copied');
+            setTimeout(() => { this.textContent = t('copy_btn'); }, 2000);
+          });
+        });
+      }
+
+      // Render packages as read-only (pre-selected from accepted data)
+      selectedPackages = offerData.selected_packages || offerData.available_packages;
+      selectedRights = offerData.rights_level || 'extended';
+      renderPackagesReadOnly();
+      renderRightsReadOnly();
+
+      // Set voucher value display
+      document.getElementById('voucher-value').textContent = Math.round(offerData.voucher_value).toLocaleString('pl-PL');
+
+      // Hide consents section (section 10 - personal data)
+      const consentData = document.getElementById('consent-data');
+      if (consentData) consentData.closest('.mb-14').classList.add('hidden');
+      // Hide accept summary, button, hint, contact info
+      document.getElementById('accept-btn').classList.add('hidden');
+      document.querySelector('[data-i18n="accept_confirm"]')?.classList.add('hidden');
+      document.getElementById('accept-hint')?.classList.add('hidden');
+      document.querySelector('[data-i18n-html="contact_info"]')?.classList.add('hidden');
+    }
+
+    function renderPackagesReadOnly() {
+      const pkgs = offerData.available_packages;
+      const container = document.getElementById('packages');
+      container.innerHTML = '';
+
+      const pkgConfig = {
+        reel: { icon: '🎬', titleKey: 'pkg_reel', descKey: 'pkg_reel_desc' },
+        stories: { icon: '📱', titleKey: 'pkg_stories', descKey: 'pkg_stories_desc' },
+        carousel: { icon: '🖼', titleKey: 'pkg_carousel', descKey: 'pkg_carousel_desc' }
+      };
+
+      for (const [key, enabled] of Object.entries(pkgs)) {
+        if (!enabled) continue;
+        const cfg = pkgConfig[key] || { icon: '📦', titleKey: key, descKey: key };
+        const isSelected = selectedPackages[key];
+
+        const card = document.createElement('div');
+        card.className = 'border-l-2 py-4 pl-5 pr-4 ' +
+          (isSelected ? 'border-l-secondary-600 bg-secondary-50/30' : 'border-l-brand-200 opacity-50');
+
+        card.innerHTML = `
+          <div class="flex items-center gap-3">
+            <span class="flex h-5 w-5 shrink-0 items-center justify-center rounded border-2 ${isSelected ? 'border-secondary-600 bg-secondary-600' : 'border-brand-300 bg-white'}">
+              <svg class="h-3.5 w-3.5 text-white ${isSelected ? '' : 'hidden'}" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+              </svg>
+            </span>
+            <span class="text-xl">${cfg.icon}</span>
+            <span class="text-base font-semibold text-brand-900">${t(cfg.titleKey)}</span>
+          </div>
+          <p class="mt-3 pl-11 text-base leading-relaxed text-brand-500">${t(cfg.descKey)}</p>
+        `;
+        container.appendChild(card);
+      }
+    }
+
+    function renderRightsReadOnly() {
+      document.querySelectorAll('.rights-option').forEach(opt => {
+        const rights = opt.dataset.rights;
+        opt.classList.remove('cursor-pointer', 'hover:border-l-brand-300');
+        if (rights === selectedRights) {
+          opt.classList.add('border-l-secondary-600', 'bg-secondary-50/30');
+          opt.classList.remove('border-l-brand-200');
+          opt.querySelector('.rights-dot').classList.remove('hidden');
+        } else {
+          opt.classList.remove('border-l-secondary-600', 'bg-secondary-50/30');
+          opt.classList.add('border-l-brand-200', 'opacity-50');
+          opt.querySelector('.rights-dot').classList.add('hidden');
+        }
+        // Remove EUR value badges in read-only mode
+        const eurBadge = opt.querySelector('.rights-eur-value');
+        if (eurBadge) eurBadge.remove();
+      });
     }
 
     function renderPackages() {

@@ -193,7 +193,7 @@ function loadMore() {
               </button>
               <button
                 v-if="
-                  profile.status !== 'rejected' && profile.status !== 'accepted'
+                  profile.status !== 'rejected' && profile.status !== 'approved'
                 "
                 class="rounded px-2 py-1 text-xs text-red-600 hover:bg-red-50"
                 @click="handleReject(profile)"

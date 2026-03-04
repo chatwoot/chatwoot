@@ -17,7 +17,9 @@ const copiedToken = ref(null);
 
 const isAccepted = computed(
   () =>
-    props.profile.status === 'accepted' || props.profile.status === 'contacted'
+    props.profile.status === 'approved' ||
+    props.profile.status === 'contacted' ||
+    props.profile.status === 'confirmed'
 );
 
 const hasActiveOffer = computed(() =>

@@ -44,7 +44,7 @@ class Api::V1::Accounts::InfluencerProfilesController < Api::V1::Accounts::BaseC
     return render json: { payload: profile_json(existing), existing: true } if existing
 
     profile = create_profile_from_handle(handle)
-    profile.update!(followers_count: 20_000, status: :accepted)
+    profile.update!(followers_count: 20_000, status: :approved)
     render json: { payload: profile_json(profile.reload) }, status: :created
   end
 

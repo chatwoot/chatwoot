@@ -20,8 +20,10 @@ const state = {
   kanban: {
     discovered: defaultColumnState(),
     enriched: defaultColumnState(),
-    accepted: defaultColumnState(),
+    approved: defaultColumnState(),
     rejected: defaultColumnState(),
+    contacted: defaultColumnState(),
+    confirmed: defaultColumnState(),
   },
   searchResults: [],
   searchMeta: {
