@@ -7,17 +7,16 @@ class ReportingEventListener < BaseListener
 
     log_prefix = "[ResolutionMetric] conv_id=#{conversation.id} inbox_id=#{conversation.inbox_id}"
 
-    service = resolution_service(conversation)
-    last_opened_event = service.find_last_opened_event
-    start_time = last_opened_event&.event_end_time || conversation.created_at
+    start_time = conversation.created_at
     end_time = conversation.resolved_at
     time_to_resolve = end_time - start_time
     return if time_to_resolve <= 0
 
+    service = resolution_service(conversation)
     service.create_conversation_resolved_events(start_time, end_time, time_to_resolve)
 
     if conversation.inbox.active_bot?
-      without_bot_start_time = resolve_without_bot_start_time(conversation, start_time, log_prefix)
+      without_bot_start_time = resolve_without_bot_start_time(conversation, log_prefix)
       return if without_bot_start_time.nil?
     else
       without_bot_start_time = start_time
@@ -31,7 +30,7 @@ class ReportingEventListener < BaseListener
       "resolved_at=#{end_time.iso8601} | " \
       "time_without_bot=#{(end_time - without_bot_start_time).to_i}s | " \
       "total_resolution_time=#{time_to_resolve.to_i}s | " \
-      "difference=#{(without_bot_start_time - start_time).to_i}s"
+      "bot_time=#{(without_bot_start_time - start_time).to_i}s"
     )
 
     service.create_resolution_without_bot_events(without_bot_start_time)
@@ -112,82 +111,31 @@ class ReportingEventListener < BaseListener
 
   private
 
-  def resolve_without_bot_start_time(conversation, start_time, log_prefix)
-    bot_svc = bot_service(conversation)
-    bot_handoff_time = bot_svc.bot_handoff_time
+  def resolve_without_bot_start_time(conversation, log_prefix)
+    operator_assigned_at = first_operator_assigned_at(conversation)
 
-    if bot_handoff_time
-      Rails.logger.info("#{log_prefix} | has_bot=true | source=bot_handoff_event | without_bot_start_time=#{bot_handoff_time.iso8601}")
-      return bot_handoff_time
-    end
-
-    pending_to_open_time = find_pending_to_open_time(conversation)
-
-    if pending_to_open_time
+    if operator_assigned_at
       Rails.logger.info(
-        "#{log_prefix} | has_bot=true | source=pending_to_open | " \
-        "without_bot_start_time=#{pending_to_open_time.iso8601} | " \
-        "bot_handoff_event=MISSING"
+        "#{log_prefix} | has_bot=true | source=first_operator_assignment | " \
+        "without_bot_start_time=#{operator_assigned_at.iso8601}"
       )
-      return pending_to_open_time
-    end
-
-    operator_time = first_operator_assigned_at(conversation)
-  
-    if operator_time
-      Rails.logger.info(
-        "#{log_prefix} | has_bot=true | source=first_operator_assigned_at | " \
-        "without_bot_start_time=#{operator_time.iso8601} | " \
-        "bot_handoff_event=MISSING | pending_to_open_event=MISSING"
-      )
-      return operator_time
+      return operator_assigned_at
     end
   
     Rails.logger.warn(
       "#{log_prefix} | has_bot=true | WITHOUT_BOT_EVENT_SKIPPED | " \
-      "reason=could_not_determine_handoff_time | " \
-      "bot_handoff_event=MISSING | pending_to_open_event=MISSING | first_operator=MISSING | " \
+      "reason=no_operator_ever_assigned | " \
       "fallback=no_event_created"
     )
   
     nil
   end
   
-  def find_pending_to_open_time(conversation)
-    ReportingEvent.where(
-      conversation_id: conversation.id,
-      name: 'conversation_opened'
-    ).order(event_end_time: :asc).first&.event_end_time
-  end
-
   def first_operator_assigned_at(conversation)
-    bot_svc = bot_service(conversation)
-    handoff_time = bot_svc.bot_handoff_time
-
-    after_time = handoff_time || last_bot_message_time(conversation)
-
-    return nil if after_time.nil?
-
     ConversationParticipant
       .where(conversation_id: conversation.id)
       .where.not(user_id: nil)
-      .where('created_at >= ?', after_time)
-      .order(created_at: :asc)
-      .first&.created_at
-  end
-
-  def last_bot_message_time(conversation)
-    conversation.messages
-                .where(message_type: :outgoing, sender_type: ['AgentBot', 'Captain::Assistant'])
-                .order(created_at: :desc)
-                .first&.created_at
-  end
-
-  def bot_handoff_time
-    ReportingEvent.where(
-      conversation_id: conversation.id,
-      name: 'bot_handoff'
-    ).order(created_at: :asc).first&.event_end_time
+      .minimum(:created_at)
   end
 
   def find_active_participant(conversation, user_id)
