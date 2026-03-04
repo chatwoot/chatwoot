@@ -160,6 +160,7 @@ export default {
           @submit.prevent="updateAccount"
         >
           <WithLabel
+            name="account-name"
             :has-error="v$.name.$error"
             :label="$t('GENERAL_SETTINGS.FORM.NAME.LABEL')"
             :error-message="$t('GENERAL_SETTINGS.FORM.NAME.ERROR')"
@@ -173,6 +174,7 @@ export default {
             />
           </WithLabel>
           <WithLabel
+            name="site-language"
             :has-error="v$.locale.$error"
             :label="$t('GENERAL_SETTINGS.FORM.LANGUAGE.LABEL')"
             :error-message="$t('GENERAL_SETTINGS.FORM.LANGUAGE.ERROR')"
@@ -189,6 +191,7 @@ export default {
           </WithLabel>
           <WithLabel
             v-if="featureCustomReplyDomainEnabled"
+            name="custom-domain"
             :label="$t('GENERAL_SETTINGS.FORM.DOMAIN.LABEL')"
           >
             <NextInput
@@ -211,6 +214,7 @@ export default {
           </WithLabel>
           <WithLabel
             v-if="featureCustomReplyEmailEnabled"
+            name="support-email"
             :label="$t('GENERAL_SETTINGS.FORM.SUPPORT_EMAIL.LABEL')"
           >
             <NextInput
