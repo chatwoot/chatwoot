@@ -28,7 +28,10 @@ import { useAlert } from 'dashboard/composables';
 import { vOnClickOutside } from '@vueuse/components';
 
 import { BUS_EVENTS } from 'shared/constants/busEvents';
-import { CONVERSATION_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
+import {
+  CONVERSATION_EVENTS,
+  CAPTAIN_EVENTS,
+} from 'dashboard/helper/AnalyticsHelper/events';
 import { MESSAGE_EDITOR_IMAGE_RESIZES } from 'dashboard/constants/editor';
 
 import {
@@ -86,6 +89,7 @@ const props = defineProps({
   // are triggered except when this flag is true
   allowSignature: { type: Boolean, default: false },
   channelType: { type: String, default: '' },
+  conversationId: { type: Number, default: null },
   medium: { type: String, default: '' },
   showImageResizeToolbar: { type: Boolean, default: false }, // A kill switch to show or hide the image toolbar
   focusOnMount: { type: Boolean, default: true },
@@ -198,6 +202,11 @@ const editorRoot = useTemplateRef('editorRoot');
 const imageUpload = useTemplateRef('imageUpload');
 const editor = useTemplateRef('editor');
 
+const isEditorMenuPopover = computed(
+  () =>
+    editorRoot.value?.classList.contains('popover-prosemirror-menu') ?? false
+);
+
 const handleCopilotAction = actionKey => {
   if (actionKey === 'improve_selection' && editorView?.state) {
     const { from, to } = editorView.state.selection;
@@ -207,7 +216,7 @@ const handleCopilotAction = actionKey => {
       emit('executeCopilotAction', 'improve', selectedText);
     }
   } else {
-    emit('executeCopilotAction', actionKey);
+    emit('executeCopilotAction', actionKey, props.modelValue);
   }
 
   showSelectionMenu.value = false;
@@ -396,7 +405,14 @@ function openFileBrowser() {
 }
 
 function handleCopilotClick() {
-  showSelectionMenu.value = !showSelectionMenu.value;
+  const isOpening = !showSelectionMenu.value;
+  if (isOpening) {
+    useTrack(CAPTAIN_EVENTS.EDITOR_AI_MENU_OPENED, {
+      conversationId: props.conversationId,
+      entryPoint: 'inline',
+    });
+  }
+  showSelectionMenu.value = isOpening;
 }
 
 function handleClickOutside(event) {
@@ -473,6 +489,7 @@ function setToolbarPosition() {
 function setMenubarPosition({ selection } = {}) {
   const wrapper = editorRoot.value;
   if (!selection || !wrapper) return;
+  if (!isEditorMenuPopover.value) return;
 
   const rect = wrapper.getBoundingClientRect();
   const isRtl = getComputedStyle(wrapper).direction === 'rtl';
@@ -819,7 +836,13 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
 </script>
 
 <template>
-  <div ref="editorRoot" class="relative w-full">
+  <div
+    ref="editorRoot"
+    class="relative w-full"
+    :class="{
+      'opacity-50 cursor-not-allowed pointer-events-none': disabled,
+    }"
+  >
     <TagAgents
       v-if="showUserMentions && isPrivate"
       :search-key="mentionSearchKey"
@@ -849,8 +872,12 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
       v-if="showSelectionMenu"
       v-on-click-outside="handleClickOutside"
       :has-selection="isTextSelected"
+      :is-editor-menu-popover="isEditorMenuPopover"
+      :editor-content="modelValue"
+      :conversation-id="conversationId"
       :show-selection-menu="showSelectionMenu"
       :show-general-menu="false"
+      class="copilot-editor-menu"
       @execute-copilot-action="handleCopilotAction"
     />
     <input
@@ -1007,6 +1034,17 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
 
 .editor-warning__message {
   @apply text-n-ruby-9 dark:text-n-ruby-9 font-normal text-sm pt-1 pb-0 px-0;
+}
+
+// Default copilot menu position (non-popover editors like components-next/Editor)
+// When popover-prosemirror-menu is NOT on the wrapper, anchor below the menubar
+:not(.popover-prosemirror-menu) > .copilot-editor-menu {
+  top: 1.5rem !important;
+
+  [dir='rtl'] & {
+    left: auto !important;
+    right: 0 !important;
+  }
 }
 
 // Float editor menu
