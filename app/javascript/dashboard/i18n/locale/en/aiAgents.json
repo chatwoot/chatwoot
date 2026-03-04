@@ -86,7 +86,7 @@
           "LABEL": "Initial Message",
           "DESCRIPTION": "The greeting message sent to the customer when the conversation starts.",
           "PLACEHOLDER": "Hello! Welcome to our support. How can I help you today?",
-          "TOOLTIP": "This message is automatically sent when a new conversation begins. Use {{contact_name}} for personalization."
+          "TOOLTIP": "This message is automatically sent when a new conversation begins. Use {'{{contact_name}}'} for personalization."
         },
         "INSTRUCTIONS": {
           "LABEL": "Instructions",

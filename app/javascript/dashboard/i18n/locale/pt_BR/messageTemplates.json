@@ -49,16 +49,16 @@
       "PARAMETER_TYPE": {
         "LABEL": "Tipo de parâmetro",
         "POSITIONAL": "Posicional",
-        "POSITIONAL_DESC": "Variáveis como {{1}}, {{2}}, etc.",
+        "POSITIONAL_DESC": "Variáveis como {'{{1}}'}, {'{{2}}'}, etc.",
         "NAMED": "Nomeado",
-        "NAMED_DESC": "Variáveis como {{nome_cliente}}"
+        "NAMED_DESC": "Variáveis como {'{{nome_cliente}}'}"
       },
       "HEADER": {
         "TITLE": "Cabeçalho",
         "TYPE": "Tipo de cabeçalho",
         "TEXT_LABEL": "Texto do cabeçalho",
         "TEXT_PLACEHOLDER": "Digite o texto do cabeçalho",
-        "TEXT_HELP": "Máx. 60 caracteres. Use variáveis como {{1}} para conteúdo dinâmico.",
+        "TEXT_HELP": "Máx. 60 caracteres. Use variáveis como {'{{1}}'} para conteúdo dinâmico.",
         "MEDIA_UPLOAD": "Clique para fazer upload de mídia para este cabeçalho",
         "MEDIA_FORMAT_HINT": "Faça upload de um arquivo {format}",
         "MEDIA_UPLOADING": "Enviando arquivo...",
@@ -71,7 +71,7 @@
       "BODY": {
         "TITLE": "Corpo",
         "TEXT_LABEL": "Corpo da mensagem",
-        "TEXT_PLACEHOLDER": "Olá {{1}}, seu pedido {{2}} foi confirmado.\n\nObrigado por nos escolher!"
+        "TEXT_PLACEHOLDER": "Olá {'{{1}}'}, seu pedido {'{{2}}'} foi confirmado.\n\nObrigado por nos escolher!"
       },
       "FOOTER": {
         "TITLE": "Rodapé",
@@ -87,7 +87,7 @@
         "ADD_BUTTON": "Adicionar Botão",
         "BUTTON_TEXT": "Texto do botão",
         "URL": "URL",
-        "URL_PLACEHOLDER": "https://exemplo.com/{{1}}",
+        "URL_PLACEHOLDER": "https://exemplo.com/{'{{1}}'}",
         "PHONE_NUMBER": "Número de telefone",
         "EXAMPLE_CODE_LABEL": "Código de exemplo",
         "EXAMPLE_CODE_PLACEHOLDER": "Digite o código de exemplo",
@@ -109,13 +109,13 @@
         "ADD_VARIABLE": "Adicionar variável",
         "INSERT": "Inserir",
         "NAMED_VARIABLE_PLACEHOLDER": "nome_variavel",
-        "POSITIONAL_HELP": "Use {example1}, {example2}, etc. para valores dinâmicos",
-        "NAMED_HELP": "Use {example_param} para valores dinâmicos",
+        "POSITIONAL_HELP": "Use {'{{1}}'}, {'{{2}}'}, etc. para valores dinâmicos",
+        "NAMED_HELP": "Use {'{{nome_parametro}}'} para valores dinâmicos",
         "EXAMPLE_PLACEHOLDER": "Valor de exemplo para a variável {index}",
         "NAMED_EXAMPLE_PLACEHOLDER": "Exemplo para {name}",
         "ERRORS": {
-          "NAMED_IN_POSITIONAL": "Variáveis nomeadas detectadas, mas o modo posicional está selecionado. Use o formato {{1}}, {{2}}.",
-          "POSITIONAL_IN_NAMED": "Variáveis posicionais detectadas, mas o modo nomeado está selecionado. Use o formato {{nome}}.",
+          "NAMED_IN_POSITIONAL": "Variáveis nomeadas detectadas, mas o modo posicional está selecionado. Use o formato {'{{1}}'}, {'{{2}}'}.",
+          "POSITIONAL_IN_NAMED": "Variáveis posicionais detectadas, mas o modo nomeado está selecionado. Use o formato {'{{nome}}'}.",
           "DUPLICATE_VARIABLES": "Nomes de variáveis duplicados encontrados. Cada variável deve ter um nome único.",
           "MAX_VARIABLES_EXCEEDED": "Máximo de {count} variáveis permitido."
         }

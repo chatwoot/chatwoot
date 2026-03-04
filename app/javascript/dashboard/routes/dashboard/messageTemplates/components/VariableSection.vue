@@ -159,13 +159,8 @@ const formatNamedVariable = name => {
 
 const variableHelpText = computed(() => {
   return props.parameterType === 'positional'
-    ? t('MESSAGE_TEMPLATES.BUILDER.VARIABLES.POSITIONAL_HELP', {
-        example1: '{{1}}',
-        example2: '{{2}}',
-      })
-    : t('MESSAGE_TEMPLATES.BUILDER.VARIABLES.NAMED_HELP', {
-        example_param: '{{parameter_name}}',
-      });
+    ? t('MESSAGE_TEMPLATES.BUILDER.VARIABLES.POSITIONAL_HELP')
+    : t('MESSAGE_TEMPLATES.BUILDER.VARIABLES.NAMED_HELP');
 });
 
 watch(

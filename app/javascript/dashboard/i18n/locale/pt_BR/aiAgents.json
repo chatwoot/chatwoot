@@ -86,7 +86,7 @@
           "LABEL": "Mensagem Inicial",
           "DESCRIPTION": "A mensagem de saudação enviada ao cliente quando a conversa começa.",
           "PLACEHOLDER": "Olá! Bem-vindo ao nosso suporte. Como posso ajudá-lo hoje?",
-          "TOOLTIP": "Esta mensagem é enviada automaticamente quando uma nova conversa começa. Use {{contact_name}} para personalização."
+          "TOOLTIP": "Esta mensagem é enviada automaticamente quando uma nova conversa começa. Use {'{{contact_name}}'} para personalização."
         },
         "INSTRUCTIONS": {
           "LABEL": "Instruções",

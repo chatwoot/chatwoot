@@ -49,16 +49,16 @@
       "PARAMETER_TYPE": {
         "LABEL": "Parameter type",
         "POSITIONAL": "Positional",
-        "POSITIONAL_DESC": "Variables like {{1}}, {{2}}, etc.",
+        "POSITIONAL_DESC": "Variables like {'{{1}}'}, {'{{2}}'}, etc.",
         "NAMED": "Named",
-        "NAMED_DESC": "Variables like {{customer_name}}"
+        "NAMED_DESC": "Variables like {'{{customer_name}}'}"
       },
       "HEADER": {
         "TITLE": "Header",
         "TYPE": "Header type",
         "TEXT_LABEL": "Header text",
         "TEXT_PLACEHOLDER": "Enter header text",
-        "TEXT_HELP": "Max 60 characters. Use variables like {{1}} for dynamic content.",
+        "TEXT_HELP": "Max 60 characters. Use variables like {'{{1}}'} for dynamic content.",
         "MEDIA_UPLOAD": "Click to upload media file for this header",
         "MEDIA_FORMAT_HINT": "Upload a {format} file",
         "MEDIA_UPLOADING": "Uploading file...",
@@ -71,7 +71,7 @@
       "BODY": {
         "TITLE": "Body",
         "TEXT_LABEL": "Message body",
-        "TEXT_PLACEHOLDER": "Hello {{1}}, your order {{2}} has been confirmed.\n\nThank you for choosing us!"
+        "TEXT_PLACEHOLDER": "Hello {'{{1}}'}, your order {'{{2}}'} has been confirmed.\n\nThank you for choosing us!"
       },
       "FOOTER": {
         "TITLE": "Footer",
@@ -87,7 +87,7 @@
         "ADD_BUTTON": "Add Button",
         "BUTTON_TEXT": "Button text",
         "URL": "URL",
-        "URL_PLACEHOLDER": "https://example.com/{{1}}",
+        "URL_PLACEHOLDER": "https://example.com/{'{{1}}'}",
         "PHONE_NUMBER": "Phone number",
         "EXAMPLE_CODE_LABEL": "Example code",
         "EXAMPLE_CODE_PLACEHOLDER": "Enter example code",
@@ -109,13 +109,13 @@
         "ADD_VARIABLE": "Add variable",
         "INSERT": "Insert",
         "NAMED_VARIABLE_PLACEHOLDER": "variable_name",
-        "POSITIONAL_HELP": "Use {example1}, {example2}, etc. for dynamic values",
-        "NAMED_HELP": "Use {example_param} for dynamic values",
+        "POSITIONAL_HELP": "Use {'{{1}}'}, {'{{2}}'}, etc. for dynamic values",
+        "NAMED_HELP": "Use {'{{parameter_name}}'} for dynamic values",
         "EXAMPLE_PLACEHOLDER": "Example value for variable {index}",
         "NAMED_EXAMPLE_PLACEHOLDER": "Example for {name}",
         "ERRORS": {
-          "NAMED_IN_POSITIONAL": "Named variables detected but positional mode is selected. Use {{1}}, {{2}} format instead.",
-          "POSITIONAL_IN_NAMED": "Positional variables detected but named mode is selected. Use {{name}} format instead.",
+          "NAMED_IN_POSITIONAL": "Named variables detected but positional mode is selected. Use {'{{1}}'}, {'{{2}}'} format instead.",
+          "POSITIONAL_IN_NAMED": "Positional variables detected but named mode is selected. Use {'{{name}}'} format instead.",
           "DUPLICATE_VARIABLES": "Duplicate variable names found. Each variable must have a unique name.",
           "MAX_VARIABLES_EXCEEDED": "Maximum of {count} variables allowed."
         }
