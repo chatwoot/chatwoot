@@ -39,15 +39,45 @@ export function useAutomation(startValue = null) {
     slaPolicies,
   } = useAutomationValues();
 
-  const automation = ref(startValue);
   const automationTypes = structuredClone(AUTOMATIONS);
+
+  const formatDefaultConditions = (conditions, event) => {
+    return conditions.map(condition => {
+      const conditionType = automationTypes[event]?.conditions.find(
+        c => c.key === condition.attribute_key
+      );
+      const isMultiSelect =
+        conditionType && conditionType.inputType === 'multi_select';
+      return {
+        ...condition,
+        values:
+          isMultiSelect && condition.values === '' ? [] : condition.values,
+      };
+    });
+  };
+
+  let initialAutomation = startValue;
+  if (initialAutomation && initialAutomation.conditions) {
+    initialAutomation = {
+      ...initialAutomation,
+      conditions: formatDefaultConditions(
+        initialAutomation.conditions,
+        initialAutomation.event_name
+      ),
+    };
+  }
+
+  const automation = ref(initialAutomation);
   const eventName = computed(() => automation.value?.event_name);
 
   /**
    * Handles the event change for an automation.value.
    */
   const onEventChange = () => {
-    automation.value.conditions = getDefaultConditions(eventName.value);
+    automation.value.conditions = formatDefaultConditions(
+      getDefaultConditions(eventName.value),
+      eventName.value
+    );
     automation.value.actions = getDefaultActions();
   };
 
@@ -55,7 +85,10 @@ export function useAutomation(startValue = null) {
    * Appends a new condition to the automation.value.
    */
   const appendNewCondition = () => {
-    const defaultCondition = getDefaultConditions(eventName.value);
+    const defaultCondition = formatDefaultConditions(
+      getDefaultConditions(eventName.value),
+      eventName.value
+    );
     automation.value.conditions = [
       ...automation.value.conditions,
       ...defaultCondition,
@@ -106,13 +139,14 @@ export function useAutomation(startValue = null) {
    */
   const resetFilter = (index, currentCondition) => {
     const newConditions = [...automation.value.conditions];
+    const conditionType = automationTypes[eventName.value].conditions.find(
+      condition => condition.key === currentCondition.attribute_key
+    );
 
     newConditions[index] = {
       ...newConditions[index],
-      filter_operator: automationTypes[eventName.value].conditions.find(
-        condition => condition.key === currentCondition.attribute_key
-      ).filterOperators[0].value,
-      values: '',
+      filter_operator: conditionType.filterOperators[0].value,
+      values: conditionType.inputType === 'multi_select' ? [] : '',
     };
 
     automation.value.conditions = newConditions;

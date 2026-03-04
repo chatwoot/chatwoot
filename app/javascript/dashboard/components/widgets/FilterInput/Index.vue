@@ -77,6 +77,12 @@ export default {
     values: {
       get() {
         if (!this.modelValue) return null;
+        if (
+          this.inputType === 'multi_select' &&
+          !Array.isArray(this.modelValue.values)
+        ) {
+          return this.modelValue.values ? [this.modelValue.values] : [];
+        }
         return this.modelValue.values;
       },
       set(value) {
