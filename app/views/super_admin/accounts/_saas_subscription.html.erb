@@ -1,0 +1,54 @@
+<% if ChatwootApp.saas? %>
+<section class="main-content__body" style="margin-top:2rem">
+  <fieldset class="field-unit--nested">
+    <legend>SaaS Subscription</legend>
+    <%
+      account = page.resource
+      subscription = account.saas_subscription
+      current_plan = subscription&.plan
+      plans = Saas::Plan.active.order(:price_cents)
+    %>
+    <div style="margin-bottom:1rem">
+      <div class="attribute-label">Current Plan</div>
+      <div class="attribute-data">
+        <strong><%= current_plan&.name || 'None' %></strong>
+        <% if current_plan %>
+          — $<%= (current_plan.price_cents / 100.0).round(2) %>/<%= current_plan.interval %>
+          (<%= current_plan.agent_limit %> agents, <%= current_plan.inbox_limit %> inboxes, <%= number_with_delimiter(current_plan.ai_tokens_monthly) %> AI tokens)
+        <% end %>
+      </div>
+    </div>
+    <% if subscription %>
+      <div style="margin-bottom:1rem">
+        <div class="attribute-label">Subscription Status</div>
+        <div class="attribute-data"><%= subscription.status %></div>
+      </div>
+      <% if subscription.stripe_subscription_id.present? %>
+        <div style="margin-bottom:1rem">
+          <div class="attribute-label">Stripe Subscription</div>
+          <div class="attribute-data"><code><%= subscription.stripe_subscription_id %></code></div>
+        </div>
+      <% end %>
+      <% if subscription.trial_end.present? %>
+        <div style="margin-bottom:1rem">
+          <div class="attribute-label">Trial Ends</div>
+          <div class="attribute-data"><%= subscription.trial_end.strftime('%b %d, %Y %H:%M UTC') %></div>
+        </div>
+      <% end %>
+    <% end %>
+
+    <%= form_tag assign_plan_super_admin_account_path(account), method: :post, style: 'margin-top:1rem' do %>
+      <div style="display:flex;align-items:center;gap:0.5rem">
+        <label for="saas_plan_id" style="white-space:nowrap;font-weight:600">Assign Plan:</label>
+        <%= select_tag :saas_plan_id,
+          options_for_select(
+            plans.map { |p| ["#{p.name} — $#{(p.price_cents / 100.0).round(2)}/#{p.interval}", p.id] },
+            current_plan&.id
+          ),
+          class: 'field-unit__field' %>
+        <button type="submit" class="button">Update</button>
+      </div>
+    <% end %>
+  </fieldset>
+</section>
+<% end %>

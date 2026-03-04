@@ -75,8 +75,14 @@ const isFormValid = computed(() => !v$.value.$invalid);
 const performRegistration = async () => {
   isSignupInProgress.value = true;
   try {
-    await register(credentials);
-    window.location = DEFAULT_REDIRECT_URL;
+    const response = await register(credentials);
+    // Redirect to billing page so the new user picks a plan
+    const accountId = response?.data?.account_id;
+    if (accountId) {
+      window.location = `/app/accounts/${accountId}/settings/billing`;
+    } else {
+      window.location = DEFAULT_REDIRECT_URL;
+    }
   } catch (error) {
     const errorMessage = error?.message || t('REGISTER.API.ERROR_MESSAGE');
     if (globalConfig.value.hCaptchaSiteKey) {
