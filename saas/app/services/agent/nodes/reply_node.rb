@@ -3,7 +3,7 @@
 # Sends a reply message to the conversation.
 # Supports text replies and Liquid template replies.
 # Optionally uses the LLM reply variable as content.
-class Agent::Nodes::ReplyNode < BaseNode
+class Agent::Nodes::ReplyNode < Agent::Nodes::BaseNode
   protected
 
   def process

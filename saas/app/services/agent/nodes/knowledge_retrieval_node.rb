@@ -2,7 +2,7 @@
 
 # Performs RAG retrieval against the agent's knowledge bases.
 # Injects retrieved context into the messages as a system-level injection.
-class Agent::Nodes::KnowledgeRetrievalNode < BaseNode
+class Agent::Nodes::KnowledgeRetrievalNode < Agent::Nodes::BaseNode
   protected
 
   def process

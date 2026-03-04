@@ -2,7 +2,7 @@
 
 # Prepends or replaces the system prompt in the message list.
 # Optionally appends conversation context.
-class Agent::Nodes::SystemPromptNode < BaseNode
+class Agent::Nodes::SystemPromptNode < Agent::Nodes::BaseNode
   protected
 
   def process

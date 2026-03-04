@@ -3,7 +3,7 @@
 # Evaluates conditional rules and routes to different output handles.
 # Supports AND/OR logic across multiple rules.
 # Routes to 'flow_true' or 'flow_false' handles.
-class Agent::Nodes::ConditionNode < BaseNode
+class Agent::Nodes::ConditionNode < Agent::Nodes::BaseNode
   OPERATORS = {
     'equals' => ->(a, b) { a.to_s == b.to_s },
     'not_equals' => ->(a, b) { a.to_s != b.to_s },

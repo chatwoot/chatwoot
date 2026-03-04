@@ -2,7 +2,7 @@
 
 # Pauses execution for a configured number of seconds.
 # In production, long delays should use a scheduled job instead of blocking.
-class Agent::Nodes::DelayNode < BaseNode
+class Agent::Nodes::DelayNode < Agent::Nodes::BaseNode
   MAX_DELAY = 300 # 5 minutes max
 
   protected

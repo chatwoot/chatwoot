@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Sets a variable in the run context. The value can be a static string or a Liquid expression.
-class Agent::Nodes::SetVariableNode < BaseNode
+class Agent::Nodes::SetVariableNode < Agent::Nodes::BaseNode
   protected
 
   def process

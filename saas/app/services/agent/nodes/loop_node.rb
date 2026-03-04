@@ -3,7 +3,7 @@
 # Iterates over an array variable, executing the loop body for each item.
 # Exposes `loop_item`, `loop_index`, and `loop_count` variables.
 # Routes to 'flow_body' for each iteration and 'flow_done' when complete.
-class Agent::Nodes::LoopNode < BaseNode
+class Agent::Nodes::LoopNode < Agent::Nodes::BaseNode
   protected
 
   def process

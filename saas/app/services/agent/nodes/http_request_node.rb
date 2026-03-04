@@ -3,7 +3,7 @@
 # Makes an HTTP request to an external API.
 # Supports Liquid templates in URL, headers, and body.
 # Stores the response in a context variable.
-class Agent::Nodes::HttpRequestNode < BaseNode
+class Agent::Nodes::HttpRequestNode < Agent::Nodes::BaseNode
   ALLOWED_METHODS = %w[GET POST PUT PATCH DELETE].freeze
   MAX_RESPONSE_SIZE = 10_000
 

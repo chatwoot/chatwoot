@@ -2,7 +2,7 @@
 
 # Calls the LLM with the current message history.
 # Supports optional tool calling with iteration loop.
-class Agent::Nodes::LlmCallNode < BaseNode
+class Agent::Nodes::LlmCallNode < Agent::Nodes::BaseNode
   MAX_TOOL_ITERATIONS = 5
 
   protected

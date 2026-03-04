@@ -3,7 +3,7 @@
 # Executes a Liquid template as a "code" node.
 # The rendered output is stored in a context variable.
 # This is intentionally limited to Liquid (no arbitrary Ruby/JS execution).
-class Agent::Nodes::CodeNode < BaseNode
+class Agent::Nodes::CodeNode < Agent::Nodes::BaseNode
   MAX_OUTPUT_SIZE = 10_000
 
   protected
