@@ -97,6 +97,8 @@ class Saas::StripeService
       return unless plan
 
       subscription = account.saas_subscription || account.build_saas_subscription
+      old_plan = subscription.plan
+
       subscription.assign_attributes(
         plan: plan,
         stripe_subscription_id: stripe_sub.id,
@@ -109,6 +111,11 @@ class Saas::StripeService
       subscription.save!
 
       update_account_limits(account, plan)
+
+      # Notify on plan change
+      if old_plan && old_plan.id != plan.id
+        Saas::BillingMailer.plan_changed(account, old_plan.name, plan.name).deliver_later
+      end
     end
 
     def cancel_subscription(account, _stripe_sub)
@@ -117,6 +124,8 @@ class Saas::StripeService
 
       subscription.update!(status: :canceled)
       account.update!(limits: {})
+
+      Saas::BillingMailer.subscription_canceled(account).deliver_later
     end
 
     def update_account_limits(account, plan)

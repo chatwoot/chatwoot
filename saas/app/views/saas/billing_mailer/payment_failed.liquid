@@ -1,0 +1,40 @@
+<tr>
+  <td style="vertical-align: top; padding-bottom: 15px;">
+    <h2 style="font-size: 20px; color: #dc2626; margin: 0 0 10px;">⚠️ Payment failed for your account</h2>
+  </td>
+</tr>
+<tr>
+  <td style="vertical-align: top; padding-bottom: 10px;">
+    <p style="font-size: 14px; color: #333; line-height: 1.6; margin: 0 0 15px;">
+      Hi {{ admin.name | default: "there" }},
+    </p>
+    <p style="font-size: 14px; color: #333; line-height: 1.6; margin: 0 0 15px;">
+      We were unable to process the payment for your AirysChat account <strong>{{ account.name }}</strong>.
+    </p>
+    {% if is_final_warning %}
+    <p style="font-size: 14px; color: #dc2626; line-height: 1.6; margin: 0 0 15px; font-weight: 600;">
+      This is our final attempt. Your account features have been suspended until payment is resolved.
+      Your data is safe, but you won't be able to create new agents, inboxes, or use AI features.
+    </p>
+    {% else %}
+    <p style="font-size: 14px; color: #333; line-height: 1.6; margin: 0 0 15px;">
+      This is attempt {{ attempt_count }} of 3. Please update your payment method to avoid service interruption.
+    </p>
+    {% endif %}
+  </td>
+</tr>
+<tr>
+  <td style="vertical-align: top; padding: 15px 0;">
+    <a href="{{ billing_url }}"
+       style="display: inline-block; padding: 12px 24px; background-color: #dc2626; color: #fff; text-decoration: none; border-radius: 6px; font-size: 14px; font-weight: 600;">
+      Update payment method
+    </a>
+  </td>
+</tr>
+<tr>
+  <td style="vertical-align: top; padding-top: 15px;">
+    <p style="font-size: 13px; color: #666; line-height: 1.5; margin: 0;">
+      If you believe this is an error, please contact our support team.
+    </p>
+  </td>
+</tr>

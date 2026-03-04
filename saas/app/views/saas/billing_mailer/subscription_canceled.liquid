@@ -1,0 +1,38 @@
+<tr>
+  <td style="vertical-align: top; padding-bottom: 15px;">
+    <h2 style="font-size: 20px; color: #1a1a2e; margin: 0 0 10px;">Your subscription has been canceled</h2>
+  </td>
+</tr>
+<tr>
+  <td style="vertical-align: top; padding-bottom: 10px;">
+    <p style="font-size: 14px; color: #333; line-height: 1.6; margin: 0 0 15px;">
+      Hi {{ admin.name | default: "there" }},
+    </p>
+    <p style="font-size: 14px; color: #333; line-height: 1.6; margin: 0 0 15px;">
+      Your AirysChat subscription for <strong>{{ account.name }}</strong> has been canceled.
+      Your account has been downgraded to the Free plan.
+    </p>
+    <p style="font-size: 14px; color: #333; line-height: 1.6; margin: 0 0 15px;">
+      Your data is still safe and accessible. However, features above the Free plan limits
+      (additional agents, inboxes, and AI tokens) are no longer available.
+    </p>
+    <p style="font-size: 14px; color: #333; line-height: 1.6; margin: 0 0 15px;">
+      You can resubscribe at any time to regain full access.
+    </p>
+  </td>
+</tr>
+<tr>
+  <td style="vertical-align: top; padding: 15px 0;">
+    <a href="{{ billing_url }}"
+       style="display: inline-block; padding: 12px 24px; background-color: #0080f8; color: #fff; text-decoration: none; border-radius: 6px; font-size: 14px; font-weight: 600;">
+      Resubscribe
+    </a>
+  </td>
+</tr>
+<tr>
+  <td style="vertical-align: top; padding-top: 15px;">
+    <p style="font-size: 13px; color: #666; line-height: 1.5; margin: 0;">
+      If you have any feedback about why you canceled, we'd love to hear from you — just reply to this email.
+    </p>
+  </td>
+</tr>

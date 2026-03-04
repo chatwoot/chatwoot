@@ -12,6 +12,7 @@
 | [Branding](branding.md) | Colors, logos, product name, locale customization |
 | [Dev Setup](devSetup.md) | Local development setup, prerequisites, environment variables |
 | [Upstream Sync](upstream-sync.md) | How to pull security patches from upstream Chatwoot |
+| [Launch Readiness](AirysChat-Launch.md) | Launch checklist, gaps analysis, and remaining work |
 
 ## Status
 
@@ -21,8 +22,12 @@
 | Phase 3: LLM Provider Abstraction | ✅ Complete |
 | Phase 4: AI Agent Engine (RAG + Tools + Voice) | ✅ Complete |
 | Voice Provider Audit & Best Practices Review | ✅ Complete |
-| Phase 5: Agent Builder UI | ⬜ Not Started |
-| Phase 6: Docker Deployment | ⬜ Not Started |
+| Phase 5: Agent Builder UI | ✅ Complete |
+| Phase 6: Docker Deployment | ✅ Complete |
+| Phase 7: Testing & QA | ✅ Complete |
+| Phase 8: Security Hardening | ✅ Complete |
+| Phase 9: Production Hardening | ✅ Complete |
+| Phase 10: Launch Readiness (billing lifecycle, emails) | ✅ Complete |
 
 ## Quick Start
 
@@ -39,6 +44,9 @@ bundle exec rails db:create db:migrate
 
 # Seed billing plans
 bundle exec rake saas:seed_plans
+
+# Sync plans to Stripe (creates Products + Prices)
+bundle exec rake saas:sync_plans_to_stripe
 
 # Configure env
 cp .env.example .env

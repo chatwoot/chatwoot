@@ -16,11 +16,21 @@ class Saas::Api::V1::AccountsController < Api::V1::Accounts::BaseController
     account = Current.account
     plan = account.saas_plan
     subscription = account.saas_subscription
+    limits = account.usage_limits
+
+    agent_count = account.users.where(account_users: { role: :agent }).count
+    inbox_count = account.inboxes.count
 
     render json: {
       plan: plan ? plan_payload(plan) : nil,
       subscription: subscription ? subscription_payload(subscription) : nil,
-      usage: usage_payload(account)
+      usage: usage_payload(account, agent_count, inbox_count),
+      # UpgradePage-compatible limits shape (allowed/consumed pairs)
+      limits: {
+        conversation: { allowed: Float::INFINITY, consumed: 0 },
+        non_web_inboxes: { allowed: limits[:inboxes] || Float::INFINITY, consumed: inbox_count },
+        agents: { allowed: limits[:agents] || Float::INFINITY, consumed: agent_count }
+      }
     }
   end
 
@@ -54,13 +64,14 @@ class Saas::Api::V1::AccountsController < Api::V1::Accounts::BaseController
     }
   end
 
-  def usage_payload(account)
+  def usage_payload(account, agent_count, inbox_count)
     {
-      agents: account.users.where(account_users: { role: :agent }).count,
-      inboxes: account.inboxes.count,
+      agents: agent_count,
+      inboxes: inbox_count,
       ai_tokens_used: account.ai_monthly_usage,
       ai_tokens_limit: account.saas_plan&.ai_tokens_monthly || 0,
-      ai_tokens_remaining: account.ai_tokens_remaining
+      ai_tokens_remaining: account.ai_tokens_remaining,
+      ai_usage_percentage: account.ai_usage_percentage
     }
   end
 end

@@ -1,0 +1,39 @@
+<tr>
+  <td style="vertical-align: top; padding-bottom: 15px;">
+    <h2 style="font-size: 20px; color: #1a1a2e; margin: 0 0 10px;">Welcome to AirysChat! 🚀</h2>
+  </td>
+</tr>
+<tr>
+  <td style="vertical-align: top; padding-bottom: 10px;">
+    <p style="font-size: 14px; color: #333; line-height: 1.6; margin: 0 0 15px;">
+      Hi {{ admin.name | default: "there" }},
+    </p>
+    <p style="font-size: 14px; color: #333; line-height: 1.6; margin: 0 0 15px;">
+      Your AirysChat account <strong>{{ account.name }}</strong> is ready to go!
+      You're currently on the <strong>{{ plan_name }}</strong> plan.
+    </p>
+    <p style="font-size: 14px; color: #333; line-height: 1.6; margin: 0 0 15px;">
+      Here's how to get started:
+    </p>
+    <ol style="font-size: 14px; color: #333; line-height: 1.8; margin: 0 0 15px; padding-left: 20px;">
+      <li><strong>Create your first inbox</strong> — Connect a WhatsApp, website widget, or email channel</li>
+      <li><strong>Add your team</strong> — Invite agents to handle conversations</li>
+      <li><strong>Set up AI agents</strong> — Automate responses with our AI agent builder</li>
+    </ol>
+  </td>
+</tr>
+<tr>
+  <td style="vertical-align: top; padding: 15px 0;">
+    <a href="{{ billing_url }}"
+       style="display: inline-block; padding: 12px 24px; background-color: #0080f8; color: #fff; text-decoration: none; border-radius: 6px; font-size: 14px; font-weight: 600;">
+      Go to your dashboard
+    </a>
+  </td>
+</tr>
+<tr>
+  <td style="vertical-align: top; padding-top: 15px;">
+    <p style="font-size: 13px; color: #666; line-height: 1.5; margin: 0;">
+      Need help? Reply to this email or visit our documentation.
+    </p>
+  </td>
+</tr>

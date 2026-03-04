@@ -74,3 +74,26 @@ remove_orphan_conversations_job:
   cron: '0 */12 * * *'
   class: 'Internal::RemoveOrphanConversationsJob'
   queue: housekeeping
+
+# ── SaaS billing lifecycle ────────────────────────────────────
+
+# executed daily at 08:00 UTC
+# sends trial expiration reminders (3 days + 1 day before)
+saas_trial_reminder_job:
+  cron: '0 8 * * *'
+  class: 'Saas::TrialReminderJob'
+  queue: low
+
+# executed daily at 09:00 UTC
+# expires trials that have ended and downgrades to free plan
+saas_expire_trials_job:
+  cron: '0 9 * * *'
+  class: 'Saas::ExpireTrialsJob'
+  queue: low
+
+# executed daily at 10:00 UTC
+# sends AI token usage alerts at 80% and 100% thresholds
+saas_usage_alert_job:
+  cron: '0 10 * * *'
+  class: 'Saas::UsageAlertJob'
+  queue: low

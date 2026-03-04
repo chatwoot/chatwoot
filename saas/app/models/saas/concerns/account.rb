@@ -3,6 +3,7 @@ module Saas::Concerns::Account
 
   included do
     after_create :assign_default_plan
+    after_create_commit :send_welcome_email
   end
 
   private
@@ -19,5 +20,9 @@ module Saas::Concerns::Account
       current_period_start: Time.current,
       current_period_end: 30.days.from_now
     ).save!(validate: false)
+  end
+
+  def send_welcome_email
+    Saas::BillingMailer.welcome(self).deliver_later
   end
 end

@@ -54,4 +54,39 @@ namespace :saas do
 
     puts "\nSeeded #{plans.size} plans successfully."
   end
+
+  desc 'Sync SaaS plans to Stripe (creates Products + Prices and stores IDs)'
+  task sync_plans_to_stripe: :environment do
+    require 'stripe'
+
+    Saas::Plan.active.find_each do |plan|
+      if plan.stripe_price_id.present?
+        puts "  [skip] #{plan.name} already synced (price=#{plan.stripe_price_id})"
+        next
+      end
+
+      if plan.free?
+        puts "  [skip] #{plan.name} is free — no Stripe product needed"
+        next
+      end
+
+      product = Stripe::Product.create(
+        name: "AirysChat #{plan.name}",
+        description: "#{plan.agent_limit} agents, #{plan.inbox_limit} inboxes, #{plan.ai_tokens_monthly.to_fs(:delimited)} AI tokens/mo",
+        metadata: { plan_id: plan.id, plan_name: plan.name }
+      )
+
+      price = Stripe::Price.create(
+        product: product.id,
+        unit_amount: plan.price_cents,
+        currency: 'brl',
+        recurring: { interval: plan.interval }
+      )
+
+      plan.update!(stripe_product_id: product.id, stripe_price_id: price.id)
+      puts "  [synced] #{plan.name}: product=#{product.id} price=#{price.id}"
+    end
+
+    puts "\nStripe sync complete."
+  end
 end

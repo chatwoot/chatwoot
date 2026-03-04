@@ -474,3 +474,17 @@ en:
       subject: 'Finish setting up %{custom_domain}'
     ssl_status:
       custom_domain_not_configured: 'Custom domain is not configured'
+  saas:
+    mailer:
+      welcome:
+        subject: 'Welcome to AirysChat!'
+      trial_expiring:
+        subject: 'Your AirysChat trial expires in %{days} days'
+      payment_failed:
+        subject: 'Action required: Payment failed for your AirysChat account'
+      usage_alert:
+        subject: "You've used %{percentage}%% of your AI tokens this month"
+      subscription_canceled:
+        subject: 'Your AirysChat subscription has been canceled'
+      plan_changed:
+        subject: 'Your AirysChat plan has been changed to %{plan}'

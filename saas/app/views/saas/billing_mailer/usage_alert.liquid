@@ -1,0 +1,41 @@
+<tr>
+  <td style="vertical-align: top; padding-bottom: 15px;">
+    <h2 style="font-size: 20px; color: #f59e0b; margin: 0 0 10px;">🔔 AI usage at {{ percentage }}%</h2>
+  </td>
+</tr>
+<tr>
+  <td style="vertical-align: top; padding-bottom: 10px;">
+    <p style="font-size: 14px; color: #333; line-height: 1.6; margin: 0 0 15px;">
+      Hi {{ admin.name | default: "there" }},
+    </p>
+    <p style="font-size: 14px; color: #333; line-height: 1.6; margin: 0 0 15px;">
+      Your AirysChat account <strong>{{ account.name }}</strong> has used
+      <strong>{{ percentage }}%</strong> of its monthly AI token quota.
+    </p>
+    <table style="width: 100%; margin: 15px 0; border-collapse: collapse;">
+      <tr>
+        <td style="padding: 8px 12px; background: #f8fafc; border: 1px solid #e2e8f0; font-size: 13px; color: #666;">Tokens used</td>
+        <td style="padding: 8px 12px; background: #f8fafc; border: 1px solid #e2e8f0; font-size: 13px; font-weight: 600; color: #333;">{{ tokens_used }}</td>
+      </tr>
+      <tr>
+        <td style="padding: 8px 12px; border: 1px solid #e2e8f0; font-size: 13px; color: #666;">Monthly limit</td>
+        <td style="padding: 8px 12px; border: 1px solid #e2e8f0; font-size: 13px; font-weight: 600; color: #333;">{{ tokens_limit }}</td>
+      </tr>
+    </table>
+    <p style="font-size: 14px; color: #333; line-height: 1.6; margin: 0 0 15px;">
+      {% if percentage >= 100 %}
+      You've exceeded your limit. AI features are paused until your usage resets next month, or you can upgrade your plan for more tokens.
+      {% else %}
+      Consider upgrading your plan if you expect to exceed the limit before the month ends.
+      {% endif %}
+    </p>
+  </td>
+</tr>
+<tr>
+  <td style="vertical-align: top; padding: 15px 0;">
+    <a href="{{ billing_url }}"
+       style="display: inline-block; padding: 12px 24px; background-color: #0080f8; color: #fff; text-decoration: none; border-radius: 6px; font-size: 14px; font-weight: 600;">
+      View plans & upgrade
+    </a>
+  </td>
+</tr>
