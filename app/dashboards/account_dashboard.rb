@@ -59,7 +59,7 @@ class AccountDashboard < Administrate::BaseDashboard
                                       attrs << :all_features
                                       attrs
                                     else
-                                      []
+                                      %i[custom_attributes]
                                     end
   SHOW_PAGE_ATTRIBUTES = (%i[
     id

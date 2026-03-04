@@ -16,11 +16,15 @@ const uiFlags = useMapGetter('accounts/getUIFlags');
 const saasPlans = useMapGetter('accounts/getSaasPlans');
 
 const billingData = ref(null);
+const localPlans = ref([]);
 const isLoading = ref(true);
 
 const currentPlan = computed(() => billingData.value?.plan);
 const subscription = computed(() => billingData.value?.subscription);
 const usage = computed(() => billingData.value?.usage);
+const availablePlans = computed(() =>
+  saasPlans.value?.length ? saasPlans.value : localPlans.value
+);
 
 const hasSubscription = computed(
   () => subscription.value && subscription.value.status !== 'canceled'
@@ -50,11 +54,13 @@ const fetchBillingData = async () => {
       store.dispatch('accounts/limits'),
       store.dispatch('accounts/fetchPlans'),
     ]);
-    // limits action stores data via SET_ACCOUNT_LIMITS mutation;
-    // we also read the raw response from the SaaS API
     const SaasAccountAPI = (await import('dashboard/api/saas/account')).default;
-    const response = await SaasAccountAPI.getLimits();
-    billingData.value = response.data;
+    const [limitsResponse, plansResponse] = await Promise.all([
+      SaasAccountAPI.getLimits(),
+      SaasAccountAPI.getPlans(),
+    ]);
+    billingData.value = limitsResponse.data;
+    localPlans.value = plansResponse.data;
   } catch {
     // silent
   } finally {
@@ -137,12 +143,12 @@ onMounted(fetchBillingData);
         <!-- AI Usage Card -->
         <BillingCard
           v-if="usage"
-          title="AI Usage"
-          description="Your AI token consumption this billing period"
+          :title="$t('BILLING_SETTINGS.AI_USAGE.TITLE')"
+          :description="$t('BILLING_SETTINGS.AI_USAGE.DESCRIPTION')"
         >
           <div class="px-5 space-y-4">
             <BillingMeter
-              title="AI Tokens"
+              :title="$t('BILLING_SETTINGS.AI_USAGE.AI_TOKENS')"
               :consumed="usage.ai_tokens_used || 0"
               :total-count="usage.ai_tokens_limit || 1"
             />
@@ -150,31 +156,34 @@ onMounted(fetchBillingData);
               class="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-2 divide-x divide-n-weak"
             >
               <DetailItem
-                label="Tokens Used"
+                :label="$t('BILLING_SETTINGS.AI_USAGE.TOKENS_USED')"
                 :value="formatTokens(usage.ai_tokens_used)"
               />
               <DetailItem
-                label="Tokens Remaining"
+                :label="$t('BILLING_SETTINGS.AI_USAGE.TOKENS_REMAINING')"
                 :value="formatTokens(usage.ai_tokens_remaining)"
               />
-              <DetailItem label="Agents" :value="String(usage.agents || 0)" />
+              <DetailItem
+                :label="$t('BILLING_SETTINGS.AI_USAGE.AGENTS')"
+                :value="String(usage.agents || 0)"
+              />
             </div>
           </div>
         </BillingCard>
 
         <!-- Available Plans -->
         <BillingHeader
-          v-if="saasPlans && saasPlans.length"
+          v-if="availablePlans && availablePlans.length"
           class="px-1 mt-5"
-          title="Available Plans"
-          description="Choose a plan that fits your needs"
+          :title="$t('BILLING_SETTINGS.PLANS.TITLE')"
+          :description="$t('BILLING_SETTINGS.PLANS.DESCRIPTION')"
         />
         <div
-          v-if="saasPlans && saasPlans.length"
+          v-if="availablePlans && availablePlans.length"
           class="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-4"
         >
           <div
-            v-for="plan in saasPlans"
+            v-for="plan in availablePlans"
             :key="plan.id"
             class="rounded-xl border border-n-weak bg-n-solid-2 p-5 space-y-3"
             :class="{
@@ -186,15 +195,41 @@ onMounted(fetchBillingData);
               {{ plan.name }}
             </h3>
             <p class="text-2xl font-bold text-n-slate-12">
-              ${{ (plan.price_cents / 100).toFixed(2) }}
+              {{
+                $t('BILLING_SETTINGS.PLANS.PRICE', {
+                  price: (plan.price_cents / 100).toFixed(2),
+                })
+              }}
               <span class="text-sm font-normal text-n-slate-10">
-                /{{ plan.interval }}
+                {{
+                  $t('BILLING_SETTINGS.PLANS.PRICE_INTERVAL', {
+                    interval: plan.interval,
+                  })
+                }}
               </span>
             </p>
             <ul class="text-sm text-n-slate-11 space-y-1">
-              <li>{{ plan.agent_limit }} agents</li>
-              <li>{{ plan.inbox_limit }} inboxes</li>
-              <li>{{ formatTokens(plan.ai_tokens_monthly) }} AI tokens/mo</li>
+              <li>
+                {{
+                  $t('BILLING_SETTINGS.PLANS.AGENTS', {
+                    count: plan.agent_limit,
+                  })
+                }}
+              </li>
+              <li>
+                {{
+                  $t('BILLING_SETTINGS.PLANS.INBOXES', {
+                    count: plan.inbox_limit,
+                  })
+                }}
+              </li>
+              <li>
+                {{
+                  $t('BILLING_SETTINGS.PLANS.AI_TOKENS', {
+                    count: formatTokens(plan.ai_tokens_monthly),
+                  })
+                }}
+              </li>
             </ul>
             <ButtonV4
               v-if="!currentPlan || currentPlan.id !== plan.id"
@@ -205,13 +240,13 @@ onMounted(fetchBillingData);
               :is-loading="uiFlags.isCheckoutInProcess"
               @click="onSelectPlan(plan.id)"
             >
-              Select Plan
+              {{ $t('BILLING_SETTINGS.PLANS.SELECT_PLAN') }}
             </ButtonV4>
             <div
               v-else
               class="text-center text-sm font-medium text-iris-11 py-2"
             >
-              Current Plan
+              {{ $t('BILLING_SETTINGS.PLANS.CURRENT_PLAN') }}
             </div>
           </div>
         </div>

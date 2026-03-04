@@ -180,7 +180,17 @@ export const mutations = {
   },
   [types.default.ADD_ACCOUNT]: MutationHelpers.setSingleRecord,
   [types.default.EDIT_ACCOUNT]: MutationHelpers.update,
-  [types.default.SET_ACCOUNT_LIMITS]: MutationHelpers.updateAttributes,
+  [types.default.SET_ACCOUNT_LIMITS]($state, data) {
+    // The SaaS limits API returns { plan, subscription, usage, limits }
+    // Merge the limits into the current account record if available
+    const currentAccountId = window.location.pathname.match(/accounts\/(\d+)/)?.[1];
+    if (currentAccountId && data?.limits) {
+      const record = $state.records.find(r => r.id === Number(currentAccountId));
+      if (record) {
+        record.limits = data.limits;
+      }
+    }
+  },
   [types.default.SET_SAAS_PLANS]($state, data) {
     $state.saasPlans = data;
   },

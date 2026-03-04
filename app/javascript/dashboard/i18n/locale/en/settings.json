@@ -465,6 +465,25 @@
       "DESCRIPTION": "Do you face any issues in billing? We are here to help.",
       "BUTTON_TXT": "Chat with us"
     },
+    "PLANS": {
+      "TITLE": "Available Plans",
+      "DESCRIPTION": "Choose a plan that fits your needs",
+      "AGENTS": "{count} agents",
+      "INBOXES": "{count} inboxes",
+      "AI_TOKENS": "{count} AI tokens/mo",
+      "SELECT_PLAN": "Select Plan",
+      "CURRENT_PLAN": "Current Plan",
+      "PRICE": "${price}",
+      "PRICE_INTERVAL": "/{interval}"
+    },
+    "AI_USAGE": {
+      "TITLE": "AI Usage",
+      "DESCRIPTION": "Your AI token consumption this billing period",
+      "TOKENS_USED": "Tokens Used",
+      "TOKENS_REMAINING": "Tokens Remaining",
+      "AGENTS": "Agents",
+      "AI_TOKENS": "AI Tokens"
+    },
     "NO_BILLING_USER": "Your billing account is being configured. Please refresh the page and try again.",
     "TOPUP": {
       "BUY_CREDITS": "Buy more credits",
