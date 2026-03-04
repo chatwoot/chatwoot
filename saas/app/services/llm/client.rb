@@ -135,6 +135,10 @@ module Llm
       response = http.request(request)
       handle_errors(response)
       response
+    rescue Net::ReadTimeout, Net::OpenTimeout, Net::WriteTimeout => e
+      raise TimeoutError.new("LLM proxy timeout: #{e.message}", status: 408)
+    rescue EOFError, Errno::ECONNREFUSED, Errno::ECONNRESET, Errno::EPIPE, SocketError => e
+      raise RequestError.new("LLM proxy unavailable: #{e.message}", status: 503)
     end
 
     def stream_post(path, payload, &)
@@ -150,6 +154,10 @@ module Llm
         handle_errors(response)
         parse_sse_stream(response, &)
       end
+    rescue Net::ReadTimeout, Net::OpenTimeout, Net::WriteTimeout => e
+      raise TimeoutError.new("LLM proxy timeout: #{e.message}", status: 408)
+    rescue EOFError, Errno::ECONNREFUSED, Errno::ECONNRESET, Errno::EPIPE, SocketError => e
+      raise RequestError.new("LLM proxy unavailable: #{e.message}", status: 503)
     end
 
     def parse_sse_stream(response)
