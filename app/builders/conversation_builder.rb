@@ -18,23 +18,28 @@ class ConversationBuilder
   end
 
   def conversation_params
-    additional_attributes = params[:additional_attributes]&.permit! || {}
-    custom_attributes = params[:custom_attributes]&.permit! || {}
-    status = params[:status].present? ? { status: params[:status] } : {}
+    base_conversation_params.merge(group_params).merge(status_params).compact
+  end
 
-    # TODO: temporary fallback for the old bot status in conversation, we will remove after couple of releases
-    # commenting this out to see if there are any errors, if not we can remove this in subsequent releases
-    # status = { status: 'pending' } if status[:status] == 'bot'
+  def base_conversation_params
     {
       account_id: @contact_inbox.inbox.account_id,
       inbox_id: @contact_inbox.inbox_id,
       contact_id: @contact_inbox.contact_id,
       contact_inbox_id: @contact_inbox.id,
-      additional_attributes: additional_attributes,
-      custom_attributes: custom_attributes,
+      additional_attributes: params[:additional_attributes]&.permit! || {},
+      custom_attributes: params[:custom_attributes]&.permit! || {},
       snoozed_until: params[:snoozed_until],
       assignee_id: params[:assignee_id],
       team_id: params[:team_id]
-    }.merge(status)
+    }
+  end
+
+  def group_params
+    { group: params[:group], group_source_id: params[:group_source_id], group_title: params[:group_title] }
+  end
+
+  def status_params
+    params[:status].present? ? { status: params[:status] } : {}
   end
 end

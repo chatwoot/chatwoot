@@ -8,3 +8,7 @@ properties:
     type: string
     description: Temporary identifier which will be passed back via websockets
     example: '1234567890'
+  sender_identifier:
+    type: string
+    description: External identifier of the message sender. Used in group conversations to attribute messages to specific contacts.
+    example: 'contact-123'

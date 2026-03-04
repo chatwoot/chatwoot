@@ -158,7 +158,7 @@ class Message < ApplicationRecord
       assignee_id: conversation.assignee_id,
       unread_count: conversation.unread_incoming_messages.count,
       last_activity_at: conversation.last_activity_at.to_i,
-      contact_inbox: { source_id: conversation.contact_inbox.source_id }
+      contact_inbox: conversation.contact_inbox ? { source_id: conversation.contact_inbox.source_id } : nil
     }
   end
 

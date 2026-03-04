@@ -62,6 +62,6 @@ class Public::Api::V1::Inboxes::ConversationsController < Public::Api::V1::Inbox
   end
 
   def conversation_params
-    params.permit(custom_attributes: {})
+    params.permit(:group, :group_source_id, :group_title, custom_attributes: {})
   end
 end

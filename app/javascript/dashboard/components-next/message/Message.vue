@@ -134,6 +134,7 @@ const props = defineProps({
   senderId: { type: Number, default: null },
   senderType: { type: String, default: null },
   sourceId: { type: String, default: '' }, // eslint-disable-line vue/no-unused-properties
+  isGroupConversation: { type: Boolean, default: false },
 });
 
 const emit = defineEmits(['retry']);
@@ -506,6 +507,7 @@ onMounted(setupHighlightTimer);
 provideMessageContext({
   ...toRefs(props),
   isPrivate: computed(() => props.private),
+  isGroupConversation: computed(() => props.isGroupConversation),
   variant,
   orientation,
   isBotOrAgentMessage,

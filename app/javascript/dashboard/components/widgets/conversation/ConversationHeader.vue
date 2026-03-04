@@ -68,6 +68,20 @@ const currentContact = computed(() =>
   store.getters['contacts/getContact'](props.chat.meta.sender.id)
 );
 
+const isGroupConversation = computed(() => props.chat.group === true);
+
+const groupMemberCount = computed(() => {
+  const groupContacts = props.chat.group_contacts || [];
+  return groupContacts.length + 1; // +1 for primary contact
+});
+
+const displayName = computed(() => {
+  if (isGroupConversation.value && props.chat.group_title) {
+    return props.chat.group_title;
+  }
+  return currentContact.value.name;
+});
+
 const isSnoozed = computed(
   () => currentChat.value.status === wootConstants.STATUS_TYPE.SNOOZED
 );
@@ -105,7 +119,16 @@ const hasSlaPolicyId = computed(() => props.chat?.sla_policy_id);
         :back-url="backButtonUrl"
         class="ltr:mr-2 rtl:ml-2"
       />
+      <!-- Group icon for group conversations -->
+      <div
+        v-if="isGroupConversation"
+        class="flex items-center justify-center w-8 h-8 rounded-full bg-n-alpha-2 flex-shrink-0"
+      >
+        <span class="i-lucide-users text-sm text-n-slate-11" />
+      </div>
+      <!-- Regular avatar for 1:1 conversations -->
       <Avatar
+        v-else
         :name="currentContact.name"
         :src="currentContact.thumbnail"
         :size="32"
@@ -120,10 +143,10 @@ const hasSlaPolicyId = computed(() => props.chat?.sla_policy_id);
           <span
             class="text-sm font-medium truncate leading-tight text-n-slate-12"
           >
-            {{ currentContact.name }}
+            {{ displayName }}
           </span>
           <fluent-icon
-            v-if="!isHMACVerified"
+            v-if="!isHMACVerified && !isGroupConversation"
             v-tooltip="$t('CONVERSATION.UNVERIFIED_SESSION')"
             size="14"
             class="text-n-amber-10 my-0 mx-0 min-w-[14px] flex-shrink-0"
@@ -134,6 +157,15 @@ const hasSlaPolicyId = computed(() => props.chat?.sla_policy_id);
         <div
           class="flex items-center gap-2 overflow-hidden text-xs conversation--header--actions text-ellipsis whitespace-nowrap"
         >
+          <span v-if="isGroupConversation" class="text-n-slate-11">
+            {{ $t('CONVERSATION.GROUP.MEMBER_COUNT', groupMemberCount) }}
+          </span>
+          <span
+            v-if="isGroupConversation && hasMultipleInboxes"
+            class="text-n-slate-10"
+          >
+            {{ $t('CONVERSATION.GROUP.SEPARATOR') }}
+          </span>
           <InboxName v-if="hasMultipleInboxes" :inbox="inbox" class="!mx-0" />
           <span v-if="isSnoozed" class="font-medium text-n-amber-10">
             {{ snoozedDisplayText }}

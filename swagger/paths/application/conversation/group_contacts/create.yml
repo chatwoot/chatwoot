@@ -1,0 +1,58 @@
+tags:
+  - Conversations
+operationId: add-group-contacts
+summary: Add Group Contacts
+description: Add contacts to a group conversation
+security:
+  - userApiKey: []
+parameters:
+  - $ref: '#/components/parameters/conversation_id'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        required:
+          - contact_ids
+        properties:
+          contact_ids:
+            type: array
+            items:
+              type: integer
+            description: IDs of contacts to be added to the group
+            example: [1, 2, 3]
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            group_contacts:
+              type: array
+              description: Array of created group contacts
+              items:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    description: Id of the group contact association
+                  contact_id:
+                    type: integer
+                    description: Id of the contact
+                  contact:
+                    $ref: '#/components/schemas/contact'
+  '404':
+    description: Conversation not found
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '422':
+    description: Conversation must be a group
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

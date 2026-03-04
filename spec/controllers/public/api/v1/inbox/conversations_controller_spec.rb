@@ -105,6 +105,29 @@ RSpec.describe 'Public Inbox Contact Conversations API', type: :request do
       expect(conversation.custom_attributes).to eq('test' => 'test')
       expect(conversation.additional_attributes).to be_empty
     end
+
+    it 'creates a group conversation with group params' do
+      post "/public/api/v1/inboxes/#{api_channel.identifier}/contacts/#{contact_inbox.source_id}/conversations",
+           params: { group: true, group_source_id: 'ext-123', group_title: 'Test Group' }
+
+      expect(response).to have_http_status(:success)
+      data = response.parsed_body
+      conversation = api_channel.inbox.conversations.find_by(display_id: data['id'])
+      expect(conversation.group).to be true
+      expect(conversation.group_source_id).to eq('ext-123')
+      expect(conversation.group_title).to eq('Test Group')
+    end
+
+    it 'returns group fields in the response' do
+      post "/public/api/v1/inboxes/#{api_channel.identifier}/contacts/#{contact_inbox.source_id}/conversations",
+           params: { group: true, group_source_id: 'ext-123', group_title: 'Test Group' }
+
+      expect(response).to have_http_status(:success)
+      data = response.parsed_body
+      expect(data['group']).to be true
+      expect(data['group_source_id']).to eq('ext-123')
+      expect(data['group_title']).to eq('Test Group')
+    end
   end
 
   describe 'POST /public/api/v1/inboxes/{identifier}/contact/{source_id}/conversations/{conversation_id}/toggle_typing' do

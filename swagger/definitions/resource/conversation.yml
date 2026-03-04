@@ -88,4 +88,28 @@ properties:
     items:
       type: object
       description: SLA event objects
+  group:
+    type: boolean
+    description: Whether this is a group conversation
+  group_title:
+    type: string
+    description: Title/name of the group conversation
+  group_source_id:
+    type: string
+    description: External identifier for the group (e.g., from WhatsApp or Telegram)
+  group_contacts:
+    type: array
+    description: Additional contacts in the group conversation (excluding primary contact)
+    items:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Id of the group contact association
+        contact_id:
+          type: integer
+          description: Id of the contact
+        contact:
+          type: object
+          description: Contact details
 

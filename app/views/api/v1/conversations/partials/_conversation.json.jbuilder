@@ -3,8 +3,10 @@
 # Everywhere else we use conversation builder in partials folder
 
 json.meta do
-  json.sender do
-    json.partial! 'api/v1/models/contact', formats: [:json], resource: conversation.contact
+  if conversation.contact.present?
+    json.sender do
+      json.partial! 'api/v1/models/contact', formats: [:json], resource: conversation.contact
+    end
   end
   json.channel conversation.inbox.try(:channel_type)
   if conversation.assigned_entity.is_a?(AgentBot)
@@ -59,4 +61,19 @@ json.last_activity_at conversation.last_activity_at.to_i
 json.priority conversation.priority
 json.waiting_since conversation.waiting_since.to_i.to_i
 json.sla_policy_id conversation.sla_policy_id
+
+# Group conversation fields
+json.group conversation.group
+json.group_title conversation.group_title
+json.group_source_id conversation.group_source_id
+if conversation.group?
+  json.group_contacts conversation.group_contacts.includes(:contact) do |group_contact|
+    json.id group_contact.id
+    json.contact_id group_contact.contact_id
+    json.contact do
+      json.partial! 'api/v1/models/contact', formats: [:json], resource: group_contact.contact
+    end
+  end
+end
+
 json.partial! 'enterprise/api/v1/conversations/partials/conversation', conversation: conversation if ChatwootApp.enterprise?
