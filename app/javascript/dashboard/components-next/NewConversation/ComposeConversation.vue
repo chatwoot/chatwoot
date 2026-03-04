@@ -21,6 +21,7 @@ import {
 import wootConstants from 'dashboard/constants/globals';
 
 import ComposeNewConversationForm from 'dashboard/components-next/NewConversation/components/ComposeNewConversationForm.vue';
+import { useRouter } from 'vue-router';
 
 const props = defineProps({
   alignPosition: {
@@ -38,6 +39,7 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['close']);
+const router = useRouter();
 
 const store = useStore();
 const { t } = useI18n();
@@ -191,13 +193,25 @@ const createConversation = async ({ payload, isFromWhatsApp }) => {
       params: payload,
       isFromWhatsApp,
     });
-    const action = {
-      type: 'link',
-      to: `/app/accounts/${data.account_id}/conversations/${data.id}`,
-      message: t('COMPOSE_NEW_CONVERSATION.FORM.GO_TO_CONVERSATION'),
-    };
     discardCompose();
-    useAlert(t('COMPOSE_NEW_CONVERSATION.FORM.SUCCESS_MESSAGE'), action);
+
+    // const action = {
+    //   type: 'link',
+    //   to: `/app/accounts/${data.account_id}/conversations/${data.id}`,
+    //   message: t('COMPOSE_NEW_CONVERSATION.FORM.GO_TO_CONVERSATION'),
+    // };
+    // useAlert(t('COMPOSE_NEW_CONVERSATION.FORM.SUCCESS_MESSAGE'), action);
+
+    await store.dispatch('toggleStatus', {
+      conversationId: data.id,
+      status: wootConstants.STATUS_TYPE.OPEN,
+    });
+
+    await router.push(
+      `/app/accounts/${data.account_id}/conversations/${data.id}`
+    );
+
+    useAlert(t('COMPOSE_NEW_CONVERSATION.FORM.SUCCESS_MESSAGE'));
     return true; // Return success
   } catch (error) {
     useAlert(
