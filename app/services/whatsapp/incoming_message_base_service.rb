@@ -124,6 +124,23 @@ class Whatsapp::IncomingMessageBaseService
         'response_data' => response_data
       }
     )
+
+    persist_flow_data_to_contact(response_data) if response_data.present?
+  end
+
+  def persist_flow_data_to_contact(response_data)
+    return if @contact.blank? || response_data.blank?
+
+    clean_data = response_data.except('flow_token', 'FlowToken')
+    return if clean_data.blank?
+
+    merged = (@contact.custom_attributes || {}).merge(clean_data)
+    @contact.update!(custom_attributes: merged)
+
+    note_content = clean_data.map { |k, v| "**#{k.humanize}:** #{v}" }.join("\n")
+    @contact.notes.create!(content: "WhatsApp Flow Response\n\n#{note_content}", account: @inbox.account)
+  rescue StandardError => e
+    Rails.logger.warn "[WHATSAPP FLOW] Failed to persist flow data to contact: #{e.message}"
   end
 
   def set_contact
@@ -166,6 +183,14 @@ class Whatsapp::IncomingMessageBaseService
 
     # Update existing contact name if ProfileName is available and current name is just phone number
     update_contact_with_profile_name(contact_params)
+    fetch_whatsapp_profile_picture
+  end
+
+  def fetch_whatsapp_profile_picture
+    return if @contact.blank? || @contact.avatar.attached?
+    return unless inbox.channel.provider == 'whatsapp_cloud'
+
+    Avatar::AvatarFromWhatsappJob.perform_later(@contact, inbox.channel)
   end
 
   def set_conversation

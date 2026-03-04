@@ -14,49 +14,56 @@ const hasFlowData = computed(
 );
 
 const responseEntries = computed(() =>
-  Object.entries(flowResponse.value.responseData || {})
+  Object.entries(flowResponse.value.responseData || {}).filter(
+    ([key]) => key.toLowerCase() !== 'flow_token'
+  )
 );
+
+function formatKey(key) {
+  return key
+    .replace(/([A-Z])/g, ' $1')
+    .replace(/[_-]/g, ' ')
+    .replace(/\b\w/g, c => c.toUpperCase())
+    .trim();
+}
+
+function formatValue(value) {
+  if (value === null || value === undefined) return '—';
+  if (typeof value === 'boolean') return value ? '✓' : '✗';
+  return String(value).replace(/_/g, ' ');
+}
 </script>
 
 <template>
-  <BaseBubble
-    class="p-0 overflow-hidden"
-    data-bubble-name="whatsapp-flow-response"
-  >
-    <div class="flex flex-col max-w-80">
-      <!-- Flow response header -->
-      <div class="flex items-center gap-2 px-4 pt-3 pb-2">
-        <span class="i-lucide-git-branch size-4 text-n-teal-11" />
-        <span class="text-xs font-medium text-n-teal-11">
-          {{ $t('CONVERSATION.FLOW_RESPONSE') }}
-        </span>
-      </div>
+  <BaseBubble class="px-4 py-3" data-bubble-name="whatsapp-flow-response">
+    <!-- Message body -->
+    <p v-if="content" class="text-sm text-n-slate-12 mb-2">
+      {{ flowResponse.body || content }}
+    </p>
 
-      <!-- Message body -->
-      <div v-if="content" class="px-4 pb-2 text-sm text-n-slate-12">
-        {{ flowResponse.body || content }}
-      </div>
-
-      <!-- Response data -->
+    <!-- Flow response data -->
+    <div v-if="hasFlowData" class="mt-1">
       <div
-        v-if="hasFlowData"
-        class="mx-4 mb-3 rounded-lg border border-n-weak bg-n-alpha-1 overflow-hidden"
+        class="flex items-center gap-1.5 mb-2 text-xs font-medium text-n-teal-11"
       >
+        <span class="i-lucide-git-branch size-3.5" />
+        <span>{{ $t('CONVERSATION.FLOW_RESPONSE') }}</span>
+      </div>
+
+      <dl class="space-y-1">
         <div
           v-for="[key, value] in responseEntries"
           :key="key"
-          class="flex items-start gap-3 px-3 py-2 border-b border-n-weak last:border-b-0"
+          class="flex gap-2 text-sm"
         >
-          <span
-            class="text-xs font-medium text-n-slate-9 min-w-[80px] capitalize"
-          >
-            {{ key.replace(/_/g, ' ') }}
-          </span>
-          <span class="text-xs text-n-slate-12 flex-1">
-            {{ value }}
-          </span>
+          <dt class="text-n-slate-9 font-medium min-w-0 shrink-0">
+            {{ formatKey(key) }}:
+          </dt>
+          <dd class="text-n-slate-12 min-w-0 break-words">
+            {{ formatValue(value) }}
+          </dd>
         </div>
-      </div>
+      </dl>
     </div>
   </BaseBubble>
 </template>
