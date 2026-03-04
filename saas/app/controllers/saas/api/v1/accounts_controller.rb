@@ -1,7 +1,7 @@
 class Saas::Api::V1::AccountsController < Api::V1::Accounts::BaseController
-  # Member routes pass :id instead of :account_id; remap so
-  # EnsureCurrentAccountHelper#current_account can find the account.
-  before_action :set_account_id_from_member_route
+  # Member routes pass :id instead of :account_id; remap BEFORE
+  # the parent's current_account filter tries Account.find(params[:account_id]).
+  prepend_before_action :set_account_id_from_member_route
   before_action :check_admin_authorization?
 
   def checkout
