@@ -27,7 +27,9 @@ export function useBulkDownload() {
       downloadProgress.value.current = i + 1;
 
       try {
-        const { data_url: url, file_type: type, extension } = attachment;
+        const url = attachment.dataUrl || attachment.data_url;
+        const type = attachment.fileType || attachment.file_type;
+        const { extension } = attachment;
         // eslint-disable-next-line no-await-in-loop
         await downloadFile({ url, type, extension });
         successCount += 1;
