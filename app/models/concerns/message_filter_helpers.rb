@@ -6,15 +6,25 @@ module MessageFilterHelpers
   end
 
   def webhook_sendable?
+    return false if imported_from_history?
+
     incoming? || outgoing? || template?
   end
 
   def slack_hook_sendable?
+    return false if imported_from_history?
+
     incoming? || outgoing? || template?
   end
 
   def notifiable?
+    return false if imported_from_history?
+
     (incoming? || outgoing?) && !private?
+  end
+
+  def imported_from_history?
+    content_attributes&.dig('imported_from_history') == true
   end
 
   def conversation_transcriptable?
