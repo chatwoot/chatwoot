@@ -25,6 +25,7 @@ import vue from '@vitejs/plugin-vue';
 
 const isLibraryMode = process.env.BUILD_MODE === 'library';
 const isTestMode = process.env.TEST === 'true';
+const isClientMode = process.env.BUILD_MODE === 'client';
 
 const vueOptions = {
   template: {
@@ -34,7 +35,7 @@ const vueOptions = {
   },
 };
 
-let plugins = [ruby(), vue(vueOptions)];
+let plugins = isClientMode ? [vue(vueOptions)] : [ruby(), vue(vueOptions)];
 
 if (isLibraryMode) {
   plugins = [];
@@ -66,19 +67,6 @@ export default defineConfig(({ mode }) => {
           changeOrigin: true,
         },
         '/rails': { target: PROXY_SERVER_API_URL, changeOrigin: true },
-        '/app': { target: PROXY_SERVER_API_URL, changeOrigin: true },
-        '/': {
-          target: PROXY_SERVER_API_URL,
-          changeOrigin: true,
-          bypass(req) {
-            const url = req.url ?? '';
-            if (url.startsWith('/vite-dev/') || url.startsWith('/@')) {
-              return url;
-            }
-
-            return null;
-          },
-        },
       }
     : undefined;
 
