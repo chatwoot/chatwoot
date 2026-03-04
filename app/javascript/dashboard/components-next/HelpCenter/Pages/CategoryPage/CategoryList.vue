@@ -26,25 +26,15 @@ const handleAction = ({ action, value, id }, category) => {
   emit('action', { action, value, id, category });
 };
 
-const generateSortedPositions = () => {
-  const sortedPositions = localCategories.value
-    .map(category => Number(category.position))
-    .filter(position => Number.isFinite(position))
-    .sort((a, b) => a - b);
-
-  if (sortedPositions.length === localCategories.value.length) {
-    return sortedPositions;
-  }
-
-  return localCategories.value.map((_, index) => (index + 1) * 10);
-};
-
 const onDragEnd = () => {
-  const sortedCategoryPositions = generateSortedPositions();
+  // Collect and sort existing positions, falling back to index+1 for null/0 values
+  const sortedPositions = localCategories.value
+    .map((category, index) => category.position || index + 1)
+    .sort((a, b) => a - b);
 
   const reorderedGroup = localCategories.value.reduce(
     (obj, category, index) => {
-      obj[category.id] = sortedCategoryPositions[index];
+      obj[category.id] = sortedPositions[index];
       return obj;
     },
     {}

@@ -66,10 +66,10 @@ const onReorder = reorderedGroup => {
 };
 
 const onDragEnd = () => {
-  // Reuse existing positions to maintain order within the current group
+  // Collect and sort existing positions, falling back to index+1 for null/0 values
   const sortedArticlePositions = localArticles.value
-    .map(article => article.position)
-    .sort((a, b) => a - b); // Use custom sort to handle numeric values correctly
+    .map((article, index) => article.position || index + 1)
+    .sort((a, b) => a - b);
 
   const orderedArticles = localArticles.value.map(article => article.id);
 
