@@ -5,7 +5,7 @@ import types from '../../../mutation-types';
 describe('#mutations', () => {
   let state = {};
   beforeEach(() => {
-    state = article;
+    state = JSON.parse(JSON.stringify(article));
   });
 
   describe('#SET_UI_FLAG', () => {
@@ -93,9 +93,9 @@ describe('#mutations', () => {
       mutations[types.ADD_ARTICLE_ID](state, 3);
       expect(state.articles.allIds).toEqual([1, 2, 3]);
     });
-    it('Does not invalid article with empty data passed', () => {
-      mutations[types.ADD_ARTICLE_ID](state, {});
-      expect(state).toEqual(article);
+    it('does not add duplicate article id to state', () => {
+      mutations[types.ADD_ARTICLE_ID](state, 1);
+      expect(state.articles.allIds).toEqual([1, 2]);
     });
   });
 

@@ -40,10 +40,13 @@ describe('#getters', () => {
           allIds: [1, 2, 3],
         },
       };
+      const boundGetters = {
+        categoryById: getters.categoryById(stateWithPositions),
+      };
 
       const result = getters.allCategoriesSortedByPosition(
         stateWithPositions,
-        getters
+        boundGetters
       );
 
       expect(result.map(c => c.id)).toEqual([2, 3, 1]);
@@ -63,10 +66,13 @@ describe('#getters', () => {
           allIds: [1, 2, 3],
         },
       };
+      const boundGetters = {
+        categoryById: getters.categoryById(stateWithNullPositions),
+      };
 
       const result = getters.allCategoriesSortedByPosition(
         stateWithNullPositions,
-        getters
+        boundGetters
       );
 
       expect(result.map(c => c.id)).toEqual([1, 3, 2]);
@@ -85,10 +91,13 @@ describe('#getters', () => {
           allIds: [1, 2, 3],
         },
       };
+      const boundGetters = {
+        categoryById: getters.categoryById(stateWithUndefinedPositions),
+      };
 
       const result = getters.allCategoriesSortedByPosition(
         stateWithUndefinedPositions,
-        getters
+        boundGetters
       );
 
       expect(result.map(c => c.id)).toEqual([1, 3, 2]);

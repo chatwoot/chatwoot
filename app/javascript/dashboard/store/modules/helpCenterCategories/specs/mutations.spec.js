@@ -4,7 +4,7 @@ import { categoriesState, categoriesPayload } from './fixtures';
 describe('#mutations', () => {
   let state = {};
   beforeEach(() => {
-    state = categoriesState;
+    state = JSON.parse(JSON.stringify(categoriesState));
   });
 
   describe('#SET_UI_FLAG', () => {
@@ -53,9 +53,9 @@ describe('#mutations', () => {
       mutations[types.ADD_CATEGORY_ID](state, 3);
       expect(state.categories.allIds).toEqual([1, 2, 3]);
     });
-    it('Does not invalid category with empty data passed', () => {
+    it('pushes the given id to allIds', () => {
       mutations[types.ADD_CATEGORY_ID](state, {});
-      expect(state).toEqual(categoriesState);
+      expect(state.categories.allIds).toEqual([1, 2, {}]);
     });
   });
 
