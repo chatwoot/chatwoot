@@ -154,20 +154,14 @@ namespace :saas do
         next
       end
 
-      # Group monthly and annual under the same Stripe product
-      base_name = plan.name.delete_suffix(' Anual')
-      existing_product = Saas::Plan.active.find_by(name: base_name, interval: 'month')
-      product_id = existing_product&.stripe_product_id
-
-      if product_id.blank?
-        product = Stripe::Product.create(
-          name: "AirysChat #{base_name}",
-          description: "#{plan.agent_limit} agentes, #{plan.inbox_limit} inboxes, " \
-                       "#{plan.ai_tokens_monthly.to_fs(:delimited)} tokens IA/mês",
-          metadata: { plan_name: base_name }
-        )
-        product_id = product.id
-      end
+      # Each plan gets its own Stripe product (unique index on stripe_product_id)
+      product = Stripe::Product.create(
+        name: "AirysChat #{plan.name}",
+        description: "#{plan.agent_limit} agentes, #{plan.inbox_limit} inboxes, " \
+                     "#{plan.ai_tokens_monthly.to_fs(:delimited)} tokens IA/mês",
+        metadata: { plan_name: plan.name, interval: plan.interval }
+      )
+      product_id = product.id
 
       price = Stripe::Price.create(
         product: product_id,
