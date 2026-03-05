@@ -55,7 +55,7 @@ export default {
 
       const searchLower = this.search.toLowerCase().trim();
 
-      if (searchLower.length < 3) {
+      if (searchLower.length < 2) {
         const filtered = picoSearch(
           this.accountLabels,
           this.search,
