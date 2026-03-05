@@ -271,25 +271,3 @@ jobs:
 
           echo "Ingress status (staging):"
           kubectl get ingress -n chatwoot-staging
-
-      - name: Debug deployment failure
-        if: failure()
-        run: |
-          echo "========== POD STATUS =========="
-          kubectl get pods -n chatwoot-staging -o wide
-
-          echo ""
-          echo "========== RAILS POD DESCRIBE =========="
-          kubectl describe pods -l app=chatwoot-rails-staging -n chatwoot-staging
-
-          echo ""
-          echo "========== RAILS POD LOGS (current) =========="
-          kubectl logs -l app=chatwoot-rails-staging -n chatwoot-staging --tail=200 || true
-
-          echo ""
-          echo "========== RAILS POD LOGS (previous/crashed) =========="
-          kubectl logs -l app=chatwoot-rails-staging -n chatwoot-staging --previous --tail=200 || true
-
-          echo ""
-          echo "========== EVENTS =========="
-          kubectl get events -n chatwoot-staging --sort-by='.lastTimestamp' | tail -30
