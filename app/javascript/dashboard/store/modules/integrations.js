@@ -16,6 +16,8 @@ const state = {
     isCreatingSlack: false,
     isUpdatingSlack: false,
     isFetchingSlackChannels: false,
+    isCreatingMoengage: false,
+    isUpdatingMoengage: false,
   },
 };
 
@@ -135,6 +137,101 @@ export const actions = {
       throw new Error(error);
     }
   },
+
+  fetchMoengage: async ({ commit }) => {
+    commit(types.default.SET_INTEGRATIONS_UI_FLAG, {
+      isFetchingMoengage: true,
+    });
+    try {
+      const response = await IntegrationsAPI.getMoengage();
+      commit(types.default.UPDATE_MOENGAGE_HOOK, response.data);
+      return response.data;
+    } catch (error) {
+      // If 404, the integration doesn't exist - that's ok
+      if (error.response?.status !== 404) {
+        throw error;
+      }
+      return null;
+    } finally {
+      commit(types.default.SET_INTEGRATIONS_UI_FLAG, {
+        isFetchingMoengage: false,
+      });
+    }
+  },
+
+  createMoengage: async ({ commit }, settings) => {
+    commit(types.default.SET_INTEGRATIONS_UI_FLAG, {
+      isCreatingMoengage: true,
+    });
+    try {
+      const response = await IntegrationsAPI.createMoengage(settings);
+      commit(types.default.ADD_INTEGRATION, {
+        id: 'moengage',
+        enabled: true,
+        hooks: [response.data],
+      });
+      return response.data;
+    } catch (error) {
+      throwErrorMessage(error);
+      throw error;
+    } finally {
+      commit(types.default.SET_INTEGRATIONS_UI_FLAG, {
+        isCreatingMoengage: false,
+      });
+    }
+  },
+
+  updateMoengage: async ({ commit }, settings) => {
+    commit(types.default.SET_INTEGRATIONS_UI_FLAG, {
+      isUpdatingMoengage: true,
+    });
+    try {
+      const response = await IntegrationsAPI.updateMoengage(settings);
+      commit(types.default.UPDATE_MOENGAGE_HOOK, response.data);
+      return response.data;
+    } catch (error) {
+      throwErrorMessage(error);
+      throw error;
+    } finally {
+      commit(types.default.SET_INTEGRATIONS_UI_FLAG, {
+        isUpdatingMoengage: false,
+      });
+    }
+  },
+
+  deleteMoengage: async ({ commit }) => {
+    commit(types.default.SET_INTEGRATIONS_UI_FLAG, { isDeleting: true });
+    try {
+      await IntegrationsAPI.deleteMoengage();
+      commit(types.default.DELETE_INTEGRATION, {
+        id: 'moengage',
+        enabled: false,
+      });
+    } catch (error) {
+      throwErrorMessage(error);
+      throw error;
+    } finally {
+      commit(types.default.SET_INTEGRATIONS_UI_FLAG, { isDeleting: false });
+    }
+  },
+
+  regenerateMoengageToken: async ({ commit }) => {
+    commit(types.default.SET_INTEGRATIONS_UI_FLAG, {
+      isUpdatingMoengage: true,
+    });
+    try {
+      const response = await IntegrationsAPI.regenerateMoengageToken();
+      commit(types.default.UPDATE_MOENGAGE_HOOK, response.data);
+      return response.data;
+    } catch (error) {
+      throwErrorMessage(error);
+      throw error;
+    } finally {
+      commit(types.default.SET_INTEGRATIONS_UI_FLAG, {
+        isUpdatingMoengage: false,
+      });
+    }
+  },
 };
 
 export const mutations = {
@@ -165,6 +262,29 @@ export const mutations = {
       }
       return record;
     });
+  },
+  [types.default.UPDATE_MOENGAGE_HOOK]: ($state, data) => {
+    const moengageExists = $state.records.some(r => r.id === 'moengage');
+
+    if (moengageExists) {
+      $state.records = $state.records.map(record => {
+        if (record.id === 'moengage') {
+          return {
+            ...record,
+            enabled: true,
+            hooks: [data],
+          };
+        }
+        return record;
+      });
+    } else {
+      // Add moengage to records if it doesn't exist
+      $state.records.push({
+        id: 'moengage',
+        enabled: true,
+        hooks: [data],
+      });
+    }
   },
 };
 

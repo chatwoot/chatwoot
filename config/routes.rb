@@ -409,6 +409,17 @@ Rails.application.routes.draw do
                 delete :destroy
               end
             end
+            resource :moengage, controller: 'moengage', only: [:show, :create, :update, :destroy] do
+              member do
+                post :regenerate_token
+                get :webhook_event_logs
+              end
+              resources :template_mappings, controller: 'moengage/template_mappings', only: [:index, :create, :update, :destroy] do
+                collection do
+                  get :available_templates
+                end
+              end
+            end
             resource :calendly, controller: 'calendly', only: [:destroy] do
               collection do
                 get :event_types
@@ -672,6 +683,7 @@ Rails.application.routes.draw do
   post 'webhooks/instagram', to: 'webhooks/instagram#events'
   post 'webhooks/clerk', to: 'api/v1/webhooks/clerk#create'
   post 'webhooks/tiktok', to: 'webhooks/tiktok#events'
+  match 'webhooks/moengage/:webhook_token', to: 'webhooks/moengage#process_payload', via: [:get, :post]
   post 'webhooks/calendly', to: 'webhooks/calendly#receive'
 
   namespace :twitter do
