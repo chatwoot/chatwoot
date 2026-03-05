@@ -63,3 +63,5 @@ class CustomAttributeDefinition < ApplicationRecord
     errors.add(:attribute_key, I18n.t('errors.custom_attribute_definition.key_conflict'))
   end
 end
+
+CustomAttributeDefinition.include_mod_with('Concerns::CustomAttributeDefinition')

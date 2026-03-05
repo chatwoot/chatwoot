@@ -1,13 +1,13 @@
 {
   "CUSTOM_ROLE": {
-    "HEADER": "Custom Roles",
-    "LEARN_MORE": "Learn more about custom roles",
-    "DESCRIPTION": "Custom roles are roles that are created by the account owner or admin. These roles can be assigned to agents to define their access and permissions within the account. Custom roles can be created with specific permissions and access levels to suit the requirements of the organization.",
+    "HEADER": "Özel Roller",
+    "LEARN_MORE": "Özel roller hakkında daha fazla bilgi edinin",
+    "DESCRIPTION": "Özel roller, hesap sahibi veya yöneticiler tarafından oluşturulan rollerdir. Bu roller, temsilcilere hesabın içinde hangi erişim ve yetkilere sahip olacaklarını belirlemek için atanabilir. Özel roller, organizasyonun ihtiyaçlarına uygun olarak belirli izinler ve erişim seviyeleriyle oluşturulabilir.",
     "HEADER_BTN_TXT": "Add custom role",
-    "LOADING": "Fetching custom roles...",
+    "LOADING": "Özel roller alınıyor...",
     "SEARCH_404": "Bu sorgu ile eşleşen öğe yok.",
     "PAYWALL": {
-      "TITLE": "Upgrade to create custom roles",
+      "TITLE": "Özel roller oluşturmak için yükseltin",
       "AVAILABLE_ON": "The custom role feature is only available in the Business and Enterprise plans.",
       "UPGRADE_PROMPT": "Upgrade your plan to get access to advanced features like team management, automations, custom attributes, and more.",
       "UPGRADE_NOW": "Upgrade now",
@@ -19,9 +19,9 @@
       "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
     },
     "LIST": {
-      "404": "There are no custom roles available in this account.",
-      "TITLE": "Manage custom roles",
-      "DESC": "Custom roles are roles that are created by the account owner or admin. These roles can be assigned to agents to define their access and permissions within the account. Custom roles can be created with specific permissions and access levels to suit the requirements of the organization.",
+      "404": "Bu hesapta kullanılabilir özel rol bulunmamaktadır.",
+      "TITLE": "Özel rolleri yönet",
+      "DESC": "Özel roller, hesap sahibi veya yöneticiler tarafından oluşturulan rollerdir. Bu roller, temsilcilere hesap içindeki erişim ve yetkilerini tanımlamak için atanabilir. Özel roller, organizasyonun ihtiyaçlarına uygun olarak belirli izinler ve erişim seviyeleriyle oluşturulabilir.",
       "TABLE_HEADER": {
         "NAME": "İsim",
         "DESCRIPTION": "Açıklama",
@@ -59,7 +59,7 @@
     },
     "ADD": {
       "TITLE": "Add custom role",
-      "DESC": " Custom roles allows you to create roles with specific permissions and access levels to suit the requirements of the organization.",
+      "DESC": " Özel roller, organizasyonun ihtiyaçlarına uygun olarak belirli izinler ve erişim seviyeleriyle roller oluşturmanıza olanak tanır.",
       "SUBMIT": "Gönder",
       "API": {
         "SUCCESS_MESSAGE": "Custom role added successfully."
@@ -68,7 +68,7 @@
     "EDIT": {
       "BUTTON_TEXT": "Düzenle",
       "TITLE": "Edit custom role",
-      "DESC": " Custom roles allows you to create roles with specific permissions and access levels to suit the requirements of the organization.",
+      "DESC": " Özel roller, organizasyonun ihtiyaçlarına uygun olarak belirli izinler ve erişim seviyeleriyle roller oluşturmanıza olanak tanır.",
       "SUBMIT": "Güncelleme",
       "API": {
         "SUCCESS_MESSAGE": "Custom role updated successfully."

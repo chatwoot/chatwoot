@@ -141,20 +141,13 @@ RSpec.describe 'Api::V1::Accounts::AutomationRulesController', type: :request do
       end
 
       it 'Saves file in the automation actions to send an attachments' do
-        file = fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png')
+        blob = ActiveStorage::Blob.create_and_upload!(
+          io: Rails.root.join('spec/assets/avatar.png').open,
+          filename: 'avatar.png',
+          content_type: 'image/png'
+        )
 
         expect(account.automation_rules.count).to eq(0)
-
-        post "/api/v1/accounts/#{account.id}/upload/",
-             headers: administrator.create_new_auth_token,
-             params: { attachment: file }
-
-        expect(response).to have_http_status(:success)
-
-        blob = response.parsed_body
-
-        expect(blob['blob_key']).to be_present
-        expect(blob['blob_id']).to be_present
 
         params[:actions] = [
           {
@@ -163,7 +156,7 @@ RSpec.describe 'Api::V1::Accounts::AutomationRulesController', type: :request do
           },
           {
             'action_name': :send_attachment,
-            'action_params': [blob['blob_id']]
+            'action_params': [blob.signed_id]
           }
         ]
 
@@ -177,29 +170,25 @@ RSpec.describe 'Api::V1::Accounts::AutomationRulesController', type: :request do
       end
 
       it 'Saves files in the automation actions to send multiple attachments' do
-        file_1 = fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png')
-        file_2 = fixture_file_upload(Rails.root.join('spec/assets/sample.png'), 'image/png')
-
-        post "/api/v1/accounts/#{account.id}/upload/",
-             headers: administrator.create_new_auth_token,
-             params: { attachment: file_1 }
-
-        blob_1 = response.parsed_body
-
-        post "/api/v1/accounts/#{account.id}/upload/",
-             headers: administrator.create_new_auth_token,
-             params: { attachment: file_2 }
-
-        blob_2 = response.parsed_body
+        blob_1 = ActiveStorage::Blob.create_and_upload!(
+          io: Rails.root.join('spec/assets/avatar.png').open,
+          filename: 'avatar.png',
+          content_type: 'image/png'
+        )
+        blob_2 = ActiveStorage::Blob.create_and_upload!(
+          io: Rails.root.join('spec/assets/sample.png').open,
+          filename: 'sample.png',
+          content_type: 'image/png'
+        )
 
         params[:actions] = [
           {
             'action_name': :send_attachment,
-            'action_params': [blob_1['blob_id']]
+            'action_params': [blob_1.signed_id]
           },
           {
             'action_name': :send_attachment,
-            'action_params': [blob_2['blob_id']]
+            'action_params': [blob_2.signed_id]
           }
         ]
 
@@ -209,6 +198,46 @@ RSpec.describe 'Api::V1::Accounts::AutomationRulesController', type: :request do
 
         automation_rule = account.automation_rules.first
         expect(automation_rule.files.count).to eq(2)
+      end
+
+      it 'returns error for invalid attachment blob_id' do
+        params[:actions] = [
+          {
+            'action_name': :send_attachment,
+            'action_params': ['invalid_blob_id']
+          }
+        ]
+
+        post "/api/v1/accounts/#{account.id}/automation_rules",
+             headers: administrator.create_new_auth_token,
+             params: params
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['error']).to eq(I18n.t('errors.attachments.invalid'))
+      end
+
+      it 'stores the original blob_id in action_params after create' do
+        blob = ActiveStorage::Blob.create_and_upload!(
+          io: Rails.root.join('spec/assets/avatar.png').open,
+          filename: 'avatar.png',
+          content_type: 'image/png'
+        )
+
+        params[:actions] = [
+          {
+            'action_name': :send_attachment,
+            'action_params': [blob.signed_id]
+          }
+        ]
+
+        post "/api/v1/accounts/#{account.id}/automation_rules",
+             headers: administrator.create_new_auth_token,
+             params: params
+
+        automation_rule = account.automation_rules.first
+        attachment_action = automation_rule.actions.find { |a| a['action_name'] == 'send_attachment' }
+        expect(attachment_action['action_params'].first).to be_a(Integer)
+        expect(attachment_action['action_params'].first).to eq(automation_rule.files.first.blob_id)
       end
     end
   end
@@ -327,6 +356,68 @@ RSpec.describe 'Api::V1::Accounts::AutomationRulesController', type: :request do
         body = JSON.parse(response.body, symbolize_names: true)
         expect(body[:payload][:active]).to be(false)
         expect(automation_rule.reload.active).to be(false)
+      end
+
+      it 'allows update with existing blob_id' do
+        blob = ActiveStorage::Blob.create_and_upload!(
+          io: Rails.root.join('spec/assets/avatar.png').open,
+          filename: 'avatar.png',
+          content_type: 'image/png'
+        )
+
+        automation_rule.update!(actions: [{ 'action_name' => 'send_attachment', 'action_params' => [blob.id] }])
+        automation_rule.files.attach(blob)
+
+        update_params[:actions] = [
+          {
+            'action_name': :send_attachment,
+            'action_params': [blob.id]
+          }
+        ]
+
+        patch "/api/v1/accounts/#{account.id}/automation_rules/#{automation_rule.id}",
+              headers: administrator.create_new_auth_token,
+              params: update_params
+
+        expect(response).to have_http_status(:success)
+      end
+
+      it 'returns error for invalid blob_id on update' do
+        update_params[:actions] = [
+          {
+            'action_name': :send_attachment,
+            'action_params': [999_999]
+          }
+        ]
+
+        patch "/api/v1/accounts/#{account.id}/automation_rules/#{automation_rule.id}",
+              headers: administrator.create_new_auth_token,
+              params: update_params
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['error']).to eq(I18n.t('errors.attachments.invalid'))
+      end
+
+      it 'allows adding new attachment on update with signed blob_id' do
+        blob = ActiveStorage::Blob.create_and_upload!(
+          io: Rails.root.join('spec/assets/avatar.png').open,
+          filename: 'avatar.png',
+          content_type: 'image/png'
+        )
+
+        update_params[:actions] = [
+          {
+            'action_name': :send_attachment,
+            'action_params': [blob.signed_id]
+          }
+        ]
+
+        patch "/api/v1/accounts/#{account.id}/automation_rules/#{automation_rule.id}",
+              headers: administrator.create_new_auth_token,
+              params: update_params
+
+        expect(response).to have_http_status(:success)
+        expect(automation_rule.reload.files.count).to eq(1)
       end
     end
   end

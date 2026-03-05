@@ -10,7 +10,8 @@ class MessageContentPresenter < SimpleDelegator
 
     Messages::MarkdownRendererService.new(
       content_to_send,
-      conversation.inbox.channel_type
+      conversation.inbox.channel_type,
+      conversation.inbox.channel
     ).render
   end
 

@@ -32,6 +32,7 @@ describe Enterprise::Billing::HandleStripeEventService do
     # Setup common subscription mocks
     allow(event).to receive(:data).and_return(data)
     allow(data).to receive(:object).and_return(subscription)
+    allow(data).to receive(:previous_attributes).and_return({})
     allow(subscription).to receive(:[]).with('quantity').and_return('10')
     allow(subscription).to receive(:[]).with('status').and_return('active')
     allow(subscription).to receive(:[]).with('current_period_end').and_return(1_686_567_520)
@@ -62,7 +63,7 @@ describe Enterprise::Billing::HandleStripeEventService do
       expect(account).not_to be_feature_enabled('audit_logs')
     end
 
-    it 'resets captain usage on subscription update' do
+    it 'resets captain usage on billing period renewal' do
       # Prime the account with some usage
       5.times { account.increment_response_usage }
       expect(account.custom_attributes['captain_responses_usage']).to eq(5)
@@ -70,6 +71,10 @@ describe Enterprise::Billing::HandleStripeEventService do
       # Setup for any plan
       allow(subscription).to receive(:[]).with('plan')
                                          .and_return({ 'id' => 'test', 'product' => 'plan_id_startups', 'name' => 'Startups' })
+      allow(subscription).to receive(:[]).with('current_period_start').and_return(1_686_567_520)
+
+      # Simulate billing period renewal with previous_attributes showing old period
+      allow(data).to receive(:previous_attributes).and_return({ 'current_period_start' => 1_683_975_520 })
 
       stripe_event_service.new.perform(event: event)
 

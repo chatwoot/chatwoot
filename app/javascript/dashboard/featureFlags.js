@@ -2,6 +2,7 @@ export const FEATURE_FLAGS = {
   AGENT_BOTS: 'agent_bots',
   AGENT_MANAGEMENT: 'agent_management',
   ASSIGNMENT_V2: 'assignment_v2',
+  ADVANCED_ASSIGNMENT: 'advanced_assignment',
   AUTO_RESOLVE_CONVERSATIONS: 'auto_resolve_conversations',
   AUTOMATIONS: 'automations',
   CAMPAIGNS: 'campaigns',
@@ -20,10 +21,8 @@ export const FEATURE_FLAGS = {
   AUDIT_LOGS: 'audit_logs',
   INBOX_VIEW: 'inbox_view',
   SLA: 'sla',
-  RESPONSE_BOT: 'response_bot',
   CHANNEL_EMAIL: 'channel_email',
   CHANNEL_FACEBOOK: 'channel_facebook',
-  CHANNEL_TWITTER: 'channel_twitter',
   CHANNEL_WEBSITE: 'channel_website',
   CUSTOM_REPLY_DOMAIN: 'custom_reply_domain',
   CUSTOM_REPLY_EMAIL: 'custom_reply_email',
@@ -35,13 +34,16 @@ export const FEATURE_FLAGS = {
   CAPTAIN: 'captain_integration',
   CUSTOM_ROLES: 'custom_roles',
   CHATWOOT_V4: 'chatwoot_v4',
-  REPORT_V4: 'report_v4',
   CHANNEL_INSTAGRAM: 'channel_instagram',
+  CHANNEL_TIKTOK: 'channel_tiktok',
   CONTACT_CHATWOOT_SUPPORT_TEAM: 'contact_chatwoot_support_team',
   CAPTAIN_V2: 'captain_integration_v2',
+  CAPTAIN_TASKS: 'captain_tasks',
   SAML: 'saml',
   QUOTED_EMAIL_REPLY: 'quoted_email_reply',
   COMPANIES: 'companies',
+  ADVANCED_SEARCH: 'advanced_search',
+  CONVERSATION_REQUIRED_ATTRIBUTES: 'conversation_required_attributes',
 };
 
 export const PREMIUM_FEATURES = [
@@ -51,4 +53,6 @@ export const PREMIUM_FEATURES = [
   FEATURE_FLAGS.AUDIT_LOGS,
   FEATURE_FLAGS.HELP_CENTER,
   FEATURE_FLAGS.SAML,
+  FEATURE_FLAGS.CONVERSATION_REQUIRED_ATTRIBUTES,
+  FEATURE_FLAGS.ADVANCED_ASSIGNMENT,
 ];
