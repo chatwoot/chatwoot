@@ -1,7 +1,7 @@
 class Integrations::Linear::AccessTokenService
   TOKEN_URL = 'https://api.linear.app/oauth/token'.freeze
   MIGRATE_OLD_TOKEN_URL = 'https://api.linear.app/oauth/migrate_old_token'.freeze
-  TOKEN_EXPIRY_BUFFER = 5.minutes
+  TOKEN_EXPIRY_BUFFER = 1.minute
 
   pattr_initialize [:hook!]
 
@@ -27,13 +27,13 @@ class Integrations::Linear::AccessTokenService
       }
     )
 
-    return hook.access_token unless response.success?
+    return fallback_access_token unless response.success?
 
     persist_tokens(response.parsed_response)
     hook.access_token
   rescue StandardError => e
     Rails.logger.error("Linear token refresh failed for hook #{hook.id}: #{e.message}")
-    hook.access_token
+    fallback_access_token
   end
 
   def migrate_legacy_token
@@ -47,22 +47,23 @@ class Integrations::Linear::AccessTokenService
       }
     )
 
-    return hook.access_token unless response.success?
+    return fallback_access_token unless response.success?
 
     persist_tokens(response.parsed_response)
     hook.access_token
   rescue StandardError => e
     Rails.logger.error("Linear legacy token migration failed for hook #{hook.id}: #{e.message}")
-    hook.access_token
+    fallback_access_token
   end
 
   def persist_tokens(token_data)
-    updated_settings = hook_settings.merge(
-      token_type: token_data['token_type'] || hook_settings[:token_type],
-      expires_in: token_data['expires_in'] || hook_settings[:expires_in],
+    current_settings = hook_settings
+    updated_settings = current_settings.merge(
+      token_type: token_data['token_type'] || current_settings[:token_type],
+      expires_in: token_data['expires_in'] || current_settings[:expires_in],
       expires_on: expires_on(token_data['expires_in']),
-      scope: token_data['scope'] || hook_settings[:scope],
-      refresh_token: token_data['refresh_token'] || hook_settings[:refresh_token]
+      scope: token_data['scope'] || current_settings[:scope],
+      refresh_token: token_data['refresh_token'] || current_settings[:refresh_token]
     ).compact
 
     hook.update!(
@@ -89,7 +90,7 @@ class Integrations::Linear::AccessTokenService
   end
 
   def hook_settings
-    @hook_settings ||= hook.settings.to_h.with_indifferent_access
+    hook.settings.to_h.with_indifferent_access
   end
 
   def expires_on(expires_in)
@@ -108,5 +109,11 @@ class Integrations::Linear::AccessTokenService
 
   def client_secret
     GlobalConfigService.load('LINEAR_CLIENT_SECRET', nil)
+  end
+
+  def fallback_access_token
+    hook.reload.access_token
+  rescue StandardError
+    hook.access_token
   end
 end

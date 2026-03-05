@@ -32,6 +32,8 @@ describe Integrations::Linear::AccessTokenService do
         service = described_class.new(hook: hook)
 
         expect(service.access_token).to eq('valid_access_token')
+        expect(WebMock).not_to have_requested(:post, 'https://api.linear.app/oauth/token')
+        expect(WebMock).not_to have_requested(:post, 'https://api.linear.app/oauth/migrate_old_token')
       end
     end
 
@@ -73,6 +75,17 @@ describe Integrations::Linear::AccessTokenService do
         expect(hook.settings['refresh_token']).to eq('new_refresh_token')
         expect(hook.settings['expires_in']).to eq(7200)
         expect(hook.settings['expires_on']).to be_present
+      end
+
+      it 'falls back to latest persisted token on refresh failure' do
+        stub_request(:post, 'https://api.linear.app/oauth/token')
+          .to_return(status: 401, body: { error: 'invalid_grant' }.to_json, headers: { 'Content-Type' => 'application/json' })
+
+        Integrations::Hook.find(hook.id).update!(access_token: 'rotated_access_token')
+
+        service = described_class.new(hook: hook)
+
+        expect(service.access_token).to eq('rotated_access_token')
       end
     end
 

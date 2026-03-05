@@ -2,7 +2,7 @@ class Linear::CallbacksController < ApplicationController
   include Linear::IntegrationHelper
 
   def show
-    return redirect_to(linear_redirect_uri) if params[:code].blank?
+    return redirect_to(safe_linear_redirect_uri) if params[:code].blank? || account_id.blank?
 
     @response = oauth_client.auth_code.get_token(
       params[:code],
@@ -12,7 +12,7 @@ class Linear::CallbacksController < ApplicationController
     handle_response
   rescue StandardError => e
     Rails.logger.error("Linear callback error: #{e.message}")
-    redirect_to linear_redirect_uri
+    redirect_to safe_linear_redirect_uri
   end
 
   private
@@ -37,13 +37,13 @@ class Linear::CallbacksController < ApplicationController
     hook.assign_attributes(
       access_token: parsed_body['access_token'],
       status: 'enabled',
-      settings: integration_settings
+      settings: merged_integration_settings(hook.settings)
     )
     hook.save!
     redirect_to linear_redirect_uri
   rescue StandardError => e
     Rails.logger.error("Linear callback error: #{e.message}")
-    redirect_to linear_redirect_uri
+    redirect_to safe_linear_redirect_uri
   end
 
   def account
@@ -51,13 +51,21 @@ class Linear::CallbacksController < ApplicationController
   end
 
   def account_id
-    return unless params[:state]
+    return @account_id if instance_variable_defined?(:@account_id)
 
-    verify_linear_token(params[:state])
+    @account_id = params[:state].present? ? verify_linear_token(params[:state]) : nil
   end
 
   def linear_redirect_uri
     "#{ENV.fetch('FRONTEND_URL', nil)}/app/accounts/#{account.id}/settings/integrations/linear"
+  end
+
+  def safe_linear_redirect_uri
+    return base_url if account_id.blank?
+
+    linear_redirect_uri
+  rescue StandardError
+    base_url
   end
 
   def parsed_body
@@ -72,6 +80,10 @@ class Linear::CallbacksController < ApplicationController
       scope: parsed_body['scope'],
       refresh_token: parsed_body['refresh_token']
     }.compact
+  end
+
+  def merged_integration_settings(existing_settings)
+    existing_settings.to_h.with_indifferent_access.merge(integration_settings)
   end
 
   def expires_on
