@@ -20,11 +20,11 @@ class ProactiveOutreachAgent < ApplicationAgent
 
   model 'gemini-2.5-flash'
   temperature 0.7
-  version '1.0'
   timeout 60
 
-  reliability do
-    fallback_models ['gpt-4.1-mini', 'claude-haiku-4-5']
+  on_failure do
+    retries times: 2, backoff: :exponential
+    fallback_models 'gpt-4.1-mini', 'claude-haiku-4-5'
   end
 
   param :event_context, required: true
