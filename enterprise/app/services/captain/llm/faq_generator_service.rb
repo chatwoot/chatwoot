@@ -47,7 +47,7 @@ class Captain::Llm::FaqGeneratorService < Llm::BaseAiService
   def parse_response(content)
     return [] if content.nil?
 
-    JSON.parse(content.strip).fetch('faqs', [])
+    JSON.parse(sanitize_json_response(content)).fetch('faqs', [])
   rescue JSON::ParserError => e
     Rails.logger.error "Error in parsing GPT processed response: #{e.message}"
     []
