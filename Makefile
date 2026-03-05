@@ -32,14 +32,6 @@ server:
 burn:
 	bundle && pnpm install
 
-cleanup:
-	@echo "Cleaning up Overmind processes..."
-	@lsof -ti:3036 2>/dev/null | xargs kill -9 2>/dev/null || true
-	@lsof -ti:3000 2>/dev/null | xargs kill -9 2>/dev/null || true
-	@rm -f ./.overmind.sock
-	@rm -f tmp/pids/*.pid
-	@echo "Cleanup complete"
-
 run:
 	@if [ -f ./.overmind.sock ]; then \
 		echo "Overmind is already running. Use 'make force_run' to start a new instance."; \
@@ -48,8 +40,12 @@ run:
 	fi
 
 force_run:
-	rm -f ./.overmind.sock
-	rm -f tmp/pids/*.pid
+	@echo "Cleaning up Overmind processes..."
+	@lsof -ti:3036 2>/dev/null | xargs kill -9 2>/dev/null || true
+	@lsof -ti:3000 2>/dev/null | xargs kill -9 2>/dev/null || true
+	@rm -f ./.overmind.sock
+	@rm -f tmp/pids/*.pid
+	@echo "Cleanup complete"
 	overmind start -f Procfile.dev
 
 force_run_tunnel:
@@ -67,4 +63,4 @@ debug_worker:
 docker: 
 	docker build -t $(APP_NAME) -f ./docker/Dockerfile .
 
-.PHONY: setup db_create db_migrate db_seed db_reset db console server burn cleanup docker run force_run force_run_tunnel debug debug_worker
+.PHONY: setup db_create db_migrate db_seed db_reset db console server burn docker run force_run force_run_tunnel debug debug_worker
