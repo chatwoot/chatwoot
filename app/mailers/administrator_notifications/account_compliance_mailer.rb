@@ -39,7 +39,7 @@ class AdministratorNotifications::AccountComplianceMailer < AdministratorNotific
   end
 
   def subject_for(account)
-    "Account Deletion Notice for #{account.id} - #{account.name}"
+    "Уведомление об удалении аккаунта #{account.id} - #{account.name}"
   end
 
   def instance_admin_email

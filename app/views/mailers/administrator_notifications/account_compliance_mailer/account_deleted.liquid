@@ -1,30 +1,30 @@
-<p>Hello,</p>
+<p>Здравствуйте!</p>
 
-<p>This is a notification to inform you that an account has been permanently deleted from your OneLink instance.</p>
+<p>Уведомляем, что аккаунт был окончательно удалён из вашего инстанса OneLink.</p>
 
 <p>
-  <strong>OneLink Installation:</strong> {{ meta.instance_url }}<br>
-  <strong>Account ID:</strong> {{ meta.account_id }}<br>
-  <strong>Account Name:</strong> {{ meta.account_name }}<br>
-  <strong>Deletion due at:</strong> {{ meta.marked_for_deletion_at }}<br>
-  <strong>Deleted At:</strong> {{ meta.deleted_at }}<br>
-  <strong>Deletion Reason:</strong> {{ meta.deletion_reason }}
+  <strong>Инстанс OneLink:</strong> {{ meta.instance_url }}<br>
+  <strong>ID аккаунта:</strong> {{ meta.account_id }}<br>
+  <strong>Название аккаунта:</strong> {{ meta.account_name }}<br>
+  <strong>Дата запланированного удаления:</strong> {{ meta.marked_for_deletion_at }}<br>
+  <strong>Удалено:</strong> {{ meta.deleted_at }}<br>
+  <strong>Причина удаления:</strong> {{ meta.deletion_reason }}
 </p>
 
 {% if meta.deleted_user_count > 0 %}
 <p>
-  <strong>Deleted Users ({{ meta.deleted_user_count }}):</strong><br>
+  <strong>Удалённые пользователи ({{ meta.deleted_user_count }}):</strong><br>
   {% for user in meta.soft_deleted_users %}
-    User ID: {{ user.user_id }}, Email: {{ user.user_email }}{% unless forloop.last %}<br>{% endunless %}
+    ID: {{ user.user_id }}, Email: {{ user.user_email }}{% unless forloop.last %}<br>{% endunless %}
   {% endfor %}
 </p>
 {% else %}
 <p>
-  <strong>Deleted Users:</strong> None
+  <strong>Удалённые пользователи:</strong> нет
 </p>
 {% endif %}
 
-<p>This email serves as a record for compliance purposes.</p>
+<p>Это письмо отправлено для целей комплаенса и аудита.</p>
 
-<p>Thank you,<br>
-OneLink System</p>
+<p>С уважением,<br>
+Система OneLink</p>

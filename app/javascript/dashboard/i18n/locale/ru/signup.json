@@ -44,6 +44,7 @@
       "ERROR_MESSAGE": "Не удалось подключиться к Woot серверу. Пожалуйста, попробуйте еще раз."
     },
     "SUBMIT": "Создать новый workspace",
-    "HAVE_AN_ACCOUNT": "Уже есть workspace?"
+    "HAVE_AN_ACCOUNT": "Уже есть workspace?",
+    "GET_STARTED": "Начните работу с OneLink"
   }
 }

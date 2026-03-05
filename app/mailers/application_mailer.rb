@@ -76,6 +76,7 @@ class ApplicationMailer < ActionMailer::Base
 
   def switch_locale(&)
     locale ||= locale_from_account(Current.account)
+    locale ||= ENV.fetch('DEFAULT_LOCALE', 'ru')
     locale ||= I18n.default_locale
     # ensure locale won't bleed into other requests
     # https://guides.rubyonrails.org/i18n.html#managing-the-locale-across-requests

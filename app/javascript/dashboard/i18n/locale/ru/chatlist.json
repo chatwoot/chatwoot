@@ -76,6 +76,9 @@
       },
       "waiting_since_desc": {
         "TEXT": "Ожидающие ответа: сначала новые"
+      },
+      "priority_desc_created_at_asc": {
+        "TEXT": "Приоритет: сначала самый высокий, Создано: сначала самый старый"
       }
     },
     "ATTACHMENTS": {

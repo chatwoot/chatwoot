@@ -1,15 +1,15 @@
-<p>Hi {{user.available_name}}</p>
+<p>Здравствуйте, {{user.available_name}}!</p>
 
 <p>
-  A new conversation (<a href="{{ action_url }}">#{{conversation.display_id}}</a>) has been created in {{ inbox.name }}.
-  <strong>{{ conversation.contact_name }}</strong> wrote:
+  В {{ inbox.name }} создан новый диалог (<a href="{{ action_url }}">#{{conversation.display_id}}</a>).
+  <strong>{{ conversation.contact_name }}</strong> написал(а):
 </p>
 
 {% for chat_message in conversation.recent_messages %}
   <div>
     <h4 style="margin: 0;">
       {% if chat_message.sender == user.available_name %}
-        You
+        Вы
       {% else %}
         {{chat_message.sender}}
       {% endif %}
@@ -23,7 +23,7 @@
 
     {% if chat_message.attachments %}
       {% for attachment in chat_message.attachments %}
-        Attachment [<a href="{{ attachment }}" _target="blank">Click here to view</a>]
+        Вложение [<a href="{{ attachment }}" _target="blank">Открыть</a>]
       {% endfor %}
     {% endif %}
   </div>

@@ -1,26 +1,26 @@
 class AdministratorNotifications::ChannelNotificationsMailer < AdministratorNotifications::BaseMailer
   def facebook_disconnect(inbox)
-    subject = 'Your Facebook page connection has expired'
+    subject = 'Срок подключения Facebook страницы истёк'
     send_notification(subject, action_url: inbox_url(inbox))
   end
 
   def instagram_disconnect(inbox)
-    subject = 'Your Instagram connection has expired'
+    subject = 'Срок подключения Instagram истёк'
     send_notification(subject, action_url: inbox_url(inbox))
   end
 
   def tiktok_disconnect(inbox)
-    subject = 'Your TikTok connection has expired'
+    subject = 'Срок подключения TikTok истёк'
     send_notification(subject, action_url: inbox_url(inbox))
   end
 
   def whatsapp_disconnect(inbox)
-    subject = 'Your Whatsapp connection has expired'
+    subject = 'Срок подключения WhatsApp истёк'
     send_notification(subject, action_url: inbox_url(inbox))
   end
 
   def email_disconnect(inbox)
-    subject = 'Your email inbox has been disconnected. Please update the credentials for SMTP/IMAP'
+    subject = 'Email-канал отключен. Обновите учетные данные SMTP/IMAP'
     send_notification(subject, action_url: inbox_url(inbox))
   end
 end

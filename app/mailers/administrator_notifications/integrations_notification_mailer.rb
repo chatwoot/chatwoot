@@ -1,12 +1,12 @@
 class AdministratorNotifications::IntegrationsNotificationMailer < AdministratorNotifications::BaseMailer
   def slack_disconnect
-    subject = 'Your Slack integration has expired'
+    subject = 'Срок интеграции Slack истёк'
     action_url = settings_url('integrations/slack')
     send_notification(subject, action_url: action_url)
   end
 
   def dialogflow_disconnect
-    subject = 'Your Dialogflow integration was disconnected'
+    subject = 'Интеграция Dialogflow была отключена'
     send_notification(subject)
   end
 end

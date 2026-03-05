@@ -1,6 +1,6 @@
 class AdministratorNotifications::AccountNotificationMailer < AdministratorNotifications::BaseMailer
   def account_deletion_user_initiated(account, reason)
-    subject = 'Your Chatwoot account deletion has been scheduled'
+    subject = 'Удаление вашего аккаунта OneLink запланировано'
     action_url = settings_url('general')
     meta = {
       'account_name' => account.name,
@@ -12,7 +12,7 @@ class AdministratorNotifications::AccountNotificationMailer < AdministratorNotif
   end
 
   def account_deletion_for_inactivity(account, reason)
-    subject = 'Your Chatwoot account is scheduled for deletion due to inactivity'
+    subject = 'Ваш аккаунт OneLink запланирован к удалению из-за неактивности'
     action_url = settings_url('general')
     meta = {
       'account_name' => account.name,
@@ -24,7 +24,7 @@ class AdministratorNotifications::AccountNotificationMailer < AdministratorNotif
   end
 
   def contact_import_complete(resource)
-    subject = 'Contact Import Completed'
+    subject = 'Импорт контактов завершен'
 
     action_url = if resource.failed_records.attached?
                    Rails.application.routes.url_helpers.rails_blob_url(resource.failed_records)
@@ -41,17 +41,17 @@ class AdministratorNotifications::AccountNotificationMailer < AdministratorNotif
   end
 
   def contact_import_failed
-    subject = 'Contact Import Failed'
+    subject = 'Импорт контактов завершился ошибкой'
     send_notification(subject)
   end
 
   def contact_export_complete(file_url, email_to)
-    subject = "Your contact's export file is available to download."
+    subject = 'Файл экспорта контактов готов к скачиванию.'
     send_notification(subject, to: email_to, action_url: file_url)
   end
 
   def automation_rule_disabled(rule)
-    subject = 'Automation rule disabled due to validation errors.'
+    subject = 'Правило автоматизации отключено из-за ошибок валидации.'
     action_url = settings_url('automation/list')
     meta = { 'rule_name' => rule.name }
 

@@ -13,7 +13,12 @@
       "LAST_3_MONTHS": "Последние 3 месяца",
       "LAST_6_MONTHS": "Последние 6 месяцев",
       "LAST_YEAR": "За прошлый год",
-      "CUSTOM_RANGE": "Настраиваемый диапазон даты"
-    }
+      "CUSTOM_RANGE": "Настраиваемый диапазон даты",
+      "THIS_WEEK": "На этой неделе",
+      "MONTH_TO_DATE": "В этом месяце"
+    },
+    "PREVIOUS_PERIOD": "Предыдущий период",
+    "NEXT_PERIOD": "Следующий период",
+    "WEEK_NUMBER": "Неделя #{weekNumber}"
   }
 }

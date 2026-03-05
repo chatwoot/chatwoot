@@ -124,7 +124,8 @@
     "PAGINATION": {
       "RESULTS": "Показаны {start} - {end} из {total} результатов",
       "PER_PAGE_TEMPLATE": "{size} / page"
-    }
+    },
+    "DOWNLOAD_CONVERSATION_REPORTS": "Скачать отчеты о разговорах"
   },
   "AGENT_REPORTS": {
     "HEADER": "Обзор сотрудников",
@@ -192,6 +193,11 @@
     "CUSTOM_DATE_RANGE": {
       "CONFIRM": "Применить",
       "PLACEHOLDER": "Выберите диапазон дат"
+    },
+    "FILTERS": {
+      "INPUT_PLACEHOLDER": {
+        "AGENTS": "Поиск сотрудников"
+      }
     }
   },
   "LABEL_REPORTS": {
@@ -260,6 +266,11 @@
     "CUSTOM_DATE_RANGE": {
       "CONFIRM": "Применить",
       "PLACEHOLDER": "Выберите диапазон дат"
+    },
+    "FILTERS": {
+      "INPUT_PLACEHOLDER": {
+        "LABELS": "Поиск ярлыков"
+      }
     }
   },
   "INBOX_REPORTS": {
@@ -330,6 +341,11 @@
     "CUSTOM_DATE_RANGE": {
       "CONFIRM": "Применить",
       "PLACEHOLDER": "Выберите диапазон дат"
+    },
+    "FILTERS": {
+      "INPUT_PLACEHOLDER": {
+        "INBOXES": "Поиск входящих сообщений"
+      }
     }
   },
   "TEAM_REPORTS": {
@@ -398,6 +414,14 @@
     "CUSTOM_DATE_RANGE": {
       "CONFIRM": "Применить",
       "PLACEHOLDER": "Выберите диапазон дат"
+    },
+    "FILTERS": {
+      "ADD_FILTER": "Добавить фильтр",
+      "CLEAR_ALL": "Очистить все",
+      "NO_FILTER": "Нет доступных фильтров",
+      "INPUT_PLACEHOLDER": {
+        "TEAMS": "Поиск команд"
+      }
     }
   },
   "CSAT_REPORTS": {
@@ -407,7 +431,26 @@
     "DOWNLOAD_FAILED": "Не удалось загрузить CSAT отчёты",
     "FILTERS": {
       "AGENTS": {
-        "PLACEHOLDER": "Выберите сотрудников"
+        "PLACEHOLDER": "Выберите сотрудников",
+        "LABEL": "Агент"
+      },
+      "ADD_FILTER": "Добавить фильтр",
+      "CLEAR_ALL": "Очистить все",
+      "NO_FILTER": "Нет доступных фильтров",
+      "INPUT_PLACEHOLDER": {
+        "AGENTS": "Поиск сотрудников",
+        "INBOXES": "Поиск входящих сообщений",
+        "TEAMS": "Поиск команд",
+        "RATINGS": "Поиск оценок"
+      },
+      "INBOXES": {
+        "LABEL": "Входящие"
+      },
+      "TEAMS": {
+        "LABEL": "Команда"
+      },
+      "RATINGS": {
+        "LABEL": "Рейтинг"
       }
     },
     "TABLE": {
@@ -415,8 +458,13 @@
         "CONTACT_NAME": "Контакт",
         "AGENT_NAME": "Назначенный сотрудник",
         "RATING": "Оценка",
-        "FEEDBACK_TEXT": "Комментарий отзыва"
-      }
+        "FEEDBACK_TEXT": "Комментарий отзыва",
+        "CONVERSATION": "Беседа",
+        "CUSTOMER": "Клиент",
+        "RESPONSE": "Ответ",
+        "HANDLED_BY": "Обработал"
+      },
+      "UNKNOWN_CUSTOMER": "Неизвестный клиент"
     },
     "METRIC": {
       "TOTAL_RESPONSES": {
@@ -430,6 +478,28 @@
       "RESPONSE_RATE": {
         "LABEL": "Доля откликов",
         "TOOLTIP": "Общее количество ответов / Общее количество отправленных сообщений CSAT опросов * 100"
+      },
+      "RATING_DISTRIBUTION": "Распределение рейтингов"
+    },
+    "NO_RECORDS_DESCRIPTION": "Ответы на опросы CSAT появятся здесь, как только клиенты начнут оставлять отзывы.",
+    "NO_AGENT": "Нет назначенного агента",
+    "NO_FEEDBACK": "Отзывы не предоставлены",
+    "REVIEW_NOTES": {
+      "TITLE": "Примечания к отзыву",
+      "PLACEHOLDER": "Добавить примечания к этому рейтингу...",
+      "SAVE": "Сохранить",
+      "CANCEL": "Отмена",
+      "SAVING": "Сохранение...",
+      "SAVED": "Заметки успешно сохранены",
+      "SAVE_ERROR": "Не удалось сохранить заметки",
+      "UPDATED_BY": "Обновлено {name} {time}",
+      "UPDATED_BY_LABEL": "Обновил",
+      "PAYWALL": {
+        "TITLE": "Обновите тариф, чтобы добавлять примечания к отзыву",
+        "AVAILABLE_ON": "Функция заметок к обзору доступна только в планах Business и Enterprise.",
+        "UPGRADE_PROMPT": "Добавьте внутренний контекст к каждому ответу CSAT с помощью примечаний к обзору. Записывайте, что произошло на самом деле, быстрее выявляйте закономерности и принимайте более обоснованные решения на основе ваших отзывов.",
+        "UPGRADE_NOW": "Обновите сейчас",
+        "CANCEL_ANYTIME": "Вы можете изменить или отменить свой план в любое время"
       }
     }
   },

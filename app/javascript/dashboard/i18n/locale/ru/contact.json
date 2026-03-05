@@ -465,6 +465,9 @@
           },
           "TWITTER": {
             "PLACEHOLDER": "Добавить Twitter"
+          },
+          "TELEGRAM": {
+            "PLACEHOLDER": "Добавить Telegram"
           }
         }
       },
@@ -573,7 +576,8 @@
       "SEARCH_EMPTY_STATE_TITLE": "Нет контактов по вашему запросу 🔍",
       "LIST_EMPTY_STATE_TITLE": "Нет контактов в этом виде 📋",
       "ACTIVE_EMPTY_STATE_TITLE": "В данный момент нет активных контактов 🌙"
-    }
+    },
+    "LOAD_MORE": "Загрузить больше"
   },
   "CONTACTS_BULK_ACTIONS": {
     "ASSIGN_LABELS": "Назначить метки",
