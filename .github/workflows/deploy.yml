@@ -14,6 +14,10 @@ on:
           - staging
           - production
 
+concurrency:
+  group: deploy-${{ github.ref_name }}
+  cancel-in-progress: false
+
 env:
   DOCKER_REGISTRY: ${{ secrets.DOCKER_USERNAME }}
   DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
@@ -38,16 +42,23 @@ jobs:
     steps:
       - id: env
         run: |
-          if [[ "${{ github.event.inputs.environment }}" != "" ]]; then
-            ENV="${{ github.event.inputs.environment }}"
-          elif [[ "${{ github.ref }}" == "refs/heads/main" || "${{ github.ref }}" == "refs/heads/master" ]]; then
+          REF="${{ github.ref }}"
+
+          # Map branch to environment (enforced — no cross-branch deploys)
+          if [[ "$REF" == "refs/heads/main" || "$REF" == "refs/heads/master" ]]; then
             ENV="production"
-          elif [[ "${{ github.ref }}" == "refs/heads/staging" ]]; then
+          elif [[ "$REF" == "refs/heads/staging" ]]; then
             ENV="staging"
-          elif [[ "${{ github.ref }}" == "refs/heads/develop" ]]; then
+          elif [[ "$REF" == "refs/heads/develop" ]]; then
             ENV="development"
           else
-            echo "::error::Unknown branch for deployment"
+            echo "::error::Deployments only allowed from develop, staging, or main/master branches. Got: $REF"
+            exit 1
+          fi
+
+          # For workflow_dispatch: validate that selected env matches branch
+          if [[ "${{ github.event.inputs.environment }}" != "" && "${{ github.event.inputs.environment }}" != "$ENV" ]]; then
+            echo "::error::Cannot deploy to ${{ github.event.inputs.environment }} from branch $REF. Use the correct branch."
             exit 1
           fi
 
@@ -90,8 +101,9 @@ jobs:
 
   # ──────────────────────────────────────────────
   # Build and push Docker images (tagged by SHA)
+  # Runs Rails and Vite builds in parallel
   # ──────────────────────────────────────────────
-  build-and-push:
+  build-rails:
     needs: config
     runs-on: ubuntu-latest
     steps:
@@ -118,6 +130,21 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
+  build-vite:
+    needs: config
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to Docker Registry
+        uses: docker/login-action@v3
+        with:
+          username: ${{ env.DOCKER_USERNAME }}
+          password: ${{ env.DOCKER_PASSWORD }}
+
       - name: Build and push Vite image
         uses: docker/build-push-action@v5
         with:
@@ -134,7 +161,7 @@ jobs:
   # Deploy to Kubernetes
   # ──────────────────────────────────────────────
   deploy:
-    needs: [config, build-and-push]
+    needs: [config, build-rails, build-vite]
     runs-on: ubuntu-latest
     environment: ${{ needs.config.outputs.environment }}
     steps:
