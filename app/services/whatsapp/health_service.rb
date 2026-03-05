@@ -126,20 +126,12 @@ class Whatsapp::HealthService
   end
 
   def webhook_configured?(webhook_config)
-    return false if webhook_config.blank? || webhook_config['data'].blank?
-
-    webhook_config['data'].any? do |app|
-      app['subscribed_fields']&.include?('messages')
-    end
+    webhook_config.present? && webhook_config['data'].present?
   end
 
   def extract_webhook_url(webhook_config)
     return nil if webhook_config.blank? || webhook_config['data'].blank?
 
-    app_with_webhook = webhook_config['data'].find do |app|
-      app['subscribed_fields']&.include?('messages')
-    end
-
-    app_with_webhook&.dig('whatsapp_business_api_data', 'callback_url')
+    webhook_config['data'].filter_map { |app| app['override_callback_uri'] }.first
   end
 end

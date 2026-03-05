@@ -73,6 +73,10 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_26_153427) do
     t.integer "status", default: 0
     t.jsonb "internal_attributes", default: {}, null: false
     t.jsonb "settings", default: {}
+    t.integer "open_conversations_count", default: 0, null: false
+    t.integer "resolved_conversations_count", default: 0, null: false
+    t.integer "pending_conversations_count", default: 0, null: false
+    t.integer "snoozed_conversations_count", default: 0, null: false
     t.index ["status"], name: "index_accounts_on_status"
   end
 
@@ -199,8 +203,8 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_26_153427) do
     t.text "description"
     t.integer "assignment_order", default: 0, null: false
     t.integer "conversation_priority", default: 0, null: false
-    t.integer "fair_distribution_limit", default: 100, null: false
-    t.integer "fair_distribution_window", default: 3600, null: false
+    t.integer "fair_distribution_limit", default: 1, null: false
+    t.integer "fair_distribution_window", default: 60, null: false
     t.boolean "enabled", default: true, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -442,6 +446,8 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_26_153427) do
     t.jsonb "provider_config", default: {}
     t.string "provider"
     t.boolean "verified_for_sending", default: false, null: false
+    t.integer "imap_retry_count", default: 0, null: false
+    t.datetime "imap_retry_after"
     t.index ["email"], name: "index_channel_email_on_email", unique: true
     t.index ["forward_to_email"], name: "index_channel_email_on_forward_to_email", unique: true
   end
