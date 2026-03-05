@@ -357,7 +357,10 @@ module Billable
   end
 
   def billing_email
-    support_email.presence || administrators.first&.email
+    raw = support_email.presence || administrators.first&.email
+    Mail::Address.new(raw).address
+  rescue Mail::Field::IncompleteParseError
+    raw
   end
 
   # Maps plan feature keys (from plans.yml) to Account feature flag names (from features.yml)
