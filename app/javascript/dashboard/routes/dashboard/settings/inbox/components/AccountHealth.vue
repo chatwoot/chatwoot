@@ -14,21 +14,9 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-  isCheckingWebhookStatus: {
-    type: Boolean,
-    default: false,
-  },
-  webhookStatus: {
-    type: Object,
-    default: null,
-  },
-  isEmbeddedSignup: {
-    type: Boolean,
-    default: false,
-  },
 });
 
-const emit = defineEmits(['registerWebhook', 'checkWebhookStatus']);
+const emit = defineEmits(['registerWebhook']);
 
 const { t } = useI18n();
 
@@ -152,24 +140,24 @@ const getModeStatusTextColor = mode => MODE_COLORS[mode] || 'text-n-slate-12';
 
 const getStatusTextColor = status => STATUS_COLORS[status] || 'text-n-slate-12';
 
-const showWebhookSection = computed(() => props.isEmbeddedSignup);
-
-const webhookStatusChecked = computed(() => props.webhookStatus !== null);
-
-const webhookConfigured = computed(
-  () => props.webhookStatus?.webhook_configured
+const showWebhookSection = computed(
+  () => props.healthData?.webhook_configuration !== undefined
 );
 
+const webhookUrl = computed(
+  () => props.healthData?.webhook_configuration?.whatsapp_business_account
+);
+
+const webhookConfigured = computed(() => !!webhookUrl.value);
+
 const webhookUrlMismatch = computed(
-  () => props.webhookStatus?.webhook_url_mismatch
+  () =>
+    webhookConfigured.value &&
+    webhookUrl.value !== props.healthData?.expected_webhook_url
 );
 
 const handleRegisterWebhook = () => {
   emit('registerWebhook');
-};
-
-const handleCheckStatus = () => {
-  emit('checkWebhookStatus');
 };
 </script>
 
@@ -270,49 +258,20 @@ const handleCheckStatus = () => {
       class="px-5 py-5 mt-4 space-y-4 rounded-xl border shadow-sm border-n-weak bg-n-solid-2"
     >
       <div class="flex flex-col gap-3 justify-between items-start w-full">
-        <div class="flex justify-between items-start w-full">
-          <div class="flex-1">
-            <div class="flex gap-2 items-center">
-              <span class="text-base font-medium text-n-slate-12">
-                {{ t('INBOX_MGMT.ACCOUNT_HEALTH.WEBHOOK.TITLE') }}
-              </span>
-              <Icon
-                v-tooltip.top="
-                  t('INBOX_MGMT.ACCOUNT_HEALTH.WEBHOOK.DESCRIPTION')
-                "
-                icon="i-lucide-info"
-                class="flex-shrink-0 w-4 h-4 cursor-help text-n-slate-9"
-              />
-            </div>
-            <p class="mt-1 text-sm text-n-slate-11">
-              {{
-                webhookStatusChecked
-                  ? webhookConfigured
-                    ? t('INBOX_MGMT.ACCOUNT_HEALTH.WEBHOOK.CONFIGURED')
-                    : t('INBOX_MGMT.ACCOUNT_HEALTH.WEBHOOK.NOT_CONFIGURED')
-                  : t('INBOX_MGMT.ACCOUNT_HEALTH.WEBHOOK.CHECK_STATUS_PROMPT')
-              }}
-            </p>
-          </div>
-          <ButtonV4
-            v-if="!webhookStatusChecked"
-            sm
-            outlined
-            blue
-            :loading="isCheckingWebhookStatus"
-            :disabled="isCheckingWebhookStatus"
-            class="flex-shrink-0"
-            @click="handleCheckStatus"
-          >
-            {{ t('INBOX_MGMT.ACCOUNT_HEALTH.WEBHOOK.CHECK_STATUS_BUTTON') }}
-          </ButtonV4>
+        <div class="flex gap-2 items-center">
+          <span class="text-base font-medium text-n-slate-12">
+            {{ t('INBOX_MGMT.ACCOUNT_HEALTH.WEBHOOK.TITLE') }}
+          </span>
+          <Icon
+            v-tooltip.top="t('INBOX_MGMT.ACCOUNT_HEALTH.WEBHOOK.DESCRIPTION')"
+            icon="i-lucide-info"
+            class="flex-shrink-0 w-4 h-4 cursor-help text-n-slate-9"
+          />
         </div>
 
-        <!-- Show after status is checked and webhook is configured correctly -->
+        <!-- Webhook configured correctly -->
         <div
-          v-if="
-            webhookStatusChecked && webhookConfigured && !webhookUrlMismatch
-          "
+          v-if="webhookConfigured && !webhookUrlMismatch"
           class="flex gap-3 items-center w-full p-4 rounded-lg border bg-n-teal-2 border-n-teal-6"
         >
           <Icon
@@ -323,18 +282,12 @@ const handleCheckStatus = () => {
             <p class="text-sm font-medium text-n-teal-12">
               {{ t('INBOX_MGMT.ACCOUNT_HEALTH.WEBHOOK.CONFIGURED_SUCCESS') }}
             </p>
-            <p
-              v-if="webhookStatus?.webhook_url"
-              class="mt-1 text-sm truncate text-n-teal-11"
-            >
-              {{ webhookStatus.webhook_url }}
-            </p>
           </div>
         </div>
 
-        <!-- Show when webhook is configured but pointing to wrong URL -->
+        <!-- Webhook configured but pointing to wrong URL -->
         <div
-          v-if="webhookStatusChecked && webhookConfigured && webhookUrlMismatch"
+          v-else-if="webhookConfigured && webhookUrlMismatch"
           class="flex gap-3 items-center w-full p-4 rounded-lg border bg-n-amber-2 border-n-amber-6"
         >
           <Icon
@@ -347,12 +300,6 @@ const handleCheckStatus = () => {
             </p>
             <p class="mt-1 text-sm text-n-amber-11">
               {{ t('INBOX_MGMT.ACCOUNT_HEALTH.WEBHOOK.URL_MISMATCH_MESSAGE') }}
-            </p>
-            <p
-              v-if="webhookStatus?.webhook_url"
-              class="mt-1 text-sm truncate text-n-amber-11"
-            >
-              {{ webhookStatus.webhook_url }}
             </p>
           </div>
           <ButtonV4
@@ -368,9 +315,9 @@ const handleCheckStatus = () => {
           </ButtonV4>
         </div>
 
-        <!-- Show after status is checked and webhook is not configured -->
+        <!-- Webhook not configured -->
         <div
-          v-if="webhookStatusChecked && !webhookConfigured"
+          v-else
           class="flex gap-3 items-center w-full p-4 rounded-lg border bg-n-amber-2 border-n-amber-6"
         >
           <Icon

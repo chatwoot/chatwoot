@@ -12,26 +12,6 @@ class Whatsapp::HealthService
     fetch_phone_health_data
   end
 
-  def fetch_webhook_status
-    raise ArgumentError, 'Channel is required' if @channel.blank?
-    raise ArgumentError, 'API key is missing' if @access_token.blank?
-
-    waba_id = @channel.provider_config['business_account_id']
-    raise ArgumentError, 'Business account ID is missing' if waba_id.blank?
-
-    api_client = Whatsapp::FacebookApiClient.new(@access_token)
-    webhook_config = api_client.fetch_waba_webhook_config(waba_id)
-
-    configured = webhook_configured?(webhook_config)
-    actual_url = extract_webhook_url(webhook_config)
-
-    {
-      webhook_configured: configured,
-      webhook_url: actual_url,
-      webhook_url_mismatch: configured && url_mismatch?(actual_url)
-    }
-  end
-
   private
 
   def validate_channel!
@@ -59,6 +39,7 @@ class Whatsapp::HealthService
 
   def health_fields
     %w[
+      id
       quality_rating
       messaging_limit_tier
       code_verification_status
@@ -66,9 +47,11 @@ class Whatsapp::HealthService
       display_phone_number
       name_status
       verified_name
+      webhook_configuration
       throughput
       last_onboarded_time
       platform_type
+      certificate
     ].join(',')
   end
 
@@ -85,6 +68,7 @@ class Whatsapp::HealthService
 
   def format_health_response(response)
     {
+      id: response['id'],
       display_phone_number: response['display_phone_number'],
       verified_name: response['verified_name'],
       name_status: response['name_status'],
@@ -92,28 +76,13 @@ class Whatsapp::HealthService
       messaging_limit_tier: response['messaging_limit_tier'],
       account_mode: response['account_mode'],
       code_verification_status: response['code_verification_status'],
+      webhook_configuration: response['webhook_configuration'],
+      expected_webhook_url: "#{ENV.fetch('FRONTEND_URL', '')}/webhooks/whatsapp/#{@channel.phone_number}",
       throughput: response['throughput'],
       last_onboarded_time: response['last_onboarded_time'],
       platform_type: response['platform_type'],
+      certificate: response['certificate'],
       business_id: @channel.provider_config['business_account_id']
     }
-  end
-
-  def webhook_configured?(webhook_config)
-    webhook_config.present? && webhook_config['data'].present?
-  end
-
-  def extract_webhook_url(webhook_config)
-    return nil if webhook_config.blank? || webhook_config['data'].blank?
-
-    webhook_config['data'].filter_map { |app| app['override_callback_uri'] }.first
-  end
-
-  def url_mismatch?(actual_url)
-    frontend_url = ENV.fetch('FRONTEND_URL', nil)
-    return false if frontend_url.blank?
-
-    expected_url = "#{frontend_url}/webhooks/whatsapp/#{@channel.phone_number}"
-    actual_url != expected_url
   end
 end

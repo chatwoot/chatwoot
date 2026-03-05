@@ -100,8 +100,6 @@ export default {
       isLoadingHealth: false,
       healthError: null,
       isRegisteringWebhook: false,
-      isCheckingWebhookStatus: false,
-      webhookStatus: null,
       widgetBubblePosition: 'right',
       widgetBubbleType: 'standard',
       widgetBubbleLauncherTitle: '',
@@ -353,7 +351,6 @@ export default {
         if (newInbox?.id !== oldInbox?.id) {
           this.syncInboxData();
           this.fetchHealthData();
-          this.webhookStatus = null;
           this.$nextTick(() => {
             this.setTabFromRouteParam();
           });
@@ -428,22 +425,6 @@ export default {
         this.isLoadingHealth = false;
       }
     },
-    async checkWebhookStatus() {
-      if (!this.inbox) return;
-
-      try {
-        this.isCheckingWebhookStatus = true;
-        const response = await InboxHealthAPI.getWebhookStatus(this.inbox.id);
-        this.webhookStatus = response.data;
-      } catch (error) {
-        useAlert(
-          error.message ||
-            this.$t('INBOX_MGMT.ACCOUNT_HEALTH.WEBHOOK.CHECK_STATUS_ERROR')
-        );
-      } finally {
-        this.isCheckingWebhookStatus = false;
-      }
-    },
     async registerWebhook() {
       if (!this.inbox) return;
 
@@ -451,8 +432,7 @@ export default {
         this.isRegisteringWebhook = true;
         await InboxHealthAPI.registerWebhook(this.inbox.id);
         useAlert(this.$t('INBOX_MGMT.ACCOUNT_HEALTH.WEBHOOK.REGISTER_SUCCESS'));
-        // Refresh webhook status after registration
-        await this.checkWebhookStatus();
+        await this.fetchHealthData();
       } catch (error) {
         useAlert(
           error.message ||
@@ -1203,13 +1183,7 @@ export default {
           <AccountHealth
             :health-data="healthData"
             :is-registering-webhook="isRegisteringWebhook"
-            :is-checking-webhook-status="isCheckingWebhookStatus"
-            :webhook-status="webhookStatus"
-            :is-embedded-signup="
-              inbox.provider_config?.source === 'embedded_signup'
-            "
             @register-webhook="registerWebhook"
-            @check-webhook-status="checkWebhookStatus"
           />
         </div>
       </div>

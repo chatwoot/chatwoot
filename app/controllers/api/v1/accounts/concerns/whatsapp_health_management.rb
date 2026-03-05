@@ -2,9 +2,9 @@ module Api::V1::Accounts::Concerns::WhatsappHealthManagement
   extend ActiveSupport::Concern
 
   included do
-    skip_before_action :check_authorization, only: [:health, :register_webhook, :webhook_status, :sync_templates]
-    before_action :check_admin_authorization?, only: [:register_webhook, :webhook_status]
-    before_action :validate_whatsapp_cloud_channel, only: [:health, :register_webhook, :webhook_status]
+    skip_before_action :check_authorization, only: [:health, :register_webhook, :sync_templates]
+    before_action :check_admin_authorization?, only: [:register_webhook]
+    before_action :validate_whatsapp_cloud_channel, only: [:health, :register_webhook]
   end
 
   def sync_templates
@@ -33,14 +33,6 @@ module Api::V1::Accounts::Concerns::WhatsappHealthManagement
     render json: { message: 'Webhook registered successfully' }, status: :ok
   rescue StandardError => e
     Rails.logger.error "[INBOX WEBHOOK] Webhook registration failed: #{e.message}"
-    render json: { error: e.message }, status: :unprocessable_entity
-  end
-
-  def webhook_status
-    webhook_status = Whatsapp::HealthService.new(@inbox.channel).fetch_webhook_status
-    render json: webhook_status
-  rescue StandardError => e
-    Rails.logger.error "[INBOX WEBHOOK] Webhook status check failed: #{e.message}"
     render json: { error: e.message }, status: :unprocessable_entity
   end
 
