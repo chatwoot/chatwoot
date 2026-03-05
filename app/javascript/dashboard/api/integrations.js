@@ -38,6 +38,82 @@ class IntegrationsAPI extends ApiClient {
       shop_domain: shopDomain,
     });
   }
+
+  getMoengage() {
+    return axios.get(`${this.baseUrl()}/integrations/moengage`);
+  }
+
+  createMoengage(settings) {
+    return axios.post(`${this.baseUrl()}/integrations/moengage`, {
+      hook: { settings },
+    });
+  }
+
+  updateMoengage(settings) {
+    return axios.patch(`${this.baseUrl()}/integrations/moengage`, {
+      hook: { settings },
+    });
+  }
+
+  deleteMoengage() {
+    return axios.delete(`${this.baseUrl()}/integrations/moengage`);
+  }
+
+  regenerateMoengageToken() {
+    return axios.post(
+      `${this.baseUrl()}/integrations/moengage/regenerate_token`
+    );
+  }
+
+  getMoengageTemplateMappings() {
+    return axios.get(
+      `${this.baseUrl()}/integrations/moengage/template_mappings`
+    );
+  }
+
+  createMoengageTemplateMapping(data) {
+    return axios.post(
+      `${this.baseUrl()}/integrations/moengage/template_mappings`,
+      { template_mapping: data }
+    );
+  }
+
+  updateMoengageTemplateMapping(id, data) {
+    return axios.patch(
+      `${this.baseUrl()}/integrations/moengage/template_mappings/${id}`,
+      { template_mapping: data }
+    );
+  }
+
+  deleteMoengageTemplateMapping(id) {
+    return axios.delete(
+      `${this.baseUrl()}/integrations/moengage/template_mappings/${id}`
+    );
+  }
+
+  getMoengageAvailableTemplates(inboxId) {
+    return axios.get(
+      `${this.baseUrl()}/integrations/moengage/template_mappings/available_templates`,
+      { params: { inbox_id: inboxId } }
+    );
+  }
+
+  getMoengageWebhookEventLogs({
+    page = 1,
+    perPage = 25,
+    status,
+    eventName,
+  } = {}) {
+    const params = new URLSearchParams();
+    params.append('page', page);
+    params.append('per_page', perPage);
+    if (status) params.append('status', status);
+    if (eventName) params.append('event_name', eventName);
+
+    return axios.get(
+      `${this.baseUrl()}/integrations/moengage/webhook_event_logs?${params.toString()}`
+    );
+  }
 }
 
 export default new IntegrationsAPI();
