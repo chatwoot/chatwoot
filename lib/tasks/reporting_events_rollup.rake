@@ -28,6 +28,15 @@ class ReportingEventsRollupBackfill # rubocop:disable Metrics/ClassLength
     puts '=' * 70
     puts 'Reporting Events Rollup Backfill'
     puts '=' * 70
+    puts 'Plan:'
+    puts '1. Ensure account.reporting_timezone is set before running this task.'
+    puts '2. Wait for the current day to end in that account timezone.'
+    puts '3. Run backfill for closed days only (today is skipped by default).'
+    puts '4. Verify parity, then enable reporting_events_rollup read path.'
+    puts ''
+    puts 'Note:'
+    puts '- This task always uses account.reporting_timezone.'
+    puts '- Default range is first event day -> yesterday (in account timezone).'
     puts ''
   end
 
