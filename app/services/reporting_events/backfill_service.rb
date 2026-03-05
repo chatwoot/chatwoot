@@ -8,7 +8,6 @@ class ReportingEvents::BackfillService
   def initialize(account, date)
     @account = account
     @date = date
-    @timezone = account.reporting_timezone
   end
 
   def perform
@@ -37,7 +36,7 @@ class ReportingEvents::BackfillService
   end
 
   def date_boundaries_in_utc
-    tz = ActiveSupport::TimeZone[@timezone]
+    tz = ActiveSupport::TimeZone[@account.reporting_timezone]
     start_in_tz = tz.parse(@date.to_s)
     end_in_tz = start_in_tz + 1.day
     [start_in_tz.utc, end_in_tz.utc]

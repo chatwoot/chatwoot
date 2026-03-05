@@ -11,14 +11,14 @@ class ReportingEventsRollupBackfill # rubocop:disable Metrics/ClassLength
   def run
     print_header
     account = prompt_account
-    timezone = prompt_timezone
+    timezone = resolve_timezone(account)
     first_event, last_event = discover_events(account)
     start_date, end_date, total_days = resolve_date_range(account, timezone, first_event, last_event)
     dry_run = prompt_dry_run?
     print_plan(account, timezone, start_date, end_date, total_days, first_event, last_event, dry_run)
     return if dry_run
 
-    confirm_and_execute(account, timezone, start_date, end_date, total_days)
+    confirm_and_execute(account, start_date, end_date, total_days)
   end
 
   private
@@ -44,44 +44,14 @@ class ReportingEventsRollupBackfill # rubocop:disable Metrics/ClassLength
     account
   end
 
-  def prompt_timezone
-    print 'Enter UTC offset (e.g., +5:30, -4, 0): '
-    offset_input = $stdin.gets.chomp
-    abort 'Error: UTC offset is required' if offset_input.blank?
+  def resolve_timezone(account)
+    timezone = account.reporting_timezone
+    abort "Error: Account #{account.id} must have reporting_timezone set" if timezone.blank?
+    abort "Error: Account #{account.id} has invalid reporting_timezone '#{timezone}'" if ActiveSupport::TimeZone[timezone].blank?
 
-    matching_zones = find_matching_zones(offset_input)
-    abort "Error: No timezones found for offset '#{offset_input}'" if matching_zones.empty?
-
-    display_matching_zones(matching_zones, offset_input)
-    select_timezone(matching_zones)
-  end
-
-  def display_matching_zones(zones, offset_input)
+    puts "Using account reporting timezone: #{timezone}"
     puts ''
-    puts "Timezones matching UTC#{offset_input}:"
-    puts ''
-    zones.each_with_index { |tz, i| puts "  #{i + 1}. #{tz.name} (#{tz.tzinfo.identifier})" }
-    puts ''
-  end
-
-  def select_timezone(zones)
-    print "Select timezone (1-#{zones.size}): "
-    selection = $stdin.gets.chomp.to_i
-    abort 'Error: Invalid selection' if selection < 1 || selection > zones.size
-
-    timezone = zones[selection - 1].tzinfo.identifier
-    puts "Selected timezone: #{timezone}"
     timezone
-  end
-
-  def find_matching_zones(offset_input)
-    normalized = offset_input.gsub(/^(?!\+|-)/, '+')
-    parts = normalized.split(':')
-    hours = parts[0].to_i
-    minutes = (parts[1] || '0').to_i
-    total_seconds = (hours * 3600) + (hours.negative? ? -minutes * 60 : minutes * 60)
-
-    ActiveSupport::TimeZone.all.select { |tz| tz.utc_offset == total_seconds }
   end
 
   def discover_events(account)
@@ -103,31 +73,22 @@ class ReportingEventsRollupBackfill # rubocop:disable Metrics/ClassLength
     discovered_start = first_event.created_at.in_time_zone(tz).to_date
     discovered_end = last_event.created_at.in_time_zone(tz).to_date
     discovered_days = (discovered_end - discovered_start).to_i + 1
+    default_end = [discovered_end, Time.current.in_time_zone(tz).to_date - 1.day].min
 
     puts "Discovered date range: #{discovered_start} to #{discovered_end} (#{discovered_days} days) [Account: #{account.name}]"
+    puts "Default end date (excluding today): #{default_end}"
     puts ''
 
-    start_date, end_date = prompt_date_override(discovered_start, discovered_end)
+    start_date = discovered_start
+    end_date = default_end
     total_days = (end_date - start_date).to_i + 1
-    [start_date, end_date, total_days]
-  end
 
-  def prompt_date_override(discovered_start, discovered_end)
-    print 'Override date range? (y/N): '
-    override = $stdin.gets.chomp.downcase
-
-    if %w[y yes].include?(override)
-      print 'Enter start date (YYYY-MM-DD): '
-      start_input = $stdin.gets.chomp
-      start_date = start_input.present? ? start_input.to_date : discovered_start
-
-      print 'Enter end date (YYYY-MM-DD): '
-      end_input = $stdin.gets.chomp
-      end_date = end_input.present? ? end_input.to_date : discovered_end
-      [start_date, end_date]
-    else
-      [discovered_start, discovered_end]
+    if total_days <= 0
+      puts 'No closed days available to backfill in the default range.'
+      exit(0)
     end
+
+    [start_date, end_date, total_days]
   end
 
   def prompt_dry_run?
@@ -145,7 +106,7 @@ class ReportingEventsRollupBackfill # rubocop:disable Metrics/ClassLength
     return unless dry_run
 
     puts "DRY RUN MODE: Would process #{total_days} days"
-    puts "Would set reporting_timezone to '#{timezone}'"
+    puts "Would use account reporting_timezone '#{timezone}'"
     puts 'Run without dry run to execute backfill'
   end
   # rubocop:enable Metrics/ParameterLists
@@ -168,7 +129,7 @@ class ReportingEventsRollupBackfill # rubocop:disable Metrics/ClassLength
     event.created_at.in_time_zone(zone).strftime('%Y-%m-%d %H:%M:%S %Z')
   end
 
-  def confirm_and_execute(account, timezone, start_date, end_date, total_days)
+  def confirm_and_execute(account, start_date, end_date, total_days)
     if total_days > 730
       puts "WARNING: Large backfill detected (#{total_days} days / #{(total_days / 365.0).round(1)} years)"
       puts ''
@@ -179,10 +140,6 @@ class ReportingEventsRollupBackfill # rubocop:disable Metrics/ClassLength
     abort 'Backfill cancelled' unless %w[y yes].include?(confirm)
 
     puts ''
-    account.update!(reporting_timezone: timezone)
-    puts "Set reporting_timezone to '#{timezone}' for account '#{account.name}'"
-    puts ''
-
     execute_backfill(account, start_date, end_date, total_days)
   end
 
