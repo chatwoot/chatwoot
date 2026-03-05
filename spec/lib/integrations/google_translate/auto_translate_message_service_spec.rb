@@ -10,10 +10,12 @@ describe Integrations::GoogleTranslate::AutoTranslateMessageService do
     let(:translated_text) { 'Hello there' }
 
     before do
-      allow(Integrations::GoogleTranslate::ProcessorService).to receive(:new).and_return(instance_double(
-                                                                                          Integrations::GoogleTranslate::ProcessorService,
-                                                                                          perform: translated_text
-                                                                                        ))
+      allow(Integrations::GoogleTranslate::ProcessorService).to receive(:new).and_return(
+        instance_double(
+          Integrations::GoogleTranslate::ProcessorService,
+          perform: translated_text
+        )
+      )
     end
 
     context 'when message is incoming' do
