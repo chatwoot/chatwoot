@@ -429,6 +429,7 @@ Rails.application.routes.draw do
                 get :available_times
                 patch :update_settings
                 post :resubscribe_webhook
+                get :webhook_logs
               end
             end
           end

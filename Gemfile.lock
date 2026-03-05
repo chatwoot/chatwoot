@@ -879,7 +879,7 @@ GEM
       marcel (~> 1)
       ruby_llm-schema (~> 0)
       zeitwerk (~> 2)
-    ruby_llm-agents (3.7.1)
+    ruby_llm-agents (3.7.2)
       csv
       ostruct
       rails (>= 7.0)
@@ -1194,7 +1194,7 @@ DEPENDENCIES
   rubocop-rspec
   ruby-openai
   ruby_llm (>= 1.8.2)
-  ruby_llm-agents (~> 3.7.1)
+  ruby_llm-agents (~> 3.7.2)
   ruby_llm-schema
   scout_apm
   scss_lint
