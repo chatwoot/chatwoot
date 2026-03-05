@@ -16,6 +16,16 @@ module Featurable
     include FlagShihTzu
     has_flags FEATURES.merge(column: 'feature_flags').merge(QUERY_MODE)
 
+    # Override FlagShihTzu's generated selected_feature_flags= which expects
+    # full flag names (e.g. :feature_agent_bots). Our version accepts short
+    # names (e.g. :agent_bots) matching config/features.yml entries.
+    define_method(:selected_feature_flags=) do |flags|
+      flag_names = flags.map(&:to_s)
+      FEATURE_LIST.pluck('name').each do |name|
+        send("feature_#{name}=", flag_names.include?(name))
+      end
+    end
+
     before_create :enable_default_features
   end
 
@@ -45,13 +55,6 @@ module Featurable
     send("feature_#{name}?")
   end
 
-  def selected_feature_flags=(flags)
-    flag_names = flags.map(&:to_s)
-    FEATURE_LIST.pluck('name').each do |name|
-      send("feature_#{name}=", flag_names.include?(name))
-    end
-  end
-
   def all_features
     FEATURE_LIST.pluck('name').index_with do |feature_name|
       feature_enabled?(feature_name)
@@ -70,9 +73,15 @@ module Featurable
 
   def enable_default_features
     config = InstallationConfig.find_by(name: 'ACCOUNT_LEVEL_FEATURE_DEFAULTS')
-    return true if config.blank?
 
-    features_to_enabled = config.value.select { |f| f[:enabled] }.pluck(:name)
-    enable_features(*features_to_enabled)
+    features_to_enable = if config.present?
+                           config.value.select { |f| f[:enabled] }.pluck(:name)
+                         else
+                           # FlagShihTzu stores flags as bit positions in a signed bigint (max 63 bits).
+                           # Enabling all 64 features overflows, so we cap at position 63.
+                           FEATURE_LIST.first(63).pluck('name')
+                         end
+
+    enable_features(*features_to_enable)
   end
 end
