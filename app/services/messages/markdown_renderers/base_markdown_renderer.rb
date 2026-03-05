@@ -26,6 +26,14 @@ class Messages::MarkdownRenderers::BaseMarkdownRenderer < CommonMarker::Renderer
     out('</del>')
   end
 
+  def html(node)
+    out(node.string_content)
+  end
+
+  def inline_html(node)
+    out(node.string_content)
+  end
+
   def method_missing(method_name, node = nil, *args, **kwargs, &)
     return super unless node.is_a?(CommonMarker::Node)
 
