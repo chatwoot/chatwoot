@@ -1,7 +1,7 @@
 require 'google/cloud/translate/v3'
 
 class Integrations::GoogleTranslate::ProcessorService
-  pattr_initialize [:message!, :target_language!]
+  pattr_initialize [:message!, :target_language!, :integration_hook]
 
   def perform
     return if hook.blank?
@@ -65,7 +65,7 @@ class Integrations::GoogleTranslate::ProcessorService
   end
 
   def hook
-    @hook ||= message.account.hooks.find_by(app_id: 'google_translate')
+    @hook ||= integration_hook || message.account.hooks.find_by(app_id: 'google_translate')
   end
 
   def client

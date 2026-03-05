@@ -34,7 +34,8 @@ describe Integrations::GoogleTranslate::AutoTranslateMessageService do
 
           expect(Integrations::GoogleTranslate::ProcessorService).to have_received(:new).with(
             message: message,
-            target_language: 'en'
+            target_language: 'en',
+            integration_hook: hook
           )
           expect(message.reload.translations).to include('en' => translated_text)
         end
@@ -77,7 +78,8 @@ describe Integrations::GoogleTranslate::AutoTranslateMessageService do
 
           expect(Integrations::GoogleTranslate::ProcessorService).to have_received(:new).with(
             message: message,
-            target_language: 'es'
+            target_language: 'es',
+            integration_hook: hook
           )
           expect(message.reload.translations).to include('es' => translated_text)
         end
