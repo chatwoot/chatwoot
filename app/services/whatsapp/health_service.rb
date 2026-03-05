@@ -9,12 +9,18 @@ class Whatsapp::HealthService
 
   def fetch_health_status
     validate_channel!
-    fetch_phone_health_data
+    phone_data = fetch_phone_health_data
+    messaging_health = fetch_messaging_health_data
+    phone_data.merge(messaging_health: messaging_health)
   end
 
   def fetch_webhook_status
-    validate_channel!
+    raise ArgumentError, 'Channel is required' if @channel.blank?
+    raise ArgumentError, 'API key is missing' if @access_token.blank?
+
     waba_id = @channel.provider_config['business_account_id']
+    raise ArgumentError, 'Business account ID is missing' if waba_id.blank?
+
     api_client = Whatsapp::FacebookApiClient.new(@access_token)
     webhook_config = api_client.fetch_waba_webhook_config(waba_id)
 
@@ -55,15 +61,12 @@ class Whatsapp::HealthService
       messaging_limit_tier
       code_verification_status
       account_mode
-      id
       display_phone_number
       name_status
       verified_name
-      webhook_configuration
       throughput
       last_onboarded_time
       platform_type
-      certificate
     ].join(',')
   end
 
@@ -92,6 +95,34 @@ class Whatsapp::HealthService
       platform_type: response['platform_type'],
       business_id: @channel.provider_config['business_account_id']
     }
+  end
+
+  def fetch_messaging_health_data
+    phone_number_id = @channel.provider_config['phone_number_id']
+    return nil if phone_number_id.blank?
+
+    api_client = Whatsapp::FacebookApiClient.new(@access_token)
+    response = api_client.fetch_phone_messaging_health(phone_number_id)
+    parse_messaging_health(response)
+  rescue StandardError => e
+    Rails.logger.warn "[WHATSAPP HEALTH] Could not fetch messaging health: #{e.message}"
+    nil
+  end
+
+  def parse_messaging_health(response)
+    return nil if response.blank?
+
+    {
+      can_send_message: response['can_send_message'],
+      entities: response['entities']&.map do |entity|
+        {
+          entity_type: entity['entity_type'],
+          can_send_message: entity['can_send_message'],
+          errors: entity['errors'],
+          additional_info: entity['additional_info']
+        }.compact
+      end
+    }.compact
   end
 
   def webhook_configured?(webhook_config)

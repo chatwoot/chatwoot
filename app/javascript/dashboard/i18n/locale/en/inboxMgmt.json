@@ -679,6 +679,18 @@
           "LIVE": "Live"
         }
       },
+      "MESSAGING_HEALTH": {
+        "TITLE": "Messaging Status",
+        "AVAILABLE": "Your account is active and can send messages",
+        "LIMITED": "Your account can send messages, but with some limitations",
+        "BLOCKED": "Your account is currently blocked from sending messages",
+        "ENTITIES": {
+          "PHONE_NUMBER": "Phone Number",
+          "WABA": "WhatsApp Business Account",
+          "BUSINESS": "Business",
+          "APP": "App"
+        }
+      },
       "WEBHOOK": {
         "TITLE": "Webhook Configuration",
         "DESCRIPTION": "Webhook URL is required for your WhatsApp Business Account to receive messages from customers",
