@@ -1,4 +1,4 @@
-module Saas::FeatureGate
+module Concerns::Saas::FeatureGate
   extend ActiveSupport::Concern
 
   private
