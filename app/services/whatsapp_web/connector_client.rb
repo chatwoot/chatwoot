@@ -45,29 +45,38 @@ class WhatsappWeb::ConnectorClient
 
   def request(method, path, body: nil, query: nil, headers: {})
     url = build_url(path)
+    options = build_request_options(body: body, query: query, headers: headers)
+
+    response = HTTParty.public_send(method, url, options)
+    parsed_body = parse_response_body(response.body)
+    return parsed_body if response.success?
+
+    raise_request_error(response, parsed_body)
+  rescue SocketError, Errno::ECONNREFUSED, Timeout::Error
+    raise RequestError, 'Connector is unreachable'
+  end
+
+  def build_request_options(body:, query:, headers:)
     options = {
       timeout: DEFAULT_TIMEOUT,
       headers: default_headers.merge(headers)
     }
     options[:query] = query if query.present?
 
-    if body.present?
-      options[:body] = body.to_json
-      options[:headers]['Content-Type'] = 'application/json'
-    end
+    return options if body.blank?
 
-    response = HTTParty.public_send(method, url, options)
-    parsed_body = parse_response_body(response.body)
-    return parsed_body if response.success?
+    options[:body] = body.to_json
+    options[:headers]['Content-Type'] = 'application/json'
+    options
+  end
 
+  def raise_request_error(response, parsed_body)
     error_message = extract_error_message(parsed_body)
     raise RequestError.new(
       "Connector request failed (#{response.code}): #{error_message}",
       status: response.code,
       response_body: parsed_body
     )
-  rescue SocketError, Errno::ECONNREFUSED, Timeout::Error, Net::OpenTimeout, Net::ReadTimeout
-    raise RequestError, 'Connector is unreachable'
   end
 
   def default_headers
@@ -118,18 +127,24 @@ class WhatsappWeb::ConnectorClient
   end
 
   def extract_error_message(parsed_body)
-    return parsed_body['message'] if parsed_body.is_a?(Hash) && parsed_body['message'].present?
+    return parsed_body.to_s unless parsed_body.is_a?(Hash)
+    return parsed_body['message'] if parsed_body['message'].present?
 
-    if parsed_body.is_a?(Hash) && parsed_body['response'].is_a?(Hash)
-      response = parsed_body['response']
-      return response['message'].join(', ') if response['message'].is_a?(Array) && response['message'].any?
-      return response['message'] if response['message'].present?
-      return response['error'] if response['error'].present?
-    end
-
-    return parsed_body['error'] if parsed_body.is_a?(Hash) && parsed_body['error'].present?
+    nested_message = extract_nested_response_message(parsed_body['response'])
+    return nested_message if nested_message.present?
+    return parsed_body['error'] if parsed_body['error'].present?
 
     parsed_body.to_s
+  end
+
+  def extract_nested_response_message(response_payload)
+    return nil unless response_payload.is_a?(Hash)
+
+    message = response_payload['message']
+    return message.join(', ') if message.is_a?(Array) && message.any?
+    return message if message.present?
+
+    response_payload['error']
   end
 
   def normalize_base_url(url)
