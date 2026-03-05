@@ -167,7 +167,17 @@ export const actions = {
     return fileUrl;
   },
 
-  reorder: async (_, { portalSlug, categorySlug, reorderedGroup }) => {
+  reorder: async (
+    { commit, state },
+    { portalSlug, categorySlug, reorderedGroup }
+  ) => {
+    // Save old positions so we can rollback on failure
+    const oldPositions = Object.keys(reorderedGroup).reduce((map, id) => {
+      map[id] = state.articles.byId[id]?.position;
+      return map;
+    }, {});
+    // Update positions in the store immediately so subsequent mutations preserve correct positions
+    commit(types.SET_ARTICLE_POSITIONS, reorderedGroup);
     try {
       await articlesAPI.reorderArticles({
         portalSlug,
@@ -175,9 +185,8 @@ export const actions = {
         categorySlug,
       });
     } catch (error) {
-      throwErrorMessage(error);
+      commit(types.SET_ARTICLE_POSITIONS, oldPositions);
+      throw error;
     }
-
-    return '';
   },
 };
