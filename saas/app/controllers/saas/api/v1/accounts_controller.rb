@@ -13,6 +13,8 @@ class Saas::Api::V1::AccountsController < Api::V1::Accounts::BaseController
   def subscription
     session = Saas::StripeService.create_billing_portal_session(Current.account)
     render json: { redirect_url: session.url }
+  rescue RuntimeError => e
+    render json: { error: e.message }, status: :unprocessable_entity
   end
 
   def limits
@@ -66,6 +68,7 @@ class Saas::Api::V1::AccountsController < Api::V1::Accounts::BaseController
     {
       id: subscription.id,
       status: subscription.status,
+      stripe_customer_id: subscription.stripe_customer_id,
       current_period_start: subscription.current_period_start,
       current_period_end: subscription.current_period_end,
       trial_end: subscription.trial_end

@@ -45,7 +45,7 @@
             plans.map { |p| ["#{p.name} — $#{(p.price_cents / 100.0).round(2)}/#{p.interval}", p.id] },
             current_plan&.id
           ),
-          class: 'field-unit__field' %>
+          style: 'padding:0.5rem;border:1px solid #ccc;border-radius:4px;min-width:300px;font-size:0.875rem' %>
         <button type="submit" class="button">Update</button>
       </div>
     <% end %>

@@ -1,0 +1,36 @@
+<%
+  regular_features, premium_features = field.partitioned_features
+%>
+
+<div class="field-unit__label">
+  <%= f.label field.attribute, "All Features" %>
+</div>
+<div class="field-unit__field">
+  <div style="columns:2;column-gap:2rem">
+    <% regular_features.each do |(key, display_name), enabled| %>
+      <div style="margin-bottom:0.375rem;break-inside:avoid">
+        <label style="display:flex;align-items:center;gap:0.375rem;cursor:pointer">
+          <%= check_box_tag "enabled_features[#{key}]", "true", enabled,
+            style: 'width:16px;height:16px' %>
+          <span><%= display_name || key.to_s.titleize %></span>
+        </label>
+      </div>
+    <% end %>
+  </div>
+
+  <% if premium_features.any? %>
+    <hr style="margin:1rem 0;border-color:#e5e7eb">
+    <div style="font-weight:600;margin-bottom:0.5rem">Premium Features</div>
+    <div style="columns:2;column-gap:2rem">
+      <% premium_features.each do |(key, display_name), enabled| %>
+        <div style="margin-bottom:0.375rem;break-inside:avoid">
+          <label style="display:flex;align-items:center;gap:0.375rem;cursor:pointer">
+            <%= check_box_tag "enabled_features[#{key}]", "true", enabled,
+              style: 'width:16px;height:16px' %>
+            <span><%= display_name || key.to_s.titleize %></span>
+          </label>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>

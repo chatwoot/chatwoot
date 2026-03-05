@@ -10,6 +10,8 @@ Rails.application.config.middleware.insert_before 0, Rack::Cors do
     resource '/audio/*', headers: :any, methods: [:get, :options]
     # Make the public endpoints accessible to the frontend
     resource '/public/api/*', headers: :any, methods: :any
+    # Allow landing page to call the public checkout endpoint
+    resource '/saas/api/v1/public_checkout', headers: :any, methods: [:post, :options]
 
     if ActiveModel::Type::Boolean.new.cast(ENV.fetch('CW_API_ONLY_SERVER', false)) || Rails.env.development?
       resource '*', headers: :any, methods: :any, expose: %w[access-token client uid expiry]

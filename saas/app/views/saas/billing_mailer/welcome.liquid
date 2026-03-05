@@ -12,6 +12,23 @@
       Sua conta AirysChat <strong>{{ account.name }}</strong> está pronta!
       Você está no plano <strong>{{ plan_name }}</strong>.
     </p>
+    {% if reset_password_url %}
+    <p style="font-size: 14px; color: #333; line-height: 1.6; margin: 0 0 15px;">
+      Para acessar sua conta, defina sua senha clicando no botão abaixo:
+    </p>
+  </td>
+</tr>
+<tr>
+  <td style="vertical-align: top; padding: 10px 0 20px;">
+    <a href="{{ reset_password_url }}"
+       style="display: inline-block; padding: 12px 24px; background-color: #16a34a; color: #fff; text-decoration: none; border-radius: 6px; font-size: 14px; font-weight: 600;">
+      Definir minha senha
+    </a>
+  </td>
+</tr>
+<tr>
+  <td style="vertical-align: top; padding-bottom: 10px;">
+    {% endif %}
     <p style="font-size: 14px; color: #333; line-height: 1.6; margin: 0 0 15px;">
       Veja como começar:
     </p>
@@ -25,7 +42,7 @@
 <tr>
   <td style="vertical-align: top; padding: 15px 0;">
     <a href="{{ dashboard_url }}"
-       style="display: inline-block; padding: 12px 24px; background-color: #0080f8; color: #fff; text-decoration: none; border-radius: 6px; font-size: 14px; font-weight: 600;">
+       style="display: inline-block; padding: 12px 24px; background-color: #6366f1; color: #fff; text-decoration: none; border-radius: 6px; font-size: 14px; font-weight: 600;">
       Acessar seu painel
     </a>
   </td>

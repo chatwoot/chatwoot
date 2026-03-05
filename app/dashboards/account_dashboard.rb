@@ -8,7 +8,7 @@ class AccountDashboard < Administrate::BaseDashboard
   # which determines how the attribute is displayed
   # on pages throughout the dashboard.
 
-  enterprise_attribute_types = if ChatwootApp.enterprise?
+  enterprise_attribute_types = if ChatwootApp.enterprise? || ChatwootApp.saas?
                                  attributes = {
                                    limits: AccountLimitsField
                                  }
@@ -53,7 +53,7 @@ class AccountDashboard < Administrate::BaseDashboard
 
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
-  enterprise_show_page_attributes = if ChatwootApp.enterprise?
+  enterprise_show_page_attributes = if ChatwootApp.enterprise? || ChatwootApp.saas?
                                       attrs = %i[custom_attributes limits]
                                       attrs << :manually_managed_features if ChatwootApp.chatwoot_cloud?
                                       attrs << :all_features
@@ -75,7 +75,7 @@ class AccountDashboard < Administrate::BaseDashboard
   # FORM_ATTRIBUTES
   # an array of attributes that will be displayed
   # on the model's form (`new` and `edit`) pages.
-  enterprise_form_attributes = if ChatwootApp.enterprise?
+  enterprise_form_attributes = if ChatwootApp.enterprise? || ChatwootApp.saas?
                                  attrs = %i[limits]
                                  attrs << :manually_managed_features if ChatwootApp.chatwoot_cloud?
                                  attrs << :all_features

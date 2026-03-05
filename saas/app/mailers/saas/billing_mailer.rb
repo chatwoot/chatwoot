@@ -13,6 +13,7 @@ class Saas::BillingMailer < ApplicationMailer
     @plan = account.saas_plan
     @billing_url = billing_url(account)
     @dashboard_url = dashboard_url(account)
+    @reset_password_url = build_reset_password_url(account)
 
     subject = I18n.t('saas.mailer.welcome.subject')
     mail(to: @admin.email, subject: subject)
@@ -102,6 +103,7 @@ class Saas::BillingMailer < ApplicationMailer
     super.merge(
       billing_url: @billing_url,
       dashboard_url: @dashboard_url,
+      reset_password_url: @reset_password_url,
       admin_name: @admin&.name,
       plan_name: @plan&.name || 'Free',
       old_plan_name: @old_plan_name,
@@ -121,5 +123,12 @@ class Saas::BillingMailer < ApplicationMailer
 
   def dashboard_url(account)
     "#{ENV.fetch('FRONTEND_URL', '')}/app/accounts/#{account.id}/dashboard"
+  end
+
+  def build_reset_password_url(account)
+    token = account.custom_attributes&.dig('reset_token')
+    return nil unless token
+
+    "#{ENV.fetch('FRONTEND_URL', '')}/app/auth/password/edit?reset_password_token=#{token}"
   end
 end
