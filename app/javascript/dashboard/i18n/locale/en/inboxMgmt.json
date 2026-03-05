@@ -689,14 +689,12 @@
       "WEBHOOK": {
         "TITLE": "Webhook Configuration",
         "DESCRIPTION": "Webhook URL is required for your WhatsApp Business Account to receive messages from customers",
-        "ACTION_REQUIRED": "Action Required",
-        "REGISTER_MESSAGE": "Your WhatsApp Business Account needs a webhook URL to receive messages. Click the button to register it now.",
+        "ACTION_REQUIRED": "Webhook not configured",
         "REGISTER_BUTTON": "Register Webhook",
         "REGISTER_SUCCESS": "Webhook registered successfully",
         "REGISTER_ERROR": "Failed to register webhook. Please try again.",
         "CONFIGURED_SUCCESS": "Webhook configured successfully",
-        "URL_MISMATCH": "Webhook URL mismatch",
-        "URL_MISMATCH_MESSAGE": "The webhook is configured but pointing to a different URL. Click the button to fix it."
+        "URL_MISMATCH": "Webhook URL mismatch"
       }
     },
     "SETTINGS": "Settings",

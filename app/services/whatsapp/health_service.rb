@@ -77,12 +77,19 @@ class Whatsapp::HealthService
       account_mode: response['account_mode'],
       code_verification_status: response['code_verification_status'],
       webhook_configuration: response['webhook_configuration'],
-      expected_webhook_url: "#{ENV.fetch('FRONTEND_URL', '')}/webhooks/whatsapp/#{@channel.phone_number}",
+      expected_webhook_url: build_expected_webhook_url,
       throughput: response['throughput'],
       last_onboarded_time: response['last_onboarded_time'],
       platform_type: response['platform_type'],
       certificate: response['certificate'],
       business_id: @channel.provider_config['business_account_id']
     }
+  end
+
+  def build_expected_webhook_url
+    frontend_url = ENV.fetch('FRONTEND_URL', nil)
+    return nil if frontend_url.blank?
+
+    "#{frontend_url}/webhooks/whatsapp/#{@channel.phone_number}"
   end
 end

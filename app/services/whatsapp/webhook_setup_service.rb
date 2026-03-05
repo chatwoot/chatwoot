@@ -33,8 +33,6 @@ class Whatsapp::WebhookSetupService
     store_pin(pin)
   rescue StandardError => e
     Rails.logger.warn("[WHATSAPP] Phone registration failed but continuing: #{e.message}")
-    # Continue with webhook setup even if registration fails
-    # This is just a warning, not a blocking error
   end
 
   def fetch_or_create_pin

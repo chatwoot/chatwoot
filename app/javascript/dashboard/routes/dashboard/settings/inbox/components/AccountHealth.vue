@@ -237,6 +237,55 @@ const handleRegisterWebhook = () => {
             }}</span>
           </div>
         </div>
+
+        <!-- Webhook configuration card -->
+        <div
+          v-if="showWebhookSection"
+          class="flex flex-col gap-2 p-4 rounded-lg border border-n-weak bg-n-solid-1"
+        >
+          <div class="flex gap-2 items-center">
+            <span class="text-body-main font-medium text-n-slate-11">
+              {{ t('INBOX_MGMT.ACCOUNT_HEALTH.WEBHOOK.TITLE') }}
+            </span>
+            <Icon
+              v-tooltip.top="t('INBOX_MGMT.ACCOUNT_HEALTH.WEBHOOK.DESCRIPTION')"
+              icon="i-lucide-info"
+              class="flex-shrink-0 w-4 h-4 cursor-help text-n-slate-9"
+            />
+          </div>
+          <div class="flex items-center justify-between gap-3">
+            <span
+              v-if="webhookConfigured && !webhookUrlMismatch"
+              class="inline-flex items-center gap-1.5 px-2 py-0.5 min-h-6 text-label-small rounded-md bg-n-alpha-2 text-n-teal-11"
+            >
+              <Icon icon="i-lucide-check-circle" class="w-3.5 h-3.5" />
+              {{ t('INBOX_MGMT.ACCOUNT_HEALTH.WEBHOOK.CONFIGURED_SUCCESS') }}
+            </span>
+            <span
+              v-else
+              class="inline-flex items-center gap-1.5 px-2 py-0.5 min-h-6 text-label-small rounded-md bg-n-alpha-2 text-n-amber-11"
+            >
+              <Icon icon="i-lucide-alert-triangle" class="w-3.5 h-3.5" />
+              {{
+                webhookUrlMismatch
+                  ? t('INBOX_MGMT.ACCOUNT_HEALTH.WEBHOOK.URL_MISMATCH')
+                  : t('INBOX_MGMT.ACCOUNT_HEALTH.WEBHOOK.ACTION_REQUIRED')
+              }}
+            </span>
+            <ButtonV4
+              v-if="!webhookConfigured || webhookUrlMismatch"
+              sm
+              solid
+              blue
+              :loading="isRegisteringWebhook"
+              :disabled="isRegisteringWebhook"
+              class="flex-shrink-0"
+              @click="handleRegisterWebhook"
+            >
+              {{ t('INBOX_MGMT.ACCOUNT_HEALTH.WEBHOOK.REGISTER_BUTTON') }}
+            </ButtonV4>
+          </div>
+        </div>
       </div>
 
       <div v-else class="pt-8">
@@ -249,100 +298,6 @@ const handleRegisterWebhook = () => {
               {{ t('INBOX_MGMT.ACCOUNT_HEALTH.NO_DATA') }}
             </p>
           </div>
-        </div>
-      </div>
-    </div>
-
-    <div
-      v-if="showWebhookSection"
-      class="px-5 py-5 mt-4 space-y-4 rounded-xl border shadow-sm border-n-weak bg-n-solid-2"
-    >
-      <div class="flex flex-col gap-3 justify-between items-start w-full">
-        <div class="flex gap-2 items-center">
-          <span class="text-base font-medium text-n-slate-12">
-            {{ t('INBOX_MGMT.ACCOUNT_HEALTH.WEBHOOK.TITLE') }}
-          </span>
-          <Icon
-            v-tooltip.top="t('INBOX_MGMT.ACCOUNT_HEALTH.WEBHOOK.DESCRIPTION')"
-            icon="i-lucide-info"
-            class="flex-shrink-0 w-4 h-4 cursor-help text-n-slate-9"
-          />
-        </div>
-
-        <!-- Webhook configured correctly -->
-        <div
-          v-if="webhookConfigured && !webhookUrlMismatch"
-          class="flex gap-3 items-center w-full p-4 rounded-lg border bg-n-teal-2 border-n-teal-6"
-        >
-          <Icon
-            icon="i-lucide-check-circle"
-            class="flex-shrink-0 w-5 h-5 text-n-teal-11"
-          />
-          <div class="flex-1 min-w-0">
-            <p class="text-sm font-medium text-n-teal-12">
-              {{ t('INBOX_MGMT.ACCOUNT_HEALTH.WEBHOOK.CONFIGURED_SUCCESS') }}
-            </p>
-          </div>
-        </div>
-
-        <!-- Webhook configured but pointing to wrong URL -->
-        <div
-          v-else-if="webhookConfigured && webhookUrlMismatch"
-          class="flex gap-3 items-center w-full p-4 rounded-lg border bg-n-amber-2 border-n-amber-6"
-        >
-          <Icon
-            icon="i-lucide-alert-triangle"
-            class="flex-shrink-0 w-5 h-5 text-n-amber-11"
-          />
-          <div class="flex-1 min-w-0">
-            <p class="text-sm font-medium text-n-amber-12">
-              {{ t('INBOX_MGMT.ACCOUNT_HEALTH.WEBHOOK.URL_MISMATCH') }}
-            </p>
-            <p class="mt-1 text-sm text-n-amber-11">
-              {{ t('INBOX_MGMT.ACCOUNT_HEALTH.WEBHOOK.URL_MISMATCH_MESSAGE') }}
-            </p>
-          </div>
-          <ButtonV4
-            sm
-            solid
-            blue
-            :loading="isRegisteringWebhook"
-            :disabled="isRegisteringWebhook"
-            class="flex-shrink-0"
-            @click="handleRegisterWebhook"
-          >
-            {{ t('INBOX_MGMT.ACCOUNT_HEALTH.WEBHOOK.REGISTER_BUTTON') }}
-          </ButtonV4>
-        </div>
-
-        <!-- Webhook not configured -->
-        <div
-          v-else
-          class="flex gap-3 items-center w-full p-4 rounded-lg border bg-n-amber-2 border-n-amber-6"
-        >
-          <Icon
-            icon="i-lucide-alert-triangle"
-            class="flex-shrink-0 w-5 h-5 text-n-amber-11"
-          />
-          <div class="flex-1">
-            <p class="text-sm font-medium text-n-amber-12">
-              {{ t('INBOX_MGMT.ACCOUNT_HEALTH.WEBHOOK.ACTION_REQUIRED') }}
-            </p>
-            <p class="mt-1 text-sm text-n-amber-11">
-              {{ t('INBOX_MGMT.ACCOUNT_HEALTH.WEBHOOK.REGISTER_MESSAGE') }}
-            </p>
-          </div>
-          <ButtonV4
-            sm
-            solid
-            blue
-            :loading="isRegisteringWebhook"
-            :disabled="isRegisteringWebhook"
-            class="flex-shrink-0"
-            @click="handleRegisterWebhook"
-          >
-            {{ t('INBOX_MGMT.ACCOUNT_HEALTH.WEBHOOK.REGISTER_BUTTON') }}
-          </ButtonV4>
         </div>
       </div>
     </div>
