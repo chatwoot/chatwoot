@@ -68,6 +68,10 @@ class Portal < ApplicationRecord
     self[:color].presence || DEFAULT_COLOR
   end
 
+  def display_title
+    page_title.presence || name
+  end
+
   private
 
   def config_json_format
