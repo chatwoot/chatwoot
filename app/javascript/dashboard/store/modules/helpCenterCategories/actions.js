@@ -92,4 +92,23 @@ export const actions = {
       });
     }
   },
+
+  reorder: async ({ commit, state }, { portalSlug, reorderedGroup }) => {
+    // Save old positions so we can rollback on failure
+    const oldPositions = Object.keys(reorderedGroup).reduce((map, id) => {
+      map[id] = state.categories.byId[id]?.position;
+      return map;
+    }, {});
+    // Update positions in the store immediately so subsequent mutations preserve correct positions
+    commit(types.SET_CATEGORY_POSITIONS, reorderedGroup);
+    try {
+      await categoriesAPI.reorder({
+        portalSlug,
+        reorderedGroup,
+      });
+    } catch (error) {
+      commit(types.SET_CATEGORY_POSITIONS, oldPositions);
+      throw error;
+    }
+  },
 };

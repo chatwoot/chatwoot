@@ -192,6 +192,38 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
     end
   end
 
+  describe 'POST /api/v1/accounts/{account.id}/portals/{portal.slug}/articles/reorder' do
+    let!(:article_2) do
+      create(:article, category: category, portal: portal, account_id: account.id, author_id: agent.id, position: 20)
+    end
+    let(:positions_hash) do
+      {
+        article.id => 20,
+        article_2.id => 10
+      }
+    end
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        post "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles/reorder",
+             params: { positions_hash: positions_hash }
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      it 'reorders articles' do
+        post "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles/reorder",
+             params: { positions_hash: positions_hash },
+             headers: admin.create_new_auth_token
+
+        expect(response).to have_http_status(:success)
+        expect(article.reload.position).to eq(20)
+        expect(article_2.reload.position).to eq(10)
+      end
+    end
+  end
+
   describe 'GET /api/v1/accounts/{account.id}/portals/{portal.slug}/articles' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do

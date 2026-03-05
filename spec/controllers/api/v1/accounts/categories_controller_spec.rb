@@ -237,6 +237,47 @@ RSpec.describe 'Api::V1::Accounts::Categories', type: :request do
     end
   end
 
+  describe 'POST /api/v1/accounts/{account.id}/portals/{portal.slug}/categories/reorder' do
+    let(:positions_hash) do
+      {
+        category.id => 40,
+        category_to_associate.id => 10,
+        related_category_1.id => 30,
+        related_category_2.id => 20
+      }
+    end
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        post "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/categories/reorder",
+             params: { positions_hash: positions_hash }
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      it 'reorders categories' do
+        post "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/categories/reorder",
+             params: { positions_hash: positions_hash },
+             headers: admin.create_new_auth_token
+
+        expect(response).to have_http_status(:success)
+        expect(category.reload.position).to eq(40)
+        expect(category_to_associate.reload.position).to eq(10)
+        expect(related_category_1.reload.position).to eq(30)
+        expect(related_category_2.reload.position).to eq(20)
+      end
+
+      it 'returns not found when portal does not exist' do
+        post "/api/v1/accounts/#{account.id}/portals/invalid-portal-slug/categories/reorder",
+             params: { positions_hash: positions_hash },
+             headers: admin.create_new_auth_token
+
+        expect(response).to have_http_status(:not_found)
+      end
+    end
+  end
+
   describe 'GET /api/v1/accounts/{account.id}/portals/{portal.slug}/categories' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do

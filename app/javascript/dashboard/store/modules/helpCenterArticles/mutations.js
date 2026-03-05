@@ -64,6 +64,18 @@ export const mutations = {
       ...uiFlags,
     };
   },
+  [types.SET_ARTICLE_POSITIONS]: ($state, positionsHash) => {
+    const { byId, allIds } = $state.articles;
+    // Update position on each article record
+    Object.entries(positionsHash).forEach(([id, position]) => {
+      if (byId[id]) byId[id] = { ...byId[id], position };
+    });
+    // Re-sort allIds so every consumer sees the new order
+    allIds.sort(
+      (a, b) =>
+        (byId[a]?.position ?? Infinity) - (byId[b]?.position ?? Infinity)
+    );
+  },
   [types.UPDATE_ARTICLE]: ($state, updatedArticle) => {
     const articleId = updatedArticle.id;
     if ($state.articles.byId[articleId]) {

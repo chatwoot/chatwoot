@@ -73,6 +73,16 @@ class Category < ApplicationRecord
     params[:page] || 1
   end
 
+  def self.update_positions(portal:, positions_hash:)
+    return if positions_hash.blank?
+
+    transaction do
+      positions_hash.each do |category_id, new_position|
+        portal.categories.find(category_id).update!(position: new_position)
+      end
+    end
+  end
+
   private
 
   def ensure_account_id

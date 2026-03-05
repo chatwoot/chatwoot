@@ -374,6 +374,16 @@
         "ERROR_MESSAGE": "Error while deleting article"
       }
     },
+    "REORDER_ARTICLE": {
+      "API": {
+        "ERROR_MESSAGE": "Unable to reorder articles. Please try again."
+      }
+    },
+    "REORDER_CATEGORY": {
+      "API": {
+        "ERROR_MESSAGE": "Unable to reorder categories. Please try again."
+      }
+    },
     "CREATE_ARTICLE": {
       "ERROR_MESSAGE": "Please add the article heading and content then only you can update the settings"
     },
@@ -839,7 +849,7 @@
       "STATUS": {
         "UPLOADED": "Ready",
         "PROCESSING": "Processing",
-        "PROCESSED": "Completed", 
+        "PROCESSED": "Completed",
         "FAILED": "Failed"
       }
     },
