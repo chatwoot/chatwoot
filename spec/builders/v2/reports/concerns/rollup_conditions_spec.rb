@@ -190,10 +190,10 @@ describe V2::Reports::Concerns::RollupConditions do
         expect(builder.use_rollup?).to be true
       end
 
-      it 'returns true when timezone_offset is blank (defaults to account timezone)' do
+      it 'returns false when timezone_offset is blank' do
         builder.params = valid_params.merge(timezone_offset: nil)
 
-        expect(builder.use_rollup?).to be true
+        expect(builder.use_rollup?).to be false
       end
     end
 
@@ -284,9 +284,9 @@ describe V2::Reports::Concerns::RollupConditions do
   end
 
   describe '#timezone_matches_account?' do
-    it 'returns true when timezone_offset is blank' do
+    it 'returns false when timezone_offset is blank' do
       builder.params = { timezone_offset: nil }
-      expect(builder.timezone_matches_account?).to be true
+      expect(builder.timezone_matches_account?).to be false
     end
 
     it 'returns true when offset matches account timezone current offset' do

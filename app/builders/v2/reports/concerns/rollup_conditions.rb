@@ -45,7 +45,7 @@ module V2::Reports::Concerns::RollupConditions
   end
 
   def timezone_matches_account?
-    return true if params[:timezone_offset].blank?
+    return false if params[:timezone_offset].blank?
 
     offset_in_seconds = params[:timezone_offset].to_f * 3600
     account_zone = ActiveSupport::TimeZone[account.reporting_timezone]
