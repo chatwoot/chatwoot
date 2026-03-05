@@ -18,6 +18,7 @@ export const ChatwootProvider = ({
   conversationId,
   disableUpload,
   disableEditor,
+  disableSignature,
   signature,
   children,
 }) => {
@@ -40,6 +41,7 @@ export const ChatwootProvider = ({
     conversationId: Number(conversationId),
     disableEditor: disableEditor || false,
     disableUpload: disableUpload || false,
+    disableSignature: disableSignature || false,
     websocketURL: websocketURL,
     pubsubToken: pubsubToken,
     signature: signature || '',
@@ -59,6 +61,7 @@ export const ChatwootProvider = ({
     window.__WOOT_CONVERSATION_ID__ = config.conversationId;
     window.__EDITOR_DISABLE_UPLOAD__ = config.disableUpload;
     window.__DISABLE_EDITOR__ = config.disableEditor;
+    window.__WOOT_DISABLE_SIGNATURE__ = config.disableSignature;
     window.__WOOT_CUSTOM_SIGNATURE__ = config.signature || undefined;
     window.__WOOT_ISOLATED_SHELL__ = true;
     /* eslint-enable no-underscore-dangle */
@@ -99,6 +102,16 @@ export const ChatwootProvider = ({
       new CustomEvent('chatwoot:signature-change', { detail: value || '' })
     );
   }, [signature]);
+
+  // Keep signature toggle global in sync when the prop changes after init
+  useEffect(() => {
+    const value = disableSignature === true;
+    // eslint-disable-next-line no-underscore-dangle
+    window.__WOOT_DISABLE_SIGNATURE__ = value;
+    window.dispatchEvent(
+      new CustomEvent('chatwoot:disable-signature-change', { detail: value })
+    );
+  }, [disableSignature]);
 
   if (!initializationComplete) {
     return null;

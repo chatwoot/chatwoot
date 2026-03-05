@@ -40,6 +40,8 @@ export default {
       updateEditorSelectionWith: '',
       // eslint-disable-next-line no-underscore-dangle
       customSignatureValue: window.__WOOT_CUSTOM_SIGNATURE__ || '',
+      // eslint-disable-next-line no-underscore-dangle
+      disableSignatureValue: window.__WOOT_DISABLE_SIGNATURE__ === true,
     };
   },
   computed: {
@@ -166,7 +168,13 @@ export default {
     hasCustomSignature() {
       return !!this.customSignature;
     },
+    allowSignature() {
+      return !this.disableSignatureValue;
+    },
     signatureToApply() {
+      if (!this.allowSignature) {
+        return '';
+      }
       const signature = this.customSignature || this.messageSignature;
       return this.showRichContentEditor
         ? signature
@@ -179,6 +187,10 @@ export default {
     window.addEventListener(
       'chatwoot:signature-change',
       this.onSignatureChange
+    );
+    window.addEventListener(
+      'chatwoot:disable-signature-change',
+      this.onDisableSignatureChange
     );
 
     // // A hacky fix to solve the drag and drop
@@ -197,10 +209,17 @@ export default {
       'chatwoot:signature-change',
       this.onSignatureChange
     );
+    window.removeEventListener(
+      'chatwoot:disable-signature-change',
+      this.onDisableSignatureChange
+    );
   },
   methods: {
     onSignatureChange(event) {
       this.customSignatureValue = event.detail || '';
+    },
+    onDisableSignatureChange(event) {
+      this.disableSignatureValue = event.detail === true;
     },
     getElementToBind() {
       return this.replyEditor;
@@ -423,7 +442,7 @@ export default {
         enable-variables
         :variables="messageVariables"
         :signature="signatureToApply"
-        allow-signature
+        :allow-signature="allowSignature"
         :force-signature="hasCustomSignature"
         :channel-type="channelType"
         @typing-off="onTypingOff"
@@ -464,7 +483,7 @@ export default {
       :message="message"
       :enable-multiple-file-upload="allowFileUpload"
       :allow-file-upload="allowFileUpload"
-      allow-signature
+      :allow-signature="allowSignature"
     />
   </div>
 </template>
