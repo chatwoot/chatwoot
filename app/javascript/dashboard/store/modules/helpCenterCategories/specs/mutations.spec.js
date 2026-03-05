@@ -123,5 +123,15 @@ describe('#mutations', () => {
       expect(state.categories.byId[1].position).toEqual(3);
       expect(state.categories.byId[1].name).toEqual(originalName);
     });
+
+    it('re-sorts allIds by position after update', () => {
+      state.categories.byId[1].position = 1;
+      state.categories.byId[2].position = 2;
+      state.categories.allIds = [1, 2];
+
+      mutations[types.SET_CATEGORY_POSITIONS](state, { 1: 3, 2: 1 });
+
+      expect(state.categories.allIds).toEqual([2, 1]);
+    });
   });
 });

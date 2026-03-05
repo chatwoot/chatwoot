@@ -180,6 +180,16 @@ describe('#mutations', () => {
       expect(state.articles.byId[1].title).toEqual(originalTitle);
     });
 
+    it('re-sorts allIds by position after update', () => {
+      state.articles.byId[1].position = 1;
+      state.articles.byId[2].position = 2;
+      state.articles.allIds = [1, 2];
+
+      mutations[types.SET_ARTICLE_POSITIONS](state, { 1: 3, 2: 1 });
+
+      expect(state.articles.allIds).toEqual([2, 1]);
+    });
+
     it('UPDATE_ARTICLE preserves reordered position after SET_ARTICLE_POSITIONS', () => {
       mutations[types.SET_ARTICLE_POSITIONS](state, { 2: 1 });
       expect(state.articles.byId[2].position).toEqual(1);
