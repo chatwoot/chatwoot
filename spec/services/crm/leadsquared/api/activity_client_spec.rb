@@ -101,7 +101,9 @@ RSpec.describe Crm::Leadsquared::Api::ActivityClient do
 
       it 'raises ApiError when activity creation fails' do
         expect { client.post_activity(prospect_id, activity_event, activity_note) }
-          .to raise_error(Crm::Leadsquared::Api::BaseClient::ApiError)
+          .to raise_error do |error|
+            expect(error.class.name).to eq('Crm::Leadsquared::Api::BaseClient::ApiError')
+          end
       end
     end
   end
@@ -186,7 +188,9 @@ RSpec.describe Crm::Leadsquared::Api::ActivityClient do
 
       it 'raises ApiError when activity type creation fails' do
         expect { client.create_activity_type(**activity_params) }
-          .to raise_error(Crm::Leadsquared::Api::BaseClient::ApiError)
+          .to raise_error do |error|
+            expect(error.class.name).to eq('Crm::Leadsquared::Api::BaseClient::ApiError')
+          end
       end
     end
 
@@ -210,7 +214,9 @@ RSpec.describe Crm::Leadsquared::Api::ActivityClient do
 
       it 'raises ApiError when the request fails' do
         expect { client.create_activity_type(**activity_params) }
-          .to raise_error(Crm::Leadsquared::Api::BaseClient::ApiError)
+          .to raise_error do |error|
+            expect(error.class.name).to eq('Crm::Leadsquared::Api::BaseClient::ApiError')
+          end
       end
     end
   end

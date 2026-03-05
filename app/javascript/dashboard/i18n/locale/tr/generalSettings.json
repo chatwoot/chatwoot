@@ -1,8 +1,8 @@
 {
   "GENERAL_SETTINGS": {
     "LIMIT_MESSAGES": {
-      "CONVERSATION": "Sohbet sınırını aştınız. Hacker planı yalnızca 500 sohbete izin verir.",
-      "INBOXES": "Gelen kutusu sınırını aştınız. Hacker planı yalnızca web sitesi canlı sohbetini destekler. E-posta, WhatsApp gibi ek gelen kutuları ücretli plan gerektirir.",
+      "CONVERSATION": "Konuşma limitini aştınız. Hacker planı yalnızca 500 konuşmaya izin vermektedir.",
+      "INBOXES": "Gelen kutusu limitini aştınız. Hacker planı yalnızca web sitesi canlı sohbetini desteklemektedir. E-posta, WhatsApp gibi ek gelen kutuları ücretli bir plan gerektirir.",
       "AGENTS": "Temsilci sınırını aştınız. Planınız yalnızca {allowedAgents} temsilciye izin veriyor.",
       "NON_ADMIN": "Tüm özellikleri kullanmaya devam etmek için lütfen yöneticinizle iletişime geçin ve planı yükseltin."
     },
@@ -20,10 +20,10 @@
       "BUTTON_TEXT": "Hesabınızı Silin",
       "CONFIRM": {
         "TITLE": "Hesabı Sil",
-        "MESSAGE": "Hesabınızı silmek geri alınamaz. Kalıcı olarak silmek istediğinizi onaylamak için aşağıya hesap adınızı girin.",
+        "MESSAGE": "Hesabınızı silmek geri alınamaz bir işlemdir. Kalıcı olarak silmek istediğinizi onaylamak için aşağıya hesap adınızı girin.",
         "BUTTON_TEXT": "Sil",
         "DISMISS": "İptal Et",
-        "PLACE_HOLDER": "{accountName} yazarak onaylayın"
+        "PLACE_HOLDER": "Onaylamak için lütfen {accountName} yazın"
       },
       "SUCCESS": "Hesap silinmek üzere işaretlendi",
       "FAILURE": "Hesap silinemedi, tekrar deneyin!",
@@ -45,11 +45,11 @@
         "NOTE": "API tabanlı bir entegrasyon oluşturuyorsanız bu kimlik gereklidir"
       },
       "AUTO_RESOLVE": {
-        "TITLE": "Sohbetleri otomatik çöz",
-        "NOTE": "Bu yapılandırma, belirli bir süre etkinlik olmadığında sohbeti otomatik olarak çözmenizi sağlar.",
+        "TITLE": "Konuşmaları Otomatik Çöz",
+        "NOTE": "Bu yapılandırma, belirli bir hareketsizlik süresinden sonra konuşmayı otomatik olarak çözümlemenize olanak tanır.",
         "DURATION": {
-          "LABEL": "Etkinliksizlik süresi",
-          "HELP": "Sohbetin otomatik olarak çözüleceği etkinliksizlik süresi",
+          "LABEL": "Hareketsizlik süresi",
+          "HELP": "Konuşmanın otomatik olarak çözümlenmesinden önceki hareketsizlik süresi",
           "PLACEHOLDER": "30",
           "ERROR": "Otomatik çözme süresi 10 dakika ile 999 gün arasında olmalıdır",
           "API": {
@@ -59,8 +59,8 @@
         },
         "MESSAGE": {
           "LABEL": "Özel otomatik çözüm mesajı",
-          "PLACEHOLDER": "Sohbet, 15 gün etkinlik olmadığı için sistem tarafından çözüldü olarak işaretlendi",
-          "HELP": "Sohbet otomatik olarak çözüldükten sonra müşteriye gönderilen mesaj"
+          "PLACEHOLDER": "Konuşma, 15 günlük hareketsizlik nedeniyle sistem tarafından çözümlendi olarak işaretlendi",
+          "HELP": "Konuşma otomatik olarak çözüldükten sonra müşteriye gönderilen mesaj"
         },
         "PREFERENCES": "Tercihler",
         "LABEL": {
@@ -94,19 +94,19 @@
       },
       "AUTO_RESOLVE_IGNORE_WAITING": {
         "LABEL": "Yanıtsız sohbetleri hariç tut",
-        "HELP": "Etkinleştirildiğinde, sistem hâlâ temsilci yanıtı bekleyen sohbetleri çözmeyi atlayacaktır."
+        "HELP": "Etkinleştirildiğinde, sistem hâlâ bir temsilcinin yanıtını bekleyen konuşmaları çözümlemeyi atlayacaktır."
       },
       "AUDIO_TRANSCRIPTION": {
-        "TITLE": "Sesli Mesajları Yazıya Döktür",
-        "NOTE": "Sohbetlerdeki sesli mesajları otomatik olarak yazıya dökün. Bir sesli mesaj gönderildiğinde veya alındığında bir metin dökümü oluşturun ve mesajın yanında gösterin.",
+        "TITLE": "Sesli Mesajları Metne Çevir",
+        "NOTE": "Konuşmalardaki sesli mesajları otomatik olarak metne çevirin. Bir sesli mesaj gönderildiğinde veya alındığında bir metin dökümü (transkript) oluşturun ve mesajın yanında görüntüleyin.",
         "API": {
           "SUCCESS": "Sesli mesaj transkripsiyon ayarı başarıyla güncellendi",
-          "ERROR": "Sesli yazıya dökme ayarı güncellenemedi"
+          "ERROR": "Ses transkripsiyon ayarı güncellenirken hata oluştu"
         }
       },
       "AUTO_RESOLVE_DURATION": {
-        "LABEL": "Çözüm için etkinliksizlik süresi",
-        "HELP": "Bir sohbette etkinlik yoksa otomatik çözüm için süre",
+        "LABEL": "Çözümleme için hareketsizlik süresi",
+        "HELP": "Bir konuşmanın, hiçbir etkinlik olmazsa otomatik olarak çözümlenmesi gereken süre",
         "PLACEHOLDER": "30",
         "ERROR": "Otomatik çözme süresi 10 dakika ile 999 gün arasında olmalıdır",
         "API": {
@@ -115,8 +115,8 @@
         },
         "UPDATE_BUTTON": "Güncelleme",
         "MESSAGE_LABEL": "Özel çözüm mesajı",
-        "MESSAGE_PLACEHOLDER": "Sohbet, 15 gün etkinlik olmadığı için sistem tarafından çözüldü olarak işaretlendi",
-        "MESSAGE_HELP": "Bu mesaj, bir sohbet sistem tarafından etkinliksizlik nedeniyle otomatik olarak çözüldüğünde müşteriye gönderilir."
+        "MESSAGE_PLACEHOLDER": "Konuşma, 15 günlük hareketsizlik nedeniyle sistem tarafından çözümlendi olarak işaretlendi",
+        "MESSAGE_HELP": "Bu mesaj, bir konuşma hareketsizlik nedeniyle sistem tarafından otomatik olarak çözümlendiğinde müşteriye gönderilir."
       },
       "FEATURES": {
         "INBOUND_EMAIL_ENABLED": "Hesabınız için e-posta ile iletişim devre dışı bırakıldı.",

@@ -18,7 +18,8 @@
     "CREATED_AT_LABEL": "Oluşturuldu",
     "NEW_MESSAGE": "Yeni Mesaj",
     "CALL": "Ara",
-    "CALL_UNDER_DEVELOPMENT": "Arama özelliği geliştirme aşamasındadır",
+    "CALL_INITIATED": "Calling the contact…",
+    "CALL_FAILED": "Unable to start the call. Please try again.",
     "VOICE_INBOX_PICKER": {
       "TITLE": "Sesli gelen kutusu seçin"
     },
@@ -456,6 +457,9 @@
           "INSTAGRAM": {
             "PLACEHOLDER": "Instagram ekle"
           },
+          "TIKTOK": {
+            "PLACEHOLDER": "Add TikTok"
+          },
           "LINKEDIN": {
             "PLACEHOLDER": "LinkedIn ekle"
           },
@@ -553,12 +557,12 @@
         "PLACEHOLDER": "Not ekleyin",
         "WROTE": "wrote",
         "YOU": "Sen",
-        "SAVE": "Save note",
+        "SAVE": "Notu Kaydet",
         "ADD_NOTE": "Kişi notu ekle",
         "EXPAND": "Genişlet",
         "COLLAPSE": "Daralt",
         "NO_NOTES": "Not yok, kişi detayları sayfasından not ekleyebilirsiniz.",
-        "EMPTY_STATE": "There are no notes associated to this contact. You can add a note by typing in the box above.",
+        "EMPTY_STATE": "Bu kişiyle ilişkili not bulunmamaktadır. Yukarıdaki kutuya yazarak not ekleyebilirsiniz.",
         "CONVERSATION_EMPTY_STATE": "Henüz not yok. Not eklemek için Not ekle düğmesini kullanın."
       }
     },
@@ -569,6 +573,27 @@
       "SEARCH_EMPTY_STATE_TITLE": "Aramanızla eşleşen kişi bulunamadı 🔍",
       "LIST_EMPTY_STATE_TITLE": "No contacts available in this view 📋",
       "ACTIVE_EMPTY_STATE_TITLE": "Şu anda aktif kişi yok 🌙"
+    }
+  },
+  "CONTACTS_BULK_ACTIONS": {
+    "ASSIGN_LABELS": "Assign Labels",
+    "ASSIGN_LABELS_SUCCESS": "Etiketler başarıyla atandı.",
+    "ASSIGN_LABELS_FAILED": "Failed to assign labels",
+    "DESCRIPTION": "Select the labels you want to add to the selected contacts.",
+    "NO_LABELS_FOUND": "No labels available yet.",
+    "SELECTED_COUNT": "{count} selected",
+    "CLEAR_SELECTION": "Seçimi temizle",
+    "SELECT_ALL": "Tümünü seç ({count})",
+    "DELETE_CONTACTS": "Sil",
+    "DELETE_SUCCESS": "Kişiler başarıyla silindi.",
+    "DELETE_FAILED": "Kişiler silinemedi.",
+    "DELETE_DIALOG": {
+      "TITLE": "Seçilen kişileri sil",
+      "SINGULAR_TITLE": "Seçilen kişiyi sil",
+      "DESCRIPTION": "Bu işlem, seçilen {count} kişileri kalıcı olarak silecektir. Bu eylem geri alınamaz.",
+      "SINGULAR_DESCRIPTION": "Bu işlem, seçilen kişiyi kalıcı olarak silecektir. Bu eylem geri alınamaz.",
+      "CONFIRM_MULTIPLE": "Kişileri sil",
+      "CONFIRM_SINGLE": "Kişiyi Sil"
     }
   },
   "COMPOSE_NEW_CONVERSATION": {
@@ -622,7 +647,7 @@
         }
       },
       "ACTION_BUTTONS": {
-        "DISCARD": "Discard",
+        "DISCARD": "Yoksay",
         "SEND": "Send ({keyCode})"
       }
     }

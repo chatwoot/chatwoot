@@ -46,6 +46,10 @@
             "CONVERSATION_TYPING_OFF": "Conversation Typing Off"
           }
         },
+        "NAME": {
+          "LABEL": "Webhook Name",
+          "PLACEHOLDER": "Enter the name of the webhook"
+        },
         "END_POINT": {
           "LABEL": "Webhook URL",
           "PLACEHOLDER": "Piemēram: {webhookExampleURL}",
@@ -344,6 +348,12 @@
   "CAPTAIN": {
     "NAME": "Kapteinis",
     "HEADER_KNOW_MORE": "Know more",
+    "ASSISTANT_SWITCHER": {
+      "ASSISTANTS": "Asistenti",
+      "SWITCH_ASSISTANT": "Switch between assistants",
+      "NEW_ASSISTANT": "Create Assistant",
+      "EMPTY_LIST": "No assistants found, please create one to get started"
+    },
     "COPILOT": {
       "TITLE": "Kopilots",
       "TRY_THESE_PROMPTS": "Pamēģiniet",
@@ -483,9 +493,7 @@
         "NOT_FOUND": "Could not find the assistant. Please try again."
       },
       "SETTINGS": {
-        "BREADCRUMB": {
-          "ASSISTANT": "Asistents"
-        },
+        "HEADER": "Iestatījumi",
         "BASIC_SETTINGS": {
           "TITLE": "Basic settings",
           "DESCRIPTION": "Customize what the assistant says when ending a conversation or transferring to a human."
@@ -502,15 +510,16 @@
               "TITLE": "Guardrails",
               "DESCRIPTION": "Keeps things on track—only the kinds of questions you want your assistant to answer, nothing off-limits or off-topic."
             },
-            "SCENARIOS": {
-              "TITLE": "Scenarios",
-              "DESCRIPTION": "Give your assistant some context—like “what to do when a user is stuck,” or “how to act during a refund request.”"
-            },
             "RESPONSE_GUIDELINES": {
               "TITLE": "Response guidelines",
               "DESCRIPTION": "The vibe and structure of your assistant’s replies—clear and friendly? Short and snappy? Detailed and formal?"
             }
           }
+        },
+        "DELETE": {
+          "TITLE": "Dzēst Asistentu",
+          "DESCRIPTION": "Šī darbība ir pastāvīga. Dzēšot šo asistentu, tas tiks noņemts no visām pievienotajām iesūtnēm un neatgriezeniski dzēstas visas ģenerētās zināšanas.",
+          "BUTTON_TEXT": "Dzēst {assistantName}"
         }
       },
       "OPTIONS": {
@@ -529,9 +538,6 @@
       "GUARDRAILS": {
         "TITLE": "Guardrails",
         "DESCRIPTION": "Keeps things on track—only the kinds of questions you want your assistant to answer, nothing off-limits or off-topic.",
-        "BREADCRUMB": {
-          "TITLE": "Guardrails"
-        },
         "BULK_ACTION": {
           "SELECTED": "{count} item selected | {count} items selected",
           "SELECT_ALL": "Select all ({count})",
@@ -577,9 +583,6 @@
       "RESPONSE_GUIDELINES": {
         "TITLE": "Response Guidelines",
         "DESCRIPTION": "The vibe and structure of your assistant’s replies—clear and friendly? Short and snappy? Detailed and formal?",
-        "BREADCRUMB": {
-          "TITLE": "Response Guidelines"
-        },
         "BULK_ACTION": {
           "SELECTED": "{count} item selected | {count} items selected",
           "SELECT_ALL": "Select all ({count})",
@@ -625,9 +628,6 @@
       "SCENARIOS": {
         "TITLE": "Scenarios",
         "DESCRIPTION": "Give your assistant some context—like “what to do when a user is stuck,” or “how to act during a refund request.”",
-        "BREADCRUMB": {
-          "TITLE": "Scenarios"
-        },
         "BULK_ACTION": {
           "SELECTED": "{count} item selected | {count} items selected",
           "SELECT_ALL": "Select all ({count})",
@@ -725,11 +725,6 @@
         "NAME": {
           "LABEL": "Document Name (Optional)",
           "PLACEHOLDER": "Enter a name for the document"
-        },
-        "ASSISTANT": {
-          "LABEL": "Asistents",
-          "PLACEHOLDER": "Izvēlēties asistentu",
-          "ERROR": "Asistenta lauks ir obligāti jāaizpilda"
         }
       },
       "DELETE": {
@@ -863,6 +858,7 @@
     },
     "RESPONSES": {
       "HEADER": "Bieži uzdotie jautājumi",
+      "PENDING_FAQS": "Pending FAQs",
       "ADD_NEW": "Izveidot jaunu sarakstu ar bieži uzdotiem jautājumiem",
       "DOCUMENTABLE": {
         "CONVERSATION": "Saruna #{id}"
@@ -902,6 +898,10 @@
         "APPROVED": "Apstiprināts",
         "ALL": "Visi"
       },
+      "PENDING_BANNER": {
+        "TITLE": "Captain has found some FAQs your customers were looking for.",
+        "ACTION": "Click here to review"
+      },
       "FORM_DESCRIPTION": "Pievienot jautājumu un tā atbildi zināšanu bāzei, kā arī izvēlēties asistentu, ar kuru tas būs saistīts.",
       "CREATE": {
         "TITLE": "Pievienot bieži uzdotos jautājumus",
@@ -918,11 +918,6 @@
           "LABEL": "Atbilde",
           "PLACEHOLDER": "Ievadiet atbildi šeit",
           "ERROR": "Lūdzu, ievadiet derīgu atbildi."
-        },
-        "ASSISTANT": {
-          "LABEL": "Asistents",
-          "PLACEHOLDER": "Izvēlieties asistentu",
-          "ERROR": "Lūdzu, izvēlieties asistentu."
         }
       },
       "EDIT": {
@@ -932,13 +927,15 @@
         "APPROVE_SUCCESS_MESSAGE": "Bieži uzdotie jautājumi tika atzīmēti kā apstiprināti"
       },
       "OPTIONS": {
-        "APPROVE": "Atzīmēt kā apstiprinātu",
-        "EDIT_RESPONSE": "Rediģēt bieži uzdotos jautājumus",
-        "DELETE_RESPONSE": "Dzēst bieži uzdotos jautājumus"
+        "APPROVE": "Apstiprināt",
+        "EDIT_RESPONSE": "Rediģēt",
+        "DELETE_RESPONSE": "Dzēst"
       },
       "EMPTY_STATE": {
         "TITLE": "Bieži uzdoto jautājumu saraksti nav atrasti",
+        "NO_PENDING_TITLE": "There are no more pending FAQs to review",
         "SUBTITLE": "Bieži uzdotie jautājumi palīdz Jūsu asistentam sniegt ātras un precīzas atbildes uz Jūsu klientu jautājumiem. Tos var ģenerēt automātiski no jūsu satura vai pievienot manuāli.",
+        "CLEAR_SEARCH": "Clear active filters",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "Captain FAQ",
           "NOTE": "Captain FAQs detects common customer questions—whether missing from your knowledge base or frequently asked—and generates relevant FAQs to improve support. You can review each suggestion and decide whether to approve or reject it."

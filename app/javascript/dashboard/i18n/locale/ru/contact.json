@@ -18,7 +18,8 @@
     "CREATED_AT_LABEL": "Создан",
     "NEW_MESSAGE": "Новое сообщение",
     "CALL": "Вызов",
-    "CALL_UNDER_DEVELOPMENT": "Звонки находятся в разработке",
+    "CALL_INITIATED": "Calling the contact…",
+    "CALL_FAILED": "Unable to start the call. Please try again.",
     "VOICE_INBOX_PICKER": {
       "TITLE": "Выберите голосовую почту"
     },
@@ -456,6 +457,9 @@
           "INSTAGRAM": {
             "PLACEHOLDER": "Добавить Instagram"
           },
+          "TIKTOK": {
+            "PLACEHOLDER": "Add TikTok"
+          },
           "LINKEDIN": {
             "PLACEHOLDER": "Добавить LinkedIn"
           },
@@ -569,6 +573,27 @@
       "SEARCH_EMPTY_STATE_TITLE": "Нет контактов по вашему запросу 🔍",
       "LIST_EMPTY_STATE_TITLE": "Нет контактов в этом виде 📋",
       "ACTIVE_EMPTY_STATE_TITLE": "В данный момент нет активных контактов 🌙"
+    }
+  },
+  "CONTACTS_BULK_ACTIONS": {
+    "ASSIGN_LABELS": "Назначить метки",
+    "ASSIGN_LABELS_SUCCESS": "Метки успешно назначены.",
+    "ASSIGN_LABELS_FAILED": "Failed to assign labels",
+    "DESCRIPTION": "Select the labels you want to add to the selected contacts.",
+    "NO_LABELS_FOUND": "No labels available yet.",
+    "SELECTED_COUNT": "Выбрано {count}",
+    "CLEAR_SELECTION": "Clear selection",
+    "SELECT_ALL": "Выбрать все ({count})",
+    "DELETE_CONTACTS": "Удалить",
+    "DELETE_SUCCESS": "Contacts deleted successfully.",
+    "DELETE_FAILED": "Failed to delete contacts.",
+    "DELETE_DIALOG": {
+      "TITLE": "Delete selected contacts",
+      "SINGULAR_TITLE": "Delete selected contact",
+      "DESCRIPTION": "This will permanently delete {count} selected contacts. This action cannot be undone.",
+      "SINGULAR_DESCRIPTION": "This will permanently delete the selected contact. This action cannot be undone.",
+      "CONFIRM_MULTIPLE": "Delete contacts",
+      "CONFIRM_SINGLE": "Удалить контакт"
     }
   },
   "COMPOSE_NEW_CONVERSATION": {

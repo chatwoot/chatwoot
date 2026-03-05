@@ -26,7 +26,7 @@ class Captain::Documents::ResponseBuilderJob < ApplicationJob
   end
 
   def generate_standard_faqs(document)
-    Captain::Llm::FaqGeneratorService.new(document.content, document.account.locale_english_name).generate
+    Captain::Llm::FaqGeneratorService.new(document.content, document.account.locale_english_name, account_id: document.account_id).generate
   end
 
   def build_paginated_service(document, options)

@@ -1,6 +1,6 @@
 {
   "MFA_SETTINGS": {
-    "TITLE": "Autenticazione A Due Fattori",
+    "TITLE": "Autenticazione a Due Fattori",
     "SUBTITLE": "Proteggi il tuo account con autenticazione basata su TOTP",
     "DESCRIPTION": "Aggiungi un ulteriore livello di sicurezza al tuo account utilizzando una password monouso a tempo (TOTP)",
     "STATUS_TITLE": "Stato dell'Autenticazione",
@@ -79,7 +79,7 @@
     }
   },
   "MFA_VERIFICATION": {
-    "TITLE": "Autenticazione A Due Fattori",
+    "TITLE": "Autenticazione a Due Fattori",
     "DESCRIPTION": "Inserisci il tuo codice di verifica per continuare",
     "AUTHENTICATOR_APP": "App di Autenticazione",
     "BACKUP_CODE": "Codice di Backup",

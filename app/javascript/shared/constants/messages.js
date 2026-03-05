@@ -34,9 +34,6 @@ export const CONVERSATION_PRIORITY_ORDER = {
   low: 1,
 };
 
-// Size in mega bytes
-export const MAXIMUM_FILE_UPLOAD_SIZE = 40;
-
 export const ALLOWED_FILE_TYPES =
   'image/*,' +
   'audio/*,' +
@@ -167,4 +164,5 @@ export const TWILIO_CONTENT_TEMPLATE_TYPES = {
   TEXT: 'text',
   MEDIA: 'media',
   QUICK_REPLY: 'quick_reply',
+  CALL_TO_ACTION: 'call_to_action',
 };

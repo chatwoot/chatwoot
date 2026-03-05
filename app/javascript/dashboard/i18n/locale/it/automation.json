@@ -147,7 +147,7 @@
       "SEND_WEBHOOK_EVENT": "Invia Evento Webhook",
       "SEND_ATTACHMENT": "Invia Allegato",
       "SEND_MESSAGE": "Invia un Messaggio",
-      "ADD_PRIVATE_NOTE": "Aggiungi Nota Privata",
+      "ADD_PRIVATE_NOTE": "Aggiungi una Nota Privata",
       "CHANGE_PRIORITY": "Modifica Priorità",
       "ADD_SLA": "Aggiungi SLA",
       "OPEN_CONVERSATION": "Riapri conversazione"

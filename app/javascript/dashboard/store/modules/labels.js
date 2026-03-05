@@ -27,7 +27,7 @@ export const getters = {
       .sort((a, b) => a.title.localeCompare(b.title));
   },
   getLabelById: _state => id => {
-    return _state.records.find(record => record.id === Number(id));
+    return _state.records.find(record => record.id === Number(id)) || {};
   },
 };
 

@@ -234,6 +234,19 @@ export const actions = {
         console.error(error);
       });
   },
+  downloadConversationsSummaryReports(_, reportObj) {
+    return Report.getConversationsSummaryReports(reportObj)
+      .then(response => {
+        downloadCsvFile(reportObj.fileName, response.data);
+        AnalyticsHelper.track(REPORTS_EVENTS.DOWNLOAD_REPORT, {
+          reportType: 'conversations_summary',
+          businessHours: reportObj?.businessHours,
+        });
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  },
   downloadLabelReports(_, reportObj) {
     return Report.getLabelReports(reportObj)
       .then(response => {

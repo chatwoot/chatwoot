@@ -32,6 +32,7 @@
     "LOADING_CONVERSATIONS": "സംഭാഷണങ്ങൾ ലോഡു ചെയ്യുന്നു",
     "CANNOT_REPLY": "നിങ്ങൾക്ക് മറുപടി നൽകാൻ കഴിയില്ല",
     "24_HOURS_WINDOW": "24 മണിക്കൂർ സന്ദേശ വിൻഡോ നിയന്ത്രണം",
+    "48_HOURS_WINDOW": "48 മണിക്കൂർ സന്ദേശ വിൻഡോ നിയന്ത്രണം",
     "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
     "NOT_ASSIGNED_TO_YOU": "This conversation is not assigned to you. Would you like to assign this conversation to yourself?",
     "ASSIGN_TO_ME": "Assign to me",
@@ -196,7 +197,6 @@
       "INSERT_READ_MORE": "Read more",
       "DISMISS_REPLY": "Dismiss reply",
       "REPLYING_TO": "Replying to:",
-      "TIP_FORMAT_ICON": "Show rich text editor",
       "TIP_EMOJI_ICON": "Show emoji selector",
       "TIP_ATTACH_ICON": "Attach files",
       "TIP_AUDIORECORDER_ICON": "Record audio",
@@ -275,6 +275,16 @@
     "SIDEBAR": {
       "CONTACT": "ബന്ധപ്പെടുക",
       "COPILOT": "Copilot"
+    },
+    "VOICE_WIDGET": {
+      "INCOMING_CALL": "Incoming call",
+      "OUTGOING_CALL": "Outgoing call",
+      "CALL_IN_PROGRESS": "Call in progress",
+      "NOT_ANSWERED_YET": "Not answered yet",
+      "HANDLED_IN_ANOTHER_TAB": "Being handled in another tab",
+      "REJECT_CALL": "Reject",
+      "JOIN_CALL": "Join call",
+      "END_CALL": "End call"
     }
   },
   "EMAIL_TRANSCRIPT": {

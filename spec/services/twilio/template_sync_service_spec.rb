@@ -81,7 +81,29 @@ RSpec.describe Twilio::TemplateSyncService do
     )
   end
 
-  let(:templates) { [text_template, media_template, quick_reply_template, catalog_template] }
+  let(:call_to_action_template) do
+    instance_double(
+      Twilio::REST::Content::V1::ContentInstance,
+      sid: 'HX444555666',
+      friendly_name: 'payment_reminder',
+      language: 'en',
+      date_created: Time.current,
+      date_updated: Time.current,
+      variables: {},
+      types: {
+        'twilio/call-to-action' => {
+          'body' => 'Hello, this is a gentle reminder regarding your RVA Astrology course fee.' \
+                    '\n\n• Vignana Course: ₹3,000\n• Panditha Course: ₹6,000' \
+                    '\n\nThe payment is due on {{date}}.\nKindly complete the payment at your convenience',
+          'actions' => [
+            { 'id' => 'make_payment', 'title' => 'Make Payment', 'url' => 'https://example.com/payment' }
+          ]
+        }
+      }
+    )
+  end
+
+  let(:templates) { [text_template, media_template, quick_reply_template, catalog_template, call_to_action_template] }
 
   before do
     allow(twilio_channel).to receive(:send).and_call_original
@@ -104,7 +126,7 @@ RSpec.describe Twilio::TemplateSyncService do
           twilio_channel.reload
           expect(twilio_channel.content_templates).to be_present
           expect(twilio_channel.content_templates['templates']).to be_an(Array)
-          expect(twilio_channel.content_templates['templates'].size).to eq(4)
+          expect(twilio_channel.content_templates['templates'].size).to eq(5)
           expect(twilio_channel.content_templates_last_updated).to be_within(1.second).of(Time.current)
         end
       end
@@ -170,6 +192,32 @@ RSpec.describe Twilio::TemplateSyncService do
           'category' => 'utility',
           'body' => 'Welcome! How can we help?'
         )
+      end
+
+      it 'correctly formats call-to-action templates with variables' do
+        sync_service.call
+
+        twilio_channel.reload
+        call_to_action_data = twilio_channel.content_templates['templates'].find do |t|
+          t['friendly_name'] == 'payment_reminder'
+        end
+
+        expect(call_to_action_data).to include(
+          'content_sid' => 'HX444555666',
+          'friendly_name' => 'payment_reminder',
+          'language' => 'en',
+          'status' => 'approved',
+          'template_type' => 'call_to_action',
+          'media_type' => nil,
+          'variables' => {},
+          'category' => 'utility'
+        )
+
+        expected_body = 'Hello, this is a gentle reminder regarding your RVA Astrology course fee.' \
+                        '\n\n• Vignana Course: ₹3,000\n• Panditha Course: ₹6,000' \
+                        '\n\nThe payment is due on {{date}}.\nKindly complete the payment at your convenience'
+        expect(call_to_action_data['body']).to eq(expected_body)
+        expect(call_to_action_data['body']).to match(/{{date}}/)
       end
 
       it 'categorizes marketing templates correctly' do

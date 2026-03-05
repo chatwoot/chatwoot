@@ -102,6 +102,9 @@
       },
       "contact": {
         "CONTENT": "共享联系人"
+      },
+      "embed": {
+        "CONTENT": ""
       }
     },
     "CHAT_SORT_BY_FILTER": {

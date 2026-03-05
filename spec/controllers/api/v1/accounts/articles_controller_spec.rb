@@ -36,7 +36,7 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
         expect(response).to have_http_status(:success)
         json_response = response.parsed_body
         expect(json_response['payload']['title']).to eql('MyTitle')
-        expect(json_response['payload']['status']).to eql('draft')
+        expect(json_response['payload']['status']).to eql('published')
         expect(json_response['payload']['position']).to be(3)
       end
 
@@ -59,8 +59,28 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
         expect(response).to have_http_status(:success)
         json_response = response.parsed_body
         expect(json_response['payload']['title']).to eql('MyTitle')
-        expect(json_response['payload']['status']).to eql('draft')
+        expect(json_response['payload']['status']).to eql('published')
         expect(json_response['payload']['position']).to be(3)
+      end
+
+      it 'creates article as draft when status is not provided' do
+        article_params = {
+          article: {
+            category_id: category.id,
+            description: 'test description',
+            title: 'DraftTitle',
+            slug: 'draft-title',
+            content: 'This is my draft content.',
+            author_id: agent.id
+          }
+        }
+        post "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles",
+             params: article_params,
+             headers: admin.create_new_auth_token
+        expect(response).to have_http_status(:success)
+        json_response = response.parsed_body
+        expect(json_response['payload']['title']).to eql('DraftTitle')
+        expect(json_response['payload']['status']).to eql('draft')
       end
 
       it 'associate to the root article' do

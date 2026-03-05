@@ -1,13 +1,13 @@
 {
   "DATE_PICKER": {
     "APPLY_BUTTON": "להגיש מועמדות",
-    "CLEAR_BUTTON": "Clear",
+    "CLEAR_BUTTON": "נקה",
     "DATE_RANGE_INPUT": {
-      "START": "Start Date",
-      "END": "End Date"
+      "START": "תאריך התחלה",
+      "END": "תאריך סיום"
     },
     "DATE_RANGE_OPTIONS": {
-      "TITLE": "DATE RANGE",
+      "TITLE": "טווח תאריכים",
       "LAST_7_DAYS": "7 הימים האחרונים",
       "LAST_30_DAYS": "30 הימים האחרונים",
       "LAST_3_MONTHS": "3 החודשים האחרונים",
