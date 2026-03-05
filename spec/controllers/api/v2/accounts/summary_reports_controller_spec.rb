@@ -160,4 +160,68 @@ RSpec.describe 'Summary Reports API', type: :request do
       end
     end
   end
+
+  describe 'GET /api/v2/accounts/:account_id/summary_reports/channel' do
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        get "/api/v2/accounts/#{account.id}/summary_reports/channel"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let(:params) do
+        {
+          since: start_of_today.to_s,
+          until: end_of_today.to_s
+        }
+      end
+
+      it 'returns unauthorized for agents' do
+        get "/api/v2/accounts/#{account.id}/summary_reports/channel",
+            params: params,
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+
+      it 'calls V2::Reports::ChannelSummaryBuilder with the right params if the user is an admin' do
+        channel_summary_builder = double
+        allow(V2::Reports::ChannelSummaryBuilder).to receive(:new).and_return(channel_summary_builder)
+        allow(channel_summary_builder).to receive(:build)
+          .and_return({
+                        'Channel::WebWidget' => { open: 5, resolved: 10, pending: 2, snoozed: 1, total: 18 }
+                      })
+
+        get "/api/v2/accounts/#{account.id}/summary_reports/channel",
+            params: params,
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(V2::Reports::ChannelSummaryBuilder).to have_received(:new).with(
+          account: account,
+          params: hash_including(since: start_of_today.to_s, until: end_of_today.to_s)
+        )
+        expect(channel_summary_builder).to have_received(:build)
+
+        expect(response).to have_http_status(:success)
+        json_response = response.parsed_body
+
+        expect(json_response['Channel::WebWidget']['open']).to eq(5)
+        expect(json_response['Channel::WebWidget']['total']).to eq(18)
+      end
+
+      it 'returns unprocessable_entity when date range exceeds 6 months' do
+        get "/api/v2/accounts/#{account.id}/summary_reports/channel",
+            params: { since: 1.year.ago.to_i.to_s, until: Time.current.to_i.to_s },
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['error']).to eq(I18n.t('errors.reports.date_range_too_long'))
+      end
+    end
+  end
 end

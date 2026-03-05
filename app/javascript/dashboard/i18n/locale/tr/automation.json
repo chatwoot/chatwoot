@@ -122,7 +122,7 @@
       "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
       "VALUE_REQUIRED": "Değer gereklidir",
       "VALUE_MUST_BE_BETWEEN_1_AND_998": "Değer 1 ile 998 arasında olmalıdır",
-      "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
+      "ACTION_PARAMETERS_REQUIRED": "Eylem parametreleri gereklidir",
       "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
       "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
     },

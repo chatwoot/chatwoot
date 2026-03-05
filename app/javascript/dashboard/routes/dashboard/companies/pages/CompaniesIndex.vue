@@ -9,7 +9,7 @@ import { useCompaniesStore } from 'dashboard/stores/companies';
 import CompaniesListLayout from 'dashboard/components-next/Companies/CompaniesListLayout.vue';
 import CompaniesCard from 'dashboard/components-next/Companies/CompaniesCard/CompaniesCard.vue';
 
-const DEFAULT_SORT_FIELD = 'created_at';
+const DEFAULT_SORT_FIELD = 'name';
 const DEBOUNCE_DELAY = 300;
 
 const companiesStore = useCompaniesStore();
@@ -37,7 +37,7 @@ const parseSortSettings = (sortString = '') => {
   };
 };
 
-const { companies_sort_by: companySortBy = `-${DEFAULT_SORT_FIELD}` } =
+const { companies_sort_by: companySortBy = DEFAULT_SORT_FIELD } =
   uiSettings.value ?? {};
 const { sort: initialSort, order: initialOrder } =
   parseSortSettings(companySortBy);
@@ -154,7 +154,7 @@ onMounted(() => {
         t('COMPANIES.EMPTY_STATE.TITLE')
       }}</span>
     </div>
-    <div v-else class="flex flex-col gap-4 p-4">
+    <div v-else class="flex flex-col gap-4">
       <CompaniesCard
         v-for="company in companies"
         :id="company.id"

@@ -155,6 +155,14 @@ RSpec.describe Attachment do
     end
   end
 
+  describe 'push_event_data for embed attachments' do
+    it 'returns external url as data_url' do
+      attachment = message.attachments.create!(account_id: message.account_id, file_type: :embed, external_url: 'https://example.com/embed')
+
+      expect(attachment.push_event_data[:data_url]).to eq('https://example.com/embed')
+    end
+  end
+
   describe 'file size validation' do
     let(:attachment) { message.attachments.new(account_id: message.account_id, file_type: :image) }
 

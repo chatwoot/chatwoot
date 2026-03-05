@@ -1,4 +1,5 @@
 import { format, parseISO, isValid as isValidDate } from 'date-fns';
+import DOMPurify from 'dompurify';
 
 /**
  * Extracts plain text from HTML content
@@ -13,7 +14,7 @@ export const extractPlainTextFromHtml = html => {
     return html.replace(/<[^>]*>/g, ' ');
   }
   const tempDiv = document.createElement('div');
-  tempDiv.innerHTML = html;
+  tempDiv.innerHTML = DOMPurify.sanitize(html);
   return tempDiv.textContent || tempDiv.innerText || '';
 };
 

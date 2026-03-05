@@ -33,12 +33,13 @@ remove_stale_redis_keys_job.rb:
   class: 'Internal::RemoveStaleRedisKeysJob'
   queue: scheduled_jobs
 
-#executed daily at 0430 UTC
-# which will be IST 10:00 AM
-process_stale_contacts_job:
-  cron: '30 04 * * *'
-  class: 'Internal::ProcessStaleContactsJob'
-  queue: housekeeping
+# DISABLED: investigating if this job is the source of orphan conversations
+# #executed daily at 0430 UTC
+# # which will be IST 10:00 AM
+# process_stale_contacts_job:
+#   cron: '30 04 * * *'
+#   class: 'Internal::ProcessStaleContactsJob'
+#   queue: housekeeping
 
 # executed daily at 0100 UTC
 # to delete accounts marked for deletion
@@ -59,3 +60,17 @@ periodic_assignment_job:
   cron: '*/30 * * * *'
   class: 'AutoAssignment::PeriodicAssignmentJob'
   queue: scheduled_jobs
+
+# executed daily at 2230 UTC
+# removes old notifications (>1 month) and trims to 300 per user
+remove_old_notification_job:
+  cron: '30 22 * * *'
+  class: 'Notification::RemoveOldNotificationJob'
+  queue: purgable
+
+# executed every 12 hours
+# to remove orphan conversations without contact
+remove_orphan_conversations_job:
+  cron: '0 */12 * * *'
+  class: 'Internal::RemoveOrphanConversationsJob'
+  queue: housekeeping

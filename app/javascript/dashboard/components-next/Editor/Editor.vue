@@ -5,6 +5,7 @@ import WootEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
 
 const props = defineProps({
   modelValue: { type: String, default: '' },
+  editorKey: { type: String, default: '' },
   label: { type: String, default: '' },
   placeholder: { type: String, default: '' },
   focusOnMount: { type: Boolean, default: false },
@@ -27,7 +28,7 @@ const props = defineProps({
   medium: { type: String, default: '' },
 });
 
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits(['update:modelValue', 'executeCopilotAction']);
 
 const slots = useSlots();
 
@@ -96,6 +97,7 @@ watch(
       ]"
     >
       <WootEditor
+        :editor-id="editorKey"
         :model-value="modelValue"
         :placeholder="placeholder"
         :focus-on-mount="focusOnMount"
@@ -111,6 +113,9 @@ watch(
         @input="handleInput"
         @focus="handleFocus"
         @blur="handleBlur"
+        @execute-copilot-action="
+          (...args) => emit('executeCopilotAction', ...args)
+        "
       />
       <div
         v-if="showCharacterCount || slots.actions"
@@ -151,6 +156,13 @@ watch(
             @apply text-n-slate-11 dark:text-n-slate-11;
           }
         }
+      }
+
+      .ProseMirror-menubar {
+        width: fit-content !important;
+        position: relative !important;
+        top: unset !important;
+        @apply ltr:left-[-0.188rem] rtl:right-[-0.188rem] !important;
       }
     }
   }
