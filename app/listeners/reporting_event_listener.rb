@@ -25,7 +25,7 @@ class ReportingEventListener < BaseListener
 
     Rails.logger.info(
       "#{log_prefix} | " \
-      "creating resolution_time_without_bot | " \
+      'creating resolution_time_without_bot | ' \
       "without_bot_start_time=#{without_bot_start_time.iso8601} | " \
       "resolved_at=#{end_time.iso8601} | " \
       "time_without_bot=#{(end_time - without_bot_start_time).to_i}s | " \
@@ -112,30 +112,29 @@ class ReportingEventListener < BaseListener
   private
 
   def resolve_without_bot_start_time(conversation, log_prefix)
-    operator_assigned_at = first_operator_assigned_at(conversation)
+    operator_first_message_at = first_operator_message_at(conversation)
 
-    if operator_assigned_at
+    if operator_first_message_at
       Rails.logger.info(
-        "#{log_prefix} | has_bot=true | source=first_operator_assignment | " \
-        "without_bot_start_time=#{operator_assigned_at.iso8601}"
+        "#{log_prefix} | has_bot=true | source=first_operator_message | " \
+        "without_bot_start_time=#{operator_first_message_at.iso8601}"
       )
-      return operator_assigned_at
+      return operator_first_message_at
     end
-  
+
     Rails.logger.warn(
       "#{log_prefix} | has_bot=true | WITHOUT_BOT_EVENT_SKIPPED | " \
-      "reason=no_operator_ever_assigned | " \
-      "fallback=no_event_created"
+      'reason=no_operator_ever_replied | ' \
+      'fallback=no_event_created'
     )
-  
+
     nil
   end
-  
-  def first_operator_assigned_at(conversation)
-    ConversationParticipant
-      .where(conversation_id: conversation.id)
-      .where.not(user_id: nil)
-      .minimum(:created_at)
+
+  def first_operator_message_at(conversation)
+    conversation.messages
+                .where(message_type: :outgoing, sender_type: 'User')
+                .minimum(:created_at)
   end
 
   def find_active_participant(conversation, user_id)
