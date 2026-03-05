@@ -10,11 +10,11 @@ class Companies::FetchAvatarsJob < ApplicationJob
                            .where(active_storage_attachments: { id: nil })
     end
 
+    total_companies = companies.count
     companies.find_each do |company|
-      company.avatar.purge if force_refresh && company.avatar.attached?
-      Avatar::AvatarFromFaviconJob.perform_later(company)
+      Avatar::AvatarFromFaviconJob.perform_later(company, force_refresh: force_refresh)
     end
 
-    Rails.logger.info "Queued #{companies.count} companies from account #{account_id} for favicon fetch"
+    Rails.logger.info "Queued #{total_companies} companies from account #{account_id} for favicon fetch"
   end
 end
