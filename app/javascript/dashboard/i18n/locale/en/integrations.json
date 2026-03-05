@@ -583,6 +583,52 @@
           "PAYLOAD": "Request Payload",
           "RESPONSE": "Response Data"
         }
+      },
+      "TEMPLATE_MAPPINGS": {
+        "TITLE": "Template Mappings",
+        "DESCRIPTION": "Map MoEngage events to WhatsApp templates for automatic outbound messages.",
+        "ADD": "Add Mapping",
+        "EMPTY": "No template mappings configured. Add a mapping to automatically send WhatsApp templates when MoEngage events fire.",
+        "FETCH_ERROR": "Failed to fetch template mappings",
+        "SAVE_SUCCESS": "Template mapping saved successfully",
+        "SAVE_ERROR": "Failed to save template mapping",
+        "DELETE_SUCCESS": "Template mapping deleted successfully",
+        "DELETE_ERROR": "Failed to delete template mapping",
+        "CONFIRM_DELETE": "Are you sure you want to delete this template mapping?",
+        "TABLE": {
+          "EVENT": "Event",
+          "TEMPLATE": "Template",
+          "INBOX": "Inbox",
+          "LANGUAGE": "Language",
+          "ENABLED": "Enabled",
+          "ACTIONS": "Actions"
+        },
+        "FORM": {
+          "TITLE_ADD": "Add Template Mapping",
+          "TITLE_EDIT": "Edit Template Mapping",
+          "EVENT_NAME": "Event Name",
+          "EVENT_NAME_PLACEHOLDER": "e.g. cart_abandoned",
+          "INBOX": "WhatsApp Inbox",
+          "INBOX_PLACEHOLDER": "Select a WhatsApp inbox",
+          "TEMPLATE": "Template",
+          "TEMPLATE_PLACEHOLDER": "Select a template",
+          "TEMPLATE_LANGUAGE": "Language",
+          "PARAMETERS": "Parameter Mapping",
+          "PARAMETERS_HELP": "Map template variables to MoEngage payload paths using dot notation (e.g. customer.name, event_attributes.product_name)",
+          "PARAM_VARIABLE": "Template Variable",
+          "PARAM_PATH": "Payload Path",
+          "PARAM_PATH_PLACEHOLDER": "e.g. customer.name",
+          "NO_TEMPLATES": "No approved templates found for this inbox. Try syncing from WhatsApp.",
+          "LOADING_TEMPLATES": "Loading templates...",
+          "SYNC_TEMPLATES": "Sync Templates",
+          "SYNC_HINT": "Don't see your template? Create it in Meta Business Manager, then click Sync Templates to pull the latest.",
+          "SYNC_SUCCESS": "Templates synced from WhatsApp successfully",
+          "SYNC_ERROR": "Failed to sync templates. Please try again.",
+          "ENABLED": "Enabled",
+          "SECTION_BODY": "Body Parameters",
+          "SECTION_HEADER": "Header Parameters",
+          "SECTION_BUTTONS": "Button Parameters"
+        }
       }
     },
     "CALENDLY": {

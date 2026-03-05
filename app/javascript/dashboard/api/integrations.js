@@ -65,6 +65,39 @@ class IntegrationsAPI extends ApiClient {
     );
   }
 
+  getMoengageTemplateMappings() {
+    return axios.get(
+      `${this.baseUrl()}/integrations/moengage/template_mappings`
+    );
+  }
+
+  createMoengageTemplateMapping(data) {
+    return axios.post(
+      `${this.baseUrl()}/integrations/moengage/template_mappings`,
+      { template_mapping: data }
+    );
+  }
+
+  updateMoengageTemplateMapping(id, data) {
+    return axios.patch(
+      `${this.baseUrl()}/integrations/moengage/template_mappings/${id}`,
+      { template_mapping: data }
+    );
+  }
+
+  deleteMoengageTemplateMapping(id) {
+    return axios.delete(
+      `${this.baseUrl()}/integrations/moengage/template_mappings/${id}`
+    );
+  }
+
+  getMoengageAvailableTemplates(inboxId) {
+    return axios.get(
+      `${this.baseUrl()}/integrations/moengage/template_mappings/available_templates`,
+      { params: { inbox_id: inboxId } }
+    );
+  }
+
   getMoengageWebhookEventLogs({
     page = 1,
     perPage = 25,

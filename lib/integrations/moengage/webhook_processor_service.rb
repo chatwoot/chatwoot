@@ -22,9 +22,12 @@ class Integrations::Moengage::WebhookProcessorService
     end
 
     create_conversation_with_context
-    trigger_ai_response if should_trigger_ai?
 
-    log_success
+    # Try template dispatch first; only fall back to AI if no mapping exists
+    dispatch_result = attempt_template_dispatch
+    trigger_ai_response if dispatch_result[:status] == :no_mapping && should_trigger_ai?
+
+    log_success(dispatch_result)
   rescue StandardError => e
     log_error(e)
     raise
@@ -177,6 +180,19 @@ class Integrations::Moengage::WebhookProcessorService
     parts.join("\n")
   end
 
+  def attempt_template_dispatch
+    Integrations::Moengage::TemplateDispatchService.new(
+      event_name: event_name,
+      payload: payload,
+      contact: @contact,
+      conversation: @conversation,
+      hook: hook
+    ).perform
+  rescue StandardError => e
+    Rails.logger.error("MoEngage template dispatch failed: #{e.message}")
+    { status: :dispatch_error, error: e.message }
+  end
+
   def inbox
     @inbox ||= account.inboxes.find(settings[:default_inbox_id])
   end
@@ -221,19 +237,23 @@ class Integrations::Moengage::WebhookProcessorService
     AgentBots::WebhookJob.perform_later(agent_bot.outgoing_url, payload_data)
   end
 
-  def log_success
+  def log_success(dispatch_result = {})
+    template_dispatched = dispatch_result[:status] == :sent
     update_event_log(
       status: :success,
       response_data: {
         contact_id: @contact&.id,
         conversation_id: @conversation&.id,
-        ai_triggered: should_trigger_ai?
-      }
+        ai_triggered: !template_dispatched && should_trigger_ai?,
+        template_dispatched: template_dispatched,
+        template_name: dispatch_result[:template]
+      }.compact
     )
 
     Rails.logger.info(
       "MoEngage webhook processed: event=#{payload[:event_name]} " \
-      "contact=#{@contact&.id} conversation=#{@conversation&.id}"
+      "contact=#{@contact&.id} conversation=#{@conversation&.id} " \
+      "template_dispatched=#{template_dispatched}"
     )
   end
 

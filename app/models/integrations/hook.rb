@@ -38,6 +38,7 @@ class Integrations::Hook < ApplicationRecord
   belongs_to :account
   belongs_to :inbox, optional: true
   has_many :moengage_webhook_event_logs, dependent: :destroy_async
+  has_many :moengage_template_mappings, dependent: :destroy_async
   has_secure_token :access_token
 
   enum hook_type: { account: 0, inbox: 1 }

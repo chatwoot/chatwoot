@@ -11,6 +11,7 @@ import {
 import { useAlert } from 'dashboard/composables';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
 import IntegrationsAPI from 'dashboard/api/integrations';
+import InboxesAPI from 'dashboard/api/inboxes';
 
 import Integration from './Integration.vue';
 import Spinner from 'shared/components/Spinner.vue';
@@ -341,6 +342,260 @@ const formatJson = obj => {
   }
 };
 
+// Template Mappings
+const showTemplateMappings = ref(false);
+const templateMappings = ref([]);
+const templateMappingsLoading = ref(false);
+const templateMappingDialogRef = ref(null);
+const deleteMappingDialogRef = ref(null);
+const mappingToDelete = ref(null);
+const editingMapping = ref(null);
+const availableTemplates = ref([]);
+const loadingTemplates = ref(false);
+
+const mappingForm = ref({
+  event_name: '',
+  inbox_id: null,
+  template_name: '',
+  template_language: 'en',
+  enabled: true,
+  parameter_map: {},
+});
+
+const whatsappInboxes = computed(() =>
+  inboxes.value
+    .filter(inbox => inbox.channel_type === 'Channel::Whatsapp')
+    .map(inbox => ({ value: String(inbox.id), label: inbox.name }))
+);
+
+const extractParameterMap = template => {
+  const paramMap = {};
+  if (!template.components) return paramMap;
+
+  template.components.forEach(comp => {
+    const type = comp.type?.toLowerCase();
+    if (type === 'body') {
+      const matches = (comp.text || '').match(/\{\{(\d+)\}\}/g) || [];
+      if (matches.length) {
+        paramMap.body = {};
+        matches.forEach(m => {
+          const num = m.replace(/[{}]/g, '');
+          paramMap.body[num] = '';
+        });
+      }
+    } else if (type === 'header') {
+      if (
+        comp.format === 'IMAGE' ||
+        comp.format === 'VIDEO' ||
+        comp.format === 'DOCUMENT'
+      ) {
+        paramMap.header = {
+          media_url: '',
+          media_type: comp.format.toLowerCase(),
+        };
+      } else if ((comp.text || '').includes('{{')) {
+        paramMap.header = { 1: '' };
+      }
+    } else if (type === 'buttons') {
+      const buttons = (comp.buttons || [])
+        .map((btn, idx) => {
+          if (btn.type === 'URL' && (btn.url || '').includes('{{')) {
+            return { type: 'url', index: idx, parameter: '' };
+          }
+          return null;
+        })
+        .filter(Boolean);
+      if (buttons.length) paramMap.buttons = buttons;
+    }
+  });
+
+  return paramMap;
+};
+
+const fetchTemplateMappings = async () => {
+  templateMappingsLoading.value = true;
+  try {
+    const response = await IntegrationsAPI.getMoengageTemplateMappings();
+    templateMappings.value = response.data.payload;
+  } catch {
+    useAlert(t('INTEGRATION_SETTINGS.MOENGAGE.TEMPLATE_MAPPINGS.FETCH_ERROR'));
+  } finally {
+    templateMappingsLoading.value = false;
+  }
+};
+
+const fetchAvailableTemplates = async inboxId => {
+  loadingTemplates.value = true;
+  try {
+    const response =
+      await IntegrationsAPI.getMoengageAvailableTemplates(inboxId);
+    availableTemplates.value = response.data.payload;
+  } catch {
+    availableTemplates.value = [];
+  } finally {
+    loadingTemplates.value = false;
+  }
+};
+
+const syncAndRefreshTemplates = async () => {
+  if (!mappingForm.value.inbox_id) return;
+
+  loadingTemplates.value = true;
+  try {
+    await InboxesAPI.syncTemplates(mappingForm.value.inbox_id);
+    await fetchAvailableTemplates(mappingForm.value.inbox_id);
+    useAlert(
+      t('INTEGRATION_SETTINGS.MOENGAGE.TEMPLATE_MAPPINGS.FORM.SYNC_SUCCESS')
+    );
+  } catch {
+    useAlert(
+      t('INTEGRATION_SETTINGS.MOENGAGE.TEMPLATE_MAPPINGS.FORM.SYNC_ERROR')
+    );
+  } finally {
+    loadingTemplates.value = false;
+  }
+};
+
+const selectedMappingInboxId = computed({
+  get: () =>
+    mappingForm.value.inbox_id ? String(mappingForm.value.inbox_id) : '',
+  set: val => {
+    mappingForm.value.inbox_id = val ? Number(val) : null;
+    mappingForm.value.template_name = '';
+    mappingForm.value.parameter_map = {};
+    availableTemplates.value = [];
+    if (val) fetchAvailableTemplates(val);
+  },
+});
+
+const templateOptions = computed(() =>
+  availableTemplates.value.map(tpl => ({
+    value: tpl.name,
+    label: `${tpl.name} (${tpl.language})`,
+  }))
+);
+
+const selectedTemplateName = computed({
+  get: () => mappingForm.value.template_name || '',
+  set: val => {
+    mappingForm.value.template_name = val;
+    const matched = availableTemplates.value.find(tpl => tpl.name === val);
+    if (matched) {
+      mappingForm.value.template_language = matched.language;
+      mappingForm.value.parameter_map = extractParameterMap(matched);
+    }
+  },
+});
+
+const toggleTemplateMappings = () => {
+  showTemplateMappings.value = !showTemplateMappings.value;
+  if (showTemplateMappings.value && templateMappings.value.length === 0) {
+    fetchTemplateMappings();
+  }
+};
+
+const openAddMappingDialog = () => {
+  editingMapping.value = null;
+  mappingForm.value = {
+    event_name: '',
+    inbox_id: null,
+    template_name: '',
+    template_language: 'en',
+    enabled: true,
+    parameter_map: {},
+  };
+  availableTemplates.value = [];
+  templateMappingDialogRef.value?.open();
+};
+
+const openEditMappingDialog = async mapping => {
+  editingMapping.value = mapping;
+  mappingForm.value = {
+    event_name: mapping.event_name,
+    inbox_id: mapping.inbox_id,
+    template_name: mapping.template_name,
+    template_language: mapping.template_language,
+    enabled: mapping.enabled,
+    parameter_map: { ...mapping.parameter_map },
+  };
+  await fetchAvailableTemplates(mapping.inbox_id);
+  templateMappingDialogRef.value?.open();
+};
+
+const handleSaveMapping = async () => {
+  isSubmitting.value = true;
+  try {
+    const data = {
+      event_name: mappingForm.value.event_name,
+      inbox_id: mappingForm.value.inbox_id,
+      template_name: mappingForm.value.template_name,
+      template_language: mappingForm.value.template_language,
+      enabled: mappingForm.value.enabled,
+      parameter_map: mappingForm.value.parameter_map,
+    };
+
+    if (editingMapping.value) {
+      await IntegrationsAPI.updateMoengageTemplateMapping(
+        editingMapping.value.id,
+        data
+      );
+    } else {
+      await IntegrationsAPI.createMoengageTemplateMapping(data);
+    }
+
+    useAlert(t('INTEGRATION_SETTINGS.MOENGAGE.TEMPLATE_MAPPINGS.SAVE_SUCCESS'));
+    templateMappingDialogRef.value?.close();
+    fetchTemplateMappings();
+  } catch {
+    useAlert(t('INTEGRATION_SETTINGS.MOENGAGE.TEMPLATE_MAPPINGS.SAVE_ERROR'));
+  } finally {
+    isSubmitting.value = false;
+  }
+};
+
+const confirmDeleteMapping = mapping => {
+  mappingToDelete.value = mapping;
+  deleteMappingDialogRef.value?.open();
+};
+
+const handleDeleteMapping = async () => {
+  try {
+    await IntegrationsAPI.deleteMoengageTemplateMapping(
+      mappingToDelete.value.id
+    );
+    useAlert(
+      t('INTEGRATION_SETTINGS.MOENGAGE.TEMPLATE_MAPPINGS.DELETE_SUCCESS')
+    );
+    deleteMappingDialogRef.value?.close();
+    fetchTemplateMappings();
+  } catch {
+    useAlert(t('INTEGRATION_SETTINGS.MOENGAGE.TEMPLATE_MAPPINGS.DELETE_ERROR'));
+  }
+};
+
+const toggleMappingEnabled = async mapping => {
+  try {
+    await IntegrationsAPI.updateMoengageTemplateMapping(mapping.id, {
+      enabled: !mapping.enabled,
+    });
+    fetchTemplateMappings();
+  } catch {
+    useAlert(t('INTEGRATION_SETTINGS.MOENGAGE.TEMPLATE_MAPPINGS.SAVE_ERROR'));
+  }
+};
+
+const formatParamVar = key => `{{${key}}}`;
+
+const updateParamValue = (section, key, value) => {
+  if (!mappingForm.value.parameter_map[section]) return;
+
+  if (section === 'buttons') {
+    mappingForm.value.parameter_map.buttons[key].parameter = value;
+  } else {
+    mappingForm.value.parameter_map[section][key] = value;
+  }
+};
+
 const initializeMoengageIntegration = async () => {
   await store.dispatch('integrations/get');
   await store.dispatch('inboxes/get');
@@ -511,6 +766,434 @@ onMounted(() => {
           </div>
         </div>
       </div>
+
+      <!-- Template Mappings Section -->
+      <div
+        v-if="isConnected"
+        class="p-6 outline outline-n-container outline-1 bg-n-alpha-3 rounded-md shadow"
+      >
+        <div
+          class="flex items-center justify-between cursor-pointer"
+          @click="toggleTemplateMappings"
+        >
+          <div>
+            <h4 class="text-base font-medium text-n-slate-12">
+              {{ $t('INTEGRATION_SETTINGS.MOENGAGE.TEMPLATE_MAPPINGS.TITLE') }}
+            </h4>
+            <p class="text-sm text-n-slate-11">
+              {{
+                $t(
+                  'INTEGRATION_SETTINGS.MOENGAGE.TEMPLATE_MAPPINGS.DESCRIPTION'
+                )
+              }}
+            </p>
+          </div>
+          <div class="flex items-center gap-2">
+            <Button
+              v-if="showTemplateMappings"
+              faded
+              teal
+              size="small"
+              :label="$t('INTEGRATION_SETTINGS.MOENGAGE.TEMPLATE_MAPPINGS.ADD')"
+              @click.stop="openAddMappingDialog"
+            />
+            <span
+              class="text-n-slate-11 transition-transform"
+              :class="{ 'rotate-180': showTemplateMappings }"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <polyline points="6 9 12 15 18 9" />
+              </svg>
+            </span>
+          </div>
+        </div>
+
+        <div v-if="showTemplateMappings" class="mt-4">
+          <div v-if="templateMappingsLoading" class="flex justify-center py-8">
+            <Spinner size="" color-scheme="primary" />
+          </div>
+
+          <div
+            v-else-if="templateMappings.length === 0"
+            class="py-8 text-center"
+          >
+            <p class="text-sm text-n-slate-11">
+              {{ $t('INTEGRATION_SETTINGS.MOENGAGE.TEMPLATE_MAPPINGS.EMPTY') }}
+            </p>
+          </div>
+
+          <div v-else>
+            <div class="overflow-x-auto">
+              <table class="min-w-full divide-y divide-n-weak">
+                <thead>
+                  <tr>
+                    <th
+                      class="py-3 ltr:pr-4 rtl:pl-4 text-left text-xs font-semibold text-n-slate-11 uppercase tracking-wider"
+                    >
+                      {{
+                        $t(
+                          'INTEGRATION_SETTINGS.MOENGAGE.TEMPLATE_MAPPINGS.TABLE.EVENT'
+                        )
+                      }}
+                    </th>
+                    <th
+                      class="py-3 px-4 text-left text-xs font-semibold text-n-slate-11 uppercase tracking-wider"
+                    >
+                      {{
+                        $t(
+                          'INTEGRATION_SETTINGS.MOENGAGE.TEMPLATE_MAPPINGS.TABLE.TEMPLATE'
+                        )
+                      }}
+                    </th>
+                    <th
+                      class="py-3 px-4 text-left text-xs font-semibold text-n-slate-11 uppercase tracking-wider"
+                    >
+                      {{
+                        $t(
+                          'INTEGRATION_SETTINGS.MOENGAGE.TEMPLATE_MAPPINGS.TABLE.INBOX'
+                        )
+                      }}
+                    </th>
+                    <th
+                      class="py-3 px-4 text-left text-xs font-semibold text-n-slate-11 uppercase tracking-wider"
+                    >
+                      {{
+                        $t(
+                          'INTEGRATION_SETTINGS.MOENGAGE.TEMPLATE_MAPPINGS.TABLE.ENABLED'
+                        )
+                      }}
+                    </th>
+                    <th
+                      class="py-3 ltr:pl-4 rtl:pr-4 text-left text-xs font-semibold text-n-slate-11 uppercase tracking-wider"
+                    >
+                      {{
+                        $t(
+                          'INTEGRATION_SETTINGS.MOENGAGE.TEMPLATE_MAPPINGS.TABLE.ACTIONS'
+                        )
+                      }}
+                    </th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-n-weak">
+                  <tr v-for="mapping in templateMappings" :key="mapping.id">
+                    <td
+                      class="py-3 ltr:pr-4 rtl:pl-4 text-sm text-n-slate-12 font-mono"
+                    >
+                      {{ mapping.event_name }}
+                    </td>
+                    <td class="py-3 px-4 text-sm text-n-slate-12 font-mono">
+                      {{ mapping.template_name }}
+                    </td>
+                    <td class="py-3 px-4 text-sm text-n-slate-12">
+                      {{ mapping.inbox_name }}
+                    </td>
+                    <td class="py-3 px-4">
+                      <Switch
+                        :model-value="mapping.enabled"
+                        @update:model-value="toggleMappingEnabled(mapping)"
+                      />
+                    </td>
+                    <td class="py-3 ltr:pl-4 rtl:pr-4">
+                      <div class="flex gap-2">
+                        <Button
+                          faded
+                          slate
+                          size="small"
+                          icon="i-lucide-pencil"
+                          @click="openEditMappingDialog(mapping)"
+                        />
+                        <Button
+                          faded
+                          ruby
+                          size="small"
+                          icon="i-lucide-trash-2"
+                          @click="confirmDeleteMapping(mapping)"
+                        />
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Template Mapping Dialog -->
+      <Dialog
+        ref="templateMappingDialogRef"
+        :title="
+          editingMapping
+            ? $t(
+                'INTEGRATION_SETTINGS.MOENGAGE.TEMPLATE_MAPPINGS.FORM.TITLE_EDIT'
+              )
+            : $t(
+                'INTEGRATION_SETTINGS.MOENGAGE.TEMPLATE_MAPPINGS.FORM.TITLE_ADD'
+              )
+        "
+        :is-loading="isSubmitting"
+        @confirm="handleSaveMapping"
+      >
+        <div class="flex flex-col gap-4">
+          <Input
+            v-model="mappingForm.event_name"
+            :label="
+              $t(
+                'INTEGRATION_SETTINGS.MOENGAGE.TEMPLATE_MAPPINGS.FORM.EVENT_NAME'
+              )
+            "
+            :placeholder="
+              $t(
+                'INTEGRATION_SETTINGS.MOENGAGE.TEMPLATE_MAPPINGS.FORM.EVENT_NAME_PLACEHOLDER'
+              )
+            "
+          />
+
+          <FormSelect
+            v-model="selectedMappingInboxId"
+            name="mapping_inbox_id"
+            :label="
+              $t('INTEGRATION_SETTINGS.MOENGAGE.TEMPLATE_MAPPINGS.FORM.INBOX')
+            "
+            :placeholder="
+              $t(
+                'INTEGRATION_SETTINGS.MOENGAGE.TEMPLATE_MAPPINGS.FORM.INBOX_PLACEHOLDER'
+              )
+            "
+            :options="whatsappInboxes"
+          />
+
+          <div v-if="mappingForm.inbox_id" class="flex flex-col gap-2">
+            <p v-if="loadingTemplates" class="text-sm text-n-slate-11">
+              {{
+                $t(
+                  'INTEGRATION_SETTINGS.MOENGAGE.TEMPLATE_MAPPINGS.FORM.LOADING_TEMPLATES'
+                )
+              }}
+            </p>
+            <template v-else-if="availableTemplates.length === 0">
+              <p class="text-sm text-n-slate-11">
+                {{
+                  $t(
+                    'INTEGRATION_SETTINGS.MOENGAGE.TEMPLATE_MAPPINGS.FORM.NO_TEMPLATES'
+                  )
+                }}
+              </p>
+              <Button
+                faded
+                slate
+                size="small"
+                :label="
+                  $t(
+                    'INTEGRATION_SETTINGS.MOENGAGE.TEMPLATE_MAPPINGS.FORM.SYNC_TEMPLATES'
+                  )
+                "
+                @click="syncAndRefreshTemplates"
+              />
+            </template>
+            <template v-else>
+              <div class="flex items-end gap-2">
+                <FormSelect
+                  v-model="selectedTemplateName"
+                  name="template_name"
+                  class="flex-1"
+                  :label="
+                    $t(
+                      'INTEGRATION_SETTINGS.MOENGAGE.TEMPLATE_MAPPINGS.FORM.TEMPLATE'
+                    )
+                  "
+                  :placeholder="
+                    $t(
+                      'INTEGRATION_SETTINGS.MOENGAGE.TEMPLATE_MAPPINGS.FORM.TEMPLATE_PLACEHOLDER'
+                    )
+                  "
+                  :options="templateOptions"
+                />
+                <Button
+                  faded
+                  slate
+                  size="small"
+                  :label="
+                    $t(
+                      'INTEGRATION_SETTINGS.MOENGAGE.TEMPLATE_MAPPINGS.FORM.SYNC_TEMPLATES'
+                    )
+                  "
+                  class="mb-1"
+                  @click="syncAndRefreshTemplates"
+                />
+              </div>
+              <p class="text-xs text-n-slate-11">
+                {{
+                  $t(
+                    'INTEGRATION_SETTINGS.MOENGAGE.TEMPLATE_MAPPINGS.FORM.SYNC_HINT'
+                  )
+                }}
+              </p>
+            </template>
+          </div>
+
+          <!-- Parameter Mapping -->
+          <div
+            v-if="
+              mappingForm.template_name &&
+              Object.keys(mappingForm.parameter_map).length
+            "
+            class="flex flex-col gap-3"
+          >
+            <p class="text-xs text-n-slate-11">
+              {{
+                $t(
+                  'INTEGRATION_SETTINGS.MOENGAGE.TEMPLATE_MAPPINGS.FORM.PARAMETERS_HELP'
+                )
+              }}
+            </p>
+
+            <!-- Body Parameters -->
+            <div v-if="mappingForm.parameter_map.body">
+              <h6 class="text-xs font-semibold text-n-slate-11 mb-2">
+                {{
+                  $t(
+                    'INTEGRATION_SETTINGS.MOENGAGE.TEMPLATE_MAPPINGS.FORM.SECTION_BODY'
+                  )
+                }}
+              </h6>
+              <div class="flex flex-col gap-2">
+                <div
+                  v-for="(val, key) in mappingForm.parameter_map.body"
+                  :key="'body-' + key"
+                  class="flex items-center gap-2"
+                >
+                  <code
+                    class="text-xs bg-n-solid-3 px-2 py-1 rounded shrink-0 text-n-slate-12"
+                  >
+                    {{ formatParamVar(key) }}
+                  </code>
+                  <Input
+                    :model-value="val"
+                    :placeholder="
+                      $t(
+                        'INTEGRATION_SETTINGS.MOENGAGE.TEMPLATE_MAPPINGS.FORM.PARAM_PATH_PLACEHOLDER'
+                      )
+                    "
+                    class="flex-1"
+                    @update:model-value="v => updateParamValue('body', key, v)"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <!-- Header Parameters -->
+            <div v-if="mappingForm.parameter_map.header">
+              <h6 class="text-xs font-semibold text-n-slate-11 mb-2">
+                {{
+                  $t(
+                    'INTEGRATION_SETTINGS.MOENGAGE.TEMPLATE_MAPPINGS.FORM.SECTION_HEADER'
+                  )
+                }}
+              </h6>
+              <div class="flex flex-col gap-2">
+                <div
+                  v-for="(val, key) in mappingForm.parameter_map.header"
+                  :key="'header-' + key"
+                  class="flex items-center gap-2"
+                >
+                  <code
+                    v-if="key !== 'media_type'"
+                    class="text-xs bg-n-solid-3 px-2 py-1 rounded shrink-0 text-n-slate-12"
+                  >
+                    {{ key }}
+                  </code>
+                  <Input
+                    v-if="key !== 'media_type'"
+                    :model-value="val"
+                    :placeholder="
+                      $t(
+                        'INTEGRATION_SETTINGS.MOENGAGE.TEMPLATE_MAPPINGS.FORM.PARAM_PATH_PLACEHOLDER'
+                      )
+                    "
+                    class="flex-1"
+                    @update:model-value="
+                      v => updateParamValue('header', key, v)
+                    "
+                  />
+                </div>
+              </div>
+            </div>
+
+            <!-- Button Parameters -->
+            <div v-if="mappingForm.parameter_map.buttons">
+              <h6 class="text-xs font-semibold text-n-slate-11 mb-2">
+                {{
+                  $t(
+                    'INTEGRATION_SETTINGS.MOENGAGE.TEMPLATE_MAPPINGS.FORM.SECTION_BUTTONS'
+                  )
+                }}
+              </h6>
+              <div class="flex flex-col gap-2">
+                <div
+                  v-for="(btn, idx) in mappingForm.parameter_map.buttons"
+                  :key="'btn-' + idx"
+                  class="flex items-center gap-2"
+                >
+                  <code
+                    class="text-xs bg-n-solid-3 px-2 py-1 rounded shrink-0 text-n-slate-12"
+                  >
+                    {{ `button[${idx}]` }}
+                  </code>
+                  <Input
+                    :model-value="btn.parameter"
+                    :placeholder="
+                      $t(
+                        'INTEGRATION_SETTINGS.MOENGAGE.TEMPLATE_MAPPINGS.FORM.PARAM_PATH_PLACEHOLDER'
+                      )
+                    "
+                    class="flex-1"
+                    @update:model-value="
+                      v => updateParamValue('buttons', idx, v)
+                    "
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <input
+              id="mapping_enabled"
+              v-model="mappingForm.enabled"
+              type="checkbox"
+              class="w-4 h-4"
+            />
+            <label for="mapping_enabled" class="text-sm text-n-slate-12">
+              {{
+                $t(
+                  'INTEGRATION_SETTINGS.MOENGAGE.TEMPLATE_MAPPINGS.FORM.ENABLED'
+                )
+              }}
+            </label>
+          </div>
+        </div>
+      </Dialog>
+
+      <!-- Delete Mapping Confirmation Dialog -->
+      <Dialog
+        ref="deleteMappingDialogRef"
+        type="alert"
+        :title="
+          $t('INTEGRATION_SETTINGS.MOENGAGE.TEMPLATE_MAPPINGS.CONFIRM_DELETE')
+        "
+        @confirm="handleDeleteMapping"
+      />
 
       <div
         v-if="isConnected"

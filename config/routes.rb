@@ -414,6 +414,11 @@ Rails.application.routes.draw do
                 post :regenerate_token
                 get :webhook_event_logs
               end
+              resources :template_mappings, controller: 'moengage/template_mappings', only: [:index, :create, :update, :destroy] do
+                collection do
+                  get :available_templates
+                end
+              end
             end
             resource :calendly, controller: 'calendly', only: [:destroy] do
               collection do
