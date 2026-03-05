@@ -36,6 +36,7 @@ class Api::V2::Accounts::SummaryReportsController < Api::V1::Accounts::BaseContr
       until: permitted_params[:until],
       business_hours: ActiveModel::Type::Boolean.new.cast(permitted_params[:business_hours])
     }
+    @builder_params[:timezone_offset] = permitted_params[:timezone_offset] if permitted_params[:timezone_offset].present?
   end
 
   def render_report_with(builder_class, type: nil)
@@ -45,7 +46,7 @@ class Api::V2::Accounts::SummaryReportsController < Api::V1::Accounts::BaseContr
   end
 
   def permitted_params
-    params.permit(:since, :until, :business_hours)
+    params.permit(:since, :until, :business_hours, :timezone_offset)
   end
 
   def date_range_too_long?
