@@ -36,8 +36,9 @@ const generateKeys = str =>
     .replace(/\//g, '_');
 
 const urlBase64ToUint8Array = base64String => {
-  const padding = '='.repeat((4 - (base64String.length % 4)) % 4);
-  const base64 = `${base64String}${padding}`
+  const normalizedString = base64String.trim();
+  const padding = '='.repeat((4 - (normalizedString.length % 4)) % 4);
+  const base64 = `${normalizedString}${padding}`
     .replace(/-/g, '+')
     .replace(/_/g, '/');
 
@@ -49,6 +50,30 @@ const urlBase64ToUint8Array = base64String => {
   }
 
   return outputArray;
+};
+
+export const normalizeVapidPublicKey = vapidPublicKey => {
+  if (vapidPublicKey instanceof Uint8Array) {
+    return vapidPublicKey;
+  }
+
+  if (ArrayBuffer.isView(vapidPublicKey)) {
+    return new Uint8Array(
+      vapidPublicKey.buffer,
+      vapidPublicKey.byteOffset,
+      vapidPublicKey.byteLength
+    );
+  }
+
+  if (vapidPublicKey instanceof ArrayBuffer) {
+    return new Uint8Array(vapidPublicKey);
+  }
+
+  if (typeof vapidPublicKey === 'string' && vapidPublicKey.trim().length > 0) {
+    return urlBase64ToUint8Array(vapidPublicKey);
+  }
+
+  throw new Error('Invalid VAPID public key format');
 };
 
 export const getPushSubscriptionPayload = subscription => ({
@@ -77,7 +102,7 @@ export const registerSubscription = (onSuccess = () => {}) => {
     .then(serviceWorkerRegistration =>
       serviceWorkerRegistration.pushManager.subscribe({
         userVisibleOnly: true,
-        applicationServerKey: urlBase64ToUint8Array(
+        applicationServerKey: normalizeVapidPublicKey(
           window.chatwootConfig.vapidPublicKey
         ),
       })

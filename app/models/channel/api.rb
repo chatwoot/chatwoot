@@ -28,12 +28,26 @@ class Channel::Api < ApplicationRecord
   has_secure_token :hmac_token
   validate :ensure_valid_agent_reply_time_window
   validates :webhook_url, length: { maximum: Limits::URL_LENGTH_LIMIT }
+  before_destroy :cleanup_whatsapp_web_instance
 
   def name
     'API'
   end
 
   private
+
+  def cleanup_whatsapp_web_instance
+    return unless whatsapp_web_integration?
+
+    WhatsappWeb::InstanceCleanupService.new(channel: self).perform
+  rescue WhatsappWeb::ConnectorClient::RequestError => e
+    errors.add(:base, e.message)
+    throw(:abort)
+  end
+
+  def whatsapp_web_integration?
+    additional_attributes.to_h.with_indifferent_access[:integration_type].to_s == 'whatsapp_web'
+  end
 
   def ensure_valid_agent_reply_time_window
     return if additional_attributes['agent_reply_time_window'].blank?
