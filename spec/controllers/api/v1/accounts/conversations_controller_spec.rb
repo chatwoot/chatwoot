@@ -647,6 +647,37 @@ RSpec.describe 'Conversations API', type: :request do
           .with(Conversation::CONVERSATION_TYPING_ON, kind_of(Time), { conversation: conversation, user: agent, is_private: true })
       end
     end
+
+    context 'when it is an authenticated bot' do
+      let(:agent_bot) { create(:agent_bot, account: account) }
+
+      it 'toggles the conversation typing status' do
+        create(:agent_bot_inbox, inbox: conversation.inbox, agent_bot: agent_bot)
+        allow(Rails.configuration.dispatcher).to receive(:dispatch)
+
+        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/toggle_typing_status",
+             headers: { api_access_token: agent_bot.access_token.token },
+             params: { typing_status: 'on', is_private: false },
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(Rails.configuration.dispatcher).to have_received(:dispatch)
+          .with(Conversation::CONVERSATION_TYPING_ON, kind_of(Time), { conversation: conversation, user: agent_bot, is_private: false })
+      end
+    end
+
+    context 'when it is an authenticated platform app token' do
+      let(:platform_app) { create(:platform_app) }
+
+      it 'returns unauthorized' do
+        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/toggle_typing_status",
+             headers: { api_access_token: platform_app.access_token.token },
+             params: { typing_status: 'on', is_private: false },
+             as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
   end
 
   describe 'POST /api/v1/accounts/{account.id}/conversations/:id/update_last_seen' do

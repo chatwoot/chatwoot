@@ -168,7 +168,16 @@ bundle exec rspec spec/path/to/file_spec.rb:LINE_NUMBER  # Teste individual
 - **Migração:** `migration(etapaN): description`
 - Don't reference Claude in commit messages
 
-## Frontend
+## PR Description Format
+
+- Start with a short, user-facing paragraph describing the product change.
+- Add a `Closes` section with relevant issue links (GitHub, Linear, etc.).
+- For feature PRs, add `How to test` from a product/UX standpoint.
+- For bugfix PRs, use `How to reproduce` when helpful.
+- Optionally add a `What changed` section for implementation highlights.
+- Do not add a `How this was tested` section listing specs/commands.
+
+## Project-Specific
 
 - Use `components-next/` for message bubbles (the rest is being deprecated)
 - Only update `en.yml` and `en.json` (other languages handled by community)
