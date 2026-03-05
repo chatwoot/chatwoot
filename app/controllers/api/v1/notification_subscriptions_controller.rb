@@ -21,6 +21,12 @@ class Api::V1::NotificationSubscriptionsController < Api::BaseController
 
   def notification_subscription_params
     raw_params = params[:notification_subscription] || params
-    ActionController::Parameters.new(raw_params).permit(:subscription_type, subscription_attributes: {})
+    permitted_params = if raw_params.is_a?(ActionController::Parameters)
+                         raw_params
+                       else
+                         ActionController::Parameters.new(raw_params)
+                       end
+
+    permitted_params.permit(:subscription_type, subscription_attributes: {})
   end
 end
