@@ -1,9 +1,22 @@
-name: Deploy to Kubernetes (Production)
+name: Deploy AlooChat
 
 on:
   push:
-    branches: [main, master]
+    branches: [develop, staging, main, master]
   workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to deploy to'
+        required: true
+        type: choice
+        options:
+          - development
+          - staging
+          - production
+
+concurrency:
+  group: deploy-${{ github.ref_name }}
+  cancel-in-progress: false
 
 env:
   DOCKER_REGISTRY: ${{ secrets.DOCKER_USERNAME }}
@@ -11,134 +24,270 @@ env:
   DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
 jobs:
-  build-and-push:
+  # ──────────────────────────────────────────────
+  # Determine environment + image tag from branch
+  # ──────────────────────────────────────────────
+  config:
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
+    outputs:
+      environment: ${{ steps.env.outputs.environment }}
+      namespace: ${{ steps.env.outputs.namespace }}
+      image_suffix: ${{ steps.env.outputs.image_suffix }}
+      resource_suffix: ${{ steps.env.outputs.resource_suffix }}
+      domain: ${{ steps.env.outputs.domain }}
+      image_tag: ${{ steps.env.outputs.image_tag }}
+      has_redis: ${{ steps.env.outputs.has_redis }}
+      has_namespace: ${{ steps.env.outputs.has_namespace }}
+      k8s_dir: ${{ steps.env.outputs.k8s_dir }}
     steps:
-      - uses: actions/checkout@v3
+      - id: env
+        run: |
+          REF="${{ github.ref }}"
+
+          # Map branch to environment (enforced — no cross-branch deploys)
+          if [[ "$REF" == "refs/heads/main" || "$REF" == "refs/heads/master" ]]; then
+            ENV="production"
+          elif [[ "$REF" == "refs/heads/staging" ]]; then
+            ENV="staging"
+          elif [[ "$REF" == "refs/heads/develop" ]]; then
+            ENV="development"
+          else
+            echo "::error::Deployments only allowed from develop, staging, or main/master branches. Got: $REF"
+            exit 1
+          fi
+
+          # For workflow_dispatch: validate that selected env matches branch
+          if [[ "${{ github.event.inputs.environment }}" != "" && "${{ github.event.inputs.environment }}" != "$ENV" ]]; then
+            echo "::error::Cannot deploy to ${{ github.event.inputs.environment }} from branch $REF. Use the correct branch."
+            exit 1
+          fi
+
+          SHA_SHORT=$(echo "${{ github.sha }}" | cut -c1-7)
+
+          case $ENV in
+            production)
+              echo "namespace=default"             >> $GITHUB_OUTPUT
+              echo "image_suffix="                  >> $GITHUB_OUTPUT
+              echo "resource_suffix="               >> $GITHUB_OUTPUT
+              echo "domain=cx.aloochat.ai"          >> $GITHUB_OUTPUT
+              echo "has_redis=true"                 >> $GITHUB_OUTPUT
+              echo "has_namespace=false"            >> $GITHUB_OUTPUT
+              echo "k8s_dir=production"             >> $GITHUB_OUTPUT
+              ;;
+            staging)
+              echo "namespace=chatwoot-staging"     >> $GITHUB_OUTPUT
+              echo "image_suffix=-staging"           >> $GITHUB_OUTPUT
+              echo "resource_suffix=-staging"        >> $GITHUB_OUTPUT
+              echo "domain=staging.cx.aloochat.ai"   >> $GITHUB_OUTPUT
+              echo "has_redis=false"                >> $GITHUB_OUTPUT
+              echo "has_namespace=true"             >> $GITHUB_OUTPUT
+              echo "k8s_dir=staging"                >> $GITHUB_OUTPUT
+              ;;
+            development)
+              echo "namespace=chatwoot-development"  >> $GITHUB_OUTPUT
+              echo "image_suffix=-dev"               >> $GITHUB_OUTPUT
+              echo "resource_suffix=-development"    >> $GITHUB_OUTPUT
+              echo "domain=development.cx.aloochat.ai" >> $GITHUB_OUTPUT
+              echo "has_redis=true"                 >> $GITHUB_OUTPUT
+              echo "has_namespace=true"             >> $GITHUB_OUTPUT
+              echo "k8s_dir=development"            >> $GITHUB_OUTPUT
+              ;;
+          esac
+
+          echo "environment=$ENV"              >> $GITHUB_OUTPUT
+          echo "image_tag=sha-$SHA_SHORT"      >> $GITHUB_OUTPUT
+
+          echo "🚀 Environment: $ENV | Tag: sha-$SHA_SHORT"
+
+  # ──────────────────────────────────────────────
+  # Build and push Docker images (tagged by SHA)
+  # Runs Rails and Vite builds in parallel
+  # ──────────────────────────────────────────────
+  build-rails:
+    needs: config
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+        uses: docker/setup-buildx-action@v3
 
       - name: Login to Docker Registry
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3
         with:
           username: ${{ env.DOCKER_USERNAME }}
           password: ${{ env.DOCKER_PASSWORD }}
 
       - name: Build and push Rails image
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v5
         with:
           context: .
           file: ./docker/dockerfiles/rails.Dockerfile
           push: true
-          tags: ${{ env.DOCKER_REGISTRY }}/chatwoot-rails:v1.0.103
+          tags: |
+            ${{ env.DOCKER_REGISTRY }}/chatwoot-rails${{ needs.config.outputs.image_suffix }}:${{ needs.config.outputs.image_tag }}
+            ${{ env.DOCKER_REGISTRY }}/chatwoot-rails${{ needs.config.outputs.image_suffix }}:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  build-vite:
+    needs: config
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to Docker Registry
+        uses: docker/login-action@v3
+        with:
+          username: ${{ env.DOCKER_USERNAME }}
+          password: ${{ env.DOCKER_PASSWORD }}
 
       - name: Build and push Vite image
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v5
         with:
           context: .
           file: ./docker/dockerfiles/vite.Dockerfile
           push: true
-          tags: ${{ env.DOCKER_REGISTRY }}/chatwoot-vite:v1.0.103
+          tags: |
+            ${{ env.DOCKER_REGISTRY }}/chatwoot-vite${{ needs.config.outputs.image_suffix }}:${{ needs.config.outputs.image_tag }}
+            ${{ env.DOCKER_REGISTRY }}/chatwoot-vite${{ needs.config.outputs.image_suffix }}:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
+  # ──────────────────────────────────────────────
+  # Deploy to Kubernetes
+  # ──────────────────────────────────────────────
   deploy:
-    needs: build-and-push
+    needs: [config, build-rails, build-vite]
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
+    environment: ${{ needs.config.outputs.environment }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Install doctl
         uses: digitalocean/action-doctl@v2
         with:
           token: ${{ secrets.DO_TOKEN }}
 
-      - name: Set up Terraform
-        uses: hashicorp/setup-terraform@v2
-        with:
-          terraform_version: '1.5.0'
-
       - name: Set up kubectl
         uses: azure/setup-kubectl@v3
         with:
           version: 'latest'
 
-      - name: Check for existing cluster
-        id: check-cluster
+      - name: Configure kubectl
+        run: doctl kubernetes cluster kubeconfig save chatwoot-cluster
+
+      - name: Set deployment variables
+        id: vars
         run: |
-          if doctl kubernetes cluster list --format Name | grep -q "chatwoot-cluster"; then
-            echo "cluster_exists=true" >> $GITHUB_OUTPUT
-            echo "Using existing cluster..."
-            doctl kubernetes cluster kubeconfig save chatwoot-cluster
+          echo "ns=${{ needs.config.outputs.namespace }}"           >> $GITHUB_OUTPUT
+          echo "k8s=k8s/${{ needs.config.outputs.k8s_dir }}"       >> $GITHUB_OUTPUT
+          echo "rsuffix=${{ needs.config.outputs.resource_suffix }}" >> $GITHUB_OUTPUT
+
+          # Config/secret naming
+          ENV="${{ needs.config.outputs.environment }}"
+          if [[ "$ENV" == "production" ]]; then
+            echo "config_name=chatwoot-config"   >> $GITHUB_OUTPUT
+            echo "secret_name=chatwoot-secrets"  >> $GITHUB_OUTPUT
           else
-            echo "cluster_exists=false" >> $GITHUB_OUTPUT
+            echo "config_name=chatwoot-config-$ENV"   >> $GITHUB_OUTPUT
+            echo "secret_name=chatwoot-secrets-$ENV"  >> $GITHUB_OUTPUT
           fi
 
-      - name: Create terraform.tfvars
-        run: |
-          cat > terraform/terraform.tfvars << EOL
-          do_token = "${{ secrets.DO_TOKEN }}"
-          region = "${{ secrets.REGION }}"
-          environment = "${{ secrets.ENVIRONMENT }}"
-          EOL
+      # ── Ensure namespace ──
+      - name: Ensure namespace exists
+        if: needs.config.outputs.has_namespace == 'true'
+        run: kubectl apply -f ${{ steps.vars.outputs.k8s }}/namespace.yaml
 
-      - name: Terraform Init
+      # ── ConfigMap (non-sensitive config) ──
+      - name: Create ConfigMap
         run: |
-          cd terraform
-          terraform init
-
-      - name: Terraform Apply
-        if: steps.check-cluster.outputs.cluster_exists == 'false'
-        run: |
-          cd terraform
-          terraform apply -auto-approve
-
-      - name: Configure kubectl if cluster was just created
-        if: steps.check-cluster.outputs.cluster_exists == 'false'
-        run: |
-          echo "Waiting for cluster to be ready after Terraform apply..."
-          sleep 60
-          doctl kubernetes cluster kubeconfig save chatwoot-cluster
-
-      - name: Create Kubernetes ConfigMap
-        run: |
-          kubectl delete configmap chatwoot-config --ignore-not-found=true -n default
-          cat > k8s/production/configmap.yaml << EOF
+          NS="${{ steps.vars.outputs.ns }}"
+          CONFIG="${{ steps.vars.outputs.config_name }}"
+          kubectl delete configmap $CONFIG --ignore-not-found=true -n $NS
+          kubectl apply -n $NS -f - <<'CONFIGMAP_EOF'
           apiVersion: v1
           kind: ConfigMap
           metadata:
-            name: chatwoot-config
-            namespace: default
+            name: ${{ steps.vars.outputs.config_name }}
+            namespace: ${{ steps.vars.outputs.ns }}
           data:
-            DATABASE_URL: "postgresql://${{ secrets.PRODUCTION_POSTGRES_USERNAME }}:${{ secrets.PRODUCTION_POSTGRES_PASSWORD }}@${{ secrets.PRODUCTION_POSTGRES_HOST }}:${{ secrets.PRODUCTION_POSTGRES_PORT }}/${{ secrets.PRODUCTION_POSTGRES_DATABASE }}?sslmode=require"
-            POSTGRES_HOST: "${{ secrets.PRODUCTION_POSTGRES_HOST }}"
-            POSTGRES_PORT: "${{ secrets.PRODUCTION_POSTGRES_PORT }}"
-            POSTGRES_DATABASE: "${{ secrets.PRODUCTION_POSTGRES_DATABASE }}"
-            POSTGRES_USERNAME: "${{ secrets.PRODUCTION_POSTGRES_USERNAME }}"
-            POSTGRES_PASSWORD: "${{ secrets.PRODUCTION_POSTGRES_PASSWORD }}"
-            POSTGRES_PREPARED_STATEMENTS: "false"
-            REDIS_URL: "${{ secrets.PRODUCTION_REDIS_URL }}"
-            REDIS_PASSWORD: "${{ secrets.PRODUCTION_REDIS_PASSWORD }}"
-            REDIS_HOST: "${{ secrets.PRODUCTION_REDIS_HOST }}"
-            REDIS_PORT: "${{ secrets.PRODUCTION_REDIS_PORT }}"
-            SECRET_KEY_BASE: "${{ secrets.SECRET_KEY_BASE }}"
-            DOMAIN: "cx.aloochat.ai"
+            DOMAIN: "${{ secrets.DOMAIN }}"
+            FRONTEND_URL: "https://${{ secrets.DOMAIN }}"
             ACTIVE_STORAGE_SERVICE: "${{ secrets.ACTIVE_STORAGE_SERVICE }}"
-            S3_BUCKET_NAME: "${{ secrets.S3_BUCKET_NAME }}"
+            FORCE_SSL: "${{ secrets.FORCE_SSL }}"
+            ENABLE_PUSH_RELAY_SERVER: "${{ secrets.ENABLE_PUSH_RELAY_SERVER }}"
+            RAILS_INBOUND_EMAIL_SERVICE: "${{ secrets.RAILS_INBOUND_EMAIL_SERVICE }}"
+            MAILER_INBOUND_EMAIL_DOMAIN: "${{ secrets.MAILER_INBOUND_EMAIL_DOMAIN }}"
+            MAILER_SENDER_EMAIL: "${{ secrets.MAILER_SENDER_EMAIL }}"
+            SMTP_ADDRESS: "${{ secrets.SMTP_ADDRESS }}"
+            SMTP_PORT: "${{ secrets.SMTP_PORT }}"
+            SMTP_DOMAIN: "${{ secrets.SMTP_DOMAIN }}"
+            SMTP_AUTHENTICATION: "${{ secrets.SMTP_AUTHENTICATION }}"
+            SMTP_ENABLE_STARTTLS_AUTO: "${{ secrets.SMTP_ENABLE_STARTTLS_AUTO }}"
+            SMTP_OPENSSL_VERIFY_MODE: "${{ secrets.SMTP_OPENSSL_VERIFY_MODE }}"
+            SMTP_OPEN_TIMEOUT: "60"
+            SMTP_READ_TIMEOUT: "60"
+            REDIS_PORT: "${{ secrets.REDIS_PORT }}"
+            REDIS_HOST: "${{ secrets.REDIS_HOST }}"
+            REDIS_URL: "${{ secrets.REDIS_URL }}"
+            POSTGRES_HOST: "${{ secrets.POSTGRES_HOST }}"
+            POSTGRES_PORT: "${{ secrets.POSTGRES_PORT }}"
+            POSTGRES_DATABASE: "${{ secrets.POSTGRES_DATABASE }}"
+            POSTGRES_USERNAME: "${{ secrets.POSTGRES_USERNAME }}"
+            POSTHOG_API_KEY: "${{ secrets.POSTHOG_API_KEY }}"
+            POSTHOG_API_HOST: "${{ secrets.POSTHOG_API_HOST }}"
+            APPSIGNAL_APP_NAME: "${{ secrets.APPSIGNAL_APP_NAME }}"
+          CONFIGMAP_EOF
+
+      # ── K8s Secret (all sensitive values) ──
+      - name: Create Secret
+        run: |
+          NS="${{ steps.vars.outputs.ns }}"
+          SECRET="${{ steps.vars.outputs.secret_name }}"
+          kubectl delete secret $SECRET --ignore-not-found=true -n $NS
+          cat > /tmp/k8s-secret.yaml <<'SECRET_EOF'
+          apiVersion: v1
+          kind: Secret
+          metadata:
+            name: ${{ steps.vars.outputs.secret_name }}
+            namespace: ${{ steps.vars.outputs.ns }}
+          type: Opaque
+          stringData:
+            DATABASE_URL: "${{ secrets.DATABASE_URL }}"
+            POSTGRES_HOST: "${{ secrets.POSTGRES_HOST }}"
+            POSTGRES_PORT: "${{ secrets.POSTGRES_PORT }}"
+            POSTGRES_DATABASE: "${{ secrets.POSTGRES_DATABASE }}"
+            POSTGRES_USERNAME: "${{ secrets.POSTGRES_USERNAME }}"
+            POSTGRES_PASSWORD: "${{ secrets.POSTGRES_PASSWORD }}"
+            POSTGRES_PREPARED_STATEMENTS: "${{ secrets.POSTGRES_PREPARED_STATEMENTS }}"
+            REDIS_URL: "${{ secrets.REDIS_URL }}"
+            REDIS_HOST: "${{ secrets.REDIS_HOST }}"
+            REDIS_PORT: "${{ secrets.REDIS_PORT }}"
+            REDIS_PASSWORD: "${{ secrets.REDIS_PASSWORD }}"
+            SECRET_KEY_BASE: "${{ secrets.SECRET_KEY_BASE }}"
+            DOMAIN: "${{ secrets.DOMAIN }}"
+            FRONTEND_URL: "https://${{ secrets.DOMAIN }}"
+            ACTIVE_STORAGE_SERVICE: "${{ secrets.ACTIVE_STORAGE_SERVICE }}"
             AWS_ACCESS_KEY_ID: "${{ secrets.AWS_ACCESS_KEY_ID }}"
             AWS_SECRET_ACCESS_KEY: "${{ secrets.AWS_SECRET_ACCESS_KEY }}"
             AWS_REGION: "${{ secrets.AWS_REGION }}"
+            S3_BUCKET_NAME: "${{ secrets.S3_BUCKET_NAME }}"
             OPENAI_API_KEY: "${{ secrets.OPENAI_API_KEY }}"
             GEMINI_API_KEY: "${{ secrets.GEMINI_API_KEY }}"
             ANTHROPIC_API_KEY: "${{ secrets.ANTHROPIC_API_KEY }}"
             ELEVENLABS_API_KEY: "${{ secrets.ELEVENLABS_API_KEY }}"
             FORCE_SSL: "${{ secrets.FORCE_SSL }}"
-            CLERK_WEBHOOK_SECRET: "${{ secrets.PRODUCTION_CLERK_WEBHOOK_SECRET }}"
+            CLERK_WEBHOOK_SECRET: "${{ secrets.CLERK_WEBHOOK_SECRET }}"
             ALOOSTUDIO_API_TOKEN: "${{ secrets.ALOOSTUDIO_API_TOKEN }}"
-            ALOOSTUDIO_WEBHOOK_URL: "${{ secrets.PRODUCTION_ALOOSTUDIO_WEBHOOK_URL }}"
-            SMTP_PASSWORD: "${{ secrets.SMTP_PASSWORD }}"
+            ALOOSTUDIO_WEBHOOK_URL: "${{ secrets.ALOOSTUDIO_WEBHOOK_URL }}"
+            ALOOSTUDIO_BACKEND_URL: "${{ secrets.ALOOSTUDIO_BACKEND_URL }}"
+            ALOOSTUDIO_FRONTEND_URL: "${{ secrets.ALOOSTUDIO_FRONTEND_URL }}"
             SMTP_USERNAME: "${{ secrets.SMTP_USERNAME }}"
+            SMTP_PASSWORD: "${{ secrets.SMTP_PASSWORD }}"
             SMTP_ADDRESS: "${{ secrets.SMTP_ADDRESS }}"
             SMTP_PORT: "${{ secrets.SMTP_PORT }}"
             SMTP_DOMAIN: "${{ secrets.SMTP_DOMAIN }}"
@@ -146,18 +295,13 @@ jobs:
             SMTP_ENABLE_STARTTLS_AUTO: "${{ secrets.SMTP_ENABLE_STARTTLS_AUTO }}"
             SMTP_OPENSSL_VERIFY_MODE: "${{ secrets.SMTP_OPENSSL_VERIFY_MODE }}"
             MAILER_INBOUND_EMAIL_DOMAIN: "${{ secrets.MAILER_INBOUND_EMAIL_DOMAIN }}"
+            MAILER_SENDER_EMAIL: "${{ secrets.MAILER_SENDER_EMAIL }}"
             RAILS_INBOUND_EMAIL_SERVICE: "${{ secrets.RAILS_INBOUND_EMAIL_SERVICE }}"
             RAILS_INBOUND_EMAIL_PASSWORD: "${{ secrets.RAILS_INBOUND_EMAIL_PASSWORD }}"
             MAILGUN_INGRESS_SIGNING_KEY: "${{ secrets.MAILGUN_INGRESS_SIGNING_KEY }}"
-            MAILER_SENDER_EMAIL: "${{ secrets.MAILER_SENDER_EMAIL }}"
-            ALOOSTUDIO_BACKEND_URL: "${{ secrets.PRODUCTION_ALOOSTUDIO_BACKEND_URL }}"
-            ALOOSTUDIO_FRONTEND_URL: "${{ secrets.PRODUCTION_ALOOSTUDIO_FRONTEND_URL }}"
             GOOGLE_OAUTH_CLIENT_ID: "${{ secrets.GOOGLE_OAUTH_CLIENT_ID }}"
             GOOGLE_OAUTH_CLIENT_SECRET: "${{ secrets.GOOGLE_OAUTH_CLIENT_SECRET }}"
             GOOGLE_OAUTH_CALLBACK_URL: "${{ secrets.GOOGLE_OAUTH_CALLBACK_URL }}"
-            FRONTEND_URL: "https://cx.aloochat.ai"
-            SMTP_OPEN_TIMEOUT: "60"
-            SMTP_READ_TIMEOUT: "60"
             FB_VERIFY_TOKEN: "${{ secrets.FB_VERIFY_TOKEN }}"
             FB_APP_SECRET: "${{ secrets.FB_APP_SECRET }}"
             FB_APP_ID: "${{ secrets.FB_APP_ID }}"
@@ -170,113 +314,87 @@ jobs:
             APPSIGNAL_APP_NAME: "${{ secrets.APPSIGNAL_APP_NAME }}"
             POSTHOG_API_KEY: "${{ secrets.POSTHOG_API_KEY }}"
             POSTHOG_API_HOST: "${{ secrets.POSTHOG_API_HOST }}"
-          EOF
-          kubectl apply -f k8s/production/configmap.yaml
+          SECRET_EOF
+          kubectl apply -f /tmp/k8s-secret.yaml -n $NS
+          rm /tmp/k8s-secret.yaml
 
-      - name: Create Kubernetes Secrets
+      # ── Inject SHA-based image tag into K8s manifests ──
+      - name: Inject image tag
         run: |
-          kubectl delete secret chatwoot-secrets --ignore-not-found=true -n default
-          cat > k8s/production/secret.yaml << EOF
-          apiVersion: v1
-          kind: Secret
-          metadata:
-            name: chatwoot-secrets
-          type: Opaque
-          stringData:
-            DATABASE_URL: "postgresql://${{ secrets.PRODUCTION_POSTGRES_USERNAME }}:${{ secrets.PRODUCTION_POSTGRES_PASSWORD }}@${{ secrets.PRODUCTION_POSTGRES_HOST }}:${{ secrets.PRODUCTION_POSTGRES_PORT }}/${{ secrets.PRODUCTION_POSTGRES_DATABASE }}?sslmode=require"
-            POSTGRES_HOST: "${{ secrets.PRODUCTION_POSTGRES_HOST }}"
-            POSTGRES_PORT: "${{ secrets.PRODUCTION_POSTGRES_PORT }}"
-            POSTGRES_DATABASE: "${{ secrets.PRODUCTION_POSTGRES_DATABASE }}"
-            POSTGRES_USERNAME: "${{ secrets.PRODUCTION_POSTGRES_USERNAME }}"
-            POSTGRES_PASSWORD: "${{ secrets.PRODUCTION_POSTGRES_PASSWORD }}"
-            POSTGRES_PREPARED_STATEMENTS: "false"
-            REDIS_URL: "${{ secrets.PRODUCTION_REDIS_URL }}"
-            REDIS_PASSWORD: "${{ secrets.PRODUCTION_REDIS_PASSWORD }}"
-            REDIS_HOST: "${{ secrets.PRODUCTION_REDIS_HOST }}"
-            REDIS_PORT: "${{ secrets.PRODUCTION_REDIS_PORT }}"
-            SECRET_KEY_BASE: "${{ secrets.SECRET_KEY_BASE }}"
-            DOMAIN: "cx.aloochat.ai"
-            ACTIVE_STORAGE_SERVICE: "${{ secrets.ACTIVE_STORAGE_SERVICE }}"
-            S3_BUCKET_NAME: "${{ secrets.S3_BUCKET_NAME }}"
-            AWS_ACCESS_KEY_ID: "${{ secrets.AWS_ACCESS_KEY_ID }}"
-            AWS_SECRET_ACCESS_KEY: "${{ secrets.AWS_SECRET_ACCESS_KEY }}"
-            AWS_REGION: "${{ secrets.AWS_REGION }}"
-            OPENAI_API_KEY: "${{ secrets.OPENAI_API_KEY }}"
-            FORCE_SSL: "${{ secrets.FORCE_SSL }}"
-            CLERK_WEBHOOK_SECRET: "${{ secrets.PRODUCTION_CLERK_WEBHOOK_SECRET }}"
-            ALOOSTUDIO_API_TOKEN: "${{ secrets.ALOOSTUDIO_API_TOKEN }}"
-            ALOOSTUDIO_WEBHOOK_URL: "${{ secrets.PRODUCTION_ALOOSTUDIO_WEBHOOK_URL }}"
-            SMTP_PASSWORD: "${{ secrets.SMTP_PASSWORD }}"
-            SMTP_USERNAME: "${{ secrets.SMTP_USERNAME }}"
-            SMTP_ADDRESS: "${{ secrets.SMTP_ADDRESS }}"
-            SMTP_PORT: "${{ secrets.SMTP_PORT }}"
-            SMTP_DOMAIN: "${{ secrets.SMTP_DOMAIN }}"
-            SMTP_AUTHENTICATION: "${{ secrets.SMTP_AUTHENTICATION }}"
-            SMTP_ENABLE_STARTTLS_AUTO: "${{ secrets.SMTP_ENABLE_STARTTLS_AUTO }}"
-            SMTP_OPENSSL_VERIFY_MODE: "${{ secrets.SMTP_OPENSSL_VERIFY_MODE }}"
-            MAILER_INBOUND_EMAIL_DOMAIN: "${{ secrets.MAILER_INBOUND_EMAIL_DOMAIN }}"
-            RAILS_INBOUND_EMAIL_SERVICE: "${{ secrets.RAILS_INBOUND_EMAIL_SERVICE }}"
-            MAILER_SENDER_EMAIL: "${{ secrets.MAILER_SENDER_EMAIL }}"
-            RAILS_INBOUND_EMAIL_PASSWORD: "${{ secrets.RAILS_INBOUND_EMAIL_PASSWORD }}"
-            MAILGUN_INGRESS_SIGNING_KEY: "${{ secrets.MAILGUN_INGRESS_SIGNING_KEY }}"
-            ALOOSTUDIO_BACKEND_URL: "${{ secrets.PRODUCTION_ALOOSTUDIO_BACKEND_URL }}"
-            ALOOSTUDIO_FRONTEND_URL: "${{ secrets.PRODUCTION_ALOOSTUDIO_FRONTEND_URL }}"
-            GOOGLE_OAUTH_CLIENT_ID: "${{ secrets.GOOGLE_OAUTH_CLIENT_ID }}"
-            GOOGLE_OAUTH_CLIENT_SECRET: "${{ secrets.GOOGLE_OAUTH_CLIENT_SECRET }}"
-            GOOGLE_OAUTH_CALLBACK_URL: "${{ secrets.GOOGLE_OAUTH_CALLBACK_URL }}"
-            FRONTEND_URL: "https://cx.aloochat.ai"
-            SMTP_OPEN_TIMEOUT: "60"
-            SMTP_READ_TIMEOUT: "60"
-            FB_VERIFY_TOKEN: "${{ secrets.FB_VERIFY_TOKEN }}"
-            FB_APP_SECRET: "${{ secrets.FB_APP_SECRET }}"
-            FB_APP_ID: "${{ secrets.FB_APP_ID }}"
-            IG_VERIFY_TOKEN: "${{ secrets.IG_VERIFY_TOKEN }}"
-            INSTAGRAM_APP_ID: "${{ secrets.INSTAGRAM_APP_ID }}"
-            IP_LOOKUP_API_KEY: "${{ secrets.IP_LOOKUP_API_KEY }}"
-            PAYZAH_API_URL: "${{ secrets.PAYZAH_API_URL }}"
-            ENABLE_PUSH_RELAY_SERVER: "${{ secrets.ENABLE_PUSH_RELAY_SERVER }}"
-            APPSIGNAL_PUSH_API_KEY: "${{ secrets.APPSIGNAL_PUSH_API_KEY }}"
-            APPSIGNAL_APP_NAME: "${{ secrets.APPSIGNAL_APP_NAME }}"
-            POSTHOG_API_KEY: "${{ secrets.POSTHOG_API_KEY }}"
-            POSTHOG_API_HOST: "${{ secrets.POSTHOG_API_HOST }}"
-          EOF
-          kubectl apply -f k8s/production/secret.yaml -n default
-          rm k8s/production/secret.yaml
+          K8S="${{ steps.vars.outputs.k8s }}"
+          TAG="${{ needs.config.outputs.image_tag }}"
+          REGISTRY="${{ env.DOCKER_REGISTRY }}"
+          SUFFIX="${{ needs.config.outputs.image_suffix }}"
 
-      - name: Deploy AlooChat to Kubernetes in ingress-nginx namespace
+          RAILS_IMAGE="${REGISTRY}/chatwoot-rails${SUFFIX}:${TAG}"
+          VITE_IMAGE="${REGISTRY}/chatwoot-vite${SUFFIX}:${TAG}"
+
+          echo "Rails image: $RAILS_IMAGE"
+          echo "Vite image:  $VITE_IMAGE"
+
+          # Replace any existing image tag (v1.0.x, sha-xxx, latest)
+          sed -i "s|image: wavai/chatwoot-rails[^:]*:.*|image: ${RAILS_IMAGE}|g" $K8S/rails-deployment.yaml
+          sed -i "s|image: wavai/chatwoot-rails[^:]*:.*|image: ${RAILS_IMAGE}|g" $K8S/sidekiq-deployment.yaml
+          sed -i "s|image: wavai/chatwoot-vite[^:]*:.*|image: ${VITE_IMAGE}|g"   $K8S/vite-deployment.yaml
+
+          echo "--- Injected images ---"
+          grep 'image:' $K8S/rails-deployment.yaml $K8S/sidekiq-deployment.yaml $K8S/vite-deployment.yaml
+
+      # ── Apply K8s manifests ──
+      - name: Deploy Redis
+        if: needs.config.outputs.has_redis == 'true'
+        run: kubectl apply -n ${{ steps.vars.outputs.ns }} -f ${{ steps.vars.outputs.k8s }}/redis-deployment.yaml
+
+      - name: Deploy Rails
+        run: kubectl apply -n ${{ steps.vars.outputs.ns }} -f ${{ steps.vars.outputs.k8s }}/rails-deployment.yaml
+
+      - name: Deploy Vite
+        run: kubectl apply -n ${{ steps.vars.outputs.ns }} -f ${{ steps.vars.outputs.k8s }}/vite-deployment.yaml
+
+      - name: Deploy Sidekiq
+        run: kubectl apply -n ${{ steps.vars.outputs.ns }} -f ${{ steps.vars.outputs.k8s }}/sidekiq-deployment.yaml
+
+      - name: Deploy Mailhog
+        run: kubectl apply -n ${{ steps.vars.outputs.ns }} -f ${{ steps.vars.outputs.k8s }}/mailhog-deployment.yaml
+
+      - name: Apply Ingress
+        if: needs.config.outputs.has_namespace == 'true'
+        run: kubectl apply -n ${{ steps.vars.outputs.ns }} -f ${{ steps.vars.outputs.k8s }}/ingress.yaml
+
+      # ── Wait for rollouts ──
+      - name: Wait for Redis
+        if: needs.config.outputs.has_redis == 'true'
+        run: kubectl rollout status deployment/redis${{ needs.config.outputs.resource_suffix }} -n ${{ steps.vars.outputs.ns }} --timeout=300s
+
+      - name: Wait for Rails
+        run: kubectl rollout status deployment/chatwoot-rails${{ needs.config.outputs.resource_suffix }} -n ${{ steps.vars.outputs.ns }} --timeout=900s
+
+      - name: Wait for Vite
+        run: kubectl rollout status deployment/chatwoot-vite${{ needs.config.outputs.resource_suffix }} -n ${{ steps.vars.outputs.ns }} --timeout=600s
+
+      - name: Wait for Sidekiq
+        run: kubectl rollout status deployment/chatwoot-sidekiq${{ needs.config.outputs.resource_suffix }} -n ${{ steps.vars.outputs.ns }} --timeout=600s
+
+      - name: Wait for Mailhog
+        run: kubectl rollout status deployment/chatwoot-mailhog${{ needs.config.outputs.resource_suffix }} -n ${{ steps.vars.outputs.ns }} --timeout=300s
+
+      # ── Status report ──
+      - name: Deployment status
+        if: always()
         run: |
-
-          # Apply deployments & services
-          echo "Applying deployments and services in namespace default..."
-          kubectl apply -n default -f k8s/production/redis-deployment.yaml
-          kubectl apply -n default -f k8s/production/rails-deployment.yaml
-          kubectl apply -n default -f k8s/production/vite-deployment.yaml
-          kubectl apply -n default -f k8s/production/sidekiq-deployment.yaml
-          kubectl apply -n default -f k8s/production/mailhog-deployment.yaml
-
-
-          # Wait for all deployments to be ready
-          # echo "Waiting for Redis deployment..."
-          kubectl rollout status deployment/redis -n default --timeout=300s
-
-          echo "Waiting for Rails deployment..."
-          kubectl rollout status deployment/chatwoot-rails -n default --timeout=300s
-
-          echo "Waiting for Vite deployment..."
-          kubectl rollout status deployment/chatwoot-vite -n default --timeout=300s
-
-          echo "Waiting for Sidekiq deployment..."
-          kubectl rollout status deployment/chatwoot-sidekiq -n default --timeout=300s
-
-          echo "Waiting for Mailhog deployment..."
-          kubectl rollout status deployment/chatwoot-mailhog -n default --timeout=300s
-
-          # Final status checks
-          echo "Pods status:"
-          kubectl get pods -n default
-
-          echo "Services status:"
-          kubectl get svc -n default
-
-          echo "Ingress status:"
-          kubectl get ingress -n default
+          NS="${{ steps.vars.outputs.ns }}"
+          echo "══════════════════════════════════════════════"
+          echo "  Environment: ${{ needs.config.outputs.environment }}"
+          echo "  Image tag:   ${{ needs.config.outputs.image_tag }}"
+          echo "  Commit:      ${{ github.sha }}"
+          echo "  Domain:      https://${{ needs.config.outputs.domain }}"
+          echo "══════════════════════════════════════════════"
+          echo ""
+          echo "Pods:"
+          kubectl get pods -n $NS
+          echo ""
+          echo "Services:"
+          kubectl get svc -n $NS
+          echo ""
+          echo "Ingress:"
+          kubectl get ingress -n $NS 2>/dev/null || echo "No ingress in this namespace"
