@@ -1,9 +1,13 @@
 # frozen_string_literal: true
 
 class Saas::Api::V1::AgentToolsController < Api::V1::Accounts::BaseController
+  include Saas::FeatureGate
+
   before_action :set_ai_agent
   before_action :set_tool, only: [:update, :destroy]
   before_action :authorize_agent_tool
+  before_action -> { require_plan_feature!(:ai_agents) }
+  before_action -> { require_plan_limit!(:agent_tools, Current.account.agent_tools.count) }, only: %i[create]
 
   def index
     @tools = @ai_agent.agent_tools.order(:name)

@@ -1,9 +1,13 @@
 # frozen_string_literal: true
 
 class Saas::Api::V1::KnowledgeBasesController < Api::V1::Accounts::BaseController
+  include Saas::FeatureGate
+
   before_action :set_ai_agent
   before_action :set_knowledge_base, only: [:show, :update, :destroy]
   before_action :authorize_knowledge_base
+  before_action -> { require_plan_feature!(:ai_agents) }
+  before_action -> { require_plan_limit!(:knowledge_bases, Current.account.knowledge_bases.count) }, only: %i[create]
 
   def index
     @knowledge_bases = @ai_agent.knowledge_bases.includes(:knowledge_documents)

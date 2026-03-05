@@ -437,54 +437,71 @@
     }
   },
   "BILLING_SETTINGS": {
-    "TITLE": "Billing",
-    "DESCRIPTION": "Manage your subscription here, upgrade your plan and get more for your team.",
+    "TITLE": "Faturamento",
+    "DESCRIPTION": "Gerencie sua assinatura, faça upgrade do seu plano e aproveite mais para sua equipe.",
     "CURRENT_PLAN": {
-      "TITLE": "Current Plan",
-      "PLAN_NOTE": "You are currently subscribed to the **{plan}** plan with **{quantity}** licenses",
-      "SEAT_COUNT": "Number of seats",
-      "RENEWS_ON": "Renews on"
+      "TITLE": "Plano Atual",
+      "PLAN_NOTE": "Você está assinando o plano **{plan}** com **{quantity}** licenças",
+      "SEAT_COUNT": "Número de agentes",
+      "RENEWS_ON": "Renova em"
     },
-    "VIEW_PRICING": "View Pricing",
+    "VIEW_PRICING": "Ver Preços",
     "MANAGE_SUBSCRIPTION": {
-      "TITLE": "Manage your subscription",
-      "DESCRIPTION": "View your previous invoices, edit your billing details, or cancel your subscription.",
-      "BUTTON_TXT": "Go to the billing portal"
+      "TITLE": "Gerenciar sua assinatura",
+      "DESCRIPTION": "Veja faturas anteriores, edite dados de pagamento ou cancele sua assinatura.",
+      "BUTTON_TXT": "Ir para o portal de faturamento"
     },
     "CAPTAIN": {
       "TITLE": "Captain",
-      "DESCRIPTION": "Manage usage and credits for Captain AI.",
-      "BUTTON_TXT": "Buy more credits",
-      "DOCUMENTS": "Documents",
-      "RESPONSES": "Credits",
-      "UPGRADE": "Captain is not available on the free plan, upgrade now to get access to assistants, copilot and more.",
-      "REFRESH_CREDITS": "Refresh"
+      "DESCRIPTION": "Gerencie uso e créditos de IA Captain.",
+      "BUTTON_TXT": "Comprar mais créditos",
+      "DOCUMENTS": "Documentos",
+      "RESPONSES": "Créditos",
+      "UPGRADE": "Captain não está disponível no plano gratuito, faça upgrade para ter acesso a assistentes, copilot e mais.",
+      "REFRESH_CREDITS": "Atualizar"
     },
     "CHAT_WITH_US": {
-      "TITLE": "Need help?",
-      "DESCRIPTION": "Do you face any issues in billing? We are here to help.",
-      "BUTTON_TXT": "Chat with us"
+      "TITLE": "Precisa de ajuda?",
+      "DESCRIPTION": "Tem problemas com faturamento? Estamos aqui para ajudar.",
+      "BUTTON_TXT": "Falar conosco"
     },
     "PLANS": {
-      "TITLE": "Available Plans",
-      "DESCRIPTION": "Choose a plan that fits your needs",
-      "AGENTS": "{count} agents",
-      "INBOXES": "{count} inboxes",
-      "AI_TOKENS": "{count} AI tokens/mo",
-      "SELECT_PLAN": "Select Plan",
-      "CURRENT_PLAN": "Current Plan",
-      "PRICE": "${price}",
-      "PRICE_INTERVAL": "/{interval}"
+      "TITLE": "Planos Disponíveis",
+      "DESCRIPTION": "Escolha o plano ideal para o seu negócio",
+      "AGENTS": "{count} agentes",
+      "INBOXES": "{count} caixas de entrada",
+      "AI_TOKENS": "{count} tokens IA/mês",
+      "SELECT_PLAN": "Assinar Plano",
+      "CURRENT_PLAN": "Plano Atual",
+      "PRICE": "R${price}",
+      "PRICE_INTERVAL_MONTH": "/mês",
+      "PRICE_INTERVAL_YEAR": "/ano",
+      "MONTHLY": "Mensal",
+      "ANNUAL": "Anual",
+      "ANNUAL_DISCOUNT": "Economize 20%",
+      "ANNUAL_SAVINGS": "Economia de R${amount}/ano",
+      "PER_MONTH_ANNUAL": "~R${price}/mês",
+      "FEATURES": "Funcionalidades inclusas:",
+      "FEATURE_AI_AGENTS": "{count} Agente(s) IA",
+      "FEATURE_AI_AGENTS_UNLIMITED": "Agentes IA ilimitados",
+      "FEATURE_VOICE": "Voz IA ({minutes} min/mês)",
+      "FEATURE_WORKFLOWS": "Editor Visual de Workflows",
+      "FEATURE_HELP_CENTER": "Help Center ({portals} portal(is))",
+      "FEATURE_SLA": "Políticas SLA",
+      "FEATURE_AUDIT_LOGS": "Audit Logs",
+      "FEATURE_WHITE_LABEL": "White-labeling",
+      "FEATURE_SAML": "SAML SSO",
+      "FEATURE_CUSTOM_ROLES": "Roles Customizados"
     },
     "AI_USAGE": {
-      "TITLE": "AI Usage",
-      "DESCRIPTION": "Your AI token consumption this billing period",
-      "TOKENS_USED": "Tokens Used",
-      "TOKENS_REMAINING": "Tokens Remaining",
-      "AGENTS": "Agents",
-      "AI_TOKENS": "AI Tokens"
+      "TITLE": "Uso de IA",
+      "DESCRIPTION": "Consumo de tokens de IA neste período de faturamento",
+      "TOKENS_USED": "Tokens Utilizados",
+      "TOKENS_REMAINING": "Tokens Restantes",
+      "AGENTS": "Agentes",
+      "AI_TOKENS": "Tokens IA"
     },
-    "NO_BILLING_USER": "Your billing account is being configured. Please refresh the page and try again.",
+    "NO_BILLING_USER": "Sua conta de faturamento está sendo configurada. Atualize a página e tente novamente.",
     "TOPUP": {
       "BUY_CREDITS": "Buy more credits",
       "MODAL_TITLE": "Buy AI Credits",

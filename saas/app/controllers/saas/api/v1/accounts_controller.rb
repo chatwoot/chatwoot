@@ -52,6 +52,7 @@ class Saas::Api::V1::AccountsController < Api::V1::Accounts::BaseController
     {
       id: plan.id,
       name: plan.name,
+      base_name: plan.base_name,
       price_cents: plan.price_cents,
       interval: plan.interval,
       agent_limit: plan.agent_limit,

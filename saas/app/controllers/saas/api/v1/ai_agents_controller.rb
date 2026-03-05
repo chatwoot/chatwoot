@@ -1,8 +1,12 @@
 # frozen_string_literal: true
 
 class Saas::Api::V1::AiAgentsController < Api::V1::Accounts::BaseController
+  include Saas::FeatureGate
+
   before_action :set_ai_agent, only: [:show, :update, :destroy, :preview, :voice_catalog, :voice_preview]
   before_action :authorize_ai_agent
+  before_action -> { require_plan_feature!(:ai_agents) }
+  before_action -> { require_plan_limit!(:ai_agents_limit, Current.account.ai_agents.count) }, only: %i[create]
 
   def index
     @ai_agents = Current.account.ai_agents
