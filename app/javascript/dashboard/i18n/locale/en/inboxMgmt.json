@@ -427,7 +427,7 @@
         "IGNORE_JIDS": {
           "LABEL": "Ignored numbers",
           "PLACEHOLDER": "77001234567",
-          "SUBTITLE": "One number per line. You can paste a JID, everything after @ will be removed automatically."
+          "SUBTITLE": "One number per line. You can paste a JID, everything after {'@'} will be removed automatically."
         },
         "DAYS_LIMIT": {
           "LABEL": "Import Days Limit",

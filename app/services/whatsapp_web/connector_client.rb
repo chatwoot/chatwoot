@@ -73,7 +73,34 @@ class WhatsappWeb::ConnectorClient
   def default_headers
     headers = { 'Accept' => 'application/json' }
     headers['apikey'] = @api_key if @api_key.present?
+    origin = evolution_origin_header
+    headers['Origin'] = origin if origin.present?
     headers
+  end
+
+  def evolution_origin_header
+    [
+      ENV.fetch('WHATSAPP_WEB_EVOLUTION_ORIGIN', '').to_s.strip,
+      ENV.fetch('FRONTEND_URL', '').to_s.strip,
+      ENV.fetch('WIDGET_URL', '').to_s.strip
+    ].each do |candidate|
+      normalized = normalize_origin(candidate)
+      return normalized if normalized.present?
+    end
+
+    ''
+  end
+
+  def normalize_origin(value)
+    return '' if value.blank?
+
+    parsed = URI.parse(value)
+    return '' unless parsed.is_a?(URI::HTTP) && parsed.host.present?
+
+    include_port = parsed.port.present? && parsed.default_port != parsed.port
+    "#{parsed.scheme}://#{parsed.host}#{include_port ? ":#{parsed.port}" : ''}"
+  rescue URI::InvalidURIError
+    ''
   end
 
   def build_url(path)

@@ -79,6 +79,18 @@
 - Prefer `merge` for upstream sync in shared branches to preserve conflict resolution history; avoid rewriting shared branch history unless explicitly requested.
 - Enable local conflict reuse when helpful: `git config rerere.enabled true`
 
+## Fork Behavioral Changelog (Required)
+
+- Source of truth for fork behavior changes: `CHANGELOG.md`
+- Any fork change that affects runtime behavior must be logged in `CHANGELOG.md` in the same PR/commit.
+- Log changes for:
+  - API contracts, controllers, services, models, jobs, webhook behavior
+  - authentication/signup/SSO/login flows
+  - feature flags, plan gating, enterprise/community gating, environment-driven behavior
+  - widget runtime behavior, inbox/channel behavior, and external integrations
+  - docker/runtime topology that changes feature behavior
+- Do not log pure text/translation/storybook/cosmetic-only updates unless they alter user flow.
+
 ## Fork-Safe Change Strategy (Reduce Future Merge Pain)
 
 - Prefer extension points, configuration, feature flags, and Enterprise overlay patterns (`enterprise/`) over deep patches in upstream core files.
