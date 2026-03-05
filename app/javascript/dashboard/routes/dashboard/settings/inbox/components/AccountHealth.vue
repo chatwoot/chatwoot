@@ -152,51 +152,16 @@ const getModeStatusTextColor = mode => MODE_COLORS[mode] || 'text-n-slate-12';
 
 const getStatusTextColor = status => STATUS_COLORS[status] || 'text-n-slate-12';
 
-const MESSAGING_STATUS_STYLES = {
-  AVAILABLE: {
-    bg: 'bg-n-teal-2 border-n-teal-6',
-    icon: 'i-lucide-check-circle',
-    iconColor: 'text-n-teal-11',
-    titleColor: 'text-n-teal-12',
-    textColor: 'text-n-teal-11',
-  },
-  LIMITED: {
-    bg: 'bg-n-amber-2 border-n-amber-6',
-    icon: 'i-lucide-alert-triangle',
-    iconColor: 'text-n-amber-11',
-    titleColor: 'text-n-amber-12',
-    textColor: 'text-n-amber-11',
-  },
-  BLOCKED: {
-    bg: 'bg-n-ruby-2 border-n-ruby-6',
-    icon: 'i-lucide-x-circle',
-    iconColor: 'text-n-ruby-11',
-    titleColor: 'text-n-ruby-12',
-    textColor: 'text-n-ruby-11',
-  },
-};
-
-const messagingHealth = computed(() => props.healthData?.messaging_health);
-
-const canSendMessage = computed(() => messagingHealth.value?.can_send_message);
-
-const messagingHealthStyle = computed(
-  () => MESSAGING_STATUS_STYLES[canSendMessage.value] || null
-);
-
-const limitedOrBlockedEntities = computed(
-  () =>
-    messagingHealth.value?.entities?.filter(
-      e => e.can_send_message !== 'AVAILABLE'
-    ) || []
-);
-
 const showWebhookSection = computed(() => props.isEmbeddedSignup);
 
 const webhookStatusChecked = computed(() => props.webhookStatus !== null);
 
 const webhookConfigured = computed(
   () => props.webhookStatus?.webhook_configured
+);
+
+const webhookUrlMismatch = computed(
+  () => props.webhookStatus?.webhook_url_mismatch
 );
 
 const handleRegisterWebhook = () => {
@@ -233,52 +198,6 @@ const handleCheckStatus = () => {
         >
           {{ t('INBOX_MGMT.ACCOUNT_HEALTH.GO_TO_SETTINGS') }}
         </ButtonV4>
-      </div>
-
-      <div
-        v-if="messagingHealthStyle"
-        class="flex gap-3 items-start p-4 rounded-lg border"
-        :class="messagingHealthStyle.bg"
-      >
-        <Icon
-          :icon="messagingHealthStyle.icon"
-          class="flex-shrink-0 mt-0.5 w-5 h-5"
-          :class="messagingHealthStyle.iconColor"
-        />
-        <div class="flex-1">
-          <p
-            class="text-sm font-medium"
-            :class="messagingHealthStyle.titleColor"
-          >
-            {{
-              t(`INBOX_MGMT.ACCOUNT_HEALTH.MESSAGING_HEALTH.${canSendMessage}`)
-            }}
-          </p>
-          <ul
-            v-if="limitedOrBlockedEntities.length"
-            class="mt-2 space-y-1 list-none"
-          >
-            <li
-              v-for="entity in limitedOrBlockedEntities"
-              :key="entity.entity_type"
-              class="text-sm"
-              :class="messagingHealthStyle.textColor"
-            >
-              <span class="font-medium">{{
-                t(
-                  `INBOX_MGMT.ACCOUNT_HEALTH.MESSAGING_HEALTH.ENTITIES.${entity.entity_type}`
-                )
-              }}</span
-              >:
-              <span v-if="entity.errors?.[0]?.error_description">{{
-                entity.errors[0].error_description
-              }}</span>
-              <span v-else-if="entity.additional_info?.[0]">{{
-                entity.additional_info[0]
-              }}</span>
-            </li>
-          </ul>
-        </div>
       </div>
 
       <div v-if="healthData" class="grid grid-cols-1 gap-4 xs:grid-cols-2">
@@ -389,9 +308,11 @@ const handleCheckStatus = () => {
           </ButtonV4>
         </div>
 
-        <!-- Show after status is checked and webhook is configured -->
+        <!-- Show after status is checked and webhook is configured correctly -->
         <div
-          v-if="webhookStatusChecked && webhookConfigured"
+          v-if="
+            webhookStatusChecked && webhookConfigured && !webhookUrlMismatch
+          "
           class="flex gap-3 items-center w-full p-4 rounded-lg border bg-n-teal-2 border-n-teal-6"
         >
           <Icon
@@ -409,6 +330,42 @@ const handleCheckStatus = () => {
               {{ webhookStatus.webhook_url }}
             </p>
           </div>
+        </div>
+
+        <!-- Show when webhook is configured but pointing to wrong URL -->
+        <div
+          v-if="webhookStatusChecked && webhookConfigured && webhookUrlMismatch"
+          class="flex gap-3 items-center w-full p-4 rounded-lg border bg-n-amber-2 border-n-amber-6"
+        >
+          <Icon
+            icon="i-lucide-alert-triangle"
+            class="flex-shrink-0 w-5 h-5 text-n-amber-11"
+          />
+          <div class="flex-1 min-w-0">
+            <p class="text-sm font-medium text-n-amber-12">
+              {{ t('INBOX_MGMT.ACCOUNT_HEALTH.WEBHOOK.URL_MISMATCH') }}
+            </p>
+            <p class="mt-1 text-sm text-n-amber-11">
+              {{ t('INBOX_MGMT.ACCOUNT_HEALTH.WEBHOOK.URL_MISMATCH_MESSAGE') }}
+            </p>
+            <p
+              v-if="webhookStatus?.webhook_url"
+              class="mt-1 text-sm truncate text-n-amber-11"
+            >
+              {{ webhookStatus.webhook_url }}
+            </p>
+          </div>
+          <ButtonV4
+            sm
+            solid
+            blue
+            :loading="isRegisteringWebhook"
+            :disabled="isRegisteringWebhook"
+            class="flex-shrink-0"
+            @click="handleRegisterWebhook"
+          >
+            {{ t('INBOX_MGMT.ACCOUNT_HEALTH.WEBHOOK.REGISTER_BUTTON') }}
+          </ButtonV4>
         </div>
 
         <!-- Show after status is checked and webhook is not configured -->

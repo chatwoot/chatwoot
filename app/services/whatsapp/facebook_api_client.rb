@@ -111,15 +111,6 @@ class Whatsapp::FacebookApiClient
     handle_response(response, 'Failed to fetch webhook configuration')
   end
 
-  def fetch_phone_messaging_health(phone_number_id)
-    response = HTTParty.get(
-      "#{BASE_URI}/#{@api_version}/#{phone_number_id}/health_status",
-      headers: request_headers
-    )
-
-    handle_response(response, 'Failed to fetch phone messaging health')
-  end
-
   private
 
   def request_headers

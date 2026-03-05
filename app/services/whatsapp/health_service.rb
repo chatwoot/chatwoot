@@ -9,9 +9,7 @@ class Whatsapp::HealthService
 
   def fetch_health_status
     validate_channel!
-    phone_data = fetch_phone_health_data
-    messaging_health = fetch_messaging_health_data
-    phone_data.merge(messaging_health: messaging_health)
+    fetch_phone_health_data
   end
 
   def fetch_webhook_status
@@ -24,9 +22,13 @@ class Whatsapp::HealthService
     api_client = Whatsapp::FacebookApiClient.new(@access_token)
     webhook_config = api_client.fetch_waba_webhook_config(waba_id)
 
+    configured = webhook_configured?(webhook_config)
+    actual_url = extract_webhook_url(webhook_config)
+
     {
-      webhook_configured: webhook_configured?(webhook_config),
-      webhook_url: extract_webhook_url(webhook_config)
+      webhook_configured: configured,
+      webhook_url: actual_url,
+      webhook_url_mismatch: configured && url_mismatch?(actual_url)
     }
   end
 
@@ -97,34 +99,6 @@ class Whatsapp::HealthService
     }
   end
 
-  def fetch_messaging_health_data
-    phone_number_id = @channel.provider_config['phone_number_id']
-    return nil if phone_number_id.blank?
-
-    api_client = Whatsapp::FacebookApiClient.new(@access_token)
-    response = api_client.fetch_phone_messaging_health(phone_number_id)
-    parse_messaging_health(response)
-  rescue StandardError => e
-    Rails.logger.warn "[WHATSAPP HEALTH] Could not fetch messaging health: #{e.message}"
-    nil
-  end
-
-  def parse_messaging_health(response)
-    return nil if response.blank?
-
-    {
-      can_send_message: response['can_send_message'],
-      entities: response['entities']&.map do |entity|
-        {
-          entity_type: entity['entity_type'],
-          can_send_message: entity['can_send_message'],
-          errors: entity['errors'],
-          additional_info: entity['additional_info']
-        }.compact
-      end
-    }.compact
-  end
-
   def webhook_configured?(webhook_config)
     webhook_config.present? && webhook_config['data'].present?
   end
@@ -133,5 +107,13 @@ class Whatsapp::HealthService
     return nil if webhook_config.blank? || webhook_config['data'].blank?
 
     webhook_config['data'].filter_map { |app| app['override_callback_uri'] }.first
+  end
+
+  def url_mismatch?(actual_url)
+    frontend_url = ENV.fetch('FRONTEND_URL', nil)
+    return false if frontend_url.blank?
+
+    expected_url = "#{frontend_url}/webhooks/whatsapp/#{@channel.phone_number}"
+    actual_url != expected_url
   end
 end
