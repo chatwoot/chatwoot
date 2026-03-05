@@ -43,7 +43,9 @@ class HookJob < MutexApplicationJob
     return unless ['message.created'].include?(event_name)
 
     message = event_data[:message]
-    Integrations::GoogleTranslate::DetectLanguageService.new(hook: hook, message: message).perform if message.incoming?
+    return unless message.incoming?
+
+    Integrations::GoogleTranslate::DetectLanguageService.new(hook: hook, message: message).perform
     Integrations::GoogleTranslate::AutoTranslateMessageService.new(hook: hook, message: message).perform
   end
 

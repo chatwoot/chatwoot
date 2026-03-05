@@ -37,6 +37,8 @@ class SendReplyJob < ApplicationJob
     return if hook.blank? || hook.disabled?
 
     Integrations::GoogleTranslate::AutoTranslateMessageService.new(hook: hook, message: message).perform
+  rescue StandardError => e
+    Rails.logger.error "Auto-translate failed for message #{message.id}: #{e.message}"
   end
 
   def send_on_facebook_page(message)

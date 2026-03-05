@@ -11,7 +11,8 @@ class Integrations::GoogleTranslate::AutoTranslateMessageService
 
     translated_content = Integrations::GoogleTranslate::ProcessorService.new(
       message: message,
-      target_language: target_language
+      target_language: target_language,
+      integration_hook: hook
     ).perform
 
     return if translated_content.blank?
@@ -36,9 +37,7 @@ class Integrations::GoogleTranslate::AutoTranslateMessageService
   end
 
   def auto_translate_incoming?
-    return true if hook.settings['auto_translate_incoming'].nil?
-
-    hook.settings['auto_translate_incoming']
+    hook.settings['auto_translate_incoming'] != false
   end
 
   def auto_translate_outgoing?

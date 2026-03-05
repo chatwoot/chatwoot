@@ -71,14 +71,14 @@ RSpec.describe HookJob do
       described_class.perform_now(hook, event_name, event_data)
     end
 
-    it 'skips language detection for outgoing messages but still runs auto translation' do
+    it 'skips both language detection and auto translation for outgoing messages' do
       outgoing_message = create(:message, account: account, message_type: :outgoing)
       hook = create(:integrations_hook, :google_translate, account: account)
       allow(Integrations::GoogleTranslate::DetectLanguageService).to receive(:new).and_return(process_service)
       allow(Integrations::GoogleTranslate::AutoTranslateMessageService).to receive(:new).and_return(process_service)
 
       expect(Integrations::GoogleTranslate::DetectLanguageService).not_to receive(:new)
-      expect(Integrations::GoogleTranslate::AutoTranslateMessageService).to receive(:new).with(hook: hook, message: outgoing_message)
+      expect(Integrations::GoogleTranslate::AutoTranslateMessageService).not_to receive(:new)
       described_class.perform_now(hook, event_name, { message: outgoing_message })
     end
   end
