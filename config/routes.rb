@@ -502,6 +502,8 @@ Rails.application.routes.draw do
     namespace :saas, defaults: { format: 'json' } do
       namespace :api do
         namespace :v1 do
+          resource :public_checkout, only: [:create], controller: 'public_checkout'
+
           resources :accounts, only: [] do
             member do
               post :checkout

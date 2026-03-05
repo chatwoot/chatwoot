@@ -152,6 +152,11 @@ class Rack::Attack
     req.ip if req.path_without_extentions == '/api/v1/accounts' && req.post?
   end
 
+  ## Prevent Brute-Force Public Checkout Attacks ###
+  throttle('public_checkout/ip', limit: 5, period: 30.minutes) do |req|
+    req.ip if req.path_without_extentions == '/saas/api/v1/public_checkout' && req.post?
+  end
+
   ##-----------------------------------------------##
 
   ###-----------------------------------------------###

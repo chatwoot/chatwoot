@@ -1,0 +1,8 @@
+<% field.limit_keys.each do |key| %>
+  <% val = field.value_for(key) %>
+  <% if val.present? %>
+    <div style="margin-bottom:0.25rem">
+      <strong><%= key.to_s.titleize %>:</strong> <%= val %>
+    </div>
+  <% end %>
+<% end %>

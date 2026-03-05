@@ -42,7 +42,10 @@ const getMonthlyCounterpart = plan => {
 };
 
 const hasSubscription = computed(
-  () => subscription.value && subscription.value.status !== 'canceled'
+  () =>
+    subscription.value &&
+    subscription.value.status !== 'canceled' &&
+    subscription.value.stripe_customer_id
 );
 
 const subscriptionStatus = computed(() => subscription.value?.status || '');
@@ -140,14 +143,15 @@ const onManageSubscription = () => {
   store.dispatch('accounts/subscription');
 };
 
+const whatsappSupportUrl = computed(() => {
+  const message = encodeURIComponent(
+    'Olá! Preciso de ajuda com minha assinatura do AirysChat.'
+  );
+  return `https://wa.me/5541935005174?text=${message}`;
+});
+
 const onSelectPlan = planId => {
   store.dispatch('accounts/checkout', planId);
-};
-
-const onToggleChatWindow = () => {
-  if (window.$chatwoot) {
-    window.$chatwoot.toggle();
-  }
 };
 
 onMounted(fetchBillingData);
@@ -253,22 +257,22 @@ onMounted(fetchBillingData);
           class="flex items-center justify-center gap-3 py-2"
         >
           <button
-            class="px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+            class="px-4 py-2 rounded-lg text-sm font-medium transition-colors border"
             :class="
               billingInterval === 'month'
-                ? 'bg-iris-9 text-white'
-                : 'bg-n-alpha-2 text-n-slate-11 hover:bg-n-alpha-3'
+                ? 'bg-n-iris-9 text-white border-n-iris-9'
+                : 'bg-n-solid-3 text-n-slate-12 border-n-strong hover:bg-n-alpha-3'
             "
             @click="billingInterval = 'month'"
           >
             {{ $t('BILLING_SETTINGS.PLANS.MONTHLY') }}
           </button>
           <button
-            class="px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-2"
+            class="px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-2 border"
             :class="
               billingInterval === 'year'
-                ? 'bg-iris-9 text-white'
-                : 'bg-n-alpha-2 text-n-slate-11 hover:bg-n-alpha-3'
+                ? 'bg-n-iris-9 text-white border-n-iris-9'
+                : 'bg-n-solid-3 text-n-slate-12 border-n-strong hover:bg-n-alpha-3'
             "
             @click="billingInterval = 'year'"
           >
@@ -295,7 +299,7 @@ onMounted(fetchBillingData);
             :key="plan.id"
             class="rounded-xl border bg-n-solid-2 p-5 space-y-3 flex flex-col"
             :class="{
-              'ring-2 ring-iris-9 border-iris-9':
+              'ring-2 ring-n-iris-9 border-n-iris-9':
                 currentPlan && currentPlan.name === plan.base_name,
               'border-n-weak':
                 !currentPlan || currentPlan.name !== plan.base_name,
@@ -399,7 +403,7 @@ onMounted(fetchBillingData);
             </ButtonV4>
             <div
               v-else
-              class="text-center text-sm font-medium text-iris-11 py-2"
+              class="text-center text-sm font-medium text-n-iris-11 py-2"
             >
               {{ $t('BILLING_SETTINGS.PLANS.CURRENT_PLAN') }}
             </div>
@@ -412,15 +416,15 @@ onMounted(fetchBillingData);
           :title="$t('BILLING_SETTINGS.CHAT_WITH_US.TITLE')"
           :description="$t('BILLING_SETTINGS.CHAT_WITH_US.DESCRIPTION')"
         >
-          <ButtonV4
-            sm
-            solid
-            slate
-            icon="i-lucide-life-buoy"
-            @click="onToggleChatWindow"
+          <a
+            :href="whatsappSupportUrl"
+            target="_blank"
+            rel="noopener noreferrer"
           >
-            {{ $t('BILLING_SETTINGS.CHAT_WITH_US.BUTTON_TXT') }}
-          </ButtonV4>
+            <ButtonV4 sm solid slate icon="i-lucide-message-circle">
+              {{ $t('BILLING_SETTINGS.CHAT_WITH_US.BUTTON_TXT') }}
+            </ButtonV4>
+          </a>
         </BillingHeader>
       </section>
     </template>

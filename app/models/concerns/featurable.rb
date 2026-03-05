@@ -45,6 +45,13 @@ module Featurable
     send("feature_#{name}?")
   end
 
+  def selected_feature_flags=(flags)
+    flag_names = flags.map(&:to_s)
+    FEATURE_LIST.pluck('name').each do |name|
+      send("feature_#{name}=", flag_names.include?(name))
+    end
+  end
+
   def all_features
     FEATURE_LIST.pluck('name').index_with do |feature_name|
       feature_enabled?(feature_name)

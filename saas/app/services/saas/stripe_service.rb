@@ -9,7 +9,7 @@ class Saas::StripeService
       customer.id
     end
 
-    def create_checkout_session(account, plan)
+    def create_checkout_session(account, plan, success_url: nil, cancel_url: nil)
       customer_id = ensure_customer(account)
 
       # Omit payment_method_types to let Stripe dynamically show
@@ -21,8 +21,9 @@ class Saas::StripeService
           quantity: 1
         }],
         mode: 'subscription',
-        success_url: checkout_success_url(account),
-        cancel_url: checkout_cancel_url(account),
+        allow_promotion_codes: true,
+        success_url: success_url || checkout_success_url(account),
+        cancel_url: cancel_url || checkout_cancel_url(account),
         metadata: {
           account_id: account.id,
           plan_id: plan.id
@@ -37,8 +38,7 @@ class Saas::StripeService
     end
 
     def create_billing_portal_session(account)
-      customer_id = account.stripe_customer_id
-      raise 'No Stripe customer found' unless customer_id
+      customer_id = ensure_customer(account)
 
       Stripe::BillingPortal::Session.create(
         customer: customer_id,
@@ -51,9 +51,8 @@ class Saas::StripeService
       account_id = stripe_sub.metadata['account_id']&.to_i
       plan_id = stripe_sub.metadata['plan_id']&.to_i
 
-      return unless account_id
-
-      account = Account.find_by(id: account_id)
+      account = Account.find_by(id: account_id) if account_id
+      account ||= find_account_by_stripe_customer(stripe_sub.customer)
       return unless account
 
       case event.type
@@ -78,7 +77,16 @@ class Saas::StripeService
 
     def ensure_customer(account)
       existing_customer_id = account.stripe_customer_id
-      return existing_customer_id if existing_customer_id.present?
+      if existing_customer_id.present?
+        begin
+          customer = Stripe::Customer.retrieve(existing_customer_id)
+          return existing_customer_id unless customer.respond_to?(:deleted) && customer.deleted
+
+          Rails.logger.warn("[StripeService] Deleted customer #{existing_customer_id} for account #{account.id}, creating new one")
+        rescue Stripe::InvalidRequestError
+          Rails.logger.warn("[StripeService] Invalid customer #{existing_customer_id} for account #{account.id}, creating new one")
+        end
+      end
 
       customer_id = create_customer(account)
 
@@ -113,9 +121,9 @@ class Saas::StripeService
       update_account_limits(account, plan)
 
       # Notify on plan change
-      if old_plan && old_plan.id != plan.id
-        Saas::BillingMailer.plan_changed(account, old_plan.name, plan.name).deliver_later
-      end
+      return unless old_plan && old_plan.id != plan.id
+
+      Saas::BillingMailer.plan_changed(account, old_plan.name, plan.name).deliver_later
     end
 
     def cancel_subscription(account, _stripe_sub)
@@ -144,6 +152,13 @@ class Saas::StripeService
       when 'unpaid' then :unpaid
       else :incomplete
       end
+    end
+
+    def find_account_by_stripe_customer(customer_id)
+      return unless customer_id
+
+      sub = Saas::Subscription.find_by(stripe_customer_id: customer_id)
+      sub&.account
     end
 
     def checkout_success_url(account)
