@@ -2,6 +2,8 @@ class Linear::CallbacksController < ApplicationController
   include Linear::IntegrationHelper
 
   def show
+    return redirect_to(linear_redirect_uri) if params[:code].blank?
+
     @response = oauth_client.auth_code.get_token(
       params[:code],
       redirect_uri: "#{base_url}/linear/callback"
@@ -31,17 +33,12 @@ class Linear::CallbacksController < ApplicationController
   end
 
   def handle_response
-    hook = account.hooks.new(
+    hook = account.hooks.find_or_initialize_by(app_id: 'linear')
+    hook.assign_attributes(
       access_token: parsed_body['access_token'],
       status: 'enabled',
-      app_id: 'linear',
-      settings: {
-        token_type: parsed_body['token_type'],
-        expires_in: parsed_body['expires_in'],
-        scope: parsed_body['scope']
-      }
+      settings: integration_settings
     )
-    # You may wonder why we're not handling the refresh token update, since the token will expire only after 10 years, https://github.com/linear/linear/issues/251
     hook.save!
     redirect_to linear_redirect_uri
   rescue StandardError => e
@@ -65,6 +62,22 @@ class Linear::CallbacksController < ApplicationController
 
   def parsed_body
     @parsed_body ||= @response.response.parsed
+  end
+
+  def integration_settings
+    {
+      token_type: parsed_body['token_type'],
+      expires_in: parsed_body['expires_in'],
+      expires_on: expires_on,
+      scope: parsed_body['scope'],
+      refresh_token: parsed_body['refresh_token']
+    }.compact
+  end
+
+  def expires_on
+    return if parsed_body['expires_in'].blank?
+
+    (Time.current.utc + parsed_body['expires_in'].to_i.seconds).to_s
   end
 
   def base_url

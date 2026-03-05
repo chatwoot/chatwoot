@@ -9,9 +9,11 @@ RSpec.describe Linear::CallbacksController, type: :request do
 
   describe 'GET /linear/callback' do
     let(:access_token) { SecureRandom.hex(10) }
+    let(:refresh_token) { SecureRandom.hex(10) }
     let(:response_body) do
       {
         'access_token' => access_token,
+        'refresh_token' => refresh_token,
         'token_type' => 'Bearer',
         'expires_in' => 7200,
         'scope' => 'read,write'
@@ -35,7 +37,7 @@ RSpec.describe Linear::CallbacksController, type: :request do
           )
       end
 
-      it 'creates a new integration hook' do
+      it 'creates a new integration hook', :aggregate_failures do
         expect do
           get linear_callback_path, params: { code: code, state: state }
         end.to change(Integrations::Hook, :count).by(1)
@@ -44,11 +46,11 @@ RSpec.describe Linear::CallbacksController, type: :request do
         expect(hook.access_token).to eq(access_token)
         expect(hook.app_id).to eq('linear')
         expect(hook.status).to eq('enabled')
-        expect(hook.settings).to eq(
-          'token_type' => 'Bearer',
-          'expires_in' => 7200,
-          'scope' => 'read,write'
-        )
+        expect(hook.settings['token_type']).to eq('Bearer')
+        expect(hook.settings['expires_in']).to eq(7200)
+        expect(hook.settings['scope']).to eq('read,write')
+        expect(hook.settings['refresh_token']).to eq(refresh_token)
+        expect(hook.settings['expires_on']).to be_present
         expect(response).to redirect_to(linear_redirect_uri)
       end
     end
