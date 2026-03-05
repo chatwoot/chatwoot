@@ -1,5 +1,5 @@
 <% content_for :head do %>
-  <title><%= @article.title %> | <%= @portal.name %></title>
+  <title><%= @article.title %> | <%= @portal.display_title %></title>
   <% if @article.meta["title"].present? %>
     <meta name="title" content="<%= @article.meta["title"] %>">
     <meta property="og:title" content="<%= @article.meta["title"] %>">
