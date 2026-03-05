@@ -25,16 +25,16 @@ class ReportingEventsRollupBackfill # rubocop:disable Metrics/ClassLength
 
   def print_header
     puts ''
-    puts '=' * 70
-    puts 'Reporting Events Rollup Backfill'
-    puts '=' * 70
-    puts 'Plan:'
+    puts color('=' * 70, :cyan)
+    puts color('Reporting Events Rollup Backfill', :bold, :cyan)
+    puts color('=' * 70, :cyan)
+    puts color('Plan:', :bold, :yellow)
     puts '1. Ensure account.reporting_timezone is set before running this task.'
     puts '2. Wait for the current day to end in that account timezone.'
     puts '3. Run backfill for closed days only (today is skipped by default).'
     puts '4. Verify parity, then enable reporting_events_rollup read path.'
     puts ''
-    puts 'Note:'
+    puts color('Note:', :bold, :yellow)
     puts '- This task always uses account.reporting_timezone.'
     puts '- Default range is first event day -> yesterday (in account timezone).'
     puts ''
@@ -43,22 +43,22 @@ class ReportingEventsRollupBackfill # rubocop:disable Metrics/ClassLength
   def prompt_account
     print 'Enter Account ID: '
     account_id = $stdin.gets.chomp
-    abort 'Error: Account ID is required' if account_id.blank?
+    abort color('Error: Account ID is required', :red, :bold) if account_id.blank?
 
     account = Account.find_by(id: account_id)
-    abort "Error: Account with ID #{account_id} not found" unless account
+    abort color("Error: Account with ID #{account_id} not found", :red, :bold) unless account
 
-    puts "Found account: #{account.name}"
+    puts color("Found account: #{account.name}", :gray)
     puts ''
     account
   end
 
   def resolve_timezone(account)
     timezone = account.reporting_timezone
-    abort "Error: Account #{account.id} must have reporting_timezone set" if timezone.blank?
-    abort "Error: Account #{account.id} has invalid reporting_timezone '#{timezone}'" if ActiveSupport::TimeZone[timezone].blank?
+    abort color("Error: Account #{account.id} must have reporting_timezone set", :red, :bold) if timezone.blank?
+    abort color("Error: Account #{account.id} has invalid reporting_timezone '#{timezone}'", :red, :bold) if ActiveSupport::TimeZone[timezone].blank?
 
-    puts "Using account reporting timezone: #{timezone}"
+    puts color("Using account reporting timezone: #{timezone}", :gray)
     puts ''
     timezone
   end
@@ -84,8 +84,8 @@ class ReportingEventsRollupBackfill # rubocop:disable Metrics/ClassLength
     discovered_days = (discovered_end - discovered_start).to_i + 1
     default_end = [discovered_end, Time.current.in_time_zone(tz).to_date - 1.day].min
 
-    puts "Discovered date range: #{discovered_start} to #{discovered_end} (#{discovered_days} days) [Account: #{account.name}]"
-    puts "Default end date (excluding today): #{default_end}"
+    puts color("Discovered date range: #{discovered_start} to #{discovered_end} (#{discovered_days} days) [Account: #{account.name}]", :gray)
+    puts color("Default end date (excluding today): #{default_end}", :gray)
     puts ''
 
     start_date = discovered_start
@@ -114,23 +114,23 @@ class ReportingEventsRollupBackfill # rubocop:disable Metrics/ClassLength
 
     return unless dry_run
 
-    puts "DRY RUN MODE: Would process #{total_days} days"
+    puts color("DRY RUN MODE: Would process #{total_days} days", :yellow, :bold)
     puts "Would use account reporting_timezone '#{timezone}'"
     puts 'Run without dry run to execute backfill'
   end
   # rubocop:enable Metrics/ParameterLists
 
   def print_plan_summary(account, timezone, start_date, end_date, total_days, zone, first_event, last_event, dry_run) # rubocop:disable Metrics/ParameterLists
-    puts '=' * 70
-    puts 'Backfill Plan Summary'
-    puts '=' * 70
+    puts color('=' * 70, :cyan)
+    puts color('Backfill Plan Summary', :bold, :cyan)
+    puts color('=' * 70, :cyan)
     puts "Account:     #{account.name} (ID: #{account.id})"
     puts "Timezone:    #{timezone}"
     puts "Date Range:  #{start_date} to #{end_date} (#{total_days} days)"
     puts "First Event: #{format_event_time(first_event, zone)}"
     puts "Last Event:  #{format_event_time(last_event, zone)}"
     puts "Dry Run:     #{dry_run ? 'YES (no data will be written)' : 'NO'}"
-    puts '=' * 70
+    puts color('=' * 70, :cyan)
     puts ''
   end
 
@@ -140,7 +140,7 @@ class ReportingEventsRollupBackfill # rubocop:disable Metrics/ClassLength
 
   def confirm_and_execute(account, start_date, end_date, total_days)
     if total_days > 730
-      puts "WARNING: Large backfill detected (#{total_days} days / #{(total_days / 365.0).round(1)} years)"
+      puts color("WARNING: Large backfill detected (#{total_days} days / #{(total_days / 365.0).round(1)} years)", :yellow, :bold)
       puts ''
     end
 
@@ -174,9 +174,9 @@ class ReportingEventsRollupBackfill # rubocop:disable Metrics/ClassLength
 
   def print_success(account, days_processed, _total_days, elapsed_time)
     puts "\n\n"
-    puts '=' * 70
-    puts 'BACKFILL COMPLETE'
-    puts '=' * 70
+    puts color('=' * 70, :green)
+    puts color('BACKFILL COMPLETE', :bold, :green)
+    puts color('=' * 70, :green)
     puts "Total Days Processed: #{days_processed}"
     puts "Total Time:           #{elapsed_time.round(2)} seconds"
     puts "Average per Day:      #{(elapsed_time / days_processed).round(3)} seconds"
@@ -186,21 +186,21 @@ class ReportingEventsRollupBackfill # rubocop:disable Metrics/ClassLength
     puts '2. Verify rollups in database:'
     puts "   ReportingEventsRollup.where(account_id: #{account.id}).count"
     puts '3. Test reports to compare rollup vs raw performance'
-    puts '=' * 70
+    puts color('=' * 70, :green)
   end
 
   def print_failure(error, days_processed, total_days)
     puts "\n\n"
-    puts '=' * 70
-    puts 'BACKFILL FAILED'
-    puts '=' * 70
+    puts color('=' * 70, :red)
+    puts color('BACKFILL FAILED', :bold, :red)
+    puts color('=' * 70, :red)
     print_error_details(error)
     print_progress(days_processed, total_days)
     exit(1)
   end
 
   def print_error_details(error)
-    puts "Error: #{error.class.name} - #{error.message}"
+    puts color("Error: #{error.class.name} - #{error.message}", :red, :bold)
     puts ''
     puts 'Stack trace:'
     puts error.backtrace.first(10).map { |line| "  #{line}" }.join("\n")
@@ -210,6 +210,23 @@ class ReportingEventsRollupBackfill # rubocop:disable Metrics/ClassLength
   def print_progress(days_processed, total_days)
     percentage = (days_processed.to_f / total_days * 100).round(1)
     puts "Processed: #{days_processed}/#{total_days} days (#{percentage}%)"
-    puts '=' * 70
+    puts color('=' * 70, :red)
+  end
+
+  ANSI_COLORS = {
+    reset: "\e[0m",
+    bold: "\e[1m",
+    red: "\e[31m",
+    green: "\e[32m",
+    yellow: "\e[33m",
+    cyan: "\e[36m",
+    gray: "\e[90m"
+  }.freeze
+
+  def color(text, *styles)
+    return text unless $stdout.tty?
+
+    codes = styles.filter_map { |style| ANSI_COLORS[style] }.join
+    "#{codes}#{text}#{ANSI_COLORS[:reset]}"
   end
 end
