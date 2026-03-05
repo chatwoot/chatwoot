@@ -13,7 +13,7 @@ class V2::Reports::BotMetricsBuilder
       message_count: bot_messages.count,
       resolution_rate: bot_resolution_rate.to_i,
       handoff_rate: bot_handoff_rate.to_i,
-      avg_resolution_time: avg_resolution_time
+      avg_resolution_time: avg_resolution_time.to_i
     }
   end
 
