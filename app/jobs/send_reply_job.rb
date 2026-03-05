@@ -17,8 +17,9 @@ class SendReplyJob < ApplicationJob
 
   def perform(message_id)
     message = Message.find(message_id)
-    channel_name = message.conversation.inbox.channel.class.to_s
+    auto_translate_message(message)
 
+    channel_name = message.conversation.inbox.channel.class.to_s
     return send_on_facebook_page(message) if channel_name == 'Channel::FacebookPage'
 
     service_class = CHANNEL_SERVICES[channel_name]
@@ -28,6 +29,15 @@ class SendReplyJob < ApplicationJob
   end
 
   private
+
+  def auto_translate_message(message)
+    return unless message.outgoing?
+
+    hook = message.account.hooks.find_by(app_id: 'google_translate')
+    return if hook.blank? || hook.disabled?
+
+    Integrations::GoogleTranslate::AutoTranslateMessageService.new(hook: hook, message: message).perform
+  end
 
   def send_on_facebook_page(message)
     if message.conversation.additional_attributes['type'] == 'instagram_direct_message'

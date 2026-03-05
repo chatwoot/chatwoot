@@ -142,6 +142,8 @@ google_translate:
         {
           'project_id': { 'type': 'string' },
           'credentials': { 'type': 'object' },
+          'auto_translate_incoming': { 'type': 'boolean' },
+          'auto_translate_outgoing': { 'type': 'boolean' },
         },
       'required': ['project_id', 'credentials'],
       'additionalProperties': false,
@@ -164,8 +166,18 @@ google_translate:
         'validation-messages':
           { 'JSON': 'Invalid JSON', 'required': 'Credentials is required' },
       },
+      {
+        'label': 'Auto-translate incoming customer messages',
+        'type': 'checkbox',
+        'name': 'auto_translate_incoming',
+      },
+      {
+        'label': 'Auto-translate outgoing agent messages',
+        'type': 'checkbox',
+        'name': 'auto_translate_outgoing',
+      },
     ]
-  visible_properties: ['project_id']
+  visible_properties: ['project_id', 'auto_translate_incoming', 'auto_translate_outgoing']
 dyte:
   id: dyte
   logo: dyte.png

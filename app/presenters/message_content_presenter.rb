@@ -5,7 +5,7 @@ class MessageContentPresenter < SimpleDelegator
                         custom_message = inbox.csat_config&.dig('message')
                         custom_message.present? ? "#{custom_message} #{survey_link}" : I18n.t('conversations.survey.response', link: survey_link)
                       else
-                        content
+                        translated_outgoing_content || content
                       end
 
     Messages::MarkdownRendererService.new(
@@ -16,6 +16,29 @@ class MessageContentPresenter < SimpleDelegator
   end
 
   private
+
+  def translated_outgoing_content
+    return unless outgoing?
+    return unless auto_translate_outgoing_enabled?
+
+    target_language = conversation_language
+    return if target_language.blank?
+
+    translations&.[](target_language)
+  end
+
+  def auto_translate_outgoing_enabled?
+    hook = google_translate_hook
+    hook&.enabled? && hook.settings&.[]('auto_translate_outgoing') == true
+  end
+
+  def google_translate_hook
+    @google_translate_hook ||= account.hooks.find_by(app_id: 'google_translate')
+  end
+
+  def conversation_language
+    conversation.additional_attributes['conversation_language']&.tr('-', '_')
+  end
 
   def should_append_survey_link?
     input_csat? && !inbox.web_widget?

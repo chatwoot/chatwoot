@@ -21,9 +21,11 @@ RSpec.describe HookJob do
       allow(SendOnSlackJob).to receive(:perform_later)
       allow(Integrations::Dialogflow::ProcessorService).to receive(:new)
       allow(Integrations::GoogleTranslate::DetectLanguageService).to receive(:new)
+      allow(Integrations::GoogleTranslate::AutoTranslateMessageService).to receive(:new)
 
       expect(SendOnSlackJob).not_to receive(:perform_later)
       expect(Integrations::GoogleTranslate::DetectLanguageService).not_to receive(:new)
+      expect(Integrations::GoogleTranslate::AutoTranslateMessageService).not_to receive(:new)
       expect(Integrations::Dialogflow::ProcessorService).not_to receive(:new)
       described_class.perform_now(hook, event_name, event_data)
     end
@@ -59,11 +61,25 @@ RSpec.describe HookJob do
       described_class.perform_now(hook, event_name, event_data)
     end
 
-    it 'calls Conversations::DetectLanguageJob when its a google_translate intergation' do
+    it 'calls translation services when it is a google_translate integration' do
       hook = create(:integrations_hook, :google_translate, account: account)
       allow(Integrations::GoogleTranslate::DetectLanguageService).to receive(:new).and_return(process_service)
+      allow(Integrations::GoogleTranslate::AutoTranslateMessageService).to receive(:new).and_return(process_service)
+
       expect(Integrations::GoogleTranslate::DetectLanguageService).to receive(:new).with(hook: hook, message: event_data[:message])
+      expect(Integrations::GoogleTranslate::AutoTranslateMessageService).to receive(:new).with(hook: hook, message: event_data[:message])
       described_class.perform_now(hook, event_name, event_data)
+    end
+
+    it 'skips language detection for outgoing messages but still runs auto translation' do
+      outgoing_message = create(:message, account: account, message_type: :outgoing)
+      hook = create(:integrations_hook, :google_translate, account: account)
+      allow(Integrations::GoogleTranslate::DetectLanguageService).to receive(:new).and_return(process_service)
+      allow(Integrations::GoogleTranslate::AutoTranslateMessageService).to receive(:new).and_return(process_service)
+
+      expect(Integrations::GoogleTranslate::DetectLanguageService).not_to receive(:new)
+      expect(Integrations::GoogleTranslate::AutoTranslateMessageService).to receive(:new).with(hook: hook, message: outgoing_message)
+      described_class.perform_now(hook, event_name, { message: outgoing_message })
     end
   end
 
