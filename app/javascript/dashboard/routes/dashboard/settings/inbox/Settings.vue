@@ -353,6 +353,7 @@ export default {
         if (newInbox?.id !== oldInbox?.id) {
           this.syncInboxData();
           this.fetchHealthData();
+          this.webhookStatus = null;
           this.$nextTick(() => {
             this.setTabFromRouteParam();
           });

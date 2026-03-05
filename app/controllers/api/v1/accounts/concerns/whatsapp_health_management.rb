@@ -3,6 +3,7 @@ module Api::V1::Accounts::Concerns::WhatsappHealthManagement
 
   included do
     skip_before_action :check_authorization, only: [:health, :register_webhook, :webhook_status, :sync_templates]
+    before_action :check_admin_authorization?, only: [:register_webhook, :webhook_status]
     before_action :validate_whatsapp_cloud_channel, only: [:health, :register_webhook, :webhook_status]
   end
 
