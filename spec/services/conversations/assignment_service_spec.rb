@@ -2,9 +2,16 @@ require 'rails_helper'
 
 describe Conversations::AssignmentService do
   let(:account) { create(:account) }
+  let(:inbox) { create(:inbox, account: account) }
+
   let(:agent) { create(:user, account: account) }
   let(:agent_bot) { create(:agent_bot, account: account) }
-  let(:conversation) { create(:conversation, account: account) }
+
+  let(:conversation) { create(:conversation, account: account, inbox: inbox) }
+
+  before do
+    create(:inbox_member, inbox: inbox, user: agent)
+  end
 
   describe '#perform' do
     context 'when assignee_id is blank' do

@@ -38,11 +38,9 @@ class V2::Reports::Timeseries::CountReportBuilder < V2::Reports::Timeseries::Bas
   end
 
   def scope_for_resolutions_count
-    scope.reporting_events.where(
-      name: :conversation_resolved,
-      account_id: account.id,
-      created_at: range
-    )
+    events = scope.reporting_events.where(name: :conversation_resolved, account_id: account.id, created_at: range)
+    events.where!(user_id: params[:id]) if params[:type].to_sym == :agent
+    events
   end
 
   def scope_for_bot_resolutions_count
