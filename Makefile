@@ -40,8 +40,12 @@ run:
 	fi
 
 force_run:
-	rm -f ./.overmind.sock
-	rm -f tmp/pids/*.pid
+	@echo "Cleaning up Overmind processes..."
+	@lsof -ti:3036 2>/dev/null | xargs kill -9 2>/dev/null || true
+	@lsof -ti:3000 2>/dev/null | xargs kill -9 2>/dev/null || true
+	@rm -f ./.overmind.sock
+	@rm -f tmp/pids/*.pid
+	@echo "Cleanup complete"
 	overmind start -f Procfile.dev
 
 force_run_tunnel:
