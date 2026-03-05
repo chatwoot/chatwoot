@@ -374,6 +374,16 @@
         "ERROR_MESSAGE": "Erro enquanto excluía o artigo"
       }
     },
+    "REORDER_ARTICLE": {
+      "API": {
+        "ERROR_MESSAGE": "Não foi possível reordenar os artigos. Por favor, tente novamente."
+      }
+    },
+    "REORDER_CATEGORY": {
+      "API": {
+        "ERROR_MESSAGE": "Não foi possível reordenar as categorias. Por favor, tente novamente."
+      }
+    },
     "CREATE_ARTICLE": {
       "ERROR_MESSAGE": "Por favor, adicione o cabeçalho e o conteúdo do artigo, só então você pode atualizar as configurações"
     },
