@@ -81,12 +81,21 @@ onMounted(async () => {
   ]);
 });
 
-watch(conversation, () => {
-  store.dispatch('setActiveChat', {
-    data: {
-      id: conversation.value.id,
-    },
+watch(conversation, async (newConversation, oldConversation) => {
+  if (!newConversation?.id) return;
+
+  await store.dispatch('setActiveChat', {
+    data: newConversation,
   });
+
+  if (
+    newConversation.id !== oldConversation?.id &&
+    newConversation.unread_count > 0
+  ) {
+    store.dispatch('markMessagesRead', {
+      id: newConversation.id,
+    });
+  }
 });
 
 useInfiniteScroll(messageListRef, useThrottleFn(fetchMore, 1000), {
