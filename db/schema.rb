@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_03_03_045954) do
+ActiveRecord::Schema[7.1].define(version: 2026_03_05_120000) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -1033,6 +1033,23 @@ ActiveRecord::Schema[7.1].define(version: 2026_03_03_045954) do
     t.index ["source_id"], name: "index_messages_on_source_id"
   end
 
+  create_table "moengage_template_mappings", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "hook_id", null: false
+    t.bigint "inbox_id", null: false
+    t.string "event_name", null: false
+    t.string "template_name", null: false
+    t.string "template_language", default: "en", null: false
+    t.jsonb "parameter_map", default: {}, null: false
+    t.boolean "enabled", default: true, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "hook_id", "event_name"], name: "idx_moengage_template_mappings_unique", unique: true
+    t.index ["account_id"], name: "index_moengage_template_mappings_on_account_id"
+    t.index ["hook_id"], name: "index_moengage_template_mappings_on_hook_id"
+    t.index ["inbox_id"], name: "index_moengage_template_mappings_on_inbox_id"
+  end
+
   create_table "moengage_webhook_event_logs", force: :cascade do |t|
     t.bigint "account_id", null: false
     t.bigint "hook_id", null: false
@@ -1664,6 +1681,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_03_03_045954) do
   add_foreign_key "aloo_embeddings", "aloo_documents"
   add_foreign_key "inboxes", "portals"
   add_foreign_key "integrations_webhook_logs", "integrations_hooks", column: "hook_id"
+  add_foreign_key "moengage_template_mappings", "integrations_hooks", column: "hook_id"
   add_foreign_key "moengage_webhook_event_logs", "accounts"
   add_foreign_key "moengage_webhook_event_logs", "contacts"
   add_foreign_key "moengage_webhook_event_logs", "conversations"

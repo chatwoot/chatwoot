@@ -488,6 +488,149 @@
         "CANCEL": "Cancel"
       }
     },
+    "MOENGAGE": {
+      "TITLE": "MoEngage",
+      "DESCRIPTION": "Connect MoEngage to receive marketing automation events and trigger AI-powered customer conversations.",
+      "WEBHOOK_URL": "Webhook URL",
+      "WEBHOOK_URL_HELP": "Use this URL in your MoEngage Connector Campaign configuration. This URL is unique to your integration.",
+      "COPY_WEBHOOK_URL": "Copy URL",
+      "WEBHOOK_URL_COPIED": "Webhook URL copied to clipboard",
+      "REGENERATE_TOKEN": "Regenerate Token",
+      "REGENERATE_TOKEN_CONFIRM": "Are you sure? You will need to update your MoEngage Connector Campaign with the new URL.",
+      "TOKEN_REGENERATED": "Webhook token regenerated successfully",
+      "SAVE_SUCCESS": "MoEngage integration saved successfully",
+      "SAVE_ERROR": "Failed to save MoEngage integration",
+      "DISCONNECT_SUCCESS": "MoEngage integration disconnected successfully",
+      "DISCONNECT_ERROR": "Failed to disconnect MoEngage integration",
+      "CONNECT_TITLE": "Connect MoEngage",
+      "FORM": {
+        "WORKSPACE_ID": "Workspace ID",
+        "WORKSPACE_ID_PLACEHOLDER": "Your MoEngage Workspace ID",
+        "WORKSPACE_ID_HELP": "Found in MoEngage Dashboard → Settings → Account → APIs",
+        "DATA_CENTER": "Data Center",
+        "DATA_CENTER_HELP": "Select your MoEngage data center (check your dashboard URL)",
+        "DEFAULT_INBOX": "Default Inbox",
+        "DEFAULT_INBOX_HELP": "Inbox to create conversations in",
+        "DEFAULT_INBOX_PLACEHOLDER": "Select an inbox",
+        "AUTO_CREATE_CONTACT": "Auto-create contacts from MoEngage data",
+        "ENABLE_AI_RESPONSE": "Enable AI proactive outreach",
+        "ENABLE_AI_RESPONSE_HELP": "When enabled, Aloo will automatically send a personalized message to customers based on the MoEngage event (e.g., abandoned cart).",
+        "VALIDATION_ERROR": "Please fill in all required fields"
+      },
+      "SETTINGS": {
+        "TITLE": "Integration Settings",
+        "AI_SETTINGS_TITLE": "AI Proactive Outreach",
+        "AI_SETTINGS_DESCRIPTION": "When a MoEngage event triggers a conversation, Aloo can automatically send a personalized outreach message to the customer.",
+        "UPDATE_SUCCESS": "Settings updated successfully",
+        "UPDATE_ERROR": "Failed to update settings",
+        "ENABLED": "Enabled",
+        "DISABLED": "Disabled"
+      },
+      "DOCS": {
+        "TITLE": "Webhook Payload Documentation",
+        "DESCRIPTION": "Configure your MoEngage Connector Campaign to send webhooks in the following JSON format.",
+        "PAYLOAD_STRUCTURE": "Payload Structure",
+        "FIELDS": {
+          "EVENT_NAME": "Event name (e.g., cart_abandoned, browse_abandoned, or any custom event)",
+          "CUSTOMER": "Customer information for contact matching/creation",
+          "EMAIL": "Email address (used to find existing contact)",
+          "PHONE": "Phone number (used to find existing contact)",
+          "CUSTOMER_ID": "MoEngage customer ID (used as identifier)",
+          "FIRST_NAME": "Customer's first name (used in personalized messages)",
+          "LAST_NAME": "Customer's last name",
+          "EVENT_ATTRIBUTES": "Event-specific data to include in the AI message",
+          "CAMPAIGN": "Campaign information from MoEngage"
+        },
+        "EXAMPLE_TITLE": "Example Payload",
+        "COPY_EXAMPLE": "Copy Example",
+        "EXAMPLE_COPIED": "Example copied to clipboard"
+      },
+      "DELETE": {
+        "TITLE": "Disconnect MoEngage Integration",
+        "MESSAGE": "Are you sure you want to disconnect the MoEngage integration? This will stop all MoEngage webhooks from creating conversations."
+      },
+      "LOGS": {
+        "TITLE": "Webhook Event Logs",
+        "DESCRIPTION": "View recent webhook events received from MoEngage and their processing status.",
+        "REFRESH": "Refresh",
+        "EMPTY": "No webhook events recorded yet. Events will appear here once MoEngage sends webhooks to your integration.",
+        "FETCH_ERROR": "Failed to fetch webhook event logs",
+        "VIEW_PAYLOAD": "View Details",
+        "TABLE": {
+          "EVENT": "Event",
+          "STATUS": "Status",
+          "CONTACT": "Contact",
+          "TIME": "Time",
+          "ACTIONS": "Actions"
+        },
+        "STATUS": {
+          "SUCCESS": "Success",
+          "FAILED": "Failed",
+          "PENDING": "Pending",
+          "SKIPPED": "Skipped"
+        },
+        "PAGINATION": {
+          "SHOWING": "Showing {from} to {to} of {total} events",
+          "PREVIOUS": "Previous",
+          "NEXT": "Next"
+        },
+        "PAYLOAD_DIALOG": {
+          "TITLE": "Webhook Event Details",
+          "CLOSE": "Close",
+          "CONVERSATION": "Conversation",
+          "PROCESSING_TIME": "Processing Time",
+          "ERROR": "Error Message",
+          "PAYLOAD": "Request Payload",
+          "RESPONSE": "Response Data"
+        }
+      },
+      "TEMPLATE_MAPPINGS": {
+        "TITLE": "Template Mappings",
+        "DESCRIPTION": "Map MoEngage events to WhatsApp templates for automatic outbound messages.",
+        "ADD": "Add Mapping",
+        "EMPTY": "No template mappings configured. Add a mapping to automatically send WhatsApp templates when MoEngage events fire.",
+        "FETCH_ERROR": "Failed to fetch template mappings",
+        "SAVE_SUCCESS": "Template mapping saved successfully",
+        "SAVE_ERROR": "Failed to save template mapping",
+        "DELETE_SUCCESS": "Template mapping deleted successfully",
+        "DELETE_ERROR": "Failed to delete template mapping",
+        "CONFIRM_DELETE": "Are you sure you want to delete this template mapping?",
+        "TABLE": {
+          "EVENT": "Event",
+          "TEMPLATE": "Template",
+          "INBOX": "Inbox",
+          "LANGUAGE": "Language",
+          "ENABLED": "Enabled",
+          "ACTIONS": "Actions"
+        },
+        "FORM": {
+          "TITLE_ADD": "Add Template Mapping",
+          "TITLE_EDIT": "Edit Template Mapping",
+          "EVENT_NAME": "Event Name",
+          "EVENT_NAME_PLACEHOLDER": "e.g. cart_abandoned",
+          "INBOX": "WhatsApp Inbox",
+          "INBOX_PLACEHOLDER": "Select a WhatsApp inbox",
+          "TEMPLATE": "Template",
+          "TEMPLATE_PLACEHOLDER": "Select a template",
+          "TEMPLATE_LANGUAGE": "Language",
+          "PARAMETERS": "Parameter Mapping",
+          "PARAMETERS_HELP": "Map template variables to MoEngage payload paths using dot notation (e.g. customer.name, event_attributes.product_name)",
+          "PARAM_VARIABLE": "Template Variable",
+          "PARAM_PATH": "Payload Path",
+          "PARAM_PATH_PLACEHOLDER": "e.g. customer.name",
+          "NO_TEMPLATES": "No approved templates found for this inbox. Try syncing from WhatsApp.",
+          "LOADING_TEMPLATES": "Loading templates...",
+          "SYNC_TEMPLATES": "Sync Templates",
+          "SYNC_HINT": "Don't see your template? Create it in Meta Business Manager, then click Sync Templates to pull the latest.",
+          "SYNC_SUCCESS": "Templates synced from WhatsApp successfully",
+          "SYNC_ERROR": "Failed to sync templates. Please try again.",
+          "ENABLED": "Enabled",
+          "SECTION_BODY": "Body Parameters",
+          "SECTION_HEADER": "Header Parameters",
+          "SECTION_BUTTONS": "Button Parameters"
+        }
+      }
+    },
     "CALENDLY": {
       "DELETE": {
         "TITLE": "Disconnect Calendly?",
@@ -505,6 +648,30 @@
         "RESUBSCRIBE": "Register webhook",
         "RESUBSCRIBE_SUCCESS": "Webhook registered successfully. Calendly events will now be received.",
         "RESUBSCRIBE_ERROR": "Failed to register webhook. Please check your Calendly connection and try again."
+      },
+      "WEBHOOK_LOGS": {
+        "TITLE": "Webhook Activity",
+        "DESCRIPTION": "View recent webhook events received from Calendly and their processing status.",
+        "EMPTY": "No webhook events received yet.",
+        "FETCH_ERROR": "Failed to load webhook logs. Please try again.",
+        "STATUS": {
+          "ALL": "All statuses",
+          "RECEIVED": "Received",
+          "PROCESSING": "Processing",
+          "PROCESSED": "Processed",
+          "FAILED": "Failed"
+        },
+        "COLUMNS": {
+          "TIME": "Time",
+          "EVENT": "Event",
+          "STATUS": "Status",
+          "SUMMARY": "Summary"
+        },
+        "DETAILS": {
+          "ERROR": "Error",
+          "PAYLOAD": "Payload",
+          "RESPONSE": "Processing result"
+        }
       },
       "TEMPLATES": {
         "TITLE": "WhatsApp Notification Templates",

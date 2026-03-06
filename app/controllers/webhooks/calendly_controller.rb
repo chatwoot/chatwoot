@@ -22,7 +22,13 @@ class Webhooks::CalendlyController < ActionController::API
     hook = find_hook_for_event
     return if hook.blank?
 
-    Integrations::Calendly::WebhookJob.perform_later(hook, parsed_body['event'], parsed_body['payload'].to_json)
+    webhook_log = hook.webhook_logs.create!(
+      event_type: parsed_body['event'],
+      status: :received,
+      payload: parsed_body['payload']
+    )
+
+    Integrations::Calendly::WebhookJob.perform_later(hook, parsed_body['event'], parsed_body['payload'].to_json, webhook_log.id)
   end
 
   def verify_signature!

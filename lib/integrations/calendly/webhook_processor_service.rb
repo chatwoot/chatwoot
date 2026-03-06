@@ -1,23 +1,31 @@
 class Integrations::Calendly::WebhookProcessorService
   E164_REGEX = /\A\+[1-9]\d{1,14}\z/
 
-  def initialize(hook:, event:, payload:)
+  def initialize(hook:, event:, payload:, webhook_log: nil)
     @hook = hook
     @event = event
     @payload = payload
     @account = hook.account
+    @webhook_log = webhook_log
   end
 
   def perform
-    case @event
-    when 'invitee.created'
-      handle_invitee_created
-    when 'invitee.canceled'
-      handle_invitee_canceled
-    end
+    @webhook_log&.mark_processing!
+    process_event
+    @webhook_log&.mark_processed!
+  rescue StandardError => e
+    @webhook_log&.mark_failed!(e.message)
+    raise
   end
 
   private
+
+  def process_event
+    case @event
+    when 'invitee.created' then handle_invitee_created
+    when 'invitee.canceled' then handle_invitee_canceled
+    end
+  end
 
   def handle_invitee_created
     contact = find_or_create_contact(@payload['email'], @payload['name'])

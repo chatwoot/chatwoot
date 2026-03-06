@@ -7,6 +7,7 @@
 # Ignore MCP config (contains API keys).
 .mcp.json
 
+.claude/worktrees/
 # Ignore bundler config.
 /.bundle
 

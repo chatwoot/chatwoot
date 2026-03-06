@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
       - name: rails
-        image: wavai/chatwoot-rails-staging:v1.0.161
+        image: wavai/chatwoot-rails-staging:v1.0.164
         imagePullPolicy: Always
         command: ["/bin/sh"]
         args: ["-c", "docker/entrypoints/rails.sh && bundle exec rails server -b 0.0.0.0"]
@@ -61,8 +61,8 @@ spec:
             memory: "512Mi"
             cpu: "250m"
           limits:
-            memory: "1Gi"
-            cpu: "500m"
+            memory: "2Gi"
+            cpu: "1000m"
         startupProbe:
           httpGet:
             path: /healthz

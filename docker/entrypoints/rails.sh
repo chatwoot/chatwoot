@@ -48,14 +48,20 @@ fi
 
 echo "Database ready to accept connections."
 
-#install missing gems for local dev as we are using base image compiled for production
+# Install missing gems (in production, this is a fast no-op since gems are in the image)
 bundle install
 
-BUNDLE="bundle check"
-
-until $BUNDLE
-do
-  sleep 2;
+# Verify gems are ready (with a timeout to avoid infinite loops)
+BUNDLE_TRIES=0
+BUNDLE_MAX=10
+while ! bundle check > /dev/null 2>&1; do
+  BUNDLE_TRIES=$((BUNDLE_TRIES+1))
+  if [ $BUNDLE_TRIES -ge $BUNDLE_MAX ]; then
+    echo "Warning: bundle check failed after $BUNDLE_MAX attempts, continuing anyway..."
+    break
+  fi
+  echo "Waiting for bundle... (attempt $BUNDLE_TRIES/$BUNDLE_MAX)"
+  sleep 2
 done
 
 # Prepare and migrate the database
@@ -73,11 +79,9 @@ else
   
   # Try to run migrations
   echo "Attempting to run database migrations..."
-  if bundle exec rails db:migrate; then
+  if bundle exec rails db:migrate 2>&1; then
     echo "Database migrations completed successfully."
   else
-    echo "Migration failed. Detailed error:"
-    bundle exec rails db:migrate --trace || true
     echo "Warning: Database migration failed, but continuing anyway..."
   fi
 fi
