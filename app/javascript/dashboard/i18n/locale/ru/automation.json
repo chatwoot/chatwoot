@@ -3,11 +3,11 @@
     "HEADER": "Автоматизация",
     "DESCRIPTION": "Автоматизация может заменить и упростить существующие процессы, которые требуют ручной работы, такие как добавление меток и распределение разговоров на наиболее подходящего агента. Это позволяет команде сосредоточиться на своих сильных сторонах, сокращая время, затраченное на рутинные задачи.",
     "LEARN_MORE": "Узнайте больше об автоматизации",
-    "COUNT": "{n} automation | {n} automations",
-    "HEADER_BTN_TXT": "Create Automation",
+    "COUNT": "{n} автоматизация | {n} автоматизаций",
+    "HEADER_BTN_TXT": "Создать автоматизацию",
     "LOADING": "Получение правил автоматизации",
-    "SEARCH_PLACEHOLDER": "Search automation rules...",
-    "NO_RESULTS": "No automation rules found matching your search",
+    "SEARCH_PLACEHOLDER": "Поиск правил автоматизации...",
+    "NO_RESULTS": "Не найдено правил автоматизации, соответствующих вашему запросу",
     "ADD": {
       "TITLE": "Добавить правило автоматизации",
       "SUBMIT": "Создать",
@@ -154,7 +154,7 @@
       "CHANGE_PRIORITY": "Изменить приоритет",
       "ADD_SLA": "Добавить SLA",
       "OPEN_CONVERSATION": "Открыть беседу",
-      "PENDING_CONVERSATION": "Mark conversation as pending"
+      "PENDING_CONVERSATION": "Пометить разговор как ожидающий"
     },
     "MESSAGE_TYPES": {
       "INCOMING": "Входящее сообщение",
