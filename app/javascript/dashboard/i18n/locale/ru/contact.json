@@ -18,8 +18,8 @@
     "CREATED_AT_LABEL": "Создан",
     "NEW_MESSAGE": "Новое сообщение",
     "CALL": "Вызов",
-    "CALL_INITIATED": "Calling the contact…",
-    "CALL_FAILED": "Unable to start the call. Please try again.",
+    "CALL_INITIATED": "Вызов контакта…",
+    "CALL_FAILED": "Не удалось начать вызов. Повторите попытку.",
     "VOICE_INBOX_PICKER": {
       "TITLE": "Выберите голосовую почту"
     },
@@ -458,10 +458,10 @@
             "PLACEHOLDER": "Добавить Instagram"
           },
           "TELEGRAM": {
-            "PLACEHOLDER": "Add Telegram"
+            "PLACEHOLDER": "Добавить Telegram"
           },
           "TIKTOK": {
-            "PLACEHOLDER": "Add TikTok"
+            "PLACEHOLDER": "Добавить TikTok"
           },
           "LINKEDIN": {
             "PLACEHOLDER": "Добавить LinkedIn"
@@ -611,7 +611,7 @@
       "NO_INBOX_ALERT": "Нет доступных входящих для начала разговора с этим контактом.",
       "CONTACT_SELECTOR": {
         "LABEL": "Кому:",
-        "TAG_INPUT_PLACEHOLDER": "Enter at least 2 characters to search by name, email, or phone number",
+        "TAG_INPUT_PLACEHOLDER": "Введите не менее 2 символов для поиска по имени, электронной почте или номеру телефона",
         "CONTACT_CREATING": "Создание контакта..."
       },
       "INBOX_SELECTOR": {
@@ -622,9 +622,9 @@
         "SUBJECT_LABEL": "Тема :",
         "SUBJECT_PLACEHOLDER": "Введите тему email",
         "CC_LABEL": "Cc:",
-        "CC_PLACEHOLDER": "Enter at least 2 characters to search by email",
+        "CC_PLACEHOLDER": "Введите не менее 2 символов для поиска по электронной почте",
         "BCC_LABEL": "Bcc:",
-        "BCC_PLACEHOLDER": "Enter at least 2 characters to search by email",
+        "BCC_PLACEHOLDER": "Введите не менее 2 символов для поиска по электронной почте",
         "BCC_BUTTON": "Bcc"
       },
       "MESSAGE_EDITOR": {
