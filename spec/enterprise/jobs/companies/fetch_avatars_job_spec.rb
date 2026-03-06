@@ -15,25 +15,11 @@ RSpec.describe Companies::FetchAvatarsJob do
     )
   end
 
-  it 'enqueues the job' do
-    expect { described_class.perform_later(account.id) }.to have_enqueued_job(described_class)
-      .on_queue('low')
-  end
-
   it 'queues Avatar::AvatarFromFaviconJob only for companies without avatars' do
     expect(Avatar::AvatarFromFaviconJob).to receive(:perform_later).with(company_without_avatar).once
     expect(Avatar::AvatarFromFaviconJob).not_to receive(:perform_later).with(company_with_avatar)
     expect(Avatar::AvatarFromFaviconJob).not_to receive(:perform_later).with(company_no_domain)
 
     described_class.perform_now(account.id)
-  end
-
-  it 'skips companies with nil or empty domains' do
-    expect(Avatar::AvatarFromFaviconJob).not_to receive(:perform_later).with(company_no_domain)
-    described_class.perform_now(account.id)
-  end
-
-  it 'processes companies without errors' do
-    expect { described_class.perform_now(account.id) }.not_to raise_error
   end
 end

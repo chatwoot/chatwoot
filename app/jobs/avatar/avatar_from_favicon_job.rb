@@ -3,7 +3,7 @@ class Avatar::AvatarFromFaviconJob < ApplicationJob
 
   def perform(company)
     return if company.domain.blank?
-    return if company.avatar_url.present?
+    return if company.avatar.attached?
 
     favicon_url = "https://www.google.com/s2/favicons?domain=#{company.domain}&sz=256"
     Avatar::AvatarFromUrlJob.perform_now(company, favicon_url)
