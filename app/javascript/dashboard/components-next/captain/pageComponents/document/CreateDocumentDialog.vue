@@ -8,6 +8,13 @@ import { parseAPIErrorResponse } from 'dashboard/store/utils/api';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import DocumentForm from './DocumentForm.vue';
 
+defineProps({
+  assistantId: {
+    type: Number,
+    required: true,
+  },
+});
+
 const emit = defineEmits(['close']);
 const { t } = useI18n();
 const store = useStore();
@@ -48,7 +55,11 @@ defineExpose({ dialogRef });
     :show-confirm-button="false"
     @close="handleClose"
   >
-    <DocumentForm @submit="handleSubmit" @cancel="handleCancel" />
+    <DocumentForm
+      :assistant-id="assistantId"
+      @submit="handleSubmit"
+      @cancel="handleCancel"
+    />
     <template #footer />
   </Dialog>
 </template>

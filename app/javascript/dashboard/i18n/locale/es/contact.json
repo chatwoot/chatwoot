@@ -18,7 +18,8 @@
     "CREATED_AT_LABEL": "Creado",
     "NEW_MESSAGE": "Nuevo mensaje",
     "CALL": "Llamar",
-    "CALL_UNDER_DEVELOPMENT": "Llamar está bajo desarrollo",
+    "CALL_INITIATED": "Llamando al contacto…",
+    "CALL_FAILED": "No se puede iniciar la llamada. Por favor, inténtelo de nuevo.",
     "VOICE_INBOX_PICKER": {
       "TITLE": "Seleccionar un buzón de entrada"
     },
@@ -456,6 +457,9 @@
           "INSTAGRAM": {
             "PLACEHOLDER": "Agregar Instagram"
           },
+          "TIKTOK": {
+            "PLACEHOLDER": "Añadir TikTok"
+          },
           "LINKEDIN": {
             "PLACEHOLDER": "Agregar LinkedIn"
           },
@@ -554,10 +558,12 @@
         "WROTE": "escribió",
         "YOU": "Tú",
         "SAVE": "Guardar nota",
+        "ADD_NOTE": "Add contact note",
         "EXPAND": "Expandir",
         "COLLAPSE": "Contraer",
         "NO_NOTES": "No hay notas, puede agregar notas desde la página de detalles de contacto.",
-        "EMPTY_STATE": "No hay notas asociadas a este contacto. Puede añadir una nota escribiendo en el recuadro superior."
+        "EMPTY_STATE": "No hay notas asociadas a este contacto. Puede añadir una nota escribiendo en el recuadro superior.",
+        "CONVERSATION_EMPTY_STATE": "There are no notes yet. Use the Add note button to create one."
       }
     },
     "EMPTY_STATE": {
@@ -567,6 +573,27 @@
       "SEARCH_EMPTY_STATE_TITLE": "No hay contactos que coincidan con tu búsqueda 🔍",
       "LIST_EMPTY_STATE_TITLE": "No hay contactos disponibles en esta vista 📋",
       "ACTIVE_EMPTY_STATE_TITLE": "No hay contactos activos por el momento 🌙"
+    }
+  },
+  "CONTACTS_BULK_ACTIONS": {
+    "ASSIGN_LABELS": "Asignar etiquetas",
+    "ASSIGN_LABELS_SUCCESS": "Etiquetas asignadas correctamente.",
+    "ASSIGN_LABELS_FAILED": "Failed to assign labels",
+    "DESCRIPTION": "Select the labels you want to add to the selected contacts.",
+    "NO_LABELS_FOUND": "No labels available yet.",
+    "SELECTED_COUNT": "{count} selected",
+    "CLEAR_SELECTION": "Clear selection",
+    "SELECT_ALL": "Select all ({count})",
+    "DELETE_CONTACTS": "Eliminar",
+    "DELETE_SUCCESS": "Contacts deleted successfully.",
+    "DELETE_FAILED": "Failed to delete contacts.",
+    "DELETE_DIALOG": {
+      "TITLE": "Delete selected contacts",
+      "SINGULAR_TITLE": "Delete selected contact",
+      "DESCRIPTION": "This will permanently delete {count} selected contacts. This action cannot be undone.",
+      "SINGULAR_DESCRIPTION": "This will permanently delete the selected contact. This action cannot be undone.",
+      "CONFIRM_MULTIPLE": "Delete contacts",
+      "CONFIRM_SINGLE": "Eliminar contacto"
     }
   },
   "COMPOSE_NEW_CONVERSATION": {

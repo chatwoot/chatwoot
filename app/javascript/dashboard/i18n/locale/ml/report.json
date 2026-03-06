@@ -51,7 +51,10 @@
     },
     "DATE_RANGE_OPTIONS": {
       "LAST_7_DAYS": "കഴിഞ്ഞ 7 ദിവസം",
+      "LAST_14_DAYS": "കഴിഞ്ഞ 14 ദിവസം",
       "LAST_30_DAYS": "കഴിഞ്ഞ 30 ദിവസം",
+      "THIS_MONTH": "This month",
+      "LAST_MONTH": "Last month",
       "LAST_3_MONTHS": "കഴിഞ്ഞ 3 മാസം",
       "LAST_6_MONTHS": "കഴിഞ്ഞ 6 മാസം",
       "LAST_YEAR": "കഴിഞ്ഞ വർഷം",
@@ -266,6 +269,8 @@
     "NO_ENOUGH_DATA": "റിപ്പോർട്ട് സൃഷ്ടിക്കുന്നതിന് ആവശ്യമായ ഡാറ്റ ഞങ്ങൾക്ക് ലഭിച്ചിട്ടില്ല, ദയവായി പിന്നീട് വീണ്ടും ശ്രമിക്കുക.",
     "DOWNLOAD_INBOX_REPORTS": "ഇൻബോക്സ് റിപ്പോർട്ടുകൾ ഡൗൺലോഡ് ചെയ്യുക",
     "FILTER_DROPDOWN_LABEL": "ഇൻബോക്സ് തിരഞ്ഞെടുക്കുക",
+    "ALL_INBOXES": "All Inboxes",
+    "SEARCH_INBOX": "Search Inbox",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "സംഭാഷണങ്ങൾ",
@@ -462,6 +467,13 @@
     },
     "CONVERSATION_HEATMAP": {
       "HEADER": "Conversation Traffic",
+      "NO_CONVERSATIONS": "No conversations",
+      "CONVERSATION": "{count} conversation",
+      "CONVERSATIONS": "{count} conversations",
+      "DOWNLOAD_REPORT": "Download report"
+    },
+    "RESOLUTION_HEATMAP": {
+      "HEADER": "Resolutions",
       "NO_CONVERSATIONS": "No conversations",
       "CONVERSATION": "{count} conversation",
       "CONVERSATIONS": "{count} conversations",

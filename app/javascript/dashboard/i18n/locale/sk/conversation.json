@@ -32,6 +32,7 @@
     "LOADING_CONVERSATIONS": "Načítavajú sa konverzácie",
     "CANNOT_REPLY": "Neviete odpovedať, pretože",
     "24_HOURS_WINDOW": "24-hodinové obmedzenie okna správ",
+    "48_HOURS_WINDOW": "48-hodinové obmedzenie okna správ",
     "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
     "NOT_ASSIGNED_TO_YOU": "This conversation is not assigned to you. Would you like to assign this conversation to yourself?",
     "ASSIGN_TO_ME": "Prideliť mne",
@@ -196,7 +197,6 @@
       "INSERT_READ_MORE": "Read more",
       "DISMISS_REPLY": "Dismiss reply",
       "REPLYING_TO": "Replying to:",
-      "TIP_FORMAT_ICON": "Zobraziť rozšírený textový editor",
       "TIP_EMOJI_ICON": "Zobraz výber emotikonov",
       "TIP_ATTACH_ICON": "Pripojiť súbory",
       "TIP_AUDIORECORDER_ICON": "Record audio",
@@ -227,6 +227,13 @@
           "YES": "Poslať",
           "CANCEL": "Zrušiť"
         }
+      },
+      "QUOTED_REPLY": {
+        "ENABLE_TOOLTIP": "Include quoted email thread",
+        "DISABLE_TOOLTIP": "Don't include quoted email thread",
+        "REMOVE_PREVIEW": "Remove quoted email thread",
+        "COLLAPSE": "Collapse preview",
+        "EXPAND": "Expand preview"
       }
     },
     "VISIBLE_TO_AGENTS": "Private Note: Only visible to you and your team",
@@ -268,6 +275,16 @@
     "SIDEBAR": {
       "CONTACT": "Contact",
       "COPILOT": "Copilot"
+    },
+    "VOICE_WIDGET": {
+      "INCOMING_CALL": "Incoming call",
+      "OUTGOING_CALL": "Outgoing call",
+      "CALL_IN_PROGRESS": "Call in progress",
+      "NOT_ANSWERED_YET": "Not answered yet",
+      "HANDLED_IN_ANOTHER_TAB": "Being handled in another tab",
+      "REJECT_CALL": "Reject",
+      "JOIN_CALL": "Join call",
+      "END_CALL": "End call"
     }
   },
   "EMAIL_TRANSCRIPT": {

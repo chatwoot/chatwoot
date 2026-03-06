@@ -47,16 +47,39 @@ RSpec.describe Channel::Whatsapp do
   end
 
   describe 'webhook_verify_token' do
+    before do
+      # Stub webhook setup to prevent HTTP calls during channel creation
+      setup_service = instance_double(Whatsapp::WebhookSetupService)
+      allow(Whatsapp::WebhookSetupService).to receive(:new).and_return(setup_service)
+      allow(setup_service).to receive(:perform)
+    end
+
     it 'generates webhook_verify_token if not present' do
-      channel = create(:channel_whatsapp, provider_config: { webhook_verify_token: nil }, provider: 'whatsapp_cloud', account: create(:account),
-                                          validate_provider_config: false, sync_templates: false)
+      channel = create(:channel_whatsapp,
+                       provider_config: {
+                         'webhook_verify_token' => nil,
+                         'api_key' => 'test_key',
+                         'business_account_id' => '123456789'
+                       },
+                       provider: 'whatsapp_cloud',
+                       account: create(:account),
+                       validate_provider_config: false,
+                       sync_templates: false)
 
       expect(channel.provider_config['webhook_verify_token']).not_to be_nil
     end
 
     it 'does not generate webhook_verify_token if present' do
-      channel = create(:channel_whatsapp, provider: 'whatsapp_cloud', provider_config: { webhook_verify_token: '123' }, account: create(:account),
-                                          validate_provider_config: false, sync_templates: false)
+      channel = create(:channel_whatsapp,
+                       provider: 'whatsapp_cloud',
+                       provider_config: {
+                         'webhook_verify_token' => '123',
+                         'api_key' => 'test_key',
+                         'business_account_id' => '123456789'
+                       },
+                       account: create(:account),
+                       validate_provider_config: false,
+                       sync_templates: false)
 
       expect(channel.provider_config['webhook_verify_token']).to eq '123'
     end
@@ -91,15 +114,18 @@ RSpec.describe Channel::Whatsapp do
     end
 
     context 'when channel is created through manual setup' do
-      it 'does not setup webhooks' do
-        expect(Whatsapp::WebhookSetupService).not_to receive(:new)
+      it 'setups webhooks via after_commit callback' do
+        expect(Whatsapp::WebhookSetupService).to receive(:new).and_return(webhook_service)
+        expect(webhook_service).to receive(:perform)
 
+        # Explicitly set source to nil to test manual setup behavior (not embedded_signup)
         create(:channel_whatsapp,
                account: account,
                provider: 'whatsapp_cloud',
                provider_config: {
                  'business_account_id' => 'test_waba_id',
-                 'api_key' => 'test_access_token'
+                 'api_key' => 'test_access_token',
+                 'source' => nil
                },
                validate_provider_config: false,
                sync_templates: false)
@@ -157,12 +183,17 @@ RSpec.describe Channel::Whatsapp do
     end
 
     context 'when channel is not embedded_signup' do
-      it 'does not call WebhookTeardownService on destroy' do
+      it 'calls WebhookTeardownService on destroy' do
+        # Mock the setup service to prevent HTTP calls during creation
+        setup_service = instance_double(Whatsapp::WebhookSetupService)
+        allow(Whatsapp::WebhookSetupService).to receive(:new).and_return(setup_service)
+        allow(setup_service).to receive(:perform)
+
         channel = create(:channel_whatsapp,
                          account: account,
                          provider: 'whatsapp_cloud',
                          provider_config: {
-                           'source' => 'manual',
+                           'business_account_id' => 'test_waba_id',
                            'api_key' => 'test_access_token'
                          },
                          validate_provider_config: false,

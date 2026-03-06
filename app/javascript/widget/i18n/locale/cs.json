@@ -30,8 +30,8 @@
     "BACK_IN_MINUTES": "We will be back online in {time} minutes",
     "BACK_AT_TIME": "We will be back online at {time}",
     "BACK_ON_DAY": "We will be back online on {day}",
-    "BACK_TOMORROW": "We will be back online tomorrow",
-    "BACK_IN_SOME_TIME": "We will be back online in some time"
+    "BACK_TOMORROW": "Zítra budeme opět k dispozici",
+    "BACK_IN_SOME_TIME": "Za chvíli budeme opět k dispozici"
   },
   "DAY_NAMES": {
     "SUNDAY": "Neděle",

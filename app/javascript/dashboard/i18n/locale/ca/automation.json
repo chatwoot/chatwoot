@@ -177,7 +177,8 @@
       "REFERER_LINK": "Referrer Link",
       "ASSIGNEE_NAME": "Cessionari",
       "TEAM_NAME": "Equip",
-      "PRIORITY": "Prioritat"
+      "PRIORITY": "Prioritat",
+      "LABELS": "Etiquetes"
     }
   }
 }

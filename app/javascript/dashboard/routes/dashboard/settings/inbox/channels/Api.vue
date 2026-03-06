@@ -42,7 +42,7 @@ export default {
 
       try {
         const apiChannel = await this.$store.dispatch('inboxes/createChannel', {
-          name: this.channelName,
+          name: this.channelName?.trim(),
           channel: {
             type: 'api',
             webhook_url: this.webhookUrl,

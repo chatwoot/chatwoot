@@ -51,7 +51,10 @@
     },
     "DATE_RANGE_OPTIONS": {
       "LAST_7_DAYS": "7 derniers jours",
+      "LAST_14_DAYS": "14 derniers jours",
       "LAST_30_DAYS": "30 derniers jours",
+      "THIS_MONTH": "This month",
+      "LAST_MONTH": "Last month",
       "LAST_3_MONTHS": "3 derniers mois",
       "LAST_6_MONTHS": "6 derniers mois",
       "LAST_YEAR": "Année dernière",
@@ -266,6 +269,8 @@
     "NO_ENOUGH_DATA": "Nous n'avons pas reçu assez de points de données pour générer un rapport. Veuillez réessayer plus tard.",
     "DOWNLOAD_INBOX_REPORTS": "Télécharger les rapports de la boîte de réception",
     "FILTER_DROPDOWN_LABEL": "Sélectionner la boîte de réception",
+    "ALL_INBOXES": "All Inboxes",
+    "SEARCH_INBOX": "Search Inbox",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Conversations",
@@ -462,6 +467,13 @@
     },
     "CONVERSATION_HEATMAP": {
       "HEADER": "Trafic des conversations",
+      "NO_CONVERSATIONS": "Aucune conversation",
+      "CONVERSATION": "Conversation {count}",
+      "CONVERSATIONS": "{count} conversations",
+      "DOWNLOAD_REPORT": "Download report"
+    },
+    "RESOLUTION_HEATMAP": {
+      "HEADER": "Resolutions",
       "NO_CONVERSATIONS": "Aucune conversation",
       "CONVERSATION": "Conversation {count}",
       "CONVERSATIONS": "{count} conversations",

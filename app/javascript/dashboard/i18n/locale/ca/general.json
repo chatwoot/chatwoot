@@ -5,6 +5,8 @@
       "PLACEHOLDER": "Cercar",
       "EMPTY_STATE": "No s'ha trobat agents"
     },
-    "CLOSE": "Tanca"
+    "CLOSE": "Tanca",
+    "BETA": "Beta",
+    "BETA_DESCRIPTION": "This feature is in beta and may change as we improve it."
   }
 }

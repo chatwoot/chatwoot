@@ -32,6 +32,7 @@
     "LOADING_CONVERSATIONS": "Ładowanie konwersacji",
     "CANNOT_REPLY": "Nie możesz odpowiedzieć z powodu",
     "24_HOURS_WINDOW": "Ograniczenie 24-godzinnego okna wiadomości",
+    "48_HOURS_WINDOW": "ograniczenia 48-godzinnego okna wiadomości",
     "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
     "NOT_ASSIGNED_TO_YOU": "Ta konwersacja nie jest Ci przypisana. Czy chcesz przypisać tę konwersację do siebie?",
     "ASSIGN_TO_ME": "Przypisz do mnie",
@@ -196,7 +197,6 @@
       "INSERT_READ_MORE": "Czytaj więcej",
       "DISMISS_REPLY": "Dismiss reply",
       "REPLYING_TO": "Replying to:",
-      "TIP_FORMAT_ICON": "Pokaż zaawansowany edytor",
       "TIP_EMOJI_ICON": "Pokaż selektor emotikonek",
       "TIP_ATTACH_ICON": "Dołącz pliki",
       "TIP_AUDIORECORDER_ICON": "Nagrywaj audio",
@@ -227,6 +227,13 @@
           "YES": "Wyślij",
           "CANCEL": "Anuluj"
         }
+      },
+      "QUOTED_REPLY": {
+        "ENABLE_TOOLTIP": "Include quoted email thread",
+        "DISABLE_TOOLTIP": "Don't include quoted email thread",
+        "REMOVE_PREVIEW": "Remove quoted email thread",
+        "COLLAPSE": "Collapse preview",
+        "EXPAND": "Expand preview"
       }
     },
     "VISIBLE_TO_AGENTS": "Prywatna uwaga: widoczne tylko dla Ciebie i Twojego zespołu",
@@ -268,6 +275,16 @@
     "SIDEBAR": {
       "CONTACT": "Kontakt",
       "COPILOT": "Copilot"
+    },
+    "VOICE_WIDGET": {
+      "INCOMING_CALL": "Incoming call",
+      "OUTGOING_CALL": "Outgoing call",
+      "CALL_IN_PROGRESS": "Call in progress",
+      "NOT_ANSWERED_YET": "Not answered yet",
+      "HANDLED_IN_ANOTHER_TAB": "Being handled in another tab",
+      "REJECT_CALL": "Reject",
+      "JOIN_CALL": "Join call",
+      "END_CALL": "End call"
     }
   },
   "EMAIL_TRANSCRIPT": {

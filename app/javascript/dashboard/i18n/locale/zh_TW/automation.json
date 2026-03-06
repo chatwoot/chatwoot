@@ -177,7 +177,8 @@
       "REFERER_LINK": "Referrer Link",
       "ASSIGNEE_NAME": "Assignee",
       "TEAM_NAME": "Team",
-      "PRIORITY": "優先程度"
+      "PRIORITY": "優先程度",
+      "LABELS": "標籤"
     }
   }
 }

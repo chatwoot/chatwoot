@@ -1,111 +1,111 @@
 {
   "MACROS": {
-    "HEADER": "Macros",
-    "DESCRIPTION": "A macro is a set of saved actions that help customer service agents easily complete tasks. The agents can define a set of actions like tagging a conversation with a label, sending an email transcript, updating a custom attribute, etc., and they can run these actions in a single click.",
-    "LEARN_MORE": "Learn more about macros",
-    "HEADER_BTN_TXT": "Add a new macro",
-    "HEADER_BTN_TXT_SAVE": "Save macro",
-    "LOADING": "Fetching macros",
-    "ERROR": "Something went wrong. Please try again",
-    "ORDER_INFO": "Macros will run in the order you add your actions. You can rearrange them by dragging them by the handle beside each node.",
+    "HEADER": "Macro",
+    "DESCRIPTION": "Una macro è un insieme di azioni salvate che aiutano gli operatori del servizio clienti a completare facilmente le attività. Gli operatori possono definire un insieme di azioni, come l'aggiunta di un'etichetta a una converazione, l'invio di una trascrizione e-mail, l'aggiornamento di un attributo personalizzato, ecc. e possono eseguire queste azioni in un solo clic.",
+    "LEARN_MORE": "Scopri di più sulle macro",
+    "HEADER_BTN_TXT": "Aggiungi una nuova macro",
+    "HEADER_BTN_TXT_SAVE": "Salva macro",
+    "LOADING": "Caricamento macro",
+    "ERROR": "Qualcosa è andato storto. Riprova",
+    "ORDER_INFO": "Le macro verranno eseguite nell'ordine in cui aggiungi le azioni. Puoi riordinarle trascinandole con la maniglia accanto ad ogni nodo.",
     "ADD": {
       "FORM": {
         "NAME": {
-          "LABEL": "Macro name",
-          "PLACEHOLDER": "Enter a name for your macro",
-          "ERROR": "Name is required for creating a macro"
+          "LABEL": "Nome macro",
+          "PLACEHOLDER": "Inserisci un nome per la tua macro",
+          "ERROR": "Il nome è richiesto per creare una macro"
         },
         "ACTIONS": {
           "LABEL": "Azioni"
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Macro added successfully",
-        "ERROR_MESSAGE": "Unable to create macro, Please try again later"
+        "SUCCESS_MESSAGE": "Macro aggiunta correttamente",
+        "ERROR_MESSAGE": "Impossibile creare macro, riprova più tardi"
       }
     },
     "LIST": {
       "TABLE_HEADER": {
         "NAME": "Nome",
-        "CREATED BY": "Created by",
-        "LAST_UPDATED_BY": "Last updated by",
-        "VISIBILITY": "Visibility"
+        "CREATED BY": "Creata da",
+        "LAST_UPDATED_BY": "Ultimo aggiornamento di",
+        "VISIBILITY": "Visibilità"
       },
-      "404": "No macros found"
+      "404": "Nessuna macro trovata"
     },
     "DELETE": {
-      "TOOLTIP": "Delete macro",
+      "TOOLTIP": "Elimina macro",
       "CONFIRM": {
         "MESSAGE": "Sei sicuro di voler eliminare ",
         "YES": "Sì, elimina",
         "NO": "No"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Macro deleted successfully",
-        "ERROR_MESSAGE": "There was an error deleting the macro. Please try again later"
+        "SUCCESS_MESSAGE": "Macro eliminata con successo",
+        "ERROR_MESSAGE": "Si è verificato un errore durante l'eliminazione della macro. Riprova più tardi"
       }
     },
     "EDIT": {
-      "TOOLTIP": "Edit macro",
+      "TOOLTIP": "Modifica macro",
       "API": {
-        "SUCCESS_MESSAGE": "Macro updated successfully",
-        "ERROR_MESSAGE": "Could not update Macro, Please try again later"
+        "SUCCESS_MESSAGE": "Macro aggiornato con successo",
+        "ERROR_MESSAGE": "Impossibile aggiornare la macro, riprova più tardi"
       }
     },
     "EDITOR": {
-      "START_FLOW": "Start Flow",
+      "START_FLOW": "Inizia Flow",
       "END_FLOW": "End Flow",
-      "LOADING": "Fetching macro",
-      "ADD_BTN_TOOLTIP": "Add new action",
-      "DELETE_BTN_TOOLTIP": "Delete Action",
+      "LOADING": "Recupero macro",
+      "ADD_BTN_TOOLTIP": "Aggiungi nuova azione",
+      "DELETE_BTN_TOOLTIP": "Rimuovi Azione",
       "VISIBILITY": {
-        "LABEL": "Macro Visibility",
+        "LABEL": "Visibilità Macro",
         "GLOBAL": {
-          "LABEL": "Public",
-          "DESCRIPTION": "This macro is available publicly for all agents in this account."
+          "LABEL": "Pubblica",
+          "DESCRIPTION": "Questa macro è disponibile pubblicamente per tutti gli operatori di questo account."
         },
         "PERSONAL": {
-          "LABEL": "Private",
-          "DESCRIPTION": "This macro will be private to you and not be available to others."
+          "LABEL": "Privata",
+          "DESCRIPTION": "Questa macro sarà privata per te e non sarà disponibile ad altri."
         }
       }
     },
     "EXECUTE": {
-      "BUTTON_TOOLTIP": "Execute",
-      "PREVIEW": "Preview Macro",
-      "EXECUTED_SUCCESSFULLY": "Macro executed successfully"
+      "BUTTON_TOOLTIP": "Esegui",
+      "PREVIEW": "Anteprima Macro",
+      "EXECUTED_SUCCESSFULLY": "Macro eseguita correttamente"
     },
     "ERRORS": {
-      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
-      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
-      "VALUE_REQUIRED": "Il valore è obbligatorio",
-      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998",
-      "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
-      "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
-      "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
+      "ATTRIBUTE_KEY_REQUIRED": "Chiave dell'attributo richiesta",
+      "FILTER_OPERATOR_REQUIRED": "Operatore di filtro richiesto",
+      "VALUE_REQUIRED": "Il valore è richiesto",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Il valore deve essere compreso tra 1 e 998",
+      "ACTION_PARAMETERS_REQUIRED": "Parametri di azione richiesti",
+      "ATLEAST_ONE_CONDITION_REQUIRED": "È richiesta almeno una condizione",
+      "ATLEAST_ONE_ACTION_REQUIRED": "È richiesta almeno un'azione"
     },
     "ACTIONS": {
-      "ASSIGN_TEAM": "Assign a Team",
-      "ASSIGN_AGENT": "Assign an Agent",
-      "ADD_LABEL": "Add a Label",
-      "REMOVE_LABEL": "Remove a Label",
-      "REMOVE_ASSIGNED_TEAM": "Remove Assigned Team",
-      "SEND_EMAIL_TRANSCRIPT": "Send an Email Transcript",
-      "MUTE_CONVERSATION": "Silenzia conversazione",
-      "SNOOZE_CONVERSATION": "Posticipa conversazione",
-      "RESOLVE_CONVERSATION": "Risolvi la conversazione",
-      "SEND_ATTACHMENT": "Send Attachment",
-      "SEND_MESSAGE": "Send a Message",
-      "CHANGE_PRIORITY": "Change Priority",
-      "ADD_PRIVATE_NOTE": "Add a Private Note",
-      "SEND_WEBHOOK_EVENT": "Send Webhook Event"
+      "ASSIGN_TEAM": "Assegna a un Team",
+      "ASSIGN_AGENT": "Assegna un Operatore",
+      "ADD_LABEL": "Aggiungi Etichetta",
+      "REMOVE_LABEL": "Rimuovi Etichetta",
+      "REMOVE_ASSIGNED_TEAM": "Rimuovi Team Assegnato",
+      "SEND_EMAIL_TRANSCRIPT": "Invia una Trascrizione Email",
+      "MUTE_CONVERSATION": "Silenzia Conversazione",
+      "SNOOZE_CONVERSATION": "Posticipa Conversazione",
+      "RESOLVE_CONVERSATION": "Risolvi Conversazione",
+      "SEND_ATTACHMENT": "Invia Allegato",
+      "SEND_MESSAGE": "Invia un Messaggio",
+      "CHANGE_PRIORITY": "Cambia Priorità",
+      "ADD_PRIVATE_NOTE": "Aggiungi una Nota Privata",
+      "SEND_WEBHOOK_EVENT": "Invia Evento Webhook"
     },
     "PRIORITY_TYPES": {
-      "NONE": "Nessuno",
-      "LOW": "Low",
-      "MEDIUM": "Medium",
-      "HIGH": "High",
-      "URGENT": "Urgent"
+      "NONE": "Nessuna",
+      "LOW": "Bassa",
+      "MEDIUM": "Media",
+      "HIGH": "Alta",
+      "URGENT": "Urgente"
     }
   }
 }
