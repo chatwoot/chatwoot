@@ -13,6 +13,9 @@ import { conversationListPageURL } from 'dashboard/helper/URLHelper';
 import { snoozedReopenTime } from 'dashboard/helper/snoozeHelpers';
 import { useInbox } from 'dashboard/composables/useInbox';
 import { useI18n } from 'vue-i18n';
+import WhatsappCallsAPI from 'dashboard/api/whatsappCalls';
+import { emitter } from 'shared/helpers/mitt';
+import { BUS_EVENTS } from 'shared/constants/busEvents';
 
 const props = defineProps({
   chat: {
@@ -30,7 +33,8 @@ const store = useStore();
 const route = useRoute();
 const conversationHeader = ref(null);
 const { width } = useElementSize(conversationHeader);
-const { isAWebWidgetInbox } = useInbox();
+const { isAWebWidgetInbox, isAWhatsAppCloudChannel } = useInbox();
+const isInitiatingCall = ref(false);
 
 const currentChat = computed(() => store.getters.getSelectedChat);
 const accountId = computed(() => store.getters.getCurrentAccountId);
@@ -90,6 +94,32 @@ const hasMultipleInboxes = computed(
 );
 
 const hasSlaPolicyId = computed(() => props.chat?.sla_policy_id);
+
+const canInitiateWhatsappCall = computed(() => {
+  if (!isAWhatsAppCloudChannel.value) return false;
+  return !!inbox.value?.callingEnabled;
+});
+
+const initiateWhatsappCall = async () => {
+  if (isInitiatingCall.value || !currentChat.value?.id) return;
+  isInitiatingCall.value = true;
+  try {
+    await WhatsappCallsAPI.initiate(currentChat.value.id);
+    emitter.emit(BUS_EVENTS.SHOW_ALERT, {
+      message: t('WHATSAPP_CALL.CALLING'),
+      type: 'success',
+    });
+  } catch (err) {
+    const errorMessage =
+      err.response?.data?.error || t('WHATSAPP_CALL.CALL_FAILED');
+    emitter.emit(BUS_EVENTS.SHOW_ALERT, {
+      message: errorMessage,
+      type: 'error',
+    });
+  } finally {
+    isInitiatingCall.value = false;
+  }
+};
 </script>
 
 <template>
@@ -151,6 +181,19 @@ const hasSlaPolicyId = computed(() => props.chat?.sla_policy_id);
         :parent-width="width"
         class="hidden md:flex"
       />
+      <button
+        v-if="canInitiateWhatsappCall"
+        v-tooltip="$t('WHATSAPP_CALL.INITIATE_CALL')"
+        class="flex items-center justify-center w-8 h-8 rounded-lg text-n-slate-11 hover:text-n-slate-12 hover:bg-n-slate-3 transition-colors"
+        :disabled="isInitiatingCall"
+        @click="initiateWhatsappCall"
+      >
+        <i
+          v-if="isInitiatingCall"
+          class="text-base i-ph-circle-notch animate-spin"
+        />
+        <i v-else class="text-base i-ph-phone-bold" />
+      </button>
       <MoreActions :conversation-id="currentChat.id" />
     </div>
   </div>

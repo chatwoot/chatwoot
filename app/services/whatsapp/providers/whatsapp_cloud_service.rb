@@ -79,6 +79,58 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     "#{api_base_path}/v13.0/#{media_id}"
   end
 
+  def pre_accept_call(call_id)
+    response = HTTParty.post(
+      "#{phone_id_path}/calls/#{call_id}",
+      headers: api_headers,
+      body: { action: 'pre_accept' }.to_json
+    )
+    response.success?
+  end
+
+  def accept_call(call_id, sdp_answer)
+    response = HTTParty.post(
+      "#{phone_id_path}/calls/#{call_id}",
+      headers: api_headers,
+      body: {
+        action: 'accept',
+        sdp: sdp_answer,
+        sdp_type: 'answer'
+      }.to_json
+    )
+    response.success?
+  end
+
+  def reject_call(call_id)
+    response = HTTParty.post(
+      "#{phone_id_path}/calls/#{call_id}",
+      headers: api_headers,
+      body: { action: 'reject' }.to_json
+    )
+    response.success?
+  end
+
+  def terminate_call(call_id)
+    response = HTTParty.post(
+      "#{phone_id_path}/calls/#{call_id}",
+      headers: api_headers,
+      body: { action: 'terminate' }.to_json
+    )
+    response.success?
+  end
+
+  def initiate_call(to_phone_number)
+    response = HTTParty.post(
+      "#{phone_id_path}/calls",
+      headers: api_headers,
+      body: {
+        to: to_phone_number,
+        type: 'audio'
+      }.to_json
+    )
+    response.parsed_response if response.success?
+  end
+
   private
 
   def csat_template_service

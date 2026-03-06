@@ -59,12 +59,32 @@ class Webhooks::WhatsappEventsJob < ApplicationJob
   end
 
   def handle_message_events(channel, params)
+    if call_event?(params)
+      handle_call_events(channel, params)
+      return
+    end
+
     case channel.provider
     when 'whatsapp_cloud'
       Whatsapp::IncomingMessageWhatsappCloudService.new(inbox: channel.inbox, params: params).perform
     else
       Whatsapp::IncomingMessageService.new(inbox: channel.inbox, params: params).perform
     end
+  end
+
+  def handle_call_events(channel, params)
+    Whatsapp::IncomingCallService.new(
+      inbox: channel.inbox,
+      params: extract_call_params(params)
+    ).perform
+  end
+
+  def call_event?(params)
+    params.dig(:entry, 0, :changes, 0, :field) == 'calls'
+  end
+
+  def extract_call_params(params)
+    params.dig(:entry, 0, :changes, 0, :value) || {}
   end
 
   private
