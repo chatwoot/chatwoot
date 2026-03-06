@@ -1,5 +1,6 @@
 <script setup>
 import { ref, computed, watch } from 'vue';
+import { useDebounceFn } from '@vueuse/core';
 import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
 import Select from 'dashboard/components-next/select/Select.vue';
@@ -41,6 +42,8 @@ watch(
 function emitUpdate() {
   emit('update', props.componentIndex, { ...local.value });
 }
+
+const debouncedEmitUpdate = useDebounceFn(emitUpdate, 300);
 
 // ── Image file upload ───────────────────────────────────────────────
 function triggerImageUpload() {
@@ -132,8 +135,18 @@ const footerNextScreen = computed({
   },
 });
 
+const currentScreenId = computed(() => {
+  const screen = props.screens.find(s =>
+    s.layout?.children?.some(
+      // eslint-disable-next-line no-underscore-dangle
+      c => c._id === props.component?._id || c === props.component
+    )
+  );
+  return screen?.id;
+});
+
 const otherScreens = computed(() =>
-  props.screens.filter(s => s.id !== props.screens[0]?.id || true)
+  props.screens.filter(s => s.id !== currentScreenId.value)
 );
 
 // ── Input type options ──────────────────────────────────────────────
@@ -200,7 +213,7 @@ const nextScreenOptions = computed(() =>
           v-model="local.text"
           rows="3"
           class="w-full px-3 py-2 text-sm border border-n-weak rounded-lg resize-none focus:border-n-brand focus:ring-1 focus:ring-n-brand"
-          @input="emitUpdate"
+          @input="debouncedEmitUpdate"
         />
       </div>
 
@@ -213,7 +226,7 @@ const nextScreenOptions = computed(() =>
           v-model="local.label"
           type="text"
           class="w-full px-3 py-2 text-sm border border-n-weak rounded-lg focus:border-n-brand focus:ring-1 focus:ring-n-brand"
-          @input="emitUpdate"
+          @input="debouncedEmitUpdate"
         />
       </div>
 
@@ -226,7 +239,7 @@ const nextScreenOptions = computed(() =>
           v-model="local.name"
           type="text"
           class="w-full px-3 py-2 text-sm font-mono border border-n-weak rounded-lg focus:border-n-brand focus:ring-1 focus:ring-n-brand"
-          @input="emitUpdate"
+          @input="debouncedEmitUpdate"
         />
         <p class="text-[10px] text-n-slate-9">
           {{ t('WHATSAPP_FLOWS.PROPERTIES.VARIABLE_NAME_HINT') }}
@@ -281,7 +294,7 @@ const nextScreenOptions = computed(() =>
           v-model="local['helper-text']"
           type="text"
           class="w-full px-3 py-2 text-sm border border-n-weak rounded-lg focus:border-n-brand focus:ring-1 focus:ring-n-brand"
-          @input="emitUpdate"
+          @input="debouncedEmitUpdate"
         />
       </div>
 
@@ -346,7 +359,7 @@ const nextScreenOptions = computed(() =>
             class="w-full px-3 py-2 text-sm border border-n-weak rounded-lg focus:border-n-brand focus:ring-1 focus:ring-n-brand"
             @input="
               imagePreviewUrl = local.src;
-              emitUpdate();
+              debouncedEmitUpdate();
             "
           />
         </div>
@@ -362,7 +375,7 @@ const nextScreenOptions = computed(() =>
             min="50"
             max="600"
             class="w-full px-3 py-2 text-sm border border-n-weak rounded-lg"
-            @input="emitUpdate"
+            @input="debouncedEmitUpdate"
           />
         </div>
 

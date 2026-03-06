@@ -1,4 +1,5 @@
 <script setup>
+import { ref, nextTick } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 const props = defineProps({
@@ -6,9 +7,49 @@ const props = defineProps({
   activeIndex: { type: Number, required: true },
 });
 
-const emit = defineEmits(['select', 'add', 'remove']);
+const emit = defineEmits([
+  'select',
+  'add',
+  'remove',
+  'updateTitle',
+  'updateId',
+]);
 
 const { t } = useI18n();
+
+const editingIndex = ref(null);
+const editingField = ref(null);
+const editValue = ref('');
+const editInput = ref(null);
+
+function startEdit(index, field) {
+  editingIndex.value = index;
+  editingField.value = field;
+  editValue.value =
+    field === 'title' ? props.screens[index].title : props.screens[index].id;
+  nextTick(() => editInput.value?.focus());
+}
+
+function cancelEdit() {
+  editingIndex.value = null;
+  editingField.value = null;
+  editValue.value = '';
+}
+
+function commitEdit() {
+  if (editingIndex.value === null) return;
+  const val = editValue.value.trim();
+  if (!val) {
+    cancelEdit();
+    return;
+  }
+  if (editingField.value === 'title') {
+    emit('updateTitle', editingIndex.value, val);
+  } else {
+    emit('updateId', editingIndex.value, val);
+  }
+  cancelEdit();
+}
 </script>
 
 <template>
@@ -36,7 +77,7 @@ const { t } = useI18n();
       <div
         v-for="(screen, index) in props.screens"
         :key="screen.id"
-        class="group flex items-center justify-between px-3 py-2 rounded-lg cursor-pointer text-sm transition-colors"
+        class="group flex flex-col px-3 py-2 rounded-lg cursor-pointer text-sm transition-colors"
         :class="[
           index === props.activeIndex
             ? 'bg-n-brand-subtle text-n-brand-dark font-medium'
@@ -44,23 +85,62 @@ const { t } = useI18n();
         ]"
         @click="emit('select', index)"
       >
-        <div class="flex items-center gap-2 min-w-0 flex-1">
-          <span class="i-lucide-layout size-4 shrink-0" />
-          <span class="truncate">{{ screen.title }}</span>
-          <span
-            v-if="screen.terminal"
-            class="text-[10px] px-1 py-0.5 rounded bg-n-teal-2 text-n-teal-11 shrink-0"
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2 min-w-0 flex-1">
+            <span class="i-lucide-layout size-4 shrink-0" />
+            <!-- Editable title -->
+            <input
+              v-if="editingIndex === index && editingField === 'title'"
+              ref="editInput"
+              v-model="editValue"
+              class="min-w-0 flex-1 text-sm bg-white border border-n-brand rounded px-1 py-0.5 focus:outline-none"
+              @click.stop
+              @blur="commitEdit"
+              @keydown.enter.prevent="commitEdit"
+              @keydown.escape.prevent="cancelEdit"
+            />
+            <span
+              v-else
+              class="truncate"
+              @dblclick.stop="startEdit(index, 'title')"
+            >
+              {{ screen.title }}
+            </span>
+            <span
+              v-if="screen.terminal"
+              class="text-[10px] px-1 py-0.5 rounded bg-n-teal-2 text-n-teal-11 shrink-0"
+            >
+              {{ t('WHATSAPP_FLOWS.SCREENS.TERMINAL') }}
+            </span>
+          </div>
+          <button
+            v-if="props.screens.length > 1"
+            class="opacity-0 group-hover:opacity-100 p-1 rounded text-n-slate-9 hover:text-n-ruby-9"
+            @click.stop="emit('remove', index)"
           >
-            {{ t('WHATSAPP_FLOWS.SCREENS.TERMINAL') }}
+            <span class="i-lucide-x size-3" />
+          </button>
+        </div>
+        <!-- Screen ID (editable on double-click) -->
+        <div class="ml-6 mt-0.5">
+          <input
+            v-if="editingIndex === index && editingField === 'id'"
+            ref="editInput"
+            v-model="editValue"
+            class="w-full text-[10px] font-mono bg-white border border-n-brand rounded px-1 py-0.5 focus:outline-none"
+            @click.stop
+            @blur="commitEdit"
+            @keydown.enter.prevent="commitEdit"
+            @keydown.escape.prevent="cancelEdit"
+          />
+          <span
+            v-else
+            class="text-[10px] font-mono text-n-slate-9 cursor-text"
+            @dblclick.stop="startEdit(index, 'id')"
+          >
+            {{ screen.id }}
           </span>
         </div>
-        <button
-          v-if="props.screens.length > 1"
-          class="opacity-0 group-hover:opacity-100 p-1 rounded text-n-slate-9 hover:text-n-ruby-9"
-          @click.stop="emit('remove', index)"
-        >
-          <span class="i-lucide-x size-3" />
-        </button>
       </div>
     </div>
 

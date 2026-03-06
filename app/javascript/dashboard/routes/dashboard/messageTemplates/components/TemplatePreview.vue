@@ -134,6 +134,30 @@ const mediaPlaceholderLabel = computed(() => {
   }[format];
   return placeholderKey || format;
 });
+
+// WhatsApp rich text formatting: *bold*, _italic_, ~strikethrough~, ```monospace```
+function formatWhatsAppText(text) {
+  if (!text) return '';
+  // Escape HTML first
+  let html = text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+  // Order matters: monospace first (triple backtick), then single markers
+  html = html.replace(
+    /```([\s\S]*?)```/g,
+    '<code class="px-1 py-0.5 bg-[#f0f0f0] rounded text-[13px] font-mono">$1</code>'
+  );
+  html = html.replace(/\*([^\s*](?:[^*]*[^\s*])?)\*/g, '<b>$1</b>');
+  html = html.replace(/_([^\s_](?:[^_]*[^\s_])?)_/g, '<i>$1</i>');
+  html = html.replace(/~([^\s~](?:[^~]*[^\s~])?)~/g, '<s>$1</s>');
+  // Preserve newlines
+  html = html.replace(/\n/g, '<br>');
+  return html;
+}
+
+const bodyHtml = computed(() => formatWhatsAppText(bodyText.value));
+const headerHtml = computed(() => formatWhatsAppText(headerText.value));
 </script>
 
 <template>
@@ -194,17 +218,15 @@ const mediaPlaceholderLabel = computed(() => {
               <p
                 v-if="headerText"
                 class="text-base font-semibold leading-snug text-[#0B141A]"
-              >
-                {{ headerText }}
-              </p>
+                v-html="headerHtml"
+              />
 
               <!-- Body text -->
               <p
                 v-if="bodyText"
-                class="text-sm my-auto whitespace-pre-line text-[#1F2C34]"
-              >
-                {{ bodyText }}
-              </p>
+                class="text-sm my-auto text-[#1F2C34]"
+                v-html="bodyHtml"
+              />
 
               <!-- Footer text -->
               <p

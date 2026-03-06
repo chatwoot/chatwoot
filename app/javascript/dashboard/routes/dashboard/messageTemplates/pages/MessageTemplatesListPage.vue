@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { useMapGetter, useStoreGetters } from 'dashboard/composables/store';
@@ -9,6 +9,8 @@ import Button from 'dashboard/components-next/button/Button.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import Select from 'dashboard/components-next/select/Select.vue';
+import Input from 'dashboard/components-next/input/Input.vue';
+import PaginationFooter from 'dashboard/components-next/pagination/PaginationFooter.vue';
 
 const { t } = useI18n();
 const router = useRouter();
@@ -27,8 +29,12 @@ const hasTemplates = computed(
   () => templates.value.length > 0 && !isFetching.value
 );
 
-// Inbox filter
+// Filters
 const selectedInboxId = ref('');
+const searchQuery = ref('');
+const selectedStatus = ref('');
+const selectedCategory = ref('');
+
 const inboxes = computed(() => {
   const allInboxes = getters['inboxes/getInboxes'].value || [];
   return allInboxes.filter(
@@ -42,15 +48,100 @@ const inboxOptions = computed(() => [
   ...inboxes.value.map(i => ({ value: i.id, label: i.name })),
 ]);
 
+const statusOptions = [
+  { value: '', label: t('MESSAGE_TEMPLATES.FILTERS.ALL_STATUSES') },
+  { value: 'approved', label: t('MESSAGE_TEMPLATES.FILTERS.APPROVED') },
+  { value: 'pending', label: t('MESSAGE_TEMPLATES.FILTERS.PENDING') },
+  { value: 'rejected', label: t('MESSAGE_TEMPLATES.FILTERS.REJECTED') },
+  { value: 'draft', label: t('MESSAGE_TEMPLATES.FILTERS.DRAFT') },
+  { value: 'paused', label: t('MESSAGE_TEMPLATES.FILTERS.PAUSED') },
+  { value: 'disabled', label: t('MESSAGE_TEMPLATES.FILTERS.DISABLED') },
+];
+
+const categoryFilterOptions = [
+  { value: '', label: t('MESSAGE_TEMPLATES.FILTERS.ALL_CATEGORIES') },
+  { value: 'marketing', label: t('MESSAGE_TEMPLATES.CATEGORIES.MARKETING') },
+  { value: 'utility', label: t('MESSAGE_TEMPLATES.CATEGORIES.UTILITY') },
+  {
+    value: 'authentication',
+    label: t('MESSAGE_TEMPLATES.CATEGORIES.AUTHENTICATION'),
+  },
+];
+
 const filteredTemplates = computed(() => {
-  if (!selectedInboxId.value) return templates.value;
-  return templates.value.filter(
-    tmpl => tmpl.inbox_id === Number(selectedInboxId.value)
-  );
+  let result = templates.value;
+  if (selectedInboxId.value) {
+    result = result.filter(
+      tmpl => tmpl.inbox_id === Number(selectedInboxId.value)
+    );
+  }
+  if (selectedStatus.value) {
+    result = result.filter(tmpl => tmpl.status === selectedStatus.value);
+  }
+  if (selectedCategory.value) {
+    result = result.filter(tmpl => tmpl.category === selectedCategory.value);
+  }
+  if (searchQuery.value) {
+    const q = searchQuery.value.toLowerCase();
+    result = result.filter(tmpl => tmpl.name?.toLowerCase().includes(q));
+  }
+  return result;
+});
+
+const hasFilteredResults = computed(() => filteredTemplates.value.length > 0);
+const isFiltering = computed(
+  () =>
+    searchQuery.value ||
+    selectedInboxId.value ||
+    selectedStatus.value ||
+    selectedCategory.value
+);
+
+// Pagination
+const ITEMS_PER_PAGE = 15;
+const currentPage = ref(1);
+const paginatedTemplates = computed(() => {
+  const start = (currentPage.value - 1) * ITEMS_PER_PAGE;
+  return filteredTemplates.value.slice(start, start + ITEMS_PER_PAGE);
+});
+const showPagination = computed(
+  () => filteredTemplates.value.length > ITEMS_PER_PAGE
+);
+
+// Reset to page 1 when filters change
+watch([searchQuery, selectedInboxId, selectedStatus, selectedCategory], () => {
+  currentPage.value = 1;
 });
 
 const deleteDialogRef = ref(null);
 const templateToDelete = ref(null);
+const previewDialogRef = ref(null);
+const templateToPreview = ref(null);
+
+const openPreview = template => {
+  templateToPreview.value = template;
+  previewDialogRef.value?.open();
+};
+
+const getComponent = (tmpl, type) =>
+  tmpl?.content?.components?.find(c => c.type === type);
+
+const previewHeaderText = computed(() => {
+  const comp = getComponent(templateToPreview.value, 'HEADER');
+  return comp?.format === 'TEXT' ? comp.text : '';
+});
+const previewBodyText = computed(() => {
+  const comp = getComponent(templateToPreview.value, 'BODY');
+  return comp?.text || '';
+});
+const previewFooterText = computed(() => {
+  const comp = getComponent(templateToPreview.value, 'FOOTER');
+  return comp?.text || '';
+});
+const previewButtons = computed(() => {
+  const comp = getComponent(templateToPreview.value, 'BUTTONS');
+  return comp?.buttons || [];
+});
 
 const confirmDelete = template => {
   templateToDelete.value = template;
@@ -71,6 +162,14 @@ const handleSync = () => {
   if (!selectedInboxId.value) return;
   store.dispatch('messageTemplates/sync', selectedInboxId.value);
 };
+
+function clearFilters() {
+  searchQuery.value = '';
+  selectedInboxId.value = '';
+  selectedStatus.value = '';
+  selectedCategory.value = '';
+  currentPage.value = 1;
+}
 
 const statusColor = status => {
   const colors = {
@@ -103,6 +202,13 @@ const goToEdit = template => {
     params: { templateId: template.id },
   });
 };
+
+const goToClone = template => {
+  router.push({
+    name: 'message_templates_new',
+    query: { cloneFrom: template.id },
+  });
+};
 </script>
 
 <template>
@@ -132,12 +238,37 @@ const goToEdit = template => {
             />
           </div>
         </div>
-        <!-- Inbox filter bar -->
+        <!-- Filter bar -->
         <div class="flex items-center gap-3 pb-4">
+          <div class="flex-1 max-w-xs">
+            <Input
+              v-model="searchQuery"
+              :placeholder="t('MESSAGE_TEMPLATES.FILTERS.SEARCH_PLACEHOLDER')"
+              custom-input-class="ltr:!pl-8 rtl:!pr-8"
+              size="sm"
+              type="search"
+            >
+              <template #prefix>
+                <span
+                  class="i-lucide-search size-4 absolute top-1/2 -translate-y-1/2 text-n-slate-11 ltr:left-2.5 rtl:right-2.5"
+                />
+              </template>
+            </Input>
+          </div>
           <Select
             v-model="selectedInboxId"
             :options="inboxOptions"
-            class="w-64"
+            class="w-48"
+          />
+          <Select
+            v-model="selectedStatus"
+            :options="statusOptions"
+            class="w-36"
+          />
+          <Select
+            v-model="selectedCategory"
+            :options="categoryFilterOptions"
+            class="w-40"
           />
         </div>
       </div>
@@ -154,7 +285,25 @@ const goToEdit = template => {
 
         <!-- Template list table -->
         <div v-else-if="hasTemplates">
-          <table class="w-full">
+          <!-- No filtered results -->
+          <div
+            v-if="!hasFilteredResults && isFiltering"
+            class="flex flex-col items-center justify-center py-16 text-center"
+          >
+            <span class="i-lucide-search-x size-10 text-n-slate-7 mb-3" />
+            <p class="text-sm text-n-slate-11 mb-4">
+              {{ t('MESSAGE_TEMPLATES.FILTERS.NO_RESULTS') }}
+            </p>
+            <Button
+              :label="t('MESSAGE_TEMPLATES.FILTERS.CLEAR_FILTERS')"
+              variant="ghost"
+              color-scheme="secondary"
+              size="sm"
+              @click="clearFilters"
+            />
+          </div>
+
+          <table v-else class="w-full">
             <thead>
               <tr
                 class="text-left text-xs text-n-slate-11 border-b border-n-strong"
@@ -178,7 +327,7 @@ const goToEdit = template => {
             </thead>
             <tbody>
               <tr
-                v-for="template in filteredTemplates"
+                v-for="template in paginatedTemplates"
                 :key="template.id"
                 class="border-b border-n-weak hover:bg-n-alpha-black2 transition-colors"
               >
@@ -210,6 +359,20 @@ const goToEdit = template => {
                 <td class="py-3 text-right">
                   <div class="flex items-center justify-end gap-1">
                     <Button
+                      icon="i-lucide-eye"
+                      size="xs"
+                      variant="ghost"
+                      color-scheme="secondary"
+                      @click="openPreview(template)"
+                    />
+                    <Button
+                      icon="i-lucide-copy"
+                      size="xs"
+                      variant="ghost"
+                      color-scheme="secondary"
+                      @click="goToClone(template)"
+                    />
+                    <Button
                       icon="i-lucide-pencil"
                       size="xs"
                       variant="ghost"
@@ -228,6 +391,14 @@ const goToEdit = template => {
               </tr>
             </tbody>
           </table>
+          <footer v-if="showPagination" class="sticky bottom-0 z-0 mt-2">
+            <PaginationFooter
+              :current-page="currentPage"
+              :total-items="filteredTemplates.length"
+              :items-per-page="ITEMS_PER_PAGE"
+              @update:current-page="currentPage = $event"
+            />
+          </footer>
         </div>
 
         <!-- Empty state -->
@@ -265,5 +436,47 @@ const goToEdit = template => {
       :cancel-button-label="t('MESSAGE_TEMPLATES.DELETE.CANCEL')"
       @confirm="handleDelete"
     />
+
+    <!-- Quick preview dialog -->
+    <Dialog
+      ref="previewDialogRef"
+      :title="templateToPreview?.name || ''"
+      :show-confirm-button="false"
+      :cancel-button-label="t('MESSAGE_TEMPLATES.PREVIEW.CLOSE')"
+      width="sm"
+      @close="templateToPreview = null"
+    >
+      <div
+        v-if="templateToPreview"
+        class="bg-[#e5ddd5] rounded-lg p-4 flex justify-end"
+      >
+        <div class="bg-[#dcf8c6] rounded-lg p-3 max-w-[280px] shadow-sm">
+          <p
+            v-if="previewHeaderText"
+            class="font-bold text-sm text-[#111b21] mb-1"
+          >
+            {{ previewHeaderText }}
+          </p>
+          <p
+            v-if="previewBodyText"
+            class="text-sm text-[#111b21] whitespace-pre-wrap"
+          >
+            {{ previewBodyText }}
+          </p>
+          <p v-if="previewFooterText" class="text-xs text-[#667781] mt-1">
+            {{ previewFooterText }}
+          </p>
+          <div v-if="previewButtons.length" class="mt-2 space-y-1">
+            <div
+              v-for="(btn, idx) in previewButtons"
+              :key="idx"
+              class="text-center text-xs text-[#00a884] py-1.5 border-t border-[#c6e2d0]"
+            >
+              {{ btn.text }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </Dialog>
   </section>
 </template>

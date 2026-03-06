@@ -1,7 +1,7 @@
 <script setup>
-import { ref, computed, onMounted, watch } from 'vue';
+import { ref, computed, onMounted, onBeforeUnmount, watch } from 'vue';
 import { useStore } from 'vuex';
-import { useRouter, useRoute } from 'vue-router';
+import { useRouter, useRoute, onBeforeRouteLeave } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
 import FlowScreenList from '../components/FlowScreenList.vue';
@@ -34,6 +34,104 @@ const selectedComponentIndex = ref(null);
 const showJsonEditor = ref(false);
 const showPalette = ref(false);
 const isSaving = ref(false);
+const isDirty = ref(false);
+
+// ── Undo / Redo ────────────────────────────────────────────────────
+const MAX_HISTORY = 50;
+const history = ref([]);
+const historyIndex = ref(-1);
+const isRestoringHistory = ref(false);
+
+function pushHistory() {
+  const snapshot = JSON.stringify(screens.value);
+  // Trim future states when new action is taken after undo
+  if (historyIndex.value < history.value.length - 1) {
+    history.value = history.value.slice(0, historyIndex.value + 1);
+  }
+  history.value.push(snapshot);
+  if (history.value.length > MAX_HISTORY) {
+    history.value.shift();
+  }
+  historyIndex.value = history.value.length - 1;
+}
+
+const canUndo = computed(() => historyIndex.value > 0);
+const canRedo = computed(() => historyIndex.value < history.value.length - 1);
+
+function restoreSnapshot(snapshot) {
+  isRestoringHistory.value = true;
+  screens.value = JSON.parse(snapshot).map(s => ({
+    ...s,
+    layout: {
+      ...s.layout,
+      children: (s.layout?.children || []).map(c => ({
+        ...c,
+        // eslint-disable-next-line no-underscore-dangle
+        _id: c._id || `${c.type}_${Date.now()}_${Math.random()}`,
+      })),
+    },
+  }));
+  isRestoringHistory.value = false;
+}
+
+function undo() {
+  if (!canUndo.value) return;
+  historyIndex.value -= 1;
+  restoreSnapshot(history.value[historyIndex.value]);
+  selectedComponentIndex.value = null;
+}
+
+function redo() {
+  if (!canRedo.value) return;
+  historyIndex.value += 1;
+  restoreSnapshot(history.value[historyIndex.value]);
+  selectedComponentIndex.value = null;
+}
+
+function handleKeyboard(e) {
+  const isCtrlOrMeta = e.ctrlKey || e.metaKey;
+  if (!isCtrlOrMeta) return;
+  if (e.key === 'z' && !e.shiftKey) {
+    e.preventDefault();
+    undo();
+  } else if ((e.key === 'z' && e.shiftKey) || e.key === 'y') {
+    e.preventDefault();
+    redo();
+  }
+}
+
+// Track dirty state
+watch(
+  [flowName, selectedInboxId, screens],
+  () => {
+    if (!isRestoringHistory.value) isDirty.value = true;
+  },
+  { deep: true }
+);
+
+// Unsaved changes guard
+onBeforeRouteLeave((_to, _from, next) => {
+  if (isDirty.value && !isSaving.value) {
+    // eslint-disable-next-line no-alert
+    const leave = window.confirm(t('WHATSAPP_FLOWS.BUILDER.UNSAVED_CHANGES'));
+    next(leave);
+  } else {
+    next();
+  }
+});
+
+function handleBeforeUnload(e) {
+  if (isDirty.value) {
+    e.preventDefault();
+    e.returnValue = '';
+  }
+}
+
+onMounted(() => window.addEventListener('beforeunload', handleBeforeUnload));
+onBeforeUnmount(() => {
+  window.removeEventListener('beforeunload', handleBeforeUnload);
+  window.removeEventListener('keydown', handleKeyboard);
+});
 
 const whatsappInboxes = computed(() =>
   store.getters['inboxes/getInboxes'].filter(
@@ -64,16 +162,50 @@ const canSave = computed(
 onMounted(async () => {
   await store.dispatch('inboxes/get');
   if (isEditing.value) {
-    await loadFlow();
+    await loadFlow(); // eslint-disable-line no-use-before-define
+  } else if (route.query.cloneFrom) {
+    await loadCloneSource(); // eslint-disable-line no-use-before-define
   } else {
     resetScreenCounter();
     screens.value = [createDefaultScreen()];
   }
+  isDirty.value = false;
+  pushHistory();
+  window.addEventListener('keydown', handleKeyboard);
 });
+
+async function loadCloneSource() {
+  try {
+    await store.dispatch('whatsappFlows/get');
+    const allFlows = store.getters['whatsappFlows/getWhatsappFlows'];
+    const source = allFlows.find(f => f.id === Number(route.query.cloneFrom));
+    if (source) {
+      flowName.value = `${source.name}_copy`;
+      selectedInboxId.value = source.inbox_id;
+      if (source.flow_json?.screens?.length) {
+        screens.value = source.flow_json.screens.map(s => ({
+          ...s,
+          layout: {
+            ...s.layout,
+            children: (s.layout?.children || []).map(c => ({
+              ...c,
+              _id: `${c.type}_${Date.now()}_${Math.random()}`,
+            })),
+          },
+        }));
+      } else {
+        resetScreenCounter();
+        screens.value = [createDefaultScreen()];
+      }
+    }
+  } catch {
+    useAlert(t('WHATSAPP_FLOWS.BUILDER.LOAD_ERROR'));
+  }
+}
 
 async function loadFlow() {
   try {
-    const response = await store.dispatch('whatsappFlows/get');
+    await store.dispatch('whatsappFlows/get');
     const allFlows = store.getters['whatsappFlows/getWhatsappFlows'];
     const flow = allFlows.find(f => f.id === Number(flowId.value));
     if (flow) {
@@ -106,6 +238,7 @@ function addScreen() {
   screens.value.push(createDefaultScreen(isTerminal));
   activeScreenIndex.value = screens.value.length - 1;
   selectedComponentIndex.value = null;
+  pushHistory();
 }
 
 function removeScreen(index) {
@@ -115,6 +248,7 @@ function removeScreen(index) {
     activeScreenIndex.value = screens.value.length - 1;
   }
   selectedComponentIndex.value = null;
+  pushHistory();
 }
 
 function selectScreen(index) {
@@ -124,10 +258,12 @@ function selectScreen(index) {
 
 function updateScreenTitle(index, title) {
   screens.value[index].title = title;
+  pushHistory();
 }
 
 function updateScreenId(index, id) {
   screens.value[index].id = id;
+  pushHistory();
 }
 
 // ── Component management ────────────────────────────────────────────
@@ -144,12 +280,14 @@ function addComponent(component) {
   selectedComponentIndex.value =
     footerIndex >= 0 ? footerIndex : children.length - 1;
   showPalette.value = false;
+  pushHistory();
 }
 
 function removeComponent(index) {
   if (!activeScreen.value) return;
   activeScreen.value.layout.children.splice(index, 1);
   selectedComponentIndex.value = null;
+  pushHistory();
 }
 
 function selectComponent(index) {
@@ -160,6 +298,7 @@ function updateComponent(index, updates) {
   if (!activeScreen.value) return;
   const child = activeScreen.value.layout.children[index];
   Object.assign(child, updates);
+  pushHistory();
 }
 
 function moveComponent(fromIndex, toIndex) {
@@ -168,6 +307,7 @@ function moveComponent(fromIndex, toIndex) {
   const [moved] = children.splice(fromIndex, 1);
   children.splice(toIndex, 0, moved);
   selectedComponentIndex.value = toIndex;
+  pushHistory();
 }
 
 // ── JSON editor ─────────────────────────────────────────────────────
@@ -187,6 +327,7 @@ function applyJsonEdit(json) {
       }));
       showJsonEditor.value = false;
       useAlert(t('WHATSAPP_FLOWS.BUILDER.JSON_APPLIED'));
+      pushHistory();
     }
   } catch {
     useAlert(t('WHATSAPP_FLOWS.BUILDER.JSON_INVALID'));
@@ -213,9 +354,11 @@ async function saveFlow() {
         ...payload,
       });
       useAlert(t('WHATSAPP_FLOWS.BUILDER.UPDATE_SUCCESS'));
+      isDirty.value = false;
     } else {
       const result = await store.dispatch('whatsappFlows/create', payload);
       useAlert(t('WHATSAPP_FLOWS.BUILDER.CREATE_SUCCESS'));
+      isDirty.value = false;
       router.push({
         name: 'whatsapp_flows_edit',
         params: { flowId: result.id },
@@ -258,6 +401,24 @@ watch(activeScreenIndex, () => {
         />
       </div>
       <div class="flex items-center gap-3">
+        <div class="flex items-center gap-1 border-r border-n-weak pr-3">
+          <button
+            :disabled="!canUndo"
+            class="p-1.5 rounded text-n-slate-9 hover:bg-n-alpha-1 disabled:opacity-30 disabled:cursor-not-allowed"
+            :title="t('WHATSAPP_FLOWS.BUILDER.UNDO')"
+            @click="undo"
+          >
+            <span class="i-lucide-undo-2 size-4" />
+          </button>
+          <button
+            :disabled="!canRedo"
+            class="p-1.5 rounded text-n-slate-9 hover:bg-n-alpha-1 disabled:opacity-30 disabled:cursor-not-allowed"
+            :title="t('WHATSAPP_FLOWS.BUILDER.REDO')"
+            @click="redo"
+          >
+            <span class="i-lucide-redo-2 size-4" />
+          </button>
+        </div>
         <Select
           v-model="selectedInboxId"
           :options="inboxOptions"

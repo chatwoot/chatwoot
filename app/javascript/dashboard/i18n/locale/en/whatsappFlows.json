@@ -6,13 +6,25 @@
       "CREATE": "Create Flow",
       "CREATE_FIRST": "Create your first flow",
       "EMPTY": "No flows yet. Create one to get started.",
+      "EMPTY_TITLE": "No WhatsApp Flows yet",
       "ALL_INBOXES": "All Inboxes",
+      "ALL_STATUSES": "All Statuses",
+      "STATUS_DRAFT": "Draft",
+      "STATUS_PUBLISHED": "Published",
+      "STATUS_DEPRECATED": "Deprecated",
+      "STATUS_BLOCKED": "Blocked",
+      "SEARCH_PLACEHOLDER": "Search flows...",
+      "NO_RESULTS": "No flows match your filters.",
+      "CLEAR_FILTERS": "Clear filters",
       "SCREENS": "screens",
+      "FLOW_ID_PREFIX": "ID: ",
       "EDIT": "Edit",
       "DELETE": "Delete",
       "PUBLISH": "Publish",
       "PUBLISH_SUCCESS": "Flow published successfully",
       "PUBLISH_ERROR": "Failed to publish flow",
+      "PUBLISH_CONFIRM_TITLE": "Publish this flow?",
+      "PUBLISH_CONFIRM_DESC": "Publishing is permanent. Once published, this flow cannot be edited or unpublished. Are you sure you want to continue?",
       "DELETE_SUCCESS": "Flow deleted successfully",
       "DELETE_ERROR": "Failed to delete flow",
       "DELETE_CONFIRM_TITLE": "Delete this flow?",
@@ -30,7 +42,10 @@
       "SAVE_ERROR": "Failed to save flow",
       "LOAD_ERROR": "Failed to load flow",
       "JSON_APPLIED": "JSON applied successfully",
-      "JSON_INVALID": "Invalid JSON format"
+      "JSON_INVALID": "Invalid JSON format",
+      "UNSAVED_CHANGES": "You have unsaved changes. Are you sure you want to leave?",
+      "UNDO": "Undo (Ctrl+Z)",
+      "REDO": "Redo (Ctrl+Shift+Z)"
     },
     "SCREENS": {
       "TITLE": "Screens",
@@ -40,7 +55,8 @@
       "SCREEN_COUNT": "screen(s)"
     },
     "CANVAS": {
-      "ADD_COMPONENT": "Add Component"
+      "ADD_COMPONENT": "Add Component",
+      "DELETE_COMPONENT_CONFIRM": "Remove this component?"
     },
     "PALETTE": {
       "TITLE": "Add Component",

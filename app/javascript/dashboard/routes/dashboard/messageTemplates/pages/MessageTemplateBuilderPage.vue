@@ -1,7 +1,7 @@
 <script setup>
-import { ref, computed, watch, onMounted } from 'vue';
+import { ref, computed, watch, onMounted, onBeforeUnmount } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useRoute, useRouter } from 'vue-router';
+import { useRoute, useRouter, onBeforeRouteLeave } from 'vue-router';
 import { useStore } from 'dashboard/composables/store';
 import { useStoreGetters } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
@@ -39,6 +39,33 @@ const selectedInboxId = ref('');
 const parameterType = ref('positional');
 const showParamDropdown = ref(false);
 const isSubmitting = ref(false);
+const isDirty = ref(false);
+const hasAttemptedSubmit = ref(false);
+
+// Unsaved changes guard
+onBeforeRouteLeave((_to, _from, next) => {
+  if (isDirty.value && !isSubmitting.value) {
+    // eslint-disable-next-line no-alert
+    const leave = window.confirm(
+      t('MESSAGE_TEMPLATES.BUILDER.UNSAVED_CHANGES')
+    );
+    next(leave);
+  } else {
+    next();
+  }
+});
+
+function handleBeforeUnload(e) {
+  if (isDirty.value) {
+    e.preventDefault();
+    e.returnValue = '';
+  }
+}
+
+onMounted(() => window.addEventListener('beforeunload', handleBeforeUnload));
+onBeforeUnmount(() =>
+  window.removeEventListener('beforeunload', handleBeforeUnload)
+);
 
 // Template data (modular sections)
 const templateData = ref({
@@ -70,6 +97,21 @@ const templateData = ref({
   },
   buttons: [],
 });
+
+// Track dirty state on form changes
+watch(
+  [
+    templateName,
+    selectedCategory,
+    selectedLanguage,
+    selectedInboxId,
+    templateData,
+  ],
+  () => {
+    isDirty.value = true;
+  },
+  { deep: true }
+);
 
 // Available inboxes (WhatsApp only)
 const inboxes = computed(() => {
@@ -141,8 +183,17 @@ const isFormValid = computed(() => {
   );
 });
 
+// Per-field validation hints (shown after first submit attempt)
+const showNameError = computed(
+  () => hasAttemptedSubmit.value && templateName.value.length === 0
+);
+const showInboxError = computed(
+  () => hasAttemptedSubmit.value && !selectedInboxId.value
+);
+
 // Submit
 const handleSubmit = async () => {
+  hasAttemptedSubmit.value = true;
   if (!isFormValid.value || isSubmitting.value) return;
   isSubmitting.value = true;
 
@@ -173,6 +224,7 @@ const handleSubmit = async () => {
       await store.dispatch('messageTemplates/create', payload);
       useAlert(t('MESSAGE_TEMPLATES.BUILDER.SUCCESS'));
     }
+    isDirty.value = false;
     router.push({ name: 'message_templates_index' });
   } catch {
     useAlert(t('MESSAGE_TEMPLATES.BUILDER.ERROR'));
@@ -253,11 +305,44 @@ async function loadExistingTemplate() {
     templateData.value = data;
   } finally {
     isLoading.value = false;
+    isDirty.value = false;
+  }
+}
+
+async function loadCloneSource() {
+  const cloneFromId = route.query.cloneFrom;
+  if (!cloneFromId) return;
+
+  isLoading.value = true;
+  try {
+    if (!getters['messageTemplates/getMessageTemplates'].value.length) {
+      await store.dispatch('messageTemplates/get');
+    }
+
+    const tmpl = getters['messageTemplates/getTemplateById'].value(cloneFromId);
+    if (!tmpl) return;
+
+    templateName.value = `${tmpl.name}_copy`;
+    selectedCategory.value = tmpl.category || 'marketing';
+    selectedLanguage.value = tmpl.language || 'en';
+    selectedInboxId.value = tmpl.inbox_id || '';
+
+    const components = tmpl.content?.components || [];
+    const data = JSON.parse(JSON.stringify(templateData.value));
+    components.forEach(comp => populateFromComponent(comp, data));
+    templateData.value = data;
+  } finally {
+    isLoading.value = false;
+    isDirty.value = false;
   }
 }
 
 onMounted(() => {
-  loadExistingTemplate();
+  if (isEditMode.value) {
+    loadExistingTemplate();
+  } else {
+    loadCloneSource();
+  }
 });
 </script>
 
@@ -355,6 +440,12 @@ onMounted(() => {
                 >
                   {{ t('MESSAGE_TEMPLATES.BUILDER.NAME_HINT') }}
                 </p>
+                <p
+                  v-else-if="showNameError"
+                  class="text-xs text-n-ruby-11 mt-1"
+                >
+                  {{ t('MESSAGE_TEMPLATES.BUILDER.NAME_REQUIRED') }}
+                </p>
               </div>
 
               <!-- Category + Language + Inbox row -->
@@ -391,6 +482,9 @@ onMounted(() => {
                     "
                     class="w-full"
                   />
+                  <p v-if="showInboxError" class="text-xs text-n-ruby-11 mt-1">
+                    {{ t('MESSAGE_TEMPLATES.BUILDER.INBOX_REQUIRED') }}
+                  </p>
                 </div>
               </div>
 

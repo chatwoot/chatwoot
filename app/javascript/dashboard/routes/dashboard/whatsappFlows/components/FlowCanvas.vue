@@ -26,6 +26,13 @@ function moveDown(index) {
   }
 }
 
+function removeComponent(index) {
+  // eslint-disable-next-line no-alert
+  if (window.confirm(t('WHATSAPP_FLOWS.CANVAS.DELETE_COMPONENT_CONFIRM'))) {
+    emit('remove', index);
+  }
+}
+
 function getComponentIcon(type) {
   return COMPONENT_ICONS[type] || 'i-lucide-box';
 }
@@ -250,7 +257,7 @@ function getComponentPreview(component) {
               </button>
               <button
                 class="p-1 rounded text-n-slate-9 hover:text-n-ruby-9"
-                @click.stop="emit('remove', index)"
+                @click.stop="removeComponent(index)"
               >
                 <span class="i-lucide-x size-3" />
               </button>

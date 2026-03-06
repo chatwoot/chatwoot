@@ -157,6 +157,10 @@ const formatNamedVariable = name => {
   return `{{${name}}}`;
 };
 
+const inputCharCount = computed(
+  () => `${(props.modelValue.text || '').length} / ${props.maxLength}`
+);
+
 const variableHelpText = computed(() => {
   return props.parameterType === 'positional'
     ? t('MESSAGE_TEMPLATES.BUILDER.VARIABLES.POSITIONAL_HELP')
@@ -190,6 +194,14 @@ watch(
         :max-length="String(maxLength)"
         @update:model-value="updateText"
       />
+      <div
+        v-if="inputType === 'input' && showCharacterCount"
+        class="flex justify-end mt-1"
+      >
+        <span class="text-xs tabular-nums text-n-slate-10">
+          {{ inputCharCount }}
+        </span>
+      </div>
 
       <TextArea
         v-else

@@ -13,6 +13,8 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue']);
 
+const FOOTER_MAX_LENGTH = 60;
+
 const { t } = useI18n();
 
 const footerData = computed({
@@ -26,6 +28,9 @@ const updateFooterText = value => {
     text: value,
   };
 };
+const footerCharCount = computed(
+  () => `${(footerData.value.text || '').length} / ${FOOTER_MAX_LENGTH}`
+);
 </script>
 
 <template>
@@ -56,9 +61,12 @@ const updateFooterText = value => {
           max-length="60"
           @update:model-value="updateFooterText"
         />
-        <div class="mt-1">
+        <div class="flex items-center justify-between mt-1">
           <span class="text-xs text-n-slate-11">
             {{ t('MESSAGE_TEMPLATES.BUILDER.FOOTER.TEXT_HELP') }}
+          </span>
+          <span class="text-xs tabular-nums text-n-slate-10">
+            {{ footerCharCount }}
           </span>
         </div>
       </div>

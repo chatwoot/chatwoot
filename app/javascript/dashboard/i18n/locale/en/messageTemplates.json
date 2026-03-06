@@ -4,6 +4,19 @@
     "NEW_TEMPLATE": "Create Template",
     "SYNC": "Sync from Meta",
     "ALL_INBOXES": "All inboxes",
+    "FILTERS": {
+      "SEARCH_PLACEHOLDER": "Search templates...",
+      "ALL_STATUSES": "All statuses",
+      "ALL_CATEGORIES": "All categories",
+      "APPROVED": "Approved",
+      "PENDING": "Pending",
+      "REJECTED": "Rejected",
+      "DRAFT": "Draft",
+      "PAUSED": "Paused",
+      "DISABLED": "Disabled",
+      "NO_RESULTS": "No templates match your filters.",
+      "CLEAR_FILTERS": "Clear filters"
+    },
     "CATEGORIES": {
       "MARKETING": "Marketing",
       "UTILITY": "Utility",
@@ -26,6 +39,9 @@
       "CONFIRM": "Delete",
       "CANCEL": "Cancel"
     },
+    "PREVIEW": {
+      "CLOSE": "Close"
+    },
     "BUILDER": {
       "TITLE": "Build template",
       "EDIT_TITLE": "Edit template",
@@ -40,6 +56,10 @@
       "NAME_LABEL": "Template name",
       "NAME_PLACEHOLDER": "order_confirmation",
       "NAME_HINT": "Only lowercase letters, numbers, and underscores allowed",
+      "NAME_REQUIRED": "Template name is required",
+      "INBOX_REQUIRED": "Please select a WhatsApp inbox",
+      "BODY_REQUIRED": "Message body is required",
+      "UNSAVED_CHANGES": "You have unsaved changes. Are you sure you want to leave?",
       "CATEGORY_LABEL": "Category",
       "LANGUAGE_LABEL": "Language",
       "INBOX_LABEL": "WhatsApp inbox",
