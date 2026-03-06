@@ -1,6 +1,6 @@
 class OnlineStatusTracker
   # NOTE: You can customise the environment variable to keep your agents/contacts as online for longer
-  PRESENCE_DURATION = ENV.fetch('PRESENCE_DURATION', 20).to_i.seconds
+  PRESENCE_DURATION = ENV.fetch('PRESENCE_DURATION', 120).to_i.seconds
 
   # presence : sorted set with timestamp as the score & object id as value
 
