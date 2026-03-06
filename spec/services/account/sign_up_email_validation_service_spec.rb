@@ -20,7 +20,7 @@ RSpec.describe Account::SignUpEmailValidationService, type: :service do
       it 'raises InvalidEmail with invalid message' do
         allow(ValidEmail2::Address).to receive(:new).with(email).and_return(invalid_email_address)
         expect { service.perform }.to raise_error do |error|
-          expect(error).to be_a(CustomExceptions::Account::InvalidEmail)
+          expect(error.class.name).to eq('CustomExceptions::Account::InvalidEmail')
           expect(error.message).to eq(I18n.t('errors.signup.invalid_email'))
         end
       end
@@ -32,7 +32,7 @@ RSpec.describe Account::SignUpEmailValidationService, type: :service do
       it 'raises InvalidEmail with blocked domain message' do
         allow(ValidEmail2::Address).to receive(:new).with(email).and_return(valid_email_address)
         expect { service.perform }.to raise_error do |error|
-          expect(error).to be_a(CustomExceptions::Account::InvalidEmail)
+          expect(error.class.name).to eq('CustomExceptions::Account::InvalidEmail')
           expect(error.message).to eq(I18n.t('errors.signup.blocked_domain'))
         end
       end
@@ -44,7 +44,7 @@ RSpec.describe Account::SignUpEmailValidationService, type: :service do
       it 'raises InvalidEmail with blocked domain message' do
         allow(ValidEmail2::Address).to receive(:new).with(email).and_return(valid_email_address)
         expect { service.perform }.to raise_error do |error|
-          expect(error).to be_a(CustomExceptions::Account::InvalidEmail)
+          expect(error.class.name).to eq('CustomExceptions::Account::InvalidEmail')
           expect(error.message).to eq(I18n.t('errors.signup.blocked_domain'))
         end
       end
@@ -56,7 +56,7 @@ RSpec.describe Account::SignUpEmailValidationService, type: :service do
       it 'raises InvalidEmail with disposable message' do
         allow(ValidEmail2::Address).to receive(:new).with(email).and_return(disposable_email_address)
         expect { service.perform }.to raise_error do |error|
-          expect(error).to be_a(CustomExceptions::Account::InvalidEmail)
+          expect(error.class.name).to eq('CustomExceptions::Account::InvalidEmail')
           expect(error.message).to eq(I18n.t('errors.signup.disposable_email'))
         end
       end
