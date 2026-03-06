@@ -7,7 +7,7 @@ class Captain::BaseTaskService
   # sticking with 120000 to be safe
   # 120000 * 4 = 480,000 characters (rounding off downwards to 400,000 to be safe)
   TOKEN_LIMIT = 400_000
-  GPT_MODEL = Llm::Config::DEFAULT_MODEL
+  GPT_MODEL = LLM::Config::DEFAULT_MODEL
 
   # Prepend enterprise module to subclasses when they're defined.
   # This ensures the enterprise perform wrapper is applied even when
@@ -55,7 +55,7 @@ class Captain::BaseTaskService
   end
 
   def execute_ruby_llm_request(model:, messages:, tools: [])
-    Llm::Config.with_api_key(api_key, api_base: api_base) do |context|
+    LLM::Config.with_api_key(api_key, api_base: api_base) do |context|
       chat = build_chat(context, model: model, messages: messages, tools: tools)
 
       conversation_messages = messages.reject { |m| m[:role] == 'system' }

@@ -1,4 +1,4 @@
-module Llm::Models
+module LLM::Models
   CONFIG = YAML.load_file(Rails.root.join('config/llm.yml')).freeze
 
   class << self

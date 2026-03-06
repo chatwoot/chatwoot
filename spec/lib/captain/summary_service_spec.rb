@@ -11,7 +11,7 @@ RSpec.describe Captain::SummaryService do
 
   before do
     create(:installation_config, name: 'CAPTAIN_OPEN_AI_API_KEY', value: 'test-key')
-    allow(Llm::Config).to receive(:with_api_key).and_yield(mock_context)
+    allow(LLM::Config).to receive(:with_api_key).and_yield(mock_context)
     allow(mock_chat).to receive(:with_instructions)
     allow(mock_chat).to receive(:ask).and_return(mock_response)
     # Stub captain enabled check to allow specs to test base functionality

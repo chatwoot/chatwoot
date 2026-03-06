@@ -254,8 +254,8 @@ RSpec.describe Account do
 
         expect(prefs[:features].values).to all(be false)
 
-        Llm::Models.feature_keys.each do |feature|
-          expect(prefs[:models][feature]).to eq(Llm::Models.default_model_for(feature))
+        LLM::Models.feature_keys.each do |feature|
+          expect(prefs[:models][feature]).to eq(LLM::Models.default_model_for(feature))
         end
       end
     end
@@ -268,7 +268,7 @@ RSpec.describe Account do
 
         expect(prefs[:models]['editor']).to eq('gpt-4.1-mini')
         expect(prefs[:models]['assistant']).to eq('gpt-5.2')
-        expect(prefs[:models]['copilot']).to eq(Llm::Models.default_model_for('copilot'))
+        expect(prefs[:models]['copilot']).to eq(LLM::Models.default_model_for('copilot'))
       end
     end
 

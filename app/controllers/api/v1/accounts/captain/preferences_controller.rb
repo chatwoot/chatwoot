@@ -19,8 +19,8 @@ class Api::V1::Accounts::Captain::PreferencesController < Api::V1::Accounts::Bas
 
   def preferences_payload
     {
-      providers: Llm::Models.providers,
-      models: Llm::Models.models,
+      providers: LLM::Models.providers,
+      models: LLM::Models.models,
       features: features_with_account_preferences
     }
   end
@@ -65,8 +65,8 @@ class Api::V1::Accounts::Captain::PreferencesController < Api::V1::Accounts::Bas
     account_features = preferences[:features] || {}
     account_models = preferences[:models] || {}
 
-    Llm::Models.feature_keys.index_with do |feature_key|
-      config = Llm::Models.feature_config(feature_key)
+    LLM::Models.feature_keys.index_with do |feature_key|
+      config = LLM::Models.feature_config(feature_key)
       config.merge(
         enabled: account_features[feature_key] == true,
         selected: account_models[feature_key] || config[:default]

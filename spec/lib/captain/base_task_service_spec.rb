@@ -118,7 +118,7 @@ RSpec.describe Captain::BaseTaskService do
     let(:mock_response) { instance_double(RubyLLM::Message, content: 'Response', input_tokens: 10, output_tokens: 20) }
 
     before do
-      allow(Llm::Config).to receive(:with_api_key).and_yield(mock_context)
+      allow(LLM::Config).to receive(:with_api_key).and_yield(mock_context)
       allow(mock_chat).to receive(:with_instructions)
       allow(mock_chat).to receive(:ask).and_return(mock_response)
     end
@@ -136,7 +136,7 @@ RSpec.describe Captain::BaseTaskService do
       end
 
       it 'does not make API call' do
-        expect(Llm::Config).not_to receive(:with_api_key)
+        expect(LLM::Config).not_to receive(:with_api_key)
         service.send(:make_api_call, model: model, messages: messages)
       end
     end
@@ -156,7 +156,7 @@ RSpec.describe Captain::BaseTaskService do
       end
 
       it 'does not make API call' do
-        expect(Llm::Config).not_to receive(:with_api_key)
+        expect(LLM::Config).not_to receive(:with_api_key)
         service.send(:make_api_call, model: model, messages: messages)
       end
     end
@@ -183,7 +183,7 @@ RSpec.describe Captain::BaseTaskService do
     let(:mock_response) { instance_double(RubyLLM::Message, content: 'Response', input_tokens: 10, output_tokens: 20) }
 
     before do
-      allow(Llm::Config).to receive(:with_api_key).and_yield(mock_context)
+      allow(LLM::Config).to receive(:with_api_key).and_yield(mock_context)
       allow(mock_response).to receive(:input_tokens).and_return(10)
       allow(mock_response).to receive(:output_tokens).and_return(20)
     end
@@ -239,7 +239,7 @@ RSpec.describe Captain::BaseTaskService do
     let(:exception_tracker) { instance_double(ChatwootExceptionTracker) }
 
     before do
-      allow(Llm::Config).to receive(:with_api_key).and_raise(error)
+      allow(LLM::Config).to receive(:with_api_key).and_raise(error)
       allow(ChatwootExceptionTracker).to receive(:new).with(error, account: account).and_return(exception_tracker)
       allow(exception_tracker).to receive(:capture_exception)
     end

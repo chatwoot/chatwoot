@@ -719,9 +719,6 @@ Rails.application.routes.draw do
   post 'webhooks/calendly', to: 'webhooks/calendly#receive'
   post 'webhooks/shopify', to: 'webhooks/shopify#events'
 
-  namespace :twitter do
-  end
-
   namespace :linear do
     resource :callback, only: [:show]
   end
