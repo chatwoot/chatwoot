@@ -3,6 +3,12 @@ import { CSAT_RATINGS } from 'shared/constants/messages';
 
 export default {
   name: 'ReportFiltersRatings',
+  props: {
+    selectedRaiting: {
+      type: Object,
+      default: null,
+    },
+  },
   emits: ['ratingFilterSelection'],
   data() {
     const translatedOptions = CSAT_RATINGS.reverse().map(option => ({
@@ -11,7 +17,7 @@ export default {
     }));
 
     return {
-      selectedOption: null,
+      selectedOption: this.selectedRaiting || null,
       options: translatedOptions,
     };
   },

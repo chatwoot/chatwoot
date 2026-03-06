@@ -1,12 +1,17 @@
 <script>
 import { mapGetters } from 'vuex';
-
 export default {
   name: 'ReportsFiltersAgents',
+  props: {
+    selectedAgents: {
+      type: Array,
+      default: () => [],
+    },
+  },
   emits: ['agentsFilterSelection'],
   data() {
     return {
-      selectedOptions: [],
+      selectedOptions: this.selectedAgents || [],
     };
   },
   computed: {

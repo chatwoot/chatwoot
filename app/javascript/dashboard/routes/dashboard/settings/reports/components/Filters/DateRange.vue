@@ -3,8 +3,14 @@ import { ref, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { DATE_RANGE_OPTIONS } from '../../constants';
 
-const emit = defineEmits(['onRangeChange']);
+const props = defineProps({
+  selectedRange: {
+    type: Object,
+    default: () => Object.values(DATE_RANGE_OPTIONS)[0],
+  },
+});
 
+const emit = defineEmits(['onRangeChange']);
 const { t } = useI18n();
 
 const options = computed(() =>
@@ -14,7 +20,9 @@ const options = computed(() =>
   }))
 );
 
-const selectedId = ref(Object.values(DATE_RANGE_OPTIONS)[0].id);
+const selectedId = ref(
+  props.selectedRange?.id ?? Object.values(DATE_RANGE_OPTIONS)[0].id
+);
 
 const selectedOption = computed({
   get() {

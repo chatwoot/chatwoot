@@ -43,35 +43,40 @@ export default {
   emits: ['filterChange'],
 
   data() {
-    const initialDateRange = DATE_RANGE_OPTIONS.TODAY;
-    let initialGroupBy = null;
+    const saved = this.$store.getters.getReportFilters;
 
-    if (
-      initialDateRange.groupByOptions &&
-      initialDateRange.groupByOptions.length > 0
-    ) {
-      if (initialDateRange.id === DATE_RANGE_OPTIONS.TODAY.id) {
-        const hourOption = initialDateRange.groupByOptions.find(
-          opt => opt.period === 'hour'
-        );
-        initialGroupBy = hourOption || initialDateRange.groupByOptions[0];
-      } else {
-        initialGroupBy = initialDateRange.groupByOptions[0];
+    const initialDateRange =
+      saved.selectedDateRange || DATE_RANGE_OPTIONS.TODAY;
+
+    let initialGroupBy = saved.selectedGroupByFilter || null;
+
+    if (!initialGroupBy) {
+      if (
+        initialDateRange.groupByOptions &&
+        initialDateRange.groupByOptions.length > 0
+      ) {
+        if (initialDateRange.id === DATE_RANGE_OPTIONS.TODAY.id) {
+          const hourOption = initialDateRange.groupByOptions.find(
+            opt => opt.period === 'hour'
+          );
+          initialGroupBy = hourOption || initialDateRange.groupByOptions[0];
+        } else {
+          initialGroupBy = initialDateRange.groupByOptions[0];
+        }
       }
     }
 
     return {
       selectedDateRange: initialDateRange,
       selectedGroupByFilter: initialGroupBy,
-      selectedLabel: null,
-      selectedInbox: [],
-      selectedTeam: [],
-      selectedRating: null,
-      selectedAgents: [],
-      customDateRange: [new Date(), new Date()],
-      businessHoursSelected: false,
-
-      selectedTimeRange: {
+      selectedLabel: saved.selectedLabel || null,
+      selectedInbox: saved.selectedInbox || [],
+      selectedTeam: saved.selectedTeam || [],
+      selectedRating: saved.selectedRating || null,
+      selectedAgents: saved.selectedAgents || [],
+      customDateRange: saved.customDateRange || [new Date(), new Date()],
+      businessHoursSelected: saved.businessHoursSelected ?? false,
+      selectedTimeRange: saved.selectedTimeRange || {
         since: '00:00',
         until: '23:59',
       },
@@ -166,6 +171,19 @@ export default {
 
       const to = this.getUnixWithTime(endDate, this.selectedTimeRange.until);
 
+      this.$store.dispatch('updateReportFilters', {
+        selectedDateRange: this.selectedDateRange,
+        selectedGroupByFilter: this.selectedGroupByFilter,
+        customDateRange: this.customDateRange,
+        businessHoursSelected: this.businessHoursSelected,
+        selectedAgents: this.selectedAgents,
+        selectedLabel: this.selectedLabel,
+        selectedInbox: this.selectedInbox,
+        selectedTeam: this.selectedTeam,
+        selectedRating: this.selectedRating,
+        selectedTimeRange: this.selectedTimeRange,
+      });
+
       this.$emit('filterChange', {
         from,
         to,
@@ -249,7 +267,10 @@ export default {
       <div
         class="w-full grid gap-y-2 gap-x-1.5 grid-cols-[repeat(auto-fill,minmax(250px,1fr))]"
       >
-        <ReportsFiltersDateRange @on-range-change="onDateRangeChange" />
+        <ReportsFiltersDateRange
+          :selected-range="selectedDateRange"
+          @on-range-change="onDateRangeChange"
+        />
 
         <WootDateRangePicker
           v-if="isDateRangeSelected"
@@ -271,6 +292,7 @@ export default {
 
         <ReportsFiltersTimeRange
           v-if="showTimeRangeFilter"
+          :selected-time-range="selectedTimeRange"
           @time-range-changed="handleTimeRangeChange"
         />
       </div>
@@ -289,26 +311,31 @@ export default {
     >
       <ReportsFiltersAgents
         v-if="showAgentsFilter"
+        :selected-agents="selectedAgents"
         @agents-filter-selection="handleAgentsFilterSelection"
       />
 
       <ReportsFiltersLabels
         v-if="showLabelsFilter"
+        :selected-label="selectedLabel"
         @labels-filter-selection="handleLabelsFilterSelection"
-      />
-
-      <ReportsFiltersTeams
-        v-if="showTeamFilter"
-        @team-filter-selection="handleTeamFilterSelection"
       />
 
       <ReportsFiltersInboxes
         v-if="showInboxFilter"
+        :selected-inbox="selectedInbox"
         @inbox-filter-selection="handleInboxFilterSelection"
+      />
+
+      <ReportsFiltersTeams
+        v-if="showTeamFilter"
+        :selected-team="selectedTeam"
+        @team-filter-selection="handleTeamFilterSelection"
       />
 
       <ReportsFiltersRatings
         v-if="showRatingFilter"
+        :selected-raiting="selectedRating"
         @rating-filter-selection="handleRatingFilterSelection"
       />
     </div>

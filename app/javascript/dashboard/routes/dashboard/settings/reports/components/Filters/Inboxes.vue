@@ -3,10 +3,16 @@ import { mapGetters } from 'vuex';
 
 export default {
   name: 'ReportsFiltersInboxes',
+  props: {
+    selectedInbox: {
+      type: Array,
+      default: () => [],
+    },
+  },
   emits: ['inboxFilterSelection'],
   data() {
     return {
-      selectedOptions: [],
+      selectedOptions: this.selectedInbox || [],
     };
   },
   computed: {
