@@ -247,6 +247,10 @@ class Whatsapp::GroupService
     phone.to_s.gsub(/[^0-9]/, '')
   end
 
+  def last_10_digits(phone)
+    format_phone_number(phone).last(10)
+  end
+
   def whapi_api_url
     ENV.fetch('WHAPI_GATE_URL', 'https://gate.whapi.cloud')
   end
@@ -307,9 +311,19 @@ class Whatsapp::GroupService
 
   def send_invite_message(invite_code, phone)
     agent_name = conversation.assignee&.name || 'Agente'
+    is_agent = last_10_digits(phone) == last_10_digits(conversation.assignee&.phone_number)
+    body = if is_agent
+             "Tienes un cliente esperando ser atendido. Por favor únete al grupo para continuar la conversación."
+           else
+             "En este grupo serás atendido por #{agent_name}"
+           end
+
+    recipient_type = is_agent ? 'agent' : 'contact'
+    Rails.logger.info "[WHATSAPP GROUP] Sending invite to #{phone} (#{recipient_type}), code: #{invite_code}, message: #{body}"
+
     message_payload = {
       to: phone,
-      body: "En este grupo serás atendido por #{agent_name}",
+      body: body,
       preview_type: 'none'
     }
 
@@ -319,7 +333,7 @@ class Whatsapp::GroupService
       body: message_payload.to_json
     )
 
-    Rails.logger.info "[WHATSAPP GROUP] Invite sent to #{phone}, code: #{invite_code}, response: #{response.body}"
+    Rails.logger.info "[WHATSAPP GROUP] Invite response for #{phone} (#{recipient_type}): status=#{response.code}, body=#{response.body}"
   rescue StandardError => e
     Rails.logger.error "[WHATSAPP GROUP] Error sending invite to #{phone}: #{e.message}"
   end
