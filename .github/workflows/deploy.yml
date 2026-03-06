@@ -241,6 +241,11 @@ jobs:
             POSTHOG_API_KEY: "${{ secrets.POSTHOG_API_KEY }}"
             POSTHOG_API_HOST: "${{ secrets.POSTHOG_API_HOST }}"
             APPSIGNAL_APP_NAME: "${{ secrets.APPSIGNAL_APP_NAME }}"
+            STRIPE_PUBLIC_KEY: "${{ secrets.STRIPE_PUBLIC_KEY }}"
+            STRIPE_BASIC_MONTHLY_PRICE_ID: "${{ secrets.STRIPE_BASIC_MONTHLY_PRICE_ID }}"
+            STRIPE_BASIC_ANNUAL_PRICE_ID: "${{ secrets.STRIPE_BASIC_ANNUAL_PRICE_ID }}"
+            STRIPE_PRO_MONTHLY_PRICE_ID: "${{ secrets.STRIPE_PRO_MONTHLY_PRICE_ID }}"
+            STRIPE_PRO_ANNUAL_PRICE_ID: "${{ secrets.STRIPE_PRO_ANNUAL_PRICE_ID }}"
           CONFIGMAP_EOF
 
       # ── K8s Secret (all sensitive values) ──
@@ -314,6 +319,8 @@ jobs:
             APPSIGNAL_APP_NAME: "${{ secrets.APPSIGNAL_APP_NAME }}"
             POSTHOG_API_KEY: "${{ secrets.POSTHOG_API_KEY }}"
             POSTHOG_API_HOST: "${{ secrets.POSTHOG_API_HOST }}"
+            STRIPE_PRIVATE_KEY: "${{ secrets.STRIPE_PRIVATE_KEY }}"
+            STRIPE_SIGNING_SECRET: "${{ secrets.STRIPE_SIGNING_SECRET }}"
           SECRET_EOF
           kubectl apply -f /tmp/k8s-secret.yaml -n $NS
           rm /tmp/k8s-secret.yaml
