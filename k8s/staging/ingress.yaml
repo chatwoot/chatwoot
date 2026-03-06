@@ -10,6 +10,7 @@ metadata:
     nginx.ingress.kubernetes.io/enable-real-ip: 'true'
     nginx.ingress.kubernetes.io/real-ip-header: 'X-Forwarded-For'
     nginx.ingress.kubernetes.io/set-real-ip-from: '0.0.0.0/0'
+    nginx.ingress.kubernetes.io/enable-underscores-in-headers: 'true'
     # WebSocket support for ActionCable
     nginx.ingress.kubernetes.io/proxy-read-timeout: '3600'
     nginx.ingress.kubernetes.io/proxy-send-timeout: '3600'

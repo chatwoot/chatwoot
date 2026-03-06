@@ -5,6 +5,7 @@ metadata:
   namespace: chatwoot-development
   annotations:
     cert-manager.io/cluster-issuer: "letsencrypt-development"
+    nginx.ingress.kubernetes.io/enable-underscores-in-headers: 'true'
 spec:
   ingressClassName: nginx-development
   tls:
