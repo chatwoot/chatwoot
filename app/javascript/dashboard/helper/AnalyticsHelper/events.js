@@ -119,6 +119,10 @@ export const COPILOT_EVENTS = Object.freeze({
   USE_CAPTAIN_RESPONSE: 'Copilot: Used captain response',
 });
 
+export const SNOOZE_EVENTS = Object.freeze({
+  NLP_SNOOZE_APPLIED: 'Applied snooze via text-to-date input',
+});
+
 export const GENERAL_EVENTS = Object.freeze({
   COMMAND_BAR: 'Used commandbar',
 });
