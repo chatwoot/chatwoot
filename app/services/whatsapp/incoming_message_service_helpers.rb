@@ -33,6 +33,21 @@ module Whatsapp::IncomingMessageServiceHelpers
       message.dig(:name, :formatted_name)
   end
 
+  def message_content_attrs(message)
+    content_attrs = outgoing_echo ? { external_echo: true } : {}
+    content_attrs[:in_reply_to_external_id] = @in_reply_to_external_id if @in_reply_to_external_id.present?
+
+    if (referral = message[:referral])
+      content_attrs[:whatsapp_referral] = referral
+    end
+
+    if (referred_product = message.dig(:context, :referred_product))
+      content_attrs[:whatsapp_referred_product] = referred_product
+    end
+
+    content_attrs
+  end
+
   def file_content_type(file_type)
     return :image if %w[image sticker].include?(file_type)
     return :audio if %w[audio voice].include?(file_type)

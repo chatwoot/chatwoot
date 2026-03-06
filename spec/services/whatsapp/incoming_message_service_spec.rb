@@ -429,6 +429,87 @@ describe Whatsapp::IncomingMessageService do
       end
     end
 
+    context 'when message contains whatsapp referral data' do
+      it 'stores referral in content_attributes when message has referral field' do
+        params = {
+          'contacts' => [{ 'profile' => { 'name' => 'Sojan Jose' }, 'wa_id' => '2423423243' }],
+          'messages' => [{
+            'from' => '2423423243',
+            'id' => 'wamid.referral123',
+            'text' => { 'body' => 'Hi from ad' },
+            'timestamp' => '1633034394',
+            'type' => 'text',
+            'referral' => {
+              'source_url' => 'https://fb.com/ad/123',
+              'source_type' => 'ad',
+              'source_id' => 'ad_123',
+              'headline' => 'Ad Headline',
+              'body' => 'Ad Body'
+            }
+          }]
+        }.with_indifferent_access
+
+        described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
+        message = whatsapp_channel.inbox.messages.first
+        expect(message.content_attributes['whatsapp_referral']).to include('source_url' => 'https://fb.com/ad/123')
+      end
+
+      it 'stores referred_product in content_attributes when context has referred_product' do
+        params = {
+          'contacts' => [{ 'profile' => { 'name' => 'Sojan Jose' }, 'wa_id' => '2423423243' }],
+          'messages' => [{
+            'from' => '2423423243',
+            'id' => 'wamid.product123',
+            'text' => { 'body' => 'I want this product' },
+            'timestamp' => '1633034394',
+            'type' => 'text',
+            'context' => {
+              'referred_product' => {
+                'catalog_id' => 'catalog_456',
+                'product_retailer_id' => 'product_789'
+              }
+            }
+          }]
+        }.with_indifferent_access
+
+        described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
+        message = whatsapp_channel.inbox.messages.first
+        expect(message.content_attributes['whatsapp_referred_product']).to include(
+          'catalog_id' => 'catalog_456',
+          'product_retailer_id' => 'product_789'
+        )
+      end
+
+      it 'stores both referral and referred_product when message has both' do
+        params = {
+          'contacts' => [{ 'profile' => { 'name' => 'Sojan Jose' }, 'wa_id' => '2423423243' }],
+          'messages' => [{
+            'from' => '2423423243',
+            'id' => 'wamid.both123',
+            'text' => { 'body' => 'Ad + product message' },
+            'timestamp' => '1633034394',
+            'type' => 'text',
+            'referral' => { 'source_url' => 'https://fb.com/ad/999', 'source_type' => 'ad' },
+            'context' => {
+              'referred_product' => { 'catalog_id' => 'catalog_1', 'product_retailer_id' => 'prod_1' }
+            }
+          }]
+        }.with_indifferent_access
+
+        described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
+        message = whatsapp_channel.inbox.messages.first
+        expect(message.content_attributes['whatsapp_referral']).to be_present
+        expect(message.content_attributes['whatsapp_referred_product']).to be_present
+      end
+
+      it 'does not set referral keys when message has neither referral nor referred_product' do
+        described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
+        message = whatsapp_channel.inbox.messages.first
+        expect(message.content_attributes.key?('whatsapp_referral')).to be false
+        expect(message.content_attributes.key?('whatsapp_referred_product')).to be false
+      end
+    end
+
     context 'when profile name is available for contact updates' do
       let(:wa_id) { '1234567890' }
       let(:phone_number) { "+#{wa_id}" }
