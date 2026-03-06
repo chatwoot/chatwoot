@@ -611,7 +611,7 @@
       "NO_INBOX_ALERT": "Non ci sono inbox disponibili per avviare una conversazione con questo contatto.",
       "CONTACT_SELECTOR": {
         "LABEL": "A:",
-        "TAG_INPUT_PLACEHOLDER": "Enter at least 2 characters to search by name, email, or phone number",
+        "TAG_INPUT_PLACEHOLDER": "Inserisci almeno 2 caratteri per cercare per nome, email o numero di telefono",
         "CONTACT_CREATING": "Creazione contatto..."
       },
       "INBOX_SELECTOR": {
@@ -622,9 +622,9 @@
         "SUBJECT_LABEL": "Oggetto :",
         "SUBJECT_PLACEHOLDER": "Inserisci qui l'oggetto email",
         "CC_LABEL": "Cc:",
-        "CC_PLACEHOLDER": "Enter at least 2 characters to search by email",
+        "CC_PLACEHOLDER": "Inserisci almeno 2 caratteri per cercare via email",
         "BCC_LABEL": "Ccn:",
-        "BCC_PLACEHOLDER": "Enter at least 2 characters to search by email",
+        "BCC_PLACEHOLDER": "Inserisci almeno 2 caratteri per cercare via email",
         "BCC_BUTTON": "Ccn"
       },
       "MESSAGE_EDITOR": {
