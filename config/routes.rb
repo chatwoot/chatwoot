@@ -117,18 +117,6 @@ Rails.application.routes.draw do
               get :summary, on: :collection
             end
           end
-          namespace :captain do
-            resource :preferences, only: [:show, :update]
-            resources :custom_tools
-            resources :documents, only: [:index, :show, :create, :destroy]
-            resource :tasks, only: [], controller: 'tasks' do
-              post :rewrite
-              post :summarize
-              post :reply_suggestion
-              post :label_suggestion
-              post :follow_up
-            end
-          end
           resource :saml_settings, only: [:show, :create, :update, :destroy]
           resource :whatsapp_settings, only: [:show, :create, :update, :destroy]
           resource :payzah_settings, only: [:show, :create, :update, :destroy]
