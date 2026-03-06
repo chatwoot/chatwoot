@@ -125,10 +125,10 @@ const onCaptchaError = () => {
         type="text"
         name="account_name"
         :class="{ error: v$.credentials.accountName.$error }"
-        label="Company Name"
-        placeholder="Your company name"
+        :label="$t('REGISTER.COMPANY_NAME.LABEL')"
+        :placeholder="$t('REGISTER.COMPANY_NAME.PLACEHOLDER')"
         :has-error="v$.credentials.accountName.$error"
-        error-message="Company name is required"
+        :error-message="$t('REGISTER.COMPANY_NAME.ERROR')"
         @blur="v$.credentials.accountName.$touch"
       />
       <FormInput
@@ -136,10 +136,10 @@ const onCaptchaError = () => {
         type="text"
         name="full_name"
         :class="{ error: v$.credentials.fullName.$error }"
-        label="Full Name"
-        placeholder="Your full name"
+        :label="$t('REGISTER.FULL_NAME.LABEL')"
+        :placeholder="$t('REGISTER.FULL_NAME.PLACEHOLDER')"
         :has-error="v$.credentials.fullName.$error"
-        error-message="Full name is required"
+        :error-message="$t('REGISTER.FULL_NAME.ERROR')"
         @blur="v$.credentials.fullName.$touch"
       />
       <FormInput
