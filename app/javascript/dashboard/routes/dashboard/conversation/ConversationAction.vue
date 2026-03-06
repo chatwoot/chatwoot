@@ -85,7 +85,10 @@ export default {
       },
       set(agent) {
         const agentId = agent ? agent.id : null;
-        this.$store.dispatch('setCurrentChatAssignee', agent);
+        this.$store.dispatch('setCurrentChatAssignee', {
+          conversationId: this.currentChat.id,
+          assignee: agent,
+        });
         this.$store
           .dispatch('assignAgent', {
             conversationId: this.currentChat.id,
@@ -207,7 +210,7 @@ export default {
 </script>
 
 <template>
-  <div class="bg-n-background">
+  <div>
     <div class="multiselect-wrap--small">
       <ContactDetailsItem
         compact

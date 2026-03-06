@@ -34,45 +34,35 @@ export function extractTextFromMarkdown(markdown) {
 
 /**
  * Strip unsupported markdown formatting based on channel capabilities.
+ * Uses MARKDOWN_PATTERNS from editor constants.
  *
  * @param {string} markdown - markdown text to process
  * @param {string} channelType - The channel type to check supported formatting
+ * @param {boolean} cleanWhitespace - Whether to clean up extra whitespace and blank lines (default: true for signatures)
  * @returns {string} - The markdown with unsupported formatting removed
  */
-export function stripUnsupportedSignatureMarkdown(markdown, channelType) {
+export function stripUnsupportedMarkdown(
+  markdown,
+  channelType,
+  cleanWhitespace = true
+) {
   if (!markdown) return '';
 
   const { marks = [], nodes = [] } = FORMATTING[channelType] || {};
-  const has = (arr, key) => arr.includes(key);
+  const supported = [...marks, ...nodes];
 
-  // Define stripping rules: [condition, pattern, replacement]
-  const rules = [
-    [!has(nodes, 'image'), /!\[.*?\]\(.*?\)/g, ''],
-    [!has(marks, 'link'), /\[([^\]]+)\]\([^)]+\)/g, '$1'],
-    [!has(nodes, 'codeBlock'), /```[\s\S]*?```/g, ''],
-    [!has(marks, 'code'), /`([^`]+)`/g, '$1'],
-    [!has(marks, 'strong'), /\*\*([^*]+)\*\*/g, '$1'],
-    [!has(marks, 'strong'), /__([^_]+)__/g, '$1'],
-    [!has(marks, 'em'), /\*([^*]+)\*/g, '$1'],
-    // Match _text_ only at word boundaries (whitespace/string start/end)
-    // Preserves underscores in URLs (e.g., https://example.com/path_name) and variable names
-    [
-      !has(marks, 'em'),
-      /(?<=^|[\s])_([^_\s][^_]*[^_\s]|[^_\s])_(?=$|[\s])/g,
-      '$1',
-    ],
-    [!has(marks, 'strike'), /~~([^~]+)~~/g, '$1'],
-    [!has(nodes, 'blockquote'), /^>\s?/gm, ''],
-    [!has(nodes, 'bulletList'), /^[-*+]\s+/gm, ''],
-    [!has(nodes, 'orderedList'), /^\d+\.\s+/gm, ''],
-  ];
+  // Apply patterns from MARKDOWN_PATTERNS for unsupported types
+  const result = MARKDOWN_PATTERNS.reduce((text, { type, patterns }) => {
+    if (supported.includes(type)) return text;
+    return patterns.reduce(
+      (t, { pattern, replacement }) => t.replace(pattern, replacement),
+      text
+    );
+  }, markdown);
 
-  const result = rules.reduce(
-    (text, [shouldStrip, pattern, replacement]) =>
-      shouldStrip ? text.replace(pattern, replacement) : text,
-    markdown
-  );
+  if (!cleanWhitespace) return result;
 
+  // Clean whitespace for signatures
   return result
     .split('\n')
     .map(line => line.trim())
@@ -173,7 +163,7 @@ export function getEffectiveChannelType(channelType, medium) {
 export function appendSignature(body, signature, channelType) {
   // Strip only unsupported formatting based on channel capabilities
   const preparedSignature = channelType
-    ? stripUnsupportedSignatureMarkdown(signature, channelType)
+    ? stripUnsupportedMarkdown(signature, channelType)
     : signature;
   const cleanedSignature = cleanSignature(preparedSignature);
   // if signature is already present, return body
@@ -186,27 +176,22 @@ export function appendSignature(body, signature, channelType) {
 
 /**
  * Removes the signature from the body, along with the signature delimiter.
- * Tries to find both the original signature and the stripped version.
+ * Tries multiple signature variants: original, channel-stripped, and fully stripped.
  *
  * @param {string} body - The body to remove the signature from.
  * @param {string} signature - The signature to remove.
  * @param {string} channelType - Optional. The effective channel type for channel-specific stripping.
- *                               For Twilio channels, pass the result of getEffectiveChannelType().
  * @returns {string} - The body with the signature removed.
  */
 export function removeSignature(body, signature, channelType) {
-  // Build list of signatures to try: original, channel-stripped, and fully stripped
-  const cleanedSignature = cleanSignature(signature);
+  // Build unique list of signature variants to try
   const channelStripped = channelType
-    ? cleanSignature(stripUnsupportedSignatureMarkdown(signature, channelType))
+    ? cleanSignature(stripUnsupportedMarkdown(signature, channelType))
     : null;
-  const fullyStripped = cleanSignature(extractTextFromMarkdown(signature));
-
-  // Try signatures in order: original → channel-specific → fully stripped
   const signaturesToTry = [
-    cleanedSignature,
+    cleanSignature(signature),
     channelStripped,
-    fullyStripped,
+    cleanSignature(extractTextFromMarkdown(signature)),
   ].filter((sig, i, arr) => sig && arr.indexOf(sig) === i); // Remove nulls and duplicates
 
   // Find the first matching signature
@@ -225,17 +210,12 @@ export function removeSignature(body, signature, channelType) {
     newBody = newBody.substring(0, signatureIndex).trimEnd();
   }
 
-  // let's find the delimiter and remove it
-  const delimiterIndex = newBody.lastIndexOf(SIGNATURE_DELIMITER);
-  if (
-    delimiterIndex !== -1 &&
-    delimiterIndex === newBody.length - SIGNATURE_DELIMITER.length // this will ensure the delimiter is at the end
-  ) {
+  // Remove delimiter if it's at the end
+  if (newBody.endsWith(SIGNATURE_DELIMITER)) {
     // if the delimiter is at the end, remove it
-    newBody = newBody.substring(0, delimiterIndex);
+    newBody = newBody.slice(0, -SIGNATURE_DELIMITER.length);
   }
 
-  // return the value
   return newBody;
 }
 
@@ -539,12 +519,19 @@ export const getContentNode = (
 /**
  * Get the formatting configuration for a specific channel type.
  * Returns the appropriate marks, nodes, and menu items for the editor.
+ * TODO: We're hiding captain, enable it back when we add selection improvements
  *
  * @param {string} channelType - The channel type (e.g., 'Channel::FacebookPage', 'Channel::WebWidget')
  * @returns {Object} The formatting configuration with marks, nodes, and menu properties
  */
-export function getFormattingForEditor(channelType) {
-  return FORMATTING[channelType] || FORMATTING['Context::Default'];
+export function getFormattingForEditor(channelType, showCaptain = false) {
+  const formatting = FORMATTING[channelType] || FORMATTING['Context::Default'];
+  return {
+    ...formatting,
+    menu: showCaptain
+      ? formatting.menu
+      : formatting.menu.filter(item => item !== 'copilot'),
+  };
 }
 
 /**

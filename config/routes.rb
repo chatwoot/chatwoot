@@ -62,6 +62,7 @@ Rails.application.routes.draw do
     post '/checkout', to: 'checkout#create', as: :checkout_create
   end
 
+  get '/health', to: 'health#show'
   get '/api', to: 'api#index'
   namespace :api, defaults: { format: 'json' } do
     namespace :v1 do
@@ -114,6 +115,18 @@ Rails.application.routes.draw do
             # Account-wide voice usage statistics
             resource :voice_usage, only: [:show], controller: 'voice_usage' do
               get :summary, on: :collection
+            end
+          end
+          namespace :captain do
+            resource :preferences, only: [:show, :update]
+            resources :custom_tools
+            resources :documents, only: [:index, :show, :create, :destroy]
+            resource :tasks, only: [], controller: 'tasks' do
+              post :rewrite
+              post :summarize
+              post :reply_suggestion
+              post :label_suggestion
+              post :follow_up
             end
           end
           resource :saml_settings, only: [:show, :create, :update, :destroy]
@@ -277,6 +290,9 @@ Rails.application.routes.draw do
             collection do
               get :metrics
               get :download
+            end
+            member do
+              patch :update if ChatwootApp.enterprise?
             end
           end
           resources :applied_slas, only: [:index] do
@@ -562,6 +578,7 @@ Rails.application.routes.draw do
               get :team
               get :inbox
               get :label
+              get :channel
             end
           end
           resources :reports, only: [:index] do
@@ -573,8 +590,12 @@ Rails.application.routes.draw do
               get :labels
               get :teams
               get :conversations
+              get :conversations_summary
               get :conversation_traffic
               get :bot_metrics
+              get :inbox_label_matrix
+              get :first_response_time_distribution
+              get :outgoing_messages_count
             end
           end
           resource :year_in_review, only: [:show]
@@ -696,9 +717,7 @@ Rails.application.routes.draw do
   post 'webhooks/tiktok', to: 'webhooks/tiktok#events'
   match 'webhooks/moengage/:webhook_token', to: 'webhooks/moengage#process_payload', via: [:get, :post]
   post 'webhooks/calendly', to: 'webhooks/calendly#receive'
-
-  namespace :twitter do
-  end
+  post 'webhooks/shopify', to: 'webhooks/shopify#events'
 
   namespace :linear do
     resource :callback, only: [:show]

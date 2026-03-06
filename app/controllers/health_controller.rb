@@ -1,15 +1,7 @@
-class HealthController < ApplicationController
-  # Skip authentication and other filters if they exist
-  skip_before_action :authenticate_user!, raise: false
-  skip_before_action :set_current_user, raise: false
-  skip_before_action :check_subscription, raise: false
-  skip_before_action :check_installation_config, raise: false
-  skip_before_action :set_global_config, raise: false
-  skip_around_action :handle_with_exception, raise: false
-  # Skip CSRF protection
-  skip_before_action :verify_authenticity_token, raise: false
-
+# Inherits from ActionController::Base to skip all middleware,
+# authentication, and callbacks. Used for health checks
+class HealthController < ActionController::Base # rubocop:disable Rails/ApplicationController
   def show
-    render plain: 'OK', status: :ok
+    render json: { status: 'woot' }
   end
 end

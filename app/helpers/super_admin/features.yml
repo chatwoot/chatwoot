@@ -10,13 +10,6 @@ aloo_ai:
   config_key: 'aloo'
 
 # ------- Premium Features ------- #
-captain:
-  name: 'Captain'
-  description: 'Enable AI-powered conversations with your customers.'
-  enabled: <%= (ChatwootHub.pricing_plan != 'community') %>
-  icon: 'icon-captain'
-  config_key: 'captain'
-  enterprise: true
 saml:
   name: 'SAML SSO'
   description: 'Configuration for controlling SAML Single Sign-On availability'
@@ -56,6 +49,12 @@ help_center:
   description: 'Allow agents to create help center articles and publish them in a portal.'
   enabled: true
   icon: 'icon-book-2-line'
+captain:
+  name: 'Captain'
+  description: 'Enable AI-powered conversations with your customers.'
+  enabled: true
+  icon: 'icon-captain'
+  config_key: 'captain'
 
 # ------- Communication Channels ------- #
 live_chat:

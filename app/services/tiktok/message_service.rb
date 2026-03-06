@@ -1,11 +1,10 @@
 class Tiktok::MessageService
   include Tiktok::MessagingHelpers
 
-  pattr_initialize [:channel!, :content!]
+  pattr_initialize [:channel!, :content!, :outgoing_echo]
 
   def perform
     if outgoing_message?
-      # Skip processing echo messages
       message = find_message(tt_conversation_id, tt_message_id)
       return if message.present?
     end
@@ -39,7 +38,7 @@ class Tiktok::MessageService
       updated_at: tt_message_time
     )
 
-    message.sender = contact_inbox.contact if incoming_message?
+    message.sender = contact_inbox.contact if incoming_message? && !outgoing_echo
     message.status = :delivered if outgoing_message?
 
     create_message_attachments(message)
@@ -91,6 +90,7 @@ class Tiktok::MessageService
     attributes = {}
     attributes[:in_reply_to_external_id] = tt_referenced_message_id if tt_referenced_message_id
     attributes[:is_unsupported] = true unless supported_message?
+    attributes[:external_echo] = true if outgoing_echo
     attributes
   end
 

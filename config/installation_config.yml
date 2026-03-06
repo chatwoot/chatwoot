@@ -111,6 +111,16 @@
   value:
   description: 'The support email address for your installation'
   locked: false
+- name: ACCOUNT_EMAILS_LIMIT
+  display_title: 'Account Email Sending Limit (Daily)'
+  description: 'Maximum number of non-channel emails an account can send per day'
+  value: 100
+  locked: false
+- name: ACCOUNT_EMAILS_PLAN_LIMITS
+  display_title: 'Account Email Plan Limits (Daily)'
+  description: 'Per-plan daily email sending limits as JSON'
+  value:
+  type: code
 # ------- End of Email Related Config ------- #
 
 # ------- Facebook Channel Related Config ------- #
@@ -183,7 +193,7 @@
   type: secret
 - name: CAPTAIN_OPEN_AI_MODEL
   display_title: 'OpenAI Model'
-  description: 'The OpenAI model configured for use in Captain AI. Default: gpt-4o-mini'
+  description: 'The OpenAI model configured for use in Captain AI. Default: gpt-4.1-mini'
   locked: false
 - name: CAPTAIN_OPEN_AI_ENDPOINT
   display_title: 'OpenAI API Endpoint (optional)'
@@ -229,10 +239,10 @@
 - name: DEPLOYMENT_ENV
   value: self-hosted
   description: 'The deployment environment of the installation, to differentiate between AlooChat cloud and self-hosted'
-- name: ANALYTICS_TOKEN
+- name: CLOUD_ANALYTICS_TOKEN
   value:
   display_title: 'Analytics Token'
-  description: 'The June.so analytics token for AlooChat cloud'
+  description: 'The analytics token for AlooChat cloud'
   type: secret
 - name: CLEARBIT_API_KEY
   value:
@@ -425,6 +435,11 @@
 # ------- End of Instagram Channel Related Config ------- #
 
 # ------- TikTok Channel Related Config ------- #
+- name: TIKTOK_API_VERSION
+  display_title: 'TikTok API Version'
+  description: 'Configure this if you want to use a different TikTok API version. Make sure its prefixed with `v`'
+  value: 'v1.3'
+  locked: false
 - name: TIKTOK_APP_ID
   display_title: 'TikTok App ID'
   locked: false

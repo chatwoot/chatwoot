@@ -755,11 +755,15 @@ ActiveRecord::Schema[7.1].define(version: 2026_03_05_120000) do
     t.bigint "assigned_agent_id"
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
+    t.text "csat_review_notes"
+    t.datetime "review_notes_updated_at"
+    t.bigint "review_notes_updated_by_id"
     t.index ["account_id"], name: "index_csat_survey_responses_on_account_id"
     t.index ["assigned_agent_id"], name: "index_csat_survey_responses_on_assigned_agent_id"
     t.index ["contact_id"], name: "index_csat_survey_responses_on_contact_id"
     t.index ["conversation_id"], name: "index_csat_survey_responses_on_conversation_id"
     t.index ["message_id"], name: "index_csat_survey_responses_on_message_id", unique: true
+    t.index ["review_notes_updated_by_id"], name: "index_csat_survey_responses_on_review_notes_updated_by_id"
   end
 
   create_table "custom_attribute_definitions", force: :cascade do |t|
@@ -1385,6 +1389,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_03_05_120000) do
     t.datetime "event_start_time", precision: nil
     t.datetime "event_end_time", precision: nil
     t.index ["account_id", "name", "created_at"], name: "reporting_events__account_id__name__created_at"
+    t.index ["account_id", "name", "inbox_id", "created_at"], name: "index_reporting_events_for_response_distribution"
     t.index ["account_id"], name: "index_reporting_events_on_account_id"
     t.index ["conversation_id"], name: "index_reporting_events_on_conversation_id"
     t.index ["created_at"], name: "index_reporting_events_on_created_at"
@@ -1398,7 +1403,6 @@ ActiveRecord::Schema[7.1].define(version: 2026_03_05_120000) do
     t.text "error_message"
     t.text "system_prompt"
     t.text "user_prompt"
-    t.text "assistant_prompt"
     t.json "response", default: {}
     t.json "messages_summary", default: {}, null: false
     t.json "tool_calls", default: [], null: false
@@ -1411,6 +1415,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_03_05_120000) do
     t.integer "cache_creation_tokens", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "assistant_prompt"
     t.index ["execution_id"], name: "index_ruby_llm_agents_execution_details_on_execution_id", unique: true
   end
 
@@ -1638,7 +1643,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_03_05_120000) do
   create_table "webhooks", force: :cascade do |t|
     t.integer "account_id"
     t.integer "inbox_id"
-    t.string "url"
+    t.text "url"
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
     t.integer "webhook_type", default: 0

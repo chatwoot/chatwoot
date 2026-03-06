@@ -123,9 +123,13 @@ class Api::V1::AccountsController < Api::BaseController
   end
 
   def settings_params
-    params.permit(:auto_resolve_after, :auto_resolve_message, :auto_resolve_ignore_waiting, :audio_transcriptions, :auto_resolve_label,
-                  :auto_label_enabled, :auto_label_message_threshold, :auto_team_enabled, :catalog_currency,
-                  conversation_required_attributes: [])
+    params.permit(*permitted_settings_attributes)
+  end
+
+  def permitted_settings_attributes
+    [:auto_resolve_after, :auto_resolve_message, :auto_resolve_ignore_waiting, :audio_transcriptions, :auto_resolve_label,
+     :auto_label_enabled, :auto_label_message_threshold, :auto_team_enabled, :catalog_currency,
+     { conversation_required_attributes: [] }]
   end
 
   def check_signup_enabled
@@ -144,3 +148,5 @@ class Api::V1::AccountsController < Api::BaseController
     }
   end
 end
+
+Api::V1::AccountsController.prepend_mod_with('Api::V1::AccountsSettings')

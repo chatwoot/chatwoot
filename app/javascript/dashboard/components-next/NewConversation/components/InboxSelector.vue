@@ -83,7 +83,7 @@ const targetInboxLabel = computed(() => {
       <DropdownMenu
         v-if="contactableInboxesList?.length > 0 && showInboxesDropdown"
         :menu-items="contactableInboxesList"
-        class="ltr:left-0 rtl:right-0 z-[100] top-8 overflow-y-auto max-h-60 w-fit max-w-sm dark:!outline-n-slate-5"
+        class="ltr:left-0 rtl:right-0 z-[100] top-8 overflow-y-auto max-h-56 w-fit max-w-sm dark:!outline-n-slate-5"
         @action="emit('handleInboxAction', $event)"
       />
     </div>

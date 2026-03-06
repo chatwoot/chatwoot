@@ -60,24 +60,35 @@ RSpec.describe Public::Api::V1::PortalsController, type: :request do
 
   describe 'GET /public/api/v1/portals/{portal_slug}/sitemap' do
     context 'when custom_domain is present' do
-      it 'gets a valid sitemap' do
+      it 'returns a valid urlset sitemap with the correct namespace' do
         get "/hc/#{portal.slug}/sitemap.xml"
+
         expect(response).to have_http_status(:success)
-        expect(response.body).to match(/<sitemap/)
-        expect(Nokogiri::XML(response.body).errors).to be_empty
+
+        doc = Nokogiri::XML(response.body)
+        expect(doc.errors).to be_empty
+
+        expect(doc.root.name).to eq('urlset')
+        expect(doc.root.namespace&.href).to eq('http://www.sitemaps.org/schemas/sitemap/0.9')
       end
 
-      it 'has valid sitemap links' do
+      it 'contains valid article URLs for the portal' do
         get "/hc/#{portal.slug}/sitemap.xml"
+
         expect(response).to have_http_status(:success)
-        parsed_xml = Nokogiri::XML(response.body)
-        links = parsed_xml.css('loc')
 
-        links.each do |link|
-          expect(link.text).to match(%r{https://www\.example\.com/hc/test-portal/articles/\d+})
-        end
+        doc = Nokogiri::XML(response.body)
+        doc.remove_namespaces!
 
-        expect(links.length).to eq 3
+        # ensure we are NOT returning a sitemapindex
+        expect(doc.xpath('//sitemapindex')).to be_empty
+
+        links = doc.xpath('//url/loc').map(&:text)
+        expect(links.length).to eq(3)
+
+        expect(links).to all(
+          match(%r{\Ahttps://www\.example\.com/hc/#{Regexp.escape(portal.slug)}/articles/\d+})
+        )
       end
     end
   end

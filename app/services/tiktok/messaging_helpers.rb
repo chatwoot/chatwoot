@@ -20,13 +20,14 @@ module Tiktok::MessagingHelpers
     {
       # TODO: Remove this once we show the social_tiktok_user_name in the UI instead of the username
       username: from,
+      social_profiles: { tiktok: from },
       social_tiktok_user_id: from_id,
       social_tiktok_user_name: from
     }
   end
 
   def find_conversation(channel, tt_conversation_id)
-    channel.inbox.contact_inboxes.find_by(source_id: tt_conversation_id).conversations.first
+    channel.inbox.contact_inboxes.find_by(source_id: tt_conversation_id)&.conversations&.first
   end
 
   def create_conversation(channel, contact_inbox, tt_conversation_id)
@@ -59,7 +60,7 @@ module Tiktok::MessagingHelpers
 
   def fetch_attachment(channel, tt_conversation_id, tt_message_id, tt_image_media_id)
     file_download_url = tiktok_client(channel).file_download_url(tt_conversation_id, tt_message_id, tt_image_media_id)
-    Down.download(file_download_url)
+    Down.download(file_download_url, headers: { 'x-user' => channel.validated_access_token })
   end
 
   def tiktok_client(channel)
