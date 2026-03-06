@@ -376,12 +376,12 @@
     },
     "REORDER_ARTICLE": {
       "API": {
-        "ERROR_MESSAGE": "Unable to reorder articles. Please try again."
+        "ERROR_MESSAGE": "Impossibile riordinare gli articoli. Riprova."
       }
     },
     "REORDER_CATEGORY": {
       "API": {
-        "ERROR_MESSAGE": "Unable to reorder categories. Please try again."
+        "ERROR_MESSAGE": "Impossibile riordinare le categorie. Riprova."
       }
     },
     "CREATE_ARTICLE": {
