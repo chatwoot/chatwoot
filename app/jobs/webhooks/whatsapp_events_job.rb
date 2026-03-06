@@ -1,5 +1,6 @@
-class Webhooks::WhatsappEventsJob < ApplicationJob
+class Webhooks::WhatsappEventsJob < MutexApplicationJob
   queue_as :low
+  retry_on LockAcquisitionError, wait: 1.second, attempts: 8
 
   def perform(params = {})
     channel = find_channel_from_whatsapp_business_payload(params)
@@ -9,10 +10,14 @@ class Webhooks::WhatsappEventsJob < ApplicationJob
       return
     end
 
-    if message_echo_event?(params)
-      handle_message_echo(channel, params)
+    sender_id = extract_sender_id(params)
+    if sender_id
+      key = format(::Redis::Alfred::WHATSAPP_MESSAGE_MUTEX, sender_id: sender_id, phone_number: channel.phone_number)
+      with_lock(key, 30.seconds) do
+        process_events(channel, params)
+      end
     else
-      handle_message_events(channel, params)
+      process_events(channel, params)
     end
   end
 
@@ -54,8 +59,14 @@ class Webhooks::WhatsappEventsJob < ApplicationJob
     params.dig(:entry, 0, :changes, 0, :field) == 'smb_message_echoes'
   end
 
-  def handle_message_echo(channel, params)
-    Whatsapp::IncomingMessageWhatsappCloudService.new(inbox: channel.inbox, params: params, outgoing_echo: true).perform
+  private
+
+  def process_events(channel, params)
+    if message_echo_event?(params)
+      Whatsapp::IncomingMessageWhatsappCloudService.new(inbox: channel.inbox, params: params, outgoing_echo: true).perform
+    else
+      handle_message_events(channel, params)
+    end
   end
 
   def handle_message_events(channel, params)
@@ -67,7 +78,16 @@ class Webhooks::WhatsappEventsJob < ApplicationJob
     end
   end
 
-  private
+  # Extracts the contact's phone number from the webhook payload for use as a mutex key.
+  # For incoming messages, the contact is the sender (from field).
+  # For echo messages, the contact is the recipient (to field).
+  # For status updates, returns nil (no lock needed as they don't create conversations).
+  def extract_sender_id(params)
+    value = params.dig(:entry, 0, :changes, 0, :value)
+    return unless value
+
+    value.dig(:messages, 0, :from) || value.dig(:contacts, 0, :wa_id) || value.dig(:message_echoes, 0, :to)
+  end
 
   def channel_is_inactive?(channel)
     return true if channel.blank?
