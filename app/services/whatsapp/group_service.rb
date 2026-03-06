@@ -313,7 +313,7 @@ class Whatsapp::GroupService
     agent_name = conversation.assignee&.name || 'Agente'
     is_agent = last_10_digits(phone) == last_10_digits(conversation.assignee&.phone_number)
     body = if is_agent
-             "Tienes un cliente esperando ser atendido. Por favor únete al grupo para continuar la conversación."
+             "Tienes un cliente esperando ser atendido."
            else
              "En este grupo serás atendido por #{agent_name}"
            end
