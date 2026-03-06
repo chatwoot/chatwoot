@@ -205,6 +205,8 @@ gem 'ruby_llm', '>= 1.8.2'
 gem 'ruby_llm-agents', '~> 3.8'
 gem 'ruby_llm-schema'
 
+gem 'cld3', '~> 3.7'
+
 # OpenTelemetry for LLM observability
 gem 'opentelemetry-sdk'
 gem 'opentelemetry-exporter-otlp'

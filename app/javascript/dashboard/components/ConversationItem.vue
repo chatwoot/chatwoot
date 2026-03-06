@@ -10,6 +10,7 @@ export default {
     'assignAgent',
     'assignTeam',
     'assignLabels',
+    'removeLabels',
     'updateConversationStatus',
     'toggleContextMenu',
     'markAsUnread',
@@ -63,6 +64,7 @@ export default {
     @assign-agent="assignAgent"
     @assign-team="assignTeam"
     @assign-label="assignLabels"
+    @remove-label="removeLabels"
     @update-conversation-status="updateConversationStatus"
     @context-menu-toggle="toggleContextMenu"
     @mark-as-unread="markAsUnread"

@@ -50,3 +50,5 @@ class Api::V1::Accounts::CsatSurveyResponsesController < Api::V1::Accounts::Base
     @current_page = params[:page] || 1
   end
 end
+
+Api::V1::Accounts::CsatSurveyResponsesController.prepend_mod_with('Api::V1::Accounts::CsatSurveyResponsesController')

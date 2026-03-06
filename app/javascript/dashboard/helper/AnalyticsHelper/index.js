@@ -1,4 +1,4 @@
-import posthog from 'posthog-js';
+import * as amplitude from '@amplitude/analytics-browser';
 
 /**
  * AnalyticsHelper class to initialize and track user analytics
@@ -27,12 +27,10 @@ export class AnalyticsHelper {
       return;
     }
 
-    posthog.init(this.analyticsToken, {
-      api_host: this.analyticsHost,
-      capture_pageview: false,
-      persistence: 'localStorage+cookie',
+    amplitude.init(this.analyticsToken, {
+      defaultTracking: false,
     });
-    this.analytics = posthog;
+    this.analytics = amplitude;
   }
 
   /**
@@ -46,20 +44,26 @@ export class AnalyticsHelper {
     }
 
     this.user = user;
-    this.analytics.identify(this.user.id.toString(), {
-      email: this.user.email,
-      name: this.user.name,
-      avatar: this.user.avatar_url,
-    });
+    this.analytics.setUserId(`user-${this.user.id.toString()}`);
+
+    const identifyEvent = new amplitude.Identify();
+    identifyEvent.set('email', this.user.email);
+    identifyEvent.set('name', this.user.name);
+    identifyEvent.set('avatar', this.user.avatar_url);
+    this.analytics.identify(identifyEvent);
 
     const { accounts, account_id: accountId } = this.user;
     const [currentAccount] = accounts.filter(
       account => account.id === accountId
     );
     if (currentAccount) {
-      this.analytics.group('company', currentAccount.id.toString(), {
-        name: currentAccount.name,
-      });
+      const groupId = `account-${currentAccount.id.toString()}`;
+
+      this.analytics.setGroup('company', groupId);
+
+      const groupIdentify = new amplitude.Identify();
+      groupIdentify.set('name', currentAccount.name);
+      this.analytics.groupIdentify('company', groupId, groupIdentify);
     }
   }
 
@@ -73,20 +77,21 @@ export class AnalyticsHelper {
     if (!this.analytics) {
       return;
     }
-    this.analytics.capture(eventName, properties);
+    this.analytics.track(eventName, properties);
   }
 
   /**
    * Track the page views
    * @function
-   * @param {Object} params - Page view properties
+   * @param {string} pageName - Page name
+   * @param {Object} [properties={}] - Page view properties
    */
-  page(params) {
+  page(pageName, properties = {}) {
     if (!this.analytics) {
       return;
     }
 
-    this.analytics.capture('$pageview', params);
+    this.analytics.track('$pageview', { pageName, ...properties });
   }
 }
 

@@ -99,6 +99,7 @@ yarn-debug.log*
 .vscode
 .claude/settings.local.json
 .cursor
+.codex/
 CLAUDE.local.md
 plans/
 
@@ -112,3 +113,4 @@ plans/
 .pnpm-store/*
 local/
 .mcp.json
+Procfile.worktree

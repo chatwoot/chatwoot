@@ -36,7 +36,9 @@ export default {
   HELP_CENTER_DOCS_URL:
     'https://www.aloochat.ai/docs/product/others/help-center',
   TESTIMONIAL_URL: 'https://testimonials.cdn.aloochat.ai/content.json',
-  SMALL_SCREEN_BREAKPOINT: 1200,
+  WHATSAPP_EMBEDDED_SIGNUP_DOCS_URL:
+    'https://developers.facebook.com/docs/whatsapp/embedded-signup/custom-flows/onboarding-business-app-users#limitations',
+  SMALL_SCREEN_BREAKPOINT: 768,
   AVAILABILITY_STATUS_KEYS: ['online', 'busy', 'offline'],
   SNOOZE_OPTIONS: {
     UNTIL_NEXT_REPLY: 'until_next_reply',

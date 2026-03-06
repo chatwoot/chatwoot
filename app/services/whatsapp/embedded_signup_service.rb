@@ -26,6 +26,10 @@ class Whatsapp::EmbeddedSignupService
     channel = create_or_reauthorize_channel(access_token, phone_info)
     Rails.logger.info "[WHATSAPP_SIGNUP] ✓ Channel #{@inbox_id.present? ? 'reauthorized' : 'created'}: #{channel.phone_number}"
 
+    # NOTE: We call setup_webhooks explicitly here instead of relying on after_commit callback because:
+    # 1. Reauthorization flow updates an existing channel (not a create), so after_commit on: :create won't trigger
+    # 2. We need to run check_channel_health_and_prompt_reauth after webhook setup completes
+    # 3. The channel is marked with source: 'embedded_signup' to skip the after_commit callback
     channel.setup_webhooks
     Rails.logger.info '[WHATSAPP_SIGNUP] ✓ Webhooks configured'
 

@@ -275,6 +275,12 @@
 /api/v1/accounts/{account_id}/contacts/{id}/contactable_inboxes:
   $ref: ./application/contactable_inboxes/get.yml
 
+# Contact Merge
+/api/v1/accounts/{account_id}/actions/contact_merge:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+  post:
+    $ref: ./application/contacts/merge.yml
 
 # Automation Rule
 /api/v1/accounts/{account_id}/automation_rules:
@@ -633,114 +639,153 @@
   get:
     $ref: './application/reports/conversation/agent.yml'
 
-# Orders
-/api/v1/accounts/{account_id}/orders:
+# Channel summary report (Available in 4.10.0+)
+/api/v2/accounts/{account_id}/summary_reports/channel:
   parameters:
     - $ref: '#/components/parameters/account_id'
-  get:
-    $ref: ./application/orders/index.yml
-/api/v1/accounts/{account_id}/orders/{id}:
-  parameters:
-    - $ref: '#/components/parameters/account_id'
-    - name: id
-      in: path
+    - in: query
+      name: since
       schema:
-        type: integer
-      description: ID of the order
-      required: true
-  get:
-    $ref: ./application/orders/show.yml
-/api/v1/accounts/{account_id}/orders/search:
-  parameters:
-    - $ref: '#/components/parameters/account_id'
-  get:
-    $ref: ./application/orders/search.yml
-/api/v1/accounts/{account_id}/orders/{id}/cancel:
-  parameters:
-    - $ref: '#/components/parameters/account_id'
-    - name: id
-      in: path
+        type: string
+      description: The timestamp from where report should start (Unix timestamp).
+    - in: query
+      name: until
       schema:
-        type: integer
-      description: ID of the order
-      required: true
-  patch:
-    $ref: ./application/orders/cancel.yml
+        type: string
+      description: The timestamp from where report should stop (Unix timestamp).
+  get:
+    $ref: './application/reports/channel_summary.yml'
 
-# Order Notes
-/api/v1/accounts/{account_id}/orders/{order_id}/order_notes:
+# Inbox summary report
+/api/v2/accounts/{account_id}/summary_reports/inbox:
   parameters:
     - $ref: '#/components/parameters/account_id'
-    - name: order_id
-      in: path
+    - in: query
+      name: since
       schema:
-        type: integer
-      description: ID of the order
-      required: true
+        type: string
+      description: The timestamp from where report should start (Unix timestamp).
+    - in: query
+      name: until
+      schema:
+        type: string
+      description: The timestamp from where report should stop (Unix timestamp).
+    - in: query
+      name: business_hours
+      schema:
+        type: boolean
+      description: Whether to calculate metrics using business hours only.
   get:
-    $ref: ./application/orders/notes_index.yml
-  post:
-    $ref: ./application/orders/notes_create.yml
-/api/v1/accounts/{account_id}/orders/{order_id}/order_notes/{id}:
-  parameters:
-    - $ref: '#/components/parameters/account_id'
-    - name: order_id
-      in: path
-      schema:
-        type: integer
-      description: ID of the order
-      required: true
-    - name: id
-      in: path
-      schema:
-        type: integer
-      description: ID of the note
-      required: true
-  delete:
-    $ref: ./application/orders/notes_delete.yml
+    $ref: './application/reports/inbox_summary.yml'
 
-# Payment Links
-/api/v1/accounts/{account_id}/payment_links:
+# Agent summary report
+/api/v2/accounts/{account_id}/summary_reports/agent:
   parameters:
     - $ref: '#/components/parameters/account_id'
-  get:
-    $ref: ./application/payment_links/index.yml
-  post:
-    $ref: ./application/payment_links/create.yml
-/api/v1/accounts/{account_id}/payment_links/{id}:
-  parameters:
-    - $ref: '#/components/parameters/account_id'
-    - name: id
-      in: path
+    - in: query
+      name: since
       schema:
-        type: integer
-      description: ID of the payment link
-      required: true
-  get:
-    $ref: ./application/payment_links/show.yml
-/api/v1/accounts/{account_id}/payment_links/search:
-  parameters:
-    - $ref: '#/components/parameters/account_id'
-  get:
-    $ref: ./application/payment_links/search.yml
-/api/v1/accounts/{account_id}/payment_links/{id}/cancel:
-  parameters:
-    - $ref: '#/components/parameters/account_id'
-    - name: id
-      in: path
+        type: string
+      description: The timestamp from where report should start (Unix timestamp).
+    - in: query
+      name: until
       schema:
-        type: integer
-      description: ID of the payment link
-      required: true
-  patch:
-    $ref: ./application/payment_links/cancel.yml
+        type: string
+      description: The timestamp from where report should stop (Unix timestamp).
+    - in: query
+      name: business_hours
+      schema:
+        type: boolean
+      description: Whether to calculate metrics using business hours only.
+  get:
+    $ref: './application/reports/agent_summary.yml'
 
-# Catalog Stats
-/api/v1/accounts/{account_id}/catalog_stats:
+# Team summary report
+/api/v2/accounts/{account_id}/summary_reports/team:
   parameters:
     - $ref: '#/components/parameters/account_id'
+    - in: query
+      name: since
+      schema:
+        type: string
+      description: The timestamp from where report should start (Unix timestamp).
+    - in: query
+      name: until
+      schema:
+        type: string
+      description: The timestamp from where report should stop (Unix timestamp).
+    - in: query
+      name: business_hours
+      schema:
+        type: boolean
+      description: Whether to calculate metrics using business hours only.
   get:
-    $ref: ./application/catalog_stats/show.yml
+    $ref: './application/reports/team_summary.yml'
+
+# First response time distribution report
+/api/v2/accounts/{account_id}/reports/first_response_time_distribution:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+    - in: query
+      name: since
+      schema:
+        type: string
+      description: The timestamp from where report should start (Unix timestamp).
+    - in: query
+      name: until
+      schema:
+        type: string
+      description: The timestamp from where report should stop (Unix timestamp).
+  get:
+    $ref: './application/reports/first_response_time_distribution.yml'
+
+# Inbox-label matrix report
+/api/v2/accounts/{account_id}/reports/inbox_label_matrix:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+    - in: query
+      name: since
+      schema:
+        type: string
+      description: The timestamp from where report should start (Unix timestamp).
+    - in: query
+      name: until
+      schema:
+        type: string
+      description: The timestamp from where report should stop (Unix timestamp).
+    - in: query
+      name: inbox_ids
+      schema:
+        type: array
+        items:
+          type: integer
+      description: Filter by specific inbox IDs.
+    - in: query
+      name: label_ids
+      schema:
+        type: array
+        items:
+          type: integer
+      description: Filter by specific label IDs.
+  get:
+    $ref: './application/reports/inbox_label_matrix.yml'
+
+# Outgoing messages count report
+/api/v2/accounts/{account_id}/reports/outgoing_messages_count:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+    - in: query
+      name: since
+      schema:
+        type: string
+      description: The timestamp from where report should start (Unix timestamp).
+    - in: query
+      name: until
+      schema:
+        type: string
+      description: The timestamp from where report should stop (Unix timestamp).
+  get:
+    $ref: './application/reports/outgoing_messages_count.yml'
 
 # Conversations Messages
 /accounts/{account_id}/conversations/{conversation_id}/messages:

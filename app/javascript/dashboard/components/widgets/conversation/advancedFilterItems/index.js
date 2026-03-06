@@ -79,14 +79,6 @@ const filterTypes = [
     attributeModel: 'additional',
   },
   {
-    attributeKey: 'country_code',
-    attributeI18nKey: 'COUNTRY_NAME',
-    inputType: 'search_select',
-    dataType: 'text',
-    filterOperators: OPERATOR_TYPES_1,
-    attributeModel: 'additional',
-  },
-  {
     attributeKey: 'referer',
     attributeI18nKey: 'REFERER_LINK',
     inputType: 'plain_text',
@@ -170,10 +162,6 @@ export const filterAttributeGroups = [
       {
         key: 'browser_language',
         i18nKey: 'BROWSER_LANGUAGE',
-      },
-      {
-        key: 'country_code',
-        i18nKey: 'COUNTRY_NAME',
       },
       {
         key: 'referer',

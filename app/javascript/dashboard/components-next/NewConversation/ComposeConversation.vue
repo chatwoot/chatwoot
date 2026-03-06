@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onMounted, watch } from 'vue';
+import { reactive, ref, computed, onMounted, watch } from 'vue';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useI18n } from 'vue-i18n';
 import { useWindowSize } from '@vueuse/core';
@@ -58,6 +58,23 @@ const isCreatingContact = ref(false);
 const isFetchingInboxes = ref(false);
 const isSearching = ref(false);
 const showComposeNewConversation = ref(false);
+
+const formState = reactive({
+  message: '',
+  subject: '',
+  ccEmails: '',
+  bccEmails: '',
+  attachedFiles: [],
+});
+
+const clearFormState = () => {
+  Object.assign(formState, {
+    subject: '',
+    ccEmails: '',
+    bccEmails: '',
+    attachedFiles: [],
+  });
+};
 
 const contactById = useMapGetter('contacts/getContactById');
 const contactsUiFlags = useMapGetter('contacts/getUIFlags');
@@ -140,12 +157,14 @@ const handleSelectedContact = async ({ value, action, ...rest }) => {
 
 const handleTargetInbox = inbox => {
   targetInbox.value = inbox;
+  if (!inbox) clearFormState();
   resetContacts();
 };
 
 const clearSelectedContact = () => {
   selectedContact.value = null;
   targetInbox.value = null;
+  clearFormState();
 };
 
 const closeCompose = () => {
@@ -160,6 +179,12 @@ const closeCompose = () => {
   emit('close');
 };
 
+const discardCompose = () => {
+  clearFormState();
+  formState.message = '';
+  closeCompose();
+};
+
 const createConversation = async ({ payload, isFromWhatsApp }) => {
   try {
     const data = await store.dispatch('contactConversations/create', {
@@ -171,7 +196,7 @@ const createConversation = async ({ payload, isFromWhatsApp }) => {
       to: `/app/accounts/${data.account_id}/conversations/${data.id}`,
       message: t('COMPOSE_NEW_CONVERSATION.FORM.GO_TO_CONVERSATION'),
     };
-    closeCompose();
+    discardCompose();
     useAlert(t('COMPOSE_NEW_CONVERSATION.FORM.SUCCESS_MESSAGE'), action);
     return true; // Return success
   } catch (error) {
@@ -193,7 +218,11 @@ watch(
   (currentContact, previousContact) => {
     if (currentContact && props.contactId) {
       // Reset on contact change
-      if (currentContact?.id !== previousContact?.id) clearSelectedContact();
+      if (currentContact?.id !== previousContact?.id) {
+        clearSelectedContact();
+        clearFormState();
+        formState.message = '';
+      }
 
       // First process the contactable inboxes to get the right structure
       const processedInboxes = processContactableInboxes(
@@ -265,6 +294,7 @@ useKeyboardEvents(keyboardEvents);
       @click.self="onModalBackdropClick"
     >
       <ComposeNewConversationForm
+        :form-state="formState"
         :class="[{ 'mt-2': !viewInModal }, composePopoverClass]"
         :contacts="contacts"
         :contact-id="contactId"
@@ -285,7 +315,7 @@ useKeyboardEvents(keyboardEvents);
         @update-target-inbox="handleTargetInbox"
         @clear-selected-contact="clearSelectedContact"
         @create-conversation="createConversation"
-        @discard="closeCompose"
+        @discard="discardCompose"
       />
     </div>
   </div>
