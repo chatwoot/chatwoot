@@ -9,7 +9,7 @@
 class SplitExecutionDetailsFromExecutions < ActiveRecord::Migration[7.1]
   # Columns that belong on execution_details, not executions
   DETAIL_COLUMNS = %i[
-    error_message system_prompt user_prompt response messages_summary
+    error_message system_prompt user_prompt assistant_prompt response messages_summary
     tool_calls attempts fallback_chain parameters routed_to
     classification_result cached_at cache_creation_tokens
   ].freeze
@@ -34,7 +34,7 @@ class SplitExecutionDetailsFromExecutions < ActiveRecord::Migration[7.1]
 
   def down
     raise ActiveRecord::IrreversibleMigration,
-          'This migration cannot be reversed. Use rails db:schema:load to restore.'
+          "This migration cannot be reversed. Use rails db:schema:load to restore."
   end
 
   private
@@ -44,12 +44,13 @@ class SplitExecutionDetailsFromExecutions < ActiveRecord::Migration[7.1]
 
     create_table :ruby_llm_agents_execution_details do |t|
       t.references :execution, null: false,
-                               foreign_key: { to_table: :ruby_llm_agents_executions, on_delete: :cascade },
-                               index: { unique: true }
+                   foreign_key: { to_table: :ruby_llm_agents_executions, on_delete: :cascade },
+                   index: { unique: true }
 
       t.text     :error_message
       t.text     :system_prompt
       t.text     :user_prompt
+      t.text     :assistant_prompt
       t.json     :response,             default: {}
       t.json     :messages_summary,     default: {}, null: false
       t.json     :tool_calls,           default: [], null: false
@@ -71,7 +72,7 @@ class SplitExecutionDetailsFromExecutions < ActiveRecord::Migration[7.1]
     return if columns_present.empty?
 
     # Backfill data from executions to execution_details
-    say_with_time 'Backfilling execution_details from executions' do
+    say_with_time "Backfilling execution_details from executions" do
       backfill_execution_details(columns_present)
     end
 
@@ -86,7 +87,7 @@ class SplitExecutionDetailsFromExecutions < ActiveRecord::Migration[7.1]
     count = 0
 
     # Build WHERE clause to only copy rows that have data
-    has_data_conditions = columns_present.map { |col| "e.#{col} IS NOT NULL" }.join(' OR ')
+    has_data_conditions = columns_present.map { |col| "e.#{col} IS NOT NULL" }.join(" OR ")
 
     loop do
       ids = exec_query(<<~SQL).rows.flatten
@@ -101,7 +102,7 @@ class SplitExecutionDetailsFromExecutions < ActiveRecord::Migration[7.1]
 
       # Build dynamic column lists based on what actually exists
       detail_cols = %w[execution_id created_at updated_at] + columns_present.map(&:to_s)
-      select_exprs = %w[id created_at updated_at] + columns_present.map do |col|
+      select_exprs = %w[id created_at updated_at] + columns_present.map { |col|
         case col
         when :messages_summary then "COALESCE(messages_summary, '{}')"
         when :tool_calls then "COALESCE(tool_calls, '[]')"
@@ -109,7 +110,7 @@ class SplitExecutionDetailsFromExecutions < ActiveRecord::Migration[7.1]
         when :parameters then "COALESCE(parameters, '{}')"
         else col.to_s
         end
-      end
+      }
 
       execute <<~SQL
         INSERT INTO ruby_llm_agents_execution_details (#{detail_cols.join(', ')})
@@ -126,24 +127,30 @@ class SplitExecutionDetailsFromExecutions < ActiveRecord::Migration[7.1]
 
   def remove_niche_columns
     NICHE_COLUMNS.each do |col|
-      remove_column :ruby_llm_agents_executions, col if column_exists?(:ruby_llm_agents_executions, col)
+      if column_exists?(:ruby_llm_agents_executions, col)
+        remove_column :ruby_llm_agents_executions, col
+      end
     end
   end
 
   def remove_tenant_record_columns
     remove_index :ruby_llm_agents_executions, column: TENANT_RECORD_COLUMNS,
-                                              name: 'index_executions_on_tenant_record', if_exists: true
+                 name: "index_executions_on_tenant_record", if_exists: true
 
     TENANT_RECORD_COLUMNS.each do |col|
-      remove_column :ruby_llm_agents_executions, col if column_exists?(:ruby_llm_agents_executions, col)
+      if column_exists?(:ruby_llm_agents_executions, col)
+        remove_column :ruby_llm_agents_executions, col
+      end
     end
   end
 
   def ensure_required_columns
     unless column_exists?(:ruby_llm_agents_executions, :execution_type)
-      add_column :ruby_llm_agents_executions, :execution_type, :string, null: false, default: 'chat'
+      add_column :ruby_llm_agents_executions, :execution_type, :string, null: false, default: "chat"
     end
-    add_column :ruby_llm_agents_executions, :chosen_model_id, :string unless column_exists?(:ruby_llm_agents_executions, :chosen_model_id)
+    unless column_exists?(:ruby_llm_agents_executions, :chosen_model_id)
+      add_column :ruby_llm_agents_executions, :chosen_model_id, :string
+    end
     unless column_exists?(:ruby_llm_agents_executions, :messages_count)
       add_column :ruby_llm_agents_executions, :messages_count, :integer, default: 0, null: false
     end
@@ -153,9 +160,15 @@ class SplitExecutionDetailsFromExecutions < ActiveRecord::Migration[7.1]
     unless column_exists?(:ruby_llm_agents_executions, :tool_calls_count)
       add_column :ruby_llm_agents_executions, :tool_calls_count, :integer, default: 0, null: false
     end
-    add_column :ruby_llm_agents_executions, :streaming, :boolean, default: false unless column_exists?(:ruby_llm_agents_executions, :streaming)
-    add_column :ruby_llm_agents_executions, :finish_reason, :string unless column_exists?(:ruby_llm_agents_executions, :finish_reason)
-    add_column :ruby_llm_agents_executions, :cache_hit, :boolean, default: false unless column_exists?(:ruby_llm_agents_executions, :cache_hit)
+    unless column_exists?(:ruby_llm_agents_executions, :streaming)
+      add_column :ruby_llm_agents_executions, :streaming, :boolean, default: false
+    end
+    unless column_exists?(:ruby_llm_agents_executions, :finish_reason)
+      add_column :ruby_llm_agents_executions, :finish_reason, :string
+    end
+    unless column_exists?(:ruby_llm_agents_executions, :cache_hit)
+      add_column :ruby_llm_agents_executions, :cache_hit, :boolean, default: false
+    end
     unless column_exists?(:ruby_llm_agents_executions, :trace_id)
       add_column :ruby_llm_agents_executions, :trace_id, :string
       add_index :ruby_llm_agents_executions, :trace_id
@@ -176,10 +189,12 @@ class SplitExecutionDetailsFromExecutions < ActiveRecord::Migration[7.1]
       add_foreign_key :ruby_llm_agents_executions, :ruby_llm_agents_executions,
                       column: :root_execution_id, on_delete: :nullify
     end
-    add_column :ruby_llm_agents_executions, :tenant_id, :string unless column_exists?(:ruby_llm_agents_executions, :tenant_id)
-    return if column_exists?(:ruby_llm_agents_executions, :cached_tokens)
-
-    add_column :ruby_llm_agents_executions, :cached_tokens, :integer, default: 0
+    unless column_exists?(:ruby_llm_agents_executions, :tenant_id)
+      add_column :ruby_llm_agents_executions, :tenant_id, :string
+    end
+    unless column_exists?(:ruby_llm_agents_executions, :cached_tokens)
+      add_column :ruby_llm_agents_executions, :cached_tokens, :integer, default: 0
+    end
   end
 
   def cleanup_indexes
@@ -190,8 +205,12 @@ class SplitExecutionDetailsFromExecutions < ActiveRecord::Migration[7.1]
     end
 
     # Ensure composite tenant indexes exist
-    add_index :ruby_llm_agents_executions, [:tenant_id, :created_at] unless index_exists?(:ruby_llm_agents_executions, [:tenant_id, :created_at])
-    add_index :ruby_llm_agents_executions, [:tenant_id, :status] unless index_exists?(:ruby_llm_agents_executions, [:tenant_id, :status])
+    unless index_exists?(:ruby_llm_agents_executions, [:tenant_id, :created_at])
+      add_index :ruby_llm_agents_executions, [:tenant_id, :created_at]
+    end
+    unless index_exists?(:ruby_llm_agents_executions, [:tenant_id, :status])
+      add_index :ruby_llm_agents_executions, [:tenant_id, :status]
+    end
 
     # Remove workflow indexes (feature removed)
     remove_index :ruby_llm_agents_executions, [:workflow_id, :workflow_step], if_exists: true
@@ -200,13 +219,15 @@ class SplitExecutionDetailsFromExecutions < ActiveRecord::Migration[7.1]
 
     # Remove workflow columns if present
     %i[workflow_id workflow_type workflow_step].each do |col|
-      remove_column :ruby_llm_agents_executions, col if column_exists?(:ruby_llm_agents_executions, col)
+      if column_exists?(:ruby_llm_agents_executions, col)
+        remove_column :ruby_llm_agents_executions, col
+      end
     end
 
     # Remove agent_version if present
-    return unless column_exists?(:ruby_llm_agents_executions, :agent_version)
-
-    remove_index :ruby_llm_agents_executions, [:agent_type, :agent_version], if_exists: true
-    remove_column :ruby_llm_agents_executions, :agent_version
+    if column_exists?(:ruby_llm_agents_executions, :agent_version)
+      remove_index :ruby_llm_agents_executions, [:agent_type, :agent_version], if_exists: true
+      remove_column :ruby_llm_agents_executions, :agent_version
+    end
   end
 end
