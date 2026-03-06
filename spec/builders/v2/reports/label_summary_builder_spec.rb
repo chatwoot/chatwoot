@@ -319,11 +319,11 @@ RSpec.describe V2::Reports::LabelSummaryBuilder do
       let(:account2) { create(:account) }
       let(:unique_label_name) { SecureRandom.uuid }
       let(:test_label) { create(:label, title: unique_label_name, account: account2) }
-      let(:test_date) { Date.new(2025, 6, 15) }
+      let(:test_date) { Time.zone.local(2025, 6, 15) }
       let(:account2_builder) do
         described_class.new(account: account2, params: {
                               business_hours: false,
-                              since: test_date.to_time.to_i.to_s,
+                              since: test_date.beginning_of_day.to_i.to_s,
                               until: test_date.end_of_day.to_time.to_i.to_s,
                               timezone_offset: 0
                             })
@@ -338,26 +338,27 @@ RSpec.describe V2::Reports::LabelSummaryBuilder do
           inbox = create(:inbox, account: account2)
           create(:inbox_member, user: user, inbox: inbox)
 
-          gravatar_url = 'https://www.gravatar.com'
-          stub_request(:get, /#{gravatar_url}.*/).to_return(status: 404)
+          conversation = create(:conversation, account: account2,
+                                               inbox: inbox, assignee: user,
+                                               created_at: test_date)
+          conversation.update_labels(unique_label_name)
+          conversation.label_list
+          conversation.save!
 
-          perform_enqueued_jobs do
-            conversation = create(:conversation, account: account2,
-                                                 inbox: inbox, assignee: user,
-                                                 created_at: test_date)
-            conversation.update_labels(unique_label_name)
-            conversation.label_list
-            conversation.save!
-
-            # First resolution
-            conversation.resolved!
-
-            # Reopen conversation
-            conversation.open!
-
-            # Second resolution
-            conversation.resolved!
-          end
+          create_list(
+            :reporting_event,
+            2,
+            account: account2,
+            inbox: inbox,
+            user: user,
+            conversation: conversation,
+            name: 'conversation_resolved',
+            value: 3600,
+            value_in_business_hours: 1800,
+            created_at: test_date,
+            event_start_time: test_date,
+            event_end_time: test_date + 1.hour
+          )
         end
       end
 
