@@ -15,21 +15,10 @@ namespace :companies do
     account_ids = companies_without_avatars
 
     account_ids.each do |account_id|
-      Companies::FetchAvatarsJob.perform_later(account_id, force_refresh: false)
+      Companies::FetchAvatarsJob.perform_later(account_id)
     end
 
     puts "Queued #{account_ids.count} accounts for favicon fetch"
-  end
-
-  desc 'Refresh favicons for all companies'
-  task refresh_avatars: :environment do
-    account_ids = companies_with_domains
-
-    account_ids.each do |account_id|
-      Companies::FetchAvatarsJob.perform_later(account_id, force_refresh: true)
-    end
-
-    puts "Queued #{account_ids.count} accounts for favicon refresh"
   end
 end
 
@@ -37,12 +26,6 @@ def companies_without_avatars
   Company.left_joins(:avatar_attachment)
          .where(active_storage_attachments: { id: nil })
          .where.not(domain: [nil, ''])
-         .distinct
-         .pluck(:account_id)
-end
-
-def companies_with_domains
-  Company.where.not(domain: [nil, ''])
          .distinct
          .pluck(:account_id)
 end

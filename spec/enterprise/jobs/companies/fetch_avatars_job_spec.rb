@@ -20,42 +20,20 @@ RSpec.describe Companies::FetchAvatarsJob do
       .on_queue('low')
   end
 
-  context 'when force_refresh is false' do
-    it 'queues Avatar::AvatarFromFaviconJob only for companies without avatars' do
-      expect(Avatar::AvatarFromFaviconJob).to receive(:perform_later).with(company_without_avatar, force_refresh: false).once
-      expect(Avatar::AvatarFromFaviconJob).not_to receive(:perform_later).with(company_with_avatar, force_refresh: false)
-      expect(Avatar::AvatarFromFaviconJob).not_to receive(:perform_later).with(company_no_domain, force_refresh: false)
+  it 'queues Avatar::AvatarFromFaviconJob only for companies without avatars' do
+    expect(Avatar::AvatarFromFaviconJob).to receive(:perform_later).with(company_without_avatar).once
+    expect(Avatar::AvatarFromFaviconJob).not_to receive(:perform_later).with(company_with_avatar)
+    expect(Avatar::AvatarFromFaviconJob).not_to receive(:perform_later).with(company_no_domain)
 
-      described_class.perform_now(account.id, force_refresh: false)
-    end
-
-    it 'skips companies with nil or empty domains' do
-      expect(Avatar::AvatarFromFaviconJob).not_to receive(:perform_later).with(company_no_domain, force_refresh: false)
-      described_class.perform_now(account.id, force_refresh: false)
-    end
+    described_class.perform_now(account.id)
   end
 
-  context 'when force_refresh is true' do
-    it 'queues Avatar::AvatarFromFaviconJob for all companies with domains' do
-      expect(Avatar::AvatarFromFaviconJob).to receive(:perform_later).with(company_with_avatar, force_refresh: true).once
-      expect(Avatar::AvatarFromFaviconJob).to receive(:perform_later).with(company_without_avatar, force_refresh: true).once
-      expect(Avatar::AvatarFromFaviconJob).not_to receive(:perform_later).with(company_no_domain, force_refresh: true)
-
-      described_class.perform_now(account.id, force_refresh: true)
-    end
-
-    it 'does not purge existing avatars before enqueueing' do
-      expect(company_with_avatar.avatar).to be_attached
-      allow(Avatar::AvatarFromFaviconJob).to receive(:perform_later)
-
-      described_class.perform_now(account.id, force_refresh: true)
-
-      company_with_avatar.reload
-      expect(company_with_avatar.avatar).to be_attached
-    end
+  it 'skips companies with nil or empty domains' do
+    expect(Avatar::AvatarFromFaviconJob).not_to receive(:perform_later).with(company_no_domain)
+    described_class.perform_now(account.id)
   end
 
   it 'processes companies without errors' do
-    expect { described_class.perform_now(account.id, force_refresh: false) }.not_to raise_error
+    expect { described_class.perform_now(account.id) }.not_to raise_error
   end
 end

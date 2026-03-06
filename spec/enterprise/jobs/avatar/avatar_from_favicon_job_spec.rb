@@ -37,14 +37,4 @@ RSpec.describe Avatar::AvatarFromFaviconJob do
     expect(Avatar::AvatarFromUrlJob).not_to receive(:perform_now)
     described_class.perform_now(company)
   end
-
-  it 'calls AvatarFromUrlJob when force_refresh is true' do
-    company.avatar.attach(
-      io: Rails.root.join('spec/assets/avatar.png').open,
-      filename: 'avatar.png',
-      content_type: 'image/png'
-    )
-    expect(Avatar::AvatarFromUrlJob).to receive(:perform_now).with(company, favicon_url)
-    described_class.perform_now(company, force_refresh: true)
-  end
 end
