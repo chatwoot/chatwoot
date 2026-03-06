@@ -1,31 +1,30 @@
 <script>
 import { mapGetters } from 'vuex';
-
 export default {
-  name: 'ReportsFiltersInboxes',
+  name: 'ReportsFiltersAgents',
   props: {
-    selectedInbox: {
+    selectedAgents: {
       type: Array,
       default: () => [],
     },
   },
-  emits: ['inboxFilterSelection'],
+  emits: ['agentsFilterSelection'],
   data() {
     return {
-      selectedOptions: this.selectedInbox || [],
+      selectedOptions: this.selectedAgents || [],
     };
   },
   computed: {
     ...mapGetters({
-      options: 'inboxes/getInboxes',
+      options: 'agents/getAgents',
     }),
   },
   mounted() {
-    this.$store.dispatch('inboxes/get');
+    this.$store.dispatch('agents/get');
   },
   methods: {
     handleInput() {
-      this.$emit('inboxFilterSelection', this.selectedOptions);
+      this.$emit('agentsFilterSelection', this.selectedOptions);
     },
   },
 };
@@ -43,9 +42,7 @@ export default {
       :close-on-select="false"
       :clear-on-select="false"
       hide-selected
-      :option-height="24"
-      :show-labels="false"
-      :placeholder="$t('INBOX_REPORTS.FILTER_DROPDOWN_LABEL')"
+      :placeholder="$t('CSAT_REPORTS.FILTERS.AGENTS.PLACEHOLDER')"
       selected-label
       :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
       :deselect-label="$t('FORMS.MULTISELECT.ENTER_TO_REMOVE')"

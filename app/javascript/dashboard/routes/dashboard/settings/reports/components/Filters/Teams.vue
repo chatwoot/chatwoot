@@ -3,10 +3,16 @@ import { mapGetters } from 'vuex';
 
 export default {
   name: 'ReportsFiltersTeams',
+  props: {
+    selectedTeam: {
+      type: Array,
+      default: () => [],
+    },
+  },
   emits: ['teamFilterSelection'],
   data() {
     return {
-      selectedOptions: [],
+      selectedOptions: this.selectedTeam || [],
     };
   },
   computed: {

@@ -16,6 +16,18 @@ const state = {
   fetchingStatus: false,
   accountSummaryFetchingStatus: STATUS.FINISHED,
   botSummaryFetchingStatus: STATUS.FINISHED,
+  reportFilters: {
+    selectedDateRange: null,
+    selectedGroupByFilter: null,
+    customDateRange: null,
+    businessHoursSelected: false,
+    selectedAgents: [],
+    selectedLabel: null,
+    selectedInbox: [],
+    selectedTeam: [],
+    selectedRating: null,
+    selectedTimeRange: { since: '00:00', until: '23:59' },
+  },
   accountReport: {
     isFetching: {
       conversations_count: false,
@@ -81,6 +93,9 @@ const state = {
 };
 
 const getters = {
+  getReportFilters(_state) {
+    return _state.reportFilters;
+  },
   getAccountReports(_state) {
     return _state.accountReport;
   },
@@ -117,6 +132,9 @@ const getters = {
 };
 
 export const actions = {
+  updateReportFilters({ commit }, filters) {
+    commit(types.default.SET_REPORT_FILTERS, filters);
+  },
   fetchAccountReport({ commit }, reportObj) {
     const { metric } = reportObj;
     commit(types.default.TOGGLE_ACCOUNT_REPORT_LOADING, {
@@ -476,6 +494,9 @@ const mutations = {
   },
   [types.default.SET_BOT_SUMMARY_STATUS](_state, status) {
     _state.botSummaryFetchingStatus = status;
+  },
+  [types.default.SET_REPORT_FILTERS](_state, filters) {
+    _state.reportFilters = { ..._state.reportFilters, ...filters };
   },
   [types.default.SET_ACCOUNT_SUMMARY_STATUS](_state, status) {
     _state.accountSummaryFetchingStatus = status;
