@@ -57,7 +57,6 @@ class SuperAdmin::AppConfigsController < SuperAdmin::ApplicationController
         ALOO_FEATURE_MEMORY ALOO_FEATURE_VISION
         ALOO_REQUEST_TIMEOUT ALOO_MAX_RETRIES
       ],
-      'captain' => %w[CAPTAIN_OPEN_AI_API_KEY CAPTAIN_OPEN_AI_MODEL CAPTAIN_OPEN_AI_ENDPOINT]
     }
 
     @allowed_configs = mapping.fetch(
