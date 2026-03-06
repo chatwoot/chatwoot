@@ -25,6 +25,8 @@ const isPasswordFocused = ref(false);
 const isSignupInProgress = ref(false);
 
 const credentials = reactive({
+  accountName: '',
+  fullName: '',
   email: '',
   password: '',
   hCaptchaClientResponse: '',
@@ -32,6 +34,8 @@ const credentials = reactive({
 
 const rules = {
   credentials: {
+    accountName: { required },
+    fullName: { required },
     email: {
       required,
       email,
@@ -116,6 +120,28 @@ const onCaptchaError = () => {
 <template>
   <div class="flex-1">
     <form class="space-y-3" @submit.prevent="submit">
+      <FormInput
+        v-model="credentials.accountName"
+        type="text"
+        name="account_name"
+        :class="{ error: v$.credentials.accountName.$error }"
+        label="Company Name"
+        placeholder="Your company name"
+        :has-error="v$.credentials.accountName.$error"
+        error-message="Company name is required"
+        @blur="v$.credentials.accountName.$touch"
+      />
+      <FormInput
+        v-model="credentials.fullName"
+        type="text"
+        name="full_name"
+        :class="{ error: v$.credentials.fullName.$error }"
+        label="Full Name"
+        placeholder="Your full name"
+        :has-error="v$.credentials.fullName.$error"
+        error-message="Full name is required"
+        @blur="v$.credentials.fullName.$touch"
+      />
       <FormInput
         v-model="credentials.email"
         type="email"

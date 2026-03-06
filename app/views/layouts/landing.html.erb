@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <title><%= @installation_name %> - Unified Customer Communication Platform</title>
+    <meta name="description" content="<%= @installation_name %> helps businesses manage all customer conversations in one place. Connect email, live chat, social media, and more."/>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              brand: { 50: '#eff6ff', 100: '#dbeafe', 200: '#bfdbfe', 500: '#3b82f6', 600: '#2563eb', 700: '#1d4ed8', 800: '#1e40af', 900: '#1e3a8a' }
+            }
+          }
+        }
+      }
+    </script>
+  </head>
+  <body class="bg-white text-gray-900 antialiased">
+    <%= yield %>
+  </body>
+</html>

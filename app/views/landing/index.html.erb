@@ -1,0 +1,161 @@
+<!-- Navigation -->
+<nav class="fixed top-0 w-full bg-white/80 backdrop-blur-md border-b border-gray-100 z-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16">
+      <div class="flex items-center">
+        <img src="<%= @logo %>" alt="<%= @installation_name %>" class="h-8 w-auto"/>
+      </div>
+      <div class="flex items-center gap-4">
+        <a href="/app/login" class="text-sm font-medium text-gray-700 hover:text-gray-900 px-4 py-2">
+          Log in
+        </a>
+        <a href="/app/auth/signup" class="text-sm font-medium text-white bg-brand-600 hover:bg-brand-700 px-4 py-2 rounded-lg transition-colors">
+          Get Started Free
+        </a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero Section -->
+<section class="pt-32 pb-20 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-4xl mx-auto text-center">
+    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-gray-900 mb-6">
+      All your customer conversations,
+      <span class="text-brand-600">one platform</span>
+    </h1>
+    <p class="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto mb-10">
+      Connect email, live chat, social media, and messaging apps. Manage every conversation from a single dashboard, powered by AI.
+    </p>
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+      <a href="/app/auth/signup" class="w-full sm:w-auto text-center text-lg font-semibold text-white bg-brand-600 hover:bg-brand-700 px-8 py-3.5 rounded-lg transition-colors shadow-lg shadow-brand-600/25">
+        Start Free Trial
+      </a>
+      <a href="#features" class="w-full sm:w-auto text-center text-lg font-semibold text-gray-700 hover:text-gray-900 px-8 py-3.5 rounded-lg border border-gray-300 hover:border-gray-400 transition-colors">
+        See Features
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Features Section -->
+<section id="features" class="py-20 bg-gray-50 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-7xl mx-auto">
+    <div class="text-center mb-16">
+      <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+        Everything you need to support your customers
+      </h2>
+      <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+        A complete customer communication platform that grows with your business.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <!-- Feature 1 -->
+      <div class="bg-white p-8 rounded-xl border border-gray-200">
+        <div class="w-12 h-12 bg-brand-50 rounded-lg flex items-center justify-center mb-5">
+          <svg class="w-6 h-6 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+          </svg>
+        </div>
+        <h3 class="text-xl font-semibold text-gray-900 mb-2">Multi-Channel Inbox</h3>
+        <p class="text-gray-600">
+          Email, live chat, Facebook, Instagram, Twitter, WhatsApp, Telegram &mdash; all in one unified inbox.
+        </p>
+      </div>
+
+      <!-- Feature 2 -->
+      <div class="bg-white p-8 rounded-xl border border-gray-200">
+        <div class="w-12 h-12 bg-brand-50 rounded-lg flex items-center justify-center mb-5">
+          <svg class="w-6 h-6 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+          </svg>
+        </div>
+        <h3 class="text-xl font-semibold text-gray-900 mb-2">AI-Powered Assistance</h3>
+        <p class="text-gray-600">
+          Smart reply suggestions, automated responses, and AI-driven insights to help your team respond faster.
+        </p>
+      </div>
+
+      <!-- Feature 3 -->
+      <div class="bg-white p-8 rounded-xl border border-gray-200">
+        <div class="w-12 h-12 bg-brand-50 rounded-lg flex items-center justify-center mb-5">
+          <svg class="w-6 h-6 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
+          </svg>
+        </div>
+        <h3 class="text-xl font-semibold text-gray-900 mb-2">Team Collaboration</h3>
+        <p class="text-gray-600">
+          Private notes, mentions, assignment rules, and shared inboxes keep your team aligned and efficient.
+        </p>
+      </div>
+
+      <!-- Feature 4 -->
+      <div class="bg-white p-8 rounded-xl border border-gray-200">
+        <div class="w-12 h-12 bg-brand-50 rounded-lg flex items-center justify-center mb-5">
+          <svg class="w-6 h-6 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+          </svg>
+        </div>
+        <h3 class="text-xl font-semibold text-gray-900 mb-2">Reports & Analytics</h3>
+        <p class="text-gray-600">
+          Track response times, CSAT scores, agent performance, and conversation volume in real time.
+        </p>
+      </div>
+
+      <!-- Feature 5 -->
+      <div class="bg-white p-8 rounded-xl border border-gray-200">
+        <div class="w-12 h-12 bg-brand-50 rounded-lg flex items-center justify-center mb-5">
+          <svg class="w-6 h-6 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+          </svg>
+        </div>
+        <h3 class="text-xl font-semibold text-gray-900 mb-2">Automations</h3>
+        <p class="text-gray-600">
+          Auto-assign conversations, trigger workflows, send canned responses, and set up SLAs effortlessly.
+        </p>
+      </div>
+
+      <!-- Feature 6 -->
+      <div class="bg-white p-8 rounded-xl border border-gray-200">
+        <div class="w-12 h-12 bg-brand-50 rounded-lg flex items-center justify-center mb-5">
+          <svg class="w-6 h-6 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+          </svg>
+        </div>
+        <h3 class="text-xl font-semibold text-gray-900 mb-2">Help Center</h3>
+        <p class="text-gray-600">
+          Build a self-service knowledge base so customers can find answers without waiting for an agent.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-20 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-4xl mx-auto text-center">
+    <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+      Ready to transform your customer support?
+    </h2>
+    <p class="text-lg text-gray-600 mb-8">
+      Get started in minutes. No credit card required.
+    </p>
+    <a href="/app/auth/signup" class="inline-block text-lg font-semibold text-white bg-brand-600 hover:bg-brand-700 px-8 py-3.5 rounded-lg transition-colors shadow-lg shadow-brand-600/25">
+      Create Your Free Account
+    </a>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="border-t border-gray-200 py-8 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+    <div class="flex items-center">
+      <img src="<%= @logo %>" alt="<%= @installation_name %>" class="h-6 w-auto"/>
+    </div>
+    <p class="text-sm text-gray-500">
+      &copy; <%= Date.current.year %> <%= @installation_name %>. All rights reserved.
+    </p>
+  </div>
+</footer>

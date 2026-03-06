@@ -49,10 +49,10 @@ export const login = async ({
 
 export const register = async creds => {
   try {
-    const { fullName, accountName } = getCredentialsFromEmail(creds.email);
+    const fallback = getCredentialsFromEmail(creds.email);
     const response = await wootAPI.post('api/v1/accounts.json', {
-      account_name: accountName,
-      user_full_name: fullName,
+      account_name: creds.accountName || fallback.accountName,
+      user_full_name: creds.fullName || fallback.fullName,
       email: creds.email,
       password: creds.password,
       h_captcha_client_response: creds.hCaptchaClientResponse,
