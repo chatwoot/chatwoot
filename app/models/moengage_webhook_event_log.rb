@@ -2,19 +2,36 @@
 #
 # Table name: moengage_webhook_event_logs
 #
-#  id                  :bigint           not null, primary key
-#  account_id          :bigint           not null
-#  hook_id             :bigint           not null
-#  event_name          :string
-#  status              :integer          default("pending"), not null
-#  payload             :jsonb
-#  response_data       :jsonb
-#  error_message       :text
-#  contact_id          :bigint
-#  conversation_id     :bigint
-#  processing_time_ms  :integer
-#  created_at          :datetime         not null
-#  updated_at          :datetime         not null
+#  id                 :bigint           not null, primary key
+#  error_message      :text
+#  event_name         :string
+#  payload            :jsonb
+#  processing_time_ms :integer
+#  response_data      :jsonb
+#  status             :integer          default("pending"), not null
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
+#  account_id         :bigint           not null
+#  contact_id         :bigint
+#  conversation_id    :bigint
+#  hook_id            :bigint           not null
+#
+# Indexes
+#
+#  index_moengage_webhook_event_logs_on_account_id                 (account_id)
+#  index_moengage_webhook_event_logs_on_account_id_and_created_at  (account_id,created_at)
+#  index_moengage_webhook_event_logs_on_contact_id                 (contact_id)
+#  index_moengage_webhook_event_logs_on_conversation_id            (conversation_id)
+#  index_moengage_webhook_event_logs_on_hook_id                    (hook_id)
+#  index_moengage_webhook_event_logs_on_hook_id_and_created_at     (hook_id,created_at)
+#  index_moengage_webhook_event_logs_on_status_and_created_at      (status,created_at)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (account_id => accounts.id)
+#  fk_rails_...  (contact_id => contacts.id)
+#  fk_rails_...  (conversation_id => conversations.id)
+#  fk_rails_...  (hook_id => integrations_hooks.id)
 #
 class MoengageWebhookEventLog < ApplicationRecord
   belongs_to :account
