@@ -222,7 +222,7 @@ it:
         resolved: 'La conversazione è stata segnata risolta da %{user_name} per inattività'
         resolved_by_tool: 'La conversazione è stata risolta da %{user_name}: %{reason}'
         open: 'La conversazione è stata riaperta da %{user_name}'
-        auto_opened_after_agent_reply: 'Conversation was marked open automatically after an agent reply'
+        auto_opened_after_agent_reply: 'Conversazione aperta automaticamente dopo l’intervento di un operatore'
       agent_bot:
         error_moved_to_open: 'La conversazione è stata riaperta dal sistema a causa di un errore con il Bot Agente.'
       status:
