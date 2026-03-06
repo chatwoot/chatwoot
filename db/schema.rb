@@ -1403,7 +1403,6 @@ ActiveRecord::Schema[7.1].define(version: 2026_03_05_120000) do
     t.text "error_message"
     t.text "system_prompt"
     t.text "user_prompt"
-    t.text "assistant_prompt"
     t.json "response", default: {}
     t.json "messages_summary", default: {}, null: false
     t.json "tool_calls", default: [], null: false
@@ -1416,6 +1415,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_03_05_120000) do
     t.integer "cache_creation_tokens", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "assistant_prompt"
     t.index ["execution_id"], name: "index_ruby_llm_agents_execution_details_on_execution_id", unique: true
   end
 
