@@ -1,6 +1,6 @@
 module Captain::ToolInstrumentation
   extend ActiveSupport::Concern
-  include Integrations::LlmInstrumentationConstants
+  include Integrations::LLMInstrumentationConstants
 
   private
 

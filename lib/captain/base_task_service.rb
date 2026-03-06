@@ -1,5 +1,5 @@
 class Captain::BaseTaskService
-  include Integrations::LlmInstrumentation
+  include Integrations::LLMInstrumentation
   include Captain::ToolInstrumentation
 
   # gpt-4o-mini supports 128,000 tokens
