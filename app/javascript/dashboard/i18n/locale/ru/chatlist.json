@@ -78,7 +78,7 @@
         "TEXT": "Ожидающие ответа: сначала новые"
       },
       "priority_desc_created_at_asc": {
-        "TEXT": "Priority: Highest first, Created: Oldest first"
+        "TEXT": "Приоритет: Сначала высокие, Создано: Сначала старые"
       }
     },
     "ATTACHMENTS": {
@@ -107,7 +107,7 @@
         "CONTENT": "Общий контакт"
       },
       "embed": {
-        "CONTENT": "Embedded content"
+        "CONTENT": "Встроенный контент"
       }
     },
     "CHAT_SORT_BY_FILTER": {
