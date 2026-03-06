@@ -88,6 +88,14 @@ RSpec.describe Avatar::AvatarFromUrlJob do
       described_class.perform_now(avatarable, valid_url)
       expect(avatarable.avatar).to be_attached
     end
+
+    it 'does not raise when download returns a client error' do
+      expect(Down).to receive(:download).with(valid_url, max_size: Avatar::AvatarFromUrlJob::MAX_DOWNLOAD_SIZE)
+                                        .and_raise(Down::ClientError.new('429 Too Many Requests'))
+
+      expect { described_class.perform_now(avatarable, valid_url) }.not_to raise_error
+      expect(avatarable.avatar).not_to be_attached
+    end
   end
 
   # ref: https://github.com/chatwoot/chatwoot/issues/10449

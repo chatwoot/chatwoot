@@ -12,19 +12,19 @@ RSpec.describe Avatar::AvatarFromFaviconJob do
   end
 
   it 'calls AvatarFromUrlJob with Google Favicon URL' do
-    expect(Avatar::AvatarFromUrlJob).to receive(:perform_later).with(company, favicon_url)
+    expect(Avatar::AvatarFromUrlJob).to receive(:perform_now).with(company, favicon_url)
     described_class.perform_now(company)
   end
 
   it 'does not call AvatarFromUrlJob when domain is blank' do
     company.update(domain: nil)
-    expect(Avatar::AvatarFromUrlJob).not_to receive(:perform_later)
+    expect(Avatar::AvatarFromUrlJob).not_to receive(:perform_now)
     described_class.perform_now(company)
   end
 
   it 'does not call AvatarFromUrlJob when domain is empty string' do
     company.update(domain: '')
-    expect(Avatar::AvatarFromUrlJob).not_to receive(:perform_later)
+    expect(Avatar::AvatarFromUrlJob).not_to receive(:perform_now)
     described_class.perform_now(company)
   end
 
@@ -34,7 +34,7 @@ RSpec.describe Avatar::AvatarFromFaviconJob do
       filename: 'avatar.png',
       content_type: 'image/png'
     )
-    expect(Avatar::AvatarFromUrlJob).not_to receive(:perform_later)
+    expect(Avatar::AvatarFromUrlJob).not_to receive(:perform_now)
     described_class.perform_now(company)
   end
 
@@ -44,7 +44,7 @@ RSpec.describe Avatar::AvatarFromFaviconJob do
       filename: 'avatar.png',
       content_type: 'image/png'
     )
-    expect(Avatar::AvatarFromUrlJob).to receive(:perform_later).with(company, favicon_url)
+    expect(Avatar::AvatarFromUrlJob).to receive(:perform_now).with(company, favicon_url)
     described_class.perform_now(company, force_refresh: true)
   end
 end

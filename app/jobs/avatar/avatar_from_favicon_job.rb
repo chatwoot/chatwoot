@@ -6,6 +6,6 @@ class Avatar::AvatarFromFaviconJob < ApplicationJob
     return if company.avatar_url.present? && !force_refresh
 
     favicon_url = "https://www.google.com/s2/favicons?domain=#{company.domain}&sz=256"
-    Avatar::AvatarFromUrlJob.perform_later(company, favicon_url)
+    Avatar::AvatarFromUrlJob.perform_now(company, favicon_url)
   end
 end
