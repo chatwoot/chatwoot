@@ -65,6 +65,79 @@ class SuperAdmin::AccountsController < SuperAdmin::ApplicationController
     redirect_back(fallback_location: [namespace, requested_resource], notice: 'Account deletion is in progress.')
     # rubocop:enable Rails/I18nLocaleTexts
   end
+
+  # ── Billing Admin Actions ──────────────────────────────────────
+  # rubocop:disable Rails/I18nLocaleTexts
+
+  def grant_trial
+    days = (params[:days].presence || 14).to_i
+    plan_key = params[:plan_key].presence || 'pro_monthly'
+    requested_resource.grant_trial!(days: days, plan_key: plan_key)
+    redirect_back(fallback_location: [namespace, requested_resource], notice: "Trial granted for #{days} days on #{plan_key}")
+  rescue StandardError => e
+    redirect_back(fallback_location: [namespace, requested_resource], alert: e.message)
+  end
+
+  def extend_trial
+    days = (params[:days].presence || 14).to_i
+    requested_resource.extend_trial!(days: days)
+    redirect_back(fallback_location: [namespace, requested_resource], notice: "Trial extended by #{days} days")
+  rescue StandardError => e
+    redirect_back(fallback_location: [namespace, requested_resource], alert: e.message)
+  end
+
+  def grant_complimentary
+    plan_key = params[:plan_key].presence || 'pro_monthly'
+    requested_resource.grant_complimentary!(plan_key: plan_key)
+    redirect_back(fallback_location: [namespace, requested_resource], notice: "Complimentary #{plan_key} subscription granted")
+  rescue StandardError => e
+    redirect_back(fallback_location: [namespace, requested_resource], alert: e.message)
+  end
+
+  def override_plan
+    requested_resource.override_plan!(params[:plan_key])
+    redirect_back(fallback_location: [namespace, requested_resource], notice: "Plan overridden to #{params[:plan_key]}")
+  rescue StandardError => e
+    redirect_back(fallback_location: [namespace, requested_resource], alert: e.message)
+  end
+
+  def add_bonus_credits
+    amount = (params[:amount].presence || 1000).to_i
+    requested_resource.add_bonus_credits!(amount)
+    redirect_back(fallback_location: [namespace, requested_resource], notice: "Added #{amount} bonus AI credits")
+  rescue StandardError => e
+    redirect_back(fallback_location: [namespace, requested_resource], alert: e.message)
+  end
+
+  def reset_usage
+    requested_resource.reset_usage!
+    redirect_back(fallback_location: [namespace, requested_resource], notice: 'Usage counters reset to zero')
+  rescue StandardError => e
+    redirect_back(fallback_location: [namespace, requested_resource], alert: e.message)
+  end
+
+  def cancel_subscription
+    requested_resource.cancel_subscription!
+    redirect_back(fallback_location: [namespace, requested_resource], notice: 'Subscription will cancel at period end')
+  rescue StandardError => e
+    redirect_back(fallback_location: [namespace, requested_resource], alert: e.message)
+  end
+
+  def suspend
+    requested_resource.suspend_for_nonpayment!
+    redirect_back(fallback_location: [namespace, requested_resource], notice: 'Account suspended for nonpayment')
+  rescue StandardError => e
+    redirect_back(fallback_location: [namespace, requested_resource], alert: e.message)
+  end
+
+  def reactivate
+    requested_resource.reactivate_after_payment!
+    redirect_back(fallback_location: [namespace, requested_resource], notice: 'Account reactivated')
+  rescue StandardError => e
+    redirect_back(fallback_location: [namespace, requested_resource], alert: e.message)
+  end
+
+  # rubocop:enable Rails/I18nLocaleTexts
 end
 
 SuperAdmin::AccountsController.prepend_mod_with('SuperAdmin::AccountsController')

@@ -1,0 +1,77 @@
+<% content_for(:title) do %>
+  Billing Dashboard
+<% end %>
+
+<header class="flex px-8 py-4 items-center border-b border-n-weak" role="banner">
+  <div class="border border-n-weak mr-4 p-2 rounded-full">
+    <svg width="24" height="24"><use xlink:href="#icon-dashboard-line" /></svg>
+  </div>
+  <div class="flex flex-col h-14 justify-center">
+    <h1 class="text-base font-medium leading-6 text-n-slate-12" id="page-title">
+      <%= content_for(:title) %>
+    </h1>
+    <p class="text-sm font-normal leading-5 text-slate-500 m-0">Billing metrics across all accounts</p>
+  </div>
+</header>
+
+<section class="main-content__body px-8">
+
+  <%# ── Metrics ─────────────────────────────────────────────── %>
+  <div class="outline outline-1 outline-n-container rounded-lg shadow-sm mb-6">
+    <div class="px-4 py-3 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4 text-center">
+      <div>
+        <p class="text-2xl font-bold text-blue-600 m-0"><%= @metrics[:active_subscriptions] %></p>
+        <p class="text-xs text-n-slate-11 m-0">Active</p>
+      </div>
+      <div>
+        <p class="text-2xl font-bold text-violet-600 m-0"><%= @metrics[:trials] %></p>
+        <p class="text-xs text-n-slate-11 m-0">Trials</p>
+      </div>
+      <div>
+        <p class="text-2xl font-bold text-amber-600 m-0"><%= @metrics[:trials_expiring_7_days] %></p>
+        <p class="text-xs text-n-slate-11 m-0">Expiring (7d)</p>
+      </div>
+      <div>
+        <p class="text-2xl font-bold text-green-600 m-0"><%= @metrics[:complimentary] %></p>
+        <p class="text-xs text-n-slate-11 m-0">Complimentary</p>
+      </div>
+      <div>
+        <p class="text-2xl font-bold text-slate-500 m-0"><%= @metrics[:no_subscription] %></p>
+        <p class="text-xs text-n-slate-11 m-0">No Sub</p>
+      </div>
+      <div>
+        <p class="text-2xl font-bold text-red-600 m-0"><%= @metrics[:suspended] %></p>
+        <p class="text-xs text-n-slate-11 m-0">Suspended</p>
+      </div>
+      <div>
+        <p class="text-2xl font-bold text-n-slate-12 m-0"><%= @metrics[:total_accounts] %></p>
+        <p class="text-xs text-n-slate-11 m-0">Total</p>
+      </div>
+    </div>
+  </div>
+
+  <%# ── Quick Filters ───────────────────────────────────────── %>
+  <div class="flex gap-2 flex-wrap">
+    <a href="/super_admin/accounts?search=subscribed%3A"
+      class="h-8 px-3 rounded text-sm font-medium bg-transparent outline outline-1 outline-n-container text-n-slate-11 hover:bg-slate-50 hover:text-n-slate-12 focus:outline-none no-underline inline-flex items-center">
+      Subscribed
+    </a>
+    <a href="/super_admin/accounts?search=on_trial%3A"
+      class="h-8 px-3 rounded text-sm font-medium bg-transparent outline outline-1 outline-n-container text-n-slate-11 hover:bg-slate-50 hover:text-n-slate-12 focus:outline-none no-underline inline-flex items-center">
+      On Trial
+    </a>
+    <a href="/super_admin/accounts?search=no_subscription%3A"
+      class="h-8 px-3 rounded text-sm font-medium bg-transparent outline outline-1 outline-n-container text-n-slate-11 hover:bg-slate-50 hover:text-n-slate-12 focus:outline-none no-underline inline-flex items-center">
+      No Subscription
+    </a>
+    <a href="/super_admin/accounts?search=complimentary%3A"
+      class="h-8 px-3 rounded text-sm font-medium bg-transparent outline outline-1 outline-n-container text-n-slate-11 hover:bg-slate-50 hover:text-n-slate-12 focus:outline-none no-underline inline-flex items-center">
+      Complimentary
+    </a>
+    <a href="/super_admin/accounts?search=suspended%3A"
+      class="h-8 px-3 rounded text-sm font-medium bg-red-50 outline outline-1 outline-red-300 text-red-700 hover:bg-red-100 focus:outline-none no-underline inline-flex items-center">
+      Suspended
+    </a>
+  </div>
+
+</section>

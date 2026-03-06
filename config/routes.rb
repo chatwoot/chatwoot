@@ -122,6 +122,16 @@ Rails.application.routes.draw do
           resource :tap_settings, only: [:show, :create, :update, :destroy]
           resource :catalog_settings, only: [:show, :create, :update]
           resource :payment_link_settings, only: [:show, :create, :update]
+
+          # Billing
+          resource :subscription, only: [:show] do
+            post :checkout, on: :collection
+            post :portal, on: :member
+            post :swap, on: :member
+            post :cancel, on: :member
+            post :resume, on: :member
+          end
+
           resources :agent_bots, only: [:index, :create, :show, :update, :destroy] do
             delete :avatar, on: :member
             post :reset_access_token, on: :member
@@ -739,6 +749,19 @@ Rails.application.routes.draw do
       resources :accounts, only: [:index, :new, :create, :show, :edit, :update, :destroy] do
         post :seed, on: :member
         post :reset_cache, on: :member
+
+        # Billing admin actions
+        member do
+          post :grant_trial
+          post :extend_trial
+          post :grant_complimentary
+          post :override_plan
+          post :add_bonus_credits
+          post :reset_usage
+          post :cancel_subscription
+          post :suspend
+          post :reactivate
+        end
       end
       resources :users, only: [:index, :new, :create, :show, :edit, :update, :destroy] do
         delete :avatar, on: :member, action: :destroy_avatar
@@ -758,6 +781,9 @@ Rails.application.routes.draw do
 
       # Aloo AI Analytics Dashboard
       resource :aloo_analytics, only: [:show], controller: 'aloo_analytics', action: 'index'
+
+      # Billing Dashboard
+      resource :billing_dashboard, only: [:show], controller: 'billing_dashboard'
 
       # resources that doesn't appear in primary navigation in super admin
       resources :account_users, only: [:new, :create, :show, :destroy]

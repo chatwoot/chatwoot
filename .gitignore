@@ -34,7 +34,7 @@ master.key
 # Ignore env files
 .env
 .env.*
-
+.claude/worktrees/
 public/uploads
 public/packs*
 public/assets/administrate*

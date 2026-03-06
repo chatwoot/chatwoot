@@ -166,6 +166,7 @@ gem 'pg_search'
 
 # Subscriptions, Billing
 gem 'stripe', '~> 18.0'
+gem 'pay', '~> 11.4'
 
 ## - helper gems --##
 ## to populate db with sample data

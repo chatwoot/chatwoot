@@ -24,7 +24,11 @@ class Aloo::ResponseService
   private
 
   def processable?
-    @assistant&.active? && !human_assigned? && @message.incoming?
+    @assistant&.active? && !human_assigned? && @message.incoming? && billing_allows_ai?
+  end
+
+  def billing_allows_ai?
+    @conversation.account.ai_responses_allowed?
   end
 
   def human_assigned?
@@ -68,6 +72,7 @@ class Aloo::ResponseService
     message = create_message(result)
     return unless message&.persisted?
 
+    @conversation.account.track_ai_response!
     dispatch_reply(message)
     update_conversation_status
     trigger_voice_reply(message)

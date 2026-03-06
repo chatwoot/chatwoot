@@ -2,20 +2,21 @@
 #
 # Table name: accounts
 #
-#  id                    :integer          not null, primary key
-#  auto_resolve_duration :integer
-#  custom_attributes     :jsonb
-#  domain                :string(100)
-#  feature_flags         :bigint           default(0), not null
-#  internal_attributes   :jsonb            not null
-#  limits                :jsonb
-#  locale                :integer          default("en")
-#  name                  :string           not null
-#  settings              :jsonb
-#  status                :integer          default("active")
-#  support_email         :string(100)
-#  created_at            :datetime         not null
-#  updated_at            :datetime         not null
+#  id                      :integer          not null, primary key
+#  auto_resolve_duration   :integer
+#  custom_attributes       :jsonb
+#  domain                  :string(100)
+#  feature_flags           :bigint           default(0), not null
+#  internal_attributes     :jsonb            not null
+#  limits                  :jsonb
+#  locale                  :integer          default("en")
+#  name                    :string           not null
+#  settings                :jsonb
+#  status                  :integer          default("active")
+#  support_email           :string(100)
+#  trial_credits_remaining :integer          default(0), not null
+#  created_at              :datetime         not null
+#  updated_at              :datetime         not null
 #
 # Indexes
 #
@@ -28,6 +29,7 @@ class Account < ApplicationRecord
   include Reportable
   include Featurable
   include CacheKeys
+  include Billable
   include RubyLLM::Agents::LLMTenant
 
   llm_tenant(

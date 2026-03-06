@@ -671,6 +671,8 @@ GEM
     parser (3.3.8.0)
       ast (~> 2.4.1)
       racc
+    pay (11.4.3)
+      rails (>= 7.0.0)
     pdf-reader (2.15.1)
       Ascii85 (>= 1.0, < 3.0, != 2.0.0)
       afm (>= 0.2.1, < 2)
@@ -1164,6 +1166,7 @@ DEPENDENCIES
   opensearch-ruby
   opentelemetry-exporter-otlp
   opentelemetry-sdk
+  pay (~> 11.4)
   pdf-reader
   pg
   pg_search
