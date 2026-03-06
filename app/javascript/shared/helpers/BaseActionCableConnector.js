@@ -1,12 +1,13 @@
 import { createConsumer } from '@rails/actioncable';
 
 const PRESENCE_INTERVAL = 20000;
+const BACKGROUND_PRESENCE_INTERVAL = 60000;
 const RECONNECT_INTERVAL = 1000;
 
 class BaseActionCableConnector {
   static isDisconnected = false;
 
-  constructor(app, pubsubToken, websocketHost = '') {
+  constructor(app, pubsubToken, websocketHost = '', presenceInterval = null) {
     const websocketURL = websocketHost ? `${websocketHost}/cable` : undefined;
 
     this.consumer = createConsumer(websocketURL);
@@ -34,10 +35,13 @@ class BaseActionCableConnector {
     this.reconnectTimer = null;
     this.isAValidEvent = () => true;
     this.triggerPresenceInterval = () => {
+      const interval =
+        presenceInterval ??
+        (document.hidden ? BACKGROUND_PRESENCE_INTERVAL : PRESENCE_INTERVAL);
       setTimeout(() => {
         this.subscription.updatePresence();
         this.triggerPresenceInterval();
-      }, PRESENCE_INTERVAL);
+      }, interval);
     };
     this.triggerPresenceInterval();
   }
