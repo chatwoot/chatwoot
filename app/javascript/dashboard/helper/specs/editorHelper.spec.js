@@ -166,6 +166,44 @@ describe('serializePlainTextMessage', () => {
   });
 });
 
+describe('getContentNode canned responses', () => {
+  it('preserves plain text canned responses as literal text', () => {
+    const state = createEditorState();
+    const editorView = { state };
+
+    const { node } = getContentNode(
+      editorView,
+      'cannedResponse',
+      {
+        text: 'Первая строка\n\n- пункт один',
+        format: 'plain_text',
+      },
+      { from: 1, to: 1 },
+      {}
+    );
+
+    expect(node.textContent).toBe('Первая строка- пункт один');
+  });
+
+  it('keeps markdown canned responses on the markdown parser path', () => {
+    const state = createEditorState();
+    const editorView = { state };
+
+    const { node } = getContentNode(
+      editorView,
+      'cannedResponse',
+      {
+        text: '**bold**',
+        format: null,
+      },
+      { from: 1, to: 1 },
+      {}
+    );
+
+    expect(node.textContent).toBe('bold');
+  });
+});
+
 describe('stripUnsupportedMarkdown', () => {
   const richSignature =
     '**Bold** _italic_ [link](http://example.com) ![](http://localhost:3000/image.png)';

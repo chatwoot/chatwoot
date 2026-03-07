@@ -492,7 +492,24 @@ const createNode = (editorView, nodeType, content) => {
       return mentionNode;
     }
     case 'cannedResponse': {
-      return createPlainTextCannedResponseNode(state.schema, content);
+      const textContent =
+        typeof content === 'object' && content !== null ? content.text : content;
+      const format =
+        typeof content === 'object' && content !== null ? content.format : null;
+
+      if (format === 'plain_text') {
+        return createPlainTextCannedResponseNode(state.schema, content);
+      }
+
+      // Strip unsupported formatting before parsing to ensure content can be inserted
+      // into channels that don't support certain markdown features (e.g., API channels)
+      const sanitizedContent = stripUnsupportedFormatting(
+        textContent,
+        state.schema
+      );
+      return new MessageMarkdownTransformer(state.schema).parse(
+        sanitizedContent
+      );
     }
     case 'variable':
       return state.schema.text(`{{${content}}}`);

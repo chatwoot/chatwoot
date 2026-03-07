@@ -65,7 +65,7 @@ RSpec.describe 'Canned Responses API', type: :request do
         params = {
           short_code: 'short',
           content: "Первая строка\n\n- пункт один",
-          content_format: 'plain_text',
+          content_format: 'plain_text'
         }
 
         post "/api/v1/accounts/#{account.id}/canned_responses",
