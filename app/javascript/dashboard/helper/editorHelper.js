@@ -415,6 +415,45 @@ export function stripUnsupportedFormatting(content, schema) {
  * @param {Object|string} content - The content needed to create the node, which varies based on node type.
  * @returns {Object|null} - The created ProseMirror node or null if the type is not supported.
  */
+function createPlainTextCannedResponseNode(schema, content) {
+  if (!content) {
+    return schema.nodes.paragraph.create();
+  }
+
+  const normalizedContent = content.replace(/\r\n?/g, '\n');
+  const lines = normalizedContent.split('\n');
+  const paragraphs = [];
+  let currentInlineNodes = [];
+
+  const flushParagraph = () => {
+    paragraphs.push(schema.nodes.paragraph.create(null, currentInlineNodes));
+    currentInlineNodes = [];
+  };
+
+  lines.forEach((line, index) => {
+    const isLastLine = index === lines.length - 1;
+
+    if (line.length > 0) {
+      currentInlineNodes.push(schema.text(line));
+    }
+
+    if (isLastLine) {
+      flushParagraph();
+      return;
+    }
+
+    const nextLine = lines[index + 1];
+    if (nextLine === '') {
+      flushParagraph();
+      return;
+    }
+
+    currentInlineNodes.push(schema.nodes.hard_break.create());
+  });
+
+  return schema.nodes.doc.create(null, paragraphs);
+}
+
 const createNode = (editorView, nodeType, content) => {
   const { state } = editorView;
   switch (nodeType) {
@@ -431,15 +470,7 @@ const createNode = (editorView, nodeType, content) => {
       return mentionNode;
     }
     case 'cannedResponse': {
-      // Strip unsupported formatting before parsing to ensure content can be inserted
-      // into channels that don't support certain markdown features (e.g., API channels)
-      const sanitizedContent = stripUnsupportedFormatting(
-        content,
-        state.schema
-      );
-      return new MessageMarkdownTransformer(state.schema).parse(
-        sanitizedContent
-      );
+      return createPlainTextCannedResponseNode(state.schema, content);
     }
     case 'variable':
       return state.schema.text(`{{${content}}}`);

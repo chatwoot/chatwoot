@@ -20,11 +20,40 @@ describe('getContentNode', () => {
       state: {
         schema: {
           nodes: {
+            doc: {
+              create: vi.fn((attrs, content) => ({
+                type: { name: 'doc' },
+                content,
+                textContent: content
+                  .map(paragraph =>
+                    (paragraph.content || [])
+                      .map(node =>
+                        node.type?.name === 'hard_break' ? '\n' : node.text
+                      )
+                      .join('')
+                  )
+                  .join('\n'),
+              })),
+            },
+            paragraph: {
+              create: vi.fn((attrs, content = []) => ({
+                type: { name: 'paragraph' },
+                content,
+              })),
+            },
+            hard_break: {
+              create: vi.fn(() => ({
+                type: { name: 'hard_break' },
+              })),
+            },
             mention: {
               create: vi.fn(),
             },
           },
-          text: vi.fn(),
+          text: vi.fn(text => ({
+            type: { name: 'text' },
+            text,
+          })),
         },
       },
     };
@@ -51,23 +80,14 @@ describe('getContentNode', () => {
   });
 
   describe('getCannedResponseNode', () => {
-    it('should create a canned response node', () => {
+    it('should create a plain-text canned response node without markdown parsing', () => {
       const content = 'Hello {{name}}';
       const variables = { name: 'John' };
       const from = 0;
       const to = 10;
       const updatedMessage = 'Hello John';
 
-      // Mock the node that will be returned by parse
-      const mockNode = { textContent: updatedMessage };
-
       replaceVariablesInMessage.mockReturnValue(updatedMessage);
-
-      // Mock MessageMarkdownTransformer instance with parse method
-      const mockTransformer = {
-        parse: vi.fn().mockReturnValue(mockNode),
-      };
-      MessageMarkdownTransformer.mockImplementation(() => mockTransformer);
 
       const result = getContentNode(
         editorView,
@@ -81,15 +101,29 @@ describe('getContentNode', () => {
         message: content,
         variables,
       });
-      expect(MessageMarkdownTransformer).toHaveBeenCalledWith(
-        editorView.state.schema
-      );
-      expect(mockTransformer.parse).toHaveBeenCalledWith(updatedMessage);
-      expect(result.node).toBe(mockNode);
+      expect(MessageMarkdownTransformer).not.toHaveBeenCalled();
+      expect(editorView.state.schema.nodes.doc.create).toHaveBeenCalled();
+      expect(result.node.type.name).toBe('doc');
       expect(result.node.textContent).toBe(updatedMessage);
       // When textContent matches updatedMessage, from should remain unchanged
       expect(result.from).toBe(from);
       expect(result.to).toBe(to);
+    });
+
+    it('preserves literal dash prefixes and blank lines in canned responses', () => {
+      const content = 'Первая строка\n\n- пункт один\n- пункт два';
+      replaceVariablesInMessage.mockReturnValue(content);
+
+      const result = getContentNode(
+        editorView,
+        'cannedResponse',
+        content,
+        { from: 0, to: 10 },
+        {}
+      );
+
+      expect(MessageMarkdownTransformer).not.toHaveBeenCalled();
+      expect(result.node.textContent).toBe(content);
     });
   });
 
