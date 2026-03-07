@@ -94,11 +94,14 @@ class ConversationReplyMailer < ApplicationMailer
                      business_name
                    end
 
-    # Use Mail::Address to properly encode display names with special characters
-    # This handles RFC 5322 quoting automatically (e.g., "Dr. John Doe" <email>)
+    # Use Mail::Address to properly encode display names containing RFC 5322
+    # special characters (e.g., "Dr. John Doe" becomes "Dr. John Doe" <email>).
+    # Fall back to the legacy string format for incomplete/unparseable addresses.
     address = Mail::Address.new(sender_email)
     address.display_name = display_name
     address.format
+  rescue Mail::Field::IncompleteParseError
+    "#{display_name} <#{sender_email}>"
   end
 
   def current_message
