@@ -92,7 +92,9 @@ RSpec.describe ConversationReplyMailer do
     end
 
     context 'with agent name containing special characters' do
-      let!(:agent_with_punctuation) { create(:user, name: 'Dr. Julio Menezes', email: 'dr.julio@example.com', account: account) }
+      let!(:agent_with_punctuation) do
+        create(:user, name: 'Dr. Julio Menezes', display_name: 'Dr. Julio Menezes', email: 'dr.julio@example.com', account: account)
+      end
       let(:conversation) { create(:conversation, assignee: agent_with_punctuation, account: account) }
       let(:message) { create(:message, message_type: :outgoing, conversation: conversation, sender: agent_with_punctuation) }
       let(:inbox_name) { conversation.inbox.sanitized_name }
@@ -104,7 +106,7 @@ RSpec.describe ConversationReplyMailer do
       end
 
       it 'handles other RFC 5322 special characters' do
-        agent_with_punctuation.update!(name: 'Name, Jr.')
+        agent_with_punctuation.update!(name: 'Name, Jr.', display_name: 'Name, Jr.')
         mail = described_class.reply_with_summary(message.conversation, message.id).deliver_now
         expect(mail[:from].display_names).to eq(["Name, Jr. from #{inbox_name}"])
         expect(mail[:from].value).to match(/"Name, Jr\. from .+" </)
