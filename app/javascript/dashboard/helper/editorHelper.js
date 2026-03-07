@@ -104,6 +104,25 @@ export function cleanSignature(signature) {
 }
 
 /**
+ * Serialize a ProseMirror message doc as literal plain text.
+ * This avoids markdown serializer artifacts like escaped blank lines (`\`)
+ * when we intentionally want exact text output.
+ *
+ * @param {import('prosemirror-model').Node} doc
+ * @returns {string}
+ */
+export function serializePlainTextMessage(doc) {
+  if (!doc) return '';
+
+  const blocks = [];
+  doc.forEach(node => {
+    blocks.push(node.textBetween(0, node.content.size, '\n', '\n'));
+  });
+
+  return blocks.join('\n').replace(/\n+$/, '');
+}
+
+/**
  * Adds the signature delimiter to the beginning of the signature.
  *
  * @param {string} signature - The signature to add the delimiter to.
@@ -416,11 +435,14 @@ export function stripUnsupportedFormatting(content, schema) {
  * @returns {Object|null} - The created ProseMirror node or null if the type is not supported.
  */
 function createPlainTextCannedResponseNode(schema, content) {
-  if (!content) {
+  const textContent =
+    typeof content === 'object' && content !== null ? content.text : content;
+
+  if (!textContent) {
     return schema.nodes.paragraph.create();
   }
 
-  const normalizedContent = content.replace(/\r\n?/g, '\n');
+  const normalizedContent = textContent.replace(/\r\n?/g, '\n');
   const lines = normalizedContent.split('\n');
   const paragraphs = [];
   let currentInlineNodes = [];
@@ -497,11 +519,16 @@ const nodeCreators = {
     to,
   }),
   cannedResponse: (editorView, content, from, to, variables) => {
+    const textContent =
+      typeof content === 'object' && content !== null ? content.text : content;
     const updatedMessage = replaceVariablesInMessage({
-      message: content,
+      message: textContent,
       variables,
     });
-    const node = createNode(editorView, 'cannedResponse', updatedMessage);
+    const node = createNode(editorView, 'cannedResponse', {
+      ...content,
+      text: updatedMessage,
+    });
     return {
       node,
       from: node.textContent === updatedMessage ? from : from - 1,

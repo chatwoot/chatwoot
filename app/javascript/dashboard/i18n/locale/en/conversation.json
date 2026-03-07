@@ -188,6 +188,8 @@
       "MESSAGE_SIGN_TOOLTIP": "Message signature",
       "ENABLE_SIGN_TOOLTIP": "Enable signature",
       "DISABLE_SIGN_TOOLTIP": "Disable signature",
+      "ENABLE_PLAIN_TEXT_TOOLTIP": "Enable plain text mode",
+      "DISABLE_PLAIN_TEXT_TOOLTIP": "Disable plain text mode",
       "MSG_INPUT": "Shift + enter for new line. Start with '/' to select a Canned Response.",
       "PRIVATE_MSG_INPUT": "Shift + enter for new line. This will be visible only to Agents",
       "MESSAGING_RESTRICTED": "You cannot reply to this conversation",
@@ -208,6 +210,9 @@
       "TIP_EMOJI_ICON": "Show emoji selector",
       "TIP_ATTACH_ICON": "Attach files",
       "TIP_AUDIORECORDER_ICON": "Record audio",
+      "PLAIN_TEXT": {
+        "TOOLTIP": "Send the next message as plain text. Preserve line breaks and hyphens exactly as written."
+      },
       "TIP_AUDIORECORDER_PERMISSION": "Allow access to audio",
       "TIP_AUDIORECORDER_ERROR": "Could not open the audio",
       "DRAG_DROP": "Drag and drop here to attach",

@@ -4,12 +4,14 @@ import { useVuelidate } from '@vuelidate/core';
 import { required, minLength } from '@vuelidate/validators';
 import { useAlert } from 'dashboard/composables';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import Checkbox from 'dashboard/components-next/checkbox/Checkbox.vue';
 import TextArea from 'dashboard/components-next/textarea/TextArea.vue';
 import Modal from '../../../../components/Modal.vue';
 
 export default {
   components: {
     NextButton,
+    Checkbox,
     TextArea,
     Modal,
   },
@@ -17,6 +19,7 @@ export default {
     id: { type: Number, default: null },
     edcontent: { type: String, default: '' },
     edshortCode: { type: String, default: '' },
+    edcontentFormat: { type: String, default: 'markdown' },
     onClose: { type: Function, default: () => {} },
   },
   setup() {
@@ -30,6 +33,7 @@ export default {
       },
       shortCode: this.edshortCode,
       content: this.edcontent,
+      isPlainText: this.edcontentFormat === 'plain_text',
       show: true,
     };
   },
@@ -51,6 +55,7 @@ export default {
     resetForm() {
       this.shortCode = '';
       this.content = '';
+      this.isPlainText = false;
       this.v$.shortCode.$reset();
       this.v$.content.$reset();
     },
@@ -63,6 +68,7 @@ export default {
           id: this.id,
           short_code: this.shortCode,
           content: this.content,
+          content_format: this.isPlainText ? 'plain_text' : 'markdown',
         })
         .then(() => {
           // Reset Form, Show success message
@@ -116,6 +122,17 @@ export default {
             @blur="v$.content.$touch"
           />
         </div>
+        <label class="flex items-start gap-3 py-3">
+          <Checkbox v-model="isPlainText" />
+          <span class="flex flex-col gap-1">
+            <span class="text-sm font-medium text-n-slate-12">
+              {{ $t('CANNED_MGMT.EDIT.FORM.PLAIN_TEXT.LABEL') }}
+            </span>
+            <span class="text-sm text-n-slate-11">
+              {{ $t('CANNED_MGMT.EDIT.FORM.PLAIN_TEXT.HELP') }}
+            </span>
+          </span>
+        </label>
         <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
           <NextButton
             faded

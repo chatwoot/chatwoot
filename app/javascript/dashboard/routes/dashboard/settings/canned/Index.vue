@@ -115,6 +115,7 @@ const tableHeaders = computed(() => {
   return [
     t('CANNED_MGMT.LIST.TABLE_HEADER.SHORT_CODE'),
     t('CANNED_MGMT.LIST.TABLE_HEADER.CONTENT'),
+    t('CANNED_MGMT.LIST.TABLE_HEADER.FORMAT'),
     t('CANNED_MGMT.LIST.TABLE_HEADER.ACTIONS'),
   ];
 });
@@ -187,6 +188,22 @@ const tableHeaders = computed(() => {
             <td class="py-4 ltr:pr-4 rtl:pl-4 md:break-all whitespace-normal">
               {{ getPlainText(cannedItem.content) }}
             </td>
+            <td class="py-4 ltr:pr-4 rtl:pl-4 whitespace-nowrap">
+              <span
+                class="inline-flex items-center rounded-md px-2 py-1 text-xs font-medium"
+                :class="
+                  cannedItem.content_format === 'plain_text'
+                    ? 'bg-n-blue-subtle text-n-blue-text'
+                    : 'bg-n-slate-3 text-n-slate-11'
+                "
+              >
+                {{
+                  cannedItem.content_format === 'plain_text'
+                    ? $t('CANNED_MGMT.LIST.FORMAT.PLAIN_TEXT')
+                    : $t('CANNED_MGMT.LIST.FORMAT.MARKDOWN')
+                }}
+              </span>
+            </td>
             <td class="py-4 flex justify-end gap-1">
               <Button
                 v-tooltip.top="$t('CANNED_MGMT.EDIT.BUTTON_TEXT')"
@@ -221,6 +238,7 @@ const tableHeaders = computed(() => {
         :id="activeResponse.id"
         :edshort-code="activeResponse.short_code"
         :edcontent="activeResponse.content"
+        :edcontent-format="activeResponse.content_format"
         :on-close="hideEditPopup"
       />
     </woot-modal>

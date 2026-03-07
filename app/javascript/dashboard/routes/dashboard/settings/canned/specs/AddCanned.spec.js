@@ -1,6 +1,7 @@
 import { mount } from '@vue/test-utils';
 import { vi } from 'vitest';
 import AddCanned from '../AddCanned.vue';
+import Checkbox from 'dashboard/components-next/checkbox/Checkbox.vue';
 import TextArea from 'dashboard/components-next/textarea/TextArea.vue';
 
 vi.mock('dashboard/composables', () => ({
@@ -35,6 +36,7 @@ describe('AddCanned.vue', () => {
     });
 
     expect(wrapper.findComponent(TextArea).exists()).toBe(true);
+    expect(wrapper.findComponent(Checkbox).exists()).toBe(true);
     expect(wrapper.vm.content).toBe('Первая строка\n\n- пункт один');
     expect(wrapper.html()).not.toContain('message-editor');
   });
@@ -47,6 +49,7 @@ describe('AddCanned.vue', () => {
     await wrapper.setData({
       shortCode: 'test-format-check',
       content: rawContent,
+      isPlainText: true,
     });
 
     wrapper.vm.addCannedResponse();
@@ -54,6 +57,7 @@ describe('AddCanned.vue', () => {
     expect(store.dispatch).toHaveBeenCalledWith('createCannedResponse', {
       short_code: 'test-format-check',
       content: rawContent,
+      content_format: 'plain_text',
     });
   });
 });

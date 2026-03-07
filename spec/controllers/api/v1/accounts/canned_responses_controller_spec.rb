@@ -62,7 +62,11 @@ RSpec.describe 'Canned Responses API', type: :request do
       let(:agent) { create(:user, account: account, role: :agent) }
 
       it 'creates a new canned response' do
-        params = { short_code: 'short', content: 'content' }
+        params = {
+          short_code: 'short',
+          content: "Первая строка\n\n- пункт один",
+          content_format: 'plain_text',
+        }
 
         post "/api/v1/accounts/#{account.id}/canned_responses",
              params: params,
@@ -71,6 +75,7 @@ RSpec.describe 'Canned Responses API', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(account.canned_responses.count).to eq(2)
+        expect(account.canned_responses.last.content_format).to eq('plain_text')
       end
     end
   end
@@ -90,7 +95,7 @@ RSpec.describe 'Canned Responses API', type: :request do
       let(:agent) { create(:user, account: account, role: :agent) }
 
       it 'updates an existing canned response' do
-        params = { short_code: 'B' }
+        params = { short_code: 'B', content_format: 'plain_text' }
 
         put "/api/v1/accounts/#{account.id}/canned_responses/#{canned_response.id}",
             params: params,
@@ -99,6 +104,7 @@ RSpec.describe 'Canned Responses API', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(canned_response.reload.short_code).to eq('B')
+        expect(canned_response.reload.content_format).to eq('plain_text')
       end
     end
   end

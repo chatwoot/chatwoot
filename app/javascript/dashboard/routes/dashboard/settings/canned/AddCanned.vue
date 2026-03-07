@@ -4,6 +4,7 @@ import { required, minLength } from '@vuelidate/validators';
 import { useAlert } from 'dashboard/composables';
 
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import Checkbox from 'dashboard/components-next/checkbox/Checkbox.vue';
 import TextArea from 'dashboard/components-next/textarea/TextArea.vue';
 import Modal from '../../../../components/Modal.vue';
 
@@ -11,6 +12,7 @@ export default {
   name: 'AddCanned',
   components: {
     NextButton,
+    Checkbox,
     TextArea,
     Modal,
   },
@@ -31,6 +33,7 @@ export default {
     return {
       shortCode: '',
       content: this.responseContent || '',
+      isPlainText: false,
       addCanned: {
         showLoading: false,
         message: '',
@@ -51,6 +54,7 @@ export default {
     resetForm() {
       this.shortCode = '';
       this.content = '';
+      this.isPlainText = false;
       this.v$.shortCode.$reset();
       this.v$.content.$reset();
     },
@@ -62,6 +66,7 @@ export default {
         .dispatch('createCannedResponse', {
           short_code: this.shortCode,
           content: this.content,
+          content_format: this.isPlainText ? 'plain_text' : 'markdown',
         })
         .then(() => {
           // Reset Form, Show success message
@@ -116,6 +121,17 @@ export default {
             @blur="v$.content.$touch"
           />
         </div>
+        <label class="flex items-start gap-3 py-3">
+          <Checkbox v-model="isPlainText" />
+          <span class="flex flex-col gap-1">
+            <span class="text-sm font-medium text-n-slate-12">
+              {{ $t('CANNED_MGMT.ADD.FORM.PLAIN_TEXT.LABEL') }}
+            </span>
+            <span class="text-sm text-n-slate-11">
+              {{ $t('CANNED_MGMT.ADD.FORM.PLAIN_TEXT.HELP') }}
+            </span>
+          </span>
+        </label>
         <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
           <NextButton
             faded

@@ -13,7 +13,12 @@
       "TABLE_HEADER": {
         "SHORT_CODE": "Short code",
         "CONTENT": "Content",
+        "FORMAT": "Format",
         "ACTIONS": "Actions"
+      },
+      "FORMAT": {
+        "MARKDOWN": "Markdown",
+        "PLAIN_TEXT": "Plain text"
       }
     },
     "ADD": {
@@ -30,6 +35,10 @@
           "LABEL": "Message",
           "PLACEHOLDER": "Please write the message you want to save as a template to use later.",
           "ERROR": "Message is required."
+        },
+        "PLAIN_TEXT": {
+          "LABEL": "Send as plain text",
+          "HELP": "Preserve line breaks and hyphens exactly as written. Disable markdown formatting for this canned response."
         },
         "SUBMIT": "Submit"
       },
@@ -51,6 +60,10 @@
           "LABEL": "Message",
           "PLACEHOLDER": "Please write the message you want to save as a template to use later.",
           "ERROR": "Message is required."
+        },
+        "PLAIN_TEXT": {
+          "LABEL": "Send as plain text",
+          "HELP": "Preserve line breaks and hyphens exactly as written. Disable markdown formatting for this canned response."
         },
         "SUBMIT": "Submit"
       },

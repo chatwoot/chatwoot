@@ -12,9 +12,17 @@ const props = defineProps({
   },
 });
 
-const { variant } = useMessageContext();
+const { variant, contentAttributes } = useMessageContext();
+
+const isPlainText = computed(
+  () => contentAttributes.value?.format === 'plain_text'
+);
 
 const formattedContent = computed(() => {
+  if (isPlainText.value) {
+    return props.content;
+  }
+
   if (variant.value === MESSAGE_VARIANTS.ACTIVITY) {
     return props.content;
   }
@@ -24,5 +32,11 @@ const formattedContent = computed(() => {
 </script>
 
 <template>
-  <span v-dompurify-html="formattedContent" class="prose prose-bubble" />
+  <span
+    v-if="isPlainText"
+    class="prose prose-bubble whitespace-pre-wrap break-words"
+  >
+    {{ formattedContent }}
+  </span>
+  <span v-else v-dompurify-html="formattedContent" class="prose prose-bubble" />
 </template>
