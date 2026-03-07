@@ -14,7 +14,7 @@ permissions:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: 39elbarto/chatwoot
+  IMAGE_NAME: 39elbarto/levilaser-chatwoot
 
 jobs:
   build-and-push:
