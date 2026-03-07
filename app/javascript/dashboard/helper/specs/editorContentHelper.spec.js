@@ -105,7 +105,7 @@ describe('getContentNode', () => {
       );
 
       expect(replaceVariablesInMessage).toHaveBeenCalledWith({
-        message: content,
+        message: content.text,
         variables,
       });
       expect(MessageMarkdownTransformer).not.toHaveBeenCalled();
