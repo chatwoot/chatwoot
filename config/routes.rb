@@ -224,7 +224,9 @@ Rails.application.routes.draw do
               end
             end
 
-            resource :csat_template, only: [:show, :create], controller: 'inbox_csat_templates'
+            resource :csat_template, only: [:show, :create], controller: 'inbox_csat_templates' do
+              post :analyze, on: :collection
+            end
           end
 
           resources :inbox_members, only: [:create, :show], param: :inbox_id do
@@ -346,7 +348,9 @@ Rails.application.routes.draw do
               post :send_instructions
               get :ssl_status
             end
-            resources :categories
+            resources :categories do
+              post :reorder, on: :collection
+            end
             resources :articles do
               post :reorder, on: :collection
             end

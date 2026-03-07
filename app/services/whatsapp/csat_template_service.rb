@@ -2,7 +2,7 @@ class Whatsapp::CsatTemplateService
   DEFAULT_BUTTON_TEXT = 'Please rate us'.freeze
   DEFAULT_LANGUAGE = 'en'.freeze
   WHATSAPP_API_VERSION = 'v14.0'.freeze
-  TEMPLATE_CATEGORY = 'MARKETING'.freeze
+  TEMPLATE_CATEGORY = 'UTILITY'.freeze
   TEMPLATE_STATUS_PENDING = 'PENDING'.freeze
 
   def initialize(whatsapp_channel)
