@@ -95,19 +95,19 @@ RSpec.describe ConversationReplyMailer do
       let!(:agent_with_punctuation) { create(:user, name: 'Dr. Julio Menezes', email: 'dr.julio@example.com', account: account) }
       let(:conversation) { create(:conversation, assignee: agent_with_punctuation, account: account) }
       let(:message) { create(:message, message_type: :outgoing, conversation: conversation, sender: agent_with_punctuation) }
-      let(:mail) { described_class.reply_with_summary(message.conversation, message.id).deliver_now }
+      let(:inbox_name) { conversation.inbox.sanitized_name }
 
       it 'properly quotes display name with periods in From header' do
-        expect(mail[:from].display_names).to eq(['Dr. Julio Menezes from Default Inbox'])
-        # Verify the full formatted address is RFC 5322 compliant
-        expect(mail[:from].value).to match(/"Dr\. Julio Menezes from Default Inbox" </)
+        mail = described_class.reply_with_summary(message.conversation, message.id).deliver_now
+        expect(mail[:from].display_names).to eq(["Dr. Julio Menezes from #{inbox_name}"])
+        expect(mail[:from].value).to match(/"Dr\. Julio Menezes from .+" </)
       end
 
       it 'handles other RFC 5322 special characters' do
-        agent_with_punctuation.update(name: 'Name, Jr.')
-        message.reload
-        expect(mail[:from].display_names).to eq(['Name, Jr. from Default Inbox'])
-        expect(mail[:from].value).to match(/"Name, Jr\. from Default Inbox" </)
+        agent_with_punctuation.update!(name: 'Name, Jr.')
+        mail = described_class.reply_with_summary(message.conversation, message.id).deliver_now
+        expect(mail[:from].display_names).to eq(["Name, Jr. from #{inbox_name}"])
+        expect(mail[:from].value).to match(/"Name, Jr\. from .+" </)
       end
     end
 
