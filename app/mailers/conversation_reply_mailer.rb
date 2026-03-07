@@ -88,12 +88,17 @@ class ConversationReplyMailer < ApplicationMailer
   end
 
   def sender_name(sender_email)
-    if @inbox.friendly?
-      I18n.t('conversations.reply.email.header.friendly_name', sender_name: custom_sender_name, business_name: business_name,
-                                                               from_email: sender_email)
-    else
-      I18n.t('conversations.reply.email.header.professional_name', business_name: business_name, from_email: sender_email)
-    end
+    display_name = if @inbox.friendly?
+                     "#{custom_sender_name} from #{business_name}"
+                   else
+                     business_name
+                   end
+
+    # Use Mail::Address to properly encode display names with special characters
+    # This handles RFC 5322 quoting automatically (e.g., "Dr. John Doe" <email>)
+    address = Mail::Address.new(sender_email)
+    address.display_name = display_name
+    address.format
   end
 
   def current_message
