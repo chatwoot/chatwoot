@@ -128,7 +128,6 @@ describe Conversations::FilterService do
         ]
         result = filter_service.new(params, user_1, account).perform
 
-        # Only include conversations with medium and low priority, excluding high and urgent
         expect(result[:conversations].length).to eq 2
         expect(result[:conversations].pluck(:id)).to include(low_priority.id, medium_priority.id)
       end
@@ -185,7 +184,7 @@ describe Conversations::FilterService do
         params[:payload] = payload
         result = filter_service.new(params, user_1, account).perform
         conversations = Conversation.where(
-          "custom_attributes ->> 'conversation_type' NOT IN (?) OR custom_attributes ->> 'conversation_type' IS NULL", ['platinum']
+          "custom_attributes ->> 'conversation_type' NOT IN(?) OR custom_attributes ->> 'conversation_type' IS NULL", ['platinum']
         )
         expect(result[:count][:all_count]).to be conversations.count
       end
@@ -394,6 +393,107 @@ describe Conversations::FilterService do
         ]
         result = filter_service.new(params, user_1, account).perform
         expect(result[:conversations].length).to be 1
+      end
+
+      it 'handles custom attribute in the middle of conditions without raising error' do
+        params[:payload] = [
+          {
+            attribute_key: 'status',
+            filter_operator: 'equal_to',
+            values: ['pending'],
+            query_operator: 'AND',
+            custom_attribute_type: ''
+          }.with_indifferent_access,
+          {
+            attribute_key: 'conversation_type',
+            filter_operator: 'equal_to',
+            values: ['platinum'],
+            query_operator: 'AND',
+            custom_attribute_type: 'conversation_attribute'
+          }.with_indifferent_access,
+          {
+            attribute_key: 'assignee_id',
+            filter_operator: 'equal_to',
+            values: [user_1.id],
+            query_operator: nil,
+            custom_attribute_type: ''
+          }.with_indifferent_access
+        ]
+
+        expect { filter_service.new(params, user_1, account).perform }.not_to raise_error(PG::SyntaxError)
+
+        result = filter_service.new(params, user_1, account).perform
+        expect(result).to have_key(:conversations)
+        expect(result[:conversations].length).to eq 1
+        expect(result[:conversations].first[:id]).to eq en_conversation_2.id
+      end
+
+      it 'handles does_not_contain filter operator' do
+        params[:payload] = [
+          {
+            attribute_key: 'mail_subject',
+            filter_operator: 'does_not_contain',
+            values: ['test'],
+            query_operator: nil,
+            custom_attribute_type: ''
+          }.with_indifferent_access
+        ]
+
+        expect { filter_service.new(params, user_1, account).perform }.not_to raise_error(PG::SyntaxError)
+
+        result = filter_service.new(params, user_1, account).perform
+        expect(result).to have_key(:conversations)
+      end
+
+      it 'handles mail_subject filter with contains operator' do
+        params[:payload] = [
+          {
+            attribute_key: 'mail_subject',
+            filter_operator: 'contains',
+            values: ['TEST'],
+            query_operator: nil,
+            custom_attribute_type: ''
+          }.with_indifferent_access
+        ]
+
+        expect { filter_service.new(params, user_1, account).perform }.not_to raise_error(PG::SyntaxError)
+
+        result = filter_service.new(params, user_1, account).perform
+        expect(result).to have_key(:conversations)
+      end
+
+      it 'handles empty values in custom attributes without error' do
+        params[:payload] = [
+          {
+            attribute_key: 'conversation_type',
+            filter_operator: 'is_present',
+            values: [],
+            query_operator: nil,
+            custom_attribute_type: 'conversation_attribute'
+          }.with_indifferent_access
+        ]
+
+        expect { filter_service.new(params, user_1, account).perform }.not_to raise_error(PG::SyntaxError)
+
+        result = filter_service.new(params, user_1, account).perform
+        expect(result).to have_key(:conversations)
+      end
+
+      it 'handles unknown filter operator with default case' do
+        params[:payload] = [
+          {
+            attribute_key: 'conversation_type',
+            filter_operator: 'equal_to',
+            values: ['platinum'],
+            query_operator: nil,
+            custom_attribute_type: 'conversation_attribute'
+          }.with_indifferent_access
+        ]
+
+        expect { filter_service.new(params, user_1, account).perform }.not_to raise_error(PG::SyntaxError)
+
+        result = filter_service.new(params, user_1, account).perform
+        expect(result).to have_key(:conversations)
       end
     end
   end
