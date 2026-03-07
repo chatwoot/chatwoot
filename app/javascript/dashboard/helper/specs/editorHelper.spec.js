@@ -31,6 +31,13 @@ const schema = new Schema({
       group: 'block',
       toDOM: () => ['p', 0], // Represents a paragraph as a <p> tag in the DOM.
     },
+    hard_break: {
+      inline: true,
+      group: 'inline',
+      selectable: false,
+      parseDOM: [{ tag: 'br' }],
+      toDOM: () => ['br'],
+    },
     text: {
       group: 'inline',
       toDOM: node => node.text, // Represents text as its actual string value.

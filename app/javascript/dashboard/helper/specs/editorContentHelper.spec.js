@@ -16,6 +16,13 @@ describe('getContentNode', () => {
   let editorView;
 
   beforeEach(() => {
+    MessageMarkdownTransformer.mockImplementation(() => ({
+      parse: vi.fn(content => ({
+        type: { name: 'doc' },
+        textContent: content.replaceAll('**', ''),
+      })),
+    }));
+
     editorView = {
       state: {
         schema: {
@@ -81,7 +88,7 @@ describe('getContentNode', () => {
 
   describe('getCannedResponseNode', () => {
     it('should create a plain-text canned response node without markdown parsing', () => {
-      const content = 'Hello {{name}}';
+      const content = { text: 'Hello {{name}}', format: 'plain_text' };
       const variables = { name: 'John' };
       const from = 0;
       const to = 10;
@@ -111,8 +118,11 @@ describe('getContentNode', () => {
     });
 
     it('preserves literal dash prefixes and blank lines in canned responses', () => {
-      const content = 'Первая строка\n\n- пункт один\n- пункт два';
-      replaceVariablesInMessage.mockReturnValue(content);
+      const content = {
+        text: 'Первая строка\n\n- пункт один\n- пункт два',
+        format: 'plain_text',
+      };
+      replaceVariablesInMessage.mockReturnValue(content.text);
 
       const result = getContentNode(
         editorView,
@@ -123,7 +133,25 @@ describe('getContentNode', () => {
       );
 
       expect(MessageMarkdownTransformer).not.toHaveBeenCalled();
-      expect(result.node.textContent).toBe(content);
+      expect(result.node.textContent).toBe(content.text);
+    });
+
+    it('keeps markdown canned responses on the markdown parser path', () => {
+      const content = { text: '**Hello** {{name}}', format: null };
+      const variables = { name: 'John' };
+
+      replaceVariablesInMessage.mockReturnValue('**Hello** John');
+
+      const result = getContentNode(
+        editorView,
+        'cannedResponse',
+        content,
+        { from: 0, to: 10 },
+        variables
+      );
+
+      expect(MessageMarkdownTransformer).toHaveBeenCalled();
+      expect(result.node.textContent).toBe('Hello John');
     });
   });
 

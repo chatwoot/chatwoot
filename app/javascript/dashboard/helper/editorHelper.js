@@ -493,7 +493,9 @@ const createNode = (editorView, nodeType, content) => {
     }
     case 'cannedResponse': {
       const textContent =
-        typeof content === 'object' && content !== null ? content.text : content;
+        typeof content === 'object' && content !== null
+          ? content.text
+          : content;
       const format =
         typeof content === 'object' && content !== null ? content.format : null;
 
