@@ -287,6 +287,21 @@
         "CANCEL": "Cancel"
       }
     },
+    "BULK_MESSAGE_ACTIONS": {
+      "SELECTED_COUNT": "{count} selected",
+      "DOWNLOAD_ALL": "Download all",
+      "COPY_ALL": "Copy all",
+      "DELETE_ALL": "Delete all",
+      "FORWARD": "Forward",
+      "ASSIGN_LABELS": "Assign labels",
+      "CANCEL_SELECTION": "Cancel selection",
+      "DOWNLOAD_SUCCESS": "Download completed",
+      "DOWNLOAD_ERROR": "Failed to download some files",
+      "COPY_SUCCESS": "Messages copied to clipboard",
+      "COPY_ERROR": "Failed to copy messages",
+      "DELETE_SUCCESS": "Messages deleted successfully",
+      "DELETE_ERROR": "Failed to delete some messages"
+    },
     "SIDEBAR": {
       "CONTACT": "Contact",
       "COPILOT": "Copilot"

@@ -4,6 +4,7 @@ import { useTimeoutFn } from '@vueuse/core';
 import { provideMessageContext } from './provider.js';
 import { useTrack } from 'dashboard/composables';
 import { useMapGetter } from 'dashboard/composables/store';
+import { useMessageBulkActions } from 'dashboard/composables/useMessageBulkActions';
 import { emitter } from 'shared/helpers/mitt';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
@@ -141,11 +142,20 @@ const emit = defineEmits(['retry']);
 const contextMenuPosition = ref({});
 const showBackgroundHighlight = ref(false);
 const showContextMenu = ref(false);
+const isHovered = ref(false);
 const { t } = useI18n();
 const route = useRoute();
 const inboxGetter = useMapGetter('inboxes/getInbox');
 const inbox = computed(() => inboxGetter.value(props.inboxId) || {});
 const { replaceInstallationName } = useBranding();
+
+const { isMessageSelected, toggleMessageSelection } = useMessageBulkActions();
+
+const isSelected = computed(() => isMessageSelected.value(props.id));
+
+const onToggleSelection = () => {
+  toggleMessageSelection(props.id);
+};
 
 /**
  * Computes the message variant based on props
@@ -518,16 +528,31 @@ provideMessageContext({
   <div
     v-if="shouldRenderMessage"
     :id="`message${props.id}`"
-    class="flex w-full mb-2 message-bubble-container"
+    class="flex w-full mb-2 message-bubble-container group"
     :data-message-id="props.id"
     :class="[
       flexOrientationClass,
       {
         'group-with-next': shouldGroupWithNext,
         'bg-n-alpha-1': showBackgroundHighlight,
+        'bg-n-slate-2': isSelected,
       },
     ]"
+    @mouseenter="isHovered = true"
+    @mouseleave="isHovered = false"
   >
+    <div
+      v-if="isHovered || isSelected"
+      class="absolute left-0 top-0 z-20 flex items-center h-full pl-2"
+      @click.stop
+    >
+      <input
+        type="checkbox"
+        :checked="isSelected"
+        class="size-4 cursor-pointer rounded border-n-slate-6 text-n-slate-12 focus:ring-n-slate-12"
+        @change="onToggleSelection"
+      />
+    </div>
     <div v-if="variant === MESSAGE_VARIANTS.ACTIVITY">
       <ActivityBubble :content="content" />
     </div>
