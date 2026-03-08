@@ -86,6 +86,7 @@ class Account < ApplicationRecord
   has_many :aloo_documents, class_name: 'Aloo::Document', dependent: :destroy_async
   has_many :aloo_embeddings, class_name: 'Aloo::Embedding', dependent: :destroy_async
   has_many :api_channels, dependent: :destroy_async, class_name: '::Channel::Api'
+  has_many :appointments, dependent: :destroy_async
   has_many :articles, dependent: :destroy_async, class_name: '::Article'
   has_many :assignment_policies, dependent: :destroy_async
   has_many :automation_rules, dependent: :destroy_async
@@ -129,6 +130,7 @@ class Account < ApplicationRecord
   has_many :whatsapp_channels, dependent: :destroy_async, class_name: '::Channel::Whatsapp'
   has_many :working_hours, dependent: :destroy_async
 
+  has_one :calendly_settings, dependent: :destroy_async, class_name: 'AccountCalendlySettings'
   has_one :payzah_settings, dependent: :destroy_async, class_name: 'AccountPayzahSettings'
   has_one :tap_settings, dependent: :destroy_async, class_name: 'AccountTapSettings'
   has_one :catalog_settings, dependent: :destroy_async, class_name: 'AccountCatalogSettings'

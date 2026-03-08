@@ -73,10 +73,21 @@ class Api::V1::Accounts::Integrations::CalendlyController < Api::V1::Accounts::B
   end
 
   def resubscribe_webhook
+    webhook_url = "#{ENV.fetch('FRONTEND_URL', 'http://localhost:3000')}/webhooks/calendly"
+
+    unless webhook_url.start_with?('https://')
+      render json: {
+        error: 'Calendly requires a publicly accessible HTTPS URL for webhooks. ' \
+               'Webhook notifications will not work in local development. ' \
+               'The integration still works — you can send scheduling links from conversations.'
+      }, status: :unprocessable_entity
+      return
+    end
+
     delete_webhook_subscription
     signing_key = @hook.settings['signing_key'].presence || SecureRandom.hex(32)
     webhook = api_client.create_webhook_subscription(
-      url: "#{ENV.fetch('FRONTEND_URL', 'http://localhost:3000')}/webhooks/calendly",
+      url: webhook_url,
       events: %w[invitee.created invitee.canceled],
       scope: 'user',
       organization_uri: @hook.settings['calendly_organization_uri'],

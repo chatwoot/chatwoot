@@ -3,7 +3,7 @@ import { h, ref, computed, onMounted, onUnmounted } from 'vue';
 import { provideSidebarContext, useSidebarResize } from './provider';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { useKbd } from 'dashboard/composables/utils/useKbd';
-import { useMapGetter } from 'dashboard/composables/store';
+import { useFunctionGetter, useMapGetter } from 'dashboard/composables/store';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
 import { useSidebarKeyboardShortcuts } from './useSidebarKeyboardShortcuts';
@@ -172,6 +172,13 @@ const conversationCustomViews = useMapGetter(
 const isPayzahEnabled = ref(false);
 const isTapEnabled = ref(false);
 const catalogSettings = ref(null);
+const calendlyIntegration = useFunctionGetter(
+  'integrations/getIntegration',
+  'calendly'
+);
+const isCalendlyConnected = computed(
+  () => calendlyIntegration.value?.enabled || false
+);
 
 const loadPayzahStatus = async () => {
   try {
@@ -215,6 +222,7 @@ onMounted(() => {
   loadPayzahStatus();
   loadTapStatus();
   loadCatalogSettings();
+  store.dispatch('integrations/get', 'calendly');
   fetchUnreadCounts();
   emitter.on('fetch_unread_counts', fetchUnreadCounts);
 });
@@ -439,6 +447,17 @@ const menuItems = computed(() => {
             icon: 'i-lucide-credit-card',
             to: accountScopedRoute('payment_links'),
             activeOn: ['payment_links'],
+          },
+        ]
+      : []),
+    ...(isCalendlyConnected.value
+      ? [
+          {
+            name: 'Appointments',
+            label: t('SIDEBAR.APPOINTMENTS'),
+            icon: 'i-lucide-calendar-check',
+            to: accountScopedRoute('appointments_index'),
+            activeOn: ['appointments_index'],
           },
         ]
       : []),

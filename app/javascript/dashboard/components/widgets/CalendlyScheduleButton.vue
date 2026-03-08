@@ -6,6 +6,7 @@ import { useI18n } from 'vue-i18n';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import CalendlyAPI from 'dashboard/api/integrations/calendly';
+import AppointmentsAPI from 'dashboard/api/appointments';
 
 const props = defineProps({
   conversationId: {
@@ -57,24 +58,19 @@ const togglePopover = async () => {
 const selectEventType = async eventType => {
   try {
     creatingLink.value = true;
-    const response = await CalendlyAPI.createSchedulingLink(eventType.uri);
-    const bookingUrl = response.data?.booking_url;
+    const response = await AppointmentsAPI.createForConversation({
+      conversationId: props.conversationId,
+      eventTypeUri: eventType.uri,
+      eventTypeName: eventType.name,
+    });
 
-    if (bookingUrl) {
-      const message = t('CONVERSATION_SIDEBAR.CALENDLY.SCHEDULING_MESSAGE', {
-        name: eventType.name,
-        url: bookingUrl,
-      });
-
-      await store.dispatch('createPendingMessageAndSend', {
-        conversationId: props.conversationId,
-        message,
-      });
-
+    if (response.data?.success) {
       useAlert(t('CONVERSATION_SIDEBAR.CALENDLY.LINK_SENT'));
     }
   } catch (e) {
-    useAlert(t('CONVERSATION_SIDEBAR.CALENDLY.LINK_ERROR'));
+    const errorMsg =
+      e.response?.data?.error || t('CONVERSATION_SIDEBAR.CALENDLY.LINK_ERROR');
+    useAlert(errorMsg);
   } finally {
     creatingLink.value = false;
     closePopover();

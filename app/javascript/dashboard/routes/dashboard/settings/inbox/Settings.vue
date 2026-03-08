@@ -24,6 +24,7 @@ import CollaboratorsPage from './settingsPage/CollaboratorsPage.vue';
 import WidgetBuilder from './WidgetBuilder.vue';
 import AccountHealth from './components/AccountHealth.vue';
 import AlooConfiguration from './components/AlooConfiguration.vue';
+import WhatsAppTemplateManager from 'dashboard/components-next/whatsapp/WhatsAppTemplateManager.vue';
 import SenderNameExamplePreview from './components/SenderNameExamplePreview.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import { INBOX_TYPES } from 'dashboard/helper/inbox';
@@ -54,6 +55,7 @@ export default {
     Editor,
     Avatar,
     AccountHealth,
+    WhatsAppTemplateManager,
   },
   mixins: [inboxMixin],
   setup() {
@@ -178,6 +180,10 @@ export default {
       if (this.shouldShowWhatsAppConfiguration) {
         visibleToAllChannelTabs = [
           ...visibleToAllChannelTabs,
+          {
+            key: 'whatsapp-templates',
+            name: this.$t('INBOX_MGMT.TABS.WHATSAPP_TEMPLATES'),
+          },
           {
             key: 'whatsapp-health',
             name: this.$t('INBOX_MGMT.TABS.ACCOUNT_HEALTH'),
@@ -937,6 +943,9 @@ export default {
       </div>
       <div v-if="selectedTabKey === 'aloo-configuration'">
         <AlooConfiguration :inbox="inbox" />
+      </div>
+      <div v-if="selectedTabKey === 'whatsapp-templates'" class="mx-8 mt-6">
+        <WhatsAppTemplateManager :inbox-id="currentInboxId" />
       </div>
       <div v-if="selectedTabKey === 'whatsapp-health'">
         <AccountHealth :health-data="healthData" />

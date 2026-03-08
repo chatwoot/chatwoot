@@ -179,8 +179,11 @@ const handleResubscribe = async () => {
     await calendlyAPI.resubscribeWebhook();
     webhookActive.value = true;
     useAlert($t('INTEGRATION_SETTINGS.CALENDLY.WEBHOOK.RESUBSCRIBE_SUCCESS'));
-  } catch {
-    useAlert($t('INTEGRATION_SETTINGS.CALENDLY.WEBHOOK.RESUBSCRIBE_ERROR'));
+  } catch (e) {
+    const msg =
+      e.response?.data?.error ||
+      $t('INTEGRATION_SETTINGS.CALENDLY.WEBHOOK.RESUBSCRIBE_ERROR');
+    useAlert(msg);
   } finally {
     isResubscribing.value = false;
   }

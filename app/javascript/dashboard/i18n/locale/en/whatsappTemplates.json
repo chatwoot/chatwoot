@@ -42,6 +42,108 @@
       "MEDIA_URL_LABEL": "Enter {type} URL",
       "DOCUMENT_NAME_PLACEHOLDER": "Enter document filename (e.g., Invoice_2025.pdf)",
       "BUTTON_PARAMETER": "Enter button parameter"
+    },
+    "CREATOR": {
+      "TITLE": "Create WhatsApp Template",
+      "DESCRIPTION": "Create a new message template that will be submitted to WhatsApp for approval.",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Template Name",
+          "PLACEHOLDER": "e.g. order_confirmation",
+          "HELP": "Only lowercase letters, numbers, and underscores. No spaces.",
+          "ERROR": "Template name is required"
+        },
+        "CATEGORY": {
+          "LABEL": "Category",
+          "PLACEHOLDER": "Select a category",
+          "ERROR": "Category is required",
+          "OPTIONS": {
+            "MARKETING": "Marketing",
+            "UTILITY": "Utility",
+            "AUTHENTICATION": "Authentication"
+          }
+        },
+        "LANGUAGE": {
+          "LABEL": "Language",
+          "PLACEHOLDER": "Select a language",
+          "ERROR": "Language is required"
+        },
+        "HEADER": {
+          "LABEL": "Header (optional)",
+          "TYPE_LABEL": "Header Type",
+          "TEXT_PLACEHOLDER": "Enter header text",
+          "TYPES": {
+            "NONE": "None",
+            "TEXT": "Text",
+            "IMAGE": "Image",
+            "VIDEO": "Video",
+            "DOCUMENT": "Document"
+          }
+        },
+        "BODY": {
+          "LABEL": "Body",
+          "PLACEHOLDER": "Enter template body text. Use {{1}}, {{2}} etc. for variables.",
+          "ERROR": "Body text is required",
+          "HELP": "Use {{1}}, {{2}}, etc. to add variable placeholders.",
+          "PREVIEW": "Preview"
+        },
+        "FOOTER": {
+          "LABEL": "Footer (optional)",
+          "PLACEHOLDER": "Enter footer text"
+        },
+        "BUTTONS": {
+          "LABEL": "Buttons (optional)",
+          "ADD_BUTTON": "Add Button",
+          "REMOVE_BUTTON": "Remove",
+          "TYPES": {
+            "NONE": "None",
+            "QUICK_REPLY": "Quick Reply",
+            "PHONE_NUMBER": "Phone Number",
+            "URL": "URL"
+          },
+          "TEXT_PLACEHOLDER": "Button text",
+          "PHONE_PLACEHOLDER": "Phone number (e.g. +1234567890)",
+          "URL_PLACEHOLDER": "URL (e.g. https://example.com/{{1}})"
+        },
+        "EXAMPLE_VALUES": {
+          "LABEL": "Example Values",
+          "HELP": "WhatsApp requires example values for variables in your template.",
+          "BODY_PLACEHOLDER": "Example for variable {{index}}",
+          "HEADER_PLACEHOLDER": "Example header media URL",
+          "BUTTON_PLACEHOLDER": "Example URL suffix"
+        }
+      },
+      "BUTTONS": {
+        "CANCEL": "Cancel",
+        "CREATE": "Create Template",
+        "CREATING": "Creating..."
+      },
+      "SUCCESS": "Template created successfully! It has been submitted for WhatsApp approval.",
+      "ERROR": "Failed to create template. Please try again.",
+      "STATUS": {
+        "PENDING": "Pending Approval",
+        "APPROVED": "Approved",
+        "REJECTED": "Rejected"
+      }
+    },
+    "MANAGER": {
+      "TITLE": "WhatsApp Templates",
+      "CREATE_NEW": "Create Template",
+      "SYNC": "Sync Templates",
+      "SYNC_SUCCESS": "Templates synced successfully.",
+      "SYNC_ERROR": "Failed to sync templates.",
+      "DELETE_CONFIRM": "Are you sure you want to delete the template \"{name}\"? This cannot be undone.",
+      "DELETE_BUTTON": "Delete",
+      "DELETE_SUCCESS": "Template deleted successfully.",
+      "DELETE_ERROR": "Failed to delete template.",
+      "EMPTY_STATE": "No templates found. Create your first WhatsApp template to get started.",
+      "TABLE": {
+        "NAME": "Name",
+        "CATEGORY": "Category",
+        "LANGUAGE": "Language",
+        "STATUS": "Status",
+        "ACTIONS": "Actions"
+      }
     }
   }
 }

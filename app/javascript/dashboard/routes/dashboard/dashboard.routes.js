@@ -3,6 +3,7 @@ import conversation from './conversation/conversation.routes';
 import { routes as searchRoutes } from '../../modules/search/search.routes';
 import { routes as contactRoutes } from './contacts/routes';
 import { routes as paymentLinksRoutes } from './payment-links/routes';
+import { routes as appointmentsRoutes } from './appointments/routes';
 import { routes as ordersRoutes } from './orders/routes';
 import { routes as companyRoutes } from './companies/routes';
 import { routes as notificationRoutes } from './notifications/routes';
@@ -26,6 +27,7 @@ export default {
         ...settings.routes,
         ...contactRoutes,
         ...paymentLinksRoutes,
+        ...appointmentsRoutes,
         ...ordersRoutes,
         ...catalogRoutes,
         ...companyRoutes,

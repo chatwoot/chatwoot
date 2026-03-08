@@ -2,6 +2,7 @@ import * as MutationHelpers from 'shared/helpers/vuex/mutationHelpers';
 import * as types from '../mutation-types';
 import { INBOX_TYPES } from 'dashboard/helper/inbox';
 import InboxesAPI from '../../api/inboxes';
+import WhatsappTemplatesAPI from '../../api/whatsappTemplates';
 import WebChannel from '../../api/channel/webChannel';
 import FBChannel from '../../api/channel/fbChannel';
 import TwilioChannel from '../../api/channel/twilioChannel';
@@ -359,6 +360,28 @@ export const actions = {
   getCSATTemplateStatus: async (_, { inboxId }) => {
     const response = await InboxesAPI.getCSATTemplateStatus(inboxId);
     return response.data;
+  },
+  createWhatsAppTemplate: async (_, { inboxId, templateData }) => {
+    try {
+      const response = await WhatsappTemplatesAPI.createTemplate(
+        inboxId,
+        templateData
+      );
+      return response.data;
+    } catch (error) {
+      return throwErrorMessage(error);
+    }
+  },
+  deleteWhatsAppTemplate: async (_, { inboxId, templateName }) => {
+    try {
+      const response = await WhatsappTemplatesAPI.deleteTemplate(
+        inboxId,
+        templateName
+      );
+      return response.data;
+    } catch (error) {
+      return throwErrorMessage(error);
+    }
   },
 };
 

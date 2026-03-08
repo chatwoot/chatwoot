@@ -1,0 +1,41 @@
+{
+  "APPOINTMENTS_LIST": {
+    "HEADER": "Appointments",
+    "HEADER_CONTROLS": {
+      "SEARCH_PLACEHOLDER": "Search by event name or contact..."
+    },
+    "TABLE": {
+      "EVENT": "Event",
+      "CONTACT": "Contact",
+      "CONVERSATION": "Conversation",
+      "STATUS": "Status",
+      "SCHEDULED_AT": "Scheduled At",
+      "CREATED_BY": "Created By",
+      "CREATED_AT": "Created At",
+      "ACTIONS": "Actions",
+      "NO_RESULTS_SEARCH": "No appointments match your search.",
+      "COPY_URL": "Copy scheduling link",
+      "OPEN_LINK": "Open scheduling link",
+      "DETAILS": {
+        "SCHEDULING_URL": "Scheduling Link",
+        "PROVIDER": "Provider",
+        "EVENT_ID": "Event ID",
+        "CONTACT_EMAIL": "Email",
+        "CONTACT_PHONE": "Phone",
+        "UPDATED_AT": "Last Updated"
+      }
+    },
+    "STATUS": {
+      "INITIATED": "Initiated",
+      "PENDING": "Pending",
+      "SCHEDULED": "Scheduled",
+      "COMPLETED": "Completed",
+      "CANCELLED": "Cancelled",
+      "NO_SHOW": "No Show"
+    },
+    "EMPTY_STATE": "No appointments found. Send a scheduling link from a conversation to get started.",
+    "PAGINATION_FOOTER": {
+      "SHOWING": "Showing {startItem} - {endItem} of {totalItems} appointment | Showing {startItem} - {endItem} of {totalItems} appointments"
+    }
+  }
+}

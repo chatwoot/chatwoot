@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_03_05_120000) do
+ActiveRecord::Schema[7.1].define(version: 2026_03_08_105853) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -26,6 +26,20 @@ ActiveRecord::Schema[7.1].define(version: 2026_03_05_120000) do
     t.datetime "updated_at", precision: nil, null: false
     t.index ["owner_type", "owner_id"], name: "index_access_tokens_on_owner_type_and_owner_id"
     t.index ["token"], name: "index_access_tokens_on_token", unique: true
+  end
+
+  create_table "account_calendly_settings", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.string "access_token"
+    t.string "user_uri"
+    t.string "organization_uri"
+    t.string "scheduling_url"
+    t.boolean "enabled", default: false, null: false
+    t.string "webhook_signing_key"
+    t.string "webhook_subscription_uri"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_account_calendly_settings_on_account_id", unique: true
   end
 
   create_table "account_catalog_settings", force: :cascade do |t|
@@ -296,6 +310,33 @@ ActiveRecord::Schema[7.1].define(version: 2026_03_05_120000) do
     t.index ["account_id"], name: "index_applied_slas_on_account_id"
     t.index ["conversation_id"], name: "index_applied_slas_on_conversation_id"
     t.index ["sla_policy_id"], name: "index_applied_slas_on_sla_policy_id"
+  end
+
+  create_table "appointments", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "conversation_id", null: false
+    t.bigint "contact_id", null: false
+    t.bigint "created_by_id", null: false
+    t.bigint "message_id"
+    t.string "provider", null: false
+    t.integer "status", default: 0, null: false
+    t.string "scheduling_url"
+    t.string "event_type_name"
+    t.string "event_type_uri"
+    t.datetime "scheduled_at"
+    t.string "external_event_id"
+    t.jsonb "payload", default: {}, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_appointments_on_account_id"
+    t.index ["contact_id"], name: "index_appointments_on_contact_id"
+    t.index ["conversation_id"], name: "index_appointments_on_conversation_id"
+    t.index ["created_by_id"], name: "index_appointments_on_created_by_id"
+    t.index ["external_event_id"], name: "index_appointments_on_external_event_id", unique: true
+    t.index ["message_id"], name: "index_appointments_on_message_id"
+    t.index ["provider"], name: "index_appointments_on_provider"
+    t.index ["scheduled_at"], name: "index_appointments_on_scheduled_at"
+    t.index ["status"], name: "index_appointments_on_status"
   end
 
   create_table "articles", force: :cascade do |t|
@@ -1668,6 +1709,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_03_05_120000) do
     t.index ["inbox_id"], name: "index_working_hours_on_inbox_id"
   end
 
+  add_foreign_key "account_calendly_settings", "accounts"
   add_foreign_key "account_catalog_settings", "accounts"
   add_foreign_key "account_payment_link_settings", "accounts"
   add_foreign_key "account_payzah_settings", "accounts"
@@ -1684,6 +1726,11 @@ ActiveRecord::Schema[7.1].define(version: 2026_03_05_120000) do
   add_foreign_key "aloo_embeddings", "accounts"
   add_foreign_key "aloo_embeddings", "aloo_assistants"
   add_foreign_key "aloo_embeddings", "aloo_documents"
+  add_foreign_key "appointments", "accounts"
+  add_foreign_key "appointments", "contacts"
+  add_foreign_key "appointments", "conversations"
+  add_foreign_key "appointments", "messages"
+  add_foreign_key "appointments", "users", column: "created_by_id"
   add_foreign_key "inboxes", "portals"
   add_foreign_key "integrations_webhook_logs", "integrations_hooks", column: "hook_id"
   add_foreign_key "moengage_template_mappings", "integrations_hooks", column: "hook_id"

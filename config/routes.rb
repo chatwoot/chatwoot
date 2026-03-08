@@ -198,6 +198,7 @@ Rails.application.routes.draw do
               resources :assignments, only: [:create]
               resources :labels, only: [:create, :index]
               resources :payment_links, only: [:create]
+              resources :appointments, only: [:create]
               resources :orders, only: [:create]
               resources :catalog_items, only: [:create]
               resource :participants, only: [:show, :create, :update, :destroy]
@@ -265,6 +266,7 @@ Rails.application.routes.draw do
               patch :cancel
             end
           end
+          resources :appointments, only: [:index, :show]
           resources :orders, only: [:index, :show] do
             collection do
               get :search
@@ -307,6 +309,8 @@ Rails.application.routes.draw do
             end
 
             resource :csat_template, only: [:show, :create], controller: 'inbox_csat_templates'
+
+            resources :whatsapp_templates, only: [:index, :create, :destroy], module: :inboxes
           end
 
           resources :inbox_members, only: [:create, :show], param: :inbox_id do
