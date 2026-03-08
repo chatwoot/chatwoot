@@ -1,5 +1,6 @@
 <script>
 import { useAlert } from 'dashboard/composables';
+import { useMessageBulkActions } from 'dashboard/composables/useMessageBulkActions';
 import { mapGetters } from 'vuex';
 import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 import ContextMenu from 'dashboard/components/ui/ContextMenu.vue';
@@ -47,9 +48,13 @@ export default {
   emits: ['open', 'close', 'replyTo'],
   setup() {
     const { getPlainText } = useMessageFormatter();
+    const { isMessageSelected, toggleMessageSelection } =
+      useMessageBulkActions();
 
     return {
       getPlainText,
+      isMessageSelected,
+      toggleMessageSelection,
     };
   },
   data() {
@@ -80,6 +85,9 @@ export default {
       return useSnakeCase(
         this.message.content_attributes ?? this.message.contentAttributes
       );
+    },
+    isSelected() {
+      return this.isMessageSelected(this.messageId);
     },
   },
   methods: {
@@ -131,6 +139,10 @@ export default {
     },
     handleReplyTo() {
       this.$emit('replyTo', this.message);
+      this.handleClose();
+    },
+    handleToggleSelection() {
+      this.toggleMessageSelection(this.messageId);
       this.handleClose();
     },
     openDeleteModal() {
@@ -206,6 +218,17 @@ export default {
           variant="icon"
           @click.stop="handleReplyTo"
         />
+        <MenuItem
+          :option="{
+            icon: isSelected ? 'check-square' : 'square',
+            label: isSelected
+              ? $t('CONVERSATION.BULK_MESSAGE_ACTIONS.DESELECT')
+              : $t('CONVERSATION.BULK_MESSAGE_ACTIONS.SELECT'),
+          }"
+          variant="icon"
+          @click.stop="handleToggleSelection"
+        />
+        <hr />
         <MenuItem
           v-if="enabledOptions['copy']"
           :option="{

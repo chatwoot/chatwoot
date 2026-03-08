@@ -289,6 +289,8 @@
     },
     "BULK_MESSAGE_ACTIONS": {
       "SELECTED_COUNT": "{count} selected",
+      "SELECT": "Select message",
+      "DESELECT": "Deselect message",
       "DOWNLOAD_ALL": "Download all",
       "COPY_ALL": "Copy all",
       "DELETE_ALL": "Delete all",

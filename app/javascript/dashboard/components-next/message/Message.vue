@@ -24,6 +24,7 @@ import {
 } from './constants';
 
 import Avatar from 'next/avatar/Avatar.vue';
+import Icon from 'next/icon/Icon.vue';
 
 import TextBubble from './bubbles/Text/Index.vue';
 import ActivityBubble from './bubbles/Activity.vue';
@@ -541,18 +542,24 @@ provideMessageContext({
     @mouseenter="isHovered = true"
     @mouseleave="isHovered = false"
   >
-    <div
+    <label
       v-if="isHovered || isSelected"
-      class="absolute left-0 top-0 z-20 flex items-center h-full pl-2"
-      @click.stop
+      class="absolute left-2 top-1/2 -translate-y-1/2 z-20 flex items-center justify-center size-6 bg-n-surface-1 dark:bg-n-slate-3 rounded-md shadow-sm border border-n-slate-4 dark:border-n-slate-6 cursor-pointer hover:bg-n-slate-2 dark:hover:bg-n-slate-4 transition-colors"
+      :class="{ 'bg-n-brand/10 border-n-brand': isSelected }"
+      @click.stop="onToggleSelection"
     >
       <input
         type="checkbox"
         :checked="isSelected"
-        class="size-4 cursor-pointer rounded border-n-slate-6 text-n-slate-12 focus:ring-n-slate-12"
+        class="sr-only"
         @change="onToggleSelection"
       />
-    </div>
+      <Icon
+        :icon="isSelected ? 'i-lucide-check-square' : 'i-lucide-square'"
+        class="size-4 text-n-slate-11"
+        :class="{ 'text-n-brand': isSelected }"
+      />
+    </label>
     <div v-if="variant === MESSAGE_VARIANTS.ACTIVITY">
       <ActivityBubble :content="content" />
     </div>
