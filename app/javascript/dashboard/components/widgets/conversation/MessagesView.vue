@@ -8,6 +8,7 @@ import { useSnakeCase } from 'dashboard/composables/useTransformKeys';
 // components
 import ReplyBox from './ReplyBox.vue';
 import MessageList from 'next/message/MessageList.vue';
+import MessageBulkActions from 'next/message/MessageBulkActions.vue';
 import ConversationLabelSuggestion from './conversation/LabelSuggestion.vue';
 import Banner from 'dashboard/components/ui/Banner.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
@@ -39,6 +40,7 @@ import { INBOX_TYPES } from 'dashboard/helper/inbox';
 export default {
   components: {
     MessageList,
+    MessageBulkActions,
     ReplyBox,
     Banner,
     ConversationLabelSuggestion,
@@ -456,6 +458,10 @@ export default {
       color-scheme="alert"
       class="mx-2 mt-2 overflow-hidden rounded-lg"
       :banner-message="$t('CONVERSATION.OLD_INSTAGRAM_INBOX_REPLY_BANNER')"
+    />
+    <MessageBulkActions
+      :messages="getMessages"
+      :conversation-id="currentChat.id"
     />
     <MessageList
       ref="conversationPanelRef"

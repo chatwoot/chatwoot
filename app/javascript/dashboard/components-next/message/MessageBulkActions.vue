@@ -4,6 +4,11 @@ import { useI18n } from 'vue-i18n';
 import { useMessageBulkActions } from 'dashboard/composables/useMessageBulkActions';
 import Button from 'next/button/Button.vue';
 
+const props = defineProps({
+  messages: { type: Array, default: () => [] },
+  conversationId: { type: Number, required: true },
+});
+
 const emit = defineEmits(['close']);
 
 const { t } = useI18n();
@@ -24,15 +29,15 @@ const onClose = () => {
 };
 
 const onDownloadAll = () => {
-  bulkDownloadAttachments();
+  bulkDownloadAttachments(props.messages);
 };
 
 const onCopyAll = () => {
-  bulkCopyText();
+  bulkCopyText(props.messages);
 };
 
 const onDeleteAll = () => {
-  bulkDeleteMessages();
+  bulkDeleteMessages(props.conversationId);
 };
 </script>
 
