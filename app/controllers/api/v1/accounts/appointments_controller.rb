@@ -3,7 +3,7 @@ class Api::V1::Accounts::AppointmentsController < Api::V1::Accounts::BaseControl
 
   def index
     appointments = Current.account.appointments
-                          .includes(:contact, :conversation, :created_by)
+                          .eager_load(:contact, :conversation, :created_by)
                           .by_status(params[:status])
                           .for_contact(params[:contact_id])
                           .filter_by_conversation(params[:conversation_id])
@@ -24,19 +24,16 @@ class Api::V1::Accounts::AppointmentsController < Api::V1::Accounts::BaseControl
 
   def show
     appointment = Current.account.appointments
-                         .includes(:contact, :conversation, :created_by)
+                         .eager_load(:contact, :conversation, :created_by)
                          .find(params[:id])
 
-    render json: { data: appointment_json(appointment) }
+    render json: { data: appointment_json(appointment, full: true) }
   end
 
   private
 
-  def appointment_json(appointment)
-    invitee = appointment.payload['invitee'] || {}
-    event = appointment.payload['event'] || {}
-
-    {
+  def appointment_json(appointment, full: false)
+    data = {
       id: appointment.id,
       provider: appointment.provider,
       status: appointment.status,
@@ -61,7 +58,15 @@ class Api::V1::Accounts::AppointmentsController < Api::V1::Accounts::BaseControl
       created_by: {
         id: appointment.created_by.id,
         name: appointment.created_by.name
-      },
+      }
+    }
+
+    return data unless full || appointment.payload.key?('invitee')
+
+    invitee = appointment.payload['invitee'] || {}
+    event = appointment.payload['event'] || {}
+
+    data.merge(
       invitee: {
         name: invitee['name'],
         email: invitee['email'],
@@ -84,7 +89,7 @@ class Api::V1::Accounts::AppointmentsController < Api::V1::Accounts::BaseControl
         event_guests: event['event_guests'],
         meeting_notes_plain: event['meeting_notes_plain']
       }.compact
-    }
+    )
   end
 
   def check_authorization

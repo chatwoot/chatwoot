@@ -3,6 +3,7 @@ import { computed, onMounted, ref } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { useStore } from 'vuex';
+import { useDebounceFn } from '@vueuse/core';
 import { format } from 'date-fns';
 import AppointmentsAPI from 'dashboard/api/appointments';
 
@@ -112,9 +113,13 @@ const onPageChange = page => {
   fetchAppointments(page);
 };
 
+const debouncedFetch = useDebounceFn(() => {
+  fetchAppointments(1);
+}, 300);
+
 const onSearch = value => {
   searchValue.value = value;
-  fetchAppointments(1);
+  debouncedFetch();
 };
 
 const copyToClipboard = async url => {

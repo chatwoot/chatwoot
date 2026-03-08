@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, nextTick } from 'vue';
 import { OnClickOutside } from '@vueuse/components';
 import { useI18n } from 'vue-i18n';
 
@@ -85,8 +85,9 @@ const positionClass = computed(() =>
   props.position === 'top' ? 'dialog-position-top' : ''
 );
 
-const open = () => {
+const open = async () => {
   isOpen.value = true;
+  await nextTick();
   dialogRef.value?.showModal();
 };
 
@@ -122,17 +123,19 @@ defineExpose({ open, close });
           @submit.prevent="confirm"
           @click.stop
         >
-          <div v-if="title || description" class="flex flex-col gap-2">
-            <h3 class="text-base font-medium leading-6 text-n-slate-12">
-              {{ title }}
-            </h3>
-            <slot name="description">
-              <p v-if="description" class="mb-0 text-sm text-n-slate-11">
-                {{ description }}
-              </p>
-            </slot>
-          </div>
-          <slot v-if="isOpen" />
+          <template v-if="isOpen">
+            <div v-if="title || description" class="flex flex-col gap-2">
+              <h3 class="text-base font-medium leading-6 text-n-slate-12">
+                {{ title }}
+              </h3>
+              <slot name="description">
+                <p v-if="description" class="mb-0 text-sm text-n-slate-11">
+                  {{ description }}
+                </p>
+              </slot>
+            </div>
+            <slot />
+          </template>
           <!-- Dialog content will be injected here -->
           <slot name="footer">
             <div
@@ -166,6 +169,10 @@ defineExpose({ open, close });
 </template>
 
 <style scoped>
+dialog:not([open]) {
+  display: none !important;
+}
+
 dialog::backdrop {
   @apply bg-n-alpha-black1 backdrop-blur-[4px];
 }
