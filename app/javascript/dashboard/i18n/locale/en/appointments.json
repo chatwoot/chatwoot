@@ -22,7 +22,18 @@
         "EVENT_ID": "Event ID",
         "CONTACT_EMAIL": "Email",
         "CONTACT_PHONE": "Phone",
-        "UPDATED_AT": "Last Updated"
+        "UPDATED_AT": "Last Updated",
+        "TIMEZONE": "Timezone",
+        "END_TIME": "End Time",
+        "LOCATION": "Location",
+        "HOST": "Host",
+        "GUESTS": "Guests",
+        "GUESTS_COUNT": "guest(s)",
+        "QUESTIONS_AND_ANSWERS": "Questions & Answers",
+        "CANCEL_LINK": "Cancel Appointment",
+        "RESCHEDULE_LINK": "Reschedule Appointment",
+        "PAYMENT_MADE": "Payment Made",
+        "NO_SHOW": "No Show"
       }
     },
     "STATUS": {

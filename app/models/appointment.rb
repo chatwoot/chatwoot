@@ -83,11 +83,13 @@ class Appointment < ApplicationRecord
       status: :scheduled,
       scheduled_at: event_data[:start_time],
       external_event_id: event_data[:event_id],
+      event_type_uri: event_data[:event_uri] || event_type_uri,
       payload: payload.merge(
         scheduled_at_raw: event_data[:start_time],
-        invitee_data: event_data[:invitee],
-        event_callback: event_data
-      )
+        end_time: event_data[:end_time],
+        invitee: event_data[:invitee],
+        event: event_data[:event]
+      ).compact
     )
   end
 

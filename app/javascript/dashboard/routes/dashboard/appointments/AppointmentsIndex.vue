@@ -350,7 +350,8 @@ onMounted(() => {
                   </tr>
                   <tr v-if="isExpanded(appointment.id)" class="bg-n-alpha-1">
                     <td colspan="7" class="py-4 px-4">
-                      <div class="ltr:ml-4 rtl:mr-4">
+                      <div class="ltr:ml-4 rtl:mr-4 flex flex-col gap-4">
+                        <!-- Row 1: Basic info -->
                         <div
                           class="grid grid-cols-2 sm:grid-cols-3 gap-4 text-sm"
                         >
@@ -391,6 +392,31 @@ onMounted(() => {
                           <div class="flex flex-col gap-1">
                             <span class="text-xs font-medium text-n-slate-11">
                               {{
+                                t('APPOINTMENTS_LIST.TABLE.DETAILS.TIMEZONE')
+                              }}
+                            </span>
+                            <span class="text-n-slate-12">
+                              {{ appointment.invitee?.timezone || '-' }}
+                            </span>
+                          </div>
+                          <div class="flex flex-col gap-1">
+                            <span class="text-xs font-medium text-n-slate-11">
+                              {{
+                                t('APPOINTMENTS_LIST.TABLE.DETAILS.END_TIME')
+                              }}
+                            </span>
+                            <span class="text-n-slate-12">
+                              {{
+                                formatDate(
+                                  appointment.end_time ||
+                                    appointment.event?.end_time
+                                )
+                              }}
+                            </span>
+                          </div>
+                          <div class="flex flex-col gap-1">
+                            <span class="text-xs font-medium text-n-slate-11">
+                              {{
                                 t('APPOINTMENTS_LIST.TABLE.DETAILS.EVENT_ID')
                               }}
                             </span>
@@ -398,24 +424,118 @@ onMounted(() => {
                               {{ appointment.external_event_id || '-' }}
                             </span>
                           </div>
-                          <div class="flex flex-col gap-1">
+                        </div>
+
+                        <!-- Row 2: Event details (location, host, guests) -->
+                        <div
+                          v-if="appointment.event"
+                          class="grid grid-cols-2 sm:grid-cols-3 gap-4 text-sm"
+                        >
+                          <div
+                            v-if="appointment.event.location"
+                            class="flex flex-col gap-1"
+                          >
                             <span class="text-xs font-medium text-n-slate-11">
                               {{
-                                t('APPOINTMENTS_LIST.TABLE.DETAILS.UPDATED_AT')
+                                t('APPOINTMENTS_LIST.TABLE.DETAILS.LOCATION')
                               }}
                             </span>
                             <span class="text-n-slate-12">
-                              {{ formatDate(appointment.updated_at) }}
+                              {{
+                                appointment.event.location.location ||
+                                appointment.event.location.type ||
+                                '-'
+                              }}
+                            </span>
+                          </div>
+                          <div
+                            v-if="
+                              appointment.event.event_memberships?.length > 0
+                            "
+                            class="flex flex-col gap-1"
+                          >
+                            <span class="text-xs font-medium text-n-slate-11">
+                              {{ t('APPOINTMENTS_LIST.TABLE.DETAILS.HOST') }}
+                            </span>
+                            <div class="flex flex-col gap-0.5">
+                              <span
+                                v-for="member in appointment.event
+                                  .event_memberships"
+                                :key="member.user"
+                                class="text-n-slate-12"
+                              >
+                                {{ member.user_name }}
+                                <span class="text-n-slate-10 text-xs">
+                                  ({{ member.user_email }})
+                                </span>
+                              </span>
+                            </div>
+                          </div>
+                          <div
+                            v-if="appointment.event.event_guests?.length > 0"
+                            class="flex flex-col gap-1"
+                          >
+                            <span class="text-xs font-medium text-n-slate-11">
+                              {{ t('APPOINTMENTS_LIST.TABLE.DETAILS.GUESTS') }}
+                            </span>
+                            <span class="text-n-slate-12">
+                              {{ appointment.event.event_guests.length }}
+                              {{
+                                t(
+                                  'APPOINTMENTS_LIST.TABLE.DETAILS.GUESTS_COUNT'
+                                )
+                              }}
                             </span>
                           </div>
                         </div>
+
+                        <!-- Row 3: Questions and answers -->
                         <div
-                          v-if="appointment.scheduling_url"
-                          class="mt-3 flex items-start gap-2 text-sm text-n-slate-11"
+                          v-if="
+                            appointment.invitee?.questions_and_answers?.length >
+                            0
+                          "
+                          class="text-sm"
                         >
-                          <Icon icon="i-lucide-link" class="text-sm mt-0.5" />
-                          <div>
-                            <span class="font-medium text-n-slate-12">
+                          <span
+                            class="text-xs font-medium text-n-slate-11 block mb-2"
+                          >
+                            {{
+                              t(
+                                'APPOINTMENTS_LIST.TABLE.DETAILS.QUESTIONS_AND_ANSWERS'
+                              )
+                            }}
+                          </span>
+                          <div
+                            class="flex flex-col gap-2 p-3 rounded-lg bg-n-alpha-black2"
+                          >
+                            <div
+                              v-for="(qa, idx) in appointment.invitee
+                                .questions_and_answers"
+                              :key="idx"
+                              class="flex flex-col gap-0.5"
+                            >
+                              <span class="text-xs text-n-slate-10">
+                                {{ qa.question }}
+                              </span>
+                              <span class="text-n-slate-12">
+                                {{ qa.answer }}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!-- Row 4: Links -->
+                        <div class="flex flex-wrap gap-4 text-sm">
+                          <div
+                            v-if="appointment.scheduling_url"
+                            class="flex items-center gap-1.5"
+                          >
+                            <Icon
+                              icon="i-lucide-link"
+                              class="text-sm text-n-slate-10"
+                            />
+                            <span class="font-medium text-n-slate-11">
                               {{
                                 t(
                                   'APPOINTMENTS_LIST.TABLE.DETAILS.SCHEDULING_URL'
@@ -432,6 +552,74 @@ onMounted(() => {
                               {{ appointment.scheduling_url }}
                             </a>
                           </div>
+                          <div
+                            v-if="appointment.invitee?.cancel_url"
+                            class="flex items-center gap-1.5"
+                          >
+                            <Icon
+                              icon="i-lucide-x-circle"
+                              class="text-sm text-n-slate-10"
+                            />
+                            <a
+                              :href="appointment.invitee.cancel_url"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              class="text-n-ruby-9 hover:text-n-ruby-10 hover:underline"
+                              @click.stop
+                            >
+                              {{
+                                t('APPOINTMENTS_LIST.TABLE.DETAILS.CANCEL_LINK')
+                              }}
+                            </a>
+                          </div>
+                          <div
+                            v-if="appointment.invitee?.reschedule_url"
+                            class="flex items-center gap-1.5"
+                          >
+                            <Icon
+                              icon="i-lucide-calendar-clock"
+                              class="text-sm text-n-slate-10"
+                            />
+                            <a
+                              :href="appointment.invitee.reschedule_url"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              class="text-n-amber-9 hover:text-n-amber-10 hover:underline"
+                              @click.stop
+                            >
+                              {{
+                                t(
+                                  'APPOINTMENTS_LIST.TABLE.DETAILS.RESCHEDULE_LINK'
+                                )
+                              }}
+                            </a>
+                          </div>
+                        </div>
+
+                        <!-- Row 5: Payment & No-show badges -->
+                        <div
+                          v-if="
+                            appointment.invitee?.payment ||
+                            appointment.invitee?.no_show
+                          "
+                          class="flex gap-3 text-sm"
+                        >
+                          <span
+                            v-if="appointment.invitee?.payment"
+                            class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-n-teal-3 text-n-teal-11"
+                          >
+                            <Icon icon="i-lucide-credit-card" class="text-xs" />
+                            {{
+                              t('APPOINTMENTS_LIST.TABLE.DETAILS.PAYMENT_MADE')
+                            }}
+                          </span>
+                          <span
+                            v-if="appointment.invitee?.no_show"
+                            class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-n-orange-3 text-n-orange-11"
+                          >
+                            <Icon icon="i-lucide-user-x" class="text-xs" />
+                            {{ t('APPOINTMENTS_LIST.TABLE.DETAILS.NO_SHOW') }}
+                          </span>
                         </div>
                       </div>
                     </td>

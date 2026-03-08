@@ -34,10 +34,10 @@ class Integrations::Calendly::WebhookProcessorService
     contact = find_or_create_contact(@payload['email'], @payload['name'])
     return if contact.blank?
 
-    event_details = fetch_event_details(@payload['event'])
+    event_details = resolve_event_details
     return if event_details.blank?
 
-    is_reschedule = @payload['old_invitee'].present?
+    is_reschedule = @payload['old_invitee'].present? || @payload['rescheduled'] == true
     conversation = find_or_create_conversation_for_contact(contact)
     return if conversation.blank?
 
@@ -57,7 +57,7 @@ class Integrations::Calendly::WebhookProcessorService
     contact = find_contact(@payload['email'])
     return if contact.blank?
 
-    event_details = fetch_event_details(@payload['event'])
+    event_details = resolve_event_details
     conversation = find_or_create_conversation_for_contact(contact)
     return if conversation.blank?
 
@@ -111,6 +111,10 @@ class Integrations::Calendly::WebhookProcessorService
   rescue ActiveRecord::RecordInvalid => e
     Rails.logger.error("Calendly: Failed to create conversation: #{e.message}")
     nil
+  end
+
+  def resolve_event_details
+    @payload['scheduled_event'] || fetch_event_details(@payload['event'])
   end
 
   def fetch_event_details(event_uri)

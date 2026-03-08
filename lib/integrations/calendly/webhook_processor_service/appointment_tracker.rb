@@ -2,16 +2,17 @@ module Integrations::Calendly::WebhookProcessorService::AppointmentTracker
   private
 
   def update_appointment_as_scheduled(conversation, event_details)
-    event_uri = event_details['uri']
-    event_uuid = event_uri&.split('/')&.last
     appointment = find_pending_appointment(conversation)
     return if appointment.blank?
 
+    event_uuid = extract_event_uuid(event_details)
     appointment.mark_as_scheduled!(
       start_time: event_details['start_time'],
+      end_time: event_details['end_time'],
       event_id: event_uuid,
-      invitee: @payload.slice('name', 'email', 'uri', 'cancel_url', 'reschedule_url'),
-      event_uri: event_uri
+      event_uri: event_details['uri'],
+      invitee: build_invitee_snapshot,
+      event: build_event_snapshot(event_details)
     )
   rescue StandardError => e
     Rails.logger.error("Calendly: Failed to update appointment as scheduled: #{e.message}")
@@ -29,6 +30,25 @@ module Integrations::Calendly::WebhookProcessorService::AppointmentTracker
     )
   rescue StandardError => e
     Rails.logger.error("Calendly: Failed to update appointment as cancelled: #{e.message}")
+  end
+
+  def build_invitee_snapshot
+    @payload.slice(
+      'uri', 'name', 'email', 'status', 'timezone',
+      'cancel_url', 'reschedule_url', 'rescheduled',
+      'created_at', 'updated_at', 'scheduling_method',
+      'text_reminder_number', 'first_name', 'last_name',
+      'no_show', 'payment'
+    ).merge('questions_and_answers' => @payload['questions_and_answers'])
+  end
+
+  def build_event_snapshot(event_details)
+    event_details.slice(
+      'uri', 'name', 'status', 'start_time', 'end_time',
+      'event_type', 'location', 'created_at', 'updated_at',
+      'event_guests', 'invitees_counter', 'event_memberships',
+      'meeting_notes_html', 'meeting_notes_plain'
+    )
   end
 
   def find_appointment_for_cancellation(conversation, event_details)
