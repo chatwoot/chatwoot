@@ -48,6 +48,9 @@ en:
     inbox_deletetion_response: Your inbox deletion request will be processed in some time.
 
   errors:
+    account:
+      reporting_timezone:
+        invalid: is not a valid timezone
     validations:
       presence: must not be blank
     webhook:
