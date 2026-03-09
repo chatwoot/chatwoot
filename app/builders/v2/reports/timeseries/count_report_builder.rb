@@ -81,7 +81,7 @@ class V2::Reports::Timeseries::CountReportBuilder < V2::Reports::Timeseries::Bas
 
   def date_key_for_period(date)
     case group_by
-    when 'week' then date.beginning_of_week(:monday)
+    when 'week' then date.beginning_of_week(:sunday)
     when 'month' then date.beginning_of_month
     when 'year' then date.beginning_of_year
     else date

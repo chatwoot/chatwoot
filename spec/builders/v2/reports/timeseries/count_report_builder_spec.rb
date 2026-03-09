@@ -14,11 +14,14 @@ describe V2::Reports::Timeseries::CountReportBuilder do
     {
       type: 'agent',
       metric: 'resolutions_count',
-      since: (current_time - 1.day).beginning_of_day.to_i.to_s,
+      since: since_time.beginning_of_day.to_i.to_s,
       until: current_time.end_of_day.to_i.to_s,
+      group_by: group_by,
       id: user.id.to_s
     }
   end
+  let(:group_by) { 'day' }
+  let(:since_time) { current_time - 1.day }
 
   before do
     travel_to current_time
@@ -97,6 +100,46 @@ describe V2::Reports::Timeseries::CountReportBuilder do
       # Should only count the 2 resolutions from account1
       total_count = result.sum { |r| r[:value] }
       expect(total_count).to eq(2)
+    end
+
+    context 'when rollups are enabled and grouped by week' do
+      let(:group_by) { 'week' }
+      let(:current_time) { Time.zone.parse('2020-10-26 10:00:00 UTC') }
+      let(:since_time) { current_time - 1.week }
+
+      before do
+        account.update!(reporting_timezone: 'UTC')
+        allow(subject).to receive(:use_rollup?).and_return(true)
+
+        create(:reporting_events_rollup,
+               account: account,
+               date: current_time.to_date - 1.day,
+               dimension_type: 'agent',
+               dimension_id: user.id,
+               metric: 'resolutions_count',
+               count: 1,
+               sum_value: 0.0,
+               sum_value_business_hours: 0.0)
+
+        create(:reporting_events_rollup,
+               account: account,
+               date: current_time.to_date,
+               dimension_type: 'agent',
+               dimension_id: user.id,
+               metric: 'resolutions_count',
+               count: 1,
+               sum_value: 0.0,
+               sum_value_business_hours: 0.0)
+      end
+
+      it 'groups weeks using sunday boundaries' do
+        expect(subject.timeseries).to eq(
+          [
+            { value: 0, timestamp: (current_time - 1.week).beginning_of_week(:sunday).to_i },
+            { value: 2, timestamp: current_time.beginning_of_week(:sunday).to_i }
+          ]
+        )
+      end
     end
   end
 

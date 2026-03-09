@@ -88,7 +88,7 @@ class V2::Reports::Timeseries::AverageReportBuilder < V2::Reports::Timeseries::B
 
   def date_key_for_group(date)
     case group_by
-    when 'week' then date.beginning_of_week(:monday)
+    when 'week' then date.beginning_of_week(:sunday)
     when 'month' then date.beginning_of_month
     when 'year' then date.beginning_of_year
     else date

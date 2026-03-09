@@ -133,6 +133,42 @@ describe V2::Reports::Timeseries::AverageReportBuilder do
             ]
           )
         end
+
+        context 'when rollups are enabled' do
+          before do
+            account.update!(reporting_timezone: 'UTC')
+            allow(subject).to receive(:use_rollup?).and_return(true)
+
+            create(:reporting_events_rollup,
+                   account: account,
+                   date: current_time.to_date - 1.day,
+                   dimension_type: 'account',
+                   dimension_id: account.id,
+                   metric: 'first_response',
+                   count: 1,
+                   sum_value: 80.0,
+                   sum_value_business_hours: 10.0)
+
+            create(:reporting_events_rollup,
+                   account: account,
+                   date: current_time.to_date,
+                   dimension_type: 'account',
+                   dimension_id: account.id,
+                   metric: 'first_response',
+                   count: 1,
+                   sum_value: 100.0,
+                   sum_value_business_hours: 20.0)
+          end
+
+          it 'groups weeks using sunday boundaries' do
+            expect(subject.timeseries).to eq(
+              [
+                { count: 0, timestamp: (current_time - 1.week).beginning_of_week(:sunday).to_i, value: 0 },
+                { count: 2, timestamp: current_time.beginning_of_week(:sunday).to_i, value: 90.0 }
+              ]
+            )
+          end
+        end
       end
 
       context 'when timezone offset is provided' do
