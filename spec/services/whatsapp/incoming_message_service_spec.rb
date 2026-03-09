@@ -510,6 +510,67 @@ describe Whatsapp::IncomingMessageService do
       end
     end
 
+    context 'when existing conversation receives message with whatsapp referral data' do
+      let(:wa_id) { '2423423243' }
+      let(:contact_inbox) { create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: wa_id) }
+      let!(:existing_conversation) { create(:conversation, inbox: whatsapp_channel.inbox, contact_inbox: contact_inbox) }
+
+      def referral_params(message_overrides = {})
+        {
+          'contacts' => [{ 'profile' => { 'name' => 'Sojan Jose' }, 'wa_id' => wa_id }],
+          'messages' => [{
+            'from' => wa_id,
+            'id' => "wamid.ref_#{SecureRandom.hex(4)}",
+            'text' => { 'body' => 'Hi' },
+            'timestamp' => '1633034394',
+            'type' => 'text'
+          }.merge(message_overrides)]
+        }.with_indifferent_access
+      end
+
+      it 'updates conversation additional_attributes with referral when message has referral' do
+        p = referral_params('referral' => { 'source_url' => 'https://fb.com/ad/123', 'source_type' => 'ad' })
+        described_class.new(inbox: whatsapp_channel.inbox, params: p).perform
+        expect(existing_conversation.reload.additional_attributes['whatsapp_referral']).to include(
+          'source_url' => 'https://fb.com/ad/123', 'source_type' => 'ad'
+        )
+      end
+
+      it 'updates conversation additional_attributes with referred_product when context has referred_product' do
+        p = referral_params('context' => { 'referred_product' => { 'catalog_id' => 'cat_1', 'product_retailer_id' => 'prod_2' } })
+        described_class.new(inbox: whatsapp_channel.inbox, params: p).perform
+        expect(existing_conversation.reload.additional_attributes['whatsapp_referred_product']).to include(
+          'catalog_id' => 'cat_1', 'product_retailer_id' => 'prod_2'
+        )
+      end
+
+      it 'updates both referral and referred_product when message has both' do
+        p = referral_params(
+          'referral' => { 'source_url' => 'https://fb.com/ad/999', 'source_type' => 'ad' },
+          'context' => { 'referred_product' => { 'catalog_id' => 'cat_x', 'product_retailer_id' => 'prod_y' } }
+        )
+        described_class.new(inbox: whatsapp_channel.inbox, params: p).perform
+        attrs = existing_conversation.reload.additional_attributes
+        expect(attrs['whatsapp_referral']).to be_present
+        expect(attrs['whatsapp_referred_product']).to be_present
+      end
+
+      it 'does not modify conversation additional_attributes when message has no referral data' do
+        existing_conversation.update!(additional_attributes: { 'custom_key' => 'value' })
+        described_class.new(inbox: whatsapp_channel.inbox, params: referral_params).perform
+        expect(existing_conversation.reload.additional_attributes).to eq({ 'custom_key' => 'value' })
+      end
+
+      it 'merges referral into existing additional_attributes without overwriting unrelated keys' do
+        existing_conversation.update!(additional_attributes: { 'custom_key' => 'keep_me' })
+        p = referral_params('referral' => { 'source_url' => 'https://fb.com/ad/1', 'source_type' => 'ad' })
+        described_class.new(inbox: whatsapp_channel.inbox, params: p).perform
+        attrs = existing_conversation.reload.additional_attributes
+        expect(attrs['custom_key']).to eq('keep_me')
+        expect(attrs['whatsapp_referral']).to be_present
+      end
+    end
+
     context 'when profile name is available for contact updates' do
       let(:wa_id) { '1234567890' }
       let(:phone_number) { "+#{wa_id}" }

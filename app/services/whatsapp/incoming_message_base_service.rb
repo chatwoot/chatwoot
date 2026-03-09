@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/ClassLength
 # Mostly modeled after the intial implementation of the service based on 360 Dialog
 # https://docs.360dialog.com/whatsapp-api/whatsapp-api/media
 # https://developers.facebook.com/docs/whatsapp/api/media/
@@ -136,9 +137,23 @@ class Whatsapp::IncomingMessageBaseService
                       @contact_inbox.conversations
                                     .where.not(status: :resolved).last
                     end
-    return if @conversation
+
+    if @conversation
+      update_conversation_with_message_referral_attrs
+      return
+    end
 
     @conversation = ::Conversation.create!(conversation_params)
+  end
+
+  def update_conversation_with_message_referral_attrs
+    message = messages_data.first
+    new_attrs = message_referral_attrs(message)
+    return if new_attrs.blank?
+
+    current_attrs = @conversation.additional_attributes || {}
+    updated_attrs = current_attrs.merge(new_attrs)
+    @conversation.update!(additional_attributes: updated_attrs)
   end
 
   def attach_files
@@ -225,3 +240,4 @@ class Whatsapp::IncomingMessageBaseService
     @contact.name == phone_number || @contact.name == formatted_phone_number
   end
 end
+# rubocop:enable Metrics/ClassLength
