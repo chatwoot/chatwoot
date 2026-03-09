@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { getLastMessage } from 'dashboard/helper/conversationHelper';
@@ -34,6 +34,7 @@ const emit = defineEmits([
   'contextMenuToggle',
   'assignAgent',
   'assignLabel',
+  'removeLabel',
   'assignTeam',
   'markAsUnread',
   'markAsRead',
@@ -49,10 +50,21 @@ const store = useStore();
 
 const hovered = ref(false);
 const showContextMenu = ref(false);
-const contextMenu = ref({
-  x: null,
-  y: null,
-});
+const contextMenu = ref({ x: null, y: null });
+
+// Reset UI state when conversation changes at same index (no :key, instance reused on reorder)
+// This prevents context menu/hover state from leaking to a different conversation
+// Emit contextMenuToggle(false) to sync parent state if menu was open during recycling
+const resetState = () => {
+  if (showContextMenu.value) {
+    emit('contextMenuToggle', false);
+  }
+  hovered.value = false;
+  showContextMenu.value = false;
+  contextMenu.value = { x: null, y: null };
+};
+
+watch(() => props.chat.id, resetState);
 
 const currentChat = useMapGetter('getSelectedChat');
 const inboxesList = useMapGetter('inboxes/getInboxes');
@@ -203,7 +215,10 @@ const onAssignAgent = agent => {
 
 const onAssignLabel = label => {
   emit('assignLabel', [label.title], [props.chat.id]);
-  closeContextMenu();
+};
+
+const onRemoveLabel = label => {
+  emit('removeLabel', [label.title], [props.chat.id]);
 };
 
 const onAssignTeam = team => {
@@ -348,6 +363,7 @@ const deleteConversation = () => {
           <TimeAgo
             :last-activity-timestamp="chat.timestamp"
             :created-at-timestamp="chat.created_at"
+            :conversation-id="chat.id"
           />
         </span>
         <span
@@ -379,11 +395,13 @@ const deleteConversation = () => {
         :priority="chat.priority"
         :chat-id="chat.id"
         :has-unread-messages="hasUnread"
+        :conversation-labels="chat.labels"
         :conversation-url="conversationPath"
         :allowed-options="allowedContextMenuOptions"
         @update-conversation="onUpdateConversation"
         @assign-agent="onAssignAgent"
         @assign-label="onAssignLabel"
+        @remove-label="onRemoveLabel"
         @assign-team="onAssignTeam"
         @mark-as-unread="markAsUnread"
         @mark-as-read="markAsRead"

@@ -9,12 +9,12 @@ export function useChannelIcon(inbox) {
     'Channel::Sms': 'i-woot-sms',
     'Channel::Telegram': 'i-woot-telegram',
     'Channel::TwilioSms': 'i-woot-sms',
-    'Channel::TwitterProfile': 'i-ri-twitter-x-fill',
+    'Channel::TwitterProfile': 'i-woot-x',
     'Channel::WebWidget': 'i-woot-website',
     'Channel::Whatsapp': 'i-woot-whatsapp',
     'Channel::Instagram': 'i-woot-instagram',
     'Channel::Tiktok': 'i-woot-tiktok',
-    'Channel::Voice': 'i-ri-phone-fill',
+    'Channel::Voice': 'i-woot-voice',
   };
 
   const providerIconMap = {
