@@ -27,6 +27,8 @@ class HookJob < MutexApplicationJob
       process_leadsquared_integration_with_lock(hook, event_name, event_data)
     when 'socialwise_flow'
       process_socialwise_flow_integration(hook, event_name, event_data)
+    when 'jusmonitoria'
+      process_jusmonitoria_integration(hook, event_name, event_data)
     end
   rescue StandardError => e
     Rails.logger.error e
@@ -91,6 +93,13 @@ class HookJob < MutexApplicationJob
     when 'conversation.resolved'
       processor.handle_conversation_resolved(event_data[:conversation])
     end
+  end
+
+  def process_jusmonitoria_integration(hook, event_name, event_data)
+    valid_events = %w[contact.created contact.updated message.created conversation.updated conversation.resolved]
+    return unless valid_events.include?(event_name)
+
+    Integrations::Jusmonitoria::ProcessorService.new(event_name: event_name, hook: hook, event_data: event_data).perform
   end
 
   def process_socialwise_flow_integration(hook, event_name, event_data)

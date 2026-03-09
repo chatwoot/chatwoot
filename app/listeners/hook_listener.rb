@@ -34,6 +34,12 @@ class HookListener < BaseListener
     execute_account_hooks(event, conversation.account, conversation: conversation)
   end
 
+  def conversation_updated(event)
+    conversation = extract_conversation_and_account(event)[0]
+    changed_attributes = extract_changed_attributes(event)
+    execute_account_hooks(event, conversation.account, conversation: conversation, changed_attributes: changed_attributes)
+  end
+
   private
 
   def execute_hooks(event, message)
@@ -83,7 +89,8 @@ class HookListener < BaseListener
       'dialogflow' => ['message.created', 'message.updated'],
       'google_translate' => ['message.created'],
       'leadsquared' => ['contact.updated', 'conversation.created', 'conversation.resolved'],
-      'socialwise_flow' => ['message.created', 'message.updated']
+      'socialwise_flow' => ['message.created', 'message.updated'],
+      'jusmonitoria' => %w[contact.created contact.updated message.created conversation.updated conversation.resolved]
     }
 
     return false unless supported_events_map.key?(hook.app_id)
