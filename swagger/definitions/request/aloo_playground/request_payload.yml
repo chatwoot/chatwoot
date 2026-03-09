@@ -1,0 +1,18 @@
+type: object
+required:
+  - message
+properties:
+  message:
+    type: string
+    description: The message to send to the assistant
+  conversation_history:
+    type: array
+    description: Previous conversation messages for context
+    items:
+      type: object
+      properties:
+        role:
+          type: string
+          enum: [user, assistant]
+        content:
+          type: string

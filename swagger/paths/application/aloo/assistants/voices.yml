@@ -1,0 +1,27 @@
+tags:
+  - Aloo Assistants
+operationId: list-available-voices
+summary: List Available Voices
+description: Get a list of available voice options for the assistant.
+security:
+  - userApiKey: []
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+              name:
+                type: string
+              language:
+                type: string
+              preview_url:
+                type: string
+  '401':
+    description: Unauthorized

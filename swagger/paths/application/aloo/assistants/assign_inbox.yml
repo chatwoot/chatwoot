@@ -1,0 +1,30 @@
+tags:
+  - Aloo Assistants
+operationId: assign-inbox-to-assistant
+summary: Assign Inbox
+description: Assign an inbox to the assistant so it can respond to conversations in that inbox.
+security:
+  - userApiKey: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        required:
+          - inbox_id
+        properties:
+          inbox_id:
+            type: integer
+            description: ID of the inbox to assign
+responses:
+  '200':
+    description: Inbox assigned
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/aloo_assistant'
+  '401':
+    description: Unauthorized
+  '422':
+    description: Validation error

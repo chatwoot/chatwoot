@@ -1,0 +1,14 @@
+type: object
+required:
+  - amount
+properties:
+  amount:
+    type: number
+    description: The payment amount
+  currency:
+    type: string
+    description: Currency code (defaults from account settings)
+  provider:
+    type: string
+    enum: [tap, payzah]
+    description: Payment provider (defaults from account settings)

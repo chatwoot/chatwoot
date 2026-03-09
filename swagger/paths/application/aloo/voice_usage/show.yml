@@ -1,0 +1,29 @@
+tags:
+  - Aloo Voice Usage
+operationId: get-account-voice-usage
+summary: Get Account Voice Usage
+description: Get detailed voice usage metrics for the account.
+security:
+  - userApiKey: []
+parameters:
+  - in: query
+    name: period_start
+    schema:
+      type: string
+      format: date
+    description: Start of the reporting period
+  - in: query
+    name: period_end
+    schema:
+      type: string
+      format: date
+    description: End of the reporting period
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/aloo_voice_usage'
+  '401':
+    description: Unauthorized

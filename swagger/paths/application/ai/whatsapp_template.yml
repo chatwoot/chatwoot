@@ -1,0 +1,86 @@
+tags:
+  - AI External
+operationId: ai-send-whatsapp-template
+summary: Send WhatsApp Template (AI)
+description: |
+  Send a WhatsApp template message to a conversation from an AI agent.
+  Used by AlooStudio to send template messages via WhatsApp Cloud API.
+security:
+  - alooStudioApiKey: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        required:
+          - conversation_id
+          - template_name
+        properties:
+          conversation_id:
+            type: integer
+            description: ID of the conversation (actual ID or display ID)
+          template_name:
+            type: string
+            description: Name of the WhatsApp template
+          template_namespace:
+            type: string
+            description: Template namespace (inferred if not provided)
+          template_language:
+            type: string
+            description: Language code (defaults to 'en')
+          template_params:
+            type: object
+            description: Template parameters
+            properties:
+              body:
+                type: object
+                description: 'Body parameters keyed by position (e.g., {"1": "value1"})'
+              header:
+                type: object
+                properties:
+                  media_url:
+                    type: string
+                  media_type:
+                    type: string
+              buttons:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    type:
+                      type: string
+                    parameter:
+                      type: string
+responses:
+  '200':
+    description: Template sent
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            success:
+              type: boolean
+            message_id:
+              type: integer
+            conversation_id:
+              type: integer
+            conversation_display_id:
+              type: integer
+            template_name:
+              type: string
+            template_language:
+              type: string
+            template_namespace:
+              type: string
+            whatsapp_message_id:
+              type: string
+            message:
+              type: string
+  '400':
+    description: Not a WhatsApp channel or missing required params
+  '401':
+    description: Unauthorized
+  '404':
+    description: Conversation or template not found

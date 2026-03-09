@@ -1,0 +1,56 @@
+tags:
+  - AI External
+operationId: ai-handoff
+summary: AI Handoff
+description: |
+  Hand off a conversation from an AI agent to a human agent.
+  This endpoint is used by AlooStudio to trigger conversation handoffs.
+security:
+  - alooStudioApiKey: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        required:
+          - conversation_id
+          - assignee_id
+        properties:
+          conversation_id:
+            type: integer
+            description: ID of the conversation to hand off
+          assignee_id:
+            type: integer
+            description: ID of the human agent to assign to
+responses:
+  '200':
+    description: Handoff successful
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            success:
+              type: boolean
+            conversation_id:
+              type: integer
+            conversation_display_id:
+              type: integer
+            assignee:
+              type: object
+              properties:
+                id:
+                  type: integer
+                name:
+                  type: string
+                email:
+                  type: string
+                available_name:
+                  type: string
+            message:
+              type: string
+  '401':
+    description: Unauthorized
+  '404':
+    description: Conversation or agent not found

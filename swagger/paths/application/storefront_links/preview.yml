@@ -1,0 +1,16 @@
+tags:
+  - Storefront Links
+operationId: preview-storefront-link
+summary: Preview Storefront Link
+description: Generate a preview storefront link for the current user.
+security:
+  - userApiKey: []
+responses:
+  '200':
+    description: Preview link generated
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/storefront_link'
+  '401':
+    description: Unauthorized

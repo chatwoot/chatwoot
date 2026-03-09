@@ -1,0 +1,23 @@
+tags:
+  - WhatsApp Templates
+operationId: delete-whatsapp-template
+summary: Delete WhatsApp Template
+description: Delete a WhatsApp message template.
+security:
+  - userApiKey: []
+responses:
+  '200':
+    description: Template deleted
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            success:
+              type: boolean
+  '400':
+    description: Not a WhatsApp Cloud channel
+  '401':
+    description: Unauthorized
+  '422':
+    description: Deletion failed

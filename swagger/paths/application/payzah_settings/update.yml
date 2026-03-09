@@ -1,0 +1,32 @@
+tags:
+  - Payzah Settings
+operationId: update-payzah-settings
+summary: Update Payzah Settings
+description: Update Payzah payment gateway settings.
+security:
+  - userApiKey: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          payzah_settings:
+            type: object
+            properties:
+              api_key:
+                type: string
+              enabled:
+                type: boolean
+responses:
+  '200':
+    description: Settings updated
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/payzah_settings'
+  '401':
+    description: Unauthorized
+  '422':
+    description: Validation error

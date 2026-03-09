@@ -1,0 +1,8 @@
+type: object
+properties:
+  contact_id:
+    type: integer
+    description: ID of the contact to generate link for
+  conversation_id:
+    type: integer
+    description: ID of the conversation context

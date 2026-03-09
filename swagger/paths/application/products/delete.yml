@@ -1,0 +1,14 @@
+tags:
+  - Products
+operationId: delete-a-product
+summary: Delete Product
+description: Delete a product from the catalog.
+security:
+  - userApiKey: []
+responses:
+  '204':
+    description: Product deleted
+  '401':
+    description: Unauthorized
+  '404':
+    description: Product not found

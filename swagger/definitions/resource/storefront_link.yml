@@ -1,0 +1,12 @@
+type: object
+properties:
+  storefront_url:
+    type: string
+    description: Full URL to the storefront
+  token:
+    type: string
+    description: Authentication token for storefront access
+  expires_at:
+    type: string
+    format: date-time
+    description: Token expiration timestamp

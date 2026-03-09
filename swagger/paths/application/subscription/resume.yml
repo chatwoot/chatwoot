@@ -1,0 +1,21 @@
+tags:
+  - Subscription
+operationId: resume-subscription
+summary: Resume Subscription
+description: Resume a previously cancelled subscription before it expires.
+security:
+  - userApiKey: []
+responses:
+  '200':
+    description: Subscription resumed
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+  '401':
+    description: Unauthorized
+  '422':
+    description: Resume error

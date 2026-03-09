@@ -1,0 +1,50 @@
+type: object
+properties:
+  assistant:
+    type: object
+    properties:
+      name:
+        type: string
+        description: Assistant name
+      description:
+        type: string
+        description: Assistant description
+      active:
+        type: boolean
+        description: Whether the assistant is active
+      tone:
+        type: string
+        description: Communication tone setting
+      formality:
+        type: string
+        description: Formality level setting
+      empathy_level:
+        type: string
+        description: Empathy level setting
+      verbosity:
+        type: string
+        description: Response verbosity setting
+      emoji_usage:
+        type: string
+        description: Emoji usage preference
+      greeting_style:
+        type: string
+        description: Greeting style configuration
+      custom_greeting:
+        type: string
+        description: Custom greeting message
+      personality_description:
+        type: string
+        description: Personality description text
+      custom_instructions:
+        type: string
+        description: Custom behavior instructions
+      voice_enabled:
+        type: boolean
+        description: Whether voice features are enabled
+      voice_config:
+        type: object
+        description: Voice configuration settings
+      admin_config:
+        type: object
+        description: Admin-level configuration

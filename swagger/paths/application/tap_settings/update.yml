@@ -1,0 +1,32 @@
+tags:
+  - Tap Settings
+operationId: update-tap-settings
+summary: Update Tap Settings
+description: Update Tap payment gateway settings.
+security:
+  - userApiKey: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          tap_settings:
+            type: object
+            properties:
+              secret_key:
+                type: string
+              enabled:
+                type: boolean
+responses:
+  '200':
+    description: Settings updated
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/tap_settings'
+  '401':
+    description: Unauthorized
+  '422':
+    description: Validation error

@@ -1,0 +1,56 @@
+tags:
+  - WhatsApp Templates
+operationId: create-whatsapp-template
+summary: Create WhatsApp Template
+description: Create a new WhatsApp message template for a WhatsApp Cloud inbox.
+security:
+  - userApiKey: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        required:
+          - template
+        properties:
+          template:
+            type: object
+            required:
+              - name
+              - category
+              - language
+              - components
+            properties:
+              name:
+                type: string
+                description: Template name
+              category:
+                type: string
+                description: Template category
+              language:
+                type: string
+                description: Language code
+              allow_category_change:
+                type: boolean
+              components:
+                type: array
+                description: Template components (header, body, footer, buttons)
+                items:
+                  type: object
+responses:
+  '201':
+    description: Template created
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            template:
+              type: object
+  '400':
+    description: Not a WhatsApp Cloud channel
+  '401':
+    description: Unauthorized
+  '422':
+    description: Validation error

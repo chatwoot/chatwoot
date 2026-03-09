@@ -2879,6 +2879,832 @@
           }
         }
       },
+      "product": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "The ID of the product"
+          },
+          "title_en": {
+            "type": "string",
+            "description": "Product title in English"
+          },
+          "title_ar": {
+            "type": "string",
+            "description": "Product title in Arabic"
+          },
+          "description_en": {
+            "type": "string",
+            "description": "Product description in English"
+          },
+          "description_ar": {
+            "type": "string",
+            "description": "Product description in Arabic"
+          },
+          "price": {
+            "type": "number",
+            "format": "decimal",
+            "description": "Product price"
+          },
+          "stock": {
+            "type": "integer",
+            "description": "Available stock quantity"
+          },
+          "image_url": {
+            "type": "string",
+            "description": "URL of the product image"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "catalog_settings": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "account_id": {
+            "type": "integer"
+          },
+          "enabled": {
+            "type": "boolean",
+            "description": "Whether catalog feature is enabled"
+          },
+          "payment_provider": {
+            "type": "string",
+            "description": "Default payment provider"
+          },
+          "currency": {
+            "type": "string",
+            "description": "Default currency code (e.g., KWD, SAR)"
+          },
+          "order_notification_email": {
+            "type": "string",
+            "description": "Email for order notifications"
+          },
+          "available_currencies": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "List of available currency codes"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "payment_link_settings": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "account_id": {
+            "type": "integer"
+          },
+          "default_provider": {
+            "type": "string",
+            "description": "Default payment provider"
+          },
+          "default_currency": {
+            "type": "string",
+            "description": "Default currency code"
+          },
+          "notification_email": {
+            "type": "string",
+            "description": "Email for payment notifications"
+          },
+          "available_currencies": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "List of available currency codes"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "storefront_link": {
+        "type": "object",
+        "properties": {
+          "storefront_url": {
+            "type": "string",
+            "description": "Full URL to the storefront"
+          },
+          "token": {
+            "type": "string",
+            "description": "Authentication token for storefront access"
+          },
+          "expires_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Token expiration timestamp"
+          }
+        }
+      },
+      "aloo_assistant": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "The ID of the assistant"
+          },
+          "name": {
+            "type": "string",
+            "description": "Assistant name"
+          },
+          "description": {
+            "type": "string",
+            "description": "Assistant description"
+          },
+          "active": {
+            "type": "boolean",
+            "description": "Whether the assistant is active"
+          },
+          "tone": {
+            "type": "string",
+            "description": "Communication tone setting"
+          },
+          "formality": {
+            "type": "string",
+            "description": "Formality level setting"
+          },
+          "empathy_level": {
+            "type": "string",
+            "description": "Empathy level setting"
+          },
+          "verbosity": {
+            "type": "string",
+            "description": "Response verbosity setting"
+          },
+          "emoji_usage": {
+            "type": "string",
+            "description": "Emoji usage preference"
+          },
+          "greeting_style": {
+            "type": "string",
+            "description": "Greeting style configuration"
+          },
+          "custom_greeting": {
+            "type": "string",
+            "description": "Custom greeting message"
+          },
+          "personality_description": {
+            "type": "string",
+            "description": "Personality description text"
+          },
+          "custom_instructions": {
+            "type": "string",
+            "description": "Custom behavior instructions"
+          },
+          "voice_enabled": {
+            "type": "boolean",
+            "description": "Whether voice features are enabled"
+          },
+          "voice_config": {
+            "type": "object",
+            "description": "Voice configuration settings"
+          },
+          "admin_config": {
+            "type": "object",
+            "description": "Admin-level configuration"
+          },
+          "inboxes": {
+            "type": "array",
+            "description": "Assigned inboxes",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer"
+                },
+                "name": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "aloo_document": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "The ID of the document"
+          },
+          "title": {
+            "type": "string",
+            "description": "Document title"
+          },
+          "source_type": {
+            "type": "string",
+            "description": "Type of source (file, text, website)"
+          },
+          "source_url": {
+            "type": "string",
+            "description": "Source URL for website documents"
+          },
+          "status": {
+            "type": "string",
+            "description": "Processing status"
+          },
+          "chunk_count": {
+            "type": "integer",
+            "description": "Number of text chunks"
+          },
+          "filename": {
+            "type": "string",
+            "description": "Original filename for file uploads"
+          },
+          "file_size": {
+            "type": "integer",
+            "description": "File size in bytes"
+          },
+          "content_type": {
+            "type": "string",
+            "description": "MIME type of the file"
+          },
+          "pages_scraped": {
+            "type": "integer",
+            "description": "Number of pages scraped for website sources"
+          },
+          "crawl_full_site": {
+            "type": "boolean",
+            "description": "Whether to crawl the full website"
+          },
+          "text_content": {
+            "type": "string",
+            "description": "Raw text content for text source type"
+          },
+          "text_content_preview": {
+            "type": "string",
+            "description": "Preview of text content"
+          },
+          "character_count": {
+            "type": "integer",
+            "description": "Total character count"
+          },
+          "selected_pages": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Selected pages for website sources"
+          },
+          "auto_refresh": {
+            "type": "boolean",
+            "description": "Whether auto-refresh is enabled"
+          },
+          "last_refreshed_at": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "next_refresh_at": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "aloo_conversation": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "conversation_id": {
+            "type": "integer"
+          },
+          "contact_name": {
+            "type": "string"
+          },
+          "contact_email": {
+            "type": "string"
+          },
+          "message_count": {
+            "type": "integer"
+          },
+          "input_tokens": {
+            "type": "integer"
+          },
+          "output_tokens": {
+            "type": "integer"
+          },
+          "total_tokens": {
+            "type": "integer"
+          },
+          "total_cost": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "aloo_voice_usage": {
+        "type": "object",
+        "properties": {
+          "period": {
+            "type": "object",
+            "properties": {
+              "start": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "end": {
+                "type": "string",
+                "format": "date-time"
+              }
+            }
+          },
+          "transcription": {
+            "type": "object",
+            "properties": {
+              "count": {
+                "type": "integer"
+              },
+              "total_duration_seconds": {
+                "type": "number"
+              },
+              "total_duration_minutes": {
+                "type": "number"
+              },
+              "estimated_cost": {
+                "type": "number",
+                "format": "decimal"
+              }
+            }
+          },
+          "synthesis": {
+            "type": "object",
+            "properties": {
+              "count": {
+                "type": "integer"
+              },
+              "total_characters": {
+                "type": "integer"
+              },
+              "estimated_cost": {
+                "type": "number",
+                "format": "decimal"
+              }
+            }
+          },
+          "total_estimated_cost": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "failed_operations": {
+            "type": "integer"
+          },
+          "by_assistant": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "daily_breakdown": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "quota": {
+            "type": "object",
+            "properties": {
+              "daily_limit": {
+                "type": "integer"
+              },
+              "used_today": {
+                "type": "integer"
+              },
+              "remaining": {
+                "type": "integer"
+              },
+              "percentage_used": {
+                "type": "number"
+              }
+            }
+          }
+        }
+      },
+      "aloo_assistant_stats": {
+        "type": "object",
+        "properties": {
+          "total_conversations": {
+            "type": "integer"
+          },
+          "total_messages": {
+            "type": "integer"
+          },
+          "total_tokens": {
+            "type": "integer"
+          },
+          "total_cost": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "average_response_time": {
+            "type": "number"
+          },
+          "documents_count": {
+            "type": "integer"
+          }
+        }
+      },
+      "aloo_assistant_performance": {
+        "type": "object",
+        "properties": {
+          "range": {
+            "type": "string",
+            "description": "Time range (24h, 7d, 30d, 90d)"
+          },
+          "conversations": {
+            "type": "integer"
+          },
+          "messages": {
+            "type": "integer"
+          },
+          "tokens_used": {
+            "type": "integer"
+          },
+          "estimated_cost": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "average_messages_per_conversation": {
+            "type": "number"
+          },
+          "daily_breakdown": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "date": {
+                  "type": "string"
+                },
+                "conversations": {
+                  "type": "integer"
+                },
+                "messages": {
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        }
+      },
+      "aloo_playground_response": {
+        "type": "object",
+        "properties": {
+          "response": {
+            "type": "string",
+            "description": "The assistant's response message"
+          },
+          "tokens_used": {
+            "type": "object",
+            "properties": {
+              "input": {
+                "type": "integer"
+              },
+              "output": {
+                "type": "integer"
+              },
+              "total": {
+                "type": "integer"
+              }
+            }
+          }
+        }
+      },
+      "appointment": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "The ID of the appointment"
+          },
+          "provider": {
+            "type": "string",
+            "description": "Scheduling provider (e.g., calendly)"
+          },
+          "status": {
+            "type": "string",
+            "description": "Appointment status"
+          },
+          "scheduling_url": {
+            "type": "string",
+            "description": "URL for scheduling"
+          },
+          "event_type_name": {
+            "type": "string",
+            "description": "Name of the event type"
+          },
+          "event_type_uri": {
+            "type": "string",
+            "description": "URI of the event type"
+          },
+          "scheduled_at": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "Scheduled date and time"
+          },
+          "end_time": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "End time of the appointment"
+          },
+          "external_event_id": {
+            "type": "string",
+            "description": "External event identifier"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "contact": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "name": {
+                "type": "string"
+              },
+              "email": {
+                "type": "string"
+              },
+              "phone_number": {
+                "type": "string"
+              }
+            }
+          },
+          "conversation": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "display_id": {
+                "type": "integer"
+              }
+            }
+          },
+          "created_by": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "name": {
+                "type": "string"
+              }
+            }
+          },
+          "invitee": {
+            "type": "object",
+            "description": "Calendly invitee details (included in full/show response)",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "email": {
+                "type": "string"
+              },
+              "timezone": {
+                "type": "string"
+              },
+              "cancel_url": {
+                "type": "string"
+              },
+              "reschedule_url": {
+                "type": "string"
+              },
+              "rescheduled": {
+                "type": "boolean"
+              },
+              "no_show": {
+                "type": "boolean"
+              },
+              "payment": {
+                "type": "object"
+              },
+              "questions_and_answers": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "event": {
+            "type": "object",
+            "description": "Calendly event details (included in full/show response)",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "status": {
+                "type": "string"
+              },
+              "start_time": {
+                "type": "string"
+              },
+              "end_time": {
+                "type": "string"
+              },
+              "location": {
+                "type": "object"
+              },
+              "event_type": {
+                "type": "string"
+              },
+              "event_memberships": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              },
+              "event_guests": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              },
+              "meeting_notes_plain": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "tap_settings": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "account_id": {
+            "type": "integer"
+          },
+          "secret_key": {
+            "type": "string",
+            "description": "Tap payment gateway secret key"
+          },
+          "enabled": {
+            "type": "boolean",
+            "description": "Whether Tap integration is enabled"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "payzah_settings": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "account_id": {
+            "type": "integer"
+          },
+          "api_key": {
+            "type": "string",
+            "description": "Payzah payment gateway API key"
+          },
+          "enabled": {
+            "type": "boolean",
+            "description": "Whether Payzah integration is enabled"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "subscription": {
+        "type": "object",
+        "properties": {
+          "subscription": {
+            "type": "object",
+            "nullable": true,
+            "properties": {
+              "status": {
+                "type": "string"
+              },
+              "current_period_end": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "trial_ends_at": {
+                "type": "string",
+                "format": "date-time",
+                "nullable": true
+              },
+              "ends_at": {
+                "type": "string",
+                "format": "date-time",
+                "nullable": true
+              },
+              "on_grace_period": {
+                "type": "boolean"
+              },
+              "processor_plan": {
+                "type": "string"
+              }
+            }
+          },
+          "plan": {
+            "type": "object",
+            "nullable": true,
+            "description": "Active plan details"
+          },
+          "usage": {
+            "type": "object",
+            "description": "Account usage summary"
+          },
+          "plans": {
+            "type": "array",
+            "description": "All available plans",
+            "items": {
+              "type": "object"
+            }
+          },
+          "on_trial": {
+            "type": "boolean"
+          },
+          "trial_active": {
+            "type": "boolean"
+          },
+          "trial_credits_remaining": {
+            "type": "integer"
+          },
+          "ai_responses_allowed": {
+            "type": "boolean"
+          }
+        }
+      },
       "account_create_update_payload": {
         "type": "object",
         "properties": {
@@ -4244,6 +5070,314 @@
               "title": "article title",
               "description": "article description"
             }
+          }
+        }
+      },
+      "product_create_update_payload": {
+        "type": "object",
+        "properties": {
+          "title_en": {
+            "type": "string",
+            "description": "Product title in English"
+          },
+          "title_ar": {
+            "type": "string",
+            "description": "Product title in Arabic"
+          },
+          "description_en": {
+            "type": "string",
+            "description": "Product description in English"
+          },
+          "description_ar": {
+            "type": "string",
+            "description": "Product description in Arabic"
+          },
+          "price": {
+            "type": "number",
+            "format": "decimal",
+            "description": "Product price"
+          },
+          "stock": {
+            "type": "integer",
+            "description": "Available stock quantity"
+          },
+          "blob_id": {
+            "type": "string",
+            "description": "ActiveStorage blob ID for product image"
+          }
+        }
+      },
+      "catalog_settings_create_update_payload": {
+        "type": "object",
+        "properties": {
+          "enabled": {
+            "type": "boolean",
+            "description": "Enable or disable catalog feature"
+          },
+          "payment_provider": {
+            "type": "string",
+            "description": "Default payment provider"
+          },
+          "currency": {
+            "type": "string",
+            "description": "Default currency code (e.g., KWD, SAR)"
+          },
+          "order_notification_email": {
+            "type": "string",
+            "description": "Email address for order notifications"
+          }
+        }
+      },
+      "payment_link_settings_create_update_payload": {
+        "type": "object",
+        "properties": {
+          "default_provider": {
+            "type": "string",
+            "description": "Default payment provider"
+          },
+          "default_currency": {
+            "type": "string",
+            "description": "Default currency code"
+          },
+          "notification_email": {
+            "type": "string",
+            "description": "Email for payment notifications"
+          }
+        }
+      },
+      "storefront_link_create_payload": {
+        "type": "object",
+        "properties": {
+          "contact_id": {
+            "type": "integer",
+            "description": "ID of the contact to generate link for"
+          },
+          "conversation_id": {
+            "type": "integer",
+            "description": "ID of the conversation context"
+          }
+        }
+      },
+      "aloo_assistant_create_update_payload": {
+        "type": "object",
+        "properties": {
+          "assistant": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Assistant name"
+              },
+              "description": {
+                "type": "string",
+                "description": "Assistant description"
+              },
+              "active": {
+                "type": "boolean",
+                "description": "Whether the assistant is active"
+              },
+              "tone": {
+                "type": "string",
+                "description": "Communication tone setting"
+              },
+              "formality": {
+                "type": "string",
+                "description": "Formality level setting"
+              },
+              "empathy_level": {
+                "type": "string",
+                "description": "Empathy level setting"
+              },
+              "verbosity": {
+                "type": "string",
+                "description": "Response verbosity setting"
+              },
+              "emoji_usage": {
+                "type": "string",
+                "description": "Emoji usage preference"
+              },
+              "greeting_style": {
+                "type": "string",
+                "description": "Greeting style configuration"
+              },
+              "custom_greeting": {
+                "type": "string",
+                "description": "Custom greeting message"
+              },
+              "personality_description": {
+                "type": "string",
+                "description": "Personality description text"
+              },
+              "custom_instructions": {
+                "type": "string",
+                "description": "Custom behavior instructions"
+              },
+              "voice_enabled": {
+                "type": "boolean",
+                "description": "Whether voice features are enabled"
+              },
+              "voice_config": {
+                "type": "object",
+                "description": "Voice configuration settings"
+              },
+              "admin_config": {
+                "type": "object",
+                "description": "Admin-level configuration"
+              }
+            }
+          }
+        }
+      },
+      "aloo_document_create_payload": {
+        "type": "object",
+        "description": "Create a document. Supports three source types:\n- File upload: provide title and file (multipart)\n- Text content: provide title and text_content\n- Website: provide title, source_url, and optional crawl settings\n",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Document title"
+          },
+          "file": {
+            "type": "string",
+            "format": "binary",
+            "description": "File upload (PDF, TXT, MD, CSV, XLSX, XLS, DOCX, DOC, PPTX). Max 10MB."
+          },
+          "text_content": {
+            "type": "string",
+            "description": "Raw text content for text source type"
+          },
+          "source_url": {
+            "type": "string",
+            "description": "URL for website source type"
+          },
+          "crawl_full_site": {
+            "type": "boolean",
+            "description": "Whether to crawl the full website"
+          },
+          "auto_refresh": {
+            "type": "boolean",
+            "description": "Enable automatic content refresh"
+          },
+          "selected_pages": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Specific pages to crawl from the website"
+          }
+        }
+      },
+      "conversation_order_create_payload": {
+        "type": "object",
+        "required": [
+          "items"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "description": "List of products and quantities for the order",
+            "items": {
+              "type": "object",
+              "required": [
+                "product_id",
+                "quantity"
+              ],
+              "properties": {
+                "product_id": {
+                  "type": "integer",
+                  "description": "ID of the product"
+                },
+                "quantity": {
+                  "type": "integer",
+                  "description": "Quantity to order"
+                }
+              }
+            }
+          }
+        }
+      },
+      "conversation_payment_link_create_payload": {
+        "type": "object",
+        "required": [
+          "amount"
+        ],
+        "properties": {
+          "amount": {
+            "type": "number",
+            "description": "The payment amount"
+          },
+          "currency": {
+            "type": "string",
+            "description": "Currency code (defaults from account settings)"
+          },
+          "provider": {
+            "type": "string",
+            "enum": [
+              "tap",
+              "payzah"
+            ],
+            "description": "Payment provider (defaults from account settings)"
+          }
+        }
+      },
+      "conversation_catalog_item_create_payload": {
+        "type": "object",
+        "required": [
+          "product_ids"
+        ],
+        "properties": {
+          "product_ids": {
+            "type": "array",
+            "description": "List of product IDs to send to the conversation",
+            "items": {
+              "type": "integer"
+            }
+          }
+        }
+      },
+      "aloo_playground_request_payload": {
+        "type": "object",
+        "required": [
+          "message"
+        ],
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "The message to send to the assistant"
+          },
+          "conversation_history": {
+            "type": "array",
+            "description": "Previous conversation messages for context",
+            "items": {
+              "type": "object",
+              "properties": {
+                "role": {
+                  "type": "string",
+                  "enum": [
+                    "user",
+                    "assistant"
+                  ]
+                },
+                "content": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "conversation_appointment_create_payload": {
+        "type": "object",
+        "required": [
+          "event_type_uri"
+        ],
+        "properties": {
+          "event_type_uri": {
+            "type": "string",
+            "description": "URI of the Calendly event type"
+          },
+          "event_type_name": {
+            "type": "string",
+            "description": "Name of the event type"
           }
         }
       },
@@ -6133,6 +7267,42 @@
         },
         "required": true,
         "description": "The slug identifier of the portal"
+      },
+      "assistant_id": {
+        "in": "path",
+        "name": "assistant_id",
+        "schema": {
+          "type": "integer"
+        },
+        "required": true,
+        "description": "The numeric ID of the Aloo assistant"
+      },
+      "document_id": {
+        "in": "path",
+        "name": "document_id",
+        "schema": {
+          "type": "integer"
+        },
+        "required": true,
+        "description": "The numeric ID of the document"
+      },
+      "order_id": {
+        "in": "path",
+        "name": "order_id",
+        "schema": {
+          "type": "integer"
+        },
+        "required": true,
+        "description": "The numeric ID of the order"
+      },
+      "product_id": {
+        "in": "path",
+        "name": "product_id",
+        "schema": {
+          "type": "integer"
+        },
+        "required": true,
+        "description": "The numeric ID of the product"
       }
     },
     "securitySchemes": {
@@ -6153,6 +7323,12 @@
         "in": "header",
         "name": "api_access_token",
         "description": "This token can be obtained by the system admin after creating a platformApp. This token should be used to provision agent bots, accounts, users and their roles."
+      },
+      "alooStudioApiKey": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-Api-Token",
+        "description": "Machine-to-machine token used by AlooStudio backend for AI integration endpoints (handoff, WhatsApp templates, payments). Set via ALOOSTUDIO_API_TOKEN environment variable."
       }
     }
   },
@@ -6207,7 +7383,27 @@
         "Order Notes",
         "Payment Links",
         "Catalog",
+        "Products",
+        "Catalog Settings",
+        "Payment Link Settings",
+        "Storefront Links",
+        "Aloo Assistants",
+        "Aloo Documents",
+        "Aloo Conversations",
+        "Aloo Voice Usage",
+        "Appointments",
+        "Tap Settings",
+        "Payzah Settings",
+        "WhatsApp Templates",
+        "Subscription",
+        "AlooStudio Agents",
         "Help Center"
+      ]
+    },
+    {
+      "name": "AI External",
+      "tags": [
+        "AI External"
       ]
     },
     {

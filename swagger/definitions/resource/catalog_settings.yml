@@ -1,0 +1,29 @@
+type: object
+properties:
+  id:
+    type: integer
+  account_id:
+    type: integer
+  enabled:
+    type: boolean
+    description: Whether catalog feature is enabled
+  payment_provider:
+    type: string
+    description: Default payment provider
+  currency:
+    type: string
+    description: Default currency code (e.g., KWD, SAR)
+  order_notification_email:
+    type: string
+    description: Email for order notifications
+  available_currencies:
+    type: array
+    items:
+      type: string
+    description: List of available currency codes
+  created_at:
+    type: string
+    format: date-time
+  updated_at:
+    type: string
+    format: date-time

@@ -1,0 +1,57 @@
+type: object
+properties:
+  period:
+    type: object
+    properties:
+      start:
+        type: string
+        format: date-time
+      end:
+        type: string
+        format: date-time
+  transcription:
+    type: object
+    properties:
+      count:
+        type: integer
+      total_duration_seconds:
+        type: number
+      total_duration_minutes:
+        type: number
+      estimated_cost:
+        type: number
+        format: decimal
+  synthesis:
+    type: object
+    properties:
+      count:
+        type: integer
+      total_characters:
+        type: integer
+      estimated_cost:
+        type: number
+        format: decimal
+  total_estimated_cost:
+    type: number
+    format: decimal
+  failed_operations:
+    type: integer
+  by_assistant:
+    type: array
+    items:
+      type: object
+  daily_breakdown:
+    type: array
+    items:
+      type: object
+  quota:
+    type: object
+    properties:
+      daily_limit:
+        type: integer
+      used_today:
+        type: integer
+      remaining:
+        type: integer
+      percentage_used:
+        type: number

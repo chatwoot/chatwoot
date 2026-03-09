@@ -39,6 +39,11 @@ components:
       in: header
       name: api_access_token
       description: This token can be obtained by the system admin after creating a platformApp. This token should be used to provision agent bots, accounts, users and their roles.
+    alooStudioApiKey:
+      type: apiKey
+      in: header
+      name: X-Api-Token
+      description: Machine-to-machine token used by AlooStudio backend for AI integration endpoints (handoff, WhatsApp templates, payments). Set via ALOOSTUDIO_API_TOKEN environment variable.
 tags:
   - name: Accounts
     description: Account management APIs
@@ -100,6 +105,36 @@ tags:
     description: Payment link management APIs
   - name: Catalog
     description: Catalog management and statistics APIs
+  - name: Products
+    description: Product catalog management APIs
+  - name: Catalog Settings
+    description: Catalog configuration APIs
+  - name: Payment Link Settings
+    description: Payment link configuration APIs
+  - name: Storefront Links
+    description: Storefront link generation APIs
+  - name: Aloo Assistants
+    description: AI assistant management APIs
+  - name: Aloo Documents
+    description: Assistant knowledge base document APIs
+  - name: Aloo Conversations
+    description: Assistant conversation history APIs
+  - name: Aloo Voice Usage
+    description: Voice feature usage tracking APIs
+  - name: Appointments
+    description: Appointment and scheduling management APIs
+  - name: Tap Settings
+    description: Tap payment gateway configuration APIs
+  - name: Payzah Settings
+    description: Payzah payment gateway configuration APIs
+  - name: WhatsApp Templates
+    description: WhatsApp message template management APIs
+  - name: Subscription
+    description: Subscription and billing management APIs
+  - name: AlooStudio Agents
+    description: AlooStudio AI agent deployment proxy APIs
+  - name: AI External
+    description: Machine-to-machine APIs for AlooStudio AI integration
   - name: CSAT Survey Page
     description: Customer satisfaction survey
 x-tagGroups:
@@ -135,7 +170,24 @@ x-tagGroups:
       - Order Notes
       - Payment Links
       - Catalog
+      - Products
+      - Catalog Settings
+      - Payment Link Settings
+      - Storefront Links
+      - Aloo Assistants
+      - Aloo Documents
+      - Aloo Conversations
+      - Aloo Voice Usage
+      - Appointments
+      - Tap Settings
+      - Payzah Settings
+      - WhatsApp Templates
+      - Subscription
+      - AlooStudio Agents
       - Help Center
+  - name: AI External
+    tags:
+      - AI External
   - name: Client
     tags:
       - Contacts API

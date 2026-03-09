@@ -1,0 +1,18 @@
+tags:
+  - Aloo Documents
+operationId: reprocess-aloo-document
+summary: Reprocess Document
+description: Trigger reprocessing of a document to update its text chunks.
+security:
+  - userApiKey: []
+responses:
+  '200':
+    description: Reprocessing started
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/aloo_document'
+  '401':
+    description: Unauthorized
+  '404':
+    description: Document not found

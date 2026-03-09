@@ -1,0 +1,23 @@
+tags:
+  - Aloo Assistants
+operationId: unassign-inbox-from-assistant
+summary: Unassign Inbox
+description: Remove an inbox assignment from the assistant.
+security:
+  - userApiKey: []
+parameters:
+  - in: query
+    name: inbox_id
+    schema:
+      type: integer
+    required: true
+    description: ID of the inbox to unassign
+responses:
+  '200':
+    description: Inbox unassigned
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/aloo_assistant'
+  '401':
+    description: Unauthorized

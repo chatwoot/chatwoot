@@ -1,0 +1,26 @@
+tags:
+  - Aloo Assistants
+operationId: check-aloo-assistant-name
+summary: Check Name Availability
+description: Check if an assistant name is available.
+security:
+  - userApiKey: []
+parameters:
+  - in: query
+    name: name
+    schema:
+      type: string
+    required: true
+    description: The name to check
+responses:
+  '200':
+    description: Name availability result
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            available:
+              type: boolean
+  '401':
+    description: Unauthorized

@@ -1,0 +1,24 @@
+tags:
+  - Products
+operationId: update-a-product
+summary: Update Product
+description: Update an existing product.
+security:
+  - userApiKey: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/product_create_update_payload'
+responses:
+  '200':
+    description: Product updated
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/product'
+  '401':
+    description: Unauthorized
+  '422':
+    description: Validation error

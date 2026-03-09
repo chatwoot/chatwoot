@@ -1,0 +1,6 @@
+in: path
+name: assistant_id
+schema:
+  type: integer
+required: true
+description: The numeric ID of the Aloo assistant

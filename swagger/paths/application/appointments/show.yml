@@ -1,0 +1,21 @@
+tags:
+  - Appointments
+operationId: get-an-appointment
+summary: Get Appointment
+description: Get details of a specific appointment including Calendly invitee and event data.
+security:
+  - userApiKey: []
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            data:
+              $ref: '#/components/schemas/appointment'
+  '401':
+    description: Unauthorized
+  '404':
+    description: Appointment not found

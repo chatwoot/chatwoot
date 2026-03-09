@@ -1,0 +1,114 @@
+type: object
+properties:
+  id:
+    type: integer
+    description: The ID of the appointment
+  provider:
+    type: string
+    description: Scheduling provider (e.g., calendly)
+  status:
+    type: string
+    description: Appointment status
+  scheduling_url:
+    type: string
+    description: URL for scheduling
+  event_type_name:
+    type: string
+    description: Name of the event type
+  event_type_uri:
+    type: string
+    description: URI of the event type
+  scheduled_at:
+    type: string
+    format: date-time
+    nullable: true
+    description: Scheduled date and time
+  end_time:
+    type: string
+    format: date-time
+    nullable: true
+    description: End time of the appointment
+  external_event_id:
+    type: string
+    description: External event identifier
+  created_at:
+    type: string
+    format: date-time
+  updated_at:
+    type: string
+    format: date-time
+  contact:
+    type: object
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      email:
+        type: string
+      phone_number:
+        type: string
+  conversation:
+    type: object
+    properties:
+      id:
+        type: integer
+      display_id:
+        type: integer
+  created_by:
+    type: object
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+  invitee:
+    type: object
+    description: Calendly invitee details (included in full/show response)
+    properties:
+      name:
+        type: string
+      email:
+        type: string
+      timezone:
+        type: string
+      cancel_url:
+        type: string
+      reschedule_url:
+        type: string
+      rescheduled:
+        type: boolean
+      no_show:
+        type: boolean
+      payment:
+        type: object
+      questions_and_answers:
+        type: array
+        items:
+          type: object
+  event:
+    type: object
+    description: Calendly event details (included in full/show response)
+    properties:
+      name:
+        type: string
+      status:
+        type: string
+      start_time:
+        type: string
+      end_time:
+        type: string
+      location:
+        type: object
+      event_type:
+        type: string
+      event_memberships:
+        type: array
+        items:
+          type: object
+      event_guests:
+        type: array
+        items:
+          type: object
+      meeting_notes_plain:
+        type: string

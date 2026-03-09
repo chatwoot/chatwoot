@@ -1,0 +1,24 @@
+tags:
+  - Aloo Assistants
+operationId: update-aloo-assistant
+summary: Update Assistant
+description: Update an existing Aloo AI assistant.
+security:
+  - userApiKey: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/aloo_assistant_create_update_payload'
+responses:
+  '200':
+    description: Assistant updated
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/aloo_assistant'
+  '401':
+    description: Unauthorized
+  '422':
+    description: Validation error

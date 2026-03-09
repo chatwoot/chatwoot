@@ -1,0 +1,21 @@
+tags:
+  - Subscription
+operationId: cancel-subscription
+summary: Cancel Subscription
+description: Cancel the current subscription. It will remain active until the end of the billing period.
+security:
+  - userApiKey: []
+responses:
+  '200':
+    description: Subscription cancelled
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+  '401':
+    description: Unauthorized
+  '422':
+    description: Cancellation error

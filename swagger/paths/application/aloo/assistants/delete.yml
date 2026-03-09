@@ -1,0 +1,14 @@
+tags:
+  - Aloo Assistants
+operationId: delete-aloo-assistant
+summary: Delete Assistant
+description: Delete an Aloo AI assistant.
+security:
+  - userApiKey: []
+responses:
+  '204':
+    description: Assistant deleted
+  '401':
+    description: Unauthorized
+  '404':
+    description: Assistant not found

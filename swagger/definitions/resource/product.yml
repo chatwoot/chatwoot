@@ -1,0 +1,33 @@
+type: object
+properties:
+  id:
+    type: integer
+    description: The ID of the product
+  title_en:
+    type: string
+    description: Product title in English
+  title_ar:
+    type: string
+    description: Product title in Arabic
+  description_en:
+    type: string
+    description: Product description in English
+  description_ar:
+    type: string
+    description: Product description in Arabic
+  price:
+    type: number
+    format: decimal
+    description: Product price
+  stock:
+    type: integer
+    description: Available stock quantity
+  image_url:
+    type: string
+    description: URL of the product image
+  created_at:
+    type: string
+    format: date-time
+  updated_at:
+    type: string
+    format: date-time

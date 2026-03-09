@@ -810,3 +810,445 @@
           application/json:
             schema:
               $ref: '#/components/schemas/conversation_messages'
+
+# ------------ AlooChat Custom API routes ------------ #
+
+# Orders
+/api/v1/accounts/{account_id}/orders:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+  get:
+    $ref: ./application/orders/index.yml
+/api/v1/accounts/{account_id}/orders/{order_id}:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+    - $ref: '#/components/parameters/order_id'
+  get:
+    $ref: ./application/orders/show.yml
+/api/v1/accounts/{account_id}/orders/{order_id}/cancel:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+    - $ref: '#/components/parameters/order_id'
+  post:
+    $ref: ./application/orders/cancel.yml
+/api/v1/accounts/{account_id}/orders/search:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+  get:
+    $ref: ./application/orders/search.yml
+/api/v1/accounts/{account_id}/orders/{order_id}/notes:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+    - $ref: '#/components/parameters/order_id'
+  get:
+    $ref: ./application/orders/notes_index.yml
+  post:
+    $ref: ./application/orders/notes_create.yml
+/api/v1/accounts/{account_id}/orders/{order_id}/notes/{id}:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+    - $ref: '#/components/parameters/order_id'
+    - name: id
+      in: path
+      schema:
+        type: integer
+      required: true
+      description: ID of the note
+  delete:
+    $ref: ./application/orders/notes_delete.yml
+
+# Payment Links
+/api/v1/accounts/{account_id}/payment_links:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+  get:
+    $ref: ./application/payment_links/index.yml
+  post:
+    $ref: ./application/payment_links/create.yml
+/api/v1/accounts/{account_id}/payment_links/{id}:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+    - name: id
+      in: path
+      schema:
+        type: integer
+      required: true
+      description: ID of the payment link
+  get:
+    $ref: ./application/payment_links/show.yml
+/api/v1/accounts/{account_id}/payment_links/{id}/cancel:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+    - name: id
+      in: path
+      schema:
+        type: integer
+      required: true
+      description: ID of the payment link
+  patch:
+    $ref: ./application/payment_links/cancel.yml
+/api/v1/accounts/{account_id}/payment_links/search:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+  get:
+    $ref: ./application/payment_links/search.yml
+
+# Catalog Stats
+/api/v1/accounts/{account_id}/catalog_stats:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+  get:
+    $ref: ./application/catalog_stats/show.yml
+
+# Products
+/api/v1/accounts/{account_id}/products:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+  get:
+    $ref: ./application/products/index.yml
+  post:
+    $ref: ./application/products/create.yml
+/api/v1/accounts/{account_id}/products/{product_id}:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+    - $ref: '#/components/parameters/product_id'
+  get:
+    $ref: ./application/products/show.yml
+  patch:
+    $ref: ./application/products/update.yml
+  delete:
+    $ref: ./application/products/delete.yml
+
+# Catalog Settings
+/api/v1/accounts/{account_id}/catalog_settings:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+  get:
+    $ref: ./application/catalog_settings/show.yml
+  post:
+    $ref: ./application/catalog_settings/create.yml
+  patch:
+    $ref: ./application/catalog_settings/update.yml
+
+# Payment Link Settings
+/api/v1/accounts/{account_id}/payment_link_settings:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+  get:
+    $ref: ./application/payment_link_settings/show.yml
+  post:
+    $ref: ./application/payment_link_settings/create.yml
+  patch:
+    $ref: ./application/payment_link_settings/update.yml
+
+# Storefront Links
+/api/v1/accounts/{account_id}/storefront_links:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+  post:
+    $ref: ./application/storefront_links/create.yml
+/api/v1/accounts/{account_id}/storefront_links/preview:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+  post:
+    $ref: ./application/storefront_links/preview.yml
+
+# Conversation-scoped Payment Links
+/api/v1/accounts/{account_id}/conversations/{conversation_id}/payment_links:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+    - $ref: '#/components/parameters/conversation_id'
+  post:
+    $ref: ./application/conversation/payment_links/create.yml
+
+# Conversation-scoped Orders
+/api/v1/accounts/{account_id}/conversations/{conversation_id}/orders:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+    - $ref: '#/components/parameters/conversation_id'
+  post:
+    $ref: ./application/conversation/orders/create.yml
+
+# Conversation-scoped Catalog Items
+/api/v1/accounts/{account_id}/conversations/{conversation_id}/catalog_items:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+    - $ref: '#/components/parameters/conversation_id'
+  post:
+    $ref: ./application/conversation/catalog_items/create.yml
+
+# Aloo Assistants
+/api/v1/accounts/{account_id}/aloo/assistants:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+  get:
+    $ref: ./application/aloo/assistants/index.yml
+  post:
+    $ref: ./application/aloo/assistants/create.yml
+/api/v1/accounts/{account_id}/aloo/assistants/check_name:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+  get:
+    $ref: ./application/aloo/assistants/check_name.yml
+/api/v1/accounts/{account_id}/aloo/assistants/{assistant_id}:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+    - $ref: '#/components/parameters/assistant_id'
+  get:
+    $ref: ./application/aloo/assistants/show.yml
+  patch:
+    $ref: ./application/aloo/assistants/update.yml
+  delete:
+    $ref: ./application/aloo/assistants/delete.yml
+/api/v1/accounts/{account_id}/aloo/assistants/{assistant_id}/stats:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+    - $ref: '#/components/parameters/assistant_id'
+  get:
+    $ref: ./application/aloo/assistants/stats.yml
+/api/v1/accounts/{account_id}/aloo/assistants/{assistant_id}/performance:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+    - $ref: '#/components/parameters/assistant_id'
+  get:
+    $ref: ./application/aloo/assistants/performance.yml
+/api/v1/accounts/{account_id}/aloo/assistants/{assistant_id}/assign_inbox:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+    - $ref: '#/components/parameters/assistant_id'
+  post:
+    $ref: ./application/aloo/assistants/assign_inbox.yml
+/api/v1/accounts/{account_id}/aloo/assistants/{assistant_id}/unassign_inbox:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+    - $ref: '#/components/parameters/assistant_id'
+  delete:
+    $ref: ./application/aloo/assistants/unassign_inbox.yml
+/api/v1/accounts/{account_id}/aloo/assistants/{assistant_id}/voices:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+    - $ref: '#/components/parameters/assistant_id'
+  get:
+    $ref: ./application/aloo/assistants/voices.yml
+/api/v1/accounts/{account_id}/aloo/assistants/{assistant_id}/preview_voice:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+    - $ref: '#/components/parameters/assistant_id'
+  post:
+    $ref: ./application/aloo/assistants/preview_voice.yml
+/api/v1/accounts/{account_id}/aloo/assistants/{assistant_id}/voice_usage:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+    - $ref: '#/components/parameters/assistant_id'
+  get:
+    $ref: ./application/aloo/assistants/voice_usage.yml
+/api/v1/accounts/{account_id}/aloo/assistants/{assistant_id}/playground:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+    - $ref: '#/components/parameters/assistant_id'
+  post:
+    $ref: ./application/aloo/assistants/playground.yml
+
+# Aloo Documents
+/api/v1/accounts/{account_id}/aloo/assistants/{assistant_id}/documents:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+    - $ref: '#/components/parameters/assistant_id'
+  get:
+    $ref: ./application/aloo/documents/index.yml
+  post:
+    $ref: ./application/aloo/documents/create.yml
+/api/v1/accounts/{account_id}/aloo/assistants/{assistant_id}/documents/discover_pages:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+    - $ref: '#/components/parameters/assistant_id'
+  post:
+    $ref: ./application/aloo/documents/discover_pages.yml
+/api/v1/accounts/{account_id}/aloo/assistants/{assistant_id}/documents/{document_id}:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+    - $ref: '#/components/parameters/assistant_id'
+    - $ref: '#/components/parameters/document_id'
+  get:
+    $ref: ./application/aloo/documents/show.yml
+  patch:
+    $ref: ./application/aloo/documents/update.yml
+  delete:
+    $ref: ./application/aloo/documents/delete.yml
+/api/v1/accounts/{account_id}/aloo/assistants/{assistant_id}/documents/{document_id}/reprocess:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+    - $ref: '#/components/parameters/assistant_id'
+    - $ref: '#/components/parameters/document_id'
+  post:
+    $ref: ./application/aloo/documents/reprocess.yml
+
+# Aloo Conversations
+/api/v1/accounts/{account_id}/aloo/assistants/{assistant_id}/conversations:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+    - $ref: '#/components/parameters/assistant_id'
+  get:
+    $ref: ./application/aloo/conversations/index.yml
+
+# Aloo Voice Usage (Account-scoped)
+/api/v1/accounts/{account_id}/aloo/voice_usage:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+  get:
+    $ref: ./application/aloo/voice_usage/show.yml
+/api/v1/accounts/{account_id}/aloo/voice_usage/summary:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+  get:
+    $ref: ./application/aloo/voice_usage/summary.yml
+
+# Appointments
+/api/v1/accounts/{account_id}/appointments:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+  get:
+    $ref: ./application/appointments/index.yml
+/api/v1/accounts/{account_id}/appointments/{id}:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+    - name: id
+      in: path
+      schema:
+        type: integer
+      required: true
+      description: ID of the appointment
+  get:
+    $ref: ./application/appointments/show.yml
+
+# Conversation-scoped Appointments
+/api/v1/accounts/{account_id}/conversations/{conversation_id}/appointments:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+    - $ref: '#/components/parameters/conversation_id'
+  post:
+    $ref: ./application/conversation/appointments/create.yml
+
+# Tap Settings
+/api/v1/accounts/{account_id}/tap_settings:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+  get:
+    $ref: ./application/tap_settings/show.yml
+  post:
+    $ref: ./application/tap_settings/create.yml
+  patch:
+    $ref: ./application/tap_settings/update.yml
+  delete:
+    $ref: ./application/tap_settings/delete.yml
+
+# Payzah Settings
+/api/v1/accounts/{account_id}/payzah_settings:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+  get:
+    $ref: ./application/payzah_settings/show.yml
+  post:
+    $ref: ./application/payzah_settings/create.yml
+  patch:
+    $ref: ./application/payzah_settings/update.yml
+  delete:
+    $ref: ./application/payzah_settings/delete.yml
+
+# WhatsApp Templates
+/api/v1/accounts/{account_id}/inboxes/{id}/whatsapp_templates:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+    - name: id
+      in: path
+      schema:
+        type: integer
+      required: true
+      description: ID of the WhatsApp Cloud inbox
+  get:
+    $ref: ./application/inboxes/whatsapp_templates/index.yml
+  post:
+    $ref: ./application/inboxes/whatsapp_templates/create.yml
+/api/v1/accounts/{account_id}/inboxes/{id}/whatsapp_templates/{template_id}:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+    - name: id
+      in: path
+      schema:
+        type: integer
+      required: true
+      description: ID of the WhatsApp Cloud inbox
+    - name: template_id
+      in: path
+      schema:
+        type: string
+      required: true
+      description: ID of the WhatsApp template
+  delete:
+    $ref: ./application/inboxes/whatsapp_templates/delete.yml
+
+# Subscription
+/api/v1/accounts/{account_id}/subscription:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+  get:
+    $ref: ./application/subscription/show.yml
+/api/v1/accounts/{account_id}/subscription/checkout:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+  post:
+    $ref: ./application/subscription/checkout.yml
+/api/v1/accounts/{account_id}/subscription/portal:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+  post:
+    $ref: ./application/subscription/portal.yml
+/api/v1/accounts/{account_id}/subscription/swap:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+  post:
+    $ref: ./application/subscription/swap.yml
+/api/v1/accounts/{account_id}/subscription/cancel:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+  post:
+    $ref: ./application/subscription/cancel.yml
+/api/v1/accounts/{account_id}/subscription/resume:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+  post:
+    $ref: ./application/subscription/resume.yml
+
+# AlooStudio Agents
+/api/v1/accounts/{account_id}/aloostudio_agents:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+  get:
+    $ref: ./application/aloostudio_agents/index.yml
+
+# ------------ AI External API routes ------------ #
+
+# AI Handoff
+/api/v1/ai/handoff:
+  post:
+    $ref: ./application/ai/handoff.yml
+
+# AI WhatsApp Template
+/api/v1/ai/whatsapp_template:
+  post:
+    $ref: ./application/ai/whatsapp_template.yml
+
+# AI Payments Config
+/api/v1/ai/payments/config:
+  get:
+    $ref: ./application/ai/payments_config.yml
+
+# AI Payments Create Link
+/api/v1/ai/payments/create_link:
+  post:
+    $ref: ./application/ai/payments_create_link.yml
+
+# AI Payments Status
+/api/v1/ai/payments/status:
+  get:
+    $ref: ./application/ai/payments_status.yml

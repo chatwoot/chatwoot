@@ -54,3 +54,15 @@ public_contact_identifier:
 
 portal_id:
   $ref: ./portal_id.yml
+
+assistant_id:
+  $ref: ./assistant_id.yml
+
+document_id:
+  $ref: ./document_id.yml
+
+order_id:
+  $ref: ./order_id.yml
+
+product_id:
+  $ref: ./product_id.yml

@@ -1,0 +1,16 @@
+tags:
+  - Payzah Settings
+operationId: get-payzah-settings
+summary: Get Payzah Settings
+description: Get the Payzah payment gateway settings for the account.
+security:
+  - userApiKey: []
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/payzah_settings'
+  '401':
+    description: Unauthorized

@@ -1,0 +1,41 @@
+tags:
+  - Payment Links
+operationId: create-conversation-payment-link
+summary: Create Payment Link in Conversation
+description: |
+  Create a payment link within a conversation context. The payment link will be sent as a message in the conversation.
+security:
+  - userApiKey: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/conversation_payment_link_create_payload'
+responses:
+  '200':
+    description: Payment link created
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            success:
+              type: boolean
+            data:
+              type: object
+              properties:
+                payment_url:
+                  type: string
+                external_payment_id:
+                  type: string
+                amount:
+                  type: number
+                currency:
+                  type: string
+                provider:
+                  type: string
+  '401':
+    description: Unauthorized
+  '422':
+    description: Validation error

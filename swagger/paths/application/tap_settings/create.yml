@@ -1,0 +1,33 @@
+tags:
+  - Tap Settings
+operationId: create-tap-settings
+summary: Create Tap Settings
+description: Create Tap payment gateway settings for the account.
+security:
+  - userApiKey: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          tap_settings:
+            type: object
+            properties:
+              secret_key:
+                type: string
+                description: Tap secret key
+              enabled:
+                type: boolean
+responses:
+  '200':
+    description: Settings created
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/tap_settings'
+  '401':
+    description: Unauthorized
+  '422':
+    description: Validation error

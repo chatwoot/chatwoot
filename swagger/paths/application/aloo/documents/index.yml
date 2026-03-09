@@ -1,0 +1,18 @@
+tags:
+  - Aloo Documents
+operationId: list-aloo-documents
+summary: List Documents
+description: List all documents for an assistant's knowledge base.
+security:
+  - userApiKey: []
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/aloo_document'
+  '401':
+    description: Unauthorized
