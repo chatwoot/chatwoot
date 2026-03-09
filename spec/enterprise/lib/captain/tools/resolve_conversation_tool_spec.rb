@@ -1,4 +1,5 @@
 require 'rails_helper'
+require 'ostruct'
 
 RSpec.describe Captain::Tools::ResolveConversationTool do
   let(:account) { create(:account) }
@@ -17,6 +18,10 @@ RSpec.describe Captain::Tools::ResolveConversationTool do
   end
 
   describe 'resolving a conversation' do
+    before do
+      allow(Captain::Guards::ConversationResolutionGuard).to receive(:evaluate).and_return(OpenStruct.new(decision: :allow, score: 1.0, reasons: ['test']))
+    end
+
     it 'marks resolved and enqueues an activity message with the reason' do
       tool.perform(tool_context, reason: 'Possible spam')
 
@@ -58,6 +63,26 @@ RSpec.describe Captain::Tools::ResolveConversationTool do
 
       expect(result).to include('already resolved')
       expect(Conversations::ActivityMessageJob).not_to have_been_enqueued
+    end
+  end
+
+  describe 'guardrail blocks' do
+    it 'soft-blocks when guard suggests soft_block' do
+      allow(Captain::Guards::ConversationResolutionGuard).to receive(:evaluate).and_return(OpenStruct.new(decision: :soft_block, score: 0.7, reasons: ['no_confirmation']))
+
+      result = tool.perform(tool_context, reason: 'Too vague')
+
+      expect(result).to include('Low confidence to resolve')
+      expect(conversation.reload).not_to be_resolved
+    end
+
+    it 'hard-blocks when guard suggests hard_block' do
+      allow(Captain::Guards::ConversationResolutionGuard).to receive(:evaluate).and_return(OpenStruct.new(decision: :hard_block, score: 0.2, reasons: ['recent_user_activity']))
+
+      result = tool.perform(tool_context, reason: 'Auto')
+
+      expect(result).to include('Cannot resolve conversation automatically')
+      expect(conversation.reload).not_to be_resolved
     end
   end
 end
