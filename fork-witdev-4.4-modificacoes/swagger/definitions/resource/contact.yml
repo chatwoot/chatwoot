@@ -1,0 +1,49 @@
+type: object
+properties:
+  payload:
+    type: array
+    items:
+      type: object
+      properties:
+        additional_attributes:
+          type: object
+          description: The object containing additional attributes related to the contact
+        availability_status:
+          type: string
+          description: The availability status of the contact
+        email:
+          type: string
+          description: The email address of the contact
+        id:
+          type: integer
+          description: The ID of the contact
+        name:
+          type: string
+          description: The name of the contact
+        phone_number:
+          type: string
+          description: The phone number of the contact
+        blocked:
+          type: boolean
+          description: Whether the contact is blocked
+        identifier:
+          type: string
+          description: The identifier of the contact
+        thumbnail:
+          type: string
+          description: The thumbnail of the contact
+        custom_attributes:
+          type: object
+          description: The custom attributes of the contact
+          example:
+            { attribute_key: attribute_value, signed_up_at: dd/mm/yyyy }
+        last_activity_at:
+          type: integer
+          description: The last activity at of the contact
+        created_at:
+          type: integer
+          description: The created at of the contact
+        contact_inboxes:
+          type: array
+          items:
+            $ref: '#/components/schemas/contact_inboxes'

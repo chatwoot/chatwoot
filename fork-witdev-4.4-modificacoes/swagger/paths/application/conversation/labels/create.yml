@@ -1,0 +1,41 @@
+tags:
+  - Conversations
+operationId: conversation-add-labels
+summary: Add Labels
+security:
+  - userApiKey: []
+description: Add labels to a conversation. Note that this API would overwrite the existing list of labels associated to the conversation.
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        required:
+          - labels
+        properties:
+          labels:
+            type: array
+            description: Array of labels (comma-separated strings)
+            items:
+              type: string
+            example: ['support', 'billing']
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/conversation_labels'
+  '404':
+    description: Conversation not found
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '401':
+    description: Unauthorized
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp Interactive Debug</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .test-section {
+            margin-bottom: 30px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .test-section h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        .payload-display {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 12px;
+            white-space: pre-wrap;
+            overflow-x: auto;
+        }
+        .button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .button:hover {
+            background: #0056b3;
+        }
+        .status {
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .status.info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 WhatsApp Interactive Message Debug</h1>
+        <p>Esta página ajuda a debugar o problema do flash effect nas mensagens interativas do WhatsApp.</p>
+
+        <div class="test-section">
+            <h3>1. Teste de Estrutura de Dados</h3>
+            <p>Verificando se a estrutura dos dados está correta para o WhatsAppInteractive.vue</p>
+            
+            <div id="data-structure-test">
+                <div class="status info">Executando teste...</div>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h3>2. Simulação de ContentAttributes</h3>
+            <p>Simulando diferentes estruturas de contentAttributes para identificar o problema</p>
+            
+            <button class="button" onclick="testStructure1()">Estrutura Atual (integrations)</button>
+            <button class="button" onclick="testStructure2()">Estrutura Instagram (cards)</button>
+            <button class="button" onclick="testStructure3()">Estrutura Híbrida</button>
+            
+            <div id="structure-test-result">
+                <div class="status info">Clique em um botão para testar</div>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h3>3. Payload de Exemplo</h3>
+            <p>Payload que deveria funcionar no WhatsAppInteractive.vue</p>
+            
+            <div class="payload-display" id="example-payload"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>4. Logs de Debug</h3>
+            <p>Logs que deveriam aparecer no console do navegador</p>
+            
+            <div id="debug-logs">
+                <div class="status info">Abra o console do navegador (F12) para ver os logs</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Simular estruturas de dados diferentes
+        const structures = {
+            current: {
+                // Estrutura atual do WhatsApp (integrations)
+                contentAttributes: {
+                    interactive: {
+                        type: 'button',
+                        body: { text: 'Escolha uma opção:' },
+                        action: {
+                            buttons: [
+                                { type: 'reply', reply: { id: 'btn_1', title: 'Opção 1' } },
+                                { type: 'reply', reply: { id: 'btn_2', title: 'Opção 2' } }
+                            ]
+                        }
+                    },
+                    whatsapp_interactive_payload: {
+                        type: 'button',
+                        body: { text: 'Escolha uma opção:' },
+                        action: {
+                            buttons: [
+                                { type: 'reply', reply: { id: 'btn_1', title: 'Opção 1' } },
+                                { type: 'reply', reply: { id: 'btn_2', title: 'Opção 2' } }
+                            ]
+                        }
+                    }
+                },
+                content_type: 'integrations',
+                content: 'Escolha uma opção:'
+            },
+            instagram: {
+                // Estrutura do Instagram (cards)
+                contentAttributes: {
+                    items: [
+                        {
+                            title: 'Escolha uma opção:',
+                            actions: [
+                                { type: 'postback', text: 'Opção 1', payload: 'btn_1' },
+                                { type: 'postback', text: 'Opção 2', payload: 'btn_2' }
+                            ]
+                        }
+                    ]
+                },
+                content_type: 'cards',
+                content: 'Escolha uma opção:'
+            },
+            hybrid: {
+                // Estrutura híbrida
+                contentAttributes: {
+                    interactive: {
+                        type: 'button',
+                        body: { text: 'Escolha uma opção:' },
+                        action: {
+                            buttons: [
+                                { type: 'reply', reply: { id: 'btn_1', title: 'Opção 1' } },
+                                { type: 'reply', reply: { id: 'btn_2', title: 'Opção 2' } }
+                            ]
+                        }
+                    },
+                    items: [
+                        {
+                            title: 'Escolha uma opção:',
+                            actions: [
+                                { type: 'postback', text: 'Opção 1', payload: 'btn_1' },
+                                { type: 'postback', text: 'Opção 2', payload: 'btn_2' }
+                            ]
+                        }
+                    ]
+                },
+                content_type: 'integrations',
+                content: 'Escolha uma opção:'
+            }
+        };
+
+        function testStructure1() {
+            testStructure('current', 'Estrutura Atual (integrations)');
+        }
+
+        function testStructure2() {
+            testStructure('instagram', 'Estrutura Instagram (cards)');
+        }
+
+        function testStructure3() {
+            testStructure('hybrid', 'Estrutura Híbrida');
+        }
+
+        function testStructure(type, name) {
+            const structure = structures[type];
+            const resultDiv = document.getElementById('structure-test-result');
+            
+            console.log(`[WhatsApp Debug] Testing ${name}:`, structure);
+            
+            // Simular o que o WhatsAppInteractive.vue faria
+            const interactivePayload = structure.contentAttributes?.whatsapp_interactive_payload || 
+                                     structure.contentAttributes?.interactive || 
+                                     {};
+            
+            const hasPayload = Object.keys(interactivePayload).length > 0;
+            const interactiveType = interactivePayload?.type;
+            const isButton = interactiveType === 'button';
+            const isList = interactiveType === 'list';
+            const shouldRender = hasPayload && (isButton || isList);
+            
+            const result = {
+                name,
+                hasPayload,
+                interactiveType,
+                isButton,
+                isList,
+                shouldRender,
+                payloadKeys: Object.keys(interactivePayload),
+                contentAttributesKeys: Object.keys(structure.contentAttributes || {})
+            };
+            
+            console.log(`[WhatsApp Debug] ${name} result:`, result);
+            
+            let statusClass = shouldRender ? 'success' : 'error';
+            let statusText = shouldRender ? 'DEVERIA RENDERIZAR' : 'NÃO VAI RENDERIZAR';
+            
+            resultDiv.innerHTML = `
+                <div class="status ${statusClass}">
+                    <strong>${name}: ${statusText}</strong>
+                </div>
+                <div class="payload-display">${JSON.stringify(result, null, 2)}</div>
+            `;
+        }
+
+        // Executar teste inicial
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mostrar payload de exemplo
+            const examplePayload = document.getElementById('example-payload');
+            examplePayload.textContent = JSON.stringify(structures.current, null, 2);
+            
+            // Executar teste de estrutura de dados
+            const dataTest = document.getElementById('data-structure-test');
+            
+            console.log('[WhatsApp Debug] Iniciando testes de estrutura de dados');
+            
+            // Simular o problema
+            setTimeout(() => {
+                console.log('[WhatsApp Debug] Simulando flash effect - dados aparecem...');
+                dataTest.innerHTML = '<div class="status success">Dados carregados - mensagem deveria aparecer</div>';
+                
+                setTimeout(() => {
+                    console.log('[WhatsApp Debug] Simulando flash effect - dados somem...');
+                    dataTest.innerHTML = '<div class="status error">Dados perdidos - mensagem some (FLASH EFFECT)</div>';
+                    
+                    setTimeout(() => {
+                        console.log('[WhatsApp Debug] Dados estáveis novamente');
+                        dataTest.innerHTML = '<div class="status info">Este é o comportamento que estamos vendo no WhatsApp</div>';
+                    }, 2000);
+                }, 3000);
+            }, 1000);
+        });
+
+        // Adicionar logs de debug
+        console.log('[WhatsApp Debug] Página de debug carregada');
+        console.log('[WhatsApp Debug] Estruturas disponíveis:', structures);
+    </script>
+</body>
+</html>

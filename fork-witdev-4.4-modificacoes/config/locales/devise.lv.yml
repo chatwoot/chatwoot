@@ -1,0 +1,62 @@
+#Additional translations at https://github.com/plataformatec/devise/wiki/I18n
+lv:
+  devise:
+    confirmations:
+      confirmed: "Jūsu e-pasta adrese ir veiksmīgi apstiprināta."
+      send_instructions: "Dažu minūšu laikā jūs saņemsit e-pasta ziņojumu ar norādījumiem, kā apstiprināt savu e-pasta adresi."
+      send_paranoid_instructions: "Ja jūsu e-pasta adrese pastāv mūsu datubāzē, dažu minūšu laikā jūs saņemsit e-pasta ziņojumu ar norādījumiem, kā apstiprināt savu e-pasta adresi."
+    failure:
+      already_authenticated: "Jūs jau esat pierakstījies."
+      inactive: "Jūsu konts vēl nav aktivizēts."
+      invalid: "Nederīga %{authentication_keys}/parole, vai konts vēl nav verificēts."
+      locked: "Jūsu konts ir bloķēts."
+      last_attempt: "Jums ir vēl viens mēģinājums, pirms jūsu konts tiek bloķēts."
+      not_found_in_database: "Nederīga %{authentication_keys} vai parole."
+      timeout: "Jūsu sesijai beidzās derīguma termiņš. Lūdzu, pierakstieties vēlreiz, lai turpinātu."
+      unauthenticated: "Pirms turpināt, jums ir jāpierakstās vai jāreģistrējas."
+      unconfirmed: "Pirms turpināt, jums ir jāapstiprina sava e-pasta adrese."
+    mailer:
+      confirmation_instructions:
+        subject: "Apstiprināšanas Instrukcijas"
+      reset_password_instructions:
+        subject: "Paroles atiestatīšanas instrukcijas"
+      unlock_instructions:
+        subject: "Atbloķēšanas instrukcijas"
+      password_change:
+        subject: "Parole nomainīta"
+    omniauth_callbacks:
+      failure: "Nevarēja jūs autentificēt no %{kind} jo \"%{reason}\"."
+      success: "Veiksmīgi autentificēts no %{kind} konta."
+    passwords:
+      no_token: "Šai lapai nevar piekļūt, ja neesat saņēmis paroles atiestatīšanas e-pasta ziņojumu. Ja esat saņēmis paroles atiestatīšanas e-pasta ziņojumu, lūdzu, pārliecinieties, vai esat izmantojis pilnu norādīto URL."
+      send_instructions: "Dažu minūšu laikā jūs saņemsit e-pasta ziņojumu ar norādījumiem, kā atiestatīt paroli."
+      send_paranoid_instructions: "Ja jūsu e-pasta adrese pastāv mūsu datubāzē, pēc dažām minūtēm uz jūsu e-pasta adresi saņemsit paroles atgūšanas saiti."
+      updated: "Jūsu parole ir veiksmīgi nomainīta. Tagad Jūs esat pierakstījies."
+      updated_not_active: "Jūsu parole ir veiksmīgi nomainīta."
+    registrations:
+      destroyed: "Uz redzēšanos! Jūsu konts ir veiksmīgi atcelts. Mēs ceram, ka drīz Jūs atkal redzēsim."
+      signed_up: "Laipni lūdzam! Jūs esat veiksmīgi piereģistrējies."
+      signed_up_but_inactive: "Jūs esat veiksmīgi piereģistrējies. Tomēr, mēs nevarējām Jūs pierakstīt, jo Jūsu konts vēl nav aktivizēts."
+      signed_up_but_locked: "Jūs esat veiksmīgi piereģistrējies. Tomēr, mēs nevarējām Jūs pierakstīt, jo Jūsu konts ir bloķēts."
+      signed_up_but_unconfirmed: "Uz jūsu e -pasta adresi ir nosūtīts ziņojums ar apstiprinājuma saiti. Lūdzu, atveriet saiti, lai aktivizētu savu kontu."
+      update_needs_confirmation: "Jūs veiksmīgi atjauninājāt savu kontu un mums ir jāpārbauda Jūsu jaunā e -pasta adrese. Lūdzu, pārbaudiet savu e -pastu un atveriet apstiprināšanas saiti, lai apstiprinātu jauno e-pasta adresi."
+      updated: "Jūsu konts ir veiksmīgi atjaunināts."
+    sessions:
+      signed_in: "Pierakstīšanās veiksmīga."
+      signed_out: "Izrakstīšanās veiksmīga."
+      already_signed_out: "Izrakstīšanās veiksmīga."
+    unlocks:
+      send_instructions: "Dažu minūšu laikā Jūs saņemsit e-pastu ar norādījumiem kā atbloķēt kontu."
+      send_paranoid_instructions: "Ja konts pastāv, Jūs dažu minūšu laikā saņemsit e-pastu ar norādījumiem kā to atbloķēt."
+      unlocked: "Jūsu konts ir veiksmīgi atbloķēts. Lūdzu, pierakstieties, lai turpinātu."
+  errors:
+    messages:
+      already_confirmed: "jau bija apstiprināts. Lūdzu, mēģiniet pierakstīties"
+      confirmation_period_expired: "ir jāapstiprina %{period} laikā. Lūdzu pieprasiet jaunu"
+      expired: "ir beidzies derīguma termiņš. Lūdzu, pieprasiet jaunu"
+      not_found: "nav atrasts"
+      not_locked: "nebija bloķēts"
+      not_saved:
+        zero: "%{count} kļūdas neļāva saglabāt šo %{resource}:"
+        one: "1 kļūda neļāva saglabāt šo %{resource}:"
+        other: "%{count} kļūdas neļāva saglabāt šo %{resource}:"

@@ -1,0 +1,135 @@
+#
+# Chatwoot Enterprise Edition v4.3.1 - SEM TELEMETRIA + MIGRAÇÃO AUTOMÁTICA v3->v4
+# Imagem: witrocha/chatwit:v4.3.1
+#
+# MODIFICADO PARA:
+# - DESABILITAR COMPLETAMENTE A TELEMETRIA
+# - MIGRAÇÃO AUTOMÁTICA DO CHATWOOT v3 PARA v4
+# - PREPARAÇÃO AUTOMÁTICA DO BANCO
+#
+# -----------------------------------------------------------------------------
+# Âncoras para reutilização de código (Princípio DRY)
+# -----------------------------------------------------------------------------
+
+# Âncora para configurações comuns (exceto deploy)
+x-chatwoot-base: &chatwoot-base
+  image: witrocha/chatwit:latest  # <-- VERSÃO CORRIGIDA
+  volumes:
+    - chatwoot_data:/app/storage
+    - chatwoot_public:/app/public
+  networks:
+    - minha_rede
+  logging:
+    driver: "json-file"
+    options:
+      max-size: "10m"
+      max-file: "3"
+
+# Âncora para as variáveis de ambiente
+x-chatwoot-environment: &chatwoot-environment
+  # ========== CONFIGURAÇÕES DE PRIVACIDADE (MANTIDO) ==========
+  - DISABLE_TELEMETRY=true
+  - ANALYTICS_TOKEN=
+  - HELP_CENTER_ANALYTICS_ID=
+  - CHATWOOT_INBOX_TOKEN=
+  - CHATWOOT_INBOX_HMAC_KEY=
+  - CHATWOOT_SUPPORT_WEBSITE_TOKEN=
+  - CHATWOOT_SUPPORT_SCRIPT_URL=
+  - CHATWOOT_SUPPORT_IDENTIFIER_HASH=
+  - CHATWOOT_HUB_URL=http://localhost:9999
+  # ========================================================
+  
+  # Configurações originais mantidas
+  - INSTALLATION_NAME=${INSTALLATION_NAME}
+  - NODE_ENV=production
+  - RAILS_ENV=production
+  - INSTALLATION_ENV=${INSTALLATION_ENV}
+  - SECRET_KEY_BASE=${SECRET_KEY_BASE}
+  - FRONTEND_URL=${FRONTEND_URL}
+  - DEFAULT_LOCALE=${DEFAULT_LOCALE}
+  - FORCE_SSL=${FORCE_SSL}
+  - ENABLE_ACCOUNT_SIGNUP=${ENABLE_ACCOUNT_SIGNUP}
+  - REDIS_URL=${REDIS_URL}
+  - POSTGRES_HOST=${POSTGRES_HOST}
+  - POSTGRES_USERNAME=${POSTGRES_USERNAME}
+  - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+  - POSTGRES_DATABASE=${POSTGRES_DATABASE}
+  - ACTIVE_STORAGE_SERVICE=local
+  - RAILS_LOG_TO_STDOUT=${RAILS_LOG_TO_STDOUT}
+  - USE_INBOX_AVATAR_FOR_BOT=${USE_INBOX_AVATAR_FOR_BOT}
+  - MAILER_SENDER_EMAIL=${MAILER_SENDER_EMAIL}
+  - SMTP_DOMAIN=${SMTP_DOMAIN}
+  - SMTP_ADDRESS=${SMTP_ADDRESS}
+  - SMTP_PORT=${SMTP_PORT}
+  - SMTP_USERNAME=${SMTP_USERNAME}
+  - SMTP_PASSWORD=${SMTP_PASSWORD}
+  - SMTP_AUTHENTICATION=${SMTP_AUTHENTICATION}
+  - SMTP_ENABLE_STARTTLS_AUTO=${SMTP_ENABLE_STARTTLS_AUTO}
+  - SMTP_OPENSSL_VERIFY_MODE=${SMTP_OPENSSL_VERIFY_MODE}
+  - MAILER_INBOUND_EMAIL_DOMAIN=${MAILER_INBOUND_EMAIL_DOMAIN}
+  - INSTALLATION_PRICING_PLAN=enterprise
+  - INSTALLATION_PRICING_PLAN_QUANTITY=100
+
+# Âncora separada para a configuração de deploy
+x-chatwoot-deploy: &chatwoot-deploy
+  mode: replicated
+  replicas: 1
+  placement:
+    constraints:
+      - node.role == manager
+  resources:
+    limits:
+      cpus: "2.0"
+      memory: 3096M
+
+# -----------------------------------------------------------------------------
+# Definição dos Serviços
+# -----------------------------------------------------------------------------
+services:
+  chatwoot_app:
+    <<: *chatwoot-base # Inclui as configurações base
+    entrypoint: /app/docker/entrypoints/rails-enterprise.sh
+    # MODIFICADO: Comando inteligente - migração só quando necessário
+    command: ["sh", "-c", "bundle exec rails db:chatwit_smart_prepare && bundle exec rails s -p 3000 -b 0.0.0.0"]
+    environment: *chatwoot-environment # Referencia as variáveis de ambiente
+    deploy:
+      <<: *chatwoot-deploy # Inclui a configuração de deploy comum
+      labels: # Adiciona as labels específicas deste serviço
+        - traefik.enable=true
+        - traefik.http.routers.chatwoot_app.rule=Host(`chatwit2.witdev.com.br`)
+        - traefik.http.routers.chatwoot_app.entrypoints=websecure
+        - traefik.http.routers.chatwoot_app.tls.certresolver=letsencryptresolver
+        - traefik.http.routers.chatwoot_app.priority=1
+        - traefik.http.routers.chatwoot_app.service=chatwoot_app
+        - traefik.http.services.chatwoot_app.loadbalancer.server.port=3000
+        - traefik.http.services.chatwoot_app.loadbalancer.passHostHeader=true
+        - traefik.http.middlewares.chatwoot_app_secure.headers.stsSeconds=31536000
+        - traefik.http.middlewares.chatwoot_app_secure.headers.stsIncludeSubdomains=true
+        - traefik.http.middlewares.chatwoot_app_secure.headers.stsPreload=true
+        - traefik.http.middlewares.chatwoot_app_secure.headers.contentTypeNosniff=true
+        - traefik.http.middlewares.chatwoot_app_secure.headers.browserXssFilter=true
+        - traefik.http.middlewares.chatwoot_app_secure.headers.forceSTSHeader=true
+        - traefik.http.middlewares.chatwoot_app_secure.headers.sslRedirect=true
+        - traefik.http.routers.chatwoot_app.middlewares=chatwoot_app_secure@docker
+
+  chatwoot_sidekiq:
+    <<: *chatwoot-base # Inclui as configurações base
+    command: sh -c "bundle exec sidekiq -C config/sidekiq.yml"
+    environment: *chatwoot-environment # Referencia as variáveis de ambiente
+    deploy: *chatwoot-deploy # Referencia diretamente a configuração de deploy
+
+# -----------------------------------------------------------------------------
+# Definições de Volumes e Redes
+# -----------------------------------------------------------------------------
+volumes:
+  chatwoot_data:
+    external: true
+    name: chatwoot_data
+  chatwoot_public:
+    external: true
+    name: chatwoot_public
+
+networks:
+  minha_rede:
+    external: true
+    name: minha_rede 

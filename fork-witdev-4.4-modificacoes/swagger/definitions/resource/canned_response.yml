@@ -1,0 +1,20 @@
+type: object
+properties:
+  id:
+    type: integer
+    description: ID of the canned response
+  account_id:
+    type: integer
+    description: Account Id
+  short_code:
+    type: string
+    description: Short Code for quick access of the canned response
+  content:
+    type: string
+    description: Message content for canned response
+  created_at:
+    type: string
+    description: The date and time when the canned response was created
+  updated_at:
+    type: string
+    description: The date and time when the canned response was updated

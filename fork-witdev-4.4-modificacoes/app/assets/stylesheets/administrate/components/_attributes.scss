@@ -1,0 +1,26 @@
+.attribute-label {
+  @include data-label;
+  clear: left;
+  float: left;
+  margin-bottom: $base-spacing;
+  margin-top: 0.25em;
+  text-align: left;
+  width: calc(16% - 1rem);
+}
+
+.preserve-whitespace {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.attribute-data {
+  float: left;
+  margin-bottom: $base-spacing;
+  margin-left: 1.25rem;
+  width: calc(84% - 0.625rem);
+}
+
+.attribute--nested {
+  border: $base-border;
+  padding: $small-spacing;
+}

@@ -46,6 +46,13 @@ module Api::V2::Accounts::ReportsHelper
     end
   end
 
+  def generate_conversations_report
+    builder = V2::Reports::Conversations::MetricBuilder.new(Current.account, build_params(type: :account))
+    summary = builder.summary
+
+    [generate_conversation_report_metrics(summary)]
+  end
+
   private
 
   def build_params(base_params)
@@ -69,6 +76,18 @@ module Api::V2::Accounts::ReportsHelper
       Reports::TimeFormatPresenter.new(report[:avg_resolution_time]).format,
       Reports::TimeFormatPresenter.new(report[:avg_reply_time]).format,
       report[:resolved_conversations_count]
+    ]
+  end
+
+  def generate_conversation_report_metrics(summary)
+    [
+      summary[:conversations_count],
+      summary[:incoming_messages_count],
+      summary[:outgoing_messages_count],
+      Reports::TimeFormatPresenter.new(summary[:avg_first_response_time]).format,
+      Reports::TimeFormatPresenter.new(summary[:avg_resolution_time]).format,
+      summary[:resolutions_count],
+      Reports::TimeFormatPresenter.new(summary[:reply_time]).format
     ]
   end
 end

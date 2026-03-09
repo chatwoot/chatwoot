@@ -1,0 +1,19 @@
+<%= render "public/api/v1/portals/hero", portal: @portal %>
+<div class="max-w-5xl w-full flex flex-col flex-grow mx-auto py-8 px-4 md:px-8 gap-6">
+  <%# Featured Articles %>
+  <% if !@is_plain_layout_enabled %>
+    <div><%= render "public/api/v1/portals/featured_articles", articles: @portal.articles, categories: @portal.categories.where(locale: @locale), portal: @portal %></div>
+  <% end %>
+  <%# Categories with articles %>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-6">
+    <% @portal.categories.where(locale: @locale).joins(:articles).where(articles:{ status: :published }).order(position: :asc).group('categories.id').each do |category| %>
+      <%= render "public/api/v1/portals/category-block", category: category, portal: @portal %>
+    <% end %>
+  </div>
+  <%# Uncategorized articles %>
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-x-6 gap-y-6">
+    <% if @portal.articles.where(status: :published, category_id: nil, locale: @locale).count > 0 %>
+      <%= render "public/api/v1/portals/uncategorized-block", category: "Uncategorized", portal: @portal %>
+    <% end %>
+  </div>
+</div>

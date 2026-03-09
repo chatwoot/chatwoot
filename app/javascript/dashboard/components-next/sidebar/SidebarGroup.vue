@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onMounted, nextTick } from 'vue';
+import { computed, onMounted, watch, nextTick } from 'vue';
 import { useSidebarContext } from './provider';
 import { useRoute, useRouter } from 'vue-router';
 import Policy from 'dashboard/components/policy.vue';
@@ -126,6 +126,16 @@ onMounted(async () => {
     setExpandedItem(props.name);
   }
 });
+
+watch(
+  hasActiveChild,
+  hasNewActiveChild => {
+    if (hasNewActiveChild && !isExpanded.value) {
+      setExpandedItem(props.name);
+    }
+  },
+  { once: true }
+);
 </script>
 
 <!-- eslint-disable-next-line vue/no-root-v-if -->
@@ -218,8 +228,8 @@ onMounted(async () => {
   left: 0;
 }
 
-.app-rtl--wrapper .sidebar-group-children > .child-item:last-child::after,
-.app-rtl--wrapper
+#app[dir='rtl'] .sidebar-group-children > .child-item:last-child::after,
+#app[dir='rtl']
   .sidebar-group-children
   > *:last-child
   > *:last-child

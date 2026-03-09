@@ -146,7 +146,7 @@ const previewArticle = () => {
 <style lang="scss" scoped>
 ::v-deep {
   .ProseMirror .empty-node::before {
-    @apply text-slate-200 dark:text-slate-500 text-base;
+    @apply text-n-slate-10 text-base;
   }
 
   .ProseMirror-menubar-wrapper {
@@ -161,7 +161,7 @@ const previewArticle = () => {
 
   .editor-root .has-selection {
     .ProseMirror-menubar {
-      @apply h-8 rounded-lg !px-2 z-50 bg-slate-50 dark:bg-slate-800 items-center gap-4 ml-0 mb-0 shadow-md border border-slate-75 dark:border-slate-700/50;
+      @apply h-8 rounded-lg !px-2 z-50 bg-n-solid-3 items-center gap-4 ml-0 mb-0 shadow-md outline outline-1 outline-n-weak;
       display: flex;
       top: var(--selection-top, auto) !important;
       left: var(--selection-left, 0) !important;
@@ -172,13 +172,17 @@ const previewArticle = () => {
         @apply mr-0;
 
         .ProseMirror-icon {
-          @apply p-0 mt-1 !mr-0;
+          @apply p-0 mt-0 !mr-0;
 
           svg {
             width: 20px !important;
             height: 20px !important;
           }
         }
+      }
+
+      .ProseMirror-menu-active {
+        @apply bg-n-slate-3;
       }
     }
   }

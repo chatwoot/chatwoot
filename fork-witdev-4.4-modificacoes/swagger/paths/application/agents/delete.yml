@@ -1,0 +1,29 @@
+tags:
+  - Agents
+operationId: delete-agent-from-account
+summary: Remove an Agent from Account
+description: Remove an Agent from Account
+security:
+  - userApiKey: []
+parameters:
+  - in: path
+    name: id
+    schema:
+      type: integer
+    required: true
+    description: The ID of the agent to be deleted.
+responses:
+  200:
+    description: Success
+  404:
+    description: Agent not found
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  403:
+    description: Access denied
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

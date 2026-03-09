@@ -1,0 +1,8 @@
+type: object
+properties:
+  source_id:
+    type: string
+    description: Contact Inbox Source Id
+  inbox:
+    type: object
+    $ref: '#/components/schemas/inbox'

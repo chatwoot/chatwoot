@@ -70,11 +70,11 @@ export default {
       @submit.prevent="applyText"
     >
       <div v-if="draftMessage" class="w-full">
-        <h4 class="mt-1 text-base text-slate-700 dark:text-slate-100">
+        <h4 class="mt-1 text-base text-n-slate-12">
           {{ $t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.DRAFT_TITLE') }}
         </h4>
         <p v-dompurify-html="formatMessage(draftMessage, false)" />
-        <h4 class="mt-1 text-base text-slate-700 dark:text-slate-100">
+        <h4 class="mt-1 text-base text-n-slate-12">
           {{
             $t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.GENERATED_TITLE')
           }}

@@ -1,0 +1,25 @@
+tags:
+  - Inbox API
+operationId: get-details-of-a-inbox
+summary: Inbox details
+description: Get the details of an inbox
+security: []
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/public_inbox'
+  '401':
+    description: Unauthorized
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '404':
+    description: The given inbox does not exist
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

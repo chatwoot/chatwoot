@@ -17,6 +17,12 @@
     "IP_ADDRESS": "IP-Adresse",
     "CREATED_AT_LABEL": "Erstellt",
     "NEW_MESSAGE": "Neue Nachricht",
+    "CALL": "Anruf",
+    "CALL_INITIATED": "Calling the contact…",
+    "CALL_FAILED": "Unable to start the call. Please try again.",
+    "VOICE_INBOX_PICKER": {
+      "TITLE": "Spracheingang wählen"
+    },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Es sind keine vorherigen Gespräche mit diesem Kontakt verbunden.",
       "TITLE": "Vorherige Gespräche"
@@ -285,7 +291,7 @@
     "HEADER": {
       "TITLE": "Kontakte",
       "SEARCH_TITLE": "Kontakte suchen",
-      "ACTIVE_TITLE": "Active contacts",
+      "ACTIVE_TITLE": "Aktive Kontakt",
       "SEARCH_PLACEHOLDER": "Suchen...",
       "MESSAGE_BUTTON": "Nachricht",
       "SEND_MESSAGE": "Nachricht senden",
@@ -451,6 +457,9 @@
           "INSTAGRAM": {
             "PLACEHOLDER": "Instagram hinzufügen"
           },
+          "TIKTOK": {
+            "PLACEHOLDER": "Add TikTok"
+          },
           "LINKEDIN": {
             "PLACEHOLDER": "LinkedIn hinzufügen"
           },
@@ -460,8 +469,8 @@
         }
       },
       "DELETE_CONTACT": {
-        "MESSAGE": "This action is permanent and irreversible.",
-        "BUTTON": "Delete now"
+        "MESSAGE": "Diese Aktion ist permanent und unwiderruflich.",
+        "BUTTON": "Jetzt löschen"
       }
     },
     "DETAILS": {
@@ -471,7 +480,7 @@
       "DELETE_CONTACT": "Kontakt löschen",
       "DELETE_DIALOG": {
         "TITLE": "Löschung bestätigen",
-        "DESCRIPTION": "Are you sure you want to delete this contact?",
+        "DESCRIPTION": "Sind Sie sicher, dass Sie den Kontakt löschen möchten?",
         "CONFIRM": "Ja, löschen",
         "API": {
           "SUCCESS_MESSAGE": "Kontakt erfolgreich gelöscht",
@@ -549,10 +558,12 @@
         "WROTE": "schrieb",
         "YOU": "Sie",
         "SAVE": "Notiz speichern",
+        "ADD_NOTE": "Füge eine Kontakt-Notiz hinzu",
         "EXPAND": "Erweitern",
-        "COLLAPSE": "Collapse",
-        "NO_NOTES": "No notes, you can add notes from the contact details page.",
-        "EMPTY_STATE": "Es gibt keine Notizen zu diesem Kontakt. Sie können eine Notiz hinzufügen, indem Sie diese in das obige Feld eingeben."
+        "COLLAPSE": "Einklappen",
+        "NO_NOTES": "Keine Notizen, Sie können Notizen auf der Kontakt-Detailseite hinzufügen.",
+        "EMPTY_STATE": "Es gibt keine Notizen zu diesem Kontakt. Sie können eine Notiz hinzufügen, indem Sie diese in das obige Feld eingeben.",
+        "CONVERSATION_EMPTY_STATE": "Es sind noch keine Notizen vorhanden. Benutzen Sie die Schaltfläche \"Notiz hinzufügen\" um eine zu erstellen."
       }
     },
     "EMPTY_STATE": {
@@ -561,7 +572,28 @@
       "BUTTON_LABEL": "Kontakt hinzufügen",
       "SEARCH_EMPTY_STATE_TITLE": "Keine Kontakte entsprechen Ihrer Suche 🔍",
       "LIST_EMPTY_STATE_TITLE": "Keine Kontakte verfügbar in dieser Ansicht 📋",
-      "ACTIVE_EMPTY_STATE_TITLE": "No contacts are active at the moment 🌙"
+      "ACTIVE_EMPTY_STATE_TITLE": "Im Moment sind keine Kontakte aktiv 🌙"
+    }
+  },
+  "CONTACTS_BULK_ACTIONS": {
+    "ASSIGN_LABELS": "Labels zuweisen",
+    "ASSIGN_LABELS_SUCCESS": "Labels erfolgreich zugewiesen.",
+    "ASSIGN_LABELS_FAILED": "Fehler beim Zuweisen der Labels",
+    "DESCRIPTION": "Wählen Sie die Labels aus, die zu den ausgewählten Kontakten hinzugefügt werden sollen.",
+    "NO_LABELS_FOUND": "Noch keine Labels vorhanden.",
+    "SELECTED_COUNT": "{count} selected",
+    "CLEAR_SELECTION": "Auswahl löschen",
+    "SELECT_ALL": "Alle auswählen ({count})",
+    "DELETE_CONTACTS": "Löschen",
+    "DELETE_SUCCESS": "Kontakte erfolgreich gelöscht.",
+    "DELETE_FAILED": "Kontakte konnten nicht gelöscht werden.",
+    "DELETE_DIALOG": {
+      "TITLE": "Ausgewählte Kontakte löschen",
+      "SINGULAR_TITLE": "Ausgewählten Kontakt löschen",
+      "DESCRIPTION": "Dies wird {count} ausgewählte Kontakte dauerhaft löschen. Diese Aktion kann nicht rückgängig gemacht werden.",
+      "SINGULAR_DESCRIPTION": "Der ausgewählte Kontakt wird dauerhaft gelöscht. Diese Aktion kann nicht rückgängig gemacht werden.",
+      "CONFIRM_MULTIPLE": "Kontakte löschen",
+      "CONFIRM_SINGLE": "Kontakt löschen"
     }
   },
   "COMPOSE_NEW_CONVERSATION": {
@@ -601,6 +633,15 @@
         "TEMPLATE_PARSER": {
           "TEMPLATE_NAME": "WhatsApp Template: {templateName}",
           "VARIABLES": "Variablen",
+          "BACK": "Zurück",
+          "SEND_MESSAGE": "Nachricht senden"
+        }
+      },
+      "TWILIO_OPTIONS": {
+        "LABEL": "Vorlage auswählen",
+        "SEARCH_PLACEHOLDER": "Vorlagen suchen",
+        "EMPTY_STATE": "Keine Vorlagen gefunden",
+        "TEMPLATE_PARSER": {
           "BACK": "Zurück",
           "SEND_MESSAGE": "Nachricht senden"
         }

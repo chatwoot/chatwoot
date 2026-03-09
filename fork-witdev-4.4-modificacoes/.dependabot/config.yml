@@ -1,0 +1,23 @@
+version: 1
+update_configs:
+  - package_manager: "ruby:bundler"
+    directory: "/"
+    update_schedule: "weekly"
+    default_reviewers:
+      - "sony-mathew"
+      - "sojan-official"
+      - "subintp"
+    default_labels:
+      - "dependencies"
+      - "ruby"
+    version_requirement_updates: "auto"
+  - package_manager: "javascript"
+    directory: "/"
+    update_schedule: "weekly"
+    default_reviewers:
+      - "pranavrajs"
+      - "nithindavid"
+    default_labels:
+      - "dependencies"
+      - "javascript"
+    version_requirement_updates: "auto"

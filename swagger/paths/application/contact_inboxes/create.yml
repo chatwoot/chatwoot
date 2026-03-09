@@ -1,6 +1,6 @@
 post:
   tags:
-    - Contact
+    - Contacts
   operationId: contactInboxCreation
   description: Create a contact inbox record for an inbox
   summary: Create contact inbox

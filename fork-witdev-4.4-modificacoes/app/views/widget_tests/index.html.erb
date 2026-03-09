@@ -1,0 +1,80 @@
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
+<body>
+</body>
+
+<%
+  user_id = 1
+  user_hash = OpenSSL::HMAC.hexdigest(
+    'sha256',
+    @web_widget.hmac_token,
+    user_id.to_s
+  )
+
+%>
+<script>
+
+window.chatwootSettings = {
+  hideMessageBubble: false,
+  // showUnreadMessagesDialog: false,
+  // baseDomain: '.loca.lt',
+  position: '<%= @widget_position %>',
+  locale: 'en',
+  useBrowserLanguage: true,
+  type: '<%= @widget_type %>',
+  // showPopoutButton: true,
+  widgetStyle: '<%= @widget_style %>',
+  darkMode: '<%= @dark_mode %>',
+};
+
+(function(d,t) {
+  var BASE_URL = '';
+  var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+  g.src= BASE_URL + "/packs/js/sdk.js";
+  g.defer = true;
+  g.async = true;
+  s.parentNode.insertBefore(g,s);
+  g.onload=function(){
+    window.chatwootSDK.run({
+      websiteToken: '<%= @web_widget.website_token %>',
+      baseUrl: BASE_URL
+    })
+  }
+})(document,"script");
+
+window.addEventListener('chatwoot:ready', function() {
+  console.log('chatwoot:ready', window.$chatwoot);
+  if (window.location.search.includes('setUser')) {
+    window.$chatwoot.setUser('<%= user_id %>', {
+      identifier_hash: '<%= user_hash %>',
+      email: 'jane@example.com',
+      name: 'Jane Doe',
+      phone_number: ''
+    });
+  }
+})
+
+window.addEventListener('chatwoot:error', function(e) {
+  console.log('chatwoot:error', e.detail)
+})
+
+
+window.addEventListener('chatwoot:on-message', function(e) {
+  console.log('chatwoot:on-message', e.detail)
+})
+
+window.addEventListener('chatwoot:postback', function(e) {
+  console.log('chatwoot:postback', e.detail)
+})
+
+window.addEventListener('chatwoot:opened', function() {
+  console.log('chatwoot:opened')
+})
+
+window.addEventListener('chatwoot:closed', function() {
+  console.log('chatwoot:closed')
+})
+
+window.addEventListener('chatwoot:on-start-conversation', function(e) {
+  console.log('chatwoot:on-start-conversation', e.detail)
+})
+</script>

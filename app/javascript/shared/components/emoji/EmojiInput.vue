@@ -210,23 +210,10 @@ export default {
 </style>
 
 <style lang="scss">
-@import 'dashboard/assets/scss/mixins';
-
 .emoji-dialog {
   &::before {
-    $space-slab: 12px;
-
-    @media (prefers-color-scheme: dark) {
-      $color-bg-dark: #26292b;
-      @include arrow(bottom, $color-bg-dark, $space-slab);
-    }
-
-    @media (prefers-color-scheme: light) {
-      $color-bg: #ebf0f5;
-      @include arrow(bottom, $color-bg, $space-slab);
-    }
-
-    @apply -bottom-3 absolute right-5;
+    @apply absolute -bottom-3 h-3 w-6 bg-n-slate-3 content-[""];
+    clip-path: polygon(50% 100%, 0% 0%, 100% 0%);
   }
 }
 

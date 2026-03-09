@@ -1,0 +1,22 @@
+tags:
+  - Messages
+operationId: delete-a-message
+summary: Delete a message
+security:
+  - userApiKey: []
+description: Delete a message and it's attachments from the conversation.
+responses:
+  '200':
+    description: Success
+  '401':
+    description: Unauthorized
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '404':
+    description: The message or conversation does not exist in the account
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

@@ -3,6 +3,7 @@
 # Table name: channel_web_widgets
 #
 #  id                    :integer          not null, primary key
+#  allowed_domains       :text             default("")
 #  continuity_via_email  :boolean          default(TRUE), not null
 #  feature_flags         :integer          default(7), not null
 #  hmac_mandatory        :boolean          default(FALSE)
@@ -31,7 +32,7 @@ class Channel::WebWidget < ApplicationRecord
 
   self.table_name = 'channel_web_widgets'
   EDITABLE_ATTRS = [:website_url, :widget_color, :welcome_title, :welcome_tagline, :reply_time, :pre_chat_form_enabled,
-                    :continuity_via_email, :hmac_mandatory,
+                    :continuity_via_email, :hmac_mandatory, :allowed_domains,
                     { pre_chat_form_options: [:pre_chat_message, :require_email,
                                               { pre_chat_fields:
                                                 [:field_type, :label, :placeholder, :name, :enabled, :type, :enabled, :required,
@@ -66,7 +67,6 @@ class Channel::WebWidget < ApplicationRecord
         var BASE_URL=\"#{ENV.fetch('FRONTEND_URL', '')}\";
         var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
         g.src=BASE_URL+\"/packs/js/sdk.js\";
-        g.defer = true;
         g.async = true;
         s.parentNode.insertBefore(g,s);
         g.onload=function(){

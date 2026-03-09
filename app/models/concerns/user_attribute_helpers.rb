@@ -18,7 +18,7 @@ module UserAttributeHelpers
   end
 
   def active_account_user
-    account_users.order(active_at: :desc)&.first
+    account_users.order(Arel.sql('active_at DESC NULLS LAST'))&.first
   end
 
   def current_account_user

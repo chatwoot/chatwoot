@@ -1,0 +1,61 @@
+#Additional translations at https://github.com/plataformatec/devise/wiki/I18n
+fi:
+  devise:
+    confirmations:
+      confirmed: "Sähköpostiosoitteesi on vahvistettu onnistuneesti."
+      send_instructions: "Saat sähköpostiviestin, jossa on ohjeet siitä, miten voit vahvistaa sähköpostiosoitteesi muutamassa minuutissa."
+      send_paranoid_instructions: "Jos sähköpostiosoitteesi on olemassa tietokannassamme, saat sähköpostiviestin, jossa on ohjeet siitä, miten voit vahvistaa sähköpostiosoitteesi muutamassa minuutissa."
+    failure:
+      already_authenticated: "Olet jo kirjautunut sisään."
+      inactive: "Tilisi ei ole vielä aktivoitu."
+      invalid: "Virheellinen %{authentication_keys}/salasana tai tiliä ei ole vielä vahvistettu."
+      locked: "Tilisi on lukittu."
+      last_attempt: "Sinulla on vielä yksi yritys ennen kuin tilisi lukitaan."
+      not_found_in_database: "Virheellinen %{authentication_keys} tai salasana."
+      timeout: "Istuntosi on vanhentunut. Ole hyvä ja kirjaudu sisään jatkaaksesi."
+      unauthenticated: "Sinun täytyy kirjautua sisään tai rekisteröityä ennen jatkamista."
+      unconfirmed: "Sinun on vahvistettava sähköpostiosoitteesi ennen jatkamista."
+    mailer:
+      confirmation_instructions:
+        subject: "Vahvistusohjeet"
+      reset_password_instructions:
+        subject: "Salasanan nollausohjeet"
+      unlock_instructions:
+        subject: "Avausohjeet"
+      password_change:
+        subject: "Salasana vaihdettu"
+    omniauth_callbacks:
+      failure: "Sinua ei voitu todentaa %{kind}-tililtä koska \"%{reason}\"."
+      success: "Onnistuneesti todennettu %{kind}-tililtä."
+    passwords:
+      no_token: "Et voi käyttää tätä sivua ilman salasanan nollaussähköpostia. Jos tulet sivulle sähköpostin linkin kautta, varmista, että olet käyttänyt koko URL-osoite."
+      send_instructions: "Saat sähköpostiviestin, jossa on ohjeet siitä, miten salasanasi palautetaan muutamassa minuutissa."
+      send_paranoid_instructions: "Jos sähköpostiosoitteesi on olemassa tietokannassamme, saat sähköpostiviestin, jossa on ohjeet siitä, miten voit vaihtaa salasanan muutamassa minuutissa."
+      updated: "Salasanasi on vaihdettu onnistuneesti. Olet nyt kirjautunut sisään."
+      updated_not_active: "Salasanasi on vaihdettu onnistuneesti."
+    registrations:
+      destroyed: "Heippa! Tilisi on peruutettu onnistuneesti. Toivomme näkevämme sinut pian uudelleen."
+      signed_up: "Tervetuloa! Olet rekisteröitynyt onnistuneesti."
+      signed_up_but_inactive: "Olet rekisteröitynyt onnistuneesti. Emme kuitenkaan voineet kirjata sinua sisään, koska tilisi ei ole vielä aktivoitu."
+      signed_up_but_locked: "Olet rekisteröitynyt onnistuneesti. Emme kuitenkaan voineet kirjata sinua sisään, koska tilisi on lukittu."
+      signed_up_but_unconfirmed: "Sähköpostiosoitteeseesi on lähetetty viesti, jossa on vahvistuslinkki. Ole hyvä ja seuraa linkkiä aktivoidaksesi tilisi."
+      update_needs_confirmation: "Olet päivittänyt tilisi onnistuneesti, mutta meidän on vahvistettava uusi sähköpostiosoitteesi. Ole hyvä ja tarkista sähköpostisi ja seuraa vahvistuslinkkiä vahvistaaksesi uuden sähköpostiosoitteesi."
+      updated: "Tilisi on päivitetty onnistuneesti."
+    sessions:
+      signed_in: "Kirjauduttu sisään onnistuneesti."
+      signed_out: "Kirjauduttu ulos onnistuneesti."
+      already_signed_out: "Kirjauduttu ulos onnistuneesti."
+    unlocks:
+      send_instructions: "Saat sähköpostiviestin, jossa on ohjeet siitä, miten tilin lukitus avataan muutamassa minuutissa."
+      send_paranoid_instructions: "Jos tilisi on olemassa, saat sähköpostiviestin, jossa on ohjeet sen avaamisesta muutamassa minuutissa."
+      unlocked: "Tilisi lukitus on poistettu onnistuneesti. Kirjaudu sisään jatkaaksesi."
+  errors:
+    messages:
+      already_confirmed: "on jo vahvistettu, yritä kirjautua sisään"
+      confirmation_period_expired: "täytyy vahvistaa %{period} päivän sisällä, pyydä uusi versio"
+      expired: "on vanhentunut, pyydä uusi"
+      not_found: "ei löydy"
+      not_locked: "ei ollut lukittu"
+      not_saved:
+        one: "1 virhe esti tämän %{resource} tallennuksen:"
+        other: "%{count} virhettä esti tämän %{resource} tallennuksen:"

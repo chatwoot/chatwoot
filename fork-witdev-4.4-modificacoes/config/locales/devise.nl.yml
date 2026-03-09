@@ -1,0 +1,61 @@
+#Additional translations at https://github.com/plataformatec/devise/wiki/I18n
+nl:
+  devise:
+    confirmations:
+      confirmed: "Uw e-mailadres is succesvol bevestigd."
+      send_instructions: "U ontvangt binnen enkele minuten een e-mail met instructies over hoe u uw e-mailadres kunt bevestigen."
+      send_paranoid_instructions: "Als uw e-mailadres in onze database staat, ontvangt u binnen enkele minuten een e-mail met instructies over hoe u uw e-mailadres kunt bevestigen."
+    failure:
+      already_authenticated: "U bent al ingelogd."
+      inactive: "Uw account is nog niet geactiveerd."
+      invalid: "Ongeldig %{authentication_keys}/wachtwoord of account is nog niet geverifieerd."
+      locked: "Uw account is vergrendeld."
+      last_attempt: "U heeft nog één poging voordat uw account wordt vergrendeld."
+      not_found_in_database: "Ongeldige %{authentication_keys} of wachtwoord."
+      timeout: "Uw sessie is verlopen. Log opnieuw in om door te gaan."
+      unauthenticated: "Je moet inloggen of jezelf aanmelden voordat je verder kunt."
+      unconfirmed: "U moet uw e-mailadres bevestigen voordat u verder gaat."
+    mailer:
+      confirmation_instructions:
+        subject: "Instructies voor bevestiging"
+      reset_password_instructions:
+        subject: "Instructies voor wachtwoord resetten"
+      unlock_instructions:
+        subject: "Instructies voor ontgrendelen"
+      password_change:
+        subject: "Wachtwoord gewijzigd"
+    omniauth_callbacks:
+      failure: "Kan u niet authenticeren via %{kind} omdat \"%{reason}\"."
+      success: "Succesvol geverifieerd via account %{kind}."
+    passwords:
+      no_token: "Je hebt geen toegang tot deze pagina zonder een e-mail om je wachtwoord te resetten. Als u op deze pagina komt via een e-mail, zorg er dan voor dat u de volledige URL gebruikt."
+      send_instructions: "U ontvangt binnen enkele minuten een e-mail met uitleg over hoe u uw wachtwoord kunt resetten."
+      send_paranoid_instructions: "Als uw e-mailadres in onze database staat, ontvangt u binnen enkele minuten een link om het wachtwoord te herstellen."
+      updated: "Uw wachtwoord is gewijzigd. U bent nu ingelogd."
+      updated_not_active: "Uw wachtwoord is succesvol gewijzigd."
+    registrations:
+      destroyed: "Tot ziens! Uw account is geannuleerd. We hopen u snel weer te zien."
+      signed_up: "Welkom! U bent succesvol aangemeld."
+      signed_up_but_inactive: "U heeft zich succesvol aangemeld, maar we konden u niet aanmelden omdat uw account nog niet is geactiveerd."
+      signed_up_but_locked: "U heeft zich succesvol aangemeld. U kunt nog niet inloggen, omdat uw account is vergrendeld."
+      signed_up_but_unconfirmed: "Een bericht met een bevestigingslink is verzonden naar uw e-mailadres. Volg de link om uw account te activeren."
+      update_needs_confirmation: "Je hebt je account succesvol bijgewerkt, maar we moeten je nieuwe e-mailadres verifiëren. Controleer uw e-mail en volg de bevestigingslink om uw nieuwe e-mailadres te bevestigen."
+      updated: "Uw account is succesvol bijgewerkt."
+    sessions:
+      signed_in: "Succesvol ingelogd."
+      signed_out: "Succesvol uitgelogd."
+      already_signed_out: "Succesvol uitgelogd."
+    unlocks:
+      send_instructions: "U ontvangt binnen enkele minuten een e-mail met uitleg over hoe u uw account kunt deblokkeren."
+      send_paranoid_instructions: "Als uw account bestaat, ontvangt u binnen enkele minuten een e-mail met uitleg over hoe u deze kunt ontgrendelen."
+      unlocked: "Uw account is met succes gedeblokkeerd. Log in om door te gaan."
+  errors:
+    messages:
+      already_confirmed: "was al bevestigd, probeer in te loggen"
+      confirmation_period_expired: "moet binnen %{period} bevestigd worden, vraag een nieuwe aan"
+      expired: "is verlopen, vraag een nieuwe aan"
+      not_found: "niet gevonden"
+      not_locked: "is niet vergrendeld"
+      not_saved:
+        one: "Door een fout kon deze %{resource} niet worden opgeslagen:"
+        other: "Door %{count} fouten kon deze %{resource} niet worden opgeslagen:"

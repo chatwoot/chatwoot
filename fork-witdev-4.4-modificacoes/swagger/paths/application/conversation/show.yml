@@ -1,0 +1,26 @@
+tags:
+  - Conversations
+operationId: get-details-of-a-conversation
+summary: Conversation Details
+security:
+  - userApiKey: []
+description: Get all details regarding a conversation with all messages in the conversation
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/conversation_show'
+  '403':
+    description: Access denied
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '404':
+    description: Conversation not found
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

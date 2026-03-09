@@ -1,0 +1,98 @@
+ARG VARIANT="ubuntu-22.04"
+
+FROM mcr.microsoft.com/vscode/devcontainers/base:0-${VARIANT}
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+ARG NODE_VERSION
+ARG RUBY_VERSION
+ARG USER_UID
+ARG USER_GID
+ARG PNPM_VERSION="10.2.0"
+ENV PNPM_VERSION ${PNPM_VERSION}
+ENV RUBY_CONFIGURE_OPTS=--disable-install-doc
+
+# Update args in docker-compose.yaml to set the UID/GID of the "vscode" user.
+RUN if [ "$USER_GID" != "1000" ] || [ "$USER_UID" != "1000" ]; then \
+        groupmod --gid $USER_GID vscode \
+        && usermod --uid $USER_UID --gid $USER_GID vscode \
+        && chmod -R $USER_UID:$USER_GID /home/vscode; \
+    fi
+
+RUN NODE_MAJOR=$(echo $NODE_VERSION | cut -d. -f1) \
+    && curl -fsSL https://deb.nodesource.com/setup_${NODE_MAJOR}.x | bash - \
+    && apt-get update \
+    && apt-get -y install --no-install-recommends \
+        build-essential \
+        libssl-dev \
+        zlib1g-dev \
+        gnupg \
+        tar \
+        tzdata \
+        postgresql-client \
+        libpq-dev \
+        git \
+        imagemagick \
+        libyaml-dev \
+        curl \
+        ca-certificates \
+        tmux \
+        nodejs \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+# Install rbenv and ruby for root user first
+RUN git clone --depth 1 https://github.com/rbenv/rbenv.git ~/.rbenv \
+    &&  echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc \
+    &&  echo 'eval "$(rbenv init -)"' >> ~/.bashrc
+ENV PATH "/root/.rbenv/bin/:/root/.rbenv/shims/:$PATH"
+RUN git clone --depth 1 https://github.com/rbenv/ruby-build.git && \
+    PREFIX=/usr/local ./ruby-build/install.sh
+
+RUN rbenv install $RUBY_VERSION && \
+    rbenv global $RUBY_VERSION && \
+    rbenv versions
+
+# Set up rbenv for vscode user
+RUN su - vscode -c "git clone --depth 1 https://github.com/rbenv/rbenv.git ~/.rbenv" \
+    && su - vscode -c "echo 'export PATH=\"\$HOME/.rbenv/bin:\$PATH\"' >> ~/.bashrc" \
+    && su - vscode -c "echo 'eval \"\$(rbenv init -)\"' >> ~/.bashrc" \
+    && su - vscode -c "PATH=\"/home/vscode/.rbenv/bin:\$PATH\" rbenv install $RUBY_VERSION" \
+    && su - vscode -c "PATH=\"/home/vscode/.rbenv/bin:\$PATH\" rbenv global $RUBY_VERSION"
+
+# Install overmind and gh in single layer
+RUN curl -L https://github.com/DarthSim/overmind/releases/download/v2.1.0/overmind-v2.1.0-linux-amd64.gz > overmind.gz \
+  && gunzip overmind.gz \
+  && mv overmind /usr/local/bin \
+  && chmod +x /usr/local/bin/overmind \
+  && curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg \
+  && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
+  && apt-get update \
+  && apt-get install -y --no-install-recommends gh \
+  && apt-get clean \
+  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+
+# Do the set up required for chatwoot app
+WORKDIR /workspace
+RUN chown vscode:vscode /workspace
+
+# set up node js, pnpm and claude code in single layer
+RUN npm install -g pnpm@${PNPM_VERSION} @anthropic-ai/claude-code \
+    && npm cache clean --force
+
+# Switch to vscode user
+USER vscode
+ENV PATH="/home/vscode/.rbenv/bin:/home/vscode/.rbenv/shims:$PATH"
+
+# Copy dependency files first for better caching
+COPY --chown=vscode:vscode Gemfile Gemfile.lock package.json pnpm-lock.yaml ./
+
+# Install dependencies as vscode user
+RUN eval "$(rbenv init -)" \
+    && gem install bundler -N \
+    && bundle install --jobs=$(nproc) \
+    && pnpm install --frozen-lockfile
+
+# Copy source code after dependencies are installed
+COPY --chown=vscode:vscode . /workspace

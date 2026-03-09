@@ -48,7 +48,8 @@
       "CREATED_AT": "创建于",
       "LAST_ACTIVITY": "最后一次活动",
       "REFERER_LINK": "引用链接",
-      "BLOCKED": "已阻止"
+      "BLOCKED": "已阻止",
+      "LABELS": "标签"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "标准过滤器",

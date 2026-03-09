@@ -1,0 +1,66 @@
+version: '3'
+
+services:
+  base: &base
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+      args:
+        BUNDLE_WITHOUT: 'development:test'
+        EXECJS_RUNTIME: Disabled
+        RAILS_ENV: 'production'
+        RAILS_SERVE_STATIC_FILES: 'true'
+    image: chatwoot:latest
+    env_file: .env ## Change this file for customized env variables
+
+  rails:
+    <<: *base
+    image: chatwoot:latest
+    depends_on:
+      - postgres
+      - redis
+    ports:
+      - 3000:3000
+    environment:
+      - NODE_ENV=production
+      - RAILS_ENV=production
+    entrypoint: docker/entrypoints/rails.sh
+    command: ['bundle', 'exec', 'rails', 's', '-p', '3000', '-b', '0.0.0.0']
+
+  sidekiq:
+    <<: *base
+    image: chatwoot:latest
+    depends_on:
+      - postgres
+      - redis
+    environment:
+      - NODE_ENV=production
+      - RAILS_ENV=production
+    command: ['bundle', 'exec', 'sidekiq', '-C', 'config/sidekiq.yml']
+
+  postgres:
+    image: pgvector/pgvector:pg16
+    restart: always
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres:/data/postgres
+    environment:
+      - POSTGRES_DB=chatwoot
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=
+
+  redis:
+    image: redis:alpine
+    restart: always
+    volumes:
+      - redis:/data/redis
+    ports:
+      - '6379:6379'
+
+volumes:
+  postgres:
+  redis:
+  bundle:
+  packs:
+  node_modules_rails:

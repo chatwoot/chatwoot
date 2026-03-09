@@ -9,6 +9,8 @@ import {
   teams,
   labels,
   statusFilterOptions,
+  messageTypeOptions,
+  priorityOptions,
   campaigns,
   contacts,
   inboxes,
@@ -16,7 +18,6 @@ import {
   countries,
   slaPolicies,
 } from 'dashboard/helper/specs/fixtures/automationFixtures.js';
-import { MESSAGE_CONDITION_VALUES } from 'dashboard/constants/automation';
 
 vi.mock('dashboard/composables/store');
 vi.mock('dashboard/composables');
@@ -71,7 +72,9 @@ describe('useAutomation', () => {
         case 'country_code':
           return countries;
         case 'message_type':
-          return MESSAGE_CONDITION_VALUES;
+          return messageTypeOptions;
+        case 'priority':
+          return priorityOptions;
         default:
           return [];
       }
@@ -93,6 +96,8 @@ describe('useAutomation', () => {
           return [];
         case 'add_sla':
           return slaPolicies;
+        case 'change_priority':
+          return priorityOptions;
         default:
           return [];
       }
@@ -191,6 +196,7 @@ describe('useAutomation', () => {
     automationTypes.conversation_created = { conditions: [] };
     automationTypes.conversation_updated = { conditions: [] };
     automationTypes.conversation_opened = { conditions: [] };
+    automationTypes.conversation_resolved = { conditions: [] };
 
     automationHelper.generateCustomAttributeTypes.mockReturnValue([]);
     automationHelper.generateCustomAttributes.mockReturnValue([]);
@@ -218,8 +224,9 @@ describe('useAutomation', () => {
     expect(getConditionDropdownValues('browser_language')).toEqual(languages);
     expect(getConditionDropdownValues('country_code')).toEqual(countries);
     expect(getConditionDropdownValues('message_type')).toEqual(
-      MESSAGE_CONDITION_VALUES
+      messageTypeOptions
     );
+    expect(getConditionDropdownValues('priority')).toEqual(priorityOptions);
   });
 
   it('gets action dropdown values correctly', () => {
@@ -231,6 +238,7 @@ describe('useAutomation', () => {
     expect(getActionDropdownValues('send_email_to_team')).toEqual(teams);
     expect(getActionDropdownValues('send_message')).toEqual([]);
     expect(getActionDropdownValues('add_sla')).toEqual(slaPolicies);
+    expect(getActionDropdownValues('change_priority')).toEqual(priorityOptions);
   });
 
   it('handles event change correctly', () => {

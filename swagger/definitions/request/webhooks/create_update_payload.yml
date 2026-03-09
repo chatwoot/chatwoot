@@ -4,6 +4,9 @@ properties:
     type: string
     description: The url where the events should be sent
     example: https://example.com/webhook
+  name:
+    type: string
+    description: The name of the webhook
   subscriptions:
     type: array
     items:

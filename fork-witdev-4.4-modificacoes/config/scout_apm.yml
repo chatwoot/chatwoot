@@ -1,0 +1,10 @@
+common: &defaults
+  name: <%= ENV.fetch('SCOUT_NAME', '') %>
+  key: <%= ENV.fetch('SCOUT_KEY', '') %>
+  monitor: <%= ENV['SCOUT_KEY'].present? && ENV.fetch('SCOUT_MONITOR', true)  %>
+
+test:
+  monitor: <%= ENV['SCOUT_KEY'].present? && ENV.fetch('SCOUT_MONITOR', true)  %>
+
+production:
+  <<: *defaults

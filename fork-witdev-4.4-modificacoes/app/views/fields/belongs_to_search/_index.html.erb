@@ -1,0 +1,28 @@
+<%#
+# BelongsToSearch Index Partial
+
+This partial renders a belongs_to relationship,
+to be displayed on a resource's index page.
+
+By default, the relationship is rendered as a link to the associated object.
+
+## Local variables:
+
+- `field`:
+  An instance of Administrate::Field::BelongsToSearch.
+  A wrapper around the belongs_to relationship pulled from the database.
+%>
+
+<% if field.data %>
+  <% if field.data.is_a? User %>
+    <%= link_to(
+      field.display_associated_resource,
+      super_admin_user_path(field.data),
+    ) %>
+  <% elsif existing_action?(field.associated_class, :show) %>
+    <%= link_to(
+      field.display_associated_resource,
+      [namespace, field.data],
+    ) %>
+  <% end %>
+<% end %>

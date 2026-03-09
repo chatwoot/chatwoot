@@ -83,7 +83,7 @@ const tableHeaders = computed(() => {
       feature-name="audit_logs"
     />
 
-    <div class="mt-6 flex-1 text-slate-700 dark:text-slate-300">
+    <div class="mt-6 flex-1 text-n-slate-11">
       <woot-loading-state
         v-if="uiFlags.fetchingList"
         :message="$t('AUDIT_LOGS.LOADING')"
@@ -95,7 +95,7 @@ const tableHeaders = computed(() => {
         {{ $t('AUDIT_LOGS.LIST.404') }}
       </p>
       <div v-else class="min-w-full overflow-x-auto">
-        <table class="divide-y divide-slate-75 dark:divide-slate-700">
+        <table class="divide-y divide-n-weak">
           <thead>
             <th
               v-for="thHeader in tableHeaders"
@@ -128,7 +128,7 @@ const tableHeaders = computed(() => {
           :current-page="Number(meta.currentPage)"
           :total-count="meta.totalEntries"
           :page-size="meta.perPage"
-          class="border-slate-50 dark:border-slate-800 border-t !px-0 py-4"
+          class="border-n-weak border-t !px-0 py-4"
           @page-change="onPageChange"
         />
       </div>

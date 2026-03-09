@@ -1,15 +1,11 @@
 // Moved from editorHelper.spec.js to editorContentHelper.spec.js
 // the mock of chatwoot/prosemirror-schema is getting conflicted with other specs
 import { getContentNode } from '../editorHelper';
-import {
-  MessageMarkdownTransformer,
-  messageSchema,
-} from '@chatwoot/prosemirror-schema';
+import { MessageMarkdownTransformer } from '@chatwoot/prosemirror-schema';
 import { replaceVariablesInMessage } from '@chatwoot/utils';
 
 vi.mock('@chatwoot/prosemirror-schema', () => ({
   MessageMarkdownTransformer: vi.fn(),
-  messageSchema: {},
 }));
 
 vi.mock('@chatwoot/utils', () => ({
@@ -48,6 +44,7 @@ describe('getContentNode', () => {
         {
           userId: content.id,
           userFullName: content.name,
+          mentionType: 'user',
         }
       );
     });
@@ -61,12 +58,18 @@ describe('getContentNode', () => {
       const to = 10;
       const updatedMessage = 'Hello John';
 
-      replaceVariablesInMessage.mockReturnValue(updatedMessage);
-      MessageMarkdownTransformer.mockImplementation(() => ({
-        parse: vi.fn().mockReturnValue({ textContent: updatedMessage }),
-      }));
+      // Mock the node that will be returned by parse
+      const mockNode = { textContent: updatedMessage };
 
-      const { node } = getContentNode(
+      replaceVariablesInMessage.mockReturnValue(updatedMessage);
+
+      // Mock MessageMarkdownTransformer instance with parse method
+      const mockTransformer = {
+        parse: vi.fn().mockReturnValue(mockNode),
+      };
+      MessageMarkdownTransformer.mockImplementation(() => mockTransformer);
+
+      const result = getContentNode(
         editorView,
         'cannedResponse',
         content,
@@ -78,8 +81,15 @@ describe('getContentNode', () => {
         message: content,
         variables,
       });
-      expect(MessageMarkdownTransformer).toHaveBeenCalledWith(messageSchema);
-      expect(node.textContent).toBe(updatedMessage);
+      expect(MessageMarkdownTransformer).toHaveBeenCalledWith(
+        editorView.state.schema
+      );
+      expect(mockTransformer.parse).toHaveBeenCalledWith(updatedMessage);
+      expect(result.node).toBe(mockNode);
+      expect(result.node.textContent).toBe(updatedMessage);
+      // When textContent matches updatedMessage, from should remain unchanged
+      expect(result.from).toBe(from);
+      expect(result.to).toBe(to);
     });
   });
 

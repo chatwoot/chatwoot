@@ -1,0 +1,62 @@
+version: '3.8'
+
+services:
+  test: &test
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+      args:
+        BUNDLE_WITHOUT: ''
+        EXECJS_RUNTIME: 'Node'
+        RAILS_ENV: 'test'
+        RAILS_SERVE_STATIC_FILES: 'false'
+    image: chatwit:test
+    environment:
+      - RAILS_ENV=test
+      - NODE_ENV=test
+      - DATABASE_URL=postgresql://postgres:password@postgres_test:5432/chatwoot_test
+      - REDIS_URL=redis://redis_test:6379/0
+      - SECRET_KEY_BASE=test_secret_key_base_for_testing_only
+      - FRONTEND_URL=http://localhost:3000
+      - FORCE_SSL=false
+    depends_on:
+      - postgres_test
+      - redis_test
+    volumes:
+      - ./:/app:delegated
+      - bundle_test:/gems
+      - node_modules_test:/app/node_modules
+      - cache_test:/app/tmp/cache
+    working_dir: /app
+
+  postgres_test:
+    image: pgvector/pgvector:pg16
+    environment:
+      - POSTGRES_DB=chatwoot_test
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    ports:
+      - '5434:5432'
+    volumes:
+      - postgres_test:/var/lib/postgresql/data
+    tmpfs:
+      - /tmp
+      - /var/tmp
+
+  redis_test:
+    image: redis:alpine
+    ports:
+      - '6381:6379'
+    volumes:
+      - redis_test:/data
+    tmpfs:
+      - /tmp
+      - /var/tmp
+
+volumes:
+  postgres_test:
+  redis_test:
+  bundle_test:
+  node_modules_test:
+  cache_test:

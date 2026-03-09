@@ -27,15 +27,20 @@
       "LABEL": "หรัสผ่าน",
       "PLACEHOLDER": "หรัสผ่าน",
       "ERROR": "หรัสผ่านนั้นสั้นเกินไป.",
-      "IS_INVALID_PASSWORD": "รหัสผ่านต้องมีอย่างน้อย 1 ตัวอักษรภาษาอังกฤษพิมพ์เล็ก, 1 ตัวอักษรภาษาอังกฤษพิมพ์ใหญ่, 1 ตัวเลข และอักขระพิเศษ 1 ตัว."
+      "IS_INVALID_PASSWORD": "รหัสผ่านต้องมีอย่างน้อย 1 ตัวอักษรภาษาอังกฤษพิมพ์เล็ก, 1 ตัวอักษรภาษาอังกฤษพิมพ์ใหญ่, 1 ตัวเลข และอักขระพิเศษ 1 ตัว.",
+      "REQUIREMENTS_LENGTH": "At least 6 characters long",
+      "REQUIREMENTS_UPPERCASE": "At least one uppercase letter",
+      "REQUIREMENTS_LOWERCASE": "At least one lowercase letter",
+      "REQUIREMENTS_NUMBER": "At least one number",
+      "REQUIREMENTS_SPECIAL": "At least one special character"
     },
     "CONFIRM_PASSWORD": {
       "LABEL": "Confirm password",
       "PLACEHOLDER": "Confirm password",
-      "ERROR": "รหัสผ่านไม่เหมือนกัน."
+      "ERROR": "หรัสผ่านไม่ตรงกัน."
     },
     "API": {
-      "SUCCESS_MESSAGE": "ลงทะเบียนสำเร็จแล้ว",
+      "SUCCESS_MESSAGE": "Registration Successful",
       "ERROR_MESSAGE": "Could not connect to Woot server. Please try again."
     },
     "SUBMIT": "Create account",

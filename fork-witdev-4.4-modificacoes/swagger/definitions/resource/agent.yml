@@ -1,0 +1,35 @@
+type: object
+properties:
+  id:
+    type: integer
+  account_id:
+    type: integer
+  availability_status:
+    type: string
+    enum: ['available', 'busy', 'offline']
+    description: The availability status of the agent computed by Chatwoot.
+  auto_offline:
+    type: boolean
+    description: Whether the availability status of agent is configured to go offline automatically when away.
+  confirmed:
+    type: boolean
+    description: Whether the agent has confirmed their email address.
+  email:
+    type: string
+    description: The email of the agent
+  available_name:
+    type: string
+    description: The available name of the agent
+  name:
+    type: string
+    description: The name of the agent
+  role:
+    type: string
+    enum: ['agent', 'administrator']
+    description: The role of the agent
+  thumbnail:
+    type: string
+    description: The thumbnail of the agent
+  custom_role_id:
+    type: integer
+    description: The custom role id of the agent

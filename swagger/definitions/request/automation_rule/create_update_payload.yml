@@ -13,6 +13,7 @@ properties:
     enum:
       - conversation_created
       - conversation_updated
+      - conversation_resolved
       - message_created
     example: message_created
     description: The event when you want to execute the automation actions

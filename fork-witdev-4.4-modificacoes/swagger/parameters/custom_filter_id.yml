@@ -1,0 +1,6 @@
+in: path
+name: custom_filter_id
+schema:
+  type: integer
+required: true
+description: The numeric ID of the custom filter

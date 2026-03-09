@@ -1,0 +1,40 @@
+tags:
+  - Conversations API
+operationId: toggle-typing-status
+summary: Toggle typing status
+description: Toggles the typing status in a conversation
+security: []
+parameters:
+  - name: typing_status
+    in: query
+    required: true
+    schema:
+      type: string
+    description: Typing status, either 'on' or 'off'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          typing_status:
+            type: string
+            enum: ['on', 'off']
+            description: The typing status to set
+            example: 'on'
+responses:
+  '200':
+    description: Typing status toggled successfully
+  '401':
+    description: Unauthorized
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '404':
+    description: Conversation not found
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

@@ -27,15 +27,20 @@
       "LABEL": "Salasana",
       "PLACEHOLDER": "Salasana",
       "ERROR": "Salasana on liian lyhyt",
-      "IS_INVALID_PASSWORD": "Salasanan tulee sisältää vähintään 1 iso kirjain, 1 pieni kirjain, 1 numero ja 1 erikoismerkki."
+      "IS_INVALID_PASSWORD": "Salasanan tulee sisältää vähintään 1 iso kirjain, 1 pieni kirjain, 1 numero ja 1 erikoismerkki.",
+      "REQUIREMENTS_LENGTH": "At least 6 characters long",
+      "REQUIREMENTS_UPPERCASE": "At least one uppercase letter",
+      "REQUIREMENTS_LOWERCASE": "At least one lowercase letter",
+      "REQUIREMENTS_NUMBER": "At least one number",
+      "REQUIREMENTS_SPECIAL": "At least one special character"
     },
     "CONFIRM_PASSWORD": {
       "LABEL": "Vahvista salasana",
       "PLACEHOLDER": "Vahvista salasana",
-      "ERROR": "Salasanat eivät täsmää"
+      "ERROR": "Salasanat eivät täsmää."
     },
     "API": {
-      "SUCCESS_MESSAGE": "Rekisteröinti onnistui",
+      "SUCCESS_MESSAGE": "Registration Successful",
       "ERROR_MESSAGE": "Yhteyden muodostaminen Woot-palvelimelle ei onnistunut, yritä myöhemmin uudelleen"
     },
     "SUBMIT": "Create account",

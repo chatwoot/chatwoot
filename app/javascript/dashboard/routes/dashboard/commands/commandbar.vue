@@ -95,7 +95,7 @@ onMounted(setCommandBarData);
 
 <style lang="scss">
 ninja-keys {
-  --ninja-accent-color: var(--w-500);
+  --ninja-accent-color: rgba(39, 129, 246, 1);
   --ninja-font-family: 'Inter';
   z-index: 9999;
 }

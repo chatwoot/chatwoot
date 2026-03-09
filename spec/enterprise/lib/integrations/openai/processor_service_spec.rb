@@ -5,20 +5,38 @@ RSpec.describe Integrations::Openai::ProcessorService do
 
   let(:account) { create(:account) }
   let(:hook) { create(:integrations_hook, :openai, account: account) }
-  let(:expected_headers) { { 'Authorization' => "Bearer #{hook.settings['api_key']}" } }
-  let(:openai_response) do
-    {
-      'choices' => [
-        {
-          'message' => {
-            'content' => 'This is a reply from openai.'
-          }
-        }
-      ]
-    }.to_json
+
+  # Mock RubyLLM objects
+  let(:mock_chat) { instance_double(RubyLLM::Chat) }
+  let(:mock_context) { instance_double(RubyLLM::Context) }
+  let(:mock_config) { OpenStruct.new }
+  let(:mock_response) do
+    instance_double(
+      RubyLLM::Message,
+      content: 'This is a reply from openai.',
+      input_tokens: nil,
+      output_tokens: nil
+    )
+  end
+  let(:mock_empty_response) do
+    instance_double(
+      RubyLLM::Message,
+      content: '',
+      input_tokens: nil,
+      output_tokens: nil
+    )
   end
 
   let(:conversation) { create(:conversation, account: account) }
+
+  before do
+    allow(RubyLLM).to receive(:context).and_yield(mock_config).and_return(mock_context)
+    allow(mock_context).to receive(:chat).and_return(mock_chat)
+
+    allow(mock_chat).to receive(:with_instructions).and_return(mock_chat)
+    allow(mock_chat).to receive(:add_message).and_return(mock_chat)
+    allow(mock_chat).to receive(:ask).and_return(mock_response)
+  end
 
   describe '#perform' do
     context 'when event name is label_suggestion with labels with < 3 messages' do
@@ -49,21 +67,15 @@ RSpec.describe Integrations::Openai::ProcessorService do
       end
 
       it 'returns the label suggestions' do
-        stub_request(:post, 'https://api.openai.com/v1/chat/completions')
-          .with(body: anything, headers: expected_headers)
-          .to_return(status: 200, body: openai_response, headers: {})
-
         result = subject.perform
-        expect(result).to eq({ :message => 'This is a reply from openai.' })
+        expect(result).to eq({ message: 'This is a reply from openai.' })
       end
 
       it 'returns empty string if openai response is blank' do
-        stub_request(:post, 'https://api.openai.com/v1/chat/completions')
-          .with(body: anything, headers: expected_headers)
-          .to_return(status: 200, body: '{}', headers: {})
+        allow(mock_chat).to receive(:ask).and_return(mock_empty_response)
 
         result = subject.perform
-        expect(result).to eq({ :message => '' })
+        expect(result[:message]).to eq('')
       end
     end
 

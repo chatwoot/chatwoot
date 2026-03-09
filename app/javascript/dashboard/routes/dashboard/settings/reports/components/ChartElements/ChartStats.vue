@@ -27,12 +27,12 @@ const { calculateTrend, displayMetric, isAverageMetricType, fetchingStatus } =
 const trendColor = (value, key) => {
   if (isAverageMetricType(key)) {
     return value > 0
-      ? 'border-red-500 text-red-500'
-      : 'border-green-500 text-green-500';
+      ? 'border-n-ruby-9 text-n-ruby-9'
+      : 'border-n-teal-10 text-n-teal-10';
   }
   return value < 0
-    ? 'border-red-500 text-red-500'
-    : 'border-green-500 text-green-500';
+    ? 'border-n-ruby-9 text-n-ruby-9'
+    : 'border-n-teal-10 text-n-teal-10';
 };
 </script>
 

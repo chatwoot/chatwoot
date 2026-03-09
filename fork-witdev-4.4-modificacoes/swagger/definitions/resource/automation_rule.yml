@@ -1,0 +1,13 @@
+type: object
+properties:
+  payload:
+    description: Response payload that contains automation rule(s)
+    oneOf:
+      - type: array
+        description: Array of automation rules (for listing endpoint)
+        items:
+          $ref: '#/components/schemas/automation_rule_item'
+      - type: object
+        description: Single automation rule (for show/create/update endpoints)
+        allOf:
+          - $ref: '#/components/schemas/automation_rule_item' 

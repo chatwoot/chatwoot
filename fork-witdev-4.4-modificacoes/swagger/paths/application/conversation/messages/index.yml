@@ -1,0 +1,51 @@
+tags:
+  - Messages
+operationId: list-all-messages
+summary: Get messages
+security:
+  - userApiKey: []
+description: List all messages of a conversation
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            meta:
+              type: object
+              properties:
+                labels:
+                  type: array
+                  items:
+                    type: string
+                additional_attributes:
+                  type: object
+                contact:
+                  $ref: '#/components/schemas/contact'
+                assignee:
+                  $ref: '#/components/schemas/agent'
+                agent_last_seen_at:
+                  type: string
+                  format: date-time
+                assignee_last_seen_at:
+                  type: string
+                  format: date-time
+            payload:
+              type: array
+              description: Array of messages
+              items:
+                $ref: '#/components/schemas/message'
+  '404':
+    description: Conversation not found
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '401':
+    description: Unauthorized
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

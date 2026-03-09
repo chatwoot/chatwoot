@@ -8,13 +8,13 @@ import InlineInput from './InlineInput.vue';
     :layout="{ type: 'grid', width: '400' }"
   >
     <Variant title="Default">
-      <div class="p-4 bg-white dark:bg-slate-800">
+      <div class="p-4 bg-n-background">
         <InlineInput id="inline-input-1" placeholder="Default InlineInput" />
       </div>
     </Variant>
 
     <Variant title="With Label">
-      <div class="p-4 bg-white dark:bg-slate-800">
+      <div class="p-4 bg-n-background">
         <InlineInput
           id="inline-input-2"
           label="Username"
@@ -24,7 +24,7 @@ import InlineInput from './InlineInput.vue';
     </Variant>
 
     <Variant title="Disabled">
-      <div class="p-4 bg-white dark:bg-slate-800">
+      <div class="p-4 bg-n-background">
         <InlineInput
           id="inline-input-3"
           label="Disabled InlineInput"
@@ -35,24 +35,24 @@ import InlineInput from './InlineInput.vue';
     </Variant>
 
     <Variant title="With Custom Classes">
-      <div class="flex flex-col gap-4 p-4 bg-white dark:bg-slate-800">
+      <div class="flex flex-col gap-4 p-4 bg-n-background">
         <InlineInput
           id="inline-input-4"
           label="Custom Input Class"
           placeholder="Custom input style"
-          custom-input-class="placeholder:text-green-200 dark:placeholder:text-green-800"
+          custom-input-class="placeholder:text-n-teal-6 dark:placeholder:text-n-teal-6"
         />
         <InlineInput
           id="inline-input-5"
           label="Custom Label Class"
           placeholder="Custom label style"
-          custom-label-class="text-green-600 dark:text-green-400"
+          custom-label-class="text-n-teal-6 dark:text-n-teal-6"
         />
       </div>
     </Variant>
 
     <Variant title="Different Types">
-      <div class="flex flex-col gap-4 p-4 bg-white dark:bg-slate-800">
+      <div class="flex flex-col gap-4 p-4 bg-n-background">
         <InlineInput
           id="inline-input-6"
           label="Text"

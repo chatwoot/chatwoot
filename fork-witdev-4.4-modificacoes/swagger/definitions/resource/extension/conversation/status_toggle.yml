@@ -1,0 +1,14 @@
+type: object
+properties:
+  meta:
+    type: object
+  payload:
+    type: object
+    properties:
+      success:
+        type: boolean
+      current_status:
+        type: string
+        enum: ['open', 'resolved']
+      conversation_id:
+        type: number

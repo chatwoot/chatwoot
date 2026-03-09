@@ -23,7 +23,7 @@ RSpec.describe Captain::Tools::FirecrawlParserJob, type: :job do
       expect(document).to have_attributes(
         content: payload[:markdown],
         name: payload[:metadata]['title'],
-        external_link: payload[:metadata]['url'],
+        external_link: 'https://www.firecrawl.dev',
         status: 'available'
       )
     end
@@ -32,7 +32,7 @@ RSpec.describe Captain::Tools::FirecrawlParserJob, type: :job do
       existing_document = create(:captain_document,
                                  assistant: assistant,
                                  account: assistant.account,
-                                 external_link: payload[:metadata]['url'],
+                                 external_link: 'https://www.firecrawl.dev',
                                  content: 'old content',
                                  name: 'old title',
                                  status: :in_progress)
@@ -42,7 +42,9 @@ RSpec.describe Captain::Tools::FirecrawlParserJob, type: :job do
       end.not_to change(assistant.documents, :count)
 
       existing_document.reload
+      # Payload URL ends with '/', but we persist the canonical URL without it.
       expect(existing_document).to have_attributes(
+        external_link: 'https://www.firecrawl.dev',
         content: payload[:markdown],
         name: payload[:metadata]['title'],
         status: 'available'

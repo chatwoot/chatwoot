@@ -99,6 +99,13 @@
       "CHANGE_PRIORITY": "Mainīt prioritāti",
       "ADD_PRIVATE_NOTE": "Pievienot Privātu Piezīmi",
       "SEND_WEBHOOK_EVENT": "Nosūtīt Webhook Notikumu"
+    },
+    "PRIORITY_TYPES": {
+      "NONE": "Nav",
+      "LOW": "Zema",
+      "MEDIUM": "Vidēja",
+      "HIGH": "Augsta",
+      "URGENT": "Steidzama"
     }
   }
 }

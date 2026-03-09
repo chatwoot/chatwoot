@@ -137,6 +137,70 @@
         }
       }
     },
+    "WHATSAPP": {
+      "HEADER_TITLE": "WhatsApp campaigns",
+      "NEW_CAMPAIGN": "Create campaign",
+      "EMPTY_STATE": {
+        "TITLE": "No WhatsApp campaigns are available",
+        "SUBTITLE": "Launch a WhatsApp campaign to reach your customers directly. Send offers or make announcements with ease. Click 'Create campaign' to get started."
+      },
+      "CARD": {
+        "STATUS": {
+          "COMPLETED": "Завершено",
+          "SCHEDULED": "Scheduled"
+        },
+        "CAMPAIGN_DETAILS": {
+          "SENT_FROM": "Sent from",
+          "ON": "on"
+        }
+      },
+      "CREATE": {
+        "TITLE": "Create WhatsApp campaign",
+        "CANCEL_BUTTON_TEXT": "Скасувати",
+        "CREATE_BUTTON_TEXT": "Створити",
+        "FORM": {
+          "TITLE": {
+            "LABEL": "Назва",
+            "PLACEHOLDER": "Будь ласка, введіть назву кампанії",
+            "ERROR": "Необхідно вказати назву"
+          },
+          "INBOX": {
+            "LABEL": "Вибрати \"Вхідний\" канал",
+            "PLACEHOLDER": "Вибрати \"Вхідний\" канал",
+            "ERROR": "Канал потрібен"
+          },
+          "TEMPLATE": {
+            "LABEL": "WhatsApp Template",
+            "PLACEHOLDER": "Select a template",
+            "INFO": "Select a template to use for this campaign.",
+            "ERROR": "Template is required",
+            "PREVIEW_TITLE": "Процес {templateName}",
+            "LANGUAGE": "Мова",
+            "CATEGORY": "Категорія",
+            "VARIABLES_LABEL": "Змінні",
+            "VARIABLE_PLACEHOLDER": "Enter value for {variable}"
+          },
+          "AUDIENCE": {
+            "LABEL": "Аудиторія",
+            "PLACEHOLDER": "Оберіть мітки клієнта",
+            "ERROR": "Потрібна аудиторія"
+          },
+          "SCHEDULED_AT": {
+            "LABEL": "Запланований час",
+            "PLACEHOLDER": "Будь ласка, виберіть час",
+            "ERROR": "Запланований час обов'язковий"
+          },
+          "BUTTONS": {
+            "CREATE": "Створити",
+            "CANCEL": "Скасувати"
+          },
+          "API": {
+            "SUCCESS_MESSAGE": "WhatsApp campaign created successfully",
+            "ERROR_MESSAGE": "Сталася помилка, будь ласка, спробуйте ще раз."
+          }
+        }
+      }
+    },
     "CONFIRM_DELETE": {
       "TITLE": "Справді бажаєте видалити?",
       "DESCRIPTION": "The delete action is permanent and cannot be reversed.",

@@ -1,0 +1,50 @@
+button:not(.reset-base),
+input[type='button']:not(.reset-base),
+input[type='reset']:not(.reset-base),
+input[type='submit']:not(.reset-base),
+.button:not(.reset-base) {
+  appearance: none;
+  background-color: $color-woot;
+  border: 0;
+  border-radius: $base-border-radius;
+  color: $white;
+  cursor: pointer;
+  display: inline-flex;
+  font-size: $font-size-small;
+  -webkit-font-smoothing: antialiased;
+  font-weight: $font-weight-medium;
+  line-height: 1;
+  padding: $space-one $space-two;
+  text-decoration: none;
+  transition: background-color $base-duration $base-timing;
+  user-select: none;
+  vertical-align: middle;
+  white-space: nowrap;
+
+  &:hover {
+    background-color: mix($black, $color-woot, 20%);
+    color: $white;
+  }
+
+  &:focus {
+    outline: $focus-outline;
+    outline-offset: $focus-outline-offset;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+
+    &:hover {
+      background-color: $color-woot;
+    }
+  }
+}
+
+.button--alt {
+  background-color: transparent;
+  border: $base-border;
+  border-color: $blue;
+  color: $blue;
+  margin-bottom: $base-spacing;
+}

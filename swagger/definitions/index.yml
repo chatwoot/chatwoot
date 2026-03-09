@@ -74,6 +74,8 @@ integrations_app:
   $ref: ./resource/integrations/app.yml
 integrations_hook:
   $ref: ./resource/integrations/hook.yml
+audit_log:
+  $ref: ./resource/audit_log.yml
 
 ## public resources
 public_contact:
@@ -221,6 +223,8 @@ account_summary:
   $ref: './resource/reports/summary.yml'
 agent_conversation_metrics:
   $ref: './resource/reports/conversation/agent.yml'
+channel_summary:
+  $ref: './resource/reports/channel_summary.yml'
 
 contact_detail:
   $ref: ./resource/contact_detail.yml
@@ -246,3 +250,9 @@ contact_conversations_response:
   $ref: ./resource/contact_conversations_response.yml
 contactable_inboxes_response:
   $ref: ./resource/contactable_inboxes_response.yml
+reporting_event:
+  $ref: ./resource/reporting_event.yml
+reporting_event_meta:
+  $ref: ./resource/reporting_event_meta.yml
+reporting_events_list_response:
+  $ref: ./resource/reporting_events_list_response.yml

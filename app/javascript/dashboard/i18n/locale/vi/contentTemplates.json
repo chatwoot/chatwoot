@@ -1,0 +1,52 @@
+{
+  "CONTENT_TEMPLATES": {
+    "MODAL": {
+      "TITLE": "Twilio Templates",
+      "SUBTITLE": "Select the Twilio template you want to send",
+      "TEMPLATE_SELECTED_SUBTITLE": "Configure template: {templateName}"
+    },
+    "PICKER": {
+      "SEARCH_PLACEHOLDER": "Tìm kiếm Mẫu",
+      "NO_TEMPLATES_FOUND": "Không tìm thấy mẫu nào cho",
+      "NO_CONTENT": "No content",
+      "HEADER": "Header",
+      "BODY": "Body",
+      "FOOTER": "Footer",
+      "BUTTONS": "Buttons",
+      "CATEGORY": "Loại",
+      "MEDIA_CONTENT": "Media Content",
+      "MEDIA_CONTENT_FALLBACK": "media content",
+      "NO_TEMPLATES_AVAILABLE": "No Twilio templates available. Click refresh to sync templates from Twilio.",
+      "REFRESH_BUTTON": "Refresh templates",
+      "REFRESH_SUCCESS": "Templates refresh initiated. It may take a couple of minutes to update.",
+      "REFRESH_ERROR": "Failed to refresh templates. Please try again.",
+      "LABELS": {
+        "LANGUAGE": "Ngôn ngữ",
+        "TEMPLATE_BODY": "Nội dung của Mẫu",
+        "CATEGORY": "Loại"
+      },
+      "TYPES": {
+        "MEDIA": "Media",
+        "QUICK_REPLY": "Quick Reply",
+        "CALL_TO_ACTION": "Call to Action",
+        "TEXT": "Văn bản"
+      }
+    },
+    "PARSER": {
+      "VARIABLES_LABEL": "Biến",
+      "LANGUAGE": "Ngôn ngữ",
+      "CATEGORY": "Loại",
+      "VARIABLE_PLACEHOLDER": "Nhập giá trị {variable}",
+      "GO_BACK_LABEL": "Quay lại",
+      "SEND_MESSAGE_LABEL": "Gửi tin nhắn",
+      "FORM_ERROR_MESSAGE": "Vui lòng điền vào tất cả các biến trước khi gửi",
+      "MEDIA_HEADER_LABEL": "{type} Header",
+      "MEDIA_URL_LABEL": "Enter full media URL",
+      "MEDIA_URL_PLACEHOLDER": "https://example.com/image.jpg"
+    },
+    "FORM": {
+      "BACK_BUTTON": "Trờ về",
+      "SEND_MESSAGE_BUTTON": "Gửi tin nhắn"
+    }
+  }
+}

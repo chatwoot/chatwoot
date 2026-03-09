@@ -1,0 +1,133 @@
+version: '3.8'
+
+services:
+  rails:
+    image: witrocha/chatwit:v4.3.1
+    restart: always
+    depends_on:
+      - postgres
+      - redis
+    ports:
+      - "3000:3000"
+    environment:
+      - RAILS_ENV=production
+      - SECRET_KEY_BASE=${SECRET_KEY_BASE}
+      - FRONTEND_URL=${FRONTEND_URL}
+      - POSTGRES_HOST=postgres
+      - POSTGRES_USERNAME=${POSTGRES_USERNAME}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DATABASE=${POSTGRES_DATABASE}
+      - REDIS_URL=redis://redis:6379/0
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+      - RAILS_LOG_TO_STDOUT=true
+      - RAILS_SERVE_STATIC_FILES=true
+      - FORCE_SSL=${FORCE_SSL:-false}
+      - USE_INBOX_AVATAR_FOR_BOT=true
+      - INSTALLATION_PRICING_PLAN=enterprise
+      - INSTALLATION_PRICING_PLAN_QUANTITY=100
+      # Desabilitar telemetria
+      - DISABLE_TELEMETRY=true
+      - ANALYTICS_TOKEN=
+      - CHATWOOT_HUB_URL=http://localhost:9999
+      # Configurações de email
+      - MAILER_SENDER_EMAIL=${MAILER_SENDER_EMAIL}
+      - SMTP_DOMAIN=${SMTP_DOMAIN}
+      - SMTP_ADDRESS=${SMTP_ADDRESS}
+      - SMTP_PORT=${SMTP_PORT}
+      - SMTP_USERNAME=${SMTP_USERNAME}
+      - SMTP_PASSWORD=${SMTP_PASSWORD}
+      - SMTP_AUTHENTICATION=${SMTP_AUTHENTICATION:-login}
+      - SMTP_ENABLE_STARTTLS_AUTO=${SMTP_ENABLE_STARTTLS_AUTO:-true}
+      - SMTP_TLS=${SMTP_TLS:-false}
+    volumes:
+      - chatwit_storage:/app/storage
+      - chatwit_public:/app/public
+    command: ["sh", "-c", "bundle exec rails db:chatwit_prepare && bundle exec rails server -b 0.0.0.0"]
+    networks:
+      - chatwit_network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.chatwit.rule=Host(`${FRONTEND_URL}`)"
+      - "traefik.http.routers.chatwit.tls=true"
+      - "traefik.http.routers.chatwit.tls.certresolver=letsencrypt"
+
+  sidekiq:
+    image: witrocha/chatwit:v4.3.1
+    restart: always
+    depends_on:
+      - postgres
+      - redis
+    environment:
+      - RAILS_ENV=production
+      - SECRET_KEY_BASE=${SECRET_KEY_BASE}
+      - POSTGRES_HOST=postgres
+      - POSTGRES_USERNAME=${POSTGRES_USERNAME}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DATABASE=${POSTGRES_DATABASE}
+      - REDIS_URL=redis://redis:6379/0
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+      - RAILS_LOG_TO_STDOUT=true
+      - INSTALLATION_PRICING_PLAN=enterprise
+      - INSTALLATION_PRICING_PLAN_QUANTITY=100
+      # Desabilitar telemetria
+      - DISABLE_TELEMETRY=true
+      - ANALYTICS_TOKEN=
+      - CHATWOOT_HUB_URL=http://localhost:9999
+      # Configurações de email
+      - MAILER_SENDER_EMAIL=${MAILER_SENDER_EMAIL}
+      - SMTP_DOMAIN=${SMTP_DOMAIN}
+      - SMTP_ADDRESS=${SMTP_ADDRESS}
+      - SMTP_PORT=${SMTP_PORT}
+      - SMTP_USERNAME=${SMTP_USERNAME}
+      - SMTP_PASSWORD=${SMTP_PASSWORD}
+      - SMTP_AUTHENTICATION=${SMTP_AUTHENTICATION:-login}
+      - SMTP_ENABLE_STARTTLS_AUTO=${SMTP_ENABLE_STARTTLS_AUTO:-true}
+      - SMTP_TLS=${SMTP_TLS:-false}
+    volumes:
+      - chatwit_storage:/app/storage
+    command: ["bundle", "exec", "sidekiq", "-C", "config/sidekiq.yml"]
+    networks:
+      - chatwit_network
+
+  postgres:
+    image: pgvector/pgvector:pg16
+    restart: always
+    volumes:
+      - chatwit_postgres:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=${POSTGRES_DATABASE}
+      - POSTGRES_USER=${POSTGRES_USERNAME}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    networks:
+      - chatwit_network
+    # Expose apenas na rede interna, não expor publicamente
+    # ports:
+    #   - "5432:5432"
+
+  redis:
+    image: redis:7-alpine
+    restart: always
+    command: ["sh", "-c", "redis-server --requirepass \"$REDIS_PASSWORD\""]
+    environment:
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+    volumes:
+      - chatwit_redis:/data
+    networks:
+      - chatwit_network
+    # Expose apenas na rede interna, não expor publicamente
+    # ports:
+    #   - "6379:6379"
+
+volumes:
+  chatwit_postgres:
+    driver: local
+  chatwit_redis:
+    driver: local
+  chatwit_storage:
+    driver: local
+  chatwit_public:
+    driver: local
+
+networks:
+  chatwit_network:
+    driver: bridge 

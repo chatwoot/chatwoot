@@ -1,0 +1,9 @@
+tags:
+  - CSAT Survey Page
+operationId: get-csat-survey-page
+summary: Get CSAT survey page
+description: You can redirect the client to this URL, instead of implementing the CSAT survey component yourself.
+security: []
+responses:
+  '200':
+    description: Success

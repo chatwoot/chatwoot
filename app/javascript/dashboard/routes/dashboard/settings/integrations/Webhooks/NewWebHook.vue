@@ -1,21 +1,25 @@
 <script>
 import { useAlert } from 'dashboard/composables';
-import globalConfigMixin from 'shared/mixins/globalConfigMixin';
+import { useBranding } from 'shared/composables/useBranding';
 import { mapGetters } from 'vuex';
 import WebhookForm from './WebhookForm.vue';
 
 export default {
   components: { WebhookForm },
-  mixins: [globalConfigMixin],
   props: {
     onClose: {
       type: Function,
       required: true,
     },
   },
+  setup() {
+    const { replaceInstallationName } = useBranding();
+    return {
+      replaceInstallationName,
+    };
+  },
   computed: {
     ...mapGetters({
-      globalConfig: 'globalConfig/get',
       uiFlags: 'webhooks/getUIFlags',
     }),
   },
@@ -43,10 +47,7 @@ export default {
     <woot-modal-header
       :header-title="$t('INTEGRATION_SETTINGS.WEBHOOK.ADD.TITLE')"
       :header-content="
-        useInstallationName(
-          $t('INTEGRATION_SETTINGS.WEBHOOK.FORM.DESC'),
-          globalConfig.installationName
-        )
+        replaceInstallationName($t('INTEGRATION_SETTINGS.WEBHOOK.FORM.DESC'))
       "
     />
     <WebhookForm

@@ -1,0 +1,34 @@
+tags:
+  - Reports
+operationId: get-account-conversation-metrics
+summary: Account Conversation Metrics
+security:
+  - userApiKey: []
+description: Get conversation metrics for Account
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          type: object
+          description: 'Object of account conversation metrics'
+          properties:
+            open:
+              type: number
+            unattended:
+              type: number
+            unassigned:
+              type: number
+  '404':
+    description: reports not found
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '403':
+    description: Access denied
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

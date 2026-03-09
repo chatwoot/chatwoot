@@ -1,0 +1,32 @@
+tags:
+  - Teams
+operationId: get-team-members
+summary: List Agents in Team
+description: Get Details of Agents in an Team
+security:
+  - userApiKey: []
+parameters:
+  - $ref: '#/components/parameters/account_id'
+  - $ref: '#/components/parameters/team_id'
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          type: array
+          description: 'Array of all agents in the team'
+          items:
+            $ref: '#/components/schemas/agent'
+  '403':
+    description: Access denied
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '404':
+    description: Team not found
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

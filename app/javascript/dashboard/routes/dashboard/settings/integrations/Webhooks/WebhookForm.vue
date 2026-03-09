@@ -55,7 +55,9 @@ export default {
   data() {
     return {
       url: this.value.url || '',
+      name: this.value.name || '',
       subscriptions: this.value.subscriptions || [],
+      includeAccessToken: this.value.include_access_token || false,
       supportedWebhookEvents: SUPPORTED_WEBHOOK_EVENTS,
     };
   },
@@ -68,12 +70,17 @@ export default {
         }
       );
     },
+    webhookNameInputPlaceholder() {
+      return this.$t('INTEGRATION_SETTINGS.WEBHOOK.FORM.NAME.PLACEHOLDER');
+    },
   },
   methods: {
     onSubmit() {
       this.$emit('submit', {
         url: this.url,
+        name: this.name,
         subscriptions: this.subscriptions,
+        include_access_token: this.includeAccessToken,
       });
     },
     getI18nKey,
@@ -96,6 +103,15 @@ export default {
         <span v-if="v$.url.$error" class="message">
           {{ $t('INTEGRATION_SETTINGS.WEBHOOK.FORM.END_POINT.ERROR') }}
         </span>
+      </label>
+      <label>
+        {{ $t('INTEGRATION_SETTINGS.WEBHOOK.FORM.NAME.LABEL') }}
+        <input
+          v-model="name"
+          type="text"
+          name="name"
+          :placeholder="webhookNameInputPlaceholder"
+        />
       </label>
       <label :class="{ error: v$.url.$error }" class="mb-2">
         {{ $t('INTEGRATION_SETTINGS.WEBHOOK.FORM.SUBSCRIPTIONS.LABEL') }}
@@ -124,6 +140,45 @@ export default {
               )} (${event})`
             }}
           </label>
+        </div>
+      </div>
+
+      <!-- Seção para incluir ACCESS_TOKEN -->
+      <div
+        class="flex flex-col gap-2.5 mb-4 p-4 bg-slate-25 dark:bg-slate-800 rounded-lg border border-slate-75 dark:border-slate-700"
+      >
+        <div class="flex items-center justify-between">
+          <div class="flex flex-col">
+            <label
+              class="text-sm font-medium text-slate-700 dark:text-slate-300"
+            >
+              {{ $t('INTEGRATION_SETTINGS.WEBHOOK.FORM.ACCESS_TOKEN.LABEL') }}
+            </label>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">
+              {{ $t('INTEGRATION_SETTINGS.WEBHOOK.FORM.ACCESS_TOKEN.HELP') }}
+            </p>
+          </div>
+          <div class="flex items-center">
+            <input
+              id="includeAccessToken"
+              v-model="includeAccessToken"
+              type="checkbox"
+              name="includeAccessToken"
+              class="w-4 h-4 text-woot-500 bg-slate-100 border-slate-300 rounded focus:ring-woot-500 dark:focus:ring-woot-600 dark:ring-offset-slate-800 focus:ring-2 dark:bg-slate-700 dark:border-slate-600"
+            />
+            <label
+              for="includeAccessToken"
+              class="ml-2 text-sm font-medium text-slate-900 dark:text-slate-300"
+            >
+              {{
+                includeAccessToken
+                  ? $t('INTEGRATION_SETTINGS.WEBHOOK.FORM.ACCESS_TOKEN.ENABLED')
+                  : $t(
+                      'INTEGRATION_SETTINGS.WEBHOOK.FORM.ACCESS_TOKEN.DISABLED'
+                    )
+              }}
+            </label>
+          </div>
         </div>
       </div>
     </div>

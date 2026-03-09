@@ -1,0 +1,36 @@
+######  Captain Agent Tools Configuration #######
+# id: Tool identifier used to resolve the class (Captain::Tools::{PascalCase(id)}Tool)
+# title: Human-readable tool name for frontend display
+# description: Brief description of what the tool does
+# icon: Icon name for frontend display (frontend icon system)
+#######################################################
+
+- id: add_contact_note
+  title: 'Add Contact Note'
+  description: 'Add a note to a contact profile'
+  icon: 'note-add'
+
+- id: add_private_note
+  title: 'Add Private Note'
+  description: 'Add a private note to a conversation (internal only)'
+  icon: 'eye-off'
+
+- id: update_priority
+  title: 'Update Priority'
+  description: 'Update conversation priority level'
+  icon: 'exclamation-triangle'
+
+- id: add_label_to_conversation
+  title: 'Add Label to Conversation'
+  description: 'Add a label to a conversation'
+  icon: 'tag'
+
+- id: faq_lookup
+  title: 'FAQ Lookup'
+  description: 'Search FAQ responses using semantic similarity'
+  icon: 'search'
+
+- id: handoff
+  title: 'Handoff to Human'
+  description: 'Hand off the conversation to a human agent'
+  icon: 'user-switch'

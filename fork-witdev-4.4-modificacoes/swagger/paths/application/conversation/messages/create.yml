@@ -1,0 +1,35 @@
+tags:
+  - Messages
+operationId: create-a-new-message-in-a-conversation
+summary: Create New Message
+description: Create a new message in the conversation
+security:
+  - userApiKey: []
+  - agentBotApiKey: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/conversation_message_create_payload'
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          allOf:
+            - $ref: '#/components/schemas/generic_id'
+            - $ref: '#/components/schemas/message'
+  '404':
+    description: Conversation not found
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '403':
+    description: Access denied
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

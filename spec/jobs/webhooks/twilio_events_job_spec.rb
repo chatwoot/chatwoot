@@ -79,4 +79,25 @@ RSpec.describe Webhooks::TwilioEventsJob do
       described_class.perform_now(params_with_media)
     end
   end
+
+  context 'when location message is present' do
+    let(:params_with_location) do
+      {
+        From: 'whatsapp:+1234567890',
+        To: 'whatsapp:+0987654321',
+        MessageType: 'location',
+        Latitude: '12.160894393921',
+        Longitude: '75.265205383301',
+        AccountSid: 'AC123',
+        SmsSid: 'SM123'
+      }
+    end
+
+    it 'processes the location message' do
+      service = double
+      expect(Twilio::IncomingMessageService).to receive(:new).with(params: params_with_location).and_return(service)
+      expect(service).to receive(:perform)
+      described_class.perform_now(params_with_location)
+    end
+  end
 end

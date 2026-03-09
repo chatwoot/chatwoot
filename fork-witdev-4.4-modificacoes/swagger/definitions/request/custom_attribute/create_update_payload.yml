@@ -1,0 +1,36 @@
+type: object
+properties:
+  attribute_display_name:
+    type: string
+    description: Attribute display name
+    example: 'Custom Attribute'
+  attribute_display_type:
+    type: integer
+    description: Attribute display type (text- 0, number- 1, currency- 2, percent- 3, link- 4, date- 5, list- 6, checkbox- 7)
+    example: 0
+  attribute_description:
+    type: string
+    description: Attribute description
+    example: 'This is a custom attribute'
+  attribute_key:
+    type: string
+    description: Attribute unique key value
+    example: 'custom_attribute'
+  attribute_values:
+    type: array
+    description: Attribute values
+    items:
+      type: string
+    example: ['value1', 'value2']
+  attribute_model:
+    type: integer
+    description: Attribute type(conversation_attribute- 0, contact_attribute- 1)
+    example: 0
+  regex_pattern:
+    type: string
+    description: Regex pattern (Only applicable for type- text). The regex pattern is used to validate the attribute value(s).
+    example: '^[a-zA-Z0-9]+$'
+  regex_cue:
+    type: string
+    description: Regex cue message (Only applicable for type- text). The cue message is shown when the regex pattern is not matched.
+    example: 'Please enter a valid value'

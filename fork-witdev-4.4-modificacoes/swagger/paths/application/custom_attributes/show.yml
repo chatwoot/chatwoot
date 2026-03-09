@@ -1,0 +1,34 @@
+tags:
+  - Custom Attributes
+operationId: get-details-of-a-single-custom-attribute
+summary: Get a custom attribute details
+security:
+  - userApiKey: []
+description: Get the details of a custom attribute in the account
+parameters:
+  - $ref: '#/components/parameters/account_id'
+  - in: path
+    name: id
+    schema:
+      type: integer
+    required: true
+    description: The ID of the custom attribute to be updated.
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/custom_attribute'
+  '401':
+    description: Unauthorized
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '404':
+    description: The given attribute ID does not exist in the account
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

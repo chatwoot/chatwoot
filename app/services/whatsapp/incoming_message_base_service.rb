@@ -32,9 +32,18 @@ class Whatsapp::IncomingMessageBaseService
     set_contact
     return unless @contact
 
-    set_conversation
-    create_messages
-    clear_message_source_id_from_redis
+    # Early rejection for blocked contacts - discard message completely
+    if @contact.blocked?
+      Rails.logger.info("[WHATSAPP] Discarding message from blocked contact: #{@contact.id}")
+      clear_message_source_id_from_redis
+      return
+    end
+
+    ActiveRecord::Base.transaction do
+      set_conversation
+      create_messages
+      clear_message_source_id_from_redis
+    end
   end
 
   def process_statuses
@@ -92,6 +101,9 @@ class Whatsapp::IncomingMessageBaseService
 
     @contact_inbox = contact_inbox
     @contact = contact_inbox.contact
+
+    # Update existing contact name if ProfileName is available and current name is just phone number
+    update_contact_with_profile_name(contact_params)
   end
 
   def set_conversation
@@ -148,20 +160,79 @@ class Whatsapp::IncomingMessageBaseService
       message_type: :incoming,
       sender: @contact,
       source_id: message[:id].to_s,
-      in_reply_to_external_id: @in_reply_to_external_id
+      in_reply_to_external_id: @in_reply_to_external_id,
+      content_attributes: extract_interactive_data(message)
     )
+  end
+
+  # Extracts button_reply and list_reply data from WhatsApp interactive messages
+  # This data is stored in content_attributes for use by SocialWise Flow and other integrations
+  def extract_interactive_data(message)
+    return {} unless message[:type] == 'interactive'
+
+    interactive_data = {}
+
+    # Extract button reply data
+    if message.dig(:interactive, :button_reply)
+      button_reply = message[:interactive][:button_reply]
+      interactive_data[:button_reply] = {
+        id: button_reply[:id],
+        title: button_reply[:title]
+      }
+      interactive_data[:interaction_type] = 'button_reply'
+    end
+
+    # Extract list reply data
+    if message.dig(:interactive, :list_reply)
+      list_reply = message[:interactive][:list_reply]
+      interactive_data[:list_reply] = {
+        id: list_reply[:id],
+        title: list_reply[:title],
+        description: list_reply[:description]
+      }
+      interactive_data[:interaction_type] = 'list_reply'
+    end
+
+    # Store the full interactive payload for debugging/future use
+    interactive_data[:interactive_payload] = message[:interactive] if interactive_data.any?
+
+    interactive_data
   end
 
   def attach_contact(contact)
     phones = contact[:phones]
     phones = [{ phone: 'Phone number is not available' }] if phones.blank?
 
+    name_info = contact['name'] || {}
+    contact_meta = {
+      firstName: name_info['first_name'],
+      lastName: name_info['last_name']
+    }.compact
+
     phones.each do |phone|
       @message.attachments.new(
         account_id: @message.account_id,
         file_type: file_content_type(message_type),
-        fallback_title: phone[:phone].to_s
+        fallback_title: phone[:phone].to_s,
+        meta: contact_meta
       )
     end
+  end
+
+  def update_contact_with_profile_name(contact_params)
+    profile_name = contact_params.dig(:profile, :name)
+    return if profile_name.blank?
+    return if @contact.name == profile_name
+
+    # Only update if current name exactly matches the phone number or formatted phone number
+    return unless contact_name_matches_phone_number?
+
+    @contact.update!(name: profile_name)
+  end
+
+  def contact_name_matches_phone_number?
+    phone_number = "+#{@processed_params[:messages].first[:from]}"
+    formatted_phone_number = TelephoneNumber.parse(phone_number).international_number
+    @contact.name == phone_number || @contact.name == formatted_phone_number
   end
 end

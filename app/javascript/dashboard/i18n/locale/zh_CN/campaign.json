@@ -137,6 +137,70 @@
         }
       }
     },
+    "WHATSAPP": {
+      "HEADER_TITLE": "WhatsApp campaigns",
+      "NEW_CAMPAIGN": "创建活动",
+      "EMPTY_STATE": {
+        "TITLE": "No WhatsApp campaigns are available",
+        "SUBTITLE": "Launch a WhatsApp campaign to reach your customers directly. Send offers or make announcements with ease. Click 'Create campaign' to get started."
+      },
+      "CARD": {
+        "STATUS": {
+          "COMPLETED": "已完成",
+          "SCHEDULED": "已计划"
+        },
+        "CAMPAIGN_DETAILS": {
+          "SENT_FROM": "发自",
+          "ON": "于"
+        }
+      },
+      "CREATE": {
+        "TITLE": "Create WhatsApp campaign",
+        "CANCEL_BUTTON_TEXT": "取消",
+        "CREATE_BUTTON_TEXT": "创建",
+        "FORM": {
+          "TITLE": {
+            "LABEL": "标题",
+            "PLACEHOLDER": "请输入活动标题",
+            "ERROR": "标题是必填项"
+          },
+          "INBOX": {
+            "LABEL": "选择收件箱",
+            "PLACEHOLDER": "选择收件箱",
+            "ERROR": "收件箱是必填项"
+          },
+          "TEMPLATE": {
+            "LABEL": "WhatsApp Template",
+            "PLACEHOLDER": "Select a template",
+            "INFO": "Select a template to use for this campaign.",
+            "ERROR": "Template is required",
+            "PREVIEW_TITLE": "{templateName} 处理中",
+            "LANGUAGE": "语言",
+            "CATEGORY": "类别",
+            "VARIABLES_LABEL": "参数",
+            "VARIABLE_PLACEHOLDER": "Enter value for {variable}"
+          },
+          "AUDIENCE": {
+            "LABEL": "受众",
+            "PLACEHOLDER": "选择客户标签",
+            "ERROR": "受众是必填项"
+          },
+          "SCHEDULED_AT": {
+            "LABEL": "计划时间",
+            "PLACEHOLDER": "请选择时间",
+            "ERROR": "计划时间是必填项"
+          },
+          "BUTTONS": {
+            "CREATE": "创建",
+            "CANCEL": "取消"
+          },
+          "API": {
+            "SUCCESS_MESSAGE": "WhatsApp campaign created successfully",
+            "ERROR_MESSAGE": "发生错误，请重试。"
+          }
+        }
+      }
+    },
     "CONFIRM_DELETE": {
       "TITLE": "确定删除吗？",
       "DESCRIPTION": "删除操作是永久性的，无法恢复。",

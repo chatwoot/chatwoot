@@ -1,0 +1,61 @@
+#Additional translations at https://github.com/plataformatec/devise/wiki/I18n
+"no":
+  devise:
+    confirmations:
+      confirmed: "Din e-postadresse har blitt bekreftet."
+      send_instructions: "Du vil om noen minutter motta en e-post med instruksjoner om hvordan du bekrefter din e-postadresse."
+      send_paranoid_instructions: "Hvis e-postadressen din finnes i databasen vår, vil du om noen minutter motta en e-post med instruksjoner for hvordan du bekrefter din e-postadresse."
+    failure:
+      already_authenticated: "Du allerede er pålogget."
+      inactive: "Kontoen din er ikke aktivert ennå."
+      invalid: "Ugyldig %{authentication_keys}/passord eller så er ikke kontoen bekreftet ennå."
+      locked: "Kontoen er låst."
+      last_attempt: "Du har ett forsøk til før kontoen låses."
+      not_found_in_database: "Ugyldig %{authentication_keys} eller passord."
+      timeout: "Økten din har utløpt. Vennligst logg inn igjen for å fortsette."
+      unauthenticated: "Du må logge inn eller registrere deg før du fortsetter."
+      unconfirmed: "Du må bekrefte e-postadressen din før du fortsetter."
+    mailer:
+      confirmation_instructions:
+        subject: "Bekreftelsesinstruksjoner"
+      reset_password_instructions:
+        subject: "Tilbakestillingsinstruksjoner"
+      unlock_instructions:
+        subject: "Opplåsningsinstruksjoner"
+      password_change:
+        subject: "Passordet er endret"
+    omniauth_callbacks:
+      failure: "Kunne ikke autorisere deg fra %{kind} fordi \"%{reason}\"."
+      success: "Godkjent fra %{kind} konto."
+    passwords:
+      no_token: "Du får ikke tilgang til denne siden uten å komme fra en e-post for tilbakestilling av passord. Hvis du kommer fra en tilbakestillings-e-post, vennligst forsikre deg om at du brukte hele URL-adressen."
+      send_instructions: "Du vil om noen minutter motta en e-post med instruksjoner om hvordan du bekrefter din e-postadresse."
+      send_paranoid_instructions: "Hvis e-postadressen din finnes i databasen vår, vil du om noen minutter motta en e-post med instruksjoner for hvordan du bekrefter din e-postadresse."
+      updated: "Passordet er endret. Du er nå logget inn."
+      updated_not_active: "Ditt passord er endret."
+    registrations:
+      destroyed: "Ha det bra! Kontoen din er kansellert. Vi håper å se deg igjen snart."
+      signed_up: "Velkommen! Registreringen var vellykket."
+      signed_up_but_inactive: "Du er registrert, men vi kan ikke logge deg på fordi kontoen ikke er aktivert ennå."
+      signed_up_but_locked: "Du er registrert, men vi kan ikke logge deg på fordi kontoen din er låst."
+      signed_up_but_unconfirmed: "En melding med en bekreftelseslenke er sendt til e-postadressen din. Følg linken for å aktivere kontoen din."
+      update_needs_confirmation: "Du har oppdatert kontoen din, men vi må bekrefte din nye e-postadresse. Vennligst sjekk e-posten din og følg linken for å bekrefte din nye e-postadresse."
+      updated: "Din konto er oppdatert."
+    sessions:
+      signed_in: "Logget inn."
+      signed_out: "Logget ut."
+      already_signed_out: "Logget ut."
+    unlocks:
+      send_instructions: "Du vil om noen få minutter motta en e-post med instruksjoner om hvordan du låser opp kontoen din."
+      send_paranoid_instructions: "Hvis din konto finnes, vil du om noen få minutter motta en e-post med instruksjoner om hvordan du låser den opp."
+      unlocked: "Kontoen din er blitt låst opp. Logg på for å fortsette."
+  errors:
+    messages:
+      already_confirmed: "var allerede bekreftet. Vennligst prøv å logge inn"
+      confirmation_period_expired: "må bekreftes innen %{period}, vennligst be om en ny"
+      expired: "har utløpt, vennligst be om en ny"
+      not_found: "ikke funnet"
+      not_locked: "var ikke låst"
+      not_saved:
+        one: "1 feil forhindret denne %{resource} fra å bli lagret:"
+        other: "%{count} feil har hindret %{resource} fra å bli lagret:"

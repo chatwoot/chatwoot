@@ -15,7 +15,7 @@ const incrementCount = () => {
     :layout="{ type: 'grid', width: '400px' }"
   >
     <Variant title="Basic">
-      <div class="grid gap-2 p-4 bg-white dark:bg-slate-900">
+      <div class="grid gap-2 p-4 bg-n-background">
         <p>{{ count }}</p>
         <ConfirmButton
           label="Delete"
@@ -26,7 +26,7 @@ const incrementCount = () => {
     </Variant>
 
     <Variant title="Color Change">
-      <div class="grid gap-2 p-4 bg-white dark:bg-slate-900">
+      <div class="grid gap-2 p-4 bg-n-background">
         <p>{{ count }}</p>
         <ConfirmButton
           label="Archive"

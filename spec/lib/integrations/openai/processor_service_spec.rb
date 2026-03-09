@@ -1,256 +1,200 @@
 require 'rails_helper'
 
 RSpec.describe Integrations::Openai::ProcessorService do
-  subject { described_class.new(hook: hook, event: event) }
+  subject(:service) { described_class.new(hook: hook, event: event) }
 
   let(:account) { create(:account) }
   let(:hook) { create(:integrations_hook, :openai, account: account) }
-  let(:expected_headers) { { 'Authorization' => "Bearer #{hook.settings['api_key']}" } }
-  let(:openai_response) do
-    {
-      'choices' => [
-        {
-          'message' => {
-            'content' => 'This is a reply from openai.'
-          }
-        }
-      ]
-    }.to_json
+
+  # Mock RubyLLM objects
+  let(:mock_chat) { instance_double(RubyLLM::Chat) }
+  let(:mock_context) { instance_double(RubyLLM::Context) }
+  let(:mock_config) { OpenStruct.new }
+  let(:mock_response) do
+    instance_double(
+      RubyLLM::Message,
+      content: 'This is a reply from openai.',
+      input_tokens: nil,
+      output_tokens: nil
+    )
   end
-  let!(:conversation) { create(:conversation, account: account) }
-  let!(:customer_message) { create(:message, account: account, conversation: conversation, message_type: :incoming, content: 'hello agent') }
-  let!(:agent_message) { create(:message, account: account, conversation: conversation, message_type: :outgoing, content: 'hello customer') }
-  let!(:summary_prompt) do
-    if ChatwootApp.enterprise?
-      Rails.root.join('enterprise/lib/enterprise/integrations/openai_prompts/summary.txt').read
-    else
-      'Please summarize the key points from the following conversation between support agents and customer as bullet points for the next ' \
-        "support agent looking into the conversation. Reply in the user's language."
-    end
+  let(:mock_response_with_usage) do
+    instance_double(
+      RubyLLM::Message,
+      content: 'This is a reply from openai.',
+      input_tokens: 50,
+      output_tokens: 20
+    )
+  end
+
+  before do
+    allow(RubyLLM).to receive(:context).and_yield(mock_config).and_return(mock_context)
+    allow(mock_context).to receive(:chat).and_return(mock_chat)
+
+    allow(mock_chat).to receive(:with_instructions).and_return(mock_chat)
+    allow(mock_chat).to receive(:add_message).and_return(mock_chat)
+    allow(mock_chat).to receive(:ask).and_return(mock_response)
   end
 
   describe '#perform' do
-    context 'when event name is rephrase' do
-      let(:event) { { 'name' => 'rephrase', 'data' => { 'tone' => 'friendly', 'content' => 'This is a test message' } } }
+    describe 'text transformation operations' do
+      shared_examples 'text transformation operation' do |event_name|
+        let(:event) { { 'name' => event_name, 'data' => { 'content' => 'This is a test' } } }
 
-      it 'returns the rephrased message using the tone in data' do
-        request_body = {
-          'model' => 'gpt-4o-mini',
-          'messages' => [
-            {
-              'role' => 'system',
-              'content' => 'You are a helpful support agent. ' \
-                           'Please rephrase the following response. ' \
-                           'Ensure that the reply should be in user language.'
-            },
-            { 'role' => 'user', 'content' => event['data']['content'] }
-          ]
-        }.to_json
+        it 'returns the transformed text' do
+          result = service.perform
+          expect(result[:message]).to eq('This is a reply from openai.')
+        end
 
-        stub_request(:post, 'https://api.openai.com/v1/chat/completions')
-          .with(body: request_body, headers: expected_headers)
-          .to_return(status: 200, body: openai_response, headers: {})
+        it 'sends the user content to the LLM' do
+          service.perform
+          expect(mock_chat).to have_received(:ask).with('This is a test')
+        end
 
-        result = subject.perform
-        expect(result).to eq({ :message => 'This is a reply from openai.' })
+        it 'sets system instructions' do
+          service.perform
+          expect(mock_chat).to have_received(:with_instructions).with(a_string_including('You are a helpful support agent'))
+        end
+      end
+
+      it_behaves_like 'text transformation operation', 'rephrase'
+      it_behaves_like 'text transformation operation', 'fix_spelling_grammar'
+      it_behaves_like 'text transformation operation', 'shorten'
+      it_behaves_like 'text transformation operation', 'expand'
+      it_behaves_like 'text transformation operation', 'make_friendly'
+      it_behaves_like 'text transformation operation', 'make_formal'
+      it_behaves_like 'text transformation operation', 'simplify'
+    end
+
+    describe 'conversation-based operations' do
+      let!(:conversation) { create(:conversation, account: account) }
+
+      before do
+        create(:message, account: account, conversation: conversation, message_type: :incoming, content: 'hello agent')
+        create(:message, account: account, conversation: conversation, message_type: :outgoing, content: 'hello customer')
+      end
+
+      context 'with reply_suggestion event' do
+        let(:event) { { 'name' => 'reply_suggestion', 'data' => { 'conversation_display_id' => conversation.display_id } } }
+
+        it 'returns the suggested reply' do
+          result = service.perform
+          expect(result[:message]).to eq('This is a reply from openai.')
+        end
+
+        it 'adds conversation history before asking' do
+          service.perform
+          # Should add the first message as history, then ask with the last message
+          expect(mock_chat).to have_received(:add_message).with(role: :user, content: 'hello agent')
+          expect(mock_chat).to have_received(:ask).with('hello customer')
+        end
+      end
+
+      context 'with summarize event' do
+        let(:event) { { 'name' => 'summarize', 'data' => { 'conversation_display_id' => conversation.display_id } } }
+
+        it 'returns the summary' do
+          result = service.perform
+          expect(result[:message]).to eq('This is a reply from openai.')
+        end
+
+        it 'sends formatted conversation as a single message' do
+          service.perform
+          # Summarize sends conversation as a formatted string in one user message
+          expect(mock_chat).to have_received(:ask).with(a_string_matching(/Customer.*hello agent.*Agent.*hello customer/m))
+        end
+      end
+
+      context 'with label_suggestion event and no labels' do
+        let(:event) { { 'name' => 'label_suggestion', 'data' => { 'conversation_display_id' => conversation.display_id } } }
+
+        it 'returns nil' do
+          expect(service.perform).to be_nil
+        end
       end
     end
 
-    context 'when event name is reply_suggestion' do
-      let(:event) { { 'name' => 'reply_suggestion', 'data' => { 'conversation_display_id' => conversation.display_id } } }
+    describe 'edge cases' do
+      context 'with unknown event name' do
+        let(:event) { { 'name' => 'unknown', 'data' => {} } }
 
-      it 'returns the suggested reply' do
-        request_body = {
-          'model' => 'gpt-4o-mini',
-          'messages' => [
-            { role: 'system',
-              content: Rails.root.join('lib/integrations/openai/openai_prompts/reply.txt').read },
-            { role: 'user', content: customer_message.content },
-            { role: 'assistant', content: agent_message.content }
-          ]
-        }.to_json
-
-        # Update the stub_request with the correct messages order
-        stub_request(:post, 'https://api.openai.com/v1/chat/completions')
-          .with(body: request_body, headers: expected_headers)
-          .to_return(status: 200, body: openai_response, headers: {})
-
-        result = subject.perform
-        expect(result).to eq({ :message => 'This is a reply from openai.' })
+        it 'returns nil' do
+          expect(service.perform).to be_nil
+        end
       end
     end
 
-    context 'when event name is summarize' do
-      let(:event) { { 'name' => 'summarize', 'data' => { 'conversation_display_id' => conversation.display_id } } }
-      let(:conversation_messages) do
-        "Customer #{customer_message.sender.name} : #{customer_message.content}\nAgent #{agent_message.sender.name} : #{agent_message.content}\n"
+    describe 'response structure' do
+      let(:event) { { 'name' => 'rephrase', 'data' => { 'content' => 'test message' } } }
+
+      context 'when response includes usage data' do
+        before do
+          allow(mock_chat).to receive(:ask).and_return(mock_response_with_usage)
+        end
+
+        it 'returns message with usage data' do
+          result = service.perform
+
+          expect(result[:message]).to eq('This is a reply from openai.')
+          expect(result[:usage]['prompt_tokens']).to eq(50)
+          expect(result[:usage]['completion_tokens']).to eq(20)
+          expect(result[:usage]['total_tokens']).to eq(70)
+        end
+
+        it 'includes request_messages in response' do
+          result = service.perform
+
+          expect(result[:request_messages]).to be_an(Array)
+          expect(result[:request_messages].length).to eq(2)
+        end
       end
 
-      it 'returns the summarized message' do
-        request_body = {
-          'model' => 'gpt-4o-mini',
-          'messages' => [
-            { 'role' => 'system',
-              'content' => summary_prompt },
-            { 'role' => 'user', 'content' => conversation_messages }
-          ]
-        }.to_json
+      context 'when response does not include usage data' do
+        it 'returns message with zero total tokens' do
+          result = service.perform
 
-        stub_request(:post, 'https://api.openai.com/v1/chat/completions')
-          .with(body: request_body, headers: expected_headers)
-          .to_return(status: 200, body: openai_response, headers: {})
+          expect(result[:message]).to eq('This is a reply from openai.')
+          expect(result[:usage]['total_tokens']).to eq(0)
+        end
 
-        result = subject.perform
-        expect(result).to eq({ :message => 'This is a reply from openai.' })
-      end
-    end
+        it 'includes request_messages in response' do
+          result = service.perform
 
-    context 'when event name is label_suggestion with no labels' do
-      let(:event) { { 'name' => 'label_suggestion', 'data' => { 'conversation_display_id' => conversation.display_id } } }
-
-      it 'returns nil' do
-        result = subject.perform
-        expect(result).to be_nil
-      end
-    end
-
-    context 'when event name is not one that can be processed' do
-      let(:event) { { 'name' => 'unknown', 'data' => {} } }
-
-      it 'returns nil' do
-        expect(subject.perform).to be_nil
-      end
-    end
-
-    context 'when event name is fix_spelling_grammar' do
-      let(:event) { { 'name' => 'fix_spelling_grammar', 'data' => { 'content' => 'This is a test' } } }
-
-      it 'returns the corrected text' do
-        request_body = {
-          'model' => 'gpt-4o-mini',
-          'messages' => [
-            { 'role' => 'system', 'content' => 'You are a helpful support agent. Please fix the spelling and grammar of the following response. ' \
-                                               'Ensure that the reply should be in user language.' },
-            { 'role' => 'user', 'content' => event['data']['content'] }
-          ]
-        }.to_json
-
-        stub_request(:post, 'https://api.openai.com/v1/chat/completions')
-          .with(body: request_body, headers: expected_headers)
-          .to_return(status: 200, body: openai_response, headers: {})
-
-        result = subject.perform
-        expect(result).to eq({ :message => 'This is a reply from openai.' })
+          expect(result[:request_messages]).to be_an(Array)
+        end
       end
     end
 
-    context 'when event name is shorten' do
-      let(:event) { { 'name' => 'shorten', 'data' => { 'content' => 'This is a test' } } }
+    describe 'endpoint configuration' do
+      let(:event) { { 'name' => 'rephrase', 'data' => { 'content' => 'test message' } } }
 
-      it 'returns the shortened text' do
-        request_body = {
-          'model' => 'gpt-4o-mini',
-          'messages' => [
-            { 'role' => 'system', 'content' => 'You are a helpful support agent. Please shorten the following response. ' \
-                                               'Ensure that the reply should be in user language.' },
-            { 'role' => 'user', 'content' => event['data']['content'] }
-          ]
-        }.to_json
+      context 'without CAPTAIN_OPEN_AI_ENDPOINT configured' do
+        before { InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_ENDPOINT')&.destroy }
 
-        stub_request(:post, 'https://api.openai.com/v1/chat/completions')
-          .with(body: request_body, headers: expected_headers)
-          .to_return(status: 200, body: openai_response, headers: {})
+        it 'uses default OpenAI endpoint' do
+          expect(Llm::Config).to receive(:with_api_key).with(
+            hook.settings['api_key'],
+            api_base: 'https://api.openai.com/v1'
+          ).and_call_original
 
-        result = subject.perform
-        expect(result).to eq({ :message => 'This is a reply from openai.' })
+          service.perform
+        end
       end
-    end
 
-    context 'when event name is expand' do
-      let(:event) { { 'name' => 'expand', 'data' => { 'content' => 'help you' } } }
+      context 'with CAPTAIN_OPEN_AI_ENDPOINT configured' do
+        before do
+          InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_ENDPOINT')&.destroy
+          create(:installation_config, name: 'CAPTAIN_OPEN_AI_ENDPOINT', value: 'https://custom.azure.com/')
+        end
 
-      it 'returns the expanded text' do
-        request_body = {
-          'model' => 'gpt-4o-mini',
-          'messages' => [
-            { 'role' => 'system', 'content' => 'You are a helpful support agent. Please expand the following response. ' \
-                                               'Ensure that the reply should be in user language.' },
-            { 'role' => 'user', 'content' => event['data']['content'] }
-          ]
-        }.to_json
+        it 'uses custom endpoint' do
+          expect(Llm::Config).to receive(:with_api_key).with(
+            hook.settings['api_key'],
+            api_base: 'https://custom.azure.com/v1'
+          ).and_call_original
 
-        stub_request(:post, 'https://api.openai.com/v1/chat/completions')
-          .with(body: request_body, headers: expected_headers)
-          .to_return(status: 200, body: openai_response, headers: {})
-
-        result = subject.perform
-        expect(result).to eq({ :message => 'This is a reply from openai.' })
-      end
-    end
-
-    context 'when event name is make_friendly' do
-      let(:event) { { 'name' => 'make_friendly', 'data' => { 'content' => 'This is a test' } } }
-
-      it 'returns the friendly text' do
-        request_body = {
-          'model' => 'gpt-4o-mini',
-          'messages' => [
-            { 'role' => 'system', 'content' => 'You are a helpful support agent. Please make the following response more friendly. ' \
-                                               'Ensure that the reply should be in user language.' },
-            { 'role' => 'user', 'content' => event['data']['content'] }
-          ]
-        }.to_json
-
-        stub_request(:post, 'https://api.openai.com/v1/chat/completions')
-          .with(body: request_body, headers: expected_headers)
-          .to_return(status: 200, body: openai_response, headers: {})
-
-        result = subject.perform
-        expect(result).to eq({ :message => 'This is a reply from openai.' })
-      end
-    end
-
-    context 'when event name is make_formal' do
-      let(:event) { { 'name' => 'make_formal', 'data' => { 'content' => 'This is a test' } } }
-
-      it 'returns the formal text' do
-        request_body = {
-          'model' => 'gpt-4o-mini',
-          'messages' => [
-            { 'role' => 'system', 'content' => 'You are a helpful support agent. Please make the following response more formal. ' \
-                                               'Ensure that the reply should be in user language.' },
-            { 'role' => 'user', 'content' => event['data']['content'] }
-          ]
-        }.to_json
-
-        stub_request(:post, 'https://api.openai.com/v1/chat/completions')
-          .with(body: request_body, headers: expected_headers)
-          .to_return(status: 200, body: openai_response, headers: {})
-
-        result = subject.perform
-        expect(result).to eq({ :message => 'This is a reply from openai.' })
-      end
-    end
-
-    context 'when event name is simplify' do
-      let(:event) { { 'name' => 'simplify', 'data' => { 'content' => 'This is a test' } } }
-
-      it 'returns the simplified text' do
-        request_body = {
-          'model' => 'gpt-4o-mini',
-          'messages' => [
-            { 'role' => 'system', 'content' => 'You are a helpful support agent. Please simplify the following response. ' \
-                                               'Ensure that the reply should be in user language.' },
-            { 'role' => 'user', 'content' => event['data']['content'] }
-          ]
-        }.to_json
-
-        stub_request(:post, 'https://api.openai.com/v1/chat/completions')
-          .with(body: request_body, headers: expected_headers)
-          .to_return(status: 200, body: openai_response, headers: {})
-
-        result = subject.perform
-        expect(result).to eq({ :message => 'This is a reply from openai.' })
+          service.perform
+        end
       end
     end
   end

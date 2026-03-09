@@ -111,7 +111,16 @@ class WebhookListener < BaseListener
     account.webhooks.account_type.each do |webhook|
       next unless webhook.subscriptions.include?(payload[:event])
 
-      WebhookJob.perform_later(webhook.url, payload)
+      final_payload = payload.dup
+
+      # Incluir ACCESS_TOKEN se o webhook estiver configurado para isso
+      if webhook.include_access_token
+        administrator = account.administrators.first
+        access_token = administrator&.access_token&.token
+        final_payload[:ACCESS_TOKEN] = access_token if access_token.present?
+      end
+
+      WebhookJob.perform_later(webhook.url, final_payload)
     end
   end
 

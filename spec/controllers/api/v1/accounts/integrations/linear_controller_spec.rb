@@ -14,6 +14,12 @@ RSpec.describe 'Linear Integration API', type: :request do
 
   describe 'DELETE /api/v1/accounts/:account_id/integrations/linear' do
     it 'deletes the linear integration' do
+      # Stub the HTTP call to Linear's revoke endpoint
+      allow(HTTParty).to receive(:post).with(
+        'https://api.linear.app/oauth/revoke',
+        anything
+      ).and_return(instance_double(HTTParty::Response, success?: true))
+
       delete "/api/v1/accounts/#{account.id}/integrations/linear",
              headers: agent.create_new_auth_token,
              as: :json
@@ -113,7 +119,7 @@ RSpec.describe 'Linear Integration API', type: :request do
         let(:created_issue) { { data: { identifier: 'ENG-123', title: 'Sample Issue' } } }
 
         it 'returns the created issue' do
-          allow(processor_service).to receive(:create_issue).with(issue_params.stringify_keys).and_return(created_issue)
+          allow(processor_service).to receive(:create_issue).with(issue_params.stringify_keys, agent).and_return(created_issue)
 
           post "/api/v1/accounts/#{account.id}/integrations/linear/create_issue",
                params: issue_params,
@@ -125,7 +131,7 @@ RSpec.describe 'Linear Integration API', type: :request do
         end
 
         it 'creates activity message when conversation is provided' do
-          allow(processor_service).to receive(:create_issue).with(issue_params.stringify_keys).and_return(created_issue)
+          allow(processor_service).to receive(:create_issue).with(issue_params.stringify_keys, agent).and_return(created_issue)
 
           expect do
             post "/api/v1/accounts/#{account.id}/integrations/linear/create_issue",
@@ -144,7 +150,7 @@ RSpec.describe 'Linear Integration API', type: :request do
 
       context 'when issue creation fails' do
         it 'returns error message and does not create activity message' do
-          allow(processor_service).to receive(:create_issue).with(issue_params.stringify_keys).and_return(error: 'error message')
+          allow(processor_service).to receive(:create_issue).with(issue_params.stringify_keys, agent).and_return(error: 'error message')
 
           expect do
             post "/api/v1/accounts/#{account.id}/integrations/linear/create_issue",
@@ -171,7 +177,7 @@ RSpec.describe 'Linear Integration API', type: :request do
         let(:linked_issue) { { data: { 'id' => 'issue1', 'link' => 'https://linear.app/issue1' } } }
 
         it 'returns the linked issue and creates activity message' do
-          allow(processor_service).to receive(:link_issue).with(link, issue_id, title).and_return(linked_issue)
+          allow(processor_service).to receive(:link_issue).with(link, issue_id, title, agent).and_return(linked_issue)
 
           expect do
             post "/api/v1/accounts/#{account.id}/integrations/linear/link_issue",
@@ -193,7 +199,7 @@ RSpec.describe 'Linear Integration API', type: :request do
 
       context 'when issue linking fails' do
         it 'returns error message and does not create activity message' do
-          allow(processor_service).to receive(:link_issue).with(link, issue_id, title).and_return(error: 'error message')
+          allow(processor_service).to receive(:link_issue).with(link, issue_id, title, agent).and_return(error: 'error message')
 
           expect do
             post "/api/v1/accounts/#{account.id}/integrations/linear/link_issue",

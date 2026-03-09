@@ -1,0 +1,33 @@
+{
+  "COMPANIES": {
+    "HEADER": "Şirketler",
+    "SORT_BY": {
+      "LABEL": "Sırala",
+      "OPTIONS": {
+        "NAME": "İsim",
+        "DOMAIN": "Alan",
+        "CREATED_AT": "Oluşturma zamanı",
+        "CONTACTS_COUNT": "Contacts count"
+      }
+    },
+    "ORDER": {
+      "LABEL": "Order",
+      "OPTIONS": {
+        "ASCENDING": "Artan",
+        "DESCENDING": "Azalan"
+      }
+    },
+    "SEARCH_PLACEHOLDER": "Şirketleri ara...",
+    "LOADING": "Şirketler yükleniyor...",
+    "UNNAMED": "İsimsiz Şirket",
+    "CONTACTS_COUNT": "{n} kişi | {n} kişi",
+    "EMPTY_STATE": {
+      "TITLE": "Hiçbir şirket bulunamadı"
+    }
+  },
+  "COMPANIES_LAYOUT": {
+    "PAGINATION_FOOTER": {
+      "SHOWING": "{totalItems} şirketten {startItem} – {endItem} arası gösteriliyor  | {totalItems} şirketten {startItem} – {endItem} arası gösteriliyor"
+    }
+  }
+}

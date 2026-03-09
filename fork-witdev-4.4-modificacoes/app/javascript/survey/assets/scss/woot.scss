@@ -1,0 +1,18 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+@import 'widget/assets/scss/reset';
+@import 'shared/assets/fonts/widget_fonts';
+@import 'dashboard/assets/scss/next-colors';
+
+html,
+body {
+  font-family: 'Inter', -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Tahoma, Arial, sans-serif;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  height: 100%;
+}
+
+.woot-survey-wrap {
+  height: 100%;
+}

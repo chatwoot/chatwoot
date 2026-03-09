@@ -13,20 +13,58 @@ describe('#getters', () => {
   it('get one_off campaigns', () => {
     const state = { records: campaigns };
     expect(getters.getCampaigns(state)('one_off')).toEqual([
-      {
-        id: 2,
-        title: 'Onboarding Campaign',
-        description: null,
-        account_id: 1,
-        campaign_type: 'one_off',
+      campaigns[1],
+      campaigns[3],
+      campaigns[4],
+    ]);
+  });
 
-        trigger_rules: {
-          url: 'https://chatwoot.com',
-          time_on_page: '20',
-        },
-        created_at: '2021-05-03T08:15:35.828Z',
-        updated_at: '2021-05-03T08:15:35.828Z',
-      },
+  it('get campaigns by channel type', () => {
+    const state = { records: campaigns };
+    expect(
+      getters.getCampaigns(state)('one_off', ['Channel::Whatsapp'])
+    ).toEqual([campaigns[3]]);
+  });
+
+  it('get campaigns by multiple channel types', () => {
+    const state = { records: campaigns };
+    expect(
+      getters.getCampaigns(state)('one_off', [
+        'Channel::TwilioSms',
+        'Channel::Sms',
+      ])
+    ).toEqual([campaigns[1], campaigns[4]]);
+  });
+
+  it('get SMS campaigns', () => {
+    const state = { records: campaigns };
+    const mockGetters = {
+      getCampaigns: getters.getCampaigns(state),
+    };
+    expect(getters.getSMSCampaigns(state, mockGetters)).toEqual([
+      campaigns[1],
+      campaigns[4],
+    ]);
+  });
+
+  it('get WhatsApp campaigns', () => {
+    const state = { records: campaigns };
+    const mockGetters = {
+      getCampaigns: getters.getCampaigns(state),
+    };
+    expect(getters.getWhatsAppCampaigns(state, mockGetters)).toEqual([
+      campaigns[3],
+    ]);
+  });
+
+  it('get Live Chat campaigns', () => {
+    const state = { records: campaigns };
+    const mockGetters = {
+      getCampaigns: getters.getCampaigns(state),
+    };
+    expect(getters.getLiveChatCampaigns(state, mockGetters)).toEqual([
+      campaigns[0],
+      campaigns[2],
     ]);
   });
 

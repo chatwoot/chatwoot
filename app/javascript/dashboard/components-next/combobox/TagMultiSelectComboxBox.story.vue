@@ -20,14 +20,14 @@ const preselectedValues = ref([1, 2]);
     :layout="{ type: 'grid', width: '300px' }"
   >
     <Variant title="Default">
-      <div class="w-full p-4 bg-white h-80 dark:bg-slate-900">
+      <div class="w-full p-4 bg-n-background h-80">
         <TagMultiSelectComboBox v-model="selectedValues" :options="options" />
         <p class="mt-2">Selected values: {{ selectedValues }}</p>
       </div>
     </Variant>
 
     <Variant title="With Preselected Values">
-      <div class="w-full p-4 bg-white h-80 dark:bg-slate-900">
+      <div class="w-full p-4 bg-n-background h-80">
         <TagMultiSelectComboBox
           v-model="preselectedValues"
           :options="options"
@@ -37,13 +37,13 @@ const preselectedValues = ref([1, 2]);
     </Variant>
 
     <Variant title="Disabled">
-      <div class="w-full p-4 bg-white h-80 dark:bg-slate-900">
+      <div class="w-full p-4 bg-n-background h-80">
         <TagMultiSelectComboBox :options="options" disabled />
       </div>
     </Variant>
 
     <Variant title="With Error">
-      <div class="w-full p-4 bg-white h-80 dark:bg-slate-900">
+      <div class="w-full p-4 bg-n-background h-80">
         <TagMultiSelectComboBox
           :options="options"
           has-error

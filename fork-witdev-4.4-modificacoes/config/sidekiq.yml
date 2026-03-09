@@ -1,0 +1,36 @@
+# Sample configuration file for Sidekiq.
+# Options here can still be overridden by cmd line args.
+# Place this file at config/sidekiq.yml and Sidekiq will
+# pick it up automatically.
+---
+:verbose: false
+:concurrency: <%= ENV.fetch("SIDEKIQ_CONCURRENCY", 10) %>
+:timeout: 25
+:max_retries: 3
+
+# Sidekiq will run this file through ERB when reading it so you can
+# even put in dynamic logic, like a host-specific queue.
+# http://www.mikeperham.com/2013/11/13/advanced-sidekiq-host-specific-queues/
+# https://github.com/sidekiq/sidekiq/wiki/Advanced-Options
+# Since queues are declared without waits, the jobs in lower ranking queues will only be processed
+# if there are no jobs in higher ranking queues.
+:queues:
+  - critical
+  - high
+  - medium
+  - default
+  - mailers
+  - action_mailbox_routing
+  - low
+  - scheduled_jobs
+  - housekeeping
+  - async_database_migration
+  - active_storage_analysis
+  - active_storage_purge
+  - action_mailbox_incineration
+
+# you can override concurrency based on environment
+production:
+  :concurrency: <%= ENV.fetch("SIDEKIQ_CONCURRENCY", 10) %>
+staging:
+  :concurrency: <%= ENV.fetch("SIDEKIQ_CONCURRENCY", 10) %>

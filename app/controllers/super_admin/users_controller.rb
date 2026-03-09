@@ -13,11 +13,11 @@ class SuperAdmin::UsersController < SuperAdmin::ApplicationController
       redirect_to new_super_admin_user_path, notice: notice
     end
   end
-  #
-  # def update
-  #   super
-  #   send_foo_updated_email(requested_resource)
-  # end
+
+  def update
+    requested_resource.skip_reconfirmation! if resource_params[:confirmed_at].present?
+    super
+  end
 
   # Override this method to specify custom lookup behavior.
   # This will be used to set the resource for the `show`, `edit`, and `update`

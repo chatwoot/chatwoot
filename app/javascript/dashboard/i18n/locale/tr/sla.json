@@ -1,21 +1,21 @@
 {
   "SLA": {
-    "HEADER": "Service Level Agreements",
+    "HEADER": "Hizmet Seviyesi Anlaşmaları (SLA)",
     "ADD_ACTION": "Add SLA",
     "ADD_ACTION_LONG": "Create a new SLA Policy",
-    "DESCRIPTION": "Service Level Agreements (SLAs) are contracts that define clear expectations between your team and customers. They establish standards for response and resolution times, creating a framework for accountability and ensures a consistent, high-quality experience.",
-    "LEARN_MORE": "Learn more about SLA",
+    "DESCRIPTION": "Hizmet Seviyesi Anlaşmaları (SLA’lar), ekibiniz ile müşterileriniz arasındaki beklentileri net bir şekilde tanımlayan sözleşmelerdir. Yanıt ve çözüm süreleri için standartlar belirleyerek sorumluluk çerçevesi oluşturur ve tutarlı, yüksek kaliteli bir deneyim sağlar.",
+    "LEARN_MORE": "SLA hakkında daha fazla bilgi edinin",
     "LOADING": "Fetching SLAs",
     "PAYWALL": {
-      "TITLE": "Upgrade to create SLAs",
+      "TITLE": "SLA oluşturmak için yükseltin",
       "AVAILABLE_ON": "The SLA feature is only available in the Business and Enterprise plans.",
       "UPGRADE_PROMPT": "Upgrade your plan to get access to advanced features like team management, automations, custom attributes, and more.",
-      "UPGRADE_NOW": "Upgrade now",
+      "UPGRADE_NOW": "Şimdi yükselt",
       "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
     },
     "ENTERPRISE_PAYWALL": {
-      "AVAILABLE_ON": "The SLA feature is only available in the paid plans.",
-      "UPGRADE_PROMPT": "Upgrade to a paid plan to access advanced features like audit logs, agent capacity, and more.",
+      "AVAILABLE_ON": "SLA özelliği yalnızca ücretli planlarda mevcuttur.",
+      "UPGRADE_PROMPT": "Denetim kayıtları, temsilci kapasitesi ve daha fazlası gibi gelişmiş özelliklere erişmek için ücretli plana geçin.",
       "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
     },
     "LIST": {

@@ -1,0 +1,53 @@
+# https://github.com/microsoft/vscode-dev-containers/blob/master/containers/python-3-postgres/.devcontainer/docker-compose.yml
+# https://github.com/microsoft/vscode-dev-containers/blob/master/containers/ruby-rails/.devcontainer/devcontainer.json
+#
+
+version: '3'
+
+services:
+  app:
+    build:
+      context: ..
+      dockerfile: .devcontainer/Dockerfile
+      args:
+        VARIANT: 'ubuntu-22.04'
+        NODE_VERSION: '23.7.0'
+        RUBY_VERSION: '3.4.4'
+        # On Linux, you may need to update USER_UID and USER_GID below if not your local UID is not 1000.
+        USER_UID: '1000'
+        USER_GID: '1000'
+
+    volumes:
+      - ..:/workspace:cached
+
+    # Overrides default command so things don't shut down after the process ends.
+    command: sleep infinity
+
+    # Runs app on the same network as the database container, allows "forwardPorts" in devcontainer.json function.
+    network_mode: service:db
+
+  db:
+    image: pgvector/pgvector:pg16
+    restart: unless-stopped
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
+      POSTGRES_PASSWORD: postgres
+
+  redis:
+    image: redis:latest
+    restart: unless-stopped
+    network_mode: service:db
+    volumes:
+      - redis-data:/data
+
+  mailhog:
+    restart: unless-stopped
+    image: mailhog/mailhog
+    network_mode: service:db
+
+volumes:
+  postgres-data:
+  redis-data:

@@ -102,4 +102,98 @@ RSpec.describe Contact do
       expect(contact.contact_type).to eq 'lead'
     end
   end
+
+  describe '.resolved_contacts' do
+    let(:account) { create(:account) }
+
+    context 'when crm_v2 feature flag is disabled' do
+      it 'returns contacts with email, phone_number, or identifier using feature flag value' do
+        # Create contacts with different attributes
+        contact_with_email = create(:contact, account: account, email: 'test@example.com', name: 'John Doe')
+        contact_with_phone = create(:contact, account: account, phone_number: '+1234567890', name: 'Jane Smith')
+        contact_with_identifier = create(:contact, account: account, identifier: 'user123', name: 'Bob Wilson')
+        contact_without_details = create(:contact, account: account, name: 'Alice Johnson', email: nil, phone_number: nil, identifier: nil)
+
+        resolved = account.contacts.resolved_contacts(use_crm_v2: false)
+
+        expect(resolved).to include(contact_with_email, contact_with_phone, contact_with_identifier)
+        expect(resolved).not_to include(contact_without_details)
+      end
+    end
+
+    context 'when crm_v2 feature flag is enabled' do
+      it 'returns only contacts with contact_type lead' do
+        # Contact with email and phone - should be marked as lead
+        contact_with_details = create(:contact, account: account, email: 'customer@example.com', phone_number: '+1234567890', name: 'Customer One')
+        expect(contact_with_details.contact_type).to eq('lead')
+
+        # Contact without email/phone - should be marked as visitor
+        contact_without_details = create(:contact, account: account, name: 'Lead', email: nil, phone_number: nil)
+        expect(contact_without_details.contact_type).to eq('visitor')
+
+        # Force set contact_type to lead for testing
+        contact_without_details.update!(contact_type: 'lead')
+
+        resolved = account.contacts.resolved_contacts(use_crm_v2: true)
+
+        expect(resolved).to include(contact_with_details)
+        expect(resolved).to include(contact_without_details)
+      end
+
+      it 'includes all lead contacts regardless of email/phone presence' do
+        # Create a lead contact with only name
+        lead_contact = create(:contact, account: account, name: 'Test Lead')
+        lead_contact.update!(contact_type: 'lead')
+
+        # Create a customer contact
+        customer_contact = create(:contact, account: account, email: 'customer@test.com')
+        customer_contact.update!(contact_type: 'customer')
+
+        # Create a visitor contact
+        visitor_contact = create(:contact, account: account, name: 'Visitor')
+        expect(visitor_contact.contact_type).to eq('visitor')
+
+        resolved = account.contacts.resolved_contacts(use_crm_v2: true)
+
+        expect(resolved).to include(lead_contact)
+        expect(resolved).not_to include(customer_contact)
+        expect(resolved).not_to include(visitor_contact)
+      end
+
+      it 'returns contacts with email, phone_number, or identifier when explicitly passing use_crm_v2: false' do
+        # Even though feature flag is enabled, we're explicitly passing false
+        contact_with_email = create(:contact, account: account, email: 'test@example.com', name: 'John Doe')
+        contact_with_phone = create(:contact, account: account, phone_number: '+1234567890', name: 'Jane Smith')
+        contact_without_details = create(:contact, account: account, name: 'Alice Johnson', email: nil, phone_number: nil, identifier: nil)
+
+        resolved = account.contacts.resolved_contacts(use_crm_v2: false)
+
+        # Should use the old logic despite feature flag being enabled
+        expect(resolved).to include(contact_with_email, contact_with_phone)
+        expect(resolved).not_to include(contact_without_details)
+      end
+    end
+
+    context 'with mixed contact types' do
+      it 'correctly filters based on use_crm_v2 parameter regardless of feature flag' do
+        # Create different types of contacts
+        visitor_contact = create(:contact, account: account, name: 'Visitor')
+        lead_with_email = create(:contact, account: account, email: 'lead@example.com', name: 'Lead')
+        lead_without_email = create(:contact, account: account, name: 'Lead Only')
+        lead_without_email.update!(contact_type: 'lead')
+        customer_contact = create(:contact, account: account, email: 'customer@example.com', name: 'Customer')
+        customer_contact.update!(contact_type: 'customer')
+
+        # Test with use_crm_v2: false
+        resolved_old = account.contacts.resolved_contacts(use_crm_v2: false)
+        expect(resolved_old).to include(lead_with_email, customer_contact)
+        expect(resolved_old).not_to include(visitor_contact, lead_without_email)
+
+        # Test with use_crm_v2: true
+        resolved_new = account.contacts.resolved_contacts(use_crm_v2: true)
+        expect(resolved_new).to include(lead_with_email, lead_without_email)
+        expect(resolved_new).not_to include(visitor_contact, customer_contact)
+      end
+    end
+  end
 end

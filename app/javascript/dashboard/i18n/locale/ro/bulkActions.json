@@ -24,7 +24,7 @@
     },
     "LABELS": {
       "ASSIGN_LABELS": "Assign labels",
-      "NO_LABELS_FOUND": "Nu s-au găsit etichete pentru",
+      "NO_LABELS_FOUND": "Nu s-au găsit etichete",
       "ASSIGN_SELECTED_LABELS": "Atribuiți etichetele selectate",
       "ASSIGN_SUCCESFUL": "Etichete atribuite cu succes.",
       "ASSIGN_FAILED": "Failed to assign labels. Please try again."

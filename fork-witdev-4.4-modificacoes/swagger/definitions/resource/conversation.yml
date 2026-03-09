@@ -1,0 +1,91 @@
+type: object
+properties:
+  id:
+    type: number
+    description: ID of the conversation
+  messages:
+    type: array
+    items:
+      $ref: '#/components/schemas/message'
+  account_id:
+    type: number
+    description: Account Id
+  uuid:
+    type: string
+    description: UUID of the conversation
+  additional_attributes:
+    type: object
+    description: The object containing additional attributes related to the conversation
+  agent_last_seen_at:
+    type: number
+    description: The last activity at of the agent
+  assignee_last_seen_at:
+    type: number
+    description: The last activity at of the assignee
+  can_reply:
+    type: boolean
+    description: Whether the conversation can be replied to
+  contact_last_seen_at:
+    type: number
+    description: The last activity at of the contact
+  custom_attributes:
+    type: object
+    description: The object to save custom attributes for conversation, accepts custom attributes key and value
+  inbox_id:
+    type: number
+    description: ID of the inbox
+  labels:
+    type: array
+    items:
+      type: string
+    description: The labels of the conversation
+  muted:
+    type: boolean
+    description: Whether the conversation is muted
+  snoozed_until:
+    type: number
+    description: The time at which the conversation will be unmuted
+  status:
+    type: string
+    enum: ['open', 'resolved', 'pending']
+    description: The status of the conversation
+  created_at:
+    type: number
+    description: The time at which conversation was created
+  updated_at:
+    type: number
+    description: The time at which conversation was updated
+  timestamp:
+    type: string
+    description: The time at which conversation was created
+  first_reply_created_at:
+    type: number
+    description: The time at which the first reply was created
+  unread_count:
+    type: number
+    description: The number of unread messages
+  last_non_activity_message:
+    type: object
+    $ref: '#/components/schemas/message'
+    description: The last non activity message
+  last_activity_at:
+    type: number
+    description: The last activity at of the conversation
+  priority:
+    type: string
+    description: The priority of the conversation
+  waiting_since:
+    type: number
+    description: The time at which the conversation was waiting
+  sla_policy_id:
+    type: number
+    description: The ID of the SLA policy
+  applied_sla:
+    type: object
+    description: The applied SLA
+  sla_events:
+    type: array
+    items:
+      type: object
+      description: SLA event objects
+

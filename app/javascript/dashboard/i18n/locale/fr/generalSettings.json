@@ -3,7 +3,7 @@
     "LIMIT_MESSAGES": {
       "CONVERSATION": "Vous avez dépassé la limite de conversation. Le plan Hacker autorise uniquement 500 conversations.",
       "INBOXES": "Vous avez dépassé la limite de boîtes de réception. Le plan Hacker ne prend en charge que le chat en direct sur le site Web. Des boîtes de réception supplémentaires telles que l'email, WhatsApp, etc. nécessitent un plan payant.",
-      "AGENTS": "Vous avez dépassé la limite d'agents. Le plan Hacker permet uniquement 2 agents.",
+      "AGENTS": "You have exceeded the agent limit. Your plan only allows {allowedAgents} agents.",
       "NON_ADMIN": "Veuillez contacter votre administrateur pour mettre à niveau le plan et continuer à utiliser toutes les fonctionnalités."
     },
     "TITLE": "Paramètres du compte",
@@ -134,6 +134,7 @@
     "MULTISELECT": {
       "ENTER_TO_SELECT": "Appuyer sur Entrée pour sélectionner",
       "ENTER_TO_REMOVE": "Appuyer sur Entrée pour supprimer",
+      "NO_OPTIONS": "List is empty",
       "SELECT_ONE": "Sélectionnez un",
       "SELECT": "Sélectionner"
     }

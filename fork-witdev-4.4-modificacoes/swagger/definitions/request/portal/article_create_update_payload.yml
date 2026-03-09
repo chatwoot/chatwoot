@@ -1,0 +1,51 @@
+type: object
+properties:
+  title:
+    type: string
+    description: The title of the article
+    example: 'Article Title'
+  slug:
+    type: string
+    description: The slug of the article
+    example: 'article-title'
+  position:
+    type: integer
+    description: article position in category
+    example: 1
+  content:
+    type: string
+    description: The text content.
+    example: 'This is the content of the article'
+  description:
+    type: string
+    description: The description of the article
+    example: 'This is the description of the article'
+  category_id:
+    type: integer
+    description: The category id of the article
+    example: 1
+  author_id:
+    type: integer
+    description: The author agent id of the article
+    example: 1
+  associated_article_id:
+    type: integer
+    description: To associate similar articles to each other, e.g to provide the link for the reference.
+    example: 2
+  status:
+    type: integer
+    description: The status of the article. 0 for draft, 1 for published, 2 for archived
+    example: 1
+  locale:
+    type: string
+    description: The locale of the article
+    example: 'en'
+  meta:
+    type: object
+    description: Use for search
+    example:
+      {
+        tags: ['article_name'],
+        title: 'article title',
+        description: 'article description',
+      }

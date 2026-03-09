@@ -13,6 +13,7 @@ export const types = {
   REMOVE_PORTAL_ID: 'removePortalId',
   SET_HELP_PORTAL_UI_FLAG: 'setHelpCenterUIFlag',
   SET_PORTAL_SWITCHING_FLAG: 'setPortalSwitchingFlag',
+  SET_SSL_SETTINGS: 'setSSLSettings',
 };
 
 export const mutations = {
@@ -109,5 +110,19 @@ export const mutations = {
 
   [types.SET_PORTAL_SWITCHING_FLAG]($state, { isSwitching }) {
     $state.uiFlags.isSwitching = isSwitching;
+  },
+
+  [types.SET_SSL_SETTINGS]($state, { portalSlug, sslSettings }) {
+    const portal = $state.portals.byId[portalSlug];
+    $state.portals.byId = {
+      ...$state.portals.byId,
+      [portalSlug]: {
+        ...portal,
+        ssl_settings: {
+          ...portal.ssl_settings,
+          ...sslSettings,
+        },
+      },
+    };
   },
 };

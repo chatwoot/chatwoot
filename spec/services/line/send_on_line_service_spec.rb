@@ -112,7 +112,8 @@ describe Line::SendOnLineService do
               contents: [
                 {
                   type: 'text',
-                  text: 'test'
+                  text: 'test',
+                  wrap: true
                 },
                 {
                   type: 'button',

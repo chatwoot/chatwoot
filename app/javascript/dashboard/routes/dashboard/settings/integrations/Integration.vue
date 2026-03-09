@@ -5,7 +5,7 @@ import { useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { frontendURL } from '../../../../helper/URLHelper';
 import { useAlert } from 'dashboard/composables';
-import { useInstallationName } from 'shared/mixins/globalConfigMixin';
+import { useBranding } from 'shared/composables/useBranding';
 
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
@@ -26,11 +26,11 @@ const props = defineProps({
 const { t } = useI18n();
 const store = useStore();
 const router = useRouter();
+const { replaceInstallationName } = useBranding();
 
 const dialogRef = ref(null);
 
 const accountId = computed(() => store.getters.getCurrentAccountId);
-const globalConfig = computed(() => store.getters['globalConfig/get']);
 
 const openDeletePopup = () => {
   if (dialogRef.value) {
@@ -82,12 +82,7 @@ const confirmDeletion = () => {
           {{ integrationName }}
         </h3>
         <p class="text-n-slate-11 text-sm leading-6">
-          {{
-            useInstallationName(
-              integrationDescription,
-              globalConfig.installationName
-            )
-          }}
+          {{ replaceInstallationName(integrationDescription) }}
         </p>
       </div>
     </div>

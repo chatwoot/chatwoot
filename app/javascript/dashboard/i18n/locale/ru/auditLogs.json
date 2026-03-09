@@ -71,7 +71,7 @@
       "EDIT": "{agentName} обновил настройки учетной записи (#{id})"
     },
     "CONVERSATION": {
-      "DELETE": "{agentName} deleted conversation #{id}"
+      "DELETE": "{agentName} удалил диалог #{id}"
     }
   }
 }

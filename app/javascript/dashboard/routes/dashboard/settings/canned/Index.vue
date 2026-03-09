@@ -6,6 +6,7 @@ import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import { computed, onMounted, ref, defineOptions } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStoreGetters, useStore } from 'dashboard/composables/store';
+import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 
@@ -16,6 +17,8 @@ defineOptions({
 const getters = useStoreGetters();
 const store = useStore();
 const { t } = useI18n();
+
+const { getPlainText } = useMessageFormatter();
 
 const showAddPopup = ref(false);
 const loading = ref({});
@@ -141,14 +144,11 @@ const tableHeaders = computed(() => {
       />
       <p
         v-else-if="!records.length"
-        class="flex flex-col items-center justify-center h-full text-base text-slate-600 dark:text-slate-300 py-8"
+        class="flex flex-col items-center justify-center h-full text-base text-n-slate-11 py-8"
       >
         {{ $t('CANNED_MGMT.LIST.404') }}
       </p>
-      <table
-        v-else
-        class="min-w-full overflow-x-auto divide-y divide-slate-75 dark:divide-slate-700"
-      >
+      <table v-else class="min-w-full overflow-x-auto divide-y divide-n-weak">
         <thead>
           <th
             v-for="thHeader in tableHeaders"
@@ -185,7 +185,7 @@ const tableHeaders = computed(() => {
               {{ cannedItem.short_code }}
             </td>
             <td class="py-4 ltr:pr-4 rtl:pl-4 md:break-all whitespace-normal">
-              {{ cannedItem.content }}
+              {{ getPlainText(cannedItem.content) }}
             </td>
             <td class="py-4 flex justify-end gap-1">
               <Button

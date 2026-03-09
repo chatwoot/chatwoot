@@ -79,9 +79,9 @@ export default {
 </script>
 
 <template>
-  <div class="flex items-center justify-between w-full gap-1 h-14 px-4 mb-2">
+  <div class="flex items-center justify-between w-full gap-1 h-12 px-3">
     <div class="flex items-center gap-2 min-w-0 flex-1">
-      <h1 class="min-w-0 text-lg font-medium truncate text-n-slate-12">
+      <h1 class="min-w-0 text-base font-medium truncate text-n-slate-12">
         {{ $t('INBOX.LIST.TITLE') }}
       </h1>
       <div class="relative">

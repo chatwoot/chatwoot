@@ -1,0 +1,34 @@
+type: object
+description: Channel summary report containing conversation counts grouped by channel type and status. Available in version 4.10.0+.
+additionalProperties:
+  type: object
+  description: Conversation statistics for a specific channel type (e.g., Channel::WebWidget, Channel::Api)
+  properties:
+    open:
+      type: number
+      description: Number of open conversations
+    resolved:
+      type: number
+      description: Number of resolved conversations
+    pending:
+      type: number
+      description: Number of pending conversations
+    snoozed:
+      type: number
+      description: Number of snoozed conversations
+    total:
+      type: number
+      description: Total number of conversations
+example:
+  Channel::WebWidget:
+    open: 10
+    resolved: 20
+    pending: 5
+    snoozed: 2
+    total: 37
+  Channel::Api:
+    open: 5
+    resolved: 15
+    pending: 3
+    snoozed: 1
+    total: 24

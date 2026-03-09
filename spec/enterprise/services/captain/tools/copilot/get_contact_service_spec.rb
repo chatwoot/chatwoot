@@ -19,19 +19,8 @@ RSpec.describe Captain::Tools::Copilot::GetContactService do
   end
 
   describe '#parameters' do
-    it 'returns the expected parameter schema' do
-      expect(service.parameters).to eq(
-        {
-          type: 'object',
-          properties: {
-            contact_id: {
-              type: 'number',
-              description: 'The ID of the contact to retrieve'
-            }
-          },
-          required: %w[contact_id]
-        }
-      )
+    it 'defines contact_id parameter' do
+      expect(service.parameters.keys).to contain_exactly(:contact_id)
     end
   end
 
@@ -78,14 +67,14 @@ RSpec.describe Captain::Tools::Copilot::GetContactService do
 
   describe '#execute' do
     context 'when contact_id is blank' do
-      it 'returns error message' do
-        expect(service.execute({})).to eq('Missing required parameters')
+      it 'returns not found message' do
+        expect(service.execute(contact_id: nil)).to eq('Contact not found')
       end
     end
 
     context 'when contact is not found' do
       it 'returns not found message' do
-        expect(service.execute({ 'contact_id' => 999 })).to eq('Contact not found')
+        expect(service.execute(contact_id: 999)).to eq('Contact not found')
       end
     end
 
@@ -93,7 +82,7 @@ RSpec.describe Captain::Tools::Copilot::GetContactService do
       let(:contact) { create(:contact, account: account) }
 
       it 'returns the contact in llm text format' do
-        result = service.execute({ 'contact_id' => contact.id })
+        result = service.execute(contact_id: contact.id)
         expect(result).to eq(contact.to_llm_text)
       end
 
@@ -102,7 +91,7 @@ RSpec.describe Captain::Tools::Copilot::GetContactService do
         let(:other_contact) { create(:contact, account: other_account) }
 
         it 'returns not found message' do
-          expect(service.execute({ 'contact_id' => other_contact.id })).to eq('Contact not found')
+          expect(service.execute(contact_id: other_contact.id)).to eq('Contact not found')
         end
       end
     end

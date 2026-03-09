@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  channel_id: 1
+  account_id: 1
+
+two:
+  channel_id: 1
+  account_id: 1

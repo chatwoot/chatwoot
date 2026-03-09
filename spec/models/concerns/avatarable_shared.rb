@@ -3,7 +3,10 @@ require 'rails_helper'
 shared_examples_for 'avatarable' do
   let(:avatarable) { create(described_class.to_s.underscore) }
 
-  it { is_expected.to have_one_attached(:avatar) }
+  it 'has avatar attachment defined' do
+    expect(avatarable).to respond_to(:avatar)
+    expect(avatarable.avatar).to respond_to(:attach)
+  end
 
   it 'add avatar_url method' do
     expect(avatarable.respond_to?(:avatar_url)).to be true

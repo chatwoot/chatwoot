@@ -1,0 +1,40 @@
+
+services:  
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    environment:
+      PGADMIN_DEFAULT_EMAIL: witalo_rocha@hotmail.com
+      PGADMIN_DEFAULT_PASSWORD: Witr89!!Witr89!!
+    networks:
+     - minha_rede
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+          constraints:
+            - node.role == manager
+      resources:
+          limits:
+            cpus: '0.5'
+            memory: 1024M
+      labels:
+          - traefik.enable=true
+          #SSL
+          - traefik.http.routers.pgadmin.rule=Host(`pgadmin.witdev.com.br`)
+          - traefik.http.services.pgadmin.loadbalancer.server.port=80
+          - traefik.http.routers.pgadmin.service=pgadmin
+          - traefik.http.routers.pgadmin.tls.certresolver=le
+          - traefik.http.routers.pgadmin.entrypoints=websecure
+          - traefik.http.routers.pgadmin.tls=true
+
+volumes:
+  pgadmin_data:
+    external: true
+    name: pgadmin_data
+
+networks:
+  minha_rede:
+    external: true
+    name: minha_rede

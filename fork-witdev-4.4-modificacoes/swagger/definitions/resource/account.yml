@@ -1,0 +1,12 @@
+type: object
+properties:
+  id:
+    type: number
+    description: Account ID
+  name:
+    type: string
+    description: Name of the account
+  role:
+    type: string
+    enum: ['administrator', 'agent']
+    description: The user role in the account

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste QuickReplies</title>
+    <style>
+        .quick-replies-wrapper {
+            max-width: 100%;
+            border: 2px solid #ccc;
+            padding: 16px;
+            margin: 16px;
+            border-radius: 8px;
+        }
+
+        .quick-replies-text {
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 8px;
+            margin-bottom: 16px;
+        }
+
+        .quick-replies-buttons-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .quick-reply-button {
+            display: inline-flex;
+            align-items: center;
+            padding: 8px 16px;
+            margin: 4px;
+            font-size: 14px;
+            font-weight: 500;
+            border-radius: 20px;
+            border: 1px solid #e2e8f0;
+            background-color: #f8fafc;
+            color: #334155;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+            min-width: fit-content;
+            max-width: 200px;
+        }
+
+        .quick-reply-button:hover {
+            background-color: #e2e8f0;
+            border-color: #cbd5e1;
+        }
+    </style>
+</head>
+<body>
+    <h1>Teste do Componente QuickReplies</h1>
+    
+    <div class="quick-replies-wrapper">
+        <div class="quick-replies-text">
+            <p>RESPOSTA RAPIDAS ATÉ 1000 CARACTERES</p>
+        </div>
+        
+        <div class="quick-replies-buttons-container">
+            <div class="quick-replies-buttons-list">
+                <button class="quick-reply-button" type="button">
+                    Falar com a Dra
+                </button>
+                <button class="quick-reply-button" type="button">
+                    Mais Info
+                </button>
+                <button class="quick-reply-button" type="button">
+                    Finalizar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.querySelectorAll('.quick-reply-button').forEach(button => {
+            button.addEventListener('click', function() {
+                alert('Botão clicado: ' + this.textContent);
+            });
+        });
+    </script>
+</body>
+</html>

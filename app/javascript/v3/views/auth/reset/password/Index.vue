@@ -1,18 +1,17 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
-import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import { required, minLength, email } from '@vuelidate/validators';
-import globalConfigMixin from 'shared/mixins/globalConfigMixin';
+import { useBranding } from 'shared/composables/useBranding';
 import FormInput from '../../../../components/Form/Input.vue';
 import { resetPassword } from '../../../../api/auth';
-import SubmitButton from '../../../../components/Button/SubmitButton.vue';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 
 export default {
-  components: { FormInput, SubmitButton },
-  mixins: [globalConfigMixin],
+  components: { FormInput, NextButton },
   setup() {
-    return { v$: useVuelidate() };
+    const { replaceInstallationName } = useBranding();
+    return { v$: useVuelidate(), replaceInstallationName };
   },
   data() {
     return {
@@ -23,9 +22,6 @@ export default {
       },
       error: '',
     };
-  },
-  computed: {
-    ...mapGetters({ globalConfig: 'globalConfig/get' }),
   },
   validations() {
     return {
@@ -82,12 +78,7 @@ export default {
       <p
         class="mb-4 text-sm font-normal leading-6 tracking-normal text-n-slate-11"
       >
-        {{
-          useInstallationName(
-            $t('RESET_PASSWORD.DESCRIPTION'),
-            globalConfig.installationName
-          )
-        }}
+        {{ replaceInstallationName($t('RESET_PASSWORD.DESCRIPTION')) }}
       </p>
       <div class="space-y-5">
         <FormInput
@@ -98,10 +89,14 @@ export default {
           :placeholder="$t('RESET_PASSWORD.EMAIL.PLACEHOLDER')"
           @input="v$.credentials.email.$touch"
         />
-        <SubmitButton
+        <NextButton
+          lg
+          type="submit"
+          data-testid="submit_button"
+          class="w-full"
+          :label="$t('RESET_PASSWORD.SUBMIT')"
           :disabled="v$.credentials.email.$invalid || resetPassword.showLoading"
-          :button-text="$t('RESET_PASSWORD.SUBMIT')"
-          :loading="resetPassword.showLoading"
+          :is-loading="resetPassword.showLoading"
         />
       </div>
       <p class="mt-4 -mb-1 text-sm text-n-slate-11">

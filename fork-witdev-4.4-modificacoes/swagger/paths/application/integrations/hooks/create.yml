@@ -1,0 +1,28 @@
+tags:
+  - Integrations
+operationId: create-an-integration-hook
+summary: Create an integration hook
+description: Create an integration hook
+security:
+  - userApiKey: []
+parameters:
+  - $ref: '#/components/parameters/account_id'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/integrations_hook_create_payload'
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/integrations_hook'
+  '401':
+    description: Unauthorized
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

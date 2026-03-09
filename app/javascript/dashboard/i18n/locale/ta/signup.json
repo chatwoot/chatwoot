@@ -27,15 +27,20 @@
       "LABEL": "பாஸ்வேர்ட்",
       "PLACEHOLDER": "பாஸ்வேர்ட்",
       "ERROR": "Password is too short.",
-      "IS_INVALID_PASSWORD": "Password should contain atleast 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character."
+      "IS_INVALID_PASSWORD": "Password should contain atleast 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character.",
+      "REQUIREMENTS_LENGTH": "At least 6 characters long",
+      "REQUIREMENTS_UPPERCASE": "At least one uppercase letter",
+      "REQUIREMENTS_LOWERCASE": "At least one lowercase letter",
+      "REQUIREMENTS_NUMBER": "At least one number",
+      "REQUIREMENTS_SPECIAL": "At least one special character"
     },
     "CONFIRM_PASSWORD": {
       "LABEL": "Confirm password",
       "PLACEHOLDER": "Confirm password",
-      "ERROR": "Password doesnot match."
+      "ERROR": "Passwords do not match."
     },
     "API": {
-      "SUCCESS_MESSAGE": "வெற்றிகரமாக பதிவு செய்துவிட்டிர்கள்",
+      "SUCCESS_MESSAGE": "Registration Successful",
       "ERROR_MESSAGE": "Could not connect to Woot server. Please try again."
     },
     "SUBMIT": "Create account",

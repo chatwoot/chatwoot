@@ -1,4 +1,15 @@
 <% if !@is_plain_layout_enabled %>
+<% content_for :head do %>
+  <title><%= @portal.name %></title>
+  <meta name="title" content="<%= @portal.name %>">
+
+  <% if @og_image_url.present? %>
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="og:image" content="<%= @og_image_url.html_safe %>">
+    <meta property="og:image" content="<%= @og_image_url.html_safe %>">
+    <meta name="twitter:image" content="<%= @og_image_url.html_safe %>">
+  <% end %>
+<% end %>
 <section id="portal-bg" class="w-full bg-white dark:bg-slate-900 shadow-inner">
   <div id="portal-bg-gradient" class="pt-8 pb-8 md:pt-14 md:pb-6 min-h-[240px] md:min-h-[260px]">
     <div class="mx-auto max-w-5xl px-4 md:px-8 flex flex-col items-start">

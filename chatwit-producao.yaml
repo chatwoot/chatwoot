@@ -1,0 +1,170 @@
+version: '3.8'
+
+# -----------------------------------------------------------------------------
+# Âncoras para reutilização de código (Princípio DRY)
+# -----------------------------------------------------------------------------
+x-chatwoot-base: &chatwoot-base
+  image: witrocha/chatwit:latest
+  volumes:
+    - chatwoot_data:/app/storage
+    - chatwoot_public:/app/public
+  networks:
+    - minha_rede
+  logging:
+    driver: "json-file"
+    options:
+      max-size: "10m"
+      max-file: "3"
+
+x-chatwoot-environment: &chatwoot-environment
+  # ========== PRIVACIDADE E PUSH (Firebase) ==========
+  DISABLE_TELEMETRY: "true"
+  ENABLE_PUSH_RELAY_SERVER: "false"
+  CHATWOOT_HUB_URL: "http://localhost:9999"
+  FIREBASE_PROJECT_ID: "amandaoab-kiom"
+  FIREBASE_CREDENTIALS: |-
+    {
+      "type": "service_account",
+      "project_id": "amandaoab-kiom",
+      "private_key_id": "18d9eba858a15a261e7a99220f1ff4b3aba4551f",
+      "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDTGrSLcRIU+KUQ\nnbDs4iWqgqfbHPpx4cObYUPURyNv2Vte5xEmL63JXfjQVSSJO34XATzXBVIRg2A2\neEWE0DgJUXGAO1bWLMxvaxGKdSdjgdmU8msb9uuF7HmyeXcrS60y2+nUJ+Gk6kvE\noaVa7qCK48Qsui2inN5ajm3cO/oXR5ZhPZVkycFnQdFEda3q88zW4UlIPLuQ9AM3\nwVIwzJVr810GWBKQ9PfUUXoMkIGn8E8czU3rtQA0SaT7Xcyn23C69LzwLrky3eHd\nkFuRTi8BPmjq7p7DlogQcs+oLWALnLX3tMEwATAfmaBI4xFZNhDY42GvR7Y1euK5\nNZCfPz/hAgMBAAECggEABWj5Fkc/1kF/3RwwyfCq6Yghvt9ANFhbs9ZTP468qTZw\nmDmop6S/vzS9MQfzkMrxZUEdqD7dc+/c21HWVJa6Tukon7I1nHVyCPYdRpdQGtAx\nDYIFGHFUfHPGCSVs1kir1UKL8dPSqAWDSv8KWVlFoZWVeWt34AOwPPF1k41bxbT+\n093VGZ9LGfVYxeFYk1CP6s/CvW6nZ3SaFQf0jauwH8yxer0RfwzZ+IgITh8Bh9hC\nLwm4Ot4ADueWlspR3V0EVrkOdYVncN8xx7sKbH+uf7UUKcSqgYtIO5ePWnlz6Ipk\n+mV2L9QUVR524grEe8jlWJMVZFPssQgPwnZ63Bw96QKBgQDv6Ttpmfvir42UIWTD\nEhbARZi8LbmnDCYtQ708CB6v0RLH6tQdwDgon3uhOs2lyciLQpTvF8+zKKt5FypS\nyOHZhpHNQaEMvKVpSEhH0fBb7BDiqfzOANjOqqySe0v4cuYPWdofawMy4c2TSl3I\nKLy2M4RdpjCk55uJUvTfTQ+feQKBgQDhQuwHyg7tOq5XdXHtqVgEy03KCWzVFOSr\AcXSYAxPORaCnHoIN+6HFxzJVNkSA2QqG7ANFzF6qN0kWJBuICdUv/1epXXu7UEx\nbqnTiJR2R9pT66Bv69uM7Au2vwAsfUaV7s5RRYa9D3DWmPI520goqYkQaG7XSei0\nSLQQwWuBqQKBgCSDBG2/55vKR+vBYUpm2FuOu/33n4eSy8SbyJL4UWNEmG0gigO1\nG1bjXrdc8atHmGPJUE1K/Gsxx1b4dZJ/zA+E8W+hi1ca5rmtLILxqnjy5mb4o+be\nLiDVzMnGRfub0POJIy8g5C28O8Ms0DUELiQ0lvKBtmmCbiNqIqZRXg1RAoGAayWO\n6cGVygeAh/9IOrizMkyV6sUC7HPstN65/vBKyqAn8eaGMUSRg9ZdjfJ68hOE4Had\nDgz7LxIFZlVuFcPbkXdlCFEBwK0/tkiiJQkxPPW+hu5sOPBiVSyuAbXmWkMYgRa/\nMm80wNcIYDsN9LE2KIlDtfdGycbRFngClnm6LkkCgYAa/iNpRLmUzIrF6jKZwYZ9\nsteaSO/fjulS5x+zZ8Fu7OU77TEiLkFMan+oL1pHI4LbBvMHB3r2AiNVhhE4muED\nu/t4JZIfaM/3/aw7ShOSFWHXoVqRtMn3to/DIhZxmsneZ6yVyTW2pIpAUPpjXDrV\n+C6e8t98lL7Za/gevlAOVg==\n-----END PRIVATE KEY-----\n",
+      "client_email": "chatwoot-fcm-server@amandaoab-kiom.iam.gserviceaccount.com",
+      "client_id": "116392008925844530363",
+      "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+      "token_uri": "https://oauth2.googleapis.com/token",
+      "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+      "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/chatwoot-fcm-server%40amandaoab-kiom.iam.gserviceaccount.com",
+      "universe_domain": "googleapis.com"
+    }
+
+  # ========== CONFIGURAÇÕES GERAIS ==========
+  INSTALLATION_NAME: "chatwit"
+  NODE_ENV: "production"
+  RAILS_ENV: "production"
+  INSTALLATION_ENV: "docker"
+  SECRET_KEY_BASE: "2480331f166ed56edc94bc4622af0555"
+  FRONTEND_URL: "https://chatwit.witdev.com.br"
+  DEFAULT_LOCALE: "pt_BR"
+  FORCE_SSL: "false"
+  ENABLE_ACCOUNT_SIGNUP: "false"
+  ACTIVE_STORAGE_SERVICE: "local"
+  RAILS_LOG_TO_STDOUT: "true"
+  USE_INBOX_AVATAR_FOR_BOT: "true"
+
+  # ========== BANCO DE DADOS E CACHE ==========
+  POSTGRES_HOST: "postgres_postgres"
+  POSTGRES_USERNAME: "postgres"
+  POSTGRES_PASSWORD: "WiT4mNqk8Twjhita8s87d7djhqsrhjlomorrahakkerfdpyD6PuAoI1yHbKztalo"
+  POSTGRES_DATABASE: "chatwoot"
+  REDIS_URL: "redis://redis:6379"
+
+  # ========== E-MAIL (SMTP) ==========
+  MAILER_SENDER_EMAIL: "Chatwit <suporte@witdev.com.br>"
+  SMTP_DOMAIN: "zoho.com"
+  SMTP_ADDRESS: "smtp.zoho.com"
+  SMTP_PORT: "587"
+  SMTP_USERNAME: "suporte@witdev.com.br"
+  SMTP_PASSWORD: "zrqAPUwTPEGs"
+  SMTP_AUTHENTICATION: "login"
+  SMTP_ENABLE_STARTTLS_AUTO: "true"
+  SMTP_OPENSSL_VERIFY_MODE: "peer"
+  MAILER_INBOUND_EMAIL_DOMAIN: "suporte@witdev.com.br"
+
+  # ========== INTEGRAÇÕES ==========
+  INSTALLATION_PRICING_PLAN: "enterprise"
+  INSTALLATION_PRICING_PLAN_QUANTITY: 100
+  FB_APP_SECRET: "20308e78a804591afd5d48d9a03a5450"
+  FB_APP_ID: "593019070076189"
+
+  # ========== TUNING DE PERFORMANCE (16 CPU / 32GB RAM) ==========
+  WEB_CONCURRENCY: "4"   
+  RAILS_MAX_THREADS: "5"  
+  MALLOC_ARENA_MAX: "2"
+  SIDEKIQ_CONCURRENCY: "25"
+  SOCIALWISE_DEBOUNCE_MS: "8000"
+  SOCIALWISE_DEBOUNCE_MAX_MS: "30000"
+  # SOCIALWISE_DEBOUNCE_MS: Time of silence (in ms) required before processing. Each new message resets this timer.
+# Example: 5000 = wait 5 seconds of silence after last message
+# SOCIALWISE_DEBOUNCE_MS=5000
+#
+# SOCIALWISE_DEBOUNCE_MAX_MS: Maximum wait time (in ms) from first message. Prevents infinite waiting.
+# Example: 30000 = process after 30 seconds maximum, even if user keeps sending messages
+# SOCIALWISE_DEBOUNCE_MAX_MS=30000
+
+# -----------------------------------------------------------------------------
+# Definição dos Serviços
+# -----------------------------------------------------------------------------
+services:
+  chatwoot_app:
+    <<: *chatwoot-base
+    entrypoint: /app/docker/entrypoints/rails-enterprise.sh
+    command: sh -c "bundle exec rails db:chatwit_smart_prepare && bundle exec rails s -p 3000 -b 0.0.0.0"
+    environment: *chatwoot-environment
+    deploy:
+      mode: replicated
+      replicas: 2
+      placement:
+        constraints: [node.role == manager]
+      update_config:
+        parallelism: 1
+        delay: 10s
+        order: start-first
+      resources:
+        limits:
+          cpus: '6.0'        
+          memory: 6000M      
+        reservations:
+          cpus: '1.0'        
+          memory: 2048M      
+      labels:
+        - "traefik.enable=true"
+        - 'traefik.http.routers.chatwoot_app.rule=Host(`chatwit.witdev.com.br`)'
+        - "traefik.http.routers.chatwoot_app.entrypoints=websecure"
+        - "traefik.http.routers.chatwoot_app.tls.certresolver=letsencryptresolver"
+        - "traefik.http.routers.chatwoot_app.priority=1"
+        - "traefik.http.services.chatwoot_app.loadbalancer.server.port=3000"
+        
+        # --- STICKY SESSIONS (OBRIGATÓRIO PARA REPLICAS > 1) ---
+        - "traefik.http.services.chatwoot_app.loadbalancer.sticky.cookie=true"
+        - "traefik.http.services.chatwoot_app.loadbalancer.sticky.cookie.name=chatwoot_lb"
+        - "traefik.http.services.chatwoot_app.loadbalancer.sticky.cookie.secure=true"
+        - "traefik.http.services.chatwoot_app.loadbalancer.sticky.cookie.httpOnly=true"
+
+        # --- MIDDLEWARES (Headers e Segurança) ---
+        - "traefik.http.routers.chatwoot_app.middlewares=chatwoot_headers,chatwoot_ratelimit"
+        - "traefik.http.middlewares.chatwoot_ratelimit.ratelimit.average=150"
+        - "traefik.http.middlewares.chatwoot_ratelimit.ratelimit.burst=300"
+        - "traefik.http.middlewares.chatwoot_headers.headers.stsSeconds=31536000"
+        - "traefik.http.middlewares.chatwoot_headers.headers.stsIncludeSubdomains=true"
+        - "traefik.http.middlewares.chatwoot_headers.headers.contentTypeNosniff=true"
+        - "traefik.http.middlewares.chatwoot_headers.headers.browserXssFilter=true"
+
+  chatwoot_sidekiq:
+    <<: *chatwoot-base
+    command: sh -c "bundle exec sidekiq -C config/sidekiq.yml"
+    environment: *chatwoot-environment
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints: [node.role == manager]
+      resources:
+        limits:
+          cpus: '6.0'
+          memory: 6000M
+        reservations:
+          cpus: '1.0'
+          memory: 2048M
+
+# -----------------------------------------------------------------------------
+# Definições Globais
+# -----------------------------------------------------------------------------
+volumes:
+  chatwoot_data:
+    external: true
+  chatwoot_public:    
+    external: true
+
+networks:
+  minha_rede:
+    external: true

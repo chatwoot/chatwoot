@@ -1,0 +1,30 @@
+tags:
+  - Custom Attributes
+operationId: delete-custom-attribute-from-account
+summary: Remove a custom attribute from account
+description: Remove a custom attribute from account
+security:
+  - userApiKey: []
+parameters:
+  - $ref: '#/components/parameters/account_id'
+  - in: path
+    name: id
+    schema:
+      type: integer
+    required: true
+    description: The ID of the custom attribute to be deleted
+responses:
+  '200':
+    description: Success
+  '404':
+    description: Custom attribute not found
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '403':
+    description: Access denied
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

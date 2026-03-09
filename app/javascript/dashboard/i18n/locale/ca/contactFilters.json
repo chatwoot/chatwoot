@@ -48,7 +48,8 @@
       "CREATED_AT": "Creat per",
       "LAST_ACTIVITY": "Darrera activitat",
       "REFERER_LINK": "Enllaç de referència",
-      "BLOCKED": "Blocat"
+      "BLOCKED": "Blocat",
+      "LABELS": "Etiquetes"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Filtres estàndard",

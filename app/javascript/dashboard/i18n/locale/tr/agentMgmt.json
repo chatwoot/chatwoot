@@ -11,7 +11,7 @@
     },
     "LIST": {
       "404": "Bu hesapla ilişkilendirilmiş hesap yok",
-      "TITLE": "Bu hesapla ilişkilendirilmiş kullanıcı yok",
+      "TITLE": "Ekibinizdeki temsilcileri yönetin",
       "DESC": "Ekibinize kullanıcı ekleyebilir veya kaldırabilirsiniz.",
       "NAME": "İsim",
       "EMAIL": "E-Posta",
@@ -32,8 +32,8 @@
         },
         "AGENT_TYPE": {
           "LABEL": "Agent Type",
-          "PLACEHOLDER": "Please select a type",
-          "ERROR": "Agent type is required"
+          "PLACEHOLDER": "Lütfen bir rol seçin",
+          "ERROR": "Rol gereklidir"
         },
         "EMAIL": {
           "LABEL": "E-posta adresi",

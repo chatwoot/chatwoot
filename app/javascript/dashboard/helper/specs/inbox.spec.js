@@ -38,6 +38,9 @@ describe('#Inbox Helpers', () => {
     it('should return correct class for Email', () => {
       expect(getInboxClassByType('Channel::Email')).toEqual('mail');
     });
+    it('should return correct class for TikTok', () => {
+      expect(getInboxClassByType(INBOX_TYPES.TIKTOK)).toEqual('brand-tiktok');
+    });
   });
 
   describe('getInboxIconByType', () => {
@@ -80,6 +83,10 @@ describe('#Inbox Helpers', () => {
         expect(getInboxIconByType(INBOX_TYPES.LINE)).toBe('i-ri-line-fill');
       });
 
+      it('returns correct icon for TikTok', () => {
+        expect(getInboxIconByType(INBOX_TYPES.TIKTOK)).toBe('i-ri-tiktok-fill');
+      });
+
       it('returns default icon for unknown type', () => {
         expect(getInboxIconByType('UNKNOWN_TYPE')).toBe('i-ri-chat-1-fill');
       });
@@ -102,6 +109,12 @@ describe('#Inbox Helpers', () => {
         );
       });
 
+      it('returns correct line icon for TikTok', () => {
+        expect(getInboxIconByType(INBOX_TYPES.TIKTOK, null, 'line')).toBe(
+          'i-ri-tiktok-line'
+        );
+      });
+
       it('returns correct line icon for unknown type', () => {
         expect(getInboxIconByType('UNKNOWN_TYPE', null, 'line')).toBe(
           'i-ri-chat-1-line'
@@ -112,13 +125,13 @@ describe('#Inbox Helpers', () => {
     describe('Twilio cases', () => {
       describe('fill variant', () => {
         it('returns WhatsApp icon for Twilio WhatsApp number', () => {
-          expect(
-            getInboxIconByType(INBOX_TYPES.TWILIO, 'whatsapp:+1234567890')
-          ).toBe('i-ri-whatsapp-fill');
+          expect(getInboxIconByType(INBOX_TYPES.TWILIO, 'whatsapp')).toBe(
+            'i-ri-whatsapp-fill'
+          );
         });
 
         it('returns SMS icon for regular Twilio number', () => {
-          expect(getInboxIconByType(INBOX_TYPES.TWILIO, '+1234567890')).toBe(
+          expect(getInboxIconByType(INBOX_TYPES.TWILIO, 'sms')).toBe(
             'i-ri-chat-1-fill'
           );
         });
@@ -133,18 +146,14 @@ describe('#Inbox Helpers', () => {
       describe('line variant', () => {
         it('returns WhatsApp line icon for Twilio WhatsApp number', () => {
           expect(
-            getInboxIconByType(
-              INBOX_TYPES.TWILIO,
-              'whatsapp:+1234567890',
-              'line'
-            )
+            getInboxIconByType(INBOX_TYPES.TWILIO, 'whatsapp', 'line')
           ).toBe('i-ri-whatsapp-line');
         });
 
         it('returns SMS line icon for regular Twilio number', () => {
-          expect(
-            getInboxIconByType(INBOX_TYPES.TWILIO, '+1234567890', 'line')
-          ).toBe('i-ri-chat-1-line');
+          expect(getInboxIconByType(INBOX_TYPES.TWILIO, 'sms', 'line')).toBe(
+            'i-ri-chat-1-line'
+          );
         });
       });
     });

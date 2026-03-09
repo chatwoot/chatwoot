@@ -69,7 +69,7 @@ defineExpose({
         :value="searchValue"
         type="search"
         :placeholder="searchPlaceholder || t('COMBOBOX.SEARCH_PLACEHOLDER')"
-        class="reset-base w-full py-2 pl-10 pr-2 text-sm focus:outline-none border-none rounded-t-md bg-n-solid-1 text-slate-900 dark:text-slate-50"
+        class="reset-base w-full py-2 pl-10 pr-2 text-sm focus:outline-none border-none rounded-t-md bg-n-solid-1 text-n-slate-12"
         @input="onInputSearch"
       />
     </div>
@@ -102,10 +102,7 @@ defineExpose({
           class="flex-shrink-0 i-lucide-check size-4 text-n-slate-11"
         />
       </li>
-      <li
-        v-if="options.length === 0"
-        class="px-3 py-2 text-sm text-slate-600 dark:text-slate-300"
-      >
+      <li v-if="options.length === 0" class="px-3 py-2 text-sm text-n-slate-11">
         {{ emptyState || t('COMBOBOX.EMPTY_STATE') }}
       </li>
     </ul>

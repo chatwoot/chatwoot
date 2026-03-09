@@ -68,7 +68,7 @@ const actionLabel = key => {
 <template>
   <div
     v-on-clickaway="onClose"
-    class="absolute z-20 w-auto origin-top-right border border-solid rounded-lg shadow-md right-2 top-12 bg-n-alpha-3 backdrop-blur-[100px] border-n-weak"
+    class="absolute z-20 w-auto origin-top-right border border-solid rounded-lg shadow-md ltr:right-2 rtl:left-2 top-12 bg-n-alpha-3 backdrop-blur-[100px] border-n-weak"
   >
     <div
       class="right-[var(--triangle-position)] block z-10 absolute text-left -top-3"
@@ -83,7 +83,7 @@ const actionLabel = key => {
       </svg>
     </div>
     <div class="p-2.5 flex gap-1 items-center justify-between">
-      <span class="text-sm font-medium text-slate-600 dark:text-slate-100">
+      <span class="text-sm font-medium text-n-slate-12">
         {{ $t('BULK_ACTION.UPDATE.CHANGE_STATUS') }}
       </span>
       <Button ghost xs slate icon="i-lucide-x" @click="onClose" />
@@ -96,7 +96,7 @@ const actionLabel = key => {
               ghost
               sm
               slate
-              class="!w-full ltr:!justify-start rtl:!justify-end"
+              class="!w-full !justify-start"
               :icon="action.icon"
               :label="actionLabel(action.key)"
               @click="updateConversations(action.key)"

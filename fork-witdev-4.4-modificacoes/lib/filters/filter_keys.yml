@@ -1,0 +1,232 @@
+## This file contains the filter configurations which we use for the following
+# 1. Conversation Filters (app/services/filter_service.rb)
+# 2. Contact Filters (app/services/filter_service.rb)
+# 3. Automation Filters  (app/services/automation_rules/conditions_filter_service.rb), (app/services/automation_rules/condition_validation_service.rb)
+
+
+# Format 
+# - Parent Key (conversation, contact, messages)
+#   - Key (attribute_name)
+#     - attribute_type: "standard" : supported ["standard", "additional_attributes (only for conversations and messages)"]
+#     - data_type: "text" :  supported ["text", "text_case_insensitive", "number", "boolean", "labels", "date", "link"]
+#     - filter_operators: ["equal_to", "not_equal_to", "contains", "does_not_contain", "is_present", "is_not_present", "is_greater_than", "is_less_than", "days_before", "starts_with"]
+
+### ----- Conversation Filters ----- ###
+
+conversations:
+  status:
+    attribute_type: "standard"
+    data_type: "text"
+    filter_operators:
+      - "equal_to"
+      - "not_equal_to"
+  assignee_id:
+    attribute_type: "standard"
+    data_type: "text"
+    filter_operators:
+      - "equal_to"
+      - "not_equal_to"
+      - "is_present"
+      - "is_not_present"
+  inbox_id:
+    attribute_type: "standard"
+    data_type: "text"
+    filter_operators:
+      - "equal_to"
+      - "not_equal_to"
+      - "is_present"
+      - "is_not_present"
+  team_id:
+    attribute_type: "standard"
+    data_type: "number"
+    filter_operators:
+      - "equal_to"
+      - "not_equal_to"
+      - "is_present"
+      - "is_not_present"
+  priority:
+    attribute_type: "standard"
+    data_type: "text"
+    filter_operators:
+      - "equal_to"
+      - "not_equal_to"
+  display_id:
+    attribute_type: "standard"
+    data_type: "Number"
+    filter_operators:
+      - "equal_to"
+      - "not_equal_to"
+      - "contains"
+      - "does_not_contain"
+  campaign_id:
+    attribute_type: "standard"
+    data_type: "Number"
+    filter_operators:
+      - "equal_to"
+      - "not_equal_to"
+      - "is_present"
+      - "is_not_present"
+  labels:
+    attribute_type: "standard"
+    data_type: "labels"
+    filter_operators:
+      - "equal_to"
+      - "not_equal_to"
+      - "is_present"
+      - "is_not_present"
+  browser_language:
+    attribute_type: "additional_attributes"
+    data_type: "text"
+    filter_operators:
+      - "equal_to"
+      - "not_equal_to"
+  conversation_language:
+    attribute_type: "additional_attributes"
+    data_type: "text"
+    filter_operators:
+      - "equal_to"
+      - "not_equal_to"
+  country_code:
+    attribute_type: "additional_attributes"
+    data_type: "text"
+    filter_operators:
+      - "equal_to"
+      - "not_equal_to"
+  referer:
+    attribute_type: "additional_attributes"
+    data_type: "link"
+    filter_operators:
+      - "equal_to"
+      - "not_equal_to"
+      - "contains"
+      - "does_not_contain"
+  created_at:
+    attribute_type: "standard"
+    data_type: "date"
+    filter_operators:
+      - "is_greater_than"
+      - "is_less_than"
+      - "days_before"
+  last_activity_at:
+    attribute_type: "standard"
+    data_type: "date"
+    filter_operators:
+      - "is_greater_than"
+      - "is_less_than"
+      - "days_before"
+  mail_subject:
+    attribute_type: "additional_attributes"
+    data_type: "text"
+    filter_operators:
+      - "equal_to"
+      - "not_equal_to"
+      - "contains"
+      - "does_not_contain"
+
+### ----- End of Conversation Filters ----- ###
+
+
+### ----- Contact Filters ----- ###
+contacts:
+  name:
+    attribute_type: "standard"
+    data_type: "text_case_insensitive"
+    filter_operators:
+      - "equal_to"
+      - "not_equal_to"
+      - "contains"
+      - "does_not_contain"
+  phone_number:
+    attribute_type: "standard"
+    data_type: "text_case_insensitive"
+    filter_operators:
+      - "equal_to"
+      - "not_equal_to"
+      - "contains"
+      - "does_not_contain"
+      - "starts_with"
+  email:
+    attribute_type: "standard"
+    data_type: "text_case_insensitive"
+    filter_operators:
+      - "equal_to"
+      - "not_equal_to"
+      - "contains"
+      - "does_not_contain"
+  identifier:
+    attribute_type: "standard"
+    data_type: "text_case_insensitive"
+    filter_operators:
+      - "equal_to"
+      - "not_equal_to"
+  country_code:
+    attribute_type: "additional_attributes"
+    data_type: "text_case_insensitive"
+    filter_operators:
+      - "equal_to"
+      - "not_equal_to"
+  city:
+    attribute_type: "additional_attributes"
+    data_type: "text_case_insensitive"
+    filter_operators:
+      - "equal_to"
+      - "not_equal_to"
+      - "contains"
+      - "does_not_contain"
+  company:
+    attribute_type: "additional_attributes"
+    data_type: "text_case_insensitive"
+    filter_operators:
+      - "equal_to"
+      - "not_equal_to"
+      - "contains"
+      - "does_not_contain"
+  labels:
+    attribute_type: "standard"
+    data_type: "labels"
+    filter_operators:
+      - "equal_to"
+      - "not_equal_to"
+      - "is_present"
+      - "is_not_present"
+  created_at:
+    attribute_type: "standard"
+    data_type: "date"
+    filter_operators:
+      - "is_greater_than"
+      - "is_less_than"
+      - "days_before"
+  last_activity_at:
+    attribute_type: "standard"
+    data_type: "date"
+    filter_operators:
+      - "is_greater_than"
+      - "is_less_than"
+      - "days_before"
+  blocked:
+    attribute_type: "standard"
+    data_type: "boolean"
+    filter_operators:
+      - "equal_to"
+      - "not_equal_to"
+
+### ----- End of Contact Filters ----- ###
+
+### ----- Message Filters ----- ###
+messages:
+  message_type:
+    attribute_type: "standard"
+    data_type: "numeric"
+    filter_operators:
+      - "equal_to"
+      - "not_equal_to"
+  content:
+    attribute_type: "standard"
+    data_type: "text"
+    filter_operators:
+      - "equal_to"
+      - "not_equal_to"
+      - "contains"
+      - "does_not_contain"
+
+### ----- End of Message Filters ----- ###

@@ -1,0 +1,26 @@
+tags:
+  - Account AgentBots
+operationId: get-details-of-a-single-account-agent-bot
+summary: Get an agent bot details
+description: Get the details of an agent bot in the account
+security:
+  - userApiKey: []
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/agent_bot'
+  '401':
+    description: Unauthorized
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '404':
+    description: The given agent bot ID does not exist in the account
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

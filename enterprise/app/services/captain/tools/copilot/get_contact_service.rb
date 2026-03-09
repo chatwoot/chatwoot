@@ -1,32 +1,11 @@
-class Captain::Tools::Copilot::GetContactService < Captain::Tools::BaseService
-  def name
+class Captain::Tools::Copilot::GetContactService < Captain::Tools::BaseTool
+  def self.name
     'get_contact'
   end
+  description 'Get details of a contact including their profile information'
+  param :contact_id, type: :number, desc: 'The ID of the contact to retrieve', required: true
 
-  def description
-    'Get details of a contact including their profile information'
-  end
-
-  def parameters
-    {
-      type: 'object',
-      properties: {
-        contact_id: {
-          type: 'number',
-          description: 'The ID of the contact to retrieve'
-        }
-      },
-      required: %w[contact_id]
-    }
-  end
-
-  def execute(arguments)
-    contact_id = arguments['contact_id']
-
-    Rails.logger.info "#{self.class.name}: Contact ID: #{contact_id}"
-
-    return 'Missing required parameters' if contact_id.blank?
-
+  def execute(contact_id:)
     contact = Contact.find_by(id: contact_id, account_id: @assistant.account_id)
     return 'Contact not found' if contact.nil?
 

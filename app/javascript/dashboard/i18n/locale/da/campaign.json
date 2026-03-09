@@ -137,6 +137,70 @@
         }
       }
     },
+    "WHATSAPP": {
+      "HEADER_TITLE": "WhatsApp campaigns",
+      "NEW_CAMPAIGN": "Create campaign",
+      "EMPTY_STATE": {
+        "TITLE": "No WhatsApp campaigns are available",
+        "SUBTITLE": "Launch a WhatsApp campaign to reach your customers directly. Send offers or make announcements with ease. Click 'Create campaign' to get started."
+      },
+      "CARD": {
+        "STATUS": {
+          "COMPLETED": "Afsluttet",
+          "SCHEDULED": "Scheduled"
+        },
+        "CAMPAIGN_DETAILS": {
+          "SENT_FROM": "Sent from",
+          "ON": "on"
+        }
+      },
+      "CREATE": {
+        "TITLE": "Create WhatsApp campaign",
+        "CANCEL_BUTTON_TEXT": "Annuller",
+        "CREATE_BUTTON_TEXT": "Opret",
+        "FORM": {
+          "TITLE": {
+            "LABEL": "Titel",
+            "PLACEHOLDER": "Indtast titlen på kampagnen",
+            "ERROR": "Titel er påkrævet"
+          },
+          "INBOX": {
+            "LABEL": "Vælg Indbakke",
+            "PLACEHOLDER": "Vælg Indbakke",
+            "ERROR": "Indbakke er påkrævet"
+          },
+          "TEMPLATE": {
+            "LABEL": "WhatsApp Template",
+            "PLACEHOLDER": "Select a template",
+            "INFO": "Select a template to use for this campaign.",
+            "ERROR": "Template is required",
+            "PREVIEW_TITLE": "Proces {templateName}",
+            "LANGUAGE": "Sprog",
+            "CATEGORY": "Kategori",
+            "VARIABLES_LABEL": "Variabler",
+            "VARIABLE_PLACEHOLDER": "Enter value for {variable}"
+          },
+          "AUDIENCE": {
+            "LABEL": "Målgruppe",
+            "PLACEHOLDER": "Vælg kunde etiketter",
+            "ERROR": "Målgruppe er påkrævet"
+          },
+          "SCHEDULED_AT": {
+            "LABEL": "Planlagt tid",
+            "PLACEHOLDER": "Vælg venligst tid",
+            "ERROR": "Planlagt tid er påkrævet"
+          },
+          "BUTTONS": {
+            "CREATE": "Opret",
+            "CANCEL": "Annuller"
+          },
+          "API": {
+            "SUCCESS_MESSAGE": "WhatsApp campaign created successfully",
+            "ERROR_MESSAGE": "Der opstod en fejl. Prøv venligst igen."
+          }
+        }
+      }
+    },
     "CONFIRM_DELETE": {
       "TITLE": "Er du sikker på du vil slette?",
       "DESCRIPTION": "The delete action is permanent and cannot be reversed.",

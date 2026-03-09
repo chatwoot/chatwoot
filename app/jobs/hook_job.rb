@@ -4,7 +4,17 @@ class HookJob < MutexApplicationJob
   queue_as :medium
 
   def perform(hook, event_name, event_data = {})
-    return if hook.disabled?
+    Rails.logger.info "[HOOK_JOB] === HookJob.perform called ==="
+    Rails.logger.info "[HOOK_JOB] Hook ID: #{hook.id}, App ID: #{hook.app_id}"
+    Rails.logger.info "[HOOK_JOB] Hook disabled?: #{hook.disabled?}"
+    Rails.logger.info "[HOOK_JOB] Event name: #{event_name}"
+
+    if hook.disabled?
+      Rails.logger.info "[HOOK_JOB] SKIPPED: Hook is disabled"
+      return
+    end
+
+    Rails.logger.info "[HOOK_JOB] Processing hook app_id: #{hook.app_id}"
 
     case hook.app_id
     when 'slack'
@@ -15,6 +25,10 @@ class HookJob < MutexApplicationJob
       google_translate_integration(hook, event_name, event_data)
     when 'leadsquared'
       process_leadsquared_integration_with_lock(hook, event_name, event_data)
+    when 'socialwise_flow'
+      process_socialwise_flow_integration(hook, event_name, event_data)
+    when 'jusmonitoria'
+      process_jusmonitoria_integration(hook, event_name, event_data)
     end
   rescue StandardError => e
     Rails.logger.error e
@@ -79,5 +93,25 @@ class HookJob < MutexApplicationJob
     when 'conversation.resolved'
       processor.handle_conversation_resolved(event_data[:conversation])
     end
+  end
+
+  def process_jusmonitoria_integration(hook, event_name, event_data)
+    valid_events = %w[contact.created contact.updated message.created conversation.updated conversation.resolved]
+    return unless valid_events.include?(event_name)
+
+    Integrations::Jusmonitoria::ProcessorService.new(event_name: event_name, hook: hook, event_data: event_data).perform
+  end
+
+  def process_socialwise_flow_integration(hook, event_name, event_data)
+    Rails.logger.info "[HOOK_JOB] === process_socialwise_flow_integration called ==="
+    Rails.logger.info "[HOOK_JOB] Hook ID: #{hook.id}"
+    Rails.logger.info "[HOOK_JOB] Event name: #{event_name}"
+    Rails.logger.info "[HOOK_JOB] Message ID: #{event_data[:message]&.id}"
+
+    return unless ['message.created', 'message.updated'].include?(event_name)
+
+    Rails.logger.info "[HOOK_JOB] Event type is valid, calling ProcessorService"
+    Integrations::SocialwiseFlow::ProcessorService.new(event_name: event_name, hook: hook, event_data: event_data).perform
+    Rails.logger.info "[HOOK_JOB] ProcessorService completed"
   end
 end

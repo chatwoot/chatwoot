@@ -27,15 +27,20 @@
       "LABEL": "Lykilorð",
       "PLACEHOLDER": "Lykilorð",
       "ERROR": "Lykilorið er of stutt",
-      "IS_INVALID_PASSWORD": "Lykilorð ætti að innihalda að minnsta kosti 1 hástaf, 1 lágstaf, 1 tölustaf og 1 tákn"
+      "IS_INVALID_PASSWORD": "Lykilorð ætti að innihalda að minnsta kosti 1 hástaf, 1 lágstaf, 1 tölustaf og 1 tákn",
+      "REQUIREMENTS_LENGTH": "At least 6 characters long",
+      "REQUIREMENTS_UPPERCASE": "At least one uppercase letter",
+      "REQUIREMENTS_LOWERCASE": "At least one lowercase letter",
+      "REQUIREMENTS_NUMBER": "At least one number",
+      "REQUIREMENTS_SPECIAL": "At least one special character"
     },
     "CONFIRM_PASSWORD": {
       "LABEL": "Staðfesta Lykilorð",
       "PLACEHOLDER": "Staðfesta Lykilorð",
-      "ERROR": "Lykilorðin stemma ekki"
+      "ERROR": "Passwords do not match."
     },
     "API": {
-      "SUCCESS_MESSAGE": "Nýskráning tókst",
+      "SUCCESS_MESSAGE": "Registration Successful",
       "ERROR_MESSAGE": "Náði ekki að tengjast við netþjóna Woot, vinsamlegast reynið aftur"
     },
     "SUBMIT": "Create account",

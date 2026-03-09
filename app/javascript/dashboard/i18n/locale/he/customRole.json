@@ -1,56 +1,56 @@
 {
   "CUSTOM_ROLE": {
-    "HEADER": "Custom Roles",
-    "LEARN_MORE": "Learn more about custom roles",
-    "DESCRIPTION": "Custom roles are roles that are created by the account owner or admin. These roles can be assigned to agents to define their access and permissions within the account. Custom roles can be created with specific permissions and access levels to suit the requirements of the organization.",
-    "HEADER_BTN_TXT": "Add custom role",
-    "LOADING": "Fetching custom roles...",
+    "HEADER": "תפקידים מותאמים אישית",
+    "LEARN_MORE": "למד עוד על תפקידים מותאמים אישית",
+    "DESCRIPTION": "תפקידים מותאמים אישית הם תפקידים שנוצרים על ידי הבעלים או המנהל של החשבון. ניתן להקצות תפקידים אלה לסוכנים כדי להגדיר את הגישה וההרשאות שלהם בתוך החשבון. ניתן ליצור תפקידים מותאמים אישית עם הרשאות ורמות גישה ספציפיות שיתאימו לדרישות הארגון.",
+    "HEADER_BTN_TXT": "הוסף תפקיד מותאם אישית",
+    "LOADING": "מאחזר תפקידים מותאמים אישית...",
     "SEARCH_404": "אין פריטים התואמים לשאילתה זו.",
     "PAYWALL": {
-      "TITLE": "Upgrade to create custom roles",
-      "AVAILABLE_ON": "The custom role feature is only available in the Business and Enterprise plans.",
-      "UPGRADE_PROMPT": "Upgrade your plan to get access to advanced features like team management, automations, custom attributes, and more.",
-      "UPGRADE_NOW": "Upgrade now",
-      "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
+      "TITLE": "שדרג כדי ליצור תפקידים מותאמים אישית",
+      "AVAILABLE_ON": "התכונה של תפקיד מותאם אישית זמינה רק בתוכניות Business ו-Enterprise.",
+      "UPGRADE_PROMPT": "שדרג את התוכנית שלך כדי לקבל גישה לתכונות מתקדמות כמו ניהול צוות, אוטומציות, תכונות מותאמות אישית ועוד.",
+      "UPGRADE_NOW": "שדרג עכשיו",
+      "CANCEL_ANYTIME": "תוכל לשנות או לבטל את התוכנית שלך בכל עת"
     },
     "ENTERPRISE_PAYWALL": {
-      "AVAILABLE_ON": "The custom role feature is only available in the paid plans.",
-      "UPGRADE_PROMPT": "Upgrade to a paid plan to access advanced features like audit logs, agent capacity, and more.",
-      "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
+      "AVAILABLE_ON": "התכונה של תפקיד מותאם אישית זמינה רק בתוכניות בתשלום.",
+      "UPGRADE_PROMPT": "שדרג לתוכנית בתשלום כדי לגשת לתכונות מתקדמות כמו יומני ביקורת, קיבולת סוכנים ועוד.",
+      "ASK_ADMIN": "אנא פנה למנהל המערכת שלך לצורך השדרוג."
     },
     "LIST": {
-      "404": "There are no custom roles available in this account.",
-      "TITLE": "Manage custom roles",
-      "DESC": "Custom roles are roles that are created by the account owner or admin. These roles can be assigned to agents to define their access and permissions within the account. Custom roles can be created with specific permissions and access levels to suit the requirements of the organization.",
+      "404": "אין תפקידים מותאמים אישית זמינים בחשבון זה.",
+      "TITLE": "נהל תפקידים מותאמים אישית",
+      "DESC": "תפקידים מותאמים אישית הם תפקידים שנוצרים על ידי הבעלים או המנהל של החשבון. ניתן להקצות תפקידים אלה לסוכנים כדי להגדיר את הגישה וההרשאות שלהם בתוך החשבון. ניתן ליצור תפקידים מותאמים אישית עם הרשאות ורמות גישה ספציפיות שיתאימו לדרישות הארגון.",
       "TABLE_HEADER": {
         "NAME": "שם",
         "DESCRIPTION": "תיאור",
-        "PERMISSIONS": "Permissions",
+        "PERMISSIONS": "הרשאות",
         "ACTIONS": "פעולות"
       }
     },
     "PERMISSIONS": {
-      "CONVERSATION_MANAGE": "Manage all conversations",
-      "CONVERSATION_UNASSIGNED_MANAGE": "Manage unassigned conversations and those assigned to them",
-      "CONVERSATION_PARTICIPATING_MANAGE": "Manage participating conversations and those assigned to them",
-      "CONTACT_MANAGE": "Manage contacts",
-      "REPORT_MANAGE": "Manage reports",
-      "KNOWLEDGE_BASE_MANAGE": "Manage knowledge base"
+      "CONVERSATION_MANAGE": "נהל את כל השיחות",
+      "CONVERSATION_UNASSIGNED_MANAGE": "נהל שיחות לא משויכות ואת אלה שמשויכות אליהם",
+      "CONVERSATION_PARTICIPATING_MANAGE": "נהל שיחות שבהן הם משתתפים ואת אלה שמשויכות אליהם",
+      "CONTACT_MANAGE": "נהל אנשי קשר",
+      "REPORT_MANAGE": "נהל דוחות",
+      "KNOWLEDGE_BASE_MANAGE": "נהל בסיס ידע"
     },
     "FORM": {
       "NAME": {
         "LABEL": "שם",
-        "PLACEHOLDER": "Please enter a name.",
+        "PLACEHOLDER": "אנא הזן שם.",
         "ERROR": "שם שדה חובה."
       },
       "DESCRIPTION": {
         "LABEL": "תיאור",
-        "PLACEHOLDER": "Please enter a description.",
+        "PLACEHOLDER": "אנא הזן תיאור.",
         "ERROR": "נדרש תיאור."
       },
       "PERMISSIONS": {
-        "LABEL": "Permissions",
-        "ERROR": "Permissions are required."
+        "LABEL": "הרשאות",
+        "ERROR": "הרשאות נדרשות."
       },
       "CANCEL_BUTTON_TEXT": "ביטול",
       "API": {
@@ -58,33 +58,33 @@
       }
     },
     "ADD": {
-      "TITLE": "Add custom role",
-      "DESC": " Custom roles allows you to create roles with specific permissions and access levels to suit the requirements of the organization.",
+      "TITLE": "הוסף תפקיד מותאם אישית",
+      "DESC": "תפקידים מותאמים אישית מאפשרים לך ליצור תפקידים עם הרשאות ורמות גישה ספציפיות שיתאימו לדרישות הארגון.",
       "SUBMIT": "שלח",
       "API": {
-        "SUCCESS_MESSAGE": "Custom role added successfully."
+        "SUCCESS_MESSAGE": "תפקיד מותאם אישית נוסף בהצלחה."
       }
     },
     "EDIT": {
       "BUTTON_TEXT": "ערוך",
-      "TITLE": "Edit custom role",
-      "DESC": " Custom roles allows you to create roles with specific permissions and access levels to suit the requirements of the organization.",
+      "TITLE": "ערוך תפקיד מותאם אישית",
+      "DESC": "תפקידים מותאמים אישית מאפשרים לך ליצור תפקידים עם הרשאות ורמות גישה ספציפיות שיתאימו לדרישות הארגון.",
       "SUBMIT": "עדכן",
       "API": {
-        "SUCCESS_MESSAGE": "Custom role updated successfully."
+        "SUCCESS_MESSAGE": "התפקיד המותאם אישית עודכן בהצלחה."
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "מחק",
       "API": {
-        "SUCCESS_MESSAGE": "Custom role deleted successfully.",
+        "SUCCESS_MESSAGE": "התפקיד המותאם אישית נמחק בהצלחה.",
         "ERROR_MESSAGE": "לא ניתן להתחבר לשרת Woot, נסה שוב מאוחר יותר"
       },
       "CONFIRM": {
         "TITLE": "אשר מחיקה",
         "MESSAGE": "האם אתה בטוח שברצונך למחוק ",
-        "YES": "Yes, delete ",
-        "NO": "No, keep "
+        "YES": "כן, מחק ",
+        "NO": "לא, השאר "
       }
     }
   }

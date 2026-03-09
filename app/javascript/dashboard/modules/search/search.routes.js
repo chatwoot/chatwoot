@@ -10,7 +10,7 @@ import SearchView from './components/SearchView.vue';
 
 export const routes = [
   {
-    path: frontendURL('accounts/:accountId/search'),
+    path: frontendURL('accounts/:accountId/search/:tab?'),
     name: 'search',
     meta: {
       permissions: [

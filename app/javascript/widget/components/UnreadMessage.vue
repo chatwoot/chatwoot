@@ -1,6 +1,6 @@
 <script>
 import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
-import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
+import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 import configMixin from '../mixins/configMixin';
 import { isEmptyObject } from 'widget/helpers/utils';
 import {
@@ -11,7 +11,7 @@ import { emitter } from 'shared/helpers/mitt';
 
 export default {
   name: 'UnreadMessage',
-  components: { Thumbnail },
+  components: { Avatar },
   mixins: [configMixin],
   props: {
     message: {
@@ -95,11 +95,12 @@ export default {
   <div class="chat-bubble-wrap">
     <button class="chat-bubble agent bg-white" @click="onClickMessage">
       <div v-if="showSender" class="row--agent-block">
-        <Thumbnail
+        <Avatar
           :src="avatarUrl"
-          size="20px"
-          :username="agentName"
+          :size="20"
+          :name="agentName"
           :status="availabilityStatus"
+          rounded-full
         />
         <span v-dompurify-html="agentName" class="agent--name" />
         <span v-dompurify-html="companyName" class="company--name" />

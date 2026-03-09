@@ -40,6 +40,18 @@ RSpec.describe ContactInbox do
 
   describe 'validations' do
     context 'when source_id' do
+      it 'allows source_id longer than 255 characters for channels without format restrictions' do
+        long_source_id = 'a' * 300
+        email_inbox = create(:inbox, channel: create(:channel_email))
+        contact = create(:contact, account: email_inbox.account)
+        contact_inbox = build(:contact_inbox, contact: contact, inbox: email_inbox, source_id: long_source_id)
+
+        expect(contact_inbox.valid?).to be(true)
+        expect { contact_inbox.save! }.not_to raise_error
+        expect(contact_inbox.reload.source_id).to eq(long_source_id)
+        expect(contact_inbox.source_id.length).to eq(300)
+      end
+
       it 'validates whatsapp channel source_id' do
         whatsapp_inbox = create(:channel_whatsapp, sync_templates: false, validate_provider_config: false).inbox
         contact = create(:contact)

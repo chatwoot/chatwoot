@@ -1,7 +1,7 @@
 <script setup>
 import { useAlert } from 'dashboard/composables';
 import { computed, onMounted, ref } from 'vue';
-import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
+import Avatar from 'next/avatar/Avatar.vue';
 import { useI18n } from 'vue-i18n';
 import {
   useStoreGetters,
@@ -159,16 +159,18 @@ const confirmDeletion = () => {
       </BaseSettingsHeader>
     </template>
     <template #body>
-      <table class="divide-y divide-slate-75 dark:divide-slate-700">
+      <table class="divide-y divide-n-weak">
         <tbody class="divide-y divide-n-weak text-n-slate-11">
           <tr v-for="(agent, index) in agentList" :key="agent.email">
             <td class="py-4 ltr:pr-4 rtl:pl-4">
               <div class="flex flex-row items-center gap-4">
-                <Thumbnail
+                <Avatar
                   :src="agent.thumbnail"
-                  :username="agent.name"
-                  size="40px"
+                  :name="agent.name"
                   :status="agent.availability_status"
+                  :size="40"
+                  hide-offline-status
+                  rounded-full
                 />
                 <div>
                   <span class="block font-medium capitalize">
@@ -190,7 +192,7 @@ const confirmDeletion = () => {
                 {{ getAgentRoleName(agent) }}
 
                 <div
-                  class="absolute left-0 z-10 hidden max-w-[300px] w-auto bg-white rounded-xl border border-slate-50 shadow-lg top-14 md:top-12 dark:bg-slate-800 dark:border-slate-700"
+                  class="absolute left-0 z-10 hidden max-w-[300px] w-auto bg-white rounded-xl border border-n-weak shadow-lg top-14 md:top-12 dark:bg-n-solid-2"
                   :class="{ 'group-hover:block': agent.custom_role_id }"
                 >
                   <div class="flex flex-col gap-1 p-4">
@@ -259,6 +261,7 @@ const confirmDeletion = () => {
         v-if="showEditPopup"
         :id="currentAgent.id"
         :name="currentAgent.name"
+        :provider="currentAgent.provider"
         :type="currentAgent.role"
         :email="currentAgent.email"
         :availability="currentAgent.availability_status"

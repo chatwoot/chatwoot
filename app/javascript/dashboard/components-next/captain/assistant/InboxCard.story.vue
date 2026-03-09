@@ -12,7 +12,7 @@ import { inboxes } from 'dashboard/components-next/captain/pageComponents/emptyS
       <div
         v-for="inbox in inboxes"
         :key="inbox.id"
-        class="px-20 py-4 bg-white dark:bg-slate-900"
+        class="px-20 py-4 bg-n-background"
       >
         <InboxCard :id="inbox.id" :inbox="inbox" />
       </div>

@@ -23,6 +23,13 @@ class Messages::Facebook::MessageBuilder < Messages::Messenger::MessageBuilder
 
     ActiveRecord::Base.transaction do
       build_contact_inbox
+
+      # Early rejection for blocked contacts - discard message completely
+      if @contact_inbox.contact.blocked?
+        Rails.logger.info("[FACEBOOK] Discarding message from blocked contact: #{@contact_inbox.contact.id}")
+        raise ActiveRecord::Rollback
+      end
+
       build_message
     end
   rescue Koala::Facebook::AuthenticationError => e
@@ -105,17 +112,36 @@ class Messages::Facebook::MessageBuilder < Messages::Messenger::MessageBuilder
   end
 
   def message_params
-    {
+    params = {
       account_id: conversation.account_id,
       inbox_id: conversation.inbox_id,
       message_type: @message_type,
-      content: response.content,
+      content: message_content,
       source_id: response.identifier,
       content_attributes: {
         in_reply_to_external_id: response.in_reply_to_external_id
       },
       sender: @outgoing_echo ? nil : @contact_inbox.contact
     }
+
+    # CHATWIT: Add postback/quick_reply payload to content_attributes
+    # This enables SocialWise Flow to receive the button ID for intent detection
+    if response.postback?
+      params[:content_attributes][:postback_payload] = response.postback_payload
+    elsif response.quick_reply?
+      params[:content_attributes][:quick_reply_payload] = response.quick_reply_payload
+    end
+
+    params
+  end
+
+  # CHATWIT: Extract message content from postback or regular message
+  def message_content
+    if response.postback?
+      response.postback_title || response.postback_payload
+    else
+      response.content
+    end
   end
 
   def process_contact_params_result(result)

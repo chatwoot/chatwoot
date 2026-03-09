@@ -91,6 +91,7 @@ describe Linear do
         label_ids: ['bug']
       }
     end
+    let(:user) { instance_double(User, name: 'John Doe', avatar_url: 'https://example.com/avatar.jpg') }
 
     context 'when the API response is success' do
       before do
@@ -101,6 +102,34 @@ describe Linear do
       it 'creates an issue' do
         response = linear_client.create_issue(params)
         expect(response).to eq({ 'issueCreate' => { 'id' => 'issue1', 'title' => 'Title' } })
+      end
+
+      context 'when user is provided' do
+        it 'includes user attribution in the request' do
+          allow(linear_client).to receive(:post) do |payload|
+            expect(payload[:query]).to include('createAsUser: "John Doe"')
+            expect(payload[:query]).to include('displayIconUrl: "https://example.com/avatar.jpg"')
+            instance_double(HTTParty::Response, success?: true,
+                                                parsed_response: { 'data' => { 'issueCreate' => { 'id' => 'issue1', 'title' => 'Title' } } })
+          end
+
+          linear_client.create_issue(params, user)
+        end
+      end
+
+      context 'when user has no avatar' do
+        let(:user_no_avatar) { instance_double(User, name: 'Jane Doe', avatar_url: '') }
+
+        it 'includes only user name in the request' do
+          allow(linear_client).to receive(:post) do |payload|
+            expect(payload[:query]).to include('createAsUser: "Jane Doe"')
+            expect(payload[:query]).not_to include('displayIconUrl')
+            instance_double(HTTParty::Response, success?: true,
+                                                parsed_response: { 'data' => { 'issueCreate' => { 'id' => 'issue1', 'title' => 'Title' } } })
+          end
+
+          linear_client.create_issue(params, user_no_avatar)
+        end
       end
 
       context 'when the priority is invalid' do
@@ -182,6 +211,7 @@ describe Linear do
     let(:link) { 'https://example.com' }
     let(:issue_id) { 'issue1' }
     let(:title) { 'Title' }
+    let(:user) { instance_double(User, name: 'John Doe', avatar_url: 'https://example.com/avatar.jpg') }
 
     context 'when the API response is success' do
       before do
@@ -192,6 +222,45 @@ describe Linear do
       it 'links an issue' do
         response = linear_client.link_issue(link, issue_id, title)
         expect(response).to eq({ 'attachmentLinkURL' => { 'id' => 'attachment1' } })
+      end
+
+      context 'when user is provided' do
+        it 'includes user attribution in the request' do
+          expected_params = {
+            issue_id: issue_id,
+            link: link,
+            title: title,
+            user_name: 'John Doe',
+            user_avatar_url: 'https://example.com/avatar.jpg'
+          }
+
+          expect(Linear::Mutations).to receive(:issue_link).with(expected_params).and_call_original
+          allow(linear_client).to receive(:post).and_return(
+            instance_double(HTTParty::Response, success?: true, parsed_response: { 'data' => { 'attachmentLinkURL' => { 'id' => 'attachment1' } } })
+          )
+
+          linear_client.link_issue(link, issue_id, title, user)
+        end
+      end
+
+      context 'when user has no avatar' do
+        let(:user_no_avatar) { instance_double(User, name: 'Jane Doe', avatar_url: '') }
+
+        it 'includes only user name in the request' do
+          expected_params = {
+            issue_id: issue_id,
+            link: link,
+            title: title,
+            user_name: 'Jane Doe'
+          }
+
+          expect(Linear::Mutations).to receive(:issue_link).with(expected_params).and_call_original
+          allow(linear_client).to receive(:post).and_return(
+            instance_double(HTTParty::Response, success?: true, parsed_response: { 'data' => { 'attachmentLinkURL' => { 'id' => 'attachment1' } } })
+          )
+
+          linear_client.link_issue(link, issue_id, title, user_no_avatar)
+        end
       end
 
       context 'when the link is missing' do

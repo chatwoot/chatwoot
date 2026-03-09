@@ -1,0 +1,42 @@
+tags:
+  - Teams
+operationId: delete-agent-in-team
+summary: Remove an Agent from Team
+description: Remove an Agent from Team
+security:
+  - userApiKey: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        required:
+          - user_ids
+        properties:
+          user_ids:
+            type: array
+            items:
+              type: integer
+            description: IDs of users to be deleted from the team
+responses:
+  '200':
+    description: Success
+  '403':
+    description: Access denied
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '404':
+    description: Team not found
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '422':
+    description: User must exist
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

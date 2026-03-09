@@ -1,0 +1,53 @@
+MIME-Version: 1.0
+Date: Wed, 31 May 2023 15:27:36 +0530
+Message-ID: <CAFkiBVzURp=z2g5nAevAtdQvFfxkLrpvTeDFcwFaGQhdo_-Mkg@mail.gmail.com>
+Subject: New inline image test email conversation
+From: Sony Mathew <sony@chatwoot.com>
+To: "Replies" <reply+6bdc3f4d-0bed-4515-a284-5d916fdde489@example.com>
+Content-Type: multipart/related; boundary="000000000000cade250604abfbe2"
+
+--000000000000cade250604abfbe2
+Content-Type: multipart/alternative; boundary="000000000000cade230604abfbe1"
+
+--000000000000cade230604abfbe1
+Content-Type: text/plain; charset="UTF-8"
+
+HTML content and inline images
+[image: poster (8).jpg][image: poster (7).jpg][image: poster (1).jpg]
+
+--000000000000cade230604abfbe1
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>HTML content and inline images</div><img src=3D"=
+cid:ii_lm7fuura0" alt=3D"poster (8).jpg" width=3D"542" height=3D"285"><img =
+src=3D"cid:ii_lm7fuuvm1" alt=3D"poster (7).jpg" width=3D"542" height=3D"285=
+"><img src=3D"cid:ii_lm7fuuwn2" alt=3D"poster (1).jpg" width=3D"542" height=
+=3D"285"><br></div>
+
+--000000000000cade230604abfbe1--
+--000000000000cade250604abfbe2
+Content-Type: image/jpeg; name="poster (8).jpg"
+Content-Disposition: inline; filename="poster (8).jpg"
+Content-Transfer-Encoding: base64
+X-Attachment-Id: ii_lm7fuura0
+Content-ID: <ii_lm7fuura0>
+
+
+--000000000000cade250604abfbe2
+Content-Type: image/jpeg; name="poster (7).jpg"
+Content-Disposition: inline; filename="poster (7).jpg"
+Content-Transfer-Encoding: base64
+X-Attachment-Id: ii_lm7fuuvm1
+Content-ID: <ii_lm7fuuvm1>
+
+
+--000000000000cade250604abfbe2
+Content-Type: image/jpeg; name="poster (1).jpg"
+Content-Disposition: inline; filename="poster (1).jpg"
+Content-Transfer-Encoding: base64
+X-Attachment-Id: ii_lm7fuuwn2
+Content-ID: <ii_lm7fuuwn2>
+
+
+--000000000000cade250604abfbe2--

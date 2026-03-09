@@ -1,0 +1,46 @@
+tags:
+  - Inboxes
+operationId: delete-agent-in-inbox
+summary: Remove an Agent from Inbox
+description: Remove an Agent from Inbox
+security:
+  - userApiKey: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        required:
+          - inbox_id
+          - user_ids
+        properties:
+          inbox_id:
+            type: string
+            description: The ID of the inbox
+          user_ids:
+            type: array
+            items:
+              type: integer
+            description: IDs of users to be deleted from the inbox
+responses:
+  '200':
+    description: Success
+  '404':
+    description: Inbox not found
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '403':
+    description: Access denied
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '422':
+    description: User must exist
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

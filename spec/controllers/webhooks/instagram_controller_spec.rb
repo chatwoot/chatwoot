@@ -33,5 +33,21 @@ RSpec.describe 'Webhooks::InstagramController', type: :request do
       post '/webhooks/instagram', params: instagram_params
       expect(response).to have_http_status(:success)
     end
+
+    context 'when processing echo events' do
+      let!(:echo_params) { build(:instagram_story_mention_event_with_echo).with_indifferent_access }
+
+      it 'delays processing for echo events by 2 seconds' do
+        job_double = class_double(Webhooks::InstagramEventsJob)
+        allow(Webhooks::InstagramEventsJob).to receive(:set).with(wait: 2.seconds).and_return(job_double)
+        allow(job_double).to receive(:perform_later)
+
+        instagram_params = echo_params.merge(object: 'instagram')
+        post '/webhooks/instagram', params: instagram_params
+        expect(response).to have_http_status(:success)
+        expect(Webhooks::InstagramEventsJob).to have_received(:set).with(wait: 2.seconds)
+        expect(job_double).to have_received(:perform_later)
+      end
+    end
   end
 end

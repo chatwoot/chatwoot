@@ -27,12 +27,17 @@
       "LABEL": "סיסמה",
       "PLACEHOLDER": "סיסמה",
       "ERROR": "הסיסמה קצרה מדי",
-      "IS_INVALID_PASSWORD": "הסיסמה צריכה להכיל לפחות אות אחת גדולה, אות קטנה אחת, מספר אחד ותו מיוחד אחד"
+      "IS_INVALID_PASSWORD": "הסיסמה צריכה להכיל לפחות אות אחת גדולה, אות קטנה אחת, מספר אחד ותו מיוחד אחד",
+      "REQUIREMENTS_LENGTH": "לפחות 6 תווים",
+      "REQUIREMENTS_UPPERCASE": "לפחות אות אחת גדולה",
+      "REQUIREMENTS_LOWERCASE": "לפחות אות אחת קטנה",
+      "REQUIREMENTS_NUMBER": "לפחות מספר אחד",
+      "REQUIREMENTS_SPECIAL": "לפחות תו מיוחד אחד"
     },
     "CONFIRM_PASSWORD": {
       "LABEL": "אמת סיסמה",
       "PLACEHOLDER": "אמת סיסמה",
-      "ERROR": "סיסמה לא מתאימה"
+      "ERROR": "סיסמאות לא תואמות"
     },
     "API": {
       "SUCCESS_MESSAGE": "ההרשמה הצליחה",

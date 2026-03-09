@@ -45,9 +45,12 @@
     "WATCH_VIDEO": "Watch video"
   },
   "DURATION_INPUT": {
-    "MINUTES": "Minutes",
-    "HOURS": "Hours",
-    "DAYS": "Days",
-    "PLACEHOLDER": "Enter duration"
+    "MINUTES": "Minuta",
+    "HOURS": "Orë",
+    "DAYS": "Ditë",
+    "PLACEHOLDER": "Shkruani kohëzgjatjen"
+  },
+  "CHANNEL_SELECTOR": {
+    "COMING_SOON": "Së shpejti!"
   }
 }

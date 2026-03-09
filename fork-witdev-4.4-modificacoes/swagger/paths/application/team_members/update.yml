@@ -1,0 +1,50 @@
+tags:
+  - Teams
+operationId: update-agents-in-team
+summary: Update Agents in Team
+description: All agents except the one passed in params will be removed
+security:
+  - userApiKey: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        required:
+          - user_ids
+        properties:
+          user_ids:
+            type: array
+            items:
+              type: integer
+            description: IDs of users to be added to the team
+            example: [1]
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          type: array
+          description: 'Array of all agents in the team'
+          items:
+            $ref: '#/components/schemas/agent'
+  '403':
+    description: Access denied
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '404':
+    description: Team not found
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '422':
+    description: User must exist
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

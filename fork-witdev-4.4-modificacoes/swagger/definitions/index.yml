@@ -1,0 +1,248 @@
+## ---------- ERRORS -------------- ##
+## -------------------------------- ##
+bad_request_error:
+  $ref: ./error/bad_request.yml
+request_error:
+  $ref: ./error/request.yml
+
+## ---------- RESOURCE ------------ ##
+## -------------------------------- ##
+
+generic_id:
+  $ref: ./resource/extension/generic.yml
+canned_response:
+  $ref: ./resource/canned_response.yml
+custom_attribute:
+  $ref: ./resource/custom_attribute.yml
+automation_rule:
+  $ref: ./resource/automation_rule.yml
+automation_rule_item:
+  $ref: ./resource/automation_rule_item.yml
+portal:
+  $ref: ./resource/portal.yml
+portal_single:
+  $ref: ./resource/portal_single.yml
+portal_config:
+  $ref: ./resource/portal_config.yml
+portal_logo:
+  $ref: ./resource/portal_logo.yml
+portal_meta:
+  $ref: ./resource/portal_meta.yml
+portal_item:
+  $ref: ./resource/portal_item.yml
+category:
+  $ref: ./resource/category.yml
+article:
+  $ref: ./resource/article.yml
+contact:
+  $ref: ./resource/contact.yml
+conversation:
+  $ref: ./resource/conversation.yml
+message:
+  $ref: ./resource/message.yml
+user:
+  $ref: ./resource/user.yml
+agent:
+  $ref: ./resource/agent.yml
+inbox:
+  $ref: ./resource/inbox.yml
+inbox_contact:
+  $ref: ./resource/inbox_contact.yml
+agent_bot:
+  $ref: ./resource/agent_bot.yml
+contact_inboxes:
+  $ref: ./resource/contact_inboxes.yml
+contactable_inboxes:
+  $ref: ./resource/contactable_inboxes.yml
+custom_filter:
+  $ref: ./resource/custom_filter.yml
+webhook:
+  $ref: ./resource/webhook.yml
+account:
+  $ref: ./resource/account.yml
+account_detail:
+  $ref: ./resource/account_detail.yml
+account_show_response:
+  $ref: ./resource/account_show_response.yml
+account_user:
+  $ref: ./resource/account_user.yml
+platform_account:
+  $ref: ./resource/platform_account.yml
+team:
+  $ref: ./resource/team.yml
+integrations_app:
+  $ref: ./resource/integrations/app.yml
+integrations_hook:
+  $ref: ./resource/integrations/hook.yml
+
+## public resources
+public_contact:
+  $ref: ./resource/public/contact.yml
+public_conversation:
+  $ref: ./resource/public/conversation.yml
+public_message:
+  $ref: ./resource/public/message.yml
+public_inbox:
+  $ref: ./resource/public/inbox.yml
+
+## ---------- REQUEST ------------- ##
+## -------------------------------- ##
+
+account_create_update_payload:
+  $ref: ./request/account/create_update_payload.yml
+
+account_update_payload:
+  $ref: ./request/account/update_payload.yml
+
+account_user_create_update_payload:
+  $ref: ./request/account_user/create_update_payload.yml
+
+platform_agent_bot_create_update_payload:
+  $ref: ./request/platform/agent_bot/create_update_payload.yml
+
+agent_bot_create_update_payload:
+  $ref: ./request/agent_bot/create_update_payload.yml
+
+user_create_update_payload:
+  $ref: ./request/user/create_update_payload.yml
+
+canned_response_create_update_payload:
+  $ref: ./request/canned_response/create_update_payload.yml
+
+custom_attribute_create_update_payload:
+  $ref: ./request/custom_attribute/create_update_payload.yml
+
+## Agent
+agent_create_payload:
+  $ref: ./request/agent/create_payload.yml
+agent_update_payload:
+  $ref: ./request/agent/update_payload.yml
+
+## Contact
+contact_create_payload:
+  $ref: ./request/contact/create_payload.yml
+contact_update_payload:
+  $ref: ./request/contact/update_payload.yml
+
+## Conversation
+conversation_create_payload:
+  $ref: ./request/conversation/create_payload.yml
+conversation_message_create_payload:
+  $ref: ./request/conversation/create_message_payload.yml
+
+# Inbox
+inbox_create_payload:
+  $ref: ./request/inbox/create_payload.yml
+inbox_update_payload:
+  $ref: ./request/inbox/update_payload.yml
+
+# Team
+team_create_update_payload:
+  $ref: ./request/team/create_update_payload.yml
+
+# Custom Filter
+custom_filter_create_update_payload:
+  $ref: ./request/custom_filter/create_update_payload.yml
+
+webhook_create_update_payload:
+  $ref: ./request/webhooks/create_update_payload.yml
+
+integrations_hook_create_payload:
+  $ref: ./request/integrations/hook_create_payload.yml
+
+integrations_hook_update_payload:
+  $ref: ./request/integrations/hook_update_payload.yml
+
+# Automation Rule
+automation_rule_create_update_payload:
+  $ref: ./request/automation_rule/create_update_payload.yml
+
+# Help Center
+portal_create_update_payload:
+  $ref: ./request/portal/portal_create_update_payload.yml
+category_create_update_payload:
+  $ref: ./request/portal/category_create_update_payload.yml
+article_create_update_payload:
+  $ref: ./request/portal/article_create_update_payload.yml
+
+## public requests
+public_contact_create_update_payload:
+  $ref: ./request/public/contact/create_update_payload.yml
+
+public_message_create_payload:
+  $ref: ./request/public/message/create_payload.yml
+public_message_update_payload:
+  $ref: ./request/public/message/update_payload.yml
+
+public_conversation_create_payload:
+  $ref: ./request/public/conversation/create_payload.yml
+
+## ---------- RESPONSE ------------ ##
+## -------------------------------- ##
+
+## Contact
+extended_contact:
+  allOf:
+    - $ref: '#/components/schemas/contact'
+    - $ref: ./resource/extension/contact/show.yml
+contact_base:
+  allOf:
+    - $ref: '#/components/schemas/generic_id'
+    - $ref: '#/components/schemas/contact'
+contact_list:
+  type: array
+  description: 'array of contacts'
+  items:
+    allOf:
+      - $ref: '#/components/schemas/contact'
+contact_conversations:
+  type: array
+  description: 'array of conversations'
+  items:
+    allOf:
+      - $ref: '#/components/schemas/conversation'
+      - $ref: ./resource/extension/contact/conversation.yml
+      - $ref: ./resource/extension/conversation/with_display_id.yml
+contact_labels:
+  $ref: ./resource/extension/contact/labels.yml
+
+## Conversation
+conversation_list:
+  $ref: ./resource/extension/conversation/list.yml
+conversation_show:
+  $ref: ./resource/extension/conversation/show.yml
+conversation_status_toggle:
+  $ref: ./resource/extension/conversation/status_toggle.yml
+conversation_labels:
+  $ref: ./resource/extension/conversation/labels.yml
+
+## Report
+account_summary:
+  $ref: './resource/reports/summary.yml'
+agent_conversation_metrics:
+  $ref: './resource/reports/conversation/agent.yml'
+
+contact_detail:
+  $ref: ./resource/contact_detail.yml
+message_detailed:
+  $ref: ./resource/message_detailed.yml
+conversation_meta:
+  $ref: ./resource/conversation_meta.yml
+conversation_messages:
+  $ref: ./resource/conversation_messages.yml
+contact_meta:
+  $ref: ./resource/contact_meta.yml
+contact_inbox:
+  $ref: ./resource/contact_inbox.yml
+contact_list_item:
+  $ref: ./resource/contact_list_item.yml
+contacts_list_response:
+  $ref: ./resource/contacts_list_response.yml
+contact_show_response:
+  $ref: ./resource/contact_show_response.yml
+contact_conversation_message:
+  $ref: ./resource/contact_conversation_message.yml
+contact_conversations_response:
+  $ref: ./resource/contact_conversations_response.yml
+contactable_inboxes_response:
+  $ref: ./resource/contactable_inboxes_response.yml

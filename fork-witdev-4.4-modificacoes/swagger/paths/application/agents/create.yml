@@ -1,0 +1,27 @@
+tags:
+  - Agents
+operationId: add-new-agent-to-account
+summary: Add a New Agent
+description: Add a new Agent to Account
+security:
+  - userApiKey: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/agent_create_payload'
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          description: 'Newly Created Agent'
+          $ref: '#/components/schemas/agent'
+  '403':
+    description: Access denied
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

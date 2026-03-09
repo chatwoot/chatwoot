@@ -1,0 +1,13 @@
+#!/bin/sh
+
+# script prevents pushing to develop and master by mistake
+
+branch="$(git rev-parse --abbrev-ref HEAD)"
+
+if [ "$branch" = "master" ]; then
+  echo "You can't push directly to master branch"
+  exit 1
+elif [ "$branch" = "develop" ]; then
+  echo "You can't push directly to develop branch"
+  exit 1
+fi
