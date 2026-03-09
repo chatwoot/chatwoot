@@ -169,19 +169,19 @@ export const getFileName = (action, files = []) => {
 
 export const getDefaultConditions = eventName => {
   if (eventName === 'message_created') {
-    return DEFAULT_MESSAGE_CREATED_CONDITION;
+    return structuredClone(DEFAULT_MESSAGE_CREATED_CONDITION);
   }
   if (
     eventName === 'conversation_opened' ||
     eventName === 'conversation_resolved'
   ) {
-    return DEFAULT_CONVERSATION_CONDITION;
+    return structuredClone(DEFAULT_CONVERSATION_CONDITION);
   }
-  return DEFAULT_OTHER_CONDITION;
+  return structuredClone(DEFAULT_OTHER_CONDITION);
 };
 
 export const getDefaultActions = () => {
-  return DEFAULT_ACTIONS;
+  return structuredClone(DEFAULT_ACTIONS);
 };
 
 export const filterCustomAttributes = customAttributes => {
