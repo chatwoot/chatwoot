@@ -236,7 +236,7 @@ class ReportingEventsRollupBackfill # rubocop:disable Metrics/ClassLength
   end
 end
 
-class ReportingEventsRollupTimezoneSetup # rubocop:disable Metrics/ClassLength
+class ReportingEventsRollupTimezoneSetup
   def run
     print_header
     account = prompt_account
@@ -286,9 +286,7 @@ class ReportingEventsRollupTimezoneSetup # rubocop:disable Metrics/ClassLength
       abort color('Error: UTC offset is required', :red, :bold) if offset_input.blank?
 
       matching_zones = find_matching_zones(offset_input)
-      if matching_zones.empty?
-        abort color("Error: No timezones found for offset '#{offset_input}'", :red, :bold)
-      end
+      abort color("Error: No timezones found for offset '#{offset_input}'", :red, :bold) if matching_zones.empty?
 
       display_matching_zones(matching_zones, offset_input)
       timezone = select_timezone(matching_zones)
@@ -343,20 +341,31 @@ class ReportingEventsRollupTimezoneSetup # rubocop:disable Metrics/ClassLength
 
   def print_next_steps(account, timezone)
     run_times = recommended_run_times(timezone)
+    print_next_steps_header
+    print_next_steps_schedule(timezone, run_times)
+    print_next_steps_backfill(account)
+    puts color('=' * 70, :green)
+  end
 
+  def print_next_steps_header
     puts color('=' * 70, :green)
     puts color('Next Steps', :bold, :green)
     puts color('=' * 70, :green)
+  end
+
+  def print_next_steps_schedule(timezone, run_times)
     puts "1. Wait for today's day-boundary to pass in #{timezone}."
     puts '2. Recommended earliest backfill start time:'
     puts "   - #{timezone}: #{format_time(run_times[:account_tz])}"
     puts "   - UTC:        #{format_time(run_times[:utc])}"
     puts "   - IST:        #{format_time(run_times[:ist])}"
     puts "   - PCT/PT:     #{format_time(run_times[:pct])}"
+  end
+
+  def print_next_steps_backfill(account)
     puts '3. Run backfill:'
     puts '   bundle exec rake reporting_events_rollup:backfill'
     puts "4. Backfill will use account.reporting_timezone and skip today by default for account #{account.id}."
-    puts color('=' * 70, :green)
   end
 
   def recommended_run_times(timezone)
