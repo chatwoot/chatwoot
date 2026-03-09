@@ -16,12 +16,14 @@ describe V2::Reports::Timeseries::CountReportBuilder do
       metric: 'resolutions_count',
       since: since_time.beginning_of_day.to_i.to_s,
       until: current_time.end_of_day.to_i.to_s,
+      timezone_offset: timezone_offset,
       group_by: group_by,
       id: user.id.to_s
     }
   end
   let(:group_by) { 'day' }
   let(:since_time) { current_time - 1.day }
+  let(:timezone_offset) { nil }
 
   before do
     travel_to current_time
@@ -106,10 +108,11 @@ describe V2::Reports::Timeseries::CountReportBuilder do
       let(:group_by) { 'week' }
       let(:current_time) { Time.zone.parse('2020-10-26 10:00:00 UTC') }
       let(:since_time) { current_time - 1.week }
+      let(:timezone_offset) { '5.5' }
 
       before do
-        account.update!(reporting_timezone: 'UTC')
-        allow(subject).to receive(:use_rollup?).and_return(true)
+        account.update!(reporting_timezone: 'Chennai')
+        allow(account).to receive(:feature_enabled?).with('reporting_events_rollup').and_return(true)
 
         create(:reporting_events_rollup,
                account: account,
@@ -135,8 +138,8 @@ describe V2::Reports::Timeseries::CountReportBuilder do
       it 'groups weeks using sunday boundaries' do
         expect(subject.timeseries).to eq(
           [
-            { value: 0, timestamp: (current_time - 1.week).beginning_of_week(:sunday).to_i },
-            { value: 2, timestamp: current_time.beginning_of_week(:sunday).to_i }
+            { value: 0, timestamp: (current_time - 1.week).in_time_zone('Chennai').beginning_of_week(:sunday).to_i },
+            { value: 2, timestamp: current_time.in_time_zone('Chennai').beginning_of_week(:sunday).to_i }
           ]
         )
       end
