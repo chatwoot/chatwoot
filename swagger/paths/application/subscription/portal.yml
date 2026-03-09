@@ -1,0 +1,19 @@
+tags:
+  - Subscription
+operationId: get-billing-portal
+summary: Get Billing Portal URL
+description: Get a Stripe billing portal URL for managing subscription and payment methods.
+security:
+  - userApiKey: []
+responses:
+  '200':
+    description: Portal URL generated
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            portal_url:
+              type: string
+  '401':
+    description: Unauthorized

@@ -1,0 +1,37 @@
+tags:
+  - Aloo Assistants
+operationId: preview-assistant-voice
+summary: Preview Voice
+description: Generate a voice preview with the specified text and voice.
+security:
+  - userApiKey: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        required:
+          - text
+          - voice_id
+        properties:
+          text:
+            type: string
+            description: Text to synthesize
+          voice_id:
+            type: string
+            description: ID of the voice to use
+responses:
+  '200':
+    description: Voice preview generated
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            audio_url:
+              type: string
+  '401':
+    description: Unauthorized
+  '422':
+    description: Validation error

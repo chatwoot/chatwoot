@@ -1,0 +1,14 @@
+type: object
+properties:
+  enabled:
+    type: boolean
+    description: Enable or disable catalog feature
+  payment_provider:
+    type: string
+    description: Default payment provider
+  currency:
+    type: string
+    description: Default currency code (e.g., KWD, SAR)
+  order_notification_email:
+    type: string
+    description: Email address for order notifications

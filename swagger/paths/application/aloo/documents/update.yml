@@ -1,0 +1,38 @@
+tags:
+  - Aloo Documents
+operationId: update-aloo-document
+summary: Update Document
+description: Update a document's metadata or content settings.
+security:
+  - userApiKey: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          title:
+            type: string
+          text_content:
+            type: string
+            description: For text source type
+          auto_refresh:
+            type: boolean
+            description: For website source type
+          selected_pages:
+            type: array
+            items:
+              type: string
+            description: For website source type
+responses:
+  '200':
+    description: Document updated
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/aloo_document'
+  '401':
+    description: Unauthorized
+  '422':
+    description: Validation error

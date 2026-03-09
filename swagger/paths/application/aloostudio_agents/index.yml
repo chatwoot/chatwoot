@@ -1,0 +1,23 @@
+tags:
+  - AlooStudio Agents
+operationId: list-aloostudio-agents
+summary: List AlooStudio Agents
+description: |
+  Proxy endpoint that fetches AI agent deployments from the AlooStudio backend.
+  Returns deployments configured for AlooChat integration.
+security:
+  - userApiKey: []
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          type: object
+          description: AlooStudio deployments response (proxied from AlooStudio backend)
+  '401':
+    description: Unauthorized
+  '422':
+    description: Missing clerk_user_id for current user
+  '502':
+    description: Failed to fetch from AlooStudio backend

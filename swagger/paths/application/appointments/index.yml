@@ -1,0 +1,59 @@
+tags:
+  - Appointments
+operationId: list-appointments
+summary: List Appointments
+description: |
+  List all appointments for the account. Supports filtering by status, contact, conversation, and search.
+security:
+  - userApiKey: []
+parameters:
+  - in: query
+    name: status
+    schema:
+      type: string
+    description: Filter by appointment status
+  - in: query
+    name: contact_id
+    schema:
+      type: integer
+    description: Filter by contact ID
+  - in: query
+    name: conversation_id
+    schema:
+      type: integer
+    description: Filter by conversation ID
+  - in: query
+    name: q
+    schema:
+      type: string
+    description: Search query
+  - in: query
+    name: page
+    schema:
+      type: integer
+    description: Page number
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            data:
+              type: array
+              items:
+                $ref: '#/components/schemas/appointment'
+            meta:
+              type: object
+              properties:
+                total:
+                  type: integer
+                page:
+                  type: integer
+                total_pages:
+                  type: integer
+                per_page:
+                  type: integer
+  '401':
+    description: Unauthorized

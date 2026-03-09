@@ -1,0 +1,43 @@
+tags:
+  - Aloo Conversations
+operationId: list-aloo-conversations
+summary: List Assistant Conversations
+description: List conversations handled by an assistant with usage metrics.
+security:
+  - userApiKey: []
+parameters:
+  - in: query
+    name: page
+    schema:
+      type: integer
+    description: Page number
+  - in: query
+    name: per_page
+    schema:
+      type: integer
+    description: Items per page
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            payload:
+              type: array
+              items:
+                $ref: '#/components/schemas/aloo_conversation'
+            meta:
+              type: object
+              properties:
+                total_count:
+                  type: integer
+                page:
+                  type: integer
+                per_page:
+                  type: integer
+                total_pages:
+                  type: integer
+  '401':
+    description: Unauthorized

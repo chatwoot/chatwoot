@@ -1,0 +1,40 @@
+tags:
+  - Aloo Documents
+operationId: discover-website-pages
+summary: Discover Website Pages
+description: Discover available pages from a website URL for selective crawling.
+security:
+  - userApiKey: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        required:
+          - url
+        properties:
+          url:
+            type: string
+            description: Website URL to discover pages from
+responses:
+  '200':
+    description: Pages discovered
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            pages:
+              type: array
+              items:
+                type: object
+                properties:
+                  url:
+                    type: string
+                  title:
+                    type: string
+  '401':
+    description: Unauthorized
+  '422':
+    description: Invalid URL

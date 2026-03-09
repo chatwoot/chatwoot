@@ -1,0 +1,26 @@
+type: object
+properties:
+  id:
+    type: integer
+  account_id:
+    type: integer
+  default_provider:
+    type: string
+    description: Default payment provider
+  default_currency:
+    type: string
+    description: Default currency code
+  notification_email:
+    type: string
+    description: Email for payment notifications
+  available_currencies:
+    type: array
+    items:
+      type: string
+    description: List of available currency codes
+  created_at:
+    type: string
+    format: date-time
+  updated_at:
+    type: string
+    format: date-time

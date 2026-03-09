@@ -1,0 +1,24 @@
+tags:
+  - Products
+operationId: create-a-product
+summary: Create Product
+description: Create a new product in the catalog.
+security:
+  - userApiKey: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/product_create_update_payload'
+responses:
+  '201':
+    description: Product created
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/product'
+  '401':
+    description: Unauthorized
+  '422':
+    description: Validation error

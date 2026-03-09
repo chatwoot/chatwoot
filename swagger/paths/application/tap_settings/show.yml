@@ -1,0 +1,16 @@
+tags:
+  - Tap Settings
+operationId: get-tap-settings
+summary: Get Tap Settings
+description: Get the Tap payment gateway settings for the account.
+security:
+  - userApiKey: []
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/tap_settings'
+  '401':
+    description: Unauthorized

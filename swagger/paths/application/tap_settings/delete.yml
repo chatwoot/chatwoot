@@ -1,0 +1,12 @@
+tags:
+  - Tap Settings
+operationId: delete-tap-settings
+summary: Delete Tap Settings
+description: Remove Tap payment gateway settings.
+security:
+  - userApiKey: []
+responses:
+  '204':
+    description: Settings deleted
+  '401':
+    description: Unauthorized

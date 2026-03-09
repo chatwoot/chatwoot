@@ -1,0 +1,18 @@
+type: object
+properties:
+  id:
+    type: integer
+  account_id:
+    type: integer
+  secret_key:
+    type: string
+    description: Tap payment gateway secret key
+  enabled:
+    type: boolean
+    description: Whether Tap integration is enabled
+  created_at:
+    type: string
+    format: date-time
+  updated_at:
+    type: string
+    format: date-time

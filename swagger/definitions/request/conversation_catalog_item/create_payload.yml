@@ -1,0 +1,9 @@
+type: object
+required:
+  - product_ids
+properties:
+  product_ids:
+    type: array
+    description: List of product IDs to send to the conversation
+    items:
+      type: integer

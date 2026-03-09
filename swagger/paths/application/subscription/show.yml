@@ -1,0 +1,18 @@
+tags:
+  - Subscription
+operationId: get-subscription
+summary: Get Subscription
+description: Get current subscription details including plan, usage, and trial information.
+security:
+  - userApiKey: []
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/subscription'
+  '401':
+    description: Unauthorized
+  '403':
+    description: Not authorized to manage billing

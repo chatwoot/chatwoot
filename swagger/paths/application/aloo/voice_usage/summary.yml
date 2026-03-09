@@ -1,0 +1,16 @@
+tags:
+  - Aloo Voice Usage
+operationId: get-voice-usage-summary
+summary: Get Voice Usage Summary
+description: Get a high-level summary of voice usage including quota information.
+security:
+  - userApiKey: []
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/aloo_voice_usage'
+  '401':
+    description: Unauthorized

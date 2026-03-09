@@ -1,0 +1,33 @@
+tags:
+  - Subscription
+operationId: swap-subscription-plan
+summary: Swap Plan
+description: Swap to a different subscription plan.
+security:
+  - userApiKey: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        required:
+          - plan_key
+        properties:
+          plan_key:
+            type: string
+            description: The plan identifier to swap to
+responses:
+  '200':
+    description: Plan updated
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+  '401':
+    description: Unauthorized
+  '422':
+    description: Invalid plan or swap error

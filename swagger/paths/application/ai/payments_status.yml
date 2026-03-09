@@ -1,0 +1,83 @@
+tags:
+  - AI External
+operationId: ai-payment-status
+summary: Check Payment Status (AI)
+description: |
+  Check the status of a payment link. Can look up by payment_link_id or external_payment_id.
+security:
+  - alooStudioApiKey: []
+parameters:
+  - in: query
+    name: payment_link_id
+    schema:
+      type: integer
+    description: ID of the payment link
+  - in: query
+    name: external_payment_id
+    schema:
+      type: string
+    description: External payment ID from the provider
+responses:
+  '200':
+    description: Payment status
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            success:
+              type: boolean
+            payment_link:
+              type: object
+              properties:
+                id:
+                  type: integer
+                external_payment_id:
+                  type: string
+                payment_url:
+                  type: string
+                amount:
+                  type: number
+                currency:
+                  type: string
+                provider:
+                  type: string
+                status:
+                  type: string
+                is_paid:
+                  type: boolean
+                is_pending:
+                  type: boolean
+                is_failed:
+                  type: boolean
+                is_expired:
+                  type: boolean
+                is_cancelled:
+                  type: boolean
+                paid_at:
+                  type: string
+                  format: date-time
+                  nullable: true
+                created_at:
+                  type: string
+                updated_at:
+                  type: string
+            conversation_id:
+              type: integer
+            conversation_display_id:
+              type: integer
+            contact:
+              type: object
+              properties:
+                id:
+                  type: integer
+                name:
+                  type: string
+                email:
+                  type: string
+                phone:
+                  type: string
+  '401':
+    description: Unauthorized
+  '404':
+    description: Payment link not found

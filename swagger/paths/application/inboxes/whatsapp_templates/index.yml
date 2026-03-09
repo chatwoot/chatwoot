@@ -1,0 +1,36 @@
+tags:
+  - WhatsApp Templates
+operationId: list-whatsapp-templates
+summary: List WhatsApp Templates
+description: List all WhatsApp message templates for a WhatsApp Cloud inbox.
+security:
+  - userApiKey: []
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            templates:
+              type: array
+              items:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  language:
+                    type: string
+                  status:
+                    type: string
+                  category:
+                    type: string
+                  components:
+                    type: array
+                    items:
+                      type: object
+  '400':
+    description: Not a WhatsApp Cloud channel
+  '401':
+    description: Unauthorized

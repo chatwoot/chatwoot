@@ -1,0 +1,26 @@
+tags:
+  - Aloo Assistants
+operationId: get-aloo-assistant-performance
+summary: Get Assistant Performance
+description: Get performance metrics for a specific assistant over a time range.
+security:
+  - userApiKey: []
+parameters:
+  - in: query
+    name: range
+    schema:
+      type: string
+      enum: [24h, 7d, 30d, 90d]
+      default: 7d
+    description: Time range for performance data
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/aloo_assistant_performance'
+  '401':
+    description: Unauthorized
+  '404':
+    description: Assistant not found

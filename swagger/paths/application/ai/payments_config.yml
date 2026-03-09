@@ -1,0 +1,58 @@
+tags:
+  - AI External
+operationId: ai-payments-config
+summary: Check Payment Config (AI)
+description: |
+  Check which payment providers are configured for an account.
+  Used by AlooStudio to determine available payment options.
+security:
+  - alooStudioApiKey: []
+parameters:
+  - in: query
+    name: account_id
+    schema:
+      type: integer
+    required: true
+    description: The account ID to check configuration for
+responses:
+  '200':
+    description: Configuration details
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            success:
+              type: boolean
+            account_id:
+              type: integer
+            providers:
+              type: object
+              properties:
+                payzah:
+                  type: object
+                  properties:
+                    configured:
+                      type: boolean
+                    currencies:
+                      type: array
+                      items:
+                        type: string
+                tap:
+                  type: object
+                  properties:
+                    configured:
+                      type: boolean
+                    currencies:
+                      type: array
+                      items:
+                        type: string
+            any_configured:
+              type: boolean
+            default_provider:
+              type: string
+              nullable: true
+  '401':
+    description: Unauthorized
+  '404':
+    description: Account not found

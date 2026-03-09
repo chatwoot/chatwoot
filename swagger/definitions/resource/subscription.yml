@@ -1,0 +1,43 @@
+type: object
+properties:
+  subscription:
+    type: object
+    nullable: true
+    properties:
+      status:
+        type: string
+      current_period_end:
+        type: string
+        format: date-time
+      trial_ends_at:
+        type: string
+        format: date-time
+        nullable: true
+      ends_at:
+        type: string
+        format: date-time
+        nullable: true
+      on_grace_period:
+        type: boolean
+      processor_plan:
+        type: string
+  plan:
+    type: object
+    nullable: true
+    description: Active plan details
+  usage:
+    type: object
+    description: Account usage summary
+  plans:
+    type: array
+    description: All available plans
+    items:
+      type: object
+  on_trial:
+    type: boolean
+  trial_active:
+    type: boolean
+  trial_credits_remaining:
+    type: integer
+  ai_responses_allowed:
+    type: boolean

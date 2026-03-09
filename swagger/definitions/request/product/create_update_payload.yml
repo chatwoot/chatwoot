@@ -1,0 +1,24 @@
+type: object
+properties:
+  title_en:
+    type: string
+    description: Product title in English
+  title_ar:
+    type: string
+    description: Product title in Arabic
+  description_en:
+    type: string
+    description: Product description in English
+  description_ar:
+    type: string
+    description: Product description in Arabic
+  price:
+    type: number
+    format: decimal
+    description: Product price
+  stock:
+    type: integer
+    description: Available stock quantity
+  blob_id:
+    type: string
+    description: ActiveStorage blob ID for product image

@@ -1,0 +1,28 @@
+tags:
+  - Aloo Documents
+operationId: create-aloo-document
+summary: Create Document
+description: |
+  Upload a document to the assistant's knowledge base. Supports three source types:
+  - File upload (PDF, TXT, MD, CSV, XLSX, XLS, DOCX, DOC, PPTX, max 10MB)
+  - Text content
+  - Website URL with optional crawl settings
+security:
+  - userApiKey: []
+requestBody:
+  required: true
+  content:
+    multipart/form-data:
+      schema:
+        $ref: '#/components/schemas/aloo_document_create_payload'
+responses:
+  '201':
+    description: Document created
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/aloo_document'
+  '401':
+    description: Unauthorized
+  '422':
+    description: Validation error

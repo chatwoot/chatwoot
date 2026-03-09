@@ -1,0 +1,24 @@
+tags:
+  - Storefront Links
+operationId: create-storefront-link
+summary: Create Storefront Link
+description: Generate a token-based storefront link for a contact to browse the catalog.
+security:
+  - userApiKey: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/storefront_link_create_payload'
+responses:
+  '201':
+    description: Storefront link created
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/storefront_link'
+  '401':
+    description: Unauthorized
+  '422':
+    description: Validation error

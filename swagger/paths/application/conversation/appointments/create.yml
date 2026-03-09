@@ -1,0 +1,41 @@
+tags:
+  - Appointments
+operationId: create-conversation-appointment
+summary: Create Appointment in Conversation
+description: |
+  Create an appointment within a conversation context. Uses Calendly integration to generate a scheduling link.
+security:
+  - userApiKey: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/conversation_appointment_create_payload'
+responses:
+  '201':
+    description: Appointment created
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            success:
+              type: boolean
+            data:
+              type: object
+              properties:
+                id:
+                  type: integer
+                scheduling_url:
+                  type: string
+                event_type_name:
+                  type: string
+                status:
+                  type: string
+                provider:
+                  type: string
+  '401':
+    description: Unauthorized
+  '422':
+    description: Validation error

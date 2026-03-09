@@ -1,0 +1,15 @@
+type: object
+properties:
+  total_conversations:
+    type: integer
+  total_messages:
+    type: integer
+  total_tokens:
+    type: integer
+  total_cost:
+    type: number
+    format: decimal
+  average_response_time:
+    type: number
+  documents_count:
+    type: integer

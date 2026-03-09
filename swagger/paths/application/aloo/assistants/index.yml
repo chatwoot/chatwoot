@@ -1,0 +1,18 @@
+tags:
+  - Aloo Assistants
+operationId: list-aloo-assistants
+summary: List Assistants
+description: List all Aloo AI assistants for the account.
+security:
+  - userApiKey: []
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/aloo_assistant'
+  '401':
+    description: Unauthorized

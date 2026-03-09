@@ -1,0 +1,12 @@
+tags:
+  - Payzah Settings
+operationId: delete-payzah-settings
+summary: Delete Payzah Settings
+description: Remove Payzah payment gateway settings.
+security:
+  - userApiKey: []
+responses:
+  '204':
+    description: Settings deleted
+  '401':
+    description: Unauthorized

@@ -1,0 +1,14 @@
+tags:
+  - Aloo Documents
+operationId: delete-aloo-document
+summary: Delete Document
+description: Delete a document from the assistant's knowledge base.
+security:
+  - userApiKey: []
+responses:
+  '204':
+    description: Document deleted
+  '401':
+    description: Unauthorized
+  '404':
+    description: Document not found

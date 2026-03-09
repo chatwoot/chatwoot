@@ -1,0 +1,18 @@
+tags:
+  - Aloo Documents
+operationId: get-aloo-document
+summary: Get Document
+description: Get details of a specific document.
+security:
+  - userApiKey: []
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/aloo_document'
+  '401':
+    description: Unauthorized
+  '404':
+    description: Document not found

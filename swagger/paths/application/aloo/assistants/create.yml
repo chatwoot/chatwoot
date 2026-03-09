@@ -1,0 +1,24 @@
+tags:
+  - Aloo Assistants
+operationId: create-aloo-assistant
+summary: Create Assistant
+description: Create a new Aloo AI assistant.
+security:
+  - userApiKey: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/aloo_assistant_create_update_payload'
+responses:
+  '201':
+    description: Assistant created
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/aloo_assistant'
+  '401':
+    description: Unauthorized
+  '422':
+    description: Validation error

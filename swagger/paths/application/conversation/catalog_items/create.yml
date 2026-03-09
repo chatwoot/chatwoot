@@ -1,0 +1,30 @@
+tags:
+  - Products
+operationId: send-catalog-items-to-conversation
+summary: Send Products to Conversation
+description: |
+  Send selected products as a message in the conversation, allowing the contact to browse them.
+security:
+  - userApiKey: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/conversation_catalog_item_create_payload'
+responses:
+  '200':
+    description: Products sent
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            success:
+              type: boolean
+            message_id:
+              type: integer
+  '401':
+    description: Unauthorized
+  '422':
+    description: Validation error

@@ -1,0 +1,16 @@
+tags:
+  - Catalog Settings
+operationId: get-catalog-settings
+summary: Get Catalog Settings
+description: Get the catalog settings for the account.
+security:
+  - userApiKey: []
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/catalog_settings'
+  '401':
+    description: Unauthorized

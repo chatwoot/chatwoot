@@ -1,0 +1,27 @@
+type: object
+properties:
+  id:
+    type: integer
+  conversation_id:
+    type: integer
+  contact_name:
+    type: string
+  contact_email:
+    type: string
+  message_count:
+    type: integer
+  input_tokens:
+    type: integer
+  output_tokens:
+    type: integer
+  total_tokens:
+    type: integer
+  total_cost:
+    type: number
+    format: decimal
+  created_at:
+    type: string
+    format: date-time
+  updated_at:
+    type: string
+    format: date-time

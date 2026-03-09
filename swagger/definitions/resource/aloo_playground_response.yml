@@ -1,0 +1,14 @@
+type: object
+properties:
+  response:
+    type: string
+    description: The assistant's response message
+  tokens_used:
+    type: object
+    properties:
+      input:
+        type: integer
+      output:
+        type: integer
+      total:
+        type: integer

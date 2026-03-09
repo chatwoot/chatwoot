@@ -1,0 +1,19 @@
+type: object
+required:
+  - items
+properties:
+  items:
+    type: array
+    description: List of products and quantities for the order
+    items:
+      type: object
+      required:
+        - product_id
+        - quantity
+      properties:
+        product_id:
+          type: integer
+          description: ID of the product
+        quantity:
+          type: integer
+          description: Quantity to order

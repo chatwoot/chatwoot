@@ -1,0 +1,27 @@
+type: object
+properties:
+  range:
+    type: string
+    description: Time range (24h, 7d, 30d, 90d)
+  conversations:
+    type: integer
+  messages:
+    type: integer
+  tokens_used:
+    type: integer
+  estimated_cost:
+    type: number
+    format: decimal
+  average_messages_per_conversation:
+    type: number
+  daily_breakdown:
+    type: array
+    items:
+      type: object
+      properties:
+        date:
+          type: string
+        conversations:
+          type: integer
+        messages:
+          type: integer

@@ -1,0 +1,11 @@
+type: object
+properties:
+  default_provider:
+    type: string
+    description: Default payment provider
+  default_currency:
+    type: string
+    description: Default currency code
+  notification_email:
+    type: string
+    description: Email for payment notifications

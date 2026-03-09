@@ -1,0 +1,18 @@
+tags:
+  - Products
+operationId: list-all-products
+summary: List Products
+description: List all products for the account.
+security:
+  - userApiKey: []
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/product'
+  '401':
+    description: Unauthorized

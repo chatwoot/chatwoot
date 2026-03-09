@@ -1,0 +1,18 @@
+type: object
+properties:
+  id:
+    type: integer
+  account_id:
+    type: integer
+  api_key:
+    type: string
+    description: Payzah payment gateway API key
+  enabled:
+    type: boolean
+    description: Whether Payzah integration is enabled
+  created_at:
+    type: string
+    format: date-time
+  updated_at:
+    type: string
+    format: date-time

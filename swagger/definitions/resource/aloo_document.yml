@@ -1,0 +1,66 @@
+type: object
+properties:
+  id:
+    type: integer
+    description: The ID of the document
+  title:
+    type: string
+    description: Document title
+  source_type:
+    type: string
+    description: Type of source (file, text, website)
+  source_url:
+    type: string
+    description: Source URL for website documents
+  status:
+    type: string
+    description: Processing status
+  chunk_count:
+    type: integer
+    description: Number of text chunks
+  filename:
+    type: string
+    description: Original filename for file uploads
+  file_size:
+    type: integer
+    description: File size in bytes
+  content_type:
+    type: string
+    description: MIME type of the file
+  pages_scraped:
+    type: integer
+    description: Number of pages scraped for website sources
+  crawl_full_site:
+    type: boolean
+    description: Whether to crawl the full website
+  text_content:
+    type: string
+    description: Raw text content for text source type
+  text_content_preview:
+    type: string
+    description: Preview of text content
+  character_count:
+    type: integer
+    description: Total character count
+  selected_pages:
+    type: array
+    items:
+      type: string
+    description: Selected pages for website sources
+  auto_refresh:
+    type: boolean
+    description: Whether auto-refresh is enabled
+  last_refreshed_at:
+    type: string
+    format: date-time
+    nullable: true
+  next_refresh_at:
+    type: string
+    format: date-time
+    nullable: true
+  created_at:
+    type: string
+    format: date-time
+  updated_at:
+    type: string
+    format: date-time

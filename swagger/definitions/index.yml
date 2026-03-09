@@ -95,6 +95,36 @@ payment_link:
   $ref: ./resource/payment_link.yml
 catalog_stats:
   $ref: ./resource/catalog_stats.yml
+product:
+  $ref: ./resource/product.yml
+catalog_settings:
+  $ref: ./resource/catalog_settings.yml
+payment_link_settings:
+  $ref: ./resource/payment_link_settings.yml
+storefront_link:
+  $ref: ./resource/storefront_link.yml
+aloo_assistant:
+  $ref: ./resource/aloo_assistant.yml
+aloo_document:
+  $ref: ./resource/aloo_document.yml
+aloo_conversation:
+  $ref: ./resource/aloo_conversation.yml
+aloo_voice_usage:
+  $ref: ./resource/aloo_voice_usage.yml
+aloo_assistant_stats:
+  $ref: ./resource/aloo_assistant_stats.yml
+aloo_assistant_performance:
+  $ref: ./resource/aloo_assistant_performance.yml
+aloo_playground_response:
+  $ref: ./resource/aloo_playground_response.yml
+appointment:
+  $ref: ./resource/appointment.yml
+tap_settings:
+  $ref: ./resource/tap_settings.yml
+payzah_settings:
+  $ref: ./resource/payzah_settings.yml
+subscription:
+  $ref: ./resource/subscription.yml
 
 ## ---------- REQUEST ------------- ##
 ## -------------------------------- ##
@@ -183,6 +213,50 @@ category_create_update_payload:
   $ref: ./request/portal/category_create_update_payload.yml
 article_create_update_payload:
   $ref: ./request/portal/article_create_update_payload.yml
+
+# Product
+product_create_update_payload:
+  $ref: ./request/product/create_update_payload.yml
+
+# Catalog Settings
+catalog_settings_create_update_payload:
+  $ref: ./request/catalog_settings/create_update_payload.yml
+
+# Payment Link Settings
+payment_link_settings_create_update_payload:
+  $ref: ./request/payment_link_settings/create_update_payload.yml
+
+# Storefront Link
+storefront_link_create_payload:
+  $ref: ./request/storefront_link/create_payload.yml
+
+# Aloo Assistant
+aloo_assistant_create_update_payload:
+  $ref: ./request/aloo_assistant/create_update_payload.yml
+
+# Aloo Document
+aloo_document_create_payload:
+  $ref: ./request/aloo_document/create_payload.yml
+
+# Conversation Order
+conversation_order_create_payload:
+  $ref: ./request/conversation_order/create_payload.yml
+
+# Conversation Payment Link
+conversation_payment_link_create_payload:
+  $ref: ./request/conversation_payment_link/create_payload.yml
+
+# Conversation Catalog Item
+conversation_catalog_item_create_payload:
+  $ref: ./request/conversation_catalog_item/create_payload.yml
+
+# Aloo Playground
+aloo_playground_request_payload:
+  $ref: ./request/aloo_playground/request_payload.yml
+
+# Conversation Appointment
+conversation_appointment_create_payload:
+  $ref: ./request/conversation_appointment/create_payload.yml
 
 ## public requests
 public_contact_create_update_payload:

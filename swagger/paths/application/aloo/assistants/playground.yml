@@ -1,0 +1,24 @@
+tags:
+  - Aloo Assistants
+operationId: test-aloo-assistant
+summary: Test Assistant (Playground)
+description: Send a test message to the assistant and get a response. Useful for testing assistant behavior before deployment.
+security:
+  - userApiKey: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/aloo_playground_request_payload'
+responses:
+  '200':
+    description: Assistant response
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/aloo_playground_response'
+  '401':
+    description: Unauthorized
+  '422':
+    description: Validation error

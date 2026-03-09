@@ -1,0 +1,31 @@
+type: object
+description: |
+  Create a document. Supports three source types:
+  - File upload: provide title and file (multipart)
+  - Text content: provide title and text_content
+  - Website: provide title, source_url, and optional crawl settings
+properties:
+  title:
+    type: string
+    description: Document title
+  file:
+    type: string
+    format: binary
+    description: File upload (PDF, TXT, MD, CSV, XLSX, XLS, DOCX, DOC, PPTX). Max 10MB.
+  text_content:
+    type: string
+    description: Raw text content for text source type
+  source_url:
+    type: string
+    description: URL for website source type
+  crawl_full_site:
+    type: boolean
+    description: Whether to crawl the full website
+  auto_refresh:
+    type: boolean
+    description: Enable automatic content refresh
+  selected_pages:
+    type: array
+    items:
+      type: string
+    description: Specific pages to crawl from the website
