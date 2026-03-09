@@ -1,5 +1,6 @@
 class Captain::BaseTaskService
   include Integrations::LlmInstrumentation
+  include Captain::ToolInstrumentation
 
   # gpt-4o-mini supports 128,000 tokens
   # 1 token is approx 4 characters
@@ -35,42 +36,50 @@ class Captain::BaseTaskService
     "#{endpoint}/v1"
   end
 
-  def make_api_call(model:, messages:)
+  def make_api_call(model:, messages:, tools: [])
     # Community edition prerequisite checks
     # Enterprise module handles these with more specific error messages (cloud vs self-hosted)
     return { error: I18n.t('captain.disabled'), error_code: 403 } unless captain_tasks_enabled?
     return { error: I18n.t('captain.api_key_missing'), error_code: 401 } unless api_key_configured?
 
     instrumentation_params = build_instrumentation_params(model, messages)
+    instrumentation_method = tools.any? ? :instrument_tool_session : :instrument_llm_call
 
-    response = instrument_llm_call(instrumentation_params) do
-      execute_ruby_llm_request(model: model, messages: messages)
+    response = send(instrumentation_method, instrumentation_params) do
+      execute_ruby_llm_request(model: model, messages: messages, tools: tools)
     end
 
-    # Build follow-up context for client-side refinement, when applicable
-    if build_follow_up_context? && response[:message].present?
-      response.merge(follow_up_context: build_follow_up_context(messages, response))
-    else
-      response
-    end
+    return response unless build_follow_up_context? && response[:message].present?
+
+    response.merge(follow_up_context: build_follow_up_context(messages, response))
   end
 
-  def execute_ruby_llm_request(model:, messages:)
+  def execute_ruby_llm_request(model:, messages:, tools: [])
     Llm::Config.with_api_key(api_key, api_base: api_base) do |context|
-      chat = context.chat(model: model)
-      system_msg = messages.find { |m| m[:role] == 'system' }
-      chat.with_instructions(system_msg[:content]) if system_msg
+      chat = build_chat(context, model: model, messages: messages, tools: tools)
 
       conversation_messages = messages.reject { |m| m[:role] == 'system' }
       return { error: 'No conversation messages provided', error_code: 400, request_messages: messages } if conversation_messages.empty?
 
       add_messages_if_needed(chat, conversation_messages)
-      response = chat.ask(conversation_messages.last[:content])
-      build_ruby_llm_response(response, messages)
+      build_ruby_llm_response(chat.ask(conversation_messages.last[:content]), messages)
     end
   rescue StandardError => e
     ChatwootExceptionTracker.new(e, account: account).capture_exception
     { error: e.message, request_messages: messages }
+  end
+
+  def build_chat(context, model:, messages:, tools: [])
+    chat = context.chat(model: model)
+    system_msg = messages.find { |m| m[:role] == 'system' }
+    chat.with_instructions(system_msg[:content]) if system_msg
+
+    if tools.any?
+      tools.each { |tool| chat = chat.with_tool(tool) }
+      chat.on_end_message { |message| record_generation(chat, message, model) }
+    end
+
+    chat
   end
 
   def add_messages_if_needed(chat, conversation_messages)
@@ -177,5 +186,4 @@ class Captain::BaseTaskService
     user_msg ? user_msg[:content] : nil
   end
 end
-
 Captain::BaseTaskService.prepend_mod_with('Captain::BaseTaskService')

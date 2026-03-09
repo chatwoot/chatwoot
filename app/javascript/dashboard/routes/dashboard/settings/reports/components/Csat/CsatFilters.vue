@@ -2,6 +2,8 @@
 import { ref, computed, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore } from 'vuex';
+import { useRoute, useRouter } from 'vue-router';
+import { subDays, fromUnixTime } from 'date-fns';
 import { getUnixStartOfDay, getUnixEndOfDay } from 'helpers/DateHelper';
 import {
   buildFilterList,
@@ -13,6 +15,12 @@ import FilterButton from 'dashboard/components/ui/Dropdown/DropdownButton.vue';
 import ActiveFilterChip from '../Filters/v3/ActiveFilterChip.vue';
 import AddFilterChip from '../Filters/v3/AddFilterChip.vue';
 import WootDatePicker from 'dashboard/components/ui/DatePicker/DatePicker.vue';
+import {
+  parseReportURLParams,
+  parseFilterURLParams,
+  generateCompleteURLParams,
+} from '../../helpers/reportFilterHelper';
+import { DATE_RANGE_TYPES } from 'dashboard/components/ui/DatePicker/helpers/DatePickerHelper';
 
 const props = defineProps({
   showTeamFilter: {
@@ -25,16 +33,29 @@ const emit = defineEmits(['filterChange']);
 
 const { t } = useI18n();
 const store = useStore();
+const route = useRoute();
+const router = useRouter();
+
+// Initialize from URL params immediately
+const urlParams = parseReportURLParams(route.query);
+const urlFilters = parseFilterURLParams(route.query);
+
+const initialDateRange =
+  urlParams.from && urlParams.to
+    ? [fromUnixTime(urlParams.from), fromUnixTime(urlParams.to)]
+    : [subDays(new Date(), 6), new Date()];
 
 const showDropdownMenu = ref(false);
 const showSubDropdownMenu = ref(false);
 const activeFilterType = ref('');
-const customDateRange = ref([new Date(), new Date()]);
+const customDateRange = ref(initialDateRange);
+const selectedDateRange = ref(urlParams.range || DATE_RANGE_TYPES.LAST_7_DAYS);
+
 const appliedFilters = ref({
-  user_ids: null,
-  inbox_id: null,
-  team_id: null,
-  rating: null,
+  user_ids: urlFilters.agent_id,
+  inbox_id: urlFilters.inbox_id,
+  team_id: urlFilters.team_id,
+  rating: urlFilters.rating,
 });
 
 const agents = computed(() => store.getters['agents/getAgents']);
@@ -111,13 +132,17 @@ const activeFilters = computed(() => {
   const activeKeys = Object.keys(appliedFilters.value).filter(
     key => appliedFilters.value[key]
   );
+
   return activeKeys.map(key => {
     const filterType = getFilterType(key, 'keyToType');
     const items = getFilterSource(filterType);
     const item = getActiveFilter(items, filterType, appliedFilters.value[key]);
+    const displayName =
+      item?.name || item?.title || `ID: ${appliedFilters.value[key]}`;
+
     return {
-      id: item?.id,
-      name: item?.name || '',
+      id: item?.id || appliedFilters.value[key],
+      name: displayName,
       type: filterType,
       options: getFilterOptions(filterType),
     };
@@ -130,7 +155,23 @@ const hasActiveFilters = computed(() =>
 
 const isAllFilterSelected = computed(() => !filterListMenuItems.value.length);
 
+const updateURLParams = () => {
+  const params = generateCompleteURLParams({
+    from: from.value,
+    to: to.value,
+    range: selectedDateRange.value,
+    filters: {
+      agent_id: appliedFilters.value.user_ids,
+      inbox_id: appliedFilters.value.inbox_id,
+      team_id: appliedFilters.value.team_id,
+      rating: appliedFilters.value.rating,
+    },
+  });
+  router.replace({ query: params });
+};
+
 const emitChange = () => {
+  updateURLParams();
   emit('filterChange', {
     from: from.value,
     to: to.value,
@@ -200,7 +241,9 @@ const openActiveFilterDropdown = filterType => {
 };
 
 const onDateRangeChange = value => {
-  customDateRange.value = value;
+  const [startDate, endDate, rangeType] = value;
+  customDateRange.value = [startDate, endDate];
+  selectedDateRange.value = rangeType || DATE_RANGE_TYPES.CUSTOM_RANGE;
   emitChange();
 };
 
@@ -211,7 +254,11 @@ onMounted(() => {
 
 <template>
   <div class="flex flex-col flex-wrap w-full gap-3 md:flex-row">
-    <WootDatePicker @date-range-changed="onDateRangeChange" />
+    <WootDatePicker
+      v-model:date-range="customDateRange"
+      v-model:range-type="selectedDateRange"
+      @date-range-changed="onDateRangeChange"
+    />
 
     <div
       class="flex flex-col flex-wrap items-start gap-2 md:items-center md:flex-nowrap md:flex-row"
