@@ -79,6 +79,48 @@ describe V2::Reports::Timeseries::AverageReportBuilder do
         end
       end
 
+      context 'when rollups are enabled' do
+        before do
+          account.update!(reporting_timezone: 'UTC')
+          allow(subject).to receive(:use_rollup?).and_return(true)
+
+          create(:reporting_events_rollup,
+                 account: account,
+                 date: (current_time - 1.week).to_date,
+                 dimension_type: 'account',
+                 dimension_id: account.id,
+                 metric: 'first_response',
+                 count: 1,
+                 sum_value: 93.0,
+                 sum_value_business_hours: 30.0)
+
+          create(:reporting_events_rollup,
+                 account: account,
+                 date: current_time.to_date,
+                 dimension_type: 'account',
+                 dimension_id: account.id,
+                 metric: 'first_response',
+                 count: 2,
+                 sum_value: 180.0,
+                 sum_value_business_hours: 30.0)
+        end
+
+        it 'preserves empty buckets in the timeseries' do
+          expect(subject.timeseries).to eq(
+            [
+              { count: 1, timestamp: 1_603_065_600, value: 93.0 },
+              { count: 0, timestamp: 1_603_152_000, value: 0 },
+              { count: 0, timestamp: 1_603_238_400, value: 0 },
+              { count: 0, timestamp: 1_603_324_800, value: 0 },
+              { count: 0, timestamp: 1_603_411_200, value: 0 },
+              { count: 0, timestamp: 1_603_497_600, value: 0 },
+              { count: 0, timestamp: 1_603_584_000, value: 0 },
+              { count: 2, timestamp: 1_603_670_400, value: 90.0 }
+            ]
+          )
+        end
+      end
+
       context 'when group_by is provided' do
         let(:group_by) { 'week' }
 

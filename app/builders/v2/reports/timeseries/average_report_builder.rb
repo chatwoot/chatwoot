@@ -67,23 +67,22 @@ class V2::Reports::Timeseries::AverageReportBuilder < V2::Reports::Timeseries::B
   end
 
   def group_and_aggregate_rollup(rollup_rows)
-    grouped_data = aggregate_rollup_rows(rollup_rows)
+    grouped_data = aggregate_rollup_rows(rollup_rows, all_periods_in_range.index_with { { count: 0, sum_value: 0.0 } })
 
-    results = grouped_data.filter_map do |date_key, data|
-      next if data[:count].zero?
-
-      { value: data[:sum_value] / data[:count], timestamp: date_key.in_time_zone(timezone).to_i, count: data[:count] }
+    results = grouped_data.map do |date_key, data|
+      value = data[:count].zero? ? 0 : data[:sum_value] / data[:count]
+      { value: value, timestamp: date_key.in_time_zone(timezone).to_i, count: data[:count] }
     end
     results.sort_by { |h| h[:timestamp] }
   end
 
-  def aggregate_rollup_rows(rollup_rows)
+  def aggregate_rollup_rows(rollup_rows, grouped_data = {})
     value_col = rollup_value_column
-    rollup_rows.each_with_object({}) do |row, grouped_data|
+    rollup_rows.each_with_object(grouped_data) do |row, all_grouped_data|
       date_key = date_key_for_group(row.date)
-      grouped_data[date_key] ||= { count: 0, sum_value: 0.0 }
-      grouped_data[date_key][:count] += row.count
-      grouped_data[date_key][:sum_value] += row.public_send(value_col)
+      all_grouped_data[date_key] ||= { count: 0, sum_value: 0.0 }
+      all_grouped_data[date_key][:count] += row.count
+      all_grouped_data[date_key][:sum_value] += row.public_send(value_col)
     end
   end
 
@@ -93,6 +92,26 @@ class V2::Reports::Timeseries::AverageReportBuilder < V2::Reports::Timeseries::B
     when 'month' then date.beginning_of_month
     when 'year' then date.beginning_of_year
     else date
+    end
+  end
+
+  def all_periods_in_range
+    date_range = rollup_date_range
+    dates = []
+    current = date_key_for_group(date_range.first)
+    while current <= date_range.last
+      dates << current
+      current = advance_period(current)
+    end
+    dates
+  end
+
+  def advance_period(date)
+    case group_by
+    when 'week' then date + 1.week
+    when 'month' then date + 1.month
+    when 'year' then date + 1.year
+    else date + 1.day
     end
   end
 
