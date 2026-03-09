@@ -63,7 +63,7 @@ class V2::Reports::Timeseries::AverageReportBuilder < V2::Reports::Timeseries::B
   end
 
   def dimension_id_for_rollup
-    params[:type].to_s == 'account' ? account.id : params[:id].to_i
+    params[:type].to_s == 'account' ? account.id : scope.id
   end
 
   def group_and_aggregate_rollup(rollup_rows)

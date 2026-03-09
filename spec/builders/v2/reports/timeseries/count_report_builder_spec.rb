@@ -86,6 +86,23 @@ describe V2::Reports::Timeseries::CountReportBuilder do
       expect(subject.aggregate_value).to eq(2)
     end
 
+    context 'when rollups are enabled and the agent does not exist' do
+      let(:timezone_offset) { '0' }
+
+      let(:params) do
+        super().merge(id: '999999')
+      end
+
+      before do
+        account.update!(reporting_timezone: 'Etc/UTC')
+        allow(account).to receive(:feature_enabled?).with('reporting_events_rollup').and_return(true)
+      end
+
+      it 'raises record not found to preserve raw path behavior' do
+        expect { subject.aggregate_value }.to raise_error(ActiveRecord::RecordNotFound)
+      end
+    end
+
     context 'when querying account2' do
       subject { described_class.new(account2, params) }
 

@@ -60,7 +60,7 @@ class V2::Reports::Timeseries::CountReportBuilder < V2::Reports::Timeseries::Bas
   end
 
   def dimension_id_for_rollup
-    params[:type].to_s == 'account' ? account.id : params[:id].to_i
+    params[:type].to_s == 'account' ? account.id : scope.id
   end
 
   def group_and_aggregate_rollup_counts(rollup_rows)

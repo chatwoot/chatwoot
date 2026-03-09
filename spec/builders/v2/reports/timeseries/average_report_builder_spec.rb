@@ -262,5 +262,20 @@ describe V2::Reports::Timeseries::AverageReportBuilder do
         expect(subject.aggregate_value).to eq 91.0
       end
     end
+
+    context 'when rollups are enabled and the agent does not exist' do
+      let(:filter_type) { :agent }
+      let(:filter_id) { '999999' }
+      let(:timezone_offset) { '0' }
+
+      before do
+        account.update!(reporting_timezone: 'Etc/UTC')
+        allow(account).to receive(:feature_enabled?).with('reporting_events_rollup').and_return(true)
+      end
+
+      it 'raises record not found to preserve raw path behavior' do
+        expect { subject.aggregate_value }.to raise_error(ActiveRecord::RecordNotFound)
+      end
+    end
   end
 end
