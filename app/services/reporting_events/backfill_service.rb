@@ -96,6 +96,8 @@ class ReportingEvents::BackfillService
       'account' => @account.id,
       'agent' => event.user_id,
       'inbox' => event.inbox_id,
+      # Team rollups are still collected for validation/future use, but team reports
+      # currently stay on the raw path because reassignment breaks rollup parity.
       'team' => event.conversation&.team_id
     }
   end

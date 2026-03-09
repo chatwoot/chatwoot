@@ -45,6 +45,8 @@ module ReportingEvents::RollupService
         account: @account.id,
         agent: @reporting_event.user_id,
         inbox: @reporting_event.inbox_id,
+        # Team rollups are still collected for validation/future use, but team reports
+        # currently stay on the raw path because reassignment breaks rollup parity.
         team: team_id
       }
     end

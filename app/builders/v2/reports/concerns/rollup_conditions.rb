@@ -8,7 +8,7 @@ module V2::Reports::Concerns::RollupConditions
     bot_handoffs_count: :bot_handoffs_count
   }.freeze
 
-  SUPPORTED_DIMENSIONS = %w[account agent inbox team].freeze
+  SUPPORTED_DIMENSIONS = %w[account agent inbox].freeze
 
   def use_rollup?
     # Condition 0: reporting_timezone must be configured on account
@@ -70,6 +70,6 @@ module V2::Reports::Concerns::RollupConditions
   end
 
   def dimension_type_to_rollup
-    { 'account' => :account, 'agent' => :agent, 'inbox' => :inbox, 'team' => :team }[params[:type].to_s]
+    { 'account' => :account, 'agent' => :agent, 'inbox' => :inbox }[params[:type].to_s]
   end
 end

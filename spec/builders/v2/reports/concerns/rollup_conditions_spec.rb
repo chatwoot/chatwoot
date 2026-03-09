@@ -164,10 +164,10 @@ describe V2::Reports::Concerns::RollupConditions do
         expect(builder.use_rollup?).to be true
       end
 
-      it 'returns true for team dimension' do
+      it 'returns false for team dimension' do
         builder.params = valid_params.merge(type: 'team')
 
-        expect(builder.use_rollup?).to be true
+        expect(builder.use_rollup?).to be false
       end
     end
 
@@ -267,9 +267,9 @@ describe V2::Reports::Concerns::RollupConditions do
       expect(builder.dimension_type_to_rollup).to eq(:inbox)
     end
 
-    it 'maps team type to team' do
+    it 'returns nil for team type' do
       builder.params = { type: 'team' }
-      expect(builder.dimension_type_to_rollup).to eq(:team)
+      expect(builder.dimension_type_to_rollup).to be_nil
     end
 
     it 'returns nil for unsupported type' do
