@@ -100,6 +100,68 @@ RSpec.describe Billable do
     end
   end
 
+  # ── Trial Logic ────────────────────────────────────────────────
+
+  describe '#on_trial?' do
+    it 'returns falsey with no subscription' do
+      expect(account.on_trial?).to be_falsey
+    end
+
+    it 'returns true during active trial' do
+      account.grant_trial!(days: 14)
+      expect(account.on_trial?).to be true
+    end
+
+    it 'returns false when trial has expired' do
+      account.grant_trial!(days: 14)
+      sub = account.active_subscription
+      sub.update!(trial_ends_at: 1.day.ago, ends_at: 1.day.ago)
+      expect(account.on_trial?).to be false
+    end
+  end
+
+  describe '#trial_active?' do
+    it 'returns true when on trial with credits remaining' do
+      account.grant_trial!(days: 14, credits: 500)
+      expect(account.trial_active?).to be true
+    end
+
+    it 'returns false when trial credits exhausted' do
+      account.grant_trial!(days: 14, credits: 500)
+      account.update!(trial_credits_remaining: 0)
+      expect(account.trial_active?).to be false
+    end
+
+    it 'returns false when trial time expired even with credits' do
+      account.grant_trial!(days: 14, credits: 500)
+      sub = account.active_subscription
+      sub.update!(trial_ends_at: 1.day.ago, ends_at: 1.day.ago)
+      expect(account.trial_active?).to be false
+    end
+  end
+
+  describe '#ai_responses_allowed?' do
+    it 'returns false with no subscription' do
+      expect(account.ai_responses_allowed?).to be false
+    end
+
+    it 'returns true with active paid subscription' do
+      create_fake_subscription(account)
+      expect(account.ai_responses_allowed?).to be true
+    end
+
+    it 'returns true on trial with credits' do
+      account.grant_trial!(days: 14, credits: 500)
+      expect(account.ai_responses_allowed?).to be true
+    end
+
+    it 'returns false on trial with zero credits' do
+      account.grant_trial!(days: 14, credits: 500)
+      account.update!(trial_credits_remaining: 0)
+      expect(account.ai_responses_allowed?).to be false
+    end
+  end
+
   # ── Usage Tracking ─────────────────────────────────────────────
 
   describe '#current_usage' do
@@ -163,6 +225,60 @@ RSpec.describe Billable do
     it 'accepts a custom count' do
       expect { account.track_ai_response!(5) }.to change { account.current_usage.reload.ai_responses_count }.by(5)
     end
+
+    context 'on trial' do
+      before { account.grant_trial!(days: 14, credits: 500) }
+
+      it 'decrements trial_credits_remaining' do
+        expect { account.track_ai_response! }.to change { account.reload.trial_credits_remaining }.by(-1)
+      end
+
+      it 'decrements by custom count' do
+        expect { account.track_ai_response!(5) }.to change { account.reload.trial_credits_remaining }.by(-5)
+      end
+
+      it 'does not go below zero' do
+        account.update!(trial_credits_remaining: 2)
+        account.track_ai_response!(5)
+        expect(account.reload.trial_credits_remaining).to eq(0)
+      end
+    end
+
+    context 'on paid plan with overage' do
+      before { create_fake_subscription(account, plan_key: 'basic_monthly') }
+
+      it 'tracks overage when usage exceeds plan limit' do
+        account.current_usage.update!(ai_responses_count: 10_000)
+        account.track_ai_response!
+        expect(account.current_usage.reload.overage_count).to eq(1)
+      end
+
+      it 'calculates overage considering bonus credits' do
+        account.current_usage.update!(ai_responses_count: 10_500, bonus_credits: 1000)
+        account.track_ai_response!
+        # 10501 usage, effective limit = 10000 + 1000 = 11000 → no overage
+        expect(account.current_usage.reload.overage_count).to eq(0)
+      end
+
+      it 'does not track overage when within limit' do
+        account.current_usage.update!(ai_responses_count: 5000)
+        account.track_ai_response!
+        expect(account.current_usage.reload.overage_count).to eq(0)
+      end
+    end
+  end
+
+  describe '#clear_trial_credits!' do
+    it 'sets trial_credits_remaining to 0' do
+      account.update!(trial_credits_remaining: 500)
+      account.clear_trial_credits!
+      expect(account.reload.trial_credits_remaining).to eq(0)
+    end
+
+    it 'does nothing when already 0' do
+      account.update!(trial_credits_remaining: 0)
+      expect { account.clear_trial_credits! }.not_to(change { account.reload.updated_at })
+    end
   end
 
   describe '#track_voice_note!' do
@@ -184,6 +300,15 @@ RSpec.describe Billable do
       expect(summary[:ai_responses_limit]).to eq(25_000)
       expect(summary[:voice_notes_count]).to eq(0)
       expect(summary[:usage_percentage]).to be_a(Float)
+    end
+
+    it 'includes bonus_credits in ai_responses_limit' do
+      create_fake_subscription(account, plan_key: 'pro_monthly')
+      account.add_bonus_credits!(1000)
+
+      summary = account.usage_summary
+      expect(summary[:ai_responses_limit]).to eq(26_000)
+      expect(summary[:bonus_credits]).to eq(1000)
     end
 
     it 'returns nil limit and percentage when no plan' do
@@ -280,6 +405,51 @@ RSpec.describe Billable do
       account.reload
 
       expect(account.limits['ai_responses_per_month']).to be_nil
+    end
+
+    it 'enables CRM feature flag for pro plan' do
+      create_fake_subscription(account, plan_key: 'pro_monthly')
+      account.sync_plan_features!
+      expect(account.feature_enabled?(:crm)).to be true
+    end
+
+    it 'disables CRM feature flag for basic plan' do
+      create_fake_subscription(account, plan_key: 'basic_monthly')
+      account.sync_plan_features!
+      expect(account.feature_enabled?(:crm)).to be false
+    end
+
+    it 'enables api_access feature flag for pro plan' do
+      create_fake_subscription(account, plan_key: 'pro_monthly')
+      account.sync_plan_features!
+      expect(account.feature_enabled?(:api_access)).to be true
+    end
+
+    it 'disables api_access feature flag for basic plan' do
+      create_fake_subscription(account, plan_key: 'basic_monthly')
+      account.sync_plan_features!
+      expect(account.feature_enabled?(:api_access)).to be false
+    end
+
+    it 'disables api_access when plan is removed' do
+      create_fake_subscription(account, plan_key: 'pro_monthly')
+      account.sync_plan_features!
+      expect(account.feature_enabled?(:api_access)).to be true
+
+      account.active_subscription.update!(status: 'canceled', ends_at: 1.day.ago)
+      account.sync_plan_features!
+      expect(account.feature_enabled?(:api_access)).to be false
+    end
+
+    it 'disables CRM when plan is removed' do
+      create_fake_subscription(account, plan_key: 'pro_monthly')
+      account.sync_plan_features!
+      expect(account.feature_enabled?(:crm)).to be true
+
+      # End the subscription
+      account.active_subscription.update!(status: 'canceled', ends_at: 1.day.ago)
+      account.sync_plan_features!
+      expect(account.feature_enabled?(:crm)).to be false
     end
   end
 
@@ -462,6 +632,22 @@ RSpec.describe Billable do
       status = account.billing_status
       expect(status[:plan_name]).to be_nil
       expect(status[:subscription_status]).to be_nil
+    end
+  end
+
+  # ── Email Resolution ─────────────────────────────────────────────
+
+  describe '#email' do
+    it 'returns support_email by default (for pay gem)' do
+      account.update!(support_email: 'billing@example.com')
+      expect(account.email).to eq('billing@example.com')
+    end
+
+    it 'falls back to env/global config when support_email column is blank' do
+      # support_email method always falls back to MAILER_SENDER_EMAIL or GlobalConfig
+      # so it never returns nil — just verify it returns a valid email string
+      expect(account.email).to be_a(String)
+      expect(account.email).to include('@')
     end
   end
 end

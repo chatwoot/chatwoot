@@ -22,6 +22,11 @@ class Api::V1::Accounts::ArticlesController < Api::V1::Accounts::BaseController
   def edit; end
 
   def create
+    unless Current.account.within_limit?(:knowledge_base_documents, Current.account.articles.count)
+      render json: { error: 'Knowledge base document limit reached for your current plan. Please upgrade.' },
+             status: :payment_required and return
+    end
+
     params_with_defaults = article_params
     params_with_defaults[:status] ||= :draft
     @article = @portal.articles.create!(params_with_defaults)

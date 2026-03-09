@@ -95,6 +95,38 @@ RSpec.describe AccountUsageRecord do
     end
   end
 
+  describe 'bonus_credits' do
+    let(:record) { create(:account_usage_record, account: account) }
+
+    it 'defaults to 0' do
+      expect(record.bonus_credits).to eq(0)
+    end
+
+    it 'can be updated directly' do
+      record.update!(bonus_credits: 1000)
+      expect(record.reload.bonus_credits).to eq(1000)
+    end
+
+    it 'accumulates when incremented' do
+      record.update!(bonus_credits: 500)
+      record.update!(bonus_credits: record.bonus_credits + 300)
+      expect(record.reload.bonus_credits).to eq(800)
+    end
+  end
+
+  describe 'overage_count' do
+    let(:record) { create(:account_usage_record, account: account) }
+
+    it 'defaults to 0' do
+      expect(record.overage_count).to eq(0)
+    end
+
+    it 'can be set to track overage responses' do
+      record.update!(overage_count: 150)
+      expect(record.reload.overage_count).to eq(150)
+    end
+  end
+
   describe '#increment_voice_notes!' do
     let(:record) { create(:account_usage_record, account: account) }
 

@@ -33,16 +33,13 @@ describe('useBillingStore', () => {
       expect(store.isSubscribed).toBe(false);
     });
 
-    it('#isOnTrial returns true when active with trial_ends_at', () => {
-      store.subscription = {
-        status: 'active',
-        trial_ends_at: '2026-04-01T00:00:00Z',
-      };
+    it('#isOnTrial returns true when onTrial flag is set', () => {
+      store.onTrial = true;
       expect(store.isOnTrial).toBe(true);
     });
 
-    it('#isOnTrial returns false when active without trial_ends_at', () => {
-      store.subscription = { status: 'active' };
+    it('#isOnTrial returns false when onTrial flag is not set', () => {
+      store.onTrial = false;
       expect(store.isOnTrial).toBe(false);
     });
 

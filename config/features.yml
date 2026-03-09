@@ -240,3 +240,6 @@
   display_name: Advanced Assignment
   enabled: false
   premium: true
+- name: api_access
+  display_name: API Access
+  enabled: false

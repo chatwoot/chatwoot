@@ -133,13 +133,16 @@ module Billable
   def usage_summary
     plan = active_plan
     usage = current_usage
+    bonus = usage.bonus_credits || 0
+    effective_limit = plan ? plan.ai_response_limit + bonus : nil
 
     {
       ai_responses_count: usage.ai_responses_count,
-      ai_responses_limit: plan&.ai_response_limit,
+      ai_responses_limit: effective_limit,
+      bonus_credits: bonus,
       voice_notes_count: usage.voice_notes_count,
       period_date: usage.period_date,
-      usage_percentage: plan ? (usage.ai_responses_count.to_f / plan.ai_response_limit * 100).round(1) : nil,
+      usage_percentage: effective_limit ? (usage.ai_responses_count.to_f / effective_limit * 100).round(1) : nil,
       trial_credits_remaining: trial_credits_remaining,
       on_trial: on_trial?,
       trial_active: trial_active?,
@@ -211,7 +214,7 @@ module Billable
         'knowledge_base_documents' => plan.kb_document_limit
       )
     else
-      disable_features(:crm)
+      disable_features(:crm, :api_access)
       self.limits = (limits || {}).except('ai_responses_per_month', 'knowledge_base_documents')
     end
 
@@ -366,7 +369,8 @@ module Billable
   # Maps plan feature keys (from plans.yml) to Account feature flag names (from features.yml)
   def plan_feature_to_flag(feature_key)
     mapping = {
-      crm_integration: :crm
+      crm_integration: :crm,
+      api_access: :api_access
     }
     mapping[feature_key]
   end

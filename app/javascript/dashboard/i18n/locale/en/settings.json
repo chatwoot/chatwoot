@@ -251,7 +251,8 @@
     "EMAIL_VERIFICATION_SENT": "Verification email has been sent. Please check your inbox.",
     "ACCOUNT_SUSPENDED": {
       "TITLE": "Account Suspended",
-      "MESSAGE": "Your account is suspended. Please reach out to the support team for more information."
+      "MESSAGE": "Your account is suspended. Please reach out to the support team for more information.",
+      "FIX_PAYMENT": "Update Payment Method"
     },
     "NO_ACCOUNTS": {
       "TITLE": "No account found",
@@ -460,6 +461,10 @@
     "ACTIONS": {
       "CANCEL": "Cancel subscription",
       "RESUME": "Resume subscription"
+    },
+    "CONFIRM": {
+      "CANCEL": "Are you sure you want to cancel your subscription? You will retain access until the end of your billing period.",
+      "SWAP": "Are you sure you want to change your plan? The change will take effect immediately."
     },
     "USAGE": {
       "TITLE": "Usage This Month",
