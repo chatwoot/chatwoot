@@ -12,7 +12,7 @@ RSpec.describe 'Super Admin Users API', type: :request do
     end
 
     context 'when it is an authenticated super admin' do
-      let!(:user) { create(:user) }
+      let!(:user) { create(:user, name: 'Disabled User') }
       let!(:params) do
         { user: {
           name: 'admin@example.com',
@@ -27,9 +27,13 @@ RSpec.describe 'Super Admin Users API', type: :request do
       it 'shows the list of users' do
         sign_in(super_admin, scope: :super_admin)
         get '/super_admin/users'
+        doc = Nokogiri::HTML(response.body)
+        header_texts = doc.css('table thead th').map { |header| header.text.squish }
+
         expect(response).to have_http_status(:success)
         expect(response.body).to include('New user')
         expect(response.body).to include(CGI.escapeHTML(user.name))
+        expect(header_texts).not_to include('MFA')
       end
 
       it 'creates the new super_admin record' do
@@ -98,6 +102,23 @@ RSpec.describe 'Super Admin Users API', type: :request do
         job[:job].to_s == 'ActionMailer::MailDeliveryJob'
       end
       expect(mail_jobs.count).to be >= 1
+    end
+  end
+
+  describe 'GET /super_admin/users/:id' do
+    let!(:user) { create(:user, name: 'MFA Enabled User', otp_required_for_login: true) }
+
+    it 'shows the MFA status on the user detail page' do
+      sign_in(super_admin, scope: :super_admin)
+
+      get "/super_admin/users/#{user.id}"
+      doc = Nokogiri::HTML(response.body)
+      labels = doc.css('dt.attribute-label').map { |label| label.text.squish }
+
+      expect(response).to have_http_status(:success)
+      expect(labels).to include('MFA')
+      expect(response.body).to include('Enabled')
+      expect(response.body).to include(CGI.escapeHTML(user.name))
     end
   end
 end
