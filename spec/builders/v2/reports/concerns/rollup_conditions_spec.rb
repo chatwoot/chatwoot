@@ -301,7 +301,7 @@ describe V2::Reports::Concerns::RollupConditions do
     end
 
     it 'returns false when account timezone is not recognized' do
-      account.update!(reporting_timezone: 'Invalid/Zone')
+      allow(account).to receive(:reporting_timezone).and_return('Invalid/Zone')
       builder.params = { timezone_offset: current_ny_offset }
       expect(builder.timezone_matches_account?).to be false
     end

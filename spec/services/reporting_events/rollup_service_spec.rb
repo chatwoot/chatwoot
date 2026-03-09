@@ -23,6 +23,20 @@ describe ReportingEvents::RollupService do
       end
     end
 
+    context 'when reporting_timezone is invalid' do
+      it 'skips rollup creation' do
+        reporting_event = create(:reporting_event,
+                                 account: account,
+                                 name: 'conversation_resolved',
+                                 conversation: conversation)
+        allow(account).to receive(:reporting_timezone).and_return('Invalid/Zone')
+
+        expect do
+          described_class.perform(reporting_event)
+        end.not_to change(ReportingEventsRollup, :count)
+      end
+    end
+
     context 'when reporting_timezone is set' do
       describe 'conversation_resolved event' do
         let(:reporting_event) do
