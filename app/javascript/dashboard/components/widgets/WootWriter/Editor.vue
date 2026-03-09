@@ -978,11 +978,15 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
   @apply overflow-auto min-h-[5rem] max-h-[7.5rem];
 }
 
+.ProseMirror-prompt-backdrop::backdrop {
+  @apply bg-n-alpha-black1 backdrop-blur-[4px];
+}
+
 .ProseMirror-prompt {
-  @apply z-[9999] bg-n-alpha-3 backdrop-blur-[100px] border border-n-strong p-6 shadow-xl rounded-xl;
+  @apply bg-n-alpha-3 border border-n-strong p-6 shadow-xl rounded-xl w-96 !important;
 
   h5 {
-    @apply text-n-slate-12 mb-1.5;
+    @apply text-n-slate-12 mb-3;
   }
 
   .ProseMirror-prompt-buttons {
