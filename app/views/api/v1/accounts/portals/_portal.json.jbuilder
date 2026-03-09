@@ -8,6 +8,8 @@ json.page_title portal.page_title
 json.slug portal.slug
 json.archived portal.archived
 json.account_id portal.account_id
+json.custom_head_html portal.custom_head_html
+json.custom_body_html portal.custom_body_html
 
 json.config do
   json.allowed_locales do

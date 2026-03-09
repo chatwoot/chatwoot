@@ -6,7 +6,9 @@
 #  archived              :boolean          default(FALSE)
 #  color                 :string
 #  config                :jsonb
+#  custom_body_html      :text
 #  custom_domain         :string
+#  custom_head_html      :text
 #  header_text           :text
 #  homepage_link         :string
 #  name                  :string           not null
@@ -40,6 +42,8 @@ class Portal < ApplicationRecord
   validates :name, presence: true
   validates :slug, presence: true, uniqueness: true
   validates :custom_domain, uniqueness: true, allow_nil: true
+  validates :custom_head_html, length: { maximum: 15_000 }
+  validates :custom_body_html, length: { maximum: 15_000 }
   validate :config_json_format
 
   scope :active, -> { where(archived: false) }

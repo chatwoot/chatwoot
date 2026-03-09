@@ -47,6 +47,8 @@ const state = reactive({
   logoUrl: '',
   avatarBlobId: '',
   showAuthor: true,
+  customHeadHtml: '',
+  customBodyHtml: '',
 });
 
 const originalState = reactive({ ...state });
@@ -120,6 +122,8 @@ watch(
         slug: newVal.slug,
         liveChatWidgetInboxId: newVal.inbox?.id || '',
         showAuthor: newVal.config?.show_author !== false,
+        customHeadHtml: newVal.custom_head_html || '',
+        customBodyHtml: newVal.custom_body_html || '',
       });
       if (newVal.logo) {
         const {
@@ -153,6 +157,8 @@ const handleUpdatePortal = () => {
     blob_id: state.avatarBlobId,
     inbox_id: state.liveChatWidgetInboxId,
     config: { show_author: state.showAuthor },
+    custom_head_html: state.customHeadHtml,
+    custom_body_html: state.customBodyHtml,
   };
   emit('updatePortal', portal);
 };
@@ -351,6 +357,54 @@ const handleAvatarDelete = () => {
           <Switch v-model="state.showAuthor" />
           <span class="text-xs text-n-slate-11">
             {{ t('HELP_CENTER.PORTAL_SETTINGS.FORM.SHOW_AUTHOR.HELP_TEXT') }}
+          </span>
+        </div>
+      </div>
+      <div
+        class="grid items-start justify-between w-full gap-2 grid-cols-[200px,1fr]"
+      >
+        <label
+          class="text-sm font-medium whitespace-nowrap py-2.5 text-n-slate-12"
+        >
+          {{ t('HELP_CENTER.PORTAL_SETTINGS.FORM.CUSTOM_HEAD_HTML.LABEL') }}
+        </label>
+        <div class="flex flex-col gap-1">
+          <textarea
+            v-model="state.customHeadHtml"
+            :placeholder="
+              t('HELP_CENTER.PORTAL_SETTINGS.FORM.CUSTOM_HEAD_HTML.PLACEHOLDER')
+            "
+            rows="4"
+            class="w-full px-3 py-2 text-sm border rounded-lg resize-y border-n-weak bg-transparent dark:bg-transparent text-n-slate-12 placeholder:text-n-slate-9 focus:outline-none focus:ring-1 focus:ring-n-brand font-mono"
+          />
+          <span class="text-xs text-n-slate-11">
+            {{
+              t('HELP_CENTER.PORTAL_SETTINGS.FORM.CUSTOM_HEAD_HTML.HELP_TEXT')
+            }}
+          </span>
+        </div>
+      </div>
+      <div
+        class="grid items-start justify-between w-full gap-2 grid-cols-[200px,1fr]"
+      >
+        <label
+          class="text-sm font-medium whitespace-nowrap py-2.5 text-n-slate-12"
+        >
+          {{ t('HELP_CENTER.PORTAL_SETTINGS.FORM.CUSTOM_BODY_HTML.LABEL') }}
+        </label>
+        <div class="flex flex-col gap-1">
+          <textarea
+            v-model="state.customBodyHtml"
+            :placeholder="
+              t('HELP_CENTER.PORTAL_SETTINGS.FORM.CUSTOM_BODY_HTML.PLACEHOLDER')
+            "
+            rows="4"
+            class="w-full px-3 py-2 text-sm border rounded-lg resize-y border-n-weak bg-transparent dark:bg-transparent text-n-slate-12 placeholder:text-n-slate-9 focus:outline-none focus:ring-1 focus:ring-n-brand font-mono"
+          />
+          <span class="text-xs text-n-slate-11">
+            {{
+              t('HELP_CENTER.PORTAL_SETTINGS.FORM.CUSTOM_BODY_HTML.HELP_TEXT')
+            }}
           </span>
         </div>
       </div>
