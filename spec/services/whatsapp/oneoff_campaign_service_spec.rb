@@ -182,6 +182,30 @@ describe Whatsapp::OneoffCampaignService do
 
         described_class.new(campaign: campaign_with_liquid).perform
       end
+
+      it 'skips contacts when liquid variables resolve to blank values' do
+        contact = create(:contact, :with_phone_number, account: account, name: 'Jane', email: nil)
+        contact.update_labels([label1.title])
+
+        campaign_with_blank_liquid = create(:campaign, inbox: whatsapp_inbox, account: account,
+                                                       audience: [{ type: 'Label', id: label1.id }],
+                                                       template_params: {
+                                                         'name' => 'test_template',
+                                                         'namespace' => 'test_namespace',
+                                                         'language' => 'en',
+                                                         'processed_params' => {
+                                                           'body' => {
+                                                             'email' => '{{contact.email}}'
+                                                           }
+                                                         }
+                                                       })
+
+        expect(whatsapp_channel).not_to receive(:send_template)
+        expect(Rails.logger).to receive(:info).with("Skipping contact #{contact.name} - liquid variables resolved to blank values")
+        allow(Rails.logger).to receive(:info)
+
+        described_class.new(campaign: campaign_with_blank_liquid).perform
+      end
     end
 
     context 'when template_params is missing' do

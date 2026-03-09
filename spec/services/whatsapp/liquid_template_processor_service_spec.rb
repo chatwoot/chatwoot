@@ -181,6 +181,75 @@ describe Whatsapp::LiquidTemplateProcessorService do
       end
     end
 
+    context 'when liquid variable resolves to blank' do
+      let(:contact) { create(:contact, account: account, name: 'John', email: nil, phone_number: '+1234567890') }
+
+      it 'returns nil for enhanced params with blank rendered values' do
+        template_params = {
+          'name' => 'test_template',
+          'processed_params' => {
+            'body' => {
+              'email' => '{{contact.email}}'
+            }
+          }
+        }
+
+        result = service.process_template_params(template_params)
+        expect(result).to be_nil
+      end
+
+      it 'returns nil for legacy hash params with blank rendered values' do
+        template_params = {
+          'name' => 'test_template',
+          'processed_params' => {
+            '1' => '{{contact.email}}'
+          }
+        }
+
+        result = service.process_template_params(template_params)
+        expect(result).to be_nil
+      end
+
+      it 'returns nil for legacy array params with blank rendered values' do
+        template_params = {
+          'name' => 'test_template',
+          'processed_params' => ['{{contact.email}}']
+        }
+
+        result = service.process_template_params(template_params)
+        expect(result).to be_nil
+      end
+
+      it 'returns nil for button params with blank rendered values' do
+        template_params = {
+          'name' => 'test_template',
+          'processed_params' => {
+            'buttons' => [
+              { 'type' => 'url', 'parameter' => '{{contact.email}}' }
+            ]
+          }
+        }
+
+        result = service.process_template_params(template_params)
+        expect(result).to be_nil
+      end
+
+      it 'returns processed params when all variables resolve to non-blank values' do
+        template_params = {
+          'name' => 'test_template',
+          'processed_params' => {
+            'body' => {
+              'name' => '{{contact.name}}'
+            }
+          }
+        }
+
+        result = service.process_template_params(template_params)
+        expect(result).not_to be_nil
+        expect(result['processed_params']['body']['name']).to eq(ContactDrop.new(contact).name)
+      end
+    end
+
     context 'with custom attributes' do
       let(:contact) do
         create(:contact, account: account, name: 'John Doe',

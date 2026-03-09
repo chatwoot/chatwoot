@@ -11,12 +11,16 @@ class Whatsapp::LiquidTemplateProcessorService
 
     return template_params_copy if processed_params.blank?
 
+    @has_blank_values = false
+
     case processed_params
     when Array
       process_legacy_array_params(processed_params)
     when Hash
       process_hash_params(processed_params)
     end
+
+    return nil if @has_blank_values
 
     template_params_copy
   end
@@ -32,10 +36,8 @@ class Whatsapp::LiquidTemplateProcessorService
   end
 
   def process_component_params(processed_params)
-    process_body_params(processed_params)
-    process_header_params(processed_params)
+    %w[body header footer].each { |key| process_hash_component(processed_params, key) }
     process_button_params(processed_params)
-    process_footer_params(processed_params)
   end
 
   def process_legacy_hash_params(processed_params)
@@ -58,41 +60,15 @@ class Whatsapp::LiquidTemplateProcessorService
   end
 
   def valid_component_structure?(processed_params)
-    valid_body_component?(processed_params['body']) &&
-      valid_header_component?(processed_params['header']) &&
-      valid_footer_component?(processed_params['footer']) &&
-      valid_buttons_component?(processed_params['buttons'])
+    %w[body header footer].all? { |key| processed_params[key].nil? || processed_params[key].is_a?(Hash) } &&
+      (processed_params['buttons'].nil? || processed_params['buttons'].is_a?(Array))
   end
 
-  def valid_body_component?(body)
-    body.nil? || body.is_a?(Hash)
-  end
+  def process_hash_component(processed_params, key)
+    return if processed_params[key].blank?
 
-  def valid_header_component?(header)
-    header.nil? || header.is_a?(Hash)
-  end
-
-  def valid_footer_component?(footer)
-    footer.nil? || footer.is_a?(Hash)
-  end
-
-  def valid_buttons_component?(buttons)
-    buttons.nil? || buttons.is_a?(Array)
-  end
-
-  def process_body_params(processed_params)
-    return if processed_params['body'].blank?
-
-    processed_params['body'].each do |key, value|
-      processed_params['body'][key] = process_liquid(value) if value.is_a?(String)
-    end
-  end
-
-  def process_header_params(processed_params)
-    return if processed_params['header'].blank?
-
-    processed_params['header'].each do |key, value|
-      processed_params['header'][key] = process_liquid(value) if value.is_a?(String)
+    processed_params[key].each do |k, value|
+      processed_params[key][k] = process_liquid(value) if value.is_a?(String)
     end
   end
 
@@ -106,18 +82,12 @@ class Whatsapp::LiquidTemplateProcessorService
     end
   end
 
-  def process_footer_params(processed_params)
-    return if processed_params['footer'].blank?
-
-    processed_params['footer'].each do |key, value|
-      processed_params['footer'][key] = process_liquid(value) if value.is_a?(String)
-    end
-  end
-
   def process_liquid(value)
     return value if value.blank?
 
-    liquid_service.call(value)
+    rendered = liquid_service.call(value)
+    @has_blank_values = true if rendered.blank? && value.present?
+    rendered
   end
 
   def liquid_service
