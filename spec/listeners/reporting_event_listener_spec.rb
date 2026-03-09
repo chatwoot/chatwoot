@@ -271,18 +271,32 @@ describe ReportingEventListener do
   describe '#conversation_captain_inference_resolved' do
     it 'creates conversation_captain_inference_resolved event' do
       expect(account.reporting_events.where(name: 'conversation_captain_inference_resolved').count).to be 0
-      event = Events::Base.new('conversation.captain_inference_resolved', Time.zone.now, conversation: conversation)
+      decision_time = conversation.created_at + 60.seconds
+      event = Events::Base.new('conversation.captain_inference_resolved', decision_time, conversation: conversation)
+      allow(conversation).to receive(:updated_at).and_return(decision_time + 5.minutes)
+
       listener.conversation_captain_inference_resolved(event)
-      expect(account.reporting_events.where(name: 'conversation_captain_inference_resolved').count).to be 1
+
+      reporting_event = account.reporting_events.where(name: 'conversation_captain_inference_resolved').first
+      expect(reporting_event).to be_present
+      expect(reporting_event.value).to eq 60
+      expect(reporting_event.event_end_time).to be_within(1.second).of(decision_time)
     end
   end
 
   describe '#conversation_captain_inference_handoff' do
     it 'creates conversation_captain_inference_handoff event' do
       expect(account.reporting_events.where(name: 'conversation_captain_inference_handoff').count).to be 0
-      event = Events::Base.new('conversation.captain_inference_handoff', Time.zone.now, conversation: conversation)
+      decision_time = conversation.created_at + 90.seconds
+      event = Events::Base.new('conversation.captain_inference_handoff', decision_time, conversation: conversation)
+      allow(conversation).to receive(:updated_at).and_return(decision_time + 5.minutes)
+
       listener.conversation_captain_inference_handoff(event)
-      expect(account.reporting_events.where(name: 'conversation_captain_inference_handoff').count).to be 1
+
+      reporting_event = account.reporting_events.where(name: 'conversation_captain_inference_handoff').first
+      expect(reporting_event).to be_present
+      expect(reporting_event.value).to eq 90
+      expect(reporting_event.event_end_time).to be_within(1.second).of(decision_time)
     end
   end
 

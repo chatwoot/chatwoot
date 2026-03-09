@@ -141,7 +141,7 @@ class ReportingEventListener < BaseListener
 
   def create_captain_inference_event(event, event_name)
     conversation = extract_conversation_and_account(event)[0]
-    time_to_event = conversation.updated_at.to_i - conversation.created_at.to_i
+    time_to_event = event.timestamp.to_i - conversation.created_at.to_i
 
     ReportingEvent.create!(
       name: event_name,
@@ -151,7 +151,7 @@ class ReportingEventListener < BaseListener
       user_id: conversation.assignee_id,
       conversation_id: conversation.id,
       event_start_time: conversation.created_at,
-      event_end_time: conversation.updated_at
+      event_end_time: event.timestamp
     )
   end
 
