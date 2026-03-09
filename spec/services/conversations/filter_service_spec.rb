@@ -417,6 +417,41 @@ describe Conversations::FilterService do
         expect(result[:conversations].length).to be expected_count
       end
 
+      it 'binds created_at comparison values as dates' do
+        date_value = '2024-01-01'
+        params[:payload] = [
+          {
+            attribute_key: 'created_at',
+            filter_operator: 'is_greater_than',
+            values: [date_value],
+            query_operator: nil,
+            custom_attribute_type: ''
+          }.with_indifferent_access
+        ]
+
+        service = filter_service.new(params, user_1, account)
+        filters = service.instance_variable_get(:@filters)['conversations']
+        condition_query = service.send(:build_condition_query, filters, params[:payload].first, 0)
+
+        expect(condition_query).to include('(conversations.created_at)::date > :value_0')
+        expect(service.instance_variable_get(:@filter_values)['value_0']).to eq(Date.iso8601(date_value))
+      end
+
+      it 'rejects invalid created_at comparison values' do
+        malicious_value = "2024-01-01'::date OR (SELECT pg_sleep(5)) IS NOT NULL --"
+        params[:payload] = [
+          {
+            attribute_key: 'created_at',
+            filter_operator: 'is_greater_than',
+            values: [malicious_value],
+            query_operator: nil,
+            custom_attribute_type: ''
+          }.with_indifferent_access
+        ]
+
+        expect { filter_service.new(params, user_1, account).perform }.to raise_error(CustomExceptions::CustomFilter::InvalidValue)
+      end
+
       it 'filter by created_at and conversation_type' do
         params[:payload] = [
           {
