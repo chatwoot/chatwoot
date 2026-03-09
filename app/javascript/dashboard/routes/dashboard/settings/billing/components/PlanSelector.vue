@@ -28,6 +28,10 @@ const filteredPlans = computed(() => {
   return props.plans.filter(plan => plan.interval === billingInterval.value);
 });
 
+const isCurrentTier = plan => {
+  return props.currentPlan?.tier === plan.tier;
+};
+
 const isCurrentPlan = plan => {
   return props.currentPlan?.key === plan.key;
 };
@@ -88,7 +92,7 @@ const onSelectPlan = planKey => {
         :key="plan.key"
         class="rounded-xl border p-5 space-y-4 transition-shadow hover:shadow-md"
         :class="
-          isCurrentPlan(plan)
+          isCurrentTier(plan)
             ? 'border-n-brand bg-n-blue-2'
             : 'border-n-weak bg-n-solid-2'
         "
@@ -99,7 +103,7 @@ const onSelectPlan = planKey => {
               {{ plan.name }}
             </h3>
             <span
-              v-if="isCurrentPlan(plan)"
+              v-if="isCurrentTier(plan)"
               class="px-2 py-0.5 text-xs font-medium rounded-full bg-n-brand text-white"
             >
               {{ t('BILLING_SETTINGS.PLAN_SELECTOR.CURRENT') }}

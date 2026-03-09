@@ -68,7 +68,8 @@ export const validateLoggedInRoutes = (to, user) => {
   }
 
   // If the current account is not active, then redirect the user to the suspended screen
-  if (to.name !== 'account_suspended') {
+  // Allow billing settings so suspended users can update their payment method
+  if (to.name !== 'account_suspended' && to.name !== 'billing_settings_index') {
     return `accounts/${to.params.accountId}/suspended`;
   }
 

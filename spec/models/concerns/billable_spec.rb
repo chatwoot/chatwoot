@@ -302,6 +302,15 @@ RSpec.describe Billable do
       expect(summary[:usage_percentage]).to be_a(Float)
     end
 
+    it 'includes bonus_credits in ai_responses_limit' do
+      create_fake_subscription(account, plan_key: 'pro_monthly')
+      account.add_bonus_credits!(1000)
+
+      summary = account.usage_summary
+      expect(summary[:ai_responses_limit]).to eq(26_000)
+      expect(summary[:bonus_credits]).to eq(1000)
+    end
+
     it 'returns nil limit and percentage when no plan' do
       summary = account.usage_summary
       expect(summary[:ai_responses_limit]).to be_nil

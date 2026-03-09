@@ -88,6 +88,20 @@ describe('#validateLoggedInRoutes', () => {
           )
         ).toEqual(`accounts/1/suspended`);
       });
+      it('allows billing_settings_index when suspended', () => {
+        expect(
+          validateLoggedInRoutes(
+            {
+              name: 'billing_settings_index',
+              params: { accountId: 1 },
+              meta: { permissions: ['administrator'] },
+            },
+            {
+              accounts: [{ id: 1, role: 'administrator', status: 'suspended' }],
+            }
+          )
+        ).toEqual(null);
+      });
     });
     describe('when account is active', () => {
       describe('when route is accessible', () => {

@@ -51,6 +51,7 @@ const onManageBilling = async () => {
 };
 
 const onCancel = async () => {
+  if (!window.confirm(t('BILLING_SETTINGS.CONFIRM.CANCEL'))) return;
   try {
     await billingStore.cancel();
     useAlert(t('BILLING_SETTINGS.API.CANCEL_SUCCESS'));
@@ -77,6 +78,7 @@ const onSelectPlan = async planKey => {
 };
 
 const onSwapPlan = async planKey => {
+  if (!window.confirm(t('BILLING_SETTINGS.CONFIRM.SWAP'))) return;
   try {
     await billingStore.swapPlan(planKey);
     useAlert(t('BILLING_SETTINGS.API.SWAP_SUCCESS'));

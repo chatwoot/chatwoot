@@ -133,13 +133,16 @@ module Billable
   def usage_summary
     plan = active_plan
     usage = current_usage
+    bonus = usage.bonus_credits || 0
+    effective_limit = plan ? plan.ai_response_limit + bonus : nil
 
     {
       ai_responses_count: usage.ai_responses_count,
-      ai_responses_limit: plan&.ai_response_limit,
+      ai_responses_limit: effective_limit,
+      bonus_credits: bonus,
       voice_notes_count: usage.voice_notes_count,
       period_date: usage.period_date,
-      usage_percentage: plan ? (usage.ai_responses_count.to_f / plan.ai_response_limit * 100).round(1) : nil,
+      usage_percentage: effective_limit ? (usage.ai_responses_count.to_f / effective_limit * 100).round(1) : nil,
       trial_credits_remaining: trial_credits_remaining,
       on_trial: on_trial?,
       trial_active: trial_active?,
