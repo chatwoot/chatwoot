@@ -754,12 +754,14 @@
         "CUSTOM_HEAD_HTML": {
           "LABEL": "Custom head HTML",
           "PLACEHOLDER": "Add custom HTML to the <head> section (e.g., meta tags, analytics, custom CSS)",
-          "HELP_TEXT": "This code will be injected into the <head> of your portal pages"
+          "HELP_TEXT": "This code will be injected into the <head> of your portal pages",
+          "ERROR": "Custom head HTML must be less than 15,000 characters"
         },
         "CUSTOM_BODY_HTML": {
           "LABEL": "Custom body HTML",
           "PLACEHOLDER": "Add custom HTML before </body> (e.g., scripts, tracking pixels, widgets)",
-          "HELP_TEXT": "This code will be injected before the closing </body> tag of your portal pages"
+          "HELP_TEXT": "This code will be injected before the closing </body> tag of your portal pages",
+          "ERROR": "Custom body HTML must be less than 15,000 characters"
         },
         "SAVE_CHANGES": "Save changes"
       },

@@ -7,7 +7,13 @@ import { useStore, useStoreGetters } from 'dashboard/composables/store';
 import { uploadFile } from 'dashboard/helper/uploadHelper';
 import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
 import { useVuelidate } from '@vuelidate/core';
-import { required, minLength, helpers, url } from '@vuelidate/validators';
+import {
+  required,
+  minLength,
+  maxLength,
+  helpers,
+  url,
+} from '@vuelidate/validators';
 import { isValidSlug } from 'shared/helpers/Validators';
 
 import Button from 'dashboard/components-next/button/Button.vue';
@@ -35,6 +41,7 @@ const store = useStore();
 const getters = useStoreGetters();
 
 const MAXIMUM_FILE_UPLOAD_SIZE = 4; // in MB
+const CUSTOM_HTML_MAX_LENGTH = 15_000;
 
 const state = reactive({
   name: '',
@@ -84,6 +91,8 @@ const rules = {
     ),
   },
   homePageLink: { url },
+  customHeadHtml: { maxLength: maxLength(CUSTOM_HTML_MAX_LENGTH) },
+  customBodyHtml: { maxLength: maxLength(CUSTOM_HTML_MAX_LENGTH) },
 };
 
 const v$ = useVuelidate(rules, state);
@@ -99,6 +108,18 @@ const slugError = computed(() => {
 const homePageLinkError = computed(() =>
   v$.value.homePageLink.$error
     ? t('HELP_CENTER.PORTAL_SETTINGS.FORM.HOME_PAGE_LINK.ERROR')
+    : ''
+);
+
+const customHeadHtmlError = computed(() =>
+  v$.value.customHeadHtml.$error
+    ? t('HELP_CENTER.PORTAL_SETTINGS.FORM.CUSTOM_HEAD_HTML.ERROR')
+    : ''
+);
+
+const customBodyHtmlError = computed(() =>
+  v$.value.customBodyHtml.$error
+    ? t('HELP_CENTER.PORTAL_SETTINGS.FORM.CUSTOM_BODY_HTML.ERROR')
     : ''
 );
 
@@ -375,10 +396,20 @@ const handleAvatarDelete = () => {
               t('HELP_CENTER.PORTAL_SETTINGS.FORM.CUSTOM_HEAD_HTML.PLACEHOLDER')
             "
             rows="4"
-            class="w-full px-3 py-2 text-sm border rounded-lg resize-y border-n-weak bg-transparent dark:bg-transparent text-n-slate-12 placeholder:text-n-slate-9 focus:outline-none focus:ring-1 focus:ring-n-brand font-mono"
+            class="w-full px-3 py-2 text-sm border rounded-lg resize-y bg-transparent dark:bg-transparent text-n-slate-12 placeholder:text-n-slate-9 focus:outline-none focus:ring-1 font-mono"
+            :class="
+              customHeadHtmlError
+                ? 'border-n-ruby-9 focus:ring-n-ruby-9'
+                : 'border-n-weak focus:ring-n-brand'
+            "
+            @input="v$.customHeadHtml.$touch()"
           />
-          <span class="text-xs text-n-slate-11">
+          <span
+            class="text-xs"
+            :class="customHeadHtmlError ? 'text-n-ruby-9' : 'text-n-slate-11'"
+          >
             {{
+              customHeadHtmlError ||
               t('HELP_CENTER.PORTAL_SETTINGS.FORM.CUSTOM_HEAD_HTML.HELP_TEXT')
             }}
           </span>
@@ -399,10 +430,20 @@ const handleAvatarDelete = () => {
               t('HELP_CENTER.PORTAL_SETTINGS.FORM.CUSTOM_BODY_HTML.PLACEHOLDER')
             "
             rows="4"
-            class="w-full px-3 py-2 text-sm border rounded-lg resize-y border-n-weak bg-transparent dark:bg-transparent text-n-slate-12 placeholder:text-n-slate-9 focus:outline-none focus:ring-1 focus:ring-n-brand font-mono"
+            class="w-full px-3 py-2 text-sm border rounded-lg resize-y bg-transparent dark:bg-transparent text-n-slate-12 placeholder:text-n-slate-9 focus:outline-none focus:ring-1 font-mono"
+            :class="
+              customBodyHtmlError
+                ? 'border-n-ruby-9 focus:ring-n-ruby-9'
+                : 'border-n-weak focus:ring-n-brand'
+            "
+            @input="v$.customBodyHtml.$touch()"
           />
-          <span class="text-xs text-n-slate-11">
+          <span
+            class="text-xs"
+            :class="customBodyHtmlError ? 'text-n-ruby-9' : 'text-n-slate-11'"
+          >
             {{
+              customBodyHtmlError ||
               t('HELP_CENTER.PORTAL_SETTINGS.FORM.CUSTOM_BODY_HTML.HELP_TEXT')
             }}
           </span>

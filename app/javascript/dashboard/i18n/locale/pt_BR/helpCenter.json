@@ -754,12 +754,14 @@
         "CUSTOM_HEAD_HTML": {
           "LABEL": "HTML personalizado no head",
           "PLACEHOLDER": "Adicione HTML personalizado na seção <head> (ex: meta tags, analytics, CSS personalizado)",
-          "HELP_TEXT": "Este código será injetado no <head> das páginas do seu portal"
+          "HELP_TEXT": "Este código será injetado no <head> das páginas do seu portal",
+          "ERROR": "O HTML personalizado do head deve ter menos de 15.000 caracteres"
         },
         "CUSTOM_BODY_HTML": {
           "LABEL": "HTML personalizado no body",
           "PLACEHOLDER": "Adicione HTML personalizado antes do </body> (ex: scripts, pixels de rastreamento, widgets)",
-          "HELP_TEXT": "Este código será injetado antes da tag de fechamento </body> das páginas do seu portal"
+          "HELP_TEXT": "Este código será injetado antes da tag de fechamento </body> das páginas do seu portal",
+          "ERROR": "O HTML personalizado do body deve ter menos de 15.000 caracteres"
         },
         "SAVE_CHANGES": "Salvar Alterações"
       },
