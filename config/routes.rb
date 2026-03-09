@@ -348,7 +348,9 @@ Rails.application.routes.draw do
               post :send_instructions
               get :ssl_status
             end
-            resources :categories
+            resources :categories do
+              post :reorder, on: :collection
+            end
             resources :articles do
               post :reorder, on: :collection
             end

@@ -277,7 +277,7 @@ useKeyboardEvents(keyboardEvents);
       handleClickOutside,
       // Fixed and edge case https://github.com/chatwoot/chatwoot/issues/10785
       // This will prevent closing the compose conversation modal when the editor Create link popup is open
-      { ignore: ['div.ProseMirror-prompt'] },
+      { ignore: ['dialog.ProseMirror-prompt-backdrop'] },
     ]"
     class="relative"
     :class="{
