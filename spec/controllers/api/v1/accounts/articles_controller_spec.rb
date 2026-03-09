@@ -137,6 +137,36 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
         category = Article.find(json_response['payload']['id'])
         expect(category.associated_article_id).to eql(parent_article.id)
       end
+
+      context 'when knowledge base document limit is reached' do
+        before do
+          plan = PlanConfig.find('basic_monthly')
+          account.set_payment_processor :fake_processor, allow_fake: true
+          account.payment_processor.subscribe(plan: plan.stripe_price_id)
+          account.sync_plan_features!
+          # basic_monthly allows 100 KB docs; stub article count to be at limit
+          allow(Account).to receive(:find).and_return(account)
+          allow(account).to receive_message_chain(:articles, :count).and_return(100)
+        end
+
+        it 'returns payment_required when at document limit' do
+          article_params = {
+            article: {
+              category_id: category.id,
+              title: 'Over Limit Article',
+              slug: 'over-limit',
+              content: 'Should be rejected.',
+              author_id: agent.id
+            }
+          }
+          post "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles",
+               params: article_params,
+               headers: admin.create_new_auth_token
+          expect(response).to have_http_status(:payment_required)
+          json_response = response.parsed_body
+          expect(json_response['error']).to include('limit')
+        end
+      end
     end
   end
 

@@ -214,7 +214,7 @@ module Billable
         'knowledge_base_documents' => plan.kb_document_limit
       )
     else
-      disable_features(:crm)
+      disable_features(:crm, :api_access)
       self.limits = (limits || {}).except('ai_responses_per_month', 'knowledge_base_documents')
     end
 
@@ -369,7 +369,8 @@ module Billable
   # Maps plan feature keys (from plans.yml) to Account feature flag names (from features.yml)
   def plan_feature_to_flag(feature_key)
     mapping = {
-      crm_integration: :crm
+      crm_integration: :crm,
+      api_access: :api_access
     }
     mapping[feature_key]
   end

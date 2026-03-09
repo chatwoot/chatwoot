@@ -419,6 +419,28 @@ RSpec.describe Billable do
       expect(account.feature_enabled?(:crm)).to be false
     end
 
+    it 'enables api_access feature flag for pro plan' do
+      create_fake_subscription(account, plan_key: 'pro_monthly')
+      account.sync_plan_features!
+      expect(account.feature_enabled?(:api_access)).to be true
+    end
+
+    it 'disables api_access feature flag for basic plan' do
+      create_fake_subscription(account, plan_key: 'basic_monthly')
+      account.sync_plan_features!
+      expect(account.feature_enabled?(:api_access)).to be false
+    end
+
+    it 'disables api_access when plan is removed' do
+      create_fake_subscription(account, plan_key: 'pro_monthly')
+      account.sync_plan_features!
+      expect(account.feature_enabled?(:api_access)).to be true
+
+      account.active_subscription.update!(status: 'canceled', ends_at: 1.day.ago)
+      account.sync_plan_features!
+      expect(account.feature_enabled?(:api_access)).to be false
+    end
+
     it 'disables CRM when plan is removed' do
       create_fake_subscription(account, plan_key: 'pro_monthly')
       account.sync_plan_features!
