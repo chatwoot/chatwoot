@@ -83,26 +83,9 @@ class ReportingEventsRollupBackfill # rubocop:disable Metrics/ClassLength
   end
 
   def resolve_date_range(account, timezone, first_event, last_event)
-    tz = ActiveSupport::TimeZone[timezone]
-    discovered_start = first_event.created_at.in_time_zone(tz).to_date
-    discovered_end = last_event.created_at.in_time_zone(tz).to_date
-    discovered_days = (discovered_end - discovered_start).to_i + 1
-    default_end = [discovered_end, Time.current.in_time_zone(tz).to_date - 1.day].min
-
-    puts color("Discovered date range: #{discovered_start} to #{discovered_end} (#{discovered_days} days) [Account: #{account.name}]", :gray)
-    puts color("Default end date (excluding today): #{default_end}", :gray)
-    puts ''
-
-    start_date = discovered_start
-    end_date = default_end
-    total_days = (end_date - start_date).to_i + 1
-
-    if total_days <= 0
-      puts 'No closed days available to backfill in the default range.'
-      exit(0)
-    end
-
-    [start_date, end_date, total_days]
+    dates = discovered_dates(timezone, first_event, last_event)
+    print_discovered_date_range(account, dates)
+    build_date_range(dates)
   end
 
   def prompt_dry_run?
@@ -141,6 +124,42 @@ class ReportingEventsRollupBackfill # rubocop:disable Metrics/ClassLength
 
   def format_event_time(event, zone)
     event.created_at.in_time_zone(zone).strftime('%Y-%m-%d %H:%M:%S %Z')
+  end
+
+  def discovered_dates(timezone, first_event, last_event)
+    tz = ActiveSupport::TimeZone[timezone]
+    discovered_start = first_event.created_at.in_time_zone(tz).to_date
+    discovered_end = last_event.created_at.in_time_zone(tz).to_date
+
+    {
+      discovered_start: discovered_start,
+      discovered_end: discovered_end,
+      discovered_days: (discovered_end - discovered_start).to_i + 1,
+      default_end: [discovered_end, Time.current.in_time_zone(tz).to_date - 1.day].min
+    }
+  end
+
+  def print_discovered_date_range(account, dates)
+    message = "Discovered date range: #{dates[:discovered_start]} to #{dates[:discovered_end]} " \
+              "(#{dates[:discovered_days]} days) [Account: #{account.name}]"
+    puts color(message, :gray)
+    puts color("Default end date (excluding today): #{dates[:default_end]}", :gray)
+    puts ''
+  end
+
+  def build_date_range(dates)
+    start_date = dates[:discovered_start]
+    end_date = dates[:default_end]
+    total_days = (end_date - start_date).to_i + 1
+
+    abort_no_closed_days if total_days <= 0
+
+    [start_date, end_date, total_days]
+  end
+
+  def abort_no_closed_days
+    puts 'No closed days available to backfill in the default range.'
+    exit(0)
   end
 
   def confirm_and_execute(account, start_date, end_date, total_days)
