@@ -58,6 +58,17 @@ RSpec.describe BillingMailer do
     end
   end
 
+  describe '#overage_notice' do
+    it 'sends email about overage billing' do
+      mail = described_class.with(account: account).overage_notice(account, overage_count: 150).deliver_now
+
+      expect(mail).to be_present
+      expect(mail.to).to include(admin.email)
+      expect(mail.subject).to include('overage')
+      expect(mail.subject).to include('150')
+    end
+  end
+
   describe '#usage_limit_reached' do
     it 'sends email about reaching usage limit' do
       mail = described_class.with(account: account).usage_limit_reached(account).deliver_now

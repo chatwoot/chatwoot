@@ -96,6 +96,38 @@ RSpec.describe BillingWebhookHandlers do
     end
   end
 
+  describe '.handle_invoice_created' do
+    it 'creates a Stripe InvoiceItem for overage' do
+      pay_customer, _pay_sub = setup_pay_subscription(account, plan_key: 'basic_monthly')
+      account.sync_plan_features!
+      # Simulate overage: 150 responses over the 10,000 limit
+      account.current_usage.update!(overage_count: 150)
+
+      # Mock Stripe API call
+      expect(Stripe::InvoiceItem).to receive(:create).with(
+        customer: pay_customer.processor_id,
+        amount: 1500, # 150 * 10 fils
+        currency: 'kwd',
+        description: 'AI response overage: 150 responses × 0.010 KD'
+      )
+
+      described_class.handle_invoice_created(pay_customer)
+    end
+
+    it 'does nothing when no overage' do
+      pay_customer, _pay_sub = setup_pay_subscription(account)
+      account.current_usage.update!(overage_count: 0)
+
+      expect(Stripe::InvoiceItem).not_to receive(:create)
+
+      described_class.handle_invoice_created(pay_customer)
+    end
+
+    it 'ignores nil pay_customer' do
+      expect { described_class.handle_invoice_created(nil) }.not_to raise_error
+    end
+  end
+
   describe '.handle_checkout_completed' do
     it 'syncs plan features after checkout' do
       pay_customer, _pay_sub = setup_pay_subscription(account, plan_key: 'pro_monthly')
@@ -104,6 +136,19 @@ RSpec.describe BillingWebhookHandlers do
 
       account.reload
       expect(account.limits['ai_responses_per_month']).to eq(25_000)
+    end
+
+    it 'clears trial credits on first checkout' do
+      account.update!(trial_credits_remaining: 350)
+      pay_customer, _pay_sub = setup_pay_subscription(account, plan_key: 'pro_monthly')
+
+      described_class.handle_checkout_completed(pay_customer)
+
+      expect(account.reload.trial_credits_remaining).to eq(0)
+    end
+
+    it 'ignores nil pay_customer' do
+      expect { described_class.handle_checkout_completed(nil) }.not_to raise_error
     end
   end
 end
