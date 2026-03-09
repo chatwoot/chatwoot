@@ -257,3 +257,39 @@ socialwise_flow:
       },
     ]
   visible_properties: ['endpoint', 'language']
+
+jusmonitoria:
+  id: jusmonitoria
+  logo: jusmonitoria.png
+  i18n_key: jusmonitoria
+  action: /jusmonitoria
+  hook_type: account
+  allow_multiple_hooks: false
+  settings_json_schema:
+    {
+      'type': 'object',
+      'properties':
+        {
+          'endpoint': { 'type': 'string' },
+          'monitoring_label_prefix': { 'type': 'string' }
+        },
+      'required': [],
+      'additionalProperties': false,
+    }
+  settings_form_schema:
+    [
+      {
+        'label': 'Endpoint (opcional)',
+        'type': 'text',
+        'name': 'endpoint',
+        'help': 'Ex.: https://jusmonitoria.witdev.com.br — deixe vazio para usar o padrão',
+      },
+      {
+        'label': 'Prefixo da label de monitoramento',
+        'type': 'text',
+        'name': 'monitoring_label_prefix',
+        'default': 'jusmonitoria_',
+        'help': 'Labels com este prefixo ativam o encaminhamento de eventos ao JusMonitorIA',
+      },
+    ]
+  visible_properties: ['endpoint']

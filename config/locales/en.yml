@@ -345,6 +345,10 @@ en:
       name: 'SocialWise Flow'
       short_description: 'Automate with rich messages across Meta channels.'
       description: 'Connect SocialWise Flow as a bot to automate responses with prebuilt rich messages (buttons, headers, footers, images) on WhatsApp, Instagram, and Facebook.'
+    jusmonitoria:
+      name: 'JusMonitorIA'
+      short_description: 'Legal process monitoring and event forwarding.'
+      description: 'Connect JusMonitorIA to forward contacts, tags, and messages for legal process monitoring. When the monitoring label is added to a conversation, events are forwarded to JusMonitorIA automatically.'
   captain:
     copilot_message_required: Message is required
     copilot_error: 'Please connect an assistant to this inbox to use Copilot'
