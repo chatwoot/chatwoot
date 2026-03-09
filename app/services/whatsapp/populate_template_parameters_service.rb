@@ -23,6 +23,9 @@ class Whatsapp::PopulateTemplateParametersService
         type: 'coupon_code',
         coupon_code: coupon_code
       }
+    when 'quick_reply'
+      # Meta API expects { type: "payload", payload: "value" } for QUICK_REPLY buttons
+      { type: 'payload', payload: button['parameter'].to_s.strip }
     else
       # For URL buttons and other button types, treat parameter as text
       # If parameter is blank, use empty string (required for URL buttons)

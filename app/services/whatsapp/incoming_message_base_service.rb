@@ -168,6 +168,17 @@ class Whatsapp::IncomingMessageBaseService
   # Extracts button_reply and list_reply data from WhatsApp interactive messages
   # This data is stored in content_attributes for use by SocialWise Flow and other integrations
   def extract_interactive_data(message)
+    # Handle QUICK_REPLY button clicks from templates (type: "button" with payload)
+    if message[:type] == 'button' && message.dig(:button, :payload).present?
+      return {
+        button_reply: {
+          id: message[:button][:payload],
+          title: message[:button][:text]
+        },
+        interaction_type: 'button_reply'
+      }
+    end
+
     return {} unless message[:type] == 'interactive'
 
     interactive_data = {}

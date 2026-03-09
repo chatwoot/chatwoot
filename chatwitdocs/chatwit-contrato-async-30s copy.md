@@ -1,7 +1,7 @@
 # Contrato Chatwit: Respostas Assíncronas Além de 30 Segundos
 
-> **Versão**: 1.8.0
-> **Data**: 12 de Fevereiro de 2026
+> **Versão**: 2.0.0
+> **Data**: 23 de Fevereiro de 2026
 > **Escopo**: Tudo que precisa mudar no Chatwit (fork Chatwoot v4.10) + integrações Socialwise
 > **Referência**: `docs/interative_message_flow_builder.md` §14 e §17
 
@@ -264,6 +264,7 @@ async function deliverMedia(
 13. [Dispatch de Templates via Agent Bot](#13-dispatch-de-templates-whatsapp-via-api-agent-bot-necessário)
 14. [Adicionar contacts ao BOT_ACCESSIBLE_ENDPOINTS](#14-adicionar-contacts-ao-bot_accessible_endpoints-necessário)
 15. [Init do Agent Bot — Registrar token no Socialwise](#15-init-do-agent-bot--registrar-token-no-socialwise-necessário)
+16. [Template QUICK_REPLY Button Payload](#16-template-quick_reply-button-payload--parsing-no-webhook-necessário) ← **NOVO**
 
 ---
 
@@ -1388,14 +1389,195 @@ O init garante que o SystemConfig esteja populado **antes** de qualquer campanha
 ### Variável de ambiente necessária no Chatwit
 
 ```env
-SOCIALWISE_WEBHOOK_URL=https://app.socialwise.com.br  # URL base do Socialwise (sem /api/...)
+SOCIALWISE_WEBHOOK_URL=https://socialwise.witdev.com.br  # URL base do Socialwise (sem /api/...)
 ```
 
 Se já existir (usado pelo webhook), não precisa adicionar.
 
 ---
 
+## 16. Template QUICK_REPLY Button Payload — Parsing no Webhook (NECESSÁRIO)
+
+### Contexto
+
+O Flow Builder do Socialwise envia templates WhatsApp com botões QUICK_REPLY. Quando o usuário clica, o flow precisa **resumir a sessão** usando o `buttonId` das edges do flow (ex: `flow_button_1771787428331_clbeq0`).
+
+**Problema:** Atualmente, quando o usuário clica num botão QUICK_REPLY de template, o Chatwit trata como **texto puro** — `content_type: "text"`, `content_attributes: {}`. O payload do botão é descartado.
+
+### Parte 1: Enviar payload nos botões QUICK_REPLY (Socialwise → Chatwit)
+
+**Já implementado no Socialwise (v2.0.0).** O `buildChatwitTemplateParams()` agora envia payloads nos botões QUICK_REPLY:
+
+```json
+{
+  "content": "[Template: satisfacao_oab]",
+  "message_type": "outgoing",
+  "template_params": {
+    "name": "satisfacao_oab",
+    "language": "pt_BR",
+    "processed_params": {
+      "body": { "nome_lead": "João" },
+      "buttons": [
+        { "type": "quick_reply", "parameter": "flow_button_1771787428331_clbeq0" },
+        { "type": "quick_reply", "parameter": "flow_button_1771787428331_yjmqyi" },
+        { "type": "quick_reply", "parameter": "flow_button_1771787428331_zk9w2p" }
+      ]
+    }
+  }
+}
+```
+
+### Parte 2: O que o Chatwit precisa implementar
+
+#### 2A. TemplateProcessorService — Suportar `quick_reply` no `build_button_parameter()`
+
+O `build_button_parameter()` atualmente só trata `copy_code` e o fallback `text`. Precisa tratar `quick_reply` com `{ type: 'payload', payload: valor }` conforme a Meta API espera.
+
+```ruby
+# app/services/whatsapp/populate_template_parameters_service.rb
+# ANTES (build_button_parameter):
+def build_button_parameter(button)
+  return { type: 'text', text: '' } if button.blank?
+  case button['type']
+  when 'copy_code'
+    # ...
+  else
+    { type: 'text', text: button['parameter'].to_s.strip }
+  end
+end
+
+# DEPOIS:
+def build_button_parameter(button)
+  return { type: 'text', text: '' } if button.blank?
+  case button['type']
+  when 'copy_code'
+    # ... (sem mudança)
+  when 'quick_reply'
+    # Meta API espera { type: "payload", payload: "valor" } para QUICK_REPLY
+    { type: 'payload', payload: button['parameter'].to_s.strip }
+  else
+    { type: 'text', text: button['parameter'].to_s.strip }
+  end
+end
+```
+
+**Complexidade: ~3 linhas Ruby, ~5min.**
+
+#### 2B. IncomingMessageBaseService — Parsear `type: "button"` do webhook Meta
+
+Quando o usuário clica num QUICK_REPLY de template, a Meta envia:
+```json
+{
+  "type": "button",
+  "button": {
+    "text": "Fui aprovado(a)!",
+    "payload": "flow_button_1771787428331_clbeq0"
+  }
+}
+```
+
+Isso é **diferente** de interactive messages (`type: "interactive"`, `interactive.button_reply`).
+
+O Chatwit precisa tratar `type: "button"` e expor o `payload` em `content_attributes`:
+
+```ruby
+# app/services/whatsapp/incoming_message_base_service.rb
+# Dentro do método que processa mensagens incoming, adicionar:
+
+if @processed_params[:messages]&.first&.dig(:type) == 'button'
+  button_data = @processed_params[:messages].first[:button]
+  if button_data.present?
+    @message.content = button_data[:text]
+    @message.content_attributes = {
+      'interaction_type' => 'button_reply',
+      'button_reply' => {
+        'id' => button_data[:payload],
+        'title' => button_data[:text]
+      }
+    }
+  end
+end
+```
+
+**Resultado:** O webhook para o Socialwise incluirá `content_attributes.button_reply.id` com o payload, e o FlowOrchestrator detectará o prefixo `flow_button_*` para resumir a sessão.
+
+**Complexidade: ~10 linhas Ruby, ~15min.**
+
+### Fallback temporário (Socialwise)
+
+Enquanto o Chatwit não implementa a Parte 2, o Socialwise tem um **fallback por text-match**: quando uma mensagem de texto puro chega e existe uma FlowSession WAITING_INPUT num nó TEMPLATE, o FlowOrchestrator faz match exato do texto com os labels dos botões QUICK_REPLY para encontrar o `buttonId` da edge correspondente.
+
+**Limitação do fallback:** Depende de match exato de texto. Se o WhatsApp alterar formatação ou acentuação, pode falhar. A solução definitiva é a Parte 2.
+
+### Arquivos a alterar no Chatwit
+
+| Arquivo | Mudança | Linhas |
+|---------|---------|--------|
+| `app/services/whatsapp/populate_template_parameters_service.rb` | `when 'quick_reply'` no `build_button_parameter()` | ~3 |
+| `app/services/whatsapp/incoming_message_base_service.rb` | Tratar `type: "button"` e expor payload em `content_attributes` | ~10 |
+
+### Referências Meta API
+
+- [Envio de template com QUICK_REPLY payload](https://developers.facebook.com/docs/whatsapp/cloud-api/guides/send-messages): `components` com `type: "button"`, `sub_type: "quick_reply"`, `parameters: [{type: "payload", payload: "..."}]`
+- [Chatwoot Issue #12030](https://github.com/chatwoot/chatwoot/issues/12030): Feature request para parsing de button payload (aberto no Chatwoot upstream)
+- Payload máximo: 128 caracteres (nossos IDs ~40 chars, dentro do limite)
+
+---
+
 ## Changelog
+
+### v2.0.0 (2026-02-23) - Template QUICK_REPLY Button Payload — ✅ IMPLEMENTADO
+
+**Seção 16 — Implementado em 22/02/2026.**
+
+**Problema:** Botões QUICK_REPLY de templates não resumem o flow. O clique chega como texto puro (`content_type: "text"`, `content_attributes: {}`) em vez de trazer o payload no `button_reply.id`.
+
+**O que o Socialwise implementou:**
+- `buildChatwitTemplateParams()` agora envia `{ type: "quick_reply", parameter: "flow_button_xxx" }` nos `processed_params.buttons`
+- `FlowExecutor.handleTemplate()` mapeia edges do flow → índices dos botões QUICK_REPLY para injetar os IDs como payload
+- `FlowOrchestrator.handle()` tem fallback por text-match: se a mensagem é texto puro e existe FlowSession WAITING_INPUT num nó TEMPLATE, faz match exato do texto com labels dos botões
+- Webhook `route.ts` chama FlowOrchestrator antes do pipeline LLM para mensagens que podem ser cliques de template
+
+**Implementado no Chatwit (~13 linhas Ruby):**
+1. ✅ `populate_template_parameters_service.rb`: Adicionado `when 'quick_reply'` → `{ type: 'payload', payload: valor }`
+2. ✅ `incoming_message_base_service.rb`: Parseando `type: "button"` do webhook Meta e expondo `payload` em `content_attributes.button_reply.id`
+
+**Arquivos Socialwise modificados:**
+- `lib/flow-builder/templateElements.ts`
+- `services/flow-engine/flow-executor.ts`
+- `services/flow-engine/flow-orchestrator.ts`
+- `app/api/integrations/webhooks/socialwiseflow/route.ts`
+
+### v1.9.0 (2026-02-22) - Template Dispatch: Alinhamento ao Padrão Nativo — ✅ IMPLEMENTADO (Socialwise)
+
+**Seção 13 — OBSOLETA. Substituída pelo padrão nativo `template_params`.**
+
+**Problema:** O Socialwise enviava `content_type: "template"`, mas esse valor **não existe** no enum `content_type` do `Message.rb` (L86-100). Rails rejeitava com `ArgumentError → 422`. Todas as campanhas com templates falhavam.
+
+**Solução:** O Socialwise agora envia templates usando o **padrão nativo do Chatwit** — `template_params` no body do POST. O `MessageBuilder` coloca em `additional_attributes.template_params`, o `SendOnWhatsappService` detecta automaticamente e roteia para `TemplateProcessorService` → `channel.send_template()`. Zero mudanças necessárias no Chatwit.
+
+**Formato novo (o que o Socialwise agora envia):**
+```json
+{
+  "content": "[Template: satisfacao_oab]",
+  "message_type": "outgoing",
+  "template_params": {
+    "name": "satisfacao_oab",
+    "language": "pt_BR",
+    "processed_params": {
+      "body": { "nome_lead": "João" }
+    }
+  }
+}
+```
+
+**Arquivos modificados no Socialwise:**
+- `lib/flow-builder/templateElements.ts`: Nova função `buildChatwitTemplateParams()` que produz o formato nativo
+- `services/flow-engine/chatwit-delivery-service.ts`: `deliverTemplate()` reescrito para usar `template_params` em vez de `content_type: "template"`
+- `services/flow-engine/flow-executor.ts`: Import atualizado para usar `buildChatwitTemplateParams`
+
+**Cleanup opcional no Chatwit (não urgente):**
+- O branch `content_type == 'template'` e o método `send_template_from_payload()` em `whatsapp_cloud_service.rb` (adicionados na v1.6.0) agora são **dead code** — podem ser removidos quando conveniente
 
 ### v1.8.0 (2026-02-22) - Init do Agent Bot no Socialwise — ✅ IMPLEMENTADO
 
