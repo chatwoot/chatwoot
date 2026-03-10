@@ -42,10 +42,7 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
   def translate
     return head :ok if already_translated_content_available?
 
-    translated_content = Integrations::GoogleTranslate::ProcessorService.new(
-      message: message,
-      target_language: permitted_params[:target_language]
-    ).perform
+    translated_content = translate_with_agent
 
     if translated_content.present?
       translations = {}
@@ -69,6 +66,16 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
 
   def permitted_params
     params.permit(:id, :target_language, :status, :external_error)
+  end
+
+  def translate_with_agent
+    result = MessageTranslateAgent.call(
+      content: message.content,
+      target_language: permitted_params[:target_language],
+      account_id: Current.account.id,
+      message_id: message.id
+    )
+    result.content.is_a?(Hash) ? result.content[:translated_text] : result.content.to_s
   end
 
   def already_translated_content_available?
