@@ -81,7 +81,7 @@ module Integrations::Calendly::WebhookProcessorService::AppointmentTracker
       provider: 'calendly',
       status: :initiated,
       event_type_name: event_details['name'],
-      event_type_uri: event_details.dig('event_type'),
+      event_type_uri: event_details['event_type'],
       payload: { initiated_at: Time.current.iso8601, source: 'webhook' }
     )
   rescue StandardError => e
