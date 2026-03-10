@@ -145,7 +145,9 @@ const showWebhookSection = computed(
 );
 
 const webhookUrl = computed(
-  () => props.healthData?.webhook_configuration?.whatsapp_business_account
+  () =>
+    props.healthData?.webhook_configuration?.whatsapp_business_account ||
+    props.healthData?.webhook_configuration?.application
 );
 
 const webhookConfigured = computed(() => !!webhookUrl.value);
