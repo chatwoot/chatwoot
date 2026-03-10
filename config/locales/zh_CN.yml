@@ -108,6 +108,7 @@ zh_CN:
       invalid_query_operator: 查询操作符必须为 "AND" 或 "OR"。
       invalid_value: 无效的值。为 %{attribute_name} 提供的值无效
     custom_attribute_definition:
+      attribute_key_format: must only contain letters, numbers, underscores, hyphens, and dots
       key_conflict: 提供的键不允许使用，因为它可能与默认属性冲突。
     mfa:
       already_enabled: MFA 已启用
