@@ -1733,3 +1733,76 @@ POST /api/v1/accounts/{account_id}/conversations/{display_id}/messages
   }
 }
 ```
+
+---
+
+## Seção 17: Evento `payment.confirmed` (InfinitePay)
+
+### Contexto
+
+O Chatwit agora possui integração com InfinitePay para envio de links de pagamento via conversa. Quando um pagamento é confirmado via webhook do InfinitePay, o Chatwit encaminha o evento `payment.confirmed` para o SocialWise.
+
+### Fluxo
+
+```
+Agente envia link de pagamento → Cliente paga → InfinitePay webhook → Chatwit processa
+  → Atualiza PaymentLink status para "paid"
+  → Envia mensagem de confirmação na conversa
+  → Encaminha payment.confirmed para SocialWise
+  → Encaminha payment.confirmed para JusMonitorIA
+```
+
+### Payload enviado ao SocialWise
+
+```
+POST {SOCIALWISE_WEBHOOK_URL}/v1/integrations/chatwit
+Headers:
+  Content-Type: application/json
+  X-Chatwit-Secret: {CHATWIT_WEBHOOK_SECRET}
+```
+
+```json
+{
+  "event_type": "payment.confirmed",
+  "data": {
+    "payment_link_id": 123,
+    "order_nsu": "chatwit-1-456-abc123",
+    "amount_cents": 1000,
+    "paid_amount_cents": 1010,
+    "capture_method": "pix",
+    "receipt_url": "https://comprovante.com/123",
+    "conversation_id": 456,
+    "contact": {
+      "id": 789,
+      "name": "João Silva",
+      "phone_number": "+5511999887766"
+    }
+  },
+  "metadata": {
+    "account_id": 1,
+    "chatwit_base_url": "https://chatwit.witdev.com.br",
+    "timestamp": "2026-03-10T12:00:00Z"
+  }
+}
+```
+
+### Campos do `data`
+
+| Campo | Tipo | Descrição |
+|-------|------|-----------|
+| `payment_link_id` | integer | ID do PaymentLink no Chatwit |
+| `order_nsu` | string | NSU gerado pelo Chatwit |
+| `amount_cents` | integer | Valor original em centavos |
+| `paid_amount_cents` | integer | Valor efetivamente pago |
+| `capture_method` | string | `"pix"` ou `"credit_card"` |
+| `receipt_url` | string | URL do comprovante |
+| `conversation_id` | integer | ID da conversa |
+| `contact` | object | `{id, name, phone_number}` |
+
+### O que o SocialWise deve fazer
+
+1. Receber o evento e responder `200 OK`
+2. Usar para fluxos de pós-venda (notificações, automações)
+3. Pode usar `conversation_id` + `chatwit_base_url` para enviar mensagens de follow-up via API
+
+**Status:** IMPLEMENTADO (2026-03-10)

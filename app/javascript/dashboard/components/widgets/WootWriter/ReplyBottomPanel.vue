@@ -93,6 +93,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    enablePaymentLink: {
+      type: Boolean,
+      default: false,
+    },
     conversationId: {
       type: Number,
       required: true,
@@ -132,6 +136,7 @@ export default {
     'toggleInsertArticle',
     'selectWhatsappTemplate',
     'selectContentTemplate',
+    'selectPaymentLink',
     'toggleQuotedReply',
   ],
   setup(props) {
@@ -378,6 +383,15 @@ export default {
         faded
         sm
         @click="$emit('selectContentTemplate')"
+      />
+      <NextButton
+        v-if="enablePaymentLink"
+        v-tooltip.top-end="$t('CONVERSATION.FOOTER.PAYMENT_LINK')"
+        icon="i-ph-money"
+        slate
+        faded
+        sm
+        @click="$emit('selectPaymentLink')"
       />
       <VideoCallButton
         v-if="

@@ -238,6 +238,8 @@ Rails.application.routes.draw do
             end
           end
           resources :labels, only: [:index, :show, :create, :update, :destroy]
+          resources :payment_presets, only: [:index, :create, :update, :destroy]
+          resources :payment_links, only: [:index, :create]
 
           resources :notifications, only: [:index, :update, :destroy] do
             collection do
@@ -572,6 +574,7 @@ Rails.application.routes.draw do
   post 'webhooks/instagram', to: 'webhooks/instagram#events'
   post 'webhooks/tiktok', to: 'webhooks/tiktok#events'
   post 'webhooks/shopify', to: 'webhooks/shopify#events'
+  post 'webhooks/infinitepay', to: 'webhooks/infinitepay#process_payload'
 
   namespace :twitter do
     resource :callback, only: [:show]

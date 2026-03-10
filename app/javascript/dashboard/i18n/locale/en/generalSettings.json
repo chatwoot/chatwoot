@@ -104,6 +104,16 @@
           "ERROR": "Failed to update audio transcription setting"
         }
       },
+      "INFINITEPAY": {
+        "TITLE": "InfinitePay Payments",
+        "NOTE": "Configure your InfinitePay handle to enable payment links in conversations. Your handle is your InfiniteTag (username in the InfinitePay App) without the $ symbol.",
+        "HANDLE_LABEL": "InfinitePay Handle",
+        "HANDLE_PLACEHOLDER": "your-handle",
+        "API": {
+          "SUCCESS": "InfinitePay settings updated successfully",
+          "ERROR": "Failed to update InfinitePay settings"
+        }
+      },
       "AUTO_RESOLVE_DURATION": {
         "LABEL": "Inactivity duration for resolution",
         "HELP": "Duration after a conversation should auto resolve if there is no activity",

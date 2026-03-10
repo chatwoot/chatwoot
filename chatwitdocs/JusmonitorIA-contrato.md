@@ -293,16 +293,56 @@ E depois envia a resposta via Agent Bot API usando o `agent_bot_token` registrad
 
 ---
 
-## 9. Futuro: Pagamentos
+## 9. Pagamentos (InfinitePay)
 
-Quando a integração de link de pagamentos for implementada:
+A integração de pagamentos via InfinitePay está implementada. O fluxo:
 
-1. Chatwit recebe webhook `payment.confirmed` do gateway de pagamento
-2. Chatwit encaminha para **ambos** SocialWise e JusMonitorIA como `payment.confirmed`
-3. JusMonitorIA usa para controle financeiro (match de fatura, baixa automática)
-4. SocialWise usa para fluxos de pós-venda
+1. Agente envia link de pagamento via modal na conversa
+2. InfinitePay envia webhook `POST /webhooks/infinitepay` ao Chatwit quando o pagamento é confirmado
+3. Chatwit encaminha para **ambos** SocialWise e JusMonitorIA como `payment.confirmed`
+4. JusMonitorIA usa para controle financeiro (match de fatura, baixa automática)
+5. SocialWise usa para fluxos de pós-venda
 
-**Implementação:** Adicionar `payment.confirmed` ao `supported_events_map` de ambas integrações.
+### Payload `payment.confirmed`
+
+```json
+{
+  "event_type": "payment.confirmed",
+  "data": {
+    "payment_link_id": 123,
+    "order_nsu": "chatwit-1-456-abc123",
+    "amount_cents": 1000,
+    "paid_amount_cents": 1010,
+    "capture_method": "pix",
+    "receipt_url": "https://comprovante.com/123",
+    "conversation_id": 456,
+    "contact": {
+      "id": 789,
+      "name": "João Silva",
+      "phone_number": "+5511999887766"
+    }
+  },
+  "metadata": {
+    "account_id": 1,
+    "chatwit_base_url": "https://chatwit.witdev.com.br",
+    "chatwit_agent_bot_token": "bot-token",
+    "timestamp": "2026-03-10T12:00:00Z"
+  }
+}
+```
+
+### Campos do `data`
+
+| Campo | Tipo | Descrição |
+|-------|------|-----------|
+| `payment_link_id` | integer | ID do PaymentLink no Chatwit |
+| `order_nsu` | string | NSU gerado pelo Chatwit (`chatwit-{account_id}-{conversation_id}-{hex}`) |
+| `amount_cents` | integer | Valor original em centavos |
+| `paid_amount_cents` | integer | Valor efetivamente pago em centavos |
+| `capture_method` | string | `"pix"` ou `"credit_card"` |
+| `receipt_url` | string | URL do comprovante |
+| `conversation_id` | integer | ID da conversa no Chatwit |
+| `contact` | object | Dados do contato (id, name, phone_number) |
 
 ---
 
@@ -311,4 +351,4 @@ Quando a integração de link de pagamentos for implementada:
 | Data | Seção | Status | Descrição |
 |------|-------|--------|-----------|
 | 2026-03-09 | 1-8 | IMPLEMENTADO | Integração inicial: bot, labels, eventos, respostas bidirecionais |
-| 2026-03-09 | 9 | PLANEJADO | Integração de pagamentos (futuro) |
+| 2026-03-10 | 9 | IMPLEMENTADO | Integração de pagamentos InfinitePay com payload `payment.confirmed` |
