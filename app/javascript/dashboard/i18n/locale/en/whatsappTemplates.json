@@ -82,9 +82,9 @@
         },
         "BODY": {
           "LABEL": "Body",
-          "PLACEHOLDER": "Enter template body text. Use {{1}}, {{2}} etc. for variables.",
+          "PLACEHOLDER": "Enter template body text. Use {'{{'}1{'}}'}, {'{{'}2{'}}'}  etc. for variables.",
           "ERROR": "Body text is required",
-          "HELP": "Use {{1}}, {{2}}, etc. to add variable placeholders.",
+          "HELP": "Use {'{{'}1{'}}'}, {'{{'}2{'}}'},  etc. to add variable placeholders.",
           "PREVIEW": "Preview"
         },
         "FOOTER": {
@@ -103,12 +103,12 @@
           },
           "TEXT_PLACEHOLDER": "Button text",
           "PHONE_PLACEHOLDER": "Phone number (e.g. +1234567890)",
-          "URL_PLACEHOLDER": "URL (e.g. https://example.com/{{1}})"
+          "URL_PLACEHOLDER": "URL (e.g. https://example.com/{'{{'}1{'}}'})"
         },
         "EXAMPLE_VALUES": {
           "LABEL": "Example Values",
           "HELP": "WhatsApp requires example values for variables in your template.",
-          "BODY_PLACEHOLDER": "Example for variable {{index}}",
+          "BODY_PLACEHOLDER": "Example for variable {'{{'}index{'}}'}",
           "HEADER_PLACEHOLDER": "Example header media URL",
           "BUTTON_PLACEHOLDER": "Example URL suffix"
         }
