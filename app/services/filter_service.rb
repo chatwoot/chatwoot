@@ -156,7 +156,7 @@ class FilterService
     else
       raise CustomExceptions::CustomFilter::InvalidValue.new(attribute_name: attribute_key)
     end
-  rescue Date::Error, ArgumentError, FloatDomainError, TypeError # rubocop:disable Lint/ShadowedException
+  rescue  ArgumentError, FloatDomainError, TypeError
     raise CustomExceptions::CustomFilter::InvalidValue.new(attribute_name: attribute_key)
   end
 
