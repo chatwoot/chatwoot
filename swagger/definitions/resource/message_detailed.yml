@@ -32,6 +32,10 @@ properties:
         type: string
         description: ID of the message this is replying to
         nullable: true
+  echo_id:
+    type: string
+    description: The echo ID of the message, used for deduplication
+    nullable: true
   created_at:
     type: integer
     description: The timestamp when message was created
@@ -44,4 +48,32 @@ properties:
     nullable: true
   sender:
     $ref: '#/components/schemas/contact_detail'
-    description: The sender of the message (only for incoming messages) 
+    description: The sender of the message (only for incoming messages)
+  attachments:
+    type: array
+    description: The list of attachments associated with the message
+    items:
+      type: object
+      properties:
+        id:
+          type: number
+          description: The ID of the attachment
+        message_id:
+          type: number
+          description: The ID of the message
+        file_type:
+          type: string
+          enum: ["image", "video", "audio", "file", "location", "fallback", "share", "story_mention", "contact", "ig_reel"]
+          description: The type of the attached file
+        account_id:
+          type: number
+          description: The ID of the account
+        data_url:
+          type: string
+          description: The URL of the attached file
+        thumb_url:
+          type: string
+          description: The thumbnail URL of the attached file
+        file_size:
+          type: number
+          description: The size of the attached file in bytes

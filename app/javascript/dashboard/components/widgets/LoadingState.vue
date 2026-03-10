@@ -11,7 +11,7 @@ defineProps({
     <h6
       class="flex items-center gap-3 text-base text-center w-100 text-n-slate-11"
     >
-      <span class="text-base font-medium text-n-slate-12">
+      <span class="text-body-main !text-base text-n-slate-12">
         {{ message }}
       </span>
       <Spinner class="text-n-brand" />
