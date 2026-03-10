@@ -108,6 +108,7 @@ ro:
       invalid_query_operator: Query operator must be either "AND" or "OR".
       invalid_value: Invalid value. The values provided for %{attribute_name} are invalid
     custom_attribute_definition:
+      attribute_key_format: must only contain letters, numbers, underscores, hyphens, and dots
       key_conflict: The provided key is not allowed as it might conflict with default attributes.
     mfa:
       already_enabled: MFA is already enabled
