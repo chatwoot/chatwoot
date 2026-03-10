@@ -14,6 +14,8 @@ Rails.application.routes.draw do
   else
     root to: 'dashboard#index'
 
+    get '/landing', to: 'landing#index'
+
     get '/app', to: 'dashboard#index'
     get '/app/*params', to: 'dashboard#index'
     get '/app/accounts/:account_id/settings/inboxes/new/twitter', to: 'dashboard#index', as: 'app_new_twitter_inbox'
