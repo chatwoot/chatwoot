@@ -108,6 +108,7 @@ he:
       invalid_query_operator: אופרטור שאילתה חייב להיות "AND" או "OR".
       invalid_value: ערך לא תקין. הערכים שסופקו עבור %{attribute_name} אינם תקינים
     custom_attribute_definition:
+      attribute_key_format: must only contain letters, numbers, underscores, hyphens, and dots
       key_conflict: המפתח שסופק אינו מותר מכיוון שהוא עלול להתנגש עם מאפיינים ברירת מחדל.
     mfa:
       already_enabled: MFA כבר מופעל
