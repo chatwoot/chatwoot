@@ -29,6 +29,12 @@ const state = {
     snoozed: { conversations: [], meta: { count: 0, has_more: false } },
     resolved: { conversations: [], meta: { count: 0, has_more: false } },
   },
+  kanbanColumnLoading: {
+    open: false,
+    pending: false,
+    snoozed: false,
+    resolved: false,
+  },
   conversationView: 'list',
 };
 
@@ -414,6 +420,20 @@ export const mutations = {
       toColumn.conversations.unshift(conversation);
       toColumn.meta.count += 1;
     }
+  },
+
+  [types.SET_KANBAN_COLUMN_LOADING](_state, status) {
+    _state.kanbanColumnLoading = {
+      ..._state.kanbanColumnLoading,
+      [status]: true,
+    };
+  },
+
+  [types.CLEAR_KANBAN_COLUMN_LOADING](_state, status) {
+    _state.kanbanColumnLoading = {
+      ..._state.kanbanColumnLoading,
+      [status]: false,
+    };
   },
 
   [types.SET_CONVERSATION_VIEW](_state, view) {

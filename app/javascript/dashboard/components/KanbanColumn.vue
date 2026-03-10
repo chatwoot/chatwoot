@@ -95,6 +95,12 @@ function onLoadMore() {
           />
         </div>
       </template>
+      <template #footer>
+        <div v-if="hasMore" class="p-2">
+          <Spinner v-if="loading" class="mx-auto size-4" />
+          <IntersectionObserver v-else @observed="onLoadMore" />
+        </div>
+      </template>
     </Draggable>
 
     <!-- Empty State -->
@@ -103,12 +109,6 @@ function onLoadMore() {
       class="flex items-center justify-center flex-1 p-4 text-sm text-n-slate-10"
     >
       {{ t('CHAT_LIST.KANBAN.NO_CONVERSATIONS') }}
-    </div>
-
-    <!-- Load More -->
-    <div v-if="hasMore" class="p-2 border-t border-n-weak">
-      <Spinner v-if="loading" class="mx-auto size-4" />
-      <IntersectionObserver v-else @observed="onLoadMore" />
     </div>
   </div>
 </template>

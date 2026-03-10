@@ -41,6 +41,9 @@ const columns = computed(() => [
 ]);
 
 const kanbanData = computed(() => store.state.conversations.kanbanData);
+const kanbanColumnLoading = computed(
+  () => store.state.conversations.kanbanColumnLoading
+);
 const isLoading = computed(() => store.getters.getChatListLoadingStatus);
 
 const fetchParams = computed(() => ({
@@ -123,6 +126,7 @@ watch(
         :conversations="kanbanData[col.key]?.conversations || []"
         :count="kanbanData[col.key]?.meta?.count || 0"
         :has-more="kanbanData[col.key]?.meta?.has_more || false"
+        :loading="kanbanColumnLoading[col.key]"
         @change="onStatusChange"
         @load-more="onLoadMore(col.key)"
       />
