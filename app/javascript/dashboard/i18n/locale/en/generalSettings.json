@@ -109,6 +109,7 @@
         "NOTE": "Configure your InfinitePay handle to enable payment links in conversations. Your handle is your InfiniteTag (username in the InfinitePay App) without the $ symbol.",
         "HANDLE_LABEL": "InfinitePay Handle",
         "HANDLE_PLACEHOLDER": "your-handle",
+        "CONFIGURED": "Active handle: {handle}",
         "API": {
           "SUCCESS": "InfinitePay settings updated successfully",
           "ERROR": "Failed to update InfinitePay settings"
