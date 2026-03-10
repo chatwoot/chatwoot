@@ -167,10 +167,10 @@
     "LEARN_MORE": "Learn more about integrations",
     "LOADING": "Fetching integrations",
     "CAPTAIN": {
-      "DISABLED": "Captain is not enabled on your account.",
+      "DISABLED": "AI Assistant is not enabled on your account.",
       "CLICK_HERE_TO_CONFIGURE": "Click here to configure",
-      "LOADING_CONSOLE": "Loading Captain Console...",
-      "FAILED_TO_LOAD_CONSOLE": "Failed to load Captain Console. Please refresh and try again."
+      "LOADING_CONSOLE": "Loading AI Console...",
+      "FAILED_TO_LOAD_CONSOLE": "Failed to load AI Console. Please refresh and try again."
     },
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Subscribed Events",
@@ -314,7 +314,7 @@
         "GRAMMAR": "Fix grammar & spelling",
         "SUGGESTION": "Suggest a reply",
         "SUMMARIZE": "Summarize the conversation",
-        "ASK_COPILOT": "Ask Copilot"
+        "ASK_COPILOT": "Ask AI Assistant"
       },
       "ASSISTANCE_MODAL": {
         "DRAFT_TITLE": "Draft content",
@@ -713,7 +713,7 @@
     }
   },
   "CAPTAIN": {
-    "NAME": "Captain",
+    "NAME": "AI Assistant",
     "HEADER_KNOW_MORE": "Know more",
     "ASSISTANT_SWITCHER": {
       "ASSISTANTS": "Assistants",
@@ -722,13 +722,13 @@
       "EMPTY_LIST": "No assistants found, please create one to get started"
     },
     "COPILOT": {
-      "TITLE": "Copilot",
+      "TITLE": "AI Assistant",
       "TRY_THESE_PROMPTS": "Try these prompts",
-      "PANEL_TITLE": "Get started with Copilot",
-      "KICK_OFF_MESSAGE": "Need a quick summary, want to check past conversations, or draft a better reply? Copilot’s here to speed things up.",
+      "PANEL_TITLE": "Get started with AI Assistant",
+      "KICK_OFF_MESSAGE": "Need a quick summary, want to check past conversations, or draft a better reply? AI Assistant is here to speed things up.",
       "SEND_MESSAGE": "Send message...",
       "EMPTY_MESSAGE": "There was an error generating the response. Please try again.",
-      "LOADER": "Captain is thinking",
+      "LOADER": "AI is thinking",
       "YOU": "You",
       "USE": "Use this",
       "RESET": "Reset",
@@ -763,23 +763,23 @@
       "MESSAGE_PLACEHOLDER": "Type your message...",
       "HEADER": "Playground",
       "DESCRIPTION": "Use this playground to send messages to your assistant and check if it responds accurately, quickly, and in the tone you expect.",
-      "CREDIT_NOTE": "Messages sent here will count toward your Captain credits."
+      "CREDIT_NOTE": "Messages sent here will count toward your AI credits."
     },
     "PAYWALL": {
-      "TITLE": "Upgrade to use Captain AI",
-      "AVAILABLE_ON": "Captain is not available on the free plan.",
-      "UPGRADE_PROMPT": "Upgrade your plan to get access to our assistants, copilot and more.",
+      "TITLE": "Upgrade to use AI Assistant",
+      "AVAILABLE_ON": "AI Assistant is not available on the free plan.",
+      "UPGRADE_PROMPT": "Upgrade your plan to get access to our AI assistants and more.",
       "UPGRADE_NOW": "Upgrade now",
       "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
     },
     "ENTERPRISE_PAYWALL": {
-      "AVAILABLE_ON": "Captain AI is only available in the Enterprise plans.",
-      "UPGRADE_PROMPT": "Upgrade your plan to get access to our assistants, copilot and more.",
+      "AVAILABLE_ON": "AI Assistant is only available in the Enterprise plans.",
+      "UPGRADE_PROMPT": "Upgrade your plan to get access to our AI assistants and more.",
       "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
     },
     "BANNER": {
-      "RESPONSES": "You've used over 80% of your response limit. To continue using Captain AI, please upgrade.",
-      "DOCUMENTS": "Document limit reached. Upgrade to continue using Captain AI."
+      "RESPONSES": "You've used over 80% of your response limit. To continue using AI Assistant, please upgrade.",
+      "DOCUMENTS": "Document limit reached. Upgrade to continue using AI Assistant."
     },
     "FORM": {
       "CANCEL": "Cancel",

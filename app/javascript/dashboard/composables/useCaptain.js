@@ -13,6 +13,9 @@ import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import TasksAPI from 'dashboard/api/captain/tasks';
 import { CAPTAIN_ERROR_TYPES } from 'dashboard/composables/captain/constants';
 
+// Cache summaries per conversation to avoid redundant AI requests
+const summaryCache = new Map();
+
 export function useCaptain() {
   const store = useStore();
   const { t } = useI18n();
@@ -136,6 +139,11 @@ export function useCaptain() {
    * @returns {Promise<{message: string, followUpContext?: Object}>} The summary and optional follow-up context.
    */
   const summarizeConversation = async (options = {}) => {
+    const lastMsg = currentChat.value?.messages?.at(-1);
+    const cacheKey = `${conversationId.value}:${lastMsg?.id || 0}`;
+    const cached = summaryCache.get(cacheKey);
+    if (cached) return cached;
+
     try {
       const result = await TasksAPI.summarize(
         conversationId.value,
@@ -144,7 +152,11 @@ export function useCaptain() {
       const {
         data: { message: generatedMessage, follow_up_context: followUpContext },
       } = result;
-      return { message: generatedMessage, followUpContext };
+      const response = { message: generatedMessage, followUpContext };
+      if (generatedMessage) {
+        summaryCache.set(cacheKey, response);
+      }
+      return response;
     } catch (error) {
       handleAPIError(error);
       return { message: '', errorType: getErrorType(error) };

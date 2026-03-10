@@ -15,6 +15,7 @@ import ReplyBottomPanel from 'dashboard/components/widgets/WootWriter/ReplyBotto
 import CopilotReplyBottomPanel from 'dashboard/components/widgets/WootWriter/CopilotReplyBottomPanel.vue';
 import ArticleSearchPopover from 'dashboard/routes/dashboard/helpcenter/components/ArticleSearch/SearchPopover.vue';
 import CopilotEditorSection from './CopilotEditorSection.vue';
+import SummaryCard from './SummaryCard.vue';
 import MessageSignatureMissingAlert from './MessageSignatureMissingAlert.vue';
 import ReplyBoxBanner from './ReplyBoxBanner.vue';
 import QuotedEmailPreview from './QuotedEmailPreview.vue';
@@ -80,6 +81,7 @@ export default {
     QuotedEmailPreview,
     CopilotEditorSection,
     CopilotReplyBottomPanel,
+    SummaryCard,
   },
   mixins: [inboxMixin, fileUploadMixin, keyboardEventListenerMixins],
   props: {
@@ -1247,7 +1249,9 @@ export default {
       :conversation-id="conversationId"
       :is-reply-restricted="isReplyRestricted"
       :disabled="
-        (copilot.isActive.value && copilot.isButtonDisabled.value) ||
+        (copilot.isActive.value &&
+          !copilot.isSummaryAction.value &&
+          copilot.isButtonDisabled.value) ||
         showAudioRecorderEditor
       "
       :is-editor-disabled="isEditorDisabled"
@@ -1264,6 +1268,15 @@ export default {
       :selected-portal-slug="connectedPortalSlug"
       @insert="handleInsert"
       @close="onSearchPopoverClose"
+    />
+    <SummaryCard
+      v-if="
+        copilot.isSummaryAction.value &&
+        (copilot.isGenerating.value || copilot.generatedContent.value)
+      "
+      :content="copilot.generatedContent.value"
+      :is-loading="copilot.isGenerating.value"
+      @dismiss="copilot.reset"
     />
     <Transition
       mode="out-in"
@@ -1304,7 +1317,11 @@ export default {
           @pause="recordingAudioState = 'paused'"
         />
         <CopilotEditorSection
-          v-if="copilot.isActive.value && !showAudioRecorderEditor"
+          v-if="
+            copilot.isActive.value &&
+            !copilot.isSummaryAction.value &&
+            !showAudioRecorderEditor
+          "
           :show-copilot-editor="copilot.showEditor.value"
           :is-generating-content="copilot.isGenerating.value"
           :generated-content="copilot.generatedContent.value"
@@ -1385,7 +1402,7 @@ export default {
       leave-to-class="opacity-0 translate-y-2 scale-[0.98]"
     >
       <CopilotReplyBottomPanel
-        v-if="copilot.isActive.value"
+        v-if="copilot.isActive.value && !copilot.isSummaryAction.value"
         key="copilot-bottom-panel"
         :is-generating-content="copilot.isButtonDisabled.value"
         @submit="onSubmitCopilotReply"

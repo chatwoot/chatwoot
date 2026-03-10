@@ -121,12 +121,6 @@ const generalMenuItems = computed(() => {
     });
   }
 
-  items.push({
-    label: t('INTEGRATION_SETTINGS.OPEN_AI.REPLY_OPTIONS.ASK_COPILOT'),
-    key: 'ask_copilot',
-    icon: 'i-fluent-circle-sparkle-24-regular',
-  });
-
   return items;
 });
 

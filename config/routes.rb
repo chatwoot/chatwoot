@@ -116,6 +116,10 @@ Rails.application.routes.draw do
             resource :voice_usage, only: [:show], controller: 'voice_usage' do
               get :summary, on: :collection
             end
+            resource :tasks, only: [], controller: 'tasks' do
+              post :summarize, on: :collection
+              post :reply_suggestion, on: :collection
+            end
           end
           resource :saml_settings, only: [:show, :create, :update, :destroy]
           resource :whatsapp_settings, only: [:show, :create, :update, :destroy]

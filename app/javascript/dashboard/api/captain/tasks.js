@@ -42,7 +42,7 @@ class TasksAPI extends ApiClient {
    */
   summarize(conversationId, signal) {
     return axios.post(
-      `${this.url}/summarize`,
+      `${this.baseUrl()}/aloo/tasks/summarize`,
       {
         conversation_display_id: conversationId,
       },
@@ -58,7 +58,7 @@ class TasksAPI extends ApiClient {
    */
   replySuggestion(conversationId, signal) {
     return axios.post(
-      `${this.url}/reply_suggestion`,
+      `${this.baseUrl()}/aloo/tasks/reply_suggestion`,
       {
         conversation_display_id: conversationId,
       },

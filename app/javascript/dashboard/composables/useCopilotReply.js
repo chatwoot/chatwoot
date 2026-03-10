@@ -352,12 +352,16 @@ export function useCopilotReply() {
     return content;
   }
 
+  const isSummaryAction = computed(() => currentAction.value === 'summarize');
+
   return {
     showEditor,
     isGenerating,
     isContentReady,
     generatedContent,
     followUpContext,
+    currentAction,
+    isSummaryAction,
 
     isActive,
     isButtonDisabled,
