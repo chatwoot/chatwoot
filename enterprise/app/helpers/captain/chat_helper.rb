@@ -109,6 +109,7 @@ module Captain::ChatHelper
 
   # Ensures all LLM calls and tool executions within an agentic loop
   # are grouped under a single trace/session in Langfuse.
+  #
   # Without this guard, each recursive call to request_chat_completion
   # (triggered by tool calls) would create a separate trace instead of
   # nesting within the existing session span.
