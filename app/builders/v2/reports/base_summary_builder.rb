@@ -43,7 +43,6 @@ class V2::Reports::BaseSummaryBuilder
 
   # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/MethodLength, Metrics/PerceivedComplexity
   def load_rollup_data
-    group_by_key.to_s.split('.').last
     dimension_type = dimension_type_to_rollup
     value_col = rollup_value_column
 
