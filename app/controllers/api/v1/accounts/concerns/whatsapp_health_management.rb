@@ -25,10 +25,7 @@ module Api::V1::Accounts::Concerns::WhatsappHealthManagement
   end
 
   def register_webhook
-    waba_id = @inbox.channel.provider_config['business_account_id']
-    access_token = @inbox.channel.provider_config['api_key']
-
-    Whatsapp::WebhookSetupService.new(@inbox.channel, waba_id, access_token).perform
+    Whatsapp::WebhookSetupService.new(@inbox.channel).register_callback
 
     render json: { message: 'Webhook registered successfully' }, status: :ok
   rescue StandardError => e
