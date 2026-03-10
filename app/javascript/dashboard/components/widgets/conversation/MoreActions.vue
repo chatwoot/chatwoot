@@ -7,6 +7,8 @@ import { useI18n } from 'vue-i18n';
 import { emitter } from 'shared/helpers/mitt';
 import EmailTranscriptModal from './EmailTranscriptModal.vue';
 import VirtiInfoModal from './VirtiInfoModal.vue';
+import VirtiStatusModal from './VirtiStatusModal.vue';
+import VirtiTrackingModal from './VirtiTrackingModal.vue';
 import ResolveAction from '../../buttons/ResolveAction.vue';
 import ButtonV4 from 'dashboard/components-next/button/Button.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
@@ -26,11 +28,14 @@ const { t } = useI18n();
 const [showEmailActionsModal, toggleEmailModal] = useToggle(false);
 const [showActionsDropdown, toggleDropdown] = useToggle(false);
 const [showVirtiInfoModal, toggleVirtiInfoModal] = useToggle(false);
+const [showVirtiStatusModal, toggleVirtiStatusModal] = useToggle(false);
+const [showVirtiTrackingModal, toggleVirtiTrackingModal] = useToggle(false);
 
 const { width: windowWidth } = useWindowSize();
 const isMobile = computed(() => windowWidth.value < 1280);
 
 const virtiAvailable = ref(false);
+const infosUser = ref({});
 const followUpAtivado = ref(false);
 const followUpLoading = ref(false);
 
@@ -46,7 +51,8 @@ onMounted(async () => {
         const res = await virtiGet(
           `/api/v1/infos_user/${idRobo}/${userId}/all`
         );
-        followUpAtivado.value = Boolean(res?.data?.ProximoFollowUp);
+        infosUser.value = res?.data || {};
+        followUpAtivado.value = Boolean(infosUser.value.ProximoFollowUp);
       } catch {
         // silently fail — não impede o uso do resto
       }
@@ -65,6 +71,19 @@ const idUsuario = computed(() => {
   return `chatwoot_${phone.replace('+', '')}`;
 });
 
+const statusConversa = computed(() => {
+  const data = infosUser.value;
+  if (!data.StatusConversa) return 'Desconhecido';
+  switch (data.StatusConversa) {
+    case 'andamento': return 'Em andamento';
+    case 'finalizada': return 'Finalizado';
+    case 'follow_up': return `FollowUps (${data.FollowUps || 0})`;
+    case 'abandonada': return 'Abandonado';
+    case 'nao_monitorado': return 'Não Monitorado';
+    default: return 'Desconhecido';
+  }
+});
+
 const toggleFollowUp = async () => {
   const idRobo = virtiAuth.getIdRobo();
   const userId = idUsuario.value;
@@ -75,10 +94,16 @@ const toggleFollowUp = async () => {
     if (!followUpAtivado.value) {
       await virtiPost(`/api/v1/conversas/follow-up/${idRobo}/${userId}`);
       followUpAtivado.value = true;
+      infosUser.value = { ...infosUser.value, StatusConversa: 'follow_up' };
       useAlert('Follow-up ativado com sucesso.');
     } else {
       await virtiDelete(`/api/v1/conversas/follow-up/${idRobo}/${userId}`);
       followUpAtivado.value = false;
+      infosUser.value = {
+        ...infosUser.value,
+        StatusConversa: 'abandonada',
+        ProximoFollowUp: null,
+      };
       useAlert('Follow-up desativado com sucesso.');
     }
   } catch {
@@ -105,6 +130,19 @@ const actionMenuItems = computed(() => {
         : 'Ativar Follow-up',
       action: 'virti_follow_up',
       value: 'virti_follow_up',
+      className: followUpAtivado.value ? 'text-n-blue-text' : '',
+    });
+    items.push({
+      icon: 'i-lucide-activity',
+      label: 'Status',
+      action: 'virti_status',
+      value: 'virti_status',
+    });
+    items.push({
+      icon: 'i-lucide-radar',
+      label: 'Rastreamento',
+      action: 'virti_tracking',
+      value: 'virti_tracking',
     });
   }
 
@@ -141,6 +179,10 @@ const handleActionClick = ({ action }) => {
     toggleVirtiInfoModal(true);
   } else if (action === 'virti_follow_up') {
     toggleFollowUp();
+  } else if (action === 'virti_status') {
+    toggleVirtiStatusModal(true);
+  } else if (action === 'virti_tracking') {
+    toggleVirtiTrackingModal(true);
   } else if (action === 'mute') {
     store.dispatch('muteConversation', currentChat.value.id);
     useAlert(t('CONTACT_PANEL.MUTED_SUCCESS'));
@@ -198,6 +240,26 @@ onUnmounted(() => {
       class="hidden xl:inline-flex rounded-md"
       @click="toggleFollowUp"
     />
+    <ButtonV4
+      v-if="virtiAvailable"
+      size="sm"
+      variant="faded"
+      color="slate"
+      icon="i-lucide-activity"
+      label="Status"
+      class="hidden xl:inline-flex rounded-md"
+      @click="toggleVirtiStatusModal(true)"
+    />
+    <ButtonV4
+      v-if="virtiAvailable"
+      size="sm"
+      variant="faded"
+      color="slate"
+      icon="i-lucide-radar"
+      label="Rastreamento"
+      class="hidden xl:inline-flex rounded-md"
+      @click="toggleVirtiTrackingModal(true)"
+    />
     <ResolveAction
       :conversation-id="currentChat.id"
       :status="currentChat.status"
@@ -232,6 +294,19 @@ onUnmounted(() => {
       v-if="showVirtiInfoModal"
       :conversation-id="currentChat.id"
       @close="toggleVirtiInfoModal(false)"
+    />
+    <VirtiStatusModal
+      v-if="showVirtiStatusModal"
+      :status-conversa="statusConversa"
+      :etapa="infosUser.etapa || 'Desconhecida'"
+      :bloqueado="infosUser.bloqueado === true || infosUser.bloqueado === 'true'"
+      :follow-ups-enviados="Number(infosUser.FollowUps) || 0"
+      @close="toggleVirtiStatusModal(false)"
+    />
+    <VirtiTrackingModal
+      v-if="showVirtiTrackingModal"
+      :conversation-id="currentChat.id"
+      @close="toggleVirtiTrackingModal(false)"
     />
   </div>
 </template>
