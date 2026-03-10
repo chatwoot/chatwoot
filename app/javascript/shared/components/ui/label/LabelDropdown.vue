@@ -46,9 +46,7 @@ export default {
     filteredActiveLabels() {
       if (!this.search) return this.accountLabels;
 
-      return picoSearch(this.accountLabels, this.search, ['title'], {
-        threshold: 0.9,
-      });
+      return picoSearch(this.accountLabels, this.search, ['title']);
     },
 
     noResult() {

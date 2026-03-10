@@ -10,7 +10,7 @@ class Captain::Llm::PdfProcessingService < Llm::LegacyBaseOpenAiService
     return if document.openai_file_id.present?
 
     file_id = upload_pdf_to_openai
-    raise CustomExceptions::PdfUploadError, I18n.t('captain.documents.pdf_upload_failed') if file_id.blank?
+    raise CustomExceptions::Pdf::UploadError, I18n.t('captain.documents.pdf_upload_failed') if file_id.blank?
 
     document.store_openai_file_id(file_id)
   end

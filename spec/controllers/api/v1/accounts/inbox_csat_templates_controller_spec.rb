@@ -9,11 +9,13 @@ RSpec.describe Api::V1::Accounts::InboxCsatTemplatesController, type: :request d
   end
   let(:whatsapp_inbox) { create(:inbox, channel: whatsapp_channel, account: account) }
   let(:web_widget_inbox) { create(:inbox, account: account) }
-  let(:mock_service) { instance_double(Whatsapp::Providers::WhatsappCloudService) }
+  let(:mock_service) { instance_double(Whatsapp::CsatTemplateService) }
+  let(:analysis_service) { instance_double(CsatTemplateUtilityAnalysisService) }
 
   before do
     create(:inbox_member, user: agent, inbox: whatsapp_inbox)
-    allow(Whatsapp::Providers::WhatsappCloudService).to receive(:new).and_return(mock_service)
+    allow(Whatsapp::CsatTemplateService).to receive(:new).and_return(mock_service)
+    allow(CsatTemplateUtilityAnalysisService).to receive(:new).and_return(analysis_service)
   end
 
   describe 'GET /api/v1/accounts/{account.id}/inboxes/{inbox.id}/csat_template' do
@@ -32,7 +34,7 @@ RSpec.describe Api::V1::Accounts::InboxCsatTemplatesController, type: :request d
             as: :json
 
         expect(response).to have_http_status(:bad_request)
-        expect(response.parsed_body['error']).to eq('CSAT template operations only available for WhatsApp channels')
+        expect(response.parsed_body['error']).to eq('CSAT template operations only available for WhatsApp and Twilio WhatsApp channels')
       end
     end
 
@@ -161,7 +163,7 @@ RSpec.describe Api::V1::Accounts::InboxCsatTemplatesController, type: :request d
              as: :json
 
         expect(response).to have_http_status(:bad_request)
-        expect(response.parsed_body['error']).to eq('CSAT template operations only available for WhatsApp channels')
+        expect(response.parsed_body['error']).to eq('CSAT template operations only available for WhatsApp and Twilio WhatsApp channels')
       end
     end
 
@@ -195,11 +197,11 @@ RSpec.describe Api::V1::Accounts::InboxCsatTemplatesController, type: :request d
 
       it 'creates template successfully' do
         allow(mock_service).to receive(:get_template_status).and_return({ success: false })
-        allow(mock_service).to receive(:create_csat_template).and_return({
-                                                                           success: true,
-                                                                           template_name: "customer_satisfaction_survey_#{whatsapp_inbox.id}",
-                                                                           template_id: '987654321'
-                                                                         })
+        allow(mock_service).to receive(:create_template).and_return({
+                                                                      success: true,
+                                                                      template_name: "customer_satisfaction_survey_#{whatsapp_inbox.id}",
+                                                                      template_id: '987654321'
+                                                                    })
 
         post "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_inbox.id}/csat_template",
              headers: admin.create_new_auth_token,
@@ -222,7 +224,7 @@ RSpec.describe Api::V1::Accounts::InboxCsatTemplatesController, type: :request d
         }
 
         allow(mock_service).to receive(:get_template_status).and_return({ success: false })
-        expect(mock_service).to receive(:create_csat_template) do |config|
+        expect(mock_service).to receive(:create_template) do |config|
           expect(config[:button_text]).to eq('Please rate us')
           expect(config[:language]).to eq('en')
           expect(config[:template_name]).to eq("customer_satisfaction_survey_#{whatsapp_inbox.id}")
@@ -249,11 +251,11 @@ RSpec.describe Api::V1::Accounts::InboxCsatTemplatesController, type: :request d
         }
 
         allow(mock_service).to receive(:get_template_status).and_return({ success: false })
-        allow(mock_service).to receive(:create_csat_template).and_return({
-                                                                           success: false,
-                                                                           error: 'Template creation failed',
-                                                                           response_body: whatsapp_error_response.to_json
-                                                                         })
+        allow(mock_service).to receive(:create_template).and_return({
+                                                                      success: false,
+                                                                      error: 'Template creation failed',
+                                                                      response_body: whatsapp_error_response.to_json
+                                                                    })
 
         post "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_inbox.id}/csat_template",
              headers: admin.create_new_auth_token,
@@ -272,11 +274,11 @@ RSpec.describe Api::V1::Accounts::InboxCsatTemplatesController, type: :request d
 
       it 'handles generic API errors' do
         allow(mock_service).to receive(:get_template_status).and_return({ success: false })
-        allow(mock_service).to receive(:create_csat_template).and_return({
-                                                                           success: false,
-                                                                           error: 'Network timeout',
-                                                                           response_body: nil
-                                                                         })
+        allow(mock_service).to receive(:create_template).and_return({
+                                                                      success: false,
+                                                                      error: 'Network timeout',
+                                                                      response_body: nil
+                                                                    })
 
         post "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_inbox.id}/csat_template",
              headers: admin.create_new_auth_token,
@@ -289,7 +291,7 @@ RSpec.describe Api::V1::Accounts::InboxCsatTemplatesController, type: :request d
 
       it 'handles unexpected service errors' do
         allow(mock_service).to receive(:get_template_status).and_return({ success: false })
-        allow(mock_service).to receive(:create_csat_template)
+        allow(mock_service).to receive(:create_template)
           .and_raise(StandardError, 'Unexpected error')
 
         post "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_inbox.id}/csat_template",
@@ -312,10 +314,10 @@ RSpec.describe Api::V1::Accounts::InboxCsatTemplatesController, type: :request d
         allow(mock_service).to receive(:get_template_status)
           .with('existing_template')
           .and_return({ success: true, template: { id: '111111111' } })
-        expect(mock_service).to receive(:delete_csat_template)
+        expect(mock_service).to receive(:delete_template)
           .with('existing_template')
           .and_return({ success: true })
-        expect(mock_service).to receive(:create_csat_template)
+        expect(mock_service).to receive(:create_template)
           .and_return({
                         success: true,
                         template_name: "customer_satisfaction_survey_#{whatsapp_inbox.id}",
@@ -336,13 +338,13 @@ RSpec.describe Api::V1::Accounts::InboxCsatTemplatesController, type: :request d
                                })
 
         allow(mock_service).to receive(:get_template_status).and_return({ success: true })
-        allow(mock_service).to receive(:delete_csat_template)
+        allow(mock_service).to receive(:delete_template)
           .and_return({ success: false, response_body: 'Delete failed' })
-        allow(mock_service).to receive(:create_csat_template).and_return({
-                                                                           success: true,
-                                                                           template_name: "customer_satisfaction_survey_#{whatsapp_inbox.id}",
-                                                                           template_id: '333333333'
-                                                                         })
+        allow(mock_service).to receive(:create_template).and_return({
+                                                                      success: true,
+                                                                      template_name: "customer_satisfaction_survey_#{whatsapp_inbox.id}",
+                                                                      template_id: '333333333'
+                                                                    })
 
         post "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_inbox.id}/csat_template",
              headers: admin.create_new_auth_token,
@@ -365,11 +367,11 @@ RSpec.describe Api::V1::Accounts::InboxCsatTemplatesController, type: :request d
 
       it 'allows access when agent is assigned to inbox' do
         allow(mock_service).to receive(:get_template_status).and_return({ success: false })
-        allow(mock_service).to receive(:create_csat_template).and_return({
-                                                                           success: true,
-                                                                           template_name: 'customer_satisfaction_survey',
-                                                                           template_id: '444444444'
-                                                                         })
+        allow(mock_service).to receive(:create_template).and_return({
+                                                                      success: true,
+                                                                      template_name: 'customer_satisfaction_survey',
+                                                                      template_id: '444444444'
+                                                                    })
 
         post "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_inbox.id}/csat_template",
              headers: agent.create_new_auth_token,
@@ -377,6 +379,95 @@ RSpec.describe Api::V1::Accounts::InboxCsatTemplatesController, type: :request d
              as: :json
 
         expect(response).to have_http_status(:created)
+      end
+    end
+  end
+
+  describe 'POST /api/v1/accounts/{account.id}/inboxes/{inbox.id}/csat_template/analyze' do
+    let(:valid_template_params) do
+      {
+        template: {
+          message: 'How would you rate your experience?',
+          button_text: 'Rate Us',
+          language: 'en'
+        }
+      }
+    end
+
+    context 'when captain_integration feature is disabled' do
+      before do
+        account.disable_features!('captain_integration')
+      end
+
+      it 'returns forbidden' do
+        post "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_inbox.id}/csat_template/analyze",
+             headers: admin.create_new_auth_token,
+             params: valid_template_params,
+             as: :json
+
+        expect(response).to have_http_status(:forbidden)
+        expect(response.parsed_body['error']).to eq('Captain is required for template analysis')
+      end
+    end
+
+    context 'when captain_integration feature is enabled' do
+      before do
+        account.enable_features!('captain_integration')
+        account.reload
+      end
+
+      it 'returns analysis response' do
+        allow(analysis_service).to receive(:perform).and_return({
+                                                                  classification: 'LIKELY_UTILITY',
+                                                                  optimized_message: 'Your support request has been closed.'
+                                                                })
+
+        post "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_inbox.id}/csat_template/analyze",
+             headers: admin.create_new_auth_token,
+             params: valid_template_params,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        response_data = response.parsed_body
+        expect(response_data['classification']).to eq('LIKELY_UTILITY')
+        expect(response_data['optimized_message']).to eq('Your support request has been closed.')
+      end
+
+      it 'returns error when message is missing' do
+        invalid_params = { template: { button_text: 'Rate Us', language: 'en' } }
+
+        post "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_inbox.id}/csat_template/analyze",
+             headers: admin.create_new_auth_token,
+             params: invalid_params,
+             as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['error']).to eq('Message is required')
+      end
+
+      it 'returns unauthorized when agent is not assigned to inbox' do
+        other_agent = create(:user, account: account, role: :agent)
+
+        post "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_inbox.id}/csat_template/analyze",
+             headers: other_agent.create_new_auth_token,
+             params: valid_template_params,
+             as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+
+      it 'allows access when agent is assigned to inbox' do
+        allow(analysis_service).to receive(:perform).and_return({
+                                                                  classification: 'LIKELY_UTILITY',
+                                                                  optimized_message: 'Your support request has been closed.'
+                                                                })
+
+        post "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_inbox.id}/csat_template/analyze",
+             headers: agent.create_new_auth_token,
+             params: valid_template_params,
+             as: :json
+
+        expect(response).to have_http_status(:success)
       end
     end
   end

@@ -1,5 +1,6 @@
 class Captain::Llm::ContactNotesService < Llm::BaseAiService
   include Integrations::LlmInstrumentation
+
   def initialize(assistant, conversation)
     super()
     @assistant = assistant
@@ -37,6 +38,7 @@ class Captain::Llm::ContactNotesService < Llm::BaseAiService
       model: @model,
       temperature: @temperature,
       account_id: @conversation.account_id,
+      conversation_id: @conversation.display_id,
       feature_name: 'contact_notes',
       messages: [
         { role: 'system', content: system_prompt },
@@ -54,7 +56,7 @@ class Captain::Llm::ContactNotesService < Llm::BaseAiService
   def parse_response(response)
     return [] if response.nil?
 
-    JSON.parse(response.strip).fetch('notes', [])
+    JSON.parse(sanitize_json_response(response)).fetch('notes', [])
   rescue JSON::ParserError => e
     Rails.logger.error "Error in parsing GPT processed response: #{e.message}"
     []

@@ -6,7 +6,8 @@
       "OPTIONS": {
         "NAME": "이름",
         "DOMAIN": "Domain",
-        "CREATED_AT": "에 만들어짐"
+        "CREATED_AT": "에 만들어짐",
+        "CONTACTS_COUNT": "Contacts count"
       }
     },
     "ORDER": {

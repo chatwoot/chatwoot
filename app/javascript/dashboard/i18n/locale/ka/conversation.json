@@ -275,6 +275,16 @@
     "SIDEBAR": {
       "CONTACT": "Contact",
       "COPILOT": "Copilot"
+    },
+    "VOICE_WIDGET": {
+      "INCOMING_CALL": "შემომავალი ზარი",
+      "OUTGOING_CALL": "გამავალი ზარი",
+      "CALL_IN_PROGRESS": "ზარი მიმდინარეობს",
+      "NOT_ANSWERED_YET": "ჯერ არ უპასუხიათ",
+      "HANDLED_IN_ANOTHER_TAB": "Being handled in another tab",
+      "REJECT_CALL": "Reject",
+      "JOIN_CALL": "Join call",
+      "END_CALL": "End call"
     }
   },
   "EMAIL_TRANSCRIPT": {
