@@ -42,6 +42,36 @@ RSpec.describe Captain::Scenario, type: :model do
     end
   end
 
+  describe '#handoff_key' do
+    let(:account) { create(:account) }
+    let(:assistant) { create(:captain_assistant, account: account) }
+
+    it 'uses a short id-based key for persisted scenarios' do
+      scenario = create(:captain_scenario, assistant: assistant, account: account,
+                                           title: 'Handle complex refund requests requiring manager approval steps')
+
+      expect(scenario.handoff_key).to eq("scenario_#{scenario.id}_agent")
+      expect("handoff_to_#{scenario.handoff_key}".length).to be <= 64
+    end
+
+    it 'uses a truncated slug key for unsaved scenarios' do
+      scenario = build(:captain_scenario, assistant: assistant, account: account,
+                                          title: 'Troubleshoot payment gateway errors for recurring subscription charges')
+
+      expect(scenario.handoff_key).to match(/\Ascenario_[a-z0-9_]+_agent\z/)
+      expect("handoff_to_#{scenario.handoff_key}".length).to be <= 64
+    end
+
+    it 'exposes handoff keys in assistant prompt context' do
+      scenario = create(:captain_scenario, assistant: assistant, account: account)
+
+      prompt_context = assistant.send(:prompt_context)
+      scenario_config = prompt_context[:scenarios].find { |entry| entry[:title] == scenario.title }
+
+      expect(scenario_config[:key]).to eq(scenario.handoff_key)
+    end
+  end
+
   describe 'tool validation and population' do
     let(:account) { create(:account) }
     let(:assistant) { create(:captain_assistant, account: account) }

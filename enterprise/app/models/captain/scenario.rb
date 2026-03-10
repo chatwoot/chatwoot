@@ -24,6 +24,12 @@ class Captain::Scenario < ApplicationRecord
   include Concerns::CaptainToolsHelpers
   include Concerns::Agentable
 
+  # OpenAI enforces a 64-char limit on function names. The ai-agents gem
+  # prepends "handoff_to_" (11 chars), so the agent name must stay ≤ 53 chars.
+  # Format: "scenario_{id}_agent" for persisted records (always safe),
+  # truncated title slug for unsaved records (capped at HANDOFF_TITLE_SLUG_MAX_LENGTH).
+  HANDOFF_TITLE_SLUG_MAX_LENGTH = 38
+
   self.table_name = 'captain_scenarios'
 
   belongs_to :assistant, class_name: 'Captain::Assistant'
@@ -42,6 +48,10 @@ class Captain::Scenario < ApplicationRecord
 
   before_save :resolve_tool_references
 
+  def handoff_key
+    "#{handoff_base_key}_agent"
+  end
+
   def prompt_context
     {
       title: title,
@@ -56,7 +66,14 @@ class Captain::Scenario < ApplicationRecord
   private
 
   def agent_name
-    "#{title} Agent".parameterize(separator: '_')
+    handoff_key
+  end
+
+  def handoff_base_key
+    return "scenario_#{id}" if id.present?
+
+    slug = title.to_s.parameterize(separator: '_').first(HANDOFF_TITLE_SLUG_MAX_LENGTH).sub(/_+\z/, '')
+    "scenario_#{slug.presence || 'draft'}"
   end
 
   def agent_tools
