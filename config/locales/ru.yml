@@ -108,6 +108,7 @@ ru:
       invalid_query_operator: Оператор запроса должен быть "AND" или "OR".
       invalid_value: Недопустимое значение. Значения, предоставленные для %{attribute_name} являются недопустимыми
     custom_attribute_definition:
+      attribute_key_format: must only contain letters, numbers, underscores, hyphens, and dots
       key_conflict: Предоставленный ключ не разрешён, так как он может конфликтовать со стандартными атрибутами.
     mfa:
       already_enabled: MFA уже включен
