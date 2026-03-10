@@ -539,6 +539,7 @@ const actions = {
   },
 
   loadMoreKanbanColumn: async ({ commit }, { status, params }) => {
+    commit(types.SET_KANBAN_COLUMN_LOADING, status);
     try {
       const {
         data: { data },
@@ -546,6 +547,8 @@ const actions = {
       commit(types.APPEND_KANBAN_CONVERSATIONS, { status, data: data[status] });
     } catch (error) {
       // Handle error
+    } finally {
+      commit(types.CLEAR_KANBAN_COLUMN_LOADING, status);
     }
   },
 
