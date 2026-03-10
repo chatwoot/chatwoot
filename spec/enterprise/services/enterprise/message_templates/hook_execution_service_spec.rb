@@ -24,7 +24,7 @@ RSpec.describe MessageTemplates::HookExecutionService do
       it 'schedules captain response job for incoming messages on pending conversations' do
         expect(Captain::Conversation::ResponseBuilderJob).to receive(:perform_later).with(conversation, assistant)
 
-        create(:message, conversation: conversation, message_type: :incoming, account: account, account: account)
+        create(:message, conversation: conversation, message_type: :incoming, account: account)
       end
     end
 
