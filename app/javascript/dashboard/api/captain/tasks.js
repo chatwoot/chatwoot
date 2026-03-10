@@ -24,7 +24,7 @@ class TasksAPI extends ApiClient {
    */
   rewrite({ content, operation, conversationId }, signal) {
     return axios.post(
-      `${this.url}/rewrite`,
+      `${this.baseUrl()}/aloo/tasks/rewrite`,
       {
         content,
         operation,

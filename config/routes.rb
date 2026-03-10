@@ -118,6 +118,7 @@ Rails.application.routes.draw do
             end
             resource :tasks, only: [], controller: 'tasks' do
               post :summarize, on: :collection
+              post :rewrite, on: :collection
               post :reply_suggestion, on: :collection
             end
           end

@@ -27,6 +27,21 @@ class Api::V1::Accounts::Aloo::TasksController < Api::V1::Accounts::BaseControll
     }
   end
 
+  def rewrite
+    conversation = find_conversation
+    messages = extract_messages(conversation)
+
+    result = ContentRewriteAgent.call(
+      content: params[:content],
+      operation: params[:operation],
+      conversation_messages: messages,
+      account_id: Current.account.id,
+      conversation_id: conversation.display_id
+    )
+
+    render_task_result(result, :rewritten_content, conversation)
+  end
+
   def reply_suggestion
     conversation = find_conversation
     messages = extract_messages(conversation)
