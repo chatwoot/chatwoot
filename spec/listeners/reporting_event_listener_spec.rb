@@ -27,10 +27,22 @@ describe ReportingEventListener do
       end
 
       it 'creates conversation_resolved event with business hour value' do
-        event = Events::Base.new('conversation.resolved', Time.zone.now, conversation: new_conversation)
+        event = Events::Base.new('conversation.resolved', updated_at, conversation: new_conversation)
         listener.conversation_resolved(event)
         expect(account.reporting_events.where(name: 'conversation_resolved')[0]['value_in_business_hours']).to be 144_000.0
       end
+    end
+
+    it 'uses event timestamp even when conversation updated_at changes later' do
+      resolved_at = conversation.created_at + 20.minutes
+      allow(conversation).to receive(:updated_at).and_return(resolved_at + 10.minutes)
+      event = Events::Base.new('conversation.resolved', resolved_at, conversation: conversation)
+
+      listener.conversation_resolved(event)
+
+      reporting_event = account.reporting_events.where(name: 'conversation_resolved').first
+      expect(reporting_event.value).to eq 1200
+      expect(reporting_event.event_end_time).to be_within(1.second).of(resolved_at)
     end
 
     describe 'conversation_bot_resolved' do
@@ -261,10 +273,22 @@ describe ReportingEventListener do
       end
 
       it 'creates conversation_bot_handoff event with business hour value' do
-        event = Events::Base.new('conversation.bot_handoff', Time.zone.now, conversation: new_conversation)
+        event = Events::Base.new('conversation.bot_handoff', updated_at, conversation: new_conversation)
         listener.conversation_bot_handoff(event)
         expect(account.reporting_events.where(name: 'conversation_bot_handoff')[0]['value_in_business_hours']).to be 144_000.0
       end
+    end
+
+    it 'uses event timestamp even when conversation updated_at changes later' do
+      handoff_at = conversation.created_at + 10.minutes
+      allow(conversation).to receive(:updated_at).and_return(handoff_at + 15.minutes)
+      event = Events::Base.new('conversation.bot_handoff', handoff_at, conversation: conversation)
+
+      listener.conversation_bot_handoff(event)
+
+      reporting_event = account.reporting_events.where(name: 'conversation_bot_handoff').first
+      expect(reporting_event.value).to eq 600
+      expect(reporting_event.event_end_time).to be_within(1.second).of(handoff_at)
     end
   end
 
@@ -306,7 +330,8 @@ describe ReportingEventListener do
 
       it 'creates conversation_opened event with value 0' do
         expect(account.reporting_events.where(name: 'conversation_opened').count).to be 0
-        event = Events::Base.new('conversation.opened', Time.zone.now, conversation: new_conversation)
+        opened_at = Time.zone.now
+        event = Events::Base.new('conversation.opened', opened_at, conversation: new_conversation)
         listener.conversation_opened(event)
         expect(account.reporting_events.where(name: 'conversation_opened').count).to be 1
 
@@ -314,7 +339,7 @@ describe ReportingEventListener do
         expect(opened_event.value).to eq 0
         expect(opened_event.value_in_business_hours).to eq 0
         expect(opened_event.event_start_time).to be_within(1.second).of(new_conversation.created_at)
-        expect(opened_event.event_end_time).to be_within(1.second).of(new_conversation.updated_at)
+        expect(opened_event.event_end_time).to be_within(1.second).of(opened_at)
       end
     end
 
@@ -364,6 +389,17 @@ describe ReportingEventListener do
         expect(reopened_event.inbox_id).to eq(inbox.id)
         expect(reopened_event.conversation_id).to eq(reopened_conversation.id)
         expect(reopened_event.user_id).to eq(user.id)
+      end
+
+      it 'uses event timestamp even when conversation updated_at changes later' do
+        allow(reopened_conversation).to receive(:updated_at).and_return(reopened_time + 20.minutes)
+        event = Events::Base.new('conversation.opened', reopened_time, conversation: reopened_conversation)
+
+        listener.conversation_opened(event)
+
+        reopened_event = account.reporting_events.where(name: 'conversation_opened').first
+        expect(reopened_event.value).to be_within(1).of(3600)
+        expect(reopened_event.event_end_time).to be_within(1.second).of(reopened_time)
       end
 
       context 'when business hours enabled for inbox' do
