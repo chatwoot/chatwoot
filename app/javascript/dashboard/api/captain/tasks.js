@@ -93,7 +93,7 @@ class TasksAPI extends ApiClient {
    */
   followUp({ followUpContext, message, conversationId }, signal) {
     return axios.post(
-      `${this.url}/follow_up`,
+      `${this.baseUrl()}/aloo/tasks/follow_up`,
       {
         follow_up_context: followUpContext,
         message,

@@ -120,6 +120,7 @@ Rails.application.routes.draw do
               post :summarize, on: :collection
               post :rewrite, on: :collection
               post :reply_suggestion, on: :collection
+              post :follow_up, on: :collection
             end
           end
           resource :saml_settings, only: [:show, :create, :update, :destroy]
