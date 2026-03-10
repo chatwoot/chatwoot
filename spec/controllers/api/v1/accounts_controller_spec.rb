@@ -81,6 +81,29 @@ RSpec.describe 'Accounts API', type: :request do
       end
     end
 
+    context 'when ENABLE_ACCOUNT_SIGNUP is stored as boolean false' do
+      before do
+        GlobalConfig.clear_cache
+        InstallationConfig.where(name: 'ENABLE_ACCOUNT_SIGNUP').delete_all
+        InstallationConfig.create!(name: 'ENABLE_ACCOUNT_SIGNUP', value: false, locked: false)
+      end
+
+      after do
+        InstallationConfig.where(name: 'ENABLE_ACCOUNT_SIGNUP').delete_all
+        GlobalConfig.clear_cache
+      end
+
+      it 'responds 404 on requests' do
+        params = { account_name: 'test', email: email, user_full_name: user_full_name, password: 'Password1!' }
+
+        post api_v1_accounts_url,
+             params: params,
+             as: :json
+
+        expect(response).to have_http_status(:not_found)
+      end
+    end
+
     context 'when ENABLE_ACCOUNT_SIGNUP env variable is set to api_only' do
       it 'does not respond 404 on requests' do
         params = { account_name: 'test', email: email, user_full_name: user_full_name, password: 'Password1!' }
