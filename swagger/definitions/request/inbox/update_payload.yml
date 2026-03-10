@@ -61,6 +61,10 @@ properties:
     type: string
     description: Business name for the inbox
     example: 'My Business'
+  customer_id:
+    type: string
+    description: Customer ID to associate with this inbox, included in webhook payloads
+    example: 'CUST-12345'
   channel:
     type: object
     properties:

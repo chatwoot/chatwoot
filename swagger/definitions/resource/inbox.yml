@@ -102,6 +102,9 @@ properties:
   business_name:
     type: string
     description: Business name associated with the inbox
+  customer_id:
+    type: string
+    description: Customer ID associated with this inbox, included in webhook payloads
   hmac_mandatory:
     type: boolean
     description: Whether HMAC verification is mandatory

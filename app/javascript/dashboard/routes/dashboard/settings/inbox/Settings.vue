@@ -60,6 +60,7 @@ export default {
       emailCollectEnabled: false,
       senderNameType: 'friendly',
       businessName: '',
+      customerId: '',
       locktoSingleConversation: false,
       allowMessagesAfterResolved: true,
       continuityViaEmail: true,
@@ -288,6 +289,7 @@ export default {
         this.emailCollectEnabled = this.inbox.enable_email_collect;
         this.senderNameType = this.inbox.sender_name_type;
         this.businessName = this.inbox.business_name;
+        this.customerId = this.inbox.customer_id || '';
         this.allowMessagesAfterResolved =
           this.inbox.allow_messages_after_resolved;
         this.continuityViaEmail = this.inbox.continuity_via_email;
@@ -319,6 +321,7 @@ export default {
           lock_to_single_conversation: this.locktoSingleConversation,
           sender_name_type: this.senderNameType,
           business_name: this.businessName || null,
+          customer_id: this.customerId || null,
           channel: {
             widget_color: this.inbox.widget_color,
             website_url: this.channelWebsiteUrl,
@@ -440,6 +443,13 @@ export default {
                 : ''
             "
             @blur="v$.selectedInboxName.$touch"
+          />
+          <woot-input
+            v-model="customerId"
+            class="pb-4"
+            :label="$t('INBOX_MGMT.EDIT.CUSTOMER_ID.LABEL')"
+            :placeholder="$t('INBOX_MGMT.EDIT.CUSTOMER_ID.PLACEHOLDER')"
+            :help-text="$t('INBOX_MGMT.EDIT.CUSTOMER_ID.HELP_TEXT')"
           />
           <woot-input
             v-if="isAPIInbox"

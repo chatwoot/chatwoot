@@ -26,6 +26,7 @@
 #  updated_at                    :datetime         not null
 #  account_id                    :integer          not null
 #  channel_id                    :integer          not null
+#  customer_id                   :string
 #  portal_id                     :bigint
 #
 # Indexes
@@ -163,7 +164,8 @@ class Inbox < ApplicationRecord
   def webhook_data
     {
       id: id,
-      name: name
+      name: name,
+      customer_id: customer_id
     }
   end
 
