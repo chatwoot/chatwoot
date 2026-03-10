@@ -82,8 +82,8 @@ class ReportingEvents::BackfillService
 
           key = [dimension_type, dimension_id, metric]
           aggregates[key][:count] += metric_data[:count]
-          aggregates[key][:sum_value] += metric_data[:sum_value]
-          aggregates[key][:sum_value_business_hours] += metric_data[:sum_value_business_hours]
+          aggregates[key][:sum_value] += metric_data[:sum_value].to_f
+          aggregates[key][:sum_value_business_hours] += metric_data[:sum_value_business_hours].to_f
         end
       end
     end

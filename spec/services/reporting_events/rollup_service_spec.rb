@@ -186,6 +186,41 @@ describe ReportingEvents::RollupService do
         end
       end
 
+      describe 'when metric values are nil' do
+        [
+          %w[conversation_resolved resolution_time],
+          %w[first_response first_response],
+          %w[reply_time reply_time]
+        ].each do |event_name, metric|
+          it "treats nil values as zero for #{event_name}" do
+            reporting_event = create(:reporting_event,
+                                     account: account,
+                                     name: event_name,
+                                     value: 100,
+                                     value_in_business_hours: 50,
+                                     user: user,
+                                     inbox: inbox,
+                                     conversation: conversation)
+            reporting_event.assign_attributes(value: nil, value_in_business_hours: nil)
+
+            expect do
+              described_class.perform(reporting_event)
+            end.not_to raise_error
+
+            rollup = ReportingEventsRollup.find_by(
+              account_id: account.id,
+              dimension_type: 'account',
+              metric: metric
+            )
+
+            expect(rollup).to be_present
+            expect(rollup.count).to eq(1)
+            expect(rollup.sum_value).to eq(0)
+            expect(rollup.sum_value_business_hours).to eq(0)
+          end
+        end
+      end
+
       describe 'conversation_bot_resolved event' do
         let(:reporting_event) do
           create(:reporting_event,

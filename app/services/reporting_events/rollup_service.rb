@@ -131,8 +131,8 @@ module ReportingEvents::RollupService
       {
         account_id: @account.id, date: event_date,
         dimension_type: dimension_type, dimension_id: dimension_id, metric: metric,
-        count: metric_data[:count], sum_value: metric_data[:sum_value],
-        sum_value_business_hours: metric_data[:sum_value_business_hours],
+        count: metric_data[:count], sum_value: metric_data[:sum_value].to_f,
+        sum_value_business_hours: metric_data[:sum_value_business_hours].to_f,
         created_at: Time.current, updated_at: Time.current
       }
     end
