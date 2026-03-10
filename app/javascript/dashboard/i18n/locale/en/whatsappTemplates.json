@@ -8,6 +8,15 @@
     "PICKER": {
       "SEARCH_PLACEHOLDER": "Search Templates",
       "NO_TEMPLATES_FOUND": "No templates found for",
+      "TABS": {
+        "ALL": "All",
+        "FAVORITES": "Favorites",
+        "RECENT": "Recent"
+      },
+      "NO_FAVORITES": "No favorites yet. Star templates you use often for quick access.",
+      "NO_RECENT": "No recently sent templates.",
+      "ADD_TO_FAVORITES": "Add to favorites",
+      "REMOVE_FROM_FAVORITES": "Remove from favorites",
       "HEADER": "Header",
       "BODY": "Body",
       "FOOTER": "Footer",
