@@ -109,7 +109,6 @@ module Captain::ChatHelper
 
   # Ensures all LLM calls and tool executions within an agentic loop
   # are grouped under a single trace/session in Langfuse.
-  #
   # Without this guard, each recursive call to request_chat_completion
   # (triggered by tool calls) would create a separate trace instead of
   # nesting within the existing session span.
@@ -130,7 +129,6 @@ module Captain::ChatHelper
   end
 
   def log_chat_completion_request
-    Rails.logger.info("#{self.class.name} Assistant: #{@assistant.id}, Requesting chat completion " \
-                      "for messages #{@messages} with #{@tools&.length || 0} tools")
+    Rails.logger.info("#{self.class.name} Assistant: #{@assistant.id}, requesting completion for #{@messages} with #{@tools&.length || 0} tools")
   end
 end
