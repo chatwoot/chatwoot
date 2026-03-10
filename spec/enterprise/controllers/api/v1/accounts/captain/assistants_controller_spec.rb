@@ -278,7 +278,10 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
 
     context 'when captain v2 is disabled' do
       it 'generates a response with the legacy assistant chat service' do
-        allow(Captain::Llm::AssistantChatService).to receive(:new).with(assistant: assistant).and_return(chat_service)
+        allow(Captain::Llm::AssistantChatService).to receive(:new).with(
+          assistant: assistant,
+          source: 'playground'
+        ).and_return(chat_service)
         allow(chat_service).to receive(:generate_response).and_return({ content: 'Assistant response' })
         expect(Captain::Assistant::AgentRunnerService).not_to receive(:new)
 
@@ -297,7 +300,10 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
 
       it 'uses empty array as default' do
         params_without_history = { message_content: 'Hello assistant' }
-        allow(Captain::Llm::AssistantChatService).to receive(:new).with(assistant: assistant).and_return(chat_service)
+        allow(Captain::Llm::AssistantChatService).to receive(:new).with(
+          assistant: assistant,
+          source: 'playground'
+        ).and_return(chat_service)
         allow(chat_service).to receive(:generate_response).and_return({ content: 'Assistant response' })
         expect(Captain::Assistant::AgentRunnerService).not_to receive(:new)
 
@@ -320,7 +326,10 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
       end
 
       it 'generates a response with the agent runner service' do
-        allow(Captain::Assistant::AgentRunnerService).to receive(:new).with(assistant: assistant).and_return(agent_runner_service)
+        allow(Captain::Assistant::AgentRunnerService).to receive(:new).with(
+          assistant: assistant,
+          source: 'playground'
+        ).and_return(agent_runner_service)
         allow(agent_runner_service).to receive(:generate_response).and_return({ response: 'Assistant response' })
         expect(Captain::Llm::AssistantChatService).not_to receive(:new)
 
@@ -341,7 +350,10 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
           message_content: 'Hello assistant',
           message_history: [{ role: 'user', content: 'Hello assistant' }]
         }
-        allow(Captain::Assistant::AgentRunnerService).to receive(:new).with(assistant: assistant).and_return(agent_runner_service)
+        allow(Captain::Assistant::AgentRunnerService).to receive(:new).with(
+          assistant: assistant,
+          source: 'playground'
+        ).and_return(agent_runner_service)
         allow(agent_runner_service).to receive(:generate_response).and_return({ response: 'Assistant response' })
 
         post "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}/playground",

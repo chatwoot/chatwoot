@@ -19,11 +19,11 @@ class Captain::Assistant::AgentRunnerService
   CONTACT_INBOX_STATE_ATTRIBUTES = %i[id hmac_verified].freeze
 
   CAMPAIGN_STATE_ATTRIBUTES = %i[id title message campaign_type description].freeze
-
-  def initialize(assistant:, conversation: nil, callbacks: {})
+  def initialize(assistant:, conversation: nil, callbacks: {}, source: nil)
     @assistant = assistant
     @conversation = conversation
     @callbacks = callbacks
+    @source = source
   end
 
   def generate_response(message_history: [])
@@ -128,6 +128,7 @@ class Captain::Assistant::AgentRunnerService
       assistant_id: @assistant.id,
       assistant_config: @assistant.config
     }
+    state[:source] = @source if @source.present?
 
     build_conversation_state(state) if @conversation
     state
@@ -180,6 +181,7 @@ class Captain::Assistant::AgentRunnerService
       format(ATTR_LANGFUSE_METADATA, 'conversation_id') => conversation[:id],
       format(ATTR_LANGFUSE_METADATA, 'conversation_display_id') => conversation[:display_id],
       format(ATTR_LANGFUSE_METADATA, 'channel_type') => state[:channel_type],
+      format(ATTR_LANGFUSE_METADATA, 'source') => state[:source],
       ATTR_LANGFUSE_TRACE_INPUT => trace_input,
       ATTR_LANGFUSE_OBSERVATION_INPUT => trace_input
     }.compact.transform_values(&:to_s)

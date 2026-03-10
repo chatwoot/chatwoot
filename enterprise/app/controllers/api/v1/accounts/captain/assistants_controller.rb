@@ -25,11 +25,11 @@ class Api::V1::Accounts::Captain::AssistantsController < Api::V1::Accounts::Base
 
   def playground
     response = if captain_v2_enabled?
-                 Captain::Assistant::AgentRunnerService.new(assistant: @assistant).generate_response(
+                 Captain::Assistant::AgentRunnerService.new(assistant: @assistant, source: 'playground').generate_response(
                    message_history: playground_message_history
                  )
                else
-                 Captain::Llm::AssistantChatService.new(assistant: @assistant).generate_response(
+                 Captain::Llm::AssistantChatService.new(assistant: @assistant, source: 'playground').generate_response(
                    additional_message: playground_params[:message_content],
                    message_history: message_history
                  )

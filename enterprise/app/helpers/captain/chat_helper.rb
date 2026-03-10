@@ -5,7 +5,6 @@ module Captain::ChatHelper
 
   def request_chat_completion
     log_chat_completion_request
-
     chat = build_chat
 
     add_messages_to_chat(chat)
@@ -86,7 +85,8 @@ module Captain::ChatHelper
       temperature: temperature,
       metadata: {
         assistant_id: @assistant&.id,
-        channel_type: resolved_channel_type
+        channel_type: resolved_channel_type,
+        source: @source
       }.compact
     }
   end
