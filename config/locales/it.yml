@@ -108,6 +108,7 @@ it:
       invalid_query_operator: L'operatore della query deve essere "E" o "O".
       invalid_value: Valore non valido. I valori forniti per %{attribute_name} non sono validi
     custom_attribute_definition:
+      attribute_key_format: must only contain letters, numbers, underscores, hyphens, and dots
       key_conflict: La chiave fornita non è consentita in quanto potrebbe entrare in conflitto con gli attributi predefiniti.
     mfa:
       already_enabled: MFA già attiva
