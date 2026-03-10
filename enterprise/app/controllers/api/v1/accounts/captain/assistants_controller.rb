@@ -70,11 +70,17 @@ class Api::V1::Accounts::Captain::AssistantsController < Api::V1::Accounts::Base
   end
 
   def playground_params
-    params.require(:assistant).permit(:message_content, message_history: [:role, :content])
+    params.require(:assistant).permit(:message_content, message_history: [:role, :content, :agent_name])
   end
 
   def message_history
-    (playground_params[:message_history] || []).map { |message| { role: message[:role], content: message[:content] } }
+    (playground_params[:message_history] || []).map do |message|
+      {
+        role: message[:role],
+        content: message[:content],
+        agent_name: message[:agent_name]
+      }.compact
+    end
   end
 
   def playground_message_history

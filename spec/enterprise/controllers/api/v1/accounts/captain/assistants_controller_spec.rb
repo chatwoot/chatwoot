@@ -259,7 +259,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
         message_content: 'Hello assistant',
         message_history: [
           { role: 'user', content: 'Previous message' },
-          { role: 'assistant', content: 'Previous response' }
+          { role: 'assistant', content: 'Previous response', agent_name: 'billing_scenario' }
         ]
       }
     end
