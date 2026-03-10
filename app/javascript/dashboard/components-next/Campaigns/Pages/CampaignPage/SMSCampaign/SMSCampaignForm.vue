@@ -123,7 +123,6 @@ const handleSubmit = async () => {
       v-model="state.message"
       :label="t('CAMPAIGN.SMS.CREATE.FORM.MESSAGE.LABEL')"
       :placeholder="t('CAMPAIGN.SMS.CREATE.FORM.MESSAGE.PLACEHOLDER')"
-      show-character-count
       :message="formErrors.message"
       :message-type="formErrors.message ? 'error' : 'info'"
     />

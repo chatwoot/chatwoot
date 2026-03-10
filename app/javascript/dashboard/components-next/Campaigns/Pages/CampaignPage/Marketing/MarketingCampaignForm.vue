@@ -178,6 +178,7 @@ defineExpose({ prepareCampaignDetails, isSubmitDisabled });
       v-model="state.description"
       :label="t('CAMPAIGN.MARKETING.CREATE.FORM.DESCRIPTION.LABEL')"
       :placeholder="t('CAMPAIGN.MARKETING.CREATE.FORM.DESCRIPTION.PLACEHOLDER')"
+      :show-character-count="false"
       :message="formErrors.description"
       :message-type="formErrors.description ? 'error' : 'info'"
     />

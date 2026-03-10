@@ -218,6 +218,7 @@ defineExpose({ prepareCampaignDetails, isSubmitDisabled });
       v-model="state.message"
       :label="t('CAMPAIGN.LIVE_CHAT.CREATE.FORM.MESSAGE.LABEL')"
       :placeholder="t('CAMPAIGN.LIVE_CHAT.CREATE.FORM.MESSAGE.PLACEHOLDER')"
+      :show-character-count="false"
       :message="formErrors.message"
       :message-type="formErrors.message ? 'error' : 'info'"
     />
