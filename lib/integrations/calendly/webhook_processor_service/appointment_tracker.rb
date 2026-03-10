@@ -2,10 +2,11 @@ module Integrations::Calendly::WebhookProcessorService::AppointmentTracker
   private
 
   def update_appointment_as_scheduled(conversation, event_details)
-    appointment = find_pending_appointment(conversation)
+    event_uuid = extract_event_uuid(event_details)
+    appointment = find_pending_appointment(conversation) ||
+                  create_appointment_from_webhook(conversation, event_details, event_uuid)
     return if appointment.blank?
 
-    event_uuid = extract_event_uuid(event_details)
     appointment.mark_as_scheduled!(
       start_time: event_details['start_time'],
       end_time: event_details['end_time'],
@@ -67,5 +68,30 @@ module Integrations::Calendly::WebhookProcessorService::AppointmentTracker
             .where(status: [:initiated, :pending])
             .order(created_at: :desc)
             .first
+  end
+
+  def create_appointment_from_webhook(conversation, event_details, event_uuid)
+    return if event_uuid.present? && Appointment.exists?(external_event_id: event_uuid)
+
+    Appointment.create!(
+      account: @account,
+      conversation: conversation,
+      contact: conversation.contact,
+      created_by: resolve_webhook_creator,
+      provider: 'calendly',
+      status: :initiated,
+      event_type_name: event_details['name'],
+      event_type_uri: event_details.dig('event_type'),
+      payload: { initiated_at: Time.current.iso8601, source: 'webhook' }
+    )
+  rescue StandardError => e
+    Rails.logger.error("Calendly: Failed to create appointment from webhook: #{e.message}")
+    nil
+  end
+
+  def resolve_webhook_creator
+    @account.account_users.where(role: :administrator).first&.user ||
+      @account.account_users.first&.user ||
+      raise('No users found for account')
   end
 end
