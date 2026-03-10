@@ -36,6 +36,9 @@ const meta = useMapGetter('contacts/getMeta');
 const searchQuery = computed(() => route.query?.search);
 const searchValue = ref(searchQuery.value || '');
 const pageNumber = computed(() => Number(route.query?.page) || 1);
+// For infinite scroll in search, track page internally
+const searchPageNumber = ref(1);
+const isLoadingMore = ref(false);
 
 const parseSortSettings = (sortString = '') => {
   const hasDescending = sortString.startsWith('-');
@@ -62,6 +65,8 @@ const isFetchingList = computed(
 );
 const currentPage = computed(() => Number(meta.value?.currentPage));
 const totalItems = computed(() => meta.value?.count);
+const hasMore = computed(() => meta.value?.hasMore ?? false);
+const isSearchView = computed(() => !!searchQuery.value);
 
 const selectedContactIds = ref([]);
 const isBulkActionLoading = ref(false);
@@ -196,7 +201,6 @@ const fetchContacts = async (page = 1, options = {}) => {
   if (shouldClearSelection) {
     clearSelection();
   }
-
   await store.dispatch('contacts/clearContactFilters');
   await store.dispatch('contacts/get', getCommonFetchParams(page));
   updatePageParam(page);
@@ -235,29 +239,58 @@ const fetchActiveContacts = async (page = 1, options = {}) => {
   updatePageParam(page);
 };
 
-const searchContacts = debounce(async (value, page = 1, options = {}) => {
+const searchContacts = debounce(
+  async (value, page = 1, append = false, options = {}) => {
+    const { clearSelection: shouldClearSelection = true } = options;
+
+    if (!append) {
+      if (shouldClearSelection) {
+        clearSelection();
+
+        searchPageNumber.value = 1;
+      }
+    }
+    await store.dispatch('contacts/clearContactFilters');
+    searchValue.value = value;
+
+    if (!value) {
+      updatePageParam(page);
+      await fetchContacts(page, { clearSelection: false });
+      return;
+    }
+
+    updatePageParam(page, value);
+    await store.dispatch('contacts/search', {
+      ...getCommonFetchParams(page),
+      search: encodeURIComponent(value),
+      append,
+    });
+    searchPageNumber.value = page;
+  },
+  DEBOUNCE_DELAY
+);
+
+const loadMoreSearchResults = async () => {
+  if (!hasMore.value || isLoadingMore.value) return;
+
+  isLoadingMore.value = true;
+  const nextPage = searchPageNumber.value + 1;
+
+  await store.dispatch('contacts/search', {
+    ...getCommonFetchParams(nextPage),
+    search: encodeURIComponent(searchValue.value),
+    append: true,
+  });
+
+  searchPageNumber.value = nextPage;
+  isLoadingMore.value = false;
+};
+
+const fetchContactsBasedOnContext = async (page, options = {}) => {
   const { clearSelection: shouldClearSelection = true } = options;
   if (shouldClearSelection) {
     clearSelection();
   }
-  await store.dispatch('contacts/clearContactFilters');
-  searchValue.value = value;
-
-  if (!value) {
-    updatePageParam(page);
-    await fetchContacts(page, { clearSelection: false });
-    return;
-  }
-
-  updatePageParam(page, value);
-  await store.dispatch('contacts/search', {
-    ...getCommonFetchParams(page),
-    search: encodeURIComponent(value),
-  });
-}, DEBOUNCE_DELAY);
-
-const fetchContactsBasedOnContext = async (page, options = {}) => {
-  const { clearSelection: shouldClearSelection = true } = options;
   updatePageParam(page, searchValue.value);
   if (isFetchingList.value) return;
   if (searchQuery.value) {
@@ -288,7 +321,9 @@ const fetchContactsBasedOnContext = async (page, options = {}) => {
     return;
   }
   // Default case: fetch regular contacts + label
-  await fetchContacts(page, { clearSelection: shouldClearSelection });
+  await fetchContacts(page, {
+    clearSelection: shouldClearSelection,
+  });
 };
 
 const onPageChange = page =>
@@ -347,7 +382,7 @@ const handleSort = async ({ sort, order }) => {
   });
 
   if (searchQuery.value) {
-    await searchContacts(searchValue.value, pageNumber.value, {
+    await searchContacts(searchValue.value, pageNumber.value, false, {
       clearSelection: false,
     });
     return;
@@ -409,14 +444,14 @@ watch(searchQuery, value => {
       hasAppliedFilters.value
     )
       return;
-    fetchContacts(pageNumber.value, { clearSelection: false });
+    fetchContacts();
   }
 });
 
 onMounted(async () => {
   if (!activeSegmentId.value) {
     if (searchQuery.value) {
-      await searchContacts(searchQuery.value, pageNumber.value, {
+      await searchContacts(searchQuery.value, pageNumber.value, false, {
         clearSelection: false,
       });
       return;
@@ -437,28 +472,34 @@ onMounted(async () => {
 
 <template>
   <div
-    class="flex flex-col justify-between flex-1 h-full m-0 overflow-auto bg-n-background"
+    class="flex flex-col justify-between flex-1 h-full m-0 overflow-auto bg-n-surface-1"
   >
     <ContactsListLayout
       :search-value="searchValue"
       :header-title="headerTitle"
       :current-page="currentPage"
       :total-items="totalItems"
-      :show-pagination-footer="!isFetchingList && hasContacts"
+      :show-pagination-footer="!isFetchingList && hasContacts && !isSearchView"
       :active-sort="sortState.activeSort"
       :active-ordering="sortState.activeOrdering"
       :active-segment="activeSegment"
       :segments-id="activeSegmentId"
       :is-fetching-list="isFetchingList"
       :has-applied-filters="hasAppliedFilters"
+      :use-infinite-scroll="isSearchView"
+      :has-more="hasMore"
+      :is-loading-more="isLoadingMore"
       @update:current-page="onPageChange"
-      @search="value => searchContacts(value, 1, { clearSelection: false })"
+      @search="
+        value => searchContacts(value, 1, false, { clearSelection: false })
+      "
       @update:sort="handleSort"
       @apply-filter="fetchSavedOrAppliedFilteredContact"
       @clear-filters="fetchContacts"
+      @load-more="loadMoreSearchResults"
     >
       <div
-        v-if="isFetchingList"
+        v-if="isFetchingList && !(isSearchView && hasContacts)"
         class="flex items-center justify-center py-10 text-n-slate-11"
       >
         <Spinner />
@@ -493,7 +534,7 @@ onMounted(async () => {
           </span>
         </div>
 
-        <div v-else class="flex flex-col gap-4 px-6 pt-4 pb-6">
+        <div v-else class="flex flex-col gap-4 pt-4 pb-6">
           <ContactsList
             :contacts="contacts"
             :selected-contact-ids="selectedContactIds"
