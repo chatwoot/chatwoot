@@ -55,6 +55,7 @@ if (window.errorLoggingConfig) {
   Sentry.init({
     app,
     dsn: window.errorLoggingConfig,
+    environment: window.chatwootConfig.environment || undefined,
     denyUrls: [
       // Chrome extensions
       /^chrome:\/\//i,
