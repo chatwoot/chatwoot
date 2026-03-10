@@ -1,39 +1,55 @@
-name: Build test Docker image
-
+name: Build and Push Docker Image
 on:
+  push:
+    tags:
+      - "v*"
   workflow_dispatch:
-
-env:
-  REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
-
 jobs:
-  build:
+  build-and-push:
     runs-on: ubuntu-latest
     permissions:
       contents: read
       packages: write
+      id-token: write
+      attestations: write
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
-
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
-
-      - name: Login to GHCR
+      - name: Generate tag version
+        id: tag
+        run: |
+          if [[ "${{ github.ref }}" == refs/tags/* ]]; then
+            TAG_VERSION=${GITHUB_REF#refs/tags/v}
+            echo "TAG_VERSION=${TAG_VERSION}" >> $GITHUB_ENV
+          elif [[ "${{ github.ref }}" == refs/heads/main ]]; then
+            echo "TAG_VERSION=latest" >> $GITHUB_ENV
+          elif [[ "${{ github.ref }}" == refs/heads/develop ]]; then
+            echo "TAG_VERSION=develop" >> $GITHUB_ENV
+          else
+            BRANCH_NAME=$(echo "${{ github.ref }}" | sed 's|refs/heads/||')
+            SHORT_SHA=$(echo "${{ github.sha }}" | cut -c1-7)
+            echo "TAG_VERSION=${BRANCH_NAME}-${SHORT_SHA}" >> $GITHUB_ENV
+          fi
+          echo "Generated TAG_VERSION: ${TAG_VERSION}"
+      - name: Log in to GitHub Container Registry
+        if: github.event_name != 'pull_request'
         uses: docker/login-action@v3
         with:
-          registry: ${{ env.REGISTRY }}
+          registry: ${{ vars.CR_HOSTNAME || 'ghcr.io' }}
           username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Build and push
-        uses: docker/build-push-action@v6
+          password: ${{ secrets.GH_PACKAGES_TOKEN }}
+      - name: Build and push Docker image
+        id: build
+        uses: docker/build-push-action@v5
         with:
           context: .
           file: docker/Dockerfile
-          platforms: linux/amd64
-          push: true
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.ref_name }}
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ vars.CR_HOSTNAME || 'ghcr.io' }}/lisabyhomer/chatwoot:${{ env.TAG_VERSION }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+          platforms: linux/amd64,linux/arm64
+          secrets: |
+            GITHUB_TOKEN=${{ secrets.GH_PACKAGES_TOKEN }}
