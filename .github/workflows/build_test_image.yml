@@ -39,7 +39,7 @@ jobs:
         with:
           registry: ${{ vars.CR_HOSTNAME || 'ghcr.io' }}
           username: ${{ github.actor }}
-          password: ${{ secrets.GH_PACKAGES_TOKEN }}
+          password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build and push Docker image
         id: build
         uses: docker/build-push-action@v5
@@ -52,4 +52,4 @@ jobs:
           cache-to: type=gha,mode=max
           platforms: linux/amd64,linux/arm64
           secrets: |
-            GITHUB_TOKEN=${{ secrets.GH_PACKAGES_TOKEN }}
+            GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
