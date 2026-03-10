@@ -33,6 +33,7 @@ export default {
   data() {
     return {
       hmacMandatory: false,
+      allowMobileWebview: false,
       whatsAppInboxAPIKey: '',
       isRequestingReauthorization: false,
       isSyncingTemplates: false,
@@ -65,6 +66,9 @@ export default {
   methods: {
     setDefaults() {
       this.hmacMandatory = this.inbox.hmac_mandatory || false;
+      this.allowMobileWebview = (
+        this.inbox.selected_feature_flags || []
+      ).includes('allow_mobile_webview');
       this.allowedDomains = this.inbox.allowed_domains || '';
     },
     handleHmacFlag() {
@@ -77,6 +81,26 @@ export default {
           formData: false,
           channel: {
             hmac_mandatory: this.hmacMandatory,
+          },
+        };
+        await this.$store.dispatch('inboxes/updateInbox', payload);
+        useAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
+      } catch (error) {
+        useAlert(this.$t('INBOX_MGMT.EDIT.API.ERROR_MESSAGE'));
+      }
+    },
+    async handleMobileWebviewFlag() {
+      try {
+        const currentFlags = this.inbox.selected_feature_flags || [];
+        const selectedFlags = this.allowMobileWebview
+          ? [...currentFlags, 'allow_mobile_webview']
+          : currentFlags.filter(f => f !== 'allow_mobile_webview');
+
+        const payload = {
+          id: this.inbox.id,
+          formData: false,
+          channel: {
+            selected_feature_flags: selectedFlags,
           },
         };
         await this.$store.dispatch('inboxes/updateInbox', payload);
@@ -197,11 +221,16 @@ export default {
   </div>
   <div v-else-if="isAWebWidgetInbox">
     <div>
-      <SettingsFieldSection
-        :label="$t('INBOX_MGMT.SETTINGS_POPUP.ALLOWED_DOMAINS.TITLE')"
-        :help-text="$t('INBOX_MGMT.SETTINGS_POPUP.ALLOWED_DOMAINS.SUBTITLE')"
-        class="[&>div]:!items-start"
-      >
+      <!-- Allowed Domains Group -->
+      <div class="mb-2">
+        <h4 class="text-base font-medium text-n-slate-12">
+          {{ $t('INBOX_MGMT.SETTINGS_POPUP.ALLOWED_DOMAINS.TITLE') }}
+        </h4>
+        <p class="mt-1 text-sm text-n-slate-11">
+          {{ $t('INBOX_MGMT.SETTINGS_POPUP.ALLOWED_DOMAINS.DESCRIPTION') }}
+        </p>
+      </div>
+      <div class="mb-4">
         <TextArea
           v-model="allowedDomains"
           :placeholder="
@@ -211,59 +240,100 @@ export default {
           min-height="8rem"
           class="w-full"
         />
-        <template #extra>
-          <div class="grid grid-cols-1 lg:grid-cols-8">
-            <div class="col-span-1 lg:col-span-2 invisible" />
-            <div class="col-span-1 lg:col-span-6 mt-4 justify-self-end">
-              <NextButton
-                :label="$t('INBOX_MGMT.SETTINGS_POPUP.UPDATE')"
-                :is-loading="isUpdatingAllowedDomains"
-                @click="updateAllowedDomains"
-              />
-            </div>
-          </div>
-        </template>
-      </SettingsFieldSection>
-
-      <SettingsFieldSection
-        :label="$t('INBOX_MGMT.SETTINGS_POPUP.HMAC_VERIFICATION')"
-      >
-        <woot-code :script="inbox.hmac_token" />
-        <template #extra>
-          <div class="grid grid-cols-1 lg:grid-cols-8">
-            <div class="col-span-1 lg:col-span-2 invisible" />
-            <p
-              class="col-span-1 lg:col-span-6 mt-1.5 text-label-small text-n-slate-11 ltr:ml-1 rtl:mr-1"
+        <p class="mt-1 text-sm text-n-slate-11">
+          {{ $t('INBOX_MGMT.SETTINGS_POPUP.ALLOWED_DOMAINS.SUBTITLE') }}
+        </p>
+        <div class="mt-4 flex justify-end">
+          <NextButton
+            :label="$t('INBOX_MGMT.SETTINGS_POPUP.UPDATE')"
+            :is-loading="isUpdatingAllowedDomains"
+            @click="updateAllowedDomains"
+          />
+        </div>
+      </div>
+      <div class="mb-6">
+        <div class="flex gap-2 items-start">
+          <input
+            id="allowMobileWebview"
+            v-model="allowMobileWebview"
+            type="checkbox"
+            class="mt-1"
+            @change="handleMobileWebviewFlag"
+          />
+          <div>
+            <label
+              for="allowMobileWebview"
+              class="text-sm font-medium text-n-slate-12"
             >
-              {{ $t('INBOX_MGMT.SETTINGS_POPUP.HMAC_DESCRIPTION') }}
-              <a
-                target="_blank"
-                rel="noopener noreferrer"
-                href="https://www.chatwoot.com/docs/product/channels/live-chat/sdk/identity-validation/"
-                class="text-n-blue-11 hover:underline text-label-small"
-              >
-                {{ $t('INBOX_MGMT.SETTINGS_POPUP.HMAC_LINK_TO_DOCS') }}
-              </a>
+              {{ $t('INBOX_MGMT.SETTINGS_POPUP.ALLOW_MOBILE_WEBVIEW.LABEL') }}
+            </label>
+            <p class="mt-0.5 text-sm text-n-slate-11">
+              {{
+                $t('INBOX_MGMT.SETTINGS_POPUP.ALLOW_MOBILE_WEBVIEW.SUBTITLE')
+              }}
             </p>
           </div>
-        </template>
-      </SettingsFieldSection>
-      <SettingsFieldSection
-        :label="$t('INBOX_MGMT.SETTINGS_POPUP.HMAC_MANDATORY_VERIFICATION')"
-        :help-text="$t('INBOX_MGMT.SETTINGS_POPUP.HMAC_MANDATORY_DESCRIPTION')"
-      >
-        <div class="flex gap-2 items-center">
+        </div>
+      </div>
+
+      <hr class="border-n-slate-6 mb-6" />
+
+      <!-- Identity Validation Group -->
+      <div class="mb-2">
+        <h4 class="text-base font-medium text-n-slate-12">
+          {{ $t('INBOX_MGMT.SETTINGS_POPUP.IDENTITY_VALIDATION.TITLE') }}
+        </h4>
+        <p class="mt-1 text-sm text-n-slate-11">
+          {{ $t('INBOX_MGMT.SETTINGS_POPUP.IDENTITY_VALIDATION.DESCRIPTION') }}
+        </p>
+      </div>
+      <div class="mb-4">
+        <p class="mb-1 text-sm font-medium text-n-slate-12">
+          {{ $t('INBOX_MGMT.SETTINGS_POPUP.IDENTITY_VALIDATION.SECRET_KEY') }}
+        </p>
+        <woot-code :script="inbox.hmac_token" />
+        <p class="mt-1.5 text-sm text-n-slate-11">
+          {{ $t('INBOX_MGMT.SETTINGS_POPUP.HMAC_DESCRIPTION') }}
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            href="https://www.chatwoot.com/docs/product/channels/live-chat/sdk/identity-validation/"
+            class="text-n-blue-11 hover:underline"
+          >
+            {{ $t('INBOX_MGMT.SETTINGS_POPUP.IDENTITY_VALIDATION.VIEW_DOCS') }}
+          </a>
+        </p>
+      </div>
+      <div class="mb-6">
+        <div class="flex gap-2 items-start">
           <input
             id="hmacMandatory"
             v-model="hmacMandatory"
             type="checkbox"
+            class="mt-1"
             @change="handleHmacFlag"
           />
-          <label for="hmacMandatory" class="text-body-main text-n-slate-12">
-            {{ $t('INBOX_MGMT.EDIT.ENABLE_HMAC.LABEL') }}
-          </label>
+          <div>
+            <label
+              for="hmacMandatory"
+              class="text-sm font-medium text-n-slate-12"
+            >
+              {{
+                $t(
+                  'INBOX_MGMT.SETTINGS_POPUP.IDENTITY_VALIDATION.REQUIRE_LABEL'
+                )
+              }}
+            </label>
+            <p class="mt-0.5 text-sm text-n-slate-11">
+              {{
+                $t(
+                  'INBOX_MGMT.SETTINGS_POPUP.IDENTITY_VALIDATION.REQUIRE_DESCRIPTION'
+                )
+              }}
+            </p>
+          </div>
         </div>
-      </SettingsFieldSection>
+      </div>
     </div>
   </div>
   <div v-else-if="isAPIInbox">

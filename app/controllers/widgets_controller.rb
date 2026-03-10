@@ -77,12 +77,19 @@ class WidgetsController < ActionController::Base
   end
 
   def allow_iframe_requests
-    if @web_widget.allowed_domains.blank?
+    if @web_widget.allowed_domains.blank? || embedded_from_non_web_origin?
       response.headers.delete('X-Frame-Options')
     else
       domains = @web_widget.allowed_domains.split(',').map(&:strip).join(' ')
       response.headers['Content-Security-Policy'] = "frame-ancestors #{domains}"
     end
+  end
+
+  def embedded_from_non_web_origin?
+    return false unless @web_widget.allow_mobile_webview?
+
+    origin = request.headers['Origin']
+    origin.blank? || origin == 'null'
   end
 end
 
