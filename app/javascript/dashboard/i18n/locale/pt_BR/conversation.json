@@ -187,7 +187,8 @@
       "PRIVATE_MSG_INPUT": "A mensagem será visível apenas para agentes",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "A assinatura da mensagem não está configurada. Por favor, configure-a nas configurações do perfil.",
       "CLICK_HERE": "Clique aqui para atualizar",
-      "WHATSAPP_TEMPLATES": "Templates do Whatsapp"
+      "WHATSAPP_TEMPLATES": "Templates do Whatsapp",
+      "PAYMENT_LINK": "Enviar Link de Pagamento"
     },
     "REPLYBOX": {
       "REPLY": "Responder",

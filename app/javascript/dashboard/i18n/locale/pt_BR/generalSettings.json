@@ -104,6 +104,17 @@
           "ERROR": "Falha ao atualizar configuração de transcrição de áudio"
         }
       },
+      "INFINITEPAY": {
+        "TITLE": "Pagamentos InfinitePay",
+        "NOTE": "Configure seu handle InfinitePay para habilitar links de pagamento nas conversas. Seu handle é sua InfiniteTag (nome de usuário no App InfinitePay) sem o símbolo $.",
+        "HANDLE_LABEL": "Handle InfinitePay",
+        "HANDLE_PLACEHOLDER": "seu-handle",
+        "CONFIGURED": "Handle ativo: {handle}",
+        "API": {
+          "SUCCESS": "Configurações do InfinitePay atualizadas com sucesso",
+          "ERROR": "Falha ao atualizar configurações do InfinitePay"
+        }
+      },
       "AUTO_RESOLVE_DURATION": {
         "LABEL": "Tempo de inatividade para resolução",
         "HELP": "Tempo de inatividade após o qual a conversa deve ser encerrada automaticamente",

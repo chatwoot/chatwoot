@@ -152,19 +152,36 @@ namespace :db do
         Rake::Task['db:migrate'].invoke
         puts "✅ [CHATWIT] Migrações normais aplicadas!"
       rescue => e
-        if e.message.include?("already exists") || e.message.include?("DuplicateTable")
-          puts "⚠️  [CHATWIT] Algumas tabelas já existem - isso é normal em migrações v3->v4"
-          
-          # Marcar migrações problemáticas como executadas
-          problem_migrations = ['20250104200055']
-          
-          problem_migrations.each do |version|
+        if e.message.include?("already exists") || e.message.include?("DuplicateTable") || e.message.include?("DuplicateColumn")
+          puts "⚠️  [CHATWIT] Algumas colunas/tabelas já existem - ajustando schema_migrations..."
+
+          # Identificar e marcar TODAS as migrações pendentes que falharam por já existirem
+          pending_versions = ActiveRecord::Base.connection.select_values(
+            "SELECT version FROM schema_migrations ORDER BY version"
+          )
+
+          all_migration_files = Dir[Rails.root.join('db/migrate/*.rb')].map do |f|
+            File.basename(f).split('_').first
+          end
+
+          missing_versions = all_migration_files - pending_versions
+          missing_versions.each do |version|
             ActiveRecord::Base.connection.execute(
               "INSERT INTO schema_migrations (version) VALUES ('#{version}') ON CONFLICT (version) DO NOTHING"
             )
+            puts "  📌 [CHATWIT] Marcada como executada: #{version}"
           end
-          
-          puts "✅ [CHATWIT] Migrações ajustadas!"
+
+          puts "✅ [CHATWIT] Migrações ajustadas! Re-executando para aplicar pendentes..."
+
+          # Reset e re-executar para pegar as que realmente precisam rodar
+          Rake::Task['db:migrate'].reenable
+          begin
+            Rake::Task['db:migrate'].invoke
+            puts "✅ [CHATWIT] Migrações pendentes aplicadas!"
+          rescue => e2
+            puts "⚠️  [CHATWIT] Segundo passo: #{e2.message}"
+          end
         else
           puts "⚠️  [CHATWIT] Migrações normais: #{e.message}"
         end

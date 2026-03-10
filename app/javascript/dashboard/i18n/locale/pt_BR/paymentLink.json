@@ -1,0 +1,23 @@
+{
+  "PAYMENT_LINK": {
+    "MODAL": {
+      "TITLE": "Enviar Link de Pagamento",
+      "SUBTITLE": "Crie um link de pagamento InfinitePay e envie na conversa",
+      "AMOUNT_LABEL": "Valor (R$)",
+      "AMOUNT_PLACEHOLDER": "10,00",
+      "DESCRIPTION_LABEL": "Descrição",
+      "DESCRIPTION_PLACEHOLDER": "Descrição do serviço ou produto",
+      "SAVE_PRESET": "Salvar como favorito",
+      "PRESET_NAME": "Nome do favorito",
+      "PRESETS_TITLE": "Favoritos",
+      "SEND": "Enviar Link",
+      "SENDING": "Enviando...",
+      "CANCEL": "Cancelar",
+      "NO_HANDLE": "Handle InfinitePay não configurado. Vá em Configurações da Conta para configurar."
+    },
+    "SENT": "Link de pagamento enviado com sucesso",
+    "SEND_ERROR": "Falha ao enviar link de pagamento. Tente novamente.",
+    "PRESET_DELETED": "Favorito removido com sucesso",
+    "PRESET_DELETE_ERROR": "Falha ao remover favorito"
+  }
+}
