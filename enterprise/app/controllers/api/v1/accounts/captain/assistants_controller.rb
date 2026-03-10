@@ -24,10 +24,16 @@ class Api::V1::Accounts::Captain::AssistantsController < Api::V1::Accounts::Base
   end
 
   def playground
-    response = Captain::Llm::AssistantChatService.new(assistant: @assistant).generate_response(
-      additional_message: params[:message_content],
-      message_history: message_history
-    )
+    response = if captain_v2_enabled?
+                 Captain::Assistant::AgentRunnerService.new(assistant: @assistant).generate_response(
+                   message_history: playground_message_history
+                 )
+               else
+                 Captain::Llm::AssistantChatService.new(assistant: @assistant).generate_response(
+                   additional_message: playground_params[:message_content],
+                   message_history: message_history
+                 )
+               end
 
     render json: response
   end
@@ -69,5 +75,20 @@ class Api::V1::Accounts::Captain::AssistantsController < Api::V1::Accounts::Base
 
   def message_history
     (playground_params[:message_history] || []).map { |message| { role: message[:role], content: message[:content] } }
+  end
+
+  def playground_message_history
+    history = message_history
+    current_message = playground_params[:message_content]
+    return history if current_message.blank?
+
+    current_user_message = { role: 'user', content: current_message }
+    return history if history.last == current_user_message
+
+    history + [current_user_message]
+  end
+
+  def captain_v2_enabled?
+    @assistant.account.feature_enabled?('captain_integration_v2')
   end
 end
