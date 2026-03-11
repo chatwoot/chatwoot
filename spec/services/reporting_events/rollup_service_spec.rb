@@ -38,6 +38,8 @@ describe ReportingEvents::RollupService do
 
     context 'when reporting_timezone is set' do
       describe 'conversation_resolved event' do
+        let(:rollup_event_created_at) { Time.utc(2026, 2, 12, 4, 0, 0) }
+        let(:rollup_write_time) { Time.utc(2026, 2, 12, 10, 0, 0) }
         let(:reporting_event) do
           create(:reporting_event,
                  account: account,
@@ -47,6 +49,15 @@ describe ReportingEvents::RollupService do
                  user: user,
                  inbox: inbox,
                  conversation: conversation)
+        end
+        let(:expected_upsert_options) do
+          {
+            unique_by: %i[account_id date dimension_type dimension_id metric],
+            on_duplicate: 'count = reporting_events_rollups.count + EXCLUDED.count, ' \
+                          'sum_value = reporting_events_rollups.sum_value + EXCLUDED.sum_value, ' \
+                          'sum_value_business_hours = reporting_events_rollups.sum_value_business_hours + EXCLUDED.sum_value_business_hours, ' \
+                          'updated_at = EXCLUDED.updated_at'
+          }
         end
 
         it 'creates rollup rows for account, agent, and inbox' do
@@ -103,62 +114,17 @@ describe ReportingEvents::RollupService do
         end
 
         it 'batches all rollup rows in a single upsert_all call' do
-          reporting_event.update!(created_at: Time.utc(2026, 2, 12, 4, 0, 0))
+          reporting_event.update!(created_at: rollup_event_created_at)
 
-          travel_to(Time.utc(2026, 2, 12, 10, 0, 0)) do
-            captured_rows = nil
-            captured_options = nil
-
-            allow(ReportingEventsRollup).to receive(:upsert_all) do |rows, **options|
-              captured_rows = rows
-              captured_options = options
-            end
+          travel_to(rollup_write_time) do
+            captured_upsert = capture_upsert_all_call
 
             described_class.perform(reporting_event)
 
             expect(ReportingEventsRollup).to have_received(:upsert_all).once
-            expect(captured_options[:unique_by]).to eq(%i[account_id date dimension_type dimension_id metric])
-            expect(captured_options[:on_duplicate].to_s.squish).to eq(
-              'count = reporting_events_rollups.count + EXCLUDED.count, ' \
-              'sum_value = reporting_events_rollups.sum_value + EXCLUDED.sum_value, ' \
-              'sum_value_business_hours = reporting_events_rollups.sum_value_business_hours + EXCLUDED.sum_value_business_hours, ' \
-              'updated_at = EXCLUDED.updated_at'
-            )
-
-            expected_rows = {
-              account: account.id,
-              agent: user.id,
-              inbox: inbox.id
-            }.flat_map do |dimension_type, dimension_id|
-              [
-                {
-                  account_id: account.id,
-                  date: Date.new(2026, 2, 11),
-                  dimension_type: dimension_type,
-                  dimension_id: dimension_id,
-                  metric: :resolutions_count,
-                  count: 1,
-                  sum_value: 0.0,
-                  sum_value_business_hours: 0.0,
-                  created_at: Time.utc(2026, 2, 12, 10, 0, 0),
-                  updated_at: Time.utc(2026, 2, 12, 10, 0, 0)
-                },
-                {
-                  account_id: account.id,
-                  date: Date.new(2026, 2, 11),
-                  dimension_type: dimension_type,
-                  dimension_id: dimension_id,
-                  metric: :resolution_time,
-                  count: 1,
-                  sum_value: 1000.0,
-                  sum_value_business_hours: 500.0,
-                  created_at: Time.utc(2026, 2, 12, 10, 0, 0),
-                  updated_at: Time.utc(2026, 2, 12, 10, 0, 0)
-                }
-              ]
-            end
-
-            expect(captured_rows).to match_array(expected_rows)
+            expect(captured_upsert[:options][:unique_by]).to eq(expected_upsert_options[:unique_by])
+            expect(captured_upsert[:options][:on_duplicate].to_s.squish).to eq(expected_upsert_options[:on_duplicate])
+            expect(captured_upsert[:rows]).to match_array(expected_rollup_rows)
           end
         end
 
@@ -188,6 +154,43 @@ describe ReportingEvents::RollupService do
             dimension_type: 'account'
           )
           expect(rollup.date).to eq('2026-02-11'.to_date)
+        end
+
+        def capture_upsert_all_call
+          {}.tap do |captured_upsert|
+            allow(ReportingEventsRollup).to receive(:upsert_all) do |rows, **options|
+              captured_upsert[:rows] = rows
+              captured_upsert[:options] = options
+            end
+          end
+        end
+
+        def expected_rollup_rows
+          {
+            account: account.id,
+            agent: user.id,
+            inbox: inbox.id
+          }.flat_map do |dimension_type, dimension_id|
+            [
+              rollup_row(dimension_type, dimension_id, :resolutions_count, 0.0, 0.0),
+              rollup_row(dimension_type, dimension_id, :resolution_time, 1000.0, 500.0)
+            ]
+          end
+        end
+
+        def rollup_row(dimension_type, dimension_id, metric, sum_value, sum_value_business_hours)
+          {
+            account_id: account.id,
+            date: Date.new(2026, 2, 11),
+            dimension_type: dimension_type,
+            dimension_id: dimension_id,
+            metric: metric,
+            count: 1,
+            sum_value: sum_value,
+            sum_value_business_hours: sum_value_business_hours,
+            created_at: rollup_write_time,
+            updated_at: rollup_write_time
+          }
         end
       end
 
