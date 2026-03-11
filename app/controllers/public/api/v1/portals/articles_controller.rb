@@ -6,6 +6,7 @@ class Public::Api::V1::Portals::ArticlesController < Public::Api::V1::Portals::B
   layout 'portal'
 
   def index
+    @search_query = list_params[:query].to_s.strip.presence
     @articles = @portal.articles.published.includes(:category, :author)
 
     @articles = @articles.where(locale: permitted_params[:locale]) if permitted_params[:locale].present?

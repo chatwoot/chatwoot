@@ -66,8 +66,8 @@ export default {
   },
 
   methods: {
-    generateArticleUrl(article) {
-      return `/hc/${article.portal.slug}/articles/${article.slug}`;
+    normalizeArticleLink(link = '') {
+      return link.startsWith('/') ? link : `/${link}`;
     },
     prepareContent(content) {
       return this.highlightContent(
@@ -109,7 +109,7 @@ export default {
       >
         <a
           class="flex flex-col gap-1 overflow-y-hidden"
-          :href="generateArticleUrl(article)"
+          :href="normalizeArticleLink(article.link)"
         >
           <span
             v-dompurify-html="prepareContent(article.title)"
