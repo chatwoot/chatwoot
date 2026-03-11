@@ -623,6 +623,7 @@ export default {
       }
     },
     toggleSignatureForDraft(message) {
+      if (this.isEditorDisabled) return '';
       if (this.isPrivate) {
         return message;
       }
@@ -632,13 +633,6 @@ export default {
         this.inbox?.medium || ''
       );
 
-      if (this.isEditorDisabled) {
-        return removeSignature(
-          message,
-          this.messageSignature,
-          effectiveChannelType
-        );
-      }
       return this.sendWithSignature
         ? appendSignature(message, this.messageSignature, effectiveChannelType)
         : removeSignature(message, this.messageSignature, effectiveChannelType);
