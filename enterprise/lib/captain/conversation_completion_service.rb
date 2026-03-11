@@ -7,15 +7,7 @@
 # checks for usage tracking. This is an internal operational evaluation,
 # not a customer-facing value-add, so we don't charge for it.
 class Captain::ConversationCompletionService < Captain::BaseTaskService
-  RESPONSE_SCHEMA = {
-    type: 'object',
-    properties: {
-      complete: { type: 'boolean', description: 'Whether the conversation is complete and can be closed' },
-      reason: { type: 'string', description: 'Brief explanation of why the conversation is complete or incomplete' }
-    },
-    required: %w[complete reason],
-    additionalProperties: false
-  }.freeze
+  RESPONSE_SCHEMA = Captain::ConversationCompletionSchema
 
   pattr_initialize [:account!, :conversation_display_id!]
 
