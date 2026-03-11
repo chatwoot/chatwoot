@@ -70,6 +70,8 @@ platform_account:
   $ref: ./resource/platform_account.yml
 team:
   $ref: ./resource/team.yml
+label:
+  $ref: ./resource/label.yml
 integrations_app:
   $ref: ./resource/integrations/app.yml
 integrations_hook:
@@ -141,6 +143,10 @@ inbox_update_payload:
 # Team
 team_create_update_payload:
   $ref: ./request/team/create_update_payload.yml
+
+# Label
+label_create_update_payload:
+  $ref: ./request/label/create_update_payload.yml
 
 # Custom Filter
 custom_filter_create_update_payload:
