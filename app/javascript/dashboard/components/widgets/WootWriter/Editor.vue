@@ -815,6 +815,7 @@ onMounted(async () => {
 
   createEditorView();
   editorView.updateState(state);
+  // TODO: test this in the main app
   if (sendWithSignature.value) {
     addSignature();
   } else if (props.focusOnMount) {
