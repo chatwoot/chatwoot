@@ -626,10 +626,12 @@ export default {
       if (this.isPrivate) {
         return message;
       }
+
       const effectiveChannelType = getEffectiveChannelType(
         this.channelType,
         this.inbox?.medium || ''
       );
+
       if (this.isEditorDisabled) {
         return removeSignature(
           message,
