@@ -191,7 +191,7 @@ GEM
     coderay (1.1.3)
     commonmarker (0.23.10)
     concurrent-ruby (1.3.5)
-    connection_pool (2.5.3)
+    connection_pool (2.5.5)
     crack (1.0.0)
       bigdecimal
       rexml
@@ -742,7 +742,7 @@ GEM
       ffi (~> 1.0)
     redis (5.0.6)
       redis-client (>= 0.9.0)
-    redis-client (0.22.2)
+    redis-client (0.26.4)
       connection_pool
     redis-namespace (1.10.0)
       redis (>= 4)
