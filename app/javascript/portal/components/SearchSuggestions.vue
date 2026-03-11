@@ -66,9 +66,6 @@ export default {
   },
 
   methods: {
-    normalizeArticleLink(link = '') {
-      return link.startsWith('/') ? link : `/${link}`;
-    },
     prepareContent(content) {
       return this.highlightContent(
         content,
@@ -107,10 +104,7 @@ export default {
         @mouse-enter="onHover(index)"
         @mouse-leave="onHover(-1)"
       >
-        <a
-          class="flex flex-col gap-1 overflow-y-hidden"
-          :href="normalizeArticleLink(article.link)"
-        >
+        <a class="flex flex-col gap-1 overflow-y-hidden" :href="article.link">
           <span
             v-dompurify-html="prepareContent(article.title)"
             class="flex-auto w-full overflow-hidden text-base font-semibold leading-6 truncate text-ellipsis whitespace-nowrap"

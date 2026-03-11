@@ -40,32 +40,4 @@ describe('SearchSuggestions', () => {
       '/hc/user-guide/articles/1677141565-chatwoot-glossary'
     );
   });
-
-  it('normalizes relative suggestion links before rendering', () => {
-    const wrapper = mount(SearchSuggestions, {
-      props: {
-        items: [
-          {
-            id: 1,
-            title: 'Chatwoot Glossary',
-            content: 'Access Token',
-            link: 'hc/user-guide/articles/1677141565-chatwoot-glossary',
-          },
-        ],
-        isLoading: false,
-        searchTerm: 'chatwoot',
-      },
-      global: {
-        directives: {
-          dompurifyHtml: (element, binding) => {
-            element.innerHTML = binding.value;
-          },
-        },
-      },
-    });
-
-    expect(wrapper.find('a').attributes('href')).toBe(
-      '/hc/user-guide/articles/1677141565-chatwoot-glossary'
-    );
-  });
 });
