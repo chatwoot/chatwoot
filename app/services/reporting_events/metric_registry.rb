@@ -18,6 +18,15 @@ module ReportingEvents::MetricRegistry
   }.freeze
 
   REPORT_METRICS = {
+    conversations_count: {
+      aggregate: :count
+    }.freeze,
+    incoming_messages_count: {
+      aggregate: :count
+    }.freeze,
+    outgoing_messages_count: {
+      aggregate: :count
+    }.freeze,
     avg_first_response_time: {
       raw_event_name: :first_response,
       rollup_metric: :first_response,
@@ -63,6 +72,14 @@ module ReportingEvents::MetricRegistry
     return if metric.blank?
 
     REPORT_METRICS[metric.to_sym]
+  end
+
+  def supported_metric?(metric)
+    report_metric(metric).present?
+  end
+
+  def aggregate_for(metric)
+    report_metric(metric)&.dig(:aggregate)
   end
 
   def rollup_supported_metric?(metric)

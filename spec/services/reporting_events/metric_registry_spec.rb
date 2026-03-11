@@ -75,6 +75,12 @@ RSpec.describe ReportingEvents::MetricRegistry do
   end
 
   describe '.report_metric' do
+    it 'returns the definition for raw-only count metrics' do
+      expect(described_class.report_metric(:conversations_count)).to eq(
+        aggregate: :count
+      )
+    end
+
     it 'returns the definition for avg_resolution_time' do
       expect(described_class.report_metric(:avg_resolution_time)).to eq(
         raw_event_name: :conversation_resolved,
@@ -93,7 +99,23 @@ RSpec.describe ReportingEvents::MetricRegistry do
     end
 
     it 'returns nil for unsupported metrics' do
-      expect(described_class.report_metric(:conversations_count)).to be_nil
+      expect(described_class.report_metric(:unknown_metric)).to be_nil
+    end
+  end
+
+  describe '.supported_metric?' do
+    it 'returns true for supported raw-only metrics' do
+      expect(described_class.supported_metric?(:conversations_count)).to be(true)
+    end
+
+    it 'returns false for unsupported metrics' do
+      expect(described_class.supported_metric?(:unknown_metric)).to be(false)
+    end
+  end
+
+  describe '.aggregate_for' do
+    it 'returns the aggregate type for a supported metric' do
+      expect(described_class.aggregate_for(:avg_first_response_time)).to eq(:average)
     end
   end
 
