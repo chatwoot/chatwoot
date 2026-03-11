@@ -28,6 +28,7 @@ const request = async (method, path, options = {}) => {
 
 export const virtiGet = (path, params) => request('get', path, { params });
 export const virtiPost = (path, data) => request('post', path, { data });
+export const virtiPut = (path, data) => request('put', path, { data });
 export const virtiPatch = (path, data) => request('patch', path, { data });
 export const virtiDelete = path => request('delete', path);
 export const getVirtiAvailability = () => virtiAuth.getAvailability();
