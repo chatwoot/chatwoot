@@ -623,11 +623,14 @@ export default {
       }
     },
     toggleSignatureForDraft(message) {
+      if (this.isPrivate) {
+        return message;
+      }
       const effectiveChannelType = getEffectiveChannelType(
         this.channelType,
         this.inbox?.medium || ''
       );
-      if (this.isPrivate || this.isEditorDisabled) {
+      if (this.isEditorDisabled) {
         return removeSignature(
           message,
           this.messageSignature,
