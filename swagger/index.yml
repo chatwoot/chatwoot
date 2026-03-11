@@ -1,4 +1,4 @@
-openapi: '3.0.4'
+openapi: '3.1.0'
 info:
   title: Chatwoot
   description: This is the API documentation for Chatwoot server.

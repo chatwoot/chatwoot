@@ -1,5 +1,5 @@
 {
-  "openapi": "3.0.4",
+  "openapi": "3.1.0",
   "info": {
     "title": "Chatwoot",
     "description": "This is the API documentation for Chatwoot server.",
@@ -1476,7 +1476,7 @@
         }
       }
     },
-    "/api/v1/accounts/{id}": {
+    "/api/v1/accounts/{account_id}": {
       "parameters": [
         {
           "$ref": "#/components/parameters/account_id"
@@ -4721,7 +4721,14 @@
         },
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/conversation"
+                }
+              }
+            }
           },
           "401": {
             "description": "Unauthorized",
@@ -5426,70 +5433,7 @@
             }
           }
         }
-      }
-    },
-    "/api/v1/accounts/{account_id}/inboxes/{id}/": {
-      "get": {
-        "tags": [
-          "Inboxes"
-        ],
-        "operationId": "GetInbox",
-        "summary": "Get an inbox",
-        "security": [
-          {
-            "userApiKey": []
-          }
-        ],
-        "description": "Get an inbox available in the current account",
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/account_id"
-          },
-          {
-            "name": "id",
-            "in": "path",
-            "schema": {
-              "type": "number"
-            },
-            "description": "ID of the inbox",
-            "required": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/inbox"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Inbox not found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/bad_request_error"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Access denied",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/bad_request_error"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/accounts/{account_id}/inboxes/": {
+      },
       "post": {
         "tags": [
           "Inboxes"
@@ -5552,6 +5496,65 @@
       }
     },
     "/api/v1/accounts/{account_id}/inboxes/{id}": {
+      "get": {
+        "tags": [
+          "Inboxes"
+        ],
+        "operationId": "GetInbox",
+        "summary": "Get an inbox",
+        "security": [
+          {
+            "userApiKey": []
+          }
+        ],
+        "description": "Get an inbox available in the current account",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/account_id"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": "number"
+            },
+            "description": "ID of the inbox",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inbox"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Inbox not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          }
+        }
+      },
       "patch": {
         "tags": [
           "Inboxes"
@@ -6164,11 +6167,17 @@
                           "$ref": "#/components/schemas/agent"
                         },
                         "agent_last_seen_at": {
-                          "type": "string",
+                          "type": [
+                            "string",
+                            "null"
+                          ],
                           "format": "date-time"
                         },
                         "assignee_last_seen_at": {
-                          "type": "string",
+                          "type": [
+                            "string",
+                            "null"
+                          ],
                           "format": "date-time"
                         }
                       }
@@ -6571,6 +6580,127 @@
                 }
               }
             }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Profile"
+        ],
+        "operationId": "updateProfile",
+        "summary": "Update user profile",
+        "description": "Update the user profile details",
+        "security": [
+          {
+            "userApiKey": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "profile"
+                ],
+                "properties": {
+                  "profile": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string"
+                      },
+                      "email": {
+                        "type": "string"
+                      },
+                      "display_name": {
+                        "type": "string"
+                      },
+                      "message_signature": {
+                        "type": "string"
+                      },
+                      "phone_number": {
+                        "type": "string"
+                      },
+                      "current_password": {
+                        "type": "string"
+                      },
+                      "password": {
+                        "type": "string"
+                      },
+                      "password_confirmation": {
+                        "type": "string"
+                      },
+                      "ui_settings": {
+                        "type": "object"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "profile"
+                ],
+                "properties": {
+                  "profile": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string"
+                      },
+                      "email": {
+                        "type": "string"
+                      },
+                      "display_name": {
+                        "type": "string"
+                      },
+                      "message_signature": {
+                        "type": "string"
+                      },
+                      "phone_number": {
+                        "type": "string"
+                      },
+                      "current_password": {
+                        "type": "string"
+                      },
+                      "password": {
+                        "type": "string"
+                      },
+                      "password_confirmation": {
+                        "type": "string"
+                      },
+                      "avatar": {
+                        "type": "string",
+                        "format": "binary"
+                      },
+                      "ui_settings": {
+                        "type": "object"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/user"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
           }
         }
       }
@@ -8816,18 +8946,24 @@
             "description": "Total number of articles"
           },
           "archived_articles_count": {
-            "type": "integer",
-            "nullable": true,
+            "type": [
+              "integer",
+              "null"
+            ],
             "description": "Number of archived articles"
           },
           "published_count": {
-            "type": "integer",
-            "nullable": true,
+            "type": [
+              "integer",
+              "null"
+            ],
             "description": "Number of published articles"
           },
           "draft_articles_count": {
-            "type": "integer",
-            "nullable": true,
+            "type": [
+              "integer",
+              "null"
+            ],
             "description": "Number of draft articles"
           },
           "categories_count": {
@@ -9121,7 +9257,10 @@
             "description": "Whether the conversation is muted"
           },
           "snoozed_until": {
-            "type": "number",
+            "type": [
+              "number",
+              "null"
+            ],
             "description": "The time at which the conversation will be unmuted"
           },
           "status": {
@@ -9142,11 +9281,14 @@
             "description": "The time at which conversation was updated"
           },
           "timestamp": {
-            "type": "string",
+            "type": "number",
             "description": "The time at which conversation was created"
           },
           "first_reply_created_at": {
-            "type": "number",
+            "type": [
+              "number",
+              "null"
+            ],
             "description": "The time at which the first reply was created"
           },
           "unread_count": {
@@ -9154,22 +9296,39 @@
             "description": "The number of unread messages"
           },
           "last_non_activity_message": {
-            "$ref": "#/components/schemas/message"
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/message"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The last non activity message"
           },
           "last_activity_at": {
             "type": "number",
             "description": "The last activity at of the conversation"
           },
           "priority": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "The priority of the conversation"
           },
           "waiting_since": {
-            "type": "number",
+            "type": [
+              "number",
+              "null"
+            ],
             "description": "The time at which the conversation was waiting"
           },
           "sla_policy_id": {
-            "type": "number",
+            "type": [
+              "number",
+              "null"
+            ],
             "description": "The ID of the SLA policy"
           },
           "applied_sla": {
@@ -9213,7 +9372,8 @@
             "enum": [
               0,
               1,
-              2
+              2,
+              3
             ],
             "description": "The type of the message"
           },
@@ -9222,7 +9382,10 @@
             "description": "The time at which message was created"
           },
           "updated_at": {
-            "type": "integer",
+            "type": [
+              "integer",
+              "string"
+            ],
             "description": "The time at which message was updated"
           },
           "private": {
@@ -9230,26 +9393,46 @@
             "description": "The flags which shows whether the message is private or not"
           },
           "status": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "enum": [
               "sent",
               "delivered",
               "read",
-              "failed"
+              "failed",
+              null
             ],
             "description": "The status of the message"
           },
           "source_id": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "The source ID of the message"
           },
           "content_type": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "enum": [
               "text",
+              "input_text",
+              "input_textarea",
+              "input_email",
               "input_select",
               "cards",
-              "form"
+              "form",
+              "article",
+              "incoming_email",
+              "input_csat",
+              "integrations",
+              "sticker",
+              "voice_call",
+              null
             ],
             "description": "The type of the template message"
           },
@@ -9258,16 +9441,24 @@
             "description": "The content attributes for each content_type"
           },
           "sender_type": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "enum": [
-              "contact",
-              "agent",
-              "agent_bot"
+              "Contact",
+              "User",
+              "AgentBot",
+              "Captain::Assistant",
+              null
             ],
             "description": "The type of the sender"
           },
           "sender_id": {
-            "type": "number",
+            "type": [
+              "number",
+              "null"
+            ],
             "description": "The ID of the sender"
           },
           "external_source_ids": {
@@ -9279,19 +9470,31 @@
             "description": "The additional attributes of the message"
           },
           "processed_message_content": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "The processed message content"
           },
           "sentiment": {
-            "type": "object",
+            "type": [
+              "object",
+              "null"
+            ],
             "description": "The sentiment of the message"
           },
           "conversation": {
-            "type": "object",
+            "type": [
+              "object",
+              "null"
+            ],
             "description": "The conversation object"
           },
           "attachment": {
-            "type": "object",
+            "type": [
+              "object",
+              "null"
+            ],
             "description": "The file object attached to the image"
           },
           "sender": {
@@ -9322,12 +9525,16 @@
             "type": "boolean"
           },
           "display_name": {
-            "type": "string",
-            "nullable": true
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "message_signature": {
-            "type": "string",
-            "nullable": true
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "email": {
             "type": "string"
@@ -9336,7 +9543,10 @@
             "type": "string"
           },
           "inviter_id": {
-            "type": "number"
+            "type": [
+              "number",
+              "null"
+            ]
           },
           "name": {
             "type": "string"
@@ -9361,8 +9571,10 @@
             "type": "string"
           },
           "type": {
-            "type": "string",
-            "nullable": true
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "custom_attributes": {
             "type": "object",
@@ -9383,7 +9595,10 @@
                   "type": "string"
                 },
                 "active_at": {
-                  "type": "string",
+                  "type": [
+                    "string",
+                    "null"
+                  ],
                   "format": "date-time"
                 },
                 "role": {
@@ -9409,12 +9624,16 @@
                   "type": "boolean"
                 },
                 "custom_role_id": {
-                  "type": "number",
-                  "nullable": true
+                  "type": [
+                    "number",
+                    "null"
+                  ]
                 },
                 "custom_role": {
-                  "type": "object",
-                  "nullable": true
+                  "type": [
+                    "object",
+                    "null"
+                  ]
                 }
               }
             }
@@ -9472,7 +9691,10 @@
             "description": "The thumbnail of the agent"
           },
           "custom_role_id": {
-            "type": "integer",
+            "type": [
+              "integer",
+              "null"
+            ],
             "description": "The custom role id of the agent"
           }
         }
@@ -9517,11 +9739,17 @@
             "description": "Script used to load the website widget"
           },
           "welcome_title": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "Welcome title to be displayed on the widget"
           },
           "welcome_tagline": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "Welcome tagline to be displayed on the widget"
           },
           "greeting_enabled": {
@@ -9529,7 +9757,10 @@
             "description": "The flag which shows whether greeting is enabled"
           },
           "greeting_message": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "A greeting message when the user starts the conversation"
           },
           "channel_id": {
@@ -9553,7 +9784,10 @@
             "description": "Configuration settings for auto assignment"
           },
           "out_of_office_message": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "Message to show when agents are out of office"
           },
           "working_hours": {
@@ -9571,19 +9805,31 @@
                   "description": "Whether the inbox is closed for the entire day"
                 },
                 "open_hour": {
-                  "type": "number",
+                  "type": [
+                    "number",
+                    "null"
+                  ],
                   "description": "Hour when inbox opens (0-23)"
                 },
                 "open_minutes": {
-                  "type": "number",
+                  "type": [
+                    "number",
+                    "null"
+                  ],
                   "description": "Minutes of the hour when inbox opens (0-59)"
                 },
                 "close_hour": {
-                  "type": "number",
+                  "type": [
+                    "number",
+                    "null"
+                  ],
                   "description": "Hour when inbox closes (0-23)"
                 },
                 "close_minutes": {
-                  "type": "number",
+                  "type": [
+                    "number",
+                    "null"
+                  ],
                   "description": "Minutes of the hour when inbox closes (0-59)"
                 },
                 "open_all_day": {
@@ -9598,7 +9844,10 @@
             "description": "Timezone configuration for the inbox"
           },
           "callback_webhook_url": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "Webhook URL for callbacks"
           },
           "allow_messages_after_resolved": {
@@ -9614,7 +9863,10 @@
             "description": "Type of sender name to display (e.g., friendly)"
           },
           "business_name": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "Business name associated with the inbox"
           },
           "hmac_mandatory": {
@@ -9622,19 +9874,31 @@
             "description": "Whether HMAC verification is mandatory"
           },
           "selected_feature_flags": {
-            "type": "object",
-            "description": "Selected feature flags for the inbox"
+            "type": [
+              "array",
+              "null"
+            ],
+            "description": "Selected feature flags for the inbox",
+            "items": {
+              "type": "string"
+            }
           },
           "reply_time": {
             "type": "string",
             "description": "Expected reply time"
           },
           "messaging_service_sid": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "Messaging service SID for SMS providers"
           },
           "phone_number": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "Phone number associated with the inbox"
           },
           "medium": {
@@ -9642,7 +9906,10 @@
             "description": "Medium of communication (e.g., sms, email)"
           },
           "provider": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "Provider of the channel"
           }
         }
@@ -9877,10 +10144,7 @@
             "description": "Cache keys for the account"
           },
           "features": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
+            "type": "object",
             "description": "Enabled features for the account"
           },
           "settings": {
@@ -9906,19 +10170,31 @@
             "description": "Custom attributes of the account",
             "properties": {
               "plan_name": {
-                "type": "string",
+                "type": [
+                  "string",
+                  "null"
+                ],
                 "description": "Subscription plan name"
               },
               "subscribed_quantity": {
-                "type": "number",
+                "type": [
+                  "number",
+                  "null"
+                ],
                 "description": "Subscribed quantity"
               },
               "subscription_status": {
-                "type": "string",
+                "type": [
+                  "string",
+                  "null"
+                ],
                 "description": "Subscription status"
               },
               "subscription_ends_on": {
-                "type": "string",
+                "type": [
+                  "string",
+                  "null"
+                ],
                 "format": "date",
                 "description": "Subscription end date"
               },
@@ -9964,7 +10240,10 @@
             "type": "object",
             "properties": {
               "latest_chatwoot_version": {
-                "type": "string",
+                "type": [
+                  "string",
+                  "null"
+                ],
                 "description": "Latest version of Chatwoot available",
                 "example": "3.0.0"
               },
@@ -10025,7 +10304,10 @@
             "description": "The name of the team"
           },
           "description": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "The description about the team"
           },
           "allow_auto_assign": {
@@ -10168,8 +10450,10 @@
             "description": "Version number of the audit log entry"
           },
           "comment": {
-            "type": "string",
-            "nullable": true,
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "Optional comment associated with the audit log entry"
           },
           "request_uuid": {
@@ -10181,8 +10465,10 @@
             "description": "Unix timestamp when the audit log entry was created"
           },
           "remote_address": {
-            "type": "string",
-            "nullable": true,
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "IP address from which the action was performed"
           }
         }
@@ -10418,22 +10704,28 @@
             "example": "support@example.com"
           },
           "auto_resolve_after": {
-            "type": "integer",
+            "type": [
+              "integer",
+              "null"
+            ],
             "minimum": 10,
             "maximum": 1439856,
-            "nullable": true,
             "description": "Auto resolve conversations after specified minutes",
             "example": 1440
           },
           "auto_resolve_message": {
-            "type": "string",
-            "nullable": true,
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "Message to send when auto resolving",
             "example": "This conversation has been automatically resolved due to inactivity"
           },
           "auto_resolve_ignore_waiting": {
-            "type": "boolean",
-            "nullable": true,
+            "type": [
+              "boolean",
+              "null"
+            ],
             "description": "Whether to ignore waiting conversations for auto resolve",
             "example": false
           },
@@ -10837,8 +11129,7 @@
       "conversation_create_payload": {
         "type": "object",
         "required": [
-          "source_id",
-          "inbox_id"
+          "source_id"
         ],
         "properties": {
           "source_id": {
@@ -11845,7 +12136,10 @@
                           "description": "The availability status of the sender"
                         },
                         "email": {
-                          "type": "string",
+                          "type": [
+                            "string",
+                            "null"
+                          ],
                           "description": "The email of the sender"
                         },
                         "id": {
@@ -11857,7 +12151,10 @@
                           "description": "The name of the sender"
                         },
                         "phone_number": {
-                          "type": "string",
+                          "type": [
+                            "string",
+                            "null"
+                          ],
                           "description": "The phone number of the sender"
                         },
                         "blocked": {
@@ -11865,11 +12162,17 @@
                           "description": "Whether the sender is blocked"
                         },
                         "identifier": {
-                          "type": "string",
+                          "type": [
+                            "string",
+                            "null"
+                          ],
                           "description": "The identifier of the sender"
                         },
                         "thumbnail": {
-                          "type": "string",
+                          "type": [
+                            "string",
+                            "null"
+                          ],
                           "description": "Avatar URL of the contact"
                         },
                         "custom_attributes": {
@@ -11976,7 +12279,10 @@
                                   "description": "The availability status of the sender"
                                 },
                                 "email": {
-                                  "type": "string",
+                                  "type": [
+                                    "string",
+                                    "null"
+                                  ],
                                   "description": "The email of the sender"
                                 },
                                 "id": {
@@ -11988,7 +12294,10 @@
                                   "description": "The name of the sender"
                                 },
                                 "phone_number": {
-                                  "type": "string",
+                                  "type": [
+                                    "string",
+                                    "null"
+                                  ],
                                   "description": "The phone number of the sender"
                                 },
                                 "blocked": {
@@ -11996,11 +12305,17 @@
                                   "description": "Whether the sender is blocked"
                                 },
                                 "identifier": {
-                                  "type": "string",
+                                  "type": [
+                                    "string",
+                                    "null"
+                                  ],
                                   "description": "The identifier of the sender"
                                 },
                                 "thumbnail": {
-                                  "type": "string",
+                                  "type": [
+                                    "string",
+                                    "null"
+                                  ],
                                   "description": "Avatar URL of the contact"
                                 },
                                 "custom_attributes": {
@@ -12063,7 +12378,10 @@
                         "description": "The availability status of the sender"
                       },
                       "email": {
-                        "type": "string",
+                        "type": [
+                          "string",
+                          "null"
+                        ],
                         "description": "The email of the sender"
                       },
                       "id": {
@@ -12075,7 +12393,10 @@
                         "description": "The name of the sender"
                       },
                       "phone_number": {
-                        "type": "string",
+                        "type": [
+                          "string",
+                          "null"
+                        ],
                         "description": "The phone number of the sender"
                       },
                       "blocked": {
@@ -12083,11 +12404,17 @@
                         "description": "Whether the sender is blocked"
                       },
                       "identifier": {
-                        "type": "string",
+                        "type": [
+                          "string",
+                          "null"
+                        ],
                         "description": "The identifier of the sender"
                       },
                       "thumbnail": {
-                        "type": "string",
+                        "type": [
+                          "string",
+                          "null"
+                        ],
                         "description": "Avatar URL of the contact"
                       },
                       "custom_attributes": {
@@ -12468,18 +12795,24 @@
               "description": "Number of conversations resolved in the inbox during the date range"
             },
             "avg_resolution_time": {
-              "type": "number",
-              "nullable": true,
+              "type": [
+                "number",
+                "null"
+              ],
               "description": "Average time (in seconds) to resolve conversations. Null if no data available."
             },
             "avg_first_response_time": {
-              "type": "number",
-              "nullable": true,
+              "type": [
+                "number",
+                "null"
+              ],
               "description": "Average time (in seconds) for the first response. Null if no data available."
             },
             "avg_reply_time": {
-              "type": "number",
-              "nullable": true,
+              "type": [
+                "number",
+                "null"
+              ],
               "description": "Average time (in seconds) between replies. Null if no data available."
             }
           }
@@ -12522,18 +12855,24 @@
               "description": "Number of conversations resolved by the agent during the date range"
             },
             "avg_resolution_time": {
-              "type": "number",
-              "nullable": true,
+              "type": [
+                "number",
+                "null"
+              ],
               "description": "Average time (in seconds) to resolve conversations. Null if no data available."
             },
             "avg_first_response_time": {
-              "type": "number",
-              "nullable": true,
+              "type": [
+                "number",
+                "null"
+              ],
               "description": "Average time (in seconds) for the first response. Null if no data available."
             },
             "avg_reply_time": {
-              "type": "number",
-              "nullable": true,
+              "type": [
+                "number",
+                "null"
+              ],
               "description": "Average time (in seconds) between replies. Null if no data available."
             }
           }
@@ -12576,18 +12915,24 @@
               "description": "Number of conversations resolved by the team during the date range"
             },
             "avg_resolution_time": {
-              "type": "number",
-              "nullable": true,
+              "type": [
+                "number",
+                "null"
+              ],
               "description": "Average time (in seconds) to resolve conversations. Null if no data available."
             },
             "avg_first_response_time": {
-              "type": "number",
-              "nullable": true,
+              "type": [
+                "number",
+                "null"
+              ],
               "description": "Average time (in seconds) for the first response. Null if no data available."
             },
             "avg_reply_time": {
-              "type": "number",
-              "nullable": true,
+              "type": [
+                "number",
+                "null"
+              ],
               "description": "Average time (in seconds) between replies. Null if no data available."
             }
           }
@@ -12627,7 +12972,10 @@
                 "description": "Country of the contact"
               },
               "country_code": {
-                "type": "string",
+                "type": [
+                  "string",
+                  "null"
+                ],
                 "description": "Country code of the contact"
               },
               "created_at_ip": {
@@ -12649,18 +12997,22 @@
             "description": "The ID of the contact"
           },
           "identifier": {
-            "type": "string",
-            "description": "The identifier of the contact",
-            "nullable": true
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "The identifier of the contact"
           },
           "name": {
             "type": "string",
             "description": "The name of the contact"
           },
           "phone_number": {
-            "type": "string",
-            "description": "The phone number of the contact",
-            "nullable": true
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "The phone number of the contact"
           },
           "thumbnail": {
             "type": "string",
@@ -12712,10 +13064,18 @@
             "type": "string",
             "enum": [
               "text",
+              "input_text",
+              "input_textarea",
+              "input_email",
               "input_select",
               "cards",
               "form",
-              "input_csat"
+              "article",
+              "incoming_email",
+              "input_csat",
+              "integrations",
+              "sticker",
+              "voice_call"
             ],
             "description": "The type of the message content"
           },
@@ -12734,16 +13094,20 @@
             "description": "The content attributes for each content_type",
             "properties": {
               "in_reply_to": {
-                "type": "string",
-                "description": "ID of the message this is replying to",
-                "nullable": true
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "description": "ID of the message this is replying to"
               }
             }
           },
           "echo_id": {
-            "type": "string",
-            "description": "The echo ID of the message, used for deduplication",
-            "nullable": true
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "The echo ID of the message, used for deduplication"
           },
           "created_at": {
             "type": "integer",
@@ -12754,9 +13118,11 @@
             "description": "The flag which shows whether the message is private or not"
           },
           "source_id": {
-            "type": "string",
-            "description": "The source ID of the message",
-            "nullable": true
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "The source ID of the message"
           },
           "sender": {
             "$ref": "#/components/schemas/contact_detail"
@@ -12887,14 +13253,18 @@
             "nullable": true
           },
           "agent_last_seen_at": {
-            "type": "string",
-            "description": "Timestamp when the agent last saw the conversation",
-            "nullable": true
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Timestamp when the agent last saw the conversation"
           },
           "assignee_last_seen_at": {
-            "type": "string",
-            "description": "Timestamp when the assignee last saw the conversation",
-            "nullable": true
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Timestamp when the assignee last saw the conversation"
           }
         }
       },
@@ -12921,7 +13291,10 @@
             "description": "Total number of contacts"
           },
           "current_page": {
-            "type": "string",
+            "type": [
+              "string",
+              "integer"
+            ],
             "description": "Current page number"
           }
         }
@@ -12957,9 +13330,11 @@
                 "description": "Type of channel"
               },
               "provider": {
-                "type": "string",
-                "description": "Provider of the inbox",
-                "nullable": true
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "description": "Provider of the inbox"
               }
             }
           }
@@ -12981,7 +13356,10 @@
                 "description": "Country of the contact"
               },
               "country_code": {
-                "type": "string",
+                "type": [
+                  "string",
+                  "null"
+                ],
                 "description": "Country code of the contact"
               },
               "created_at_ip": {
@@ -12999,9 +13377,11 @@
             ]
           },
           "email": {
-            "type": "string",
-            "description": "The email address of the contact",
-            "nullable": true
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "The email address of the contact"
           },
           "id": {
             "type": "integer",
@@ -13012,18 +13392,22 @@
             "description": "The name of the contact"
           },
           "phone_number": {
-            "type": "string",
-            "description": "The phone number of the contact",
-            "nullable": true
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "The phone number of the contact"
           },
           "blocked": {
             "type": "boolean",
             "description": "Whether the contact is blocked"
           },
           "identifier": {
-            "type": "string",
-            "description": "The identifier of the contact",
-            "nullable": true
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "The identifier of the contact"
           },
           "thumbnail": {
             "type": "string",
@@ -13034,9 +13418,11 @@
             "description": "The custom attributes of the contact"
           },
           "last_activity_at": {
-            "type": "integer",
-            "description": "Timestamp of last activity",
-            "nullable": true
+            "type": [
+              "integer",
+              "null"
+            ],
+            "description": "Timestamp of last activity"
           },
           "created_at": {
             "type": "integer",
@@ -13118,9 +13504,11 @@
             "description": "Status of the message"
           },
           "source_id": {
-            "type": "string",
-            "description": "Source ID of the message",
-            "nullable": true
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Source ID of the message"
           },
           "content_type": {
             "type": "string",
@@ -13131,14 +13519,18 @@
             "description": "Attributes of the content"
           },
           "sender_type": {
-            "type": "string",
-            "description": "Type of the sender",
-            "nullable": true
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Type of the sender"
           },
           "sender_id": {
-            "type": "integer",
-            "description": "ID of the sender",
-            "nullable": true
+            "type": [
+              "integer",
+              "null"
+            ],
+            "description": "ID of the sender"
           },
           "external_source_ids": {
             "type": "object",
@@ -13149,9 +13541,11 @@
             "description": "Additional attributes of the message"
           },
           "processed_message_content": {
-            "type": "string",
-            "description": "Processed message content",
-            "nullable": true
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Processed message content"
           },
           "sentiment": {
             "type": "object",
@@ -13162,9 +13556,11 @@
             "description": "Conversation details",
             "properties": {
               "assignee_id": {
-                "type": "integer",
-                "description": "ID of the assignee",
-                "nullable": true
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "description": "ID of the assignee"
               },
               "unread_count": {
                 "type": "integer",
@@ -13250,7 +13646,10 @@
                               "description": "The availability status of the sender"
                             },
                             "email": {
-                              "type": "string",
+                              "type": [
+                                "string",
+                                "null"
+                              ],
                               "description": "The email of the sender"
                             },
                             "id": {
@@ -13262,7 +13661,10 @@
                               "description": "The name of the sender"
                             },
                             "phone_number": {
-                              "type": "string",
+                              "type": [
+                                "string",
+                                "null"
+                              ],
                               "description": "The phone number of the sender"
                             },
                             "blocked": {
@@ -13270,11 +13672,17 @@
                               "description": "Whether the sender is blocked"
                             },
                             "identifier": {
-                              "type": "string",
+                              "type": [
+                                "string",
+                                "null"
+                              ],
                               "description": "The identifier of the sender"
                             },
                             "thumbnail": {
-                              "type": "string",
+                              "type": [
+                                "string",
+                                "null"
+                              ],
                               "description": "Avatar URL of the contact"
                             },
                             "custom_attributes": {
@@ -13360,18 +13768,24 @@
             "description": "ID of the account"
           },
           "conversation_id": {
-            "type": "number",
-            "nullable": true,
+            "type": [
+              "number",
+              "null"
+            ],
             "description": "ID of the conversation"
           },
           "inbox_id": {
-            "type": "number",
-            "nullable": true,
+            "type": [
+              "number",
+              "null"
+            ],
             "description": "ID of the inbox"
           },
           "user_id": {
-            "type": "number",
-            "nullable": true,
+            "type": [
+              "number",
+              "null"
+            ],
             "description": "ID of the user/agent"
           },
           "created_at": {
