@@ -108,7 +108,7 @@ pt_BR:
       invalid_query_operator: Operador de consulta deve ser "E" ou "OU".
       invalid_value: Valor inválido. Os valores fornecidos para %{attribute_name} são inválidos
     custom_attribute_definition:
-      attribute_key_format: must only contain letters, numbers, underscores, hyphens, and dots
+      attribute_key_format: deve conter apenas letras, números, sublinhados, hífens, e pontos
       key_conflict: A chave fornecida não é permitida pois pode entrar em conflito com os atributos padrão.
     mfa:
       already_enabled: MFA já está habilitado
