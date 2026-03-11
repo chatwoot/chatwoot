@@ -68,7 +68,8 @@ export default {
       if (!this.isSettingDefaults) this.handleMobileWebviewFlag();
     },
     hmacMandatory() {
-      if (!this.isSettingDefaults) this.handleHmacFlag();
+      if (!this.isSettingDefaults && this.isAWebWidgetInbox)
+        this.handleHmacFlag();
     },
   },
   mounted() {
