@@ -35,8 +35,7 @@ export default {
       default: '00:00',
     },
     // inbox prop is used in /mixins/inboxMixin,
-    // remove this props when refactoring to composable if not needed
-
+    // remove this props when refactoring to composable if not neededs
     inbox: {
       type: Object,
       default: () => ({}),

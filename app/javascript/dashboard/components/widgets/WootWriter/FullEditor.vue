@@ -18,9 +18,7 @@ const MAXIMUM_FILE_UPLOAD_SIZE = 4; // in MB
 const createState = (
   content,
   placeholder,
-
   plugins = [],
-
   methods = {},
   enabledMenuOptions
 ) => {

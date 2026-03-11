@@ -61,7 +61,6 @@ export class EmailQuoteExtractor {
     tempDiv.innerHTML = DOMPurify.sanitize(htmlContent);
 
     // Check for class-based quotes
-
     for (const selector of QUOTE_INDICATORS) {
       if (tempDiv.querySelector(selector)) {
         return true;

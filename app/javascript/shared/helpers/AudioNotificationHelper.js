@@ -33,7 +33,6 @@ export const getAlertAudio = async (baseUrl = '', requestContext) => {
       .then(response => response.arrayBuffer())
       .then(buffer => {
         audioCtx.decodeAudioData(buffer).then(playSound);
-
         return new Promise(res => res());
       })
       .catch(() => {
