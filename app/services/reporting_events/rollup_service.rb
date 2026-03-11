@@ -43,74 +43,16 @@ module ReportingEvents::RollupService
       }
     end
 
-    def metrics_for_event
-      case @reporting_event.name
-      when 'conversation_resolved'
-        conversation_resolved_metrics
-      when 'first_response'
-        first_response_metrics
-      when 'reply_time'
-        reply_time_metrics
-      when 'conversation_bot_resolved'
-        bot_resolutions_metrics
-      when 'conversation_bot_handoff'
-        bot_handoffs_metrics
-      else
-        {}
-      end
-    end
-
     def build_rollup_rows
+      event_metrics = ReportingEvents::MetricRegistry.event_metrics_for(@reporting_event)
+
       dimensions.each_with_object([]) do |(dimension_type, dimension_id), rows|
         next if dimension_id.nil?
 
-        metrics_for_event.each do |metric, metric_data|
+        event_metrics.each do |metric, metric_data|
           rows << rollup_attributes(dimension_type, dimension_id, metric, metric_data)
         end
       end
-    end
-
-    def conversation_resolved_metrics
-      {
-        resolutions_count: { count: 1, sum_value: 0, sum_value_business_hours: 0 },
-        resolution_time: {
-          count: 1,
-          sum_value: @reporting_event.value,
-          sum_value_business_hours: @reporting_event.value_in_business_hours
-        }
-      }
-    end
-
-    def first_response_metrics
-      {
-        first_response: {
-          count: 1,
-          sum_value: @reporting_event.value,
-          sum_value_business_hours: @reporting_event.value_in_business_hours
-        }
-      }
-    end
-
-    def reply_time_metrics
-      {
-        reply_time: {
-          count: 1,
-          sum_value: @reporting_event.value,
-          sum_value_business_hours: @reporting_event.value_in_business_hours
-        }
-      }
-    end
-
-    def bot_resolutions_metrics
-      {
-        bot_resolutions_count: { count: 1, sum_value: 0, sum_value_business_hours: 0 }
-      }
-    end
-
-    def bot_handoffs_metrics
-      {
-        bot_handoffs_count: { count: 1, sum_value: 0, sum_value_business_hours: 0 }
-      }
     end
 
     def upsert_rollups(rows)

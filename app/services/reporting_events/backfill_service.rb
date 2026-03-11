@@ -49,7 +49,7 @@ class ReportingEvents::BackfillService
     return [] if events.empty?
 
     # Build in-memory aggregates by dimension
-    aggregates = build_aggregates(events, event_name)
+    aggregates = build_aggregates(events)
 
     # Convert to rollup row hashes
     aggregates.map do |(dimension_type, dimension_id, metric), data|
@@ -68,24 +68,10 @@ class ReportingEvents::BackfillService
     end
   end
 
-  def build_aggregates(events, event_name)
+  def build_aggregates(events)
     aggregates = Hash.new { |h, k| h[k] = { count: 0, sum_value: 0.0, sum_value_business_hours: 0.0 } }
 
-    events.each do |event|
-      metrics = metrics_for_event(event_name, event)
-      dimensions = dimensions_for_event(event)
-
-      metrics.each do |metric, metric_data|
-        dimensions.each do |dimension_type, dimension_id|
-          next if dimension_id.nil?
-
-          key = [dimension_type, dimension_id, metric]
-          aggregates[key][:count] += metric_data[:count]
-          aggregates[key][:sum_value] += metric_data[:sum_value].to_f
-          aggregates[key][:sum_value_business_hours] += metric_data[:sum_value_business_hours].to_f
-        end
-      end
-    end
+    events.each { |event| accumulate_event_aggregates(aggregates, event) }
 
     aggregates
   end
@@ -98,23 +84,22 @@ class ReportingEvents::BackfillService
     }
   end
 
-  def metrics_for_event(event_name, event)
-    case event_name
-    when 'conversation_resolved'
-      {
-        'resolutions_count' => { count: 1, sum_value: 0, sum_value_business_hours: 0 },
-        'resolution_time' => { count: 1, sum_value: event.value, sum_value_business_hours: event.value_in_business_hours }
-      }
-    when 'first_response'
-      { 'first_response' => { count: 1, sum_value: event.value, sum_value_business_hours: event.value_in_business_hours } }
-    when 'reply_time'
-      { 'reply_time' => { count: 1, sum_value: event.value, sum_value_business_hours: event.value_in_business_hours } }
-    when 'conversation_bot_resolved'
-      { 'bot_resolutions_count' => { count: 1, sum_value: 0, sum_value_business_hours: 0 } }
-    when 'conversation_bot_handoff'
-      { 'bot_handoffs_count' => { count: 1, sum_value: 0, sum_value_business_hours: 0 } }
-    else
-      {}
+  def accumulate_event_aggregates(aggregates, event)
+    dimensions = dimensions_for_event(event)
+
+    ReportingEvents::MetricRegistry.event_metrics_for(event).each do |metric, metric_data|
+      accumulate_metric_aggregates(aggregates, dimensions, metric, metric_data)
+    end
+  end
+
+  def accumulate_metric_aggregates(aggregates, dimensions, metric, metric_data)
+    dimensions.each do |dimension_type, dimension_id|
+      next if dimension_id.nil?
+
+      key = [dimension_type, dimension_id, metric]
+      aggregates[key][:count] += metric_data[:count]
+      aggregates[key][:sum_value] += metric_data[:sum_value].to_f
+      aggregates[key][:sum_value_business_hours] += metric_data[:sum_value_business_hours].to_f
     end
   end
 
