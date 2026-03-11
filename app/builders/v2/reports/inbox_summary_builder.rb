@@ -11,10 +11,6 @@ class V2::Reports::InboxSummaryBuilder < V2::Reports::BaseSummaryBuilder
   attr_reader :conversations_count, :resolved_count,
               :avg_resolution_time, :avg_first_response_time, :avg_reply_time
 
-  def fetch_conversations_count
-    account.conversations.where(created_at: range).group(group_by_key).count
-  end
-
   def prepare_report
     account.inboxes.map do |inbox|
       build_inbox_stats(inbox)

@@ -10,17 +10,13 @@ class V2::Reports::BaseSummaryBuilder
   private
 
   def load_data
-    @conversations_count = fetch_conversations_count
     results = data_source.summary
 
+    @conversations_count = results.transform_values { |data| data[:conversations_count] }
     @resolved_count = results.transform_values { |data| data[:resolved_conversations_count] }
     @avg_resolution_time = results.transform_values { |data| data[:avg_resolution_time] }
     @avg_first_response_time = results.transform_values { |data| data[:avg_first_response_time] }
     @avg_reply_time = results.transform_values { |data| data[:avg_reply_time] }
-  end
-
-  def fetch_conversations_count
-    # Override this method
   end
 
   def group_by_key

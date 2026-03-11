@@ -8,19 +8,12 @@ class Reports::RawDataSource < Reports::DataSource
   end
 
   def summary
-    results = summary_scope
-              .select(*summary_select_fields)
-              .group(summary_group_by_key)
-              .index_by { |record| record.public_send(summary_index_key) }
+    metric_results = summary_scope
+                     .select(*summary_select_fields)
+                     .group(summary_group_by_key)
+                     .index_by { |record| record.public_send(summary_index_key) }
 
-    results.transform_values do |record|
-      {
-        resolved_conversations_count: record.resolved_count.to_i,
-        avg_resolution_time: record.avg_resolution_time,
-        avg_first_response_time: record.avg_first_response_time,
-        avg_reply_time: record.avg_reply_time
-      }
-    end
+    merge_summary_results(metric_results, summary_conversation_counts)
   end
 
   private
@@ -102,6 +95,27 @@ class Reports::RawDataSource < Reports::DataSource
     scope
   end
 
+  def summary_conversation_counts
+    account.conversations
+           .where(created_at: range)
+           .group(summary_conversation_group_by_key)
+           .count
+  end
+
+  def merge_summary_results(metric_results, conversation_counts)
+    (metric_results.keys | conversation_counts.keys).each_with_object({}) do |dimension_id, results|
+      record = metric_results[dimension_id]
+
+      results[dimension_id] = {
+        conversations_count: conversation_counts[dimension_id].to_i,
+        resolved_conversations_count: record&.resolved_count.to_i,
+        avg_resolution_time: record&.avg_resolution_time,
+        avg_first_response_time: record&.avg_first_response_time,
+        avg_reply_time: record&.avg_reply_time
+      }
+    end
+  end
+
   def summary_select_fields
     [
       "#{summary_group_by_key} as #{summary_index_key}",
@@ -130,6 +144,15 @@ class Reports::RawDataSource < Reports::DataSource
       'agent' => :user_id,
       'inbox' => :inbox_id,
       'team' => 'conversations.team_id'
+    }[dimension_type]
+  end
+
+  def summary_conversation_group_by_key
+    {
+      'account' => :account_id,
+      'agent' => :assignee_id,
+      'inbox' => :inbox_id,
+      'team' => :team_id
     }[dimension_type]
   end
 

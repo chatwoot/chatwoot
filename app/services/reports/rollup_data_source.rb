@@ -8,9 +8,9 @@ class Reports::RollupDataSource < Reports::DataSource
   end
 
   def summary
-    summary_rows.each_with_object({}) do |row, results|
-      results[row.dimension_id] = summary_attributes_for(row)
-    end
+    metric_results = summary_rows.index_by(&:dimension_id)
+
+    merge_summary_results(metric_results, summary_conversation_counts)
   end
 
   private
@@ -76,6 +76,19 @@ class Reports::RollupDataSource < Reports::DataSource
     ).group(:dimension_id).select(*summary_select_fields)
   end
 
+  def summary_conversation_counts
+    account.conversations
+           .where(created_at: range)
+           .group(summary_conversation_group_by_key)
+           .count
+  end
+
+  def merge_summary_results(metric_results, conversation_counts)
+    (metric_results.keys | conversation_counts.keys).index_with do |dimension_id|
+      summary_attributes_for(metric_results[dimension_id], conversation_counts[dimension_id])
+    end
+  end
+
   def summary_select_fields
     [
       'dimension_id',
@@ -101,17 +114,27 @@ class Reports::RollupDataSource < Reports::DataSource
     ReportingEvents::MetricRegistry.rollup_metric_for(metric_name)
   end
 
-  def summary_attributes_for(row)
+  def summary_attributes_for(row, conversations_count = 0)
     {
-      resolved_conversations_count: row.resolved_count.to_i,
-      avg_resolution_time: average_from(row.resolution_sum_value, row.resolution_count),
-      avg_first_response_time: average_from(row.first_response_sum_value, row.first_response_count),
-      avg_reply_time: average_from(row.reply_sum_value, row.reply_count)
+      conversations_count: conversations_count.to_i,
+      resolved_conversations_count: row&.resolved_count.to_i,
+      avg_resolution_time: average_from(row&.resolution_sum_value, row&.resolution_count),
+      avg_first_response_time: average_from(row&.first_response_sum_value, row&.first_response_count),
+      avg_reply_time: average_from(row&.reply_sum_value, row&.reply_count)
     }
   end
 
   def dimension_id_for_rollup
     dimension_type == 'account' ? account.id : scope.id
+  end
+
+  def summary_conversation_group_by_key
+    {
+      'account' => :account_id,
+      'agent' => :assignee_id,
+      'inbox' => :inbox_id,
+      'team' => :team_id
+    }[dimension_type]
   end
 
   def rollup_value_column

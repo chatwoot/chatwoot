@@ -1,3 +1,8 @@
+# Raw reporting events and rollup rows do not share a single metric namespace.
+# For example, the raw `conversation_resolved` event emits both the
+# `resolutions_count` and `resolution_time` rollup metrics. This registry keeps
+# that mapping in one place so the write path, rollup reads, and raw reads stay
+# aligned.
 module ReportingEvents::MetricRegistry
   EVENT_METRICS = {
     'conversation_resolved' => lambda do |event|
