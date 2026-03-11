@@ -17,9 +17,9 @@ import { LocalStorage } from 'shared/helpers/localStorage';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 import { useI18n } from 'vue-i18n';
 
-const TAB_ALL = 0;
+const TAB_RECENT = 0;
 const TAB_FAVORITES = 1;
-const TAB_RECENT = 2;
+const TAB_ALL = 2;
 const MAX_RECENT = 10;
 
 const props = defineProps({
@@ -138,16 +138,16 @@ const displayedTemplates = computed(() => {
 
 const tabs = computed(() => [
   {
-    label: t('WHATSAPP_TEMPLATES.PICKER.TABS.ALL'),
-    count: whatsAppTemplateMessages.value.length,
+    label: t('WHATSAPP_TEMPLATES.PICKER.TABS.RECENT'),
+    count: recentTemplates.value.length,
   },
   {
     label: t('WHATSAPP_TEMPLATES.PICKER.TABS.FAVORITES'),
     count: favorites.value.length,
   },
   {
-    label: t('WHATSAPP_TEMPLATES.PICKER.TABS.RECENT'),
-    count: recentTemplates.value.length,
+    label: t('WHATSAPP_TEMPLATES.PICKER.TABS.ALL'),
+    count: whatsAppTemplateMessages.value.length,
   },
 ]);
 

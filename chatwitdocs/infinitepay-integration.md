@@ -159,7 +159,7 @@ Recebe webhook de confirmação de pagamento do InfinitePay.
 ## Evento `payment.confirmed` (Forwarding)
 
 Encaminhado para:
-- **SocialWise:** `POST {SOCIALWISE_WEBHOOK_URL}/v1/integrations/chatwit`
+- **SocialWise:** `POST {SOCIALWISE_WEBHOOK_URL}/api/integrations/webhooks/socialwiseflow`
 - **JusMonitorIA:** `POST {JUSMONITORIA_WEBHOOK_URL}/v1/integrations/chatwit`
 
 Ver payloads detalhados em:

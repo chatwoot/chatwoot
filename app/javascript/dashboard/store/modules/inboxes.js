@@ -356,6 +356,10 @@ export const actions = {
     const response = await InboxesAPI.createCSATTemplate(inboxId, template);
     return response.data;
   },
+  createWhatsappTemplate: async (_, { inboxId, template }) => {
+    const response = await InboxesAPI.createWhatsappTemplate(inboxId, template);
+    return response.data;
+  },
   getCSATTemplateStatus: async (_, { inboxId }) => {
     const response = await InboxesAPI.getCSATTemplateStatus(inboxId);
     return response.data;

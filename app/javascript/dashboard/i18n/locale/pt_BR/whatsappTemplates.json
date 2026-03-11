@@ -8,6 +8,15 @@
     "PICKER": {
       "SEARCH_PLACEHOLDER": "Pesquisar modelos",
       "NO_TEMPLATES_FOUND": "Não há templates encontrados para",
+      "TABS": {
+        "ALL": "Todos",
+        "FAVORITES": "Favoritos",
+        "RECENT": "Recentes"
+      },
+      "NO_FAVORITES": "Nenhum favorito ainda. Marque os modelos que você usa com frequência para acesso rápido.",
+      "NO_RECENT": "Nenhum modelo enviado recentemente.",
+      "ADD_TO_FAVORITES": "Adicionar aos favoritos",
+      "REMOVE_FROM_FAVORITES": "Remover dos favoritos",
       "HEADER": "Cabeçalho",
       "BODY": "Corpo",
       "FOOTER": "Rodapé",

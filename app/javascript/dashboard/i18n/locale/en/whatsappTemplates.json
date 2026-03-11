@@ -51,6 +51,48 @@
       "MEDIA_URL_LABEL": "Enter {type} URL",
       "DOCUMENT_NAME_PLACEHOLDER": "Enter document filename (e.g., Invoice_2025.pdf)",
       "BUTTON_PARAMETER": "Enter button parameter"
+    },
+    "CREATOR": {
+      "TITLE": "Create Template",
+      "SUBTITLE": "Create a new WhatsApp template for Meta approval",
+      "NAME_LABEL": "Template Name",
+      "NAME_PLACEHOLDER": "e.g. welcome_message",
+      "NAME_HINT": "Lowercase letters, numbers and underscores only",
+      "CATEGORY_LABEL": "Category",
+      "CATEGORIES": {
+        "MARKETING": "Marketing",
+        "UTILITY": "Utility"
+      },
+      "LANGUAGE_LABEL": "Language",
+      "HEADER_LABEL": "Header Text (optional)",
+      "HEADER_PLACEHOLDER": "Short header text, max 60 chars",
+      "BODY_LABEL": "Body Text",
+      "BODY_PLACEHOLDER": "Enter the message body. Use {{variable}} for dynamic content.",
+      "FOOTER_LABEL": "Footer Text (optional)",
+      "FOOTER_PLACEHOLDER": "Short footer text, max 60 chars",
+      "BUTTONS_LABEL": "Quick Reply Buttons",
+      "ADD_BUTTON": "Add Button",
+      "BUTTON_PLACEHOLDER": "Button text (max 25 chars)",
+      "REMOVE_BUTTON": "Remove",
+      "PREVIEW_TITLE": "Preview",
+      "SUBMIT": "Submit for Approval",
+      "SUBMITTING": "Submitting...",
+      "SUCCESS": "Template submitted for Meta approval. Status: PENDING. It will appear in the templates list after approval and sync.",
+      "ERROR": "Failed to create template: {error}",
+      "VALIDATION": {
+        "NAME_REQUIRED": "Template name is required",
+        "NAME_FORMAT": "Only lowercase letters, numbers and underscores allowed, must start with a letter",
+        "BODY_REQUIRED": "Body text is required",
+        "BODY_MAX": "Body text must be under 1024 characters",
+        "HEADER_MAX": "Header must be under 60 characters",
+        "FOOTER_MAX": "Footer must be under 60 characters",
+        "BUTTON_TEXT_REQUIRED": "Button text is required",
+        "BUTTON_MAX": "Button text must be under 25 characters",
+        "MAX_BUTTONS": "Maximum 10 buttons allowed"
+      },
+      "BACK": "Back to Templates",
+      "CREATE_BUTTON": "Create Template",
+      "CHARS_REMAINING": "{count} chars remaining"
     }
   }
 }

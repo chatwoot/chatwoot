@@ -39,6 +39,12 @@ class Inboxes extends CacheEnabledApiClient {
     });
   }
 
+  createWhatsappTemplate(inboxId, template) {
+    return axios.post(`${this.url}/${inboxId}/whatsapp_templates`, {
+      template,
+    });
+  }
+
   getCSATTemplateStatus(inboxId) {
     return axios.get(`${this.url}/${inboxId}/csat_template`);
   }

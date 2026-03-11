@@ -5,6 +5,7 @@
 ## Regras Arquiteturais Criticas (LEITURA OBRIGATORIA)
 
 1. **SOCIALWISE = CEREBRO | CHATWIT = CARTEIRO:** O Socialwise detém 100% da inteligência, processamento e lógica de fluxo. O Chatwit é estritamente o "carteiro" — apenas entrega e recebe mensagens via WhatsApp/Instagram/Facebook. Garanta essa separação em qualquer código gerado. O Chatwit NUNCA processa lógica de negócio do Socialwise.
+SERVIDOR DE PRODUÇÃO ssh -i /home/wital/Chatwit-Social-dev/id_rsa.v3 root@49.13.155.94 "docker service ls"
 2. **Duas vias de comunicação:**
    - **Sync (webhook):** Chatwit envia ao Socialwise e mantém ponte aberta por 30s. Resposta volta na mesma request.
    - **Async (Agent Bot API):** Socialwise envia de volta ao Chatwit via bot token (campanhas, respostas que ultrapassam 30s, flows).

@@ -1755,7 +1755,7 @@ Agente envia link de pagamento → Cliente paga → InfinitePay webhook → Chat
 ### Payload enviado ao SocialWise
 
 ```
-POST {SOCIALWISE_WEBHOOK_URL}/v1/integrations/chatwit
+POST {SOCIALWISE_WEBHOOK_URL}/api/integrations/webhooks/socialwiseflow
 Headers:
   Content-Type: application/json
   X-Chatwit-Secret: {CHATWIT_WEBHOOK_SECRET}

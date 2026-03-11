@@ -98,7 +98,7 @@ class Integrations::Infinitepay::WebhookProcessorService
     headers['X-Chatwit-Secret'] = secret if secret.present?
 
     HTTParty.post(
-      "#{endpoint}/v1/integrations/chatwit",
+      "#{endpoint}/api/integrations/webhooks/socialwiseflow",
       headers: headers,
       body: body.to_json,
       timeout: 15
