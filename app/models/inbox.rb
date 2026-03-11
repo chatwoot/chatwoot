@@ -241,8 +241,9 @@ class Inbox < ApplicationRecord
   def ensure_inbox_limit
     return unless account
 
-    inbox_limit = account.usage_limits[:inboxes].to_i
-    return unless inbox_limit.positive? && account.inboxes.count >= inbox_limit
+    inbox_limit = account.usage_limits[:inboxes]
+    return if inbox_limit.nil?
+    return unless account.inboxes.count >= inbox_limit.to_i
 
     errors.add(:base, 'Account inbox limit exceeded. Upgrade to a higher plan')
   end
