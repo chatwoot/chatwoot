@@ -1,6 +1,6 @@
 # Find the various telegram payload samples here: https://core.telegram.org/bots/webhooks#testing-your-bot-with-updates
 # https://core.telegram.org/bots/api#available-types
-
+# rubocop:disable Metrics/ClassLength
 class Telegram::IncomingMessageService
   include ::FileTypeHelper
   include ::Telegram::ParamHelpers
@@ -239,3 +239,4 @@ class Telegram::IncomingMessageService
     true
   end
 end
+# rubocop:enable Metrics/ClassLength
