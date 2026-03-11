@@ -32,6 +32,7 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
 
     resolvable_pending_conversations(inbox).each do |conversation|
       evaluation = evaluate_conversation(conversation, inbox)
+      next unless still_resolvable_after_evaluation?(conversation)
 
       if evaluation[:complete]
         resolve_conversation(conversation, inbox, evaluation[:reason])
@@ -50,8 +51,19 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
 
   def resolvable_pending_conversations(inbox)
     inbox.conversations.pending
-         .where('last_activity_at < ?', Time.now.utc - 1.hour)
+         .where('last_activity_at < ?', auto_resolve_cutoff_time)
          .limit(Limits::BULK_ACTIONS_LIMIT)
+  end
+
+  def still_resolvable_after_evaluation?(conversation)
+    conversation.reload
+    conversation.pending? && conversation.last_activity_at < auto_resolve_cutoff_time
+  rescue ActiveRecord::RecordNotFound
+    false
+  end
+
+  def auto_resolve_cutoff_time
+    Time.now.utc - 1.hour
   end
 
   def resolve_conversation(conversation, inbox, reason)

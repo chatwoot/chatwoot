@@ -70,6 +70,20 @@ RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
       expect(recent_pending_conversation.reload.status).to eq('pending')
       expect(open_conversation.reload.status).to eq('open')
     end
+
+    it 'skips auto-action if conversation receives new activity after evaluation' do
+      mock_service = instance_double(Captain::ConversationCompletionService)
+      allow(mock_service).to receive(:perform) do
+        resolvable_pending_conversation.update_column(:last_activity_at, Time.current)
+        { complete: true, reason: 'Customer question was answered' }
+      end
+      allow(Captain::ConversationCompletionService).to receive(:new).and_return(mock_service)
+
+      described_class.perform_now(inbox)
+
+      expect(resolvable_pending_conversation.reload.status).to eq('pending')
+      expect(resolvable_pending_conversation.messages.outgoing).to be_empty
+    end
   end
 
   context 'when LLM evaluation returns complete' do
