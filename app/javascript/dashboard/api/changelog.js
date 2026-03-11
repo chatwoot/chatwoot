@@ -7,7 +7,6 @@ class ChangelogApi extends ApiClient {
     super('changelog', { apiVersion: 'v1' });
   }
 
-  // eslint-disable-next-line class-methods-use-this
   fetchFromHub() {
     return axios.get(CHANGELOG_API_URL);
   }

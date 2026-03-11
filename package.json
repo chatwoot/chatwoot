@@ -122,16 +122,14 @@
     "@size-limit/file": "^8.2.4",
     "@vitest/coverage-v8": "3.0.5",
     "@vue/test-utils": "^2.4.6",
+    "@eslint/js": "^10.0.0",
     "autoprefixer": "^10.4.20",
-    "eslint": "^8.57.0",
-    "eslint-config-airbnb-base": "15.0.0",
-    "eslint-config-prettier": "^9.1.0",
+    "eslint": "^10.0.0",
+    "eslint-config-prettier": "^10.0.0",
     "eslint-interactive": "^11.1.0",
-    "eslint-plugin-html": "7.1.0",
-    "eslint-plugin-import": "2.30.0",
-    "eslint-plugin-prettier": "5.2.1",
-    "eslint-plugin-vitest-globals": "^1.5.0",
-    "eslint-plugin-vue": "^9.28.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "eslint-plugin-vue": "^10.8.0",
+    "globals": "^16.0.0",
     "fake-indexeddb": "^6.0.0",
     "histoire": "0.17.15",
     "husky": "^7.0.0",
@@ -160,7 +158,8 @@
     "overrides": {
       "vite-node": "2.0.1",
       "vite": "5.4.21",
-      "vitest": "3.0.5"
+      "vitest": "3.0.5",
+      "vue-eslint-parser": "^10.0.0"
     }
   },
   "lint-staged": {

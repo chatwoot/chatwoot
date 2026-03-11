@@ -288,10 +288,9 @@ describe('templateHelper', () => {
     });
 
     it('should handle special characters in template variables', () => {
-      /* eslint-disable no-template-curly-in-string */
       const templateText =
         'Welcome {{user_name}}, your order #{{order_id}} costs ${{amount}}';
-      /* eslint-enable no-template-curly-in-string */
+
       const processedParams = {
         body: {
           user_name: 'John & Jane',

@@ -56,7 +56,6 @@ const state = reactive({ ...initialState });
 const urlValidators = {
   shouldBeAValidURLPattern: value => {
     try {
-      // eslint-disable-next-line
       new URLPattern(value);
       return true;
     } catch {

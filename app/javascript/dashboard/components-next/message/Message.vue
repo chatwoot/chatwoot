@@ -99,7 +99,6 @@ import { useBranding } from 'shared/composables/useBranding';
  * @property {number} inboxId - The ID of the inbox to which the message belongs
  */
 
-// eslint-disable-next-line vue/define-macros-order
 const props = defineProps({
   id: { type: Number, required: true },
   messageType: {
@@ -124,12 +123,12 @@ const props = defineProps({
   createdAt: { type: Number, required: true }, // eslint-disable-line vue/no-unused-properties
   currentUserId: { type: Number, required: true }, // eslint-disable-line vue/no-unused-properties
   groupWithNext: { type: Boolean, default: false },
-  inboxId: { type: Number, default: null }, // eslint-disable-line vue/no-unused-properties
+  inboxId: { type: Number, default: null },
   inboxSupportsReplyTo: { type: Object, default: () => ({}) },
   inReplyTo: { type: Object, default: null }, // eslint-disable-line vue/no-unused-properties
   isEmailInbox: { type: Boolean, default: false },
   private: { type: Boolean, default: false },
-  additionalAttributes: { type: Object, default: () => ({}) }, // eslint-disable-line vue/no-unused-properties
+  additionalAttributes: { type: Object, default: () => ({}) },
   sender: { type: Object, default: null },
   senderId: { type: Number, default: null },
   senderType: { type: String, default: null },

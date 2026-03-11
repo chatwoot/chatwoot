@@ -13,7 +13,6 @@ class ApiClient {
     return `${this.baseUrl()}/${this.resource}`;
   }
 
-  // eslint-disable-next-line class-methods-use-this
   get accountIdFromRoute() {
     const isInsideAccountScopedURLs =
       window.location.pathname.includes('/app/accounts');

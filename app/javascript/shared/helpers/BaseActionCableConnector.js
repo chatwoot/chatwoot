@@ -74,10 +74,8 @@ class BaseActionCableConnector {
     }, RECONNECT_INTERVAL);
   };
 
-  // eslint-disable-next-line class-methods-use-this
   onReconnect = () => {};
 
-  // eslint-disable-next-line class-methods-use-this
   onDisconnected = () => {};
 
   disconnect() {

@@ -31,7 +31,6 @@ class ReportsAPI extends ApiClient {
     });
   }
 
-  // eslint-disable-next-line default-param-last
   getSummary(since, until, type = 'account', id, groupBy, businessHours) {
     return axios.get(`${this.url}/summary`, {
       params: {

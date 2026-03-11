@@ -1,7 +1,6 @@
 import lamejs from '@breezystack/lamejs';
 
 const writeString = (view, offset, string) => {
-  // eslint-disable-next-line no-plusplus
   for (let i = 0; i < string.length; i++) {
     view.setUint8(offset + i, string.charCodeAt(i));
   }
@@ -29,9 +28,8 @@ const bufferToWav = async (buffer, numChannels, sampleRate) => {
 
   // WAV Data
   const offset = 44;
-  // eslint-disable-next-line no-plusplus
+
   for (let i = 0; i < buffer.length; i++) {
-    // eslint-disable-next-line no-plusplus
     for (let channel = 0; channel < numChannels; channel++) {
       const sample = Math.max(
         -1,
