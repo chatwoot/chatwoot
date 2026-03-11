@@ -53,6 +53,7 @@ const copyGitSha = () => {
       </span>
       <!-- eslint-disable vue/no-bare-strings-in-template @intlify/vue-i18n/no-raw-text -->
       <a
+        v-if="globalConfig.displayManifest"
         href="https://fazer.ai"
         target="_blank"
         rel="noopener noreferrer"
