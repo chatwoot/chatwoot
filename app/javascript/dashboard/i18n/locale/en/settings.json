@@ -151,6 +151,11 @@
         "TYPE_TITLE": "Notification type",
         "EMAIL": "Email",
         "PUSH": "Push notification",
+        "DISPLAY_DURATION": "Notification display duration",
+        "DISPLAY_DURATION_NOTE": "Time in seconds that the notification will be displayed in the dashboard",
+        "DISPLAY_DURATION_UNIT": "s",
+        "DEFAULT_TITLE": "New notification",
+        "DEFAULT_SENDER": "Contact",
         "TYPES": {
           "CONVERSATION_CREATED": "A new conversation is created",
           "CONVERSATION_ASSIGNED": "A conversation is assigned to you",

@@ -20,6 +20,7 @@ export default {
   },
   data() {
     return {
+      displayDuration: 6,
       selectedEmailFlags: [],
       selectedPushFlags: [],
       enableAudioAlerts: false,
@@ -64,7 +65,12 @@ export default {
     if (hasPushPermissions()) {
       this.getPushSubscription();
     }
-    this.$store.dispatch('userNotificationSettings/get');
+    this.$store.dispatch('userNotificationSettings/get').then(() => {
+      this.displayDuration =
+        this.$store.getters[
+          'userNotificationSettings/getNotificationDisplayDuration'
+        ];
+    });
   },
   methods: {
     checkFlagStatus(type, flagType) {
@@ -119,11 +125,22 @@ export default {
           .catch(error => console.log(error))
       );
     },
+    async updateDurationSetting() {
+      const duration = Math.min(60, Math.max(1, this.displayDuration || 6));
+      this.displayDuration = duration;
+      await this.$store.dispatch('userNotificationSettings/update', {
+        selectedEmailFlags: this.selectedEmailFlags,
+        selectedPushFlags: this.selectedPushFlags,
+        notificationDisplayDuration: duration,
+      });
+      useAlert(this.$t('PROFILE_SETTINGS.FORM.API.UPDATE_SUCCESS'));
+    },
     async updateNotificationSettings() {
       try {
         this.$store.dispatch('userNotificationSettings/update', {
           selectedEmailFlags: this.selectedEmailFlags,
           selectedPushFlags: this.selectedPushFlags,
+          notificationDisplayDuration: this.displayDuration,
         });
         useAlert(this.$t('PROFILE_SETTINGS.FORM.API.UPDATE_SUCCESS'));
       } catch (error) {
@@ -288,6 +305,32 @@ export default {
         v-model="hasEnabledPushPermissions"
         @change="onRequestPermissions"
       />
+    </div>
+
+    <div
+      class="flex items-center justify-between w-full gap-2 p-4 border border-solid border-n-weak rounded-xl"
+    >
+      <div class="flex flex-col gap-1">
+        <span class="text-sm font-medium text-n-slate-12">
+          {{ $t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.DISPLAY_DURATION') }}
+        </span>
+        <span class="text-xs text-n-slate-11">
+          {{ $t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.DISPLAY_DURATION_NOTE') }}
+        </span>
+      </div>
+      <div class="flex items-center gap-2">
+        <input
+          v-model.number="displayDuration"
+          type="number"
+          min="1"
+          max="60"
+          class="w-16 px-2 py-1 text-sm text-center border border-n-weak rounded-lg bg-transparent text-n-slate-12 focus:outline-none focus:border-n-brand"
+          @change="updateDurationSetting"
+        />
+        <span class="text-sm text-n-slate-11">
+          {{ $t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.DISPLAY_DURATION_UNIT') }}
+        </span>
+      </div>
     </div>
   </div>
 </template>
