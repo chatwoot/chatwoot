@@ -244,10 +244,10 @@ const searchContacts = debounce(
     const { clearSelection: shouldClearSelection = true } = options;
 
     if (!append) {
+      searchPageNumber.value = 1;
+
       if (shouldClearSelection) {
         clearSelection();
-
-        searchPageNumber.value = 1;
       }
     }
     await store.dispatch('contacts/clearContactFilters');
