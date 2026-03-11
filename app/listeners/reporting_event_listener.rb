@@ -143,6 +143,6 @@ class ReportingEventListener < BaseListener
     bot_resolved_event = reporting_event.dup
     bot_resolved_event.name = 'conversation_bot_resolved'
     bot_resolved_event.save!
-    ReportingEvents::RollupService.new(bot_resolved_event).perform
+    ReportingEvents::RollupService.perform(bot_resolved_event)
   end
 end
