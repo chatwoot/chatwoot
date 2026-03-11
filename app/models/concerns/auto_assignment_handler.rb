@@ -11,7 +11,7 @@ module AutoAssignmentHandler
   def run_auto_assignment
     # Round robin kicks in on conversation create & update
     # run it only when conversation status changes to open
-    return unless conversation_status_changed_to_open? || conversation_status_changed_to_resolved?
+    return unless conversation_status_changed_to_open? || conversation_status_changed_to_resolved_or_snoozed?
     return unless should_run_auto_assignment?
 
     if inbox.auto_assignment_v2_enabled?
@@ -25,8 +25,8 @@ module AutoAssignmentHandler
     end
   end
 
-  def conversation_status_changed_to_resolved?
-    inbox.auto_assignment_v2_enabled? && saved_change_to_status? && resolved?
+  def conversation_status_changed_to_resolved_or_snoozed?
+    inbox.auto_assignment_v2_enabled? && saved_change_to_status? && (resolved? || snoozed?)
   end
 
   def team_member_ids_with_capacity
