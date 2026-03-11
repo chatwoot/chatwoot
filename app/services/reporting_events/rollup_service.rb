@@ -16,15 +16,10 @@ module ReportingEvents::RollupService
     def perform
       return unless rollup_enabled?
 
-      # NOTE: Each event produces individual upserts per dimension x metric (up to 6 calls).
-      # If this becomes a bottleneck, batch into a single upsert_all call.
-      dimensions.each do |dimension_type, dimension_id|
-        next if dimension_id.nil?
+      rows = build_rollup_rows
+      return if rows.empty?
 
-        metrics_for_event.each do |metric, metric_data|
-          upsert_rollup(dimension_type, dimension_id, metric, metric_data)
-        end
-      end
+      upsert_rollups(rows)
     end
 
     private
@@ -62,6 +57,16 @@ module ReportingEvents::RollupService
         bot_handoffs_metrics
       else
         {}
+      end
+    end
+
+    def build_rollup_rows
+      dimensions.each_with_object([]) do |(dimension_type, dimension_id), rows|
+        next if dimension_id.nil?
+
+        metrics_for_event.each do |metric, metric_data|
+          rows << rollup_attributes(dimension_type, dimension_id, metric, metric_data)
+        end
       end
     end
 
@@ -108,10 +113,10 @@ module ReportingEvents::RollupService
       }
     end
 
-    def upsert_rollup(dimension_type, dimension_id, metric, metric_data)
+    def upsert_rollups(rows)
       # rubocop:disable Rails/SkipsModelValidations
-      ReportingEventsRollup.upsert(
-        rollup_attributes(dimension_type, dimension_id, metric, metric_data),
+      ReportingEventsRollup.upsert_all(
+        rows,
         unique_by: [:account_id, :date, :dimension_type, :dimension_id, :metric],
         on_duplicate: upsert_on_duplicate_sql
       )

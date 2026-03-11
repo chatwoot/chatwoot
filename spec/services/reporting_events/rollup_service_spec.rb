@@ -102,6 +102,66 @@ describe ReportingEvents::RollupService do
           expect(resolution_time.sum_value_business_hours).to eq(500)
         end
 
+        it 'batches all rollup rows in a single upsert_all call' do
+          reporting_event.update!(created_at: Time.utc(2026, 2, 12, 4, 0, 0))
+
+          travel_to(Time.utc(2026, 2, 12, 10, 0, 0)) do
+            captured_rows = nil
+            captured_options = nil
+
+            allow(ReportingEventsRollup).to receive(:upsert_all) do |rows, **options|
+              captured_rows = rows
+              captured_options = options
+            end
+
+            described_class.perform(reporting_event)
+
+            expect(ReportingEventsRollup).to have_received(:upsert_all).once
+            expect(captured_options[:unique_by]).to eq(%i[account_id date dimension_type dimension_id metric])
+            expect(captured_options[:on_duplicate].to_s.squish).to eq(
+              'count = reporting_events_rollups.count + EXCLUDED.count, ' \
+              'sum_value = reporting_events_rollups.sum_value + EXCLUDED.sum_value, ' \
+              'sum_value_business_hours = reporting_events_rollups.sum_value_business_hours + EXCLUDED.sum_value_business_hours, ' \
+              'updated_at = EXCLUDED.updated_at'
+            )
+
+            expected_rows = {
+              account: account.id,
+              agent: user.id,
+              inbox: inbox.id
+            }.flat_map do |dimension_type, dimension_id|
+              [
+                {
+                  account_id: account.id,
+                  date: Date.new(2026, 2, 11),
+                  dimension_type: dimension_type,
+                  dimension_id: dimension_id,
+                  metric: :resolutions_count,
+                  count: 1,
+                  sum_value: 0.0,
+                  sum_value_business_hours: 0.0,
+                  created_at: Time.utc(2026, 2, 12, 10, 0, 0),
+                  updated_at: Time.utc(2026, 2, 12, 10, 0, 0)
+                },
+                {
+                  account_id: account.id,
+                  date: Date.new(2026, 2, 11),
+                  dimension_type: dimension_type,
+                  dimension_id: dimension_id,
+                  metric: :resolution_time,
+                  count: 1,
+                  sum_value: 1000.0,
+                  sum_value_business_hours: 500.0,
+                  created_at: Time.utc(2026, 2, 12, 10, 0, 0),
+                  updated_at: Time.utc(2026, 2, 12, 10, 0, 0)
+                }
+              ]
+            end
+
+            expect(captured_rows).to match_array(expected_rows)
+          end
+        end
+
         it 'respects account timezone for date bucketing' do
           # Event created at 2026-02-11 22:00 UTC
           # In EST (UTC-5) that's 2026-02-11 17:00 (same day)
