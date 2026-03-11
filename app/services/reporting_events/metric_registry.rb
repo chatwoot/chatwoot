@@ -5,16 +5,16 @@
 # aligned.
 module ReportingEvents::MetricRegistry
   EVENT_METRICS = {
-    'conversation_resolved' => lambda do |event|
+    'conversation_resolved' => lambda do |values|
       {
-        resolutions_count: count_metric,
-        resolution_time: duration_metric(event)
+        resolutions_count: count_metric(values[:count]),
+        resolution_time: duration_metric(values)
       }
     end,
-    'first_response' => ->(event) { { first_response: duration_metric(event) } },
-    'reply_time' => ->(event) { { reply_time: duration_metric(event) } },
-    'conversation_bot_resolved' => ->(_event) { { bot_resolutions_count: count_metric } },
-    'conversation_bot_handoff' => ->(_event) { { bot_handoffs_count: count_metric } }
+    'first_response' => ->(values) { { first_response: duration_metric(values) } },
+    'reply_time' => ->(values) { { reply_time: duration_metric(values) } },
+    'conversation_bot_resolved' => ->(values) { { bot_resolutions_count: count_metric(values[:count]) } },
+    'conversation_bot_handoff' => ->(values) { { bot_handoffs_count: count_metric(values[:count]) } }
   }.freeze
 
   REPORT_METRICS = {
@@ -64,8 +64,24 @@ module ReportingEvents::MetricRegistry
 
   def event_metrics_for(event)
     return {} if event.blank?
+    return {} unless EVENT_METRICS.key?(event.name.to_s)
 
-    EVENT_METRICS[event.name.to_s]&.call(event) || {}
+    event_metrics_for_aggregate(
+      event.name,
+      count: 1,
+      sum_value: event.try(:value),
+      sum_value_business_hours: event.try(:value_in_business_hours)
+    )
+  end
+
+  def event_metrics_for_aggregate(event_name, count:, sum_value:, sum_value_business_hours:)
+    values = {
+      count: count.to_i,
+      sum_value: sum_value.to_f,
+      sum_value_business_hours: sum_value_business_hours.to_f
+    }
+
+    EVENT_METRICS[event_name.to_s]&.call(values) || {}
   end
 
   def report_metric(metric)
@@ -74,36 +90,26 @@ module ReportingEvents::MetricRegistry
     REPORT_METRICS[metric.to_sym]
   end
 
-  def supported_metric?(metric)
-    report_metric(metric).present?
-  end
+  def supported_metric?(metric) = report_metric(metric).present?
 
-  def aggregate_for(metric)
-    report_metric(metric)&.dig(:aggregate)
-  end
+  def aggregate_for(metric) = report_metric(metric)&.dig(:aggregate)
 
-  def rollup_supported_metric?(metric)
-    rollup_metric_for(metric).present?
-  end
+  def rollup_supported_metric?(metric) = rollup_metric_for(metric).present?
 
-  def rollup_metric_for(metric)
-    report_metric(metric)&.dig(:rollup_metric)
-  end
+  def rollup_metric_for(metric) = report_metric(metric)&.dig(:rollup_metric)
 
-  def raw_event_name_for(metric)
-    report_metric(metric)&.dig(:raw_event_name)
-  end
+  def raw_event_name_for(metric) = report_metric(metric)&.dig(:raw_event_name)
 
-  def count_metric
-    { count: 1, sum_value: 0, sum_value_business_hours: 0 }
+  def count_metric(count)
+    { count: count, sum_value: 0, sum_value_business_hours: 0 }
   end
   private_class_method :count_metric
 
-  def duration_metric(event)
+  def duration_metric(values)
     {
-      count: 1,
-      sum_value: event.value.to_f,
-      sum_value_business_hours: event.value_in_business_hours.to_f
+      count: values[:count],
+      sum_value: values[:sum_value],
+      sum_value_business_hours: values[:sum_value_business_hours]
     }
   end
   private_class_method :duration_metric

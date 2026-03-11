@@ -74,6 +74,41 @@ RSpec.describe ReportingEvents::MetricRegistry do
     end
   end
 
+  describe '.event_metrics_for_aggregate' do
+    it 'returns aggregated rollup metrics for conversation_resolved groups' do
+      expect(
+        described_class.event_metrics_for_aggregate(
+          'conversation_resolved',
+          count: 3,
+          sum_value: 420,
+          sum_value_business_hours: 210
+        )
+      ).to eq(
+        resolutions_count: {
+          count: 3,
+          sum_value: 0,
+          sum_value_business_hours: 0
+        },
+        resolution_time: {
+          count: 3,
+          sum_value: 420.0,
+          sum_value_business_hours: 210.0
+        }
+      )
+    end
+
+    it 'returns an empty hash for unsupported grouped events' do
+      expect(
+        described_class.event_metrics_for_aggregate(
+          'conversation_created',
+          count: 2,
+          sum_value: 100,
+          sum_value_business_hours: 50
+        )
+      ).to eq({})
+    end
+  end
+
   describe '.report_metric' do
     it 'returns the definition for raw-only count metrics' do
       expect(described_class.report_metric(:conversations_count)).to eq(

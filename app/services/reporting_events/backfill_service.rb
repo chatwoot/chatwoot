@@ -1,6 +1,15 @@
 # frozen_string_literal: true
 
 class ReportingEvents::BackfillService
+  AGGREGATE_SELECTS = [
+    :name,
+    :user_id,
+    :inbox_id,
+    Arel.sql('COUNT(*)'),
+    Arel.sql('COALESCE(SUM(value), 0)'),
+    Arel.sql('COALESCE(SUM(value_in_business_hours), 0)')
+  ].freeze
+
   def self.backfill_date(account, date)
     new(account, date).perform
   end
@@ -11,21 +20,9 @@ class ReportingEvents::BackfillService
   end
 
   def perform
-    # 1. Delete existing rollups for this date (idempotency)
     delete_existing_rollups
-
-    # 2. Convert date in account timezone to UTC boundaries
     start_utc, end_utc = date_boundaries_in_utc
-
-    # 3. Process each event type with SQL aggregation
-    rollup_rows = []
-    rollup_rows.concat(aggregate_event_type('conversation_resolved', start_utc, end_utc))
-    rollup_rows.concat(aggregate_event_type('first_response', start_utc, end_utc))
-    rollup_rows.concat(aggregate_event_type('reply_time', start_utc, end_utc))
-    rollup_rows.concat(aggregate_event_type('conversation_bot_resolved', start_utc, end_utc))
-    rollup_rows.concat(aggregate_event_type('conversation_bot_handoff', start_utc, end_utc))
-
-    # 4. Bulk insert all rollups at once
+    rollup_rows = build_rollup_rows(start_utc, end_utc)
     bulk_insert_rollups(rollup_rows) if rollup_rows.any?
   end
 
@@ -42,16 +39,9 @@ class ReportingEvents::BackfillService
     [start_in_tz.utc, end_in_tz.utc]
   end
 
-  def aggregate_event_type(event_name, start_utc, end_utc)
-    events = @account.reporting_events
-                     .where(name: event_name, created_at: start_utc...end_utc)
+  def build_rollup_rows(start_utc, end_utc)
+    aggregates = build_aggregates(start_utc, end_utc)
 
-    return [] if events.empty?
-
-    # Build in-memory aggregates by dimension
-    aggregates = build_aggregates(events)
-
-    # Convert to rollup row hashes
     aggregates.map do |(dimension_type, dimension_id, metric), data|
       {
         account_id: @account.id,
@@ -68,28 +58,52 @@ class ReportingEvents::BackfillService
     end
   end
 
-  def build_aggregates(events)
+  def build_aggregates(start_utc, end_utc)
     aggregates = Hash.new { |h, k| h[k] = { count: 0, sum_value: 0.0, sum_value_business_hours: 0.0 } }
 
-    events.each { |event| accumulate_event_aggregates(aggregates, event) }
+    grouped_events(start_utc, end_utc).each { |grouped_event| accumulate_grouped_aggregates(aggregates, grouped_event) }
 
     aggregates
   end
 
-  def dimensions_for_event(event)
+  def grouped_events(start_utc, end_utc)
+    @account.reporting_events
+            .where(name: ReportingEvents::MetricRegistry::EVENT_METRICS.keys, created_at: start_utc...end_utc)
+            .group(:name, :user_id, :inbox_id)
+            .pluck(*AGGREGATE_SELECTS)
+            .map { |grouped_row| grouped_event_attributes(grouped_row) }
+  end
+
+  def dimensions(grouped_event)
     {
       'account' => @account.id,
-      'agent' => event.user_id,
-      'inbox' => event.inbox_id
+      'agent' => grouped_event[:user_id],
+      'inbox' => grouped_event[:inbox_id]
     }
   end
 
-  def accumulate_event_aggregates(aggregates, event)
-    dimensions = dimensions_for_event(event)
-
-    ReportingEvents::MetricRegistry.event_metrics_for(event).each do |metric, metric_data|
-      accumulate_metric_aggregates(aggregates, dimensions, metric, metric_data)
+  def accumulate_grouped_aggregates(aggregates, grouped_event)
+    ReportingEvents::MetricRegistry.event_metrics_for_aggregate(
+      grouped_event[:event_name],
+      count: grouped_event[:count],
+      sum_value: grouped_event[:sum_value],
+      sum_value_business_hours: grouped_event[:sum_value_business_hours]
+    ).each do |metric, metric_data|
+      accumulate_metric_aggregates(aggregates, dimensions(grouped_event), metric, metric_data)
     end
+  end
+
+  def grouped_event_attributes(grouped_row)
+    event_name, user_id, inbox_id, count, sum_value, sum_value_business_hours = grouped_row
+
+    {
+      event_name: event_name,
+      user_id: user_id,
+      inbox_id: inbox_id,
+      count: count,
+      sum_value: sum_value,
+      sum_value_business_hours: sum_value_business_hours
+    }
   end
 
   def accumulate_metric_aggregates(aggregates, dimensions, metric, metric_data)
