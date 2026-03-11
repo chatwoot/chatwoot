@@ -5086,9 +5086,11 @@
             }
           },
           "echo_id": {
-            "type": "string",
-            "description": "The echo ID of the message, used for deduplication",
-            "nullable": true
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "The echo ID of the message, used for deduplication"
           },
           "created_at": {
             "type": "integer",
