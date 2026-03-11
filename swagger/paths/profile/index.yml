@@ -28,6 +28,7 @@ put:
   security:
     - userApiKey: []
   requestBody:
+    required: true
     content:
       application/json:
         schema:
