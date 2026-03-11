@@ -975,6 +975,16 @@ describe('#mutations', () => {
       mutations[types.ADD_CONVERSATION](state, conversation);
       expect(state.allConversations).toEqual([conversation]);
     });
+
+    it('should not add a duplicate conversation', () => {
+      const conversation = { id: 1, messages: [] };
+      const state = {
+        allConversations: [conversation],
+      };
+
+      mutations[types.ADD_CONVERSATION](state, { id: 1, messages: [] });
+      expect(state.allConversations).toHaveLength(1);
+    });
   });
 
   describe('#DELETE_CONVERSATION', () => {
