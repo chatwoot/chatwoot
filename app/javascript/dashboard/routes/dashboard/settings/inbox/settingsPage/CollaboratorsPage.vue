@@ -27,6 +27,7 @@ const isAgentListUpdating = ref(false);
 const enableAutoAssignment = ref(false);
 const maxAssignmentLimit = ref(null);
 const assignmentType = ref('individual');
+const defaultGroupPhone = ref('');
 
 const agentList = computed(() => store.getters['agents/getAgents']);
 
@@ -79,6 +80,8 @@ const setDefaults = () => {
   enableAutoAssignment.value = props.inbox.enable_auto_assignment;
   maxAssignmentLimit.value =
     props.inbox?.auto_assignment_config?.max_assignment_limit || null;
+  defaultGroupPhone.value =
+    props.inbox?.auto_assignment_config?.default_group_phone || '';
 
   const configuredType =
     props.inbox?.auto_assignment_config?.assignment_type || 'individual';
@@ -135,6 +138,7 @@ const updateInbox = async () => {
       auto_assignment_config: {
         max_assignment_limit: maxAssignmentLimit.value,
         assignment_type: assignmentType.value,
+        default_group_phone: defaultGroupPhone.value,
       },
     };
     await store.dispatch('inboxes/updateInbox', payload);
@@ -245,6 +249,26 @@ onMounted(() => {
           :disabled="v$.maxAssignmentLimit.$invalid"
           @click="updateInbox"
         />
+      </div>
+    </SettingsSection>
+
+    <SettingsSection
+      :title="$t('INBOX_MGMT.WHATSAPP_GROUP_DEFAULT_PHONE.TITLE')"
+      :sub-title="$t('INBOX_MGMT.WHATSAPP_GROUP_DEFAULT_PHONE.SUB_TITLE')"
+    >
+      <div class="flex flex-col gap-4">
+        <woot-input
+          v-model="defaultGroupPhone"
+          type="tel"
+          :label="$t('INBOX_MGMT.WHATSAPP_GROUP_DEFAULT_PHONE.LABEL')"
+          :placeholder="$t('INBOX_MGMT.WHATSAPP_GROUP_DEFAULT_PHONE.PLACEHOLDER')"
+        />
+        <div>
+          <NextButton
+            :label="$t('INBOX_MGMT.SETTINGS_POPUP.UPDATE')"
+            @click="updateInbox"
+          />
+        </div>
       </div>
     </SettingsSection>
   </div>

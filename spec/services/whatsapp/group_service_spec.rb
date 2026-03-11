@@ -103,6 +103,26 @@ RSpec.describe Whatsapp::GroupService do
       end
     end
 
+    context 'when inbox has a default_group_phone configured' do
+      before do
+        inbox.update!(auto_assignment_config: {
+                        'assignment_type' => 'group',
+                        'default_group_phone' => '+5511999999999'
+                      })
+        stub_request(:post, "#{ENV.fetch('WHAPI_GATE_URL', 'https://gate.whapi.cloud')}/groups")
+          .to_return(status: 200, body: { group_id: '120363402679040508@g.us' }.to_json)
+      end
+
+      it 'includes the default phone in the participants sent to Whapi' do
+        service.create_group
+
+        expect(WebMock).to have_requested(:post, "#{ENV.fetch('WHAPI_GATE_URL', 'https://gate.whapi.cloud')}/groups")
+          .with(body: hash_including(
+                  participants: match_array(['1234567890', '9876543210', '5511999999999'])
+                ))
+      end
+    end
+
     context 'when assignment_type is individual' do
       before do
         inbox.update!(auto_assignment_config: { 'assignment_type' => 'individual' })

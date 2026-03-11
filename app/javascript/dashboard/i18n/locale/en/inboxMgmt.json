@@ -814,6 +814,12 @@
       "INDIVIDUAL": "Individual",
       "GROUP": "Group"
     },
+    "WHATSAPP_GROUP_DEFAULT_PHONE": {
+      "TITLE": "WhatsApp Group Default Phone",
+      "SUB_TITLE": "Optional phone number to automatically add to every WhatsApp group created from this inbox",
+      "LABEL": "Default phone number",
+      "PLACEHOLDER": "+1234567890"
+    },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Reauthorize",
       "SUBTITLE": "Your Facebook connection has expired, please reconnect your Facebook page to continue services",

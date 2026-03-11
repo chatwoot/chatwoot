@@ -58,6 +58,11 @@ class Whatsapp::GroupService
 
     # Agregar número del cliente
     participants << format_phone_number(conversation.contact.phone_number) if conversation.contact&.phone_number.present?
+
+    # Agregar teléfono por defecto del inbox si está configurado
+    default_phone = inbox.auto_assignment_config&.dig('default_group_phone')
+    participants << format_phone_number(default_phone) if default_phone.present?
+
     Rails.logger.info "[WHATSAPP GROUP] Participants: #{participants}"
     participants.compact.uniq
   end
