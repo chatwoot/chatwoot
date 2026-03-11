@@ -6,23 +6,25 @@ ConfigLoader.new.process
 if Rails.env.production?
   # Setup Onboarding flow
   Redis::Alfred.set(Redis::Alfred::CHATWOOT_INSTALLATION_ONBOARDING, true)
+
+  # Cuenta por defecto "Albatros" si aún no existe ninguna
+  if Account.count.zero?
+    Account.create!(name: 'Albatros')
+    Rails.logger.info '[Seed] Cuenta por defecto "Albatros" creada.'
+  end
 end
 
 ## Seeds for Local Development
 unless Rails.env.production?
 
-  # Enables creating additional accounts from dashboard
+  # Una sola cuenta por defecto: Albatros. Permitir crear más cuentas desde el dashboard.
   installation_config = InstallationConfig.find_by(name: 'CREATE_NEW_ACCOUNT_FROM_DASHBOARD')
   installation_config.value = true
   installation_config.save!
   GlobalConfig.clear_cache
 
   account = Account.create!(
-    name: 'Acme Inc'
-  )
-
-  secondary_account = Account.create!(
-    name: 'Acme Org'
+    name: 'Albatros'
   )
 
   user = User.new(name: 'John', email: 'john@acme.inc', password: 'Password1!', type: 'SuperAdmin')
@@ -35,15 +37,9 @@ unless Rails.env.production?
     role: :administrator
   )
 
-  AccountUser.create!(
-    account_id: secondary_account.id,
-    user_id: user.id,
-    role: :administrator
-  )
-
   web_widget = Channel::WebWidget.create!(account: account, website_url: 'https://acme.inc')
 
-  inbox = Inbox.create!(channel: web_widget, account: account, name: 'Acme Support')
+  inbox = Inbox.create!(channel: web_widget, account: account, name: 'Albatros Support')
   InboxMember.create!(user: user, inbox: inbox)
 
   contact_inbox = ContactInboxWithContactBuilder.new(

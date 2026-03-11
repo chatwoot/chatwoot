@@ -1,0 +1,31 @@
+# Ajusta host y TLS según tu cluster. Ejemplo con cert-manager para TLS.
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: chatwoot-ingress
+  namespace: chatwoot
+  labels:
+    app.kubernetes.io/name: chatwoot
+  annotations:
+    # cert-manager: crea Certificate y usa este annotation
+    # cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    # Nginx: ejemplo de proxy body size (subida de archivos)
+    # nginx.ingress.kubernetes.io/proxy-body-size: "40m"
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: chat.tu-dominio.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: chatwoot-web
+                port:
+                  number: 80
+  # Descomenta para TLS (y configura cert-manager o tu issuer)
+  # tls:
+  #   - hosts:
+  #       - chat.tu-dominio.com
+  #     secretName: chatwoot-tls

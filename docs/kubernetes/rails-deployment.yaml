@@ -1,0 +1,86 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chatwoot-web
+  namespace: chatwoot
+  labels:
+    app.kubernetes.io/name: chatwoot
+    app: chatwoot-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: chatwoot-web
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: chatwoot
+        app: chatwoot-web
+    spec:
+      initContainers:
+        - name: wait-postgres
+          image: pgvector/pgvector:pg16
+          command: ["sh", "-c", "until pg_isready -h postgres -p 5432 -U $POSTGRES_USER; do echo waiting for postgres; sleep 2; done"]
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: chatwoot-secret
+                  key: POSTGRES_USERNAME
+      containers:
+        - name: web
+          image: chatwoot/chatwoot:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+              name: http
+          command: ["bundle", "exec", "rails", "s", "-p", "3000", "-b", "0.0.0.0"]
+          envFrom:
+            - configMapRef:
+                name: chatwoot-config
+            - secretRef:
+                name: chatwoot-secret
+          volumeMounts:
+            - name: storage
+              mountPath: /app/storage
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "250m"
+            limits:
+              memory: "1Gi"
+              cpu: "1"
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 3000
+            initialDelaySeconds: 30
+            periodSeconds: 15
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 3000
+            initialDelaySeconds: 20
+            periodSeconds: 10
+      volumes:
+        - name: storage
+          persistentVolumeClaim:
+            claimName: chatwoot-storage
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: chatwoot-web
+  namespace: chatwoot
+  labels:
+    app.kubernetes.io/name: chatwoot
+    app: chatwoot-web
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 3000
+      protocol: TCP
+      name: http
+  selector:
+    app: chatwoot-web

@@ -1,0 +1,50 @@
+# Variables no sensibles. Ajusta FRONTEND_URL, SMTP_* y dominios a tu entorno.
+# Los valores sensibles van en secret.yaml (o en un Secret externo).
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: chatwoot-config
+  namespace: chatwoot
+  labels:
+    app.kubernetes.io/name: chatwoot
+data:
+  RAILS_ENV: "production"
+  NODE_ENV: "production"
+  INSTALLATION_ENV: "kubernetes"
+  FRONTEND_URL: "https://chat.tu-dominio.com"
+  PORT: "3000"
+
+  # PostgreSQL (host/port desde los Services de K8s)
+  POSTGRES_HOST: "postgres"
+  POSTGRES_PORT: "5432"
+  POSTGRES_DATABASE: "chatwoot_production"
+  POSTGRES_STATEMENT_TIMEOUT: "14s"
+  RAILS_MAX_THREADS: "5"
+
+  # Redis (REDIS_URL se construye en el Secret con la contraseña)
+  # REDIS_PASSWORD va en Secret
+
+  # SMTP (SMTP_USERNAME/SMTP_PASSWORD en Secret)
+  MAILER_SENDER_EMAIL: "Albatros <noreply@tu-dominio.com>"
+  SMTP_ADDRESS: "smtp.gmail.com"
+  SMTP_PORT: "587"
+  SMTP_AUTHENTICATION: "plain"
+  SMTP_DOMAIN: "gmail.com"
+  SMTP_ENABLE_STARTTLS_AUTO: "true"
+  SMTP_OPENSSL_VERIFY_MODE: "peer"
+  MAILER_INBOUND_EMAIL_DOMAIN: "reply.tu-dominio.com"
+
+  # Storage local (usa PVC chatwoot-storage montado en /app/storage)
+  ACTIVE_STORAGE_SERVICE: "local"
+
+  # Logging y SSL
+  RAILS_LOG_TO_STDOUT: "true"
+  LOG_LEVEL: "info"
+  LOG_SIZE: "500"
+  FORCE_SSL: "true"
+
+  # Sidekiq
+  SIDEKIQ_CONCURRENCY: "10"
+
+  # Cuentas
+  ENABLE_ACCOUNT_SIGNUP: "false"

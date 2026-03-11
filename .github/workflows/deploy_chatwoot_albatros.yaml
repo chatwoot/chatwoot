@@ -1,0 +1,86 @@
+# Build Chatwoot image (Albatros), push to DigitalOcean Registry, and bump tag in k8-argoCD-kustomize.
+# Replicado del flujo de bot_ave (.github/workflows/deployment_n8n.yaml).
+#
+# Secrets requeridos en el repo Chatwoot:
+#   DOCKER_REGISTRY_DO    - ej. registry.digitalocean.com/albatros-repository
+#   DIGITALOCEAN_ACCESS_TOKEN - para doctl registry login
+#   DEV_OPS_ADMIN_TOKEN   - token de GitHub con acceso de push a k8-argoCD-kustomize
+#
+name: Chatwoot Albatros - Build and Deploy
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    name: Build Chatwoot image and update k8 manifests
+    runs-on: ubuntu-latest
+    env:
+      image_name: chatwoot
+      env_name: production
+      FOLDER: chatwoot
+      # Ruta en k8-argoCD-kustomize: running/manifests/chatwoot/apps/chatwoot/overlays/production
+      KUSTOMIZE_PATH: running/manifests/chatwoot/apps/chatwoot/overlays/production
+      REGISTRY_DO: ${{ secrets.DOCKER_REGISTRY_DO }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Generate Timestamp with Milliseconds
+        run: |
+          TIMESTAMP=$(date +"%Y%m%d%H%M%S")$(printf "%03d" $(date +%-N 2>/dev/null || echo "000"))
+          echo "TIMESTAMP=$TIMESTAMP" >> $GITHUB_ENV
+
+      - name: Build and load image
+        id: docker_build
+        uses: docker/build-push-action@v5
+        with:
+          push: false
+          load: true
+          context: .
+          file: docker/Dockerfile
+          tags: |
+            ${{ secrets.DOCKER_REGISTRY_DO }}/${{ env.image_name }}:${{ github.sha }}-${{ env.TIMESTAMP }}
+            ${{ secrets.DOCKER_REGISTRY_DO }}/${{ env.image_name }}:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Install doctl
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+
+      - name: Log in to DigitalOcean Container Registry
+        run: doctl registry login --expiry-seconds 800
+
+      - name: Push image
+        run: |
+          docker push ${{ secrets.DOCKER_REGISTRY_DO }}/${{ env.image_name }}:${{ github.sha }}-${{ env.TIMESTAMP }}
+          docker push ${{ secrets.DOCKER_REGISTRY_DO }}/${{ env.image_name }}:latest
+
+      - name: Setup Kustomize
+        uses: imranismail/setup-kustomize@v1
+        with:
+          kustomize-version: "5.4.3"
+
+      - name: Clone k8-argoCD-kustomize and bump image tag
+        env:
+          DEV_OPS_ADMIN_TOKEN: ${{ secrets.DEV_OPS_ADMIN_TOKEN }}
+        run: |
+          git clone -b master https://AlbatrosDeveloper:$DEV_OPS_ADMIN_TOKEN@github.com/AlbatrosDeveloper/k8-argoCD-kustomize
+          cd k8-argoCD-kustomize/${{ env.KUSTOMIZE_PATH }}
+          git config user.name "chatwoot-albatros"
+          git config user.email "developer@albatrosservices.com"
+          # Reemplaza la imagen base usada en los manifests (chatwoot/chatwoot:latest) por nuestra imagen con tag
+          kustomize edit set image chatwoot/chatwoot:latest=${{ env.REGISTRY_DO }}/${{ env.image_name }}:${{ github.sha }}-${{ env.TIMESTAMP }}
+          git add kustomization.yaml
+          git diff --staged --quiet || git commit -m "Bump Chatwoot image - ${{ env.image_name }} - ${{ env.env_name }} - ${{ github.sha }}-${{ env.TIMESTAMP }}"
+          git push origin master

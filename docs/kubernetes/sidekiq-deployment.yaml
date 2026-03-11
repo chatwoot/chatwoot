@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chatwoot-worker
+  namespace: chatwoot
+  labels:
+    app.kubernetes.io/name: chatwoot
+    app: chatwoot-worker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: chatwoot-worker
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: chatwoot
+        app: chatwoot-worker
+    spec:
+      initContainers:
+        - name: wait-postgres
+          image: pgvector/pgvector:pg16
+          command: ["sh", "-c", "until pg_isready -h postgres -p 5432 -U $POSTGRES_USER; do echo waiting for postgres; sleep 2; done"]
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: chatwoot-secret
+                  key: POSTGRES_USERNAME
+      containers:
+        - name: worker
+          image: chatwoot/chatwoot:latest
+          imagePullPolicy: Always
+          command: ["bundle", "exec", "sidekiq", "-C", "config/sidekiq.yml"]
+          envFrom:
+            - configMapRef:
+                name: chatwoot-config
+            - secretRef:
+                name: chatwoot-secret
+          volumeMounts:
+            - name: storage
+              mountPath: /app/storage
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "250m"
+            limits:
+              memory: "1.2Gi"
+              cpu: "1"
+      volumes:
+        - name: storage
+          persistentVolumeClaim:
+            claimName: chatwoot-storage

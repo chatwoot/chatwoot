@@ -1,0 +1,63 @@
+# Ejecutar una vez después de que Postgres y Redis estén listos.
+# En el primer despliegue crea el esquema y corre el seed (cuenta Albatros).
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: chatwoot-migrate
+  namespace: chatwoot
+  labels:
+    app.kubernetes.io/name: chatwoot
+spec:
+  ttlSecondsAfterFinished: 86400
+  backoffLimit: 10
+  template:
+    metadata:
+      labels:
+        app: chatwoot-migrate
+    spec:
+      restartPolicy: OnFailure
+      initContainers:
+        - name: wait-postgres
+          image: pgvector/pgvector:pg16
+          command: ["sh", "-c", "until pg_isready -h postgres -p 5432 -U $POSTGRES_USER; do echo waiting for postgres; sleep 2; done"]
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: chatwoot-secret
+                  key: POSTGRES_USERNAME
+      containers:
+        - name: migrate
+          image: chatwoot/chatwoot:latest
+          command: ["bundle", "exec", "rails", "db:chatwoot_prepare"]
+          env:
+            - name: POSTGRES_STATEMENT_TIMEOUT
+              value: "600s"
+          envFrom:
+            - configMapRef:
+                name: chatwoot-config
+            - secretRef:
+                name: chatwoot-secret
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "100m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+---
+# PVC para archivos subidos (ACTIVE_STORAGE_SERVICE=local)
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: chatwoot-storage
+  namespace: chatwoot
+  labels:
+    app.kubernetes.io/name: chatwoot
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+  # Para múltiples réplicas de Rails usa ReadWriteMany (NFS/EFS) o ACTIVE_STORAGE_SERVICE=amazon/s3_compatible
