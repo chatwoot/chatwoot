@@ -16,7 +16,7 @@ const emit = defineEmits(['updateSignature']);
 
 const INLINE_IMAGE_REGEX = /!\[[^\]]*\]\(data:[^)]+\)/g;
 const { t } = useI18n();
-const signature = ref(props.messageSignature);
+const signature = ref(props.messageSignature ?? '');
 watch(
   () => props.messageSignature ?? '',
   newValue => {
@@ -25,8 +25,9 @@ watch(
 );
 
 const updateSignature = () => {
-  const sanitized = signature.value.replace(INLINE_IMAGE_REGEX, '').trim();
-  if (sanitized !== signature.value.trim()) {
+  const value = signature.value || '';
+  const sanitized = value.replace(INLINE_IMAGE_REGEX, '').trim();
+  if (sanitized !== value.trim()) {
     signature.value = sanitized;
     useAlert(
       t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.INLINE_IMAGE_WARNING')
