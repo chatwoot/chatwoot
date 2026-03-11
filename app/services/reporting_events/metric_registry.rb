@@ -24,13 +24,36 @@ module ReportingEvents::MetricRegistry
     conversations_count: { aggregate: :count }.freeze,
     incoming_messages_count: { aggregate: :count }.freeze,
     outgoing_messages_count: { aggregate: :count }.freeze,
-    avg_first_response_time: { raw_event_name: :first_response, rollup_metric: :first_response, aggregate: :average }.freeze,
-    avg_resolution_time: { raw_event_name: :conversation_resolved, rollup_metric: :resolution_time, aggregate: :average }.freeze,
-    reply_time: { raw_event_name: :reply_time, rollup_metric: :reply_time, aggregate: :average }.freeze,
-    resolutions_count: { raw_event_name: :conversation_resolved, rollup_metric: :resolutions_count, aggregate: :count }.freeze,
-    bot_resolutions_count: { raw_event_name: :conversation_bot_resolved, rollup_metric: :bot_resolutions_count, aggregate: :count }.freeze,
+    avg_first_response_time: {
+      raw_event_name: :first_response,
+      rollup_metric: :first_response,
+      aggregate: :average
+    }.freeze,
+    avg_resolution_time: {
+      raw_event_name: :conversation_resolved,
+      rollup_metric: :resolution_time,
+      aggregate: :average
+    }.freeze,
+    reply_time: {
+      raw_event_name: :reply_time,
+      rollup_metric: :reply_time,
+      aggregate: :average
+    }.freeze,
+    resolutions_count: {
+      raw_event_name: :conversation_resolved,
+      rollup_metric: :resolutions_count,
+      aggregate: :count
+    }.freeze,
+    bot_resolutions_count: {
+      raw_event_name: :conversation_bot_resolved,
+      rollup_metric: :bot_resolutions_count,
+      aggregate: :count
+    }.freeze,
     bot_handoffs_count: {
-      raw_event_name: :conversation_bot_handoff, rollup_metric: :bot_handoffs_count, aggregate: :count, raw_count_strategy: :distinct_conversation
+      raw_event_name: :conversation_bot_handoff,
+      rollup_metric: :bot_handoffs_count,
+      aggregate: :count,
+      raw_count_strategy: :distinct_conversation
     }.freeze
   }.freeze
 
