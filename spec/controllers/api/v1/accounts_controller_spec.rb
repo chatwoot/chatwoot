@@ -149,6 +149,7 @@ RSpec.describe 'Accounts API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
+        expect(response).to conform_schema(200)
         expect(response.body).to include(account.name)
         expect(response.body).to include(account.locale)
         expect(response.body).to include(account.domain)
@@ -184,22 +185,22 @@ RSpec.describe 'Accounts API', type: :request do
     end
   end
 
-  describe 'PUT /api/v1/accounts/{account.id}' do
+  describe 'PATCH /api/v1/accounts/{account.id}' do
     let(:account) { create(:account) }
     let(:agent) { create(:user, account: account, role: :agent) }
     let(:admin) { create(:user, account: account, role: :administrator) }
 
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
-        put "/api/v1/accounts/#{account.id}"
+        patch "/api/v1/accounts/#{account.id}"
         expect(response).to have_http_status(:unauthorized)
       end
     end
 
     context 'when it is an unauthorized user' do
       it 'returns unauthorized' do
-        put "/api/v1/accounts/#{account.id}",
-            headers: agent.create_new_auth_token
+        patch "/api/v1/accounts/#{account.id}",
+              headers: agent.create_new_auth_token
 
         expect(response).to have_http_status(:unauthorized)
       end
@@ -219,11 +220,20 @@ RSpec.describe 'Accounts API', type: :request do
         company_size: '1-10'
       }
 
+      it 'returns a valid schema' do
+        patch "/api/v1/accounts/#{account.id}",
+              params: params,
+              headers: admin.create_new_auth_token,
+              as: :json
+
+        expect(response).to conform_schema(200)
+      end
+
       it 'modifies an account' do
-        put "/api/v1/accounts/#{account.id}",
-            params: params,
-            headers: admin.create_new_auth_token,
-            as: :json
+        patch "/api/v1/accounts/#{account.id}",
+              params: params,
+              headers: admin.create_new_auth_token,
+              as: :json
 
         expect(response).to have_http_status(:success)
         expect(account.reload.name).to eq(params[:name])
@@ -242,19 +252,19 @@ RSpec.describe 'Accounts API', type: :request do
 
       it 'updates onboarding step to invite_team if onboarding step is present in account custom attributes' do
         account.update(custom_attributes: { onboarding_step: 'account_update' })
-        put "/api/v1/accounts/#{account.id}",
-            params: params,
-            headers: admin.create_new_auth_token,
-            as: :json
+        patch "/api/v1/accounts/#{account.id}",
+              params: params,
+              headers: admin.create_new_auth_token,
+              as: :json
 
         expect(account.reload.custom_attributes['onboarding_step']).to eq('invite_team')
       end
 
       it 'will not update onboarding step if onboarding step is not present in account custom attributes' do
-        put "/api/v1/accounts/#{account.id}",
-            params: params,
-            headers: admin.create_new_auth_token,
-            as: :json
+        patch "/api/v1/accounts/#{account.id}",
+              params: params,
+              headers: admin.create_new_auth_token,
+              as: :json
 
         expect(account.reload.custom_attributes['onboarding_step']).to be_nil
       end
@@ -262,10 +272,10 @@ RSpec.describe 'Accounts API', type: :request do
       it 'Throws error 422' do
         params[:name] = 'test' * 999
 
-        put "/api/v1/accounts/#{account.id}",
-            params: params,
-            headers: admin.create_new_auth_token,
-            as: :json
+        patch "/api/v1/accounts/#{account.id}",
+              params: params,
+              headers: admin.create_new_auth_token,
+              as: :json
 
         expect(response).to have_http_status(:unprocessable_entity)
         json_response = response.parsed_body
