@@ -43,6 +43,7 @@ export default {
       isSyncingTemplates: false,
       allowedDomains: '',
       isUpdatingAllowedDomains: false,
+      isSettingDefaults: false,
     };
   },
   validations: {
@@ -63,17 +64,27 @@ export default {
     inbox() {
       this.setDefaults();
     },
+    allowMobileWebview() {
+      if (!this.isSettingDefaults) this.handleMobileWebviewFlag();
+    },
+    hmacMandatory() {
+      if (!this.isSettingDefaults) this.handleHmacFlag();
+    },
   },
   mounted() {
     this.setDefaults();
   },
   methods: {
     setDefaults() {
+      this.isSettingDefaults = true;
       this.hmacMandatory = this.inbox.hmac_mandatory || false;
       this.allowMobileWebview = (
         this.inbox.selected_feature_flags || []
       ).includes('allow_mobile_webview');
       this.allowedDomains = this.inbox.allowed_domains || '';
+      this.$nextTick(() => {
+        this.isSettingDefaults = false;
+      });
     },
     handleHmacFlag() {
       this.updateInbox();

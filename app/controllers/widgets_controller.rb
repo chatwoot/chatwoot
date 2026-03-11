@@ -85,6 +85,9 @@ class WidgetsController < ActionController::Base
     end
   end
 
+  # Mobile WebViews (iOS/Android) load content from file:// or null origins,
+  # which cannot match any domain in frame-ancestors. When the per-inbox flag
+  # is enabled, skip frame-ancestors for these requests.
   def embedded_from_non_web_origin?
     return false unless @web_widget.allow_mobile_webview?
 
