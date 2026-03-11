@@ -60,6 +60,55 @@ RSpec.describe Reports::DataSource do
     end
   end
 
+  describe 'summary select fields' do
+    let(:account) { create(:account, reporting_timezone: 'Etc/UTC') }
+    let(:context) do
+      {
+        account: account,
+        metric: nil,
+        dimension_type: 'inbox',
+        dimension_id: nil,
+        scope: nil,
+        range: 1.day.ago.beginning_of_day...Time.current.end_of_day,
+        group_by: 'day',
+        timezone: 'UTC',
+        timezone_offset: '0',
+        business_hours: false
+      }
+    end
+
+    it 'derives raw summary selects from registry summary metrics' do
+      source = Reports::RawDataSource.new(**context)
+
+      expect(source.send(:summary_select_fields)).to eq(
+        [
+          'inbox_id as inbox_id',
+          "COUNT(CASE WHEN name = 'conversation_resolved' THEN 1 END) as resolved_conversations_count",
+          "AVG(CASE WHEN name = 'conversation_resolved' THEN value END) as avg_resolution_time",
+          "AVG(CASE WHEN name = 'first_response' THEN value END) as avg_first_response_time",
+          "AVG(CASE WHEN name = 'reply_time' THEN value END) as avg_reply_time"
+        ]
+      )
+    end
+
+    it 'derives rollup summary selects from registry summary metrics' do
+      source = Reports::RollupDataSource.new(**context)
+
+      expect(source.send(:summary_select_fields)).to eq(
+        [
+          'dimension_id',
+          "SUM(CASE WHEN metric = 'resolutions_count' THEN count ELSE 0 END) as resolved_conversations_count",
+          "SUM(CASE WHEN metric = 'resolution_time' THEN count ELSE 0 END) as avg_resolution_time_count",
+          "SUM(CASE WHEN metric = 'resolution_time' THEN sum_value ELSE 0 END) as avg_resolution_time_sum_value",
+          "SUM(CASE WHEN metric = 'first_response' THEN count ELSE 0 END) as avg_first_response_time_count",
+          "SUM(CASE WHEN metric = 'first_response' THEN sum_value ELSE 0 END) as avg_first_response_time_sum_value",
+          "SUM(CASE WHEN metric = 'reply_time' THEN count ELSE 0 END) as avg_reply_time_count",
+          "SUM(CASE WHEN metric = 'reply_time' THEN sum_value ELSE 0 END) as avg_reply_time_sum_value"
+        ]
+      )
+    end
+  end
+
   describe 'adapter contract' do
     let(:account) { create(:account, reporting_timezone: 'Etc/UTC') }
     let(:user1) { create(:user) }

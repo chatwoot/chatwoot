@@ -90,38 +90,44 @@ class Reports::RollupDataSource < Reports::DataSource
   end
 
   def summary_select_fields
+    ['dimension_id'] + summary_metrics.flat_map { |definition| summary_select_fields_for_metric(definition) }
+  end
+
+  def summary_select_fields_for_metric(definition)
+    return [sum_count_select(definition[:rollup_metric], definition[:summary_key])] if definition[:aggregate] == :count
+
     [
-      'dimension_id',
-      sum_count_select(:resolutions_count, :resolved_count),
-      sum_count_select(:avg_resolution_time, :resolution_count),
-      sum_value_select(:avg_resolution_time, :resolution_sum_value),
-      sum_count_select(:avg_first_response_time, :first_response_count),
-      sum_value_select(:avg_first_response_time, :first_response_sum_value),
-      sum_count_select(:reply_time, :reply_count),
-      sum_value_select(:reply_time, :reply_sum_value)
+      sum_count_select(definition[:rollup_metric], summary_count_alias(definition)),
+      sum_value_select(definition[:rollup_metric], summary_sum_alias(definition))
     ]
   end
 
-  def sum_count_select(metric_name, alias_name)
-    "SUM(CASE WHEN metric = '#{rollup_metric_name(metric_name)}' THEN count ELSE 0 END) as #{alias_name}"
+  def sum_count_select(rollup_metric_name, alias_name)
+    "SUM(CASE WHEN metric = '#{rollup_metric_name}' THEN count ELSE 0 END) as #{alias_name}"
   end
 
-  def sum_value_select(metric_name, alias_name)
-    "SUM(CASE WHEN metric = '#{rollup_metric_name(metric_name)}' THEN #{rollup_value_column} ELSE 0 END) as #{alias_name}"
-  end
-
-  def rollup_metric_name(metric_name)
-    ReportingEvents::MetricRegistry.rollup_metric_for(metric_name)
+  def sum_value_select(rollup_metric_name, alias_name)
+    "SUM(CASE WHEN metric = '#{rollup_metric_name}' THEN #{rollup_value_column} ELSE 0 END) as #{alias_name}"
   end
 
   def summary_attributes_for(row, conversations_count = 0)
-    {
-      conversations_count: conversations_count.to_i,
-      resolved_conversations_count: row&.resolved_count.to_i,
-      avg_resolution_time: average_from(row&.resolution_sum_value, row&.resolution_count),
-      avg_first_response_time: average_from(row&.first_response_sum_value, row&.first_response_count),
-      avg_reply_time: average_from(row&.reply_sum_value, row&.reply_count)
-    }
+    summary_metrics.each_with_object({ conversations_count: conversations_count.to_i }) do |definition, attributes|
+      attributes[definition[:summary_key]] = summary_value_for(row, definition)
+    end
+  end
+
+  def summary_value_for(row, definition)
+    return row&.public_send(definition[:summary_key]).to_i if definition[:aggregate] == :count
+
+    average_from(row&.public_send(summary_sum_alias(definition)), row&.public_send(summary_count_alias(definition)))
+  end
+
+  def summary_count_alias(definition)
+    "#{definition[:summary_key]}_count"
+  end
+
+  def summary_sum_alias(definition)
+    "#{definition[:summary_key]}_sum_value"
   end
 
   def dimension_id_for_rollup

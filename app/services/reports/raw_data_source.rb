@@ -105,37 +105,27 @@ class Reports::RawDataSource < Reports::DataSource
   def merge_summary_results(metric_results, conversation_counts)
     (metric_results.keys | conversation_counts.keys).each_with_object({}) do |dimension_id, results|
       record = metric_results[dimension_id]
-
-      results[dimension_id] = {
-        conversations_count: conversation_counts[dimension_id].to_i,
-        resolved_conversations_count: record&.resolved_count.to_i,
-        avg_resolution_time: record&.avg_resolution_time,
-        avg_first_response_time: record&.avg_first_response_time,
-        avg_reply_time: record&.avg_reply_time
-      }
+      results[dimension_id] = summary_attributes_for(record, conversation_counts[dimension_id])
     end
   end
 
   def summary_select_fields
-    [
-      "#{summary_group_by_key} as #{summary_index_key}",
-      count_select(:resolutions_count, :resolved_count),
-      average_select(:avg_resolution_time, :avg_resolution_time),
-      average_select(:avg_first_response_time, :avg_first_response_time),
-      average_select(:reply_time, :avg_reply_time)
-    ]
+    ["#{summary_group_by_key} as #{summary_index_key}"] + summary_metrics.map { |definition| summary_select_field(definition) }
   end
 
-  def count_select(metric_name, alias_name)
-    "COUNT(CASE WHEN name = '#{raw_metric_event_name(metric_name)}' THEN 1 END) as #{alias_name}"
+  def summary_select_field(definition)
+    if definition[:aggregate] == :count
+      "COUNT(CASE WHEN name = '#{definition[:raw_event_name]}' THEN 1 END) as #{definition[:summary_key]}"
+    else
+      "AVG(CASE WHEN name = '#{definition[:raw_event_name]}' THEN #{average_value_key} END) as #{definition[:summary_key]}"
+    end
   end
 
-  def average_select(metric_name, alias_name)
-    "AVG(CASE WHEN name = '#{raw_metric_event_name(metric_name)}' THEN #{average_value_key} END) as #{alias_name}"
-  end
-
-  def raw_metric_event_name(metric_name)
-    ReportingEvents::MetricRegistry.raw_event_name_for(metric_name)
+  def summary_attributes_for(record, conversations_count = 0)
+    summary_metrics.each_with_object({ conversations_count: conversations_count.to_i }) do |definition, attributes|
+      value = record&.public_send(definition[:summary_key])
+      attributes[definition[:summary_key]] = definition[:aggregate] == :count ? value.to_i : value
+    end
   end
 
   def summary_group_by_key

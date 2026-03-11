@@ -1,6 +1,12 @@
-# Raw reporting events and rollup rows do not share a single metric namespace.
-# This registry keeps the mapping aligned across write and read paths.
+# Raw reporting events and rollup rows do not share a single metric namespace; this registry keeps write and read paths aligned.
 module ReportingEvents::MetricRegistry
+  SUMMARY_METRICS = {
+    resolutions_count: :resolved_conversations_count,
+    avg_resolution_time: :avg_resolution_time,
+    avg_first_response_time: :avg_first_response_time,
+    reply_time: :avg_reply_time
+  }.freeze
+
   EVENT_METRICS = {
     'conversation_resolved' => lambda do |values|
       {
@@ -18,36 +24,13 @@ module ReportingEvents::MetricRegistry
     conversations_count: { aggregate: :count }.freeze,
     incoming_messages_count: { aggregate: :count }.freeze,
     outgoing_messages_count: { aggregate: :count }.freeze,
-    avg_first_response_time: {
-      raw_event_name: :first_response,
-      rollup_metric: :first_response,
-      aggregate: :average
-    }.freeze,
-    avg_resolution_time: {
-      raw_event_name: :conversation_resolved,
-      rollup_metric: :resolution_time,
-      aggregate: :average
-    }.freeze,
-    reply_time: {
-      raw_event_name: :reply_time,
-      rollup_metric: :reply_time,
-      aggregate: :average
-    }.freeze,
-    resolutions_count: {
-      raw_event_name: :conversation_resolved,
-      rollup_metric: :resolutions_count,
-      aggregate: :count
-    }.freeze,
-    bot_resolutions_count: {
-      raw_event_name: :conversation_bot_resolved,
-      rollup_metric: :bot_resolutions_count,
-      aggregate: :count
-    }.freeze,
+    avg_first_response_time: { raw_event_name: :first_response, rollup_metric: :first_response, aggregate: :average }.freeze,
+    avg_resolution_time: { raw_event_name: :conversation_resolved, rollup_metric: :resolution_time, aggregate: :average }.freeze,
+    reply_time: { raw_event_name: :reply_time, rollup_metric: :reply_time, aggregate: :average }.freeze,
+    resolutions_count: { raw_event_name: :conversation_resolved, rollup_metric: :resolutions_count, aggregate: :count }.freeze,
+    bot_resolutions_count: { raw_event_name: :conversation_bot_resolved, rollup_metric: :bot_resolutions_count, aggregate: :count }.freeze,
     bot_handoffs_count: {
-      raw_event_name: :conversation_bot_handoff,
-      rollup_metric: :bot_handoffs_count,
-      aggregate: :count,
-      raw_count_strategy: :distinct_conversation
+      raw_event_name: :conversation_bot_handoff, rollup_metric: :bot_handoffs_count, aggregate: :count, raw_count_strategy: :distinct_conversation
     }.freeze
   }.freeze
 
@@ -101,17 +84,21 @@ module ReportingEvents::MetricRegistry
     report_metric(metric)&.dig(:raw_event_name)
   end
 
-  def count_metric(count)
+  def summary_metrics
+    SUMMARY_METRICS.map do |metric_name, summary_key|
+      report_metric(metric_name).merge(metric_name: metric_name, summary_key: summary_key)
+    end
+  end
+
+  private_class_method def count_metric(count)
     { count: count, sum_value: 0, sum_value_business_hours: 0 }
   end
-  private_class_method :count_metric
 
-  def duration_metric(values)
+  private_class_method def duration_metric(values)
     {
       count: values[:count],
       sum_value: values[:sum_value],
       sum_value_business_hours: values[:sum_value_business_hours]
     }
   end
-  private_class_method :duration_metric
 end

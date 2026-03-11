@@ -90,6 +90,10 @@ class Reports::DataSource
     report_metric&.dig(:raw_count_strategy)
   end
 
+  def summary_metrics
+    @summary_metrics ||= ReportingEvents::MetricRegistry.summary_metrics
+  end
+
   def use_business_hours?
     ActiveModel::Type::Boolean.new.cast(business_hours)
   end

@@ -175,4 +175,41 @@ RSpec.describe ReportingEvents::MetricRegistry do
       expect(described_class.raw_event_name_for(:bot_resolutions_count)).to eq(:conversation_bot_resolved)
     end
   end
+
+  describe '.summary_metrics' do
+    it 'returns the registry-backed summary metric definitions' do
+      expect(described_class.summary_metrics).to eq(
+        [
+          {
+            metric_name: :resolutions_count,
+            summary_key: :resolved_conversations_count,
+            aggregate: :count,
+            raw_event_name: :conversation_resolved,
+            rollup_metric: :resolutions_count
+          },
+          {
+            metric_name: :avg_resolution_time,
+            summary_key: :avg_resolution_time,
+            aggregate: :average,
+            raw_event_name: :conversation_resolved,
+            rollup_metric: :resolution_time
+          },
+          {
+            metric_name: :avg_first_response_time,
+            summary_key: :avg_first_response_time,
+            aggregate: :average,
+            raw_event_name: :first_response,
+            rollup_metric: :first_response
+          },
+          {
+            metric_name: :reply_time,
+            summary_key: :avg_reply_time,
+            aggregate: :average,
+            raw_event_name: :reply_time,
+            rollup_metric: :reply_time
+          }
+        ]
+      )
+    end
+  end
 end
