@@ -1,0 +1,26 @@
+tags:
+  - Labels
+operationId: create-a-label
+summary: Create a label
+security:
+  - userApiKey: []
+description: Create a label in the account
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/label_create_update_payload'
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/label'
+  '401':
+    description: Unauthorized
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
