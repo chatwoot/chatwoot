@@ -268,6 +268,7 @@ group :development, :test do
   gem 'seed_dump'
   gem 'shoulda-matchers'
   gem 'simplecov', '>= 0.21', require: false
+  gem 'skooma'
   gem 'spring'
   gem 'spring-watcher-listen'
 end
