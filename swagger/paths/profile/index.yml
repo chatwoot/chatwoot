@@ -47,6 +47,14 @@ put:
                   type: string
                 message_signature:
                   type: string
+                phone_number:
+                  type: string
+                current_password:
+                  type: string
+                password:
+                  type: string
+                password_confirmation:
+                  type: string
                 ui_settings:
                   type: object
       multipart/form-data:
@@ -65,6 +73,14 @@ put:
                 display_name:
                   type: string
                 message_signature:
+                  type: string
+                phone_number:
+                  type: string
+                current_password:
+                  type: string
+                password:
+                  type: string
+                password_confirmation:
                   type: string
                 avatar:
                   type: string
