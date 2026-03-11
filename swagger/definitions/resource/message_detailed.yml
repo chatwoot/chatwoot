@@ -18,7 +18,7 @@ properties:
     description: "The type of the message (0: incoming, 1: outgoing, 2: activity, 3: template)"
   content_type:
     type: string
-    enum: ["text", "input_select", "cards", "form", "input_csat"]
+    enum: ["text", "input_text", "input_textarea", "input_email", "input_select", "cards", "form", "article", "incoming_email", "input_csat", "integrations", "sticker", "voice_call"]
     description: The type of the message content
   status:
     type: string

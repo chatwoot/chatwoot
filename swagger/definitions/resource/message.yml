@@ -17,7 +17,7 @@ properties:
     description: The ID of the conversation
   message_type:
     type: integer
-    enum: [0, 1, 2]
+    enum: [0, 1, 2, 3]
     description: The type of the message
   created_at:
     type: integer
@@ -45,7 +45,7 @@ properties:
     type:
       - string
       - 'null'
-    enum: ["text", "input_select", "cards", "form", null]
+    enum: ["text", "input_text", "input_textarea", "input_email", "input_select", "cards", "form", "article", "incoming_email", "input_csat", "integrations", "sticker", "voice_call", null]
     description: The type of the template message
   content_attributes:
     type: object
@@ -57,7 +57,9 @@ properties:
     enum: ["Contact", "User", "AgentBot", "Captain::Assistant", null]
     description: The type of the sender
   sender_id:
-    type: number
+    type:
+      - number
+      - 'null'
     description: The ID of the sender
   external_source_ids:
     type: object

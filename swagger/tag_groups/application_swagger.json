@@ -7855,7 +7855,8 @@
             "enum": [
               0,
               1,
-              2
+              2,
+              3
             ],
             "description": "The type of the message"
           },
@@ -7902,9 +7903,18 @@
             ],
             "enum": [
               "text",
+              "input_text",
+              "input_textarea",
+              "input_email",
               "input_select",
               "cards",
               "form",
+              "article",
+              "incoming_email",
+              "input_csat",
+              "integrations",
+              "sticker",
+              "voice_call",
               null
             ],
             "description": "The type of the template message"
@@ -7928,7 +7938,10 @@
             "description": "The type of the sender"
           },
           "sender_id": {
-            "type": "number",
+            "type": [
+              "number",
+              "null"
+            ],
             "description": "The ID of the sender"
           },
           "external_source_ids": {
@@ -11534,10 +11547,18 @@
             "type": "string",
             "enum": [
               "text",
+              "input_text",
+              "input_textarea",
+              "input_email",
               "input_select",
               "cards",
               "form",
-              "input_csat"
+              "article",
+              "incoming_email",
+              "input_csat",
+              "integrations",
+              "sticker",
+              "voice_call"
             ],
             "description": "The type of the message content"
           },
