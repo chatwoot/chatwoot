@@ -10,6 +10,14 @@ class Whatsapp::TemplateCreatorService
   BUTTON_TEXT_MAX_LENGTH = 25
   MAX_BUTTONS = 10
 
+  # Realistic example values for Meta template approval
+  VARIABLE_EXAMPLES = {
+    'contact_name' => 'Maria Silva',
+    'contact_phone' => '+5511999887766',
+    'contact_email' => 'maria@email.com',
+    'company_name' => 'Empresa ABC'
+  }.freeze
+
   def initialize(whatsapp_channel)
     @whatsapp_channel = whatsapp_channel
   end
@@ -65,14 +73,14 @@ class Whatsapp::TemplateCreatorService
   def build_header_component(text)
     component = { type: 'HEADER', format: 'TEXT', text: text }
     variables = extract_variables(text)
-    component[:example] = { header_text: variables.map { |v| "example_#{v}" } } if variables.any?
+    component[:example] = { header_text: variables.map { |v| example_for(v) } } if variables.any?
     component
   end
 
   def build_body_component(text)
     component = { type: 'BODY', text: text }
     variables = extract_variables(text)
-    component[:example] = { body_text: [variables.map { |v| "example_#{v}" }] } if variables.any?
+    component[:example] = { body_text: [variables.map { |v| example_for(v) }] } if variables.any?
     component
   end
 
@@ -89,6 +97,10 @@ class Whatsapp::TemplateCreatorService
 
   def extract_variables(text)
     text.scan(/\{\{([a-zA-Z_][a-zA-Z0-9_]*)\}\}/).flatten
+  end
+
+  def example_for(variable_name)
+    VARIABLE_EXAMPLES[variable_name] || "exemplo_#{variable_name}"
   end
 
   def submit_to_meta(request_body)

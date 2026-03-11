@@ -49,8 +49,53 @@
       "BUTTON_LABEL": "Botão {index}",
       "COUPON_CODE": "Digite o código do cupom (máx. 15 caracteres)",
       "MEDIA_URL_LABEL": "Digite a URL {type}",
-      "DOCUMENT_NAME_PLACEHOLDER": "Enter document filename (e.g., Invoice_2025.pdf)",
+      "DOCUMENT_NAME_PLACEHOLDER": "Nome do arquivo (ex: Fatura_2025.pdf)",
       "BUTTON_PARAMETER": "Insira o parâmetro do botão"
+    },
+    "CREATOR": {
+      "TITLE": "Criar Template",
+      "SUBTITLE": "Crie um novo template do WhatsApp para aprovação da Meta",
+      "NAME_LABEL": "Nome do Template",
+      "NAME_PLACEHOLDER": "ex: mensagem_boas_vindas",
+      "NAME_HINT": "Apenas letras minúsculas, números e underlines",
+      "CATEGORY_LABEL": "Categoria",
+      "CATEGORY_LOCKED_HINT": "Categoria fixa para Marketing",
+      "CATEGORIES": {
+        "MARKETING": "Marketing",
+        "UTILITY": "Utilidade"
+      },
+      "LANGUAGE_LABEL": "Idioma",
+      "HEADER_LABEL": "Cabeçalho (opcional)",
+      "HEADER_PLACEHOLDER": "Texto curto do cabeçalho, máx 60 caracteres",
+      "BODY_LABEL": "Texto da Mensagem",
+      "BODY_PLACEHOLDER": "Digite o corpo da mensagem. Use {{variavel}} para conteúdo dinâmico.",
+      "FOOTER_LABEL": "Rodapé (opcional)",
+      "FOOTER_PLACEHOLDER": "Texto curto do rodapé, máx 60 caracteres",
+      "BUTTONS_LABEL": "Botões de Resposta Rápida",
+      "ADD_BUTTON": "Adicionar Botão",
+      "BUTTON_PLACEHOLDER": "Texto do botão (máx 25 caracteres)",
+      "REMOVE_BUTTON": "Remover",
+      "PREVIEW_TITLE": "Pré-visualização",
+      "SUBMIT": "Enviar para Aprovação",
+      "SUBMITTING": "Enviando...",
+      "SUCCESS": "Template enviado para aprovação da Meta. Status: PENDENTE. Ele aparecerá na lista após aprovação e sincronização.",
+      "ERROR": "Falha ao criar template: {error}",
+      "VALIDATION": {
+        "NAME_REQUIRED": "O nome do template é obrigatório",
+        "NAME_FORMAT": "Apenas letras minúsculas, números e underlines. Deve começar com uma letra",
+        "BODY_REQUIRED": "O texto da mensagem é obrigatório",
+        "BODY_MAX": "O texto deve ter no máximo 1024 caracteres",
+        "HEADER_MAX": "O cabeçalho deve ter no máximo 60 caracteres",
+        "FOOTER_MAX": "O rodapé deve ter no máximo 60 caracteres",
+        "BUTTON_TEXT_REQUIRED": "O texto do botão é obrigatório",
+        "BUTTON_MAX": "O texto do botão deve ter no máximo 25 caracteres",
+        "MAX_BUTTONS": "Máximo de 10 botões permitidos"
+      },
+      "BACK": "Voltar aos Templates",
+      "CREATE_BUTTON": "Criar Template",
+      "CHARS_REMAINING": "{count} caracteres restantes",
+      "INSERT_VARIABLE": "Inserir variável",
+      "VARIABLES_TITLE": "Dados do contato"
     }
   }
 }

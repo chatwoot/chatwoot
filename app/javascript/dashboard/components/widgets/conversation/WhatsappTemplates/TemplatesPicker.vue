@@ -35,7 +35,7 @@ const { t } = useI18n();
 const store = useStore();
 const query = ref('');
 const isRefreshing = ref(false);
-const activeTabIndex = ref(TAB_ALL);
+const activeTabIndex = ref(TAB_RECENT);
 const favorites = ref([]);
 const recentTemplates = ref([]);
 
@@ -344,7 +344,7 @@ defineExpose({ addToRecent });
 
           <!-- Favorite Star Button -->
           <button
-            class="absolute top-2.5 right-2.5 flex items-center justify-center w-7 h-7 rounded-md transition-colors duration-150 hover:bg-n-alpha-3 dark:hover:bg-n-solid-3 focus-visible:ring-2 focus-visible:ring-n-brand focus-visible:outline-none"
+            class="absolute top-2 right-2 flex items-center justify-center w-8 h-8 rounded-md transition-colors duration-150 hover:bg-n-alpha-3 dark:hover:bg-n-solid-3 focus-visible:ring-2 focus-visible:ring-n-brand focus-visible:outline-none"
             :aria-label="
               isFavorite(template)
                 ? t('WHATSAPP_TEMPLATES.PICKER.REMOVE_FROM_FAVORITES')
@@ -358,7 +358,7 @@ defineExpose({ addToRecent });
                   ? 'i-ri-star-fill text-n-amber-9'
                   : 'i-ri-star-line text-n-slate-10 group-hover:text-n-slate-11',
               ]"
-              class="size-4 transition-colors duration-150"
+              class="size-5 transition-colors duration-150"
             />
           </button>
         </div>

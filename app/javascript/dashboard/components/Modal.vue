@@ -131,6 +131,10 @@ onMounted(() => {
   @apply w-full;
 }
 
+.modal-bigger {
+  @apply w-full max-w-[50rem];
+}
+
 .modal-mask.right-aligned {
   @apply justify-end;
 

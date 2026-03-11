@@ -92,7 +92,10 @@
       },
       "BACK": "Back to Templates",
       "CREATE_BUTTON": "Create Template",
-      "CHARS_REMAINING": "{count} chars remaining"
+      "CHARS_REMAINING": "{count} chars remaining",
+      "CATEGORY_LOCKED_HINT": "Category locked to Marketing",
+      "INSERT_VARIABLE": "Insert variable",
+      "VARIABLES_TITLE": "Contact data"
     }
   }
 }
