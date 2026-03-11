@@ -624,7 +624,7 @@ export default {
       }
     },
     toggleSignatureForDraft(message) {
-      if (this.isPrivate) {
+      if (this.isPrivate || this.isEditorDisabled) {
         return message;
       }
 
@@ -904,7 +904,7 @@ export default {
       this.hideContentTemplatesModal();
     },
     replaceText(message) {
-      if (this.sendWithSignature && !this.private) {
+      if (this.sendWithSignature && !this.private && !this.isEditorDisabled) {
         // if signature is enabled, append it to the message
         // appendSignature ensures that the signature is not duplicated
         // so we don't need to check if the signature is already present
@@ -957,7 +957,7 @@ export default {
     clearMessage() {
       this.message = '';
       this.clearCopilotAcceptedMessage();
-      if (this.sendWithSignature && !this.isPrivate) {
+      if (this.sendWithSignature && !this.isPrivate && !this.isEditorDisabled) {
         // if signature is enabled, append it to the message
         const effectiveChannelType = getEffectiveChannelType(
           this.channelType,

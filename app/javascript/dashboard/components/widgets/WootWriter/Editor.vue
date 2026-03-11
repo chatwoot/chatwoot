@@ -436,6 +436,7 @@ function reloadState(content = props.modelValue) {
 }
 
 function addSignature() {
+  if (props.disabled) return;
   let content = props.modelValue;
   // see if the content is empty, if it is before appending the signature
   // we need to add a paragraph node and move the cursor at the start of the editor
