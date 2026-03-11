@@ -128,7 +128,8 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
       sender: inbox.captain_assistant,
       account_id: conversation.account_id,
       inbox_id: conversation.inbox_id,
-      content: handoff_message
+      content: handoff_message,
+      preserve_waiting_since: true
     )
   end
 end

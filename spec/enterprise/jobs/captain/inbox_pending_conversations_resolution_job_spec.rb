@@ -197,6 +197,23 @@ RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
 
       public_message = resolvable_pending_conversation.messages.where(private: false).outgoing.last
       expect(public_message.content).to eq(handoff_message)
+      expect(public_message.additional_attributes['preserve_waiting_since']).to be_nil
+    end
+
+    it 'preserves existing waiting_since when handoff message is configured' do
+      handoff_message = 'Connecting you to a human agent...'
+      original_waiting_since = 3.hours.ago
+
+      captain_assistant.update!(config: { 'handoff_message' => handoff_message })
+      resolvable_pending_conversation.update!(waiting_since: original_waiting_since)
+      allow(MessageTemplates::Template::OutOfOffice).to receive(:perform_if_applicable)
+      inbox.reload
+      allow(inbox.account).to receive(:feature_enabled?).and_call_original
+      allow(inbox.account).to receive(:feature_enabled?).with('captain_tasks').and_return(true)
+
+      described_class.perform_now(inbox)
+
+      expect(resolvable_pending_conversation.reload.waiting_since).to be_within(1.second).of(original_waiting_since)
     end
 
     it 'does not create handoff message if not configured' do
