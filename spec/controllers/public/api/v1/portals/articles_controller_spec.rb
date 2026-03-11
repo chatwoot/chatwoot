@@ -75,6 +75,15 @@ RSpec.describe 'Public Articles API', type: :request do
       expect(response_data.pluck(:title)).to eq(['English locale result'])
     end
 
+    it 'treats whitespace-only queries as empty searches' do
+      get "/hc/#{portal.slug}/#{category.locale}/articles.json", params: { query: '   ' }
+
+      expect(response).to have_http_status(:success)
+      response_data = JSON.parse(response.body, symbolize_names: true)[:payload]
+      expect(response_data.length).to eq(3)
+      expect(response_data.first).to include(:description, :slug, :portal)
+    end
+
     it 'get all popular articles if sort params is passed' do
       get "/hc/#{portal.slug}/#{category.locale}/articles.json", params: { sort: 'views' }
 

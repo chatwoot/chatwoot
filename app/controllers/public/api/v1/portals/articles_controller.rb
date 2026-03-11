@@ -48,7 +48,7 @@ class Public::Api::V1::Portals::ArticlesController < Public::Api::V1::Portals::B
   end
 
   def search_articles
-    @articles = @articles.search(list_params) if list_params.present?
+    @articles = @articles.search(normalized_list_params) if normalized_list_params.present?
   end
 
   def order_by_sort_param
@@ -75,6 +75,10 @@ class Public::Api::V1::Portals::ArticlesController < Public::Api::V1::Portals::B
 
   def list_params
     params.permit(:query, :locale, :sort, :status, :page, :per_page)
+  end
+
+  def normalized_list_params
+    list_params.merge(query: @search_query)
   end
 
   def permitted_params

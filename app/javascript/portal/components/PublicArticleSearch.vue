@@ -125,7 +125,7 @@ export default {
       <SearchSuggestions
         :items="searchResults"
         :is-loading="isLoading"
-        :search-term="searchTerm"
+        :search-term="normalizedSearchTerm"
         :empty-placeholder="searchTranslations.emptyPlaceholder"
         :results-title="searchTranslations.resultsTitle"
         :loading-placeholder="searchTranslations.loadingPlaceholder"

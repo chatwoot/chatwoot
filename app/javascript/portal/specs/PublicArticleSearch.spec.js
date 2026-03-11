@@ -11,6 +11,11 @@ vi.mock('../api/article', () => ({
 
 describe('PublicArticleSearch', () => {
   let originalPortalConfig;
+  const SearchSuggestionsStub = {
+    name: 'SearchSuggestions',
+    template: '<div />',
+    props: ['searchTerm'],
+  };
 
   beforeEach(() => {
     vi.useFakeTimers();
@@ -35,7 +40,7 @@ describe('PublicArticleSearch', () => {
           onClickaway: () => {},
         },
         stubs: {
-          SearchSuggestions: true,
+          SearchSuggestions: SearchSuggestionsStub,
           PublicSearchInput: true,
         },
       },
@@ -70,5 +75,16 @@ describe('PublicArticleSearch', () => {
       'en',
       'chatwoot'
     );
+  });
+
+  it('passes the trimmed search term to suggestions for highlighting', async () => {
+    const wrapper = buildWrapper();
+
+    wrapper.vm.onUpdateSearchTerm('  chatwoot  ');
+    await wrapper.vm.$nextTick();
+
+    expect(
+      wrapper.findComponent(SearchSuggestionsStub).props('searchTerm')
+    ).toBe('chatwoot');
   });
 });
