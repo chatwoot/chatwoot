@@ -56,6 +56,24 @@ RSpec.describe Public::Api::V1::PortalsController, type: :request do
         expect(response.body).not_to include('<link rel="icon" href=')
       end
     end
+
+    it 'hides drafted locales from the public locale switcher' do
+      portal.update!(config: { allowed_locales: %w[en es], draft_locales: ['es'], default_locale: 'en' })
+
+      get "/hc/#{portal.slug}/en"
+
+      expect(response).to have_http_status(:success)
+      expect(response.body).not_to include('value="es"')
+      expect(response.body).not_to include('locale-switcher')
+    end
+
+    it 'allows direct access to drafted locale pages' do
+      portal.update!(config: { allowed_locales: %w[en es], draft_locales: ['es'], default_locale: 'en' })
+
+      get "/hc/#{portal.slug}/es"
+
+      expect(response).to have_http_status(:success)
+    end
   end
 
   describe 'GET /public/api/v1/portals/{portal_slug}/sitemap' do
