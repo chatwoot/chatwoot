@@ -84,7 +84,7 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
       reason_type: :inference
     ) { conversation.bot_handoff! }
     conversation.dispatch_captain_inference_handoff_event
-    send_out_of_office_message_if_applicable(conversation)
+    send_out_of_office_message_if_applicable(conversation.reload)
   end
 
   def send_out_of_office_message_if_applicable(conversation)
