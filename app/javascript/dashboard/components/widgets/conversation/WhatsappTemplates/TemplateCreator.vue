@@ -486,7 +486,7 @@ const handleSubmit = async () => {
       </div>
 
       <!-- Preview Column -->
-      <div class="w-72 shrink-0">
+      <div class="w-72 shrink-0 sticky top-0 self-start max-h-[calc(100vh-8rem)] overflow-y-auto">
         <p class="text-sm font-semibold text-n-slate-12 mb-3">
           {{ t('WHATSAPP_TEMPLATES.CREATOR.PREVIEW_TITLE') }}
         </p>
