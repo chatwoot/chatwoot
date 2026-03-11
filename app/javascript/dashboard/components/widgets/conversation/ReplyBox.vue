@@ -631,6 +631,14 @@ export default {
         this.channelType,
         this.inbox?.medium || ''
       );
+
+      if (this.isEditorDisabled) {
+        return removeSignature(
+          message,
+          this.messageSignature,
+          effectiveChannelType
+        );
+      }
       return this.sendWithSignature
         ? appendSignature(message, this.messageSignature, effectiveChannelType)
         : removeSignature(message, this.messageSignature, effectiveChannelType);
