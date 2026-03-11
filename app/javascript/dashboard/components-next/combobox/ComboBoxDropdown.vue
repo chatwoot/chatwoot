@@ -79,8 +79,8 @@ defineExpose({
       :aria-multiselectable="multiple"
     >
       <li
-        v-for="option in options"
-        :key="option.value"
+        v-for="(option, index) in options"
+        :key="`${option.value}-${index}`"
         class="flex items-center justify-between w-full gap-2 px-3 py-2 text-sm transition-colors duration-150 cursor-pointer hover:bg-n-alpha-2"
         :class="{
           'bg-n-alpha-2': isSelected(option),
