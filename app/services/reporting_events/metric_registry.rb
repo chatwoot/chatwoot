@@ -1,8 +1,5 @@
 # Raw reporting events and rollup rows do not share a single metric namespace.
-# For example, the raw `conversation_resolved` event emits both the
-# `resolutions_count` and `resolution_time` rollup metrics. This registry keeps
-# that mapping in one place so the write path, rollup reads, and raw reads stay
-# aligned.
+# This registry keeps the mapping aligned across write and read paths.
 module ReportingEvents::MetricRegistry
   EVENT_METRICS = {
     'conversation_resolved' => lambda do |values|
@@ -18,15 +15,9 @@ module ReportingEvents::MetricRegistry
   }.freeze
 
   REPORT_METRICS = {
-    conversations_count: {
-      aggregate: :count
-    }.freeze,
-    incoming_messages_count: {
-      aggregate: :count
-    }.freeze,
-    outgoing_messages_count: {
-      aggregate: :count
-    }.freeze,
+    conversations_count: { aggregate: :count }.freeze,
+    incoming_messages_count: { aggregate: :count }.freeze,
+    outgoing_messages_count: { aggregate: :count }.freeze,
     avg_first_response_time: {
       raw_event_name: :first_response,
       rollup_metric: :first_response,
@@ -90,15 +81,25 @@ module ReportingEvents::MetricRegistry
     REPORT_METRICS[metric.to_sym]
   end
 
-  def supported_metric?(metric) = report_metric(metric).present?
+  def supported_metric?(metric)
+    report_metric(metric).present?
+  end
 
-  def aggregate_for(metric) = report_metric(metric)&.dig(:aggregate)
+  def aggregate_for(metric)
+    report_metric(metric)&.dig(:aggregate)
+  end
 
-  def rollup_supported_metric?(metric) = rollup_metric_for(metric).present?
+  def rollup_supported_metric?(metric)
+    rollup_metric_for(metric).present?
+  end
 
-  def rollup_metric_for(metric) = report_metric(metric)&.dig(:rollup_metric)
+  def rollup_metric_for(metric)
+    report_metric(metric)&.dig(:rollup_metric)
+  end
 
-  def raw_event_name_for(metric) = report_metric(metric)&.dig(:raw_event_name)
+  def raw_event_name_for(metric)
+    report_metric(metric)&.dig(:raw_event_name)
+  end
 
   def count_metric(count)
     { count: count, sum_value: 0, sum_value_business_hours: 0 }
