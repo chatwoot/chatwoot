@@ -12,6 +12,10 @@ module AccountEmailRateLimitable
     Redis::Alfred.get(email_count_cache_key).to_i
   end
 
+  def email_transcript_enabled?
+    true
+  end
+
   def within_email_rate_limit?
     return true if emails_sent_today < email_rate_limit
 
