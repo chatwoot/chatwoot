@@ -294,7 +294,7 @@ const fetchContactsBasedOnContext = async (page, options = {}) => {
   updatePageParam(page, searchValue.value);
   if (isFetchingList.value) return;
   if (searchQuery.value) {
-    await searchContacts(searchQuery.value, page, {
+    await searchContacts(searchQuery.value, page, false, {
       clearSelection: shouldClearSelection,
     });
     return;
