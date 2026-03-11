@@ -89,7 +89,7 @@ services:
     command: ["sh", "-c", "pnpm exec vite dev --host 0.0.0.0 --port 3036"]
 
   postgres:
-    image: pgvector/pgvector:pg16
+    image: pgvector/pgvector:pg17
     restart: always
     ports:
       - '5434:5432'

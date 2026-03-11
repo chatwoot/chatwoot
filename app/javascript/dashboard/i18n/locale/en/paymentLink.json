@@ -1,23 +1,31 @@
 {
   "PAYMENT_LINK": {
     "MODAL": {
-      "TITLE": "Send Payment Link",
-      "SUBTITLE": "Create an InfinitePay payment link and send it in the conversation",
-      "AMOUNT_LABEL": "Amount (R$)",
-      "AMOUNT_PLACEHOLDER": "10.00",
-      "DESCRIPTION_LABEL": "Description",
-      "DESCRIPTION_PLACEHOLDER": "Service or product description",
-      "SAVE_PRESET": "Save as favorite",
-      "PRESET_NAME": "Favorite name",
-      "PRESETS_TITLE": "Favorites",
-      "SEND": "Send Link",
-      "SENDING": "Sending...",
-      "CANCEL": "Cancel",
-      "NO_HANDLE": "InfinitePay handle not configured. Go to Account Settings to configure it."
+      "TITLE": "Enviar Link de Pagamento",
+      "SUBTITLE": "Crie um link de pagamento InfinitePay e envie na conversa",
+      "AMOUNT_LABEL": "Valor (R$)",
+      "DESCRIPTION_LABEL": "Descrição",
+      "DESCRIPTION_PLACEHOLDER": "Descrição do serviço ou produto",
+      "PAYMENT_METHOD_LABEL": "Forma de pagamento",
+      "PIX_SUBTITLE": "Sem taxa · Receba na hora",
+      "CREDIT_TITLE": "Cartão de Crédito",
+      "CREDIT_SUBTITLE": "Até 12x",
+      "INSTALLMENTS_LABEL": "Parcelas",
+      "PIX_FEE_SUMMARY": "Sem taxa · Você recebe",
+      "FEE_RATE": "Taxa",
+      "FEE_NET": "Você recebe",
+      "CHECKOUT_NOTE": "O cliente poderá escolher qualquer forma de pagamento na página de checkout do InfinitePay. Parcelas, taxa para o cliente e recebimento NITRO são configurados no painel InfinitePay.",
+      "SAVE_PRESET": "Salvar como favorito",
+      "PRESET_NAME": "Nome do favorito",
+      "PRESETS_TITLE": "Favoritos",
+      "SEND": "Enviar Link",
+      "SENDING": "Enviando...",
+      "CANCEL": "Cancelar",
+      "NO_HANDLE": "Handle InfinitePay não configurado. Vá em Configurações da Conta para configurar."
     },
-    "SENT": "Payment link sent successfully",
-    "SEND_ERROR": "Failed to send payment link. Please try again.",
-    "PRESET_DELETED": "Favorite removed successfully",
-    "PRESET_DELETE_ERROR": "Failed to remove favorite"
+    "SENT": "Link de pagamento enviado com sucesso",
+    "SEND_ERROR": "Falha ao enviar link de pagamento. Tente novamente.",
+    "PRESET_DELETED": "Favorito removido com sucesso",
+    "PRESET_DELETE_ERROR": "Falha ao remover favorito"
   }
 }

@@ -1806,3 +1806,53 @@ Headers:
 3. Pode usar `conversation_id` + `chatwit_base_url` para enviar mensagens de follow-up via API
 
 **Status:** IMPLEMENTADO (2026-03-10)
+
+---
+
+## 19. Recomendação: Coleta de Email do Contato via Fluxo
+
+> **Data:** 2026-03-11
+> **Prioridade:** 🟡 Média
+> **Lado:** SocialWise (100% lógica do SocialWise — Chatwit já tem tudo pronto)
+> **Status:** PENDENTE SOCIALWISE
+
+### Contexto
+
+O Chatwit envia dados do contato (nome, telefone, email) ao criar links de pagamento InfinitePay. Contatos vindos do WhatsApp sempre têm `phone_number`, mas raramente têm `email`. Ter o email melhora a experiência de checkout (pré-preenche no InfinitePay) e permite comunicações futuras.
+
+### Recomendação
+
+O SocialWise deve incluir no fluxo de atendimento uma etapa para perguntar o email do cliente e salvar automaticamente no contato do Chatwit.
+
+### Fluxo sugerido
+
+1. **SocialWise pergunta** o email no fluxo de conversa (ex: "Qual seu email para enviarmos o comprovante?")
+2. **Cliente responde** com o email
+3. **SocialWise detecta** o padrão de email na resposta (regex: `/[\w.+-]+@[\w-]+\.[\w.]+/`)
+4. **SocialWise atualiza** o contato via API:
+
+```
+PUT {chatwit_base_url}/api/v1/accounts/{account_id}/contacts/{contact_id}
+Authorization: api_access_token={agent_bot_token}
+Content-Type: application/json
+
+{
+  "email": "email_detectado@exemplo.com"
+}
+```
+
+### O que já está pronto no Chatwit
+
+| Item | Status |
+|------|--------|
+| Contacts API (search, create, show, **update**) | ✅ Acessível via Agent Bot token |
+| `contact_id` enviado no webhook payload | ✅ Disponível em `context.contact.id` |
+| `chatwit_base_url` no metadata | ✅ Enviado em todo webhook |
+| `agent_bot_token` no metadata | ✅ Enviado em todo webhook |
+
+### Observações
+
+- O `contact_id` já está disponível no payload do webhook que o Chatwit envia ao SocialWise
+- Usar o Agent Bot token (de `metadata.chatwit_agent_bot_token`), **não** user token
+- Validar o email antes de salvar (formato válido, não é spam/fake)
+- Se o contato já tiver email, o SocialWise pode pular essa etapa

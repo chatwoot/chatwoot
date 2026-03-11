@@ -30,16 +30,40 @@ class Integrations::Infinitepay::WebhookProcessorService
   def send_confirmation_message(payment_link)
     conversation = payment_link.conversation
     account = payment_link.account
-    capture = @payload['capture_method'] == 'pix' ? 'PIX' : 'Cartão de Crédito'
+    contact_name = conversation.contact&.name || 'Cliente'
+    capture = @payload['capture_method'] == 'pix' ? 'PIX' : "Cartao de Credito"
+    installments = @payload['installments'].to_i
+    capture_detail = if @payload['capture_method'] == 'pix'
+                       'PIX'
+                     elsif installments > 1
+                       "Cartao #{installments}x"
+                     else
+                       'Cartao de Credito'
+                     end
     amount_formatted = format('R$ %.2f', (@payload['paid_amount'] || payment_link.amount_cents) / 100.0)
+    receipt_url = @payload['receipt_url']
 
-    content = "✅ *Pagamento Confirmado*\n\nValor: #{amount_formatted}\nMétodo: #{capture}\nComprovante: #{@payload['receipt_url']}"
+    content = <<~MSG.strip
+      *Pagamento Confirmado!*
+
+      Ola #{contact_name}, seu pagamento foi recebido com sucesso!
+
+      *Detalhes da transacao:*
+      Descricao: #{payment_link.description}
+      Valor: #{amount_formatted}
+      Forma de pagamento: #{capture_detail}
+      Codigo: #{@payload['transaction_nsu']}
+
+      Comprovante: #{receipt_url}
+
+      Obrigado pela confianca!
+    MSG
 
     conversation.messages.create!(
       account: account,
+      inbox_id: conversation.inbox_id,
       message_type: :outgoing,
-      content: content,
-      content_type: :text
+      content: content
     )
   end
 

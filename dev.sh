@@ -106,12 +106,8 @@ cmd_up() {
 
   ensure_env_file
 
-  # Sobe tudo (inicia em background e segue logs)
   dc up -d
-  log_info "Exibindo logs (pressione Ctrl+C para sair sem parar os containers)..."
-  dc logs -f --tail=100
 
-  echo ""
   log_success "Ambiente de desenvolvimento pronto!"
   echo ""
   echo -e "  ${BOLD}${GREEN}URLs:${NC}"
@@ -133,13 +129,27 @@ cmd_up() {
   echo -e "    ./dev.sh shell         Abrir shell no container Rails"
   echo -e "    ./dev.sh console       Abrir Rails console"
   echo ""
+
+  # Ctrl+C para os containers gracefully
+  trap 'echo; log_info "Parando containers..."; dc down; exit 0' INT TERM
+
+  log_info "Exibindo logs (Ctrl+C para parar os containers)..."
+  dc logs -f --tail=100
 }
 
 cmd_build() {
   log_header "Rebuild das imagens"
   ensure_env_file
-  dc build --no-cache
-  log_success "Imagens reconstruídas!"
+
+  log_info "Parando containers..."
+  dc down
+
+  log_info "Removendo volumes de dependências (node_modules, bundle, packs, cache)..."
+  docker volume rm -f chatwit_node_modules chatwit_bundle chatwit_packs chatwit_cache 2>/dev/null || true
+
+  dc build "$@"
+
+  log_success "Imagens reconstruídas! Dependências serão reinstaladas no próximo 'up'."
 }
 
 cmd_down() {
@@ -267,7 +277,7 @@ fi
 
 case "${1:-}" in
   up)          cmd_up ;;
-  build)       cmd_build ;;
+  build)       shift; cmd_build "$@" ;;
   down)        cmd_down ;;
   restart)     cmd_restart ;;
   logs)        shift; cmd_logs "$@" ;;

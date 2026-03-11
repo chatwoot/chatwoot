@@ -3,6 +3,28 @@ import { mapGetters } from 'vuex';
 import PaymentLinksAPI from 'dashboard/api/paymentLinks';
 import { useAlert } from 'dashboard/composables';
 
+const FEE_RATES = {
+  1: 4.2,
+  2: 6.09,
+  3: 7.01,
+  4: 7.91,
+  5: 8.8,
+  6: 9.67,
+  7: 12.59,
+  8: 13.42,
+  9: 14.25,
+  10: 15.06,
+  11: 15.87,
+  12: 16.66,
+};
+
+function formatBRL(cents) {
+  return (cents / 100).toLocaleString('pt-BR', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+}
+
 export default {
   props: {
     show: { type: Boolean, default: false },
@@ -10,13 +32,14 @@ export default {
   },
   emits: ['close', 'onSend', 'update:show'],
   setup() {
-    const { showAlert } = useAlert();
-    return { showAlert };
+    return { showAlert: useAlert };
   },
   data() {
     return {
-      amountInput: '',
+      amountCentsRaw: 0,
       description: '',
+      paymentMethod: 'pix',
+      selectedInstallments: 1,
       saveAsPreset: false,
       presetName: '',
       selectedPresetId: null,
@@ -26,8 +49,10 @@ export default {
   computed: {
     ...mapGetters({
       accountId: 'getCurrentAccountId',
-      currentAccount: 'getCurrentAccount',
     }),
+    currentAccount() {
+      return this.$store.getters['accounts/getAccount'](this.accountId);
+    },
     presets() {
       return this.$store.getters['paymentPresets/getPresets'];
     },
@@ -46,26 +71,89 @@ export default {
       return !!this.currentAccount?.custom_attributes?.infinitepay_handle;
     },
     amountCents() {
-      const cleaned = this.amountInput.replace(/[^\d.,]/g, '').replace(',', '.');
-      const value = parseFloat(cleaned);
-      if (Number.isNaN(value) || value <= 0) return 0;
-      return Math.round(value * 100);
+      return this.amountCentsRaw;
+    },
+    displayAmount() {
+      return `R$ ${formatBRL(this.amountCentsRaw)}`;
     },
     isFormValid() {
       return this.amountCents > 0 && this.description.trim().length > 0;
+    },
+    creditFeeRate() {
+      return FEE_RATES[this.selectedInstallments] || 0;
+    },
+    creditFeeCents() {
+      return Math.round(this.amountCents * (this.creditFeeRate / 100));
+    },
+    creditNetCents() {
+      return this.amountCents - this.creditFeeCents;
+    },
+    installmentOptions() {
+      return Object.entries(FEE_RATES).map(([count, rate]) => {
+        const c = parseInt(count, 10);
+        const feeCents = Math.round(this.amountCents * (rate / 100));
+        const netCents = this.amountCents - feeCents;
+        return {
+          count: c,
+          rate,
+          feeCents,
+          netCents,
+          label:
+            c === 1
+              ? `1x à vista — ${rate.toFixed(2).replace('.', ',')}%`
+              : `${c}x — ${rate.toFixed(2).replace('.', ',')}%`,
+        };
+      });
     },
   },
   watch: {
     show(newVal) {
       if (newVal) {
         this.$store.dispatch('paymentPresets/get');
+        this.$nextTick(() => {
+          this.$refs.amountInput?.focus();
+        });
       }
     },
   },
   methods: {
+    handleAmountKeydown(event) {
+      if ([8, 46, 9, 27, 13].includes(event.keyCode)) {
+        if (event.keyCode === 8) {
+          event.preventDefault();
+          this.amountCentsRaw = Math.floor(this.amountCentsRaw / 10);
+          this.clearPresetSelection();
+        }
+        return;
+      }
+      const digit = event.key;
+      if (!/^\d$/.test(digit)) {
+        event.preventDefault();
+        return;
+      }
+      event.preventDefault();
+      const next = this.amountCentsRaw * 10 + parseInt(digit, 10);
+      if (next <= 99999999) {
+        this.amountCentsRaw = next;
+      }
+      this.clearPresetSelection();
+    },
+    handleAmountPaste(event) {
+      event.preventDefault();
+      const text = (event.clipboardData || window.clipboardData).getData(
+        'text'
+      );
+      const digits = text.replace(/\D/g, '');
+      if (digits.length > 0) {
+        const val = parseInt(digits, 10);
+        if (val <= 99999999) {
+          this.amountCentsRaw = val;
+        }
+      }
+    },
     selectPreset(preset) {
       this.selectedPresetId = preset.id;
-      this.amountInput = (preset.amount_cents / 100).toFixed(2);
+      this.amountCentsRaw = preset.amount_cents;
       this.description = preset.description;
     },
     clearPresetSelection() {
@@ -77,7 +165,7 @@ export default {
         this.showAlert(this.$t('PAYMENT_LINK.PRESET_DELETED'));
         if (this.selectedPresetId === presetId) {
           this.selectedPresetId = null;
-          this.amountInput = '';
+          this.amountCentsRaw = 0;
           this.description = '';
         }
       } catch (error) {
@@ -103,6 +191,11 @@ export default {
           conversation_id: this.conversationId,
           amount_cents: this.amountCents,
           description: this.description.trim(),
+          payment_method: this.paymentMethod,
+          installments:
+            this.paymentMethod === 'credit'
+              ? this.selectedInstallments
+              : null,
         });
 
         this.showAlert(this.$t('PAYMENT_LINK.SENT'));
@@ -121,12 +214,15 @@ export default {
       this.$emit('close');
     },
     resetForm() {
-      this.amountInput = '';
+      this.amountCentsRaw = 0;
       this.description = '';
+      this.paymentMethod = 'pix';
+      this.selectedInstallments = 1;
       this.saveAsPreset = false;
       this.presetName = '';
       this.selectedPresetId = null;
     },
+    formatBRL,
   },
 };
 </script>
@@ -137,7 +233,7 @@ export default {
       :header-title="$t('PAYMENT_LINK.MODAL.TITLE')"
       :header-content="$t('PAYMENT_LINK.MODAL.SUBTITLE')"
     />
-    <div class="flex flex-col gap-4 p-6">
+    <div class="flex flex-col gap-4 p-6 overflow-y-auto max-h-[75vh]">
       <div
         v-if="!hasHandle"
         class="p-3 text-sm rounded-lg bg-n-amber-2 text-n-amber-11"
@@ -177,20 +273,160 @@ export default {
           </div>
         </div>
 
-        <!-- Amount -->
+        <!-- Amount (currency mask) -->
         <label class="flex flex-col gap-1">
           <span class="text-xs font-medium text-n-slate-11">
             {{ $t('PAYMENT_LINK.MODAL.AMOUNT_LABEL') }}
           </span>
           <input
-            v-model="amountInput"
+            ref="amountInput"
+            :value="displayAmount"
             type="text"
-            inputmode="decimal"
-            :placeholder="$t('PAYMENT_LINK.MODAL.AMOUNT_PLACEHOLDER')"
-            class="w-full px-3 py-2 text-sm border rounded-lg border-n-slate-6 bg-n-slate-1 text-n-slate-12 focus:border-n-blue-7 focus:outline-none"
-            @input="clearPresetSelection"
+            inputmode="numeric"
+            class="w-full px-3 py-2.5 text-xl font-bold tracking-wide border rounded-lg border-n-slate-6 bg-n-slate-1 text-n-slate-12 focus:border-n-blue-7 focus:outline-none"
+            @keydown="handleAmountKeydown"
+            @paste="handleAmountPaste"
           />
         </label>
+
+        <!-- Payment Method Selector -->
+        <div class="flex flex-col gap-2">
+          <span class="text-xs font-medium text-n-slate-11">
+            {{ $t('PAYMENT_LINK.MODAL.PAYMENT_METHOD_LABEL') }}
+          </span>
+          <div class="grid grid-cols-2 gap-3">
+            <!-- PIX card -->
+            <button
+              class="flex flex-col p-3 text-left transition-all border-2 rounded-xl"
+              :class="
+                paymentMethod === 'pix'
+                  ? 'border-green-600 bg-green-50 dark:bg-green-950/30 dark:border-green-500'
+                  : 'border-n-slate-6 bg-n-slate-1 hover:bg-n-slate-2'
+              "
+              @click="paymentMethod = 'pix'"
+            >
+              <div class="flex items-center gap-2">
+                <span class="text-lg">🟢</span>
+                <span
+                  class="text-sm font-semibold"
+                  :class="
+                    paymentMethod === 'pix'
+                      ? 'text-green-700 dark:text-green-400'
+                      : 'text-n-slate-12'
+                  "
+                >
+                  PIX
+                </span>
+              </div>
+              <span
+                class="mt-1 ml-7 text-xs"
+                :class="
+                  paymentMethod === 'pix'
+                    ? 'text-green-600 dark:text-green-500'
+                    : 'text-n-slate-9'
+                "
+              >
+                {{ $t('PAYMENT_LINK.MODAL.PIX_SUBTITLE') }}
+              </span>
+            </button>
+
+            <!-- Credit Card -->
+            <button
+              class="flex flex-col p-3 text-left transition-all border-2 rounded-xl"
+              :class="
+                paymentMethod === 'credit'
+                  ? 'border-n-blue-9 bg-n-blue-2'
+                  : 'border-n-slate-6 bg-n-slate-1 hover:bg-n-slate-2'
+              "
+              @click="paymentMethod = 'credit'"
+            >
+              <div class="flex items-center gap-2">
+                <span class="text-lg">💳</span>
+                <span
+                  class="text-sm font-semibold"
+                  :class="
+                    paymentMethod === 'credit'
+                      ? 'text-n-blue-11'
+                      : 'text-n-slate-12'
+                  "
+                >
+                  {{ $t('PAYMENT_LINK.MODAL.CREDIT_TITLE') }}
+                </span>
+              </div>
+              <span
+                class="mt-1 ml-7 text-xs"
+                :class="
+                  paymentMethod === 'credit'
+                    ? 'text-n-blue-11 opacity-70'
+                    : 'text-n-slate-9'
+                "
+              >
+                {{ $t('PAYMENT_LINK.MODAL.CREDIT_SUBTITLE') }}
+              </span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Installments selector (credit only) -->
+        <div
+          v-if="paymentMethod === 'credit'"
+          class="flex flex-col gap-2 -mt-1"
+        >
+          <label class="text-xs font-medium text-n-slate-11">
+            {{ $t('PAYMENT_LINK.MODAL.INSTALLMENTS_LABEL') }}
+          </label>
+          <select
+            v-model.number="selectedInstallments"
+            class="w-full px-3 py-2 text-sm border rounded-lg border-n-slate-6 bg-n-slate-1 text-n-slate-12 focus:border-n-blue-7 focus:outline-none"
+          >
+            <option
+              v-for="opt in installmentOptions"
+              :key="opt.count"
+              :value="opt.count"
+            >
+              {{ opt.label }}
+            </option>
+          </select>
+        </div>
+
+        <!-- Fee summary (always visible when amount > 0) -->
+        <div
+          v-if="amountCents > 0"
+          class="p-3 rounded-lg text-sm"
+          :class="
+            paymentMethod === 'pix'
+              ? 'bg-green-50 dark:bg-green-950/20'
+              : 'bg-n-blue-2'
+          "
+        >
+          <div
+            v-if="paymentMethod === 'pix'"
+            class="flex items-center gap-2 font-medium text-green-700 dark:text-green-400"
+          >
+            <span>&#10003;</span>
+            <span>
+              {{ $t('PAYMENT_LINK.MODAL.PIX_FEE_SUMMARY') }}
+              R$ {{ formatBRL(amountCents) }}
+            </span>
+          </div>
+          <div v-else class="flex flex-col gap-1.5">
+            <div
+              class="flex justify-between text-xs text-n-slate-11"
+            >
+              <span>
+                {{ $t('PAYMENT_LINK.MODAL.FEE_RATE') }}
+                ({{ creditFeeRate.toFixed(2).replace('.', ',') }}%)
+              </span>
+              <span>- R$ {{ formatBRL(creditFeeCents) }}</span>
+            </div>
+            <div
+              class="flex justify-between pt-1.5 font-medium border-t text-n-blue-11 border-n-slate-5"
+            >
+              <span>{{ $t('PAYMENT_LINK.MODAL.FEE_NET') }}</span>
+              <span>R$ {{ formatBRL(creditNetCents) }}</span>
+            </div>
+          </div>
+        </div>
 
         <!-- Description -->
         <label class="flex flex-col gap-1">
@@ -227,8 +463,16 @@ export default {
           />
         </div>
 
-        <!-- Send button -->
-        <div class="flex justify-end gap-2 pt-2">
+        <!-- Checkout note -->
+        <div
+          class="flex items-start gap-2 p-2 rounded-lg text-[11px] bg-n-slate-2 text-n-slate-9"
+        >
+          <span class="mt-px shrink-0">&#9432;</span>
+          <span>{{ $t('PAYMENT_LINK.MODAL.CHECKOUT_NOTE') }}</span>
+        </div>
+
+        <!-- Actions -->
+        <div class="flex justify-end gap-2 pt-1">
           <button
             class="px-4 py-2 text-sm rounded-lg text-n-slate-11 bg-n-slate-3 hover:bg-n-slate-4"
             @click="onClose"
@@ -240,7 +484,11 @@ export default {
             class="px-4 py-2 text-sm font-medium text-white rounded-lg bg-n-blue-9 hover:bg-n-blue-10 disabled:opacity-50 disabled:cursor-not-allowed"
             @click="onSend"
           >
-            {{ isSending ? $t('PAYMENT_LINK.MODAL.SENDING') : $t('PAYMENT_LINK.MODAL.SEND') }}
+            {{
+              isSending
+                ? $t('PAYMENT_LINK.MODAL.SENDING')
+                : $t('PAYMENT_LINK.MODAL.SEND')
+            }}
           </button>
         </div>
       </template>

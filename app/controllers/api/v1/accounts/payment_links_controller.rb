@@ -11,18 +11,23 @@ class Api::V1::Accounts::PaymentLinksController < Api::V1::Accounts::BaseControl
   end
 
   def create
-    conversation = Current.account.conversations.find(params[:conversation_id])
+    conversation = Current.account.conversations.find_by!(display_id: params[:conversation_id])
 
     payment_link = Integrations::Infinitepay::CreateLinkService.new(
       account: Current.account,
       conversation: conversation,
       user: Current.user,
       amount_cents: params[:amount_cents].to_i,
-      description: params[:description]
+      description: params[:description],
+      payment_method: params[:payment_method],
+      installments: params[:installments]&.to_i
     ).perform
 
     render json: payment_link, status: :created
-  rescue ArgumentError => e
+  rescue ArgumentError, ActiveRecord::RecordInvalid => e
+    render json: { error: e.message }, status: :unprocessable_entity
+  rescue StandardError => e
+    Rails.logger.error("PaymentLink creation failed: #{e.class} - #{e.message}")
     render json: { error: e.message }, status: :unprocessable_entity
   end
 end

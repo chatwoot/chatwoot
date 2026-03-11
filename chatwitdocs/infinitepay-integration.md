@@ -43,6 +43,47 @@ Sem handle configurado, o botão de pagamento não aparece na conversa.
 
 ---
 
+## Taxas e Parcelas (InfinitePay)
+
+A API pública de checkout da InfinitePay (`POST /invoices/public/checkout/links`) **não oferece controle** sobre:
+- Número de parcelas (o cliente escolhe no checkout)
+- Quem paga a taxa (vendedor ou comprador)
+- Tipo de recebimento (1 dia útil ou NITRO)
+
+Essas configurações são feitas **exclusivamente no painel/app da InfinitePay**.
+
+### Tabela de Taxas (plano padrão — recebimento em 1 dia útil)
+
+| Tipo de Pagamento | Taxa |
+|-------------------|------|
+| Pix | 0,00% (Grátis) |
+| Crédito à vista (1x) | 4,20% |
+| Crédito em 2x | 6,09% |
+| Crédito em 3x | 7,01% |
+| Crédito em 4x | 7,91% |
+| Crédito em 5x | 8,80% |
+| Crédito em 6x | 9,67% |
+| Crédito em 7x | 12,59% |
+| Crédito em 8x | 13,42% |
+| Crédito em 9x | 14,25% |
+| Crédito em 10x | 15,06% |
+| Crédito em 11x | 15,87% |
+| Crédito em 12x | 16,66% |
+
+### Opções configuráveis no painel InfinitePay
+
+| Configuração | Descrição | Padrão |
+|--------------|-----------|--------|
+| Parcelas | Até quantas vezes o cliente pode parcelar | Definido no app |
+| Taxa para o cliente | Repassa a taxa para o comprador | Desativado (vendedor absorve) |
+| Recebimento NITRO | Recebimento na hora (taxa maior) | Desativado (1 dia útil) |
+
+### Simulação no Modal
+
+O modal de pagamento exibe um **simulador de taxas** (expansível) que calcula automaticamente o valor líquido que o vendedor receberá para cada forma de pagamento, baseado nas taxas do plano padrão (1 dia útil).
+
+---
+
 ## API Endpoints
 
 ### `GET /api/v1/accounts/:account_id/payment_presets`
@@ -183,3 +224,5 @@ Nenhuma nova variável necessária. Reutiliza:
 | Data | Descrição |
 |------|-----------|
 | 2026-03-10 | Implementação inicial: link de pagamento, favoritos, webhook, forwarding |
+| 2026-03-11 | Modal: máscara de moeda (R$ 0,00), simulador de taxas por parcela, i18n pt_BR |
+| 2026-03-11 | Modal: seletor de forma de pagamento (PIX/Cartão), parcelas, mensagem diferenciada por método, nota sobre checkout |
