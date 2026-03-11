@@ -67,6 +67,8 @@ tags:
     description: Communication channels setup
   - name: Integrations
     description: Third-party integrations
+  - name: Labels
+    description: Account label management APIs
   - name: Messages
     description: Message management APIs
   - name: Profile
@@ -112,6 +114,7 @@ x-tagGroups:
       - Custom Filters
       - Inboxes
       - Integrations
+      - Labels
       - Messages
       - Profile
       - Reports

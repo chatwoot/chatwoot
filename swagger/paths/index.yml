@@ -442,6 +442,30 @@
   delete:
     $ref: ./application/inboxes/inbox_members/delete.yml
 
+# Labels
+/api/v1/accounts/{account_id}/labels:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+  get:
+    $ref: ./application/labels/index.yml
+  post:
+    $ref: ./application/labels/create.yml
+/api/v1/accounts/{account_id}/labels/{id}:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: number
+      description: ID of the label
+  get:
+    $ref: ./application/labels/show.yml
+  patch:
+    $ref: ./application/labels/update.yml
+  delete:
+    $ref: ./application/labels/delete.yml
+
 # Messages
 /api/v1/accounts/{account_id}/conversations/{conversation_id}/messages:
   parameters:
