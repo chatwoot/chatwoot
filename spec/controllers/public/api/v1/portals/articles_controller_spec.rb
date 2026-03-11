@@ -35,13 +35,12 @@ RSpec.describe 'Public Articles API', type: :request do
 
     it 'get all articles with searched text query' do
       long_content = ([('intro ' * 30).strip, 'funny', ('tail ' * 30).strip].join(' ')).strip
-      article2 = create(:article,
-                        account_id: account.id,
-                        portal: portal,
-                        category: category,
-                        author_id: agent.id,
-                        content: long_content)
-      expect(article2.id).not_to be_nil
+      create(:article,
+             account_id: account.id,
+             portal: portal,
+             category: category,
+             author_id: agent.id,
+             content: long_content)
 
       get "/hc/#{portal.slug}/#{category.locale}/categories/#{category.slug}/articles.json", params: { query: 'funny' }
       expect(response).to have_http_status(:success)
