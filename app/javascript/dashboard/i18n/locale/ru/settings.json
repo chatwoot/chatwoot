@@ -151,6 +151,11 @@
         "TYPE_TITLE": "Тип уведомления",
         "EMAIL": "Email",
         "PUSH": "Push-уведомления",
+        "DISPLAY_DURATION": "Время отображения уведомления",
+        "DISPLAY_DURATION_NOTE": "Время в секундах, в течение которого уведомление будет отображаться в панели управления",
+        "DISPLAY_DURATION_UNIT": "с",
+        "DEFAULT_TITLE": "Новое уведомление",
+        "DEFAULT_SENDER": "Контакт",
         "TYPES": {
           "CONVERSATION_CREATED": "Новый диалог создан",
           "CONVERSATION_ASSIGNED": "Вам назначен диалог",
