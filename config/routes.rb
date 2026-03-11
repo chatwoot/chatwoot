@@ -704,7 +704,7 @@ Rails.application.routes.draw do
   post 'webhooks/sms/:phone_number', to: 'webhooks/sms#process_payload'
   get 'webhooks/whatsapp/:phone_number', to: 'webhooks/whatsapp#verify'
   post 'webhooks/whatsapp/:phone_number', to: 'webhooks/whatsapp#process_payload'
-  post 'webhooks/whapi/:inbox_id/:event_type', to: 'webhooks/whapi#process_payload'
+  match 'webhooks/whapi/:inbox_id/:event_type', to: 'webhooks/whapi#process_payload', via: [:post, :put, :patch]
   match 'webhooks/whapi_groups/:event_type', to: 'webhooks/whapi_groups#process_payload', via: [:post, :put, :patch, :delete]
   get 'webhooks/instagram', to: 'webhooks/instagram#verify'
   post 'webhooks/instagram', to: 'webhooks/instagram#events'
