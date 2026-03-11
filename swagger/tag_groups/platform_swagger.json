@@ -1619,11 +1619,16 @@
             "description": "The content attributes for each content_type"
           },
           "sender_type": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "enum": [
               "Contact",
               "User",
-              "AgentBot"
+              "AgentBot",
+              "Captain::Assistant",
+              null
             ],
             "description": "The type of the sender"
           },
@@ -2044,7 +2049,10 @@
             "description": "Whether HMAC verification is mandatory"
           },
           "selected_feature_flags": {
-            "type": "array",
+            "type": [
+              "array",
+              "null"
+            ],
             "description": "Selected feature flags for the inbox",
             "items": {
               "type": "string"

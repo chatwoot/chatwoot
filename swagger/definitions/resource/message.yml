@@ -51,8 +51,10 @@ properties:
     type: object
     description: The content attributes for each content_type
   sender_type:
-    type: string
-    enum: ["Contact", "User", "AgentBot"]
+    type:
+      - string
+      - 'null'
+    enum: ["Contact", "User", "AgentBot", "Captain::Assistant", null]
     description: The type of the sender
   sender_id:
     type: number
