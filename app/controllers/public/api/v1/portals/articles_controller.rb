@@ -6,7 +6,7 @@ class Public::Api::V1::Portals::ArticlesController < Public::Api::V1::Portals::B
   layout 'portal'
 
   def index
-    @search_query = list_params[:query].to_s.strip.presence
+    @search_query = list_params[:query]
     @articles = @portal.articles.published.includes(:category, :author)
 
     @articles = @articles.where(locale: permitted_params[:locale]) if permitted_params[:locale].present?
@@ -48,7 +48,7 @@ class Public::Api::V1::Portals::ArticlesController < Public::Api::V1::Portals::B
   end
 
   def search_articles
-    @articles = @articles.search(normalized_list_params) if normalized_list_params.present?
+    @articles = @articles.search(list_params) if list_params.present?
   end
 
   def order_by_sort_param
@@ -74,11 +74,9 @@ class Public::Api::V1::Portals::ArticlesController < Public::Api::V1::Portals::B
   end
 
   def list_params
-    params.permit(:query, :locale, :sort, :status, :page, :per_page)
-  end
-
-  def normalized_list_params
-    list_params.merge(query: @search_query)
+    @list_params ||= params.permit(:query, :locale, :sort, :status, :page, :per_page).tap do |permitted|
+      permitted[:query] = permitted[:query].to_s.strip.presence
+    end
   end
 
   def permitted_params
