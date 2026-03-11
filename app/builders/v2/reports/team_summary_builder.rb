@@ -10,10 +10,6 @@ class V2::Reports::TeamSummaryBuilder < V2::Reports::BaseSummaryBuilder
     account.conversations.where(created_at: range).group(:team_id).count
   end
 
-  def reporting_events
-    @reporting_events ||= account.reporting_events.where(created_at: range).joins(:conversation)
-  end
-
   def prepare_report
     account.teams.map do |team|
       build_team_stats(team)

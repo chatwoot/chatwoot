@@ -35,8 +35,4 @@ class V2::Reports::InboxSummaryBuilder < V2::Reports::BaseSummaryBuilder
   def group_by_key
     :inbox_id
   end
-
-  def average_value_key
-    ActiveModel::Type::Boolean.new.cast(params[:business_hours]) ? :value_in_business_hours : :value
-  end
 end

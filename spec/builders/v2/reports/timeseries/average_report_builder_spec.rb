@@ -108,7 +108,12 @@ describe V2::Reports::Timeseries::AverageReportBuilder do
         end
 
         it 'preserves empty buckets in the timeseries' do
-          expected_timeseries = subject.send(:rollup_date_range).map do |date|
+          rollup_timezone = ActiveSupport::TimeZone['Chennai']
+          rollup_start_date = DateTime.strptime(params[:since], '%s').in_time_zone(rollup_timezone).to_date
+          rollup_end_date = (DateTime.strptime(params[:until], '%s') - 1.second).in_time_zone(rollup_timezone).to_date
+          rollup_dates = rollup_start_date..rollup_end_date
+
+          expected_timeseries = rollup_dates.map do |date|
             value = if date == (current_time - 1.week).to_date
                       93.0
                     elsif date == current_time.to_date
