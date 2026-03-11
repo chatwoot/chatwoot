@@ -74,7 +74,7 @@ RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
     it 'skips auto-action if conversation receives new activity after evaluation' do
       mock_service = instance_double(Captain::ConversationCompletionService)
       allow(mock_service).to receive(:perform) do
-        resolvable_pending_conversation.update_column(:last_activity_at, Time.current)
+        resolvable_pending_conversation.update!(last_activity_at: Time.current)
         { complete: true, reason: 'Customer question was answered' }
       end
       allow(Captain::ConversationCompletionService).to receive(:new).and_return(mock_service)
