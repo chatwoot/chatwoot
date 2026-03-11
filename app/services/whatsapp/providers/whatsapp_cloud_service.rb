@@ -119,16 +119,52 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     response.success?
   end
 
-  def initiate_call(to_phone_number)
+  def send_call_permission_request(to_phone_number, body_text = 'We would like to call you regarding your conversation.')
+    response = HTTParty.post(
+      "#{phone_id_path}/messages",
+      headers: api_headers,
+      body: {
+        messaging_product: 'whatsapp',
+        recipient_type: 'individual',
+        to: to_phone_number,
+        type: 'interactive',
+        interactive: {
+          type: 'call_permission_request',
+          action: { name: 'call_permission_request' },
+          body: { text: body_text }
+        }
+      }.to_json
+    )
+    unless response.success?
+      Rails.logger.error "[WHATSAPP CALL] send_call_permission_request failed: status=#{response.code} body=#{response.body}"
+      return nil
+    end
+    response.parsed_response
+  end
+
+  def initiate_call(to_phone_number, sdp_offer)
     response = HTTParty.post(
       "#{phone_id_path}/calls",
       headers: api_headers,
       body: {
+        messaging_product: 'whatsapp',
         to: to_phone_number,
-        type: 'audio'
+        type: 'audio',
+        session: {
+          sdp: sdp_offer,
+          sdp_type: 'offer'
+        }
       }.to_json
     )
-    response.parsed_response if response.success?
+    unless response.success?
+      parsed = response.parsed_response
+      error_code = parsed&.dig('error', 'code')
+      error_msg = parsed&.dig('error', 'error_user_msg') || 'Failed to initiate call'
+      Rails.logger.error "[WHATSAPP CALL] initiate_call failed: status=#{response.code} body=#{response.body}"
+      raise Whatsapp::CallErrors::NoCallPermission, error_msg if error_code == 138_006
+      raise StandardError, error_msg
+    end
+    response.parsed_response
   end
 
   private

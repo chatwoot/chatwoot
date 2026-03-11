@@ -97,19 +97,54 @@ const hasSlaPolicyId = computed(() => props.chat?.sla_policy_id);
 
 const canInitiateWhatsappCall = computed(() => {
   if (!isAWhatsAppCloudChannel.value) return false;
-  return !!inbox.value?.callingEnabled;
+  return !!inbox.value?.calling_enabled;
 });
 
 const initiateWhatsappCall = async () => {
   if (isInitiatingCall.value || !currentChat.value?.id) return;
   isInitiatingCall.value = true;
+  let pc = null;
+  let localStream = null;
   try {
-    await WhatsappCallsAPI.initiate(currentChat.value.id);
+    localStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    pc = new RTCPeerConnection({
+      iceServers: [{ urls: 'stun:stun.l.google.com:19302' }],
+    });
+    localStream.getTracks().forEach(track => pc.addTrack(track, localStream));
+
+    const offer = await pc.createOffer();
+    await pc.setLocalDescription(offer);
+
+    const response = await WhatsappCallsAPI.initiate(
+      currentChat.value.id,
+      offer.sdp
+    );
+
+    const callStatus = response.data?.status;
+    if (callStatus === 'permission_requested' || callStatus === 'permission_pending') {
+      pc.close();
+      localStream.getTracks().forEach(track => track.stop());
+      const messageKey = callStatus === 'permission_requested'
+        ? 'WHATSAPP_CALL.PERMISSION_REQUESTED'
+        : 'WHATSAPP_CALL.PERMISSION_PENDING';
+      emitter.emit(BUS_EVENTS.SHOW_ALERT, {
+        message: t(messageKey),
+        type: 'info',
+      });
+      return;
+    }
+
     emitter.emit(BUS_EVENTS.SHOW_ALERT, {
       message: t('WHATSAPP_CALL.CALLING'),
       type: 'success',
     });
+
+    window.__outboundCallPC = pc;
+    window.__outboundCallStream = localStream;
+    window.__outboundCallId = response.data?.call_id;
   } catch (err) {
+    if (pc) pc.close();
+    if (localStream) localStream.getTracks().forEach(track => track.stop());
     const errorMessage =
       err.response?.data?.error || t('WHATSAPP_CALL.CALL_FAILED');
     emitter.emit(BUS_EVENTS.SHOW_ALERT, {

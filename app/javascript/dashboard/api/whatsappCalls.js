@@ -32,9 +32,10 @@ class WhatsappCallsAPI {
     return axios.post(`${this.baseUrl}/${callId}/terminate`);
   }
 
-  initiate(conversationId) {
+  initiate(conversationId, sdpOffer) {
     return axios.post(`${this.baseUrl}/initiate`, {
       conversation_id: conversationId,
+      sdp_offer: sdpOffer,
     });
   }
 }

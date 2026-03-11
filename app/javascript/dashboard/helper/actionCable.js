@@ -38,6 +38,7 @@ class ActionCableConnector extends BaseActionCableConnector {
       'whatsapp_call.incoming': this.onWhatsappCallIncoming,
       'whatsapp_call.accepted': this.onWhatsappCallAccepted,
       'whatsapp_call.ended': this.onWhatsappCallEnded,
+      'whatsapp_call.permission_granted': this.onWhatsappCallPermissionGranted,
     };
   }
 
@@ -234,6 +235,14 @@ class ActionCableConnector extends BaseActionCableConnector {
   onWhatsappCallEnded = data => {
     const whatsappCallsStore = useWhatsappCallsStore();
     whatsappCallsStore.handleCallEnded(data.call_id);
+  };
+
+  // eslint-disable-next-line class-methods-use-this
+  onWhatsappCallPermissionGranted = data => {
+    emitter.emit(BUS_EVENTS.SHOW_ALERT, {
+      message: `${data.contact_name} approved the call permission request. You can now call them.`,
+      type: 'success',
+    });
   };
 }
 
