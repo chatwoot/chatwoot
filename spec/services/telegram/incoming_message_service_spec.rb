@@ -465,6 +465,38 @@ describe Telegram::IncomingMessageService do
       end
     end
 
+    context 'when callback_query ack returns ok=false' do
+      it 'logs a warning and still processes the callback' do
+        stub_request(:post, %r{/answerCallbackQuery}).to_return(
+          status: 200,
+          body: { ok: false, description: 'Bad Request: query is too old' }.to_json,
+          headers: { content_type: 'application/json' }
+        )
+
+        params = {
+          'update_id' => 2_342_342_343_242,
+          'callback_query' => {
+            'id' => '2342342309929423',
+            'from' => {
+              'id' => 5_171_248,
+              'is_bot' => false,
+              'first_name' => 'Sojan',
+              'last_name' => 'Jose',
+              'username' => 'sojan',
+              'language_code' => 'en'
+            },
+            'message' => message_params,
+            'chat_instance' => '-89923842384923492',
+            'data' => 'Option 1'
+          }
+        }.with_indifferent_access
+
+        expect(Rails.logger).to receive(:warn).with(/Telegram callback ack failed/)
+        expect { described_class.new(inbox: telegram_channel.inbox, params: params).perform }.not_to raise_error
+        expect(telegram_channel.inbox.messages.first.content).to eq('Option 1')
+      end
+    end
+
     context 'when valid contact message params' do
       it 'creates appropriate conversations, message and contacts' do
         params = {

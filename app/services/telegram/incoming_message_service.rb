@@ -219,7 +219,7 @@ class Telegram::IncomingMessageService
     return if callback_query_id.blank?
 
     response = HTTParty.post("#{inbox.channel.telegram_api_url}/answerCallbackQuery", body: { callback_query_id: callback_query_id }, timeout: 3)
-    return if response.respond_to?(:success?) && response.success?
+    return if callback_query_ack_successful?(response)
 
     Rails.logger.warn(
       'Telegram callback ack failed ' \
@@ -228,5 +228,14 @@ class Telegram::IncomingMessageService
     )
   rescue StandardError => e
     Rails.logger.warn("Telegram callback ack error inbox_id=#{inbox&.id} callback_query_id=#{callback_query_id} #{e.class}: #{e.message}")
+  end
+
+  def callback_query_ack_successful?(response)
+    return false unless response.respond_to?(:success?) && response.success?
+
+    body = response.parsed_response
+    return body['ok'] == true if body.is_a?(Hash) && body.key?('ok')
+
+    true
   end
 end
