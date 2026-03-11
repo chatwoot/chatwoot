@@ -7,7 +7,6 @@ class VoiceAPI extends ApiClient {
     super('voice', { accountScoped: true });
   }
 
-  // eslint-disable-next-line class-methods-use-this
   initiateCall(contactId, inboxId) {
     return ContactsAPI.initiateCall(contactId, inboxId).then(r => r.data);
   }

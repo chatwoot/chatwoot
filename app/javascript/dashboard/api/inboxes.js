@@ -6,7 +6,6 @@ class Inboxes extends CacheEnabledApiClient {
     super('inboxes', { accountScoped: true });
   }
 
-  // eslint-disable-next-line class-methods-use-this
   get cacheModelName() {
     return 'inbox';
   }

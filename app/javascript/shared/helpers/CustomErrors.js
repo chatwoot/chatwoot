@@ -1,4 +1,3 @@
-/* eslint-disable max-classes-per-file */
 export class DuplicateContactException extends Error {
   constructor(data) {
     super('DUPLICATE_CONTACT');

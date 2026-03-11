@@ -5,7 +5,6 @@ class LabelsAPI extends CacheEnabledApiClient {
     super('labels', { accountScoped: true });
   }
 
-  // eslint-disable-next-line class-methods-use-this
   get cacheModelName() {
     return 'label';
   }

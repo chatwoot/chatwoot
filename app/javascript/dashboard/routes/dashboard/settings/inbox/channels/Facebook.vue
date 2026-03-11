@@ -1,5 +1,4 @@
 <script>
-/* eslint-env browser */
 /* global FB */
 import { useVuelidate } from '@vuelidate/core';
 import { useAlert } from 'dashboard/composables';

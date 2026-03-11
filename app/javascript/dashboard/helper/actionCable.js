@@ -37,12 +37,10 @@ class ActionCableConnector extends BaseActionCableConnector {
     };
   }
 
-  // eslint-disable-next-line class-methods-use-this
   onReconnect = () => {
     emitter.emit(BUS_EVENTS.WEBSOCKET_RECONNECT);
   };
 
-  // eslint-disable-next-line class-methods-use-this
   onDisconnected = () => {
     emitter.emit(BUS_EVENTS.WEBSOCKET_DISCONNECT);
   };
@@ -90,7 +88,6 @@ class ActionCableConnector extends BaseActionCableConnector {
     this.app.$store.dispatch('updateConversation', data);
   };
 
-  // eslint-disable-next-line class-methods-use-this
   onLogout = () => AuthAPI.logout();
 
   onMessageCreated = data => {
@@ -106,7 +103,6 @@ class ActionCableConnector extends BaseActionCableConnector {
     });
   };
 
-  // eslint-disable-next-line class-methods-use-this
   onReload = () => window.location.reload();
 
   onStatusChange = data => {
@@ -161,7 +157,6 @@ class ActionCableConnector extends BaseActionCableConnector {
     }, 30000);
   };
 
-  // eslint-disable-next-line class-methods-use-this
   fetchConversationStats = () => {
     emitter.emit('fetch_conversation_stats');
   };

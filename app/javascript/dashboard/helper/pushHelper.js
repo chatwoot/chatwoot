@@ -18,7 +18,6 @@ export const verifyServiceWorkerExistence = (callback = () => {}) => {
     .register('/sw.js')
     .then(registration => callback(registration))
     .catch(registrationError => {
-      // eslint-disable-next-line
       console.log('SW registration failed: ', registrationError);
     });
 };
@@ -69,7 +68,6 @@ export const registerSubscription = (onSuccess = () => {}) => {
       onSuccess();
     })
     .catch(error => {
-      // eslint-disable-next-line no-console
       console.error('Push subscription registration failed:', error);
       useAlert('This browser does not support desktop notification');
     });
@@ -77,7 +75,6 @@ export const registerSubscription = (onSuccess = () => {}) => {
 
 export const requestPushPermissions = ({ onSuccess }) => {
   if (!('Notification' in window)) {
-    // eslint-disable-next-line no-console
     console.warn('Notification is not supported');
     useAlert('This browser does not support desktop notification');
   } else if (Notification.permission === 'granted') {

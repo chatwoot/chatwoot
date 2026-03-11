@@ -8,7 +8,6 @@ class CacheEnabledApiClient extends ApiClient {
     this.dataManager = new DataManager(this.accountIdFromRoute);
   }
 
-  // eslint-disable-next-line class-methods-use-this
   get cacheModelName() {
     throw new Error('cacheModelName is not defined');
   }
@@ -25,12 +24,10 @@ class CacheEnabledApiClient extends ApiClient {
     return axios.get(this.url);
   }
 
-  // eslint-disable-next-line class-methods-use-this
   extractDataFromResponse(response) {
     return response.data.payload;
   }
 
-  // eslint-disable-next-line class-methods-use-this
   marshallData(dataToParse) {
     return { data: { payload: dataToParse } };
   }

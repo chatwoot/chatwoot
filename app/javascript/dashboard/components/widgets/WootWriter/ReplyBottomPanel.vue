@@ -36,7 +36,7 @@ export default {
     },
     // inbox prop is used in /mixins/inboxMixin,
     // remove this props when refactoring to composable if not needed
-    // eslint-disable-next-line vue/no-unused-properties
+
     inbox: {
       type: Object,
       default: () => ({}),
