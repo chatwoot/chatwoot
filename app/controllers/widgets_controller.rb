@@ -92,7 +92,7 @@ class WidgetsController < ActionController::Base
     return false unless @web_widget.allow_mobile_webview?
 
     origin = request.headers['Origin']
-    origin.blank? || origin == 'null'
+    origin.blank? || origin == 'null' || origin&.start_with?('file://')
   end
 end
 
