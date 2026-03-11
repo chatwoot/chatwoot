@@ -474,6 +474,45 @@ describe ReportingEventListener do
       end
     end
 
+    context 'when latest resolved event is after the conversation opened event timestamp' do
+      let(:previous_resolved_time) { Time.zone.parse('March 22, 2022 09:00') }
+      let(:future_resolved_time) { Time.zone.parse('March 22, 2022 11:00') }
+      let(:reopened_time) { Time.zone.parse('March 22, 2022 10:00') }
+      let(:reopened_conversation) do
+        create(:conversation, account: account, inbox: inbox, assignee: user, updated_at: reopened_time)
+      end
+
+      before do
+        create(:reporting_event,
+               name: 'conversation_resolved',
+               account_id: account.id,
+               inbox_id: inbox.id,
+               conversation_id: reopened_conversation.id,
+               user_id: user.id,
+               event_start_time: reopened_conversation.created_at,
+               event_end_time: previous_resolved_time)
+
+        create(:reporting_event,
+               name: 'conversation_resolved',
+               account_id: account.id,
+               inbox_id: inbox.id,
+               conversation_id: reopened_conversation.id,
+               user_id: user.id,
+               event_start_time: previous_resolved_time,
+               event_end_time: future_resolved_time)
+      end
+
+      it 'ignores future resolved events when computing reopen duration' do
+        event = Events::Base.new('conversation.opened', reopened_time, conversation: reopened_conversation)
+        listener.conversation_opened(event)
+
+        reopened_event = account.reporting_events.where(name: 'conversation_opened').first
+        expect(reopened_event.value).to be_within(1).of(3600)
+        expect(reopened_event.event_start_time).to be_within(1.second).of(previous_resolved_time)
+        expect(reopened_event.event_end_time).to be_within(1.second).of(reopened_time)
+      end
+    end
+
     context 'when agent bot resolves and conversation is reopened' do
       # This implicitly tests that the first_response time is correctly calculated
       # By checking that a conversation reopened event is created with the correct values

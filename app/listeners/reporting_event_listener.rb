@@ -108,7 +108,7 @@ class ReportingEventListener < BaseListener
     last_resolved_event = ReportingEvent.where(
       conversation_id: conversation.id,
       name: 'conversation_resolved'
-    ).order(event_end_time: :desc).first
+    ).where('event_end_time <= ?', event_end_time).order(event_end_time: :desc).first
 
     # For first-time openings, value is 0
     # For reopenings, calculate time since resolution
