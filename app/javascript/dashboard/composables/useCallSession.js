@@ -1,16 +1,20 @@
 import { computed, ref, watch, onUnmounted, onMounted } from 'vue';
+import { useI18n } from 'vue-i18n';
 import VoiceAPI from 'dashboard/api/channel/voice/voiceAPIClient';
 import TwilioVoiceClient from 'dashboard/api/channel/voice/twilioVoiceClient';
+import { useAlert } from 'dashboard/composables';
 import { useCallsStore } from 'dashboard/stores/calls';
 import Timer from 'dashboard/helper/Timer';
 
 export function useCallSession() {
   const callsStore = useCallsStore();
+  const { t } = useI18n();
   const isJoining = ref(false);
   const callDuration = ref(0);
   const durationTimer = new Timer(elapsed => {
     callDuration.value = elapsed;
   });
+  const handleCallDisconnected = () => callsStore.clearActiveCall();
 
   const activeCall = computed(() => callsStore.activeCall);
   const incomingCalls = computed(() => callsStore.incomingCalls);
@@ -30,15 +34,17 @@ export function useCallSession() {
   );
 
   onMounted(() => {
-    TwilioVoiceClient.addEventListener('call:disconnected', () =>
-      callsStore.clearActiveCall()
+    TwilioVoiceClient.addEventListener(
+      'call:disconnected',
+      handleCallDisconnected
     );
   });
 
   onUnmounted(() => {
     durationTimer.stop();
-    TwilioVoiceClient.removeEventListener('call:disconnected', () =>
-      callsStore.clearActiveCall()
+    TwilioVoiceClient.removeEventListener(
+      'call:disconnected',
+      handleCallDisconnected
     );
   });
 
@@ -73,6 +79,7 @@ export function useCallSession() {
 
       return { conferenceSid: joinResponse?.conference_sid };
     } catch (error) {
+      useAlert(error.response?.data?.error || t('CONTACT_PANEL.CALL_FAILED'));
       // eslint-disable-next-line no-console
       console.error('Failed to join call:', error);
       return null;

@@ -11,7 +11,7 @@ class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseControlle
 
   def create
     conversation = fetch_conversation_by_display_id
-    ensure_call_sid!(conversation)
+    return if claim_conversation!(conversation) == false
 
     conference_service = Voice::Provider::Twilio::ConferenceService.new(conversation: conversation)
     conference_sid = conference_service.ensure_conference_sid
@@ -32,6 +32,22 @@ class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseControlle
   end
 
   private
+
+  def claim_conversation!(conversation)
+    conversation.with_lock do
+      if conversation.assignee_id == current_user.id
+        ensure_call_sid!(conversation)
+        true
+      elsif conversation.assignee.present?
+        render_conflict_for_assigned_agent!(conversation.assignee.name)
+        false
+      else
+        ensure_call_sid!(conversation)
+        conversation.update!(assignee: current_user)
+        true
+      end
+    end
+  end
 
   def ensure_call_sid!(conversation)
     return conversation.identifier if conversation.identifier.present?
@@ -54,5 +70,9 @@ class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseControlle
     conversation = @voice_inbox.conversations.find_by!(display_id: cid)
     authorize conversation, :show?
     conversation
+  end
+
+  def render_conflict_for_assigned_agent!(agent_name)
+    render json: { error: "#{agent_name} is already handling the call." }, status: :conflict
   end
 end

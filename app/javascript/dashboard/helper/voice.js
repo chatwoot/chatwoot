@@ -22,6 +22,26 @@ const shouldSkipCall = (callDirection, senderId, currentUserId) => {
   return callDirection === 'outbound' && senderId !== currentUserId;
 };
 
+const extractAssigneeId = conversation => {
+  return conversation?.assignee_id || conversation?.meta?.assignee?.id || null;
+};
+
+const isAssignedToAnotherAgent = (assigneeId, currentUserId) => {
+  return !!assigneeId && assigneeId !== currentUserId;
+};
+
+const shouldShowCall = ({
+  callDirection,
+  senderId,
+  assigneeId,
+  currentUserId,
+}) => {
+  return (
+    !shouldSkipCall(callDirection, senderId, currentUserId) &&
+    !isAssignedToAnotherAgent(assigneeId, currentUserId)
+  );
+};
+
 function extractCallData(message) {
   const contentData = message?.content_attributes?.data || {};
   return {
@@ -29,6 +49,7 @@ function extractCallData(message) {
     status: contentData.status,
     callDirection: contentData.call_direction,
     conversationId: message?.conversation_id,
+    assigneeId: extractAssigneeId(message?.conversation),
     senderId: message?.sender?.id,
   };
 }
@@ -36,10 +57,19 @@ function extractCallData(message) {
 export function handleVoiceCallCreated(message, currentUserId) {
   if (!isVoiceCallMessage(message)) return;
 
-  const { callSid, callDirection, conversationId, senderId } =
+  const { callSid, callDirection, conversationId, assigneeId, senderId } =
     extractCallData(message);
 
-  if (shouldSkipCall(callDirection, senderId, currentUserId)) return;
+  if (
+    !shouldShowCall({
+      callDirection,
+      senderId,
+      assigneeId,
+      currentUserId,
+    })
+  ) {
+    return;
+  }
 
   const callsStore = useCallsStore();
   callsStore.addCall({
@@ -53,8 +83,14 @@ export function handleVoiceCallCreated(message, currentUserId) {
 export function handleVoiceCallUpdated(commit, message, currentUserId) {
   if (!isVoiceCallMessage(message)) return;
 
-  const { callSid, status, callDirection, conversationId, senderId } =
-    extractCallData(message);
+  const {
+    callSid,
+    status,
+    callDirection,
+    conversationId,
+    assigneeId,
+    senderId,
+  } = extractCallData(message);
 
   const callsStore = useCallsStore();
 
@@ -64,9 +100,19 @@ export function handleVoiceCallUpdated(commit, message, currentUserId) {
   commit(types.UPDATE_CONVERSATION_CALL_STATUS, callInfo);
   commit(types.UPDATE_MESSAGE_CALL_STATUS, callInfo);
 
-  const isNewCall =
-    status === 'ringing' &&
-    !shouldSkipCall(callDirection, senderId, currentUserId);
+  if (
+    !shouldShowCall({
+      callDirection,
+      senderId,
+      assigneeId,
+      currentUserId,
+    })
+  ) {
+    callsStore.removeCallsForConversation(conversationId);
+    return;
+  }
+
+  const isNewCall = status === 'ringing';
 
   if (isNewCall) {
     callsStore.addCall({
@@ -76,4 +122,12 @@ export function handleVoiceCallUpdated(commit, message, currentUserId) {
       senderId,
     });
   }
+}
+
+export function syncConversationCallVisibility(conversation, currentUserId) {
+  const assigneeId = extractAssigneeId(conversation);
+  if (!isAssignedToAnotherAgent(assigneeId, currentUserId)) return;
+
+  const callsStore = useCallsStore();
+  callsStore.removeCallsForConversation(conversation.id);
 }
