@@ -40,6 +40,15 @@ RSpec.describe Portal do
         expect(portal.public_locale_codes).to eq(%w[en es])
       end
 
+      it 'preserves drafted locales when draft_locales is omitted on update' do
+        portal.update!(config: { allowed_locales: %w[en es fr], draft_locales: ['es'], default_locale: 'en' })
+
+        portal.assign_attributes(config: { allowed_locales: %w[en es fr], default_locale: 'en' })
+        portal.valid?
+
+        expect(portal.config['draft_locales']).to eq(['es'])
+      end
+
       it 'does not allow drafting the default locale' do
         portal.update(config: { allowed_locales: %w[en es], draft_locales: ['en'], default_locale: 'en' })
 

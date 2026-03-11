@@ -63,6 +63,9 @@
                 data-portal-slug="<%= @portal.slug %>"
                 class="flex-1 bg-transparent text-lg font-medium cursor-pointer focus:outline-none locale-switcher text-slate-800 dark:text-slate-100 hover:text-slate-700 dark:hover:text-slate-200"
               >
+                <% if @portal.draft_locale?(@locale) %>
+                  <option selected disabled value="<%= @locale %>"><%= "#{language_name(@locale)} (#{@locale})" %></option>
+                <% end %>
                 <% @portal.public_locale_codes.each do |locale| %>
                   <option <%= locale == @locale ? 'selected': '' %> value="<%= locale %>"><%= "#{language_name(locale)} (#{locale})" %></option>
                 <% end %>

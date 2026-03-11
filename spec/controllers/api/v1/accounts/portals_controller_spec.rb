@@ -140,6 +140,25 @@ RSpec.describe 'Api::V1::Accounts::Portals', type: :request do
         )
       end
 
+      it 'preserves drafted locales when draft_locales is omitted' do
+        portal.update!(config: { allowed_locales: %w[en es fr], draft_locales: ['es'], default_locale: 'en' })
+
+        put "/api/v1/accounts/#{account.id}/portals/#{portal.slug}",
+            params: {
+              portal: {
+                config: { allowed_locales: %w[en es fr], default_locale: 'en' }
+              }
+            },
+            headers: admin.create_new_auth_token
+
+        expect(response).to have_http_status(:success)
+        portal.reload
+        expect(portal.draft_locale_codes).to eq(['es'])
+        expect(response.parsed_body.dig('config', 'allowed_locales')).to include(
+          a_hash_including('code' => 'es', 'draft' => true)
+        )
+      end
+
       it 'archive portal' do
         portal_params = {
           portal: {

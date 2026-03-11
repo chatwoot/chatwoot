@@ -61,19 +61,19 @@ class Portal < ApplicationRecord
   end
 
   def default_locale
-    config['default_locale'].presence || allowed_locale_codes.first || 'en'
+    config_value('default_locale').presence || allowed_locale_codes.first || 'en'
   end
 
   def allowed_locale_codes
-    allowed_locale_codes = normalize_locale_codes(config['allowed_locales'])
+    allowed_locale_codes = normalize_locale_codes(config_value('allowed_locales'))
     return allowed_locale_codes if allowed_locale_codes.present?
 
-    [config['default_locale'].presence || 'en']
+    [config_value('default_locale').presence || 'en']
   end
 
   def draft_locale_codes
     allowed_locales = allowed_locale_codes
-    drafted_locales = normalize_locale_codes(config['draft_locales'])
+    drafted_locales = normalize_locale_codes(drafted_locale_values)
 
     allowed_locales.select { |locale| drafted_locales.include?(locale) }
   end
@@ -97,7 +97,7 @@ class Portal < ApplicationRecord
   private
 
   def config_json_format
-    self.config ||= {}
+    self.config = (config || {}).deep_stringify_keys
     config['allowed_locales'] = allowed_locale_codes
     config['default_locale'] = default_locale
     config['draft_locales'] = draft_locale_codes
@@ -108,6 +108,26 @@ class Portal < ApplicationRecord
 
   def normalize_locale_codes(locale_codes)
     Array(locale_codes).filter_map(&:presence).uniq
+  end
+
+  def persisted_config
+    (attribute_in_database('config') || {}).deep_stringify_keys
+  end
+
+  def drafted_locale_values
+    return config_value('draft_locales') if config_has_key?('draft_locales')
+
+    persisted_config['draft_locales']
+  end
+
+  def config_has_key?(key)
+    config.is_a?(Hash) && (config.key?(key) || config.key?(key.to_sym))
+  end
+
+  def config_value(key)
+    return unless config.is_a?(Hash)
+
+    config[key] || config[key.to_sym]
   end
 end
 

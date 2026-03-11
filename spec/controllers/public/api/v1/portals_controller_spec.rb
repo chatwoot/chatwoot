@@ -74,6 +74,30 @@ RSpec.describe Public::Api::V1::PortalsController, type: :request do
 
       expect(response).to have_http_status(:success)
     end
+
+    it 'shows the active drafted locale in the switcher state on direct locale access' do
+      portal.update!(config: { allowed_locales: %w[en es fr], draft_locales: ['es'], default_locale: 'en' })
+
+      get "/hc/#{portal.slug}/es"
+
+      expect(response).to have_http_status(:success)
+
+      document = Nokogiri::HTML(response.body)
+      switchers = document.css('select.locale-switcher')
+
+      expect(switchers).not_to be_empty
+
+      switchers.each do |switcher|
+        options = switcher.css('option')
+
+        expect(options.map { |option| option['value'] }).to include('en', 'es', 'fr')
+        expect(
+          options.any? do |option|
+            option['value'] == 'es' && option['selected'].present? && option['disabled'].present?
+          end
+        ).to be(true)
+      end
+    end
   end
 
   describe 'GET /public/api/v1/portals/{portal_slug}/sitemap' do
