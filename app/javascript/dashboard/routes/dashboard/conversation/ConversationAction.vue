@@ -70,6 +70,7 @@ export default {
       currentUser: 'getCurrentUser',
       teams: 'teams/getTeams',
       contactGetter: 'contacts/getContact',
+      pipelineStatuses: 'pipelineStatuses/getPipelineStatuses',
     }),
     contact() {
       const contactId = this.currentChat?.meta?.sender?.id;
@@ -153,6 +154,22 @@ export default {
           });
       },
     },
+    assignedPipelineStatus: {
+      get() {
+        return this.pipelineStatuses.find(
+          s => s.id === this.currentChat.pipeline_status_id
+        ) || null;
+      },
+      set(statusItem) {
+        const conversationId = this.currentChat.id;
+        const pipelineStatusId = statusItem ? statusItem.id : null;
+        this.$store
+          .dispatch('togglePipelineStatus', { conversationId, pipelineStatusId })
+          .then(() => {
+            useAlert(this.$t('CONVERSATION_SIDEBAR.PIPELINE_STATUS_LABEL'));
+          });
+      },
+    },
     showSelfAssign() {
       if (!this.assignedAgent) {
         return true;
@@ -201,6 +218,13 @@ export default {
       } else {
         this.assignedTeam = selectedItemTeam;
       }
+    },
+
+    onClickAssignPipelineStatus(selectedItem) {
+      const isSame =
+        this.assignedPipelineStatus &&
+        this.assignedPipelineStatus.id === selectedItem.id;
+      this.assignedPipelineStatus = isSame ? null : selectedItem;
     },
 
     onClickAssignPriority(selectedPriorityItem) {
@@ -291,6 +315,22 @@ export default {
           $t('CONVERSATION.PRIORITY.CHANGE_PRIORITY.INPUT_PLACEHOLDER')
         "
         @select="onClickAssignPriority"
+      />
+    </div>
+    <div v-if="pipelineStatuses.length" class="multiselect-wrap--small">
+      <ContactDetailsItem
+        compact
+        :title="$t('CONVERSATION_SIDEBAR.PIPELINE_STATUS_LABEL')"
+      />
+      <MultiselectDropdown
+        :options="pipelineStatuses"
+        :selected-item="assignedPipelineStatus"
+        :has-thumbnail="false"
+        :multiselector-title="$t('CONVERSATION_SIDEBAR.PIPELINE_STATUS_LABEL')"
+        :multiselector-placeholder="$t('CONVERSATION_SIDEBAR.SELECT.PLACEHOLDER')"
+        :no-search-result="$t('CONVERSATION_SIDEBAR.SELECT.PLACEHOLDER')"
+        :input-placeholder="$t('CONVERSATION_SIDEBAR.PIPELINE_STATUS_LABEL')"
+        @select="onClickAssignPipelineStatus"
       />
     </div>
     <ContactDetailsItem

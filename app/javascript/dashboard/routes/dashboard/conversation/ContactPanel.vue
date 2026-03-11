@@ -149,6 +149,7 @@ onMounted(() => {
   conversationSidebarItems.value = conversationSidebarItemsOrder.value;
   getContactDetails();
   store.dispatch('attributes/get', 0);
+  store.dispatch('pipelineStatuses/get');
   // Load integrations to ensure linear integration state is available
   store.dispatch('integrations/get', 'linear');
 });

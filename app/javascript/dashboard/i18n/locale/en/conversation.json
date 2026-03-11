@@ -359,6 +359,7 @@
     "ASSIGNEE_LABEL": "Assigned Agent",
     "SELF_ASSIGN": "Assign to me",
     "TEAM_LABEL": "Assigned Team",
+    "PIPELINE_STATUS_LABEL": "Pipeline Status",
     "SELECT": {
       "PLACEHOLDER": "None"
     },
