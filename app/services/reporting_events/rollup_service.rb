@@ -16,7 +16,7 @@ module ReportingEvents::RollupService
     def perform
       return unless rollup_enabled?
 
-      # NOTE: Each event produces individual upserts per dimension x metric (up to 8 calls).
+      # NOTE: Each event produces individual upserts per dimension x metric (up to 6 calls).
       # If this becomes a bottleneck, batch into a single upsert_all call.
       dimensions.each do |dimension_type, dimension_id|
         next if dimension_id.nil?
@@ -44,17 +44,8 @@ module ReportingEvents::RollupService
       {
         account: @account.id,
         agent: @reporting_event.user_id,
-        inbox: @reporting_event.inbox_id,
-        # Team rollups are still collected for validation/future use, but team reports
-        # currently stay on the raw path because reassignment breaks rollup parity.
-        team: team_id
+        inbox: @reporting_event.inbox_id
       }
-    end
-
-    def team_id
-      return nil if @reporting_event.conversation_id.blank?
-
-      @team_id ||= @reporting_event.conversation&.team_id
     end
 
     def metrics_for_event

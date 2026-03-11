@@ -45,7 +45,6 @@ class ReportingEvents::BackfillService
   def aggregate_event_type(event_name, start_utc, end_utc)
     events = @account.reporting_events
                      .where(name: event_name, created_at: start_utc...end_utc)
-                     .includes(:conversation)
 
     return [] if events.empty?
 
@@ -95,10 +94,7 @@ class ReportingEvents::BackfillService
     {
       'account' => @account.id,
       'agent' => event.user_id,
-      'inbox' => event.inbox_id,
-      # Team rollups are still collected for validation/future use, but team reports
-      # currently stay on the raw path because reassignment breaks rollup parity.
-      'team' => event.conversation&.team_id
+      'inbox' => event.inbox_id
     }
   end
 

@@ -6,7 +6,6 @@ describe ReportingEvents::RollupService do
     let(:user) { create(:user, account: account) }
     let(:inbox) { create(:inbox, account: account) }
     let(:conversation) { create(:conversation, account: account, inbox: inbox, assignee: user) }
-    let(:team) { create(:team, account: account) }
 
     context 'when reporting_timezone is not set' do
       before { account.update!(reporting_timezone: nil) }
@@ -50,7 +49,7 @@ describe ReportingEvents::RollupService do
                  conversation: conversation)
         end
 
-        it 'creates rollup rows for all dimensions' do
+        it 'creates rollup rows for account, agent, and inbox' do
           described_class.perform(reporting_event)
 
           # Account dimension
@@ -293,19 +292,6 @@ describe ReportingEvents::RollupService do
             dimension_type: 'agent'
           )
           expect(agent_rows).to be_empty
-        end
-
-        it 'loads team_id from conversation' do
-          conversation.update!(team_id: team.id)
-
-          described_class.perform(reporting_event)
-
-          team_row = ReportingEventsRollup.find_by(
-            account_id: account.id,
-            dimension_type: 'team',
-            dimension_id: team.id
-          )
-          expect(team_row).to be_present
         end
       end
 
