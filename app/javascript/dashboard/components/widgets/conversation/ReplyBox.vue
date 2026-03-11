@@ -71,6 +71,7 @@ export default {
     ReplyBoxBanner,
     EmojiInput,
     MessageSignatureMissingAlert,
+    PaymentLinkModal,
     ReplyBottomPanel,
     ReplyEmailHead,
     ReplyToMessage,

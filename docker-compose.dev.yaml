@@ -92,7 +92,7 @@ services:
     image: pgvector/pgvector:pg16
     restart: always
     ports:
-      - '5433:5432'
+      - '5434:5432'
     volumes:
       - postgres:/var/lib/postgresql/data
     env_file: .env
@@ -108,7 +108,7 @@ services:
     volumes:
       - redis:/data
     ports:
-      - '6380:6379'
+      - '6381:6379'
 
   mailhog:
     image: mailhog/mailhog
