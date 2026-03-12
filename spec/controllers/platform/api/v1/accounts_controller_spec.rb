@@ -144,6 +144,7 @@ RSpec.describe 'Platform Accounts API', type: :request do
             headers: { api_access_token: platform_app.access_token.token }, as: :json
 
         expect(response).to have_http_status(:success)
+        expect(response).to conform_schema(200)
         expect(response.body).to include(account.name)
       end
     end
