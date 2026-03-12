@@ -118,7 +118,7 @@ const handleEnterKey = event => {
         v-model="newMessage"
         class="flex-1 bg-transparent border-none focus:outline-none text-sm mb-0 text-n-slate-12 placeholder:text-n-slate-10"
         :placeholder="t('CAPTAIN.PLAYGROUND.MESSAGE_PLACEHOLDER')"
-        @keyup.enter="handleEnterKey"
+        @keydown.enter.exact.prevent="handleEnterKey"
       />
       <NextButton
         ghost
