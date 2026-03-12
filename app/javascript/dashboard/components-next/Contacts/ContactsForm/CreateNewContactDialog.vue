@@ -6,6 +6,7 @@ import { useI18n } from 'vue-i18n';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import ContactsForm from 'dashboard/components-next/Contacts/ContactsForm/ContactsForm.vue';
+import ContextHelp from 'dashboard/components-next/ContextHelp.vue';
 
 const emit = defineEmits(['create']);
 
@@ -44,8 +45,12 @@ defineExpose({ dialogRef, contactsFormRef, onSuccess });
     ref="dialogRef"
     width="3xl"
     overflow-y-auto
+    :title="t('CONTACTS_LAYOUT.HEADER.ACTIONS.CONTACT_CREATION.ADD_CONTACT')"
     @confirm="handleDialogConfirm"
   >
+    <div class="flex justify-end -mt-2">
+      <ContextHelp help-key="contacts_create" />
+    </div>
     <ContactsForm
       ref="contactsFormRef"
       is-new-contact
