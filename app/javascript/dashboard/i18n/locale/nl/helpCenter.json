@@ -376,7 +376,7 @@
     },
     "REORDER_ARTICLE": {
       "API": {
-        "ERROR_MESSAGE": "Unable to reorder articles. Please try again."
+        "ERROR_MESSAGE": "Kan artikelen niet herordenen. Probeer het opnieuw."
       }
     },
     "REORDER_CATEGORY": {
