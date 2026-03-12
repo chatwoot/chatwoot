@@ -18,10 +18,18 @@ const newMessage = ref('');
 const isLoading = ref(false);
 
 const formatMessagesForApi = () => {
-  return messages.value.map(message => ({
-    role: message.sender,
-    content: message.content,
-  }));
+  return messages.value.map(message => {
+    const payload = {
+      role: message.sender,
+      content: message.content,
+    };
+
+    if (message.sender === 'assistant' && message.agentName) {
+      payload.agent_name = message.agentName;
+    }
+
+    return payload;
+  });
 };
 
 const resetConversation = () => {
@@ -62,6 +70,7 @@ const sendMessage = async () => {
     messages.value.push({
       content: data.response,
       sender: 'assistant',
+      agentName: data.agent_name,
       timestamp: new Date().toISOString(),
     });
   } catch (error) {
