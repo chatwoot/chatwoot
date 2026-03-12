@@ -6,6 +6,7 @@ class Captain::SummaryService < Captain::BaseTaskService
       model: GPT_MODEL,
       messages: [
         { role: 'system', content: prompt_from_file('summary') },
+        { role: 'system', content: "Reply in #{account.locale_english_name}." },
         { role: 'user', content: conversation.to_llm_text(include_contact_details: false) }
       ]
     )
