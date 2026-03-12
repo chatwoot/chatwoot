@@ -94,6 +94,32 @@ export const shortTimestamp = (time, withAgo = false) => {
 };
 
 /**
+ * Formats a duration in seconds into mm:ss or hh:mm:ss.
+ * @param {number|string} durationInSeconds - Duration in seconds.
+ * @returns {string} Formatted duration string.
+ */
+export const formatDuration = durationInSeconds => {
+  if (durationInSeconds === null || durationInSeconds === undefined) return '';
+
+  const totalSeconds = Number(durationInSeconds);
+  if (Number.isNaN(totalSeconds) || totalSeconds < 0) return '';
+
+  const hours = Math.floor(totalSeconds / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
+
+  if (hours > 0) {
+    return `${hours.toString().padStart(2, '0')}:${minutes
+      .toString()
+      .padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+  }
+
+  return `${minutes.toString().padStart(2, '0')}:${seconds
+    .toString()
+    .padStart(2, '0')}`;
+};
+
+/**
  * Calculates the difference in days between now and a given timestamp.
  * @param {Date} now - Current date/time.
  * @param {number} timestampInSeconds - Unix timestamp in seconds.

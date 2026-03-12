@@ -5,6 +5,7 @@ import TwilioVoiceClient from 'dashboard/api/channel/voice/twilioVoiceClient';
 import { useAlert } from 'dashboard/composables';
 import { useCallsStore } from 'dashboard/stores/calls';
 import Timer from 'dashboard/helper/Timer';
+import { formatDuration } from 'shared/helpers/timeHelper';
 
 export function useCallSession() {
   const callsStore = useCallsStore();
@@ -98,9 +99,7 @@ export function useCallSession() {
   };
 
   const formattedCallDuration = computed(() => {
-    const minutes = Math.floor(callDuration.value / 60);
-    const seconds = callDuration.value % 60;
-    return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    return formatDuration(callDuration.value);
   });
 
   return {

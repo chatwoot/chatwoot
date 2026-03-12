@@ -77,4 +77,15 @@ describe('VoiceCall.vue', () => {
 
     expect(wrapper.text()).toContain('You answered');
   });
+
+  it('shows the formatted duration when a call has ended', () => {
+    messageContext.contentAttributes.value.data.status =
+      VOICE_CALL_STATUS.COMPLETED;
+    messageContext.contentAttributes.value.data.meta.duration = 133;
+
+    const wrapper = mountComponent();
+
+    expect(wrapper.text()).toContain('Call ended');
+    expect(wrapper.text()).toContain('02:13');
+  });
 });

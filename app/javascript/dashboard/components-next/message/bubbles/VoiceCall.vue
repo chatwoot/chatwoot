@@ -3,6 +3,7 @@ import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useMessageContext } from '../provider.js';
 import { MESSAGE_TYPES, VOICE_CALL_STATUS } from '../constants';
+import { formatDuration } from 'shared/helpers/timeHelper';
 
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import BaseBubble from 'next/message/bubbles/Base.vue';
@@ -28,6 +29,9 @@ const data = computed(() => contentAttributes.value?.data);
 const status = computed(() => data.value?.status?.toString());
 const joinedBy = computed(() => {
   return data.value?.meta?.joinedBy || data.value?.meta?.joined_by;
+});
+const callDuration = computed(() => {
+  return data.value?.meta?.duration;
 });
 
 const isOutbound = computed(() => messageType.value === MESSAGE_TYPES.OUTGOING);
@@ -64,7 +68,10 @@ const subtext = computed(() => {
   }
 
   if (status.value === VOICE_CALL_STATUS.COMPLETED) {
-    return t('CONVERSATION.VOICE_CALL.CALL_ENDED');
+    return (
+      formatDuration(callDuration.value) ||
+      t('CONVERSATION.VOICE_CALL.CALL_ENDED')
+    );
   }
 
   if (status.value === VOICE_CALL_STATUS.IN_PROGRESS) {

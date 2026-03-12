@@ -37,7 +37,7 @@ RSpec.describe Voice::StatusUpdateService do
       .and_return(instance_double(Twilio::VoiceWebhookSetupService, perform: "AP#{SecureRandom.hex(16)}"))
   end
 
-  it 'updates conversation and last voice message with call status' do
+  it 'updates conversation and last voice message with call status and duration' do
     # Ensure records are created after stub setup
     conversation
     message
@@ -45,14 +45,17 @@ RSpec.describe Voice::StatusUpdateService do
     described_class.new(
       account: account,
       call_sid: call_sid,
-      call_status: 'completed'
+      call_status: 'completed',
+      payload: { 'CallDuration' => '133' }
     ).perform
 
     conversation.reload
     message.reload
 
     expect(conversation.additional_attributes['call_status']).to eq('completed')
+    expect(conversation.additional_attributes['call_duration']).to eq(133)
     expect(message.content_attributes.dig('data', 'status')).to eq('completed')
+    expect(message.content_attributes.dig('data', 'meta', 'duration')).to eq(133)
   end
 
   it 'normalizes busy to no-answer' do

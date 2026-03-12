@@ -49,9 +49,16 @@ class Voice::CallStatus::Manager
                           .first
     return unless message
 
-    data = (message.content_attributes || {}).dup
+    data = (message.content_attributes || {}).deep_dup
     data['data'] ||= {}
     data['data']['status'] = status
+    data['data']['meta'] ||= {}
+
+    if status == 'completed' && conversation.additional_attributes['call_duration'].present?
+      data['data']['meta']['duration'] = conversation.additional_attributes['call_duration']
+    else
+      data['data']['meta'].delete('duration')
+    end
 
     message.update!(content_attributes: data)
   end
