@@ -103,6 +103,34 @@ module ConversationReplyMailerHelper
     email_imap_enabled ? @channel.email : reply_email
   end
 
+  def preload_messages(messages)
+    records = Array(messages).compact
+    return records if records.empty?
+
+    ActiveRecord::Associations::Preloader.new(
+      records: records,
+      associations: [:sender, :attachments, { conversation: :inbox }]
+    ).call
+
+    records
+  end
+
+  def filtered_recap_messages(messages)
+    Array(messages).select(&:email_reply_summarizable?).reject(&:private?)
+  end
+
+  def recap_messages_for_email_reply(message)
+    return [] unless message&.id
+
+    recap_messages = @conversation.messages
+                                  .where('id < ?', message.id)
+                                  .order(id: :desc)
+                                  .limit(RECAP_LIMIT)
+                                  .to_a
+    recap_messages.reverse!
+    recap_messages
+  end
+
   # Use channel email domain in case of account email domain is not set for custom message_id and in_reply_to
   def channel_email_domain
     return @account.inbound_email_domain if @account.inbound_email_domain.present?
