@@ -56,6 +56,41 @@
       "CONTACT_LABELS": "Contact Labels",
       "PREVIOUS_CONVERSATIONS": "Previous Conversations",
       "NO_RECORDS_FOUND": "No attributes found"
+    },
+    "SYNAPSEA": {
+      "AI": {
+        "TITLE": "Synapsea AI",
+        "AUTO_SUMMARY_LABEL": "Automatic summary",
+        "AUTO_SUMMARY_VALUE": "{contactName} is currently in service flow with {company}. Prioritize context confirmation before proposing next steps.",
+        "REPLY_SUGGESTION_LABEL": "Reply suggestion",
+        "REPLY_SUGGESTION_VALUE": "Thanks for contacting Synapsea Connect. I can guide the next steps now and keep your case updated in real time.",
+        "LEAD_SCORE_LABEL": "Lead qualification",
+        "INTENT_LABEL": "Detected intent",
+        "LEAD_SCORE_SUFFIX": "({tier})"
+      },
+      "CRM": {
+        "TITLE": "Synapsea CRM",
+        "COMPANY": "Company",
+        "SOURCE": "Origin",
+        "STAGE": "Stage",
+        "BUSINESS_TAGS": "Business tags",
+        "INTERACTION_HISTORY": "Interaction history",
+        "UNKNOWN_COMPANY": "Company not informed",
+        "UNKNOWN_SOURCE": "Origin not informed",
+        "UNKNOWN_STAGE": "Stage not informed",
+        "NO_BUSINESS_TAGS": "No business tags",
+        "NO_INTERACTION_HISTORY": "No interaction history"
+      },
+      "LEAD_TIER": {
+        "HOT": "Hot",
+        "QUALIFIED": "Qualified",
+        "COLD": "Cold"
+      },
+      "INTENT": {
+        "URGENT_SUPPORT": "Urgent support",
+        "GENERAL_FOLLOW_UP": "Follow-up",
+        "DISCOVERY": "Discovery"
+      }
     }
   },
   "EDIT_CONTACT": {
@@ -287,7 +322,6 @@
       "ID": "(ID: {identifier})"
     }
   },
-
   "CONTACTS_LAYOUT": {
     "HEADER": {
       "TITLE": "Contacts",
@@ -601,7 +635,6 @@
       "CONFIRM_SINGLE": "Delete contact"
     }
   },
-
   "COMPOSE_NEW_CONVERSATION": {
     "CONTACT_SEARCH": {
       "ERROR_MESSAGE": "We couldn’t complete the search. Please try again."
