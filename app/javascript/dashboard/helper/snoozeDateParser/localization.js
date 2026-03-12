@@ -1,7 +1,6 @@
 /**
- * Handles non-English input and generates the final suggestion list.
- * Translates localized words to English before parsing, then converts
- * suggestion labels back to the user's language for display.
+ * Localization module for snooze date suggestions.
+ * Translates user input to English for parsing, then converts labels back to locale.
  */
 
 import {
@@ -21,7 +20,7 @@ import { buildSuggestionCandidates, MAX_SUGGESTIONS } from './suggestions';
 
 // ─── English Reference Data ─────────────────────────────────────────────────
 
-const EN_WEEKDAYS_LIST = [
+const EN_WEEKDAYS = [
   'monday',
   'tuesday',
   'wednesday',
@@ -31,7 +30,7 @@ const EN_WEEKDAYS_LIST = [
   'sunday',
 ];
 
-const EN_MONTHS_LIST = [
+const EN_MONTHS = [
   'january',
   'february',
   'march',
@@ -62,6 +61,8 @@ const EN_DEFAULTS = {
     YEARS: 'years',
   },
   RELATIVE: {
+    TODAY: 'today',
+    TONIGHT: 'tonight',
     TOMORROW: 'tomorrow',
     DAY_AFTER_TOMORROW: 'day after tomorrow',
     NEXT_WEEK: 'next week',
@@ -148,8 +149,8 @@ const ENGLISH_VOCAB = new Set([
   ...Object.keys(WORD_NUMBER_MAP),
   ...Object.keys(RELATIVE_DAY_MAP),
   ...Object.keys(TIME_OF_DAY_MAP),
-  ...EN_WEEKDAYS_LIST,
-  ...EN_MONTHS_LIST,
+  ...EN_WEEKDAYS,
+  ...EN_MONTHS,
   ...STRUCTURAL_WORDS,
 ]);
 
@@ -170,8 +171,11 @@ const TOD_TO_MERIDIEM = {
 // ─── Translation Cache ──────────────────────────────────────────────────────
 
 const safeString = v => (v == null ? '' : String(v));
+const escapeRegex = s => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
 const MAX_PAIRS_CACHE = 20;
 const pairsCache = new Map();
+
 const CACHE_SECTIONS = [
   'UNITS',
   'RELATIVE',
@@ -180,6 +184,7 @@ const CACHE_SECTIONS = [
   'ORDINALS',
   'MERIDIEM',
 ];
+
 const SINGLE_KEYS = [
   'HALF',
   'NEXT',
@@ -194,7 +199,7 @@ const SINGLE_KEYS = [
   'NEXT_YEAR',
 ];
 
-/** Create a string key from translations so we can cache results. */
+/** Creates a cache key from translations object. */
 const translationSignature = translations => {
   if (!translations || typeof translations !== 'object') return 'none';
   return [
@@ -210,7 +215,7 @@ const translationSignature = translations => {
   ].join('|');
 };
 
-/** Build a list of [localWord, englishWord] pairs from the translations and browser locale. */
+/** Builds [localWord, englishWord] pairs from translations and Intl.DateTimeFormat. */
 const buildReplacementPairsUncached = (translations, locale) => {
   const pairs = [];
   const seen = new Set();
@@ -238,8 +243,7 @@ const buildReplacementPairsUncached = (translations, locale) => {
 
   try {
     const wdFmt = new Intl.DateTimeFormat(locale, { weekday: 'long' });
-    // Jan 1, 2024 is a Monday — aligns with EN_WEEKDAYS_LIST[0]='monday'
-    EN_WEEKDAYS_LIST.forEach((en, i) => {
+    EN_WEEKDAYS.forEach((en, i) => {
       addPair(wdFmt.format(new Date(2024, 0, i + 1)), en);
     });
   } catch {
@@ -248,7 +252,7 @@ const buildReplacementPairsUncached = (translations, locale) => {
 
   try {
     const moFmt = new Intl.DateTimeFormat(locale, { month: 'long' });
-    EN_MONTHS_LIST.forEach((en, i) => {
+    EN_MONTHS.forEach((en, i) => {
       addPair(moFmt.format(new Date(2024, i, 1)), en);
     });
   } catch {
@@ -259,32 +263,33 @@ const buildReplacementPairsUncached = (translations, locale) => {
   return pairs;
 };
 
-/** Same as above but cached. Keeps up to 20 entries to avoid rebuilding every call. */
+/** Returns cached replacement pairs or builds new ones. */
 const buildReplacementPairs = (translations, locale) => {
   const cacheKey = `${locale || ''}:${translationSignature(translations)}`;
   if (pairsCache.has(cacheKey)) return pairsCache.get(cacheKey);
+
   const pairs = buildReplacementPairsUncached(translations, locale);
-  if (pairsCache.size >= MAX_PAIRS_CACHE)
+
+  if (pairsCache.size >= MAX_PAIRS_CACHE) {
     pairsCache.delete(pairsCache.keys().next().value);
+  }
   pairsCache.set(cacheKey, pairs);
   return pairs;
 };
 
 // ─── Token Replacement ──────────────────────────────────────────────────────
 
-const escapeRegex = s => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-
-/** Swap localized words for their English versions in the text. */
+/** Replaces localized words with English equivalents. */
 const substituteLocalTokens = (text, pairs) => {
-  let r = text;
+  let result = text;
   pairs.forEach(([local, en]) => {
     const re = new RegExp(`(?<=^|\\s)${escapeRegex(local)}(?=\\s|$)`, 'g');
-    r = r.replace(re, en);
+    result = result.replace(re, en);
   });
-  return r;
+  return result;
 };
 
-/** Drop any words the parser wouldn't understand (keeps English words and numbers). */
+/** Filters text to only English vocabulary words and numbers. */
 const filterToEnglishVocab = text =>
   normalizeDigits(text)
     .replace(/(\d+)h\b/g, '$1:00')
@@ -294,26 +299,28 @@ const filterToEnglishVocab = text =>
     .replace(/\s+/g, ' ')
     .trim();
 
-/** Move "next year" to the right spot so the parser can read it (after the month, before time). */
+/** Repositions "next year" after month name for proper parsing. */
 const repositionNextYear = text => {
   if (!MONTH_NAME_RE.test(text)) return text;
-  let r = text.replace(/\b(?:next\s+)?year\b/i, m =>
+
+  let result = text.replace(/\b(?:next\s+)?year\b/i, m =>
     /next/i.test(m) ? m : 'next year'
   );
-  if (!/\bnext\s+year\b/i.test(r)) return r;
-  const withoutNY = r.replace(/\bnext\s+year\b/i, '').trim();
+
+  if (!/\bnext\s+year\b/i.test(result)) return result;
+
+  const withoutNY = result.replace(/\bnext\s+year\b/i, '').trim();
   const timeRe = /(?:(?:at\s+)?\d{1,2}(?::\d{2})?\s*(?:am|pm)?)\s*$/i;
   const timePart = withoutNY.match(timeRe);
+
   if (timePart) {
     const beforeTime = withoutNY.slice(0, timePart.index).trim();
-    r = `${beforeTime} next year ${timePart[0].trim()}`;
-  } else {
-    r = `${withoutNY} next year`;
+    return `${beforeTime} next year ${timePart[0].trim()}`;
   }
-  return r;
+  return `${withoutNY} next year`;
 };
 
-/** Run the full translation pipeline: swap tokens, filter, fix am/pm, reposition "next year". */
+/** Translates localized input to English for the parser. */
 const replaceTokens = (text, pairs) => {
   const substituted = substituteLocalTokens(text, pairs);
   const filtered = filterToEnglishVocab(substituted);
@@ -324,28 +331,107 @@ const replaceTokens = (text, pairs) => {
   return stripNoise(repositionNextYear(fixed));
 };
 
-/** Convert English words back to the user's language for display. */
-const reverseTokens = (text, pairs) =>
-  pairs.reduce(
-    (r, [local, en]) =>
-      r.replace(
-        new RegExp(`(?<=^|\\s)${escapeRegex(en)}(?=\\s|$)`, 'g'),
-        local
-      ),
-    text
-  );
+/** Converts English words back to the user's locale for display. */
+const reverseTokens = (text, pairs) => {
+  const enToLocal = new Map();
+  pairs.forEach(([local, en]) => {
+    if (!enToLocal.has(en)) {
+      enToLocal.set(en, local);
+    }
+  });
+
+  return text
+    .split(/(\s+)/)
+    .map(token => {
+      const lower = token.toLowerCase();
+      return enToLocal.has(lower) ? enToLocal.get(lower) : token;
+    })
+    .join('');
+};
+
+// ─── Localized Suggestions ──────────────────────────────────────────────────
+
+/** Generates localized phrase combinations (weekday + time-of-day, relative + time). */
+const buildLocalizedPhrases = pairs => {
+  if (!pairs.length) return [];
+
+  const enToLocal = new Map();
+  pairs.forEach(([local, en]) => {
+    if (!enToLocal.has(en)) enToLocal.set(en, local);
+  });
+
+  const getLocal = en => enToLocal.get(en) || en;
+
+  const weekdays = [
+    'sunday',
+    'monday',
+    'tuesday',
+    'wednesday',
+    'thursday',
+    'friday',
+    'saturday',
+  ]
+    .map(en => ({ en, local: getLocal(en) }))
+    .filter(w => w.local !== w.en);
+
+  const timesOfDay = ['morning', 'noon', 'afternoon', 'evening', 'night']
+    .map(en => ({ en, local: getLocal(en) }))
+    .filter(t => t.local !== t.en);
+
+  const relativeDays = ['today', 'tonight', 'tomorrow']
+    .map(en => ({ en, local: getLocal(en) }))
+    .filter(r => r.local !== r.en);
+
+  const phrases = [];
+
+  weekdays.forEach(w => {
+    phrases.push({ local: w.local, en: w.en });
+    timesOfDay.forEach(t => {
+      phrases.push({ local: `${w.local} ${t.local}`, en: `${w.en} ${t.en}` });
+    });
+  });
+
+  relativeDays.forEach(r => {
+    phrases.push({ local: r.local, en: r.en });
+    if (r.en !== 'tonight') {
+      timesOfDay
+        .filter(t => t.en !== 'noon')
+        .forEach(t => {
+          phrases.push({
+            local: `${r.local} ${t.local}`,
+            en: `${r.en} ${t.en}`,
+          });
+        });
+    }
+  });
+
+  return phrases;
+};
+
+/** Scores how well a candidate matches the search text. Returns -1 for no match. */
+const matchesSearch = (candidate, search) => {
+  if (candidate.startsWith(search)) return 0;
+  const words = candidate.split(' ');
+  const searchWords = search.split(' ');
+  const allMatch = searchWords.every(sw => words.some(w => w.startsWith(sw)));
+  return allMatch ? searchWords.length : -1;
+};
+
+/** Finds localized phrases matching user input. */
+const buildLocalizedCandidates = (search, pairs) => {
+  const phrases = buildLocalizedPhrases(pairs);
+  return phrases
+    .map(p => ({ ...p, score: matchesSearch(p.local, search) }))
+    .filter(p => p.score >= 0)
+    .sort((a, b) => a.score - b.score)
+    .slice(0, MAX_SUGGESTIONS * 2);
+};
 
 // ─── Main Suggestion Generator ──────────────────────────────────────────────
 
 /**
- * Generate snooze suggestions from what the user has typed so far.
- * Works with any language if translations are provided. Returns up to 5
- * unique results, each with a label, date, and unix timestamp.
- *
- * @param {string} text - what the user typed
- * @param {Date} [referenceDate] - treat as "now" (defaults to current time)
- * @param {{ translations?: object, locale?: string }} [options] - i18n config
- * @returns {Array<{ label: string, date: Date, unix: number }>}
+ * Generates snooze date suggestions from user input.
+ * Supports any language when translations are provided.
  */
 export const generateDateSuggestions = (
   text,
@@ -353,6 +439,7 @@ export const generateDateSuggestions = (
   { translations, locale } = {}
 ) => {
   if (!text || typeof text !== 'string') return [];
+
   const normalized = sanitize(text);
   if (!normalized) return [];
 
@@ -362,18 +449,13 @@ export const generateDateSuggestions = (
       ? buildReplacementPairs(translations, locale)
       : [];
 
-  // Try English parse first, then translated parse if we have locale pairs.
-  // This avoids the problem where a single overlapping word (e.g. "in" in German)
-  // would skip token translation entirely.
   const directParse = parseDateFromText(stripped, referenceDate);
-
   const translated = pairs.length ? replaceTokens(normalized, pairs) : null;
   const translatedParse =
     translated && translated !== stripped
       ? parseDateFromText(translated, referenceDate)
       : null;
 
-  // Prefer direct English parse; fall back to translated parse
   const useTranslated = !directParse && !!translatedParse;
   const englishInput = useTranslated ? translated : stripped;
 
@@ -390,15 +472,30 @@ export const generateDateSuggestions = (
     results.push({ label: exactLabel, query: englishInput, ...exact });
   }
 
-  buildSuggestionCandidates(englishInput).some(candidate => {
+  if (pairs.length) {
+    const localizedCandidates = buildLocalizedCandidates(stripped, pairs);
+
+    localizedCandidates.some(({ local, en }) => {
+      if (results.length >= MAX_SUGGESTIONS) return true;
+      const result = parseDateFromText(en, referenceDate);
+      if (result && !seen.has(result.unix)) {
+        seen.add(result.unix);
+        results.push({ label: local, query: en, ...result });
+      }
+      return false;
+    });
+
+    if (results.length) return results;
+  }
+
+  const englishCandidates = buildSuggestionCandidates(englishInput);
+
+  englishCandidates.some(candidate => {
     if (results.length >= MAX_SUGGESTIONS) return true;
     const result = parseDateFromText(candidate, referenceDate);
     if (result && !seen.has(result.unix)) {
       seen.add(result.unix);
-      const label =
-        useTranslated && pairs.length
-          ? reverseTokens(candidate, pairs)
-          : candidate;
+      const label = pairs.length ? reverseTokens(candidate, pairs) : candidate;
       results.push({ label, query: candidate, ...result });
     }
     return false;
