@@ -151,6 +151,7 @@ describe ContactIdentifyAction do
         contact.update!(name: 'test', identifier: 'test_id', custom_attributes: { test: 'test', test1: 'test1' })
         params = { name: 'test', identifier: 'test_id', custom_attributes: { test: 'test', test1: 'test1' } }
 
+        # any_instance is needed because merge lookup can reassign @contact to a different Ruby object
         expect_any_instance_of(Contact).not_to receive(:save!) # rubocop:disable RSpec/AnyInstance
         described_class.new(contact: contact, params: params).perform
       end
