@@ -9,8 +9,6 @@ module AutoAssignmentHandler
   private
 
   def run_auto_assignment
-    # Round robin kicks in on conversation create & update
-    # run it only when conversation status changes to open
     return unless conversation_status_changed_to_open? || conversation_status_changed_to_resolved_or_snoozed?
     return unless should_run_auto_assignment?
 
@@ -37,6 +35,7 @@ module AutoAssignmentHandler
 
   def should_run_auto_assignment?
     return false unless inbox.enable_auto_assignment?
+    return true if conversation_status_changed_to_resolved_or_snoozed?
 
     # run only if assignee is blank or doesn't have access to inbox
     assignee.blank? || inbox.members.exclude?(assignee)
