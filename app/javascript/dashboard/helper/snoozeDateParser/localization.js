@@ -333,14 +333,23 @@ const replaceTokens = (text, pairs) => {
 
 /** Converts English words back to the user's locale for display. */
 const reverseTokens = (text, pairs) => {
+  let result = text;
+
+  pairs.forEach(([local, en]) => {
+    if (en.includes(' ')) {
+      const re = new RegExp(`(?<=^|\\s)${escapeRegex(en)}(?=\\s|$)`, 'gi');
+      result = result.replace(re, local);
+    }
+  });
+
   const enToLocal = new Map();
   pairs.forEach(([local, en]) => {
-    if (!enToLocal.has(en)) {
+    if (!en.includes(' ') && !enToLocal.has(en)) {
       enToLocal.set(en, local);
     }
   });
 
-  return text
+  return result
     .split(/(\s+)/)
     .map(token => {
       const lower = token.toLowerCase();
@@ -484,8 +493,6 @@ export const generateDateSuggestions = (
       }
       return false;
     });
-
-    if (results.length) return results;
   }
 
   const englishCandidates = buildSuggestionCandidates(englishInput);

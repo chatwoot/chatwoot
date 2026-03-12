@@ -3,7 +3,6 @@ import { generateDateSuggestions } from '../localization';
 describe('Snooze Date Parser Localization', () => {
   const referenceDate = new Date('2024-03-14T10:00:00');
 
-  // Generic mock translations - not tied to any specific language
   const mockTranslations = {
     UNITS: {
       MINUTE: 'mock_minute',
@@ -17,6 +16,8 @@ describe('Snooze Date Parser Localization', () => {
       TODAY: 'mock_today',
       TONIGHT: 'mock_tonight',
       TOMORROW: 'mock_tomorrow',
+      DAY_AFTER_TOMORROW: 'mock_day_after_tomorrow',
+      NEXT_WEEK: 'mock_next_week',
     },
     TIME_OF_DAY: {
       MORNING: 'mock_morning',
@@ -25,14 +26,13 @@ describe('Snooze Date Parser Localization', () => {
       NIGHT: 'mock_night',
       NOON: 'mock_noon',
     },
+    FROM_NOW: 'mock_from_now',
   };
 
   describe('with locale translations', () => {
-    // Use a fake locale that triggers Intl.DateTimeFormat to return localized weekdays
     const options = { translations: mockTranslations, locale: 'pt-BR' };
 
     it('generates localized weekday suggestions', () => {
-      // When typing a localized weekday prefix, should return matches
       const results = generateDateSuggestions('sáb', referenceDate, options);
       expect(results.length).toBeGreaterThan(0);
     });
@@ -41,7 +41,6 @@ describe('Snooze Date Parser Localization', () => {
       const results = generateDateSuggestions('sábado', referenceDate, options);
       expect(results.length).toBeGreaterThan(1);
 
-      // Should have multiple suggestions (base + time-of-day variants)
       const queries = results.map(r => r.query.toLowerCase());
       expect(queries.some(q => q.includes('saturday'))).toBe(true);
     });
@@ -49,8 +48,6 @@ describe('Snooze Date Parser Localization', () => {
     it('keeps English query for parsing while showing localized label', () => {
       const results = generateDateSuggestions('sábado', referenceDate, options);
       expect(results.length).toBeGreaterThan(0);
-
-      // Label should be localized, query should be English
       expect(results[0].query.toLowerCase()).toContain('saturday');
     });
 
@@ -61,12 +58,10 @@ describe('Snooze Date Parser Localization', () => {
         options
       );
       expect(results.length).toBeGreaterThan(0);
-
-      // Query should contain English equivalent
       expect(results[0].query.toLowerCase()).toContain('tomorrow');
     });
 
-    it('uses localized time-of-day from translations when available', () => {
+    it('uses localized time-of-day from translations', () => {
       const results = generateDateSuggestions(
         'mock_tomorrow',
         referenceDate,
@@ -74,11 +69,33 @@ describe('Snooze Date Parser Localization', () => {
       );
       expect(results.length).toBeGreaterThan(0);
 
-      // Labels should use mock translations, not English
       const hasLocalizedLabel = results.some(
         r => r.label.includes('mock_') || !r.label.includes('tomorrow')
       );
       expect(hasLocalizedLabel).toBe(true);
+    });
+
+    it('handles multi-word phrases like next week', () => {
+      const results = generateDateSuggestions(
+        'mock_next_week',
+        referenceDate,
+        options
+      );
+      expect(results.length).toBeGreaterThan(0);
+      expect(results[0].query.toLowerCase()).toContain('next week');
+    });
+
+    it('includes numeric unit suggestions for localized users', () => {
+      const results = generateDateSuggestions('5', referenceDate, options);
+      const queries = results.map(r => r.query.toLowerCase());
+      expect(
+        queries.some(q => q.includes('hour') || q.includes('minute'))
+      ).toBe(true);
+    });
+
+    it('merges localized and English suggestions', () => {
+      const results = generateDateSuggestions('sáb', referenceDate, options);
+      expect(results.length).toBeGreaterThanOrEqual(2);
     });
   });
 
