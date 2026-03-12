@@ -14,7 +14,11 @@ class Captain::SummaryService < Captain::BaseTaskService
   private
 
   def system_prompt
-    "#{prompt_from_file('summary')}\n\nReply in #{account.locale_english_name}."
+    <<~PROMPT
+      #{prompt_from_file('summary')}
+
+      Reply in #{account.locale_english_name}.
+    PROMPT
   end
 
   def event_name
