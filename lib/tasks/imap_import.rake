@@ -103,7 +103,8 @@ def backdate_conversations(inbox)
     conversation.update_columns( # rubocop:disable Rails/SkipsModelValidations
       created_at: oldest,
       last_activity_at: newest,
-      agent_last_seen_at: newest
+      agent_last_seen_at: newest,
+      status: :resolved
     )
     count += 1
   end
