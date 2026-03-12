@@ -355,6 +355,7 @@
     "ASSIGNEE_LABEL": "Agente asignado",
     "SELF_ASSIGN": "Asignar a mi",
     "TEAM_LABEL": "Equipo asignado",
+    "PIPELINE_STATUS_LABEL": "Estado del Embudo",
     "SELECT": {
       "PLACEHOLDER": "Ninguna"
     },
