@@ -112,6 +112,7 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
     common_params.merge({
                           since: range[:current][:since],
                           until: range[:current][:until],
+                          timezone: params[:timezone],
                           timezone_offset: params[:timezone_offset]
                         })
   end
@@ -120,6 +121,7 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
     common_params.merge({
                           since: range[:previous][:since],
                           until: range[:previous][:until],
+                          timezone: params[:timezone],
                           timezone_offset: params[:timezone_offset]
                         })
   end
@@ -129,6 +131,7 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
                           metric: params[:metric],
                           since: params[:since],
                           until: params[:until],
+                          timezone: params[:timezone],
                           timezone_offset: params[:timezone_offset]
                         })
   end

@@ -39,8 +39,24 @@ RSpec.describe Reports::DataSource do
       expect(described_class.for(**params)).to be_a(Reports::RawDataSource)
     end
 
+    it 'matches rollups using the requested timezone identifier' do
+      account.update!(reporting_timezone: 'Chennai')
+
+      expect(
+        described_class.for(**params, timezone: 'Asia/Kolkata', timezone_offset: 0)
+      ).to be_a(Reports::RollupDataSource)
+    end
+
+    it 'falls back to the raw adapter when the requested timezone differs from the account' do
+      account.update!(reporting_timezone: 'Chennai')
+
+      expect(
+        described_class.for(**params, timezone: 'Asia/Colombo', timezone_offset: 5.5)
+      ).to be_a(Reports::RawDataSource)
+    end
+
     it 'falls back to the raw adapter when the timezone offset does not match the account' do
-      expect(described_class.for(**params, timezone_offset: 0)).to be_a(Reports::RawDataSource)
+      expect(described_class.for(**params, timezone: nil, timezone_offset: 0)).to be_a(Reports::RawDataSource)
     end
 
     it 'falls back to the raw adapter for hourly groupings' do

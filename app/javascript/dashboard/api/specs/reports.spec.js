@@ -2,6 +2,8 @@ import reportsAPI from '../reports';
 import ApiClient from '../ApiClient';
 
 describe('#Reports API', () => {
+  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
   it('creates correct instance', () => {
     expect(reportsAPI).toBeInstanceOf(ApiClient);
     expect(reportsAPI.apiVersion).toBe('/api/v2');
@@ -46,6 +48,7 @@ describe('#Reports API', () => {
           since: 1621103400,
           until: 1621621800,
           type: 'account',
+          timezone,
           timezone_offset: -0,
         },
       });
@@ -59,6 +62,7 @@ describe('#Reports API', () => {
           group_by: undefined,
           id: undefined,
           since: 1621103400,
+          timezone,
           timezone_offset: -0,
           type: 'account',
           until: 1621621800,
@@ -140,6 +144,8 @@ describe('#Reports API', () => {
             type: 'account',
             group_by: 'date',
             business_hours: true,
+            timezone,
+            timezone_offset: -0,
           },
         }
       );

@@ -16,11 +16,13 @@ class Reports::DataSource
       rollup_enabled_for_account?(account) &&
         !hourly_grouping?(context[:group_by]) &&
         supported_dimension?(context[:dimension_type]) &&
-        timezone_matches_account?(account, context[:timezone_offset]) &&
+        timezone_matches_account?(account, context[:timezone], context[:timezone_offset]) &&
         supported_metric?(context[:metric])
     end
 
-    def timezone_matches_account?(account, timezone_offset)
+    def timezone_matches_account?(account, timezone, timezone_offset)
+      return normalized_timezone_identifier(timezone) == normalized_timezone_identifier(account.reporting_timezone) if timezone.present?
+
       return false if timezone_offset.blank?
 
       offset_in_seconds = timezone_offset.to_f * 3600
@@ -48,6 +50,10 @@ class Reports::DataSource
 
     def supported_metric?(metric)
       metric.blank? || ReportingEvents::MetricRegistry.rollup_supported_metric?(metric)
+    end
+
+    def normalized_timezone_identifier(timezone)
+      ActiveSupport::TimeZone[timezone]&.tzinfo&.name
     end
   end
 
