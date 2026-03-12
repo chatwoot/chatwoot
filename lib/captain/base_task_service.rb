@@ -132,7 +132,8 @@ class Captain::BaseTaskService
                 .reorder('id desc')
                 .each do |message|
       content = message.content_for_llm
-      break unless content.present? && character_count + content.length <= TOKEN_LIMIT
+      next if content.blank?
+      break if character_count + content.length > TOKEN_LIMIT
 
       messages.prepend({ role: (message.incoming? ? 'user' : 'assistant'), content: content })
       character_count += content.length
