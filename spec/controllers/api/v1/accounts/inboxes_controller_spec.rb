@@ -508,13 +508,14 @@ RSpec.describe 'Inboxes API', type: :request do
 
         patch "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_inbox.id}",
               headers: admin.create_new_auth_token,
-              params: { enable_auto_assignment: false, channel: { provider_config: { api_key: 'new_key' } } },
+              params: { enable_auto_assignment: false, channel: { provider: 'default', provider_config: { api_key: 'new_key' } } },
               as: :json
 
         expect(response).to have_http_status(:success)
         expect(whatsapp_inbox.reload.enable_auto_assignment).to be_falsey
         expect(whatsapp_channel.reload.provider_config['api_key']).to eq('new_key')
         expect(whatsapp_channel.reload).not_to be_reauthorization_required
+        expect(response.parsed_body['provider_config']).not_to have_key('api_key')
       end
 
       it 'updates twitter inbox when administrator' do

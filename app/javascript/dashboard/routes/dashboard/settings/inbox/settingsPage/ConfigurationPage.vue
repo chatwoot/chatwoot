@@ -5,7 +5,6 @@ import SettingsSection from '../../../../../components/SettingsSection.vue';
 import ImapSettings from '../ImapSettings.vue';
 import SmtpSettings from '../SmtpSettings.vue';
 import { useVuelidate } from '@vuelidate/core';
-import { required } from '@vuelidate/validators';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import TextArea from 'next/textarea/TextArea.vue';
 import WhatsappReauthorize from '../channels/whatsapp/Reauthorize.vue';
@@ -33,16 +32,13 @@ export default {
   data() {
     return {
       hmacMandatory: false,
-      whatsAppInboxAPIKey: '',
       isRequestingReauthorization: false,
       isSyncingTemplates: false,
       allowedDomains: '',
       isUpdatingAllowedDomains: false,
     };
   },
-  validations: {
-    whatsAppInboxAPIKey: { required },
-  },
+  validations: {},
   computed: {
     isEmbeddedSignupWhatsApp() {
       return this.inbox.provider_config?.source === 'embedded_signup';
@@ -363,43 +359,6 @@ export default {
           "
         >
           <woot-code :script="inbox.provider_config.webhook_verify_token" />
-        </SettingsSection>
-        <SettingsSection
-          :title="$t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_SECTION_TITLE')"
-          :sub-title="
-            $t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_SECTION_SUBHEADER')
-          "
-        >
-          <woot-code :script="inbox.provider_config.api_key" />
-        </SettingsSection>
-        <SettingsSection
-          :title="$t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_SECTION_UPDATE_TITLE')"
-          :sub-title="
-            $t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_SECTION_UPDATE_SUBHEADER')
-          "
-        >
-          <div
-            class="flex flex-1 justify-between items-center mt-2 whatsapp-settings--content"
-          >
-            <woot-input
-              v-model="whatsAppInboxAPIKey"
-              type="text"
-              class="flex-1 mr-2 [&>input]:!mb-0"
-              :placeholder="
-                $t(
-                  'INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_SECTION_UPDATE_PLACEHOLDER'
-                )
-              "
-            />
-            <NextButton
-              :disabled="v$.whatsAppInboxAPIKey.$invalid"
-              @click="updateWhatsAppInboxAPIKey"
-            >
-              {{
-                $t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_SECTION_UPDATE_BUTTON')
-              }}
-            </NextButton>
-          </div>
         </SettingsSection>
       </template>
       <SettingsSection

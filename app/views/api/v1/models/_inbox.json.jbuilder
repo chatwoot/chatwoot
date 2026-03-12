@@ -126,7 +126,7 @@ json.bot_name resource.channel.try(:bot_name) if resource.telegram?
 ### WhatsApp Channel
 if resource.whatsapp?
   json.message_templates resource.channel.try(:message_templates)
-  json.provider_config resource.channel.try(:provider_config) if Current.account_user&.administrator?
+  json.provider_config resource.channel.try(:provider_config)&.except('api_key') if Current.account_user&.administrator?
   json.reauthorization_required resource.channel.try(:reauthorization_required?)
 end
 
