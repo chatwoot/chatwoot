@@ -10,6 +10,7 @@ overrides:
   vitest: 3.0.5
   minimatch@<4: 3.1.5
   minimatch@>=9.0.0 <9.0.7: 9.0.9
+  lodash@>=4.0.0 <=4.17.22: 4.17.23
 
 importers:
 
@@ -3129,8 +3130,8 @@ packages:
   lodash.truncate@4.4.2:
     resolution: {integrity: sha512-jttmRe7bRse52OsWIMDLaXxWqRAmtIUccAQ3garviCqJjafXOfNMO0yMfNpdD6zbGaTU0P5Nz7e7gAT6cKmJRw==}
 
-  lodash@4.17.21:
-    resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==}
+  lodash@4.17.23:
+    resolution: {integrity: sha512-LgVTMpQtIopCi79SJeDiP0TfWi5CNEc/L/aRdTh3yIvmZXTnheWpKjSZhnvMl8iXbC1tFg9gdHHDMLoV7CnG+w==}
 
   log-symbols@6.0.0:
     resolution: {integrity: sha512-i24m8rpwhmPIS4zscNzK6MSEhk0DUWa/8iYQWxhffV8jkI4Phvs3F+quL5xvS0gdQR0FyTCMMH33Y78dDTzzIw==}
@@ -5531,7 +5532,7 @@ snapshots:
       js-yaml: 4.1.0
       json5: 2.2.3
       jsonc-eslint-parser: 2.4.0
-      lodash: 4.17.21
+      lodash: 4.17.23
       parse5: 7.1.2
       semver: 7.6.3
       synckit: 0.9.1
@@ -8009,7 +8010,7 @@ snapshots:
 
   lodash.truncate@4.4.2: {}
 
-  lodash@4.17.21: {}
+  lodash@4.17.23: {}
 
   log-symbols@6.0.0:
     dependencies:
@@ -9597,7 +9598,7 @@ snapshots:
       eslint-visitor-keys: 3.4.3
       espree: 9.6.1
       esquery: 1.5.0
-      lodash: 4.17.21
+      lodash: 4.17.23
       semver: 7.6.3
     transitivePeerDependencies:
       - supports-color
@@ -9789,7 +9790,7 @@ snapshots:
   yaml-eslint-parser@1.2.3:
     dependencies:
       eslint-visitor-keys: 3.4.3
-      lodash: 4.17.21
+      lodash: 4.17.23
       yaml: 2.5.1
 
   yaml@2.5.1: {}
