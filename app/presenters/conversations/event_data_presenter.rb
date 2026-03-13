@@ -24,7 +24,7 @@ class Conversations::EventDataPresenter < SimpleDelegator
   private
 
   def push_messages
-    [messages.chat.last&.push_event_data].compact
+    [messages.where(account_id: account_id).chat.last&.push_event_data].compact
   end
 
   def push_meta

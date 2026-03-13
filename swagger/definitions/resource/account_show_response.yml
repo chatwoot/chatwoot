@@ -3,7 +3,9 @@ allOf:
   - type: object
     properties:
       latest_chatwoot_version:
-        type: string
+        type:
+          - string
+          - 'null'
         description: Latest version of Chatwoot available
         example: "3.0.0"
       subscribed_features:
