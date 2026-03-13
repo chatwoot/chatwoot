@@ -4,6 +4,7 @@
 #
 #  id         :integer          not null, primary key
 #  content    :text
+#  content_format :string           default("markdown"), not null
 #  short_code :string
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
@@ -11,10 +12,13 @@
 #
 
 class CannedResponse < ApplicationRecord
+  FORMATS = %w[markdown plain_text].freeze
+
   validates :content, presence: true
   validates :short_code, presence: true
   validates :account, presence: true
   validates :short_code, uniqueness: { scope: :account_id }
+  validates :content_format, inclusion: { in: FORMATS }
 
   belongs_to :account
 

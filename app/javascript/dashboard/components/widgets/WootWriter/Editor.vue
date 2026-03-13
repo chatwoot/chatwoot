@@ -62,6 +62,7 @@ import {
   calculateMenuPosition,
   getEffectiveChannelType,
   stripUnsupportedFormatting,
+  serializePlainTextMessage,
 } from 'dashboard/helper/editorHelper';
 import {
   hasPressedEnterAndNotCmdOrShift,
@@ -102,6 +103,7 @@ const emit = defineEmits([
   'toggleCannedMenu',
   'toggleVariablesMenu',
   'toggleToolsMenu',
+  'insertCannedResponse',
   'clearSelection',
   'blur',
   'focus',
@@ -224,6 +226,10 @@ const handleCopilotAction = actionKey => {
 
 const contentFromEditor = () => {
   return MessageMarkdownSerializer.serialize(editorView.state.doc);
+};
+
+const plainTextFromEditor = () => {
+  return serializePlainTextMessage(editorView.state.doc);
 };
 
 const shouldShowVariables = computed(() => {
@@ -682,6 +688,10 @@ function insertSpecialContent(type, content) {
 
   insertNodeIntoEditor(node, from, to);
 
+  if (type === 'cannedResponse') {
+    emit('insertCannedResponse', content);
+  }
+
   const event_map = {
     mention: CONVERSATION_EVENTS.USED_MENTIONS,
     cannedResponse: CONVERSATION_EVENTS.INSERTED_A_CANNED_RESPONSE,
@@ -826,6 +836,10 @@ onMounted(() => {
   if (props.focusOnMount) {
     focusEditorInputField();
   }
+});
+
+defineExpose({
+  getPlainTextContent: plainTextFromEditor,
 });
 
 // BUS Event to insert text or markdown into the editor at the

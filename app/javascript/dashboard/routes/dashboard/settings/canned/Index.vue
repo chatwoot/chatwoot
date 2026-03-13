@@ -133,6 +133,7 @@ const confirmDeletion = () => {
 const tableHeaders = computed(() => {
   return [
     t('CANNED_MGMT.LIST.TABLE_HEADER.SHORT_CODE'),
+    t('CANNED_MGMT.LIST.TABLE_HEADER.FORMAT'),
     t('CANNED_MGMT.LIST.TABLE_HEADER.ACTIONS'),
   ];
 });
@@ -202,6 +203,9 @@ const tableHeaders = computed(() => {
         <template #header-1>
           {{ tableHeaders[1] }}
         </template>
+        <template #header-2>
+          {{ tableHeaders[2] }}
+        </template>
 
         <template #row="{ items }">
           <BaseTableRow
@@ -219,6 +223,23 @@ const tableHeaders = computed(() => {
                     {{ getPlainText(cannedItem.content) }}
                   </p>
                 </div>
+              </BaseTableCell>
+
+              <BaseTableCell class="w-36">
+                <span
+                  class="inline-flex items-center rounded-md px-2 py-1 text-xs font-medium whitespace-nowrap"
+                  :class="
+                    cannedItem.content_format === 'plain_text'
+                      ? 'bg-n-blue-subtle text-n-blue-text'
+                      : 'bg-n-slate-3 text-n-slate-11'
+                  "
+                >
+                  {{
+                    cannedItem.content_format === 'plain_text'
+                      ? $t('CANNED_MGMT.LIST.FORMAT.PLAIN_TEXT')
+                      : $t('CANNED_MGMT.LIST.FORMAT.MARKDOWN')
+                  }}
+                </span>
               </BaseTableCell>
 
               <BaseTableCell align="end" class="w-24">
@@ -256,6 +277,7 @@ const tableHeaders = computed(() => {
         :id="activeResponse.id"
         :edshort-code="activeResponse.short_code"
         :edcontent="activeResponse.content"
+        :edcontent-format="activeResponse.content_format"
         :on-close="hideEditPopup"
       />
     </woot-modal>
