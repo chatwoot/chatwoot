@@ -1,0 +1,22 @@
+tags:
+  - Labels
+operationId: delete-a-label
+summary: Delete a label
+security:
+  - userApiKey: []
+description: Delete a label from the account
+responses:
+  '200':
+    description: Success
+  '401':
+    description: Unauthorized
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '404':
+    description: The label does not exist in the account
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

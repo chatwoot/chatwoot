@@ -129,14 +129,14 @@ const toggleAutoResolve = async () => {
   >
     <div class="flex flex-col gap-2 items-start px-5 py-4">
       <div class="flex justify-between items-center w-full">
-        <h3 class="text-base font-medium text-n-slate-12">
+        <h3 class="text-heading-2 text-n-slate-12">
           {{ t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE.TITLE') }}
         </h3>
         <div class="flex justify-end">
           <Switch v-model="isEnabled" @change="toggleAutoResolve" />
         </div>
       </div>
-      <p class="mb-0 text-sm text-n-slate-11">
+      <p class="mb-0 text-body-para text-n-slate-11">
         {{ t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE.NOTE') }}
       </p>
     </div>

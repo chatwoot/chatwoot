@@ -41,14 +41,14 @@ export default {
 
 <template>
   <div
-    class="flex justify-between items-center h-20 min-h-[3.5rem] px-4 py-2 bg-n-surface-1"
+    class="flex justify-between items-center h-20 min-h-[3.5rem] px-6 py-2 bg-n-surface-1"
   >
     <h1 class="flex items-center mb-0 text-2xl text-n-slate-12">
       <BackButton
         v-if="showBackButton"
         :button-label="backButtonLabel"
         :back-url="backUrl"
-        class="ml-2 mr-4"
+        class="ltr:mr-4 rtl:ml-4"
       />
 
       <slot />
