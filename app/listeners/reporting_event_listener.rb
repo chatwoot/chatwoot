@@ -75,7 +75,9 @@ class ReportingEventListener < BaseListener
     conversation = extract_conversation_and_account(event)[0]
     event_end_time = event.timestamp
 
-    # check if a conversation_bot_handoff event exists for this conversation
+    # Best-effort guard: raw report reads count bot handoffs with DISTINCT conversation_id,
+    # while rollup counts assume one conversation_bot_handoff event per conversation.
+    # That uniqueness is not currently enforced at the database level.
     bot_handoff_event = ReportingEvent.find_by(conversation_id: conversation.id, name: 'conversation_bot_handoff')
     return if bot_handoff_event.present?
 

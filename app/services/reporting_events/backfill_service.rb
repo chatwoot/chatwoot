@@ -10,6 +10,20 @@ class ReportingEvents::BackfillService
     Arel.sql('COALESCE(SUM(value_in_business_hours), 0)')
   ].freeze
 
+  DISTINCT_AGGREGATE_SELECTS = [
+    :name,
+    :user_id,
+    :inbox_id,
+    Arel.sql('COUNT(DISTINCT conversation_id)'),
+    Arel.sql('COALESCE(SUM(value), 0)'),
+    Arel.sql('COALESCE(SUM(value_in_business_hours), 0)')
+  ].freeze
+
+  # TODO: Move this to EventMetricRegistry when we expand distinct-counting support.
+  # The live path already guards uniqueness in ReportingEventListener#conversation_bot_handoff,
+  # but historical duplicates can exist since it's not enforced at the DB level.
+  DISTINCT_COUNT_EVENTS = %w[conversation_bot_handoff].freeze
+
   def self.backfill_date(account, date)
     new(account, date).perform
   end
@@ -67,11 +81,23 @@ class ReportingEvents::BackfillService
   end
 
   def grouped_events(start_utc, end_utc)
+    standard = fetch_grouped_events(start_utc, end_utc, standard_event_names, AGGREGATE_SELECTS)
+    distinct = fetch_grouped_events(start_utc, end_utc, DISTINCT_COUNT_EVENTS, DISTINCT_AGGREGATE_SELECTS)
+
+    (standard + distinct).map { |grouped_row| grouped_event_attributes(grouped_row) }
+  end
+
+  def standard_event_names
+    ReportingEvents::EventMetricRegistry.event_names - DISTINCT_COUNT_EVENTS
+  end
+
+  def fetch_grouped_events(start_utc, end_utc, event_names, selects)
+    return [] if event_names.empty?
+
     @account.reporting_events
-            .where(name: ReportingEvents::EventMetricRegistry.event_names, created_at: start_utc...end_utc)
+            .where(name: event_names, created_at: start_utc...end_utc)
             .group(:name, :user_id, :inbox_id)
-            .pluck(*AGGREGATE_SELECTS)
-            .map { |grouped_row| grouped_event_attributes(grouped_row) }
+            .pluck(*selects)
   end
 
   def dimensions(grouped_event)
