@@ -4,7 +4,7 @@ import AddCanned from './AddCanned.vue';
 import EditCanned from './EditCanned.vue';
 import SettingsLayout from '../SettingsLayout.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
-import { computed, onMounted, ref, defineOptions } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStoreGetters, useStore } from 'dashboard/composables/store';
 import { picoSearch } from '@scmmishra/pico-search';

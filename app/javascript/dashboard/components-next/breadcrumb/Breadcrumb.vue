@@ -1,5 +1,4 @@
 <script setup>
-import { defineProps } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import Icon from 'dashboard/components-next/icon/Icon.vue';

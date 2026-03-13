@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref, watch, defineModel } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useToggle } from '@vueuse/core';
 import { useI18n } from 'vue-i18n';
 import addMonths from 'date-fns/addMonths';

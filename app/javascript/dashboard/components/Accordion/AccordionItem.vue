@@ -1,6 +1,5 @@
 <script setup>
 import EmojiOrIcon from 'shared/components/EmojiOrIcon.vue';
-import { defineEmits } from 'vue';
 
 defineProps({
   title: {
