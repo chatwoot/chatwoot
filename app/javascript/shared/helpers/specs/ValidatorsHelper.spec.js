@@ -10,6 +10,7 @@ import {
   isDomain,
   getRegexp,
   isValidSlug,
+  isLocalhostUrl,
 } from '../Validators';
 
 describe('#shouldBeUrl', () => {
@@ -173,5 +174,44 @@ describe('#isValidSlug', () => {
     expect(isValidSlug('abc--def!')).toEqual(false);
     expect(isValidSlug('abc-def ')).toEqual(false);
     expect(isValidSlug(' abc-def')).toEqual(false);
+  });
+});
+
+describe('#isLocalhostUrl', () => {
+  const originalLocation = window.location;
+
+  beforeAll(() => {
+    delete window.location;
+  });
+
+  afterAll(() => {
+    window.location = originalLocation;
+  });
+
+  it('should return true for empty value', () => {
+    expect(isLocalhostUrl('')).toEqual(true);
+    expect(isLocalhostUrl(null)).toEqual(true);
+    expect(isLocalhostUrl(undefined)).toEqual(true);
+  });
+
+  it('should return true for localhost URL when running on localhost', () => {
+    window.location = { hostname: 'localhost' };
+    expect(isLocalhostUrl('http://localhost:3000/path')).toEqual(true);
+    expect(isLocalhostUrl('https://localhost:3000/path')).toEqual(true);
+    expect(isLocalhostUrl('http://127.0.0.1:3000/path')).toEqual(true);
+    expect(isLocalhostUrl('https://127.0.0.1:3000/path')).toEqual(true);
+  });
+
+  it('should return false for localhost URLs when not running on localhost', () => {
+    window.location = { hostname: 'example.com' };
+    expect(isLocalhostUrl('http://localhost:3000/path')).toEqual(false);
+    expect(isLocalhostUrl('https://localhost:3000/path')).toEqual(false);
+    expect(isLocalhostUrl('http://127.0.0.1:3000/path')).toEqual(false);
+    expect(isLocalhostUrl('https://127.0.0.1:3000/path')).toEqual(false);
+  });
+
+  it('should return false for non-localhost URLs', () => {
+    expect(isLocalhostUrl('http://example.com')).toEqual(false);
+    expect(isLocalhostUrl('https://example.com')).toEqual(false);
   });
 });
