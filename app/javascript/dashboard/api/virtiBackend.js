@@ -1,7 +1,8 @@
 /* global axios */
 import virtiAuth from './virtiAuth';
 
-const VIRTI_API_PREFIX = '/virti-api';
+const getBackendUrl = () =>
+  window.chatwootConfig?.virtiBackendUrl || '';
 
 const request = async (method, path, options = {}) => {
   const token = await virtiAuth.ensureToken();
@@ -11,7 +12,7 @@ const request = async (method, path, options = {}) => {
   try {
     return await axios({
       method,
-      url: `${VIRTI_API_PREFIX}${path}`,
+      url: `${getBackendUrl()}${path}`,
       ...options,
       headers: {
         ...(options.headers || {}),
