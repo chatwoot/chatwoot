@@ -68,7 +68,7 @@ class ReportingEvents::BackfillService
 
   def grouped_events(start_utc, end_utc)
     @account.reporting_events
-            .where(name: ReportingEvents::MetricRegistry::EVENT_METRICS.keys, created_at: start_utc...end_utc)
+            .where(name: ReportingEvents::EventMetricRegistry.event_names, created_at: start_utc...end_utc)
             .group(:name, :user_id, :inbox_id)
             .pluck(*AGGREGATE_SELECTS)
             .map { |grouped_row| grouped_event_attributes(grouped_row) }
@@ -83,7 +83,7 @@ class ReportingEvents::BackfillService
   end
 
   def accumulate_grouped_aggregates(aggregates, grouped_event)
-    ReportingEvents::MetricRegistry.event_metrics_for_aggregate(
+    ReportingEvents::EventMetricRegistry.metrics_for_aggregate(
       grouped_event[:event_name],
       count: grouped_event[:count],
       sum_value: grouped_event[:sum_value],
