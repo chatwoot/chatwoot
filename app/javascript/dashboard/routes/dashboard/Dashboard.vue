@@ -25,6 +25,7 @@ import CopilotContainer from 'dashboard/components/copilot/CopilotContainer.vue'
 
 import MobileSidebarLauncher from 'dashboard/components-next/sidebar/MobileSidebarLauncher.vue';
 import { useCallsStore } from 'dashboard/stores/calls';
+import ContextHelp from 'dashboard/components-next/ContextHelp.vue';
 
 export default {
   components: {
@@ -37,6 +38,7 @@ export default {
     CopilotContainer,
     FloatingCallWidget,
     MobileSidebarLauncher,
+    ContextHelp,
   },
   setup() {
     const upgradePageRef = ref(null);
@@ -83,6 +85,30 @@ export default {
         previously_used_conversation_display_type: conversationDisplayType,
       } = this.uiSettings;
       return conversationDisplayType;
+    },
+    contextualHelpKey() {
+      const routeName = this.$route.name;
+      const routeToHelpMap = {
+        dashboard: 'dashboard',
+        home: 'conversations',
+        inbox_view: 'inbox',
+        inbox_view_conversation: 'inbox',
+        contacts_dashboard_index: 'contacts',
+        contacts_dashboard_active: 'contacts',
+        conversation_mentions: 'conversations',
+        labels_list: 'tags',
+        automation_list: 'automations',
+        settings_applications: 'integrations',
+        conversation_reports: 'reports',
+        account_overview_reports: 'reports',
+        agent_list: 'user_management',
+        search: 'search_filters',
+      };
+
+      if (routeName?.includes('notes')) return 'internal_notes';
+      if (routeName?.includes('assignment')) return 'assign_conversation';
+
+      return routeToHelpMap[routeName] || null;
     },
   },
   watch: {
@@ -154,6 +180,9 @@ export default {
         />
       </UpgradePage>
       <template v-if="!showUpgradePage">
+        <div class="fixed z-30 top-4 right-4">
+          <ContextHelp v-if="contextualHelpKey" :help-key="contextualHelpKey" />
+        </div>
         <router-view />
         <CommandBar />
         <CopilotLauncher />

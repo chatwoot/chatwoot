@@ -124,6 +124,14 @@
     "PAGINATION": {
       "RESULTS": "Showing {start} to {end} of {total} results",
       "PER_PAGE_TEMPLATE": "{size} / page"
+    },
+    "SYNAPSEA_ANALYTICS": {
+      "TITLE": "Synapsea service analytics",
+      "DESCRIPTION": "Operational indicators focused on response speed, lead conversion, team delivery and contact origin.",
+      "AVG_RESPONSE_TIME": "Average response time",
+      "LEAD_CONVERSIONS": "Lead conversions",
+      "AGENT_PERFORMANCE": "Agent performance (top)",
+      "CONTACT_ORIGIN": "Contact origin"
     }
   },
   "AGENT_REPORTS": {
