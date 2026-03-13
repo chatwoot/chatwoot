@@ -41,7 +41,18 @@ RSpec.describe Captain::Tools::ResolveConversationTool do
   end
 
   describe 'when auto-resolve is disabled for the account' do
-    before { account.update!(captain_disable_auto_resolve: true) }
+    before { account.update!(captain_auto_resolve_mode: 'disabled') }
+
+    it 'does not resolve and returns a disabled message' do
+      result = tool.perform(tool_context, reason: 'Possible spam')
+
+      expect(result).to eq('Auto-resolve is disabled for this account')
+      expect(conversation.reload).not_to be_resolved
+    end
+  end
+
+  describe 'when auto-resolve is disabled via legacy settings key' do
+    before { account.update!(settings: account.settings.merge('captain_disable_auto_resolve' => true)) }
 
     it 'does not resolve and returns a disabled message' do
       result = tool.perform(tool_context, reason: 'Possible spam')

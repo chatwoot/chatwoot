@@ -41,8 +41,7 @@ class Account < ApplicationRecord
         'audio_transcriptions': { 'type': %w[boolean null] },
         'auto_resolve_label': { 'type': %w[string null] },
         'keep_pending_on_bot_failure': { 'type': %w[boolean null] },
-        'captain_disable_auto_resolve': { 'type': %w[boolean null] },
-        'captain_force_legacy_auto_resolve': { 'type': %w[boolean null] },
+        'captain_auto_resolve_mode': { 'type': %w[string null], 'enum': %w[evaluated legacy disabled] },
         'conversation_required_attributes': {
           'type': %w[array null],
           'items': { 'type': 'string' }
@@ -92,7 +91,7 @@ class Account < ApplicationRecord
   store_accessor :settings, :audio_transcriptions, :auto_resolve_label
   store_accessor :settings, :captain_models, :captain_features
   store_accessor :settings, :keep_pending_on_bot_failure
-  store_accessor :settings, :captain_disable_auto_resolve, :captain_force_legacy_auto_resolve
+  store_accessor :settings, :captain_auto_resolve_mode
 
   has_many :account_users, dependent: :destroy_async
   has_many :agent_bot_inboxes, dependent: :destroy_async
@@ -195,6 +194,27 @@ class Account < ApplicationRecord
     # we need to extract the language code from the locale
     account_locale = locale&.split('_')&.first
     ISO_639.find(account_locale)&.english_name&.downcase || 'english'
+  end
+
+  def captain_auto_resolve_mode
+    mode = settings&.[]('captain_auto_resolve_mode')
+    return mode if %w[evaluated legacy disabled].include?(mode)
+    return 'disabled' if settings&.[]('captain_disable_auto_resolve') == true
+    return 'legacy' if settings&.[]('captain_force_legacy_auto_resolve') == true
+
+    'evaluated'
+  end
+
+  def captain_auto_resolve_disabled?
+    captain_auto_resolve_mode == 'disabled'
+  end
+
+  def captain_auto_resolve_legacy?
+    captain_auto_resolve_mode == 'legacy'
+  end
+
+  def captain_auto_resolve_evaluated?
+    captain_auto_resolve_mode == 'evaluated'
   end
 
   private
