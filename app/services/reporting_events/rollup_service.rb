@@ -39,7 +39,7 @@ class ReportingEvents::RollupService
   end
 
   def build_rollup_rows
-    event_metrics = ReportingEvents::MetricRegistry.event_metrics_for(@reporting_event)
+    event_metrics = ReportingEvents::EventMetricRegistry.metrics_for(@reporting_event)
 
     dimensions.each_with_object([]) do |(dimension_type, dimension_id), rows|
       next if dimension_id.nil?

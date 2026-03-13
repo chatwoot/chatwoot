@@ -4,7 +4,7 @@ class V2::Reports::Conversations::BaseReportBuilder
   private
 
   def builder_class(metric)
-    return unless ReportingEvents::MetricRegistry.supported_metric?(metric)
+    return unless Reports::ReportMetricRegistry.supported?(metric)
 
     V2::Reports::Timeseries::ReportBuilder
   end

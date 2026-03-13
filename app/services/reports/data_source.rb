@@ -49,7 +49,7 @@ class Reports::DataSource
     end
 
     def supported_metric?(metric)
-      metric.blank? || ReportingEvents::MetricRegistry.rollup_supported_metric?(metric)
+      metric.blank? || Reports::ReportMetricRegistry.rollup_supported?(metric)
     end
 
     def normalized_timezone_identifier(timezone)
@@ -73,11 +73,11 @@ class Reports::DataSource
   private
 
   def report_metric
-    @report_metric ||= ReportingEvents::MetricRegistry.report_metric(metric)
+    @report_metric ||= Reports::ReportMetricRegistry.fetch(metric)
   end
 
   def average_metric?
-    report_metric&.dig(:aggregate) == :average
+    report_metric&.average?
   end
 
   def count_metric?
@@ -85,19 +85,19 @@ class Reports::DataSource
   end
 
   def rollup_metric
-    report_metric&.dig(:rollup_metric)
+    report_metric&.rollup_metric
   end
 
   def raw_event_name
-    report_metric&.dig(:raw_event_name)
+    report_metric&.raw_event_name
   end
 
   def raw_count_strategy
-    report_metric&.dig(:raw_count_strategy)
+    report_metric&.raw_count_strategy
   end
 
   def summary_metrics
-    @summary_metrics ||= ReportingEvents::MetricRegistry.summary_metrics
+    @summary_metrics ||= Reports::ReportMetricRegistry.summary_metrics
   end
 
   def use_business_hours?
