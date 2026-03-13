@@ -148,6 +148,83 @@ export const icons = {
     width: 7,
     height: 11,
   },
+  'empty-assignee': {
+    body: `<g fill="none" stroke="currentColor">
+    <path d="M10.29 3.16394C11.4196 2.94535 12.5805 2.94535 13.71 3.16394" stroke-width="1.79999" stroke-linecap="round" stroke-linejoin="round"/><path d="M13.71 20.8362C12.5805 21.0548 11.4196 21.0548 10.29 20.8362" stroke-width="1.79999" stroke-linecap="round" stroke-linejoin="round"/><path d="M17.0479 4.54907C18.0032 5.19637 18.8251 6.02134 19.4688 6.97906" stroke-width="1.79999" stroke-linecap="round" stroke-linejoin="round"/><path d="M3.16394 13.7101C2.94535 12.5806 2.94535 11.4196 3.16394 10.2901" stroke-width="1.79999" stroke-linecap="round" stroke-linejoin="round"/><path d="M19.4515 17.0482C18.8042 18.0035 17.9792 18.8254 17.0215 19.4691" stroke-width="1.79999" stroke-linecap="round" stroke-linejoin="round"/><path d="M20.8359 10.2901C21.0545 11.4196 21.0545 12.5806 20.8359 13.7101" stroke-width="1.79999" stroke-linecap="round" stroke-linejoin="round"/><path d="M4.54883 6.95205C5.19612 5.99673 6.0211 5.17481 6.97881 4.53107" stroke-width="1.79999" stroke-linecap="round" stroke-linejoin="round"/><path d="M6.95223 19.4512C5.99692 18.8039 5.175 17.9789 4.53125 17.0212" stroke-width="1.79999" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 14.25C13.7259 14.25 15.125 12.8509 15.125 11.125C15.125 9.39911 13.7259 8 12 8C10.2741 8 8.875 9.39911 8.875 11.125C8.875 12.8509 10.2741 14.25 12 14.25Z" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M17 19.25C17 17.9239 16.4732 16.6521 15.5355 15.7144C14.5979 14.7767 13.3261 14.25 12 14.25C10.6739 14.25 9.40215 14.7767 8.46447 15.7144C7.52678 16.6521 7 17.9239 7 19.25" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></g>`,
+    width: 24,
+    height: 24,
+  },
+  party: {
+    body: `<g fill="currentColor" stroke="none"><path d="M8.023 2.426a.6.6 0 0 1 .4.748l-.562 1.85a.6.6 0 0 1-1.15-.348l.563-1.85a.6.6 0 0 1 .75-.4M12.8 3a.6.6 0 1 0-1.2 0v.2h-.2a.6.6 0 0 0 0 1.2h.2v.2a.6.6 0 0 0 1.2 0v-.2h.2a.6.6 0 1 0 0-1.2h-.2z"/><path fill-rule="evenodd" clip-rule="evenodd" d="M6.645 6.197a1.4 1.4 0 0 0-2.268.416L2.703 10.35a2.2 2.2 0 0 0 .452 2.456l.04.04a2.2 2.2 0 0 0 2.457.452l3.734-1.675a1.4 1.4 0 0 0 .417-2.267zm-1.172.908a.2.2 0 0 1 .324-.06l3.158 3.158a.2.2 0 0 1-.06.324l-3.734 1.674a1 1 0 0 1-1.116-.205l-.041-.04a1 1 0 0 1-.206-1.117z"/><path d="M4.6 2.4a.6.6 0 0 1 .6.6v.2h.2a.6.6 0 0 1 0 1.2h-.2v.2a.6.6 0 0 1-1.2 0v-.2h-.2a.6.6 0 1 1 0-1.2H4V3a.6.6 0 0 1 .6-.6m8.2 8.2a.6.6 0 0 0-1.2 0v.2h-.2a.6.6 0 1 0 0 1.2h.2v.2a.6.6 0 0 0 1.2 0V12h.2a.6.6 0 1 0 0-1.2h-.2zm-1.976-4.576a.6.6 0 0 0-.848-.848l-.8.8a.6.6 0 0 0 .848.848zm2.438 2.802a.6.6 0 1 0-.33-1.154l-1.874.538a.6.6 0 1 0 .33 1.153z"/></g>`,
+    width: 16,
+    height: 16,
+  },
+  'expand-list': {
+    body: `<g fill="none" stroke="currentColor"><path d="M1.333 12V4a2 2 0 0 1 2-2h1.334a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H3.333a2 2 0 0 1-2-2Z" stroke-width="1.2"/><path d="M10.667 2H12a2.667 2.667 0 0 1 2.667 2.667v6.666A2.667 2.667 0 0 1 12 14h-1.333m-4-6H12m0 0-2-2m2 2-2 2" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></g>`,
+    width: 16,
+    height: 16,
+  },
+  hash: {
+    body: `<g fill="currentColor" stroke="none"><path d="M11.8125 8.3125H9.1875V5.6875H11.8125C11.9285 5.6875 12.0398 5.64141 12.1219 5.55936C12.2039 5.47731 12.25 5.36603 12.25 5.25C12.25 5.13397 12.2039 5.02269 12.1219 4.94064C12.0398 4.85859 11.9285 4.8125 11.8125 4.8125H9.1875V2.1875C9.1875 2.07147 9.14141 1.96019 9.05936 1.87814C8.97731 1.79609 8.86603 1.75 8.75 1.75C8.63397 1.75 8.52269 1.79609 8.44064 1.87814C8.35859 1.96019 8.3125 2.07147 8.3125 2.1875V4.8125H5.6875V2.1875C5.6875 2.07147 5.64141 1.96019 5.55936 1.87814C5.47731 1.79609 5.36603 1.75 5.25 1.75C5.13397 1.75 5.02269 1.79609 4.94064 1.87814C4.85859 1.96019 4.8125 2.07147 4.8125 2.1875V4.8125H2.1875C2.07147 4.8125 1.96019 4.85859 1.87814 4.94064C1.79609 5.02269 1.75 5.13397 1.75 5.25C1.75 5.36603 1.79609 5.47731 1.87814 5.55936C1.96019 5.64141 2.07147 5.6875 2.1875 5.6875H4.8125V8.3125H2.1875C2.07147 8.3125 1.96019 8.35859 1.87814 8.44064C1.79609 8.52269 1.75 8.63397 1.75 8.75C1.75 8.86603 1.79609 8.97731 1.87814 9.05936C1.96019 9.14141 2.07147 9.1875 2.1875 9.1875H4.8125V11.8125C4.8125 11.9285 4.85859 12.0398 4.94064 12.1219C5.02269 12.2039 5.13397 12.25 5.25 12.25C5.36603 12.25 5.47731 12.2039 5.55936 12.1219C5.64141 12.0398 5.6875 11.9285 5.6875 11.8125V9.1875H8.3125V11.8125C8.3125 11.9285 8.35859 12.0398 8.44064 12.1219C8.52269 12.2039 8.63397 12.25 8.75 12.25C8.86603 12.25 8.97731 12.2039 9.05936 12.1219C9.14141 12.0398 9.1875 11.9285 9.1875 11.8125V9.1875H11.8125C11.9285 9.1875 12.0398 9.14141 12.1219 9.05936C12.2039 8.97731 12.25 8.86603 12.25 8.75C12.25 8.63397 12.2039 8.52269 12.1219 8.44064C12.0398 8.35859 11.9285 8.3125 11.8125 8.3125ZM5.6875 8.3125V5.6875H8.3125V8.3125H5.6875Z" fill="currentColor"/></g>`,
+    width: 14,
+    height: 14,
+  },
+
+  /** Conversation Status Starts */
+  'status-empty': {
+    body: `<path d="M12 3a9 9 0 0 1 6.642 15.075" stroke="#60646c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M14.7 12 12 9.3 9.3 12m2.7 2.7V9.3" stroke="#60646c" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"/><path d="M3.45 9.188a9 9 0 0 0-.45 2.7m.747 3.712a9 9 0 0 0 2.187 3.06M5.372 5.911a9 9 0 0 1 .802-.77M8.98 20.478a9 9 0 0 0 6.867-.342" stroke="#60646c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>`,
+    width: 24,
+    height: 24,
+  },
+  'status-pending': {
+    body: `<mask id="a" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24"><path fill="#d9d9d9" d="M0 0h24v24H0z"/></mask><g mask="url(#a)" stroke="#b9bbc6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.164a9 9 0 0 1 3.42 0m0 17.672a9 9 0 0 1-3.42 0M17.048 4.55a9 9 0 0 1 2.42 2.43M3.164 13.71a9 9 0 0 1 0-3.42m16.288 6.758a9 9 0 0 1-2.43 2.421m3.814-9.179a9 9 0 0 1 0 3.42M4.549 6.952a9 9 0 0 1 2.43-2.421m-.027 14.92a9 9 0 0 1-2.42-2.43"/></g>`,
+    width: 24,
+    height: 24,
+  },
+  'status-open': {
+    body: `<mask id="a" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24"><path fill="#d9d9d9" d="M0 0h24v24H0z"/></mask><g mask="url(#a)"><path d="M4.188 18.25q2.187 2.724 5.612 3.5a.89.89 0 0 0 .837-.176.99.99 0 0 0 .363-.8q0-.35-.2-.625a.88.88 0 0 0-.55-.35q-2.75-.625-4.5-2.8T4 12t1.75-5 4.5-2.8a.88.88 0 0 0 .55-.35q.2-.275.2-.625 0-.5-.363-.8A.89.89 0 0 0 9.8 2.25q-3.424.776-5.613 3.5Q2 8.474 2 12t2.188 6.25m9.175 3.324q.361.3.837.175.825-.2 1.613-.525.787-.325 1.512-.775a.99.99 0 0 0 .45-.737.96.96 0 0 0-.3-.813 1.02 1.02 0 0 0-.588-.3.8.8 0 0 0-.612.15q-.575.375-1.212.638a8 8 0 0 1-1.313.412.88.88 0 0 0-.55.35q-.2.275-.2.625 0 .5.363.8m5.237-4.662q.05.337.3.587a.96.96 0 0 0 .813.3 1 1 0 0 0 .737-.45q.45-.724.775-1.512a11 11 0 0 0 .525-1.613.89.89 0 0 0-.175-.837.99.99 0 0 0-.8-.363q-.35 0-.625.188a.83.83 0 0 0-.35.537 8.4 8.4 0 0 1-.413 1.325 7 7 0 0 1-.637 1.225.8.8 0 0 0-.15.613m1.55-6.112q.275.199.625.2.5 0 .8-.363t.175-.838a11 11 0 0 0-.525-1.612 10.4 10.4 0 0 0-.775-1.513q-.275-.425-.738-.475a.96.96 0 0 0-.812.3 1.02 1.02 0 0 0-.3.588.88.88 0 0 0 .15.637q.375.575.637 1.213.263.637.413 1.312.075.35.35.55m-5.087-6.187q.638.262 1.212.637.3.201.638.15.336-.05.587-.3a.96.96 0 0 0 .3-.812q-.05-.463-.475-.738a10.4 10.4 0 0 0-1.512-.775A11 11 0 0 0 14.2 2.25a.89.89 0 0 0-.837.175.99.99 0 0 0-.363.8q0 .35.2.625t.55.35q.674.15 1.313.413M11.913 7" fill="#2781f6"/><path d="M12.001 12.902a.9.9 0 1 0 0-1.8.9.9 0 0 0 0 1.8" stroke="#2781f6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></g>`,
+    width: 24,
+    height: 24,
+  },
+  'status-snoozed': {
+    body: `<mask id="a" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24"><path fill="#d9d9d9" d="M0 0h24v24H0z"/></mask><g mask="url(#a)"><path fill-rule="evenodd" clip-rule="evenodd" d="M15.754 21.267a9.7 9.7 0 0 0 3.313-2.2 9.7 9.7 0 0 0 2.2-3.313Q22 13.908 22 12t-.733-3.754a9.7 9.7 0 0 0-2.2-3.313 9.7 9.7 0 0 0-3.313-2.2A10.1 10.1 0 0 0 12 2q-1.909 0-3.754.733a9.7 9.7 0 0 0-3.313 2.2 9.7 9.7 0 0 0-2.2 3.313A10.1 10.1 0 0 0 2 12q0 1.909.733 3.754a9.7 9.7 0 0 0 2.2 3.313 9.7 9.7 0 0 0 3.313 2.2Q10.09 22 12 22t3.754-.733m1.972-5.272a6.2 6.2 0 0 1-.779.952 6.8 6.8 0 0 1-2.319 1.54A7.1 7.1 0 0 1 12 19q-1.336 0-2.628-.513a6.8 6.8 0 0 1-2.319-1.54 6.8 6.8 0 0 1-1.54-2.319A7.1 7.1 0 0 1 5 12q0-1.336.513-2.628a6.8 6.8 0 0 1 1.54-2.319 6.2 6.2 0 0 1 2.053-1.36.706.706 0 0 1 .915.42.8.8 0 0 1 .037.31 6.8 6.8 0 0 0 .334 3.017A6.7 6.7 0 0 0 12 12a6.8 6.8 0 0 0 2.56 1.62 6.5 6.5 0 0 0 3.005.334.66.66 0 0 1 .581.185q.15.15.186.36a.77.77 0 0 1-.037.407q-.222.57-.569 1.089" fill="#ffc53d"/></g>`,
+    width: 24,
+    height: 24,
+  },
+  'status-resolved': {
+    body: `<path d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z" stroke="#0D9B8A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M9.2998 12L11.0998 13.8L14.6998 10.2" stroke="#0D9B8A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>`,
+    width: 24,
+    height: 24,
+  },
+  /** Ends */
+
+  /** Conversation Priority Starts */
+  'priority-empty': {
+    body: `<mask id="a" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24"><path fill="currentColor" d="M0 0h24v24H0z"/></mask><g mask="url(#a)" fill="currentColor"><rect x="4" y="12" width="4" height="8" rx="2"/><rect x="10" y="8" width="4" height="12" rx="2"/><rect x="16" y="4" width="4" height="16" rx="2"/></g>`,
+    width: 24,
+    height: 24,
+  },
+  'priority-low': {
+    body: `<mask id="a" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24"><path fill="#d9d9d9" d="M0 0h24v24H0z"/></mask><g mask="url(#a)"><rect x="4" y="12" width="4" height="8" rx="2" fill="#ffc53d"/><rect x="10" y="8" width="4" height="12" rx="2" fill="#e4e4e9"/><rect x="16" y="4" width="4" height="16" rx="2" fill="#e4e4e9"/></g>`,
+    width: 24,
+    height: 24,
+  },
+  'priority-medium': {
+    body: `<mask id="a" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24"><path fill="#d9d9d9" d="M0 0h24v24H0z"/></mask><g mask="url(#a)"><rect x="4" y="12" width="4" height="8" rx="2" fill="#ffc53d"/><rect x="10" y="8" width="4" height="12" rx="2" fill="#ffc53d"/><rect x="16" y="4" width="4" height="16" rx="2" fill="#e4e4e9"/></g>`,
+    width: 24,
+    height: 24,
+  },
+  'priority-high': {
+    body: `<mask id="a" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24"><path fill="#ed8a5c" d="M0 0h24v24H0z"/></mask><g mask="url(#a)" fill="#ffc53d"><rect x="4" y="12" width="4" height="8" rx="2"/><rect x="10" y="8" width="4" height="12" rx="2"/><rect x="16" y="4" width="4" height="16" rx="2"/></g>`,
+    width: 24,
+    height: 24,
+  },
+  'priority-urgent': {
+    body: `<mask id="a" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24"><path fill="#ed8a5c" d="M0 0h24v24H0z"/></mask><g mask="url(#a)" fill="#e5484d"><rect x="4" y="12" width="4" height="8" rx="2"/><rect x="10" y="8" width="4" height="12" rx="2"/><path d="M18 20q-.824 0-1.413-.49Q16 19.021 16 18.333q0-.687.587-1.177.588-.49 1.413-.49.824 0 1.413.49.587.49.587 1.177t-.587 1.177T18 20m0-5q-.824 0-1.413-.49Q16 14.021 16 13.333V6.667q0-.688.587-1.177Q17.176 5 18 5t1.413.49Q20 5.979 20 6.667v6.666q0 .688-.587 1.177Q18.825 15 18 15"/></g>`,
+    width: 24,
+    height: 24,
+  },
+  /** Ends */
 
   /** Channels Starts */
   website: {
