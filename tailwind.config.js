@@ -243,6 +243,10 @@ const tailwindConfig = {
         '50%': { transform: 'translateX(-0.234375rem)' },
         '75%': { transform: 'translateX(0.234375rem)' },
       },
+      'slide-up': {
+        '0%': { transform: 'translateY(100%)' },
+        '100%': { transform: 'translateY(0)' },
+      },
     },
     animation: {
       ...defaultTheme.animation,
@@ -251,6 +255,7 @@ const tailwindConfig = {
       'loader-pulse': 'loader-pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
       'card-select': 'card-select 0.25s ease-in-out',
       shake: 'shake 0.3s ease-in-out 0s 2',
+      'slide-up': 'slide-up 0.3s ease-out',
     },
   },
   plugins: [

@@ -1,0 +1,135 @@
+<script setup>
+import { ref, computed, onMounted } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useStore, useMapGetter } from 'dashboard/composables/store';
+import { useAlert } from 'dashboard/composables';
+
+import InboxCard from 'dashboard/components-next/Inbox/InboxCard.vue';
+import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
+import IntersectionObserver from 'dashboard/components/IntersectionObserver.vue';
+import MobileInboxHeader from './MobileInboxHeader.vue';
+import MobilePullToRefresh from './MobilePullToRefresh.vue';
+
+import wootConstants from 'dashboard/constants/globals';
+
+const emit = defineEmits(['openConversation']);
+const store = useStore();
+const { t } = useI18n();
+
+const listRef = ref(null);
+const page = ref(1);
+const status = ref('');
+const type = ref('');
+const sortOrder = ref(wootConstants.INBOX_SORT_BY.NEWEST);
+
+const meta = useMapGetter('notifications/getMeta');
+const uiFlags = useMapGetter('notifications/getUIFlags');
+const records = useMapGetter('notifications/getFilteredNotificationsV4');
+const inboxById = useMapGetter('inboxes/getInboxById');
+
+const inboxFilters = computed(() => ({
+  page: page.value,
+  status: status.value,
+  type: type.value,
+  sortOrder: sortOrder.value,
+}));
+
+const notifications = computed(() => records.value(inboxFilters.value));
+
+const showEndOfList = computed(
+  () => uiFlags.value.isAllNotificationsLoaded && !uiFlags.value.isFetching
+);
+
+const showEmptyState = computed(
+  () => !uiFlags.value.isFetching && !notifications.value.length
+);
+
+const stateInbox = inboxId => inboxById.value(inboxId);
+
+const fetchNotifications = () => {
+  page.value = 1;
+  store.dispatch('notifications/clear');
+  store.dispatch('notifications/index', inboxFilters.value);
+};
+
+const loadMoreNotifications = () => {
+  if (uiFlags.value.isAllNotificationsLoaded) return;
+  page.value += 1;
+  store.dispatch('notifications/index', {
+    page: page.value,
+    status: status.value,
+    type: type.value,
+    sortOrder: sortOrder.value,
+  });
+};
+
+const openConversation = notificationItem => {
+  const { id, primaryActorId, primaryActorType, primaryActor } =
+    notificationItem;
+
+  store.dispatch('notifications/read', {
+    id,
+    primaryActorId,
+    primaryActorType,
+    unreadCount: meta.value.unreadCount,
+  });
+
+  store.dispatch('notifications/unReadCount');
+  emit('openConversation', primaryActor.id);
+};
+
+const markAllRead = async () => {
+  try {
+    await store.dispatch('notifications/readAll');
+    useAlert(t('INBOX.ALERTS.MARK_ALL_READ'));
+    fetchNotifications();
+  } catch {
+    // error
+  }
+};
+
+const onRefresh = async () => {
+  fetchNotifications();
+};
+
+onMounted(() => {
+  fetchNotifications();
+});
+</script>
+
+<template>
+  <div class="flex flex-col w-full h-full">
+    <MobileInboxHeader @mark-all-read="markAllRead" />
+    <MobilePullToRefresh @refresh="onRefresh">
+      <div ref="listRef" class="flex-1 overflow-y-auto px-2">
+        <div v-if="uiFlags.isFetching && !notifications.length" class="flex items-center justify-center py-8">
+          <Spinner class="text-n-brand" />
+        </div>
+        <div
+          v-else-if="showEmptyState"
+          class="flex items-center justify-center py-8 text-sm text-n-slate-10"
+        >
+          {{ t('MOBILE.INBOX.NO_NOTIFICATIONS') }}
+        </div>
+        <template v-else>
+          <InboxCard
+            v-for="item in notifications"
+            :key="item.id"
+            :inbox-item="item"
+            :state-inbox="stateInbox(item.primaryActor?.inboxId)"
+            class="rounded-lg"
+            @click="openConversation(item)"
+          />
+          <div v-if="uiFlags.isFetching" class="flex justify-center py-4">
+            <Spinner class="text-n-brand" />
+          </div>
+          <IntersectionObserver
+            v-if="!showEndOfList && !uiFlags.isFetching"
+            :options="{ root: listRef, rootMargin: '100px 0px' }"
+            @observed="loadMoreNotifications"
+          />
+        </template>
+      </div>
+    </MobilePullToRefresh>
+  </div>
+</template>
