@@ -19,6 +19,8 @@ export const MACRO_ACTION_TYPES = [
     label: 'REMOVE_LABEL',
     inputType: 'multi_select',
   },
+  // @deprecated: Use assign_team with 'None' option instead
+  // Kept for backward compatibility
   {
     key: 'remove_assigned_team',
     label: 'REMOVE_ASSIGNED_TEAM',
