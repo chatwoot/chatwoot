@@ -125,7 +125,11 @@ const showMetaSection = computed(() => {
 const hasSlaPolicyId = computed(() => props.chat?.sla_policy_id);
 
 const showLabelsSection = computed(() => {
-  return props.chat.labels?.length > 0 || hasSlaPolicyId.value;
+  return (
+    props.chat.labels?.length > 0 ||
+    hasSlaPolicyId.value ||
+    props.chat.classification?.name
+  );
 });
 
 const messagePreviewClass = computed(() => {
@@ -378,8 +382,19 @@ const deleteConversation = () => {
         :conversation-labels="chat.labels"
         class="mt-0.5 mx-2 mb-0"
       >
-        <template v-if="hasSlaPolicyId" #before>
-          <SLACardLabel :chat="chat" class="ltr:mr-1 rtl:ml-1" />
+        <template #before>
+          <SLACardLabel
+            v-if="hasSlaPolicyId"
+            :chat="chat"
+            class="ltr:mr-1 rtl:ml-1"
+          />
+          <span
+            v-if="chat.classification?.name"
+            class="inline-flex items-center px-1.5 py-0.5 rounded text-xxs font-medium bg-n-teal-2 text-n-teal-11 border border-n-teal-4 ltr:mr-1 rtl:ml-1 truncate max-w-[8rem]"
+            :title="chat.classification.name"
+          >
+            {{ chat.classification.name }}
+          </span>
         </template>
       </CardLabels>
     </div>

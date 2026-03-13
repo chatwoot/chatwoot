@@ -1,0 +1,54 @@
+{
+  "CLASSIFICATION_SETTINGS": {
+    "TITLE": "Closing Classifications",
+    "DESCRIPTION": "Manage the classification options available when resolving conversations.",
+    "LOADING": "Loading classifications...",
+    "SETTINGS": {
+      "TITLE": "Resolution Requirements",
+      "REQUIRE_CLASSIFICATION": "Require classification on resolve",
+      "REQUIRE_CLASSIFICATION_DESC": "Agents must select a classification before closing a conversation.",
+      "REQUIRE_CLOSING_NOTE": "Require closing note on resolve",
+      "REQUIRE_CLOSING_NOTE_DESC": "Agents must write a closing note before closing a conversation."
+    },
+    "FORM": {
+      "PLACEHOLDER": "New classification name...",
+      "ADD": "Add"
+    },
+    "TABLE": {
+      "NAME": "Name",
+      "ACTIONS": "Actions",
+      "EDIT": "Edit",
+      "DELETE": "Delete"
+    },
+    "LIST": {
+      "EMPTY": "No classifications found. Add one above."
+    },
+    "CREATE": {
+      "SUCCESS": "Classification created successfully.",
+      "ERROR": "Could not create classification. Please try again."
+    },
+    "UPDATE": {
+      "SUCCESS": "Classification updated successfully.",
+      "ERROR": "Could not update classification. Please try again."
+    },
+    "DELETE": {
+      "SUCCESS": "Classification deleted successfully.",
+      "ERROR": "Could not delete classification. Please try again."
+    }
+  },
+  "RESOLUTION_MODAL": {
+    "TITLE": "Resolve conversation",
+    "DESCRIPTION": "Fill in the details below before resolving this conversation.",
+    "CONFIRM": "Resolve",
+    "CANCEL": "Cancel",
+    "CLASSIFICATION": {
+      "LABEL": "Classification",
+      "PLACEHOLDER": "Select a classification...",
+      "REQUIRED_HINT": "Please select a classification to proceed."
+    },
+    "CLOSING_NOTE": {
+      "LABEL": "Closing note",
+      "PLACEHOLDER": "Add a note about this conversation (optional)..."
+    }
+  }
+}

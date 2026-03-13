@@ -1,0 +1,54 @@
+{
+  "CLASSIFICATION_SETTINGS": {
+    "TITLE": "Classificações de Fechamento",
+    "DESCRIPTION": "Gerencie as opções de classificação disponíveis ao resolver conversas.",
+    "LOADING": "Carregando classificações...",
+    "SETTINGS": {
+      "TITLE": "Requisitos de Encerramento",
+      "REQUIRE_CLASSIFICATION": "Exigir classificação ao resolver",
+      "REQUIRE_CLASSIFICATION_DESC": "Os agentes devem selecionar uma classificação antes de encerrar uma conversa.",
+      "REQUIRE_CLOSING_NOTE": "Exigir observação ao resolver",
+      "REQUIRE_CLOSING_NOTE_DESC": "Os agentes devem escrever uma observação antes de encerrar uma conversa."
+    },
+    "FORM": {
+      "PLACEHOLDER": "Nome da nova classificação...",
+      "ADD": "Adicionar"
+    },
+    "TABLE": {
+      "NAME": "Nome",
+      "ACTIONS": "Ações",
+      "EDIT": "Editar",
+      "DELETE": "Excluir"
+    },
+    "LIST": {
+      "EMPTY": "Nenhuma classificação encontrada. Adicione uma acima."
+    },
+    "CREATE": {
+      "SUCCESS": "Classificação criada com sucesso.",
+      "ERROR": "Não foi possível criar a classificação. Tente novamente."
+    },
+    "UPDATE": {
+      "SUCCESS": "Classificação atualizada com sucesso.",
+      "ERROR": "Não foi possível atualizar a classificação. Tente novamente."
+    },
+    "DELETE": {
+      "SUCCESS": "Classificação excluída com sucesso.",
+      "ERROR": "Não foi possível excluir a classificação. Tente novamente."
+    }
+  },
+  "RESOLUTION_MODAL": {
+    "TITLE": "Resolver conversa",
+    "DESCRIPTION": "Preencha os detalhes abaixo antes de encerrar esta conversa.",
+    "CONFIRM": "Resolver",
+    "CANCEL": "Cancelar",
+    "CLASSIFICATION": {
+      "LABEL": "Classificação",
+      "PLACEHOLDER": "Selecione uma classificação...",
+      "REQUIRED_HINT": "Por favor, selecione uma classificação para continuar."
+    },
+    "CLOSING_NOTE": {
+      "LABEL": "Observações",
+      "PLACEHOLDER": "Adicione uma observação sobre esta conversa (opcional)..."
+    }
+  }
+}

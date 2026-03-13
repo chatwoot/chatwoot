@@ -17,34 +17,26 @@ unless Rails.env.production?
   installation_config.save!
   GlobalConfig.clear_cache
 
-  account = Account.create!(
-    name: 'Acme Inc'
-  )
+  account = Account.find_or_create_by!(name: 'Acme Inc')
 
-  secondary_account = Account.create!(
-    name: 'Acme Org'
-  )
+  secondary_account = Account.find_or_create_by!(name: 'Acme Org')
 
-  user = User.new(name: 'John', email: 'john@acme.inc', password: 'Password1!', type: 'SuperAdmin')
-  user.skip_confirmation!
-  user.save!
+  user = User.find_or_initialize_by(email: 'john@acme.inc')
+  if user.new_record?
+    user.name = 'John'
+    user.password = 'Password1!'
+    user.type = 'SuperAdmin'
+    user.skip_confirmation!
+    user.save!
+  end
 
-  AccountUser.create!(
-    account_id: account.id,
-    user_id: user.id,
-    role: :administrator
-  )
+  AccountUser.find_or_create_by!(account_id: account.id, user_id: user.id) { |au| au.role = :administrator }
+  AccountUser.find_or_create_by!(account_id: secondary_account.id, user_id: user.id) { |au| au.role = :administrator }
 
-  AccountUser.create!(
-    account_id: secondary_account.id,
-    user_id: user.id,
-    role: :administrator
-  )
+  web_widget = Channel::WebWidget.find_or_create_by!(account: account, website_url: 'https://acme.inc')
 
-  web_widget = Channel::WebWidget.create!(account: account, website_url: 'https://acme.inc')
-
-  inbox = Inbox.create!(channel: web_widget, account: account, name: 'Acme Support')
-  InboxMember.create!(user: user, inbox: inbox)
+  inbox = Inbox.find_or_create_by!(channel: web_widget, account: account) { |i| i.name = 'Acme Support' }
+  InboxMember.find_or_create_by!(user: user, inbox: inbox)
 
   contact_inbox = ContactInboxWithContactBuilder.new(
     source_id: user.id,
@@ -53,45 +45,56 @@ unless Rails.env.production?
     contact_attributes: { name: 'jane', email: 'jane@example.com', phone_number: '+2320000' }
   ).perform
 
-  conversation = Conversation.create!(
-    account: account,
-    inbox: inbox,
-    status: :open,
-    assignee: user,
-    contact: contact_inbox.contact,
-    contact_inbox: contact_inbox,
-    additional_attributes: {}
-  )
+  conversation = Conversation.find_or_create_by!(account: account, inbox: inbox, contact_inbox: contact_inbox) do |c|
+    c.status = :open
+    c.assignee = user
+    c.contact = contact_inbox.contact
+    c.additional_attributes = {}
+  end
 
-  # sample email collect
-  Seeders::MessageSeeder.create_sample_email_collect_message conversation
+  if conversation.messages.none?
+    # sample email collect
+    Seeders::MessageSeeder.create_sample_email_collect_message conversation
 
-  Message.create!(content: 'Hello', account: account, inbox: inbox, conversation: conversation, sender: contact_inbox.contact,
-                  message_type: :incoming)
+    Message.create!(content: 'Hello', account: account, inbox: inbox, conversation: conversation, sender: contact_inbox.contact,
+                    message_type: :incoming)
 
-  # sample location message
-  #
-  location_message = Message.new(content: 'location', account: account, inbox: inbox, sender: contact_inbox.contact, conversation: conversation,
-                                 message_type: :incoming)
-  location_message.attachments.new(
-    account_id: account.id,
-    file_type: 'location',
-    coordinates_lat: 37.7893768,
-    coordinates_long: -122.3895553,
-    fallback_title: 'Bay Bridge, San Francisco, CA, USA'
-  )
-  location_message.save!
+    # sample location message
+    location_message = Message.new(content: 'location', account: account, inbox: inbox, sender: contact_inbox.contact, conversation: conversation,
+                                   message_type: :incoming)
+    location_message.attachments.new(
+      account_id: account.id,
+      file_type: 'location',
+      coordinates_lat: 37.7893768,
+      coordinates_long: -122.3895553,
+      fallback_title: 'Bay Bridge, San Francisco, CA, USA'
+    )
+    location_message.save!
 
-  # sample card
-  Seeders::MessageSeeder.create_sample_cards_message conversation
-  # input select
-  Seeders::MessageSeeder.create_sample_input_select_message conversation
-  # form
-  Seeders::MessageSeeder.create_sample_form_message conversation
-  # articles
-  Seeders::MessageSeeder.create_sample_articles_message conversation
-  # csat
-  Seeders::MessageSeeder.create_sample_csat_collect_message conversation
+    # sample card
+    Seeders::MessageSeeder.create_sample_cards_message conversation
+    # input select
+    Seeders::MessageSeeder.create_sample_input_select_message conversation
+    # form
+    Seeders::MessageSeeder.create_sample_form_message conversation
+    # articles
+    Seeders::MessageSeeder.create_sample_articles_message conversation
+    # csat
+    Seeders::MessageSeeder.create_sample_csat_collect_message conversation
+  end
 
-  CannedResponse.create!(account: account, short_code: 'start', content: 'Hello welcome to chatwoot.')
+  CannedResponse.find_or_create_by!(account: account, short_code: 'start') { |cr| cr.content = 'Hello welcome to chatwoot.' }
+
+  # Default conversation classifications
+  [
+    'Sale Won',
+    'Sale Lost',
+    'Information Only',
+    'Support Resolved',
+    'Other'
+  ].each_with_index do |name, index|
+    account.conversation_classifications.find_or_create_by!(name: name) do |c|
+      c.position = index
+    end
+  end
 end

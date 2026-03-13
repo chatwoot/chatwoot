@@ -19,6 +19,7 @@ import {
 import ButtonGroup from 'dashboard/components-next/buttonGroup/ButtonGroup.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import ConversationResolveAttributesModal from 'dashboard/components-next/ConversationWorkflow/ConversationResolveAttributesModal.vue';
+import ResolutionModal from 'dashboard/components-next/ConversationWorkflow/ResolutionModal.vue';
 
 const store = useStore();
 const getters = useStoreGetters();
@@ -28,6 +29,7 @@ const { checkMissingAttributes } = useConversationRequiredAttributes();
 const arrowDownButtonRef = ref(null);
 const isLoading = ref(false);
 const resolveAttributesModalRef = ref(null);
+const resolutionModalRef = ref(null);
 
 const [showActionsDropdown, toggleDropdown] = useToggle();
 const closeDropdown = () => toggleDropdown(false);
@@ -81,7 +83,13 @@ const openSnoozeModal = () => {
   ninja.open({ parent: 'snooze_conversation' });
 };
 
-const toggleStatus = (status, snoozedUntil, customAttributes = null) => {
+const toggleStatus = (
+  status,
+  snoozedUntil,
+  customAttributes = null,
+  classificationId = null,
+  closingNote = null
+) => {
   closeDropdown();
   isLoading.value = true;
 
@@ -89,6 +97,8 @@ const toggleStatus = (status, snoozedUntil, customAttributes = null) => {
     conversationId: currentChat.value.id,
     status,
     snoozedUntil,
+    classificationId,
+    closingNote,
   };
 
   if (customAttributes) {
@@ -105,12 +115,24 @@ const handleResolveWithAttributes = ({ attributes, context }) => {
   if (context) {
     const currentCustomAttributes = currentChat.value.custom_attributes || {};
     const mergedAttributes = { ...currentCustomAttributes, ...attributes };
-    toggleStatus(
-      wootConstants.STATUS_TYPE.RESOLVED,
-      context.snoozedUntil,
-      mergedAttributes
-    );
+    // After resolving required attributes, open the resolution modal
+    resolutionModalRef.value?.open({
+      snoozedUntil: context.snoozedUntil,
+      customAttributes: mergedAttributes,
+      classificationId: currentChat.value.classification_id || null,
+      closingNote: currentChat.value.closing_note || '',
+    });
   }
+};
+
+const handleResolutionSubmit = ({ context, classificationId, closingNote }) => {
+  toggleStatus(
+    wootConstants.STATUS_TYPE.RESOLVED,
+    context.snoozedUntil,
+    context.customAttributes || null,
+    classificationId,
+    closingNote
+  );
 };
 
 const onCmdOpenConversation = () => {
@@ -134,7 +156,12 @@ const onCmdResolveConversation = () => {
       conversationContext
     );
   } else {
-    toggleStatus(wootConstants.STATUS_TYPE.RESOLVED);
+    resolutionModalRef.value?.open({
+      snoozedUntil: null,
+      customAttributes: null,
+      classificationId: currentChat.value.classification_id || null,
+      closingNote: currentChat.value.closing_note || '',
+    });
   }
 };
 
@@ -253,6 +280,10 @@ useEmitter(CMD_RESOLVE_CONVERSATION, onCmdResolveConversation);
     <ConversationResolveAttributesModal
       ref="resolveAttributesModalRef"
       @submit="handleResolveWithAttributes"
+    />
+    <ResolutionModal
+      ref="resolutionModalRef"
+      @submit="handleResolutionSubmit"
     />
   </div>
 </template>

@@ -46,6 +46,8 @@ class Account < ApplicationRecord
           'type': %w[array null],
           'items': { 'type': 'string' }
         },
+        'require_classification_on_resolve': { 'type': %w[boolean null] },
+        'require_closing_note_on_resolve': { 'type': %w[boolean null] },
         'captain_models': {
           'type': %w[object null],
           'properties': {
@@ -95,6 +97,7 @@ class Account < ApplicationRecord
   store_accessor :settings, :keep_pending_on_bot_failure
   store_accessor :settings, :captain_auto_resolve_mode
   include AccountCaptainAutoResolve
+  store_accessor :settings, :require_classification_on_resolve, :require_closing_note_on_resolve
 
   has_many :account_users, dependent: :destroy_async
   has_many :agent_bot_inboxes, dependent: :destroy_async
@@ -109,6 +112,7 @@ class Account < ApplicationRecord
   has_many :categories, dependent: :destroy_async, class_name: '::Category'
   has_many :contacts, dependent: :destroy_async
   has_many :conversations, dependent: :destroy_async
+  has_many :conversation_classifications, dependent: :destroy_async
   has_many :csat_survey_responses, dependent: :destroy_async
   has_many :custom_attribute_definitions, dependent: :destroy_async
   has_many :custom_filters, dependent: :destroy_async

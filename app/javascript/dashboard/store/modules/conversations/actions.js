@@ -243,7 +243,14 @@ const actions = {
 
   toggleStatus: async (
     { commit },
-    { conversationId, status, snoozedUntil = null, customAttributes = null }
+    {
+      conversationId,
+      status,
+      snoozedUntil = null,
+      customAttributes = null,
+      classificationId = null,
+      closingNote = null,
+    }
   ) => {
     try {
       // Update custom attributes first if provided
@@ -263,17 +270,25 @@ const actions = {
           payload: {
             current_status: updatedStatus,
             snoozed_until: updatedSnoozedUntil,
+            classification_id: updatedClassificationId,
+            closing_note: updatedClosingNote,
+            classification: updatedClassification,
           } = {},
         } = {},
       } = await ConversationApi.toggleStatus({
         conversationId,
         status,
         snoozedUntil,
+        classificationId,
+        closingNote,
       });
       commit(types.CHANGE_CONVERSATION_STATUS, {
         conversationId,
         status: updatedStatus,
         snoozedUntil: updatedSnoozedUntil,
+        classificationId: updatedClassificationId,
+        closingNote: updatedClosingNote,
+        classification: updatedClassification,
       });
     } catch (error) {
       // Handle error

@@ -647,6 +647,12 @@ const menuItems = computed(() => {
           to: accountScopedRoute('labels_list'),
         },
         {
+          name: 'Settings Conversation Classifications',
+          label: t('SIDEBAR.CONVERSATION_CLASSIFICATIONS'),
+          icon: 'i-lucide-list-checks',
+          to: accountScopedRoute('conversation_classifications_list'),
+        },
+        {
           name: 'Settings Custom Attributes',
           label: t('SIDEBAR.CUSTOM_ATTRIBUTES'),
           icon: 'i-lucide-code',

@@ -151,12 +151,24 @@ export const mutations = {
 
   [types.CHANGE_CONVERSATION_STATUS](
     _state,
-    { conversationId, status, snoozedUntil }
+    {
+      conversationId,
+      status,
+      snoozedUntil,
+      classificationId,
+      closingNote,
+      classification,
+    }
   ) {
     const conversation =
       getters.getConversationById(_state)(conversationId) || {};
     conversation.snoozed_until = snoozedUntil;
     conversation.status = status;
+    if (classificationId !== undefined)
+      conversation.classification_id = classificationId;
+    if (closingNote !== undefined) conversation.closing_note = closingNote;
+    if (classification !== undefined)
+      conversation.classification = classification;
   },
 
   [types.MUTE_CONVERSATION](_state) {

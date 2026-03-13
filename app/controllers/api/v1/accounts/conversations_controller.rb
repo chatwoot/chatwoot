@@ -84,8 +84,10 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
       @conversation.bot_handoff!
     elsif params[:status].present?
       set_conversation_status
+      set_closing_attributes if resolving?
       @status = @conversation.save!
     else
+      set_closing_attributes if @conversation.open?
       @status = @conversation.toggle_status
     end
     assign_conversation if should_assign_conversation?
@@ -176,6 +178,15 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   def set_conversation_status
     @conversation.status = params[:status]
     @conversation.snoozed_until = parse_date_time(params[:snoozed_until].to_s) if params[:snoozed_until]
+  end
+
+  def resolving?
+    params[:status] == 'resolved'
+  end
+
+  def set_closing_attributes
+    @conversation.classification_id = params[:classification_id] if params.key?(:classification_id)
+    @conversation.closing_note = params[:closing_note] if params.key?(:closing_note)
   end
 
   def assign_conversation
