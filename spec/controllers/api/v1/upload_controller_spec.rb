@@ -96,6 +96,84 @@ RSpec.describe 'Api::V1::Accounts::UploadController', type: :request do
         expect(response).to have_http_status(:unprocessable_entity)
         expect(response.parsed_body['error']).to start_with('Failed to fetch file from URL')
       end
+
+      context 'with SSRF attack vectors' do
+        it 'blocks requests to private IP ranges (10.x.x.x)' do
+          post upload_url,
+               headers: user.create_new_auth_token,
+               params: { external_url: 'http://10.0.0.1/secret' }
+
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response.parsed_body['error']).to eq('Invalid URL provided')
+        end
+
+        it 'blocks requests to private IP ranges (172.16.x.x)' do
+          post upload_url,
+               headers: user.create_new_auth_token,
+               params: { external_url: 'http://172.16.0.1/secret' }
+
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response.parsed_body['error']).to eq('Invalid URL provided')
+        end
+
+        it 'blocks requests to private IP ranges (192.168.x.x)' do
+          post upload_url,
+               headers: user.create_new_auth_token,
+               params: { external_url: 'http://192.168.1.1/secret' }
+
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response.parsed_body['error']).to eq('Invalid URL provided')
+        end
+
+        it 'blocks requests to loopback addresses' do
+          post upload_url,
+               headers: user.create_new_auth_token,
+               params: { external_url: 'http://127.0.0.1/secret' }
+
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response.parsed_body['error']).to eq('Invalid URL provided')
+        end
+
+        it 'blocks requests to AWS metadata service (169.254.169.254)' do
+          post upload_url,
+               headers: user.create_new_auth_token,
+               params: { external_url: 'http://169.254.169.254/latest/meta-data/iam/security-credentials/' }
+
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response.parsed_body['error']).to eq('Invalid URL provided')
+        end
+
+        it 'blocks requests to localhost' do
+          post upload_url,
+               headers: user.create_new_auth_token,
+               params: { external_url: 'http://localhost/secret' }
+
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response.parsed_body['error']).to eq('Invalid URL provided')
+        end
+
+        it 'blocks requests to .local domains' do
+          allow(Resolv).to receive(:getaddresses).with('server.local').and_return(['192.168.1.100'])
+
+          post upload_url,
+               headers: user.create_new_auth_token,
+               params: { external_url: 'http://server.local/secret' }
+
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response.parsed_body['error']).to eq('Invalid URL provided')
+        end
+
+        it 'blocks DNS rebinding attacks (hostname resolving to private IP)' do
+          allow(Resolv).to receive(:getaddresses).with('evil.attacker.com').and_return(['10.0.0.1'])
+
+          post upload_url,
+               headers: user.create_new_auth_token,
+               params: { external_url: 'http://evil.attacker.com/secret' }
+
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response.parsed_body['error']).to eq('Invalid URL provided')
+        end
+      end
     end
 
     it 'returns an error when no file or URL is provided' do
