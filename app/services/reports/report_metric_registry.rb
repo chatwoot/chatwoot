@@ -14,6 +14,10 @@ module Reports::ReportMetricRegistry
     :summary_key,
     :raw_count_strategy
   ) do
+    def initialize(name:, aggregate:, raw_event_name: nil, rollup_metric: nil, summary_key: nil, raw_count_strategy: nil)
+      super
+    end
+
     def average?
       aggregate == :average
     end
@@ -34,74 +38,55 @@ module Reports::ReportMetricRegistry
   METRICS = {
     conversations_count: Metric.new(
       name: :conversations_count,
-      aggregate: :count,
-      raw_event_name: nil,
-      rollup_metric: nil,
-      summary_key: nil,
-      raw_count_strategy: nil
+      aggregate: :count
     ),
     incoming_messages_count: Metric.new(
       name: :incoming_messages_count,
-      aggregate: :count,
-      raw_event_name: nil,
-      rollup_metric: nil,
-      summary_key: nil,
-      raw_count_strategy: nil
+      aggregate: :count
     ),
     outgoing_messages_count: Metric.new(
       name: :outgoing_messages_count,
-      aggregate: :count,
-      raw_event_name: nil,
-      rollup_metric: nil,
-      summary_key: nil,
-      raw_count_strategy: nil
+      aggregate: :count
     ),
     avg_first_response_time: Metric.new(
       name: :avg_first_response_time,
       aggregate: :average,
       raw_event_name: :first_response,
       rollup_metric: :first_response,
-      summary_key: :avg_first_response_time,
-      raw_count_strategy: nil
+      summary_key: :avg_first_response_time
     ),
     avg_resolution_time: Metric.new(
       name: :avg_resolution_time,
       aggregate: :average,
       raw_event_name: :conversation_resolved,
       rollup_metric: :resolution_time,
-      summary_key: :avg_resolution_time,
-      raw_count_strategy: nil
+      summary_key: :avg_resolution_time
     ),
     reply_time: Metric.new(
       name: :reply_time,
       aggregate: :average,
       raw_event_name: :reply_time,
       rollup_metric: :reply_time,
-      summary_key: :avg_reply_time,
-      raw_count_strategy: nil
+      summary_key: :avg_reply_time
     ),
     resolutions_count: Metric.new(
       name: :resolutions_count,
       aggregate: :count,
       raw_event_name: :conversation_resolved,
       rollup_metric: :resolutions_count,
-      summary_key: :resolved_conversations_count,
-      raw_count_strategy: nil
+      summary_key: :resolved_conversations_count
     ),
     bot_resolutions_count: Metric.new(
       name: :bot_resolutions_count,
       aggregate: :count,
       raw_event_name: :conversation_bot_resolved,
-      rollup_metric: :bot_resolutions_count,
-      summary_key: nil,
-      raw_count_strategy: nil
+      rollup_metric: :bot_resolutions_count
     ),
     bot_handoffs_count: Metric.new(
       name: :bot_handoffs_count,
       aggregate: :count,
       raw_event_name: :conversation_bot_handoff,
       rollup_metric: :bot_handoffs_count,
-      summary_key: nil,
       raw_count_strategy: :distinct_conversation
     )
   }.freeze
