@@ -102,7 +102,7 @@ RSpec.describe InstagramConcern do
       result = dummy_instance.send(:fetch_instagram_user_details, access_token)
 
       expect(HTTParty).to have_received(:get).with(
-        'https://graph.instagram.com/v22.0/me',
+        'https://graph.instagram.com/v24.0/me',
         {
           query: {
             fields: 'id,username,user_id,name,profile_picture_url,account_type',
