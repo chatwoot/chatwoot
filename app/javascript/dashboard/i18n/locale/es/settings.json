@@ -270,6 +270,13 @@
       "SHOW_MORE": "Mostrar más",
       "SHOW_LESS": "Mostrar menos"
     },
+    "WHATSAPP_REFERRAL": {
+      "AD": "Anuncio",
+      "POST": "Publicación",
+      "VIEW": "Ver fuente",
+      "AD_ID": "ID del anuncio",
+      "CUSTOMER_MESSAGE": "Mensaje del cliente"
+    },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Descargar",
       "UPLOADING": "Subiendo...",

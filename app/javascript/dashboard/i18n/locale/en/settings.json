@@ -270,6 +270,13 @@
       "SHOW_MORE": "Show More",
       "SHOW_LESS": "Show Less"
     },
+    "WHATSAPP_REFERRAL": {
+      "AD": "Ad",
+      "POST": "Post",
+      "VIEW": "View source",
+      "AD_ID": "Ad ID",
+      "CUSTOMER_MESSAGE": "Customer message"
+    },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Download",
       "UPLOADING": "Uploading...",
