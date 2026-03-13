@@ -16,6 +16,6 @@ module AccountCaptainAutoResolve
     return mode if VALID_CAPTAIN_AUTO_RESOLVE_MODES.include?(mode)
     return 'disabled' if settings&.[]('captain_disable_auto_resolve') == true
 
-    'evaluated'
+    feature_enabled?('captain_tasks') ? 'evaluated' : 'legacy'
   end
 end
