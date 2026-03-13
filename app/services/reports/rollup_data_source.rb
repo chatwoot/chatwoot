@@ -94,11 +94,11 @@ class Reports::RollupDataSource < Reports::DataSource
   end
 
   def summary_select_fields_for_metric(definition)
-    return [sum_count_select(definition[:rollup_metric], definition[:summary_key])] if definition[:aggregate] == :count
+    return [sum_count_select(definition.rollup_metric, definition.summary_key)] if definition.count?
 
     [
-      sum_count_select(definition[:rollup_metric], summary_count_alias(definition)),
-      sum_value_select(definition[:rollup_metric], summary_sum_alias(definition))
+      sum_count_select(definition.rollup_metric, summary_count_alias(definition)),
+      sum_value_select(definition.rollup_metric, summary_sum_alias(definition))
     ]
   end
 
@@ -112,22 +112,22 @@ class Reports::RollupDataSource < Reports::DataSource
 
   def summary_attributes_for(row, conversations_count = 0)
     summary_metrics.each_with_object({ conversations_count: conversations_count.to_i }) do |definition, attributes|
-      attributes[definition[:summary_key]] = summary_value_for(row, definition)
+      attributes[definition.summary_key] = summary_value_for(row, definition)
     end
   end
 
   def summary_value_for(row, definition)
-    return row&.public_send(definition[:summary_key]).to_i if definition[:aggregate] == :count
+    return row&.public_send(definition.summary_key).to_i if definition.count?
 
     average_from(row&.public_send(summary_sum_alias(definition)), row&.public_send(summary_count_alias(definition)))
   end
 
   def summary_count_alias(definition)
-    "#{definition[:summary_key]}_count"
+    "#{definition.summary_key}_count"
   end
 
   def summary_sum_alias(definition)
-    "#{definition[:summary_key]}_sum_value"
+    "#{definition.summary_key}_sum_value"
   end
 
   def dimension_id_for_rollup
