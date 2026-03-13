@@ -1,111 +1,111 @@
 {
   "MACROS": {
-    "HEADER": "Macros",
-    "DESCRIPTION": "A macro is a set of saved actions that help customer service agents easily complete tasks. The agents can define a set of actions like tagging a conversation with a label, sending an email transcript, updating a custom attribute, etc., and they can run these actions in a single click.",
-    "LEARN_MORE": "Learn more about macros",
-    "HEADER_BTN_TXT": "Add a new macro",
-    "HEADER_BTN_TXT_SAVE": "Save macro",
-    "LOADING": "Fetching macros",
-    "ERROR": "Something went wrong. Please try again",
-    "ORDER_INFO": "Macros will run in the order you add your actions. You can rearrange them by dragging them by the handle beside each node.",
+    "HEADER": "매크로",
+    "DESCRIPTION": "매크로는 고객 서비스 에이전트가 작업을 쉽게 완료할 수 있도록 도와주는 저장된 액션 모음입니다. 에이전트는 대화에 라벨 태그 지정, 이메일 대화 내용 전송, 사용자 정의 속성 업데이트 등의 액션을 정의하고, 클릭 한 번으로 이러한 액션을 실행할 수 있습니다.",
+    "LEARN_MORE": "매크로에 대해 자세히 알아보기",
+    "HEADER_BTN_TXT": "새 매크로 추가",
+    "HEADER_BTN_TXT_SAVE": "매크로 저장",
+    "LOADING": "매크로를 불러오는 중",
+    "ERROR": "오류가 발생했습니다. 다시 시도해 주십시오.",
+    "ORDER_INFO": "매크로는 액션을 추가한 순서대로 실행됩니다. 각 노드 옆의 핸들을 드래그하여 순서를 변경할 수 있습니다.",
     "ADD": {
       "FORM": {
         "NAME": {
-          "LABEL": "Macro name",
-          "PLACEHOLDER": "Enter a name for your macro",
-          "ERROR": "Name is required for creating a macro"
+          "LABEL": "매크로 이름",
+          "PLACEHOLDER": "매크로 이름을 입력하십시오",
+          "ERROR": "매크로를 생성하려면 이름이 필요합니다"
         },
         "ACTIONS": {
           "LABEL": "액션"
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Macro added successfully",
-        "ERROR_MESSAGE": "Unable to create macro, Please try again later"
+        "SUCCESS_MESSAGE": "매크로가 성공적으로 추가되었습니다",
+        "ERROR_MESSAGE": "매크로를 생성할 수 없습니다. 나중에 다시 시도해 주십시오."
       }
     },
     "LIST": {
       "TABLE_HEADER": {
         "NAME": "이름",
-        "CREATED BY": "Created by",
-        "LAST_UPDATED_BY": "Last updated by",
-        "VISIBILITY": "Visibility"
+        "CREATED BY": "작성자",
+        "LAST_UPDATED_BY": "최종 수정자",
+        "VISIBILITY": "공개 범위"
       },
-      "404": "No macros found"
+      "404": "매크로를 찾을 수 없습니다"
     },
     "DELETE": {
-      "TOOLTIP": "Delete macro",
+      "TOOLTIP": "매크로 삭제",
       "CONFIRM": {
         "MESSAGE": "삭제하시겠습니까? ",
-        "YES": "Yes, Delete",
+        "YES": "예, 삭제합니다",
         "NO": "아니오"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Macro deleted successfully",
-        "ERROR_MESSAGE": "There was an error deleting the macro. Please try again later"
+        "SUCCESS_MESSAGE": "매크로가 성공적으로 삭제되었습니다",
+        "ERROR_MESSAGE": "매크로를 삭제하는 중 오류가 발생했습니다. 나중에 다시 시도해 주십시오."
       }
     },
     "EDIT": {
-      "TOOLTIP": "Edit macro",
+      "TOOLTIP": "매크로 수정",
       "API": {
-        "SUCCESS_MESSAGE": "Macro updated successfully",
-        "ERROR_MESSAGE": "Could not update Macro, Please try again later"
+        "SUCCESS_MESSAGE": "매크로가 성공적으로 업데이트되었습니다",
+        "ERROR_MESSAGE": "매크로를 업데이트할 수 없습니다. 나중에 다시 시도해 주십시오."
       }
     },
     "EDITOR": {
-      "START_FLOW": "Start Flow",
-      "END_FLOW": "End Flow",
-      "LOADING": "Fetching macro",
-      "ADD_BTN_TOOLTIP": "Add new action",
-      "DELETE_BTN_TOOLTIP": "Delete Action",
+      "START_FLOW": "흐름 시작",
+      "END_FLOW": "흐름 종료",
+      "LOADING": "매크로를 불러오는 중",
+      "ADD_BTN_TOOLTIP": "새 액션 추가",
+      "DELETE_BTN_TOOLTIP": "액션 삭제",
       "VISIBILITY": {
-        "LABEL": "Macro Visibility",
+        "LABEL": "매크로 공개 범위",
         "GLOBAL": {
-          "LABEL": "Public",
-          "DESCRIPTION": "This macro is available publicly for all agents in this account."
+          "LABEL": "공개",
+          "DESCRIPTION": "이 매크로는 이 계정의 모든 에이전트에게 공개됩니다."
         },
         "PERSONAL": {
-          "LABEL": "Private",
-          "DESCRIPTION": "This macro will be private to you and not be available to others."
+          "LABEL": "비공개",
+          "DESCRIPTION": "이 매크로는 본인에게만 표시되며 다른 사람에게는 공개되지 않습니다."
         }
       }
     },
     "EXECUTE": {
-      "BUTTON_TOOLTIP": "Execute",
-      "PREVIEW": "Preview Macro",
-      "EXECUTED_SUCCESSFULLY": "Macro executed successfully"
+      "BUTTON_TOOLTIP": "실행",
+      "PREVIEW": "매크로 미리보기",
+      "EXECUTED_SUCCESSFULLY": "매크로가 성공적으로 실행되었습니다"
     },
     "ERRORS": {
-      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
-      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
-      "VALUE_REQUIRED": "값이 필요합니다.",
-      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998",
-      "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
-      "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
-      "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
+      "ATTRIBUTE_KEY_REQUIRED": "속성 키가 필요합니다",
+      "FILTER_OPERATOR_REQUIRED": "필터 연산자가 필요합니다",
+      "VALUE_REQUIRED": "값이 필요합니다",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "값은 1에서 998 사이여야 합니다",
+      "ACTION_PARAMETERS_REQUIRED": "액션 매개변수가 필요합니다",
+      "ATLEAST_ONE_CONDITION_REQUIRED": "최소 하나의 조건이 필요합니다",
+      "ATLEAST_ONE_ACTION_REQUIRED": "최소 하나의 액션이 필요합니다"
     },
     "ACTIONS": {
-      "ASSIGN_TEAM": "Assign a Team",
-      "ASSIGN_AGENT": "Assign an Agent",
-      "ADD_LABEL": "Add a Label",
-      "REMOVE_LABEL": "Remove a Label",
-      "REMOVE_ASSIGNED_TEAM": "Remove Assigned Team",
-      "SEND_EMAIL_TRANSCRIPT": "Send an Email Transcript",
+      "ASSIGN_TEAM": "팀 배정",
+      "ASSIGN_AGENT": "에이전트 배정",
+      "ADD_LABEL": "라벨 추가",
+      "REMOVE_LABEL": "라벨 제거",
+      "REMOVE_ASSIGNED_TEAM": "배정된 팀 제거",
+      "SEND_EMAIL_TRANSCRIPT": "이메일 대화 내용 전송",
       "MUTE_CONVERSATION": "대화 음소거",
-      "SNOOZE_CONVERSATION": "Snooze Conversation",
-      "RESOLVE_CONVERSATION": "Resolve Conversation",
-      "SEND_ATTACHMENT": "Send Attachment",
-      "SEND_MESSAGE": "Send a Message",
-      "CHANGE_PRIORITY": "Change Priority",
-      "ADD_PRIVATE_NOTE": "Add a Private Note",
-      "SEND_WEBHOOK_EVENT": "Send Webhook Event"
+      "SNOOZE_CONVERSATION": "대화 일시 중지",
+      "RESOLVE_CONVERSATION": "대화 해결",
+      "SEND_ATTACHMENT": "첨부 파일 전송",
+      "SEND_MESSAGE": "메시지 전송",
+      "CHANGE_PRIORITY": "우선순위 변경",
+      "ADD_PRIVATE_NOTE": "비공개 메모 추가",
+      "SEND_WEBHOOK_EVENT": "웹훅 이벤트 전송"
     },
     "PRIORITY_TYPES": {
       "NONE": "없음",
-      "LOW": "Low",
-      "MEDIUM": "Medium",
-      "HIGH": "High",
-      "URGENT": "Urgent"
+      "LOW": "낮음",
+      "MEDIUM": "보통",
+      "HIGH": "높음",
+      "URGENT": "긴급"
     }
   }
 }

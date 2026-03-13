@@ -1,35 +1,35 @@
 {
   "INTEGRATION_APPS": {
-    "FETCHING": "Fetching Integrations",
-    "NO_HOOK_CONFIGURED": "There are no {integrationId} integrations configured in this account.",
-    "HEADER": "Applications",
+    "FETCHING": "통합을 가져오는 중",
+    "NO_HOOK_CONFIGURED": "이 계정에 구성된 {integrationId} 통합이 없습니다.",
+    "HEADER": "애플리케이션",
     "STATUS": {
       "ENABLED": "사용함",
       "DISABLED": "사용 안 함"
     },
     "CONFIGURE": "구성",
-    "ADD_BUTTON": "Add a new hook",
+    "ADD_BUTTON": "새 훅 추가",
     "DELETE": {
       "TITLE": {
-        "INBOX": "Confirm deletion",
-        "ACCOUNT": "Disconnect"
+        "INBOX": "삭제 확인",
+        "ACCOUNT": "연결 해제"
       },
       "MESSAGE": {
-        "INBOX": "Are you sure to delete?",
-        "ACCOUNT": "Are you sure to disconnect?"
+        "INBOX": "삭제하시겠습니까?",
+        "ACCOUNT": "연결을 해제하시겠습니까?"
       },
       "CONFIRM_BUTTON_TEXT": {
-        "INBOX": "Yes, Delete",
-        "ACCOUNT": "Yes, Disconnect"
+        "INBOX": "예, 삭제합니다",
+        "ACCOUNT": "예, 연결을 해제합니다"
       },
       "CANCEL_BUTTON_TEXT": "취소",
       "API": {
-        "SUCCESS_MESSAGE": "Hook deleted successfully",
-        "ERROR_MESSAGE": "Woot 서버에 연결할 수 없음. 나중에 다시 시도하십시오."
+        "SUCCESS_MESSAGE": "훅이 성공적으로 삭제되었습니다",
+        "ERROR_MESSAGE": "Woot 서버에 연결할 수 없습니다. 나중에 다시 시도하십시오."
       }
     },
     "LIST": {
-      "FETCHING": "Fetching integration hooks",
+      "FETCHING": "통합 훅을 가져오는 중",
       "INBOX": "받은 메시지함",
       "DELETE": {
         "BUTTON_TEXT": "삭제"
@@ -38,25 +38,25 @@
     "ADD": {
       "FORM": {
         "INBOX": {
-          "LABEL": "Select Inbox",
-          "PLACEHOLDER": "Select Inbox"
+          "LABEL": "받은 메시지함 선택",
+          "PLACEHOLDER": "받은 메시지함 선택"
         },
         "SUBMIT": "만들기",
         "CANCEL": "취소"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Integration hook added successfully",
-        "ERROR_MESSAGE": "Woot 서버에 연결할 수 없음. 나중에 다시 시도하십시오."
+        "SUCCESS_MESSAGE": "통합 훅이 성공적으로 추가되었습니다",
+        "ERROR_MESSAGE": "Woot 서버에 연결할 수 없습니다. 나중에 다시 시도하십시오."
       }
     },
     "CONNECT": {
       "BUTTON_TEXT": "연결"
     },
     "DISCONNECT": {
-      "BUTTON_TEXT": "Disconnect"
+      "BUTTON_TEXT": "연결 해제"
     },
     "SIDEBAR_DESCRIPTION": {
-      "DIALOGFLOW": "Dialogflow is a natural language processing platform for building conversational interfaces. Integrating it with {installationName} lets bots handle queries first and transfer them to agents when needed. It helps qualify leads and reduce agent workload by answering FAQs. To add Dialogflow, create a Service Account in Google Console and share the credentials. Refer to the docs for details"
+      "DIALOGFLOW": "Dialogflow는 대화형 인터페이스를 구축하기 위한 자연어 처리 플랫폼입니다. {installationName}와(과) 통합하면 봇이 먼저 문의를 처리하고 필요할 때 에이전트에게 전달할 수 있습니다. 리드 평가에 도움이 되고 FAQ 응답을 통해 에이전트 업무량을 줄여줍니다. Dialogflow를 추가하려면 Google Console에서 서비스 계정을 만들고 자격 증명을 공유하십시오. 자세한 내용은 문서를 참조하십시오"
     }
   }
 }

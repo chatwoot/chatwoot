@@ -1,17 +1,17 @@
 {
   "CHAT_LIST": {
-    "LOADING": "대화 가져오기",
+    "LOADING": "대화를 가져오는 중",
     "LOAD_MORE_CONVERSATIONS": "더 많은 대화 불러오기",
-    "EOF": "모든 대화 불러오기🎉",
+    "EOF": "모든 대화를 불러왔습니다 🎉",
     "LIST": {
       "404": "이 그룹에는 활성 대화가 없습니다."
     },
-    "FAILED_TO_SEND": "Failed to send",
+    "FAILED_TO_SEND": "전송 실패",
     "TAB_HEADING": "대화",
     "MENTION_HEADING": "멘션",
-    "UNATTENDED_HEADING": "Unattended",
+    "UNATTENDED_HEADING": "미응대",
     "SEARCH": {
-      "INPUT": "사람 검색, 채팅, 저장된 응답..."
+      "INPUT": "사람, 채팅, 저장된 응답 검색..."
     },
     "FILTER_ALL": "모두",
     "ASSIGNEE_TYPE_TABS": {
@@ -21,13 +21,13 @@
     },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
-        "TEXT": "열기"
+        "TEXT": "열림"
       },
       "resolved": {
         "TEXT": "해결됨"
       },
       "pending": {
-        "TEXT": "보내는 중"
+        "TEXT": "보류 중"
       },
       "snoozed": {
         "TEXT": "일시 중지됨"
@@ -37,15 +37,15 @@
       }
     },
     "VIEW_FILTER": "보기",
-    "SORT_TOOLTIP_LABEL": "Sort conversations",
+    "SORT_TOOLTIP_LABEL": "대화 정렬",
     "CHAT_SORT": {
       "STATUS": "상태",
-      "ORDER_BY": "Order by"
+      "ORDER_BY": "정렬 기준"
     },
     "CHAT_TIME_STAMP": {
       "CREATED": {
-        "LATEST": "만들어짐",
-        "OLDEST": "에 만들어짐:"
+        "LATEST": "생성됨",
+        "OLDEST": "생성 일시:"
       },
       "LAST_ACTIVITY": {
         "NOT_ACTIVE": "최근 활동:",
@@ -54,28 +54,28 @@
     },
     "SORT_ORDER_ITEMS": {
       "last_activity_at_asc": {
-        "TEXT": "Last activity: Oldest first"
+        "TEXT": "최근 활동: 오래된 순"
       },
       "last_activity_at_desc": {
-        "TEXT": "Last activity: Newest first"
+        "TEXT": "최근 활동: 최신 순"
       },
       "created_at_desc": {
-        "TEXT": "Created at: Newest first"
+        "TEXT": "생성 일시: 최신 순"
       },
       "created_at_asc": {
-        "TEXT": "Created at: Oldest first"
+        "TEXT": "생성 일시: 오래된 순"
       },
       "priority_desc": {
-        "TEXT": "Priority: Highest first"
+        "TEXT": "우선순위: 높은 순"
       },
       "priority_asc": {
-        "TEXT": "Priority: Lowest first"
+        "TEXT": "우선순위: 낮은 순"
       },
       "waiting_since_asc": {
-        "TEXT": "Pending Response: Longest first"
+        "TEXT": "응답 대기: 오래된 순"
       },
       "waiting_since_desc": {
-        "TEXT": "Pending Response: Shortest first"
+        "TEXT": "응답 대기: 최신 순"
       }
     },
     "ATTACHMENTS": {
@@ -92,51 +92,51 @@
         "CONTENT": "파일 첨부"
       },
       "location": {
-        "CONTENT": "장소"
+        "CONTENT": "위치"
       },
       "ig_reel": {
         "CONTENT": "Instagram Reel"
       },
       "fallback": {
-        "CONTENT": "URL을 공유함"
+        "CONTENT": "URL을 공유했습니다"
       },
       "contact": {
-        "CONTENT": "Shared contact"
+        "CONTENT": "연락처 공유"
       },
       "embed": {
-        "CONTENT": "Embedded content"
+        "CONTENT": "임베디드 콘텐츠"
       }
     },
     "CHAT_SORT_BY_FILTER": {
-      "TITLE": "Sort conversation",
-      "DROPDOWN_TITLE": "Sort by",
+      "TITLE": "대화 정렬",
+      "DROPDOWN_TITLE": "정렬 기준",
       "ITEMS": {
         "LATEST": {
-          "NAME": "Last activity at",
+          "NAME": "최근 활동 일시",
           "LABEL": "최근 활동"
         },
         "CREATED_AT": {
-          "NAME": "에 만들어짐",
-          "LABEL": "에 만들어짐"
+          "NAME": "생성 일시",
+          "LABEL": "생성 일시"
         },
         "LAST_USER_MESSAGE_AT": {
-          "NAME": "Last user message at",
-          "LABEL": "최근 메세지"
+          "NAME": "마지막 사용자 메시지 일시",
+          "LABEL": "마지막 메시지"
         }
       }
     },
     "RECEIVED_VIA_EMAIL": "이메일을 통해 수신됨",
     "VIEW_TWEET_IN_TWITTER": "트위터에서 트윗 보기",
     "REPLY_TO_TWEET": "트윗에 응답하기",
-    "LINK_TO_STORY": "인스타그램 스토리로 가기",
-    "SENT": "성공적으로 보내짐",
-    "READ": "Read successfully",
-    "DELIVERED": "Delivered successfully",
+    "LINK_TO_STORY": "인스타그램 스토리로 이동",
+    "SENT": "성공적으로 전송됨",
+    "READ": "성공적으로 읽음",
+    "DELIVERED": "성공적으로 전달됨",
     "NO_MESSAGES": "메시지 없음",
-    "NO_CONTENT": "콘텐츠 이용 불가",
-    "HIDE_QUOTED_TEXT": "인용문 가리기",
-    "SHOW_QUOTED_TEXT": "인용문 보이기",
-    "MESSAGE_READ": "읽기",
-    "SENDING": "Sending"
+    "NO_CONTENT": "콘텐츠를 사용할 수 없습니다.",
+    "HIDE_QUOTED_TEXT": "인용문 숨기기",
+    "SHOW_QUOTED_TEXT": "인용문 보기",
+    "MESSAGE_READ": "읽음",
+    "SENDING": "전송 중"
   }
 }
