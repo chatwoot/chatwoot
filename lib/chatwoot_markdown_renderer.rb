@@ -4,9 +4,12 @@ class ChatwootMarkdownRenderer
   end
 
   def render_message
+    @blank_line_token = "CHATWOOT_BLANK_#{SecureRandom.hex(8)}"
     markdown_renderer = BaseMarkdownRenderer.new
-    doc = CommonMarker.render_doc(@content, :DEFAULT, [:strikethrough])
+    content = preserve_multiple_newlines(@content)
+    doc = CommonMarker.render_doc(content, :DEFAULT, [:strikethrough])
     html = markdown_renderer.render(doc)
+    html = restore_multiple_newlines_as_html(html)
     render_as_html_safe(html)
   end
 
@@ -23,6 +26,19 @@ class ChatwootMarkdownRenderer
   end
 
   private
+
+  def preserve_multiple_newlines(content)
+    content.gsub(/\n{3,}/) do |match|
+      extra_blank_lines = match.length - 2
+      "\n\n#{"#{@blank_line_token}\n\n" * extra_blank_lines}"
+    end
+  end
+
+  def restore_multiple_newlines_as_html(html)
+    html.gsub("<p>#{@blank_line_token}</p>", '<p><br></p>')
+        .gsub("#{@blank_line_token}\n\n", "\n")
+        .gsub(@blank_line_token, '')
+  end
 
   def render_as_html_safe(html)
     # rubocop:disable Rails/OutputSafety
