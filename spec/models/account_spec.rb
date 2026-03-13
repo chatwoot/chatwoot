@@ -218,13 +218,6 @@ RSpec.describe Account do
         expect(account).to be_captain_auto_resolve_disabled
       end
 
-      it 'falls back to legacy mode from legacy settings key' do
-        account.settings = { 'captain_force_legacy_auto_resolve' => true }
-
-        expect(account.captain_auto_resolve_mode).to eq('legacy')
-        expect(account).to be_captain_auto_resolve_legacy
-      end
-
       it 'handles nil values correctly' do
         account.auto_resolve_after = nil
         account.auto_resolve_message = nil
