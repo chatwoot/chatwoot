@@ -1,0 +1,45 @@
+{
+  "MOBILE": {
+    "TABS": {
+      "INBOX": "Inbox",
+      "CONVERSATIONS": "Conversations",
+      "SETTINGS": "Settings"
+    },
+    "INBOX": {
+      "TITLE": "Inbox",
+      "MARK_ALL_READ": "Mark all read",
+      "NO_NOTIFICATIONS": "No notifications yet",
+      "PULL_TO_REFRESH": "Pull to refresh"
+    },
+    "CONVERSATIONS": {
+      "TITLE": "Conversations",
+      "NO_CONVERSATIONS": "No conversations yet",
+      "FILTER": "Filter",
+      "SEARCH": "Search conversations"
+    },
+    "CHAT": {
+      "BACK": "Back",
+      "TYPE_MESSAGE": "Type a message"
+    },
+    "SETTINGS": {
+      "TITLE": "Settings",
+      "AVAILABILITY": "Availability",
+      "AVAILABILITY_ONLINE": "Online",
+      "AVAILABILITY_BUSY": "Busy",
+      "AVAILABILITY_OFFLINE": "Offline",
+      "NOTIFICATIONS": "Notifications",
+      "LANGUAGE": "Language",
+      "SWITCH_ACCOUNT": "Switch account",
+      "LOGOUT": "Logout",
+      "VERSION": "Version"
+    },
+    "FILTER_SHEET": {
+      "TITLE": "Filters",
+      "STATUS": "Status",
+      "ASSIGNEE": "Assignee type",
+      "SORT_BY": "Sort by",
+      "APPLY": "Apply filters",
+      "RESET": "Reset"
+    }
+  }
+}

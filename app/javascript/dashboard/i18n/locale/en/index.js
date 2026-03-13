@@ -41,6 +41,7 @@ import contentTemplates from './contentTemplates.json';
 import paymentLink from './paymentLink.json';
 import mfa from './mfa.json';
 import yearInReview from './yearInReview.json';
+import mobile from './mobile.json';
 
 export default {
   ...advancedFilters,
@@ -86,4 +87,5 @@ export default {
   ...paymentLink,
   ...mfa,
   ...yearInReview,
+  ...mobile,
 };
