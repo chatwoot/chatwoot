@@ -28,6 +28,7 @@ export default [
     meta: { requireEnterprise: true },
     props: route => ({
       authError: route.query.error,
+      target: route.query.target,
     }),
   },
   {

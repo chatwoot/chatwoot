@@ -3,7 +3,7 @@
     "TITLE": "התחבר ל Woot",
     "EMAIL": {
       "LABEL": "אימייל",
-      "PLACEHOLDER": "example{'@'}companyname.com",
+      "PLACEHOLDER": "example@companyname.com",
       "ERROR": "נא הכנס כתובת דוא\"ל תקינה"
     },
     "PASSWORD": {
@@ -24,17 +24,17 @@
     "CREATE_NEW_ACCOUNT": "צור חשבון",
     "SUBMIT": "התחבר",
     "SAML": {
-      "LABEL": "Log in via SSO",
+      "LABEL": "התחבר באמצעות SSO",
       "TITLE": "Initiate Single Sign-on (SSO)",
-      "SUBTITLE": "Enter your work email to access your organization",
-      "BACK_TO_LOGIN": "Login via Password",
+      "SUBTITLE": "הזן את הדוא\"ל הארגוני שלך כדי לגשת לארגון שלך",
+      "BACK_TO_LOGIN": "התחבר באמצעות סיסמה",
       "WORK_EMAIL": {
-        "LABEL": "Work Email",
-        "PLACEHOLDER": "Enter your work email"
+        "LABEL": "דוא\"ל ארגוני",
+        "PLACEHOLDER": "הזן את הדוא\"ל הארגוני שלך"
       },
-      "SUBMIT": "Continue with SSO",
+      "SUBMIT": "המשך עם SSO",
       "API": {
-        "ERROR_MESSAGE": "SSO authentication failed. Please check your credentials and try again."
+        "ERROR_MESSAGE": "אימות SSO נכשל. אנא בדוק את פרטי הכניסה שלך ונסה שוב."
       }
     }
   }

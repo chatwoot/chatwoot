@@ -92,11 +92,15 @@ class Api::V1::AccountsController < Api::BaseController
   end
 
   def settings_params
-    params.permit(:auto_resolve_after, :auto_resolve_message, :auto_resolve_ignore_waiting, :audio_transcriptions, :auto_resolve_label)
+    params.permit(*permitted_settings_attributes)
+  end
+
+  def permitted_settings_attributes
+    [:auto_resolve_after, :auto_resolve_message, :auto_resolve_ignore_waiting, :audio_transcriptions, :auto_resolve_label]
   end
 
   def check_signup_enabled
-    raise ActionController::RoutingError, 'Not Found' if GlobalConfigService.load('ENABLE_ACCOUNT_SIGNUP', 'false') == 'false'
+    raise ActionController::RoutingError, 'Not Found' unless GlobalConfigService.account_signup_enabled?
   end
 
   def validate_captcha
@@ -111,3 +115,5 @@ class Api::V1::AccountsController < Api::BaseController
     }
   end
 end
+
+Api::V1::AccountsController.prepend_mod_with('Api::V1::AccountsSettings')

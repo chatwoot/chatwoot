@@ -4,6 +4,7 @@ import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import { useIntegrationHook } from 'dashboard/composables/useIntegrationHook';
 import { FormKit } from '@formkit/vue';
+import { useBranding } from 'shared/composables/useBranding';
 
 import NextButton from 'dashboard/components-next/button/Button.vue';
 
@@ -23,8 +24,9 @@ export default {
     const { integration, isHookTypeInbox } = useIntegrationHook(
       props.integrationId
     );
+    const { replaceInstallationName } = useBranding();
 
-    return { integration, isHookTypeInbox };
+    return { integration, isHookTypeInbox, replaceInstallationName };
   },
   data() {
     return {
@@ -117,7 +119,7 @@ export default {
   <div class="flex flex-col h-auto overflow-auto integration-hooks">
     <woot-modal-header
       :header-title="integration.name"
-      :header-content="integration.short_description"
+      :header-content="replaceInstallationName(integration.short_description)"
     />
     <FormKit
       v-model="values"

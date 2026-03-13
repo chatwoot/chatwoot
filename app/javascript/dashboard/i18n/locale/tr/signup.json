@@ -27,15 +27,20 @@
       "LABEL": "Parola",
       "PLACEHOLDER": "Parola",
       "ERROR": "Parola çok kısa.",
-      "IS_INVALID_PASSWORD": "Şifre en az 1 büyük harf, 1 küçük harf, 1 rakam ve 1 özel karakter içermelidir."
+      "IS_INVALID_PASSWORD": "Şifre en az 1 büyük harf, 1 küçük harf, 1 rakam ve 1 özel karakter içermelidir.",
+      "REQUIREMENTS_LENGTH": "En az 6 karakter uzunluğunda olmalı",
+      "REQUIREMENTS_UPPERCASE": "En az bir büyük harf içermeli",
+      "REQUIREMENTS_LOWERCASE": "En az bir küçük harf içermeli",
+      "REQUIREMENTS_NUMBER": "En az bir rakam içermeli",
+      "REQUIREMENTS_SPECIAL": "En az bir özel karakter içermeli"
     },
     "CONFIRM_PASSWORD": {
       "LABEL": "Parolayı onayla",
       "PLACEHOLDER": "Parolayı onayla",
-      "ERROR": "Parolalar eşleşmiyor."
+      "ERROR": "Parola eşleşmiyor."
     },
     "API": {
-      "SUCCESS_MESSAGE": "Kayıt başarılı",
+      "SUCCESS_MESSAGE": "Başarıyla Kayıt Olundu",
       "ERROR_MESSAGE": "Woot sunucusuna bağlanılamadı. Lütfen tekrar deneyin."
     },
     "SUBMIT": "Hesap oluştur",

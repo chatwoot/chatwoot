@@ -27,15 +27,20 @@
       "LABEL": "رمز عبور",
       "PLACEHOLDER": "رمز عبور",
       "ERROR": "رمز عبور خیلی کوتاه است",
-      "IS_INVALID_PASSWORD": "رمز عبور باید شامل حداقل ۱ حرف بزرگ، ۱ حرف کوچک، ۱ عدد و ۱ کاراکتر خاص باشد"
+      "IS_INVALID_PASSWORD": "رمز عبور باید شامل حداقل ۱ حرف بزرگ، ۱ حرف کوچک، ۱ عدد و ۱ کاراکتر خاص باشد",
+      "REQUIREMENTS_LENGTH": "At least 6 characters long",
+      "REQUIREMENTS_UPPERCASE": "At least one uppercase letter",
+      "REQUIREMENTS_LOWERCASE": "At least one lowercase letter",
+      "REQUIREMENTS_NUMBER": "At least one number",
+      "REQUIREMENTS_SPECIAL": "At least one special character"
     },
     "CONFIRM_PASSWORD": {
       "LABEL": "تکرار رمز عبور",
       "PLACEHOLDER": "تکرار رمز عبور",
-      "ERROR": "رمز عبور و تکرار رمز عبور یکسان نیستند"
+      "ERROR": "تکرار رمز عبور می‌بایست با رمز عبور یکسان باشد."
     },
     "API": {
-      "SUCCESS_MESSAGE": "ثبت نام با موفقیت انجام شد",
+      "SUCCESS_MESSAGE": "Registration Successful",
       "ERROR_MESSAGE": "ارتباط با سرور برقرار نشد، لطفا بعدا امتحان کنید"
     },
     "SUBMIT": "ایجاد حساب کاربری",

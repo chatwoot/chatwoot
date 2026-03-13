@@ -3,25 +3,25 @@
     "MODAL": {
       "TITLE": "Modelli Whatsapp",
       "SUBTITLE": "Seleziona il modello whatsapp che vuoi inviare",
-      "TEMPLATE_SELECTED_SUBTITLE": "Configure template: {templateName}"
+      "TEMPLATE_SELECTED_SUBTITLE": "Configura template: {templateName}"
     },
     "PICKER": {
-      "SEARCH_PLACEHOLDER": "Cerca modelli",
+      "SEARCH_PLACEHOLDER": "Cerca Modelli",
       "NO_TEMPLATES_FOUND": "Nessun modello trovato per",
-      "HEADER": "Header",
-      "BODY": "Body",
-      "FOOTER": "Footer",
-      "BUTTONS": "Buttons",
+      "HEADER": "Intestazione",
+      "BODY": "Corpo",
+      "FOOTER": "Piè",
+      "BUTTONS": "Pulsanti",
       "CATEGORY": "Categoria",
-      "MEDIA_CONTENT": "Media Content",
-      "MEDIA_CONTENT_FALLBACK": "media content",
-      "NO_TEMPLATES_AVAILABLE": "No WhatsApp templates available. Click refresh to sync templates from WhatsApp.",
-      "REFRESH_BUTTON": "Refresh templates",
-      "REFRESH_SUCCESS": "Templates refresh initiated. It may take a couple of minutes to update.",
-      "REFRESH_ERROR": "Failed to refresh templates. Please try again.",
+      "MEDIA_CONTENT": "Contenuto Multimediale",
+      "MEDIA_CONTENT_FALLBACK": "contenuto multimediale",
+      "NO_TEMPLATES_AVAILABLE": "Nessun modello WhatsApp disponibile. Fai clic su aggiorna per sincronizzare i modelli da WhatsApp.",
+      "REFRESH_BUTTON": "Aggiorna modelli",
+      "REFRESH_SUCCESS": "Aggiornamento modelli iniziato. Potrebbe volerci qualche minuto per aggiornare.",
+      "REFRESH_ERROR": "Impossibile aggiornare i modelli. Per favore riprova.",
       "LABELS": {
         "LANGUAGE": "Lingua",
-        "TEMPLATE_BODY": "Corpo modello",
+        "TEMPLATE_BODY": "Corpo Modello",
         "CATEGORY": "Categoria"
       }
     },
@@ -30,18 +30,18 @@
       "LANGUAGE": "Lingua",
       "CATEGORY": "Categoria",
       "VARIABLE_PLACEHOLDER": "Inserisci il valore di {variable}",
-      "GO_BACK_LABEL": "Torna indietro",
-      "SEND_MESSAGE_LABEL": "Invia messaggio",
-      "FORM_ERROR_MESSAGE": "Si prega di compilare tutte le variabili prima di inviare",
-      "MEDIA_HEADER_LABEL": "{type} Header",
-      "OTP_CODE": "Enter 4-8 digit OTP",
-      "EXPIRY_MINUTES": "Enter expiry minutes",
-      "BUTTON_PARAMETERS": "Button Parameters",
-      "BUTTON_LABEL": "Button {index}",
-      "COUPON_CODE": "Enter coupon code (max 15 chars)",
-      "MEDIA_URL_LABEL": "Enter {type} URL",
-      "DOCUMENT_NAME_PLACEHOLDER": "Enter document filename (e.g., Invoice_2025.pdf)",
-      "BUTTON_PARAMETER": "Enter button parameter"
+      "GO_BACK_LABEL": "Torna Indietro",
+      "SEND_MESSAGE_LABEL": "Invia Messaggio",
+      "FORM_ERROR_MESSAGE": "Inserisci tutte le variabili prima di inviare",
+      "MEDIA_HEADER_LABEL": "Intestazione {type}",
+      "OTP_CODE": "Inserisci OTP da 4 a 8 cifre",
+      "EXPIRY_MINUTES": "Inserisci minuti di scadenza",
+      "BUTTON_PARAMETERS": "Parametri Pulsanti",
+      "BUTTON_LABEL": "Pulsante {index}",
+      "COUPON_CODE": "Inserisci il codice coupon (max 15 caratteri)",
+      "MEDIA_URL_LABEL": "Inserisci l’URL del {type}",
+      "DOCUMENT_NAME_PLACEHOLDER": "Inserisci il nome del file (es. Fattura_2025.pdf)",
+      "BUTTON_PARAMETER": "Inserisci parametro pulsante"
     }
   }
 }

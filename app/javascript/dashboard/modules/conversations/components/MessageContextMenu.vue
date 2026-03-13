@@ -62,6 +62,7 @@ export default {
     ...mapGetters({
       getAccount: 'accounts/getAccount',
       currentAccountId: 'getCurrentAccountId',
+      getUISettings: 'getUISettings',
     }),
     plainTextContent() {
       return this.getPlainText(this.messageContent);
@@ -117,11 +118,13 @@ export default {
       this.$emit('close', e);
     },
     handleTranslate() {
-      const { locale } = this.getAccount(this.currentAccountId);
+      const { locale: accountLocale } = this.getAccount(this.currentAccountId);
+      const agentLocale = this.getUISettings?.locale;
+      const targetLanguage = agentLocale || accountLocale || 'en';
       this.$store.dispatch('translateMessage', {
         conversationId: this.conversationId,
         messageId: this.messageId,
-        targetLanguage: locale || 'en',
+        targetLanguage,
       });
       useTrack(CONVERSATION_EVENTS.TRANSLATE_A_MESSAGE);
       this.handleClose();

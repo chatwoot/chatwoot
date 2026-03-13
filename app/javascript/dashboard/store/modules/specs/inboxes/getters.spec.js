@@ -27,7 +27,7 @@ describe('#getters', () => {
 
   it('dialogFlowEnabledInboxes', () => {
     const state = { records: inboxList };
-    expect(getters.dialogFlowEnabledInboxes(state).length).toEqual(7);
+    expect(getters.dialogFlowEnabledInboxes(state).length).toEqual(8);
   });
 
   it('getInbox', () => {
@@ -91,6 +91,18 @@ describe('#getters', () => {
       name: 'Test Instagram 1',
       channel_type: 'Channel::Instagram',
       instagram_id: 123456789,
+      provider: 'default',
+    });
+  });
+
+  it('getTiktokInboxByBusinessId', () => {
+    const state = { records: inboxList };
+    expect(getters.getTiktokInboxByBusinessId(state)(123456789)).toEqual({
+      id: 8,
+      channel_id: 8,
+      name: 'Test TikTok 1',
+      channel_type: 'Channel::Tiktok',
+      business_id: 123456789,
       provider: 'default',
     });
   });
@@ -256,6 +268,39 @@ describe('#getters', () => {
             id: 1,
             channel_type: 'Channel::Whatsapp',
             message_templates: locationTemplates,
+          },
+        ],
+      };
+
+      const result = getters.getFilteredWhatsAppTemplates(state)(1);
+      expect(result).toHaveLength(1);
+      expect(result[0].name).toBe('regular_template');
+    });
+
+    it('filters out authentication templates', () => {
+      const authenticationTemplates = [
+        {
+          name: 'auth_template',
+          status: 'approved',
+          category: 'AUTHENTICATION',
+          components: [
+            { type: 'BODY', text: 'Your verification code is {{1}}' },
+          ],
+        },
+        {
+          name: 'regular_template',
+          status: 'approved',
+          category: 'MARKETING',
+          components: [{ type: 'BODY', text: 'Regular message' }],
+        },
+      ];
+
+      const state = {
+        records: [
+          {
+            id: 1,
+            channel_type: 'Channel::Whatsapp',
+            message_templates: authenticationTemplates,
           },
         ],
       };

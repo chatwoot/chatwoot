@@ -51,7 +51,10 @@
     },
     "DATE_RANGE_OPTIONS": {
       "LAST_7_DAYS": "Letzten 7 Tage",
+      "LAST_14_DAYS": "Letzten 14 Tage",
       "LAST_30_DAYS": "Letzte 30 Tage",
+      "THIS_MONTH": "This month",
+      "LAST_MONTH": "Last month",
       "LAST_3_MONTHS": "Die letzten 3 Monate",
       "LAST_6_MONTHS": "Die letzten 6 Monate",
       "LAST_YEAR": "Letztes Jahr",
@@ -266,6 +269,8 @@
     "NO_ENOUGH_DATA": "Wir haben nicht genügend Datenpunkte erhalten, um einen Bericht zu erstellen. Bitte versuchen Sie es später erneut.",
     "DOWNLOAD_INBOX_REPORTS": "Agenten-Berichte herunterladen",
     "FILTER_DROPDOWN_LABEL": "Eingang auswählen",
+    "ALL_INBOXES": "All Inboxes",
+    "SEARCH_INBOX": "Search Inbox",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Konversationen",
@@ -462,6 +467,13 @@
     },
     "CONVERSATION_HEATMAP": {
       "HEADER": "Gesprächsprotokoll",
+      "NO_CONVERSATIONS": "Keine Konversation",
+      "CONVERSATION": "{count} Konversation",
+      "CONVERSATIONS": "{count} Konversationen",
+      "DOWNLOAD_REPORT": "Bericht herunterladen"
+    },
+    "RESOLUTION_HEATMAP": {
+      "HEADER": "Resolutions",
       "NO_CONVERSATIONS": "Keine Konversation",
       "CONVERSATION": "{count} Konversation",
       "CONVERSATIONS": "{count} Konversationen",

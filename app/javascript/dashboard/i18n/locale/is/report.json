@@ -51,7 +51,10 @@
     },
     "DATE_RANGE_OPTIONS": {
       "LAST_7_DAYS": "Síðustu 7 daga",
+      "LAST_14_DAYS": "Síðustu 14 daga",
       "LAST_30_DAYS": "Síðustu 30 daga",
+      "THIS_MONTH": "This month",
+      "LAST_MONTH": "Last month",
       "LAST_3_MONTHS": "Síðustu 3 mánuði",
       "LAST_6_MONTHS": "Síðustu 6 mánuði",
       "LAST_YEAR": "Síðasta ár",
@@ -266,6 +269,8 @@
     "NO_ENOUGH_DATA": "Við höfum ekki fengið nógu marga gagnapunkta til að búa til skýrslu, vinsamlegast reyndu aftur síðar.",
     "DOWNLOAD_INBOX_REPORTS": "Download inbox reports",
     "FILTER_DROPDOWN_LABEL": "Select Inbox",
+    "ALL_INBOXES": "All Inboxes",
+    "SEARCH_INBOX": "Search Inbox",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Samtöl",
@@ -462,6 +467,13 @@
     },
     "CONVERSATION_HEATMAP": {
       "HEADER": "Conversation Traffic",
+      "NO_CONVERSATIONS": "No conversations",
+      "CONVERSATION": "{count} conversation",
+      "CONVERSATIONS": "{count} conversations",
+      "DOWNLOAD_REPORT": "Download report"
+    },
+    "RESOLUTION_HEATMAP": {
+      "HEADER": "Resolutions",
       "NO_CONVERSATIONS": "No conversations",
       "CONVERSATION": "{count} conversation",
       "CONVERSATIONS": "{count} conversations",

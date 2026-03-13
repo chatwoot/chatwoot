@@ -19,9 +19,11 @@ module Concerns::Agentable
       state = context.context[:state] || {}
       conversation_data = state[:conversation] || {}
       contact_data = state[:contact] || {}
+      campaign_data = state[:campaign] || {}
       enhanced_context = enhanced_context.merge(
         conversation: conversation_data,
-        contact: contact_data
+        contact: contact_data,
+        campaign: campaign_data
       )
     end
 
@@ -43,7 +45,7 @@ module Concerns::Agentable
   end
 
   def agent_model
-    InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_MODEL')&.value.presence || OpenAiConstants::DEFAULT_MODEL
+    InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_MODEL')&.value.presence || LlmConstants::DEFAULT_MODEL
   end
 
   def agent_response_schema

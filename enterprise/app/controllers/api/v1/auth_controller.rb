@@ -3,9 +3,16 @@ class Api::V1::AuthController < Api::BaseController
   before_action :find_user_and_account, only: [:saml_login]
 
   def saml_login
+    unless saml_sso_enabled?
+      render json: { error: 'SAML SSO login is not enabled' }, status: :forbidden
+      return
+    end
+
     return if @account.nil?
 
-    saml_initiation_url = "/auth/saml?account_id=#{@account.id}"
+    relay_state = params[:target] || 'web'
+
+    saml_initiation_url = "/auth/saml?account_id=#{@account.id}&RelayState=#{relay_state}"
     redirect_to saml_initiation_url, status: :temporary_redirect
   end
 
@@ -44,7 +51,18 @@ class Api::V1::AuthController < Api::BaseController
   end
 
   def render_saml_error
-    redirect_to sso_login_page_url(error: 'saml-authentication-failed')
+    error = 'saml-authentication-failed'
+
+    if mobile_target?
+      mobile_deep_link_base = GlobalConfigService.load('MOBILE_DEEP_LINK_BASE', 'chatwootapp')
+      redirect_to "#{mobile_deep_link_base}://auth/saml?error=#{ERB::Util.url_encode(error)}", allow_other_host: true
+    else
+      redirect_to sso_login_page_url(error: error)
+    end
+  end
+
+  def mobile_target?
+    params[:target]&.casecmp('mobile')&.zero?
   end
 
   def sso_login_page_url(error: nil)
@@ -55,5 +73,9 @@ class Api::V1::AuthController < Api::BaseController
     query_fragment = query.present? ? "?#{query}" : ''
 
     "#{frontend_url}/app/login/sso#{query_fragment}"
+  end
+
+  def saml_sso_enabled?
+    GlobalConfigService.load('ENABLE_SAML_SSO_LOGIN', 'true').to_s == 'true'
   end
 end
