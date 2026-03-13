@@ -33,7 +33,13 @@ RSpec.describe V2::Reports::LabelSummaryBuilder do
 
     it 'sets timezone from timezone_offset' do
       builder_with_offset = described_class.new(account: account, params: { timezone_offset: -8 })
-      expect(builder_with_offset.instance_variable_get(:@timezone)).to eq('Pacific Time (US & Canada)')
+      expected_timezone = ActiveSupport::TimeZone.all.find { |zone| zone.now.utc_offset == -8.hours }.name
+      expect(builder_with_offset.instance_variable_get(:@timezone)).to eq(expected_timezone)
+    end
+
+    it 'prefers timezone when it is provided' do
+      builder_with_timezone = described_class.new(account: account, params: { timezone: 'Asia/Kolkata', timezone_offset: -8 })
+      expect(builder_with_timezone.instance_variable_get(:@timezone)).to eq('Asia/Kolkata')
     end
 
     it 'defaults timezone when timezone_offset is not provided' do
