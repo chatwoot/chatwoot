@@ -46,7 +46,7 @@ export default {
       return this.surveyDetails && this.surveyDetails.feedback_message;
     },
     isButtonDisabled() {
-      return !(this.selectedRating && this.feedback);
+      return !this.selectedRating;
     },
     isEmojiType() {
       return this.displayType === CSAT_DISPLAY_TYPES.EMOJI;
