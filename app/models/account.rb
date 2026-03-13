@@ -92,6 +92,7 @@ class Account < ApplicationRecord
   store_accessor :settings, :captain_models, :captain_features
   store_accessor :settings, :keep_pending_on_bot_failure
   store_accessor :settings, :captain_auto_resolve_mode
+  include AccountCaptainAutoResolve
 
   has_many :account_users, dependent: :destroy_async
   has_many :agent_bot_inboxes, dependent: :destroy_async
@@ -194,26 +195,6 @@ class Account < ApplicationRecord
     # we need to extract the language code from the locale
     account_locale = locale&.split('_')&.first
     ISO_639.find(account_locale)&.english_name&.downcase || 'english'
-  end
-
-  def captain_auto_resolve_mode
-    mode = settings&.[]('captain_auto_resolve_mode')
-    return mode if %w[evaluated legacy disabled].include?(mode)
-    return 'disabled' if settings&.[]('captain_disable_auto_resolve') == true
-
-    'evaluated'
-  end
-
-  def captain_auto_resolve_disabled?
-    captain_auto_resolve_mode == 'disabled'
-  end
-
-  def captain_auto_resolve_legacy?
-    captain_auto_resolve_mode == 'legacy'
-  end
-
-  def captain_auto_resolve_evaluated?
-    captain_auto_resolve_mode == 'evaluated'
   end
 
   private
