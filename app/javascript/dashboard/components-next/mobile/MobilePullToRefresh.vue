@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
+import { useHaptics } from 'dashboard/composables/useHaptics';
 
 const emit = defineEmits(['refresh']);
 
@@ -8,14 +9,18 @@ const isRefreshing = ref(false);
 const pullDistance = ref(0);
 const isPulling = ref(false);
 
+const { medium } = useHaptics();
+
 const PULL_THRESHOLD = 60;
 let startY = 0;
+let thresholdTriggered = false;
 
 const onTouchStart = event => {
   const scrollTop = event.currentTarget.scrollTop;
   if (scrollTop === 0) {
     startY = event.touches[0].clientY;
     isPulling.value = true;
+    thresholdTriggered = false;
   }
 };
 
@@ -25,6 +30,10 @@ const onTouchMove = event => {
   const delta = currentY - startY;
   if (delta > 0) {
     pullDistance.value = Math.min(delta * 0.5, 80);
+    if (!thresholdTriggered && pullDistance.value >= PULL_THRESHOLD) {
+      medium();
+      thresholdTriggered = true;
+    }
   }
 };
 

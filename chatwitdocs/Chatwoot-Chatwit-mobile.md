@@ -140,10 +140,10 @@ All under `app/javascript/dashboard/components-next/mobile/`:
 ## Roadmap: Future Improvements
 
 ### Phase 2: Enhanced Mobile UX
-- [ ] Swipe actions on conversation/notification rows (swipe to resolve, delete)
-- [ ] Gesture-based navigation (swipe right to go back)
-- [ ] Haptic feedback on interactions
-- [ ] Improved keyboard handling (auto-scroll on input focus)
+- [x] Swipe actions on conversation/notification rows (swipe to resolve, delete)
+- [x] Gesture-based navigation (swipe right to go back)
+- [x] Haptic feedback on interactions
+- [x] Improved keyboard handling (auto-scroll on input focus)
 
 ### Phase 3: Rich Features
 - [ ] Voice message recording in mobile chat
@@ -171,3 +171,41 @@ All under `app/javascript/dashboard/components-next/mobile/`:
 - [ ] Reports summary view on mobile
 - [ ] Campaign management on mobile
 - [ ] Help center access on mobile
+
+---
+
+## Changelog
+
+### 2026-03-13 — Phase 2: Enhanced Mobile UX
+
+#### New Components
+| Component | Path | Description |
+|-----------|------|-------------|
+| `MobileSwipeableRow.vue` | `components-next/mobile/MobileSwipeableRow.vue` | Reusable swipe-to-reveal actions wrapper for list rows. Supports configurable action buttons, threshold-based activation, horizontal/vertical conflict resolution, and auto-close via provide/inject. |
+
+#### New Composables
+| Composable | Path | Description |
+|------------|------|-------------|
+| `useHaptics.js` | `composables/useHaptics.js` | Vibration API wrapper with `light()`, `medium()`, `heavy()`, `success()` methods. Graceful no-op when API unavailable. |
+| `useSwipeBack.js` | `composables/useSwipeBack.js` | Edge-swipe gesture detection composable. Activates on touch within 20px of left edge (right edge in RTL). Returns reactive `swipeOffset` for visual feedback. Threshold: 100px to trigger navigation. |
+| `useKeyboardResize.js` | `composables/useKeyboardResize.js` | Virtual keyboard detection via `visualViewport` API. Returns `keyboardHeight` and `isKeyboardOpen` reactive refs. Auto-scrolls focused input into view. |
+
+#### Modified Components
+| Component | Path | Changes |
+|-----------|------|---------|
+| `MobileConversationList.vue` | `components-next/mobile/MobileConversationList.vue` | Wrapped `ConversationCard` in `MobileSwipeableRow` with Resolve/Reopen and Delete swipe actions. Added provide/inject for single-open-row management. Haptic feedback on swipe threshold. |
+| `MobileInboxView.vue` | `components-next/mobile/MobileInboxView.vue` | Wrapped `InboxCard` in `MobileSwipeableRow` with Mark Read and Delete swipe actions. Added provide/inject for single-open-row management. Haptic feedback on actions. |
+| `MobileChatView.vue` | `components-next/mobile/MobileChatView.vue` | Integrated `useSwipeBack` for edge-swipe-right back navigation with visual slide effect. Integrated `useKeyboardResize` to adjust padding when virtual keyboard opens, keeping reply box visible. |
+| `MobileBottomTabBar.vue` | `components-next/mobile/MobileBottomTabBar.vue` | Added haptic feedback (`light()`) on tab switches via `useHaptics`. |
+| `MobilePullToRefresh.vue` | `components-next/mobile/MobilePullToRefresh.vue` | Added haptic feedback (`medium()`) when pull distance crosses the refresh threshold. Fires once per gesture via flag. |
+
+#### i18n
+| File | Changes |
+|------|---------|
+| `i18n/locale/en/mobile.json` | Added `MOBILE.SWIPE` keys: `RESOLVE`, `REOPEN`, `DELETE`, `MARK_READ`, `CONFIRM_DELETE` |
+
+#### Functionalities Added
+- **Swipe actions**: Swipe left on conversation rows to reveal Resolve/Reopen and Delete buttons; swipe left on notification rows to reveal Mark Read and Delete buttons
+- **Haptic feedback**: Vibration API triggers on tab switch, swipe action threshold, pull-to-refresh threshold, and back gesture completion
+- **Gesture navigation**: Swipe right from the left screen edge in chat view to navigate back to the list (with RTL support)
+- **Keyboard handling**: Chat view auto-adjusts layout when the virtual keyboard opens, preventing the reply box from being hidden behind the keyboard

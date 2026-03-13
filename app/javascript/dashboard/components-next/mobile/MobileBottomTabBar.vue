@@ -2,6 +2,7 @@
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useMapGetter } from 'dashboard/composables/store';
+import { useHaptics } from 'dashboard/composables/useHaptics';
 
 const props = defineProps({
   activeTab: {
@@ -37,7 +38,10 @@ const tabs = computed(() => [
   },
 ]);
 
+const { light } = useHaptics();
+
 const onTabClick = tabId => {
+  light();
   emit('change', tabId);
 };
 </script>

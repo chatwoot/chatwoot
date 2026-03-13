@@ -1,6 +1,8 @@
 <script setup>
-import { computed, watch, onMounted } from 'vue';
+import { ref, computed, watch, onMounted } from 'vue';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
+import { useSwipeBack } from 'dashboard/composables/useSwipeBack';
+import { useKeyboardResize } from 'dashboard/composables/useKeyboardResize';
 
 import MobileChatHeader from './MobileChatHeader.vue';
 import MessagesView from 'dashboard/components/widgets/conversation/MessagesView.vue';
@@ -15,6 +17,12 @@ const props = defineProps({
 
 const emit = defineEmits(['back']);
 const store = useStore();
+
+const chatRootRef = ref(null);
+const { swipeOffset, isSwiping } = useSwipeBack(chatRootRef, () =>
+  emit('back')
+);
+const { keyboardHeight, isKeyboardOpen } = useKeyboardResize();
 
 const currentChat = useMapGetter('getSelectedChat');
 const allConversations = useMapGetter('getAllConversations');
@@ -69,7 +77,15 @@ watch(
 </script>
 
 <template>
-  <div class="flex flex-col w-full h-full bg-n-surface-1">
+  <div
+    ref="chatRootRef"
+    class="flex flex-col w-full h-full bg-n-surface-1"
+    :class="{ 'transition-transform duration-200 ease-out': !isSwiping && swipeOffset > 0 }"
+    :style="{
+      transform: swipeOffset > 0 ? `translateX(${swipeOffset}px)` : undefined,
+      paddingBottom: isKeyboardOpen ? `${keyboardHeight}px` : undefined,
+    }"
+  >
     <MobileChatHeader
       :name="contactName"
       :avatar="contactAvatar"
