@@ -364,6 +364,15 @@ const payloadForContextMenu = computed(() => {
   };
 });
 
+// Only Chatwoot-native channels support real message deletion at this moment.
+const CHANNELS_WITH_DELETE_SUPPORT = ['Channel::WebWidget', 'Channel::Api'];
+
+const canDeleteOnChannel = computed(() => {
+  if (props.private) return true;
+  const channelType = inbox.value?.channel_type;
+  return CHANNELS_WITH_DELETE_SUPPORT.includes(channelType);
+});
+
 const contextMenuEnabledOptions = computed(() => {
   const hasText = !!props.content;
   const hasAttachments = !!(props.attachments && props.attachments.length > 0);
@@ -578,6 +587,7 @@ provideMessageContext({
         :is-open="showContextMenu"
         :enabled-options="contextMenuEnabledOptions"
         :message="payloadForContextMenu"
+        :can-delete-on-channel="canDeleteOnChannel"
         hide-button
         @open="openContextMenu"
         @close="closeContextMenu"
