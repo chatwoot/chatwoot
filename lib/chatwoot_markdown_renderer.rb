@@ -1,4 +1,6 @@
 class ChatwootMarkdownRenderer
+  BLANK_LINE_TOKEN = '{{CHATWOOT_BLANK_LINE}}'
+
   def initialize(content)
     @content = content
   end
@@ -29,13 +31,14 @@ class ChatwootMarkdownRenderer
   def preserve_multiple_newlines(content)
     content.gsub(/\n{3,}/) do |match|
       extra_blank_lines = match.length - 2
-      "\n\n#{'{{BLANK_LINE}}\n\n' * extra_blank_lines}"
+      "\n\n#{"#{BLANK_LINE_TOKEN}\n\n" * extra_blank_lines}"
     end
   end
 
   def restore_multiple_newlines_as_html(html)
-    html.gsub('<p>{{BLANK_LINE}}</p>', '<p><br></p>')
-        .gsub('{{BLANK_LINE}}', "\n")
+    html.gsub("<p>#{BLANK_LINE_TOKEN}</p>", '<p><br></p>')
+        .gsub("#{BLANK_LINE_TOKEN}\n\n", "\n")
+        .gsub(BLANK_LINE_TOKEN, '')
   end
 
   def render_as_html_safe(html)
