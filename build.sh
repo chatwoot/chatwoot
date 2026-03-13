@@ -9,7 +9,7 @@ set -e  # Para na primeira falha
 VERSION="v4.10"
 REGISTRY="witrocha"
 IMAGE_NAME="chatwit"
-LATEST=false
+LATEST=true
 NO_ENTERPRISE=false
 DISABLE_TELEMETRY=true
 NO_CACHE=false
@@ -21,13 +21,14 @@ show_help() {
 Script de Build de Produção - Chatwit
 
 USAGE:
-    ./build-producao.sh [OPTIONS]
+    ./build.sh [OPTIONS]
 
 OPTIONS:
-    -v, --version VERSION     Versão da imagem (padrão: v4.4)
+    -v, --version VERSION     Versão da imagem (padrão: v4.10)
     -r, --registry REGISTRY  Nome do registry (padrão: witrocha)
     -i, --image IMAGE         Nome da imagem (padrão: chatwit)
-    -l, --latest              Adiciona tag 'latest'
+    -l, --latest              Mantém a tag 'latest' habilitada
+        --no-latest           Não adiciona a tag 'latest'
     --no-enterprise           Usa Dockerfile padrão em vez do enterprise
     --enable-telemetry        Habilita telemetria (padrão: desabilitada)
     --no-cache                Build sem cache
@@ -35,9 +36,9 @@ OPTIONS:
     -h, --help                Mostra esta ajuda
 
 EXAMPLES:
-    ./build-producao.sh -v v5.0.0 --latest
-    ./build-producao.sh --no-push
-    ./build-producao.sh --no-enterprise --latest
+    ./build.sh -v v5.0.0
+    ./build.sh --no-latest --no-push
+    ./build.sh --no-enterprise
 
 EOF
 }
@@ -59,6 +60,10 @@ while [[ $# -gt 0 ]]; do
             ;;
         -l|--latest)
             LATEST=true
+            shift
+            ;;
+        --no-latest)
+            LATEST=false
             shift
             ;;
         --no-enterprise)
