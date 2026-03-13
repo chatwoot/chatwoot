@@ -21,6 +21,7 @@ class ReportingEventListener < BaseListener
 
     create_bot_resolved_event(conversation, reporting_event)
     reporting_event.save!
+    ReportingEvents::RollupService.perform(reporting_event)
   end
 
   def first_reply_created(event)
@@ -42,6 +43,7 @@ class ReportingEventListener < BaseListener
     )
 
     reporting_event.save!
+    ReportingEvents::RollupService.perform(reporting_event)
   end
 
   def reply_created(event)
@@ -66,13 +68,16 @@ class ReportingEventListener < BaseListener
       event_end_time: message.created_at
     )
     reporting_event.save!
+    ReportingEvents::RollupService.perform(reporting_event)
   end
 
   def conversation_bot_handoff(event)
     conversation = extract_conversation_and_account(event)[0]
     event_end_time = event.timestamp
 
-    # check if a conversation_bot_handoff event exists for this conversation
+    # Best-effort guard: raw report reads count bot handoffs with DISTINCT conversation_id,
+    # while rollup counts assume one conversation_bot_handoff event per conversation.
+    # That uniqueness is not currently enforced at the database level.
     bot_handoff_event = ReportingEvent.find_by(conversation_id: conversation.id, name: 'conversation_bot_handoff')
     return if bot_handoff_event.present?
 
@@ -90,6 +95,7 @@ class ReportingEventListener < BaseListener
       event_end_time: event_end_time
     )
     reporting_event.save!
+    ReportingEvents::RollupService.perform(reporting_event)
   end
 
   def conversation_captain_inference_resolved(event)
@@ -166,5 +172,6 @@ class ReportingEventListener < BaseListener
     bot_resolved_event = reporting_event.dup
     bot_resolved_event.name = 'conversation_bot_resolved'
     bot_resolved_event.save!
+    ReportingEvents::RollupService.perform(bot_resolved_event)
   end
 end
