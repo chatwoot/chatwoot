@@ -29,7 +29,7 @@ class ChatwootMarkdownRenderer
   def preserve_multiple_newlines(content)
     content.gsub(/\n{3,}/) do |match|
       extra_blank_lines = match.length - 2
-      "\n\n" + ("{{BLANK_LINE}}\n\n" * extra_blank_lines)
+      "\n\n#{'{{BLANK_LINE}}\n\n' * extra_blank_lines}"
     end
   end
 
