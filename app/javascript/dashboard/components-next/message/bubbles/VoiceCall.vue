@@ -2,11 +2,16 @@
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useMessageContext } from '../provider.js';
-import { MESSAGE_TYPES, VOICE_CALL_STATUS } from '../constants';
+import {
+  ATTACHMENT_TYPES,
+  MESSAGE_TYPES,
+  VOICE_CALL_STATUS,
+} from '../constants';
 import { formatDuration } from 'shared/helpers/timeHelper';
 
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import BaseBubble from 'next/message/bubbles/Base.vue';
+import AudioChip from 'next/message/chips/Audio.vue';
 
 const ICON_MAP = {
   [VOICE_CALL_STATUS.IN_PROGRESS]: 'i-ph-phone-call',
@@ -23,7 +28,8 @@ const BG_COLOR_MAP = {
 };
 
 const { t } = useI18n();
-const { contentAttributes, currentUserId, messageType } = useMessageContext();
+const { attachments, contentAttributes, currentUserId, messageType } =
+  useMessageContext();
 
 const data = computed(() => contentAttributes.value?.data);
 const status = computed(() => data.value?.status?.toString());
@@ -32,6 +38,11 @@ const joinedBy = computed(() => {
 });
 const callDuration = computed(() => {
   return data.value?.meta?.duration;
+});
+const recordingAttachment = computed(() => {
+  return attachments.value?.find(
+    attachment => attachment.fileType === ATTACHMENT_TYPES.AUDIO
+  );
 });
 
 const isOutbound = computed(() => messageType.value === MESSAGE_TYPES.OUTGOING);
@@ -103,7 +114,7 @@ const bgColor = computed(() => BG_COLOR_MAP[status.value] || 'bg-n-teal-9');
 
 <template>
   <BaseBubble class="p-0 border-none" hide-meta>
-    <div class="flex overflow-hidden flex-col w-full max-w-xs">
+    <div class="flex overflow-hidden flex-col w-full max-w-sm">
       <div class="flex gap-3 items-center p-3 w-full">
         <div
           class="flex justify-center items-center rounded-full size-10 shrink-0"
@@ -127,6 +138,9 @@ const bgColor = computed(() => BG_COLOR_MAP[status.value] || 'bg-n-teal-9');
             {{ subtext }}
           </span>
         </div>
+      </div>
+      <div v-if="recordingAttachment" class="px-3 pb-3">
+        <AudioChip class="text-n-slate-12" :attachment="recordingAttachment" />
       </div>
     </div>
   </BaseBubble>

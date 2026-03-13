@@ -35,6 +35,11 @@ const mountComponent = () =>
           template: '<div><slot /></div>',
         },
         Icon: true,
+        AudioChip: {
+          props: ['attachment'],
+          template:
+            '<div data-test-id="audio-chip">{{ attachment.dataUrl }}</div>',
+        },
       },
       mocks: {
         $t: key => key,
@@ -51,6 +56,7 @@ describe('VoiceCall.vue', () => {
           meta: {},
         },
       }),
+      attachments: ref([]),
       currentUserId: ref(1),
       messageType: ref(MESSAGE_TYPES.INCOMING),
     };
@@ -87,5 +93,20 @@ describe('VoiceCall.vue', () => {
 
     expect(wrapper.text()).toContain('Call ended');
     expect(wrapper.text()).toContain('02:13');
+  });
+
+  it('renders the recording attachment on the voice call message', () => {
+    messageContext.attachments.value = [
+      {
+        id: 1,
+        fileType: 'audio',
+        dataUrl: 'https://example.com/recording.mp3',
+      },
+    ];
+
+    const wrapper = mountComponent();
+
+    expect(wrapper.find('[data-test-id="audio-chip"]').exists()).toBe(true);
+    expect(wrapper.text()).toContain('https://example.com/recording.mp3');
   });
 });
