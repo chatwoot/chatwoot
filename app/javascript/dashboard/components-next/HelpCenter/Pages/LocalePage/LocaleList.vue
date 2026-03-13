@@ -1,4 +1,5 @@
 <script setup>
+import { computed } from 'vue';
 import LocaleCard from 'dashboard/components-next/HelpCenter/LocaleCard/LocaleCard.vue';
 import { useStore } from 'dashboard/composables/store';
 import { useAlert, useTrack } from 'dashboard/composables';
@@ -23,12 +24,32 @@ const { t } = useI18n();
 const route = useRoute();
 const { uiSettings, updateUISettings } = useUISettings();
 
+const localeActionMessages = computed(() => ({
+  CHANGE_DEFAULT_LOCALE: {
+    success: t('HELP_CENTER.PORTAL.CHANGE_DEFAULT_LOCALE.API.SUCCESS_MESSAGE'),
+    error: t('HELP_CENTER.PORTAL.CHANGE_DEFAULT_LOCALE.API.ERROR_MESSAGE'),
+  },
+  DELETE_LOCALE: {
+    success: t('HELP_CENTER.PORTAL.DELETE_LOCALE.API.SUCCESS_MESSAGE'),
+    error: t('HELP_CENTER.PORTAL.DELETE_LOCALE.API.ERROR_MESSAGE'),
+  },
+  DRAFT_LOCALE: {
+    success: t('HELP_CENTER.PORTAL.DRAFT_LOCALE.API.SUCCESS_MESSAGE'),
+    error: t('HELP_CENTER.PORTAL.DRAFT_LOCALE.API.ERROR_MESSAGE'),
+  },
+  PUBLISH_LOCALE: {
+    success: t('HELP_CENTER.PORTAL.PUBLISH_LOCALE.API.SUCCESS_MESSAGE'),
+    error: t('HELP_CENTER.PORTAL.PUBLISH_LOCALE.API.ERROR_MESSAGE'),
+  },
+}));
+
 const isLocaleDefault = code => {
   return props.portal?.meta?.default_locale === code;
 };
 
 const updatePortalLocales = async ({
   newAllowedLocales,
+  newDraftLocales,
   defaultLocale,
   messageKey,
 }) => {
@@ -39,13 +60,14 @@ const updatePortalLocales = async ({
       config: {
         default_locale: defaultLocale,
         allowed_locales: newAllowedLocales,
+        draft_locales: newDraftLocales,
       },
     });
 
-    alertMessage = t(`HELP_CENTER.PORTAL.${messageKey}.API.SUCCESS_MESSAGE`);
+    alertMessage = localeActionMessages.value[messageKey].success;
   } catch (error) {
     alertMessage =
-      error?.message || t(`HELP_CENTER.PORTAL.${messageKey}.API.ERROR_MESSAGE`);
+      error?.message || localeActionMessages.value[messageKey].error;
   } finally {
     useAlert(alertMessage);
   }
@@ -53,8 +75,12 @@ const updatePortalLocales = async ({
 
 const changeDefaultLocale = ({ localeCode }) => {
   const newAllowedLocales = props.locales.map(locale => locale.code);
+  const newDraftLocales = props.locales
+    .filter(locale => locale.isDraft)
+    .map(locale => locale.code);
   updatePortalLocales({
     newAllowedLocales,
+    newDraftLocales,
     defaultLocale: localeCode,
     messageKey: 'CHANGE_DEFAULT_LOCALE',
   });
@@ -81,11 +107,15 @@ const deletePortalLocale = async ({ localeCode }) => {
   const updatedLocales = props.locales
     .filter(locale => locale.code !== localeCode)
     .map(locale => locale.code);
+  const updatedDraftLocales = props.locales
+    .filter(locale => locale.code !== localeCode && locale.isDraft)
+    .map(locale => locale.code);
 
   const defaultLocale = props.portal.meta.default_locale;
 
   await updatePortalLocales({
     newAllowedLocales: updatedLocales,
+    newDraftLocales: updatedDraftLocales,
     defaultLocale,
     messageKey: 'DELETE_LOCALE',
   });
@@ -98,9 +128,56 @@ const deletePortalLocale = async ({ localeCode }) => {
   });
 };
 
+const updateDraftLocales = async ({ localeCode, shouldDraft, messageKey }) => {
+  const newAllowedLocales = props.locales.map(locale => locale.code);
+  const currentDraftLocales = props.locales
+    .filter(locale => locale.isDraft)
+    .map(locale => locale.code);
+  const newDraftLocales = shouldDraft
+    ? [...new Set([...currentDraftLocales, localeCode])]
+    : currentDraftLocales.filter(locale => locale !== localeCode);
+
+  await updatePortalLocales({
+    newAllowedLocales,
+    newDraftLocales,
+    defaultLocale: props.portal.meta.default_locale,
+    messageKey,
+  });
+};
+
+const moveLocaleToDraft = async ({ localeCode }) => {
+  await updateDraftLocales({
+    localeCode,
+    shouldDraft: true,
+    messageKey: 'DRAFT_LOCALE',
+  });
+
+  useTrack(PORTALS_EVENTS.DRAFT_LOCALE, {
+    locale: localeCode,
+    from: route.name,
+  });
+};
+
+const publishLocale = async ({ localeCode }) => {
+  await updateDraftLocales({
+    localeCode,
+    shouldDraft: false,
+    messageKey: 'PUBLISH_LOCALE',
+  });
+
+  useTrack(PORTALS_EVENTS.PUBLISH_LOCALE, {
+    locale: localeCode,
+    from: route.name,
+  });
+};
+
 const handleAction = ({ action }, localeCode) => {
   if (action === 'change-default') {
     changeDefaultLocale({ localeCode: localeCode });
+  } else if (action === 'move-to-draft') {
+    moveLocaleToDraft({ localeCode: localeCode });
+  } else if (action === 'publish-locale') {
+    publishLocale({ localeCode: localeCode });
   } else if (action === 'delete') {
     deletePortalLocale({ localeCode: localeCode });
   }
@@ -114,6 +191,7 @@ const handleAction = ({ action }, localeCode) => {
       :key="index"
       :locale="locale.name"
       :is-default="isLocaleDefault(locale.code)"
+      :is-draft="locale.isDraft"
       :locale-code="locale.code"
       :article-count="locale.articlesCount || 0"
       :category-count="locale.categoriesCount || 0"

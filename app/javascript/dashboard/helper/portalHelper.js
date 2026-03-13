@@ -133,20 +133,55 @@ export const ARTICLE_TABS_OPTIONS = [
   },
 ];
 
-export const LOCALE_MENU_ITEMS = [
-  {
+export const LOCALE_MENU_ITEMS = {
+  makeDefault: {
     label: 'HELP_CENTER.LOCALES_PAGE.LOCALE_CARD.DROPDOWN_MENU.MAKE_DEFAULT',
     action: 'change-default',
     value: 'default',
     icon: 'i-lucide-star',
   },
-  {
+  moveToDraft: {
+    label: 'HELP_CENTER.LOCALES_PAGE.LOCALE_CARD.DROPDOWN_MENU.MOVE_TO_DRAFT',
+    action: 'move-to-draft',
+    value: 'draft',
+    icon: 'i-lucide-eye-off',
+  },
+  publishLocale: {
+    label: 'HELP_CENTER.LOCALES_PAGE.LOCALE_CARD.DROPDOWN_MENU.PUBLISH_LOCALE',
+    action: 'publish-locale',
+    value: 'publish',
+    icon: 'i-lucide-eye',
+  },
+  delete: {
     label: 'HELP_CENTER.LOCALES_PAGE.LOCALE_CARD.DROPDOWN_MENU.DELETE',
     action: 'delete',
     value: 'delete',
     icon: 'i-lucide-trash',
   },
-];
+};
+
+const disableLocaleMenuItems = menuItems =>
+  menuItems.map(item => ({ ...item, disabled: true }));
+
+export const buildLocaleMenuItems = ({ isDefault, isDraft }) => {
+  if (isDefault) {
+    return disableLocaleMenuItems([
+      LOCALE_MENU_ITEMS.makeDefault,
+      LOCALE_MENU_ITEMS.moveToDraft,
+      LOCALE_MENU_ITEMS.delete,
+    ]);
+  }
+
+  if (isDraft) {
+    return [LOCALE_MENU_ITEMS.publishLocale, LOCALE_MENU_ITEMS.delete];
+  }
+
+  return [
+    LOCALE_MENU_ITEMS.makeDefault,
+    LOCALE_MENU_ITEMS.moveToDraft,
+    LOCALE_MENU_ITEMS.delete,
+  ];
+};
 
 export const ARTICLE_EDITOR_STATUS_OPTIONS = {
   published: ['archive', 'draft'],

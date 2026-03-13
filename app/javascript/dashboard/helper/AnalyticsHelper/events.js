@@ -71,6 +71,8 @@ export const PORTALS_EVENTS = Object.freeze({
   CREATE_LOCALE: 'Created a portal locale',
   SET_DEFAULT_LOCALE: 'Set default portal locale',
   DELETE_LOCALE: 'Deleted a portal locale',
+  DRAFT_LOCALE: 'Drafted a portal locale',
+  PUBLISH_LOCALE: 'Published a portal locale',
   SWITCH_LOCALE: 'Switched portal locale',
 
   CREATE_CATEGORY: 'Created a portal category',
