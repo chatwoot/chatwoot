@@ -1,5 +1,7 @@
 # Raw reporting events and rollup rows do not share a single metric namespace; this registry keeps write and read paths aligned.
+# TODO: Split this into separate registries for raw event mappings and report metric definitions.
 module ReportingEvents::MetricRegistry
+  # Maps report summary response keys to the metric definitions they read from.
   SUMMARY_METRICS = {
     resolutions_count: :resolved_conversations_count,
     avg_resolution_time: :avg_resolution_time,
@@ -7,6 +9,7 @@ module ReportingEvents::MetricRegistry
     reply_time: :avg_reply_time
   }.freeze
 
+  # Expands each raw reporting event into the rollup metric payloads persisted for aggregation.
   EVENT_METRICS = {
     'conversation_resolved' => lambda do |values|
       {
@@ -20,41 +23,18 @@ module ReportingEvents::MetricRegistry
     'conversation_bot_handoff' => ->(values) { { bot_handoffs_count: count_metric(values[:count]) } }
   }.freeze
 
+  # Describes which report metrics are supported and how each one is sourced and aggregated.
   REPORT_METRICS = {
     conversations_count: { aggregate: :count }.freeze,
     incoming_messages_count: { aggregate: :count }.freeze,
     outgoing_messages_count: { aggregate: :count }.freeze,
-    avg_first_response_time: {
-      raw_event_name: :first_response,
-      rollup_metric: :first_response,
-      aggregate: :average
-    }.freeze,
-    avg_resolution_time: {
-      raw_event_name: :conversation_resolved,
-      rollup_metric: :resolution_time,
-      aggregate: :average
-    }.freeze,
-    reply_time: {
-      raw_event_name: :reply_time,
-      rollup_metric: :reply_time,
-      aggregate: :average
-    }.freeze,
-    resolutions_count: {
-      raw_event_name: :conversation_resolved,
-      rollup_metric: :resolutions_count,
-      aggregate: :count
-    }.freeze,
-    bot_resolutions_count: {
-      raw_event_name: :conversation_bot_resolved,
-      rollup_metric: :bot_resolutions_count,
-      aggregate: :count
-    }.freeze,
-    bot_handoffs_count: {
-      raw_event_name: :conversation_bot_handoff,
-      rollup_metric: :bot_handoffs_count,
-      aggregate: :count,
-      raw_count_strategy: :distinct_conversation
-    }.freeze
+    avg_first_response_time: { raw_event_name: :first_response, rollup_metric: :first_response, aggregate: :average }.freeze,
+    avg_resolution_time: { raw_event_name: :conversation_resolved, rollup_metric: :resolution_time, aggregate: :average }.freeze,
+    reply_time: { raw_event_name: :reply_time, rollup_metric: :reply_time, aggregate: :average }.freeze,
+    resolutions_count: { raw_event_name: :conversation_resolved, rollup_metric: :resolutions_count, aggregate: :count }.freeze,
+    bot_resolutions_count: { raw_event_name: :conversation_bot_resolved, rollup_metric: :bot_resolutions_count, aggregate: :count }.freeze,
+    bot_handoffs_count: { raw_event_name: :conversation_bot_handoff, rollup_metric: :bot_handoffs_count, aggregate: :count,
+                          raw_count_strategy: :distinct_conversation }.freeze
   }.freeze
 
   module_function
