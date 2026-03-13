@@ -33,6 +33,8 @@ class Linear::CallbacksController < ApplicationController
   end
 
   def handle_response
+    raise ArgumentError, 'Missing access token in Linear OAuth response' if parsed_body['access_token'].blank?
+
     hook = account.hooks.find_or_initialize_by(app_id: 'linear')
     hook.assign_attributes(
       access_token: parsed_body['access_token'],

@@ -126,6 +126,51 @@ RSpec.describe Linear::CallbacksController, type: :request do
       end
     end
 
+    context 'when hook exists and response omits access_token' do
+      let!(:existing_hook) do
+        create(
+          :integrations_hook,
+          :linear,
+          account: account,
+          access_token: 'existing_access_token',
+          settings: {
+            'refresh_token' => 'existing_refresh_token',
+            'token_type' => 'Bearer',
+            'scope' => 'read,write',
+            'expires_on' => 1.day.from_now.utc.to_s
+          }
+        )
+      end
+      let(:response_body) do
+        {
+          'refresh_token' => refresh_token,
+          'token_type' => 'Bearer',
+          'expires_in' => 7200,
+          'scope' => 'read,write'
+        }
+      end
+
+      before do
+        stub_request(:post, 'https://api.linear.app/oauth/token')
+          .to_return(
+            status: 200,
+            body: response_body.to_json,
+            headers: { 'Content-Type' => 'application/json' }
+          )
+      end
+
+      it 'does not overwrite the existing hook', :aggregate_failures do
+        expect do
+          get linear_callback_path, params: { code: code, state: state }
+        end.not_to change(Integrations::Hook, :count)
+
+        existing_hook.reload
+        expect(existing_hook.access_token).to eq('existing_access_token')
+        expect(existing_hook.settings['refresh_token']).to eq('existing_refresh_token')
+        expect(response).to redirect_to(linear_redirect_uri)
+      end
+    end
+
     context 'when the token is invalid' do
       before do
         stub_request(:post, 'https://api.linear.app/oauth/token')
