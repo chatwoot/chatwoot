@@ -391,6 +391,109 @@ describe Telegram::IncomingMessageService do
         expect(Contact.all.first.name).to eq('Sojan Jose')
         expect(Contact.all.first.additional_attributes['social_telegram_user_id']).to eq(5_171_248)
         expect(telegram_channel.inbox.messages.first.content).to eq('Option 1')
+        expect(a_request(:post, %r{/answerCallbackQuery})
+          .with(body: hash_including('callback_query_id' => '2342342309929423'))).to have_been_made.once
+      end
+    end
+
+    context 'when callback_query params include business_connection_id' do
+      it 'creates an incoming message for the customer contact' do
+        params = {
+          'update_id' => 2_342_342_343_242,
+          'callback_query' => {
+            'id' => '2342342309929423',
+            'from' => {
+              'id' => 42,
+              'is_bot' => false,
+              'first_name' => 'John',
+              'last_name' => 'Doe',
+              'username' => 'johndoe',
+              'language_code' => 'en'
+            },
+            'message' => message_params.merge('business_connection_id' => 'eooW3KF5WB5HxTD7T826'),
+            'chat_instance' => '-89923842384923492',
+            'data' => 'Option 1'
+          }
+        }.with_indifferent_access
+
+        described_class.new(inbox: telegram_channel.inbox, params: params).perform
+
+        expect(telegram_channel.inbox.messages.first.content).to eq('Option 1')
+        expect(telegram_channel.inbox.messages.first.message_type).to eq('incoming')
+        contact = Contact.all.first
+        expect(contact.name).to eq('Sojan Jose')
+        expect(contact.additional_attributes['social_telegram_user_id']).to eq(23)
+        expect(contact.additional_attributes['social_telegram_user_name']).to eq('sojan')
+        expect(contact.additional_attributes['language_code']).to be_nil
+        expect(a_request(:post, %r{/answerCallbackQuery})
+          .with(body: hash_including('callback_query_id' => '2342342309929423'))).to have_been_made.once
+      end
+    end
+
+    context 'when callback_query ack is stale' do
+      it 'still processes callback query message' do
+        stub_request(:post, %r{/answerCallbackQuery}).to_return(
+          status: 400,
+          body: {
+            ok: false,
+            description: 'Bad Request: query is too old and response timeout expired or query id is invalid'
+          }.to_json,
+          headers: { content_type: 'application/json' }
+        )
+
+        params = {
+          'update_id' => 2_342_342_343_242,
+          'callback_query' => {
+            'id' => '2342342309929423',
+            'from' => {
+              'id' => 5_171_248,
+              'is_bot' => false,
+              'first_name' => 'Sojan',
+              'last_name' => 'Jose',
+              'username' => 'sojan',
+              'language_code' => 'en'
+            },
+            'message' => message_params,
+            'chat_instance' => '-89923842384923492',
+            'data' => 'Option 1'
+          }
+        }.with_indifferent_access
+
+        expect(Rails.logger).to receive(:warn).with(/Telegram callback ack failed/)
+        expect { described_class.new(inbox: telegram_channel.inbox, params: params).perform }.not_to raise_error
+        expect(telegram_channel.inbox.messages.first.content).to eq('Option 1')
+      end
+    end
+
+    context 'when callback_query ack returns ok=false' do
+      it 'logs a warning and still processes the callback' do
+        stub_request(:post, %r{/answerCallbackQuery}).to_return(
+          status: 200,
+          body: { ok: false, description: 'Bad Request: query is too old' }.to_json,
+          headers: { content_type: 'application/json' }
+        )
+
+        params = {
+          'update_id' => 2_342_342_343_242,
+          'callback_query' => {
+            'id' => '2342342309929423',
+            'from' => {
+              'id' => 5_171_248,
+              'is_bot' => false,
+              'first_name' => 'Sojan',
+              'last_name' => 'Jose',
+              'username' => 'sojan',
+              'language_code' => 'en'
+            },
+            'message' => message_params,
+            'chat_instance' => '-89923842384923492',
+            'data' => 'Option 1'
+          }
+        }.with_indifferent_access
+
+        expect(Rails.logger).to receive(:warn).with(/Telegram callback ack failed/)
+        expect { described_class.new(inbox: telegram_channel.inbox, params: params).perform }.not_to raise_error
+        expect(telegram_channel.inbox.messages.first.content).to eq('Option 1')
       end
     end
 
