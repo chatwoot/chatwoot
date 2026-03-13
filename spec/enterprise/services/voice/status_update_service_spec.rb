@@ -55,6 +55,23 @@ RSpec.describe Voice::StatusUpdateService do
     expect(message.content_attributes.dig('data', 'status')).to eq('completed')
   end
 
+  it 'normalizes busy to no-answer' do
+    conversation
+    message
+
+    described_class.new(
+      account: account,
+      call_sid: call_sid,
+      call_status: 'busy'
+    ).perform
+
+    conversation.reload
+    message.reload
+
+    expect(conversation.additional_attributes['call_status']).to eq('no-answer')
+    expect(message.content_attributes.dig('data', 'status')).to eq('no-answer')
+  end
+
   it 'no-ops when conversation not found' do
     expect do
       described_class.new(account: account, call_sid: 'UNKNOWN', call_status: 'busy').perform

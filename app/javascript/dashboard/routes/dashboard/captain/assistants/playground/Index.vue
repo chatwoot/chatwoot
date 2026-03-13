@@ -10,14 +10,14 @@ const assistantId = computed(() => Number(route.params.assistantId));
 
 <template>
   <PageLayout
-    :header-title="$t('CAPTAIN.PLAYGROUND.HEADER')"
     show-assistant-switcher
     :show-pagination-footer="false"
+    :show-know-more="false"
     class="h-full"
   >
     <template #body>
       <div class="flex flex-col h-full">
-        <AssistantPlayground :assistant-id="assistantId" />
+        <AssistantPlayground :assistant-id="assistantId" class="bg-n-solid-1" />
       </div>
     </template>
   </PageLayout>

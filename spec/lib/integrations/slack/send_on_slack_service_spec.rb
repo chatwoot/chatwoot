@@ -206,6 +206,21 @@ describe Integrations::Slack::SendOnSlackService do
         expect(message.attachments.count).to eq 2
       end
 
+      it 'streams attachment blobs and uploads only once' do
+        expect(slack_client).to receive(:chat_postMessage).and_return(slack_message)
+
+        attachment = message.attachments.new(account_id: message.account_id, file_type: :image)
+        attachment.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
+        blob = attachment.file.blob
+        allow(blob).to receive(:open).and_call_original
+
+        expect(blob).to receive(:open).and_call_original
+        expect(slack_client).to receive(:files_upload_v2).once.and_return(file_attachment)
+
+        message.save!
+        builder.perform
+      end
+
       it 'handles file upload errors gracefully' do
         expect(slack_client).to receive(:chat_postMessage).with(
           channel: hook.reference_id,

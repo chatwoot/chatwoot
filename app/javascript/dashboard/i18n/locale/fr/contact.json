@@ -18,7 +18,8 @@
     "CREATED_AT_LABEL": "Créé",
     "NEW_MESSAGE": "Nouveau message",
     "CALL": "Appel",
-    "CALL_UNDER_DEVELOPMENT": "Appel en cours de développement",
+    "CALL_INITIATED": "Calling the contact…",
+    "CALL_FAILED": "Unable to start the call. Please try again.",
     "VOICE_INBOX_PICKER": {
       "TITLE": "Choisir une boîte de réception vocale"
     },
@@ -455,6 +456,9 @@
           },
           "INSTAGRAM": {
             "PLACEHOLDER": "Add Instagram"
+          },
+          "TIKTOK": {
+            "PLACEHOLDER": "Add TikTok"
           },
           "LINKEDIN": {
             "PLACEHOLDER": "Add LinkedIn"

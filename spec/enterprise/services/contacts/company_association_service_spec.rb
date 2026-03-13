@@ -45,6 +45,25 @@ RSpec.describe Contacts::CompanyAssociationService, type: :service do
         contact.reload
         expect(contact.company).to eq(existing_company)
       end
+
+      it 'increments company contacts_count when associating contact' do
+        # Create contact without email to avoid auto-association
+        contact = create(:contact, email: nil, account: account)
+        # Manually set email to bypass callbacks
+        # rubocop:disable Rails/SkipsModelValidations
+        contact.update_column(:email, 'jane@techcorp.com')
+        # rubocop:enable Rails/SkipsModelValidations
+
+        valid_email_address = instance_double(ValidEmail2::Address, valid?: true, disposable_domain?: false)
+        allow(ValidEmail2::Address).to receive(:new).with('jane@techcorp.com').and_return(valid_email_address)
+        allow(EmailProviderInfo).to receive(:call).with('jane@techcorp.com').and_return(nil)
+
+        service.associate_company_from_email(contact)
+
+        contact.reload
+        expect(contact.company).to be_present
+        expect(contact.company.contacts_count).to eq(1)
+      end
     end
 
     context 'when contact already has a company' do

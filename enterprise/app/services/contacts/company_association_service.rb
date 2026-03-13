@@ -3,12 +3,13 @@ class Contacts::CompanyAssociationService
     return nil if skip_association?(contact)
 
     company = find_or_create_company(contact)
-    # rubocop:disable Rails/SkipsModelValidations
-    # Intentionally using update_column here to:
-    # 1. Avoid triggering callbacks
-    # 2. Improve performance (We're only setting company_id, no need for validation)
-    contact.update_column(:company_id, company.id) if company
-    # rubocop:enable Rails/SkipsModelValidations
+    if company
+      # rubocop:disable Rails/SkipsModelValidations
+      # Using update_column and increment_counter to avoid triggering callbacks while maintaining counter cache
+      contact.update_column(:company_id, company.id)
+      Company.increment_counter(:contacts_count, company.id)
+      # rubocop:enable Rails/SkipsModelValidations
+    end
     company
   end
 

@@ -32,6 +32,7 @@
     "LOADING_CONVERSATIONS": "Caricamento Conversazioni",
     "CANNOT_REPLY": "Non puoi rispondere a causa di",
     "24_HOURS_WINDOW": "Restrizione finestra messaggio 24 ore",
+    "48_HOURS_WINDOW": "Restrizione finestra messaggio 48 ore",
     "API_HOURS_WINDOW": "Puoi rispondere a questa conversazione solo entro {hours} ore",
     "NOT_ASSIGNED_TO_YOU": "Questa conversazione non è assegnata. Vuoi assegnare questa conversazione a te stesso?",
     "ASSIGN_TO_ME": "Assegna a me",
@@ -85,7 +86,7 @@
     "HEADER": {
       "RESOLVE_ACTION": "Risolvi",
       "REOPEN_ACTION": "Riapri",
-      "OPEN_ACTION": "Aperte",
+      "OPEN_ACTION": "Apri",
       "MORE_ACTIONS": "Più azioni",
       "OPEN": "Altro",
       "CLOSE": "Chiudi",
@@ -196,7 +197,6 @@
       "INSERT_READ_MORE": "Leggi di più",
       "DISMISS_REPLY": "Ignora risposta",
       "REPLYING_TO": "Rispondendo a:",
-      "TIP_FORMAT_ICON": "Mostra editor di testo ricco",
       "TIP_EMOJI_ICON": "Mostra selettore emoji",
       "TIP_ATTACH_ICON": "Allega file",
       "TIP_AUDIORECORDER_ICON": "Registra audio",
@@ -208,7 +208,7 @@
       "": "",
       "EMAIL_HEAD": {
         "TO": "A",
-        "ADD_BCC": "Aggiungi Bcc",
+        "ADD_BCC": "Aggiungi Ccn",
         "CC": {
           "LABEL": "Cc",
           "PLACEHOLDER": "Email separate da virgole",
@@ -275,6 +275,16 @@
     "SIDEBAR": {
       "CONTACT": "Contatto",
       "COPILOT": "Copilot"
+    },
+    "VOICE_WIDGET": {
+      "INCOMING_CALL": "Chiamata in arrivo",
+      "OUTGOING_CALL": "Chiamata in uscita",
+      "CALL_IN_PROGRESS": "Chiamata in corso",
+      "NOT_ANSWERED_YET": "Non ancora risposta",
+      "HANDLED_IN_ANOTHER_TAB": "Gestita in un'altra scheda",
+      "REJECT_CALL": "Rifiuta",
+      "JOIN_CALL": "Entra nella chiamata",
+      "END_CALL": "Termina chiamata"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -296,7 +306,7 @@
   },
   "ONBOARDING": {
     "TITLE": "Ciao👋 Benvenuto in {installationName}!",
-    "DESCRIPTION": "Grazie per esserti registrato. Vogliamo che tu ottenga il massimo da {installationName}. Ecco alcune cose che puoi fare in {installationName} per rendere l'esperienza migliore.",
+    "DESCRIPTION": "Grazie per averci scelto! Vogliamo che tu ottenga il massimo da {installationName}. Ecco alcune cose che puoi fare in {installationName} per massimizzare la tua esperienza.",
     "GREETING_MORNING": "👋 Buongiorno, {name}. Benvenuto in {installationName}.",
     "GREETING_AFTERNOON": "👋 Buon pomeriggio, {name}. Benvenuto in {installationName}.",
     "GREETING_EVENING": "👋 Buona sera, {name}. Benvenuto su {installationName}.",

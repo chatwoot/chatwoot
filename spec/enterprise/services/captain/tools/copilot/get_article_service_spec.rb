@@ -19,19 +19,8 @@ RSpec.describe Captain::Tools::Copilot::GetArticleService do
   end
 
   describe '#parameters' do
-    it 'returns the expected parameter schema' do
-      expect(service.parameters).to eq(
-        {
-          type: 'object',
-          properties: {
-            article_id: {
-              type: 'number',
-              description: 'The ID of the article to retrieve'
-            }
-          },
-          required: %w[article_id]
-        }
-      )
+    it 'defines article_id parameter' do
+      expect(service.parameters.keys).to contain_exactly(:article_id)
     end
   end
 
@@ -79,13 +68,13 @@ RSpec.describe Captain::Tools::Copilot::GetArticleService do
   describe '#execute' do
     context 'when article_id is blank' do
       it 'returns error message' do
-        expect(service.execute({})).to eq('Missing required parameters')
+        expect(service.execute(article_id: nil)).to eq('Article not found')
       end
     end
 
     context 'when article is not found' do
       it 'returns not found message' do
-        expect(service.execute({ 'article_id' => 999 })).to eq('Article not found')
+        expect(service.execute(article_id: 999)).to eq('Article not found')
       end
     end
 
@@ -94,7 +83,7 @@ RSpec.describe Captain::Tools::Copilot::GetArticleService do
       let(:article) { create(:article, account: account, portal: portal, author: user, title: 'Test Article', content: 'Content') }
 
       it 'returns the article in llm text format' do
-        result = service.execute({ 'article_id' => article.id })
+        result = service.execute(article_id: article.id)
         expect(result).to eq(article.to_llm_text)
       end
 
@@ -104,7 +93,7 @@ RSpec.describe Captain::Tools::Copilot::GetArticleService do
         let(:other_article) { create(:article, account: other_account, portal: other_portal, author: user, title: 'Other Article') }
 
         it 'returns not found message' do
-          expect(service.execute({ 'article_id' => other_article.id })).to eq('Article not found')
+          expect(service.execute(article_id: other_article.id)).to eq('Article not found')
         end
       end
     end

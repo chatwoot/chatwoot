@@ -1,7 +1,7 @@
 module Enterprise::Concerns::Contact
   extend ActiveSupport::Concern
   included do
-    belongs_to :company, optional: true
+    belongs_to :company, optional: true, counter_cache: true
 
     after_commit :associate_company_from_email,
                  on: [:create, :update],

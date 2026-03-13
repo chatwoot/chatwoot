@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onMounted, ref, nextTick } from 'vue';
+import { computed, watch, ref, nextTick } from 'vue';
 import { useMapGetter, useStore } from 'dashboard/composables/store';
 import { useRoute } from 'vue-router';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
@@ -13,6 +13,8 @@ import InboxPageEmptyState from 'dashboard/components-next/captain/pageComponent
 const store = useStore();
 const dialogType = ref('');
 const route = useRoute();
+
+const assistantId = computed(() => route.params.assistantId);
 const assistantUiFlags = useMapGetter('captainAssistants/getUIFlags');
 const uiFlags = useMapGetter('captainInboxes/getUIFlags');
 const isFetchingAssistant = computed(() => assistantUiFlags.value.fetchingItem);
@@ -47,11 +49,14 @@ const handleCreateClose = () => {
   selectedInbox.value = null;
 };
 
-const assistantId = Number(route.params.assistantId);
-onMounted(() =>
-  store.dispatch('captainInboxes/get', {
-    assistantId: assistantId,
-  })
+watch(
+  assistantId,
+  newId => {
+    store.dispatch('captainInboxes/get', {
+      assistantId: newId,
+    });
+  },
+  { immediate: true }
 );
 </script>
 

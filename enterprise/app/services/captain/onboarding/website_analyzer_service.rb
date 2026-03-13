@@ -1,4 +1,5 @@
-class Captain::Onboarding::WebsiteAnalyzerService < Llm::BaseOpenAiService
+class Captain::Onboarding::WebsiteAnalyzerService < Llm::BaseAiService
+  include Integrations::LlmInstrumentation
   MAX_CONTENT_LENGTH = 8000
 
   def initialize(website_url)
@@ -57,19 +58,29 @@ class Captain::Onboarding::WebsiteAnalyzerService < Llm::BaseOpenAiService
   end
 
   def extract_business_info
-    prompt = build_analysis_prompt
+    response = instrument_llm_call(instrumentation_params) do
+      chat
+        .with_params(response_format: { type: 'json_object' }, max_tokens: 1000)
+        .with_temperature(0.1)
+        .with_instructions(build_analysis_prompt)
+        .ask(@website_content)
+    end
 
-    response = client.chat(
-      parameters: {
-        model: model,
-        messages: [{ role: 'user', content: prompt }],
-        response_format: { type: 'json_object' },
-        temperature: 0.1,
-        max_tokens: 1000
-      }
-    )
+    parse_llm_response(response.content)
+  end
 
-    parse_llm_response(response.dig('choices', 0, 'message', 'content'))
+  def instrumentation_params
+    {
+      span_name: 'llm.captain.website_analyzer',
+      model: @model,
+      temperature: 0.1,
+      feature_name: 'website_analyzer',
+      messages: [
+        { role: 'system', content: build_analysis_prompt },
+        { role: 'user', content: @website_content }
+      ],
+      metadata: { website_url: @website_url }
+    }
   end
 
   def build_analysis_prompt
@@ -95,7 +106,7 @@ class Captain::Onboarding::WebsiteAnalyzerService < Llm::BaseOpenAiService
   end
 
   def parse_llm_response(response_text)
-    parsed_response = JSON.parse(response_text)
+    parsed_response = JSON.parse(response_text.strip)
 
     {
       success: true,
