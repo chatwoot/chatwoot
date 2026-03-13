@@ -112,20 +112,28 @@ RSpec.describe SamlUserBuilder do
         let!(:other_account) { create(:account) }
         let!(:existing_user) { create(:user, email: email, account: other_account) }
 
-        it 'does not authenticate the existing user' do
-          user = builder.perform
-
-          expect(user).not_to be_persisted
-          expect(user.errors[:base]).to include(I18n.t('auth.saml.authentication_failed'))
+        it 'raises an authentication failure' do
+          expect { builder.perform }.to raise_error do |error|
+            expect(error.class.name).to eq('SamlUserBuilder::AuthenticationFailed')
+            expect(error.message).to eq(I18n.t('auth.saml.authentication_failed'))
+          end
         end
 
         it 'does not add the user to the target account' do
-          expect { builder.perform }.not_to change(AccountUser, :count)
+          expect do
+            builder.perform
+          rescue SamlUserBuilder::AuthenticationFailed
+            nil
+          end.not_to change(AccountUser, :count)
           expect(existing_user.reload.accounts).not_to include(account)
         end
 
         it 'does not convert the user provider to saml' do
-          expect { builder.perform }.not_to(change { existing_user.reload.provider })
+          expect do
+            builder.perform
+          rescue SamlUserBuilder::AuthenticationFailed
+            nil
+          end.not_to(change { existing_user.reload.provider })
         end
       end
 

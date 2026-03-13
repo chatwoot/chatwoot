@@ -68,6 +68,10 @@ module Enterprise::DeviseOverrides::OmniauthCallbacksController
 
       redirect_to login_page_url(error: 'saml-authentication-failed')
     end
+  rescue SamlUserBuilder::AuthenticationFailed
+    return redirect_to_mobile_error('saml-authentication-failed') if for_mobile?(relay_state)
+
+    redirect_to login_page_url(error: 'saml-authentication-failed')
   end
 
   def extract_saml_account_id
