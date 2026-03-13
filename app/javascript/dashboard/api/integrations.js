@@ -38,6 +38,12 @@ class IntegrationsAPI extends ApiClient {
       shop_domain: shopDomain,
     });
   }
+
+  connectTiendanube(storeId) {
+    return axios.post(`${this.baseUrl()}/integrations/tiendanube/auth`, {
+      store_id: storeId,
+    });
+  }
 }
 
 export default new IntegrationsAPI();

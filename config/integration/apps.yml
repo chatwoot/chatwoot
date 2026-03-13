@@ -208,6 +208,13 @@ shopify:
   hook_type: account
   allow_multiple_hooks: false
 
+tiendanube:
+  id: tiendanube
+  logo: tiendanube.png
+  i18n_key: tiendanube
+  hook_type: account
+  allow_multiple_hooks: false
+
 leadsquared:
   id: leadsquared
   feature_flag: crm_integration
