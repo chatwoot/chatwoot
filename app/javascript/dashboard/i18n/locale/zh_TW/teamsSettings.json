@@ -2,11 +2,14 @@
   "TEAMS_SETTINGS": {
     "NEW_TEAM": "建立新團隊",
     "HEADER": "團隊",
-    "LOADING": "Fetching teams",
-    "DESCRIPTION": "Teams allow you to organize agents into groups based on their responsibilities. An agent can belong to multiple teams. When working collaboratively, you can assign conversations to specific teams.",
-    "LEARN_MORE": "Learn more about teams",
+    "LOADING": "正在獲取團隊",
+    "DESCRIPTION": "團隊允許您根據自己的責任將代理人分組。代理可以屬於多個團隊。 當協作時，您可以將對話分配給特定的團隊。",
+    "LEARN_MORE": "瞭解更多關於團隊的資訊",
+    "COUNT": "{n} 團隊 | {n} 團隊",
+    "SEARCH_PLACEHOLDER": "搜尋團隊...",
+    "NO_RESULTS": "未找到與您的搜尋相符的團隊",
     "LIST": {
-      "404": "There are no teams created on this account.",
+      "404": "此帳戶尚未新增團隊。",
       "EDIT_TEAM": "編輯團隊",
       "NONE": "無"
     },
@@ -56,7 +59,7 @@
       },
       "EDIT_WIZARD_FINISH": {
         "TITLE": "完成",
-        "ROUTE": "settings_teams_edit_finish",
+        "ROUTE": "團隊設定修改成功",
         "BODY": "您已設定狀態為離開"
       }
     },
@@ -79,11 +82,11 @@
       "SELECT_ALL": "選取所有克服",
       "SELECTED_COUNT": "{total} 中的 {selected} 個客服被選取",
       "BUTTON_TEXT": "新增客服",
-      "AGENT_VALIDATION_ERROR": "Select at least one agent."
+      "AGENT_VALIDATION_ERROR": "至少選擇一個客服。"
     },
     "FINISH": {
       "TITLE": "你的團隊已經準備好了",
-      "MESSAGE": "You can now collaborate as a team on conversations. Happy supporting ",
+      "MESSAGE": "您現在可以以團隊形式協作處理對話了。祝您工作順利！ ",
       "BUTTON_TEXT": "完成"
     },
     "DELETE": {
@@ -93,7 +96,7 @@
         "ERROR_MESSAGE": "無法刪除團隊，請再試一次"
       },
       "CONFIRM": {
-        "TITLE": "Are you sure you want to delete the team?",
+        "TITLE": "您確定要刪除該團隊嗎？",
         "PLACE_HOLDER": "請輸入 {teamName} 以確認",
         "MESSAGE": "刪除此團隊將會移除已指派給此團隊的對話指派對象",
         "YES": "刪除 ",

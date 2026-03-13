@@ -1,14 +1,17 @@
 {
   "INTEGRATION_APPS": {
-    "FETCHING": "Fetching Integrations",
-    "NO_HOOK_CONFIGURED": "There are no {integrationId} integrations configured in this account.",
-    "HEADER": "Applications",
+    "FETCHING": "正在獲取整合",
+    "NO_HOOK_CONFIGURED": "此賬戶中未配置任何 {integrationId} 整合。",
+    "HEADER": "應用程式",
+    "COUNT": "{n} 集成 | {n} 集成",
+    "SEARCH_PLACEHOLDER": "搜尋...",
+    "NO_RESULTS": "沒有找到與您的搜尋相符的結果",
     "STATUS": {
       "ENABLED": "已啟用",
       "DISABLED": "已停用"
     },
     "CONFIGURE": "配置",
-    "ADD_BUTTON": "Add a new hook",
+    "ADD_BUTTON": "新增一個新鉤子",
     "DELETE": {
       "TITLE": {
         "INBOX": "刪除確認",
@@ -24,13 +27,14 @@
       },
       "CANCEL_BUTTON_TEXT": "取消",
       "API": {
-        "SUCCESS_MESSAGE": "Hook deleted successfully",
+        "SUCCESS_MESSAGE": "鉤子成功刪除",
         "ERROR_MESSAGE": "無法連接伺服器，請稍後再試"
       }
     },
     "LIST": {
-      "FETCHING": "Fetching integration hooks",
+      "FETCHING": "正在獲取整合",
       "INBOX": "收件匣",
+      "ACTIONS": "行動",
       "DELETE": {
         "BUTTON_TEXT": "刪除"
       }
@@ -45,7 +49,7 @@
         "CANCEL": "取消"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Integration hook added successfully",
+        "SUCCESS_MESSAGE": "成功新增整合鉤子",
         "ERROR_MESSAGE": "無法連接伺服器，請稍後再試"
       }
     },
@@ -56,7 +60,7 @@
       "BUTTON_TEXT": "取消連結"
     },
     "SIDEBAR_DESCRIPTION": {
-      "DIALOGFLOW": "Dialogflow is a natural language processing platform for building conversational interfaces. Integrating it with {installationName} lets bots handle queries first and transfer them to agents when needed. It helps qualify leads and reduce agent workload by answering FAQs. To add Dialogflow, create a Service Account in Google Console and share the credentials. Refer to the docs for details"
+      "DIALOGFLOW": "Dialogflow 是一個用於構建對話介面的自然語言處理平臺。將其與 {installationName} 整合可以讓機器人優先處理查詢，並在需要時轉接給客服代理。它透過回答常見問題來幫助篩選潛在客戶並減少客服代理工作量。要新增 Dialogflow，請在 Google 控制檯中建立服務帳戶並共享憑據。詳情請參閱文件"
     }
   }
 }
