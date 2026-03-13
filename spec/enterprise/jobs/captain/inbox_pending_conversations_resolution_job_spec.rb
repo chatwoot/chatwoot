@@ -84,6 +84,16 @@ RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
       expect(resolvable_pending_conversation.reload.status).to eq('pending')
       expect(resolvable_pending_conversation.messages.outgoing).to be_empty
     end
+
+    it 'falls back to legacy time-based resolve when legacy auto-resolve is forced' do
+      inbox.account.update!(captain_force_legacy_auto_resolve: true)
+      allow(Captain::ConversationCompletionService).to receive(:new)
+
+      described_class.perform_now(inbox)
+
+      expect(Captain::ConversationCompletionService).not_to have_received(:new)
+      expect(resolvable_pending_conversation.reload.status).to eq('resolved')
+    end
   end
 
   context 'when LLM evaluation returns complete' do
