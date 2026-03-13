@@ -200,7 +200,6 @@ class Account < ApplicationRecord
     mode = settings&.[]('captain_auto_resolve_mode')
     return mode if %w[evaluated legacy disabled].include?(mode)
     return 'disabled' if settings&.[]('captain_disable_auto_resolve') == true
-    return 'legacy' if settings&.[]('captain_force_legacy_auto_resolve') == true
 
     'evaluated'
   end
