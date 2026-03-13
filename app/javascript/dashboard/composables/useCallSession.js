@@ -7,7 +7,7 @@ import { useCallsStore } from 'dashboard/stores/calls';
 import Timer from 'dashboard/helper/Timer';
 import { formatDuration } from 'shared/helpers/timeHelper';
 
-export function useCallSession() {
+export function useCallSession({ manageSessionState = true } = {}) {
   const callsStore = useCallsStore();
   const { t } = useI18n();
   const isJoining = ref(false);
@@ -21,38 +21,42 @@ export function useCallSession() {
   const incomingCalls = computed(() => callsStore.incomingCalls);
   const hasActiveCall = computed(() => callsStore.hasActiveCall);
 
-  watch(
-    hasActiveCall,
-    active => {
-      if (active) {
-        durationTimer.start();
-      } else {
-        durationTimer.stop();
-        callDuration.value = 0;
-      }
-    },
-    { immediate: true }
-  );
-
-  onMounted(() => {
-    TwilioVoiceClient.addEventListener(
-      'call:disconnected',
-      handleCallDisconnected
+  if (manageSessionState) {
+    watch(
+      hasActiveCall,
+      active => {
+        if (active) {
+          durationTimer.start();
+        } else {
+          durationTimer.stop();
+          callDuration.value = 0;
+        }
+      },
+      { immediate: true }
     );
-  });
 
-  onUnmounted(() => {
-    durationTimer.stop();
-    TwilioVoiceClient.removeEventListener(
-      'call:disconnected',
-      handleCallDisconnected
-    );
-  });
+    onMounted(() => {
+      TwilioVoiceClient.addEventListener(
+        'call:disconnected',
+        handleCallDisconnected
+      );
+    });
+
+    onUnmounted(() => {
+      durationTimer.stop();
+      TwilioVoiceClient.removeEventListener(
+        'call:disconnected',
+        handleCallDisconnected
+      );
+    });
+  }
 
   const endCall = async ({ conversationId, inboxId }) => {
     await VoiceAPI.leaveConference(inboxId, conversationId);
     TwilioVoiceClient.endClientCall();
-    durationTimer.stop();
+    if (manageSessionState) {
+      durationTimer.stop();
+    }
     callsStore.clearActiveCall();
   };
 
@@ -76,7 +80,9 @@ export function useCallSession() {
       });
 
       callsStore.setCallActive(callSid);
-      durationTimer.start();
+      if (manageSessionState) {
+        durationTimer.start();
+      }
 
       return { conferenceSid: joinResponse?.conference_sid };
     } catch (error) {

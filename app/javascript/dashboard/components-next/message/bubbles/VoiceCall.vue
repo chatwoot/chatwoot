@@ -1,5 +1,6 @@
 <script setup>
 import { computed } from 'vue';
+import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
 import { useMessageContext } from '../provider.js';
 import {
@@ -12,6 +13,7 @@ import { formatDuration } from 'shared/helpers/timeHelper';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import BaseBubble from 'next/message/bubbles/Base.vue';
 import AudioChip from 'next/message/chips/Audio.vue';
+import { useCallSession } from 'dashboard/composables/useCallSession';
 
 const ICON_MAP = {
   [VOICE_CALL_STATUS.IN_PROGRESS]: 'i-ph-phone-call',
@@ -28,11 +30,30 @@ const BG_COLOR_MAP = {
 };
 
 const { t } = useI18n();
-const { attachments, contentAttributes, currentUserId, messageType } =
-  useMessageContext();
+const store = useStore();
+const { activeCall, hasActiveCall, isJoining, joinCall, endCall } =
+  useCallSession({
+    manageSessionState: false,
+  });
+const {
+  attachments,
+  contentAttributes,
+  conversationId,
+  currentUserId,
+  inboxId,
+  messageType,
+} = useMessageContext();
+
+const JOINABLE_STATUSES = [
+  VOICE_CALL_STATUS.RINGING,
+  VOICE_CALL_STATUS.IN_PROGRESS,
+];
 
 const data = computed(() => contentAttributes.value?.data);
 const status = computed(() => data.value?.status?.toString());
+const callSid = computed(() => {
+  return (data.value?.callSid || data.value?.call_sid || '').toString();
+});
 const joinedBy = computed(() => {
   return data.value?.meta?.joinedBy || data.value?.meta?.joined_by;
 });
@@ -42,6 +63,20 @@ const callDuration = computed(() => {
 const recordingAttachment = computed(() => {
   return attachments.value?.find(
     attachment => attachment.fileType === ATTACHMENT_TYPES.AUDIO
+  );
+});
+const conversation = computed(() => {
+  return store.getters.getConversationById?.(conversationId.value) || null;
+});
+const activeConversation = computed(() => {
+  const activeConversationId = activeCall.value?.conversationId;
+  if (!activeConversationId) return null;
+
+  return store.getters.getConversationById?.(activeConversationId) || null;
+});
+const assigneeId = computed(() => {
+  return (
+    conversation.value?.meta?.assignee?.id || conversation.value?.assignee_id
   );
 });
 
@@ -110,12 +145,66 @@ const iconName = computed(() => {
 });
 
 const bgColor = computed(() => BG_COLOR_MAP[status.value] || 'bg-n-teal-9');
+const resolvedInboxId = computed(() => {
+  return inboxId.value || conversation.value?.inbox_id || null;
+});
+const isCurrentActiveCall = computed(() => {
+  return activeCall.value?.callSid === callSid.value;
+});
+const canJoinCall = computed(() => {
+  return (
+    JOINABLE_STATUSES.includes(status.value) &&
+    !!conversationId.value &&
+    !!resolvedInboxId.value &&
+    !!callSid.value &&
+    (!assigneeId.value || assigneeId.value === currentUserId.value) &&
+    !isCurrentActiveCall.value
+  );
+});
+const joinCallText = computed(() => {
+  return status.value === VOICE_CALL_STATUS.IN_PROGRESS
+    ? t('CONVERSATION.VOICE_CALL.REJOIN_CALL')
+    : t('CONVERSATION.VOICE_CALL.JOIN_CALL');
+});
+
+const handleJoinCall = async () => {
+  if (!canJoinCall.value || isJoining.value) return;
+
+  if (hasActiveCall.value) {
+    if (activeCall.value?.callSid === callSid.value) return;
+
+    const activeInboxId = activeConversation.value?.inbox_id;
+    if (activeCall.value?.conversationId && activeInboxId) {
+      await endCall({
+        conversationId: activeCall.value.conversationId,
+        inboxId: activeInboxId,
+      });
+    }
+  }
+
+  await joinCall({
+    conversationId: conversationId.value,
+    inboxId: resolvedInboxId.value,
+    callSid: callSid.value,
+  });
+};
 </script>
 
 <template>
   <BaseBubble class="p-0 border-none" hide-meta>
     <div class="flex overflow-hidden flex-col w-full max-w-sm">
-      <div class="flex gap-3 items-center p-3 w-full">
+      <button
+        class="flex gap-3 items-center p-3 w-full text-left border-none bg-transparent"
+        :class="{
+          'cursor-pointer transition-colors hover:bg-n-alpha-1 active:bg-n-alpha-2':
+            canJoinCall,
+          'cursor-default': !canJoinCall,
+        }"
+        :disabled="!canJoinCall || isJoining"
+        data-test-id="voice-call-join"
+        type="button"
+        @click="handleJoinCall"
+      >
         <div
           class="flex justify-center items-center rounded-full size-10 shrink-0"
           :class="bgColor"
@@ -137,8 +226,14 @@ const bgColor = computed(() => BG_COLOR_MAP[status.value] || 'bg-n-teal-9');
           <span class="text-xs text-n-slate-11">
             {{ subtext }}
           </span>
+          <span
+            v-if="canJoinCall"
+            class="mt-1 text-xs font-medium text-n-teal-10"
+          >
+            {{ joinCallText }}
+          </span>
         </div>
-      </div>
+      </button>
       <div v-if="recordingAttachment" class="px-3 pb-3">
         <AudioChip class="text-n-slate-12" :attachment="recordingAttachment" />
       </div>

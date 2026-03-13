@@ -45,9 +45,9 @@ class Voice::Conference::Manager
   def handle_leave!
     case current_status
     when 'ringing'
-      status_manager.process_status_update('no-answer', timestamp: current_timestamp)
+      status_manager.process_status_update('no-answer', timestamp: current_timestamp) if contact_participant?
     when 'in-progress'
-      status_manager.process_status_update('completed', timestamp: current_timestamp)
+      status_manager.process_status_update('completed', timestamp: current_timestamp) if contact_participant?
     end
   end
 
@@ -63,6 +63,10 @@ class Voice::Conference::Manager
 
   def agent_participant?
     participant_label.to_s.start_with?('agent')
+  end
+
+  def contact_participant?
+    participant_label.to_s.start_with?('contact')
   end
 
   def current_timestamp
