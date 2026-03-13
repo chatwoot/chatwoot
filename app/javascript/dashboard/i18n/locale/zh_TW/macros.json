@@ -1,111 +1,115 @@
 {
   "MACROS": {
-    "HEADER": "Macros",
-    "DESCRIPTION": "A macro is a set of saved actions that help customer service agents easily complete tasks. The agents can define a set of actions like tagging a conversation with a label, sending an email transcript, updating a custom attribute, etc., and they can run these actions in a single click.",
-    "LEARN_MORE": "Learn more about macros",
-    "HEADER_BTN_TXT": "Add a new macro",
-    "HEADER_BTN_TXT_SAVE": "Save macro",
-    "LOADING": "Fetching macros",
-    "ERROR": "Something went wrong. Please try again",
-    "ORDER_INFO": "Macros will run in the order you add your actions. You can rearrange them by dragging them by the handle beside each node.",
+    "HEADER": "宏",
+    "DESCRIPTION": "宏是一組預設操作，幫助客服人員快速完成任務。客服人員可以定義諸如標記對話、傳送郵件記錄、更新自定義屬性等操作，並一鍵執行。",
+    "LEARN_MORE": "瞭解更多關於宏的資訊",
+    "COUNT": "{n} 巨集 | {n} 巨集",
+    "HEADER_BTN_TXT": "新增一個新宏檔案",
+    "HEADER_BTN_TXT_SAVE": "儲存宏檔案",
+    "LOADING": "獲取宏中",
+    "SEARCH_PLACEHOLDER": "搜尋巨集...",
+    "NO_RESULTS": "未找到與你的搜尋相符的巨集",
+    "ERROR": "出錯了。請重試",
+    "ORDER_INFO": "宏將按照您新增操作的順序執行。您可以透過拖動每個節點旁邊的手柄來重新排列它們。",
     "ADD": {
       "FORM": {
         "NAME": {
-          "LABEL": "Macro name",
-          "PLACEHOLDER": "Enter a name for your macro",
-          "ERROR": "Name is required for creating a macro"
+          "LABEL": "宏名稱",
+          "PLACEHOLDER": "為您的宏輸入名稱",
+          "ERROR": "建立宏需要名稱"
         },
         "ACTIONS": {
           "LABEL": "操作"
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Macro added successfully",
-        "ERROR_MESSAGE": "Unable to create macro, Please try again later"
+        "SUCCESS_MESSAGE": "宏新增成功",
+        "ERROR_MESSAGE": "無法建立宏，請稍後再試。"
       }
     },
     "LIST": {
       "TABLE_HEADER": {
         "NAME": "姓名",
-        "CREATED BY": "Created by",
-        "LAST_UPDATED_BY": "Last updated by",
-        "VISIBILITY": "Visibility"
+        "CREATED BY": "建立者",
+        "LAST_UPDATED_BY": "最後更新者",
+        "VISIBILITY": "可視性",
+        "ACTIONS": "操作"
       },
-      "404": "No macros found"
+      "404": "未找到宏"
     },
     "DELETE": {
-      "TOOLTIP": "Delete macro",
+      "TOOLTIP": "刪除宏檔案",
       "CONFIRM": {
         "MESSAGE": "您確定要刪除嗎？ ",
         "YES": "是，刪除",
         "NO": "否"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Macro deleted successfully",
-        "ERROR_MESSAGE": "There was an error deleting the macro. Please try again later"
+        "SUCCESS_MESSAGE": "宏新增成功",
+        "ERROR_MESSAGE": "刪除宏時出錯。請稍後再試"
       }
     },
     "EDIT": {
-      "TOOLTIP": "Edit macro",
+      "TOOLTIP": "編輯宏檔案",
       "API": {
-        "SUCCESS_MESSAGE": "Macro updated successfully",
-        "ERROR_MESSAGE": "Could not update Macro, Please try again later"
+        "SUCCESS_MESSAGE": "宏觀已成功更新",
+        "ERROR_MESSAGE": "無法更新宏，請稍後再試"
       }
     },
     "EDITOR": {
-      "START_FLOW": "Start Flow",
-      "END_FLOW": "End Flow",
-      "LOADING": "Fetching macro",
-      "ADD_BTN_TOOLTIP": "Add new action",
-      "DELETE_BTN_TOOLTIP": "Delete Action",
+      "START_FLOW": "啟動流",
+      "END_FLOW": "結束流",
+      "LOADING": "正在獲取宏檔案",
+      "ADD_BTN_TOOLTIP": "新增新操作",
+      "DELETE_BTN_TOOLTIP": "刪除",
       "VISIBILITY": {
-        "LABEL": "Macro Visibility",
+        "LABEL": "宏可見性",
         "GLOBAL": {
-          "LABEL": "Public",
-          "DESCRIPTION": "This macro is available publicly for all agents in this account."
+          "LABEL": "公開的",
+          "DESCRIPTION": "此宏對此帳戶中的所有代理公開可用"
         },
         "PERSONAL": {
-          "LABEL": "Private",
-          "DESCRIPTION": "This macro will be private to you and not be available to others."
+          "LABEL": "私人的",
+          "DESCRIPTION": "這個宏將私有化，其他人無法使用。"
         }
       }
     },
     "EXECUTE": {
-      "BUTTON_TOOLTIP": "Execute",
-      "PREVIEW": "Preview Macro",
-      "EXECUTED_SUCCESSFULLY": "Macro executed successfully"
+      "BUTTON_TOOLTIP": "執行",
+      "PREVIEW": "預覽宏...",
+      "EXECUTED_SUCCESSFULLY": "宏成功執行"
     },
     "ERRORS": {
-      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
-      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "ATTRIBUTE_KEY_REQUIRED": "屬性鍵是必需的",
+      "FILTER_OPERATOR_REQUIRED": "需要過濾器運算子",
       "VALUE_REQUIRED": "此欄位為必填項目",
-      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998",
-      "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
-      "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
-      "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "值必須介於 1 到 998 之間。",
+      "ACTION_PARAMETERS_REQUIRED": "需要操作引數",
+      "ATLEAST_ONE_CONDITION_REQUIRED": "至少需要一個條件",
+      "ATLEAST_ONE_ACTION_REQUIRED": "至少需要一個動作"
     },
     "ACTIONS": {
-      "ASSIGN_TEAM": "Assign a Team",
-      "ASSIGN_AGENT": "Assign an Agent",
-      "ADD_LABEL": "Add a Label",
-      "REMOVE_LABEL": "Remove a Label",
-      "REMOVE_ASSIGNED_TEAM": "Remove Assigned Team",
-      "SEND_EMAIL_TRANSCRIPT": "Send an Email Transcript",
+      "ASSIGN_TEAM": "分配團隊",
+      "ASSIGN_AGENT": "分配客服",
+      "ADD_LABEL": "新增標籤",
+      "REMOVE_LABEL": "移除標籤",
+      "REMOVE_ASSIGNED_TEAM": "移除已分配的團隊",
+      "SEND_EMAIL_TRANSCRIPT": "透過郵件傳送聊天記錄",
       "MUTE_CONVERSATION": "將對話靜音",
-      "SNOOZE_CONVERSATION": "Snooze Conversation",
-      "RESOLVE_CONVERSATION": "Resolve Conversation",
-      "SEND_ATTACHMENT": "Send Attachment",
-      "SEND_MESSAGE": "Send a Message",
-      "CHANGE_PRIORITY": "Change Priority",
-      "ADD_PRIVATE_NOTE": "Add a Private Note",
-      "SEND_WEBHOOK_EVENT": "Send Webhook Event"
+      "SNOOZE_CONVERSATION": "暫停對話",
+      "RESOLVE_CONVERSATION": "解決對話",
+      "SEND_ATTACHMENT": "傳送附件",
+      "SEND_MESSAGE": "傳送訊息",
+      "CHANGE_PRIORITY": "更改優先順序",
+      "ADD_PRIVATE_NOTE": "新增私密註釋",
+      "SEND_WEBHOOK_EVENT": "傳送 Webhook 事件"
     },
     "PRIORITY_TYPES": {
       "NONE": "無",
-      "LOW": "Low",
-      "MEDIUM": "Medium",
-      "HIGH": "High",
-      "URGENT": "Urgent"
+      "LOW": "低",
+      "MEDIUM": "中",
+      "HIGH": "高",
+      "URGENT": "緊急的"
     }
   }
 }

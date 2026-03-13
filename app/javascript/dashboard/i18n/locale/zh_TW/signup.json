@@ -1,49 +1,50 @@
 {
   "REGISTER": {
-    "TRY_WOOT": "Create an account",
+    "TRY_WOOT": "建立新賬戶",
+    "GET_STARTED": "開始使用Chatwoot",
     "TITLE": "註冊",
-    "TESTIMONIAL_HEADER": "All it takes is one step to move forward",
-    "TESTIMONIAL_CONTENT": "You're one step away from engaging your customers, retaining them and finding new ones.",
-    "TERMS_ACCEPT": "By creating an account, you agree to our <a href=\"https://www.chatwoot.com/terms\">T & C</a> and <a href=\"https://www.chatwoot.com/privacy-policy\">Privacy policy</a>",
+    "TESTIMONIAL_HEADER": "只差最後一步就可以了",
+    "TESTIMONIAL_CONTENT": "您離吸引客戶、留住客戶和尋找新客戶僅一步之遙。",
+    "TERMS_ACCEPT": "透過建立賬戶, 你將同意我們的 <a href=\"https://www.chatwoot.com/terms\">T & C</a> 以及 <a href=\"https://www.chatwoot.com/privacy-policy\">隱私政策</a>",
     "OAUTH": {
-      "GOOGLE_SIGNUP": "Sign up with Google"
+      "GOOGLE_SIGNUP": "使用 Google 註冊"
     },
     "COMPANY_NAME": {
-      "LABEL": "Company name",
-      "PLACEHOLDER": "Enter your company name. E.g., Wayne Enterprises",
-      "ERROR": "Company name is too short."
+      "LABEL": "公司名稱",
+      "PLACEHOLDER": "輸入您的公司名稱。例如, Wayne Enterprises",
+      "ERROR": "公司名稱太短了。"
     },
     "FULL_NAME": {
       "LABEL": "姓名",
-      "PLACEHOLDER": "Enter your full name. E.g., Bruce Wayne",
+      "PLACEHOLDER": "輸入您的全名，例如 Bruce Wayne",
       "ERROR": "姓名太短了."
     },
     "EMAIL": {
       "LABEL": "工作電子郵件",
-      "PLACEHOLDER": "Enter your work email address. E.g., bruce{'@'}wayne{'.'}enterprises",
-      "ERROR": "Please enter a valid work email address."
+      "PLACEHOLDER": "請輸入您的工作郵箱地址。例如：bruce{'@'}wayne{'.'}enterprises",
+      "ERROR": "請輸入一個有效的電子郵件."
     },
     "PASSWORD": {
       "LABEL": "密碼",
       "PLACEHOLDER": "密碼",
       "ERROR": "密碼太短了.",
-      "IS_INVALID_PASSWORD": "Password should contain atleast 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character.",
-      "REQUIREMENTS_LENGTH": "At least 6 characters long",
-      "REQUIREMENTS_UPPERCASE": "At least one uppercase letter",
-      "REQUIREMENTS_LOWERCASE": "At least one lowercase letter",
-      "REQUIREMENTS_NUMBER": "At least one number",
-      "REQUIREMENTS_SPECIAL": "At least one special character"
+      "IS_INVALID_PASSWORD": "密碼應至少應該包含：1個大寫字母、1個小寫字母、1個數字和1個特殊字元。",
+      "REQUIREMENTS_LENGTH": "長度至少6個字元",
+      "REQUIREMENTS_UPPERCASE": "至少1個特殊字元",
+      "REQUIREMENTS_LOWERCASE": "至少1個字元",
+      "REQUIREMENTS_NUMBER": "至少1個字元小寫字母",
+      "REQUIREMENTS_SPECIAL": "至少1個數字"
     },
     "CONFIRM_PASSWORD": {
-      "LABEL": "Confirm password",
-      "PLACEHOLDER": "Confirm password",
+      "LABEL": "確認密碼",
+      "PLACEHOLDER": "請重新輸入一次密碼",
       "ERROR": "密碼不匹配."
     },
     "API": {
-      "SUCCESS_MESSAGE": "Registration Successful",
-      "ERROR_MESSAGE": "Could not connect to Woot server. Please try again."
+      "SUCCESS_MESSAGE": "註冊成功",
+      "ERROR_MESSAGE": "無法與 Woot 伺服器建立連線。請重試。"
     },
-    "SUBMIT": "Create account",
+    "SUBMIT": "建立新賬戶",
     "HAVE_AN_ACCOUNT": "已經有帳號了嗎？"
   }
 }
