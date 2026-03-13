@@ -53,6 +53,7 @@ class Inbox < ApplicationRecord
   validates :out_of_office_message, length: { maximum: Limits::OUT_OF_OFFICE_MESSAGE_MAX_LENGTH }
   validates :greeting_message, length: { maximum: Limits::GREETING_MESSAGE_MAX_LENGTH }
   validate :ensure_valid_max_assignment_limit
+  validate :ensure_inbox_limit, on: :create
 
   belongs_to :account
   belongs_to :portal, optional: true
@@ -235,6 +236,16 @@ class Inbox < ApplicationRecord
 
   def ensure_valid_max_assignment_limit
     # overridden in enterprise/app/models/enterprise/inbox.rb
+  end
+
+  def ensure_inbox_limit
+    return unless account
+
+    inbox_limit = account.usage_limits[:inboxes]
+    return if inbox_limit.nil?
+    return unless account.inboxes.count >= inbox_limit.to_i
+
+    errors.add(:base, 'Account inbox limit exceeded. Upgrade to a higher plan')
   end
 
   def delete_round_robin_agents
