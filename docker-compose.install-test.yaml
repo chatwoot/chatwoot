@@ -1,0 +1,141 @@
+version: '3.9'
+
+services:
+  base: &base
+    build:
+      context: .
+      dockerfile: ./docker/dockerfiles/rails.Dockerfile
+    image: chatwoot-rails:install-test
+    tty: true
+    stdin_open: true
+    env_file:
+      - .env
+    environment:
+      RAILS_ENV: development
+      NODE_ENV: development
+
+  setup:
+    <<: *base
+    depends_on:
+      - postgres
+      - redis
+    volumes:
+      - ./:/app:delegated
+      - bundle:/usr/local/bundle
+      - node_modules:/app/node_modules
+      - packs:/app/public/packs
+      - cache:/app/tmp/cache
+    command: >-
+      bash -lc "bundle install &&
+      pnpm install &&
+      bundle exec rails db:prepare &&
+      bundle exec rails db:seed"
+
+  rails:
+    <<: *base
+    depends_on:
+      - postgres
+      - redis
+      - sidekiq
+      - vite
+      - mailhog
+    volumes:
+      - ./:/app:delegated
+      - bundle:/usr/local/bundle
+      - node_modules:/app/node_modules
+      - packs:/app/public/packs
+      - cache:/app/tmp/cache
+    ports:
+      - '3000:3000'
+    environment:
+      VITE_DEV_SERVER_HOST: vite
+    entrypoint: docker/entrypoints/rails.sh
+    command: ["bundle", "exec", "rails", "s", "-p", "3000", "-b", "0.0.0.0"]
+
+  sidekiq:
+    <<: *base
+    depends_on:
+      - postgres
+      - redis
+      - mailhog
+    volumes:
+      - ./:/app:delegated
+      - bundle:/usr/local/bundle
+      - node_modules:/app/node_modules
+      - packs:/app/public/packs
+      - cache:/app/tmp/cache
+    command: ["bundle", "exec", "sidekiq", "-C", "config/sidekiq.yml"]
+
+  vite:
+    build:
+      context: .
+      dockerfile: ./docker/dockerfiles/vite.Dockerfile
+    image: chatwoot-vite:install-test
+    tty: true
+    stdin_open: true
+    env_file:
+      - .env
+    environment:
+      VITE_DEV_SERVER_HOST: 0.0.0.0
+      NODE_ENV: development
+      RAILS_ENV: development
+    volumes:
+      - ./:/app:delegated
+      - bundle:/usr/local/bundle
+      - node_modules:/app/node_modules
+      - packs:/app/public/packs
+      - cache:/app/tmp/cache
+    ports:
+      - '3036:3036'
+    entrypoint: docker/entrypoints/vite.sh
+    command: ["bin/vite", "dev"]
+
+  synapsea-analytics:
+    image: node:20-alpine
+    working_dir: /app
+    volumes:
+      - ./services/synapsea-analytics:/app
+    environment:
+      NODE_ENV: development
+      PORT: 4010
+    command: >-
+      sh -c "npm install && npm run dev"
+    ports:
+      - '4010:4010'
+
+  postgres:
+    image: pgvector/pgvector:pg16
+    restart: always
+    environment:
+      POSTGRES_DB: chatwoot
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ''
+    volumes:
+      - postgres:/data/postgres
+    ports:
+      - '5432:5432'
+
+  redis:
+    image: redis:alpine
+    restart: always
+    env_file:
+      - .env
+    command: ["sh", "-c", "redis-server --requirepass \"$REDIS_PASSWORD\""]
+    volumes:
+      - redis:/data/redis
+    ports:
+      - '6379:6379'
+
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+      - '1025:1025'
+      - '8025:8025'
+
+volumes:
+  postgres:
+  redis:
+  packs:
+  node_modules:
+  cache:
+  bundle:

@@ -24,6 +24,10 @@ import SidebarActionsHeader from 'dashboard/components-next/SidebarActionsHeader
 import LinearIssuesList from 'dashboard/components/widgets/conversation/linear/IssuesList.vue';
 import LinearSetupCTA from 'dashboard/components/widgets/conversation/linear/LinearSetupCTA.vue';
 import SynapseaContactIntelligence from 'dashboard/components-next/synapsea/SynapseaContactIntelligence.vue';
+ codex/transform-chatwoot-into-synapsea-connect-nhivec
+import SynapseaConversationCopilot from 'dashboard/components-next/synapsea/SynapseaConversationCopilot.vue';
+
+ develop
 
 const props = defineProps({
   conversationId: {
@@ -142,6 +146,13 @@ onMounted(() => {
       :contact="contact"
       :conversation="currentChat"
     />
+ codex/transform-chatwoot-into-synapsea-connect-nhivec
+    <SynapseaConversationCopilot
+      :contact="contact"
+      :conversation="currentChat"
+    />
+
+ develop
     <div class="px-2 pb-8 list-group">
       <Draggable
         :list="conversationSidebarItems"
