@@ -220,6 +220,15 @@ RSpec.describe Account do
         expect(account).to be_captain_auto_resolve_legacy
       end
 
+      it 'allows clearing captain_auto_resolve_mode to fall back to feature defaults' do
+        allow(account).to receive(:feature_enabled?).with('captain_tasks').and_return(false)
+        account.captain_auto_resolve_mode = nil
+
+        expect(account).to be_valid
+        expect(account.captain_auto_resolve_mode).to eq('legacy')
+        expect(account.settings['captain_auto_resolve_mode']).to be_nil
+      end
+
       it 'falls back to disabled mode from legacy settings key' do
         account.settings = { 'captain_disable_auto_resolve' => true }
 
