@@ -1,28 +1,19 @@
 # frozen_string_literal: true
 
 class ReportingEvents::BackfillService
-  AGGREGATE_SELECTS = [
-    :name,
-    :user_id,
-    :inbox_id,
-    Arel.sql('COUNT(*)'),
-    Arel.sql('COALESCE(SUM(value), 0)'),
-    Arel.sql('COALESCE(SUM(value_in_business_hours), 0)')
-  ].freeze
-
-  DISTINCT_AGGREGATE_SELECTS = [
-    :name,
-    :user_id,
-    :inbox_id,
-    Arel.sql('COUNT(DISTINCT conversation_id)'),
-    Arel.sql('COALESCE(SUM(value), 0)'),
-    Arel.sql('COALESCE(SUM(value_in_business_hours), 0)')
+  DIMENSIONS = [
+    { type: 'account', group_column: nil },
+    { type: 'agent',   group_column: :user_id },
+    { type: 'inbox',   group_column: :inbox_id }
   ].freeze
 
   # TODO: Move this to EventMetricRegistry when we expand distinct-counting support.
   # The live path already guards uniqueness in ReportingEventListener#conversation_bot_handoff,
   # but historical duplicates can exist since it's not enforced at the DB level.
+  # These events are queried per-dimension (not group-then-sum) because COUNT(DISTINCT) is not additive.
   DISTINCT_COUNT_EVENTS = %w[conversation_bot_handoff].freeze
+
+  DISTINCT_COUNT_SQL = Arel.sql('COUNT(DISTINCT conversation_id)')
 
   def self.backfill_date(account, date)
     new(account, date).perform
@@ -74,72 +65,70 @@ class ReportingEvents::BackfillService
 
   def build_aggregates(start_utc, end_utc)
     aggregates = Hash.new { |h, k| h[k] = { count: 0, sum_value: 0.0, sum_value_business_hours: 0.0 } }
+    standard_names = ReportingEvents::EventMetricRegistry.event_names - DISTINCT_COUNT_EVENTS
+    base = @account.reporting_events.where(created_at: start_utc...end_utc)
 
-    grouped_events(start_utc, end_utc).each { |grouped_event| accumulate_grouped_aggregates(aggregates, grouped_event) }
+    DIMENSIONS.each do |dimension|
+      aggregate_standard_events(aggregates, base.where(name: standard_names), dimension)
+      aggregate_distinct_events(aggregates, base.where(name: DISTINCT_COUNT_EVENTS), dimension)
+    end
 
     aggregates
   end
 
-  def grouped_events(start_utc, end_utc)
-    standard = fetch_grouped_events(start_utc, end_utc, standard_event_names, AGGREGATE_SELECTS)
-    distinct = fetch_grouped_events(start_utc, end_utc, DISTINCT_COUNT_EVENTS, DISTINCT_AGGREGATE_SELECTS)
+  def aggregate_standard_events(aggregates, scope, dimension)
+    group_cols, selects = dimension_groups_and_selects(dimension)
 
-    (standard + distinct).map { |grouped_row| grouped_event_attributes(grouped_row) }
-  end
+    scope.group(*group_cols).pluck(*selects).each do |row|
+      event_name, dimension_id, count, sum_value, sum_value_business_hours = unpack_row(row, dimension)
+      next if dimension_id.nil?
 
-  def standard_event_names
-    ReportingEvents::EventMetricRegistry.event_names - DISTINCT_COUNT_EVENTS
-  end
-
-  def fetch_grouped_events(start_utc, end_utc, event_names, selects)
-    return [] if event_names.empty?
-
-    @account.reporting_events
-            .where(name: event_names, created_at: start_utc...end_utc)
-            .group(:name, :user_id, :inbox_id)
-            .pluck(*selects)
-  end
-
-  def dimensions(grouped_event)
-    {
-      'account' => @account.id,
-      'agent' => grouped_event[:user_id],
-      'inbox' => grouped_event[:inbox_id]
-    }
-  end
-
-  def accumulate_grouped_aggregates(aggregates, grouped_event)
-    ReportingEvents::EventMetricRegistry.metrics_for_aggregate(
-      grouped_event[:event_name],
-      count: grouped_event[:count],
-      sum_value: grouped_event[:sum_value],
-      sum_value_business_hours: grouped_event[:sum_value_business_hours]
-    ).each do |metric, metric_data|
-      accumulate_metric_aggregates(aggregates, dimensions(grouped_event), metric, metric_data)
+      ReportingEvents::EventMetricRegistry.metrics_for_aggregate(
+        event_name, count: count, sum_value: sum_value, sum_value_business_hours: sum_value_business_hours
+      ).each do |metric, metric_data|
+        key = [dimension[:type], dimension_id, metric]
+        aggregates[key][:count] += metric_data[:count]
+        aggregates[key][:sum_value] += metric_data[:sum_value].to_f
+        aggregates[key][:sum_value_business_hours] += metric_data[:sum_value_business_hours].to_f
+      end
     end
   end
 
-  def grouped_event_attributes(grouped_row)
-    event_name, user_id, inbox_id, count, sum_value, sum_value_business_hours = grouped_row
+  def aggregate_distinct_events(aggregates, scope, dimension)
+    return if DISTINCT_COUNT_EVENTS.empty?
 
-    {
-      event_name: event_name,
-      user_id: user_id,
-      inbox_id: inbox_id,
-      count: count,
-      sum_value: sum_value,
-      sum_value_business_hours: sum_value_business_hours
-    }
-  end
+    group_cols = dimension[:group_column] ? [:name, dimension[:group_column]] : [:name]
 
-  def accumulate_metric_aggregates(aggregates, dimensions, metric, metric_data)
-    dimensions.each do |dimension_type, dimension_id|
+    scope.group(*group_cols).pluck(*group_cols, DISTINCT_COUNT_SQL).each do |row|
+      event_name, dimension_id, count = dimension[:group_column] ? row : [row[0], @account.id, row[1]]
       next if dimension_id.nil?
 
-      key = [dimension_type, dimension_id, metric]
-      aggregates[key][:count] += metric_data[:count]
-      aggregates[key][:sum_value] += metric_data[:sum_value].to_f
-      aggregates[key][:sum_value_business_hours] += metric_data[:sum_value_business_hours].to_f
+      ReportingEvents::EventMetricRegistry.metrics_for_aggregate(
+        event_name, count: count, sum_value: 0, sum_value_business_hours: 0
+      ).each do |metric, metric_data|
+        key = [dimension[:type], dimension_id, metric]
+        aggregates[key][:count] += metric_data[:count]
+      end
+    end
+  end
+
+  def dimension_groups_and_selects(dimension)
+    agg_selects = [Arel.sql('COUNT(*)'), Arel.sql('COALESCE(SUM(value), 0)'), Arel.sql('COALESCE(SUM(value_in_business_hours), 0)')]
+
+    if dimension[:group_column]
+      [[:name, dimension[:group_column]], [:name, dimension[:group_column], *agg_selects]]
+    else
+      [[:name], [:name, *agg_selects]]
+    end
+  end
+
+  def unpack_row(row, dimension)
+    if dimension[:group_column]
+      # [name, dimension_id, count, sum_value, sum_value_business_hours]
+      row
+    else
+      # [name, count, sum_value, sum_value_business_hours] → inject account id
+      [row[0], @account.id, row[1], row[2], row[3]]
     end
   end
 
