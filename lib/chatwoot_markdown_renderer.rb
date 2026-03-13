@@ -35,6 +35,7 @@ class ChatwootMarkdownRenderer
 
   def restore_multiple_newlines_as_html(html)
     html.gsub('<p>{{BLANK_LINE}}</p>', '<p><br></p>')
+        .gsub('{{BLANK_LINE}}', "\n")
   end
 
   def render_as_html_safe(html)
