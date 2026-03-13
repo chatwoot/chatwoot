@@ -1,5 +1,15 @@
 class V2::Reports::Timeseries::CountReportBuilder < V2::Reports::Timeseries::BaseTimeseriesBuilder
   def timeseries
+    use_rollup? ? rollup_timeseries : raw_timeseries
+  end
+
+  def aggregate_value
+    use_rollup? ? rollup_aggregate_value : raw_aggregate_value
+  end
+
+  private
+
+  def raw_timeseries
     grouped_count.each_with_object([]) do |element, arr|
       event_date, event_count = element
 
@@ -11,11 +21,92 @@ class V2::Reports::Timeseries::CountReportBuilder < V2::Reports::Timeseries::Bas
     end
   end
 
-  def aggregate_value
+  def rollup_timeseries
+    metric = metric_to_rollup_metric(params[:metric])
+    return [] if metric.blank?
+
+    dimension_type = dimension_type_to_rollup
+    dimension_id = dimension_id_for_rollup
+
+    rollup_rows = ReportingEventsRollup.where(
+      account_id: account.id,
+      metric: metric,
+      dimension_type: dimension_type,
+      dimension_id: dimension_id,
+      date: rollup_date_range
+    )
+
+    group_and_aggregate_rollup_counts(rollup_rows)
+  end
+
+  def raw_aggregate_value
     object_scope.count
   end
 
-  private
+  def rollup_aggregate_value
+    metric = metric_to_rollup_metric(params[:metric])
+    return 0 if metric.blank?
+
+    dimension_type = dimension_type_to_rollup
+    dimension_id = dimension_id_for_rollup
+
+    ReportingEventsRollup.where(
+      account_id: account.id,
+      metric: metric,
+      dimension_type: dimension_type,
+      dimension_id: dimension_id,
+      date: rollup_date_range
+    ).sum(:count).to_i
+  end
+
+  def dimension_id_for_rollup
+    params[:type].to_s == 'account' ? account.id : scope.id
+  end
+
+  def group_and_aggregate_rollup_counts(rollup_rows)
+    # Pre-fill all periods with zero to match raw path's default_value: 0 behavior
+    grouped_data = all_periods_in_range.index_with { 0 }
+
+    rollup_rows.each do |row|
+      date_key = date_key_for_period(row.date)
+      grouped_data[date_key] ||= 0
+      grouped_data[date_key] += row.count
+    end
+
+    results = grouped_data.map do |date_key, count|
+      { value: count, timestamp: date_key.in_time_zone(timezone).to_i }
+    end
+    results.sort_by { |h| h[:timestamp] }
+  end
+
+  def date_key_for_period(date)
+    case group_by
+    when 'week' then date.beginning_of_week(:sunday)
+    when 'month' then date.beginning_of_month
+    when 'year' then date.beginning_of_year
+    else date
+    end
+  end
+
+  def all_periods_in_range
+    date_range = rollup_date_range
+    dates = []
+    current = date_key_for_period(date_range.first)
+    while current <= date_range.last
+      dates << current
+      current = advance_period(current)
+    end
+    dates
+  end
+
+  def advance_period(date)
+    case group_by
+    when 'week' then date + 1.week
+    when 'month' then date + 1.month
+    when 'year' then date + 1.year
+    else date + 1.day
+    end
+  end
 
   def metric
     @metric ||= params[:metric]

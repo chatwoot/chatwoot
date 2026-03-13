@@ -1,5 +1,15 @@
 class V2::Reports::Timeseries::AverageReportBuilder < V2::Reports::Timeseries::BaseTimeseriesBuilder
   def timeseries
+    use_rollup? ? rollup_timeseries : raw_timeseries
+  end
+
+  def aggregate_value
+    use_rollup? ? rollup_aggregate_value : raw_aggregate_value
+  end
+
+  private
+
+  def raw_timeseries
     grouped_average_time = reporting_events.average(average_value_key)
     grouped_event_count = reporting_events.count
     grouped_average_time.each_with_object([]) do |element, arr|
@@ -12,11 +22,98 @@ class V2::Reports::Timeseries::AverageReportBuilder < V2::Reports::Timeseries::B
     end
   end
 
-  def aggregate_value
+  def rollup_timeseries
+    dimension_type = dimension_type_to_rollup
+    dimension_id = dimension_id_for_rollup
+    metric = metric_to_rollup_metric(params[:metric])
+
+    rollup_rows = ReportingEventsRollup.where(
+      account_id: account.id,
+      metric: metric,
+      dimension_type: dimension_type,
+      dimension_id: dimension_id,
+      date: rollup_date_range
+    )
+
+    group_and_aggregate_rollup(rollup_rows)
+  end
+
+  def raw_aggregate_value
     object_scope.average(average_value_key)
   end
 
-  private
+  def rollup_aggregate_value
+    dimension_type = dimension_type_to_rollup
+    dimension_id = dimension_id_for_rollup
+    metric = metric_to_rollup_metric(params[:metric])
+
+    value_col = rollup_value_column
+
+    result = ReportingEventsRollup.where(
+      account_id: account.id,
+      metric: metric,
+      dimension_type: dimension_type,
+      dimension_id: dimension_id,
+      date: rollup_date_range
+    ).pick(Arel.sql("SUM(count), SUM(#{value_col})"))
+
+    return nil if result.blank? || result[0].to_i.zero?
+
+    result[1].to_f / result[0].to_i
+  end
+
+  def dimension_id_for_rollup
+    params[:type].to_s == 'account' ? account.id : scope.id
+  end
+
+  def group_and_aggregate_rollup(rollup_rows)
+    grouped_data = aggregate_rollup_rows(rollup_rows, all_periods_in_range.index_with { { count: 0, sum_value: 0.0 } })
+
+    results = grouped_data.map do |date_key, data|
+      value = data[:count].zero? ? 0 : data[:sum_value] / data[:count]
+      { value: value, timestamp: date_key.in_time_zone(timezone).to_i, count: data[:count] }
+    end
+    results.sort_by { |h| h[:timestamp] }
+  end
+
+  def aggregate_rollup_rows(rollup_rows, grouped_data = {})
+    value_col = rollup_value_column
+    rollup_rows.each_with_object(grouped_data) do |row, all_grouped_data|
+      date_key = date_key_for_group(row.date)
+      all_grouped_data[date_key] ||= { count: 0, sum_value: 0.0 }
+      all_grouped_data[date_key][:count] += row.count
+      all_grouped_data[date_key][:sum_value] += row.public_send(value_col)
+    end
+  end
+
+  def date_key_for_group(date)
+    case group_by
+    when 'week' then date.beginning_of_week(:sunday)
+    when 'month' then date.beginning_of_month
+    when 'year' then date.beginning_of_year
+    else date
+    end
+  end
+
+  def all_periods_in_range
+    date_range = rollup_date_range
+    dates = []
+    current = date_key_for_group(date_range.first)
+    while current <= date_range.last
+      dates << current
+      current = advance_period(current)
+    end
+    dates
+  end
+
+  def advance_period(date)
+    case group_by
+    when 'week' then date + 1.week
+    when 'month' then date + 1.month
+    when 'year' then date + 1.year
+    else date + 1.day
+    end
+  end
 
   def event_name
     metric_to_event_name = {
