@@ -91,6 +91,23 @@ class WebhookListener < BaseListener
     handle_typing_status(__method__.to_s, event)
   end
 
+  def csat_survey_response_created(event)
+    csat_survey_response = event.data[:csat_survey_response]
+    message = event.data[:message]
+    account = csat_survey_response.account
+    inbox = message&.inbox
+
+    presenter = CsatSurveyResponsePresenter.new(csat_survey_response, message)
+    payload = presenter.webhook_data.merge(
+      event: __method__.to_s,
+      account_id: account.id
+    )
+
+    return deliver_account_webhooks(payload, account) unless inbox
+
+    deliver_webhook_payloads(payload, inbox)
+  end
+
   private
 
   def handle_typing_status(event_name, event)
