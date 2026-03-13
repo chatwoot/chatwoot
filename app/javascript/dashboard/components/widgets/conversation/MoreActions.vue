@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onUnmounted, ref, onMounted } from 'vue';
+import { computed, onUnmounted, ref, onMounted, watch } from 'vue';
 import { useToggle, useWindowSize } from '@vueuse/core';
 import { useStore } from 'vuex';
 import { useAlert } from 'dashboard/composables';
@@ -38,6 +38,23 @@ const virtiAvailable = ref(false);
 const infosUser = ref({});
 const followUpAtivado = ref(false);
 const followUpLoading = ref(false);
+const followUpDisponivel = ref(false);
+
+const fetchFollowUpStatus = async () => {
+  const idRobo = virtiAuth.getIdRobo();
+  const userId = idUsuario.value;
+  if (!idRobo || !userId) return;
+  try {
+    const res = await virtiGet(
+      `/api/v1/conversas/follow-up/${idRobo}/${userId}`
+    );
+    followUpDisponivel.value = Boolean(res?.data?.disponivel);
+    followUpAtivado.value = Boolean(res?.data?.ativo);
+  } catch {
+    followUpDisponivel.value = false;
+    followUpAtivado.value = false;
+  }
+};
 
 onMounted(async () => {
   await virtiAuth.ensureToken();
@@ -52,10 +69,10 @@ onMounted(async () => {
           `/api/v1/infos_user/${idRobo}/${userId}/all`
         );
         infosUser.value = res?.data || {};
-        followUpAtivado.value = Boolean(infosUser.value.ProximoFollowUp);
       } catch {
         // silently fail — não impede o uso do resto
       }
+      await fetchFollowUpStatus();
     }
   }
 });
@@ -69,6 +86,24 @@ const idUsuario = computed(() => {
   const phone = contact?.phone_number;
   if (!phone) return null;
   return `chatwoot_${phone.replace('+', '')}`;
+});
+
+watch(idUsuario, async (newId, oldId) => {
+  if (!newId || newId === oldId) return;
+  if (!virtiAvailable.value) return;
+
+  const idRobo = virtiAuth.getIdRobo();
+  if (!idRobo) return;
+
+  try {
+    const res = await virtiGet(
+      `/api/v1/infos_user/${idRobo}/${newId}/all`
+    );
+    infosUser.value = res?.data || {};
+  } catch {
+    infosUser.value = {};
+  }
+  await fetchFollowUpStatus();
 });
 
 const statusConversa = computed(() => {
@@ -99,11 +134,7 @@ const toggleFollowUp = async () => {
     } else {
       await virtiDelete(`/api/v1/conversas/follow-up/${idRobo}/${userId}`);
       followUpAtivado.value = false;
-      infosUser.value = {
-        ...infosUser.value,
-        StatusConversa: 'abandonada',
-        ProximoFollowUp: null,
-      };
+      infosUser.value = { ...infosUser.value, StatusConversa: 'abandonada' };
       useAlert('Follow-up desativado com sucesso.');
     }
   } catch {
@@ -123,15 +154,17 @@ const actionMenuItems = computed(() => {
       action: 'virti_info',
       value: 'virti_info',
     });
-    items.push({
-      icon: 'i-lucide-timer-reset',
-      label: followUpAtivado.value
-        ? 'Desativar Follow-up'
-        : 'Ativar Follow-up',
-      action: 'virti_follow_up',
-      value: 'virti_follow_up',
-      className: followUpAtivado.value ? 'text-n-blue-text' : '',
-    });
+    if (followUpDisponivel.value) {
+      items.push({
+        icon: 'i-lucide-timer-reset',
+        label: followUpAtivado.value
+          ? 'Desativar Follow-up'
+          : 'Ativar Follow-up',
+        action: 'virti_follow_up',
+        value: 'virti_follow_up',
+        className: followUpAtivado.value ? 'text-n-blue-text' : '',
+      });
+    }
     items.push({
       icon: 'i-lucide-activity',
       label: 'Status',
@@ -229,7 +262,7 @@ onUnmounted(() => {
       @click="toggleVirtiInfoModal(true)"
     />
     <ButtonV4
-      v-if="virtiAvailable"
+      v-if="virtiAvailable && followUpDisponivel"
       size="sm"
       variant="faded"
       :color="followUpAtivado ? 'blue' : 'slate'"
