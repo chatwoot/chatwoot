@@ -3,8 +3,13 @@
 # Table name: captain_documents
 #
 #  id            :bigint           not null, primary key
+#  chunking_status      :integer          default("pending"), not null
+#  chunks_generated_at :datetime
 #  content       :text
+#  expected_chunk_count :integer          default(0), not null
 #  external_link :string           not null
+#  indexed_chunk_count :integer          default(0), not null
+#  last_chunk_error    :text
 #  metadata      :jsonb
 #  name          :string
 #  status        :integer          default("in_progress"), not null
@@ -18,6 +23,8 @@
 #  index_captain_documents_on_account_id                      (account_id)
 #  index_captain_documents_on_assistant_id                    (assistant_id)
 #  index_captain_documents_on_assistant_id_and_external_link  (assistant_id,external_link) UNIQUE
+#  index_captain_documents_on_chunks_generated_at             (chunks_generated_at)
+#  index_captain_documents_on_chunking_status                 (chunking_status)
 #  index_captain_documents_on_status                          (status)
 #
 class Captain::Document < ApplicationRecord
@@ -26,6 +33,7 @@ class Captain::Document < ApplicationRecord
 
   belongs_to :assistant, class_name: 'Captain::Assistant'
   has_many :responses, class_name: 'Captain::AssistantResponse', dependent: :destroy, as: :documentable
+  has_many :chunks, class_name: 'Captain::DocumentChunk', dependent: :destroy
   belongs_to :account
   has_one_attached :pdf_file
 
@@ -43,6 +51,14 @@ class Captain::Document < ApplicationRecord
     in_progress: 0,
     available: 1
   }
+
+  enum chunking_status: {
+    pending: 0,
+    chunking: 1,
+    indexing: 2,
+    ready: 3,
+    failed: 4
+  }, _prefix: true
 
   before_create :ensure_within_plan_limit
   after_create_commit :enqueue_crawl_job
