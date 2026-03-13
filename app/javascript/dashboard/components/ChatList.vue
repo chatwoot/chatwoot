@@ -264,10 +264,13 @@ const conversationListPagination = computed(() => {
 });
 
 const conversationFilters = computed(() => {
+  // All tab always shows every status so resolved conversations don't disappear.
+  // Mine/Unassigned keep the user-controlled status filter (defaults to 'open').
+  const isAllTab = activeAssigneeTab.value === wootConstants.ASSIGNEE_TYPE.ALL;
   return {
     inboxId: props.conversationInbox ? props.conversationInbox : undefined,
     assigneeType: activeAssigneeTab.value,
-    status: activeStatus.value,
+    status: isAllTab ? wootConstants.STATUS_TYPE.ALL : activeStatus.value,
     sortBy: activeSortBy.value,
     page: conversationListPagination.value,
     labels: props.label ? [props.label] : undefined,
@@ -275,6 +278,12 @@ const conversationFilters = computed(() => {
     conversationType: props.conversationType || undefined,
   };
 });
+
+const effectiveStatus = computed(() =>
+  activeAssigneeTab.value === wootConstants.ASSIGNEE_TYPE.ALL
+    ? wootConstants.STATUS_TYPE.ALL
+    : activeStatus.value
+);
 
 const activeTeam = computed(() => {
   if (props.teamId) {
@@ -886,7 +895,7 @@ watch(conversationFilters, (newVal, oldVal) => {
       :page-title="pageTitle"
       :has-applied-filters="hasAppliedFilters"
       :has-active-folders="hasActiveFolders"
-      :active-status="activeStatus"
+      :active-status="effectiveStatus"
       :is-on-expanded-layout="isOnExpandedLayout"
       :conversation-stats="conversationStats"
       :is-list-loading="chatListLoading && !conversationList.length"
