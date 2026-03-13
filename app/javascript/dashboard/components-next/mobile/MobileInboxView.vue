@@ -1,20 +1,26 @@
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, provide, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
+import { useHaptics } from 'dashboard/composables/useHaptics';
 
 import InboxCard from 'dashboard/components-next/Inbox/InboxCard.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import IntersectionObserver from 'dashboard/components/IntersectionObserver.vue';
 import MobileInboxHeader from './MobileInboxHeader.vue';
 import MobilePullToRefresh from './MobilePullToRefresh.vue';
+import MobileSwipeableRow from './MobileSwipeableRow.vue';
 
 import wootConstants from 'dashboard/constants/globals';
 
 const emit = defineEmits(['openConversation']);
 const store = useStore();
 const { t } = useI18n();
+const { medium } = useHaptics();
+
+const swipeOpenRowId = ref(null);
+provide('swipeOpenRowId', swipeOpenRowId);
 
 const listRef = ref(null);
 const page = ref(1);
@@ -61,6 +67,40 @@ const loadMoreNotifications = () => {
     type: type.value,
     sortOrder: sortOrder.value,
   });
+};
+
+const inboxSwipeActions = [
+  {
+    key: 'read',
+    icon: 'i-lucide-check',
+    color: 'bg-n-blue-9',
+    label: t('MOBILE.SWIPE.MARK_READ'),
+  },
+  {
+    key: 'delete',
+    icon: 'i-lucide-trash-2',
+    color: 'bg-n-ruby-9',
+    label: t('MOBILE.SWIPE.DELETE'),
+  },
+];
+
+const onSwipeAction = (item, actionKey) => {
+  medium();
+  const { id, primaryActorId, primaryActorType } = item;
+  if (actionKey === 'read') {
+    store.dispatch('notifications/read', {
+      id,
+      primaryActorId,
+      primaryActorType,
+      unreadCount: meta.value.unreadCount,
+    });
+  } else if (actionKey === 'delete') {
+    store.dispatch('notifications/delete', {
+      notification: item,
+      count: meta.value.count,
+      unreadCount: meta.value.unreadCount,
+    });
+  }
 };
 
 const openConversation = notificationItem => {
@@ -112,14 +152,21 @@ onMounted(() => {
           {{ t('MOBILE.INBOX.NO_NOTIFICATIONS') }}
         </div>
         <template v-else>
-          <InboxCard
+          <MobileSwipeableRow
             v-for="item in notifications"
             :key="item.id"
-            :inbox-item="item"
-            :state-inbox="stateInbox(item.primaryActor?.inboxId)"
-            class="rounded-lg"
-            @click="openConversation(item)"
-          />
+            :row-id="item.id"
+            :actions="inboxSwipeActions"
+            class="mb-0.5"
+            @action="onSwipeAction(item, $event)"
+          >
+            <InboxCard
+              :inbox-item="item"
+              :state-inbox="stateInbox(item.primaryActor?.inboxId)"
+              class="rounded-lg"
+              @click="openConversation(item)"
+            />
+          </MobileSwipeableRow>
           <div v-if="uiFlags.isFetching" class="flex justify-center py-4">
             <Spinner class="text-n-brand" />
           </div>

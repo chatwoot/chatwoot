@@ -40,6 +40,13 @@
       "SORT_BY": "Sort by",
       "APPLY": "Apply filters",
       "RESET": "Reset"
+    },
+    "SWIPE": {
+      "RESOLVE": "Resolve",
+      "REOPEN": "Reopen",
+      "DELETE": "Delete",
+      "MARK_READ": "Read",
+      "CONFIRM_DELETE": "Are you sure you want to delete this conversation?"
     }
   }
 }

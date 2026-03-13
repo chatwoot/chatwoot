@@ -1,9 +1,11 @@
 <script setup>
-import { ref, computed, onMounted, watch } from 'vue';
+import { ref, computed, provide, onMounted, watch } from 'vue';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
+import { useHaptics } from 'dashboard/composables/useHaptics';
+import { useAlert } from 'dashboard/composables';
 
 import ConversationCard from 'dashboard/components/widgets/conversation/ConversationCard.vue';
 import ChatTypeTabs from 'dashboard/components/widgets/ChatTypeTabs.vue';
@@ -11,6 +13,7 @@ import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import IntersectionObserver from 'dashboard/components/IntersectionObserver.vue';
 import MobileConversationHeader from './MobileConversationHeader.vue';
 import MobileFilterSheet from './MobileFilterSheet.vue';
+import MobileSwipeableRow from './MobileSwipeableRow.vue';
 
 import wootConstants from 'dashboard/constants/globals';
 
@@ -19,6 +22,10 @@ const store = useStore();
 const route = useRoute();
 const { t } = useI18n();
 const { uiSettings } = useUISettings();
+const { medium } = useHaptics();
+
+const swipeOpenRowId = ref(null);
+provide('swipeOpenRowId', swipeOpenRowId);
 
 const listRef = ref(null);
 const showFilterSheet = ref(false);
@@ -87,7 +94,50 @@ const onStatusChange = status => {
 };
 
 const onConversationClick = chat => {
+  if (swipeOpenRowId.value) {
+    swipeOpenRowId.value = null;
+    return;
+  }
   emit('openConversation', chat.id);
+};
+
+const getSwipeActions = chat => {
+  const isResolved = chat.status === 'resolved';
+  return [
+    {
+      key: isResolved ? 'reopen' : 'resolve',
+      icon: isResolved ? 'i-lucide-rotate-ccw' : 'i-lucide-check-circle',
+      color: isResolved ? 'bg-n-blue-9' : 'bg-n-teal-9',
+      label: isResolved
+        ? t('MOBILE.SWIPE.REOPEN')
+        : t('MOBILE.SWIPE.RESOLVE'),
+    },
+    {
+      key: 'delete',
+      icon: 'i-lucide-trash-2',
+      color: 'bg-n-ruby-9',
+      label: t('MOBILE.SWIPE.DELETE'),
+    },
+  ];
+};
+
+const onSwipeAction = (chat, actionKey) => {
+  medium();
+  if (actionKey === 'resolve') {
+    store.dispatch('toggleStatus', {
+      conversationId: chat.id,
+      status: 'resolved',
+    });
+  } else if (actionKey === 'reopen') {
+    store.dispatch('toggleStatus', {
+      conversationId: chat.id,
+      status: 'open',
+    });
+  } else if (actionKey === 'delete') {
+    if (window.confirm(t('MOBILE.SWIPE.CONFIRM_DELETE'))) {
+      store.dispatch('deleteConversation', chat.id);
+    }
+  }
 };
 
 const onFilterApply = filters => {
@@ -128,14 +178,21 @@ onMounted(() => {
         {{ t('MOBILE.CONVERSATIONS.NO_CONVERSATIONS') }}
       </div>
       <template v-else>
-        <ConversationCard
+        <MobileSwipeableRow
           v-for="chat in conversationList"
           :key="chat.id"
-          :chat="chat"
-          :show-assignee="activeAssigneeTab === 'all'"
-          class="mb-0.5 rounded-lg"
-          @click="onConversationClick(chat)"
-        />
+          :row-id="chat.id"
+          :actions="getSwipeActions(chat)"
+          class="mb-0.5"
+          @action="onSwipeAction(chat, $event)"
+        >
+          <ConversationCard
+            :chat="chat"
+            :show-assignee="activeAssigneeTab === 'all'"
+            class="rounded-lg"
+            @click="onConversationClick(chat)"
+          />
+        </MobileSwipeableRow>
         <div v-if="listLoadingMore" class="flex justify-center py-4">
           <Spinner class="text-n-brand" />
         </div>
