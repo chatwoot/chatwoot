@@ -272,13 +272,11 @@ export default {
 }
 
 .context-menu--delete-modal {
-  ::v-deep {
-    .modal-container {
-      @apply max-w-[30rem];
+  :deep(.modal-container) {
+    @apply max-w-[30rem];
 
-      h2 {
-        @apply font-medium text-base;
-      }
+    h2 {
+      @apply font-medium text-base;
     }
   }
 }

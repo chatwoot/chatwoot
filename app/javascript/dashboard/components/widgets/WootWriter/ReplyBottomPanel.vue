@@ -431,7 +431,7 @@ export default {
   @apply flex;
 }
 
-::v-deep .file-uploads {
+:deep(.file-uploads) {
   label {
     @apply cursor-pointer;
   }
