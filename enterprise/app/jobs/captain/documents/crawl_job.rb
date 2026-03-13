@@ -1,13 +1,13 @@
 class Captain::Documents::CrawlJob < ApplicationJob
   queue_as :low
 
-  def perform(document)
+  def perform(document, exclude_paths = [])
     if document.pdf_document?
       perform_pdf_processing(document)
     elsif InstallationConfig.find_by(name: 'CAPTAIN_FIRECRAWL_API_KEY')&.value.present?
-      perform_firecrawl_crawl(document)
+      perform_firecrawl_crawl(document, exclude_paths)
     else
-      perform_simple_crawl(document)
+      perform_simple_crawl(document, exclude_paths)
     end
   end
 
@@ -23,8 +23,13 @@ class Captain::Documents::CrawlJob < ApplicationJob
     raise # Re-raise to let job framework handle retry logic
   end
 
-  def perform_simple_crawl(document)
-    page_links = Captain::Tools::SimplePageCrawlService.new(document.external_link).page_links
+  def perform_simple_crawl(document, exclude_paths)
+    crawler = Captain::Tools::SimplePageCrawlService.new(
+      document.external_link,
+      exclude_paths: exclude_paths
+    )
+
+    page_links = crawler.page_links
 
     page_links.each do |page_link|
       Captain::Tools::SimplePageCrawlParserJob.perform_later(
@@ -33,13 +38,15 @@ class Captain::Documents::CrawlJob < ApplicationJob
       )
     end
 
+    return if crawler.excluded?(document.external_link)
+
     Captain::Tools::SimplePageCrawlParserJob.perform_later(
       assistant_id: document.assistant_id,
       page_link: document.external_link
     )
   end
 
-  def perform_firecrawl_crawl(document)
+  def perform_firecrawl_crawl(document, exclude_paths)
     captain_usage_limits = document.account.usage_limits[:captain] || {}
     document_limit = captain_usage_limits[:documents] || {}
     crawl_limit = [document_limit[:current_available] || 10, 500].min
@@ -49,7 +56,8 @@ class Captain::Documents::CrawlJob < ApplicationJob
       .perform(
         document.external_link,
         firecrawl_webhook_url(document),
-        crawl_limit
+        crawl_limit,
+        exclude_paths: exclude_paths
       )
   end
 
