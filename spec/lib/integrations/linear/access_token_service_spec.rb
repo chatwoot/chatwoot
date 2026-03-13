@@ -29,6 +29,11 @@ describe Integrations::Linear::AccessTokenService do
       end
 
       it 'returns the current access token' do
+        stub_request(:post, 'https://api.linear.app/oauth/token')
+          .to_return(status: 200, body: {}.to_json, headers: { 'Content-Type' => 'application/json' })
+        stub_request(:post, 'https://api.linear.app/oauth/migrate_old_token')
+          .to_return(status: 200, body: {}.to_json, headers: { 'Content-Type' => 'application/json' })
+
         service = described_class.new(hook: hook)
 
         expect(service.access_token).to eq('valid_access_token')

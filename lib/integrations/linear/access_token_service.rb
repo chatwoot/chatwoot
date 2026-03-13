@@ -76,7 +76,7 @@ class Integrations::Linear::AccessTokenService
     expiry = hook_settings[:expires_on]
     return false if expiry.blank?
 
-    Time.current.utc < (DateTime.parse(expiry) - TOKEN_EXPIRY_BUFFER)
+    Time.zone.parse(expiry).utc > (Time.current.utc + TOKEN_EXPIRY_BUFFER)
   rescue StandardError
     false
   end
