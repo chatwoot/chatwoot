@@ -1,5 +1,7 @@
 # Raw reporting events and rollup rows do not share a single metric namespace; this registry keeps write and read paths aligned.
+# TODO: Split this into separate registries for raw event mappings and report metric definitions.
 module ReportingEvents::MetricRegistry
+  # Maps report summary response keys to the metric definitions they read from.
   SUMMARY_METRICS = {
     resolutions_count: :resolved_conversations_count,
     avg_resolution_time: :avg_resolution_time,
@@ -7,6 +9,7 @@ module ReportingEvents::MetricRegistry
     reply_time: :avg_reply_time
   }.freeze
 
+  # Expands each raw reporting event into the rollup metric payloads persisted for aggregation.
   EVENT_METRICS = {
     'conversation_resolved' => lambda do |values|
       {
@@ -20,6 +23,7 @@ module ReportingEvents::MetricRegistry
     'conversation_bot_handoff' => ->(values) { { bot_handoffs_count: count_metric(values[:count]) } }
   }.freeze
 
+  # Describes which report metrics are supported and how each one is sourced and aggregated.
   REPORT_METRICS = {
     conversations_count: { aggregate: :count }.freeze,
     incoming_messages_count: { aggregate: :count }.freeze,
