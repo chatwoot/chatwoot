@@ -114,17 +114,17 @@ class Reports::RawDataSource < Reports::DataSource
   end
 
   def summary_select_field(definition)
-    if definition[:aggregate] == :count
-      "COUNT(CASE WHEN name = '#{definition[:raw_event_name]}' THEN 1 END) as #{definition[:summary_key]}"
+    if definition.count?
+      "COUNT(CASE WHEN name = '#{definition.raw_event_name}' THEN 1 END) as #{definition.summary_key}"
     else
-      "AVG(CASE WHEN name = '#{definition[:raw_event_name]}' THEN #{average_value_key} END) as #{definition[:summary_key]}"
+      "AVG(CASE WHEN name = '#{definition.raw_event_name}' THEN #{average_value_key} END) as #{definition.summary_key}"
     end
   end
 
   def summary_attributes_for(record, conversations_count = 0)
     summary_metrics.each_with_object({ conversations_count: conversations_count.to_i }) do |definition, attributes|
-      value = record&.public_send(definition[:summary_key])
-      attributes[definition[:summary_key]] = definition[:aggregate] == :count ? value.to_i : value
+      value = record&.public_send(definition.summary_key)
+      attributes[definition.summary_key] = definition.count? ? value.to_i : value
     end
   end
 
