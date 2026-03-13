@@ -7,6 +7,7 @@ import {
 } from 'dashboard/composables/store';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { useUISettings } from 'dashboard/composables/useUISettings';
+import { useCamelCase } from 'dashboard/composables/useTransformKeys';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 import AccordionItem from 'dashboard/components/Accordion/AccordionItem.vue';
@@ -23,6 +24,7 @@ import ShopifyOrdersList from 'dashboard/components/widgets/conversation/Shopify
 import SidebarActionsHeader from 'dashboard/components-next/SidebarActionsHeader.vue';
 import LinearIssuesList from 'dashboard/components/widgets/conversation/linear/IssuesList.vue';
 import LinearSetupCTA from 'dashboard/components/widgets/conversation/linear/LinearSetupCTA.vue';
+import WhatsAppReferral from 'dashboard/components-next/message/bubbles/WhatsAppReferral.vue';
 
 const props = defineProps({
   conversationId: {
@@ -87,6 +89,12 @@ const conversationAdditionalAttributes = computed(
 );
 
 const channelType = computed(() => currentChat.value.meta?.channel);
+
+const whatsappReferral = computed(() => {
+  const referral =
+    currentChat.value?.additional_attributes?.whatsapp_referral ?? null;
+  return referral ? useCamelCase(referral) : null;
+});
 
 const contactGetter = useMapGetter('contacts/getContact');
 const contactId = computed(() => currentChat.value.meta?.sender?.id);
@@ -295,6 +303,21 @@ onMounted(() => {
               "
             >
               <ContactNotes :contact-id="contactId" />
+            </AccordionItem>
+          </div>
+          <div v-else-if="element.name === 'whatsapp_referral'">
+            <AccordionItem
+              :title="$t('CONVERSATION_SIDEBAR.ACCORDION.WHATSAPP_REFERRAL')"
+              :is-open="isContactSidebarItemOpen('is_referral_open')"
+              :disabled="!whatsappReferral"
+              compact
+              @toggle="value => toggleSidebarUIState('is_referral_open', value)"
+            >
+              <WhatsAppReferral
+                v-if="whatsappReferral"
+                :referral="whatsappReferral"
+                class="px-2 py-4"
+              />
             </AccordionItem>
           </div>
         </template>
