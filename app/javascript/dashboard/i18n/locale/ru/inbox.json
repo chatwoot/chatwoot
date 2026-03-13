@@ -72,6 +72,24 @@
       "MARK_ALL_READ": "Все уведомления отмечены как прочитанные",
       "DELETE_ALL": "Все уведомления удалены",
       "DELETE_ALL_READ": "Все прочитанные уведомления удалены"
+    },
+    "REAUTHORIZE": {
+      "TITLE": "Требуется авторизация",
+      "DESCRIPTION": "Время вашего соединения с WhatsApp истекло. Пожалуйста, подключитесь заново, чтобы продолжать получать и отправлять сообщения.",
+      "BUTTON_TEXT": "Переподключить WhatsApp",
+      "LOADING_FACEBOOK": "Загрузка Facebook SDK...",
+      "SUCCESS": "WhatsApp успешно подключен заново",
+      "ERROR": "Не удалось перенастроить WhatsApp Business. Пожалуйста, попробуйте еще раз.",
+      "WHATSAPP_APP_ID_MISSING": "WhatsApp App ID не настроен. Пожалуйста, обратитесь к администратору.",
+      "WHATSAPP_CONFIG_ID_MISSING": "WhatsApp Configuration ID не настроен. Пожалуйста, обратитесь к администратору.",
+      "CONFIGURATION_ERROR": "Произошла ошибка конфигурации при повторной авторизации.",
+      "FACEBOOK_LOAD_ERROR": "Не удалось загрузить Facebook SDK. Пожалуйста, попробуйте еще раз.",
+      "TROUBLESHOOTING": {
+        "TITLE": "Устранение проблем",
+        "POPUP_BLOCKED": "Убедитесь, что всплывающие окна разрешены для этого сайта",
+        "COOKIES": "Сторонние cookies должны быть включены",
+        "ADMIN_ACCESS": "Вам нужен доступ администратора к учетной записи WhatsApp Business"
+      }
     }
   }
 }

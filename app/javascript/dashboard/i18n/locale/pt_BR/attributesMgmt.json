@@ -13,9 +13,9 @@
       "TEXT": "Texto",
       "NUMBER": "Número",
       "LINK": "Link",
-      "DATE": "Date",
+      "DATE": "Data",
       "LIST": "Lista",
-      "CHECKBOX": "Checkbox"
+      "CHECKBOX": "Caixa de seleção"
     },
     "ADD": {
       "TITLE": "Adicionar atributo personalizado",
@@ -129,6 +129,10 @@
       "ENABLE_REGEX": {
         "LABEL": "Habilitar validação da expressão regular"
       }
+    },
+    "BADGES": {
+      "PRE_CHAT": "Pré-chat",
+      "RESOLUTION": "Resolução"
     }
   }
 }

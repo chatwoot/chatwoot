@@ -1,5 +1,6 @@
 import {
   OPERATOR_TYPES_1,
+  OPERATOR_TYPES_2,
   OPERATOR_TYPES_3,
   OPERATOR_TYPES_5,
 } from 'dashboard/components/widgets/FilterInput/FilterOperatorTypes.js';
@@ -84,6 +85,14 @@ const filterTypes = [
     filterOperators: OPERATOR_TYPES_1,
     attributeModel: 'standard',
   },
+  {
+    attributeKey: 'labels',
+    attributeI18nKey: 'LABELS',
+    inputType: 'multi_select',
+    dataType: 'text',
+    filterOperators: OPERATOR_TYPES_2,
+    attributeModel: 'standard',
+  },
 ];
 
 export const filterAttributeGroups = [
@@ -126,6 +135,10 @@ export const filterAttributeGroups = [
       {
         key: 'blocked',
         i18nKey: 'BLOCKED',
+      },
+      {
+        key: 'labels',
+        i18nKey: 'LABELS',
       },
     ],
   },

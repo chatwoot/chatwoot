@@ -8,7 +8,7 @@ export const DEFAULT_MESSAGE_CREATED_CONDITION = [
   },
 ];
 
-export const DEFAULT_CONVERSATION_OPENED_CONDITION = [
+export const DEFAULT_CONVERSATION_CONDITION = [
   {
     attribute_key: 'browser_language',
     filter_operator: 'equal_to',

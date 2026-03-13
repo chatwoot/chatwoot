@@ -7,7 +7,6 @@ import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useConfig } from 'dashboard/composables/useConfig';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { FEATURE_FLAGS } from '../../../../featureFlags';
-import { getLanguageDirection } from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
 import WithLabel from 'v3/components/Form/WithLabel.vue';
 import NextInput from 'next/input/Input.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
@@ -15,7 +14,6 @@ import NextButton from 'dashboard/components-next/button/Button.vue';
 import AccountId from './components/AccountId.vue';
 import BuildInfo from './components/BuildInfo.vue';
 import AccountDelete from './components/AccountDelete.vue';
-import AutoResolve from './components/AutoResolve.vue';
 import AudioTranscription from './components/AudioTranscription.vue';
 import SectionLayout from './components/SectionLayout.vue';
 
@@ -26,19 +24,18 @@ export default {
     AccountId,
     BuildInfo,
     AccountDelete,
-    AutoResolve,
     AudioTranscription,
     SectionLayout,
     WithLabel,
     NextInput,
   },
   setup() {
-    const { updateUISettings } = useUISettings();
+    const { updateUISettings, uiSettings } = useUISettings();
     const { enabledLanguages } = useConfig();
     const { accountId } = useAccount();
     const v$ = useVuelidate();
 
-    return { updateUISettings, v$, enabledLanguages, accountId };
+    return { updateUISettings, uiSettings, v$, enabledLanguages, accountId };
   },
   data() {
     return {
@@ -65,12 +62,6 @@ export default {
       isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
       isOnChatwootCloud: 'globalConfig/isOnChatwootCloud',
     }),
-    showAutoResolutionConfig() {
-      return this.isFeatureEnabledonAccount(
-        this.accountId,
-        FEATURE_FLAGS.AUTO_RESOLVE_CONVERSATIONS
-      );
-    },
     showAudioTranscriptionConfig() {
       return this.isFeatureEnabledonAccount(
         this.accountId,
@@ -112,7 +103,7 @@ export default {
         const { name, locale, id, domain, support_email, features } =
           this.getAccount(this.accountId);
 
-        this.$root.$i18n.locale = locale;
+        this.$root.$i18n.locale = this.uiSettings?.locale || locale;
         this.name = name;
         this.locale = locale;
         this.id = id;
@@ -137,32 +128,31 @@ export default {
           domain: this.domain,
           support_email: this.supportEmail,
         });
-        this.$root.$i18n.locale = this.locale;
+        // If user locale is set, update the locale with user locale
+        if (this.uiSettings?.locale) {
+          this.$root.$i18n.locale = this.uiSettings?.locale;
+        } else {
+          // If user locale is not set, update the locale with account locale
+          this.$root.$i18n.locale = this.locale;
+        }
         this.getAccount(this.id).locale = this.locale;
-        this.updateDirectionView(this.locale);
         useAlert(this.$t('GENERAL_SETTINGS.UPDATE.SUCCESS'));
       } catch (error) {
         useAlert(this.$t('GENERAL_SETTINGS.UPDATE.ERROR'));
       }
-    },
-
-    updateDirectionView(locale) {
-      const isRTLSupported = getLanguageDirection(locale);
-      this.updateUISettings({
-        rtl_view: isRTLSupported,
-      });
     },
   },
 };
 </script>
 
 <template>
-  <div class="flex flex-col max-w-2xl mx-auto w-full">
+  <div class="flex flex-col w-full max-w-2xl ltr:mr-auto rtl:ml-auto">
     <BaseSettingsHeader :title="$t('GENERAL_SETTINGS.TITLE')" />
     <div class="flex-grow flex-shrink min-w-0 mt-3">
       <SectionLayout
         :title="$t('GENERAL_SETTINGS.FORM.GENERAL_SECTION.TITLE')"
         :description="$t('GENERAL_SETTINGS.FORM.GENERAL_SECTION.NOTE')"
+        class="!pt-0"
       >
         <form
           v-if="!uiFlags.isFetchingItem"
@@ -170,6 +160,7 @@ export default {
           @submit.prevent="updateAccount"
         >
           <WithLabel
+            name="account-name"
             :has-error="v$.name.$error"
             :label="$t('GENERAL_SETTINGS.FORM.NAME.LABEL')"
             :error-message="$t('GENERAL_SETTINGS.FORM.NAME.ERROR')"
@@ -183,6 +174,7 @@ export default {
             />
           </WithLabel>
           <WithLabel
+            name="site-language"
             :has-error="v$.locale.$error"
             :label="$t('GENERAL_SETTINGS.FORM.LANGUAGE.LABEL')"
             :error-message="$t('GENERAL_SETTINGS.FORM.LANGUAGE.ERROR')"
@@ -199,6 +191,7 @@ export default {
           </WithLabel>
           <WithLabel
             v-if="featureCustomReplyDomainEnabled"
+            name="custom-domain"
             :label="$t('GENERAL_SETTINGS.FORM.DOMAIN.LABEL')"
           >
             <NextInput
@@ -221,6 +214,7 @@ export default {
           </WithLabel>
           <WithLabel
             v-if="featureCustomReplyEmailEnabled"
+            name="support-email"
             :label="$t('GENERAL_SETTINGS.FORM.SUPPORT_EMAIL.LABEL')"
           >
             <NextInput
@@ -242,7 +236,6 @@ export default {
 
       <woot-loading-state v-if="uiFlags.isFetchingItem" />
     </div>
-    <AutoResolve v-if="showAutoResolutionConfig" />
     <AudioTranscription v-if="showAudioTranscriptionConfig" />
     <AccountId />
     <div v-if="!uiFlags.isFetchingItem && isOnChatwootCloud">

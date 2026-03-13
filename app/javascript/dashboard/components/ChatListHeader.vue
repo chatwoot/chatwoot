@@ -57,7 +57,7 @@ const toggleConversationLayout = () => {
 
 <template>
   <div
-    class="flex items-center justify-between gap-2 px-3 h-12"
+    class="flex items-center justify-between gap-2 px-3 h-[3.25rem]"
     :class="{
       'border-b border-n-strong': hasAppliedFiltersOrActiveFolders,
     }"
@@ -98,7 +98,7 @@ const toggleConversationLayout = () => {
           />
           <div
             id="saveFilterTeleportTarget"
-            class="absolute z-40 mt-2"
+            class="absolute z-50 mt-2"
             :class="{ 'ltr:right-0 rtl:left-0': isOnExpandedLayout }"
           />
         </div>
@@ -124,7 +124,7 @@ const toggleConversationLayout = () => {
           />
           <div
             id="conversationFilterTeleportTarget"
-            class="absolute z-40 mt-2"
+            class="absolute z-50 mt-2"
             :class="{ 'ltr:right-0 rtl:left-0': isOnExpandedLayout }"
           />
         </div>
@@ -150,7 +150,7 @@ const toggleConversationLayout = () => {
         />
         <div
           id="conversationFilterTeleportTarget"
-          class="absolute z-40 mt-2"
+          class="absolute z-50 mt-2"
           :class="{ 'ltr:right-0 rtl:left-0': isOnExpandedLayout }"
         />
       </div>

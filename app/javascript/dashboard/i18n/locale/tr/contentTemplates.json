@@ -1,0 +1,52 @@
+{
+  "CONTENT_TEMPLATES": {
+    "MODAL": {
+      "TITLE": "Twilio Şablonları",
+      "SUBTITLE": "Göndermek istediğiniz Twilio şablonunu seçin",
+      "TEMPLATE_SELECTED_SUBTITLE": "Şablonu yapılandır: {templateName}"
+    },
+    "PICKER": {
+      "SEARCH_PLACEHOLDER": "Şablon Ara",
+      "NO_TEMPLATES_FOUND": "İçin hiç şablon bulunamadı",
+      "NO_CONTENT": "No content",
+      "HEADER": "Başlık",
+      "BODY": "Gövde",
+      "FOOTER": "Altbilgi",
+      "BUTTONS": "Butonlar",
+      "CATEGORY": "Kategori",
+      "MEDIA_CONTENT": "Medya İçeriği",
+      "MEDIA_CONTENT_FALLBACK": "medya içeriği",
+      "NO_TEMPLATES_AVAILABLE": "Twilio şablonu mevcut değil. Twilio'dan şablonları senkronize etmek için yenile düğmesine tıklayın.",
+      "REFRESH_BUTTON": "Şablonları yenile",
+      "REFRESH_SUCCESS": "Şablonların yenilenmesi başlatıldı. Güncelleme birkaç dakika sürebilir.",
+      "REFRESH_ERROR": "Şablonları yenileme işlemi başarısız oldu. Lütfen tekrar deneyin.",
+      "LABELS": {
+        "LANGUAGE": "Dil",
+        "TEMPLATE_BODY": "Şablon İçeriği",
+        "CATEGORY": "Kategori"
+      },
+      "TYPES": {
+        "MEDIA": "Medya",
+        "QUICK_REPLY": "Hızlı Yanıt",
+        "CALL_TO_ACTION": "Call to Action",
+        "TEXT": "Metin"
+      }
+    },
+    "PARSER": {
+      "VARIABLES_LABEL": "Değişkenler",
+      "LANGUAGE": "Dil",
+      "CATEGORY": "Kategori",
+      "VARIABLE_PLACEHOLDER": "{variable} değerini girin",
+      "GO_BACK_LABEL": "Geri Git",
+      "SEND_MESSAGE_LABEL": "Mesaj Gönder",
+      "FORM_ERROR_MESSAGE": "Lütfen göndermeden önce tüm değişkenleri doldurun",
+      "MEDIA_HEADER_LABEL": "{type} Başlık",
+      "MEDIA_URL_LABEL": "Tam medya URL'sini girin",
+      "MEDIA_URL_PLACEHOLDER": "https://example.com/image.jpg"
+    },
+    "FORM": {
+      "BACK_BUTTON": "Geri",
+      "SEND_MESSAGE_BUTTON": "Mesaj Gönder"
+    }
+  }
+}

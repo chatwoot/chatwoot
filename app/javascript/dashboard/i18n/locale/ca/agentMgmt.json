@@ -3,7 +3,7 @@
     "HEADER": "Agents",
     "HEADER_BTN_TXT": "Afegir Agent",
     "LOADING": "S'està recollint la llista d'agents",
-    "DESCRIPTION": "",
+    "DESCRIPTION": "Un agent és un membre del vostre equip d'atenció al client que pot veure i respondre als missatges dels usuaris. La llista següent mostra tots els agents del vostre compte.",
     "LEARN_MORE": "Rakibkazi",
     "AGENT_TYPES": {
       "ADMINISTRATOR": "Administrador/a",

@@ -16,6 +16,11 @@ describe Whatsapp::ChannelCreationService do
 
   describe '#perform' do
     before do
+      # Stub the webhook teardown service to prevent HTTP calls during cleanup
+      teardown_service = instance_double(Whatsapp::WebhookTeardownService)
+      allow(Whatsapp::WebhookTeardownService).to receive(:new).and_return(teardown_service)
+      allow(teardown_service).to receive(:perform)
+
       # Clean up any existing channels to avoid phone number conflicts
       Channel::Whatsapp.destroy_all
 
@@ -57,14 +62,19 @@ describe Whatsapp::ChannelCreationService do
       end
     end
 
-    context 'when channel already exists' do
+    context 'when channel already exists for the phone number' do
+      let(:different_account) { create(:account) }
+
       before do
-        create(:channel_whatsapp, account: account, phone_number: '+1234567890',
+        create(:channel_whatsapp, account: different_account, phone_number: '+1234567890',
                                   provider: 'whatsapp_cloud', sync_templates: false, validate_provider_config: false)
       end
 
-      it 'raises an error' do
-        expect { service.perform }.to raise_error(/Channel already exists/)
+      it 'raises an error even if the channel belongs to a different account' do
+        expect { service.perform }.to raise_error(
+          RuntimeError,
+          I18n.t('errors.whatsapp.phone_number_already_exists', phone_number: '+1234567890')
+        )
       end
     end
 

@@ -1,5 +1,5 @@
 <script>
-import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
+import Avatar from 'next/avatar/Avatar.vue';
 import Spinner from 'shared/components/Spinner.vue';
 import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
 import { dynamicTime } from 'shared/helpers/timeHelper';
@@ -8,7 +8,7 @@ import NextButton from 'dashboard/components-next/button/Button.vue';
 
 export default {
   components: {
-    Thumbnail,
+    Avatar,
     Spinner,
     EmptyState,
     NextButton,
@@ -107,11 +107,12 @@ export default {
             </span>
           </td>
           <td class="thumbnail--column">
-            <Thumbnail
+            <Avatar
               v-if="notificationItem.primary_actor.meta.assignee"
               :src="notificationItem.primary_actor.meta.assignee.thumbnail"
-              size="28px"
-              :username="notificationItem.primary_actor.meta.assignee.name"
+              :size="28"
+              :name="notificationItem.primary_actor.meta.assignee.name"
+              rounded-full
             />
           </td>
           <td>

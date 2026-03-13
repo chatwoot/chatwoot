@@ -19,7 +19,7 @@ describe Whatsapp::OneoffCampaignService do
       'namespace' => '23423423_2342423_324234234_2343224',
       'category' => 'UTILITY',
       'language' => 'en',
-      'processed_params' => { 'name' => 'John', 'ticket_id' => '2332' }
+      'processed_params' => { 'body' => { 'name' => 'John', 'ticket_id' => '2332' } }
     }
   end
 
@@ -125,10 +125,16 @@ describe Whatsapp::OneoffCampaignService do
             namespace: '23423423_2342423_324234234_2343224',
             lang_code: 'en',
             parameters: array_including(
-              hash_including(type: 'text', parameter_name: 'name', text: 'John'),
-              hash_including(type: 'text', parameter_name: 'ticket_id', text: '2332')
+              hash_including(
+                type: 'body',
+                parameters: array_including(
+                  hash_including(type: 'text', parameter_name: 'name', text: 'John'),
+                  hash_including(type: 'text', parameter_name: 'ticket_id', text: '2332')
+                )
+              )
             )
-          )
+          ),
+          nil
         )
 
         described_class.new(campaign: campaign).perform
@@ -151,18 +157,23 @@ describe Whatsapp::OneoffCampaignService do
     end
 
     context 'when send_template raises an error' do
-      it 'logs error and re-raises' do
-        contact = create(:contact, :with_phone_number, account: account)
-        contact.update_labels([label1.title])
+      it 'logs error and continues processing remaining contacts' do
+        contact_error, contact_success = create_list(:contact, 2, :with_phone_number, account: account)
+        contact_error.update_labels([label1.title])
+        contact_success.update_labels([label1.title])
         error_message = 'WhatsApp API error'
 
-        allow(whatsapp_channel).to receive(:send_template).and_raise(StandardError, error_message)
+        allow(whatsapp_channel).to receive(:send_template).and_return(nil)
+
+        expect(whatsapp_channel).to receive(:send_template).with(contact_error.phone_number, anything, nil).and_raise(StandardError, error_message)
+        expect(whatsapp_channel).to receive(:send_template).with(contact_success.phone_number, anything, nil).once
 
         expect(Rails.logger).to receive(:error)
-          .with("Failed to send WhatsApp template message to #{contact.phone_number}: #{error_message}")
+          .with("Failed to send WhatsApp template message to #{contact_error.phone_number}: #{error_message}")
         expect(Rails.logger).to receive(:error).with(/Backtrace:/)
 
-        expect { described_class.new(campaign: campaign).perform }.to raise_error(StandardError, error_message)
+        described_class.new(campaign: campaign).perform
+        expect(campaign.reload.completed?).to be true
       end
     end
   end

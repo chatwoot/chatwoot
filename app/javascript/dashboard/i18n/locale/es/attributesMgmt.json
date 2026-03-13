@@ -13,7 +13,7 @@
       "TEXT": "Texto",
       "NUMBER": "Número",
       "LINK": "Enlace",
-      "DATE": "Date",
+      "DATE": "Fecha",
       "LIST": "Lista",
       "CHECKBOX": "Casilla"
     },
@@ -129,6 +129,10 @@
       "ENABLE_REGEX": {
         "LABEL": "Habilitar validación regex"
       }
+    },
+    "BADGES": {
+      "PRE_CHAT": "Pre-chat",
+      "RESOLUTION": "Resolución"
     }
   }
 }

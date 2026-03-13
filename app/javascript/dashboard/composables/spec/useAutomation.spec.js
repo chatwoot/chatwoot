@@ -38,7 +38,7 @@ describe('useAutomation', () => {
     });
     useMapGetter.mockImplementation(getter => {
       const getterMap = {
-        'agents/getAgents': agents,
+        'agents/getVerifiedAgents': agents,
         'campaigns/getAllCampaigns': campaigns,
         'contacts/getContacts': contacts,
         'inboxes/getInboxes': inboxes,
@@ -196,6 +196,7 @@ describe('useAutomation', () => {
     automationTypes.conversation_created = { conditions: [] };
     automationTypes.conversation_updated = { conditions: [] };
     automationTypes.conversation_opened = { conditions: [] };
+    automationTypes.conversation_resolved = { conditions: [] };
 
     automationHelper.generateCustomAttributeTypes.mockReturnValue([]);
     automationHelper.generateCustomAttributes.mockReturnValue([]);

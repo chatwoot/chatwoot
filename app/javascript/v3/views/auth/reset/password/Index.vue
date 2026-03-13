@@ -1,18 +1,17 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
-import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import { required, minLength, email } from '@vuelidate/validators';
-import globalConfigMixin from 'shared/mixins/globalConfigMixin';
+import { useBranding } from 'shared/composables/useBranding';
 import FormInput from '../../../../components/Form/Input.vue';
 import { resetPassword } from '../../../../api/auth';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 
 export default {
   components: { FormInput, NextButton },
-  mixins: [globalConfigMixin],
   setup() {
-    return { v$: useVuelidate() };
+    const { replaceInstallationName } = useBranding();
+    return { v$: useVuelidate(), replaceInstallationName };
   },
   data() {
     return {
@@ -23,9 +22,6 @@ export default {
       },
       error: '',
     };
-  },
-  computed: {
-    ...mapGetters({ globalConfig: 'globalConfig/get' }),
   },
   validations() {
     return {
@@ -82,12 +78,7 @@ export default {
       <p
         class="mb-4 text-sm font-normal leading-6 tracking-normal text-n-slate-11"
       >
-        {{
-          useInstallationName(
-            $t('RESET_PASSWORD.DESCRIPTION'),
-            globalConfig.installationName
-          )
-        }}
+        {{ replaceInstallationName($t('RESET_PASSWORD.DESCRIPTION')) }}
       </p>
       <div class="space-y-5">
         <FormInput

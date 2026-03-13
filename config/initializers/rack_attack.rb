@@ -47,6 +47,12 @@ class Rack::Attack
 
   Rack::Attack.safelist('trusted IPs', &:allowed_ip?)
 
+  # Safelist health check endpoint so it never touches Redis for throttle tracking.
+  # This keeps /health fully dependency-free for ALB liveness checks.
+  Rack::Attack.safelist('health check') do |req|
+    req.path == '/health'
+  end
+
   ### Throttle Spammy Clients ###
 
   # If any single client IP is making tons of requests, then they're
@@ -83,12 +89,17 @@ class Rack::Attack
   end
 
   # ### Prevent Brute-Force Login Attacks ###
+  # Exclude MFA verification attempts from regular login throttling
   throttle('login/ip', limit: 5, period: 5.minutes) do |req|
-    req.ip if req.path_without_extentions == '/auth/sign_in' && req.post?
+    if req.path_without_extentions == '/auth/sign_in' && req.post? && req.params['mfa_token'].blank?
+      # Skip if this is an MFA verification request
+      req.ip
+    end
   end
 
   throttle('login/email', limit: 10, period: 15.minutes) do |req|
-    if req.path_without_extentions == '/auth/sign_in' && req.post?
+    # Skip if this is an MFA verification request
+    if req.path_without_extentions == '/auth/sign_in' && req.post? && req.params['mfa_token'].blank?
       # ref: https://github.com/rack/rack-attack/issues/399
       # NOTE: This line used to throw ArgumentError /rails/action_mailbox/sendgrid/inbound_emails : invalid byte sequence in UTF-8
       # Hence placed in the if block
@@ -112,6 +123,28 @@ class Rack::Attack
   ## Resend confirmation throttling
   throttle('resend_confirmation/ip', limit: 5, period: 30.minutes) do |req|
     req.ip if req.path_without_extentions == '/api/v1/profile/resend_confirmation' && req.post?
+  end
+
+  ## MFA throttling - prevent brute force attacks
+  throttle('mfa_verification/ip', limit: 5, period: 1.minute) do |req|
+    if req.path_without_extentions == '/api/v1/profile/mfa'
+      req.ip if req.delete? # Throttle disable attempts
+    elsif req.path_without_extentions.match?(%r{/api/v1/profile/mfa/(verify|backup_codes)})
+      req.ip if req.post? # Throttle verify and backup_codes attempts
+    end
+  end
+
+  # Separate rate limiting for MFA verification attempts
+  throttle('mfa_login/ip', limit: 10, period: 1.minute) do |req|
+    req.ip if req.path_without_extentions == '/auth/sign_in' && req.post? && req.params['mfa_token'].present?
+  end
+
+  throttle('mfa_login/token', limit: 10, period: 1.minute) do |req|
+    if req.path_without_extentions == '/auth/sign_in' && req.post?
+      # Track by MFA token to prevent brute force on a specific token
+      mfa_token = req.params['mfa_token'].presence
+      (mfa_token.presence)
+    end
   end
 
   ## Prevent Brute-Force Signup Attacks ###
@@ -152,7 +185,8 @@ class Rack::Attack
   ###-----------------------------------------------###
 
   ## Prevent Abuse of Converstion Transcript APIs ###
-  throttle('/api/v1/accounts/:account_id/conversations/:conversation_id/transcript', limit: 30, period: 1.hour) do |req|
+  throttle('/api/v1/accounts/:account_id/conversations/:conversation_id/transcript',
+           limit: ENV.fetch('RATE_LIMIT_CONVERSATION_TRANSCRIPT', '1000').to_i, period: 1.hour) do |req|
     match_data = %r{/api/v1/accounts/(?<account_id>\d+)/conversations/(?<conversation_id>\d+)/transcript}.match(req.path)
     match_data[:account_id] if match_data.present?
   end
@@ -186,6 +220,19 @@ class Rack::Attack
   throttle('/api/v2/accounts/:account_id/reports', limit: ENV.fetch('RATE_LIMIT_REPORTS_API_ACCOUNT_LEVEL', '1000').to_i, period: 1.minute) do |req|
     match_data = %r{/api/v2/accounts/(?<account_id>\d+)/reports}.match(req.path)
     match_data[:account_id] if match_data.present?
+  end
+
+  ## Prevent increased use of conversations meta API per user
+  throttle('/api/v1/accounts/:account_id/conversations/meta/user',
+           limit: ENV.fetch('RATE_LIMIT_CONVERSATIONS_META', '30').to_i, period: 1.minute) do |req|
+    match_data = %r{/api/v1/accounts/(?<account_id>\d+)/conversations/meta}.match(req.path)
+    next unless match_data.present? && req.get?
+
+    user_uid = req.get_header('HTTP_UID')
+    api_access_token = req.get_header('HTTP_API_ACCESS_TOKEN') || req.get_header('api_access_token')
+    user_identifier = user_uid.presence || api_access_token.presence
+
+    "#{user_identifier}:#{match_data[:account_id]}" if user_identifier.present?
   end
 
   ## ----------------------------------------------- ##

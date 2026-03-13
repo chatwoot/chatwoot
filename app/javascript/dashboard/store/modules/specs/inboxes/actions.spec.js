@@ -231,4 +231,28 @@ describe('#actions', () => {
       ).rejects.toThrow(Error);
     });
   });
+
+  describe('#syncTemplates', () => {
+    it('sends correct API call when sync is successful', async () => {
+      axios.post.mockResolvedValue({
+        data: { message: 'Template sync initiated successfully' },
+      });
+
+      await actions.syncTemplates({ commit }, 123);
+
+      expect(axios.post).toHaveBeenCalledWith(
+        '/api/v1/inboxes/123/sync_templates'
+      );
+    });
+
+    it('throws error when API call fails', async () => {
+      const errorMessage =
+        'Template sync is only available for WhatsApp channels';
+      axios.post.mockRejectedValue(new Error(errorMessage));
+
+      await expect(actions.syncTemplates({ commit }, 123)).rejects.toThrow(
+        errorMessage
+      );
+    });
+  });
 });

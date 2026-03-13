@@ -12,6 +12,7 @@
 #  name                  :string           not null
 #  page_title            :string
 #  slug                  :string           not null
+#  ssl_settings          :jsonb            not null
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
 #  account_id            :integer          not null
@@ -25,6 +26,8 @@
 #
 class Portal < ApplicationRecord
   include Rails.application.routes.url_helpers
+
+  DEFAULT_COLOR = '#1f93ff'.freeze
 
   belongs_to :account
   has_many :categories, dependent: :destroy_async
@@ -52,13 +55,21 @@ class Portal < ApplicationRecord
       file_type: logo.content_type,
       account_id: account_id,
       file_url: url_for(logo),
-      blob_id: logo.blob_id,
+      blob_id: logo.blob.signed_id,
       filename: logo.filename.to_s
     }
   end
 
   def default_locale
     config['default_locale'] || 'en'
+  end
+
+  def color
+    self[:color].presence || DEFAULT_COLOR
+  end
+
+  def display_title
+    page_title.presence || name
   end
 
   private
@@ -69,3 +80,5 @@ class Portal < ApplicationRecord
     errors.add(:cofig, "in portal on #{denied_keys.join(',')} is not supported.") if denied_keys.any?
   end
 end
+
+Portal.include_mod_with('Concerns::Portal')

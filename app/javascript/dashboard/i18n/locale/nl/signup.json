@@ -27,15 +27,20 @@
       "LABEL": "Wachtwoord",
       "PLACEHOLDER": "Wachtwoord",
       "ERROR": "Wachtwoord is te kort",
-      "IS_INVALID_PASSWORD": "Password should contain atleast 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character"
+      "IS_INVALID_PASSWORD": "Password should contain atleast 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character",
+      "REQUIREMENTS_LENGTH": "At least 6 characters long",
+      "REQUIREMENTS_UPPERCASE": "At least one uppercase letter",
+      "REQUIREMENTS_LOWERCASE": "At least one lowercase letter",
+      "REQUIREMENTS_NUMBER": "At least one number",
+      "REQUIREMENTS_SPECIAL": "At least one special character"
     },
     "CONFIRM_PASSWORD": {
       "LABEL": "Bevestig wachtwoord",
       "PLACEHOLDER": "Bevestig wachtwoord",
-      "ERROR": "Wachtwoord komt niet overeen"
+      "ERROR": "Wachtwoorden komen niet overeen."
     },
     "API": {
-      "SUCCESS_MESSAGE": "Registratie geslaagd",
+      "SUCCESS_MESSAGE": "Registration Successful",
       "ERROR_MESSAGE": "Kan geen verbinding maken met Woot Server, probeer het later opnieuw"
     },
     "SUBMIT": "Account aanmaken",

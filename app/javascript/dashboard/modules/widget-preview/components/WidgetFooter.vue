@@ -2,7 +2,7 @@
 import { ref, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import ResizableTextArea from 'shared/components/ResizableTextArea.vue';
-import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
+import Avatar from 'next/avatar/Avatar.vue';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 
 const props = defineProps({
@@ -40,7 +40,7 @@ const getStatusText = computed(() => {
             {{ config.replyTime }}
           </div>
         </div>
-        <Thumbnail username="C" size="34px" />
+        <Avatar name="C" :size="34" rounded-full />
       </div>
       <button
         v-if="config.isDefaultScreen"

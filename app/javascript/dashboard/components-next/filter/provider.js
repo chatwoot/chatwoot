@@ -7,7 +7,6 @@ import {
   buildAttributesFilterTypes,
   CONVERSATION_ATTRIBUTES,
 } from './helper/filterHelper';
-import countries from 'shared/constants/countries.js';
 import languages from 'dashboard/components/widgets/conversation/advancedFilterItems/languages.js';
 
 /**
@@ -164,8 +163,8 @@ export function useConversationFilterContext() {
       value: CONVERSATION_ATTRIBUTES.DISPLAY_ID,
       attributeName: t('FILTER.ATTRIBUTES.CONVERSATION_IDENTIFIER'),
       label: t('FILTER.ATTRIBUTES.CONVERSATION_IDENTIFIER'),
-      inputType: 'plainText',
-      datatype: 'number',
+      inputType: 'number',
+      dataType: 'number',
       filterOperators: containmentOperators.value,
       attributeModel: 'standard',
     },
@@ -179,7 +178,7 @@ export function useConversationFilterContext() {
         id: campaign.id,
         name: campaign.title,
       })),
-      datatype: 'number',
+      dataType: 'number',
       filterOperators: presenceOperators.value,
       attributeModel: 'standard',
     },
@@ -214,17 +213,6 @@ export function useConversationFilterContext() {
       label: t('FILTER.ATTRIBUTES.BROWSER_LANGUAGE'),
       inputType: 'searchSelect',
       options: languages,
-      dataType: 'text',
-      filterOperators: equalityOperators.value,
-      attributeModel: 'additional',
-    },
-    {
-      attributeKey: CONVERSATION_ATTRIBUTES.COUNTRY_CODE,
-      value: CONVERSATION_ATTRIBUTES.COUNTRY_CODE,
-      attributeName: t('FILTER.ATTRIBUTES.COUNTRY_NAME'),
-      label: t('FILTER.ATTRIBUTES.COUNTRY_NAME'),
-      inputType: 'searchSelect',
-      options: countries,
       dataType: 'text',
       filterOperators: equalityOperators.value,
       attributeModel: 'additional',

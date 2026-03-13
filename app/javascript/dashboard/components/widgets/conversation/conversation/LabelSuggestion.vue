@@ -1,10 +1,11 @@
 <script>
 // components
 import NextButton from 'dashboard/components-next/button/Button.vue';
-import Avatar from '../../Avatar.vue';
+import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
+import { useBranding } from 'shared/composables/useBranding';
 
 // composables
-import { useAI } from 'dashboard/composables/useAI';
+import { useCaptain } from 'dashboard/composables/useCaptain';
 import { useTrack } from 'dashboard/composables';
 
 // store & api
@@ -13,7 +14,7 @@ import { mapGetters } from 'vuex';
 // utils & constants
 import { LocalStorage } from 'shared/helpers/localStorage';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
-import { OPEN_AI_EVENTS } from '../../../../helper/AnalyticsHelper/events';
+import { CAPTAIN_EVENTS } from '../../../../helper/AnalyticsHelper/events';
 
 export default {
   name: 'LabelSuggestion',
@@ -33,9 +34,10 @@ export default {
     },
   },
   setup() {
-    const { isAIIntegrationEnabled } = useAI();
+    const { captainTasksEnabled } = useCaptain();
+    const { replaceInstallationName } = useBranding();
 
-    return { isAIIntegrationEnabled };
+    return { captainTasksEnabled, replaceInstallationName };
   },
   data() {
     return {
@@ -78,7 +80,7 @@ export default {
     },
     shouldShowSuggestions() {
       if (this.isDismissed) return false;
-      if (!this.isAIIntegrationEnabled) return false;
+      if (!this.captainTasksEnabled) return false;
 
       return this.preparedLabels.length && this.chatLabels.length === 0;
     },
@@ -114,7 +116,7 @@ export default {
 
       // dismiss this once the values are set
       this.isDismissed = true;
-      this.trackLabelEvent(OPEN_AI_EVENTS.DISMISS_LABEL_SUGGESTION);
+      this.trackLabelEvent(CAPTAIN_EVENTS.LABEL_SUGGESTION_DISMISSED);
     },
     isConversationDismissed() {
       return LocalStorage.getFlag(
@@ -132,7 +134,7 @@ export default {
         conversationId: this.conversationId,
         labels: labelsToAdd,
       });
-      this.trackLabelEvent(OPEN_AI_EVENTS.APPLY_LABEL_SUGGESTION);
+      this.trackLabelEvent(CAPTAIN_EVENTS.LABEL_SUGGESTION_APPLIED);
     },
     trackLabelEvent(event) {
       const payload = {
@@ -226,18 +228,18 @@ export default {
         </div>
       </div>
       <div class="sender--info has-tooltip" data-original-title="null">
-        <woot-thumbnail
+        <Avatar
           v-tooltip.top="{
-            content: $t('LABEL_MGMT.SUGGESTIONS.POWERED_BY'),
+            content: replaceInstallationName(
+              $t('LABEL_MGMT.SUGGESTIONS.POWERED_BY')
+            ),
             delay: { show: 600, hide: 0 },
             hideOnClick: true,
           }"
-          size="16px"
-        >
-          <Avatar class="user-thumbnail thumbnail-rounded">
-            <fluent-icon class="chatwoot-ai-icon" icon="chatwoot-ai" />
-          </Avatar>
-        </woot-thumbnail>
+          :size="16"
+          name="chatwoot-ai"
+          icon-name="i-lucide-sparkles"
+        />
       </div>
     </div>
   </li>
@@ -266,11 +268,6 @@ export default {
         margin-bottom: 0;
       }
     }
-  }
-
-  .chatwoot-ai-icon {
-    height: 0.75rem;
-    width: 0.75rem;
   }
 
   .label-suggestion--title {

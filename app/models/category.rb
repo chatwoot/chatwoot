@@ -25,6 +25,7 @@
 #  index_categories_on_slug_and_locale_and_portal_id  (slug,locale,portal_id) UNIQUE
 #
 class Category < ApplicationRecord
+  paginates_per Limits::CATEGORIES_PER_PAGE
   belongs_to :account
   belongs_to :portal
   has_many :folders, dependent: :destroy_async
@@ -70,6 +71,16 @@ class Category < ApplicationRecord
 
   def self.current_page(params)
     params[:page] || 1
+  end
+
+  def self.update_positions(portal:, positions_hash:)
+    return if positions_hash.blank?
+
+    transaction do
+      positions_hash.each do |category_id, new_position|
+        portal.categories.find(category_id).update!(position: new_position)
+      end
+    end
   end
 
   private
