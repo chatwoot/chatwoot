@@ -43,7 +43,10 @@ class HookJob < MutexApplicationJob
     return unless ['message.created'].include?(event_name)
 
     message = event_data[:message]
+    return unless message.incoming?
+
     Integrations::GoogleTranslate::DetectLanguageService.new(hook: hook, message: message).perform
+    Integrations::GoogleTranslate::AutoTranslateMessageService.new(hook: hook, message: message).perform
   end
 
   def process_leadsquared_integration_with_lock(hook, event_name, event_data)

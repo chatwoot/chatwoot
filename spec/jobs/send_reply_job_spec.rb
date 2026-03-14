@@ -16,6 +16,37 @@ RSpec.describe SendReplyJob do
 
     before do
       allow(process_service).to receive(:perform)
+      allow(Integrations::GoogleTranslate::AutoTranslateMessageService).to receive(:new).and_return(process_service)
+    end
+
+    it 'runs outgoing auto translation when google_translate hook is enabled' do
+      api_channel = create(:channel_api)
+      account = api_channel.account
+      hook = create(:integrations_hook, :google_translate, account: account, settings: {
+                      project_id: 'test',
+                      credentials: {},
+                      auto_translate_incoming: true,
+                      auto_translate_outgoing: true
+                    })
+      message = create(:message, :bot_message, account: account, conversation: create(:conversation, account: account, inbox: api_channel.inbox))
+      allow(Messages::SendEmailNotificationService).to receive(:new).with(message: message).and_return(process_service)
+
+      described_class.perform_now(message.id)
+
+      expect(Integrations::GoogleTranslate::AutoTranslateMessageService).to have_received(:new).with(
+        hook: hook,
+        message: message
+      )
+    end
+
+    it 'does not run outgoing auto translation for incoming messages' do
+      api_channel = create(:channel_api)
+      message = create(:message, conversation: create(:conversation, inbox: api_channel.inbox))
+      allow(Messages::SendEmailNotificationService).to receive(:new).with(message: message).and_return(process_service)
+
+      described_class.perform_now(message.id)
+
+      expect(Integrations::GoogleTranslate::AutoTranslateMessageService).not_to have_received(:new)
     end
 
     it 'calls Facebook::SendOnFacebookService when its facebook message' do
