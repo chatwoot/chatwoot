@@ -55,6 +55,8 @@ class Messages::WhatsappRendererMapper
         to_integrations_from_button(interactive_payload)
       when 'list'
         to_integrations_from_list(interactive_payload)
+      when 'cta_url'
+        to_integrations_from_cta_url(interactive_payload)
       else
         # Default fallback for unknown types
         default_text_mapping(interactive_payload)
@@ -102,6 +104,22 @@ class Messages::WhatsappRendererMapper
       fallback = body_text.presence || 'WhatsApp interactive message'
 
       Mapped.new('integrations', content_attributes, fallback)
+    end
+
+    def to_integrations_from_cta_url(payload)
+      body_text = payload.dig('body', 'text').to_s.strip
+      button_text = payload.dig('action', 'parameters', 'display_text').to_s.strip
+
+      return default_text_mapping(payload) if body_text.blank? && button_text.blank?
+
+      content_attributes = {
+        'interactive' => payload,
+        'type' => 'interactive',
+        'whatsapp_interactive_payload' => payload,
+        'interactive_payload' => payload
+      }
+
+      Mapped.new('integrations', content_attributes, generate_fallback_text(payload))
     end
 
     # Generate fallback text from interactive payload

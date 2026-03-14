@@ -7,48 +7,24 @@ class Integrations::Infinitepay::CreateLinkService
   INFINITEPAY_API = 'https://api.infinitepay.io/invoices/public/checkout/links'
   TIMEOUT = 15
 
-  def initialize(account:, conversation:, user:, amount_cents:, description:, payment_method: nil, installments: nil)
+  def initialize(account:, conversation:, user:, **options)
     @account = account
     @conversation = conversation
     @user = user
-    @amount_cents = amount_cents
-    @description = description
-    @payment_method = payment_method || 'pix'
-    @installments = installments
+    @amount_cents = options[:amount_cents]
+    @description = options[:description]
+    @payment_method = options[:payment_method] || 'pix'
+    @installments = options[:installments]
+    @whatsapp_interactive_template_id = options[:whatsapp_interactive_template_id]
   end
 
   def perform
-    handle = @account.custom_attributes&.dig('infinitepay_handle')
-    raise ArgumentError, 'InfinitePay handle not configured for this account' if handle.blank?
-
-    order_nsu = "chatwit-#{@account.id}-#{@conversation.id}-#{SecureRandom.hex(6)}"
-    webhook_url = "#{ENV.fetch('FRONTEND_URL', 'https://chatwit.witdev.com.br')}/webhooks/infinitepay"
-
-    contact = @conversation.contact
-    payload = build_payload(handle, order_nsu, webhook_url, contact)
-
-    response = HTTParty.post(
-      INFINITEPAY_API,
-      headers: { 'Content-Type' => 'application/json' },
-      body: payload.to_json,
-      timeout: TIMEOUT
-    )
+    response = HTTParty.post(INFINITEPAY_API, request_options)
 
     raise "InfinitePay API error: #{response.code} - #{response.body}" unless response.success?
 
     checkout_url = extract_checkout_url(response)
-
-    payment_link = PaymentLink.create!(
-      account: @account,
-      conversation: @conversation,
-      user: @user,
-      order_nsu: order_nsu,
-      amount_cents: @amount_cents,
-      description: @description,
-      checkout_url: checkout_url,
-      status: 'pending'
-    )
-
+    payment_link = create_payment_link_record(checkout_url)
     send_link_message(checkout_url)
 
     payment_link
@@ -56,12 +32,21 @@ class Integrations::Infinitepay::CreateLinkService
 
   private
 
-  def build_payload(handle, order_nsu, webhook_url, contact)
-    base_url = ENV.fetch('FRONTEND_URL', 'https://chatwit.witdev.com.br')
-    redirect_url = "#{base_url}/app/accounts/#{@account.id}/conversations/#{@conversation.display_id}"
+  def request_options
+    {
+      headers: { 'Content-Type' => 'application/json' },
+      body: build_payload.to_json,
+      timeout: TIMEOUT
+    }
+  end
 
-    payload = {
-      handle: handle,
+  def build_payload
+    base_payload.merge(customer_payload)
+  end
+
+  def base_payload
+    {
+      handle: infinitepay_handle,
       order_nsu: order_nsu,
       webhook_url: webhook_url,
       redirect_url: redirect_url,
@@ -73,17 +58,65 @@ class Integrations::Infinitepay::CreateLinkService
         }
       ]
     }
+  end
 
-    if contact.present?
-      phone = contact.phone_number.presence || contact_inbox_identifier(contact)
-      payload[:customer] = {
-        name: contact.name.presence || phone || 'Cliente',
-        email: contact.email.presence || 'seuemail@gmail.com',
+  def customer_payload
+    return {} if @conversation.contact.blank?
+
+    phone = customer_phone_number
+    return {} if customer_identity_blank?(phone)
+
+    {
+      customer: {
+        name: @conversation.contact.name.presence || phone || 'Cliente',
+        email: @conversation.contact.email.presence || 'seuemail@gmail.com',
         phone_number: phone
       }.compact
-    end
+    }
+  end
 
-    payload
+  def customer_phone_number
+    @conversation.contact.phone_number.presence || contact_inbox_identifier(@conversation.contact)
+  end
+
+  def customer_identity_blank?(phone)
+    phone.blank? && @conversation.contact.name.blank? && @conversation.contact.email.blank?
+  end
+
+  def infinitepay_handle
+    handle = @account.custom_attributes&.dig('infinitepay_handle')
+    raise ArgumentError, 'InfinitePay handle not configured for this account' if handle.blank?
+
+    handle
+  end
+
+  def order_nsu
+    @order_nsu ||= "chatwit-#{@account.id}-#{@conversation.id}-#{SecureRandom.hex(6)}"
+  end
+
+  def webhook_url
+    @webhook_url ||= "#{base_url}/webhooks/infinitepay"
+  end
+
+  def redirect_url
+    @redirect_url ||= "#{base_url}/app/accounts/#{@account.id}/conversations/#{@conversation.display_id}"
+  end
+
+  def base_url
+    @base_url ||= ENV.fetch('FRONTEND_URL', 'https://chatwit.witdev.com.br')
+  end
+
+  def create_payment_link_record(checkout_url)
+    PaymentLink.create!(
+      account: @account,
+      conversation: @conversation,
+      user: @user,
+      order_nsu: order_nsu,
+      amount_cents: @amount_cents,
+      description: @description,
+      checkout_url: checkout_url,
+      status: 'pending'
+    )
   end
 
   def contact_inbox_identifier(contact)
@@ -101,15 +134,43 @@ class Integrations::Infinitepay::CreateLinkService
   end
 
   def send_link_message(checkout_url)
+    interactive_payload = build_interactive_payload(checkout_url)
     amount_formatted = format('R$ %.2f', @amount_cents / 100.0)
     content = "💰 *Link de Pagamento*\n\n#{@description}\nValor: #{amount_formatted}\n\n#{checkout_url}"
 
-    @conversation.messages.create!(
+    message_attributes = {
       account: @account,
       inbox_id: @conversation.inbox_id,
       message_type: :outgoing,
       content: content,
       sender: @user
-    )
+    }
+
+    if interactive_payload.present?
+      message_attributes[:content_type] = :integrations
+      message_attributes[:content_attributes] = { interactive: interactive_payload }
+    end
+
+    @conversation.messages.create!(message_attributes)
+  end
+
+  def build_interactive_payload(checkout_url)
+    return if @whatsapp_interactive_template_id.blank?
+    return unless whatsapp_conversation?
+
+    template = @account.whatsapp_interactive_templates.find_by(id: @whatsapp_interactive_template_id)
+    return unless template&.cta_url?
+
+    Whatsapp::InteractiveTemplatePayloadBuilder.new(
+      template: template,
+      runtime_url: checkout_url
+    ).build
+  rescue StandardError => e
+    Rails.logger.warn("[INFINITEPAY-CTA] Falling back to plain text: #{e.class} - #{e.message}")
+    nil
+  end
+
+  def whatsapp_conversation?
+    @conversation.inbox.channel_type == 'Channel::Whatsapp'
   end
 end

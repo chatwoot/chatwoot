@@ -11,16 +11,8 @@ class Api::V1::Accounts::PaymentLinksController < Api::V1::Accounts::BaseControl
   end
 
   def create
-    conversation = Current.account.conversations.find_by!(display_id: params[:conversation_id])
-
     payment_link = Integrations::Infinitepay::CreateLinkService.new(
-      account: Current.account,
-      conversation: conversation,
-      user: Current.user,
-      amount_cents: params[:amount_cents].to_i,
-      description: params[:description],
-      payment_method: params[:payment_method],
-      installments: params[:installments]&.to_i
+      **service_params
     ).perform
 
     render json: payment_link, status: :created
@@ -29,5 +21,20 @@ class Api::V1::Accounts::PaymentLinksController < Api::V1::Accounts::BaseControl
   rescue StandardError => e
     Rails.logger.error("PaymentLink creation failed: #{e.class} - #{e.message}")
     render json: { error: e.message }, status: :unprocessable_entity
+  end
+
+  private
+
+  def service_params
+    {
+      account: Current.account,
+      conversation: Current.account.conversations.find_by!(display_id: params[:conversation_id]),
+      user: Current.user,
+      amount_cents: params[:amount_cents].to_i,
+      description: params[:description],
+      whatsapp_interactive_template_id: params[:whatsapp_interactive_template_id],
+      payment_method: params[:payment_method],
+      installments: params[:installments]&.to_i
+    }
   end
 end

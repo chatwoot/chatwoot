@@ -305,8 +305,8 @@ const settingsItems = computed(() => [
           </span>
           <span
             v-else
-            class="absolute top-0.5 size-5 rounded-full bg-white shadow transition-transform"
-            :class="pushEnabled ? 'ltr:translate-x-[22px] rtl:-translate-x-[22px]' : 'ltr:translate-x-0.5 rtl:-translate-x-0.5'"
+            class="absolute top-0.5 ltr:left-0.5 rtl:right-0.5 size-5 rounded-full bg-white shadow transition-transform"
+            :class="pushEnabled ? 'ltr:translate-x-5 rtl:-translate-x-5' : 'translate-x-0'"
           />
         </div>
       </button>

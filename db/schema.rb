@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_03_11_130000) do
+ActiveRecord::Schema[7.1].define(version: 2026_03_14_000100) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -1316,6 +1316,24 @@ ActiveRecord::Schema[7.1].define(version: 2026_03_11_130000) do
     t.index ["account_id", "url"], name: "index_webhooks_on_account_id_and_url", unique: true
   end
 
+  create_table "whatsapp_interactive_templates", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.string "name", null: false
+    t.string "template_type", default: "cta_url", null: false
+    t.string "header_type", default: "none", null: false
+    t.string "header_text"
+    t.text "header_image_url"
+    t.text "body_text", null: false
+    t.string "footer_text"
+    t.string "button_text", null: false
+    t.string "url_placeholder", default: "__CTA_URL__", null: false
+    t.jsonb "payload", default: {}, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "name"], name: "index_whatsapp_interactive_templates_on_account_id_and_name", unique: true
+    t.index ["account_id"], name: "index_whatsapp_interactive_templates_on_account_id"
+  end
+
   create_table "working_hours", force: :cascade do |t|
     t.bigint "inbox_id"
     t.bigint "account_id"
@@ -1340,6 +1358,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_03_11_130000) do
   add_foreign_key "payment_links", "conversations"
   add_foreign_key "payment_links", "users"
   add_foreign_key "payment_presets", "accounts"
+  add_foreign_key "whatsapp_interactive_templates", "accounts"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
       on("accounts").
       after(:insert).

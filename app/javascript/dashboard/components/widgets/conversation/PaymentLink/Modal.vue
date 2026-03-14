@@ -43,6 +43,7 @@ export default {
       saveAsPreset: false,
       presetName: '',
       selectedPresetId: null,
+      selectedInteractiveTemplateId: null,
       isSending: false,
     };
   },
@@ -58,6 +59,9 @@ export default {
     },
     uiFlags() {
       return this.$store.getters['paymentPresets/getUIFlags'];
+    },
+    interactiveTemplates() {
+      return this.$store.getters['whatsappInteractiveTemplates/getTemplates'];
     },
     localShow: {
       get() {
@@ -110,6 +114,7 @@ export default {
     show(newVal) {
       if (newVal) {
         this.$store.dispatch('paymentPresets/get');
+        this.$store.dispatch('whatsappInteractiveTemplates/get');
         this.$nextTick(() => {
           this.$refs.amountInput?.focus();
         });
@@ -191,6 +196,7 @@ export default {
           conversation_id: this.conversationId,
           amount_cents: this.amountCents,
           description: this.description.trim(),
+          whatsapp_interactive_template_id: this.selectedInteractiveTemplateId,
           payment_method: this.paymentMethod,
           installments:
             this.paymentMethod === 'credit'
@@ -221,6 +227,7 @@ export default {
       this.saveAsPreset = false;
       this.presetName = '';
       this.selectedPresetId = null;
+      this.selectedInteractiveTemplateId = null;
     },
     formatBRL,
   },
@@ -440,6 +447,30 @@ export default {
             class="w-full px-3 py-2 text-sm border rounded-lg border-n-slate-6 bg-n-slate-1 text-n-slate-12 focus:border-n-blue-7 focus:outline-none"
             @input="clearPresetSelection"
           />
+        </label>
+
+        <label class="flex flex-col gap-1">
+          <span class="text-xs font-medium text-n-slate-11">
+            {{ $t('PAYMENT_LINK.MODAL.INTERACTIVE_TEMPLATE_LABEL') }}
+          </span>
+          <select
+            v-model="selectedInteractiveTemplateId"
+            class="w-full px-3 py-2 text-sm border rounded-lg border-n-slate-6 bg-n-slate-1 text-n-slate-12 focus:border-n-blue-7 focus:outline-none"
+          >
+            <option :value="null">
+              {{ $t('PAYMENT_LINK.MODAL.INTERACTIVE_TEMPLATE_NONE') }}
+            </option>
+            <option
+              v-for="template in interactiveTemplates"
+              :key="template.id"
+              :value="template.id"
+            >
+              {{ template.name }}
+            </option>
+          </select>
+          <span class="text-xs text-n-slate-9">
+            {{ $t('PAYMENT_LINK.MODAL.INTERACTIVE_TEMPLATE_HINT') }}
+          </span>
         </label>
 
         <!-- Save as favorite -->

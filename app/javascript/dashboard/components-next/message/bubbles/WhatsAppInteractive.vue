@@ -125,8 +125,21 @@ const footerText = computed(() => {
   return text ? new MessageFormatter(text).formattedMessage : '';
 });
 
+const headerText = computed(() => {
+  const text = interactivePayload.value?.header?.text || '';
+  return text ? new MessageFormatter(text).formattedMessage : '';
+});
+
 const buttons = computed(() => {
   return interactivePayload.value?.action?.buttons || [];
+});
+
+const ctaButton = computed(() => {
+  if (interactiveType.value !== 'cta_url') {
+    return null;
+  }
+
+  return interactivePayload.value?.action?.parameters || null;
 });
 
 const listSections = computed(() => {
@@ -146,11 +159,15 @@ const isListTemplate = computed(() => {
   return interactiveType.value === 'list';
 });
 
+const isCtaUrlTemplate = computed(() => {
+  return interactiveType.value === 'cta_url';
+});
+
 const shouldRenderInteractive = computed(() => {
   const shouldRender =
     interactivePayload.value &&
     Object.keys(interactivePayload.value).length > 0 &&
-    (isButtonTemplate.value || isListTemplate.value);
+    (isButtonTemplate.value || isListTemplate.value || isCtaUrlTemplate.value);
 
   return shouldRender;
 });
@@ -173,6 +190,11 @@ const formatListRow = row => {
 // Format section title for display
 const formatSectionTitle = section => {
   const text = section.title || '';
+  return new MessageFormatter(text).formattedMessage;
+};
+
+const formatCtaLabel = parameters => {
+  const text = parameters?.display_text || 'Abrir link';
   return new MessageFormatter(text).formattedMessage;
 };
 
@@ -226,6 +248,13 @@ onErrorCaptured(() => {
         @error="$event.target.style.display = 'none'"
       />
     </div>
+
+    <!-- Header Text -->
+    <div
+      v-else-if="headerText"
+      v-dompurify-html="headerText"
+      class="whatsapp-header mb-3 text-sm font-semibold text-n-slate-12"
+    />
 
     <!-- Body Text -->
     <div v-if="bodyText" class="whatsapp-body mb-3">
@@ -287,6 +316,16 @@ onErrorCaptured(() => {
             />
           </div>
         </div>
+      </div>
+    </div>
+
+    <!-- CTA URL Template -->
+    <div v-if="isCtaUrlTemplate && ctaButton" class="whatsapp-cta-url">
+      <div class="border border-n-slate-6 rounded-lg px-3 py-2 text-center bg-n-slate-1">
+        <span
+          v-dompurify-html="formatCtaLabel(ctaButton)"
+          class="text-sm font-medium text-n-blue-11"
+        />
       </div>
     </div>
 

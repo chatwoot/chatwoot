@@ -37,6 +37,10 @@ x-chatwoot-environment: &chatwoot-environment
   RAILS_LOG_TO_STDOUT: "true"
   USE_INBOX_AVATAR_FOR_BOT: "true"
 
+  # ========== BUCKET PUBLICO SOCIALWISE (CTA WHATSAPP) ==========
+  BUCKET_SOCIALWISE: "socialwise"
+  SOCIALWISE_PUBLIC_BUCKET_FOLDER: "whatsapp-cta"
+
   # ========== BANCO DE DADOS E CACHE ==========
   POSTGRES_HOST: "postgres_postgres"
   POSTGRES_USERNAME: "postgres"

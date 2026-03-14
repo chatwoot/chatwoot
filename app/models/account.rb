@@ -127,6 +127,7 @@ class Account < ApplicationRecord
   has_many :notifications, dependent: :destroy_async
   has_many :payment_links, dependent: :destroy_async
   has_many :payment_presets, dependent: :destroy_async
+  has_many :whatsapp_interactive_templates, dependent: :destroy_async
   has_many :portals, dependent: :destroy_async, class_name: '::Portal'
   has_many :sms_channels, dependent: :destroy_async, class_name: '::Channel::Sms'
   has_many :teams, dependent: :destroy_async

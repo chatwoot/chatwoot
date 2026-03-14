@@ -2,11 +2,13 @@
 import { useAdmin } from 'dashboard/composables/useAdmin';
 import TemplatesPicker from './TemplatesPicker.vue';
 import TemplateCreator from './TemplateCreator.vue';
+import InteractiveMessageCreator from './InteractiveMessageCreator.vue';
 import WhatsAppTemplateReply from './WhatsAppTemplateReply.vue';
 export default {
   components: {
     TemplatesPicker,
     TemplateCreator,
+    InteractiveMessageCreator,
     WhatsAppTemplateReply,
   },
   props: {
@@ -27,7 +29,7 @@ export default {
   data() {
     return {
       selectedWaTemplate: null,
-      currentView: 'picker', // 'picker' | 'reply' | 'create'
+      currentView: 'picker',
     };
   },
   computed: {
@@ -43,6 +45,9 @@ export default {
       if (this.currentView === 'create') {
         return this.$t('WHATSAPP_TEMPLATES.CREATOR.SUBTITLE');
       }
+      if (this.currentView === 'interactive') {
+        return this.$t('WHATSAPP_TEMPLATES.INTERACTIVE.SUBTITLE');
+      }
       return this.selectedWaTemplate
         ? this.$t('WHATSAPP_TEMPLATES.MODAL.TEMPLATE_SELECTED_SUBTITLE', {
             templateName: this.selectedWaTemplate.name,
@@ -53,10 +58,15 @@ export default {
       if (this.currentView === 'create') {
         return this.$t('WHATSAPP_TEMPLATES.CREATOR.TITLE');
       }
+      if (this.currentView === 'interactive') {
+        return this.$t('WHATSAPP_TEMPLATES.INTERACTIVE.TITLE');
+      }
       return this.$t('WHATSAPP_TEMPLATES.MODAL.TITLE');
     },
     modalSize() {
-      return this.currentView === 'create' ? 'modal-bigger' : 'modal-big';
+      return ['create', 'interactive'].includes(this.currentView)
+        ? 'modal-bigger'
+        : 'modal-big';
     },
   },
   methods: {
@@ -79,6 +89,9 @@ export default {
     showCreateView() {
       this.currentView = 'create';
     },
+    showInteractiveView() {
+      this.currentView = 'interactive';
+    },
     onTemplateCreated() {
       this.currentView = 'picker';
     },
@@ -95,7 +108,7 @@ export default {
     <div class="px-8 pt-6 pb-2">
       <div class="flex items-center gap-3">
         <button
-          v-if="currentView === 'create'"
+          v-if="['create', 'interactive'].includes(currentView)"
           class="flex items-center justify-center w-8 h-8 rounded-lg hover:bg-n-alpha-2 dark:hover:bg-n-solid-2 text-n-slate-11 hover:text-n-slate-12 transition-colors cursor-pointer shrink-0"
           :title="$t('WHATSAPP_TEMPLATES.CREATOR.BACK')"
           @click="onBackFromCreate"
@@ -115,8 +128,15 @@ export default {
     <!-- Create Template button — shown only on picker view for admins -->
     <div
       v-if="currentView === 'picker' && isAdmin"
-      class="flex justify-end px-8 -mt-2 mb-1"
+      class="flex justify-end gap-2 px-8 -mt-2 mb-1"
     >
+      <button
+        class="flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium rounded-lg text-n-brand hover:bg-n-alpha-2 dark:hover:bg-n-solid-2 transition-colors cursor-pointer"
+        @click="showInteractiveView"
+      >
+        <span class="i-lucide-message-square-plus size-4" />
+        {{ $t('WHATSAPP_TEMPLATES.INTERACTIVE.CREATE_BUTTON') }}
+      </button>
       <button
         class="flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium rounded-lg text-n-brand hover:bg-n-alpha-2 dark:hover:bg-n-solid-2 transition-colors cursor-pointer"
         @click="showCreateView"
@@ -140,6 +160,11 @@ export default {
       <TemplateCreator
         v-else-if="currentView === 'create'"
         :inbox-id="inboxId"
+        @template-created="onTemplateCreated"
+        @back="onBackFromCreate"
+      />
+      <InteractiveMessageCreator
+        v-else-if="currentView === 'interactive'"
         @template-created="onTemplateCreated"
         @back="onBackFromCreate"
       />
