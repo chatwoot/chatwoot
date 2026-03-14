@@ -19,16 +19,45 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['back']);
+const emit = defineEmits(['back', 'swipe-progress', 'swipe-end']);
 const store = useStore();
 const { width: windowWidth } = useWindowSize();
 const { medium } = useHaptics();
 
 const chatRootRef = ref(null);
-const { swipeOffset, isSwiping } = useSwipeBack(chatRootRef, () =>
-  emit('back')
+const { swipeOffset, isSwiping, swipeProgress } = useSwipeBack(
+  chatRootRef,
+  () => emit('back')
 );
 const { keyboardHeight, isKeyboardOpen } = useKeyboardResize();
+
+// Liquid Glass swipe-back styles
+const swipeBackStyle = computed(() => {
+  const style = {};
+  if (isKeyboardOpen.value) {
+    style.paddingBottom = `${keyboardHeight.value}px`;
+  }
+  if (swipeOffset.value <= 0) return style;
+  const progress = swipeProgress.value;
+  style.transform = `translateX(${swipeOffset.value}px) scale(${1 - progress * 0.04})`;
+  style.borderRadius = `${progress * 20}px`;
+  style.boxShadow = `-8px 0 30px rgba(0, 0, 0, ${progress * 0.15})`;
+  style.overflow = 'hidden';
+  return style;
+});
+
+const glassEdgeStyle = computed(() => ({
+  opacity: swipeProgress.value * 0.7,
+  transform: `translateX(${swipeOffset.value - 14}px)`,
+}));
+
+watch(swipeProgress, val => {
+  if (val > 0) {
+    emit('swipe-progress', val);
+  } else {
+    emit('swipe-end');
+  }
+});
 
 const activePanel = ref(0);
 const panelDragOffset = ref(0);
@@ -259,12 +288,19 @@ watch(
   <div
     ref="chatRootRef"
     class="flex flex-col w-full h-full bg-n-surface-1"
-    :class="{ 'transition-transform duration-200 ease-out': !isSwiping && swipeOffset > 0 }"
-    :style="{
-      transform: swipeOffset > 0 ? `translateX(${swipeOffset}px)` : undefined,
-      paddingBottom: isKeyboardOpen ? `${keyboardHeight}px` : undefined,
+    :class="{
+      'transition-all duration-[250ms] ease-[cubic-bezier(0.25,0.46,0.45,0.94)]':
+        !isSwiping && swipeOffset > 0,
     }"
+    :style="swipeBackStyle"
   >
+    <!-- Liquid Glass edge indicator -->
+    <div
+      v-if="isSwiping"
+      class="fixed top-0 bottom-0 left-0 z-50 w-[4px] pointer-events-none bg-gradient-to-r from-white/50 via-white/20 to-transparent dark:from-white/25 dark:via-white/10"
+      :style="glassEdgeStyle"
+    />
+
     <MobileChatHeader
       :name="contactName"
       :avatar="contactAvatar"

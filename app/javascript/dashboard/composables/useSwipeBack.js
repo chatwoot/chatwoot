@@ -1,4 +1,4 @@
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref, computed, onMounted, onUnmounted } from 'vue';
 import { useHaptics } from './useHaptics';
 
 const EDGE_ZONE = 20;
@@ -100,5 +100,10 @@ export const useSwipeBack = (elementRef, onBack) => {
     el.removeEventListener('touchend', onTouchEnd);
   });
 
-  return { swipeOffset, isSwiping };
+  const swipeProgress = computed(() => {
+    if (!isSwiping.value || swipeOffset.value <= 0) return 0;
+    return Math.min(swipeOffset.value / window.innerWidth, 1);
+  });
+
+  return { swipeOffset, isSwiping, swipeProgress };
 };
