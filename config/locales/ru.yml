@@ -221,8 +221,10 @@ ru:
     activity:
       captain:
         resolved: 'Диалог был решен %{user_name} из-за бездействия'
+        resolved_with_reason: 'Conversation was marked resolved by %{user_name} (%{reason})'
         resolved_by_tool: 'Диалог был завершен %{user_name} с причиной: %{reason}'
         open: 'Диалог был открыт %{user_name}'
+        open_with_reason: 'Conversation was marked open by %{user_name} (%{reason})'
         auto_opened_after_agent_reply: 'Разговор был открыт автоматически после ответа агента'
       agent_bot:
         error_moved_to_open: 'Диалог был открыт системой из-за ошибки бота агента.'
