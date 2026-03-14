@@ -3,21 +3,6 @@ import { mapGetters } from 'vuex';
 import PaymentLinksAPI from 'dashboard/api/paymentLinks';
 import { useAlert } from 'dashboard/composables';
 
-const FEE_RATES = {
-  1: 4.2,
-  2: 6.09,
-  3: 7.01,
-  4: 7.91,
-  5: 8.8,
-  6: 9.67,
-  7: 12.59,
-  8: 13.42,
-  9: 14.25,
-  10: 15.06,
-  11: 15.87,
-  12: 16.66,
-};
-
 function formatBRL(cents) {
   return (cents / 100).toLocaleString('pt-BR', {
     minimumFractionDigits: 2,
@@ -38,8 +23,6 @@ export default {
     return {
       amountCentsRaw: 0,
       description: '',
-      paymentMethod: 'pix',
-      selectedInstallments: 1,
       saveAsPreset: false,
       presetName: '',
       selectedPresetId: null,
@@ -82,32 +65,6 @@ export default {
     },
     isFormValid() {
       return this.amountCents > 0 && this.description.trim().length > 0;
-    },
-    creditFeeRate() {
-      return FEE_RATES[this.selectedInstallments] || 0;
-    },
-    creditFeeCents() {
-      return Math.round(this.amountCents * (this.creditFeeRate / 100));
-    },
-    creditNetCents() {
-      return this.amountCents - this.creditFeeCents;
-    },
-    installmentOptions() {
-      return Object.entries(FEE_RATES).map(([count, rate]) => {
-        const c = parseInt(count, 10);
-        const feeCents = Math.round(this.amountCents * (rate / 100));
-        const netCents = this.amountCents - feeCents;
-        return {
-          count: c,
-          rate,
-          feeCents,
-          netCents,
-          label:
-            c === 1
-              ? `1x à vista — ${rate.toFixed(2).replace('.', ',')}%`
-              : `${c}x — ${rate.toFixed(2).replace('.', ',')}%`,
-        };
-      });
     },
   },
   watch: {
@@ -197,11 +154,6 @@ export default {
           amount_cents: this.amountCents,
           description: this.description.trim(),
           whatsapp_interactive_template_id: this.selectedInteractiveTemplateId,
-          payment_method: this.paymentMethod,
-          installments:
-            this.paymentMethod === 'credit'
-              ? this.selectedInstallments
-              : null,
         });
 
         this.showAlert(this.$t('PAYMENT_LINK.SENT'));
@@ -222,8 +174,6 @@ export default {
     resetForm() {
       this.amountCentsRaw = 0;
       this.description = '';
-      this.paymentMethod = 'pix';
-      this.selectedInstallments = 1;
       this.saveAsPreset = false;
       this.presetName = '';
       this.selectedPresetId = null;
@@ -295,145 +245,6 @@ export default {
             @paste="handleAmountPaste"
           />
         </label>
-
-        <!-- Payment Method Selector -->
-        <div class="flex flex-col gap-2">
-          <span class="text-xs font-medium text-n-slate-11">
-            {{ $t('PAYMENT_LINK.MODAL.PAYMENT_METHOD_LABEL') }}
-          </span>
-          <div class="grid grid-cols-2 gap-3">
-            <!-- PIX card -->
-            <button
-              class="flex flex-col p-3 text-left transition-all border-2 rounded-xl"
-              :class="
-                paymentMethod === 'pix'
-                  ? 'border-green-600 bg-green-50 dark:bg-green-950/30 dark:border-green-500'
-                  : 'border-n-slate-6 bg-n-slate-1 hover:bg-n-slate-2'
-              "
-              @click="paymentMethod = 'pix'"
-            >
-              <div class="flex items-center gap-2">
-                <span class="text-lg">🟢</span>
-                <span
-                  class="text-sm font-semibold"
-                  :class="
-                    paymentMethod === 'pix'
-                      ? 'text-green-700 dark:text-green-400'
-                      : 'text-n-slate-12'
-                  "
-                >
-                  PIX
-                </span>
-              </div>
-              <span
-                class="mt-1 ml-7 text-xs"
-                :class="
-                  paymentMethod === 'pix'
-                    ? 'text-green-600 dark:text-green-500'
-                    : 'text-n-slate-9'
-                "
-              >
-                {{ $t('PAYMENT_LINK.MODAL.PIX_SUBTITLE') }}
-              </span>
-            </button>
-
-            <!-- Credit Card -->
-            <button
-              class="flex flex-col p-3 text-left transition-all border-2 rounded-xl"
-              :class="
-                paymentMethod === 'credit'
-                  ? 'border-n-blue-9 bg-n-blue-2'
-                  : 'border-n-slate-6 bg-n-slate-1 hover:bg-n-slate-2'
-              "
-              @click="paymentMethod = 'credit'"
-            >
-              <div class="flex items-center gap-2">
-                <span class="text-lg">💳</span>
-                <span
-                  class="text-sm font-semibold"
-                  :class="
-                    paymentMethod === 'credit'
-                      ? 'text-n-blue-11'
-                      : 'text-n-slate-12'
-                  "
-                >
-                  {{ $t('PAYMENT_LINK.MODAL.CREDIT_TITLE') }}
-                </span>
-              </div>
-              <span
-                class="mt-1 ml-7 text-xs"
-                :class="
-                  paymentMethod === 'credit'
-                    ? 'text-n-blue-11 opacity-70'
-                    : 'text-n-slate-9'
-                "
-              >
-                {{ $t('PAYMENT_LINK.MODAL.CREDIT_SUBTITLE') }}
-              </span>
-            </button>
-          </div>
-        </div>
-
-        <!-- Installments selector (credit only) -->
-        <div
-          v-if="paymentMethod === 'credit'"
-          class="flex flex-col gap-2 -mt-1"
-        >
-          <label class="text-xs font-medium text-n-slate-11">
-            {{ $t('PAYMENT_LINK.MODAL.INSTALLMENTS_LABEL') }}
-          </label>
-          <select
-            v-model.number="selectedInstallments"
-            class="w-full px-3 py-2 text-sm border rounded-lg border-n-slate-6 bg-n-slate-1 text-n-slate-12 focus:border-n-blue-7 focus:outline-none"
-          >
-            <option
-              v-for="opt in installmentOptions"
-              :key="opt.count"
-              :value="opt.count"
-            >
-              {{ opt.label }}
-            </option>
-          </select>
-        </div>
-
-        <!-- Fee summary (always visible when amount > 0) -->
-        <div
-          v-if="amountCents > 0"
-          class="p-3 rounded-lg text-sm"
-          :class="
-            paymentMethod === 'pix'
-              ? 'bg-green-50 dark:bg-green-950/20'
-              : 'bg-n-blue-2'
-          "
-        >
-          <div
-            v-if="paymentMethod === 'pix'"
-            class="flex items-center gap-2 font-medium text-green-700 dark:text-green-400"
-          >
-            <span>&#10003;</span>
-            <span>
-              {{ $t('PAYMENT_LINK.MODAL.PIX_FEE_SUMMARY') }}
-              R$ {{ formatBRL(amountCents) }}
-            </span>
-          </div>
-          <div v-else class="flex flex-col gap-1.5">
-            <div
-              class="flex justify-between text-xs text-n-slate-11"
-            >
-              <span>
-                {{ $t('PAYMENT_LINK.MODAL.FEE_RATE') }}
-                ({{ creditFeeRate.toFixed(2).replace('.', ',') }}%)
-              </span>
-              <span>- R$ {{ formatBRL(creditFeeCents) }}</span>
-            </div>
-            <div
-              class="flex justify-between pt-1.5 font-medium border-t text-n-blue-11 border-n-slate-5"
-            >
-              <span>{{ $t('PAYMENT_LINK.MODAL.FEE_NET') }}</span>
-              <span>R$ {{ formatBRL(creditNetCents) }}</span>
-            </div>
-          </div>
-        </div>
 
         <!-- Description -->
         <label class="flex flex-col gap-1">

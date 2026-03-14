@@ -44,7 +44,7 @@ x-chatwoot-environment: &chatwoot-environment
   # ========== BANCO DE DADOS E CACHE ==========
   POSTGRES_HOST: "postgres_postgres"
   POSTGRES_USERNAME: "postgres"
-  POSTGRES_PASSWORD: "WiT4mNqk8Twjhita8s87d7djhqsrhjlomorrahakkerfdpyD6PuAoI1yHbKztalo"
+  POSTGRES_PASSWORD: "SBUhZa9ybJmX5Uf7PND5vYdHpsqzPoRhIzU5FmY"
   POSTGRES_DATABASE: "chatwoot"
   REDIS_URL: "redis://redis:6379"
 
@@ -71,7 +71,7 @@ x-chatwoot-environment: &chatwoot-environment
   RAILS_MAX_THREADS: "5"  
   MALLOC_ARENA_MAX: "2"
   SIDEKIQ_CONCURRENCY: "25"
-  SOCIALWISE_DEBOUNCE_MS: "8000"
+  SOCIALWISE_DEBOUNCE_MS: "3000"
   SOCIALWISE_DEBOUNCE_MAX_MS: "30000"
   # SOCIALWISE_DEBOUNCE_MS: Time of silence (in ms) required before processing. Each new message resets this timer.
 # Example: 5000 = wait 5 seconds of silence after last message
@@ -92,7 +92,7 @@ services:
     environment: *chatwoot-environment
     deploy:
       mode: replicated
-      replicas: 2
+      replicas: 1
       placement:
         constraints: [node.role == manager]
       update_config:

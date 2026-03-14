@@ -21,7 +21,7 @@ Substituir o envio de URL bruta do InfinitePay por uma mensagem interativa Whats
 4. Se o header for imagem, o arquivo é enviado primeiro para o upload nativo do Chatwit e depois republicado no bucket público do Socialwise.
 5. No modal de link de pagamento, o agente escolhe uma CTA salva.
 6. O backend gera o checkout URL da InfinitePay.
-7. O serviço injeta esse URL no placeholder da CTA e cria a mensagem como `content_type: integrations`.
+7. O serviço injeta esse URL no placeholder da CTA e também prefixa o body com o valor dinâmico do pagamento e a linha `Ref: ...` com a descrição digitada no modal.
 8. O provider WhatsApp Cloud reaproveita `send_interactive_payload` para entregar o payload final.
 
 ## Persistência
@@ -66,6 +66,13 @@ e publica no bucket/config pública do Socialwise:
 - Sem template CTA selecionado: envia texto puro como antes.
 - Conversa fora de `Channel::Whatsapp`: envia texto puro como antes.
 - Falha ao montar payload CTA: loga warning e envia texto puro.
+
+## Composição dinâmica da mensagem
+
+- O modal não escolhe mais PIX ou cartão. Essa escolha acontece no checkout da InfinitePay.
+- A CTA enviada no WhatsApp passa a começar com `Valor a pagar: R$ ...`.
+- Logo abaixo, a CTA adiciona `Ref: ...` com a descrição informada pelo agente.
+- Na requisição da InfinitePay, a descrição interna do item inclui a descrição digitada e, quando disponíveis, nome e telefone do contato para facilitar conciliação.
 
 ## Arquivos novos
 

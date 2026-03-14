@@ -9,10 +9,11 @@ class Whatsapp::InteractiveTemplatePayloadBuilder
   BUTTON_TEXT_MAX = 20
   DEFAULT_URL_PLACEHOLDER = '__CTA_URL__'
 
-  def initialize(template: nil, template_attributes: nil, runtime_url: nil)
+  def initialize(template: nil, template_attributes: nil, runtime_url: nil, runtime_body_text: nil)
     @template = template
     @template_attributes = template_attributes&.with_indifferent_access || {}
     @runtime_url = runtime_url
+    @runtime_body_text = runtime_body_text
   end
 
   def build_template_payload
@@ -46,6 +47,7 @@ class Whatsapp::InteractiveTemplatePayloadBuilder
     raise ValidationError, 'CTA URL is required' if runtime_url.blank?
 
     payload[:action][:parameters][:url] = runtime_url
+    apply_runtime_body_text!(payload) if @runtime_body_text.present?
     payload.deep_stringify_keys
   end
 
@@ -64,6 +66,14 @@ class Whatsapp::InteractiveTemplatePayloadBuilder
       button_text: @template.button_text,
       url_placeholder: @template.url_placeholder
     }.with_indifferent_access
+  end
+
+  def apply_runtime_body_text!(payload)
+    body_text = @runtime_body_text.to_s.strip
+    raise ValidationError, 'Body text is required' if body_text.blank?
+    raise ValidationError, 'Body text must be under 1024 characters' if body_text.length > BODY_MAX
+
+    payload[:body] = { text: body_text }
   end
 
   def validate!(attrs)

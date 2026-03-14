@@ -32,9 +32,7 @@ class Api::V1::Accounts::PaymentLinksController < Api::V1::Accounts::BaseControl
       user: Current.user,
       amount_cents: params[:amount_cents].to_i,
       description: params[:description],
-      whatsapp_interactive_template_id: params[:whatsapp_interactive_template_id],
-      payment_method: params[:payment_method],
-      installments: params[:installments]&.to_i
+      whatsapp_interactive_template_id: params[:whatsapp_interactive_template_id]
     }
   end
 end

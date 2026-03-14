@@ -13,8 +13,6 @@ class Integrations::Infinitepay::CreateLinkService
     @user = user
     @amount_cents = options[:amount_cents]
     @description = options[:description]
-    @payment_method = options[:payment_method] || 'pix'
-    @installments = options[:installments]
     @whatsapp_interactive_template_id = options[:whatsapp_interactive_template_id]
   end
 
@@ -54,7 +52,7 @@ class Integrations::Infinitepay::CreateLinkService
         {
           quantity: 1,
           price: @amount_cents,
-          description: @description
+          description: infinitepay_item_description
         }
       ]
     }
@@ -135,8 +133,12 @@ class Integrations::Infinitepay::CreateLinkService
 
   def send_link_message(checkout_url)
     interactive_payload = build_interactive_payload(checkout_url)
-    amount_formatted = format('R$ %.2f', @amount_cents / 100.0)
-    content = "💰 *Link de Pagamento*\n\n#{@description}\nValor: #{amount_formatted}\n\n#{checkout_url}"
+    content = [
+      '💰 *Link de Pagamento*',
+      "Valor a pagar: #{formatted_amount}",
+      reference_line,
+      checkout_url
+    ].compact.join("\n\n")
 
     message_attributes = {
       account: @account,
@@ -163,7 +165,8 @@ class Integrations::Infinitepay::CreateLinkService
 
     Whatsapp::InteractiveTemplatePayloadBuilder.new(
       template: template,
-      runtime_url: checkout_url
+      runtime_url: checkout_url,
+      runtime_body_text: interactive_body_text(template)
     ).build
   rescue StandardError => e
     Rails.logger.warn("[INFINITEPAY-CTA] Falling back to plain text: #{e.class} - #{e.message}")
@@ -172,5 +175,39 @@ class Integrations::Infinitepay::CreateLinkService
 
   def whatsapp_conversation?
     @conversation.inbox.channel_type == 'Channel::Whatsapp'
+  end
+
+  def formatted_amount
+    format('R$ %.2f', @amount_cents / 100.0)
+  end
+
+  def reference_line
+    return if @description.blank?
+
+    "Ref: #{@description}"
+  end
+
+  def interactive_body_text(template)
+    prefix_lines = ["Valor a pagar: #{formatted_amount}", reference_line].compact
+    template_body = template.body_text.to_s.strip
+    prefix_text = prefix_lines.join("\n")
+    return prefix_text if template_body.blank?
+
+    available_chars = Whatsapp::InteractiveTemplatePayloadBuilder::BODY_MAX - prefix_text.length - 2
+    return prefix_text if available_chars <= 0
+
+    [prefix_text, template_body.truncate(available_chars)].join("\n\n")
+  end
+
+  def infinitepay_item_description
+    parts = [@description.presence]
+    parts << "Cliente: #{contact_name}" if contact_name.present?
+    parts << "Telefone: #{customer_phone_number}" if customer_phone_number.present?
+
+    parts.compact.join(' | ')
+  end
+
+  def contact_name
+    @conversation.contact&.name.to_s.strip.presence
   end
 end
