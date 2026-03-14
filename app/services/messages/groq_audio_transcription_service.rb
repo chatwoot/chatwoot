@@ -50,7 +50,16 @@ class Messages::GroqAudioTranscriptionService
 
   def transcribe_audio
     temp_file_path = fetch_audio_file
+    result = call_groq_api(temp_file_path)
+    raise result.dig('error', 'message') || 'Transcription failed' if result['error'].present?
 
+    update_transcription(result['text'])
+    result['text']
+  ensure
+    FileUtils.rm_f(temp_file_path) if temp_file_path.present?
+  end
+
+  def call_groq_api(temp_file_path)
     conn = Faraday.new do |f|
       f.request :multipart
       f.adapter :net_http
@@ -58,24 +67,21 @@ class Messages::GroqAudioTranscriptionService
 
     response = conn.post(GROQ_API_URL) do |req|
       req.headers['Authorization'] = "Bearer #{groq_api_key}"
-      req.body = {
-        file: Faraday::Multipart::FilePart.new(
-          File.open(temp_file_path, 'rb'),
-          attachment.file.blob.content_type,
-          File.basename(temp_file_path)
-        ),
-        model: WHISPER_MODEL
-      }
+      req.body = build_request_body(temp_file_path)
     end
 
-    result = JSON.parse(response.body)
-    raise result.dig('error', 'message') || 'Transcription failed' if result['error'].present?
+    JSON.parse(response.body)
+  end
 
-    transcribed_text = result['text']
-    update_transcription(transcribed_text)
-    transcribed_text
-  ensure
-    FileUtils.rm_f(temp_file_path) if temp_file_path.present?
+  def build_request_body(temp_file_path)
+    {
+      file: Faraday::Multipart::FilePart.new(
+        File.open(temp_file_path, 'rb'),
+        attachment.file.blob.content_type,
+        File.basename(temp_file_path)
+      ),
+      model: WHISPER_MODEL
+    }
   end
 
   def update_transcription(transcribed_text)
