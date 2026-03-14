@@ -236,4 +236,70 @@ describe Integrations::Dialogflow::ProcessorService do
       end
     end
   end
+
+  describe 'language_code configuration' do
+    let(:processor) { described_class.new(event_name: event_name, hook: hook, event_data: event_data) }
+    let(:mock_client) { instance_double(Google::Cloud::Dialogflow::V2::Sessions::Client) }
+
+    before do
+      allow(Google::Cloud::Dialogflow::V2::Sessions::Client).to receive(:new).and_return(mock_client)
+    end
+
+    context 'when language_code is configured' do
+      it 'uses the configured language code' do
+        hook.update(settings: { 'project_id' => 'test-project', 'credentials' => {}, 'language_code' => 'es-ES' })
+
+        expect(processor.send(:dialogflow_language_code)).to eq('es-ES')
+      end
+
+      it 'passes the configured language code to detect_intent' do
+        hook.update(settings: { 'project_id' => 'test-project', 'credentials' => {}, 'language_code' => 'fr-FR' })
+
+        expect(mock_client).to receive(:detect_intent).with(
+          session: 'projects/test-project/agent/sessions/test-session',
+          query_input: { text: { text: 'Hello', language_code: 'fr-FR' } }
+        )
+
+        processor.send(:detect_intent, 'test-session', 'Hello')
+      end
+    end
+
+    context 'when language_code is set to auto' do
+      it 'uses contact language_code from additional_attributes' do
+        hook.update(settings: { 'project_id' => 'test-project', 'credentials' => {}, 'language_code' => 'auto' })
+        conversation.contact.update(additional_attributes: { 'language_code' => 'pt-BR' })
+
+        expect(processor.send(:dialogflow_language_code)).to eq('pt-BR')
+      end
+
+      it 'falls back to en-US when contact has no language' do
+        hook.update(settings: { 'project_id' => 'test-project', 'credentials' => {}, 'language_code' => 'auto' })
+        conversation.contact.update(additional_attributes: {})
+
+        expect(processor.send(:dialogflow_language_code)).to eq('en-US')
+      end
+    end
+
+    context 'when language_code is not configured' do
+      it 'falls back to en-US' do
+        hook.update(settings: { 'project_id' => 'test-project', 'credentials' => {} })
+
+        expect(processor.send(:dialogflow_language_code)).to eq('en-US')
+      end
+    end
+
+    context 'when language_code is empty or blank' do
+      it 'falls back to en-US for empty string' do
+        hook.update(settings: { 'project_id' => 'test-project', 'credentials' => {}, 'language_code' => '' })
+
+        expect(processor.send(:dialogflow_language_code)).to eq('en-US')
+      end
+
+      it 'falls back to en-US for whitespace-only string' do
+        hook.update(settings: { 'project_id' => 'test-project', 'credentials' => {}, 'language_code' => '   ' })
+
+        expect(processor.send(:dialogflow_language_code)).to eq('en-US')
+      end
+    end
+  end
 end

@@ -84,7 +84,7 @@ class Integrations::Dialogflow::ProcessorService < Integrations::BotProcessorSer
   def detect_intent(session_id, message)
     client = ::Google::Cloud::Dialogflow::V2::Sessions::Client.new
     session = build_session_path(session_id)
-    query_input = { text: { text: message, language_code: 'en-US' } }
+    query_input = { text: { text: message, language_code: dialogflow_language_code } }
     client.detect_intent session: session, query_input: query_input
   end
 
@@ -97,5 +97,17 @@ class Integrations::Dialogflow::ProcessorService < Integrations::BotProcessorSer
     else
       "projects/#{project_id}/locations/#{region}/agent/sessions/#{session_id}"
     end
+  end
+
+  def dialogflow_language_code
+    configured_language = hook.settings['language_code'].to_s.strip
+    return configured_language if configured_language.present? && configured_language != 'auto'
+
+    # Auto-detect: try to get language from contact's additional_attributes
+    contact_language = conversation&.contact&.additional_attributes&.dig('language_code')
+    return contact_language if contact_language.present?
+
+    # Fallback to default
+    'en-US'
   end
 end
