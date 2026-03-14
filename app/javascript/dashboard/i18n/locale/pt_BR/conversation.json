@@ -269,6 +269,11 @@
       "REMOVE": "Excluir",
       "ASSIGN": "Atribuir"
     },
+    "AUDIO": {
+      "TRANSCRIBE": "Transcrever",
+      "TRANSCRIBING": "Transcrevendo...",
+      "TRANSCRIPTION_ERROR": "Falha ao transcrever o áudio"
+    },
     "CONTEXT_MENU": {
       "COPY": "Copiar",
       "REPLY_TO": "Responder mensagem",

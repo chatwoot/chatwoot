@@ -36,6 +36,19 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
     render_could_not_create_error(e.message)
   end
 
+  def transcribe_audio
+    attachment = message.attachments.find_by(file_type: :audio)
+    return render json: { error: 'No audio attachment found' }, status: :unprocessable_entity if attachment.nil?
+
+    result = Messages::GroqAudioTranscriptionService.new(attachment).perform
+
+    if result[:success]
+      render json: { transcribed_text: result[:transcribed_text] }
+    else
+      render json: { error: result[:error] }, status: :unprocessable_entity
+    end
+  end
+
   def translate
     return head :ok if already_translated_content_available?
 

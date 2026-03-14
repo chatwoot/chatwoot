@@ -269,6 +269,11 @@
       "REMOVE": "Remove",
       "ASSIGN": "Assign"
     },
+    "AUDIO": {
+      "TRANSCRIBE": "Transcribe",
+      "TRANSCRIBING": "Transcribing...",
+      "TRANSCRIPTION_ERROR": "Failed to transcribe audio"
+    },
     "CONTEXT_MENU": {
       "COPY": "Copy",
       "REPLY_TO": "Reply to this message",

@@ -108,6 +108,12 @@ class MessageApi extends ApiClient {
       }
     );
   }
+
+  transcribeAudio(conversationId, messageId) {
+    return axios.post(
+      `${this.url}/${conversationId}/messages/${messageId}/transcribe_audio`
+    );
+  }
 }
 
 export default new MessageApi();

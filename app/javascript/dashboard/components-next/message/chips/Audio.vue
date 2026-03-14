@@ -6,13 +6,14 @@ import {
   ref,
   getCurrentInstance,
 } from 'vue';
+import { useI18n } from 'vue-i18n';
 import Icon from 'next/icon/Icon.vue';
 import { timeStampAppendedURL } from 'dashboard/helper/URLHelper';
 import { downloadFile } from '@chatwoot/utils';
 import { useEmitter } from 'dashboard/composables/emitter';
 import { emitter } from 'shared/helpers/mitt';
 
-const { attachment } = defineProps({
+const { attachment, onTranscribe, isTranscribing } = defineProps({
   attachment: {
     type: Object,
     required: true,
@@ -21,7 +22,17 @@ const { attachment } = defineProps({
     type: Boolean,
     default: true,
   },
+  isTranscribing: {
+    type: Boolean,
+    default: false,
+  },
+  onTranscribe: {
+    type: Function,
+    default: null,
+  },
 });
+
+const { t } = useI18n();
 
 defineOptions({
   inheritAttrs: false,
@@ -185,6 +196,18 @@ const downloadAudio = async () => {
       </button>
     </div>
 
+    <button
+      v-if="onTranscribe && !attachment.transcribedText"
+      class="w-full text-xs text-n-slate-11 py-1.5 px-3 hover:bg-n-alpha-2 rounded-lg text-left transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+      :disabled="isTranscribing"
+      @click="onTranscribe"
+    >
+      {{
+        isTranscribing
+          ? t('CONVERSATION.AUDIO.TRANSCRIBING')
+          : t('CONVERSATION.AUDIO.TRANSCRIBE')
+      }}
+    </button>
     <div
       v-if="attachment.transcribedText && showTranscribedText"
       class="text-n-slate-12 p-3 text-sm bg-n-alpha-1 rounded-lg w-full break-words"
