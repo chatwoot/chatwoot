@@ -69,17 +69,23 @@ const translateValue = computed(() => {
 
 <template>
   <button
-    class="flex items-center w-auto h-8 p-1 transition-all border rounded-full bg-n-alpha-2 group relative duration-300 ease-in-out z-0 active:scale-[0.995] active:duration-75"
+    class="flex items-center w-auto max-w-full h-8 p-1 transition-all border rounded-full bg-n-alpha-2 group relative duration-300 ease-in-out z-0 active:scale-[0.995] active:duration-75"
     :disabled="disabled || isReplyRestricted"
     :class="{
       'cursor-not-allowed': disabled || isReplyRestricted,
     }"
     @click="$emit('toggleMode')"
   >
-    <div ref="wootEditorReplyMode" class="flex items-center gap-1 px-2 z-20">
+    <div
+      ref="wootEditorReplyMode"
+      class="flex items-center flex-shrink-0 gap-1 px-1.5 sm:px-2 z-20 text-xs sm:text-sm whitespace-nowrap"
+    >
       {{ $t('CONVERSATION.REPLYBOX.REPLY') }}
     </div>
-    <div ref="wootEditorPrivateMode" class="flex items-center gap-1 px-2 z-20">
+    <div
+      ref="wootEditorPrivateMode"
+      class="flex items-center flex-shrink min-w-0 gap-1 px-1.5 sm:px-2 z-20 text-xs sm:text-sm whitespace-nowrap"
+    >
       {{ $t('CONVERSATION.REPLYBOX.PRIVATE_NOTE') }}
     </div>
     <div

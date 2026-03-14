@@ -1,55 +1,91 @@
 <script setup>
 import { ref, computed, provide, onMounted, watch } from 'vue';
-import { useStore, useMapGetter } from 'dashboard/composables/store';
-import { useUISettings } from 'dashboard/composables/useUISettings';
-import { useI18n } from 'vue-i18n';
-import { useRoute } from 'vue-router';
-import { useHaptics } from 'dashboard/composables/useHaptics';
+import {
+  useStore,
+  useMapGetter,
+  useFunctionGetter,
+} from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
+import { useI18n } from 'vue-i18n';
+import { useHaptics } from 'dashboard/composables/useHaptics';
+import { findSnoozeTime } from 'dashboard/helper/snoozeHelpers';
+import { ASSIGNEE_TYPE_TAB_PERMISSIONS } from 'dashboard/constants/permissions.js';
+import {
+  getUserPermissions,
+  filterItemsByPermission,
+} from 'dashboard/helper/permissionsHelper.js';
+import { useConversationRequiredAttributes } from 'dashboard/composables/useConversationRequiredAttributes';
 
 import ConversationCard from 'dashboard/components/widgets/conversation/ConversationCard.vue';
+import ConversationResolveAttributesModal from 'dashboard/components-next/ConversationWorkflow/ConversationResolveAttributesModal.vue';
 import ChatTypeTabs from 'dashboard/components/widgets/ChatTypeTabs.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import IntersectionObserver from 'dashboard/components/IntersectionObserver.vue';
 import MobileConversationHeader from './MobileConversationHeader.vue';
 import MobileFilterSheet from './MobileFilterSheet.vue';
+import MobileConversationStatusSheet from './MobileConversationStatusSheet.vue';
 import MobileSwipeableRow from './MobileSwipeableRow.vue';
 
 import wootConstants from 'dashboard/constants/globals';
 
 const emit = defineEmits(['openConversation']);
 const store = useStore();
-const route = useRoute();
 const { t } = useI18n();
-const { uiSettings } = useUISettings();
 const { medium } = useHaptics();
+const { checkMissingAttributes } = useConversationRequiredAttributes();
 
 const swipeOpenRowId = ref(null);
 provide('swipeOpenRowId', swipeOpenRowId);
 
 const listRef = ref(null);
 const showFilterSheet = ref(false);
+const showStatusSheet = ref(false);
+const selectedConversation = ref(null);
+const resolveAttributesModalRef = ref(null);
 
 const activeAssigneeTab = ref(wootConstants.ASSIGNEE_TYPE.ME);
 const activeStatus = ref(wootConstants.STATUS_TYPE.OPEN);
 const activeSortBy = ref(wootConstants.SORT_BY_TYPE.LAST_ACTIVITY_AT_DESC);
 
+const currentUser = useMapGetter('getCurrentUser');
+const currentAccountId = useMapGetter('auth/getCurrentAccountId');
+const conversationStats = useMapGetter('conversationStats/getStats');
+
+const userPermissions = computed(() => {
+  return getUserPermissions(currentUser.value, currentAccountId.value);
+});
+
+const assigneeTabItems = computed(() => {
+  return filterItemsByPermission(
+    ASSIGNEE_TYPE_TAB_PERMISSIONS,
+    userPermissions.value,
+    item => item.permissions
+  ).map(({ key, count: countKey }) => ({
+    key,
+    name: t(`CHAT_LIST.ASSIGNEE_TYPE_TABS.${key}`),
+    count: conversationStats.value[countKey] || 0,
+  }));
+});
+
 const chatLists = useMapGetter('getAllConversations');
-const uiFlags = useMapGetter('chatList/getUIFlags');
-const currentPage = useMapGetter('chatList/getCurrentPage');
-const hasCurrentPageEndReached = useMapGetter(
-  'chatList/getHasCurrentPageEndReached'
+const chatListLoadingStatus = useMapGetter('getChatListLoadingStatus');
+const getConversationById = useMapGetter('getConversationById');
+const currentPage = useFunctionGetter(
+  'conversationPage/getCurrentPageFilter',
+  activeAssigneeTab
+);
+const hasCurrentPageEndReached = useFunctionGetter(
+  'conversationPage/getHasEndReached',
+  activeAssigneeTab
 );
 
-const conversationList = computed(() => chatLists.value);
+const chatListLoading = computed(() => {
+  return chatListLoadingStatus.value && !chatLists.value.length;
+});
 
-const chatListLoading = computed(
-  () => uiFlags.value.isFetching && !conversationList.value.length
-);
-
-const listLoadingMore = computed(
-  () => uiFlags.value.isFetching && conversationList.value.length > 0
-);
+const listLoadingMore = computed(() => {
+  return chatListLoadingStatus.value && chatLists.value.length > 0;
+});
 
 const allConversationsLoaded = computed(
   () => hasCurrentPageEndReached.value && !chatListLoading.value
@@ -63,24 +99,27 @@ const conversationFilters = computed(() => ({
 }));
 
 const fetchConversations = () => {
-  store.dispatch('chatList/reset');
-  store.dispatch('fetchAllConversations', {
+  store.dispatch('conversationPage/reset');
+  store.dispatch('emptyAllConversations');
+  store.dispatch('setChatListFilters', {
     assigneeType: activeAssigneeTab.value,
     status: activeStatus.value,
     page: 1,
     sortBy: activeSortBy.value,
   });
+  store.dispatch('fetchAllConversations');
 };
 
 const loadMoreConversations = () => {
-  if (allConversationsLoaded.value || uiFlags.value.isFetching) return;
+  if (allConversationsLoaded.value || chatListLoadingStatus.value) return;
 
-  store.dispatch('fetchAllConversations', {
+  store.dispatch('updateChatListFilters', {
     assigneeType: activeAssigneeTab.value,
     status: activeStatus.value,
     page: currentPage.value + 1,
     sortBy: activeSortBy.value,
   });
+  store.dispatch('fetchAllConversations');
 };
 
 const onAssigneeTabChange = tab => {
@@ -101,42 +140,146 @@ const onConversationClick = chat => {
   emit('openConversation', chat.id);
 };
 
+const closeStatusSheet = () => {
+  showStatusSheet.value = false;
+  selectedConversation.value = null;
+};
+
+const toggleConversationStatus = async (
+  conversationId,
+  status,
+  snoozedUntil = null,
+  customAttributes = null
+) => {
+  const payload = {
+    conversationId,
+    status,
+    snoozedUntil,
+  };
+
+  if (customAttributes) {
+    payload.customAttributes = customAttributes;
+  }
+
+  await store.dispatch('toggleStatus', payload);
+  useAlert(t('CONVERSATION.CHANGE_STATUS'));
+};
+
+const openStatusSheet = chat => {
+  selectedConversation.value = chat;
+  showStatusSheet.value = true;
+};
+
 const getSwipeActions = chat => {
-  const isResolved = chat.status === 'resolved';
   return [
     {
-      key: isResolved ? 'reopen' : 'resolve',
-      icon: isResolved ? 'i-lucide-rotate-ccw' : 'i-lucide-check-circle',
-      color: isResolved ? 'bg-n-blue-9' : 'bg-n-teal-9',
-      label: isResolved
-        ? t('MOBILE.SWIPE.REOPEN')
-        : t('MOBILE.SWIPE.RESOLVE'),
+      key: 'status',
+      icon: 'i-lucide-sliders-horizontal',
+      color: 'bg-n-teal-9',
+      label: t('MOBILE.SWIPE.STATUS'),
     },
+  ];
+};
+
+const getLeftSwipeActions = chat => {
+  const hasUnread = chat.unread_count > 0;
+  return [
     {
-      key: 'delete',
-      icon: 'i-lucide-trash-2',
-      color: 'bg-n-ruby-9',
-      label: t('MOBILE.SWIPE.DELETE'),
+      key: hasUnread ? 'markRead' : 'markUnread',
+      icon: hasUnread
+        ? 'i-lucide-mail-open'
+        : 'i-lucide-mail',
+      color: 'bg-n-blue-9',
+      label: hasUnread
+        ? t('MOBILE.SWIPE.MARK_READ')
+        : t('MOBILE.SWIPE.MARK_UNREAD'),
     },
   ];
 };
 
 const onSwipeAction = (chat, actionKey) => {
   medium();
-  if (actionKey === 'resolve') {
-    store.dispatch('toggleStatus', {
-      conversationId: chat.id,
-      status: 'resolved',
-    });
-  } else if (actionKey === 'reopen') {
-    store.dispatch('toggleStatus', {
-      conversationId: chat.id,
-      status: 'open',
-    });
-  } else if (actionKey === 'delete') {
-    if (window.confirm(t('MOBILE.SWIPE.CONFIRM_DELETE'))) {
-      store.dispatch('deleteConversation', chat.id);
+  if (actionKey === 'status') {
+    openStatusSheet(chat);
+  }
+};
+
+const onLeftSwipeAction = async (chat, actionKey) => {
+  medium();
+  if (actionKey === 'markUnread') {
+    try {
+      await store.dispatch('markMessagesUnread', { id: chat.id });
+    } catch {
+      // error handled by store
     }
+  } else if (actionKey === 'markRead') {
+    try {
+      await store.dispatch('markMessagesRead', { id: chat.id });
+    } catch {
+      // error handled by store
+    }
+  }
+};
+
+const handleResolveWithAttributes = ({ attributes, context }) => {
+  if (!context) return;
+
+  const existingConversation = getConversationById.value(context.id);
+  const currentCustomAttributes =
+    existingConversation?.custom_attributes || {};
+  const mergedAttributes = { ...currentCustomAttributes, ...attributes };
+
+  toggleConversationStatus(
+    context.id,
+    wootConstants.STATUS_TYPE.RESOLVED,
+    context.snoozedUntil,
+    mergedAttributes
+  );
+};
+
+const onStatusSelect = async status => {
+  const currentConversation = selectedConversation.value;
+
+  closeStatusSheet();
+
+  if (!currentConversation) return;
+
+  if (status === wootConstants.STATUS_TYPE.PENDING) {
+    await toggleConversationStatus(currentConversation.id, status);
+    return;
+  }
+
+  if (status === wootConstants.STATUS_TYPE.SNOOZED) {
+    await toggleConversationStatus(
+      currentConversation.id,
+      status,
+      findSnoozeTime(wootConstants.SNOOZE_OPTIONS.UNTIL_NEXT_REPLY) || null
+    );
+    return;
+  }
+
+  if (status === wootConstants.STATUS_TYPE.RESOLVED) {
+    const latestConversation =
+      getConversationById.value(currentConversation.id) || currentConversation;
+    const currentCustomAttributes =
+      latestConversation.custom_attributes || {};
+    const { hasMissing, missing } = checkMissingAttributes(
+      currentCustomAttributes
+    );
+
+    if (hasMissing) {
+      resolveAttributesModalRef.value?.open(
+        missing,
+        currentCustomAttributes,
+        {
+          id: latestConversation.id,
+          snoozedUntil: latestConversation.snoozed_until,
+        }
+      );
+      return;
+    }
+
+    await toggleConversationStatus(latestConversation.id, status);
   }
 };
 
@@ -149,7 +292,14 @@ const onFilterApply = filters => {
 };
 
 onMounted(() => {
+  store.dispatch('setChatListFilters', conversationFilters.value);
   fetchConversations();
+  store.dispatch('conversationStats/get', conversationFilters.value);
+});
+
+watch(conversationFilters, newFilters => {
+  store.dispatch('updateChatListFilters', newFilters);
+  store.dispatch('conversationStats/get', newFilters);
 });
 </script>
 
@@ -159,10 +309,10 @@ onMounted(() => {
       @open-filter="showFilterSheet = true"
     />
     <ChatTypeTabs
+      :items="assigneeTabItems"
       :active-tab="activeAssigneeTab"
-      :active-status="activeStatus"
       class="px-2 flex-shrink-0"
-      @chatTabChange="onAssigneeTabChange"
+      @chat-tab-change="onAssigneeTabChange"
     />
     <div
       ref="listRef"
@@ -172,19 +322,21 @@ onMounted(() => {
         <Spinner class="text-n-brand" />
       </div>
       <div
-        v-else-if="!conversationList.length"
+        v-else-if="!chatLists.length"
         class="flex items-center justify-center py-8 text-sm text-n-slate-10"
       >
         {{ t('MOBILE.CONVERSATIONS.NO_CONVERSATIONS') }}
       </div>
       <template v-else>
         <MobileSwipeableRow
-          v-for="chat in conversationList"
+          v-for="chat in chatLists"
           :key="chat.id"
           :row-id="chat.id"
           :actions="getSwipeActions(chat)"
+          :left-actions="getLeftSwipeActions(chat)"
           class="mb-0.5"
           @action="onSwipeAction(chat, $event)"
+          @left-action="onLeftSwipeAction(chat, $event)"
         >
           <ConversationCard
             :chat="chat"
@@ -197,7 +349,7 @@ onMounted(() => {
           <Spinner class="text-n-brand" />
         </div>
         <IntersectionObserver
-          v-if="!allConversationsLoaded && !uiFlags.isFetching"
+          v-if="!allConversationsLoaded && !chatListLoadingStatus"
           :options="{ root: listRef, rootMargin: '100px 0px' }"
           @observed="loadMoreConversations"
         />
@@ -210,6 +362,15 @@ onMounted(() => {
       :sort-by="activeSortBy"
       @apply="onFilterApply"
       @close="showFilterSheet = false"
+    />
+    <MobileConversationStatusSheet
+      :open="showStatusSheet"
+      @close="closeStatusSheet"
+      @select="onStatusSelect"
+    />
+    <ConversationResolveAttributesModal
+      ref="resolveAttributesModalRef"
+      @submit="handleResolveWithAttributes"
     />
   </div>
 </template>

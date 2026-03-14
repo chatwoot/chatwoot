@@ -20,6 +20,8 @@ done
 
 echo "Database ready to accept connections."
 
+git config --global --add safe.directory /app || true
+
 #install missing gems for local dev as we are using base image compiled for production
 bundle install
 

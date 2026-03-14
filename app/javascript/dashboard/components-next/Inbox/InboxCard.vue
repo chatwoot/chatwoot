@@ -45,6 +45,8 @@ const getMessageClasses = {
 const primaryActor = computed(() => props.inboxItem?.primaryActor);
 const meta = computed(() => primaryActor.value?.meta);
 const assigneeMeta = computed(() => meta.value?.sender);
+const assigneeName = computed(() => assigneeMeta.value?.name || '');
+const assigneeThumbnail = computed(() => assigneeMeta.value?.thumbnail || '');
 const isUnread = computed(() => !props.inboxItem?.readAt);
 const inbox = computed(() => props.stateInbox);
 
@@ -160,8 +162,8 @@ onBeforeMount(contextMenuActions.close);
   >
     <div class="flex items-start gap-2">
       <Avatar
-        :name="assigneeMeta.name"
-        :src="assigneeMeta.thumbnail"
+        :name="assigneeName"
+        :src="assigneeThumbnail"
         :size="20"
         rounded-full
         class="mt-1"

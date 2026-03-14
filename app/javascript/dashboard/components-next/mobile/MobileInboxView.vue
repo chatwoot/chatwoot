@@ -106,6 +106,12 @@ const onSwipeAction = (item, actionKey) => {
 const openConversation = notificationItem => {
   const { id, primaryActorId, primaryActorType, primaryActor } =
     notificationItem;
+  const conversationId = primaryActor?.id;
+
+  if (!conversationId) {
+    useAlert(t('INBOX.NO_CONTENT'));
+    return;
+  }
 
   store.dispatch('notifications/read', {
     id,
@@ -115,7 +121,7 @@ const openConversation = notificationItem => {
   });
 
   store.dispatch('notifications/unReadCount');
-  emit('openConversation', primaryActor.id);
+  emit('openConversation', conversationId);
 };
 
 const markAllRead = async () => {
@@ -128,9 +134,7 @@ const markAllRead = async () => {
   }
 };
 
-const onRefresh = async () => {
-  fetchNotifications();
-};
+const onRefresh = () => fetchNotifications();
 
 onMounted(() => {
   fetchNotifications();

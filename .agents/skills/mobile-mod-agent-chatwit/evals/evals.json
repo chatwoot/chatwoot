@@ -1,0 +1,104 @@
+{
+  "skill_name": "mobile-mod-agent-chatwit",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "No mobile do Chatwit, quando eu abrir uma conversa e arrastar da direita para a esquerda, quero abrir uma segunda tela de detalhes igual ao app mobile do Chatwoot, mas sem tocar na lógica desktop. Reaproveite labels, participantes, status, agente, time e prioridade que já existem.",
+      "expected_output": "The agent reads the Chatwit mobile docs first, inspects the desktop/store logic, implements the feature inside mobile-only components, preserves desktop isolation, and updates the mobile docs.",
+      "assertions": [
+        {
+          "name": "reads_mobile_docs_first",
+          "type": "transcript_contains",
+          "description": "Agent reads chatwitdocs/Chatwoot-Chatwit-mobile.md before writing code",
+          "check": "The agent reads the mobile documentation file before making any edits"
+        },
+        {
+          "name": "no_desktop_file_modified",
+          "type": "file_unchanged",
+          "description": "No file outside components-next/mobile/ is modified (except Dashboard.vue guards and i18n)",
+          "check": "Modified files are limited to components-next/mobile/*, i18n/locale/*/mobile.json, and optionally Dashboard.vue"
+        },
+        {
+          "name": "reuses_store_dispatch",
+          "type": "output_contains",
+          "description": "Code uses store.dispatch with existing actions like toggleStatus, assignAgent, assignTeam, assignPriority",
+          "check": "Generated code contains store.dispatch calls to existing Vuex actions, not new API calls or reimplemented logic"
+        },
+        {
+          "name": "i18n_three_locales",
+          "type": "output_contains",
+          "description": "New i18n keys added to en, pt, and pt_BR mobile.json files",
+          "check": "All three locale files (en/mobile.json, pt/mobile.json, pt_BR/mobile.json) receive matching new keys"
+        },
+        {
+          "name": "docs_updated",
+          "type": "output_contains",
+          "description": "Mobile docs updated with changelog entry",
+          "check": "chatwitdocs/Chatwoot-Chatwit-mobile.md receives a new changelog entry describing the change"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Corrija um bug do módulo mobile do Chatwit onde o settings não mostra corretamente o estado de push notifications no PWA. Não use Firebase nem invente fluxo novo; conecte o que já existe no projeto e mantenha o desktop intacto.",
+      "expected_output": "The agent reuses the existing Web Push/VAPID flow, changes only mobile-specific presentation or guards, adds any missing mobile i18n, and does not introduce desktop regressions.",
+      "assertions": [
+        {
+          "name": "uses_existing_push_helper",
+          "type": "output_contains",
+          "description": "Code imports from helper/pushHelper.js instead of creating new push logic",
+          "check": "Generated code imports hasPushPermissions, requestPushPermissions, or registerSubscription from pushHelper.js"
+        },
+        {
+          "name": "no_firebase_reference",
+          "type": "output_not_contains",
+          "description": "No Firebase/FCM references introduced",
+          "check": "Generated code does not contain firebase, FCM, or FIREBASE references"
+        },
+        {
+          "name": "only_mobile_files_changed",
+          "type": "file_unchanged",
+          "description": "Changes limited to mobile components and mobile i18n",
+          "check": "Only files under components-next/mobile/ and i18n/locale/*/mobile.json are modified"
+        },
+        {
+          "name": "uses_vapid_flow",
+          "type": "output_contains",
+          "description": "Push implementation uses VAPID/Web Push, not FCM",
+          "check": "Code references vapidPublicKey, PushManager, or serviceWorker registration — not FCM tokens"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Quero que a tela mobile de uma conversa mostre detalhes do contato e atributos em um layout mais nativo, usando como referência o chatwitdocs/chatwoot-mobile-app. As informações já existem no desktop, então só conecte ao layout mobile e documente a mudança.",
+      "expected_output": "The agent uses the React Native app only as a layout reference, reuses desktop data sources, keeps the implementation under components-next/mobile, and documents the change in the Chatwit mobile docs.",
+      "assertions": [
+        {
+          "name": "reuses_contact_store",
+          "type": "output_contains",
+          "description": "Code uses existing contact store/getters instead of new API calls",
+          "check": "Generated code uses contacts/getContact, contacts/show, or getSelectedChat for contact data"
+        },
+        {
+          "name": "mobile_only_components",
+          "type": "file_unchanged",
+          "description": "New/modified components are under components-next/mobile/ only",
+          "check": "All new Vue components are created inside components-next/mobile/"
+        },
+        {
+          "name": "no_react_native_logic_ported",
+          "type": "output_not_contains",
+          "description": "No React Native patterns ported (no React hooks, no RN navigation)",
+          "check": "Generated code uses Vue 3 Composition API, not React patterns"
+        },
+        {
+          "name": "changelog_entry_added",
+          "type": "output_contains",
+          "description": "Mobile doc changelog updated",
+          "check": "chatwitdocs/Chatwoot-Chatwit-mobile.md has a new changelog entry for this change"
+        }
+      ]
+    }
+  ]
+}

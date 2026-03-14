@@ -107,3 +107,6 @@ Procfile.worktree
 
 # Production compose (contains secrets)
 compose-produção.yaml
+
+# Reference repositories
+chatwitdocs/chatwoot-mobile-app/

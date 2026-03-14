@@ -1,4 +1,3 @@
-version: '3.8'
 
 # -----------------------------------------------------------------------------
 # Âncoras para reutilização de código (Princípio DRY)
@@ -17,25 +16,12 @@ x-chatwoot-base: &chatwoot-base
       max-file: "3"
 
 x-chatwoot-environment: &chatwoot-environment
-  # ========== PRIVACIDADE E PUSH (Firebase) ==========
+  # ========== PRIVACIDADE E PUSH ==========
+  # Push notifications via Web Push (VAPID) — chaves auto-geradas no primeiro boot
+  # Firebase/FCM removido — era para app nativo React Native, não para PWA
   DISABLE_TELEMETRY: "true"
   ENABLE_PUSH_RELAY_SERVER: "false"
   CHATWOOT_HUB_URL: "http://localhost:9999"
-  FIREBASE_PROJECT_ID: "amandaoab-kiom"
-  FIREBASE_CREDENTIALS: |-
-    {
-      "type": "service_account",
-      "project_id": "amandaoab-kiom",
-      "private_key_id": "18d9eba858a15a261e7a99220f1ff4b3aba4551f",
-      "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDTGrSLcRIU+KUQ\nnbDs4iWqgqfbHPpx4cObYUPURyNv2Vte5xEmL63JXfjQVSSJO34XATzXBVIRg2A2\neEWE0DgJUXGAO1bWLMxvaxGKdSdjgdmU8msb9uuF7HmyeXcrS60y2+nUJ+Gk6kvE\noaVa7qCK48Qsui2inN5ajm3cO/oXR5ZhPZVkycFnQdFEda3q88zW4UlIPLuQ9AM3\nwVIwzJVr810GWBKQ9PfUUXoMkIGn8E8czU3rtQA0SaT7Xcyn23C69LzwLrky3eHd\nkFuRTi8BPmjq7p7DlogQcs+oLWALnLX3tMEwATAfmaBI4xFZNhDY42GvR7Y1euK5\nNZCfPz/hAgMBAAECggEABWj5Fkc/1kF/3RwwyfCq6Yghvt9ANFhbs9ZTP468qTZw\nmDmop6S/vzS9MQfzkMrxZUEdqD7dc+/c21HWVJa6Tukon7I1nHVyCPYdRpdQGtAx\nDYIFGHFUfHPGCSVs1kir1UKL8dPSqAWDSv8KWVlFoZWVeWt34AOwPPF1k41bxbT+\n093VGZ9LGfVYxeFYk1CP6s/CvW6nZ3SaFQf0jauwH8yxer0RfwzZ+IgITh8Bh9hC\nLwm4Ot4ADueWlspR3V0EVrkOdYVncN8xx7sKbH+uf7UUKcSqgYtIO5ePWnlz6Ipk\n+mV2L9QUVR524grEe8jlWJMVZFPssQgPwnZ63Bw96QKBgQDv6Ttpmfvir42UIWTD\nEhbARZi8LbmnDCYtQ708CB6v0RLH6tQdwDgon3uhOs2lyciLQpTvF8+zKKt5FypS\nyOHZhpHNQaEMvKVpSEhH0fBb7BDiqfzOANjOqqySe0v4cuYPWdofawMy4c2TSl3I\nKLy2M4RdpjCk55uJUvTfTQ+feQKBgQDhQuwHyg7tOq5XdXHtqVgEy03KCWzVFOSr\AcXSYAxPORaCnHoIN+6HFxzJVNkSA2QqG7ANFzF6qN0kWJBuICdUv/1epXXu7UEx\nbqnTiJR2R9pT66Bv69uM7Au2vwAsfUaV7s5RRYa9D3DWmPI520goqYkQaG7XSei0\nSLQQwWuBqQKBgCSDBG2/55vKR+vBYUpm2FuOu/33n4eSy8SbyJL4UWNEmG0gigO1\nG1bjXrdc8atHmGPJUE1K/Gsxx1b4dZJ/zA+E8W+hi1ca5rmtLILxqnjy5mb4o+be\nLiDVzMnGRfub0POJIy8g5C28O8Ms0DUELiQ0lvKBtmmCbiNqIqZRXg1RAoGAayWO\n6cGVygeAh/9IOrizMkyV6sUC7HPstN65/vBKyqAn8eaGMUSRg9ZdjfJ68hOE4Had\nDgz7LxIFZlVuFcPbkXdlCFEBwK0/tkiiJQkxPPW+hu5sOPBiVSyuAbXmWkMYgRa/\nMm80wNcIYDsN9LE2KIlDtfdGycbRFngClnm6LkkCgYAa/iNpRLmUzIrF6jKZwYZ9\nsteaSO/fjulS5x+zZ8Fu7OU77TEiLkFMan+oL1pHI4LbBvMHB3r2AiNVhhE4muED\nu/t4JZIfaM/3/aw7ShOSFWHXoVqRtMn3to/DIhZxmsneZ6yVyTW2pIpAUPpjXDrV\n+C6e8t98lL7Za/gevlAOVg==\n-----END PRIVATE KEY-----\n",
-      "client_email": "chatwoot-fcm-server@amandaoab-kiom.iam.gserviceaccount.com",
-      "client_id": "116392008925844530363",
-      "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-      "token_uri": "https://oauth2.googleapis.com/token",
-      "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-      "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/chatwoot-fcm-server%40amandaoab-kiom.iam.gserviceaccount.com",
-      "universe_domain": "googleapis.com"
-    }
 
   # ========== CONFIGURAÇÕES GERAIS ==========
   INSTALLATION_NAME: "chatwit"

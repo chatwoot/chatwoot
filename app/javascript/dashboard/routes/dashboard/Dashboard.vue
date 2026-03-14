@@ -27,6 +27,11 @@ import MobileSidebarLauncher from 'dashboard/components-next/sidebar/MobileSideb
 import MobileLayout from 'dashboard/components-next/mobile/MobileLayout.vue';
 import { useCallsStore } from 'dashboard/stores/calls';
 
+const initialWindowWidth =
+  typeof window === 'undefined'
+    ? wootConstants.SMALL_SCREEN_BREAKPOINT
+    : window.innerWidth;
+
 export default {
   components: {
     NextSidebar,
@@ -44,7 +49,9 @@ export default {
     const upgradePageRef = ref(null);
     const { uiSettings, updateUISettings } = useUISettings();
     const { accountId } = useAccount();
-    const { width: windowWidth } = useWindowSize();
+    const { width: windowWidth } = useWindowSize({
+      initialWidth: initialWindowWidth,
+    });
     const callsStore = useCallsStore();
 
     return {

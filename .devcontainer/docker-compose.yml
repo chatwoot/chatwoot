@@ -2,8 +2,6 @@
 # https://github.com/microsoft/vscode-dev-containers/blob/master/containers/ruby-rails/.devcontainer/devcontainer.json
 #
 
-version: '3'
-
 services:
   app:
     build:

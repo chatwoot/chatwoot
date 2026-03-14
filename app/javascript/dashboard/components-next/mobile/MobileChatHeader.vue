@@ -1,8 +1,9 @@
 <script setup>
+import { computed } from 'vue';
 import Avatar from 'next/avatar/Avatar.vue';
 import MobileBackButton from './MobileBackButton.vue';
 
-defineProps({
+const props = defineProps({
   name: {
     type: String,
     default: '',
@@ -11,24 +12,52 @@ defineProps({
     type: String,
     default: '',
   },
+  status: {
+    type: String,
+    default: 'open',
+  },
 });
 
-const emit = defineEmits(['back']);
+const emit = defineEmits(['back', 'refresh', 'openActions']);
+
+const statusIcon = computed(() => {
+  if (props.status === 'resolved') return 'i-lucide-check-check';
+  if (props.status === 'pending') return 'i-lucide-circle-dot-dashed';
+  if (props.status === 'snoozed') return 'i-lucide-moon-star';
+  return 'i-lucide-refresh-cw';
+});
 </script>
 
 <template>
   <header
-    class="flex items-center gap-2 px-2 py-2 flex-shrink-0 bg-white dark:bg-n-background border-b border-n-weak pt-[env(safe-area-inset-top)]"
+    class="flex items-center justify-between gap-3 border-b border-n-weak bg-white px-3 py-2 pt-[env(safe-area-inset-top)] dark:bg-n-background"
   >
-    <MobileBackButton @click="emit('back')" />
-    <Avatar
-      :src="avatar"
-      :name="name"
-      :size="32"
-      class="flex-shrink-0"
-    />
-    <h2 class="text-sm font-semibold text-n-slate-12 truncate">
-      {{ name }}
-    </h2>
+    <div class="flex min-w-0 flex-1 items-center gap-2">
+      <MobileBackButton @click="emit('back')" />
+      <Avatar
+        :src="avatar"
+        :name="name"
+        :size="34"
+        class="shrink-0"
+      />
+      <h2 class="truncate text-[1.05rem] font-semibold text-n-slate-12">
+        {{ name }}
+      </h2>
+    </div>
+
+    <div class="flex items-center gap-3 text-n-slate-11">
+      <button
+        class="flex size-9 items-center justify-center rounded-full active:bg-n-alpha-2"
+        @click="emit('refresh')"
+      >
+        <span class="size-5" :class="statusIcon" />
+      </button>
+      <button
+        class="flex size-9 items-center justify-center rounded-full active:bg-n-alpha-2"
+        @click="emit('openActions')"
+      >
+        <span class="i-lucide-ellipsis size-5" />
+      </button>
+    </div>
   </header>
 </template>

@@ -378,7 +378,8 @@
       "INFO_SHORT": "Marcar off-line automaticamente quando não estiver usando o aplicativo."
     },
     "DOCS": "Ler documentos",
-    "SECURITY": "Segurança"
+    "SECURITY": "Segurança",
+    "CONVERSATION_WORKFLOW": "Fluxo de Conversa"
   },
   "BILLING_SETTINGS": {
     "TITLE": "Cobrança",
@@ -791,6 +792,58 @@
       "DESCRIPTION": "Are you sure you want to delete this policy? This action cannot be undone.",
       "CONFIRM_BUTTON_LABEL": "Excluir",
       "CANCEL_BUTTON_LABEL": "Cancelar"
+    }
+  },
+  "CONVERSATION_WORKFLOW": {
+    "INDEX": {
+      "HEADER": {
+        "TITLE": "Fluxos de Conversa",
+        "DESCRIPTION": "Configure regras e campos obrigatorios para resolucao de conversas."
+      }
+    },
+    "REQUIRED_ATTRIBUTES": {
+      "TITLE": "Atributos obrigatorios na resolucao",
+      "DESCRIPTION": "Ao resolver uma conversa, os agentes serao solicitados a preencher esses atributos caso ainda nao tenham.",
+      "NO_ATTRIBUTES": "Nenhum atributo adicionado",
+      "ADD": {
+        "TITLE": "Adicionar Atributos",
+        "SEARCH_PLACEHOLDER": "Buscar atributos"
+      },
+      "SAVE": {
+        "SUCCESS": "Atributos obrigatorios atualizados",
+        "ERROR": "Nao foi possivel atualizar os atributos obrigatorios, tente novamente"
+      },
+      "MODAL": {
+        "TITLE": "Resolver conversa",
+        "DESCRIPTION": "Por favor, preencha os seguintes atributos personalizados antes de resolver esta conversa",
+        "ACTIONS": {
+          "RESOLVE": "Resolver conversa",
+          "CANCEL": "Cancelar"
+        },
+        "PLACEHOLDERS": {
+          "TEXT": "Escreva uma nota...",
+          "NUMBER": "Digite um numero",
+          "LINK": "Adicione um link",
+          "DATE": "Selecione uma data",
+          "LIST": "Selecione uma opcao"
+        },
+        "CHECKBOX": {
+          "YES": "Sim",
+          "NO": "Nao"
+        }
+      },
+      "PAYWALL": {
+        "TITLE": "Faca upgrade para usar atributos obrigatorios",
+        "AVAILABLE_ON": "O recurso de atributos obrigatorios esta disponivel nos planos Business e Enterprise.",
+        "UPGRADE_PROMPT": "Faca upgrade do seu plano para solicitar que agentes preencham atributos obrigatorios antes da resolucao.",
+        "UPGRADE_NOW": "Fazer upgrade",
+        "CANCEL_ANYTIME": "Voce pode alterar ou cancelar seu plano a qualquer momento"
+      },
+      "ENTERPRISE_PAYWALL": {
+        "AVAILABLE_ON": "O recurso de atributos obrigatorios esta disponivel nos planos pagos.",
+        "UPGRADE_PROMPT": "Faca upgrade para um plano pago para exigir atributos obrigatorios antes da resolucao.",
+        "ASK_ADMIN": "Entre em contato com seu administrador para fazer o upgrade."
+      }
     }
   }
 }

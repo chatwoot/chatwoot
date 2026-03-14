@@ -1,9 +1,7 @@
 <script setup>
-import { ref, computed, watch } from 'vue';
+import { ref, computed, watch, onMounted, onUnmounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useAccount } from 'dashboard/composables/useAccount';
-import { useStore } from 'vuex';
-
 import MobileBottomTabBar from './MobileBottomTabBar.vue';
 import MobileInboxView from './MobileInboxView.vue';
 import MobileConversationList from './MobileConversationList.vue';
@@ -12,7 +10,6 @@ import MobileSettingsView from './MobileSettingsView.vue';
 
 const route = useRoute();
 const router = useRouter();
-const store = useStore();
 const { accountScopedRoute } = useAccount();
 
 const activeTab = ref(1);
@@ -22,18 +19,6 @@ const INBOX_ROUTES = [
   'inbox_view_conversation',
 ];
 
-const CONVERSATION_ROUTES = [
-  'home',
-  'inbox_conversation',
-  'conversation_through_inbox',
-  'conversations_through_label',
-  'team_conversations_through_label',
-  'conversations_through_folders',
-  'conversation_through_mentions',
-  'conversation_through_unattended',
-  'conversation_through_participating',
-];
-
 const SETTINGS_ROUTES = [
   'general_settings_index',
   'settings_inbox_list',
@@ -41,7 +26,10 @@ const SETTINGS_ROUTES = [
 ];
 
 const activeChatId = computed(() => {
-  const id = route.params.conversationId || route.params.id;
+  const id =
+    route.params.conversationId ||
+    route.params.conversation_id ||
+    route.params.id;
   return id ? Number(id) : null;
 });
 
@@ -60,8 +48,7 @@ const syncTabFromRoute = () => {
   }
 };
 
-syncTabFromRoute();
-watch(() => route.name, syncTabFromRoute);
+watch(() => route.name, syncTabFromRoute, { immediate: true });
 
 const onTabChange = tabId => {
   activeTab.value = tabId;
@@ -75,19 +62,48 @@ const onTabChange = tabId => {
 };
 
 const onOpenConversation = conversationId => {
-  router.push({
-    name: 'inbox_conversation',
-    params: { conversationId },
-  });
+  router.push(
+    accountScopedRoute('inbox_conversation', {
+      conversation_id: conversationId,
+    })
+  );
 };
 
 const onBack = () => {
   router.back();
 };
+
+// iOS PWA standalone: when restored from bfcache, JS event handlers
+// may not be re-attached, making the page visually correct but non-interactive.
+// Force a reload to re-hydrate the app.
+const isStandalone =
+  window.matchMedia('(display-mode: standalone)').matches ||
+  window.navigator.standalone === true;
+
+const onPageShow = event => {
+  if (event.persisted) {
+    window.location.reload();
+  }
+};
+
+onMounted(() => {
+  if (isStandalone) {
+    window.addEventListener('pageshow', onPageShow);
+  }
+});
+
+onUnmounted(() => {
+  if (isStandalone) {
+    window.removeEventListener('pageshow', onPageShow);
+  }
+});
 </script>
 
 <template>
-  <div class="flex flex-col w-full h-full bg-n-surface-1">
+  <div
+    class="flex flex-col w-full h-full bg-n-surface-1"
+    style="touch-action: manipulation"
+  >
     <div class="flex-1 overflow-hidden pb-[calc(52px+env(safe-area-inset-bottom))]">
       <MobileChatView
         v-if="isInChatView"
@@ -96,14 +112,14 @@ const onBack = () => {
       />
       <template v-else>
         <MobileInboxView
-          v-show="activeTab === 0"
+          v-if="activeTab === 0"
           @open-conversation="onOpenConversation"
         />
         <MobileConversationList
-          v-show="activeTab === 1"
+          v-else-if="activeTab === 1"
           @open-conversation="onOpenConversation"
         />
-        <MobileSettingsView v-show="activeTab === 2" />
+        <MobileSettingsView v-else />
       </template>
     </div>
     <MobileBottomTabBar

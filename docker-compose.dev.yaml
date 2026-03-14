@@ -14,21 +14,21 @@
 #   Ngrok UI   → http://localhost:4040 (quando ativado)
 # =============================================================================
 
-services:
-  base: &base
-    build:
-      context: .
-      dockerfile: ./docker/Dockerfile
-      args:
-        BUNDLE_WITHOUT: ''
-        EXECJS_RUNTIME: 'Node'
-        RAILS_ENV: 'development'
-        RAILS_SERVE_STATIC_FILES: 'false'
-    tty: true
-    stdin_open: true
-    image: chatwit:development
-    env_file: .env
+x-base: &base
+  build:
+    context: .
+    dockerfile: ./docker/Dockerfile
+    args:
+      BUNDLE_WITHOUT: ''
+      EXECJS_RUNTIME: 'Node'
+      RAILS_ENV: 'development'
+      RAILS_SERVE_STATIC_FILES: 'false'
+  tty: true
+  stdin_open: true
+  image: chatwit:development
+  env_file: .env
 
+services:
   rails:
     <<: *base
     image: chatwit:development
@@ -39,8 +39,6 @@ services:
       - cache:/app/tmp/cache
       - bundle:/usr/local/bundle
     depends_on:
-      - postgres
-      - redis
       - vite
       - mailhog
       - sidekiq
@@ -49,8 +47,12 @@ services:
     env_file: .env
     environment:
       - VITE_DEV_SERVER_HOST=vite
+      - VITE_RUBY_HOST=vite
+      - VITE_RUBY_PORT=3036
       - NODE_ENV=development
       - RAILS_ENV=development
+    networks:
+      - minha_rede
     command: ["sh", "-c", "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b 0.0.0.0"]
 
   sidekiq:
@@ -63,13 +65,13 @@ services:
       - cache:/app/tmp/cache
       - bundle:/usr/local/bundle
     depends_on:
-      - postgres
-      - redis
       - mailhog
     environment:
       - NODE_ENV=development
       - RAILS_ENV=development
-    command: ["bundle", "exec", "sidekiq", "-C", "config/sidekiq.yml"]
+    networks:
+      - minha_rede
+    command: ["sh", "-c", "git config --global --add safe.directory /app || true && bundle exec sidekiq -C config/sidekiq.yml"]
 
   vite:
     <<: *base
@@ -86,35 +88,17 @@ services:
       - VITE_DEV_SERVER_HOST=0.0.0.0
       - NODE_ENV=development
       - RAILS_ENV=development
+    networks:
+      - minha_rede
     command: ["sh", "-c", "pnpm exec vite dev --host 0.0.0.0 --port 3036"]
-
-  postgres:
-    image: pgvector/pgvector:pg17
-    restart: always
-    ports:
-      - '5434:5432'
-    volumes:
-      - postgres:/var/lib/postgresql/data
-    env_file: .env
-    environment:
-      - POSTGRES_DB=chatwoot
-      - POSTGRES_USER=postgres
-
-  redis:
-    image: redis:alpine
-    restart: always
-    command: ["sh", "-c", "redis-server --requirepass \"$REDIS_PASSWORD\""]
-    env_file: .env
-    volumes:
-      - redis:/data
-    ports:
-      - '6381:6379'
 
   mailhog:
     image: mailhog/mailhog
     ports:
       - 1025:1025
       - 8025:8025
+    networks:
+      - minha_rede
 
   # ───────────────────────────────────────────────────────
   # NGROK - Túnel público (só sobe com: ./dev.sh -n)
@@ -132,12 +116,17 @@ services:
       - "4040:4040"
     depends_on:
       - rails
+    networks:
+      - minha_rede
     restart: unless-stopped
 
 volumes:
-  postgres:
-  redis:
   packs:
   node_modules:
   cache:
   bundle:
+
+networks:
+  minha_rede:
+    external: true
+    name: minha_rede

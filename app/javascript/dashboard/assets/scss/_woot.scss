@@ -31,9 +31,25 @@ body {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   height: 100%;
+  height: 100dvh;
   margin: 0;
   padding: 0;
   width: 100%;
+  overscroll-behavior: none;
+}
+
+// iOS PWA standalone: ensure touch events work and prevent bounce scroll
+@media (display-mode: standalone) {
+  html,
+  body {
+    touch-action: manipulation;
+    -webkit-touch-callout: default;
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    height: 100dvh;
+  }
 }
 
 .tooltip {
@@ -42,6 +58,7 @@ body {
 
 #app {
   @apply h-full w-full;
+  height: 100dvh;
 }
 
 .custom-dashed-border {

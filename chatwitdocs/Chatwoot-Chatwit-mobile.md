@@ -1,14 +1,60 @@
-# Chatwit Mobile Redesign
+# Chatwit Mobile Module (PWA)
 
-> **Status:** MVP Implementation
-> **Date:** 2026-03-13
+> **Status:** Production
+> **Date:** 2026-03-14
 > **Base:** Chatwoot 4.10.1
+> **Tipo:** Customização exclusiva do fork Chatwit — não existe no Chatwoot upstream
+
+---
+
+## IDENTIDADE DO FORK — REGRA FUNDAMENTAL
+
+O mobile do Chatwit é um módulo do **nosso fork**, não uma réplica do app nativo oficial do Chatwoot. A referência em `chatwitdocs/chatwoot-mobile-app/` serve apenas para **layout, hierarquia visual e ergonomia**.
+
+Fica proibido portar para o PWA do Chatwit qualquer item do app nativo que reintroduza branding, suporte, serviços ou fluxos próprios do produto Chatwoot. Exemplos proibidos:
+
+- `Chat with us` / widget de suporte do Chatwoot
+- prompts, links ou CTAs de suporte do Chatwoot
+- branding, copy ou identidade do app oficial
+- SDKs, serviços ou integrações que existam só no app nativo oficial
+
+Se um item existir no app nativo, mas não tiver uma contraparte real no Chatwit web/desktop, ele **não deve entrar** no nosso mobile. O critério continua sendo o mesmo: conectar somente funcionalidades já existentes e legítimas do fork Chatwit.
+
+---
+
+## ISOLAMENTO COMPLETO — REGRA FUNDAMENTAL
+
+O módulo mobile opera em **isolamento total** do desktop. Ele é uma **camada visual** que renderiza condicionalmente quando `width < 768px`. As regras abaixo são invioláveis:
+
+### 1. Zero regressão no desktop
+O módulo mobile **NUNCA** pode alterar, quebrar ou interferir em qualquer funcionalidade da versão desktop. O desktop é a aplicação principal e deve permanecer 100% intacto. Toda alteração mobile vive exclusivamente em `components-next/mobile/` e no guard `v-if="isSmallScreen"` do `Dashboard.vue`.
+
+### 2. CONECTAR — não recriar
+**Todas as funcionalidades solicitadas para o mobile JÁ EXISTEM na versão desktop.** O trabalho no módulo mobile é sempre **CONECTAR** as funções desktop ao layout mobile. Exemplos:
+
+| Pedido mobile | O que já existe no desktop | O que o mobile faz |
+|---------------|---------------------------|---------------------|
+| Status da conversa (Open/Pending/Snooze/Resolve) | Vuex `conversations/toggleStatus`, `updateConversation` | Conecta os mesmos dispatches a botões/sheet mobile |
+| Atribuir agente/time | Stores `agents`, `teams`, actions existentes | Conecta as mesmas actions a um bottom sheet mobile |
+| Labels, prioridade | Stores `labels`, `conversationLabels` | Conecta ao layout mobile |
+| Push notifications | `pushHelper.js`, `sw.js`, VAPID, `NotificationSubscriptions` API | Conecta o mesmo fluxo a um toggle no settings mobile |
+| Detalhes do contato | `ContactPanel.vue`, stores `contacts` | Conecta os dados a uma view mobile |
+
+**A palavra-chave é CONECTAR.** Nunca reimplemente lógica, stores, API calls ou services. Use `useMapGetter`, `store.dispatch`, composables e componentes que o desktop já utiliza.
+
+### 3. Sem dependências externas
+- **Push:** Web Push via VAPID (chaves auto-geradas no banco). Sem Firebase, sem Chatwoot Hub, sem app nativo.
+- **PWA:** `manifest.json` + meta tags + service worker (`public/sw.js`). Instalável via "Adicionar à Tela de Início" no iOS/Android.
+- **Sem service de terceiros:** Tudo roda no próprio servidor Chatwit.
+
+### 4. Estrutura de arquivos
+Todo código mobile vive em `app/javascript/dashboard/components-next/mobile/`. Traduções em `locale/*/mobile.json`. Esta documentação em `chatwitdocs/Chatwoot-Chatwit-mobile.md`.
+
+---
 
 ## Overview
 
-Complete mobile-first redesign of the Chatwit web frontend. When accessed from a smartphone (screen width < 768px), the app now renders a dedicated mobile layout that replicates the Chatwoot mobile app (React Native) experience with 3 bottom tabs: **Inbox**, **Conversations**, and **Settings**.
-
-The desktop experience is completely unchanged — all mobile components are conditionally rendered only on small screens.
+PWA mobile-first completo para o Chatwit. Quando acessado de um smartphone (screen width < 768px), o app renderiza um layout mobile dedicado com bottom tab navigation: **Inbox**, **Conversations**, **Settings**. A versão desktop permanece 100% inalterada.
 
 ## Architecture
 
@@ -66,6 +112,7 @@ All under `app/javascript/dashboard/components-next/mobile/`:
 | `MobileInboxView.vue` | Full-screen notification list using existing `InboxCard` |
 | `MobileInboxHeader.vue` | Header with title + "Mark all read" button |
 | `MobilePullToRefresh.vue` | Touch-based pull-to-refresh wrapper |
+| `MobileConversationStatusSheet.vue` | Bottom sheet de situação da conversa no mobile, aberto via swipe action `Status` |
 
 ### Settings Tab
 | Component | Description |
@@ -176,12 +223,207 @@ All under `app/javascript/dashboard/components-next/mobile/`:
 
 ## Changelog
 
+### 2026-03-14 — Mobile Conversation Pager Width Fix
+
+The mobile conversation pager could size each horizontal page against the full `200%` track width instead of a single viewport. In practice this pushed the chat surface sideways and made message bubbles appear cut off.
+
+Implemented in the mobile shell only:
+
+- Reworked the pager track in `components-next/mobile/MobileChatView.vue` so each page is a single viewport-wide flex item.
+- Added explicit shrink/width guards to the message page container used by the reused desktop `MessagesView`.
+- Preserved the existing desktop message components and store flow unchanged.
+
+Desktop behavior remains unchanged because the fix is isolated to the dedicated mobile pager layout.
+
+### 2026-03-14 — Mobile Chat Bubble Width Clamp
+
+The mobile conversation view could clip wide message bubbles, especially WhatsApp interactive cards and other rich payloads that inherited desktop-oriented width envelopes.
+
+Implemented in the mobile shell only:
+
+- Added a mobile-only bubble width clamp in `components-next/mobile/MobileChatView.vue` based on the native Chatwoot app proportion (`300px` max width with viewport fallback).
+- Forced rich/interactive bubble internals to respect the mobile bubble width instead of expanding past the viewport.
+- Added safer word wrapping for long content inside mobile message bubbles.
+
+Desktop behavior remains unchanged because the fix is isolated under `.mobile-chat-messages` in the dedicated mobile layout.
+
+### 2026-03-14 — Mobile Settings Alinhado ao Fork Chatwit
+
+#### Decisão de produto
+
+- A documentação do módulo mobile passou a deixar explícito, logo no topo, que o PWA do Chatwit não deve portar suporte, widgets, branding ou fluxos específicos do app nativo oficial do Chatwoot.
+- O app nativo segue sendo apenas referência visual; funcionalidades sem contraparte real no fork Chatwit continuam fora de escopo.
+
+#### Ajustes implementados
+
+- A tela `MobileSettingsView.vue` agora conecta o seletor de idioma ao fluxo real de `ui_settings.locale` já usado no web.
+- A troca de conta passou a usar a mesma estratégia segura do desktop: navegação para `/app/accounts/:id/dashboard`.
+- As labels mobile receberam as novas chaves de idioma necessárias em `en`, `pt` e `pt_BR`.
+
+### 2026-03-14 — Mobile Shell Isolation Fix
+
+#### Problem
+
+- On small screens, the dashboard could briefly evaluate desktop shell state before fully settling into `MobileLayout`.
+- That short-lived desktop path was enough to emit `SIDEBAR.CONVERSATION_WORKFLOW` warnings in `pt_BR` and to load desktop-only command bar code, which also produced the `Lit is in dev mode` console warning in mobile sessions.
+- Mobile swipe rows also used `aria-hidden` on a container that still held focusable action buttons, triggering accessibility warnings in the browser console.
+
+#### Fix
+
+- Stabilized the initial viewport detection in `Dashboard.vue` with `window.innerWidth` as the initial width passed into `useWindowSize()`.
+- Added the missing `SIDEBAR.CONVERSATION_WORKFLOW` key to Portuguese sidebar locale bundles.
+- Reworked `MobileSwipeableRow.vue` so hidden swipe actions become inert and leave the tab order instead of being hidden with focused descendants.
+
+#### Validation result
+
+- The mobile shell remains isolated from desktop navigation setup on first render.
+- Portuguese mobile sessions no longer emit the `SIDEBAR.CONVERSATION_WORKFLOW` warning.
+- Swipe action rows no longer reproduce the `Blocked aria-hidden on an element because its descendant retained focus` warning.
+
+### 2026-03-14 — Native Conversation Actions Screen
+
+#### Problem
+
+- The mobile conversation screen still lacked the native Chatwoot app's second horizontal page for conversation actions.
+- Users could not swipe left inside an open chat to reveal the dedicated actions/details screen shown in the native app reference.
+- Existing functionality for assignee, team, priority, labels, participants, and conversation attributes was available, but not surfaced in the native mobile layout.
+
+#### Fix
+
+- Reworked `MobileChatView.vue` into a two-page horizontal pager: chat on the first page and conversation actions on the second.
+- Added `MobileConversationActionsView.vue` with native-style status cards, settings card, labels section, participants section, and attributes section.
+- Added mobile-only picker sheets for assignee/team/priority selection and multi-select sheets for labels and participants.
+- Updated `MobileChatHeader.vue` with native-style action buttons that open the actions page from the header.
+
+#### Validation target
+
+- In a mobile conversation, swiping from right to left reveals the conversation actions page without leaving the current route.
+- The second page follows the native Chatwoot structure: top status cards, settings card, labels, participants, and attributes.
+- Changing assignee, team, priority, labels, participants, or status continues to use the existing Chatwit/Desktop data flow.
+
+### 2026-03-14 — Gesture Polish for Conversation Pager
+
+#### Problem
+
+- The two-page conversation pager was functionally correct, but the transition still felt web-like.
+- Closing the actions page with the inverse swipe lacked enough visual weight and snap feedback.
+
+#### Fix
+
+- Added drag-progress-driven depth to the chat page with scale, radius, and shadow changes during horizontal movement.
+- Added parallax and staged opacity for the actions page while it enters and exits.
+- Added threshold haptic feedback and touch-cancel cleanup so the swipe open/close interaction feels more native.
+- Added a subtle in-context swipe hint pill on the chat page.
+
+#### Validation target
+
+- Swiping left opens the actions page with progressive depth/parallax instead of a flat page slide.
+- Swiping right on the actions page closes it with the same snap behavior and without gesture residue.
+
+### 2026-03-13 — Mobile Composer Popout Height Fix
+
+#### Problem
+
+- In mobile viewport, tapping the maximize button in the conversation composer opened the popout reply box with desktop-sized minimum heights.
+- The expanded composer could grow past the viewport height, pushing the top of the reply box off-screen instead of keeping the editor scrollable.
+
+#### Fix
+
+- Added a mobile-only override in `MessagesView.vue` for the popout composer (`.modal-mask`).
+- On screens below `768px`, the popout reply box now anchors near the bottom, uses full mobile width with safe margins, and caps its total height to the viewport.
+- The inner ProseMirror editor now gets a mobile-specific max height, so long content scrolls inside the editor instead of stretching the whole composer.
+
+#### Validation result
+
+- Reproduced in MCP Playwright mobile mode at `336x498`.
+- After opening the composer popout and inserting many lines, the expanded reply box remained inside the viewport and the editor switched to internal scrolling (`clientHeight: 256`, `scrollHeight: 758`).
+
+### 2026-03-13 — Mobile Reply Toggle Fix
+
+#### Problem
+
+- In mobile conversation view, the `Responder / Mensagem Privada` switch could become stuck in private-note mode.
+- The root cause was not the switch itself: on first render, the reply box sometimes received an empty `inbox`, so `inboxMixin` failed to detect WhatsApp conversations and incorrectly marked the thread as reply-restricted.
+- The private-note label could also wrap vertically inside the segmented control on small screens.
+
+#### Fix
+
+- Added a channel-type fallback in `inboxMixin.js` using the selected conversation metadata when `inbox.channel_type` is not available yet.
+- This restores correct WhatsApp detection during mobile conversation boot, so the reply-mode switch stays enabled when template-based WhatsApp replies are allowed.
+- Tightened the `EditorModeToggle.vue` label styling for mobile with nowrap and smaller spacing/text sizing so the segmented control stays on a single line.
+
+#### Validation result
+
+- Reproduced and validated in MCP Playwright mobile mode at `336x498`.
+- The switch now renders as enabled, the private-note label stays on one line (`16px` label height inside a `32px` control), and clicking from `NOTE` returns the composer to `REPLY` successfully.
+
+### 2026-03-13 — Mobile Stabilization Pass
+
+After the initial mobile implementation, a stabilization pass was required because the mobile dashboard was functional but not production-safe in real `pt` and `pt_BR` usage.
+
+#### Why this was necessary
+
+- The mobile shell was emitting repeated `MOBILE.*` i18n warnings for Portuguese users because the mobile translation bundle existed only in English.
+- Notification-driven mobile navigation could fail when the payload arrived without a complete `primaryActor` reference.
+- `InboxCard` assumed sender metadata was always present, which is not true for every notification payload.
+- `MobileConversationList.vue` was initially wired to non-existent Vuex paths (`chatList/*`) instead of the real conversation store API, which caused runtime errors in mobile.
+- `MobileLayout.vue` kept hidden tabs mounted with `v-show`, so inactive mobile views could still react to state changes and crash the current screen.
+
+#### What was changed
+
+| File | What changed | Why |
+|------|--------------|-----|
+| `i18n/locale/pt/mobile.json` | Added Portuguese mobile translations | Removes missing-key warnings for `pt` users |
+| `i18n/locale/pt_BR/mobile.json` | Added Brazilian Portuguese mobile translations | Removes missing-key warnings for `pt_BR` users |
+| `i18n/locale/pt/index.js` | Registered `mobile.json` bundle | Makes the new mobile keys available in runtime |
+| `i18n/locale/pt_BR/index.js` | Registered `mobile.json` bundle | Makes the new mobile keys available in runtime |
+| `components-next/Inbox/InboxCard.vue` | Added guards for missing sender name/thumbnail | Prevents render failures when notification metadata is incomplete |
+| `components-next/mobile/MobileInboxView.vue` | Guarded conversation open flow when `primaryActor.id` is absent | Prevents broken navigation from malformed/incomplete notification payloads |
+| `routes/dashboard/inbox/InboxList.vue` | Guarded inbox navigation against missing `primaryActor`/`inboxId` | Keeps desktop/inbox behavior consistent with the mobile fix |
+| `components-next/mobile/MobileConversationList.vue` | Rewired to real store getters/actions (`getChatListLoadingStatus`, `conversationPage/*`, `setChatListFilters`, `emptyAllConversations`) | Fixes runtime errors caused by invalid Vuex integration |
+| `components-next/mobile/MobileLayout.vue` | Switched tab rendering from `v-show` to `v-if`/`v-else-if` | Ensures only the active mobile tab is mounted, reducing hidden-view crashes |
+
+#### Validation result
+
+- Mobile translation warnings for `MOBILE.*` were eliminated in MCP Playwright mobile mode.
+- The `TypeError` and invalid Vuex action errors observed during mobile navigation no longer reproduced after the store/layout fixes.
+- The mobile dashboard could be opened again in mobile mode without the previous render-loop failures.
+
+#### Remaining issues outside the mobile shell
+
+- `mini-profiler-resources/includes.js` still returns `500` in this dev environment.
+- Some Active Storage image URLs still return `404`/`500`.
+
+These remaining errors are backend or asset-serving issues, not mobile layout/runtime issues.
+
 ### 2026-03-13 — Phase 2: Enhanced Mobile UX
 
 #### New Components
 | Component | Path | Description |
 |-----------|------|-------------|
 | `MobileSwipeableRow.vue` | `components-next/mobile/MobileSwipeableRow.vue` | Reusable swipe-to-reveal actions wrapper for list rows. Supports configurable action buttons, threshold-based activation, horizontal/vertical conflict resolution, and auto-close via provide/inject. |
+
+### 2026-03-13 — Mobile Conversation Status Sheet
+
+#### Problem
+
+- In mobile conversation list, swipe actions existed, but the status-change flow from the native/mobile app was missing.
+- The user needed the same interaction shown in the reference images: swipe left, tap `Status`, then choose between `Pendentes`, `Adiadas`, and `Resolvidas` in a bottom sheet.
+
+#### Fix
+
+- Replaced the direct swipe actions on mobile conversation rows with a single `Status` action.
+- Added `MobileConversationStatusSheet.vue` to render the bottom sheet with the three status options.
+- Wired the mobile flow to the existing conversation status update pipeline:
+    - `Pendentes` -> `pending`
+    - `Adiadas` -> `snoozed` using the existing `until_next_reply` behavior
+    - `Resolvidas` -> `resolved`, including the existing required-attributes validation modal when needed
+
+#### Validation target
+
+- Swiping a conversation to the left now reveals only the `Status` action in mobile mode.
+- Tapping `Status` opens a bottom sheet consistent with the provided images.
+- Selecting a status uses the same underlying store/action flow already used by the regular app.
 
 #### New Composables
 | Composable | Path | Description |

@@ -1,0 +1,132 @@
+{
+  "MOBILE": {
+    "TABS": {
+      "INBOX": "Caixa de entrada",
+      "CONVERSATIONS": "Conversas",
+      "SETTINGS": "Configurações"
+    },
+    "INBOX": {
+      "TITLE": "Caixa de entrada",
+      "MARK_ALL_READ": "Marcar tudo como lido",
+      "NO_NOTIFICATIONS": "Nenhuma notificação ainda",
+      "PULL_TO_REFRESH": "Puxe para atualizar"
+    },
+    "CONVERSATIONS": {
+      "TITLE": "Conversas",
+      "NO_CONVERSATIONS": "Nenhuma conversa ainda",
+      "FILTER": "Filtrar",
+      "SEARCH": "Buscar conversas"
+    },
+    "CHAT": {
+      "BACK": "Voltar",
+      "TYPE_MESSAGE": "Digite uma mensagem",
+      "PRIVATE_PLACEHOLDER": "Visivel apenas para agentes",
+      "USE_TEMPLATE": "Use template para responder"
+    },
+    "ACTIONS": {
+      "SECTIONS": {
+        "SETTINGS": "Configurações",
+        "LABELS": "Labels",
+        "PARTICIPANTS": "Participantes",
+        "ATTRIBUTES": "Atributos"
+      },
+      "STATUS": {
+        "OPEN": "Open"
+      },
+      "CTA": {
+        "CHANGE": "Alterar",
+        "ASSIGN": "Atribuir",
+        "ADD_LABEL": "Add",
+        "ADD_PARTICIPANT": "Adicionar Participante",
+        "APPLY": "Aplicar",
+        "SWIPE_HINT": "Deslize para detalhes"
+      },
+      "ASSIGNEE": {
+        "NONE": "Nenhum agente atribuido"
+      },
+      "TEAM": {
+        "NONE": "Nenhum Time Atribuido"
+      },
+      "LABELS": {
+        "EMPTY": "Nenhuma label adicionada"
+      },
+      "PARTICIPANTS": {
+        "EMPTY": "Nenhum participante adicionado"
+      },
+      "ATTRIBUTES": {
+        "CONVERSATION_ID": "ID da conversa",
+        "BROWSER": "Navegador",
+        "OPERATING_SYSTEM": "Sistema Operacional",
+        "REFERER": "Origem",
+        "IP_ADDRESS": "Endereco IP"
+      },
+      "PICKERS": {
+        "ASSIGNEE": "Atribuir agente",
+        "TEAM": "Atribuir time",
+        "PRIORITY": "Alterar prioridade",
+        "LABELS": "Atualizar labels",
+        "PARTICIPANTS": "Gerenciar participantes"
+      },
+      "SEARCH": {
+        "ASSIGNEE": "Buscar agentes",
+        "TEAM": "Buscar times",
+        "LABELS": "Buscar labels",
+        "PARTICIPANTS": "Buscar participantes"
+      },
+      "EMPTY": {
+        "ASSIGNEE": "Nenhum agente encontrado",
+        "TEAM": "Nenhum time encontrado",
+        "PRIORITY": "Nenhuma prioridade encontrada",
+        "LABELS": "Nenhuma label encontrada",
+        "PARTICIPANTS": "Nenhum participante encontrado"
+      }
+    },
+    "SETTINGS": {
+      "TITLE": "Configurações",
+      "AVAILABILITY": "Disponibilidade",
+      "AVAILABILITY_ONLINE": "Online",
+      "AVAILABILITY_BUSY": "Ocupado",
+      "AVAILABILITY_OFFLINE": "Offline",
+      "NOTIFICATIONS": "Notificações",
+      "LANGUAGE": "Idioma",
+      "USE_ACCOUNT_DEFAULT": "Usar idioma padrão da conta",
+      "LANGUAGE_UPDATED": "Idioma atualizado",
+      "LANGUAGE_UPDATE_ERROR": "Não foi possível atualizar o idioma",
+      "SWITCH_ACCOUNT": "Trocar conta",
+      "LOGOUT": "Sair",
+      "VERSION": "Versão"
+    },
+    "FILTER_SHEET": {
+      "TITLE": "Filtros",
+      "STATUS": "Status",
+      "ASSIGNEE": "Tipo de responsável",
+      "SORT_BY": "Ordenar por",
+      "APPLY": "Aplicar filtros",
+      "RESET": "Redefinir"
+    },
+    "STATUS_SHEET": {
+      "TITLE": "Alterar situação",
+      "OPTIONS": {
+        "PENDING": "Pendentes",
+        "SNOOZED": "Adiadas",
+        "RESOLVED": "Resolvidas"
+      }
+    },
+    "SWIPE": {
+      "STATUS": "Status",
+      "MARK_READ": "Lido",
+      "MARK_UNREAD": "N\u00e3o lido",
+      "DELETE": "Excluir",
+      "CONFIRM_DELETE": "Tem certeza de que deseja excluir esta conversa?"
+    },
+    "PUSH": {
+      "TITLE": "Notificações",
+      "LABEL": "Notificações push",
+      "ENABLED": "Notificações estão ativas",
+      "DISABLED": "Toque para ativar notificações push",
+      "DENIED": "Notificações bloqueadas pelo navegador",
+      "DENIED_HELP": "Para ativar notificações, vá às configurações do navegador ou dispositivo e permita notificações para este site.",
+      "IOS_INSTALL_REQUIRED": "Adicione à Tela de Início primeiro para receber notificações"
+    }
+  }
+}

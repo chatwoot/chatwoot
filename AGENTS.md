@@ -1,4 +1,27 @@
-# CLAUDE.md — Chatwit 4.10
+#Chatwit 4.10
+SERVIDOR DE PRODUÇÃO ssh -i ~/.ssh/keys/production-server.key root@49.13.155.94 "docker exec...
+POSTGRES SHARED INFRA LOCAL docker exec postgres psql -U postgres -lqt
+
+## Mobile Module (PWA) — Fork Exclusivo Chatwit
+
+Chatwit tem um **módulo mobile PWA completo** em `components-next/mobile/`. Regras críticas:
+
+1. **ISOLAMENTO TOTAL do desktop.** O módulo mobile é 100% visual — renderiza condicionalmente via `<MobileLayout v-if="isSmallScreen" />` em `Dashboard.vue`. Nenhuma funcionalidade desktop pode ser alterada ou quebrada pelo mobile. Zero regressão.
+2. **CONECTAR, não recriar.** Toda feature solicitada para mobile **já existe na versão desktop**. O trabalho é sempre **conectar** stores, composables, APIs e componentes existentes ao layout mobile. Nunca reimplemente lógica que o desktop já tem.
+3. **Push via Web Push (VAPID)**, não Firebase/FCM. Chaves auto-geradas. Service worker em `public/sw.js`.
+4. **Código:** `components-next/mobile/`, i18n em `locale/*/mobile.json`. Doc: `chatwitdocs/Chatwoot-Chatwit-mobile.md`.
+
+## Infra compartilhada local
+
+- Rede Docker: `minha_rede`
+- PostgreSQL compartilhado: host `postgres`, porta `5432`, imagem `pgvector/pgvector:pg17`
+- Redis compartilhado: host `redis`, porta `6379`, imagem `redis:8.6.1`
+- Compose da infra: `/home/wital/shared-infra/docker-compose.yml`
+- Os scripts `dev.sh` devem reutilizar essa infra e subir `postgres`/`redis` apenas se ainda não estiverem ativos
+
+## Regra para Docker Compose
+
+- Não adicionar `version:` no topo de arquivos `docker-compose*.yml`/`docker-compose*.yaml`; esse campo está deprecated no Compose atual
 
 > **Universal Agent Instructions** — Compatible with Claude Code, Cursor, Copilot, Codex, Gemini CLI, and other AI coding agents.
 

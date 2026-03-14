@@ -30,7 +30,17 @@ export const INBOX_FEATURE_MAP = {
 export default {
   computed: {
     channelType() {
-      return this.inbox.channel_type;
+      const selectedChat = this.$store?.getters?.getSelectedChat;
+      const localChat = this.$data?.chat;
+
+      return (
+        this.inbox?.channel_type ||
+        selectedChat?.meta?.channel ||
+        selectedChat?.channel_type ||
+        localChat?.meta?.channel ||
+        localChat?.channel_type ||
+        ''
+      );
     },
     whatsAppAPIProvider() {
       return this.inbox.provider || '';

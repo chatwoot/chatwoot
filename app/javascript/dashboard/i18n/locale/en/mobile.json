@@ -19,7 +19,67 @@
     },
     "CHAT": {
       "BACK": "Back",
-      "TYPE_MESSAGE": "Type a message"
+      "TYPE_MESSAGE": "Type a message",
+      "PRIVATE_PLACEHOLDER": "Visible only to agents",
+      "USE_TEMPLATE": "Use template to reply"
+    },
+    "ACTIONS": {
+      "SECTIONS": {
+        "SETTINGS": "Settings",
+        "LABELS": "Labels",
+        "PARTICIPANTS": "Participants",
+        "ATTRIBUTES": "Attributes"
+      },
+      "STATUS": {
+        "OPEN": "Open"
+      },
+      "CTA": {
+        "CHANGE": "Change",
+        "ASSIGN": "Assign",
+        "ADD_LABEL": "Add",
+        "ADD_PARTICIPANT": "Add Participant",
+        "APPLY": "Apply",
+        "SWIPE_HINT": "Swipe for details"
+      },
+      "ASSIGNEE": {
+        "NONE": "Unassigned"
+      },
+      "TEAM": {
+        "NONE": "No team assigned"
+      },
+      "LABELS": {
+        "EMPTY": "No labels added"
+      },
+      "PARTICIPANTS": {
+        "EMPTY": "No participants added"
+      },
+      "ATTRIBUTES": {
+        "CONVERSATION_ID": "Conversation ID",
+        "BROWSER": "Browser",
+        "OPERATING_SYSTEM": "Operating System",
+        "REFERER": "Referrer",
+        "IP_ADDRESS": "IP Address"
+      },
+      "PICKERS": {
+        "ASSIGNEE": "Assign agent",
+        "TEAM": "Assign team",
+        "PRIORITY": "Change priority",
+        "LABELS": "Update labels",
+        "PARTICIPANTS": "Manage participants"
+      },
+      "SEARCH": {
+        "ASSIGNEE": "Search agents",
+        "TEAM": "Search teams",
+        "LABELS": "Search labels",
+        "PARTICIPANTS": "Search participants"
+      },
+      "EMPTY": {
+        "ASSIGNEE": "No agents found",
+        "TEAM": "No teams found",
+        "PRIORITY": "No priorities found",
+        "LABELS": "No labels found",
+        "PARTICIPANTS": "No participants found"
+      }
     },
     "SETTINGS": {
       "TITLE": "Settings",
@@ -29,6 +89,9 @@
       "AVAILABILITY_OFFLINE": "Offline",
       "NOTIFICATIONS": "Notifications",
       "LANGUAGE": "Language",
+      "USE_ACCOUNT_DEFAULT": "Use account default",
+      "LANGUAGE_UPDATED": "Language updated",
+      "LANGUAGE_UPDATE_ERROR": "Unable to update language",
       "SWITCH_ACCOUNT": "Switch account",
       "LOGOUT": "Logout",
       "VERSION": "Version"
@@ -41,12 +104,29 @@
       "APPLY": "Apply filters",
       "RESET": "Reset"
     },
+    "STATUS_SHEET": {
+      "TITLE": "Change status",
+      "OPTIONS": {
+        "PENDING": "Pending",
+        "SNOOZED": "Snoozed",
+        "RESOLVED": "Resolved"
+      }
+    },
     "SWIPE": {
-      "RESOLVE": "Resolve",
-      "REOPEN": "Reopen",
-      "DELETE": "Delete",
+      "STATUS": "Status",
       "MARK_READ": "Read",
+      "MARK_UNREAD": "Unread",
+      "DELETE": "Delete",
       "CONFIRM_DELETE": "Are you sure you want to delete this conversation?"
+    },
+    "PUSH": {
+      "TITLE": "Notifications",
+      "LABEL": "Push notifications",
+      "ENABLED": "Notifications are active",
+      "DISABLED": "Tap to enable push notifications",
+      "DENIED": "Notifications blocked by browser",
+      "DENIED_HELP": "To enable notifications, go to your browser or device settings and allow notifications for this site.",
+      "IOS_INSTALL_REQUIRED": "Add to Home Screen first to receive notifications"
     }
   }
 }

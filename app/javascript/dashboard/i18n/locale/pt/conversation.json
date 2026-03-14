@@ -185,6 +185,9 @@
       "DISABLE_SIGN_TOOLTIP": "Desativar assinatura",
       "MSG_INPUT": "Shift + Enter para nova linha. Comece com '/' para selecionar uma resposta pronta.",
       "PRIVATE_MSG_INPUT": "Shift + Enter para nova linha. Esta mensagem apenas será visível para agentes",
+      "MESSAGING_RESTRICTED": "Não pode responder a esta conversa",
+      "MESSAGING_RESTRICTED_WHATSAPP": "Só pode responder usando uma mensagem de template devido à restrição da janela de 24 horas do WhatsApp",
+      "MESSAGING_RESTRICTED_API": "Só pode responder usando uma mensagem de template devido à restrição da janela de mensagens",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "A assinatura da mensagem não está configurada. Por favor, configure-a nas configurações do perfil.",
       "CLICK_HERE": "Clique aqui para atualizar",
       "WHATSAPP_TEMPLATES": "Template do WhatsApp"

@@ -1313,7 +1313,6 @@ ActiveRecord::Schema[7.1].define(version: 2026_03_11_130000) do
     t.jsonb "subscriptions", default: ["conversation_status_changed", "conversation_updated", "conversation_created", "contact_created", "contact_updated", "message_created", "message_updated", "webwidget_triggered"]
     t.boolean "include_access_token", default: false, null: false
     t.string "name"
-    t.string "secret"
     t.index ["account_id", "url"], name: "index_webhooks_on_account_id_and_url", unique: true
   end
 

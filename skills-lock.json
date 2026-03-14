@@ -1,0 +1,95 @@
+{
+  "version": 1,
+  "skills": {
+    "chatwit-upstream-sync": {
+      "source": "Witroch4/witdev-skills",
+      "sourceType": "github",
+      "computedHash": "a06c90670b2f496b04c68148634539be80dd60b5b7653cc96b4a7bb2206bcec1"
+    },
+    "db-backup-restore": {
+      "source": "Witroch4/witdev-skills",
+      "sourceType": "github",
+      "computedHash": "1cf3ddd32388604880d2ec9734bc10d23bb579cfdc05e4a45b910b61fc1077b9"
+    },
+    "design-md": {
+      "source": "Witroch4/witdev-skills",
+      "sourceType": "github",
+      "computedHash": "d3a4c7d2f2715a33662c8b06ffc16035d01965a8b4ed81c2958fb22ae94760f8"
+    },
+    "docker-expert": {
+      "source": "Witroch4/witdev-skills",
+      "sourceType": "github",
+      "computedHash": "76bd52d934142cb8f3861cb37f2a39ad93bf3b03dcbc94a02beaa0544f6dd7c2"
+    },
+    "find-skills": {
+      "source": "Witroch4/witdev-skills",
+      "sourceType": "github",
+      "computedHash": "6412eb4eb3b91595ebab937f0c69501240e7ba761b3d82510b5cf506ec5c7adc"
+    },
+    "frontend-design": {
+      "source": "Witroch4/witdev-skills",
+      "sourceType": "github",
+      "computedHash": "063a0e6448123cd359ad0044cc46b0e490cc7964d45ef4bb9fd842bd2ffbca67"
+    },
+    "gemini-api-dev": {
+      "source": "Witroch4/witdev-skills",
+      "sourceType": "github",
+      "computedHash": "8ff8d320f21bff9dc980b8249743f39df11c80e07da3b2c5ab070d8ea9bdab46"
+    },
+    "master-front-skill": {
+      "source": "Witroch4/witdev-skills",
+      "sourceType": "github",
+      "computedHash": "ebb3052c914f471743d2f3ea265428baf7f82cd1b3c0da54cdfa18bedeb025c8"
+    },
+    "python-performance-optimization": {
+      "source": "Witroch4/witdev-skills",
+      "sourceType": "github",
+      "computedHash": "a25abb5b2d224eee9d572b09fa13937a45831c5de1560c41c3f739e6630b7380"
+    },
+    "remotion-best-practices": {
+      "source": "Witroch4/witdev-skills",
+      "sourceType": "github",
+      "computedHash": "a2ebe92433006ce81bbdcfe24984663678bbbb20991a3686e34814de1097c44c"
+    },
+    "shadcn-ui": {
+      "source": "Witroch4/witdev-skills",
+      "sourceType": "github",
+      "computedHash": "dadbca54d35a33fe73e40018611af2179689305bf6da812ab2643987fefd9da3"
+    },
+    "skill-creator": {
+      "source": "Witroch4/witdev-skills",
+      "sourceType": "github",
+      "computedHash": "4a13f78be642cb5ded6abcc095b0d6bf59145697ffb11d518ff46f652bd0b0a3"
+    },
+    "swr": {
+      "source": "Witroch4/witdev-skills",
+      "sourceType": "github",
+      "computedHash": "807ed968ab01a6f16a8909a3473b30ac7de8f49b854754417d40610ec7a84fcd"
+    },
+    "tailwind-theme-builder": {
+      "source": "Witroch4/witdev-skills",
+      "sourceType": "github",
+      "computedHash": "fd84027a0d97134a73054d010f3ebc0352de7d6f24567086444aa7884c24bcde"
+    },
+    "vercel-react-best-practices": {
+      "source": "Witroch4/witdev-skills",
+      "sourceType": "github",
+      "computedHash": "1ef6a347e408b323266c3eb554ebb6a7b48ebaba1866cc818c061439994909fe"
+    },
+    "vue-best-practices": {
+      "source": "hyf0/vue-skills",
+      "sourceType": "github",
+      "computedHash": "3df585ad31aec78fe55c56c1411262737e6b231677a3153dec512a882fde80cd"
+    },
+    "web-design-guidelines": {
+      "source": "Witroch4/witdev-skills",
+      "sourceType": "github",
+      "computedHash": "a6a44d5498f7e8f68289902f3dedfc6f38ae0cee1e96527c80724cf27f727c2a"
+    },
+    "witdev-project-setup": {
+      "source": "Witroch4/witdev-skills",
+      "sourceType": "github",
+      "computedHash": "6d99269f8c85a355cc1798e5e78efa4807affea0c356fb8215f602eecc23a88d"
+    }
+  }
+}

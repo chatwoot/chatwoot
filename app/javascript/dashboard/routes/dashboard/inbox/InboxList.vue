@@ -170,9 +170,16 @@ const openConversation = async notificationItem => {
     id,
     primaryActorId,
     primaryActorType,
-    primaryActor: { inboxId, id: conversationId },
+    primaryActor,
     notificationType,
   } = notificationItem;
+  const inboxId = primaryActor?.inboxId;
+  const conversationId = primaryActor?.id;
+
+  if (!inboxId || !conversationId) {
+    useAlert(t('INBOX.NO_CONTENT'));
+    return;
+  }
 
   if (route.params.id === String(conversationId)) return;
 

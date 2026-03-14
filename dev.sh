@@ -20,6 +20,9 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 COMPOSE_FILE="$SCRIPT_DIR/docker-compose.dev.yaml"
 ENV_FILE="$SCRIPT_DIR/.env"
 ENV_EXAMPLE="$SCRIPT_DIR/.env.example"
+SHARED_INFRA_DIR="/home/wital/shared-infra"
+SHARED_INFRA_COMPOSE="$SHARED_INFRA_DIR/docker-compose.yml"
+SHARED_NETWORK="minha_rede"
 NGROK_MODE=false
 
 # Cores para output
@@ -97,6 +100,73 @@ dc() {
   fi
 }
 
+infra_dc() {
+  if docker compose version &> /dev/null 2>&1; then
+    docker compose -f "$SHARED_INFRA_COMPOSE" "$@"
+  else
+    docker-compose -f "$SHARED_INFRA_COMPOSE" "$@"
+  fi
+}
+
+ensure_network() {
+  if ! docker network inspect "$SHARED_NETWORK" &> /dev/null; then
+    log_info "Criando rede Docker '$SHARED_NETWORK'..."
+    docker network create "$SHARED_NETWORK" > /dev/null
+    log_success "Rede '$SHARED_NETWORK' criada!"
+  fi
+}
+
+container_running() {
+  local container_name="$1"
+  local running
+
+  running=$(docker inspect -f '{{.State.Running}}' "$container_name" 2>/dev/null || true)
+  [ "$running" = "true" ]
+}
+
+wait_for_postgres() {
+  local retries=0
+  local max_retries=30
+
+  until docker exec postgres pg_isready -U postgres -d postgres -q 2>/dev/null; do
+    retries=$((retries + 1))
+    if [ "$retries" -ge "$max_retries" ]; then
+      log_error "Postgres compartilhado não ficou pronto em ${max_retries}s"
+      exit 1
+    fi
+    sleep 1
+  done
+}
+
+wait_for_redis() {
+  local retries=0
+  local max_retries=30
+
+  until docker exec redis redis-cli ping 2>/dev/null | grep -q PONG; do
+    retries=$((retries + 1))
+    if [ "$retries" -ge "$max_retries" ]; then
+      log_error "Redis compartilhado não ficou pronto em ${max_retries}s"
+      exit 1
+    fi
+    sleep 1
+  done
+}
+
+ensure_shared_infra() {
+  ensure_network
+
+  if container_running postgres && container_running redis; then
+    log_success "Infra compartilhada já está ativa (postgres + redis)."
+    return
+  fi
+
+  log_info "Subindo infra compartilhada (postgres + redis)..."
+  infra_dc up -d postgres redis
+  wait_for_postgres
+  wait_for_redis
+  log_success "Infra compartilhada pronta!"
+}
+
 # ─────────────────────────────────────────────────────────────────────────────
 # Comandos
 # ─────────────────────────────────────────────────────────────────────────────
@@ -105,6 +175,7 @@ cmd_up() {
   log_header "Subindo ambiente de desenvolvimento completo"
 
   ensure_env_file
+  ensure_shared_infra
 
   dc up -d
 
@@ -120,8 +191,8 @@ cmd_up() {
   fi
   echo ""
   echo -e "  ${BOLD}Infraestrutura:${NC}"
-  echo -e "  ${CYAN}🐘 PostgreSQL${NC} → localhost:5433"
-  echo -e "  ${CYAN}🔴 Redis${NC}      → localhost:6380"
+  echo -e "  ${CYAN}🐘 PostgreSQL${NC} → localhost:5432 (container compartilhado: postgres)"
+  echo -e "  ${CYAN}🔴 Redis${NC}      → localhost:6379 (container compartilhado: redis)"
   echo ""
   echo -e "  ${BOLD}Comandos úteis:${NC}"
   echo -e "    ./dev.sh logs          Ver logs de todos os serviços"
@@ -140,6 +211,7 @@ cmd_up() {
 cmd_build() {
   log_header "Rebuild das imagens"
   ensure_env_file
+  ensure_shared_infra
 
   log_info "Parando containers..."
   dc down
@@ -185,6 +257,7 @@ cmd_console() {
 
 cmd_db_setup() {
   log_header "Configurando banco de dados"
+  ensure_shared_infra
   log_info "Criando banco e rodando migrations..."
   dc exec rails bundle exec rails db:prepare
   log_success "Banco de dados configurado!"
@@ -192,6 +265,7 @@ cmd_db_setup() {
 
 cmd_db_reset() {
   log_header "Resetando banco de dados"
+  ensure_shared_infra
   log_warn "Isso vai APAGAR todos os dados do banco!"
   read -p "Tem certeza? (y/N): " confirm
   if [[ "$confirm" =~ ^[Yy]$ ]]; then
@@ -204,13 +278,14 @@ cmd_db_reset() {
 
 cmd_db_migrate() {
   log_header "Rodando migrations"
+  ensure_shared_infra
   dc exec rails bundle exec rails db:migrate
   log_success "Migrations aplicadas!"
 }
 
 cmd_clean() {
   log_header "Limpeza completa"
-  log_warn "Isso vai PARAR os containers e REMOVER os volumes (dados do Postgres, Redis, gems, node_modules)!"
+  log_warn "Isso vai PARAR os containers do Chatwit e REMOVER apenas volumes locais (gems, node_modules, cache). A infra compartilhada não será apagada."
   read -p "Tem certeza? (y/N): " confirm
   if [[ "$confirm" =~ ^[Yy]$ ]]; then
     dc down -v --remove-orphans
@@ -256,8 +331,8 @@ cmd_help() {
   echo -e "    🌐 Aplicação   → ${BOLD}http://localhost:3000${NC}"
   echo -e "    ⚡ Vite HMR    → http://localhost:3036"
   echo -e "    📧 MailHog     → http://localhost:8025"
-  echo -e "    🐘 PostgreSQL  → localhost:5433"
-  echo -e "    🔴 Redis       → localhost:6380"
+  echo -e "    🐘 PostgreSQL  → localhost:5432 (compartilhado)"
+  echo -e "    🔴 Redis       → localhost:6379 (compartilhado)"
   echo -e "    🔗 Ngrok       → ./dev.sh -n (túnel público)"
   echo -e "    🔗 Ngrok UI    → http://localhost:4040"
   echo ""

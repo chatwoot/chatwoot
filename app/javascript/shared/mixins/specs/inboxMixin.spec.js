@@ -35,6 +35,27 @@ describe('inboxMixin', () => {
     expect(wrapper.vm.channelType).toBe('Channel::WebWidget');
   });
 
+  it('falls back to the selected chat channel type when inbox data is unavailable', () => {
+    const Component = {
+      render() {},
+      mixins: [inboxMixin],
+      data() {
+        return {
+          inbox: {},
+          currentChat: {
+            meta: {
+              channel: 'Channel::Whatsapp',
+            },
+          },
+        };
+      },
+    };
+
+    const wrapper = shallowMount(Component);
+    expect(wrapper.vm.channelType).toBe('Channel::Whatsapp');
+    expect(wrapper.vm.isAWhatsAppChannel).toBe(true);
+  });
+
   it('isAPIInbox returns true if channel type is API', () => {
     const Component = getComponentConfigForInbox('Channel::Api');
     const wrapper = shallowMount(Component);

@@ -459,7 +459,7 @@ export default {
     />
     <MessageList
       ref="conversationPanelRef"
-      class="conversation-panel flex-shrink flex-grow basis-px flex flex-col overflow-y-auto relative h-full m-0 pb-4"
+      class="conversation-panel flex-shrink flex-grow basis-px flex flex-col overflow-y-auto overflow-x-hidden relative h-full m-0 pb-4"
       :current-user-id="currentUserId"
       :first-unread-id="unReadMessages[0]?.id"
       :is-an-email-channel="isAnEmailChannel"
@@ -529,32 +529,63 @@ export default {
 </template>
 
 <style scoped lang="scss">
+@media (max-width: 767px) {
+  .bg-n-surface-1 {
+    :deep(.reply-box .reply-box__top) {
+      min-height: 7rem;
+    }
+
+    :deep(.reply-box .reply-box__top .input) {
+      min-height: 7rem;
+    }
+
+    :deep(.reply-box .ProseMirror-woot-style) {
+      min-height: 7rem;
+      max-height: 7rem;
+    }
+  }
+}
+
 .modal-mask {
   @apply fixed;
 
-  &::v-deep {
-    .ProseMirror-woot-style {
-      @apply max-h-[25rem];
+  :deep(.ProseMirror-woot-style) {
+    @apply max-h-[25rem];
+  }
+
+  :deep(.reply-box) {
+    @apply border border-n-weak max-w-[75rem] w-[70%];
+  }
+
+  :deep(.reply-box.is-private) {
+    @apply dark:border-n-amber-3/30 border-n-amber-12/5;
+  }
+
+  :deep(.reply-box .reply-box__top) {
+    @apply relative min-h-[27.5rem];
+  }
+
+  :deep(.reply-box__top .input) {
+    @apply min-h-[27.5rem];
+  }
+
+  :deep(.emoji-dialog) {
+    @apply absolute ltr:left-auto rtl:right-auto bottom-1;
+  }
+
+  @media (max-width: 767px) {
+    :deep(.reply-box) {
+      @apply w-auto max-w-none mx-2 mt-auto mb-2;
+      max-height: calc(100dvh - 1rem);
     }
 
-    .reply-box {
-      @apply border border-n-weak max-w-[75rem] w-[70%];
-
-      &.is-private {
-        @apply dark:border-n-amber-3/30 border-n-amber-12/5;
-      }
+    :deep(.reply-box .reply-box__top),
+    :deep(.reply-box__top .input) {
+      min-height: min(16rem, calc(100dvh - 10rem));
     }
 
-    .reply-box .reply-box__top {
-      @apply relative min-h-[27.5rem];
-    }
-
-    .reply-box__top .input {
-      @apply min-h-[27.5rem];
-    }
-
-    .emoji-dialog {
-      @apply absolute ltr:left-auto rtl:right-auto bottom-1;
+    :deep(.ProseMirror-woot-style) {
+      max-height: min(16rem, calc(100dvh - 14rem));
     }
   }
 }

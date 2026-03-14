@@ -4,6 +4,8 @@ set -x
 rm -rf /app/tmp/pids/server.pid
 rm -rf /app/tmp/cache/*
 
+git config --global --add safe.directory /app || true
+
 pnpm store prune
 pnpm install --force
 

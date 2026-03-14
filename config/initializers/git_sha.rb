@@ -1,6 +1,14 @@
+require 'open3'
+
 # Define a method to fetch the git commit hash
 def fetch_git_sha
-  sha = `git rev-parse HEAD` if File.directory?('.git')
+  sha = nil
+
+  if File.directory?('.git')
+    stdout, status = Open3.capture2('git', 'rev-parse', 'HEAD', err: File::NULL)
+    sha = stdout if status.success?
+  end
+
   if sha.present?
     sha.strip
   elsif File.exist?('.git_sha')
