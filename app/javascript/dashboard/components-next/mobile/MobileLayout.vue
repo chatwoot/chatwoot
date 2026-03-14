@@ -104,7 +104,10 @@ onUnmounted(() => {
     class="flex flex-col w-full h-full bg-n-surface-1"
     style="touch-action: manipulation"
   >
-    <div class="flex-1 overflow-hidden pb-[calc(52px+env(safe-area-inset-bottom))]">
+    <div
+      class="flex-1 overflow-hidden"
+      :class="isInChatView ? '' : 'pb-[calc(52px+env(safe-area-inset-bottom))]'"
+    >
       <MobileChatView
         v-if="isInChatView"
         :conversation-id="activeChatId"
