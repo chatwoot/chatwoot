@@ -69,9 +69,30 @@ const onOpenConversation = conversationId => {
   );
 };
 
+const isChatSwiping = ref(false);
+const chatSwipeProgress = ref(0);
+
 const onBack = () => {
-  router.back();
+  if (window.history.state?.back) {
+    router.back();
+  } else {
+    router.replace(accountScopedRoute('home'));
+  }
 };
+
+const onSwipeProgress = progress => {
+  chatSwipeProgress.value = progress;
+  isChatSwiping.value = progress > 0;
+};
+
+const onSwipeEnd = () => {
+  chatSwipeProgress.value = 0;
+  isChatSwiping.value = false;
+};
+
+const bgDimStyle = computed(() => ({
+  opacity: chatSwipeProgress.value * 0.3,
+}));
 
 // iOS PWA standalone: when restored from bfcache, JS event handlers
 // may not be re-attached, making the page visually correct but non-interactive.
@@ -104,16 +125,12 @@ onUnmounted(() => {
     class="flex flex-col w-full h-full bg-n-surface-1"
     style="touch-action: manipulation"
   >
-    <div
-      class="flex-1 overflow-hidden"
-      :class="isInChatView ? '' : 'pb-[calc(52px+env(safe-area-inset-bottom))]'"
-    >
-      <MobileChatView
-        v-if="isInChatView"
-        :conversation-id="activeChatId"
-        @back="onBack"
-      />
-      <template v-else>
+    <div class="relative flex-1 overflow-hidden">
+      <!-- Layer 0: Tab content (always rendered, sits behind chat) -->
+      <div
+        class="absolute inset-0 z-0 pb-[calc(52px+env(safe-area-inset-bottom))]"
+        :class="{ 'pointer-events-none': isInChatView && !isChatSwiping }"
+      >
         <MobileInboxView
           v-if="activeTab === 0"
           @open-conversation="onOpenConversation"
@@ -123,10 +140,30 @@ onUnmounted(() => {
           @open-conversation="onOpenConversation"
         />
         <MobileSettingsView v-else />
-      </template>
+      </div>
+
+      <!-- Dim overlay on background during swipe -->
+      <div
+        v-if="isChatSwiping"
+        class="absolute inset-0 z-[5] bg-black pointer-events-none"
+        :style="bgDimStyle"
+      />
+
+      <!-- Layer 1: Chat view (overlays on top) -->
+      <div
+        v-if="isInChatView"
+        class="absolute inset-0 z-10"
+      >
+        <MobileChatView
+          :conversation-id="activeChatId"
+          @back="onBack"
+          @swipe-progress="onSwipeProgress"
+          @swipe-end="onSwipeEnd"
+        />
+      </div>
     </div>
     <MobileBottomTabBar
-      v-if="!isInChatView"
+      v-show="!isInChatView || isChatSwiping"
       :active-tab="activeTab"
       @change="onTabChange"
     />
