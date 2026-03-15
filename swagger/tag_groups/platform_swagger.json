@@ -2512,6 +2512,31 @@
           }
         }
       },
+      "label": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "description": "The ID of the label"
+          },
+          "title": {
+            "type": "string",
+            "description": "The title of the label"
+          },
+          "description": {
+            "type": "string",
+            "description": "The description of the label"
+          },
+          "color": {
+            "type": "string",
+            "description": "Hex color code for the label"
+          },
+          "show_on_sidebar": {
+            "type": "boolean",
+            "description": "Whether the label should appear in the sidebar"
+          }
+        }
+      },
       "integrations_app": {
         "type": "object",
         "properties": {
@@ -3817,6 +3842,31 @@
           "allow_auto_assign": {
             "type": "boolean",
             "description": "If this setting is turned on, the system would automatically assign the conversation to an agent in the team while assigning the conversation to a team",
+            "example": true
+          }
+        }
+      },
+      "label_create_update_payload": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "The label title",
+            "example": "support"
+          },
+          "description": {
+            "type": "string",
+            "description": "A short description for the label",
+            "example": "Conversations that need support follow-up"
+          },
+          "color": {
+            "type": "string",
+            "description": "Hex color code for the label",
+            "example": "#1f93ff"
+          },
+          "show_on_sidebar": {
+            "type": "boolean",
+            "description": "Whether the label should appear in the sidebar",
             "example": true
           }
         }
@@ -6286,6 +6336,7 @@
         "Custom Filters",
         "Inboxes",
         "Integrations",
+        "Labels",
         "Messages",
         "Profile",
         "Reports",
