@@ -1,18 +1,18 @@
 # ------- Branding Related Config ------- #
 - name: INSTALLATION_NAME
-  value: 'Chatwoot'
+  value: 'HVSAN'
 - name: LOGO_THUMBNAIL
-  value: '/brand-assets/logo_thumbnail.svg'
+  value: 'https://i.imgur.com/BBgz96C.png'
 - name: LOGO
-  value: '/brand-assets/logo.svg'
+  value: 'https://i.imgur.com/kUrdgRe.png'
 - name: LOGO_DARK
-  value: '/brand-assets/logo_dark.svg'
+  value: 'https://i.imgur.com/mEAZrhM.png'
 - name: BRAND_URL
-  value: 'https://www.chatwoot.com'
+  value: 'https://www.hvsan.com.br/'
 - name: WIDGET_BRAND_URL
   value: 'https://www.chatwoot.com'
 - name: BRAND_NAME
-  value: 'Chatwoot'
+  value: 'HVSAN'
 - name: TERMS_URL
   value: 'https://www.chatwoot.com/terms-of-service'
 - name: PRIVACY_URL
