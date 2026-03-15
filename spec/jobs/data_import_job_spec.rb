@@ -42,6 +42,9 @@ RSpec.describe DataImportJob do
         contact = Contact.find_by(phone_number: '+918080808080')
         expect(contact).to be_truthy
         expect(contact['additional_attributes']['company']).to eq('My Company Name')
+        expect(contact.contact_emails.pluck(:email, :primary)).to contain_exactly(
+          [contact.email, true]
+        )
       end
     end
 
@@ -112,14 +115,17 @@ RSpec.describe DataImportJob do
 
           csv_length = csv_data.length
 
-          described_class.perform_now(existing_data_import)
-          expect(existing_data_import.account.contacts.count).to eq(csv_length)
-          contact = Contact.from_email(csv_data[0]['email'])
-          expect(contact).to be_present
-          expect(contact.phone_number).to eq("+#{csv_data[0]['phone_number']}")
-          expect(contact.name).to eq((csv_data[0]['name']).to_s)
-          expect(contact.additional_attributes['company']).to eq((csv_data[0]['company']).to_s)
-        end
+        described_class.perform_now(existing_data_import)
+        expect(existing_data_import.account.contacts.count).to eq(csv_length)
+        contact = Contact.from_email(csv_data[0]['email'])
+        expect(contact).to be_present
+        expect(contact.phone_number).to eq("+#{csv_data[0]['phone_number']}")
+        expect(contact.name).to eq((csv_data[0]['name']).to_s)
+        expect(contact.additional_attributes['company']).to eq((csv_data[0]['company']).to_s)
+        expect(contact.contact_emails.pluck(:email, :primary)).to contain_exactly(
+          [csv_data[0]['email'], true]
+        )
+      end
       end
 
       context 'when the existing record has a phone_number in import data' do
@@ -136,6 +142,26 @@ RSpec.describe DataImportJob do
           expect(contact.email).to eq(csv_data[0]['email'])
           expect(contact.name).to eq((csv_data[0]['name']).to_s)
           expect(contact.additional_attributes['company']).to eq((csv_data[0]['company']).to_s)
+        end
+
+        it 'updates an existing record matched through an alias email' do
+          contact = Contact.create!(email: 'primary@example.com', account_id: existing_data_import.account_id)
+          Contacts::EmailAddressesSyncService.new(
+            contact: contact,
+            email_addresses: [
+              { email: 'primary@example.com', primary: true },
+              { email: csv_data[0]['email'], primary: false }
+            ]
+          ).perform
+
+          csv_length = csv_data.length
+
+          described_class.perform_now(existing_data_import)
+          expect(existing_data_import.account.contacts.count).to eq(csv_length)
+
+          contact.reload
+          expect(contact.phone_number).to eq("+#{csv_data[0]['phone_number']}")
+          expect(contact.name).to eq(csv_data[0]['name'].to_s)
         end
       end
 

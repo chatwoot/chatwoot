@@ -104,7 +104,7 @@ class ContactIdentifyAction
     # blank identifier or email will throw unique index error
     # TODO: replace reject { |_k, v| v.blank? } with compact_blank when rails is upgraded
     @contact.discard_invalid_attrs if discard_invalid_attrs
-    @contact.save! if @contact.changed?
+    persist_contact_with_email_sync!
     enqueue_avatar_job
   end
 
@@ -135,5 +135,17 @@ class ContactIdentifyAction
     return @contact.additional_attributes if params[:additional_attributes].blank?
 
     (@contact.additional_attributes || {}).deep_merge(params[:additional_attributes].stringify_keys)
+  end
+
+  def persist_contact_with_email_sync!
+    should_sync_email = params[:email].present? && @attributes_to_update.include?(:email)
+
+    @contact.skip_contact_email_sync = should_sync_email
+    @contact.save! if @contact.changed?
+    return unless should_sync_email
+
+    @contact = Contacts::EmailAddressesSyncService.new(contact: @contact, email: params[:email]).perform
+  ensure
+    @contact.skip_contact_email_sync = false
   end
 end

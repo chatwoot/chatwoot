@@ -6,7 +6,7 @@ RSpec.describe Imap::ImapMailbox do
   describe '#process' do
     let(:account) { create(:account) }
     let(:agent) { create(:user, email: 'agent@example.com', account: account) }
-    let(:channel) { create(:channel_email, :imap_email) }
+    let(:channel) { create(:channel_email, :imap_email, account: account) }
     let(:inbox) { channel.inbox }
     let!(:contact) { create(:contact, email: 'email@gmail.com', phone_number: '+919584546666', account: account, identifier: '123') }
     let(:conversation) { Conversation.where(inbox_id: channel.inbox).last }
@@ -96,6 +96,30 @@ RSpec.describe Imap::ImapMailbox do
         expect(conversation.contact.email).to eq(contact.email)
         expect(conversation.additional_attributes['source']).to eq('email')
         expect(conversation.messages.empty?).to be false
+      end
+    end
+
+    context 'when a new email matches an existing contact alias without a contact inbox' do
+      let!(:alias_contact) { create(:contact, account: channel.account, email: 'primary@example.com') }
+      let(:inbound_mail) { create_inbound_email_from_mail(from: 'alias@example.com', to: 'imap@gmail.com', subject: 'Hello!') }
+
+      before do
+        Contacts::EmailAddressesSyncService.new(
+          contact: alias_contact,
+          email_addresses: [
+            { email: 'primary@example.com', primary: true },
+            { email: 'alias@example.com', primary: false }
+          ]
+        ).perform
+      end
+
+      it 'reuses the contact and creates the missing contact inbox' do
+        expect do
+          class_instance.process(inbound_mail.mail, channel)
+        end.to not_change(Contact, :count)
+          .and change(ContactInbox, :count).by(1)
+
+        expect(conversation.contact).to eq(alias_contact)
       end
     end
 

@@ -26,6 +26,11 @@ global.axios = axios;
 vi.mock('axios');
 
 describe('#actions', () => {
+  beforeEach(() => {
+    commit.mockClear();
+    vi.clearAllMocks();
+  });
+
   describe('#get', () => {
     it('sends correct mutations if API is success', async () => {
       axios.get.mockResolvedValue({
@@ -144,6 +149,117 @@ describe('#actions', () => {
         [types.SET_CONTACT_UI_FLAG, { isUpdating: true }],
         [types.SET_CONTACT_UI_FLAG, { isUpdating: false }],
       ]);
+    });
+
+    it('preserves email_addresses for JSON updates', async () => {
+      axios.patch.mockResolvedValue({ data: { payload: contactList[0] } });
+
+      await actions.update(
+        { commit },
+        {
+          id: contactList[0].id,
+          email: 'primary@example.com',
+          emailAddresses: [
+            { email: 'primary@example.com', primary: true },
+            { email: 'alias@example.com', primary: false },
+          ],
+          additionalAttributes: {
+            city: 'Portland',
+            socialProfiles: {
+              facebook: '',
+              github: '',
+              instagram: '',
+              telegram: '',
+              tiktok: '',
+              linkedin: '',
+              twitter: '',
+            },
+          },
+        }
+      );
+
+      expect(axios.patch).toHaveBeenCalledTimes(1);
+      expect(axios.patch.mock.calls[0][1]).toMatchObject({
+        email: 'primary@example.com',
+        email_addresses: [
+          { email: 'primary@example.com', primary: true },
+          { email: 'alias@example.com', primary: false },
+        ],
+      });
+    });
+
+    it('preserves email_addresses for FormData updates with avatar uploads', async () => {
+      axios.patch.mockResolvedValue({ data: { payload: contactList[0] } });
+
+      await actions.update(
+        { commit },
+        {
+          id: contactList[0].id,
+          isFormData: true,
+          avatar: new File(['avatar'], 'avatar.png', { type: 'image/png' }),
+          email: 'primary@example.com',
+          emailAddresses: [
+            { email: 'primary@example.com', primary: true },
+            { email: 'alias@example.com', primary: false },
+          ],
+          additionalAttributes: {
+            city: 'Portland',
+            socialProfiles: {
+              facebook: '',
+              github: '',
+              instagram: '',
+              telegram: '',
+              tiktok: '',
+              linkedin: '',
+              twitter: '',
+            },
+          },
+        }
+      );
+
+      expect(axios.patch).toHaveBeenCalledTimes(1);
+      const formDataArg = axios.patch.mock.calls[0][1];
+      expect(formDataArg instanceof FormData).toBe(true);
+      expect(Array.from(formDataArg.entries())).toEqual(
+        expect.arrayContaining([
+          ['email', 'primary@example.com'],
+          ['email_addresses[0][email]', 'primary@example.com'],
+          ['email_addresses[0][primary]', 'true'],
+          ['email_addresses[1][email]', 'alias@example.com'],
+          ['email_addresses[1][primary]', 'false'],
+        ])
+      );
+    });
+
+    it('preserves explicit empty email_addresses for FormData updates', async () => {
+      axios.patch.mockResolvedValue({ data: { payload: contactList[0] } });
+
+      await actions.update(
+        { commit },
+        {
+          id: contactList[0].id,
+          isFormData: true,
+          avatar: new File(['avatar'], 'avatar.png', { type: 'image/png' }),
+          emailAddresses: [],
+          additionalAttributes: {
+            city: 'Portland',
+            socialProfiles: {
+              facebook: '',
+              github: '',
+              instagram: '',
+              telegram: '',
+              tiktok: '',
+              linkedin: '',
+              twitter: '',
+            },
+          },
+        }
+      );
+
+      const formDataArg = axios.patch.mock.calls[0][1];
+      expect(Array.from(formDataArg.entries())).toEqual(
+        expect.arrayContaining([['email_addresses', '[]']])
+      );
     });
   });
 

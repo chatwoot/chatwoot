@@ -53,6 +53,7 @@ class DataImportJob < ApplicationJob
   def import_contacts(contacts)
     # <struct ActiveRecord::Import::Result failed_instances=[], num_inserts=1, ids=[444, 445], results=[]>
     Contact.import(contacts, synchronize: contacts, on_duplicate_key_ignore: true, track_validation_failures: true, validate: true, batch_size: 1000)
+    sync_imported_contact_emails(contacts)
   end
 
   def update_data_import_status(processed_records, rejected_records)
@@ -118,5 +119,22 @@ class DataImportJob < ApplicationJob
       file.binmode
       yield file
     end
+  end
+
+  def sync_imported_contact_emails(contacts)
+    contacts.filter_map { |contact| persisted_imported_contact(contact) }
+            .select { |contact| contact.email.present? }
+            .each do |contact|
+      Contacts::EmailAddressesSyncService.new(contact: contact, email: contact.email, touch_parent: false).perform
+    end
+  end
+
+  def persisted_imported_contact(contact)
+    return contact if contact.id.present?
+    return @data_import.account.contacts.find_by(identifier: contact.identifier) if contact.identifier.present?
+    return @data_import.account.contacts.find_by(email: contact.email) if contact.email.present?
+    return @data_import.account.contacts.find_by(phone_number: contact.phone_number) if contact.phone_number.present?
+
+    nil
   end
 end

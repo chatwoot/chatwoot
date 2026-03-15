@@ -9,6 +9,7 @@ import Input from 'dashboard/components-next/input/Input.vue';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import PhoneNumberInput from 'dashboard/components-next/phonenumberinput/PhoneNumberInput.vue';
+import ContactEmailFields from './ContactEmailFields.vue';
 
 const props = defineProps({
   contactData: {
@@ -20,6 +21,10 @@ const props = defineProps({
     default: false,
   },
   isNewContact: {
+    type: Boolean,
+    default: false,
+  },
+  showEmailAliases: {
     type: Boolean,
     default: false,
   },
@@ -50,10 +55,11 @@ const SOCIAL_CONFIG = {
   GITHUB: 'i-ri-github-fill',
 };
 
-const defaultState = {
+const buildDefaultState = () => ({
   id: 0,
   name: '',
   email: '',
+  emailAddresses: [],
   firstName: '',
   lastName: '',
   phoneNumber: '',
@@ -73,9 +79,81 @@ const defaultState = {
       twitter: '',
     },
   },
+});
+
+const state = reactive(buildDefaultState());
+
+const cloneEmailAddresses = emailAddresses =>
+  Array.isArray(emailAddresses)
+    ? emailAddresses.map(row => ({
+        email: row?.email?.toString() || '',
+        primary: Boolean(row?.primary),
+      }))
+    : [];
+
+const resolvePrimaryIndex = emailAddresses => {
+  const primaryIndex = emailAddresses.findIndex(row => row.primary);
+  return primaryIndex >= 0 ? primaryIndex : 0;
 };
 
-const state = reactive({ ...defaultState });
+const buildInitialEmailAddresses = (emailAddress, emailAddresses) => {
+  const clonedRows = cloneEmailAddresses(emailAddresses);
+  if (clonedRows.length) {
+    const primaryIndex = resolvePrimaryIndex(clonedRows);
+    return clonedRows.map((row, index) => ({
+      ...row,
+      primary: index === primaryIndex,
+    }));
+  }
+
+  return emailAddress ? [{ email: emailAddress, primary: true }] : [];
+};
+
+const primaryEmailFromAddresses = emailAddresses => {
+  const primaryRow = cloneEmailAddresses(emailAddresses).find(
+    row => row.primary
+  );
+  return primaryRow?.email || '';
+};
+
+const serializedEmailAddresses = emailAddresses => {
+  const rows = cloneEmailAddresses(emailAddresses).filter(row =>
+    row.email.trim()
+  );
+  if (!rows.length) return [];
+
+  const primaryIndex = resolvePrimaryIndex(rows);
+
+  return rows.map((row, index) => ({
+    email: row.email.trim(),
+    primary: index === primaryIndex,
+  }));
+};
+
+const buildSerializableState = () => {
+  const { firstName, lastName, ...stateWithoutNames } = state;
+  const serializableState = {
+    ...stateWithoutNames,
+    additionalAttributes: {
+      ...state.additionalAttributes,
+      socialProfiles: {
+        ...state.additionalAttributes.socialProfiles,
+      },
+    },
+  };
+
+  if (props.showEmailAliases) {
+    serializableState.emailAddresses = serializedEmailAddresses(
+      state.emailAddresses
+    );
+    serializableState.email =
+      primaryEmailFromAddresses(serializableState.emailAddresses) || '';
+  } else {
+    delete serializableState.emailAddresses;
+  }
+
+  return serializableState;
+};
 
 const validationRules = {
   firstName: { required },
@@ -85,6 +163,13 @@ const validationRules = {
 const v$ = useVuelidate(validationRules, state);
 
 const isFormInvalid = computed(() => v$.value.$invalid);
+const shouldShowEmailAliases = computed(
+  () => props.showEmailAliases && !props.isNewContact
+);
+
+const emitContactUpdate = () => {
+  emit('update', buildSerializableState());
+};
 
 const prepareStateBasedOnProps = () => {
   if (props.isNewContact) {
@@ -95,6 +180,7 @@ const prepareStateBasedOnProps = () => {
     id,
     name = '',
     email: emailAddress,
+    emailAddresses = [],
     phoneNumber,
     additionalAttributes = {},
   } = props.contactData || {};
@@ -118,6 +204,7 @@ const prepareStateBasedOnProps = () => {
     firstName,
     lastName,
     email: emailAddress,
+    emailAddresses: buildInitialEmailAddresses(emailAddress, emailAddresses),
     phoneNumber,
     additionalAttributes: {
       description,
@@ -188,6 +275,47 @@ const getFormBinding = key => {
         state[field] = value;
         // Example: firstName="John", lastName="Doe" → name="John Doe"
         state.name = `${state.firstName} ${state.lastName}`.trim();
+      } else if (field === 'email') {
+        state.email = value;
+
+        if (shouldShowEmailAliases.value) {
+          const existingRows = cloneEmailAddresses(state.emailAddresses);
+          const trimmedValue = value.trim();
+
+          if (!trimmedValue) {
+            const remainingAliases = existingRows.filter(row => !row.primary);
+
+            if (remainingAliases.length) {
+              state.emailAddresses = remainingAliases.map((row, index) => ({
+                ...row,
+                primary: index === 0,
+              }));
+              state.email = state.emailAddresses[0]?.email || '';
+            } else {
+              state.emailAddresses = [];
+            }
+          } else {
+            const normalizedValue = trimmedValue.toLowerCase();
+            const matchingRowIndex = existingRows.findIndex(
+              row => row.email.trim().toLowerCase() === normalizedValue
+            );
+
+            if (matchingRowIndex >= 0) {
+              state.emailAddresses = existingRows.map((row, index) => ({
+                ...row,
+                email: index === matchingRowIndex ? value : row.email,
+                primary: index === matchingRowIndex,
+              }));
+            } else if (existingRows.length) {
+              state.emailAddresses = [
+                { email: value, primary: true },
+                ...existingRows.map(row => ({ ...row, primary: false })),
+              ];
+            } else {
+              state.emailAddresses = [{ email: value, primary: true }];
+            }
+          }
+        }
       } else {
         // Handle nested vs non-nested fields
         const [base, nested] = field.split('.');
@@ -202,8 +330,7 @@ const getFormBinding = key => {
 
       const isFormValid = await v$.value.$validate();
       if (isFormValid) {
-        const { firstName, lastName, ...stateWithoutNames } = state;
-        emit('update', stateWithoutNames);
+        emitContactUpdate();
       }
     },
   });
@@ -218,7 +345,7 @@ const getMessageType = key => {
 const handleCountrySelection = value => {
   const selectedCountry = countries.find(option => option.id === value);
   state.additionalAttributes.country = selectedCountry?.name || '';
-  emit('update', state);
+  emitContactUpdate();
 };
 
 const resetValidation = () => {
@@ -226,7 +353,26 @@ const resetValidation = () => {
 };
 
 const resetForm = () => {
-  Object.assign(state, defaultState);
+  Object.assign(state, buildDefaultState());
+};
+
+const handleEmailAddressesUpdate = async emailAddresses => {
+  const nextEmailAddresses = cloneEmailAddresses(emailAddresses);
+  const primaryIndex = nextEmailAddresses.length
+    ? resolvePrimaryIndex(nextEmailAddresses)
+    : -1;
+
+  state.emailAddresses = nextEmailAddresses.map((row, index) => ({
+    ...row,
+    primary: primaryIndex >= 0 && index === primaryIndex,
+  }));
+  state.email =
+    primaryIndex >= 0 ? state.emailAddresses[primaryIndex].email : '';
+
+  const isFormValid = await v$.value.$validate();
+  if (isFormValid) {
+    emitContactUpdate();
+  }
 };
 
 watch(
@@ -243,6 +389,7 @@ defineExpose({
   resetValidation,
   isFormInvalid,
   resetForm,
+  getSerializableState: buildSerializableState,
 });
 </script>
 
@@ -295,6 +442,12 @@ defineExpose({
           />
         </template>
       </div>
+      <ContactEmailFields
+        v-if="shouldShowEmailAliases"
+        :model-value="state.emailAddresses"
+        class="mt-4"
+        @update:model-value="handleEmailAddressesUpdate"
+      />
     </div>
     <div class="flex flex-col items-start gap-2">
       <span class="py-1 text-sm font-medium text-n-slate-12">
@@ -321,7 +474,7 @@ defineExpose({
             class="w-auto min-w-[100px] text-sm bg-transparent outline-none reset-base text-n-slate-12 dark:text-n-slate-12 placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10"
             :placeholder="item.placeholder"
             :size="item.placeholder.length"
-            @input="emit('update', state)"
+            @input="emitContactUpdate"
           />
         </div>
       </div>

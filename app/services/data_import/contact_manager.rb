@@ -53,7 +53,20 @@ class DataImport::ContactManager
     contact.email = params[:email] if params[:email].present?
     contact.phone_number = format_phone_number(params[:phone_number]) if params[:phone_number].present?
     update_contact_attributes(params, contact)
-    contact.save
+
+    should_sync_email = params[:email].present?
+    contact.skip_contact_email_sync = should_sync_email
+
+    ActiveRecord::Base.transaction do
+      contact.save!
+      sync_contact_email!(contact, params[:email]) if should_sync_email
+    end
+
+    true
+  rescue ActiveRecord::RecordInvalid
+    false
+  ensure
+    contact.skip_contact_email_sync = false
   end
 
   private
@@ -64,5 +77,9 @@ class DataImport::ContactManager
     contact.additional_attributes[:company] = params[:company] if params[:company].present?
     contact.additional_attributes[:city] = params[:city] if params[:city].present?
     contact.assign_attributes(custom_attributes: contact.custom_attributes.merge(params.except(:identifier, :email, :name, :phone_number)))
+  end
+
+  def sync_contact_email!(contact, email)
+    Contacts::EmailAddressesSyncService.new(contact: contact, email: email, touch_parent: false).perform
   end
 end

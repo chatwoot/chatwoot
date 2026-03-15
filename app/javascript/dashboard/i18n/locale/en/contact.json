@@ -442,6 +442,15 @@
             "PLACEHOLDER": "Enter the company name"
           }
         },
+        "EMAIL_ALIASES": {
+          "TITLE": "Additional email addresses",
+          "DESCRIPTION": "Add alternate emails for the same contact and choose which one stays primary.",
+          "PLACEHOLDER": "Enter an additional email address",
+          "ADD": "Add email",
+          "EMPTY": "No additional email addresses yet.",
+          "SET_PRIMARY": "Set as primary",
+          "REMOVE": "Remove"
+        },
         "UPDATE_BUTTON": "Update contact",
         "SUCCESS_MESSAGE": "Contact updated successfully",
         "ERROR_MESSAGE": "Unable to update contact. Please try again later."

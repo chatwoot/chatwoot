@@ -75,6 +75,27 @@ describe SearchService do
         search = described_class.new(current_user: user, current_account: account, params: params, search_type: 'Contact')
         expect(search.perform[:contacts].map(&:id)).to eq([harry4.id, harry3.id, harry2.id, harry.id])
       end
+
+      it 'returns one contact row even when multiple alias emails match the query' do
+        alias_contact = create(:contact, name: 'Alias Harry', email: 'primary@example.com', account: account, last_activity_at: 5.minutes.ago)
+        Contacts::EmailAddressesSyncService.new(
+          contact: alias_contact,
+          email_addresses: [
+            { email: 'primary@example.com', primary: true },
+            { email: 'harry-one@alias.example.com', primary: false },
+            { email: 'harry-two@alias.example.com', primary: false }
+          ]
+        ).perform
+
+        search = described_class.new(
+          current_user: user,
+          current_account: account,
+          params: { q: 'alias.example.com' },
+          search_type: 'Contact'
+        )
+
+        expect(search.perform[:contacts].pluck(:id).count(alias_contact.id)).to eq(1)
+      end
     end
 
     context 'when message search' do
@@ -250,6 +271,24 @@ describe SearchService do
         params = { q: 'Harry' }
         search = described_class.new(current_user: user, current_account: account, params: params, search_type: 'Conversation')
         expect(search.perform[:conversations].map(&:id)).to eq([conv2.id, conversation.id])
+      end
+
+      it 'finds conversations by alias email without duplicating rows' do
+        alias_contact = create(:contact, name: 'Alias Harry', email: 'primary@example.com', account: account)
+        alias_conversation = create(:conversation, contact: alias_contact, inbox: inbox, account: account)
+        Contacts::EmailAddressesSyncService.new(
+          contact: alias_contact,
+          email_addresses: [
+            { email: 'primary@example.com', primary: true },
+            { email: 'harry-one@alias.example.com', primary: false },
+            { email: 'harry-two@alias.example.com', primary: false }
+          ]
+        ).perform
+
+        params = { q: 'alias.example.com' }
+        search = described_class.new(current_user: user, current_account: account, params: params, search_type: 'Conversation')
+
+        expect(search.perform[:conversations].pluck(:id)).to eq([alias_conversation.id])
       end
 
       it 'searches across conversations with display id' do

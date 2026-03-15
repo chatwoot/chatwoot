@@ -76,6 +76,41 @@ describe ContactIdentifyAction do
         expect(result.identifier).to eq params[:identifier]
         expect(result.email).to be_nil
       end
+
+      it 'promotes an existing alias to the primary contact_email row' do
+        Contacts::EmailAddressesSyncService.new(
+          contact: contact,
+          email_addresses: [
+            { email: 'old-primary@example.com', primary: true },
+            { email: 'alias@example.com', primary: false }
+          ]
+        ).perform
+
+        result = described_class.new(contact: contact, params: { email: 'alias@example.com' }).perform
+
+        expect(result.reload.email).to eq('alias@example.com')
+        expect(result.contact_emails.pluck(:email, :primary)).to contain_exactly(
+          ['old-primary@example.com', false],
+          ['alias@example.com', true]
+        )
+      end
+
+      it 'merges through an alias email match' do
+        existing_email_contact = create(:contact, account: account, email: 'primary@example.com', name: 'old name')
+        Contacts::EmailAddressesSyncService.new(
+          contact: existing_email_contact,
+          email_addresses: [
+            { email: 'primary@example.com', primary: true },
+            { email: 'alias@example.com', primary: false }
+          ]
+        ).perform
+
+        result = described_class.new(contact: contact, params: { name: 'new name', email: 'alias@example.com' }).perform
+
+        expect(result.id).to eq existing_email_contact.id
+        expect(result.name).to eq 'new name'
+        expect { contact.reload }.to raise_error(ActiveRecord::RecordNotFound)
+      end
     end
 
     context 'when contact with same phone_number exists' do

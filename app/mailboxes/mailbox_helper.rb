@@ -119,6 +119,17 @@ module MailboxHelper
     Rails.logger.info "[MailboxHelper] Contact created with ID: #{@contact.id} for inbox with ID: #{@inbox.id}"
   end
 
+  def find_or_create_contact_inbox
+    @contact_inbox = ContactInbox.find_by(inbox: @inbox, contact: @contact)
+    return if @contact_inbox.present?
+
+    @contact_inbox = ContactInboxBuilder.new(
+      contact: @contact,
+      inbox: @inbox,
+      source_id: processed_mail.original_sender
+    ).perform
+  end
+
   def mail_content
     if processed_mail.text_content.present?
       processed_mail.text_content[:reply]

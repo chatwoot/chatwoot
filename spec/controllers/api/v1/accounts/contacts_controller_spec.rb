@@ -40,6 +40,14 @@ RSpec.describe 'Contacts API', type: :request do
       let!(:contact_inbox) { create(:contact_inbox, contact: contact) }
 
       it 'returns all resolved contacts along with contact inboxes' do
+        Contacts::EmailAddressesSyncService.new(
+          contact: contact,
+          email_addresses: [
+            { email: contact.email, primary: true },
+            { email: 'alias@example.com', primary: false }
+          ]
+        ).perform
+
         get "/api/v1/accounts/#{account.id}/contacts",
             headers: admin.create_new_auth_token,
             as: :json
@@ -52,6 +60,11 @@ RSpec.describe 'Contacts API', type: :request do
 
         expect(contact_emails).to include(contact.email)
         expect(contact_inboxes_source_ids).to include(contact_inbox.source_id)
+        contact_payload = response_body['payload'].find { |payload| payload['id'] == contact.id }
+        expect(contact_payload['email_addresses']).to contain_exactly(
+          { 'id' => contact.contact_emails.find_by(email: contact.email).id, 'email' => contact.email, 'primary' => true },
+          { 'id' => contact.contact_emails.find_by(email: 'alias@example.com').id, 'email' => 'alias@example.com', 'primary' => false }
+        )
       end
 
       it 'returns all contacts without contact inboxes' do
@@ -326,8 +339,16 @@ RSpec.describe 'Contacts API', type: :request do
       let!(:contact2) { create(:contact, :with_email, name: 'testcontact', account: account, email: 'test@test.com') }
 
       it 'returns all resolved contacts with contact inboxes' do
+        Contacts::EmailAddressesSyncService.new(
+          contact: contact2,
+          email_addresses: [
+            { email: 'test@test.com', primary: true },
+            { email: 'alias@test.com', primary: false }
+          ]
+        ).perform
+
         get "/api/v1/accounts/#{account.id}/contacts/search",
-            params: { q: contact2.email },
+            params: { q: 'alias@test.com' },
             headers: admin.create_new_auth_token,
             as: :json
 
@@ -335,6 +356,10 @@ RSpec.describe 'Contacts API', type: :request do
         expect(response).to conform_schema(200)
         expect(response.body).to include(contact2.email)
         expect(response.body).not_to include(contact1.email)
+        expect(response.parsed_body['payload'].first['email_addresses']).to contain_exactly(
+          { 'id' => contact2.contact_emails.find_by(email: 'test@test.com').id, 'email' => 'test@test.com', 'primary' => true },
+          { 'id' => contact2.contact_emails.find_by(email: 'alias@test.com').id, 'email' => 'alias@test.com', 'primary' => false }
+        )
       end
 
       it 'matches the contact ignoring the case in email' do
@@ -495,6 +520,14 @@ RSpec.describe 'Contacts API', type: :request do
       let(:admin) { create(:user, account: account, role: :administrator) }
 
       it 'shows the contact' do
+        Contacts::EmailAddressesSyncService.new(
+          contact: contact,
+          email_addresses: [
+            { email: 'primary@example.com', primary: true },
+            { email: 'alias@example.com', primary: false }
+          ]
+        ).perform
+
         get "/api/v1/accounts/#{account.id}/contacts/#{contact.id}",
             headers: admin.create_new_auth_token,
             as: :json
@@ -502,6 +535,10 @@ RSpec.describe 'Contacts API', type: :request do
         expect(response).to have_http_status(:success)
         expect(response).to conform_schema(200)
         expect(response.body).to include(contact.name)
+        expect(response.parsed_body['payload']['email_addresses']).to contain_exactly(
+          { 'id' => contact.reload.contact_emails.find_by(email: 'primary@example.com').id, 'email' => 'primary@example.com', 'primary' => true },
+          { 'id' => contact.contact_emails.find_by(email: 'alias@example.com').id, 'email' => 'alias@example.com', 'primary' => false }
+        )
       end
     end
   end
@@ -593,6 +630,21 @@ RSpec.describe 'Contacts API', type: :request do
         end.to change(ContactInbox, :count).by(1)
 
         expect(response).to have_http_status(:success)
+      end
+
+      it 'creates a primary contact_email row for legacy single-email writes' do
+        post "/api/v1/accounts/#{account.id}/contacts",
+             headers: admin.create_new_auth_token,
+             params: valid_params.merge(email: 'legacy@example.com'),
+             as: :json
+
+        expect(response).to have_http_status(:success)
+
+        created_contact = Contact.find(response.parsed_body['payload']['contact']['id'])
+        expect(created_contact.email).to eq('legacy@example.com')
+        expect(created_contact.contact_emails.pluck(:email, :primary)).to contain_exactly(
+          ['legacy@example.com', true]
+        )
       end
     end
   end
@@ -707,6 +759,99 @@ RSpec.describe 'Contacts API', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(contact.reload.blocked).to be(false)
+      end
+
+      it 'treats email_addresses as the authoritative full state' do
+        patch "/api/v1/accounts/#{account.id}/contacts/#{contact.id}",
+              headers: admin.create_new_auth_token,
+              params: {
+                email: 'ignored@example.com',
+                email_addresses: [
+                  { email: 'primary@example.com', primary: true },
+                  { email: 'alias@example.com', primary: false }
+                ]
+              },
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(contact.reload.email).to eq('primary@example.com')
+        expect(contact.contact_emails.pluck(:email, :primary)).to contain_exactly(
+          ['primary@example.com', true],
+          ['alias@example.com', false]
+        )
+        expect(response.parsed_body['payload']['email_addresses']).to contain_exactly(
+          { 'id' => contact.contact_emails.find_by(email: 'primary@example.com').id, 'email' => 'primary@example.com', 'primary' => true },
+          { 'id' => contact.contact_emails.find_by(email: 'alias@example.com').id, 'email' => 'alias@example.com', 'primary' => false }
+        )
+      end
+
+      it 'rejects duplicate aliases owned by another contact' do
+        create(:contact, account: account, email: 'taken@example.com')
+
+        patch "/api/v1/accounts/#{account.id}/contacts/#{contact.id}",
+              headers: admin.create_new_auth_token,
+              params: {
+                email_addresses: [
+                  { email: 'primary@example.com', primary: true },
+                  { email: 'taken@example.com', primary: false }
+                ]
+              },
+              as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['attributes']).to include('email')
+      end
+
+      it 'rejects non-empty email_addresses payloads without a primary row' do
+        patch "/api/v1/accounts/#{account.id}/contacts/#{contact.id}",
+              headers: admin.create_new_auth_token,
+              params: {
+                email_addresses: [
+                  { email: 'primary@example.com', primary: false },
+                  { email: 'alias@example.com', primary: false }
+                ]
+              },
+              as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['attributes']).to include('contact_emails')
+      end
+
+      it 'clears all stored emails when email_addresses is an empty array' do
+        Contacts::EmailAddressesSyncService.new(
+          contact: contact,
+          email_addresses: [
+            { email: 'primary@example.com', primary: true },
+            { email: 'alias@example.com', primary: false }
+          ]
+        ).perform
+
+        patch "/api/v1/accounts/#{account.id}/contacts/#{contact.id}",
+              headers: admin.create_new_auth_token,
+              params: { email_addresses: [] },
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(contact.reload.email).to be_nil
+        expect(contact.contact_emails).to be_empty
+      end
+
+      it 'clears all stored emails when multipart params send email_addresses as an empty array marker' do
+        Contacts::EmailAddressesSyncService.new(
+          contact: contact,
+          email_addresses: [
+            { email: 'primary@example.com', primary: true },
+            { email: 'alias@example.com', primary: false }
+          ]
+        ).perform
+
+        patch "/api/v1/accounts/#{account.id}/contacts/#{contact.id}",
+              headers: admin.create_new_auth_token,
+              params: { email_addresses: '[]' }
+
+        expect(response).to have_http_status(:success)
+        expect(contact.reload.email).to be_nil
+        expect(contact.contact_emails).to be_empty
       end
     end
   end
