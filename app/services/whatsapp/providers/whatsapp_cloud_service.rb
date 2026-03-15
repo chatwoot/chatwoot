@@ -76,7 +76,7 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
   end
 
   def media_url(media_id)
-    "#{api_base_path}/v20.0/#{media_id}"
+    "#{api_base_path}/#{api_version}/#{media_id}"
   end
 
   private
@@ -89,13 +89,16 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     ENV.fetch('WHATSAPP_CLOUD_BASE_URL', 'https://graph.facebook.com')
   end
 
-  # TODO: See if we can unify the API versions and for both paths and make it consistent with out facebook app API versions
+  def api_version
+    @api_version ||= GlobalConfigService.load('WHATSAPP_API_VERSION', 'v24.0')
+  end
+
   def phone_id_path
-    "#{api_base_path}/v20.0/#{whatsapp_channel.provider_config['phone_number_id']}"
+    "#{api_base_path}/#{api_version}/#{whatsapp_channel.provider_config['phone_number_id']}"
   end
 
   def business_account_path
-    "#{api_base_path}/v20.0/#{whatsapp_channel.provider_config['business_account_id']}"
+    "#{api_base_path}/#{api_version}/#{whatsapp_channel.provider_config['business_account_id']}"
   end
 
   def send_text_message(phone_number, message)
