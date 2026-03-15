@@ -2,8 +2,6 @@ import * as MutationHelpers from 'shared/helpers/vuex/mutationHelpers';
 import * as types from '../mutation-types';
 import AccountAPI from '../../api/account';
 import { differenceInDays } from 'date-fns';
-import EnterpriseAccountAPI from '../../api/enterprise/account';
-import { throwErrorMessage } from '../utils/api';
 import { getLanguageDirection } from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
 
 const findRecordById = ($state, id) =>
@@ -17,8 +15,6 @@ const state = {
     isFetching: false,
     isFetchingItem: false,
     isUpdating: false,
-    isCheckoutInProcess: false,
-    isFetchingLimits: false,
   },
 };
 
@@ -92,19 +88,6 @@ export const actions = {
       throw new Error(error);
     }
   },
-  toggleDeletion: async (
-    { commit },
-    { action_type } = { action_type: 'delete' }
-  ) => {
-    commit(types.default.SET_ACCOUNT_UI_FLAG, { isUpdating: true });
-    try {
-      await EnterpriseAccountAPI.toggleDeletion(action_type);
-      commit(types.default.SET_ACCOUNT_UI_FLAG, { isUpdating: false });
-    } catch (error) {
-      commit(types.default.SET_ACCOUNT_UI_FLAG, { isUpdating: false });
-      throw new Error(error);
-    }
-  },
   create: async ({ commit }, accountInfo) => {
     commit(types.default.SET_ACCOUNT_UI_FLAG, { isCreating: true });
     try {
@@ -115,41 +98,6 @@ export const actions = {
     } catch (error) {
       commit(types.default.SET_ACCOUNT_UI_FLAG, { isCreating: false });
       throw error;
-    }
-  },
-
-  checkout: async ({ commit }) => {
-    commit(types.default.SET_ACCOUNT_UI_FLAG, { isCheckoutInProcess: true });
-    try {
-      const response = await EnterpriseAccountAPI.checkout();
-      window.location = response.data.redirect_url;
-    } catch (error) {
-      throwErrorMessage(error);
-    } finally {
-      commit(types.default.SET_ACCOUNT_UI_FLAG, { isCheckoutInProcess: false });
-    }
-  },
-
-  subscription: async ({ commit }) => {
-    commit(types.default.SET_ACCOUNT_UI_FLAG, { isCheckoutInProcess: true });
-    try {
-      await EnterpriseAccountAPI.subscription();
-    } catch (error) {
-      throwErrorMessage(error);
-    } finally {
-      commit(types.default.SET_ACCOUNT_UI_FLAG, { isCheckoutInProcess: false });
-    }
-  },
-
-  limits: async ({ commit }) => {
-    commit(types.default.SET_ACCOUNT_UI_FLAG, { isFetchingLimits: true });
-    try {
-      const response = await EnterpriseAccountAPI.getLimits();
-      commit(types.default.SET_ACCOUNT_LIMITS, response.data);
-    } catch (error) {
-      // silent error
-    } finally {
-      commit(types.default.SET_ACCOUNT_UI_FLAG, { isFetchingLimits: false });
     }
   },
 

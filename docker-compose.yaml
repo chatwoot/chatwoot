@@ -1,5 +1,3 @@
-version: '3'
-
 services:
   base: &base
     build:
@@ -86,13 +84,13 @@ services:
     image: pgvector/pgvector:pg16
     restart: always
     ports:
-      - '5432:5432'
+      - '5434:5432'
     volumes:
       - postgres:/data/postgres
     environment:
       - POSTGRES_DB=chatwoot
       - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=
+      - POSTGRES_HOST_AUTH_METHOD=trust
 
   redis:
     image: redis:alpine
@@ -102,13 +100,32 @@ services:
     volumes:
       - redis:/data/redis
     ports:
-      - '6379:6379'
+      - '6381:6379'
 
   mailhog:
     image: mailhog/mailhog
     ports:
       - 1025:1025
       - 8025:8025
+
+  baileys:
+    build:
+      context: ../Baileys
+      dockerfile: sidecar/Dockerfile
+    image: baileys-sidecar:development
+    restart: unless-stopped
+    ports:
+      - '3500:3500'
+    volumes:
+      - baileys_sessions:/data/sessions
+    environment:
+      - PORT=3500
+      - NEXUS_WEBHOOK_URL=http://rails:3000
+      - BAILEYS_SIDECAR_API_KEY=${BAILEYS_SIDECAR_API_KEY:-}
+      - LOG_LEVEL=info
+      - SESSIONS_DIR=/data/sessions
+    depends_on:
+      - rails
 
 volumes:
   postgres:
@@ -117,3 +134,4 @@ volumes:
   node_modules:
   cache:
   bundle:
+  baileys_sessions:

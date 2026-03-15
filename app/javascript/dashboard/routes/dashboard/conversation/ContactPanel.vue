@@ -23,6 +23,7 @@ import ShopifyOrdersList from 'dashboard/components/widgets/conversation/Shopify
 import SidebarActionsHeader from 'dashboard/components-next/SidebarActionsHeader.vue';
 import LinearIssuesList from 'dashboard/components/widgets/conversation/linear/IssuesList.vue';
 import LinearSetupCTA from 'dashboard/components/widgets/conversation/linear/LinearSetupCTA.vue';
+import CrmPanel from 'dashboard/components/igaralead/CrmPanel.vue';
 
 const props = defineProps({
   conversationId: {
@@ -299,6 +300,21 @@ onMounted(() => {
           </div>
         </template>
       </Draggable>
+
+      <!-- CRM Integration Panel (non-draggable, always at bottom) -->
+      <AccordionItem
+        title="CRM"
+        :is-open="isContactSidebarItemOpen('is_crm_panel_open')"
+        compact
+        @toggle="
+          value => toggleSidebarUIState('is_crm_panel_open', value)
+        "
+      >
+        <CrmPanel
+          :contact="contact"
+          :conversation-id="conversationId"
+        />
+      </AccordionItem>
     </div>
   </div>
 </template>

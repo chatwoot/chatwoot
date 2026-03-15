@@ -2,6 +2,7 @@
 import { defineAsyncComponent, ref, computed } from 'vue';
 
 import NextSidebar from 'next/sidebar/Sidebar.vue';
+import PlatformTopBar from 'next/sidebar/PlatformTopBar.vue';
 import WootKeyShortcutModal from 'dashboard/components/widgets/modal/WootKeyShortcutModal.vue';
 import AddAccountModal from 'dashboard/components/app/AddAccountModal.vue';
 import UpgradePage from 'dashboard/routes/dashboard/upgrade/UpgradePage.vue';
@@ -29,6 +30,7 @@ import { useCallsStore } from 'dashboard/stores/calls';
 export default {
   components: {
     NextSidebar,
+    PlatformTopBar,
     CommandBar,
     WootKeyShortcutModal,
     AddAccountModal,
@@ -130,7 +132,8 @@ export default {
 </script>
 
 <template>
-  <div class="flex flex-grow overflow-hidden text-n-slate-12">
+  <div class="h-screen overflow-hidden text-n-slate-12">
+    <PlatformTopBar />
     <NextSidebar
       :is-mobile-sidebar-open="isMobileSidebarOpen"
       @toggle-account-modal="toggleAccountModal"
@@ -141,7 +144,7 @@ export default {
     />
 
     <main
-      class="flex flex-1 h-full w-full min-h-0 px-0 overflow-hidden bg-n-surface-1"
+      class="flex h-[calc(100vh-2.5rem)] min-h-0 overflow-hidden bg-n-surface-1 ltr:ml-14 rtl:mr-14 mt-10"
     >
       <UpgradePage
         v-show="showUpgradePage"

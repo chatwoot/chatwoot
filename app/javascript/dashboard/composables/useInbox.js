@@ -63,14 +63,6 @@ export const useInbox = (inboxId = null) => {
     return channelType.value === INBOX_TYPES.WEB;
   });
 
-  const isATwilioChannel = computed(() => {
-    return channelType.value === INBOX_TYPES.TWILIO;
-  });
-
-  const isALineChannel = computed(() => {
-    return channelType.value === INBOX_TYPES.LINE;
-  });
-
   const isAnEmailChannel = computed(() => {
     return channelType.value === INBOX_TYPES.EMAIL;
   });
@@ -91,20 +83,6 @@ export const useInbox = (inboxId = null) => {
     return isAnEmailChannel.value && inbox.value?.provider === 'google';
   });
 
-  const isATwilioSMSChannel = computed(() => {
-    const { medium: medium = '' } = inbox.value || {};
-    return isATwilioChannel.value && medium === 'sms';
-  });
-
-  const isASmsInbox = computed(() => {
-    return channelType.value === INBOX_TYPES.SMS || isATwilioSMSChannel.value;
-  });
-
-  const isATwilioWhatsAppChannel = computed(() => {
-    const { medium: medium = '' } = inbox.value || {};
-    return isATwilioChannel.value && medium === 'whatsapp';
-  });
-
   const isAWhatsAppCloudChannel = computed(() => {
     return (
       channelType.value === INBOX_TYPES.WHATSAPP &&
@@ -120,10 +98,7 @@ export const useInbox = (inboxId = null) => {
   });
 
   const isAWhatsAppChannel = computed(() => {
-    return (
-      channelType.value === INBOX_TYPES.WHATSAPP ||
-      isATwilioWhatsAppChannel.value
-    );
+    return channelType.value === INBOX_TYPES.WHATSAPP;
   });
 
   const isAnInstagramChannel = computed(() => {
@@ -134,28 +109,34 @@ export const useInbox = (inboxId = null) => {
     return channelType.value === INBOX_TYPES.TIKTOK;
   });
 
-  const isAVoiceChannel = computed(() => {
-    return channelType.value === INBOX_TYPES.VOICE;
+  const isAVoiceChannel = computed(() => false);
+
+  const isATwilioChannel = computed(() => false);
+  const isALineChannel = computed(() => false);
+  const isASmsInbox = computed(() => false);
+
+  const isABaileysWhatsAppChannel = computed(() => {
+    return channelType.value === INBOX_TYPES.BAILEYS_WHATSAPP;
   });
 
   return {
     inbox,
     isAFacebookInbox,
-    isALineChannel,
     isAPIInbox,
-    isASmsInbox,
     isATelegramChannel,
-    isATwilioChannel,
     isAWebWidgetInbox,
     isAWhatsAppChannel,
     isAMicrosoftInbox,
     isAGoogleInbox,
-    isATwilioWhatsAppChannel,
     isAWhatsAppCloudChannel,
     is360DialogWhatsAppChannel,
     isAnEmailChannel,
     isAnInstagramChannel,
     isATiktokChannel,
     isAVoiceChannel,
+    isATwilioChannel,
+    isALineChannel,
+    isASmsInbox,
+    isABaileysWhatsAppChannel,
   };
 };

@@ -12,6 +12,7 @@ import ComposeConversation from 'dashboard/components-next/NewConversation/Compo
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import VoiceCallButton from 'dashboard/components-next/Contacts/VoiceCallButton.vue';
+import IntegrationActions from 'dashboard/components/igaralead/IntegrationActions.vue';
 
 import {
   isAConversationRoute,
@@ -30,6 +31,7 @@ export default {
     SocialIcons,
     ContactMergeModal,
     VoiceCallButton,
+    IntegrationActions,
   },
   props: {
     contact: {
@@ -318,6 +320,7 @@ export default {
           @click="toggleDeleteModal"
         />
       </div>
+      <IntegrationActions :contact="contact" />
       <EditContact
         v-if="showEditModal"
         :show="showEditModal"

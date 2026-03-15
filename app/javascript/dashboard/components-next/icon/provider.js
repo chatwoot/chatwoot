@@ -5,16 +5,13 @@ export function useChannelIcon(inbox) {
     'Channel::Api': 'i-woot-api',
     'Channel::Email': 'i-woot-mail',
     'Channel::FacebookPage': 'i-woot-messenger',
-    'Channel::Line': 'i-woot-line',
-    'Channel::Sms': 'i-woot-sms',
     'Channel::Telegram': 'i-woot-telegram',
-    'Channel::TwilioSms': 'i-woot-sms',
     'Channel::TwitterProfile': 'i-woot-x',
     'Channel::WebWidget': 'i-woot-website',
     'Channel::Whatsapp': 'i-woot-whatsapp',
     'Channel::Instagram': 'i-woot-instagram',
     'Channel::Tiktok': 'i-woot-tiktok',
-    'Channel::Voice': 'i-woot-voice',
+    'Channel::BaileysWhatsapp': 'i-woot-whatsapp',
   };
 
   const providerIconMap = {
@@ -31,11 +28,6 @@ export function useChannelIcon(inbox) {
       if (Object.keys(providerIconMap).includes(inboxDetails.provider)) {
         icon = providerIconMap[inboxDetails.provider];
       }
-    }
-
-    // Special case for Twilio whatsapp
-    if (type === 'Channel::TwilioSms' && inboxDetails.medium === 'whatsapp') {
-      icon = 'i-woot-whatsapp';
     }
 
     return icon ?? 'i-ri-global-fill';

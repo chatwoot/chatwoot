@@ -2,10 +2,10 @@
 import { computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useI18n, I18nT } from 'vue-i18n';
-import Twilio from './Twilio.vue';
 import ThreeSixtyDialogWhatsapp from './360DialogWhatsapp.vue';
 import CloudWhatsapp from './CloudWhatsapp.vue';
 import WhatsappEmbeddedSignup from './WhatsappEmbeddedSignup.vue';
+import BaileysWhatsapp from './BaileysWhatsapp.vue';
 import ChannelSelector from 'dashboard/components/ChannelSelector.vue';
 
 const route = useRoute();
@@ -14,11 +14,11 @@ const { t } = useI18n();
 
 const PROVIDER_TYPES = {
   WHATSAPP: 'whatsapp',
-  TWILIO: 'twilio',
   WHATSAPP_CLOUD: 'whatsapp_cloud',
   WHATSAPP_EMBEDDED: 'whatsapp_embedded',
   WHATSAPP_MANUAL: 'whatsapp_manual',
   THREE_SIXTY_DIALOG: '360dialog',
+  QR_CODE: 'qr_code',
 };
 
 const hasWhatsappAppId = computed(() => {
@@ -42,10 +42,10 @@ const availableProviders = computed(() => [
     icon: 'i-woot-whatsapp',
   },
   {
-    key: PROVIDER_TYPES.TWILIO,
-    title: t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.TWILIO'),
-    description: t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.TWILIO_DESC'),
-    icon: 'i-woot-twilio',
+    key: PROVIDER_TYPES.QR_CODE,
+    title: t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.QR_CODE'),
+    description: t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.QR_CODE_DESC'),
+    icon: 'i-lucide-qr-code',
   },
 ]);
 
@@ -131,9 +131,8 @@ const handleManualLinkClick = () => {
         <CloudWhatsapp v-else-if="shouldShowCloudWhatsapp(selectedProvider)" />
 
         <!-- Other providers -->
-        <Twilio
-          v-else-if="selectedProvider === PROVIDER_TYPES.TWILIO"
-          type="whatsapp"
+        <BaileysWhatsapp
+          v-else-if="selectedProvider === PROVIDER_TYPES.QR_CODE"
         />
         <ThreeSixtyDialogWhatsapp
           v-else-if="selectedProvider === PROVIDER_TYPES.THREE_SIXTY_DIALOG"

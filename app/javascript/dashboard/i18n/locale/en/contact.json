@@ -657,5 +657,12 @@
         "SEND": "Send ({keyCode})"
       }
     }
+  },
+  "INTEGRATION_ACTIONS": {
+    "OPPORTUNITY_CREATED": "Opportunity created for {name}",
+    "OPPORTUNITY_ERROR": "Failed to create opportunity",
+    "CNPJ_ENRICHED": "CNPJ data loaded successfully",
+    "CNPJ_ERROR": "Failed to load CNPJ data",
+    "NO_CNPJ": "No CNPJ found for this contact"
   }
 }

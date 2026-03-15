@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_02_26_153427) do
+ActiveRecord::Schema[7.1].define(version: 2026_03_12_000002) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -73,6 +73,11 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_26_153427) do
     t.integer "status", default: 0
     t.jsonb "internal_attributes", default: {}, null: false
     t.jsonb "settings", default: {}
+    t.string "hub_id", limit: 36
+    t.datetime "hub_synced_at"
+    t.string "hub_client_slug", limit: 100
+    t.index ["hub_client_slug"], name: "index_accounts_on_hub_client_slug", unique: true
+    t.index ["hub_id"], name: "index_accounts_on_hub_id", unique: true
     t.index ["status"], name: "index_accounts_on_status"
   end
 
@@ -417,6 +422,20 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_26_153427) do
     t.index ["identifier"], name: "index_channel_api_on_identifier", unique: true
   end
 
+  create_table "channel_baileys_whatsapp", force: :cascade do |t|
+    t.integer "account_id", null: false
+    t.string "phone_number"
+    t.string "session_id", null: false
+    t.string "session_status", default: "disconnected"
+    t.jsonb "provider_config", default: {}
+    t.datetime "last_connected_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_channel_baileys_whatsapp_on_account_id"
+    t.index ["phone_number"], name: "index_channel_baileys_whatsapp_on_phone_number"
+    t.index ["session_id"], name: "index_channel_baileys_whatsapp_on_session_id", unique: true
+  end
+
   create_table "channel_email", force: :cascade do |t|
     t.integer "account_id", null: false
     t.string "email", null: false
@@ -628,6 +647,8 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_26_153427) do
     t.string "country_code", default: ""
     t.boolean "blocked", default: false, null: false
     t.bigint "company_id"
+    t.string "hub_id", limit: 36
+    t.datetime "hub_synced_at"
     t.index "lower((email)::text), account_id", name: "index_contacts_on_lower_email_account_id"
     t.index ["account_id", "contact_type"], name: "index_contacts_on_account_id_and_contact_type"
     t.index ["account_id", "email", "phone_number", "identifier"], name: "index_contacts_on_nonempty_fields", where: "(((email)::text <> ''::text) OR ((phone_number)::text <> ''::text) OR ((identifier)::text <> ''::text))"
@@ -637,6 +658,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_26_153427) do
     t.index ["blocked"], name: "index_contacts_on_blocked"
     t.index ["company_id"], name: "index_contacts_on_company_id"
     t.index ["email", "account_id"], name: "uniq_email_per_account_contact", unique: true
+    t.index ["hub_id", "account_id"], name: "index_contacts_on_hub_id_and_account_id", unique: true
     t.index ["identifier", "account_id"], name: "uniq_identifier_per_account_contact", unique: true
     t.index ["name", "email", "phone_number", "identifier"], name: "index_contacts_on_name_email_phone_number_identifier", opclass: :gin_trgm_ops, using: :gin
     t.index ["phone_number", "account_id"], name: "index_contacts_on_phone_number_and_account_id"
@@ -1233,7 +1255,10 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_26_153427) do
     t.integer "consumed_timestep"
     t.boolean "otp_required_for_login", default: false
     t.text "otp_backup_codes"
+    t.string "hub_id", limit: 36
+    t.datetime "hub_synced_at"
     t.index ["email"], name: "index_users_on_email"
+    t.index ["hub_id"], name: "index_users_on_hub_id", unique: true
     t.index ["otp_required_for_login"], name: "index_users_on_otp_required_for_login"
     t.index ["otp_secret"], name: "index_users_on_otp_secret", unique: true
     t.index ["pubsub_token"], name: "index_users_on_pubsub_token", unique: true

@@ -2,21 +2,13 @@ export const INBOX_TYPES = {
   WEB: 'Channel::WebWidget',
   FB: 'Channel::FacebookPage',
   TWITTER: 'Channel::TwitterProfile',
-  TWILIO: 'Channel::TwilioSms',
   WHATSAPP: 'Channel::Whatsapp',
   API: 'Channel::Api',
   EMAIL: 'Channel::Email',
   TELEGRAM: 'Channel::Telegram',
-  LINE: 'Channel::Line',
-  SMS: 'Channel::Sms',
   INSTAGRAM: 'Channel::Instagram',
   TIKTOK: 'Channel::Tiktok',
-  VOICE: 'Channel::Voice',
-};
-
-export const TWILIO_CHANNEL_MEDIUM = {
-  WHATSAPP: 'whatsapp',
-  SMS: 'sms',
+  BAILEYS_WHATSAPP: 'Channel::BaileysWhatsapp',
 };
 
 const INBOX_ICON_MAP_FILL = {
@@ -27,10 +19,9 @@ const INBOX_ICON_MAP_FILL = {
   [INBOX_TYPES.API]: 'i-ri-cloudy-fill',
   [INBOX_TYPES.EMAIL]: 'i-ri-mail-fill',
   [INBOX_TYPES.TELEGRAM]: 'i-ri-telegram-fill',
-  [INBOX_TYPES.LINE]: 'i-ri-line-fill',
   [INBOX_TYPES.INSTAGRAM]: 'i-ri-instagram-fill',
   [INBOX_TYPES.TIKTOK]: 'i-ri-tiktok-fill',
-  [INBOX_TYPES.VOICE]: 'i-ri-phone-fill',
+  [INBOX_TYPES.BAILEYS_WHATSAPP]: 'i-ri-whatsapp-fill',
 };
 
 const DEFAULT_ICON_FILL = 'i-ri-chat-1-fill';
@@ -43,10 +34,9 @@ const INBOX_ICON_MAP_LINE = {
   [INBOX_TYPES.API]: 'i-woot-api',
   [INBOX_TYPES.EMAIL]: 'i-woot-mail',
   [INBOX_TYPES.TELEGRAM]: 'i-woot-telegram',
-  [INBOX_TYPES.LINE]: 'i-woot-line',
   [INBOX_TYPES.INSTAGRAM]: 'i-woot-instagram',
-  [INBOX_TYPES.VOICE]: 'i-woot-voice',
   [INBOX_TYPES.TIKTOK]: 'i-woot-tiktok',
+  [INBOX_TYPES.BAILEYS_WHATSAPP]: 'i-woot-whatsapp',
 };
 
 const DEFAULT_ICON_LINE = 'i-ri-chat-1-line';
@@ -56,9 +46,8 @@ export const getInboxSource = (type, phoneNumber, inbox) => {
     case INBOX_TYPES.WEB:
       return inbox.website_url || '';
 
-    case INBOX_TYPES.TWILIO:
     case INBOX_TYPES.WHATSAPP:
-    case INBOX_TYPES.VOICE:
+    case INBOX_TYPES.BAILEYS_WHATSAPP:
       return phoneNumber || '';
 
     case INBOX_TYPES.EMAIL:
@@ -79,10 +68,8 @@ export const getReadableInboxByType = (type, phoneNumber) => {
     case INBOX_TYPES.TWITTER:
       return 'twitter';
 
-    case INBOX_TYPES.TWILIO:
-      return phoneNumber?.startsWith('whatsapp') ? 'whatsapp' : 'sms';
-
     case INBOX_TYPES.WHATSAPP:
+    case INBOX_TYPES.BAILEYS_WHATSAPP:
       return 'whatsapp';
 
     case INBOX_TYPES.API:
@@ -93,12 +80,6 @@ export const getReadableInboxByType = (type, phoneNumber) => {
 
     case INBOX_TYPES.TELEGRAM:
       return 'telegram';
-
-    case INBOX_TYPES.LINE:
-      return 'line';
-
-    case INBOX_TYPES.VOICE:
-      return 'voice';
 
     default:
       return 'chat';
@@ -116,12 +97,8 @@ export const getInboxClassByType = (type, phoneNumber) => {
     case INBOX_TYPES.TWITTER:
       return 'brand-twitter';
 
-    case INBOX_TYPES.TWILIO:
-      return phoneNumber?.startsWith('whatsapp')
-        ? 'brand-whatsapp'
-        : 'brand-sms';
-
     case INBOX_TYPES.WHATSAPP:
+    case INBOX_TYPES.BAILEYS_WHATSAPP:
       return 'brand-whatsapp';
 
     case INBOX_TYPES.API:
@@ -133,17 +110,11 @@ export const getInboxClassByType = (type, phoneNumber) => {
     case INBOX_TYPES.TELEGRAM:
       return 'brand-telegram';
 
-    case INBOX_TYPES.LINE:
-      return 'brand-line';
-
     case INBOX_TYPES.INSTAGRAM:
       return 'brand-instagram';
 
     case INBOX_TYPES.TIKTOK:
       return 'brand-tiktok';
-
-    case INBOX_TYPES.VOICE:
-      return 'phone';
 
     default:
       return 'chat';
@@ -155,11 +126,6 @@ export const getInboxIconByType = (type, medium, variant = 'fill') => {
     variant === 'fill' ? INBOX_ICON_MAP_FILL : INBOX_ICON_MAP_LINE;
   const defaultIcon =
     variant === 'fill' ? DEFAULT_ICON_FILL : DEFAULT_ICON_LINE;
-
-  // Special case for Twilio (whatsapp and sms)
-  if (type === INBOX_TYPES.TWILIO && medium === 'whatsapp') {
-    return iconMap[INBOX_TYPES.WHATSAPP];
-  }
 
   return iconMap[type] ?? defaultIcon;
 };

@@ -309,6 +309,12 @@ class Message < ApplicationRecord
 
   def execute_after_create_commit_callbacks
     # rails issue with order of active record callbacks being executed https://github.com/rails/rails/issues/20911
+    # Skip noisy callbacks for history-synced messages (Baileys WhatsApp history)
+    if content_attributes&.dig('is_history')
+      dispatch_create_events
+      return
+    end
+
     reopen_conversation
     set_conversation_activity
     dispatch_create_events

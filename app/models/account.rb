@@ -100,6 +100,7 @@ class Account < ApplicationRecord
   has_many :articles, dependent: :destroy_async, class_name: '::Article'
   has_many :assignment_policies, dependent: :destroy_async
   has_many :automation_rules, dependent: :destroy_async
+  has_many :baileys_whatsapp_channels, dependent: :destroy_async, class_name: '::Channel::BaileysWhatsapp'
   has_many :macros, dependent: :destroy_async
   has_many :campaigns, dependent: :destroy_async
   has_many :canned_responses, dependent: :destroy_async

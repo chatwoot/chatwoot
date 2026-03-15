@@ -104,3 +104,4 @@ CLAUDE.local.md
 .pnpm-store/*
 local/
 Procfile.worktree
+ECOSYSTEM_SDD.md

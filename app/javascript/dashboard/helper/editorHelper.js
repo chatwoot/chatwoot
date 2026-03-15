@@ -6,7 +6,7 @@ import {
 import { replaceVariablesInMessage } from '@chatwoot/utils';
 import * as Sentry from '@sentry/vue';
 import { FORMATTING, MARKDOWN_PATTERNS } from 'dashboard/constants/editor';
-import { INBOX_TYPES, TWILIO_CHANNEL_MEDIUM } from 'dashboard/helper/inbox';
+import { INBOX_TYPES } from 'dashboard/helper/inbox';
 import camelcaseKeys from 'camelcase-keys';
 
 /**
@@ -142,11 +142,6 @@ export function findSignatureInBody(body, signature) {
  * @returns {string} - The effective channel type for formatting
  */
 export function getEffectiveChannelType(channelType, medium) {
-  if (channelType === INBOX_TYPES.TWILIO) {
-    return medium === TWILIO_CHANNEL_MEDIUM.WHATSAPP
-      ? INBOX_TYPES.WHATSAPP
-      : INBOX_TYPES.TWILIO;
-  }
   return channelType;
 }
 

@@ -235,15 +235,15 @@
         "PROVIDERS": {
           "LABEL": "API Provider",
           "WHATSAPP_EMBEDDED": "WhatsApp Business",
-          "TWILIO": "Twilio",
           "WHATSAPP_CLOUD": "WhatsApp Cloud",
           "WHATSAPP_CLOUD_DESC": "Quick setup through Meta",
-          "TWILIO_DESC": "Connect via Twilio credentials",
+          "QR_CODE": "QR Code",
+          "QR_CODE_DESC": "Connect by scanning a QR code with your phone",
           "360_DIALOG": "360Dialog"
         },
         "SELECT_PROVIDER": {
-          "TITLE": "Select your API provider",
-          "DESCRIPTION": "Choose your WhatsApp provider. You can connect directly through Meta which requires no setup, or connect through Twilio using your account credentials."
+          "TITLE": "Select your connection method",
+          "DESCRIPTION": "Choose how to connect your WhatsApp. Use the Cloud API for official business integrations, or scan a QR code for a quick personal connection."
         },
         "INBOX_NAME": {
           "LABEL": "Inbox Name",
@@ -439,6 +439,28 @@
           "ERROR_MESSAGE": "We were not able to save the telegram channel"
         }
       },
+      "BAILEYS": {
+        "TITLE": "WhatsApp (QR Code)",
+        "DESC": "Connect your WhatsApp account by scanning a QR code. Messages will be received and sent directly through your WhatsApp number.",
+        "INBOX_NAME": {
+          "LABEL": "Inbox Name",
+          "PLACEHOLDER": "Enter your inbox name (eg: Support WhatsApp)"
+        },
+        "SUBMIT_BUTTON": "Connect WhatsApp",
+        "QR": {
+          "TITLE": "Scan QR Code",
+          "INSTRUCTIONS": "Open WhatsApp on your phone, go to Settings > Linked Devices > Link a Device, then scan this QR code.",
+          "WAITING": "Waiting for connection..."
+        },
+        "CONNECTED": {
+          "TITLE": "WhatsApp Connected!",
+          "PHONE": "Connected as {phone}",
+          "NEXT": "Add Agents"
+        },
+        "API": {
+          "ERROR_MESSAGE": "Could not connect to WhatsApp. Please try again."
+        }
+      },
       "AUTH": {
         "TITLE": "Choose a channel",
         "DESC": "Chatwoot supports live-chat widgets, Facebook Messenger, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below.",
@@ -488,6 +510,10 @@
           "VOICE": {
             "TITLE": "Voice",
             "DESCRIPTION": "Integrate with Twilio Voice"
+          },
+          "BAILEYS_WHATSAPP": {
+            "TITLE": "WhatsApp (QR Code)",
+            "DESCRIPTION": "Connect WhatsApp by scanning a QR code"
           }
         }
       },
@@ -759,7 +785,17 @@
       "WHATSAPP_TEMPLATES_SYNC_SUBHEADER": "Manually sync message templates from WhatsApp to update your available templates.",
       "WHATSAPP_TEMPLATES_SYNC_BUTTON": "Sync Templates",
       "WHATSAPP_TEMPLATES_SYNC_SUCCESS": "Templates sync initiated successfully. It may take a couple of minutes to update.",
-      "UPDATE_PRE_CHAT_FORM_SETTINGS": "Update Pre Chat Form Settings"
+      "UPDATE_PRE_CHAT_FORM_SETTINGS": "Update Pre Chat Form Settings",
+      "BAILEYS": {
+        "STATUS_CONNECTED": "WhatsApp Connected",
+        "STATUS_DISCONNECTED": "WhatsApp Disconnected",
+        "QR_INSTRUCTIONS": "Scan this QR code with WhatsApp to reconnect.",
+        "RECONNECT": "Reconnect",
+        "DISCONNECT": "Disconnect",
+        "RECONNECT_ERROR": "Could not request a new QR code. Please try again.",
+        "DISCONNECT_SUCCESS": "WhatsApp session disconnected successfully.",
+        "DISCONNECT_ERROR": "Could not disconnect the session. Please try again."
+      }
     },
     "HELP_CENTER": {
       "LABEL": "Help Center",
@@ -1123,7 +1159,8 @@
       "API": "API Channel",
       "INSTAGRAM": "Instagram",
       "TIKTOK": "TikTok",
-      "VOICE": "Voice"
+      "VOICE": "Voice",
+      "BAILEYS_WHATSAPP": "WhatsApp (QR)"
     }
   }
 }

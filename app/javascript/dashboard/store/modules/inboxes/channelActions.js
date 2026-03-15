@@ -32,21 +32,4 @@ const sendAnalyticsEvent = channelType => {
   });
 };
 
-export const channelActions = {
-  createVoiceChannel: async ({ commit }, params) => {
-    try {
-      commit(types.default.SET_INBOXES_UI_FLAG, { isCreating: true });
-      const response = await InboxesAPI.create({
-        name: params.name,
-        channel: { ...params.voice, type: 'voice' },
-      });
-      commit(types.default.ADD_INBOXES, response.data);
-      commit(types.default.SET_INBOXES_UI_FLAG, { isCreating: false });
-      sendAnalyticsEvent('voice');
-      return response.data;
-    } catch (error) {
-      commit(types.default.SET_INBOXES_UI_FLAG, { isCreating: false });
-      throw error;
-    }
-  },
-};
+export const channelActions = {};

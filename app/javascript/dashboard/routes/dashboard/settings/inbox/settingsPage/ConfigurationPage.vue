@@ -19,6 +19,8 @@ export default {
     NextButton,
     TextArea,
     WhatsappReauthorize,
+    BaileysConfiguration: () =>
+      import('../channels/baileys/BaileysConfiguration.vue'),
   },
   mixins: [inboxMixin],
   props: {
@@ -149,53 +151,7 @@ export default {
 </script>
 
 <template>
-  <div v-if="isATwilioChannel">
-    <SettingsFieldSection
-      :label="$t('INBOX_MGMT.ADD.TWILIO.API_CALLBACK.TITLE')"
-      :help-text="$t('INBOX_MGMT.ADD.TWILIO.API_CALLBACK.SUBTITLE')"
-    >
-      <woot-code :script="inbox.callback_webhook_url" lang="html" />
-    </SettingsFieldSection>
-    <SettingsFieldSection
-      v-if="isATwilioWhatsAppChannel"
-      :label="$t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_TEMPLATES_SYNC_TITLE')"
-      :help-text="
-        $t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_TEMPLATES_SYNC_SUBHEADER')
-      "
-    >
-      <NextButton :disabled="isSyncingTemplates" @click="syncTemplates">
-        {{ $t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_TEMPLATES_SYNC_BUTTON') }}
-      </NextButton>
-    </SettingsFieldSection>
-  </div>
-  <div v-else-if="isAVoiceChannel">
-    <SettingsFieldSection
-      :label="$t('INBOX_MGMT.ADD.VOICE.CONFIGURATION.TWILIO_VOICE_URL_TITLE')"
-      :help-text="
-        $t('INBOX_MGMT.ADD.VOICE.CONFIGURATION.TWILIO_VOICE_URL_SUBTITLE')
-      "
-    >
-      <woot-code :script="inbox.voice_call_webhook_url" lang="html" />
-    </SettingsFieldSection>
-    <SettingsFieldSection
-      :label="$t('INBOX_MGMT.ADD.VOICE.CONFIGURATION.TWILIO_STATUS_URL_TITLE')"
-      :help-text="
-        $t('INBOX_MGMT.ADD.VOICE.CONFIGURATION.TWILIO_STATUS_URL_SUBTITLE')
-      "
-    >
-      <woot-code :script="inbox.voice_status_webhook_url" lang="html" />
-    </SettingsFieldSection>
-  </div>
-
-  <div v-else-if="isALineChannel">
-    <SettingsFieldSection
-      :label="$t('INBOX_MGMT.ADD.LINE_CHANNEL.API_CALLBACK.TITLE')"
-      :help-text="$t('INBOX_MGMT.ADD.LINE_CHANNEL.API_CALLBACK.SUBTITLE')"
-    >
-      <woot-code :script="inbox.callback_webhook_url" lang="html" />
-    </SettingsFieldSection>
-  </div>
-  <div v-else-if="isAWebWidgetInbox">
+  <div v-if="isAWebWidgetInbox">
     <div>
       <SettingsFieldSection
         :label="$t('INBOX_MGMT.SETTINGS_POPUP.ALLOWED_DOMAINS.TITLE')"
@@ -408,6 +364,9 @@ export default {
       :inbox="inbox"
       class="hidden"
     />
+  </div>
+  <div v-else-if="isABaileysWhatsAppChannel">
+    <BaileysConfiguration :inbox="inbox" />
   </div>
 </template>
 

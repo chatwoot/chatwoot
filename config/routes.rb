@@ -103,6 +103,7 @@ Rails.application.routes.draw do
             end
           end
           resources :canned_responses, only: [:index, :create, :update, :destroy]
+          resources :integrations, only: [:index], controller: 'integrations'
           resources :automation_rules, only: [:index, :create, :show, :update, :destroy] do
             post :clone
           end
@@ -294,6 +295,15 @@ Rails.application.routes.draw do
 
           namespace :whatsapp do
             resource :authorization, only: [:create]
+          end
+
+          # Baileys WhatsApp session management
+          resources :inboxes, only: [] do
+            member do
+              post :baileys_qr_code, to: 'igaralead/baileys_sessions#qr_code'
+              get :baileys_status, to: 'igaralead/baileys_sessions#status'
+              post :baileys_disconnect, to: 'igaralead/baileys_sessions#disconnect'
+            end
           end
 
           resources :webhooks, only: [:index, :create, :update, :destroy]
@@ -567,6 +577,8 @@ Rails.application.routes.draw do
   post 'webhooks/instagram', to: 'webhooks/instagram#events'
   post 'webhooks/tiktok', to: 'webhooks/tiktok#events'
   post 'webhooks/shopify', to: 'webhooks/shopify#events'
+
+  draw :igaralead
 
   namespace :twitter do
     resource :callback, only: [:show]

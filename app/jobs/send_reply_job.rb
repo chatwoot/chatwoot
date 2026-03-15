@@ -37,3 +37,5 @@ class SendReplyJob < ApplicationJob
     end
   end
 end
+
+SendReplyJob.prepend_mod_with('SendReplyJob')

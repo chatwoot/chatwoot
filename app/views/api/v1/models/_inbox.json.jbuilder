@@ -135,3 +135,10 @@ if resource.channel_type == 'Channel::Voice'
   json.voice_call_webhook_url resource.channel.try(:voice_call_webhook_url)
   json.voice_status_webhook_url resource.channel.try(:voice_status_webhook_url)
 end
+
+## Baileys WhatsApp Channel Attributes
+if resource.channel_type == 'Channel::BaileysWhatsapp'
+  json.session_status resource.channel.try(:session_status)
+  json.session_id resource.channel.try(:session_id)
+  json.phone_number resource.channel.try(:phone_number)
+end

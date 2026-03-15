@@ -52,29 +52,15 @@ const isActive = computed(() => {
     return props.enabledFeatures.channel_tiktok && hasTiktokConfigured.value;
   }
 
-  if (key === 'voice') {
-    return props.enabledFeatures.channel_voice;
-  }
-
   return [
     'website',
-    'twilio',
     'api',
     'whatsapp',
-    'sms',
     'telegram',
-    'line',
     'instagram',
     'tiktok',
-    'voice',
+    'baileys_whatsapp',
   ].includes(key);
-});
-
-const isComingSoon = computed(() => {
-  const { key } = props.channel;
-  // Show "Coming Soon" only if the channel is marked as coming soon
-  // and the corresponding feature flag is not enabled yet.
-  return ['voice'].includes(key) && !isActive.value;
 });
 
 const onItemClick = () => {
@@ -89,7 +75,6 @@ const onItemClick = () => {
     :title="channel.title"
     :description="channel.description"
     :icon="channel.icon"
-    :is-coming-soon="isComingSoon"
     :disabled="!isActive"
     @click="onItemClick"
   />

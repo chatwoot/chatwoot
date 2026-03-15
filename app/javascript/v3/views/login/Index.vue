@@ -99,6 +99,12 @@ export default {
     showSamlLogin() {
       return this.allowedLoginMethods.includes('saml');
     },
+    showHubLogin() {
+      return this.allowedLoginMethods.includes('igarahub');
+    },
+    showEmailLogin() {
+      return this.allowedLoginMethods.includes('email');
+    },
   },
   created() {
     if (this.ssoAuthToken) {
@@ -266,6 +272,19 @@ export default {
       <div v-if="!email">
         <div class="flex flex-col gap-4">
           <GoogleOAuthButton v-if="showGoogleOAuth" />
+          <a
+            v-if="showHubLogin"
+            href="/auth/igarahub"
+            class="inline-flex justify-center w-full px-4 py-3 items-center bg-n-background dark:bg-n-solid-3 rounded-md shadow-sm ring-1 ring-inset ring-n-container dark:ring-n-container focus:outline-offset-0 hover:bg-n-alpha-2 dark:hover:bg-n-alpha-2"
+          >
+            <Icon
+              icon="i-lucide-log-in"
+              class="size-5 text-n-slate-11"
+            />
+            <span class="ml-2 text-base font-medium text-n-slate-12">
+              {{ replaceInstallationName($t('LOGIN.HUB_SSO.LABEL')) }}
+            </span>
+          </a>
           <div v-if="showSamlLogin" class="text-center">
             <router-link
               to="/app/login/sso"
@@ -281,12 +300,12 @@ export default {
             </router-link>
           </div>
           <SimpleDivider
-            v-if="showGoogleOAuth || showSamlLogin"
+            v-if="(showGoogleOAuth || showSamlLogin || showHubLogin) && showEmailLogin"
             :label="$t('COMMON.OR')"
             class="uppercase"
           />
         </div>
-        <form class="space-y-5" @submit.prevent="submitFormLogin">
+        <form v-if="showEmailLogin" class="space-y-5" @submit.prevent="submitFormLogin">
           <FormInput
             v-model="credentials.email"
             name="email_address"
