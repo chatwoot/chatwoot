@@ -2,7 +2,7 @@
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import Avatar from 'next/avatar/Avatar.vue';
-import RadioCard from 'dashboard/components-next/AssignmentPolicy/components/RadioCard.vue';
+import RadioCard from 'dashboard/components-next/radioCard/RadioCard.vue';
 
 const props = defineProps({
   senderNameType: {
@@ -12,6 +12,10 @@ const props = defineProps({
   businessName: {
     type: String,
     default: '',
+  },
+  isWebsiteChannel: {
+    type: Boolean,
+    default: false,
   },
 });
 
@@ -56,7 +60,10 @@ const toggleSenderNameType = key => {
 
 <template>
   <div
-    class="flex flex-col sm:flex-row md:flex-col xl:flex-row items-start gap-4 mt-3 min-w-0"
+    class="flex flex-col items-start gap-4 mt-3 min-w-0"
+    :class="
+      isWebsiteChannel ? 'sm:flex-row md:flex-col xl:flex-row' : 'sm:flex-row'
+    "
   >
     <RadioCard
       v-for="keyOption in senderNameKeyOptions"

@@ -115,7 +115,7 @@ export default {
         <woot-input
           v-model="address"
           :class="{ error: v$.address.$error }"
-          class="max-w-[75%] w-full"
+          class="w-full"
           :label="$t('INBOX_MGMT.IMAP.ADDRESS.LABEL')"
           :placeholder="$t('INBOX_MGMT.IMAP.ADDRESS.PLACE_HOLDER')"
           @blur="v$.address.$touch"
@@ -124,7 +124,7 @@ export default {
           v-model="port"
           type="number"
           :class="{ error: v$.port.$error }"
-          class="max-w-[75%] w-full"
+          class="w-full"
           :label="$t('INBOX_MGMT.IMAP.PORT.LABEL')"
           :placeholder="$t('INBOX_MGMT.IMAP.PORT.PLACE_HOLDER')"
           @blur="v$.port.$touch"
@@ -132,7 +132,7 @@ export default {
         <woot-input
           v-model="login"
           :class="{ error: v$.login.$error }"
-          class="max-w-[75%] w-full"
+          class="w-full"
           :label="$t('INBOX_MGMT.IMAP.LOGIN.LABEL')"
           :placeholder="$t('INBOX_MGMT.IMAP.LOGIN.PLACE_HOLDER')"
           @blur="v$.login.$touch"
@@ -140,7 +140,7 @@ export default {
         <woot-input
           v-model="password"
           :class="{ error: v$.password.$error }"
-          class="max-w-[75%] w-full"
+          class="w-full"
           :label="$t('INBOX_MGMT.IMAP.PASSWORD.LABEL')"
           :placeholder="$t('INBOX_MGMT.IMAP.PASSWORD.PLACE_HOLDER')"
           type="password"
