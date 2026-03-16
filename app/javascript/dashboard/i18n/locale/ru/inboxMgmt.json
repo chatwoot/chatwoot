@@ -589,10 +589,10 @@
         "DISABLED": "Выключено"
       },
       "LOCK_TO_SINGLE_CONVERSATION": {
-        "ENABLED": "Reopen same conversation",
-        "DISABLED": "Create new conversations",
-        "ENABLED_DESCRIPTION": "When a contact messages again, the previous conversation will be reopened.",
-        "DISABLED_DESCRIPTION": "A new conversation will be created each time after the previous one is resolved."
+        "ENABLED": "Переоткрывать тот же диалог",
+        "DISABLED": "Создавать новые диалоги",
+        "ENABLED_DESCRIPTION": "Когда контакт напишет снова, предыдущий диалог будет открыт повторно.",
+        "DISABLED_DESCRIPTION": "После завершения предыдущего диалога при каждом новом сообщении контакта будет создаваться новый диалог."
       },
       "ENABLE_HMAC": {
         "LABEL": "Включить"
@@ -710,8 +710,8 @@
       "SENDER_NAME_SECTION_TEXT": "Включить/выключить отображение имени Сотрудника в электронной почте, если отключено, он будет показывать бизнес-имя",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Включить непрерывность диалогов по электронной почте",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Диалоги будут продолжаться по электронной почте, если доступен контактный адрес электронной почты.",
-      "LOCK_TO_SINGLE_CONVERSATION": "Conversation Routing",
-      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Configure conversation creation for existing contacts",
+      "LOCK_TO_SINGLE_CONVERSATION": "Маршрутизация диалогов",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Настройте создание диалогов для существующих контактов",
       "INBOX_UPDATE_TITLE": "Настройки источника",
       "INBOX_UPDATE_SUB_TEXT": "Изменить настройки источника",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Включить или отключить автоматическое назначение новых разговоров к агентам, добавленным к этому источнику.",
@@ -992,11 +992,11 @@
           "IN_A_DAY": "Через день"
         },
         "WIDGET_COLOR_LABEL": "Цвет виджета",
-        "WIDGET_BUBBLE_POSITION_LABEL": "Position:",
+        "WIDGET_BUBBLE_POSITION_LABEL": "Положение:",
         "WIDGET_BUBBLE_TYPE_LABEL": "Тип:",
         "WIDGET_BUBBLE_LAUNCHER_TITLE": {
           "DEFAULT": "Пообщайтесь с нами",
-          "LABEL": "Launcher Title",
+          "LABEL": "Заголовок кнопки запуска",
           "PLACE_HOLDER": "Пообщайтесь с нами"
         },
         "UPDATE": {
@@ -1018,11 +1018,11 @@
           "STANDARD": "Стандартный",
           "EXPANDED_BUBBLE": "Расширенная рамка сообщений"
         },
-        "WIDGET_BUBBLE": "Bubble"
+        "WIDGET_BUBBLE": "Пузырёк"
       },
       "WIDGET_SCREEN": {
         "DEFAULT": "По умолчанию",
-        "CHAT": "Chat mode"
+        "CHAT": "Режим чата"
       },
       "REPLY_TIME": {
         "IN_A_FEW_MINUTES": "Обычно отвечаем в течение нескольких минут",
@@ -1073,57 +1073,57 @@
       "TIKTOK": "TikTok",
       "VOICE": "Голосовая связь"
     },
-    "COUNT": "{n} inbox | {n} inboxes",
-    "SEARCH_PLACEHOLDER": "Search inboxes...",
-    "NO_RESULTS": "No inboxes found matching your search",
-    "CHANNEL_PREFERENCES": "Channel Preferences",
-    "WIDGET_FEATURES": "Widget features",
+    "COUNT": "Найдено источников: {n}",
+    "SEARCH_PLACEHOLDER": "Поиск источников...",
+    "NO_RESULTS": "Не найдено источников, соответствующих вашему запросу",
+    "CHANNEL_PREFERENCES": "Настройки канала",
+    "WIDGET_FEATURES": "Функции виджета",
     "ASSIGNMENT": {
-      "TITLE": "Назначения для беседы",
-      "DESCRIPTION": "Automatically assign incoming conversations to available agents based on assignment policies",
-      "ENABLE_AUTO_ASSIGNMENT": "Enable automatic conversation assignment",
-      "DEFAULT_RULES_TITLE": "Default assignment rules",
-      "DEFAULT_RULES_DESCRIPTION": "Using the default assignment behavior for all conversations",
-      "DEFAULT_RULE_1": "Earliest created conversations first",
-      "DEFAULT_RULE_2": "Round robin distribution",
-      "CUSTOMIZE_WITH_POLICY": "Customize with assignment policy",
-      "USING_POLICY": "Using custom assignment policy for this inbox",
-      "CUSTOMIZE_POLICY": "Customize with assignment policy",
+      "TITLE": "Назначение диалогов",
+      "DESCRIPTION": "Автоматически назначайте входящие диалоги доступным агентам на основе правил назначения",
+      "ENABLE_AUTO_ASSIGNMENT": "Включить автоматическое назначение диалогов",
+      "DEFAULT_RULES_TITLE": "Стандартные правила назначения",
+      "DEFAULT_RULES_DESCRIPTION": "Использовать стандартное поведение назначения для всех диалогов",
+      "DEFAULT_RULE_1": "Сначала самые ранние диалоги",
+      "DEFAULT_RULE_2": "Распределение по кругу",
+      "CUSTOMIZE_WITH_POLICY": "Настроить через политику назначения",
+      "USING_POLICY": "Для этого источника используется пользовательская политика назначения",
+      "CUSTOMIZE_POLICY": "Настроить через политику назначения",
       "DELETE_POLICY": "Удалить политику",
-      "POLICY_LABEL": "Назначение политики",
-      "ASSIGNMENT_ORDER_LABEL": "Assignment Order",
-      "ASSIGNMENT_METHOD_LABEL": "Assignment Method",
+      "POLICY_LABEL": "Политика назначения",
+      "ASSIGNMENT_ORDER_LABEL": "Порядок назначения",
+      "ASSIGNMENT_METHOD_LABEL": "Метод назначения",
       "POLICY_STATUS": {
         "ACTIVE": "Активно",
         "INACTIVE": "Неактивен"
       },
       "PRIORITY": {
-        "EARLIEST_CREATED": "Раннее созданное",
-        "LONGEST_WAITING": "Длительное ожидание"
+        "EARLIEST_CREATED": "Сначала старые",
+        "LONGEST_WAITING": "Сначала ожидающие дольше всех"
       },
       "METHOD": {
-        "ROUND_ROBIN": "Round robin",
-        "BALANCED": "Balanced assignment"
+        "ROUND_ROBIN": "По кругу",
+        "BALANCED": "Сбалансированное назначение"
       },
-      "UPGRADE_PROMPT": "Custom assignment policies are available on the Business plan",
-      "UPGRADE_TO_BUSINESS": "Upgrade to Business",
-      "DEFAULT_POLICY_LINKED": "Default policy linked",
-      "DEFAULT_POLICY_DESCRIPTION": "Link a custom assignment policy to customize how conversations are assigned to agents in this inbox.",
-      "LINK_EXISTING_POLICY": "Link existing policy",
-      "CREATE_NEW_POLICY": "Create new policy",
+      "UPGRADE_PROMPT": "Пользовательские политики назначения доступны в плане Business",
+      "UPGRADE_TO_BUSINESS": "Перейти на Business",
+      "DEFAULT_POLICY_LINKED": "Стандартная политика привязана",
+      "DEFAULT_POLICY_DESCRIPTION": "Привяжите пользовательскую политику назначения, чтобы настроить, как диалоги назначаются агентам в этом источнике.",
+      "LINK_EXISTING_POLICY": "Привязать существующую политику",
+      "CREATE_NEW_POLICY": "Создать новую политику",
       "NO_POLICIES": "Не найдены связанные политики",
-      "VIEW_ALL_POLICIES": "View all policies",
-      "CURRENT_BEHAVIOR": "Currently using default assignment behavior:",
-      "LINK_SUCCESS": "Assignment policy linked successfully",
-      "LINK_ERROR": "Failed to link assignment policy"
+      "VIEW_ALL_POLICIES": "Посмотреть все политики",
+      "CURRENT_BEHAVIOR": "Сейчас используется стандартное поведение назначения:",
+      "LINK_SUCCESS": "Политика назначения успешно привязана",
+      "LINK_ERROR": "Не удалось привязать политику назначения"
     },
     "ASSIGNMENT_POLICY": {
-      "DELETE_CONFIRM_TITLE": "Delete assignment policy?",
-      "DELETE_CONFIRM_MESSAGE": "Are you sure you want to remove this assignment policy from this inbox? The inbox will revert to default assignment rules.",
+      "DELETE_CONFIRM_TITLE": "Удалить политику назначения?",
+      "DELETE_CONFIRM_MESSAGE": "Вы уверены, что хотите удалить эту политику назначения из этого источника? После этого источник вернётся к стандартным правилам назначения.",
       "CANCEL": "Отменить",
       "CONFIRM_DELETE": "Удалить",
-      "DELETE_SUCCESS": "Assignment policy removed successfully",
-      "DELETE_ERROR": "Failed to remove assignment policy"
+      "DELETE_SUCCESS": "Политика назначения успешно удалена",
+      "DELETE_ERROR": "Не удалось удалить политику назначения"
     }
   }
 }
