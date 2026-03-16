@@ -1,5 +1,5 @@
 class Webhooks::WhatsappEventsJob < ApplicationJob
-  queue_as :low
+  queue_as :default
 
   def perform(params = {})
     channel = find_channel_from_whatsapp_business_payload(params)
@@ -123,6 +123,7 @@ class Webhooks::WhatsappEventsJob < ApplicationJob
     ActionCable.server.broadcast("account_#{channel.inbox.account_id}", {
                                   event: 'whatsapp_call.permission_granted',
                                   data: {
+                                    account_id: channel.inbox.account_id,
                                     conversation_id: conversation.id,
                                     contact_name: contact.name,
                                     contact_phone: contact.phone_number

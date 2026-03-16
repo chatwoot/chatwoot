@@ -38,6 +38,7 @@ class ActionCableConnector extends BaseActionCableConnector {
       'whatsapp_call.incoming': this.onWhatsappCallIncoming,
       'whatsapp_call.accepted': this.onWhatsappCallAccepted,
       'whatsapp_call.ended': this.onWhatsappCallEnded,
+      'whatsapp_call.outbound_connected': this.onWhatsappCallOutboundConnected,
       'whatsapp_call.permission_granted': this.onWhatsappCallPermissionGranted,
     };
   }
@@ -235,6 +236,20 @@ class ActionCableConnector extends BaseActionCableConnector {
   onWhatsappCallEnded = data => {
     const whatsappCallsStore = useWhatsappCallsStore();
     whatsappCallsStore.handleCallEnded(data.call_id);
+  };
+
+  // eslint-disable-next-line class-methods-use-this
+  onWhatsappCallOutboundConnected = data => {
+    // When Meta sends the SDP answer for an outbound call, set it on the peer connection
+    const pc = window.__outboundCallPC;
+    if (pc && window.__outboundCallId === data.call_id && data.sdp_answer) {
+      pc.setRemoteDescription({ type: 'answer', sdp: data.sdp_answer }).catch(
+        err => {
+          // eslint-disable-next-line no-console
+          console.error('[WhatsApp Call] Failed to set remote SDP answer:', err);
+        }
+      );
+    }
   };
 
   // eslint-disable-next-line class-methods-use-this

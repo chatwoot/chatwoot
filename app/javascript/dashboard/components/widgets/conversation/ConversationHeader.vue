@@ -100,6 +100,21 @@ const canInitiateWhatsappCall = computed(() => {
   return !!inbox.value?.calling_enabled;
 });
 
+const waitForOutboundIceGathering = pc =>
+  new Promise(resolve => {
+    if (pc.iceGatheringState === 'complete') {
+      resolve();
+      return;
+    }
+    const timeout = setTimeout(() => resolve(), 10000);
+    pc.onicegatheringstatechange = () => {
+      if (pc.iceGatheringState === 'complete') {
+        clearTimeout(timeout);
+        resolve();
+      }
+    };
+  });
+
 const initiateWhatsappCall = async () => {
   if (isInitiatingCall.value || !currentChat.value?.id) return;
   isInitiatingCall.value = true;
@@ -112,12 +127,31 @@ const initiateWhatsappCall = async () => {
     });
     localStream.getTracks().forEach(track => pc.addTrack(track, localStream));
 
+    // Handle remote audio from Meta
+    pc.ontrack = event => {
+      const [stream] = event.streams;
+      if (!stream) return;
+      const audio = document.createElement('audio');
+      audio.srcObject = stream;
+      audio.autoplay = true;
+      document.body.appendChild(audio);
+      window.__outboundCallAudio = audio;
+    };
+
+    // eslint-disable-next-line no-console
+    pc.oniceconnectionstatechange = () =>
+      console.log('[WhatsApp Call] Outbound ICE state:', pc.iceConnectionState);
+
     const offer = await pc.createOffer();
     await pc.setLocalDescription(offer);
 
+    // Wait for ICE gathering to complete before sending offer
+    await waitForOutboundIceGathering(pc);
+    const completeSdp = pc.localDescription.sdp;
+
     const response = await WhatsappCallsAPI.initiate(
       currentChat.value.id,
-      offer.sdp
+      completeSdp
     );
 
     const callStatus = response.data?.status;

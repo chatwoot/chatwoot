@@ -52,13 +52,57 @@ export function useWhatsappCallSession() {
     }
   };
 
+  // Register cleanup callback so store can trigger WebRTC teardown on external events
+  callsStore.registerCleanupCallback(() => {
+    cleanupWebRTC();
+    durationTimer.stop();
+    callDuration.value = 0;
+  });
+
+  /**
+   * Waits for ICE candidate gathering to complete so the SDP contains all candidates.
+   * Meta's REST API doesn't support trickle ICE — the full SDP must be sent at once.
+   */
+  const waitForIceGatheringComplete = pc =>
+    new Promise((resolve, reject) => {
+      if (pc.iceGatheringState === 'complete') {
+        resolve();
+        return;
+      }
+
+      const timeout = setTimeout(() => {
+        // If gathering hasn't finished in 10s, send what we have
+        // eslint-disable-next-line no-console
+        console.warn(
+          '[WhatsApp Call] ICE gathering timed out, sending partial SDP'
+        );
+        resolve();
+      }, 10000);
+
+      pc.onicegatheringstatechange = () => {
+        if (pc.iceGatheringState === 'complete') {
+          clearTimeout(timeout);
+          resolve();
+        }
+      };
+
+      // Also reject if connection fails during gathering
+      pc.oniceconnectionstatechange = () => {
+        if (pc.iceConnectionState === 'failed') {
+          clearTimeout(timeout);
+          reject(new Error('ICE connection failed'));
+        }
+      };
+    });
+
   /**
    * Accepts an incoming WhatsApp call:
    * 1. Requests mic access
    * 2. Creates RTCPeerConnection with ICE servers from the call payload
    * 3. Sets remote description (the SDP offer from Meta)
    * 4. Creates an SDP answer
-   * 5. Posts the SDP answer to Chatwoot backend → Meta API
+   * 5. Waits for ICE gathering to complete (Meta needs full SDP, no trickle ICE)
+   * 6. Posts the complete SDP answer to Chatwoot backend → Meta API
    */
   const acceptCall = async call => {
     if (isAccepting.value) return;
@@ -82,14 +126,18 @@ export function useWhatsappCallSession() {
         peerConnection.addTrack(track, localStream);
       });
 
-      // 5. Handle remote audio stream → play via hidden <audio> element
+      // 5. Handle remote audio stream → play via <audio> element
       peerConnection.ontrack = event => {
         const [stream] = event.streams;
+        if (!stream) return;
+
         if (remoteAudio.value) {
           remoteAudio.value.srcObject = stream;
-          remoteAudio.value.play().catch(() => {});
+          remoteAudio.value.play().catch(e => {
+            // eslint-disable-next-line no-console
+            console.warn('[WhatsApp Call] Audio autoplay blocked:', e);
+          });
         } else {
-          // Fallback: create audio element dynamically
           const audio = document.createElement('audio');
           audio.srcObject = stream;
           audio.autoplay = true;
@@ -98,24 +146,36 @@ export function useWhatsappCallSession() {
         }
       };
 
-      // 6. Set remote description from Meta's SDP offer
+      // 6. Monitor ICE connection state for debugging
+      peerConnection.oniceconnectionstatechange = () => {
+        // eslint-disable-next-line no-console
+        console.log(
+          '[WhatsApp Call] ICE state:',
+          peerConnection?.iceConnectionState
+        );
+      };
+
+      // 7. Set remote description from Meta's SDP offer
       await peerConnection.setRemoteDescription({
         type: 'offer',
         sdp: call.sdpOffer,
       });
 
-      // 7. Create SDP answer
+      // 8. Create SDP answer
       const answer = await peerConnection.createAnswer();
       await peerConnection.setLocalDescription(answer);
 
-      // 8. Post the SDP answer to Chatwoot backend
-      await WhatsappCallsAPI.accept(call.id, answer.sdp);
+      // 9. Wait for ICE gathering to complete so SDP has all candidates
+      await waitForIceGatheringComplete(peerConnection);
 
-      // 9. Mark as active in store
+      // 10. Post the COMPLETE SDP answer (with all ICE candidates) to backend
+      const completeSdp = peerConnection.localDescription.sdp;
+      await WhatsappCallsAPI.accept(call.id, completeSdp);
+
+      // 11. Mark as active in store
       callsStore.removeIncomingCall(call.callId);
       callsStore.setActiveCall({
         ...call,
-        peerConnection,
       });
 
       durationTimer.start();
@@ -124,6 +184,8 @@ export function useWhatsappCallSession() {
         err.name === 'NotAllowedError'
           ? 'Microphone access denied. Please allow mic access and try again.'
           : 'Failed to accept call. Please try again.';
+      // eslint-disable-next-line no-console
+      console.error('[WhatsApp Call] acceptCall error:', err);
       cleanupWebRTC();
     } finally {
       isAccepting.value = false;

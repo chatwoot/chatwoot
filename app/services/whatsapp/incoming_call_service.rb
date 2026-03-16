@@ -16,26 +16,40 @@ class Whatsapp::IncomingCallService
     event = call_payload[:event]
 
     case event
-    when 'call_connect'
+    when 'connect'
       handle_call_connect(call_payload)
-    when 'call_terminate'
+    when 'terminate'
       handle_call_terminate(call_payload)
+    else
+      Rails.logger.warn "[WHATSAPP CALL] Unknown call event: #{event}"
     end
   end
 
   def handle_call_connect(call_payload)
+    call_id = call_payload[:id]
+    direction = map_direction(call_payload[:direction])
+
+    # For outbound calls, a WhatsappCall record already exists from initiate.
+    # Update it instead of creating a duplicate.
+    existing_call = WhatsappCall.find_by(call_id: call_id)
+    if existing_call
+      Rails.logger.info "[WHATSAPP CALL] call_connect for existing call #{call_id} (direction=#{direction})"
+      existing_call.update!(meta: existing_call.meta.merge('sdp_answer' => call_payload.dig(:session, :sdp)))
+      broadcast_outbound_call_connected(existing_call, call_payload.dig(:session, :sdp))
+      return
+    end
+
     contact = find_or_create_contact("+#{call_payload[:from]}")
     return unless contact
 
     conversation = find_or_create_conversation(contact)
     return unless conversation
 
-    direction = call_payload.fetch(:direction, 'inbound')
     wa_call = create_call_record(call_payload, conversation, direction)
     create_call_activity_message(conversation, 'incoming_call', direction)
     broadcast_incoming_call(wa_call, contact, call_payload.dig(:session, :sdp))
   rescue ActiveRecord::RecordNotUnique
-    Rails.logger.warn "[WHATSAPP CALL] Duplicate call_id received: #{call_payload[:id]}"
+    Rails.logger.warn "[WHATSAPP CALL] Duplicate call_id received: #{call_id}"
   end
 
   def create_call_record(call_payload, conversation, direction)
@@ -142,6 +156,7 @@ class Whatsapp::IncomingCallService
     payload = {
       event: 'whatsapp_call.incoming',
       data: {
+        account_id: inbox.account_id,
         id: wa_call.id,
         call_id: wa_call.call_id,
         direction: wa_call.direction,
@@ -164,6 +179,7 @@ class Whatsapp::IncomingCallService
     payload = {
       event: 'whatsapp_call.ended',
       data: {
+        account_id: inbox.account_id,
         id: wa_call.id,
         call_id: wa_call.call_id,
         status: wa_call.status,
@@ -173,6 +189,30 @@ class Whatsapp::IncomingCallService
     }
 
     ActionCable.server.broadcast("account_#{inbox.account_id}", payload)
+  end
+
+  def broadcast_outbound_call_connected(wa_call, sdp_answer)
+    payload = {
+      event: 'whatsapp_call.outbound_connected',
+      data: {
+        account_id: inbox.account_id,
+        id: wa_call.id,
+        call_id: wa_call.call_id,
+        conversation_id: wa_call.conversation_id,
+        sdp_answer: sdp_answer
+      }
+    }
+
+    ActionCable.server.broadcast("account_#{inbox.account_id}", payload)
+  end
+
+  # Meta sends "USER_INITIATED" / "BUSINESS_INITIATED", map to our model values
+  def map_direction(raw_direction)
+    case raw_direction&.upcase
+    when 'USER_INITIATED' then 'inbound'
+    when 'BUSINESS_INITIATED' then 'outbound'
+    else 'inbound'
+    end
   end
 
   def default_ice_servers

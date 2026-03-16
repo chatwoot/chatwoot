@@ -79,44 +79,48 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     "#{api_base_path}/v13.0/#{media_id}"
   end
 
-  def pre_accept_call(call_id)
-    response = HTTParty.post(
-      "#{phone_id_path}/calls/#{call_id}",
-      headers: api_headers,
-      body: { action: 'pre_accept' }.to_json
-    )
-    response.success?
+  def pre_accept_call(call_id, sdp_answer)
+    body = {
+      messaging_product: 'whatsapp',
+      call_id: call_id,
+      action: 'pre_accept',
+      session: {
+        sdp: sdp_answer,
+        sdp_type: 'answer'
+      }
+    }
+    call_api('pre_accept_call', body)
   end
 
   def accept_call(call_id, sdp_answer)
-    response = HTTParty.post(
-      "#{phone_id_path}/calls/#{call_id}",
-      headers: api_headers,
-      body: {
-        action: 'accept',
+    body = {
+      messaging_product: 'whatsapp',
+      call_id: call_id,
+      action: 'accept',
+      session: {
         sdp: sdp_answer,
         sdp_type: 'answer'
-      }.to_json
-    )
-    response.success?
+      }
+    }
+    call_api('accept_call', body)
   end
 
   def reject_call(call_id)
-    response = HTTParty.post(
-      "#{phone_id_path}/calls/#{call_id}",
-      headers: api_headers,
-      body: { action: 'reject' }.to_json
-    )
-    response.success?
+    body = {
+      messaging_product: 'whatsapp',
+      call_id: call_id,
+      action: 'reject'
+    }
+    call_api('reject_call', body)
   end
 
   def terminate_call(call_id)
-    response = HTTParty.post(
-      "#{phone_id_path}/calls/#{call_id}",
-      headers: api_headers,
-      body: { action: 'terminate' }.to_json
-    )
-    response.success?
+    body = {
+      messaging_product: 'whatsapp',
+      call_id: call_id,
+      action: 'terminate'
+    }
+    call_api('terminate_call', body)
   end
 
   def send_call_permission_request(to_phone_number, body_text = 'We would like to call you regarding your conversation.')
@@ -169,6 +173,16 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
 
   private
 
+  def call_api(action_name, body)
+    url = "#{phone_id_path}/calls"
+    Rails.logger.info "[WHATSAPP CALL] #{action_name} POST #{url} body=#{body.except(:session).to_json}"
+    response = HTTParty.post(url, headers: api_headers, body: body.to_json)
+    unless response.success?
+      Rails.logger.error "[WHATSAPP CALL] #{action_name} failed: status=#{response.code} body=#{response.body}"
+    end
+    response.success?
+  end
+
   def csat_template_service
     @csat_template_service ||= Whatsapp::CsatTemplateService.new(whatsapp_channel)
   end
@@ -177,9 +191,9 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     ENV.fetch('WHATSAPP_CLOUD_BASE_URL', 'https://graph.facebook.com')
   end
 
-  # TODO: See if we can unify the API versions and for both paths and make it consistent with out facebook app API versions
   def phone_id_path
-    "#{api_base_path}/v13.0/#{whatsapp_channel.provider_config['phone_number_id']}"
+    api_version = GlobalConfigService.load('WHATSAPP_API_VERSION', 'v22.0')
+    "#{api_base_path}/#{api_version}/#{whatsapp_channel.provider_config['phone_number_id']}"
   end
 
   def business_account_path
