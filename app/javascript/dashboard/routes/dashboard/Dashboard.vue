@@ -95,6 +95,10 @@ export default {
         inbox_view_conversation: 'inbox',
         contacts_dashboard_index: 'contacts',
         contacts_dashboard_active: 'contacts',
+ codex/transform-chatwoot-into-synapsea-connect-ymy4px
+        contacts_edit: 'contacts',
+
+ develop
         conversation_mentions: 'conversations',
         labels_list: 'tags',
         automation_list: 'automations',
@@ -103,12 +107,35 @@ export default {
         account_overview_reports: 'reports',
         agent_list: 'user_management',
         search: 'search_filters',
+ codex/transform-chatwoot-into-synapsea-connect-ymy4px
+        companies_dashboard_index: 'companies',
+        campaigns_livechat_index: 'campaigns',
+        campaigns_sms_index: 'campaigns',
+        campaigns_whatsapp_index: 'campaigns',
+
+ develop
       };
 
       if (routeName?.includes('notes')) return 'internal_notes';
       if (routeName?.includes('assignment')) return 'assign_conversation';
+ codex/transform-chatwoot-into-synapsea-connect-ymy4px
+      if (routeName?.includes('portals') || routeName?.includes('helpcenter')) {
+        return 'help_center';
+      }
+      if (routeName?.includes('captain')) return 'captain';
+      if (routeName?.includes('settings')) return 'settings';
+      if (routeName?.includes('inbox')) return 'inbox';
+      if (routeName?.includes('report')) return 'reports';
+      if (routeName?.includes('campaign')) return 'campaigns';
+      if (routeName?.includes('company')) return 'companies';
+      if (routeName?.includes('contact')) return 'contacts';
+      if (routeName?.includes('conversation')) return 'conversations';
+
+      return routeToHelpMap[routeName] || 'dashboard';
+
 
       return routeToHelpMap[routeName] || null;
+ develop
     },
   },
   watch: {

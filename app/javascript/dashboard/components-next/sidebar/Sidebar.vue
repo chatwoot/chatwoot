@@ -23,6 +23,7 @@ import ChannelIcon from 'next/icon/ChannelIcon.vue';
 import SidebarAccountSwitcher from './SidebarAccountSwitcher.vue';
 import Logo from 'next/icon/Logo.vue';
 import ComposeConversation from 'dashboard/components-next/NewConversation/ComposeConversation.vue';
+import SidebarHelpCenter from './SidebarHelpCenter.vue';
 
 const props = defineProps({
   isMobileSidebarOpen: {
@@ -850,6 +851,7 @@ const menuItems = computed(() => {
           isEffectivelyCollapsed
         "
       />
+      <SidebarHelpCenter v-if="!isEffectivelyCollapsed" />
       <div
         class="px-1 py-1.5 flex-shrink-0 flex w-full z-50 gap-2 items-center border-t border-n-weak shadow-[0px_-2px_4px_0px_rgba(27,28,29,0.02)]"
         :class="isEffectivelyCollapsed ? 'justify-center' : 'justify-between'"

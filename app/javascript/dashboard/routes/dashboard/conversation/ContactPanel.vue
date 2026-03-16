@@ -24,9 +24,13 @@ import SidebarActionsHeader from 'dashboard/components-next/SidebarActionsHeader
 import LinearIssuesList from 'dashboard/components/widgets/conversation/linear/IssuesList.vue';
 import LinearSetupCTA from 'dashboard/components/widgets/conversation/linear/LinearSetupCTA.vue';
 import SynapseaContactIntelligence from 'dashboard/components-next/synapsea/SynapseaContactIntelligence.vue';
+ codex/transform-chatwoot-into-synapsea-connect-ymy4px
+import SynapseaConversationCopilot from 'dashboard/components-next/synapsea/SynapseaConversationCopilot.vue';
+
  codex/transform-chatwoot-into-synapsea-connect-nhivec
 import SynapseaConversationCopilot from 'dashboard/components-next/synapsea/SynapseaConversationCopilot.vue';
 
+ develop
  develop
 
 const props = defineProps({
@@ -146,12 +150,18 @@ onMounted(() => {
       :contact="contact"
       :conversation="currentChat"
     />
+ codex/transform-chatwoot-into-synapsea-connect-ymy4px
+
  codex/transform-chatwoot-into-synapsea-connect-nhivec
+ develop
     <SynapseaConversationCopilot
       :contact="contact"
       :conversation="currentChat"
     />
+ codex/transform-chatwoot-into-synapsea-connect-ymy4px
 
+
+ develop
  develop
     <div class="px-2 pb-8 list-group">
       <Draggable
