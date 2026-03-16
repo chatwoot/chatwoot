@@ -19,7 +19,14 @@ docker compose -f docker-compose.install-test.yaml run --rm setup
 ```
 
 Esse passo executa:
+ codex/transform-chatwoot-into-synapsea-connect-6xbxtt
 
+
+ codex/transform-chatwoot-into-synapsea-connect-vkjace
+
+
+ develop
+ develop
 - `bundle install`
 - `pnpm install`
 - `bundle exec rails db:prepare`
@@ -32,8 +39,17 @@ docker compose -f docker-compose.install-test.yaml up -d
 ```
 
 Serviços principais:
+ codex/transform-chatwoot-into-synapsea-connect-6xbxtt
 
 - Connect: `http://localhost:3000`
+
+ codex/transform-chatwoot-into-synapsea-connect-vkjace
+
+- Connect: `http://localhost:3000`
+
+- Chatwoot: `http://localhost:3000`
+ develop
+ develop
 - Vite: `http://localhost:3036`
 - Mailhog: `http://localhost:8025`
 - Synapsea Analytics (scaffold): `http://localhost:4010`

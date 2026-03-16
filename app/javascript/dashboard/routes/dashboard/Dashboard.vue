@@ -95,7 +95,18 @@ export default {
         inbox_view_conversation: 'inbox',
         contacts_dashboard_index: 'contacts',
         contacts_dashboard_active: 'contacts',
+ codex/transform-chatwoot-into-synapsea-connect-6xbxtt
         contacts_edit: 'contacts',
+
+ codex/transform-chatwoot-into-synapsea-connect-vkjace
+        contacts_edit: 'contacts',
+
+ codex/transform-chatwoot-into-synapsea-connect-ymy4px
+        contacts_edit: 'contacts',
+
+ develop
+ develop
+ develop
         conversation_mentions: 'conversations',
         labels_list: 'tags',
         automation_list: 'automations',
@@ -104,14 +115,36 @@ export default {
         account_overview_reports: 'reports',
         agent_list: 'user_management',
         search: 'search_filters',
+ codex/transform-chatwoot-into-synapsea-connect-6xbxtt
+
+ codex/transform-chatwoot-into-synapsea-connect-vkjace
+
+ codex/transform-chatwoot-into-synapsea-connect-ymy4px
+ develop
+ develop
         companies_dashboard_index: 'companies',
         campaigns_livechat_index: 'campaigns',
         campaigns_sms_index: 'campaigns',
         campaigns_whatsapp_index: 'campaigns',
+ codex/transform-chatwoot-into-synapsea-connect-6xbxtt
+
+ codex/transform-chatwoot-into-synapsea-connect-vkjace
+
+
+ develop
+ develop
+ develop
       };
 
       if (routeName?.includes('notes')) return 'internal_notes';
       if (routeName?.includes('assignment')) return 'assign_conversation';
+ codex/transform-chatwoot-into-synapsea-connect-6xbxtt
+
+ codex/transform-chatwoot-into-synapsea-connect-vkjace
+
+ codex/transform-chatwoot-into-synapsea-connect-ymy4px
+ develop
+ develop
       if (routeName?.includes('portals') || routeName?.includes('helpcenter')) {
         return 'help_center';
       }
@@ -125,6 +158,16 @@ export default {
       if (routeName?.includes('conversation')) return 'conversations';
 
       return routeToHelpMap[routeName] || 'dashboard';
+ codex/transform-chatwoot-into-synapsea-connect-6xbxtt
+
+ codex/transform-chatwoot-into-synapsea-connect-vkjace
+
+
+
+      return routeToHelpMap[routeName] || null;
+ develop
+ develop
+ develop
     },
   },
   watch: {

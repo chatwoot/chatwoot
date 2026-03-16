@@ -1,5 +1,14 @@
+ codex/transform-chatwoot-into-synapsea-connect-6xbxtt
 # Synapsea / Connect — Runbook completo para implantação em VPS (homologação)
 
+
+ codex/transform-chatwoot-into-synapsea-connect-vkjace
+# Synapsea / Connect — Runbook completo para implantação em VPS (homologação)
+
+# Synapsea / Chatwoot — Runbook completo para implantação em VPS (homologação)
+ develop
+
+ develop
 Este documento é um guia operacional para um agente de IA (ou time técnico) implantar o sistema em ambiente de **homologação** com segurança, validar ponta a ponta e decidir **GO / NO-GO**.
 
 > Escopo: aplicação principal (Rails + Sidekiq + Vite + Postgres + Redis), recursos de UX/branding/context help, e scaffold `services/synapsea-analytics` para experimentação controlada.
