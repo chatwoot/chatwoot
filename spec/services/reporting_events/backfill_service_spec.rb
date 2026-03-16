@@ -118,57 +118,71 @@ describe ReportingEvents::BackfillService do
       expect(rollup.sum_value_business_hours).to eq(350)
     end
 
-    it 'aggregates grouped rows without instantiating reporting events' do
-      second_user = create(:user, account: account)
-      second_inbox = create(:inbox, account: account)
-      second_conversation = create(:conversation, account: account, inbox: second_inbox, assignee: second_user)
+    context 'when aggregating grouped rows' do
+      let(:second_user) { create(:user, account: account) }
+      let(:second_inbox) { create(:inbox, account: account) }
+      let(:second_conversation) { create(:conversation, account: account, inbox: second_inbox, assignee: second_user) }
 
-      create_backfill_event(name: 'first_response', value: 100, value_in_business_hours: 60, user: user,
-                            inbox: inbox, conversation: conversation, created_at: Time.utc(2026, 2, 11, 14))
-      create_backfill_event(name: 'first_response', value: 40, value_in_business_hours: 20, user: user,
-                            inbox: inbox, conversation: conversation, created_at: Time.utc(2026, 2, 11, 15))
-      create_backfill_event(name: 'conversation_resolved', value: 200, value_in_business_hours: 80, user: second_user,
-                            inbox: second_inbox, conversation: second_conversation, created_at: Time.utc(2026, 2, 11, 16))
-      create_backfill_event(name: 'reply_time', value: 500, value_in_business_hours: 300, user: user,
-                            inbox: inbox, conversation: conversation, created_at: Time.utc(2026, 2, 12, 5))
-
-      reporting_event_instantiations = count_reporting_event_instantiations do
+      before do
+        create_backfill_event(name: 'first_response', value: 100, value_in_business_hours: 60, user: user,
+                              inbox: inbox, conversation: conversation, created_at: Time.utc(2026, 2, 11, 14))
+        create_backfill_event(name: 'first_response', value: 40, value_in_business_hours: 20, user: user,
+                              inbox: inbox, conversation: conversation, created_at: Time.utc(2026, 2, 11, 15))
+        create_backfill_event(name: 'conversation_resolved', value: 200, value_in_business_hours: 80, user: second_user,
+                              inbox: second_inbox, conversation: second_conversation, created_at: Time.utc(2026, 2, 11, 16))
+        create_backfill_event(name: 'reply_time', value: 500, value_in_business_hours: 300, user: user,
+                              inbox: inbox, conversation: conversation, created_at: Time.utc(2026, 2, 12, 5))
         described_class.backfill_date(account, date)
       end
 
-      expect(reporting_event_instantiations).to eq(0)
+      it 'does not instantiate reporting events' do
+        reporting_event_instantiations = count_reporting_event_instantiations do
+          described_class.backfill_date(account, date)
+        end
 
-      rollups = ReportingEventsRollup.where(account_id: account.id, date: date)
-      # 3 dimensions × first_response + 3 dimensions × resolutions_count + 3 dimensions × resolution_time
-      expect(rollups.count).to eq(9)
+        expect(reporting_event_instantiations).to eq(0)
+      end
 
-      # account dimension
-      account_first_response = find_rollup('account', account.id, 'first_response')
-      expect(account_first_response.count).to eq(2)
-      expect(account_first_response.sum_value).to eq(140)
-      expect(account_first_response.sum_value_business_hours).to eq(80)
+      it 'creates the expected number of rollup rows' do
+        rollups = ReportingEventsRollup.where(account_id: account.id, date: date)
+        # 3 dimensions × first_response + 3 dimensions × resolutions_count + 3 dimensions × resolution_time
+        expect(rollups.count).to eq(9)
+      end
 
-      # agent dimension
-      agent_first_response = find_rollup('agent', user.id, 'first_response')
-      expect(agent_first_response.count).to eq(2)
-      expect(agent_first_response.sum_value).to eq(140)
-      expect(agent_first_response.sum_value_business_hours).to eq(80)
+      it 'aggregates first_response at the account dimension' do
+        account_first_response = find_rollup('account', account.id, 'first_response')
+        expect(account_first_response.count).to eq(2)
+        expect(account_first_response.sum_value).to eq(140)
+        expect(account_first_response.sum_value_business_hours).to eq(80)
+      end
 
-      agent_resolution_time = find_rollup('agent', second_user.id, 'resolution_time')
-      expect(agent_resolution_time.count).to eq(1)
-      expect(agent_resolution_time.sum_value).to eq(200)
-      expect(agent_resolution_time.sum_value_business_hours).to eq(80)
+      it 'aggregates first_response at the agent dimension' do
+        agent_first_response = find_rollup('agent', user.id, 'first_response')
+        expect(agent_first_response.count).to eq(2)
+        expect(agent_first_response.sum_value).to eq(140)
+        expect(agent_first_response.sum_value_business_hours).to eq(80)
+      end
 
-      # inbox dimension
-      inbox_first_response = find_rollup('inbox', inbox.id, 'first_response')
-      expect(inbox_first_response.count).to eq(2)
-      expect(inbox_first_response.sum_value).to eq(140)
-      expect(inbox_first_response.sum_value_business_hours).to eq(80)
+      it 'aggregates resolution_time at the agent dimension' do
+        agent_resolution_time = find_rollup('agent', second_user.id, 'resolution_time')
+        expect(agent_resolution_time.count).to eq(1)
+        expect(agent_resolution_time.sum_value).to eq(200)
+        expect(agent_resolution_time.sum_value_business_hours).to eq(80)
+      end
 
-      inbox_resolution_time = find_rollup('inbox', second_inbox.id, 'resolution_time')
-      expect(inbox_resolution_time.count).to eq(1)
-      expect(inbox_resolution_time.sum_value).to eq(200)
-      expect(inbox_resolution_time.sum_value_business_hours).to eq(80)
+      it 'aggregates first_response at the inbox dimension' do
+        inbox_first_response = find_rollup('inbox', inbox.id, 'first_response')
+        expect(inbox_first_response.count).to eq(2)
+        expect(inbox_first_response.sum_value).to eq(140)
+        expect(inbox_first_response.sum_value_business_hours).to eq(80)
+      end
+
+      it 'aggregates resolution_time at the inbox dimension' do
+        inbox_resolution_time = find_rollup('inbox', second_inbox.id, 'resolution_time')
+        expect(inbox_resolution_time.count).to eq(1)
+        expect(inbox_resolution_time.sum_value).to eq(200)
+        expect(inbox_resolution_time.sum_value_business_hours).to eq(80)
+      end
     end
 
     it 'deduplicates distinct-count events per dimension' do
