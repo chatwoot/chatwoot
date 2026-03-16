@@ -66,13 +66,34 @@ class ReportingEventsRollupTimezoneSetup
   end
 
   def find_matching_zones(offset_input)
-    normalized = offset_input.gsub(/^(?!\+|-)/, '+')
-    parts = normalized.split(':')
-    hours = parts[0].to_i
-    minutes = (parts[1] || '0').to_i
-    total_seconds = (hours * 3600) + (hours.negative? ? -minutes * 60 : minutes * 60)
+    total_seconds = utc_offset_in_seconds(offset_input)
+    return [] unless total_seconds
 
     ActiveSupport::TimeZone.all.select { |tz| tz.utc_offset == total_seconds }
+  end
+
+  def utc_offset_in_seconds(offset_input)
+    normalized = offset_input.strip
+    return unless normalized.match?(/\A[+-]?\d{1,2}(:\d{2})?\z/)
+
+    sign = normalized.start_with?('-') ? -1 : 1
+    raw = normalized.delete_prefix('+').delete_prefix('-')
+    hours_part, minutes_part = raw.split(':', 2)
+
+    hours = Integer(hours_part, 10)
+    minutes = Integer(minutes_part || '0', 10)
+    return unless minutes.between?(0, 59)
+
+    total_minutes = (hours * 60) + minutes
+    return if total_minutes > max_utc_offset_minutes(sign)
+
+    sign * total_minutes * 60
+  rescue ArgumentError
+    nil
+  end
+
+  def max_utc_offset_minutes(sign)
+    sign.negative? ? 12 * 60 : 14 * 60
   end
 
   def display_matching_zones(zones, offset_input)

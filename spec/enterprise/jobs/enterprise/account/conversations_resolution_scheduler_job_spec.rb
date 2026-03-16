@@ -30,12 +30,28 @@ RSpec.describe Account::ConversationsResolutionSchedulerJob, type: :job do
       end
     end
 
-    context 'when account has captain_disable_auto_resolve enabled' do
+    context 'when account has captain auto resolve disabled' do
       let!(:regular_inbox) { create(:inbox, account: account) }
 
       before do
         create(:captain_inbox, captain_assistant: assistant, inbox: regular_inbox)
-        account.update!(captain_disable_auto_resolve: true)
+        account.update!(captain_auto_resolve_mode: 'disabled')
+      end
+
+      it 'does not enqueue resolution jobs' do
+        expect do
+          described_class.perform_now
+        end.not_to have_enqueued_job(Captain::InboxPendingConversationsResolutionJob)
+          .with(regular_inbox)
+      end
+    end
+
+    context 'when account uses legacy disabled settings key' do
+      let!(:regular_inbox) { create(:inbox, account: account) }
+
+      before do
+        create(:captain_inbox, captain_assistant: assistant, inbox: regular_inbox)
+        account.update!(settings: account.settings.merge('captain_disable_auto_resolve' => true))
       end
 
       it 'does not enqueue resolution jobs' do

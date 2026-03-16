@@ -63,7 +63,11 @@ describe 'Markdown Embeds Configuration' do
         'bunny' => [
           { url: 'https://iframe.mediadelivery.net/play/431789/1f105841-cad9-46fe-a70e-b7623c60797c',
             expected: { 'library_id' => '431789', 'video_id' => '1f105841-cad9-46fe-a70e-b7623c60797c' } },
-          { url: 'https://iframe.mediadelivery.net/play/12345/abcdef-ghijkl', expected: { 'library_id' => '12345', 'video_id' => 'abcdef-ghijkl' } }
+          { url: 'https://iframe.mediadelivery.net/play/12345/abcdef-ghijkl', expected: { 'library_id' => '12345', 'video_id' => 'abcdef-ghijkl' } },
+          { url: 'https://player.mediadelivery.net/play/431789/1f105841-cad9-46fe-a70e-b7623c60797c',
+            expected: { 'library_id' => '431789', 'video_id' => '1f105841-cad9-46fe-a70e-b7623c60797c' } },
+          { url: 'https://iframe.mediadelivery.net/embed/256380/d9d9ab1f-fc9f-4488-9c26-4ffc653c0024',
+            expected: { 'library_id' => '256380', 'video_id' => 'd9d9ab1f-fc9f-4488-9c26-4ffc653c0024' } }
         ],
         'codepen' => [
           { url: 'https://codepen.io/username/pen/abcdef', expected: { 'user' => 'username', 'pen_id' => 'abcdef' } },
