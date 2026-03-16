@@ -381,7 +381,15 @@
     "DOCS": "Read docs",
     "SECURITY": "Security",
     "CAPTAIN_AI": "Captain",
-    "CONVERSATION_WORKFLOW": "Conversation Workflow"
+    "CONVERSATION_WORKFLOW": "Conversation Workflow",
+    "HELP_HUB": {
+      "OPEN": "Help center",
+      "TITLE": "Action help center",
+      "DESCRIPTION": "Learn what each menu action does and how to operate the system independently.",
+      "SEARCH_PLACEHOLDER": "Search by action, menu or objective",
+      "CURRENT_CONTEXT": "Suggested for your current screen",
+      "CLOSE": "Close help center"
+    }
   },
   "CAPTAIN_SETTINGS": {
     "TITLE": "Captain Settings",
