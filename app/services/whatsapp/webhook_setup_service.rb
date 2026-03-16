@@ -58,9 +58,9 @@ class Whatsapp::WebhookSetupService
   def setup_webhook
     callback_url = build_callback_url
     verify_token = @channel.provider_config['webhook_verify_token']
+    phone_number_id = @channel.provider_config['phone_number_id']
 
-    @api_client.subscribe_waba_webhook(@waba_id, callback_url, verify_token)
-
+    @api_client.subscribe_phone_number_webhook(@waba_id, phone_number_id, callback_url, verify_token)
   rescue StandardError => e
     Rails.logger.error("[WHATSAPP] Webhook setup failed: #{e.message}")
     raise "Webhook setup failed: #{e.message}"
