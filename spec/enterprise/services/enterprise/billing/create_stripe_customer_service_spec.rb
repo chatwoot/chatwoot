@@ -18,6 +18,36 @@ describe Enterprise::Billing::CreateStripeCustomerService do
       )
     end
 
+    it 'preserves unrelated custom attributes, clears is_creating_customer, and reconciles default-plan features' do
+      account.update!(custom_attributes: { 'is_creating_customer' => true, 'onboarding_source' => 'billing_page' })
+      account.enable_features!(:help_center)
+
+      customer = double
+      allow(Stripe::Customer).to receive(:create).and_return(customer)
+      allow(customer).to receive(:id).and_return('cus_random_number')
+      allow(Stripe::Subscription)
+        .to receive(:create)
+        .and_return(
+          {
+            plan: { id: 'price_random_number', product: 'prod_random_number' },
+            quantity: 2
+          }.with_indifferent_access
+        )
+
+      create_stripe_customer_service.new(account: account).perform
+
+      expect(account.reload.custom_attributes).to include(
+        'stripe_customer_id' => customer.id,
+        'stripe_price_id' => 'price_random_number',
+        'stripe_product_id' => 'prod_random_number',
+        'subscribed_quantity' => 2,
+        'plan_name' => 'A Plan Name',
+        'onboarding_source' => 'billing_page'
+      )
+      expect(account.custom_attributes).not_to have_key('is_creating_customer')
+      expect(account).not_to be_feature_enabled('help_center')
+    end
+
     it 'does not call stripe methods if customer id is present' do
       account.update!(custom_attributes: { stripe_customer_id: 'cus_random_number' })
       allow(subscriptions_list).to receive(:data).and_return([])

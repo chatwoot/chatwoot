@@ -30,7 +30,8 @@ class PublicController < ActionController::Base
     current_portal = @portal
     if current_portal.blank? && respond_to?(:portal, true)
       begin
-        current_portal = portal
+        portal
+        current_portal = @portal
       rescue ActiveRecord::RecordNotFound
         return # Let the normal 404 handling take care of this
       end

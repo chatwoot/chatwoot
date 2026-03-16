@@ -13,15 +13,17 @@ class Enterprise::Billing::CreateStripeCustomerService
         items: [{ price: price_id, quantity: default_quantity }]
       }
     )
-    account.update!(
-      custom_attributes: {
-        stripe_customer_id: customer_id,
-        stripe_price_id: subscription['plan']['id'],
-        stripe_product_id: subscription['plan']['product'],
-        plan_name: default_plan['name'],
-        subscribed_quantity: subscription['quantity']
-      }
+    custom_attributes = (account.custom_attributes || {}).merge(
+      'stripe_customer_id' => customer_id,
+      'stripe_price_id' => subscription['plan']['id'],
+      'stripe_product_id' => subscription['plan']['product'],
+      'plan_name' => default_plan['name'],
+      'subscribed_quantity' => subscription['quantity']
     )
+    custom_attributes.except!('is_creating_customer')
+
+    account.update!(custom_attributes: custom_attributes)
+    Enterprise::Billing::ReconcilePlanFeaturesService.new(account: account).perform
   end
 
   private
