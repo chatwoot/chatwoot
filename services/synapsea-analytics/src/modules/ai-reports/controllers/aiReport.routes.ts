@@ -7,6 +7,18 @@ export const registerAiReportRoutes = (app: FastifyInstance) => {
 
   app.post('/api/reports/ask-ai', async request => {
     const payload = askAiSchema.parse(request.body);
+ codex/transform-chatwoot-into-synapsea-connect-vkjace
     return await service.execute(payload);
+
+ codex/transform-chatwoot-into-synapsea-connect-ymy4px
+    return await service.execute(payload);
+
+ codex/transform-chatwoot-into-synapsea-connect-nhivec
+    return await service.execute(payload);
+
+    return service.execute(payload);
+ develop
+ develop
+ develop
   });
 };
