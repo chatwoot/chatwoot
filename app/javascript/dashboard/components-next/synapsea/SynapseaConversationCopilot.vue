@@ -1,5 +1,9 @@
 <script setup>
 import { computed } from 'vue';
+ codex/transform-chatwoot-into-synapsea-connect-6xbxtt
+import { useI18n } from 'vue-i18n';
+
+ develop
 
 const props = defineProps({
   conversation: {
@@ -12,6 +16,11 @@ const props = defineProps({
   },
 });
 
+ codex/transform-chatwoot-into-synapsea-connect-6xbxtt
+const { t } = useI18n();
+
+
+ develop
 const conversationAttributes = computed(
   () => props.conversation?.additional_attributes || {}
 );
@@ -88,6 +97,78 @@ const isSalesMode = computed(() => {
 });
 
 const isSupportMode = computed(() => !isSalesMode.value);
+ codex/transform-chatwoot-into-synapsea-connect-6xbxtt
+
+const resolveSuggestedAction = action => {
+  if (
+    action ===
+    'CONVERSATION_SIDEBAR.INTELLIGENT_PANEL.DEFAULT_ACTIONS.SEND_TEMPLATE'
+  ) {
+    return t(
+      'CONVERSATION_SIDEBAR.INTELLIGENT_PANEL.DEFAULT_ACTIONS.SEND_TEMPLATE'
+    );
+  }
+
+  if (
+    action ===
+    'CONVERSATION_SIDEBAR.INTELLIGENT_PANEL.DEFAULT_ACTIONS.CONFIRM_CONTEXT'
+  ) {
+    return t(
+      'CONVERSATION_SIDEBAR.INTELLIGENT_PANEL.DEFAULT_ACTIONS.CONFIRM_CONTEXT'
+    );
+  }
+
+  if (
+    action ===
+    'CONVERSATION_SIDEBAR.INTELLIGENT_PANEL.DEFAULT_ACTIONS.TRANSFER_QUEUE'
+  ) {
+    return t(
+      'CONVERSATION_SIDEBAR.INTELLIGENT_PANEL.DEFAULT_ACTIONS.TRANSFER_QUEUE'
+    );
+  }
+
+  return action;
+};
+
+const resolveKnowledgeItem = item => {
+  if (
+    item === 'CONVERSATION_SIDEBAR.INTELLIGENT_PANEL.DEFAULT_KNOWLEDGE.BILLING'
+  ) {
+    return t(
+      'CONVERSATION_SIDEBAR.INTELLIGENT_PANEL.DEFAULT_KNOWLEDGE.BILLING'
+    );
+  }
+
+  if (item === 'CONVERSATION_SIDEBAR.INTELLIGENT_PANEL.DEFAULT_KNOWLEDGE.SLA') {
+    return t('CONVERSATION_SIDEBAR.INTELLIGENT_PANEL.DEFAULT_KNOWLEDGE.SLA');
+  }
+
+  if (
+    item === 'CONVERSATION_SIDEBAR.INTELLIGENT_PANEL.DEFAULT_KNOWLEDGE.HANDOFF'
+  ) {
+    return t(
+      'CONVERSATION_SIDEBAR.INTELLIGENT_PANEL.DEFAULT_KNOWLEDGE.HANDOFF'
+    );
+  }
+
+  return item;
+};
+
+const resolvedNextBestAction = computed(() => {
+  if (
+    nextBestAction.value ===
+    'CONVERSATION_SIDEBAR.INTELLIGENT_PANEL.DEFAULT_NEXT_ACTION'
+  ) {
+    return t('CONVERSATION_SIDEBAR.INTELLIGENT_PANEL.DEFAULT_NEXT_ACTION');
+  }
+
+  return nextBestAction.value;
+});
+</script>
+
+<template>
+  <div class="p-3 rounded-xl border border-n-weak bg-n-solid-2">
+
 </script>
 
 <template>
@@ -98,15 +179,20 @@ const isSupportMode = computed(() => !isSalesMode.value);
     class="mx-2 mb-3 p-3 rounded-xl border border-n-slate-6 bg-n-background shadow-sm"
   >
  develop
+ develop
     <div class="flex items-center justify-between gap-2 mb-3">
       <h3 class="text-sm font-semibold text-n-slate-12">
         {{ $t('CONVERSATION_SIDEBAR.INTELLIGENT_PANEL.TITLE') }}
       </h3>
       <span
+ codex/transform-chatwoot-into-synapsea-connect-6xbxtt
+        class="text-xs font-medium px-2 py-1 rounded-full bg-n-alpha-2 text-n-slate-11"
+
  codex/transform-chatwoot-into-synapsea-connect-vkjace
         class="text-xs font-medium px-2 py-1 rounded-full bg-n-alpha-2 text-n-slate-11"
 
         class="text-xs font-medium px-2 py-1 rounded-full bg-n-blue-3 text-n-blue-11"
+ develop
  develop
       >
         {{ $t('CONVERSATION_SIDEBAR.INTELLIGENT_PANEL.COPILOT') }}
@@ -124,7 +210,10 @@ const isSupportMode = computed(() => !isSalesMode.value);
         <p class="text-n-slate-10">
           {{ $t('CONVERSATION_SIDEBAR.INTELLIGENT_PANEL.LEAD_SCORE') }}
         </p>
+ codex/transform-chatwoot-into-synapsea-connect-6xbxtt
+
  codex/transform-chatwoot-into-synapsea-connect-vkjace
+ develop
         <p class="font-semibold text-n-slate-12">
           {{
             $t('CONVERSATION_SIDEBAR.INTELLIGENT_PANEL.PERCENT_VALUE', {
@@ -132,8 +221,11 @@ const isSupportMode = computed(() => !isSalesMode.value);
             })
           }}
         </p>
+ codex/transform-chatwoot-into-synapsea-connect-6xbxtt
+
 
         <p class="font-semibold text-n-slate-12">{{ leadScore }}%</p>
+ develop
  develop
       </div>
     </div>
@@ -171,9 +263,13 @@ const isSupportMode = computed(() => !isSalesMode.value);
           {{ $t('CONVERSATION_SIDEBAR.INTELLIGENT_PANEL.NEXT_ACTION') }}
         </p>
         <p class="text-n-slate-10">
+ codex/transform-chatwoot-into-synapsea-connect-6xbxtt
+          {{ resolvedNextBestAction }}
+
           {{
             nextBestAction.includes('.') ? $t(nextBestAction) : nextBestAction
           }}
+ develop
         </p>
       </section>
 
@@ -183,7 +279,11 @@ const isSupportMode = computed(() => !isSalesMode.value);
         </p>
         <ul class="space-y-1 text-n-slate-10 list-disc pl-4">
           <li v-for="action in suggestedActions" :key="action">
+ codex/transform-chatwoot-into-synapsea-connect-6xbxtt
+            {{ resolveSuggestedAction(action) }}
+
             {{ action.includes('.') ? $t(action) : action }}
+ develop
           </li>
         </ul>
       </section>
@@ -194,14 +294,21 @@ const isSupportMode = computed(() => !isSalesMode.value);
         </p>
         <ul class="space-y-1 text-n-slate-10 list-disc pl-4">
           <li v-for="item in knowledgeArticles" :key="item">
+ codex/transform-chatwoot-into-synapsea-connect-6xbxtt
+            {{ resolveKnowledgeItem(item) }}
+
             {{ item.includes('.') ? $t(item) : item }}
+ develop
           </li>
         </ul>
       </section>
 
       <section
         v-if="isSalesMode"
+ codex/transform-chatwoot-into-synapsea-connect-6xbxtt
+
  codex/transform-chatwoot-into-synapsea-connect-vkjace
+ develop
         class="rounded-lg border border-n-weak bg-n-slate-2 p-2"
       >
         <p class="text-n-slate-12 font-medium mb-1">
@@ -214,6 +321,8 @@ const isSupportMode = computed(() => !isSalesMode.value);
               { value: probabilityToClose }
             )
           }}
+ codex/transform-chatwoot-into-synapsea-connect-6xbxtt
+
 
         class="rounded-lg border border-n-green-5 p-2"
       >
@@ -224,11 +333,17 @@ const isSupportMode = computed(() => !isSalesMode.value);
           {{ $t('CONVERSATION_SIDEBAR.INTELLIGENT_PANEL.CLOSE_PROBABILITY') }}:
           <span class="font-semibold">{{ probabilityToClose }}%</span>
  develop
+ develop
         </p>
       </section>
 
       <section
         v-if="isSupportMode"
+ codex/transform-chatwoot-into-synapsea-connect-6xbxtt
+        class="rounded-lg border border-n-weak bg-n-slate-2 p-2"
+      >
+        <p class="text-n-slate-12 font-medium mb-1">
+
  codex/transform-chatwoot-into-synapsea-connect-vkjace
         class="rounded-lg border border-n-weak bg-n-slate-2 p-2"
       >
@@ -237,6 +352,7 @@ const isSupportMode = computed(() => !isSalesMode.value);
         class="rounded-lg border border-n-violet-5 p-2"
       >
         <p class="text-n-violet-11 font-medium mb-1">
+ develop
  develop
           {{ $t('CONVERSATION_SIDEBAR.INTELLIGENT_PANEL.SUPPORT_MODE') }}
         </p>

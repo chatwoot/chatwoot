@@ -1,9 +1,12 @@
 export const HELP_CONTENT = {
   dashboard: {
     title: 'Como acompanhar o dashboard',
+ codex/transform-chatwoot-into-synapsea-connect-6xbxtt
+
  codex/transform-chatwoot-into-synapsea-connect-vkjace
 
  codex/transform-chatwoot-into-synapsea-connect-ymy4px
+ develop
  develop
     body: 'Monitore volume, tempo de resposta e produtividade para identificar gargalos e priorizar ações operacionais.',
   },
@@ -74,6 +77,8 @@ export const HELP_CONTENT = {
   captain: {
     title: 'Como usar o Captain',
     body: 'Organize base de conhecimento (FAQs, documentos e cenários) para melhorar respostas assistidas por IA.',
+ codex/transform-chatwoot-into-synapsea-connect-6xbxtt
+
  codex/transform-chatwoot-into-synapsea-connect-vkjace
 
 
@@ -128,13 +133,17 @@ export const HELP_CONTENT = {
     body: 'Combine filtros por contato, etiqueta, canal e data para localizar conversas específicas com rapidez.',
  develop
  develop
+ develop
   },
 };
 
 export const getContextHelpByKey = key => HELP_CONTENT[key];
+ codex/transform-chatwoot-into-synapsea-connect-6xbxtt
+
  codex/transform-chatwoot-into-synapsea-connect-vkjace
 
  codex/transform-chatwoot-into-synapsea-connect-ymy4px
+ develop
  develop
 
 export const getAllContextHelp = () =>
@@ -142,8 +151,11 @@ export const getAllContextHelp = () =>
     key,
     ...value,
   }));
+ codex/transform-chatwoot-into-synapsea-connect-6xbxtt
+
  codex/transform-chatwoot-into-synapsea-connect-vkjace
 
 
+ develop
  develop
  develop
