@@ -575,7 +575,7 @@
           "SUBTITLE": "Используйте только сконфигурированное бизнес-имя отправителя в заголовке электронной почты."
         },
         "BUSINESS_NAME": {
-          "BUTTON_TEXT": "+ Настройте название вашей компании",
+          "BUTTON_TEXT": "Настройте название вашей компании",
           "PLACEHOLDER": "Введите название вашей компании",
           "SAVE_BUTTON_TEXT": "Сохранить"
         }
@@ -589,8 +589,10 @@
         "DISABLED": "Выключено"
       },
       "LOCK_TO_SINGLE_CONVERSATION": {
-        "ENABLED": "Включено",
-        "DISABLED": "Выключено"
+        "ENABLED": "Reopen same conversation",
+        "DISABLED": "Create new conversations",
+        "ENABLED_DESCRIPTION": "When a contact messages again, the previous conversation will be reopened.",
+        "DISABLED_DESCRIPTION": "A new conversation will be created each time after the previous one is resolved."
       },
       "ENABLE_HMAC": {
         "LABEL": "Включить"
@@ -708,8 +710,8 @@
       "SENDER_NAME_SECTION_TEXT": "Включить/выключить отображение имени Сотрудника в электронной почте, если отключено, он будет показывать бизнес-имя",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Включить непрерывность диалогов по электронной почте",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Диалоги будут продолжаться по электронной почте, если доступен контактный адрес электронной почты.",
-      "LOCK_TO_SINGLE_CONVERSATION": "Заблокировать один диалог",
-      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Включение или отключение нескольких диалогов для одного и того же контакта в этой папке «Входящие»",
+      "LOCK_TO_SINGLE_CONVERSATION": "Conversation Routing",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Configure conversation creation for existing contacts",
       "INBOX_UPDATE_TITLE": "Настройки источника",
       "INBOX_UPDATE_SUB_TEXT": "Изменить настройки источника",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Включить или отключить автоматическое назначение новых разговоров к агентам, добавленным к этому источнику.",
@@ -759,7 +761,8 @@
       "PLACEHOLDER": "Выберите справочный центр",
       "SELECT_PLACEHOLDER": "Выберите справочный центр",
       "REMOVE": "Удалить справочный центр",
-      "SUB_TEXT": "Прикрепить справочный центр с помощью папки \"Входящие\""
+      "SUB_TEXT": "Прикрепить справочный центр с помощью папки \"Входящие\"",
+      "NONE": "Ничего"
     },
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "Авто распределение лимита",
@@ -848,10 +851,24 @@
         "SELECT_PLACEHOLDER": "Выбрать метки"
       },
       "NOTE": "Примечание: опросы CSAT отправляются только один раз для диалога",
-      "WHATSAPP_NOTE": "Примечание: мы создадим шаблон и отправим его на одобрение WhatsApp. После одобрения опрос будет отправляться только один раз для каждого диалога в соответствии с правилом опроса.",
+      "WHATSAPP_NOTE": "Примечание: при сохранении система создаёт в WhatsApp отдельный CSAT-шаблон, который используется для сбора оценки и обратной связи в отчётах, и отправляет его на одобрение как Utility. В зависимости от содержания Meta всё равно может классифицировать его как Marketing. После одобрения опросы отправляются только один раз для каждого диалога в соответствии с правилом опроса.",
       "API": {
         "SUCCESS_MESSAGE": "Настройки CSAT успешно обновлены",
         "ERROR_MESSAGE": "Не удалось обновить CSAT настройки. Повторите попытку позже."
+      },
+      "UTILITY_ANALYZER": {
+        "ACTION": "Проверить соответствие категории Utility",
+        "HELPER_NOTE": "Проверьте сообщение перед отправкой, чтобы повысить вероятность категории Utility. Система создаёт отдельный CSAT-шаблон с кнопками для отчётности и отправляет его на одобрение как Utility; в зависимости от содержания Meta всё равно может переклассифицировать его в Marketing.",
+        "RESULT_LABEL": "Прогноз категории Meta",
+        "GUIDANCE_NOTE": "Это лишь подсказка и не гарантирует одобрение Meta.",
+        "SUGGESTION_LABEL": "Предлагаемая формулировка для категории Utility",
+        "APPLY": "Использовать этот вариант",
+        "ERROR_MESSAGE": "Не удалось проанализировать сообщение. Пожалуйста, попробуйте ещё раз.",
+        "CLASSIFICATION": {
+          "LIKELY_UTILITY": "Вероятно Utility",
+          "LIKELY_MARKETING": "Вероятно Marketing",
+          "UNCLEAR": "Нужны уточнения"
+        }
       }
     },
     "BUSINESS_HOURS": {
@@ -866,9 +883,11 @@
       "DAY": {
         "ENABLE": "Я работаю в этот день",
         "UNAVAILABLE": "Я не работаю в этот день",
-        "HOURS": "часы",
+        "HOURS": "Часов",
         "VALIDATION_ERROR": "Время начала должно предшествовать времени окончания.",
-        "CHOOSE": "Выбрать"
+        "CHOOSE": "Выбрать",
+        "DAY": "День",
+        "AVAILABILITY": "Доступность"
       },
       "ALL_DAY": "Весь день"
     },
@@ -973,11 +992,11 @@
           "IN_A_DAY": "Через день"
         },
         "WIDGET_COLOR_LABEL": "Цвет виджета",
-        "WIDGET_BUBBLE_POSITION_LABEL": "Позиция конструктора виджетов",
-        "WIDGET_BUBBLE_TYPE_LABEL": "Тип рамки для виджета",
+        "WIDGET_BUBBLE_POSITION_LABEL": "Position:",
+        "WIDGET_BUBBLE_TYPE_LABEL": "Тип:",
         "WIDGET_BUBBLE_LAUNCHER_TITLE": {
           "DEFAULT": "Пообщайтесь с нами",
-          "LABEL": "Название виджета",
+          "LABEL": "Launcher Title",
           "PLACE_HOLDER": "Пообщайтесь с нами"
         },
         "UPDATE": {
@@ -998,11 +1017,12 @@
         "WIDGET_BUBBLE_TYPE": {
           "STANDARD": "Стандартный",
           "EXPANDED_BUBBLE": "Расширенная рамка сообщений"
-        }
+        },
+        "WIDGET_BUBBLE": "Bubble"
       },
       "WIDGET_SCREEN": {
         "DEFAULT": "По умолчанию",
-        "CHAT": "Чат"
+        "CHAT": "Chat mode"
       },
       "REPLY_TIME": {
         "IN_A_FEW_MINUTES": "Обычно отвечаем в течение нескольких минут",
@@ -1052,6 +1072,58 @@
       "INSTAGRAM": "Instagram",
       "TIKTOK": "TikTok",
       "VOICE": "Голосовая связь"
+    },
+    "COUNT": "{n} inbox | {n} inboxes",
+    "SEARCH_PLACEHOLDER": "Search inboxes...",
+    "NO_RESULTS": "No inboxes found matching your search",
+    "CHANNEL_PREFERENCES": "Channel Preferences",
+    "WIDGET_FEATURES": "Widget features",
+    "ASSIGNMENT": {
+      "TITLE": "Назначения для беседы",
+      "DESCRIPTION": "Automatically assign incoming conversations to available agents based on assignment policies",
+      "ENABLE_AUTO_ASSIGNMENT": "Enable automatic conversation assignment",
+      "DEFAULT_RULES_TITLE": "Default assignment rules",
+      "DEFAULT_RULES_DESCRIPTION": "Using the default assignment behavior for all conversations",
+      "DEFAULT_RULE_1": "Earliest created conversations first",
+      "DEFAULT_RULE_2": "Round robin distribution",
+      "CUSTOMIZE_WITH_POLICY": "Customize with assignment policy",
+      "USING_POLICY": "Using custom assignment policy for this inbox",
+      "CUSTOMIZE_POLICY": "Customize with assignment policy",
+      "DELETE_POLICY": "Удалить политику",
+      "POLICY_LABEL": "Назначение политики",
+      "ASSIGNMENT_ORDER_LABEL": "Assignment Order",
+      "ASSIGNMENT_METHOD_LABEL": "Assignment Method",
+      "POLICY_STATUS": {
+        "ACTIVE": "Активно",
+        "INACTIVE": "Неактивен"
+      },
+      "PRIORITY": {
+        "EARLIEST_CREATED": "Раннее созданное",
+        "LONGEST_WAITING": "Длительное ожидание"
+      },
+      "METHOD": {
+        "ROUND_ROBIN": "Round robin",
+        "BALANCED": "Balanced assignment"
+      },
+      "UPGRADE_PROMPT": "Custom assignment policies are available on the Business plan",
+      "UPGRADE_TO_BUSINESS": "Upgrade to Business",
+      "DEFAULT_POLICY_LINKED": "Default policy linked",
+      "DEFAULT_POLICY_DESCRIPTION": "Link a custom assignment policy to customize how conversations are assigned to agents in this inbox.",
+      "LINK_EXISTING_POLICY": "Link existing policy",
+      "CREATE_NEW_POLICY": "Create new policy",
+      "NO_POLICIES": "Не найдены связанные политики",
+      "VIEW_ALL_POLICIES": "View all policies",
+      "CURRENT_BEHAVIOR": "Currently using default assignment behavior:",
+      "LINK_SUCCESS": "Assignment policy linked successfully",
+      "LINK_ERROR": "Failed to link assignment policy"
+    },
+    "ASSIGNMENT_POLICY": {
+      "DELETE_CONFIRM_TITLE": "Delete assignment policy?",
+      "DELETE_CONFIRM_MESSAGE": "Are you sure you want to remove this assignment policy from this inbox? The inbox will revert to default assignment rules.",
+      "CANCEL": "Отменить",
+      "CONFIRM_DELETE": "Удалить",
+      "DELETE_SUCCESS": "Assignment policy removed successfully",
+      "DELETE_ERROR": "Failed to remove assignment policy"
     }
   }
 }

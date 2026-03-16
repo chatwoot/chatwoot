@@ -374,6 +374,16 @@
         "ERROR_MESSAGE": "Fejl under sletning af artikel"
       }
     },
+    "REORDER_ARTICLE": {
+      "API": {
+        "ERROR_MESSAGE": "Unable to reorder articles. Please try again."
+      }
+    },
+    "REORDER_CATEGORY": {
+      "API": {
+        "ERROR_MESSAGE": "Unable to reorder categories. Please try again."
+      }
+    },
     "CREATE_ARTICLE": {
       "ERROR_MESSAGE": "Tilføj venligst artiklens overskrift og indhold, så kun du kan opdatere indstillingerne"
     },

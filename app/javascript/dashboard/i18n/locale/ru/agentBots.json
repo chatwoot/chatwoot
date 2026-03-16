@@ -34,7 +34,8 @@
       "LOADING": "Получение ботов...",
       "TABLE_HEADER": {
         "DETAILS": "Детали бота",
-        "URL": "URL вебхука"
+        "URL": "URL вебхука",
+        "ACTIONS": "Действия"
       }
     },
     "DELETE": {
@@ -98,6 +99,9 @@
     },
     "TYPES": {
       "WEBHOOK": "Webhook бот"
-    }
+    },
+    "COUNT": "{n} бот | {n} боты",
+    "SEARCH_PLACEHOLDER": "Поиск ботов...",
+    "NO_RESULTS": "Не найдено ботов, соответствующих вашему запросу"
   }
 }

@@ -107,7 +107,7 @@
       "LOADING_MESSAGE": "Portallar yükleniyor...",
       "ARTICLES_LABEL": "makaleler",
       "NO_PORTALS_MESSAGE": "Kullanılabilir portal yok",
-      "ADD_NEW_LOCALE": "Yeni bir yerel ekleyin",
+      "ADD_NEW_LOCALE": "Yeni bir dil ekleyin",
       "POPOVER": {
         "TITLE": "Portallar",
         "PORTAL_SETTINGS": "Portal Ayarları",
@@ -288,7 +288,7 @@
         }
       },
       "ADD_LOCALE": {
-        "TITLE": "Yeni bir yerel dil ekle",
+        "TITLE": "Yeni bir dil ekle",
         "SUB_TITLE": "Bu, kullanılabilir çeviri listesine yeni bir yerel dil ekler.",
         "PORTAL": "Portal",
         "LOCALE": {
@@ -372,6 +372,16 @@
       "API": {
         "SUCCESS_MESSAGE": "Makale başarıyla silindi",
         "ERROR_MESSAGE": "Makale silinirken hata oluştu"
+      }
+    },
+    "REORDER_ARTICLE": {
+      "API": {
+        "ERROR_MESSAGE": "Unable to reorder articles. Please try again."
+      }
+    },
+    "REORDER_CATEGORY": {
+      "API": {
+        "ERROR_MESSAGE": "Unable to reorder categories. Please try again."
       }
     },
     "CREATE_ARTICLE": {
@@ -640,8 +650,8 @@
         }
       },
       "ADD_LOCALE_DIALOG": {
-        "TITLE": "Yeni bir yerel ekleyin",
-        "DESCRIPTION": "Select the language in which this article will be written. This will be added to your list of translations, and you can add more later.",
+        "TITLE": "Yeni bir dil ekleyin",
+        "DESCRIPTION": "Bu makalenin yazılacağı dili seçin. Seçilen dil çeviri listenize eklenecek ve daha sonra yeni diller ekleyebilirsiniz.",
         "COMBOBOX": {
           "PLACEHOLDER": "Dil seçin..."
         },
@@ -722,11 +732,11 @@
           "ERROR": "Ad gerekli"
         },
         "HEADER_TEXT": {
-          "LABEL": "Header text",
+          "LABEL": "Başlık Metni",
           "PLACEHOLDER": "Portal başlık metni"
         },
         "PAGE_TITLE": {
-          "LABEL": "Page title",
+          "LABEL": "Sayfa Başlığı",
           "PLACEHOLDER": "Portal sayfa başlığı"
         },
         "HOME_PAGE_LINK": {

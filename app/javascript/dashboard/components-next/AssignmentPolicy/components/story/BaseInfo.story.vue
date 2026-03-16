@@ -6,7 +6,6 @@ const policyName = ref('Round Robin Policy');
 const description = ref(
   'Distributes conversations evenly among available agents'
 );
-const enabled = ref(true);
 </script>
 
 <template>
@@ -19,13 +18,10 @@ const enabled = ref(true);
         <BaseInfo
           v-model:policy-name="policyName"
           v-model:description="description"
-          v-model:enabled="enabled"
           name-label="Policy Name"
           name-placeholder="Enter policy name"
           description-label="Description"
           description-placeholder="Enter policy description"
-          status-label="Status"
-          status-placeholder="Active"
         />
       </div>
     </Variant>

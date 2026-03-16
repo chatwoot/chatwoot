@@ -1,5 +1,6 @@
 <script setup>
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
 
 defineProps({
   option: {
@@ -22,7 +23,9 @@ defineProps({
       class="flex-shrink-0"
     />
     <span
-      v-if="variant === 'label' && option.color"
+      v-if="
+        (variant === 'label' || variant === 'label-assigned') && option.color
+      "
       class="label-pill flex-shrink-0"
       :style="{ backgroundColor: option.color }"
     />
@@ -37,6 +40,11 @@ defineProps({
     <p class="menu-label truncate min-w-0 flex-1">
       {{ option.label }}
     </p>
+    <Icon
+      v-if="variant === 'label-assigned'"
+      icon="i-lucide-check"
+      class="flex-shrink-0 size-3.5 mr-1"
+    />
   </div>
 </template>
 

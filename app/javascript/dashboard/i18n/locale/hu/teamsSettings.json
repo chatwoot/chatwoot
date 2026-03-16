@@ -5,6 +5,9 @@
     "LOADING": "Fetching teams",
     "DESCRIPTION": "Teams allow you to organize agents into groups based on their responsibilities. An agent can belong to multiple teams. When working collaboratively, you can assign conversations to specific teams.",
     "LEARN_MORE": "Learn more about teams",
+    "COUNT": "{n} team | {n} teams",
+    "SEARCH_PLACEHOLDER": "Csapatok keresése...",
+    "NO_RESULTS": "No teams found matching your search",
     "LIST": {
       "404": "Ebben a fiókban nincs csapat létrehozva.",
       "EDIT_TEAM": "Csapat szerkesztése",
@@ -64,8 +67,8 @@
       "ERROR_MESSAGE": "Nem sikerült a csapat részleteinek mentése. Kérjük próbáld újra."
     },
     "AGENTS": {
-      "AGENT": "ÜGYNÖK",
-      "EMAIL": "EMAIL",
+      "AGENT": "Ügynök",
+      "EMAIL": "E-mail",
       "BUTTON_TEXT": "Ügynök Hozzádása",
       "ADD_AGENTS": "Ügynökök hozzáadása a csapathoz...",
       "SELECT": "kiválasztás",
