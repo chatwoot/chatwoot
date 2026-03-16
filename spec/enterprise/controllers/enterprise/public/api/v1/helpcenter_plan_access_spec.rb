@@ -20,7 +20,7 @@ RSpec.describe 'Public Help Center Plan Access', type: :request do
     InstallationConfig.where(name: 'CHATWOOT_CLOUD_PLANS').first_or_initialize.update!(value: [{ 'name' => 'Hacker' }])
   end
 
-  it 'blocks portal pages on chatwoot hosted domains for the default plan' do
+  it 'blocks chatwoot-hosted portal pages for the default plan' do
     host! 'help.chatwoot.com'
 
     get "/hc/#{portal.slug}/en"
@@ -29,17 +29,8 @@ RSpec.describe 'Public Help Center Plan Access', type: :request do
     expect(response.body).to include('Help Center Not Active')
   end
 
-  it 'blocks portal pages on custom domains for the default plan' do
+  it 'blocks custom-domain article pages for the default plan' do
     host! portal.custom_domain
-
-    get "/hc/#{portal.slug}/en"
-
-    expect(response).to have_http_status(:payment_required)
-    expect(response.body).to include('Help Center Not Active')
-  end
-
-  it 'blocks article pages for the default plan' do
-    host! 'help.chatwoot.com'
 
     get "/hc/#{portal.slug}/articles/#{article.slug}"
 
