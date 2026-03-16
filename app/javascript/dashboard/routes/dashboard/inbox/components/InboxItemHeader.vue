@@ -69,6 +69,8 @@ export default {
     onCmdSnoozeNotification(snoozeType) {
       if (snoozeType === wootConstants.SNOOZE_OPTIONS.UNTIL_CUSTOM_TIME) {
         this.showCustomSnoozeModal = true;
+      } else if (typeof snoozeType === 'number') {
+        this.snoozeNotification(snoozeType);
       } else {
         const snoozedUntil = findSnoozeTime(snoozeType) || null;
         this.snoozeNotification(snoozedUntil);
