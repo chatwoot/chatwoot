@@ -9,113 +9,60 @@ describe ReportingEvents::BackfillService do
     let(:conversation) { create(:conversation, account: account, inbox: inbox, assignee: user) }
 
     it 'treats nil metric values as zero during backfill' do
-      reporting_event = create(
-        :reporting_event,
-        account: account,
-        name: 'first_response',
-        value: 100,
-        value_in_business_hours: 50,
-        user: user,
-        inbox: inbox,
-        conversation: conversation,
-        created_at: Time.utc(2026, 2, 11, 15)
+      reporting_event = create_backfill_event(
+        name: 'first_response', value: 100, value_in_business_hours: 50,
+        user: user, inbox: inbox, conversation: conversation, created_at: Time.utc(2026, 2, 11, 15)
       )
       # Simulate a legacy row that already exists in the database with nil metrics.
       # rubocop:disable Rails/SkipsModelValidations
       reporting_event.update_columns(value: nil, value_in_business_hours: nil)
       # rubocop:enable Rails/SkipsModelValidations
 
-      expect do
-        described_class.backfill_date(account, date)
-      end.not_to raise_error
+      expect { described_class.backfill_date(account, date) }.not_to raise_error
 
-      rollup = ReportingEventsRollup.find_by!(
-        account_id: account.id,
-        date: date,
-        dimension_type: 'account',
-        dimension_id: account.id,
-        metric: 'first_response'
-      )
-
+      rollup = find_rollup('account', account.id, 'first_response')
       expect(rollup.count).to eq(1)
       expect(rollup.sum_value).to eq(0)
       expect(rollup.sum_value_business_hours).to eq(0)
     end
 
-    it 'preserves existing rollups when building replacement rows fails' do
-      create(
-        :reporting_events_rollup,
-        account: account,
-        date: date,
-        dimension_type: 'account',
-        dimension_id: account.id,
-        metric: 'first_response',
-        count: 7,
-        sum_value: 700,
-        sum_value_business_hours: 350
-      )
+    context 'when replacing rows fails atomically' do
+      before do
+        create(
+          :reporting_events_rollup,
+          account: account, date: date, dimension_type: 'account', dimension_id: account.id,
+          metric: 'first_response', count: 7, sum_value: 700, sum_value_business_hours: 350
+        )
+      end
 
-      service = described_class.new(account, date)
-      allow(service).to receive(:build_rollup_rows).and_raise(StandardError, 'boom')
+      it 'preserves existing rollups when building replacement rows fails' do
+        service = described_class.new(account, date)
+        allow(service).to receive(:build_rollup_rows).and_raise(StandardError, 'boom')
 
-      expect do
-        service.perform
-      end.to raise_error(StandardError, 'boom')
+        expect { service.perform }.to raise_error(StandardError, 'boom')
 
-      rollup = ReportingEventsRollup.find_by!(
-        account_id: account.id,
-        date: date,
-        dimension_type: 'account',
-        dimension_id: account.id,
-        metric: 'first_response'
-      )
+        rollup = find_rollup('account', account.id, 'first_response')
+        expect(rollup.count).to eq(7)
+        expect(rollup.sum_value).to eq(700)
+        expect(rollup.sum_value_business_hours).to eq(350)
+      end
 
-      expect(rollup.count).to eq(7)
-      expect(rollup.sum_value).to eq(700)
-      expect(rollup.sum_value_business_hours).to eq(350)
-    end
+      it 'preserves existing rollups when bulk insert fails' do
+        create_backfill_event(
+          name: 'first_response', value: 100, value_in_business_hours: 50,
+          user: user, inbox: inbox, conversation: conversation, created_at: Time.utc(2026, 2, 11, 15)
+        )
 
-    it 'preserves existing rollups when replacing rows fails' do
-      create(
-        :reporting_events_rollup,
-        account: account,
-        date: date,
-        dimension_type: 'account',
-        dimension_id: account.id,
-        metric: 'first_response',
-        count: 7,
-        sum_value: 700,
-        sum_value_business_hours: 350
-      )
+        service = described_class.new(account, date)
+        allow(service).to receive(:bulk_insert_rollups).and_raise(StandardError, 'boom')
 
-      create_backfill_event(
-        name: 'first_response',
-        value: 100,
-        value_in_business_hours: 50,
-        user: user,
-        inbox: inbox,
-        conversation: conversation,
-        created_at: Time.utc(2026, 2, 11, 15)
-      )
+        expect { service.perform }.to raise_error(StandardError, 'boom')
 
-      service = described_class.new(account, date)
-      allow(service).to receive(:bulk_insert_rollups).and_raise(StandardError, 'boom')
-
-      expect do
-        service.perform
-      end.to raise_error(StandardError, 'boom')
-
-      rollup = ReportingEventsRollup.find_by!(
-        account_id: account.id,
-        date: date,
-        dimension_type: 'account',
-        dimension_id: account.id,
-        metric: 'first_response'
-      )
-
-      expect(rollup.count).to eq(7)
-      expect(rollup.sum_value).to eq(700)
-      expect(rollup.sum_value_business_hours).to eq(350)
+        rollup = find_rollup('account', account.id, 'first_response')
+        expect(rollup.count).to eq(7)
+        expect(rollup.sum_value).to eq(700)
+        expect(rollup.sum_value_business_hours).to eq(350)
+      end
     end
 
     context 'when aggregating grouped rows' do
@@ -185,39 +132,45 @@ describe ReportingEvents::BackfillService do
       end
     end
 
-    it 'deduplicates distinct-count events per dimension' do
-      second_user = create(:user, account: account)
-      second_inbox = create(:inbox, account: account)
-      conversation_b = create(:conversation, account: account, inbox: inbox, assignee: user)
-      conversation_c = create(:conversation, account: account, inbox: second_inbox, assignee: second_user)
+    context 'when deduplicating distinct-count events' do
+      let(:second_user) { create(:user, account: account) }
+      let(:second_inbox) { create(:inbox, account: account) }
+      let(:conversation_b) { create(:conversation, account: account, inbox: inbox, assignee: user) }
+      let(:conversation_c) { create(:conversation, account: account, inbox: second_inbox, assignee: second_user) }
 
-      # Two events for the same conversation — should count as 1
-      create_backfill_event(name: 'conversation_bot_handoff', value: 0, value_in_business_hours: 0, user: user,
-                            inbox: inbox, conversation: conversation, created_at: Time.utc(2026, 2, 11, 14))
-      create_backfill_event(name: 'conversation_bot_handoff', value: 0, value_in_business_hours: 0, user: user,
-                            inbox: inbox, conversation: conversation, created_at: Time.utc(2026, 2, 11, 15))
-      # Different conversation, same agent/inbox
-      create_backfill_event(name: 'conversation_bot_handoff', value: 0, value_in_business_hours: 0, user: user,
-                            inbox: inbox, conversation: conversation_b, created_at: Time.utc(2026, 2, 11, 16))
-      # Different agent/inbox
-      create_backfill_event(name: 'conversation_bot_handoff', value: 0, value_in_business_hours: 0, user: second_user,
-                            inbox: second_inbox, conversation: conversation_c, created_at: Time.utc(2026, 2, 11, 17))
+      before do
+        # Two events for the same conversation — should count as 1
+        create_backfill_event(name: 'conversation_bot_handoff', value: 0, value_in_business_hours: 0, user: user,
+                              inbox: inbox, conversation: conversation, created_at: Time.utc(2026, 2, 11, 14))
+        create_backfill_event(name: 'conversation_bot_handoff', value: 0, value_in_business_hours: 0, user: user,
+                              inbox: inbox, conversation: conversation, created_at: Time.utc(2026, 2, 11, 15))
+        # Different conversation, same agent/inbox
+        create_backfill_event(name: 'conversation_bot_handoff', value: 0, value_in_business_hours: 0, user: user,
+                              inbox: inbox, conversation: conversation_b, created_at: Time.utc(2026, 2, 11, 16))
+        # Different agent/inbox
+        create_backfill_event(name: 'conversation_bot_handoff', value: 0, value_in_business_hours: 0, user: second_user,
+                              inbox: second_inbox, conversation: conversation_c, created_at: Time.utc(2026, 2, 11, 17))
+        described_class.backfill_date(account, date)
+      end
 
-      described_class.backfill_date(account, date)
+      it 'creates the expected number of rollup rows' do
+        rollups = ReportingEventsRollup.where(account_id: account.id, date: date)
+        expect(rollups.count).to eq(5)
+      end
 
-      rollups = ReportingEventsRollup.where(account_id: account.id, date: date)
-      expect(rollups.count).to eq(5)
+      it 'counts 3 distinct conversations at the account dimension' do
+        expect(find_rollup('account', account.id, 'bot_handoffs_count').count).to eq(3)
+      end
 
-      # account: 3 distinct conversations
-      expect(find_rollup('account', account.id, 'bot_handoffs_count').count).to eq(3)
+      it 'counts distinct conversations per agent' do
+        expect(find_rollup('agent', user.id, 'bot_handoffs_count').count).to eq(2)
+        expect(find_rollup('agent', second_user.id, 'bot_handoffs_count').count).to eq(1)
+      end
 
-      # agent: user has 2 distinct, second_user has 1
-      expect(find_rollup('agent', user.id, 'bot_handoffs_count').count).to eq(2)
-      expect(find_rollup('agent', second_user.id, 'bot_handoffs_count').count).to eq(1)
-
-      # inbox: inbox has 2 distinct, second_inbox has 1
-      expect(find_rollup('inbox', inbox.id, 'bot_handoffs_count').count).to eq(2)
-      expect(find_rollup('inbox', second_inbox.id, 'bot_handoffs_count').count).to eq(1)
+      it 'counts distinct conversations per inbox' do
+        expect(find_rollup('inbox', inbox.id, 'bot_handoffs_count').count).to eq(2)
+        expect(find_rollup('inbox', second_inbox.id, 'bot_handoffs_count').count).to eq(1)
+      end
     end
 
     def create_backfill_event(**attributes)
