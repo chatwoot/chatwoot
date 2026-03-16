@@ -37,7 +37,7 @@ class Reports::DataSource
     end
 
     def rollup_enabled_for_account?(account)
-      account.reporting_timezone.present? && account.feature_enabled?('reporting_events_rollup')
+      account.reporting_timezone.present? && account.feature_enabled?(:report_rollup)
     end
 
     def hourly_grouping?(group_by)
