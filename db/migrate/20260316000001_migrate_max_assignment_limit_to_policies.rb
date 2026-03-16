@@ -9,21 +9,20 @@ class MigrateMaxAssignmentLimitToPolicies < ActiveRecord::Migration[7.1]
   end
 
   def down
-    AgentCapacityPolicy.where(name: 'Auto (Migrated)').destroy_all
+    AgentCapacityPolicy.where(name: 'Auto Assignment Capacity').destroy_all
   end
 
   private
 
   def migrate_account(account)
     inboxes_with_limit = account.inboxes
-                                .where("auto_assignment_config->>'max_assignment_limit' ~ '^[0-9]+$'")
-                                .where("(auto_assignment_config->>'max_assignment_limit')::numeric > 0")
+                                .where("auto_assignment_config->>'max_assignment_limit' ~ '^[1-9]'")
 
     return if inboxes_with_limit.empty?
 
     ActiveRecord::Base.transaction do
-      policy = AgentCapacityPolicy.find_or_create_by!(account: account, name: 'Auto (Migrated)') do |p|
-        p.description = 'Migrated from max_assignment_limit on inbox auto_assignment_config'
+      policy = AgentCapacityPolicy.find_or_create_by!(account: account, name: 'Auto Assignment Capacity') do |p|
+        p.description = 'Migrated from inbox max_assignment_limit'
       end
 
       create_inbox_limits(policy, inboxes_with_limit)
