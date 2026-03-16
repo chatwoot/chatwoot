@@ -1,8 +1,7 @@
 <script setup>
 import EmojiOrIcon from 'shared/components/EmojiOrIcon.vue';
-import { defineEmits } from 'vue';
 
-defineProps({
+const props = defineProps({
   title: {
     type: String,
     required: true,
@@ -23,11 +22,16 @@ defineProps({
     type: Boolean,
     default: true,
   },
+  disabled: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const emit = defineEmits(['toggle']);
 
 const onToggle = () => {
+  if (props.disabled) return;
   emit('toggle');
 };
 </script>
@@ -36,7 +40,11 @@ const onToggle = () => {
   <div class="text-sm">
     <button
       class="flex items-center select-none w-full rounded-lg bg-n-slate-2 outline outline-1 outline-n-weak m-0 cursor-grab justify-between py-2 px-4 drag-handle"
-      :class="{ 'rounded-bl-none rounded-br-none': isOpen }"
+      :class="{
+        'rounded-bl-none rounded-br-none': isOpen && !disabled,
+        'opacity-50': disabled,
+      }"
+      :disabled="disabled"
       @click.stop="onToggle"
     >
       <div class="flex justify-between">
@@ -54,7 +62,7 @@ const onToggle = () => {
       </div>
     </button>
     <div
-      v-if="isOpen"
+      v-if="isOpen && !disabled"
       class="outline outline-1 outline-n-weak -mt-[-1px] border-t-0 rounded-br-lg rounded-bl-lg"
       :class="compact ? 'p-0' : 'px-2 py-4'"
     >

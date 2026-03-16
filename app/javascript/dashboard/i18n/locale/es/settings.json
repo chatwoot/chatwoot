@@ -270,6 +270,14 @@
       "SHOW_MORE": "Mostrar más",
       "SHOW_LESS": "Mostrar menos"
     },
+    "WHATSAPP_REFERRAL": {
+      "AD": "Anuncio",
+      "POST": "Publicación",
+      "VIEW": "Ver fuente",
+      "AD_ID": "ID del anuncio",
+      "CATALOG_ID": "ID del catálogo",
+      "PRODUCT_ID": "ID del producto"
+    },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Descargar",
       "UPLOADING": "Subiendo...",
