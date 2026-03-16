@@ -111,7 +111,7 @@ describe('useMacros', () => {
     useStoreGetters.mockReturnValue({
       'labels/getLabels': { value: mockLabels },
       'teams/getTeams': { value: mockTeams },
-      'agents/getAgents': { value: mockAgents },
+      'agents/getVerifiedAgents': { value: mockAgents },
     });
   });
 
@@ -167,7 +167,7 @@ describe('useMacros', () => {
     useStoreGetters.mockReturnValue({
       'labels/getLabels': { value: [] },
       'teams/getTeams': { value: [] },
-      'agents/getAgents': { value: [] },
+      'agents/getVerifiedAgents': { value: [] },
     });
 
     const { getMacroDropdownValues } = useMacros();
