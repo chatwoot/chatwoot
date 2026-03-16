@@ -220,19 +220,33 @@ export default {
 
 <template>
   <main
-    class="flex flex-col w-full min-h-screen py-20 bg-n-brand/5 dark:bg-n-background sm:px-6 lg:px-8"
+    class="relative isolate flex flex-col w-full min-h-screen py-20 overflow-hidden bg-n-slate-2 dark:bg-[#090b14] sm:px-6 lg:px-8"
   >
+    <div
+      class="pointer-events-none absolute inset-0 opacity-60 dark:opacity-100"
+      aria-hidden="true"
+    >
+      <div
+        class="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(111,132,255,0.22),transparent_40%)]"
+      />
+      <div
+        class="absolute inset-0 bg-[radial-gradient(circle_at_80%_0%,rgba(11,216,182,0.16),transparent_35%)]"
+      />
+      <div
+        class="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:32px_32px]"
+      />
+    </div>
     <section class="max-w-5xl mx-auto">
       <img
         :src="globalConfig.logo"
         :alt="globalConfig.installationName"
-        class="block w-auto h-8 mx-auto dark:hidden"
+        class="block w-auto h-20 mx-auto dark:hidden"
       />
       <img
         v-if="globalConfig.logoDark"
         :src="globalConfig.logoDark"
         :alt="globalConfig.installationName"
-        class="hidden w-auto h-8 mx-auto dark:block"
+        class="hidden w-auto h-20 mx-auto dark:block"
       />
       <h2 class="mt-6 text-3xl font-medium text-center text-n-slate-12">
         {{ replaceInstallationName($t('LOGIN.TITLE')) }}
@@ -257,7 +271,7 @@ export default {
     <!-- Regular Login Section -->
     <section
       v-else
-      class="bg-white shadow sm:mx-auto mt-11 sm:w-full sm:max-w-lg dark:bg-n-solid-2 p-11 sm:shadow-lg sm:rounded-lg"
+      class="relative border border-n-weak/60 bg-white/90 shadow sm:mx-auto mt-11 sm:w-full sm:max-w-lg dark:bg-n-slate-2/85 p-11 sm:shadow-2xl sm:rounded-2xl backdrop-blur-xl"
       :class="{
         'mb-8 mt-15': !showGoogleOAuth,
         'animate-wiggle': loginApi.hasErrored,

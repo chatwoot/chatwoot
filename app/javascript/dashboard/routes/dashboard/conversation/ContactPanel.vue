@@ -23,6 +23,8 @@ import ShopifyOrdersList from 'dashboard/components/widgets/conversation/Shopify
 import SidebarActionsHeader from 'dashboard/components-next/SidebarActionsHeader.vue';
 import LinearIssuesList from 'dashboard/components/widgets/conversation/linear/IssuesList.vue';
 import LinearSetupCTA from 'dashboard/components/widgets/conversation/linear/LinearSetupCTA.vue';
+import SynapseaContactIntelligence from 'dashboard/components-next/synapsea/SynapseaContactIntelligence.vue';
+import SynapseaConversationCopilot from 'dashboard/components-next/synapsea/SynapseaConversationCopilot.vue';
 
 const props = defineProps({
   conversationId: {
@@ -137,6 +139,14 @@ onMounted(() => {
       @close="closeContactPanel"
     />
     <ContactInfo :contact="contact" :channel-type="channelType" />
+    <SynapseaContactIntelligence
+      :contact="contact"
+      :conversation="currentChat"
+    />
+    <SynapseaConversationCopilot
+      :contact="contact"
+      :conversation="currentChat"
+    />
     <div class="px-2 pb-8 list-group">
       <Draggable
         :list="conversationSidebarItems"

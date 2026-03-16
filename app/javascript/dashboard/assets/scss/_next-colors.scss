@@ -2,6 +2,19 @@
 @layer base {
   // NEXT COLORS START
   :root {
+    --synapsea-primary-color: 61 90 254;
+    --synapsea-secondary-color: 17 205 193;
+    --synapsea-accent-color: 167 139 250;
+    --synapsea-background-main: 247 247 247;
+    --synapsea-background-secondary: 255 255 255;
+    --synapsea-border-color: 226 227 231;
+    --synapsea-text-primary: 28 32 36;
+    --synapsea-text-secondary: 96 100 108;
+    --synapsea-success-color: 18 165 148;
+    --synapsea-warning-color: 255 197 61;
+    --synapsea-error-color: 229 70 102;
+    --synapsea-info-color: 39 129 246;
+
     // slate
     --slate-1: 252 252 253;
     --slate-2: 249 249 251;
@@ -107,8 +120,8 @@
     --violet-11: 101 85 183;
     --violet-12: 47 38 95;
 
-    --background-color: 247 247 247;
-    --surface-1: 254 254 254;
+    --background-color: var(--synapsea-background-main);
+    --surface-1: var(--synapsea-background-secondary);
     --surface-2: 255 255 255;
     --surface-active: 255 255 255;
     --background-input-box: 0, 0, 0, 0.03;
@@ -148,6 +161,19 @@
   }
 
   .dark {
+    --synapsea-primary-color: 111 132 255;
+    --synapsea-secondary-color: 11 216 182;
+    --synapsea-accent-color: 169 153 236;
+    --synapsea-background-main: 19 20 24;
+    --synapsea-background-secondary: 24 25 29;
+    --synapsea-border-color: 46 45 50;
+    --synapsea-text-primary: 237 238 240;
+    --synapsea-text-secondary: 176 180 186;
+    --synapsea-success-color: 11 216 182;
+    --synapsea-warning-color: 255 214 10;
+    --synapsea-error-color: 236 90 114;
+    --synapsea-info-color: 126 182 255;
+
     // slate
     --slate-1: 17 17 19;
     --slate-2: 24 25 27;
@@ -253,8 +279,8 @@
     --violet-11: 169 153 236;
     --violet-12: 226 221 254;
 
-    --background-color: 28 29 32;
-    --surface-1: 20 21 23;
+    --background-color: var(--synapsea-background-main);
+    --surface-1: var(--synapsea-background-secondary);
     --surface-2: 22 23 26;
     --surface-active: 53 57 66;
     --background-input-box: 255, 255, 255, 0.02;
