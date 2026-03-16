@@ -187,9 +187,10 @@ class ReportingEventsRollupBackfill # rubocop:disable Metrics/ClassLength
     end
 
     print_success(account, days_processed, total_days, Time.current - start_time)
-    prompt_enable_rollup_read_path(account)
   rescue StandardError => e
     print_failure(e, days_processed, total_days)
+  else
+    prompt_enable_rollup_read_path(account)
   end
 
   def print_success(account, days_processed, _total_days, elapsed_time)

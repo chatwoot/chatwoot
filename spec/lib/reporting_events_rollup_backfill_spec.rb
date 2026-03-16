@@ -31,6 +31,16 @@ describe ReportingEventsRollupBackfill do
         service.send(:execute_backfill, account, date, date, 1)
       end.to raise_error(SystemExit)
     end
+
+    it 'does not report the backfill as failed when enabling the read path fails' do
+      allow(service).to receive(:print_success)
+      allow(service).to receive(:print_failure)
+      allow(service).to receive(:prompt_enable_rollup_read_path).and_raise(StandardError, 'toggle failed')
+
+      expect do
+        service.send(:execute_backfill, account, date, date, 1)
+      end.to raise_error(StandardError, 'toggle failed')
+    end
   end
 
   describe '#prompt_enable_rollup_read_path' do
@@ -46,6 +56,14 @@ describe ReportingEventsRollupBackfill do
       allow($stdin).to receive(:gets).and_return("n\n")
 
       expect(account).not_to receive(:enable_features!)
+
+      service.send(:prompt_enable_rollup_read_path, account)
+    end
+
+    it 'skips the prompt when the feature is already enabled' do
+      allow(account).to receive(:feature_enabled?).with(:reporting_events_rollup).and_return(true)
+
+      expect($stdin).not_to receive(:gets)
 
       service.send(:prompt_enable_rollup_read_path, account)
     end
