@@ -430,9 +430,25 @@
         "BILLING": "How to issue a second copy of invoice",
         "SLA": "SLA policy by queue and priority",
         "HANDOFF": "Handoff checklist for structured transfers"
+ codex/transform-chatwoot-into-synapsea-connect-2i3fp8
       },
       "PERCENT_VALUE": "{value}%",
       "CLOSE_PROBABILITY_VALUE": "Close probability: {value}%"
+
+ codex/transform-chatwoot-into-synapsea-connect-6xbxtt
+      },
+      "PERCENT_VALUE": "{value}%",
+      "CLOSE_PROBABILITY_VALUE": "Close probability: {value}%"
+
+ codex/transform-chatwoot-into-synapsea-connect-vkjace
+      },
+      "PERCENT_VALUE": "{value}%",
+      "CLOSE_PROBABILITY_VALUE": "Close probability: {value}%"
+
+      }
+ develop
+ develop
+ develop
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {

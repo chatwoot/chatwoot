@@ -97,11 +97,28 @@ const interactionHistory = computed(() => {
 </script>
 
 <template>
+ codex/transform-chatwoot-into-synapsea-connect-2i3fp8
+ codex/transform-chatwoot-into-synapsea-connect-6xbxtt
+
+ codex/transform-chatwoot-into-synapsea-connect-vkjace
+ develop
+ develop
   <div class="grid gap-3">
     <section class="rounded-xl border border-n-weak bg-n-solid-2 p-3">
       <p
         class="mb-2 text-xs font-semibold uppercase tracking-wide text-n-slate-10"
       >
+ codex/transform-chatwoot-into-synapsea-connect-2i3fp8
+
+ codex/transform-chatwoot-into-synapsea-connect-6xbxtt
+
+
+  <div class="grid gap-3 px-2 pb-3">
+    <section class="rounded-xl border border-n-weak bg-n-solid-2 p-3">
+      <p class="mb-2 text-xs font-medium uppercase tracking-wide text-n-brand">
+ develop
+ develop
+ develop
         {{ $t('CONTACT_PANEL.SYNAPSEA.AI.TITLE') }}
       </p>
       <dl class="m-0 grid gap-2">
@@ -118,7 +135,19 @@ const interactionHistory = computed(() => {
           <dd class="m-0 text-sm text-n-slate-12">{{ suggestionText }}</dd>
         </div>
         <div class="grid grid-cols-2 gap-2">
+ codex/transform-chatwoot-into-synapsea-connect-2i3fp8
           <div class="rounded-lg border border-n-weak bg-n-slate-2 p-2">
+
+ codex/transform-chatwoot-into-synapsea-connect-6xbxtt
+          <div class="rounded-lg border border-n-weak bg-n-slate-2 p-2">
+
+ codex/transform-chatwoot-into-synapsea-connect-vkjace
+          <div class="rounded-lg border border-n-weak bg-n-slate-2 p-2">
+
+          <div class="rounded-lg bg-n-alpha-2 p-2">
+ develop
+ develop
+ develop
             <p class="mb-1 text-xs text-n-slate-11">
               {{ $t('CONTACT_PANEL.SYNAPSEA.AI.LEAD_SCORE_LABEL') }}
             </p>
@@ -131,7 +160,19 @@ const interactionHistory = computed(() => {
               }}
             </p>
           </div>
+ codex/transform-chatwoot-into-synapsea-connect-2i3fp8
           <div class="rounded-lg border border-n-weak bg-n-slate-2 p-2">
+
+ codex/transform-chatwoot-into-synapsea-connect-6xbxtt
+          <div class="rounded-lg border border-n-weak bg-n-slate-2 p-2">
+
+ codex/transform-chatwoot-into-synapsea-connect-vkjace
+          <div class="rounded-lg border border-n-weak bg-n-slate-2 p-2">
+
+          <div class="rounded-lg bg-n-alpha-2 p-2">
+ develop
+ develop
+ develop
             <p class="mb-1 text-xs text-n-slate-11">
               {{ $t('CONTACT_PANEL.SYNAPSEA.AI.INTENT_LABEL') }}
             </p>
@@ -144,9 +185,25 @@ const interactionHistory = computed(() => {
     </section>
 
     <section class="rounded-xl border border-n-weak bg-n-solid-2 p-3">
+ codex/transform-chatwoot-into-synapsea-connect-2i3fp8
       <p
         class="mb-2 text-xs font-semibold uppercase tracking-wide text-n-slate-10"
       >
+
+ codex/transform-chatwoot-into-synapsea-connect-6xbxtt
+      <p
+        class="mb-2 text-xs font-semibold uppercase tracking-wide text-n-slate-10"
+      >
+
+ codex/transform-chatwoot-into-synapsea-connect-vkjace
+      <p
+        class="mb-2 text-xs font-semibold uppercase tracking-wide text-n-slate-10"
+      >
+
+      <p class="mb-2 text-xs font-medium uppercase tracking-wide text-n-brand">
+ develop
+ develop
+ develop
         {{ $t('CONTACT_PANEL.SYNAPSEA.CRM.TITLE') }}
       </p>
       <dl class="m-0 grid grid-cols-1 gap-2">
@@ -181,7 +238,19 @@ const interactionHistory = computed(() => {
             <span
               v-for="tag in businessTags"
               :key="tag"
+ codex/transform-chatwoot-into-synapsea-connect-2i3fp8
               class="inline-flex rounded-full bg-n-slate-3 px-2 py-0.5 text-xs text-n-slate-12"
+
+ codex/transform-chatwoot-into-synapsea-connect-6xbxtt
+              class="inline-flex rounded-full bg-n-slate-3 px-2 py-0.5 text-xs text-n-slate-12"
+
+ codex/transform-chatwoot-into-synapsea-connect-vkjace
+              class="inline-flex rounded-full bg-n-slate-3 px-2 py-0.5 text-xs text-n-slate-12"
+
+              class="inline-flex rounded-full bg-n-alpha-2 px-2 py-0.5 text-xs text-n-slate-12"
+ develop
+ develop
+ develop
             >
               {{ tag }}
             </span>

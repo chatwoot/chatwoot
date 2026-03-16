@@ -126,6 +126,13 @@
       "PER_PAGE_TEMPLATE": "{size} / page"
     },
     "SYNAPSEA_ANALYTICS": {
+ codex/transform-chatwoot-into-synapsea-connect-2i3fp8
+
+ codex/transform-chatwoot-into-synapsea-connect-6xbxtt
+
+ codex/transform-chatwoot-into-synapsea-connect-vkjace
+ develop
+ develop
       "TITLE": "Synapsea executive dashboard",
       "DESCRIPTION": "Executive snapshot of operation health, commercial performance and AI impact for fast decisions.",
       "AVG_RESPONSE_TIME": "Average response time",
@@ -195,6 +202,20 @@
       "TOP_PERFORMER_ITEM": "{label} - {value}",
       "DELTA_UP": "+{value}{suffix}",
       "DELTA_DOWN": "-{value}{suffix}"
+ codex/transform-chatwoot-into-synapsea-connect-2i3fp8
+
+ codex/transform-chatwoot-into-synapsea-connect-6xbxtt
+
+
+      "TITLE": "Synapsea service analytics",
+      "DESCRIPTION": "Operational indicators focused on response speed, lead conversion, team delivery and contact origin.",
+      "AVG_RESPONSE_TIME": "Average response time",
+      "LEAD_CONVERSIONS": "Lead conversions",
+      "AGENT_PERFORMANCE": "Agent performance (top)",
+      "CONTACT_ORIGIN": "Contact origin"
+ develop
+ develop
+ develop
     }
   },
   "AGENT_REPORTS": {
