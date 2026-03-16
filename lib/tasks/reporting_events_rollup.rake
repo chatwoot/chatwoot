@@ -211,18 +211,18 @@ class ReportingEventsRollupBackfill # rubocop:disable Metrics/ClassLength
   end
 
   def prompt_enable_rollup_read_path(account)
-    if account.feature_enabled?(:reporting_events_rollup)
-      puts color('reporting_events_rollup is already enabled for this account.', :yellow, :bold)
+    if account.feature_enabled?(:report_rollup)
+      puts color('report_rollup is already enabled for this account.', :yellow, :bold)
       return
     end
 
-    print 'Enable reporting_events_rollup read path now? Only do this after parity verification. (y/N): '
+    print 'Enable report_rollup read path now? Only do this after parity verification. (y/N): '
     confirm = $stdin.gets.to_s.chomp.downcase
     puts ''
     return unless %w[y yes].include?(confirm)
 
-    account.enable_features!('reporting_events_rollup')
-    puts color("Enabled reporting_events_rollup for account #{account.id}", :green, :bold)
+    account.enable_features!('report_rollup')
+    puts color("Enabled report_rollup for account #{account.id}", :green, :bold)
   end
 
   def print_failure(error, days_processed, total_days)
