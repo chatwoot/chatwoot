@@ -1,37 +1,37 @@
 {
   "GENERAL_SETTINGS": {
     "LIMIT_MESSAGES": {
-      "CONVERSATION": "您已經超過對話限制。駭客計劃只允許500次對話。",
-      "INBOXES": "您已超過收件箱限制。Hacker 計劃只支援網站線上聊天。其他收件箱如電子郵件、WhatsApp 等需要付費計劃。",
-      "AGENTS": "您已超過席位限制。當前計劃只允許 {allowedAgents} 個席位。",
-      "NON_ADMIN": "請聯絡您的管理員升級計劃並繼續使用所有功能。"
+      "CONVERSATION": "You have exceeded the conversation limit. Hacker plan allows only 500 conversations.",
+      "INBOXES": "You have exceeded the inbox limit. Hacker plan only supports website live-chat. Additional inboxes like email, WhatsApp etc. require a paid plan.",
+      "AGENTS": "You have exceeded the agent limit. Your plan only allows {allowedAgents} agents.",
+      "NON_ADMIN": "Please contact your administrator to upgrade the plan and continue using all features."
     },
     "TITLE": "帳戶設定",
     "SUBMIT": "更新設定",
     "BACK": "返回",
-    "DISMISS": "取消",
+    "DISMISS": "Dismiss",
     "UPDATE": {
       "ERROR": "無法更新設定，請重試！",
       "SUCCESS": "已成功更新帳戶設定"
     },
     "ACCOUNT_DELETE_SECTION": {
-      "TITLE": "刪除您的帳戶",
-      "NOTE": "一旦您刪除您的賬戶，您的所有資料將被刪除。",
-      "BUTTON_TEXT": "刪除您的賬戶",
+      "TITLE": "Delete your Account",
+      "NOTE": "Once you delete your account, all your data will be deleted.",
+      "BUTTON_TEXT": "Delete Your Account",
       "CONFIRM": {
-        "TITLE": "刪除賬戶",
-        "MESSAGE": "刪除您的賬戶是不可逆的。請在下面輸入您的賬戶名稱以確認您想要永久刪除它。",
+        "TITLE": "Delete Account",
+        "MESSAGE": "Deleting your Account is irreversible. Enter your account name below to confirm you want to permanently delete it.",
         "BUTTON_TEXT": "刪除",
         "DISMISS": "取消",
         "PLACE_HOLDER": "請輸入 {accountName} 以確認"
       },
-      "SUCCESS": "賬戶已標記為刪除",
-      "FAILURE": "無法刪除賬戶，請重試！",
+      "SUCCESS": "Account marked for deletion",
+      "FAILURE": "Could not delete account, try again!",
       "SCHEDULED_DELETION": {
-        "TITLE": "已計劃刪除的賬戶",
-        "MESSAGE_MANUAL": "此賬戶已計劃在 {deletionDate} 刪除。該操作由管理員請求。你可以在該日期前取消刪除。",
-        "MESSAGE_INACTIVITY": "此賬戶由於不活躍已計劃在 {deletionDate} 刪除。你可以在該日期前取消刪除。",
-        "CLEAR_BUTTON": "取消已計劃的刪除"
+        "TITLE": "Account Scheduled for Deletion",
+        "MESSAGE_MANUAL": "This account is scheduled for deletion on {deletionDate}. This was requested by an administrator. You can cancel the deletion before this date.",
+        "MESSAGE_INACTIVITY": "This account is scheduled for deletion on {deletionDate} due to account inactivity. You can cancel the deletion before this date.",
+        "CLEAR_BUTTON": "Cancel Scheduled Deletion"
       }
     },
     "FORM": {
@@ -41,36 +41,36 @@
         "NOTE": ""
       },
       "ACCOUNT_ID": {
-        "TITLE": "賬號 ID",
-        "NOTE": "如果您正在構建基於 API 的整合，那麼此 ID 是必需的"
+        "TITLE": "Account ID",
+        "NOTE": "This ID is required if you are building an API based integration"
       },
       "AUTO_RESOLVE": {
-        "TITLE": "自動解決對話",
-        "NOTE": "透過此項設定，系統可在對話靜默一段時間後自動將其解決。",
+        "TITLE": "Auto-resolve conversations",
+        "NOTE": "This configuration would allow you to automatically resolve the conversation after a certain period of inactivity.",
         "DURATION": {
-          "LABEL": "無活動持續時間",
-          "HELP": "在無活動後自動結束對話的時間段",
+          "LABEL": "Inactivity duration",
+          "HELP": "Time period of inactivity after which conversation is auto-resolved",
           "PLACEHOLDER": "30",
-          "ERROR": "自動解決時長應在 10 分鐘到 999 天之間",
+          "ERROR": "Auto resolve duration should be between 10 minutes and 999 days",
           "API": {
-            "SUCCESS": "自動解決設定已成功更新",
-            "ERROR": "更新自動解決設定失敗"
+            "SUCCESS": "Auto resolve settings updated successfully",
+            "ERROR": "Failed to update auto resolve settings"
           }
         },
         "MESSAGE": {
-          "LABEL": "自定義自動解決訊息",
-          "PLACEHOLDER": "由於閒置 15 天，對話被系統標記已解決",
-          "HELP": "會話自動解決之後傳送給客戶的訊息"
+          "LABEL": "Custom auto-resolution message",
+          "PLACEHOLDER": "Conversation was marked resolved by system due to 15 days of inactivity",
+          "HELP": "Message sent to the customer after conversation is auto-resolved"
         },
-        "PREFERENCES": "偏好設定",
+        "PREFERENCES": "Preferences",
         "LABEL": {
-          "LABEL": "自動解決後新增標籤",
-          "PLACEHOLDER": "選擇一個標籤"
+          "LABEL": "Add label after auto-resolution",
+          "PLACEHOLDER": "Select a label"
         },
         "IGNORE_WAITING": {
-          "LABEL": "跳過等待客服回覆的會話"
+          "LABEL": "Skip conversations waiting for agent’s reply"
         },
-        "UPDATE_BUTTON": "儲存修改"
+        "UPDATE_BUTTON": "Save Changes"
       },
       "NAME": {
         "LABEL": "帳戶名稱",
@@ -78,7 +78,7 @@
         "ERROR": "請輸入有效的帳戶名稱"
       },
       "LANGUAGE": {
-        "LABEL": "站點語言",
+        "LABEL": "Site language",
         "PLACEHOLDER": "您的帳戶名稱",
         "ERROR": ""
       },
@@ -93,48 +93,48 @@
         "ERROR": ""
       },
       "AUTO_RESOLVE_IGNORE_WAITING": {
-        "LABEL": "排除未參加的對話",
-        "HELP": "啟用後，系統將跳過解決仍在等待客服回覆的對話。"
+        "LABEL": "Exclude unattended conversations",
+        "HELP": "When enabled, the system will skip resolving conversations that are still waiting for an agent's reply."
       },
       "AUDIO_TRANSCRIPTION": {
-        "TITLE": "轉錄語音訊息",
-        "NOTE": "自動轉錄對話中的語音訊息。當傳送或收到語音訊息時生成轉錄的文字，並將其顯示在訊息旁邊。",
+        "TITLE": "Transcribe Audio Messages",
+        "NOTE": "Automatically transcribe audio messages in conversations. Generate a text transcript whenever an audio message is sent or received, and display it alongside the message.",
         "API": {
-          "SUCCESS": "語音轉錄設定更新成功",
-          "ERROR": "更新語音轉錄設定失敗"
+          "SUCCESS": "Audio transcription setting updated successfully",
+          "ERROR": "Failed to update audio transcription setting"
         }
       },
       "AUTO_RESOLVE_DURATION": {
-        "LABEL": "自動解決前的無活動市場",
-        "HELP": "對話無活動時自動解決時長",
+        "LABEL": "Inactivity duration for resolution",
+        "HELP": "Duration after a conversation should auto resolve if there is no activity",
         "PLACEHOLDER": "30",
-        "ERROR": "自動解決時長應在 10 分鐘到 999 天之間",
+        "ERROR": "Auto resolve duration should be between 10 minutes and 999 days",
         "API": {
-          "SUCCESS": "自動解決設定已成功更新",
-          "ERROR": "更新自動解決設定失敗"
+          "SUCCESS": "Auto resolve settings updated successfully",
+          "ERROR": "Failed to update auto resolve settings"
         },
         "UPDATE_BUTTON": "更新",
-        "MESSAGE_LABEL": "自定義解決訊息",
-        "MESSAGE_PLACEHOLDER": "由於閒置 15 天，對話被系統標記已解決",
-        "MESSAGE_HELP": "當系統因為不活動而自動解決某個對話時，此訊息將傳送給客戶。"
+        "MESSAGE_LABEL": "Custom resolution message",
+        "MESSAGE_PLACEHOLDER": "Conversation was marked resolved by system due to 15 days of inactivity",
+        "MESSAGE_HELP": "This message is sent to the customer when a conversation is automatically resolved by the system due to inactivity."
       },
       "FEATURES": {
         "INBOUND_EMAIL_ENABLED": "您的帳戶啟用了電子信箱與對話的持續性功能。",
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "您現在可以在您的自定義域名的電子信箱中接收消息。"
       }
     },
-    "UPDATE_CHATWOOT": "Chatwoot 有可用更新{latestChatwootVersion}，請更新您的應用。",
-    "LEARN_MORE": "瞭解更多",
-    "PAYMENT_PENDING": "您的付款尚未完成。請更新您的付款資訊以繼續使用Chatwoot",
-    "UPGRADE": "升級以繼續使用 Chatwoot",
-    "LIMITS_UPGRADE": "您的賬戶已超過使用限制，請升級您的計劃以繼續使用Chatwoot",
-    "OPEN_BILLING": "檢視計費"
+    "UPDATE_CHATWOOT": "An update {latestChatwootVersion} for Chatwoot is available. Please update your instance.",
+    "LEARN_MORE": "Learn more",
+    "PAYMENT_PENDING": "Your payment is pending. Please update your payment information to continue using Chatwoot",
+    "UPGRADE": "Upgrade to continue using Chatwoot",
+    "LIMITS_UPGRADE": "Your account has exceeded the usage limits, please upgrade your plan to continue using Chatwoot",
+    "OPEN_BILLING": "Open billing"
   },
   "FORMS": {
     "MULTISELECT": {
       "ENTER_TO_SELECT": "按下 enter 以選擇",
       "ENTER_TO_REMOVE": "按下 enter 以移除",
-      "NO_OPTIONS": "列表為空",
+      "NO_OPTIONS": "List is empty",
       "SELECT_ONE": "選擇其中一項",
       "SELECT": "選擇"
     }
@@ -165,9 +165,9 @@
       "assigned_conversation_new_message": "新訊息",
       "participating_conversation_new_message": "新訊息",
       "conversation_mention": "被提及",
-      "sla_missed_first_response": "未滿足SLA要求",
-      "sla_missed_next_response": "未滿足SLA要求",
-      "sla_missed_resolution": "未滿足 SLA 要求"
+      "sla_missed_first_response": "SLA Missed",
+      "sla_missed_next_response": "SLA Missed",
+      "sla_missed_resolution": "SLA Missed"
     }
   },
   "NETWORK": {
@@ -181,69 +181,69 @@
     }
   },
   "COMMAND_BAR": {
-    "SEARCH_PLACEHOLDER": "搜尋或跳轉到",
-    "SNOOZE_PLACEHOLDER": "輸入時間，例如明天，2 小時，下週五，1 月 15 日...",
+    "SEARCH_PLACEHOLDER": "Search or jump to",
+    "SNOOZE_PLACEHOLDER": "Type a time e.g. tomorrow, 2 hours, next friday, jan 15...",
     "SECTIONS": {
-      "GENERAL": "一般",
+      "GENERAL": "General",
       "REPORTS": "報表",
       "CONVERSATION": "對話",
-      "BULK_ACTIONS": "批次操作",
-      "CHANGE_ASSIGNEE": "更改分配",
-      "CHANGE_PRIORITY": "更改優先順序",
-      "CHANGE_TEAM": "更改團隊",
-      "SNOOZE_CONVERSATION": "推遲對話",
-      "ADD_LABEL": "為對話新增標籤",
-      "REMOVE_LABEL": "從對話移除標籤",
+      "BULK_ACTIONS": "Bulk Actions",
+      "CHANGE_ASSIGNEE": "Change Assignee",
+      "CHANGE_PRIORITY": "Change Priority",
+      "CHANGE_TEAM": "Change Team",
+      "SNOOZE_CONVERSATION": "Snooze Conversation",
+      "ADD_LABEL": "Add label to the conversation",
+      "REMOVE_LABEL": "Remove label from the conversation",
       "SETTINGS": "設定",
-      "AI_ASSIST": "AI 助手",
-      "APPEARANCE": "外觀",
-      "SNOOZE_NOTIFICATION": "推遲通知"
+      "AI_ASSIST": "AI Assist",
+      "APPEARANCE": "Appearance",
+      "SNOOZE_NOTIFICATION": "Snooze Notification"
     },
     "COMMANDS": {
-      "GO_TO_CONVERSATION_DASHBOARD": "轉到對話面板",
-      "GO_TO_CONTACTS_DASHBOARD": "轉到聯絡人面板",
-      "GO_TO_REPORTS_OVERVIEW": "前往報告概覽",
-      "GO_TO_CONVERSATION_REPORTS": "前往對話報告",
-      "GO_TO_AGENT_REPORTS": "前往客服代理報告",
-      "GO_TO_LABEL_REPORTS": "前往標籤報告",
-      "GO_TO_INBOX_REPORTS": "前往收件箱報告",
-      "GO_TO_TEAM_REPORTS": "前往團隊報告",
-      "GO_TO_SETTINGS_AGENTS": "前往客服代理設定",
-      "GO_TO_SETTINGS_TEAMS": "前往團隊設定",
-      "GO_TO_SETTINGS_INBOXES": "前往收件箱設定",
-      "GO_TO_SETTINGS_LABELS": "前往標籤設定",
-      "GO_TO_SETTINGS_CANNED_RESPONSES": "前往預設回覆設定",
-      "GO_TO_SETTINGS_APPLICATIONS": "轉到應用程式設定",
-      "GO_TO_SETTINGS_ACCOUNT": "前往帳戶設定",
-      "GO_TO_SETTINGS_PROFILE": "前往個人資料設定",
-      "GO_TO_NOTIFICATIONS": "轉到通知",
-      "ADD_LABELS_TO_CONVERSATION": "為對話新增標籤",
+      "GO_TO_CONVERSATION_DASHBOARD": "Go to Conversation Dashboard",
+      "GO_TO_CONTACTS_DASHBOARD": "Go to Contacts Dashboard",
+      "GO_TO_REPORTS_OVERVIEW": "Go to Reports Overview",
+      "GO_TO_CONVERSATION_REPORTS": "Go to Conversation Reports",
+      "GO_TO_AGENT_REPORTS": "Go to Agent Reports",
+      "GO_TO_LABEL_REPORTS": "Go to Label Reports",
+      "GO_TO_INBOX_REPORTS": "Go to Inbox Reports",
+      "GO_TO_TEAM_REPORTS": "Go to Team Reports",
+      "GO_TO_SETTINGS_AGENTS": "Go to Agent Settings",
+      "GO_TO_SETTINGS_TEAMS": "Go to Team Settings",
+      "GO_TO_SETTINGS_INBOXES": "Go to Inbox Settings",
+      "GO_TO_SETTINGS_LABELS": "Go to Label Settings",
+      "GO_TO_SETTINGS_CANNED_RESPONSES": "Go to Canned Response Settings",
+      "GO_TO_SETTINGS_APPLICATIONS": "Go to Application Settings",
+      "GO_TO_SETTINGS_ACCOUNT": "Go to Account Settings",
+      "GO_TO_SETTINGS_PROFILE": "Go to Profile Settings",
+      "GO_TO_NOTIFICATIONS": "Go to Notifications",
+      "ADD_LABELS_TO_CONVERSATION": "Add label to the conversation",
       "ASSIGN_AN_AGENT": "指派客服",
-      "AI_ASSIST": "AI 助手",
-      "ASSIGN_PRIORITY": "分配優先順序",
+      "AI_ASSIST": "AI Assist",
+      "ASSIGN_PRIORITY": "Assign priority",
       "ASSIGN_A_TEAM": "指派團隊",
       "MUTE_CONVERSATION": "將對話靜音",
       "UNMUTE_CONVERSATION": "將對話解除靜音",
-      "REMOVE_LABEL_FROM_CONVERSATION": "從對話移除標籤",
+      "REMOVE_LABEL_FROM_CONVERSATION": "Remove label from the conversation",
       "REOPEN_CONVERSATION": "重新開啟對話",
       "RESOLVE_CONVERSATION": "解決對話",
-      "SEND_TRANSCRIPT": "傳送電子郵件副本",
-      "SNOOZE_CONVERSATION": "暫停對話",
-      "UNTIL_NEXT_REPLY": "直到下次回覆",
-      "UNTIL_NEXT_WEEK": "直到下週",
-      "UNTIL_TOMORROW": "直到明天",
-      "UNTIL_NEXT_MONTH": "直到下個月",
-      "AN_HOUR_FROM_NOW": "從現在起一小時",
-      "UNTIL_CUSTOM_TIME": "自定義……",
-      "CHANGE_APPEARANCE": "更改外觀",
-      "LIGHT_MODE": "淺色",
-      "DARK_MODE": "深色",
-      "SYSTEM_MODE": "系統",
-      "SNOOZE_NOTIFICATION": "推遲通知"
+      "SEND_TRANSCRIPT": "Send an email transcript",
+      "SNOOZE_CONVERSATION": "Snooze Conversation",
+      "UNTIL_NEXT_REPLY": "Until next reply",
+      "UNTIL_NEXT_WEEK": "Until next week",
+      "UNTIL_TOMORROW": "Until tomorrow",
+      "UNTIL_NEXT_MONTH": "Until next month",
+      "AN_HOUR_FROM_NOW": "Until an hour from now",
+      "UNTIL_CUSTOM_TIME": "Custom...",
+      "CHANGE_APPEARANCE": "Change Appearance",
+      "LIGHT_MODE": "Light",
+      "DARK_MODE": "Dark",
+      "SYSTEM_MODE": "System",
+      "SNOOZE_NOTIFICATION": "Snooze Notification"
     }
   },
   "DASHBOARD_APPS": {
-    "LOADING_MESSAGE": "正在載入儀表板應用..."
+    "LOADING_MESSAGE": "Loading Dashboard App..."
   },
   "COMMON": {
     "OR": "或",

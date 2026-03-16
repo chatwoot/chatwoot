@@ -6,7 +6,7 @@
     "LIST": {
       "404": "這個群組中無有效對話"
     },
-    "FAILED_TO_SEND": "傳送失敗",
+    "FAILED_TO_SEND": "Failed to send",
     "TAB_HEADING": "對話",
     "MENTION_HEADING": "被提及",
     "UNATTENDED_HEADING": "無人處理",
@@ -44,12 +44,12 @@
     },
     "CHAT_TIME_STAMP": {
       "CREATED": {
-        "LATEST": "建立時間",
+        "LATEST": "Created",
         "OLDEST": "建立於:"
       },
       "LAST_ACTIVITY": {
-        "NOT_ACTIVE": "上次操作：",
-        "ACTIVE": "上次操作"
+        "NOT_ACTIVE": "Last activity:",
+        "ACTIVE": "Last activity"
       }
     },
     "SORT_ORDER_ITEMS": {
@@ -78,7 +78,7 @@
         "TEXT": "等待回應: 近的在前"
       },
       "priority_desc_created_at_asc": {
-        "TEXT": "優先：最高的優先，創建的：最早的優先"
+        "TEXT": "Priority: Highest first, Created: Oldest first"
       }
     },
     "ATTACHMENTS": {
@@ -98,48 +98,48 @@
         "CONTENT": "位置"
       },
       "ig_reel": {
-        "CONTENT": "Instagram 短影片"
+        "CONTENT": "Instagram Reel"
       },
       "fallback": {
         "CONTENT": "分享了一個網址"
       },
       "contact": {
-        "CONTENT": "共享聯絡人"
+        "CONTENT": "Shared contact"
       },
       "embed": {
-        "CONTENT": ""
+        "CONTENT": "Embedded content"
       }
     },
     "CHAT_SORT_BY_FILTER": {
-      "TITLE": "對話排序",
-      "DROPDOWN_TITLE": "排序方式",
+      "TITLE": "Sort conversation",
+      "DROPDOWN_TITLE": "Sort by",
       "ITEMS": {
         "LATEST": {
-          "NAME": "最後活動於",
-          "LABEL": "上次操作"
+          "NAME": "Last activity at",
+          "LABEL": "Last activity"
         },
         "CREATED_AT": {
           "NAME": "建立於",
           "LABEL": "建立於"
         },
         "LAST_USER_MESSAGE_AT": {
-          "NAME": "使用者最後一條訊息於",
-          "LABEL": "最後的訊息"
+          "NAME": "Last user message at",
+          "LABEL": "Last message"
         }
       }
     },
     "RECEIVED_VIA_EMAIL": "使用電子郵件接收",
-    "VIEW_TWEET_IN_TWITTER": "在 Twitter 中檢視 tweet",
-    "REPLY_TO_TWEET": "回覆此推文",
-    "LINK_TO_STORY": "檢視 Instagram 故事",
+    "VIEW_TWEET_IN_TWITTER": "View tweet in Twitter",
+    "REPLY_TO_TWEET": "Reply to this tweet",
+    "LINK_TO_STORY": "Go to instagram story",
     "SENT": "傳送成功",
-    "READ": "閱讀成功",
-    "DELIVERED": "已成功傳送",
+    "READ": "Read successfully",
+    "DELIVERED": "Delivered successfully",
     "NO_MESSAGES": "沒有訊息",
     "NO_CONTENT": "沒有可用內容",
     "HIDE_QUOTED_TEXT": "隱藏引用文字",
     "SHOW_QUOTED_TEXT": "顯示引用文字",
-    "MESSAGE_READ": "已讀",
-    "SENDING": "傳送中"
+    "MESSAGE_READ": "Read",
+    "SENDING": "Sending"
   }
 }

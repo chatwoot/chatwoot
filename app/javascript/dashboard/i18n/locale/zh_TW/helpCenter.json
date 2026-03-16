@@ -384,6 +384,16 @@
         "ERROR_MESSAGE": "無法對類別重新排序。請再試一次。"
       }
     },
+    "REORDER_ARTICLE": {
+      "API": {
+        "ERROR_MESSAGE": "Unable to reorder articles. Please try again."
+      }
+    },
+    "REORDER_CATEGORY": {
+      "API": {
+        "ERROR_MESSAGE": "Unable to reorder categories. Please try again."
+      }
+    },
     "CREATE_ARTICLE": {
       "ERROR_MESSAGE": "請新增文章標題和內容，然後才能更新設定"
     },

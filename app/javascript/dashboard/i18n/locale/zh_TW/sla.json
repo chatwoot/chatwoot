@@ -1,71 +1,71 @@
 {
   "SLA": {
-    "HEADER": "服務協議",
-    "ADD_ACTION": "新增服務協議",
-    "ADD_ACTION_LONG": "建立一個新的服務協議",
-    "DESCRIPTION": "服務級別協議（SLA）是定義團隊與客戶之間明確期望的合同。它們為響應和解決時間設定了標準，建立了一個責任框架，並確保了一致的高質量體驗。",
-    "LEARN_MORE": "瞭解更多關於SLA的資訊",
-    "COUNT": "{n} 標籤 | {n} 標籤",
-    "LOADING": "正在獲取SLA",
-    "SEARCH_PLACEHOLDER": "搜尋SLA...",
+    "HEADER": "Service Level Agreements",
+    "ADD_ACTION": "Add SLA",
+    "ADD_ACTION_LONG": "Create a new SLA Policy",
+    "DESCRIPTION": "Service Level Agreements (SLAs) are contracts that define clear expectations between your team and customers. They establish standards for response and resolution times, creating a framework for accountability and ensures a consistent, high-quality experience.",
+    "LEARN_MORE": "Learn more about SLA",
+    "COUNT": "{n} SLA | {n} SLAs",
+    "LOADING": "Fetching SLAs",
+    "SEARCH_PLACEHOLDER": "Search SLA...",
     "SEARCH": {
-      "NO_RESULTS": "無SLA發現與您的搜尋相符"
+      "NO_RESULTS": "No SLA found matching your search"
     },
     "PAYWALL": {
-      "TITLE": "升級以建立SLA",
-      "AVAILABLE_ON": "SLA功能僅在商業和企業計劃中可用。",
-      "UPGRADE_PROMPT": "升級您的計劃以獲取高階功能，如團隊管理、自動化、自定義屬性等。",
-      "UPGRADE_NOW": "立即升級",
-      "CANCEL_ANYTIME": "您可以隨時更改或取消您的計劃"
+      "TITLE": "Upgrade to create SLAs",
+      "AVAILABLE_ON": "The SLA feature is only available in the Business and Enterprise plans.",
+      "UPGRADE_PROMPT": "Upgrade your plan to get access to advanced features like team management, automations, custom attributes, and more.",
+      "UPGRADE_NOW": "Upgrade now",
+      "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
     },
     "ENTERPRISE_PAYWALL": {
-      "AVAILABLE_ON": "SLA功能僅在付費計劃中可用。",
-      "UPGRADE_PROMPT": "升級到付費計劃以訪問高階功能，如審計日誌、代理容量等。",
-      "ASK_ADMIN": "請聯絡您的管理員進行升級。"
+      "AVAILABLE_ON": "The SLA feature is only available in the paid plans.",
+      "UPGRADE_PROMPT": "Upgrade to a paid plan to access advanced features like audit logs, agent capacity, and more.",
+      "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
     },
     "LIST": {
-      "404": "此賬戶中沒有可用的SLA。",
+      "404": "There are no SLAs available in this account.",
       "TABLE_HEADER": {
-        "SLA": "SLA",
-        "BUSINESS_HOURS": "營業時間"
+        "SLA": "服務水準協議(SLA)",
+        "BUSINESS_HOURS": "Business hours"
       },
       "EMPTY": {
-        "TITLE_1": "企業 P1",
-        "DESC_1": "由企業客戶提出的需要立即關注的問題。",
-        "TITLE_2": "企業P1",
-        "DESC_2": "由企業客戶提出的需要快速確認的問題。"
+        "TITLE_1": "Enterprise P0",
+        "DESC_1": "Issues raised by enterprise customers, that require immediate attention.",
+        "TITLE_2": "Enterprise P1",
+        "DESC_2": "Issues raised by enterprise customers, that needs to be acknowledged quickly."
       },
-      "BUSINESS_HOURS_ON": "Business hours on",
-      "BUSINESS_HOURS_OFF": "Business hours off",
+      "BUSINESS_HOURS_ON": "Turned on",
+      "BUSINESS_HOURS_OFF": "Turned off",
       "RESPONSE_TYPES": {
-        "FRT": "首次響應時間閾值",
-        "NRT": "下次響應時間閾值",
-        "RT": "解決時間閾值",
+        "FRT": "First response time threshold",
+        "NRT": "Next response time threshold",
+        "RT": "Resolution time threshold",
         "SHORT_HAND": {
-          "FRT": "排除帶有特定標籤標記的對話",
-          "NRT": "尼古丁替代療法",
-          "RT": "選擇日期"
+          "FRT": "FRT",
+          "NRT": "NRT",
+          "RT": "RT"
         }
       }
     },
     "FORM": {
       "NAME": {
-        "LABEL": "服務協議標題",
-        "PLACEHOLDER": "請在這裡輸入協議標題",
-        "REQUIRED_ERROR": "請填寫服務協議標題",
-        "MINIMUM_LENGTH_ERROR": "最少2個字元",
-        "VALID_ERROR": "僅允許使用字母、數字、連字元和下劃線"
+        "LABEL": "SLA Name",
+        "PLACEHOLDER": "SLA Name",
+        "REQUIRED_ERROR": "SLA name is required",
+        "MINIMUM_LENGTH_ERROR": "Minimum length 2 is required",
+        "VALID_ERROR": "Only Alphabets, Numbers, Hyphen and Underscore are allowed"
       },
       "DESCRIPTION": {
         "LABEL": "描述資訊",
-        "PLACEHOLDER": "為高階客戶提供的SLA"
+        "PLACEHOLDER": "SLA for premium customers"
       },
       "FIRST_RESPONSE_TIME": {
-        "LABEL": "首次響應時間",
+        "LABEL": "First Response Time",
         "PLACEHOLDER": "5"
       },
       "NEXT_RESPONSE_TIME": {
-        "LABEL": "下次響應時間",
+        "LABEL": "Next Response Time",
         "PLACEHOLDER": "5"
       },
       "RESOLUTION_TIME": {
@@ -74,10 +74,10 @@
       },
       "BUSINESS_HOURS": {
         "LABEL": "服務時間",
-        "PLACEHOLDER": "僅在工作時間內"
+        "PLACEHOLDER": "Only during business hours"
       },
       "THRESHOLD_TIME": {
-        "INVALID_FORMAT_ERROR": "閾值應為數字且大於零"
+        "INVALID_FORMAT_ERROR": "Threshold should be a number and greater than zero"
       },
       "EDIT": "編輯",
       "CREATE": "建立",
@@ -85,33 +85,33 @@
       "CANCEL": "取消"
     },
     "ADD": {
-      "TITLE": "新增SLA",
-      "DESC": "友好承諾，提供優質服務！",
+      "TITLE": "Add SLA",
+      "DESC": "Friendly promises for great service!",
       "API": {
-        "SUCCESS_MESSAGE": "SLA新增成功",
+        "SUCCESS_MESSAGE": "SLA added successfully",
         "ERROR_MESSAGE": "出現錯誤，請重試"
       }
     },
     "DELETE": {
-      "TITLE": "刪除SLA",
+      "TITLE": "Delete SLA",
       "API": {
-        "SUCCESS_MESSAGE": "SLA刪除成功",
+        "SUCCESS_MESSAGE": "SLA deleted successfully",
         "ERROR_MESSAGE": "出現錯誤，請重試"
       },
       "CONFIRM": {
         "TITLE": "確認刪除",
-        "MESSAGE": "您確定要刪除 ",
+        "MESSAGE": "Are you sure you want to delete ",
         "YES": "是，刪除 ",
         "NO": "不，保留 "
       }
     },
     "EVENTS": {
-      "TITLE": "SLA未達標",
+      "TITLE": "SLA Misses",
       "FRT": "首次回覆時間",
-      "NRT": "下次響應時間",
-      "RT": "解決時間",
-      "SHOW_MORE": "還有{count}個",
-      "HIDE": "隱藏{count}行"
+      "NRT": "Next response time",
+      "RT": "Resolution time",
+      "SHOW_MORE": "{count} more",
+      "HIDE": "Hide {count} rows"
     }
   }
 }

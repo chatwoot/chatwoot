@@ -1,27 +1,27 @@
 {
   "CONVERSATION": {
     "SELECT_A_CONVERSATION": "請從左側窗格選擇一個對話",
-    "CSAT_REPLY_MESSAGE": "請為會話評分",
-    "404": "抱歉，我們找不到對話。請重試",
-    "SWITCH_VIEW_LAYOUT": "切換佈局",
+    "CSAT_REPLY_MESSAGE": "Please rate the conversation",
+    "404": "Sorry, we cannot find the conversation. Please try again",
+    "SWITCH_VIEW_LAYOUT": "Switch the layout",
     "DASHBOARD_APP_TAB_MESSAGES": "訊息",
-    "UNVERIFIED_SESSION": "未驗證此使用者的身份",
+    "UNVERIFIED_SESSION": "The identity of this user is not verified",
     "NO_MESSAGE_1": "您的收件匣中似乎没有客户的消息。",
     "NO_MESSAGE_2": " 向您的頁面發送一條消息！",
     "NO_INBOX_1": "看來你還沒有新增任何收件匣。",
     "NO_INBOX_2": " 開始吧",
     "NO_INBOX_AGENT": "看起來你還沒有分配到收件匣。請聯絡你的管理員",
     "SEARCH_MESSAGES": "在對話中搜尋訊息",
-    "VIEW_ORIGINAL": "檢視原始內容",
-    "VIEW_TRANSLATED": "檢視翻譯",
+    "VIEW_ORIGINAL": "View original",
+    "VIEW_TRANSLATED": "View translated",
     "EMPTY_STATE": {
-      "CMD_BAR": "開啟命令選單",
-      "KEYBOARD_SHORTCUTS": "檢視鍵盤快捷鍵"
+      "CMD_BAR": "to open command menu",
+      "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"
     },
     "SEARCH": {
       "TITLE": "搜尋訊息",
       "RESULT_TITLE": "搜尋結果",
-      "LOADING_MESSAGE": "正在處理資料",
+      "LOADING_MESSAGE": "Crunching data...",
       "PLACEHOLDER": "輸入任何文字以搜尋訊息",
       "NO_MATCHING_RESULTS": "查無結果。"
     },
@@ -33,82 +33,82 @@
     "CANNOT_REPLY": "您不能回覆，原因是：",
     "24_HOURS_WINDOW": "24 小時消息視窗限制",
     "48_HOURS_WINDOW": "48 小时消息窗口限制",
-    "API_HOURS_WINDOW": "您只能在 {hours} 小時內回覆此對話",
-    "NOT_ASSIGNED_TO_YOU": "此對話未分配給您。您想要將此對話分配給自己嗎？",
+    "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
+    "NOT_ASSIGNED_TO_YOU": "This conversation is not assigned to you. Would you like to assign this conversation to yourself?",
     "ASSIGN_TO_ME": "指定給我",
-    "BOT_HANDOFF_MESSAGE": "您正在回覆目前由助手或機器人處理的對話。",
-    "BOT_HANDOFF_ACTION": "標記開啟並分配給自己",
-    "BOT_HANDOFF_REOPEN_ACTION": "標記對話已開啟",
-    "BOT_HANDOFF_SUCCESS": "對話已分配給您",
-    "BOT_HANDOFF_ERROR": "接管對話失敗，請再試一次。",
-    "TWILIO_WHATSAPP_CAN_REPLY": "您只能使用模板資訊回覆此會話，原因是",
+    "BOT_HANDOFF_MESSAGE": "You are responding to a conversation which is currently handled by an assistant or a bot.",
+    "BOT_HANDOFF_ACTION": "Mark open and assign to you",
+    "BOT_HANDOFF_REOPEN_ACTION": "Mark conversation open",
+    "BOT_HANDOFF_SUCCESS": "Conversation has been handed over to you",
+    "BOT_HANDOFF_ERROR": "Failed to take over the conversation. Please try again.",
+    "TWILIO_WHATSAPP_CAN_REPLY": "You can only reply to this conversation using a template message due to",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 小時消息視窗限制",
-    "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "此 Instagram 帳戶已遷移到新的 Instagram 通道收件箱。 所有新訊息都將在這裡顯示。您將無法從這個對話中傳送訊息。",
+    "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. All new messages will show up there. You won’t be able to send messages from this conversation anymore.",
     "REPLYING_TO": "你正在回覆到：",
     "REMOVE_SELECTION": "移除選擇項目",
     "DOWNLOAD": "下載",
-    "UNKNOWN_FILE_TYPE": "未知檔案",
-    "SAVE_CONTACT": "儲存聯絡人",
-    "NO_CONTENT": "沒有要顯示的內容",
+    "UNKNOWN_FILE_TYPE": "Unknown File",
+    "SAVE_CONTACT": "Save Contact",
+    "NO_CONTENT": "No content to display",
     "SHARED_ATTACHMENT": {
-      "CONTACT": "{sender} 分享了一個聯絡人",
-      "LOCATION": "{sender} 分享了一個地址",
-      "FILE": "{sender} 分享了一個檔案",
-      "MEETING": "{sender} 已開始會議"
+      "CONTACT": "{sender} has shared a contact",
+      "LOCATION": "{sender} has shared a location",
+      "FILE": "{sender} has shared a file",
+      "MEETING": "{sender} has started a meeting"
     },
     "UPLOADING_ATTACHMENTS": "正在上傳附件...",
-    "REPLIED_TO_STORY": "回覆您的故事",
+    "REPLIED_TO_STORY": "Replied to your story",
     "UNSUPPORTED_MESSAGE": "This message is unsupported. You can view this message on the Facebook / Instagram app.",
-    "UNSUPPORTED_MESSAGE_FACEBOOK": "不支援此訊息。您可以在 Facebook Messenger 應用上檢視此訊息。",
-    "UNSUPPORTED_MESSAGE_INSTAGRAM": "不支援此訊息。您可以在 Instagram 應用上檢視此訊息。",
-    "UNSUPPORTED_MESSAGE_TIKTOK": "此訊息不受支援。您可以在 TikTok 應用程式上查看此訊息。",
+    "UNSUPPORTED_MESSAGE_FACEBOOK": "This message is unsupported. You can view this message on the Facebook Messenger app.",
+    "UNSUPPORTED_MESSAGE_INSTAGRAM": "This message is unsupported. You can view this message on the Instagram app.",
+    "UNSUPPORTED_MESSAGE_TIKTOK": "This message is unsupported. You can view this message on the TikTok app.",
     "SUCCESS_DELETE_MESSAGE": "已成功刪除訊息",
     "FAIL_DELETE_MESSSAGE": "無法刪除訊息！請再試一次",
     "NO_RESPONSE": "無回應",
-    "RESPONSE": "回覆",
-    "RATING_TITLE": "評分",
-    "FEEDBACK_TITLE": "回饋",
-    "REPLY_MESSAGE_NOT_FOUND": "訊息不可用",
+    "RESPONSE": "Response",
+    "RATING_TITLE": "Rating",
+    "FEEDBACK_TITLE": "Feedback",
+    "REPLY_MESSAGE_NOT_FOUND": "Message not available",
     "CARD": {
-      "SHOW_LABELS": "顯示標籤",
-      "HIDE_LABELS": "隱藏標籤"
+      "SHOW_LABELS": "Show labels",
+      "HIDE_LABELS": "Hide labels"
     },
     "VOICE_CALL": {
-      "INCOMING_CALL": "來電",
-      "OUTGOING_CALL": "已撥出電話",
-      "CALL_IN_PROGRESS": "呼叫進行中",
-      "NO_ANSWER": "無應答",
-      "MISSED_CALL": "未接來電",
-      "CALL_ENDED": "通話結束",
-      "NOT_ANSWERED_YET": "尚未回覆",
-      "THEY_ANSWERED": "對方已回覆",
-      "YOU_ANSWERED": "你已回覆"
+      "INCOMING_CALL": "Incoming call",
+      "OUTGOING_CALL": "Outgoing call",
+      "CALL_IN_PROGRESS": "Call in progress",
+      "NO_ANSWER": "No answer",
+      "MISSED_CALL": "Missed call",
+      "CALL_ENDED": "Call ended",
+      "NOT_ANSWERED_YET": "Not answered yet",
+      "THEY_ANSWERED": "They answered",
+      "YOU_ANSWERED": "You answered"
     },
     "HEADER": {
       "RESOLVE_ACTION": "已解決",
       "REOPEN_ACTION": "重新打開",
       "OPEN_ACTION": "打開",
-      "MORE_ACTIONS": "更多操作",
+      "MORE_ACTIONS": "More actions",
       "OPEN": "詳細資訊",
       "CLOSE": "關閉",
       "DETAILS": "詳情",
-      "SNOOZED_UNTIL": "推遲到",
-      "SNOOZED_UNTIL_TOMORROW": "推遲到明天",
-      "SNOOZED_UNTIL_NEXT_WEEK": "推遲到下週",
-      "SNOOZED_UNTIL_NEXT_REPLY": "推遲至下一個回覆",
+      "SNOOZED_UNTIL": "Snoozed until",
+      "SNOOZED_UNTIL_TOMORROW": "Snoozed until tomorrow",
+      "SNOOZED_UNTIL_NEXT_WEEK": "Snoozed until next week",
+      "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed until next reply",
       "SLA_STATUS": {
-        "FRT": "第一響應時間 {status}",
-        "NRT": "淨響應時間 {status}",
-        "RT": "響應時間 {status}",
-        "MISSED": "遺漏",
-        "DUE": "過期"
+        "FRT": "FRT {status}",
+        "NRT": "NRT {status}",
+        "RT": "RT {status}",
+        "MISSED": "missed",
+        "DUE": "due"
       }
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "標記為待處理",
-      "SNOOZE_UNTIL": "推遲",
+      "SNOOZE_UNTIL": "Snooze",
       "SNOOZE": {
-        "TITLE": "推遲到",
+        "TITLE": "Snooze until",
         "NEXT_REPLY": "下個回覆",
         "TOMORROW": "明天",
         "NEXT_WEEK": "下週"
@@ -119,104 +119,104 @@
       "TEAMS": "團隊"
     },
     "CUSTOM_SNOOZE": {
-      "TITLE": "推遲到",
-      "APPLY": "推遲",
+      "TITLE": "Snooze until",
+      "APPLY": "Snooze",
       "CANCEL": "取消"
     },
     "PRIORITY": {
       "TITLE": "優先程度",
       "OPTIONS": {
         "NONE": "無",
-        "URGENT": "緊急的",
-        "HIGH": "高",
-        "MEDIUM": "中",
-        "LOW": "低"
+        "URGENT": "Urgent",
+        "HIGH": "High",
+        "MEDIUM": "Medium",
+        "LOW": "Low"
       },
       "CHANGE_PRIORITY": {
         "SELECT_PLACEHOLDER": "無",
-        "INPUT_PLACEHOLDER": "選擇優先順序",
-        "NO_RESULTS": "沒有檢索到相關資訊",
-        "SUCCESSFUL": "已將對話 Id {conversationId} 的優先順序更改為 {priority}",
-        "FAILED": "無法更改優先順序。請重試。"
+        "INPUT_PLACEHOLDER": "Select priority",
+        "NO_RESULTS": "No results found",
+        "SUCCESSFUL": "Changed priority of conversation id {conversationId} to {priority}",
+        "FAILED": "Couldn't change priority. Please try again."
       }
     },
     "DELETE_CONVERSATION": {
-      "TITLE": "刪除對話 #{conversationId}",
-      "DESCRIPTION": "您確定要刪除此對話嗎？",
+      "TITLE": "Delete conversation #{conversationId}",
+      "DESCRIPTION": "Are you sure you want to delete this conversation?",
       "CONFIRM": "刪除"
     },
     "CARD_CONTEXT_MENU": {
       "PENDING": "標記為待處理",
-      "RESOLVED": "標記為已解決",
-      "MARK_AS_UNREAD": "標記為未讀",
+      "RESOLVED": "Mark as resolved",
+      "MARK_AS_UNREAD": "Mark as unread",
       "MARK_AS_READ": "標記為已讀取",
       "REOPEN": "重新開啟對話",
       "SNOOZE": {
-        "TITLE": "推遲",
-        "NEXT_REPLY": "直到下次回覆",
-        "TOMORROW": "直到明天",
-        "NEXT_WEEK": "直到下週"
+        "TITLE": "Snooze",
+        "NEXT_REPLY": "Until next reply",
+        "TOMORROW": "Until tomorrow",
+        "NEXT_WEEK": "Until next week"
       },
-      "ASSIGN_AGENT": "分配客服代表",
-      "ASSIGN_LABEL": "分配標籤",
-      "AGENTS_LOADING": "正在載入客服代表...",
-      "ASSIGN_TEAM": "分配一個團隊",
-      "DELETE": "刪除對話",
-      "OPEN_IN_NEW_TAB": "在新標籤頁中開啟",
-      "COPY_LINK": "複製對話連結",
-      "COPY_LINK_SUCCESS": "對話連結已複製到剪貼簿",
+      "ASSIGN_AGENT": "Assign agent",
+      "ASSIGN_LABEL": "Assign label",
+      "AGENTS_LOADING": "Loading agents...",
+      "ASSIGN_TEAM": "Assign team",
+      "DELETE": "Delete conversation",
+      "OPEN_IN_NEW_TAB": "Open in new tab",
+      "COPY_LINK": "Copy conversation link",
+      "COPY_LINK_SUCCESS": "Conversation link copied to clipboard",
       "API": {
         "AGENT_ASSIGNMENT": {
-          "SUCCESFUL": "對話 ID {conversationId} 已分配給 \"{agentName}\"",
-          "FAILED": "無法分配客服，請再試。"
+          "SUCCESFUL": "Conversation id {conversationId} assigned to \"{agentName}\"",
+          "FAILED": "Couldn't assign agent. Please try again."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "已為對話 Id {conversationId} 分配標籤 #{labelName}",
-          "FAILED": "無法分配標籤。請再試。"
+          "SUCCESFUL": "Assigned label #{labelName} to conversation id {conversationId}",
+          "FAILED": "Couldn't assign label. Please try again."
         },
         "LABEL_REMOVAL": {
-          "SUCCESFUL": "從對話 ID {conversationId} 中刪除了標籤 #{labelName}",
-          "FAILED": "無法移除標籤。請再試一次。"
+          "SUCCESFUL": "Removed label #{labelName} from conversation id {conversationId}",
+          "FAILED": "Couldn't remove label. Please try again."
         },
         "TEAM_ASSIGNMENT": {
-          "SUCCESFUL": "將團隊 \"{team}\" 分配給對話 ID {conversationId}",
-          "FAILED": "無法分配團隊。請重試。"
+          "SUCCESFUL": "Assigned team \"{team}\" to conversation id {conversationId}",
+          "FAILED": "Couldn't assign team. Please try again."
         }
       }
     },
     "FOOTER": {
-      "MESSAGE_SIGN_TOOLTIP": "訊息簽名",
-      "ENABLE_SIGN_TOOLTIP": "啟用簽名",
-      "DISABLE_SIGN_TOOLTIP": "禁用簽名",
+      "MESSAGE_SIGN_TOOLTIP": "Message signature",
+      "ENABLE_SIGN_TOOLTIP": "Enable signature",
+      "DISABLE_SIGN_TOOLTIP": "Disable signature",
       "MSG_INPUT": "輸入“/”開始選擇快捷回覆",
       "PRIVATE_MSG_INPUT": "Shift + 輸入新行。這只對客服可以看見",
-      "MESSAGING_RESTRICTED": "您無法回覆此對話",
-      "MESSAGING_RESTRICTED_WHATSAPP": "由於24小時訊息視窗限制，您只能使用範本訊息回复",
-      "MESSAGING_RESTRICTED_API": "由於訊息視窗限制，您只能使用範本訊息回复",
-      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "未設定訊息簽名，請在個人資料中進行設定。",
-      "COPILOT_MSG_INPUT": "向副駕駛提供額外提示，或詢問其他任何問題...按 Enter 發送後續訊息",
-      "CLICK_HERE": "點選此處更新",
-      "WHATSAPP_TEMPLATES": "Whatsapp 模板列表"
+      "MESSAGING_RESTRICTED": "You cannot reply to this conversation",
+      "MESSAGING_RESTRICTED_WHATSAPP": "You can only reply using a template message due to 24-hour message window restriction",
+      "MESSAGING_RESTRICTED_API": "You can only reply using a template message due to message window restriction",
+      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Message signature is not configured, please configure it in profile settings.",
+      "COPILOT_MSG_INPUT": "Give copilot additional prompts, or ask anything else... Press enter to send follow-up",
+      "CLICK_HERE": "Click here to update",
+      "WHATSAPP_TEMPLATES": "Whatsapp Templates"
     },
     "REPLYBOX": {
       "REPLY": "回覆",
       "PRIVATE_NOTE": "私人筆記",
       "SEND": "發送",
       "CREATE": "新增筆記",
-      "INSERT_READ_MORE": "檢視更多",
-      "DISMISS_REPLY": "忽略回覆",
-      "REPLYING_TO": "回覆：",
+      "INSERT_READ_MORE": "Read more",
+      "DISMISS_REPLY": "Dismiss reply",
+      "REPLYING_TO": "Replying to:",
       "TIP_EMOJI_ICON": "顯示 emoji 選擇器",
       "TIP_ATTACH_ICON": "附件",
-      "TIP_AUDIORECORDER_ICON": "錄製音訊",
-      "TIP_AUDIORECORDER_PERMISSION": "允許訪問音訊",
-      "TIP_AUDIORECORDER_ERROR": "無法開啟音訊",
-      "DRAG_DROP": "拖放到此處新增附件",
-      "START_AUDIO_RECORDING": "開始錄音",
-      "STOP_AUDIO_RECORDING": "停止錄音",
-      "COPILOT_THINKING": "副駕駛正在思考",
+      "TIP_AUDIORECORDER_ICON": "Record audio",
+      "TIP_AUDIORECORDER_PERMISSION": "Allow access to audio",
+      "TIP_AUDIORECORDER_ERROR": "Could not open the audio",
+      "DRAG_DROP": "Drag and drop here to attach",
+      "START_AUDIO_RECORDING": "Start audio recording",
+      "STOP_AUDIO_RECORDING": "Stop audio recording",
+      "COPILOT_THINKING": "Copilot is thinking",
       "EMAIL_HEAD": {
-        "TO": "發給",
+        "TO": "TO",
         "ADD_BCC": "密件副本",
         "CC": {
           "LABEL": "副本",
@@ -230,40 +230,40 @@
         }
       },
       "UNDEFINED_VARIABLES": {
-        "TITLE": "未定義的變數",
-        "MESSAGE": "你的訊息中有 {undefinedVariablesCount} 個未定義的變數：{undefinedVariables}。是否仍然要傳送該訊息？",
+        "TITLE": "Undefined variables",
+        "MESSAGE": "You have {undefinedVariablesCount} undefined variables in your message: {undefinedVariables}. Would you like to send the message anyway?",
         "CONFIRM": {
           "YES": "發送",
           "CANCEL": "取消"
         }
       },
       "QUOTED_REPLY": {
-        "ENABLE_TOOLTIP": "包括引用的電子郵件主題",
-        "DISABLE_TOOLTIP": "不包括引用的電子郵件主題",
-        "REMOVE_PREVIEW": "刪除引用的電子郵件線程",
-        "COLLAPSE": "折疊預覽",
-        "EXPAND": "展開預覽"
+        "ENABLE_TOOLTIP": "Include quoted email thread",
+        "DISABLE_TOOLTIP": "Don't include quoted email thread",
+        "REMOVE_PREVIEW": "Remove quoted email thread",
+        "COLLAPSE": "Collapse preview",
+        "EXPAND": "Expand preview"
       }
     },
     "VISIBLE_TO_AGENTS": "私人筆記：僅對您和您的團隊可以看見",
     "CHANGE_STATUS": "對話狀態已更改",
-    "CHANGE_STATUS_FAILED": "更改對話狀態失敗",
+    "CHANGE_STATUS_FAILED": "Conversation status change failed",
     "CHANGE_AGENT": "對話指派人已更改",
-    "CHANGE_AGENT_FAILED": "更改分配失敗",
-    "ASSIGN_LABEL_SUCCESFUL": "已成功分配標籤",
-    "ASSIGN_LABEL_FAILED": "分配標籤失敗",
-    "CHANGE_TEAM": "對話團隊已更改",
-    "SUCCESS_DELETE_CONVERSATION": "對話成功刪除",
-    "FAIL_DELETE_CONVERSATION": "無法刪除對話！請重試",
-    "FILE_SIZE_LIMIT": "檔案超過了 {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB 的附件限制",
-    "FILE_TYPE_NOT_SUPPORTED": "此對話不支援此 {fileName} 檔案類型",
-    "MESSAGE_ERROR": "無法傳送此訊息，請稍後再試",
+    "CHANGE_AGENT_FAILED": "Assignee change failed",
+    "ASSIGN_LABEL_SUCCESFUL": "Label assigned successfully",
+    "ASSIGN_LABEL_FAILED": "Label assignment failed",
+    "CHANGE_TEAM": "Conversation team changed",
+    "SUCCESS_DELETE_CONVERSATION": "Conversation deleted successfully",
+    "FAIL_DELETE_CONVERSATION": "Couldn't delete conversation! Try again",
+    "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB attachment limit",
+    "FILE_TYPE_NOT_SUPPORTED": "This {fileName} file type is not supported in this conversation",
+    "MESSAGE_ERROR": "Unable to send this message, please try again later",
     "SENT_BY": "寄送者：",
     "BOT": "機器人",
-    "NATIVE_APP": "本機應用程式",
-    "NATIVE_APP_ADVISORY": "此訊息是從本機應用程式發送的。 Chatwoot 回覆以維護訊息視窗。",
-    "SEND_FAILED": "無法傳送訊息，請重試！",
-    "TRY_AGAIN": "重試",
+    "NATIVE_APP": "Native app",
+    "NATIVE_APP_ADVISORY": "This message was sent from the native app. Reply from Chatwoot to maintain the message window.",
+    "SEND_FAILED": "Couldn't send message! Try again",
+    "TRY_AGAIN": "retry",
     "ASSIGNMENT": {
       "SELECT_AGENT": "選擇客服",
       "REMOVE": "刪除",
@@ -271,46 +271,46 @@
     },
     "CONTEXT_MENU": {
       "COPY": "複製",
-      "REPLY_TO": "對這條訊息進行回覆",
+      "REPLY_TO": "Reply to this message",
       "DELETE": "刪除",
-      "CREATE_A_CANNED_RESPONSE": "新增到預定義回覆",
-      "TRANSLATE": "翻譯",
-      "COPY_PERMALINK": "複製訊息連結",
-      "LINK_COPIED": "訊息連結已複製到剪貼簿",
+      "CREATE_A_CANNED_RESPONSE": "Add to canned responses",
+      "TRANSLATE": "Translate",
+      "COPY_PERMALINK": "Copy link to the message",
+      "LINK_COPIED": "Message URL copied to the clipboard",
       "DELETE_CONFIRMATION": {
-        "TITLE": "您確定要刪除這條訊息嗎？",
-        "MESSAGE": "此操作無法撤銷。",
+        "TITLE": "Are you sure you want to delete this message?",
+        "MESSAGE": "You cannot undo this action",
         "DELETE": "刪除",
         "CANCEL": "取消"
       }
     },
     "SIDEBAR": {
       "CONTACT": "聯絡人",
-      "COPILOT": "副駕駛"
+      "COPILOT": "Copilot"
     },
     "VOICE_WIDGET": {
-      "INCOMING_CALL": "來電",
-      "OUTGOING_CALL": "已撥出電話",
-      "CALL_IN_PROGRESS": "呼叫進行中",
-      "NOT_ANSWERED_YET": "尚未回覆",
-      "HANDLED_IN_ANOTHER_TAB": "正在另一個選項卡中處理",
-      "REJECT_CALL": "拒絕",
-      "JOIN_CALL": "加入通話",
-      "END_CALL": "結束通話"
+      "INCOMING_CALL": "Incoming call",
+      "OUTGOING_CALL": "Outgoing call",
+      "CALL_IN_PROGRESS": "Call in progress",
+      "NOT_ANSWERED_YET": "Not answered yet",
+      "HANDLED_IN_ANOTHER_TAB": "Being handled in another tab",
+      "REJECT_CALL": "Reject",
+      "JOIN_CALL": "Join call",
+      "END_CALL": "End call"
     }
   },
   "EMAIL_TRANSCRIPT": {
-    "TITLE": "傳送對話記錄",
-    "DESC": "將對話記錄副本傳送到指定的電子郵件地址",
+    "TITLE": "Send conversation transcript",
+    "DESC": "Send a copy of the conversation transcript to the specified email address",
     "SUBMIT": "送出",
     "CANCEL": "取消操作",
-    "SEND_EMAIL_SUCCESS": "對話記錄已成功傳送",
+    "SEND_EMAIL_SUCCESS": "The chat transcript was sent successfully",
     "SEND_EMAIL_ERROR": "出錯了，請重試",
-    "SEND_EMAIL_PAYMENT_REQUIRED": "您目前的計劃不提供電子郵件文字記錄。請升級才能使用此功能。",
+    "SEND_EMAIL_PAYMENT_REQUIRED": "Email transcript is not available on your current plan. Please upgrade to use this feature.",
     "FORM": {
-      "SEND_TO_CONTACT": "傳送對話記錄給客戶",
-      "SEND_TO_AGENT": "傳送對話記錄給指定的代理",
-      "SEND_TO_OTHER_EMAIL_ADDRESS": "將對話記錄傳送到另一個電子郵件地址",
+      "SEND_TO_CONTACT": "Send the transcript to the customer",
+      "SEND_TO_AGENT": "Send the transcript to the assigned agent",
+      "SEND_TO_OTHER_EMAIL_ADDRESS": "Send the transcript to another email address",
       "EMAIL": {
         "PLACEHOLDER": "請輸入電子信箱",
         "ERROR": "請輸入一個有效的電子信箱"
@@ -319,30 +319,30 @@
   },
   "ONBOARDING": {
     "TITLE": "Hey 👋， 歡迎來到 {installationName}！",
-    "DESCRIPTION": "感謝您註冊。我們希望您能夠充分使用 {installationName}。 這裡有幾件您可以在 {installationName} 做的事情，讓體驗變得愉快。",
-    "GREETING_MORNING": "👋 早上好，{name}。歡迎來到 {installationName}。",
-    "GREETING_AFTERNOON": "👋 下午好，{name}。歡迎來到 {installationName}。",
-    "GREETING_EVENING": "👋 晚上好，{name}。歡迎來到 {installationName}。",
+    "DESCRIPTION": "Thanks for signing up. We want you to get the most out of {installationName}. Here are a few things you can do in {installationName} to make the experience delightful.",
+    "GREETING_MORNING": "👋 Good morning, {name}. Welcome to {installationName}.",
+    "GREETING_AFTERNOON": "👋 Good afternoon, {name}. Welcome to {installationName}.",
+    "GREETING_EVENING": "👋 Good evening, {name}. Welcome to {installationName}.",
     "READ_LATEST_UPDATES": "查看我們最後的更新",
     "ALL_CONVERSATION": {
-      "TITLE": "您的所有對話都在一個地方",
-      "DESCRIPTION": "在單個面板中檢視您客戶的所有對話。您可以透過通道、標籤和狀態篩選對話。",
+      "TITLE": "All your conversations in one place",
+      "DESCRIPTION": "View all the conversations from your customers in one single dashboard. You can filter the conversations by the incoming channel, label and status.",
       "NEW_LINK": "按此建立一個收件匣"
     },
     "TEAM_MEMBERS": {
       "TITLE": "邀請團隊成員",
-      "DESCRIPTION": "當您準備好與您的客戶交談時，帶上您的隊友來協助您。 您可以透過新增他們的電子郵件地址到客服代表列表來邀請您的隊友。",
+      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email addresses to the agent list.",
       "NEW_LINK": "按此邀請一個新成員"
     },
     "LABELS": {
-      "TITLE": "使用標籤組織對話",
-      "DESCRIPTION": "標籤提供了一種簡單的方法來讓您歸類對話。建立一些類似 #價格、#問題反饋 這樣的標籤，之後您可以在對話中使用它們。",
+      "TITLE": "Organize conversations with labels",
+      "DESCRIPTION": "Labels provide an easier way to categorize your conversation. Create some labels like #support-enquiry, #billing-question etc., so that you can use them in a conversation later.",
       "NEW_LINK": "按此建立標籤"
     },
     "CANNED_RESPONSES": {
-      "TITLE": "建立預設回覆",
-      "DESCRIPTION": "預定義的快捷回覆模板可以幫助您快速響應對話。客服人員只需輸入“/”符號，後跟快捷程式碼，即可插入回覆。",
-      "NEW_LINK": "點選這裡建立預設回覆"
+      "TITLE": "Create canned responses",
+      "DESCRIPTION": "Pre-written quick reply templates help you quickly respond to a conversation. Agents can type the '/' character followed by the shortcode to insert a response.",
+      "NEW_LINK": "Click here to create a canned response"
     }
   },
   "CONVERSATION_SIDEBAR": {
@@ -354,99 +354,99 @@
     },
     "ACCORDION": {
       "CONTACT_DETAILS": "聯絡人詳細資料",
-      "CONVERSATION_ACTIONS": "對話操作",
+      "CONVERSATION_ACTIONS": "Conversation Actions",
       "CONVERSATION_LABELS": "對話標記",
       "CONVERSATION_INFO": "對話資訊",
-      "CONTACT_NOTES": "聯絡人備註",
+      "CONTACT_NOTES": "Contact Notes",
       "CONTACT_ATTRIBUTES": "聯絡人屬性",
       "PREVIOUS_CONVERSATION": "上一次對話",
-      "MACROS": "宏",
-      "LINEAR_ISSUES": "已連結的 Linear 問題",
-      "SHOPIFY_ORDERS": "Shopify 訂單"
+      "MACROS": "Macros",
+      "LINEAR_ISSUES": "Linked Linear Issues",
+      "SHOPIFY_ORDERS": "Shopify Orders"
     },
     "SHOPIFY": {
-      "ORDER_ID": "訂單 #{id}",
-      "ERROR": "載入訂單時出錯",
-      "NO_SHOPIFY_ORDERS": "沒有找到訂單",
+      "ORDER_ID": "Order #{id}",
+      "ERROR": "Error loading orders",
+      "NO_SHOPIFY_ORDERS": "No orders found",
       "FINANCIAL_STATUS": {
         "PENDING": "待處理",
-        "AUTHORIZED": "授權",
-        "PARTIALLY_PAID": "部分付費",
-        "PAID": "有薪資的",
-        "PARTIALLY_REFUNDED": "部分退款",
-        "REFUNDED": "已退款",
-        "VOIDED": "作廢"
+        "AUTHORIZED": "Authorized",
+        "PARTIALLY_PAID": "Partially Paid",
+        "PAID": "Paid",
+        "PARTIALLY_REFUNDED": "Partially Refunded",
+        "REFUNDED": "Refunded",
+        "VOIDED": "Voided"
       },
       "FULFILLMENT_STATUS": {
-        "FULFILLED": "實現了",
-        "PARTIALLY_FULFILLED": "部分履行",
-        "UNFULFILLED": "未實現"
+        "FULFILLED": "Fulfilled",
+        "PARTIALLY_FULFILLED": "Partially Fulfilled",
+        "UNFULFILLED": "Unfulfilled"
       }
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
-    "ADD_BUTTON_TEXT": "建立屬性",
-    "NO_RECORDS_FOUND": "未找到屬性",
+    "ADD_BUTTON_TEXT": "Create attribute",
+    "NO_RECORDS_FOUND": "No attributes found",
     "UPDATE": {
       "SUCCESS": "屬性更新成功",
-      "ERROR": "無法更新屬性，請稍後再試。"
+      "ERROR": "Unable to update attribute. Please try again later"
     },
     "ADD": {
       "TITLE": "新增",
       "SUCCESS": "屬性新增成功",
-      "ERROR": "無法新增屬性，請稍後再試。"
+      "ERROR": "Unable to add attribute. Please try again later"
     },
     "DELETE": {
-      "SUCCESS": "已成功刪除屬性",
-      "ERROR": "無法刪除屬性，請稍後再試。"
+      "SUCCESS": "Attribute deleted successfully",
+      "ERROR": "Unable to delete attribute. Please try again later"
     },
     "ATTRIBUTE_SELECT": {
-      "TITLE": "新增屬性",
-      "PLACEHOLDER": "搜尋屬性",
-      "NO_RESULT": "未找到屬性"
+      "TITLE": "Add attributes",
+      "PLACEHOLDER": "Search attributes",
+      "NO_RESULT": "No attributes found"
     }
   },
   "EMAIL_HEADER": {
-    "FROM": "來自",
-    "TO": "傳送至",
+    "FROM": "From",
+    "TO": "To",
     "BCC": "密件副本",
     "CC": "副本",
     "SUBJECT": "主旨",
-    "EXPAND": "展開郵箱"
+    "EXPAND": "Expand email"
   },
   "CONVERSATION_PARTICIPANTS": {
-    "SIDEBAR_MENU_TITLE": "參與者",
-    "SIDEBAR_TITLE": "對話參與者",
-    "NO_RECORDS_FOUND": "沒有檢索到相關資訊",
-    "ADD_PARTICIPANTS": "選擇參與者",
-    "REMANING_PARTICIPANTS_TEXT": "+{count} 其他人",
-    "REMANING_PARTICIPANT_TEXT": "+{count} 其他",
-    "TOTAL_PARTICIPANTS_TEXT": "有{count}人參與。",
-    "TOTAL_PARTICIPANT_TEXT": "有{count}人參與。",
-    "NO_PARTICIPANTS_TEXT": "沒有人參與！",
-    "WATCH_CONVERSATION": "加入對話",
-    "YOU_ARE_WATCHING": "你正在參與",
+    "SIDEBAR_MENU_TITLE": "Participating",
+    "SIDEBAR_TITLE": "Conversation participants",
+    "NO_RECORDS_FOUND": "No results found",
+    "ADD_PARTICIPANTS": "Select participants",
+    "REMANING_PARTICIPANTS_TEXT": "+{count} others",
+    "REMANING_PARTICIPANT_TEXT": "+{count} other",
+    "TOTAL_PARTICIPANTS_TEXT": "{count} people are participating.",
+    "TOTAL_PARTICIPANT_TEXT": "{count} person is participating.",
+    "NO_PARTICIPANTS_TEXT": "No one is participating!.",
+    "WATCH_CONVERSATION": "Join conversation",
+    "YOU_ARE_WATCHING": "You are participating",
     "API": {
-      "ERROR_MESSAGE": "無法更新，請重試！",
-      "SUCCESS_MESSAGE": "參與者已更新！"
+      "ERROR_MESSAGE": "Could not update, try again!",
+      "SUCCESS_MESSAGE": "Participants updated!"
     }
   },
   "TRANSLATE_MODAL": {
-    "TITLE": "檢視翻譯內容",
-    "DESC": "您可以檢視每種語言的翻譯內容。",
-    "ORIGINAL_CONTENT": "原文內容",
-    "TRANSLATED_CONTENT": "譯文",
-    "NO_TRANSLATIONS_AVAILABLE": "此內容暫無翻譯"
+    "TITLE": "View translated content",
+    "DESC": "You can view the translated content in each langauge.",
+    "ORIGINAL_CONTENT": "Original Content",
+    "TRANSLATED_CONTENT": "Translated Content",
+    "NO_TRANSLATIONS_AVAILABLE": "No translations are available for this content"
   },
   "TYPING": {
-    "ONE": "{user} 正在輸入",
-    "TWO": "{user} 和 {secondUser} 正在輸入",
-    "MULTIPLE": "{user} 等 {count} 人正在輸入"
+    "ONE": "{user} is typing",
+    "TWO": "{user} and {secondUser} are typing",
+    "MULTIPLE": "{user} and {count} others are typing"
   },
   "COPILOT": {
-    "TRY_THESE_PROMPTS": "嘗試這些提示資訊"
+    "TRY_THESE_PROMPTS": "Try these prompts"
   },
   "GALLERY_VIEW": {
-    "ERROR_DOWNLOADING": "無法上傳附件。請重試"
+    "ERROR_DOWNLOADING": "Unable to download attachment. Please try again"
   }
 }

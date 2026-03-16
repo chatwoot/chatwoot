@@ -374,6 +374,16 @@
         "ERROR_MESSAGE": "Hiba a cikk törlésekor"
       }
     },
+    "REORDER_ARTICLE": {
+      "API": {
+        "ERROR_MESSAGE": "Unable to reorder articles. Please try again."
+      }
+    },
+    "REORDER_CATEGORY": {
+      "API": {
+        "ERROR_MESSAGE": "Unable to reorder categories. Please try again."
+      }
+    },
     "CREATE_ARTICLE": {
       "ERROR_MESSAGE": "Kérjük, adj hozzá a cikk címét és tartalmát, ezután csak Te tudod majd frissíteni a beállításokat"
     },

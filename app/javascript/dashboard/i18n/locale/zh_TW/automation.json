@@ -1,55 +1,55 @@
 {
   "AUTOMATION": {
     "HEADER": "自動化",
-    "DESCRIPTION": "自動化可以取代和簡化人工的現有程式，例如新增標籤和將對話分配給最合適的代理人。 這使小組能夠集中精力完成其實力，同時減少用於日常任務的時間。",
-    "LEARN_MORE": "瞭解更多關於審計日誌的資訊",
-    "COUNT": "{n} 自動化 | {n} 自動化",
-    "HEADER_BTN_TXT": "新增自動化規則",
-    "LOADING": "正在獲取自動化規則",
-    "SEARCH_PLACEHOLDER": "搜尋自動化規則...",
-    "NO_RESULTS": "未找到與您的搜尋相符的自動化規則",
+    "DESCRIPTION": "Automation can replace and streamline existing processes that require manual effort, such as adding labels and assigning conversations to the most suitable agent. This allows the team to focus on their strengths while reducing time spent on routine tasks.",
+    "LEARN_MORE": "Learn more about automation",
+    "COUNT": "{n} automation | {n} automations",
+    "HEADER_BTN_TXT": "Create Automation",
+    "LOADING": "Fetching automation rules",
+    "SEARCH_PLACEHOLDER": "Search automation rules...",
+    "NO_RESULTS": "No automation rules found matching your search",
     "ADD": {
       "TITLE": "新增自動化規則",
       "SUBMIT": "建立",
       "CANCEL_BUTTON_TEXT": "取消",
       "FORM": {
         "NAME": {
-          "LABEL": "規則名稱",
-          "PLACEHOLDER": "請輸入規則名稱",
+          "LABEL": "Rule Name",
+          "PLACEHOLDER": "Enter rule name",
           "ERROR": "名稱為必填"
         },
         "DESC": {
           "LABEL": "描述資訊",
-          "PLACEHOLDER": "輸入規則說明",
+          "PLACEHOLDER": "Enter rule description",
           "ERROR": "描述為必填"
         },
         "EVENT": {
-          "LABEL": "事件",
+          "LABEL": "Event",
           "PLACEHOLDER": "請選擇其中一個",
-          "ERROR": "事件是必填項"
+          "ERROR": "Event is required"
         },
         "CONDITIONS": {
-          "LABEL": "條件"
+          "LABEL": "Conditions"
         },
         "ACTIONS": {
           "LABEL": "操作"
         }
       },
-      "CONDITION_BUTTON_LABEL": "新增條件",
-      "ACTION_BUTTON_LABEL": "新增操作",
+      "CONDITION_BUTTON_LABEL": "Add Condition",
+      "ACTION_BUTTON_LABEL": "Add Action",
       "API": {
-        "SUCCESS_MESSAGE": "自動化規則新增成功",
-        "ERROR_MESSAGE": "無法建立自動化規則，請稍後再試"
+        "SUCCESS_MESSAGE": "Automation rule added successfully",
+        "ERROR_MESSAGE": "Could not able to create a automation rule, Please try again later"
       }
     },
     "LIST": {
       "TABLE_HEADER": {
         "NAME": "姓名",
-        "ACTIVE": "狀態",
-        "CREATED_ON": "建立時間",
-        "ACTIONS": "行動"
+        "ACTIVE": "Active",
+        "CREATED_ON": "Created on",
+        "ACTIONS": "操作"
       },
-      "404": "未找到自動化規則"
+      "404": "No automation rules found"
     },
     "DELETE": {
       "TITLE": "刪除自動化規則",
@@ -62,8 +62,8 @@
         "NO": "不，保留 "
       },
       "API": {
-        "SUCCESS_MESSAGE": "自動化規則刪除成功",
-        "ERROR_MESSAGE": "無法刪除自動化規則，請稍後再試"
+        "SUCCESS_MESSAGE": "Automation rule deleted successfully",
+        "ERROR_MESSAGE": "Could not able to delete a automation rule, Please try again later"
       }
     },
     "EDIT": {
@@ -71,15 +71,15 @@
       "SUBMIT": "更新",
       "CANCEL_BUTTON_TEXT": "取消",
       "API": {
-        "SUCCESS_MESSAGE": "自動化規則更新成功",
-        "ERROR_MESSAGE": "無法更新自動化規則，請稍後再試"
+        "SUCCESS_MESSAGE": "Automation rule updated successfully",
+        "ERROR_MESSAGE": "Could not update automation rule, Please try again later"
       }
     },
     "CLONE": {
-      "TOOLTIP": "克隆",
+      "TOOLTIP": "Clone",
       "API": {
-        "SUCCESS_MESSAGE": "自動化克隆成功",
-        "ERROR_MESSAGE": "無法克隆自動化規則，請稍後再試"
+        "SUCCESS_MESSAGE": "Automation cloned successfully",
+        "ERROR_MESSAGE": "Could not clone automation rule, Please try again later"
       }
     },
     "FORM": {
@@ -87,100 +87,100 @@
       "CREATE": "建立",
       "DELETE": "刪除",
       "CANCEL": "取消",
-      "RESET_MESSAGE": "更改事件型別將重置您在下方新增的條件和事件"
+      "RESET_MESSAGE": "Changing event type will reset the conditions and events you have added below"
     },
     "CONDITION": {
-      "DELETE_MESSAGE": "儲存時至少需要一個條件",
-      "CONTACT_CUSTOM_ATTR_LABEL": "聯絡人自定義屬性",
-      "CONVERSATION_CUSTOM_ATTR_LABEL": "對話自定義屬性"
+      "DELETE_MESSAGE": "You need to have atleast one condition to save",
+      "CONTACT_CUSTOM_ATTR_LABEL": "Contact Custom Attributes",
+      "CONVERSATION_CUSTOM_ATTR_LABEL": "Conversation Custom Attributes"
     },
     "ACTION": {
-      "DELETE_MESSAGE": "儲存時至少需要一個操作",
-      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "在這裡輸入您的訊息",
-      "TEAM_DROPDOWN_PLACEHOLDER": "選擇團隊",
-      "EMAIL_INPUT_PLACEHOLDER": "請輸入電子郵件",
-      "URL_INPUT_PLACEHOLDER": "請輸入網址"
+      "DELETE_MESSAGE": "You need to have atleast one action to save",
+      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Enter your message here",
+      "TEAM_DROPDOWN_PLACEHOLDER": "Select teams",
+      "EMAIL_INPUT_PLACEHOLDER": "Enter email",
+      "URL_INPUT_PLACEHOLDER": "Enter URL"
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "啟用自動化規則",
       "DEACTIVATION_TITLE": "停用自動化規則",
-      "ACTIVATION_DESCRIPTION": "此操作將啟用自動化規則 “{automationName}”。您確定要繼續嗎？",
-      "DEACTIVATION_DESCRIPTION": "此操作將停用自動化規則 “{automationName}”。您確定要繼續嗎？",
-      "ACTIVATION_SUCCESFUL": "自動化規則啟用成功",
-      "DEACTIVATION_SUCCESFUL": "自動化規則停用成功",
-      "ACTIVATION_ERROR": "無法啟用自動化，請稍後再試",
-      "DEACTIVATION_ERROR": "無法停用自動化，請稍後再試",
+      "ACTIVATION_DESCRIPTION": "This action will activate the automation rule '{automationName}'. Are you sure you want to proceed?",
+      "DEACTIVATION_DESCRIPTION": "This action will deactivate the automation rule '{automationName}'. Are you sure you want to proceed?",
+      "ACTIVATION_SUCCESFUL": "Automation Rule Activated Successfully",
+      "DEACTIVATION_SUCCESFUL": "Automation Rule Deactivated Successfully",
+      "ACTIVATION_ERROR": "Could not Activate Automation, Please try again later",
+      "DEACTIVATION_ERROR": "Could not Deactivate Automation, Please try again later",
       "CONFIRMATION_LABEL": "是",
       "CANCEL_LABEL": "否"
     },
     "ATTACHMENT": {
-      "UPLOAD_ERROR": "無法上傳附件。請重試",
-      "LABEL_IDLE": "上傳附件",
+      "UPLOAD_ERROR": "Could not upload attachment, Please try again",
+      "LABEL_IDLE": "Upload Attachment",
       "LABEL_UPLOADING": "上傳中",
-      "LABEL_UPLOADED": "上傳成功",
-      "LABEL_UPLOAD_FAILED": "上傳失敗"
+      "LABEL_UPLOADED": "Successfully Uploaded",
+      "LABEL_UPLOAD_FAILED": "Upload Failed"
     },
     "ERRORS": {
-      "ATTRIBUTE_KEY_REQUIRED": "屬性鍵是必需的",
-      "FILTER_OPERATOR_REQUIRED": "需要過濾器運算子",
+      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
+      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
       "VALUE_REQUIRED": "此欄位為必填項目",
-      "VALUE_MUST_BE_BETWEEN_1_AND_998": "值必須介於 1 到 998 之間。",
-      "ACTION_PARAMETERS_REQUIRED": "需要操作引數",
-      "ATLEAST_ONE_CONDITION_REQUIRED": "至少需要一個條件",
-      "ATLEAST_ONE_ACTION_REQUIRED": "至少需要一個動作"
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998",
+      "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
+      "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
+      "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
     },
     "NONE_OPTION": "無",
     "EVENTS": {
-      "CONVERSATION_CREATED": "對話建立",
-      "CONVERSATION_UPDATED": "對話已更新",
-      "MESSAGE_CREATED": "訊息已建立",
-      "CONVERSATION_RESOLVED": "對話已解決",
-      "CONVERSATION_OPENED": "對話已開啟"
+      "CONVERSATION_CREATED": "Conversation Created",
+      "CONVERSATION_UPDATED": "Conversation Updated",
+      "MESSAGE_CREATED": "Message Created",
+      "CONVERSATION_RESOLVED": "Conversation Resolved",
+      "CONVERSATION_OPENED": "Conversation Opened"
     },
     "ACTIONS": {
-      "ASSIGN_AGENT": "分配客服",
-      "ASSIGN_TEAM": "分配團隊",
-      "ADD_LABEL": "新增標籤",
-      "REMOVE_LABEL": "移除標籤",
-      "SEND_EMAIL_TO_TEAM": "傳送電子郵件給團隊",
-      "SEND_EMAIL_TRANSCRIPT": "透過郵件傳送聊天記錄",
+      "ASSIGN_AGENT": "Assign to Agent",
+      "ASSIGN_TEAM": "Assign a Team",
+      "ADD_LABEL": "Add a Label",
+      "REMOVE_LABEL": "Remove a Label",
+      "SEND_EMAIL_TO_TEAM": "Send an Email to Team",
+      "SEND_EMAIL_TRANSCRIPT": "Send an Email Transcript",
       "MUTE_CONVERSATION": "將對話靜音",
-      "SNOOZE_CONVERSATION": "暫停對話",
-      "RESOLVE_CONVERSATION": "解決對話",
-      "SEND_WEBHOOK_EVENT": "傳送 Webhook 事件",
-      "SEND_ATTACHMENT": "傳送附件",
-      "SEND_MESSAGE": "傳送訊息",
-      "ADD_PRIVATE_NOTE": "新增私密註釋",
-      "CHANGE_PRIORITY": "更改優先順序",
-      "ADD_SLA": "新增SLA",
+      "SNOOZE_CONVERSATION": "Snooze Conversation",
+      "RESOLVE_CONVERSATION": "Resolve Conversation",
+      "SEND_WEBHOOK_EVENT": "Send Webhook Event",
+      "SEND_ATTACHMENT": "Send Attachment",
+      "SEND_MESSAGE": "Send a Message",
+      "ADD_PRIVATE_NOTE": "Add a Private Note",
+      "CHANGE_PRIORITY": "Change Priority",
+      "ADD_SLA": "Add SLA",
       "OPEN_CONVERSATION": "開啟對話",
-      "PENDING_CONVERSATION": "將對話標記為待處理"
+      "PENDING_CONVERSATION": "Mark conversation as pending"
     },
     "MESSAGE_TYPES": {
-      "INCOMING": "傳入訊息",
-      "OUTGOING": "傳出消息"
+      "INCOMING": "Incoming Message",
+      "OUTGOING": "Outgoing Message"
     },
     "PRIORITY_TYPES": {
       "NONE": "無",
-      "LOW": "低",
-      "MEDIUM": "中",
-      "HIGH": "高",
-      "URGENT": "緊急的"
+      "LOW": "Low",
+      "MEDIUM": "Medium",
+      "HIGH": "High",
+      "URGENT": "Urgent"
     },
     "ATTRIBUTES": {
-      "MESSAGE_TYPE": "訊息型別",
-      "MESSAGE_CONTAINS": "訊息包含",
-      "EMAIL": "電子郵件",
+      "MESSAGE_TYPE": "Message Type",
+      "MESSAGE_CONTAINS": "Message Contains",
+      "EMAIL": "Email",
       "INBOX": "收件匣",
-      "CONVERSATION_LANGUAGE": "對話語言",
+      "CONVERSATION_LANGUAGE": "Conversation Language",
       "PHONE_NUMBER": "聯絡人電話",
       "STATUS": "狀態",
       "BROWSER_LANGUAGE": "瀏覽器語言",
-      "MAIL_SUBJECT": "電子郵件主題",
+      "MAIL_SUBJECT": "Email Subject",
       "COUNTRY_NAME": "國家",
-      "REFERER_LINK": "引薦連結",
-      "ASSIGNEE_NAME": "負責人",
-      "TEAM_NAME": "團隊",
+      "REFERER_LINK": "Referrer Link",
+      "ASSIGNEE_NAME": "Assignee",
+      "TEAM_NAME": "Team",
       "PRIORITY": "優先程度",
       "LABELS": "標籤"
     }

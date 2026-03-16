@@ -36,8 +36,8 @@
     "@chatwoot/ninja-keys": "1.2.3",
     "@chatwoot/prosemirror-schema": "1.3.7",
     "@chatwoot/utils": "^0.0.52",
-    "@formkit/core": "^1.6.7",
-    "@formkit/vue": "^1.6.7",
+    "@formkit/core": "^1.7.2",
+    "@formkit/vue": "^1.7.2",
     "@hcaptcha/vue3-hcaptcha": "^1.3.0",
     "@highlightjs/vue-plugin": "^2.1.0",
     "@iconify-json/fluent": "^1.2.32",
@@ -49,7 +49,7 @@
     "@scmmishra/pico-search": "0.6.0",
     "@sentry/vue": "^8.55.0",
     "@sindresorhus/slugify": "2.2.1",
-    "@tailwindcss/typography": "^0.5.15",
+    "@tailwindcss/typography": "^0.5.19",
     "@tanstack/vue-table": "^8.20.5",
     "@twilio/voice-sdk": "^2.12.4",
     "@vitejs/plugin-vue": "^5.1.4",
@@ -59,7 +59,7 @@
     "@vueuse/components": "^12.0.0",
     "@vueuse/core": "^12.0.0",
     "activestorage": "^5.2.6",
-    "axios": "^1.13.2",
+    "axios": "^1.13.6",
     "camelcase-keys": "^9.1.3",
     "chart.js": "~4.4.4",
     "color2k": "^2.0.2",
@@ -68,7 +68,7 @@
     "countries-and-timezones": "^3.6.0",
     "date-fns": "2.21.1",
     "date-fns-tz": "^1.3.3",
-    "dompurify": "3.2.4",
+    "dompurify": "3.3.2",
     "flag-icons": "^7.2.3",
     "floating-vue": "^5.2.2",
     "highlight.js": "^11.10.0",
@@ -79,7 +79,7 @@
     "json-logic-js": "^2.0.5",
     "lettersanitizer": "^1.0.6",
     "libphonenumber-js": "^1.11.9",
-    "markdown-it": "^13.0.2",
+    "markdown-it": "^14.1.1",
     "markdown-it-link-attributes": "^4.0.1",
     "md5": "^2.3.0",
     "mitt": "^3.0.1",
@@ -99,7 +99,7 @@
     "vue": "^3.5.12",
     "vue-chartjs": "5.3.1",
     "vue-datepicker-next": "^1.0.3",
-    "vue-dompurify-html": "^5.1.0",
+    "vue-dompurify-html": "^5.3.0",
     "vue-i18n": "9.14.5",
     "vue-letter": "^0.2.1",
     "vue-router": "~4.4.5",
@@ -111,7 +111,7 @@
     "wavesurfer.js": "7.8.6"
   },
   "devDependencies": {
-    "@egoist/tailwindcss-icons": "^1.9.0",
+    "@egoist/tailwindcss-icons": "^1.9.2",
     "@histoire/plugin-vue": "0.17.15",
     "@iconify-json/logos": "^1.2.10",
     "@iconify-json/lucide": "^1.2.82",
@@ -142,7 +142,7 @@
     "prettier": "^3.3.3",
     "prosemirror-model": "^1.22.3",
     "size-limit": "^8.2.4",
-    "tailwindcss": "^3.4.13",
+    "tailwindcss": "^3.4.19",
     "vite": "^5.4.21",
     "vite-plugin-ruby": "^5.0.0",
     "vitest": "3.0.5"
@@ -160,7 +160,9 @@
     "overrides": {
       "vite-node": "2.0.1",
       "vite": "5.4.21",
-      "vitest": "3.0.5"
+      "vitest": "3.0.5",
+      "minimatch@<4": "3.1.5",
+      "minimatch@>=9.0.0 <9.0.7": "9.0.9"
     }
   },
   "lint-staged": {

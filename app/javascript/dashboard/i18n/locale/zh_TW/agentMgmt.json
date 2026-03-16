@@ -9,7 +9,7 @@
       "ADMINISTRATOR": "管理員",
       "AGENT": "客服"
     },
-    "COUNT": "{n} 代理 | {n} 代理",
+    "COUNT": "{n} agent | {n} agents",
     "LIST": {
       "404": "沒有與此帳號關聯的客服",
       "TITLE": "管理您團隊中的客服",
@@ -80,7 +80,7 @@
         "AGENT_AVAILABILITY": {
           "LABEL": "有效的",
           "PLACEHOLDER": "請選擇可用狀態",
-          "ERROR": "需要提供可用性資訊"
+          "ERROR": "Availability is required"
         },
         "SUBMIT": "編輯客服"
       },
@@ -97,8 +97,8 @@
         "ERROR_MESSAGE": "無法連接 Chatwoot 伺服器，請稍後再試"
       }
     },
-    "SEARCH_PLACEHOLDER": "搜尋代理商...",
-    "NO_RESULTS": "未找到與您的搜尋相符的代理商",
+    "SEARCH_PLACEHOLDER": "搜尋客服...",
+    "NO_RESULTS": "No agents found matching your search",
     "SEARCH": {
       "NO_RESULTS": "查無結果"
     },

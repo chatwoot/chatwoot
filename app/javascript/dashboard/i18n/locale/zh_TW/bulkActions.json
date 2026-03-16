@@ -26,6 +26,10 @@
       "ALL_MISSING_ATTRIBUTES": "由於缺少所需屬性而無法解析對話",
       "PARTIAL_SUCCESS": "某些對話​​在解析之前需要必需的屬性，因此被跳過"
     },
+    "RESOLVE": {
+      "ALL_MISSING_ATTRIBUTES": "Cannot resolve conversations due to missing required attributes",
+      "PARTIAL_SUCCESS": "Some conversations need required attributes before resolving and were skipped"
+    },
     "LABELS": {
       "ASSIGN_LABELS": "標記標籤",
       "NO_LABELS_FOUND": "查無標籤",
