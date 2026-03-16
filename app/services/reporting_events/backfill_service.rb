@@ -86,14 +86,17 @@ class ReportingEvents::BackfillService
       event_name, dimension_id, count, sum_value, sum_value_business_hours = unpack_row(row, dimension)
       next if dimension_id.nil?
 
-      ReportingEvents::EventMetricRegistry.metrics_for_aggregate(
-        event_name, count: count, sum_value: sum_value, sum_value_business_hours: sum_value_business_hours
-      ).each do |metric, metric_data|
-        key = [dimension[:type], dimension_id, metric]
-        aggregates[key][:count] += metric_data[:count]
-        aggregates[key][:sum_value] += metric_data[:sum_value].to_f
-        aggregates[key][:sum_value_business_hours] += metric_data[:sum_value_business_hours].to_f
-      end
+      accumulate_metrics(aggregates, dimension[:type], dimension_id, event_name,
+                         { count: count, sum_value: sum_value, sum_value_business_hours: sum_value_business_hours })
+    end
+  end
+
+  def accumulate_metrics(aggregates, dimension_type, dimension_id, event_name, values)
+    ReportingEvents::EventMetricRegistry.metrics_for_aggregate(event_name, **values).each do |metric, metric_data|
+      key = [dimension_type, dimension_id, metric]
+      aggregates[key][:count] += metric_data[:count]
+      aggregates[key][:sum_value] += metric_data[:sum_value].to_f
+      aggregates[key][:sum_value_business_hours] += metric_data[:sum_value_business_hours].to_f
     end
   end
 
@@ -106,12 +109,8 @@ class ReportingEvents::BackfillService
       event_name, dimension_id, count = dimension[:group_column] ? row : [row[0], @account.id, row[1]]
       next if dimension_id.nil?
 
-      ReportingEvents::EventMetricRegistry.metrics_for_aggregate(
-        event_name, count: count, sum_value: 0, sum_value_business_hours: 0
-      ).each do |metric, metric_data|
-        key = [dimension[:type], dimension_id, metric]
-        aggregates[key][:count] += metric_data[:count]
-      end
+      accumulate_metrics(aggregates, dimension[:type], dimension_id, event_name,
+                         { count: count, sum_value: 0, sum_value_business_hours: 0 })
     end
   end
 
