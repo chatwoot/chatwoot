@@ -47,7 +47,7 @@ describe ReportingEventsRollupBackfill do
     it 'enables the feature flag when the user confirms' do
       allow($stdin).to receive(:gets).and_return("y\n")
 
-      expect(account).to receive(:enable_features!).with('reporting_events_rollup')
+      expect(account).to receive(:enable_features!).with(:report_rollup)
 
       service.send(:prompt_enable_rollup_read_path, account)
     end
@@ -61,7 +61,7 @@ describe ReportingEventsRollupBackfill do
     end
 
     it 'skips the prompt when the feature is already enabled' do
-      allow(account).to receive(:feature_enabled?).with(:reporting_events_rollup).and_return(true)
+      allow(account).to receive(:feature_enabled?).with(:report_rollup).and_return(true)
 
       expect($stdin).not_to receive(:gets)
 
