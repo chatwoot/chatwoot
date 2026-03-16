@@ -4,6 +4,7 @@ import authAPI from '../../api/auth';
 import { setUser, clearCookiesOnLogout } from '../utils/api';
 import SessionStorage from 'shared/helpers/sessionStorage';
 import { SESSION_STORAGE_KEYS } from 'dashboard/constants/sessionStorage';
+import virtiAuth from '../../api/virtiAuth';
 
 const initialState = {
   currentUser: {
@@ -116,6 +117,7 @@ export const actions = {
   async setUser({ commit, dispatch }) {
     if (authAPI.hasAuthCookie()) {
       await dispatch('validityCheck');
+      await virtiAuth.ensureToken();
     } else {
       commit(types.CLEAR_USER);
     }
