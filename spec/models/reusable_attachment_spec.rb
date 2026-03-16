@@ -98,25 +98,26 @@ RSpec.describe ReusableAttachment do
 
   describe 'as_json' do
     it 'returns complete JSON representation' do
-      attachment = account.reusable_attachments.new(
-        name: 'Test File',
+      # Create a fresh account to avoid state pollution
+      fresh_account = create(:account)
+      attachment = fresh_account.reusable_attachments.new(
+        name: 'Test PDF',
         description: 'Test description'
       )
       attachment.file.attach(
-        io: StringIO.new('test content'),
-        filename: 'test.txt',
-        content_type: 'text/plain'
+        io: StringIO.new('fake pdf content'),
+        filename: 'document.pdf',
+        content_type: 'application/pdf'
       )
       attachment.save!
-      attachment.reload
 
       json = attachment.as_json
 
       expect(json[:id]).to eq(attachment.id)
-      expect(json[:name]).to eq('Test File')
+      expect(json[:name]).to eq('Test PDF')
       expect(json[:description]).to eq('Test description')
       expect(json[:file_type]).to eq('file')
-      expect(json[:extension]).to eq('txt')
+      expect(json[:extension]).to eq('pdf')
       expect(json[:file_url]).to be_present
       expect(json[:download_url]).to be_present
       expect(json[:file_size]).to be_present

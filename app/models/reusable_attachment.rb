@@ -74,9 +74,8 @@ class ReusableAttachment < ApplicationRecord
   def set_file_metadata
     return unless file.attached?
 
-    if read_attribute(:file_type).nil?
-      self.file_type = detect_file_type(file.content_type)
-    end
+    # Always detect file_type from content_type when file is attached
+    self.file_type = detect_file_type(file.content_type)
     self.extension = file.filename.extension if extension.blank?
   end
 
