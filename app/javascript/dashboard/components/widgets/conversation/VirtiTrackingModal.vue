@@ -63,7 +63,7 @@ const fetchData = async () => {
   isLoading.value = true;
   errorMessage.value = '';
 
-  const idRobo = virtiAuth.getIdRobo();
+  const idRobo = await virtiAuth.resolveRobo(currentChat.value?.inbox_id);
   if (!idRobo || !idUsuario.value) {
     errorMessage.value = 'Dados insuficientes para buscar rastreamento.';
     isLoading.value = false;

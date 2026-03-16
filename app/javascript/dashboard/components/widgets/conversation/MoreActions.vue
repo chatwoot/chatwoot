@@ -41,7 +41,7 @@ const followUpLoading = ref(false);
 const followUpDisponivel = ref(false);
 
 const fetchFollowUpStatus = async () => {
-  const idRobo = virtiAuth.getIdRobo();
+  const idRobo = await virtiAuth.resolveRobo(currentChat.value?.inbox_id);
   const userId = idUsuario.value;
   if (!idRobo || !userId) return;
   try {
@@ -61,7 +61,7 @@ onMounted(async () => {
   virtiAvailable.value = virtiAuth.getAvailability();
 
   if (virtiAvailable.value) {
-    const idRobo = virtiAuth.getIdRobo();
+    const idRobo = await virtiAuth.resolveRobo(currentChat.value?.inbox_id);
     const userId = idUsuario.value;
     if (idRobo && userId) {
       try {
@@ -92,7 +92,7 @@ watch(idUsuario, async (newId, oldId) => {
   if (!newId || newId === oldId) return;
   if (!virtiAvailable.value) return;
 
-  const idRobo = virtiAuth.getIdRobo();
+  const idRobo = await virtiAuth.resolveRobo(currentChat.value?.inbox_id);
   if (!idRobo) return;
 
   try {
@@ -120,7 +120,7 @@ const statusConversa = computed(() => {
 });
 
 const toggleFollowUp = async () => {
-  const idRobo = virtiAuth.getIdRobo();
+  const idRobo = await virtiAuth.resolveRobo(currentChat.value?.inbox_id);
   const userId = idUsuario.value;
   if (!idRobo || !userId) return;
 

@@ -43,7 +43,7 @@ const idUsuario = computed(() => {
   return `chatwoot_${phoneNumber.value.replace('+', '')}`;
 });
 
-const idRobo = computed(() => virtiAuth.getIdRobo());
+const idRobo = ref(null);
 
 const fetchData = async () => {
   isLoading.value = true;
@@ -187,8 +187,9 @@ const cancelDelete = () => {
   deleteConfirmIndex.value = null;
 };
 
-onMounted(() => {
+onMounted(async () => {
   dialogRef.value?.open();
+  idRobo.value = await virtiAuth.resolveRobo(currentChat.value?.inbox_id);
   fetchData();
 });
 
