@@ -23,6 +23,8 @@ import ShopifyOrdersList from 'dashboard/components/widgets/conversation/Shopify
 import SidebarActionsHeader from 'dashboard/components-next/SidebarActionsHeader.vue';
 import LinearIssuesList from 'dashboard/components/widgets/conversation/linear/IssuesList.vue';
 import LinearSetupCTA from 'dashboard/components/widgets/conversation/linear/LinearSetupCTA.vue';
+import SynapseaContactIntelligence from 'dashboard/components-next/synapsea/SynapseaContactIntelligence.vue';
+import SynapseaConversationCopilot from 'dashboard/components-next/synapsea/SynapseaConversationCopilot.vue';
 
 const props = defineProps({
   conversationId: {
@@ -137,6 +139,23 @@ onMounted(() => {
       @close="closeContactPanel"
     />
     <ContactInfo :contact="contact" :channel-type="channelType" />
+    <section class="px-2 py-3 border-b border-n-weak bg-n-surface-1">
+      <p
+        class="mb-2 text-xs font-semibold tracking-wide uppercase text-n-slate-10"
+      >
+        {{ $t('CONVERSATION_SIDEBAR.INTELLIGENT_PANEL.TITLE') }}
+      </p>
+      <div class="grid gap-3">
+        <SynapseaConversationCopilot
+          :contact="contact"
+          :conversation="currentChat"
+        />
+        <SynapseaContactIntelligence
+          :contact="contact"
+          :conversation="currentChat"
+        />
+      </div>
+    </section>
     <div class="px-2 pb-8 list-group">
       <Draggable
         :list="conversationSidebarItems"
@@ -302,11 +321,3 @@ onMounted(() => {
     </div>
   </div>
 </template>
-
-<style lang="scss" scoped>
-::v-deep {
-  .contact--profile {
-    @apply pb-3 border-b border-solid border-n-weak;
-  }
-}
-</style>

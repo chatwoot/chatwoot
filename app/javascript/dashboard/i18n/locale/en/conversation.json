@@ -382,6 +382,57 @@
         "PARTIALLY_FULFILLED": "Partially Fulfilled",
         "UNFULFILLED": "Unfulfilled"
       }
+    },
+    "TRANSFER": {
+      "TITLE": "Handoff & transfer",
+      "ACTION_LABEL": "Transfer action",
+      "PRIORITY_LABEL": "Transfer priority",
+      "REASON_PLACEHOLDER": "Describe the handoff reason and expected next step",
+      "EXECUTE": "Execute transfer",
+      "REASON_REQUIRED": "Please provide a handoff reason before transferring.",
+      "AGENT_REQUIRED": "Select an agent to complete this transfer.",
+      "TEAM_REQUIRED": "Select a team/queue to complete this transfer.",
+      "SUCCESS": "Transfer action recorded with handoff note.",
+      "NO_ACTION": "No actions found",
+      "NO_AGENT": "No specific agent",
+      "NO_TEAM": "No specific team",
+      "HANDOFF_NOTE": "[Synapsea Handoff] Action: {action} | Priority: {priority} | Agent: {assignee} | Team/Queue: {team} | Reason: {reason}",
+      "ACTIONS": {
+        "ASSIGN_SELF": "Assume for me",
+        "ASSIGN_AGENT": "Transfer to specific agent",
+        "ASSIGN_TEAM": "Transfer to team/queue",
+        "QUEUE_TEAM": "Return to team queue"
+      }
+    },
+    "INTELLIGENT_PANEL": {
+      "TITLE": "Intelligent conversation panel",
+      "COPILOT": "AI Copilot",
+      "SLA_REMAINING": "SLA remaining",
+      "LEAD_SCORE": "Lead score",
+      "SUMMARY": "AI summary",
+      "EMPTY_SUMMARY": "No automatic summary yet. Ask Copilot for a quick brief.",
+      "INTENT": "Detected intent",
+      "SENTIMENT": "Sentiment",
+      "NEXT_ACTION": "Next best action",
+      "SUGGESTED_ACTIONS": "Suggested actions",
+      "KNOWLEDGE": "Relevant knowledge",
+      "SALES_MODE": "Sales mode",
+      "SUPPORT_MODE": "Support mode",
+      "CLOSE_PROBABILITY": "Close probability",
+      "TECH_CONTEXT": "Show product version, incident history and previous troubleshooting steps.",
+      "DEFAULT_NEXT_ACTION": "Validate context and route to the most specialized queue.",
+      "DEFAULT_ACTIONS": {
+        "SEND_TEMPLATE": "Send billing template response",
+        "CONFIRM_CONTEXT": "Confirm customer context before transfer",
+        "TRANSFER_QUEUE": "Transfer to the recommended queue"
+      },
+      "DEFAULT_KNOWLEDGE": {
+        "BILLING": "How to issue a second copy of invoice",
+        "SLA": "SLA policy by queue and priority",
+        "HANDOFF": "Handoff checklist for structured transfers"
+      },
+      "PERCENT_VALUE": "{value}%",
+      "CLOSE_PROBABILITY_VALUE": "Close probability: {value}%"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
