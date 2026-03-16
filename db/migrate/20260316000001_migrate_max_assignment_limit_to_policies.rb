@@ -1,4 +1,7 @@
 class MigrateMaxAssignmentLimitToPolicies < ActiveRecord::Migration[7.1]
+  # Ruby's max for a 32-bit signed integer, matching PostgreSQL's integer column limit
+  INT_MAX = (2**31) - 1
+
   def up
     Account.find_each do |account|
       migrate_account(account)
@@ -13,7 +16,8 @@ class MigrateMaxAssignmentLimitToPolicies < ActiveRecord::Migration[7.1]
 
   def migrate_account(account)
     inboxes_with_limit = account.inboxes
-                                .where("(auto_assignment_config->>'max_assignment_limit')::int > 0")
+                                .where("auto_assignment_config->>'max_assignment_limit' ~ '^[0-9]+$'")
+                                .where("(auto_assignment_config->>'max_assignment_limit')::numeric > 0")
 
     return if inboxes_with_limit.empty?
 
@@ -31,7 +35,7 @@ class MigrateMaxAssignmentLimitToPolicies < ActiveRecord::Migration[7.1]
     inboxes.each do |inbox|
       next if InboxCapacityLimit.exists?(agent_capacity_policy_id: policy.id, inbox_id: inbox.id)
 
-      limit = inbox.auto_assignment_config['max_assignment_limit'].to_i
+      limit = [inbox.auto_assignment_config['max_assignment_limit'].to_i, INT_MAX].min
 
       InboxCapacityLimit.create!(
         agent_capacity_policy: policy,
