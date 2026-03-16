@@ -104,7 +104,7 @@ wistia:
     </div>
 
 bunny:
-  regex: 'https?://(?:iframe|player)\.mediadelivery\.net/play/(?<library_id>\d+)/(?<video_id>[^&/?]+)'
+  regex: 'https?://(?:iframe|player)\.mediadelivery\.net/(?:play|embed)/(?<library_id>\d+)/(?<video_id>[^&/?]+)'
   template: |
     <div style="position: relative; padding-top: 56.25%;">
       <iframe
