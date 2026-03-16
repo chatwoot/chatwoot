@@ -351,6 +351,8 @@ export default {
           this.$nextTick(() => {
             this.setTabFromRouteParam();
           });
+        } else {
+          this.selectedFeatureFlags = newInbox?.selected_feature_flags || [];
         }
       },
       immediate: true,
