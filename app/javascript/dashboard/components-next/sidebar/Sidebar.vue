@@ -23,6 +23,7 @@ import ChannelIcon from 'next/icon/ChannelIcon.vue';
 import SidebarAccountSwitcher from './SidebarAccountSwitcher.vue';
 import Logo from 'next/icon/Logo.vue';
 import ComposeConversation from 'dashboard/components-next/NewConversation/ComposeConversation.vue';
+import SidebarHelpCenter from './SidebarHelpCenter.vue';
 
 const props = defineProps({
   isMobileSidebarOpen: {
@@ -730,7 +731,7 @@ const menuItems = computed(() => {
       closeMobileSidebar,
       { ignore: ['#mobile-sidebar-launcher'] },
     ]"
-    class="bg-n-background flex flex-col text-sm pb-px fixed top-0 ltr:left-0 rtl:right-0 h-full z-40 w-[200px] md:w-auto md:relative md:flex-shrink-0 md:ltr:translate-x-0 md:rtl:translate-x-0 ltr:border-r rtl:border-l border-n-weak"
+    class="bg-n-surface-1/95 backdrop-blur-md flex flex-col text-sm pb-px fixed top-0 ltr:left-0 rtl:right-0 h-full z-40 w-[200px] md:w-auto md:relative md:flex-shrink-0 md:ltr:translate-x-0 md:rtl:translate-x-0 ltr:border-r rtl:border-l border-n-weak"
     :class="[
       {
         'shadow-lg md:shadow-none': isMobileSidebarOpen,
@@ -762,7 +763,7 @@ const menuItems = computed(() => {
           <div class="grid flex-shrink-0 place-content-center size-6">
             <Logo class="size-4" />
           </div>
-          <div class="flex-shrink-0 w-px h-3 bg-n-strong" />
+          <div class="flex-shrink-0 w-px h-3 bg-n-strong/50" />
           <SidebarAccountSwitcher
             class="flex-grow -mx-1 min-w-0"
             @show-create-account-modal="emit('showCreateAccountModal')"
@@ -850,6 +851,7 @@ const menuItems = computed(() => {
           isEffectivelyCollapsed
         "
       />
+      <SidebarHelpCenter v-if="!isEffectivelyCollapsed" />
       <div
         class="px-1 py-1.5 flex-shrink-0 flex w-full z-50 gap-2 items-center border-t border-n-weak shadow-[0px_-2px_4px_0px_rgba(27,28,29,0.02)]"
         :class="isEffectivelyCollapsed ? 'justify-center' : 'justify-between'"

@@ -32,6 +32,33 @@ export default {
   },
   data() {
     return {
+      transferAction: 'assign_agent',
+      transferReason: '',
+      transferPriority: 'normal',
+      transferActionOptions: [
+        {
+          id: 'assign_self',
+          name: this.$t('CONVERSATION_SIDEBAR.TRANSFER.ACTIONS.ASSIGN_SELF'),
+        },
+        {
+          id: 'assign_agent',
+          name: this.$t('CONVERSATION_SIDEBAR.TRANSFER.ACTIONS.ASSIGN_AGENT'),
+        },
+        {
+          id: 'assign_team',
+          name: this.$t('CONVERSATION_SIDEBAR.TRANSFER.ACTIONS.ASSIGN_TEAM'),
+        },
+        {
+          id: 'queue_team',
+          name: this.$t('CONVERSATION_SIDEBAR.TRANSFER.ACTIONS.QUEUE_TEAM'),
+        },
+      ],
+      transferPriorityOptions: [
+        { id: 'low', name: this.$t('CONVERSATION.PRIORITY.OPTIONS.LOW') },
+        { id: 'normal', name: this.$t('CONVERSATION.PRIORITY.OPTIONS.NONE') },
+        { id: 'high', name: this.$t('CONVERSATION.PRIORITY.OPTIONS.HIGH') },
+        { id: 'urgent', name: this.$t('CONVERSATION.PRIORITY.OPTIONS.URGENT') },
+      ],
       priorityOptions: [
         {
           id: null,
@@ -205,6 +232,64 @@ export default {
 
       this.assignedPriority = isSamePriority ? null : selectedPriorityItem;
     },
+
+    async createHandoffNote({ actionLabel }) {
+      const assignee =
+        this.assignedAgent?.name ||
+        this.$t('CONVERSATION_SIDEBAR.TRANSFER.NO_AGENT');
+      const team =
+        this.assignedTeam?.name ||
+        this.$t('CONVERSATION_SIDEBAR.TRANSFER.NO_TEAM');
+      const note = this.$t('CONVERSATION_SIDEBAR.TRANSFER.HANDOFF_NOTE', {
+        action: actionLabel,
+        reason: this.transferReason,
+        priority: this.transferPriority,
+        assignee,
+        team,
+      });
+
+      try {
+        await this.$store.dispatch('createPendingMessageAndSend', {
+          conversationId: this.currentChat.id,
+          message: note,
+          private: true,
+        });
+      } catch (_error) {
+        // noop in happy-path MVP
+      }
+    },
+    async executeTransferAction() {
+      if (!this.transferReason) {
+        useAlert(this.$t('CONVERSATION_SIDEBAR.TRANSFER.REASON_REQUIRED'));
+        return;
+      }
+
+      if (this.transferAction === 'assign_self') {
+        this.onSelfAssign();
+      } else if (this.transferAction === 'assign_agent') {
+        if (!this.assignedAgent) {
+          useAlert(this.$t('CONVERSATION_SIDEBAR.TRANSFER.AGENT_REQUIRED'));
+          return;
+        }
+      } else if (this.transferAction === 'assign_team') {
+        if (!this.assignedTeam) {
+          useAlert(this.$t('CONVERSATION_SIDEBAR.TRANSFER.TEAM_REQUIRED'));
+          return;
+        }
+      } else if (this.transferAction === 'queue_team') {
+        this.assignedAgent = null;
+      }
+
+      await this.createHandoffNote({
+        actionLabel:
+          this.transferActionOptions.find(
+            action => action.id === this.transferAction
+          )?.name || this.transferAction,
+      });
+
+      useAlert(this.$t('CONVERSATION_SIDEBAR.TRANSFER.SUCCESS'));
+      this.transferReason = '';
+    },
   },
 };
 </script>
@@ -277,6 +362,53 @@ export default {
           $t('CONVERSATION.PRIORITY.CHANGE_PRIORITY.INPUT_PLACEHOLDER')
         "
         @select="onClickAssignPriority"
+      />
+    </div>
+
+    <div class="rounded-lg border border-n-weak p-3 mt-3">
+      <ContactDetailsItem
+        compact
+        :title="$t('CONVERSATION_SIDEBAR.TRANSFER.TITLE')"
+      />
+      <MultiselectDropdown
+        :options="transferActionOptions"
+        :selected-item="
+          transferActionOptions.find(item => item.id === transferAction)
+        "
+        :multiselector-title="$t('CONVERSATION_SIDEBAR.TRANSFER.ACTION_LABEL')"
+        :multiselector-placeholder="
+          $t('CONVERSATION_SIDEBAR.TRANSFER.ACTION_LABEL')
+        "
+        :no-search-result="$t('CONVERSATION_SIDEBAR.TRANSFER.NO_ACTION')"
+        :input-placeholder="$t('CONVERSATION_SIDEBAR.TRANSFER.ACTION_LABEL')"
+        @select="item => (transferAction = item.id)"
+      />
+      <MultiselectDropdown
+        :options="transferPriorityOptions"
+        :selected-item="
+          transferPriorityOptions.find(item => item.id === transferPriority)
+        "
+        :multiselector-title="
+          $t('CONVERSATION_SIDEBAR.TRANSFER.PRIORITY_LABEL')
+        "
+        :multiselector-placeholder="
+          $t('CONVERSATION_SIDEBAR.TRANSFER.PRIORITY_LABEL')
+        "
+        :no-search-result="$t('CONVERSATION_SIDEBAR.TRANSFER.NO_ACTION')"
+        :input-placeholder="$t('CONVERSATION_SIDEBAR.TRANSFER.PRIORITY_LABEL')"
+        @select="item => (transferPriority = item.id)"
+      />
+      <textarea
+        v-model="transferReason"
+        class="w-full mt-2 rounded-md border border-n-weak bg-n-solid-1 px-3 py-2 text-sm text-n-slate-12"
+        rows="3"
+        :placeholder="$t('CONVERSATION_SIDEBAR.TRANSFER.REASON_PLACEHOLDER')"
+      />
+      <NextButton
+        class="mt-2"
+        size="sm"
+        :label="$t('CONVERSATION_SIDEBAR.TRANSFER.EXECUTE')"
+        @click="executeTransferAction"
       />
     </div>
     <ContactDetailsItem
