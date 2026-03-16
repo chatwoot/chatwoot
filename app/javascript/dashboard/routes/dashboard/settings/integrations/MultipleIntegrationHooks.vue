@@ -133,6 +133,7 @@ const inboxName = hook => (hook.inbox ? hook.inbox.name : '');
                     icon="i-woot-bin"
                     slate
                     sm
+                    class="hover:enabled:text-n-ruby-11 hover:enabled:bg-n-ruby-2"
                     @click="$emit('delete', hook)"
                   />
                 </div>

@@ -32,7 +32,10 @@ const records = computed(() => getters['labels/getLabels'].value);
 const filteredRecords = computed(() => {
   const query = searchQuery.value.trim();
   if (!query) return records.value;
-  return picoSearch(records.value, query, ['title', 'description']);
+  return picoSearch(records.value, query, [
+    { name: 'title', weight: 4 },
+    'description',
+  ]);
 });
 const uiFlags = computed(() => getters['labels/getUIFlags'].value);
 
@@ -174,6 +177,7 @@ onBeforeMount(() => {
                     icon="i-woot-bin"
                     slate
                     sm
+                    class="hover:enabled:text-n-ruby-11 hover:enabled:bg-n-ruby-2"
                     :is-loading="loading[label.id]"
                     @click="openDeletePopup(label)"
                   />

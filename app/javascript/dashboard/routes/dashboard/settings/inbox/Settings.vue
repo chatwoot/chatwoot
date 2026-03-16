@@ -27,6 +27,7 @@ import BotConfiguration from './components/BotConfiguration.vue';
 import AccountHealth from './components/AccountHealth.vue';
 import { FEATURE_FLAGS } from '../../../../featureFlags';
 import SenderNameExamplePreview from './components/SenderNameExamplePreview.vue';
+import LockToSingleConversationPreview from './components/LockToSingleConversationPreview.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import SpinnerLoader from 'dashboard/components-next/spinner/Spinner.vue';
 import { INBOX_TYPES } from 'dashboard/helper/inbox';
@@ -53,6 +54,7 @@ export default {
     SettingsAccordion,
     WeeklyAvailability,
     SenderNameExamplePreview,
+    LockToSingleConversationPreview,
     MicrosoftReauthorize,
     GoogleReauthorize,
     NextButton,
@@ -97,6 +99,7 @@ export default {
       healthData: null,
       isLoadingHealth: false,
       healthError: null,
+      isRegisteringWebhook: false,
       widgetBubblePosition: 'right',
       widgetBubbleType: 'standard',
       widgetBubbleLauncherTitle: '',
@@ -214,6 +217,18 @@ export default {
       const { medium, channel_type: type } = this.inbox;
       return getInboxIconByType(type, medium, 'line');
     },
+    bannerMaxWidth() {
+      const narrowTabs = [
+        'collaborators',
+        'configuration',
+        'bot-configuration',
+      ];
+      if (narrowTabs.includes(this.selectedTabKey)) return 'max-w-4xl';
+      if (this.selectedTabKey === 'inbox-settings') {
+        return this.isAWebWidgetInbox ? 'max-w-7xl' : 'max-w-4xl';
+      }
+      return 'max-w-7xl';
+    },
     inboxName() {
       if (this.isATwilioSMSChannel || this.isATwilioWhatsAppChannel) {
         return `${this.inbox.name} (${
@@ -234,6 +249,9 @@ export default {
         this.isAWhatsAppChannel ||
         this.isAFacebookInbox ||
         this.isAPIInbox ||
+        this.isAnInstagramChannel ||
+        this.isALineChannel ||
+        this.isATiktokChannel ||
         this.isATelegramChannel
       );
     },
@@ -407,6 +425,23 @@ export default {
         this.isLoadingHealth = false;
       }
     },
+    async registerWebhook() {
+      if (!this.inbox) return;
+
+      try {
+        this.isRegisteringWebhook = true;
+        await InboxHealthAPI.registerWebhook(this.inbox.id);
+        useAlert(this.$t('INBOX_MGMT.ACCOUNT_HEALTH.WEBHOOK.REGISTER_SUCCESS'));
+        await this.fetchHealthData();
+      } catch (error) {
+        useAlert(
+          error.message ||
+            this.$t('INBOX_MGMT.ACCOUNT_HEALTH.WEBHOOK.REGISTER_ERROR')
+        );
+      } finally {
+        this.isRegisteringWebhook = false;
+      }
+    },
     handleFeatureFlag(e) {
       this.selectedFeatureFlags = this.toggleInput(
         this.selectedFeatureFlags,
@@ -524,6 +559,9 @@ export default {
     hideBusinessNameInput() {
       this.showBusinessNameInput = false;
     },
+    toggleLockToSingleConversation(value) {
+      this.locktoSingleConversation = value;
+    },
   },
   validations: {
     webhookUrl: {
@@ -571,44 +609,57 @@ export default {
           v-if="microsoftUnauthorized"
           :inbox="inbox"
           class="mb-4"
+          :class="bannerMaxWidth"
         />
         <FacebookReauthorize
           v-if="facebookUnauthorized"
           :inbox="inbox"
           class="mb-4"
+          :class="bannerMaxWidth"
         />
         <GoogleReauthorize
           v-if="googleUnauthorized"
           :inbox="inbox"
           class="mb-4"
+          :class="bannerMaxWidth"
         />
         <InstagramReauthorize
           v-if="instagramUnauthorized"
           :inbox="inbox"
           class="mb-4"
+          :class="bannerMaxWidth"
         />
         <TiktokReauthorize
           v-if="tiktokUnauthorized"
           :inbox="inbox"
           class="mb-4"
+          :class="bannerMaxWidth"
         />
         <WhatsappReauthorize
           v-if="whatsappUnauthorized"
           :whatsapp-registration-incomplete="whatsappRegistrationIncomplete"
           :inbox="inbox"
           class="mb-4"
+          :class="bannerMaxWidth"
         />
         <DuplicateInboxBanner
           v-if="hasDuplicateInstagramInbox"
           :content="$t('INBOX_MGMT.ADD.INSTAGRAM.DUPLICATE_INBOX_BANNER')"
           class="mx-6 mb-4"
+          :class="bannerMaxWidth"
         />
 
         <div
           v-if="selectedTabKey === 'inbox-settings'"
           class="flex flex-col md:flex-row items-center lg:items-start justify-between gap-5 lg:gap-10 mx-6"
         >
-          <div class="max-w-2xl flex-1 flex flex-col min-w-0">
+          <div
+            class="flex-1 flex flex-col min-w-0"
+            :class="{
+              'max-w-2xl': isAWebWidgetInbox,
+              'max-w-4xl': !isAWebWidgetInbox,
+            }"
+          >
             <div class="flex flex-col gap-1 items-start mb-4">
               <label class="text-heading-3 text-n-slate-12">
                 {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_AVATAR.LABEL') }}
@@ -707,6 +758,21 @@ export default {
             </SettingsFieldSection>
 
             <SettingsFieldSection
+              v-if="canLocktoSingleConversation"
+              :label="
+                $t('INBOX_MGMT.SETTINGS_POPUP.LOCK_TO_SINGLE_CONVERSATION')
+              "
+              class="[&>div>div]:justify-end [&>div>div]:flex lg:[&>div:first-child]:h-12 [&>div:first-child]:h-16"
+            >
+              <template #extra>
+                <LockToSingleConversationPreview
+                  :lock-to-single-conversation="locktoSingleConversation"
+                  @update="toggleLockToSingleConversation"
+                />
+              </template>
+            </SettingsFieldSection>
+
+            <SettingsFieldSection
               v-if="isAWebWidgetInbox || isAnEmailChannel"
               :label="$t('INBOX_MGMT.EDIT.SENDER_NAME_SECTION.TITLE')"
               class="[&>div>div]:justify-end [&>div>div]:flex lg:[&>div:first-child]:h-12 [&>div:first-child]:h-16"
@@ -755,6 +821,7 @@ export default {
                 <SenderNameExamplePreview
                   :sender-name-type="senderNameType"
                   :business-name="businessName"
+                  :is-website-channel="isAWebWidgetInbox"
                   @update="toggleSenderNameType"
                 />
               </template>
@@ -1048,19 +1115,6 @@ export default {
                   )
                 "
               />
-
-              <SettingsToggleSection
-                v-if="canLocktoSingleConversation"
-                v-model="locktoSingleConversation"
-                :header="
-                  $t('INBOX_MGMT.SETTINGS_POPUP.LOCK_TO_SINGLE_CONVERSATION')
-                "
-                :description="
-                  $t(
-                    'INBOX_MGMT.SETTINGS_POPUP.LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT'
-                  )
-                "
-              />
             </SettingsAccordion>
 
             <div class="w-full flex justify-end items-center py-4 mt-2">
@@ -1107,10 +1161,10 @@ export default {
           </div>
         </div>
 
-        <div v-if="selectedTabKey === 'collaborators'" class="mx-6 max-w-3xl">
+        <div v-if="selectedTabKey === 'collaborators'" class="mx-6 max-w-4xl">
           <CollaboratorsPage :inbox="inbox" />
         </div>
-        <div v-if="selectedTabKey === 'configuration'">
+        <div v-if="selectedTabKey === 'configuration'" class="mx-6 max-w-4xl">
           <ConfigurationPage :inbox="inbox" />
         </div>
         <div v-if="selectedTabKey === 'csat'">
@@ -1126,7 +1180,11 @@ export default {
           <BotConfiguration :inbox="inbox" />
         </div>
         <div v-if="selectedTabKey === 'whatsapp-health'">
-          <AccountHealth :health-data="healthData" />
+          <AccountHealth
+            :health-data="healthData"
+            :is-registering-webhook="isRegisteringWebhook"
+            @register-webhook="registerWebhook"
+          />
         </div>
       </div>
     </section>
