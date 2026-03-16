@@ -25,10 +25,13 @@ class ReportingEvents::BackfillService
   end
 
   def perform
-    delete_existing_rollups
     start_utc, end_utc = date_boundaries_in_utc
     rollup_rows = build_rollup_rows(start_utc, end_utc)
-    bulk_insert_rollups(rollup_rows) if rollup_rows.any?
+
+    ReportingEventsRollup.transaction do
+      delete_existing_rollups
+      bulk_insert_rollups(rollup_rows) if rollup_rows.any?
+    end
   end
 
   private

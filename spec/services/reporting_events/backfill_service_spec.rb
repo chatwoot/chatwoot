@@ -42,6 +42,82 @@ describe ReportingEvents::BackfillService do
       expect(rollup.sum_value_business_hours).to eq(0)
     end
 
+    it 'preserves existing rollups when building replacement rows fails' do
+      create(
+        :reporting_events_rollup,
+        account: account,
+        date: date,
+        dimension_type: 'account',
+        dimension_id: account.id,
+        metric: 'first_response',
+        count: 7,
+        sum_value: 700,
+        sum_value_business_hours: 350
+      )
+
+      service = described_class.new(account, date)
+      allow(service).to receive(:build_rollup_rows).and_raise(StandardError, 'boom')
+
+      expect do
+        service.perform
+      end.to raise_error(StandardError, 'boom')
+
+      rollup = ReportingEventsRollup.find_by!(
+        account_id: account.id,
+        date: date,
+        dimension_type: 'account',
+        dimension_id: account.id,
+        metric: 'first_response'
+      )
+
+      expect(rollup.count).to eq(7)
+      expect(rollup.sum_value).to eq(700)
+      expect(rollup.sum_value_business_hours).to eq(350)
+    end
+
+    it 'preserves existing rollups when replacing rows fails' do
+      create(
+        :reporting_events_rollup,
+        account: account,
+        date: date,
+        dimension_type: 'account',
+        dimension_id: account.id,
+        metric: 'first_response',
+        count: 7,
+        sum_value: 700,
+        sum_value_business_hours: 350
+      )
+
+      create_backfill_event(
+        name: 'first_response',
+        value: 100,
+        value_in_business_hours: 50,
+        user: user,
+        inbox: inbox,
+        conversation: conversation,
+        created_at: Time.utc(2026, 2, 11, 15)
+      )
+
+      service = described_class.new(account, date)
+      allow(service).to receive(:bulk_insert_rollups).and_raise(StandardError, 'boom')
+
+      expect do
+        service.perform
+      end.to raise_error(StandardError, 'boom')
+
+      rollup = ReportingEventsRollup.find_by!(
+        account_id: account.id,
+        date: date,
+        dimension_type: 'account',
+        dimension_id: account.id,
+        metric: 'first_response'
+      )
+
+      expect(rollup.count).to eq(7)
+      expect(rollup.sum_value).to eq(700)
+      expect(rollup.sum_value_business_hours).to eq(350)
+    end
+
     it 'aggregates grouped rows without instantiating reporting events' do
       second_user = create(:user, account: account)
       second_inbox = create(:inbox, account: account)
