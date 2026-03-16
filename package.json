@@ -79,7 +79,7 @@
     "json-logic-js": "^2.0.5",
     "lettersanitizer": "^1.0.6",
     "libphonenumber-js": "^1.11.9",
-    "markdown-it": "^13.0.2",
+    "markdown-it": "^14.1.1",
     "markdown-it-link-attributes": "^4.0.1",
     "md5": "^2.3.0",
     "mitt": "^3.0.1",

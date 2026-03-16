@@ -189,6 +189,8 @@ class ReportingEventsRollupBackfill # rubocop:disable Metrics/ClassLength
     print_success(account, days_processed, total_days, Time.current - start_time)
   rescue StandardError => e
     print_failure(e, days_processed, total_days)
+  else
+    prompt_enable_rollup_read_path(account)
   end
 
   def print_success(account, days_processed, _total_days, elapsed_time)
@@ -201,11 +203,26 @@ class ReportingEventsRollupBackfill # rubocop:disable Metrics/ClassLength
     puts "Average per Day:      #{(elapsed_time / days_processed).round(3)} seconds"
     puts ''
     puts 'Next steps:'
-    puts "1. Enable feature flag: Account.find(#{account.id}).enable_features!('reporting_events_rollup')"
+    puts '1. Verify parity before enabling the reporting_events_rollup read path.'
     puts '2. Verify rollups in database:'
     puts "   ReportingEventsRollup.where(account_id: #{account.id}).count"
     puts '3. Test reports to compare rollup vs raw performance'
     puts color('=' * 70, :green)
+  end
+
+  def prompt_enable_rollup_read_path(account)
+    if account.feature_enabled?(:report_rollup)
+      puts color('report_rollup is already enabled for this account.', :yellow, :bold)
+      return
+    end
+
+    print 'Enable report_rollup read path now? Only do this after parity verification. (y/N): '
+    confirm = $stdin.gets.to_s.chomp.downcase
+    puts ''
+    return unless %w[y yes].include?(confirm)
+
+    account.enable_features!('report_rollup')
+    puts color("Enabled report_rollup for account #{account.id}", :green, :bold)
   end
 
   def print_failure(error, days_processed, total_days)
