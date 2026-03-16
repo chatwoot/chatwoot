@@ -123,7 +123,11 @@ export default {
       show-group-by
       @filter-change="onFilterChange"
     />
+ codex/transform-chatwoot-into-synapsea-connect-vkjace
+    <SynapseaServiceAnalytics :from="from" :to="to" />
+
     <SynapseaServiceAnalytics />
+ develop
     <ReportContainer :group-by="groupBy" />
   </div>
 </template>

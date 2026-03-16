@@ -35,7 +35,7 @@ const { isAWebWidgetInbox } = useInbox();
 const currentChat = computed(() => store.getters.getSelectedChat);
 const accountId = computed(() => store.getters.getCurrentAccountId);
 
-const chatMetadata = computed(() => props.chat.meta);
+const chatMetadata = computed(() => props.chat.meta || {});
 
 const backButtonUrl = computed(() => {
   const {
@@ -64,9 +64,24 @@ const isHMACVerified = computed(() => {
   return chatMetadata.value.hmac_verified;
 });
 
-const currentContact = computed(() =>
-  store.getters['contacts/getContact'](props.chat.meta.sender.id)
-);
+const currentContact = computed(() => {
+  const senderId = props.chat?.meta?.sender?.id;
+  if (!senderId) {
+    return {
+      name: '-',
+      thumbnail: '',
+      availability_status: '',
+    };
+  }
+
+  return (
+    store.getters['contacts/getContact'](senderId) || {
+      name: '-',
+      thumbnail: '',
+      availability_status: '',
+    }
+  );
+});
 
 const isSnoozed = computed(
   () => currentChat.value.status === wootConstants.STATUS_TYPE.SNOOZED
@@ -90,68 +105,122 @@ const hasMultipleInboxes = computed(
 );
 
 const hasSlaPolicyId = computed(() => props.chat?.sla_policy_id);
+
+const assignedAgentName = computed(
+  () =>
+    chatMetadata.value?.assignee?.name ||
+    t('CONVERSATION_SIDEBAR.SELECT.PLACEHOLDER')
+);
+
+const assignedTeamName = computed(
+  () =>
+    chatMetadata.value?.team?.name ||
+    t('CONVERSATION_SIDEBAR.SELECT.PLACEHOLDER')
+);
+
+const priorityLabel = computed(() => {
+  const priority = currentChat.value?.priority;
+
+  if (priority === 'urgent') return t('CONVERSATION.PRIORITY.OPTIONS.URGENT');
+  if (priority === 'high') return t('CONVERSATION.PRIORITY.OPTIONS.HIGH');
+  if (priority === 'medium') return t('CONVERSATION.PRIORITY.OPTIONS.MEDIUM');
+  if (priority === 'low') return t('CONVERSATION.PRIORITY.OPTIONS.LOW');
+
+  return t('CONVERSATION.PRIORITY.OPTIONS.NONE');
+});
+
+const inboxChipText = computed(
+  () => `${t('SIDEBAR.INBOX')} ${inbox.value?.name || '-'}`
+);
+
+const assigneeChipText = computed(
+  () => `${t('CONVERSATION_SIDEBAR.ASSIGNEE_LABEL')} ${assignedAgentName.value}`
+);
+
+const teamChipText = computed(
+  () => `${t('CONVERSATION_SIDEBAR.TEAM_LABEL')} ${assignedTeamName.value}`
+);
+
+const priorityChipText = computed(
+  () => `${t('CONVERSATION.PRIORITY.TITLE')} ${priorityLabel.value}`
+);
 </script>
 
 <template>
   <div
     ref="conversationHeader"
-    class="flex flex-col gap-3 items-center justify-between flex-1 w-full min-w-0 xl:flex-row px-3 pt-3 pb-2 h-24 xl:h-12"
+    class="flex flex-col gap-2 justify-between w-full min-w-0 px-3 py-2 border-b border-n-weak bg-n-solid-1"
   >
-    <div
-      class="flex items-center justify-start w-full xl:w-auto max-w-full min-w-0 xl:flex-1"
-    >
-      <BackButton
-        v-if="showBackButton"
-        :back-url="backButtonUrl"
-        class="ltr:mr-2 rtl:ml-2"
-      />
-      <Avatar
-        :name="currentContact.name"
-        :src="currentContact.thumbnail"
-        :size="32"
-        :status="currentContact.availability_status"
-        hide-offline-status
-        rounded-full
-      />
-      <div
-        class="flex flex-col items-start min-w-0 ml-2 overflow-hidden rtl:ml-0 rtl:mr-2"
-      >
-        <div class="flex flex-row items-center max-w-full gap-1 p-0 m-0">
-          <span
-            class="text-sm font-medium truncate leading-tight text-n-slate-12"
-          >
-            {{ currentContact.name }}
-          </span>
-          <fluent-icon
-            v-if="!isHMACVerified"
-            v-tooltip="$t('CONVERSATION.UNVERIFIED_SESSION')"
-            size="14"
-            class="text-n-amber-10 my-0 mx-0 min-w-[14px] flex-shrink-0"
-            icon="warning"
-          />
-        </div>
-
-        <div
-          class="flex items-center gap-2 overflow-hidden text-xs conversation--header--actions text-ellipsis whitespace-nowrap"
-        >
-          <InboxName v-if="hasMultipleInboxes" :inbox="inbox" class="!mx-0" />
-          <span v-if="isSnoozed" class="font-medium text-n-amber-10">
-            {{ snoozedDisplayText }}
-          </span>
+    <div class="flex items-center justify-between gap-2 min-w-0">
+      <div class="flex items-center min-w-0 gap-2">
+        <BackButton
+          v-if="showBackButton"
+          :back-url="backButtonUrl"
+          class="ltr:mr-1 rtl:ml-1"
+        />
+        <Avatar
+          :name="currentContact.name"
+          :src="currentContact.thumbnail"
+          :size="32"
+          :status="currentContact.availability_status"
+          hide-offline-status
+          rounded-full
+        />
+        <div class="flex flex-col min-w-0">
+          <div class="flex items-center gap-1 min-w-0">
+            <span class="text-sm font-semibold truncate text-n-slate-12">
+              {{ currentContact.name }}
+            </span>
+            <fluent-icon
+              v-if="!isHMACVerified"
+              v-tooltip="$t('CONVERSATION.UNVERIFIED_SESSION')"
+              size="14"
+              class="text-n-amber-10 min-w-[14px]"
+              icon="warning"
+            />
+          </div>
+          <div class="flex items-center gap-2 text-xs text-n-slate-10 min-w-0">
+            <InboxName v-if="hasMultipleInboxes" :inbox="inbox" class="!mx-0" />
+            <span v-if="isSnoozed" class="font-medium text-n-amber-10 truncate">
+              {{ snoozedDisplayText }}
+            </span>
+          </div>
         </div>
       </div>
+
+      <div class="flex items-center gap-2 shrink-0">
+        <SLACardLabel
+          v-if="hasSlaPolicyId"
+          :chat="chat"
+          show-extended-info
+          :parent-width="width"
+          class="hidden md:flex"
+        />
+        <MoreActions :conversation-id="currentChat.id" />
+      </div>
     </div>
-    <div
-      class="flex flex-row items-center justify-start xl:justify-end flex-shrink-0 gap-2 w-full xl:w-auto header-actions-wrap"
-    >
-      <SLACardLabel
-        v-if="hasSlaPolicyId"
-        :chat="chat"
-        show-extended-info
-        :parent-width="width"
-        class="hidden md:flex"
-      />
-      <MoreActions :conversation-id="currentChat.id" />
+
+    <div class="flex flex-wrap items-center gap-2 text-xs">
+      <span
+        class="px-2 py-1 rounded-md border border-n-weak bg-n-slate-2 text-n-slate-11"
+      >
+        {{ inboxChipText }}
+      </span>
+      <span
+        class="px-2 py-1 rounded-md border border-n-weak bg-n-slate-2 text-n-slate-11"
+      >
+        {{ assigneeChipText }}
+      </span>
+      <span
+        class="px-2 py-1 rounded-md border border-n-weak bg-n-slate-2 text-n-slate-11"
+      >
+        {{ teamChipText }}
+      </span>
+      <span
+        class="px-2 py-1 rounded-md border border-n-weak bg-n-slate-2 text-n-slate-11"
+      >
+        {{ priorityChipText }}
+      </span>
     </div>
   </div>
 </template>

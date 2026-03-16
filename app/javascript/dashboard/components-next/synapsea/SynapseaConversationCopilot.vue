@@ -91,15 +91,23 @@ const isSupportMode = computed(() => !isSalesMode.value);
 </script>
 
 <template>
+ codex/transform-chatwoot-into-synapsea-connect-vkjace
+  <div class="p-3 rounded-xl border border-n-weak bg-n-solid-2">
+
   <div
     class="mx-2 mb-3 p-3 rounded-xl border border-n-slate-6 bg-n-background shadow-sm"
   >
+ develop
     <div class="flex items-center justify-between gap-2 mb-3">
       <h3 class="text-sm font-semibold text-n-slate-12">
         {{ $t('CONVERSATION_SIDEBAR.INTELLIGENT_PANEL.TITLE') }}
       </h3>
       <span
+ codex/transform-chatwoot-into-synapsea-connect-vkjace
+        class="text-xs font-medium px-2 py-1 rounded-full bg-n-alpha-2 text-n-slate-11"
+
         class="text-xs font-medium px-2 py-1 rounded-full bg-n-blue-3 text-n-blue-11"
+ develop
       >
         {{ $t('CONVERSATION_SIDEBAR.INTELLIGENT_PANEL.COPILOT') }}
       </span>
@@ -116,7 +124,17 @@ const isSupportMode = computed(() => !isSalesMode.value);
         <p class="text-n-slate-10">
           {{ $t('CONVERSATION_SIDEBAR.INTELLIGENT_PANEL.LEAD_SCORE') }}
         </p>
+ codex/transform-chatwoot-into-synapsea-connect-vkjace
+        <p class="font-semibold text-n-slate-12">
+          {{
+            $t('CONVERSATION_SIDEBAR.INTELLIGENT_PANEL.PERCENT_VALUE', {
+              value: leadScore,
+            })
+          }}
+        </p>
+
         <p class="font-semibold text-n-slate-12">{{ leadScore }}%</p>
+ develop
       </div>
     </div>
 
@@ -183,6 +201,20 @@ const isSupportMode = computed(() => !isSalesMode.value);
 
       <section
         v-if="isSalesMode"
+ codex/transform-chatwoot-into-synapsea-connect-vkjace
+        class="rounded-lg border border-n-weak bg-n-slate-2 p-2"
+      >
+        <p class="text-n-slate-12 font-medium mb-1">
+          {{ $t('CONVERSATION_SIDEBAR.INTELLIGENT_PANEL.SALES_MODE') }}
+        </p>
+        <p class="text-n-slate-11">
+          {{
+            $t(
+              'CONVERSATION_SIDEBAR.INTELLIGENT_PANEL.CLOSE_PROBABILITY_VALUE',
+              { value: probabilityToClose }
+            )
+          }}
+
         class="rounded-lg border border-n-green-5 p-2"
       >
         <p class="text-n-green-11 font-medium mb-1">
@@ -191,14 +223,21 @@ const isSupportMode = computed(() => !isSalesMode.value);
         <p class="text-n-slate-11">
           {{ $t('CONVERSATION_SIDEBAR.INTELLIGENT_PANEL.CLOSE_PROBABILITY') }}:
           <span class="font-semibold">{{ probabilityToClose }}%</span>
+ develop
         </p>
       </section>
 
       <section
         v-if="isSupportMode"
+ codex/transform-chatwoot-into-synapsea-connect-vkjace
+        class="rounded-lg border border-n-weak bg-n-slate-2 p-2"
+      >
+        <p class="text-n-slate-12 font-medium mb-1">
+
         class="rounded-lg border border-n-violet-5 p-2"
       >
         <p class="text-n-violet-11 font-medium mb-1">
+ develop
           {{ $t('CONVERSATION_SIDEBAR.INTELLIGENT_PANEL.SUPPORT_MODE') }}
         </p>
         <p class="text-n-slate-11">

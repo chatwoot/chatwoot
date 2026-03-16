@@ -1,9 +1,12 @@
 import type { AskAiReportInput, AskAiReportOutput } from '../types/aiReport.types.js';
 import { ClassifyQuestionService } from './classifyQuestion.service.js';
 import { BuildSafeQueryService } from './buildSafeQuery.service.js';
+ codex/transform-chatwoot-into-synapsea-connect-vkjace
+
  codex/transform-chatwoot-into-synapsea-connect-ymy4px
 
  codex/transform-chatwoot-into-synapsea-connect-nhivec
+ develop
  develop
 import { GetOverviewReportService } from '../../reports/services/getOverviewReport.service.js';
 
@@ -18,6 +21,11 @@ const defaultDateRange = () => {
   };
 };
 
+ codex/transform-chatwoot-into-synapsea-connect-vkjace
+export class GenerateAnswerService {
+  private readonly classifier = new ClassifyQuestionService();
+  private readonly safeQueryBuilder = new BuildSafeQueryService();
+
  codex/transform-chatwoot-into-synapsea-connect-ymy4px
 export class GenerateAnswerService {
   private readonly classifier = new ClassifyQuestionService();
@@ -29,6 +37,7 @@ export class GenerateAnswerService {
   private readonly classifier = new ClassifyQuestionService();
   private readonly safeQueryBuilder = new BuildSafeQueryService();
  codex/transform-chatwoot-into-synapsea-connect-nhivec
+ develop
  develop
   private readonly overviewService = new GetOverviewReportService();
 
@@ -62,6 +71,8 @@ export class GenerateAnswerService {
         slaFirstResponseRate: overview.slaFirstResponseRate,
         slaResolutionRate: overview.slaResolutionRate,
         aiResolutionRate: overview.aiResolutionRate,
+ codex/transform-chatwoot-into-synapsea-connect-vkjace
+
  codex/transform-chatwoot-into-synapsea-connect-ymy4px
 
 
@@ -82,6 +93,7 @@ export class GenerateAnswerService {
       ],
       data: {
         totalConversations: 0,
+ develop
  develop
  develop
       },

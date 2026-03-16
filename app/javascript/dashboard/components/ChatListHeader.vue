@@ -2,6 +2,7 @@
 import { computed } from 'vue';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { formatNumber } from '@chatwoot/utils';
+import { useI18n } from 'vue-i18n';
 import wootConstants from 'dashboard/constants/globals';
 
 import ConversationBasicFilter from './widgets/conversation/ConversationBasicFilter.vue';
@@ -27,6 +28,7 @@ const emit = defineEmits([
 ]);
 
 const { uiSettings, updateUISettings } = useUISettings();
+const { t } = useI18n();
 
 const onBasicFilterChange = (value, type) => {
   emit('basicFilterChange', value, type);
@@ -38,6 +40,26 @@ const hasAppliedFiltersOrActiveFolders = computed(() => {
 
 const allCount = computed(() => props.conversationStats?.allCount || 0);
 const formattedAllCount = computed(() => formatNumber(allCount.value));
+
+const activeStatusLabel = computed(() => {
+  if (props.activeStatus === 'open') {
+    return t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.open.TEXT');
+  }
+
+  if (props.activeStatus === 'resolved') {
+    return t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.resolved.TEXT');
+  }
+
+  if (props.activeStatus === 'pending') {
+    return t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.pending.TEXT');
+  }
+
+  if (props.activeStatus === 'snoozed') {
+    return t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.snoozed.TEXT');
+  }
+
+  return t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.all.TEXT');
+});
 
 const toggleConversationLayout = () => {
   const { LAYOUT_TYPES } = wootConstants;
@@ -53,70 +75,119 @@ const toggleConversationLayout = () => {
     previously_used_conversation_display_type: newViewType,
   });
 };
+
+const quickStatusFilters = computed(() => [
+  {
+    key: 'all',
+    label: t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.all.TEXT'),
+  },
+  {
+    key: 'open',
+    label: t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.open.TEXT'),
+  },
+  {
+    key: 'pending',
+    label: t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.pending.TEXT'),
+  },
+  {
+    key: 'resolved',
+    label: t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.resolved.TEXT'),
+  },
+  {
+    key: 'snoozed',
+    label: t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.snoozed.TEXT'),
+  },
+]);
+
+const onQuickStatusChange = status => {
+  emit('basicFilterChange', status, 'status');
+};
 </script>
 
 <template>
-  <div
-    class="flex items-center justify-between gap-2 px-3 h-[3.25rem]"
-    :class="{
-      'border-b border-n-strong': hasAppliedFiltersOrActiveFolders,
-    }"
-  >
-    <div class="flex items-center justify-center min-w-0">
-      <h1
-        class="text-base font-medium truncate text-n-slate-12"
-        :title="pageTitle"
-      >
-        {{ pageTitle }}
-      </h1>
-      <span
-        v-if="
-          allCount > 0 && hasAppliedFiltersOrActiveFolders && !isListLoading
-        "
-        class="px-2 py-1 my-0.5 mx-1 rounded-md capitalize bg-n-slate-3 text-xxs text-n-slate-12 shrink-0"
-        :title="allCount"
-      >
-        {{ formattedAllCount }}
-      </span>
-      <span
-        v-if="!hasAppliedFiltersOrActiveFolders"
-        class="px-2 py-1 my-0.5 mx-1 rounded-md capitalize bg-n-slate-3 text-xxs text-n-slate-12 shrink-0"
-      >
-        {{ $t(`CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.${activeStatus}.TEXT`) }}
-      </span>
-    </div>
-    <div class="flex items-center gap-1">
-      <template v-if="hasAppliedFilters && !hasActiveFolders">
-        <div class="relative">
+  <div class="px-3 py-2 bg-n-solid-1 border-b border-n-weak">
+    <div class="flex items-center justify-between gap-2 min-h-[2rem]">
+      <div class="flex items-center justify-center min-w-0">
+        <h1
+          class="text-sm font-semibold truncate text-n-slate-12"
+          :title="pageTitle"
+        >
+          {{ pageTitle }}
+        </h1>
+        <span
+          v-if="
+            allCount > 0 && hasAppliedFiltersOrActiveFolders && !isListLoading
+          "
+          class="px-2 py-1 my-0.5 mx-1 rounded-md capitalize bg-n-slate-3 text-xxs text-n-slate-12 shrink-0"
+          :title="allCount"
+        >
+          {{ formattedAllCount }}
+        </span>
+        <span
+          v-if="!hasAppliedFiltersOrActiveFolders"
+          class="px-2 py-1 my-0.5 mx-1 rounded-md capitalize bg-n-slate-3 text-xxs text-n-slate-12 shrink-0"
+        >
+          {{ activeStatusLabel }}
+        </span>
+      </div>
+      <div class="flex items-center gap-1">
+        <template v-if="hasAppliedFilters && !hasActiveFolders">
+          <div class="relative">
+            <NextButton
+              v-tooltip.top-end="$t('FILTER.CUSTOM_VIEWS.ADD.SAVE_BUTTON')"
+              icon="i-lucide-save"
+              slate
+              xs
+              faded
+              @click="emit('addFolders')"
+            />
+            <div
+              id="saveFilterTeleportTarget"
+              class="absolute z-50 mt-2"
+              :class="{ 'ltr:right-0 rtl:left-0': isOnExpandedLayout }"
+            />
+          </div>
           <NextButton
-            v-tooltip.top-end="$t('FILTER.CUSTOM_VIEWS.ADD.SAVE_BUTTON')"
-            icon="i-lucide-save"
-            slate
-            xs
+            v-tooltip.top-end="$t('FILTER.CLEAR_BUTTON_LABEL')"
+            icon="i-lucide-circle-x"
+            ruby
             faded
-            @click="emit('addFolders')"
+            xs
+            @click="emit('resetFilters')"
           />
-          <div
-            id="saveFilterTeleportTarget"
-            class="absolute z-50 mt-2"
-            :class="{ 'ltr:right-0 rtl:left-0': isOnExpandedLayout }"
-          />
-        </div>
-        <NextButton
-          v-tooltip.top-end="$t('FILTER.CLEAR_BUTTON_LABEL')"
-          icon="i-lucide-circle-x"
-          ruby
-          faded
-          xs
-          @click="emit('resetFilters')"
-        />
-      </template>
-      <template v-if="hasActiveFolders">
-        <div class="relative">
+        </template>
+        <template v-if="hasActiveFolders">
+          <div class="relative">
+            <NextButton
+              id="toggleConversationFilterButton"
+              v-tooltip.top-end="$t('FILTER.CUSTOM_VIEWS.EDIT.EDIT_BUTTON')"
+              icon="i-lucide-pen-line"
+              slate
+              xs
+              faded
+              @click="emit('filtersModal')"
+            />
+            <div
+              id="conversationFilterTeleportTarget"
+              class="absolute z-50 mt-2"
+              :class="{ 'ltr:right-0 rtl:left-0': isOnExpandedLayout }"
+            />
+          </div>
           <NextButton
             id="toggleConversationFilterButton"
-            v-tooltip.top-end="$t('FILTER.CUSTOM_VIEWS.EDIT.EDIT_BUTTON')"
-            icon="i-lucide-pen-line"
+            v-tooltip.top-end="$t('FILTER.CUSTOM_VIEWS.DELETE.DELETE_BUTTON')"
+            icon="i-lucide-trash-2"
+            ruby
+            xs
+            faded
+            @click="emit('deleteFolders')"
+          />
+        </template>
+        <div v-else class="relative">
+          <NextButton
+            id="toggleConversationFilterButton"
+            v-tooltip.right="$t('FILTER.TOOLTIP_LABEL')"
+            icon="i-lucide-list-filter"
             slate
             xs
             faded
@@ -128,41 +199,36 @@ const toggleConversationLayout = () => {
             :class="{ 'ltr:right-0 rtl:left-0': isOnExpandedLayout }"
           />
         </div>
-        <NextButton
-          id="toggleConversationFilterButton"
-          v-tooltip.top-end="$t('FILTER.CUSTOM_VIEWS.DELETE.DELETE_BUTTON')"
-          icon="i-lucide-trash-2"
-          ruby
-          xs
-          faded
-          @click="emit('deleteFolders')"
+        <ConversationBasicFilter
+          v-if="!hasAppliedFiltersOrActiveFolders"
+          :is-on-expanded-layout="isOnExpandedLayout"
+          @change-filter="onBasicFilterChange"
         />
-      </template>
-      <div v-else class="relative">
-        <NextButton
-          id="toggleConversationFilterButton"
-          v-tooltip.right="$t('FILTER.TOOLTIP_LABEL')"
-          icon="i-lucide-list-filter"
-          slate
-          xs
-          faded
-          @click="emit('filtersModal')"
-        />
-        <div
-          id="conversationFilterTeleportTarget"
-          class="absolute z-50 mt-2"
-          :class="{ 'ltr:right-0 rtl:left-0': isOnExpandedLayout }"
+        <SwitchLayout
+          :is-on-expanded-layout="isOnExpandedLayout"
+          @toggle="toggleConversationLayout"
         />
       </div>
-      <ConversationBasicFilter
-        v-if="!hasAppliedFiltersOrActiveFolders"
-        :is-on-expanded-layout="isOnExpandedLayout"
-        @change-filter="onBasicFilterChange"
-      />
-      <SwitchLayout
-        :is-on-expanded-layout="isOnExpandedLayout"
-        @toggle="toggleConversationLayout"
-      />
+    </div>
+
+    <div
+      v-if="!hasAppliedFiltersOrActiveFolders"
+      class="flex items-center gap-1 mt-2 overflow-x-auto"
+    >
+      <button
+        v-for="filter in quickStatusFilters"
+        :key="filter.key"
+        type="button"
+        class="px-2 py-1 text-xs font-medium rounded-md border transition-colors whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-n-brand"
+        :class="
+          activeStatus === filter.key
+            ? 'border-n-brand bg-n-brand text-white'
+            : 'border-n-weak bg-n-slate-2 text-n-slate-11 hover:bg-n-slate-3'
+        "
+        @click="onQuickStatusChange(filter.key)"
+      >
+        {{ filter.label }}
+      </button>
     </div>
   </div>
 </template>

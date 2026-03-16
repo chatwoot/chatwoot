@@ -6,14 +6,19 @@ export type SupportedEventType =
   | 'message.sent'
   | 'ai.answer_generated'
   | 'ai.handoff_to_human'
+ codex/transform-chatwoot-into-synapsea-connect-vkjace
+
  codex/transform-chatwoot-into-synapsea-connect-ymy4px
 
  codex/transform-chatwoot-into-synapsea-connect-nhivec
+ develop
  develop
   | 'ai.resolved_without_human'
   | 'lead.qualified'
   | 'sla.first_response_breached'
   | 'sla.resolution_breached';
+
+ codex/transform-chatwoot-into-synapsea-connect-vkjace
 
  codex/transform-chatwoot-into-synapsea-connect-ymy4px
 
@@ -21,6 +26,7 @@ export type SupportedEventType =
   | 'sla.first_response_breached';
  develop
 
+ develop
  develop
 export type AnalyticsEvent = {
   eventType: SupportedEventType;

@@ -1,6 +1,9 @@
+ codex/transform-chatwoot-into-synapsea-connect-vkjace
+
  codex/transform-chatwoot-into-synapsea-connect-ymy4px
 
  codex/transform-chatwoot-into-synapsea-connect-nhivec
+ develop
  develop
 import { EventStoreRepository } from '../../events/repositories/eventStore.repository.js';
 import type { OverviewFilters, OverviewReport } from '../types/report.types.js';
@@ -72,6 +75,8 @@ export class OverviewReportRepository {
       slaFirstResponseRate,
       slaResolutionRate,
       aiResolutionRate,
+ codex/transform-chatwoot-into-synapsea-connect-vkjace
+
  codex/transform-chatwoot-into-synapsea-connect-ymy4px
 
 
@@ -86,6 +91,7 @@ export class OverviewReportRepository {
       slaFirstResponseRate: 0,
       slaResolutionRate: 0,
       aiResolutionRate: 0,
+ develop
  develop
  develop
     };

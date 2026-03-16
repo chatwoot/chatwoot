@@ -1,5 +1,6 @@
 <script setup>
 import { computed, ref, watch } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { getLastMessage } from 'dashboard/helper/conversationHelper';
@@ -47,6 +48,7 @@ const emit = defineEmits([
 
 const router = useRouter();
 const store = useStore();
+const { t } = useI18n();
 
 const hovered = ref(false);
 const showContextMenu = ref(false);
@@ -120,6 +122,25 @@ const showMetaSection = computed(() => {
     (props.showAssignee && assignee.value.name) ||
     props.chat.priority
   );
+});
+
+const channelLabel = computed(() => {
+  const channel =
+    chatMetadata.value?.channel || inbox.value?.channel_type || '';
+  return channel ? String(channel).replaceAll('_', ' ') : '';
+});
+
+const statusLabel = computed(() => {
+  const status = props.chat?.status;
+  if (status === 'open')
+    return t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.open.TEXT');
+  if (status === 'pending')
+    return t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.pending.TEXT');
+  if (status === 'resolved')
+    return t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.resolved.TEXT');
+  if (status === 'snoozed')
+    return t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.snoozed.TEXT');
+  return t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.all.TEXT');
 });
 
 const hasSlaPolicyId = computed(() => props.chat?.sla_policy_id);
@@ -249,9 +270,9 @@ const deleteConversation = () => {
 
 <template>
   <div
-    class="relative flex items-start flex-grow-0 flex-shrink-0 w-auto max-w-full py-0 border-t-0 border-b-0 border-l-0 border-r-0 border-transparent border-solid cursor-pointer conversation hover:bg-n-alpha-1 dark:hover:bg-n-alpha-3 group"
+    class="relative flex items-start flex-grow-0 flex-shrink-0 w-auto max-w-full py-0 border-t-0 border-b border-l-0 border-r-0 border-n-weak cursor-pointer conversation hover:bg-n-slate-2 group transition-colors"
     :class="{
-      'active animate-card-select bg-n-background border-n-weak': isActiveChat,
+      'active animate-card-select bg-n-brand/5 border-n-brand': isActiveChat,
       'bg-n-slate-2': selected,
       'px-0': compact,
       'px-3': !compact,
@@ -320,12 +341,27 @@ const deleteConversation = () => {
           <PriorityMark :priority="chat.priority" class="flex-shrink-0" />
         </div>
       </div>
-      <h4
-        class="conversation--user text-sm my-0 mx-2 capitalize pt-0.5 text-ellipsis overflow-hidden whitespace-nowrap flex-1 min-w-0 ltr:pr-16 rtl:pl-16 text-n-slate-12"
-        :class="hasUnread ? 'font-semibold' : 'font-medium'"
-      >
-        {{ currentContact.name }}
-      </h4>
+      <div class="flex items-center justify-between gap-2 mx-2">
+        <h4
+          class="conversation--user text-sm my-0 capitalize pt-0.5 text-ellipsis overflow-hidden whitespace-nowrap flex-1 min-w-0 text-n-slate-12"
+          :class="hasUnread ? 'font-semibold' : 'font-medium'"
+        >
+          {{ currentContact.name }}
+        </h4>
+        <div class="flex items-center gap-1">
+          <span
+            v-if="channelLabel"
+            class="px-1.5 py-0.5 rounded bg-n-slate-3 text-[10px] uppercase tracking-wide text-n-slate-11"
+          >
+            {{ channelLabel }}
+          </span>
+          <span
+            class="px-1.5 py-0.5 rounded bg-n-alpha-2 text-[10px] text-n-slate-11"
+          >
+            {{ statusLabel }}
+          </span>
+        </div>
+      </div>
       <VoiceCallStatus
         v-if="voiceCallData.status"
         key="voice-status-row"
@@ -370,7 +406,7 @@ const deleteConversation = () => {
           class="shadow-lg rounded-full text-xxs font-semibold h-4 leading-4 ltr:ml-auto rtl:mr-auto mt-1 min-w-[1rem] px-1 py-0 text-center text-white bg-n-teal-9"
           :class="hasUnread ? 'block' : 'hidden'"
         >
-          {{ unreadCount > 9 ? '9+' : unreadCount }}
+          {{ Math.min(unreadCount, 9) }}
         </span>
       </div>
       <CardLabels
