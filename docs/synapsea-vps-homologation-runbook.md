@@ -1,3 +1,7 @@
+ codex/transform-chatwoot-into-synapsea-connect-2i3fp8
+# Synapsea / Connect — Runbook completo para implantação em VPS (homologação)
+
+
  codex/transform-chatwoot-into-synapsea-connect-6xbxtt
 # Synapsea / Connect — Runbook completo para implantação em VPS (homologação)
 
@@ -8,6 +12,7 @@
 # Synapsea / Chatwoot — Runbook completo para implantação em VPS (homologação)
  develop
 
+ develop
  develop
 Este documento é um guia operacional para um agente de IA (ou time técnico) implantar o sistema em ambiente de **homologação** com segurança, validar ponta a ponta e decidir **GO / NO-GO**.
 

@@ -19,12 +19,16 @@ docker compose -f docker-compose.install-test.yaml run --rm setup
 ```
 
 Esse passo executa:
+ codex/transform-chatwoot-into-synapsea-connect-2i3fp8
+
+
  codex/transform-chatwoot-into-synapsea-connect-6xbxtt
 
 
  codex/transform-chatwoot-into-synapsea-connect-vkjace
 
 
+ develop
  develop
  develop
 - `bundle install`
@@ -39,6 +43,10 @@ docker compose -f docker-compose.install-test.yaml up -d
 ```
 
 Serviços principais:
+ codex/transform-chatwoot-into-synapsea-connect-2i3fp8
+
+- Connect: `http://localhost:3000`
+
  codex/transform-chatwoot-into-synapsea-connect-6xbxtt
 
 - Connect: `http://localhost:3000`
@@ -48,6 +56,7 @@ Serviços principais:
 - Connect: `http://localhost:3000`
 
 - Chatwoot: `http://localhost:3000`
+ develop
  develop
  develop
 - Vite: `http://localhost:3036`

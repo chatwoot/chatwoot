@@ -6,6 +6,8 @@ export type SupportedEventType =
   | 'message.sent'
   | 'ai.answer_generated'
   | 'ai.handoff_to_human'
+ codex/transform-chatwoot-into-synapsea-connect-2i3fp8
+
  codex/transform-chatwoot-into-synapsea-connect-6xbxtt
  codex/transform-chatwoot-into-synapsea-connect-vkjace
 
@@ -15,10 +17,13 @@ export type SupportedEventType =
  develop
  develop
  develop
+ develop
   | 'ai.resolved_without_human'
   | 'lead.qualified'
   | 'sla.first_response_breached'
   | 'sla.resolution_breached';
+
+ codex/transform-chatwoot-into-synapsea-connect-2i3fp8
 
  codex/transform-chatwoot-into-synapsea-connect-6xbxtt
 
@@ -30,6 +35,7 @@ export type SupportedEventType =
   | 'sla.first_response_breached';
  develop
 
+ develop
  develop
  develop
  develop

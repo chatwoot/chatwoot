@@ -145,19 +145,19 @@ export default {
 
 <template>
   <div
-    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 px-6 py-5 shadow outline-1 outline outline-n-container rounded-xl bg-n-solid-2 mt-4"
+    class="mt-4 grid grid-cols-1 gap-4 rounded-2xl border border-n-weak bg-n-slate-2 p-4 md:grid-cols-2 md:p-5"
   >
     <div
       v-for="metric in metrics"
       :key="metric.KEY"
-      class="p-4 mb-3 rounded-md"
+      class="rounded-xl border border-n-weak bg-n-solid-1 p-4"
     >
       <ChartStats
         :metric="metric"
         :account-summary-key="accountSummaryKey"
         :summary-fetching-key="summaryFetchingKey"
       />
-      <div class="mt-4 h-72">
+      <div class="mt-4 h-72 rounded-lg border border-n-weak bg-n-slate-2 p-3">
         <woot-loading-state
           v-if="accountReport.isFetching[metric.KEY]"
           class="text-xs"

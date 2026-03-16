@@ -24,6 +24,9 @@ import SidebarActionsHeader from 'dashboard/components-next/SidebarActionsHeader
 import LinearIssuesList from 'dashboard/components/widgets/conversation/linear/IssuesList.vue';
 import LinearSetupCTA from 'dashboard/components/widgets/conversation/linear/LinearSetupCTA.vue';
 import SynapseaContactIntelligence from 'dashboard/components-next/synapsea/SynapseaContactIntelligence.vue';
+ codex/transform-chatwoot-into-synapsea-connect-2i3fp8
+import SynapseaConversationCopilot from 'dashboard/components-next/synapsea/SynapseaConversationCopilot.vue';
+
  codex/transform-chatwoot-into-synapsea-connect-6xbxtt
 import SynapseaConversationCopilot from 'dashboard/components-next/synapsea/SynapseaConversationCopilot.vue';
 
@@ -36,6 +39,7 @@ import SynapseaConversationCopilot from 'dashboard/components-next/synapsea/Syna
  codex/transform-chatwoot-into-synapsea-connect-nhivec
 import SynapseaConversationCopilot from 'dashboard/components-next/synapsea/SynapseaConversationCopilot.vue';
 
+ develop
  develop
  develop
  develop
@@ -154,9 +158,12 @@ onMounted(() => {
       @close="closeContactPanel"
     />
     <ContactInfo :contact="contact" :channel-type="channelType" />
+ codex/transform-chatwoot-into-synapsea-connect-2i3fp8
+
  codex/transform-chatwoot-into-synapsea-connect-6xbxtt
 
  codex/transform-chatwoot-into-synapsea-connect-vkjace
+ develop
  develop
     <section class="px-2 py-3 border-b border-n-weak bg-n-surface-1">
       <p
@@ -175,6 +182,8 @@ onMounted(() => {
         />
       </div>
     </section>
+ codex/transform-chatwoot-into-synapsea-connect-2i3fp8
+
  codex/transform-chatwoot-into-synapsea-connect-6xbxtt
 
 
@@ -193,6 +202,7 @@ onMounted(() => {
  codex/transform-chatwoot-into-synapsea-connect-ymy4px
 
 
+ develop
  develop
  develop
  develop
