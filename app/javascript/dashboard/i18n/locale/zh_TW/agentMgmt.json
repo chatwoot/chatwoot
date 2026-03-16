@@ -9,6 +9,7 @@
       "ADMINISTRATOR": "管理員",
       "AGENT": "客服"
     },
+    "COUNT": "{n} agent | {n} agents",
     "LIST": {
       "404": "沒有與此帳號關聯的客服",
       "TITLE": "管理您團隊中的客服",
@@ -96,6 +97,8 @@
         "ERROR_MESSAGE": "無法連接 Chatwoot 伺服器，請稍後再試"
       }
     },
+    "SEARCH_PLACEHOLDER": "搜尋客服...",
+    "NO_RESULTS": "No agents found matching your search",
     "SEARCH": {
       "NO_RESULTS": "查無結果"
     },

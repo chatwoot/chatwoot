@@ -13,7 +13,8 @@
       "TABLE_HEADER": {
         "NAME": "이름",
         "DESCRIPTION": "설명",
-        "COLOR": "색상"
+        "COLOR": "색상",
+        "ACTION": "액션"
       }
     },
     "FORM": {
@@ -80,6 +81,9 @@
         "YES": "예, 삭제합니다. ",
         "NO": "아니요, 유지해주세요. "
       }
-    }
+    },
+    "COUNT": "{n}개의 라벨 | {n}개의 라벨",
+    "SEARCH_PLACEHOLDER": "라벨 검색...",
+    "NO_RESULTS": "검색과 일치하는 라벨이 없습니다"
   }
 }

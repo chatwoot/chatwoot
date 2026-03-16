@@ -29,7 +29,8 @@
         "NAME": "이름",
         "CREATED BY": "작성자",
         "LAST_UPDATED_BY": "최종 수정자",
-        "VISIBILITY": "공개 범위"
+        "VISIBILITY": "공개 범위",
+        "ACTIONS": "액션"
       },
       "404": "매크로를 찾을 수 없습니다"
     },
@@ -106,6 +107,9 @@
       "MEDIUM": "보통",
       "HIGH": "높음",
       "URGENT": "긴급"
-    }
+    },
+    "COUNT": "{n}개의 매크로 | {n}개의 매크로",
+    "SEARCH_PLACEHOLDER": "매크로 검색...",
+    "NO_RESULTS": "검색과 일치하는 매크로가 없습니다"
   }
 }

@@ -37,6 +37,10 @@
           "NRT": "NRT",
           "RT": "RT"
         }
+      },
+      "TABLE_HEADER": {
+        "SLA": "SLA",
+        "BUSINESS_HOURS": "영업시간"
       }
     },
     "FORM": {
@@ -103,6 +107,11 @@
       "RT": "해결 시간",
       "SHOW_MORE": "{count}개 더 보기",
       "HIDE": "{count}개 행 숨기기"
+    },
+    "COUNT": "{n}개의 SLA | {n}개의 SLA",
+    "SEARCH_PLACEHOLDER": "SLA 검색...",
+    "SEARCH": {
+      "NO_RESULTS": "검색과 일치하는 SLA가 없습니다"
     }
   }
 }

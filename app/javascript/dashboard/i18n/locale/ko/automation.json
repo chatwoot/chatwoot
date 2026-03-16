@@ -42,9 +42,9 @@
     "LIST": {
       "TABLE_HEADER": {
         "NAME": "이름",
-        "DESCRIPTION": "내용",
         "ACTIVE": "활성",
-        "CREATED_ON": "생성일"
+        "CREATED_ON": "생성일",
+        "ACTIONS": "액션"
       },
       "404": "자동화 규칙을 찾을 수 없습니다"
     },
@@ -180,6 +180,9 @@
       "TEAM_NAME": "팀",
       "PRIORITY": "우선순위",
       "LABELS": "라벨"
-    }
+    },
+    "COUNT": "{n}개의 자동화 규칙 | {n}개의 자동화 규칙",
+    "SEARCH_PLACEHOLDER": "자동화 규칙 검색...",
+    "NO_RESULTS": "검색과 일치하는 자동화 규칙이 없습니다"
   }
 }

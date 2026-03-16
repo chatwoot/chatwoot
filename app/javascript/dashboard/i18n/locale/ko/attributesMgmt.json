@@ -137,6 +137,9 @@
     "BADGES": {
       "PRE_CHAT": "사전 채팅",
       "RESOLUTION": "해결"
-    }
+    },
+    "COUNT": "{n}개의 사용자 지정 속성 | {n}개의 사용자 지정 속성",
+    "SEARCH_PLACEHOLDER": "사용자 지정 속성 검색...",
+    "NO_RESULTS": "검색과 일치하는 사용자 지정 속성이 없습니다"
   }
 }

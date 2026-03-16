@@ -116,6 +116,9 @@
         "LABEL": "이 팀에 자동 배정을 허용합니다."
       },
       "SUBMIT_CREATE": "팀 생성"
-    }
+    },
+    "COUNT": "{n}개의 팀 | {n}개의 팀",
+    "SEARCH_PLACEHOLDER": "팀 검색...",
+    "NO_RESULTS": "검색과 일치하는 팀이 없습니다"
   }
 }

@@ -61,6 +61,7 @@
     "UNSUPPORTED_MESSAGE": "This message is unsupported. You can view this message on the Facebook / Instagram app.",
     "UNSUPPORTED_MESSAGE_FACEBOOK": "هذه الرسالة غير مدعومة، يمكنك مشاهدة هذه الرسالة على تطبيق فيسبوك (Messenger).",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "هذه الرسالة غير مدعومة، يمكنك عرض هذه الرسالة على تطبيق Instagram.",
+    "UNSUPPORTED_MESSAGE_TIKTOK": "هذه الرسالة غير مدعومة. يمكنك مشاهدة هذه الرسالة على تطبيق TikTok.",
     "SUCCESS_DELETE_MESSAGE": "تم حذف الرسالة بنجاح",
     "FAIL_DELETE_MESSSAGE": "تعذر حذف الرسالة! حاول مرة أخرى",
     "NO_RESPONSE": "لا توجد استجابة",
@@ -173,6 +174,10 @@
           "SUCCESFUL": "تعيين تسمية ##{labelName} لمعرف المحادثة {conversationId}",
           "FAILED": "تعذر تعيين التسمية. الرجاء المحاولة مرة أخرى."
         },
+        "LABEL_REMOVAL": {
+          "SUCCESFUL": "Removed label #{labelName} from conversation id {conversationId}",
+          "FAILED": "Couldn't remove label. Please try again."
+        },
         "TEAM_ASSIGNMENT": {
           "SUCCESFUL": "الفريق المعين \"{team}\" لمعرف المحادثة {conversationId}",
           "FAILED": "تعذر تعيين الفريق. الرجاء المحاولة مرة أخرى."
@@ -185,7 +190,11 @@
       "DISABLE_SIGN_TOOLTIP": "تعطيل التوقيع",
       "MSG_INPUT": "زر Shift + Enter لإضافة سطر جديد. ابدأ بزر / للاختيار من الردود الجاهزة.",
       "PRIVATE_MSG_INPUT": "زر Shift + Enter لإضافة سطر جديد. سيكون هذا مرئياً للوكلاء فقط",
+      "MESSAGING_RESTRICTED": "You cannot reply to this conversation",
+      "MESSAGING_RESTRICTED_WHATSAPP": "You can only reply using a template message due to 24-hour message window restriction",
+      "MESSAGING_RESTRICTED_API": "You can only reply using a template message due to message window restriction",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "لم يتم تكوين توقيع الرسالة، الرجاء تكوينه في إعدادات الملف الشخصي.",
+      "COPILOT_MSG_INPUT": "إعطاء copilot أوامر إضافية، أو السؤال عن أي شيء آخر... اضغط على مفتاح الإدخال لإرسال المتابعة",
       "CLICK_HERE": "انقر هنا للتحديث",
       "WHATSAPP_TEMPLATES": "قوالب الواتساب"
     },
@@ -205,7 +214,7 @@
       "DRAG_DROP": "اسحب و أسقط هنا للإرفاق",
       "START_AUDIO_RECORDING": "بدء التسجيل الصوتي",
       "STOP_AUDIO_RECORDING": "إيقاف التسجيل الصوتي",
-      "": "",
+      "COPILOT_THINKING": "Copilot يفكر",
       "EMAIL_HEAD": {
         "TO": "إلى",
         "ADD_BCC": "إضافة bcc",
@@ -247,9 +256,12 @@
     "SUCCESS_DELETE_CONVERSATION": "Conversation deleted successfully",
     "FAIL_DELETE_CONVERSATION": "Couldn't delete conversation! Try again",
     "FILE_SIZE_LIMIT": "حجم الملف يتجاوز حد الاقصى وهو {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE}",
+    "FILE_TYPE_NOT_SUPPORTED": "هذا النوع من الملفات {fileName} غير مدعوم في هذه المحادثة",
     "MESSAGE_ERROR": "غير قادر على إرسال هذه الرسالة، الرجاء المحاولة مرة أخرى لاحقاً",
     "SENT_BY": "أرسلت بواسطة:",
     "BOT": "رد آلي",
+    "NATIVE_APP": "تطبيق الجوال",
+    "NATIVE_APP_ADVISORY": "تم إرسال هذه الرسالة من تطبيق الجوال. رد من Chatwoot للحفاظ على نافذة الرسالة.",
     "SEND_FAILED": "تعذر إرسال الرسالة! حاول مرة أخرى",
     "TRY_AGAIN": "إعادة المحاولة",
     "ASSIGNMENT": {
@@ -277,14 +289,14 @@
       "COPILOT": "Copilot"
     },
     "VOICE_WIDGET": {
-      "INCOMING_CALL": "Incoming call",
-      "OUTGOING_CALL": "Outgoing call",
-      "CALL_IN_PROGRESS": "Call in progress",
-      "NOT_ANSWERED_YET": "Not answered yet",
-      "HANDLED_IN_ANOTHER_TAB": "Being handled in another tab",
-      "REJECT_CALL": "Reject",
-      "JOIN_CALL": "Join call",
-      "END_CALL": "End call"
+      "INCOMING_CALL": "مكالمة واردة",
+      "OUTGOING_CALL": "مكالمة صادرة",
+      "CALL_IN_PROGRESS": "مكالمة قيد الاتصال",
+      "NOT_ANSWERED_YET": "لم يتم الرد بعد",
+      "HANDLED_IN_ANOTHER_TAB": "يتم التعامل معها في علامة تبويب أخرى",
+      "REJECT_CALL": "رفض",
+      "JOIN_CALL": "انضم إلى المكالمة",
+      "END_CALL": "إنهاء المكالمة"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -294,6 +306,7 @@
     "CANCEL": "إلغاء",
     "SEND_EMAIL_SUCCESS": "تم إرسال نص المحادثة بنجاح",
     "SEND_EMAIL_ERROR": "حدث خطأ، الرجاء المحاولة مرة أخرى",
+    "SEND_EMAIL_PAYMENT_REQUIRED": "Email transcript is not available on your current plan. Please upgrade to use this feature.",
     "FORM": {
       "SEND_TO_CONTACT": "إرسال نص المحادثة إلى العميل",
       "SEND_TO_AGENT": "إرسال نص المحادثة إلى وكيل خدمة العملاء المعين",

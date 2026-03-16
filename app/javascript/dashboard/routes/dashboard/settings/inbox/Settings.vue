@@ -27,6 +27,7 @@ import BotConfiguration from './components/BotConfiguration.vue';
 import AccountHealth from './components/AccountHealth.vue';
 import { FEATURE_FLAGS } from '../../../../featureFlags';
 import SenderNameExamplePreview from './components/SenderNameExamplePreview.vue';
+import LockToSingleConversationPreview from './components/LockToSingleConversationPreview.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import SpinnerLoader from 'dashboard/components-next/spinner/Spinner.vue';
 import { INBOX_TYPES } from 'dashboard/helper/inbox';
@@ -53,6 +54,7 @@ export default {
     SettingsAccordion,
     WeeklyAvailability,
     SenderNameExamplePreview,
+    LockToSingleConversationPreview,
     MicrosoftReauthorize,
     GoogleReauthorize,
     NextButton,
@@ -97,6 +99,7 @@ export default {
       healthData: null,
       isLoadingHealth: false,
       healthError: null,
+      isRegisteringWebhook: false,
       widgetBubblePosition: 'right',
       widgetBubbleType: 'standard',
       widgetBubbleLauncherTitle: '',
@@ -246,6 +249,9 @@ export default {
         this.isAWhatsAppChannel ||
         this.isAFacebookInbox ||
         this.isAPIInbox ||
+        this.isAnInstagramChannel ||
+        this.isALineChannel ||
+        this.isATiktokChannel ||
         this.isATelegramChannel
       );
     },
@@ -419,6 +425,23 @@ export default {
         this.isLoadingHealth = false;
       }
     },
+    async registerWebhook() {
+      if (!this.inbox) return;
+
+      try {
+        this.isRegisteringWebhook = true;
+        await InboxHealthAPI.registerWebhook(this.inbox.id);
+        useAlert(this.$t('INBOX_MGMT.ACCOUNT_HEALTH.WEBHOOK.REGISTER_SUCCESS'));
+        await this.fetchHealthData();
+      } catch (error) {
+        useAlert(
+          error.message ||
+            this.$t('INBOX_MGMT.ACCOUNT_HEALTH.WEBHOOK.REGISTER_ERROR')
+        );
+      } finally {
+        this.isRegisteringWebhook = false;
+      }
+    },
     handleFeatureFlag(e) {
       this.selectedFeatureFlags = this.toggleInput(
         this.selectedFeatureFlags,
@@ -535,6 +558,9 @@ export default {
     },
     hideBusinessNameInput() {
       this.showBusinessNameInput = false;
+    },
+    toggleLockToSingleConversation(value) {
+      this.locktoSingleConversation = value;
     },
   },
   validations: {
@@ -729,6 +755,21 @@ export default {
                   ...portals.map(p => ({ value: p.slug, label: p.name })),
                 ]"
               />
+            </SettingsFieldSection>
+
+            <SettingsFieldSection
+              v-if="canLocktoSingleConversation"
+              :label="
+                $t('INBOX_MGMT.SETTINGS_POPUP.LOCK_TO_SINGLE_CONVERSATION')
+              "
+              class="[&>div>div]:justify-end [&>div>div]:flex lg:[&>div:first-child]:h-12 [&>div:first-child]:h-16"
+            >
+              <template #extra>
+                <LockToSingleConversationPreview
+                  :lock-to-single-conversation="locktoSingleConversation"
+                  @update="toggleLockToSingleConversation"
+                />
+              </template>
             </SettingsFieldSection>
 
             <SettingsFieldSection
@@ -1074,19 +1115,6 @@ export default {
                   )
                 "
               />
-
-              <SettingsToggleSection
-                v-if="canLocktoSingleConversation"
-                v-model="locktoSingleConversation"
-                :header="
-                  $t('INBOX_MGMT.SETTINGS_POPUP.LOCK_TO_SINGLE_CONVERSATION')
-                "
-                :description="
-                  $t(
-                    'INBOX_MGMT.SETTINGS_POPUP.LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT'
-                  )
-                "
-              />
             </SettingsAccordion>
 
             <div class="w-full flex justify-end items-center py-4 mt-2">
@@ -1152,7 +1180,11 @@ export default {
           <BotConfiguration :inbox="inbox" />
         </div>
         <div v-if="selectedTabKey === 'whatsapp-health'">
-          <AccountHealth :health-data="healthData" />
+          <AccountHealth
+            :health-data="healthData"
+            :is-registering-webhook="isRegisteringWebhook"
+            @register-webhook="registerWebhook"
+          />
         </div>
       </div>
     </section>

@@ -34,7 +34,8 @@
       "LOADING": "봇을 가져오는 중...",
       "TABLE_HEADER": {
         "DETAILS": "봇 상세 정보",
-        "URL": "웹훅 URL"
+        "URL": "웹훅 URL",
+        "ACTIONS": "액션"
       }
     },
     "DELETE": {
@@ -98,6 +99,9 @@
     },
     "TYPES": {
       "WEBHOOK": "웹훅 봇"
-    }
+    },
+    "COUNT": "{n}개의 봇 | {n}개의 봇",
+    "SEARCH_PLACEHOLDER": "에이전트 봇 검색...",
+    "NO_RESULTS": "검색과 일치하는 봇이 없습니다"
   }
 }

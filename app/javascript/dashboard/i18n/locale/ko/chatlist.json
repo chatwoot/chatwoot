@@ -76,6 +76,9 @@
       },
       "waiting_since_desc": {
         "TEXT": "응답 대기: 최신 순"
+      },
+      "priority_desc_created_at_asc": {
+        "TEXT": "우선순위: 높은 순, 생성일: 오래된 순"
       }
     },
     "ATTACHMENTS": {

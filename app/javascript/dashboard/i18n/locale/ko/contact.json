@@ -287,7 +287,6 @@
       "ID": "(ID: {identifier})"
     }
   },
-
   "CONTACTS_LAYOUT": {
     "HEADER": {
       "TITLE": "연락처",
@@ -466,6 +465,9 @@
           },
           "TWITTER": {
             "PLACEHOLDER": "Twitter 추가"
+          },
+          "TELEGRAM": {
+            "PLACEHOLDER": "Telegram 추가"
           }
         }
       },
@@ -598,7 +600,6 @@
       "CONFIRM_SINGLE": "연락처 삭제"
     }
   },
-
   "COMPOSE_NEW_CONVERSATION": {
     "CONTACT_SEARCH": {
       "ERROR_MESSAGE": "검색을 완료할 수 없습니다. 다시 시도하십시오."
