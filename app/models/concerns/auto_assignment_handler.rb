@@ -9,6 +9,8 @@ module AutoAssignmentHandler
   private
 
   def run_auto_assignment
+    # Assignment V2: Also trigger assignment when conversation is resolved or snoozed,
+    # bypassing the open-only condition so the AssignmentJob can redistribute capacity.
     return unless conversation_status_changed_to_open? || conversation_status_changed_to_resolved_or_snoozed?
     return unless should_run_auto_assignment?
 
@@ -35,6 +37,8 @@ module AutoAssignmentHandler
 
   def should_run_auto_assignment?
     return false unless inbox.enable_auto_assignment?
+    # Assignment V2: Resolved/snoozed conversations still have an assignee, so bypass the
+    # assignee-blank check below. The AssignmentJob needs to run to rebalance assignments.
     return true if conversation_status_changed_to_resolved_or_snoozed?
 
     # run only if assignee is blank or doesn't have access to inbox
