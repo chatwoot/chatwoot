@@ -20,7 +20,7 @@ const excludedLabels = defineModel('excludedLabels', {
 
 const excludeOlderThanMinutes = defineModel('excludeOlderThanMinutes', {
   type: Number,
-  default: 10,
+  default: null,
 });
 
 // Duration limits: 10 minutes to 999 days (in minutes)
