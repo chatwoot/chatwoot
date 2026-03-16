@@ -291,7 +291,7 @@ describe V2::Reports::Timeseries::ReportBuilder do
 
         before do
           account.update!(reporting_timezone: 'Etc/UTC')
-          allow(account).to receive(:feature_enabled?).with('reporting_events_rollup').and_return(true)
+          allow(account).to receive(:feature_enabled?).with(:report_rollup).and_return(true)
         end
 
         it 'raises record not found to preserve raw path behavior' do
@@ -391,7 +391,7 @@ describe V2::Reports::Timeseries::ReportBuilder do
 
         before do
           account.update!(reporting_timezone: 'Etc/UTC')
-          allow(account).to receive(:feature_enabled?).with('reporting_events_rollup').and_return(true)
+          allow(account).to receive(:feature_enabled?).with(:report_rollup).and_return(true)
         end
 
         it 'raises record not found to preserve raw path behavior' do
@@ -423,7 +423,7 @@ describe V2::Reports::Timeseries::ReportBuilder do
 
         before do
           account.update!(reporting_timezone: 'Chennai')
-          allow(account).to receive(:feature_enabled?).with('reporting_events_rollup').and_return(true)
+          allow(account).to receive(:feature_enabled?).with(:report_rollup).and_return(true)
 
           create(:reporting_events_rollup,
                  account: account,
