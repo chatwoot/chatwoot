@@ -57,6 +57,8 @@ class Integrations::Linear::AccessTokenService
   end
 
   def persist_tokens(token_data)
+    raise ArgumentError, 'Missing access token in Linear token response' if token_data['access_token'].blank?
+
     current_settings = hook_settings
     updated_settings = current_settings.merge(
       token_type: token_data['token_type'] || current_settings[:token_type],

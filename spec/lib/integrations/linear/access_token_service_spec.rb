@@ -92,6 +92,27 @@ describe Integrations::Linear::AccessTokenService do
 
         expect(service.access_token).to eq('rotated_access_token')
       end
+
+      it 'does not overwrite the existing token on malformed success response' do
+        stub_request(:post, 'https://api.linear.app/oauth/token')
+          .to_return(
+            status: 200,
+            body: {
+              refresh_token: 'new_refresh_token',
+              token_type: 'Bearer',
+              expires_in: 7200,
+              scope: 'read,write'
+            }.to_json,
+            headers: { 'Content-Type' => 'application/json' }
+          )
+
+        service = described_class.new(hook: hook)
+
+        expect(service.access_token).to eq('expired_access_token')
+        hook.reload
+        expect(hook.access_token).to eq('expired_access_token')
+        expect(hook.settings['refresh_token']).to eq('old_refresh_token')
+      end
     end
 
     context 'when refresh token is missing and legacy migration is applicable' do
@@ -130,6 +151,27 @@ describe Integrations::Linear::AccessTokenService do
         expect(hook.settings['refresh_token']).to eq('migrated_refresh_token')
         expect(hook.settings['expires_in']).to eq(7200)
         expect(hook.settings['expires_on']).to be_present
+      end
+
+      it 'does not overwrite the existing token on malformed migration success response' do
+        stub_request(:post, 'https://api.linear.app/oauth/migrate_old_token')
+          .to_return(
+            status: 200,
+            body: {
+              refresh_token: 'migrated_refresh_token',
+              token_type: 'Bearer',
+              expires_in: 7200,
+              scope: 'read,write'
+            }.to_json,
+            headers: { 'Content-Type' => 'application/json' }
+          )
+
+        service = described_class.new(hook: hook)
+
+        expect(service.access_token).to eq('legacy_access_token')
+        hook.reload
+        expect(hook.access_token).to eq('legacy_access_token')
+        expect(hook.settings['token_type']).to eq('Bearer')
       end
     end
   end
