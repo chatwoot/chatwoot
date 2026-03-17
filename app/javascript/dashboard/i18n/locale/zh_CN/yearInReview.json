@@ -35,7 +35,7 @@
       "MESSAGES": {
         "SWIFT_HELPER": "You replied in {time} on average. Faster than most notifications.",
         "QUICK_RESPONDER": "You replied in {time} on average. The inbox barely waited.",
-        "STEADY_SUPPORT": "You replied in {time} on average. Calm pace, solid replies.",
+        "STEADY_SUPPORT": "",
         "THOUGHTFUL_ADVISOR": "You replied in {time} on average. Took the time to get it right."
       }
     },
