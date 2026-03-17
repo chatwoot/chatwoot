@@ -34,5 +34,7 @@ end
 
 # https://github.com/ondrejbartas/sidekiq-cron
 Rails.application.reloader.to_prepare do
+  # TODO: Switch to `load_from_hash!(..., source: 'schedule')` once we have a
+  # safe cleanup path for YAML-backed cron jobs already persisted in Redis.
   Sidekiq::Cron::Job.load_from_hash YAML.load_file(schedule_file) if File.exist?(schedule_file) && Sidekiq.server?
 end

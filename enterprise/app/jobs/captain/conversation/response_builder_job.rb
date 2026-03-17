@@ -8,18 +8,19 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
     @inbox = conversation.inbox
     @assistant = assistant
 
+    return unless conversation_pending?
+
     Current.executed_by = @assistant
 
     if captain_v2_enabled?
       generate_response_with_v2
     else
-      ActiveRecord::Base.transaction do
-        generate_and_process_response
-      end
+      generate_and_process_response
     end
+  rescue ActiveStorage::FileNotFoundError, Faraday::BadRequestError => e
+    handle_error(e)
+    raise e
   rescue StandardError => e
-    raise e if e.is_a?(ActiveStorage::FileNotFoundError) || e.is_a?(Faraday::BadRequestError)
-
     handle_error(e)
   ensure
     Current.executed_by = nil
@@ -44,11 +45,17 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   end
 
   def process_response
-    return process_action('handoff') if handoff_requested?
+    return unless conversation_pending?
 
-    create_messages
-    Rails.logger.info("[CAPTAIN][ResponseBuilderJob] Incrementing response usage for #{account.id}")
-    account.increment_response_usage
+    if handoff_requested?
+      process_action('handoff')
+    else
+      ActiveRecord::Base.transaction do
+        create_messages
+        Rails.logger.info("[CAPTAIN][ResponseBuilderJob] Incrementing response usage for #{account.id}")
+        account.increment_response_usage
+      end
+    end
   end
 
   def collect_previous_messages
@@ -141,5 +148,10 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
 
   def captain_v2_enabled?
     account.feature_enabled?('captain_integration_v2')
+  end
+
+  def conversation_pending?
+    status = Conversation.where(id: @conversation.id).pick(:status)
+    status == 'pending' || status == Conversation.statuses[:pending]
   end
 end

@@ -3,6 +3,9 @@
     "FETCHING": "Buscando integrações",
     "NO_HOOK_CONFIGURED": "Não há integrações {integrationId} configuradas nesta conta.",
     "HEADER": "Aplicações",
+    "COUNT": "{n} integração | {n} integrações",
+    "SEARCH_PLACEHOLDER": "Pesquisar...",
+    "NO_RESULTS": "Nenhum resultado encontrado correspondente à sua busca",
     "STATUS": {
       "ENABLED": "Ativado",
       "DISABLED": "Desativado"
@@ -12,7 +15,7 @@
     "DELETE": {
       "TITLE": {
         "INBOX": "Confirmar exclusão",
-        "ACCOUNT": "Desconectado"
+        "ACCOUNT": "Desconectar"
       },
       "MESSAGE": {
         "INBOX": "Você tem certeza que deseja excluir?",
@@ -31,6 +34,7 @@
     "LIST": {
       "FETCHING": "Buscando integrações",
       "INBOX": "Caixa de Entrada",
+      "ACTIONS": "Ações",
       "DELETE": {
         "BUTTON_TEXT": "Excluir"
       }

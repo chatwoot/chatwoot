@@ -28,8 +28,7 @@ it:
       invalid_email: 'Inserisci un indirizzo email valido'
       authentication_failed: 'Autenticazione fallita. Verifica le credenziali e riprova.'
   messages:
-    reset_password_success: Wooh! Richiesta di reimpostazione della password riuscita. Controlla la tua mail per le istruzioni.
-    reset_password_failure: Oh oh! Non siamo riusciti a trovare alcun utente con l'email specificata.
+    reset_password: La richiesta di reimpostazione della password è riuscita. Una email con le istruzioni verrà inviata alla tua email se presente nel sistema.
     reset_password_saml_user: Questo account utilizza autenticazione SAML. Non è possibile resettare la password. Contatta il tuo amministratore.
     login_saml_user: Questo account utilizza autenticazione SAML. Effettua il login dal portale SAML della tua organizzazione.
     saml_not_available: Autenticazione SAML non disponibile in questa installazione.
@@ -95,6 +94,11 @@ it:
         host_unreachable_error: Host irraggiungibile, Controlla l'indirizzo IMAP, la porta IMAP e riprova.
         connection_timed_out_error: Connessione scaduta per %{address}:%{port}
         connection_closed_error: Connessione chiusa.
+      smtp:
+        authentication_error: Autenticazione SMTP non riuscita. Verifica le tue credenziali di accesso.
+        connection_error: Impossibile connettersi al server SMTP. Controlla l'indirizzo e la porta del server.
+        ssl_error: Errore SSL/TLS. Verifica le impostazioni di crittografia.
+        smtp_error: Errore del server SMTP. Controlla la configurazione e riprova.
       validations:
         name: non dovrebbe iniziare o terminare con simboli, e non dovrebbe avere i caratteri < > / \ @
     custom_filters:
@@ -104,6 +108,7 @@ it:
       invalid_query_operator: L'operatore della query deve essere "E" o "O".
       invalid_value: Valore non valido. I valori forniti per %{attribute_name} non sono validi
     custom_attribute_definition:
+      attribute_key_format: deve contenere solo lettere, numeri, underscore, trattini e punti
       key_conflict: La chiave fornita non è consentita in quanto potrebbe entrare in conflitto con gli attributi predefiniti.
     mfa:
       already_enabled: MFA già attiva
@@ -120,6 +125,8 @@ it:
       plan_not_eligible: Le ricariche sono disponibili solo per i piani a pagamento. Si prega di aggiornare il piano prima.
       stripe_customer_not_configured: Cliente Stripe non configurato
       no_payment_method: Nessun metodo di pagamento trovato. Aggiungi un metodo di pagamento prima di effettuare un acquisto.
+    reports:
+      date_range_too_long: L'intervallo di date non può superare i 6 mesi
   profile:
     mfa:
       enabled: MFA attivata con successo
@@ -156,6 +163,14 @@ it:
       avg_resolution_time: Tempo medio di risoluzione
       resolution_count: Conteggio risoluzioni
       avg_customer_waiting_time: Tempo medio di attesa cliente
+    conversation_csv:
+      conversations_count: Conversazioni
+      incoming_messages_count: Messaggi in arrivo
+      outgoing_messages_count: Messaggi in uscita
+      avg_first_response_time: Tempo medio di prima risposta
+      avg_resolution_time: Tempo medio di risoluzione
+      resolution_count: Conteggio risoluzioni
+      avg_customer_waiting_time: Tempo medio di attesa cliente
     conversation_traffic_csv:
       timezone: Fuso Orario
     sla_csv:
@@ -178,6 +193,7 @@ it:
         rating: Valutazione
         feedback: Commento di Feedback
         recorded_at: Data di registrazione
+        review_notes: Note Revisione
   notifications:
     notification_title:
       conversation_creation: 'Una conversazione (#%{display_id}) è stata creata in %{inbox_name}'
@@ -205,7 +221,11 @@ it:
     activity:
       captain:
         resolved: 'La conversazione è stata segnata risolta da %{user_name} per inattività'
+        resolved_with_reason: 'La conversazione è stata risolta da %{user_name} (%{reason})'
+        resolved_by_tool: 'La conversazione è stata risolta da %{user_name}: %{reason}'
         open: 'La conversazione è stata riaperta da %{user_name}'
+        open_with_reason: 'La conversazione è stata aperta da %{user_name} (%{reason})'
+        auto_opened_after_agent_reply: 'Conversazione aperta automaticamente dopo l’intervento di un operatore'
       agent_bot:
         error_moved_to_open: 'La conversazione è stata riaperta dal sistema a causa di un errore con il Bot Agente.'
       status:
@@ -320,6 +340,9 @@ it:
     copilot_message_required: Messaggio richiesto
     copilot_error: 'Connetti un assistente a questa Inbox per usare Copilot'
     copilot_limit: 'Hai terminato i crediti Copilot. Puoi acquistare altri crediti dalla sezione fatturazione.'
+    upgrade: 'Aggiorna il piano per attivare Captain AI'
+    disabled: 'Captain AI è disattivato per questo account.'
+    api_key_missing: 'La chiave API di Captain AI non è configurata.'
     copilot:
       using_tool: 'Utilizzando tool %{function_name}'
       completed_tool_call: 'Tool %{function_name} utilizzato'
@@ -405,6 +428,9 @@ it:
     seconds:
       one: '%{count} secondo'
       other: '%{count} secondi'
+  auto_assignment:
+    default_policy_name: 'Policy Predefinita'
+    policy_actor: 'Automation System via %{policy_name}'
   automation:
     system_name: 'Automation System'
   crm:
