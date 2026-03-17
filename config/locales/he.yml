@@ -28,8 +28,7 @@ he:
       invalid_email: 'נא הכנס כתובת דוא"ל תקינה'
       authentication_failed: 'האימות נכשל. אנא בדוק את פרטי ההתחברות שלך ונסה שוב.'
   messages:
-    reset_password_success: וואו! הבקשה לאיפוס סיסמה בוצעה בהצלחה. בדוק את תיבת הדואר שלך להוראות.
-    reset_password_failure: אוי! לא מצאנו משתמש עם כתובת הדוא"ל שצוינה.
+    reset_password: Request for password reset is successful. A email with instructions will be sent to your email if it exists.
     reset_password_saml_user: חשבון זה משתמש באימות SAML. איפוס סיסמה אינו זמין. אנא צור קשר עם המנהל שלך.
     login_saml_user: חשבון זה משתמש באימות SAML. אנא התחבר דרך ספק SAML של הארגון שלך.
     saml_not_available: אימות SAML אינו זמין בהתקנה זו.
@@ -95,6 +94,11 @@ he:
         host_unreachable_error: מארח לא נגיש, אנא בדוק את כתובת ה-IMAP, יציאת ה-IMAP ונסה שוב.
         connection_timed_out_error: חיבור פג זמן עבור %{address}:%{port}
         connection_closed_error: החיבור נסגר.
+      smtp:
+        authentication_error: SMTP authentication failed. Please verify your login credentials.
+        connection_error: Could not connect to SMTP server. Please check the server address and port.
+        ssl_error: SSL/TLS error. Please verify your encryption settings.
+        smtp_error: SMTP server error. Please check your configuration and try again.
       validations:
         name: לא יכול להתחיל או להסתיים בסמלים, וזה לא צריך להכיל תווים < > / \ @
     custom_filters:
@@ -104,6 +108,7 @@ he:
       invalid_query_operator: אופרטור שאילתה חייב להיות "AND" או "OR".
       invalid_value: ערך לא תקין. הערכים שסופקו עבור %{attribute_name} אינם תקינים
     custom_attribute_definition:
+      attribute_key_format: must only contain letters, numbers, underscores, hyphens, and dots
       key_conflict: המפתח שסופק אינו מותר מכיוון שהוא עלול להתנגש עם מאפיינים ברירת מחדל.
     mfa:
       already_enabled: MFA כבר מופעל
@@ -120,6 +125,8 @@ he:
       plan_not_eligible: Top-ups are only available for paid plans. Please upgrade your plan first.
       stripe_customer_not_configured: Stripe customer not configured
       no_payment_method: No payment methods found. Please add a payment method before making a purchase.
+    reports:
+      date_range_too_long: Date range cannot exceed 6 months
   profile:
     mfa:
       enabled: MFA הופעל בהצלחה
@@ -156,6 +163,14 @@ he:
       avg_resolution_time: זמן פתרון ממוצע
       resolution_count: ספירת פתרונות
       avg_customer_waiting_time: זמן המתנה ממוצע של לקוח
+    conversation_csv:
+      conversations_count: שיחות
+      incoming_messages_count: הודעות נכנסות
+      outgoing_messages_count: הודעות יוצאות
+      avg_first_response_time: זמן תגובה ראשון ממוצע
+      avg_resolution_time: זמן פתרון ממוצע
+      resolution_count: Resolution count
+      avg_customer_waiting_time: זמן המתנה ממוצע של לקוח
     conversation_traffic_csv:
       timezone: אזור זמן
     sla_csv:
@@ -178,6 +193,7 @@ he:
         rating: דירוג
         feedback: הערת משוב
         recorded_at: תאריך הקלטה
+        review_notes: Review Notes
   notifications:
     notification_title:
       conversation_creation: 'שיחה (#%{display_id}) נוצרה ב-%{inbox_name}'
@@ -205,7 +221,11 @@ he:
     activity:
       captain:
         resolved: 'השיחה סומנה כפתורה על ידי %{user_name} עקב חוסר פעילות'
+        resolved_with_reason: 'Conversation was marked resolved by %{user_name} (%{reason})'
+        resolved_by_tool: 'Conversation was marked resolved by %{user_name}: %{reason}'
         open: 'השיחה סומנה כפתוחה על ידי %{user_name}'
+        open_with_reason: 'Conversation was marked open by %{user_name} (%{reason})'
+        auto_opened_after_agent_reply: 'Conversation was marked open automatically after an agent reply'
       agent_bot:
         error_moved_to_open: 'השיחה סומנה כפתוחה על ידי המערכת עקב שגיאה בבוט הסוכן.'
       status:
@@ -320,6 +340,9 @@ he:
     copilot_message_required: הודעה נדרשת
     copilot_error: 'אנא חבר עוזר לתיבת דואר נכנס זו כדי להשתמש ב-Copilot'
     copilot_limit: 'נגמרו לך זיכויי Copilot. אתה יכול לקנות זיכויים נוספים מסעיף החיובים.'
+    upgrade: 'Upgrade your plan to enable Captain AI'
+    disabled: 'Captain AI is disabled for this account.'
+    api_key_missing: 'Captain AI API key is not configured.'
     copilot:
       using_tool: 'משתמש בכלי %{function_name}'
       completed_tool_call: 'הושלם קריאת כלי %{function_name}'
@@ -413,6 +436,9 @@ he:
       two: '%{count} seconds'
       many: '%{count} seconds'
       other: '%{count} seconds'
+  auto_assignment:
+    default_policy_name: 'Default Policy'
+    policy_actor: 'Automation System via %{policy_name}'
   automation:
     system_name: 'מערכת אוטומציה'
   crm:

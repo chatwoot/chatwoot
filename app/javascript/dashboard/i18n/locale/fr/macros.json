@@ -3,9 +3,12 @@
     "HEADER": "Macros",
     "DESCRIPTION": "A macro is a set of saved actions that help customer service agents easily complete tasks. The agents can define a set of actions like tagging a conversation with a label, sending an email transcript, updating a custom attribute, etc., and they can run these actions in a single click.",
     "LEARN_MORE": "Learn more about macros",
+    "COUNT": "{n} macro | {n} macros",
     "HEADER_BTN_TXT": "Ajouter une macro",
     "HEADER_BTN_TXT_SAVE": "Enregistrer une macro",
     "LOADING": "Récupération des macros",
+    "SEARCH_PLACEHOLDER": "Search macros...",
+    "NO_RESULTS": "No macros found matching your search",
     "ERROR": "Une erreur s'est produite. Veuillez réessayer",
     "ORDER_INFO": "Les macros s'exécuteront dans l'ordre où vous ajoutez vos actions. Vous pouvez les réorganiser en les glissant par la poignée à côté de chaque nœud.",
     "ADD": {
@@ -29,7 +32,8 @@
         "NAME": "Nom",
         "CREATED BY": "Créé par",
         "LAST_UPDATED_BY": "Dernière mise à jour par",
-        "VISIBILITY": "Visibilité"
+        "VISIBILITY": "Visibilité",
+        "ACTIONS": "Actions"
       },
       "404": "Aucune macro trouvée"
     },

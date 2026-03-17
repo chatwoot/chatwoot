@@ -19,7 +19,7 @@
     },
     "BUSIEST_DAY": {
       "TITLE": "Tu día más ocupado fue",
-      "MESSAGE": "{count} conversaciones ese día.",
+      "MESSAGE": "{count} conversaciones aquel día.",
       "COMPARISON": {
         "0_5": "Un calentamiento que apenas despertó la bandeja de entrada.",
         "5_10": "Suficiente movimiento como para justificar una segunda taza de café.",
