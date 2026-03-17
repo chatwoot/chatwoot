@@ -2,7 +2,6 @@
 # One of the specs is failing when I tried doing that, lets revisit in future
 class PublicController < ActionController::Base
   include RequestExceptionHandler
-  include BillingHelper
   skip_before_action :verify_authenticity_token
 
   private
@@ -23,23 +22,17 @@ class PublicController < ActionController::Base
     check_portal_plan_access
   end
 
-  def check_portal_plan_access
-    return unless ChatwootApp.chatwoot_cloud?
+  def check_portal_plan_access; end
 
-    # Handle both custom domain (@portal) and regular slug-based access (portal method)
-    current_portal = @portal
-    if current_portal.blank? && respond_to?(:portal, true)
-      begin
-        portal
-        current_portal = @portal
-      rescue ActiveRecord::RecordNotFound
-        return # Let the normal 404 handling take care of this
-      end
-    end
+  def current_portal_for_public_access
+    return @portal if @portal.present?
+    return unless respond_to?(:portal, true)
 
-    return if current_portal.blank?
-    return unless default_plan?(current_portal.account)
-
-    render 'public/api/v1/portals/not_active', status: :payment_required
+    portal
+    @portal
+  rescue ActiveRecord::RecordNotFound
+    nil
   end
 end
+
+PublicController.prepend_mod_with('PublicController')

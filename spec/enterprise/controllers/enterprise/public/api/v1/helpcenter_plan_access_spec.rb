@@ -1,7 +1,8 @@
 require 'rails_helper'
 
-RSpec.describe 'Public Help Center Plan Access', type: :request do
-  let!(:account) { create(:account, custom_attributes: { 'plan_name' => 'Hacker' }) }
+RSpec.describe 'Public Help Center Access', type: :request do
+  let(:plan_name) { 'Startups' }
+  let!(:account) { create(:account, custom_attributes: { 'plan_name' => plan_name }) }
   let!(:agent) { create(:user, account: account, role: :agent) }
   let!(:portal) { create(:portal, slug: 'test-portal', account: account, custom_domain: 'docs.example.com') }
   let!(:category) { create(:category, portal: portal, account: account, locale: 'en', slug: 'category-slug') }
@@ -15,12 +16,8 @@ RSpec.describe 'Public Help Center Plan Access', type: :request do
     end
   end
 
-  before do
-    InstallationConfig.where(name: 'DEPLOYMENT_ENV').first_or_initialize.update!(value: 'cloud')
-    InstallationConfig.where(name: 'CHATWOOT_CLOUD_PLANS').first_or_initialize.update!(value: [{ 'name' => 'Hacker' }])
-  end
-
-  it 'blocks chatwoot-hosted portal pages for the default plan' do
+  it 'blocks chatwoot-hosted portal pages when the help center feature is disabled' do
+    account.disable_features!(:help_center)
     host! 'help.chatwoot.com'
 
     get "/hc/#{portal.slug}/en"
@@ -29,12 +26,16 @@ RSpec.describe 'Public Help Center Plan Access', type: :request do
     expect(response.body).to include('Help Center Not Active')
   end
 
-  it 'blocks custom-domain article pages for the default plan' do
-    host! portal.custom_domain
+  context 'when the account is on the default plan' do
+    let(:plan_name) { 'Hacker' }
 
-    get "/hc/#{portal.slug}/articles/#{article.slug}"
+    it 'still allows access if the feature flag is enabled' do
+      account.enable_features!(:help_center)
+      host! portal.custom_domain
 
-    expect(response).to have_http_status(:payment_required)
-    expect(response.body).to include('Help Center Not Active')
+      get "/hc/#{portal.slug}/articles/#{article.slug}"
+
+      expect(response).to have_http_status(:ok)
+    end
   end
 end
