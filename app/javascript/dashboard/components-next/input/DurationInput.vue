@@ -43,7 +43,7 @@ const transformedValue = computed({
   },
   set(newValue) {
     if (newValue == null || newValue === '') {
-      duration.value = props.min || null;
+      duration.value = null;
       return;
     }
     let minuteValue = convertToMinutes(newValue);
