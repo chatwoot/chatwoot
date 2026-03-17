@@ -28,8 +28,7 @@ zh_CN:
       invalid_email: '请输入一个有效的电子邮件'
       authentication_failed: 'Authentication failed. Please check your credentials and try again.'
   messages:
-    reset_password_success: 哇！密码重置请求成功。请检查您的邮件获取说明。
-    reset_password_failure: 哎呀！我们找不到指定电子邮件的任何用户。
+    reset_password: Request for password reset is successful. A email with instructions will be sent to your email if it exists.
     reset_password_saml_user: This account uses SAML authentication. Password reset is not available. Please contact your administrator.
     login_saml_user: This account uses SAML authentication. Please sign in through your organization's SAML provider.
     saml_not_available: SAML authentication is not available in this installation.
@@ -95,6 +94,11 @@ zh_CN:
         host_unreachable_error: 主机无法访问。请检查 IMAP 地址，然后重试。
         connection_timed_out_error: 连接超时 %{address}:%{port}
         connection_closed_error: 连接已关闭。
+      smtp:
+        authentication_error: SMTP authentication failed. Please verify your login credentials.
+        connection_error: Could not connect to SMTP server. Please check the server address and port.
+        ssl_error: SSL/TLS error. Please verify your encryption settings.
+        smtp_error: SMTP server error. Please check your configuration and try again.
       validations:
         name: 不应该以符号开头或结尾，它不应该有 < > / \ @ 字符。
     custom_filters:
@@ -104,6 +108,7 @@ zh_CN:
       invalid_query_operator: 查询操作符必须为 "AND" 或 "OR"。
       invalid_value: 无效的值。为 %{attribute_name} 提供的值无效
     custom_attribute_definition:
+      attribute_key_format: must only contain letters, numbers, underscores, hyphens, and dots
       key_conflict: 提供的键不允许使用，因为它可能与默认属性冲突。
     mfa:
       already_enabled: MFA 已启用
@@ -120,6 +125,8 @@ zh_CN:
       plan_not_eligible: Top-ups are only available for paid plans. Please upgrade your plan first.
       stripe_customer_not_configured: Stripe customer not configured
       no_payment_method: No payment methods found. Please add a payment method before making a purchase.
+    reports:
+      date_range_too_long: Date range cannot exceed 6 months
   profile:
     mfa:
       enabled: MFA enabled successfully
@@ -156,6 +163,14 @@ zh_CN:
       avg_resolution_time: 平均解决时间
       resolution_count: 已解决的数量
       avg_customer_waiting_time: 平均客户等待时间
+    conversation_csv:
+      conversations_count: 会话
+      incoming_messages_count: 收到的消息
+      outgoing_messages_count: 发送的消息
+      avg_first_response_time: 平均首次响应时间
+      avg_resolution_time: 平均解决时间
+      resolution_count: Resolution count
+      avg_customer_waiting_time: 平均客户等待时间
     conversation_traffic_csv:
       timezone: 时区
     sla_csv:
@@ -178,6 +193,7 @@ zh_CN:
         rating: 评分
         feedback: 意见反馈
         recorded_at: 录制日期
+        review_notes: Review Notes
   notifications:
     notification_title:
       conversation_creation: '在 %{inbox_name} 中创建了一个对话 (#%{display_id})'
@@ -205,7 +221,11 @@ zh_CN:
     activity:
       captain:
         resolved: '对话被系统标记为已解决, 原因是 %{user_name} 不活跃'
+        resolved_with_reason: 'Conversation was marked resolved by %{user_name} (%{reason})'
+        resolved_by_tool: 'Conversation was marked resolved by %{user_name}: %{reason}'
         open: '对话被 %{user_name} 打开'
+        open_with_reason: 'Conversation was marked open by %{user_name} (%{reason})'
+        auto_opened_after_agent_reply: 'Conversation was marked open automatically after an agent reply'
       agent_bot:
         error_moved_to_open: 'Conversation was marked open by system due to an error with the agent bot.'
       status:
@@ -320,6 +340,9 @@ zh_CN:
     copilot_message_required: 消息是必填项
     copilot_error: '请为该收件箱连接一个助手以使用 Copilot'
     copilot_limit: '您的 Copilot 积分已用完。您可以从计费部分购买更多积分。'
+    upgrade: 'Upgrade your plan to enable Captain AI'
+    disabled: 'Captain AI is disabled for this account.'
+    api_key_missing: 'Captain AI API key is not configured.'
     copilot:
       using_tool: '使用工具 %{function_name}'
       completed_tool_call: '%{function_name} 工具调用完成'
@@ -401,6 +424,9 @@ zh_CN:
       other: '%{count} 分钟'
     seconds:
       other: '%{count} 秒'
+  auto_assignment:
+    default_policy_name: 'Default Policy'
+    policy_actor: 'Automation System via %{policy_name}'
   automation:
     system_name: '自动化系统'
   crm:
