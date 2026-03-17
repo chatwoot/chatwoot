@@ -56,35 +56,21 @@ class Messages::MessageBuilder
   def process_regular_attachments
     return if @attachments.blank?
 
-    @attachments.each do |uploaded_attachment|
-      attachment = @message.attachments.build(
-        account_id: @message.account_id,
-        file: uploaded_attachment
-      )
-
-      attachment.file_type = if uploaded_attachment.is_a?(String)
-                               file_type_by_signed_id(
-                                 uploaded_attachment
-                               )
-                             else
-                               file_type(uploaded_attachment&.content_type)
-                             end
+    @attachments.each do |att|
+      type = att.is_a?(String) ? file_type_by_signed_id(att) : file_type(att&.content_type)
+      @message.attachments.build(account_id: @message.account_id, file: att).file_type = type
     end
   end
 
   def process_reusable_attachments
     return if @attachment_ids.blank?
 
-    reusable_attachments = @account.reusable_attachments.where(id: @attachment_ids)
-    reusable_attachments.each do |reusable_attachment|
-      next unless reusable_attachment.file.attached?
+    @account.reusable_attachments.where(id: @attachment_ids).each do |ra|
+      next unless ra.file.attached?
 
-      attachment = @message.attachments.build(
-        account_id: @message.account_id,
-        file: reusable_attachment.file.blob
-      )
-      attachment.file_type = reusable_attachment.file_type
-      attachment.extension = reusable_attachment.extension
+      att = @message.attachments.build(account_id: @message.account_id, file: ra.file.blob)
+      att.file_type = ra.file_type
+      att.extension = ra.extension
     end
   end
 
