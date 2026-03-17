@@ -710,8 +710,20 @@
       "MESSENGER_SUB_HEAD": "Place this button inside your body tag",
       "ALLOWED_DOMAINS": {
         "TITLE": "Allowed Domains",
-        "SUBTITLE": "Add wildcard or regular domains separated by commas (leave blank to allow all), e.g. *.chatwoot.dev, chatwoot.com.",
-        "PLACEHOLDER": "Enter domains separated by commas (eg: *.chatwoot.dev, chatwoot.com)"
+        "DESCRIPTION": "Restrict which websites can embed your chat widget. For security, only add domains you own and trust. Add one or more domains separated by commas. Leave blank to allow all domains (not recommended for production).",
+        "PLACEHOLDER": "example.com, www.example.com, app.example.com"
+      },
+      "ALLOW_MOBILE_WEBVIEW": {
+        "LABEL": "Enable widget in mobile apps",
+        "SUBTITLE": "Check this if you embed the widget in iOS or Android apps. Mobile apps don't send domain information, so they would be blocked by domain restrictions unless this is enabled."
+      },
+      "IDENTITY_VALIDATION": {
+        "TITLE": "Identity Validation",
+        "DESCRIPTION": "Verify user authenticity by generating secure tokens. This prevents unauthorized users from impersonating others in your chat.",
+        "SECRET_KEY": "Secret Key",
+        "VIEW_DOCS": "View documentation",
+        "REQUIRE_LABEL": "Require identity validation for all conversations",
+        "REQUIRE_DESCRIPTION": "When enabled, users must provide a valid identity token to start conversations. Requests without valid tokens will be rejected."
       },
       "INBOX_AGENTS": "Agents",
       "INBOX_AGENTS_SUB_TEXT": "Add or remove agents from this inbox",
