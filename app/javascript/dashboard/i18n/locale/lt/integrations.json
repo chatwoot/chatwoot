@@ -1,6 +1,7 @@
 {
   "INTEGRATION_SETTINGS": {
     "SHOPIFY": {
+      "HEADER": "Shopify",
       "DELETE": {
         "TITLE": "Delete Shopify Integration",
         "MESSAGE": "Are you sure you want to delete the Shopify integration?"
@@ -19,6 +20,8 @@
     "DESCRIPTION": "Chatwoot integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
     "LEARN_MORE": "Learn more about integrations",
     "LOADING": "Fetching integrations",
+    "SEARCH_PLACEHOLDER": "Search integrations...",
+    "NO_RESULTS": "No integrations found matching your search",
     "CAPTAIN": {
       "DISABLED": "Captain is not enabled on your account.",
       "CLICK_HERE_TO_CONFIGURE": "Click here to configure",
@@ -28,6 +31,17 @@
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Prenumeruoti įvykiai",
       "LEARN_MORE": "Learn more about webhooks",
+      "SECRET": {
+        "LABEL": "Secret",
+        "COPY": "Copy secret to clipboard",
+        "COPY_SUCCESS": "Secret copied to clipboard",
+        "TOGGLE": "Toggle secret visibility",
+        "CREATED_DESC": "Your webhook has been created. Use the secret below to verify webhook signatures. Please copy it now — you can also find it later in the webhook edit form.",
+        "DONE": "Done"
+      },
+      "COUNT": "{n} webhook | {n} webhooks",
+      "SEARCH_PLACEHOLDER": "Search webhooks...",
+      "NO_RESULTS": "No webhooks found matching your search",
       "FORM": {
         "CANCEL": "Atšaukti",
         "DESC": "Webhook įvykiai suteikia jums realaus laiko informaciją apie tai, kas vyksta jūsų Chatwoot paskyroje. Norėdami sukonfigūruoti atgalinį skambinimą, įveskite tinkamą URL.",
@@ -104,6 +118,7 @@
       }
     },
     "SLACK": {
+      "HEADER": "Slack",
       "DELETE": "Ištrinti",
       "DELETE_CONFIRMATION": {
         "TITLE": "Ištrinkite integraciją",
@@ -145,7 +160,29 @@
         "EXPAND": "Išskleisti",
         "MAKE_FRIENDLY": "Pakeisti pranešimo toną į draugišką",
         "MAKE_FORMAL": "Naudokite oficialų toną",
-        "SIMPLIFY": "Supaprastinti"
+        "SIMPLIFY": "Supaprastinti",
+        "CONFIDENT": "Use confident tone",
+        "PROFESSIONAL": "Use professional tone",
+        "CASUAL": "Use casual tone",
+        "STRAIGHTFORWARD": "Use straightforward tone"
+      },
+      "REPLY_OPTIONS": {
+        "IMPROVE_REPLY": "Improve reply",
+        "IMPROVE_REPLY_SELECTION": "Improve the selection",
+        "CHANGE_TONE": {
+          "TITLE": "Change tone",
+          "OPTIONS": {
+            "PROFESSIONAL": "Profesionalas",
+            "CASUAL": "Casual",
+            "STRAIGHTFORWARD": "Straightforward",
+            "CONFIDENT": "Confident",
+            "FRIENDLY": "Draugiškas"
+          }
+        },
+        "GRAMMAR": "Fix grammar & spelling",
+        "SUGGESTION": "Suggest a reply",
+        "SUMMARIZE": "Summarize the conversation",
+        "ASK_COPILOT": "Ask Copilot"
       },
       "ASSISTANCE_MODAL": {
         "DRAFT_TITLE": "Turinio juodraštis",
@@ -201,12 +238,16 @@
       "SIDEBAR_TXT": "<p><b>Informacinio skydelio programos</b></p><p>Informacinio skydelio programos leidžia organizacijoms įterpti programą į Chatwood valdymo skydelį, kad klientų aptarnavimo agentams būtų suteiktas kontekstas. Ši funkcija leidžia savarankiškai kurti programą ir įterpti informaciją apie vartotoją, jo užsakymus ar mokėjimų istoriją.</p><p>Kai įterpiate programą naudodami Chatwood valdymo skydelį, programa gaus pokalbio kontekstą ir įvykio nuorodas. Įdiekite pranešimo įvykio nuorodas savo puslapyje, kad gautumėte kontekstą.</p><p>Jei norite pridėti naują informacinio skydelio programą, spustelėkite mygtuką \"Pridėti naują skydelio programą\".</p>",
       "DESCRIPTION": "Informacinio skydelio programos leidžia organizacijoms įterpti programą į valdymo skydelį, kad klientų aptarnavimo agentams būtų suteiktas kontekstas. Ši funkcija leidžia savarankiškai kurti programą ir įterpti informaciją apie vartotoją, jo užsakymus ar mokėjimų istoriją.",
       "LEARN_MORE": "Learn more about Dashboard Apps",
+      "COUNT": "{n} dashboard app | {n} dashboard apps",
+      "SEARCH_PLACEHOLDER": "Search dashboard apps...",
+      "NO_RESULTS": "No dashboard apps found matching your search",
       "LIST": {
         "404": "Šioje paskyroje nėra sukonfigūruotų informacinio skydelio programų",
         "LOADING": "Gaunamos informacinio skydelio programos...",
         "TABLE_HEADER": {
           "NAME": "Vardas",
-          "ENDPOINT": "Endpoint"
+          "ENDPOINT": "Endpoint",
+          "ACTIONS": "Veiksmai"
         },
         "EDIT_TOOLTIP": "Redaguoti programą",
         "DELETE_TOOLTIP": "Ištrinti programą"
@@ -243,6 +284,7 @@
       }
     },
     "LINEAR": {
+      "HEADER": "Linear",
       "ADD_OR_LINK_BUTTON": "Create/Link Linear Issue",
       "LOADING": "Fetching linear issues...",
       "LOADING_ERROR": "There was an error fetching the linear issues, please try again",
@@ -337,6 +379,7 @@
       }
     },
     "NOTION": {
+      "HEADER": "Notion",
       "DELETE": {
         "TITLE": "Are you sure you want to delete the Notion integration?",
         "MESSAGE": "Deleting this integration will remove access to your Notion workspace and stop all related functionality.",
@@ -406,6 +449,7 @@
       "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
     },
     "ENTERPRISE_PAYWALL": {
+      "AVAILABLE_ON": "Captain AI is only available in the Enterprise plans.",
       "UPGRADE_PROMPT": "Upgrade your plan to get access to our assistants, copilot and more.",
       "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
     },

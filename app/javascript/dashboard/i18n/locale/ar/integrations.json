@@ -1,6 +1,7 @@
 {
   "INTEGRATION_SETTINGS": {
     "SHOPIFY": {
+      "HEADER": "Shopify",
       "DELETE": {
         "TITLE": "Delete Shopify Integration",
         "MESSAGE": "Are you sure you want to delete the Shopify integration?"
@@ -19,6 +20,8 @@
     "DESCRIPTION": "Chatwoot تتكامل مع أدوات وخدمات متعددة لتحسين كفاءة فريقك. استكشف القائمة أدناه لتكوين تطبيقاتك المفضلة.",
     "LEARN_MORE": "معرفة المزيد عن التكاملات",
     "LOADING": "جاري جلب التكاملات",
+    "SEARCH_PLACEHOLDER": "Search integrations...",
+    "NO_RESULTS": "No integrations found matching your search",
     "CAPTAIN": {
       "DISABLED": "لم يتم تمكين الكابتن على حسابك.",
       "CLICK_HERE_TO_CONFIGURE": "انقر هنا للتهيئة",
@@ -28,6 +31,17 @@
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "الأحداث المشتركة",
       "LEARN_MORE": "Learn more about webhooks",
+      "SECRET": {
+        "LABEL": "Secret",
+        "COPY": "Copy secret to clipboard",
+        "COPY_SUCCESS": "Secret copied to clipboard",
+        "TOGGLE": "Toggle secret visibility",
+        "CREATED_DESC": "Your webhook has been created. Use the secret below to verify webhook signatures. Please copy it now — you can also find it later in the webhook edit form.",
+        "DONE": "Done"
+      },
+      "COUNT": "{n} webhook | {n} webhooks",
+      "SEARCH_PLACEHOLDER": "Search webhooks...",
+      "NO_RESULTS": "No webhooks found matching your search",
       "FORM": {
         "CANCEL": "إلغاء",
         "DESC": "أحداث Webhook توفر لك معلومات في الوقت الحقيقي حول ما يحدث في حساب Chatwoot الخاص بك. الرجاء إدخال عنوان URL صالح لتكوين callback.",
@@ -104,6 +118,7 @@
       }
     },
     "SLACK": {
+      "HEADER": "Slack",
       "DELETE": "حذف",
       "DELETE_CONFIRMATION": {
         "TITLE": "Delete the integration",
@@ -145,7 +160,29 @@
         "EXPAND": "Expand",
         "MAKE_FRIENDLY": "Change message tone to friendly",
         "MAKE_FORMAL": "Use formal tone",
-        "SIMPLIFY": "تبسيط"
+        "SIMPLIFY": "تبسيط",
+        "CONFIDENT": "استخدام نبرة لطيفة",
+        "PROFESSIONAL": "استخدام نبرة احترافية",
+        "CASUAL": "استخدم نبرة عادية",
+        "STRAIGHTFORWARD": "استخدام نبرة مباشرة"
+      },
+      "REPLY_OPTIONS": {
+        "IMPROVE_REPLY": "تحسين الرد",
+        "IMPROVE_REPLY_SELECTION": "تحسين عملية الاختيار",
+        "CHANGE_TONE": {
+          "TITLE": "تغيير النبرة",
+          "OPTIONS": {
+            "PROFESSIONAL": "مهني",
+            "CASUAL": "عادية",
+            "STRAIGHTFORWARD": "مباشر",
+            "CONFIDENT": "لطيفة",
+            "FRIENDLY": "ودي"
+          }
+        },
+        "GRAMMAR": "أصلاح القواعد النحوية والإملائية",
+        "SUGGESTION": "اقترح رداً",
+        "SUMMARIZE": "تلخيص المحادثة",
+        "ASK_COPILOT": "إسأل المساعد"
       },
       "ASSISTANCE_MODAL": {
         "DRAFT_TITLE": "Draft content",
@@ -201,12 +238,16 @@
       "SIDEBAR_TXT": "<p><b>Dashboard Apps</b></p><p>Dashboard Apps allow organizations to embed an application inside the Chatwoot dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that inside the dashboard to provide user information, their orders, or their previous payment history.</p><p>When you embed your application using the dashboard in Chatwoot, your application will get the context of the conversation and contact as a window event. Implement a listener for the message event on your page to receive the context.</p><p>To add a new dashboard app, click on the button 'Add a new dashboard app'.</p>",
       "DESCRIPTION": "تسمح تطبيقات لوحة التحكم للمنظمات بتضمين تطبيق داخل لوحة التحكم لتوفير السياق لوكلاء دعم العملاء. هذه الميزة تسمح لك بإنشاء تطبيق بشكل مستقل وإدراج لتوفير معلومات المستخدم أو طلباتهم أو سجل الدفع السابق.",
       "LEARN_MORE": "معرفة المزيد حول تطبيقات لوحة التحكم",
+      "COUNT": "{n} dashboard app | {n} dashboard apps",
+      "SEARCH_PLACEHOLDER": "Search dashboard apps...",
+      "NO_RESULTS": "No dashboard apps found matching your search",
       "LIST": {
         "404": "لا توجد تطبيقات لوحة التحكم التي تم تكوينها على هذا الحساب حتى الآن",
         "LOADING": "جلب تطبيقات لوحة التحكم...",
         "TABLE_HEADER": {
           "NAME": "الاسم",
-          "ENDPOINT": "نقطة الوصول"
+          "ENDPOINT": "نقطة الوصول",
+          "ACTIONS": "الإجراءات"
         },
         "EDIT_TOOLTIP": "تعديل التطبيق",
         "DELETE_TOOLTIP": "حذف التطبيق"
@@ -243,6 +284,7 @@
       }
     },
     "LINEAR": {
+      "HEADER": "Linear",
       "ADD_OR_LINK_BUTTON": "Create/Link Linear Issue",
       "LOADING": "جلب مشاكل من Linear...",
       "LOADING_ERROR": "حدث خطأ أثناء جلب المشكلات من Linear، الرجاء المحاولة مرة أخرى",
@@ -337,6 +379,7 @@
       }
     },
     "NOTION": {
+      "HEADER": "نوشن",
       "DELETE": {
         "TITLE": "Are you sure you want to delete the Notion integration?",
         "MESSAGE": "Deleting this integration will remove access to your Notion workspace and stop all related functionality.",
@@ -406,6 +449,7 @@
       "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
     },
     "ENTERPRISE_PAYWALL": {
+      "AVAILABLE_ON": "ولا يتوفر الكابتن AI إلا في خطط المؤسسة.",
       "UPGRADE_PROMPT": "Upgrade your plan to get access to our assistants, copilot and more.",
       "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
     },
