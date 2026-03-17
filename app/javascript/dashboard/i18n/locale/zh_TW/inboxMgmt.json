@@ -685,6 +685,16 @@
           "SANDBOX": "Sandbox",
           "LIVE": "Live"
         }
+      },
+      "WEBHOOK": {
+        "TITLE": "Webhook 設定",
+        "DESCRIPTION": "您的 WhatsApp Business 帳號需要設定 Webhook URL，才能接收顧客傳送的訊息",
+        "ACTION_REQUIRED": "Webhook 尚未設定",
+        "REGISTER_BUTTON": "註冊 Webhook",
+        "REGISTER_SUCCESS": "Webhook 註冊成功",
+        "REGISTER_ERROR": "Webhook 註冊失敗，請再試一次。",
+        "CONFIGURED_SUCCESS": "Webhook 設定成功",
+        "URL_MISMATCH": "Webhook URL 不符"
       }
     },
     "SETTINGS": "設定",

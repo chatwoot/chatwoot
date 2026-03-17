@@ -23,9 +23,9 @@
     },
     "DEFAULT_USER": "系統",
     "AUTOMATION_RULE": {
-      "ADD": "{agentName} 建立了一個新的自動化規則 (##{id})",
-      "EDIT": "{agentName} 更新了一個自動化規則 (##{id})",
-      "DELETE": "{agentName} 刪除了一個自動化規則 (##{id})"
+      "ADD": "{agentName} 建立了一個新的自動化規則 (#{id})",
+      "EDIT": "{agentName} 更新了一個自動化規則 (#{id})",
+      "DELETE": "{agentName} 刪除了一個自動化規則 (#{id})"
     },
     "ACCOUNT_USER": {
       "ADD": "{agentName} 邀請了 {invitee} 加入賬戶作為 {role}",
@@ -36,39 +36,39 @@
       }
     },
     "INBOX": {
-      "ADD": "{agentName} 建立了一個新的收件箱 (##{id})",
-      "EDIT": "{agentName} 更新了一個收件箱 (##{id})",
-      "DELETE": "{agentName} 刪除了一個收件箱 (##{id})"
+      "ADD": "{agentName} 建立了一個新的收件箱 (#{id})",
+      "EDIT": "{agentName} 更新了一個收件箱 (#{id})",
+      "DELETE": "{agentName} 刪除了一個收件箱 (#{id})"
     },
     "WEBHOOK": {
-      "ADD": "{agentName} 建立了一個新的 webhook (##{id})",
-      "EDIT": "{agentName} 更新了一個 webhook (##{id})",
-      "DELETE": "{agentName} 刪除了一個 webhook (##{id})"
+      "ADD": "{agentName} 建立了一個新的 webhook (#{id})",
+      "EDIT": "{agentName} 更新了一個 webhook (#{id})",
+      "DELETE": "{agentName} 刪除了一個 webhook (#{id})"
     },
     "USER_ACTION": {
       "SIGN_IN": "{agentName} 登入",
       "SIGN_OUT": "{agentName} 登出"
     },
     "TEAM": {
-      "ADD": "{agentName} 建立了一個新的團隊 (##{id})",
-      "EDIT": "{agentName} 更新了一個團隊 (##{id})",
-      "DELETE": "{agentName} 刪除了一個團隊 (##{id})"
+      "ADD": "{agentName} 建立了一個新的團隊 (#{id})",
+      "EDIT": "{agentName} 更新了一個團隊 (#{id})",
+      "DELETE": "{agentName} 刪除了一個團隊 (#{id})"
     },
     "MACRO": {
-      "ADD": "{agentName} 建立了一個新的宏 (##{id})",
-      "EDIT": "{agentName} 更新了一個宏 (##{id})",
-      "DELETE": "{agentName} 刪除了一個宏 (##{id})"
+      "ADD": "{agentName} 建立了一個新的宏 (#{id})",
+      "EDIT": "{agentName} 更新了一個宏 (#{id})",
+      "DELETE": "{agentName} 刪除了一個宏 (#{id})"
     },
     "INBOX_MEMBER": {
-      "ADD": "{agentName} 將 {user} 新增到收件箱 (##{inbox_id})",
-      "REMOVE": "{agentName} 將 {user} 從收件箱 (##{inbox_id}) 中移除"
+      "ADD": "{agentName} 將 {user} 新增到收件箱 (#{inbox_id})",
+      "REMOVE": "{agentName} 將 {user} 從收件箱 (#{inbox_id}) 中移除"
     },
     "TEAM_MEMBER": {
-      "ADD": "{agentName} 將 {user} 新增到團隊 (##{team_id})",
-      "REMOVE": "{agentName} 將 {user} 從團隊 (##{team_id}) 中移除"
+      "ADD": "{agentName} 將 {user} 新增到團隊 (#{team_id})",
+      "REMOVE": "{agentName} 將 {user} 從團隊 (#{team_id}) 中移除"
     },
     "ACCOUNT": {
-      "EDIT": "{agentName} 更新了賬戶配置 (##{id})"
+      "EDIT": "{agentName} 更新了賬戶配置 (#{id})"
     },
     "CONVERSATION": {
       "DELETE": "{agentName} 刪除了對話 #{id}"
