@@ -1,47 +1,47 @@
 {
   "WHATSAPP_TEMPLATES": {
     "MODAL": {
-      "TITLE": "Whatsapp Templates",
-      "SUBTITLE": "Select the whatsapp template you want to send",
-      "TEMPLATE_SELECTED_SUBTITLE": "Configure template: {templateName}"
+      "TITLE": "Whatsapp 템플릿",
+      "SUBTITLE": "전송할 Whatsapp 템플릿을 선택하십시오",
+      "TEMPLATE_SELECTED_SUBTITLE": "템플릿 구성: {templateName}"
     },
     "PICKER": {
-      "SEARCH_PLACEHOLDER": "Search Templates",
-      "NO_TEMPLATES_FOUND": "No templates found for",
-      "HEADER": "Header",
-      "BODY": "Body",
-      "FOOTER": "Footer",
-      "BUTTONS": "Buttons",
-      "CATEGORY": "Category",
-      "MEDIA_CONTENT": "Media Content",
-      "MEDIA_CONTENT_FALLBACK": "media content",
-      "NO_TEMPLATES_AVAILABLE": "No WhatsApp templates available. Click refresh to sync templates from WhatsApp.",
-      "REFRESH_BUTTON": "Refresh templates",
-      "REFRESH_SUCCESS": "Templates refresh initiated. It may take a couple of minutes to update.",
-      "REFRESH_ERROR": "Failed to refresh templates. Please try again.",
+      "SEARCH_PLACEHOLDER": "템플릿 검색",
+      "NO_TEMPLATES_FOUND": "다음에 대한 템플릿을 찾을 수 없습니다",
+      "HEADER": "헤더",
+      "BODY": "본문",
+      "FOOTER": "푸터",
+      "BUTTONS": "버튼",
+      "CATEGORY": "카테고리",
+      "MEDIA_CONTENT": "미디어 콘텐츠",
+      "MEDIA_CONTENT_FALLBACK": "미디어 콘텐츠",
+      "NO_TEMPLATES_AVAILABLE": "사용 가능한 WhatsApp 템플릿이 없습니다. 새로고침을 클릭하여 WhatsApp에서 템플릿을 동기화하십시오.",
+      "REFRESH_BUTTON": "템플릿 새로고침",
+      "REFRESH_SUCCESS": "템플릿 새로고침이 시작되었습니다. 업데이트에 몇 분 정도 소요될 수 있습니다.",
+      "REFRESH_ERROR": "템플릿 새로고침에 실패했습니다. 다시 시도해 주십시오.",
       "LABELS": {
         "LANGUAGE": "언어",
-        "TEMPLATE_BODY": "Template Body",
-        "CATEGORY": "Category"
+        "TEMPLATE_BODY": "템플릿 본문",
+        "CATEGORY": "카테고리"
       }
     },
     "PARSER": {
-      "VARIABLES_LABEL": "Variables",
+      "VARIABLES_LABEL": "변수",
       "LANGUAGE": "언어",
-      "CATEGORY": "Category",
-      "VARIABLE_PLACEHOLDER": "Enter {variable} value",
-      "GO_BACK_LABEL": "Go Back",
-      "SEND_MESSAGE_LABEL": "Send Message",
-      "FORM_ERROR_MESSAGE": "Please fill all variables before sending",
-      "MEDIA_HEADER_LABEL": "{type} Header",
-      "OTP_CODE": "Enter 4-8 digit OTP",
-      "EXPIRY_MINUTES": "Enter expiry minutes",
-      "BUTTON_PARAMETERS": "Button Parameters",
-      "BUTTON_LABEL": "Button {index}",
-      "COUPON_CODE": "Enter coupon code (max 15 chars)",
-      "MEDIA_URL_LABEL": "Enter {type} URL",
-      "DOCUMENT_NAME_PLACEHOLDER": "Enter document filename (e.g., Invoice_2025.pdf)",
-      "BUTTON_PARAMETER": "Enter button parameter"
+      "CATEGORY": "카테고리",
+      "VARIABLE_PLACEHOLDER": "{variable} 값을 입력하십시오",
+      "GO_BACK_LABEL": "뒤로 가기",
+      "SEND_MESSAGE_LABEL": "메시지 전송",
+      "FORM_ERROR_MESSAGE": "전송하기 전에 모든 변수를 입력하십시오",
+      "MEDIA_HEADER_LABEL": "{type} 헤더",
+      "OTP_CODE": "4~8자리 OTP를 입력하십시오",
+      "EXPIRY_MINUTES": "만료 시간(분)을 입력하십시오",
+      "BUTTON_PARAMETERS": "버튼 매개변수",
+      "BUTTON_LABEL": "버튼 {index}",
+      "COUPON_CODE": "쿠폰 코드를 입력하십시오 (최대 15자)",
+      "MEDIA_URL_LABEL": "{type} URL을 입력하십시오",
+      "DOCUMENT_NAME_PLACEHOLDER": "문서 파일명을 입력하십시오 (예: Invoice_2025.pdf)",
+      "BUTTON_PARAMETER": "버튼 매개변수를 입력하십시오"
     }
   }
 }

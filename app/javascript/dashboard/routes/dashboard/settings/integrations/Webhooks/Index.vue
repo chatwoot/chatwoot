@@ -58,6 +58,7 @@ export default {
     },
   },
   mounted() {
+    this.$store.dispatch('integrations/get', 'webhook');
     this.$store.dispatch('webhooks/get');
   },
   methods: {

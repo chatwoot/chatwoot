@@ -26,6 +26,12 @@ class Captain::Llm::TranslateQueryService < Captain::BaseTaskService
     'translate_query'
   end
 
+  # Translation is an internal operation, not customer-initiated.
+  # Prefer the system key; fall back to the account's hook key for self-hosted setups without one.
+  def api_key
+    @api_key ||= system_api_key.presence || openai_hook&.settings&.dig('api_key')
+  end
+
   def query_in_target_language?(query)
     detector = CLD3::NNetLanguageIdentifier.new(0, 1000)
     result = detector.find_language(query)
