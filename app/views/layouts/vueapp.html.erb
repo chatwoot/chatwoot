@@ -63,10 +63,10 @@
       }
       window.errorLoggingConfig = '<%= ENV.fetch('SENTRY_FRONTEND_DSN', '') || ENV.fetch('SENTRY_DSN', '') %>'
     </script>
-    <% if @global_config['ANALYTICS_TOKEN'].present? %>
+    <% if @global_config['CLOUD_ANALYTICS_TOKEN'].present? %>
     <script>
       window.analyticsConfig = {
-        token: '<%= @global_config['ANALYTICS_TOKEN'] %>',
+        token: '<%= @global_config['CLOUD_ANALYTICS_TOKEN'] %>',
       }
     </script>
     <% end %>

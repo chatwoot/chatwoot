@@ -27,6 +27,8 @@
 class Portal < ApplicationRecord
   include Rails.application.routes.url_helpers
 
+  DEFAULT_COLOR = '#1f93ff'.freeze
+
   belongs_to :account
   has_many :categories, dependent: :destroy_async
   has_many :folders,  through: :categories
@@ -53,13 +55,21 @@ class Portal < ApplicationRecord
       file_type: logo.content_type,
       account_id: account_id,
       file_url: url_for(logo),
-      blob_id: logo.blob_id,
+      blob_id: logo.blob.signed_id,
       filename: logo.filename.to_s
     }
   end
 
   def default_locale
     config['default_locale'] || 'en'
+  end
+
+  def color
+    self[:color].presence || DEFAULT_COLOR
+  end
+
+  def display_title
+    page_title.presence || name
   end
 
   private

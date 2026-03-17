@@ -4,6 +4,9 @@
     "LOADING_EDITOR": "Ładowanie edytora...",
     "DESCRIPTION": "Boty agentów są jak najbardziej fantastyczni członkowie Twojego zespołu. Mogą zajmować się drobnymi sprawami, dzięki czemu Ty możesz skupić się na tym, co naprawdę ważne. Wypróbuj je! Możesz zarządzać swoimi botami z tej strony lub tworzyć nowe za pomocą przycisku 'Dodaj bota'.",
     "LEARN_MORE": "Learn about agent bots",
+    "COUNT": "{n} bot | {n} bots",
+    "SEARCH_PLACEHOLDER": "Search bots...",
+    "NO_RESULTS": "No bots found matching your search",
     "GLOBAL_BOT": "System bot",
     "GLOBAL_BOT_BADGE": "System",
     "AVATAR": {
@@ -34,7 +37,8 @@
       "LOADING": "Pobieranie botów...",
       "TABLE_HEADER": {
         "DETAILS": "Szczegóły bota",
-        "URL": "Adres URL webhooka"
+        "URL": "Adres URL webhooka",
+        "ACTIONS": "Akcje"
       }
     },
     "DELETE": {

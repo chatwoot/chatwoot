@@ -11,17 +11,17 @@ class Enterprise::Billing::HandleStripeEventService
     help_center
     campaigns
     team_management
-    channel_twitter
     channel_facebook
     channel_email
     channel_instagram
     captain_integration
     advanced_search_indexing
     advanced_search
+    linear_integration
   ].freeze
 
   # Additional features available starting with the Business plan
-  BUSINESS_PLAN_FEATURES = %w[sla custom_roles].freeze
+  BUSINESS_PLAN_FEATURES = %w[sla custom_roles csat_review_notes conversation_required_attributes advanced_assignment].freeze
 
   # Additional features available only in the Enterprise plan
   ENTERPRISE_PLAN_FEATURES = %w[audit_logs disable_branding saml].freeze
