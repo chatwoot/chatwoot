@@ -4,6 +4,9 @@
     "LOADING_EDITOR": "에디터 로딩 중...",
     "DESCRIPTION": "에이전트 봇은 팀에서 가장 뛰어난 멤버와 같습니다. 사소한 일은 봇이 처리해 주니, 중요한 일에 집중하세요. 한번 사용해 보세요. 이 페이지에서 봇을 관리하거나 '봇 추가' 버튼을 통해 새 봇을 생성할 수 있습니다.",
     "LEARN_MORE": "에이전트 봇에 대해 알아보기",
+    "COUNT": "{n}개의 봇 | {n}개의 봇",
+    "SEARCH_PLACEHOLDER": "에이전트 봇 검색...",
+    "NO_RESULTS": "검색과 일치하는 봇이 없습니다",
     "GLOBAL_BOT": "시스템 봇",
     "GLOBAL_BOT_BADGE": "시스템",
     "AVATAR": {
@@ -99,9 +102,6 @@
     },
     "TYPES": {
       "WEBHOOK": "웹훅 봇"
-    },
-    "COUNT": "{n}개의 봇 | {n}개의 봇",
-    "SEARCH_PLACEHOLDER": "에이전트 봇 검색...",
-    "NO_RESULTS": "검색과 일치하는 봇이 없습니다"
+    }
   }
 }

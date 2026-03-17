@@ -685,6 +685,16 @@
           "SANDBOX": "Sandbox",
           "LIVE": "Canlı"
         }
+      },
+      "WEBHOOK": {
+        "TITLE": "Webhook Configuration",
+        "DESCRIPTION": "Webhook URL is required for your WhatsApp Business Account to receive messages from customers",
+        "ACTION_REQUIRED": "Webhook not configured",
+        "REGISTER_BUTTON": "Register Webhook",
+        "REGISTER_SUCCESS": "Webhook registered successfully",
+        "REGISTER_ERROR": "Failed to register webhook. Please try again.",
+        "CONFIGURED_SUCCESS": "Webhook configured successfully",
+        "URL_MISMATCH": "Webhook URL mismatch"
       }
     },
     "SETTINGS": "Ayarlar",
@@ -701,7 +711,7 @@
       "ALLOWED_DOMAINS": {
         "TITLE": "İzin Verilen Alan Adları",
         "SUBTITLE": "Virgülle ayrılmış joker karakterli veya normal alan adları ekleyin (hepsine izin vermek için boş bırakın), örneğin *.chatwoot.dev, chatwoot.com.",
-        "PLACEHOLDER": "Virgülle ayrılmış alan adlarını girin (ör: *.chatwoot.dev, chatwoot.com)"
+        "PLACEHOLDER": "example.com, www.example.com, app.example.com"
       },
       "INBOX_AGENTS": "Kullanıcılar",
       "INBOX_AGENTS_SUB_TEXT": "Bu gelen kutusuna aracı ekleyin veya aracıları kaldırın",

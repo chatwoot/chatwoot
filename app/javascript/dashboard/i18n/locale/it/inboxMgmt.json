@@ -685,6 +685,16 @@
           "SANDBOX": "Sandbox",
           "LIVE": "Live"
         }
+      },
+      "WEBHOOK": {
+        "TITLE": "Configurazione Webhook",
+        "DESCRIPTION": "L'URL Webhook è necessario per il tuo account WhatsApp Business per ricevere messaggi dai clienti",
+        "ACTION_REQUIRED": "Webhook non configurato",
+        "REGISTER_BUTTON": "Registra Webhook",
+        "REGISTER_SUCCESS": "Webhook registrato correttamente",
+        "REGISTER_ERROR": "Impossibile registrare il webhook. Riprova.",
+        "CONFIGURED_SUCCESS": "Webhook configurato correttamente",
+        "URL_MISMATCH": "URL Webhook non corrisponde"
       }
     },
     "SETTINGS": "Impostazioni",
@@ -701,7 +711,7 @@
       "ALLOWED_DOMAINS": {
         "TITLE": "Domini Consentiti",
         "SUBTITLE": "Aggiungi caratteri jolly o domini regolari separati da virgole (lasciare vuoto per consentire tutti), ad esempio *.chatwoot.dev, chatwoot.com.",
-        "PLACEHOLDER": "Inserisci i domini separati da virgole (ad esempio: *.chatwoot.dev, chatwoot.com)"
+        "PLACEHOLDER": "example.com, www.example.com, app.example.com"
       },
       "INBOX_AGENTS": "Operatori",
       "INBOX_AGENTS_SUB_TEXT": "Aggiungi o rimuovi operatori da questa inbox",

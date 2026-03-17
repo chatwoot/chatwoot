@@ -69,7 +69,7 @@
         "TEXT": "Priority: Highest first"
       },
       "priority_asc": {
-        "TEXT": ""
+        "TEXT": "Priorita: od najnižšej"
       },
       "waiting_since_asc": {
         "TEXT": "Pending Response: Longest first"

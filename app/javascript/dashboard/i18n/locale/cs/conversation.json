@@ -179,7 +179,7 @@
           "FAILED": "Couldn't remove label. Please try again."
         },
         "TEAM_ASSIGNMENT": {
-          "SUCCESFUL": "Přiřazený tým #{team} ke konverzaci id {conversationId}",
+          "SUCCESFUL": "Přiřazený tým \"{team}\" ke konverzaci id {conversationId}",
           "FAILED": "Nelze přiřadit tým. Zkuste to prosím znovu."
         }
       }
