@@ -9,6 +9,7 @@
       "ADMINISTRATOR": "Adminisztrátor",
       "AGENT": "Ügynök"
     },
+    "COUNT": "{n} agent | {n} agents",
     "LIST": {
       "404": "Ehhez a fiókhoz nincs ügynök rendelve",
       "TITLE": "A csapatod ügynökeinek kezelése",
@@ -96,6 +97,8 @@
         "ERROR_MESSAGE": "Nem sikerült csatlakozni a Woot szerverhez, kérjük próbáld később"
       }
     },
+    "SEARCH_PLACEHOLDER": "Ügynökök keresése...",
+    "NO_RESULTS": "No agents found matching your search",
     "SEARCH": {
       "NO_RESULTS": "Nincs találat."
     },
