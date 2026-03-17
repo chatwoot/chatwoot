@@ -10,7 +10,7 @@ class Migration::AccountAssignmentPolicyJob < ApplicationJob
     return if inboxes_with_limit.empty?
 
     ActiveRecord::Base.transaction do
-      policy = AgentCapacityPolicy.find_or_create_by!(account: account, name: 'Auto Assignment Capacity') do |p|
+      policy = AgentCapacityPolicy.find_or_create_by!(account: account, name: 'Migrated Auto Assignment Capacity') do |p|
         p.description = 'Migrated from inbox max_assignment_limit'
       end
 
