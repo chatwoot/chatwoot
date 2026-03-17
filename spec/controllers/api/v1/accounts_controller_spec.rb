@@ -26,8 +26,8 @@ RSpec.describe 'Accounts API', type: :request do
 
           expect(AccountBuilder).to have_received(:new).with(params.except(:password).merge(user_password: params[:password]))
           expect(account_builder).to have_received(:perform)
-          expect(response.headers.keys).to include('access-token', 'token-type', 'client', 'expiry', 'uid')
-          expect(response.body).to include('en')
+          expect(response).to have_http_status(:success)
+          expect(response.parsed_body['email']).to eq(email)
         end
       end
 
@@ -46,8 +46,8 @@ RSpec.describe 'Accounts API', type: :request do
                as: :json
 
           expect(ChatwootCaptcha).to have_received(:new).with('123')
-          expect(response.headers.keys).to include('access-token', 'token-type', 'client', 'expiry', 'uid')
-          expect(response.body).to include('en')
+          expect(response).to have_http_status(:success)
+          expect(response.parsed_body['email']).to eq(email)
         end
       end
 

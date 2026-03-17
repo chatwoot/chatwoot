@@ -10,6 +10,12 @@ class DeviseOverrides::ConfirmationsController < Devise::ConfirmationsController
     render_confirmation_error
   end
 
+  def resend
+    user = User.from_email(params[:email])
+    user.resend_confirmation_instructions if user&.confirmed? == false
+    render json: { message: 'If the email exists and is unconfirmed, a verification email will be sent.' }
+  end
+
   private
 
   def render_confirmation_success
