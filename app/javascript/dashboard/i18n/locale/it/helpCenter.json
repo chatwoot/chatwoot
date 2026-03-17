@@ -374,6 +374,16 @@
         "ERROR_MESSAGE": "Errore durante l'eliminazione dell'articolo"
       }
     },
+    "REORDER_ARTICLE": {
+      "API": {
+        "ERROR_MESSAGE": "Impossibile riordinare gli articoli. Riprova."
+      }
+    },
+    "REORDER_CATEGORY": {
+      "API": {
+        "ERROR_MESSAGE": "Impossibile riordinare le categorie. Riprova."
+      }
+    },
     "CREATE_ARTICLE": {
       "ERROR_MESSAGE": "Si prega di aggiungere l'intestazione e il contenuto dell'articolo quindi solo è possibile aggiornare le impostazioni"
     },

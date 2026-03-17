@@ -1,6 +1,7 @@
 {
   "INTEGRATION_SETTINGS": {
     "SHOPIFY": {
+      "HEADER": "Shopify",
       "DELETE": {
         "TITLE": "Delete Shopify Integration",
         "MESSAGE": "Are you sure you want to delete the Shopify integration?"
@@ -17,8 +18,10 @@
     },
     "HEADER": "Entegrasyonlar",
     "DESCRIPTION": "Chatwoot, ekibinizin verimliliğini artırmak için birden fazla araç ve hizmetle entegre olur. Favori uygulamalarınızı yapılandırmak için aşağıdaki listeyi inceleyin.",
-    "LEARN_MORE": "Learn more about integrations",
+    "LEARN_MORE": "Entegrasyonlar hakkında daha fazla bilgi edinin",
     "LOADING": "Fetching integrations",
+    "SEARCH_PLACEHOLDER": "Search integrations...",
+    "NO_RESULTS": "No integrations found matching your search",
     "CAPTAIN": {
       "DISABLED": "Captain is not enabled on your account.",
       "CLICK_HERE_TO_CONFIGURE": "Click here to configure",
@@ -28,6 +31,17 @@
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Abone Olunan Olaylar",
       "LEARN_MORE": "Learn more about webhooks",
+      "SECRET": {
+        "LABEL": "Secret",
+        "COPY": "Copy secret to clipboard",
+        "COPY_SUCCESS": "Secret copied to clipboard",
+        "TOGGLE": "Toggle secret visibility",
+        "CREATED_DESC": "Your webhook has been created. Use the secret below to verify webhook signatures. Please copy it now — you can also find it later in the webhook edit form.",
+        "DONE": "Done"
+      },
+      "COUNT": "{n} webhook | {n} webhooks",
+      "SEARCH_PLACEHOLDER": "Search webhooks...",
+      "NO_RESULTS": "No webhooks found matching your search",
       "FORM": {
         "CANCEL": "İptal Et",
         "DESC": "Web kancası etkinlikleri, Chatwoot hesabınızdaki olaylar hakkında gerçek zamanlı bilgi sağlar. Bir geri aramayı yapılandırmak için lütfen geçerli bir URL girin.",
@@ -104,6 +118,7 @@
       }
     },
     "SLACK": {
+      "HEADER": "Slack",
       "DELETE": "Sil",
       "DELETE_CONFIRMATION": {
         "TITLE": "Entegrasyonu Sil",
@@ -145,7 +160,29 @@
         "EXPAND": "Genişlet",
         "MAKE_FRIENDLY": "Mesaj tonunu dostça yap",
         "MAKE_FORMAL": "Resmi ton kullan",
-        "SIMPLIFY": "Basitleştir"
+        "SIMPLIFY": "Basitleştir",
+        "CONFIDENT": "Use confident tone",
+        "PROFESSIONAL": "Use professional tone",
+        "CASUAL": "Use casual tone",
+        "STRAIGHTFORWARD": "Use straightforward tone"
+      },
+      "REPLY_OPTIONS": {
+        "IMPROVE_REPLY": "Improve reply",
+        "IMPROVE_REPLY_SELECTION": "Improve the selection",
+        "CHANGE_TONE": {
+          "TITLE": "Change tone",
+          "OPTIONS": {
+            "PROFESSIONAL": "Profesyonel",
+            "CASUAL": "Casual",
+            "STRAIGHTFORWARD": "Straightforward",
+            "CONFIDENT": "Confident",
+            "FRIENDLY": "Dostça"
+          }
+        },
+        "GRAMMAR": "Fix grammar & spelling",
+        "SUGGESTION": "Suggest a reply",
+        "SUMMARIZE": "Summarize the conversation",
+        "ASK_COPILOT": "Copilot'a sor"
       },
       "ASSISTANCE_MODAL": {
         "DRAFT_TITLE": "Taslak içeriği",
@@ -201,12 +238,16 @@
       "SIDEBAR_TXT": "<p><b>Panel Uygulamaları</b></p><p>Panel Uygulamaları, organizasyonlara destek uzmanları için bağlam sağlamak amacıyla bir uygulamayı Chatwoot paneli içine yerleştirmelerine izin verir. Bu özellik, bağımsız bir uygulama oluşturmanıza ve bunu panel içine yerleştirmenize olanak tanır, böylece kullanıcı bilgilerini, siparişlerini veya önceki ödeme geçmişini sağlayabilirsiniz.</p><p>Chatwoot'taki panel üzerine uygulamanızı yerleştirdiğinizde, uygulamanız konuşma ve iletişim bağlamını pencere olayı olarak alır. Bağlamı almak için sayfanızda bir message olayı için bir dinleyici uygulayın.</p><p>Yeni bir panel uygulaması eklemek için 'Yeni bir panel uygulaması ekle' düğmesine tıklayın.</p>",
       "DESCRIPTION": "Panel Uygulamaları, organizasyonlara destek uzmanları için bağlam sağlamak amacıyla bir uygulamayı panel içine yerleştirmelerine izin verir. Bu özellik, bağımsız bir uygulama oluşturmanıza ve bunu panel içine yerleştirmenize olanak tanır, böylece kullanıcı bilgilerini, siparişlerini veya önceki ödeme geçmişini sağlayabilirsiniz.",
       "LEARN_MORE": "Learn more about Dashboard Apps",
+      "COUNT": "{n} dashboard app | {n} dashboard apps",
+      "SEARCH_PLACEHOLDER": "Search dashboard apps...",
+      "NO_RESULTS": "No dashboard apps found matching your search",
       "LIST": {
         "404": "Bu hesapta henüz yapılandırılmış panel uygulamaları yok",
         "LOADING": "Panel uygulamaları alınıyor...",
         "TABLE_HEADER": {
           "NAME": "İsim",
-          "ENDPOINT": "Endpoint"
+          "ENDPOINT": "Endpoint",
+          "ACTIONS": "Hareketler"
         },
         "EDIT_TOOLTIP": "Uygulamayı Düzenle",
         "DELETE_TOOLTIP": "Uygulamayı Sil"
@@ -243,6 +284,7 @@
       }
     },
     "LINEAR": {
+      "HEADER": "Linear",
       "ADD_OR_LINK_BUTTON": "Create/Link Linear Issue",
       "LOADING": "Fetching linear issues...",
       "LOADING_ERROR": "There was an error fetching the linear issues, please try again",
@@ -337,6 +379,7 @@
       }
     },
     "NOTION": {
+      "HEADER": "Notion",
       "DELETE": {
         "TITLE": "Notion entegrasyonunu silmek istediğinizden emin misiniz?",
         "MESSAGE": "Bu entegrasyonu silmek, Notion çalışma alanınıza erişimi kaldıracak ve ilgili tüm işlevleri durduracaktır.",
@@ -399,18 +442,19 @@
       "CREDIT_NOTE": "Buradan gönderilen mesajlar Captain kredilerinize sayılacaktır."
     },
     "PAYWALL": {
-      "TITLE": "Upgrade to use Captain AI",
+      "TITLE": "Captain AI kullanmak için yükseltin",
       "AVAILABLE_ON": "Captain is not available on the free plan.",
       "UPGRADE_PROMPT": "Asistanlarımıza, Copilot'a ve daha fazlasına erişim sağlamak için planınızı yükseltin.",
-      "UPGRADE_NOW": "Upgrade now",
+      "UPGRADE_NOW": "Şimdi yükselt",
       "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
     },
     "ENTERPRISE_PAYWALL": {
+      "AVAILABLE_ON": "Captain AI yalnızca Enterprise planlarında mevcuttur.",
       "UPGRADE_PROMPT": "Asistanlarımıza, Copilot'a ve daha fazlasına erişim sağlamak için planınızı yükseltin.",
       "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
     },
     "BANNER": {
-      "RESPONSES": "You've used over 80% of your response limit. To continue using Captain AI, please upgrade.",
+      "RESPONSES": "Yanıt sınırınızın %80'inden fazlasını kullandınız. Captain AI'yı kullanmaya devam etmek için lütfen yükseltin.",
       "DOCUMENTS": "Belge sınırı aşıldı. Captain AI'yı kullanmaya devam etmek için yükseltme yapın."
     },
     "FORM": {
@@ -639,7 +683,7 @@
             "TITLE": "Örnek senaryolar",
             "ADD": "Tümünü ekle",
             "ADD_SINGLE": "Bunu ekle",
-            "TOOLS_USED": "Tools used :"
+            "TOOLS_USED": "Kullanılan araçlar:"
           },
           "NEW": {
             "CREATE": "Senaryo ekle",
@@ -672,19 +716,19 @@
         "LIST": {
           "SEARCH_PLACEHOLDER": "Ara..."
         },
-        "EMPTY_MESSAGE": "No scenarios found. Create or add examples to begin.",
+        "EMPTY_MESSAGE": "Hiçbir senaryo bulunamadı. Başlamak için örnekler oluşturun veya ekleyin.",
         "SEARCH_EMPTY_MESSAGE": "No scenarios found for this search.",
         "API": {
           "ADD": {
-            "SUCCESS": "Scenarios added successfully",
+            "SUCCESS": "Senaryolar başarıyla eklendi",
             "ERROR": "There was an error adding scenarios, please try again."
           },
           "UPDATE": {
-            "SUCCESS": "Scenarios updated successfully",
+            "SUCCESS": "Senaryolar başarıyla güncellendi",
             "ERROR": "There was an error updating scenarios, please try again."
           },
           "DELETE": {
-            "SUCCESS": "Scenarios deleted successfully",
+            "SUCCESS": "Senaryolar başarıyla silindi",
             "ERROR": "There was an error deleting scenarios, please try again."
           }
         }
