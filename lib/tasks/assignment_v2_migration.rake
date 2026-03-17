@@ -23,6 +23,11 @@ namespace :assignment_v2 do
     account_id = ENV.fetch('ACCOUNT_ID', nil)
     accounts = account_id.present? ? Account.where(id: account_id) : Account.all
 
+    if account_id.blank?
+      print "No ACCOUNT_ID specified. This will migrate ALL accounts. Continue? [y/N] "
+      abort 'Aborted.' unless $stdin.gets.chomp.casecmp('y').zero?
+    end
+
     if account_id.present? && accounts.empty?
       puts "Error: Account with ID #{account_id} not found"
       exit(1)
