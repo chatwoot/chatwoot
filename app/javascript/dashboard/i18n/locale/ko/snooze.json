@@ -19,19 +19,19 @@
     "THIS": "this",
     "AT": "at",
     "IN": "in",
-    "FROM_NOW": "from now",
-    "NEXT_YEAR": "next year",
+    "FROM_NOW": "지금부터",
+    "NEXT_YEAR": "내년",
     "MERIDIEM": {
       "AM": "am",
       "PM": "pm"
     },
     "RELATIVE": {
       "TOMORROW": "내일",
-      "DAY_AFTER_TOMORROW": "day after tomorrow",
+      "DAY_AFTER_TOMORROW": "모레",
       "NEXT_WEEK": "다음 주",
-      "NEXT_MONTH": "next month",
-      "THIS_WEEKEND": "this weekend",
-      "NEXT_WEEKEND": "next weekend"
+      "NEXT_MONTH": "다음 달",
+      "THIS_WEEKEND": "이번 주말",
+      "NEXT_WEEKEND": "다음 주말"
     },
     "TIME_OF_DAY": {
       "MORNING": "morning",
