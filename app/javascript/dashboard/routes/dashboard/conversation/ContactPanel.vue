@@ -24,7 +24,30 @@ import SidebarActionsHeader from 'dashboard/components-next/SidebarActionsHeader
 import LinearIssuesList from 'dashboard/components/widgets/conversation/linear/IssuesList.vue';
 import LinearSetupCTA from 'dashboard/components/widgets/conversation/linear/LinearSetupCTA.vue';
 import SynapseaContactIntelligence from 'dashboard/components-next/synapsea/SynapseaContactIntelligence.vue';
+ codex/transform-chatwoot-into-synapsea-connect-zcodwn
 import SynapseaConversationCopilot from 'dashboard/components-next/synapsea/SynapseaConversationCopilot.vue';
+
+ codex/transform-chatwoot-into-synapsea-connect-2i3fp8
+import SynapseaConversationCopilot from 'dashboard/components-next/synapsea/SynapseaConversationCopilot.vue';
+
+ codex/transform-chatwoot-into-synapsea-connect-6xbxtt
+import SynapseaConversationCopilot from 'dashboard/components-next/synapsea/SynapseaConversationCopilot.vue';
+
+ codex/transform-chatwoot-into-synapsea-connect-vkjace
+import SynapseaConversationCopilot from 'dashboard/components-next/synapsea/SynapseaConversationCopilot.vue';
+
+ codex/transform-chatwoot-into-synapsea-connect-ymy4px
+import SynapseaConversationCopilot from 'dashboard/components-next/synapsea/SynapseaConversationCopilot.vue';
+
+ codex/transform-chatwoot-into-synapsea-connect-nhivec
+import SynapseaConversationCopilot from 'dashboard/components-next/synapsea/SynapseaConversationCopilot.vue';
+
+ develop
+ develop
+ develop
+ develop
+ develop
+ develop
 
 const props = defineProps({
   conversationId: {
@@ -139,6 +162,16 @@ onMounted(() => {
       @close="closeContactPanel"
     />
     <ContactInfo :contact="contact" :channel-type="channelType" />
+ codex/transform-chatwoot-into-synapsea-connect-zcodwn
+
+ codex/transform-chatwoot-into-synapsea-connect-2i3fp8
+
+ codex/transform-chatwoot-into-synapsea-connect-6xbxtt
+
+ codex/transform-chatwoot-into-synapsea-connect-vkjace
+ develop
+ develop
+ develop
     <section class="px-2 py-3 border-b border-n-weak bg-n-surface-1">
       <p
         class="mb-2 text-xs font-semibold tracking-wide uppercase text-n-slate-10"
@@ -150,9 +183,43 @@ onMounted(() => {
           :contact="contact"
           :conversation="currentChat"
         />
+ codex/transform-chatwoot-into-synapsea-connect-zcodwn
         <SynapseaContactIntelligence :contact="contact" />
       </div>
     </section>
+
+        <SynapseaContactIntelligence
+          :contact="contact"
+          :conversation="currentChat"
+        />
+      </div>
+    </section>
+ codex/transform-chatwoot-into-synapsea-connect-2i3fp8
+
+ codex/transform-chatwoot-into-synapsea-connect-6xbxtt
+
+
+    <SynapseaContactIntelligence
+      :contact="contact"
+      :conversation="currentChat"
+    />
+ codex/transform-chatwoot-into-synapsea-connect-ymy4px
+
+ codex/transform-chatwoot-into-synapsea-connect-nhivec
+ develop
+    <SynapseaConversationCopilot
+      :contact="contact"
+      :conversation="currentChat"
+    />
+ codex/transform-chatwoot-into-synapsea-connect-ymy4px
+
+
+ develop
+ develop
+ develop
+ develop
+ develop
+ develop
     <div class="px-2 pb-8 list-group">
       <Draggable
         :list="conversationSidebarItems"

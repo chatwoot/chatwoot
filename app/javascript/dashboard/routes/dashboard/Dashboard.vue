@@ -25,6 +25,7 @@ import CopilotContainer from 'dashboard/components/copilot/CopilotContainer.vue'
 
 import MobileSidebarLauncher from 'dashboard/components-next/sidebar/MobileSidebarLauncher.vue';
 import { useCallsStore } from 'dashboard/stores/calls';
+import ContextHelp from 'dashboard/components-next/ContextHelp.vue';
 
 export default {
   components: {
@@ -37,6 +38,7 @@ export default {
     CopilotContainer,
     FloatingCallWidget,
     MobileSidebarLauncher,
+    ContextHelp,
   },
   setup() {
     const upgradePageRef = ref(null);
@@ -83,6 +85,105 @@ export default {
         previously_used_conversation_display_type: conversationDisplayType,
       } = this.uiSettings;
       return conversationDisplayType;
+    },
+    contextualHelpKey() {
+      const routeName = this.$route.name;
+      const routeToHelpMap = {
+        dashboard: 'dashboard',
+        home: 'conversations',
+        inbox_view: 'inbox',
+        inbox_view_conversation: 'inbox',
+        contacts_dashboard_index: 'contacts',
+        contacts_dashboard_active: 'contacts',
+ codex/transform-chatwoot-into-synapsea-connect-2i3fp8
+        contacts_edit: 'contacts',
+
+ codex/transform-chatwoot-into-synapsea-connect-6xbxtt
+        contacts_edit: 'contacts',
+
+ codex/transform-chatwoot-into-synapsea-connect-vkjace
+        contacts_edit: 'contacts',
+
+ codex/transform-chatwoot-into-synapsea-connect-ymy4px
+        contacts_edit: 'contacts',
+
+ develop
+ develop
+ develop
+ develop
+        conversation_mentions: 'conversations',
+        labels_list: 'tags',
+        automation_list: 'automations',
+        settings_applications: 'integrations',
+        conversation_reports: 'reports',
+        account_overview_reports: 'reports',
+        agent_list: 'user_management',
+        search: 'search_filters',
+ codex/transform-chatwoot-into-synapsea-connect-2i3fp8
+
+ codex/transform-chatwoot-into-synapsea-connect-6xbxtt
+
+ codex/transform-chatwoot-into-synapsea-connect-vkjace
+
+ codex/transform-chatwoot-into-synapsea-connect-ymy4px
+ develop
+ develop
+ develop
+        companies_dashboard_index: 'companies',
+        campaigns_livechat_index: 'campaigns',
+        campaigns_sms_index: 'campaigns',
+        campaigns_whatsapp_index: 'campaigns',
+ codex/transform-chatwoot-into-synapsea-connect-2i3fp8
+
+ codex/transform-chatwoot-into-synapsea-connect-6xbxtt
+
+ codex/transform-chatwoot-into-synapsea-connect-vkjace
+
+
+ develop
+ develop
+ develop
+ develop
+      };
+
+      if (routeName?.includes('notes')) return 'internal_notes';
+      if (routeName?.includes('assignment')) return 'assign_conversation';
+ codex/transform-chatwoot-into-synapsea-connect-2i3fp8
+
+ codex/transform-chatwoot-into-synapsea-connect-6xbxtt
+
+ codex/transform-chatwoot-into-synapsea-connect-vkjace
+
+ codex/transform-chatwoot-into-synapsea-connect-ymy4px
+ develop
+ develop
+ develop
+      if (routeName?.includes('portals') || routeName?.includes('helpcenter')) {
+        return 'help_center';
+      }
+      if (routeName?.includes('captain')) return 'captain';
+      if (routeName?.includes('settings')) return 'settings';
+      if (routeName?.includes('inbox')) return 'inbox';
+      if (routeName?.includes('report')) return 'reports';
+      if (routeName?.includes('campaign')) return 'campaigns';
+      if (routeName?.includes('company')) return 'companies';
+      if (routeName?.includes('contact')) return 'contacts';
+      if (routeName?.includes('conversation')) return 'conversations';
+
+      return routeToHelpMap[routeName] || 'dashboard';
+ codex/transform-chatwoot-into-synapsea-connect-2i3fp8
+
+ codex/transform-chatwoot-into-synapsea-connect-6xbxtt
+
+ codex/transform-chatwoot-into-synapsea-connect-vkjace
+
+
+
+      return routeToHelpMap[routeName] || null;
+ develop
+ develop
+ develop
+ develop
     },
   },
   watch: {
@@ -154,6 +255,9 @@ export default {
         />
       </UpgradePage>
       <template v-if="!showUpgradePage">
+        <div class="fixed z-30 top-4 right-4">
+          <ContextHelp v-if="contextualHelpKey" :help-key="contextualHelpKey" />
+        </div>
         <router-view />
         <CommandBar />
         <CopilotLauncher />

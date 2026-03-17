@@ -195,25 +195,34 @@ export default {
 </script>
 
 <template>
-  <section class="flex w-full h-full min-w-0">
-    <ChatList
-      :show-conversation-list="showConversationList"
-      :conversation-inbox="inboxId"
-      :label="label"
-      :team-id="teamId"
-      :conversation-type="conversationType"
-      :folders-id="foldersId"
-      :is-on-expanded-layout="isOnExpandedLayout"
-      @conversation-load="onConversationLoad"
-    />
-    <ConversationBox
-      v-if="showMessageView"
-      :inbox-id="inboxId"
-      :is-on-expanded-layout="isOnExpandedLayout"
-    >
-      <SidepanelSwitch v-if="currentChat.id" />
-    </ConversationBox>
-    <ConversationSidebar v-if="shouldShowSidebar" :current-chat="currentChat" />
+  <section class="flex w-full h-full min-w-0 bg-n-slate-2/40">
+    <div class="flex w-full h-full min-w-0 gap-0 lg:gap-2 lg:p-2">
+      <div class="h-full shrink-0">
+        <ChatList
+          :show-conversation-list="showConversationList"
+          :conversation-inbox="inboxId"
+          :label="label"
+          :team-id="teamId"
+          :conversation-type="conversationType"
+          :folders-id="foldersId"
+          :is-on-expanded-layout="isOnExpandedLayout"
+          @conversation-load="onConversationLoad"
+        />
+      </div>
+      <ConversationBox
+        v-if="showMessageView"
+        :inbox-id="inboxId"
+        :is-on-expanded-layout="isOnExpandedLayout"
+        class="rounded-none lg:rounded-xl border-x lg:border border-n-weak overflow-hidden"
+      >
+        <SidepanelSwitch v-if="currentChat.id" />
+      </ConversationBox>
+      <ConversationSidebar
+        v-if="shouldShowSidebar"
+        :current-chat="currentChat"
+        class="rounded-none lg:rounded-xl border-x lg:border border-n-weak overflow-hidden"
+      />
+    </div>
     <CmdBarConversationSnooze />
   </section>
 </template>

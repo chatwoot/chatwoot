@@ -7,6 +7,7 @@ import { REPORTS_EVENTS } from '../../../../helper/AnalyticsHelper/events';
 import { generateFileName } from 'dashboard/helper/downloadHelper';
 import ReportContainer from './ReportContainer.vue';
 import ReportHeader from './components/ReportHeader.vue';
+import SynapseaServiceAnalytics from './components/SynapseaServiceAnalytics.vue';
 
 const REPORTS_KEYS = {
   CONVERSATIONS: 'conversations_count',
@@ -25,6 +26,7 @@ export default {
     ReportFilters,
     ReportContainer,
     V4Button,
+    SynapseaServiceAnalytics,
   },
   data() {
     return {
@@ -121,6 +123,19 @@ export default {
       show-group-by
       @filter-change="onFilterChange"
     />
+ codex/transform-chatwoot-into-synapsea-connect-2i3fp8
+    <SynapseaServiceAnalytics :from="from" :to="to" />
+
+ codex/transform-chatwoot-into-synapsea-connect-6xbxtt
+    <SynapseaServiceAnalytics :from="from" :to="to" />
+
+ codex/transform-chatwoot-into-synapsea-connect-vkjace
+    <SynapseaServiceAnalytics :from="from" :to="to" />
+
+    <SynapseaServiceAnalytics />
+ develop
+ develop
+ develop
     <ReportContainer :group-by="groupBy" />
   </div>
 </template>
