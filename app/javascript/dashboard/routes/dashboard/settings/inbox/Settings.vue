@@ -218,13 +218,10 @@ export default {
       return getInboxIconByType(type, medium, 'line');
     },
     bannerMaxWidth() {
-      const narrowTabs = [
-        'collaborators',
-        'configuration',
-        'bot-configuration',
-      ];
+      const narrowTabs = ['collaborators', 'bot-configuration'];
+      const wideIfWebWidget = ['configuration', 'inbox-settings'];
       if (narrowTabs.includes(this.selectedTabKey)) return 'max-w-4xl';
-      if (this.selectedTabKey === 'inbox-settings') {
+      if (wideIfWebWidget.includes(this.selectedTabKey)) {
         return this.isAWebWidgetInbox ? 'max-w-7xl' : 'max-w-4xl';
       }
       return 'max-w-7xl';
@@ -354,6 +351,8 @@ export default {
           this.$nextTick(() => {
             this.setTabFromRouteParam();
           });
+        } else {
+          this.selectedFeatureFlags = newInbox?.selected_feature_flags || [];
         }
       },
       immediate: true,
@@ -1164,7 +1163,11 @@ export default {
         <div v-if="selectedTabKey === 'collaborators'" class="mx-6 max-w-4xl">
           <CollaboratorsPage :inbox="inbox" />
         </div>
-        <div v-if="selectedTabKey === 'configuration'" class="mx-6 max-w-4xl">
+        <div
+          v-if="selectedTabKey === 'configuration'"
+          class="mx-6"
+          :class="isAWebWidgetInbox ? 'max-w-7xl' : 'max-w-4xl'"
+        >
           <ConfigurationPage :inbox="inbox" />
         </div>
         <div v-if="selectedTabKey === 'csat'">
