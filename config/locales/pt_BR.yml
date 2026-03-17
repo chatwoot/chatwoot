@@ -196,7 +196,7 @@ pt_BR:
         review_notes: Notas de Avaliação
   notifications:
     notification_title:
-      conversation_creation: ''
+      conversation_creation: 'A conversa (#%{display_id}) foi criada em %{inbox_name}'
       conversation_assignment: 'Uma conversa (#%{display_id}) foi atribuída a você'
       assigned_conversation_new_message: 'Uma nova mensagem foi criada na conversa (#%{display_id})'
       conversation_mention: 'Você foi mencionado em uma conversa (#%{display_id})'

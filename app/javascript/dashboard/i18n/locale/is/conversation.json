@@ -179,7 +179,7 @@
           "FAILED": "Couldn't remove label. Please try again."
         },
         "TEAM_ASSIGNMENT": {
-          "SUCCESFUL": "Úthlutaði teymi #{team} á samtalsauðkenni {conversationId}",
+          "SUCCESFUL": "Úthlutaði teymi \"{team}\" á samtalsauðkenni {conversationId}",
           "FAILED": "Couldn't assign team. Please try again."
         }
       }

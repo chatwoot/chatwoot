@@ -85,7 +85,7 @@
       },
       "CONFIRM": {
         "TITLE": "Biztosan törölni akarod: {attributeName}",
-        "PLACE_HOLDER": "Kérlek gépeld a megerősítéshez",
+        "PLACE_HOLDER": "Kérlek írd be: {attributeName}",
         "MESSAGE": "A törlés eltávolítja az egyéni tulajdonságot",
         "YES": "Törlés ",
         "NO": "Mégse"

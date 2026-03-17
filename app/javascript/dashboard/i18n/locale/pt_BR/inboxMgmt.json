@@ -710,20 +710,8 @@
       "MESSENGER_SUB_HEAD": "Favor, insira essse código <script> dentro da tag Body de sua página html",
       "ALLOWED_DOMAINS": {
         "TITLE": "Domínios permitidos",
-        "DESCRIPTION": "Restrinja quais sites podem incorporar seu widget de chat. Por segurança, adicione apenas domínios que você possui e confia. Adicione um ou mais domínios separados por vírgulas. Deixe em branco para permitir todos os domínios (não recomendado para produção).",
+        "SUBTITLE": "Adicione coringa ou domínios separados por vírgula (deixe em branco para permitir todos), ex: *.chatwoot.dev, chatwoot.com.",
         "PLACEHOLDER": "exemplo.com, www.exemplo.com, app.exemplo.com"
-      },
-      "ALLOW_MOBILE_WEBVIEW": {
-        "LABEL": "Ativar widget em aplicativos móveis",
-        "SUBTITLE": "Marque esta opção se você incorporar o widget em aplicativos iOS ou Android. Aplicativos móveis não enviam informações de domínio, então serão bloqueados pelas restrições de domínio, a menos que isso esteja ativado."
-      },
-      "IDENTITY_VALIDATION": {
-        "TITLE": "Validação de identidade",
-        "DESCRIPTION": "Verifique a autenticidade do usuário gerando tokens seguros. Isso evita que usuários não autorizados se passem por outras pessoas no seu chat.",
-        "SECRET_KEY": "Chave secreta",
-        "VIEW_DOCS": "Ver documentação",
-        "REQUIRE_LABEL": "Exigir validação de identidade para todas as conversas",
-        "REQUIRE_DESCRIPTION": "Quando ativado, os usuários devem fornecer um token de identidade válido para iniciar conversas. Solicitações sem tokens válidos serão rejeitadas."
       },
       "INBOX_AGENTS": "Agentes",
       "INBOX_AGENTS_SUB_TEXT": "Adicionar ou remover agentes dessa caixa de entrada",

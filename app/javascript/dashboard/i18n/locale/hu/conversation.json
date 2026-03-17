@@ -231,7 +231,7 @@
       },
       "UNDEFINED_VARIABLES": {
         "TITLE": "Definiálatlan változók",
-        "MESSAGE": "Definiálatlan változók vannak az üzenetedben. Így is el szeretnéd küldeni az üzenetet?",
+        "MESSAGE": "Az üzeneted {undefinedVariablesCount} definiálatlan változót tartalmaz: {undefinedVariables}. Így is el szeretnéd küldeni az üzenetet?",
         "CONFIRM": {
           "YES": "Elküldés",
           "CANCEL": "Mégse"
