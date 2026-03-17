@@ -150,10 +150,7 @@ onMounted(() => {
           :contact="contact"
           :conversation="currentChat"
         />
-        <SynapseaContactIntelligence
-          :contact="contact"
-          :conversation="currentChat"
-        />
+        <SynapseaContactIntelligence :contact="contact" />
       </div>
     </section>
     <div class="px-2 pb-8 list-group">

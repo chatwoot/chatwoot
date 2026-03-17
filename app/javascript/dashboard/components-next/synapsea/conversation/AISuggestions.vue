@@ -35,12 +35,12 @@ const leadScore = computed(
 </script>
 
 <template>
-  <SynCard :title="$t('CONVERSATION_SIDEBAR.INTELLIGENT_PANEL.TITLE')">
+  <SynCard :title="$t('CONVERSATION_SIDEBAR.INTELLIGENT_PANEL.COPILOT')">
     <div class="mb-2 flex items-center justify-between gap-2">
       <p class="text-xs font-medium text-n-slate-11">
         {{ $t('CONVERSATION_SIDEBAR.INTELLIGENT_PANEL.SUMMARY') }}
       </p>
-      <SynBadge :label="$t('CONVERSATION_SIDEBAR.INTELLIGENT_PANEL.COPILOT')" />
+      <SynBadge :label="$t('CONVERSATION_SIDEBAR.INTELLIGENT_PANEL.SUMMARY')" />
     </div>
 
     <p class="mb-3 text-xs text-n-slate-10">
