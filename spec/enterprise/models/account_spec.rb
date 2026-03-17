@@ -222,6 +222,39 @@ RSpec.describe Account, type: :model do
     end
   end
 
+  describe 'after_commit :migrate_assignment_policies' do
+    let(:account) { create(:account) }
+
+    context 'when assignment_v2 is enabled' do
+      it 'enqueues Migration::AccountAssignmentPolicyJob after commit' do
+        expect do
+          account.enable_features!('assignment_v2')
+        end.to have_enqueued_job(Migration::AccountAssignmentPolicyJob).with(account)
+      end
+    end
+
+    context 'when assignment_v2 is disabled' do
+      it 'does not enqueue the job' do
+        account.enable_features!('assignment_v2')
+
+        expect do
+          account.disable_features!('assignment_v2')
+        end.not_to have_enqueued_job(Migration::AccountAssignmentPolicyJob)
+      end
+    end
+
+    context 'when feature_flags column does not change' do
+      it 'does not enqueue the job' do
+        account.enable_features!('assignment_v2')
+        clear_enqueued_jobs
+
+        expect do
+          account.update!(name: 'Updated Name')
+        end.not_to have_enqueued_job(Migration::AccountAssignmentPolicyJob)
+      end
+    end
+  end
+
   describe 'account deletion' do
     let(:account) { create(:account) }
     let(:admin) { create(:user, account: account, role: :administrator) }
