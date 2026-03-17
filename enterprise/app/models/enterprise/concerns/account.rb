@@ -26,7 +26,7 @@ module Enterprise::Concerns::Account
   private
 
   def assignment_v2_just_enabled?
-    saved_change_to_feature_flags? && feature_enabled?('assignment_v2')
+    !!@assignment_v2_just_enabled
   end
 
   def migrate_assignment_policies

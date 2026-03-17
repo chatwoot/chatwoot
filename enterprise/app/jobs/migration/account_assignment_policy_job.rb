@@ -5,7 +5,7 @@ class Migration::AccountAssignmentPolicyJob < ApplicationJob
 
   def perform(account)
     inboxes_with_limit = account.inboxes
-                                .where("auto_assignment_config->>'max_assignment_limit' ~ '^[1-9]'")
+                                .where("auto_assignment_config->>'max_assignment_limit' ~ '[1-9]'")
 
     return if inboxes_with_limit.empty?
 

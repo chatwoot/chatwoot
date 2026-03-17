@@ -225,31 +225,33 @@ RSpec.describe Account, type: :model do
   describe 'after_commit :migrate_assignment_policies' do
     let(:account) { create(:account) }
 
-    context 'when assignment_v2 is enabled' do
+    context 'when assignment_v2 is toggled on via admin UI' do
       it 'enqueues Migration::AccountAssignmentPolicyJob after commit' do
+        enabled_flags = account.enabled_features.keys.map { |f| "feature_#{f}".to_sym } + [:feature_assignment_v2]
+
         expect do
-          account.enable_features!('assignment_v2')
+          account.update!(selected_feature_flags: enabled_flags)
         end.to have_enqueued_job(Migration::AccountAssignmentPolicyJob).with(account)
       end
     end
 
-    context 'when assignment_v2 is disabled' do
-      it 'does not enqueue the job' do
-        account.enable_features!('assignment_v2')
-
-        expect do
-          account.disable_features!('assignment_v2')
-        end.not_to have_enqueued_job(Migration::AccountAssignmentPolicyJob)
-      end
-    end
-
-    context 'when feature_flags column does not change' do
+    context 'when assignment_v2 is already enabled and another flag changes' do
       it 'does not enqueue the job' do
         account.enable_features!('assignment_v2')
         clear_enqueued_jobs
 
+        enabled_flags = account.enabled_features.keys.map { |f| "feature_#{f}".to_sym }
+
         expect do
-          account.update!(name: 'Updated Name')
+          account.update!(selected_feature_flags: enabled_flags)
+        end.not_to have_enqueued_job(Migration::AccountAssignmentPolicyJob)
+      end
+    end
+
+    context 'when assignment_v2 is enabled via enable_features!' do
+      it 'does not enqueue the job' do
+        expect do
+          account.enable_features!('assignment_v2')
         end.not_to have_enqueued_job(Migration::AccountAssignmentPolicyJob)
       end
     end
