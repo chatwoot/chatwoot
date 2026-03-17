@@ -65,25 +65,31 @@ const updatePortalLocales = async ({
     });
 
     alertMessage = localeActionMessages.value[messageKey].success;
+    return true;
   } catch (error) {
     alertMessage =
       error?.message || localeActionMessages.value[messageKey].error;
+    return false;
   } finally {
     useAlert(alertMessage);
   }
 };
 
-const changeDefaultLocale = ({ localeCode }) => {
+const changeDefaultLocale = async ({ localeCode }) => {
   const newAllowedLocales = props.locales.map(locale => locale.code);
   const newDraftLocales = props.locales
     .filter(locale => locale.isDraft)
     .map(locale => locale.code);
-  updatePortalLocales({
+  const isUpdated = await updatePortalLocales({
     newAllowedLocales,
     newDraftLocales,
     defaultLocale: localeCode,
     messageKey: 'CHANGE_DEFAULT_LOCALE',
   });
+  if (!isUpdated) {
+    return;
+  }
+
   useTrack(PORTALS_EVENTS.SET_DEFAULT_LOCALE, {
     newLocale: localeCode,
     from: route.name,
@@ -113,12 +119,15 @@ const deletePortalLocale = async ({ localeCode }) => {
 
   const defaultLocale = props.portal.meta.default_locale;
 
-  await updatePortalLocales({
+  const isUpdated = await updatePortalLocales({
     newAllowedLocales: updatedLocales,
     newDraftLocales: updatedDraftLocales,
     defaultLocale,
     messageKey: 'DELETE_LOCALE',
   });
+  if (!isUpdated) {
+    return;
+  }
 
   await updateLastActivePortal(localeCode);
 
@@ -137,7 +146,7 @@ const updateDraftLocales = async ({ localeCode, shouldDraft, messageKey }) => {
     ? [...new Set([...currentDraftLocales, localeCode])]
     : currentDraftLocales.filter(locale => locale !== localeCode);
 
-  await updatePortalLocales({
+  return updatePortalLocales({
     newAllowedLocales,
     newDraftLocales,
     defaultLocale: props.portal.meta.default_locale,
@@ -146,11 +155,14 @@ const updateDraftLocales = async ({ localeCode, shouldDraft, messageKey }) => {
 };
 
 const moveLocaleToDraft = async ({ localeCode }) => {
-  await updateDraftLocales({
+  const isUpdated = await updateDraftLocales({
     localeCode,
     shouldDraft: true,
     messageKey: 'DRAFT_LOCALE',
   });
+  if (!isUpdated) {
+    return;
+  }
 
   useTrack(PORTALS_EVENTS.DRAFT_LOCALE, {
     locale: localeCode,
@@ -159,11 +171,14 @@ const moveLocaleToDraft = async ({ localeCode }) => {
 };
 
 const publishLocale = async ({ localeCode }) => {
-  await updateDraftLocales({
+  const isUpdated = await updateDraftLocales({
     localeCode,
     shouldDraft: false,
     messageKey: 'PUBLISH_LOCALE',
   });
+  if (!isUpdated) {
+    return;
+  }
 
   useTrack(PORTALS_EVENTS.PUBLISH_LOCALE, {
     locale: localeCode,
