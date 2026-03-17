@@ -417,17 +417,13 @@ zh_TW:
     button: 開啟對話
   time_units:
     days:
-      one: '%{count} 天'
-      other: '%{count} 天'
+      other: '%{count} days'
     hours:
-      one: '%{count} 小時'
-      other: '%{count} 小時'
+      other: '%{count} hours'
     minutes:
-      one: '%{count} 分鐘'
-      other: '%{count} 分鐘'
+      other: '%{count} minutes'
     seconds:
-      one: '%{count} 秒'
-      other: '%{count} 秒'
+      other: '%{count} seconds'
   auto_assignment:
     default_policy_name: 'Default Policy'
     policy_actor: 'Automation System via %{policy_name}'
