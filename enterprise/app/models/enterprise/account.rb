@@ -44,7 +44,6 @@ module Enterprise::Account
     if feature_enabled?('assignment_v2')
       # Enable advanced_assignment for Business/Enterprise plans
       send('feature_advanced_assignment=', true) if business_or_enterprise_plan?
-      Migration::AccountAssignmentPolicyJob.perform_later(self)
     else
       # Disable advanced_assignment when assignment_v2 is disabled
       send('feature_advanced_assignment=', false)
