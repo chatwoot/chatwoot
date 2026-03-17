@@ -14,7 +14,13 @@ class Integrations::Infinitepay::WebhookProcessorService
     return if order_nsu.blank?
 
     payment_link = PaymentLink.find_by(order_nsu: order_nsu)
-    return if payment_link.nil?
+
+    # AUTO-CREATE: link gerado pelo Socialwise Flow (mesmo formato order_nsu)
+    if payment_link.nil?
+      payment_link = auto_create_from_webhook(order_nsu)
+      return if payment_link.nil?
+    end
+
     return if payment_link.paid?
 
     payment_link.mark_as_paid!(@payload)
@@ -26,6 +32,38 @@ class Integrations::Infinitepay::WebhookProcessorService
   end
 
   private
+
+  # Parseia "chatwit-{accountId}-{conversationId}-{hex}" e cria PaymentLink on-the-fly
+  def auto_create_from_webhook(order_nsu)
+    parts = order_nsu.split('-')
+    return nil unless parts.length >= 4 && parts[0] == 'chatwit'
+
+    account_id = parts[1].to_i
+    conversation_id = parts[2].to_i
+
+    account = Account.find_by(id: account_id)
+    return nil if account.nil?
+
+    conversation = account.conversations.find_by(id: conversation_id)
+    return nil if conversation.nil?
+
+    amount_cents = (@payload['amount'] || @payload['paid_amount'] || 0).to_i
+    description = Array(@payload['items']).first&.dig('description') || 'Pagamento via Flow'
+
+    PaymentLink.create!(
+      account: account,
+      conversation: conversation,
+      user: nil,
+      order_nsu: order_nsu,
+      amount_cents: [amount_cents, 1].max,
+      description: description,
+      checkout_url: '',
+      status: 'pending'
+    )
+  rescue StandardError => e
+    Rails.logger.error "[INFINITEPAY] Auto-create PaymentLink failed: #{e.message}"
+    nil
+  end
 
   def send_confirmation_message(payment_link)
     conversation = payment_link.conversation

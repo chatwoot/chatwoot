@@ -1526,6 +1526,18 @@ Enquanto o Chatwit não implementa a Parte 2, o Socialwise tem um **fallback por
 
 ## Changelog
 
+### v2.1.0 (2026-03-17) - InfinitePay: Auto-create PaymentLink para links do Socialwise Flow — ✅ IMPLEMENTADO
+
+**Seção 20 — Implementado em 17/03/2026.**
+
+**Problema:** Links de pagamento gerados pelo Socialwise Flow não tinham registro `PaymentLink` no banco do Chatwit, causando webhook ignorado (pagamento não aparecia no chat, JusMonitorIA não notificado).
+
+**Implementado no Chatwit (~25 linhas Ruby):**
+1. ✅ `webhook_processor_service.rb`: `perform` agora chama `auto_create_from_webhook` quando `PaymentLink.find_by` retorna nil
+2. ✅ `webhook_processor_service.rb`: Novo método `auto_create_from_webhook` — parseia `chatwit-{accountId}-{conversationId}-{hex}`, valida account/conversation, cria `PaymentLink` on-the-fly
+
+**Resultado:** Links gerados pelo Socialwise Flow agora seguem o mesmo caminho que links criados pela UI do Chatwit (confirmação no chat, forward JusMonitorIA, forward Socialwise).
+
 ### v2.0.0 (2026-02-23) - Template QUICK_REPLY Button Payload — ✅ IMPLEMENTADO
 
 **Seção 16 — Implementado em 22/02/2026.**
@@ -1856,3 +1868,133 @@ Content-Type: application/json
 - Usar o Agent Bot token (de `metadata.chatwit_agent_bot_token`), **não** user token
 - Validar o email antes de salvar (formato válido, não é spam/fake)
 - Se o contato já tiver email, o SocialWise pode pular essa etapa
+
+---
+
+## 20. InfinitePay: Links Gerados pelo Socialwise Flow Devem Passar pelo Chatwit (NECESSÁRIO)
+
+> **Data:** 2026-03-17
+> **Prioridade:** 🔴 Alta
+> **Lado:** Chatwit (mudança em ~20 linhas no `WebhookProcessorService`)
+> **Status:** ✅ IMPLEMENTADO (2026-03-17)
+
+### Contexto
+
+O SocialWise Flow Builder possui um nó `GENERATE_PAYMENT_LINK` que gera links de pagamento InfinitePay. Até agora, o webhook de confirmação apontava **direto para o Socialwise**, bypassando o Chatwit. Isso causava:
+
+1. **Pagamento NÃO aparecia no chat** — o Chatwit não sabia que o cliente pagou
+2. **JusMonitorIA não era notificado** — o forward só acontece dentro do `WebhookProcessorService`
+3. **Fluxo inconsistente** — links criados pelo agente (via UI Chatwit) e pelo Flow tinham caminhos diferentes
+
+### O que o Socialwise já mudou
+
+O Socialwise agora gera links com:
+- **`webhook_url`**: `{chatwit_base_url}/webhooks/infinitepay` (aponta pro Chatwit)
+- **`order_nsu`**: formato `chatwit-{accountId}-{conversationId}-{hex}` (idêntico ao Chatwit)
+
+Ou seja, o InfinitePay agora vai chamar o Chatwit quando o pagamento for confirmado — **exatamente como se o link tivesse sido criado pelo Chatwit**.
+
+### O problema
+
+O `WebhookProcessorService` faz `PaymentLink.find_by(order_nsu: order_nsu)`. Como o link foi gerado pelo Socialwise (chamando a API InfinitePay diretamente), **não existe registro `PaymentLink` no banco do Chatwit**. O processor retorna `nil` e ignora o webhook.
+
+### O que o Chatwit precisa fazer
+
+Modificar `WebhookProcessorService#perform` para **auto-criar o `PaymentLink`** quando não existir registro mas o `order_nsu` for parseável:
+
+```ruby
+# lib/integrations/infinitepay/webhook_processor_service.rb
+
+def perform
+  order_nsu = @payload['order_nsu']
+  return if order_nsu.blank?
+
+  payment_link = PaymentLink.find_by(order_nsu: order_nsu)
+
+  # AUTO-CREATE: link gerado pelo Socialwise Flow (mesmo formato order_nsu)
+  if payment_link.nil?
+    payment_link = auto_create_from_webhook(order_nsu)
+    return if payment_link.nil?
+  end
+
+  return if payment_link.paid?
+
+  payment_link.mark_as_paid!(@payload)
+  send_confirmation_message(payment_link)
+  forward_to_integrations(payment_link)
+
+  payment_link
+end
+
+private
+
+# Parseia "chatwit-{accountId}-{conversationId}-{hex}" e cria PaymentLink on-the-fly
+def auto_create_from_webhook(order_nsu)
+  parts = order_nsu.split('-')
+  return nil unless parts.length >= 4 && parts[0] == 'chatwit'
+
+  account_id = parts[1].to_i
+  conversation_id = parts[2].to_i
+
+  account = Account.find_by(id: account_id)
+  return nil if account.nil?
+
+  conversation = account.conversations.find_by(id: conversation_id)
+  return nil if conversation.nil?
+
+  amount_cents = @payload['amount'] || @payload['paid_amount'] || 0
+  description = Array(@payload['items']).first&.dig('description') || 'Pagamento via Flow'
+
+  PaymentLink.create!(
+    account: account,
+    conversation: conversation,
+    user: nil, # gerado por automação, sem user
+    order_nsu: order_nsu,
+    amount_cents: amount_cents,
+    description: description,
+    checkout_url: '', # já foi consumido pelo cliente
+    status: 'pending' # será marcado como paid logo em seguida
+  )
+rescue StandardError => e
+  Rails.logger.error "[INFINITEPAY] Auto-create PaymentLink failed: #{e.message}"
+  nil
+end
+```
+
+### Fluxo após a mudança
+
+```
+Socialwise Flow gera link → webhook_url aponta pro Chatwit
+  → Cliente paga → InfinitePay webhook → Chatwit /webhooks/infinitepay
+    → WebhookProcessorService:
+      1. find_by(order_nsu) → nil
+      2. auto_create_from_webhook() → cria PaymentLink
+      3. mark_as_paid!
+      4. send_confirmation_message() → "Pagamento Confirmado!" aparece no chat ✅
+      5. forward_to_jusmonitoria() → JusMonitorIA notificado ✅
+      6. forward_to_socialwise() → Socialwise notificado ✅
+```
+
+### Resultado esperado
+
+| Cenário | Antes | Depois |
+|---------|-------|--------|
+| Link gerado pelo agente (UI Chatwit) | ✅ Tudo funciona | ✅ Sem mudança |
+| Link gerado pelo Socialwise Flow | ❌ Chatwit ignorava | ✅ Idêntico ao agente |
+
+### Complexidade estimada
+
+~20 linhas Ruby — apenas um método novo (`auto_create_from_webhook`) e 3 linhas extras no `perform`.
+
+### Arquivos a modificar
+
+1. **`lib/integrations/infinitepay/webhook_processor_service.rb`**
+   - Adicionar lógica de auto-create no `perform`
+   - Novo método privado `auto_create_from_webhook`
+
+### Observações
+
+- O `user: nil` é intencional — links criados por automação não têm agente humano associado
+- O `checkout_url` fica vazio porque o link já foi consumido quando o webhook chega
+- O `status: 'pending'` é criado e imediatamente marcado como `paid` pela chamada seguinte `mark_as_paid!`
+- Se o `conversation_id` no order_nsu for inválido, o método retorna `nil` e o webhook é silenciosamente ignorado (safe)

@@ -18,7 +18,8 @@
 8. [Variáveis de Ambiente](#8-variáveis-de-ambiente)
 9. [Futuro: Pagamentos](#9-futuro-pagamentos)
 10. [Sync Bidirecional de Contatos (identifier)](#10-sync-bidirecional-de-contatos-identifier)
-11. [Changelog](#11-changelog)
+11. [Isolamento Multi-Tenant via ACCESS_TOKEN](#11-isolamento-multi-tenant-via-access_token-webhook-padrão)
+12. [Changelog](#12-changelog)
 
 ---
 
@@ -602,7 +603,81 @@ Executar como management command ou one-time task após deploy.
 
 ---
 
-## 11. Changelog
+## 11. Isolamento Multi-Tenant via ACCESS_TOKEN (Webhook Padrão)
+
+> **Status:** IMPLEMENTADO (2026-03-17)
+> **Complexidade:** Alta
+> **Quem implementa:** Equipe JusMonitorIA (100% backend + frontend JusMonitorIA — Chatwit já suporta)
+
+### 11.1 Contexto
+
+O isolamento de tenants anterior usava `chatwit_account_id` (integer) no webhook customizado do bot. Isso tinha falhas:
+- Nenhum tenant em produção tinha o campo preenchido
+- Fallback "single-tenant" silenciosamente roteava tudo para o primeiro tenant
+- O `account_id` (número) não é seguro para isolamento
+
+### 11.2 Nova Arquitetura: Webhook Padrão com ACCESS_TOKEN
+
+O JusMonitorIA agora usa o **webhook padrão do Chatwit** (o mesmo que o SocialWise usa), com `include_access_token: true`. O `ACCESS_TOKEN` do administrador da conta é incluído em cada payload e serve como identificador único do tenant.
+
+```
+┌─────────────────────────────────────────┐
+│             Chatwit                      │
+│                                          │
+│  WebhookListener → WebhookJob            │
+│       ↓                                  │
+│  Standard webhook payload                │
+│  + ACCESS_TOKEN (admin token)            │
+│       ↓                                  │
+│  POST /api/v1/integrations/chatwit/webhook│
+└──────────────┬───────────────────────────┘
+               ↓
+┌──────────────────────────────────────────┐
+│           JusMonitorIA                    │
+│                                          │
+│  1. Extrai ACCESS_TOKEN do payload       │
+│  2. SHA256(token) → busca tenant         │
+│  3. Match exato ou 404 (sem fallback)    │
+│  4. Roteia para handlers internos        │
+└──────────────────────────────────────────┘
+```
+
+### 11.3 Fluxo de Ativação (Frontend)
+
+1. Admin do tenant acessa **Configurações → Integrações → Chatwit**
+2. Cola o `ACCESS_TOKEN` do painel do Chatwit (Configurações → Perfil → Access Token)
+3. JusMonitorIA valida o token via `GET /auth/sign_in` do Chatwit
+4. JusMonitorIA registra webhook automaticamente via `POST /api/v1/accounts/{id}/webhooks`
+5. Integração ativa — leads, mensagens, pagamentos passam a fluir
+
+### 11.4 Endpoints Novos no JusMonitorIA
+
+| Endpoint | Método | Descrição |
+|----------|--------|-----------|
+| `/api/v1/integrations/chatwit/connect` | POST | Conecta tenant ao Chatwit (valida token + registra webhook) |
+| `/api/v1/integrations/chatwit/connect` | DELETE | Desconecta (remove webhook + limpa token) |
+| `/api/v1/integrations/chatwit/status` | GET | Status da integração (connected, account_id, account_name) |
+| `/api/v1/integrations/chatwit/webhook` | POST | Recebe webhooks padrão do Chatwit com ACCESS_TOKEN |
+
+### 11.5 O que o Chatwit já suporta (nada a fazer)
+
+| Funcionalidade | Status |
+|----------------|--------|
+| Webhook com `include_access_token` | ✅ Implementado |
+| `POST /api/v1/accounts/{id}/webhooks` | ✅ Funciona |
+| `DELETE /api/v1/accounts/{id}/webhooks/{wh_id}` | ✅ Funciona |
+| ACCESS_TOKEN do admin no payload | ✅ Funciona |
+
+### 11.6 Segurança
+
+- Token encriptado com Fernet (AES-128-CBC) no banco
+- Lookup por SHA256 hash (one-way, indexado) — token nunca exposto
+- Sem fallback: webhook sem token válido → 404
+- Token validado contra API do Chatwit antes de armazenar
+
+---
+
+## 12. Changelog
 
 | Data | Seção | Status | Descrição |
 |------|-------|--------|-----------|
@@ -610,3 +685,4 @@ Executar como management command ou one-time task após deploy.
 | 2026-03-09 | 1-8 | IMPLEMENTADO | Integração inicial: bot, labels, eventos, respostas bidirecionais |
 | 2026-03-10 | 9 | IMPLEMENTADO | Integração de pagamentos InfinitePay com payload `payment.confirmed` |
 | 2026-03-11 | 10 | IMPLEMENTADO | Sync bidirecional de contatos via `identifier` — implementação 100% no JusMonitorIA |
+| 2026-03-17 | 11 | IMPLEMENTADO | Isolamento multi-tenant via ACCESS_TOKEN + webhook padrão. Removido fallback single-tenant. Frontend self-service para conectar Chatwit |
