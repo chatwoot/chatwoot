@@ -1,56 +1,56 @@
 {
   "PAGINATION_FOOTER": {
-    "SHOWING": "{totalItems}개 항목 중 {startItem} - {endItem} 표시 | {totalItems}개 항목 중 {startItem} - {endItem} 표시",
-    "CURRENT_PAGE_INFO": "{totalPages} 페이지 중 {currentPage} | {totalPages} 페이지 중 {currentPage}"
+    "SHOWING": "Showing {startItem} - {endItem} of {totalItems} items",
+    "CURRENT_PAGE_INFO": "{currentPage} of {totalPages} pages"
   },
   "COMBOBOX": {
-    "PLACEHOLDER": "옵션을 선택하십시오...",
-    "EMPTY_SEARCH_RESULTS": "검색어 `{searchTerm}`에 대한 항목을 찾을 수 없습니다",
+    "PLACEHOLDER": "Select an option...",
+    "EMPTY_SEARCH_RESULTS": "No items found for the search term `{searchTerm}`",
     "EMPTY_STATE": "검색 결과가 없습니다.",
-    "SEARCH_PLACEHOLDER": "검색...",
-    "MORE": "+{count}개 더"
+    "SEARCH_PLACEHOLDER": "Search...",
+    "MORE": "+{count} more"
   },
   "DROPDOWN_MENU": {
-    "SEARCH_PLACEHOLDER": "검색...",
+    "SEARCH_PLACEHOLDER": "Search...",
     "EMPTY_STATE": "검색 결과가 없습니다.",
     "SEARCHING": "검색중..."
   },
   "DIALOG": {
     "BUTTONS": {
       "CANCEL": "취소",
-      "CONFIRM": "확인"
+      "CONFIRM": "Confirm"
     }
   },
   "PHONE_INPUT": {
     "SEARCH_PLACEHOLDER": "국가 검색",
-    "ERROR": "전화번호는 비어 있거나 E.164 형식이어야 합니다",
-    "DIAL_CODE_ERROR": "목록에서 국가 번호를 선택하십시오"
+    "ERROR": "Phone number should be empty or in E.164 format",
+    "DIAL_CODE_ERROR": "Please select a dial code from the list"
   },
   "THUMBNAIL": {
     "AUTHOR": {
-      "NOT_AVAILABLE": "작성자를 사용할 수 없습니다"
+      "NOT_AVAILABLE": "Author is not available"
     }
   },
   "BREADCRUMB": {
-    "ARIA_LABEL": "브레드크럼"
+    "ARIA_LABEL": "Breadcrumb"
   },
   "SWITCH": {
-    "TOGGLE": "스위치 전환"
+    "TOGGLE": "Toggle switch"
   },
   "LABEL": {
-    "TAG_BUTTON": "태그"
+    "TAG_BUTTON": "tag"
   },
   "FEATURE_SPOTLIGHT": {
-    "LEARN_MORE": "더 알아보기",
-    "WATCH_VIDEO": "동영상 보기"
+    "LEARN_MORE": "Learn more",
+    "WATCH_VIDEO": "Watch video"
   },
   "DURATION_INPUT": {
-    "MINUTES": "분",
-    "HOURS": "시간",
-    "DAYS": "일",
-    "PLACEHOLDER": "기간을 입력하십시오"
+    "MINUTES": "Minutes",
+    "HOURS": "Hours",
+    "DAYS": "Days",
+    "PLACEHOLDER": "Enter duration"
   },
   "CHANNEL_SELECTOR": {
-    "COMING_SOON": "곧 출시 예정!"
+    "COMING_SOON": "Coming Soon!"
   }
 }
