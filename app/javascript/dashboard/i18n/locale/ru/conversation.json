@@ -61,6 +61,7 @@
     "UNSUPPORTED_MESSAGE": "Это сообщение не поддерживается. Вы можете просмотреть это сообщение в приложении Facebook / Instagram.",
     "UNSUPPORTED_MESSAGE_FACEBOOK": "Это сообщение не поддерживается. Вы можете просмотреть это сообщение в приложении Facebook Messenger.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "Это сообщение не поддерживается. Вы можете просмотреть это сообщение в приложении Instagram.",
+    "UNSUPPORTED_MESSAGE_TIKTOK": "Это сообщение не поддерживается. Вы можете просмотреть это сообщение в приложении TikTok.",
     "SUCCESS_DELETE_MESSAGE": "Сообщение успешно удалено",
     "FAIL_DELETE_MESSSAGE": "Не удалось удалить сообщение! Попробуйте еще раз",
     "NO_RESPONSE": "Нет ответа",
@@ -173,6 +174,10 @@
           "SUCCESFUL": "Назначена метка #{labelName} диалогу {conversationId}",
           "FAILED": "Не удалось назначить метку. Пожалуйста, попробуйте еще раз."
         },
+        "LABEL_REMOVAL": {
+          "SUCCESFUL": "Удалена метка #{labelName} из диалога с ID {conversationId}",
+          "FAILED": "Не удалось удалить метку. Пожалуйста, попробуйте еще раз."
+        },
         "TEAM_ASSIGNMENT": {
           "SUCCESFUL": "Назначена метка #{team} в разговор id {conversationId}",
           "FAILED": "Не удалось назначить команду. Пожалуйста, попробуйте еще раз."
@@ -185,7 +190,11 @@
       "DISABLE_SIGN_TOOLTIP": "Отключить подпись",
       "MSG_INPUT": "Shift + enter чтобы начать новую строку. Начните с '/', чтобы выбрать шаблонный ответ.",
       "PRIVATE_MSG_INPUT": "Shift + enter для новой строки. Это будет видно только Операторам",
+      "MESSAGING_RESTRICTED": "Вы не можете отвечать в этот диалог",
+      "MESSAGING_RESTRICTED_WHATSAPP": "You can only reply using a template message due to 24-hour message window restriction",
+      "MESSAGING_RESTRICTED_API": "You can only reply using a template message due to message window restriction",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Подпись сообщения не настроена, пожалуйста настройте её в настройках профиля.",
+      "COPILOT_MSG_INPUT": "Задайте Copilot дополнительные промпты или спросите что-нибудь другое... Нажмите Enter, чтобы дополнить информацию",
       "CLICK_HERE": "Нажмите здесь, чтобы обновить",
       "WHATSAPP_TEMPLATES": "Шаблоны Whatsapp"
     },
@@ -205,7 +214,7 @@
       "DRAG_DROP": "Перетащите сюда, чтобы прикрепить",
       "START_AUDIO_RECORDING": "Начать запись аудио",
       "STOP_AUDIO_RECORDING": "Остановить запись аудио",
-      "": "",
+      "COPILOT_THINKING": "Copilot думает",
       "EMAIL_HEAD": {
         "TO": "ДО",
         "ADD_BCC": "Добавить bcc",
@@ -247,9 +256,12 @@
     "SUCCESS_DELETE_CONVERSATION": "Диалог удален",
     "FAIL_DELETE_CONVERSATION": "Не удалось удалить диалог! Попробуйте снова",
     "FILE_SIZE_LIMIT": "Превышен лимит вложений в {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB",
+    "FILE_TYPE_NOT_SUPPORTED": "Тип файла {fileName} не поддерживается в этом диалоге",
     "MESSAGE_ERROR": "Не удается отправить это сообщение, повторите попытку позже",
     "SENT_BY": "Отправитель:",
     "BOT": "Бот",
+    "NATIVE_APP": "Нативное приложение",
+    "NATIVE_APP_ADVISORY": "Это сообщение было отправлено из нативного приложения. Ответьте через ChatWoot, чтобы продолжить диалог.",
     "SEND_FAILED": "Не удалось удалить сообщение! Попробуйте еще раз",
     "TRY_AGAIN": "повторить",
     "ASSIGNMENT": {
@@ -281,10 +293,10 @@
       "OUTGOING_CALL": "Исходящий звонок",
       "CALL_IN_PROGRESS": "Идёт звонок",
       "NOT_ANSWERED_YET": "Пока нет ответа",
-      "HANDLED_IN_ANOTHER_TAB": "Being handled in another tab",
-      "REJECT_CALL": "Reject",
-      "JOIN_CALL": "Join call",
-      "END_CALL": "End call"
+      "HANDLED_IN_ANOTHER_TAB": "Обрабатывается в другой вкладке",
+      "REJECT_CALL": "Отклонить",
+      "JOIN_CALL": "Присоединиться к звонку",
+      "END_CALL": "Завершить звонок"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -294,6 +306,7 @@
     "CANCEL": "Отменить",
     "SEND_EMAIL_SUCCESS": "Субтитры чата успешно отправлены",
     "SEND_EMAIL_ERROR": "Произошла ошибка, попробуйте еще раз",
+    "SEND_EMAIL_PAYMENT_REQUIRED": "Отправка транскрипта на электронную почту не поддерживается вашим планом. Пожалуйста, обновите план, чтобы получить доступ к этой функции.",
     "FORM": {
       "SEND_TO_CONTACT": "Отправить субтитры клиенту",
       "SEND_TO_AGENT": "Отправить транскрипт назначенному агенту",
