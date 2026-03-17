@@ -374,6 +374,16 @@
         "ERROR_MESSAGE": "Error while deleting article"
       }
     },
+    "REORDER_ARTICLE": {
+      "API": {
+        "ERROR_MESSAGE": "Kan artikelen niet herordenen. Probeer het opnieuw."
+      }
+    },
+    "REORDER_CATEGORY": {
+      "API": {
+        "ERROR_MESSAGE": "Unable to reorder categories. Please try again."
+      }
+    },
     "CREATE_ARTICLE": {
       "ERROR_MESSAGE": "Please add the article heading and content then only you can update the settings"
     },
