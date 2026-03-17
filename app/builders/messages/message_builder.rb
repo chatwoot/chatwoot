@@ -65,7 +65,7 @@ class Messages::MessageBuilder
   def process_reusable_attachments
     return if @attachment_ids.blank?
 
-    @account.reusable_attachments.where(id: @attachment_ids).each do |ra|
+    @account.reusable_attachments.where(id: @attachment_ids).find_each do |ra|
       next unless ra.file.attached?
 
       att = @message.attachments.build(account_id: @message.account_id, file: ra.file.blob)
