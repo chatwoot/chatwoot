@@ -61,6 +61,7 @@
     "UNSUPPORTED_MESSAGE": "This message is unsupported. You can view this message on the Facebook / Instagram app.",
     "UNSUPPORTED_MESSAGE_FACEBOOK": "This message is unsupported. You can view this message on the Facebook Messenger app.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "This message is unsupported. You can view this message on the Instagram app.",
+    "UNSUPPORTED_MESSAGE_TIKTOK": "This message is unsupported. You can view this message on the TikTok app.",
     "SUCCESS_DELETE_MESSAGE": "Skilaboðum eytt",
     "FAIL_DELETE_MESSSAGE": "Gat ekki eytt skilaboðum! Reynið aftur",
     "NO_RESPONSE": "Ekkert svar",
@@ -173,6 +174,10 @@
           "SUCCESFUL": "Assigned label #{labelName} to conversation id {conversationId}",
           "FAILED": "Couldn't assign label. Please try again."
         },
+        "LABEL_REMOVAL": {
+          "SUCCESFUL": "Removed label #{labelName} from conversation id {conversationId}",
+          "FAILED": "Couldn't remove label. Please try again."
+        },
         "TEAM_ASSIGNMENT": {
           "SUCCESFUL": "Úthlutaði teymi #{team} á samtalsauðkenni {conversationId}",
           "FAILED": "Couldn't assign team. Please try again."
@@ -185,7 +190,11 @@
       "DISABLE_SIGN_TOOLTIP": "Disable signature",
       "MSG_INPUT": "Shift + enter fyrir nýja línu. Byrjaðu á '/' til að velja tilbúið svar.",
       "PRIVATE_MSG_INPUT": "Shift + enter fyrir nýja línu. Þetta verður aðeins sýnilegt fyrir þjónustufulltrúa",
+      "MESSAGING_RESTRICTED": "You cannot reply to this conversation",
+      "MESSAGING_RESTRICTED_WHATSAPP": "You can only reply using a template message due to 24-hour message window restriction",
+      "MESSAGING_RESTRICTED_API": "You can only reply using a template message due to message window restriction",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Skilaboðundirskrift er ekki stillt, vinsamlegast stilltu hana í prófílstillingum.",
+      "COPILOT_MSG_INPUT": "Give copilot additional prompts, or ask anything else... Press enter to send follow-up",
       "CLICK_HERE": "Click here to update",
       "WHATSAPP_TEMPLATES": "Whatsapp Templates"
     },
@@ -205,7 +214,7 @@
       "DRAG_DROP": "Dragðu og slepptu viðhenginu hingað",
       "START_AUDIO_RECORDING": "Hefja hljóðupptöku",
       "STOP_AUDIO_RECORDING": "Stoppa hljóðupptöku",
-      "": "",
+      "COPILOT_THINKING": "Copilot is thinking",
       "EMAIL_HEAD": {
         "TO": "TO",
         "ADD_BCC": "Bæta við bcc",
@@ -247,9 +256,12 @@
     "SUCCESS_DELETE_CONVERSATION": "Conversation deleted successfully",
     "FAIL_DELETE_CONVERSATION": "Couldn't delete conversation! Try again",
     "FILE_SIZE_LIMIT": "Skráin fer framyfir hámarksstærð viðhengja ({MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE})",
+    "FILE_TYPE_NOT_SUPPORTED": "This {fileName} file type is not supported in this conversation",
     "MESSAGE_ERROR": "Ekki er hægt að senda þessi skilaboð, vinsamlegast reyndu aftur síðar",
     "SENT_BY": "Sent af:",
     "BOT": "Bot",
+    "NATIVE_APP": "Native app",
+    "NATIVE_APP_ADVISORY": "This message was sent from the native app. Reply from Chatwoot to maintain the message window.",
     "SEND_FAILED": "Tókst ekki að senda skilaboð! Reyndu aftur",
     "TRY_AGAIN": "reyna aftur",
     "ASSIGNMENT": {
@@ -294,6 +306,7 @@
     "CANCEL": "Hætta við",
     "SEND_EMAIL_SUCCESS": "Afritið af samtalinu var sent",
     "SEND_EMAIL_ERROR": "Það kom villa, vinsamlegas reyndu aftur",
+    "SEND_EMAIL_PAYMENT_REQUIRED": "Email transcript is not available on your current plan. Please upgrade to use this feature.",
     "FORM": {
       "SEND_TO_CONTACT": "Senda afritið á viðskiptavinin",
       "SEND_TO_AGENT": "Sendu afritið til úthlutaðs þjónustufulltrúa",
