@@ -164,7 +164,7 @@
         "LABEL": "Pre"
       },
       "INBOX": {
-        "LABEL": "",
+        "LABEL": "Cez Inbox",
         "PLACEHOLDER": "Vyberte zdrojovú schránku",
         "ERROR": "Vybrať schránku"
       },
