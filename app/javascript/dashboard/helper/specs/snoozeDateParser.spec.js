@@ -1626,63 +1626,6 @@ describe('generateDateSuggestions — localized input regressions', () => {
     },
   };
 
-  const zhTwTranslations = {
-    UNITS: {
-      MINUTE: '分鐘',
-      MINUTES: '分鐘',
-      HOUR: '小時',
-      HOURS: '小時',
-      DAY: '天',
-      DAYS: '天',
-      WEEK: '週',
-      WEEKS: '週',
-      MONTH: '月',
-      MONTHS: '月',
-      YEAR: '年',
-      YEARS: '年',
-    },
-    HALF: '半',
-    NEXT: '下一個',
-    THIS: '這個',
-    AT: '在',
-    IN: '在',
-    FROM_NOW: '之後',
-    NEXT_YEAR: '明年',
-    MERIDIEM: { AM: '上午', PM: '下午' },
-    RELATIVE: {
-      TOMORROW: '明天',
-      DAY_AFTER_TOMORROW: '後天',
-      NEXT_WEEK: '下週',
-      NEXT_MONTH: '下個月',
-      THIS_WEEKEND: '這個週末',
-      NEXT_WEEKEND: '下個週末',
-    },
-    TIME_OF_DAY: {
-      MORNING: '早上',
-      AFTERNOON: '下午',
-      EVENING: '晚上',
-      NIGHT: '夜晚',
-      NOON: '中午',
-      MIDNIGHT: '午夜',
-    },
-    WORD_NUMBERS: {
-      ONE: '一',
-      TWO: '二',
-      THREE: '三',
-      FOUR: '四',
-      FIVE: '五',
-      SIX: '六',
-      SEVEN: '七',
-      EIGHT: '八',
-      NINE: '九',
-      TEN: '十',
-      TWELVE: '十二',
-      FIFTEEN: '十五',
-      TWENTY: '二十',
-      THIRTY: '三十',
-    },
-  };
-
   describe('P1: short non-English tokens must NOT produce spurious half-duration suggestions', () => {
     it('Arabic "غد" does not produce half-duration suggestions', () => {
       const results = generateDateSuggestions('غد', now, {
@@ -1700,28 +1643,6 @@ describe('generateDateSuggestions — localized input regressions', () => {
       });
       const halfLabels = results.filter(r => /half/i.test(r.label));
       expect(halfLabels).toHaveLength(0);
-    });
-  });
-
-  describe('P1: CJK tokens should parse without whitespace separators', () => {
-    it('zh-TW "明天下午3" parses to tomorrow 3pm', () => {
-      const results = generateDateSuggestions('明天下午3', now, {
-        translations: zhTwTranslations,
-        locale: 'zh-TW',
-      });
-      expect(results.length).toBeGreaterThan(0);
-      expect(results[0].date.getDate()).toBe(17);
-      expect(results[0].date.getHours()).toBe(15);
-    });
-
-    it('zh-TW "三小時" parses as a 3 hour duration', () => {
-      const results = generateDateSuggestions('三小時', now, {
-        translations: zhTwTranslations,
-        locale: 'zh-TW',
-      });
-      expect(results.length).toBeGreaterThan(0);
-      expect(results[0].date.getDate()).toBe(16);
-      expect(results[0].date.getHours()).toBe(13);
     });
   });
 

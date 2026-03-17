@@ -273,20 +273,13 @@ const buildReplacementPairs = (translations, locale) => {
 // ─── Token Replacement ──────────────────────────────────────────────────────
 
 const escapeRegex = s => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-const CONTINUOUS_SCRIPT_RE =
-  /[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}\p{Script=Hangul}]/u;
-const isContinuousScriptToken = token => CONTINUOUS_SCRIPT_RE.test(token);
-const buildTokenRegex = local =>
-  isContinuousScriptToken(local)
-    ? new RegExp(escapeRegex(local), 'g')
-    : new RegExp(`(?<=^|\\s)${escapeRegex(local)}(?=\\s|$)`, 'g');
 
 /** Swap localized words for their English versions in the text. */
 const substituteLocalTokens = (text, pairs) => {
   let r = text;
   pairs.forEach(([local, en]) => {
-    const replacement = isContinuousScriptToken(local) ? ` ${en} ` : en;
-    r = r.replace(buildTokenRegex(local), replacement);
+    const re = new RegExp(`(?<=^|\\s)${escapeRegex(local)}(?=\\s|$)`, 'g');
+    r = r.replace(re, en);
   });
   return r;
 };
