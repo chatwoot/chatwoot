@@ -19,7 +19,7 @@ class Internal::CheckNewVersionsJob < ApplicationJob
     today = Date.current.to_s
 
     if current_hour == designated_hour && last_check != today
-      ::Redis::Alfred.set(last_check_key, today)
+      ::Redis::Alfred.setex(last_check_key, today, 25.hours)
       return true
     end
 
