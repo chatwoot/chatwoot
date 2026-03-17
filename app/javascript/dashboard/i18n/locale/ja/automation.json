@@ -3,8 +3,11 @@
     "HEADER": "自動化",
     "DESCRIPTION": "自動化は、ラベルの追加や会話を最適な担当者に割り当てるといった手動で行う必要のある既存のプロセスを置き換え、効率化することができます。これにより、チームは強みを発揮しつつ、ルーチンタスクに費やす時間を削減できます。",
     "LEARN_MORE": "自動化について学ぶ",
-    "HEADER_BTN_TXT": "自動化ルールを追加",
+    "COUNT": "{n} automation | {n} automations",
+    "HEADER_BTN_TXT": "Create Automation",
     "LOADING": "自動化ルールを取得中",
+    "SEARCH_PLACEHOLDER": "Search automation rules...",
+    "NO_RESULTS": "No automation rules found matching your search",
     "ADD": {
       "TITLE": "自動化ルールを追加",
       "SUBMIT": "作成",
@@ -42,9 +45,9 @@
     "LIST": {
       "TABLE_HEADER": {
         "NAME": "名前",
-        "DESCRIPTION": "説明",
         "ACTIVE": "有効",
-        "CREATED_ON": "作成日"
+        "CREATED_ON": "作成日",
+        "ACTIONS": "操作"
       },
       "404": "自動化ルールが見つかりません"
     },
@@ -150,7 +153,8 @@
       "ADD_PRIVATE_NOTE": "Add a Private Note",
       "CHANGE_PRIORITY": "優先度を変更",
       "ADD_SLA": "SLAを追加",
-      "OPEN_CONVERSATION": "会話を開く"
+      "OPEN_CONVERSATION": "会話を開く",
+      "PENDING_CONVERSATION": "Mark conversation as pending"
     },
     "MESSAGE_TYPES": {
       "INCOMING": "Incoming Message",
