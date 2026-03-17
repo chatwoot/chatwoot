@@ -1,9 +1,9 @@
 class Internal::CheckNewVersionsJob < ApplicationJob
   queue_as :scheduled_jobs
 
-  def perform
+  def perform(force: false)
     return unless Rails.env.production?
-    return unless should_run_check?
+    return unless force || should_run_check?
 
     add_jitter
 
