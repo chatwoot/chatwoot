@@ -3,6 +3,9 @@
     "FETCHING": "Integracijų gavimas",
     "NO_HOOK_CONFIGURED": "Šioje paskyroje nesukonfigūruota jokių {integrationId} integracijų.",
     "HEADER": "Programos",
+    "COUNT": "{n} integration | {n} integrations",
+    "SEARCH_PLACEHOLDER": "Search...",
+    "NO_RESULTS": "No results found matching your search",
     "STATUS": {
       "ENABLED": "Leisti",
       "DISABLED": "Išjungta"
@@ -31,6 +34,7 @@
     "LIST": {
       "FETCHING": "Integravimo webhook gavimas",
       "INBOX": "Gautų laiškų aplankas",
+      "ACTIONS": "Veiksmai",
       "DELETE": {
         "BUTTON_TEXT": "Ištrinti"
       }

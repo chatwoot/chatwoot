@@ -37,6 +37,7 @@ RSpec.describe 'Platform Agent Bot API', type: :request do
         expect(response).to have_http_status(:success)
         data = response.parsed_body
         expect(data.length).to eq(1)
+        expect(data.first['outgoing_url']).to eq(agent_bot.outgoing_url)
       end
     end
   end
@@ -73,6 +74,7 @@ RSpec.describe 'Platform Agent Bot API', type: :request do
         expect(response).to have_http_status(:success)
         data = response.parsed_body
         expect(data['name']).to eq(agent_bot.name)
+        expect(data['outgoing_url']).to eq(agent_bot.outgoing_url)
       end
     end
   end

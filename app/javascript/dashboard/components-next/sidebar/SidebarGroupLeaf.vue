@@ -44,8 +44,10 @@ const shouldRenderComponent = computed(() => {
         :active
       />
       <template v-else>
-        <Icon v-if="icon" :icon="icon" class="size-4 inline-block" />
-        <div class="flex-1 truncate min-w-0">{{ label }}</div>
+        <span v-if="icon" class="size-4 grid place-content-center rounded-full">
+          <Icon :icon="icon" class="size-4 inline-block" />
+        </span>
+        <div class="flex-1 truncate min-w-0 text-sm">{{ label }}</div>
       </template>
     </component>
   </Policy>
