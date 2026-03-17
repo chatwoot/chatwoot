@@ -24,7 +24,7 @@ namespace :assignment_v2 do
     accounts = account_id.present? ? Account.where(id: account_id) : Account.all
 
     if account_id.blank?
-      print "No ACCOUNT_ID specified. This will migrate ALL accounts. Continue? [y/N] "
+      print 'No ACCOUNT_ID specified. This will migrate ALL accounts. Continue? [y/N] '
       abort 'Aborted.' unless $stdin.gets.chomp.casecmp('y').zero?
     end
 
