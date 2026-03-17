@@ -7,6 +7,7 @@ import CardPriorityIcon from 'dashboard/components-next/Conversation/Conversatio
 import ConversationResolveAttributesModal from 'dashboard/components-next/ConversationWorkflow/ConversationResolveAttributesModal.vue';
 import { useAlert } from 'dashboard/composables';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
+import { useHaptics } from 'dashboard/composables/useHaptics';
 import { useConversationRequiredAttributes } from 'dashboard/composables/useConversationRequiredAttributes';
 import { findSnoozeTime } from 'dashboard/helper/snoozeHelpers';
 import wootConstants from 'dashboard/constants/globals';
@@ -22,6 +23,7 @@ const props = defineProps({
 
 const store = useStore();
 const { t } = useI18n();
+const { medium } = useHaptics();
 const { checkMissingAttributes } = useConversationRequiredAttributes();
 const currentChat = useMapGetter('getSelectedChat');
 
@@ -238,6 +240,7 @@ const updateStatus = async (status, customAttributes = null) => {
   if (customAttributes) payload.customAttributes = customAttributes;
 
   await store.dispatch('toggleStatus', payload);
+  medium();
   useAlert(t('CONVERSATION.CHANGE_STATUS'));
 };
 
@@ -284,6 +287,7 @@ const handleAssigneeSelect = async item => {
     conversationId: props.conversationId,
     agentId: item.value,
   });
+  medium();
   useAlert(t('CONVERSATION.CHANGE_AGENT'));
   showAssigneeSheet.value = false;
 };
@@ -301,6 +305,7 @@ const handleTeamSelect = async item => {
     conversationId: props.conversationId,
     teamId: item.value,
   });
+  medium();
   useAlert(t('CONVERSATION.CHANGE_TEAM'));
   showTeamSheet.value = false;
 };
@@ -314,6 +319,7 @@ const handlePrioritySelect = async item => {
     conversationId: props.conversationId,
     priority: item.value,
   });
+  medium();
   useAlert(
     t('CONVERSATION.PRIORITY.CHANGE_PRIORITY.SUCCESSFUL', {
       priority: item.label,
@@ -328,6 +334,7 @@ const handleLabelsApply = async selectedKeys => {
     conversationId: props.conversationId,
     labels: selectedKeys,
   });
+  medium();
   useAlert(t('CONVERSATION.ASSIGN_LABEL_SUCCESFUL'));
   showLabelsSheet.value = false;
 };
@@ -340,6 +347,7 @@ const handleParticipantsApply = async selectedKeys => {
       conversationId: props.conversationId,
       userIds: selectedKeys,
     });
+    medium();
   } catch (error) {
     alertMessage = error?.message || t('CONVERSATION_PARTICIPANTS.API.ERROR_MESSAGE');
   } finally {

@@ -53,6 +53,16 @@ export const sendRegistrationToServer = subscription => {
   return null;
 };
 
+export const removeRegistrationFromServer = subscription => {
+  if (auth.hasAuthCookie() && subscription?.endpoint) {
+    return NotificationSubscriptions.destroy({
+      endpoint: subscription.endpoint,
+    });
+  }
+
+  return null;
+};
+
 export const registerSubscription = (onSuccess = () => {}) => {
   if (!window.chatwootConfig.vapidPublicKey) {
     return;
@@ -72,6 +82,41 @@ export const registerSubscription = (onSuccess = () => {}) => {
       // eslint-disable-next-line no-console
       console.error('Push subscription registration failed:', error);
       useAlert('This browser does not support desktop notification');
+    });
+};
+
+export const unregisterSubscription = (onSuccess = () => {}) => {
+  navigator.serviceWorker.ready
+    .then(serviceWorkerRegistration =>
+      serviceWorkerRegistration.pushManager.getSubscription()
+    )
+    .then(subscription => {
+      if (!subscription) {
+        return null;
+      }
+
+      return Promise.allSettled([
+        removeRegistrationFromServer(subscription),
+        subscription.unsubscribe(),
+      ]).then(([, unsubscribeResult]) => {
+        if (unsubscribeResult?.status === 'rejected') {
+          throw unsubscribeResult.reason;
+        }
+
+        if (unsubscribeResult?.value === false) {
+          throw new Error('Push subscription removal failed');
+        }
+
+        return subscription;
+      });
+    })
+    .then(() => {
+      onSuccess();
+    })
+    .catch(error => {
+      // eslint-disable-next-line no-console
+      console.error('Push subscription removal failed:', error);
+      throw error;
     });
 };
 

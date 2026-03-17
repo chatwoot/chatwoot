@@ -43,6 +43,9 @@ const { uid } = getCurrentInstance();
 
 const onLoadedMetadata = () => {
   duration.value = audioPlayer.value?.duration;
+  if (audioPlayer.value) {
+    audioPlayer.value.playbackRate = playbackSpeed.value;
+  }
 };
 
 const playbackSpeedLabel = computed(() => {
@@ -52,9 +55,11 @@ const playbackSpeedLabel = computed(() => {
 // There maybe a chance that the audioPlayer ref is not available
 // When the onLoadMetadata is called, so we need to set the duration
 // value when the component is mounted
+// Note: playbackRate must be set inside onLoadedMetadata (not onMounted)
+// because on mobile browsers (especially Safari iOS), the audio element
+// is not ready to accept playbackRate changes until metadata is loaded.
 onMounted(() => {
   duration.value = audioPlayer.value?.duration;
-  audioPlayer.value.playbackRate = playbackSpeed.value;
 });
 
 // Listen for global audio play events and pause if it's not this audio

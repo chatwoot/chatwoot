@@ -10,6 +10,8 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
 
     if message.attachments.present?
       send_attachment_message(phone_number, message)
+    elsif message.content_attributes&.dig('rich_media').present?
+      send_rich_media_message(phone_number, message, message.content_attributes['rich_media'])
     elsif message.content_type == 'input_select'
       send_interactive_text_message(phone_number, message)
     elsif message.content_type == 'integrations' && message.content_attributes&.dig('interactive').present?
@@ -190,6 +192,35 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
 
   def business_account_path
     "#{api_base_path}/v14.0/#{whatsapp_channel.provider_config['business_account_id']}"
+  end
+
+  # Sends a rich media message: image+caption when image_url is present, otherwise text with preview_url
+  # Used for rich_text interactive templates where the checkout URL goes in the body (opens in external browser)
+  def send_rich_media_message(phone_number, message, rich_media)
+    @message = message
+    image_url = rich_media['image_url'].presence
+
+    body = if image_url
+             {
+               messaging_product: 'whatsapp',
+               to: phone_number,
+               type: 'image',
+               image: {
+                 link: image_url,
+                 caption: message.content
+               }
+             }
+           else
+             {
+               messaging_product: 'whatsapp',
+               to: phone_number,
+               type: 'text',
+               text: { body: message.content, preview_url: true }
+             }
+           end
+
+    response = HTTParty.post("#{phone_id_path}/messages", headers: api_headers, body: body.to_json)
+    process_response(response, message)
   end
 
   def send_text_message(phone_number, message)

@@ -16,6 +16,7 @@ import MobileBottomSheet from './MobileBottomSheet.vue';
 import {
   hasPushPermissions,
   requestPushPermissions,
+  unregisterSubscription,
   verifyServiceWorkerExistence,
 } from 'dashboard/helper/pushHelper';
 
@@ -96,20 +97,15 @@ const togglePush = () => {
   if (pushEnabled.value) {
     // Disable push
     pushLoading.value = true;
-    verifyServiceWorkerExistence(registration =>
-      registration.pushManager
-        .getSubscription()
-        .then(subscription => {
-          if (subscription) return subscription.unsubscribe();
-          return null;
-        })
-        .then(() => {
-          pushEnabled.value = false;
-        })
-        .finally(() => {
-          pushLoading.value = false;
-        })
-    );
+    unregisterSubscription(() => {
+      pushEnabled.value = false;
+    })
+      .catch(() => {
+        useAlert(t('MOBILE.PUSH.UPDATE_ERROR'));
+      })
+      .finally(() => {
+        pushLoading.value = false;
+      });
   } else {
     // Enable push
     pushLoading.value = true;

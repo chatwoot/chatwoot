@@ -101,13 +101,15 @@ class Notification < ApplicationRecord
     i18n_key = notification_title_map[notification_type]
     return '' unless i18n_key
 
-    if notification_type == 'conversation_creation'
-      I18n.t(i18n_key, display_id: conversation.display_id, inbox_name: primary_actor.inbox.name)
-    elsif %w[conversation_assignment assigned_conversation_new_message participating_conversation_new_message
-             conversation_mention].include?(notification_type)
-      I18n.t(i18n_key, display_id: conversation.display_id)
-    else
-      I18n.t(i18n_key, display_id: primary_actor.display_id)
+    I18n.with_locale(user_locale) do
+      if notification_type == 'conversation_creation'
+        I18n.t(i18n_key, display_id: conversation.display_id, inbox_name: primary_actor.inbox.name)
+      elsif %w[conversation_assignment assigned_conversation_new_message participating_conversation_new_message
+               conversation_mention].include?(notification_type)
+        I18n.t(i18n_key, display_id: conversation.display_id)
+      else
+        I18n.t(i18n_key, display_id: primary_actor.display_id)
+      end
     end
   end
   # rubocop:enable Metrics/MethodLength
@@ -148,8 +150,14 @@ class Notification < ApplicationRecord
     if content.present?
       transform_user_mention_content(content.truncate_words(10))
     else
-      attachments.present? ? I18n.t('notifications.attachment') : I18n.t('notifications.no_content')
+      I18n.with_locale(user_locale) do
+        attachments.present? ? I18n.t('notifications.attachment') : I18n.t('notifications.no_content')
+      end
     end
+  end
+
+  def user_locale
+    user&.ui_settings&.dig('locale') || account&.locale || I18n.default_locale
   end
 
   def process_notification_delivery

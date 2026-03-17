@@ -1,8 +1,56 @@
 /* eslint-disable no-restricted-globals, no-console */
 /* globals clients */
+const RECENT_PUSH_TTL = 10000;
+const DEFAULT_VIBRATE_PATTERN = [300, 150, 300, 150, 450];
+const recentPushes = new Map();
+
+const notificationVibratePattern = notification => {
+  if (Array.isArray(notification.vibrate) && notification.vibrate.length > 0) {
+    return notification.vibrate;
+  }
+
+  return DEFAULT_VIBRATE_PATTERN;
+};
+
+const buildNotificationKey = notification => {
+  return [notification.tag, notification.title, notification.body, notification.url]
+    .filter(Boolean)
+    .join('::');
+};
+
+const isRecentDuplicate = key => {
+  if (!key) {
+    return false;
+  }
+
+  const timestamp = recentPushes.get(key);
+  if (!timestamp) {
+    return false;
+  }
+
+  return Date.now() - timestamp < RECENT_PUSH_TTL;
+};
+
+const rememberNotification = key => {
+  if (!key) {
+    return;
+  }
+
+  const now = Date.now();
+  recentPushes.set(key, now);
+
+  recentPushes.forEach((timestamp, storedKey) => {
+    if (now - timestamp >= RECENT_PUSH_TTL) {
+      recentPushes.delete(storedKey);
+    }
+  });
+};
+
 self.addEventListener('push', event => {
   const notification = event.data && event.data.json();
   if (!notification) return;
+
+  const notificationKey = buildNotificationKey(notification);
 
   const options = {
     body: notification.body || '',
@@ -12,13 +60,29 @@ self.addEventListener('push', event => {
     data: {
       url: notification.url,
     },
-    vibrate: [200, 100, 200],
-    renotify: true,
+    vibrate: notificationVibratePattern(notification),
+    renotify: false,
   };
 
-  event.waitUntil(
-    self.registration.showNotification(notification.title, options)
-  );
+  event.waitUntil((async () => {
+    if (isRecentDuplicate(notificationKey)) {
+      return;
+    }
+
+    if (notification.tag) {
+      const existingNotifications = await self.registration.getNotifications({
+        tag: notification.tag,
+      });
+
+      if (existingNotifications.length > 0) {
+        rememberNotification(notificationKey);
+        return;
+      }
+    }
+
+    rememberNotification(notificationKey);
+    await self.registration.showNotification(notification.title, options);
+  })());
 });
 
 self.addEventListener('notificationclick', event => {

@@ -126,7 +126,8 @@
       "DISABLED": "Toque para ativar notificações push",
       "DENIED": "Notificações bloqueadas pelo navegador",
       "DENIED_HELP": "Para ativar notificações, vá às configurações do navegador ou dispositivo e permita notificações para este site.",
-      "IOS_INSTALL_REQUIRED": "Adicione à Tela de Início primeiro para receber notificações"
+      "IOS_INSTALL_REQUIRED": "Adicione à Tela de Início primeiro para receber notificações",
+      "UPDATE_ERROR": "Não foi possível atualizar as notificações push"
     }
   }
 }

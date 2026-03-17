@@ -24,6 +24,7 @@ const HEADER_MAX = 60;
 const BUTTON_TEXT_MAX = 20;
 
 const name = ref('');
+const templateType = ref('cta_url');
 const headerType = ref('text');
 const headerText = ref('');
 const headerImageUrl = ref('');
@@ -33,6 +34,9 @@ const buttonText = ref('Pagar agora');
 const isSubmitting = ref(false);
 const isPublishingImage = ref(false);
 const errors = ref({});
+
+const isCta = computed(() => templateType.value === 'cta_url');
+const isRichText = computed(() => templateType.value === 'rich_text');
 
 const templates = computed(
   () => store.getters['whatsappInteractiveTemplates/getTemplates']
@@ -81,12 +85,14 @@ const validate = () => {
     nextErrors.footer = t('WHATSAPP_TEMPLATES.INTERACTIVE.VALIDATION.FOOTER_MAX');
   }
 
-  if (!buttonText.value.trim()) {
-    nextErrors.button = t(
-      'WHATSAPP_TEMPLATES.INTERACTIVE.VALIDATION.BUTTON_REQUIRED'
-    );
-  } else if (buttonText.value.length > BUTTON_TEXT_MAX) {
-    nextErrors.button = t('WHATSAPP_TEMPLATES.INTERACTIVE.VALIDATION.BUTTON_MAX');
+  if (isCta.value) {
+    if (!buttonText.value.trim()) {
+      nextErrors.button = t(
+        'WHATSAPP_TEMPLATES.INTERACTIVE.VALIDATION.BUTTON_REQUIRED'
+      );
+    } else if (buttonText.value.length > BUTTON_TEXT_MAX) {
+      nextErrors.button = t('WHATSAPP_TEMPLATES.INTERACTIVE.VALIDATION.BUTTON_MAX');
+    }
   }
 
   errors.value = nextErrors;
@@ -95,6 +101,7 @@ const validate = () => {
 
 const resetForm = () => {
   name.value = '';
+  templateType.value = 'cta_url';
   headerType.value = 'text';
   headerText.value = '';
   headerImageUrl.value = '';
@@ -131,18 +138,21 @@ const handleSubmit = async () => {
 
   isSubmitting.value = true;
   try {
+    const payload = {
+      name: name.value.trim(),
+      template_type: templateType.value,
+      header_type: headerType.value,
+      header_text: headerType.value === 'text' ? headerText.value.trim() : '',
+      header_image_url:
+        headerType.value === 'image' ? headerImageUrl.value.trim() : '',
+      body_text: bodyText.value.trim(),
+      footer_text: footerText.value.trim(),
+    };
+    if (isCta.value) {
+      payload.button_text = buttonText.value.trim();
+    }
     await store.dispatch('whatsappInteractiveTemplates/create', {
-      whatsapp_interactive_template: {
-        name: name.value.trim(),
-        template_type: 'cta_url',
-        header_type: headerType.value,
-        header_text: headerType.value === 'text' ? headerText.value.trim() : '',
-        header_image_url:
-          headerType.value === 'image' ? headerImageUrl.value.trim() : '',
-        body_text: bodyText.value.trim(),
-        footer_text: footerText.value.trim(),
-        button_text: buttonText.value.trim(),
-      },
+      whatsapp_interactive_template: payload,
     });
 
     showAlert(t('WHATSAPP_TEMPLATES.INTERACTIVE.SUCCESS'));
@@ -176,6 +186,32 @@ onMounted(() => {
   <div class="w-full">
     <div class="grid grid-cols-1 xl:grid-cols-[minmax(0,1fr)_18rem] gap-6">
       <div class="space-y-5">
+        <!-- Message Type Selector -->
+        <div>
+          <p class="text-sm font-semibold text-n-slate-12 mb-2">
+            {{ t('WHATSAPP_TEMPLATES.INTERACTIVE.TYPE_LABEL') }}
+          </p>
+          <div class="flex gap-2">
+            <button
+              class="px-3 py-2 text-sm rounded-lg border"
+              :class="templateType === 'cta_url' ? 'border-n-brand text-n-brand bg-n-brand/10' : 'border-n-weak text-n-slate-11'"
+              @click="templateType = 'cta_url'"
+            >
+              {{ t('WHATSAPP_TEMPLATES.INTERACTIVE.TYPE_CTA') }}
+            </button>
+            <button
+              class="px-3 py-2 text-sm rounded-lg border"
+              :class="templateType === 'rich_text' ? 'border-n-brand text-n-brand bg-n-brand/10' : 'border-n-weak text-n-slate-11'"
+              @click="templateType = 'rich_text'"
+            >
+              {{ t('WHATSAPP_TEMPLATES.INTERACTIVE.TYPE_BODY_LINK') }}
+            </button>
+          </div>
+          <p v-if="isRichText" class="mt-1.5 text-xs text-n-slate-10">
+            {{ t('WHATSAPP_TEMPLATES.INTERACTIVE.TYPE_BODY_LINK_HINT') }}
+          </p>
+        </div>
+
         <div>
           <label class="block text-sm font-semibold text-n-slate-12 mb-1.5">
             {{ t('WHATSAPP_TEMPLATES.INTERACTIVE.NAME_LABEL') }}
@@ -288,7 +324,7 @@ onMounted(() => {
           </p>
         </div>
 
-        <div>
+        <div v-if="isCta">
           <label class="block text-sm font-semibold text-n-slate-12 mb-1.5">
             {{ t('WHATSAPP_TEMPLATES.INTERACTIVE.BUTTON_LABEL') }}
           </label>
@@ -345,7 +381,7 @@ onMounted(() => {
                 {{ footerText }}
               </p>
             </div>
-            <div class="text-center py-2 rounded-xl bg-white text-sm font-medium text-[#0088cc] shadow-sm">
+            <div v-if="isCta" class="text-center py-2 rounded-xl bg-white text-sm font-medium text-[#0088cc] shadow-sm">
               {{ buttonText || t('WHATSAPP_TEMPLATES.INTERACTIVE.BUTTON_PLACEHOLDER') }}
             </div>
           </div>
@@ -386,7 +422,7 @@ onMounted(() => {
               </div>
               <div class="mt-2 flex gap-2 flex-wrap text-xs">
                 <span class="px-2 py-1 rounded-lg bg-n-slate-2 text-n-slate-11">
-                  CTA URL
+                  {{ template.template_type === 'rich_text' ? 'Link no corpo' : 'CTA URL' }}
                 </span>
                 <span class="px-2 py-1 rounded-lg bg-n-slate-2 text-n-slate-11">
                   {{ template.header_type }}

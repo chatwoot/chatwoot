@@ -223,6 +223,43 @@ All under `app/javascript/dashboard/components-next/mobile/`:
 
 ## Changelog
 
+### 2026-03-16 — Mobile Web Push Duplicate Guard
+
+Problem observed in the mobile PWA flow:
+
+- after uninstalling and reinstalling the Chatwit PWA, a browser could end up with a new Web Push subscription while an older backend record still existed for the same user
+- disabling push only unsubscribed locally and did not remove the stored `browser_push` endpoint on the server
+- duplicate push deliveries could therefore render the same notification twice on the same mobile device
+
+Implemented in the shared push flow used by mobile settings and desktop settings:
+
+- added backend deletion for browser push subscriptions by `endpoint` in `Api::V1::NotificationSubscriptionsController`
+- updated `pushHelper.js` so unsubscribe removes the current `browser_push` registration from the backend and then unsubscribes the browser
+- added a duplicate guard in `public/sw.js` based on recent notification identity (`tag`, title, body, URL) and disabled `renotify` for same-tag replacements
+
+Desktop behavior remains unchanged because the business flow is still the same shared Web Push stack; the change only cleans up stale subscriptions and suppresses duplicate rendering on the client.
+
+### 2026-03-16 — Mobile Push Vibration Pattern
+
+Implemented in the shared PWA service worker used by the mobile shell:
+
+- kept push vibration inside `public/sw.js`, where Web Push notifications are rendered
+- upgraded the default vibration pattern to a more noticeable sequence for supported devices
+- allowed the push payload to provide a custom `vibrate` array in the future without changing the client again
+
+Desktop behavior remains unchanged because this only affects OS-level push presentation on devices that support notification vibration.
+
+### 2026-03-15 — Mobile Haptic Feedback Refinement
+
+Implemented in the mobile shell only:
+
+- Added a one-shot light haptic when the conversation pager completes opening the second actions screen in `components-next/mobile/MobileChatView.vue`.
+- Added success haptics after successful sends in `components-next/mobile/MobileReplyBox.vue`, including WhatsApp template sends that already use the existing desktop-backed send flow.
+- Added discrete confirmation haptics for successful status, assignee, team, priority, label, and participant updates in `components-next/mobile/MobileConversationActionsView.vue`.
+- Reused the existing `composables/useHaptics.js` wrapper and kept all business logic on the same desktop stores/actions already used by the mobile layer.
+
+Desktop behavior remains unchanged because the refinement is isolated to mobile components and existing mobile composables.
+
 ### 2026-03-14 — Mobile Conversation Pager Width Fix
 
 The mobile conversation pager could size each horizontal page against the full `200%` track width instead of a single viewport. In practice this pushed the chat surface sideways and made message bubbles appear cut off.

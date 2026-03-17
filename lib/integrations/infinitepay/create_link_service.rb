@@ -97,7 +97,16 @@ class Integrations::Infinitepay::CreateLinkService
   end
 
   def redirect_url
-    @redirect_url ||= "#{base_url}/app/accounts/#{@account.id}/conversations/#{@conversation.display_id}"
+    @redirect_url ||= whatsapp_conversation? ? whatsapp_redirect_url : fallback_redirect_url
+  end
+
+  def whatsapp_redirect_url
+    phone = @conversation.inbox.channel&.phone_number.to_s.gsub(/\D/, '')
+    phone.present? ? "https://wa.me/#{phone}" : fallback_redirect_url
+  end
+
+  def fallback_redirect_url
+    "#{base_url}/app/accounts/#{@account.id}/conversations/#{@conversation.display_id}"
   end
 
   def base_url
@@ -132,45 +141,76 @@ class Integrations::Infinitepay::CreateLinkService
   end
 
   def send_link_message(checkout_url)
-    interactive_payload = build_interactive_payload(checkout_url)
-    content = [
-      '💰 *Link de Pagamento*',
-      "Valor a pagar: #{formatted_amount}",
-      reference_line,
-      checkout_url
-    ].compact.join("\n\n")
+    template = find_interactive_template
+    message_attributes = base_message_attributes(checkout_url)
 
-    message_attributes = {
-      account: @account,
-      inbox_id: @conversation.inbox_id,
-      message_type: :outgoing,
-      content: content,
-      sender: @user
-    }
-
-    if interactive_payload.present?
-      message_attributes[:content_type] = :integrations
-      message_attributes[:content_attributes] = { interactive: interactive_payload }
+    if template&.rich_text? && whatsapp_conversation?
+      apply_rich_text_attributes!(message_attributes, template, checkout_url)
+    elsif template&.cta_url? && whatsapp_conversation?
+      apply_cta_attributes!(message_attributes, template, checkout_url)
     end
 
     @conversation.messages.create!(message_attributes)
   end
 
-  def build_interactive_payload(checkout_url)
+  def find_interactive_template
     return if @whatsapp_interactive_template_id.blank?
-    return unless whatsapp_conversation?
 
-    template = @account.whatsapp_interactive_templates.find_by(id: @whatsapp_interactive_template_id)
-    return unless template&.cta_url?
+    @account.whatsapp_interactive_templates.find_by(id: @whatsapp_interactive_template_id)
+  end
 
-    Whatsapp::InteractiveTemplatePayloadBuilder.new(
+  def base_message_attributes(checkout_url)
+    {
+      account: @account,
+      inbox_id: @conversation.inbox_id,
+      message_type: :outgoing,
+      content: plain_text_content(checkout_url),
+      sender: @user
+    }
+  end
+
+  def plain_text_content(checkout_url)
+    ['💰 *Link de Pagamento*', "Valor a pagar: #{formatted_amount}", reference_line, checkout_url].compact.join("\n\n")
+  end
+
+  def apply_cta_attributes!(attrs, template, checkout_url)
+    payload = Whatsapp::InteractiveTemplatePayloadBuilder.new(
       template: template,
       runtime_url: checkout_url,
       runtime_body_text: interactive_body_text(template)
     ).build
+
+    attrs[:content_type] = :integrations
+    attrs[:content_attributes] = { interactive: payload }
   rescue StandardError => e
     Rails.logger.warn("[INFINITEPAY-CTA] Falling back to plain text: #{e.class} - #{e.message}")
-    nil
+  end
+
+  def apply_rich_text_attributes!(attrs, template, checkout_url)
+    built = Whatsapp::InteractiveTemplatePayloadBuilder.new(
+      template: template,
+      runtime_body_text: rich_text_body(template, checkout_url)
+    ).build
+
+    image_url = built.dig('header', 'image', 'link')
+    footer = built.dig('footer', 'text')
+
+    # Body: Ref line right after header, then template body, then link, then footer
+    body_parts = [reference_line, "Valor a pagar: #{formatted_amount}"]
+    body_parts << template.body_text.to_s.strip if template.body_text.present?
+    body_parts << checkout_url
+    body_parts << "_#{footer}_" if footer.present?
+    attrs[:content] = body_parts.compact.join("\n\n")
+    attrs[:content_attributes] = { rich_media: { 'image_url' => image_url }.compact }
+  rescue StandardError => e
+    Rails.logger.warn("[INFINITEPAY-RICH] Falling back to plain text: #{e.class} - #{e.message}")
+  end
+
+  def rich_text_body(template, checkout_url)
+    parts = [reference_line, "Valor a pagar: #{formatted_amount}"]
+    parts << template.body_text.to_s.strip if template.body_text.present?
+    parts << checkout_url
+    parts.compact.join("\n\n")
   end
 
   def whatsapp_conversation?

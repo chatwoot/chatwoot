@@ -276,7 +276,7 @@ export default {
               :key="template.id"
               :value="template.id"
             >
-              {{ template.name }}
+              {{ template.name }} ({{ template.template_type === 'rich_text' ? 'Link no corpo' : 'CTA' }})
             </option>
           </select>
           <span class="text-xs text-n-slate-9">

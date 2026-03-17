@@ -2,6 +2,23 @@
 
 Date: 2026-03-14
 
+## 2026-03-16 - Push notifications duplicadas após reinstalar o PWA
+
+### Contexto
+
+Ao desinstalar e reinstalar o Chatwit PWA, o navegador podia gerar uma nova `browser_push` subscription. O toggle de desligar push removia a inscrição apenas localmente com `unsubscribe()`, sem apagar o registro correspondente no backend. Com isso, o mesmo usuário podia acumular subscriptions Web Push antigas e novas, recebendo duas notificações idênticas para a mesma mensagem.
+
+### Implementado
+
+- O fluxo compartilhado de unsubscribe passou a remover a subscription `browser_push` no backend usando o `endpoint` atual antes de concluir o desligamento.
+- O endpoint `DELETE /api/v1/notification_subscriptions` passou a aceitar remoção de Web Push por `endpoint`, sempre escopada ao usuário autenticado.
+- O service worker `public/sw.js` agora ignora pushes duplicadas recentes com a mesma combinação de `tag`, título, corpo e URL.
+
+### Resultado
+
+- O PWA deixa de manter subscriptions órfãs nas desativações normais de push.
+- Se dois eventos idênticos ainda chegarem no mesmo device, apenas uma notificação é exibida.
+
 ## Context
 
 Mobile dashboard mode in the frontend was emitting repeated `MOBILE.*` i18n warnings for Portuguese users and could throw runtime errors when an inbox notification arrived without a complete `primaryActor` or sender metadata payload.

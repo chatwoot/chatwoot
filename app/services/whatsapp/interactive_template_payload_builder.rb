@@ -20,6 +20,10 @@ class Whatsapp::InteractiveTemplatePayloadBuilder
     attrs = normalized_attributes
     validate!(attrs)
 
+    if attrs[:template_type] == 'rich_text'
+      return build_rich_text_template_payload(attrs)
+    end
+
     payload = {
       'type' => 'cta_url',
       'body' => {
@@ -42,6 +46,9 @@ class Whatsapp::InteractiveTemplatePayloadBuilder
 
   def build
     payload = (@template&.payload || build_template_payload).deep_dup.with_indifferent_access
+
+    return build_rich_text_runtime(payload) if payload[:type] == 'rich_text'
+
     runtime_url = @runtime_url.presence || payload.dig(:action, :parameters, :url)
 
     raise ValidationError, 'CTA URL is required' if runtime_url.blank?
@@ -80,7 +87,7 @@ class Whatsapp::InteractiveTemplatePayloadBuilder
     validate_template_type!(attrs)
     validate_body!(attrs)
     validate_footer!(attrs)
-    validate_button!(attrs)
+    validate_button!(attrs) unless attrs[:template_type] == 'rich_text'
     validate_header!(attrs)
   end
 
@@ -101,10 +108,30 @@ class Whatsapp::InteractiveTemplatePayloadBuilder
     end
   end
 
-  def validate_template_type!(attrs)
-    return if attrs[:template_type] == 'cta_url'
+  def build_rich_text_template_payload(attrs)
+    payload = {
+      'type' => 'rich_text',
+      'body' => { 'text' => attrs[:body_text].strip }
+    }
 
-    raise ValidationError, 'Only CTA URL templates are supported'
+    header_payload = build_header_payload(attrs)
+    payload['header'] = header_payload if header_payload.present?
+    payload['footer'] = { 'text' => attrs[:footer_text].strip } if attrs[:footer_text].present?
+    payload
+  end
+
+  def build_rich_text_runtime(payload)
+    body_text = @runtime_body_text.presence || payload.dig(:body, :text).to_s
+    raise ValidationError, 'Body text is required' if body_text.blank?
+
+    payload[:body] = { text: body_text }
+    payload.deep_stringify_keys
+  end
+
+  def validate_template_type!(attrs)
+    return if %w[cta_url rich_text].include?(attrs[:template_type])
+
+    raise ValidationError, 'Template type must be cta_url or rich_text'
   end
 
   def validate_body!(attrs)

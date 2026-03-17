@@ -22,7 +22,7 @@ const props = defineProps({
 const emit = defineEmits(['back', 'swipe-progress', 'swipe-end']);
 const store = useStore();
 const { width: windowWidth } = useWindowSize();
-const { medium } = useHaptics();
+const { light, medium } = useHaptics();
 
 const chatRootRef = ref(null);
 const { swipeOffset, isSwiping, swipeProgress } = useSwipeBack(
@@ -145,10 +145,14 @@ const pagerTranslateX = computed(() => {
   return `translateX(${-activePanel.value * panelWidth.value + panelDragOffset.value}px)`;
 });
 
-const openActionsPanel = () => {
+const openActionsPanel = ({ withHaptic = true } = {}) => {
+  if (activePanel.value === 1) return;
+
   activePanel.value = 1;
   panelDragOffset.value = 0;
   panelThresholdReached = false;
+
+  if (withHaptic) light();
 };
 
 const closeActionsPanel = () => {

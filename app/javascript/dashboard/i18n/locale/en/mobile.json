@@ -126,7 +126,8 @@
       "DISABLED": "Tap to enable push notifications",
       "DENIED": "Notifications blocked by browser",
       "DENIED_HELP": "To enable notifications, go to your browser or device settings and allow notifications for this site.",
-      "IOS_INSTALL_REQUIRED": "Add to Home Screen first to receive notifications"
+      "IOS_INSTALL_REQUIRED": "Add to Home Screen first to receive notifications",
+      "UPDATE_ERROR": "Could not update push notifications"
     }
   }
 }

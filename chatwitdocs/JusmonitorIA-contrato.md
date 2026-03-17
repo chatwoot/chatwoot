@@ -606,6 +606,7 @@ Executar como management command ou one-time task após deploy.
 
 | Data | Seção | Status | Descrição |
 |------|-------|--------|-----------|
+| 2026-03-14 | 1-2 | IMPLEMENTADO | Scraper PJe de jurisdições passou a aceitar coleta manual por tribunal, com início operacional em TRF5 e sincronização para `/api/v1/pje/jurisdicoes/upsert` no backend |
 | 2026-03-09 | 1-8 | IMPLEMENTADO | Integração inicial: bot, labels, eventos, respostas bidirecionais |
 | 2026-03-10 | 9 | IMPLEMENTADO | Integração de pagamentos InfinitePay com payload `payment.confirmed` |
 | 2026-03-11 | 10 | IMPLEMENTADO | Sync bidirecional de contatos via `identifier` — implementação 100% no JusMonitorIA |

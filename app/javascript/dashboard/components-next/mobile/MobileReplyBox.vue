@@ -7,10 +7,14 @@ import { DirectUpload } from 'activestorage';
 import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { emitter } from 'shared/helpers/mitt';
+import { AUDIO_FORMATS } from 'shared/constants/messages';
+import { useHaptics } from 'dashboard/composables/useHaptics';
 import WhatsappTemplates from 'dashboard/components/widgets/conversation/WhatsappTemplates/Modal.vue';
+import AudioRecorder from 'dashboard/components/widgets/WootWriter/AudioRecorder.vue';
 
 const store = useStore();
 const { t } = useI18n();
+const { success } = useHaptics();
 
 const message = ref('');
 const isPrivate = ref(false);
@@ -18,6 +22,13 @@ const isFocused = ref(false);
 const attachedFiles = ref([]);
 const fileInput = ref(null);
 const textareaRef = ref(null);
+
+// Audio recorder state
+const isRecordingAudio = ref(false);
+const recordingAudioState = ref('');
+const hasRecordedAudio = ref(false);
+const recordingAudioDurationText = ref('00:00');
+const audioRecorderRef = ref(null);
 
 const showWhatsAppTemplatesModal = ref(false);
 
@@ -84,6 +95,29 @@ const hasContent = computed(() => {
   return message.value.trim().length > 0 || attachedFiles.value.length > 0;
 });
 
+// Show audio recorder if not in private note mode and not editor disabled
+const showAudioRecorder = computed(() => {
+  return !effectivePrivate.value && !isEditorDisabled.value;
+});
+
+// Show the recorder UI when actively recording
+const showAudioRecorderEditor = computed(() => {
+  return showAudioRecorder.value && isRecordingAudio.value;
+});
+
+// Audio format: WhatsApp/API get MP3, others get WAV
+const audioRecordFormat = computed(() => {
+  const ch = channelType.value;
+  if (
+    ch === 'Channel::Whatsapp' ||
+    ch === 'Channel::TwilioSms' ||
+    ch === 'Channel::Api'
+  ) {
+    return AUDIO_FORMATS.MP3;
+  }
+  return AUDIO_FORMATS.WAV;
+});
+
 const sender = computed(() => ({
   name: currentUser.value?.name,
   thumbnail: currentUser.value?.avatar_url,
@@ -129,9 +163,12 @@ const onSend = async () => {
 
   try {
     await store.dispatch('createPendingMessageAndSend', messagePayload);
+    success();
     emitter.emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
     message.value = '';
     attachedFiles.value = [];
+    // Reset audio state after sending
+    resetAudioRecorder();
     nextTick(resizeTextarea);
   } catch (error) {
     const errorMessage =
@@ -146,6 +183,57 @@ const onKeydown = e => {
     onSend();
   }
 };
+
+// --- Audio recorder methods ---
+
+const resetAudioRecorder = () => {
+  recordingAudioDurationText.value = '00:00';
+  isRecordingAudio.value = false;
+  recordingAudioState.value = '';
+  hasRecordedAudio.value = false;
+  // Remove any previously recorded audio from attachments
+  attachedFiles.value = attachedFiles.value.filter(f => !f?.isRecordedAudio);
+};
+
+const toggleAudioRecorder = () => {
+  isRecordingAudio.value = !isRecordingAudio.value;
+  if (!isRecordingAudio.value) {
+    resetAudioRecorder();
+  }
+};
+
+const onRecordProgressChanged = duration => {
+  recordingAudioDurationText.value = duration;
+};
+
+const onFinishRecorder = payload => {
+  recordingAudioState.value = 'stopped';
+  hasRecordedAudio.value = true;
+  if (!payload?.file) return;
+
+  // payload = { name, type, size, file } where `file` is a File object
+  const audioFile = payload.file;
+
+  attachedFiles.value.push({
+    currentChatId: currentChat.value.id,
+    resource: { file: audioFile },
+    isPrivate: effectivePrivate.value,
+    thumb: URL.createObjectURL(audioFile),
+    isRecordedAudio: true,
+  });
+};
+
+
+const toggleAudioRecorderPlayPause = () => {
+  if (!audioRecorderRef.value) return;
+  if (!recordingAudioState.value) {
+    audioRecorderRef.value.stopRecording();
+  } else {
+    audioRecorderRef.value.playPause();
+  }
+};
+
+// --- File attachment methods ---
 
 const onAttachClick = () => {
   fileInput.value?.click();
@@ -231,6 +319,7 @@ const onSendWhatsAppReply = async messagePayload => {
       conversationId: currentChat.value.id,
       ...messagePayload,
     });
+    success();
     emitter.emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
     showWhatsAppTemplatesModal.value = false;
   } catch (error) {
@@ -267,6 +356,18 @@ const onSendWhatsAppReply = async messagePayload => {
       </div>
     </div>
 
+    <!-- Audio recorder UI (visible when recording) -->
+    <div v-if="showAudioRecorderEditor" class="px-3 pt-2">
+      <AudioRecorder
+        ref="audioRecorderRef"
+        :audio-record-format="audioRecordFormat"
+        @recorder-progress-changed="onRecordProgressChanged"
+        @finish-record="onFinishRecorder"
+        @play="recordingAudioState = 'playing'"
+        @pause="recordingAudioState = 'paused'"
+      />
+    </div>
+
     <!-- Input row -->
     <div class="flex items-end gap-1.5 px-2 py-2">
       <!-- WhatsApp template button (when editor disabled) -->
@@ -281,7 +382,7 @@ const onSendWhatsAppReply = async messagePayload => {
       </button>
       <!-- Attach button (normal mode) -->
       <button
-        v-else
+        v-else-if="!showAudioRecorderEditor"
         class="flex items-center justify-center w-9 h-9 flex-shrink-0 text-n-slate-11 hover:text-n-slate-12 mb-0.5"
         :class="{ 'opacity-50 pointer-events-none': isEditorDisabled }"
         :disabled="isEditorDisabled"
@@ -289,6 +390,16 @@ const onSendWhatsAppReply = async messagePayload => {
       >
         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" />
+        </svg>
+      </button>
+      <!-- Cancel recording button (shown when recorder is open) -->
+      <button
+        v-else
+        class="flex items-center justify-center w-9 h-9 flex-shrink-0 text-n-red-9 hover:text-n-red-11 mb-0.5"
+        @click="toggleAudioRecorder"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
         </svg>
       </button>
       <input
@@ -299,8 +410,9 @@ const onSendWhatsAppReply = async messagePayload => {
         @change="onFileChange"
       />
 
-      <!-- Text input area -->
+      <!-- Text input area (hidden when recording) -->
       <div
+        v-if="!showAudioRecorderEditor"
         class="flex-1 flex items-center rounded-2xl border px-3 py-1.5 transition-colors min-h-[36px]"
         :class="effectivePrivate
           ? 'bg-n-amber-2 border-n-amber-5'
@@ -362,8 +474,15 @@ const onSendWhatsAppReply = async messagePayload => {
           </svg>
         </button>
       </div>
+      <!-- Audio recorder duration display -->
+      <div
+        v-else
+        class="flex-1 flex items-center justify-center min-h-[36px]"
+      >
+        <span class="text-sm font-mono text-n-slate-11">{{ recordingAudioDurationText }}</span>
+      </div>
 
-      <!-- Send / Mic button -->
+      <!-- Send button (when has content, including recorded audio) -->
       <button
         v-if="hasContent && !isEditorDisabled"
         class="flex items-center justify-center w-9 h-9 flex-shrink-0 rounded-full mb-0.5 transition-colors"
@@ -374,9 +493,32 @@ const onSendWhatsAppReply = async messagePayload => {
           <line x1="12" y1="19" x2="12" y2="5" /><polyline points="5 12 12 5 19 12" />
         </svg>
       </button>
+      <!-- Play/Stop button (when recording is in progress, before audio is ready) -->
+      <button
+        v-else-if="showAudioRecorderEditor && !hasRecordedAudio"
+        class="flex items-center justify-center w-9 h-9 flex-shrink-0 rounded-full mb-0.5 bg-n-red-9 text-white transition-colors"
+        @click="toggleAudioRecorderPlayPause"
+      >
+        <!-- Stop icon -->
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+          <rect x="4" y="4" width="16" height="16" rx="2" />
+        </svg>
+      </button>
+      <!-- Mic button (idle state, no content) -->
+      <button
+        v-else-if="showAudioRecorder && !isEditorDisabled"
+        class="flex items-center justify-center w-9 h-9 flex-shrink-0 text-n-slate-11 mb-0.5"
+        @click="toggleAudioRecorder"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" /><path d="M19 10v2a7 7 0 0 1-14 0v-2" /><line x1="12" y1="19" x2="12" y2="23" /><line x1="8" y1="23" x2="16" y2="23" />
+        </svg>
+      </button>
+      <!-- Mic button placeholder (disabled states) -->
       <button
         v-else
-        class="flex items-center justify-center w-9 h-9 flex-shrink-0 text-n-slate-11 mb-0.5"
+        class="flex items-center justify-center w-9 h-9 flex-shrink-0 text-n-slate-11 mb-0.5 opacity-40"
+        disabled
       >
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" /><path d="M19 10v2a7 7 0 0 1-14 0v-2" /><line x1="12" y1="19" x2="12" y2="23" /><line x1="8" y1="23" x2="16" y2="23" />

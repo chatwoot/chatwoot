@@ -147,44 +147,30 @@ namespace :db do
     else
       puts "✅ [CHATWIT] Base já está no v4 - executando apenas setup normal..."
       
-      begin
-        # Executar migrações normais (caso existam)
-        Rake::Task['db:migrate'].invoke
-        puts "✅ [CHATWIT] Migrações normais aplicadas!"
-      rescue => e
-        if e.message.include?("already exists") || e.message.include?("DuplicateTable") || e.message.include?("DuplicateColumn")
-          puts "⚠️  [CHATWIT] Algumas colunas/tabelas já existem - ajustando schema_migrations..."
+      # Executar cada migração pendente individualmente para não pular nenhuma
+      context = ActiveRecord::MigrationContext.new(Rails.root.join('db/migrate'))
+      pending = context.migrations_status.select { |status, _version, _name| status == 'down' }
 
-          # Identificar e marcar TODAS as migrações pendentes que falharam por já existirem
-          pending_versions = ActiveRecord::Base.connection.select_values(
-            "SELECT version FROM schema_migrations ORDER BY version"
-          )
-
-          all_migration_files = Dir[Rails.root.join('db/migrate/*.rb')].map do |f|
-            File.basename(f).split('_').first
-          end
-
-          missing_versions = all_migration_files - pending_versions
-          missing_versions.each do |version|
-            ActiveRecord::Base.connection.execute(
-              "INSERT INTO schema_migrations (version) VALUES ('#{version}') ON CONFLICT (version) DO NOTHING"
-            )
-            puts "  📌 [CHATWIT] Marcada como executada: #{version}"
-          end
-
-          puts "✅ [CHATWIT] Migrações ajustadas! Re-executando para aplicar pendentes..."
-
-          # Reset e re-executar para pegar as que realmente precisam rodar
-          Rake::Task['db:migrate'].reenable
+      if pending.empty?
+        puts "✅ [CHATWIT] Nenhuma migração pendente."
+      else
+        puts "🔄 [CHATWIT] #{pending.size} migração(ões) pendente(s)..."
+        pending.each do |_status, version, name|
           begin
-            Rake::Task['db:migrate'].invoke
-            puts "✅ [CHATWIT] Migrações pendentes aplicadas!"
-          rescue => e2
-            puts "⚠️  [CHATWIT] Segundo passo: #{e2.message}"
+            context.run(:up, version.to_i)
+            puts "  ✅ [CHATWIT] #{version} #{name} aplicada!"
+          rescue => e
+            if e.message.include?("already exists") || e.message.include?("DuplicateTable") || e.message.include?("DuplicateColumn")
+              puts "  📌 [CHATWIT] #{version} #{name} já existe no banco - marcando como executada..."
+              schema_migration = ActiveRecord::Base.connection.schema_migration
+              schema_migration.create_version(version.to_s)
+            else
+              puts "  ❌ [CHATWIT] #{version} #{name} falhou: #{e.message}"
+              raise e
+            end
           end
-        else
-          puts "⚠️  [CHATWIT] Migrações normais: #{e.message}"
         end
+        puts "✅ [CHATWIT] Todas as migrações processadas!"
       end
       
       # Seeds apenas em desenvolvimento

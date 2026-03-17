@@ -1,5 +1,6 @@
 #Chatwit 4.10
-SERVIDOR DE PRODUÇÃO ssh -i ~/.ssh/keys/production-server.key root@49.13.155.94 "docker exec...
+SERVIDOR DE PRODUÇÃO ssh -i ~/.ssh/keys/production-server.key root@49.13.155.94 "docker exec... docker service principal: chatwoot_app_chatwoot_sidekiq
+
 POSTGRES SHARED INFRA LOCAL docker exec postgres psql -U postgres -lqt
 
 ## Mobile Module (PWA) — Fork Exclusivo Chatwit

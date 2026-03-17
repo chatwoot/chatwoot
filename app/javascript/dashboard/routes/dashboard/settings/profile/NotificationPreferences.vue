@@ -6,6 +6,7 @@ import CheckBox from 'v3/components/Form/CheckBox.vue';
 import {
   hasPushPermissions,
   requestPushPermissions,
+  unregisterSubscription,
   verifyServiceWorkerExistence,
 } from 'dashboard/helper/pushHelper.js';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
@@ -87,22 +88,11 @@ export default {
       }
     },
     disablePushPermissions() {
-      verifyServiceWorkerExistence(registration =>
-        registration.pushManager
-          .getSubscription()
-          .then(subscription => {
-            if (subscription) {
-              return subscription.unsubscribe();
-            }
-            return null;
-          })
-          .finally(() => {
-            this.hasEnabledPushPermissions = false;
-          })
-          .catch(() => {
-            // error
-          })
-      );
+      unregisterSubscription(() => {
+        this.hasEnabledPushPermissions = false;
+      }).catch(() => {
+        // error
+      });
     },
     getPushSubscription() {
       verifyServiceWorkerExistence(registration =>
