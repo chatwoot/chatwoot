@@ -1,5 +1,4 @@
 <script setup>
-import { computed } from 'vue';
 import LocaleCard from 'dashboard/components-next/HelpCenter/LocaleCard/LocaleCard.vue';
 import { useStore } from 'dashboard/composables/store';
 import { useAlert, useTrack } from 'dashboard/composables';
@@ -24,25 +23,6 @@ const { t } = useI18n();
 const route = useRoute();
 const { uiSettings, updateUISettings } = useUISettings();
 
-const localeActionMessages = computed(() => ({
-  CHANGE_DEFAULT_LOCALE: {
-    success: t('HELP_CENTER.PORTAL.CHANGE_DEFAULT_LOCALE.API.SUCCESS_MESSAGE'),
-    error: t('HELP_CENTER.PORTAL.CHANGE_DEFAULT_LOCALE.API.ERROR_MESSAGE'),
-  },
-  DELETE_LOCALE: {
-    success: t('HELP_CENTER.PORTAL.DELETE_LOCALE.API.SUCCESS_MESSAGE'),
-    error: t('HELP_CENTER.PORTAL.DELETE_LOCALE.API.ERROR_MESSAGE'),
-  },
-  DRAFT_LOCALE: {
-    success: t('HELP_CENTER.PORTAL.DRAFT_LOCALE.API.SUCCESS_MESSAGE'),
-    error: t('HELP_CENTER.PORTAL.DRAFT_LOCALE.API.ERROR_MESSAGE'),
-  },
-  PUBLISH_LOCALE: {
-    success: t('HELP_CENTER.PORTAL.PUBLISH_LOCALE.API.SUCCESS_MESSAGE'),
-    error: t('HELP_CENTER.PORTAL.PUBLISH_LOCALE.API.ERROR_MESSAGE'),
-  },
-}));
-
 const isLocaleDefault = code => {
   return props.portal?.meta?.default_locale === code;
 };
@@ -64,32 +44,26 @@ const updatePortalLocales = async ({
       },
     });
 
-    alertMessage = localeActionMessages.value[messageKey].success;
-    return true;
+    alertMessage = t(`HELP_CENTER.PORTAL.${messageKey}.API.SUCCESS_MESSAGE`);
   } catch (error) {
     alertMessage =
-      error?.message || localeActionMessages.value[messageKey].error;
-    return false;
+      error?.message || t(`HELP_CENTER.PORTAL.${messageKey}.API.ERROR_MESSAGE`);
   } finally {
     useAlert(alertMessage);
   }
 };
 
-const changeDefaultLocale = async ({ localeCode }) => {
+const changeDefaultLocale = ({ localeCode }) => {
   const newAllowedLocales = props.locales.map(locale => locale.code);
   const newDraftLocales = props.locales
     .filter(locale => locale.isDraft)
     .map(locale => locale.code);
-  const isUpdated = await updatePortalLocales({
+  updatePortalLocales({
     newAllowedLocales,
     newDraftLocales,
     defaultLocale: localeCode,
     messageKey: 'CHANGE_DEFAULT_LOCALE',
   });
-  if (!isUpdated) {
-    return;
-  }
-
   useTrack(PORTALS_EVENTS.SET_DEFAULT_LOCALE, {
     newLocale: localeCode,
     from: route.name,
@@ -119,15 +93,12 @@ const deletePortalLocale = async ({ localeCode }) => {
 
   const defaultLocale = props.portal.meta.default_locale;
 
-  const isUpdated = await updatePortalLocales({
+  await updatePortalLocales({
     newAllowedLocales: updatedLocales,
     newDraftLocales: updatedDraftLocales,
     defaultLocale,
     messageKey: 'DELETE_LOCALE',
   });
-  if (!isUpdated) {
-    return;
-  }
 
   await updateLastActivePortal(localeCode);
 
@@ -146,7 +117,7 @@ const updateDraftLocales = async ({ localeCode, shouldDraft, messageKey }) => {
     ? [...new Set([...currentDraftLocales, localeCode])]
     : currentDraftLocales.filter(locale => locale !== localeCode);
 
-  return updatePortalLocales({
+  await updatePortalLocales({
     newAllowedLocales,
     newDraftLocales,
     defaultLocale: props.portal.meta.default_locale,
@@ -155,34 +126,18 @@ const updateDraftLocales = async ({ localeCode, shouldDraft, messageKey }) => {
 };
 
 const moveLocaleToDraft = async ({ localeCode }) => {
-  const isUpdated = await updateDraftLocales({
+  await updateDraftLocales({
     localeCode,
     shouldDraft: true,
     messageKey: 'DRAFT_LOCALE',
   });
-  if (!isUpdated) {
-    return;
-  }
-
-  useTrack(PORTALS_EVENTS.DRAFT_LOCALE, {
-    locale: localeCode,
-    from: route.name,
-  });
 };
 
 const publishLocale = async ({ localeCode }) => {
-  const isUpdated = await updateDraftLocales({
+  await updateDraftLocales({
     localeCode,
     shouldDraft: false,
     messageKey: 'PUBLISH_LOCALE',
-  });
-  if (!isUpdated) {
-    return;
-  }
-
-  useTrack(PORTALS_EVENTS.PUBLISH_LOCALE, {
-    locale: localeCode,
-    from: route.name,
   });
 };
 
