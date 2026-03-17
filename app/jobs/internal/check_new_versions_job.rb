@@ -5,7 +5,7 @@ class Internal::CheckNewVersionsJob < ApplicationJob
     return unless Rails.env.production?
     return unless force || should_run_check?
 
-    add_jitter
+    add_jitter unless force
 
     @instance_info = ChatwootHub.sync_with_hub
     update_version_info
