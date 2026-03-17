@@ -1,4 +1,9 @@
 <script setup>
+ codex/transform-chatwoot-into-synapsea-connect-zcodwn
+import AISuggestions from './conversation/AISuggestions.vue';
+
+defineProps({
+
 import { computed } from 'vue';
  codex/transform-chatwoot-into-synapsea-connect-2i3fp8
 import { useI18n } from 'vue-i18n';
@@ -11,6 +16,7 @@ import { useI18n } from 'vue-i18n';
 
  develop
 const props = defineProps({
+ develop
   conversation: {
     type: Object,
     default: () => ({}),
@@ -20,6 +26,12 @@ const props = defineProps({
     default: () => ({}),
   },
 });
+ codex/transform-chatwoot-into-synapsea-connect-zcodwn
+</script>
+
+<template>
+  <AISuggestions :conversation="conversation" :contact="contact" />
+
 
  codex/transform-chatwoot-into-synapsea-connect-2i3fp8
 const { t } = useI18n();
@@ -411,4 +423,5 @@ const resolvedNextBestAction = computed(() => {
       </section>
     </div>
   </div>
+ develop
 </template>

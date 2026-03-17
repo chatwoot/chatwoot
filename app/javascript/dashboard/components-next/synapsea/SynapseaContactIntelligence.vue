@@ -1,12 +1,20 @@
 <script setup>
+ codex/transform-chatwoot-into-synapsea-connect-zcodwn
+import ClientPanel from './conversation/ClientPanel.vue';
+
+defineProps({
+
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 const props = defineProps({
+ develop
   contact: {
     type: Object,
     default: () => ({}),
   },
+ codex/transform-chatwoot-into-synapsea-connect-zcodwn
+
   conversation: {
     type: Object,
     default: () => ({}),
@@ -93,10 +101,14 @@ const interactionHistory = computed(() => {
   }
 
   return t('CONTACT_PANEL.SYNAPSEA.CRM.NO_INTERACTION_HISTORY');
+ develop
 });
 </script>
 
 <template>
+ codex/transform-chatwoot-into-synapsea-connect-zcodwn
+  <ClientPanel :contact="contact" />
+
  codex/transform-chatwoot-into-synapsea-connect-2i3fp8
  codex/transform-chatwoot-into-synapsea-connect-6xbxtt
 
@@ -265,4 +277,5 @@ const interactionHistory = computed(() => {
       </dl>
     </section>
   </div>
+ develop
 </template>
