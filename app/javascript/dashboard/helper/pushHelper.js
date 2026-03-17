@@ -86,7 +86,7 @@ export const registerSubscription = (onSuccess = () => {}) => {
 };
 
 export const unregisterSubscription = (onSuccess = () => {}) => {
-  navigator.serviceWorker.ready
+  return navigator.serviceWorker.ready
     .then(serviceWorkerRegistration =>
       serviceWorkerRegistration.pushManager.getSubscription()
     )
