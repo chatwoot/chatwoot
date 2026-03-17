@@ -29,11 +29,4 @@ RSpec.describe Internal::CheckNewVersionsJob do
     job
     expect(reconsile_premium_config_service).to have_received(:perform)
   end
-
-  it 'does not call Internal::ReconcilePlanConfigService when sync fails' do
-    allow(ChatwootHub).to receive(:sync_with_hub).and_return({})
-    job
-
-    expect(reconsile_premium_config_service).not_to have_received(:perform)
-  end
 end

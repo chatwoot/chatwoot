@@ -1,8 +1,6 @@
 module Enterprise::Internal::CheckNewVersionsJob
   def perform
     super
-    return if @instance_info.blank?
-
     update_plan_info
     reconcile_premium_config_and_features
   end
