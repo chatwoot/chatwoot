@@ -1,43 +1,14 @@
 class Internal::CheckNewVersionsJob < ApplicationJob
   queue_as :scheduled_jobs
 
-  def perform(force: false)
+  def perform
     return unless Rails.env.production?
-    return unless force || should_run_check?
-
-    add_jitter unless force
 
     @instance_info = ChatwootHub.sync_with_hub
     update_version_info
   end
 
   private
-
-  def should_run_check?
-    current_hour = Time.current.utc.hour
-    last_check = ::Redis::Alfred.get(last_check_key)
-    today = Date.current.to_s
-
-    if current_hour == designated_hour && last_check != today
-      ::Redis::Alfred.setex(last_check_key, today, 25.hours)
-      return true
-    end
-
-    false
-  end
-
-  def designated_hour
-    @designated_hour ||= Digest::MD5.hexdigest(ChatwootHub.installation_identifier).hex % 24
-  end
-
-  def last_check_key
-    'internal::last_version_check_date'
-  end
-
-  def add_jitter
-    jitter_seconds = rand(0..30)
-    sleep(jitter_seconds)
-  end
 
   def update_version_info
     return if @instance_info['version'].blank?

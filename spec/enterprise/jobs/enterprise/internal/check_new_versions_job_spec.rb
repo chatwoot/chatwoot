@@ -4,17 +4,11 @@ RSpec.describe Internal::CheckNewVersionsJob do
   subject(:job) { described_class.perform_now }
 
   let(:reconsile_premium_config_service) { instance_double(Internal::ReconcilePlanConfigService) }
-  let(:installation_id) { 'test-uuid' }
-  let(:designated_hour) { Digest::MD5.hexdigest(installation_id).hex % 24 }
 
   before do
     allow(Internal::ReconcilePlanConfigService).to receive(:new).and_return(reconsile_premium_config_service)
     allow(reconsile_premium_config_service).to receive(:perform)
     allow(Rails.env).to receive(:production?).and_return(true)
-    allow(ChatwootHub).to receive(:installation_identifier).and_return(installation_id)
-    allow(Kernel).to receive(:sleep)
-    Redis::Alfred.delete('internal::last_version_check_date')
-    travel_to Time.zone.parse("2025-12-12 #{designated_hour}:00:00 UTC")
   end
 
   it 'updates the plan info' do
@@ -34,5 +28,12 @@ RSpec.describe Internal::CheckNewVersionsJob do
     allow(ChatwootHub).to receive(:sync_with_hub).and_return(data)
     job
     expect(reconsile_premium_config_service).to have_received(:perform)
+  end
+
+  it 'does not call Internal::ReconcilePlanConfigService when sync fails' do
+    allow(ChatwootHub).to receive(:sync_with_hub).and_return({})
+    job
+
+    expect(reconsile_premium_config_service).not_to have_received(:perform)
   end
 end

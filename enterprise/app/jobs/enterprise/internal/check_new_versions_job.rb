@@ -1,5 +1,5 @@
 module Enterprise::Internal::CheckNewVersionsJob
-  def perform(force: false)
+  def perform
     super
     return if @instance_info.blank?
 
