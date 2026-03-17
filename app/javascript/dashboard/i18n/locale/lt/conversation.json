@@ -61,6 +61,7 @@
     "UNSUPPORTED_MESSAGE": "This message is unsupported. You can view this message on the Facebook / Instagram app.",
     "UNSUPPORTED_MESSAGE_FACEBOOK": "Ši žinutė nepalaikoma. Jūs galite peržiūrėti šią žinutę Facebook Messenger programėlėje.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "Ši žinutė nepalaikoma. Jūs galite peržiūrėti šią žinutę Instagram programėlėje.",
+    "UNSUPPORTED_MESSAGE_TIKTOK": "This message is unsupported. You can view this message on the TikTok app.",
     "SUCCESS_DELETE_MESSAGE": "Pranešimas ištrintas sėkmingai",
     "FAIL_DELETE_MESSSAGE": "Nepavyko ištrinti pranešimo! Bandykite dar kartą",
     "NO_RESPONSE": "Nėra atsakymo",
@@ -173,6 +174,10 @@
           "SUCCESFUL": "Assigned label #{labelName} to conversation id {conversationId}",
           "FAILED": "Nepavyko priskirti etiketės. Prašau, pabandykite dar kartą."
         },
+        "LABEL_REMOVAL": {
+          "SUCCESFUL": "Removed label #{labelName} from conversation id {conversationId}",
+          "FAILED": "Couldn't remove label. Please try again."
+        },
         "TEAM_ASSIGNMENT": {
           "SUCCESFUL": "Priskirta komanda #{team} pokalbiui id {conversationId}",
           "FAILED": "Nepavyko priskirti komandos. Prašau, pabandykite dar kartą."
@@ -185,7 +190,11 @@
       "DISABLE_SIGN_TOOLTIP": "Išjungti parašą",
       "MSG_INPUT": "Spauksite Shift + Enter, pradėjimui iš naujos eilutės. Pradėkite nuo „/“, kad pasirinktumėte Atsakymo Ruošinį.",
       "PRIVATE_MSG_INPUT": "Spauksite Shift + Enter, pradėjimui iš naujos eilutės. Tai bus matoma tik Agentams",
+      "MESSAGING_RESTRICTED": "You cannot reply to this conversation",
+      "MESSAGING_RESTRICTED_WHATSAPP": "You can only reply using a template message due to 24-hour message window restriction",
+      "MESSAGING_RESTRICTED_API": "You can only reply using a template message due to message window restriction",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Pranešimo parašas nesukonfigūruotas, sukonfigūruokite jį profilio nustatymuose.",
+      "COPILOT_MSG_INPUT": "Give copilot additional prompts, or ask anything else... Press enter to send follow-up",
       "CLICK_HERE": "Spausti čia kad atnaujinti",
       "WHATSAPP_TEMPLATES": "Whatsapp Šablonai"
     },
@@ -205,7 +214,7 @@
       "DRAG_DROP": "Norėdami pridėti, vilkite ir numeskite čia",
       "START_AUDIO_RECORDING": "Pradėti audio įrašymą",
       "STOP_AUDIO_RECORDING": "Baigti audio įrašymą",
-      "": "",
+      "COPILOT_THINKING": "Copilot is thinking",
       "EMAIL_HEAD": {
         "TO": "Kam",
         "ADD_BCC": "Pridėti bcc",
@@ -247,9 +256,12 @@
     "SUCCESS_DELETE_CONVERSATION": "Conversation deleted successfully",
     "FAIL_DELETE_CONVERSATION": "Couldn't delete conversation! Try again",
     "FILE_SIZE_LIMIT": "Failas viršija {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB priedo apribojimą",
+    "FILE_TYPE_NOT_SUPPORTED": "This {fileName} file type is not supported in this conversation",
     "MESSAGE_ERROR": "Nepavyko išsiųsti šio pranešimo, bandykite dar kartą vėliau",
     "SENT_BY": "Siuntėjas:",
     "BOT": "Botas",
+    "NATIVE_APP": "Native app",
+    "NATIVE_APP_ADVISORY": "This message was sent from the native app. Reply from Chatwoot to maintain the message window.",
     "SEND_FAILED": "Nepavyko išsiųsti pranešimo! Bandykite dar kartą",
     "TRY_AGAIN": "kartoti",
     "ASSIGNMENT": {
@@ -294,6 +306,7 @@
     "CANCEL": "Atšaukti",
     "SEND_EMAIL_SUCCESS": "Pokalbio stenograma sėkmingai išsiųsta",
     "SEND_EMAIL_ERROR": "Įvyko klaida, prašau pabandykite dar kartą",
+    "SEND_EMAIL_PAYMENT_REQUIRED": "Email transcript is not available on your current plan. Please upgrade to use this feature.",
     "FORM": {
       "SEND_TO_CONTACT": "Siųsti stenogramą klientui",
       "SEND_TO_AGENT": "Siųsti stenogramą priskirtam agentui",

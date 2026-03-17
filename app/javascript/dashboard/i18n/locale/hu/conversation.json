@@ -61,6 +61,7 @@
     "UNSUPPORTED_MESSAGE": "This message is unsupported. You can view this message on the Facebook / Instagram app.",
     "UNSUPPORTED_MESSAGE_FACEBOOK": "Ez az üzenet nem támogatott. Ezt az üzenetet a Facebook Messenger alkalmazásban tekintheti meg.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "Ez az üzenet nem támogatott. Ezt az üzenetet az Instagram alkalmazásban tekintheti meg.",
+    "UNSUPPORTED_MESSAGE_TIKTOK": "This message is unsupported. You can view this message on the TikTok app.",
     "SUCCESS_DELETE_MESSAGE": "Üzenet törölve",
     "FAIL_DELETE_MESSSAGE": "Nem tudtad törölni az üzenetet! Próbáld újra",
     "NO_RESPONSE": "Nincs válasz",
@@ -173,6 +174,10 @@
           "SUCCESFUL": "Assigned label #{labelName} to conversation id {conversationId}",
           "FAILED": "Nem sikerült hozzárendelni címkét. Kérlek, próbáld újra."
         },
+        "LABEL_REMOVAL": {
+          "SUCCESFUL": "Removed label #{labelName} from conversation id {conversationId}",
+          "FAILED": "Couldn't remove label. Please try again."
+        },
         "TEAM_ASSIGNMENT": {
           "SUCCESFUL": "Assigned team \"{team}\" to conversation id {conversationId}",
           "FAILED": "Nem sikerült hozzárendelni csoporthoz. Kérlek, próbáld újra."
@@ -185,7 +190,11 @@
       "DISABLE_SIGN_TOOLTIP": "Aláírás kikapcsolása",
       "MSG_INPUT": "Shift + enter új sorért. Kezdj a '/'-el mentett válasz kiválasztásához.",
       "PRIVATE_MSG_INPUT": "Shift + enter új sorért. Ezt csak ügynökök láthatják",
+      "MESSAGING_RESTRICTED": "You cannot reply to this conversation",
+      "MESSAGING_RESTRICTED_WHATSAPP": "You can only reply using a template message due to 24-hour message window restriction",
+      "MESSAGING_RESTRICTED_API": "You can only reply using a template message due to message window restriction",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Üzenet aláírása nem változott, kérlek, változtasd meg a profilod beállításaiban. ",
+      "COPILOT_MSG_INPUT": "Give copilot additional prompts, or ask anything else... Press enter to send follow-up",
       "CLICK_HERE": "Frissítéshez kattints ide",
       "WHATSAPP_TEMPLATES": "Whatsapp sablonok"
     },
@@ -205,7 +214,7 @@
       "DRAG_DROP": "Helyezd ide a csatolmányt",
       "START_AUDIO_RECORDING": "Hangfelvétel indítása",
       "STOP_AUDIO_RECORDING": "Hangfelvétel leállítása",
-      "": "",
+      "COPILOT_THINKING": "Copilot is thinking",
       "EMAIL_HEAD": {
         "TO": "Címzett",
         "ADD_BCC": "Titkos másolat hozzáadása",
@@ -247,9 +256,12 @@
     "SUCCESS_DELETE_CONVERSATION": "Conversation deleted successfully",
     "FAIL_DELETE_CONVERSATION": "Couldn't delete conversation! Try again",
     "FILE_SIZE_LIMIT": "A file mérete meghaladja a {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} limitet",
+    "FILE_TYPE_NOT_SUPPORTED": "This {fileName} file type is not supported in this conversation",
     "MESSAGE_ERROR": "Nem tudsz üzenetet küldeni, kérlek, próbáld újra",
     "SENT_BY": "Küldő:",
     "BOT": "Bot",
+    "NATIVE_APP": "Native app",
+    "NATIVE_APP_ADVISORY": "This message was sent from the native app. Reply from Chatwoot to maintain the message window.",
     "SEND_FAILED": "Nem sikerült elküldeni az üzenetet! Próbáld újra.",
     "TRY_AGAIN": "újra",
     "ASSIGNMENT": {
@@ -294,6 +306,7 @@
     "CANCEL": "Mégse",
     "SEND_EMAIL_SUCCESS": "A beszélgetés jegyzet sikeresen elküldve",
     "SEND_EMAIL_ERROR": "Hiba történt, kérjük próbáld újra",
+    "SEND_EMAIL_PAYMENT_REQUIRED": "Email transcript is not available on your current plan. Please upgrade to use this feature.",
     "FORM": {
       "SEND_TO_CONTACT": "A beszélgetés jegyzet elküldése az ügyfélnek",
       "SEND_TO_AGENT": "A beszélgetés jegyzet elküldése a hozzárendelt ügynöknek",
