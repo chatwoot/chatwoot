@@ -591,6 +591,16 @@ RSpec.describe ConversationReplyMailer do
         expect(mail.delivery_method.settings[:address]).to eq 'smtp.gmail.com'
         expect(mail.delivery_method.settings[:port]).to eq 587
       end
+
+      it 'uses inbox oauth smtp when global smtp config is unavailable' do
+        allow(class_instance).to receive(:smtp_config_set_or_development?).and_return(false)
+
+        mail = described_class.email_reply(message)
+
+        expect(mail).not_to be_nil
+        expect(mail.delivery_method.settings[:address]).to eq 'smtp.gmail.com'
+        expect(mail.delivery_method.settings[:port]).to eq 587
+      end
     end
 
     context 'when smtp disabled for email channel', :test do
