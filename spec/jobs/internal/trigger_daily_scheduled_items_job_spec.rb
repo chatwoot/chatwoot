@@ -6,7 +6,7 @@ RSpec.describe Internal::TriggerDailyScheduledItemsJob do
   let(:installation_id) { 'test-installation-id' }
   let(:designated_minute) { Digest::MD5.hexdigest(installation_id).hex % 1440 }
   let(:scheduled_time) { Time.current.utc.beginning_of_day + designated_minute.minutes }
-  let(:configured_job) { double(perform_later: true) }
+  let(:configured_job) { instance_double(ActiveJob::ConfiguredJob, perform_later: true) }
 
   before do
     allow(ChatwootHub).to receive(:installation_identifier).and_return(installation_id)
