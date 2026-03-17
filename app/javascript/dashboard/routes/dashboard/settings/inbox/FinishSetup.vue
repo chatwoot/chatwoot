@@ -30,7 +30,6 @@ const currentInbox = computed(() =>
 const {
   isAWhatsAppCloudChannel,
   isAWhatsAppChannel,
-  isATwilioChannel,
   isASmsInbox,
   isALineChannel,
   isAnEmailChannel,
@@ -56,16 +55,6 @@ const shouldShowWhatsAppWebhookDetails = computed(() => {
   );
 });
 
-const isTwilioSmsInbox = computed(() => {
-  const phoneNumber = currentInbox.value?.phone_number;
-  const callbackUrl = currentInbox.value?.callback_webhook_url;
-
-  return (
-    (phoneNumber || '').startsWith('+') &&
-    Boolean(callbackUrl && callbackUrl.includes('/twilio/callback'))
-  );
-});
-
 const whatsappPhoneNumber = computed(() => {
   return (currentInbox.value?.phone_number || '').replace('whatsapp:', '');
 });
@@ -81,18 +70,10 @@ const message = computed(() => {
     )}`;
   }
 
-  if (isTwilioSmsInbox.value) {
+  if (isATwilioSMSChannel.value) {
     return `${t('INBOX_MGMT.FINISH.MESSAGE')}. ${t(
       'INBOX_MGMT.FINISH.SMS_QR_INSTRUCTION'
     )}`;
-  }
-
-  if (isASmsInbox.value) {
-    return t('INBOX_MGMT.FINISH.MESSAGE');
-  }
-
-  if (isATwilioChannel.value) {
-    return t('INBOX_MGMT.FINISH.MESSAGE');
   }
 
   if (isALineChannel.value) {
@@ -147,7 +128,7 @@ async function generateQRCodes() {
     await generateQRCode('whatsapp', whatsappPhoneNumber.value);
   }
 
-  if (isTwilioSmsInbox.value && currentInbox.value.phone_number) {
+  if (isATwilioSMSChannel.value && currentInbox.value.phone_number) {
     await generateQRCode('sms', currentInbox.value.phone_number);
   }
 
@@ -224,7 +205,7 @@ onMounted(() => {
           />
         </div>
         <div
-          v-if="isASmsInbox && !isATwilioSMSChannel && !isTwilioSmsInbox"
+          v-if="isASmsInbox && !isATwilioSMSChannel"
           class="w-[50%] max-w-[50%] ml-[25%]"
         >
           <p class="mt-8 font-medium text-n-slate-11">
@@ -233,14 +214,10 @@ onMounted(() => {
           <p class="mt-2 text-sm text-n-slate-9">
             {{ $t('INBOX_MGMT.ADD.SMS.BANDWIDTH.API_CALLBACK.SUBTITLE') }}
           </p>
-          <woot-code
-            v-if="isASmsInbox && !isATwilioSMSChannel && !isTwilioSmsInbox"
-            lang="html"
-            :script="currentInbox.callback_webhook_url"
-          />
+          <woot-code lang="html" :script="currentInbox.callback_webhook_url" />
         </div>
         <div
-          v-if="isTwilioSmsInbox && qrCodes.sms"
+          v-if="isATwilioSMSChannel && qrCodes.sms"
           class="flex flex-col gap-3 items-center mt-8"
         >
           <p class="mt-2 text-sm text-n-slate-9">

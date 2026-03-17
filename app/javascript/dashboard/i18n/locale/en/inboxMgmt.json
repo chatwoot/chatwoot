@@ -170,6 +170,10 @@
         "SUBMIT_BUTTON": "Create Twilio Channel",
         "API": {
           "ERROR_MESSAGE": "We were not able to authenticate Twilio credentials, please try again"
+        },
+        "API_CALLBACK": {
+          "TITLE": "Callback URL",
+          "SUBTITLE": "You have to configure the message callback URL in Twilio with the URL mentioned here."
         }
       },
       "SMS": {
@@ -214,15 +218,15 @@
             "PLACEHOLDER": "Please enter the phone number from which message will be sent.",
             "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
           },
-        "SUBMIT_BUTTON": "Create Bandwidth Channel",
-        "API": {
-          "ERROR_MESSAGE": "We were not able to authenticate Bandwidth credentials, please try again"
-        },
-        "API_CALLBACK": {
-          "TITLE": "Callback URL",
-          "SUBTITLE": "You have to configure the message callback URL in Bandwidth with the URL mentioned here."
+          "SUBMIT_BUTTON": "Create Bandwidth Channel",
+          "API": {
+            "ERROR_MESSAGE": "We were not able to authenticate Bandwidth credentials, please try again"
+          },
+          "API_CALLBACK": {
+            "TITLE": "Callback URL",
+            "SUBTITLE": "You have to configure the message callback URL in Bandwidth with the URL mentioned here."
+          }
         }
-      }
       },
       "WHATSAPP": {
         "TITLE": "WhatsApp Channel",
