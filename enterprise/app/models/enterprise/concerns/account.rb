@@ -30,6 +30,7 @@ module Enterprise::Concerns::Account
   end
 
   def migrate_assignment_policies
+    @assignment_v2_just_enabled = false
     Migration::AccountAssignmentPolicyJob.perform_later(self)
   end
 end
