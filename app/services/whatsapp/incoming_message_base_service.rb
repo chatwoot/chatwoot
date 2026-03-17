@@ -147,12 +147,12 @@ class Whatsapp::IncomingMessageBaseService
   end
 
   def update_conversation_with_message_referral_attrs
-    message = messages_data.first
-    new_attrs = message_referral_attrs(message)
-    return if new_attrs.blank?
+    referral_attrs = message_referral_attrs(messages_data.first)
+    referral_attrs_compact = referral_attrs.compact
+    return if referral_attrs_compact.blank?
 
     current_attrs = @conversation.additional_attributes || {}
-    updated_attrs = current_attrs.merge(new_attrs)
+    updated_attrs = current_attrs.except(*referral_attrs.keys.map(&:to_s)).merge(referral_attrs_compact)
     @conversation.update!(additional_attributes: updated_attrs)
   end
 

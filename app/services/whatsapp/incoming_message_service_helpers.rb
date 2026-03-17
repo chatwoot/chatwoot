@@ -4,12 +4,15 @@ module Whatsapp::IncomingMessageServiceHelpers
   end
 
   def conversation_params
-    {
+    params = {
       account_id: @inbox.account_id,
       inbox_id: @inbox.id,
       contact_id: @contact.id,
       contact_inbox_id: @contact_inbox.id
     }
+    referral_attrs = message_referral_attrs(messages_data.first).compact
+    params[:additional_attributes] = referral_attrs if referral_attrs.present?
+    params
   end
 
   def processed_params
@@ -37,25 +40,17 @@ module Whatsapp::IncomingMessageServiceHelpers
     content_attrs = outgoing_echo ? { external_echo: true } : {}
     content_attrs[:in_reply_to_external_id] = @in_reply_to_external_id if @in_reply_to_external_id.present?
 
-    if (referral_attrs = message_referral_attrs(message)).present?
-      content_attrs = content_attrs.merge(referral_attrs)
-    end
+    referral_attrs = message_referral_attrs(message).compact
+    content_attrs = content_attrs.merge(referral_attrs) if referral_attrs.present?
 
     content_attrs
   end
 
   def message_referral_attrs(message)
-    attrs = {}
-
-    if (referral = message[:referral])
-      attrs[:whatsapp_referral] = referral
-    end
-
-    if (referred_product = message.dig(:context, :referred_product))
-      attrs[:whatsapp_referred_product] = referred_product
-    end
-
-    return attrs
+    {
+      whatsapp_referral: message[:referral],
+      whatsapp_referred_product: message.dig(:context, :referred_product)
+    }
   end
 
   def file_content_type(file_type)
