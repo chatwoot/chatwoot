@@ -1,6 +1,7 @@
 {
   "INTEGRATION_SETTINGS": {
     "SHOPIFY": {
+      "HEADER": "Shopify",
       "DELETE": {
         "TITLE": "Delete Shopify Integration",
         "MESSAGE": "Are you sure you want to delete the Shopify integration?"
@@ -19,6 +20,8 @@
     "DESCRIPTION": "Chatwoot integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
     "LEARN_MORE": "Learn more about integrations",
     "LOADING": "Fetching integrations",
+    "SEARCH_PLACEHOLDER": "Search integrations...",
+    "NO_RESULTS": "No integrations found matching your search",
     "CAPTAIN": {
       "DISABLED": "Captain is not enabled on your account.",
       "CLICK_HERE_TO_CONFIGURE": "Click here to configure",
@@ -28,6 +31,17 @@
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "رویدادهای مشترک شده",
       "LEARN_MORE": "Learn more about webhooks",
+      "SECRET": {
+        "LABEL": "Secret",
+        "COPY": "Copy secret to clipboard",
+        "COPY_SUCCESS": "Secret copied to clipboard",
+        "TOGGLE": "Toggle secret visibility",
+        "CREATED_DESC": "Your webhook has been created. Use the secret below to verify webhook signatures. Please copy it now — you can also find it later in the webhook edit form.",
+        "DONE": "Done"
+      },
+      "COUNT": "{n} webhook | {n} webhooks",
+      "SEARCH_PLACEHOLDER": "Search webhooks...",
+      "NO_RESULTS": "No webhooks found matching your search",
       "FORM": {
         "CANCEL": "انصراف",
         "DESC": "رویدادهای وب هوک اطلاعات لحظه‌ای حساب چت ووت شما را منتقل می‌کنند. لطفا آدرس URL صحیحی وارد کنید.",
@@ -104,6 +118,7 @@
       }
     },
     "SLACK": {
+      "HEADER": "Slack",
       "DELETE": "حذف",
       "DELETE_CONFIRMATION": {
         "TITLE": "Delete the integration",
@@ -145,7 +160,29 @@
         "EXPAND": "Expand",
         "MAKE_FRIENDLY": "Change message tone to friendly",
         "MAKE_FORMAL": "Use formal tone",
-        "SIMPLIFY": "Simplify"
+        "SIMPLIFY": "Simplify",
+        "CONFIDENT": "Use confident tone",
+        "PROFESSIONAL": "Use professional tone",
+        "CASUAL": "Use casual tone",
+        "STRAIGHTFORWARD": "Use straightforward tone"
+      },
+      "REPLY_OPTIONS": {
+        "IMPROVE_REPLY": "Improve reply",
+        "IMPROVE_REPLY_SELECTION": "Improve the selection",
+        "CHANGE_TONE": {
+          "TITLE": "Change tone",
+          "OPTIONS": {
+            "PROFESSIONAL": "حرفه‌ای",
+            "CASUAL": "Casual",
+            "STRAIGHTFORWARD": "Straightforward",
+            "CONFIDENT": "Confident",
+            "FRIENDLY": "دوستانه"
+          }
+        },
+        "GRAMMAR": "Fix grammar & spelling",
+        "SUGGESTION": "Suggest a reply",
+        "SUMMARIZE": "Summarize the conversation",
+        "ASK_COPILOT": "Ask Copilot"
       },
       "ASSISTANCE_MODAL": {
         "DRAFT_TITLE": "Draft content",
@@ -201,12 +238,16 @@
       "SIDEBAR_TXT": "<p><b>برنامه‌های داشبورد</b></p><p>برنامه‌های داشبورد به سازمان‌ها اجازه می‌دهند تا برنامه‌ای را در داشبورد Chatwoot جاسازی کنند تا زمینه را برای عوامل پشتیبانی مشتری فراهم کنند. این ویژگی به شما این امکان را می دهد که به طور مستقل یک برنامه ایجاد کنید و آن را در داشبورد جاسازی کنید تا اطلاعات کاربر، سفارشات یا سابقه پرداخت قبلی آنها را ارائه کنید.</p><p>وقتی برنامه خود را با استفاده از داشبورد در Chatwoot جاسازی می کنید، برنامه شما این کار را انجام می دهد. زمینه گفتگو و تماس را به عنوان یک رویداد پنجره دریافت کنید. یک شنونده برای رویداد پیام در صفحه خود اجرا کنید تا زمینه را دریافت کنید.</p><p>برای افزودن یک برنامه داشبورد جدید، روی دکمه \"افزودن یک برنامه داشبورد جدید\" کلیک کنید.</p>",
       "DESCRIPTION": "برنامه‌های داشبورد به سازمان‌ها اجازه می‌دهند تا برنامه‌ای را در داشبورد جاسازی کنند تا زمینه را برای عوامل پشتیبانی مشتری فراهم کنند. این ویژگی به شما این امکان را می دهد که به طور مستقل یک برنامه کاربردی ایجاد کنید و آن را برای ارائه اطلاعات کاربر، سفارشات یا سابقه پرداخت قبلی آنها درج کنید.",
       "LEARN_MORE": "Learn more about Dashboard Apps",
+      "COUNT": "{n} dashboard app | {n} dashboard apps",
+      "SEARCH_PLACEHOLDER": "Search dashboard apps...",
+      "NO_RESULTS": "No dashboard apps found matching your search",
       "LIST": {
         "404": "هنوز هیچ برنامه داشبوردی روی این حساب پیکربندی نشده است",
         "LOADING": "در حال واکشی برنامه های داشبورد...",
         "TABLE_HEADER": {
           "NAME": "نام",
-          "ENDPOINT": "نقطه پایانی"
+          "ENDPOINT": "نقطه پایانی",
+          "ACTIONS": "عملیات"
         },
         "EDIT_TOOLTIP": "ویرایش برنامه",
         "DELETE_TOOLTIP": "حذف برنامه"
@@ -243,6 +284,7 @@
       }
     },
     "LINEAR": {
+      "HEADER": "Linear",
       "ADD_OR_LINK_BUTTON": "Create/Link Linear Issue",
       "LOADING": "Fetching linear issues...",
       "LOADING_ERROR": "There was an error fetching the linear issues, please try again",
@@ -337,6 +379,7 @@
       }
     },
     "NOTION": {
+      "HEADER": "Notion",
       "DELETE": {
         "TITLE": "Are you sure you want to delete the Notion integration?",
         "MESSAGE": "Deleting this integration will remove access to your Notion workspace and stop all related functionality.",
@@ -406,6 +449,7 @@
       "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
     },
     "ENTERPRISE_PAYWALL": {
+      "AVAILABLE_ON": "Captain AI is only available in the Enterprise plans.",
       "UPGRADE_PROMPT": "Upgrade your plan to get access to our assistants, copilot and more.",
       "ASK_ADMIN": "لطفاً برای ارتقا با ادمین خود تماس بگیرید."
     },
