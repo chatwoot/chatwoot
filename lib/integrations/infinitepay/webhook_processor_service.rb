@@ -128,7 +128,8 @@ class Integrations::Infinitepay::WebhookProcessorService
   end
 
   def build_event_payload(payment_link)
-    contact = payment_link.conversation.contact
+    conversation = payment_link.conversation
+    contact = conversation.contact
     {
       payment_link_id: payment_link.id,
       order_nsu: payment_link.order_nsu,
@@ -137,12 +138,32 @@ class Integrations::Infinitepay::WebhookProcessorService
       capture_method: payment_link.capture_method,
       receipt_url: payment_link.receipt_url,
       conversation_id: payment_link.conversation_id,
-      contact: {
-        id: contact&.id,
-        name: contact&.name,
-        phone_number: contact&.phone_number
-      }
+      contact: payment_contact_payload(contact),
+      conversation: payment_conversation_payload(conversation),
+      inbox: payment_inbox_payload(conversation.inbox)
     }
+  end
+
+  def payment_contact_payload(contact)
+    return { id: nil, name: nil, phone_number: nil } if contact.blank?
+
+    contact.webhook_data
+  end
+
+  def payment_conversation_payload(conversation)
+    return {} if conversation.blank?
+
+    conversation.webhook_data.merge(
+      labels: conversation.cached_label_list_array,
+      contact: conversation.contact&.webhook_data,
+      inbox: payment_inbox_payload(conversation.inbox)
+    )
+  end
+
+  def payment_inbox_payload(inbox)
+    return {} if inbox.blank?
+
+    { id: inbox.id, name: inbox.name, channel_type: inbox.channel_type }
   end
 
   def forward_to_jusmonitoria(event_payload, account)

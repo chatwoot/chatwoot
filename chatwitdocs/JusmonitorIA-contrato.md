@@ -306,6 +306,14 @@ A integração de pagamentos via InfinitePay está implementada. O fluxo:
 4. JusMonitorIA usa para controle financeiro (match de fatura, baixa automática)
 5. SocialWise usa para fluxos de pós-venda
 
+### Regra de fallback para sync de contato
+
+`contact.created` continua sendo o caminho canônico de criação/sincronização inicial.
+
+Além disso, `payment.confirmed` deve funcionar como **fallback de recuperação**: se o JusMonitorIA ainda não conhecer aquele contato, ele pode usar o payload de pagamento para localizar por `chatwit_contact_id`, `identifier`, telefone ou email e, se necessário, criar/vincular a entidade adequada no CRM jurídico.
+
+O Chatwit **não decide** se a entidade é Lead ou Client. Ele apenas envia contexto suficiente para que o backend do JusMonitorIA faça o upsert conforme sua regra de domínio.
+
 ### Payload `payment.confirmed`
 
 ```json
@@ -322,8 +330,21 @@ A integração de pagamentos via InfinitePay está implementada. O fluxo:
     "contact": {
       "id": 789,
       "name": "João Silva",
-      "phone_number": "+5511999887766"
-    }
+      "email": "joao@example.com",
+      "phone_number": "+5511999887766",
+      "identifier": "jm_client_x9y8z7w6-1234",
+      "custom_attributes": {},
+      "additional_attributes": {},
+      "account": { "id": 1, "name": "Escritório ABC" }
+    },
+    "conversation": {
+      "id": 456,
+      "status": "open",
+      "labels": ["jusmonitoria_monitoramento"],
+      "contact": { "id": 789, "name": "João Silva" },
+      "inbox": { "id": 1, "name": "WhatsApp", "channel_type": "Channel::Whatsapp" }
+    },
+    "inbox": { "id": 1, "name": "WhatsApp", "channel_type": "Channel::Whatsapp" }
   },
   "metadata": {
     "account_id": 1,
@@ -345,7 +366,9 @@ A integração de pagamentos via InfinitePay está implementada. O fluxo:
 | `capture_method` | string | `"pix"` ou `"credit_card"` |
 | `receipt_url` | string | URL do comprovante |
 | `conversation_id` | integer | ID da conversa no Chatwit |
-| `contact` | object | Dados do contato (id, name, phone_number) |
+| `contact` | object | Dados completos do contato (`id`, `name`, `email`, `phone_number`, `identifier`, `custom_attributes`, `additional_attributes`, `account`) |
+| `conversation` | object | Contexto mínimo da conversa vinculada ao pagamento (`id`, `status`, `labels`, `contact`, `inbox`) |
+| `inbox` | object | Resumo da inbox (`id`, `name`, `channel_type`) |
 
 ---
 
@@ -730,3 +753,4 @@ Ambos os paths podem coexistir. Path 1 é o principal para leads e mensagens. Pa
 | 2026-03-11 | 10 | IMPLEMENTADO | Sync bidirecional de contatos via `identifier` — implementação 100% no JusMonitorIA |
 | 2026-03-17 | 11 | IMPLEMENTADO | Isolamento multi-tenant via ACCESS_TOKEN + webhook padrão. Removido fallback single-tenant. Frontend self-service para conectar Chatwit |
 | 2026-03-18 | 2, 12 | IMPLEMENTADO | Ativação do Hook JusMonitorIA por account (via UI Chatwit Settings → Integrations). Corrigidos bugs: parsing de contact_created no standard webhook, normalização de Agent Bot callback, campo lead_metadata nos workers. Adicionado account_name ao metadata do WebhookForwarder |
+| 2026-03-18 | 9 | IMPLEMENTADO | `payment.confirmed` enriquecido com `contact` completo + `conversation`/`inbox` para fallback de criação/vinculação de contato no JusMonitorIA |

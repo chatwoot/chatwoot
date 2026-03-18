@@ -6,7 +6,7 @@ module AccessTokenAuthHelper
     # CHATWIT: Permite Agent Bot global fazer upload de mídia via URL pública
     'api/v1/accounts/upload' => ['create'],
     # CHATWIT: Permite Agent Bot buscar/criar contatos para campanhas em massa
-    'api/v1/accounts/contacts' => %w[search create show]
+    'api/v1/accounts/contacts' => %w[search create show update]
   }.freeze
 
   def ensure_access_token
