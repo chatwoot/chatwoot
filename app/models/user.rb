@@ -192,6 +192,30 @@ class User < ApplicationRecord
     Chatwoot.mfa_enabled?
   end
 
+  # Workaround for Devise 4.9.x race condition vulnerability (GHSA-57hq-95w6-v4fc).
+  #
+  # The Confirmable module's reconfirmable flow has a race condition where concurrent
+  # email change requests can desynchronize confirmation tokens, allowing an attacker
+  # to confirm an email they don't own. Fixed in Devise 5.0.3 by persisting
+  # unconfirmed_email before regenerating the confirmation token.
+  #
+  # We can't upgrade to Devise 5.0.3 because devise-two-factor only added Devise 5
+  # support in v6.4.0, which simultaneously raised its Rails minimum to 7.2+.
+  # No released version supports both Devise 5 and Rails 7.1.
+  #
+  # This override applies the same fix locally: save the record (persisting
+  # unconfirmed_email) before regenerating the confirmation token, closing the
+  # race window. Remove this once we upgrade to Devise 5+.
+  def postpone_email_change_until_confirmation_and_regenerate_confirmation_token
+    @reconfirmation_required = true
+    self.unconfirmed_email = email
+    self.email = email_was
+
+    save(validate: false)
+    self.confirmation_token = nil
+    generate_confirmation_token
+  end
+
   private
 
   def remove_macros
