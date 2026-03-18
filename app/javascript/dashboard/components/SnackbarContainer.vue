@@ -7,7 +7,7 @@ import { useI18n } from 'vue-i18n';
 const props = defineProps({
   duration: {
     type: Number,
-    default: 2500,
+    default: 4000,
   },
 });
 

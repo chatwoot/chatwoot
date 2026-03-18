@@ -393,6 +393,31 @@ export const actions = {
     const response = await InboxesAPI.getCSATTemplateStatus(inboxId);
     return response.data;
   },
+
+  // Message Templates actions
+  getMessageTemplates: async (_, { inboxId, params = {} }) => {
+    const response = await InboxesAPI.getMessageTemplates(inboxId, params);
+    return response.data;
+  },
+
+  createMessageTemplate: async (_, { inboxId, template }) => {
+    const response = await InboxesAPI.createMessageTemplate(inboxId, template);
+    return response.data;
+  },
+
+  getMessageTemplateStatus: async (_, { inboxId, templateName }) => {
+    const response = await InboxesAPI.getMessageTemplateStatus(
+      inboxId,
+      templateName
+    );
+    return response.data;
+  },
+
+  deleteMessageTemplate: async (_, { inboxId, templateName, templateId }) => {
+    await InboxesAPI.deleteMessageTemplate(inboxId, templateName, templateId);
+    return { success: true };
+  },
+
   setSurvey: async ({ commit, state }, { inboxId, surveyId }) => {
     try {
       await InboxesAPI.setSurvey(inboxId, surveyId);

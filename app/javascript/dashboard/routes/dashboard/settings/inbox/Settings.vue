@@ -21,6 +21,7 @@ import GreetingsEditor from 'shared/components/GreetingsEditor.vue';
 import ConfigurationPage from './settingsPage/ConfigurationPage.vue';
 import CustomerSatisfactionPage from './settingsPage/CustomerSatisfactionPage.vue';
 import CollaboratorsPage from './settingsPage/CollaboratorsPage.vue';
+import WhatsappTemplatesPage from './settingsPage/WhatsappTemplatesPage.vue';
 import WidgetBuilder from './WidgetBuilder.vue';
 import BotConfiguration from './components/BotConfiguration.vue';
 import AccountHealth from './components/AccountHealth.vue';
@@ -55,6 +56,7 @@ export default {
     Editor,
     Avatar,
     AccountHealth,
+    WhatsappTemplatesPage,
   },
   mixins: [inboxMixin],
   setup() {
@@ -197,6 +199,10 @@ export default {
           {
             key: 'whatsapp-health',
             name: this.$t('INBOX_MGMT.TABS.ACCOUNT_HEALTH'),
+          },
+          {
+            key: 'whatsapp-templates',
+            name: this.$t('INBOX_MGMT.TABS.WHATSAPP_TEMPLATES'),
           },
         ];
       }
@@ -512,7 +518,7 @@ export default {
 
 <template>
   <div
-    class="overflow-auto flex-grow flex-shrink pr-0 pl-0 w-full min-w-0 settings"
+    class="overflow-auto flex-grow flex-shrink pr-0 pl-0 w-full min-w-0 min-h-0 h-full settings"
   >
     <SettingIntroBanner
       :header-image="inbox.avatarUrl"
@@ -999,6 +1005,9 @@ export default {
       </div>
       <div v-if="selectedTabKey === 'whatsapp-health'">
         <AccountHealth :health-data="healthData" />
+      </div>
+      <div v-if="selectedTabKey === 'whatsapp-templates'">
+        <WhatsappTemplatesPage :inbox="inbox" />
       </div>
     </section>
   </div>

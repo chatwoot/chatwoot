@@ -665,7 +665,8 @@
       "WIDGET_BUILDER": "Constructor de Widget",
       "BOT_CONFIGURATION": "Configuración del agente IA",
       "ACCOUNT_HEALTH": "Account Health",
-      "CSAT": "Encuestas de Satisfacción"
+      "CSAT": "Encuestas de Satisfacción",
+      "WHATSAPP_TEMPLATES": "Plantillas"
     },
     "ACCOUNT_HEALTH": {
       "TITLE": "Manage your WhatsApp account",
@@ -1100,6 +1101,162 @@
       "INSTAGRAM": "Instagram",
       "TIKTOK": "TikTok",
       "VOICE": "Voice"
+    },
+    "WHATSAPP_TEMPLATES": {
+      "TITLE": "Plantillas de WhatsApp",
+      "DESCRIPTION": "Crea y administra plantillas de mensajes de WhatsApp. Las plantillas deben ser aprobadas por Meta antes de poder usarse para enviar mensajes.",
+      "PURPOSE_NOTE": "WhatsApp solo permite mensajes libres dentro de las 24 horas del último mensaje del cliente. Después de este período, debes usar plantillas pre-aprobadas para contactar clientes. Las plantillas son esenciales para: confirmaciones de pedido, actualizaciones de envío, recordatorios de citas, notificaciones de pago y campañas de marketing.",
+      "CREATE_BUTTON": "Crear Plantilla",
+      "SYNC_BUTTON": "Actualizar",
+      "CANCEL": "Cancelar",
+      "LOADING": "Cargando plantillas...",
+      "EMPTY_STATE": "No se encontraron plantillas. Crea tu primera plantilla para comenzar.",
+      "FETCH_ERROR": "Error al cargar las plantillas. Por favor, inténtalo de nuevo.",
+      "CREATE_SUCCESS": "Plantilla creada exitosamente y enviada para aprobación.",
+      "CREATE_ERROR": "Error al crear la plantilla. Por favor, inténtalo de nuevo.",
+      "DELETE_SUCCESS": "Plantilla eliminada exitosamente.",
+      "DELETE_ERROR": "Error al eliminar la plantilla. Por favor, inténtalo de nuevo.",
+      "DELETE_PERMISSION_ERROR": "Permisos insuficientes para eliminar esta plantilla. Por favor, verifica los permisos de tu cuenta de WhatsApp Business en Meta Business Manager.",
+      "DELETE_UNDER_REVIEW": "No se puede eliminar la plantilla mientras está en revisión por Meta.",
+      "DELETE": {
+        "CONFIRM": {
+          "TITLE": "Eliminar Plantilla",
+          "MESSAGE": "¿Estás seguro de que deseas eliminar la plantilla",
+          "YES": "Sí, Eliminar",
+          "NO": "Cancelar"
+        }
+      },
+      "STATUS": {
+        "APPROVED": "Aprobada",
+        "PENDING": "Pendiente",
+        "REJECTED": "Rechazada",
+        "PAUSED": "En pausa",
+        "IN_APPEAL": "En apelación",
+        "DISABLED": "Deshabilitada",
+        "FLAGGED": "Marcada",
+        "PENDING_DELETION": "Eliminación pendiente",
+        "REINSTATED": "Reinstaurada"
+      },
+      "LIST": {
+        "SEARCH_PLACEHOLDER": "Buscar por nombre...",
+        "SHOWING": "Mostrando {from}-{to} de {total}",
+        "FILTERED": "({count} de {total} plantillas)",
+        "NO_RESULTS": "No se encontraron plantillas que coincidan con tus filtros.",
+        "CLEAR_SEARCH": "Limpiar filtros",
+        "CLEAR_FILTERS": "Limpiar filtros",
+        "TEMPLATE_LIMIT": "{count} / 6,000 plantillas",
+        "ALL_CATEGORIES": "Todas las categorías",
+        "ALL_STATUSES": "Todos los estados",
+        "ALL_LANGUAGES": "Todos los idiomas",
+        "CATEGORIES_SELECTED": "{count} categorías",
+        "STATUSES_SELECTED": "{count} estados",
+        "LANGUAGES_SELECTED": "{count} idiomas",
+        "SELECT_ALL": "Seleccionar todo"
+      },
+      "CATEGORY": {
+        "MARKETING": "Marketing",
+        "UTILITY": "Utilidad",
+        "AUTHENTICATION": "Autenticación"
+      },
+      "FORM": {
+        "TITLE": "Crear Nueva Plantilla",
+        "WARNING": {
+          "TITLE": "Importante: Restricción de Meta - Las plantillas no se pueden editar",
+          "MESSAGE": "Debido a restricciones de la API de WhatsApp Business de Meta, las plantillas no se pueden modificar una vez creadas. Puedes crear plantillas con el mismo nombre en diferentes idiomas, pero dentro del mismo idioma, el nombre debe ser único. Además, una vez que un nombre se usa en un idioma, no se puede volver a usar aunque elimines la plantilla."
+        },
+        "META_APPROVAL": {
+          "TITLE": "Proceso de Aprobación de Meta",
+          "MESSAGE": "La aprobación de la plantilla está sujeta a filtros propietarios de Meta. Es posible que necesites intentar crear la plantilla varias veces. El proceso de revisión se garantiza en un plazo de 24 horas, pero normalmente toma solo unos minutos.",
+          "REJECTION_TITLE": "Tu plantilla podría ser rechazada por:",
+          "REASON_1": "Clasificadores de Machine Learning propietarios de Meta",
+          "REASON_2": "Análisis de texto con NLP (procesamiento de lenguaje natural) de Meta",
+          "REASON_3": "Feedback de usuarios (reportes, bloqueos) de usuarios que han recibido previamente plantillas de tu negocio",
+          "REASON_4": "El historial de tu cuenta y reputación del negocio en WhatsApp"
+        },
+        "NAME": {
+          "LABEL": "Nombre de la Plantilla",
+          "PLACEHOLDER": "confirmacion_pedido",
+          "HELP": "Usa solo letras minúsculas, números y guiones bajos. Debe comenzar con una letra. Mínimo 3 caracteres."
+        },
+        "LANGUAGE": {
+          "LABEL": "Idioma",
+          "PLACEHOLDER": "Seleccionar idioma"
+        },
+        "CATEGORY": {
+          "LABEL": "Categoría",
+          "PLACEHOLDER": "Seleccionar categoría"
+        },
+        "CATEGORY_OPTIONS": {
+          "UTILITY": "Utilidad",
+          "UTILITY_DESC": "Permite a las empresas hacer un seguimiento de las acciones o solicitudes del usuario, ya que estos mensajes se suelen activar por las acciones de usuarios. Ejemplos: confirmaciones de pedido, actualizaciones de envío, alertas de cuenta, recordatorios de citas, notificaciones de pago. Menor costo por mensaje.",
+          "MARKETING": "Marketing",
+          "MARKETING_DESC": "Permite a las empresas alcanzar una amplia gama de objetivos, desde generar reconocimiento hasta impulsar las ventas y hacer retargeting de los clientes. Ejemplos: ofertas, descuentos, anuncios de productos, newsletters y cualquier mensaje que no cumpla con los criterios de utilidad. Mayor costo por mensaje."
+        },
+        "HEADER": {
+          "TITLE": "Encabezado (Opcional)",
+          "FORMAT_LABEL": "Formato del Encabezado",
+          "FORMAT_PLACEHOLDER": "Seleccionar formato del encabezado",
+          "TEXT_LABEL": "Texto del Encabezado",
+          "TEXT_PLACEHOLDER": "Ingresa el texto del encabezado",
+          "TEXT_HELP": "Máximo 60 caracteres. Solo 1 variable permitida (ej. {'{{'}1{'}}'}).",
+          "MEDIA_URL_LABEL": "URL de Muestra del Medio",
+          "MEDIA_URL_PLACEHOLDER": "https://ejemplo.com/imagen.jpg",
+          "MEDIA_URL_HELP": "Proporciona una URL de acceso público para el medio de muestra. Esto solo se usa para la aprobación de la plantilla."
+        },
+        "HEADER_FORMAT_OPTIONS": {
+          "NONE": "Sin encabezado",
+          "TEXT": "Texto",
+          "IMAGE": "Imagen",
+          "VIDEO": "Video",
+          "DOCUMENT": "Documento"
+        },
+        "BODY": {
+          "LABEL": "Texto del Cuerpo",
+          "PLACEHOLDER_POSITIONAL": "Hola {'{{'}1{'}}'}, tu pedido #{'{{'}2{'}}'} ha sido enviado!",
+          "PLACEHOLDER_NAMED": "Hola {'{{'}variable_1{'}}'}, tu pedido #{'{{'}variable_2{'}}'} ha sido enviado!",
+          "HELP": "Usa variables posicionales ({'{{'}1{'}}'}, {'{{'}2{'}}'}) O variables con nombre ({'{{'}variable_1{'}}'}, {'{{'}variable_2{'}}'}). No mezcles ambos tipos.",
+          "INSERT_VAR": "Insertar variable",
+          "VAR_FORMAT": "Formato de variable",
+          "FORMAT_POSITIONAL": "Posicional ({'{{'}1{'}}'}, {'{{'}2{'}}'})",
+          "FORMAT_NAMED": "Con nombre ({'{{'}variable_1{'}}'})",
+          "VAR_RULES": "Las variables no pueden estar al principio ni al final del mensaje. Usa solo letras, números y guiones bajos dentro de {'{{'}  {'}}'}.",
+          "FORMAT_MISMATCH_POSITIONAL": "La plantilla contiene parámetros de variables con formato incorrecto. Los parámetros de variables posicionales deben ser números secuenciales con dos pares de llaves (por ejemplo, {'{{'}1{'}}'}, {'{{'}2{'}}'}, {'{{'}3{'}}'}).",
+          "FORMAT_MISMATCH_NAMED": "La plantilla contiene parámetros de variables con formato incorrecto. Los parámetros de variables con nombre deben ser caracteres en minúscula, guiones bajos y números con dos pares de llaves (por ejemplo, {'{{'}customer_name{'}}'}, {'{{'}order_id{'}}'}).",
+          "VAR_SAMPLES": {
+            "TITLE": "Muestras de Variables",
+            "DESCRIPTION": "Incluye valores de muestra para todas las variables para que Meta pueda revisar tu plantilla. No incluyas datos reales de clientes para proteger la privacidad.",
+            "PLACEHOLDER": "Ingresa un valor de muestra para {var}"
+          }
+        },
+        "FOOTER": {
+          "LABEL": "Pie de página (Opcional)",
+          "PLACEHOLDER": "¡Gracias por tu compra!",
+          "HELP": "Agrega un mensaje corto de pie de página. Máximo 60 caracteres."
+        },
+        "SUBMIT": "Crear Plantilla",
+        "CANCEL": "Cancelar",
+        "PREVIEW": {
+          "TITLE": "Vista Previa del Mensaje",
+          "NOTE": "Esta es una aproximación. La apariencia real puede variar ligeramente en WhatsApp."
+        },
+        "ERRORS": {
+          "NAME_FORMAT": "Usa solo letras minúsculas, números y guiones bajos. Debe comenzar con una letra.",
+          "NAME_MIN": "El nombre de la plantilla debe tener al menos 3 caracteres.",
+          "NAME_MAX": "El nombre de la plantilla no puede exceder {max} caracteres.",
+          "HEADER_MAX": "El texto del encabezado no puede exceder {max} caracteres.",
+          "HEADER_VARS": "El encabezado solo puede contener 1 variable (ej. {'{{'}1{'}}'}).",
+          "BODY_MAX": "El texto del cuerpo no puede exceder {max} caracteres.",
+          "BODY_VARS": "Las variables numéricas deben ser secuenciales comenzando desde {'{{'}1{'}}'}. Ejemplo: {'{{'}1{'}}'}, {'{{'}2{'}}'}, {'{{'}3{'}}'}.",
+          "FOOTER_MAX": "El texto del pie de página no puede exceder {max} caracteres.",
+          "FOOTER_VARS": "El pie de página no puede contener variables.",
+          "UNCLOSED_BRACES": "Llaves de variable sin cerrar. Asegúrate de que cada {{ tenga su correspondiente }}.",
+          "EMPTY_VARIABLE": "Variable vacía detectada. Las variables no pueden estar vacías.",
+          "INVALID_VAR_FORMAT": "Formato de variable inválido: {vars}. Usa solo letras, números y guiones bajos.",
+          "VAR_POSITION": "Las variables no pueden estar al principio ni al final de la plantilla.",
+          "MISSING_VAR_EXAMPLES": "Por favor proporciona valores de muestra para: {vars}",
+          "SELF_REFERENCE": "El valor de ejemplo para {vars} no puede referenciarse a sí mismo"
+        }
+      }
     },
     "WHATSAPP_GROUPS": {
       "SUB_TITLE": "Bandeja especial para conversaciones de grupos de WhatsApp",
