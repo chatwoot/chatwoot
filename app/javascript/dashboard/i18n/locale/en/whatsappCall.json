@@ -9,6 +9,7 @@
     "UNMUTE": "Unmute",
     "INITIATE_CALL": "Call via WhatsApp",
     "CALLING": "Calling…",
+    "RINGING": "Ringing…",
     "CALL_FAILED": "Call failed. Please try again.",
     "PERMISSION_REQUESTED": "Call permission request sent to the contact. You can call once they approve.",
     "PERMISSION_PENDING": "Waiting for the contact to approve the call permission request. Please try again shortly.",

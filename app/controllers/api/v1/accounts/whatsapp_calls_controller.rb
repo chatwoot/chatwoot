@@ -35,24 +35,8 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
     error = validate_whatsapp_calling(conversation)
     return render json: { error: error }, status: :unprocessable_entity if error
 
-    contact_phone = conversation.contact&.phone_number
-    return render json: { error: 'Contact phone number not available' }, status: :unprocessable_entity if contact_phone.blank?
-
-    sdp_offer = params[:sdp_offer]
-    return render json: { error: 'sdp_offer is required' }, status: :unprocessable_entity if sdp_offer.blank?
-
-    result = conversation.inbox.channel.provider_service.initiate_call(contact_phone.delete('+'), sdp_offer)
-    call_id = result.dig('calls', 0, 'id') || result['call_id']
-    wa_call = current_account.whatsapp_calls.create!(
-      inbox: conversation.inbox,
-      conversation: conversation,
-      call_id: call_id,
-      direction: 'outbound',
-      status: 'ringing',
-      meta: { sdp_offer: sdp_offer }
-    )
-
-    render json: { status: 'calling', call_id: call_id, id: wa_call.id }
+    wa_call = create_outbound_call(conversation)
+    render json: { status: 'calling', call_id: wa_call.call_id, id: wa_call.id }
   rescue Whatsapp::CallErrors::NoCallPermission
     handle_no_call_permission(conversation)
   rescue ActiveRecord::RecordNotFound
@@ -64,23 +48,33 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
 
   private
 
+  def create_outbound_call(conversation)
+    contact_phone = conversation.contact&.phone_number
+    raise ArgumentError, 'Contact phone number not available' if contact_phone.blank?
+    raise ArgumentError, 'sdp_offer is required' if params[:sdp_offer].blank?
+
+    result = conversation.inbox.channel.provider_service.initiate_call(contact_phone.delete('+'), params[:sdp_offer])
+    call_id = result.dig('calls', 0, 'id') || result['call_id']
+
+    current_account.whatsapp_calls.create!(
+      inbox: conversation.inbox, conversation: conversation,
+      call_id: call_id, direction: 'outbound', status: 'ringing',
+      meta: { sdp_offer: params[:sdp_offer] }
+    )
+  end
+
   def handle_no_call_permission(conversation)
     last_requested = conversation.additional_attributes&.dig('call_permission_requested_at')
 
-    # Don't re-send if permission was requested within the last 5 minutes
-    if last_requested.present? && Time.zone.parse(last_requested) > 5.minutes.ago
-      render json: { status: 'permission_pending' }
-      return
-    end
+    return render json: { status: 'permission_pending' } if last_requested.present? && Time.zone.parse(last_requested) > 5.minutes.ago
 
     contact_phone = conversation.contact.phone_number.delete('+')
     result = conversation.inbox.channel.provider_service.send_call_permission_request(contact_phone)
-    if result
-      conversation.update!(additional_attributes: (conversation.additional_attributes || {}).merge('call_permission_requested_at' => Time.current.iso8601))
-      render json: { status: 'permission_requested' }
-    else
-      render json: { error: 'Failed to send call permission request' }, status: :unprocessable_entity
-    end
+    return render json: { error: 'Failed to send call permission request' }, status: :unprocessable_entity unless result
+
+    attrs = (conversation.additional_attributes || {}).merge('call_permission_requested_at' => Time.current.iso8601)
+    conversation.update!(additional_attributes: attrs)
+    render json: { status: 'permission_requested' }
   end
 
   def validate_whatsapp_calling(conversation)

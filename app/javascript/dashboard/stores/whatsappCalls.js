@@ -1,5 +1,32 @@
 import { defineStore } from 'pinia';
 
+// Module-scoped (non-reactive) state for outbound call WebRTC objects.
+// These cannot be in Pinia state because RTCPeerConnection/MediaStream are not serializable.
+const outboundCall = { pc: null, stream: null, audio: null, callId: null };
+
+export function getOutboundCallState() {
+  return outboundCall;
+}
+
+export function setOutboundCallProperty(key, value) {
+  outboundCall[key] = value;
+}
+
+function cleanupOutboundCall() {
+  if (outboundCall.pc) outboundCall.pc.close();
+  if (outboundCall.stream) {
+    outboundCall.stream.getTracks().forEach(t => t.stop());
+  }
+  if (outboundCall.audio) {
+    outboundCall.audio.srcObject = null;
+    outboundCall.audio.remove();
+  }
+  outboundCall.pc = null;
+  outboundCall.stream = null;
+  outboundCall.audio = null;
+  outboundCall.callId = null;
+}
+
 export const useWhatsappCallsStore = defineStore('whatsappCalls', {
   state: () => ({
     // Incoming ringing calls waiting for agent action
@@ -7,7 +34,7 @@ export const useWhatsappCallsStore = defineStore('whatsappCalls', {
     // The single active call (accepted + audio connected)
     activeCall: null,
     // Cleanup callback registered by the composable — called when a call ends externally
-    _cleanupCallback: null,
+    cleanupCallback: null,
   }),
 
   getters: {
@@ -37,8 +64,14 @@ export const useWhatsappCallsStore = defineStore('whatsappCalls', {
       this.activeCall = null;
     },
 
+    markActiveCallConnected() {
+      if (this.activeCall) {
+        this.activeCall = { ...this.activeCall, status: 'connected' };
+      }
+    },
+
     registerCleanupCallback(callback) {
-      this._cleanupCallback = callback;
+      this.cleanupCallback = callback;
     },
 
     handleCallAcceptedByOther(callId) {
@@ -49,24 +82,12 @@ export const useWhatsappCallsStore = defineStore('whatsappCalls', {
       this.removeIncomingCall(callId);
       if (this.activeCall?.callId === callId) {
         this.activeCall = null;
-        // Trigger WebRTC cleanup via the registered callback
-        if (this._cleanupCallback) {
-          this._cleanupCallback();
+        if (this.cleanupCallback) {
+          this.cleanupCallback();
         }
       }
-      // Also clean up outbound call globals if they match
-      if (window.__outboundCallId === callId) {
-        if (window.__outboundCallPC) window.__outboundCallPC.close();
-        if (window.__outboundCallStream)
-          window.__outboundCallStream.getTracks().forEach(t => t.stop());
-        if (window.__outboundCallAudio) {
-          window.__outboundCallAudio.srcObject = null;
-          window.__outboundCallAudio.remove();
-        }
-        window.__outboundCallPC = null;
-        window.__outboundCallStream = null;
-        window.__outboundCallAudio = null;
-        window.__outboundCallId = null;
+      if (outboundCall.callId === callId) {
+        cleanupOutboundCall();
       }
     },
   },

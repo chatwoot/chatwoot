@@ -94,41 +94,7 @@ class Webhooks::WhatsappEventsJob < ApplicationJob
   end
 
   def handle_call_permission_reply(channel, params)
-    value = params.dig(:entry, 0, :changes, 0, :value)
-    message = value&.dig(:messages, 0)
-    reply = message&.dig(:interactive, :call_permission_reply)
-    return unless reply
-
-    from_number = message[:from]
-    accepted = reply[:response] == 'accept'
-
-    Rails.logger.info "[WHATSAPP CALL] call_permission_reply from=#{from_number} accepted=#{accepted} permanent=#{reply[:is_permanent]}"
-
-    return unless accepted
-
-    contact = channel.inbox.contact_inboxes.joins(:contact)
-                     .where(contacts: { phone_number: "+#{from_number}" })
-                     .first&.contact
-    return unless contact
-
-    conversation = channel.inbox.conversations.where(contact: contact).where.not(status: :resolved).last
-    return unless conversation
-
-    # Clear the permission requested flag so next call attempt goes through
-    attrs = conversation.additional_attributes || {}
-    attrs.delete('call_permission_requested_at')
-    conversation.update!(additional_attributes: attrs)
-
-    # Notify agents that call permission was granted
-    ActionCable.server.broadcast("account_#{channel.inbox.account_id}", {
-                                  event: 'whatsapp_call.permission_granted',
-                                  data: {
-                                    account_id: channel.inbox.account_id,
-                                    conversation_id: conversation.id,
-                                    contact_name: contact.name,
-                                    contact_phone: contact.phone_number
-                                  }
-                                })
+    Whatsapp::CallPermissionReplyService.new(inbox: channel.inbox, params: params).perform
   end
 
   def extract_call_params(params)

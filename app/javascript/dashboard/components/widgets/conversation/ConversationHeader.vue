@@ -16,6 +16,10 @@ import { useI18n } from 'vue-i18n';
 import WhatsappCallsAPI from 'dashboard/api/whatsappCalls';
 import { emitter } from 'shared/helpers/mitt';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
+import {
+  useWhatsappCallsStore,
+  setOutboundCallProperty,
+} from 'dashboard/stores/whatsappCalls';
 
 const props = defineProps({
   chat: {
@@ -34,6 +38,7 @@ const route = useRoute();
 const conversationHeader = ref(null);
 const { width } = useElementSize(conversationHeader);
 const { isAWebWidgetInbox, isAWhatsAppCloudChannel } = useInbox();
+const whatsappCallsStore = useWhatsappCallsStore();
 const isInitiatingCall = ref(false);
 
 const currentChat = computed(() => store.getters.getSelectedChat);
@@ -127,7 +132,7 @@ const initiateWhatsappCall = async () => {
     });
     localStream.getTracks().forEach(track => pc.addTrack(track, localStream));
 
-    // Handle remote audio from Meta
+    // Handle remote audio from Meta — ontrack fires when the callee picks up
     pc.ontrack = event => {
       const [stream] = event.streams;
       if (!stream) return;
@@ -135,12 +140,15 @@ const initiateWhatsappCall = async () => {
       audio.srcObject = stream;
       audio.autoplay = true;
       document.body.appendChild(audio);
-      window.__outboundCallAudio = audio;
+      setOutboundCallProperty('audio', audio);
+      // Remote audio arrived — callee picked up, transition from ringing to connected
+      whatsappCallsStore.markActiveCallConnected();
     };
 
-    // eslint-disable-next-line no-console
-    pc.oniceconnectionstatechange = () =>
+    pc.oniceconnectionstatechange = () => {
+      // eslint-disable-next-line no-console
       console.log('[WhatsApp Call] Outbound ICE state:', pc.iceConnectionState);
+    };
 
     const offer = await pc.createOffer();
     await pc.setLocalDescription(offer);
@@ -155,16 +163,17 @@ const initiateWhatsappCall = async () => {
     );
 
     const callStatus = response.data?.status;
-    if (callStatus === 'permission_requested' || callStatus === 'permission_pending') {
+    if (
+      callStatus === 'permission_requested' ||
+      callStatus === 'permission_pending'
+    ) {
       pc.close();
       localStream.getTracks().forEach(track => track.stop());
-      const messageKey = callStatus === 'permission_requested'
-        ? 'WHATSAPP_CALL.PERMISSION_REQUESTED'
-        : 'WHATSAPP_CALL.PERMISSION_PENDING';
-      emitter.emit(BUS_EVENTS.SHOW_ALERT, {
-        message: t(messageKey),
-        type: 'info',
-      });
+      const message =
+        callStatus === 'permission_requested'
+          ? t('WHATSAPP_CALL.PERMISSION_REQUESTED')
+          : t('WHATSAPP_CALL.PERMISSION_PENDING');
+      emitter.emit(BUS_EVENTS.SHOW_ALERT, { message, type: 'info' });
       return;
     }
 
@@ -173,9 +182,25 @@ const initiateWhatsappCall = async () => {
       type: 'success',
     });
 
-    window.__outboundCallPC = pc;
-    window.__outboundCallStream = localStream;
-    window.__outboundCallId = response.data?.call_id;
+    const outboundCallId = response.data?.call_id;
+    setOutboundCallProperty('pc', pc);
+    setOutboundCallProperty('stream', localStream);
+    setOutboundCallProperty('callId', outboundCallId);
+
+    // Set active call in store so the WhatsappCallWidget renders
+    // Status starts as 'ringing' — updated to 'connected' when SDP answer arrives
+    whatsappCallsStore.setActiveCall({
+      id: response.data?.id,
+      callId: outboundCallId,
+      direction: 'outbound',
+      status: 'ringing',
+      conversationId: currentChat.value.id,
+      caller: {
+        name: currentContact.value?.name,
+        phone: currentContact.value?.phone_number,
+        avatar: currentContact.value?.thumbnail,
+      },
+    });
   } catch (err) {
     if (pc) pc.close();
     if (localStream) localStream.getTracks().forEach(track => track.stop());

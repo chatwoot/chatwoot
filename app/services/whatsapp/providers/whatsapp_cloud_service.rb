@@ -1,4 +1,6 @@
 class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseService
+  include Whatsapp::Providers::WhatsappCloudCallMethods
+
   def send_message(phone_number, message)
     @message = message
 
@@ -79,109 +81,7 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     "#{api_base_path}/v13.0/#{media_id}"
   end
 
-  def pre_accept_call(call_id, sdp_answer)
-    body = {
-      messaging_product: 'whatsapp',
-      call_id: call_id,
-      action: 'pre_accept',
-      session: {
-        sdp: sdp_answer,
-        sdp_type: 'answer'
-      }
-    }
-    call_api('pre_accept_call', body)
-  end
-
-  def accept_call(call_id, sdp_answer)
-    body = {
-      messaging_product: 'whatsapp',
-      call_id: call_id,
-      action: 'accept',
-      session: {
-        sdp: sdp_answer,
-        sdp_type: 'answer'
-      }
-    }
-    call_api('accept_call', body)
-  end
-
-  def reject_call(call_id)
-    body = {
-      messaging_product: 'whatsapp',
-      call_id: call_id,
-      action: 'reject'
-    }
-    call_api('reject_call', body)
-  end
-
-  def terminate_call(call_id)
-    body = {
-      messaging_product: 'whatsapp',
-      call_id: call_id,
-      action: 'terminate'
-    }
-    call_api('terminate_call', body)
-  end
-
-  def send_call_permission_request(to_phone_number, body_text = 'We would like to call you regarding your conversation.')
-    response = HTTParty.post(
-      "#{phone_id_path}/messages",
-      headers: api_headers,
-      body: {
-        messaging_product: 'whatsapp',
-        recipient_type: 'individual',
-        to: to_phone_number,
-        type: 'interactive',
-        interactive: {
-          type: 'call_permission_request',
-          action: { name: 'call_permission_request' },
-          body: { text: body_text }
-        }
-      }.to_json
-    )
-    unless response.success?
-      Rails.logger.error "[WHATSAPP CALL] send_call_permission_request failed: status=#{response.code} body=#{response.body}"
-      return nil
-    end
-    response.parsed_response
-  end
-
-  def initiate_call(to_phone_number, sdp_offer)
-    response = HTTParty.post(
-      "#{phone_id_path}/calls",
-      headers: api_headers,
-      body: {
-        messaging_product: 'whatsapp',
-        to: to_phone_number,
-        type: 'audio',
-        session: {
-          sdp: sdp_offer,
-          sdp_type: 'offer'
-        }
-      }.to_json
-    )
-    unless response.success?
-      parsed = response.parsed_response
-      error_code = parsed&.dig('error', 'code')
-      error_msg = parsed&.dig('error', 'error_user_msg') || 'Failed to initiate call'
-      Rails.logger.error "[WHATSAPP CALL] initiate_call failed: status=#{response.code} body=#{response.body}"
-      raise Whatsapp::CallErrors::NoCallPermission, error_msg if error_code == 138_006
-      raise StandardError, error_msg
-    end
-    response.parsed_response
-  end
-
   private
-
-  def call_api(action_name, body)
-    url = "#{phone_id_path}/calls"
-    Rails.logger.info "[WHATSAPP CALL] #{action_name} POST #{url} body=#{body.except(:session).to_json}"
-    response = HTTParty.post(url, headers: api_headers, body: body.to_json)
-    unless response.success?
-      Rails.logger.error "[WHATSAPP CALL] #{action_name} failed: status=#{response.code} body=#{response.body}"
-    end
-    response.success?
-  end
 
   def csat_template_service
     @csat_template_service ||= Whatsapp::CsatTemplateService.new(whatsapp_channel)

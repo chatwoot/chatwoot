@@ -1,9 +1,14 @@
-import { ref, computed, onUnmounted } from 'vue';
-import { useWhatsappCallsStore } from 'dashboard/stores/whatsappCalls';
+import { ref, computed, watch, onUnmounted } from 'vue';
+import { useI18n } from 'vue-i18n';
+import {
+  useWhatsappCallsStore,
+  getOutboundCallState,
+} from 'dashboard/stores/whatsappCalls';
 import WhatsappCallsAPI from 'dashboard/api/whatsappCalls';
 import Timer from 'dashboard/helper/Timer';
 
 export function useWhatsappCallSession() {
+  const { t } = useI18n();
   const callsStore = useWhatsappCallsStore();
 
   // WebRTC internals
@@ -27,6 +32,12 @@ export function useWhatsappCallSession() {
   const hasIncomingCall = computed(() => callsStore.hasIncomingCall);
   const firstIncomingCall = computed(() => callsStore.firstIncomingCall);
 
+  const isOutboundRinging = computed(
+    () =>
+      activeCall.value?.direction === 'outbound' &&
+      activeCall.value?.status === 'ringing'
+  );
+
   const formattedCallDuration = computed(() => {
     const minutes = Math.floor(callDuration.value / 60);
     const seconds = callDuration.value % 60;
@@ -35,7 +46,7 @@ export function useWhatsappCallSession() {
 
   const cleanupWebRTC = () => {
     if (localStream) {
-      localStream.getTracks().forEach(t => t.stop());
+      localStream.getTracks().forEach(track => track.stop());
       localStream = null;
     }
     if (peerConnection) {
@@ -57,6 +68,17 @@ export function useWhatsappCallSession() {
     cleanupWebRTC();
     durationTimer.stop();
     callDuration.value = 0;
+  });
+
+  // Start timer when an outbound call becomes connected (SDP answer received)
+  watch(activeCall, call => {
+    if (
+      call?.direction === 'outbound' &&
+      call?.status === 'connected' &&
+      !durationTimer.intervalId
+    ) {
+      durationTimer.start();
+    }
   });
 
   /**
@@ -182,8 +204,8 @@ export function useWhatsappCallSession() {
     } catch (err) {
       callError.value =
         err.name === 'NotAllowedError'
-          ? 'Microphone access denied. Please allow mic access and try again.'
-          : 'Failed to accept call. Please try again.';
+          ? t('WHATSAPP_CALL.MIC_DENIED')
+          : t('WHATSAPP_CALL.CALL_FAILED');
       // eslint-disable-next-line no-console
       console.error('[WhatsApp Call] acceptCall error:', err);
       cleanupWebRTC();
@@ -211,7 +233,10 @@ export function useWhatsappCallSession() {
     } catch {
       // Best effort — always cleanup locally
     } finally {
+      // For inbound calls, cleanup composable-managed WebRTC
       cleanupWebRTC();
+      // For outbound calls, cleanup module-scoped WebRTC via store
+      callsStore.handleCallEnded(call.callId);
       callsStore.clearActiveCall();
       durationTimer.stop();
       callDuration.value = 0;
@@ -219,8 +244,11 @@ export function useWhatsappCallSession() {
   };
 
   const toggleMute = () => {
-    if (!localStream) return;
-    const audioTrack = localStream.getAudioTracks()[0];
+    // For inbound calls, localStream is managed by this composable.
+    // For outbound calls, the stream is in module-scoped outbound state.
+    const stream = localStream || getOutboundCallState().stream;
+    if (!stream) return;
+    const audioTrack = stream.getAudioTracks()[0];
     if (!audioTrack) return;
     audioTrack.enabled = !audioTrack.enabled;
     isMuted.value = !audioTrack.enabled;
@@ -242,6 +270,7 @@ export function useWhatsappCallSession() {
     firstIncomingCall,
     isAccepting,
     isMuted,
+    isOutboundRinging,
     callError,
     formattedCallDuration,
     acceptCall,

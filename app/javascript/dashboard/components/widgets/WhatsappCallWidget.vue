@@ -15,6 +15,7 @@ const {
   hasIncomingCall,
   isAccepting,
   isMuted,
+  isOutboundRinging,
   callError,
   formattedCallDuration,
   acceptCall,
@@ -150,7 +151,10 @@ onUnmounted(() => {
       v-if="hasActiveCall"
       class="flex items-center gap-3 p-4 bg-n-solid-2 rounded-xl shadow-xl outline outline-1 outline-n-strong"
     >
-      <div class="ring-2 ring-n-teal-9 rounded-full inline-flex">
+      <div
+        class="ring-2 ring-n-teal-9 rounded-full inline-flex"
+        :class="{ 'animate-pulse': isOutboundRinging }"
+      >
         <Avatar
           :src="activeCall.caller?.avatar"
           :name="activeCall.caller?.name || activeCall.caller?.phone"
@@ -166,8 +170,17 @@ onUnmounted(() => {
             t('WHATSAPP_CALL.UNKNOWN_CALLER')
           }}
         </p>
-        <p class="font-mono text-sm text-n-teal-9">
-          {{ formattedCallDuration }}
+        <p
+          class="text-sm"
+          :class="
+            isOutboundRinging ? 'text-n-slate-11' : 'font-mono text-n-teal-9'
+          "
+        >
+          {{
+            isOutboundRinging
+              ? t('WHATSAPP_CALL.RINGING')
+              : formattedCallDuration
+          }}
         </p>
       </div>
       <div class="flex shrink-0 gap-2">

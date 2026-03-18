@@ -4,7 +4,10 @@ import DashboardAudioNotificationHelper from './AudioAlerts/DashboardAudioNotifi
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { emitter } from 'shared/helpers/mitt';
 import { useImpersonation } from 'dashboard/composables/useImpersonation';
-import { useWhatsappCallsStore } from 'dashboard/stores/whatsappCalls';
+import {
+  useWhatsappCallsStore,
+  getOutboundCallState,
+} from 'dashboard/stores/whatsappCalls';
 
 const { isImpersonating } = useImpersonation();
 
@@ -222,7 +225,6 @@ class ActionCableConnector extends BaseActionCableConnector {
     });
   };
 
-  // eslint-disable-next-line class-methods-use-this
   onWhatsappCallAccepted = data => {
     const whatsappCallsStore = useWhatsappCallsStore();
     const currentUserId = this.app.$store.getters.getCurrentUserID;
@@ -240,13 +242,15 @@ class ActionCableConnector extends BaseActionCableConnector {
 
   // eslint-disable-next-line class-methods-use-this
   onWhatsappCallOutboundConnected = data => {
-    // When Meta sends the SDP answer for an outbound call, set it on the peer connection
-    const pc = window.__outboundCallPC;
-    if (pc && window.__outboundCallId === data.call_id && data.sdp_answer) {
+    const { pc, callId } = getOutboundCallState();
+    if (pc && callId === data.call_id && data.sdp_answer) {
       pc.setRemoteDescription({ type: 'answer', sdp: data.sdp_answer }).catch(
         err => {
           // eslint-disable-next-line no-console
-          console.error('[WhatsApp Call] Failed to set remote SDP answer:', err);
+          console.error(
+            '[WhatsApp Call] Failed to set remote SDP answer:',
+            err
+          );
         }
       );
     }
