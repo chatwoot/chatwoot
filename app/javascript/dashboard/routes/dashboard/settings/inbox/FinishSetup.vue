@@ -63,6 +63,10 @@ const shouldShowWhatsAppQr = computed(() => {
   return isAWhatsAppChannel.value && Boolean(whatsappPhoneNumber.value);
 });
 
+const shouldShowSmsQr = computed(() => {
+  return isATwilioSMSChannel.value && Boolean(currentInbox.value?.phone_number);
+});
+
 const message = computed(() => {
   if (shouldShowWhatsAppQr.value) {
     return `${t('INBOX_MGMT.FINISH.MESSAGE')}. ${t(
@@ -70,7 +74,7 @@ const message = computed(() => {
     )}`;
   }
 
-  if (isATwilioSMSChannel.value) {
+  if (shouldShowSmsQr.value) {
     return `${t('INBOX_MGMT.FINISH.MESSAGE')}. ${t(
       'INBOX_MGMT.FINISH.SMS_QR_INSTRUCTION'
     )}`;
@@ -128,7 +132,7 @@ async function generateQRCodes() {
     await generateQRCode('whatsapp', whatsappPhoneNumber.value);
   }
 
-  if (isATwilioSMSChannel.value && currentInbox.value.phone_number) {
+  if (shouldShowSmsQr.value) {
     await generateQRCode('sms', currentInbox.value.phone_number);
   }
 
@@ -217,7 +221,7 @@ onMounted(() => {
           <woot-code lang="html" :script="currentInbox.callback_webhook_url" />
         </div>
         <div
-          v-if="isATwilioSMSChannel && qrCodes.sms"
+          v-if="shouldShowSmsQr && qrCodes.sms"
           class="flex flex-col gap-3 items-center mt-8"
         >
           <p class="mt-2 text-sm text-n-slate-9">
