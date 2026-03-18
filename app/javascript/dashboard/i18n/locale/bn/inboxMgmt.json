@@ -1,6 +1,6 @@
 {
   "INBOX_MGMT": {
-    "HEADER": "Inboxes",
+    "HEADER": "ইনবক্স",
     "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
     "LEARN_MORE": "Learn more about inboxes",
     "COUNT": "{n} inbox | {n} inboxes",
@@ -11,7 +11,7 @@
     "WHATSAPP_REGISTRATION_INCOMPLETE": "Your WhatsApp Business registration isn’t complete. Please check your display name status in Meta Business Manager before reconnecting.",
     "COMPLETE_REGISTRATION": "Complete Registration",
     "LIST": {
-      "404": "There are no inboxes attached to this account."
+      "404": "এই অ্যাকাউন্টে কোনো ইনবক্স সংযুক্ত নেই।"
     },
     "CREATE_FLOW": {
       "CHANNEL": {
@@ -33,22 +33,22 @@
     },
     "ADD": {
       "CHANNEL_NAME": {
-        "LABEL": "Inbox Name",
-        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)",
+        "LABEL": "ইনবক্সের নাম",
+        "PLACEHOLDER": "আপনার ইনবক্সের নাম লিখুন (যেমন: Acme Inc)",
         "ERROR": "Please enter a valid inbox name"
       },
       "WEBSITE_NAME": {
-        "LABEL": "Website Name",
-        "PLACEHOLDER": "Enter your website name (eg: Acme Inc)"
+        "LABEL": "ওয়েবসাইটের নাম",
+        "PLACEHOLDER": "আপনার ওয়েবসাইটের নাম লিখুন (যেমন: Acme Inc)"
       },
       "FB": {
-        "HELP": "PS: By signing in, we only get access to your Page's messages. Your private messages can never be accessed by Chatwoot.",
-        "CHOOSE_PAGE": "Choose Page",
-        "CHOOSE_PLACEHOLDER": "Select a page from the list",
-        "INBOX_NAME": "Inbox Name",
-        "ADD_NAME": "Add a name for your inbox",
+        "HELP": "পিএস: সাইন ইন করার মাধ্যমে, আমরা শুধুমাত্র আপনার পেজের মেসেজগুলোর অ্যাক্সেস পাই। আপনার ব্যক্তিগত মেসেজ কখনোই Chatwoot দ্বারা অ্যাক্সেস করা যাবে না।",
+        "CHOOSE_PAGE": "পেজ নির্বাচন করুন",
+        "CHOOSE_PLACEHOLDER": "তালিকা থেকে একটি পেজ নির্বাচন করুন",
+        "INBOX_NAME": "ইনবক্সের নাম",
+        "ADD_NAME": "আপনার ইনবক্সের জন্য একটি নাম যোগ করুন",
         "PICK_NAME": "Pick a Name for your Inbox",
-        "PICK_A_VALUE": "Pick a value",
+        "PICK_A_VALUE": "একটি মান নির্বাচন করুন",
         "CREATE_INBOX": "Create Inbox"
       },
       "INSTAGRAM": {
@@ -68,18 +68,18 @@
         "ERROR_AUTH": "There was an error connecting to TikTok, please try again"
       },
       "TWITTER": {
-        "HELP": "To add your Twitter profile as a channel, you need to authenticate your Twitter Profile by clicking on 'Sign in with Twitter' ",
-        "ERROR_MESSAGE": "There was an error connecting to Twitter, please try again",
+        "HELP": "আপনার টুইটার প্রোফাইলকে একটি চ্যানেল হিসেবে যোগ করতে, আপনাকে 'Sign in with Twitter' ক্লিক করে আপনার টুইটার প্রোফাইল প্রমাণীকরণ করতে হবে। ",
+        "ERROR_MESSAGE": "Twitter-এ সংযোগ করতে ত্রুটি হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন",
         "TWEETS": {
           "ENABLE": "Create conversations from mentioned Tweets"
         }
       },
       "WEBSITE_CHANNEL": {
-        "TITLE": "Website channel",
-        "DESC": "Create a channel for your website and start supporting your customers via our website widget.",
-        "LOADING_MESSAGE": "Creating Website Support Channel",
+        "TITLE": "ওয়েবসাইট চ্যানেল",
+        "DESC": "আপনার ওয়েবসাইটের জন্য একটি চ্যানেল তৈরি করুন এবং আমাদের ওয়েবসাইট উইজেটের মাধ্যমে আপনার গ্রাহকদের সহায়তা শুরু করুন।",
+        "LOADING_MESSAGE": "ওয়েবসাইট সাপোর্ট চ্যানেল তৈরি করা হচ্ছে",
         "CHANNEL_AVATAR": {
-          "LABEL": "Channel Avatar"
+          "LABEL": "চ্যানেল অবতার"
         },
         "CHANNEL_WEBHOOK_URL": {
           "LABEL": "Webhook URL",
@@ -87,39 +87,39 @@
           "ERROR": "Please enter a valid URL"
         },
         "CHANNEL_DOMAIN": {
-          "LABEL": "Website Domain",
-          "PLACEHOLDER": "Enter your website domain (eg: acme.com)"
+          "LABEL": "ওয়েবসাইট ডোমেইন",
+          "PLACEHOLDER": "আপনার ওয়েবসাইট ডোমেইন লিখুন (যেমন: acme.com)"
         },
         "CHANNEL_WELCOME_TITLE": {
-          "LABEL": "Welcome Heading",
-          "PLACEHOLDER": "Hi there !"
+          "LABEL": "স্বাগত শিরোনাম",
+          "PLACEHOLDER": "হ্যালো!"
         },
         "CHANNEL_WELCOME_TAGLINE": {
-          "LABEL": "Welcome Tagline",
-          "PLACEHOLDER": "We make it simple to connect with us. Ask us anything, or share your feedback."
+          "LABEL": "স্বাগত ট্যাগলাইন",
+          "PLACEHOLDER": "আমাদের সাথে সংযোগ করা সহজ। যেকোনো প্রশ্ন করুন, অথবা আপনার মতামত শেয়ার করুন।"
         },
         "CHANNEL_GREETING_MESSAGE": {
-          "LABEL": "Channel greeting message",
-          "PLACEHOLDER": "Acme Inc typically replies in a few hours."
+          "LABEL": "চ্যানেলের অভিবাদন বার্তা",
+          "PLACEHOLDER": "Acme Inc সাধারণত কয়েক ঘণ্টার মধ্যে উত্তর দেয়।"
         },
         "CHANNEL_GREETING_TOGGLE": {
-          "LABEL": "Enable channel greeting",
+          "LABEL": "চ্যানেল অভিবাদন সক্রিয় করুন",
           "HELP_TEXT": "Auto-send greeting messages when customers start a conversation and send their first message.",
-          "ENABLED": "Enabled",
-          "DISABLED": "Disabled"
+          "ENABLED": "সক্রিয়",
+          "DISABLED": "নিষ্ক্রিয়"
         },
         "REPLY_TIME": {
-          "TITLE": "Set Reply time",
-          "IN_A_FEW_MINUTES": "In a few minutes",
-          "IN_A_FEW_HOURS": "In a few hours",
-          "IN_A_DAY": "In a day",
-          "HELP_TEXT": "This reply time will be displayed on the live chat widget"
+          "TITLE": "উত্তর সময় নির্ধারণ করুন",
+          "IN_A_FEW_MINUTES": "কয়েক মিনিটের মধ্যে",
+          "IN_A_FEW_HOURS": "কয়েক ঘণ্টার মধ্যে",
+          "IN_A_DAY": "এক দিনের মধ্যে",
+          "HELP_TEXT": "এই উত্তর সময়টি লাইভ চ্যাট উইজেটে প্রদর্শিত হবে"
         },
         "WIDGET_COLOR": {
-          "LABEL": "Widget Color",
-          "PLACEHOLDER": "Update the widget color used in widget"
+          "LABEL": "উইজেটের রঙ",
+          "PLACEHOLDER": "উইজেটে ব্যবহৃত রঙ আপডেট করুন"
         },
-        "SUBMIT_BUTTON": "Create inbox",
+        "SUBMIT_BUTTON": "ইনবক্স তৈরি করুন",
         "API": {
           "ERROR_MESSAGE": "We were not able to create a website channel, please try again"
         }
@@ -128,9 +128,9 @@
         "TITLE": "Twilio SMS/WhatsApp Channel",
         "DESC": "Integrate Twilio and start supporting your customers via SMS or WhatsApp.",
         "ACCOUNT_SID": {
-          "LABEL": "Account SID",
-          "PLACEHOLDER": "Please enter your Twilio Account SID",
-          "ERROR": "This field is required"
+          "LABEL": "অ্যাকাউন্ট SID",
+          "PLACEHOLDER": "আপনার Twilio অ্যাকাউন্ট SID লিখুন",
+          "ERROR": "এই ক্ষেত্রটি আবশ্যক"
         },
         "API_KEY": {
           "USE_API_KEY": "Use API Key Authentication",
@@ -150,31 +150,31 @@
           "USE_MESSAGING_SERVICE": "Use a Twilio Messaging Service"
         },
         "CHANNEL_TYPE": {
-          "LABEL": "Channel Type",
-          "ERROR": "Please select your Channel Type"
+          "LABEL": "চ্যানেল টাইপ",
+          "ERROR": "আপনার চ্যানেল টাইপ নির্বাচন করুন"
         },
         "AUTH_TOKEN": {
-          "LABEL": "Auth Token",
-          "PLACEHOLDER": "Please enter your Twilio Auth Token",
-          "ERROR": "This field is required"
+          "LABEL": "অথ টোকেন",
+          "PLACEHOLDER": "আপনার Twilio অথ টোকেন লিখুন",
+          "ERROR": "এই ক্ষেত্রটি আবশ্যক"
         },
         "CHANNEL_NAME": {
           "LABEL": "Inbox Name",
           "PLACEHOLDER": "Please enter a inbox name",
-          "ERROR": "This field is required"
+          "ERROR": "এই ক্ষেত্রটি আবশ্যক"
         },
         "PHONE_NUMBER": {
           "LABEL": "Phone Number",
-          "PLACEHOLDER": "Please enter the phone number from which message will be sent.",
+          "PLACEHOLDER": "যে ফোন নম্বর থেকে মেসেজ পাঠানো হবে তা লিখুন।",
           "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
         },
         "API_CALLBACK": {
-          "TITLE": "Callback URL",
-          "SUBTITLE": "You have to configure the message callback URL in Twilio with the URL mentioned here."
+          "TITLE": "কলব্যাক URL",
+          "SUBTITLE": "Twilio-তে মেসেজ কলব্যাক URL এখানে উল্লেখিত URL দিয়ে কনফিগার করতে হবে।"
         },
-        "SUBMIT_BUTTON": "Create Twilio Channel",
+        "SUBMIT_BUTTON": "Twilio চ্যানেল তৈরি করুন",
         "API": {
-          "ERROR_MESSAGE": "We were not able to authenticate Twilio credentials, please try again"
+          "ERROR_MESSAGE": "আমরা Twilio প্রমাণীকরণ করতে পারিনি, অনুগ্রহ করে আবার চেষ্টা করুন"
         }
       },
       "SMS": {
@@ -357,39 +357,39 @@
         }
       },
       "API_CHANNEL": {
-        "TITLE": "API Channel",
-        "DESC": "Integrate with API channel and start supporting your customers.",
+        "TITLE": "API চ্যানেল",
+        "DESC": "API চ্যানেলের সাথে সংযুক্ত করুন এবং আপনার গ্রাহকদের সহায়তা শুরু করুন।",
         "CHANNEL_NAME": {
-          "LABEL": "Channel Name",
-          "PLACEHOLDER": "Please enter a channel name",
-          "ERROR": "This field is required"
+          "LABEL": "চ্যানেলের নাম",
+          "PLACEHOLDER": "একটি চ্যানেলের নাম লিখুন",
+          "ERROR": "এই ক্ষেত্রটি আবশ্যক"
         },
         "WEBHOOK_URL": {
-          "LABEL": "Webhook URL",
+          "LABEL": "ওয়েবহুক URL",
           "SUBTITLE": "Configure the URL where you want to receive callbacks on events.",
-          "PLACEHOLDER": "Webhook URL"
+          "PLACEHOLDER": "ওয়েবহুক URL"
         },
-        "SUBMIT_BUTTON": "Create API Channel",
+        "SUBMIT_BUTTON": "API চ্যানেল তৈরি করুন",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the api channel"
+          "ERROR_MESSAGE": "আমরা API চ্যানেল সংরক্ষণ করতে পারিনি"
         }
       },
       "EMAIL_CHANNEL": {
-        "TITLE": "Email Channel",
+        "TITLE": "ইমেইল চ্যানেল",
         "DESC": "Integrate your email inbox.",
         "CHANNEL_NAME": {
-          "LABEL": "Channel Name",
-          "PLACEHOLDER": "Please enter a channel name",
-          "ERROR": "This field is required"
+          "LABEL": "চ্যানেলের নাম",
+          "PLACEHOLDER": "অনুগ্রহ করে একটি চ্যানেলের নাম লিখুন",
+          "ERROR": "এই ক্ষেত্রটি আবশ্যক"
         },
         "EMAIL": {
-          "LABEL": "Email",
+          "LABEL": "ইমেইল",
           "SUBTITLE": "Provide the email address where your customers send support requests.",
-          "PLACEHOLDER": "Email"
+          "PLACEHOLDER": "ইমেইল"
         },
-        "SUBMIT_BUTTON": "Create Email Channel",
+        "SUBMIT_BUTTON": "ইমেইল চ্যানেল তৈরি করুন",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the email channel"
+          "ERROR_MESSAGE": "আমরা ইমেইল চ্যানেল সংরক্ষণ করতে পারিনি"
         },
         "FINISH_MESSAGE": "Start forwarding your emails to the following email address.",
         "FINISH_MESSAGE_NO_FORWARDING": "Your email inbox has been created successfully! You need to configure SMTP and IMAP credentials to send and receive emails. Without these settings, no emails will be processed.",
@@ -398,8 +398,8 @@
         "CONFIGURE_SMTP_IMAP_TEXT": " to configure IMAP and SMTP settings"
       },
       "LINE_CHANNEL": {
-        "TITLE": "LINE Channel",
-        "DESC": "Integrate with LINE channel and start supporting your customers.",
+        "TITLE": "LINE চ্যানেল",
+        "DESC": "LINE চ্যানেলের সাথে সংযুক্ত করুন এবং আপনার গ্রাহকদের সহায়তা শুরু করুন।",
         "CHANNEL_NAME": {
           "LABEL": "Channel Name",
           "PLACEHOLDER": "Please enter a channel name",
@@ -427,20 +427,20 @@
         }
       },
       "TELEGRAM_CHANNEL": {
-        "TITLE": "Telegram Channel",
-        "DESC": "Integrate with Telegram channel and start supporting your customers.",
+        "TITLE": "টেলিগ্রাম চ্যানেল",
+        "DESC": "টেলিগ্রাম চ্যানেলের সাথে সংযুক্ত করুন এবং আপনার গ্রাহকদের সহায়তা শুরু করুন।",
         "BOT_TOKEN": {
-          "LABEL": "Bot Token",
-          "SUBTITLE": "Configure the bot token you have obtained from Telegram BotFather.",
-          "PLACEHOLDER": "Bot Token"
+          "LABEL": "বট টোকেন",
+          "SUBTITLE": "টেলিগ্রাম বটফাদার থেকে প্রাপ্ত বট টোকেন কনফিগার করুন।",
+          "PLACEHOLDER": "বট টোকেন"
         },
-        "SUBMIT_BUTTON": "Create Telegram Channel",
+        "SUBMIT_BUTTON": "টেলিগ্রাম চ্যানেল তৈরি করুন",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the telegram channel"
+          "ERROR_MESSAGE": "আমরা টেলিগ্রাম চ্যানেল সংরক্ষণ করতে পারিনি"
         }
       },
       "AUTH": {
-        "TITLE": "Choose a channel",
+        "TITLE": "একটি চ্যানেল নির্বাচন করুন",
         "DESC": "Chatwoot supports live-chat widgets, Facebook Messenger, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below.",
         "TITLE_NEXT": "Complete the setup",
         "TITLE_FINISH": "Voilà!",
@@ -492,18 +492,18 @@
         }
       },
       "AGENTS": {
-        "TITLE": "Agents",
-        "DESC": "Here you can add agents to manage your newly created inbox. Only these selected agents will have access to your inbox. Agents which are not part of this inbox will not be able to see or respond to messages in this inbox when they login. <br> <b>PS:</b> As an administrator, if you need access to all inboxes, you should add yourself as agent to all inboxes that you create.",
+        "TITLE": "এজেন্ট",
+        "DESC": "এখানে আপনি আপনার নতুন তৈরি ইনবক্স পরিচালনার জন্য এজেন্ট যোগ করতে পারেন। শুধুমাত্র নির্বাচিত এজেন্টরাই আপনার ইনবক্সে প্রবেশাধিকার পাবে। যারা এই ইনবক্সের অংশ নয়, তারা লগইন করলে ইনবক্সের মেসেজ দেখতে বা উত্তর দিতে পারবে না। <br> <b>পিএস:</b> প্রশাসক হিসেবে, যদি আপনি সব ইনবক্সে অ্যাক্সেস চান, তাহলে আপনাকে আপনার তৈরি সব ইনবক্সে এজেন্ট হিসেবে নিজেকে যোগ করতে হবে।",
         "VALIDATION_ERROR": "Add at least one agent to your new Inbox",
-        "PICK_AGENTS": "Pick agents for the inbox"
+        "PICK_AGENTS": "ইনবক্সের জন্য এজেন্ট নির্বাচন করুন"
       },
       "DETAILS": {
-        "TITLE": "Inbox Details",
-        "DESC": "From the dropdown below, select the Facebook Page you want to connect to Chatwoot. You can also give a custom name to your inbox for better identification."
+        "TITLE": "ইনবক্সের বিবরণ",
+        "DESC": "নীচের ড্রপডাউন থেকে Chatwoot-এ সংযোগ করার জন্য Facebook পেজ নির্বাচন করুন। আপনার ইনবক্সের জন্য একটি কাস্টম নামও দিতে পারেন যাতে সহজে চিনতে পারেন।"
       },
       "FINISH": {
-        "TITLE": "Nailed It!",
-        "DESC": "You have successfully finished integrating your Facebook Page with Chatwoot. Next time a customer messages your Page, the conversation will automatically appear on your inbox.<br>We are also providing you with a widget script that you can easily add to your website. Once this is live on your website, customers can message you right from your website without the help of any external tool and the conversation will appear right here, on Chatwoot.<br>Cool, huh? Well, we sure try to be :)"
+        "TITLE": "সফল হয়েছে!",
+        "DESC": "আপনি সফলভাবে আপনার Facebook পেজ Chatwoot-এর সাথে সংযুক্ত করেছেন। পরবর্তীবার যখন কোনো গ্রাহক আপনার পেজে মেসেজ করবেন, কথোপকথন স্বয়ংক্রিয়ভাবে আপনার ইনবক্সে প্রদর্শিত হবে।<br>আমরা আপনাকে একটি উইজেট স্ক্রিপ্টও দিচ্ছি যা আপনি সহজেই আপনার ওয়েবসাইটে যোগ করতে পারবেন। এটি আপনার ওয়েবসাইটে সক্রিয় হলে, গ্রাহকরা সরাসরি ওয়েবসাইট থেকে মেসেজ করতে পারবেন এবং কথোপকথন এখানে Chatwoot-এ প্রদর্শিত হবে।<br>দারুণ, তাই না? আমরা চেষ্টা করি :)"
       },
       "EMAIL_PROVIDER": {
         "TITLE": "Select your email provider",
@@ -525,44 +525,44 @@
       }
     },
     "DETAILS": {
-      "LOADING_FB": "Authenticating you with Facebook...",
+      "LOADING_FB": "Facebook দিয়ে প্রমাণীকরণ করা হচ্ছে...",
       "ERROR_FB_LOADING": "Error loading Facebook SDK. Please disable any ad-blockers and try again from a different browser.",
-      "ERROR_FB_AUTH": "Something went wrong, Please refresh page...",
+      "ERROR_FB_AUTH": "কিছু ভুল হয়েছে, অনুগ্রহ করে পেজ রিফ্রেশ করুন...",
       "ERROR_FB_UNAUTHORIZED": "You're not authorized to perform this action. ",
       "ERROR_FB_UNAUTHORIZED_HELP": "Please ensure you have access to the Facebook page with full control. You can read more about Facebook roles <a href=\" https://www.facebook.com/help/187316341316631\">here</a>.",
-      "CREATING_CHANNEL": "Creating your Inbox...",
-      "TITLE": "Configure Inbox Details",
+      "CREATING_CHANNEL": "আপনার ইনবক্স তৈরি করা হচ্ছে...",
+      "TITLE": "ইনবক্সের বিবরণ কনফিগার করুন",
       "DESC": ""
     },
     "AGENTS": {
-      "BUTTON_TEXT": "Add agents",
-      "ADD_AGENTS": "Adding Agents to your Inbox..."
+      "BUTTON_TEXT": "এজেন্ট যোগ করুন",
+      "ADD_AGENTS": "আপনার ইনবক্সে এজেন্ট যোগ করা হচ্ছে..."
     },
     "FINISH": {
-      "TITLE": "Your Inbox is ready!",
+      "TITLE": "আপনার ইনবক্স প্রস্তুত!",
       "MESSAGE": "You can now engage with your customers through your new Channel. Happy supporting",
-      "BUTTON_TEXT": "Take me there",
-      "MORE_SETTINGS": "More settings",
-      "WEBSITE_SUCCESS": "You have successfully finished creating a website channel. Copy the code shown below and paste it on your website. Next time a customer use the live chat, the conversation will automatically appear on your inbox.",
+      "BUTTON_TEXT": "আমাকে সেখানে নিয়ে যান",
+      "MORE_SETTINGS": "আরও সেটিংস",
+      "WEBSITE_SUCCESS": "আপনি সফলভাবে একটি ওয়েবসাইট চ্যানেল তৈরি করেছেন। নিচে প্রদর্শিত কোডটি কপি করে আপনার ওয়েবসাইটে পেস্ট করুন। পরবর্তীবার যখন গ্রাহক লাইভ চ্যাট ব্যবহার করবেন, কথোপকথন স্বয়ংক্রিয়ভাবে আপনার ইনবক্সে প্রদর্শিত হবে।",
       "WHATSAPP_QR_INSTRUCTION": "Scan the QR code above to quickly test your WhatsApp inbox",
       "MESSENGER_QR_INSTRUCTION": "Scan the QR code above to quickly test your Facebook Messenger inbox",
       "TELEGRAM_QR_INSTRUCTION": "Scan the QR code above to quickly test your Telegram inbox"
     },
-    "REAUTH": "Reauthorize",
-    "VIEW": "View",
+    "REAUTH": "পুনরায় অনুমোদন করুন",
+    "VIEW": "দেখুন",
     "EDIT": {
       "API": {
-        "SUCCESS_MESSAGE": "Inbox settings updated successfully",
-        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Auto assignment updated successfully",
+        "SUCCESS_MESSAGE": "ইনবক্স সেটিংস সফলভাবে আপডেট হয়েছে",
+        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "স্বয়ংক্রিয় নিয়োগ সফলভাবে আপডেট হয়েছে",
         "ERROR_MESSAGE": "We couldn't update inbox settings. Please try again later."
       },
       "EMAIL_COLLECT_BOX": {
-        "ENABLED": "Enabled",
-        "DISABLED": "Disabled"
+        "ENABLED": "সক্রিয়",
+        "DISABLED": "নিষ্ক্রিয়"
       },
       "ENABLE_CSAT": {
-        "ENABLED": "Enabled",
-        "DISABLED": "Disabled"
+        "ENABLED": "সক্রিয়",
+        "DISABLED": "নিষ্ক্রিয়"
       },
       "SENDER_NAME_SECTION": {
         "TITLE": "Sender name",
@@ -602,29 +602,29 @@
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
-      "AVATAR_DELETE_BUTTON_TEXT": "Delete Avatar",
+      "BUTTON_TEXT": "মুছে ফেলুন",
+      "AVATAR_DELETE_BUTTON_TEXT": "অবতার মুছুন",
       "CONFIRM": {
-        "TITLE": "Confirm Deletion",
-        "MESSAGE": "Are you sure to delete ",
-        "PLACE_HOLDER": "Please type {inboxName} to confirm",
-        "YES": "Yes, Delete ",
-        "NO": "No, Keep "
+        "TITLE": "মুছে ফেলার নিশ্চিতকরণ",
+        "MESSAGE": "আপনি কি নিশ্চিত যে আপনি মুছে ফেলতে চান ",
+        "PLACE_HOLDER": "অনুগ্রহ করে নিশ্চিত করতে {inboxName} টাইপ করুন",
+        "YES": "হ্যাঁ, মুছে ফেলুন ",
+        "NO": "না, রাখুন "
       },
       "API": {
-        "SUCCESS_MESSAGE": "Inbox deleted successfully",
-        "ERROR_MESSAGE": "Could not delete inbox. Please try again later.",
-        "AVATAR_SUCCESS_MESSAGE": "Inbox avatar deleted successfully",
-        "AVATAR_ERROR_MESSAGE": "Could not delete the inbox avatar. Please try again later."
+        "SUCCESS_MESSAGE": "ইনবক্স সফলভাবে মুছে ফেলা হয়েছে",
+        "ERROR_MESSAGE": "ইনবক্স মুছে ফেলা যায়নি। অনুগ্রহ করে পরে আবার চেষ্টা করুন।",
+        "AVATAR_SUCCESS_MESSAGE": "ইনবক্স অবতার সফলভাবে মুছে ফেলা হয়েছে",
+        "AVATAR_ERROR_MESSAGE": "ইনবক্স অবতার মুছতে পারিনি। অনুগ্রহ করে পরে আবার চেষ্টা করুন।"
       }
     },
     "TABS": {
-      "SETTINGS": "Settings",
-      "COLLABORATORS": "Collaborators",
-      "CONFIGURATION": "Configuration",
-      "CAMPAIGN": "Campaigns",
-      "PRE_CHAT_FORM": "Pre Chat Form",
-      "BUSINESS_HOURS": "Business Hours",
+      "SETTINGS": "সেটিংস",
+      "COLLABORATORS": "সহযোগী",
+      "CONFIGURATION": "কনফিগারেশন",
+      "CAMPAIGN": "ক্যাম্পেইন",
+      "PRE_CHAT_FORM": "প্রি চ্যাট ফর্ম",
+      "BUSINESS_HOURS": "ব্যবসায়িক সময়",
       "WIDGET_BUILDER": "Widget Builder",
       "BOT_CONFIGURATION": "Bot Configuration",
       "ACCOUNT_HEALTH": "Account Health",
@@ -697,48 +697,60 @@
         "URL_MISMATCH": "Webhook URL mismatch"
       }
     },
-    "SETTINGS": "Settings",
+    "SETTINGS": "সেটিংস",
     "FEATURES": {
-      "LABEL": "Features",
-      "DISPLAY_FILE_PICKER": "Display file picker on the widget",
-      "DISPLAY_EMOJI_PICKER": "Display emoji picker on the widget",
+      "LABEL": "বৈশিষ্ট্য",
+      "DISPLAY_FILE_PICKER": "উইজেটে ফাইল পিকার প্রদর্শন করুন",
+      "DISPLAY_EMOJI_PICKER": "উইজেটে ইমোজি পিকার প্রদর্শন করুন",
       "ALLOW_END_CONVERSATION": "Allow users to end conversation from the widget",
       "USE_INBOX_AVATAR_FOR_BOT": "Use inbox name and avatar for the bot"
     },
     "SETTINGS_POPUP": {
-      "MESSENGER_HEADING": "Messenger Script",
-      "MESSENGER_SUB_HEAD": "Place this button inside your body tag",
+      "MESSENGER_HEADING": "মেসেঞ্জার স্ক্রিপ্ট",
+      "MESSENGER_SUB_HEAD": "এই বোতামটি আপনার বডি ট্যাগের মধ্যে রাখুন",
       "ALLOWED_DOMAINS": {
         "TITLE": "Allowed Domains",
-        "SUBTITLE": "Add wildcard or regular domains separated by commas (leave blank to allow all), e.g. *.chatwoot.dev, chatwoot.com.",
+        "DESCRIPTION": "Restrict which websites can embed your chat widget. For security, only add domains you own and trust. Add one or more domains separated by commas. Leave blank to allow all domains (not recommended for production).",
         "PLACEHOLDER": "example.com, www.example.com, app.example.com"
       },
-      "INBOX_AGENTS": "Agents",
-      "INBOX_AGENTS_SUB_TEXT": "Add or remove agents from this inbox",
+      "ALLOW_MOBILE_WEBVIEW": {
+        "LABEL": "Enable widget in mobile apps",
+        "SUBTITLE": "Check this if you embed the widget in iOS or Android apps. Mobile apps don't send domain information, so they would be blocked by domain restrictions unless this is enabled."
+      },
+      "IDENTITY_VALIDATION": {
+        "TITLE": "Identity Validation",
+        "DESCRIPTION": "Verify user authenticity by generating secure tokens. This prevents unauthorized users from impersonating others in your chat.",
+        "SECRET_KEY": "Secret Key",
+        "VIEW_DOCS": "View documentation",
+        "REQUIRE_LABEL": "Require identity validation for all conversations",
+        "REQUIRE_DESCRIPTION": "When enabled, users must provide a valid identity token to start conversations. Requests without valid tokens will be rejected."
+      },
+      "INBOX_AGENTS": "এজেন্ট",
+      "INBOX_AGENTS_SUB_TEXT": "এই ইনবক্স থেকে এজেন্ট যোগ বা সরান",
       "AGENT_ASSIGNMENT": "Conversation Assignment",
       "AGENT_ASSIGNMENT_SUB_TEXT": "Update conversation assignment settings",
-      "UPDATE": "Update",
-      "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
-      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
-      "AUTO_ASSIGNMENT": "Enable auto assignment",
+      "UPDATE": "আপডেট করুন",
+      "ENABLE_EMAIL_COLLECT_BOX": "ইমেইল সংগ্রহ বাক্স সক্রিয় করুন",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "নতুন কথোপকথনে ইমেইল সংগ্রহ বাক্স সক্রিয় বা নিষ্ক্রিয় করুন",
+      "AUTO_ASSIGNMENT": "স্বয়ংক্রিয় নিয়োগ সক্রিয় করুন",
       "SENDER_NAME_SECTION": "Enable Agent Name in Email",
       "SENDER_NAME_SECTION_TEXT": "Enable/Disable showing Agent's name in email, if disabled it will show business name",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Enable conversation continuity via email",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Conversations will continue over email if the contact email address is available.",
       "LOCK_TO_SINGLE_CONVERSATION": "Conversation Routing",
       "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Configure conversation creation for existing contacts",
-      "INBOX_UPDATE_TITLE": "Inbox Settings",
-      "INBOX_UPDATE_SUB_TEXT": "Update your inbox settings",
-      "AUTO_ASSIGNMENT_SUB_TEXT": "Enable or disable the automatic assignment of new conversations to the agents added to this inbox.",
-      "HMAC_VERIFICATION": "User Identity Validation",
+      "INBOX_UPDATE_TITLE": "ইনবক্স সেটিংস",
+      "INBOX_UPDATE_SUB_TEXT": "আপনার ইনবক্স সেটিংস আপডেট করুন",
+      "AUTO_ASSIGNMENT_SUB_TEXT": "এই ইনবক্সে যোগ করা এজেন্টদের জন্য নতুন কথোপকথন স্বয়ংক্রিয়ভাবে নিয়োগ সক্রিয় বা নিষ্ক্রিয় করুন।",
+      "HMAC_VERIFICATION": "ব্যবহারকারীর পরিচয় যাচাই",
       "HMAC_DESCRIPTION": "With this key you can generate a secret token that can be used to verify the identity of your users.",
       "HMAC_LINK_TO_DOCS": "You can read more here.",
       "HMAC_MANDATORY_VERIFICATION": "Enforce User Identity Validation",
       "HMAC_MANDATORY_DESCRIPTION": "If enabled, requests that cannot be verified will be rejected.",
-      "INBOX_IDENTIFIER": "Inbox Identifier",
-      "INBOX_IDENTIFIER_SUB_TEXT": "Use the `inbox_identifier` token shown here to authentication your API clients.",
-      "FORWARD_EMAIL_TITLE": "Forward to Email",
-      "FORWARD_EMAIL_SUB_TEXT": "Start forwarding your emails to the following email address.",
+      "INBOX_IDENTIFIER": "ইনবক্স শনাক্তকারী",
+      "INBOX_IDENTIFIER_SUB_TEXT": "আপনার API ক্লায়েন্টদের প্রমাণীকরণের জন্য এখানে প্রদর্শিত `inbox_identifier` টোকেন ব্যবহার করুন।",
+      "FORWARD_EMAIL_TITLE": "ইমেইলে ফরোয়ার্ড করুন",
+      "FORWARD_EMAIL_SUB_TEXT": "আপনার ইমেইলগুলি নিম্নলিখিত ইমেইল ঠিকানায় ফরোয়ার্ড করা শুরু করুন।",
       "FORWARD_EMAIL_NOT_CONFIGURED": "Forwarding emails to your inbox is currently disabled on this installation. To use this feature, it must be enabled by your administrator. Please get in touch with them to proceed.",
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Allow messages after conversation resolved",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Allow the end-users to send messages even after the conversation is resolved.",
@@ -832,13 +844,13 @@
       "DELETE_ERROR": "Failed to remove assignment policy"
     },
     "FACEBOOK_REAUTHORIZE": {
-      "TITLE": "Reauthorize",
-      "SUBTITLE": "Your Facebook connection has expired, please reconnect your Facebook page to continue services",
-      "MESSAGE_SUCCESS": "Reconnection successful",
-      "MESSAGE_ERROR": "There was an error, please try again"
+      "TITLE": "পুনঃঅনুমোদন",
+      "SUBTITLE": "আপনার Facebook সংযোগের মেয়াদ শেষ হয়েছে, পরিষেবা চালিয়ে যেতে অনুগ্রহ করে আপনার Facebook পৃষ্ঠা পুনরায় সংযুক্ত করুন",
+      "MESSAGE_SUCCESS": "পুনঃসংযোগ সফল হয়েছে",
+      "MESSAGE_ERROR": "একটি ত্রুটি ঘটেছে, অনুগ্রহ করে আবার চেষ্টা করুন"
     },
     "PRE_CHAT_FORM": {
-      "DESCRIPTION": "Pre chat forms enable you to capture user information before they start conversation with you.",
+      "DESCRIPTION": "প্রি চ্যাট ফর্ম আপনাকে ব্যবহারকারীর তথ্য সংগ্রহ করতে দেয় তাদের সাথে কথোপকথন শুরু করার আগে।",
       "SET_FIELDS": "Pre chat form fields",
       "SET_FIELDS_HEADER": {
         "FIELDS": "Fields",
@@ -849,18 +861,18 @@
         "REQUIRED": "Required"
       },
       "ENABLE": {
-        "LABEL": "Enable pre chat form",
+        "LABEL": "প্রি চ্যাট ফর্ম সক্রিয় করুন",
         "OPTIONS": {
-          "ENABLED": "Yes",
-          "DISABLED": "No"
+          "ENABLED": "হ্যাঁ",
+          "DISABLED": "না"
         }
       },
       "PRE_CHAT_MESSAGE": {
         "LABEL": "Pre chat message",
-        "PLACEHOLDER": "This message would be visible to the users along with the form"
+        "PLACEHOLDER": "এই বার্তাটি ফর্মের সাথে ব্যবহারকারীদের কাছে দৃশ্যমান হবে"
       },
       "REQUIRE_EMAIL": {
-        "LABEL": "Visitors should provide their name and email address before starting the chat"
+        "LABEL": "চ্যাট শুরু করার আগে দর্শকদের তাদের নাম এবং ইমেইল ঠিকানা প্রদান করতে হবে"
       }
     },
     "CSAT": {
@@ -934,22 +946,22 @@
       }
     },
     "BUSINESS_HOURS": {
-      "TITLE": "Set your availability",
-      "SUBTITLE": "Set your availability on your livechat widget",
-      "WEEKLY_TITLE": "Set your weekly hours",
-      "TIMEZONE_LABEL": "Select timezone",
-      "UPDATE": "Update business hours settings",
-      "TOGGLE_AVAILABILITY": "Enable business availability for this inbox",
+      "TITLE": "আপনার উপলব্ধতা নির্ধারণ করুন",
+      "SUBTITLE": "আপনার লাইভচ্যাট উইজেটে আপনার উপলব্ধতা নির্ধারণ করুন",
+      "WEEKLY_TITLE": "আপনার সাপ্তাহিক সময় নির্ধারণ করুন",
+      "TIMEZONE_LABEL": "টাইমজোন নির্বাচন করুন",
+      "UPDATE": "ব্যবসায়িক সময় সেটিংস আপডেট করুন",
+      "TOGGLE_AVAILABILITY": "এই ইনবক্সের জন্য ব্যবসায়িক উপলব্ধতা সক্রিয় করুন",
       "UNAVAILABLE_MESSAGE_LABEL": "Unavailable message for visitors",
       "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours visitors can be warned with a message and a pre-chat form.",
       "DAY": {
         "DAY": "Day",
         "AVAILABILITY": "Availability",
         "HOURS": "Hours",
-        "ENABLE": "Enable availability for this day",
-        "UNAVAILABLE": "Unavailable",
-        "VALIDATION_ERROR": "Starting time should be before closing time.",
-        "CHOOSE": "Choose"
+        "ENABLE": "এই দিনের জন্য উপলব্ধতা সক্রিয় করুন",
+        "UNAVAILABLE": "অপ্রাপ্য",
+        "VALIDATION_ERROR": "শুরুর সময় বন্ধের সময়ের আগে হওয়া উচিত।",
+        "CHOOSE": "নির্বাচন করুন"
       },
       "ALL_DAY": "All-Day"
     },
