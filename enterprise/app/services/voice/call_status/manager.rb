@@ -9,6 +9,7 @@ class Voice::CallStatus::Manager
 
     current_status = conversation.additional_attributes&.dig('call_status')
     return if current_status == status
+    return if preserve_existing_terminal_status?(current_status, status)
 
     apply_status(status, duration: duration, timestamp: timestamp)
     update_message(status)
@@ -81,5 +82,10 @@ class Voice::CallStatus::Manager
     else
       data['data']['meta'].delete('duration')
     end
+  end
+
+  def preserve_existing_terminal_status?(current_status, next_status)
+    TERMINAL_STATUSES.include?(current_status) &&
+      TERMINAL_STATUSES.include?(next_status)
   end
 end
