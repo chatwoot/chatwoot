@@ -34,18 +34,53 @@ RSpec.describe 'Public Articles API', type: :request do
     end
 
     it 'get all articles with searched text query' do
-      article2 = create(:article,
-                        account_id: account.id,
-                        portal: portal,
-                        category: category,
-                        author_id: agent.id,
-                        content: 'this is some test and funny content')
-      expect(article2.id).not_to be_nil
+      long_content = ([('intro ' * 30).strip, 'funny', ('tail ' * 30).strip].join(' ')).strip
+      create(:article,
+             account_id: account.id,
+             portal: portal,
+             category: category,
+             author_id: agent.id,
+             content: long_content)
 
       get "/hc/#{portal.slug}/#{category.locale}/categories/#{category.slug}/articles.json", params: { query: 'funny' }
       expect(response).to have_http_status(:success)
       response_data = JSON.parse(response.body, symbolize_names: true)[:payload]
       expect(response_data.length).to eq(1)
+      expect(response_data[0].keys).to match_array(%i[id category_id title content link])
+      expect(response_data[0][:content]).to include('funny')
+      expect(response_data[0][:content].length).to be < long_content.length
+    end
+
+    it 'limits search results to the current locale' do
+      create(:article,
+             account_id: account.id,
+             portal: portal,
+             category: category,
+             author_id: agent.id,
+             title: 'English locale result',
+             content: 'shared-search-term in english')
+      create(:article,
+             account_id: account.id,
+             portal: portal,
+             category: category_2,
+             author_id: agent.id,
+             title: 'Spanish locale result',
+             content: 'shared-search-term in spanish')
+
+      get "/hc/#{portal.slug}/#{category.locale}/articles.json", params: { query: 'shared-search-term' }
+
+      expect(response).to have_http_status(:success)
+      response_data = JSON.parse(response.body, symbolize_names: true)[:payload]
+      expect(response_data.pluck(:title)).to eq(['English locale result'])
+    end
+
+    it 'treats whitespace-only queries as empty searches' do
+      get "/hc/#{portal.slug}/#{category.locale}/articles.json", params: { query: '   ' }
+
+      expect(response).to have_http_status(:success)
+      response_data = JSON.parse(response.body, symbolize_names: true)[:payload]
+      expect(response_data.length).to eq(3)
+      expect(response_data.first).to include(:description, :slug, :portal)
     end
 
     it 'get all popular articles if sort params is passed' do
