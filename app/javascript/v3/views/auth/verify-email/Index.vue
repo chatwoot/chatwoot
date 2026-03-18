@@ -32,22 +32,20 @@ const handleResendEmail = async () => {
 </script>
 
 <template>
-  <div
-    class="flex flex-col justify-center w-full min-h-screen py-12 bg-n-brand/5 dark:bg-n-background sm:px-6 lg:px-8"
+  <main
+    class="flex flex-col w-full min-h-screen py-20 bg-n-brand/5 dark:bg-n-background sm:px-6 lg:px-8"
   >
-    <div
-      class="bg-white shadow sm:mx-auto sm:w-full sm:max-w-lg dark:bg-n-solid-2 p-11 sm:shadow-lg sm:rounded-lg"
+    <section
+      class="bg-white shadow sm:mx-auto mt-11 sm:w-full sm:max-w-lg dark:bg-n-solid-2 p-11 sm:shadow-lg sm:rounded-lg"
     >
-      <h1
-        class="mb-1 text-2xl font-medium tracking-tight text-left text-n-slate-12"
-      >
-        {{ $t('REGISTER.VERIFY_EMAIL.TITLE') }}
-      </h1>
-      <p
-        class="mb-4 text-sm font-normal leading-6 tracking-normal text-n-slate-11"
-      >
-        {{ $t('REGISTER.VERIFY_EMAIL.DESCRIPTION', { email: props.email }) }}
-      </p>
+      <div class="mb-6">
+        <h2 class="text-2xl font-semibold text-n-slate-12">
+          {{ $t('REGISTER.VERIFY_EMAIL.TITLE') }}
+        </h2>
+        <p class="mt-2 text-sm text-n-slate-11">
+          {{ $t('REGISTER.VERIFY_EMAIL.DESCRIPTION', { email: props.email }) }}
+        </p>
+      </div>
       <div class="space-y-4">
         <NextButton
           lg
@@ -59,12 +57,14 @@ const handleResendEmail = async () => {
           @click="handleResendEmail"
         />
       </div>
-      <p class="mt-4 -mb-1 text-sm text-n-slate-11">
-        {{ $t('COMMON.BACK_TO') }}
-        <router-link to="/auth/login" class="text-link text-n-brand">
-          {{ $t('COMMON.LOGIN') }}.
-        </router-link>
-      </p>
+    </section>
+    <div class="mt-6 text-center">
+      <router-link
+        to="/auth/login"
+        class="text-sm text-n-slate-10 hover:text-n-slate-11"
+      >
+        {{ $t('LOGIN.BACK_TO_LOGIN') }}
+      </router-link>
     </div>
-  </div>
+  </main>
 </template>
