@@ -43,24 +43,10 @@ class Voice::CallStatus::Manager
   end
 
   def update_message(status)
-    message = conversation.messages
-                          .where(content_type: 'voice_call')
-                          .order(created_at: :desc)
-                          .first
+    message = latest_voice_call_message
     return unless message
 
-    data = (message.content_attributes || {}).deep_dup
-    data['data'] ||= {}
-    data['data']['status'] = status
-    data['data']['meta'] ||= {}
-
-    if status == 'completed' && conversation.additional_attributes['call_duration'].present?
-      data['data']['meta']['duration'] = conversation.additional_attributes['call_duration']
-    else
-      data['data']['meta'].delete('duration')
-    end
-
-    message.update!(content_attributes: data)
+    message.update!(content_attributes: updated_message_attributes(message, status))
   end
 
   def now_seconds
@@ -69,5 +55,35 @@ class Voice::CallStatus::Manager
 
   def current_time
     @current_time ||= Time.zone.now
+  end
+
+  def latest_voice_call_message
+    conversation.messages
+                .where(content_type: 'voice_call')
+                .order(created_at: :desc)
+                .first
+  end
+
+  def updated_message_attributes(message, status)
+    data = (message.content_attributes || {}).deep_dup
+    call_data = data['data'] ||= {}
+    call_data['status'] = status
+    update_duration_meta(call_data, status)
+    data
+  end
+
+  def update_duration_meta(call_data, status)
+    meta = call_data['meta'] ||= {}
+    duration = completed_call_duration(status)
+
+    return meta['duration'] = duration if duration.present?
+
+    meta.delete('duration')
+  end
+
+  def completed_call_duration(status)
+    return unless status == 'completed'
+
+    conversation.additional_attributes&.dig('call_duration')
   end
 end
