@@ -25,7 +25,9 @@ class PipelineStatus < ApplicationRecord
 
   # == Attributes ===========================================================
   # == Scopes ===============================================================
-  default_scope { order(created_at: :asc) }
+  default_scope { order(Arel.sql('position ASC NULLS LAST, created_at ASC')) }
+
+  before_create :set_position
 
   # == Relationships ========================================================
   belongs_to :account
@@ -37,6 +39,10 @@ class PipelineStatus < ApplicationRecord
 
   def set_name
     self.name = name.downcase
+  end
+
+  def set_position
+    self.position = (account.pipeline_statuses.maximum(:position) || 0) + 1
   end
 
   def check_for_conversations

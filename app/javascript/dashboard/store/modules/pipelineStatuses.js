@@ -75,6 +75,17 @@ export const actions = {
     }
   },
 
+  reorder: async ({ commit, state }, orderedIds) => {
+    const previousRecords = [...state.records];
+    commit(types.REORDER_PIPELINE_STATUSES, orderedIds);
+    try {
+      await PipelineStatusesAPI.reorder(orderedIds);
+    } catch (error) {
+      commit(types.REORDER_PIPELINE_STATUSES, previousRecords.map(r => r.id));
+      throw error;
+    }
+  },
+
   organizeConversations: ({ commit }, { conversations = [] }) => {
     commit(types.SET_PIPELINE_STATUS_LOADING, true);
     commit(types.ORGANIZE_CONVERSATIONS_BY_PIPELINE_STATUS, {
@@ -129,6 +140,11 @@ export const mutations = {
 
   [types.SET_PIPELINE_STATUS_LOADING]($state, status) {
     $state.uiFlags.isLoading = status;
+  },
+
+  [types.REORDER_PIPELINE_STATUSES]($state, orderedIds) {
+    const recordMap = Object.fromEntries($state.records.map(r => [r.id, r]));
+    $state.records = orderedIds.map(id => recordMap[id]).filter(Boolean);
   },
 
   [types.ORGANIZE_CONVERSATIONS_BY_PIPELINE_STATUS]($state, { conversations }) {

@@ -278,21 +278,32 @@ const actions = {
   },
 
   togglePipelineStatus: async (
-    { commit },
+    { commit, state },
     { conversationId, pipelineStatusId }
   ) => {
-    commit(types.TOGGLE_SINGLE_PIPELINE_STATUS, true);
+    const conversation = state.allConversations.find(
+      c => c.id === parseInt(conversationId, 10)
+    );
+    const previousPipelineStatusId = conversation?.pipeline_status_id;
 
+    commit(types.TOGGLE_SINGLE_PIPELINE_STATUS, true);
     commit(types.CHANGE_CONVERSATION_PIPELINE_STATUS, {
       id: parseInt(conversationId, 10),
       pipeline_status_id: parseInt(pipelineStatusId, 10),
     });
 
-    await ConversationApi.update(conversationId, {
-      pipeline_status_id: pipelineStatusId,
-    });
-
-    commit(types.TOGGLE_SINGLE_PIPELINE_STATUS, false);
+    try {
+      await ConversationApi.update(conversationId, {
+        pipeline_status_id: pipelineStatusId,
+      });
+    } catch (error) {
+      commit(types.CHANGE_CONVERSATION_PIPELINE_STATUS, {
+        id: parseInt(conversationId, 10),
+        pipeline_status_id: previousPipelineStatusId,
+      });
+    } finally {
+      commit(types.TOGGLE_SINGLE_PIPELINE_STATUS, false);
+    }
   },
 
   createPendingMessageAndSend: async ({ dispatch }, data) => {

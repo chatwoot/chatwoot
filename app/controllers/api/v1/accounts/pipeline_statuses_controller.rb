@@ -4,7 +4,16 @@ class Api::V1::Accounts::PipelineStatusesController < Api::V1::Accounts::BaseCon
   before_action :set_pipeline_params, only: %i[update destroy]
 
   def index
-    @pipeline_statuses = @current_account.pipeline_statuses.order(:created_at)
+    @pipeline_statuses = @current_account.pipeline_statuses
+  end
+
+  def reorder
+    ordered_ids = params.require(:ordered_ids)
+    ordered_ids.each_with_index do |id, index|
+      @current_account.pipeline_statuses.where(id: id).update_all(position: index + 1) # rubocop:disable Rails/SkipsModelValidations
+    end
+    @pipeline_statuses = @current_account.pipeline_statuses
+    render :index
   end
 
   def create

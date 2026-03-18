@@ -120,8 +120,13 @@ const onDragEnd = async event => {
       class="flex items-center justify-between flex-shrink-0 h-10 px-2 bg-n-solid-3 outline outline-n-container outline-1 -outline-offset-1 rounded-xl pl-3 pr-0"
     >
       <span
+        class="column-drag-handle flex items-center mr-1 cursor-grab text-n-slate-9 hover:text-n-slate-11"
+      >
+        <i class="i-lucide-grip-vertical text-base" />
+      </span>
+      <span
         v-if="!isEditing"
-        class="block text-sm font-semibold capitalize"
+        class="block text-sm font-semibold capitalize flex-1"
         @click="startEditing"
       >
         {{ column.name }}
@@ -132,7 +137,7 @@ const onDragEnd = async event => {
         v-else
         ref="inputRef"
         v-model="newName"
-        class="table text-sm font-semibold capitalize bg-transparent focus:outline-none"
+        class="flex-1 text-sm font-semibold capitalize bg-transparent focus:outline-none"
         autoFocus
         @keyup.enter="saveName"
         @blur="saveName"

@@ -1,5 +1,6 @@
 <script setup>
 import { onMounted, computed, ref } from 'vue';
+import draggable from 'vuedraggable';
 import Column from './Column.vue';
 import { useStore } from 'vuex';
 import AddColumn from './AddColumn.vue';
@@ -10,11 +11,17 @@ const newColumns = ref([]);
 
 // =================== COMPUTED =================== //
 
-const columns = computed(() => {
-  const pipelineStatuses =
-    store.getters['pipelineStatuses/getPipelineStatuses'] || [];
-  return [...pipelineStatuses, ...newColumns.value];
+const pipelineColumns = computed({
+  get: () => store.getters['pipelineStatuses/getPipelineStatuses'] || [],
+  set: orderedColumns => {
+    store.dispatch(
+      'pipelineStatuses/reorder',
+      orderedColumns.map(c => c.id)
+    );
+  },
 });
+
+const columns = computed(() => [...pipelineColumns.value, ...newColumns.value]);
 
 // =================== CALLBACKS =================== //
 
@@ -53,9 +60,21 @@ const deleteColumn = column => {
     </div>
 
     <div v-else class="flex flex-grow px-10 mt-4 space-x-6">
+      <draggable
+        v-model="pipelineColumns"
+        group="columns"
+        item-key="id"
+        handle=".column-drag-handle"
+        class="flex space-x-6"
+        :animation="150"
+      >
+        <template #item="{ element }">
+          <Column :column="element" @deleted="deleteColumn" />
+        </template>
+      </draggable>
       <Column
-        v-for="(column, index) in columns"
-        :key="index"
+        v-for="(column, index) in newColumns"
+        :key="`new-${index}`"
         :column="column"
         @deleted="deleteColumn"
       />

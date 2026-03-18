@@ -236,7 +236,9 @@ Rails.application.routes.draw do
             end
           end
 
-          resources :pipeline_statuses, except: [:new, :edit, :show]
+          resources :pipeline_statuses, except: [:new, :edit, :show] do
+            collection { post :reorder }
+          end
 
           resources :conversations, only: [:index, :create, :show, :update, :destroy] do
             collection do
