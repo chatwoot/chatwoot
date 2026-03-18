@@ -203,17 +203,12 @@ class User < ApplicationRecord
   # support in v6.4.0, which simultaneously raised its Rails minimum to 7.2+.
   # No released version supports both Devise 5 and Rails 7.1.
   #
-  # This override applies the same fix locally: save the record (persisting
-  # unconfirmed_email) before regenerating the confirmation token, closing the
-  # race window. Remove this once we upgrade to Devise 5+.
+  # This override applies the same fix locally: force-mark unconfirmed_email
+  # as dirty before assignment so ActiveRecord always writes it, keeping it
+  # in sync with the regenerated confirmation token. Remove once on Devise 5+.
   def postpone_email_change_until_confirmation_and_regenerate_confirmation_token
-    @reconfirmation_required = true
-    self.unconfirmed_email = email
-    self.email = email_was
-
-    save(validate: false)
-    self.confirmation_token = nil
-    generate_confirmation_token
+    unconfirmed_email_will_change!
+    super
   end
 
   private
