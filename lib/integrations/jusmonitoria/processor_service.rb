@@ -93,12 +93,18 @@ class Integrations::Jusmonitoria::ProcessorService
     changed_attributes = event_data[:changed_attributes]
     return if conversation.blank? || changed_attributes.blank?
 
-    # Check if label_list changed
-    label_changes = changed_attributes['label_list'] || changed_attributes[:label_list]
+    # changed_attributes comes from BaseListener as an Array of Hashes:
+    # [{ "label_list" => { previous_value: [...], current_value: [...] } }]
+    label_changes = if changed_attributes.is_a?(Array)
+                      changed_attributes.find { |attr| attr.key?('label_list') || attr.key?(:label_list) }
+                                        &.values&.first
+                    else
+                      changed_attributes['label_list'] || changed_attributes[:label_list]
+                    end
     return if label_changes.blank?
 
-    previous_labels = Array(label_changes[0])
-    current_labels = Array(label_changes[1])
+    previous_labels = Array(label_changes[:previous_value] || label_changes[0])
+    current_labels = Array(label_changes[:current_value] || label_changes[1])
 
     added_labels = current_labels - previous_labels
     removed_labels = previous_labels - current_labels
