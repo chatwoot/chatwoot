@@ -28,6 +28,7 @@ Cliente paga
     → Atualiza status para "paid"
     → Envia mensagem de confirmação na conversa
     → Encaminha "payment.confirmed" para SocialWise e JusMonitorIA
+    → Se `infinitepay_push_only=true`, envia push PWA exclusivo com o comprovante
 ```
 
 ---
@@ -38,6 +39,10 @@ Cada conta configura seu próprio InfinitePay handle em:
 **Settings → Account Settings → InfinitePay Payments**
 
 O handle é salvo em `account.custom_attributes['infinitepay_handle']`.
+
+Opcionalmente, a conta pode ativar `account.custom_attributes['infinitepay_push_only']` na mesma tela para:
+- silenciar os pushes padrão de conversa no PWA
+- enviar apenas o push exclusivo do webhook da InfinitePay com a confirmação do pagamento
 
 Sem handle configurado, o botão de pagamento não aparece na conversa.
 
@@ -202,6 +207,15 @@ Recebe webhook de confirmação de pagamento do InfinitePay.
 Encaminhado para:
 - **SocialWise:** `POST {SOCIALWISE_WEBHOOK_URL}/api/integrations/webhooks/socialwiseflow`
 - **JusMonitorIA:** `POST {JUSMONITORIA_WEBHOOK_URL}/v1/integrations/chatwit`
+
+### Logs de forwarding
+
+O webhook agora registra explicitamente:
+- sucesso no envio para SocialWise
+- falha HTTP no envio para SocialWise com status code e trecho do body
+- ausência de `SOCIALWISE_WEBHOOK_URL`
+- sucesso no envio para JusMonitorIA
+- envio do push PWA exclusivo da InfinitePay
 
 Ver payloads detalhados em:
 - `chatwitdocs/chatwit-contrato-async-30s copy.md` (Seção 17)

@@ -2,7 +2,7 @@
 
 # lib/integrations/jusmonitoria/webhook_forwarder_service.rb
 # Fire-and-forget HTTP forwarder to JusMonitorIA.
-# POSTs events to the unified endpoint POST /v1/integrations/chatwit.
+# POSTs events to the unified endpoint POST /api/v1/integrations/chatwit.
 
 class Integrations::Jusmonitoria::WebhookForwarderService
   TIMEOUT = 15
@@ -21,7 +21,7 @@ class Integrations::Jusmonitoria::WebhookForwarderService
       Rails.logger.info "[JUSMONITORIA-FORWARD] Sending #{event_type} to #{endpoint}"
 
       response = HTTParty.post(
-        "#{endpoint}/v1/integrations/chatwit",
+        "#{endpoint}/api/v1/integrations/chatwit",
         headers: request_headers,
         body: body.to_json,
         timeout: TIMEOUT
@@ -50,6 +50,7 @@ class Integrations::Jusmonitoria::WebhookForwarderService
     def build_metadata(account)
       {
         account_id: account&.id,
+        account_name: account&.name,
         chatwit_base_url: ENV.fetch('FRONTEND_URL', 'https://chatwit.witdev.com.br'),
         chatwit_agent_bot_token: Chatwit::JusmonitoriaBot.token,
         timestamp: Time.current.iso8601

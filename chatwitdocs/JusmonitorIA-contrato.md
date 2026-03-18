@@ -19,7 +19,8 @@
 9. [Futuro: Pagamentos](#9-futuro-pagamentos)
 10. [Sync Bidirecional de Contatos (identifier)](#10-sync-bidirecional-de-contatos-identifier)
 11. [Isolamento Multi-Tenant via ACCESS_TOKEN](#11-isolamento-multi-tenant-via-access_token-webhook-padrão)
-12. [Changelog](#12-changelog)
+12. [Hook JusMonitorIA (Ativação por Account)](#12-hook-jusmonitoria-ativação-por-account)
+13. [Changelog](#13-changelog)
 
 ---
 
@@ -677,7 +678,49 @@ O JusMonitorIA agora usa o **webhook padrão do Chatwit** (o mesmo que o SocialW
 
 ---
 
-## 12. Changelog
+## 12. Hook JusMonitorIA (Ativação por Account)
+
+> **Status:** IMPLEMENTADO (2026-03-18)
+> **Quem ativa:** Admin da account no Chatwit (manual, via UI)
+
+### 12.1 O que é
+
+O Hook JusMonitorIA é uma integração do tipo `account` definida em `config/integration/apps.yml` com `app_id: 'jusmonitoria'`. Ele é o **pré-requisito** para que eventos fluam do Chatwit para o JusMonitorIA via Path 1 (ProcessorService → WebhookForwarderService).
+
+Sem o Hook ativado, o `HookListener` não despacha nenhum evento para o JusMonitorIA — mesmo que o bot e as labels estejam provisionados.
+
+### 12.2 Como ativar
+
+1. Admin do Chatwit acessa **Settings → Integrations → JusMonitorIA**
+2. Clica em **"Configurar"**
+3. **Endpoint (opcional):** deixar vazio para usar o padrão (`ENV['JUSMONITORIA_WEBHOOK_URL']`)
+4. **Prefixo da label de monitoramento:** deixar vazio para usar `jusmonitoria_` (default)
+5. Clica **"Criar"**
+
+### 12.3 Relação com Path 2 (Standard Webhook)
+
+| Path | Mecanismo | Ativação | Usado para |
+|------|-----------|----------|------------|
+| **Path 1** | Hook → ProcessorService → WebhookForwarderService | Hook manual por account | Eventos customizados com metadata rica, respostas bidirecionais |
+| **Path 2** | Standard Chatwit webhook com ACCESS_TOKEN | `/chatwit/connect` no frontend JusMonitorIA | Backup, isolamento multi-tenant estrito |
+
+Ambos os paths podem coexistir. Path 1 é o principal para leads e mensagens. Path 2 é backup e oferece isolamento mais estrito via ACCESS_TOKEN hash.
+
+### 12.4 Settings armazenadas
+
+```json
+{
+  "endpoint": "",
+  "monitoring_label_prefix": "jusmonitoria_"
+}
+```
+
+- `endpoint` vazio → usa `ENV['JUSMONITORIA_WEBHOOK_URL']` (default: `https://jusmonitoria.witdev.com.br`)
+- `monitoring_label_prefix` → apenas mensagens de conversas com labels desse prefixo são encaminhadas. Contatos e tags são SEMPRE encaminhados.
+
+---
+
+## 13. Changelog
 
 | Data | Seção | Status | Descrição |
 |------|-------|--------|-----------|
@@ -686,3 +729,4 @@ O JusMonitorIA agora usa o **webhook padrão do Chatwit** (o mesmo que o SocialW
 | 2026-03-10 | 9 | IMPLEMENTADO | Integração de pagamentos InfinitePay com payload `payment.confirmed` |
 | 2026-03-11 | 10 | IMPLEMENTADO | Sync bidirecional de contatos via `identifier` — implementação 100% no JusMonitorIA |
 | 2026-03-17 | 11 | IMPLEMENTADO | Isolamento multi-tenant via ACCESS_TOKEN + webhook padrão. Removido fallback single-tenant. Frontend self-service para conectar Chatwit |
+| 2026-03-18 | 2, 12 | IMPLEMENTADO | Ativação do Hook JusMonitorIA por account (via UI Chatwit Settings → Integrations). Corrigidos bugs: parsing de contact_created no standard webhook, normalização de Agent Bot callback, campo lead_metadata nos workers. Adicionado account_name ao metadata do WebhookForwarder |

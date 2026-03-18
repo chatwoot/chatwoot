@@ -1,11 +1,21 @@
 require 'rails_helper'
 
 describe Notification::PushNotificationService do
-  let!(:account) { create(:account) }
-  let!(:user) { create(:user, account: account) }
-  let!(:notification) { create(:notification, user: user, account: user.accounts.first) }
+  let(:account) { create(:account) }
+  let(:user) { create(:user, account: account) }
+  let(:notification) { create(:notification, user: user, account: user.accounts.first) }
   let(:fcm_double) { instance_double(FCM) }
   let(:fcm_service_double) { instance_double(Notification::FcmService, fcm_client: fcm_double) }
+
+  before do
+    allow(InstallationConfig).to receive(:find_by).and_call_original
+    allow(InstallationConfig).to receive(:find_by)
+      .with(name: 'ACCOUNT_LEVEL_FEATURE_DEFAULTS')
+      .and_return(nil)
+    allow(InstallationConfig).to receive(:find_by)
+      .with(name: 'INSTALLATION_PRICING_PLAN')
+      .and_return(nil)
+  end
 
   describe '#perform' do
     context 'when the push server returns success' do
@@ -26,6 +36,17 @@ describe Notification::PushNotificationService do
           expect(WebPush).to have_received(:payload_send)
           expect(Notification::FcmService).not_to have_received(:new)
           expect(Rails.logger).to have_received(:info).with("Browser push sent to #{user.email} with title #{notification.push_message_title}")
+        end
+      end
+
+      it 'does not send standard push when infinitepay push only is enabled for the account' do
+        with_modified_env VAPID_PUBLIC_KEY: 'test' do
+          account.update!(custom_attributes: account.custom_attributes.merge('infinitepay_push_only' => true))
+          create(:notification_subscription, user: notification.user)
+
+          described_class.new(notification: notification).perform
+
+          expect(WebPush).not_to have_received(:payload_send)
         end
       end
 

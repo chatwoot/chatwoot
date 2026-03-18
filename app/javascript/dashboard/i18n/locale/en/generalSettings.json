@@ -110,6 +110,9 @@
         "HANDLE_LABEL": "InfinitePay Handle",
         "HANDLE_PLACEHOLDER": "your-handle",
         "CONFIGURED": "Active handle: {handle}",
+        "PUSH_ONLY_LABEL": "Exclusive PWA push for payment confirmations",
+        "PUSH_ONLY_NOTE": "When enabled, Chatwit sends only InfinitePay webhook confirmations via PWA push for this account and suppresses the standard conversation push notifications.",
+        "PUSH_ONLY_ENABLED": "Exclusive InfinitePay PWA push is active for this account.",
         "API": {
           "SUCCESS": "InfinitePay settings updated successfully",
           "ERROR": "Failed to update InfinitePay settings"

@@ -20,10 +20,16 @@ class Notification::PushNotificationService
   delegate :notification_settings, to: :user
 
   def user_subscribed_to_notification?
+    return false if infinitepay_push_only_enabled?
+
     notification_setting = notification_settings.find_by(account_id: notification.account.id)
     return true if notification_setting.public_send("push_#{notification.notification_type}?")
 
     false
+  end
+
+  def infinitepay_push_only_enabled?
+    ActiveModel::Type::Boolean.new.cast(notification.account.custom_attributes&.dig('infinitepay_push_only'))
   end
 
   def conversation

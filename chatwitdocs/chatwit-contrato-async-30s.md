@@ -1526,6 +1526,26 @@ Enquanto o Chatwit não implementa a Parte 2, o Socialwise tem um **fallback por
 
 ## Changelog
 
+### v2.2.0 (2026-03-17) - InfinitePay: Endpoint dedicado de pagamento no SocialWise — ✅ IMPLEMENTADO
+
+**Seção 17 — Atualizado em 17/03/2026.**
+
+**Problema:** O evento `payment.confirmed` era encaminhado ao endpoint genérico `/api/integrations/webhooks/socialwiseflow`, misturando responsabilidades de pagamento com o fluxo geral do SocialWise.
+
+**Implementado no Chatwit (`webhook_processor_service.rb`):**
+1. ✅ `forward_to_socialwise`: Endpoint alterado de `/api/integrations/webhooks/socialwiseflow` → `/api/integrations/payment`
+2. ✅ Payload reestruturado para formato `account_webhook` (`event`, `message_type`, `content`, `additional_attributes`, `conversation`, `account`)
+3. ✅ `payment_data` **sempre enviado** com dados estruturados completos — `order_nsu`, `amount_cents`, `paid_amount_cents`, `capture_method`, `receipt_url`, `contact`
+
+**Implementado no SocialWise:**
+1. ✅ `app/api/integrations/payment/route.ts`: Endpoint dedicado para receber confirmações de pagamento
+2. ✅ `lib/leads/payment-webhook-processor.ts`: Lê `payment_data` diretamente (dados estruturados limpos do Chatwit)
+3. ✅ `order_nsu` → `externalId` para idempotência (semântica correta, vem do próprio Chatwit)
+4. ✅ Registro de `LeadPayment` com idempotência + tags luminosas no lead
+5. ✅ Regex no `content` deprecado — mantido apenas como fallback legado
+
+**Resultado:** Separação de responsabilidades — pagamento tem endpoint próprio, webhook genérico do Flow não processa mais eventos de pagamento. SocialWise usa dados estruturados do `payment_data` em vez de gambiarra de regex no content.
+
 ### v2.1.0 (2026-03-17) - InfinitePay: Auto-create PaymentLink para links do Socialwise Flow — ✅ IMPLEMENTADO
 
 **Seção 20 — Implementado em 17/03/2026.**
@@ -1752,7 +1772,7 @@ POST /api/v1/accounts/{account_id}/conversations/{display_id}/messages
 
 ### Contexto
 
-O Chatwit agora possui integração com InfinitePay para envio de links de pagamento via conversa. Quando um pagamento é confirmado via webhook do InfinitePay, o Chatwit encaminha o evento `payment.confirmed` para o SocialWise.
+O Chatwit possui integração com InfinitePay para envio de links de pagamento via conversa. Quando um pagamento é confirmado via webhook do InfinitePay, o Chatwit encaminha o evento para o endpoint **dedicado de pagamento** do SocialWise (separado do webhook genérico do SocialWise Flow).
 
 ### Fluxo
 
@@ -1760,14 +1780,14 @@ O Chatwit agora possui integração com InfinitePay para envio de links de pagam
 Agente envia link de pagamento → Cliente paga → InfinitePay webhook → Chatwit processa
   → Atualiza PaymentLink status para "paid"
   → Envia mensagem de confirmação na conversa
-  → Encaminha payment.confirmed para SocialWise
+  → Encaminha para SocialWise /api/integrations/payment (endpoint dedicado)
   → Encaminha payment.confirmed para JusMonitorIA
 ```
 
 ### Payload enviado ao SocialWise
 
 ```
-POST {SOCIALWISE_WEBHOOK_URL}/api/integrations/webhooks/socialwiseflow
+POST {SOCIALWISE_WEBHOOK_URL}/api/integrations/payment
 Headers:
   Content-Type: application/json
   X-Chatwit-Secret: {CHATWIT_WEBHOOK_SECRET}
@@ -1775,49 +1795,79 @@ Headers:
 
 ```json
 {
-  "event_type": "payment.confirmed",
-  "data": {
+  "event": "message_created",
+  "message_type": "outgoing",
+  "content_type": "text",
+  "content": "*Pagamento Confirmado!*\n\nOla João Silva, seu pagamento foi recebido com sucesso!\n\nDetalhes da transacao:\nDescricao: Produto X\nValor: R$ 10.10\nForma de pagamento: PIX\nCodigo: abc-123-def\n\nComprovante: https://recibo.infinitepay.io/abc-123\n\nObrigado pela confianca!",
+  "additional_attributes": {
+    "payment_link_id": 123,
+    "infinitepay_event": "payment_confirmed"
+  },
+  "conversation": {
+    "id": 456,
+    "meta": {
+      "sender": {
+        "phone_number": "+5511999887766",
+        "name": "João Silva"
+      }
+    }
+  },
+  "account": { "id": 1 },
+  "payment_data": {
     "payment_link_id": 123,
     "order_nsu": "chatwit-1-456-abc123",
     "amount_cents": 1000,
     "paid_amount_cents": 1010,
     "capture_method": "pix",
-    "receipt_url": "https://comprovante.com/123",
+    "receipt_url": "https://recibo.infinitepay.io/abc-123",
     "conversation_id": 456,
     "contact": {
       "id": 789,
       "name": "João Silva",
       "phone_number": "+5511999887766"
     }
-  },
-  "metadata": {
-    "account_id": 1,
-    "chatwit_base_url": "https://chatwit.witdev.com.br",
-    "timestamp": "2026-03-10T12:00:00Z"
   }
 }
 ```
 
-### Campos do `data`
+### Campos principais (raiz)
 
 | Campo | Tipo | Descrição |
 |-------|------|-----------|
-| `payment_link_id` | integer | ID do PaymentLink no Chatwit |
-| `order_nsu` | string | NSU gerado pelo Chatwit |
-| `amount_cents` | integer | Valor original em centavos |
-| `paid_amount_cents` | integer | Valor efetivamente pago |
-| `capture_method` | string | `"pix"` ou `"credit_card"` |
-| `receipt_url` | string | URL do comprovante |
-| `conversation_id` | integer | ID da conversa |
-| `contact` | object | `{id, name, phone_number}` |
+| `event` | string | Sempre `"message_created"` |
+| `message_type` | string | Sempre `"outgoing"` |
+| `content_type` | string | Sempre `"text"` |
+| `content` | string | Mensagem de confirmação formatada (apenas para exibição, NÃO parsear) |
+| `additional_attributes.payment_link_id` | integer | ID do PaymentLink no Chatwit |
+| `additional_attributes.infinitepay_event` | string | Sempre `"payment_confirmed"` |
+| `conversation.id` | integer | ID da conversa |
+| `conversation.meta.sender` | object | `{phone_number, name}` do contato |
+| `account.id` | integer | ID da account |
+
+### Campos do `payment_data` (FONTE PRIMÁRIA — sempre presente)
+
+> **IMPORTANTE:** O `payment_data` é **SEMPRE** enviado pelo Chatwit. Use estes dados estruturados diretamente. **NÃO** parsear o `content` via regex — isso era gambiarra e está deprecado.
+
+| Campo | Tipo | Descrição | Uso no SocialWise |
+|-------|------|-----------|-------------------|
+| `order_nsu` | string | NSU gerado pelo Chatwit (`chatwit-{accountId}-{conversationId}-{hex}`) | `externalId` para idempotência |
+| `amount_cents` | integer | Valor original em centavos | Valor direto, sem risco de erro de parsing |
+| `paid_amount_cents` | integer | Valor efetivamente pago | Valor direto, sem risco de erro de parsing |
+| `capture_method` | string | `"pix"` ou `"credit_card"` | Já normalizado, usar direto |
+| `receipt_url` | string | URL do comprovante InfinitePay | Link direto |
+| `payment_link_id` | integer | ID do PaymentLink no Chatwit | Referência interna |
+| `conversation_id` | integer | ID da conversa | Referência interna |
+| `contact` | object | `{id, name, phone_number}` | Telefone estruturado para busca de lead |
 
 ### O que o SocialWise deve fazer
 
-1. Receber o evento e responder `200 OK`
-2. Usar para fluxos de pós-venda (notificações, automações)
-3. Pode usar `conversation_id` + `chatwit_base_url` para enviar mensagens de follow-up via API
+1. Receber no endpoint dedicado `/api/integrations/payment` e responder `200 OK`
+2. Detectar via `additional_attributes.infinitepay_event === "payment_confirmed"`
+3. **Usar `payment_data`** para todos os dados — `order_nsu` como externalId (idempotência), `amount_cents`/`paid_amount_cents` direto, `capture_method` já normalizado, `contact.phone_number` para busca de lead
+4. Registrar `LeadPayment`, adicionar tags luminosas no lead (`pagamento-recebido`, `pago`, método)
+5. Pode usar `conversation.id` + `account.id` para follow-up via Agent Bot API
 
-**Status:** IMPLEMENTADO (2026-03-10)
+**Status:** IMPLEMENTADO (2026-03-10) | ATUALIZADO (2026-03-17) — endpoint dedicado + payment_data obrigatório
 
 ---
 

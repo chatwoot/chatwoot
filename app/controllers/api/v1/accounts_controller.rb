@@ -88,7 +88,7 @@ class Api::V1::AccountsController < Api::BaseController
   end
 
   def custom_attributes_params
-    params.permit(:industry, :company_size, :timezone, :infinitepay_handle)
+    params.permit(:industry, :company_size, :timezone, :infinitepay_handle, :infinitepay_push_only)
   end
 
   def settings_params

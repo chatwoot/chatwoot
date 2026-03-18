@@ -104,6 +104,20 @@
           "ERROR": "Falha ao atualizar a definição de transcrição de áudio"
         }
       },
+      "INFINITEPAY": {
+        "TITLE": "Pagamentos InfinitePay",
+        "NOTE": "Configure o seu handle InfinitePay para ativar links de pagamento nas conversas. O handle é a sua InfiniteTag (nome de utilizador na app InfinitePay) sem o símbolo $.",
+        "HANDLE_LABEL": "Handle InfinitePay",
+        "HANDLE_PLACEHOLDER": "o-seu-handle",
+        "CONFIGURED": "Handle ativo: {handle}",
+        "PUSH_ONLY_LABEL": "Push PWA exclusivo para confirmações de pagamento",
+        "PUSH_ONLY_NOTE": "Quando ativado, o Chatwit envia por push PWA apenas as confirmações vindas do webhook da InfinitePay nesta conta e silencia as notificações push padrão das conversas.",
+        "PUSH_ONLY_ENABLED": "O push PWA exclusivo da InfinitePay está ativo nesta conta.",
+        "API": {
+          "SUCCESS": "Definições do InfinitePay atualizadas com sucesso",
+          "ERROR": "Falha ao atualizar as definições do InfinitePay"
+        }
+      },
       "AUTO_RESOLVE_DURATION": {
         "LABEL": "Duração de inatividade para resolução",
         "HELP": "Duração após a qual a conversa deve ser automaticamente resolvida se não houver atividade",
