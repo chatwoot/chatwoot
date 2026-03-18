@@ -30,7 +30,7 @@ class Whatsapp::IncomingCallService
     if existing_call
       Rails.logger.info "[WHATSAPP CALL] call_connect for existing call #{call_id} (direction=#{direction})"
       sdp_answer = fix_sdp_setup(call_payload.dig(:session, :sdp))
-      existing_call.update!(meta: existing_call.meta.merge('sdp_answer' => sdp_answer))
+      existing_call.update!(status: 'accepted', meta: existing_call.meta.merge('sdp_answer' => sdp_answer))
       broadcast_outbound_call_connected(existing_call, sdp_answer)
       return
     end

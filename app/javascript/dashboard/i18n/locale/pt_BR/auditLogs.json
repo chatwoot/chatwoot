@@ -41,7 +41,7 @@
       "DELETE": "{agentName} excluiu uma caixa de entrada (#{id})"
     },
     "WEBHOOK": {
-      "ADD": "{agentName} criou um webhook (##{id})",
+      "ADD": "{agentName} criou um webhook (#{id})",
       "EDIT": "{agentName} atualizou um webhook (#{id})",
       "DELETE": "{agentName} excluiu um webhook (#{id})"
     },

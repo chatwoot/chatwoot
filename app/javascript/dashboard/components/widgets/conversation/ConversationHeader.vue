@@ -102,7 +102,10 @@ const hasSlaPolicyId = computed(() => props.chat?.sla_policy_id);
 
 const canInitiateWhatsappCall = computed(() => {
   if (!isAWhatsAppCloudChannel.value) return false;
-  return !!inbox.value?.calling_enabled;
+  if (!inbox.value?.calling_enabled) return false;
+  // Block if there's already an active or ringing WhatsApp call
+  if (whatsappCallsStore.hasWhatsappCall) return false;
+  return true;
 });
 
 const waitForOutboundIceGathering = pc =>

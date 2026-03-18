@@ -30,10 +30,12 @@ class CustomAttributeDefinition < ApplicationRecord
 
   scope :with_attribute_model, ->(attribute_model) { attribute_model.presence && where(attribute_model: attribute_model) }
   validates :attribute_display_name, presence: true
+  before_validation :normalize_attribute_fields
 
   validates :attribute_key,
             presence: true,
-            uniqueness: { scope: [:account_id, :attribute_model] }
+            uniqueness: { scope: [:account_id, :attribute_model] },
+            format: { with: /\A[\p{L}\p{N}_.\-]+\z/, message: I18n.t('errors.custom_attribute_definition.attribute_key_format') }
 
   validates :attribute_display_type, presence: true
   validates :attribute_model, presence: true
@@ -47,6 +49,11 @@ class CustomAttributeDefinition < ApplicationRecord
   after_destroy :sync_widget_pre_chat_custom_fields
 
   private
+
+  def normalize_attribute_fields
+    self.attribute_key = attribute_key.strip if attribute_key.present?
+    self.attribute_display_name = attribute_display_name.strip if attribute_display_name.present?
+  end
 
   def sync_widget_pre_chat_custom_fields
     ::Inboxes::SyncWidgetPreChatCustomFieldsJob.perform_later(account, attribute_key)

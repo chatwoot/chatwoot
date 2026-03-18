@@ -87,6 +87,7 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
 
   def set_whatsapp_call
     @whatsapp_call = current_account.whatsapp_calls.find(params[:id])
+    authorize @whatsapp_call.conversation, :show?
   rescue ActiveRecord::RecordNotFound
     render json: { error: 'Call not found' }, status: :not_found
   end

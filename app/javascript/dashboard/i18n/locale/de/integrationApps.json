@@ -3,6 +3,9 @@
     "FETCHING": "Integrationen werden abgerufen",
     "NO_HOOK_CONFIGURED": "Es wurden keine {integrationId} Integrationen in diesem Konto konfiguriert.",
     "HEADER": "Anwendungen",
+    "COUNT": "{n} integration | {n} integrations",
+    "SEARCH_PLACEHOLDER": "Search...",
+    "NO_RESULTS": "No results found matching your search",
     "STATUS": {
       "ENABLED": "Aktiviert",
       "DISABLED": "Deaktiviert"
@@ -31,6 +34,7 @@
     "LIST": {
       "FETCHING": "Hooks werden abgerufen",
       "INBOX": "Posteingang",
+      "ACTIONS": "Aktionen",
       "DELETE": {
         "BUTTON_TEXT": "Löschen"
       }

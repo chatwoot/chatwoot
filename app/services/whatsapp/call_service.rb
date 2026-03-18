@@ -29,13 +29,13 @@ class Whatsapp::CallService
   end
 
   def reject
-    return wa_call if wa_call.terminal?
+    wa_call.reload
+    return wa_call if wa_call.terminal? || wa_call.accepted?
 
     provider = wa_call.inbox.channel.provider_service
     success = provider.reject_call(wa_call.call_id)
     Rails.logger.error "[WHATSAPP CALL] reject_call API returned false for call #{wa_call.call_id}" unless success
 
-    # Update local status regardless — the call may have already ended on Meta's side
     wa_call.update!(status: 'rejected')
     broadcast_call_ended
     wa_call
