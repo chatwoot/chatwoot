@@ -1,6 +1,4 @@
 class CreateReportingEventsRollup < ActiveRecord::Migration[7.1]
-  disable_ddl_transaction!
-
   def change
     create_rollups_table
     add_rollups_indexes
@@ -26,14 +24,14 @@ class CreateReportingEventsRollup < ActiveRecord::Migration[7.1]
   def add_rollups_indexes
     add_index :reporting_events_rollups,
               [:account_id, :date, :dimension_type, :dimension_id, :metric],
-              unique: true, name: 'index_rollup_unique_key', algorithm: :concurrently
+              unique: true, name: 'index_rollup_unique_key'
 
     add_index :reporting_events_rollups,
               [:account_id, :metric, :date],
-              name: 'index_rollup_timeseries', algorithm: :concurrently
+              name: 'index_rollup_timeseries'
 
     add_index :reporting_events_rollups,
               [:account_id, :dimension_type, :date],
-              name: 'index_rollup_summary', algorithm: :concurrently
+              name: 'index_rollup_summary'
   end
 end
