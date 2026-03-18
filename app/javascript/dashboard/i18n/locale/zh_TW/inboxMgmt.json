@@ -711,7 +711,7 @@
       "ALLOWED_DOMAINS": {
         "TITLE": "Allowed Domains",
         "SUBTITLE": "Add wildcard or regular domains separated by commas (leave blank to allow all), e.g. *.chatwoot.dev, chatwoot.com.",
-        "PLACEHOLDER": "Enter domains separated by commas (eg: *.chatwoot.dev, chatwoot.com)"
+        "PLACEHOLDER": "example.com, www.example.com, app.example.com"
       },
       "INBOX_AGENTS": "客服",
       "INBOX_AGENTS_SUB_TEXT": "新增或刪除此收件匣中的客服",

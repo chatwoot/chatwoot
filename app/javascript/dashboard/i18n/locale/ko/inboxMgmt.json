@@ -3,6 +3,9 @@
     "HEADER": "받은 메시지함",
     "DESCRIPTION": "채널은 고객이 귀하와 상호작용하기 위해 선택하는 커뮤니케이션 방식입니다. 받은 메시지함은 특정 채널에 대한 상호작용을 관리하는 곳입니다. 이메일, 라이브 채팅, 소셜 미디어 등 다양한 소스의 커뮤니케이션을 포함할 수 있습니다.",
     "LEARN_MORE": "받은 메시지함에 대해 자세히 알아보기",
+    "COUNT": "{n}개의 받은 메시지함 | {n}개의 받은 메시지함",
+    "SEARCH_PLACEHOLDER": "받은 메시지함 검색...",
+    "NO_RESULTS": "검색과 일치하는 받은 메시지함이 없습니다",
     "RECONNECTION_REQUIRED": "받은 메시지함의 연결이 끊어졌습니다. 재인증하기 전까지 새 메시지를 받을 수 없습니다.",
     "CLICK_TO_RECONNECT": "다시 연결하려면 여기를 클릭하십시오.",
     "WHATSAPP_REGISTRATION_INCOMPLETE": "WhatsApp Business 등록이 완료되지 않았습니다. 다시 연결하기 전에 Meta Business Manager에서 표시 이름 상태를 확인하십시오.",
@@ -627,6 +630,8 @@
       "ACCOUNT_HEALTH": "계정 상태",
       "CSAT": "CSAT"
     },
+    "CHANNEL_PREFERENCES": "채널 환경설정",
+    "WIDGET_FEATURES": "위젯 기능",
     "ACCOUNT_HEALTH": {
       "TITLE": "WhatsApp 계정 관리",
       "DESCRIPTION": "WhatsApp 계정 상태, 메시지 제한 및 품질을 검토하십시오. 필요한 경우 설정을 업데이트하거나 문제를 해결하십시오.",
@@ -706,7 +711,7 @@
       "ALLOWED_DOMAINS": {
         "TITLE": "허용된 도메인",
         "SUBTITLE": "쉼표로 구분된 와일드카드 또는 일반 도메인을 추가하십시오 (모두 허용하려면 비워 두십시오). 예: *.chatwoot.dev, chatwoot.com.",
-        "PLACEHOLDER": "쉼표로 구분된 도메인을 입력하십시오 (예: *.chatwoot.dev, chatwoot.com)"
+        "PLACEHOLDER": "example.com, www.example.com, app.example.com"
       },
       "INBOX_AGENTS": "에이전트",
       "INBOX_AGENTS_SUB_TEXT": "받은 메시지함에서 에이전트 추가 또는 제거",
@@ -770,14 +775,61 @@
       "LABEL": "도움말 센터",
       "PLACEHOLDER": "도움말 센터 선택",
       "SELECT_PLACEHOLDER": "도움말 센터 선택",
+      "NONE": "없음",
       "REMOVE": "도움말 센터 제거",
-      "SUB_TEXT": "받은 메시지함에 도움말 센터 연결",
-      "NONE": "없음"
+      "SUB_TEXT": "받은 메시지함에 도움말 센터 연결"
     },
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "자동 할당 제한",
       "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "0보다 큰 값을 입력하십시오.",
       "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "이 받은 메시지함에서 에이전트에게 자동 할당될 수 있는 최대 대화 수를 제한합니다."
+    },
+    "ASSIGNMENT": {
+      "TITLE": "대화 할당",
+      "DESCRIPTION": "할당 정책에 따라 수신 대화를 사용 가능한 에이전트에게 자동으로 할당합니다.",
+      "ENABLE_AUTO_ASSIGNMENT": "자동 대화 할당 사용",
+      "DEFAULT_RULES_TITLE": "기본 할당 규칙",
+      "DEFAULT_RULES_DESCRIPTION": "모든 대화에 기본 할당 동작을 사용합니다.",
+      "DEFAULT_RULE_1": "가장 먼저 생성된 대화 우선",
+      "DEFAULT_RULE_2": "라운드 로빈 배분",
+      "CUSTOMIZE_WITH_POLICY": "할당 정책으로 사용자 정의",
+      "USING_POLICY": "이 받은 메시지함에 사용자 정의 할당 정책을 사용 중",
+      "CUSTOMIZE_POLICY": "할당 정책으로 사용자 정의",
+      "DELETE_POLICY": "정책 삭제",
+      "POLICY_LABEL": "할당 정책",
+      "ASSIGNMENT_ORDER_LABEL": "할당 순서",
+      "ASSIGNMENT_METHOD_LABEL": "할당 방법",
+      "POLICY_STATUS": {
+        "ACTIVE": "활성",
+        "INACTIVE": "비활성"
+      },
+      "PRIORITY": {
+        "EARLIEST_CREATED": "가장 먼저 생성됨",
+        "LONGEST_WAITING": "가장 오래 대기 중"
+      },
+      "METHOD": {
+        "ROUND_ROBIN": "라운드 로빈",
+        "BALANCED": "균형 할당"
+      },
+      "UPGRADE_PROMPT": "사용자 정의 할당 정책은 Business 플랜에서 사용할 수 있습니다.",
+      "UPGRADE_TO_BUSINESS": "Business로 업그레이드",
+      "DEFAULT_POLICY_LINKED": "기본 정책이 연결됨",
+      "DEFAULT_POLICY_DESCRIPTION": "이 받은 메시지함에서 대화가 에이전트에게 할당되는 방식을 사용자 정의하려면 사용자 정의 할당 정책을 연결하십시오.",
+      "LINK_EXISTING_POLICY": "기존 정책 연결",
+      "CREATE_NEW_POLICY": "새 정책 만들기",
+      "NO_POLICIES": "할당 정책을 찾을 수 없습니다.",
+      "VIEW_ALL_POLICIES": "모든 정책 보기",
+      "CURRENT_BEHAVIOR": "현재 기본 할당 동작을 사용 중:",
+      "LINK_SUCCESS": "할당 정책이 성공적으로 연결되었습니다.",
+      "LINK_ERROR": "할당 정책을 연결하지 못했습니다."
+    },
+    "ASSIGNMENT_POLICY": {
+      "DELETE_CONFIRM_TITLE": "할당 정책을 삭제하시겠습니까?",
+      "DELETE_CONFIRM_MESSAGE": "이 받은 메시지함에서 이 할당 정책을 제거하시겠습니까? 받은 메시지함은 기본 할당 규칙으로 돌아갑니다.",
+      "CANCEL": "취소",
+      "CONFIRM_DELETE": "삭제",
+      "DELETE_SUCCESS": "할당 정책이 성공적으로 제거되었습니다.",
+      "DELETE_ERROR": "할당 정책을 제거하지 못했습니다."
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "재승인",
@@ -850,6 +902,20 @@
         "CONFIRM": "새 템플릿 만들기",
         "CANCEL": "돌아가기"
       },
+      "UTILITY_ANALYZER": {
+        "ACTION": "유틸리티 적합성 확인",
+        "HELPER_NOTE": "제출 전에 이 메시지를 확인하여 유틸리티 적합성을 높이십시오. 시스템은 보고용 버튼이 포함된 전용 CSAT 템플릿을 만들고 Utility로 제출하지만, Meta는 내용에 따라 이를 Marketing으로 다시 분류할 수 있습니다.",
+        "RESULT_LABEL": "Meta category prediction",
+        "GUIDANCE_NOTE": "이는 가이드용 점검이며 Meta 승인을 보장하지 않습니다.",
+        "SUGGESTION_LABEL": "추천 유틸리티 안전 문구",
+        "APPLY": "이 문구 사용",
+        "ERROR_MESSAGE": "메시지를 분석할 수 없습니다. 다시 시도하십시오.",
+        "CLASSIFICATION": {
+          "LIKELY_UTILITY": "유틸리티일 가능성 높음",
+          "LIKELY_MARKETING": "마케팅일 가능성 높음",
+          "UNCLEAR": "추가 확인 필요"
+        }
+      },
       "SURVEY_RULE": {
         "LABEL": "설문 규칙",
         "DESCRIPTION_PREFIX": "대화가 다음 레이블 중 하나를",
@@ -865,20 +931,6 @@
       "API": {
         "SUCCESS_MESSAGE": "CSAT 설정이 성공적으로 업데이트되었습니다.",
         "ERROR_MESSAGE": "CSAT 설정을 업데이트할 수 없습니다. 나중에 다시 시도하십시오."
-      },
-      "UTILITY_ANALYZER": {
-        "ACTION": "유틸리티 적합성 확인",
-        "HELPER_NOTE": "제출 전에 이 메시지를 확인하여 유틸리티 적합성을 높이십시오. 시스템은 보고용 버튼이 포함된 전용 CSAT 템플릿을 만들고 Utility로 제출하지만, Meta는 내용에 따라 이를 Marketing으로 다시 분류할 수 있습니다.",
-        "RESULT_LABEL": "Meta category prediction",
-        "GUIDANCE_NOTE": "이는 가이드용 점검이며 Meta 승인을 보장하지 않습니다.",
-        "SUGGESTION_LABEL": "추천 유틸리티 안전 문구",
-        "APPLY": "이 문구 사용",
-        "ERROR_MESSAGE": "메시지를 분석할 수 없습니다. 다시 시도하십시오.",
-        "CLASSIFICATION": {
-          "LIKELY_UTILITY": "유틸리티일 가능성 높음",
-          "LIKELY_MARKETING": "마케팅일 가능성 높음",
-          "UNCLEAR": "추가 확인 필요"
-        }
       }
     },
     "BUSINESS_HOURS": {
@@ -1002,6 +1054,7 @@
           "IN_A_DAY": "하루 안에"
         },
         "WIDGET_COLOR_LABEL": "위젯 색깔",
+        "WIDGET_BUBBLE": "버블",
         "WIDGET_BUBBLE_POSITION_LABEL": "위젯 버블 위치",
         "WIDGET_BUBBLE_TYPE_LABEL": "위젯 버블 유형",
         "WIDGET_BUBBLE_LAUNCHER_TITLE": {
@@ -1027,8 +1080,7 @@
         "WIDGET_BUBBLE_TYPE": {
           "STANDARD": "표준",
           "EXPANDED_BUBBLE": "확장 버블"
-        },
-        "WIDGET_BUBBLE": "버블"
+        }
       },
       "WIDGET_SCREEN": {
         "DEFAULT": "기본",
@@ -1082,58 +1134,6 @@
       "INSTAGRAM": "Instagram",
       "TIKTOK": "TikTok",
       "VOICE": "음성"
-    },
-    "ASSIGNMENT": {
-      "TITLE": "대화 할당",
-      "DESCRIPTION": "할당 정책에 따라 수신 대화를 사용 가능한 에이전트에게 자동으로 할당합니다.",
-      "ENABLE_AUTO_ASSIGNMENT": "자동 대화 할당 사용",
-      "DEFAULT_RULES_TITLE": "기본 할당 규칙",
-      "DEFAULT_RULES_DESCRIPTION": "모든 대화에 기본 할당 동작을 사용합니다.",
-      "DEFAULT_RULE_1": "가장 먼저 생성된 대화 우선",
-      "DEFAULT_RULE_2": "라운드 로빈 배분",
-      "CUSTOMIZE_WITH_POLICY": "할당 정책으로 사용자 정의",
-      "USING_POLICY": "이 받은 메시지함에 사용자 정의 할당 정책을 사용 중",
-      "CUSTOMIZE_POLICY": "할당 정책으로 사용자 정의",
-      "DELETE_POLICY": "정책 삭제",
-      "POLICY_LABEL": "할당 정책",
-      "ASSIGNMENT_ORDER_LABEL": "할당 순서",
-      "ASSIGNMENT_METHOD_LABEL": "할당 방법",
-      "POLICY_STATUS": {
-        "ACTIVE": "활성",
-        "INACTIVE": "비활성"
-      },
-      "PRIORITY": {
-        "EARLIEST_CREATED": "가장 먼저 생성됨",
-        "LONGEST_WAITING": "가장 오래 대기 중"
-      },
-      "METHOD": {
-        "ROUND_ROBIN": "라운드 로빈",
-        "BALANCED": "균형 할당"
-      },
-      "UPGRADE_PROMPT": "사용자 정의 할당 정책은 Business 플랜에서 사용할 수 있습니다.",
-      "UPGRADE_TO_BUSINESS": "Business로 업그레이드",
-      "DEFAULT_POLICY_LINKED": "기본 정책이 연결됨",
-      "DEFAULT_POLICY_DESCRIPTION": "이 받은 메시지함에서 대화가 에이전트에게 할당되는 방식을 사용자 정의하려면 사용자 정의 할당 정책을 연결하십시오.",
-      "LINK_EXISTING_POLICY": "기존 정책 연결",
-      "CREATE_NEW_POLICY": "새 정책 만들기",
-      "NO_POLICIES": "할당 정책을 찾을 수 없습니다.",
-      "VIEW_ALL_POLICIES": "모든 정책 보기",
-      "CURRENT_BEHAVIOR": "현재 기본 할당 동작을 사용 중:",
-      "LINK_SUCCESS": "할당 정책이 성공적으로 연결되었습니다.",
-      "LINK_ERROR": "할당 정책을 연결하지 못했습니다."
-    },
-    "ASSIGNMENT_POLICY": {
-      "DELETE_CONFIRM_TITLE": "할당 정책을 삭제하시겠습니까?",
-      "DELETE_CONFIRM_MESSAGE": "이 받은 메시지함에서 이 할당 정책을 제거하시겠습니까? 받은 메시지함은 기본 할당 규칙으로 돌아갑니다.",
-      "CANCEL": "취소",
-      "CONFIRM_DELETE": "삭제",
-      "DELETE_SUCCESS": "할당 정책이 성공적으로 제거되었습니다.",
-      "DELETE_ERROR": "할당 정책을 제거하지 못했습니다."
-    },
-    "COUNT": "{n}개의 받은 메시지함 | {n}개의 받은 메시지함",
-    "SEARCH_PLACEHOLDER": "받은 메시지함 검색...",
-    "NO_RESULTS": "검색과 일치하는 받은 메시지함이 없습니다",
-    "CHANNEL_PREFERENCES": "채널 환경설정",
-    "WIDGET_FEATURES": "위젯 기능"
+    }
   }
 }

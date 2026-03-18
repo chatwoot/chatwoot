@@ -1,6 +1,7 @@
 {
   "INTEGRATION_SETTINGS": {
     "SHOPIFY": {
+      "HEADER": "Shopify",
       "DELETE": {
         "TITLE": "Shopify 연동 삭제",
         "MESSAGE": "Shopify 연동을 삭제하시겠습니까?"
@@ -13,13 +14,14 @@
         "CANCEL": "취소",
         "SUBMIT": "스토어 연결"
       },
-      "ERROR": "Shopify에 연결하는 중 오류가 발생했습니다. 다시 시도하시거나 문제가 지속되면 지원팀에 문의하십시오.",
-      "HEADER": "Shopify"
+      "ERROR": "Shopify에 연결하는 중 오류가 발생했습니다. 다시 시도하시거나 문제가 지속되면 지원팀에 문의하십시오."
     },
     "HEADER": "통합",
     "DESCRIPTION": "Chatwoot은 다양한 도구 및 서비스와 통합하여 팀의 효율성을 향상시킵니다. 아래 목록을 탐색하여 자주 사용하는 앱을 구성하십시오.",
     "LEARN_MORE": "통합에 대해 자세히 알아보기",
     "LOADING": "통합을 가져오는 중",
+    "SEARCH_PLACEHOLDER": "통합 검색...",
+    "NO_RESULTS": "검색과 일치하는 통합이 없습니다",
     "CAPTAIN": {
       "DISABLED": "계정에서 Captain이 활성화되어 있지 않습니다.",
       "CLICK_HERE_TO_CONFIGURE": "여기를 클릭하여 구성하십시오",
@@ -29,6 +31,17 @@
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "구독된 이벤트",
       "LEARN_MORE": "webhook에 대해 자세히 알아보기",
+      "SECRET": {
+        "LABEL": "Secret",
+        "COPY": "시크릿을 클립보드에 복사",
+        "COPY_SUCCESS": "시크릿이 클립보드에 복사되었습니다",
+        "TOGGLE": "시크릿 표시 전환",
+        "CREATED_DESC": "Your webhook has been created. Use the secret below to verify webhook signatures. Please copy it now — you can also find it later in the webhook edit form.",
+        "DONE": "Done"
+      },
+      "COUNT": "{n}개의 웹훅 | {n}개의 웹훅",
+      "SEARCH_PLACEHOLDER": "웹훅 검색...",
+      "NO_RESULTS": "검색과 일치하는 웹훅이 없습니다",
       "FORM": {
         "CANCEL": "취소",
         "DESC": "webhook 이벤트는 Chatwoot 계정에서 일어나는 일에 대한 실시간 정보를 제공합니다. 콜백을 구성하려면 유효한 URL을 입력하십시오.",
@@ -102,20 +115,10 @@
           "YES": "예, 삭제합니다 ",
           "NO": "아니요, 유지합니다"
         }
-      },
-      "SECRET": {
-        "LABEL": "Secret",
-        "COPY": "시크릿을 클립보드에 복사",
-        "COPY_SUCCESS": "시크릿이 클립보드에 복사되었습니다",
-        "TOGGLE": "시크릿 표시 전환",
-        "CREATED_DESC": "Your webhook has been created. Use the secret below to verify webhook signatures. Please copy it now — you can also find it later in the webhook edit form.",
-        "DONE": "Done"
-      },
-      "COUNT": "{n}개의 웹훅 | {n}개의 웹훅",
-      "SEARCH_PLACEHOLDER": "웹훅 검색...",
-      "NO_RESULTS": "검색과 일치하는 웹훅이 없습니다"
+      }
     },
     "SLACK": {
+      "HEADER": "Slack",
       "DELETE": "삭제",
       "DELETE_CONFIRMATION": {
         "TITLE": "연동 삭제",
@@ -136,8 +139,7 @@
       },
       "UPDATE_ERROR": "연동을 업데이트하는 중 오류가 발생했습니다. 다시 시도하십시오.",
       "UPDATE_SUCCESS": "채널이 성공적으로 연결되었습니다",
-      "FAILED_TO_FETCH_CHANNELS": "Slack에서 채널을 가져오는 중 오류가 발생했습니다. 다시 시도하십시오.",
-      "HEADER": "Slack"
+      "FAILED_TO_FETCH_CHANNELS": "Slack에서 채널을 가져오는 중 오류가 발생했습니다. 다시 시도하십시오."
     },
     "DYTE": {
       "CLICK_HERE_TO_JOIN": "여기를 클릭하여 참여하십시오",
@@ -163,6 +165,24 @@
         "PROFESSIONAL": "전문적인 톤 사용",
         "CASUAL": "캐주얼한 톤 사용",
         "STRAIGHTFORWARD": "직설적인 톤 사용"
+      },
+      "REPLY_OPTIONS": {
+        "IMPROVE_REPLY": "답장 개선",
+        "IMPROVE_REPLY_SELECTION": "선택 항목 개선",
+        "CHANGE_TONE": {
+          "TITLE": "톤 변경",
+          "OPTIONS": {
+            "PROFESSIONAL": "전문적",
+            "CASUAL": "캐주얼",
+            "STRAIGHTFORWARD": "직설적",
+            "CONFIDENT": "자신감 있는",
+            "FRIENDLY": "친근한"
+          }
+        },
+        "GRAMMAR": "문법 및 맞춤법 수정",
+        "SUGGESTION": "답장 제안",
+        "SUMMARIZE": "대화 요약",
+        "ASK_COPILOT": "Copilot에게 질문"
       },
       "ASSISTANCE_MODAL": {
         "DRAFT_TITLE": "초안 내용",
@@ -201,25 +221,7 @@
         "GENERATING": "생성 중...",
         "CANCEL": "취소"
       },
-      "GENERATE_ERROR": "내용을 처리하는 중 오류가 발생했습니다. OpenAI API 키를 확인한 후 다시 시도하십시오.",
-      "REPLY_OPTIONS": {
-        "IMPROVE_REPLY": "답장 개선",
-        "IMPROVE_REPLY_SELECTION": "선택 항목 개선",
-        "CHANGE_TONE": {
-          "TITLE": "톤 변경",
-          "OPTIONS": {
-            "PROFESSIONAL": "전문적",
-            "CASUAL": "캐주얼",
-            "STRAIGHTFORWARD": "직설적",
-            "CONFIDENT": "자신감 있는",
-            "FRIENDLY": "친근한"
-          }
-        },
-        "GRAMMAR": "문법 및 맞춤법 수정",
-        "SUGGESTION": "답장 제안",
-        "SUMMARIZE": "대화 요약",
-        "ASK_COPILOT": "Copilot에게 질문"
-      }
+      "GENERATE_ERROR": "내용을 처리하는 중 오류가 발생했습니다. OpenAI API 키를 확인한 후 다시 시도하십시오."
     },
     "DELETE": {
       "BUTTON_TEXT": "삭제",
@@ -236,6 +238,9 @@
       "SIDEBAR_TXT": "<p><b>대시보드 앱</b></p><p>대시보드 앱을 사용하면 조직이 Chatwoot 대시보드 내에 애플리케이션을 임베드하여 고객 지원 상담원에게 컨텍스트를 제공할 수 있습니다. 이 기능을 사용하면 독립적으로 애플리케이션을 만들고 대시보드 내에 임베드하여 사용자 정보, 주문 내역 또는 이전 결제 내역을 제공할 수 있습니다.</p><p>Chatwoot의 대시보드를 사용하여 애플리케이션을 임베드하면, 애플리케이션은 대화 및 연락처 컨텍스트를 윈도우 이벤트로 수신합니다. 컨텍스트를 수신하려면 페이지에서 메시지 이벤트에 대한 리스너를 구현하십시오.</p><p>새 대시보드 앱을 추가하려면 '새 대시보드 앱 추가' 버튼을 클릭하십시오.</p>",
       "DESCRIPTION": "대시보드 앱을 사용하면 조직이 대시보드 내에 애플리케이션을 임베드하여 고객 지원 상담원에게 컨텍스트를 제공할 수 있습니다. 이 기능을 사용하면 독립적으로 애플리케이션을 만들고 임베드하여 사용자 정보, 주문 내역 또는 이전 결제 내역을 제공할 수 있습니다.",
       "LEARN_MORE": "대시보드 앱에 대해 자세히 알아보기",
+      "COUNT": "{n}개의 대시보드 앱 | {n}개의 대시보드 앱",
+      "SEARCH_PLACEHOLDER": "대시보드 앱 검색...",
+      "NO_RESULTS": "검색과 일치하는 대시보드 앱이 없습니다",
       "LIST": {
         "404": "이 계정에 구성된 대시보드 앱이 아직 없습니다",
         "LOADING": "대시보드 앱을 가져오는 중...",
@@ -276,12 +281,10 @@
         "MESSAGE": "앱을 삭제하시겠습니까 - {appName}?",
         "API_SUCCESS": "대시보드 앱이 성공적으로 삭제되었습니다",
         "API_ERROR": "앱을 삭제할 수 없었습니다. 나중에 다시 시도하십시오."
-      },
-      "COUNT": "{n}개의 대시보드 앱 | {n}개의 대시보드 앱",
-      "SEARCH_PLACEHOLDER": "대시보드 앱 검색...",
-      "NO_RESULTS": "검색과 일치하는 대시보드 앱이 없습니다"
+      }
     },
     "LINEAR": {
+      "HEADER": "Linear",
       "ADD_OR_LINK_BUTTON": "Linear 이슈 생성/연결",
       "LOADING": "Linear 이슈를 가져오는 중...",
       "LOADING_ERROR": "Linear 이슈를 가져오는 중 오류가 발생했습니다. 다시 시도하십시오.",
@@ -373,20 +376,17 @@
         "AGENT_DESCRIPTION": "Linear 워크스페이스가 연결되어 있지 않습니다. 이 연동을 사용하려면 관리자에게 워크스페이스 연결을 요청하십시오.",
         "DESCRIPTION": "Linear 워크스페이스가 연결되어 있지 않습니다. 이 연동을 사용하려면 아래 버튼을 클릭하여 워크스페이스를 연결하십시오.",
         "BUTTON_TEXT": "Linear 워크스페이스 연결"
-      },
-      "HEADER": "Linear"
+      }
     },
     "NOTION": {
+      "HEADER": "Notion",
       "DELETE": {
         "TITLE": "Notion 연동을 삭제하시겠습니까?",
         "MESSAGE": "이 연동을 삭제하면 Notion 워크스페이스에 대한 액세스가 제거되고 모든 관련 기능이 중지됩니다.",
         "CONFIRM": "예, 삭제합니다",
         "CANCEL": "취소"
-      },
-      "HEADER": "Notion"
-    },
-    "SEARCH_PLACEHOLDER": "통합 검색...",
-    "NO_RESULTS": "검색과 일치하는 통합이 없습니다"
+      }
+    }
   },
   "CAPTAIN": {
     "NAME": "Captain",
@@ -449,9 +449,9 @@
       "CANCEL_ANYTIME": "언제든지 요금제를 변경하거나 취소할 수 있습니다"
     },
     "ENTERPRISE_PAYWALL": {
+      "AVAILABLE_ON": "Captain AI는 Enterprise 요금제에서만 사용할 수 있습니다.",
       "UPGRADE_PROMPT": "어시스턴트, Copilot 등에 액세스하려면 요금제를 업그레이드하십시오.",
-      "ASK_ADMIN": "업그레이드를 위해 관리자에게 문의하십시오.",
-      "AVAILABLE_ON": "Captain AI는 Enterprise 요금제에서만 사용할 수 있습니다."
+      "ASK_ADMIN": "업그레이드를 위해 관리자에게 문의하십시오."
     },
     "BANNER": {
       "RESPONSES": "응답 한도의 80% 이상을 사용했습니다. Captain AI를 계속 사용하려면 업그레이드하십시오.",

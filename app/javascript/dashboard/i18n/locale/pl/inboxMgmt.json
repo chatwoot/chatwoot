@@ -239,7 +239,7 @@
           "WHATSAPP_CLOUD": "Chmura WhatsApp",
           "WHATSAPP_CLOUD_DESC": "Quick setup through Meta",
           "TWILIO_DESC": "Connect via Twilio credentials",
-          "360_DIALOG": "360Dialog"
+          "360_DIALOG": "360dialog"
         },
         "SELECT_PROVIDER": {
           "TITLE": "Select your API provider",
@@ -685,6 +685,16 @@
           "SANDBOX": "Sandbox",
           "LIVE": "Na żywo"
         }
+      },
+      "WEBHOOK": {
+        "TITLE": "Webhook Configuration",
+        "DESCRIPTION": "Webhook URL is required for your WhatsApp Business Account to receive messages from customers",
+        "ACTION_REQUIRED": "Webhook not configured",
+        "REGISTER_BUTTON": "Register Webhook",
+        "REGISTER_SUCCESS": "Webhook registered successfully",
+        "REGISTER_ERROR": "Failed to register webhook. Please try again.",
+        "CONFIGURED_SUCCESS": "Webhook configured successfully",
+        "URL_MISMATCH": "Webhook URL mismatch"
       }
     },
     "SETTINGS": "Ustawienia",
@@ -701,7 +711,7 @@
       "ALLOWED_DOMAINS": {
         "TITLE": "Allowed Domains",
         "SUBTITLE": "Add wildcard or regular domains separated by commas (leave blank to allow all), e.g. *.chatwoot.dev, chatwoot.com.",
-        "PLACEHOLDER": "Enter domains separated by commas (eg: *.chatwoot.dev, chatwoot.com)"
+        "PLACEHOLDER": "example.com, www.example.com, app.example.com"
       },
       "INBOX_AGENTS": "Agenci",
       "INBOX_AGENTS_SUB_TEXT": "Dodaj lub usuń agentów z tej skrzynki odbiorczej",
