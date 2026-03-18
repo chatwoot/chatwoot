@@ -1,6 +1,6 @@
 {
   "INBOX_MGMT": {
-    "HEADER": "Inboxes",
+    "HEADER": "Զամբյուղներ",
     "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
     "LEARN_MORE": "Learn more about inboxes",
     "COUNT": "{n} inbox | {n} inboxes",
@@ -11,7 +11,7 @@
     "WHATSAPP_REGISTRATION_INCOMPLETE": "Your WhatsApp Business registration isn’t complete. Please check your display name status in Meta Business Manager before reconnecting.",
     "COMPLETE_REGISTRATION": "Complete Registration",
     "LIST": {
-      "404": "There are no inboxes attached to this account."
+      "404": "Այս հաշվի հետ կապված զամբյուղներ չկան։"
     },
     "CREATE_FLOW": {
       "CHANNEL": {
@@ -33,22 +33,22 @@
     },
     "ADD": {
       "CHANNEL_NAME": {
-        "LABEL": "Inbox Name",
-        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)",
-        "ERROR": "Please enter a valid inbox name"
+        "LABEL": "Ինբոքսի անուն",
+        "PLACEHOLDER": "Մուտքագրեք ձեր ինբոքսի անունը (օրինակ՝ Acme Inc)",
+        "ERROR": "Խնդրում ենք մուտքագրել վավեր նամակների արկղի անուն"
       },
       "WEBSITE_NAME": {
-        "LABEL": "Website Name",
-        "PLACEHOLDER": "Enter your website name (eg: Acme Inc)"
+        "LABEL": "Վեբկայքի անուն",
+        "PLACEHOLDER": "Մուտքագրեք ձեր վեբկայքի անունը (օրինակ՝ Acme Inc)"
       },
       "FB": {
-        "HELP": "PS: By signing in, we only get access to your Page's messages. Your private messages can never be accessed by Chatwoot.",
-        "CHOOSE_PAGE": "Choose Page",
-        "CHOOSE_PLACEHOLDER": "Select a page from the list",
-        "INBOX_NAME": "Inbox Name",
-        "ADD_NAME": "Add a name for your inbox",
-        "PICK_NAME": "Pick a Name for your Inbox",
-        "PICK_A_VALUE": "Pick a value",
+        "HELP": "PS․ Մուտք գործելով՝ մենք միայն ձեր Էջի հաղորդագրություններին ենք հասանելիություն ստանում։ Ձեր անձնական հաղորդագրություններին Chatwoot-ը երբեք չի կարող հասանելիություն ունենալ։",
+        "CHOOSE_PAGE": "Ընտրել Էջը",
+        "CHOOSE_PLACEHOLDER": "Ընտրեք էջը ցուցակից",
+        "INBOX_NAME": "Զամբյուղի անուն",
+        "ADD_NAME": "Ավելացրեք անուն ձեր զամբյուղին",
+        "PICK_NAME": "Ընտրեք անուն ձեր մուտքի համար",
+        "PICK_A_VALUE": "Ընտրեք արժեք",
         "CREATE_INBOX": "Create Inbox"
       },
       "INSTAGRAM": {
@@ -68,172 +68,172 @@
         "ERROR_AUTH": "There was an error connecting to TikTok, please try again"
       },
       "TWITTER": {
-        "HELP": "To add your Twitter profile as a channel, you need to authenticate your Twitter Profile by clicking on 'Sign in with Twitter' ",
-        "ERROR_MESSAGE": "There was an error connecting to Twitter, please try again",
+        "HELP": "Ձեր Twitter պրոֆիլը որպես ալիք ավելացնելու համար անհրաժեշտ է հաստատել ձեր Twitter պրոֆիլը՝ սեղմելով «Մուտք Twitter-ով» կոճակը։ ",
+        "ERROR_MESSAGE": "Twitter-ին միանալու ժամանակ սխալ է տեղի ունեցել, խնդրում ենք փորձել կրկին",
         "TWEETS": {
-          "ENABLE": "Create conversations from mentioned Tweets"
+          "ENABLE": "Ստեղծել զրույցներ նշված Tweets-ից"
         }
       },
       "WEBSITE_CHANNEL": {
-        "TITLE": "Website channel",
-        "DESC": "Create a channel for your website and start supporting your customers via our website widget.",
-        "LOADING_MESSAGE": "Creating Website Support Channel",
+        "TITLE": "Վեբկայքի ալիք",
+        "DESC": "Ստեղծեք ալիք ձեր վեբկայքի համար և սկսեք աջակցել ձեր հաճախորդներին մեր վեբկայքի վիջեթի միջոցով։",
+        "LOADING_MESSAGE": "Ստեղծվում է վեբկայքի աջակցության ալիքը",
         "CHANNEL_AVATAR": {
-          "LABEL": "Channel Avatar"
+          "LABEL": "Ալիքի պատկերակ"
         },
         "CHANNEL_WEBHOOK_URL": {
           "LABEL": "Webhook URL",
-          "PLACEHOLDER": "Please enter your Webhook URL",
-          "ERROR": "Please enter a valid URL"
+          "PLACEHOLDER": "Խնդրում ենք մուտքագրել ձեր Webhook URL-ը",
+          "ERROR": "Խնդրում ենք մուտքագրել վավեր URL"
         },
         "CHANNEL_DOMAIN": {
-          "LABEL": "Website Domain",
-          "PLACEHOLDER": "Enter your website domain (eg: acme.com)"
+          "LABEL": "Վեբկայքի տիրույթ",
+          "PLACEHOLDER": "Մուտքագրեք ձեր վեբկայքի տիրույթը (օրինակ՝ acme.com)"
         },
         "CHANNEL_WELCOME_TITLE": {
-          "LABEL": "Welcome Heading",
-          "PLACEHOLDER": "Hi there !"
+          "LABEL": "Բարի գալուստ վերնագիր",
+          "PLACEHOLDER": "Բարև ձեզ!"
         },
         "CHANNEL_WELCOME_TAGLINE": {
-          "LABEL": "Welcome Tagline",
-          "PLACEHOLDER": "We make it simple to connect with us. Ask us anything, or share your feedback."
+          "LABEL": "Բարի գալուստ տող",
+          "PLACEHOLDER": "Մենք հեշտացնում ենք կապ հաստատելը մեզ հետ։ Հարցրեք ինչ ուզում եք կամ կիսվեք ձեր կարծիքով։"
         },
         "CHANNEL_GREETING_MESSAGE": {
-          "LABEL": "Channel greeting message",
-          "PLACEHOLDER": "Acme Inc typically replies in a few hours."
+          "LABEL": "Ալիքի ողջույնի հաղորդագրություն",
+          "PLACEHOLDER": "Acme Inc-ը սովորաբար պատասխանում է մի քանի ժամում։"
         },
         "CHANNEL_GREETING_TOGGLE": {
-          "LABEL": "Enable channel greeting",
+          "LABEL": "Միացնել ալիքի ողջույնը",
           "HELP_TEXT": "Automatically send a greeting message when a new conversation is created.",
-          "ENABLED": "Enabled",
-          "DISABLED": "Disabled"
+          "ENABLED": "Միացված է",
+          "DISABLED": "Անջատված է"
         },
         "REPLY_TIME": {
-          "TITLE": "Set Reply time",
-          "IN_A_FEW_MINUTES": "In a few minutes",
-          "IN_A_FEW_HOURS": "In a few hours",
-          "IN_A_DAY": "In a day",
-          "HELP_TEXT": "This reply time will be displayed on the live chat widget"
+          "TITLE": "Սահմանել պատասխանելու ժամանակը",
+          "IN_A_FEW_MINUTES": "Մի քանի րոպեում",
+          "IN_A_FEW_HOURS": "Մի քանի ժամում",
+          "IN_A_DAY": "Մեկ օրվա ընթացքում",
+          "HELP_TEXT": "Այս պատասխանելու ժամանակը կցուցադրվի կենդանի զրույցի վիջեթում"
         },
         "WIDGET_COLOR": {
-          "LABEL": "Widget Color",
-          "PLACEHOLDER": "Update the widget color used in widget"
+          "LABEL": "Վիջեթի գույն",
+          "PLACEHOLDER": "Թարմացրեք վիջեթում օգտագործվող գույնը"
         },
-        "SUBMIT_BUTTON": "Create inbox",
+        "SUBMIT_BUTTON": "Ստեղծել զամբյուղ",
         "API": {
-          "ERROR_MESSAGE": "We were not able to create a website channel, please try again"
+          "ERROR_MESSAGE": "Չհաջողվեց ստեղծել կայքի ալիք, խնդրում ենք փորձել կրկին"
         }
       },
       "TWILIO": {
-        "TITLE": "Twilio SMS/WhatsApp Channel",
-        "DESC": "Integrate Twilio and start supporting your customers via SMS or WhatsApp.",
+        "TITLE": "Twilio SMS/WhatsApp ալիք",
+        "DESC": "Միացրեք Twilio-ն և սկսեք աջակցել ձեր հաճախորդներին SMS կամ WhatsApp-ի միջոցով։",
         "ACCOUNT_SID": {
-          "LABEL": "Account SID",
-          "PLACEHOLDER": "Please enter your Twilio Account SID",
-          "ERROR": "This field is required"
+          "LABEL": "Հաշվի SID",
+          "PLACEHOLDER": "Խնդրում ենք մուտքագրել ձեր Twilio Հաշվի SID-ն",
+          "ERROR": "Այս դաշտը պարտադիր է"
         },
         "API_KEY": {
-          "USE_API_KEY": "Use API Key Authentication",
-          "LABEL": "API Key SID",
-          "PLACEHOLDER": "Please enter your API Key SID",
-          "ERROR": "This field is required"
+          "USE_API_KEY": "Օգտագործել API բանալիի հաստատում",
+          "LABEL": "API բանալիի SID",
+          "PLACEHOLDER": "Խնդրում ենք մուտքագրել ձեր API բանալիի SID-ը",
+          "ERROR": "Այս դաշտը պարտադիր է"
         },
         "API_KEY_SECRET": {
-          "LABEL": "API Key Secret",
-          "PLACEHOLDER": "Please enter your API Key Secret",
-          "ERROR": "This field is required"
+          "LABEL": "API բանալիի գաղտնիք",
+          "PLACEHOLDER": "Խնդրում ենք մուտքագրել ձեր API բանալիի գաղտնիքը",
+          "ERROR": "Այս դաշտը պարտադիր է"
         },
         "MESSAGING_SERVICE_SID": {
-          "LABEL": "Messaging Service SID",
-          "PLACEHOLDER": "Please enter your Twilio Messaging Service SID",
-          "ERROR": "This field is required",
-          "USE_MESSAGING_SERVICE": "Use a Twilio Messaging Service"
+          "LABEL": "Հաղորդագրությունների ծառայության SID",
+          "PLACEHOLDER": "Խնդրում ենք մուտքագրել ձեր Twilio Հաղորդագրությունների ծառայության SID-ն",
+          "ERROR": "Այս դաշտը պարտադիր է",
+          "USE_MESSAGING_SERVICE": "Օգտագործել Twilio Հաղորդագրությունների ծառայությունը"
         },
         "CHANNEL_TYPE": {
-          "LABEL": "Channel Type",
-          "ERROR": "Please select your Channel Type"
+          "LABEL": "Ալիքի տեսակը",
+          "ERROR": "Խնդրում ենք ընտրել ձեր ալիքի տեսակը"
         },
         "AUTH_TOKEN": {
-          "LABEL": "Auth Token",
-          "PLACEHOLDER": "Please enter your Twilio Auth Token",
-          "ERROR": "This field is required"
+          "LABEL": "Հաստատման նշան",
+          "PLACEHOLDER": "Խնդրում ենք մուտքագրել ձեր Twilio Հաստատման նշանը",
+          "ERROR": "Այս դաշտը պարտադիր է"
         },
         "CHANNEL_NAME": {
-          "LABEL": "Inbox Name",
-          "PLACEHOLDER": "Please enter a inbox name",
-          "ERROR": "This field is required"
+          "LABEL": "Նամակների արկղի անուն",
+          "PLACEHOLDER": "Խնդրում ենք մուտքագրել նամակների արկղի անունը",
+          "ERROR": "Այս դաշտը պարտադիր է"
         },
         "PHONE_NUMBER": {
-          "LABEL": "Phone Number",
-          "PLACEHOLDER": "Please enter the phone number from which message will be sent.",
-          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
+          "LABEL": "Հեռախոսահամար",
+          "PLACEHOLDER": "Խնդրում ենք մուտքագրել հեռախոսահամարը, որի միջոցով հաղորդագրությունը կուղարկվի։",
+          "ERROR": "Խնդրում ենք մուտքագրել վավեր հեռախոսահամար, որը սկսվում է `+` նշանով և չի պարունակում բացատներ։"
         },
         "API_CALLBACK": {
-          "TITLE": "Callback URL",
-          "SUBTITLE": "You have to configure the message callback URL in Twilio with the URL mentioned here."
+          "TITLE": "Հետադարձ զանգի URL",
+          "SUBTITLE": "Դուք պետք է կարգավորեք հաղորդագրության հետադարձ զանգի URL-ը Twilio-ում՝ օգտագործելով այստեղ նշված URL-ը։"
         },
-        "SUBMIT_BUTTON": "Create Twilio Channel",
+        "SUBMIT_BUTTON": "Ստեղծել Twilio ալիք",
         "API": {
-          "ERROR_MESSAGE": "We were not able to authenticate Twilio credentials, please try again"
+          "ERROR_MESSAGE": "Չհաջողվեց հաստատել Twilio հավատարմագրերը, խնդրում ենք փորձել կրկին"
         }
       },
       "SMS": {
-        "TITLE": "SMS Channel",
-        "DESC": "Start supporting your customers via SMS.",
+        "TITLE": "SMS ալիք",
+        "DESC": "Սկսեք աջակցել ձեր հաճախորդներին SMS-ի միջոցով։",
         "PROVIDERS": {
-          "LABEL": "API Provider",
+          "LABEL": "API մատակարար",
           "TWILIO": "Twilio",
           "BANDWIDTH": "Bandwidth"
         },
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the SMS channel"
+          "ERROR_MESSAGE": "Չհաջողվեց պահպանել SMS ալիքը"
         },
         "BANDWIDTH": {
           "ACCOUNT_ID": {
-            "LABEL": "Account ID",
-            "PLACEHOLDER": "Please enter your Bandwidth Account ID",
-            "ERROR": "This field is required"
+            "LABEL": "Հաշվի ID",
+            "PLACEHOLDER": "Խնդրում ենք մուտքագրել ձեր Bandwidth Հաշվի ID-ն",
+            "ERROR": "Այս դաշտը պարտադիր է"
           },
           "API_KEY": {
-            "LABEL": "API Key",
-            "PLACEHOLDER": "Please enter your Bandwidth API Key",
-            "ERROR": "This field is required"
+            "LABEL": "API բանալին",
+            "PLACEHOLDER": "Խնդրում ենք մուտքագրել ձեր Bandwidth API բանալին",
+            "ERROR": "Այս դաշտը պարտադիր է"
           },
           "API_SECRET": {
-            "LABEL": "API Secret",
-            "PLACEHOLDER": "Please enter your Bandwidth API Secret",
-            "ERROR": "This field is required"
+            "LABEL": "API գաղտնիք",
+            "PLACEHOLDER": "Խնդրում ենք մուտքագրել ձեր Bandwidth API գաղտնիքը",
+            "ERROR": "Այս դաշտը պարտադիր է"
           },
           "APPLICATION_ID": {
-            "LABEL": "Application ID",
-            "PLACEHOLDER": "Please enter your Bandwidth Application ID",
-            "ERROR": "This field is required"
+            "LABEL": "Դիմումի ID",
+            "PLACEHOLDER": "Խնդրում ենք մուտքագրել ձեր Bandwidth Դիմումի ID-ն",
+            "ERROR": "Այս դաշտը պարտադիր է"
           },
           "INBOX_NAME": {
-            "LABEL": "Inbox Name",
-            "PLACEHOLDER": "Please enter a inbox name",
-            "ERROR": "This field is required"
+            "LABEL": "Նամակների արկղի անուն",
+            "PLACEHOLDER": "Խնդրում ենք մուտքագրել նամակների արկղի անուն",
+            "ERROR": "Այս դաշտը պարտադիր է"
           },
           "PHONE_NUMBER": {
-            "LABEL": "Phone number",
-            "PLACEHOLDER": "Please enter the phone number from which message will be sent.",
-            "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
+            "LABEL": "Հեռախոսահամար",
+            "PLACEHOLDER": "Խնդրում ենք մուտքագրել այն հեռախոսահամարը, որտեղից կուղարկվի հաղորդագրությունը։",
+            "ERROR": "Խնդրում ենք մուտքագրել վավեր հեռախոսահամար, որը սկսվում է `+` նշանով և չի պարունակում բացատներ։"
           },
-          "SUBMIT_BUTTON": "Create Bandwidth Channel",
+          "SUBMIT_BUTTON": "Ստեղծել Bandwidth ալիք",
           "API": {
-            "ERROR_MESSAGE": "We were not able to authenticate Bandwidth credentials, please try again"
+            "ERROR_MESSAGE": "Չհաջողվեց հաստատել Bandwidth հավատարմագրերը, խնդրում ենք փորձել կրկին"
           },
           "API_CALLBACK": {
-            "TITLE": "Callback URL",
-            "SUBTITLE": "You have to configure the message callback URL in Bandwidth with the URL mentioned here."
+            "TITLE": "Հետադարձ կանչի URL",
+            "SUBTITLE": "Դուք պետք է կարգավորեք հաղորդագրության հետադարձ կանչի URL-ը Bandwidth-ում այստեղ նշված URL-ով։"
           }
         }
       },
       "WHATSAPP": {
-        "TITLE": "WhatsApp Channel",
-        "DESC": "Start supporting your customers via WhatsApp.",
+        "TITLE": "WhatsApp ալիք",
+        "DESC": "Սկսեք աջակցել ձեր հաճախորդներին WhatsApp-ի միջոցով։",
         "PROVIDERS": {
-          "LABEL": "API Provider",
+          "LABEL": "API մատակարար",
           "WHATSAPP_EMBEDDED": "WhatsApp Business",
           "TWILIO": "Twilio",
           "WHATSAPP_CLOUD": "WhatsApp Cloud",
@@ -246,43 +246,43 @@
           "DESCRIPTION": "Choose your WhatsApp provider. You can connect directly through Meta which requires no setup, or connect through Twilio using your account credentials."
         },
         "INBOX_NAME": {
-          "LABEL": "Inbox Name",
-          "PLACEHOLDER": "Please enter an inbox name",
-          "ERROR": "This field is required"
+          "LABEL": "Նամակների արկղի անուն",
+          "PLACEHOLDER": "Խնդրում ենք մուտքագրել նամակների արկղի անունը",
+          "ERROR": "Այս դաշտը պարտադիր է"
         },
         "PHONE_NUMBER": {
-          "LABEL": "Phone number",
-          "PLACEHOLDER": "Please enter the phone number from which message will be sent.",
-          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
+          "LABEL": "Հեռախոսահամար",
+          "PLACEHOLDER": "Խնդրում ենք մուտքագրել այն հեռախոսահամարը, որի միջոցով հաղորդագրությունը կուղարկվի։",
+          "ERROR": "Խնդրում ենք մուտքագրել վավեր հեռախոսահամար, որը սկսվում է `+` նշանով և չի պարունակում բացատներ։"
         },
         "PHONE_NUMBER_ID": {
-          "LABEL": "Phone number ID",
-          "PLACEHOLDER": "Please enter the Phone number ID obtained from Facebook developer dashboard.",
-          "ERROR": "Please enter a valid value."
+          "LABEL": "Հեռախոսահամարի ID",
+          "PLACEHOLDER": "Խնդրում ենք մուտքագրել Facebook-ի մշակողի վահանակից ստացված Հեռախոսահամարի ID-ն։",
+          "ERROR": "Խնդրում ենք մուտքագրել վավեր արժեք։"
         },
         "BUSINESS_ACCOUNT_ID": {
-          "LABEL": "Business Account ID",
-          "PLACEHOLDER": "Please enter the Business Account ID obtained from Facebook developer dashboard.",
-          "ERROR": "Please enter a valid value."
+          "LABEL": "Բիզնես Հաշվի ID",
+          "PLACEHOLDER": "Խնդրում ենք մուտքագրել Facebook-ի մշակողի վահանակից ստացված Բիզնես Հաշվի ID-ն։",
+          "ERROR": "Խնդրում ենք մուտքագրել վավեր արժեք։"
         },
         "WEBHOOK_VERIFY_TOKEN": {
-          "LABEL": "Webhook Verify Token",
-          "PLACEHOLDER": "Enter a verify token which you want to configure for Facebook webhooks.",
-          "ERROR": "Please enter a valid value."
+          "LABEL": "Webhook հաստատման տոկեն",
+          "PLACEHOLDER": "Մուտքագրեք վավերացման տոկեն, որը ցանկանում եք կարգավորել Facebook webhook-ների համար։",
+          "ERROR": "Խնդրում ենք մուտքագրել վավեր արժեք։"
         },
         "API_KEY": {
-          "LABEL": "API key",
-          "SUBTITLE": "Configure the WhatsApp API key.",
-          "PLACEHOLDER": "API key",
-          "ERROR": "Please enter a valid value."
+          "LABEL": "API բանալին",
+          "SUBTITLE": "Կարգավորեք WhatsApp API բանալին։",
+          "PLACEHOLDER": "API բանալին",
+          "ERROR": "Խնդրում ենք մուտքագրել վավեր արժեք։"
         },
         "API_CALLBACK": {
-          "TITLE": "Callback URL",
-          "SUBTITLE": "You have to configure the webhook URL and the verification token in the Facebook Developer portal with the values shown below.",
+          "TITLE": "Հետադարձ կանչի URL",
+          "SUBTITLE": "Դուք պետք է կարգավորեք webhook URL-ը և վավերացման տոկենը Facebook Developer պորտալում ստորև նշված արժեքներով։",
           "WEBHOOK_URL": "Webhook URL",
-          "WEBHOOK_VERIFICATION_TOKEN": "Webhook Verification Token"
+          "WEBHOOK_VERIFICATION_TOKEN": "Webhook վավերացման տոկեն"
         },
-        "SUBMIT_BUTTON": "Create WhatsApp Channel",
+        "SUBMIT_BUTTON": "Ստեղծել WhatsApp ալիք",
         "EMBEDDED_SIGNUP": {
           "TITLE": "Quick setup with Meta",
           "DESC": "Use the WhatsApp Embedded Signup flow to quickly connect new numbers. You will be redirected to Meta to log into your WhatsApp Business account. Having admin access will help make the setup smooth and easy.",
@@ -312,7 +312,7 @@
           "MANUAL_LINK_TEXT": "manual setup flow"
         },
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the WhatsApp channel"
+          "ERROR_MESSAGE": "Չհաջողվեց պահպանել WhatsApp ալիքը"
         }
       },
       "VOICE": {
@@ -357,39 +357,39 @@
         }
       },
       "API_CHANNEL": {
-        "TITLE": "API Channel",
-        "DESC": "Integrate with API channel and start supporting your customers.",
+        "TITLE": "API ալիք",
+        "DESC": "Միացրեք API ալիքը և սկսեք աջակցել ձեր հաճախորդներին։",
         "CHANNEL_NAME": {
-          "LABEL": "Channel Name",
-          "PLACEHOLDER": "Please enter a channel name",
-          "ERROR": "This field is required"
+          "LABEL": "Ալիքի անուն",
+          "PLACEHOLDER": "Խնդրում ենք մուտքագրել ալիքի անունը",
+          "ERROR": "Այս դաշտը պարտադիր է"
         },
         "WEBHOOK_URL": {
           "LABEL": "Webhook URL",
-          "SUBTITLE": "Configure the URL where you want to receive callbacks on events.",
+          "SUBTITLE": "Կարգավորեք URL-ը, որտեղ ցանկանում եք ստանալ իրադարձությունների հետադարձ կանչեր։",
           "PLACEHOLDER": "Webhook URL"
         },
-        "SUBMIT_BUTTON": "Create API Channel",
+        "SUBMIT_BUTTON": "Ստեղծել API ալիք",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the api channel"
+          "ERROR_MESSAGE": "Չհաջողվեց պահպանել API ալիքը"
         }
       },
       "EMAIL_CHANNEL": {
-        "TITLE": "Email Channel",
+        "TITLE": "Էլփոստի ալիք",
         "DESC": "Integrate your email inbox.",
         "CHANNEL_NAME": {
-          "LABEL": "Channel Name",
-          "PLACEHOLDER": "Please enter a channel name",
-          "ERROR": "This field is required"
+          "LABEL": "Ալիքի անուն",
+          "PLACEHOLDER": "Խնդրում ենք մուտքագրել ալիքի անունը",
+          "ERROR": "Այս դաշտը պարտադիր է"
         },
         "EMAIL": {
-          "LABEL": "Email",
-          "SUBTITLE": "Provide the email address where your customers send support requests.",
-          "PLACEHOLDER": "Email"
+          "LABEL": "Էլփոստ",
+          "SUBTITLE": "Տվեք էլփոստի հասցեն, որտեղ ձեր հաճախորդները ուղարկում են աջակցման հարցումներ։",
+          "PLACEHOLDER": "Էլփոստ"
         },
-        "SUBMIT_BUTTON": "Create Email Channel",
+        "SUBMIT_BUTTON": "Ստեղծել էլփոստի ալիք",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the email channel"
+          "ERROR_MESSAGE": "Չհաջողվեց պահպանել էլփոստի ալիքը"
         },
         "FINISH_MESSAGE": "Start forwarding your emails to the following email address.",
         "FINISH_MESSAGE_NO_FORWARDING": "Your email inbox has been created successfully! You need to configure SMTP and IMAP credentials to send and receive emails. Without these settings, no emails will be processed.",
@@ -398,49 +398,49 @@
         "CONFIGURE_SMTP_IMAP_TEXT": " to configure IMAP and SMTP settings"
       },
       "LINE_CHANNEL": {
-        "TITLE": "LINE Channel",
-        "DESC": "Integrate with LINE channel and start supporting your customers.",
+        "TITLE": "LINE ալիք",
+        "DESC": "Միացրեք LINE ալիքը և սկսեք աջակցել ձեր հաճախորդներին։",
         "CHANNEL_NAME": {
-          "LABEL": "Channel Name",
-          "PLACEHOLDER": "Please enter a channel name",
-          "ERROR": "This field is required"
+          "LABEL": "Անվանում ալիքի",
+          "PLACEHOLDER": "Խնդրում ենք մուտքագրել ալիքի անունը",
+          "ERROR": "Այս դաշտը պարտադիր է"
         },
         "LINE_CHANNEL_ID": {
-          "LABEL": "LINE Channel ID",
-          "PLACEHOLDER": "LINE Channel ID"
+          "LABEL": "LINE ալիքի ID",
+          "PLACEHOLDER": "LINE ալիքի ID"
         },
         "LINE_CHANNEL_SECRET": {
-          "LABEL": "LINE Channel Secret",
-          "PLACEHOLDER": "LINE Channel Secret"
+          "LABEL": "LINE ալիքի գաղտնիք",
+          "PLACEHOLDER": "LINE ալիքի գաղտնիք"
         },
         "LINE_CHANNEL_TOKEN": {
-          "LABEL": "LINE Channel Token",
-          "PLACEHOLDER": "LINE Channel Token"
+          "LABEL": "LINE ալիքի տոկեն",
+          "PLACEHOLDER": "LINE ալիքի տոկեն"
         },
-        "SUBMIT_BUTTON": "Create LINE Channel",
+        "SUBMIT_BUTTON": "Ստեղծել LINE ալիք",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the LINE channel"
+          "ERROR_MESSAGE": "Չհաջողվեց պահպանել LINE ալիքը"
         },
         "API_CALLBACK": {
-          "TITLE": "Callback URL",
-          "SUBTITLE": "You have to configure the webhook URL in LINE application with the URL mentioned here."
+          "TITLE": "Հետադարձ կանչի URL",
+          "SUBTITLE": "Դուք պետք է կարգավորեք webhook URL-ը LINE հավելվածում այստեղ նշված URL-ով։"
         }
       },
       "TELEGRAM_CHANNEL": {
-        "TITLE": "Telegram Channel",
-        "DESC": "Integrate with Telegram channel and start supporting your customers.",
+        "TITLE": "Telegram ալիք",
+        "DESC": "Միացրեք Telegram ալիքը և սկսեք աջակցել ձեր հաճախորդներին։",
         "BOT_TOKEN": {
-          "LABEL": "Bot Token",
-          "SUBTITLE": "Configure the bot token you have obtained from Telegram BotFather.",
-          "PLACEHOLDER": "Bot Token"
+          "LABEL": "Բոտի տոկեն",
+          "SUBTITLE": "Կարգավորեք բոտի տոկենը, որը ստացել եք Telegram BotFather-ից։",
+          "PLACEHOLDER": "Բոտի տոկեն"
         },
-        "SUBMIT_BUTTON": "Create Telegram Channel",
+        "SUBMIT_BUTTON": "Ստեղծել Telegram ալիք",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the telegram channel"
+          "ERROR_MESSAGE": "Չհաջողվեց պահպանել Telegram ալիքը"
         }
       },
       "AUTH": {
-        "TITLE": "Choose a channel",
+        "TITLE": "Ընտրեք ալիք",
         "DESC": "Chatwoot supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below.",
         "TITLE_NEXT": "Complete the setup",
         "TITLE_FINISH": "Voilà!",
@@ -492,29 +492,29 @@
         }
       },
       "AGENTS": {
-        "TITLE": "Agents",
-        "DESC": "Here you can add agents to manage your newly created inbox. Only these selected agents will have access to your inbox. Agents which are not part of this inbox will not be able to see or respond to messages in this inbox when they login. <br> <b>PS:</b> As an administrator, if you need access to all inboxes, you should add yourself as agent to all inboxes that you create.",
+        "TITLE": "Գործակալներ",
+        "DESC": "Այստեղ կարող եք ավելացնել գործակալներ՝ ձեր նոր ստեղծված զամբյուղը կառավարելու համար։ Միայն այս ընտրված գործակալները կունենան հասանելիություն ձեր զամբյուղին։ Գործակալները, որոնք չեն պատկանում այս զամբյուղին, չեն կարող տեսնել կամ պատասխանել հաղորդագրություններին այս զամբյուղում մուտք գործելիս։ <br> <b>PS․</b> Որպես ադմինիստրատոր, եթե ձեզ անհրաժեշտ է հասանելիություն բոլոր զամբյուղներին, պետք է ինքներդ ձեզ ավելացնեք որպես գործակալ բոլոր այն զամբյուղներին, որոնք դուք ստեղծում եք։",
         "VALIDATION_ERROR": "Add at least one agent to your new Inbox",
-        "PICK_AGENTS": "Pick agents for the inbox"
+        "PICK_AGENTS": "Ընտրեք գործակալներ այս ինբոքսի համար"
       },
       "DETAILS": {
-        "TITLE": "Inbox Details",
-        "DESC": "From the dropdown below, select the Facebook Page you want to connect to Chatwoot. You can also give a custom name to your inbox for better identification."
+        "TITLE": "Զամբյուղի մանրամասներ",
+        "DESC": "Ներքևի բացվող ցանկից ընտրեք Facebook Էջը, որը ցանկանում եք կապել Chatwoot-ի հետ։ Կարող եք նաև ձեր զամբյուղին տալ հատուկ անուն՝ ավելի լավ ճանաչման համար։"
       },
       "FINISH": {
-        "TITLE": "Nailed It!",
-        "DESC": "You have successfully finished integrating your Facebook Page with Chatwoot. Next time a customer messages your Page, the conversation will automatically appear on your inbox.<br>We are also providing you with a widget script that you can easily add to your website. Once this is live on your website, customers can message you right from your website without the help of any external tool and the conversation will appear right here, on Chatwoot.<br>Cool, huh? Well, we sure try to be :)"
+        "TITLE": "Հաջողվեց!",
+        "DESC": "Դուք հաջողությամբ ավարտել եք ձեր Facebook Էջի ինտեգրումը Chatwoot-ի հետ։ Հաջորդ անգամ, երբ հաճախորդը հաղորդագրություն ուղարկի ձեր Էջին, զրույցը ավտոմատ կերպով կհայտնվի ձեր զամբյուղում։<br>Մենք նաև տրամադրում ենք վիջեթի սցենար, որը կարող եք հեշտությամբ ավելացնել ձեր վեբկայքում։ Երբ այն ակտիվ լինի ձեր կայքում, հաճախորդները կարող են ուղարկել հաղորդագրություններ անմիջապես ձեր կայքից՝ առանց որևէ արտաքին գործիքի օգնության, և զրույցը կհայտնվի հենց այստեղ, Chatwoot-ում։<br>Հիանալի է, չէ՞։ Մենք իսկապես փորձում ենք :)"
       },
       "EMAIL_PROVIDER": {
-        "TITLE": "Select your email provider",
-        "DESCRIPTION": "Select an email provider from the list below. If you don't see your email provider in the list, you can select the other provider option and provide the IMAP and SMTP Credentials."
+        "TITLE": "Ընտրեք ձեր էլփոստի մատակարարին",
+        "DESCRIPTION": "Ընտրեք էլփոստի մատակարար ցուցակից։ Եթե ձեր մատակարարը ցուցակում չկա, կարող եք ընտրել «այլ մատակարար» տարբերակը և տրամադրել IMAP և SMTP հավատարմագրերը։"
       },
       "MICROSOFT": {
-        "TITLE": "Microsoft Email",
-        "DESCRIPTION": "Click on the Sign in with Microsoft button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
-        "EMAIL_PLACEHOLDER": "Enter email address",
+        "TITLE": "Microsoft էլփոստ",
+        "DESCRIPTION": "Սկսելու համար սեղմեք «Մուտք Microsoft-ով» կոճակը։ Դուք կուղղորդվեք էլփոստի մուտքի էջ։ Երբ ընդունեք պահանջվող թույլտվությունները, կվերադառնաք մուտքի ստեղծման քայլին։",
+        "EMAIL_PLACEHOLDER": "Մուտքագրեք էլփոստի հասցեն",
         "SIGN_IN": "Sign in with Microsoft",
-        "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
+        "ERROR_MESSAGE": "Microsoft-ի հետ կապվելու ժամանակ սխալ է տեղի ունեցել, խնդրում ենք փորձել կրկին"
       },
       "GOOGLE": {
         "TITLE": "Google Email",
@@ -525,71 +525,71 @@
       }
     },
     "DETAILS": {
-      "LOADING_FB": "Authenticating you with Facebook...",
+      "LOADING_FB": "Ձեզ հաստատում ենք Facebook-ով...",
       "ERROR_FB_LOADING": "Error loading Facebook SDK. Please disable any ad-blockers and try again from a different browser.",
-      "ERROR_FB_AUTH": "Something went wrong, Please refresh page...",
-      "ERROR_FB_UNAUTHORIZED": "You're not authorized to perform this action. ",
-      "ERROR_FB_UNAUTHORIZED_HELP": "Please ensure you have access to the Facebook page with full control. You can read more about Facebook roles <a href=\" https://www.facebook.com/help/187316341316631\">here</a>.",
-      "CREATING_CHANNEL": "Creating your Inbox...",
-      "TITLE": "Configure Inbox Details",
+      "ERROR_FB_AUTH": "Ինչ-որ բան սխալ է, խնդրում ենք թարմացնել էջը...",
+      "ERROR_FB_UNAUTHORIZED": "Դուք իրավունք չունեք կատարել այս գործողությունը։ ",
+      "ERROR_FB_UNAUTHORIZED_HELP": "Խնդրում ենք համոզվել, որ դուք լիակատար վերահսկողությամբ մուտք ունեք Facebook էջին։ Կարդացեք ավելին Facebook դերերի մասին <a href=\" https://www.facebook.com/help/187316341316631\">այստեղ</a>։",
+      "CREATING_CHANNEL": "Ստեղծվում է ձեր զամբյուղը...",
+      "TITLE": "Կարգավորել զամբյուղի մանրամասները",
       "DESC": ""
     },
     "AGENTS": {
-      "BUTTON_TEXT": "Add agents",
-      "ADD_AGENTS": "Adding Agents to your Inbox..."
+      "BUTTON_TEXT": "Ավելացնել գործակալներ",
+      "ADD_AGENTS": "Գործակալներ ավելացվում են ձեր զամբյուղին..."
     },
     "FINISH": {
-      "TITLE": "Your Inbox is ready!",
-      "MESSAGE": "You can now engage with your customers through your new Channel. Happy supporting",
-      "BUTTON_TEXT": "Take me there",
-      "MORE_SETTINGS": "More settings",
-      "WEBSITE_SUCCESS": "You have successfully finished creating a website channel. Copy the code shown below and paste it on your website. Next time a customer use the live chat, the conversation will automatically appear on your inbox.",
+      "TITLE": "Ձեր զամբյուղը պատրաստ է!",
+      "MESSAGE": "Դուք այժմ կարող եք հաղորդակցվել ձեր հաճախորդների հետ նոր ալիքի միջոցով։ Հաջող աջակցություն",
+      "BUTTON_TEXT": "Տանեք ինձ այնտեղ",
+      "MORE_SETTINGS": "Ավելին կարգավորումներ",
+      "WEBSITE_SUCCESS": "Դուք հաջողությամբ ավարտել եք վեբկայքի ալիքի ստեղծումը։ Պատճենեք ստորև ներկայացված կոդը և տեղադրեք ձեր վեբկայքում։ Հաջորդ անգամ, երբ հաճախորդը օգտագործի ուղիղ զրույցը, զրույցը ավտոմատ կհայտնվի ձեր զամբյուղում։",
       "WHATSAPP_QR_INSTRUCTION": "Scan the QR code above to quickly test your WhatsApp inbox",
       "MESSENGER_QR_INSTRUCTION": "Scan the QR code above to quickly test your Facebook Messenger inbox",
       "TELEGRAM_QR_INSTRUCTION": "Scan the QR code above to quickly test your Telegram inbox"
     },
-    "REAUTH": "Reauthorize",
-    "VIEW": "View",
+    "REAUTH": "Վերահաստատել",
+    "VIEW": "Դիտել",
     "EDIT": {
       "API": {
-        "SUCCESS_MESSAGE": "Inbox settings updated successfully",
-        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Auto assignment updated successfully",
-        "ERROR_MESSAGE": "We couldn't update inbox settings. Please try again later."
+        "SUCCESS_MESSAGE": "Զամբյուղի կարգավորումները հաջողությամբ թարմացվեցին",
+        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Ավտոմատ նշանակումը հաջողությամբ թարմացվեց",
+        "ERROR_MESSAGE": "Չհաջողվեց թարմացնել նամակների արկղի կարգավորումները։ Խնդրում ենք փորձել ավելի ուշ։"
       },
       "EMAIL_COLLECT_BOX": {
-        "ENABLED": "Enabled",
-        "DISABLED": "Disabled"
+        "ENABLED": "Միացված",
+        "DISABLED": "Անջատված"
       },
       "ENABLE_CSAT": {
-        "ENABLED": "Enabled",
-        "DISABLED": "Disabled"
+        "ENABLED": "Միացված",
+        "DISABLED": "Անջատված"
       },
       "SENDER_NAME_SECTION": {
-        "TITLE": "Sender name",
+        "TITLE": "Ուղարկողի անուն",
         "SUB_TEXT": "Select the name shown to your customer when they receive emails from your agents.",
-        "FOR_EG": "For eg:",
+        "FOR_EG": "Օրինակ՝",
         "FRIENDLY": {
-          "TITLE": "Friendly",
-          "FROM": "from",
-          "SUBTITLE": "Add the name of the agent who sent the reply in the sender name to make it friendly."
+          "TITLE": "Ընկերական",
+          "FROM": "հետ",
+          "SUBTITLE": "Ավելացրեք պատասխան ուղարկող գործակալի անունը ուղարկողի անվան մեջ, որպեսզի այն ընկերական լինի։"
         },
         "PROFESSIONAL": {
-          "TITLE": "Professional",
-          "SUBTITLE": "Use only the configured business name as the sender name in the email header."
+          "TITLE": "Մասնագիտական",
+          "SUBTITLE": "Օգտագործեք միայն կարգավորված բիզնեսի անունը որպես ուղարկողի անուն էլփոստի վերնագրում։"
         },
         "BUSINESS_NAME": {
           "BUTTON_TEXT": "Configure your business name",
-          "PLACEHOLDER": "Enter your business name",
-          "SAVE_BUTTON_TEXT": "Save"
+          "PLACEHOLDER": "Մուտքագրեք ձեր բիզնեսի անունը",
+          "SAVE_BUTTON_TEXT": "Պահպանել"
         }
       },
       "ALLOW_MESSAGES_AFTER_RESOLVED": {
-        "ENABLED": "Enabled",
-        "DISABLED": "Disabled"
+        "ENABLED": "Միացված",
+        "DISABLED": "Անջատված"
       },
       "ENABLE_CONTINUITY_VIA_EMAIL": {
-        "ENABLED": "Enabled",
-        "DISABLED": "Disabled"
+        "ENABLED": "Միացված",
+        "DISABLED": "Անջատված"
       },
       "LOCK_TO_SINGLE_CONVERSATION": {
         "ENABLED": "Reopen same conversation",
@@ -598,35 +598,35 @@
         "DISABLED_DESCRIPTION": "A new conversation will be created each time after the previous one is resolved."
       },
       "ENABLE_HMAC": {
-        "LABEL": "Enable"
+        "LABEL": "Միացնել"
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
-      "AVATAR_DELETE_BUTTON_TEXT": "Delete Avatar",
+      "BUTTON_TEXT": "Ջնջել",
+      "AVATAR_DELETE_BUTTON_TEXT": "Ջնջել Ավատարը",
       "CONFIRM": {
-        "TITLE": "Confirm Deletion",
-        "MESSAGE": "Are you sure to delete ",
-        "PLACE_HOLDER": "Please type {inboxName} to confirm",
-        "YES": "Yes, Delete ",
-        "NO": "No, Keep "
+        "TITLE": "Հաստատել ջնջումը",
+        "MESSAGE": "Համոզվա՞ծ եք, որ ցանկանում եք ջնջել ",
+        "PLACE_HOLDER": "Խնդրում ենք մուտքագրել {inboxName} հաստատելու համար",
+        "YES": "Այո, ջնջել ",
+        "NO": "Ոչ, պահել "
       },
       "API": {
-        "SUCCESS_MESSAGE": "Inbox deleted successfully",
-        "ERROR_MESSAGE": "Could not delete inbox. Please try again later.",
-        "AVATAR_SUCCESS_MESSAGE": "Inbox avatar deleted successfully",
-        "AVATAR_ERROR_MESSAGE": "Could not delete the inbox avatar. Please try again later."
+        "SUCCESS_MESSAGE": "Զամբյուղը հաջողությամբ ջնջվեց",
+        "ERROR_MESSAGE": "Չհաջողվեց ջնջել զամբյուղը։ Խնդրում ենք փորձել ավելի ուշ։",
+        "AVATAR_SUCCESS_MESSAGE": "Ինբոքսի ավատարը հաջողությամբ ջնջվեց",
+        "AVATAR_ERROR_MESSAGE": "Չհաջողվեց ջնջել ինբոքսի ավատարը։ Խնդրում ենք փորձել ավելի ուշ։"
       }
     },
     "TABS": {
-      "SETTINGS": "Settings",
-      "COLLABORATORS": "Collaborators",
-      "CONFIGURATION": "Configuration",
-      "CAMPAIGN": "Campaigns",
-      "PRE_CHAT_FORM": "Pre Chat Form",
-      "BUSINESS_HOURS": "Business Hours",
-      "WIDGET_BUILDER": "Widget Builder",
-      "BOT_CONFIGURATION": "Bot Configuration",
+      "SETTINGS": "Կարգավորումներ",
+      "COLLABORATORS": "Համագործակիցներ",
+      "CONFIGURATION": "Կոնֆիգուրացիա",
+      "CAMPAIGN": "Կարևոր արշավներ",
+      "PRE_CHAT_FORM": "Զրուցից առաջ ձև",
+      "BUSINESS_HOURS": "Բիզնեսի ժամեր",
+      "WIDGET_BUILDER": "Վիջեթի կառուցող",
+      "BOT_CONFIGURATION": "Բոտի կարգավորումներ",
       "ACCOUNT_HEALTH": "Account Health",
       "CSAT": "CSAT"
     },
@@ -697,57 +697,69 @@
         "URL_MISMATCH": "Webhook URL mismatch"
       }
     },
-    "SETTINGS": "Settings",
+    "SETTINGS": "Կարգավորումներ",
     "FEATURES": {
-      "LABEL": "Features",
-      "DISPLAY_FILE_PICKER": "Display file picker on the widget",
-      "DISPLAY_EMOJI_PICKER": "Display emoji picker on the widget",
-      "ALLOW_END_CONVERSATION": "Allow users to end conversation from the widget",
-      "USE_INBOX_AVATAR_FOR_BOT": "Use inbox name and avatar for the bot"
+      "LABEL": "Հատկություններ",
+      "DISPLAY_FILE_PICKER": "Ցուցադրել ֆայլերի ընտրիչը վիջեթում",
+      "DISPLAY_EMOJI_PICKER": "Ցուցադրել էմոջի ընտրիչը վիջեթում",
+      "ALLOW_END_CONVERSATION": "Թույլատրել օգտատերերին ավարտել զրույցը վիջեթից",
+      "USE_INBOX_AVATAR_FOR_BOT": "Օգտագործել մուտքի անունն ու պատկերակը բոտի համար"
     },
     "SETTINGS_POPUP": {
-      "MESSENGER_HEADING": "Messenger Script",
-      "MESSENGER_SUB_HEAD": "Place this button inside your body tag",
+      "MESSENGER_HEADING": "Հաղորդագրիչի սցենար",
+      "MESSENGER_SUB_HEAD": "Տեղադրեք այս կոճակը ձեր body թեգի ներսում",
       "ALLOWED_DOMAINS": {
         "TITLE": "Allowed Domains",
-        "SUBTITLE": "Add wildcard or regular domains separated by commas (leave blank to allow all), e.g. *.chatwoot.dev, chatwoot.com.",
+        "DESCRIPTION": "Restrict which websites can embed your chat widget. For security, only add domains you own and trust. Add one or more domains separated by commas. Leave blank to allow all domains (not recommended for production).",
         "PLACEHOLDER": "example.com, www.example.com, app.example.com"
       },
-      "INBOX_AGENTS": "Agents",
-      "INBOX_AGENTS_SUB_TEXT": "Add or remove agents from this inbox",
-      "AGENT_ASSIGNMENT": "Conversation Assignment",
-      "AGENT_ASSIGNMENT_SUB_TEXT": "Update conversation assignment settings",
-      "UPDATE": "Update",
-      "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
-      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
-      "AUTO_ASSIGNMENT": "Enable auto assignment",
-      "SENDER_NAME_SECTION": "Enable Agent Name in Email",
-      "SENDER_NAME_SECTION_TEXT": "Enable/Disable showing Agent's name in email, if disabled it will show business name",
-      "ENABLE_CONTINUITY_VIA_EMAIL": "Enable conversation continuity via email",
-      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Conversations will continue over email if the contact email address is available.",
+      "ALLOW_MOBILE_WEBVIEW": {
+        "LABEL": "Enable widget in mobile apps",
+        "SUBTITLE": "Check this if you embed the widget in iOS or Android apps. Mobile apps don't send domain information, so they would be blocked by domain restrictions unless this is enabled."
+      },
+      "IDENTITY_VALIDATION": {
+        "TITLE": "Identity Validation",
+        "DESCRIPTION": "Verify user authenticity by generating secure tokens. This prevents unauthorized users from impersonating others in your chat.",
+        "SECRET_KEY": "Secret Key",
+        "VIEW_DOCS": "View documentation",
+        "REQUIRE_LABEL": "Require identity validation for all conversations",
+        "REQUIRE_DESCRIPTION": "When enabled, users must provide a valid identity token to start conversations. Requests without valid tokens will be rejected."
+      },
+      "INBOX_AGENTS": "Գործակալներ",
+      "INBOX_AGENTS_SUB_TEXT": "Ավելացնել կամ հեռացնել գործակալներ այս զամբյուղից",
+      "AGENT_ASSIGNMENT": "Զրույցի նշանակում",
+      "AGENT_ASSIGNMENT_SUB_TEXT": "Թարմացնել զրույցի նշանակման կարգավորումները",
+      "UPDATE": "Թարմացնել",
+      "ENABLE_EMAIL_COLLECT_BOX": "Միացնել էլփոստի հավաքման տուփը",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Միացնել կամ անջատել էլփոստի հավաքման տուփը նոր զրույցում",
+      "AUTO_ASSIGNMENT": "Միացնել ավտոմատ նշանակումը",
+      "SENDER_NAME_SECTION": "Միացնել գործակալի անունը էլփոստում",
+      "SENDER_NAME_SECTION_TEXT": "Միացնել/անջատել գործակալի անունի ցուցադրումը էլփոստում, եթե անջատված է, կցուցադրվի բիզնեսի անունը",
+      "ENABLE_CONTINUITY_VIA_EMAIL": "Միացնել զրույցի շարունակականությունը էլ.փոստով",
+      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Զրույցները կշարունակվեն էլ.փոստով, եթե կոնտակտի էլ.փոստի հասցեն հասանելի է։",
       "LOCK_TO_SINGLE_CONVERSATION": "Conversation Routing",
       "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Configure conversation creation for existing contacts",
-      "INBOX_UPDATE_TITLE": "Inbox Settings",
-      "INBOX_UPDATE_SUB_TEXT": "Update your inbox settings",
-      "AUTO_ASSIGNMENT_SUB_TEXT": "Enable or disable the automatic assignment of new conversations to the agents added to this inbox.",
-      "HMAC_VERIFICATION": "User Identity Validation",
+      "INBOX_UPDATE_TITLE": "Զամբյուղի կարգավորումներ",
+      "INBOX_UPDATE_SUB_TEXT": "Թարմացրեք ձեր զամբյուղի կարգավորումները",
+      "AUTO_ASSIGNMENT_SUB_TEXT": "Միացրեք կամ անջատեք նոր զրույցների ավտոմատ նշանակումը այս զամբյուղին ավելացված գործակալներին։",
+      "HMAC_VERIFICATION": "Օգտագործողի նույնականացման ստուգում",
       "HMAC_DESCRIPTION": "In order to validate the user's identity, you can pass an `identifier_hash` for each user. You can generate a HMAC sha256 hash using the `identifier` with the key shown here.",
-      "HMAC_LINK_TO_DOCS": "You can read more here.",
-      "HMAC_MANDATORY_VERIFICATION": "Enforce User Identity Validation",
+      "HMAC_LINK_TO_DOCS": "Կարդացեք ավելին այստեղ։",
+      "HMAC_MANDATORY_VERIFICATION": "Կիրառել օգտվողի նույնականացման ստուգումը",
       "HMAC_MANDATORY_DESCRIPTION": "If enabled, requests missing the `identifier_hash` will be rejected.",
-      "INBOX_IDENTIFIER": "Inbox Identifier",
-      "INBOX_IDENTIFIER_SUB_TEXT": "Use the `inbox_identifier` token shown here to authentication your API clients.",
-      "FORWARD_EMAIL_TITLE": "Forward to Email",
-      "FORWARD_EMAIL_SUB_TEXT": "Start forwarding your emails to the following email address.",
+      "INBOX_IDENTIFIER": "Ինբոքսի նույնականիչ",
+      "INBOX_IDENTIFIER_SUB_TEXT": "Օգտագործեք այստեղ ցուցադրված `inbox_identifier` տոկենը՝ ձեր API հաճախորդների նույնականացման համար։",
+      "FORWARD_EMAIL_TITLE": "Ուղղարկել էլփոստին",
+      "FORWARD_EMAIL_SUB_TEXT": "Սկսեք ձեր էլփոստերը ուղարկել հետևյալ էլփոստի հասցեին։",
       "FORWARD_EMAIL_NOT_CONFIGURED": "Forwarding emails to your inbox is currently disabled on this installation. To use this feature, it must be enabled by your administrator. Please get in touch with them to proceed.",
-      "ALLOW_MESSAGES_AFTER_RESOLVED": "Allow messages after conversation resolved",
-      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Allow the end-users to send messages even after the conversation is resolved.",
-      "WHATSAPP_SECTION_SUBHEADER": "This API Key is used for the integration with the WhatsApp APIs.",
+      "ALLOW_MESSAGES_AFTER_RESOLVED": "Թույլատրել հաղորդագրություններ զրույցի լուծումից հետո",
+      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Թույլատրել վերջնական օգտվողներին հաղորդագրություններ ուղարկել նույնիսկ զրույցի լուծումից հետո։",
+      "WHATSAPP_SECTION_SUBHEADER": "Այս API բանալին օգտագործվում է WhatsApp API-ների ինտեգրման համար։",
       "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the new API key to be used for the integration with the WhatsApp APIs.",
-      "WHATSAPP_SECTION_TITLE": "API Key",
-      "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
-      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
-      "WHATSAPP_SECTION_UPDATE_BUTTON": "Update",
+      "WHATSAPP_SECTION_TITLE": "API բանալին",
+      "WHATSAPP_SECTION_UPDATE_TITLE": "Թարմացնել API բանալին",
+      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Մուտքագրեք նոր API բանալին այստեղ",
+      "WHATSAPP_SECTION_UPDATE_BUTTON": "Թարմացնել",
       "WHATSAPP_EMBEDDED_SIGNUP_TITLE": "WhatsApp Embedded Signup",
       "WHATSAPP_EMBEDDED_SIGNUP_SUBHEADER": "This inbox is connected through WhatsApp embedded signup.",
       "WHATSAPP_EMBEDDED_SIGNUP_DESCRIPTION": "You can reconfigure this inbox to update your WhatsApp Business settings.",
@@ -764,25 +776,25 @@
       "WHATSAPP_CONFIG_ID_MISSING": "WhatsApp Configuration ID is not configured. Please contact your administrator.",
       "WHATSAPP_LOGIN_CANCELLED": "WhatsApp login was cancelled. Please try again.",
       "WHATSAPP_WEBHOOK_TITLE": "Webhook Verification Token",
-      "WHATSAPP_WEBHOOK_SUBHEADER": "This token is used to verify the authenticity of the webhook endpoint.",
+      "WHATSAPP_WEBHOOK_SUBHEADER": "Այս տոկենը օգտագործվում է webhook endpoint-ի իսկությունը հաստատելու համար։",
       "WHATSAPP_TEMPLATES_SYNC_TITLE": "Sync Templates",
       "WHATSAPP_TEMPLATES_SYNC_SUBHEADER": "Manually sync message templates from WhatsApp to update your available templates.",
       "WHATSAPP_TEMPLATES_SYNC_BUTTON": "Sync Templates",
       "WHATSAPP_TEMPLATES_SYNC_SUCCESS": "Templates sync initiated successfully. It may take a couple of minutes to update.",
-      "UPDATE_PRE_CHAT_FORM_SETTINGS": "Update Pre Chat Form Settings"
+      "UPDATE_PRE_CHAT_FORM_SETTINGS": "Թարմացնել նախազրույցի ձևի կարգավորումները"
     },
     "HELP_CENTER": {
-      "LABEL": "Help Center",
-      "PLACEHOLDER": "Select Help Center",
-      "SELECT_PLACEHOLDER": "Select Help Center",
+      "LABEL": "Օգնության կենտրոն",
+      "PLACEHOLDER": "Ընտրեք Օգնության կենտրոնը",
+      "SELECT_PLACEHOLDER": "Ընտրեք Օգնության կենտրոնը",
       "NONE": "None",
-      "REMOVE": "Remove Help Center",
-      "SUB_TEXT": "Attach a Help Center with the inbox"
+      "REMOVE": "Հեռացնել Օգնության կենտրոնը",
+      "SUB_TEXT": "Կցեք Օգնության կենտրոնը մուտքին"
     },
     "AUTO_ASSIGNMENT": {
-      "MAX_ASSIGNMENT_LIMIT": "Auto assignment limit",
-      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Please enter a value greater than 0",
-      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Limit the maximum number of conversations from this inbox that can be auto assigned to an agent"
+      "MAX_ASSIGNMENT_LIMIT": "Ավտոմատ նշանակման սահմանաչափ",
+      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Խնդրում ենք մուտքագրել 0-ից մեծ արժեք",
+      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Սահմանափակել այս նամակների արկղից ավտոմատ նշանակվող զրույցների առավելագույն քանակը գործակալին"
     },
     "ASSIGNMENT": {
       "TITLE": "Conversation Assignment",
@@ -832,35 +844,35 @@
       "DELETE_ERROR": "Failed to remove assignment policy"
     },
     "FACEBOOK_REAUTHORIZE": {
-      "TITLE": "Reauthorize",
-      "SUBTITLE": "Your Facebook connection has expired, please reconnect your Facebook page to continue services",
-      "MESSAGE_SUCCESS": "Reconnection successful",
-      "MESSAGE_ERROR": "There was an error, please try again"
+      "TITLE": "Վերահավատարմագրվել",
+      "SUBTITLE": "Ձեր Facebook կապը ժամկետանց է, խնդրում ենք կրկին միացնել ձեր Facebook էջը՝ ծառայությունները շարունակելու համար",
+      "MESSAGE_SUCCESS": "Կապը հաջողությամբ վերականգնվեց",
+      "MESSAGE_ERROR": "Սխալ է տեղի ունեցել, խնդրում ենք փորձել կրկին"
     },
     "PRE_CHAT_FORM": {
-      "DESCRIPTION": "Pre chat forms enable you to capture user information before they start conversation with you.",
-      "SET_FIELDS": "Pre chat form fields",
+      "DESCRIPTION": "Զրուցից առաջ ձևերը թույլ են տալիս հավաքել օգտվողի տեղեկություններ նախքան զրույցի սկսելը։",
+      "SET_FIELDS": "Զրուցի նախնական ձևի դաշտեր",
       "SET_FIELDS_HEADER": {
-        "FIELDS": "Fields",
-        "LABEL": "Label",
-        "PLACE_HOLDER": "Placeholder",
-        "KEY": "Key",
-        "TYPE": "Type",
-        "REQUIRED": "Required"
+        "FIELDS": "Դաշտեր",
+        "LABEL": "Նշում",
+        "PLACE_HOLDER": "Տեղապահ տեքստ",
+        "KEY": "Բանալի",
+        "TYPE": "Տիպ",
+        "REQUIRED": "Պարտադիր է"
       },
       "ENABLE": {
-        "LABEL": "Enable pre chat form",
+        "LABEL": "Միացնել զրուցից առաջ ձևը",
         "OPTIONS": {
-          "ENABLED": "Yes",
-          "DISABLED": "No"
+          "ENABLED": "Այո",
+          "DISABLED": "Ոչ"
         }
       },
       "PRE_CHAT_MESSAGE": {
-        "LABEL": "Pre chat message",
-        "PLACEHOLDER": "This message would be visible to the users along with the form"
+        "LABEL": "Զրուցի նախնական հաղորդագրություն",
+        "PLACEHOLDER": "Այս հաղորդագրությունը տեսանելի կլինի օգտվողներին միասին ձևի հետ"
       },
       "REQUIRE_EMAIL": {
-        "LABEL": "Visitors should provide their name and email address before starting the chat"
+        "LABEL": "Այցելուները պետք է տրամադրեն իրենց անունն ու էլփոստի հասցեն զրույցի սկսելուց առաջ"
       }
     },
     "CSAT": {
@@ -934,176 +946,176 @@
       }
     },
     "BUSINESS_HOURS": {
-      "TITLE": "Set your availability",
-      "SUBTITLE": "Set your availability on your livechat widget",
-      "WEEKLY_TITLE": "Set your weekly hours",
-      "TIMEZONE_LABEL": "Select timezone",
-      "UPDATE": "Update business hours settings",
-      "TOGGLE_AVAILABILITY": "Enable business availability for this inbox",
-      "UNAVAILABLE_MESSAGE_LABEL": "Unavailable message for visitors",
-      "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours visitors can be warned with a message and a pre-chat form.",
+      "TITLE": "Սահմանեք ձեր մատչելիությունը",
+      "SUBTITLE": "Սահմանեք ձեր մատչելիությունը կենդանի զրույցի վիջեթում",
+      "WEEKLY_TITLE": "Սահմանեք ձեր շաբաթական ժամերը",
+      "TIMEZONE_LABEL": "Ընտրել ժամանակային գոտին",
+      "UPDATE": "Թարմացնել բիզնեսի ժամերի կարգավորումները",
+      "TOGGLE_AVAILABILITY": "Միացնել բիզնեսի մատչելիությունը այս ինբոքսի համար",
+      "UNAVAILABLE_MESSAGE_LABEL": "Այցելուների համար անհասանելի հաղորդագրություն",
+      "TOGGLE_HELP": "Բիզնեսի մատչելիությունը միացնելիս, մատչելի ժամերը կցուցադրվեն կենդանի զրույցի վիջեթում, նույնիսկ եթե բոլոր գործակալները օֆլայն են։ Մատչելի ժամերից դուրս այցելուներին հնարավոր է զգուշացնել հաղորդագրությամբ և նախազրույցի ձևով։",
       "DAY": {
         "DAY": "Day",
         "AVAILABILITY": "Availability",
         "HOURS": "Hours",
-        "ENABLE": "Enable availability for this day",
-        "UNAVAILABLE": "Unavailable",
-        "VALIDATION_ERROR": "Starting time should be before closing time.",
-        "CHOOSE": "Choose"
+        "ENABLE": "Միացնել մատչելիությունը այս օրը",
+        "UNAVAILABLE": "Չմատչելի",
+        "VALIDATION_ERROR": "Սկսման ժամանակը պետք է լինի փակման ժամանակից առաջ։",
+        "CHOOSE": "Ընտրել"
       },
-      "ALL_DAY": "All-Day"
+      "ALL_DAY": "Ամբողջ օրը"
     },
     "IMAP": {
       "TITLE": "IMAP",
-      "SUBTITLE": "Set your IMAP details",
-      "NOTE_TEXT": "To enable SMTP, please configure IMAP.",
-      "UPDATE": "Update IMAP settings",
-      "TOGGLE_AVAILABILITY": "Enable IMAP configuration for this inbox",
+      "SUBTITLE": "Կարգավորեք ձեր IMAP մանրամասները",
+      "NOTE_TEXT": "SMTP-ն ակտիվացնելու համար խնդրում ենք կարգավորել IMAP-ը։",
+      "UPDATE": "Թարմացնել IMAP կարգավորումները",
+      "TOGGLE_AVAILABILITY": "Միացնել IMAP կարգավորումը այս նամակների արկղի համար",
       "TOGGLE_HELP": "Enabling IMAP will help the user to receive email",
       "EDIT": {
-        "SUCCESS_MESSAGE": "IMAP settings updated successfully",
-        "ERROR_MESSAGE": "Unable to update IMAP settings"
+        "SUCCESS_MESSAGE": "IMAP կարգավորումները հաջողությամբ թարմացվեցին",
+        "ERROR_MESSAGE": "Չհաջողվեց թարմացնել IMAP կարգավորումները"
       },
       "ADDRESS": {
-        "LABEL": "Address",
-        "PLACE_HOLDER": "Address (Eg: imap.gmail.com)"
+        "LABEL": "Հասցե",
+        "PLACE_HOLDER": "Հասցե (օրինակ՝ imap.gmail.com)"
       },
       "PORT": {
-        "LABEL": "Port",
-        "PLACE_HOLDER": "Port"
+        "LABEL": "Պորտ",
+        "PLACE_HOLDER": "Պորտ"
       },
       "LOGIN": {
-        "LABEL": "Login",
-        "PLACE_HOLDER": "Login"
+        "LABEL": "Մուտքագրում",
+        "PLACE_HOLDER": "Մուտքագրում"
       },
       "PASSWORD": {
-        "LABEL": "Password",
-        "PLACE_HOLDER": "Password"
+        "LABEL": "Գաղտնաբառ",
+        "PLACE_HOLDER": "Գաղտնաբառ"
       },
-      "ENABLE_SSL": "Enable SSL"
+      "ENABLE_SSL": "Միացնել SSL"
     },
     "MICROSOFT": {
       "TITLE": "Microsoft",
-      "SUBTITLE": "Reauthorize your MICROSOFT account"
+      "SUBTITLE": "Վերականգնել MICROSOFT հաշվի թույլտվությունը"
     },
     "SMTP": {
       "TITLE": "SMTP",
-      "SUBTITLE": "Set your SMTP details",
-      "UPDATE": "Update SMTP settings",
-      "TOGGLE_AVAILABILITY": "Enable SMTP configuration for this inbox",
-      "TOGGLE_HELP": "Enabling SMTP will help the user to send email",
+      "SUBTITLE": "Կարգավորեք ձեր SMTP մանրամասները",
+      "UPDATE": "Թարմացնել SMTP կարգավորումները",
+      "TOGGLE_AVAILABILITY": "Միացնել SMTP կարգավորումը այս նամակների արկղի համար",
+      "TOGGLE_HELP": "SMTP-ի միացումը կօգնի օգտվողին էլ.փոստ ուղարկել",
       "EDIT": {
-        "SUCCESS_MESSAGE": "SMTP settings updated successfully",
-        "ERROR_MESSAGE": "Unable to update SMTP settings"
+        "SUCCESS_MESSAGE": "SMTP կարգավորումները հաջողությամբ թարմացվեցին",
+        "ERROR_MESSAGE": "Չհաջողվեց թարմացնել SMTP կարգավորումները"
       },
       "ADDRESS": {
-        "LABEL": "Address",
-        "PLACE_HOLDER": "Address (Eg: smtp.gmail.com)"
+        "LABEL": "Հասցե",
+        "PLACE_HOLDER": "Հասցե (օրինակ՝ smtp.gmail.com)"
       },
       "PORT": {
-        "LABEL": "Port",
-        "PLACE_HOLDER": "Port"
+        "LABEL": "Պորտ",
+        "PLACE_HOLDER": "Պորտ"
       },
       "LOGIN": {
-        "LABEL": "Login",
-        "PLACE_HOLDER": "Login"
+        "LABEL": "Մուտքագրում",
+        "PLACE_HOLDER": "Մուտքագրում"
       },
       "PASSWORD": {
-        "LABEL": "Password",
-        "PLACE_HOLDER": "Password"
+        "LABEL": "Գաղտնաբառ",
+        "PLACE_HOLDER": "Գաղտնաբառ"
       },
       "DOMAIN": {
-        "LABEL": "Domain",
-        "PLACE_HOLDER": "Domain"
+        "LABEL": "Դոմեն",
+        "PLACE_HOLDER": "Դոմեն"
       },
-      "ENCRYPTION": "Encryption",
+      "ENCRYPTION": "Կոդավորում",
       "SSL_TLS": "SSL/TLS",
       "START_TLS": "STARTTLS",
-      "OPEN_SSL_VERIFY_MODE": "Open SSL Verify Mode",
-      "AUTH_MECHANISM": "Authentication"
+      "OPEN_SSL_VERIFY_MODE": "Open SSL հաստատման ռեժիմ",
+      "AUTH_MECHANISM": "Հավաստագրում"
     },
-    "NOTE": "Note: ",
+    "NOTE": "Նշում՝ ",
     "WIDGET_BUILDER": {
       "WIDGET_OPTIONS": {
         "AVATAR": {
-          "LABEL": "Website Avatar",
+          "LABEL": "Կայքի Ավատար",
           "DELETE": {
             "API": {
-              "SUCCESS_MESSAGE": "Avatar deleted successfully",
-              "ERROR_MESSAGE": "There was an error, please try again"
+              "SUCCESS_MESSAGE": "Ավատարը հաջողությամբ ջնջվեց",
+              "ERROR_MESSAGE": "Սխալ տեղի ունեցավ, խնդրում ենք փորձել կրկին"
             }
           }
         },
         "WEBSITE_NAME": {
-          "LABEL": "Website Name",
-          "PLACE_HOLDER": "Enter your website name (eg: Acme Inc)",
-          "ERROR": "Please enter a valid website name"
+          "LABEL": "Կայքի անուն",
+          "PLACE_HOLDER": "Մուտքագրեք ձեր կայքի անունը (օրինակ՝ Acme Inc)",
+          "ERROR": "Խնդրում ենք մուտքագրել վավեր կայքի անուն"
         },
         "WELCOME_HEADING": {
-          "LABEL": "Welcome Heading",
-          "PLACE_HOLDER": "Hi there!"
+          "LABEL": "Բարի գալուստ վերնագիր",
+          "PLACE_HOLDER": "Բարև ձեզ!"
         },
         "WELCOME_TAGLINE": {
-          "LABEL": "Welcome Tagline",
-          "PLACE_HOLDER": "We make it simple to connect with us. Ask us anything, or share your feedback."
+          "LABEL": "Բարի գալուստ տող",
+          "PLACE_HOLDER": "Մենք հեշտացնում ենք կապ հաստատելը։ Հարցրեք մեզ ինչ-որ բան կամ կիսվեք ձեր կարծիքով։"
         },
         "REPLY_TIME": {
-          "LABEL": "Reply Time",
-          "IN_A_FEW_MINUTES": "In a few minutes",
-          "IN_A_FEW_HOURS": "In a few hours",
-          "IN_A_DAY": "In a day"
+          "LABEL": "Պատասխանելու ժամանակ",
+          "IN_A_FEW_MINUTES": "Մի քանի րոպեում",
+          "IN_A_FEW_HOURS": "Մի քանի ժամում",
+          "IN_A_DAY": "Մեկ օրվա ընթացքում"
         },
-        "WIDGET_COLOR_LABEL": "Widget Color",
+        "WIDGET_COLOR_LABEL": "Վիջեթի գույն",
         "WIDGET_BUBBLE": "Bubble",
         "WIDGET_BUBBLE_POSITION_LABEL": "Position:",
         "WIDGET_BUBBLE_TYPE_LABEL": "Type:",
         "WIDGET_BUBBLE_LAUNCHER_TITLE": {
-          "DEFAULT": "Chat with us",
+          "DEFAULT": "Զրուցել մեզ հետ",
           "LABEL": "Launcher Title",
-          "PLACE_HOLDER": "Chat with us"
+          "PLACE_HOLDER": "Զրուցել մեզ հետ"
         },
         "UPDATE": {
-          "BUTTON_TEXT": "Update Widget Settings",
+          "BUTTON_TEXT": "Թարմացնել վիջեթի կարգավորումները",
           "API": {
-            "SUCCESS_MESSAGE": "Widget settings updated successfully",
-            "ERROR_MESSAGE": "Unable to update widget settings"
+            "SUCCESS_MESSAGE": "Վիջեթի կարգավորումները հաջողությամբ թարմացվեցին",
+            "ERROR_MESSAGE": "Չհաջողվեց թարմացնել վիջեթի կարգավորումները"
           }
         },
         "WIDGET_VIEW_OPTION": {
-          "PREVIEW": "Preview",
-          "SCRIPT": "Script"
+          "PREVIEW": "Նախադիտում",
+          "SCRIPT": "Սցենար"
         },
         "WIDGET_BUBBLE_POSITION": {
-          "LEFT": "Left",
-          "RIGHT": "Right"
+          "LEFT": "Ձախ",
+          "RIGHT": "Աջ"
         },
         "WIDGET_BUBBLE_TYPE": {
-          "STANDARD": "Standard",
-          "EXPANDED_BUBBLE": "Expanded Bubble"
+          "STANDARD": "Ստանդարտ",
+          "EXPANDED_BUBBLE": "Ընդլայնված փուչիկ"
         }
       },
       "WIDGET_SCREEN": {
-        "DEFAULT": "Default",
+        "DEFAULT": "Նախնական",
         "CHAT": "Chat mode"
       },
       "REPLY_TIME": {
-        "IN_A_FEW_MINUTES": "Typically replies in a few minutes",
-        "IN_A_FEW_HOURS": "Typically replies in a few hours",
-        "IN_A_DAY": "Typically replies in a day"
+        "IN_A_FEW_MINUTES": "Հաճախ պատասխանում է մի քանի րոպեում",
+        "IN_A_FEW_HOURS": "Հաճախ պատասխանում է մի քանի ժամում",
+        "IN_A_DAY": "Հաճախ պատասխանում է մեկ օրվա ընթացքում"
       },
       "FOOTER": {
-        "START_CONVERSATION_BUTTON_TEXT": "Start Conversation",
-        "CHAT_INPUT_PLACEHOLDER": "Type your message"
+        "START_CONVERSATION_BUTTON_TEXT": "Սկսել զրույցը",
+        "CHAT_INPUT_PLACEHOLDER": "Մուտքագրեք ձեր հաղորդագրությունը"
       },
       "BODY": {
         "TEAM_AVAILABILITY": {
-          "ONLINE": "We are Online",
-          "OFFLINE": "We are away at the moment"
+          "ONLINE": "Մենք առցանց ենք",
+          "OFFLINE": "Մենք այս պահին հեռու ենք"
         },
-        "USER_MESSAGE": "Hi",
-        "AGENT_MESSAGE": "Hello"
+        "USER_MESSAGE": "Բարև",
+        "AGENT_MESSAGE": "Բարև ձեզ"
       },
-      "BRANDING_TEXT": "Powered by Chatwoot",
+      "BRANDING_TEXT": "Շահագործվում է Chatwoot-ի կողմից",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
     },
     "EMAIL_PROVIDERS": {
