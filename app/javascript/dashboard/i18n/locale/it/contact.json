@@ -18,7 +18,8 @@
     "CREATED_AT_LABEL": "Creato il",
     "NEW_MESSAGE": "Nuovo messaggio",
     "CALL": "Chiama",
-    "CALL_UNDER_DEVELOPMENT": "Le chiamate sono in fase di sviluppo",
+    "CALL_INITIATED": "Chiamando il contatto…",
+    "CALL_FAILED": "Impossibile avviare la chiamata. Riprova.",
     "VOICE_INBOX_PICKER": {
       "TITLE": "Scegli una inbox vocale"
     },
@@ -456,6 +457,12 @@
           "INSTAGRAM": {
             "PLACEHOLDER": "Aggiungi Instagram"
           },
+          "TELEGRAM": {
+            "PLACEHOLDER": "Aggiungi Telegram"
+          },
+          "TIKTOK": {
+            "PLACEHOLDER": "Aggiungi TikTok"
+          },
           "LINKEDIN": {
             "PLACEHOLDER": "Aggiungi LinkedIn"
           },
@@ -569,7 +576,8 @@
       "SEARCH_EMPTY_STATE_TITLE": "Nessun contatto corrisponde alla tua ricerca 🔍",
       "LIST_EMPTY_STATE_TITLE": "Nessun contatto disponibile in questa vista 📋",
       "ACTIVE_EMPTY_STATE_TITLE": "Nessun contatto attivo al momento 🌙"
-    }
+    },
+    "LOAD_MORE": "Carica altro"
   },
   "CONTACTS_BULK_ACTIONS": {
     "ASSIGN_LABELS": "Assegna Etichette",
@@ -603,7 +611,7 @@
       "NO_INBOX_ALERT": "Non ci sono inbox disponibili per avviare una conversazione con questo contatto.",
       "CONTACT_SELECTOR": {
         "LABEL": "A:",
-        "TAG_INPUT_PLACEHOLDER": "Cerca un contatto con nome, email o numero di telefono",
+        "TAG_INPUT_PLACEHOLDER": "Inserisci almeno 2 caratteri per cercare per nome, email o numero di telefono",
         "CONTACT_CREATING": "Creazione contatto..."
       },
       "INBOX_SELECTOR": {
@@ -614,9 +622,9 @@
         "SUBJECT_LABEL": "Oggetto :",
         "SUBJECT_PLACEHOLDER": "Inserisci qui l'oggetto email",
         "CC_LABEL": "Cc:",
-        "CC_PLACEHOLDER": "Cerca un contatto con il suo indirizzo email",
+        "CC_PLACEHOLDER": "Inserisci almeno 2 caratteri per cercare via email",
         "BCC_LABEL": "Ccn:",
-        "BCC_PLACEHOLDER": "Cerca un contatto con il suo indirizzo email",
+        "BCC_PLACEHOLDER": "Inserisci almeno 2 caratteri per cercare via email",
         "BCC_BUTTON": "Ccn"
       },
       "MESSAGE_EDITOR": {

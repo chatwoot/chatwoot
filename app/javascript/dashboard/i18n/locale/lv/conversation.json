@@ -32,6 +32,7 @@
     "LOADING_CONVERSATIONS": "Notiek sarunu ielāde",
     "CANNOT_REPLY": "Jūs nevarat atbildēt, jo",
     "24_HOURS_WINDOW": "24 stundu ziņojuma loga ierobežojums",
+    "48_HOURS_WINDOW": "48 stundu ziņojuma loga ierobežojums",
     "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
     "NOT_ASSIGNED_TO_YOU": "Šī saruna nav Jums piešķirta. Vai vēlaties piešķirt šo sarunu sev?",
     "ASSIGN_TO_ME": "Piešķirt sev",
@@ -60,6 +61,7 @@
     "UNSUPPORTED_MESSAGE": "Šis ziņojums netiek atbalstīts. Šo ziņojumu varat apskatīt Facebook/Instagram lietotnē.",
     "UNSUPPORTED_MESSAGE_FACEBOOK": "Šis ziņojums netiek atbalstīts. Šo ziņojumu Jūs varat apskatīt lietotnē Facebook Messenger.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "Šis ziņojums netiek atbalstīts. Šo ziņojumu Jūs varat apskatīt lietotnē Instagram.",
+    "UNSUPPORTED_MESSAGE_TIKTOK": "This message is unsupported. You can view this message on the TikTok app.",
     "SUCCESS_DELETE_MESSAGE": "Ziņojums veiksmīgi izdzēsts",
     "FAIL_DELETE_MESSSAGE": "Nevarēja izdzēst ziņojumu! Mēģiniet vēlreiz",
     "NO_RESPONSE": "Nav atbildes",
@@ -172,6 +174,10 @@
           "SUCCESFUL": "Sarunai ar id {conversationId} piešķirta etiķete #{labelName}",
           "FAILED": "Nevarēja piešķirt etiķeti. Lūdzu, mēģiniet vēlreiz."
         },
+        "LABEL_REMOVAL": {
+          "SUCCESFUL": "Removed label #{labelName} from conversation id {conversationId}",
+          "FAILED": "Couldn't remove label. Please try again."
+        },
         "TEAM_ASSIGNMENT": {
           "SUCCESFUL": "Sarunai ar id {conversationId} tika piešķirta komanda \"{team}\"",
           "FAILED": "Nevarēja piešķirt komandu. Lūdzu, mēģiniet vēlreiz."
@@ -184,7 +190,11 @@
       "DISABLE_SIGN_TOOLTIP": "Atspējot parakstu",
       "MSG_INPUT": "Shift + Enter, lai pārietu uz jaunu rindu. Sāciet ar '/' lai izvēlētos sagatavotu atbildi.",
       "PRIVATE_MSG_INPUT": "Shift + Enter, lai pārietu uz jaunu rindu. Ziņojums būs redzams tikai Aģentiem",
+      "MESSAGING_RESTRICTED": "You cannot reply to this conversation",
+      "MESSAGING_RESTRICTED_WHATSAPP": "You can only reply using a template message due to 24-hour message window restriction",
+      "MESSAGING_RESTRICTED_API": "You can only reply using a template message due to message window restriction",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Ziņojuma paraksts nav nokonfigurēts. Lūdzu, nokonfigurējiet to profila iestatījumos.",
+      "COPILOT_MSG_INPUT": "Give copilot additional prompts, or ask anything else... Press enter to send follow-up",
       "CLICK_HERE": "Noklikšķiniet šeit, lai atjauninātu",
       "WHATSAPP_TEMPLATES": "WhatsApp Veidnes"
     },
@@ -196,7 +206,6 @@
       "INSERT_READ_MORE": "Lasīt vairāk",
       "DISMISS_REPLY": "Noraidīt atbildi",
       "REPLYING_TO": "Atbildot uz:",
-      "TIP_FORMAT_ICON": "Rādīt bagātinātā teksta redaktoru",
       "TIP_EMOJI_ICON": "Rādīt emocijzīmju atlasītāju",
       "TIP_ATTACH_ICON": "Pievienot failus",
       "TIP_AUDIORECORDER_ICON": "Ierakstīt audio",
@@ -205,7 +214,7 @@
       "DRAG_DROP": "Velciet un nometiet šeit, lai pievienotu",
       "START_AUDIO_RECORDING": "Sākt audio ierakstīšanu",
       "STOP_AUDIO_RECORDING": "Apturēt audio ierakstīšanu",
-      "": "",
+      "COPILOT_THINKING": "Copilot is thinking",
       "EMAIL_HEAD": {
         "TO": "KAM",
         "ADD_BCC": "Pievienot bcc",
@@ -247,9 +256,12 @@
     "SUCCESS_DELETE_CONVERSATION": "Conversation deleted successfully",
     "FAIL_DELETE_CONVERSATION": "Couldn't delete conversation! Try again",
     "FILE_SIZE_LIMIT": "Fails pārsniedz {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB pielikuma ierobežojumu",
+    "FILE_TYPE_NOT_SUPPORTED": "This {fileName} file type is not supported in this conversation",
     "MESSAGE_ERROR": "Nevar nosūtīt šo ziņojumu. Lūdzu, vēlāk mēģiniet vēlreiz",
     "SENT_BY": "Sūtīja:",
     "BOT": "Bot",
+    "NATIVE_APP": "Native app",
+    "NATIVE_APP_ADVISORY": "This message was sent from the native app. Reply from Chatwoot to maintain the message window.",
     "SEND_FAILED": "Nevarēja nosūtīt ziņojumu! Mēģiniet vēlreiz",
     "TRY_AGAIN": "mēģināt vēlreiz",
     "ASSIGNMENT": {
@@ -275,6 +287,16 @@
     "SIDEBAR": {
       "CONTACT": "Kontaktpersona",
       "COPILOT": "Kopilots"
+    },
+    "VOICE_WIDGET": {
+      "INCOMING_CALL": "Incoming call",
+      "OUTGOING_CALL": "Outgoing call",
+      "CALL_IN_PROGRESS": "Call in progress",
+      "NOT_ANSWERED_YET": "Not answered yet",
+      "HANDLED_IN_ANOTHER_TAB": "Being handled in another tab",
+      "REJECT_CALL": "Reject",
+      "JOIN_CALL": "Join call",
+      "END_CALL": "End call"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -284,6 +306,7 @@
     "CANCEL": "Atcelt",
     "SEND_EMAIL_SUCCESS": "Sarunas transkripts tika veiksmīgi nosūtīts",
     "SEND_EMAIL_ERROR": "Radās kļūda. Lūdzu, mēģiniet vēlreiz",
+    "SEND_EMAIL_PAYMENT_REQUIRED": "Email transcript is not available on your current plan. Please upgrade to use this feature.",
     "FORM": {
       "SEND_TO_CONTACT": "Nosūtīt transkriptu klientam",
       "SEND_TO_AGENT": "Nosūtīt transkriptu piešķirtajam aģentam",

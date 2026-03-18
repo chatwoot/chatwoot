@@ -1,0 +1,33 @@
+{
+  "COMPANIES": {
+    "HEADER": "公司",
+    "SORT_BY": {
+      "LABEL": "排序方式",
+      "OPTIONS": {
+        "NAME": "姓名",
+        "DOMAIN": "域名",
+        "CREATED_AT": "建立於",
+        "CONTACTS_COUNT": "聯絡人數量"
+      }
+    },
+    "ORDER": {
+      "LABEL": "命令",
+      "OPTIONS": {
+        "ASCENDING": "升序",
+        "DESCENDING": "降序"
+      }
+    },
+    "SEARCH_PLACEHOLDER": "搜尋公司...",
+    "LOADING": "正在加載公司...",
+    "UNNAMED": "未命名公司",
+    "CONTACTS_COUNT": "{n} 聯絡方式 | {n} 聯絡人",
+    "EMPTY_STATE": {
+      "TITLE": "沒有找到公司"
+    }
+  },
+  "COMPANIES_LAYOUT": {
+    "PAGINATION_FOOTER": {
+      "SHOWING": "顯示 {totalItems} 公司的 {startItem} – {endItem} |顯示 {totalItems} 個公司中的 {startItem} – {endItem} 個"
+    }
+  }
+}

@@ -4,6 +4,7 @@ import { useI18n } from 'vue-i18n';
 
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
+import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 
 const props = defineProps({
   menuItems: {
@@ -37,9 +38,13 @@ const props = defineProps({
     type: String,
     default: '',
   },
+  disableLocalFiltering: {
+    type: Boolean,
+    default: false,
+  },
 });
 
-const emit = defineEmits(['action']);
+const emit = defineEmits(['action', 'search']);
 
 const { t } = useI18n();
 
@@ -57,6 +62,7 @@ const flattenedMenuItems = computed(() => {
 });
 
 const filteredMenuItems = computed(() => {
+  if (props.disableLocalFiltering) return props.menuItems;
   if (!searchQuery.value) return flattenedMenuItems.value;
 
   return flattenedMenuItems.value.filter(item =>
@@ -69,7 +75,7 @@ const filteredMenuSections = computed(() => {
     return [];
   }
 
-  if (!searchQuery.value) {
+  if (props.disableLocalFiltering || !searchQuery.value) {
     return props.menuSections;
   }
 
@@ -88,6 +94,12 @@ const filteredMenuSections = computed(() => {
     })
     .filter(section => section.items.length > 0);
 });
+
+const handleSearchInput = event => {
+  if (props.disableLocalFiltering) {
+    emit('search', event.target.value);
+  }
+};
 
 const handleAction = item => {
   const { action, value, ...rest } = item;
@@ -118,7 +130,7 @@ onMounted(() => {
   >
     <div
       v-if="showSearch"
-      class="sticky top-0 bg-n-alpha-3 backdrop-blur-sm pt-2"
+      class="sticky top-0 bg-n-alpha-3 backdrop-blur-sm pt-2 z-20"
     >
       <div class="relative">
         <span class="absolute i-lucide-search size-3.5 top-2 left-3" />
@@ -130,6 +142,7 @@ onMounted(() => {
             searchPlaceholder || t('DROPDOWN_MENU.SEARCH_PLACEHOLDER')
           "
           class="reset-base w-full h-8 py-2 pl-10 pr-2 text-sm focus:outline-none border-none rounded-lg bg-n-alpha-black2 dark:bg-n-solid-1 text-n-slate-12"
+          @input="handleSearchInput"
         />
       </div>
     </div>
@@ -141,10 +154,23 @@ onMounted(() => {
       >
         <p
           v-if="section.title"
-          class="px-2 pt-2 text-xs font-medium text-n-slate-11 uppercase tracking-wide"
+          class="px-2 py-2 text-xs mb-0 font-medium text-n-slate-11 uppercase tracking-wide sticky z-10 bg-n-alpha-3 backdrop-blur-sm"
+          :class="showSearch ? 'top-10' : 'top-0'"
         >
           {{ section.title }}
         </p>
+        <div
+          v-if="section.isLoading"
+          class="flex items-center justify-center py-2"
+        >
+          <Spinner :size="24" />
+        </div>
+        <div
+          v-else-if="!section.items.length && section.emptyState"
+          class="text-sm text-n-slate-11 px-2 py-1.5"
+        >
+          {{ section.emptyState }}
+        </div>
         <button
           v-for="(item, itemIndex) in section.items"
           :key="item.value || itemIndex"
@@ -235,5 +261,6 @@ onMounted(() => {
           : t('DROPDOWN_MENU.EMPTY_STATE')
       }}
     </div>
+    <slot name="footer" />
   </div>
 </template>

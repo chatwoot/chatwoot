@@ -32,6 +32,7 @@
     "LOADING_CONVERSATIONS": "Încărcare conversații",
     "CANNOT_REPLY": "Nu poți răspunde din cauza",
     "24_HOURS_WINDOW": "Restricţie fereastră mesaj 24 de ore",
+    "48_HOURS_WINDOW": "Restricţie fereastră mesaj 48 de ore",
     "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
     "NOT_ASSIGNED_TO_YOU": "Această conversație nu vă este atribuită. Doriți să vă atribuiți această conversație?",
     "ASSIGN_TO_ME": "Atribuie-mi",
@@ -60,6 +61,7 @@
     "UNSUPPORTED_MESSAGE": "This message is unsupported. You can view this message on the Facebook / Instagram app.",
     "UNSUPPORTED_MESSAGE_FACEBOOK": "This message is unsupported. You can view this message on the Facebook Messenger app.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "This message is unsupported. You can view this message on the Instagram app.",
+    "UNSUPPORTED_MESSAGE_TIKTOK": "This message is unsupported. You can view this message on the TikTok app.",
     "SUCCESS_DELETE_MESSAGE": "Mesaj şters cu succes",
     "FAIL_DELETE_MESSSAGE": "Mesajul nu a putut fi șters! Încercați din nou",
     "NO_RESPONSE": "Niciun răspuns",
@@ -172,8 +174,12 @@
           "SUCCESFUL": "Assigned label #{labelName} to conversation id {conversationId}",
           "FAILED": "Nu s-a putut atribui eticheta. Vă rugăm încercați din nou."
         },
+        "LABEL_REMOVAL": {
+          "SUCCESFUL": "Removed label #{labelName} from conversation id {conversationId}",
+          "FAILED": "Couldn't remove label. Please try again."
+        },
         "TEAM_ASSIGNMENT": {
-          "SUCCESFUL": "Echipa atribuită #{team} la conversația cu id {conversationId}",
+          "SUCCESFUL": "Echipa atribuită \"{team}\" la conversația cu id {conversationId}",
           "FAILED": "Nu s-a putut atribui echipa. Vă rugăm să încercaţi din nou."
         }
       }
@@ -184,7 +190,11 @@
       "DISABLE_SIGN_TOOLTIP": "Dezactivarea semnăturii",
       "MSG_INPUT": "Shift + enter pentru linie nouă. Începe cu '/' pentru a selecta un răspuns predeterminat.",
       "PRIVATE_MSG_INPUT": "Shift + enter pentru linie nouă. Acest lucru va fi vizibil doar pentru Agenți",
+      "MESSAGING_RESTRICTED": "You cannot reply to this conversation",
+      "MESSAGING_RESTRICTED_WHATSAPP": "You can only reply using a template message due to 24-hour message window restriction",
+      "MESSAGING_RESTRICTED_API": "You can only reply using a template message due to message window restriction",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Semnătura mesajului nu este configurată, vă rugăm să o configurați în setările profilului.",
+      "COPILOT_MSG_INPUT": "Give copilot additional prompts, or ask anything else... Press enter to send follow-up",
       "CLICK_HERE": "Click aici pentru a actualiza",
       "WHATSAPP_TEMPLATES": "Șabloane WhatsApp"
     },
@@ -196,7 +206,6 @@
       "INSERT_READ_MORE": "Citeşte mai mult",
       "DISMISS_REPLY": "Dismiss reply",
       "REPLYING_TO": "Replying to:",
-      "TIP_FORMAT_ICON": "Arată editorul de text",
       "TIP_EMOJI_ICON": "Arată selectorul emoji",
       "TIP_ATTACH_ICON": "Ataşează fişiere",
       "TIP_AUDIORECORDER_ICON": "Înregistrare audio",
@@ -205,7 +214,7 @@
       "DRAG_DROP": "Trageți și plasați aici pentru atașare",
       "START_AUDIO_RECORDING": "Pornirea înregistrării audio",
       "STOP_AUDIO_RECORDING": "Mesaj audio",
-      "": "",
+      "COPILOT_THINKING": "Copilot is thinking",
       "EMAIL_HEAD": {
         "TO": "TO",
         "ADD_BCC": "Adaugă bcc",
@@ -247,9 +256,12 @@
     "SUCCESS_DELETE_CONVERSATION": "Conversation deleted successfully",
     "FAIL_DELETE_CONVERSATION": "Couldn't delete conversation! Try again",
     "FILE_SIZE_LIMIT": "Fișierul depășește limita de {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB",
+    "FILE_TYPE_NOT_SUPPORTED": "This {fileName} file type is not supported in this conversation",
     "MESSAGE_ERROR": "Mesajul nu poate fi trimis, te rugăm să încerci din nou mai târziu",
     "SENT_BY": "Trimis de:",
     "BOT": "Bot",
+    "NATIVE_APP": "Native app",
+    "NATIVE_APP_ADVISORY": "This message was sent from the native app. Reply from Chatwoot to maintain the message window.",
     "SEND_FAILED": "Nu a putut trimite mesaj! Încearcă din nou",
     "TRY_AGAIN": "reîncercare",
     "ASSIGNMENT": {
@@ -275,6 +287,16 @@
     "SIDEBAR": {
       "CONTACT": "Contact",
       "COPILOT": "Copilot"
+    },
+    "VOICE_WIDGET": {
+      "INCOMING_CALL": "Incoming call",
+      "OUTGOING_CALL": "Outgoing call",
+      "CALL_IN_PROGRESS": "Call in progress",
+      "NOT_ANSWERED_YET": "Not answered yet",
+      "HANDLED_IN_ANOTHER_TAB": "Being handled in another tab",
+      "REJECT_CALL": "Reject",
+      "JOIN_CALL": "Join call",
+      "END_CALL": "End call"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -284,6 +306,7 @@
     "CANCEL": "Renunță",
     "SEND_EMAIL_SUCCESS": "Transscrisul de chat a fost trimis cu succes",
     "SEND_EMAIL_ERROR": "A apărut o eroare, încercați din nou",
+    "SEND_EMAIL_PAYMENT_REQUIRED": "Email transcript is not available on your current plan. Please upgrade to use this feature.",
     "FORM": {
       "SEND_TO_CONTACT": "Trimite transcrierea către client",
       "SEND_TO_AGENT": "Trimite transcrierea către agentul atribuit",

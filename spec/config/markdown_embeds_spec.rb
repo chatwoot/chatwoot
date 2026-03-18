@@ -21,7 +21,7 @@ describe 'Markdown Embeds Configuration' do
     end
 
     it 'contains expected embed types' do
-      expected_types = %w[youtube loom vimeo mp4 arcade wistia bunny codepen github_gist]
+      expected_types = %w[youtube loom vimeo mp4 arcade_tab arcade wistia bunny codepen github_gist]
       expect(config.keys).to match_array(expected_types)
     end
   end
@@ -50,6 +50,12 @@ describe 'Markdown Embeds Configuration' do
           { url: 'https://app.arcade.software/share/arcade123', expected: { 'video_id' => 'arcade123' } },
           { url: 'https://www.app.arcade.software/share/demo456', expected: { 'video_id' => 'demo456' } }
         ],
+        'arcade_tab' => [
+          { url: 'https://app.arcade.software/share/arcade789?embed_mobile=tab', expected: { 'video_id' => 'arcade789' } },
+          { url: 'https://app.arcade.software/share/demo789?foo=bar&embed_mobile=tab', expected: { 'video_id' => 'demo789' } },
+          { url: 'https://app.arcade.software/share/demo-with-query?foo=bar&embed_mobile=tab?user_id=1',
+            expected: { 'video_id' => 'demo-with-query' } }
+        ],
         'wistia' => [
           { url: 'https://chatwoot.wistia.com/medias/kjwjeq6f9i', expected: { 'video_id' => 'kjwjeq6f9i' } },
           { url: 'https://www.company.wistia.com/medias/abc123def', expected: { 'video_id' => 'abc123def' } }
@@ -57,7 +63,11 @@ describe 'Markdown Embeds Configuration' do
         'bunny' => [
           { url: 'https://iframe.mediadelivery.net/play/431789/1f105841-cad9-46fe-a70e-b7623c60797c',
             expected: { 'library_id' => '431789', 'video_id' => '1f105841-cad9-46fe-a70e-b7623c60797c' } },
-          { url: 'https://iframe.mediadelivery.net/play/12345/abcdef-ghijkl', expected: { 'library_id' => '12345', 'video_id' => 'abcdef-ghijkl' } }
+          { url: 'https://iframe.mediadelivery.net/play/12345/abcdef-ghijkl', expected: { 'library_id' => '12345', 'video_id' => 'abcdef-ghijkl' } },
+          { url: 'https://player.mediadelivery.net/play/431789/1f105841-cad9-46fe-a70e-b7623c60797c',
+            expected: { 'library_id' => '431789', 'video_id' => '1f105841-cad9-46fe-a70e-b7623c60797c' } },
+          { url: 'https://iframe.mediadelivery.net/embed/256380/d9d9ab1f-fc9f-4488-9c26-4ffc653c0024',
+            expected: { 'library_id' => '256380', 'video_id' => 'd9d9ab1f-fc9f-4488-9c26-4ffc653c0024' } }
         ],
         'codepen' => [
           { url: 'https://codepen.io/username/pen/abcdef', expected: { 'user' => 'username', 'pen_id' => 'abcdef' } },

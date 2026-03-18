@@ -36,20 +36,20 @@
         }
       },
       "INTERFACE_SECTION": {
-        "TITLE": "Interface",
-        "NOTE": "Customize the look and feel of your Chatwoot dashboard.",
+        "TITLE": "Arayüz",
+        "NOTE": "Chatwoot kontrol panelinizin görünümünü ve hissini özelleştirin.",
         "FONT_SIZE": {
-          "TITLE": "Font size",
-          "NOTE": "Adjust the text size across the dashboard based on your preference.",
-          "UPDATE_SUCCESS": "Your font settings have been updated successfully",
-          "UPDATE_ERROR": "There is an error while updating the font settings, please try again",
+          "TITLE": "Yazı tipi boyutu",
+          "NOTE": "Tercihinize göre gösterge tablosundaki metin boyutunu ayarlayın.",
+          "UPDATE_SUCCESS": "Yazı tipi ayarlarınız başarıyla güncellendi",
+          "UPDATE_ERROR": "Yazı tipi ayarlarını güncellerken bir hata oluştu, lütfen tekrar deneyin",
           "OPTIONS": {
-            "SMALLER": "Smaller",
-            "SMALL": "Small",
+            "SMALLER": "Daha küçük",
+            "SMALL": "Küçük",
             "DEFAULT": "Varsayılan",
-            "LARGE": "Large",
-            "LARGER": "Larger",
-            "EXTRA_LARGE": "Extra Large"
+            "LARGE": "Büyük",
+            "LARGER": "Daha büyük",
+            "EXTRA_LARGE": "Ekstra Büyük"
           }
         },
         "LANGUAGE": {
@@ -68,7 +68,7 @@
         "API_SUCCESS": "İmza başarıyla kaydedildi",
         "IMAGE_UPLOAD_ERROR": "Resim yüklenemedi! Tekrar deneyin",
         "IMAGE_UPLOAD_SUCCESS": "Resim başarıyla eklendi. İmzayı kaydetmek için lütfen kaydet'e tıklayın",
-        "IMAGE_UPLOAD_SIZE_ERROR": "Resim boyutu %{size}MB'dan küçük olmalıdır"
+        "IMAGE_UPLOAD_SIZE_ERROR": "Resim boyutu {size}MB'dan küçük olmalıdır"
       },
       "MESSAGE_SIGNATURE": {
         "LABEL": "İmzanız",
@@ -97,7 +97,7 @@
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Sesli Uyarılar",
-        "NOTE": "Enable audio alerts in dashboard for new messages and conversations.",
+        "NOTE": "Yeni mesajlar ve konuşmalar için kontrol panelinde sesli uyarıları etkinleştirin.",
         "PLAY": "Sesi oynat",
         "ALERT_TYPES": {
           "NONE": "Hiç",
@@ -109,16 +109,16 @@
         },
         "ALERT_COMBINATIONS": {
           "NONE": "You haven't selected any options, you won't receive any audio alerts.",
-          "ASSIGNED": "You'll receive alerts for conversations assigned to you.",
+          "ASSIGNED": "Size atanan konuşmalar için uyarılar alacaksınız.",
           "UNASSIGNED": "You'll receive alerts for any unassigned conversations.",
-          "NOTME": "You'll receive alerts for conversations assigned to others.",
-          "ASSIGNED+UNASSIGNED": "You'll receive alerts for your assigned conversations and any unattended ones.",
-          "ASSIGNED+NOTME": "You'll receive alerts for conversations assigned to you and to others, but not for unassigned ones.",
-          "NOTME+UNASSIGNED": "You'll receive alerts for unattended conversations and those assigned to others.",
-          "ASSIGNED+NOTME+UNASSIGNED": "You'll receive alerts for all conversations."
+          "NOTME": "Başkalarına atanan konuşmalar için uyarılar alacaksınız.",
+          "ASSIGNED+UNASSIGNED": "Atanan konuşmalarınız ve atanmamış konuşmalarınız için uyarılar alacaksınız.",
+          "ASSIGNED+NOTME": "Size ve başkalarına atanan konuşmalar için uyarılar alırsınız, ancak atanmamış olanlar için uyarı almazsınız.",
+          "NOTME+UNASSIGNED": "Atanmamış konuşmalar ve başkalarına atanan konuşmalar için uyarılar alacaksınız.",
+          "ASSIGNED+NOTME+UNASSIGNED": "Tüm konuşmalar için uyarılar alacaksınız."
         },
         "ALERT_TYPE": {
-          "TITLE": "Alert events for conversations",
+          "TITLE": "Konuşmalar için uyarı olayları",
           "NONE": "Hiçbiri",
           "ASSIGNED": "Atanmış Konuşmalar",
           "ALL_CONVERSATIONS": "Tüm Konuşmalar"
@@ -147,21 +147,21 @@
         "SLA_MISSED_RESOLUTION": "Send email notifications when a conversation misses resolution SLA"
       },
       "NOTIFICATIONS": {
-        "TITLE": "Notification preferences",
-        "TYPE_TITLE": "Notification type",
+        "TITLE": "Bildirim tercihleri",
+        "TYPE_TITLE": "Bildirim türü",
         "EMAIL": "E-Posta",
-        "PUSH": "Push notification",
+        "PUSH": "Push bildirim",
         "TYPES": {
-          "CONVERSATION_CREATED": "A new conversation is created",
-          "CONVERSATION_ASSIGNED": "A conversation is assigned to you",
-          "CONVERSATION_MENTION": "You are mentioned in a conversation",
-          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "A new message is created in an assigned conversation",
-          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "A new message is created in a participating conversation",
-          "SLA_MISSED_FIRST_RESPONSE": "A conversation misses first response SLA",
-          "SLA_MISSED_NEXT_RESPONSE": "A conversation misses next response SLA",
-          "SLA_MISSED_RESOLUTION": "A conversation misses resolution SLA"
+          "CONVERSATION_CREATED": "Yeni bir konuşma oluşturuldu",
+          "CONVERSATION_ASSIGNED": "Size bir konuşma atandı",
+          "CONVERSATION_MENTION": "Bir konuşmada sizden bahsedildi",
+          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Size atanmış bir konuşmada yeni bir mesaj oluşturuldu",
+          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Katıldığınız bir konuşmada yeni bir mesaj oluşturuldu",
+          "SLA_MISSED_FIRST_RESPONSE": "Bir konuşmada ilk yanıt SLA süresi aşıldı",
+          "SLA_MISSED_NEXT_RESPONSE": "Bir konuşmada sonraki yanıt SLA süresi aşıldı",
+          "SLA_MISSED_RESOLUTION": "Bir konuşmada çözüm SLA süresi aşıldı"
         },
-        "BROWSER_PERMISSION": "Enable push notifications for your browser so you’re able to receive them"
+        "BROWSER_PERMISSION": "Tarayıcınız için push bildirimleri etkinleştirin, böylece bildirimleri alabilirsiniz"
       },
       "API": {
         "UPDATE_SUCCESS": "Bildirim tercihleriniz başarıyla güncellendi",
@@ -177,9 +177,9 @@
         "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Katıldığım bir konuşmada yeni bir mesaj oluşturulduğunda anlık bildirimler gönderin",
         "HAS_ENABLED_PUSH": "Bu tarayıcı için bildirim özelliğini etkinleştirdiniz.",
         "REQUEST_PUSH": "Bildirimlerini etkinleştirin",
-        "SLA_MISSED_FIRST_RESPONSE": "Send push notifications when a conversation misses first response SLA",
-        "SLA_MISSED_NEXT_RESPONSE": "Send push notifications when a conversation misses next response SLA",
-        "SLA_MISSED_RESOLUTION": "Send push notifications when a conversation misses resolution SLA"
+        "SLA_MISSED_FIRST_RESPONSE": "Bir konuşmada ilk yanıt SLA süresi aşıldığında push bildirim gönder",
+        "SLA_MISSED_NEXT_RESPONSE": "Bir konuşmada sonraki yanıt SLA süresi aşıldığında push bildirim gönder",
+        "SLA_MISSED_RESOLUTION": "Bir konuşmada çözüm SLA süresi aşıldığında push bildirim gönder"
       },
       "PROFILE_IMAGE": {
         "LABEL": "Profil Resmi"
@@ -234,7 +234,8 @@
     "CONTACT_SUPPORT": "Contact support",
     "SELECTOR_SUBTITLE": "Listeden bir hesap seçin",
     "PROFILE_SETTINGS": "Profile settings",
-    "KEYBOARD_SHORTCUTS": "Keyboard shortcuts",
+    "YEAR_IN_REVIEW": "Year in Review",
+    "KEYBOARD_SHORTCUTS": "Klavye kısayolları",
     "APPEARANCE": "Change appearance",
     "SUPER_ADMIN_CONSOLE": "SuperAdmin console",
     "DOCS": "Read documentation",
@@ -272,7 +273,8 @@
     "FILE_BUBBLE": {
       "DOWNLOAD": "İndir",
       "UPLOADING": "Yükleniyor...",
-      "INSTAGRAM_STORY_UNAVAILABLE": "Bu hikaye artık mevcut değil."
+      "INSTAGRAM_STORY_UNAVAILABLE": "Bu hikaye artık mevcut değil.",
+      "INSTAGRAM_STORY_REPLY": "Hikayene cevap verildi:"
     },
     "LOCATION_BUBBLE": {
       "SEE_ON_MAP": "Haritada Görüntüle"
@@ -297,7 +299,7 @@
     "SWITCH": "Değiştir",
     "INBOX_VIEW": "Inbox View",
     "CONVERSATIONS": "Konuşmalar",
-    "INBOX": "My Inbox",
+    "INBOX": "Gelen Kutusu",
     "ALL_CONVERSATIONS": "Tüm Görüşmeler",
     "MENTIONED_CONVERSATIONS": "Bahsedilmeler",
     "PARTICIPATING_CONVERSATIONS": "Katılımcılar",
@@ -306,10 +308,12 @@
     "SETTINGS": "Ayarlar",
     "CONTACTS": "Kişiler",
     "ACTIVE": "Aktif",
+    "COMPANIES": "Şirketler",
+    "ALL_COMPANIES": "Tüm Şirketler",
     "CAPTAIN": "Captain",
     "CAPTAIN_ASSISTANTS": "Assistants",
-    "CAPTAIN_DOCUMENTS": "Documents",
-    "CAPTAIN_RESPONSES": "FAQs",
+    "CAPTAIN_DOCUMENTS": "Belgeler",
+    "CAPTAIN_RESPONSES": "SSS",
     "CAPTAIN_TOOLS": "Araçlar",
     "CAPTAIN_SCENARIOS": "Scenarios",
     "CAPTAIN_PLAYGROUND": "Oyun Alanı",
@@ -357,25 +361,75 @@
     "SET_AVAILABILITY_TITLE": "Kendini şu şekilde ayarla",
     "SET_YOUR_AVAILABILITY": "Uygunluk Durumunuzu Ayarlayın",
     "SLA": "SLA",
-    "CUSTOM_ROLES": "Custom Roles",
+    "CUSTOM_ROLES": "Özel Roller",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Önizleme",
-    "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
+    "REAUTHORIZE": "Gelen kutusu bağlantınızın süresi doldu, lütfen yeniden bağlanarak\n mesaj almaya ve göndermeye devam edin",
     "HELP_CENTER": {
       "TITLE": "Yardım Merkezi",
-      "ARTICLES": "Articles",
+      "ARTICLES": "Makaleler",
       "CATEGORIES": "Kategoriler",
-      "LOCALES": "Yereller",
+      "LOCALES": "Diller",
       "SETTINGS": "Ayarlar"
     },
     "CHANNELS": "Kanallar",
     "SET_AUTO_OFFLINE": {
       "TEXT": "Otomatik olarak çevrimdışı olarak işaretle",
-      "INFO_TEXT": "Sistem sizi otomatik olarak çevrimdışı işaretlesin, uygulamayı veya gösterge tablosunu kullanmıyorsanız.",
-      "INFO_SHORT": "Automatically mark offline when you aren't using the app."
+      "INFO_TEXT": "Uygulamayı veya kontrol panelini kullanmadığınızda sistemin sizi otomatik olarak çevrimdışı olarak işaretlemesine izin verin.",
+      "INFO_SHORT": "Uygulamayı kullanmadığınızda otomatik olarak çevrimdışı olarak işaretleyin."
     },
     "DOCS": "Dokümantasyonu oku",
-    "SECURITY": "Güvenlik"
+    "SECURITY": "Güvenlik",
+    "CAPTAIN_AI": "Captain",
+    "CONVERSATION_WORKFLOW": "Conversation Workflow"
+  },
+  "CAPTAIN_SETTINGS": {
+    "TITLE": "Captain Settings",
+    "DESCRIPTION": "Configure your AI models and features for Captain. Captain follows a credit based billing, you will be charged credits for every action Captain takes based on the model selected.",
+    "LOADING": "Loading Captain configuration...",
+    "LINK_TEXT": "Learn more about Captain Credits",
+    "NOT_ENABLED": "Captain is not enabled for your account. Please upgrade your plan to access Captain features.",
+    "MODEL_CONFIG": {
+      "TITLE": "Model Configuration",
+      "DESCRIPTION": "Select AI models for different features.",
+      "SELECT_MODEL": "Model seç",
+      "CREDITS_PER_MESSAGE": "{credits} credit/message",
+      "COMING_SOON": "Çok yakında",
+      "EDITOR": {
+        "TITLE": "Editor Features",
+        "DESCRIPTION": "Powers smart compose, grammar corrections, tone adjustments, and content enhancement in your message editor."
+      },
+      "ASSISTANT": {
+        "TITLE": "Assistant",
+        "DESCRIPTION": "Handles automated responses, conversation summaries, and intelligent reply suggestions for customer interactions."
+      },
+      "COPILOT": {
+        "TITLE": "Co-pilot",
+        "DESCRIPTION": "Provides real-time contextual suggestions, knowledge base recommendations, and proactive insights during conversations."
+      }
+    },
+    "FEATURES": {
+      "TITLE": "Özellikleri",
+      "DESCRIPTION": "Enable or disable AI-powered features.",
+      "AUDIO_TRANSCRIPTION": {
+        "TITLE": "Audio Transcription",
+        "DESCRIPTION": "Automatically convert voice messages and call recordings into searchable text transcripts."
+      },
+      "HELP_CENTER_SEARCH": {
+        "TITLE": "Help Center Search Indexing",
+        "DESCRIPTION": "Use AI for context aware search inside your help center articles."
+      },
+      "LABEL_SUGGESTION": {
+        "TITLE": "Label Suggestion",
+        "DESCRIPTION": "Automatically suggest relevant labels and tags for conversations based on content analysis and context.",
+        "MODEL_TITLE": "Label Suggestion Model",
+        "MODEL_DESCRIPTION": "Select the AI model to use for analyzing conversations and suggesting appropriate labels"
+      }
+    },
+    "API": {
+      "SUCCESS": "Captain settings updated successfully.",
+      "ERROR": "Failed to update Captain settings. Please try again."
+    }
   },
   "BILLING_SETTINGS": {
     "TITLE": "Fatura",
@@ -396,21 +450,46 @@
       "TITLE": "Captain",
       "DESCRIPTION": "Manage usage and credits for Captain AI.",
       "BUTTON_TXT": "Buy more credits",
-      "DOCUMENTS": "Documents",
+      "DOCUMENTS": "Belgeler",
       "RESPONSES": "Responses",
-      "UPGRADE": "Captain is not available on the free plan, upgrade now to get access to assistants, copilot and more."
+      "UPGRADE": "Captain, ücretsiz planda mevcut değildir. Asistanlara, Copilot'a ve daha fazlasına erişim sağlamak için şimdi yükseltin.",
+      "REFRESH_CREDITS": "Yenile"
     },
     "CHAT_WITH_US": {
       "TITLE": "Yardıma mı ihtiyacınız var?",
       "DESCRIPTION": "Fatura konusunda herhangi bir sorunla karşılaşıyor musunuz? Yardımcı olmak için buradayız.",
       "BUTTON_TXT": "Sohbet et"
     },
-    "NO_BILLING_USER": "Fatura hesabınız yapılandırılıyor. Lütfen sayfayı yenileyip tekrar deneyin."
+    "NO_BILLING_USER": "Fatura hesabınız yapılandırılıyor. Lütfen sayfayı yenileyip tekrar deneyin.",
+    "TOPUP": {
+      "BUY_CREDITS": "Buy more credits",
+      "MODAL_TITLE": "Buy AI Credits",
+      "MODAL_DESCRIPTION": "Purchase additional credits for Captain AI.",
+      "CREDITS": "CREDITS",
+      "ONE_TIME": "one-time",
+      "POPULAR": "Most Popular",
+      "NOTE_TITLE": "Not:",
+      "NOTE_DESCRIPTION": "Credits are added immediately and expire in 6 months. An active subscription is required to use credits. Purchased credits are consumed after your monthly plan credits.",
+      "CANCEL": "İptal Et",
+      "PURCHASE": "Purchase Credits",
+      "LOADING": "Loading options...",
+      "FETCH_ERROR": "Failed to load credit options. Please try again.",
+      "PURCHASE_ERROR": "Failed to process purchase. Please try again.",
+      "PURCHASE_SUCCESS": "Successfully added {credits} credits to your account",
+      "CONFIRM": {
+        "TITLE": "Confirm Purchase",
+        "DESCRIPTION": "You are about to purchase {credits} credits for {amount}.",
+        "INSTANT_DEDUCTION_NOTE": "Kaydettiğiniz kart, onaylandıktan hemen sonra ücretlendirilecektir.",
+        "GO_BACK": "Geri Git",
+        "CONFIRM_PURCHASE": "Confirm Purchase"
+      }
+    }
   },
   "SECURITY_SETTINGS": {
     "TITLE": "Güvenlik",
     "DESCRIPTION": "Hesap güvenlik ayarlarınızı yönetin.",
-    "LINK_TEXT": "Learn more about SAML SSO",
+    "LINK_TEXT": "SAML SSO hakkında daha fazla bilgi edinin",
+    "SAML_DISABLED_MESSAGE": "SAML SSO is currently disabled. Please contact your administrator to enable this feature.",
     "SAML": {
       "TITLE": "SAML SSO",
       "NOTE": "Configure SAML single sign-on for your account. Users will authenticate through your identity provider instead of using email/password.",
@@ -457,13 +536,13 @@
         "IDP_ENTITY_ID_ERROR": "Identity Provider Entity ID is required"
       },
       "ENTERPRISE_PAYWALL": {
-        "AVAILABLE_ON": "The SAML SSO feature is only available in the Enterprise plans.",
-        "UPGRADE_PROMPT": "Upgrade to an Enterprise plan to access SAML single sign-on and other advanced security features.",
+        "AVAILABLE_ON": "SAML SSO özelliği yalnızca Enterprise planlarında mevcuttur.",
+        "UPGRADE_PROMPT": "SAML tek oturum açma ve diğer gelişmiş güvenlik özelliklerine erişmek için Enterprise planına yükseltin.",
         "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
       },
       "PAYWALL": {
-        "TITLE": "Upgrade to enable SAML SSO",
-        "AVAILABLE_ON": "The SAML SSO feature is only available in the Enterprise plans.",
+        "TITLE": "SAML SSO'yu etkinleştirmek için yükseltin",
+        "AVAILABLE_ON": "SAML SSO özelliği yalnızca Enterprise planlarında mevcuttur.",
         "UPGRADE_PROMPT": "Upgrade your plan to get access to SAML single sign-on and other advanced features.",
         "UPGRADE_NOW": "Şimdi yükselt",
         "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
@@ -475,6 +554,58 @@
       "INFO_SECTION": {
         "TITLE": "Service Provider Information",
         "TOOLTIP": "Copy these values and configure them in your Identity Provider to establish the SAML connection"
+      }
+    }
+  },
+  "CONVERSATION_WORKFLOW": {
+    "INDEX": {
+      "HEADER": {
+        "TITLE": "Konuşma İş Akışları",
+        "DESCRIPTION": "Konuşma çözümlemesi için kuralları ve zorunlu alanları yapılandırın."
+      }
+    },
+    "REQUIRED_ATTRIBUTES": {
+      "TITLE": "Attributes required on resolution",
+      "DESCRIPTION": "When resolving a conversation, agents will be prompted to fill these attributes if they haven't yet.",
+      "NO_ATTRIBUTES": "No attributes added yet",
+      "ADD": {
+        "TITLE": "Add Attributes",
+        "SEARCH_PLACEHOLDER": "Öznitelik ara"
+      },
+      "SAVE": {
+        "SUCCESS": "Required attributes updated",
+        "ERROR": "Could not update required attributes, please try again"
+      },
+      "MODAL": {
+        "TITLE": "Görüşmeyi Çöz",
+        "DESCRIPTION": "Please fill in the following custom attributes before resolving this conversation",
+        "ACTIONS": {
+          "RESOLVE": "Görüşmeyi Çöz",
+          "CANCEL": "İptal Et"
+        },
+        "PLACEHOLDERS": {
+          "TEXT": "Write a note...",
+          "NUMBER": "Enter a number",
+          "LINK": "Add a link",
+          "DATE": "Pick a date",
+          "LIST": "Select an option"
+        },
+        "CHECKBOX": {
+          "YES": "Evet",
+          "NO": "Hayır"
+        }
+      },
+      "PAYWALL": {
+        "TITLE": "Upgrade to use required attributes",
+        "AVAILABLE_ON": "The required conversation attributes feature is available on the Business and Enterprise plans.",
+        "UPGRADE_PROMPT": "Upgrade your plan to prompt agents to fill required attributes before conversation resolution.",
+        "UPGRADE_NOW": "Şimdi yükselt",
+        "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
+      },
+      "ENTERPRISE_PAYWALL": {
+        "AVAILABLE_ON": "The required conversation attributes feature is available on the paid plans.",
+        "UPGRADE_PROMPT": "Upgrade to a paid plan to enforce required attributes before conversation resolution.",
+        "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
       }
     }
   },
@@ -563,7 +694,8 @@
         "CREATE_BUTTON": "Create policy",
         "API": {
           "SUCCESS_MESSAGE": "Assignment policy created successfully",
-          "ERROR_MESSAGE": "Failed to create assignment policy"
+          "ERROR_MESSAGE": "Failed to create assignment policy",
+          "INBOX_LINKED": "Inbox has been linked to the policy"
         }
       },
       "EDIT": {
@@ -576,6 +708,12 @@
           "DESCRIPTION": "{inboxName} inbox is already linked to another policy. Are you sure you want to link it to this policy? It will be unlinked from the other policy.",
           "CONFIRM_BUTTON_LABEL": "Devam et",
           "CANCEL_BUTTON_LABEL": "İptal Et"
+        },
+        "INBOX_LINK_PROMPT": {
+          "TITLE": "Link inbox to policy",
+          "DESCRIPTION": "Would you like to link this inbox to the assignment policy?",
+          "LINK_BUTTON": "Link inbox",
+          "CANCEL_BUTTON": "Skip"
         },
         "API": {
           "SUCCESS_MESSAGE": "Assignment policy updated successfully",
@@ -599,7 +737,7 @@
         },
         "DESCRIPTION": {
           "LABEL": "Açıklama:",
-          "PLACEHOLDER": "Enter description"
+          "PLACEHOLDER": "Açıklama girin"
         },
         "STATUS": {
           "LABEL": "Durum:",
@@ -614,8 +752,10 @@
             "DESCRIPTION": "Assign conversations evenly among agents."
           },
           "BALANCED": {
-            "LABEL": "Balanced",
-            "DESCRIPTION": "Assign conversations based on available capacity."
+            "LABEL": "Dengeli",
+            "DESCRIPTION": "Assign conversations based on available capacity.",
+            "PREMIUM_MESSAGE": "Upgrade to access balanced assignment and agent capacity management.",
+            "PREMIUM_BADGE": "Premium"
           }
         },
         "ASSIGNMENT_PRIORITY": {
@@ -683,7 +823,7 @@
         },
         "EDIT_BUTTON": "Update policy",
         "CONFIRM_ADD_AGENT_DIALOG": {
-          "TITLE": "Add agent",
+          "TITLE": "Temsilci ekle",
           "DESCRIPTION": "{agentName} is already linked to another policy. Are you sure you want to link it to this policy? It will be unlinked from the other policy.",
           "CONFIRM_BUTTON_LABEL": "Devam et",
           "CANCEL_BUTTON_LABEL": "İptal Et"
@@ -701,6 +841,20 @@
             "SUCCESS_MESSAGE": "Agent removed from policy successfully",
             "ERROR_MESSAGE": "Failed to remove agent from policy"
           }
+        },
+        "INBOX_LIMIT_API": {
+          "ADD": {
+            "SUCCESS_MESSAGE": "Inbox limit added successfully",
+            "ERROR_MESSAGE": "Failed to add inbox limit"
+          },
+          "UPDATE": {
+            "SUCCESS_MESSAGE": "Inbox limit updated successfully",
+            "ERROR_MESSAGE": "Failed to update inbox limit"
+          },
+          "DELETE": {
+            "SUCCESS_MESSAGE": "Inbox limit deleted successfully",
+            "ERROR_MESSAGE": "Failed to delete inbox limit"
+          }
         }
       },
       "FORM": {
@@ -710,13 +864,13 @@
         },
         "DESCRIPTION": {
           "LABEL": "Açıklama:",
-          "PLACEHOLDER": "Enter description"
+          "PLACEHOLDER": "Açıklama girin"
         },
         "INBOX_CAPACITY_LIMIT": {
-          "LABEL": "Inbox capacity limits",
-          "ADD_BUTTON": "Add inbox",
+          "LABEL": "Gelen Kutusu kapasite limiti",
+          "ADD_BUTTON": "Gelen Kutusu ekle",
           "FIELD": {
-            "SELECT_INBOX": "Select inbox",
+            "SELECT_INBOX": "Gelen Kutusu seç",
             "MAX_CONVERSATIONS": "Maksimum Konuşma",
             "SET_LIMIT": "Sınır belirle"
           },
@@ -759,8 +913,8 @@
       }
     },
     "DELETE_POLICY": {
-      "TITLE": "Delete policy",
-      "DESCRIPTION": "Are you sure you want to delete this policy? This action cannot be undone.",
+      "TITLE": "Politikayı sil",
+      "DESCRIPTION": "Bu politikayı silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.",
       "CONFIRM_BUTTON_LABEL": "Sil",
       "CANCEL_BUTTON_LABEL": "İptal Et"
     }

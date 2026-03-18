@@ -18,7 +18,9 @@ RSpec.describe Captain::Copilot::ResponseJob, type: :job do
         copilot_thread_id: copilot_thread.id,
         conversation_id: conversation_id
       ).and_return(chat_service)
-      allow(chat_service).to receive(:generate_response).with(message)
+      # When copilot_thread_id is present, message is already in previous_history
+      # so nil is passed to avoid duplicate
+      allow(chat_service).to receive(:generate_response).with(nil)
     end
 
     it 'initializes ChatService with correct parameters and calls generate_response' do
@@ -28,7 +30,9 @@ RSpec.describe Captain::Copilot::ResponseJob, type: :job do
         copilot_thread_id: copilot_thread.id,
         conversation_id: conversation_id
       )
-      expect(chat_service).to receive(:generate_response).with(message)
+      # Message is already persisted in copilot_thread.previous_history,
+      # so we pass nil to prevent duplicate user messages
+      expect(chat_service).to receive(:generate_response).with(nil)
       described_class.perform_now(
         assistant: assistant,
         conversation_id: conversation_id,

@@ -245,6 +245,78 @@ RSpec.describe 'Enterprise Billing APIs', type: :request do
     end
   end
 
+  describe 'POST /enterprise/api/v1/accounts/{account.id}/topup_checkout' do
+    let(:stripe_customer_id) { 'cus_test123' }
+    let(:invoice_settings) { Struct.new(:default_payment_method).new('pm_test123') }
+    let(:stripe_customer) { Struct.new(:invoice_settings, :default_source).new(invoice_settings, nil) }
+    let(:stripe_invoice) { Struct.new(:id).new('inv_test123') }
+
+    before do
+      create(:installation_config, name: 'CHATWOOT_CLOUD_PLANS', value: [
+               { 'name' => 'Hacker', 'product_id' => ['prod_hacker'], 'price_ids' => ['price_hacker'] },
+               { 'name' => 'Business', 'product_id' => ['prod_business'], 'price_ids' => ['price_business'] }
+             ])
+    end
+
+    it 'returns unauthorized for unauthenticated user' do
+      post "/enterprise/api/v1/accounts/#{account.id}/topup_checkout", as: :json
+      expect(response).to have_http_status(:unauthorized)
+    end
+
+    it 'returns unauthorized for agent' do
+      post "/enterprise/api/v1/accounts/#{account.id}/topup_checkout",
+           headers: agent.create_new_auth_token,
+           params: { credits: 1000 },
+           as: :json
+      expect(response).to have_http_status(:unauthorized)
+    end
+
+    context 'when it is an admin' do
+      before do
+        account.update!(
+          custom_attributes: { plan_name: 'Business', stripe_customer_id: stripe_customer_id },
+          limits: { 'captain_responses' => 1000 }
+        )
+        allow(Stripe::Customer).to receive(:retrieve).with(stripe_customer_id).and_return(stripe_customer)
+        allow(Stripe::Invoice).to receive(:create).and_return(stripe_invoice)
+        allow(Stripe::InvoiceItem).to receive(:create)
+        allow(Stripe::Invoice).to receive(:finalize_invoice)
+        allow(Stripe::Invoice).to receive(:pay)
+        allow(Stripe::Billing::CreditGrant).to receive(:create)
+      end
+
+      it 'successfully processes topup and returns correct response' do
+        post "/enterprise/api/v1/accounts/#{account.id}/topup_checkout",
+             headers: admin.create_new_auth_token,
+             params: { credits: 1000 },
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        json_response = JSON.parse(response.body)
+        expect(json_response['credits']).to eq(1000)
+        expect(json_response['amount']).to eq(20.0)
+        expect(json_response['limits']['captain_responses']).to eq(2000)
+      end
+
+      it 'returns error when credits parameter is missing' do
+        post "/enterprise/api/v1/accounts/#{account.id}/topup_checkout",
+             headers: admin.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+
+      it 'returns error for invalid credits amount' do
+        post "/enterprise/api/v1/accounts/#{account.id}/topup_checkout",
+             headers: admin.create_new_auth_token,
+             params: { credits: 999 },
+             as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+    end
+  end
+
   describe 'POST /enterprise/api/v1/accounts/{account.id}/toggle_deletion' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
@@ -285,10 +357,32 @@ RSpec.describe 'Enterprise Billing APIs', type: :request do
       context 'when it is an admin' do
         before do
           # Create the installation config for cloud environment
-          InstallationConfig.where(name: 'DEPLOYMENT_ENV').first_or_create(value: 'cloud')
+          InstallationConfig.where(name: 'DEPLOYMENT_ENV').first_or_initialize.update!(value: 'cloud')
         end
 
         it 'marks the account for deletion when action is delete' do
+          cancellation_service = instance_double(Enterprise::Billing::CancelCloudSubscriptionsService, perform: true)
+          allow(Enterprise::Billing::CancelCloudSubscriptionsService).to receive(:new).with(account: account)
+                                                                                      .and_return(cancellation_service)
+
+          post "/enterprise/api/v1/accounts/#{account.id}/toggle_deletion",
+               headers: admin.create_new_auth_token,
+               params: { action_type: 'delete' },
+               as: :json
+
+          expect(response).to have_http_status(:ok)
+          expect(account.reload.custom_attributes['marked_for_deletion_at']).to be_present
+          expect(account.custom_attributes['marked_for_deletion_reason']).to eq('manual_deletion')
+          expect(Enterprise::Billing::CancelCloudSubscriptionsService).to have_received(:new).with(account: account)
+          expect(cancellation_service).to have_received(:perform)
+        end
+
+        it 'returns success even if stripe cancellation fails' do
+          cancellation_service = instance_double(Enterprise::Billing::CancelCloudSubscriptionsService)
+          allow(Enterprise::Billing::CancelCloudSubscriptionsService).to receive(:new).with(account: account)
+                                                                                      .and_return(cancellation_service)
+          allow(cancellation_service).to receive(:perform).and_raise(Stripe::APIError.new('stripe unavailable'))
+
           post "/enterprise/api/v1/accounts/#{account.id}/toggle_deletion",
                headers: admin.create_new_auth_token,
                params: { action_type: 'delete' },
