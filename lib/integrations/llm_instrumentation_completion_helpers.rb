@@ -66,7 +66,7 @@ module Integrations::LlmInstrumentationCompletionHelpers
     return if message.blank?
 
     span.set_attribute(ATTR_GEN_AI_COMPLETION_ROLE, 'assistant')
-    span.set_attribute(ATTR_GEN_AI_COMPLETION_CONTENT, message)
+    span.set_attribute(ATTR_GEN_AI_COMPLETION_CONTENT, message.is_a?(String) ? message : message.to_json)
   end
 
   def set_usage_metrics(span, result)

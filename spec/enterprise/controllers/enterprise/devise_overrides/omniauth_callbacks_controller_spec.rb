@@ -57,5 +57,22 @@ RSpec.describe 'Enterprise SAML OmniAuth Callbacks', type: :request do
         expect(response).to redirect_to(%r{/app/login\?email=.+&sso_auth_token=.+$})
       end
     end
+
+    it 'rejects an existing user from another account' do
+      with_modified_env FRONTEND_URL: 'http://www.example.com' do
+        other_account = create(:account)
+        existing_user = create(:user, email: 'existing@example.com', account: other_account, provider: 'email')
+        set_saml_config('existing@example.com')
+
+        get "/omniauth/saml/callback?account_id=#{account.id}"
+
+        expect(response).to redirect_to('http://www.example.com/auth/saml/callback')
+        follow_redirect!
+
+        expect(response).to redirect_to('http://www.example.com/app/login?error=saml-authentication-failed')
+        expect(existing_user.reload.provider).to eq('email')
+        expect(existing_user.accounts).not_to include(account)
+      end
+    end
   end
 end

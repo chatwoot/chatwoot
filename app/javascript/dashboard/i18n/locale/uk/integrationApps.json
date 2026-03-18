@@ -3,6 +3,9 @@
     "FETCHING": "Отримання інтеграцій",
     "NO_HOOK_CONFIGURED": "Немає сконфігурованих інтеграцій {integrationId} в цьому обліковому записі.",
     "HEADER": "Додатки",
+    "COUNT": "{n} integration | {n} integrations",
+    "SEARCH_PLACEHOLDER": "Search...",
+    "NO_RESULTS": "No results found matching your search",
     "STATUS": {
       "ENABLED": "Увімкнено",
       "DISABLED": "Вимкнено"
@@ -31,6 +34,7 @@
     "LIST": {
       "FETCHING": "Отримання інтеграційних хуків",
       "INBOX": "Вхідні",
+      "ACTIONS": "Дії",
       "DELETE": {
         "BUTTON_TEXT": "Видалити"
       }
