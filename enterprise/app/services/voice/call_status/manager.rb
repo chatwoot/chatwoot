@@ -68,22 +68,18 @@ class Voice::CallStatus::Manager
     data = (message.content_attributes || {}).deep_dup
     call_data = data['data'] ||= {}
     call_data['status'] = status
-    update_duration_meta(call_data, status)
+    call_data['meta'] ||= {}
+    update_duration_meta(data, status)
     data
   end
 
-  def update_duration_meta(call_data, status)
-    meta = call_data['meta'] ||= {}
-    duration = completed_call_duration(status)
+  def update_duration_meta(data, status)
+    duration = conversation.additional_attributes['call_duration']
 
-    return meta['duration'] = duration if duration.present?
-
-    meta.delete('duration')
-  end
-
-  def completed_call_duration(status)
-    return unless status == 'completed'
-
-    conversation.additional_attributes&.dig('call_duration')
+    if status == 'completed' && duration.present?
+      data['data']['meta']['duration'] = duration
+    else
+      data['data']['meta'].delete('duration')
+    end
   end
 end
