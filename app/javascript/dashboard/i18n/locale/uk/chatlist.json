@@ -76,6 +76,9 @@
       },
       "waiting_since_desc": {
         "TEXT": "Очікує відповіді: спершу короткі"
+      },
+      "priority_desc_created_at_asc": {
+        "TEXT": "Priority: Highest first, Created: Oldest first"
       }
     },
     "ATTACHMENTS": {
@@ -104,7 +107,7 @@
         "CONTENT": "Shared contact"
       },
       "embed": {
-        "CONTENT": "Embedded content"
+        "CONTENT": "Вбудований вміст"
       }
     },
     "CHAT_SORT_BY_FILTER": {
