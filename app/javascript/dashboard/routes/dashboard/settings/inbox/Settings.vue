@@ -1133,7 +1133,7 @@ export default {
                   $t('INBOX_MGMT.SETTINGS_POPUP.ENABLE_CONTINUITY_VIA_EMAIL')
                 "
                 :description="continuityDescription"
-                :disabled="isContinuityDisabled"
+                :hide-toggle="isContinuityDisabled"
               />
             </SettingsAccordion>
 
