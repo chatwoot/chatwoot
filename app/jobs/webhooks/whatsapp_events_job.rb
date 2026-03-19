@@ -1,5 +1,5 @@
 class Webhooks::WhatsappEventsJob < ApplicationJob
-  queue_as :default
+  queue_as :low
 
   def perform(params = {})
     channel = find_channel_from_whatsapp_business_payload(params)
@@ -59,46 +59,12 @@ class Webhooks::WhatsappEventsJob < ApplicationJob
   end
 
   def handle_message_events(channel, params)
-    if call_event?(params)
-      handle_call_events(channel, params)
-      return
-    end
-
-    if call_permission_reply?(params)
-      handle_call_permission_reply(channel, params)
-      return
-    end
-
     case channel.provider
     when 'whatsapp_cloud'
       Whatsapp::IncomingMessageWhatsappCloudService.new(inbox: channel.inbox, params: params).perform
     else
       Whatsapp::IncomingMessageService.new(inbox: channel.inbox, params: params).perform
     end
-  end
-
-  def handle_call_events(channel, params)
-    Whatsapp::IncomingCallService.new(
-      inbox: channel.inbox,
-      params: extract_call_params(params)
-    ).perform
-  end
-
-  def call_event?(params)
-    params.dig(:entry, 0, :changes, 0, :field) == 'calls'
-  end
-
-  def call_permission_reply?(params)
-    message = params.dig(:entry, 0, :changes, 0, :value, :messages, 0)
-    message&.dig(:type) == 'interactive' && message&.dig(:interactive, :type) == 'call_permission_reply'
-  end
-
-  def handle_call_permission_reply(channel, params)
-    Whatsapp::CallPermissionReplyService.new(inbox: channel.inbox, params: params).perform
-  end
-
-  def extract_call_params(params)
-    params.dig(:entry, 0, :changes, 0, :value) || {}
   end
 
   private
@@ -134,3 +100,5 @@ class Webhooks::WhatsappEventsJob < ApplicationJob
     return channel if channel && channel.provider_config['phone_number_id'] == phone_number_id
   end
 end
+
+Webhooks::WhatsappEventsJob.prepend_mod_with('Webhooks::WhatsappEventsJob')

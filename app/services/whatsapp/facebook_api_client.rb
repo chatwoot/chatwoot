@@ -86,7 +86,7 @@ class Whatsapp::FacebookApiClient
       body: {
         override_callback_uri: callback_url,
         verify_token: verify_token,
-        subscribed_fields: %w[messages smb_message_echoes calls]
+        subscribed_fields: webhook_subscribed_fields
       }.to_json
     )
 
@@ -100,6 +100,10 @@ class Whatsapp::FacebookApiClient
     )
 
     handle_response(response, 'Webhook unsubscription failed')
+  end
+
+  def webhook_subscribed_fields
+    %w[messages smb_message_echoes]
   end
 
   private
@@ -123,3 +127,5 @@ class Whatsapp::FacebookApiClient
     response.parsed_response
   end
 end
+
+Whatsapp::FacebookApiClient.prepend_mod_with('Whatsapp::FacebookApiClient')

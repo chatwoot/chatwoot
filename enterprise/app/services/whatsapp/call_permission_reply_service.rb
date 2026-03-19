@@ -2,6 +2,8 @@ class Whatsapp::CallPermissionReplyService
   pattr_initialize [:inbox!, :params!]
 
   def perform
+    return unless inbox.account.feature_enabled?('whatsapp_call')
+
     reply_data = extract_reply_data
     return unless reply_data&.dig(:accepted)
 

@@ -2,6 +2,8 @@ class Whatsapp::IncomingCallService
   pattr_initialize [:inbox!, :params!]
 
   def perform
+    return unless inbox.account.feature_enabled?('whatsapp_call')
+
     calls = params[:calls]
     return if calls.blank?
 

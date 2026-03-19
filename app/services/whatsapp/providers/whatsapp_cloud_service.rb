@@ -1,6 +1,4 @@
 class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseService
-  include Whatsapp::Providers::WhatsappCloudCallMethods
-
   def send_message(phone_number, message)
     @message = message
 
@@ -207,3 +205,5 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     process_response(response, message)
   end
 end
+
+Whatsapp::Providers::WhatsappCloudService.include_mod_with('Whatsapp::Providers::WhatsappCloudService')

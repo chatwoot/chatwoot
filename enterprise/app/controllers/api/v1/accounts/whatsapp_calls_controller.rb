@@ -1,4 +1,5 @@
 class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseController
+  before_action :ensure_whatsapp_call_enabled
   before_action :set_whatsapp_call, only: [:accept, :reject, :terminate]
 
   def accept
@@ -83,6 +84,10 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
     return 'Calling is not enabled for this inbox' unless channel.provider_config['calling_enabled']
 
     nil
+  end
+
+  def ensure_whatsapp_call_enabled
+    render_payment_required('WhatsApp calling is not enabled for this account') unless current_account.feature_enabled?('whatsapp_call')
   end
 
   def set_whatsapp_call

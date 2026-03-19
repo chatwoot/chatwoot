@@ -44,6 +44,7 @@ export const FEATURE_FLAGS = {
   COMPANIES: 'companies',
   ADVANCED_SEARCH: 'advanced_search',
   CONVERSATION_REQUIRED_ATTRIBUTES: 'conversation_required_attributes',
+  WHATSAPP_CALL: 'whatsapp_call',
 };
 
 export const PREMIUM_FEATURES = [
@@ -55,4 +56,5 @@ export const PREMIUM_FEATURES = [
   FEATURE_FLAGS.SAML,
   FEATURE_FLAGS.CONVERSATION_REQUIRED_ATTRIBUTES,
   FEATURE_FLAGS.ADVANCED_ASSIGNMENT,
+  FEATURE_FLAGS.WHATSAPP_CALL,
 ];
