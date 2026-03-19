@@ -591,6 +591,30 @@ RSpec.describe ConversationReplyMailer do
         expect(mail.delivery_method.settings[:address]).to eq 'smtp.gmail.com'
         expect(mail.delivery_method.settings[:port]).to eq 587
       end
+
+      it 'uses inbox oauth smtp when global smtp config is unavailable' do
+        allow(class_instance).to receive(:smtp_config_set_or_development?).and_return(false)
+
+        mail = described_class.email_reply(message)
+
+        expect(mail).not_to be_nil
+        expect(mail.delivery_method.settings[:address]).to eq 'smtp.gmail.com'
+        expect(mail.delivery_method.settings[:port]).to eq 587
+      end
+    end
+
+    context 'when oauth provider is set but imap is disabled' do
+      let(:google_channel) do
+        create(:channel_email, imap_enabled: false, account: account, provider: 'google', provider_config: { access_token: 'access_token' })
+      end
+      let(:conversation) { create(:conversation, assignee: agent, inbox: google_channel.inbox, account: account).reload }
+      let(:message) { create(:message, conversation: conversation, account: account, message_type: 'outgoing', content: 'Outgoing Message 2') }
+
+      it 'does not build the mail without global smtp' do
+        allow(class_instance).to receive(:smtp_config_set_or_development?).and_return(false)
+
+        expect(described_class.email_reply(message).deliver_now).to be_nil
+      end
     end
 
     context 'when smtp disabled for email channel', :test do
