@@ -16,7 +16,9 @@ properties:
     type: integer
     description: Id of the account
   extension:
-    type: string
+    type:
+      - string
+      - 'null'
     description: File extension
   data_url:
     type: string

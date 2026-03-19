@@ -9261,11 +9261,17 @@
             "description": "Name of the contact"
           },
           "email": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "Email of the contact"
           },
           "phone_number": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "Phone number of the contact"
           },
           "pubsub_token": {
@@ -9509,7 +9515,10 @@
             "description": "Id of the account"
           },
           "extension": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "File extension"
           },
           "data_url": {
