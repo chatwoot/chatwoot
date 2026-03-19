@@ -82,6 +82,28 @@ describe ContactInboxWithContactBuilder do
       expect(contact_inbox.contact.id).to be(contact.id)
     end
 
+    it 'reuses a contact when a non-primary alias email matches and creates a missing contact inbox' do
+      Contacts::EmailAddressesSyncService.new(
+        contact: contact,
+        email_addresses: [
+          { email: contact.email, primary: true },
+          { email: 'alias@example.com', primary: false }
+        ]
+      ).perform
+
+      contact_inbox = described_class.new(
+        source_id: '123456',
+        inbox: inbox,
+        contact_attributes: {
+          name: 'Contact',
+          email: 'alias@example.com'
+        }
+      ).perform
+
+      expect(contact_inbox.contact.id).to be(contact.id)
+      expect(ContactInbox.where(contact: contact, inbox: inbox).count).to eq(1)
+    end
+
     it 'doesnot create contact if it already exist with phone number' do
       contact_inbox = described_class.new(
         source_id: '123456',

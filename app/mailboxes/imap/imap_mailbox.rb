@@ -110,9 +110,9 @@ class Imap::ImapMailbox
   end
 
   def find_or_create_contact
-    @contact = @inbox.contacts.from_email(@processed_mail.original_sender)
+    @contact = @account.contacts.from_email(@processed_mail.original_sender)
     if @contact.present?
-      @contact_inbox = ContactInbox.find_by(inbox: @inbox, contact: @contact)
+      find_or_create_contact_inbox
     else
       create_contact
     end

@@ -67,9 +67,13 @@ const handleFormUpdate = updatedData => {
   Object.assign(contactData.value, updatedData);
 };
 
+const serializedContactData = () => {
+  return contactsFormRef.value?.getSerializableState?.() || contactData.value;
+};
+
 const updateContact = async () => {
   try {
-    const { customAttributes, ...basicContactData } = contactData.value;
+    const { customAttributes, ...basicContactData } = serializedContactData();
     await store.dispatch('contacts/update', basicContactData);
     await store.dispatch(
       'contacts/fetchContactableInbox',
@@ -91,7 +95,7 @@ const handleAvatarUpload = async ({ file, url }) => {
 
   try {
     await store.dispatch('contacts/update', {
-      ...contactsFormRef.value?.state,
+      ...serializedContactData(),
       avatar: file,
       isFormData: true,
     });
@@ -165,6 +169,7 @@ const handleAvatarDelete = async () => {
         ref="contactsFormRef"
         :contact-data="contactData"
         is-details-view
+        show-email-aliases
         @update="handleFormUpdate"
       />
       <Button

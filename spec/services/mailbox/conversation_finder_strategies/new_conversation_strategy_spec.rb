@@ -66,6 +66,26 @@ RSpec.describe Mailbox::ConversationFinderStrategies::NewConversationStrategy do
             .and not_change(Contact, :count)
             .and not_change(ContactInbox, :count)
         end
+
+        it 'reuses a contact matched by alias email and creates a missing contact inbox' do
+          existing_contact.contact_inboxes.destroy_all
+          Contacts::EmailAddressesSyncService.new(
+            contact: existing_contact,
+            email_addresses: [
+              { email: 'sender@example.com', primary: true },
+              { email: 'alias@example.com', primary: false }
+            ]
+          ).perform
+          mail.from = 'alias@example.com'
+
+          strategy = described_class.new(mail)
+
+          expect do
+            conversation = strategy.find
+            expect(conversation.contact).to eq(existing_contact)
+          end.to not_change(Contact, :count)
+            .and change(ContactInbox, :count).by(1)
+        end
       end
 
       context 'when mail has In-Reply-To header' do

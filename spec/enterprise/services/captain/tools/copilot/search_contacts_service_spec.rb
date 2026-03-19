@@ -72,6 +72,20 @@ RSpec.describe Captain::Tools::Copilot::SearchContactsService do
         expect(result).not_to include(contact2.to_llm_text)
       end
 
+      it 'returns contacts when filtered by alias email' do
+        Contacts::EmailAddressesSyncService.new(
+          contact: contact1,
+          email_addresses: [
+            { email: 'test1@example.com', primary: true },
+            { email: 'alias@example.com', primary: false }
+          ]
+        ).perform
+
+        result = service.execute(email: 'alias@example.com')
+        expect(result).to include(contact1.to_llm_text)
+        expect(result).not_to include(contact2.to_llm_text)
+      end
+
       it 'returns contacts when filtered by phone number' do
         result = service.execute(phone_number: '+1234567890')
         expect(result).to include(contact1.to_llm_text)

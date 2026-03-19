@@ -40,6 +40,16 @@ describe ContactMergeAction do
       expect(base_contact.custom_attributes['val_empty_new']).to eq('')
     end
 
+    it 'preserves the base primary email and keeps unique mergee aliases' do
+      contact_merge
+
+      expect(base_contact.reload.contact_emails.pluck(:email, :primary)).to contain_exactly(
+        ['old@old.com', true],
+        ['new@new.com', false]
+      )
+      expect(base_contact.email).to eq('old@old.com')
+    end
+
     context 'when base contact and merge contact are same' do
       it 'does not delete contact' do
         mergee_contact = base_contact
@@ -87,6 +97,56 @@ describe ContactMergeAction do
           described_class.new(account: new_account, base_contact: base_contact,
                               mergee_contact: mergee_contact).perform
         end.to raise_error('contact does not belong to the account')
+      end
+    end
+
+    context 'when the mergee only overlaps an existing base alias through legacy email cache' do
+      let!(:base_contact) do
+        create(:contact, identifier: 'base_contact', email: nil, phone_number: '', custom_attributes: { val_test: 'old', val_empty_old: '' },
+                         account: account)
+      end
+      let!(:mergee_contact) do
+        create(:contact, identifier: '', email: 'shared@example.com', phone_number: '+12212345',
+                         custom_attributes: { val_test: 'new', val_new: 'new', val_empty_new: '' }, account: account)
+      end
+
+      before do
+        mergee_contact.contact_emails.delete_all
+        create(:contact_email, contact: base_contact, account: account, email: 'old@old.com', primary: true)
+        create(:contact_email, contact: base_contact, account: account, email: 'shared@example.com', primary: false)
+      end
+
+      it 'skips creating a duplicate alias row' do
+        contact_merge
+
+        expect(base_contact.reload.contact_emails.where(email: 'shared@example.com').count).to eq(1)
+        expect(base_contact.email).to eq('old@old.com')
+      end
+    end
+
+    context 'when the base contact has no stored emails' do
+      let!(:base_contact) do
+        create(:contact, identifier: 'base_contact', email: nil, phone_number: '', custom_attributes: { val_test: 'old', val_empty_old: '' },
+                         account: account)
+      end
+      let!(:mergee_contact) do
+        create(:contact, identifier: '', email: nil, phone_number: '+12212345',
+                         custom_attributes: { val_test: 'new', val_new: 'new', val_empty_new: '' }, account: account)
+      end
+
+      before do
+        create(:contact_email, contact: mergee_contact, account: account, email: 'new@new.com', primary: true)
+        create(:contact_email, contact: mergee_contact, account: account, email: 'alias@new.com', primary: false)
+      end
+
+      it 'promotes the mergee primary email onto the merged contact' do
+        contact_merge
+
+        expect(base_contact.reload.contact_emails.pluck(:email, :primary)).to contain_exactly(
+          ['new@new.com', true],
+          ['alias@new.com', false]
+        )
+        expect(base_contact.email).to eq('new@new.com')
       end
     end
   end

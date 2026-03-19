@@ -47,6 +47,8 @@ class Contact < ApplicationRecord
   include Labelable
   include LlmFormattable
 
+  attr_accessor :skip_contact_email_sync
+
   validates :account_id, presence: true
   validates :email, allow_blank: true, uniqueness: { scope: [:account_id], case_sensitive: false },
                     format: { with: Devise.email_regexp, message: I18n.t('errors.contacts.email.invalid') }
@@ -56,6 +58,7 @@ class Contact < ApplicationRecord
             format: { with: /\+[1-9]\d{1,14}\z/, message: I18n.t('errors.contacts.phone_number.invalid') }
 
   belongs_to :account
+  has_many :contact_emails, dependent: :destroy
   has_many :conversations, dependent: :destroy_async
   has_many :contact_inboxes, dependent: :destroy_async
   has_many :csat_survey_responses, dependent: :destroy_async
@@ -63,10 +66,12 @@ class Contact < ApplicationRecord
   has_many :messages, as: :sender, dependent: :destroy_async
   has_many :notes, dependent: :destroy_async
   before_validation :prepare_contact_attributes
+  before_save :sync_contact_attributes
   after_create_commit :dispatch_create_event, :ip_lookup
   after_update_commit :dispatch_update_event
   after_destroy_commit :dispatch_destroy_event
-  before_save :sync_contact_attributes
+  after_save :sync_legacy_contact_email, if: :should_sync_legacy_contact_email?
+  validate :ensure_single_primary_contact_email
 
   enum contact_type: { visitor: 0, lead: 1, customer: 2 }
 
@@ -142,6 +147,30 @@ class Contact < ApplicationRecord
       .where('contacts.created_at < ?', time_period)
       .where.missing(:conversations)
   }
+  scope :with_matching_email, lambda { |email|
+    normalized_email = email.to_s.strip.downcase.presence
+    next none if normalized_email.blank?
+
+    where(
+      <<~SQL.squish,
+        EXISTS (
+          SELECT 1
+          FROM contact_emails
+          WHERE contact_emails.contact_id = contacts.id
+            AND contact_emails.account_id = contacts.account_id
+            AND contact_emails.email = :email
+        ) OR (
+          LOWER(contacts.email) = :email
+          AND NOT EXISTS (
+            SELECT 1
+            FROM contact_emails
+            WHERE contact_emails.contact_id = contacts.id
+          )
+        )
+      SQL
+      email: normalized_email
+    )
+  }
 
   def get_source_id(inbox_id)
     contact_inboxes.find_by!(inbox_id: inbox_id).source_id
@@ -190,10 +219,28 @@ class Contact < ApplicationRecord
   end
 
   def self.from_email(email)
-    find_by(email: email&.downcase)
+    with_matching_email(email).first
   end
 
   private
+
+  def ensure_single_primary_contact_email
+    active_contact_emails = contact_emails.reject(&:marked_for_destruction?)
+    return if active_contact_emails.empty?
+
+    primary_count = active_contact_emails.count(&:primary?)
+    return if primary_count == 1
+
+    errors.add(:contact_emails, I18n.t('errors.contacts.email.invalid'))
+  end
+
+  def should_sync_legacy_contact_email?
+    !skip_contact_email_sync && saved_change_to_email?
+  end
+
+  def sync_legacy_contact_email
+    Contacts::EmailAddressesSyncService.new(contact: self, email: email, touch_parent: false, reload_contact: false).perform
+  end
 
   def ip_lookup
     return unless account.feature_enabled?('ip_lookup')

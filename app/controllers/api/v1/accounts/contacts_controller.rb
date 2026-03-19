@@ -25,7 +25,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
     render json: { error: 'Specify search string with parameter q' }, status: :unprocessable_entity if params[:q].blank? && return
 
     contacts = Current.account.contacts.where(
-      'name ILIKE :search OR email ILIKE :search OR phone_number ILIKE :search OR contacts.identifier LIKE :search',
+      "#{contact_search_sql} OR #{contact_email_search_sql}",
       search: "%#{params[:q].strip}%"
     )
     @contacts = fetch_contacts_with_has_more(contacts)
@@ -84,17 +84,19 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
 
   def create
     ActiveRecord::Base.transaction do
-      @contact = Current.account.contacts.new(permitted_params.except(:avatar_url))
-      @contact.save!
+      @contact = Current.account.contacts.new(contact_create_params)
+      persist_contact!
       @contact_inbox = build_contact_inbox
       process_avatar_from_url
     end
   end
 
   def update
-    @contact.assign_attributes(contact_update_params)
-    @contact.save!
-    process_avatar_from_url
+    ActiveRecord::Base.transaction do
+      @contact.assign_attributes(contact_update_params)
+      persist_contact!
+      process_avatar_from_url
+    end
   end
 
   def destroy
@@ -171,7 +173,8 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   end
 
   def permitted_params
-    params.permit(:name, :identifier, :email, :phone_number, :avatar, :blocked, :avatar_url, additional_attributes: {}, custom_attributes: {})
+    params.permit(:name, :identifier, :email, :phone_number, :avatar, :blocked, :avatar_url,
+                  additional_attributes: {}, custom_attributes: {}, email_addresses: %i[id email primary])
   end
 
   def contact_custom_attributes
@@ -187,9 +190,92 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   end
 
   def contact_update_params
-    permitted_params.except(:custom_attributes, :avatar_url)
+    permitted_params.except(:custom_attributes, :avatar_url, :email_addresses)
+                    .merge({ email: email_attribute_for_write })
                     .merge({ custom_attributes: contact_custom_attributes })
                     .merge({ additional_attributes: contact_additional_attributes })
+  end
+
+  def contact_create_params
+    permitted_params.except(:avatar_url, :email_addresses)
+                    .merge({ email: email_attribute_for_write })
+  end
+
+  def persist_contact!
+    with_contact_email_sync_suppressed do
+      @contact.save!
+    end
+
+    sync_contact_email_addresses!
+  end
+
+  def sync_contact_email_addresses!
+    return unless explicit_contact_email_sync?
+
+    sync_args = { contact: @contact }
+    sync_args[:email_addresses] = email_addresses_params_for_write if email_addresses_param_provided?
+    sync_args[:email] = permitted_params[:email] if email_param_provided? && !email_addresses_param_provided?
+
+    @contact = Contacts::EmailAddressesSyncService.new(**sync_args).perform
+  end
+
+  def with_contact_email_sync_suppressed
+    previous_value = @contact.skip_contact_email_sync
+    @contact.skip_contact_email_sync = explicit_contact_email_sync?
+    yield
+  ensure
+    @contact.skip_contact_email_sync = previous_value
+  end
+
+  def email_attribute_for_write
+    return primary_email_from_email_addresses if email_addresses_param_provided?
+
+    permitted_params[:email]
+  end
+
+  def contact_search_sql
+    <<~SQL.squish
+      contacts.name ILIKE :search
+      OR contacts.email ILIKE :search
+      OR contacts.phone_number ILIKE :search
+      OR contacts.identifier ILIKE :search
+    SQL
+  end
+
+  def contact_email_search_sql
+    <<~SQL.squish
+      EXISTS (
+        SELECT 1
+        FROM contact_emails
+        WHERE contact_emails.contact_id = contacts.id
+          AND contact_emails.account_id = contacts.account_id
+          AND contact_emails.email ILIKE :search
+      )
+    SQL
+  end
+
+  def primary_email_from_email_addresses
+    Array(email_addresses_params_for_write).find do |row|
+      ActiveModel::Type::Boolean.new.cast(row[:primary])
+    end&.dig(:email)
+  end
+
+  def email_addresses_params_for_write
+    return [] if params[:email_addresses] == '[]'
+
+    Array(permitted_params[:email_addresses])
+  end
+
+  def explicit_contact_email_sync?
+    email_addresses_param_provided? || email_param_provided?
+  end
+
+  def email_addresses_param_provided?
+    params.key?(:email_addresses)
+  end
+
+  def email_param_provided?
+    params.key?(:email)
   end
 
   def set_include_contact_inboxes
