@@ -302,9 +302,9 @@ class Captain::Llm::SystemPromptsService
 
     def contact_basic_lines(contact)
       [
-        (["- Name: #{contact[:name]}"] if contact[:name].present?),
-        (["- Email: #{contact[:email]}"] if contact[:email].present?),
-        (["- Phone: #{contact[:phone_number]}"] if contact[:phone_number].present?)
+        (["- Name: #{sanitize_attr(contact[:name])}"] if contact[:name].present?),
+        (["- Email: #{sanitize_attr(contact[:email])}"] if contact[:email].present?),
+        (["- Phone: #{sanitize_attr(contact[:phone_number])}"] if contact[:phone_number].present?)
       ].flatten.compact
     end
 
@@ -312,7 +312,12 @@ class Captain::Llm::SystemPromptsService
       custom = contact[:custom_attributes]
       return [] unless custom.is_a?(Hash)
 
-      custom.filter_map { |key, value| "- #{key}: #{value}" if value.present? }
+      custom.filter_map { |key, value| "- #{sanitize_attr(key)}: #{sanitize_attr(value)}" if value.present? }
+    end
+
+    # Cap at 200 chars to prevent oversized attribute values from eating context window
+    def sanitize_attr(value)
+      value.to_s.gsub(/[\r\n]+/, ' ').strip.truncate(200)
     end
   end
 end

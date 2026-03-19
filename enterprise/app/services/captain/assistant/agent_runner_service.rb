@@ -123,7 +123,7 @@ class Captain::Assistant::AgentRunnerService
   def build_conversation_state(state)
     state[:conversation] = slice_attrs(@conversation, CONVERSATION_STATE_ATTRIBUTES)
     state[:channel_type] = @conversation.inbox&.channel_type
-    state[:contact] = slice_attrs(@conversation.contact, CONTACT_STATE_ATTRIBUTES) if @conversation.contact && @assistant.feature_contact_attributes
+    state[:contact] = slice_attrs(@conversation.contact, CONTACT_STATE_ATTRIBUTES) if @conversation.contact
     state[:campaign] = slice_attrs(@conversation.campaign, CAMPAIGN_STATE_ATTRIBUTES) if @conversation.campaign
     state[:contact_inbox] = slice_attrs(@conversation.contact_inbox, CONTACT_INBOX_STATE_ATTRIBUTES) if @conversation.contact_inbox
   end
