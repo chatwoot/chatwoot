@@ -365,6 +365,29 @@ describe Webhooks::InstagramEventsJob do
         instagram_webhook.perform_now(messaging_seen_event[:entry])
       end
 
+      it 'creates an activity message for reaction callbacks' do
+        dm_event = build(:instagram_message_create_event, sender_id: 'Sender-id-reaction').with_indifferent_access
+        instagram_webhook.perform_now(dm_event[:entry])
+
+        reaction_event = build(:instagram_message_reaction_event, sender_id: 'Sender-id-reaction').with_indifferent_access
+
+        expect do
+          perform_enqueued_jobs do
+            instagram_webhook.perform_now(reaction_event[:entry])
+          end
+        end.to change { instagram_inbox.messages.activity.count }.by(1)
+
+        activity_message = instagram_inbox.messages.activity.last
+        expect(activity_message.content).to eq('Jane reacted with 👍 to: This is the first message from the customer')
+        expect(activity_message.source_id).to include('ig_reaction:message-id-1:Sender-id-reaction')
+      end
+
+      it 'ignores reaction test events from Meta dashboard without raising an error' do
+        reaction_test_event = build(:instagram_test_reaction_event).with_indifferent_access
+
+        expect { instagram_webhook.perform_now(reaction_test_event[:entry]) }.not_to raise_error
+      end
+
       it 'creates contact when Instagram API call returns `No matching Instagram user` (9010 error code)' do
         stub_request(:get, %r{https://graph\.instagram\.com/v22\.0/.*\?.*})
           .to_return(status: 401, body: { error: { message: 'No matching Instagram user', code: 9010 } }.to_json)

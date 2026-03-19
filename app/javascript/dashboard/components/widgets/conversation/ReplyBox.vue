@@ -140,6 +140,8 @@ export default {
       showArticleSearchPopover: false,
       hasRecordedAudio: false,
       copilotAcceptedMessages: {},
+      isPlainTextMode: false,
+      nextMessageFormat: null,
     };
   },
   computed: {
@@ -612,8 +614,12 @@ export default {
     setToDraft(conversationId, replyType) {
       this.saveDraft(conversationId, replyType);
       this.message = '';
+      this.isPlainTextMode = false;
+      this.nextMessageFormat = null;
     },
     getFromDraft() {
+      this.isPlainTextMode = false;
+      this.nextMessageFormat = null;
       if (this.conversationIdByRoute) {
         const key = this.getDraftKey();
         const messageFromStore =
@@ -904,6 +910,14 @@ export default {
       this.hideContentTemplatesModal();
     },
     replaceText(message) {
+      const replacement =
+        typeof message === 'object' && message !== null
+          ? message
+          : { text: message, format: null };
+
+      this.nextMessageFormat = replacement.format || null;
+      message = replacement.text || '';
+
       if (this.sendWithSignature && !this.private) {
         // if signature is enabled, append it to the message
         // appendSignature ensures that the signature is not duplicated
@@ -954,8 +968,13 @@ export default {
     executeCopilotAction(action, data) {
       this.copilot.execute(action, data);
     },
+    togglePlainTextMode() {
+      this.isPlainTextMode = !this.isPlainTextMode;
+    },
     clearMessage() {
       this.message = '';
+      this.isPlainTextMode = false;
+      this.nextMessageFormat = null;
       this.clearCopilotAcceptedMessage();
       if (this.sendWithSignature && !this.isPrivate) {
         // if signature is enabled, append it to the message
@@ -1073,12 +1092,43 @@ export default {
 
       return payload;
     },
+    setMessageFormatInPayload(payload) {
+      const format = this.getCurrentMessageFormat();
+      if (!format) {
+        return payload;
+      }
+
+      return {
+        ...payload,
+        contentAttributes: {
+          ...payload.contentAttributes,
+          format,
+        },
+      };
+    },
+    getCurrentMessageFormat() {
+      if (this.isPlainTextMode) {
+        return 'plain_text';
+      }
+
+      return this.nextMessageFormat;
+    },
+    getOutgoingMessageContent(message) {
+      if (this.getCurrentMessageFormat() !== 'plain_text') {
+        return message;
+      }
+
+      return this.$refs.messageEditor?.getPlainTextContent?.() || message;
+    },
     getMultipleMessagesPayload(message) {
       const multipleMessagePayload = [];
+      const outgoingMessage = this.getOutgoingMessageContent(message);
 
       if (this.attachedFiles && this.attachedFiles.length) {
         let caption =
-          this.isAnInstagramChannel || this.isATiktokChannel ? '' : message;
+          this.isAnInstagramChannel || this.isATiktokChannel
+            ? ''
+            : outgoingMessage;
         this.attachedFiles.forEach(attachment => {
           const attachedFile = this.globalConfig.directUploadsEnabled
             ? attachment.blobSignedId
@@ -1092,6 +1142,7 @@ export default {
           };
 
           attachmentPayload = this.setReplyToInPayload(attachmentPayload);
+          attachmentPayload = this.setMessageFormatInPayload(attachmentPayload);
           multipleMessagePayload.push(attachmentPayload);
           // For WhatsApp, only the first attachment gets a caption
           if (!this.isAnInstagramChannel) caption = '';
@@ -1104,18 +1155,19 @@ export default {
       // For WhatsApp, we only need a text message if there are no attachments.
       if (
         ((this.isAnInstagramChannel || this.isATiktokChannel) &&
-          this.message) ||
+          outgoingMessage) ||
         (!(this.isAnInstagramChannel || this.isATiktokChannel) &&
           hasNoAttachments)
       ) {
         let messagePayload = {
           conversationId: this.currentChat.id,
-          message,
+          message: outgoingMessage,
           private: false,
           sender: this.sender,
         };
 
         messagePayload = this.setReplyToInPayload(messagePayload);
+        messagePayload = this.setMessageFormatInPayload(messagePayload);
 
         multipleMessagePayload.push(messagePayload);
       }
@@ -1123,7 +1175,9 @@ export default {
       return multipleMessagePayload;
     },
     getMessagePayload(message) {
-      const messageWithQuote = this.getMessageWithQuotedEmailText(message);
+      const outgoingMessage = this.getOutgoingMessageContent(message);
+      const messageWithQuote =
+        this.getMessageWithQuotedEmailText(outgoingMessage);
 
       let messagePayload = {
         conversationId: this.currentChat.id,
@@ -1132,6 +1186,7 @@ export default {
         sender: this.sender,
       };
       messagePayload = this.setReplyToInPayload(messagePayload);
+      messagePayload = this.setMessageFormatInPayload(messagePayload);
 
       if (this.attachedFiles && this.attachedFiles.length) {
         messagePayload.files = [];
@@ -1313,6 +1368,7 @@ export default {
         />
         <WootMessageEditor
           v-else-if="!showAudioRecorderEditor"
+          ref="messageEditor"
           v-model="message"
           :conversation-id="conversationId"
           :editor-id="editorStateId"
@@ -1335,6 +1391,9 @@ export default {
           @toggle-user-mention="toggleUserMention"
           @toggle-canned-menu="toggleCannedMenu"
           @toggle-variables-menu="toggleVariablesMenu"
+          @insert-canned-response="
+            content => (nextMessageFormat = content?.format || null)
+          "
           @clear-selection="clearEditorSelection"
           @execute-copilot-action="executeCopilotAction"
         />
@@ -1398,6 +1457,7 @@ export default {
         :is-send-disabled="isReplyButtonDisabled"
         :is-note="isPrivate"
         :is-editor-disabled="isEditorDisabled"
+        :is-plain-text-mode="isPlainTextMode"
         :on-file-upload="onFileUpload"
         :on-send="onSendReply"
         :conversation-type="conversationType"
@@ -1419,6 +1479,7 @@ export default {
         @select-content-template="openContentTemplateModal"
         @replace-text="replaceText"
         @toggle-insert-article="toggleInsertArticle"
+        @toggle-plain-text-mode="togglePlainTextMode"
         @toggle-quoted-reply="toggleQuotedReply"
       />
     </Transition>

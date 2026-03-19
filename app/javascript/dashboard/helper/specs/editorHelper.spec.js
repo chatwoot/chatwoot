@@ -15,6 +15,7 @@ import {
   getMenuAnchor,
   calculateMenuPosition,
   stripUnsupportedFormatting,
+  serializePlainTextMessage,
 } from '../editorHelper';
 import { FORMATTING } from 'dashboard/constants/editor';
 import { EditorState } from '@chatwoot/prosemirror-schema';
@@ -29,6 +30,13 @@ const schema = new Schema({
       content: 'inline*',
       group: 'block',
       toDOM: () => ['p', 0], // Represents a paragraph as a <p> tag in the DOM.
+    },
+    hard_break: {
+      inline: true,
+      group: 'inline',
+      selectable: false,
+      parseDOM: [{ tag: 'br' }],
+      toDOM: () => ['br'],
     },
     text: {
       group: 'inline',
@@ -142,6 +150,64 @@ describe('appendSignature', () => {
       const { body, signature } = HAS_SIGNATURE[key];
       expect(appendSignature(body, signature)).toBe(body);
     });
+  });
+});
+
+describe('serializePlainTextMessage', () => {
+  it('preserves blank paragraphs without markdown escape artifacts', () => {
+    const doc = schema.node('doc', null, [
+      schema.node('paragraph', null, [schema.text('Первая строка')]),
+      schema.node('paragraph'),
+      schema.node('paragraph', null, [
+        schema.text('Вторая строка после пустой строки'),
+      ]),
+      schema.node('paragraph'),
+      schema.node('paragraph', null, [schema.text('- пункт один')]),
+      schema.node('paragraph'),
+      schema.node('paragraph', null, [schema.text('- пункт два')]),
+    ]);
+
+    expect(serializePlainTextMessage(doc)).toBe(
+      'Первая строка\n\nВторая строка после пустой строки\n\n- пункт один\n\n- пункт два'
+    );
+  });
+});
+
+describe('getContentNode canned responses', () => {
+  it('preserves plain text canned responses as literal text', () => {
+    const state = createEditorState();
+    const editorView = { state };
+
+    const { node } = getContentNode(
+      editorView,
+      'cannedResponse',
+      {
+        text: 'Первая строка\n\n- пункт один',
+        format: 'plain_text',
+      },
+      { from: 1, to: 1 },
+      {}
+    );
+
+    expect(node.textContent).toBe('Первая строка- пункт один');
+  });
+
+  it('keeps markdown canned responses on the markdown parser path', () => {
+    const state = createEditorState();
+    const editorView = { state };
+
+    const { node } = getContentNode(
+      editorView,
+      'cannedResponse',
+      {
+        text: '**bold**',
+        format: null,
+      },
+      { from: 1, to: 1 },
+      {}
+    );
+
+    expect(node.textContent).toBe('bold');
   });
 });
 

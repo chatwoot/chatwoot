@@ -188,6 +188,8 @@
       "MESSAGE_SIGN_TOOLTIP": "Подпись сообщения",
       "ENABLE_SIGN_TOOLTIP": "Включить подпись",
       "DISABLE_SIGN_TOOLTIP": "Отключить подпись",
+      "ENABLE_PLAIN_TEXT_TOOLTIP": "Включить режим обычного текста",
+      "DISABLE_PLAIN_TEXT_TOOLTIP": "Отключить режим обычного текста",
       "MSG_INPUT": "Shift + enter чтобы начать новую строку. Начните с '/', чтобы выбрать шаблонный ответ.",
       "PRIVATE_MSG_INPUT": "Shift + enter для новой строки. Это будет видно только Операторам",
       "MESSAGING_RESTRICTED": "Вы не можете отвечать в этот диалог",
@@ -209,6 +211,9 @@
       "TIP_EMOJI_ICON": "Показать emoji панель",
       "TIP_ATTACH_ICON": "Прикрепить файлы",
       "TIP_AUDIORECORDER_ICON": "Записать аудио",
+      "PLAIN_TEXT": {
+        "TOOLTIP": "Отправить следующее сообщение как обычный текст. Переносы строк и дефисы сохраняются как есть."
+      },
       "TIP_AUDIORECORDER_PERMISSION": "Разрешить доступ к аудио",
       "TIP_AUDIORECORDER_ERROR": "Не удалось открыть аудио",
       "DRAG_DROP": "Перетащите сюда, чтобы прикрепить",

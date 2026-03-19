@@ -104,6 +104,25 @@ export function cleanSignature(signature) {
 }
 
 /**
+ * Serialize a ProseMirror message doc as literal plain text.
+ * This avoids markdown serializer artifacts like escaped blank lines (`\`)
+ * when we intentionally want exact text output.
+ *
+ * @param {import('prosemirror-model').Node} doc
+ * @returns {string}
+ */
+export function serializePlainTextMessage(doc) {
+  if (!doc) return '';
+
+  const blocks = [];
+  doc.forEach(node => {
+    blocks.push(node.textBetween(0, node.content.size, '\n', '\n'));
+  });
+
+  return blocks.join('\n').replace(/\n+$/, '');
+}
+
+/**
  * Adds the signature delimiter to the beginning of the signature.
  *
  * @param {string} signature - The signature to add the delimiter to.
@@ -415,6 +434,48 @@ export function stripUnsupportedFormatting(content, schema) {
  * @param {Object|string} content - The content needed to create the node, which varies based on node type.
  * @returns {Object|null} - The created ProseMirror node or null if the type is not supported.
  */
+function createPlainTextCannedResponseNode(schema, content) {
+  const textContent =
+    typeof content === 'object' && content !== null ? content.text : content;
+
+  if (!textContent) {
+    return schema.nodes.paragraph.create();
+  }
+
+  const normalizedContent = textContent.replace(/\r\n?/g, '\n');
+  const lines = normalizedContent.split('\n');
+  const paragraphs = [];
+  let currentInlineNodes = [];
+
+  const flushParagraph = () => {
+    paragraphs.push(schema.nodes.paragraph.create(null, currentInlineNodes));
+    currentInlineNodes = [];
+  };
+
+  lines.forEach((line, index) => {
+    const isLastLine = index === lines.length - 1;
+
+    if (line.length > 0) {
+      currentInlineNodes.push(schema.text(line));
+    }
+
+    if (isLastLine) {
+      flushParagraph();
+      return;
+    }
+
+    const nextLine = lines[index + 1];
+    if (nextLine === '') {
+      flushParagraph();
+      return;
+    }
+
+    currentInlineNodes.push(schema.nodes.hard_break.create());
+  });
+
+  return schema.nodes.doc.create(null, paragraphs);
+}
+
 const createNode = (editorView, nodeType, content) => {
   const { state } = editorView;
   switch (nodeType) {
@@ -431,10 +492,21 @@ const createNode = (editorView, nodeType, content) => {
       return mentionNode;
     }
     case 'cannedResponse': {
+      const textContent =
+        typeof content === 'object' && content !== null
+          ? content.text
+          : content;
+      const format =
+        typeof content === 'object' && content !== null ? content.format : null;
+
+      if (format === 'plain_text') {
+        return createPlainTextCannedResponseNode(state.schema, content);
+      }
+
       // Strip unsupported formatting before parsing to ensure content can be inserted
       // into channels that don't support certain markdown features (e.g., API channels)
       const sanitizedContent = stripUnsupportedFormatting(
-        content,
+        textContent,
         state.schema
       );
       return new MessageMarkdownTransformer(state.schema).parse(
@@ -466,11 +538,16 @@ const nodeCreators = {
     to,
   }),
   cannedResponse: (editorView, content, from, to, variables) => {
+    const textContent =
+      typeof content === 'object' && content !== null ? content.text : content;
     const updatedMessage = replaceVariablesInMessage({
-      message: content,
+      message: textContent,
       variables,
     });
-    const node = createNode(editorView, 'cannedResponse', updatedMessage);
+    const node = createNode(editorView, 'cannedResponse', {
+      ...content,
+      text: updatedMessage,
+    });
     return {
       node,
       from: node.textContent === updatedMessage ? from : from - 1,

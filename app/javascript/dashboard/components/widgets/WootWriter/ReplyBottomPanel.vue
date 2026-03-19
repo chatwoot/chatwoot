@@ -126,6 +126,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    isPlainTextMode: {
+      type: Boolean,
+      default: false,
+    },
   },
   emits: [
     'replaceText',
@@ -133,6 +137,7 @@ export default {
     'selectWhatsappTemplate',
     'selectContentTemplate',
     'toggleQuotedReply',
+    'togglePlainTextMode',
   ],
   setup(props) {
     const { setSignatureFlagForInbox, fetchSignatureFlagFromUISettings } =
@@ -249,6 +254,10 @@ export default {
       if (this.isEditorDisabled) return false;
       return !this.isOnPrivateNote;
     },
+    showPlainTextToggle() {
+      if (this.isEditorDisabled) return false;
+      return !this.isOnPrivateNote;
+    },
     sendWithSignature() {
       // channelType is sourced from inboxMixin
       return this.fetchSignatureFlagFromUISettings(this.channelType);
@@ -268,6 +277,11 @@ export default {
       return this.quotedReplyEnabled
         ? this.$t('CONVERSATION.REPLYBOX.QUOTED_REPLY.DISABLE_TOOLTIP')
         : this.$t('CONVERSATION.REPLYBOX.QUOTED_REPLY.ENABLE_TOOLTIP');
+    },
+    plainTextToggleTooltip() {
+      return this.isPlainTextMode
+        ? this.$t('CONVERSATION.FOOTER.DISABLE_PLAIN_TEXT_TOOLTIP')
+        : this.$t('CONVERSATION.FOOTER.ENABLE_PLAIN_TEXT_TOOLTIP');
     },
   },
   mounted() {
@@ -341,6 +355,16 @@ export default {
         sm
         :label="recordingAudioDurationText"
         @click="toggleAudioRecorderPlayPause"
+      />
+      <NextButton
+        v-if="showPlainTextToggle"
+        v-tooltip.top-end="plainTextToggleTooltip"
+        label="TXT"
+        :variant="isPlainTextMode ? 'solid' : 'faded'"
+        color="slate"
+        sm
+        :aria-pressed="isPlainTextMode"
+        @click="$emit('togglePlainTextMode')"
       />
       <NextButton
         v-if="showMessageSignatureButton"

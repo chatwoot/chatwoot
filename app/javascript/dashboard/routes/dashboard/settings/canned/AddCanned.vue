@@ -4,15 +4,17 @@ import { required, minLength } from '@vuelidate/validators';
 import { useAlert } from 'dashboard/composables';
 
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import Checkbox from 'dashboard/components-next/checkbox/Checkbox.vue';
+import TextArea from 'dashboard/components-next/textarea/TextArea.vue';
 import Modal from '../../../../components/Modal.vue';
-import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
 
 export default {
   name: 'AddCanned',
   components: {
     NextButton,
+    Checkbox,
+    TextArea,
     Modal,
-    WootMessageEditor,
   },
   props: {
     responseContent: {
@@ -31,6 +33,7 @@ export default {
     return {
       shortCode: '',
       content: this.responseContent || '',
+      isPlainText: false,
       addCanned: {
         showLoading: false,
         message: '',
@@ -51,6 +54,7 @@ export default {
     resetForm() {
       this.shortCode = '';
       this.content = '';
+      this.isPlainText = false;
       this.v$.shortCode.$reset();
       this.v$.content.$reset();
     },
@@ -62,6 +66,7 @@ export default {
         .dispatch('createCannedResponse', {
           short_code: this.shortCode,
           content: this.content,
+          content_format: this.isPlainText ? 'plain_text' : 'markdown',
         })
         .then(() => {
           // Reset Form, Show success message
@@ -105,19 +110,28 @@ export default {
           <label :class="{ error: v$.content.$error }">
             {{ $t('CANNED_MGMT.ADD.FORM.CONTENT.LABEL') }}
           </label>
-          <div class="editor-wrap">
-            <WootMessageEditor
-              v-model="content"
-              class="message-editor [&>div]:px-1"
-              :class="{ editor_warning: v$.content.$error }"
-              channel-type="Context::Default"
-              enable-variables
-              :enable-canned-responses="false"
-              :placeholder="$t('CANNED_MGMT.ADD.FORM.CONTENT.PLACEHOLDER')"
-              @blur="v$.content.$touch"
-            />
-          </div>
+          <TextArea
+            v-model="content"
+            class="w-full"
+            auto-height
+            min-height="12.5rem"
+            max-height="24rem"
+            :message-type="v$.content.$error ? 'error' : 'info'"
+            :placeholder="$t('CANNED_MGMT.ADD.FORM.CONTENT.PLACEHOLDER')"
+            @blur="v$.content.$touch"
+          />
         </div>
+        <label class="flex items-start gap-3 py-3">
+          <Checkbox v-model="isPlainText" />
+          <span class="flex flex-col gap-1">
+            <span class="text-sm font-medium text-n-slate-12">
+              {{ $t('CANNED_MGMT.ADD.FORM.PLAIN_TEXT.LABEL') }}
+            </span>
+            <span class="text-sm text-n-slate-11">
+              {{ $t('CANNED_MGMT.ADD.FORM.PLAIN_TEXT.HELP') }}
+            </span>
+          </span>
+        </label>
         <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
           <NextButton
             faded
@@ -141,19 +155,3 @@ export default {
     </div>
   </Modal>
 </template>
-
-<style scoped lang="scss">
-::v-deep {
-  .ProseMirror-menubar {
-    @apply hidden;
-  }
-
-  .ProseMirror-woot-style {
-    @apply min-h-[12.5rem];
-
-    p {
-      @apply text-base;
-    }
-  }
-}
-</style>

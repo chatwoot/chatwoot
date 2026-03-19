@@ -488,6 +488,71 @@ FactoryBot.define do
     initialize_with { attributes }
   end
 
+  factory :instagram_message_reaction_event, class: Hash do
+    transient do
+      ig_entry_id { SecureRandom.uuid }
+      sender_id { "Sender-id-#{SecureRandom.hex(4)}" }
+    end
+    entry do
+      [
+        {
+          'id': ig_entry_id,
+          'time': '2021-09-08T06:34:04+0000',
+          'messaging': [
+            {
+              'sender': {
+                'id': sender_id
+              },
+              'recipient': {
+                'id': 'chatwoot-app-user-id-1'
+              },
+              'timestamp': '2021-09-08T06:34:04+0000',
+              'reaction': {
+                'mid': 'message-id-1',
+                'action': 'react',
+                'reaction': 'like',
+                'emoji': '👍'
+              }
+            }
+          ]
+        }
+      ]
+    end
+    initialize_with { attributes }
+  end
+
+  factory :instagram_test_reaction_event, class: Hash do
+    entry do
+      [
+        {
+          'id': '0',
+          'time': '2021-09-08T06:34:04+0000',
+          'changes': [
+            {
+              'field': 'message_reactions',
+              'value': {
+                'sender': {
+                  'id': '12334'
+                },
+                'recipient': {
+                  'id': '23245'
+                },
+                'timestamp': '1527459824',
+                'reaction': {
+                  'mid': 'random_mid',
+                  'action': 'react',
+                  'reaction': 'love',
+                  'emoji': '❤️'
+                }
+              }
+            }
+          ]
+        }
+      ]
+    end
+    initialize_with { attributes }
+  end
+
   factory :instagram_test_event, class: Hash do
     entry do
       [
