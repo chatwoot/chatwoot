@@ -6,8 +6,10 @@ properties:
     type: integer
     description: Id of the contact
   name:
-    type: string
-    description: Name of the contact
+    type:
+      - string
+      - 'null'
+    description: Name of the contact when available
   email:
     type:
       - string
@@ -27,14 +29,20 @@ properties:
     type: boolean
     description: Whether the contact is blocked
   additional_attributes:
-    type: object
-    description: Additional attributes of the contact
+    type:
+      - object
+      - 'null'
+    description: Additional attributes of the contact when present
   custom_attributes:
-    type: object
-    description: Custom attributes of the contact
+    type:
+      - object
+      - 'null'
+    description: Custom attributes of the contact when present
   contact_type:
-    type: string
-    description: Contact type of the contact
+    type:
+      - string
+      - 'null'
+    description: Contact type of the contact when available
   country_code:
     type:
       - string

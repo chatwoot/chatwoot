@@ -6,8 +6,10 @@ properties:
     type: integer
     description: Id of the sender
   name:
-    type: string
-    description: Name of the sender
+    type:
+      - string
+      - 'null'
+    description: Name of the sender when available
   avatar_url:
     type: string
     description: Avatar URL of the sender. Present for senders of type user, agent_bot, and captain_assistant. Not present for contact senders (use thumbnail instead).
@@ -47,11 +49,15 @@ properties:
     type: boolean
     description: Whether the sender is blocked when the sender is a contact
   additional_attributes:
-    type: object
-    description: Additional attributes when the sender is a contact
+    type:
+      - object
+      - 'null'
+    description: Additional attributes when the sender is a contact and available
   custom_attributes:
-    type: object
-    description: Custom attributes when the sender is a contact
+    type:
+      - object
+      - 'null'
+    description: Custom attributes when the sender is a contact and available
   description:
     type:
       - string

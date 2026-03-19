@@ -1937,8 +1937,11 @@
             "description": "The session identifier of the contact"
           },
           "name": {
-            "type": "string",
-            "description": "Name of the contact"
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Name of the contact when available"
           },
           "email": {
             "type": [
@@ -1970,8 +1973,11 @@
             "description": "Id of the contact"
           },
           "name": {
-            "type": "string",
-            "description": "Name of the contact"
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Name of the contact when available"
           },
           "email": {
             "type": [
@@ -1999,16 +2005,25 @@
             "description": "Whether the contact is blocked"
           },
           "additional_attributes": {
-            "type": "object",
-            "description": "Additional attributes of the contact"
+            "type": [
+              "object",
+              "null"
+            ],
+            "description": "Additional attributes of the contact when present"
           },
           "custom_attributes": {
-            "type": "object",
-            "description": "Custom attributes of the contact"
+            "type": [
+              "object",
+              "null"
+            ],
+            "description": "Custom attributes of the contact when present"
           },
           "contact_type": {
-            "type": "string",
-            "description": "Contact type of the contact"
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Contact type of the contact when available"
           },
           "country_code": {
             "type": [
@@ -2277,8 +2292,11 @@
             "description": "Id of the sender"
           },
           "name": {
-            "type": "string",
-            "description": "Name of the sender"
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Name of the sender when available"
           },
           "avatar_url": {
             "type": "string",
@@ -2338,12 +2356,18 @@
             "description": "Whether the sender is blocked when the sender is a contact"
           },
           "additional_attributes": {
-            "type": "object",
-            "description": "Additional attributes when the sender is a contact"
+            "type": [
+              "object",
+              "null"
+            ],
+            "description": "Additional attributes when the sender is a contact and available"
           },
           "custom_attributes": {
-            "type": "object",
-            "description": "Custom attributes when the sender is a contact"
+            "type": [
+              "object",
+              "null"
+            ],
+            "description": "Custom attributes when the sender is a contact and available"
           },
           "description": {
             "type": [
