@@ -26,6 +26,8 @@
       "PM": "pm"
     },
     "RELATIVE": {
+      "TODAY": "today",
+      "TONIGHT": "tonight",
       "TOMORROW": "tomorrow",
       "DAY_AFTER_TOMORROW": "day after tomorrow",
       "NEXT_WEEK": "next week",
