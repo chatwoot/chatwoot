@@ -83,7 +83,7 @@
       "SUBMIT": "Esita",
       "CANCEL": "Tühista",
       "AVATAR": {
-        "LABEL": "Kontaktide avatar"
+        "LABEL": "Kontakti avatar"
       },
       "NAME": {
         "PLACEHOLDER": "Sisesta kontakti täielik nimi",
@@ -329,7 +329,7 @@
         },
         "EXPORT_CONTACT": {
           "TITLE": "Ekspordi kontaktid",
-          "DESCRIPTION": "Ekspordi kiiresti csv-fail, mis sisaldab põhjalikku teavet sinu kontaktide kohta",
+          "DESCRIPTION": "Ekspordi kiiresti CSV-fail, mis sisaldab põhjalikku teavet sinu kontaktide kohta",
           "CONFIRM": "Ekspordi",
           "SUCCESS_MESSAGE": "Ekspordiprotsess on käimas. Saadame sulle e-kirja, kui ekspordifail on allalaadimiseks valmis.",
           "ERROR_MESSAGE": "Tekkis viga, palun proovi uuesti"
