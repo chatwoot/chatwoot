@@ -53,7 +53,7 @@
       }
     },
     "ARTICLE_SETTINGS": {
-      "TITLE": "Məqalə Parametrləri",
+      "TITLE": "Məqalə parametrləri",
       "FORM": {
         "CATEGORY": {
           "LABEL": "Kateqoriya",
@@ -75,7 +75,7 @@
         },
         "META_DESCRIPTION": {
           "LABEL": "Meta təsviri",
-          "PLACEHOLDER": "Daha yaxşı SEO nəticələri üçün meta təsvirinizi əlavə edin..."
+          "PLACEHOLDER": "Daha yaxşı SEO nəticələri üçün meta təsvir əlavə edin..."
         },
         "META_TAGS": {
           "LABEL": "Meta teqlər",
@@ -90,7 +90,7 @@
     "ARTICLE_SEARCH_RESULT": {
       "UNCATEGORIZED": "Kateqoriyasız",
       "SEARCH_RESULTS": "Search results for {query}",
-      "EMPTY_TEXT": "Cavablara əlavə etmək üçün məqalələr axtarın.",
+      "EMPTY_TEXT": "Cavablara əlavə etmək üçün məqalələri axtarın.",
       "SEARCH_LOADER": "Axtarılır...",
       "INSERT_ARTICLE": "Daxil et",
       "NO_RESULT": "Məqalə tapılmadı",
@@ -99,17 +99,17 @@
       "PREVIEW_LINK": "Məqaləyə önizləmə baxışı"
     },
     "PORTAL": {
-      "HEADER": "Portal",
+      "HEADER": "Portallar",
       "DEFAULT": "Defolt",
       "NEW_BUTTON": "Yeni Portal",
       "ACTIVE_BADGE": "aktiv",
       "CHOOSE_LOCALE_LABEL": "Bir dil seçin",
-      "LOADING_MESSAGE": "Portal yüklənir...",
+      "LOADING_MESSAGE": "Portallar yüklənir...",
       "ARTICLES_LABEL": "məqalələr",
       "NO_PORTALS_MESSAGE": "Mövcud portal yoxdur",
       "ADD_NEW_LOCALE": "Yeni dil əlavə et",
       "POPOVER": {
-        "TITLE": "Portalalar",
+        "TITLE": "Portallar",
         "PORTAL_SETTINGS": "Portal parametrləri",
         "SUBTITLE": "Bir neçə portalınız var və hər portal üçün fərqli dillər seçə bilərsiniz.",
         "CANCEL_BUTTON_LABEL": "Ləğv et",
@@ -150,7 +150,7 @@
         },
         "DELETE_PORTAL": {
           "TITLE": "Portalı sil",
-          "MESSAGE": "Bu portalı silmək istədiyinizə əminsiniz?",
+          "MESSAGE": "Bu portalı silmək istədiyinizə əminsiniz",
           "YES": "Bəli, portalı sil",
           "NO": "Xeyr, portalı saxla",
           "API": {
@@ -172,7 +172,7 @@
             "TITLE": "Əsas məlumat"
           },
           "CUSTOMIZATION_SETTINGS": {
-            "TITLE": "Portalın fərdiləşdirilməsi"
+            "TITLE": "Portal fərdiləşdirilməsi"
           },
           "CATEGORY_SETTINGS": {
             "TITLE": "Kateqoriyalar"
@@ -193,7 +193,7 @@
               "EDIT": "Kateqoriyanı redaktə et",
               "DELETE": "Kateqoriyanı sil"
             },
-            "EMPTY_TEXT": "Kateqoriya tapılmadı"
+            "EMPTY_TEXT": "Kateqoriyalar tapılmadı"
           }
         },
         "EDIT_BASIC_INFO": {
@@ -220,7 +220,7 @@
           "BASIC_SETTINGS_PAGE": {
             "HEADER": "Portal yarat",
             "TITLE": "Kömək mərkəzi məlumatları",
-            "CREATE_BASIC_SETTING_BUTTON": "Portalın əsas parametrlərini yarat"
+            "CREATE_BASIC_SETTING_BUTTON": "Portalun əsas parametrlərini yarat"
           },
           "CUSTOMIZATION_PAGE": {
             "HEADER": "Portal fərdiləşdirilməsi",
@@ -234,38 +234,38 @@
           }
         },
         "LOGO": {
-          "LABEL": "Loqo",
+          "LABEL": "Logo",
           "UPLOAD_BUTTON": "Loqonu yüklə",
-          "HELP_TEXT": "Bu loqo portal başlığında göstəriləcək.",
+          "HELP_TEXT": "Bu logo portal başlığında göstəriləcək.",
           "IMAGE_UPLOAD_SUCCESS": "Loqo uğurla yükləndi",
           "IMAGE_UPLOAD_ERROR": "Loqo uğurla silindi",
           "IMAGE_DELETE_ERROR": "Loqo silinərkən xəta baş verdi"
         },
         "NAME": {
           "LABEL": "Ad",
-          "PLACEHOLDER": "Portalın adı",
+          "PLACEHOLDER": "Portal adı",
           "HELP_TEXT": "Ad daxili olaraq ictimai portalda istifadə olunacaq.",
           "ERROR": "Ad tələb olunur"
         },
         "SLUG": {
           "LABEL": "Slug",
-          "PLACEHOLDER": "URL-lər üçün portal slug",
+          "PLACEHOLDER": "Portal slug URL-lər üçün",
           "ERROR": "Slug tələb olunur"
         },
         "DOMAIN": {
-          "LABEL": "Xüsusi Domen",
-          "PLACEHOLDER": "Portalın xüsusi domeni",
+          "LABEL": "Xüsusi domen",
+          "PLACEHOLDER": "Portalun xüsusi domeni",
           "HELP_TEXT": "Add only If you want to use a custom domain for your portals. Eg: {exampleURL}",
           "ERROR": "Etibarlı domen URL-si daxil edin"
         },
         "HOME_PAGE_LINK": {
-          "LABEL": "Ana Səhifə Linki",
-          "PLACEHOLDER": "Portalın ana səhifə linki",
+          "LABEL": "Ana səhifə linki",
+          "PLACEHOLDER": "Portalun ana səhifə linki",
           "HELP_TEXT": "The link used to return from the portal to the home page. Eg: {exampleURL}",
           "ERROR": "Etibarlı ana səhifə URL-si daxil edin"
         },
         "THEME_COLOR": {
-          "LABEL": "Portalın tema rəngi",
+          "LABEL": "Portal tema rəngi",
           "HELP_TEXT": "Bu rəng portal üçün tema rəngi kimi göstəriləcək."
         },
         "PAGE_TITLE": {
@@ -277,7 +277,7 @@
         "HEADER_TEXT": {
           "LABEL": "Başlıq Mətn",
           "PLACEHOLDER": "Portal başlıq mətni",
-          "HELP_TEXT": "Portalın başlıq mətni ictimai portalda istifadə olunacaq.",
+          "HELP_TEXT": "Portal başlıq mətni ictimai portalda istifadə olunacaq.",
           "ERROR": "Portal başlıq mətni tələb olunur"
         },
         "API": {
@@ -365,7 +365,7 @@
         "CONFIRM": {
           "TITLE": "Silinməni təsdiqləyin",
           "MESSAGE": "Məqaləni silmək istədiyinizə əminsiniz?",
-          "YES": "Bəli, Sil",
+          "YES": "Bəli, sil",
           "NO": "Xeyr, Saxla"
         }
       },
@@ -401,7 +401,7 @@
         "NAME": {
           "LABEL": "Ad",
           "PLACEHOLDER": "Kateqoriya adı",
-          "HELP_TEXT": "Kateqoriya adı və ikonu məqalələri kateqoriyalaşdırmaq üçün ictimai portalda istifadə olunacaq.",
+          "HELP_TEXT": "Kateqoriya adı və ikonu məqalələri kateqoriyalara ayırmaq üçün ictimai portalda istifadə olunacaq.",
           "ERROR": "Ad tələb olunur"
         },
         "SLUG": {
@@ -432,7 +432,7 @@
         "NAME": {
           "LABEL": "Ad",
           "PLACEHOLDER": "Kateqoriya adı",
-          "HELP_TEXT": "Kateqoriya adı və ikonu məqalələri kateqoriyalaşdırmaq üçün ictimai portalda istifadə olunacaq.",
+          "HELP_TEXT": "Kateqoriya adı və ikonu məqalələri kateqoriyalara ayırmaq üçün ictimai portalda istifadə olunacaq.",
           "ERROR": "Ad tələb olunur"
         },
         "SLUG": {
@@ -463,19 +463,19 @@
       }
     },
     "ARTICLE_SEARCH": {
-      "TITLE": "Məqalələrdə axtarış",
-      "PLACEHOLDER": "Məqalələrdə axtarış",
+      "TITLE": "Məqalələrdə axtarış edin",
+      "PLACEHOLDER": "Məqalələrdə axtarış edin",
       "NO_RESULT": "Məqalə tapılmadı",
       "SEARCHING": "Axtarılır...",
       "SEARCH_BUTTON": "Axtar",
       "INSERT_ARTICLE": "Link əlavə et",
-      "IFRAME_ERROR": "URL boşdur və ya düzgün deyil. Məzmun göstərilə bilmir.",
+      "IFRAME_ERROR": "URL boş və ya düzgün deyil. Məzmun göstərilə bilmir.",
       "OPEN_ARTICLE_SEARCH": "Kömək Mərkəzindən məqalə əlavə et",
       "SUCCESS_ARTICLE_INSERTED": "Məqalə uğurla əlavə edildi",
-      "PREVIEW_LINK": "Məqaləni önizlə",
+      "PREVIEW_LINK": "Məqaləni önizləyin",
       "CANCEL": "Bağla",
       "BACK": "Geri",
-      "BACK_RESULTS": "Nəticələrə qayıt"
+      "BACK_RESULTS": "Nəticələrə qayıdın"
     },
     "UPGRADE_PAGE": {
       "TITLE": "Kömək Mərkəzi",
@@ -496,11 +496,11 @@
         },
         "SEO": {
           "TITLE": "SEO-ya uyğun dizayn",
-          "DESCRIPTION": "Meta teqlərinizi fərdiləşdirərək axtarış motorlarında görünürlüğünüzü SEO-ya uyğun səhifələrimizlə artırın."
+          "DESCRIPTION": "Meta teqlərinizi fərdiləşdirərək axtarış motorlarında görünürlüğünüzü SEO dostu səhifələrimizlə artırın."
         },
         "API": {
           "TITLE": "Tam API dəstəyi",
-          "DESCRIPTION": "Portalı üçüncü tərəf ön çərçivələri ilə başsız CMS kimi istifadə etmək üçün API-lərimizdən yararlanın."
+          "DESCRIPTION": "Portaldan üçüncü tərəf ön çərçivələri ilə başsız CMS kimi istifadə etmək üçün API-lərimizdən yararlanın."
         }
       }
     },
