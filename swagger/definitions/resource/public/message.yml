@@ -4,7 +4,9 @@ properties:
     type: integer
     description: Id of the message
   content:
-    type: string
+    type:
+      - string
+      - 'null'
     description: Text content of the message
   message_type:
     type: integer

@@ -10852,11 +10852,17 @@
             "description": "Updated timestamp of the contact in ISO 8601 format"
           },
           "last_name": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "Last name of the contact"
           },
           "middle_name": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "Middle name of the contact"
           },
           "location": {
@@ -10939,7 +10945,10 @@
             "description": "Id of the message"
           },
           "content": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "Text content of the message"
           },
           "message_type": {
