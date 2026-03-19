@@ -27,6 +27,7 @@ class Captain::Assistant::AgentRunnerService
   end
 
   def generate_response(message_history: [])
+    @assistant.migrate_v1_instructions_if_needed!
     message_to_process, context = run_payload(message_history)
     result = runner.run(message_to_process, context: context, max_turns: 100)
 

@@ -36,11 +36,13 @@ class Captain::Assistant < ApplicationRecord
   has_many :copilot_threads, dependent: :destroy_async
   has_many :scenarios, class_name: 'Captain::Scenario', dependent: :destroy_async
 
-  store_accessor :config, :temperature, :feature_faq, :feature_memory, :product_name
+  store_accessor :config, :temperature, :feature_faq, :feature_memory, :product_name, :v2_migrated
 
   validates :name, presence: true
   validates :description, presence: true
   validates :account_id, presence: true
+
+  before_save :mark_v2_migrated_on_v2_description_change
 
   scope :ordered, -> { order(created_at: :desc) }
 
@@ -85,7 +87,22 @@ class Captain::Assistant < ApplicationRecord
     }
   end
 
+  def migrate_v1_instructions_if_needed!
+    return if v2_migrated
+    return if config['instructions'].blank?
+
+    update!(description: config['instructions'], v2_migrated: true)
+  end
+
   private
+
+  def mark_v2_migrated_on_v2_description_change
+    return unless persisted?
+    return unless will_save_change_to_description?
+    return unless account&.feature_enabled?('captain_integration_v2')
+
+    self.v2_migrated = true
+  end
 
   def agent_name
     name.parameterize(separator: '_')
