@@ -74,6 +74,8 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
     end
 
     it 'runs agent with extracted user message and context' do
+      assistant.update!(config: assistant.config.merge('feature_contact_attributes' => true))
+
       expected_context = hash_including(
         session_id: "#{account.id}_#{conversation.display_id}",
         conversation_history: [
@@ -393,14 +395,26 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
       )
     end
 
-    it 'includes contact attributes when contact is present' do
-      state = service.send(:build_state)
+    context 'when feature_contact_attributes is enabled' do
+      before { assistant.update!(config: assistant.config.merge('feature_contact_attributes' => true)) }
 
-      expect(state[:contact]).to include(
-        id: contact.id,
-        name: contact.name,
-        email: contact.email
-      )
+      it 'includes contact attributes in state' do
+        state = service.send(:build_state)
+
+        expect(state[:contact]).to include(
+          id: contact.id,
+          name: contact.name,
+          email: contact.email
+        )
+      end
+    end
+
+    context 'when feature_contact_attributes is disabled' do
+      it 'does not include contact in state' do
+        state = service.send(:build_state)
+
+        expect(state).not_to have_key(:contact)
+      end
     end
 
     it 'does not include campaign when conversation has no campaign' do

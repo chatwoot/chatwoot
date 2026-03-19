@@ -144,4 +144,48 @@ RSpec.describe Captain::Llm::AssistantChatService do
       end
     end
   end
+
+  describe 'contact attributes in system prompt' do
+    let(:contact) { create(:contact, account: account, name: 'Diep Bui', email: 'diep@example.com', custom_attributes: { 'plan' => 'pro' }) }
+    let(:conversation) { create(:conversation, account: account, contact: contact) }
+
+    context 'when feature_contact_attributes is enabled' do
+      before { assistant.update!(config: assistant.config.merge('feature_contact_attributes' => true)) }
+
+      it 'includes contact information in the system prompt' do
+        allow(mock_chat).to receive(:ask).and_return(mock_response)
+
+        expect(mock_chat).to receive(:with_instructions).with(a_string_including('[Contact Information]')) do |_instructions|
+          mock_chat
+        end
+
+        service = described_class.new(assistant: assistant, conversation_id: conversation.display_id, conversation: conversation)
+        service.generate_response(message_history: [{ role: 'user', content: 'Hello' }])
+      end
+
+      it 'includes custom attributes in the system prompt' do
+        allow(mock_chat).to receive(:ask).and_return(mock_response)
+
+        expect(mock_chat).to receive(:with_instructions).with(a_string_including('plan: pro')) do |_instructions|
+          mock_chat
+        end
+
+        service = described_class.new(assistant: assistant, conversation_id: conversation.display_id, conversation: conversation)
+        service.generate_response(message_history: [{ role: 'user', content: 'Hello' }])
+      end
+    end
+
+    context 'when feature_contact_attributes is disabled' do
+      it 'does not include contact information in the system prompt' do
+        allow(mock_chat).to receive(:ask).and_return(mock_response)
+
+        expect(mock_chat).to receive(:with_instructions).with(satisfy { |s| s.exclude?('[Contact Information]') }) do |_instructions|
+          mock_chat
+        end
+
+        service = described_class.new(assistant: assistant, conversation_id: conversation.display_id, conversation: conversation)
+        service.generate_response(message_history: [{ role: 'user', content: 'Hello' }])
+      end
+    end
+  end
 end
