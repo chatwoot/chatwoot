@@ -498,10 +498,9 @@ export default {
     </div>
     <div
       v-if="isSignatureReadOnly && signatureToApply && !isOnPrivateNote"
-      class="px-4 py-1 text-sm text-n-slate-11 opacity-60 select-none pointer-events-none whitespace-pre-wrap"
-    >
-      --<br />{{ signatureToApply }}
-    </div>
+      class="px-4 py-1 text-sm text-n-slate-11 opacity-60 select-none pointer-events-none"
+      v-html="'--<br>' + signatureToApply.replace(/\n/g, '<br>')"
+    />
     <div
       v-if="hasAttachments && !showAudioRecorderEditor"
       class="attachment-preview-box"
