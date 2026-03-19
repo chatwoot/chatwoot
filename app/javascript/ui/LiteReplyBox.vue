@@ -13,7 +13,10 @@ import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vu
 import { MESSAGE_MAX_LENGTH } from 'shared/helpers/MessageTypeHelper';
 import inboxMixin from 'shared/mixins/inboxMixin';
 import fileUploadMixin from 'dashboard/mixins/fileUploadMixin';
-import { extractTextFromMarkdown } from 'dashboard/helper/editorHelper';
+import {
+  appendSignature,
+  extractTextFromMarkdown,
+} from 'dashboard/helper/editorHelper';
 
 export default {
   components: {
@@ -393,9 +396,14 @@ export default {
       return payload;
     },
     getMessagePayload(message) {
+      // When signature is forced, append it at send time (not in editor)
+      const finalMessage =
+        this.hasCustomSignature && this.signatureToApply
+          ? appendSignature(message, this.signatureToApply, this.channelType)
+          : message;
       let messagePayload = {
         conversationId: this.currentChat.id,
-        message,
+        message: finalMessage,
         private: this.isPrivate,
         sender: this.sender,
       };
@@ -458,6 +466,12 @@ export default {
         @toggle-variables-menu="toggleVariablesMenu"
         @clear-selection="clearEditorSelection"
       />
+    </div>
+    <div
+      v-if="hasCustomSignature && signatureToApply && !isOnPrivateNote"
+      class="px-4 py-1 text-sm text-n-slate-11 opacity-60 select-none pointer-events-none whitespace-pre-wrap"
+    >
+      --<br />{{ signatureToApply }}
     </div>
     <div
       v-if="hasAttachments && !showAudioRecorderEditor"

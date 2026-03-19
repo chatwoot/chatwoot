@@ -797,8 +797,8 @@ watch(
 );
 
 watch(sendWithSignature, newValue => {
-  // see if the allowSignature flag is true
-  if (props.allowSignature) {
+  // When forceSignature is true, signature is managed outside the editor
+  if (props.allowSignature && !props.forceSignature) {
     toggleSignatureInEditor(newValue);
   }
 });
@@ -816,7 +816,7 @@ onMounted(async () => {
   createEditorView();
   editorView.updateState(state);
   // TODO: test this in the main app
-  if (sendWithSignature.value) {
+  if (sendWithSignature.value && !props.forceSignature) {
     addSignature();
   } else if (props.focusOnMount) {
     focusEditorInputField();
