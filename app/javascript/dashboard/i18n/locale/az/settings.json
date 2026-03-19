@@ -1,18 +1,18 @@
 {
   "PROFILE_SETTINGS": {
-    "LINK": "Profil Ayarları",
-    "TITLE": "Profil Ayarları",
+    "LINK": "Profil Parametrləri",
+    "TITLE": "Profil Parametrləri",
     "BTN_TEXT": "Profili Yenilə",
-    "DELETE_AVATAR": "Avatarı Sil",
+    "DELETE_AVATAR": "Avatarı sil",
     "AVATAR_DELETE_SUCCESS": "Avatar uğurla silindi",
     "AVATAR_DELETE_FAILED": "Avatar silinərkən xəta baş verdi, zəhmət olmasa yenidən cəhd edin",
     "UPDATE_SUCCESS": "Profiliniz uğurla yeniləndi",
     "PASSWORD_UPDATE_SUCCESS": "Şifrəniz uğurla dəyişdirildi",
     "AFTER_EMAIL_CHANGED": "Profiliniz uğurla yeniləndi, giriş məlumatlarınız dəyişdiyi üçün yenidən daxil olun",
     "FORM": {
-      "PICTURE": "Profil Şəkli",
+      "PICTURE": "Profil şəkli",
       "AVATAR": "Profil Şəkli",
-      "ERROR": "Zəhmət olmasa formanı düzəldin",
+      "ERROR": "Zəhmət olmasa, formanı düzəldin",
       "REMOVE_IMAGE": "Sil",
       "UPLOAD_IMAGE": "Şəkil yüklə",
       "UPDATE_IMAGE": "Şəkli yenilə",
@@ -68,11 +68,11 @@
         "API_SUCCESS": "İmza uğurla yadda saxlanıldı",
         "IMAGE_UPLOAD_ERROR": "Şəkil yüklənmədi! Yenidən cəhd edin",
         "IMAGE_UPLOAD_SUCCESS": "Şəkil uğurla əlavə edildi. İmzanı saxlamaq üçün zəhmət olmasa Saxla düyməsini basın",
-        "IMAGE_UPLOAD_SIZE_ERROR": "Şəkilin ölçüsü {size}MB-dan az olmalıdır"
+        "IMAGE_UPLOAD_SIZE_ERROR": "Şəkil ölçüsü {size}MB-dan az olmalıdır"
       },
       "MESSAGE_SIGNATURE": {
-        "LABEL": "Mesaj İmzası",
-        "ERROR": "Mesaj İmzası boş ola bilməz",
+        "LABEL": "Mesaj imzası",
+        "ERROR": "Mesaj imzası boş ola bilməz",
         "PLACEHOLDER": "Şəxsi mesaj imzanızı buraya daxil edin."
       },
       "PASSWORD_SECTION": {
@@ -97,7 +97,7 @@
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Səs Bildirişləri",
-        "NOTE": "Yeni mesajlar və söhbətlər üçün paneldə səsli xəbərdarlıqları aktiv edin.",
+        "NOTE": "Yeni mesajlar və söhbətlər üçün paneldə səsli bildirişləri aktiv edin.",
         "PLAY": "Səsi oynat",
         "ALERT_TYPES": {
           "NONE": "Heç biri",
@@ -108,11 +108,11 @@
           "NOTME": "Başqalarına təyin olunmuş açıq söhbətlər"
         },
         "ALERT_COMBINATIONS": {
-          "NONE": "Heç bir seçim etməmisiniz, heç bir səsli xəbərdarlıq almayacaqsınız.",
-          "ASSIGNED": "Sizə təyin olunmuş söhbətlər üçün xəbərdarlıqlar alacaqsınız.",
-          "UNASSIGNED": "Heç kimə təyin olunmamış söhbətlər üçün xəbərdarlıqlar alacaqsınız.",
-          "NOTME": "Başqalarına təyin olunmuş söhbətlər üçün xəbərdarlıqlar alacaqsınız.",
-          "ASSIGNED+UNASSIGNED": "Sizə təyin olunmuş və hər hansı diqqətsiz söhbətlər üçün xəbərdarlıqlar alacaqsınız.",
+          "NONE": "Heç bir seçim etməmisiniz, heç bir səsli bildiriş almayacaqsınız.",
+          "ASSIGNED": "Sizə təyin olunmuş söhbətlər üçün bildirişlər alacaqsınız.",
+          "UNASSIGNED": "Heç kimə təyin olunmamış söhbətlər üçün bildirişlər alacaqsınız.",
+          "NOTME": "Başqalarına təyin olunmuş söhbətlər üçün bildirişlər alacaqsınız.",
+          "ASSIGNED+UNASSIGNED": "Sizə təyin olunmuş və hər hansı nəzarətsiz söhbətlər üçün bildirişlər alacaqsınız.",
           "ASSIGNED+NOTME": "Sizə təyin olunan və başqalarına təyin olunan söhbətlər üçün bildirişlər gələcək, lakin təyin olunmamışlar üçün yox.",
           "NOTME+UNASSIGNED": "Sizə təyin olunmamış və başqalarına təyin olunan nəzarətsiz söhbətlər üçün bildirişlər gələcək.",
           "ASSIGNED+NOTME+UNASSIGNED": "Bütün söhbətlər üçün bildirişlər gələcək."
@@ -129,7 +129,7 @@
         "CONDITIONS": {
           "TITLE": "Bildiriş şərtləri:",
           "CONDITION_ONE": "Səsli bildirişləri yalnız brauzer pəncərəsi aktiv olmadıqda göndər",
-          "CONDITION_TWO": "Təyin olunmuş bütün söhbətlər oxunana qədər hər 30 saniyədən bir bildiriş göndər"
+          "CONDITION_TWO": "Təyin olunmuş bütün söhbətlər oxunana qədər hər 30 saniyədə bir bildiriş göndər"
         },
         "SOUND_PERMISSION_ERROR": "Brauzerinizdə avtomatik səsləndirmə deaktivdir. Bildirişləri avtomatik eşitmək üçün brauzer parametrlərində səs icazəsini aktiv edin və ya səhifə ilə qarşılıqlı əlaqə yaradın.",
         "READ_MORE": "Daha çox oxu"
@@ -139,12 +139,12 @@
         "NOTE": "E-poçt bildiriş üstünlüklərinizi burada yeniləyin",
         "CONVERSATION_ASSIGNMENT": "Mənə söhbət təyin olunduqda e-poçt bildirişi göndər",
         "CONVERSATION_CREATION": "Yeni söhbət yaradıldıqda e-poçt bildirişi göndər",
-        "CONVERSATION_MENTION": "Söhbətdə adınız çəkildikdə e-poçt bildirişləri göndər",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Təyin olunmuş söhbətdə yeni mesaj yaradıldıqda e-poçt bildirişləri göndər",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "İştirak etdiyiniz söhbətdə yeni mesaj yaradıldıqda e-poçt bildirişləri göndərin",
-        "SLA_MISSED_FIRST_RESPONSE": "Danışıq ilk cavab SLA-sını qaçırdıqda e-poçt bildirişləri göndər",
-        "SLA_MISSED_NEXT_RESPONSE": "Danışıq növbəti cavab SLA-sını qaçırdıqda e-poçt bildirişləri göndər",
-        "SLA_MISSED_RESOLUTION": "Danışıq həll SLA-sını qaçırdıqda e-poçt bildirişləri göndər"
+        "CONVERSATION_MENTION": "Söhbətdə adınız çəkildikdə e-poçt bildirişi göndər",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Təyin olunmuş söhbətdə yeni mesaj yaradıldıqda e-poçt bildirişi göndər",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "İştirak etdiyiniz söhbətdə yeni mesaj yaradıldıqda e-poçt bildirişi göndərin",
+        "SLA_MISSED_FIRST_RESPONSE": "Danışıq ilk cavab SLA-sını qaçırdıqda e-poçt bildirişi göndər",
+        "SLA_MISSED_NEXT_RESPONSE": "Danışıq növbəti cavab SLA-sını qaçırdıqda e-poçt bildirişi göndər",
+        "SLA_MISSED_RESOLUTION": "Danışıq həll SLA-sını qaçırdıqda e-poçt bildirişi göndər"
       },
       "NOTIFICATIONS": {
         "TITLE": "Bildiriş üstünlükləri",
@@ -172,14 +172,14 @@
         "NOTE": "Push bildiriş seçimlərinizi burada yeniləyin",
         "CONVERSATION_ASSIGNMENT": "Söhbət mənə təyin olunduqda push bildirişləri göndər",
         "CONVERSATION_CREATION": "Yeni söhbət yaradıldıqda push bildirişləri göndər",
-        "CONVERSATION_MENTION": "Söhbətdə adınız çəkildikdə push bildirişləri göndər",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Təyin olunmuş söhbətdə yeni mesaj yaradıldıqda push bildirişləri göndər",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "İştirak etdiyiniz söhbətdə yeni mesaj yaradıldıqda push bildirişləri göndərin",
+        "CONVERSATION_MENTION": "Söhbətdə adınız çəkildikdə push bildirişi göndər",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Təyin olunmuş söhbətdə yeni mesaj yaradıldıqda push bildirişi göndər",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "İştirak etdiyiniz söhbətdə yeni mesaj yaradıldıqda push bildirişi göndərin",
         "HAS_ENABLED_PUSH": "Bu brauzer üçün push bildirişləri aktivdir.",
         "REQUEST_PUSH": "Push bildirişlərini aktiv et",
-        "SLA_MISSED_FIRST_RESPONSE": "Danışıq ilk cavab SLA-sını qaçırdıqda push bildirişləri göndər",
-        "SLA_MISSED_NEXT_RESPONSE": "Danışıq növbəti cavab SLA-sını qaçırdıqda push bildirişləri göndər",
-        "SLA_MISSED_RESOLUTION": "Danışıq həll müddətinin SLA-sını keçdikdə push bildirişləri göndər"
+        "SLA_MISSED_FIRST_RESPONSE": "Danışıq ilk cavab SLA-sını qaçırdıqda push bildirişi göndər",
+        "SLA_MISSED_NEXT_RESPONSE": "Danışıq növbəti cavab SLA-sını qaçırdıqda push bildirişi göndər",
+        "SLA_MISSED_RESOLUTION": "Danışıq həll müddətinin SLA-sını keçdikdə push bildirişi göndər"
       },
       "PROFILE_IMAGE": {
         "LABEL": "Profil Şəkli"
@@ -236,7 +236,7 @@
     "PROFILE_SETTINGS": "Profil parametrləri",
     "YEAR_IN_REVIEW": "İlin icmalı",
     "KEYBOARD_SHORTCUTS": "Klaviatura qısayolları",
-    "APPEARANCE": "Görünüşü dəyiş",
+    "APPEARANCE": "Görünüşü dəyişdir",
     "SUPER_ADMIN_CONSOLE": "SuperAdmin konsolu",
     "DOCS": "Sənədləri oxu",
     "CHANGELOG": "Dəyişikliklər jurnalı",
@@ -284,7 +284,7 @@
     },
     "MEDIA": {
       "IMAGE_UNAVAILABLE": "Bu şəkil artıq mövcud deyil.",
-      "LOADING_FAILED": "Yükləmə alınmadı"
+      "LOADING_FAILED": "Yükləmə uğursuz oldu"
     }
   },
   "CONFIRM_EMAIL": "Yoxlanılır...",
@@ -305,12 +305,12 @@
     "PARTICIPATING_CONVERSATIONS": "İştirak edən",
     "UNATTENDED_CONVERSATIONS": "Nəzarətsiz",
     "REPORTS": "Hesabatlar",
-    "SETTINGS": "Ayarlar",
+    "SETTINGS": "Parametrlər",
     "CONTACTS": "Əlaqələr",
     "ACTIVE": "Aktiv",
     "COMPANIES": "Şirkətlər",
     "ALL_COMPANIES": "Bütün Şirkətlər",
-    "CAPTAIN": "Kapitan",
+    "CAPTAIN": "Captain",
     "CAPTAIN_ASSISTANTS": "Köməkçilər",
     "CAPTAIN_DOCUMENTS": "Sənədlər",
     "CAPTAIN_RESPONSES": "Tez-tez verilən suallar",
@@ -327,11 +327,11 @@
     "NOTIFICATIONS": "Bildirişlər",
     "CANNED_RESPONSES": "Hazır Cavablar",
     "INTEGRATIONS": "İnteqrasiyalar",
-    "PROFILE_SETTINGS": "Profil Parametrləri",
-    "ACCOUNT_SETTINGS": "Hesab Ayarları",
+    "PROFILE_SETTINGS": "Profil parametrləri",
+    "ACCOUNT_SETTINGS": "Hesab parametrləri",
     "APPLICATIONS": "Tətbiqlər",
     "LABELS": "Etiketlər",
-    "CUSTOM_ATTRIBUTES": "Xüsusi Atributlar",
+    "CUSTOM_ATTRIBUTES": "Xüsusi atributlar",
     "AUTOMATION": "Avtomatlaşdırma",
     "MACROS": "Makrolar",
     "TEAMS": "Komandalar",
@@ -452,7 +452,7 @@
       "BUTTON_TXT": "Daha çox kredit alın",
       "DOCUMENTS": "Sənədlər",
       "RESPONSES": "Responses",
-      "UPGRADE": "Captain pulsuz planda mövcud deyil, köməkçilərə, köməkçi pilot və daha çoxuna giriş əldə etmək üçün indi yüksəldin.",
+      "UPGRADE": "Kapitan pulsuz planda mövcud deyil, köməkçilərə, köməkçi pilot və daha çoxuna giriş əldə etmək üçün indi yüksəldin.",
       "REFRESH_CREDITS": "Yenilə"
     },
     "CHAT_WITH_US": {
@@ -504,7 +504,7 @@
       },
       "CERTIFICATE": {
         "LABEL": "PEM formatında imzalama sertifikatı",
-        "HELP": "SAML cavablarını yoxlamaq üçün istifadə olunan identifikasiya təminatçınızın açıq sertifikatı",
+        "HELP": "SAML cavablarını yoxlamaq üçün istifadə olunan şəxsiyyət təminatçınızın açıq sertifikatı",
         "PLACEHOLDER": "-----BEGIN CERTIFICATE-----\nMIIC..."
       },
       "FINGERPRINT": {
@@ -518,7 +518,7 @@
         "TOOLTIP": "Chatwoot-un Xidmət Təminatçısı kimi unikal identifikatoru - bunu IdP parametrlərinizdə qurun"
       },
       "IDP_ENTITY_ID": {
-        "LABEL": "Şəxsiyyət Təminatçısının Entity ID-si",
+        "LABEL": "Şəxsiyyət Təminatçısının Varlıq ID-si",
         "HELP": "Şəxsiyyət təminatçınız üçün unikal identifikator (adətən IdP konfiqurasiyasında tapılır)",
         "PLACEHOLDER": "https://sizin-idp.com/saml"
       },
@@ -544,7 +544,7 @@
         "TITLE": "SAML SSO-nu aktivləşdirmək üçün yüksəldin",
         "AVAILABLE_ON": "SAML SSO xüsusiyyəti yalnız Enterprise planlarında mövcuddur.",
         "UPGRADE_PROMPT": "SAML tək giriş və digər qabaqcıl xüsusiyyətlərə daxil olmaq üçün planınızı yüksəldin.",
-        "UPGRADE_NOW": "İndi yüksəlt",
+        "UPGRADE_NOW": "İndi yüksəldin",
         "CANCEL_ANYTIME": "Planınızı istənilən vaxt dəyişə və ya ləğv edə bilərsiniz"
       },
       "ATTRIBUTE_MAPPING": {
@@ -650,7 +650,7 @@
     "INDEX": {
       "HEADER": {
         "TITLE": "Agent təyinatı",
-        "DESCRIPTION": "İş yükünü effektiv idarə etmək və söhbətləri inboxların və agentlərin ehtiyaclarına əsasən yönləndirmək üçün siyasətləri müəyyən edin. Daha ətraflı öyrənin"
+        "DESCRIPTION": "İş yükünü effektiv idarə etmək və söhbətləri gələn qutuların və agentlərin ehtiyaclarına əsasən yönləndirmək üçün siyasətləri müəyyən edin. Daha ətraflı öyrənin"
       },
       "ASSIGNMENT_POLICY": {
         "TITLE": "Təyinat siyasəti",
@@ -821,7 +821,7 @@
         "HEADER": {
           "TITLE": "Agent tutumu siyasətini redaktə edin"
         },
-        "EDIT_BUTTON": "Siyasəti yenilə",
+        "EDIT_BUTTON": "Siyasəti yeniləyin",
         "CONFIRM_ADD_AGENT_DIALOG": {
           "TITLE": "Agent əlavə et",
           "DESCRIPTION": "{agentName} artıq başqa siyasətə bağlıdır. Onu bu siyasətə bağlamaq istədiyinizə əminsiniz? Bu, digər siyasətdən ayrılacaq.",
@@ -874,7 +874,7 @@
             "MAX_CONVERSATIONS": "Maksimum söhbətlər",
             "SET_LIMIT": "Limit təyin et"
           },
-          "EMPTY_STATE": "Heç bir daxilolma limiti təyin edilməyib"
+          "EMPTY_STATE": "Heç bir gələn qutu limiti təyin edilməyib"
         },
         "EXCLUSION_RULES": {
           "LABEL": "Çıxarış qaydaları",
@@ -914,7 +914,7 @@
     },
     "DELETE_POLICY": {
       "TITLE": "Siyasəti sil",
-      "DESCRIPTION": "Bu siyasəti silmək istədiyinizə əminsiniz? Bu əməliyyat geri alınmaz.",
+      "DESCRIPTION": "Bu siyasəti silmək istədiyinizə əminsiniz? Bu əməliyyat geri qaytarıla bilməz.",
       "CONFIRM_BUTTON_LABEL": "Sil",
       "CANCEL_BUTTON_LABEL": "Ləğv et"
     }
