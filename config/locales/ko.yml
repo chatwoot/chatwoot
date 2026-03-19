@@ -34,6 +34,9 @@ ko:
     saml_not_available: 이 설치에서는 SAML 인증을 사용할 수 없습니다.
     inbox_deletetion_response: 받은 메시지함 삭제 요청이 곧 처리될 예정입니다.
   errors:
+    account:
+      reporting_timezone:
+        invalid: is not a valid timezone
     validations:
       presence: 비어 있을 수 없습니다
     webhook:
