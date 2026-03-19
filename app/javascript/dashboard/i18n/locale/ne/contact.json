@@ -19,12 +19,12 @@
     "NEW_MESSAGE": "नयाँ सन्देश",
     "CALL": "Call",
     "CALL_INITIATED": "सम्पर्कलाई कल गर्दै…",
-    "CALL_FAILED": "फोन कल सुरु गर्न सकिएन। कृपया फेरि प्रयास गर्नुहोस्।.",
+    "CALL_FAILED": "फोन कल सुरु गर्न सकिएन। कृपया फेरि प्रयास गर्नुहोस्।",
     "VOICE_INBOX_PICKER": {
       "TITLE": "Choose a voice inbox"
     },
     "CONVERSATIONS": {
-      "NO_RECORDS_FOUND": "यस सम्पर्कसँग सम्बन्धित कुनै अघिल्लो कुराकानीहरू छैनन्।.",
+      "NO_RECORDS_FOUND": "यस सम्पर्कसँग सम्बन्धित कुनै अघिल्लो कुराकानीहरू छैनन्।",
       "TITLE": "अघिल्लो कुराकानीहरू"
     },
     "LABELS": {
@@ -47,8 +47,8 @@
     "CONTACT_ACTIONS": "Contact actions",
     "MUTE_CONTACT": "Block Contact",
     "UNMUTE_CONTACT": "Unblock Contact",
-    "MUTED_SUCCESS": "यो सम्पर्क सफलतापूर्वक ब्लक गरियो। तपाईंलाई भविष्यका कुनै पनि कुराकानीको सूचना दिइने छैन।.",
-    "UNMUTED_SUCCESS": "यो सम्पर्क सफलतापूर्वक अनब्लक गरियो।.",
+    "MUTED_SUCCESS": "यो सम्पर्क सफलतापूर्वक ब्लक गरियो। तपाईंलाई भविष्यका कुनै पनि कुराकानीको सूचना दिइने छैन।",
+    "UNMUTED_SUCCESS": "यो सम्पर्क सफलतापूर्वक अनब्लक गरियो।",
     "SEND_TRANSCRIPT": "Send Transcript",
     "EDIT_LABEL": "Edit",
     "SIDEBAR_SECTIONS": {
@@ -75,7 +75,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "Contact deleted successfully",
-      "ERROR_MESSAGE": "सम्पर्क मेटाउन सकिएन। कृपया पछि फेरि प्रयास गर्नुहोस्।."
+      "ERROR_MESSAGE": "सम्पर्क मेटाउन सकिएन। कृपया पछि फेरि प्रयास गर्नुहोस्।"
     }
   },
   "CONTACT_FORM": {
@@ -96,16 +96,16 @@
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "Enter the email address of the contact",
         "LABEL": "इमेल ठेगाना",
-        "DUPLICATE": "यो इमेल ठेगाना अर्को सम्पर्कका लागि प्रयोग भइरहेको छ।.",
-        "ERROR": "कृपया मान्य इमेल ठेगाना प्रविष्ट गर्नुहोस्।."
+        "DUPLICATE": "यो इमेल ठेगाना अर्को सम्पर्कका लागि प्रयोग भइरहेको छ।",
+        "ERROR": "कृपया मान्य इमेल ठेगाना प्रविष्ट गर्नुहोस्।"
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Enter the phone number of the contact",
         "LABEL": "Phone Number",
         "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]",
-        "ERROR": "फोन नम्बर खाली हुनुपर्छ वा E.164 ढाँचामा हुनुपर्छ",
+        "ERROR": "फोन नम्बर खाली वा E.164 ढाँचामा हुनुपर्छ",
         "DIAL_CODE_ERROR": "Please select a dial code from the list",
-        "DUPLICATE": "यो फोन नम्बर अर्को सम्पर्कका लागि प्रयोग भइरहेको छ।."
+        "DUPLICATE": "यो फोन नम्बर अर्को सम्पर्कका लागि प्रयोग भइरहेको छ।"
       },
       "LOCATION": {
         "PLACEHOLDER": "Enter the location of the contact",
@@ -148,7 +148,7 @@
     "DELETE_AVATAR": {
       "API": {
         "SUCCESS_MESSAGE": "Contact avatar deleted successfully",
-        "ERROR_MESSAGE": "सम्पर्कको अवतार मेटाउन सकिएन। कृपया पछि फेरि प्रयास गर्नुहोस्।."
+        "ERROR_MESSAGE": "सम्पर्कको अवतार मेटाउन सकिएन। कृपया पछि फेरि प्रयास गर्नुहोस्।"
       }
     },
     "SUCCESS_MESSAGE": "Contact saved successfully",
@@ -157,8 +157,8 @@
   "NEW_CONVERSATION": {
     "BUTTON_LABEL": "Start conversation",
     "TITLE": "नयाँ संवाद",
-    "DESC": "नयाँ सन्देश पठाएर नयाँ कुराकानी सुरु गर्नुहोस्।.",
-    "NO_INBOX": "यस सम्पर्कसँग नयाँ कुराकानी सुरु गर्न इनबक्स फेला परेन।.",
+    "DESC": "नयाँ सन्देश पठाएर नयाँ कुराकानी सुरु गर्नुहोस्।",
+    "NO_INBOX": "यस सम्पर्कसँग नयाँ कुराकानी सुरु गर्न इनबक्स फेला परेन।",
     "FORM": {
       "TO": {
         "LABEL": "लाई"
@@ -208,7 +208,7 @@
     },
     "ADD": {
       "TITLE": "Create custom attribute",
-      "DESC": "यस सम्पर्कमा कस्टम जानकारी थप्नुहोस्।."
+      "DESC": "यस सम्पर्कमा कस्टम जानकारी थप्नुहोस्।"
     },
     "FORM": {
       "CREATE": "Add attribute",
@@ -268,11 +268,11 @@
     },
     "SUMMARY": {
       "TITLE": "सारांश",
-      "DELETE_WARNING": "<strong>{primaryContactName}</strong> को सम्पर्क मेटाइनेछ।.",
-      "ATTRIBUTE_WARNING": "<strong>{primaryContactName}</strong> को सम्पर्क विवरण <strong>{parentContactName}</strong> मा प्रतिलिपि गरिनेछ।."
+      "DELETE_WARNING": "<strong>{primaryContactName}</strong> को सम्पर्क मेटाइनेछ।",
+      "ATTRIBUTE_WARNING": "<strong>{primaryContactName}</strong> को सम्पर्क विवरण <strong>{parentContactName}</strong> मा प्रतिलिपि गरिनेछ।"
     },
     "SEARCH": {
-      "ERROR_MESSAGE": "केही समस्या भयो। कृपया पछि फेरि प्रयास गर्नुहोस्।."
+      "ERROR_MESSAGE": "केही समस्या भयो। कृपया पछि फेरि प्रयास गर्नुहोस्।"
     },
     "FORM": {
       "SUBMIT": " Merge contacts",
@@ -306,25 +306,25 @@
           "EXPORT_CONTACT": "Export contacts",
           "IMPORT_CONTACT": "Import contacts",
           "SAVE_CONTACT": "Save contact",
-          "EMAIL_ADDRESS_DUPLICATE": "यो इमेल ठेगाना अर्को सम्पर्कका लागि प्रयोग भइरहेको छ।.",
-          "PHONE_NUMBER_DUPLICATE": "यो फोन नम्बर अर्को सम्पर्कका लागि प्रयोग भइरहेको छ।.",
+          "EMAIL_ADDRESS_DUPLICATE": "यो इमेल ठेगाना अर्को सम्पर्कका लागि प्रयोग भइरहेको छ।",
+          "PHONE_NUMBER_DUPLICATE": "यो फोन नम्बर अर्को सम्पर्कका लागि प्रयोग भइरहेको छ।",
           "SUCCESS_MESSAGE": "Contact saved successfully",
-          "ERROR_MESSAGE": "सम्पर्क बचत गर्न सकिएन। कृपया पछि फेरि प्रयास गर्नुहोस्।."
+          "ERROR_MESSAGE": "सम्पर्क बचत गर्न सकिएन। कृपया पछि फेरि प्रयास गर्नुहोस्।"
         },
         "BLOCK_SUCCESS_MESSAGE": "This contact is blocked successfully",
-        "BLOCK_ERROR_MESSAGE": "सम्पर्क ब्लक गर्न सकिएन। कृपया पछि फेरि प्रयास गर्नुहोस्।.",
+        "BLOCK_ERROR_MESSAGE": "सम्पर्क ब्लक गर्न सकिएन। कृपया पछि फेरि प्रयास गर्नुहोस्।",
         "UNBLOCK_SUCCESS_MESSAGE": "This contact is unblocked successfully",
-        "UNBLOCK_ERROR_MESSAGE": "सम्पर्क अनब्लक गर्न सकिएन। कृपया पछि फेरि प्रयास गर्नुहोस्।.",
+        "UNBLOCK_ERROR_MESSAGE": "सम्पर्क अनब्लक गर्न सकिएन। कृपया पछि फेरि प्रयास गर्नुहोस्।",
         "IMPORT_CONTACT": {
           "TITLE": "Import contacts",
-          "DESCRIPTION": "CSV फाइल मार्फत सम्पर्कहरू आयात गर्नुहोस्।.",
-          "DOWNLOAD_LABEL": "नमूना CSV डाउनलोड गर्नुहोस्।.",
+          "DESCRIPTION": "CSV फाइल मार्फत सम्पर्कहरू आयात गर्नुहोस्।",
+          "DOWNLOAD_LABEL": "नमूना CSV डाउनलोड गर्नुहोस्।",
           "LABEL": "CSV फाइल:",
           "CHOOSE_FILE": "Choose file",
           "CHANGE": "परिवर्तन गर्नुहोस्",
           "CANCEL": "Cancel",
           "IMPORT": "Import",
-          "SUCCESS_MESSAGE": "आयात पूरा भएपछि तपाईंलाई इमेलमार्फत सूचित गरिनेछ।.",
+          "SUCCESS_MESSAGE": "आयात पूरा भएपछि तपाईंलाई इमेलमार्फत सूचित गरिनेछ।",
           "ERROR_MESSAGE": "There was an error, please try again"
         },
         "EXPORT_CONTACT": {
@@ -362,7 +362,7 @@
             "PLACEHOLDER": "Enter the name of the filter",
             "ERROR": "Enter a valid name",
             "SUCCESS_MESSAGE": "Filter saved successfully",
-            "ERROR_MESSAGE": "फिल्टर बचत गर्न सकिएन। कृपया पछि फेरि प्रयास गर्नुहोस्।."
+            "ERROR_MESSAGE": "फिल्टर बचत गर्न सकिएन। कृपया पछि फेरि प्रयास गर्नुहोस्।"
           },
           "DELETE_SEGMENT": {
             "TITLE": "Confirm Deletion",
@@ -370,7 +370,7 @@
             "CONFIRM": "Yes, Delete",
             "CANCEL": "No, Cancel",
             "SUCCESS_MESSAGE": "Filter deleted successfully",
-            "ERROR_MESSAGE": "फिल्टर मेटाउन सकिएन। कृपया पछि फेरि प्रयास गर्नुहोस्।."
+            "ERROR_MESSAGE": "फिल्टर मेटाउन सकिएन। कृपया पछि फेरि प्रयास गर्नुहोस्।"
           }
         }
       }
@@ -422,11 +422,11 @@
           },
           "EMAIL_ADDRESS": {
             "PLACEHOLDER": "Enter the email address",
-            "DUPLICATE": "यो इमेल ठेगाना अर्को सम्पर्कका लागि प्रयोग भइरहेको छ।."
+            "DUPLICATE": "यो इमेल ठेगाना अर्को सम्पर्कका लागि प्रयोग भइरहेको छ।"
           },
           "PHONE_NUMBER": {
             "PLACEHOLDER": "Enter the phone number",
-            "DUPLICATE": "यो फोन नम्बर अर्को सम्पर्कका लागि प्रयोग भइरहेको छ।."
+            "DUPLICATE": "यो फोन नम्बर अर्को सम्पर्कका लागि प्रयोग भइरहेको छ।"
           },
           "CITY": {
             "PLACEHOLDER": "Enter the city name"
@@ -443,7 +443,7 @@
         },
         "UPDATE_BUTTON": "Update contact",
         "SUCCESS_MESSAGE": "Contact updated successfully",
-        "ERROR_MESSAGE": "सम्पर्क अपडेट गर्न सकिएन। कृपया पछि फेरि प्रयास गर्नुहोस्।."
+        "ERROR_MESSAGE": "सम्पर्क अपडेट गर्न सकिएन। कृपया पछि फेरि प्रयास गर्नुहोस्।"
       },
       "SOCIAL_MEDIA": {
         "TITLE": "Edit social links",
@@ -472,14 +472,14 @@
         }
       },
       "DELETE_CONTACT": {
-        "MESSAGE": "यो क्रिया स्थायी र उल्ट्याउन सकिँदैन।.",
+        "MESSAGE": "यो क्रिया स्थायी र उल्ट्याउन सकिँदैन।",
         "BUTTON": "Delete now"
       }
     },
     "DETAILS": {
       "CREATED_AT": "सिर्जना गरिएको {date}",
       "LAST_ACTIVITY": "अन्तिम सक्रिय {date}",
-      "DELETE_CONTACT_DESCRIPTION": "यो सम्पर्क स्थायी रूपमा मेटाइनेछ। यो क्रिया उल्ट्याउन सकिँदैन",
+      "DELETE_CONTACT_DESCRIPTION": "यो सम्पर्क स्थायी रूपमा मेटाइनेछ। यो क्रिया उल्ट्याउन सकिँदैन।",
       "DELETE_CONTACT": "Delete contact",
       "DELETE_DIALOG": {
         "TITLE": "Confirm Deletion",
@@ -487,17 +487,17 @@
         "CONFIRM": "Yes, Delete",
         "API": {
           "SUCCESS_MESSAGE": "Contact deleted successfully",
-          "ERROR_MESSAGE": "सम्पर्क मेटाउन सकिएन। कृपया पछि फेरि प्रयास गर्नुहोस्।."
+          "ERROR_MESSAGE": "सम्पर्क मेटाउन सकिएन। कृपया पछि फेरि प्रयास गर्नुहोस्।"
         }
       },
       "AVATAR": {
         "UPLOAD": {
-          "ERROR_MESSAGE": "अवतार अपलोड गर्न सकिएन। कृपया पछि फेरि प्रयास गर्नुहोस्।.",
+          "ERROR_MESSAGE": "अवतार अपलोड गर्न सकिएन। कृपया पछि फेरि प्रयास गर्नुहोस्।",
           "SUCCESS_MESSAGE": "Avatar uploaded successfully"
         },
         "DELETE": {
           "SUCCESS_MESSAGE": "अवतार सफलतापूर्वक मेटाइयो",
-          "ERROR_MESSAGE": "अवतार मेटाउन सकिएन। कृपया पछि फेरि प्रयास गर्नुहोस्।."
+          "ERROR_MESSAGE": "अवतार मेटाउन सकिएन। कृपया पछि फेरि प्रयास गर्नुहोस्।"
         }
       }
     },
@@ -514,7 +514,7 @@
       "ATTRIBUTES": {
         "SEARCH_PLACEHOLDER": "Search for attributes",
         "UNUSED_ATTRIBUTES": "{count} प्रयोग गरिएको गुण | {count} प्रयोग नगरिएको गुणहरू",
-        "EMPTY_STATE": "यस खातामा कुनै कस्टम सम्पर्क विशेषताहरू उपलब्ध छैनन्। तपाईं सेटिङहरूमा कस्टम विशेषता सिर्जना गर्न सक्नुहुन्छ।.",
+        "EMPTY_STATE": "यस खातामा कुनै कस्टम सम्पर्क विशेषताहरू उपलब्ध छैनन्। तपाईं सेटिङहरूमा कस्टम विशेषता सिर्जना गर्न सक्नुहुन्छ।",
         "YES": "हो",
         "NO": "होइन",
         "TRIGGER": {
@@ -538,7 +538,7 @@
       },
       "MERGE": {
         "TITLE": "Merge contact",
-        "DESCRIPTION": "दुई प्रोफाइलहरूलाई एकमा मिलाउनुहोस्, सबै विशेषता र कुराकानीहरू सहित। विवाद भएमा, प्राथमिक सम्पर्कका विशेषताहरू प्राथमिकता पाउनेछन्।.",
+        "DESCRIPTION": "दुई प्रोफाइलहरूलाई सबै विशेषता र कुराकानीहरू सहित एकमा मिलाउनुहोस्। विवाद भएमा, प्राथमिक सम्पर्कका विशेषताहरू प्राथमिकता पाउनेछन्।",
         "PRIMARY": "प्राथमिक सम्पर्क",
         "PRIMARY_HELP_LABEL": "To be saved",
         "PRIMARY_REQUIRED_ERROR": "Please select a contact to merge with before proceeding",
@@ -547,7 +547,7 @@
         "EMPTY_STATE": "कुनै सम्पर्क फेला परेन",
         "PLACEHOLDER": "Search for primary contact",
         "SEARCH_PLACEHOLDER": "Search for a contact",
-        "SEARCH_ERROR_MESSAGE": "सम्पर्कहरू खोज्न सकिएन। कृपया पछि फेरि प्रयास गर्नुहोस्।.",
+        "SEARCH_ERROR_MESSAGE": "सम्पर्कहरू खोज्न सकिएन। कृपया पछि फेरि प्रयास गर्नुहोस्।",
         "SUCCESS_MESSAGE": "Contact merged successfully",
         "ERROR_MESSAGE": "Could not merge contacts, try again!",
         "IS_SEARCHING": "खोज्दै...",
@@ -564,16 +564,16 @@
         "ADD_NOTE": "Add contact note",
         "EXPAND": "विस्तार गर्नुहोस्",
         "COLLAPSE": "Collapse",
-        "NO_NOTES": "कुनै नोटहरू छैनन्, तपाईं सम्पर्क विवरण पृष्ठबाट नोटहरू थप्न सक्नुहुन्छ।.",
-        "EMPTY_STATE": "यस सम्पर्कसँग सम्बन्धित कुनै नोटहरू छैनन्। माथि रहेको बाकसमा टाइप गरेर नोट थप्न सक्नुहुन्छ।.",
-        "CONVERSATION_EMPTY_STATE": "अहिलेसम्म कुनै नोटहरू छैनन्। एउटा नोट सिर्जना गर्न Add note बटन प्रयोग गर्नुहोस्।."
+        "NO_NOTES": "कुनै नोटहरू छैनन्, तपाईं सम्पर्क विवरण पृष्ठबाट नोटहरू थप्न सक्नुहुन्छ।",
+        "EMPTY_STATE": "यस सम्पर्कसँग सम्बन्धित कुनै नोटहरू छैनन्। माथि रहेको बाकसमा टाइप गरेर नोट थप्न सक्नुहुन्छ।",
+        "CONVERSATION_EMPTY_STATE": "अहिलेसम्म कुनै नोटहरू छैनन्। एउटा नोट सिर्जना गर्न Add note बटन प्रयोग गर्नुहोस्।"
       }
     },
     "EMPTY_STATE": {
       "TITLE": "यस खातामा कुनै सम्पर्क फेला परेन",
       "SUBTITLE": "Start adding new contacts by clicking on the button below",
       "BUTTON_LABEL": "Add contact",
-      "SEARCH_EMPTY_STATE_TITLE": "तपाईंको खोजीमा कुनै सम्पर्क मेल खाँदैनन् 🔍",
+      "SEARCH_EMPTY_STATE_TITLE": "तपाईंको खोजीमा कुनै सम्पर्क मेल खाँदैन 🔍",
       "LIST_EMPTY_STATE_TITLE": "यस दृश्यमा कुनै सम्पर्क उपलब्ध छैन 📋",
       "ACTIVE_EMPTY_STATE_TITLE": "हाल कुनै सम्पर्क सक्रिय छैन 🌙"
     },
@@ -581,37 +581,37 @@
   },
   "CONTACTS_BULK_ACTIONS": {
     "ASSIGN_LABELS": "Assign Labels",
-    "ASSIGN_LABELS_SUCCESS": "लेबलहरू सफलतापूर्वक असाइन गरियो।.",
+    "ASSIGN_LABELS_SUCCESS": "लेबलहरू सफलतापूर्वक असाइन गरियो।",
     "ASSIGN_LABELS_FAILED": "Failed to assign labels",
-    "DESCRIPTION": "चयनित सम्पर्कहरूमा थप्न चाहनुभएको लेबलहरू छान्नुहोस्।.",
-    "NO_LABELS_FOUND": "अहिलेसम्म कुनै लेबलहरू उपलब्ध छैनन्।.",
+    "DESCRIPTION": "चयनित सम्पर्कहरूमा थप्न चाहनुभएको लेबलहरू छान्नुहोस्।",
+    "NO_LABELS_FOUND": "अहिलेसम्म कुनै लेबलहरू उपलब्ध छैनन्।",
     "SELECTED_COUNT": "{count} चयन गरियो",
     "CLEAR_SELECTION": "Clear selection",
     "SELECT_ALL": "सबै चयन गर्नुहोस् ({count})",
     "DELETE_CONTACTS": "Delete",
-    "DELETE_SUCCESS": "सम्पर्कहरू सफलतापूर्वक मेटाइयो।.",
-    "DELETE_FAILED": "सम्पर्कहरू मेटाउन असफल।.",
+    "DELETE_SUCCESS": "सम्पर्कहरू सफलतापूर्वक मेटाइयो।",
+    "DELETE_FAILED": "सम्पर्कहरू मेटाउन असफल।",
     "DELETE_DIALOG": {
       "TITLE": "Delete selected contacts",
       "SINGULAR_TITLE": "Delete selected contact",
-      "DESCRIPTION": "यसले चयनित {count} सम्पर्कहरू स्थायी रूपमा मेटाउनेछ। यो क्रिया उल्ट्याउन सकिँदैन।.",
-      "SINGULAR_DESCRIPTION": "यसले चयनित सम्पर्क स्थायी रूपमा मेटाउनेछ। यो क्रिया उल्ट्याउन सकिँदैन।.",
+      "DESCRIPTION": "यसले चयनित {count} सम्पर्कहरू स्थायी रूपमा मेटाउनेछ। यो क्रिया उल्ट्याउन सकिँदैन।",
+      "SINGULAR_DESCRIPTION": "यसले चयनित सम्पर्क स्थायी रूपमा मेटाउनेछ। यो क्रिया उल्ट्याउन सकिँदैन।",
       "CONFIRM_MULTIPLE": "Delete contacts",
       "CONFIRM_SINGLE": "Delete contact"
     }
   },
   "COMPOSE_NEW_CONVERSATION": {
     "CONTACT_SEARCH": {
-      "ERROR_MESSAGE": "हामीले खोजी पूरा गर्न सकिएन। कृपया फेरि प्रयास गर्नुहोस्।."
+      "ERROR_MESSAGE": "हामीले खोजी पूरा गर्न सकिएन। कृपया फेरि प्रयास गर्नुहोस्।"
     },
     "FORM": {
       "GO_TO_CONVERSATION": "हेर्नुहोस्",
       "SUCCESS_MESSAGE": "The message was sent successfully!",
-      "ERROR_MESSAGE": "कुराकानी सिर्जना गर्दा त्रुटि भयो। कृपया पछि फेरि प्रयास गर्नुहोस्।.",
-      "NO_INBOX_ALERT": "यस सम्पर्कसँग कुराकानी सुरु गर्न उपलब्ध कुनै इनबक्सहरू छैनन्।.",
+      "ERROR_MESSAGE": "कुराकानी सिर्जना गर्दा त्रुटि भयो। कृपया पछि फेरि प्रयास गर्नुहोस्।",
+      "NO_INBOX_ALERT": "यस सम्पर्कसँग कुराकानी सुरु गर्न उपलब्ध कुनै इनबक्सहरू छैनन्।",
       "CONTACT_SELECTOR": {
         "LABEL": "लाई:",
-        "TAG_INPUT_PLACEHOLDER": "नाम, इमेल वा फोन नम्बरले खोज्न कम्तिमा २ अक्षर प्रविष्ट गर्नुहोस्",
+        "TAG_INPUT_PLACEHOLDER": "नाम, इमेल वा फोन नम्बरले खोज्न कम्तिमा 2 अक्षर प्रविष्ट गर्नुहोस्",
         "CONTACT_CREATING": "सम्पर्क सिर्जना हुँदैछ..."
       },
       "INBOX_SELECTOR": {
@@ -622,9 +622,9 @@
         "SUBJECT_LABEL": "विषय :",
         "SUBJECT_PLACEHOLDER": "Enter your email subject here",
         "CC_LABEL": "Cc:",
-        "CC_PLACEHOLDER": "इमेलले खोज्न कम्तिमा २ अक्षर प्रविष्ट गर्नुहोस्",
+        "CC_PLACEHOLDER": "इमेलले खोज्न कम्तिमा 2 अक्षर प्रविष्ट गर्नुहोस्",
         "BCC_LABEL": "Bcc:",
-        "BCC_PLACEHOLDER": "इमेलले खोज्न कम्तिमा २ अक्षर प्रविष्ट गर्नुहोस्",
+        "BCC_PLACEHOLDER": "इमेलले खोज्न कम्तिमा 2 अक्षर प्रविष्ट गर्नुहोस्",
         "BCC_BUTTON": "Bcc"
       },
       "MESSAGE_EDITOR": {
