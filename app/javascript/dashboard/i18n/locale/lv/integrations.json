@@ -1,6 +1,7 @@
 {
   "INTEGRATION_SETTINGS": {
     "SHOPIFY": {
+      "HEADER": "Shopify",
       "DELETE": {
         "TITLE": "Delete Shopify Integration",
         "MESSAGE": "Are you sure you want to delete the Shopify integration?"
@@ -19,6 +20,8 @@
     "DESCRIPTION": "Chatwoot integrējas ar vairākiem rīkiem un pakalpojumiem, lai uzlabotu jūsu komandas efektivitāti. Izpētiet tālāk esošo sarakstu, lai konfigurētu savas iecienītākās lietotnes.",
     "LEARN_MORE": "Uzzināt vairāk par integrācijām",
     "LOADING": "Integrāciju iegūšana",
+    "SEARCH_PLACEHOLDER": "Search integrations...",
+    "NO_RESULTS": "No integrations found matching your search",
     "CAPTAIN": {
       "DISABLED": "Captain jūsu kontā nav iespējots.",
       "CLICK_HERE_TO_CONFIGURE": "Noklikšķiniet šeit, lai konfigurētu",
@@ -28,6 +31,17 @@
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Abonētie Notikumi",
       "LEARN_MORE": "Uzzināt vairāk par webhooks",
+      "SECRET": {
+        "LABEL": "Secret",
+        "COPY": "Copy secret to clipboard",
+        "COPY_SUCCESS": "Secret copied to clipboard",
+        "TOGGLE": "Toggle secret visibility",
+        "CREATED_DESC": "Your webhook has been created. Use the secret below to verify webhook signatures. Please copy it now — you can also find it later in the webhook edit form.",
+        "DONE": "Done"
+      },
+      "COUNT": "{n} webhook | {n} webhooks",
+      "SEARCH_PLACEHOLDER": "Search webhooks...",
+      "NO_RESULTS": "No webhooks found matching your search",
       "FORM": {
         "CANCEL": "Atcelt",
         "DESC": "Webhook notikumi sniedz Jums reāllaika informāciju par to, kas notiek jūsu Chatwoot kontā. Lūdzu, ievadiet derīgu URL, lai nokonfigurētu atzvanīšanu.",
@@ -104,6 +118,7 @@
       }
     },
     "SLACK": {
+      "HEADER": "Slack",
       "DELETE": "Dzēst",
       "DELETE_CONFIRMATION": {
         "TITLE": "Dzēst integrāciju",
@@ -145,7 +160,29 @@
         "EXPAND": "Izvērst",
         "MAKE_FRIENDLY": "Mainīt ziņojuma toni uz draudzīgu",
         "MAKE_FORMAL": "Izmantot formālu toni",
-        "SIMPLIFY": "Vienkāršot"
+        "SIMPLIFY": "Vienkāršot",
+        "CONFIDENT": "Use confident tone",
+        "PROFESSIONAL": "Use professional tone",
+        "CASUAL": "Use casual tone",
+        "STRAIGHTFORWARD": "Use straightforward tone"
+      },
+      "REPLY_OPTIONS": {
+        "IMPROVE_REPLY": "Improve reply",
+        "IMPROVE_REPLY_SELECTION": "Improve the selection",
+        "CHANGE_TONE": {
+          "TITLE": "Change tone",
+          "OPTIONS": {
+            "PROFESSIONAL": "Profesionāls",
+            "CASUAL": "Casual",
+            "STRAIGHTFORWARD": "Straightforward",
+            "CONFIDENT": "Confident",
+            "FRIENDLY": "Draudzīgs"
+          }
+        },
+        "GRAMMAR": "Fix grammar & spelling",
+        "SUGGESTION": "Suggest a reply",
+        "SUMMARIZE": "Summarize the conversation",
+        "ASK_COPILOT": "Ask Copilot"
       },
       "ASSISTANCE_MODAL": {
         "DRAFT_TITLE": "Melnraksta saturs",
@@ -201,12 +238,16 @@
       "SIDEBAR_TXT": "<p><b>Informācijas Paneļa Lietotnes</b></p><p>Informācijas paneļa lietotnes ļauj organizācijām iegult lietojumprogrammu Chatwoot informācijas panelī, lai nodrošinātu kontekstu klientu atbalsta aģentiem. Šī funkcija ļauj Jums izveidot lietojumprogrammu neatkarīgi un iegult to informācijas panelī, lai sniegtu informāciju par lietotāju, viņu pasūtījumiem vai viņu iepriekšējo maksājumu vēsturi.</p><p>Kad iegulsiet lietojumprogrammu, izmantojot Chatwoot informācijas paneli, Jūsu lietojumprogramma iegūs sarunas un kontaktpersonas kontekstu kā loga notikumu. Ieviesiet savā lapā ziņojuma notikuma uztvērēju, lai saņemtu kontekstu.</p><p>Lai pievienotu jaunu informācijas paneļa lietotni, noklikšķiniet uz pogas 'Pievienot jaunu informācijas paneļa lietotni'.</p>",
       "DESCRIPTION": "Informācijas paneļa lietotnes ļauj organizācijām iegult lietojumprogrammu informācijas panelī, lai nodrošinātu kontekstu klientu atbalsta aģentiem. Šī funkcija ļauj Jums neatkarīgi izveidot lietojumprogrammu un iegult to, lai sniegtu informāciju par lietotāju, viņu pasūtījumiem vai iepriekšējo maksājumu vēsturi.",
       "LEARN_MORE": "Uzzināt vairāk par Informācijas paneļa Lietotnēm",
+      "COUNT": "{n} dashboard app | {n} dashboard apps",
+      "SEARCH_PLACEHOLDER": "Search dashboard apps...",
+      "NO_RESULTS": "No dashboard apps found matching your search",
       "LIST": {
         "404": "Šajā kontā vēl nav nokonfigurēta neviena informācijas paneļa lietotne",
         "LOADING": "Notiek informācijas paneļa lietotņu iegūšana...",
         "TABLE_HEADER": {
           "NAME": "Nosaukums",
-          "ENDPOINT": "Endpoint"
+          "ENDPOINT": "Endpoint",
+          "ACTIONS": "Darbības"
         },
         "EDIT_TOOLTIP": "Rediģēt lietotni",
         "DELETE_TOOLTIP": "Dzēst lietotni"
@@ -243,6 +284,7 @@
       }
     },
     "LINEAR": {
+      "HEADER": "Lineārs",
       "ADD_OR_LINK_BUTTON": "Izveidot/Saistīt lineāru problēmu",
       "LOADING": "Notiek lineāru problēmu iegūšana...",
       "LOADING_ERROR": "Lineāru problēmu iegūšanas laikā radās kļūda. Lūdzu, mēģiniet vēlreiz",
@@ -337,6 +379,7 @@
       }
     },
     "NOTION": {
+      "HEADER": "Notion",
       "DELETE": {
         "TITLE": "Are you sure you want to delete the Notion integration?",
         "MESSAGE": "Deleting this integration will remove access to your Notion workspace and stop all related functionality.",
@@ -406,6 +449,7 @@
       "CANCEL_ANYTIME": "Jūs varat jebkurā laikā mainīt vai atcelt savu versiju"
     },
     "ENTERPRISE_PAYWALL": {
+      "AVAILABLE_ON": "Captain AI is only available in the Enterprise plans.",
       "UPGRADE_PROMPT": "Modernizējiet savu abonementu, lai iegūtu piekļuvi viruālajiem asistentiem un copilot.",
       "ASK_ADMIN": "Lai pārietu uz maksas versiju, lūdzu sazinieties ar savu administratoru."
     },
