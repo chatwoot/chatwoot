@@ -201,7 +201,7 @@
   },
   "LABEL_REPORTS": {
     "HEADER": "Labels Overview",
-    "DESCRIPTION": "Söhbətlər, cavab vaxtları, həll vaxtları və həll edilmiş hallar kimi əsas göstəricilərlə etiket performansını izləyin. Ətraflı məlumat üçün etiket adını klikləyin.",
+    "DESCRIPTION": "Nişan nəticələrini söhbətlər, cavab müddəti, həll müddəti və həll olunmuş hallar üzrə yoxlayın. Ətraflı məlumat üçün nişan adını açın.",
     "LOADING_CHART": "Loading chart data...",
     "NO_ENOUGH_DATA": "Hesabat yaratmaq üçün kifayət qədər məlumat nöqtəsi almamışıq, zəhmət olmasa bir az sonra yenidən cəhd edin.",
     "DOWNLOAD_LABEL_REPORTS": "Download label reports",
@@ -349,7 +349,7 @@
   },
   "TEAM_REPORTS": {
     "HEADER": "Team Overview",
-    "DESCRIPTION": "Komandanızın performansının görüntüsünü söhbətlər, cavab vaxtları, həll vaxtları və həll edilmiş hallar kimi əsas göstəricilərlə əldə edin. Ətraflı məlumat üçün komanda adına klikləyin.",
+    "DESCRIPTION": "Komanda nəticələrini söhbətlər, cavab müddəti, həll müddəti və həll olunmuş hallar üzrə yoxlayın. Ətraflı məlumat üçün komanda adını açın.",
     "LOADING_CHART": "Loading chart data...",
     "NO_ENOUGH_DATA": "Hesabat yaratmaq üçün kifayət qədər məlumat nöqtəsi almamışıq, zəhmət olmasa sonra yenidən cəhd edin.",
     "DOWNLOAD_TEAM_REPORTS": "Download team reports",
