@@ -36,7 +36,7 @@
         "COPY": "Copy secret to clipboard",
         "COPY_SUCCESS": "Secret copied to clipboard",
         "TOGGLE": "Toggle secret visibility",
-        "CREATED_DESC": "Nagawa na ang iyong webhook. Gamitin ang lihim sa ibaba upang beripikahin ang mga webhook signature. Pakikopya ito ngayon — maaari mo rin itong makita sa susunod sa form ng pag-edit ng webhook.",
+        "CREATED_DESC": "Nagawa na ang iyong webhook. Gamitin ang secret sa ibaba upang beripikahin ang mga webhook signature. Pakikopya ito ngayon — maaari mo rin itong makita sa susunod sa form ng pag-edit ng webhook.",
         "DONE": "Tapos na"
       },
       "COUNT": "{n} webhook | {n} webhooks",
@@ -122,7 +122,7 @@
       "DELETE": "Tanggalin",
       "DELETE_CONFIRMATION": {
         "TITLE": "Tanggalin ang integrasyon",
-        "MESSAGE": "Sigurado ka bang gusto mong burahin ang integrasyon? Ang paggawa nito ay magreresulta sa pagkawala ng access sa mga pag-uusap sa iyong Slack workspace."
+        "MESSAGE": "Sigurado ka bang gusto mong tanggalin ang integrasyon? Kapag ginawa mo ito, mawawala ang kakayahan mong tingnan ang mga pag-uusap sa iyong Slack account."
       },
       "HELP_TEXT": {
         "TITLE": "How to use the Slack Integration?",
@@ -133,9 +133,9 @@
         "OPTION_LABEL": "Select a channel",
         "UPDATE": "I-update",
         "BUTTON_TEXT": "Connect channel",
-        "DESCRIPTION": "Ang iyong Slack workspace ay naka-link na sa Chatwoot. Gayunpaman, kasalukuyang hindi aktibo ang integrasyon. Upang paganahin ang integrasyon at ikonekta ang isang channel sa Chatwoot, pakiklik ang button sa ibaba.\n\n**Tandaan:** Kung sinusubukan mong ikonekta ang isang pribadong channel, idagdag muna ang Chatwoot app sa Slack channel bago magpatuloy sa hakbang na ito.",
+        "DESCRIPTION": "Ang iyong Slack account ay naka-link na sa Chatwoot. Gayunpaman, kasalukuyang hindi aktibo ang integrasyon. Upang paganahin ang integrasyon at ikonekta ang isang channel sa Chatwoot, pakiklik ang button sa ibaba.\n\n**Tandaan:** Kung sinusubukan mong ikonekta ang isang pribadong channel, idagdag muna ang Chatwoot app sa Slack channel bago magpatuloy sa hakbang na ito.",
         "ATTENTION_REQUIRED": "Kinakailangan ang pansin",
-        "EXPIRED": "Nag-expire na ang iyong Slack integration. Upang magpatuloy sa pagtanggap ng mga mensahe sa Slack, pakitanggal ang integrasyon at ikonekta muli ang iyong workspace."
+        "EXPIRED": "Nag-expire na ang iyong Slack integration. Upang magpatuloy sa pagtanggap ng mga mensahe sa Slack, pakitanggal ang integrasyon at ikonekta muli ang iyong Slack account."
       },
       "UPDATE_ERROR": "There was an error updating the integration, please try again",
       "UPDATE_SUCCESS": "The channel is connected successfully",
@@ -382,7 +382,7 @@
       "HEADER": "Notion",
       "DELETE": {
         "TITLE": "Are you sure you want to delete the Notion integration?",
-        "MESSAGE": "Ang pagbura sa integrasyong ito ay aalisin ang access sa iyong Notion workspace at hihinto ang lahat ng kaugnay na functionality.",
+        "MESSAGE": "Ang pagtanggal sa integrasyong ito ay mag-aalis ng kakayahan mong gamitin ang iyong Notion account at hihinto ang lahat ng kaugnay na functionality.",
         "CONFIRM": "Oo, tanggalin",
         "CANCEL": "Kanselahin"
       }
@@ -395,7 +395,7 @@
       "ASSISTANTS": "Mga Katulong",
       "SWITCH_ASSISTANT": "Switch between assistants",
       "NEW_ASSISTANT": "Create Assistant",
-      "EMPTY_LIST": "Walang nahanap na mga assistant, mangyaring gumawa ng isa upang makapagsimula"
+      "EMPTY_LIST": "Walang nahanap na mga assistant, mangyaring gumawa ng isa upang makapagsimula."
     },
     "COPILOT": {
       "TITLE": "Copilot",
@@ -468,7 +468,7 @@
       "ADD_NEW": "Gumawa ng bagong katulong",
       "DELETE": {
         "TITLE": "Sigurado ka bang tatanggalin ang katulong?",
-        "DESCRIPTION": "Pangmatagalang aksyon ito. Ang pagbura sa assistant na ito ay aalisin ito mula sa lahat ng nakakonektang inbox at permanenteng buburahin ang lahat ng nalikhang kaalaman.",
+        "DESCRIPTION": "Pangmatagalang aksyon ito. Ang pagtanggal sa katulong na ito ay aalisin ito mula sa lahat ng nakakonektang kahon ng mensahe at permanenteng aalisin ang lahat ng nabuong kaalaman.",
         "CONFIRM": "Oo, tanggalin",
         "SUCCESS_MESSAGE": "Matagumpay na natanggal ang katulong",
         "ERROR_MESSAGE": "There was an error deleting the assistant, please try again."
@@ -562,7 +562,7 @@
         },
         "DELETE": {
           "TITLE": "Tanggalin ang Katulong",
-          "DESCRIPTION": "Pangmatagalang aksyon ito. Ang pagbura sa assistant na ito ay aalisin ito mula sa lahat ng nakakonektang inbox at permanenteng buburahin ang lahat ng nalikhang kaalaman.",
+          "DESCRIPTION": "Pangmatagalang aksyon ito. Ang pagtanggal sa katulong na ito ay aalisin ito mula sa lahat ng nakakonektang kahon ng mensahe at permanenteng aalisin ang lahat ng nabuong kaalaman.",
           "BUTTON_TEXT": "Tanggalin si {assistantName}"
         }
       },
@@ -773,7 +773,7 @@
       },
       "DELETE": {
         "TITLE": "Sigurado ka bang tatanggalin ang dokumento?",
-        "DESCRIPTION": "Pangmatagalang aksyon ito. Ang pagbura sa dokumentong ito ay permanenteng magbubura ng lahat ng nalikhang kaalaman.",
+        "DESCRIPTION": "Pangmatagalang aksyon ito. Ang pagtanggal sa dokumentong ito ay permanenteng aalisin ang lahat ng nabuong kaalaman.",
         "CONFIRM": "Oo, tanggalin",
         "SUCCESS_MESSAGE": "Matagumpay na natanggal ang dokumento",
         "ERROR_MESSAGE": "There was an error deleting the document, please try again."
@@ -795,34 +795,34 @@
       "HEADER": "Mga Kasangkapan",
       "ADD_NEW": "Gumawa ng bagong kasangkapan",
       "EMPTY_STATE": {
-        "TITLE": "Walang magagamit na custom na mga tool",
-        "SUBTITLE": "Gumawa ng mga custom na tool upang ikonekta ang iyong assistant sa mga external na API at serbisyo, na nagpapahintulot dito na kumuha ng data at magsagawa ng mga aksyon para sa iyo.",
+        "TITLE": "Walang magagamit na pasadyang mga kasangkapan",
+        "SUBTITLE": "Gumawa ng mga pasadyang kasangkapan upang ikonekta ang iyong katulong sa mga panlabas na API at serbisyo, na nagbibigay-daan dito na kumuha ng data at magsagawa ng mga aksyon para sa iyo.",
         "FEATURE_SPOTLIGHT": {
-          "TITLE": "Custom Tools",
-          "NOTE": "Pinapayagan ng mga custom na tool ang iyong assistant na makipag-ugnayan sa mga external na API at serbisyo. Gumawa ng mga tool upang kumuha ng data, magsagawa ng mga aksyon, o mag-integrate sa iyong mga umiiral na sistema upang mapahusay ang kakayahan ng iyong assistant."
+          "TITLE": "Mga Pasadyang Kasangkapan",
+          "NOTE": "Pinapayagan ng mga pasadyang kasangkapan ang iyong katulong na makipag-ugnayan sa mga panlabas na API at serbisyo. Gumawa ng mga kasangkapan upang kumuha ng data, magsagawa ng mga aksyon, o maisama sa iyong mga umiiral na sistema upang mapahusay ang kakayahan ng iyong katulong."
         }
       },
-      "FORM_DESCRIPTION": "Configure your custom tool to connect with external APIs",
+      "FORM_DESCRIPTION": "I-configure ang iyong pasadyang kasangkapan upang kumonekta sa mga panlabas na API",
       "OPTIONS": {
         "EDIT_TOOL": "Edit tool",
         "DELETE_TOOL": "Tanggalin ang kasangkapan"
       },
       "CREATE": {
-        "TITLE": "Gumawa ng Custom na Tool",
-        "SUCCESS_MESSAGE": "Matagumpay na nagawa ang custom na tool",
-        "ERROR_MESSAGE": "Nabigong gumawa ng custom na tool"
+        "TITLE": "Gumawa ng pasadyang kasangkapan",
+        "SUCCESS_MESSAGE": "Matagumpay na nagawa ang pasadyang kasangkapan",
+        "ERROR_MESSAGE": "Nabigong gumawa ng pasadyang kasangkapan"
       },
       "EDIT": {
         "TITLE": "Edit Custom Tool",
-        "SUCCESS_MESSAGE": "Custom tool updated successfully",
-        "ERROR_MESSAGE": "Failed to update custom tool"
+        "SUCCESS_MESSAGE": "Matagumpay na na-update ang pasadyang kasangkapan",
+        "ERROR_MESSAGE": "Nagkaroon ng error sa pag-update ng pasadyang kasangkapan"
       },
       "DELETE": {
-        "TITLE": "Delete Custom Tool",
-        "DESCRIPTION": "Sigurado ka bang gusto mong burahin ang custom na tool na ito? Hindi na ito maaaring bawiin.",
+        "TITLE": "Tanggalin ang pasadyang kasangkapan",
+        "DESCRIPTION": "Sigurado ka bang gusto mong tanggalin ang pasadyang kasangkapan na ito? Hindi na ito maaaring bawiin.",
         "CONFIRM": "Oo, tanggalin",
         "SUCCESS_MESSAGE": "Custom tool deleted successfully",
-        "ERROR_MESSAGE": "Failed to delete custom tool"
+        "ERROR_MESSAGE": "Nagkaroon ng error sa pagtanggal ng pasadyang kasangkapan"
       },
       "FORM": {
         "TITLE": {
@@ -888,11 +888,11 @@
           "LABEL": "Kinakailangan"
         },
         "REQUEST_TEMPLATE": {
-          "LABEL": "Template ng Request Body (Opsyonal)",
+          "LABEL": "Balangkas ng katawan ng kahilingan (Opsyonal)",
           "PLACEHOLDER": "{'{'}\n  \"order_id\": \"{'{{'} order_id {'}}'}\"\n{'}'}"
         },
         "RESPONSE_TEMPLATE": {
-          "LABEL": "Template ng Tugon (Opsyonal)",
+          "LABEL": "Balangkas ng tugon (Opsyonal)",
           "PLACEHOLDER": "Order {'{{'} order_id {'}}'} status: {'{{'} status {'}}'}"
         },
         "ERRORS": {
@@ -902,7 +902,7 @@
     },
     "RESPONSES": {
       "HEADER": "Mga FAQ",
-      "PENDING_FAQS": "Mga Pending na FAQ",
+      "PENDING_FAQS": "Mga nakabinbing karaniwang tanong",
       "ADD_NEW": "Gumawa ng bagong FAQ",
       "DOCUMENTABLE": {
         "CONVERSATION": "Usapan #{id}"
