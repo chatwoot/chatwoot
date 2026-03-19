@@ -2,7 +2,7 @@
   "HELP_CENTER": {
     "TITLE": "Abi keskus",
     "NEW_PAGE": {
-      "DESCRIPTION": "Loo kliendile eneseabikeskuse portaale. Aita neil vastuseid kiiresti leida, ilma ootamiseta. Sujuvda päringuid, tõsta agendi efektiivsust ja paranda kliendituge.",
+      "DESCRIPTION": "Loo kliendile eneseabikeskuse portaale. Aita neil vastuseid kiiresti leida, ilma ootamiseta. Sujuvenda päringuid, tõsta agendi efektiivsust ja paranda kliendituge.",
       "CREATE_PORTAL_BUTTON": "Loo portaal"
     },
     "HEADER": {
@@ -500,7 +500,7 @@
         },
         "API": {
           "TITLE": "Täielik API tugi",
-          "DESCRIPTION": "Kasuta portaali peata CMS-ina koos kolmandate osapoolte front-end raamistikuga, kasutades meie API-sid."
+          "DESCRIPTION": "Kasuta portaali peata CMS-ina koos kolmandate osapoolte front-end raamistikuga, kasutades meie API-sid"
         }
       }
     },
@@ -701,7 +701,7 @@
     },
     "CREATE_PORTAL_DIALOG": {
       "TITLE": "Loo uus portaali",
-      "DESCRIPTION": "Anna oma portalile nimi ja loo kasutajasõbralik URL-lühinimi. Mõlemaid saab hiljem seadetes muuta.",
+      "DESCRIPTION": "Anna oma portaalile nimi ja loo kasutajasõbralik URL-lühinimi. Mõlemaid saab hiljem seadetes muuta.",
       "CONFIRM_BUTTON_LABEL": "Loo",
       "NAME": {
         "LABEL": "Nimi",
@@ -785,7 +785,7 @@
           },
           "DNS_CONFIGURATION_DIALOG": {
             "HEADER": "DNS configuration",
-            "DESCRIPTION": "Logi sisse oma DNS-teenuse pakkuja kontole ja lisa alamdomeeni jaoks CNAME-kirje, mis osutab chatwoot.help-ile.",
+            "DESCRIPTION": "Logi sisse oma DNS-teenusepakkuja kontole ja lisa alamdomeeni jaoks CNAME kirje, mis osutab chatwoot.help",
             "COPY": "CNAME edukalt kopeeritud",
             "SEND_INSTRUCTIONS": {
               "HEADER": "Saada juhised",
@@ -821,11 +821,11 @@
     },
     "PDF_UPLOAD": {
       "TITLE": "Upload PDF Document",
-      "DESCRIPTION": "Laadi üles PDF-dokument, et automaatselt AI abil genereerida KKK-sid.",
+      "DESCRIPTION": "Laadi üles PDF dokument, et automaatselt AI abil genereerida KKK",
       "DRAG_DROP_TEXT": "Drag and drop your PDF file here, or click to select",
       "SELECT_FILE": "Select PDF File",
       "ADDITIONAL_CONTEXT_LABEL": "Täiendav kontekst (valikuline)",
-      "ADDITIONAL_CONTEXT_PLACEHOLDER": "Lisa täiendav kontekst või juhised KKK-de genereerimiseks...",
+      "ADDITIONAL_CONTEXT_PLACEHOLDER": "Lisa täiendav kontekst või juhised KKK genereerimiseks...",
       "UPLOADING": "Laadimine...",
       "UPLOAD": "Laadi üles ja töötle",
       "CANCEL": "Tühista",
@@ -844,7 +844,7 @@
       "CONFIRM_DELETE": "Oled kindel, et soovid kustutada faili {filename}?",
       "EMPTY_STATE": {
         "TITLE": "No PDF documents yet",
-        "DESCRIPTION": "Laadi üles PDF-dokumendid, et automaatselt AI abil genereerida KKK-sid."
+        "DESCRIPTION": "Laadi üles PDF dokumendid, et automaatselt AI abil genereerida KKK"
       },
       "STATUS": {
         "UPLOADED": "Valmis",
@@ -855,9 +855,9 @@
     },
     "CONTENT_GENERATION": {
       "TITLE": "Sisu genereerimine",
-      "DESCRIPTION": "Laadi üles PDF-dokumendid, et automaatselt AI abil genereerida KKK sisu.",
+      "DESCRIPTION": "Laadi üles PDF dokumendid, et automaatselt AI abil genereerida KKK sisu",
       "UPLOAD_TITLE": "Upload PDF Document",
-      "DRAG_DROP": "Lohista siia oma PDF-fail või klõpsa valimiseks",
+      "DRAG_DROP": "Lohista siia oma PDF fail või klõpsa valimiseks",
       "SELECT_FILE": "Select PDF File",
       "UPLOADING": "Dokumendi töötlemine...",
       "UPLOAD_SUCCESS": "Dokument töödeldud edukalt!",
