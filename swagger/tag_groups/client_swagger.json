@@ -141,7 +141,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/public_contact"
+                  "$ref": "#/components/schemas/public_contact_record"
                 }
               }
             }
@@ -2539,6 +2539,116 @@
           }
         }
       },
+      "public_contact_record": {
+        "type": "object",
+        "additionalProperties": true,
+        "description": "Full serialized contact record returned when the public API renders a Contact model directly.",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Id of the contact"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the contact"
+          },
+          "email": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Email of the contact"
+          },
+          "phone_number": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Phone number of the contact"
+          },
+          "identifier": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Identifier of the contact"
+          },
+          "blocked": {
+            "type": "boolean",
+            "description": "Whether the contact is blocked"
+          },
+          "additional_attributes": {
+            "type": "object",
+            "description": "Additional attributes of the contact"
+          },
+          "custom_attributes": {
+            "type": "object",
+            "description": "Custom attributes of the contact"
+          },
+          "contact_type": {
+            "type": "string",
+            "description": "Contact type of the contact"
+          },
+          "country_code": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Country code of the contact"
+          },
+          "last_activity_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Last activity timestamp of the contact in ISO 8601 format"
+          },
+          "created_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Created timestamp of the contact in ISO 8601 format"
+          },
+          "updated_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Updated timestamp of the contact in ISO 8601 format"
+          },
+          "last_name": {
+            "type": "string",
+            "description": "Last name of the contact"
+          },
+          "middle_name": {
+            "type": "string",
+            "description": "Middle name of the contact"
+          },
+          "location": {
+            "type": "string",
+            "description": "Location of the contact"
+          },
+          "account_id": {
+            "type": "integer",
+            "description": "Account id of the contact"
+          },
+          "company_id": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "description": "Company id of the contact"
+          },
+          "label_list": {
+            "type": "array",
+            "description": "Labels applied to the contact",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
       "public_conversation": {
         "type": "object",
         "properties": {
@@ -2580,26 +2690,7 @@
             "description": "Messages in the conversation"
           },
           "contact": {
-            "type": "object",
-            "description": "The contact information associated to the conversation",
-            "properties": {
-              "id": {
-                "type": "integer",
-                "description": "Id of the contact"
-              },
-              "name": {
-                "type": "string",
-                "description": "Name of the contact"
-              },
-              "email": {
-                "type": "string",
-                "description": "Email of the contact"
-              },
-              "phone_number": {
-                "type": "string",
-                "description": "Phone number of the contact"
-              }
-            }
+            "$ref": "#/components/schemas/public_contact_record"
           }
         }
       },
@@ -2638,89 +2729,193 @@
             "type": "array",
             "description": "Attachments if any",
             "items": {
-              "type": "object",
-              "properties": {
-                "id": {
-                  "type": "integer",
-                  "description": "Id of the attachment"
-                },
-                "message_id": {
-                  "type": "integer",
-                  "description": "Id of the parent message"
-                },
-                "file_type": {
-                  "type": "string",
-                  "enum": [
-                    "image",
-                    "audio",
-                    "video",
-                    "file",
-                    "location",
-                    "fallback",
-                    "share",
-                    "story_mention",
-                    "contact",
-                    "ig_reel",
-                    "ig_post",
-                    "ig_story",
-                    "embed"
-                  ],
-                  "description": "Type of the attached file"
-                },
-                "account_id": {
-                  "type": "integer",
-                  "description": "Id of the account"
-                },
-                "extension": {
-                  "type": "string",
-                  "description": "File extension"
-                },
-                "data_url": {
-                  "type": "string",
-                  "description": "URL of the file"
-                },
-                "thumb_url": {
-                  "type": "string",
-                  "description": "URL of the file thumbnail"
-                },
-                "file_size": {
-                  "type": "integer",
-                  "description": "File size in bytes"
-                }
-              }
+              "$ref": "#/components/schemas/public_message_attachment"
             }
           },
           "sender": {
+            "$ref": "#/components/schemas/public_message_sender"
+          }
+        }
+      },
+      "public_message_attachment": {
+        "type": "object",
+        "additionalProperties": true,
+        "description": "Attachment payload. Available fields vary by attachment file_type.",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Id of the attachment"
+          },
+          "message_id": {
+            "type": "integer",
+            "description": "Id of the parent message"
+          },
+          "file_type": {
+            "type": "string",
+            "enum": [
+              "image",
+              "audio",
+              "video",
+              "file",
+              "location",
+              "fallback",
+              "share",
+              "story_mention",
+              "contact",
+              "ig_reel",
+              "ig_post",
+              "ig_story",
+              "embed"
+            ],
+            "description": "Type of the attached file"
+          },
+          "account_id": {
+            "type": "integer",
+            "description": "Id of the account"
+          },
+          "extension": {
+            "type": "string",
+            "description": "File extension"
+          },
+          "data_url": {
+            "type": "string",
+            "description": "URL of the file"
+          },
+          "thumb_url": {
+            "type": "string",
+            "description": "URL of the file thumbnail"
+          },
+          "file_size": {
+            "type": "integer",
+            "description": "File size in bytes"
+          },
+          "width": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "description": "Width of the attachment when available"
+          },
+          "height": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "description": "Height of the attachment when available"
+          },
+          "coordinates_lat": {
+            "type": "number",
+            "description": "Latitude for location attachments"
+          },
+          "coordinates_long": {
+            "type": "number",
+            "description": "Longitude for location attachments"
+          },
+          "fallback_title": {
+            "type": "string",
+            "description": "Fallback title for location, fallback, and contact attachments"
+          },
+          "meta": {
             "type": "object",
-            "description": "Details of the sender",
-            "properties": {
-              "id": {
-                "type": "integer",
-                "description": "Id of the sender"
-              },
-              "name": {
-                "type": "string",
-                "description": "Name of the sender"
-              },
-              "avatar_url": {
-                "type": "string",
-                "description": "Avatar URL of the sender. Present for senders of type user, agent_bot, and captain_assistant. Not present for contact senders (use thumbnail instead)."
-              },
-              "thumbnail": {
-                "type": "string",
-                "description": "Avatar/thumbnail URL of the sender. Contact senders (type 'contact') use this field via Contact#push_event_data; other sender types may use avatar_url."
-              },
-              "type": {
-                "type": "string",
-                "enum": [
-                  "contact",
-                  "user",
-                  "agent_bot",
-                  "captain_assistant"
-                ],
-                "description": "Type of the sender. 'captain_assistant' is returned in Enterprise when the message is sent by a Captain assistant."
-              }
-            }
+            "description": "Metadata for contact attachments"
+          },
+          "transcribed_text": {
+            "type": "string",
+            "description": "Transcribed text for audio attachments"
+          }
+        }
+      },
+      "public_message_sender": {
+        "type": "object",
+        "additionalProperties": true,
+        "description": "Polymorphic sender payload returned by push_event_data. Available fields vary by sender type.",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Id of the sender"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the sender"
+          },
+          "avatar_url": {
+            "type": "string",
+            "description": "Avatar URL of the sender. Present for senders of type user, agent_bot, and captain_assistant. Not present for contact senders (use thumbnail instead)."
+          },
+          "thumbnail": {
+            "type": "string",
+            "description": "Avatar/thumbnail URL of the sender. Contact senders use this field; user senders may also include it."
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "contact",
+              "user",
+              "agent_bot",
+              "captain_assistant"
+            ],
+            "description": "Type of the sender"
+          },
+          "available_name": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Display name for user senders"
+          },
+          "availability_status": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Availability status for user senders"
+          },
+          "email": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Email of the sender when the sender is a contact"
+          },
+          "phone_number": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Phone number of the sender when the sender is a contact"
+          },
+          "identifier": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Identifier of the sender when the sender is a contact"
+          },
+          "blocked": {
+            "type": "boolean",
+            "description": "Whether the sender is blocked when the sender is a contact"
+          },
+          "additional_attributes": {
+            "type": "object",
+            "description": "Additional attributes when the sender is a contact"
+          },
+          "custom_attributes": {
+            "type": "object",
+            "description": "Custom attributes when the sender is a contact"
+          },
+          "description": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Description when the sender is a captain assistant"
+          },
+          "created_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Created timestamp in ISO 8601 format when the sender is a captain assistant"
           }
         }
       },

@@ -25,18 +25,4 @@ properties:
       $ref: '#/components/schemas/public_message'
     description: Messages in the conversation
   contact:
-    type: object
-    description: The contact information associated to the conversation
-    properties:
-      id:
-        type: integer
-        description: Id of the contact
-      name:
-        type: string
-        description: Name of the contact
-      email:
-        type: string
-        description: Email of the contact
-      phone_number:
-        type: string
-        description: Phone number of the contact
+    $ref: '#/components/schemas/public_contact_record'
