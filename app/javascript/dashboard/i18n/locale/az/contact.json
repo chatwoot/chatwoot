@@ -102,7 +102,7 @@
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Əlaqə şəxsin telefon nömrəsini daxil edin",
         "LABEL": "Telefon nömrəsi",
-        "HELP": "Telefon nömrəsi E.164 formatında olmalıdır, məsələn: +1415555555 [+][ölkə kodu][region kodu][yerli telefon nömrəsi]. Seçim qutusundan zəng kodunu seçə bilərsiniz.",
+        "HELP": "Telefon nömrəsi E.164 formatında olmalıdır, məsələn: +1415555555. Ölkə kodunu siyahıdan seçə bilərsiniz.",
         "ERROR": "Telefon nömrəsi ya boş olmalıdır, ya da E.164 formatında olmalıdır",
         "DIAL_CODE_ERROR": "Zəhmət olmasa siyahıdan kodu seçin",
         "DUPLICATE": "Bu telefon nömrəsi başqa bir əlaqə üçün istifadə olunur."
@@ -324,14 +324,14 @@
           "CHANGE": "Dəyiş",
           "CANCEL": "Ləğv et",
           "IMPORT": "İdxal et",
-          "SUCCESS_MESSAGE": "İdxal tamamlandıqda sizə e-poçt vasitəsilə məlumat veriləcək.",
+          "SUCCESS_MESSAGE": "İdxal bitdikdə sizə elektron bildiriş göndəriləcək.",
           "ERROR_MESSAGE": "There was an error, please try again"
         },
         "EXPORT_CONTACT": {
           "TITLE": "Əlaqələri ixrac et",
           "DESCRIPTION": "Quickly export a csv file with comprehensive details of your contacts",
           "CONFIRM": "İxrac et",
-          "SUCCESS_MESSAGE": "İxrac davam edir. İxrac faylı yükləməyə hazır olduqda sizə e-poçt vasitəsilə məlumat veriləcək.",
+          "SUCCESS_MESSAGE": "İxrac davam edir. Fayl hazır olanda sizə elektron bildiriş göndəriləcək.",
           "ERROR_MESSAGE": "There was an error, please try again"
         },
         "SORT_BY": {
