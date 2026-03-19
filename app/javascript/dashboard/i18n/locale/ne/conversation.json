@@ -1,14 +1,14 @@
 {
   "CONVERSATION": {
     "SELECT_A_CONVERSATION": "कृपया बाँया प्यानबाट एउटा कुराकानी छान्नुहोस्",
-    "CSAT_REPLY_MESSAGE": "कृपया कुराकानीको मूल्याङ्कन गर्नुहोस्",
+    "CSAT_REPLY_MESSAGE": "कृपया कुराकानीको मूल्याङ्कन गर्नु",
     "404": "Sorry, we cannot find the conversation. Please try again",
     "SWITCH_VIEW_LAYOUT": "Switch the layout",
     "DASHBOARD_APP_TAB_MESSAGES": "सन्देशहरू",
     "UNVERIFIED_SESSION": "यस प्रयोगकर्ताको पहिचान प्रमाणित गरिएको छैन",
-    "NO_MESSAGE_1": "उफ! तपाईंको इनबक्समा ग्राहकहरूबाट कुनै सन्देश छैन।.",
+    "NO_MESSAGE_1": "उफ! तपाईंको इनबक्समा ग्राहकबाट कुनै सन्देश छैन।",
     "NO_MESSAGE_2": " तपाईँको पृष्ठमा सन्देश पठाउन!",
-    "NO_INBOX_1": "होल्ला! तपाईंले अहिलेसम्म कुनै इनबक्स थप्नुभएको छैन।.",
+    "NO_INBOX_1": "होल्ला! तपाईंले अहिलेसम्म कुनै इनबक्स थप्नुभएको छैन।",
     "NO_INBOX_2": " सुरु गर्न",
     "NO_INBOX_AGENT": "Uh Oh! Looks like you are not part of any inbox. Please contact your administrator",
     "SEARCH_MESSAGES": "Search for messages in conversations",
@@ -23,7 +23,7 @@
       "RESULT_TITLE": "खोज परिणामहरू",
       "LOADING_MESSAGE": "डाटा प्रशोधन हुँदैछ...",
       "PLACEHOLDER": "Type any text to search messages",
-      "NO_MATCHING_RESULTS": "कुनै परिणाम फेला परेन।."
+      "NO_MATCHING_RESULTS": "कुनै परिणाम फेला परेन।"
     },
     "UNREAD_MESSAGES": "पढ्न बाँकी सन्देशहरू",
     "UNREAD_MESSAGE": "पढ्न बाँकी सन्देश",
@@ -32,23 +32,23 @@
     "LOADING_CONVERSATIONS": "संवादहरू लोड हुँदैछ",
     "CANNOT_REPLY": "You cannot reply due to",
     "24_HOURS_WINDOW": "२४ घण्टे सन्देश विन्डो प्रतिबन्ध",
-    "48_HOURS_WINDOW": "४८ घण्टे सन्देश विन्डो प्रतिबन्ध",
+    "48_HOURS_WINDOW": "48 घण्टे सन्देश विन्डो प्रतिबन्ध",
     "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
     "NOT_ASSIGNED_TO_YOU": "यो कुराकानी तपाईंलाई सौंपिएको छैन। के तपाईं यो कुराकानी आफैंलाई सौंप्न चाहनुहुन्छ?",
     "ASSIGN_TO_ME": "Assign to me",
-    "BOT_HANDOFF_MESSAGE": "तपाईं अहिले सहायक वा बोटले ह्यान्डल गरिरहेको कुराकानीमा जवाफ दिइरहनुभएको छ।.",
+    "BOT_HANDOFF_MESSAGE": "तपाईं अहिले सहायक वा बोटले ह्यान्डल गरिरहेको कुराकानीमा जवाफ दिइरहनुभएको छ।",
     "BOT_HANDOFF_ACTION": "खोलिएको मार्क गर्नुहोस् र तपाईंलाई सौंप्नुहोस्",
     "BOT_HANDOFF_REOPEN_ACTION": "कुराकानी खोलिएको मार्क गर्नुहोस्",
     "BOT_HANDOFF_SUCCESS": "Conversation has been handed over to you",
-    "BOT_HANDOFF_ERROR": "कुराकानी सम्हाल्न सकेन। कृपया फेरि प्रयास गर्नुहोस्।.",
+    "BOT_HANDOFF_ERROR": "कुराकानी सम्हाल्न सकेन। कृपया फेरि प्रयास गर्नुहोस्।",
     "TWILIO_WHATSAPP_CAN_REPLY": "२४ घण्टे सन्देश विन्डो प्रतिबन्धका कारण तपाईंले यस कुराकानीमा टेम्प्लेट सन्देश प्रयोग गरेर मात्र जवाफ दिन सक्नुहुन्छ",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "२४ घण्टे सन्देश विन्डो प्रतिबन्ध",
-    "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "यो Instagram खाता नयाँ Instagram च्यानल इनबक्समा सारिएको छ। सबै नयाँ सन्देशहरू त्यहाँ देखिनेछन्। तपाईं अब यस कुराकानीबाट सन्देश पठाउन सक्नुहुने छैन।.",
+    "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "यो Instagram खाता नयाँ Instagram च्यानल इनबक्समा सारिएको छ। सबै नयाँ सन्देशहरू त्यहाँ देखिनेछन्। तपाईं अब यस कुराकानीबाट सन्देश पठाउन सक्नुहुन्न।",
     "REPLYING_TO": "You are replying to:",
     "REMOVE_SELECTION": "Remove Selection",
     "DOWNLOAD": "डाउनलोड",
     "UNKNOWN_FILE_TYPE": "अज्ञात फाइल",
-    "SAVE_CONTACT": "सम्पर्क बचत गर्नुहोस्",
+    "SAVE_CONTACT": "सम्पर्क बचत गर्नु",
     "NO_CONTENT": "No content to display",
     "SHARED_ATTACHMENT": {
       "CONTACT": "{sender} has shared a contact",
@@ -59,9 +59,9 @@
     "UPLOADING_ATTACHMENTS": "Uploading attachments...",
     "REPLIED_TO_STORY": "Replied to your story",
     "UNSUPPORTED_MESSAGE": "This message is unsupported. You can view this message on the Facebook / Instagram app.",
-    "UNSUPPORTED_MESSAGE_FACEBOOK": "यो सन्देश समर्थन गरिएको छैन। तपाईं यो सन्देश Facebook Messenger एपमा हेर्न सक्नुहुन्छ।.",
-    "UNSUPPORTED_MESSAGE_INSTAGRAM": "यो सन्देश समर्थन गरिएको छैन। तपाईं यो सन्देश Instagram एपमा हेर्न सक्नुहुन्छ।.",
-    "UNSUPPORTED_MESSAGE_TIKTOK": "यो सन्देश समर्थन गरिएको छैन। तपाईं यो सन्देश TikTok एपमा हेर्न सक्नुहुन्छ।.",
+    "UNSUPPORTED_MESSAGE_FACEBOOK": "यो सन्देश समर्थन गरिएको छैन। तपाईं यो सन्देश Facebook Messenger एपमा हेर्न सक्नुहुन्छ।",
+    "UNSUPPORTED_MESSAGE_INSTAGRAM": "यो सन्देश समर्थन गरिएको छैन। तपाईं यो सन्देश Instagram एपमा हेर्न सक्नुहुन्छ।",
+    "UNSUPPORTED_MESSAGE_TIKTOK": "यो सन्देश समर्थन गरिएको छैन। तपाईंले यो सन्देश TikTok एपमा हेर्न सक्नुहुन्छ।",
     "SUCCESS_DELETE_MESSAGE": "Message deleted successfully",
     "FAIL_DELETE_MESSSAGE": "Couldn't delete message! Try again",
     "NO_RESPONSE": "कुनै प्रतिक्रिया छैन",
@@ -137,7 +137,7 @@
         "INPUT_PLACEHOLDER": "Select priority",
         "NO_RESULTS": "कुनै परिणाम फेला परेन",
         "SUCCESSFUL": "Changed priority of conversation id {conversationId} to {priority}",
-        "FAILED": "प्राथमिकता परिवर्तन गर्न सकेन। कृपया फेरि प्रयास गर्नुहोस्।."
+        "FAILED": "प्राथमिकता परिवर्तन गर्न सकेन। कृपया फेरि प्रयास गर्नुहोस्।"
       }
     },
     "DELETE_CONVERSATION": {
@@ -168,19 +168,19 @@
       "API": {
         "AGENT_ASSIGNMENT": {
           "SUCCESFUL": "Conversation id {conversationId} assigned to \"{agentName}\"",
-          "FAILED": "एजेन्ट सौंप्न सकेन। कृपया फेरि प्रयास गर्नुहोस्।."
+          "FAILED": "एजेन्ट सौंप्न सकेन। कृपया फेरि प्रयास गर्नुहोस्।"
         },
         "LABEL_ASSIGNMENT": {
           "SUCCESFUL": "Assigned label #{labelName} to conversation id {conversationId}",
-          "FAILED": "लेबल सौंप्न सकेन। कृपया फेरि प्रयास गर्नुहोस्।."
+          "FAILED": "लेबल सौंप्न सकेन। कृपया फेरि प्रयास गर्नुहोस्।"
         },
         "LABEL_REMOVAL": {
           "SUCCESFUL": "Removed label #{labelName} from conversation id {conversationId}",
-          "FAILED": "लेबल हटाउन सकेन। कृपया फेरि प्रयास गर्नुहोस्।."
+          "FAILED": "लेबल हटाउन सकेन। कृपया फेरि प्रयास गर्नुहोस्।"
         },
         "TEAM_ASSIGNMENT": {
           "SUCCESFUL": "Assigned team \"{team}\" to conversation id {conversationId}",
-          "FAILED": "टिम सौंप्न सकेन। कृपया फेरि प्रयास गर्नुहोस्।."
+          "FAILED": "टिम सौंप्न सकेन। कृपया फेरि प्रयास गर्नुहोस्।"
         }
       }
     },
@@ -188,18 +188,18 @@
       "MESSAGE_SIGN_TOOLTIP": "सन्देश हस्ताक्षर",
       "ENABLE_SIGN_TOOLTIP": "Enable signature",
       "DISABLE_SIGN_TOOLTIP": "Disable signature",
-      "MSG_INPUT": "Shift + enter नयाँ लाइनको लागि। क्यान्ड रिस्पोन्स छान्न '/' बाट सुरु गर्नुहोस्।.",
+      "MSG_INPUT": "Shift + enter नयाँ लाइनको लागि। क्यान्ड रिस्पोन्स छान्न '/' बाट सुरु गर्नुहोस्।",
       "PRIVATE_MSG_INPUT": "Shift + enter for new line. This will be visible only to Agents",
       "MESSAGING_RESTRICTED": "तपाईं यस कुराकानीमा जवाफ दिन सक्नुहुन्न",
       "MESSAGING_RESTRICTED_WHATSAPP": "You can only reply using a template message due to 24-hour message window restriction",
       "MESSAGING_RESTRICTED_API": "You can only reply using a template message due to message window restriction",
-      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "सन्देश हस्ताक्षर कन्फिगर गरिएको छैन, कृपया प्रोफाइल सेटिङहरूमा कन्फिगर गर्नुहोस्।.",
+      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "सन्देश हस्ताक्षर कन्फिगर गरिएको छैन, कृपया प्रोफाइल सेटिङहरूमा कन्फिगर गर्नुहोस्।",
       "COPILOT_MSG_INPUT": "Give copilot additional prompts, or ask anything else... Press enter to send follow-up",
       "CLICK_HERE": "Click here to update",
       "WHATSAPP_TEMPLATES": "Whatsapp Templates"
     },
     "REPLYBOX": {
-      "REPLY": "जवाफ दिनुहोस्",
+      "REPLY": "जवाफ दिनु",
       "PRIVATE_NOTE": "निजी नोट",
       "SEND": "Send",
       "CREATE": "Add Note",
@@ -261,8 +261,8 @@
     "SENT_BY": "पठाउने:",
     "BOT": "बोट",
     "NATIVE_APP": "Native app",
-    "NATIVE_APP_ADVISORY": "यो सन्देश नेटिभ एपबाट पठाइएको हो। सन्देश विन्डो कायम राख्न Chatwoot बाट जवाफ दिनुहोस्।.",
-    "SEND_FAILED": "सन्देश पठाउन सकेन! फेरि प्रयास गर्नुहोस्",
+    "NATIVE_APP_ADVISORY": "यो सन्देश नेटिभ एपबाट पठाइएको हो। सन्देश विन्डो कायम राख्न Chatwoot बाट जवाफ दिनुहोस्।",
+    "SEND_FAILED": "सन्देश पठाउन सकेन! फेरि प्रयास गर्नु",
     "TRY_AGAIN": "retry",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Select Agent",
@@ -306,7 +306,7 @@
     "CANCEL": "Cancel",
     "SEND_EMAIL_SUCCESS": "The chat transcript was sent successfully",
     "SEND_EMAIL_ERROR": "There was an error, please try again",
-    "SEND_EMAIL_PAYMENT_REQUIRED": "तपाईंको वर्तमान योजनामा इमेल ट्रान्सक्रिप्ट उपलब्ध छैन। कृपया यो सुविधा प्रयोग गर्न अपग्रेड गर्नुहोस्।.",
+    "SEND_EMAIL_PAYMENT_REQUIRED": "तपाईंको वर्तमान योजनामा इमेल ट्रान्सक्रिप्ट उपलब्ध छैन। कृपया यो सुविधा प्रयोग गर्न योजना अपग्रेड गर्नुहोस्।",
     "FORM": {
       "SEND_TO_CONTACT": "Send the transcript to the customer",
       "SEND_TO_AGENT": "Send the transcript to the assigned agent",
@@ -319,29 +319,29 @@
   },
   "ONBOARDING": {
     "TITLE": "नमस्ते 👋, {installationName} मा स्वागत छ!",
-    "DESCRIPTION": "साइन अप गर्नुभएकोमा धन्यवाद। हामी चाहन्छौं तपाईंले {installationName} बाट सबैभन्दा राम्रो अनुभव लिनुहोस्। यहाँ {installationName} मा तपाईंले रमाइलो अनुभव बनाउन सक्ने केही कुराहरू छन्।.",
-    "GREETING_MORNING": "👋 शुभ प्रभात, {name}. {installationName} मा स्वागत छ।.",
-    "GREETING_AFTERNOON": "👋 शुभ अपराह्न, {name}. {installationName} मा स्वागत छ।.",
-    "GREETING_EVENING": "👋 शुभ साँझ, {name}. {installationName} मा स्वागत छ।.",
+    "DESCRIPTION": "साइन अप गर्नुभएकोमा धन्यवाद। हामी चाहन्छौं तपाईंले {installationName} बाट सबैभन्दा राम्रो अनुभव लिनुहोस्। यहाँ {installationName} मा तपाईंले रमाइलो अनुभव बनाउन सक्ने केही कुराहरू छन्।",
+    "GREETING_MORNING": "👋 शुभ प्रभात, {name}. {installationName} मा स्वागत छ।",
+    "GREETING_AFTERNOON": "👋 शुभ अपराह्न, {name}. {installationName} मा स्वागत छ।",
+    "GREETING_EVENING": "👋 शुभ साँझ, {name}. {installationName} मा स्वागत छ।",
     "READ_LATEST_UPDATES": "Read our latest updates",
     "ALL_CONVERSATION": {
       "TITLE": "All your conversations in one place",
-      "DESCRIPTION": "तपाईंका ग्राहकहरूका सबै कुराकानीहरू एउटै ड्यासबोर्डमा हेर्नुहोस्। तपाईं इनकमिङ च्यानल, लेबल र स्थिति अनुसार कुराकानीहरू फिल्टर गर्न सक्नुहुन्छ।.",
+      "DESCRIPTION": "तपाईंका ग्राहकका सबै कुराकानीहरू एउटै ड्यासबोर्डमा हेर्नुहोस्। तपाईं इनकमिङ च्यानल, लेबल र स्थिति अनुसार कुराकानीहरू फिल्टर गर्न सक्नुहुन्छ।",
       "NEW_LINK": "Click here to create an inbox"
     },
     "TEAM_MEMBERS": {
       "TITLE": "Invite your team members",
-      "DESCRIPTION": "तपाईं ग्राहकसँग कुरा गर्न तयार हुँदै हुनुहुन्छ, त्यसैले सहयोगका लागि तपाईंका टिम सदस्यहरूलाई ल्याउनुहोस्। तपाईं एजेन्ट सूचीमा उनीहरूको इमेल ठेगाना थपेर टिम सदस्यहरूलाई निमन्त्रणा गर्न सक्नुहुन्छ।.",
+      "DESCRIPTION": "तपाईं ग्राहकसँग कुरा गर्न तयार हुँदै हुनुहुन्छ, त्यसैले सहयोगका लागि तपाईंका टिम सदस्यहरूलाई ल्याउनुहोस्। तपाईं एजेन्ट सूचीमा उनीहरूको इमेल ठेगाना थपेर टिम सदस्यहरूलाई निमन्त्रणा गर्न सक्नुहुन्छ।",
       "NEW_LINK": "Click here to invite a team member"
     },
     "LABELS": {
       "TITLE": "Organize conversations with labels",
-      "DESCRIPTION": "लेबलहरूले तपाईंको कुराकानी वर्गीकरण गर्न सजिलो बनाउँछन्। #support-enquiry, #billing-question जस्ता केही लेबलहरू बनाउनुहोस्, जसलाई तपाईं पछि कुराकानीमा प्रयोग गर्न सक्नुहुन्छ।.",
+      "DESCRIPTION": "लेबलहरूले तपाईंको कुराकानी वर्गीकरण गर्न सजिलो बनाउँछन्। #support-enquiry, #billing-question जस्ता केही लेबलहरू बनाउनुहोस्, जसलाई तपाईं पछि कुराकानीमा प्रयोग गर्न सक्नुहुन्छ।",
       "NEW_LINK": "Click here to create tags"
     },
     "CANNED_RESPONSES": {
       "TITLE": "Create canned responses",
-      "DESCRIPTION": "पूर्व-लेखित छिटो जवाफ टेम्प्लेटहरूले तपाईंलाई छिटो कुराकानीमा जवाफ दिन मद्दत गर्छ। एजेन्टहरूले '/' क्यारेक्टर टाइप गरी त्यसपछि छोटो कोड टाइप गरेर जवाफ समावेश गर्न सक्छन्।.",
+      "DESCRIPTION": "पूर्व-लेखित छिटो जवाफ टेम्प्लेटहरूले तपाईंलाई छिटो कुराकानीमा जवाफ दिन मद्दत गर्छ। एजेन्टहरूले '/' क्यारेक्टर टाइप गरी त्यसपछि छोटो कोड टाइप गरेर जवाफ समावेश गर्न सक्छन्।",
       "NEW_LINK": "Click here to create a canned response"
     }
   },
@@ -421,8 +421,8 @@
     "ADD_PARTICIPANTS": "Select participants",
     "REMANING_PARTICIPANTS_TEXT": "+{count} अन्य",
     "REMANING_PARTICIPANT_TEXT": "+{count} अर्को",
-    "TOTAL_PARTICIPANTS_TEXT": "{count} जना मानिसहरू सहभागी हुँदैछन्।.",
-    "TOTAL_PARTICIPANT_TEXT": "{count} व्यक्ति सहभागी हुँदैछ।.",
+    "TOTAL_PARTICIPANTS_TEXT": "{count} जना मानिसहरू सहभागी छन्।",
+    "TOTAL_PARTICIPANT_TEXT": "{count} व्यक्ति सहभागी छन्।",
     "NO_PARTICIPANTS_TEXT": "No one is participating!.",
     "WATCH_CONVERSATION": "Join conversation",
     "YOU_ARE_WATCHING": "You are participating",
