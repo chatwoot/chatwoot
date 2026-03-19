@@ -10860,7 +10860,10 @@
             "description": "Middle name of the contact"
           },
           "location": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "Location of the contact"
           },
           "account_id": {
