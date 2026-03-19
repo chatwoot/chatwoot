@@ -171,6 +171,10 @@ export default {
     allowSignature() {
       return !this.disableSignatureValue;
     },
+    // When a custom signature is passed, it's always forced — no toggle needed
+    showSignatureToggle() {
+      return this.allowSignature && !this.hasCustomSignature;
+    },
     signatureToApply() {
       if (!this.allowSignature) {
         return '';
@@ -483,7 +487,7 @@ export default {
       :message="message"
       :enable-multiple-file-upload="allowFileUpload"
       :allow-file-upload="allowFileUpload"
-      :allow-signature="allowSignature"
+      :allow-signature="showSignatureToggle"
     />
   </div>
 </template>
