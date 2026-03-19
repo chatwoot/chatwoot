@@ -371,7 +371,7 @@
         },
         "SUBMIT_BUTTON": "API چینل بنائیں",
         "API": {
-          "ERROR_MESSAGE": "ہم API چینل محفوظ کرنے میں کامیاب نہیں ہو سکے"
+          "ERROR_MESSAGE": "ہم API چینل محفوظ کرنے میں کامیاب نہیں ہو سکے۔"
         }
       },
       "EMAIL_CHANNEL": {
@@ -665,12 +665,12 @@
       },
       "VALUES": {
         "TIERS": {
-          "TIER_250": "250 گاہک فی 24 گھنٹے",
-          "TIER_1000": "1K گاہک فی 24 گھنٹے",
-          "TIER_1K": "1K گاہک فی 24 گھنٹے",
-          "TIER_10K": "10K گاہک فی 24 گھنٹے",
-          "TIER_100K": "100K گاہک فی 24 گھنٹے",
-          "TIER_UNLIMITED": "لا محدود گاہک فی 24 گھنٹے",
+          "TIER_250": "250 customers per 24h",
+          "TIER_1000": "1K customers per 24h",
+          "TIER_1K": "1K customers per 24h",
+          "TIER_10K": "10K customers per 24h",
+          "TIER_100K": "100K customers per 24h",
+          "TIER_UNLIMITED": "Unlimited customers per 24h",
           "UNKNOWN": "درجہ بندی دستیاب نہیں"
         },
         "STATUSES": {
@@ -793,7 +793,7 @@
     },
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "خودکار تفویض کی حد",
-      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "براہ کرم 0 سے بڑا کوئی عدد درج کریں",
+      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "براہ کرم 0 سے بڑا کوئی عدد درج کریں۔",
       "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "اس ان باکس سے زیادہ سے زیادہ گفتگو کی تعداد کو محدود کریں جو خودکار طور پر ایجنٹ کو تفویض کی جا سکتی ہے"
     },
     "ASSIGNMENT": {
