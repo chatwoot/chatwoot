@@ -16,7 +16,7 @@
       },
       "ERROR": "There was an error connecting to Shopify. Please try again or contact support if the issue persists."
     },
-    "HEADER": "Integrations",
+    "HEADER": "Integrimet",
     "DESCRIPTION": "Chatwoot integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
     "LEARN_MORE": "Learn more about integrations",
     "LOADING": "Fetching integrations",
@@ -29,7 +29,7 @@
       "FAILED_TO_LOAD_CONSOLE": "Failed to load Captain Console. Please refresh and try again."
     },
     "WEBHOOK": {
-      "SUBSCRIBED_EVENTS": "Subscribed Events",
+      "SUBSCRIBED_EVENTS": "Ngjarjet e abonuar",
       "LEARN_MORE": "Learn more about webhooks",
       "SECRET": {
         "LABEL": "Secret",
@@ -43,17 +43,17 @@
       "SEARCH_PLACEHOLDER": "Search webhooks...",
       "NO_RESULTS": "No webhooks found matching your search",
       "FORM": {
-        "CANCEL": "Cancel",
-        "DESC": "Webhook events provide you the realtime information about what's happening in your Chatwoot account. Please enter a valid URL to configure a callback.",
+        "CANCEL": "Anulo",
+        "DESC": "Ngjarjet e webhook ju ofrojnë informacion në kohë reale për atë që po ndodh në llogarinë tuaj Chatwoot. Ju lutemi shkruani një URL të vlefshme për të konfiguruar një callback.",
         "SUBSCRIPTIONS": {
-          "LABEL": "Events",
+          "LABEL": "Ngjarjet",
           "EVENTS": {
-            "CONVERSATION_CREATED": "Conversation Created",
-            "CONVERSATION_STATUS_CHANGED": "Conversation Status Changed",
-            "CONVERSATION_UPDATED": "Conversation Updated",
-            "MESSAGE_CREATED": "Message created",
-            "MESSAGE_UPDATED": "Message updated",
-            "WEBWIDGET_TRIGGERED": "Live chat widget opened by the user",
+            "CONVERSATION_CREATED": "Biseda e krijuar",
+            "CONVERSATION_STATUS_CHANGED": "Statusi i bisedës u ndryshua",
+            "CONVERSATION_UPDATED": "Biseda u përditësua",
+            "MESSAGE_CREATED": "Mesazhi u krijua",
+            "MESSAGE_UPDATED": "Mesazhi u përditësua",
+            "WEBWIDGET_TRIGGERED": "Widget-i i bisedës live u hap nga përdoruesi",
             "CONTACT_CREATED": "Contact created",
             "CONTACT_UPDATED": "Contact updated",
             "CONVERSATION_TYPING_ON": "Conversation Typing On",
@@ -65,55 +65,55 @@
           "PLACEHOLDER": "Enter the name of the webhook"
         },
         "END_POINT": {
-          "LABEL": "Webhook URL",
+          "LABEL": "URL e webhook",
           "PLACEHOLDER": "Example: {webhookExampleURL}",
-          "ERROR": "Please enter a valid URL"
+          "ERROR": "Ju lutemi shkruani një URL të vlefshme"
         },
-        "EDIT_SUBMIT": "Update webhook",
-        "ADD_SUBMIT": "Create webhook"
+        "EDIT_SUBMIT": "Përditëso webhook",
+        "ADD_SUBMIT": "Krijo webhook"
       },
       "TITLE": "Webhook",
-      "CONFIGURE": "Configure",
-      "HEADER": "Webhook settings",
-      "HEADER_BTN_TXT": "Add new webhook",
-      "LOADING": "Fetching attached webhooks",
-      "SEARCH_404": "There are no items matching this query",
-      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks are HTTP callbacks which can be defined for every account. They are triggered by events like message creation in Chatwoot. You can create more than one webhook for this account. <br /><br /> For creating a <b>webhook</b>, click on the <b>Add new webhook</b> button. You can also remove any existing webhook by clicking on the Delete button.</p>",
+      "CONFIGURE": "Konfiguro",
+      "HEADER": "Cilësimet e webhook",
+      "HEADER_BTN_TXT": "Shto webhook të ri",
+      "LOADING": "Duke marrë webhook-et e bashkangjitura",
+      "SEARCH_404": "Nuk ka asnjë artikull që përputhet me këtë kërkim",
+      "SIDEBAR_TXT": "<p><b>Webhook-et</b> </p> <p>Webhook-et janë thirrje HTTP të cilat mund të përcaktohen për çdo llogari. Ato aktivizohen nga ngjarje si krijimi i mesazhit në Chatwoot. Mund të krijoni më shumë se një webhook për këtë llogari. <br /><br /> Për të krijuar një <b>webhook</b>, klikoni në butonin <b>Shto webhook të ri</b>. Gjithashtu mund të hiqni çdo webhook ekzistues duke klikuar butonin Fshi.</p>",
       "LIST": {
-        "404": "There are no webhooks configured for this account.",
-        "TITLE": "Manage webhooks",
+        "404": "Nuk ka webhook të konfiguruara për këtë llogari.",
+        "TITLE": "Menaxho webhook-et",
         "TABLE_HEADER": {
           "WEBHOOK_ENDPOINT": "Webhook endpoint",
           "ACTIONS": "Actions"
         }
       },
       "EDIT": {
-        "BUTTON_TEXT": "Edit",
-        "TITLE": "Edit webhook",
+        "BUTTON_TEXT": "Ndrysho",
+        "TITLE": "Ndrysho webhook",
         "API": {
-          "SUCCESS_MESSAGE": "Webhook configuration updated successfully",
-          "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+          "SUCCESS_MESSAGE": "Konfigurimi i webhook u përditësua me sukses",
+          "ERROR_MESSAGE": "Nuk u mundua të lidhet me Serverin Woot, Ju lutemi provoni përsëri më vonë"
         }
       },
       "ADD": {
-        "CANCEL": "Cancel",
-        "TITLE": "Add new webhook",
+        "CANCEL": "Anulo",
+        "TITLE": "Shto webhook të ri",
         "API": {
           "SUCCESS_MESSAGE": "Webhook configuration added successfully",
-          "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+          "ERROR_MESSAGE": "Nuk u mund të lidhet me Serverin Woot, Ju lutemi provoni përsëri më vonë"
         }
       },
       "DELETE": {
-        "BUTTON_TEXT": "Delete",
+        "BUTTON_TEXT": "Fshi",
         "API": {
-          "SUCCESS_MESSAGE": "Webhook deleted successfully",
-          "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+          "SUCCESS_MESSAGE": "Webhook u fshi me sukses",
+          "ERROR_MESSAGE": "Nuk u mund të lidhet me Serverin Woot, Ju lutemi provoni përsëri më vonë"
         },
         "CONFIRM": {
-          "TITLE": "Confirm Deletion",
+          "TITLE": "Konfirmo Fshirjen",
           "MESSAGE": "Are you sure to delete the webhook? ({webhookURL})",
-          "YES": "Yes, Delete ",
-          "NO": "No, Keep it"
+          "YES": "Po, Fshi ",
+          "NO": "Jo, Ruaje"
         }
       }
     },
@@ -224,13 +224,13 @@
       "GENERATE_ERROR": "There was an error processing the content, please verify your OpenAI API key and try again"
     },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
+      "BUTTON_TEXT": "Fshi",
       "API": {
-        "SUCCESS_MESSAGE": "Integration deleted successfully"
+        "SUCCESS_MESSAGE": "Integrimi u fshi me sukses"
       }
     },
     "CONNECT": {
-      "BUTTON_TEXT": "Connect"
+      "BUTTON_TEXT": "Lidhu"
     },
     "DASHBOARD_APPS": {
       "TITLE": "Dashboard Apps",
