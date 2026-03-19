@@ -20,6 +20,7 @@ export const ChatwootProvider = ({
   disableEditor,
   disableSignature,
   signature,
+  signatureReadOnly,
   children,
 }) => {
   const isInitialized = useRef(false);
@@ -45,6 +46,7 @@ export const ChatwootProvider = ({
     websocketURL: websocketURL,
     pubsubToken: pubsubToken,
     signature: signature || '',
+    signatureReadOnly: signatureReadOnly || false,
   };
 
   function initializeChatwootGlobals() {
@@ -63,6 +65,7 @@ export const ChatwootProvider = ({
     window.__DISABLE_EDITOR__ = config.disableEditor;
     window.__WOOT_DISABLE_SIGNATURE__ = config.disableSignature;
     window.__WOOT_CUSTOM_SIGNATURE__ = config.signature || undefined;
+    window.__WOOT_SIGNATURE_READ_ONLY__ = config.signatureReadOnly;
     window.__WOOT_ISOLATED_SHELL__ = true;
     /* eslint-enable no-underscore-dangle */
 
@@ -102,6 +105,16 @@ export const ChatwootProvider = ({
       new CustomEvent('chatwoot:signature-change', { detail: value || '' })
     );
   }, [signature]);
+
+  // Keep signatureReadOnly global in sync when the prop changes after init
+  useEffect(() => {
+    const value = signatureReadOnly === true;
+    // eslint-disable-next-line no-underscore-dangle
+    window.__WOOT_SIGNATURE_READ_ONLY__ = value;
+    window.dispatchEvent(
+      new CustomEvent('chatwoot:signature-read-only-change', { detail: value })
+    );
+  }, [signatureReadOnly]);
 
   // Keep signature toggle global in sync when the prop changes after init
   useEffect(() => {

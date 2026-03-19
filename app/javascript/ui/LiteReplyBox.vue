@@ -16,6 +16,7 @@ import fileUploadMixin from 'dashboard/mixins/fileUploadMixin';
 import {
   appendSignature,
   extractTextFromMarkdown,
+  removeSignature,
 } from 'dashboard/helper/editorHelper';
 
 export default {
@@ -45,6 +46,8 @@ export default {
       customSignatureValue: window.__WOOT_CUSTOM_SIGNATURE__ || '',
       // eslint-disable-next-line no-underscore-dangle
       disableSignatureValue: window.__WOOT_DISABLE_SIGNATURE__ === true,
+      // eslint-disable-next-line no-underscore-dangle
+      signatureReadOnlyValue: window.__WOOT_SIGNATURE_READ_ONLY__ === true,
     };
   },
   computed: {
@@ -174,6 +177,9 @@ export default {
     allowSignature() {
       return !this.disableSignatureValue;
     },
+    isSignatureReadOnly() {
+      return this.hasCustomSignature && this.signatureReadOnlyValue;
+    },
     // When a custom signature is passed, it's always forced — no toggle needed
     showSignatureToggle() {
       return this.allowSignature && !this.hasCustomSignature;
@@ -188,6 +194,18 @@ export default {
         : extractTextFromMarkdown(signature);
     },
   },
+  watch: {
+    isSignatureReadOnly(newVal, oldVal) {
+      // Switching to read-only: strip signature from editor so it doesn't double up
+      if (newVal && !oldVal && this.signatureToApply) {
+        this.message = removeSignature(
+          this.message,
+          this.signatureToApply,
+          this.channelType
+        );
+      }
+    },
+  },
   mounted() {
     document.addEventListener('paste', this.onPaste);
     document.addEventListener('keydown', this.handleKeyEvents);
@@ -198,6 +216,10 @@ export default {
     window.addEventListener(
       'chatwoot:disable-signature-change',
       this.onDisableSignatureChange
+    );
+    window.addEventListener(
+      'chatwoot:signature-read-only-change',
+      this.onSignatureReadOnlyChange
     );
 
     // // A hacky fix to solve the drag and drop
@@ -220,6 +242,10 @@ export default {
       'chatwoot:disable-signature-change',
       this.onDisableSignatureChange
     );
+    window.removeEventListener(
+      'chatwoot:signature-read-only-change',
+      this.onSignatureReadOnlyChange
+    );
   },
   methods: {
     onSignatureChange(event) {
@@ -227,6 +253,9 @@ export default {
     },
     onDisableSignatureChange(event) {
       this.disableSignatureValue = event.detail === true;
+    },
+    onSignatureReadOnlyChange(event) {
+      this.signatureReadOnlyValue = event.detail === true;
     },
     getElementToBind() {
       return this.replyEditor;
@@ -396,9 +425,9 @@ export default {
       return payload;
     },
     getMessagePayload(message) {
-      // When signature is forced, append it at send time (not in editor)
+      // When signature is read-only, it lives outside the editor — append at send time
       const finalMessage =
-        this.hasCustomSignature && this.signatureToApply
+        this.isSignatureReadOnly && this.signatureToApply
           ? appendSignature(message, this.signatureToApply, this.channelType)
           : message;
       let messagePayload = {
@@ -453,9 +482,9 @@ export default {
         :min-height="4"
         enable-variables
         :variables="messageVariables"
-        :signature="signatureToApply"
-        :allow-signature="allowSignature"
-        :force-signature="hasCustomSignature"
+        :signature="isSignatureReadOnly ? '' : signatureToApply"
+        :allow-signature="isSignatureReadOnly ? false : allowSignature"
+        :force-signature="isSignatureReadOnly ? false : hasCustomSignature"
         :channel-type="channelType"
         @typing-off="onTypingOff"
         @typing-on="onTypingOn"
@@ -468,7 +497,7 @@ export default {
       />
     </div>
     <div
-      v-if="hasCustomSignature && signatureToApply && !isOnPrivateNote"
+      v-if="isSignatureReadOnly && signatureToApply && !isOnPrivateNote"
       class="px-4 py-1 text-sm text-n-slate-11 opacity-60 select-none pointer-events-none whitespace-pre-wrap"
     >
       --<br />{{ signatureToApply }}
