@@ -1,0 +1,70 @@
+type: object
+additionalProperties: true
+description: Polymorphic sender payload returned by push_event_data. Available fields vary by sender type.
+properties:
+  id:
+    type: integer
+    description: Id of the sender
+  name:
+    type:
+      - string
+      - 'null'
+    description: Name of the sender when available
+  avatar_url:
+    type: string
+    description: Avatar URL of the sender. Present for senders of type user, agent_bot, and captain_assistant. Not present for contact senders (use thumbnail instead).
+  thumbnail:
+    type: string
+    description: Avatar/thumbnail URL of the sender. Contact senders use this field; user senders may also include it.
+  type:
+    type: string
+    enum: ['contact', 'user', 'agent_bot', 'captain_assistant']
+    description: Type of the sender
+  available_name:
+    type:
+      - string
+      - 'null'
+    description: Display name for user senders
+  availability_status:
+    type:
+      - string
+      - 'null'
+    description: Availability status for user senders
+  email:
+    type:
+      - string
+      - 'null'
+    description: Email of the sender when the sender is a contact
+  phone_number:
+    type:
+      - string
+      - 'null'
+    description: Phone number of the sender when the sender is a contact
+  identifier:
+    type:
+      - string
+      - 'null'
+    description: Identifier of the sender when the sender is a contact
+  blocked:
+    type: boolean
+    description: Whether the sender is blocked when the sender is a contact
+  additional_attributes:
+    type:
+      - object
+      - 'null'
+    description: Additional attributes when the sender is a contact and available
+  custom_attributes:
+    type:
+      - object
+      - 'null'
+    description: Custom attributes when the sender is a contact and available
+  description:
+    type:
+      - string
+      - 'null'
+    description: Description when the sender is a captain assistant
+  created_at:
+    type:
+      - string
+      - 'null'
+    description: Created timestamp in ISO 8601 format when the sender is a captain assistant
