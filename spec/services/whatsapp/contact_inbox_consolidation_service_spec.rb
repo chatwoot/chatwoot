@@ -115,18 +115,51 @@ describe Whatsapp::ContactInboxConsolidationService do
     end
 
     context 'when phone and lid contact_inboxes belong to different contacts' do
-      let!(:contact1) { create(:contact, account: inbox.account, phone_number: "+#{phone}") }
-      let!(:contact2) { create(:contact, account: inbox.account, identifier: identifier) }
-      let!(:phone_contact_inbox) { create(:contact_inbox, inbox: inbox, contact: contact1, source_id: phone) }
-      let!(:lid_contact_inbox) { create(:contact_inbox, inbox: inbox, contact: contact2, source_id: lid) }
+      let!(:phone_contact) { create(:contact, account: inbox.account, phone_number: "+#{phone}", name: 'Brigita Pinto') }
+      let!(:lid_contact) { create(:contact, account: inbox.account, identifier: identifier, name: lid) }
+      let!(:phone_contact_inbox) { create(:contact_inbox, inbox: inbox, contact: phone_contact, source_id: phone) }
+      let!(:lid_contact_inbox) { create(:contact_inbox, inbox: inbox, contact: lid_contact, source_id: lid) }
 
-      it 'does not consolidate different contacts' do
+      it 'merges into the phone contact and consolidates contact_inboxes' do
+        lid_conversation = create(:conversation, inbox: inbox, contact: lid_contact, contact_inbox: lid_contact_inbox)
+
         service = described_class.new(inbox: inbox, phone: phone, lid: lid, identifier: identifier)
         service.perform
 
-        expect(ContactInbox.exists?(phone_contact_inbox.id)).to be(true)
-        expect(ContactInbox.exists?(lid_contact_inbox.id)).to be(true)
-        expect(phone_contact_inbox.reload.source_id).to eq(phone)
+        # LID contact_inbox is destroyed, phone contact_inbox gets LID source_id
+        expect(ContactInbox.exists?(lid_contact_inbox.id)).to be(false)
+        expect(phone_contact_inbox.reload.source_id).to eq(lid)
+
+        # Phone contact becomes the canonical contact with LID identifier
+        expect(phone_contact.reload.identifier).to eq(identifier)
+
+        # Orphaned LID contact is destroyed
+        expect(Contact.exists?(lid_contact.id)).to be(false)
+
+        # Conversation is moved to the phone contact
+        expect(lid_conversation.reload.contact_id).to eq(phone_contact.id)
+        expect(lid_conversation.contact_inbox_id).to eq(phone_contact_inbox.id)
+      end
+
+      it 'handles multiple conversations across both contact_inboxes' do
+        phone_conversation = create(:conversation, inbox: inbox, contact: phone_contact, contact_inbox: phone_contact_inbox)
+        lid_conversation1 = create(:conversation, inbox: inbox, contact: lid_contact, contact_inbox: lid_contact_inbox)
+        lid_conversation2 = create(:conversation, inbox: inbox, contact: lid_contact, contact_inbox: lid_contact_inbox)
+
+        service = described_class.new(inbox: inbox, phone: phone, lid: lid, identifier: identifier)
+        service.perform
+
+        # Phone conversation stays on phone contact
+        expect(phone_conversation.reload.contact_id).to eq(phone_contact.id)
+        expect(phone_conversation.contact_inbox_id).to eq(phone_contact_inbox.id)
+
+        # LID conversations are moved to phone contact
+        expect(lid_conversation1.reload.contact_id).to eq(phone_contact.id)
+        expect(lid_conversation1.contact_inbox_id).to eq(phone_contact_inbox.id)
+        expect(lid_conversation2.reload.contact_id).to eq(phone_contact.id)
+        expect(lid_conversation2.contact_inbox_id).to eq(phone_contact_inbox.id)
+
+        expect(inbox.contact_inboxes.where(contact: phone_contact).count).to eq(1)
       end
     end
 
@@ -143,7 +176,7 @@ describe Whatsapp::ContactInboxConsolidationService do
         expect(contact.reload.identifier).to eq(identifier)
       end
 
-      context 'when a lid contact_inbox already exists' do
+      context 'when a lid contact_inbox already exists for the same contact' do
         let!(:lid_contact_inbox) { create(:contact_inbox, inbox: inbox, contact: contact, source_id: lid) } # rubocop:disable RSpec/LetSetup
 
         it 'does not update to avoid duplicate' do
@@ -151,6 +184,32 @@ describe Whatsapp::ContactInboxConsolidationService do
           service.perform
 
           expect(old_contact_inbox.reload.source_id).to eq('999999999')
+        end
+      end
+
+      context 'when a lid contact_inbox exists for a different contact' do
+        let!(:lid_contact) { create(:contact, account: inbox.account, identifier: identifier, name: lid) }
+        let!(:lid_contact_inbox) { create(:contact_inbox, inbox: inbox, contact: lid_contact, source_id: lid) }
+
+        it 'consolidates by merging into the phone contact' do
+          lid_conversation = create(:conversation, inbox: inbox, contact: lid_contact, contact_inbox: lid_contact_inbox)
+
+          service = described_class.new(inbox: inbox, phone: phone, lid: lid, identifier: identifier)
+          service.perform
+
+          # LID contact_inbox destroyed, old contact_inbox updated to LID source_id
+          expect(ContactInbox.exists?(lid_contact_inbox.id)).to be(false)
+          expect(old_contact_inbox.reload.source_id).to eq(lid)
+
+          # Phone contact becomes canonical
+          expect(contact.reload.identifier).to eq(identifier)
+
+          # Orphaned LID contact is destroyed
+          expect(Contact.exists?(lid_contact.id)).to be(false)
+
+          # Conversation moved to phone contact
+          expect(lid_conversation.reload.contact_id).to eq(contact.id)
+          expect(lid_conversation.contact_inbox_id).to eq(old_contact_inbox.id)
         end
       end
 

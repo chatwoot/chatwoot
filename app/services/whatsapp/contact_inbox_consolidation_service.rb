@@ -21,9 +21,13 @@ class Whatsapp::ContactInboxConsolidationService
     phone_contact_inbox = find_phone_contact_inbox
     lid_contact_inbox = find_lid_contact_inbox
 
-    if phone_contact_inbox && lid_contact_inbox && should_consolidate?(phone_contact_inbox, lid_contact_inbox)
-      consolidate_contact_inboxes(phone_contact_inbox, lid_contact_inbox)
-    elsif phone_contact_inbox && lid_contact_inbox.nil?
+    if phone_contact_inbox && lid_contact_inbox
+      if should_consolidate?(phone_contact_inbox, lid_contact_inbox)
+        consolidate_contact_inboxes(phone_contact_inbox, lid_contact_inbox)
+      else
+        consolidate_different_contacts(phone_contact_inbox, lid_contact_inbox)
+      end
+    elsif phone_contact_inbox
       migrate_phone_to_lid(phone_contact_inbox)
     elsif phone_contact_inbox.nil?
       # No phone-based contact_inbox exists, try to find contact by phone and update their contact_inbox
@@ -55,6 +59,36 @@ class Whatsapp::ContactInboxConsolidationService
     end
   end
 
+  # Handles the case where phone and LID contact_inboxes belong to different contacts.
+  # The phone contact is treated as canonical (has real user data like name and phone_number).
+  # Merges by moving LID conversations to the phone contact and consolidating into a single contact_inbox.
+  def consolidate_different_contacts(phone_contact_inbox, lid_contact_inbox)
+    phone_contact = phone_contact_inbox.contact
+    lid_contact = lid_contact_inbox.contact
+
+    ActiveRecord::Base.transaction do
+      # Clear identifier and phone from LID contact to avoid uniqueness conflicts when updating the canonical contact
+      lid_cleanup = {}
+      lid_cleanup[:identifier] = nil if lid_contact.identifier == @identifier
+      lid_cleanup[:phone_number] = nil if lid_contact.phone_number == "+#{@phone}"
+      lid_contact.update!(lid_cleanup) if lid_cleanup.present?
+
+      # Move conversations from LID contact_inbox to the phone contact
+      lid_contact_inbox.conversations.find_each do |conversation|
+        conversation.update!(contact_inbox_id: phone_contact_inbox.id, contact_id: phone_contact.id)
+      end
+
+      lid_contact_inbox.destroy!
+
+      # Clean up orphaned LID contact if it has no remaining contact_inboxes
+      lid_contact.destroy! if lid_contact.contact_inboxes.reload.empty?
+
+      # Update phone contact_inbox to use LID as source_id and set identifier on the canonical contact
+      phone_contact_inbox.update!(source_id: @lid)
+      phone_contact.update!(identifier: @identifier, phone_number: "+#{@phone}")
+    end
+  end
+
   def migrate_phone_to_lid(phone_contact_inbox)
     existing_contact = phone_contact_inbox.contact
 
@@ -75,8 +109,14 @@ class Whatsapp::ContactInboxConsolidationService
 
     existing_contact_inbox = existing_contact.contact_inboxes.find_by(inbox_id: @inbox.id)
     return unless existing_contact_inbox
-    # Don't update if we'd create a duplicate contact_inbox or identifier conflict
-    return if find_lid_contact_inbox
+
+    # If a LID contact_inbox already exists, route into the merge logic instead of early-returning
+    lid_contact_inbox = find_lid_contact_inbox
+    if lid_contact_inbox
+      return if lid_contact_inbox.contact_id == existing_contact.id
+
+      return consolidate_different_contacts(existing_contact_inbox, lid_contact_inbox)
+    end
     return if identifier_conflict?(existing_contact)
 
     ActiveRecord::Base.transaction do

@@ -55,7 +55,7 @@ describe Whatsapp::BaileysHandlers::MessagesUpsert do
       end
 
       context 'when identifier is already taken by a different contact (race condition)' do
-        it 'does not raise validation error and skips the update' do
+        it 'consolidates contacts and saves message on the canonical contact' do
           original_contact = create(:contact, account: inbox.account, phone_number: nil, identifier: nil, name: 'Original Contact')
           original_contact_inbox = create(:contact_inbox, inbox: inbox, contact: original_contact, source_id: phone)
 
@@ -79,13 +79,15 @@ describe Whatsapp::BaileysHandlers::MessagesUpsert do
             Whatsapp::IncomingMessageBaileysService.new(inbox: inbox, params: params).perform
           end.not_to raise_error
 
-          expect(original_contact_inbox.reload.source_id).to eq(phone)
-          expect(original_contact.reload.identifier).to be_nil
+          # Consolidation merges into original_contact (phone contact_inbox's contact)
+          expect(original_contact_inbox.reload.source_id).to eq(source_id)
+          expect(original_contact.reload.identifier).to eq(identifier)
+          expect(original_contact.phone_number).to eq("+#{phone}")
 
           message = inbox.messages.last
           expect(message).to be_present
-          expect(message.sender).to eq(conflicting_contact)
-          expect(message.conversation.contact).to eq(conflicting_contact)
+          expect(message.sender).to eq(original_contact)
+          expect(message.conversation.contact).to eq(original_contact)
         end
       end
 
@@ -121,9 +123,9 @@ describe Whatsapp::BaileysHandlers::MessagesUpsert do
       end
 
       context 'when LID contact_inbox already exists (race condition)' do
-        it 'does not raise unique constraint error and skips the update' do
+        it 'consolidates contacts and saves message on the canonical contact' do
           original_contact = create(:contact, account: inbox.account, phone_number: nil, identifier: nil)
-          create(:contact_inbox, inbox: inbox, contact: original_contact, source_id: phone)
+          original_contact_inbox = create(:contact_inbox, inbox: inbox, contact: original_contact, source_id: phone)
 
           lid_contact = create(:contact, account: inbox.account, phone_number: "+#{phone}", identifier: identifier)
           create(:contact_inbox, inbox: inbox, contact: lid_contact, source_id: source_id)
@@ -144,9 +146,14 @@ describe Whatsapp::BaileysHandlers::MessagesUpsert do
             Whatsapp::IncomingMessageBaileysService.new(inbox: inbox, params: params).perform
           end.not_to raise_error
 
+          # Consolidation merges into original_contact (phone contact_inbox's contact)
+          expect(original_contact_inbox.reload.source_id).to eq(source_id)
+          expect(original_contact.reload.identifier).to eq(identifier)
+          expect(original_contact.phone_number).to eq("+#{phone}")
+
           message = inbox.messages.last
           expect(message).to be_present
-          expect(message.sender).to eq(lid_contact)
+          expect(message.sender).to eq(original_contact)
         end
       end
 
@@ -175,6 +182,47 @@ describe Whatsapp::BaileysHandlers::MessagesUpsert do
           expect(contact.reload.identifier).to eq(identifier)
           expect(contact.phone_number).to eq("+#{phone}")
         end
+      end
+    end
+  end
+
+  describe 'fragmented contacts: phone vs LID with different contact_ids' do
+    let(:phone) { '19543717011' }
+    let(:lid) { '116883390996710' }
+    let(:identifier) { "#{lid}@lid" }
+
+    context 'when phone-based and LID-based contact_inboxes belong to different contacts' do
+      it 'still saves the incoming message without raising' do
+        # Setup: two separate contacts for the same WhatsApp user (fragmented identity)
+        phone_contact = create(:contact, account: inbox.account, phone_number: "+#{phone}", identifier: nil, name: 'Brigita Pinto')
+        create(:contact_inbox, inbox: inbox, contact: phone_contact, source_id: phone)
+
+        lid_contact = create(:contact, account: inbox.account, phone_number: nil, identifier: identifier, name: lid)
+        create(:contact_inbox, inbox: inbox, contact: lid_contact, source_id: lid)
+
+        raw_message = {
+          key: { id: 'msg_fragmented_001', remoteJid: "#{lid}@lid", remoteJidAlt: "#{phone}@s.whatsapp.net", fromMe: false,
+                 addressingMode: 'lid' },
+          pushName: 'Brigita Pinto',
+          messageTimestamp: timestamp,
+          message: { conversation: 'Queria agendar a reunião' }
+        }
+        params = {
+          webhookVerifyToken: webhook_verify_token,
+          event: 'messages.upsert',
+          data: { type: 'notify', messages: [raw_message] }
+        }
+
+        # This scenario previously caused a uniqueness violation when update_contact_info
+        # tried to set phone_number on the LID contact. The consolidation service now handles this.
+        expect do
+          Whatsapp::IncomingMessageBaileysService.new(inbox: inbox, params: params).perform
+        end.not_to raise_error
+
+        message = inbox.messages.find_by(source_id: 'msg_fragmented_001')
+        expect(message).to be_present
+        expect(message.content).to eq('Queria agendar a reunião')
+        expect(message.message_type).to eq('incoming')
       end
     end
   end
