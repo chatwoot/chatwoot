@@ -34,6 +34,9 @@ it:
     saml_not_available: Autenticazione SAML non disponibile in questa installazione.
     inbox_deletetion_response: La tua richiesta di cancellazione inbox verrà elaborata.
   errors:
+    account:
+      reporting_timezone:
+        invalid: is not a valid timezone
     validations:
       presence: non deve essere vuoto
     webhook:
