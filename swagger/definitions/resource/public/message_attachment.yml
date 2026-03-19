@@ -21,8 +21,10 @@ properties:
       - 'null'
     description: File extension
   data_url:
-    type: string
-    description: URL of the file
+    type:
+      - string
+      - 'null'
+    description: URL of the file. Can be null when an attachment variant has no external URL.
   thumb_url:
     type: string
     description: URL of the file thumbnail
@@ -46,8 +48,10 @@ properties:
     type: number
     description: Longitude for location attachments
   fallback_title:
-    type: string
-    description: Fallback title for location, fallback, and contact attachments
+    type:
+      - string
+      - 'null'
+    description: Fallback title for location, fallback, and contact attachments when available
   meta:
     type: object
     description: Metadata for contact attachments

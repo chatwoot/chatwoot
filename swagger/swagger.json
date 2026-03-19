@@ -10949,7 +10949,7 @@
               "string",
               "null"
             ],
-            "description": "Text content of the message"
+            "description": "Text content of the message. Can be null for attachment-only messages."
           },
           "message_type": {
             "type": "integer",
@@ -11027,8 +11027,11 @@
             "description": "File extension"
           },
           "data_url": {
-            "type": "string",
-            "description": "URL of the file"
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "URL of the file. Can be null when an attachment variant has no external URL."
           },
           "thumb_url": {
             "type": "string",
@@ -11061,8 +11064,11 @@
             "description": "Longitude for location attachments"
           },
           "fallback_title": {
-            "type": "string",
-            "description": "Fallback title for location, fallback, and contact attachments"
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Fallback title for location, fallback, and contact attachments when available"
           },
           "meta": {
             "type": "object",

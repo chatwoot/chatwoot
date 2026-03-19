@@ -7,7 +7,7 @@ properties:
     type:
       - string
       - 'null'
-    description: Text content of the message
+    description: Text content of the message. Can be null for attachment-only messages.
   message_type:
     type: integer
     description: "Denotes the message type. Possible values: 0 (incoming), 1 (outgoing), 2 (activity), 3 (template)"
