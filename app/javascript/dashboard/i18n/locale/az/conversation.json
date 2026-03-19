@@ -3,10 +3,10 @@
     "SELECT_A_CONVERSATION": "Zəhmət olmasa, soldakı paneldən bir söhbət seçin",
     "CSAT_REPLY_MESSAGE": "Zəhmət olmasa söhbəti qiymətləndirin",
     "404": "Bağışlayın, söhbəti tapa bilmirik. Zəhmət olmasa, yenidən cəhd edin",
-    "SWITCH_VIEW_LAYOUT": "Düzəni dəyiş",
+    "SWITCH_VIEW_LAYOUT": "Düzəni dəyişdirin",
     "DASHBOARD_APP_TAB_MESSAGES": "Mesajlar",
     "UNVERIFIED_SESSION": "Bu istifadəçinin şəxsiyyəti təsdiqlənməyib",
-    "NO_MESSAGE_1": "Uh oh! Görünür ki, qutunuzda müştərilərdən mesaj yoxdur.",
+    "NO_MESSAGE_1": "Uh oh! Görünür qutunuzda müştərilərdən mesaj yoxdur.",
     "NO_MESSAGE_2": " səhifənizə mesaj göndərmək üçün!",
     "NO_INBOX_1": "Hola! Görünür hələ heç bir poçt qutusu əlavə etməmisiniz.",
     "NO_INBOX_2": " başlamaq üçün",
@@ -27,7 +27,7 @@
     },
     "UNREAD_MESSAGES": "Oxunmamış Mesajlar",
     "UNREAD_MESSAGE": "Oxunmamış Mesaj",
-    "CLICK_HERE": "Buraya klikləyin",
+    "CLICK_HERE": "Buraya klik edin",
     "LOADING_INBOXES": "Qutular yüklənir",
     "LOADING_CONVERSATIONS": "Söhbətlər yüklənir",
     "CANNOT_REPLY": "Cavab verə bilməzsiniz, çünki",
@@ -71,7 +71,7 @@
     "REPLY_MESSAGE_NOT_FOUND": "Mesaj mövcud deyil",
     "CARD": {
       "SHOW_LABELS": "Etiketləri göstər",
-      "HIDE_LABELS": "Etiketləri gizlət"
+      "HIDE_LABELS": "Etiketləri gizlədin"
     },
     "VOICE_CALL": {
       "INCOMING_CALL": "Gələn zəng",
@@ -146,11 +146,11 @@
       "CONFIRM": "Sil"
     },
     "CARD_CONTEXT_MENU": {
-      "PENDING": "Gözləyən kimi işarələ",
+      "PENDING": "Gözləyən kimi işarələyin",
       "RESOLVED": "Həll olundu kimi işarələyin",
-      "MARK_AS_UNREAD": "Oxunmamış kimi işarələ",
+      "MARK_AS_UNREAD": "Oxunmamış kimi işarələyin",
       "MARK_AS_READ": "Oxunmuş kimi işarələ",
-      "REOPEN": "Söhbəti yenidən aç",
+      "REOPEN": "Söhbəti yenidən açın",
       "SNOOZE": {
         "TITLE": "Gecikdir",
         "NEXT_REPLY": "Növbəti cavaba qədər",
@@ -195,7 +195,7 @@
       "MESSAGING_RESTRICTED_API": "Mesaj pəncərəsi məhdudiyyəti səbəbindən yalnız şablon mesajla cavab verə bilərsiniz",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Mesaj imzası qurulmayıb, zəhmət olmasa profil parametrlərində qurun.",
       "COPILOT_MSG_INPUT": "Copilot üçün əlavə göstərişlər verin və ya başqa sual verin... Davam etmək üçün enter düyməsini basın",
-      "CLICK_HERE": "Yeniləmək üçün bura klikləyin",
+      "CLICK_HERE": "Yeniləmək üçün buraya klikləyin",
       "WHATSAPP_TEMPLATES": "Whatsapp Şablonları"
     },
     "REPLYBOX": {
@@ -212,8 +212,8 @@
       "TIP_AUDIORECORDER_PERMISSION": "Səsə girişə icazə ver",
       "TIP_AUDIORECORDER_ERROR": "Səsi açmaq mümkün olmadı",
       "DRAG_DROP": "Qoşmaq üçün buraya sürükləyin və buraxın",
-      "START_AUDIO_RECORDING": "Səs yazısını başlat",
-      "STOP_AUDIO_RECORDING": "Səs yazısını dayandır",
+      "START_AUDIO_RECORDING": "Səs yazısını başla",
+      "STOP_AUDIO_RECORDING": "Səs yazısını dayandırın",
       "COPILOT_THINKING": "Copilot düşünür",
       "EMAIL_HEAD": {
         "TO": "KİMƏ",
@@ -275,7 +275,7 @@
       "DELETE": "Sil",
       "CREATE_A_CANNED_RESPONSE": "Hazır cavablara əlavə et",
       "TRANSLATE": "Tərcümə et",
-      "COPY_PERMALINK": "Mesaja keçid linkini kopyala",
+      "COPY_PERMALINK": "Mesaja keçid linkini kopyalayın",
       "LINK_COPIED": "Mesajın URL-i panoya kopyalandı",
       "DELETE_CONFIRMATION": {
         "TITLE": "Bu mesajı silmək istədiyinizə əminsiniz?",
@@ -286,7 +286,7 @@
     },
     "SIDEBAR": {
       "CONTACT": "Əlaqə",
-      "COPILOT": "Kopilot"
+      "COPILOT": "Copilot"
     },
     "VOICE_WIDGET": {
       "INCOMING_CALL": "Gələn zəng",
@@ -322,7 +322,7 @@
     "DESCRIPTION": "Qeydiyyatdan keçdiyiniz üçün təşəkkür edirik. {installationName}-dən maksimum faydalanmağınızı istəyirik. Təcrübəni xoş etmək üçün {installationName}-də edə biləcəyiniz bir neçə şey var.",
     "GREETING_MORNING": "👋 Sabahınız xeyir, {name}. {installationName}-ə xoş gəlmisiniz.",
     "GREETING_AFTERNOON": "👋 Günortanız xeyir, {name}. {installationName}-ə xoş gəlmisiniz.",
-    "GREETING_EVENING": "👋 Axşamınız xeyir, {name}. {installationName} -ə xoş gəlmisiniz.",
+    "GREETING_EVENING": "👋 Axşamınız xeyir, {name}. {installationName}-ə xoş gəlmisiniz.",
     "READ_LATEST_UPDATES": "Ən son yeniliklərimizi oxuyun",
     "ALL_CONVERSATION": {
       "TITLE": "Bütün söhbətləriniz bir yerdə",
@@ -332,12 +332,12 @@
     "TEAM_MEMBERS": {
       "TITLE": "Komanda üzvlərinizi dəvət edin",
       "DESCRIPTION": "Müştərinizlə danışmağa hazırlaşdığınız üçün, sizə kömək etmək üçün komanda üzvlərinizi dəvət edin. Komanda üzvlərinizi agent siyahısına onların e-poçt ünvanlarını əlavə etməklə dəvət edə bilərsiniz.",
-      "NEW_LINK": "Komanda üzvünü dəvət etmək üçün bura klikləyin"
+      "NEW_LINK": "Komanda üzvünü dəvət etmək üçün buraya klikləyin"
     },
     "LABELS": {
       "TITLE": "Söhbətləri etiketlərlə təşkil edin",
       "DESCRIPTION": "Etiketlər söhbətinizi kateqoriyalara ayırmağı asanlaşdırır. Sonra söhbətdə istifadə etmək üçün #support-enquiry, #billing-question və s. kimi bəzi etiketlər yaradın.",
-      "NEW_LINK": "Etiket yaratmaq üçün bura klikləyin"
+      "NEW_LINK": "Etiket yaratmaq üçün buraya klikləyin"
     },
     "CANNED_RESPONSES": {
       "TITLE": "Hazır cavablar yaradın",
@@ -424,7 +424,7 @@
     "TOTAL_PARTICIPANTS_TEXT": "{count} nəfər iştirak edir.",
     "TOTAL_PARTICIPANT_TEXT": "{count} nəfər iştirak edir.",
     "NO_PARTICIPANTS_TEXT": "No one is participating!.",
-    "WATCH_CONVERSATION": "Söhbətə qoşul",
+    "WATCH_CONVERSATION": "Söhbətə qoşulun",
     "YOU_ARE_WATCHING": "Siz iştirak edirsiniz",
     "API": {
       "ERROR_MESSAGE": "Yenilənmədi, yenidən cəhd edin!",
