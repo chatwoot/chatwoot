@@ -77,6 +77,10 @@ class Integrations::Linear::ProcessorService
   end
 
   def linear_client
-    @linear_client ||= Linear.new(linear_hook.access_token)
+    @linear_client ||= Linear.new(linear_access_token)
+  end
+
+  def linear_access_token
+    @linear_access_token ||= Integrations::Linear::AccessTokenService.new(hook: linear_hook).access_token
   end
 end

@@ -1,6 +1,6 @@
 {
   "name": "@chatwoot/chatwoot",
-  "version": "4.11.2",
+  "version": "4.12.0",
   "license": "MIT",
   "scripts": {
     "eslint": "eslint app/**/*.{js,vue}",
@@ -79,7 +79,7 @@
     "json-logic-js": "^2.0.5",
     "lettersanitizer": "^1.0.6",
     "libphonenumber-js": "^1.11.9",
-    "markdown-it": "^13.0.2",
+    "markdown-it": "^14.1.1",
     "markdown-it-link-attributes": "^4.0.1",
     "md5": "^2.3.0",
     "mitt": "^3.0.1",
@@ -162,7 +162,8 @@
       "vite": "5.4.21",
       "vitest": "3.0.5",
       "minimatch@<4": "3.1.5",
-      "minimatch@>=9.0.0 <9.0.7": "9.0.9"
+      "minimatch@>=9.0.0 <9.0.7": "9.0.9",
+      "rollup": ">=4.59.0"
     }
   },
   "lint-staged": {
