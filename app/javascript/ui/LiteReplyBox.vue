@@ -188,7 +188,9 @@ export default {
       if (!this.allowSignature) {
         return '';
       }
-      const signature = this.customSignature || this.messageSignature;
+      // Normalize literal \n (from JSX string attributes) to real newlines
+      const raw = this.customSignature || this.messageSignature;
+      const signature = raw.replace(/\\n/g, '\n');
       return this.showRichContentEditor
         ? signature
         : extractTextFromMarkdown(signature);
@@ -498,8 +500,8 @@ export default {
     </div>
     <div
       v-if="isSignatureReadOnly && signatureToApply && !isOnPrivateNote"
+      v-dompurify-html="'--<br>' + signatureToApply.replace(/\n/g, '<br>')"
       class="px-4 py-1 text-sm text-n-slate-11 opacity-60 select-none pointer-events-none"
-      v-html="'--<br>' + signatureToApply.replace(/\n/g, '<br>')"
     />
     <div
       v-if="hasAttachments && !showAudioRecorderEditor"
