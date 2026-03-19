@@ -34,6 +34,9 @@ ja:
     saml_not_available: SAML authentication is not available in this installation.
     inbox_deletetion_response: 受信トレイの削除リクエストは、しばらくしてから処理されます。
   errors:
+    account:
+      reporting_timezone:
+        invalid: is not a valid timezone
     validations:
       presence: 空白にはできません。
     webhook:
