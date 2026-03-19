@@ -34,6 +34,9 @@ ru:
     saml_not_available: SAML аутентификация не доступна в этой установке.
     inbox_deletetion_response: Ваш запрос на удаление входящих сообщений будет обработан через некоторое время.
   errors:
+    account:
+      reporting_timezone:
+        invalid: is not a valid timezone
     validations:
       presence: не должен быть пустым
     webhook:
