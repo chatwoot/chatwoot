@@ -527,7 +527,8 @@
           "TITLE": "Značajke",
           "ALLOW_CONVERSATION_FAQS": "Generiraj često postavljana pitanja iz riješenih razgovora",
           "ALLOW_MEMORIES": "Bilježite ključne detalje kao uspomene iz interakcija s kupcima.",
-          "ALLOW_CITATIONS": "Uključi izvore citata u odgovore"
+          "ALLOW_CITATIONS": "Uključi izvore citata u odgovore",
+          "ALLOW_CONTACT_ATTRIBUTES": "Allow access to contact information"
         }
       },
       "EDIT": {
