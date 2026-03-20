@@ -92,7 +92,7 @@ class Attachment < ApplicationRecord
     when :embed
       embed_data
     else
-      file_metadata
+      file.attached? ? file_metadata : { data_url: external_url, thumb_url: '' }
     end
   end
 

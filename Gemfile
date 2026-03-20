@@ -192,7 +192,7 @@ gem 'reverse_markdown'
 
 gem 'iso-639'
 gem 'ruby-openai'
-gem 'ai-agents'
+gem 'ai-agents', '>= 0.9.1'
 
 # TODO: Move this gem as a dependency of ai-agents
 gem 'ruby_llm', '>= 1.8.2'
@@ -271,6 +271,7 @@ group :development, :test do
   gem 'seed_dump'
   gem 'shoulda-matchers'
   gem 'simplecov', '>= 0.21', require: false
+  gem 'skooma'
   gem 'spring'
   gem 'spring-watcher-listen'
 end

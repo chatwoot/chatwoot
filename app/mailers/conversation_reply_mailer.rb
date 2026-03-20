@@ -36,7 +36,7 @@ class ConversationReplyMailer < ApplicationMailer
 
   def email_reply(message)
     init_conversation_attributes(message.conversation)
-    return unless smtp_config_set_or_development? || email_oauth_enabled
+    return unless smtp_config_set_or_development? || email_smtp_enabled? || (email_imap_enabled? && email_oauth_enabled?)
 
     @message = message
     prepare_mail(true)

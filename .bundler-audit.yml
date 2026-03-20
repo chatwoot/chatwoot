@@ -1,3 +1,4 @@
 ---
 ignore:
   - CVE-2021-41098 # https://github.com/chatwoot/chatwoot/issues/3097 (update once azure blob storage is updated)
+  - GHSA-57hq-95w6-v4fc # Devise confirmable race condition — patched locally in User model (remove once on Devise 5+)

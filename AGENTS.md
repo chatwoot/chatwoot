@@ -15,8 +15,7 @@
 - **Test Ruby**: `bundle exec rspec spec/path/to/file_spec.rb`
 - **Single Test**: `bundle exec rspec spec/path/to/file_spec.rb:LINE_NUMBER`
 - **Run Project**: `overmind start -f Procfile.dev`
-- **Ruby Version**: Manage Ruby via `rbenv` and install the version listed in `.ruby-version` (e.g., `rbenv install $(cat .ruby-version)`)
-- **rbenv setup**: Before running any `bundle` or `rspec` commands, init rbenv in your shell (`eval "$(rbenv init -)"`) so the correct Ruby/Bundler versions are used
+- **Ruby Version**: Manage Ruby via `rvm`
 - Always prefer `bundle exec` for Ruby CLI tasks (rspec, rake, rubocop, etc.)
 
 ## Code Style
@@ -67,6 +66,15 @@
 - Prefer Conventional Commits: `type(scope): subject` (scope optional)
 - Example: `feat(auth): add user authentication`
 - Don't reference Claude in commit messages
+
+## PR Description Format
+
+- Start with a short, user-facing paragraph describing the product change.
+- Add a `Closes` section with relevant issue links (GitHub, Linear, etc.).
+- For feature PRs, add `How to test` from a product/UX standpoint.
+- For bugfix PRs, use `How to reproduce` when helpful.
+- Optionally add a `What changed` section for implementation highlights.
+- Do not add a `How this was tested` section listing specs/commands.
 
 ## Project-Specific
 

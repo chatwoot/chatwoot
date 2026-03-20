@@ -14,7 +14,7 @@ import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import { emitter } from 'shared/helpers/mitt';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import {
-  searchContacts,
+  createContactSearcher,
   createNewContact,
   fetchContactableInboxes,
   processContactableInboxes,
@@ -44,6 +44,7 @@ const props = defineProps({
 
 const emit = defineEmits(['close']);
 
+const searchContacts = createContactSearcher();
 const store = useStore();
 const { t } = useI18n();
 const router = useRouter();
@@ -194,15 +195,17 @@ const onContactSearch = debounce(
     isSearching.value = true;
     contacts.value = [];
     try {
-      contacts.value = await searchContacts(query);
+      const results = await searchContacts(query);
+      // null means the request was aborted (a newer search is in-flight),
+      if (results === null) return;
+      contacts.value = results;
       isSearching.value = false;
     } catch (error) {
-      useAlert(t('COMPOSE_NEW_CONVERSATION.CONTACT_SEARCH.ERROR_MESSAGE'));
-    } finally {
       isSearching.value = false;
+      useAlert(t('COMPOSE_NEW_CONVERSATION.CONTACT_SEARCH.ERROR_MESSAGE'));
     }
   },
-  300,
+  400,
   false
 );
 
@@ -221,6 +224,7 @@ const handleSelectedContact = async ({ value, action, ...rest }) => {
     contact = rest;
   }
   selectedContact.value = contact;
+  contacts.value = [];
   if (contact?.id) {
     isFetchingInboxes.value = true;
     try {
@@ -355,7 +359,7 @@ useKeyboardEvents(keyboardEvents);
       handleClickOutside,
       // Fixed and edge case https://github.com/chatwoot/chatwoot/issues/10785
       // This will prevent closing the compose conversation modal when the editor Create link popup is open
-      { ignore: ['div.ProseMirror-prompt'] },
+      { ignore: ['dialog.ProseMirror-prompt-backdrop'] },
     ]"
     class="relative"
     :class="{

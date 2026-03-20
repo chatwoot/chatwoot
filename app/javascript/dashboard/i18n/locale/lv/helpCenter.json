@@ -374,6 +374,16 @@
         "ERROR_MESSAGE": "Dzēšot rakstu, radās kļūda"
       }
     },
+    "REORDER_ARTICLE": {
+      "API": {
+        "ERROR_MESSAGE": "Unable to reorder articles. Please try again."
+      }
+    },
+    "REORDER_CATEGORY": {
+      "API": {
+        "ERROR_MESSAGE": "Unable to reorder categories. Please try again."
+      }
+    },
     "CREATE_ARTICLE": {
       "ERROR_MESSAGE": "Lūdzu, pievienojiet raksta virsrakstu un saturu. Tikai tad Jūs varat atjaunināt iestatījumus"
     },

@@ -191,6 +191,7 @@ class CsatTemplateManagementService # rubocop:disable Metrics/ClassLength
 
     template_service = Twilio::CsatTemplateService.new(@inbox.channel)
     status_result = template_service.get_template_status(content_sid)
+    return { template_exists: false, error: 'Template not found' } unless status_result.is_a?(Hash)
 
     if status_result[:success]
       {
@@ -211,6 +212,7 @@ class CsatTemplateManagementService # rubocop:disable Metrics/ClassLength
   def get_whatsapp_template_status(template)
     template_name = template['name'] || CsatTemplateNameService.csat_template_name(@inbox.id)
     status_result = Whatsapp::CsatTemplateService.new(@inbox.channel).get_template_status(template_name)
+    return { template_exists: false, error: 'Template not found' } unless status_result.is_a?(Hash)
 
     if status_result[:success]
       {

@@ -13,7 +13,7 @@ json.custom_body_html portal.custom_body_html
 
 json.config do
   json.allowed_locales do
-    json.array! portal.config['allowed_locales'].each do |locale|
+    json.array! portal.allowed_locale_codes.each do |locale|
       json.partial! 'api/v1/models/portal_config', formats: [:json], locale: locale, portal: portal
     end
   end
