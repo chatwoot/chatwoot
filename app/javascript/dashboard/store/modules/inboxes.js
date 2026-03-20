@@ -220,7 +220,8 @@ export const actions = {
       sendAnalyticsEvent(channel.type);
       return response.data;
     } catch (error) {
-      const errorMessage = error?.response?.data?.message;
+      const errorMessage =
+        error?.response?.data?.message || error?.response?.data?.error;
       commit(types.default.SET_INBOXES_UI_FLAG, { isCreating: false });
       throw new Error(errorMessage);
     }
