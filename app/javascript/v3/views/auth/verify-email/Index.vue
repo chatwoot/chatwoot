@@ -4,6 +4,7 @@ import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import Cookies from 'js-cookie';
 import { useAlert } from 'dashboard/composables';
+import { clearCookiesOnLogout } from 'dashboard/store/utils/api';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import wootAPI from '../../../api/apiClient';
 
@@ -25,19 +26,7 @@ const isResendingEmail = ref(false);
 const handleResendEmail = async () => {
   isResendingEmail.value = true;
   try {
-    await wootAPI.post(
-      '/api/v1/profile/resend_confirmation',
-      {},
-      {
-        headers: {
-          'access-token': authData['access-token'],
-          'token-type': authData['token-type'],
-          client: authData.client,
-          expiry: authData.expiry,
-          uid: authData.uid,
-        },
-      }
-    );
+    await wootAPI.post('/api/v1/profile/resend_confirmation');
     useAlert(t('REGISTER.VERIFY_EMAIL.RESEND_SUCCESS'));
   } catch (error) {
     const errorMessage =
@@ -45,6 +34,14 @@ const handleResendEmail = async () => {
     useAlert(errorMessage);
   } finally {
     isResendingEmail.value = false;
+  }
+};
+
+const handleLogout = async () => {
+  try {
+    await wootAPI.delete('auth/sign_out');
+  } finally {
+    clearCookiesOnLogout();
   }
 };
 </script>
@@ -77,12 +74,12 @@ const handleResendEmail = async () => {
       </div>
     </section>
     <div class="mt-6 text-center">
-      <router-link
-        to="/auth/login"
-        class="text-sm text-n-slate-10 hover:text-n-slate-11"
+      <button
+        class="text-sm text-n-slate-8 hover:text-n-slate-10"
+        @click="handleLogout"
       >
         {{ $t('LOGIN.BACK_TO_LOGIN') }}
-      </router-link>
+      </button>
     </div>
   </main>
 </template>

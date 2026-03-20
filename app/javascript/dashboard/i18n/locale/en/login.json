@@ -37,6 +37,6 @@
         "ERROR_MESSAGE": "SSO authentication failed. Please check your credentials and try again."
       }
     },
-    "BACK_TO_LOGIN": "Back to login"
+    "BACK_TO_LOGIN": "Logout"
   }
 }
