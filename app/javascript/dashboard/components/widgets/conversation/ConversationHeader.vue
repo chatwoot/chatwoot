@@ -8,6 +8,7 @@ import InboxName from '../InboxName.vue';
 import MoreActions from './MoreActions.vue';
 import Avatar from 'next/avatar/Avatar.vue';
 import SLACardLabel from './components/SLACardLabel.vue';
+import ConversationStatusBadge from './ConversationStatusBadge.vue';
 import wootConstants from 'dashboard/constants/globals';
 import { conversationListPageURL } from 'dashboard/helper/URLHelper';
 import { snoozedReopenTime } from 'dashboard/helper/snoozeHelpers';
@@ -150,6 +151,11 @@ const hasSlaPolicyId = computed(() => props.chat?.sla_policy_id);
         show-extended-info
         :parent-width="width"
         class="hidden md:flex"
+      />
+      <ConversationStatusBadge
+        v-if="currentChat.status"
+        :status="currentChat.status"
+        variant="large"
       />
       <MoreActions :conversation-id="currentChat.id" />
     </div>

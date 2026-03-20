@@ -14,6 +14,7 @@ import PriorityMark from './PriorityMark.vue';
 import SLACardLabel from './components/SLACardLabel.vue';
 import ContextMenu from 'dashboard/components/ui/ContextMenu.vue';
 import VoiceCallStatus from './VoiceCallStatus.vue';
+import ConversationStatusBadge from './ConversationStatusBadge.vue';
 
 const props = defineProps({
   activeLabel: { type: String, default: '' },
@@ -120,8 +121,7 @@ const showLabelsSection = computed(() => {
 const messagePreviewClass = computed(() => {
   return [
     hasUnread.value ? 'font-medium text-n-slate-12' : 'text-n-slate-11',
-    !props.compact && hasUnread.value ? 'ltr:pr-4 rtl:pl-4' : '',
-    props.compact && hasUnread.value ? 'ltr:pr-6 rtl:pl-6' : '',
+    'ltr:pr-16 rtl:pl-16',
   ];
 });
 
@@ -354,8 +354,13 @@ const deleteConversation = () => {
             :created-at-timestamp="chat.created_at"
           />
         </span>
+        <ConversationStatusBadge
+          v-if="chat.status && unreadCount === 0"
+          :status="chat.status"
+          class="mt-1 ltr:ml-auto rtl:mr-auto"
+        />
         <span
-          class="shadow-lg rounded-full text-xxs font-semibold h-4 leading-4 ltr:ml-auto rtl:mr-auto mt-1 min-w-[1rem] px-1 py-0 text-center text-white bg-n-teal-9"
+          class="shadow-lg rounded-full text-xxs font-semibold h-4 leading-4 ltr:ml-auto rtl:mr-auto mt-1 min-w-[1rem] px-1 py-0 text-center text-white bg-n-teal-9 block"
           :class="hasUnread ? 'block' : 'hidden'"
         >
           {{ unreadCount > 9 ? '9+' : unreadCount }}
