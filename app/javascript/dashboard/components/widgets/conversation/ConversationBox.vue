@@ -39,6 +39,9 @@ export default {
       currentChat: 'getSelectedChat',
       dashboardApps: 'dashboardApps/getRecords',
     }),
+    conversationDashboardApps() {
+      return this.dashboardApps.filter(app => !app.show_on_sidebar);
+    },
     dashboardAppTabs() {
       return [
         {
@@ -46,7 +49,7 @@ export default {
           index: 0,
           name: this.$t('CONVERSATION.DASHBOARD_APP_TAB_MESSAGES'),
         },
-        ...this.dashboardApps.map((dashboardApp, index) => ({
+        ...this.conversationDashboardApps.map((dashboardApp, index) => ({
           key: `dashboard-${dashboardApp.id}`,
           index: index + 1,
           name: dashboardApp.title,
@@ -105,7 +108,7 @@ export default {
       }"
     />
     <woot-tabs
-      v-if="dashboardApps.length && currentChat.id"
+      v-if="conversationDashboardApps.length && currentChat.id"
       :index="activeIndex"
       class="h-10"
       @change="onDashboardAppTabChange"
@@ -132,11 +135,11 @@ export default {
       <slot />
     </div>
     <DashboardAppFrame
-      v-for="(dashboardApp, index) in dashboardApps"
+      v-for="(dashboardApp, index) in conversationDashboardApps"
       v-show="activeIndex - 1 === index"
       :key="currentChat.id + '-' + dashboardApp.id"
       :is-visible="activeIndex - 1 === index"
-      :config="dashboardApps[index].content"
+      :config="conversationDashboardApps[index].content"
       :position="index"
       :current-chat="currentChat"
     />

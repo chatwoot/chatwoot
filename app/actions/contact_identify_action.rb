@@ -70,7 +70,7 @@ class ContactIdentifyAction
   end
 
   def merge_contacts?(existing_contact, key)
-    return if existing_contact.blank?
+    return false if existing_contact.blank?
 
     return true if params[:identifier].blank?
 

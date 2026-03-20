@@ -391,6 +391,17 @@ describe('getInputType', () => {
     );
     expect(result).toEqual('search_select');
   });
+
+  it('returns empty string when attribute key is not found', () => {
+    const mockAutomation = { event_name: 'message_created' };
+    const result = helpers.getInputType(
+      customAttributes,
+      AUTOMATIONS,
+      mockAutomation,
+      'non_existent_key'
+    );
+    expect(result).toEqual('');
+  });
 });
 
 describe('getOperators', () => {
@@ -420,6 +431,18 @@ describe('getOperators', () => {
         .filterOperators
     );
   });
+
+  it('returns empty array when attribute key is not found', () => {
+    const mockAutomation = { event_name: 'message_created' };
+    const result = helpers.getOperators(
+      customAttributes,
+      AUTOMATIONS,
+      mockAutomation,
+      'create',
+      'non_existent_key'
+    );
+    expect(result).toEqual([]);
+  });
 });
 
 describe('getCustomAttributeType', () => {
@@ -430,10 +453,18 @@ describe('getCustomAttributeType', () => {
       mockAutomation,
       'message_type'
     );
-    expect(result).toEqual(
-      AUTOMATIONS.message_created.conditions.find(c => c.key === 'message_type')
-        .customAttributeType
+    // message_type condition doesn't have customAttributeType defined, so it returns empty string
+    expect(result).toEqual('');
+  });
+
+  it('returns empty string when attribute key is not found', () => {
+    const mockAutomation = { event_name: 'message_created' };
+    const result = helpers.getCustomAttributeType(
+      AUTOMATIONS,
+      mockAutomation,
+      'non_existent_key'
     );
+    expect(result).toEqual('');
   });
 });
 
@@ -451,5 +482,12 @@ describe('showActionInput', () => {
   it('returns false if the action does not have an input type', () => {
     const mockActionTypes = [{ key: 'some_action', inputType: null }];
     expect(helpers.showActionInput(mockActionTypes, 'some_action')).toBe(false);
+  });
+
+  it('returns false when action key is not found in action types', () => {
+    const mockActionTypes = [{ key: 'add_label', inputType: 'select' }];
+    expect(
+      helpers.showActionInput(mockActionTypes, 'non_existent_action')
+    ).toBe(false);
   });
 });

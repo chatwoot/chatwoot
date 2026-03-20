@@ -127,7 +127,7 @@ RSpec.describe AccountSamlSettings, type: :model do
       it 'queues job to reset account users provider' do
         settings = create(:account_saml_settings, account: account)
         expect(Saml::UpdateAccountUsersProviderJob).to receive(:perform_later).with(account.id, 'email')
-        settings.destroy
+        settings.destroy!
       end
     end
   end

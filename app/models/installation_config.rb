@@ -15,11 +15,31 @@
 #  index_installation_configs_on_name_and_created_at  (name,created_at) UNIQUE
 #
 class InstallationConfig < ApplicationRecord
-  # https://stackoverflow.com/questions/72970170/upgrading-to-rails-6-1-6-1-causes-psychdisallowedclass-tried-to-load-unspecif
-  # https://discuss.rubyonrails.org/t/cve-2022-32224-possible-rce-escalation-bug-with-serialized-columns-in-active-record/81017
-  # FIX ME : fixes breakage of installation config. we need to migrate.
-  # Fix configuration in application.rb
-  serialize :serialized_value, coder: YAML, type: ActiveSupport::HashWithIndifferentAccess
+  # The serialized_value column is jsonb but contains YAML strings (legacy data).
+  # We need a custom coder that handles both YAML strings and native JSON objects.
+  class SerializedValueCoder # rubocop:disable Style/OneClassPerFile
+    def self.dump(value)
+      return value.with_indifferent_access if value.is_a?(Hash)
+
+      { value: value }.with_indifferent_access
+    end
+
+    def self.load(value)
+      return {}.with_indifferent_access if value.blank?
+
+      # Handle YAML strings stored in jsonb column (legacy data)
+      if value.is_a?(String)
+        YAML.safe_load(value, permitted_classes: [ActiveSupport::HashWithIndifferentAccess, Symbol])
+            .with_indifferent_access
+      elsif value.is_a?(Hash)
+        value.with_indifferent_access
+      else
+        {}.with_indifferent_access
+      end
+    end
+  end
+
+  serialize :serialized_value, coder: SerializedValueCoder
 
   before_validation :set_lock
   validates :name, presence: true

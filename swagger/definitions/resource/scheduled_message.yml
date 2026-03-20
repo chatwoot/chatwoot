@@ -1,0 +1,67 @@
+type: object
+properties:
+  id:
+    type: integer
+    description: ID of the scheduled message
+  content:
+    type: string
+    description: The text content of the scheduled message
+  inbox_id:
+    type: integer
+    description: ID of the inbox
+  conversation_id:
+    type: integer
+    description: Display ID of the conversation
+  account_id:
+    type: integer
+    description: ID of the account
+  status:
+    type: string
+    enum: ["draft", "pending", "sent", "failed"]
+    description: The status of the scheduled message
+  scheduled_at:
+    type: integer
+    description: Unix timestamp when the message is scheduled to be sent
+  template_params:
+    type: object
+    description: Template parameters for WhatsApp template messages
+  author_id:
+    type: integer
+    description: ID of the author who created the scheduled message
+  author_type:
+    type: string
+    description: Type of the author (User, Contact, etc.)
+  created_at:
+    type: integer
+    description: Unix timestamp when the scheduled message was created
+  updated_at:
+    type: integer
+    description: Unix timestamp when the scheduled message was last updated
+  author:
+    type: object
+    description: The author object (User/Agent details)
+  attachment:
+    type: object
+    description: The file attachment object if any
+    properties:
+      id:
+        type: integer
+        description: ID of the attachment
+      scheduled_message_id:
+        type: integer
+        description: ID of the scheduled message this attachment belongs to
+      file_type:
+        type: string
+        description: MIME type of the file
+      account_id:
+        type: integer
+        description: ID of the account
+      file_url:
+        type: string
+        description: URL to access the file
+      blob_id:
+        type: string
+        description: Signed blob ID for the attachment
+      filename:
+        type: string
+        description: Name of the file

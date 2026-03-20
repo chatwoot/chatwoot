@@ -5,6 +5,7 @@ json.avatar_url resource.avatar_url
 json.confirmed resource.confirmed?
 json.display_name resource.display_name
 json.message_signature resource.message_signature
+json.signature_settings resource.signature_settings_with_defaults
 json.email resource.email
 json.id resource.id
 json.name resource.name

@@ -25,7 +25,9 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({ uiFlags: 'inboxes/getUIFlags' }),
+    ...mapGetters({
+      uiFlags: 'inboxes/getUIFlags',
+    }),
   },
   validations: {
     inboxName: { required },

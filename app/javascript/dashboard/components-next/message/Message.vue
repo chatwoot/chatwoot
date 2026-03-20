@@ -1,12 +1,12 @@
 <script setup>
-import { onMounted, computed, ref, toRefs } from 'vue';
+import { onMounted, onUnmounted, computed, ref, toRefs } from 'vue';
 import { useTimeoutFn } from '@vueuse/core';
 import { provideMessageContext } from './provider.js';
 import { useTrack } from 'dashboard/composables';
 import { useMapGetter } from 'dashboard/composables/store';
 import { emitter } from 'shared/helpers/mitt';
 import { useI18n } from 'vue-i18n';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { LocalStorage } from 'shared/helpers/localStorage';
 import { ACCOUNT_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
@@ -97,11 +97,12 @@ import { useBranding } from 'shared/composables/useBranding';
  * @property {boolean} [isEmailInbox=false] - Whether the message is from an email inbox
  * @property {number} conversationId - The ID of the conversation to which the message belongs
  * @property {number} inboxId - The ID of the inbox to which the message belongs
+ * @property {Object} [additionalAttributes={}] - Additional attributes of the message
  */
 
 // eslint-disable-next-line vue/define-macros-order
 const props = defineProps({
-  id: { type: Number, required: true },
+  id: { type: [Number, String], required: true },
   messageType: {
     type: Number,
     required: true,
@@ -120,14 +121,19 @@ const props = defineProps({
     default: 'text',
     validator: value => Object.values(CONTENT_TYPES).includes(value),
   },
+  // eslint-disable-next-line vue/no-unused-properties
+  additionalAttributes: { type: Object, default: () => ({}) },
   conversationId: { type: Number, required: true },
   createdAt: { type: Number, required: true }, // eslint-disable-line vue/no-unused-properties
   currentUserId: { type: Number, required: true }, // eslint-disable-line vue/no-unused-properties
   groupWithNext: { type: Boolean, default: false },
+  groupWithPrevious: { type: Boolean, default: false },
   inboxId: { type: Number, default: null }, // eslint-disable-line vue/no-unused-properties
   inboxSupportsReplyTo: { type: Object, default: () => ({}) },
+  inboxSupportsEdit: { type: Boolean, default: false },
   inReplyTo: { type: Object, default: null }, // eslint-disable-line vue/no-unused-properties
   isEmailInbox: { type: Boolean, default: false },
+  isGroupConversation: { type: Boolean, default: false },
   private: { type: Boolean, default: false },
   sender: { type: Object, default: null },
   senderId: { type: Number, default: null },
@@ -144,6 +150,7 @@ const { t } = useI18n();
 const route = useRoute();
 const inboxGetter = useMapGetter('inboxes/getInbox');
 const inbox = computed(() => inboxGetter.value(props.inboxId) || {});
+const router = useRouter();
 const { replaceInstallationName } = useBranding();
 
 /**
@@ -241,7 +248,21 @@ const flexOrientationClass = computed(() => {
   return map[orientation.value];
 });
 
+const isGroupIncoming = computed(() => {
+  return (
+    props.isGroupConversation && props.messageType === MESSAGE_TYPES.INCOMING
+  );
+});
+
+const showGroupSenderAvatar = computed(() => {
+  return isGroupIncoming.value && !props.groupWithPrevious;
+});
+
 const gridClass = computed(() => {
+  if (orientation.value === ORIENTATION.LEFT && isGroupIncoming.value) {
+    return 'grid grid-cols-[24px_1fr]';
+  }
+
   const map = {
     [ORIENTATION.LEFT]: 'grid grid-cols-1fr',
     [ORIENTATION.RIGHT]: 'grid grid-cols-[1fr_24px]',
@@ -251,6 +272,13 @@ const gridClass = computed(() => {
 });
 
 const gridTemplate = computed(() => {
+  if (orientation.value === ORIENTATION.LEFT && isGroupIncoming.value) {
+    return `
+      "avatar bubble"
+      "spacer meta"
+    `;
+  }
+
   const map = {
     [ORIENTATION.LEFT]: `
       "bubble"
@@ -382,6 +410,12 @@ const contextMenuEnabledOptions = computed(() => {
       !props.private &&
       props.inboxSupportsReplyTo.outgoing &&
       !isFailedOrProcessing,
+    edit:
+      isOutgoing &&
+      hasText &&
+      !isFailedOrProcessing &&
+      !isMessageDeleted.value &&
+      props.inboxSupportsEdit,
   };
 });
 
@@ -450,8 +484,16 @@ const avatarInfo = computed(() => {
     };
   }
 
-  // If no sender, return bot info
+  // If no sender, check for external sender name
   if (!props.sender) {
+    const externalSenderName = props.contentAttributes?.externalSenderName;
+    if (externalSenderName === 'WhatsApp') {
+      return {
+        name: t('CONVERSATION.WHATSAPP'),
+        src: '',
+        iconName: 'i-woot-whatsapp',
+      };
+    }
     return {
       name: t('CONVERSATION.BOT'),
       src: '',
@@ -484,6 +526,47 @@ const avatarTooltip = computed(() => {
   return `${t('CONVERSATION.SENT_BY')} ${avatarInfo.value.name}`;
 });
 
+// Colors for group sender names, matching AVATAR_COLORS from Avatar component
+const SENDER_NAME_COLORS = {
+  light: ['#C2298A', '#99543A', '#60646C', '#008573', '#4747C2', '#3A5BC7'],
+  dark: ['#FF8DCC', '#FFA366', '#ADB1B8', '#0BD8B6', '#A19EFF', '#9EB1FF'],
+};
+
+const showGroupSenderName = computed(() => {
+  return (
+    props.isGroupConversation &&
+    props.messageType === MESSAGE_TYPES.INCOMING &&
+    !props.groupWithPrevious &&
+    props.sender?.name
+  );
+});
+
+const senderNameStyle = computed(() => {
+  if (!showGroupSenderName.value) return {};
+  const name = props.sender?.name || '';
+  const index = name.length % SENDER_NAME_COLORS.light.length;
+  return {
+    color: SENDER_NAME_COLORS.light[index],
+    '--dark-sender-color': SENDER_NAME_COLORS.dark[index],
+  };
+});
+
+const navigateToGroupSender = event => {
+  if (
+    !isGroupIncoming.value ||
+    !props.sender?.id ||
+    props.sender.type?.toLowerCase() !== 'contact'
+  )
+    return;
+  const accountId = route.params.accountId;
+  const url = `/app/accounts/${accountId}/contacts/${props.sender.id}`;
+  if (event?.ctrlKey || event?.metaKey) {
+    window.open(url, '_blank');
+  } else {
+    router.push(url);
+  }
+};
+
 const setupHighlightTimer = () => {
   if (Number(route.query.messageId) !== Number(props.id)) {
     return;
@@ -496,7 +579,23 @@ const setupHighlightTimer = () => {
   }, HIGHLIGHT_TIMER);
 };
 
-onMounted(setupHighlightTimer);
+const HIGHLIGHT_DURATION = 1000;
+const onHighlightMessage = ({ messageId } = {}) => {
+  if (Number(messageId) !== Number(props.id)) return;
+  showBackgroundHighlight.value = true;
+  useTimeoutFn(() => {
+    showBackgroundHighlight.value = false;
+  }, HIGHLIGHT_DURATION);
+};
+
+onMounted(() => {
+  setupHighlightTimer();
+  emitter.on(BUS_EVENTS.HIGHLIGHT_MESSAGE, onHighlightMessage);
+});
+
+onUnmounted(() => {
+  emitter.off(BUS_EVENTS.HIGHLIGHT_MESSAGE, onHighlightMessage);
+});
 
 provideMessageContext({
   ...toRefs(props),
@@ -541,22 +640,43 @@ provideMessageContext({
       }"
     >
       <div
+        v-if="showGroupSenderAvatar"
+        class="[grid-area:avatar] flex items-end"
+      >
+        <Avatar
+          v-tooltip.right-end="avatarTooltip"
+          v-bind="avatarInfo"
+          :size="24"
+          class="cursor-pointer"
+          @click="navigateToGroupSender($event)"
+        />
+      </div>
+      <div
         v-if="!shouldGroupWithNext && shouldShowAvatar"
         v-tooltip.left-end="avatarTooltip"
         class="[grid-area:avatar] flex items-end"
       >
         <Avatar v-bind="avatarInfo" :size="24" />
       </div>
-      <div
-        class="[grid-area:bubble] flex"
-        :class="{
-          'ltr:ml-8 rtl:mr-8 justify-end': orientation === ORIENTATION.RIGHT,
-          'ltr:mr-8 rtl:ml-8': orientation === ORIENTATION.LEFT,
-          'min-w-0': variant === MESSAGE_VARIANTS.EMAIL,
-        }"
-        @contextmenu="openContextMenu($event)"
-      >
-        <Component :is="componentToRender" />
+      <div class="[grid-area:bubble]" @contextmenu="openContextMenu($event)">
+        <span
+          v-if="showGroupSenderName"
+          class="text-xs font-medium mb-0.5 inline-block ltr:mr-8 rtl:ml-8 cursor-pointer hover:underline dark:!text-[var(--dark-sender-color)]"
+          :style="senderNameStyle"
+          @click="navigateToGroupSender($event)"
+        >
+          {{ sender?.name }}
+        </span>
+        <div
+          class="flex"
+          :class="{
+            'ltr:ml-8 rtl:mr-8 justify-end': orientation === ORIENTATION.RIGHT,
+            'ltr:mr-8 rtl:ml-8': orientation === ORIENTATION.LEFT,
+            'min-w-0': variant === MESSAGE_VARIANTS.EMAIL,
+          }"
+        >
+          <Component :is="componentToRender" />
+        </div>
       </div>
       <MessageError
         v-if="contentAttributes.externalError"

@@ -14,6 +14,7 @@ import MessageApi from 'dashboard/api/inbox/message.js';
  * @property {Number} currentUserId - ID of the current user
  * @property {Boolean} isAnEmailChannel - Whether this is an email channel
  * @property {Object} inboxSupportsReplyTo - Inbox reply support configuration
+ * @property {Boolean} inboxSupportsEdit - Whether the inbox supports message editing
  * @property {Array} messages - Array of all messages [These are not in camelcase]
  */
 const props = defineProps({
@@ -22,7 +23,7 @@ const props = defineProps({
     required: true,
   },
   firstUnreadId: {
-    type: Number,
+    type: [Number, String],
     default: null,
   },
   isAnEmailChannel: {
@@ -32,6 +33,10 @@ const props = defineProps({
   inboxSupportsReplyTo: {
     type: Object,
     default: () => ({ incoming: false, outgoing: false }),
+  },
+  inboxSupportsEdit: {
+    type: Boolean,
+    default: false,
   },
   messages: {
     type: Array,
@@ -49,6 +54,10 @@ const allMessages = computed(() => {
 });
 
 const currentChat = useMapGetter('getSelectedChat');
+
+const isGroupConversation = computed(
+  () => currentChat.value?.group_type === 'group'
+);
 
 // Cache for fetched reply messages to avoid duplicate API calls
 const fetchedReplyMessages = reactive(new Map());
@@ -175,7 +184,12 @@ const getInReplyToMessage = parentMessage => {
         :is-email-inbox="isAnEmailChannel"
         :in-reply-to="getInReplyToMessage(message)"
         :group-with-next="shouldGroupWithNext(index, allMessages)"
+        :group-with-previous="
+          index > 0 && shouldGroupWithNext(index - 1, allMessages)
+        "
+        :is-group-conversation="isGroupConversation"
         :inbox-supports-reply-to="inboxSupportsReplyTo"
+        :inbox-supports-edit="inboxSupportsEdit"
         :current-user-id="currentUserId"
         data-clarity-mask="True"
         @retry="emit('retry', message)"

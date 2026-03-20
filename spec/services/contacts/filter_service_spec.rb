@@ -221,9 +221,9 @@ describe Contacts::FilterService do
     context 'with standard attributes - last_activity_at' do
       before do
         Time.zone = 'UTC'
-        el_contact.update(last_activity_at: (Time.zone.today - 4.days))
-        cs_contact.update(last_activity_at: (Time.zone.today - 5.days))
-        en_contact.update(last_activity_at: (Time.zone.today - 2.days))
+        el_contact.update!(last_activity_at: (Time.zone.today - 4.days))
+        cs_contact.update!(last_activity_at: (Time.zone.today - 5.days))
+        en_contact.update!(last_activity_at: (Time.zone.today - 2.days))
       end
 
       it 'filter by last_activity_at 3_days_before and custom_attributes' do

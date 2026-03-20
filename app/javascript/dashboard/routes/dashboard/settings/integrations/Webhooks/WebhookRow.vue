@@ -4,6 +4,8 @@ import { getI18nKey } from 'dashboard/routes/dashboard/settings/helper/settingsH
 import ShowMore from 'dashboard/components/widgets/ShowMore.vue';
 import { useI18n } from 'vue-i18n';
 import { BaseTableRow, BaseTableCell } from 'dashboard/components-next/table';
+import InboxName from 'components/widgets/InboxName.vue';
+
 import Button from 'dashboard/components-next/button/Button.vue';
 
 const props = defineProps({
@@ -38,6 +40,7 @@ const subscribedEvents = computed(() => {
   <BaseTableRow :item="webhook">
     <template #default>
       <BaseTableCell>
+        <InboxName v-if="webhook.inbox" class="!mx-0" :inbox="webhook.inbox" />
         <div class="flex gap-2 font-medium break-words text-n-slate-12">
           <template v-if="webhook.name">
             {{ webhook.name }}

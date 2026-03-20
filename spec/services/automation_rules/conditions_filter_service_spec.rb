@@ -12,7 +12,7 @@ RSpec.describe AutomationRules::ConditionsFilterService do
 
   before do
     conversation = create(:conversation, account: account)
-    conversation.contact.update(phone_number: '+918484828282', email: 'test@test.com')
+    conversation.contact.update!(phone_number: '+918484828282', email: 'test@test.com')
     create(:conversation, account: account)
     create(:conversation, account: account)
   end
@@ -21,7 +21,7 @@ RSpec.describe AutomationRules::ConditionsFilterService do
     context 'when conditions based on filter_operator equal_to' do
       before do
         rule.conditions = [{ 'values': ['open'], 'attribute_key': 'status', 'query_operator': nil, 'filter_operator': 'equal_to' }]
-        rule.save
+        rule.save!
       end
 
       context 'when conditions in rule matches with object' do
@@ -32,7 +32,7 @@ RSpec.describe AutomationRules::ConditionsFilterService do
 
       context 'when conditions in rule does not match with object' do
         it 'will return false' do
-          conversation.update(status: 'resolved')
+          conversation.update!(status: 'resolved')
           expect(described_class.new(rule, conversation, { changed_attributes: { status: %w[open resolved] } }).perform).to be(false)
         end
       end
@@ -41,12 +41,12 @@ RSpec.describe AutomationRules::ConditionsFilterService do
     context 'when conditions based on filter_operator start_with' do
       before do
         contact = conversation.contact
-        contact.update(phone_number: '+918484848484')
+        contact.update!(phone_number: '+918484848484')
         rule.conditions = [
           { 'values': ['+918484'], 'attribute_key': 'phone_number', 'query_operator': 'OR', 'filter_operator': 'starts_with' },
           { 'values': ['test'], 'attribute_key': 'email', 'query_operator': nil, 'filter_operator': 'contains' }
         ]
-        rule.save
+        rule.save!
       end
 
       context 'when conditions in rule matches with object' do
@@ -57,7 +57,7 @@ RSpec.describe AutomationRules::ConditionsFilterService do
 
       context 'when conditions in rule does not match with object' do
         it 'will return false' do
-          conversation.contact.update(phone_number: '+918585858585')
+          conversation.contact.update!(phone_number: '+918585858585')
           expect(described_class.new(rule, conversation, { changed_attributes: {} }).perform).to be(false)
         end
       end
@@ -70,7 +70,7 @@ RSpec.describe AutomationRules::ConditionsFilterService do
             { 'values': ['test text'], 'attribute_key': 'content', 'query_operator': 'AND', 'filter_operator': 'equal_to' },
             { 'values': ['incoming'], 'attribute_key': 'message_type', 'query_operator': nil, 'filter_operator': 'equal_to' }
           ]
-          rule.save
+          rule.save!
         end
 
         it 'will return true when conditions matches' do
@@ -89,7 +89,7 @@ RSpec.describe AutomationRules::ConditionsFilterService do
             { 'values': ['help'], 'attribute_key': 'content', 'query_operator': 'AND', 'filter_operator': 'contains' },
             { 'values': ['incoming'], 'attribute_key': 'message_type', 'query_operator': nil, 'filter_operator': 'equal_to' }
           ]
-          rule.save
+          rule.save!
         end
 
         let(:conversation) { create(:conversation, account: account, inbox: email_inbox) }
@@ -105,7 +105,7 @@ RSpec.describe AutomationRules::ConditionsFilterService do
         end
 
         it 'will return false when processed_message_content does no match' do
-          rule.update(conditions: [{ 'values': ['text'], 'attribute_key': 'content', 'query_operator': nil, 'filter_operator': 'contains' }])
+          rule.update!(conditions: [{ 'values': ['text'], 'attribute_key': 'content', 'query_operator': nil, 'filter_operator': 'contains' }])
 
           expect(described_class.new(rule, conversation, { message: message, changed_attributes: {} }).perform).to be(false)
         end
@@ -119,17 +119,17 @@ RSpec.describe AutomationRules::ConditionsFilterService do
         end
 
         it 'will return true when conversation status matches' do
-          rule.update(conditions: [{ 'values': ['open'], 'attribute_key': 'status', 'query_operator': nil, 'filter_operator': 'equal_to' }])
+          rule.update!(conditions: [{ 'values': ['open'], 'attribute_key': 'status', 'query_operator': nil, 'filter_operator': 'equal_to' }])
           expect(described_class.new(rule, conversation, { message: message, changed_attributes: {} }).perform).to be(true)
         end
 
         it 'will return false when conversation status does not match' do
-          rule.update(conditions: [{ 'values': ['resolved'], 'attribute_key': 'status', 'query_operator': nil, 'filter_operator': 'equal_to' }])
+          rule.update!(conditions: [{ 'values': ['resolved'], 'attribute_key': 'status', 'query_operator': nil, 'filter_operator': 'equal_to' }])
           expect(described_class.new(rule, conversation, { message: message, changed_attributes: {} }).perform).to be(false)
         end
 
         it 'will return true when conversation priority matches' do
-          rule.update(conditions: [{ 'values': ['high'], 'attribute_key': 'priority', 'query_operator': nil, 'filter_operator': 'equal_to' }])
+          rule.update!(conditions: [{ 'values': ['high'], 'attribute_key': 'priority', 'query_operator': nil, 'filter_operator': 'equal_to' }])
           expect(described_class.new(rule, conversation, { message: message, changed_attributes: {} }).perform).to be(true)
         end
       end
@@ -145,7 +145,7 @@ RSpec.describe AutomationRules::ConditionsFilterService do
           rule.conditions = [
             { 'values': ['bug'], 'attribute_key': 'labels', 'query_operator': nil, 'filter_operator': 'equal_to' }
           ]
-          rule.save
+          rule.save!
         end
 
         it 'will return true when conversation has the label' do
@@ -156,7 +156,7 @@ RSpec.describe AutomationRules::ConditionsFilterService do
           rule.conditions = [
             { 'values': ['feature'], 'attribute_key': 'labels', 'query_operator': nil, 'filter_operator': 'equal_to' }
           ]
-          rule.save
+          rule.save!
           expect(described_class.new(rule, conversation, { changed_attributes: {} }).perform).to be(false)
         end
       end
@@ -166,7 +166,7 @@ RSpec.describe AutomationRules::ConditionsFilterService do
           rule.conditions = [
             { 'values': ['feature'], 'attribute_key': 'labels', 'query_operator': nil, 'filter_operator': 'not_equal_to' }
           ]
-          rule.save
+          rule.save!
         end
 
         it 'will return true when conversation does not have the label' do
@@ -184,7 +184,7 @@ RSpec.describe AutomationRules::ConditionsFilterService do
           rule.conditions = [
             { 'values': [], 'attribute_key': 'labels', 'query_operator': nil, 'filter_operator': 'is_present' }
           ]
-          rule.save
+          rule.save!
         end
 
         it 'will return true when conversation has any labels' do
@@ -202,7 +202,7 @@ RSpec.describe AutomationRules::ConditionsFilterService do
           rule.conditions = [
             { 'values': [], 'attribute_key': 'labels', 'query_operator': nil, 'filter_operator': 'is_not_present' }
           ]
-          rule.save
+          rule.save!
         end
 
         it 'will return false when conversation has any labels' do
@@ -218,12 +218,12 @@ RSpec.describe AutomationRules::ConditionsFilterService do
 
     context 'when conditions based on contact country_code' do
       before do
-        conversation.update(additional_attributes: { country_code: 'US' })
-        conversation.contact.update(additional_attributes: { country_code: 'IN' })
+        conversation.update!(additional_attributes: { country_code: 'US' })
+        conversation.contact.update!(additional_attributes: { country_code: 'IN' })
         rule.conditions = [
           { 'values': ['IN'], 'attribute_key': 'country_code', 'query_operator': nil, 'filter_operator': 'equal_to' }
         ]
-        rule.save
+        rule.save!
       end
 
       it 'matches against the contact additional_attributes' do
@@ -231,7 +231,7 @@ RSpec.describe AutomationRules::ConditionsFilterService do
       end
 
       it 'returns false when the contact country_code does not match' do
-        conversation.contact.update(additional_attributes: { country_code: 'GB' })
+        conversation.contact.update!(additional_attributes: { country_code: 'GB' })
         expect(described_class.new(rule, conversation, { changed_attributes: {} }).perform).to be(false)
       end
     end

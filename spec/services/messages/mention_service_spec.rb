@@ -504,4 +504,70 @@ describe Messages::MentionService do
       expect(Conversations::UserMentionJob).not_to have_received(:perform_later)
     end
   end
+
+  describe 'contact mentions' do
+    let(:group_contact) { create(:contact, account: account, group_type: :group) }
+
+    context 'when message contains contact mentions' do
+      it 'stores mentioned contact IDs in content_attributes' do
+        message = create(
+          :message,
+          conversation: conversation,
+          account: account,
+          content: "hey (mention://contact/#{group_contact.id}/Alice) check this out",
+          private: false
+        )
+
+        described_class.new(message: message).perform
+
+        expect(message.reload.content_attributes['mentioned_contacts']).to eq([group_contact.id.to_s])
+      end
+
+      it 'does not trigger user mention notifications for contact mentions' do
+        message = create(
+          :message,
+          conversation: conversation,
+          account: account,
+          content: "hey (mention://contact/#{group_contact.id}/Alice)",
+          private: false
+        )
+
+        described_class.new(message: message).perform
+
+        expect(NotificationBuilder).not_to have_received(:new)
+        expect(Conversations::UserMentionJob).not_to have_received(:perform_later)
+      end
+
+      it 'deduplicates repeated contact mentions' do
+        message = create(
+          :message,
+          conversation: conversation,
+          account: account,
+          content: "(mention://contact/#{group_contact.id}/Alice) and again (mention://contact/#{group_contact.id}/Alice)",
+          private: false
+        )
+
+        described_class.new(message: message).perform
+
+        expect(message.reload.content_attributes['mentioned_contacts']).to eq([group_contact.id.to_s])
+      end
+    end
+
+    context 'when message has no contact mentions' do
+      it 'does not update content_attributes' do
+        message = create(
+          :message,
+          conversation: conversation,
+          account: account,
+          content: 'just a regular group message',
+          private: false
+        )
+        original_attrs = message.content_attributes.dup
+
+        described_class.new(message: message).perform
+
+        expect(message.reload.content_attributes).to eq(original_attrs)
+      end
+    end
+  end
 end

@@ -13,7 +13,7 @@ class SuperAdmin::AccountUsersController < SuperAdmin::ApplicationController
     resource = resource_class.new(resource_params)
     authorize_resource(resource)
 
-    notice =  resource.save ? translate_with_resource('create.success') : resource.errors.full_messages.first
+    notice = resource.save ? translate_with_resource('create.success') : resource.errors.full_messages.first
     redirect_back(fallback_location: [namespace, resource.account], notice: notice)
   end
 

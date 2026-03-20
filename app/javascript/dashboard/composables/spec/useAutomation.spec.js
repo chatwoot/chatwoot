@@ -190,6 +190,27 @@ describe('useAutomation', () => {
     expect(automation.value.actions[0].action_params).toEqual([]);
   });
 
+  it('resets scheduled message action with default delay_minutes', () => {
+    const { resetAction, automation } = useAutomation();
+    automation.value = {
+      event_name: 'message_created',
+      conditions: [],
+      actions: [
+        {
+          action_name: 'create_scheduled_message',
+          action_params: [{ content: 'test', delay_minutes: 60 }],
+        },
+      ],
+    };
+
+    resetAction(0);
+
+    // Should reset with default delay of 24 hours (1440 minutes)
+    expect(automation.value.actions[0].action_params).toEqual([
+      { delay_minutes: 1440 },
+    ]);
+  });
+
   it('manifests custom attributes correctly', () => {
     const { manifestCustomAttributes, automationTypes } = useAutomation();
     automationTypes.message_created = { conditions: [] };

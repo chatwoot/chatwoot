@@ -36,6 +36,7 @@ describe ContactInboxWithContactBuilder do
       expect(contact_inbox.contact.id).not_to eq(contact.id)
       expect(contact_inbox.contact.name).to eq('Contact')
       expect(contact_inbox.contact.custom_attributes).to eq({ 'test' => 'test' })
+      expect(contact_inbox.contact.group_type).to eq('individual')
       expect(contact_inbox.inbox_id).to eq(inbox.id)
     end
 
@@ -94,6 +95,19 @@ describe ContactInboxWithContactBuilder do
       ).perform
 
       expect(contact_inbox.contact.id).to be(contact.id)
+    end
+
+    it 'creates contact for group' do
+      contact_inbox = described_class.new(
+        source_id: '123456',
+        inbox: inbox,
+        contact_attributes: {
+          name: 'Group Contact',
+          group_type: :group
+        }
+      ).perform
+
+      expect(contact_inbox.contact.group_type).to eq('group')
     end
 
     it 'reuses contact if it exists with the same source_id in a Facebook inbox when creating for Instagram inbox' do

@@ -17,7 +17,7 @@ class Conversations::UserMentionJob < ApplicationJob
           account_id: account_id
         )
       else
-        mention.update(mentioned_at: Time.zone.now)
+        mention.update!(mentioned_at: Time.zone.now)
       end
     end
   end

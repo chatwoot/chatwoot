@@ -3,6 +3,7 @@
 require_relative 'boot'
 
 require 'rails/all'
+require_relative '../lib/middleware/fazer_ai_platform_header'
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -55,6 +56,8 @@ module Chatwoot
     # Application configuration can go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
+    config.middleware.use Middleware::FazerAiPlatformHeader
+
     config.generators.javascripts = false
     config.generators.stylesheets = false
 
@@ -82,6 +85,8 @@ module Chatwoot
       # Store a per-row key reference to support future key rotation
       config.active_record.encryption.store_key_references = true
     end
+
+    ActiveRecord::Base.logger = ActiveSupport::Logger.new($stdout) if defined?(Rails::Console)
   end
 
   def self.config

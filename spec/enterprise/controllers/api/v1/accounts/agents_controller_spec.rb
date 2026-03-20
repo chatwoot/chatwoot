@@ -11,7 +11,7 @@ RSpec.describe 'Agents API', type: :request do
       params = { name: 'NewUser', email: Faker::Internet.email, role: :agent }
 
       before do
-        account.update(limits: { agents: 4 })
+        account.update!(limits: { agents: 4 })
         create_list(:user, 4, account: account, role: :agent)
       end
 
@@ -31,7 +31,7 @@ RSpec.describe 'Agents API', type: :request do
     context 'when exceeding agent limit' do
       it 'prevents creating agents and returns a payment required status' do
         # Set the limit to be less than the number of emails
-        account.update(limits: { agents: 2 })
+        account.update!(limits: { agents: 2 })
 
         expect do
           post "/api/v1/accounts/#{account.id}/agents/bulk_create", params: bulk_create_params, headers: admin.create_new_auth_token
@@ -44,7 +44,7 @@ RSpec.describe 'Agents API', type: :request do
 
     context 'when onboarding step is present in account custom attributes' do
       it 'removes onboarding step from account custom attributes' do
-        account.update(custom_attributes: { onboarding_step: 'completed' })
+        account.update!(custom_attributes: { onboarding_step: 'completed' })
 
         post "/api/v1/accounts/#{account.id}/agents/bulk_create", params: bulk_create_params, headers: admin.create_new_auth_token
 

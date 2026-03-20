@@ -22,8 +22,13 @@ class Captain::ReplySuggestionService < Captain::BaseTaskService
     {
       'channel_type' => conversation.inbox.channel_type,
       'agent_name' => user.name,
-      'agent_signature' => user.message_signature.presence
+      'agent_signature' => resolved_signature
     }
+  end
+
+  def resolved_signature
+    inbox_signature = user.inbox_signatures.find_by(inbox_id: conversation.inbox_id)
+    inbox_signature&.message_signature || user.message_signature.presence
   end
 
   def render_liquid_template(template_content, variables = {})

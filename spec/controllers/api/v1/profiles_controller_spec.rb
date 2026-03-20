@@ -150,6 +150,47 @@ RSpec.describe 'Profile API', type: :request do
         json_response = response.parsed_body
         expect(json_response['ui_settings']['is_contact_sidebar_open']).to be(false)
       end
+
+      it 'updates signature position in ui_settings' do
+        put '/api/v1/profile',
+            params: { profile: { ui_settings: { signature_position: 'bottom' } } },
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+
+        json_response = response.parsed_body
+        expect(json_response['ui_settings']['signature_position']).to eq('bottom')
+        expect(agent.reload.ui_settings['signature_position']).to eq('bottom')
+      end
+
+      it 'updates signature separator in ui_settings' do
+        put '/api/v1/profile',
+            params: { profile: { ui_settings: { signature_separator: '--' } } },
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+
+        json_response = response.parsed_body
+        expect(json_response['ui_settings']['signature_separator']).to eq('--')
+        expect(agent.reload.ui_settings['signature_separator']).to eq('--')
+      end
+
+      it 'updates both position and separator in ui_settings' do
+        put '/api/v1/profile',
+            params: { profile: { ui_settings: { signature_position: 'bottom', signature_separator: '--' } } },
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+
+        json_response = response.parsed_body
+        expect(json_response['ui_settings']['signature_position']).to eq('bottom')
+        expect(json_response['ui_settings']['signature_separator']).to eq('--')
+        expect(agent.reload.ui_settings['signature_position']).to eq('bottom')
+        expect(agent.ui_settings['signature_separator']).to eq('--')
+      end
     end
 
     context 'when an authenticated user updates email' do
@@ -218,6 +259,25 @@ RSpec.describe 'Profile API', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(OnlineStatusTracker.get_status(account.id, agent.id)).to eq('busy')
+      end
+
+      it 'dispatches account presence updated event' do
+        freeze_time
+        allow(Rails.configuration.dispatcher).to receive(:dispatch).with(
+          Events::Types::ACCOUNT_PRESENCE_UPDATED,
+          Time.zone.now,
+          account_id: account.id,
+          user_id: agent.id,
+          status: 'online'
+        )
+
+        post '/api/v1/profile/availability',
+             params: { profile: { availability: 'online', account_id: account.id } },
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(Rails.configuration.dispatcher).to have_received(:dispatch)
       end
     end
   end

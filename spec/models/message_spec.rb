@@ -44,6 +44,58 @@ RSpec.describe Message do
           expect(conv_new_message.errors[:base]).to eq(['Too many messages'])
         end
       end
+
+      context 'when skip_message_flooding_validation is set' do
+        it 'skips message flooding validation when set to true' do
+          with_modified_env 'CONVERSATION_MESSAGE_PER_MINUTE_LIMIT': '2' do
+            conversation = message.conversation
+            create(:message, conversation: conversation)
+            conv_new_message = build(:message, conversation: message.conversation)
+
+            expect(conv_new_message.valid?).to be false
+            expect(conv_new_message.errors[:base]).to eq(['Too many messages'])
+
+            conv_new_message.skip_message_flooding_validation = true
+            conv_new_message.valid?
+            expect(conv_new_message.errors[:base]).to be_empty
+            expect(conv_new_message.valid?).to be true
+          end
+        end
+
+        it 'still validates other attributes when message flooding is skipped' do
+          message_without_required_fields = build(:message)
+          message_without_required_fields.account_id = nil
+          message_without_required_fields.inbox_id = nil
+          message_without_required_fields.skip_message_flooding_validation = true
+
+          expect(message_without_required_fields.valid?).to be false
+          expect(message_without_required_fields.errors[:account_id]).to include("can't be blank")
+          expect(message_without_required_fields.errors[:inbox_id]).to include("can't be blank")
+        end
+
+        it 'allows bulk message creation when skip_message_flooding_validation is true' do
+          with_modified_env 'CONVERSATION_MESSAGE_PER_MINUTE_LIMIT': '2' do
+            conversation = message.conversation
+
+            messages_to_create = 5
+            created_messages = []
+
+            messages_to_create.times do |i|
+              new_message = build(:message,
+                                  conversation: conversation,
+                                  content: "Bulk message #{i + 1}")
+              new_message.skip_message_flooding_validation = true
+
+              expect(new_message.valid?).to be true
+              new_message.save!
+              created_messages << new_message
+            end
+
+            expect(created_messages.count).to eq(messages_to_create)
+            expect(conversation.messages.count).to eq(messages_to_create + 1)
+          end
+        end
+      end
     end
 
     context 'when it validates source_id length' do
@@ -285,7 +337,7 @@ RSpec.describe Message do
     end
 
     it 'sets the waiting_since if there is an incoming message' do
-      conversation.update(waiting_since: nil)
+      conversation.update!(waiting_since: nil)
       message.message_type = :incoming
       message.save!
 
@@ -308,7 +360,7 @@ RSpec.describe Message do
         # Create initial customer message
         create(:message, conversation: conversation, message_type: :incoming,
                          created_at: 2.hours.ago)
-        conversation.update(waiting_since: 2.hours.ago)
+        conversation.update!(waiting_since: 2.hours.ago)
 
         # Bot responds
         create(:message, conversation: conversation, message_type: :outgoing,

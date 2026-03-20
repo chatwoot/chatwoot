@@ -13,6 +13,12 @@ trigger_scheduled_items_job:
   class: 'TriggerScheduledItemsJob'
   queue: scheduled_jobs
 
+# executed every minute.
+trigger_scheduled_messages_job:
+  cron: '* * * * *'
+  class: 'ScheduledMessages::TriggerScheduledMessagesJob'
+  queue: scheduled_jobs
+
 # executed At every minute..
 trigger_imap_email_inboxes_job:
   cron: '*/1 * * * *'

@@ -119,8 +119,8 @@ RSpec.describe 'Api::V1::Accounts::BulkActionsController', type: :request do
       end
 
       it 'Bulk remove assignee id from conversations' do
-        Conversation.first.update(assignee_id: agent_1.id)
-        Conversation.second.update(assignee_id: agent_2.id)
+        Conversation.first.update!(assignee_id: agent_1.id)
+        Conversation.second.update!(assignee_id: agent_2.id)
         params = { type: 'Conversation', fields: { assignee_id: nil }, ids: Conversation.first(3).pluck(:display_id) }
 
         expect(Conversation.first.status).to eq('open')
@@ -141,8 +141,8 @@ RSpec.describe 'Api::V1::Accounts::BulkActionsController', type: :request do
       end
 
       it 'Do not bulk update status to nil' do
-        Conversation.first.update(assignee_id: agent_1.id)
-        Conversation.second.update(assignee_id: agent_2.id)
+        Conversation.first.update!(assignee_id: agent_1.id)
+        Conversation.second.update!(assignee_id: agent_2.id)
         params = { type: 'Conversation', fields: { status: nil }, ids: Conversation.first(3).pluck(:display_id) }
 
         expect(Conversation.first.status).to eq('open')

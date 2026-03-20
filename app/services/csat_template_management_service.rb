@@ -1,4 +1,4 @@
-class CsatTemplateManagementService
+class CsatTemplateManagementService # rubocop:disable Metrics/ClassLength
   DEFAULT_BUTTON_TEXT = 'Please rate us'.freeze
   DEFAULT_LANGUAGE = 'en'.freeze
 
@@ -26,7 +26,7 @@ class CsatTemplateManagementService
     delete_existing_template_if_needed
 
     result = create_template_via_provider(template_params)
-    update_inbox_csat_config(result) if result[:success]
+    update_inbox_csat_config(result, source: 'auto_created') if result[:success]
 
     result
   rescue StandardError => e
@@ -34,7 +34,61 @@ class CsatTemplateManagementService
     { success: false, service_error: 'Template creation failed' }
   end
 
+  def link_existing_template(template_name, language, body_variables: {})
+    raise ArgumentError, 'Template name is required' if template_name.blank?
+    raise ArgumentError, 'Only WhatsApp Cloud channels are supported' unless whatsapp_cloud_channel?
+
+    csat_service = Whatsapp::CsatTemplateService.new(@inbox.channel)
+    status_result = csat_service.get_template_status(template_name)
+    raise ArgumentError, 'Template not found on Meta' unless status_result[:success]
+
+    template_data = find_template_in_synced(template_name)
+    validate_synced_template!(csat_service, template_data, body_variables)
+
+    delete_existing_template_if_needed
+
+    save_linked_template(template_name, language, status_result, body_variables: body_variables)
+  rescue ArgumentError => e
+    { success: false, error: e.message }
+  rescue StandardError => e
+    Rails.logger.error "Error linking existing CSAT template: #{e.message}"
+    { success: false, service_error: 'Failed to link template' }
+  end
+
+  def available_templates
+    raise ArgumentError, 'Only WhatsApp Cloud channels are supported' unless whatsapp_cloud_channel?
+
+    Whatsapp::CsatTemplateService.new(@inbox.channel).available_csat_templates
+  rescue ArgumentError
+    []
+  rescue StandardError => e
+    Rails.logger.error "Error fetching available CSAT templates: #{e.message}"
+    []
+  end
+
   private
+
+  def whatsapp_cloud_channel?
+    @inbox.whatsapp? && @inbox.channel&.provider == 'whatsapp_cloud'
+  end
+
+  def validate_body_variables!(required_variables, body_variables)
+    return if required_variables.blank?
+
+    missing = required_variables.select { |key| body_variables[key].blank? }
+    raise ArgumentError, "All body variables must be set. Missing: #{missing.join(', ')}" if missing.any?
+  end
+
+  def validate_synced_template!(csat_service, template_data, body_variables)
+    raise ArgumentError, 'Template not found in synced templates. Please sync templates first.' if template_data.blank?
+
+    unless csat_service.valid_csat_template?(template_data)
+      raise ArgumentError, 'Template is not compatible with CSAT surveys. It must have a URL button with a dynamic parameter.'
+    end
+
+    body_text = template_data['components']&.find { |c| c['type'] == 'BODY' }&.dig('text')
+    validate_body_variables!(csat_service.extract_body_variables(body_text), body_variables)
+  end
 
   def validate_template_params!(template_params)
     raise ActionController::ParameterMissing, 'message' if template_params[:message].blank?
@@ -69,9 +123,36 @@ class CsatTemplateManagementService
     }
   end
 
-  def update_inbox_csat_config(result)
+  def find_template_in_synced(template_name)
+    @inbox.channel.message_templates&.find { |t| t['name'] == template_name }
+  end
+
+  def save_linked_template(template_name, language, status_result, body_variables: {})
     current_config = @inbox.csat_config || {}
-    template_data = build_template_data_from_result(result)
+    template_data = {
+      'name' => template_name,
+      'template_id' => status_result.dig(:template, :id),
+      'language' => language || status_result.dig(:template, :language) || 'en',
+      'source' => 'user_selected',
+      'linked_at' => Time.current.iso8601
+    }
+    template_data['body_variables'] = body_variables if body_variables.present?
+    @inbox.update!(csat_config: current_config.merge('template' => template_data))
+
+    {
+      success: true,
+      template_name: template_name,
+      template_id: template_data['template_id'],
+      language: template_data['language'],
+      status: status_result.dig(:template, :status),
+      source: 'user_selected',
+      linked_at: template_data['linked_at']
+    }
+  end
+
+  def update_inbox_csat_config(result, source: 'auto_created')
+    current_config = @inbox.csat_config || {}
+    template_data = build_template_data_from_result(result).merge('source' => source)
     updated_config = current_config.merge('template' => template_data)
     @inbox.update!(csat_config: updated_config)
   end
@@ -151,6 +232,7 @@ class CsatTemplateManagementService
   def delete_existing_template_if_needed
     template = @inbox.csat_config&.dig('template')
     return true if template.blank?
+    return true if template['source'] == 'user_selected'
 
     if @inbox.twilio_whatsapp?
       delete_existing_twilio_template(template)

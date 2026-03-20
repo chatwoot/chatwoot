@@ -437,6 +437,42 @@ RSpec.describe Conversations::MessageWindowService do
     end
   end
 
+  describe 'on WhatsApp Baileys channels' do
+    let!(:whatsapp_channel) { create(:channel_whatsapp, provider: 'baileys', sync_templates: false, validate_provider_config: false) }
+    let!(:whatsapp_inbox) { create(:inbox, channel: whatsapp_channel, account: whatsapp_channel.account) }
+    let!(:conversation) { create(:conversation, inbox: whatsapp_inbox, account: whatsapp_channel.account) }
+
+    it 'return true irrespective of the last message time' do
+      create(
+        :message,
+        account: conversation.account,
+        inbox: whatsapp_inbox,
+        conversation: conversation,
+        created_at: 25.hours.ago
+      )
+      service = described_class.new(conversation)
+      expect(service.can_reply?).to be true
+    end
+  end
+
+  describe 'on WhatsApp Z-API channels' do
+    let!(:whatsapp_channel) { create(:channel_whatsapp, provider: 'zapi', sync_templates: false, validate_provider_config: false) }
+    let!(:whatsapp_inbox) { create(:inbox, channel: whatsapp_channel, account: whatsapp_channel.account) }
+    let!(:conversation) { create(:conversation, inbox: whatsapp_inbox, account: whatsapp_channel.account) }
+
+    it 'return true irrespective of the last message time' do
+      create(
+        :message,
+        account: conversation.account,
+        inbox: whatsapp_inbox,
+        conversation: conversation,
+        created_at: 25.hours.ago
+      )
+      service = described_class.new(conversation)
+      expect(service.can_reply?).to be true
+    end
+  end
+
   describe 'on Web widget channels' do
     let!(:widget_channel) { create(:channel_widget) }
     let!(:widget_inbox) { create(:inbox, channel: widget_channel, account: widget_channel.account) }

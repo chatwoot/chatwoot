@@ -126,7 +126,7 @@ describe NotificationListener do
 
     it 'will not create duplicate new message notification for the same user for mentions participation & assignment' do
       create(:inbox_member, user: first_agent, inbox: inbox)
-      conversation.update(assignee: first_agent)
+      conversation.update!(assignee: first_agent)
 
       message = build(
         :message,
@@ -161,9 +161,9 @@ describe NotificationListener do
 
     it 'will not create new message notifications for private messages without mentions' do
       create(:inbox_member, user: first_agent, inbox: inbox)
-      conversation.update(assignee: first_agent)
+      conversation.update!(assignee: first_agent)
       # participants is created by async job. so creating it directly for testcase
-      conversation.conversation_participants.first_or_create(user: first_agent)
+      conversation.conversation_participants.first_or_create!(user: first_agent)
 
       message = build(
         :message,

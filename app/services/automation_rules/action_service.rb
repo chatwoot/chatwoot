@@ -64,4 +64,11 @@ class AutomationRules::ActionService < ActionService
       @account.increment_email_sent_count
     end
   end
+
+  def scheduled_message_attachment_blob(blob_id)
+    return if blob_id.blank?
+
+    attachment = @rule.files.find { |file| file.blob_id == blob_id.to_i }
+    attachment&.blob
+  end
 end

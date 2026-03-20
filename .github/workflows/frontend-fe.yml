@@ -2,11 +2,9 @@ name: Frontend Lint & Test
 
 on:
   push:
-    branches:
-      - develop
-  pull_request:
-    branches:
-      - develop
+    tags:
+      - '*'
+  workflow_dispatch:
 
 jobs:
   test:

@@ -92,4 +92,33 @@ describe ActionService do
       end
     end
   end
+
+  describe '#create_scheduled_message' do
+    it 'creates scheduled message with content and delay' do
+      conversation = create(:conversation, account: account)
+      user = create(:user, account: account)
+      Current.user = user
+      action_service = described_class.new(conversation)
+
+      action_service.create_scheduled_message([{ content: 'Hello', delay_minutes: 10 }])
+
+      scheduled_message = conversation.scheduled_messages.last
+
+      expect(scheduled_message.content).to eq('Hello')
+      expect(scheduled_message.status).to eq('pending')
+      expect(scheduled_message.scheduled_at).to be_within(1.minute).of(10.minutes.from_now)
+    end
+
+    it 'attaches blob when blob_id is provided' do
+      conversation = create(:conversation, account: account)
+      user = create(:user, account: account)
+      Current.user = user
+      action_service = described_class.new(conversation)
+      blob = ActiveStorage::Blob.create_and_upload!(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png')
+
+      action_service.create_scheduled_message([{ content: 'With attachment', delay_minutes: 5, blob_id: blob.id }])
+
+      expect(conversation.scheduled_messages.last.attachment).to be_attached
+    end
+  end
 end

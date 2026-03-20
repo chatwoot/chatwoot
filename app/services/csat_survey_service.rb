@@ -120,26 +120,66 @@ class CsatSurveyService
   end
 
   def build_template_info(template_name, template_config)
+    components = [
+      {
+        type: 'button',
+        sub_type: 'url',
+        index: '0',
+        parameters: [{ type: 'text', text: conversation.uuid }]
+      }
+    ]
+
+    body_params = build_body_parameters(template_config)
+    components.unshift({ type: 'body', parameters: body_params }) if body_params.present?
+
     {
       name: template_name,
       lang_code: template_config['language'] || 'en',
-      parameters: [
-        {
-          type: 'button',
-          sub_type: 'url',
-          index: '0',
-          parameters: [{ type: 'text', text: conversation.uuid }]
-        }
-      ]
+      parameters: components
+    }
+  end
+
+  def build_body_parameters(template_config)
+    body_variables = template_config&.dig('body_variables')
+    return nil if body_variables.blank?
+
+    sorted_keys = body_variables.keys.sort_by(&:to_i)
+    sorted_keys.map do |key|
+      value = body_variables[key]
+      resolved_value = resolve_liquid_variable(value)
+      { type: 'text', text: resolved_value }
+    end
+  end
+
+  def resolve_liquid_variable(value)
+    return value if value.blank?
+
+    template = Liquid::Template.parse(value)
+    result = template.render(liquid_drops)
+    result.presence || value
+  rescue Liquid::Error
+    value
+  end
+
+  def liquid_drops
+    @liquid_drops ||= {
+      'contact' => ContactDrop.new(conversation.contact),
+      'conversation' => ConversationDrop.new(conversation),
+      'inbox' => InboxDrop.new(inbox),
+      'account' => AccountDrop.new(conversation.account)
     }
   end
 
   def build_csat_message
+    content = inbox.csat_config&.dig('message') || 'Please rate this conversation'
+    body_variables = inbox.csat_config&.dig('template', 'body_variables')
+    body_variables&.each { |key, value| content = content.gsub("{{#{key}}}", resolve_liquid_variable(value)) }
+
     conversation.messages.build(
       account: conversation.account,
       inbox: inbox,
       message_type: :outgoing,
-      content: inbox.csat_config&.dig('message') || 'Please rate this conversation',
+      content: content,
       content_type: :input_csat
     )
   end

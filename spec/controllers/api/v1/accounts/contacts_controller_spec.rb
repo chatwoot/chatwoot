@@ -80,7 +80,7 @@ RSpec.describe 'Contacts API', type: :request do
         expect(contact_emails).to include(contact.email)
         first_inbox = contact_inboxes[0]['inbox']
         expect(first_inbox).to be_a(Hash)
-        expect(first_inbox).to include('id', 'channel_id', 'channel_type', 'name', 'avatar_url', 'provider')
+        expect(first_inbox).to include('id', 'channel_id', 'channel_type', 'account_id', 'name', 'avatar_url', 'provider')
 
         expect(first_inbox).not_to include('imap_login',
                                            'imap_password',
@@ -694,7 +694,7 @@ RSpec.describe 'Contacts API', type: :request do
       end
 
       it 'allows unblocking of contact' do
-        contact.update(blocked: true)
+        contact.update!(blocked: true)
         patch "/api/v1/accounts/#{account.id}/contacts/#{contact.id}",
               params: { blocked: false },
               headers: admin.create_new_auth_token,
@@ -780,6 +780,50 @@ RSpec.describe 'Contacts API', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(contact.reload.custom_attributes).to eq({ 'test1' => 'test1' })
+      end
+    end
+  end
+
+  describe 'POST /api/v1/accounts/{account.id}/contacts/:id/sync_group' do
+    let(:agent) { create(:user, account: account, role: :agent) }
+    let(:contact) { create(:contact, account: account, group_type: :group, identifier: '12345678901234567890@g.us') }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        post "/api/v1/accounts/#{account.id}/contacts/#{contact.id}/sync_group"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      it 'enqueues SyncGroupJob and returns accepted' do
+        post "/api/v1/accounts/#{account.id}/contacts/#{contact.id}/sync_group",
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:accepted)
+        expect(Contacts::SyncGroupJob).to have_been_enqueued.with(contact)
+      end
+
+      it 'returns bad request when contact is not a group' do
+        individual_contact = create(:contact, account: account, group_type: :individual)
+
+        post "/api/v1/accounts/#{account.id}/contacts/#{individual_contact.id}/sync_group",
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:bad_request)
+      end
+
+      it 'returns bad request when contact has no identifier' do
+        group_without_id = create(:contact, account: account, group_type: :group, identifier: nil)
+
+        post "/api/v1/accounts/#{account.id}/contacts/#{group_without_id.id}/sync_group",
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:bad_request)
       end
     end
   end

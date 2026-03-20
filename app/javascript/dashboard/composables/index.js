@@ -22,3 +22,21 @@ export const useTrack = (...args) => {
 export const useAlert = (message, action = null) => {
   emitter.emit('newToastMessage', { message, action });
 };
+
+let pendingAlertCounter = 0;
+
+/**
+ * Shows a persistent toast that stays visible until explicitly dismissed.
+ * Useful for long-running operations (e.g. "Adding member...").
+ * @param {string} message - The message to display while the operation is in progress.
+ * @returns {Function} dismiss - Call this function to remove the persistent toast.
+ */
+export const usePendingAlert = message => {
+  pendingAlertCounter += 1;
+  const key = `pending-${Date.now()}-${pendingAlertCounter}`;
+  emitter.emit('newToastMessage', {
+    message,
+    action: { persistent: true, key },
+  });
+  return () => emitter.emit('dismissToastMessage', { key });
+};

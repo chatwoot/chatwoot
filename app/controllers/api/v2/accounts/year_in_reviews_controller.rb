@@ -18,7 +18,7 @@ class Api::V2::Accounts::YearInReviewsController < Api::V1::Accounts::BaseContro
 
       ui_settings = Current.user.ui_settings || {}
       ui_settings[cache_key] = data
-      Current.user.update(ui_settings: ui_settings)
+      Current.user.update!(ui_settings: ui_settings)
 
       render json: data
     end

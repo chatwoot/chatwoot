@@ -4,10 +4,12 @@ import { required, url } from '@vuelidate/validators';
 import { useAlert } from 'dashboard/composables';
 
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import ToggleSwitch from 'dashboard/components-next/switch/Switch.vue';
 
 export default {
   components: {
     NextButton,
+    ToggleSwitch,
   },
   props: {
     show: {
@@ -41,6 +43,7 @@ export default {
       isLoading: false,
       app: {
         title: '',
+        show_on_sidebar: false,
         content: {
           type: 'frame',
           url: '',
@@ -62,6 +65,7 @@ export default {
     if (this.mode === 'UPDATE' && this.selectedAppData) {
       this.app.title = this.selectedAppData.title;
       this.app.content = this.selectedAppData.content[0];
+      this.app.show_on_sidebar = this.selectedAppData.show_on_sidebar ?? false;
     }
   },
   methods: {
@@ -69,6 +73,7 @@ export default {
       // Reset the data once closed
       this.app = {
         title: '',
+        show_on_sidebar: false,
         content: { type: 'frame', url: '' },
       };
       this.$emit('close');
@@ -83,6 +88,7 @@ export default {
         const action = this.mode.toLowerCase();
         const payload = {
           title: this.app.title,
+          show_on_sidebar: this.app.show_on_sidebar,
           content: [this.app.content],
         };
 
@@ -149,6 +155,19 @@ export default {
           @input="v$.app.content.url.$touch"
           @blur="v$.app.content.url.$touch"
         />
+        <div class="flex items-center w-full gap-3 py-2">
+          <label
+            class="text-sm text-n-slate-12 cursor-pointer"
+            for="show-on-sidebar"
+          >
+            {{
+              $t(
+                'INTEGRATION_SETTINGS.DASHBOARD_APPS.FORM.SHOW_ON_SIDEBAR_LABEL'
+              )
+            }}
+          </label>
+          <ToggleSwitch id="show-on-sidebar" v-model="app.show_on_sidebar" />
+        </div>
         <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
           <NextButton
             faded

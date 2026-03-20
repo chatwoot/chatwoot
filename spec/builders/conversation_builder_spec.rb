@@ -44,8 +44,8 @@ describe ConversationBuilder do
       end
 
       it 'returns last from existing sms conversations when existing conversation is not present' do
-        create(:conversation, contact_inbox: contact_sms_inbox)
-        existing_conversation = create(:conversation, contact_inbox: contact_sms_inbox)
+        create(:conversation, contact_inbox: contact_sms_inbox, contact: contact, inbox: sms_inbox)
+        existing_conversation = create(:conversation, contact_inbox: contact_sms_inbox, contact: contact, inbox: sms_inbox)
         conversation = described_class.new(
           contact_inbox: contact_sms_inbox,
           params: {}
@@ -70,12 +70,30 @@ describe ConversationBuilder do
       end
 
       it 'returns last from existing api conversations when existing conversation is not present' do
-        create(:conversation, contact_inbox: contact_api_inbox)
-        existing_conversation = create(:conversation, contact_inbox: contact_api_inbox)
+        create(:conversation, contact_inbox: contact_api_inbox, contact: contact, inbox: api_inbox)
+        existing_conversation = create(:conversation, contact_inbox: contact_api_inbox, contact: contact, inbox: api_inbox)
         conversation = described_class.new(
           contact_inbox: contact_api_inbox,
           params: {}
         ).perform
+
+        expect(conversation.id).to eq(existing_conversation.id)
+      end
+    end
+
+    context 'when lock_to_single_conversation is true for whatsapp inbox with multiple contact_inboxes' do
+      let!(:whatsapp_channel) { create(:channel_whatsapp, account: account, sync_templates: false, validate_provider_config: false) }
+      let!(:whatsapp_inbox) { whatsapp_channel.inbox }
+      let(:contact_with_phone) { create(:contact, account: account, phone_number: '+5511912345678') }
+
+      before { whatsapp_inbox.update!(lock_to_single_conversation: true) }
+
+      it 'finds conversation from different contact_inbox with same contact' do
+        lid_contact_inbox = create(:contact_inbox, contact: contact_with_phone, inbox: whatsapp_inbox, source_id: '12345678')
+        existing_conversation = create(:conversation, contact_inbox: lid_contact_inbox, inbox: whatsapp_inbox, contact: contact_with_phone)
+        phone_contact_inbox = create(:contact_inbox, contact: contact_with_phone, inbox: whatsapp_inbox, source_id: '5511912345678')
+
+        conversation = described_class.new(contact_inbox: phone_contact_inbox, params: {}).perform
 
         expect(conversation.id).to eq(existing_conversation.id)
       end

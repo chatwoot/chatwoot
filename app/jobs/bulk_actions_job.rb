@@ -26,7 +26,7 @@ class BulkActionsJob < ApplicationJob
     records.each do |conversation|
       bulk_add_labels(conversation)
       bulk_snoozed_until(conversation)
-      conversation.update(params) if params
+      conversation.update!(params) if params
     end
   end
 
@@ -54,7 +54,7 @@ class BulkActionsJob < ApplicationJob
     return unless @params[:labels] && @params[:labels][:remove]
 
     labels = conversation.label_list - @params[:labels][:remove]
-    conversation.update(label_list: labels)
+    conversation.update!(label_list: labels)
   end
 
   def records_to_updated(ids)

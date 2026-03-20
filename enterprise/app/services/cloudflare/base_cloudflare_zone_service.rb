@@ -36,6 +36,6 @@ class Cloudflare::BaseCloudflareZoneService
     ssl_settings['cf_status'] = ssl_record&.dig('status')
     ssl_settings['cf_verification_errors'] = verification_errors
 
-    portal.update(ssl_settings: ssl_settings)
+    portal.update!(ssl_settings: ssl_settings)
   end
 end

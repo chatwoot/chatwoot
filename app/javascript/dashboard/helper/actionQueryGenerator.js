@@ -6,10 +6,18 @@ const allElementsNumbers = arr => {
   return arr.every(elem => typeof elem === 'number');
 };
 
+const allElementsPlainObjects = arr => {
+  return arr.every(
+    elem => typeof elem === 'object' && elem !== null && !elem.id
+  );
+};
+
 const formatArray = params => {
   if (params.length <= 0) {
     params = [];
   } else if (allElementsString(params) || allElementsNumbers(params)) {
+    params = [...params];
+  } else if (allElementsPlainObjects(params)) {
     params = [...params];
   } else {
     params = params.map(val => val.id);

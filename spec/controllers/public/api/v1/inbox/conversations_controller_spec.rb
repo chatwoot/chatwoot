@@ -17,7 +17,7 @@ RSpec.describe 'Public Inbox Contact Conversations API', type: :request do
     end
 
     it 'return the conversations when hmac_verified is true' do
-      contact_inbox.update(hmac_verified: true)
+      contact_inbox.update!(hmac_verified: true)
       create(:conversation, contact: contact)
       get "/public/api/v1/inboxes/#{api_channel.identifier}/contacts/#{contact_inbox.source_id}/conversations"
 

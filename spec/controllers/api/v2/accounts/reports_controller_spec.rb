@@ -219,7 +219,7 @@ RSpec.describe Api::V2::Accounts::ReportsController, type: :request do
     context 'when authenticated as admin' do
       before do
         c1 = create(:conversation, account: account, inbox: inbox_one, created_at: 2.days.ago)
-        c1.update(label_list: [label_one.title])
+        c1.update!(label_list: [label_one.title])
       end
 
       it 'returns the inbox label matrix' do

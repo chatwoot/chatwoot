@@ -146,6 +146,7 @@ const openDelete = inbox => {
                 :channel-type="inbox.channel_type"
                 :medium="inbox.medium"
                 class="text-body-main text-n-slate-11"
+                :provider="inbox.provider"
               />
             </div>
           </div>

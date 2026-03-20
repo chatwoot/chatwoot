@@ -58,7 +58,7 @@ class Article < ApplicationRecord
   validates :account_id, presence: true
   validates :author_id, presence: true
   validates :title, presence: true
-  validates :content, presence: true
+  validates :content, presence: true, length: { maximum: 65_535 }
 
   # ensuring that the position is always set correctly
   before_create :add_position_to_article
@@ -114,7 +114,7 @@ class Article < ApplicationRecord
 
     root_article_id = self.class.find_root_article_id(article)
 
-    update(associated_article_id: root_article_id) if root_article_id.present?
+    update!(associated_article_id: root_article_id) if root_article_id.present?
   end
 
   # Make sure we always associate the parent's associated id to avoid the deeper associations od articles.

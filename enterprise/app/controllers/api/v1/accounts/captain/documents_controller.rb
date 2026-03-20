@@ -30,7 +30,7 @@ class Api::V1::Accounts::Captain::DocumentsController < Api::V1::Accounts::BaseC
   end
 
   def destroy
-    @document.destroy
+    @document.destroy!
     head :no_content
   end
 

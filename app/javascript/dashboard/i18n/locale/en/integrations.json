@@ -44,17 +44,27 @@
             "CONVERSATION_STATUS_CHANGED": "Conversation Status Changed",
             "CONVERSATION_UPDATED": "Conversation Updated",
             "MESSAGE_CREATED": "Message created",
+            "MESSAGE_INCOMING": "Incoming message",
+            "MESSAGE_OUTGOING": "Outgoing message",
             "MESSAGE_UPDATED": "Message updated",
             "WEBWIDGET_TRIGGERED": "Live chat widget opened by the user",
             "CONTACT_CREATED": "Contact created",
             "CONTACT_UPDATED": "Contact updated",
             "CONVERSATION_TYPING_ON": "Conversation Typing On",
-            "CONVERSATION_TYPING_OFF": "Conversation Typing Off"
+            "CONVERSATION_TYPING_OFF": "Conversation Typing Off",
+            "PROVIDER_EVENT_RECEIVED": "Provider Event Received"
           }
         },
         "NAME": {
           "LABEL": "Webhook Name",
           "PLACEHOLDER": "Enter the name of the webhook"
+        },
+        "INBOX": {
+          "LABEL": "Inbox",
+          "TITLE": "Select the inbox",
+          "PLACEHOLDER": "All Inboxes",
+          "NO_RESULTS": "No inboxes found",
+          "INPUT_PLACEHOLDER": "Search inbox"
         },
         "END_POINT": {
           "LABEL": "Webhook URL",
@@ -244,13 +254,17 @@
         "EDIT_TOOLTIP": "Edit app",
         "DELETE_TOOLTIP": "Delete app"
       },
+      "VIEW": {
+        "NOT_FOUND": "We couldn't find that dashboard app."
+      },
       "FORM": {
         "TITLE_LABEL": "Name",
         "TITLE_PLACEHOLDER": "Enter a name for your dashboard app",
         "TITLE_ERROR": "A name for the dashboard app is required",
         "URL_LABEL": "Endpoint",
         "URL_PLACEHOLDER": "Enter the endpoint URL where your app is hosted",
-        "URL_ERROR": "A valid URL is required"
+        "URL_ERROR": "A valid URL is required",
+        "SHOW_ON_SIDEBAR_LABEL": "Show on sidebar"
       },
       "CREATE": {
         "HEADER": "Add a new dashboard app",

@@ -471,4 +471,200 @@ RSpec.describe Api::V1::Accounts::InboxCsatTemplatesController, type: :request d
       end
     end
   end
+
+  describe 'POST /api/v1/accounts/{account.id}/inboxes/{inbox.id}/csat_template/link' do
+    let(:valid_link_params) do
+      {
+        template: {
+          name: 'my_existing_template',
+          language: 'en'
+        }
+      }
+    end
+
+    let(:compatible_template) do
+      {
+        'name' => 'my_existing_template',
+        'status' => 'approved',
+        'language' => 'en',
+        'components' => [
+          { 'type' => 'BODY', 'text' => 'How was your experience?' },
+          {
+            'type' => 'BUTTONS',
+            'buttons' => [
+              { 'type' => 'URL', 'text' => 'Rate us', 'url' => 'https://example.com/survey/{{1}}' }
+            ]
+          }
+        ]
+      }
+    end
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        post "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_inbox.id}/csat_template/link",
+             params: valid_link_params,
+             as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is a WhatsApp channel' do
+      it 'returns error when template name is missing' do
+        post "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_inbox.id}/csat_template/link",
+             headers: admin.create_new_auth_token,
+             params: { template: { language: 'en' } },
+             as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['error']).to eq('Template name is required')
+      end
+
+      it 'links an existing template successfully' do
+        whatsapp_channel.update!(message_templates: [compatible_template])
+
+        allow(mock_service).to receive(:get_template_status)
+          .with('my_existing_template')
+          .and_return({ success: true, template: { id: '999', name: 'my_existing_template', status: 'APPROVED', language: 'en' } })
+        allow(mock_service).to receive(:valid_csat_template?)
+          .with(compatible_template)
+          .and_return(true)
+        allow(mock_service).to receive(:extract_body_variables)
+          .and_return([])
+
+        post "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_inbox.id}/csat_template/link",
+             headers: admin.create_new_auth_token,
+             params: valid_link_params,
+             as: :json
+
+        expect(response).to have_http_status(:ok)
+        response_data = response.parsed_body
+        expect(response_data['template']['name']).to eq('my_existing_template')
+        expect(response_data['template']['source']).to eq('user_selected')
+
+        whatsapp_inbox.reload
+        expect(whatsapp_inbox.csat_config.dig('template', 'source')).to eq('user_selected')
+      end
+
+      it 'returns error when template is not found on Meta' do
+        whatsapp_channel.update!(message_templates: [compatible_template])
+
+        allow(mock_service).to receive(:get_template_status)
+          .with('nonexistent_template')
+          .and_return({ success: false, error: 'Template not found' })
+
+        post "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_inbox.id}/csat_template/link",
+             headers: admin.create_new_auth_token,
+             params: { template: { name: 'nonexistent_template', language: 'en' } },
+             as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['error']).to eq('Template not found on Meta')
+      end
+
+      it 'returns error when template structure is incompatible' do
+        incompatible_template = {
+          'name' => 'my_existing_template',
+          'status' => 'approved',
+          'language' => 'en',
+          'components' => [
+            { 'type' => 'BODY', 'text' => 'No buttons here' }
+          ]
+        }
+        whatsapp_channel.update!(message_templates: [incompatible_template])
+
+        allow(mock_service).to receive(:get_template_status)
+          .with('my_existing_template')
+          .and_return({ success: true, template: { id: '999', status: 'APPROVED', language: 'en' } })
+        allow(mock_service).to receive(:valid_csat_template?)
+          .with(incompatible_template)
+          .and_return(false)
+
+        post "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_inbox.id}/csat_template/link",
+             headers: admin.create_new_auth_token,
+             params: valid_link_params,
+             as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['error']).to include('not compatible')
+      end
+    end
+  end
+
+  describe 'GET /api/v1/accounts/{account.id}/inboxes/{inbox.id}/csat_template/available_templates' do
+    let(:compatible_template) do
+      {
+        'name' => 'survey_template',
+        'status' => 'approved',
+        'language' => 'en',
+        'components' => [
+          { 'type' => 'BODY', 'text' => 'Rate your experience' },
+          {
+            'type' => 'BUTTONS',
+            'buttons' => [
+              { 'type' => 'URL', 'text' => 'Rate', 'url' => 'https://example.com/survey/{{1}}' }
+            ]
+          }
+        ]
+      }
+    end
+
+    let(:incompatible_template) do
+      {
+        'name' => 'promo_template',
+        'status' => 'approved',
+        'language' => 'en',
+        'components' => [
+          { 'type' => 'BODY', 'text' => 'Check out our promo' }
+        ]
+      }
+    end
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        get "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_inbox.id}/csat_template/available_templates"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is a WhatsApp channel' do
+      it 'returns only compatible templates' do
+        whatsapp_channel.update!(message_templates: [compatible_template, incompatible_template])
+
+        allow(mock_service).to receive(:available_csat_templates).and_return([
+                                                                               {
+                                                                                 name: 'survey_template',
+                                                                                 language: 'en',
+                                                                                 status: 'approved',
+                                                                                 body_text: 'Rate your experience',
+                                                                                 button_text: 'Rate',
+                                                                                 button_url: 'https://example.com/survey/{{1}}'
+                                                                               }
+                                                                             ])
+
+        get "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_inbox.id}/csat_template/available_templates",
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:ok)
+        templates = response.parsed_body['templates']
+        expect(templates.length).to eq(1)
+        expect(templates.first['name']).to eq('survey_template')
+      end
+
+      it 'returns empty array when no compatible templates exist' do
+        whatsapp_channel.update!(message_templates: [incompatible_template])
+
+        allow(mock_service).to receive(:available_csat_templates).and_return([])
+
+        get "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_inbox.id}/csat_template/available_templates",
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:ok)
+        expect(response.parsed_body['templates']).to eq([])
+      end
+    end
+  end
 end

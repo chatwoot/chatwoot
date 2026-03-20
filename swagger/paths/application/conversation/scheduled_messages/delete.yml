@@ -1,0 +1,42 @@
+tags:
+  - Scheduled Messages
+operationId: delete-scheduled-message
+summary: Delete a Scheduled Message
+description: |
+  Delete a scheduled message.
+  
+  Only messages with status 'draft' or 'pending' can be deleted.
+  Messages that have been sent or failed cannot be deleted.
+security:
+  - userApiKey: []
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/scheduled_message'
+  '404':
+    description: Scheduled message not found
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '401':
+    description: Unauthorized
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '403':
+    description: Access denied
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '422':
+    description: Unprocessable Entity - cannot delete sent/failed message
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

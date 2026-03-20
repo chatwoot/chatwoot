@@ -2,7 +2,14 @@ class Messages::MentionService
   pattr_initialize [:message!]
 
   def perform
-    return unless valid_mention_message?(message)
+    process_user_team_mentions
+    process_contact_mentions
+  end
+
+  private
+
+  def process_user_team_mentions
+    return unless valid_user_mention_message?
 
     validated_mentioned_ids = filter_mentioned_ids_by_inbox
     return if validated_mentioned_ids.blank?
@@ -12,10 +19,21 @@ class Messages::MentionService
     add_mentioned_users_as_participants(validated_mentioned_ids)
   end
 
-  private
+  def process_contact_mentions
+    contact_ids = contact_mentioned_ids
+    return if contact_ids.blank?
 
-  def valid_mention_message?(message)
+    message.update!(content_attributes: message.content_attributes.merge('mentioned_contacts' => contact_ids))
+  end
+
+  def valid_user_mention_message?
     message.private? && message.content.present? && mentioned_ids.present?
+  end
+
+  def contact_mentioned_ids
+    return [] if message.content.blank?
+
+    message.content.scan(%r{\(mention://contact/(\d+)/(.+?)\)}).map(&:first).uniq
   end
 
   def mentioned_ids

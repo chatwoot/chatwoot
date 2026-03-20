@@ -26,7 +26,7 @@ class Internal::Accounts::InternalAttributesService
 
     # Update the account
     account.internal_attributes = new_attrs
-    account.save
+    account.save!
   end
 
   # Get manually managed features

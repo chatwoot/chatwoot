@@ -1,0 +1,48 @@
+tags:
+  - Scheduled Messages
+operationId: update-scheduled-message
+summary: Update a Scheduled Message
+description: |
+  Update an existing scheduled message.
+  
+  Only messages with status 'draft' or 'pending' can be modified.
+  Messages that have been sent or failed cannot be updated.
+security:
+  - userApiKey: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/scheduled_message_create_update_payload'
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/scheduled_message'
+  '404':
+    description: Scheduled message not found
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '401':
+    description: Unauthorized
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '403':
+    description: Access denied
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '422':
+    description: Unprocessable Entity - validation errors (e.g., message already sent)
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

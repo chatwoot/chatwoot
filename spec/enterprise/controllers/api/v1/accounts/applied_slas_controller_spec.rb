@@ -116,8 +116,8 @@ RSpec.describe 'Applied SLAs API', type: :request do
       it 'returns a CSV file with breached conversations' do
         create(:applied_sla, sla_policy: sla_policy1, conversation: conversation1, sla_status: 'missed')
         create(:applied_sla, sla_policy: sla_policy1, conversation: conversation2, sla_status: 'missed')
-        conversation1.update(status: 'open')
-        conversation2.update(status: 'resolved')
+        conversation1.update!(status: 'open')
+        conversation2.update!(status: 'resolved')
 
         get "/api/v1/accounts/#{account.id}/applied_slas/download",
             headers: administrator.create_new_auth_token

@@ -50,7 +50,7 @@ RSpec.describe 'Enterprise Portal API', type: :request do
 
   describe 'POST /api/v1/accounts/:account_id/portals' do
     let(:portal_params) do
-      {  portal: {
+      { portal: {
         name: 'test_portal',
         slug: 'test_kbase',
         custom_domain: 'https://support.chatwoot.dev'
@@ -110,10 +110,10 @@ RSpec.describe 'Enterprise Portal API', type: :request do
       end
 
       it 'returns SSL status when portal has ssl_settings' do
-        portal_with_domain.update(ssl_settings: {
-                                    'cf_status' => 'active',
-                                    'cf_verification_errors' => nil
-                                  })
+        portal_with_domain.update!(ssl_settings: {
+                                     'cf_status' => 'active',
+                                     'cf_verification_errors' => nil
+                                   })
 
         mock_service = instance_double(Cloudflare::CheckCustomHostnameService)
         allow(Cloudflare::CheckCustomHostnameService).to receive(:new).and_return(mock_service)

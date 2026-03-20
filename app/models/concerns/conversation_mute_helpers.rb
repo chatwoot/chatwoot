@@ -5,14 +5,14 @@ module ConversationMuteHelpers
     return unless contact
 
     resolved!
-    contact.update(blocked: true)
+    contact.update!(blocked: true)
     create_muted_message
   end
 
   def unmute!
     return unless contact
 
-    contact.update(blocked: false)
+    contact.update!(blocked: false)
     create_unmuted_message
   end
 

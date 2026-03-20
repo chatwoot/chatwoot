@@ -429,7 +429,7 @@ describe Line::IncomingMessageService do
 
         # Mark the conversation as resolved
         conversation = line_channel.inbox.conversations.last
-        conversation.update(status: :resolved)
+        conversation.update!(status: :resolved)
 
         # Send a new message
         new_params = params.deep_dup
@@ -496,7 +496,7 @@ describe Line::IncomingMessageService do
 
         # Mark the conversation as resolved
         conversation = line_channel.inbox.conversations.last
-        conversation.update(status: :resolved)
+        conversation.update!(status: :resolved)
 
         # Send a new message
         new_params = params.deep_dup

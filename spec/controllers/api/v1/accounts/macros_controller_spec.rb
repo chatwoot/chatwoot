@@ -392,7 +392,7 @@ RSpec.describe 'Api::V1::Accounts::MacrosController', type: :request do
         end
 
         it 'Assign the agent when he is not inbox member' do
-          InboxMember.last.destroy
+          InboxMember.last.destroy!
 
           expect(conversation.assignee).to be_nil
 

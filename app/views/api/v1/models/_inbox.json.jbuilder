@@ -3,6 +3,7 @@ json.avatar_url resource.try(:avatar_url)
 json.channel_id resource.channel_id
 json.name resource.name
 json.channel_type resource.channel_type
+json.account_id resource.account_id
 json.greeting_enabled resource.greeting_enabled
 json.greeting_message resource.greeting_message
 json.working_hours_enabled resource.working_hours_enabled
@@ -119,6 +120,7 @@ if resource.api?
 end
 
 json.provider resource.channel.try(:provider)
+json.allow_group_creation resource.channel.try(:allow_group_creation?) || false
 
 ## Telegram Attributes
 json.bot_name resource.channel.try(:bot_name) if resource.telegram?
@@ -128,6 +130,7 @@ if resource.whatsapp?
   json.message_templates resource.channel.try(:message_templates)
   json.provider_config resource.channel.try(:provider_config) if Current.account_user&.administrator?
   json.reauthorization_required resource.channel.try(:reauthorization_required?)
+  json.provider_connection resource.channel.try(:provider_connection_data)
 end
 
 ## Voice Channel Attributes

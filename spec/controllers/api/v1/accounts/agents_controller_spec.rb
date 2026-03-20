@@ -29,7 +29,7 @@ RSpec.describe 'Agents API', type: :request do
       end
 
       it 'returns custom fields on agents if present' do
-        agent.update(custom_attributes: { test: 'test' })
+        agent.update!(custom_attributes: { test: 'test' })
 
         get "/api/v1/accounts/#{account.id}/agents",
             headers: agent.create_new_auth_token,

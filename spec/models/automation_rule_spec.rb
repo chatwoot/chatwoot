@@ -118,4 +118,54 @@ RSpec.describe AutomationRule do
       end
     end
   end
+
+  describe 'create_scheduled_message action validation' do
+    let(:account) { create(:account) }
+
+    def build_rule_with_scheduled_message(action_params)
+      FactoryBot.build(:automation_rule,
+                       account: account,
+                       event_name: 'conversation_created',
+                       conditions: [{ attribute_key: 'status', filter_operator: 'equal_to', values: ['open'], query_operator: nil }],
+                       actions: [{ action_name: 'create_scheduled_message', action_params: [action_params] }])
+    end
+
+    it 'is valid with content and valid delay' do
+      rule = build_rule_with_scheduled_message({ 'content' => 'Hello', 'delay_minutes' => 60 })
+      expect(rule).to be_valid
+    end
+
+    it 'is valid with template_params and valid delay' do
+      rule = build_rule_with_scheduled_message({ 'template_params' => { 'name' => 'test' }, 'delay_minutes' => 60 })
+      expect(rule).to be_valid
+    end
+
+    it 'is invalid when delay_minutes is below minimum' do
+      rule = build_rule_with_scheduled_message({ 'content' => 'Hello', 'delay_minutes' => 0 })
+      expect(rule).not_to be_valid
+      expect(rule.errors[:actions]).to be_present
+    end
+
+    it 'is invalid when delay_minutes exceeds maximum' do
+      rule = build_rule_with_scheduled_message({ 'content' => 'Hello', 'delay_minutes' => described_class::MAX_SCHEDULED_MESSAGE_DELAY_MINUTES + 1 })
+      expect(rule).not_to be_valid
+      expect(rule.errors[:actions]).to be_present
+    end
+
+    it 'is valid at maximum delay boundary' do
+      rule = build_rule_with_scheduled_message({ 'content' => 'Hello', 'delay_minutes' => described_class::MAX_SCHEDULED_MESSAGE_DELAY_MINUTES })
+      expect(rule).to be_valid
+    end
+
+    it 'is valid at minimum delay boundary' do
+      rule = build_rule_with_scheduled_message({ 'content' => 'Hello', 'delay_minutes' => 1 })
+      expect(rule).to be_valid
+    end
+
+    it 'is invalid without content, attachment, or template_params' do
+      rule = build_rule_with_scheduled_message({ 'delay_minutes' => 60 })
+      expect(rule).not_to be_valid
+      expect(rule.errors[:actions]).to be_present
+    end
+  end
 end

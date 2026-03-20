@@ -367,6 +367,28 @@ export const actions = {
     );
     return response.data;
   },
+  linkCSATTemplate: async (_, { inboxId, template }) => {
+    const response = await InboxesAPI.linkCSATTemplate(inboxId, template);
+    return response.data;
+  },
+  getAvailableCSATTemplates: async (_, { inboxId }) => {
+    const response = await InboxesAPI.getAvailableCSATTemplates(inboxId);
+    return response.data;
+  },
+  setupChannelProvider: async (_, inboxId) => {
+    try {
+      await InboxesAPI.setupChannelProvider(inboxId);
+    } catch (error) {
+      throwErrorMessage(error);
+    }
+  },
+  disconnectChannelProvider: async (_, inboxId) => {
+    try {
+      await InboxesAPI.disconnectChannelProvider(inboxId);
+    } catch (error) {
+      throwErrorMessage(error);
+    }
+  },
 };
 
 export const mutations = {

@@ -81,7 +81,7 @@ RSpec.describe LlmFormatter::ConversationLlmFormatter do
           attribute_model: :conversation_attribute
         )
 
-        conversation.update(custom_attributes: { 'order_id' => '12345' })
+        conversation.update!(custom_attributes: { 'order_id' => '12345' })
 
         expected_output = [
           "Conversation ID: ##{conversation.display_id}",

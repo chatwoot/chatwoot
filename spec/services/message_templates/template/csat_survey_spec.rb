@@ -9,7 +9,7 @@ describe MessageTemplates::Template::CsatSurvey do
   describe '#perform' do
     context 'when no survey rules are configured' do
       it 'creates a CSAT survey message' do
-        inbox.update(csat_config: {})
+        inbox.update!(csat_config: {})
 
         service.perform
 

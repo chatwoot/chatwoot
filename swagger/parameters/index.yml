@@ -34,6 +34,9 @@ webhook_id:
 message_id:
   $ref: ./message_id.yml
 
+scheduled_message_id:
+  $ref: ./scheduled_message_id.yml
+
 page:
   $ref: ./page.yml
 

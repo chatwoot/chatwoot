@@ -1,0 +1,30 @@
+type: object
+properties:
+  content:
+    type: string
+    description: The text content of the scheduled message
+    example: "Hello! This is a scheduled message."
+  scheduled_at:
+    type: string
+    format: date-time
+    description: ISO 8601 datetime when the message should be sent
+    example: "2026-02-01T10:00:00Z"
+  status:
+    type: string
+    enum: ["draft", "pending"]
+    description: The status of the scheduled message. Use 'draft' to save without scheduling, 'pending' to schedule the message.
+    example: "pending"
+  attachment:
+    type: string
+    format: binary
+    description: File attachment for the scheduled message
+  template_params:
+    type: object
+    description: Template parameters for WhatsApp template messages
+    example:
+      name: "order_confirmation"
+      category: "MARKETING"
+      language: "en"
+      processed_params:
+        body:
+          "1": "121212"

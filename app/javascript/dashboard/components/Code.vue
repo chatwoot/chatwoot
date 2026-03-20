@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import 'highlight.js/styles/default.css';
 import 'highlight.js/lib/common';
 import NextButton from 'dashboard/components-next/button/Button.vue';
@@ -24,9 +24,19 @@ const props = defineProps({
     type: String,
     default: 'Chatwoot Codepen',
   },
+  secure: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const { t } = useI18n();
+
+const isVisible = ref(false);
+
+const toggleVisibility = () => {
+  isVisible.value = !isVisible.value;
+};
 
 const scrubbedScript = computed(() => {
   // remove trailing and leading extra lines and not spaces
@@ -50,6 +60,10 @@ const codepenScriptValue = computed(() => {
     private: true,
     [lang]: scrubbedScript.value,
   });
+});
+
+const shouldShowScript = computed(() => {
+  return !props.secure || isVisible.value;
 });
 
 const onCopy = async e => {
@@ -81,6 +95,14 @@ const onCopy = async e => {
         />
       </form>
       <NextButton
+        v-if="secure"
+        slate
+        xs
+        faded
+        :icon="isVisible ? 'i-lucide-eye-off' : 'i-lucide-eye'"
+        @click="toggleVisibility"
+      />
+      <NextButton
         slate
         xs
         faded
@@ -89,9 +111,15 @@ const onCopy = async e => {
       />
     </div>
     <highlightjs
-      v-if="script"
+      v-if="script && shouldShowScript"
       :language="lang"
       :code="scrubbedScript"
+      class="[&_code]:text-start"
+    />
+    <highlightjs
+      v-else-if="script && secure && !isVisible"
+      :language="lang"
+      code="••••••••••••••••••••••••••••••••"
       class="[&_code]:text-start"
     />
   </div>

@@ -55,6 +55,9 @@ RSpec.describe 'DashboardAppsController', type: :request do
 
   describe 'POST /api/v1/accounts/{account.id}/dashboard_apps' do
     let(:payload) { { dashboard_app: { title: 'CRM Dashboard', content: [{ type: 'frame', url: 'https://link.com' }] } } }
+    let(:payload_with_sidebar) do
+      { dashboard_app: { title: 'CRM Dashboard', content: [{ type: 'frame', url: 'https://link.com' }], show_on_sidebar: true } }
+    end
     let(:no_ssl_payload) { { dashboard_app: { title: 'CRM Dashboard', content: [{ type: 'frame', url: 'http://link.com' }] } } }
     let(:invalid_type_payload) { { dashboard_app: { title: 'CRM Dashboard', content: [{ type: 'dda', url: 'https://link.com' }] } } }
     let(:invalid_url_payload) { { dashboard_app: { title: 'CRM Dashboard', content: [{ type: 'frame', url: 'com' }] } } }
@@ -84,6 +87,17 @@ RSpec.describe 'DashboardAppsController', type: :request do
         expect(json_response['title']).to eq 'CRM Dashboard'
         expect(json_response['content'][0]['link']).to eq payload[:dashboard_app][:content][0][:link]
         expect(json_response['content'][0]['type']).to eq payload[:dashboard_app][:content][0][:type]
+      end
+
+      it 'creates the dashboard app with show_on_sidebar' do
+        expect do
+          post "/api/v1/accounts/#{account.id}/dashboard_apps", headers: user.create_new_auth_token,
+                                                                params: payload_with_sidebar
+        end.to change(DashboardApp, :count).by(1)
+
+        expect(response).to have_http_status(:success)
+        json_response = response.parsed_body
+        expect(json_response['show_on_sidebar']).to be true
       end
 
       it 'creates the dashboard app even if the URL does not have SSL' do
@@ -134,6 +148,7 @@ RSpec.describe 'DashboardAppsController', type: :request do
 
   describe 'PATCH /api/v1/accounts/{account.id}/dashboard_apps/:id' do
     let(:payload) { { dashboard_app: { title: 'CRM Dashboard', content: [{ type: 'frame', url: 'https://link.com' }] } } }
+    let(:payload_with_sidebar) { { dashboard_app: { show_on_sidebar: true } } }
     let(:user) { create(:user, account: account) }
     let!(:dashboard_app) { create(:dashboard_app, user: user, account: account) }
 
@@ -158,6 +173,16 @@ RSpec.describe 'DashboardAppsController', type: :request do
         expect(dashboard_app.reload.title).to eq('CRM Dashboard')
         expect(json_response['content'][0]['link']).to eq payload[:dashboard_app][:content][0][:link]
         expect(json_response['content'][0]['type']).to eq payload[:dashboard_app][:content][0][:type]
+      end
+
+      it 'updates the show_on_sidebar attribute' do
+        patch "/api/v1/accounts/#{account.id}/dashboard_apps/#{dashboard_app.id}",
+              headers: user.create_new_auth_token,
+              params: payload_with_sidebar,
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(dashboard_app.reload.show_on_sidebar).to be true
       end
     end
   end

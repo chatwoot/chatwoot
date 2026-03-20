@@ -73,7 +73,7 @@ describe NotificationBuilder do
     end
 
     it 'will not create a notification if conversation contact is blocked and notification type is not conversation_mention' do
-      primary_actor.contact.update(blocked: true)
+      primary_actor.contact.update!(blocked: true)
 
       expect do
         described_class.new(
@@ -86,7 +86,7 @@ describe NotificationBuilder do
     end
 
     it 'will create a notification if conversation contact is blocked and notification type is conversation_mention' do
-      primary_actor.contact.update(blocked: true)
+      primary_actor.contact.update!(blocked: true)
 
       expect do
         described_class.new(

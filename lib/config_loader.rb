@@ -28,13 +28,13 @@ class ConfigLoader
 
   def general_configs
     @config_path ||= Rails.root.join('config')
-    @general_configs ||= YAML.safe_load(File.read("#{@config_path}/installation_config.yml")).freeze
+    @general_configs ||= YAML.safe_load_file("#{@config_path}/installation_config.yml").freeze
   end
 
   private
 
   def account_features
-    @account_features ||= YAML.safe_load(File.read("#{@config_path}/features.yml")).freeze
+    @account_features ||= YAML.safe_load_file("#{@config_path}/features.yml").freeze
   end
 
   def reconcile_general_config
@@ -86,6 +86,6 @@ class ConfigLoader
                  # update the existing feature flag values with default values and add new feature flags with default values
                  (account_features + config.value).uniq { |h| h['name'] }
                end
-    config.update({ name: 'ACCOUNT_LEVEL_FEATURE_DEFAULTS', value: features, locked: true })
+    config.update!({ name: 'ACCOUNT_LEVEL_FEATURE_DEFAULTS', value: features, locked: true })
   end
 end

@@ -141,6 +141,7 @@ const getters = {
   },
   getChatStatusFilter: ({ chatStatusFilter }) => chatStatusFilter,
   getChatSortFilter: ({ chatSortFilter }) => chatSortFilter,
+  getChatGroupTypeFilter: ({ chatGroupTypeFilter }) => chatGroupTypeFilter,
   getSelectedInbox: ({ currentInbox }) => currentInbox,
   getConversationById: _state => conversationId => {
     return _state.allConversations.find(

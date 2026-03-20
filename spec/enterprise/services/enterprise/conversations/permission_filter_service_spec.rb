@@ -61,7 +61,7 @@ RSpec.describe Enterprise::Conversations::PermissionFilterService do
         # Create custom role with conversation_manage permission
         test_custom_role = create(:custom_role, account: test_account, permissions: ['conversation_manage'])
         account_user = AccountUser.find_by(user: test_agent, account: test_account)
-        account_user.update(role: :agent, custom_role: test_custom_role)
+        account_user.update!(role: :agent, custom_role: test_custom_role)
 
         # Create some conversations
         assigned_conversation = create(:conversation, account: test_account, inbox: test_inbox, assignee: test_agent)
@@ -100,7 +100,7 @@ RSpec.describe Enterprise::Conversations::PermissionFilterService do
         test_custom_role = create(:custom_role, account: test_account, permissions: %w[conversation_participating_manage])
 
         account_user = AccountUser.find_by(user: test_agent, account: test_account)
-        account_user.update(role: :agent, custom_role: test_custom_role)
+        account_user.update!(role: :agent, custom_role: test_custom_role)
 
         # Create some conversations
         other_conversation = create(:conversation, account: test_account, inbox: test_inbox)
@@ -138,7 +138,7 @@ RSpec.describe Enterprise::Conversations::PermissionFilterService do
         test_custom_role = create(:custom_role, account: test_account, permissions: %w[conversation_unassigned_manage])
 
         account_user = AccountUser.find_by(user: test_agent, account: test_account)
-        account_user.update(role: :agent, custom_role: test_custom_role)
+        account_user.update!(role: :agent, custom_role: test_custom_role)
 
         # Create some conversations
         assigned_conversation = create(:conversation, account: test_account, inbox: test_inbox, assignee: test_agent)
@@ -180,7 +180,7 @@ RSpec.describe Enterprise::Conversations::PermissionFilterService do
         test_custom_role = create(:custom_role, account: test_account, permissions: permissions)
 
         account_user = AccountUser.find_by(user: test_agent, account: test_account)
-        account_user.update(role: :agent, custom_role: test_custom_role)
+        account_user.update!(role: :agent, custom_role: test_custom_role)
 
         # Create some conversations
         assigned_to_agent = create(:conversation, account: test_account, inbox: test_inbox, assignee: test_agent)

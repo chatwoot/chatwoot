@@ -64,6 +64,7 @@ const getValueFromConversation = (conversation, attributeKey) => {
   switch (attributeKey) {
     case 'status':
     case 'priority':
+    case 'group_type':
     case 'labels':
     case 'created_at':
     case 'last_activity_at':

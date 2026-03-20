@@ -17,6 +17,8 @@ import ContentTemplateSelector from './ContentTemplateSelector.vue';
 const props = defineProps({
   attachedFiles: { type: Array, default: () => [] },
   isWhatsappInbox: { type: Boolean, default: false },
+  isWhatsappBaileysInbox: { type: Boolean, default: false },
+  isWhatsappZapiInbox: { type: Boolean, default: false },
   isEmailOrWebWidgetInbox: { type: Boolean, default: false },
   isTwilioSmsInbox: { type: Boolean, default: false },
   isTwilioWhatsAppInbox: { type: Boolean, default: false },
@@ -78,7 +80,11 @@ const shouldShowEmojiButton = computed(() => {
 });
 
 const isRegularMessageMode = computed(() => {
-  return !props.isWhatsappInbox && !props.isTwilioWhatsAppInbox;
+  return (
+    (!props.isWhatsappInbox && !props.isTwilioWhatsAppInbox) ||
+    props.isWhatsappBaileysInbox ||
+    props.isWhatsappZapiInbox
+  );
 });
 
 const isVoiceInbox = computed(() => props.channelType === INBOX_TYPES.VOICE);

@@ -24,6 +24,7 @@ const {
   WIDGET_BRAND_URL: widgetBrandURL,
   DISABLE_USER_PROFILE_UPDATE: disableUserProfileUpdate,
   DEPLOYMENT_ENV: deploymentEnv,
+  BAILEYS_WHATSAPP_GROUPS_ENABLED: baileysWhatsappGroupsEnabled,
 } = window.globalConfig || {};
 
 const state = {
@@ -49,6 +50,7 @@ const state = {
   termsURL,
   widgetBrandURL,
   isEnterprise: parseBoolean(isEnterprise),
+  baileysWhatsappGroupsEnabled: parseBoolean(baileysWhatsappGroupsEnabled),
 };
 
 export const getters = {

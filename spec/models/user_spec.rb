@@ -254,4 +254,48 @@ RSpec.describe User do
       end
     end
   end
+
+  context 'when the user does not have signature position set' do
+    it 'returns the default signature position' do
+      expect(user.signature_position).to eq('top')
+    end
+  end
+
+  context 'when the user has signature position set' do
+    it 'returns the user signature position' do
+      user.update!(ui_settings: { signature_position: 'bottom' })
+
+      expect(user.signature_position).to eq('bottom')
+    end
+  end
+
+  context 'when the user does not have signature separator set' do
+    it 'returns the default signature separator' do
+      expect(user.signature_separator).to eq('blank')
+    end
+  end
+
+  context 'when the user has signature separator set' do
+    it 'returns the user signature separator' do
+      user.update!(ui_settings: { signature_separator: '--' })
+
+      expect(user.signature_separator).to eq('--')
+    end
+  end
+
+  describe 'destroy' do
+    it 'nullifies scheduled messages author when user has sent scheduled messages' do
+      account = create(:account)
+      create(:account_user, user: user, account: account)
+      inbox = create(:inbox, account: account)
+      contact = create(:contact, account: account)
+      conversation = create(:conversation, account: account, inbox: inbox, contact: contact)
+      scheduled_message = create(:scheduled_message, account: account, inbox: inbox, conversation: conversation, author: user)
+      scheduled_message.update_column(:status, ScheduledMessage.statuses[:sent]) # rubocop:disable Rails/SkipsModelValidations
+
+      user.destroy!
+
+      expect(scheduled_message.reload.author_id).to be_nil
+    end
+  end
 end

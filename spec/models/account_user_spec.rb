@@ -13,7 +13,7 @@ RSpec.describe AccountUser do
       expect(account_user.user.notification_settings).not_to be_nil
 
       expect(account_user.user.notification_settings.first.email_conversation_creation?).to be(false)
-      expect(account_user.user.notification_settings.first.email_conversation_assignment?).to be(true)
+      expect(account_user.user.notification_settings.first.email_conversation_assignment?).to be(false)
     end
   end
 

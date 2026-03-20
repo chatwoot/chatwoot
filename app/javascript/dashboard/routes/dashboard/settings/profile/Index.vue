@@ -2,6 +2,7 @@
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import { useUISettings } from 'dashboard/composables/useUISettings';
+import { useInboxSignatures } from 'dashboard/composables/useInboxSignatures';
 import { useFontSize } from 'dashboard/composables/useFontSize';
 import { useBranding } from 'shared/composables/useBranding';
 import { clearCookiesOnLogout } from 'dashboard/store/utils/api.js';
@@ -48,6 +49,10 @@ export default {
     const { isEditorHotKeyEnabled, updateUISettings } = useUISettings();
     const { currentFontSize, updateFontSize } = useFontSize();
     const { replaceInstallationName } = useBranding();
+    const { upsertInboxSignature, deleteInboxSignature, fetchInboxSignatures } =
+      useInboxSignatures();
+
+    fetchInboxSignatures();
 
     return {
       currentFontSize,
@@ -55,6 +60,8 @@ export default {
       isEditorHotKeyEnabled,
       updateUISettings,
       replaceInstallationName,
+      upsertInboxSignature,
+      deleteInboxSignature,
     };
   },
   data() {
@@ -65,6 +72,8 @@ export default {
       displayName: '',
       email: '',
       messageSignature: '',
+      signaturePosition: '',
+      signatureSeparator: '',
       hotKeys: [
         {
           key: 'enter',
@@ -116,6 +125,11 @@ export default {
       this.avatarUrl = this.currentUser.avatar_url;
       this.displayName = this.currentUser.display_name;
       this.messageSignature = this.currentUser.message_signature;
+
+      const { signature_position, signature_separator } =
+        this.currentUser.ui_settings || {};
+      this.signaturePosition = signature_position || 'top';
+      this.signatureSeparator = signature_separator || 'blank';
     },
     async dispatchUpdate(payload, successMessage, errorMessage) {
       let alertMessage = '';
@@ -156,16 +170,60 @@ export default {
 
       if (hasEmailChanged && success) clearCookiesOnLogout();
     },
-    async updateSignature(signature) {
-      const payload = { message_signature: signature };
-      let successMessage = this.$t(
-        'PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.API_SUCCESS'
-      );
-      let errorMessage = this.$t(
-        'PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.API_ERROR'
-      );
+    async updateSignature(signature, signaturePosition, signatureSeparator) {
+      try {
+        const signaturePayload = { message_signature: signature };
+        await this.dispatchUpdate(
+          signaturePayload,
+          this.$t(
+            'PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.API_SUCCESS'
+          ),
+          this.$t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.API_ERROR')
+        );
 
-      await this.dispatchUpdate(payload, successMessage, errorMessage);
+        await this.updateUISettings({
+          signature_position: signaturePosition,
+          signature_separator: signatureSeparator,
+        });
+
+        this.signaturePosition = signaturePosition;
+        this.signatureSeparator = signatureSeparator;
+      } catch (error) {
+        useAlert(
+          this.$t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.API_ERROR')
+        );
+      }
+    },
+    async updateInboxSignature(inboxId, params, done) {
+      try {
+        await this.upsertInboxSignature(inboxId, params);
+        useAlert(
+          this.$t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.API_SUCCESS')
+        );
+      } catch (error) {
+        useAlert(
+          parseAPIErrorResponse(error) ||
+            this.$t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.API_ERROR')
+        );
+      } finally {
+        if (done) done();
+      }
+    },
+    async handleDeleteInboxSignature(inboxId, done) {
+      try {
+        await this.deleteInboxSignature(inboxId);
+        useAlert(
+          this.$t(
+            'PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.RESET_SUCCESS'
+          )
+        );
+      } catch (error) {
+        useAlert(
+          this.$t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.API_ERROR')
+        );
+      } finally {
+        if (done) done();
+      }
     },
     updateProfilePicture({ file, url }) {
       this.avatarFile = file;
@@ -257,7 +315,11 @@ export default {
     >
       <MessageSignature
         :message-signature="messageSignature"
+        :signature-position="signaturePosition"
+        :signature-separator="signatureSeparator"
         @update-signature="updateSignature"
+        @update-inbox-signature="updateInboxSignature"
+        @delete-inbox-signature="handleDeleteInboxSignature"
       />
     </SectionLayout>
     <SectionLayout

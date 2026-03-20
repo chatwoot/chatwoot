@@ -36,7 +36,8 @@ export default {
         );
         this.$emit('update:modelValue', [id]);
         this.uploadState = 'uploaded';
-        this.label = this.$t('AUTOMATION.ATTACHMENT.LABEL_UPLOADED');
+        this.label =
+          file?.name || this.$t('AUTOMATION.ATTACHMENT.LABEL_UPLOADED');
       } catch (error) {
         this.uploadState = 'failed';
         this.label = this.$t('AUTOMATION.ATTACHMENT.LABEL_UPLOAD_FAILED');

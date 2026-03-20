@@ -28,7 +28,7 @@ microsoft:
   storage_access_key: <%= ENV.fetch('AZURE_STORAGE_ACCESS_KEY', '') %>
   container: <%= ENV.fetch('AZURE_STORAGE_CONTAINER', '') %>
 
-# s3 compatible service such as DigitalOcean Spaces, Minio.
+# s3 compatible service such as Cloudflare R2, DigitalOcean Spaces, Minio.
 s3_compatible:
   service: S3
   access_key_id: <%= ENV.fetch('STORAGE_ACCESS_KEY_ID', '') %>
@@ -37,6 +37,8 @@ s3_compatible:
   bucket: <%= ENV.fetch('STORAGE_BUCKET_NAME', '') %>
   endpoint: <%= ENV.fetch('STORAGE_ENDPOINT', '') %>
   force_path_style: <%= ENV.fetch('STORAGE_FORCE_PATH_STYLE', false) %>
+  request_checksum_calculation: <%= ENV.fetch('STORAGE_REQUEST_CHECKSUM_CALCULATION', 'when_required') %>
+  response_checksum_validation: <%= ENV.fetch('STORAGE_RESPONSE_CHECKSUM_VALIDATION', 'when_required') %>
 
 # mirror:
 #   service: Mirror

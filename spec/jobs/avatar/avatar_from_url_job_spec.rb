@@ -24,7 +24,7 @@ RSpec.describe Avatar::AvatarFromUrlJob do
 
     it 'returns early when rate limited' do
       ts = 30.seconds.ago.iso8601
-      avatarable.update(additional_attributes: { 'last_avatar_sync_at' => ts })
+      avatarable.update!(additional_attributes: { 'last_avatar_sync_at' => ts })
       expect(Down).not_to receive(:download)
       described_class.perform_now(avatarable, valid_url)
       avatarable.reload
@@ -36,7 +36,7 @@ RSpec.describe Avatar::AvatarFromUrlJob do
     end
 
     it 'returns early when hash unchanged' do
-      avatarable.update(additional_attributes: { 'avatar_url_hash' => Digest::SHA256.hexdigest(valid_url) })
+      avatarable.update!(additional_attributes: { 'avatar_url_hash' => Digest::SHA256.hexdigest(valid_url) })
       expect(Down).not_to receive(:download)
       described_class.perform_now(avatarable, valid_url)
       expect(avatarable.avatar).not_to be_attached

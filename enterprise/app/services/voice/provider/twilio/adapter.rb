@@ -4,7 +4,7 @@ class Voice::Provider::Twilio::Adapter
   end
 
   def initiate_call(to:, conference_sid: nil, agent_id: nil)
-    call = twilio_client.calls.create(**call_params(to))
+    call = twilio_client.calls.create(**call_params(to)) # rubocop:disable Rails/SaveBang
 
     {
       provider: 'twilio',

@@ -43,6 +43,7 @@ class Message < ApplicationRecord
 
   include MessageFilterHelpers
   include Liquidable
+  include ScheduledMessageHandler
   NUMBER_OF_PERMITTED_ATTACHMENTS = 15
 
   TEMPLATE_PARAMS_SCHEMA = {
@@ -82,6 +83,9 @@ class Message < ApplicationRecord
   # when you have a temperory id in your frontend and want it echoed back via action cable
   attr_accessor :echo_id
 
+  # NOTE: Allow skipping message flooding validation for bulk operations like imports/cloning
+  attr_accessor :skip_message_flooding_validation
+
   enum message_type: { incoming: 0, outgoing: 1, activity: 2, template: 3 }
   enum content_type: {
     text: 0,
@@ -106,9 +110,14 @@ class Message < ApplicationRecord
   # [:external_created_at] : Can specify if the message was created at a different timestamp externally
   # [:external_error : Can specify if the message creation failed due to an error at external API
   # [:data] : Used for structured content types such as voice_call
+  # [:is_reaction] : Used to denote if the message is a reaction and differentiate it from a simple reply message
+  # [:is_edited, :previous_content] : Used to indicated edited message and previous content (before edit)
+  # [:zapi_args] : Used to pass additional arguments specific to Z-API WhatsApp provider
+
   store :content_attributes, accessors: [:submitted_email, :items, :submitted_values, :email, :in_reply_to, :deleted,
                                          :external_created_at, :story_sender, :story_id, :external_error,
-                                         :translations, :in_reply_to_external_id, :is_unsupported, :data], coder: JSON
+                                         :translations, :in_reply_to_external_id, :is_unsupported, :data,
+                                         :is_reaction, :is_edited, :previous_content, :zapi_args], coder: JSON
 
   store :external_source_ids, accessors: [:slack], coder: JSON, prefix: :external_source_id
 
@@ -275,6 +284,7 @@ class Message < ApplicationRecord
     # Added this to cover the validation specs in messages
     # We can revisit and see if we can remove this later
     return if conversation.blank?
+    return if skip_message_flooding_validation
 
     # there are cases where automations can result in message loops, we need to prevent such cases.
     if conversation.messages.where('created_at >= ?', 1.minute.ago).count >= Limits.conversation_message_per_minute_limit
@@ -318,7 +328,7 @@ class Message < ApplicationRecord
   end
 
   def update_contact_activity
-    sender.update(last_activity_at: DateTime.now) if sender.is_a?(Contact)
+    sender.update!(last_activity_at: DateTime.now) if sender.is_a?(Contact)
   end
 
   def update_waiting_since
@@ -329,15 +339,15 @@ class Message < ApplicationRecord
         Rails.configuration.dispatcher.dispatch(
           REPLY_CREATED, Time.zone.now, waiting_since: conversation.waiting_since, message: self
         )
-        conversation.update(waiting_since: nil)
+        conversation.update!(waiting_since: nil)
       elsif bot_response?
         # Bot responses also clear waiting_since (simpler than checking on next customer message)
-        conversation.update(waiting_since: nil)
+        conversation.update!(waiting_since: nil)
       end
     end
 
     # Set waiting_since when customer sends a message (if currently blank)
-    conversation.update(waiting_since: created_at) if incoming? && conversation.waiting_since.blank?
+    conversation.update!(waiting_since: created_at) if incoming? && conversation.waiting_since.blank?
   end
 
   def human_response?
@@ -361,7 +371,7 @@ class Message < ApplicationRecord
 
     if valid_first_reply?
       Rails.configuration.dispatcher.dispatch(FIRST_REPLY_CREATED, Time.zone.now, message: self, performed_by: Current.executed_by)
-      conversation.update(first_reply_created_at: created_at, waiting_since: nil)
+      conversation.update!(first_reply_created_at: created_at, waiting_since: nil)
     else
       update_waiting_since
     end

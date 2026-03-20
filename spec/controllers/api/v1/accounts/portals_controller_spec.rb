@@ -52,7 +52,7 @@ RSpec.describe 'Api::V1::Accounts::Portals', type: :request do
       end
 
       it 'returns portal articles metadata' do
-        portal.update(config: { allowed_locales: %w[en es], default_locale: 'en' })
+        portal.update!(config: { allowed_locales: %w[en es], default_locale: 'en' })
         en_cat = create(:category, locale: :en, portal_id: portal.id, slug: 'en-cat')
         es_cat = create(:category, locale: :es, portal_id: portal.id, slug: 'es-cat')
         create(:article, category_id: en_cat.id, portal_id: portal.id, author_id: agent.id)
@@ -131,7 +131,49 @@ RSpec.describe 'Api::V1::Accounts::Portals', type: :request do
         json_response = response.parsed_body
         expect(json_response['name']).to eql(portal_params[:portal][:name])
         expect(json_response['config']).to eql({ 'allowed_locales' => [{ 'articles_count' => 0, 'categories_count' => 0, 'code' => 'en' },
-                                                                       { 'articles_count' => 0, 'categories_count' => 0, 'code' => 'es' }] })
+                                                                       { 'articles_count' => 0, 'categories_count' => 0, 'code' => 'es' }],
+                                                 'show_author' => true })
+      end
+
+      it 'persists show_author as false when explicitly set' do
+        put "/api/v1/accounts/#{account.id}/portals/#{portal.slug}",
+            params: { portal: { config: { show_author: false } } },
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        json_response = response.parsed_body
+        expect(json_response['config']['show_author']).to be(false)
+
+        portal.reload
+        expect(portal.show_author?).to be(false)
+      end
+
+      it 'preserves show_author when updating other portal fields' do
+        portal.update!(config: portal.config.merge('show_author' => false))
+
+        put "/api/v1/accounts/#{account.id}/portals/#{portal.slug}",
+            params: { portal: { name: 'renamed_portal' } },
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        portal.reload
+        expect(portal.show_author?).to be(false)
+        expect(portal.name).to eql('renamed_portal')
+      end
+
+      it 'preserves show_author when updating only allowed_locales' do
+        portal.update!(config: portal.config.merge('show_author' => false))
+
+        put "/api/v1/accounts/#{account.id}/portals/#{portal.slug}",
+            params: { portal: { config: { allowed_locales: %w[en fr] } } },
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        portal.reload
+        expect(portal.show_author?).to be(false)
       end
 
       it 'archive portal' do

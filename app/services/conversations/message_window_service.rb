@@ -14,7 +14,7 @@ class Conversations::MessageWindowService
 
   private
 
-  def messaging_window
+  def messaging_window # rubocop:disable Metrics/CyclomaticComplexity
     case @conversation.inbox.channel_type
     when 'Channel::Api'
       api_messaging_window
@@ -25,6 +25,8 @@ class Conversations::MessageWindowService
     when 'Channel::Tiktok'
       tiktok_messaging_window
     when 'Channel::Whatsapp'
+      return if %w[baileys zapi].include?(@conversation.inbox.channel.provider)
+
       MESSAGING_WINDOW_24_HOURS
     when 'Channel::TwilioSms'
       twilio_messaging_window

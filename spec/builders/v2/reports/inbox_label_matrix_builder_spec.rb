@@ -20,13 +20,13 @@ RSpec.describe V2::Reports::InboxLabelMatrixBuilder do
     context 'when there are conversations with labels across inboxes' do
       before do
         c1 = create(:conversation, account: account, inbox: inbox_one, created_at: 2.days.ago)
-        c1.update(label_list: [label_one.title])
+        c1.update!(label_list: [label_one.title])
 
         c2 = create(:conversation, account: account, inbox: inbox_one, created_at: 3.days.ago)
-        c2.update(label_list: [label_one.title, label_two.title])
+        c2.update!(label_list: [label_one.title, label_two.title])
 
         c3 = create(:conversation, account: account, inbox: inbox_two, created_at: 1.day.ago)
-        c3.update(label_list: [label_two.title])
+        c3.update!(label_list: [label_two.title])
       end
 
       it 'returns inboxes ordered by name' do
@@ -61,10 +61,10 @@ RSpec.describe V2::Reports::InboxLabelMatrixBuilder do
 
       before do
         c1 = create(:conversation, account: account, inbox: inbox_one, created_at: 2.days.ago)
-        c1.update(label_list: [label_one.title])
+        c1.update!(label_list: [label_one.title])
 
         c2 = create(:conversation, account: account, inbox: inbox_two, created_at: 1.day.ago)
-        c2.update(label_list: [label_one.title])
+        c2.update!(label_list: [label_one.title])
       end
 
       it 'only includes the specified inboxes and their counts' do
@@ -84,7 +84,7 @@ RSpec.describe V2::Reports::InboxLabelMatrixBuilder do
 
       before do
         c1 = create(:conversation, account: account, inbox: inbox_one, created_at: 2.days.ago)
-        c1.update(label_list: [label_one.title, label_two.title])
+        c1.update!(label_list: [label_one.title, label_two.title])
       end
 
       it 'only includes the specified labels and their counts' do
@@ -96,10 +96,10 @@ RSpec.describe V2::Reports::InboxLabelMatrixBuilder do
     context 'when conversations are outside the date range' do
       before do
         c1 = create(:conversation, account: account, inbox: inbox_one, created_at: 2.days.ago)
-        c1.update(label_list: [label_one.title])
+        c1.update!(label_list: [label_one.title])
 
         c2 = create(:conversation, account: account, inbox: inbox_one, created_at: 2.weeks.ago)
-        c2.update(label_list: [label_one.title])
+        c2.update!(label_list: [label_one.title])
       end
 
       it 'only counts conversations within the date range' do
@@ -124,7 +124,7 @@ RSpec.describe V2::Reports::InboxLabelMatrixBuilder do
       before do
         c1 = create(:conversation, account: other_account, inbox: other_inbox, created_at: 2.days.ago)
         other_label = create(:label, account: other_account, title: 'bug')
-        c1.update(label_list: [other_label.title])
+        c1.update!(label_list: [other_label.title])
       end
 
       it 'does not include conversations from other accounts' do

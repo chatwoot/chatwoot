@@ -143,7 +143,7 @@ RSpec.describe Captain::BaseTaskService do
 
     context 'when API key is not configured' do
       before do
-        InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_API_KEY')&.destroy
+        InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_API_KEY')&.destroy!
         # Clear memoized api_key
         service.instance_variable_set(:@api_key, nil)
       end

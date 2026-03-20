@@ -61,7 +61,13 @@
   "EDIT_CONTACT": {
     "BUTTON_LABEL": "Editar Contato",
     "TITLE": "Editar contato",
-    "DESC": "Alterar detalhes do contato"
+    "DESC": "Alterar detalhes do contato",
+    "CONFIRM_DISCARD": {
+      "TITLE": "Descartar alterações?",
+      "MESSAGE": "Você tem alterações não salvas. Tem certeza de que deseja descartá-las?",
+      "YES": "Descartar",
+      "NO": "Continuar editando"
+    }
   },
   "DELETE_CONTACT": {
     "BUTTON_LABEL": "Excluir Contato",
@@ -597,6 +603,8 @@
     }
   },
   "COMPOSE_NEW_CONVERSATION": {
+    "TAB_CONVERSATION": "Conversa",
+    "TAB_GROUP": "Grupo",
     "CONTACT_SEARCH": {
       "ERROR_MESSAGE": "Não foi possível completar a pesquisa. Por favor, tente novamente."
     },

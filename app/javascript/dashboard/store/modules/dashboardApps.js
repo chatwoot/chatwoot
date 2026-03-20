@@ -18,6 +18,11 @@ export const getters = {
   getRecords(_state) {
     return _state.records;
   },
+  getAppsOnSidebar(_state) {
+    return _state.records
+      .filter(record => record.show_on_sidebar)
+      .sort((a, b) => a.title.localeCompare(b.title));
+  },
 };
 
 export const actions = {

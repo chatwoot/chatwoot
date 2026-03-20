@@ -57,6 +57,39 @@ describe Email::SendOnEmailService do
       end
     end
 
+    context 'when email_reply returns nil' do
+      let(:exception_tracker) { instance_double(ChatwootExceptionTracker, capture_exception: true) }
+
+      before do
+        allow(mailer_context).to receive(:email_reply).with(message).and_return(nil)
+        allow(ChatwootExceptionTracker).to receive(:new).and_return(exception_tracker)
+      end
+
+      it 'marks the message as failed with preparation error' do
+        service.perform
+
+        expect(message.reload.status).to eq('failed')
+        expect(message.reload.external_error).to include("Email could not be prepared for message #{message.id}")
+      end
+    end
+
+    context 'when deliver_now returns nil' do
+      let(:exception_tracker) { instance_double(ChatwootExceptionTracker, capture_exception: true) }
+
+      before do
+        allow(mailer_context).to receive(:email_reply).with(message).and_return(delivery)
+        allow(delivery).to receive(:deliver_now).and_return(nil)
+        allow(ChatwootExceptionTracker).to receive(:new).and_return(exception_tracker)
+      end
+
+      it 'marks the message as failed' do
+        service.perform
+
+        expect(message.reload.status).to eq('failed')
+        expect(message.reload.external_error).to include("Email delivery returned nil for message #{message.id}")
+      end
+    end
+
     context 'when an error occurs' do
       let(:error_message) { 'SMTP connection failed' }
       let(:error) { StandardError.new(error_message) }

@@ -2,10 +2,14 @@
 import WhatsAppTemplateParser from 'dashboard/components-next/whatsapp/WhatsAppTemplateParser.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 
-defineProps({
+const props = defineProps({
   template: {
     type: Object,
     default: () => ({}),
+  },
+  sendButtonLabel: {
+    type: String,
+    default: '',
   },
 });
 
@@ -23,11 +27,14 @@ const handleResetTemplate = () => {
 <template>
   <div class="w-full">
     <WhatsAppTemplateParser
-      :template="template"
+      :template="props.template"
+      :send-button-label="props.sendButtonLabel"
       @send-message="handleSendMessage"
       @reset-template="handleResetTemplate"
     >
-      <template #actions="{ sendMessage, resetTemplate, disabled }">
+      <template
+        #actions="{ sendMessage, resetTemplate, disabled, sendButtonText }"
+      >
         <footer class="flex gap-2 justify-end">
           <NextButton
             faded
@@ -38,7 +45,7 @@ const handleResetTemplate = () => {
           />
           <NextButton
             type="button"
-            :label="$t('WHATSAPP_TEMPLATES.PARSER.SEND_MESSAGE_LABEL')"
+            :label="sendButtonText"
             :disabled="disabled"
             @click="sendMessage"
           />

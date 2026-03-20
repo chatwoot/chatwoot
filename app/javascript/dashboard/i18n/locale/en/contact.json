@@ -61,7 +61,13 @@
   "EDIT_CONTACT": {
     "BUTTON_LABEL": "Edit Contact",
     "TITLE": "Edit contact",
-    "DESC": "Edit contact details"
+    "DESC": "Edit contact details",
+    "CONFIRM_DISCARD": {
+      "TITLE": "Discard changes?",
+      "MESSAGE": "You have unsaved changes. Are you sure you want to discard them?",
+      "YES": "Discard",
+      "NO": "Keep editing"
+    }
   },
   "DELETE_CONTACT": {
     "BUTTON_LABEL": "Delete Contact",
@@ -603,6 +609,8 @@
   },
 
   "COMPOSE_NEW_CONVERSATION": {
+    "TAB_CONVERSATION": "Conversation",
+    "TAB_GROUP": "Group",
     "CONTACT_SEARCH": {
       "ERROR_MESSAGE": "We couldn’t complete the search. Please try again."
     },

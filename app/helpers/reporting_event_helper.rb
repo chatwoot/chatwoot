@@ -65,8 +65,8 @@ module ReportingEventHelper
   end
 
   def format_time(hour, minute)
-    hour = hour < 10 ? "0#{hour}" : hour
-    minute = minute < 10 ? "0#{minute}" : minute
+    hour = "0#{hour}" if hour < 10
+    minute = "0#{minute}" if minute < 10
     "#{hour}:#{minute}"
   end
 end

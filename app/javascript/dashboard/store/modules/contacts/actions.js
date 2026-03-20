@@ -17,7 +17,7 @@ const buildContactFormData = contactParams => {
       formData.append(key, contactProperties[key]);
     }
   });
-  const { social_profiles, ...additionalAttributesProperties } =
+  const { social_profiles = {}, ...additionalAttributesProperties } =
     additional_attributes;
   Object.keys(additionalAttributesProperties).forEach(key => {
     formData.append(

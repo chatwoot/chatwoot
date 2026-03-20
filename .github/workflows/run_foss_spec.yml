@@ -3,10 +3,8 @@ permissions:
   contents: read
 on:
   push:
-    branches:
-      - develop
-      - master
-  pull_request:
+    tags:
+      - '*'
   workflow_dispatch:
 
 jobs:

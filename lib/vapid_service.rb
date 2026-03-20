@@ -17,7 +17,7 @@ class VapidService
     public_key = ENV.fetch('VAPID_PUBLIC_KEY') { keys.public_key }
     private_key = ENV.fetch('VAPID_PRIVATE_KEY') { keys.private_key }
 
-    i = InstallationConfig.where(name: 'VAPID_KEYS').first_or_create(value: { public_key: public_key, private_key: private_key })
+    i = InstallationConfig.where(name: 'VAPID_KEYS').first_or_create!(value: { public_key: public_key, private_key: private_key })
     i.value
   end
 

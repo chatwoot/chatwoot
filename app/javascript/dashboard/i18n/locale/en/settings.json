@@ -66,9 +66,36 @@
         "BTN_TEXT": "Save message signature",
         "API_ERROR": "Couldn't save signature! Try again",
         "API_SUCCESS": "Signature saved successfully",
+        "RESET_TO_DEFAULT": "Reset to default",
+        "RESET_SUCCESS": "Inbox signature removed, using default signature",
+        "INBOX_SELECTOR": {
+          "LABEL": "Inbox",
+          "DEFAULT": "Default (all inboxes)",
+          "CUSTOM": "Custom"
+        },
         "IMAGE_UPLOAD_ERROR": "Couldn't upload image! Try again",
         "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save to save the signature",
-        "IMAGE_UPLOAD_SIZE_ERROR": "Image size should be less than {size}MB"
+        "IMAGE_UPLOAD_SIZE_ERROR": "Image size should be less than {size}MB",
+        "SIGNATURE_POSITION": {
+          "LABEL": "Signature Position",
+          "OPTIONS": {
+            "TOP": "Top of the message",
+            "BOTTOM": "Bottom of the message"
+          }
+        },
+        "SIGNATURE_SEPARATOR": {
+          "LABEL": "Signature Separator",
+          "OPTIONS": {
+            "BLANK": "Blank line",
+            "HORIZONTAL_LINE": "Horizontal line (--)"
+          }
+        },
+        "PREVIEW": {
+          "TITLE": "Signature Preview",
+          "NOTE": "This is how your signature will appear in messages",
+          "EMPTY": "Enter a signature above to see the preview",
+          "SAMPLE_MESSAGE": "Hello! Thank you for contacting us. How can I help you today?"
+        }
       },
       "MESSAGE_SIGNATURE": {
         "LABEL": "Message Signature",
@@ -284,6 +311,7 @@
     },
     "MEDIA": {
       "IMAGE_UNAVAILABLE": "This image is no longer available.",
+      "AUDIO_UNAVAILABLE": "This audio is no longer available.",
       "LOADING_FAILED": "Loading failed"
     }
   },
@@ -310,6 +338,7 @@
     "ACTIVE": "Active",
     "COMPANIES": "Companies",
     "ALL_COMPANIES": "All Companies",
+    "KANBAN": "Kanban",
     "CAPTAIN": "Captain",
     "CAPTAIN_ASSISTANTS": "Assistants",
     "CAPTAIN_DOCUMENTS": "Documents",
@@ -322,6 +351,7 @@
     "HOME": "Home",
     "AGENTS": "Agents",
     "AGENT_BOTS": "Bots",
+    "APPS": "Apps",
     "AUDIT_LOGS": "Audit Logs",
     "INBOXES": "Inboxes",
     "NOTIFICATIONS": "Notifications",

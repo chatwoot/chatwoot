@@ -1,0 +1,33 @@
+type: object
+properties:
+  id:
+    type: number
+    description: ID of the group member record
+  role:
+    type: string
+    enum: ['member', 'admin']
+    description: Role of the member in the group
+  is_active:
+    type: boolean
+    description: Whether the member is currently active in the group
+  group_contact_id:
+    type: number
+    description: ID of the group contact this membership belongs to
+  contact:
+    type: object
+    properties:
+      id:
+        type: number
+        description: ID of the member contact
+      name:
+        type: string
+        description: Name of the member contact
+      phone_number:
+        type: string
+        description: Phone number of the member contact
+      identifier:
+        type: string
+        description: Identifier of the member contact
+      thumbnail:
+        type: string
+        description: Thumbnail URL of the member contact

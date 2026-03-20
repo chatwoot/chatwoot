@@ -2,7 +2,22 @@
 # https://developers.facebook.com/docs/whatsapp/api/media/
 
 class Whatsapp::IncomingMessageWhatsappCloudService < Whatsapp::IncomingMessageBaseService
+  include Events::Types
+
+  def perform
+    return if processed_params.blank?
+
+    Rails.configuration.dispatcher.dispatch(PROVIDER_EVENT_RECEIVED, Time.zone.now, inbox: inbox, event: whatsapp_cloud_event_type,
+                                                                                    payload: processed_params)
+
+    super
+  end
+
   private
+
+  def whatsapp_cloud_event_type
+    params.dig(:entry, 0, :changes, 0, :field) || 'unknown'
+  end
 
   def processed_params
     @processed_params ||= params[:entry].try(:first).try(:[], 'changes').try(:first).try(:[], 'value')

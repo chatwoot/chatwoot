@@ -7,7 +7,13 @@ import { useStore, useStoreGetters } from 'dashboard/composables/store';
 import { uploadFile } from 'dashboard/helper/uploadHelper';
 import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
 import { useVuelidate } from '@vuelidate/core';
-import { required, minLength, helpers, url } from '@vuelidate/validators';
+import {
+  required,
+  minLength,
+  maxLength,
+  helpers,
+  url,
+} from '@vuelidate/validators';
 import { isValidSlug } from 'shared/helpers/Validators';
 
 import Button from 'dashboard/components-next/button/Button.vue';
@@ -15,6 +21,7 @@ import Input from 'dashboard/components-next/input/Input.vue';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
 import ColorPicker from 'dashboard/components-next/colorpicker/ColorPicker.vue';
+import Switch from 'dashboard/components-next/switch/Switch.vue';
 
 const props = defineProps({
   activePortal: {
@@ -34,6 +41,7 @@ const store = useStore();
 const getters = useStoreGetters();
 
 const MAXIMUM_FILE_UPLOAD_SIZE = 4; // in MB
+const CUSTOM_HTML_MAX_LENGTH = 15_000;
 
 const state = reactive({
   name: '',
@@ -45,6 +53,9 @@ const state = reactive({
   liveChatWidgetInboxId: '',
   logoUrl: '',
   avatarBlobId: '',
+  showAuthor: true,
+  customHeadHtml: '',
+  customBodyHtml: '',
 });
 
 const originalState = reactive({ ...state });
@@ -80,6 +91,8 @@ const rules = {
     ),
   },
   homePageLink: { url },
+  customHeadHtml: { maxLength: maxLength(CUSTOM_HTML_MAX_LENGTH) },
+  customBodyHtml: { maxLength: maxLength(CUSTOM_HTML_MAX_LENGTH) },
 };
 
 const v$ = useVuelidate(rules, state);
@@ -95,6 +108,18 @@ const slugError = computed(() => {
 const homePageLinkError = computed(() =>
   v$.value.homePageLink.$error
     ? t('HELP_CENTER.PORTAL_SETTINGS.FORM.HOME_PAGE_LINK.ERROR')
+    : ''
+);
+
+const customHeadHtmlError = computed(() =>
+  v$.value.customHeadHtml.$error
+    ? t('HELP_CENTER.PORTAL_SETTINGS.FORM.CUSTOM_HEAD_HTML.ERROR')
+    : ''
+);
+
+const customBodyHtmlError = computed(() =>
+  v$.value.customBodyHtml.$error
+    ? t('HELP_CENTER.PORTAL_SETTINGS.FORM.CUSTOM_BODY_HTML.ERROR')
     : ''
 );
 
@@ -117,6 +142,9 @@ watch(
         homePageLink: newVal.homepage_link,
         slug: newVal.slug,
         liveChatWidgetInboxId: newVal.inbox?.id || '',
+        showAuthor: newVal.config?.show_author !== false,
+        customHeadHtml: newVal.custom_head_html || '',
+        customBodyHtml: newVal.custom_body_html || '',
       });
       if (newVal.logo) {
         const {
@@ -149,6 +177,9 @@ const handleUpdatePortal = () => {
     homepage_link: state.homePageLink,
     blob_id: state.avatarBlobId,
     inbox_id: state.liveChatWidgetInboxId,
+    config: { show_author: state.showAuthor },
+    custom_head_html: state.customHeadHtml,
+    custom_body_html: state.customBodyHtml,
   };
   emit('updatePortal', portal);
 };
@@ -333,6 +364,89 @@ const handleAvatarDelete = () => {
         </label>
         <div class="w-[432px] justify-start">
           <ColorPicker v-model="state.widgetColor" />
+        </div>
+      </div>
+      <div
+        class="grid items-start justify-between w-full gap-2 grid-cols-[200px,1fr]"
+      >
+        <label
+          class="text-sm font-medium whitespace-nowrap py-2.5 text-n-slate-12"
+        >
+          {{ t('HELP_CENTER.PORTAL_SETTINGS.FORM.SHOW_AUTHOR.LABEL') }}
+        </label>
+        <div class="flex flex-col gap-1 py-2.5">
+          <Switch v-model="state.showAuthor" />
+          <span class="text-xs text-n-slate-11">
+            {{ t('HELP_CENTER.PORTAL_SETTINGS.FORM.SHOW_AUTHOR.HELP_TEXT') }}
+          </span>
+        </div>
+      </div>
+      <div
+        class="grid items-start justify-between w-full gap-2 grid-cols-[200px,1fr]"
+      >
+        <label
+          class="text-sm font-medium whitespace-nowrap py-2.5 text-n-slate-12"
+        >
+          {{ t('HELP_CENTER.PORTAL_SETTINGS.FORM.CUSTOM_HEAD_HTML.LABEL') }}
+        </label>
+        <div class="flex flex-col gap-1">
+          <textarea
+            v-model="state.customHeadHtml"
+            :placeholder="
+              t('HELP_CENTER.PORTAL_SETTINGS.FORM.CUSTOM_HEAD_HTML.PLACEHOLDER')
+            "
+            rows="4"
+            class="w-full px-3 py-2 text-sm border rounded-lg resize-y bg-transparent dark:bg-transparent text-n-slate-12 placeholder:text-n-slate-9 focus:outline-none focus:ring-1 font-mono"
+            :class="
+              customHeadHtmlError
+                ? 'border-n-ruby-9 focus:ring-n-ruby-9'
+                : 'border-n-weak focus:ring-n-brand'
+            "
+            @input="v$.customHeadHtml.$touch()"
+          />
+          <span
+            class="text-xs"
+            :class="customHeadHtmlError ? 'text-n-ruby-9' : 'text-n-slate-11'"
+          >
+            {{
+              customHeadHtmlError ||
+              t('HELP_CENTER.PORTAL_SETTINGS.FORM.CUSTOM_HEAD_HTML.HELP_TEXT')
+            }}
+          </span>
+        </div>
+      </div>
+      <div
+        class="grid items-start justify-between w-full gap-2 grid-cols-[200px,1fr]"
+      >
+        <label
+          class="text-sm font-medium whitespace-nowrap py-2.5 text-n-slate-12"
+        >
+          {{ t('HELP_CENTER.PORTAL_SETTINGS.FORM.CUSTOM_BODY_HTML.LABEL') }}
+        </label>
+        <div class="flex flex-col gap-1">
+          <textarea
+            v-model="state.customBodyHtml"
+            :placeholder="
+              t('HELP_CENTER.PORTAL_SETTINGS.FORM.CUSTOM_BODY_HTML.PLACEHOLDER')
+            "
+            rows="4"
+            class="w-full px-3 py-2 text-sm border rounded-lg resize-y bg-transparent dark:bg-transparent text-n-slate-12 placeholder:text-n-slate-9 focus:outline-none focus:ring-1 font-mono"
+            :class="
+              customBodyHtmlError
+                ? 'border-n-ruby-9 focus:ring-n-ruby-9'
+                : 'border-n-weak focus:ring-n-brand'
+            "
+            @input="v$.customBodyHtml.$touch()"
+          />
+          <span
+            class="text-xs"
+            :class="customBodyHtmlError ? 'text-n-ruby-9' : 'text-n-slate-11'"
+          >
+            {{
+              customBodyHtmlError ||
+              t('HELP_CENTER.PORTAL_SETTINGS.FORM.CUSTOM_BODY_HTML.HELP_TEXT')
+            }}
+          </span>
         </div>
       </div>
       <div class="flex justify-end w-full gap-2">

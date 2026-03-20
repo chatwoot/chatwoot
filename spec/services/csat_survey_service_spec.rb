@@ -48,7 +48,7 @@ describe CsatSurveyService do
 
     context 'when CSAT survey should not be sent' do
       it 'does nothing when conversation is not resolved' do
-        conversation.update(status: :open)
+        conversation.update!(status: :open)
 
         service.perform
 
@@ -57,7 +57,7 @@ describe CsatSurveyService do
       end
 
       it 'does nothing when CSAT survey is not enabled' do
-        inbox.update(csat_survey_enabled: false)
+        inbox.update!(csat_survey_enabled: false)
 
         service.perform
 
@@ -91,13 +91,13 @@ describe CsatSurveyService do
 
       context 'when survey rules block sending' do
         before do
-          inbox.update(csat_config: {
-                         'survey_rules' => {
-                           'operator' => 'does_not_contain',
-                           'values' => ['bot-detectado']
-                         }
-                       })
-          conversation.update(label_list: ['bot-detectado'])
+          inbox.update!(csat_config: {
+                          'survey_rules' => {
+                            'operator' => 'does_not_contain',
+                            'values' => ['bot-detectado']
+                          }
+                        })
+          conversation.update!(label_list: ['bot-detectado'])
         end
 
         it 'does not send CSAT' do
@@ -171,7 +171,7 @@ describe CsatSurveyService do
 
         it 'builds correct template info with default template name' do
           expected_template_name = "customer_satisfaction_survey_#{whatsapp_inbox.id}"
-          whatsapp_inbox.update(csat_config: { 'template' => {}, 'message' => 'Rate us' })
+          whatsapp_inbox.update!(csat_config: { 'template' => {}, 'message' => 'Rate us' })
           allow(mock_provider_service).to receive(:get_template_status)
             .with(expected_template_name)
             .and_return({ success: true, template: { status: 'APPROVED' } })
@@ -328,15 +328,15 @@ describe CsatSurveyService do
 
       context 'when survey rules block sending' do
         before do
-          whatsapp_inbox.update(csat_config: {
-                                  'template' => { 'name' => 'customer_survey_template', 'language' => 'en' },
-                                  'message' => 'Please rate your experience',
-                                  'survey_rules' => {
-                                    'operator' => 'does_not_contain',
-                                    'values' => ['bot-detectado']
-                                  }
-                                })
-          whatsapp_conversation.update(label_list: ['bot-detectado'])
+          whatsapp_inbox.update!(csat_config: {
+                                   'template' => { 'name' => 'customer_survey_template', 'language' => 'en' },
+                                   'message' => 'Please rate your experience',
+                                   'survey_rules' => {
+                                     'operator' => 'does_not_contain',
+                                     'values' => ['bot-detectado']
+                                   }
+                                 })
+          whatsapp_conversation.update!(label_list: ['bot-detectado'])
         end
 
         it 'does not call WhatsApp template or create a CSAT message' do
@@ -346,6 +346,95 @@ describe CsatSurveyService do
           whatsapp_service.perform
 
           expect(whatsapp_conversation.messages.where(content_type: :input_csat)).to be_empty
+        end
+      end
+
+      context 'when template has body variables' do
+        before do
+          whatsapp_inbox.update!(csat_config: {
+                                   'template' => {
+                                     'name' => 'customer_survey_template',
+                                     'language' => 'en',
+                                     'body_variables' => { '1' => '{{contact.name}}', '2' => 'static text' }
+                                   },
+                                   'message' => 'Hi {{1}}, {{2}}'
+                                 })
+          allow(mock_provider_service).to receive(:get_template_status)
+            .with('customer_survey_template')
+            .and_return({ success: true, template: { status: 'APPROVED' } })
+        end
+
+        it 'includes resolved body parameters in template payload' do
+          allow(mock_provider_service).to receive(:send_template) do |_phone, template_info, message|
+            message.save!
+            body_component = template_info[:parameters].find { |p| p[:type] == 'body' }
+            expect(body_component).to be_present
+            expect(body_component[:parameters].length).to eq(2)
+            expect(body_component[:parameters][0][:type]).to eq('text')
+            expect(body_component[:parameters][0][:text]).to be_present
+            expect(body_component[:parameters][1]).to eq({ type: 'text', text: 'static text' })
+            'msg_id'
+          end
+
+          whatsapp_service.perform
+        end
+
+        it 'resolves liquid variables in CSAT message content' do
+          mock_successful_template_send('msg_id')
+
+          whatsapp_service.perform
+
+          csat_message = whatsapp_conversation.messages.where(content_type: :input_csat).last
+          expect(csat_message.content).to include('static text')
+          expect(csat_message.content).not_to include('{{1}}')
+          expect(csat_message.content).not_to include('{{2}}')
+        end
+
+        it 'falls back to original value in body parameters when liquid variable resolves to empty' do
+          whatsapp_inbox.update!(csat_config: {
+                                   'template' => {
+                                     'name' => 'customer_survey_template',
+                                     'language' => 'en',
+                                     'body_variables' => { '1' => '{{contact.nonexistent_attr}}' }
+                                   },
+                                   'message' => 'Attr: {{1}}'
+                                 })
+
+          allow(mock_provider_service).to receive(:send_template) do |_phone, template_info, message|
+            message.save!
+            # The body parameter should contain the original liquid variable string as fallback
+            body_component = template_info[:parameters].find { |p| p[:type] == 'body' }
+            expect(body_component[:parameters][0][:text]).to eq('{{contact.nonexistent_attr}}')
+            'msg_id'
+          end
+
+          whatsapp_service.perform
+        end
+      end
+
+      context 'when template has no body variables' do
+        before do
+          whatsapp_inbox.update!(csat_config: {
+                                   'template' => {
+                                     'name' => 'customer_survey_template',
+                                     'language' => 'en'
+                                   },
+                                   'message' => 'Please rate your experience'
+                                 })
+          allow(mock_provider_service).to receive(:get_template_status)
+            .with('customer_survey_template')
+            .and_return({ success: true, template: { status: 'APPROVED' } })
+        end
+
+        it 'does not include body parameters in template payload' do
+          allow(mock_provider_service).to receive(:send_template) do |_phone, template_info, message|
+            message.save!
+            body_component = template_info[:parameters].find { |p| p[:type] == 'body' }
+            expect(body_component).to be_nil
+            'msg_id'
+          end
+
+          whatsapp_service.perform
         end
       end
     end
@@ -361,16 +450,16 @@ describe CsatSurveyService do
       },
       'message' => 'Please rate your experience'
     }
-    whatsapp_inbox.update(csat_config: template_config)
+    whatsapp_inbox.update!(csat_config: template_config)
     allow(mock_provider_service).to receive(:get_template_status)
       .with(template_name)
       .and_return({ success: true, template: { status: 'APPROVED' } })
   end
 
   def setup_template_with_status(template_name, status)
-    whatsapp_inbox.update(csat_config: {
-                            'template' => { 'name' => template_name }
-                          })
+    whatsapp_inbox.update!(csat_config: {
+                             'template' => { 'name' => template_name }
+                           })
     allow(mock_provider_service).to receive(:get_template_status)
       .with(template_name)
       .and_return({ success: true, template: { status: status } })

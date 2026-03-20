@@ -38,17 +38,27 @@
             "CONVERSATION_STATUS_CHANGED": "Status de conversa alterado",
             "CONVERSATION_UPDATED": "Conversa Atualizada",
             "MESSAGE_CREATED": "Mensagem criada",
+            "MESSAGE_INCOMING": "Mensagem recebida",
+            "MESSAGE_OUTGOING": "Mensagem enviada",
             "MESSAGE_UPDATED": "Mensagem atualizada",
             "WEBWIDGET_TRIGGERED": "Widget de chat aberto pelo usuário",
             "CONTACT_CREATED": "Contato criado",
             "CONTACT_UPDATED": "Contato atualizado",
             "CONVERSATION_TYPING_ON": "Status de Digitação ativado",
-            "CONVERSATION_TYPING_OFF": "Status de Digitação desativado"
+            "CONVERSATION_TYPING_OFF": "Status de Digitação desativado",
+            "PROVIDER_EVENT_RECEIVED": "Evento do Provedor Recebido"
           }
         },
         "NAME": {
-          "LABEL": "Webhook Name",
-          "PLACEHOLDER": "Enter the name of the webhook"
+          "LABEL": "Nome do Webhook",
+          "PLACEHOLDER": "Insira o nome do webhook"
+        },
+        "INBOX": {
+          "LABEL": "Caixa de Entrada",
+          "TITLE": "Selecione a caixa de entrada",
+          "PLACEHOLDER": "Todas as caixas de entrada",
+          "NO_RESULTS": "Nenhuma caixa de entrada encontrada",
+          "INPUT_PLACEHOLDER": "Buscar caixa de entrada"
         },
         "END_POINT": {
           "LABEL": "URL do Webhook",
@@ -145,7 +155,11 @@
         "EXPAND": "Expandir",
         "MAKE_FRIENDLY": "Alterar o tom de mensagem para amigável",
         "MAKE_FORMAL": "Usar tom formal",
-        "SIMPLIFY": "Simplificar"
+        "SIMPLIFY": "Simplificar",
+        "CONFIDENT": "Usar tom confiante",
+        "PROFESSIONAL": "Usar tom profissional",
+        "CASUAL": "Usar tom casual",
+        "STRAIGHTFORWARD": "Usar tom direto"
       },
       "ASSISTANCE_MODAL": {
         "DRAFT_TITLE": "Conteúdo do rascunho",
@@ -176,7 +190,10 @@
         "TITLE": "Tom",
         "OPTIONS": {
           "PROFESSIONAL": "Profissional",
-          "FRIENDLY": "Amigável"
+          "FRIENDLY": "Amigável",
+          "CASUAL": "Casual",
+          "STRAIGHTFORWARD": "Direto",
+          "CONFIDENT": "Confiante"
         }
       },
       "BUTTONS": {
@@ -211,13 +228,17 @@
         "EDIT_TOOLTIP": "Alterar aplicativo",
         "DELETE_TOOLTIP": "Excluir aplicativo"
       },
+      "VIEW": {
+        "NOT_FOUND": "Não encontramos este aplicativo do painel."
+      },
       "FORM": {
         "TITLE_LABEL": "Nome",
         "TITLE_PLACEHOLDER": "Digite um nome para o aplicativo",
         "TITLE_ERROR": "É necessário um nome para o aplicativo",
         "URL_LABEL": "Endpoint",
         "URL_PLACEHOLDER": "Digite a URL do endpoint onde seu aplicativo está hospedado",
-        "URL_ERROR": "É necessário uma URL válida"
+        "URL_ERROR": "É necessário uma URL válida",
+        "SHOW_ON_SIDEBAR_LABEL": "Mostrar na barra lateral"
       },
       "CREATE": {
         "HEADER": "Adicionar um novo aplicativo",

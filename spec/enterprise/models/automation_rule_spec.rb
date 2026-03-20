@@ -14,7 +14,7 @@ RSpec.describe AutomationRule do
 
     context 'when automation rule is updated' do
       it 'has associated audit log created' do
-        automation_rule.update(name: 'automation rule 2')
+        automation_rule.update!(name: 'automation rule 2')
         expect(Audited::Audit.where(auditable_type: 'AutomationRule', action: 'update').count).to eq 1
       end
     end

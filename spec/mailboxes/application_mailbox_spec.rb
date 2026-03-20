@@ -44,7 +44,7 @@ RSpec.describe ApplicationMailbox do
       it 'routes support emails to Reply Mailbox when mail is to channel email' do
         # this email is hardcoded in the support.eml, that's why we are updating this
         # With NewConversationStrategy, all channel emails route to ReplyMailbox
-        channel_email.update(email: 'care@example.com')
+        channel_email.update!(email: 'care@example.com')
         dbl = double
         expect(ReplyMailbox).to receive(:new).and_return(dbl)
         expect(dbl).to receive(:perform_processing).and_return(true)
@@ -54,7 +54,7 @@ RSpec.describe ApplicationMailbox do
       it 'routes support emails to Reply Mailbox when mail is to channel forward to email' do
         # this email is hardcoded in the support.eml, that's why we are updating this
         # With NewConversationStrategy, all channel emails route to ReplyMailbox
-        channel_email.update(forward_to_email: 'care@example.com')
+        channel_email.update!(forward_to_email: 'care@example.com')
         dbl = double
         expect(ReplyMailbox).to receive(:new).and_return(dbl)
         expect(dbl).to receive(:perform_processing).and_return(true)
@@ -63,7 +63,7 @@ RSpec.describe ApplicationMailbox do
 
       it 'routes support emails to Reply Mailbox with cc email' do
         # With NewConversationStrategy, all channel emails route to ReplyMailbox
-        channel_email.update(email: 'test@example.com')
+        channel_email.update!(email: 'test@example.com')
         dbl = double
         expect(ReplyMailbox).to receive(:new).and_return(dbl)
         expect(dbl).to receive(:perform_processing).and_return(true)
@@ -78,7 +78,7 @@ RSpec.describe ApplicationMailbox do
         bcc_mail.mail['to'] = nil
         bcc_mail.mail['bcc'] = 'care@example.com'
 
-        channel_email.update(email: 'care@example.com')
+        channel_email.update!(email: 'care@example.com')
 
         expect(DefaultMailbox).to receive(:new).and_return(double.tap { |d| expect(d).to receive(:perform_processing) })
         described_class.route bcc_mail

@@ -1,0 +1,5 @@
+json.id inbox_signature.id
+json.inbox_id inbox_signature.inbox_id
+json.message_signature inbox_signature.message_signature
+json.signature_position inbox_signature.signature_position
+json.signature_separator inbox_signature.signature_separator

@@ -158,9 +158,11 @@ const activeChild = computed(() => {
     return rankedPage ?? activeOnPages[0];
   }
 
-  return navigableChildren.value.find(
-    child => child.to && route.path.startsWith(resolvePath(child.to))
-  );
+  return navigableChildren.value.find(child => {
+    if (!child.to) return false;
+    const childPath = resolvePath(child.to);
+    return route.path === childPath || route.path.startsWith(childPath + '/');
+  });
 });
 
 const hasActiveChild = computed(() => {

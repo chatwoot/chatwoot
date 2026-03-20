@@ -1,6 +1,7 @@
 <script>
 import AutomationActionTeamMessageInput from './AutomationActionTeamMessageInput.vue';
 import AutomationActionFileInput from './AutomationFileInput.vue';
+import AutomationActionScheduledMessageInput from './AutomationActionScheduledMessageInput.vue';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import SingleSelect from 'dashboard/components-next/filter/inputs/SingleSelect.vue';
@@ -11,6 +12,7 @@ export default {
   components: {
     AutomationActionTeamMessageInput,
     AutomationActionFileInput,
+    AutomationActionScheduledMessageInput,
     WootMessageEditor,
     NextButton,
     SingleSelect,
@@ -49,6 +51,10 @@ export default {
     dropdownMaxHeight: {
       type: String,
       default: 'max-h-80',
+    },
+    conditions: {
+      type: Array,
+      default: () => [],
     },
   },
   emits: ['update:modelValue', 'input', 'removeAction', 'resetAction'],
@@ -98,9 +104,10 @@ export default {
     castMessageVmodel: {
       get() {
         if (Array.isArray(this.action_params)) {
-          return this.action_params[0];
+          const value = this.action_params[0];
+          return typeof value === 'string' ? value : '';
         }
-        return this.action_params;
+        return typeof this.action_params === 'string' ? this.action_params : '';
       },
       set(value) {
         this.action_params = value;
@@ -193,6 +200,12 @@ export default {
         enable-variables
         :placeholder="$t('AUTOMATION.ACTION.TEAM_MESSAGE_INPUT_PLACEHOLDER')"
         class="[&_.ProseMirror-menubar]:hidden px-3 py-1 bg-n-alpha-1 rounded-lg outline outline-1 outline-n-weak dark:outline-n-strong"
+      />
+      <AutomationActionScheduledMessageInput
+        v-if="inputType === 'scheduled_message'"
+        v-model="action_params"
+        :initial-file-name="initialFileName"
+        :conditions="conditions"
       />
     </div>
     <span v-if="errorMessage" class="text-sm text-n-ruby-11">

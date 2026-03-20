@@ -8,6 +8,7 @@ default: &default
   # frequency in seconds to periodically run the Reaper, which attempts
   # to find and recover connections from dead threads
   reaping_frequency: <%= ENV.fetch('DB_POOL_REAPING_FREQUENCY', 30) %>
+  checkout_timeout: <%= ENV.fetch('DB_CHECKOUT_TIMEOUT', 5) %>
   variables:
     # we are setting this value to be close to the racktimeout value. we will iterate and reduce this value going forward
     statement_timeout: <%= ENV["POSTGRES_STATEMENT_TIMEOUT"] || "14s" %>

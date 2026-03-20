@@ -30,6 +30,8 @@ class Public::Api::V1::Inboxes::ConversationsController < Public::Api::V1::Inbox
     case params[:typing_status]
     when 'on'
       trigger_typing_event(CONVERSATION_TYPING_ON)
+    when 'recording'
+      trigger_typing_event(CONVERSATION_RECORDING)
     when 'off'
       trigger_typing_event(CONVERSATION_TYPING_OFF)
     end

@@ -63,6 +63,12 @@ en:
       not_found: Assignment policy not found
     attachments:
       invalid: Invalid attachment
+    automation:
+      scheduled_message:
+        delay_out_of_range: Delay must be between 1 minute and 999 days
+        content_attachment_or_template_required: Scheduled message must have content, attachment, or template
+    scheduled_messages:
+      cannot_delete_processed: Cannot delete a scheduled message that has already been sent or failed
     saml:
       feature_not_enabled: SAML feature not enabled for this account
       sso_not_enabled: SAML SSO is not enabled for this installation
@@ -115,6 +121,9 @@ en:
         smtp_error: SMTP server error. Please check your configuration and try again.
       validations:
         name: should not start or end with symbols, and it should not have < > / \ @ characters.
+      channel:
+        provider_connection:
+          wrong_phone_number: The phone number you are trying to link is not the same as the one you have configured. Please make sure the phone number is correct before scanning the QR code.
     custom_filters:
       number_of_records: Limit reached. The maximum number of allowed custom filters for a user per account is 1000.
       invalid_attribute: Invalid attribute key - [%{key}]. The key should be one of [%{allowed_keys}] or a custom attribute defined in the account.
@@ -270,12 +279,47 @@ en:
         issue_created: 'Linear issue %{issue_id} was created by %{user_name}'
         issue_linked: 'Linear issue %{issue_id} was linked by %{user_name}'
         issue_unlinked: 'Linear issue %{issue_id} was unlinked by %{user_name}'
+      group_participants:
+        add:
+          single: '%{author_name} added %{contact_name} to the group'
+          multiple: '%{author_name} added %{contact_names} and %{last_contact_name} to the group'
+        join: '%{contact_name} joined using the group invite link'
+        leave: '%{contact_name} left the group'
+        remove:
+          single: '%{author_name} removed %{contact_name} from the group'
+          multiple: '%{author_name} removed %{contact_names} and %{last_contact_name} from the group'
+        promote:
+          single: '%{author_name} promoted %{contact_name} to admin'
+          multiple: '%{author_name} promoted %{contact_names} and %{last_contact_name} to admin'
+        demote:
+          single: '%{author_name} demoted %{contact_name} to member'
+          multiple: '%{author_name} demoted %{contact_names} and %{last_contact_name} to member'
+      groups_update:
+        subject_changed: '%{author_name} changed the group name to "%{value}"'
+        description_changed: '%{author_name} changed the group description'
+        description_removed: '%{author_name} removed the group description'
+        restrict_enabled: '%{author_name} changed the settings so only admins can edit the group settings'
+        restrict_disabled: '%{author_name} changed the settings so all members can edit the group settings'
+        announce_enabled: "%{author_name} changed this group's settings to allow only admins to send messages to this group"
+        announce_disabled: "%{author_name} changed this group's settings to allow all members to send messages to this group"
+        member_add_mode_enabled: "%{author_name} changed this group's setting to allow all members to add others to this group"
+        member_add_mode_disabled: "%{author_name} changed this group's setting to allow only admins to add others to this group"
+        join_approval_mode_enabled: '%{author_name} turned on admin approval to join this group'
+        join_approval_mode_disabled: '%{author_name} turned off admin approval to join this group'
+        invite_link_reset: "%{author_name} reset this group's invite link"
+        membership_request_created: '%{contact_name} wants to join the group'
+        membership_request_revoked: '%{contact_name} no longer wants to join the group'
+        icon_changed: '%{author_name} changed the group image'
       csat:
         not_sent_due_to_messaging_window: 'CSAT survey not sent due to outgoing message restrictions'
       auto_resolve:
         not_sent_due_to_messaging_window: 'Auto-resolve message not sent due to outgoing message restrictions'
       muted: '%{user_name} has muted the conversation'
       unmuted: '%{user_name} has unmuted the conversation'
+      recurring_message_failed: 'Recurring scheduled message failed to send. Next occurrence scheduled for %{next_date}.'
+      recurring_message_completed: 'Recurring scheduled message series completed after %{count} occurrences.'
+      recurring_message_cancelled: 'Recurring scheduled message has been stopped by %{agent}.'
+      unknown_agent: 'Unknown'
       auto_resolution_message: 'Resolving the conversation as it has been inactive for a while. Please start a new conversation if you need further assistance.'
     templates:
       greeting_message_body: '%{account_name} typically replies in a few hours.'
@@ -301,6 +345,11 @@ en:
   contacts:
     online:
       delete: '%{contact_name} is Online, please try again later'
+    sync_group:
+      not_a_group: 'Contact is not a group'
+      no_identifier: 'Contact does not have a group identifier'
+      no_supported_inbox: 'No inbox with group sync support found for this contact'
+      metadata_unavailable: 'Could not retrieve group metadata from the provider'
   integration_apps:
     # Note: webhooks and dashboard_apps don't need short_description as they use different modal components
     dashboard_apps:
@@ -474,3 +523,30 @@ en:
       subject: 'Finish setting up %{custom_domain}'
     ssl_status:
       custom_domain_not_configured: 'Custom domain is not configured'
+  recurring_scheduled_messages:
+    description:
+      daily:
+        one: "Every day"
+        other: "Every %{count} days"
+      weekly:
+        one: "Every week"
+        other: "Every %{count} weeks"
+      weekly_on: "%{prefix} on %{days}"
+      monthly:
+        one: "Monthly"
+        other: "Every %{count} months"
+      monthly_on_weekday: "%{prefix} on the %{ordinal} %{weekday}"
+      yearly:
+        one: "Every year"
+        other: "Every %{count} years"
+      until_date: "until %{date}"
+      after_count:
+        one: "%{count} occurrence"
+        other: "%{count} occurrences"
+      ordinals:
+        first: "first"
+        second: "second"
+        third: "third"
+        fourth: "fourth"
+        fifth: "fifth"
+        last: "last"

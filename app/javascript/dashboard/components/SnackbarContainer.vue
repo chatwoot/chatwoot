@@ -31,26 +31,35 @@ const showPopover = () => {
 const onNewToastMessage = ({ message: originalMessage, action }) => {
   const message = action?.usei18n ? t(originalMessage) : originalMessage;
   const duration = action?.duration || props.duration;
+  const key = action?.key || Date.now();
 
   snackMessages.value.push({
-    key: Date.now(),
+    key,
     message,
     action,
   });
 
   nextTick(showPopover);
 
-  setTimeout(() => {
-    snackMessages.value.shift();
-  }, duration);
+  if (!action?.persistent) {
+    setTimeout(() => {
+      snackMessages.value = snackMessages.value.filter(m => m.key !== key);
+    }, duration);
+  }
+};
+
+const onDismissToastMessage = ({ key }) => {
+  snackMessages.value = snackMessages.value.filter(m => m.key !== key);
 };
 
 onMounted(() => {
   emitter.on('newToastMessage', onNewToastMessage);
+  emitter.on('dismissToastMessage', onDismissToastMessage);
 });
 
 onUnmounted(() => {
   emitter.off('newToastMessage', onNewToastMessage);
+  emitter.off('dismissToastMessage', onDismissToastMessage);
 });
 </script>
 

@@ -55,7 +55,7 @@ class Channel::TwilioSms < ApplicationRecord
     params = send_message_from.merge(to: to, body: body)
     params[:media_url] = media_url if media_url.present?
     params[:status_callback] = twilio_delivery_status_index_url
-    client.messages.create(**params)
+    client.messages.create(**params) # rubocop:disable Rails/SaveBang
   end
 
   private

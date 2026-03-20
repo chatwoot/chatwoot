@@ -26,7 +26,7 @@ class Twilio::VoiceWebhookSetupService
 
   def create_twiml_app!
     friendly_name = "Chatwoot Voice #{channel.phone_number}"
-    app = api_key_client.applications.create(
+    app = api_key_client.applications.create!(
       friendly_name: friendly_name,
       voice_url: channel.voice_call_webhook_url,
       voice_method: HTTP_METHOD
@@ -46,7 +46,7 @@ class Twilio::VoiceWebhookSetupService
 
     api_key_client
       .incoming_phone_numbers(numbers.first.sid)
-      .update(
+      .update!(
         voice_url: channel.voice_call_webhook_url,
         voice_method: HTTP_METHOD,
         status_callback: channel.voice_status_webhook_url,

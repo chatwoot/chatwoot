@@ -40,7 +40,7 @@ RSpec.describe Captain::Tools::SearchDocumentationService do
 
     context 'when matching responses exist' do
       before do
-        response.update(documentable: documentable)
+        response.update!(documentable: documentable)
         allow(Captain::AssistantResponse).to receive(:search).with(question).and_return([response])
       end
 

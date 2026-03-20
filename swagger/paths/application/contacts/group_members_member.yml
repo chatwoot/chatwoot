@@ -1,0 +1,67 @@
+parameters:
+  - $ref: '#/components/parameters/account_id'
+  - name: id
+    in: path
+    required: true
+    schema:
+      type: number
+    description: ID of the group contact
+  - name: member_id
+    in: path
+    required: true
+    schema:
+      type: number
+    description: ID of the group member record
+
+patch:
+  tags:
+    - Groups
+  operationId: contact-group-member-update-role
+  summary: Update Member Role
+  description: Promotes or demotes a group member. Set role to "admin" to promote, or "member" to demote. The group creator cannot be modified.
+  security:
+    - userApiKey: []
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - role
+          properties:
+            role:
+              type: string
+              enum: ['admin', 'member']
+              description: New role for the member
+  responses:
+    '200':
+      description: Role updated successfully
+    '401':
+      description: Unauthorized
+    '422':
+      description: Provider unavailable or group creator not modifiable
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/bad_request_error'
+
+delete:
+  tags:
+    - Groups
+  operationId: contact-group-member-remove
+  summary: Remove Group Member
+  description: Removes a participant from the WhatsApp group. The group creator cannot be removed.
+  security:
+    - userApiKey: []
+  responses:
+    '200':
+      description: Member removed successfully
+    '401':
+      description: Unauthorized
+    '422':
+      description: Provider unavailable or group creator not modifiable
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/bad_request_error'

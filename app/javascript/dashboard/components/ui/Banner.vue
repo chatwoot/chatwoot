@@ -79,7 +79,7 @@ export default {
 
 <template>
   <div
-    class="flex items-center justify-center h-12 gap-4 px-4 py-3 text-xs text-white banner dark:text-white woot-banner"
+    class="flex items-center justify-center min-h-12 gap-4 px-4 py-3 text-xs text-white banner dark:text-white woot-banner"
     :class="bannerClasses"
   >
     <span class="banner-message">
@@ -152,7 +152,7 @@ export default {
   }
 
   .banner-message {
-    @apply flex items-center;
+    @apply inline;
   }
 
   .actions {

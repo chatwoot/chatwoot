@@ -96,6 +96,7 @@ const MessageControl = Symbol('MessageControl');
  * @property {import('vue').Ref<Object|null>} [inReplyTo=null] - The message to which this message is a reply
  * @property {import('vue').Ref<SenderType>} [senderType=null] - The type of the sender
  * @property {import('vue').Ref<Sender|null>} [sender=null] - The sender information
+ * @property {import('vue').Ref<Object>} [additionalAttributes={}] - Additional attributes of the message
  * @property {import('vue').ComputedRef<MessageOrientation>} orientation - The visual variant of the message
  * @property {import('vue').ComputedRef<MessageVariant>} variant - The visual variant of the message
  * @property {import('vue').ComputedRef<boolean>} isBotOrAgentMessage - Does the message belong to the current user

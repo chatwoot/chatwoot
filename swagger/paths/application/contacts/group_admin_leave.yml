@@ -1,0 +1,28 @@
+parameters:
+  - $ref: '#/components/parameters/account_id'
+  - name: id
+    in: path
+    required: true
+    schema:
+      type: number
+    description: ID of the group contact
+
+post:
+  tags:
+    - Groups
+  operationId: contact-group-admin-leave
+  summary: Leave Group
+  description: Leaves the WhatsApp group and resolves all open/pending conversations associated with this group contact.
+  security:
+    - userApiKey: []
+  responses:
+    '200':
+      description: Left group successfully
+    '401':
+      description: Unauthorized
+    '422':
+      description: Provider unavailable
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/bad_request_error'

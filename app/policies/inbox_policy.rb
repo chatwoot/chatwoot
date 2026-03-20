@@ -65,4 +65,12 @@ class InboxPolicy < ApplicationPolicy
   def health?
     @account_user.administrator?
   end
+
+  def disconnect_channel_provider?
+    @account_user.administrator?
+  end
+
+  def on_whatsapp?
+    true
+  end
 end

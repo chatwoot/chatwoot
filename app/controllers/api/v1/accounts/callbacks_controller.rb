@@ -46,7 +46,7 @@ class Api::V1::Accounts::CallbacksController < Api::V1::Accounts::BaseController
     return if response['instagram_business_account'].blank?
 
     instagram_id = response['instagram_business_account']['id']
-    facebook_channel.update(instagram_id: instagram_id)
+    facebook_channel.update!(instagram_id: instagram_id)
   rescue StandardError => e
     Rails.logger.error "Error in set_instagram_id: #{e.message}"
   end

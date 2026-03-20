@@ -35,9 +35,8 @@ class ConversationReplyMailer < ApplicationMailer
   end
 
   def email_reply(message)
-    return unless smtp_config_set_or_development?
-
     init_conversation_attributes(message.conversation)
+    return unless smtp_config_set_or_development? || email_oauth_enabled
 
     @message = message
     prepare_mail(true)
@@ -77,8 +76,8 @@ class ConversationReplyMailer < ApplicationMailer
 
   def conversation_already_viewed?
     # whether contact already saw the message on widget
-    return unless @conversation.contact_last_seen_at
-    return unless last_outgoing_message&.created_at
+    return false unless @conversation.contact_last_seen_at
+    return false unless last_outgoing_message&.created_at
 
     @conversation.contact_last_seen_at > last_outgoing_message&.created_at
   end

@@ -443,6 +443,23 @@ RSpec.describe 'Api::V1::Accounts::AutomationRulesController', type: :request do
         expect(response).to have_http_status(:success)
         expect(account.automation_rules.count).to eq(0)
       end
+
+      it 'deletes automation rule even when it has sent scheduled messages' do
+        conversation = create(:conversation, account: account, inbox: inbox, contact: contact)
+        scheduled_message = create(:scheduled_message,
+                                   account: account,
+                                   inbox: inbox,
+                                   conversation: conversation,
+                                   author: automation_rule)
+        scheduled_message.update_column(:status, ScheduledMessage.statuses[:sent]) # rubocop:disable Rails/SkipsModelValidations
+
+        delete "/api/v1/accounts/#{account.id}/automation_rules/#{automation_rule.id}",
+               headers: administrator.create_new_auth_token
+
+        expect(response).to have_http_status(:success)
+        expect(account.automation_rules.count).to eq(0)
+        expect(scheduled_message.reload.author_id).to be_nil
+      end
     end
   end
 end

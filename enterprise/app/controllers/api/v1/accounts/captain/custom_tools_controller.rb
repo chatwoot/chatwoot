@@ -18,7 +18,7 @@ class Api::V1::Accounts::Captain::CustomToolsController < Api::V1::Accounts::Bas
   end
 
   def destroy
-    @custom_tool.destroy
+    @custom_tool.destroy!
     head :no_content
   end
 

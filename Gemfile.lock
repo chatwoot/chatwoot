@@ -749,6 +749,8 @@ GEM
       uber (< 0.2.0)
     request_store (1.5.1)
       rack (>= 1.4)
+    resend (0.19.0)
+      httparty (>= 0.21.0)
     responders (3.1.1)
       actionpack (>= 5.2)
       railties (>= 5.2)
@@ -935,6 +937,8 @@ GEM
     squasher (0.7.2)
     stackprof (0.2.25)
     statsd-ruby (1.5.0)
+    streamio-ffmpeg (3.0.2)
+      multi_json (~> 1.8)
     stripe (18.0.1)
     telephone_number (1.4.20)
     test-prof (1.2.1)
@@ -1116,6 +1120,7 @@ DEPENDENCIES
   rails (~> 7.1)
   redis
   redis-namespace
+  resend (~> 0.19.0)
   responders (>= 3.1.1)
   rest-client
   reverse_markdown
@@ -1148,6 +1153,7 @@ DEPENDENCIES
   spring-watcher-listen
   squasher
   stackprof
+  streamio-ffmpeg (~> 3.0)
   stripe (~> 18.0)
   telephone_number
   test-prof

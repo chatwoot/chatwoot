@@ -80,6 +80,7 @@ class ConversationFinder
 
     find_all_conversations
     filter_by_status unless params[:q]
+    filter_by_group_type
     filter_by_team
     filter_by_labels
     filter_by_query
@@ -132,6 +133,12 @@ class ConversationFinder
       @conversations = @conversations.assigned
     end
     @conversations
+  end
+
+  def filter_by_group_type
+    return unless params[:group_type].present? && params[:group_type] != 'all'
+
+    @conversations = @conversations.where(group_type: params[:group_type])
   end
 
   def filter_by_conversation_type

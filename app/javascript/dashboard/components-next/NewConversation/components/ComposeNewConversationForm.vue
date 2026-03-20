@@ -4,8 +4,6 @@ import { useVuelidate } from '@vuelidate/core';
 import { required, requiredIf } from '@vuelidate/validators';
 import { INBOX_TYPES } from 'dashboard/helper/inbox';
 import {
-  appendSignature,
-  removeSignature,
   getEffectiveChannelType,
   stripUnsupportedMarkdown,
 } from 'dashboard/helper/editorHelper';
@@ -37,6 +35,7 @@ const props = defineProps({
   contactsUiFlags: { type: Object, default: null },
   messageSignature: { type: String, default: '' },
   sendWithSignature: { type: Boolean, default: false },
+  signatureSettings: { type: Object, default: null },
   formState: { type: Object, required: true },
 });
 
@@ -70,6 +69,12 @@ const inboxTypes = computed(() => ({
   isEmail: props.targetInbox?.channelType === INBOX_TYPES.EMAIL,
   isTwilio: props.targetInbox?.channelType === INBOX_TYPES.TWILIO,
   isWhatsapp: props.targetInbox?.channelType === INBOX_TYPES.WHATSAPP,
+  isWhatsappBaileys:
+    props.targetInbox?.channelType === INBOX_TYPES.WHATSAPP &&
+    props.targetInbox?.provider === 'baileys',
+  isWhatsappZapi:
+    props.targetInbox?.channelType === INBOX_TYPES.WHATSAPP &&
+    props.targetInbox?.provider === 'zapi',
   isWebWidget: props.targetInbox?.channelType === INBOX_TYPES.WEB,
   isApi: props.targetInbox?.channelType === INBOX_TYPES.API,
   isEmailOrWebWidget:
@@ -90,12 +95,6 @@ const whatsappMessageTemplates = computed(() =>
 );
 
 const inboxChannelType = computed(() => props.targetInbox?.channelType || '');
-
-const inboxMedium = computed(() => props.targetInbox?.medium || '');
-
-const effectiveChannelType = computed(() =>
-  getEffectiveChannelType(inboxChannelType.value, inboxMedium.value)
-);
 
 const validationRules = computed(() => ({
   selectedContact: { required },
@@ -131,6 +130,9 @@ const newMessagePayload = () => {
     currentUser: props.currentUser,
     attachedFiles,
     directUploadsEnabled: props.isDirectUploadsEnabled,
+    sendWithSignature: props.sendWithSignature,
+    messageSignature: props.messageSignature,
+    signatureSettings: props.signatureSettings,
   });
 };
 
@@ -222,21 +224,8 @@ const handleInboxAction = ({ value, action, channelType, medium, ...rest }) => {
   state.attachedFiles = [];
 };
 
-const removeSignatureFromMessage = () => {
-  // Always remove the signature from message content when inbox/contact is removed
-  // to ensure no leftover signature content remains
-  if (props.messageSignature) {
-    state.message = removeSignature(
-      state.message,
-      props.messageSignature,
-      effectiveChannelType.value
-    );
-  }
-};
-
 const removeTargetInbox = value => {
   v$.value.$reset();
-  removeSignatureFromMessage();
 
   stripMessageFormatting(DEFAULT_FORMATTING);
 
@@ -245,7 +234,6 @@ const removeTargetInbox = value => {
 };
 
 const clearSelectedContact = () => {
-  removeSignatureFromMessage();
   emit('clearSelectedContact');
   state.message = '';
   state.attachedFiles = [];
@@ -253,22 +241,6 @@ const clearSelectedContact = () => {
 
 const onClickInsertEmoji = emoji => {
   state.message += emoji;
-};
-
-const handleAddSignature = signature => {
-  state.message = appendSignature(
-    state.message,
-    signature,
-    effectiveChannelType.value
-  );
-};
-
-const handleRemoveSignature = signature => {
-  state.message = removeSignature(
-    state.message,
-    signature,
-    effectiveChannelType.value
-  );
 };
 
 const handleAttachFile = files => {
@@ -333,7 +305,9 @@ const handleSendTwilioMessage = async ({ message, templateParams }) => {
 
 const shouldShowMessageEditor = computed(() => {
   return (
-    !inboxTypes.value.isWhatsapp &&
+    (!inboxTypes.value.isWhatsapp ||
+      inboxTypes.value.isWhatsappBaileys ||
+      inboxTypes.value.isWhatsappZapi) &&
     !showNoInboxAlert.value &&
     !inboxTypes.value.isTwilioWhatsapp
   );
@@ -408,6 +382,8 @@ const shouldShowMessageEditor = computed(() => {
     <ActionButtons
       :attached-files="state.attachedFiles"
       :is-whatsapp-inbox="inboxTypes.isWhatsapp"
+      :is-whatsapp-baileys-inbox="inboxTypes.isWhatsappBaileys"
+      :is-whatsapp-zapi-inbox="inboxTypes.isWhatsappZapi"
       :is-email-or-web-widget-inbox="inboxTypes.isEmailOrWebWidget"
       :is-twilio-sms-inbox="inboxTypes.isTwilioSMS"
       :is-twilio-whats-app-inbox="inboxTypes.isTwilioWhatsapp"
@@ -421,8 +397,6 @@ const shouldShowMessageEditor = computed(() => {
       :is-dropdown-active="isAnyDropdownActive"
       :message-signature="messageSignature"
       @insert-emoji="onClickInsertEmoji"
-      @add-signature="handleAddSignature"
-      @remove-signature="handleRemoveSignature"
       @attach-file="handleAttachFile"
       @discard="$emit('discard')"
       @send-message="handleSendMessage"

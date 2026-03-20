@@ -73,7 +73,7 @@ RSpec.describe Microsoft::RefreshOauthTokenService do
   context 'when refresh token is not present in provider config and access token is expired' do
     it 'throws an error' do
       with_modified_env AZURE_APP_ID: SecureRandom.uuid, AZURE_APP_SECRET: SecureRandom.hex do
-        microsoft_channel.update(
+        microsoft_channel.update!(
           provider_config: {
             access_token: SecureRandom.hex,
             expires_on: Time.zone.now - 3600

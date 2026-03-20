@@ -1,4 +1,4 @@
-class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseService
+class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseService # rubocop:disable Metrics/ClassLength
   def send_message(phone_number, message)
     @message = message
 
@@ -6,6 +6,8 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
       send_attachment_message(phone_number, message)
     elsif message.content_type == 'input_select'
       send_interactive_text_message(phone_number, message)
+    elsif message.content_attributes[:is_reaction]
+      send_reaction_message(phone_number, message)
     else
       send_text_message(phone_number, message)
     end
@@ -35,7 +37,7 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     # ensuring that channels with wrong provider config wouldn't keep trying to sync templates
     whatsapp_channel.mark_message_templates_updated
     templates = fetch_whatsapp_templates("#{business_account_path}/message_templates?access_token=#{whatsapp_channel.provider_config['api_key']}")
-    whatsapp_channel.update(message_templates: templates, message_templates_last_updated: Time.now.utc) if templates.present?
+    whatsapp_channel.update!(message_templates: templates, message_templates_last_updated: Time.now.utc) if templates.present?
   end
 
   def fetch_whatsapp_templates(url)
@@ -79,6 +81,44 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     "#{api_base_path}/v13.0/#{media_id}"
   end
 
+  def toggle_typing_status(typing_status, last_message:, **)
+    return false unless [Events::Types::CONVERSATION_TYPING_ON, Events::Types::CONVERSATION_RECORDING].include?(typing_status)
+
+    response = HTTParty.post(
+      "#{phone_id_path('v23.0')}/messages",
+      headers: api_headers,
+      body: {
+        messaging_product: 'whatsapp',
+        message_id: last_message.source_id,
+        status: 'read',
+        # NOTE: API currently only supports "typing", no "recording" status.
+        typing_indicator: { type: 'text' }
+      }.to_json
+    )
+
+    Rails.logger.error(response.parsed_response) unless response.success?
+
+    response.success?
+  end
+
+  def read_messages(messages, **)
+    # NOTE: Marking the last message as read automatically applies to all previous ones.
+    message = messages.last
+    response = HTTParty.post(
+      "#{phone_id_path('v23.0')}/messages",
+      headers: api_headers,
+      body: {
+        messaging_product: 'whatsapp',
+        message_id: message.source_id,
+        status: 'read'
+      }.to_json
+    )
+
+    Rails.logger.error(response.parsed_response) unless response.success?
+
+    response.success?
+  end
+
   private
 
   def csat_template_service
@@ -90,8 +130,8 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
   end
 
   # TODO: See if we can unify the API versions and for both paths and make it consistent with out facebook app API versions
-  def phone_id_path
-    "#{api_base_path}/v13.0/#{whatsapp_channel.provider_config['phone_number_id']}"
+  def phone_id_path(version = 'v13.0')
+    "#{api_base_path}/#{version}/#{whatsapp_channel.provider_config['phone_number_id']}"
   end
 
   def business_account_path
@@ -117,13 +157,12 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
   def send_attachment_message(phone_number, message)
     attachment = message.attachments.first
     type = %w[image audio video].include?(attachment.file_type) ? attachment.file_type : 'document'
-    type_content = {
-      'link': attachment.download_url
-    }
+    type_content = { 'link' => attachment.download_url }
     type_content['caption'] = message.outgoing_content unless %w[audio sticker].include?(type)
     type_content['filename'] = attachment.file.filename if type == 'document'
+    type_content['voice'] = true if voice_message?(type, attachment)
     response = HTTParty.post(
-      "#{phone_id_path}/messages",
+      "#{phone_id_path('v24.0')}/messages",
       headers: api_headers,
       body: {
         :messaging_product => 'whatsapp',
@@ -135,6 +174,10 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     )
 
     process_response(response, message)
+  end
+
+  def voice_message?(type, attachment)
+    type == 'audio' && attachment.meta&.dig('is_recorded_audio') && attachment.file.content_type == 'audio/ogg'
   end
 
   def error_message(response)
@@ -199,6 +242,25 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
         to: phone_number,
         interactive: payload,
         type: 'interactive'
+      }.to_json
+    )
+
+    process_response(response, message)
+  end
+
+  def send_reaction_message(phone_number, message)
+    response = HTTParty.post(
+      "#{phone_id_path('v23.0')}/messages",
+      headers: api_headers,
+      body: {
+        messaging_product: 'whatsapp',
+        recipient_type: 'individual',
+        to: phone_number,
+        type: 'reaction',
+        reaction: {
+          message_id: message.content_attributes[:in_reply_to_external_id],
+          emoji: message.outgoing_content
+        }
       }.to_json
     )
 

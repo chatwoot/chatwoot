@@ -126,7 +126,7 @@ RSpec.describe Conversation do
     end
 
     it 'sends conversation updated event if labels are updated' do
-      conversation.update(label_list: [label.title])
+      conversation.update!(label_list: [label.title])
       changed_attributes = conversation.previous_changes
       expect(Rails.configuration.dispatcher).to have_received(:dispatch)
         .with(
@@ -140,7 +140,7 @@ RSpec.describe Conversation do
     end
 
     it 'runs after_update callbacks' do
-      conversation.update(
+      conversation.update!(
         status: :resolved,
         contact_last_seen_at: Time.zone.now,
         assignee: new_assignee
@@ -169,7 +169,7 @@ RSpec.describe Conversation do
     end
 
     it 'will not run conversation_updated event for non whitelisted keys' do
-      conversation.update(updated_at: DateTime.now.utc)
+      conversation.update!(updated_at: DateTime.now.utc)
       expect(Rails.configuration.dispatcher).not_to have_received(:dispatch)
         .with(described_class::CONVERSATION_UPDATED, kind_of(Time), conversation: conversation, notifiable_assignee_change: true)
     end
@@ -191,7 +191,7 @@ RSpec.describe Conversation do
     end
 
     it 'creates conversation activities' do
-      conversation.update(
+      conversation.update!(
         status: :resolved,
         contact_last_seen_at: Time.zone.now,
         assignee: new_assignee,
@@ -213,7 +213,7 @@ RSpec.describe Conversation do
     end
 
     it 'adds a message for system auto resolution if marked resolved by system' do
-      account.update(auto_resolve_after: 40 * 24 * 60)
+      account.update!(auto_resolve_after: 40 * 24 * 60)
       conversation2 = create(:conversation, status: 'open', account: account, assignee: old_assignee)
       Current.reset
 
@@ -589,7 +589,8 @@ RSpec.describe Conversation do
         updated_at: conversation.updated_at.to_f,
         waiting_since: conversation.waiting_since.to_i,
         priority: nil,
-        unread_count: 0
+        unread_count: 0,
+        group_type: 'individual'
       }
     end
 
@@ -845,7 +846,7 @@ RSpec.describe Conversation do
     let(:conversation) { create(:conversation) }
 
     it 'returns the correct list of labels' do
-      conversation.update(label_list: %w[customer-support enterprise paid-customer])
+      conversation.update!(label_list: %w[customer-support enterprise paid-customer])
 
       expect(conversation.cached_label_list_array).to eq %w[customer-support enterprise paid-customer]
     end
@@ -1082,6 +1083,16 @@ RSpec.describe Conversation do
         # Reply time should be 1 hour (from customer message 2 to agent reply)
         expect(reply_events.first.value).to be_within(60).of(3600)
       end
+    end
+  end
+
+  describe 'group_type' do
+    it 'provides type check methods' do
+      individual_conversation = create(:conversation, group_type: :individual)
+      group_conversation = create(:conversation, group_type: :group)
+
+      expect(individual_conversation).to be_group_type_individual
+      expect(group_conversation).to be_group_type_group
     end
   end
 end

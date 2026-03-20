@@ -69,6 +69,8 @@ tags:
     description: Third-party integrations
   - name: Messages
     description: Message management APIs
+  - name: Scheduled Messages
+    description: Scheduled message management APIs
   - name: Profile
     description: User profile APIs
   - name: Reports
@@ -113,6 +115,7 @@ x-tagGroups:
       - Inboxes
       - Integrations
       - Messages
+      - Scheduled Messages
       - Profile
       - Reports
       - Teams

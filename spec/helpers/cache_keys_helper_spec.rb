@@ -17,7 +17,7 @@ RSpec.describe CacheKeysHelper do
     it 'returns the zero epoch time if no value is cached' do
       result = helper.fetch_value_for_key(account_id, 'another-key')
 
-      expect(result).to eq('0000000000')
+      expect(result).to eq('0000000000000')
     end
 
     it 'returns a cached value if it exists' do

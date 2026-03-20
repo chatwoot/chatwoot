@@ -20,7 +20,7 @@ describe Messages::Instagram::MessageBuilder do
 
   describe '#perform' do
     before do
-      instagram_channel.update(access_token: 'valid_instagram_token')
+      instagram_channel.update!(access_token: 'valid_instagram_token')
 
       stub_request(:get, %r{https://graph\.instagram\.com/.*?/Sender-id-.*?\?.*})
         .to_return(
@@ -189,7 +189,7 @@ describe Messages::Instagram::MessageBuilder do
     end
 
     it 'handles authorization errors' do
-      instagram_channel.update(access_token: 'invalid_token')
+      instagram_channel.update!(access_token: 'invalid_token')
 
       # Stub the request to return authorization error status
       stub_request(:get, %r{https://graph\.instagram\.com/.*?/Sender-id-.*?\?.*})

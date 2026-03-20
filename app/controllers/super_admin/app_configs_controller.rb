@@ -19,7 +19,7 @@ class SuperAdmin::AppConfigsController < SuperAdmin::ApplicationController
     params['app_config'].each do |key, value|
       next unless @allowed_configs.include?(key)
 
-      i = InstallationConfig.where(name: key).first_or_create(value: value, locked: false)
+      i = InstallationConfig.where(name: key).first_or_create!(value: value, locked: false)
       i.value = value
       errors.concat(i.errors.full_messages) unless i.save
     end

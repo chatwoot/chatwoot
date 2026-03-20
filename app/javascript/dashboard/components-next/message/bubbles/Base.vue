@@ -15,8 +15,13 @@ const props = defineProps({
   hideMeta: { type: Boolean, default: false },
 });
 
-const { variant, orientation, inReplyTo, shouldGroupWithNext } =
-  useMessageContext();
+const {
+  variant,
+  orientation,
+  inReplyTo,
+  shouldGroupWithNext,
+  additionalAttributes,
+} = useMessageContext();
 const { t } = useI18n();
 
 const varaintBaseMap = {
@@ -51,6 +56,16 @@ const flexOrientationClass = computed(() => {
   return map[orientation.value];
 });
 
+const isScheduledMessage = computed(
+  () => !!additionalAttributes.value?.scheduledMessageId
+);
+
+const scheduledMessageClass = computed(() => {
+  if (!isScheduledMessage.value) return '';
+  if (variant.value === MESSAGE_VARIANTS.AGENT) return 'bg-n-solid-iris';
+  return '';
+});
+
 const messageClass = computed(() => {
   const classToApply = [varaintBaseMap[variant.value]];
 
@@ -58,6 +73,10 @@ const messageClass = computed(() => {
     classToApply.push(orientationMap[orientation.value]);
   } else {
     classToApply.push('rounded-lg');
+  }
+
+  if (scheduledMessageClass.value) {
+    classToApply.push(scheduledMessageClass.value);
   }
 
   return classToApply;

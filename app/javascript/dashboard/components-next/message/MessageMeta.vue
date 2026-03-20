@@ -1,6 +1,8 @@
 <script setup>
 import { computed } from 'vue';
 import { messageTimestamp } from 'shared/helpers/timeHelper';
+import { useI18n } from 'vue-i18n';
+import { useFunctionGetter } from 'dashboard/composables/store';
 
 import MessageStatus from './MessageStatus.vue';
 import Icon from 'next/icon/Icon.vue';
@@ -23,6 +25,8 @@ const {
   isATiktokChannel,
 } = useInbox();
 
+const { t, locale } = useI18n();
+
 const {
   status,
   isPrivate,
@@ -30,11 +34,95 @@ const {
   sourceId,
   messageType,
   contentAttributes,
+  additionalAttributes,
+  sender,
+  currentUserId,
 } = useMessageContext();
 
 const readableTime = computed(() =>
-  messageTimestamp(createdAt.value, 'LLL d, h:mm a')
+  messageTimestamp(
+    contentAttributes?.value?.externalCreatedAt ?? createdAt.value,
+    'LLL d, h:mm a'
+  )
 );
+
+const isScheduledMessage = computed(
+  () => !!additionalAttributes.value?.scheduledMessageId
+);
+const scheduledBy = computed(() => additionalAttributes.value?.scheduledBy);
+const scheduledById = computed(() => scheduledBy.value?.id);
+const scheduledByType = computed(() =>
+  scheduledBy.value?.type ? String(scheduledBy.value.type) : ''
+);
+const scheduledByTypeNormalized = computed(() =>
+  scheduledByType.value.toLowerCase()
+);
+const scheduledByAgent = useFunctionGetter(
+  'agents/getAgentById',
+  scheduledById
+);
+
+const isScheduledByCurrentUser = computed(() => {
+  if (!scheduledById.value || !currentUserId.value) return false;
+  return Number(scheduledById.value) === Number(currentUserId.value);
+});
+
+const scheduledAt = computed(() => additionalAttributes.value?.scheduledAt);
+const scheduledAtTimestamp = computed(() => {
+  if (!scheduledAt.value) return null;
+  return Math.floor(scheduledAt.value);
+});
+
+const scheduledAtLabel = computed(() => {
+  if (!scheduledAtTimestamp.value) {
+    return t('SCHEDULED_MESSAGES.ITEM.NO_SCHEDULE');
+  }
+  const date = new Date(scheduledAtTimestamp.value * 1000);
+  const now = new Date();
+
+  const options = {
+    month: 'short',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+  };
+
+  if (date.getFullYear() !== now.getFullYear()) {
+    options.year = 'numeric';
+  }
+
+  return date.toLocaleString(locale.value.replace('_', '-'), options);
+});
+
+const scheduledByLabel = computed(() => {
+  if (!isScheduledMessage.value) return '';
+  if (isScheduledByCurrentUser.value) {
+    const userName = scheduledByAgent.value?.name;
+    return t('SCHEDULED_MESSAGES.META.AUTHOR_YOU', { name: userName });
+  }
+  if (scheduledByTypeNormalized.value.includes('automation')) {
+    const automationLabel = t('SCHEDULED_MESSAGES.META.AUTOMATION');
+    if (scheduledBy.value?.name) {
+      return `${scheduledBy.value.name} (${automationLabel})`;
+    }
+    return automationLabel;
+  }
+  if (scheduledByAgent.value?.name) {
+    return scheduledByAgent.value.name;
+  }
+  if (sender.value?.name) {
+    return sender.value.name;
+  }
+  return t('SCHEDULED_MESSAGES.META.UNKNOWN_AUTHOR');
+});
+
+const scheduledTooltip = computed(() => {
+  if (!isScheduledMessage.value) return '';
+  return t('SCHEDULED_MESSAGES.META.TOOLTIP', {
+    time: scheduledAtLabel.value,
+    author: scheduledByLabel.value,
+  });
+});
 
 const showStatusIndicator = computed(() => {
   if (isPrivate.value) return false;
@@ -123,6 +211,14 @@ const statusToShow = computed(() => {
 
   return MESSAGE_STATUS.PROGRESS;
 });
+
+const isEdited = computed(() => {
+  return contentAttributes.value?.isEdited === true;
+});
+
+const previousContent = computed(() => {
+  return contentAttributes.value?.previousContent || '';
+});
 </script>
 
 <template>
@@ -130,8 +226,27 @@ const statusToShow = computed(() => {
     <div class="inline">
       <time class="inline">{{ readableTime }}</time>
     </div>
+    <span
+      v-if="isScheduledMessage"
+      v-tooltip.top-start="{
+        content: scheduledTooltip,
+        delay: { show: 300, hide: 0 },
+      }"
+      class="inline-flex items-center gap-0.5"
+    >
+      <Icon icon="i-lucide-alarm-clock" class="size-3" />
+    </span>
+    <span
+      v-if="isEdited"
+      v-tooltip.top="{
+        content: previousContent,
+        delay: { show: 300, hide: 0 },
+      }"
+      class="inline-flex items-center gap-0.5"
+    >
+      <Icon icon="i-lucide-pencil" class="size-3" />
+    </span>
     <Icon v-if="isPrivate" icon="i-lucide-lock-keyhole" class="size-3" />
     <MessageStatus v-if="showStatusIndicator" :status="statusToShow" />
   </div>
 </template>
-`

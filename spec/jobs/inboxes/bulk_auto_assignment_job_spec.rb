@@ -47,7 +47,7 @@ RSpec.describe Inboxes::BulkAutoAssignmentJob do
       context 'when account is on default plan in chatwoot cloud' do
         before do
           account.update!(custom_attributes: {})
-          InstallationConfig.create(name: 'CHATWOOT_CLOUD_PLANS', value: [{ 'name' => 'default' }])
+          InstallationConfig.create!(name: 'CHATWOOT_CLOUD_PLANS', value: [{ 'name' => 'default' }])
           allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
         end
 

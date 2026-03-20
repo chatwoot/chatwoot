@@ -1,0 +1,53 @@
+tags:
+  - Scheduled Messages
+operationId: create-scheduled-message
+summary: Create a Scheduled Message
+description: |
+  Create a new scheduled message in a conversation.
+  
+  The message will be automatically sent at the specified `scheduled_at` time.
+  Use status 'draft' to save the message without scheduling, or 'pending' to schedule it.
+  
+  ## WhatsApp Template Messages
+  
+  For WhatsApp channels, you can schedule template messages using the `template_params` field.
+  Templates must be pre-approved in WhatsApp Business Manager.
+security:
+  - userApiKey: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/scheduled_message_create_update_payload'
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/scheduled_message'
+  '404':
+    description: Conversation not found
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '401':
+    description: Unauthorized
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '403':
+    description: Access denied
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '422':
+    description: Unprocessable Entity - validation errors
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

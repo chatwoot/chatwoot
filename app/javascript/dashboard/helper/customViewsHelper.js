@@ -73,6 +73,10 @@ const getValuesForPriority = (values, priority) => {
   return priority.filter(option => values.includes(option.id));
 };
 
+const getValuesForGroupType = (values, groupType) => {
+  return groupType.filter(option => values.includes(option.id));
+};
+
 export const getValuesForFilter = (filter, params) => {
   const { attribute_key, values } = filter;
   const {
@@ -84,6 +88,7 @@ export const getValuesForFilter = (filter, params) => {
     campaigns,
     labels,
     priority,
+    group_type: groupType = [],
   } = params;
   switch (attribute_key) {
     case 'status':
@@ -104,6 +109,8 @@ export const getValuesForFilter = (filter, params) => {
       return getValuesForLanguages(values, languages);
     case 'country_code':
       return getValuesForCountries(values, countries);
+    case 'group_type':
+      return getValuesForGroupType(values, groupType);
     default:
       return { id: values[0], name: values[0] };
   }

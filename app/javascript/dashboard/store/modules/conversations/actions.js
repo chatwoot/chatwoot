@@ -348,6 +348,23 @@ const actions = {
     }
   },
 
+  editMessage: async function editMessage(
+    { commit },
+    { conversationId, messageId, content }
+  ) {
+    try {
+      const { data } = await MessageApi.editContent(
+        conversationId,
+        messageId,
+        content
+      );
+      commit(types.ADD_MESSAGE, data);
+      return data;
+    } catch (error) {
+      throw new Error(error);
+    }
+  },
+
   deleteConversation: async ({ commit, dispatch }, conversationId) => {
     try {
       await ConversationApi.delete(conversationId);
@@ -423,6 +440,10 @@ const actions = {
     commit(types.CHANGE_CHAT_SORT_FILTER, data);
   },
 
+  setChatGroupTypeFilter({ commit }, data) {
+    commit(types.CHANGE_CHAT_GROUP_TYPE_FILTER, data);
+  },
+
   updateAssignee({ commit }, data) {
     commit(types.UPDATE_ASSIGNEE, data);
   },
@@ -432,6 +453,48 @@ const actions = {
       commit(`contacts/${types.SET_CONTACT_ITEM}`, data);
     }
     commit(types.UPDATE_CONVERSATION_CONTACT, data);
+  },
+
+  handleScheduledMessageCreated({ dispatch }, scheduledMessage) {
+    dispatch('scheduledMessages/upsertFromEvent', scheduledMessage);
+  },
+
+  handleScheduledMessageUpdated({ dispatch }, scheduledMessage) {
+    dispatch('scheduledMessages/upsertFromEvent', scheduledMessage);
+  },
+
+  handleScheduledMessageDeleted({ dispatch }, scheduledMessage) {
+    dispatch('scheduledMessages/removeFromEvent', scheduledMessage);
+  },
+
+  handleRecurringScheduledMessageCreated(
+    { dispatch },
+    recurringScheduledMessage
+  ) {
+    dispatch(
+      'recurringScheduledMessages/upsertFromEvent',
+      recurringScheduledMessage
+    );
+  },
+
+  handleRecurringScheduledMessageUpdated(
+    { dispatch },
+    recurringScheduledMessage
+  ) {
+    dispatch(
+      'recurringScheduledMessages/upsertFromEvent',
+      recurringScheduledMessage
+    );
+  },
+
+  handleRecurringScheduledMessageDeleted(
+    { dispatch },
+    recurringScheduledMessage
+  ) {
+    dispatch(
+      'recurringScheduledMessages/removeFromEvent',
+      recurringScheduledMessage
+    );
   },
 
   setActiveInbox({ commit }, inboxId) {

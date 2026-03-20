@@ -12,8 +12,12 @@ export default {
       default: false,
     },
     inboxId: {
-      type: Number,
+      type: [Number, String],
       default: undefined,
+    },
+    sendButtonLabel: {
+      type: String,
+      default: '',
     },
   },
   emits: ['onSend', 'cancel', 'update:show'],
@@ -37,6 +41,13 @@ export default {
             templateName: this.selectedWaTemplate.name,
           })
         : this.$t('WHATSAPP_TEMPLATES.MODAL.SUBTITLE');
+    },
+  },
+  watch: {
+    show(newVal) {
+      if (newVal) {
+        this.selectedWaTemplate = null;
+      }
     },
   },
   methods: {
@@ -71,6 +82,7 @@ export default {
       <WhatsAppTemplateReply
         v-else
         :template="selectedWaTemplate"
+        :send-button-label="sendButtonLabel"
         @reset-template="onResetTemplate"
         @send-message="onSendMessage"
       />

@@ -7,12 +7,12 @@ class Api::V1::Accounts::WebhooksController < Api::V1::Accounts::BaseController
   end
 
   def create
-    @webhook = Current.account.webhooks.new(webhook_params)
+    @webhook = Current.account.webhooks.new(webhook_create_params)
     @webhook.save!
   end
 
   def update
-    @webhook.update!(webhook_params)
+    @webhook.update!(webhook_update_params)
   end
 
   def destroy
@@ -22,8 +22,12 @@ class Api::V1::Accounts::WebhooksController < Api::V1::Accounts::BaseController
 
   private
 
-  def webhook_params
+  def webhook_create_params
     params.require(:webhook).permit(:inbox_id, :name, :url, subscriptions: [])
+  end
+
+  def webhook_update_params
+    params.require(:webhook).permit(:name, subscriptions: [])
   end
 
   def fetch_webhook

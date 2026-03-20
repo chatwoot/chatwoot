@@ -2,6 +2,6 @@
 # authentication, and callbacks. Used for health checks
 class HealthController < ActionController::Base # rubocop:disable Rails/ApplicationController
   def show
-    render json: { status: 'woot' }
+    render json: { status: 'woot', platform: 'fazer.ai', version: Chatwoot.config[:version] }
   end
 end

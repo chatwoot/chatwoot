@@ -56,7 +56,10 @@ class Attachment < ApplicationRecord
   # NOTE: for External services use this methods since redirect doesn't work effectively in a lot of cases
   def download_url
     ActiveStorage::Current.url_options = Rails.application.routes.default_url_options if ActiveStorage::Current.url_options.blank?
-    file.attached? ? file.blob.url : ''
+    return '' unless file.attached?
+
+    normalize_opus_blob_content_type!
+    file.blob.url
   end
 
   def thumb_url
@@ -143,7 +146,8 @@ class Attachment < ApplicationRecord
       id: id,
       message_id: message_id,
       file_type: file_type,
-      account_id: account_id
+      account_id: account_id,
+      meta: meta || {}
     }
   end
 
@@ -155,9 +159,9 @@ class Attachment < ApplicationRecord
   end
 
   def should_validate_file?
-    return unless file.attached?
+    return false unless file.attached?
     # we are only limiting attachment types in case of website widget
-    return unless message.inbox.channel_type == 'Channel::WebWidget'
+    return false unless message.inbox.channel_type == 'Channel::WebWidget'
 
     true
   end
@@ -182,6 +186,16 @@ class Attachment < ApplicationRecord
 
   def media_file?(file_content_type)
     file_content_type.start_with?('image/', 'video/', 'audio/')
+  end
+
+  # Marcel gem may detect OGG/Opus files as audio/opus instead of audio/ogg.
+  # Lazily normalize existing blobs so presigned URLs serve the correct Content-Type.
+  # Only applies to .ogg files — .opus files legitimately use audio/opus.
+  def normalize_opus_blob_content_type!
+    blob = file.blob
+    return unless blob.content_type == 'audio/opus' && blob.filename.to_s.end_with?('.ogg')
+
+    blob.update_column(:content_type, 'audio/ogg') # rubocop:disable Rails/SkipsModelValidations
   end
 end
 

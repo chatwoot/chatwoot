@@ -57,7 +57,7 @@ class AutomationRuleListener < BaseListener
   end
 
   def rule_present?(event_name, account)
-    return if account.blank?
+    return false if account.blank?
 
     current_account_rules(event_name, account).any?
   end

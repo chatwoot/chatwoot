@@ -18,7 +18,7 @@ class ChatwootCaptcha
                                secret: @server_key
                              })
 
-    return unless response.success?
+    return false unless response.success?
 
     response.parsed_response['success']
   end

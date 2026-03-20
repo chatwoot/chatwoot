@@ -18,18 +18,18 @@ module Enterprise::Account::PlanUsageAndLimits # rubocop:disable Metrics/ModuleL
   def increment_response_usage
     current_usage = custom_attributes[CAPTAIN_RESPONSES_USAGE].to_i || 0
     custom_attributes[CAPTAIN_RESPONSES_USAGE] = current_usage + 1
-    save
+    save!
   end
 
   def reset_response_usage
     custom_attributes[CAPTAIN_RESPONSES_USAGE] = 0
-    save
+    save!
   end
 
   def update_document_usage
     # this will ensure that the document count is always accurate
     custom_attributes[CAPTAIN_DOCUMENTS_USAGE] = captain_documents.count
-    save
+    save!
   end
 
   def email_transcript_enabled?
@@ -62,7 +62,7 @@ module Enterprise::Account::PlanUsageAndLimits # rubocop:disable Metrics/ModuleL
   private
 
   def get_captain_limits(type)
-    total_count = captain_monthly_limit[type.to_s].to_i
+    total_count = [captain_monthly_limit[type.to_s].to_i, 0].max
 
     consumed = if type == :documents
                  custom_attributes[CAPTAIN_DOCUMENTS_USAGE].to_i || 0

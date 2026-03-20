@@ -38,7 +38,7 @@ describe ActionCableListener do
     it 'sends message to all hmac verified contact inboxes' do
       # HACK: to reload conversation inbox members
       expect(conversation.inbox.reload.inbox_members.count).to eq(1)
-      conversation.contact_inbox.update(hmac_verified: true)
+      conversation.contact_inbox.update!(hmac_verified: true)
       # creating a non verified contact inbox to ensure the events are not sent to it
       create(:contact_inbox, contact: conversation.contact, inbox: inbox)
       verified_contact_inbox = create(:contact_inbox, contact: conversation.contact, inbox: inbox, hmac_verified: true)
@@ -210,5 +210,32 @@ describe ActionCableListener do
       )
       listener.conversation_updated(event)
     end
+  end
+
+  shared_examples 'scheduled message event broadcast' do |method_name, event_name|
+    it 'broadcasts to account admins and inbox members' do
+      scheduled_message = create(:scheduled_message, account: account, inbox: inbox, conversation: conversation, author: agent)
+      event = Events::Base.new(event_name, Time.zone.now, scheduled_message: scheduled_message)
+
+      expect(ActionCableBroadcastJob).to receive(:perform_later).with(
+        a_collection_containing_exactly(agent.pubsub_token, admin.pubsub_token),
+        event_name,
+        scheduled_message.push_event_data.merge(account_id: account.id)
+      )
+
+      listener.public_send(method_name, event)
+    end
+  end
+
+  describe '#scheduled_message_created' do
+    it_behaves_like 'scheduled message event broadcast', :scheduled_message_created, 'scheduled_message.created'
+  end
+
+  describe '#scheduled_message_updated' do
+    it_behaves_like 'scheduled message event broadcast', :scheduled_message_updated, 'scheduled_message.updated'
+  end
+
+  describe '#scheduled_message_deleted' do
+    it_behaves_like 'scheduled message event broadcast', :scheduled_message_deleted, 'scheduled_message.deleted'
   end
 end

@@ -1,4 +1,5 @@
 import advancedFilters from './advancedFilters.json';
+import groups from './groups.json';
 import agentBots from './agentBots.json';
 import agentMgmt from './agentMgmt.json';
 import attributesMgmt from './attributesMgmt.json';
@@ -23,6 +24,7 @@ import inbox from './inbox.json';
 import inboxMgmt from './inboxMgmt.json';
 import integrationApps from './integrationApps.json';
 import integrations from './integrations.json';
+import kanban from './kanban.json';
 import labelsMgmt from './labelsMgmt.json';
 import login from './login.json';
 import macros from './macros.json';
@@ -38,6 +40,7 @@ import whatsappTemplates from './whatsappTemplates.json';
 
 export default {
   ...advancedFilters,
+  ...groups,
   ...agentBots,
   ...agentMgmt,
   ...attributesMgmt,
@@ -62,6 +65,7 @@ export default {
   ...inboxMgmt,
   ...integrationApps,
   ...integrations,
+  ...kanban,
   ...labelsMgmt,
   ...login,
   ...macros,

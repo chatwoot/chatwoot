@@ -247,6 +247,20 @@ export function useConversationFilterContext() {
       filterOperators: dateOperators.value,
       attributeModel: 'standard',
     },
+    {
+      attributeKey: CONVERSATION_ATTRIBUTES.GROUP_TYPE,
+      value: CONVERSATION_ATTRIBUTES.GROUP_TYPE,
+      attributeName: t('FILTER.ATTRIBUTES.GROUP_TYPE'),
+      label: t('FILTER.ATTRIBUTES.GROUP_TYPE'),
+      inputType: 'multiSelect',
+      options: ['individual', 'group'].map(id => ({
+        id,
+        name: t(`GROUP.FILTER.${id.toUpperCase()}`),
+      })),
+      dataType: 'text',
+      filterOperators: equalityOperators.value,
+      attributeModel: 'standard',
+    },
     ...customFilterTypes.value,
   ]);
 

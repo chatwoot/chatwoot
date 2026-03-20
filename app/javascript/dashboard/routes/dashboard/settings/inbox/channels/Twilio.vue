@@ -42,6 +42,9 @@ export default {
     authTokeni18nKey() {
       return this.useAPIKey ? 'API_KEY_SECRET' : 'AUTH_TOKEN';
     },
+    isWhatsApp() {
+      return this.type === 'whatsapp';
+    },
   },
   validations() {
     let validations = {

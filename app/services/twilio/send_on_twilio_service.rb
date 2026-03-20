@@ -11,7 +11,7 @@ class Twilio::SendOnTwilioService < Base::SendOnChannelService
     # Add messaging service or from number
     send_params = send_params.merge(channel.send(:send_message_from))
 
-    twilio_message = channel.send(:client).messages.create(**send_params)
+    twilio_message = channel.send(:client).messages.create(**send_params) # rubocop:disable Rails/SaveBang
 
     { success: true, message_id: twilio_message.sid }
   rescue Twilio::REST::TwilioError, Twilio::REST::RestError => e
@@ -57,7 +57,7 @@ class Twilio::SendOnTwilioService < Base::SendOnChannelService
     # Add messaging service or from number
     send_params = send_params.merge(channel.send(:send_message_from))
 
-    channel.send(:client).messages.create(**send_params)
+    channel.send(:client).messages.create(**send_params) # rubocop:disable Rails/SaveBang
   end
 
   def template_params

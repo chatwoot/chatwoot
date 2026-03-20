@@ -26,7 +26,7 @@ RSpec.describe Captain::Copilot::ChatService do
   end
 
   before do
-    InstallationConfig.find_or_create_by(name: 'CAPTAIN_OPEN_AI_API_KEY') do |c|
+    InstallationConfig.find_or_create_by!(name: 'CAPTAIN_OPEN_AI_API_KEY') do |c|
       c.value = 'test-key'
     end
 

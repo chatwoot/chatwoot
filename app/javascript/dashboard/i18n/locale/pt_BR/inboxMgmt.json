@@ -236,11 +236,20 @@
           "WHATSAPP_CLOUD": "Cloud do WhatsApp",
           "WHATSAPP_CLOUD_DESC": "Configuração rápida via Meta",
           "TWILIO_DESC": "Conectar através de credenciais Twilio",
-          "360_DIALOG": "360Dialog"
+          "360_DIALOG": "360Dialog",
+          "BAILEYS": "Baileys",
+          "BAILEYS_DESC": "Conectar via API não-oficial Baileys",
+          "ZAPI": "Z-API",
+          "ZAPI_DESC": "Conectar via API não-oficial Z-API"
         },
         "SELECT_PROVIDER": {
           "TITLE": "Selecione seu provedor de API",
-          "DESCRIPTION": "Escolha seu provedor do WhatsApp. Você pode se conectar diretamente através de metade, que não requer nenhuma configuração ou se conectar pelo Twilio usando as credenciais da sua conta."
+          "DESCRIPTION": "Escolha seu provedor do WhatsApp. Você pode se conectar diretamente através de metade, que não requer nenhuma configuração ou se conectar pelo Twilio usando as credenciais da sua conta.",
+          "ZAPI_PROMO": {
+            "TITLE": "Procurando uma solução WhatsApp confiável?",
+            "DESCRIPTION": "Z-API oferece estabilidade superior comparado ao Baileys e é muito mais simples de configurar que Cloud ou Twilio - sem necessidade de configuração complexa. Perfeito para empresas que querem começar rapidamente.",
+            "CTA": "Usar Z-API"
+          }
         },
         "INBOX_NAME": {
           "LABEL": "Nome da Caixa de Entrada",
@@ -279,6 +288,43 @@
           "WEBHOOK_URL": "URL do Webhook",
           "WEBHOOK_VERIFICATION_TOKEN": "Token de verificação Webhook"
         },
+        "PROVIDER_URL": {
+          "LABEL": "URL do provedor",
+          "PLACEHOLDER": "Se o provedor não está rodando localmente, por favor, insira a URL do provedor",
+          "ERROR": "Por favor, insira uma URL válida"
+        },
+        "MARK_AS_READ": {
+          "LABEL": "Enviar confirmações de leitura"
+        },
+        "INSTANCE_ID": {
+          "LABEL": "ID da instância",
+          "PLACEHOLDER": "Por favor, insira o ID da sua instância",
+          "ERROR": "Este campo é obrigatório"
+        },
+        "TOKEN": {
+          "LABEL": "Token",
+          "PLACEHOLDER": "Por favor, insira o Token da sua instância",
+          "ERROR": "Este campo é obrigatório"
+        },
+        "CLIENT_TOKEN": {
+          "LABEL": "Token de Segurança",
+          "PLACEHOLDER": "Por favor, insira o Token de Segurança (veja a aba Segurança no painel do Z-API)",
+          "ERROR": "Este campo é obrigatório"
+        },
+        "ADVANCED_OPTIONS": "Opções avançadas",
+        "EXTERNAL_PROVIDER": {
+          "SUBTITLE": "Clique abaixo para configurar o canal do WhatsApp.",
+          "LINK_BUTTON": "Conectar dispositivo",
+          "LINK_DEVICE_MODAL": {
+            "TITLE": "Conecte o seu dispositivo",
+            "SUBTITLE": "Escaneie o QR code para conectar seu dispositivo. Certifique-se de que o número de telefone esteja correto antes de escanear.",
+            "LOADING_QRCODE": "Carregando QR code...",
+            "RECONNECTING": "Conectando...",
+            "LINK_DEVICE": "Conectar dispositivo",
+            "DISCONNECT": "Desconectar",
+            "CONNECTED": "Seu dispositivo foi conectado com sucesso. Agora você pode começar a enviar e receber mensagens."
+          }
+        },
         "SUBMIT_BUTTON": "Criar canal do WhatsApp",
         "EMBEDDED_SIGNUP": {
           "TITLE": "Configuração rápida com Meta",
@@ -307,6 +353,13 @@
           "SUCCESS_FALLBACK": "A conta do WhatsApp Business foi configurada com sucesso",
           "MANUAL_FALLBACK": "Se o seu número já estiver conectado à Plataforma WhatsApp Business (API) ou se você for um provedor de tecnologia integrando o seu próprio número, use o fluxo de {link}",
           "MANUAL_LINK_TEXT": "fluxo de configuração manual"
+        },
+        "ZAPI_PROMO": {
+          "SETUP_BANNER": {
+            "TITLE": "Ganhe 10% de desconto na sua assinatura Z-API",
+            "DESCRIPTION": "Crie sua conta Z-API usando nosso link de afiliado e receba 10% de desconto. Configuração simples, conexões confiáveis e ótimo suporte.",
+            "CTA": "Criar Conta Z-API"
+          }
         },
         "API": {
           "ERROR_MESSAGE": "Não foi possível salvar o canal do WhatsApp"
@@ -752,7 +805,29 @@
       "WHATSAPP_TEMPLATES_SYNC_SUBHEADER": "Sincronize manualmente os modelos de mensagens do WhatsApp para atualizar seus modelos disponíveis.",
       "WHATSAPP_TEMPLATES_SYNC_BUTTON": "Sincronizar Modelos",
       "WHATSAPP_TEMPLATES_SYNC_SUCCESS": "Sincronização de modelos iniciada com sucesso. Pode demorar alguns minutos para atualizar.",
-      "UPDATE_PRE_CHAT_FORM_SETTINGS": "Atualizar configurações do Formulário Pre Chat"
+      "UPDATE_PRE_CHAT_FORM_SETTINGS": "Atualizar configurações do Formulário Pre Chat",
+      "WHATSAPP_MANAGE_PROVIDER_CONNECTION_TITLE": "Gerenciar Conexão do Provedor",
+      "WHATSAPP_MANAGE_PROVIDER_CONNECTION_SUBHEADER": "Conecte o seu dispositivo e gerencie a conexão do provedor.",
+      "WHATSAPP_MANAGE_PROVIDER_CONNECTION_BUTTON": "Gerenciar conexão",
+      "WHATSAPP_PROVIDER_URL_TITLE": "URL do provedor",
+      "WHATSAPP_PROVIDER_URL_SUBHEADER": "Se o provedor não estiver rodando localmente, por favor, forneça a URL.",
+      "WHATSAPP_PROVIDER_URL_PLACEHOLDER": "Digite a URL do provedor",
+      "WHATSAPP_PROVIDER_URL_ERROR": "Por favor, insira uma URL válida",
+      "WHATSAPP_MARK_AS_READ_TITLE": "Confirmações de leitura",
+      "WHATSAPP_MARK_AS_READ_SUBHEADER": "Se essa opção estiver desativada, ao visualizar uma mensagem pelo Chatwoot, não será enviada uma confirmação de leitura para o remetente. As suas mensagens ainda poderão receber confirmações de leitura.",
+      "WHATSAPP_MARK_AS_READ_LABEL": "Enviar confirmações de leitura",
+      "WHATSAPP_INSTANCE_ID_TITLE": "ID da Instância",
+      "WHATSAPP_INSTANCE_ID_SUBHEADER": "Seu ID da Instância Z-API.",
+      "WHATSAPP_INSTANCE_ID_UPDATE_TITLE": "Atualizar ID da Instância",
+      "WHATSAPP_INSTANCE_ID_UPDATE_SUBHEADER": "Digite o novo ID da Instância aqui",
+      "WHATSAPP_TOKEN_TITLE": "Token",
+      "WHATSAPP_TOKEN_SUBHEADER": "Seu Token da Instância Z-API.",
+      "WHATSAPP_TOKEN_UPDATE_TITLE": "Atualizar Token",
+      "WHATSAPP_TOKEN_UPDATE_SUBHEADER": "Digite o novo Token aqui",
+      "WHATSAPP_CLIENT_TOKEN_TITLE": "Token de Segurança",
+      "WHATSAPP_CLIENT_TOKEN_SUBHEADER": "Seu Token de Segurança Z-API (veja a aba Segurança no painel do Z-API).",
+      "WHATSAPP_CLIENT_TOKEN_UPDATE_TITLE": "Atualizar Token de Segurança",
+      "WHATSAPP_CLIENT_TOKEN_UPDATE_SUBHEADER": "Digite o novo Token de Segurança aqui"
     },
     "HELP_CENTER": {
       "LABEL": "Centro de Ajuda",
@@ -831,6 +906,32 @@
         "SUCCESS_MESSAGE": "Modelo do WhatsApp criado com sucesso e enviado para aprovação",
         "ERROR_MESSAGE": "Falha ao criar o modelo do WhatsApp"
       },
+      "TEMPLATE_MODE": {
+        "LABEL": "Origem do modelo",
+        "CREATE_NEW": "Criar novo modelo",
+        "USE_EXISTING": "Usar modelo existente"
+      },
+      "EXISTING_TEMPLATE": {
+        "LABEL": "Selecionar modelo",
+        "PLACEHOLDER": "Selecione um modelo aprovado",
+        "SYNC_BUTTON": "Sincronizar modelos",
+        "SYNCING": "Sincronizando...",
+        "EMPTY_STATE": "Nenhum modelo compatível encontrado. Os modelos devem ter um botão de URL com um parâmetro dinâmico.",
+        "LINK_SUCCESS": "Modelo vinculado com sucesso",
+        "LINK_ERROR": "Falha ao vincular o modelo",
+        "LOADING": "Carregando modelos...",
+        "USING_LABEL": "Usando modelo existente: {name}",
+        "SYNC_ERROR": "Falha ao sincronizar modelos. Por favor, tente novamente."
+      },
+      "TEMPLATE_VARIABLES": {
+        "TITLE": "Variáveis do modelo",
+        "DESCRIPTION": "Defina os valores para as variáveis do corpo do modelo. Você pode usar variáveis dinâmicas como {'{{'} contact.name {'}}'} que serão resolvidas no momento do envio.",
+        "VARIABLE_LABEL": "Variável {variable}",
+        "VARIABLE_PLACEHOLDER": "Insira o valor para {variable}",
+        "VARIABLE_REQUIRED": "Esta variável é obrigatória",
+        "VALIDATION_ERROR": "Por favor, defina todas as variáveis do modelo antes de salvar.",
+        "INSERT_VARIABLE": "Inserir variável"
+      },
       "TEMPLATE_UPDATE_DIALOG": {
         "TITLE": "Editar detalhes da pesquisa",
         "DESCRIPTION": "Vamos excluir o modelo anterior e criar um que será enviado novamente para aprovação do WhatsApp",
@@ -848,7 +949,7 @@
         "SELECT_PLACEHOLDER": "selecionar etiquetas"
       },
       "NOTE": "Nota: pesquisas de CSAT são enviadas apenas uma vez por conversa",
-      "WHATSAPP_NOTE": "Nota: Vamos criar um modelo e enviá-lo para aprovação do WhatsApp. Após a aprovação, as pesquisas serão enviadas apenas uma vez por conversa, conforme a regra da pesquisa.",
+      "WHATSAPP_NOTE": "Nota: Você pode criar um novo modelo (que será enviado para aprovação do WhatsApp) ou usar um modelo aprovado existente do seu gerenciador de modelos da Meta. As pesquisas são enviadas apenas uma vez por conversa, conforme a regra da pesquisa.",
       "API": {
         "SUCCESS_MESSAGE": "Configurações de CSAT atualizadas com sucesso",
         "ERROR_MESSAGE": "Não foi possível atualizar as configurações do CSAT. Por favor, tente novamente mais tarde."
@@ -1044,6 +1145,8 @@
       "TWITTER_PROFILE": "Twitter",
       "TWILIO_SMS": "SMS Twilio",
       "WHATSAPP": "WhatsApp",
+      "WHATSAPP_BAILEYS": "WhatsApp - Baileys",
+      "WHATSAPP_ZAPI": "WhatsApp - Z-API",
       "SMS": "SMS",
       "EMAIL": "e-mail",
       "TELEGRAM": "Telegram",

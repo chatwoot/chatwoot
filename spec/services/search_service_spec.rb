@@ -400,7 +400,7 @@ describe SearchService do
 
     context 'when user is not admin' do
       before do
-        account_user = account.account_users.find_or_create_by(user: user)
+        account_user = account.account_users.find_or_create_by!(user: user)
         account_user.update!(role: 'agent')
       end
 

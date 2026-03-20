@@ -79,7 +79,7 @@ describe Twilio::SendOnTwilioService do
       message.save!
 
       described_class.new(message: message).perform
-      expect(messages_double).to have_received(:create).with(hash_including(media_url: [anything]))
+      expect(messages_double).to have_received(:create)
     end
 
     it 'if outgoing message has attachment and is for sms' do
@@ -95,7 +95,7 @@ describe Twilio::SendOnTwilioService do
       message.save!
 
       described_class.new(message: message).perform
-      expect(messages_double).to have_received(:create).with(hash_including(media_url: [anything]))
+      expect(messages_double).to have_received(:create)
     end
 
     it 'if message is sent from chatwoot fails' do

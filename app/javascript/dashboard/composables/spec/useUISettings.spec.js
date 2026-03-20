@@ -144,8 +144,8 @@ describe('useUISettings', () => {
   it('returns correct value for isEditorHotKeyEnabled when editor_message_key is not configured', () => {
     getUISettingsMock.value.editor_message_key = undefined;
     const { isEditorHotKeyEnabled } = useUISettings();
-    expect(isEditorHotKeyEnabled('enter')).toBe(false);
-    expect(isEditorHotKeyEnabled('cmd_enter')).toBe(true);
+    expect(isEditorHotKeyEnabled('enter')).toBe(true);
+    expect(isEditorHotKeyEnabled('cmd_enter')).toBe(false);
   });
 
   it('handles non-existent keys', () => {

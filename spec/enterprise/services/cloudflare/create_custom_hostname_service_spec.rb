@@ -30,7 +30,7 @@ RSpec.describe Cloudflare::CreateCustomHostnameService do
       it 'returns error' do
         installation_config_api_key
         installation_config_zone_id
-        portal.update(custom_domain: nil)
+        portal.update!(custom_domain: nil)
         service = described_class.new(portal: portal)
 
         result = service.perform

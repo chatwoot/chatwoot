@@ -27,6 +27,42 @@ class Whatsapp::Providers::BaseService
     raise 'Overwrite this method in child class'
   end
 
+  def create_group(_subject, _participants)
+    raise 'Overwrite this method in child class'
+  end
+
+  def update_group_subject(_group_jid, _subject)
+    raise 'Overwrite this method in child class'
+  end
+
+  def update_group_description(_group_jid, _description)
+    raise 'Overwrite this method in child class'
+  end
+
+  def update_group_participants(_group_jid, _participants, _action)
+    raise 'Overwrite this method in child class'
+  end
+
+  def update_group_picture(_group_jid, _image_base64)
+    raise 'Overwrite this method in child class'
+  end
+
+  def group_invite_code(_group_jid)
+    raise 'Overwrite this method in child class'
+  end
+
+  def revoke_group_invite(_group_jid)
+    raise 'Overwrite this method in child class'
+  end
+
+  def group_join_requests(_group_jid)
+    raise 'Overwrite this method in child class'
+  end
+
+  def handle_group_join_requests(_group_jid, _participants, _action)
+    raise 'Overwrite this method in child class'
+  end
+
   def error_message
     raise 'Overwrite this method in child class'
   end
@@ -102,5 +138,15 @@ class Whatsapp::Providers::BaseService
     sections = [section1]
     json_hash = { :button => I18n.t('conversations.messages.whatsapp.list_button_label'), 'sections' => sections }
     create_payload('list', message.outgoing_content, JSON.generate(json_hash))
+  end
+
+  def attachment_to_base64(attachment)
+    buffer = +''
+    attachment.file.blob.open do |file|
+      while (chunk = file.read(64.kilobytes))
+        buffer << chunk
+      end
+    end
+    Base64.strict_encode64(buffer)
   end
 end

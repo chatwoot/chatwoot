@@ -21,13 +21,17 @@ class AutomationRule < ApplicationRecord
   include Rails.application.routes.url_helpers
   include Reauthorizable
 
+  MAX_SCHEDULED_MESSAGE_DELAY_MINUTES = 999 * 24 * 60 # 999 days
+
   belongs_to :account
+  has_many :scheduled_messages, as: :author, dependent: :nullify
   has_many_attached :files
 
   validate :json_conditions_format
   validate :json_actions_format
   validate :query_operator_presence
   validate :query_operator_value
+  validate :scheduled_message_params
   validates :account_id, presence: true
 
   after_update_commit :reauthorized!, if: -> { saved_change_to_conditions? }
@@ -42,7 +46,7 @@ class AutomationRule < ApplicationRecord
   def actions_attributes
     %w[send_message add_label remove_label send_email_to_team assign_team assign_agent send_webhook_event mute_conversation
        send_attachment change_status resolve_conversation open_conversation pending_conversation snooze_conversation change_priority
-       send_email_transcript add_private_note].freeze
+       send_email_transcript add_private_note create_scheduled_message].freeze
   end
 
   def file_base_data
@@ -102,6 +106,32 @@ class AutomationRule < ApplicationRecord
 
     operator = query_operator.upcase
     errors.add(:conditions, 'Query operator must be either "AND" or "OR"') unless %w[AND OR].include?(operator)
+  end
+
+  def scheduled_message_params
+    return if actions.blank?
+
+    actions.each do |action|
+      next unless action['action_name'] == 'create_scheduled_message'
+
+      validate_scheduled_message_action(action)
+    end
+  end
+
+  def validate_scheduled_message_action(action)
+    params = action['action_params']&.first || {}
+    delay_minutes = params['delay_minutes'].to_i
+
+    unless delay_minutes.between?(1, MAX_SCHEDULED_MESSAGE_DELAY_MINUTES)
+      errors.add(:actions, I18n.t('errors.automation.scheduled_message.delay_out_of_range'))
+    end
+
+    has_content = params['content'].present?
+    has_attachment = params['blob_id'].present?
+    has_template = params['template_params'].present?
+    return if has_content || has_attachment || has_template
+
+    errors.add(:actions, I18n.t('errors.automation.scheduled_message.content_attachment_or_template_required'))
   end
 end
 

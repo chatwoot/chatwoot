@@ -32,6 +32,7 @@ import customViews from './modules/customViews';
 import dashboardApps from './modules/dashboardApps';
 import draftMessages from './modules/draftMessages';
 import globalConfig from 'shared/store/globalConfig';
+import groupMembers from './modules/groupMembers';
 import inboxAssignableAgents from './modules/inboxAssignableAgents';
 import inboxes from './modules/inboxes';
 import inboxMembers from './modules/inboxMembers';
@@ -41,6 +42,8 @@ import macros from './modules/macros';
 import notifications from './modules/notifications';
 import portals from './modules/helpCenterPortals';
 import reports from './modules/reports';
+import recurringScheduledMessages from './modules/recurringScheduledMessages';
+import scheduledMessages from './modules/scheduledMessages';
 import sla from './modules/sla';
 import slaReports from './modules/SLAReports';
 import summaryReports from './modules/summaryReports';
@@ -95,6 +98,7 @@ export default createStore({
     dashboardApps,
     draftMessages,
     globalConfig,
+    groupMembers,
     inboxAssignableAgents,
     inboxes,
     inboxMembers,
@@ -104,6 +108,8 @@ export default createStore({
     notifications,
     portals,
     reports,
+    recurringScheduledMessages,
+    scheduledMessages,
     sla,
     slaReports,
     summaryReports,

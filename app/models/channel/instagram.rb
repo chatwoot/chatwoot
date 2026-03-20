@@ -38,7 +38,7 @@ class Channel::Instagram < ApplicationRecord
     @contact_inbox = ::ContactInboxWithContactBuilder.new({
                                                             source_id: instagram_id,
                                                             inbox: inbox,
-                                                            contact_attributes: { name: name }
+                                                            contact_attributes: { name: name, identifier: instagram_id }
                                                           }).perform
   end
 

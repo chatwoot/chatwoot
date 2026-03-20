@@ -34,7 +34,7 @@ shared_examples_for 'assignment_handler' do
       it 'changes assignee to nil if they doesnt belong to the team and allow_auto_assign is false' do
         expect(team.allow_auto_assign).to be false
 
-        conversation.update(team: team)
+        conversation.update!(team: team)
 
         expect(conversation.reload.assignee).to be_nil
       end
@@ -42,7 +42,7 @@ shared_examples_for 'assignment_handler' do
       it 'changes assignee to a team member if allow_auto_assign is enabled' do
         team.update!(allow_auto_assign: true)
 
-        conversation.update(team: team)
+        conversation.update!(team: team)
 
         expect(conversation.reload.assignee).to eq agent
         expect(Conversations::ActivityMessageJob).to(have_been_enqueued.at_least(:once)
@@ -55,9 +55,9 @@ shared_examples_for 'assignment_handler' do
         assignee = create(:user, account: conversation.account, role: :agent)
         create(:inbox_member, user: assignee, inbox: conversation.inbox)
         create(:team_member, team: team, user: assignee)
-        conversation.update(assignee: assignee)
+        conversation.update!(assignee: assignee)
 
-        conversation.update(team: team)
+        conversation.update!(team: team)
 
         expect(conversation.reload.assignee).to eq assignee
       end

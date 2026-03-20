@@ -373,4 +373,121 @@ RSpec.describe Whatsapp::CsatTemplateService do
       end
     end
   end
+
+  describe '#valid_csat_template?' do
+    it 'returns true for a template with URL button containing {{1}}' do
+      template = {
+        'components' => [
+          { 'type' => 'BODY', 'text' => 'How was your experience?' },
+          {
+            'type' => 'BUTTONS',
+            'buttons' => [
+              { 'type' => 'URL', 'text' => 'Rate us', 'url' => 'https://example.com/survey/{{1}}' }
+            ]
+          }
+        ]
+      }
+
+      expect(service.valid_csat_template?(template)).to be true
+    end
+
+    it 'returns false for a template without BUTTONS component' do
+      template = {
+        'components' => [
+          { 'type' => 'BODY', 'text' => 'No buttons here' }
+        ]
+      }
+
+      expect(service.valid_csat_template?(template)).to be false
+    end
+
+    it 'returns false for a template without URL button' do
+      template = {
+        'components' => [
+          {
+            'type' => 'BUTTONS',
+            'buttons' => [
+              { 'type' => 'QUICK_REPLY', 'text' => 'Yes' }
+            ]
+          }
+        ]
+      }
+
+      expect(service.valid_csat_template?(template)).to be false
+    end
+
+    it 'returns false for a URL button without {{1}} parameter' do
+      template = {
+        'components' => [
+          {
+            'type' => 'BUTTONS',
+            'buttons' => [
+              { 'type' => 'URL', 'text' => 'Visit', 'url' => 'https://example.com/static' }
+            ]
+          }
+        ]
+      }
+
+      expect(service.valid_csat_template?(template)).to be false
+    end
+
+    it 'returns false when components are nil' do
+      template = { 'components' => nil }
+      expect(service.valid_csat_template?(template)).to be false
+    end
+  end
+
+  describe '#available_csat_templates' do
+    it 'returns approved templates with valid CSAT structure' do
+      valid_template = {
+        'name' => 'survey_1',
+        'status' => 'approved',
+        'language' => 'en',
+        'components' => [
+          { 'type' => 'BODY', 'text' => 'Rate us please' },
+          {
+            'type' => 'BUTTONS',
+            'buttons' => [
+              { 'type' => 'URL', 'text' => 'Rate', 'url' => 'https://example.com/{{1}}' }
+            ]
+          }
+        ]
+      }
+
+      invalid_template = {
+        'name' => 'promo',
+        'status' => 'approved',
+        'language' => 'en',
+        'components' => [{ 'type' => 'BODY', 'text' => 'Buy now' }]
+      }
+
+      pending_template = {
+        'name' => 'survey_pending',
+        'status' => 'pending',
+        'language' => 'en',
+        'components' => [
+          { 'type' => 'BODY', 'text' => 'Rate us' },
+          {
+            'type' => 'BUTTONS',
+            'buttons' => [
+              { 'type' => 'URL', 'text' => 'Rate', 'url' => 'https://example.com/{{1}}' }
+            ]
+          }
+        ]
+      }
+
+      whatsapp_channel.update!(message_templates: [valid_template, invalid_template, pending_template])
+
+      result = service.available_csat_templates
+      expect(result.length).to eq(1)
+      expect(result.first[:name]).to eq('survey_1')
+      expect(result.first[:body_text]).to eq('Rate us please')
+      expect(result.first[:button_text]).to eq('Rate')
+    end
+
+    it 'returns empty array when no templates exist' do
+      whatsapp_channel.update!(message_templates: nil)
+      expect(service.available_csat_templates).to eq([])
+    end
+  end
 end

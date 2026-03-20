@@ -14,7 +14,7 @@ RSpec.describe ContactInbox do
     it 'does not get updated on object update' do
       obj = contact_inbox
       old_token = obj.pubsub_token
-      obj.update(source_id: '234234323')
+      obj.update!(source_id: '234234323')
       expect(obj.pubsub_token).to eq(old_token)
     end
 
@@ -32,7 +32,7 @@ RSpec.describe ContactInbox do
       expect(results.first['pubsub_token']).to be_nil
 
       new_token = obj.pubsub_token
-      obj.update(source_id: '234234323')
+      obj.update!(source_id: '234234323')
       # the generated token shoul be persisted in db
       expect(obj.pubsub_token).to eq(new_token)
     end
@@ -61,11 +61,11 @@ RSpec.describe ContactInbox do
         expect(valid_source_id.valid?).to be(true)
         expect(ci_character_in_source_id.valid?).to be(false)
         expect(ci_character_in_source_id.errors.full_messages).to eq(
-          ['Source invalid source id for whatsapp inbox. valid Regex (?-mix:^\\d{1,15}\\z)']
+          ['Source invalid source id for whatsapp inbox. valid Regex (?-mix:^\\d{1,20}(-\\d{1,20})?\\z)']
         )
         expect(ci_plus_in_source_id.valid?).to be(false)
         expect(ci_plus_in_source_id.errors.full_messages).to eq(
-          ['Source invalid source id for whatsapp inbox. valid Regex (?-mix:^\\d{1,15}\\z)']
+          ['Source invalid source id for whatsapp inbox. valid Regex (?-mix:^\\d{1,20}(-\\d{1,20})?\\z)']
         )
       end
 

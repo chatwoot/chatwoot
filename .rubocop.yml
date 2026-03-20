@@ -218,6 +218,7 @@ Style/OneClassPerFile:
 
 AllCops:
   NewCops: enable
+  SuggestExtensions: false
   Exclude:
     - 'bin/**/*'
     - 'db/schema.rb'
@@ -348,3 +349,12 @@ FactoryBot/RedundantFactoryOption:
 
 FactoryBot/FactoryAssociationWithStrategy:
   Enabled: false
+
+Rails/SaveBang:
+  Enabled: true
+  AllowedReceivers:
+    - Stripe::Subscription
+    - Stripe::Customer
+    - Stripe::Invoice
+    - Stripe::InvoiceItem
+    - FactoryBot

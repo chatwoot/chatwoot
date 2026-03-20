@@ -36,10 +36,14 @@ article:
   $ref: ./resource/article.yml
 contact:
   $ref: ./resource/contact.yml
+group_member:
+  $ref: ./resource/group_member.yml
 conversation:
   $ref: ./resource/conversation.yml
 message:
   $ref: ./resource/message.yml
+scheduled_message:
+  $ref: ./resource/scheduled_message.yml
 user:
   $ref: ./resource/user.yml
 agent:
@@ -131,6 +135,10 @@ conversation_create_payload:
   $ref: ./request/conversation/create_payload.yml
 conversation_message_create_payload:
   $ref: ./request/conversation/create_message_payload.yml
+
+## Scheduled Message
+scheduled_message_create_update_payload:
+  $ref: ./request/scheduled_message/create_update_payload.yml
 
 # Inbox
 inbox_create_payload:

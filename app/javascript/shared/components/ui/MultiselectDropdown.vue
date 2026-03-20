@@ -36,6 +36,10 @@ const props = defineProps({
     type: String,
     default: 'Search',
   },
+  disabled: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const emit = defineEmits(['select']);
@@ -66,6 +70,8 @@ const hasValue = computed(() => {
           showSearchDropdown ? 'i-lucide-chevron-up' : 'i-lucide-chevron-down'
         "
         class="w-full !px-2"
+        type="button"
+        :disabled="disabled"
         @click="
           () => toggleDropdown() // ensure that the event is not passed to the button
         "
@@ -92,12 +98,14 @@ const hasValue = computed(() => {
           rounded-full
         />
       </Button>
+      <!-- NOTE: Without @click.prevent, the dropdown does not behave as expected when used inside a <label> tag. -->
       <div
         :class="{
           'block visible': showSearchDropdown,
           'hidden invisible': !showSearchDropdown,
         }"
         class="box-border top-[2.625rem] w-full border rounded-lg bg-n-alpha-3 backdrop-blur-[100px] absolute shadow-lg border-n-strong dark:border-n-strong p-2 z-[9999]"
+        @click.prevent
       >
         <div class="flex items-center justify-between mb-1">
           <h4

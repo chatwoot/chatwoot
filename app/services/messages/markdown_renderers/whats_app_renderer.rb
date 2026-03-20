@@ -17,7 +17,11 @@ class Messages::MarkdownRenderers::WhatsAppRenderer < Messages::MarkdownRenderer
   end
 
   def link(node)
-    out(node.url)
+    if node.url.start_with?('mention://')
+      out(:children)
+    else
+      out(node.url)
+    end
   end
 
   def list(node)

@@ -32,7 +32,15 @@ export default {
   },
 
   methods: {
-    onCancel() {
+    async onClose() {
+      const hasChanges = this.$refs.contactForm?.hasUnsavedChanges;
+      if (hasChanges) {
+        const shouldDiscard =
+          await this.$refs.confirmDiscardDialog.showConfirmation();
+        if (!shouldDiscard) {
+          return;
+        }
+      }
       this.$emit('cancel');
     },
     onSuccess() {
@@ -52,7 +60,7 @@ export default {
 <template>
   <woot-modal
     v-model:show="localShow"
-    :on-close="onCancel"
+    :on-close="onClose"
     modal-type="right-aligned"
   >
     <div class="flex flex-col h-auto overflow-auto">
@@ -63,12 +71,20 @@ export default {
         :header-content="$t('EDIT_CONTACT.DESC')"
       />
       <ContactForm
+        ref="contactForm"
         :contact="contact"
         :in-progress="uiFlags.isUpdating"
         :on-submit="onSubmit"
         @success="onSuccess"
-        @cancel="onCancel"
+        @cancel="onClose"
       />
     </div>
   </woot-modal>
+  <woot-confirm-modal
+    ref="confirmDiscardDialog"
+    :title="$t('EDIT_CONTACT.CONFIRM_DISCARD.TITLE')"
+    :description="$t('EDIT_CONTACT.CONFIRM_DISCARD.MESSAGE')"
+    :confirm-label="$t('EDIT_CONTACT.CONFIRM_DISCARD.YES')"
+    :cancel-label="$t('EDIT_CONTACT.CONFIRM_DISCARD.NO')"
+  />
 </template>

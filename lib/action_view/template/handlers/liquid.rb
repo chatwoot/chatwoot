@@ -33,7 +33,7 @@ class ActionView::Template::Handlers::Liquid
 
   def drops
     droppables = @controller.send(:liquid_droppables) if @controller.respond_to?(:liquid_droppables, true)
-    droppables.update(droppables) { |_, obj| obj.try(:to_drop) || nil }
+    droppables.update(droppables) { |_, obj| obj.try(:to_drop) || nil } # rubocop:disable Rails/SaveBang
   end
 
   def filters

@@ -30,6 +30,29 @@ class WebhookListener < BaseListener
 
     payload = message.webhook_data.merge(event: __method__.to_s)
     deliver_webhook_payloads(payload, inbox)
+
+    message_incoming(event)
+    message_outgoing(event)
+  end
+
+  def message_incoming(event)
+    message = extract_message_and_account(event)[0]
+
+    return unless message.webhook_sendable?
+    return unless message.incoming?
+
+    payload = message.webhook_data.merge(event: __method__.to_s)
+    deliver_account_webhooks(payload, message.account)
+  end
+
+  def message_outgoing(event)
+    message = extract_message_and_account(event)[0]
+
+    return unless message.webhook_sendable?
+    return unless message.outgoing?
+
+    payload = message.webhook_data.merge(event: __method__.to_s)
+    deliver_account_webhooks(payload, message.account)
   end
 
   def message_updated(event)
@@ -91,6 +114,19 @@ class WebhookListener < BaseListener
     handle_typing_status(__method__.to_s, event)
   end
 
+  def provider_event_received(event)
+    inbox, account = extract_inbox_and_account(event)
+
+    payload = {
+      event: __method__.to_s,
+      inbox: inbox.webhook_data,
+      account: account.webhook_data,
+      provider_event: event.data[:event],
+      provider_event_data: event.data[:payload]
+    }
+    deliver_account_webhooks(payload, account)
+  end
+
   private
 
   def handle_typing_status(event_name, event)
@@ -110,6 +146,7 @@ class WebhookListener < BaseListener
   def deliver_account_webhooks(payload, account)
     account.webhooks.account_type.each do |webhook|
       next unless webhook.subscriptions.include?(payload[:event])
+      next if payload[:inbox].present? && webhook.inbox_id.present? && webhook.inbox_id != payload[:inbox][:id]
 
       WebhookJob.perform_later(webhook.url, payload)
     end

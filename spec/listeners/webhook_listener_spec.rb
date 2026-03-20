@@ -15,6 +15,30 @@ describe WebhookListener do
   let!(:conversation_created_event) { Events::Base.new(event_name, Time.zone.now, conversation: conversation) }
   let!(:contact_event) { Events::Base.new(event_name, Time.zone.now, contact: contact) }
 
+  describe 'filter events by inbox' do
+    let(:event_name) { :'message.created' }
+
+    context 'when webhook has an inbox and it matches the event inbox' do
+      it 'triggers the webhook event' do
+        webhook = create(:webhook, account: account, inbox: inbox)
+        expect(WebhookJob).to receive(:perform_later)
+          .with(webhook.url, message.webhook_data.merge(event: 'message_created')).once
+
+        listener.message_created(message_created_event)
+      end
+    end
+
+    context 'when webhook has an inbox and it does not match the event inbox' do
+      it 'does not trigger webhook' do
+        another_inbox = create(:inbox, account: account)
+        create(:webhook, account: account, inbox: another_inbox)
+        expect(WebhookJob).to receive(:perform_later).exactly(0).times
+
+        listener.message_created(message_created_event)
+      end
+    end
+  end
+
   describe '#message_created' do
     let(:event_name) { :'message.created' }
 
@@ -73,6 +97,86 @@ describe WebhookListener do
         api_event = Events::Base.new(event_name, Time.zone.now, message: api_message)
         expect(WebhookJob).not_to receive(:perform_later)
         listener.message_created(api_event)
+      end
+    end
+  end
+
+  describe '#message_incoming' do
+    let(:event_name) { :'message.created' }
+    let!(:incoming_message) do
+      create(:message, message_type: 'incoming',
+                       account: account, inbox: inbox, conversation: conversation)
+    end
+    let!(:incoming_message_event) { Events::Base.new(event_name, Time.zone.now, message: incoming_message) }
+
+    context 'when webhook is not configured' do
+      it 'does not trigger webhook' do
+        expect(WebhookJob).to receive(:perform_later).exactly(0).times
+        listener.message_incoming(incoming_message_event)
+      end
+    end
+
+    context 'when webhook is configured and message is incoming' do
+      it 'triggers the webhook event' do
+        webhook = create(:webhook, inbox: inbox, account: account, subscriptions: ['message_incoming'])
+        expect(WebhookJob).to receive(:perform_later).with(webhook.url, incoming_message.webhook_data.merge(event: 'message_incoming')).once
+        listener.message_incoming(incoming_message_event)
+      end
+    end
+
+    context 'when webhook is configured and message is outgoing' do
+      it 'does not trigger the webhook event' do
+        create(:webhook, inbox: inbox, account: account, subscriptions: ['message_incoming'])
+        expect(WebhookJob).not_to receive(:perform_later)
+        listener.message_incoming(message_created_event)
+      end
+    end
+
+    context 'when webhook is configured but event is not subscribed' do
+      it 'does not trigger the webhook event' do
+        create(:webhook, subscriptions: ['conversation_created'], inbox: inbox, account: account)
+        expect(WebhookJob).not_to receive(:perform_later)
+        listener.message_incoming(incoming_message_event)
+      end
+    end
+  end
+
+  describe '#message_outgoing' do
+    let(:event_name) { :'message.created' }
+    let!(:incoming_message) do
+      create(:message, message_type: 'incoming',
+                       account: account, inbox: inbox, conversation: conversation)
+    end
+    let!(:incoming_message_event) { Events::Base.new(event_name, Time.zone.now, message: incoming_message) }
+
+    context 'when webhook is not configured' do
+      it 'does not trigger webhook' do
+        expect(WebhookJob).to receive(:perform_later).exactly(0).times
+        listener.message_outgoing(message_created_event)
+      end
+    end
+
+    context 'when webhook is configured and message is outgoing' do
+      it 'triggers the webhook event' do
+        webhook = create(:webhook, inbox: inbox, account: account, subscriptions: ['message_outgoing'])
+        expect(WebhookJob).to receive(:perform_later).with(webhook.url, message.webhook_data.merge(event: 'message_outgoing')).once
+        listener.message_outgoing(message_created_event)
+      end
+    end
+
+    context 'when webhook is configured and message is incoming' do
+      it 'does not trigger the webhook event' do
+        create(:webhook, inbox: inbox, account: account, subscriptions: ['message_outgoing'])
+        expect(WebhookJob).not_to receive(:perform_later)
+        listener.message_outgoing(incoming_message_event)
+      end
+    end
+
+    context 'when webhook is configured but event is not subscribed' do
+      it 'does not trigger the webhook event' do
+        create(:webhook, subscriptions: ['conversation_created'], inbox: inbox, account: account)
+        expect(WebhookJob).not_to receive(:perform_later)
+        listener.message_outgoing(message_created_event)
       end
     end
   end
@@ -142,7 +246,7 @@ describe WebhookListener do
       it 'triggers webhook' do
         webhook = create(:webhook, inbox: inbox, account: account)
 
-        conversation.update(custom_attributes: { test: 'testing custom attri webhook' })
+        conversation.update!(custom_attributes: { test: 'testing custom attri webhook' })
 
         expect(WebhookJob).to receive(:perform_later).with(
           webhook.url,
@@ -351,6 +455,72 @@ describe WebhookListener do
 
         expect(WebhookJob).to receive(:perform_later).with(webhook.url, payload).once
         listener.conversation_typing_off(typing_event)
+      end
+    end
+  end
+
+  describe '#provider_event_received' do
+    let(:event_name) { :'provider_event.received' }
+    let(:provider_event_data) { { message_id: '123', status: 'delivered' } }
+    let!(:provider_event) do
+      Events::Base.new(event_name, Time.zone.now, inbox: inbox, event: 'message.status', payload: provider_event_data)
+    end
+
+    context 'when webhook is not configured' do
+      it 'does not trigger webhook' do
+        expect(WebhookJob).not_to receive(:perform_later)
+        listener.provider_event_received(provider_event)
+      end
+    end
+
+    context 'when webhook is configured' do
+      it 'triggers webhook' do
+        # inbox: nil is needed because the factory defaults inbox_id to 1, and the deliver_account_webhooks
+        # method filters webhooks when payload[:inbox] is present and webhook.inbox_id doesn't match
+        webhook = create(:webhook, account: account, inbox: nil, subscriptions: ['provider_event_received'])
+
+        payload = {
+          event: 'provider_event_received',
+          inbox: inbox.webhook_data,
+          account: account.webhook_data,
+          provider_event: 'message.status',
+          provider_event_data: provider_event_data
+        }
+
+        expect(WebhookJob).to receive(:perform_later).with(webhook.url, payload).once
+        listener.provider_event_received(provider_event)
+      end
+    end
+
+    context 'when webhook is configured and event is not subscribed' do
+      it 'does not trigger webhook' do
+        create(:webhook, account: account, inbox: nil, subscriptions: ['conversation_created'])
+        expect(WebhookJob).not_to receive(:perform_later)
+        listener.provider_event_received(provider_event)
+      end
+    end
+
+    context 'when webhook has an inbox filter' do
+      it 'triggers webhook if inbox matches' do
+        webhook = create(:webhook, account: account, inbox: inbox, subscriptions: ['provider_event_received'])
+
+        payload = {
+          event: 'provider_event_received',
+          inbox: inbox.webhook_data,
+          account: account.webhook_data,
+          provider_event: 'message.status',
+          provider_event_data: provider_event_data
+        }
+
+        expect(WebhookJob).to receive(:perform_later).with(webhook.url, payload).once
+        listener.provider_event_received(provider_event)
+      end
+
+      it 'does not trigger webhook if inbox does not match' do
+        another_inbox = create(:inbox, account: account)
+        create(:webhook, account: account, inbox: another_inbox, subscriptions: ['provider_event_received'])
+        expect(WebhookJob).not_to receive(:perform_later)
+        listener.provider_event_received(provider_event)
       end
     end
   end

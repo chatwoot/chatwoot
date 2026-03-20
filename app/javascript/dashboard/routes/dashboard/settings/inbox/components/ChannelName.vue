@@ -12,6 +12,10 @@ const props = defineProps({
     type: String,
     default: '',
   },
+  provider: {
+    type: String,
+    default: '',
+  },
 });
 const getters = useStoreGetters();
 const { t } = useI18n();
@@ -40,12 +44,25 @@ const twilioChannelName = () => {
   return t(`INBOX_MGMT.CHANNELS.TWILIO_SMS`);
 };
 
+const whatsappChannelName = () => {
+  if (props.provider === 'baileys') {
+    return t(`INBOX_MGMT.CHANNELS.WHATSAPP_BAILEYS`);
+  }
+  if (props.provider === 'zapi') {
+    return t(`INBOX_MGMT.CHANNELS.WHATSAPP_ZAPI`);
+  }
+  return t(`INBOX_MGMT.CHANNELS.WHATSAPP`);
+};
+
 const readableChannelName = computed(() => {
   if (props.channelType === 'Channel::Api') {
     return globalConfig.value.apiChannelName || t('INBOX_MGMT.CHANNELS.API');
   }
   if (props.channelType === 'Channel::TwilioSms') {
     return twilioChannelName();
+  }
+  if (props.channelType === 'Channel::Whatsapp') {
+    return whatsappChannelName();
   }
   return t(`INBOX_MGMT.CHANNELS.${i18nMap[props.channelType]}`);
 });

@@ -22,7 +22,7 @@ RSpec.describe AgentCapacityPolicy, type: :model do
       account_user = user.account_users.first
       account_user.update!(agent_capacity_policy: policy)
 
-      policy.destroy
+      policy.destroy!
       expect(account_user.reload.agent_capacity_policy).to be_nil
     end
   end

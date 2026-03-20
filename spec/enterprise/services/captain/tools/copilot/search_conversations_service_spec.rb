@@ -31,7 +31,7 @@ RSpec.describe Captain::Tools::Copilot::SearchConversationsService do
 
       before do
         account_user = AccountUser.find_by(user: user, account: account)
-        account_user.update(role: :agent, custom_role: custom_role)
+        account_user.update!(role: :agent, custom_role: custom_role)
       end
 
       it 'returns true' do
@@ -45,7 +45,7 @@ RSpec.describe Captain::Tools::Copilot::SearchConversationsService do
 
       before do
         account_user = AccountUser.find_by(user: user, account: account)
-        account_user.update(role: :agent, custom_role: custom_role)
+        account_user.update!(role: :agent, custom_role: custom_role)
       end
 
       it 'returns true' do
@@ -59,7 +59,7 @@ RSpec.describe Captain::Tools::Copilot::SearchConversationsService do
 
       before do
         account_user = AccountUser.find_by(user: user, account: account)
-        account_user.update(role: :agent, custom_role: custom_role)
+        account_user.update!(role: :agent, custom_role: custom_role)
       end
 
       it 'returns true' do
@@ -73,7 +73,7 @@ RSpec.describe Captain::Tools::Copilot::SearchConversationsService do
 
       before do
         account_user = AccountUser.find_by(user: user, account: account)
-        account_user.update(role: :agent, custom_role: custom_role)
+        account_user.update!(role: :agent, custom_role: custom_role)
       end
 
       it 'returns false' do

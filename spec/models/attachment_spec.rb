@@ -30,6 +30,20 @@ RSpec.describe Attachment do
       attachment.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
       expect(attachment.download_url).not_to be_nil
     end
+
+    it 'normalizes audio/opus to audio/ogg in blob content_type' do
+      attachment = message.attachments.new(account_id: message.account_id, file_type: :audio)
+      attachment.file.attach(io: Rails.root.join('spec/assets/sample.ogg').open, filename: 'sample.ogg', content_type: 'audio/ogg')
+      attachment.save!
+      # Simulate Marcel detecting audio/opus
+      attachment.file.blob.update_column(:content_type, 'audio/opus') # rubocop:disable Rails/SkipsModelValidations
+      attachment.file.blob.reload
+
+      expect(attachment.file.blob.content_type).to eq('audio/opus')
+      attachment.download_url
+      expect(attachment.file.blob.content_type).to eq('audio/ogg')
+      expect(attachment.file.blob.reload.content_type).to eq('audio/ogg')
+    end
   end
 
   describe 'with_attached_file?' do
@@ -151,6 +165,8 @@ RSpec.describe Attachment do
 
       it 'preserves meta data with file attachments' do
         expect(image_attachment.meta['description']).to eq('Test image')
+        expect(image_attachment.file.filename.to_s).to eq('avatar.png')
+        expect(image_attachment.file.content_type).to eq('image/png')
       end
     end
   end

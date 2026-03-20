@@ -19,6 +19,9 @@ class TriggerScheduledItemsJob < ApplicationJob
 
     # Job to sync whatsapp templates
     Channels::Whatsapp::TemplatesSyncSchedulerJob.perform_later
+
+    # Job to check WhatsApp connection status
+    Channels::Whatsapp::BaileysConnectionCheckSchedulerJob.perform_later
   end
 end
 

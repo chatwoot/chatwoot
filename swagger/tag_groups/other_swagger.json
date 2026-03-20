@@ -617,6 +617,56 @@
           }
         }
       },
+      "group_member": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "description": "ID of the group member record"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "member",
+              "admin"
+            ],
+            "description": "Role of the member in the group"
+          },
+          "is_active": {
+            "type": "boolean",
+            "description": "Whether the member is currently active in the group"
+          },
+          "group_contact_id": {
+            "type": "number",
+            "description": "ID of the group contact this membership belongs to"
+          },
+          "contact": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "number",
+                "description": "ID of the member contact"
+              },
+              "name": {
+                "type": "string",
+                "description": "Name of the member contact"
+              },
+              "phone_number": {
+                "type": "string",
+                "description": "Phone number of the member contact"
+              },
+              "identifier": {
+                "type": "string",
+                "description": "Identifier of the member contact"
+              },
+              "thumbnail": {
+                "type": "string",
+                "description": "Thumbnail URL of the member contact"
+              }
+            }
+          }
+        }
+      },
       "conversation": {
         "type": "object",
         "properties": {
@@ -854,6 +904,103 @@
           "sender": {
             "type": "object",
             "description": "User/Agent/AgentBot object"
+          }
+        }
+      },
+      "scheduled_message": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "ID of the scheduled message"
+          },
+          "content": {
+            "type": "string",
+            "description": "The text content of the scheduled message"
+          },
+          "inbox_id": {
+            "type": "integer",
+            "description": "ID of the inbox"
+          },
+          "conversation_id": {
+            "type": "integer",
+            "description": "Display ID of the conversation"
+          },
+          "account_id": {
+            "type": "integer",
+            "description": "ID of the account"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "draft",
+              "pending",
+              "sent",
+              "failed"
+            ],
+            "description": "The status of the scheduled message"
+          },
+          "scheduled_at": {
+            "type": "integer",
+            "description": "Unix timestamp when the message is scheduled to be sent"
+          },
+          "template_params": {
+            "type": "object",
+            "description": "Template parameters for WhatsApp template messages"
+          },
+          "author_id": {
+            "type": "integer",
+            "description": "ID of the author who created the scheduled message"
+          },
+          "author_type": {
+            "type": "string",
+            "description": "Type of the author (User, Contact, etc.)"
+          },
+          "created_at": {
+            "type": "integer",
+            "description": "Unix timestamp when the scheduled message was created"
+          },
+          "updated_at": {
+            "type": "integer",
+            "description": "Unix timestamp when the scheduled message was last updated"
+          },
+          "author": {
+            "type": "object",
+            "description": "The author object (User/Agent details)"
+          },
+          "attachment": {
+            "type": "object",
+            "description": "The file attachment object if any",
+            "properties": {
+              "id": {
+                "type": "integer",
+                "description": "ID of the attachment"
+              },
+              "scheduled_message_id": {
+                "type": "integer",
+                "description": "ID of the scheduled message this attachment belongs to"
+              },
+              "file_type": {
+                "type": "string",
+                "description": "MIME type of the file"
+              },
+              "account_id": {
+                "type": "integer",
+                "description": "ID of the account"
+              },
+              "file_url": {
+                "type": "string",
+                "description": "URL to access the file"
+              },
+              "blob_id": {
+                "type": "string",
+                "description": "Signed blob ID for the attachment"
+              },
+              "filename": {
+                "type": "string",
+                "description": "Name of the file"
+              }
+            }
           }
         }
       },
@@ -2641,6 +2788,50 @@
                       }
                     }
                   }
+                }
+              }
+            }
+          }
+        }
+      },
+      "scheduled_message_create_update_payload": {
+        "type": "object",
+        "properties": {
+          "content": {
+            "type": "string",
+            "description": "The text content of the scheduled message",
+            "example": "Hello! This is a scheduled message."
+          },
+          "scheduled_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "ISO 8601 datetime when the message should be sent",
+            "example": "2026-02-01T10:00:00Z"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "draft",
+              "pending"
+            ],
+            "description": "The status of the scheduled message. Use 'draft' to save without scheduling, 'pending' to schedule the message.",
+            "example": "pending"
+          },
+          "attachment": {
+            "type": "string",
+            "format": "binary",
+            "description": "File attachment for the scheduled message"
+          },
+          "template_params": {
+            "type": "object",
+            "description": "Template parameters for WhatsApp template messages",
+            "example": {
+              "name": "order_confirmation",
+              "category": "MARKETING",
+              "language": "en",
+              "processed_params": {
+                "body": {
+                  "1": "121212"
                 }
               }
             }
@@ -5032,6 +5223,15 @@
         "required": true,
         "description": "The numeric ID of the message"
       },
+      "scheduled_message_id": {
+        "in": "path",
+        "name": "scheduled_message_id",
+        "schema": {
+          "type": "integer"
+        },
+        "required": true,
+        "description": "The numeric ID of the scheduled message"
+      },
       "page": {
         "in": "query",
         "name": "page",
@@ -5167,6 +5367,7 @@
         "Inboxes",
         "Integrations",
         "Messages",
+        "Scheduled Messages",
         "Profile",
         "Reports",
         "Teams",

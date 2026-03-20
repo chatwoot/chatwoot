@@ -1,7 +1,7 @@
 # Mostly modeled after the intial implementation of the service based on 360 Dialog
 # https://docs.360dialog.com/whatsapp-api/whatsapp-api/media
 # https://developers.facebook.com/docs/whatsapp/api/media/
-class Whatsapp::IncomingMessageBaseService
+class Whatsapp::IncomingMessageBaseService # rubocop:disable Metrics/ClassLength
   include ::Whatsapp::IncomingMessageServiceHelpers
 
   pattr_initialize [:inbox!, :params!, :outgoing_echo]
@@ -24,24 +24,40 @@ class Whatsapp::IncomingMessageBaseService
   private
 
   def process_messages
+    @lock_acquired = false
+
     # We don't support reactions & ephemeral message now, we need to skip processing the message
     # if the webhook event is a reaction or an ephermal message or an unsupported message.
     return if unprocessable_message_type?(message_type)
 
-    # Multiple webhook events can be received for the same message due to
-    # misconfigurations in the Meta business manager account.
-    # We use an atomic Redis SET NX to prevent concurrent workers from both
-    # processing the same message simultaneously.
+    # Multiple webhook event can be received against the same message due to misconfigurations in the Meta
+    # business manager account. While we have not found the core reason yet, the following line ensure that
+    # there are no duplicate messages created.
     return if find_message_by_source_id(messages_data.first[:id])
-    return unless lock_message_source_id!
 
-    set_contact
-    return unless @contact
+    @lock_acquired = acquire_message_processing_lock
+    return unless @lock_acquired
 
-    ActiveRecord::Base.transaction do
-      set_conversation
-      create_messages
+    # Lock by contact phone to prevent race conditions when multiple messages
+    # from the same contact arrive simultaneously (e.g., WhatsApp albums).
+    contact_phone = @processed_params[:messages].first[:from]
+    with_contact_lock(contact_phone) do
+      # Re-check after acquiring lock to handle race conditions where an outgoing message
+      # was sent from Chatwoot and the webhook arrived before source_id was saved
+      return if find_message_by_source_id(@processed_params[:messages].first[:id])
+
+      set_contact
+      return unless @contact
+
+      ActiveRecord::Base.transaction do
+        set_conversation
+        create_messages
+      end
     end
+  ensure
+    # Clear lock AFTER transaction commits to prevent race conditions where another request
+    # acquires the lock before this transaction is visible to other connections
+    clear_message_source_id_from_redis if @lock_acquired
   end
 
   def process_statuses
@@ -131,7 +147,7 @@ class Whatsapp::IncomingMessageBaseService
   def set_conversation
     # if lock to single conversation is disabled, we will create a new conversation if previous conversation is resolved
     @conversation = if @inbox.lock_to_single_conversation
-                      @contact_inbox.conversations.last
+                      @inbox.conversations.where(contact_id: @contact_inbox.contact_id).last
                     else
                       @contact_inbox.conversations
                                     .where.not(status: :resolved).last
@@ -157,7 +173,8 @@ class Whatsapp::IncomingMessageBaseService
         io: attachment_file,
         filename: attachment_file.original_filename,
         content_type: attachment_file.content_type
-      }
+      },
+      meta: ({ is_recorded_audio: true } if attachment_payload[:voice])
     )
   end
 
@@ -177,6 +194,7 @@ class Whatsapp::IncomingMessageBaseService
   def create_message(message, source_id: nil)
     content_attrs = outgoing_echo ? { external_echo: true } : {}
     content_attrs[:in_reply_to_external_id] = @in_reply_to_external_id if @in_reply_to_external_id.present?
+    content_attrs[:external_created_at] = message[:timestamp].to_i
 
     @message = @conversation.messages.build(
       content: message_content(message),

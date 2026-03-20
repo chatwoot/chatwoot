@@ -9,8 +9,13 @@ class Integrations::Slack::ChannelBuilder
     channels
   end
 
-  def update(reference_id)
-    update_reference_id(reference_id)
+  def update_reference_id(reference_id)
+    channel = find_channel(reference_id)
+    return if channel.blank?
+
+    slack_client.conversations_join(channel: channel[:id]) if channel[:is_private] == false
+    @hook.update!(reference_id: channel[:id], settings: { channel_name: channel[:name] }, status: 'enabled')
+    @hook
   end
 
   private
@@ -57,14 +62,5 @@ class Integrations::Slack::ChannelBuilder
 
   def find_channel(reference_id)
     channels.find { |channel| channel['id'] == reference_id }
-  end
-
-  def update_reference_id(reference_id)
-    channel = find_channel(reference_id)
-    return if channel.blank?
-
-    slack_client.conversations_join(channel: channel[:id]) if channel[:is_private] == false
-    @hook.update!(reference_id: channel[:id], settings: { channel_name: channel[:name] }, status: 'enabled')
-    @hook
   end
 end

@@ -134,6 +134,102 @@ describe Messages::MessageBuilder do
         expect(message.attachments.first.file_type).to eq 'image'
       end
 
+      it 'creates attachment with is_recorded_audio metadata' do
+        params[:is_recorded_audio] = true
+
+        message = message_builder
+
+        expect(message.attachments.first.meta).to eq({ 'is_recorded_audio' => true })
+      end
+
+      it 'creates attachment with is_recorded_audio metadata when param is array of filenames' do
+        params[:is_recorded_audio] = ['avatar.png']
+
+        message = message_builder
+
+        expect(message.attachments.first.meta).to eq({ 'is_recorded_audio' => true })
+      end
+
+      it 'creates attachment with is_recorded_audio metadata when param is string with array' do
+        params[:is_recorded_audio] = '["avatar.png"]'
+
+        message = message_builder
+
+        expect(message.attachments.first.meta).to eq({ 'is_recorded_audio' => true })
+      end
+
+      it 'creates attachment with custom metadata from attachments_metadata param' do
+        params[:attachments_metadata] = { 'avatar.png' => { description: 'Profile picture', source: 'upload' } }
+
+        message = message_builder
+
+        expect(message.attachments.first.meta).to include('description' => 'Profile picture', 'source' => 'upload')
+      end
+
+      it 'does not apply metadata when filename key does not match' do
+        params[:attachments_metadata] = { 'other_file.png' => { description: 'Wrong file' } }
+
+        message = message_builder
+
+        expect(message.attachments.first.meta).to be_nil
+      end
+
+      it 'merges is_recorded_audio with attachments_metadata' do
+        params[:is_recorded_audio] = true
+        params[:attachments_metadata] = { 'avatar.png' => { description: 'Audio note' } }
+
+        message = message_builder
+
+        expect(message.attachments.first.meta).to eq({
+                                                       'is_recorded_audio' => true,
+                                                       'description' => 'Audio note'
+                                                     })
+      end
+
+      context 'when transcode_audio is set' do
+        let(:params) do
+          ActionController::Parameters.new({
+                                             content: 'test',
+                                             transcode_audio: 'opus',
+                                             attachments: [Rack::Test::UploadedFile.new('spec/assets/sample.mp3', 'audio/mpeg')]
+                                           })
+        end
+
+        it 'transcodes audio attachment and sets is_recorded_audio metadata' do
+          service_instance = instance_double(Audio::TranscodeService)
+          allow(Audio::TranscodeService).to receive(:new).and_return(service_instance)
+          allow(service_instance).to receive(:perform)
+
+          message = message_builder
+
+          expect(Audio::TranscodeService).to have_received(:new)
+          expect(service_instance).to have_received(:perform)
+          expect(message.attachments.first.meta).to include('is_recorded_audio' => true)
+        end
+
+        it 'does not transcode non-audio attachments' do
+          allow(Audio::TranscodeService).to receive(:new)
+          params[:attachments] = [Rack::Test::UploadedFile.new('spec/assets/avatar.png', 'image/png')]
+
+          message = message_builder
+
+          expect(Audio::TranscodeService).not_to have_received(:new)
+          expect(message.attachments.first.file_type).to eq 'image'
+        end
+      end
+
+      context 'when transcode_audio is not set' do
+        it 'does not invoke transcoding service' do
+          allow(Audio::TranscodeService).to receive(:new)
+          params[:attachments] = [Rack::Test::UploadedFile.new('spec/assets/sample.mp3', 'audio/mpeg')]
+
+          message = message_builder
+
+          expect(Audio::TranscodeService).not_to have_received(:new)
+          expect(message.attachments.first.file_type).to eq 'audio'
+        end
+      end
+
       context 'when DIRECT_UPLOAD_ENABLED' do
         let(:params) do
           ActionController::Parameters.new({
@@ -285,6 +381,47 @@ describe Messages::MessageBuilder do
           expect(message.content_attributes.dig('email', 'html_content')).to be_nil
           expect(message.content_attributes.dig('email', 'text_content')).to be_nil
         end
+      end
+    end
+  end
+
+  describe 'scheduled_message metadata' do
+    let(:scheduled_message) { create(:scheduled_message, account: account, inbox: inbox, conversation: conversation, author: user, content: 'Hello') }
+    let(:params) do
+      ActionController::Parameters.new({
+                                         content: 'test',
+                                         scheduled_message: scheduled_message
+                                       })
+    end
+
+    it 'includes scheduled_message_id in additional_attributes' do
+      message = message_builder
+
+      expect(message.additional_attributes['scheduled_message_id']).to eq(scheduled_message.id)
+    end
+
+    it 'includes scheduled_by with author info' do
+      message = message_builder
+
+      expect(message.additional_attributes['scheduled_by']).to include('id' => user.id, 'type' => 'User', 'name' => user.name)
+    end
+
+    it 'includes scheduled_at timestamp' do
+      message = message_builder
+
+      expect(message.additional_attributes['scheduled_at']).to eq(scheduled_message.updated_at.to_i)
+    end
+
+    context 'when author is AutomationRule' do
+      let(:automation_rule) { create(:automation_rule, account: account) }
+      let(:scheduled_message) do
+        create(:scheduled_message, account: account, inbox: inbox, conversation: conversation, author: automation_rule, content: 'Hello')
+      end
+
+      it 'includes scheduled_by with automation_rule info' do
+        message = message_builder
+
+        expect(message.additional_attributes['scheduled_by']).to include('id' => automation_rule.id, 'type' => 'AutomationRule')
       end
     end
   end

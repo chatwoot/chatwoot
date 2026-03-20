@@ -15,10 +15,12 @@ import CSATTemplate from 'dashboard/components-next/message/bubbles/Template/CSA
 import Editor from 'dashboard/components-next/Editor/Editor.vue';
 import FilterSelect from 'dashboard/components-next/filter/inputs/FilterSelect.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import TabBar from 'dashboard/components-next/tabbar/TabBar.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
-import languages from 'dashboard/components/widgets/conversation/advancedFilterItems/languages.js';
+import whatsappTemplateLanguages from './whatsappTemplateLanguages.js';
 import ConfirmTemplateUpdateDialog from './components/ConfirmTemplateUpdateDialog.vue';
+import ExistingTemplateSelector from './components/ExistingTemplateSelector.vue';
 
 const props = defineProps({
   inbox: { type: Object, required: true },
@@ -29,13 +31,13 @@ const store = useStore();
 const labels = useMapGetter('labels/getLabels');
 const { captainEnabled } = useCaptain();
 
-const { isAWhatsAppChannel, isATwilioWhatsAppChannel } = useInbox(
+const { isATwilioWhatsAppChannel, isAWhatsAppCloudChannel } = useInbox(
   props.inbox?.id
 );
 
-// Computed to check if it's any type of WhatsApp channel (Cloud or Twilio)
-const isAnyWhatsAppChannel = computed(
-  () => isAWhatsAppChannel.value || isATwilioWhatsAppChannel.value
+// WhatsApp channels that require CSAT templates (Cloud and Twilio, NOT Baileys/Z-API)
+const isTemplateRequiredWhatsAppChannel = computed(
+  () => isAWhatsAppCloudChannel.value || isATwilioWhatsAppChannel.value
 );
 
 const isUpdating = ref(false);
@@ -56,6 +58,25 @@ const state = reactive({
 const templateStatus = ref(null);
 const templateLoading = ref(false);
 const confirmDialog = ref(null);
+const templateSelectorRef = ref(null);
+const templateMode = ref('create_new');
+const selectedExistingTemplateName = ref('');
+const bodyVariables = ref({});
+const existingTemplateBody = ref('');
+const existingTemplateButtonText = ref('');
+
+const templateModeTabs = computed(() => [
+  { label: t('INBOX_MGMT.CSAT.TEMPLATE_MODE.CREATE_NEW'), key: 0 },
+  { label: t('INBOX_MGMT.CSAT.TEMPLATE_MODE.USE_EXISTING'), key: 1 },
+]);
+
+const activeTemplateModeTabIndex = computed(() =>
+  templateMode.value === 'use_existing' ? 1 : 0
+);
+
+const onTemplateModeTabChange = tab => {
+  templateMode.value = tab.key === 1 ? 'use_existing' : 'create_new';
+};
 
 const originalTemplateValues = ref({
   message: '',
@@ -83,19 +104,67 @@ const labelOptions = computed(() =>
 );
 
 const languageOptions = computed(() =>
-  languages.map(({ name, id }) => ({ label: `${name} (${id})`, value: id }))
+  whatsappTemplateLanguages.map(({ name, id }) => ({
+    label: `${name} (${id})`,
+    value: id,
+  }))
 );
 
-const messagePreviewData = computed(() => ({
-  content: state.message || t('INBOX_MGMT.CSAT.MESSAGE.PLACEHOLDER'),
-}));
+const resolvedExistingTemplateBody = computed(() => {
+  if (!existingTemplateBody.value) return '';
+  let message = existingTemplateBody.value;
+  Object.entries(bodyVariables.value).forEach(([key, value]) => {
+    if (value) {
+      message = message.replaceAll(`{{${key}}}`, value);
+    }
+  });
+  return message;
+});
+
+const messagePreviewData = computed(() => {
+  if (templateMode.value === 'use_existing') {
+    return {
+      content:
+        resolvedExistingTemplateBody.value ||
+        t('INBOX_MGMT.CSAT.MESSAGE.PLACEHOLDER'),
+    };
+  }
+  return {
+    content: state.message || t('INBOX_MGMT.CSAT.MESSAGE.PLACEHOLDER'),
+  };
+});
+
+const previewButtonText = computed(() => {
+  if (templateMode.value === 'use_existing') {
+    return (
+      existingTemplateButtonText.value ||
+      t('INBOX_MGMT.CSAT.BUTTON_TEXT.PLACEHOLDER')
+    );
+  }
+  return state.templateButtonText;
+});
 
 const shouldShowTemplateStatus = computed(
-  () => templateStatus.value && !templateLoading.value
+  () =>
+    templateStatus.value &&
+    !templateLoading.value &&
+    templateMode.value !== 'use_existing'
 );
 const showUtilityAnalyzer = computed(
-  () => isAnyWhatsAppChannel.value && captainEnabled.value
+  () => isTemplateRequiredWhatsAppChannel.value && captainEnabled.value
 );
+
+const isUpdateDisabled = computed(() => {
+  if (
+    templateMode.value === 'use_existing' &&
+    isAWhatsAppCloudChannel.value &&
+    state.csatSurveyEnabled &&
+    !selectedExistingTemplateName.value
+  ) {
+    return true;
+  }
+  return false;
+});
 
 const templateApprovalStatus = computed(() => {
   const statusMap = {
@@ -168,17 +237,32 @@ const initializeState = () => {
     : [];
 
   // Store original template values for change detection
-  if (isAnyWhatsAppChannel.value) {
+  if (isTemplateRequiredWhatsAppChannel.value) {
     originalTemplateValues.value = {
       message: state.message,
       templateButtonText: state.templateButtonText,
       templateLanguage: state.templateLanguage,
     };
+
+    // Set template mode based on stored source
+    const templateSource = csat_config?.template?.source;
+    if (templateSource === 'user_selected') {
+      templateMode.value = 'use_existing';
+      selectedExistingTemplateName.value = csat_config.template.name || '';
+      bodyVariables.value = csat_config.template.body_variables || {};
+      existingTemplateBody.value = message;
+      existingTemplateButtonText.value = buttonText;
+      // Reset create-new fields so they don't show stale data
+      state.message = '';
+      state.templateButtonText = 'Please rate us';
+    } else {
+      templateMode.value = 'create_new';
+    }
   }
 };
 
 const checkTemplateStatus = async () => {
-  if (!isAnyWhatsAppChannel.value) return;
+  if (!isTemplateRequiredWhatsAppChannel.value) return;
 
   try {
     templateLoading.value = true;
@@ -208,7 +292,7 @@ const checkTemplateStatus = async () => {
 onMounted(() => {
   initializeState();
   if (!labels.value?.length) store.dispatch('labels/get');
-  if (isAnyWhatsAppChannel.value) checkTemplateStatus();
+  if (isTemplateRequiredWhatsAppChannel.value) checkTemplateStatus();
 });
 
 watch(() => props.inbox, initializeState, { immediate: true });
@@ -317,7 +401,7 @@ const removeLabel = label => {
 
 // Check if template-related fields have changed
 const hasTemplateChanges = () => {
-  if (!isAnyWhatsAppChannel.value) return false;
+  if (!isTemplateRequiredWhatsAppChannel.value) return false;
 
   const original = originalTemplateValues.value;
   return (
@@ -387,7 +471,7 @@ const updateInbox = async attributes => {
 };
 
 const createTemplate = async () => {
-  if (!isAnyWhatsAppChannel.value) return null;
+  if (!isTemplateRequiredWhatsAppChannel.value) return null;
 
   const response = await store.dispatch('inboxes/createCSATTemplate', {
     inboxId: props.inbox.id,
@@ -401,32 +485,84 @@ const createTemplate = async () => {
   return response.template;
 };
 
+const linkTemplate = async () => {
+  if (!selectedExistingTemplateName.value) return null;
+
+  const response = await store.dispatch('inboxes/linkCSATTemplate', {
+    inboxId: props.inbox.id,
+    template: {
+      name: selectedExistingTemplateName.value,
+      language: state.templateLanguage,
+      body_variables: bodyVariables.value,
+    },
+  });
+  useAlert(t('INBOX_MGMT.CSAT.EXISTING_TEMPLATE.LINK_SUCCESS'));
+  return response.template;
+};
+
+const handleTemplateSelected = template => {
+  state.templateLanguage = template.language || 'en';
+  existingTemplateBody.value = template.body_text || '';
+  existingTemplateButtonText.value =
+    template.button_text || t('INBOX_MGMT.CSAT.BUTTON_TEXT.PLACEHOLDER');
+};
+
 const performSave = async () => {
   try {
     isUpdating.value = true;
     let newTemplateData = null;
 
-    // For WhatsApp channels, create template first if needed
-    if (
-      isAnyWhatsAppChannel.value &&
-      state.csatSurveyEnabled &&
-      shouldCreateTemplate()
-    ) {
-      try {
-        newTemplateData = await createTemplate();
-      } catch (error) {
-        const errorMessage =
-          error.response?.data?.error ||
-          t('INBOX_MGMT.CSAT.TEMPLATE_CREATION.ERROR_MESSAGE');
-        useAlert(errorMessage);
-        return;
+    // For WhatsApp channels, handle template based on mode
+    if (isTemplateRequiredWhatsAppChannel.value && state.csatSurveyEnabled) {
+      if (
+        templateMode.value === 'use_existing' &&
+        isAWhatsAppCloudChannel.value
+      ) {
+        // Link existing template mode — require selection
+        if (!selectedExistingTemplateName.value) return;
+
+        // Validate all body variables are filled
+        if (
+          templateSelectorRef.value &&
+          !templateSelectorRef.value.validate()
+        ) {
+          useAlert(t('INBOX_MGMT.CSAT.TEMPLATE_VARIABLES.VALIDATION_ERROR'));
+          return;
+        }
+
+        try {
+          newTemplateData = await linkTemplate();
+        } catch (error) {
+          const errorMessage =
+            error.response?.data?.error ||
+            t('INBOX_MGMT.CSAT.EXISTING_TEMPLATE.LINK_ERROR');
+          useAlert(errorMessage);
+          return;
+        }
+      } else if (shouldCreateTemplate()) {
+        // Create new template mode
+        try {
+          newTemplateData = await createTemplate();
+        } catch (error) {
+          const errorMessage =
+            error.response?.data?.error ||
+            t('INBOX_MGMT.CSAT.TEMPLATE_CREATION.ERROR_MESSAGE');
+          useAlert(errorMessage);
+          return;
+        }
       }
     }
 
     const csatConfig = {
       display_type: state.displayType,
-      message: state.message,
-      button_text: state.templateButtonText,
+      message:
+        templateMode.value === 'use_existing'
+          ? existingTemplateBody.value
+          : state.message,
+      button_text:
+        templateMode.value === 'use_existing'
+          ? existingTemplateButtonText.value
+          : state.templateButtonText,
       language: state.templateLanguage,
       survey_rules: {
         operator: state.surveyRuleOperator,
@@ -434,15 +570,27 @@ const performSave = async () => {
       },
     };
 
-    // Use new template data if created, otherwise preserve existing template information
+    // Use new template data if created/linked, otherwise preserve existing template information
     if (newTemplateData) {
-      if (isATwilioWhatsAppChannel.value) {
+      if (newTemplateData.source === 'user_selected') {
+        // User-selected existing template
+        csatConfig.template = {
+          name: newTemplateData.name,
+          template_id: newTemplateData.template_id,
+          language: newTemplateData.language,
+          status: newTemplateData.status,
+          source: 'user_selected',
+          linked_at: newTemplateData.linked_at,
+          body_variables: bodyVariables.value,
+        };
+      } else if (isATwilioWhatsAppChannel.value) {
         // Twilio WhatsApp template format
         csatConfig.template = {
           friendly_name: newTemplateData.friendly_name,
           content_sid: newTemplateData.content_sid,
           language: newTemplateData.language,
           status: newTemplateData.status,
+          source: 'auto_created',
           created_at: new Date().toISOString(),
         };
       } else {
@@ -452,6 +600,7 @@ const performSave = async () => {
           template_id: newTemplateData.template_id,
           language: newTemplateData.language,
           status: newTemplateData.status,
+          source: 'auto_created',
           created_at: new Date().toISOString(),
         };
       }
@@ -477,16 +626,26 @@ const performSave = async () => {
 };
 
 const saveSettings = async () => {
+  // For "use existing" mode, no confirmation needed — just save
+  if (templateMode.value === 'use_existing') {
+    await performSave();
+    return;
+  }
+
   // Check if we need to show confirmation dialog for WhatsApp template changes
   // This applies to both WhatsApp Cloud and Twilio WhatsApp channels
   if (
-    isAnyWhatsAppChannel.value &&
+    isTemplateRequiredWhatsAppChannel.value &&
     state.csatSurveyEnabled &&
     hasExistingTemplate() &&
     hasTemplateChanges()
   ) {
-    confirmDialog.value?.open();
-    return;
+    // Only show dialog if the existing template was auto-created (will be deleted)
+    const existingSource = props.inbox?.csat_config?.template?.source;
+    if (existingSource !== 'user_selected') {
+      confirmDialog.value?.open();
+      return;
+    }
   }
 
   await performSave();
@@ -509,7 +668,7 @@ const handleConfirmTemplateUpdate = async () => {
         <div class="grid gap-5">
           <!-- Show display type only for non-WhatsApp channels -->
           <WithLabel
-            v-if="!isAnyWhatsAppChannel"
+            v-if="!isTemplateRequiredWhatsAppChannel"
             :label="$t('INBOX_MGMT.CSAT.DISPLAY_TYPE.LABEL')"
             name="display_type"
           >
@@ -519,104 +678,142 @@ const handleConfirmTemplateUpdate = async () => {
             />
           </WithLabel>
 
-          <template v-if="isAnyWhatsAppChannel">
+          <template v-if="isTemplateRequiredWhatsAppChannel">
+            <!-- Template source toggle (only for WhatsApp Cloud) -->
+            <WithLabel
+              v-if="isAWhatsAppCloudChannel"
+              :label="$t('INBOX_MGMT.CSAT.TEMPLATE_MODE.LABEL')"
+              name="template_mode"
+            >
+              <TabBar
+                :tabs="templateModeTabs"
+                :initial-active-tab="activeTemplateModeTabIndex"
+                @tab-changed="onTemplateModeTabChange"
+              />
+            </WithLabel>
+
             <div
               class="flex flex-col gap-4 justify-between w-full lg:flex-row lg:gap-6"
             >
               <div class="flex flex-col gap-3 basis-3/5">
-                <WithLabel
-                  :label="$t('INBOX_MGMT.CSAT.MESSAGE.LABEL')"
-                  name="message"
+                <!-- Use existing template mode -->
+                <template
+                  v-if="
+                    templateMode === 'use_existing' && isAWhatsAppCloudChannel
+                  "
                 >
-                  <Editor
-                    v-model="state.message"
-                    :placeholder="$t('INBOX_MGMT.CSAT.MESSAGE.PLACEHOLDER')"
-                    :max-length="200"
-                    channel-type="Context::Plain"
-                    class="w-full"
+                  <ExistingTemplateSelector
+                    ref="templateSelectorRef"
+                    v-model="selectedExistingTemplateName"
+                    :inbox-id="inbox.id"
+                    :body-variables="bodyVariables"
+                    @template-selected="handleTemplateSelected"
+                    @update:body-variables="bodyVariables = $event"
                   />
-                </WithLabel>
-                <div v-if="showUtilityAnalyzer" class="flex flex-col gap-2">
-                  <NextButton
-                    sm
-                    slate
-                    :label="$t('INBOX_MGMT.CSAT.UTILITY_ANALYZER.ACTION')"
-                    :is-loading="utilityAnalysisLoading"
-                    :disabled="!state.message?.trim()"
-                    @click="analyzeTemplateUtility"
-                  />
-                  <p class="text-xs text-n-slate-11">
-                    {{ $t('INBOX_MGMT.CSAT.UTILITY_ANALYZER.HELPER_NOTE') }}
-                  </p>
-                </div>
+                </template>
 
-                <div
-                  v-if="utilityAnalysisResult"
-                  class="flex flex-col gap-3 p-3 rounded-xl outline outline-1 outline-n-weak bg-n-alpha-1"
-                >
-                  <div class="flex gap-2 items-center">
-                    <span class="text-sm font-medium text-n-slate-12">
-                      {{ $t('INBOX_MGMT.CSAT.UTILITY_ANALYZER.RESULT_LABEL') }}
-                    </span>
-                    <span
-                      class="px-2 py-0.5 text-xs font-medium rounded-full"
-                      :class="
-                        getUtilityClassificationClass(
-                          utilityAnalysisResult.classification
-                        )
-                      "
-                    >
-                      {{
-                        getUtilityClassificationLabel(
-                          utilityAnalysisResult.classification
-                        )
-                      }}
-                    </span>
-                  </div>
-                  <p class="text-xs text-n-slate-11">
-                    {{ $t('INBOX_MGMT.CSAT.UTILITY_ANALYZER.GUIDANCE_NOTE') }}
-                  </p>
-                  <div
-                    v-if="
-                      utilityAnalysisResult.optimized_message &&
-                      utilityAnalysisResult.classification !== 'LIKELY_UTILITY'
-                    "
-                    class="flex flex-col gap-2"
+                <!-- Create new template mode -->
+                <template v-else>
+                  <WithLabel
+                    :label="$t('INBOX_MGMT.CSAT.MESSAGE.LABEL')"
+                    name="message"
                   >
-                    <p class="text-xs font-medium text-n-slate-12">
-                      {{
-                        $t('INBOX_MGMT.CSAT.UTILITY_ANALYZER.SUGGESTION_LABEL')
-                      }}
-                    </p>
-                    <p class="text-sm text-n-slate-12">
-                      {{ utilityAnalysisResult.optimized_message }}
-                    </p>
+                    <Editor
+                      v-model="state.message"
+                      :placeholder="$t('INBOX_MGMT.CSAT.MESSAGE.PLACEHOLDER')"
+                      :max-length="200"
+                      channel-type="Context::Plain"
+                      class="w-full"
+                    />
+                  </WithLabel>
+                  <div v-if="showUtilityAnalyzer" class="flex flex-col gap-2">
                     <NextButton
                       sm
-                      faded
                       slate
-                      :label="$t('INBOX_MGMT.CSAT.UTILITY_ANALYZER.APPLY')"
-                      @click="applyUtilitySuggestion"
+                      :label="$t('INBOX_MGMT.CSAT.UTILITY_ANALYZER.ACTION')"
+                      :is-loading="utilityAnalysisLoading"
+                      :disabled="!state.message?.trim()"
+                      @click="analyzeTemplateUtility"
                     />
+                    <p class="text-xs text-n-slate-11">
+                      {{ $t('INBOX_MGMT.CSAT.UTILITY_ANALYZER.HELPER_NOTE') }}
+                    </p>
                   </div>
-                </div>
-                <Input
-                  v-model="state.templateButtonText"
-                  :label="$t('INBOX_MGMT.CSAT.BUTTON_TEXT.LABEL')"
-                  :placeholder="$t('INBOX_MGMT.CSAT.BUTTON_TEXT.PLACEHOLDER')"
-                  class="w-full"
-                />
 
-                <WithLabel
-                  :label="$t('INBOX_MGMT.CSAT.LANGUAGE.LABEL')"
-                  name="language"
-                >
-                  <ComboBox
-                    v-model="state.templateLanguage"
-                    :options="languageOptions"
-                    :placeholder="$t('INBOX_MGMT.CSAT.LANGUAGE.PLACEHOLDER')"
+                  <div
+                    v-if="utilityAnalysisResult"
+                    class="flex flex-col gap-3 p-3 rounded-xl outline outline-1 outline-n-weak bg-n-alpha-1"
+                  >
+                    <div class="flex gap-2 items-center">
+                      <span class="text-sm font-medium text-n-slate-12">
+                        {{
+                          $t('INBOX_MGMT.CSAT.UTILITY_ANALYZER.RESULT_LABEL')
+                        }}
+                      </span>
+                      <span
+                        class="px-2 py-0.5 text-xs font-medium rounded-full"
+                        :class="
+                          getUtilityClassificationClass(
+                            utilityAnalysisResult.classification
+                          )
+                        "
+                      >
+                        {{
+                          getUtilityClassificationLabel(
+                            utilityAnalysisResult.classification
+                          )
+                        }}
+                      </span>
+                    </div>
+                    <p class="text-xs text-n-slate-11">
+                      {{ $t('INBOX_MGMT.CSAT.UTILITY_ANALYZER.GUIDANCE_NOTE') }}
+                    </p>
+                    <div
+                      v-if="
+                        utilityAnalysisResult.optimized_message &&
+                        utilityAnalysisResult.classification !==
+                          'LIKELY_UTILITY'
+                      "
+                      class="flex flex-col gap-2"
+                    >
+                      <p class="text-xs font-medium text-n-slate-12">
+                        {{
+                          $t(
+                            'INBOX_MGMT.CSAT.UTILITY_ANALYZER.SUGGESTION_LABEL'
+                          )
+                        }}
+                      </p>
+                      <p class="text-sm text-n-slate-12">
+                        {{ utilityAnalysisResult.optimized_message }}
+                      </p>
+                      <NextButton
+                        sm
+                        faded
+                        slate
+                        :label="$t('INBOX_MGMT.CSAT.UTILITY_ANALYZER.APPLY')"
+                        @click="applyUtilitySuggestion"
+                      />
+                    </div>
+                  </div>
+                  <Input
+                    v-model="state.templateButtonText"
+                    :label="$t('INBOX_MGMT.CSAT.BUTTON_TEXT.LABEL')"
+                    :placeholder="$t('INBOX_MGMT.CSAT.BUTTON_TEXT.PLACEHOLDER')"
+                    class="w-full"
                   />
-                </WithLabel>
+
+                  <WithLabel
+                    v-if="shouldShowTemplateStatus"
+                    :label="$t('INBOX_MGMT.CSAT.LANGUAGE.LABEL')"
+                    name="language"
+                  >
+                    <ComboBox
+                      v-model="state.templateLanguage"
+                      :options="languageOptions"
+                      :placeholder="$t('INBOX_MGMT.CSAT.LANGUAGE.PLACEHOLDER')"
+                    />
+                  </WithLabel>
+                </template>
 
                 <div
                   v-if="shouldShowTemplateStatus"
@@ -653,7 +850,7 @@ const handleConfirmTemplateUpdate = async () => {
                 </p>
                 <CSATTemplate
                   :message="messagePreviewData"
-                  :button-text="state.templateButtonText"
+                  :button-text="previewButtonText"
                   class="pt-12"
                 />
               </div>
@@ -719,7 +916,7 @@ const handleConfirmTemplateUpdate = async () => {
           </WithLabel>
           <p class="text-sm italic text-n-slate-11">
             {{
-              isAnyWhatsAppChannel
+              isTemplateRequiredWhatsAppChannel
                 ? $t('INBOX_MGMT.CSAT.WHATSAPP_NOTE')
                 : $t('INBOX_MGMT.CSAT.NOTE')
             }}
@@ -733,6 +930,7 @@ const handleConfirmTemplateUpdate = async () => {
         type="submit"
         :label="$t('INBOX_MGMT.SETTINGS_POPUP.UPDATE')"
         :is-loading="isUpdating"
+        :disabled="isUpdateDisabled"
         @click="saveSettings"
       />
     </div>

@@ -33,7 +33,7 @@ RSpec.describe Enterprise::Concerns::Portal do
     context 'when custom_domain is not changed' do
       before do
         allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
-        portal.update(custom_domain: 'test.example.com')
+        portal.update!(custom_domain: 'test.example.com')
       end
 
       it 'does not enqueue cloudflare verification job' do
@@ -46,7 +46,7 @@ RSpec.describe Enterprise::Concerns::Portal do
     context 'when custom_domain is set to blank' do
       before do
         allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
-        portal.update(custom_domain: 'test.example.com')
+        portal.update!(custom_domain: 'test.example.com')
       end
 
       it 'does not enqueue cloudflare verification job' do

@@ -239,11 +239,20 @@
           "WHATSAPP_CLOUD": "WhatsApp Cloud",
           "WHATSAPP_CLOUD_DESC": "Quick setup through Meta",
           "TWILIO_DESC": "Connect via Twilio credentials",
-          "360_DIALOG": "360Dialog"
+          "360_DIALOG": "360Dialog",
+          "BAILEYS": "Baileys",
+          "BAILEYS_DESC": "Connect via non-official API Baileys",
+          "ZAPI": "Z-API",
+          "ZAPI_DESC": "Connect via non-official API Z-API"
         },
         "SELECT_PROVIDER": {
           "TITLE": "Select your API provider",
-          "DESCRIPTION": "Choose your WhatsApp provider. You can connect directly through Meta which requires no setup, or connect through Twilio using your account credentials."
+          "DESCRIPTION": "Choose your WhatsApp provider. You can connect directly through Meta which requires no setup, or connect through Twilio using your account credentials.",
+          "ZAPI_PROMO": {
+            "TITLE": "Looking for a reliable WhatsApp solution?",
+            "DESCRIPTION": "Z-API offers superior stability compared to Baileys and is much simpler to set up than Cloud or Twilio - no complex configuration required. Perfect for businesses that want to get started quickly.",
+            "CTA": "Use Z-API"
+          }
         },
         "INBOX_NAME": {
           "LABEL": "Inbox Name",
@@ -282,6 +291,43 @@
           "WEBHOOK_URL": "Webhook URL",
           "WEBHOOK_VERIFICATION_TOKEN": "Webhook Verification Token"
         },
+        "PROVIDER_URL": {
+          "LABEL": "Provider URL",
+          "PLACEHOLDER": "If provider is not running locally, please provide the URL",
+          "ERROR": "Please enter a valid URL"
+        },
+        "MARK_AS_READ": {
+          "LABEL": "Send read receipts"
+        },
+        "INSTANCE_ID": {
+          "LABEL": "Instance ID",
+          "PLACEHOLDER": "Please enter your instance ID",
+          "ERROR": "This field is required"
+        },
+        "TOKEN": {
+          "LABEL": "Token",
+          "PLACEHOLDER": "Please enter your instance Token",
+          "ERROR": "This field is required"
+        },
+        "CLIENT_TOKEN": {
+          "LABEL": "Security Token",
+          "PLACEHOLDER": "Please enter your Security Token (see Security tab on Z-API dashboard)",
+          "ERROR": "This field is required"
+        },
+        "ADVANCED_OPTIONS": "Advanced options",
+        "EXTERNAL_PROVIDER": {
+          "SUBTITLE": "Click below to setup the WhatsApp channel.",
+          "LINK_BUTTON": "Link device",
+          "LINK_DEVICE_MODAL": {
+            "TITLE": "Link your device",
+            "SUBTITLE": "Scan the QR code to link your device. Make sure the phone number is correct before scanning.",
+            "LOADING_QRCODE": "Loading QR code...",
+            "RECONNECTING": "Connecting...",
+            "LINK_DEVICE": "Link device",
+            "DISCONNECT": "Disconnect",
+            "CONNECTED": "Your device has been connected successfully. You can now start sending and receiving messages."
+          }
+        },
         "SUBMIT_BUTTON": "Create WhatsApp Channel",
         "EMBEDDED_SIGNUP": {
           "TITLE": "Quick setup with Meta",
@@ -310,6 +356,13 @@
           "SUCCESS_FALLBACK": "WhatsApp Business Account has been successfully configured",
           "MANUAL_FALLBACK": "If your number is already connected to the WhatsApp Business Platform (API), or if you’re a tech provider onboarding your own number, please use the {link} flow",
           "MANUAL_LINK_TEXT": "manual setup flow"
+        },
+        "ZAPI_PROMO": {
+          "SETUP_BANNER": {
+            "TITLE": "Get 10% off your Z-API subscription",
+            "DESCRIPTION": "Create your Z-API account using our affiliate link and receive 10% off. Simple setup, reliable connections, and great support.",
+            "CTA": "Create Z-API Account"
+          }
         },
         "API": {
           "ERROR_MESSAGE": "We were not able to save the WhatsApp channel"
@@ -759,7 +812,29 @@
       "WHATSAPP_TEMPLATES_SYNC_SUBHEADER": "Manually sync message templates from WhatsApp to update your available templates.",
       "WHATSAPP_TEMPLATES_SYNC_BUTTON": "Sync Templates",
       "WHATSAPP_TEMPLATES_SYNC_SUCCESS": "Templates sync initiated successfully. It may take a couple of minutes to update.",
-      "UPDATE_PRE_CHAT_FORM_SETTINGS": "Update Pre Chat Form Settings"
+      "WHATSAPP_MANAGE_PROVIDER_CONNECTION_TITLE": "Manage Provider Connection",
+      "WHATSAPP_MANAGE_PROVIDER_CONNECTION_SUBHEADER": "Link your device and manage the provider connection.",
+      "WHATSAPP_MANAGE_PROVIDER_CONNECTION_BUTTON": "Manage connection",
+      "WHATSAPP_PROVIDER_URL_TITLE": "Provider URL",
+      "WHATSAPP_PROVIDER_URL_SUBHEADER": "If the provider is not running locally, please provide the URL.",
+      "WHATSAPP_PROVIDER_URL_PLACEHOLDER": "Enter the provider URL",
+      "WHATSAPP_PROVIDER_URL_ERROR": "Please enter a valid URL",
+      "UPDATE_PRE_CHAT_FORM_SETTINGS": "Update Pre Chat Form Settings",
+      "WHATSAPP_MARK_AS_READ_TITLE": "Read receipts",
+      "WHATSAPP_MARK_AS_READ_SUBHEADER": "If turned off, when a message is viewed in Chatwoot, a read receipt will not be sent to the sender. Your messages will still be able to receive read receipts from the sender.",
+      "WHATSAPP_MARK_AS_READ_LABEL": "Send read receipts",
+      "WHATSAPP_INSTANCE_ID_TITLE": "Instance ID",
+      "WHATSAPP_INSTANCE_ID_SUBHEADER": "Your Z-API Instance ID.",
+      "WHATSAPP_INSTANCE_ID_UPDATE_TITLE": "Update Instance ID",
+      "WHATSAPP_INSTANCE_ID_UPDATE_SUBHEADER": "Enter the new Instance ID here",
+      "WHATSAPP_TOKEN_TITLE": "Token",
+      "WHATSAPP_TOKEN_SUBHEADER": "Your Z-API instance Token.",
+      "WHATSAPP_TOKEN_UPDATE_TITLE": "Update Token",
+      "WHATSAPP_TOKEN_UPDATE_SUBHEADER": "Enter the new instance Token here",
+      "WHATSAPP_CLIENT_TOKEN_TITLE": "Security Token",
+      "WHATSAPP_CLIENT_TOKEN_SUBHEADER": "Your Z-API Client Token (see Security tab on Z-API dashboard).",
+      "WHATSAPP_CLIENT_TOKEN_UPDATE_TITLE": "Update Security Token",
+      "WHATSAPP_CLIENT_TOKEN_UPDATE_SUBHEADER": "Enter the new Security Token here"
     },
     "HELP_CENTER": {
       "LABEL": "Help Center",
@@ -886,6 +961,32 @@
         "SUCCESS_MESSAGE": "WhatsApp template created successfully and sent for approval",
         "ERROR_MESSAGE": "Failed to create WhatsApp template"
       },
+      "TEMPLATE_MODE": {
+        "LABEL": "Template source",
+        "CREATE_NEW": "Create new template",
+        "USE_EXISTING": "Use existing template"
+      },
+      "EXISTING_TEMPLATE": {
+        "LABEL": "Select template",
+        "PLACEHOLDER": "Select an approved template",
+        "SYNC_BUTTON": "Sync templates",
+        "SYNCING": "Syncing...",
+        "EMPTY_STATE": "No compatible templates found. Templates must have a URL button with a dynamic parameter.",
+        "LINK_SUCCESS": "Template linked successfully",
+        "LINK_ERROR": "Failed to link template",
+        "LOADING": "Loading templates...",
+        "USING_LABEL": "Using existing template: {name}",
+        "SYNC_ERROR": "Failed to sync templates. Please try again."
+      },
+      "TEMPLATE_VARIABLES": {
+        "TITLE": "Template variables",
+        "DESCRIPTION": "Set values for the template body variables. You can use dynamic variables like {'{{'} contact.name {'}}'} that will be resolved at send time.",
+        "VARIABLE_LABEL": "Variable {variable}",
+        "VARIABLE_PLACEHOLDER": "Enter value for {variable}",
+        "VARIABLE_REQUIRED": "This variable is required",
+        "VALIDATION_ERROR": "Please set all template variables before saving.",
+        "INSERT_VARIABLE": "Insert variable"
+      },
       "TEMPLATE_UPDATE_DIALOG": {
         "TITLE": "Edit survey details",
         "DESCRIPTION": "We will delete the previous template and make a new one which will be sent again for WhatsApp approval",
@@ -917,7 +1018,7 @@
         "SELECT_PLACEHOLDER": "select labels"
       },
       "NOTE": "Note: CSAT surveys are sent only once per conversation",
-      "WHATSAPP_NOTE": "Note: When you save, the system creates a dedicated CSAT template in WhatsApp (used to capture rating and feedback in reports) and submits it as Utility for approval. Meta may still classify it as Marketing based on content. After approval, surveys are sent only once per conversation as per the survey rule.",
+      "WHATSAPP_NOTE": "Note: You can create a new template (which will be sent for WhatsApp approval as Utility, though Meta may classify it as Marketing based on content) or use an existing approved template from your Meta template manager. Surveys are sent only once per conversation as per the survey rule.",
       "API": {
         "SUCCESS_MESSAGE": "CSAT settings updated successfully",
         "ERROR_MESSAGE": "We couldn't update CSAT settings. Please try again later."
@@ -1116,6 +1217,8 @@
       "TWITTER_PROFILE": "Twitter",
       "TWILIO_SMS": "Twilio SMS",
       "WHATSAPP": "WhatsApp",
+      "WHATSAPP_BAILEYS": "WhatsApp - Baileys",
+      "WHATSAPP_ZAPI": "WhatsApp - Z-API",
       "SMS": "SMS",
       "EMAIL": "Email",
       "TELEGRAM": "Telegram",
