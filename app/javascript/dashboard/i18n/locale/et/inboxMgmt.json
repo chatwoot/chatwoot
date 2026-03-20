@@ -42,7 +42,7 @@
         "PLACEHOLDER": "Sisesta oma veebisaidi nimi (nt Acme Inc)"
       },
       "FB": {
-        "HELP": "PS: Sisselogimisel pääseme ligi ainult teie lehe sõnumitele. Teie privaatseid sõnumeid Chatwoot kunagi ei näe.",
+        "HELP": "PS: Sisselogimisel pääseme ligi ainult teie lehe sõnumitele. Teie privaatseid sõnumeid Chatwoot ei pääse kunagi ligi.",
         "CHOOSE_PAGE": "Vali leht",
         "CHOOSE_PLACEHOLDER": "Valige nimekirjast leht",
         "INBOX_NAME": "Postkasti nimi",
@@ -135,7 +135,7 @@
         "API_KEY": {
           "USE_API_KEY": "Kasuta API-võtme autentimist",
           "LABEL": "API-võtme SID",
-          "PLACEHOLDER": "Sisestage oma API-võtme SID",
+          "PLACEHOLDER": "Sisesta oma API-võtme SID",
           "ERROR": "See väli on kohustuslik"
         },
         "API_KEY_SECRET": {
@@ -145,7 +145,7 @@
         },
         "MESSAGING_SERVICE_SID": {
           "LABEL": "Sõnumiteenuse SID",
-          "PLACEHOLDER": "Sisestage oma Twilio sõnumiteenuse SID",
+          "PLACEHOLDER": "Sisesta oma Twilio sõnumiteenuse SID",
           "ERROR": "See väli on kohustuslik",
           "USE_MESSAGING_SERVICE": "Kasuta Twilio sõnumiteenust"
         },
@@ -154,8 +154,8 @@
           "ERROR": "Palun valige oma kanali tüüp"
         },
         "AUTH_TOKEN": {
-          "LABEL": "Autentimismärgis",
-          "PLACEHOLDER": "Palun sisestage oma Twilio autentimismärgis",
+          "LABEL": "Autentimismärk",
+          "PLACEHOLDER": "Palun sisestage oma Twilio autentimismärk",
           "ERROR": "See väli on kohustuslik"
         },
         "CHANNEL_NAME": {
@@ -191,7 +191,7 @@
         "BANDWIDTH": {
           "ACCOUNT_ID": {
             "LABEL": "Konto ID",
-            "PLACEHOLDER": "Palun sisestage oma Bandwidth konto ID",
+            "PLACEHOLDER": "Palun sisesta oma Bandwidth konto ID",
             "ERROR": "See väli on kohustuslik"
           },
           "API_KEY": {
@@ -206,7 +206,7 @@
           },
           "APPLICATION_ID": {
             "LABEL": "Rakenduse ID",
-            "PLACEHOLDER": "Sisestage oma Bandwidthi rakenduse ID",
+            "PLACEHOLDER": "Sisesta oma Bandwidthi rakenduse ID",
             "ERROR": "See väli on kohustuslik"
           },
           "INBOX_NAME": {
@@ -257,16 +257,16 @@
         },
         "PHONE_NUMBER_ID": {
           "LABEL": "Telefoninumbri ID",
-          "PLACEHOLDER": "Palun sisestage Facebooki arendajate juhtpaneelilt saadud telefoninumbri ID.",
+          "PLACEHOLDER": "Palun sisesta Facebooki arendajate juhtpaneelilt saadud telefoninumbri ID.",
           "ERROR": "Palun sisestage kehtiv väärtus."
         },
         "BUSINESS_ACCOUNT_ID": {
           "LABEL": "Ärikonto ID",
-          "PLACEHOLDER": "Palun sisestage Facebooki arendajate juhtpaneelilt saadud ärikonto ID.",
+          "PLACEHOLDER": "Palun sisesta Facebooki arendajate juhtpaneelilt saadud ärikonto ID.",
           "ERROR": "Palun sisesta kehtiv väärtus."
         },
         "WEBHOOK_VERIFY_TOKEN": {
-          "LABEL": "Webhooki kinnituse token",
+          "LABEL": "Webhook kinnituse token",
           "PLACEHOLDER": "Enter a verify token which you want to configure for Facebook webhooks.",
           "ERROR": "Palun sisesta kehtiv väärtus."
         },
@@ -280,7 +280,7 @@
           "TITLE": "Tagasikutsumise URL",
           "SUBTITLE": "Peate Facebooki arendajate portaalis seadistama veebikonksu URL-i ja kinnitustokeni allolevate väärtustega.",
           "WEBHOOK_URL": "Veebikonksu URL",
-          "WEBHOOK_VERIFICATION_TOKEN": "Webhooki kinnituse token"
+          "WEBHOOK_VERIFICATION_TOKEN": "Webhook kinnituse token"
         },
         "SUBMIT_BUTTON": "Loo WhatsAppi kanal",
         "EMBEDDED_SIGNUP": {
@@ -358,20 +358,20 @@
       },
       "API_CHANNEL": {
         "TITLE": "API kanal",
-        "DESC": "Integreeri API-kanaliga ja alusta oma klientide toetamisega.",
+        "DESC": "Integreeri API kanaliga ja alusta oma klientide toetamisega.",
         "CHANNEL_NAME": {
           "LABEL": "Kanali nimi",
           "PLACEHOLDER": "Palun sisestage kanali nimi",
           "ERROR": "See väli on kohustuslik"
         },
         "WEBHOOK_URL": {
-          "LABEL": "Webhooki URL",
+          "LABEL": "Webhook URL",
           "SUBTITLE": "Configure the URL where you want to receive callbacks on events.",
-          "PLACEHOLDER": "Webhooki URL"
+          "PLACEHOLDER": "Webhook URL"
         },
-        "SUBMIT_BUTTON": "Loo API-kanal",
+        "SUBMIT_BUTTON": "Loo API kanal",
         "API": {
-          "ERROR_MESSAGE": "API-kanalit ei õnnestunud salvestada"
+          "ERROR_MESSAGE": "API kanalit ei õnnestunud salvestada"
         }
       },
       "EMAIL_CHANNEL": {
@@ -441,7 +441,7 @@
       },
       "AUTH": {
         "TITLE": "Vali kanal",
-        "DESC": "Chatwoot toetab vestlusvidinaid, Facebook Messengeri, WhatsAppi, e-kirju jms kanalitena. Kui soovite luua kohandatud kanali, saate selle luua API kanali abil. Alustamiseks valige allolevatest kanalitest üks.",
+        "DESC": "Chatwoot toetab vestlusvidinaid, Facebook Messengeri, WhatsAppi, e-kirju jms kanalitena. Kui soovid luua kohandatud kanali, saad selle luua API kanali abil. Alustamiseks vali allolevatest kanalitest üks.",
         "TITLE_NEXT": "Complete the setup",
         "TITLE_FINISH": "Voilà!",
         "CHANNEL": {
@@ -548,7 +548,7 @@
       "MESSENGER_QR_INSTRUCTION": "Scan the QR code above to quickly test your Facebook Messenger inbox",
       "TELEGRAM_QR_INSTRUCTION": "Scan the QR code above to quickly test your Telegram inbox"
     },
-    "REAUTH": "Autendage uuesti",
+    "REAUTH": "Autendige uuesti",
     "VIEW": "Vaata",
     "EDIT": {
       "API": {
@@ -707,7 +707,7 @@
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Sõnumside skript",
-      "MESSENGER_SUB_HEAD": "Paigutage see nupp oma body sildi sisse",
+      "MESSENGER_SUB_HEAD": "Paigutage see nupp oma body-sildi sisse",
       "ALLOWED_DOMAINS": {
         "TITLE": "Allowed Domains",
         "DESCRIPTION": "Restrict which websites can embed your chat widget. For security, only add domains you own and trust. Add one or more domains separated by commas. Leave blank to allow all domains (not recommended for production).",
@@ -754,7 +754,7 @@
       "FORWARD_EMAIL_NOT_CONFIGURED": "Forwarding emails to your inbox is currently disabled on this installation. To use this feature, it must be enabled by your administrator. Please get in touch with them to proceed.",
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Luba sõnumid pärast vestluse lahendamist",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Luba lõppkasutajatel saata sõnumeid ka pärast vestluse lahendamist.",
-      "WHATSAPP_SECTION_SUBHEADER": "Seda API võtit kasutatakse WhatsAppi API-dega integreerimiseks.",
+      "WHATSAPP_SECTION_SUBHEADER": "Seda API võtit kasutatakse WhatsApp API-dega integreerimiseks.",
       "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the new API key to be used for the integration with the WhatsApp APIs.",
       "WHATSAPP_SECTION_TITLE": "API võti",
       "WHATSAPP_SECTION_UPDATE_TITLE": "Uuenda API-võtit",
@@ -1031,7 +1031,7 @@
       "ENCRYPTION": "Krüpteerimine",
       "SSL_TLS": "SSL/TLS",
       "START_TLS": "STARTTLS",
-      "OPEN_SSL_VERIFY_MODE": "Open SSL kinnitamise režiim",
+      "OPEN_SSL_VERIFY_MODE": "OpenSSL kinnitamise režiim",
       "AUTH_MECHANISM": "Autentimine"
     },
     "NOTE": "Märkus: ",
@@ -1115,7 +1115,7 @@
         "USER_MESSAGE": "Tere",
         "AGENT_MESSAGE": "Tere"
       },
-      "BRANDING_TEXT": "Toetab Chatwoot",
+      "BRANDING_TEXT": "Toetab Chatwoot’i",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
     },
     "EMAIL_PROVIDERS": {
