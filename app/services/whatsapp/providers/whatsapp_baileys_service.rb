@@ -424,7 +424,9 @@ class Whatsapp::Providers::WhatsappBaileysService < Whatsapp::Providers::BaseSer
 
     raise ProviderUnavailableError unless process_response(response)
 
-    response.parsed_response&.dig('data')&.first || { 'jid' => remote_jid, 'exists' => false }
+    result = response.parsed_response
+    result = result.is_a?(Array) ? result : result&.dig('data')
+    result&.first || { 'jid' => remote_jid, 'exists' => false }
   end
 
   def delete_message(recipient_id, message)
