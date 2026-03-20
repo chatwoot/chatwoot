@@ -22,7 +22,8 @@ describe WebhookListener do
       it 'triggers the webhook event' do
         webhook = create(:webhook, account: account, inbox: inbox)
         expect(WebhookJob).to receive(:perform_later)
-          .with(webhook.url, message.webhook_data.merge(event: 'message_created')).once
+          .with(webhook.url, message.webhook_data.merge(event: 'message_created'), :account_webhook,
+                secret: webhook.secret, delivery_id: instance_of(String)).once
 
         listener.message_created(message_created_event)
       end
@@ -124,7 +125,10 @@ describe WebhookListener do
     context 'when webhook is configured and message is incoming' do
       it 'triggers the webhook event' do
         webhook = create(:webhook, inbox: inbox, account: account, subscriptions: ['message_incoming'])
-        expect(WebhookJob).to receive(:perform_later).with(webhook.url, incoming_message.webhook_data.merge(event: 'message_incoming')).once
+        expect(WebhookJob).to receive(:perform_later).with(
+          webhook.url, incoming_message.webhook_data.merge(event: 'message_incoming'), :account_webhook,
+          secret: webhook.secret, delivery_id: instance_of(String)
+        ).once
         listener.message_incoming(incoming_message_event)
       end
     end
@@ -164,7 +168,10 @@ describe WebhookListener do
     context 'when webhook is configured and message is outgoing' do
       it 'triggers the webhook event' do
         webhook = create(:webhook, inbox: inbox, account: account, subscriptions: ['message_outgoing'])
-        expect(WebhookJob).to receive(:perform_later).with(webhook.url, message.webhook_data.merge(event: 'message_outgoing')).once
+        expect(WebhookJob).to receive(:perform_later).with(
+          webhook.url, message.webhook_data.merge(event: 'message_outgoing'), :account_webhook,
+          secret: webhook.secret, delivery_id: instance_of(String)
+        ).once
         listener.message_outgoing(message_created_event)
       end
     end
@@ -518,7 +525,10 @@ describe WebhookListener do
           provider_event_data: provider_event_data
         }
 
-        expect(WebhookJob).to receive(:perform_later).with(webhook.url, payload).once
+        expect(WebhookJob).to receive(:perform_later).with(
+          webhook.url, payload, :account_webhook,
+          secret: webhook.secret, delivery_id: instance_of(String)
+        ).once
         listener.provider_event_received(provider_event)
       end
     end
@@ -543,7 +553,10 @@ describe WebhookListener do
           provider_event_data: provider_event_data
         }
 
-        expect(WebhookJob).to receive(:perform_later).with(webhook.url, payload).once
+        expect(WebhookJob).to receive(:perform_later).with(
+          webhook.url, payload, :account_webhook,
+          secret: webhook.secret, delivery_id: instance_of(String)
+        ).once
         listener.provider_event_received(provider_event)
       end
 

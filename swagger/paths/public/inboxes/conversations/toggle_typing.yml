@@ -8,11 +8,12 @@ parameters:
   - name: typing_status
     in: query
     required: true
-    type: string
-    enum:
-      - 'on'
-      - 'recording'
-      - 'off'
+    schema:
+      type: string
+      enum:
+        - 'on'
+        - 'recording'
+        - 'off'
     description: Typing status.
 requestBody:
   required: true

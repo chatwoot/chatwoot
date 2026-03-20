@@ -50,7 +50,7 @@ RSpec.describe Portal do
       end
 
       it 'does not allow drafting the default locale' do
-        portal.update!(config: { allowed_locales: %w[en es], draft_locales: ['en'], default_locale: 'en' })
+        portal.update(config: { allowed_locales: %w[en es], draft_locales: ['en'], default_locale: 'en' }) # rubocop:disable Rails/SaveBang
 
         expect(portal).not_to be_valid
         expect(portal.errors.full_messages).to include('Config default locale cannot be drafted.')
