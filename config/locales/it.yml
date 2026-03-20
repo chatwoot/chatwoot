@@ -36,7 +36,7 @@ it:
   errors:
     account:
       reporting_timezone:
-        invalid: is not a valid timezone
+        invalid: non è un fuso orario valido
     validations:
       presence: non deve essere vuoto
     webhook:
