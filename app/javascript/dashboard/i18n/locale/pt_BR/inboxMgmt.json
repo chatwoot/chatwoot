@@ -938,6 +938,20 @@
         "CONFIRM": "Criar novo modelo",
         "CANCEL": "Voltar atrás"
       },
+      "UTILITY_ANALYZER": {
+        "ACTION": "Verificar adequação de utilidade",
+        "HELPER_NOTE": "Verifique esta mensagem antes do envio para melhorar a adequação como Utilidade. O sistema cria um modelo CSAT dedicado com botões para avaliação e o envia como Utilidade; a Meta ainda pode reclassificá-lo como Marketing com base no conteúdo.",
+        "RESULT_LABEL": "Previsão de categoria da Meta",
+        "GUIDANCE_NOTE": "Esta é uma verificação orientativa, não uma garantia de aprovação da Meta.",
+        "SUGGESTION_LABEL": "Reescrita sugerida para adequação como utilidade",
+        "APPLY": "Usar esta reescrita",
+        "ERROR_MESSAGE": "Não foi possível analisar a mensagem. Por favor, tente novamente.",
+        "CLASSIFICATION": {
+          "LIKELY_UTILITY": "Provavelmente Utilidade",
+          "LIKELY_MARKETING": "Provavelmente Marketing",
+          "UNCLEAR": "Precisa de esclarecimento"
+        }
+      },
       "SURVEY_RULE": {
         "LABEL": "Regra de pesquisa",
         "DESCRIPTION_PREFIX": "Enviar a pesquisa se a conversa",
@@ -949,7 +963,7 @@
         "SELECT_PLACEHOLDER": "selecionar etiquetas"
       },
       "NOTE": "Nota: pesquisas de CSAT são enviadas apenas uma vez por conversa",
-      "WHATSAPP_NOTE": "Nota: Você pode criar um novo modelo (que será enviado para aprovação do WhatsApp) ou usar um modelo aprovado existente do seu gerenciador de modelos da Meta. As pesquisas são enviadas apenas uma vez por conversa, conforme a regra da pesquisa.",
+      "WHATSAPP_NOTE": "Nota: Você pode criar um novo modelo (que será enviado para aprovação do WhatsApp como Utilidade, embora a Meta possa classificá-lo como Marketing com base no conteúdo) ou usar um modelo aprovado existente do seu gerenciador de modelos da Meta. As pesquisas são enviadas apenas uma vez por conversa, conforme a regra da pesquisa.",
       "API": {
         "SUCCESS_MESSAGE": "Configurações de CSAT atualizadas com sucesso",
         "ERROR_MESSAGE": "Não foi possível atualizar as configurações do CSAT. Por favor, tente novamente mais tarde."
