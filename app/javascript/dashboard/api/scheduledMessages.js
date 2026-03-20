@@ -7,6 +7,7 @@ export const buildScheduledMessagePayload = ({
   scheduledAt,
   templateParams,
   attachment,
+  removeAttachment,
 } = {}) => {
   if (!attachment) {
     return {
@@ -14,6 +15,7 @@ export const buildScheduledMessagePayload = ({
       status,
       scheduled_at: scheduledAt,
       template_params: templateParams,
+      remove_attachment: removeAttachment || undefined,
     };
   }
 

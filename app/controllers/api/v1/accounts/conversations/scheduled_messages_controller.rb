@@ -22,6 +22,7 @@ class Api::V1::Accounts::Conversations::ScheduledMessagesController < Api::V1::A
 
   def update
     @scheduled_message.assign_attributes(scheduled_message_params)
+    @scheduled_message.attachment.purge if params[:remove_attachment].present? && @scheduled_message.attachment.attached?
     @scheduled_message.save!
     dispatch_event(SCHEDULED_MESSAGE_UPDATED, scheduled_message: @scheduled_message)
   end
