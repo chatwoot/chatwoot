@@ -527,7 +527,8 @@
           "TITLE": "സവിശേഷതകൾ",
           "ALLOW_CONVERSATION_FAQS": "പരിഹരിച്ച സംഭാഷണങ്ങളിൽ നിന്ന് FAQകൾ സൃഷ്ടിക്കുക",
           "ALLOW_MEMORIES": "ഉപഭോക്തൃ ഇടപെടലുകളിൽ നിന്നുള്ള പ്രധാന വിവരങ്ങൾ ഓർമ്മകളായി പിടിക്കുക.",
-          "ALLOW_CITATIONS": "പ്രതികരണങ്ങളിൽ ഉറവിട ഉദ്ധരണികൾ ഉൾപ്പെടുത്തുക"
+          "ALLOW_CITATIONS": "പ്രതികരണങ്ങളിൽ ഉറവിട ഉദ്ധരണികൾ ഉൾപ്പെടുത്തുക",
+          "ALLOW_CONTACT_ATTRIBUTES": "Allow access to contact information"
         }
       },
       "EDIT": {
