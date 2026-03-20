@@ -527,7 +527,8 @@
           "TITLE": "მახასიათებლები",
           "ALLOW_CONVERSATION_FAQS": "შექმენით ხშირად დასმული კითხვები გადაჭრილი საუბრებიდან",
           "ALLOW_MEMORIES": "მომხმარებელთან ურთიერთობებიდან მნიშვნელოვანი დეტალების დამახსოვრება.",
-          "ALLOW_CITATIONS": "პასუხებში წყაროს ციტატების ჩართვა"
+          "ALLOW_CITATIONS": "პასუხებში წყაროს ციტატების ჩართვა",
+          "ALLOW_CONTACT_ATTRIBUTES": "Allow access to contact information"
         }
       },
       "EDIT": {
