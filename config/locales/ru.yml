@@ -36,7 +36,7 @@ ru:
   errors:
     account:
       reporting_timezone:
-        invalid: is not a valid timezone
+        invalid: неверный часовой пояс
     validations:
       presence: не должен быть пустым
     webhook:
