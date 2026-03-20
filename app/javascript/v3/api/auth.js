@@ -28,7 +28,6 @@ export const login = async ({
 
     setAuthCredentials(response);
     clearLocalStorageOnLogout();
-
     window.location = getLoginRedirectURL({
       ssoAccountId,
       ssoConversationId,
