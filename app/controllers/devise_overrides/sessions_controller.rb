@@ -31,6 +31,7 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
     normalized_email = params[:email].strip.downcase
     user = User.from_email(normalized_email)
     return nil unless user&.valid_password?(params[:password])
+    return nil unless user.active_for_authentication?
 
     user
   end
