@@ -527,7 +527,8 @@
           "TITLE": "Հատկություններ",
           "ALLOW_CONVERSATION_FAQS": "Ստեղծել ՀՏՀ-ներ լուծված զրույցներից",
           "ALLOW_MEMORIES": "Հաճախորդների հետ փոխգործակցություններից կարևոր մանրամասներ պահպանել հիշողություններում։",
-          "ALLOW_CITATIONS": "Include source citations in responses"
+          "ALLOW_CITATIONS": "Include source citations in responses",
+          "ALLOW_CONTACT_ATTRIBUTES": "Allow access to contact information"
         }
       },
       "EDIT": {
