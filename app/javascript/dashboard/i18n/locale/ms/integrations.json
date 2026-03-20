@@ -527,7 +527,8 @@
           "TITLE": "Ciri-ciri",
           "ALLOW_CONVERSATION_FAQS": "Hasilkan Soalan Lazim daripada perbualan yang diselesaikan",
           "ALLOW_MEMORIES": "Tangkap butiran penting sebagai memori daripada interaksi pelanggan.",
-          "ALLOW_CITATIONS": "Sertakan petikan sumber dalam jawapan"
+          "ALLOW_CITATIONS": "Sertakan petikan sumber dalam jawapan",
+          "ALLOW_CONTACT_ATTRIBUTES": "Allow access to contact information"
         }
       },
       "EDIT": {
