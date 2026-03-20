@@ -99,6 +99,7 @@ export default {
     } = useUISettings();
 
     const replyEditor = useTemplateRef('replyEditor');
+    const messageEditor = useTemplateRef('messageEditor');
     const copilot = useCopilotReply();
     const shortcutKey = useKbd(['$mod', '+', 'enter']);
 
@@ -109,6 +110,7 @@ export default {
       setQuotedReplyFlagForInbox,
       fetchQuotedReplyFlagFromUISettings,
       replyEditor,
+      messageEditor,
       copilot,
       shortcutKey,
     };
@@ -1190,6 +1192,12 @@ export default {
         }
         return false;
       });
+
+      if (this.inReplyTo) {
+        this.$nextTick(() => {
+          this.messageEditor?.focusEditorInputField();
+        });
+      }
     },
     resetReplyToMessage() {
       const replyStorageKey = LOCAL_STORAGE_KEYS.MESSAGE_REPLY_TO;
@@ -1313,6 +1321,7 @@ export default {
         />
         <WootMessageEditor
           v-else-if="!showAudioRecorderEditor"
+          ref="messageEditor"
           v-model="message"
           :conversation-id="conversationId"
           :editor-id="editorStateId"
