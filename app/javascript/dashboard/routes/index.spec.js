@@ -48,6 +48,7 @@ describe('#validateAuthenticateRoutePermission', () => {
       store.getters.getCurrentUser = {
         account_id: 1,
         id: 1,
+        confirmed: true,
         accounts: [
           {
             id: 1,
@@ -79,6 +80,7 @@ describe('#validateAuthenticateRoutePermission', () => {
         store.getters.getCurrentUser = {
           account_id: 1,
           id: 1,
+          confirmed: true,
           accounts: [
             {
               id: 1,
