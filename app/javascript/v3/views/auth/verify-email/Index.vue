@@ -1,10 +1,9 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { useAlert } from 'dashboard/composables';
 import { getAuthData, getAuthHeaders } from '../../../helpers/AuthHelper';
-
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import wootAPI from '../../../api/apiClient';
 
@@ -19,6 +18,19 @@ if (!authData) {
 
 const email = authData?.uid || '';
 const isResendingEmail = ref(false);
+
+onMounted(async () => {
+  try {
+    const { data } = await wootAPI.get('/api/v1/profile', {
+      headers: getAuthHeaders(),
+    });
+    if (data.confirmed) {
+      window.location = '/app/';
+    }
+  } catch {
+    // if profile fetch fails, stay on the page
+  }
+});
 
 const handleResendEmail = async () => {
   isResendingEmail.value = true;
