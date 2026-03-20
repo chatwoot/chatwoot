@@ -354,17 +354,19 @@ const deleteConversation = () => {
             :created-at-timestamp="chat.created_at"
           />
         </span>
-        <ConversationStatusBadge
-          v-if="chat.status && unreadCount === 0"
-          :status="chat.status"
-          class="mt-1 ltr:ml-auto rtl:mr-auto"
-        />
-        <span
-          class="shadow-lg rounded-full text-xxs font-semibold h-4 leading-4 ltr:ml-auto rtl:mr-auto mt-1 min-w-[1rem] px-1 py-0 text-center text-white bg-n-teal-9 block"
-          :class="hasUnread ? 'block' : 'hidden'"
-        >
-          {{ unreadCount > 9 ? '9+' : unreadCount }}
-        </span>
+        <div v-if="hasUnread || chat.status" class="flex items-center gap-2">
+          <span
+            class="shadow-lg rounded-full text-xxs font-semibold h-4 leading-4 ltr:ml-auto rtl:mr-auto mt-1 min-w-[1rem] px-1 py-0 text-center text-white bg-n-teal-9 block"
+            :class="hasUnread ? 'block' : 'hidden'"
+          >
+            {{ unreadCount > 9 ? '9+' : unreadCount }}
+          </span>
+          <ConversationStatusBadge
+            v-if="chat.status"
+            :status="chat.status"
+            class="mt-1 ltr:ml-auto rtl:mr-auto"
+          />
+        </div>
       </div>
       <CardLabels
         v-if="showLabelsSection"
