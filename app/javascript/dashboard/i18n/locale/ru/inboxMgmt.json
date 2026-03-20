@@ -710,20 +710,20 @@
       "MESSENGER_SUB_HEAD": "Поместите эту кнопку внутри тега <body>",
       "ALLOWED_DOMAINS": {
         "TITLE": "Разрешенные домены",
-        "DESCRIPTION": "Restrict which websites can embed your chat widget. For security, only add domains you own and trust. Add one or more domains separated by commas. Leave blank to allow all domains (not recommended for production).",
+        "DESCRIPTION": "Ограничение того, какие сайты могут встраивать виджет чата. Для безопасности добавьте только домены, которые вы владеете и доверяете. Добавьте один или несколько доменов, разделенных запятыми. Оставьте пустым, чтобы разрешить все домены (не рекомендуется для производства).",
         "PLACEHOLDER": "example.com, www.example.com, app.example.com"
       },
       "ALLOW_MOBILE_WEBVIEW": {
-        "LABEL": "Enable widget in mobile apps",
-        "SUBTITLE": "Check this if you embed the widget in iOS or Android apps. Mobile apps don't send domain information, so they would be blocked by domain restrictions unless this is enabled."
+        "LABEL": "Включить виджет в мобильных приложениях",
+        "SUBTITLE": "Установите флажок, если вы вставьте виджет в приложения iOS или Android. Мобильные приложения не посылают информацию о домене, поэтому они будут заблокированы ограничениями домена, если это не включено."
       },
       "IDENTITY_VALIDATION": {
-        "TITLE": "Identity Validation",
-        "DESCRIPTION": "Verify user authenticity by generating secure tokens. This prevents unauthorized users from impersonating others in your chat.",
+        "TITLE": "Проверка личности",
+        "DESCRIPTION": "Проверяйте подлинность пользователей, генерируя безопасные токены. Это не позволит неавторизованным пользователям выдавать себя за других участников вашего чата.",
         "SECRET_KEY": "Секретный ключ",
-        "VIEW_DOCS": "View documentation",
-        "REQUIRE_LABEL": "Require identity validation for all conversations",
-        "REQUIRE_DESCRIPTION": "When enabled, users must provide a valid identity token to start conversations. Requests without valid tokens will be rejected."
+        "VIEW_DOCS": "Посмотреть документацию",
+        "REQUIRE_LABEL": "Требовать подтверждение личности для всех разговоров",
+        "REQUIRE_DESCRIPTION": "Если эта функция включена, для начала разговора пользователи должны предоставить действительный токен идентификации. Запросы без действительных токенов будут отклонены."
       },
       "INBOX_AGENTS": "Операторы",
       "INBOX_AGENTS_SUB_TEXT": "Добавить или удалить агентов из этого источника",
