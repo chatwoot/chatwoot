@@ -32,6 +32,7 @@ RSpec.describe 'Inboxes API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
+        expect(response).to conform_schema(200)
         expect(JSON.parse(response.body, symbolize_names: true)[:payload].size).to eq(2)
       end
 
@@ -95,6 +96,7 @@ RSpec.describe 'Inboxes API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
+        expect(response).to conform_schema(200)
         expect(JSON.parse(response.body, symbolize_names: true)[:id]).to eq(inbox.id)
       end
 
@@ -383,6 +385,7 @@ RSpec.describe 'Inboxes API', type: :request do
              as: :json
 
         expect(response).to have_http_status(:success)
+        expect(response).to conform_schema(200)
         expect(response.body).to include('test.com')
       end
 
@@ -478,6 +481,7 @@ RSpec.describe 'Inboxes API', type: :request do
               as: :json
 
         expect(response).to have_http_status(:success)
+        expect(response).to conform_schema(200)
         expect(inbox.reload.enable_auto_assignment).to be_falsey
         expect(inbox.reload.portal_id).to eq(portal.id)
         expect(response.parsed_body['name']).to eq 'new test inbox'

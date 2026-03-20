@@ -21,6 +21,7 @@ export default {
     PRIORITY_DESC: 'priority_desc',
     WAITING_SINCE_ASC: 'waiting_since_asc',
     WAITING_SINCE_DESC: 'waiting_since_desc',
+    PRIORITY_DESC_CREATED_AT_ASC: 'priority_desc_created_at_asc',
   },
   ARTICLE_STATUS_TYPES: {
     DRAFT: 0,

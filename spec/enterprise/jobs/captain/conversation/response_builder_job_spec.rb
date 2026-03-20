@@ -7,7 +7,7 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
   let(:captain_inbox_association) { create(:captain_inbox, captain_assistant: assistant, inbox: inbox) }
 
   describe '#perform' do
-    let(:conversation) { create(:conversation, inbox: inbox, account: account) }
+    let(:conversation) { create(:conversation, inbox: inbox, account: account, status: :pending) }
     let(:mock_llm_chat_service) { instance_double(Captain::Llm::AssistantChatService) }
     let(:mock_agent_runner_service) { instance_double(Captain::Assistant::AgentRunnerService) }
 
@@ -46,6 +46,15 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
         described_class.perform_now(conversation, assistant)
         account.reload
         expect(account.usage_limits[:captain][:responses][:consumed]).to eq(1)
+      end
+
+      it 'does not send a response when the conversation is no longer pending' do
+        conversation.open!
+
+        expect(mock_llm_chat_service).not_to receive(:generate_response)
+        expect do
+          described_class.perform_now(conversation, assistant)
+        end.not_to(change { conversation.messages.outgoing.count })
       end
     end
 
@@ -92,6 +101,44 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
       end
     end
 
+    # Regression (PR #13417): wrapping create_handoff_message and bot_handoff! in the
+    # same transaction defers the message's after_create_commit until commit, at which
+    # point it clears waiting_since (bot_response). The handoff path must stay outside
+    # the transaction so the callback fires before bot_handoff! sets waiting_since.
+    context 'when handoff is requested' do
+      let(:conversation) { create(:conversation, inbox: inbox, account: account, status: :pending) }
+      let(:agent) { create(:user, account: account, role: :agent) }
+
+      before do
+        allow(account).to receive(:feature_enabled?).and_return(false)
+        allow(account).to receive(:feature_enabled?).with('captain_integration_v2').and_return(false)
+        allow(mock_llm_chat_service).to receive(:generate_response).and_return({ 'response' => 'conversation_handoff' })
+      end
+
+      it 'sets waiting_since to approximately the handoff time' do
+        freeze_time do
+          described_class.perform_now(conversation, assistant)
+
+          conversation.reload
+          expect(conversation.status).to eq('open')
+          expect(conversation.waiting_since).to be_within(1.second).of(Time.current)
+        end
+      end
+
+      it 'preserves waiting_since so a human reply consumes it for reply_time tracking' do
+        described_class.perform_now(conversation, assistant)
+
+        conversation.reload
+        expect(conversation.waiting_since).to be_present
+
+        # A human reply clears waiting_since (consumed by dispatch_create_events
+        # to emit FIRST_REPLY_CREATED or REPLY_CREATED for reply_time tracking).
+        create(:message, conversation: conversation, message_type: :outgoing,
+                         sender: agent, account: account, inbox: inbox)
+        expect(conversation.reload.waiting_since).to be_nil
+      end
+    end
+
     context 'when message contains an image' do
       let(:message_with_image) { create(:message, conversation: conversation, message_type: :incoming, content: 'Can you help with this error?') }
       let(:image_attachment) { message_with_image.attachments.create!(account: account, file_type: :image, external_url: 'https://example.com/error.jpg') }
@@ -119,7 +166,7 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
   end
 
   describe 'retry mechanisms for image processing' do
-    let(:conversation) { create(:conversation, inbox: inbox, account: account) }
+    let(:conversation) { create(:conversation, inbox: inbox, account: account, status: :pending) }
     let(:mock_llm_chat_service) { instance_double(Captain::Llm::AssistantChatService) }
     let(:mock_message_builder) { instance_double(Captain::OpenAiMessageBuilderService) }
 

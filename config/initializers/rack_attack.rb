@@ -185,7 +185,8 @@ class Rack::Attack
   ###-----------------------------------------------###
 
   ## Prevent Abuse of Converstion Transcript APIs ###
-  throttle('/api/v1/accounts/:account_id/conversations/:conversation_id/transcript', limit: 30, period: 1.hour) do |req|
+  throttle('/api/v1/accounts/:account_id/conversations/:conversation_id/transcript',
+           limit: ENV.fetch('RATE_LIMIT_CONVERSATION_TRANSCRIPT', '1000').to_i, period: 1.hour) do |req|
     match_data = %r{/api/v1/accounts/(?<account_id>\d+)/conversations/(?<conversation_id>\d+)/transcript}.match(req.path)
     match_data[:account_id] if match_data.present?
   end
