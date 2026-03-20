@@ -527,7 +527,8 @@
           "TITLE": "ባህሪያት",
           "ALLOW_CONVERSATION_FAQS": "ከተፈታ ውይይቶች የተፈጥሮ የተደጋጋ FAQ ያመነታሉ",
           "ALLOW_MEMORIES": "ከደንበኞች ግንኙነቶች ቁልፍ ዝርዝሮችን እንደ ማስታወሻ ይይዙ።",
-          "ALLOW_CITATIONS": "በምላሾች ውስጥ የምንጭ ማስረጃዎችን አካትተው ይሰጡ"
+          "ALLOW_CITATIONS": "በምላሾች ውስጥ የምንጭ ማስረጃዎችን አካትተው ይሰጡ",
+          "ALLOW_CONTACT_ATTRIBUTES": "Allow access to contact information"
         }
       },
       "EDIT": {
