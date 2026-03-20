@@ -22,6 +22,10 @@
       "UPDATE_SUCCESFUL": "Der Konversationsstatus wurde erfolgreich aktualisiert.",
       "UPDATE_FAILED": "Konversationen konnten nicht aktualisiert werden. Bitte versuchen Sie es erneut."
     },
+    "RESOLVE": {
+      "ALL_MISSING_ATTRIBUTES": "Konversationen können aufgrund fehlender notwendiger Attribute nicht gelöst werden",
+      "PARTIAL_SUCCESS": "Einige Konversationen benötigen zum Lösen erforderliche Attribute und wurden übersprungen"
+    },
     "LABELS": {
       "ASSIGN_LABELS": "Labels zuweisen",
       "NO_LABELS_FOUND": "Keine Labels gefunden",
