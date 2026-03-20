@@ -1197,7 +1197,8 @@ export default {
       this.fetchAndSetReplyTo();
       if (this.inReplyTo) {
         this.$nextTick(() => {
-          this.messageEditor?.focusEditorInputField();
+          const pos = this.isSignatureEnabledForInbox ? 'start' : 'end';
+          this.messageEditor?.focusEditorInputField(pos);
         });
       }
     },
