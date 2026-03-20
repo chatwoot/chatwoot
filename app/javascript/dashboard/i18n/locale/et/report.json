@@ -426,7 +426,7 @@
   "CSAT_REPORTS": {
     "HEADER": "CSAT aruanded",
     "NO_RECORDS": "Vastuseid pole veel",
-    "NO_RECORDS_DESCRIPTION": "CSAT-i küsitluse vastused kuvatakse siin, kui kliendid hakkavad tagasisidet andma.",
+    "NO_RECORDS_DESCRIPTION": "Kliendirahulolu küsitluse vastused kuvatakse siin, kui kliendid hakkavad tagasisidet andma.",
     "DOWNLOAD": "Laadi alla CSAT aruanded",
     "DOWNLOAD_FAILED": "Failed to download CSAT Reports",
     "FILTERS": {
