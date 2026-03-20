@@ -249,7 +249,7 @@
         },
         "SLUG": {
           "LABEL": "სლაგი",
-          "PLACEHOLDER": "პორტალის slug URL-ებისთვის",
+          "PLACEHOLDER": "პორტალის სლაგი url-ებისთვის",
           "ERROR": "სლაგი აუცილებელია"
         },
         "DOMAIN": {
@@ -406,7 +406,7 @@
         },
         "SLUG": {
           "LABEL": "სლაგი",
-          "PLACEHOLDER": "კატეგორიის slug URL-ებისთვის",
+          "PLACEHOLDER": "კატეგორიის slug url-ებისთვის",
           "HELP_TEXT": "app.chatwoot.com/hc/my-portal/ka-GE/categories/my-slug",
           "ERROR": "Slug-ის შეყვანა აუცილებელია"
         },
@@ -437,7 +437,7 @@
         },
         "SLUG": {
           "LABEL": "სლაგი",
-          "PLACEHOLDER": "კატეგორიის slug URL-ებისთვის",
+          "PLACEHOLDER": "კატეგორიის სლაგი url-ებისთვის",
           "HELP_TEXT": "app.chatwoot.com/hc/my-portal/ka-GE/categories/my-slug",
           "ERROR": "სლაგი აუცილებელია"
         },
@@ -620,7 +620,7 @@
           },
           "SLUG": {
             "LABEL": "სლაგი",
-            "PLACEHOLDER": "კატეგორიის slug URL-ებისთვის",
+            "PLACEHOLDER": "კატეგორიის სლაგი url-ებისთვის",
             "ERROR": "სლაგი აუცილებელია",
             "HELP_TEXT": "app.chatwoot.com/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
           },
