@@ -23,10 +23,24 @@ if (!authData) {
 const email = authData?.uid || '';
 const isResendingEmail = ref(false);
 
+const authHeaders = authData
+  ? {
+      'access-token': authData['access-token'],
+      'token-type': authData['token-type'],
+      client: authData.client,
+      expiry: authData.expiry,
+      uid: authData.uid,
+    }
+  : {};
+
 const handleResendEmail = async () => {
   isResendingEmail.value = true;
   try {
-    await wootAPI.post('/api/v1/profile/resend_confirmation');
+    await wootAPI.post(
+      '/api/v1/profile/resend_confirmation',
+      {},
+      { headers: authHeaders }
+    );
     useAlert(t('REGISTER.VERIFY_EMAIL.RESEND_SUCCESS'));
   } catch (error) {
     const errorMessage =
@@ -39,7 +53,7 @@ const handleResendEmail = async () => {
 
 const handleLogout = async () => {
   try {
-    await wootAPI.delete('auth/sign_out');
+    await wootAPI.delete('auth/sign_out', { headers: authHeaders });
   } finally {
     clearCookiesOnLogout();
   }
