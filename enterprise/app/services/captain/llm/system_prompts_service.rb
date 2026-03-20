@@ -313,7 +313,7 @@ class Captain::Llm::SystemPromptsService
       custom = contact[:custom_attributes]
       return [] unless custom.is_a?(Hash)
 
-      custom.filter_map { |key, value| "- #{sanitize_attr(key)}: #{sanitize_attr(value)}" if value.present? }
+      custom.filter_map { |key, value| "- #{sanitize_attr(key)}: #{sanitize_attr(value)}" unless value.nil? }
     end
 
     # Cap at 200 chars to prevent oversized attribute values from eating context window
