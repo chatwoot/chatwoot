@@ -43,7 +43,7 @@
     "BOT_HANDOFF_ERROR": "Vestluse üle võtmine ebaõnnestus. Palun proovi uuesti.",
     "TWILIO_WHATSAPP_CAN_REPLY": "Sellele vestlusele saate vastata ainult mallisõnumi abil, sest",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24-tunnine sõnumiakna piirang",
-    "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "See Instagrami konto on üle viidud uude Instagrami kanalipostkasti. Kõik uued sõnumid kuvatakse seal. Sa ei saa enam sellest vestlusest sõnumeid saata.",
+    "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "See Instagram konto on üle viidud uude Instagrami kanalipostkasti. Kõik uued sõnumid kuvatakse seal. Sa ei saa enam sellest vestlusest sõnumeid saata.",
     "REPLYING_TO": "Vastate sellele:",
     "REMOVE_SELECTION": "Eemalda valik",
     "DOWNLOAD": "Laadi alla",
@@ -60,8 +60,8 @@
     "REPLIED_TO_STORY": "Vastas teie loole",
     "UNSUPPORTED_MESSAGE": "This message is unsupported. You can view this message on the Facebook / Instagram app.",
     "UNSUPPORTED_MESSAGE_FACEBOOK": "See sõnum ei ole toetatud. Sa saad seda vaadata Facebook Messenger rakenduses.",
-    "UNSUPPORTED_MESSAGE_INSTAGRAM": "See sõnum ei ole toetatud. Sa saad seda vaadata Instagrami rakenduses.",
-    "UNSUPPORTED_MESSAGE_TIKTOK": "See sõnum ei ole toetatud. Sa saad seda vaadata TikToki rakenduses.",
+    "UNSUPPORTED_MESSAGE_INSTAGRAM": "See sõnum ei ole toetatud. Sa saad seda vaadata Instagram rakenduses.",
+    "UNSUPPORTED_MESSAGE_TIKTOK": "See sõnum ei ole toetatud. Sa saad seda vaadata TikTok rakenduses.",
     "SUCCESS_DELETE_MESSAGE": "Sõnum kustutati edukalt",
     "FAIL_DELETE_MESSSAGE": "Sõnumit ei õnnestunud kustutada! Proovi uuesti",
     "NO_RESPONSE": "Vastust pole",
@@ -136,7 +136,7 @@
         "SELECT_PLACEHOLDER": "Puudub",
         "INPUT_PLACEHOLDER": "Vali prioriteet",
         "NO_RESULTS": "Tulemusi ei leitud",
-        "SUCCESSFUL": "Muudeti vestluse id {conversationId} prioriteet {priority}-ks",
+        "SUCCESSFUL": "Muudeti vestluse ID {conversationId} prioriteet {priority}-ks",
         "FAILED": "Prioriteeti ei õnnestunud muuta. Palun proovi uuesti."
       }
     },
@@ -194,7 +194,7 @@
       "MESSAGING_RESTRICTED_WHATSAPP": "Võite vastata ainult mallisõnumi abil 24-tunnise sõnumiakna piirangu tõttu",
       "MESSAGING_RESTRICTED_API": "Võite vastata ainult mallisõnumi abil sõnumiakna piirangu tõttu",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Sõnumi allkiri ei ole seadistatud, palun seadista see profiili seadetes.",
-      "COPILOT_MSG_INPUT": "Anna copilobile täiendavaid juhiseid või küsi midagi muud... Vajuta enter, et saata järgnev sõnum",
+      "COPILOT_MSG_INPUT": "Anna copiloti täiendavaid juhiseid või küsi midagi muud... Vajuta enter, et saata järgnev sõnum",
       "CLICK_HERE": "Värskendamiseks klõpsa siia",
       "WHATSAPP_TEMPLATES": "Whatsapp Templates"
     },
