@@ -23,14 +23,14 @@
     "SEARCH_PLACEHOLDER": "Search integrations...",
     "NO_RESULTS": "No integrations found matching your search",
     "CAPTAIN": {
-      "DISABLED": "Captain ei ole teie kontol lubatud.",
+      "DISABLED": "Captain ei ole teie kontol aktiveeritud.",
       "CLICK_HERE_TO_CONFIGURE": "Klõpsake siin seadistamiseks",
       "LOADING_CONSOLE": "Laaditakse Captain Console’i...",
-      "FAILED_TO_LOAD_CONSOLE": "Captain Console’i laadimine ebaõnnestus. Palun värskenda ja proovi uuesti."
+      "FAILED_TO_LOAD_CONSOLE": "Captain Console’i laadimine ebaõnnestus. Palun värskenda lehte ja proovi uuesti."
     },
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Tellitud sündmused",
-      "LEARN_MORE": "Lisateave webhookide kohta",
+      "LEARN_MORE": "Lisateave veebikonksude kohta",
       "SECRET": {
         "LABEL": "Secret",
         "COPY": "Copy secret to clipboard",
@@ -44,7 +44,7 @@
       "NO_RESULTS": "No webhooks found matching your search",
       "FORM": {
         "CANCEL": "Tühista",
-        "DESC": "Webhooki sündmused annavad teile reaalajas teavet selle kohta, mis teie Chatwooti kontol toimub. Palun sisestage kehtiv URL, et seadistada tagasikutsumine.",
+        "DESC": "Webhooki sündmused annavad teile reaalajas teavet selle kohta, mis teie Chatwoot kontol toimub. Palun sisestage kehtiv URL, et seadistada tagasikutsumine.",
         "SUBSCRIPTIONS": {
           "LABEL": "Sündmused",
           "EVENTS": {
@@ -74,7 +74,7 @@
       },
       "TITLE": "Webhook",
       "CONFIGURE": "Seadista",
-      "HEADER": "Webhooki seaded",
+      "HEADER": "Webhooki sätted",
       "HEADER_BTN_TXT": "Lisa uus webhook",
       "LOADING": "Laaditakse seotud webhooke",
       "SEARCH_404": "Ühtegi selle päringuga sobivat elementi ei leitud",
@@ -83,7 +83,7 @@
         "404": "Selle konto jaoks pole ühtegi webhooki seadistatud.",
         "TITLE": "Halda webhooke",
         "TABLE_HEADER": {
-          "WEBHOOK_ENDPOINT": "Webhooki lõpp-punkt",
+          "WEBHOOK_ENDPOINT": "Veebikonksu lõpp-punkt",
           "ACTIONS": "Tegevused"
         }
       },
@@ -92,7 +92,7 @@
         "TITLE": "Muuda webhooki",
         "API": {
           "SUCCESS_MESSAGE": "Webhooki seadistus uuendatud edukalt",
-          "ERROR_MESSAGE": "Ei õnnestunud ühenduda Wooti serveriga, palun proovi hiljem uuesti"
+          "ERROR_MESSAGE": "Ei õnnestunud ühenduda Woot serveriga, palun proovi hiljem uuesti"
         }
       },
       "ADD": {
@@ -100,18 +100,18 @@
         "TITLE": "Lisa uus webhook",
         "API": {
           "SUCCESS_MESSAGE": "Webhooki seadistus lisatud edukalt",
-          "ERROR_MESSAGE": "Ei õnnestunud ühenduda Wooti serveriga, palun proovi hiljem uuesti"
+          "ERROR_MESSAGE": "Ei õnnestunud ühenduda Woot serveriga, palun proovi hiljem uuesti"
         }
       },
       "DELETE": {
         "BUTTON_TEXT": "Kustuta",
         "API": {
           "SUCCESS_MESSAGE": "Webhook edukalt kustutatud",
-          "ERROR_MESSAGE": "Ei õnnestunud ühenduda Wooti serveriga, palun proovi hiljem uuesti"
+          "ERROR_MESSAGE": "Ei õnnestunud ühenduda Woot serveriga, palun proovi hiljem uuesti"
         },
         "CONFIRM": {
           "TITLE": "Kustutamise kinnitamine",
-          "MESSAGE": "Kas oled kindel, et soovid webhooki kustutada? ({webhookURL})",
+          "MESSAGE": "Kas oled kindel, et soovid veebikonksu kustutada? ({webhookURL})",
           "YES": "Jah, kustuta ",
           "NO": "Ei, säilita see"
         }
@@ -122,10 +122,10 @@
       "DELETE": "Kustuta",
       "DELETE_CONFIRMATION": {
         "TITLE": "Kustuta integratsioon",
-        "MESSAGE": "Kas oled kindel, et soovid integratsiooni kustutada? Seda tehes kaotad ligipääsu vestlustele oma Slacki töölaual."
+        "MESSAGE": "Kas oled kindel, et soovid integratsiooni kustutada? Seda tehes kaotad ligipääsu vestlustele oma Slack töölaual."
       },
       "HELP_TEXT": {
-        "TITLE": "Kuidas kasutada Slacki integratsiooni?",
+        "TITLE": "Kuidas kasutada Slack integratsiooni?",
         "BODY": "With this integration, all of your incoming conversations will be synced to the ***{selectedChannelName}*** channel in your Slack workspace. You can manage all your customer conversations right within the channel and never miss a message.\n\nHere are the main features of the integration:\n\n**Respond to conversations from within Slack:** To respond to a conversation in the ***{selectedChannelName}*** Slack channel, simply type out your message and send it as a thread. This will create a response back to the customer through Chatwoot. It's that simple!\n\n **Create private notes:** If you want to create private notes instead of replies, start your message with ***`note:`***. This ensures that your message is kept private and won't be visible to the customer.\n\n**Associate an agent profile:** If the person who replied on Slack has an agent profile in Chatwoot under the same email, the replies will be associated with that agent profile automatically. This means you can easily track who said what and when. On the other hand, when the replier doesn't have an associated agent profile, the replies will appear from the bot profile to the customer.",
         "SELECTED": "valitud"
       },
@@ -133,9 +133,9 @@
         "OPTION_LABEL": "Vali kanal",
         "UPDATE": "Uuenda",
         "BUTTON_TEXT": "Ühenda kanal",
-        "DESCRIPTION": "Sinu Slacki töölaua ühendus on nüüd Chatwootiga loodud. Kuid integratsioon on hetkel inaktiivne. Integratsiooni aktiveerimiseks ja kanali ühendamiseks Chatwootiga palun klõpsa alloleval nupul.\n\n**Märkus:** Kui üritad ühendada privaatset kanalit, lisa Chatwooti rakendus Slacki kanalile enne selle sammu jätkamist.",
+        "DESCRIPTION": "Sinu Slack töölaua ühendus on nüüd Chatwootiga loodud. Kuid integratsioon on hetkel inaktiivne. Integratsiooni aktiveerimiseks ja kanali ühendamiseks Chatwootiga palun klõpsa alloleval nupul.\n\n**Märkus:** Kui üritad ühendada privaatset kanalit, lisa Chatwoot rakendus Slacki kanalile enne selle sammu jätkamist.",
         "ATTENTION_REQUIRED": "Nõuab tähelepanu",
-        "EXPIRED": "Sinu Slacki integratsioon on aegunud. Et jätkata sõnumite vastuvõtmist Slackis, palun kustuta integratsioon ja ühenda oma töölaua uuesti."
+        "EXPIRED": "Sinu Slack integratsioon on aegunud. Et jätkata sõnumite vastuvõtmist Slackis, palun kustuta integratsioon ja ühenda oma töölaua uuesti."
       },
       "UPDATE_ERROR": "Integratsiooni uuendamisel tekkis viga, palun proovi uuesti",
       "UPDATE_SUCCESS": "Kanal on edukalt ühendatud",
@@ -235,7 +235,7 @@
     "DASHBOARD_APPS": {
       "TITLE": "Töölaudade rakendused",
       "HEADER_BTN_TXT": "Lisa uus töölauda rakendus",
-      "SIDEBAR_TXT": "<p><b>Töölauda rakendused</b></p><p>Töölauda rakendused võimaldavad organisatsioonidel manustada rakenduse Chatwooti töölauda, et pakkuda klienditoe agentidele konteksti. See funktsioon võimaldab teil luua rakenduse iseseisvalt ja manustada selle töölauda, et kuvada kasutajaandmeid, nende tellimusi või varasemaid makseajalugu.</p><p>Kui manustate oma rakenduse Chatwooti töölauda, saab teie rakendus vestluse ja kontakti konteksti aknasündmusena. Rakendusel tuleb lehel rakendada sõnumisündmuse kuulaja, et konteksti vastu võtta.</p><p>Uue töölauda rakenduse lisamiseks klõpsake nuppu 'Lisa uus töölauda rakendus'.</p>",
+      "SIDEBAR_TXT": "<p><b>Töölauda rakendused</b></p><p>Töölauda rakendused võimaldavad organisatsioonidel manustada rakenduse Chatwoot töölauda, et pakkuda klienditoe agentidele konteksti. See funktsioon võimaldab teil luua rakenduse iseseisvalt ja manustada selle töölauda, et kuvada kasutajaandmeid, nende tellimusi või varasemaid makseajalugu.</p><p>Kui manustate oma rakenduse Chatwoot töölauda, saab teie rakendus vestluse ja kontakti konteksti aknasündmusena. Rakendusel tuleb lehel rakendada sõnumisündmuse kuulaja, et konteksti vastu võtta.</p><p>Uue töölauda rakenduse lisamiseks klõpsake nuppu 'Lisa uus töölauda rakendus'.</p>",
       "DESCRIPTION": "Töölauda rakendused võimaldavad organisatsioonidel manustada rakenduse töölauda, et pakkuda klienditoe agentidele konteksti. See funktsioon võimaldab teil luua rakenduse iseseisvalt ja manustada selle, et kuvada kasutajaandmeid, nende tellimusi või varasemaid makseajalugu.",
       "LEARN_MORE": "Lisateave Dashboardi rakenduste kohta",
       "COUNT": "{n} dashboard app | {n} dashboard apps",
@@ -286,14 +286,14 @@
     "LINEAR": {
       "HEADER": "Linear",
       "ADD_OR_LINK_BUTTON": "Loo/Ühenda Linear probleem",
-      "LOADING": "Tood Linear probleemid...",
+      "LOADING": "Laaditakse Linear probleeme...",
       "LOADING_ERROR": "Linear probleemide toomisel tekkis viga, palun proovi uuesti",
       "CREATE": "Loo",
       "LINK": {
         "SEARCH": "Otsi probleeme",
         "SELECT": "Vali probleem",
         "TITLE": "Ühenda",
-        "EMPTY_LIST": "Lineari probleeme ei leitud",
+        "EMPTY_LIST": "Linear probleeme ei leitud",
         "LOADING": "Laadimine",
         "ERROR": "Linear probleemide toomisel tekkis viga, palun proovi uuesti",
         "LINK_SUCCESS": "Probleem edukalt ühendatud",
@@ -527,7 +527,8 @@
           "TITLE": "Funktsioonid",
           "ALLOW_CONVERSATION_FAQS": "Loo KKK-d lahendatud vestlustest",
           "ALLOW_MEMORIES": "Salvesta kliendisuhtlustest olulised detailid mälestustena.",
-          "ALLOW_CITATIONS": "Include source citations in responses"
+          "ALLOW_CITATIONS": "Include source citations in responses",
+          "ALLOW_CONTACT_ATTRIBUTES": "Allow access to contact information"
         }
       },
       "EDIT": {
