@@ -527,7 +527,8 @@
           "TITLE": "विशेषताहरू",
           "ALLOW_CONVERSATION_FAQS": "समाधान भएका कुराकानीबाट FAQ उत्पन्न गर्नुहोस्",
           "ALLOW_MEMORIES": "ग्राहक अन्तरक्रियाबाट मुख्य विवरणहरू सम्झनाहरूको रूपमा समात्नुहोस्।",
-          "ALLOW_CITATIONS": "Include source citations in responses"
+          "ALLOW_CITATIONS": "Include source citations in responses",
+          "ALLOW_CONTACT_ATTRIBUTES": "Allow access to contact information"
         }
       },
       "EDIT": {
