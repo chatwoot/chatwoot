@@ -20,7 +20,7 @@ module Concerns::Agentable
       config = state[:assistant_config] || {}
       enhanced_context = enhanced_context.merge(
         conversation: state[:conversation] || {},
-        contact: config['feature_contact_attributes'] ? state[:contact] : nil,
+        contact: config['feature_contact_attributes'].present? ? state[:contact] : nil,
         campaign: state[:campaign] || {}
       )
     end
