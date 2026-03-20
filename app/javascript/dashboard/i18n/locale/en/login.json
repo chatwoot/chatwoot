@@ -36,7 +36,6 @@
       "API": {
         "ERROR_MESSAGE": "SSO authentication failed. Please check your credentials and try again."
       }
-    },
-    "BACK_TO_LOGIN": "Logout"
+    }
   }
 }

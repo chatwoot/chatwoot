@@ -4,7 +4,7 @@ import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { useAlert } from 'dashboard/composables';
 import { getAuthData, getAuthHeaders } from '../../../helpers/AuthHelper';
-import { clearCookiesOnLogout } from 'dashboard/store/utils/api';
+
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import wootAPI from '../../../api/apiClient';
 
@@ -37,14 +37,6 @@ const handleResendEmail = async () => {
     isResendingEmail.value = false;
   }
 };
-
-const handleLogout = async () => {
-  try {
-    await wootAPI.delete('auth/sign_out', { headers: getAuthHeaders() });
-  } finally {
-    clearCookiesOnLogout();
-  }
-};
 </script>
 
 <template>
@@ -74,13 +66,5 @@ const handleLogout = async () => {
         />
       </div>
     </section>
-    <div class="mt-6 text-center">
-      <button
-        class="text-sm text-n-slate-8 hover:text-n-slate-10"
-        @click="handleLogout"
-      >
-        {{ $t('LOGIN.BACK_TO_LOGIN') }}
-      </button>
-    </div>
   </main>
 </template>
