@@ -30,7 +30,7 @@ RSpec.describe Captain::Llm::AssistantChatService do
 
   describe 'instrumentation metadata' do
     it 'passes channel_type to the agent session instrumentation' do
-      service = described_class.new(assistant: assistant, conversation_id: conversation.display_id)
+      service = described_class.new(assistant: assistant, conversation: conversation)
 
       expect(service).to receive(:instrument_agent_session).with(
         hash_including(metadata: hash_including(channel_type: conversation.inbox.channel_type))
@@ -61,7 +61,7 @@ RSpec.describe Captain::Llm::AssistantChatService do
           with: ['https://example.com/screenshot.png']
         ).and_return(mock_response)
 
-        service = described_class.new(assistant: assistant, conversation_id: conversation.display_id)
+        service = described_class.new(assistant: assistant, conversation: conversation)
         service.generate_response(message_history: message_history)
       end
     end
@@ -84,7 +84,7 @@ RSpec.describe Captain::Llm::AssistantChatService do
           with: ['https://example.com/photo.jpg']
         ).and_return(mock_response)
 
-        service = described_class.new(assistant: assistant, conversation_id: conversation.display_id)
+        service = described_class.new(assistant: assistant, conversation: conversation)
         service.generate_response(message_history: message_history)
       end
     end
@@ -99,7 +99,7 @@ RSpec.describe Captain::Llm::AssistantChatService do
       it 'sends the text without attachments' do
         expect(mock_chat).to receive(:ask).with('Hello, how can you help me?').and_return(mock_response)
 
-        service = described_class.new(assistant: assistant, conversation_id: conversation.display_id)
+        service = described_class.new(assistant: assistant, conversation: conversation)
         service.generate_response(message_history: message_history)
       end
     end
@@ -139,7 +139,7 @@ RSpec.describe Captain::Llm::AssistantChatService do
         # Current message asked via chat.ask
         expect(mock_chat).to receive(:ask).with('It still does not work').and_return(mock_response)
 
-        service = described_class.new(assistant: assistant, conversation_id: conversation.display_id)
+        service = described_class.new(assistant: assistant, conversation: conversation)
         service.generate_response(message_history: message_history)
       end
     end
@@ -159,7 +159,7 @@ RSpec.describe Captain::Llm::AssistantChatService do
           mock_chat
         end
 
-        service = described_class.new(assistant: assistant, conversation_id: conversation.display_id, conversation: conversation)
+        service = described_class.new(assistant: assistant, conversation: conversation)
         service.generate_response(message_history: [{ role: 'user', content: 'Hello' }])
       end
 
@@ -170,7 +170,7 @@ RSpec.describe Captain::Llm::AssistantChatService do
           mock_chat
         end
 
-        service = described_class.new(assistant: assistant, conversation_id: conversation.display_id, conversation: conversation)
+        service = described_class.new(assistant: assistant, conversation: conversation)
         service.generate_response(message_history: [{ role: 'user', content: 'Hello' }])
       end
     end
@@ -183,7 +183,7 @@ RSpec.describe Captain::Llm::AssistantChatService do
           mock_chat
         end
 
-        service = described_class.new(assistant: assistant, conversation_id: conversation.display_id, conversation: conversation)
+        service = described_class.new(assistant: assistant, conversation: conversation)
         service.generate_response(message_history: [{ role: 'user', content: 'Hello' }])
       end
     end
