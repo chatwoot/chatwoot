@@ -366,9 +366,23 @@ export default {
       }
     },
     clearMessage() {
-      this.message = '';
       this.attachedFiles = [];
       this.isRecordingAudio = false;
+      // When signature is in the editor (not read-only), reset to just the signature
+      // so it persists across sends
+      if (
+        !this.isSignatureReadOnly &&
+        this.hasCustomSignature &&
+        this.signatureToApply
+      ) {
+        this.message = appendSignature(
+          '',
+          this.signatureToApply,
+          this.channelType
+        );
+      } else {
+        this.message = '';
+      }
     },
     onTypingOn() {
       this.toggleTyping('on');
