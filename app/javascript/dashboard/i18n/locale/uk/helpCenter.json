@@ -374,6 +374,16 @@
         "ERROR_MESSAGE": "Помилка при видаленні статті"
       }
     },
+    "REORDER_ARTICLE": {
+      "API": {
+        "ERROR_MESSAGE": "Unable to reorder articles. Please try again."
+      }
+    },
+    "REORDER_CATEGORY": {
+      "API": {
+        "ERROR_MESSAGE": "Unable to reorder categories. Please try again."
+      }
+    },
     "CREATE_ARTICLE": {
       "ERROR_MESSAGE": "Будь ласка, додайте заголовок і вміст статті. Лише потім можна оновити налаштування"
     },

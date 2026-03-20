@@ -76,6 +76,9 @@
       },
       "waiting_since_desc": {
         "TEXT": "保留時間: 短い順"
+      },
+      "priority_desc_created_at_asc": {
+        "TEXT": "Priority: Highest first, Created: Oldest first"
       }
     },
     "ATTACHMENTS": {

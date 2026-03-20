@@ -98,6 +98,8 @@ yarn-debug.log*
 # react component
 dist
 
+.codex/
+.claude/
 CLAUDE.local.md
 
 # Histoire deployment
@@ -105,3 +107,4 @@ CLAUDE.local.md
 .histoire
 .pnpm-store/*
 local/
+Procfile.worktree
