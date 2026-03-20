@@ -467,6 +467,36 @@ const actions = {
     dispatch('scheduledMessages/removeFromEvent', scheduledMessage);
   },
 
+  handleRecurringScheduledMessageCreated(
+    { dispatch },
+    recurringScheduledMessage
+  ) {
+    dispatch(
+      'recurringScheduledMessages/upsertFromEvent',
+      recurringScheduledMessage
+    );
+  },
+
+  handleRecurringScheduledMessageUpdated(
+    { dispatch },
+    recurringScheduledMessage
+  ) {
+    dispatch(
+      'recurringScheduledMessages/upsertFromEvent',
+      recurringScheduledMessage
+    );
+  },
+
+  handleRecurringScheduledMessageDeleted(
+    { dispatch },
+    recurringScheduledMessage
+  ) {
+    dispatch(
+      'recurringScheduledMessages/removeFromEvent',
+      recurringScheduledMessage
+    );
+  },
+
   setActiveInbox({ commit }, inboxId) {
     commit(types.SET_ACTIVE_INBOX, inboxId);
   },

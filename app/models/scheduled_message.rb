@@ -2,19 +2,20 @@
 #
 # Table name: scheduled_messages
 #
-#  id              :bigint           not null, primary key
-#  author_type     :string
-#  content         :text
-#  scheduled_at    :datetime
-#  status          :integer          default("draft"), not null
-#  template_params :jsonb
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
-#  account_id      :bigint           not null
-#  author_id       :bigint
-#  conversation_id :bigint           not null
-#  inbox_id        :bigint           not null
-#  message_id      :bigint
+#  id                             :bigint           not null, primary key
+#  author_type                    :string
+#  content                        :text
+#  scheduled_at                   :datetime
+#  status                         :integer          default("draft"), not null
+#  template_params                :jsonb
+#  created_at                     :datetime         not null
+#  updated_at                     :datetime         not null
+#  account_id                     :bigint           not null
+#  author_id                      :bigint
+#  conversation_id                :bigint           not null
+#  inbox_id                       :bigint           not null
+#  message_id                     :bigint
+#  recurring_scheduled_message_id :bigint
 #
 # Indexes
 #
@@ -28,6 +29,7 @@
 #  index_scheduled_messages_on_inbox_id                          (inbox_id)
 #  index_scheduled_messages_on_inbox_id_and_status               (inbox_id,status)
 #  index_scheduled_messages_on_message_id                        (message_id)
+#  index_scheduled_messages_on_recurring_scheduled_message_id    (recurring_scheduled_message_id)
 #  index_scheduled_messages_on_status_and_scheduled_at           (status,scheduled_at)
 #
 # Foreign Keys
@@ -36,6 +38,7 @@
 #  fk_rails_...  (conversation_id => conversations.id)
 #  fk_rails_...  (inbox_id => inboxes.id)
 #  fk_rails_...  (message_id => messages.id)
+#  fk_rails_...  (recurring_scheduled_message_id => recurring_scheduled_messages.id)
 #
 class ScheduledMessage < ApplicationRecord
   include Rails.application.routes.url_helpers
@@ -45,6 +48,7 @@ class ScheduledMessage < ApplicationRecord
   belongs_to :conversation
   belongs_to :author, polymorphic: true, optional: true
   belongs_to :message, optional: true
+  belongs_to :recurring_scheduled_message, optional: true
 
   has_one_attached :attachment
 
@@ -59,32 +63,34 @@ class ScheduledMessage < ApplicationRecord
   validate :must_be_editable, on: :update
   validate :scheduled_at_must_be_in_future, if: :should_validate_future_schedule?
 
-  scope :due_for_sending, -> { pending.where('scheduled_at <= ?', Time.current) }
+  scope :due_for_sending, lambda {
+    pending
+      .where('scheduled_at <= ?', Time.current)
+      .joins(:conversation)
+      .merge(Conversation.where(status: [:open, :pending]))
+  }
 
   def due_for_sending?
-    scheduled_at.present? && scheduled_at <= Time.current
+    scheduled_at.present? && scheduled_at <= Time.current && conversation&.status&.in?(%w[open pending])
   end
 
   def push_event_data
-    data = {
-      id: id,
-      content: content,
-      inbox_id: inbox_id,
-      conversation_id: conversation.display_id,
-      account_id: account_id,
-      status: status,
-      scheduled_at: scheduled_at&.to_i,
-      template_params: template_params,
-      author_id: author_id,
-      author_type: author_type,
-      message_id: message_id,
-      created_at: created_at.to_i,
-      updated_at: updated_at.to_i
-    }
+    base_event_data.tap do |data|
+      data[:author] = author_event_data if author.present?
+      data[:attachment] = attachment_data if attachment.attached?
+      data[:recurring_scheduled_message_id] = recurring_scheduled_message_id if recurring_scheduled_message_id.present?
+    end
+  end
 
-    data[:author] = author_event_data if author.present?
-    data[:attachment] = attachment_data if attachment.attached?
-    data
+  def base_event_data
+    {
+      id: id, content: content, inbox_id: inbox_id,
+      conversation_id: conversation.display_id, account_id: account_id,
+      status: status, scheduled_at: scheduled_at&.to_i,
+      template_params: template_params, author_id: author_id,
+      author_type: author_type, message_id: message_id,
+      created_at: created_at.to_i, updated_at: updated_at.to_i
+    }
   end
 
   def attachment_data

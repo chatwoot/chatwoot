@@ -46,6 +46,11 @@ module Events::Types
   SCHEDULED_MESSAGE_UPDATED = 'scheduled_message.updated'
   SCHEDULED_MESSAGE_DELETED = 'scheduled_message.deleted'
 
+  # recurring scheduled message events
+  RECURRING_SCHEDULED_MESSAGE_CREATED = 'recurring_scheduled_message.created'
+  RECURRING_SCHEDULED_MESSAGE_UPDATED = 'recurring_scheduled_message.updated'
+  RECURRING_SCHEDULED_MESSAGE_DELETED = 'recurring_scheduled_message.deleted'
+
   # contact events
   CONTACT_CREATED = 'contact.created'
   CONTACT_UPDATED = 'contact.updated'

@@ -14,6 +14,7 @@ class ScheduledMessages::SendScheduledMessageJob < ApplicationJob
     if scheduled_message&.pending?
       scheduled_message.update!(status: :failed)
       dispatch_event(scheduled_message)
+      handle_recurrence_on_failure(scheduled_message)
     end
   ensure
     Current.reset
@@ -27,6 +28,7 @@ class ScheduledMessages::SendScheduledMessageJob < ApplicationJob
 
     message = send_message(scheduled_message)
     update_scheduled_message_status(scheduled_message, message)
+    handle_recurrence(scheduled_message)
   end
 
   def send_message(scheduled_message)
@@ -65,5 +67,46 @@ class ScheduledMessages::SendScheduledMessageJob < ApplicationJob
 
   def dispatch_event(scheduled_message)
     Rails.configuration.dispatcher.dispatch(SCHEDULED_MESSAGE_UPDATED, Time.zone.now, scheduled_message: scheduled_message)
+  end
+
+  def handle_recurrence(scheduled_message)
+    return if scheduled_message.recurring_scheduled_message_id.blank?
+
+    recurring = scheduled_message.recurring_scheduled_message
+    return unless recurring&.active?
+
+    RecurringScheduledMessages::CreateNextOccurrenceService.new(
+      recurring_scheduled_message: recurring,
+      previous_scheduled_message: scheduled_message
+    ).perform
+  end
+
+  def handle_recurrence_on_failure(scheduled_message)
+    return if scheduled_message.recurring_scheduled_message_id.blank?
+
+    recurring = scheduled_message.recurring_scheduled_message
+    return unless recurring&.active?
+
+    next_message = RecurringScheduledMessages::CreateNextOccurrenceService.new(
+      recurring_scheduled_message: recurring,
+      previous_scheduled_message: scheduled_message,
+      skip_increment: true
+    ).perform
+
+    create_failure_activity_message(scheduled_message, next_message) if next_message
+  end
+
+  def create_failure_activity_message(scheduled_message, next_message)
+    I18n.with_locale(scheduled_message.account.locale) do
+      scheduled_message.conversation.messages.create!(
+        account: scheduled_message.account,
+        inbox: scheduled_message.inbox,
+        message_type: :activity,
+        content: I18n.t(
+          'conversations.activity.recurring_message_failed',
+          next_date: I18n.l(next_message.scheduled_at, format: :short)
+        )
+      )
+    end
   end
 end

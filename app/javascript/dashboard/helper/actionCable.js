@@ -39,6 +39,12 @@ class ActionCableConnector extends BaseActionCableConnector {
       'scheduled_message.created': this.onScheduledMessageCreated,
       'scheduled_message.updated': this.onScheduledMessageUpdated,
       'scheduled_message.deleted': this.onScheduledMessageDeleted,
+      'recurring_scheduled_message.created':
+        this.onRecurringScheduledMessageCreated,
+      'recurring_scheduled_message.updated':
+        this.onRecurringScheduledMessageUpdated,
+      'recurring_scheduled_message.deleted':
+        this.onRecurringScheduledMessageDeleted,
     };
   }
 
@@ -141,6 +147,18 @@ class ActionCableConnector extends BaseActionCableConnector {
 
   onScheduledMessageDeleted = data => {
     this.app.$store.dispatch('handleScheduledMessageDeleted', data);
+  };
+
+  onRecurringScheduledMessageCreated = data => {
+    this.app.$store.dispatch('handleRecurringScheduledMessageCreated', data);
+  };
+
+  onRecurringScheduledMessageUpdated = data => {
+    this.app.$store.dispatch('handleRecurringScheduledMessageUpdated', data);
+  };
+
+  onRecurringScheduledMessageDeleted = data => {
+    this.app.$store.dispatch('handleRecurringScheduledMessageDeleted', data);
   };
 
   onTypingOn = ({ conversation, user }) => {

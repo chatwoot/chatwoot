@@ -78,6 +78,30 @@ class ActionCableListener < BaseListener # rubocop:disable Metrics/ClassLength
     broadcast(account, tokens, SCHEDULED_MESSAGE_DELETED, scheduled_message.push_event_data)
   end
 
+  def recurring_scheduled_message_created(event)
+    recurring = event.data[:recurring_scheduled_message]
+    account = recurring.account
+    tokens = user_tokens(account, recurring.conversation.inbox.members)
+
+    broadcast(account, tokens, RECURRING_SCHEDULED_MESSAGE_CREATED, recurring.push_event_data)
+  end
+
+  def recurring_scheduled_message_updated(event)
+    recurring = event.data[:recurring_scheduled_message]
+    account = recurring.account
+    tokens = user_tokens(account, recurring.conversation.inbox.members)
+
+    broadcast(account, tokens, RECURRING_SCHEDULED_MESSAGE_UPDATED, recurring.push_event_data)
+  end
+
+  def recurring_scheduled_message_deleted(event)
+    recurring = event.data[:recurring_scheduled_message]
+    account = recurring.account
+    tokens = user_tokens(account, recurring.conversation.inbox.members)
+
+    broadcast(account, tokens, RECURRING_SCHEDULED_MESSAGE_DELETED, recurring.push_event_data)
+  end
+
   def first_reply_created(event)
     message, account = extract_message_and_account(event)
     conversation = message.conversation

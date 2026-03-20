@@ -1128,6 +1128,28 @@ ActiveRecord::Schema[7.1].define(version: 2026_03_18_180001) do
     t.index ["user_id"], name: "index_portals_members_on_user_id"
   end
 
+  create_table "recurring_scheduled_messages", force: :cascade do |t|
+    t.text "content"
+    t.jsonb "template_params", default: {}
+    t.jsonb "recurrence_rule", default: {}, null: false
+    t.integer "status", default: 0, null: false
+    t.integer "occurrences_sent", default: 0, null: false
+    t.bigint "account_id", null: false
+    t.bigint "conversation_id", null: false
+    t.bigint "inbox_id", null: false
+    t.string "author_type", null: false
+    t.bigint "author_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "status"], name: "idx_recurring_sched_msgs_on_account_status"
+    t.index ["account_id"], name: "index_recurring_scheduled_messages_on_account_id"
+    t.index ["author_type", "author_id"], name: "index_recurring_scheduled_messages_on_author"
+    t.index ["conversation_id", "status"], name: "idx_recurring_sched_msgs_on_conversation_status"
+    t.index ["conversation_id"], name: "index_recurring_scheduled_messages_on_conversation_id"
+    t.index ["inbox_id"], name: "index_recurring_scheduled_messages_on_inbox_id"
+    t.index ["status"], name: "idx_recurring_sched_msgs_on_status"
+  end
+
   create_table "related_categories", force: :cascade do |t|
     t.bigint "category_id"
     t.bigint "related_category_id"
@@ -1172,6 +1194,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_03_18_180001) do
     t.bigint "message_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "recurring_scheduled_message_id"
     t.index ["account_id", "status"], name: "index_scheduled_messages_on_account_id_and_status"
     t.index ["account_id"], name: "index_scheduled_messages_on_account_id"
     t.index ["author_type", "author_id", "status"], name: "idx_on_author_type_author_id_status_6997d67ef6"
@@ -1182,6 +1205,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_03_18_180001) do
     t.index ["inbox_id", "status"], name: "index_scheduled_messages_on_inbox_id_and_status"
     t.index ["inbox_id"], name: "index_scheduled_messages_on_inbox_id"
     t.index ["message_id"], name: "index_scheduled_messages_on_message_id"
+    t.index ["recurring_scheduled_message_id"], name: "index_scheduled_messages_on_recurring_scheduled_message_id"
     t.index ["status", "scheduled_at"], name: "index_scheduled_messages_on_status_and_scheduled_at"
   end
 
@@ -1335,10 +1359,14 @@ ActiveRecord::Schema[7.1].define(version: 2026_03_18_180001) do
   add_foreign_key "group_members", "contacts"
   add_foreign_key "group_members", "contacts", column: "group_contact_id"
   add_foreign_key "inboxes", "portals"
+  add_foreign_key "recurring_scheduled_messages", "accounts"
+  add_foreign_key "recurring_scheduled_messages", "conversations"
+  add_foreign_key "recurring_scheduled_messages", "inboxes"
   add_foreign_key "scheduled_messages", "accounts"
   add_foreign_key "scheduled_messages", "conversations"
   add_foreign_key "scheduled_messages", "inboxes"
   add_foreign_key "scheduled_messages", "messages"
+  add_foreign_key "scheduled_messages", "recurring_scheduled_messages"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
       on("accounts").
       after(:insert).

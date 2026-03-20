@@ -310,6 +310,10 @@ en:
         not_sent_due_to_messaging_window: 'Auto-resolve message not sent due to outgoing message restrictions'
       muted: '%{user_name} has muted the conversation'
       unmuted: '%{user_name} has unmuted the conversation'
+      recurring_message_failed: 'Recurring scheduled message failed to send. Next occurrence scheduled for %{next_date}.'
+      recurring_message_completed: 'Recurring scheduled message series completed after %{count} occurrences.'
+      recurring_message_cancelled: 'Recurring scheduled message has been stopped by %{agent}.'
+      unknown_agent: 'Unknown'
       auto_resolution_message: 'Resolving the conversation as it has been inactive for a while. Please start a new conversation if you need further assistance.'
     templates:
       greeting_message_body: '%{account_name} typically replies in a few hours.'
@@ -510,3 +514,30 @@ en:
       subject: 'Finish setting up %{custom_domain}'
     ssl_status:
       custom_domain_not_configured: 'Custom domain is not configured'
+  recurring_scheduled_messages:
+    description:
+      daily:
+        one: "Every day"
+        other: "Every %{count} days"
+      weekly:
+        one: "Every week"
+        other: "Every %{count} weeks"
+      weekly_on: "%{prefix} on %{days}"
+      monthly:
+        one: "Monthly"
+        other: "Every %{count} months"
+      monthly_on_weekday: "%{prefix} on the %{ordinal} %{weekday}"
+      yearly:
+        one: "Every year"
+        other: "Every %{count} years"
+      until_date: "until %{date}"
+      after_count:
+        one: "%{count} occurrence"
+        other: "%{count} occurrences"
+      ordinals:
+        first: "first"
+        second: "second"
+        third: "third"
+        fourth: "fourth"
+        fifth: "fifth"
+        last: "last"

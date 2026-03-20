@@ -18,6 +18,8 @@ import DropdownSection from 'next/dropdown-menu/base/DropdownSection.vue';
 import DropdownItem from 'next/dropdown-menu/base/DropdownItem.vue';
 import WhatsappTemplates from 'dashboard/components/widgets/conversation/WhatsappTemplates/Modal.vue';
 import ScheduleDateShortcuts from './ScheduleDateShortcuts.vue';
+import RecurrenceDropdown from './RecurrenceDropdown.vue';
+import RecurrenceCustomModal from './RecurrenceCustomModal.vue';
 
 const props = defineProps({
   show: {
@@ -55,6 +57,11 @@ const inboxGetter = useMapGetter('inboxes/getInbox');
 const uiFlags = useMapGetter('scheduledMessages/getUIFlags');
 
 const isEditing = computed(() => !!props.scheduledMessage?.id);
+const isEditingRecurring = computed(
+  () =>
+    isEditing.value &&
+    String(props.scheduledMessage?.id).startsWith('recurring-')
+);
 const isCreating = computed(() => uiFlags.value.isCreating);
 const isUpdating = computed(() => uiFlags.value.isUpdating);
 const isSubmitting = computed(() => isCreating.value || isUpdating.value);
@@ -78,6 +85,8 @@ const showWhatsAppTemplatesModal = ref(false);
 const contentError = ref(false);
 const contentLengthError = ref(false);
 const dateTimeError = ref('');
+const recurrenceRule = ref(null);
+const showRecurrenceCustomModal = ref(false);
 
 // Original values for change detection
 const originalContent = ref('');
@@ -98,6 +107,7 @@ const resetForm = () => {
   templateParams.value = null;
   contentError.value = false;
   dateTimeError.value = '';
+  recurrenceRule.value = null;
   // Reset original values
   originalContent.value = '';
   originalScheduledAt.value = null;
@@ -114,6 +124,7 @@ const setFormFromMessage = scheduledMessage => {
   templateParams.value = scheduledMessage.template_params || null;
   existingAttachment.value = scheduledMessage.attachment || null;
   attachments.value = [];
+  recurrenceRule.value = scheduledMessage.recurrence_rule || null;
 
   if (scheduledMessage.scheduled_at) {
     const dateValue = new Date(scheduledMessage.scheduled_at * 1000);
@@ -161,7 +172,7 @@ const scheduledAt = computed(() => {
 const hasContent = computed(() => Boolean(messageContent.value?.trim()));
 const hasNewAttachment = computed(() => attachments.value.length > 0);
 const hasTemplate = computed(
-  () => templateParams.value && Object.keys(templateParams.value).length
+  () => !!(templateParams.value && Object.keys(templateParams.value).length)
 );
 const hasExistingAttachment = computed(() => !!existingAttachment.value);
 const showAttachmentUpload = computed(
@@ -394,7 +405,54 @@ const submit = async status => {
   if (!validatePayload(status)) return;
 
   try {
-    if (isEditing.value) {
+    const hasRecurrence = !!recurrenceRule.value;
+    const existingRecurringId =
+      props.scheduledMessage?.recurring_scheduled_message_id;
+
+    if (hasRecurrence && status === 'pending') {
+      const recurringPayload = {
+        content: messageContent.value,
+        scheduledAt: scheduledAt.value ? scheduledAt.value.toISOString() : null,
+        recurrenceRule: recurrenceRule.value,
+        attachment: resolveAttachmentPayload(),
+        templateParams: templateParams.value,
+        status: 'active',
+      };
+
+      if (isEditing.value && existingRecurringId) {
+        // Update existing recurring series
+        await store.dispatch('recurringScheduledMessages/update', {
+          conversationId: props.conversationId,
+          recurringScheduledMessageId: existingRecurringId,
+          payload: recurringPayload,
+        });
+      } else {
+        // Create new recurring series (new message or standalone gaining recurrence)
+        await store.dispatch('recurringScheduledMessages/create', {
+          conversationId: props.conversationId,
+          payload: recurringPayload,
+        });
+        // If converting a standalone message, delete the old one
+        if (isEditing.value) {
+          await store.dispatch('scheduledMessages/delete', {
+            conversationId: props.conversationId,
+            scheduledMessageId: props.scheduledMessage.id,
+          });
+        }
+      }
+    } else if (isEditing.value) {
+      // Editing without recurrence - if it had a recurring parent and user removed it, cancel the series
+      if (existingRecurringId && !hasRecurrence) {
+        await store.dispatch('recurringScheduledMessages/delete', {
+          conversationId: props.conversationId,
+          recurringScheduledMessageId: existingRecurringId,
+        });
+        // If this was a direct recurring message edit, just close — no standalone to update
+        if (isEditingRecurring.value) {
+          closeModal();
+          return;
+        }
+      }
       await store.dispatch('scheduledMessages/update', {
         conversationId: props.conversationId,
         scheduledMessageId: props.scheduledMessage.id,
@@ -473,10 +531,10 @@ watch(
 <template>
   <woot-modal
     v-model:show="showModal"
-    :on-close="handleClose"
     close-on-backdrop-click
     class="[&_.modal-container]:!w-[45rem] [&_.modal-container]:!max-w-[90%]"
     size="medium"
+    @close="handleClose"
   >
     <div class="flex w-full flex-col gap-6 px-6 py-6">
       <h3 class="text-lg font-semibold text-n-slate-12">
@@ -503,7 +561,7 @@ watch(
           :placeholder="t('SCHEDULED_MESSAGES.MODAL.MESSAGE_PLACEHOLDER')"
           :channel-type="currentInbox?.channel_type"
           :medium="currentInbox?.medium"
-          :disabled="hasTemplate"
+          :disabled="!!hasTemplate"
           :enable-copilot="false"
           override-line-breaks
           @update:model-value="
@@ -591,6 +649,21 @@ watch(
         </span>
       </div>
 
+      <RecurrenceDropdown
+        v-model="recurrenceRule"
+        :scheduled-date="scheduledDateTime"
+        :hide-no-repeat="isEditingRecurring"
+        @open-custom="showRecurrenceCustomModal = true"
+      />
+
+      <RecurrenceCustomModal
+        :show="showRecurrenceCustomModal"
+        :model-value="recurrenceRule"
+        :scheduled-date="scheduledDateTime"
+        @update:model-value="recurrenceRule = $event"
+        @close="showRecurrenceCustomModal = false"
+      />
+
       <div class="flex items-center justify-end gap-3">
         <NextButton
           faded
@@ -639,9 +712,9 @@ watch(
 
     <woot-modal
       v-model:show="showConfirmClose"
-      :on-close="() => {}"
       :show-close-button="false"
       size="small"
+      @close="() => {}"
     >
       <div class="flex w-full flex-col gap-4 px-6 py-6">
         <h3 class="text-lg font-semibold text-n-slate-12">
