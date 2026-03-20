@@ -29,11 +29,6 @@ export const login = async ({
     setAuthCredentials(response);
     clearLocalStorageOnLogout();
 
-    if (!response.data.data.confirmed) {
-      window.location = '/app/auth/verify-email';
-      return null;
-    }
-
     window.location = getLoginRedirectURL({
       ssoAccountId,
       ssoConversationId,
