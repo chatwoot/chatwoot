@@ -527,7 +527,8 @@
           "TITLE": "Funkcije",
           "ALLOW_CONVERSATION_FAQS": "Ustvari pogosta vprašanja iz rešenih pogovorov",
           "ALLOW_MEMORIES": "Zajemite ključne podrobnosti kot spomine iz interakcij s strankami.",
-          "ALLOW_CITATIONS": "Include source citations in responses"
+          "ALLOW_CITATIONS": "Include source citations in responses",
+          "ALLOW_CONTACT_ATTRIBUTES": "Allow access to contact information"
         }
       },
       "EDIT": {
