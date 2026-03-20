@@ -139,7 +139,10 @@ const iconColorClass = computed(() => {
 
 <template>
   <span class="inline">
-    <span v-dompurify-html="formattedContent" class="prose prose-bubble" />
+    <span
+      v-dompurify-html="formattedContent"
+      class="prose prose-bubble [&_.prosemirror-mention-contact]:bg-n-blue-3 [&_.prosemirror-mention-contact]:rounded [&_.prosemirror-mention-contact]:px-1 [&_.prosemirror-mention-contact]:font-medium"
+    />
     <span
       v-if="shouldShowScheduledIndicator"
       v-tooltip.top="{

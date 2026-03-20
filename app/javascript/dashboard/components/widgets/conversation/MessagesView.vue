@@ -38,6 +38,7 @@ import wootConstants from 'dashboard/constants/globals';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 import { INBOX_TYPES } from 'dashboard/helper/inbox';
 import WhatsappLinkDeviceModal from '../../../routes/dashboard/settings/inbox/components/WhatsappLinkDeviceModal.vue';
+import { isInboxAdminInGroup } from 'dashboard/helper/phoneHelper';
 
 export default {
   components: {
@@ -100,6 +101,7 @@ export default {
       currentUserId: 'getCurrentUserID',
       listLoadingStatus: 'getAllMessagesLoaded',
       currentAccountId: 'getCurrentAccountId',
+      globalConfig: 'globalConfig/get',
     }),
     currentInbox() {
       return this.$store.getters['inboxes/getInbox'](this.currentChat.inbox_id);
@@ -258,6 +260,66 @@ export default {
       // Currently only Baileys WhatsApp channel supports message editing
       return this.isAWhatsAppBaileysChannel;
     },
+    currentContact() {
+      const senderId = this.currentChat?.meta?.sender?.id;
+      if (!senderId) return {};
+      return this.$store.getters['contacts/getContact'](senderId);
+    },
+    isGroupConversation() {
+      return this.currentChat?.group_type === 'group';
+    },
+    groupContactId() {
+      return this.currentChat?.meta?.sender?.id || null;
+    },
+    groupMembers() {
+      if (!this.groupContactId) return [];
+      return (
+        this.$store.getters['groupMembers/getGroupMembers'](
+          this.groupContactId
+        ) || []
+      );
+    },
+    groupMembersMeta() {
+      if (!this.groupContactId) return {};
+      return (
+        this.$store.getters['groupMembers/getGroupMembersMeta'](
+          this.groupContactId
+        ) || {}
+      );
+    },
+    isInboxAdminInCurrentGroup() {
+      const meta = this.groupMembersMeta;
+      if (meta.is_inbox_admin != null) return meta.is_inbox_admin;
+      const inboxPhone = meta.inbox_phone_number || this.inbox?.phone_number;
+      return isInboxAdminInGroup(inboxPhone, this.groupMembers);
+    },
+    isGroupMembersLoaded() {
+      const meta = this.groupMembersMeta;
+      return meta.is_inbox_admin != null || this.groupMembers.length > 0;
+    },
+    isAnnouncementModeRestricted() {
+      return (
+        this.isAWhatsAppBaileysChannel &&
+        this.isGroupConversation &&
+        this.currentContact?.additional_attributes?.announce === true &&
+        this.isGroupMembersLoaded &&
+        !this.isInboxAdminInCurrentGroup
+      );
+    },
+    isGroupLeft() {
+      return (
+        this.isAWhatsAppBaileysChannel &&
+        this.isGroupConversation &&
+        this.currentContact?.additional_attributes?.group_left === true
+      );
+    },
+    isGroupsDisabled() {
+      return (
+        this.isAWhatsAppBaileysChannel &&
+        this.isGroupConversation &&
+        !this.globalConfig.baileysWhatsappGroupsEnabled
+      );
+    },
     inboxProviderConnection() {
       return this.currentInbox.provider_connection?.connection;
     },
@@ -271,6 +333,21 @@ export default {
       this.fetchAllAttachmentsFromCurrentChat();
       this.fetchSuggestions();
       this.messageSentSinceOpened = false;
+    },
+    groupContactId: {
+      immediate: true,
+      handler(contactId) {
+        if (
+          contactId &&
+          this.isAWhatsAppBaileysChannel &&
+          this.isGroupConversation &&
+          !this.isGroupMembersLoaded
+        ) {
+          this.$store.dispatch('groupMembers/fetch', {
+            contactId,
+          });
+        }
+      },
     },
   },
 
@@ -466,6 +543,9 @@ export default {
         return false;
       });
     },
+    onOpenGroupsEnabledLink() {
+      window.open(wootConstants.FAZER_AI_GUIDES_URL, '_blank');
+    },
     onOpenLinkDeviceModal() {
       this.showLinkDeviceModal = true;
     },
@@ -536,6 +616,27 @@ export default {
       color-scheme="alert"
       class="mx-2 mt-2 overflow-hidden rounded-lg"
       :banner-message="$t('CONVERSATION.OLD_INSTAGRAM_INBOX_REPLY_BANNER')"
+    />
+    <Banner
+      v-else-if="isGroupLeft"
+      color-scheme="alert"
+      class="mx-2 mt-2 overflow-hidden rounded-lg"
+      :banner-message="$t('CONVERSATION.GROUP_LEFT_BANNER')"
+    />
+    <Banner
+      v-else-if="isAnnouncementModeRestricted"
+      color-scheme="alert"
+      class="mx-2 mt-2 overflow-hidden rounded-lg"
+      :banner-message="$t('CONVERSATION.ANNOUNCEMENT_MODE_BANNER')"
+    />
+    <Banner
+      v-if="isGroupsDisabled"
+      color-scheme="warning"
+      class="mx-2 mt-2 overflow-hidden rounded-lg"
+      :banner-message="$t('CONVERSATION.GROUPS_DISABLED_BANNER')"
+      has-action-button
+      :action-button-label="$t('CONVERSATION.GROUPS_DISABLED_CTA')"
+      @primary-action="onOpenGroupsEnabledLink"
     />
     <MessageList
       ref="conversationPanelRef"

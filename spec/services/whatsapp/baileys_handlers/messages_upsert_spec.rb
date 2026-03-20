@@ -498,6 +498,115 @@ describe Whatsapp::BaileysHandlers::MessagesUpsert do
     end
   end
 
+  describe 'group message handling' do
+    before do
+      allow(Whatsapp::Providers::WhatsappBaileysService).to receive(:groups_enabled?).and_return(true)
+    end
+
+    let(:group_jid) { '123456789123456789@g.us' }
+    let(:group_source_id) { '123456789123456789' }
+    let(:sender_phone) { '5511912345678' }
+    let(:sender_lid) { '12345678' }
+
+    def build_group_raw_message(id:, text:, sender_participant: "#{sender_lid}@lid", sender_alt: "#{sender_phone}@s.whatsapp.net")
+      {
+        key: { id: id, remoteJid: group_jid, participant: sender_participant, participantAlt: sender_alt, fromMe: false },
+        pushName: 'Sender User',
+        messageTimestamp: timestamp,
+        message: { conversation: text }
+      }
+    end
+
+    def build_params(raw_message)
+      { webhookVerifyToken: webhook_verify_token, event: 'messages.upsert', data: { type: 'notify', messages: [raw_message] } }
+    end
+
+    it 'creates a group conversation where the message sender is a group member' do
+      params = build_params(build_group_raw_message(id: 'grp_msg_001', text: 'Hello group'))
+
+      expect do
+        Whatsapp::IncomingMessageBaileysService.new(inbox: inbox, params: params).perform
+      end.to change(inbox.messages, :count).by(1)
+         .and change(Conversation, :count).by(1)
+
+      message = inbox.messages.last
+      conversation = message.conversation
+      group_contact = conversation.contact
+
+      expect(group_contact.group_type).to eq('group')
+      expect(group_contact.identifier).to eq(group_jid)
+      expect(conversation.group_type).to eq('group')
+      expect(message.content).to eq('Hello group')
+      expect(message.sender).not_to eq(group_contact)
+      expect(GroupMember.where(group_contact: group_contact).active.pluck(:contact_id)).to include(message.sender_id)
+    end
+
+    it 'adds only the message sender as a group member' do
+      params = build_params(build_group_raw_message(id: 'grp_msg_002', text: 'Hi'))
+
+      Whatsapp::IncomingMessageBaileysService.new(inbox: inbox, params: params).perform
+
+      conversation = inbox.conversations.last
+      group_contact = conversation.contact
+      members = GroupMember.where(group_contact: group_contact).active
+
+      expect(members.count).to eq(1)
+      sender_member = members.first
+      expect(sender_member.contact.phone_number).to eq("+#{sender_phone}")
+      expect(sender_member.role).to eq('member')
+    end
+
+    it 'creates message with correct sender when different members send messages' do
+      other_phone = '5511911111111'
+      other_lid = '11111111'
+
+      Whatsapp::IncomingMessageBaileysService.new(
+        inbox: inbox,
+        params: build_params(build_group_raw_message(id: 'grp_msg_005', text: 'From sender'))
+      ).perform
+
+      Whatsapp::IncomingMessageBaileysService.new(
+        inbox: inbox,
+        params: build_params(build_group_raw_message(
+                               id: 'grp_msg_006', text: 'From other',
+                               sender_participant: "#{other_lid}@lid", sender_alt: "#{other_phone}@s.whatsapp.net"
+                             ))
+      ).perform
+
+      conversation = inbox.conversations.last
+      messages = conversation.messages.order(:created_at)
+
+      expect(messages.first.sender.phone_number).to eq("+#{sender_phone}")
+      expect(messages.last.sender.phone_number).to eq("+#{other_phone}")
+      expect(messages.first.sender).not_to eq(messages.last.sender)
+      expect(conversation.contact.group_type).to eq('group')
+    end
+
+    it 'processes a group image message with attachment' do
+      stub_request(:get, whatsapp_channel.media_url('grp_img_001'))
+        .to_return(status: 200, body: 'fake image data')
+
+      raw_message = {
+        key: { id: 'grp_img_001', remoteJid: group_jid, participant: "#{sender_lid}@lid",
+               participantAlt: "#{sender_phone}@s.whatsapp.net", fromMe: false },
+        pushName: 'Sender User',
+        messageTimestamp: timestamp,
+        message: { imageMessage: { caption: 'Group photo', mimetype: 'image/jpeg', url: 'https://example.com/img.jpg' } }
+      }
+      params = build_params(raw_message)
+
+      expect do
+        Whatsapp::IncomingMessageBaileysService.new(inbox: inbox, params: params).perform
+      end.to change(inbox.messages, :count).by(1)
+
+      message = inbox.messages.last
+
+      expect(message.content).to eq('Group photo')
+      expect(message.attachments.count).to eq(1)
+      expect(message.sender).not_to eq(message.conversation.contact)
+    end
+  end
+
   describe 'conversation duplication after deletion or resolution' do
     let(:phone) { '5511912345678' }
     let(:lid) { '12345678' }
@@ -566,6 +675,113 @@ describe Whatsapp::BaileysHandlers::MessagesUpsert do
       let(:close_first_conversation) { ->(conv) { conv.update!(status: :resolved) } }
 
       it_behaves_like 'routes messages to the new conversation', first_msg_id: 'msg_003', second_msg_id: 'msg_004'
+    end
+  end
+
+  describe 'membership request stub handling' do
+    let(:group_jid) { '123456789123456789@g.us' }
+    let(:requester_lid) { '12345678' }
+    let(:requester_phone) { '5511912345678' }
+    let(:participant_json) { { lid: "#{requester_lid}@lid", pn: "#{requester_phone}@s.whatsapp.net" }.to_json }
+
+    def build_stub_message(action_params)
+      {
+        key: { remoteJid: group_jid, fromMe: false, id: '11111111', participant: "#{requester_lid}@lid" },
+        messageTimestamp: { low: timestamp, high: 0, unsigned: true },
+        participant: "#{requester_lid}@lid",
+        messageStubType: 'GROUP_MEMBERSHIP_JOIN_APPROVAL_REQUEST_NON_ADMIN_ADD',
+        messageStubParameters: [participant_json, *action_params]
+      }
+    end
+
+    def build_params(raw_message)
+      { webhookVerifyToken: webhook_verify_token, event: 'messages.upsert', data: { type: 'append', messages: [raw_message] } }
+    end
+
+    def perform_service(raw_message)
+      Whatsapp::IncomingMessageBaileysService.new(inbox: inbox, params: build_params(raw_message)).perform
+    end
+
+    context 'when a user requests to join the group' do
+      let(:raw_message) { build_stub_message(%w[created invite_link]) }
+
+      it 'creates an activity message indicating the user wants to join' do
+        expect { perform_service(raw_message) }
+          .to change(inbox.messages, :count).by(1)
+          .and change(Conversation, :count).by(1)
+
+        message = inbox.messages.last
+
+        expect(message.message_type).to eq('activity')
+        expect(message.content).to include('wants to join the group')
+      end
+    end
+
+    context 'when a user revokes their join request' do
+      let(:raw_message) { build_stub_message(%w[revoked]) }
+
+      it 'creates an activity message indicating the user no longer wants to join' do
+        expect { perform_service(raw_message) }
+          .to change(inbox.messages, :count).by(1)
+
+        message = inbox.messages.last
+
+        expect(message.message_type).to eq('activity')
+        expect(message.content).to include('no longer wants to join the group')
+      end
+    end
+  end
+
+  describe 'group icon change stub handling' do
+    let(:group_jid) { '123456789123456789@g.us' }
+    let(:raw_message) do
+      {
+        key: { remoteJid: group_jid, fromMe: false, id: '111111111', participant: "#{author_lid}@lid" },
+        messageTimestamp: timestamp.to_s,
+        participant: "#{author_lid}@lid",
+        messageStubType: 'GROUP_CHANGE_ICON',
+        messageStubParameters: [timestamp.to_s]
+      }
+    end
+    let(:author_lid) { '12345678' }
+
+    def build_params(raw_message)
+      { webhookVerifyToken: webhook_verify_token, event: 'messages.upsert', data: { type: 'append', messages: [raw_message] } }
+    end
+
+    def perform_service(raw_message)
+      Whatsapp::IncomingMessageBaileysService.new(inbox: inbox, params: build_params(raw_message)).perform
+    end
+
+    it 'creates an activity message about the icon change' do
+      expect { perform_service(raw_message) }
+        .to change(inbox.messages, :count).by(1)
+        .and change(Conversation, :count).by(1)
+
+      message = inbox.messages.last
+
+      expect(message.message_type).to eq('activity')
+      expect(message.content).to include('changed the group image')
+    end
+  end
+
+  describe 'unhandled stub messages' do
+    let(:group_jid) { '123456789123456789@g.us' }
+
+    def build_params(raw_message)
+      { webhookVerifyToken: webhook_verify_token, event: 'messages.upsert', data: { type: 'append', messages: [raw_message] } }
+    end
+
+    it 'does not crash and silently ignores unhandled group stub types' do
+      raw_message = {
+        key: { remoteJid: group_jid, fromMe: false, id: '11111111', participant: '12345678@lid' },
+        messageTimestamp: Time.current.to_i.to_s,
+        participant: '12345678@lid',
+        messageStubType: 'SOME_STUB_TYPE_WE_DONT_CARE_ABOUT'
+      }
+
+      expect { Whatsapp::IncomingMessageBaileysService.new(inbox: inbox, params: build_params(raw_message)).perform }
+        .not_to raise_error
     end
   end
 end

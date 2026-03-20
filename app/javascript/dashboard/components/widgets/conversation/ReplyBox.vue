@@ -53,6 +53,7 @@ import { appendSignature } from 'dashboard/helper/editorHelper';
 import { useCopilotReply } from 'dashboard/composables/useCopilotReply';
 import { useKbd } from 'dashboard/composables/utils/useKbd';
 import { isFileTypeAllowedForChannel } from 'shared/helpers/FileHelper';
+import { isInboxAdminInGroup } from 'dashboard/helper/phoneHelper';
 
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 import { LocalStorage } from 'shared/helpers/localStorage';
@@ -169,6 +170,64 @@ export default {
       if (!senderId) return {};
       return this.$store.getters['contacts/getContact'](senderId);
     },
+    isGroupConversation() {
+      return this.currentChat?.group_type === 'group';
+    },
+    groupContactId() {
+      return this.currentChat?.meta?.sender?.id || null;
+    },
+    inboxPhoneNumber() {
+      return this.inbox?.phone_number || null;
+    },
+    groupMembers() {
+      if (!this.groupContactId) return [];
+      return (
+        this.$store.getters['groupMembers/getGroupMembers'](
+          this.groupContactId
+        ) || []
+      );
+    },
+    groupMembersMeta() {
+      if (!this.groupContactId) return {};
+      return (
+        this.$store.getters['groupMembers/getGroupMembersMeta'](
+          this.groupContactId
+        ) || {}
+      );
+    },
+    isInboxAdminInCurrentGroup() {
+      const meta = this.groupMembersMeta;
+      if (meta.is_inbox_admin != null) return meta.is_inbox_admin;
+      const inboxPhone = meta.inbox_phone_number || this.inboxPhoneNumber;
+      return isInboxAdminInGroup(inboxPhone, this.groupMembers);
+    },
+    isGroupMembersLoaded() {
+      const meta = this.groupMembersMeta;
+      return meta.is_inbox_admin != null || this.groupMembers.length > 0;
+    },
+    isAnnouncementModeRestricted() {
+      return (
+        this.isAWhatsAppBaileysChannel &&
+        this.isGroupConversation &&
+        this.currentContact?.additional_attributes?.announce === true &&
+        this.isGroupMembersLoaded &&
+        !this.isInboxAdminInCurrentGroup
+      );
+    },
+    isGroupLeft() {
+      return (
+        this.isAWhatsAppBaileysChannel &&
+        this.isGroupConversation &&
+        this.currentContact?.additional_attributes?.group_left === true
+      );
+    },
+    isGroupsDisabled() {
+      return (
+        this.isAWhatsAppBaileysChannel &&
+        this.isGroupConversation &&
+        !this.globalConfig.baileysWhatsappGroupsEnabled
+      );
+    },
     shouldShowReplyToMessage() {
       return (
         this.inReplyTo?.id &&
@@ -211,6 +270,15 @@ export default {
       return this.$store.getters['inboxes/getInbox'](this.inboxId);
     },
     messagePlaceHolder() {
+      if (this.isGroupsDisabled && !this.isOnPrivateNote) {
+        return this.$t('CONVERSATION.FOOTER.GROUPS_DISABLED_RESTRICTED');
+      }
+      if (this.isGroupLeft && !this.isOnPrivateNote) {
+        return this.$t('CONVERSATION.FOOTER.GROUP_LEFT_RESTRICTED');
+      }
+      if (this.isAnnouncementModeRestricted && !this.isOnPrivateNote) {
+        return this.$t('CONVERSATION.FOOTER.ANNOUNCEMENT_MODE_RESTRICTED');
+      }
       if (this.isEditorDisabled) {
         return this.isAWhatsAppChannel
           ? this.$t('CONVERSATION.FOOTER.MESSAGING_RESTRICTED_WHATSAPP')
@@ -446,6 +514,15 @@ export default {
       return !this.showAudioRecorderEditor && !this.copilot.isActive.value;
     },
     isEditorDisabled() {
+      if (this.isGroupsDisabled && !this.isOnPrivateNote) {
+        return true;
+      }
+      if (this.isGroupLeft && !this.isOnPrivateNote) {
+        return true;
+      }
+      if (this.isAnnouncementModeRestricted && !this.isOnPrivateNote) {
+        return true;
+      }
       return (
         this.isAWhatsAppChannel &&
         !this.isOnPrivateNote &&
@@ -518,6 +595,21 @@ export default {
     message() {
       // Autosave the current message draft.
       this.doAutoSaveDraft();
+    },
+    groupContactId: {
+      immediate: true,
+      handler(contactId) {
+        if (
+          contactId &&
+          this.isAWhatsAppBaileysChannel &&
+          this.isGroupConversation &&
+          !this.isGroupMembersLoaded
+        ) {
+          this.$store.dispatch('groupMembers/fetch', {
+            contactId,
+          });
+        }
+      },
     },
     replyType(updatedReplyType, oldReplyType) {
       this.setToDraft(this.conversationIdByRoute, oldReplyType);
@@ -1369,6 +1461,9 @@ export default {
           :signature-separator-override="signatureSeparator"
           :channel-type="channelType"
           :medium="inbox.medium"
+          :is-group-conversation="isGroupConversation"
+          :group-contact-id="groupContactId"
+          :inbox-phone-number="inboxPhoneNumber"
           @typing-off="onTypingOff"
           @typing-on="onTypingOn"
           @focus="onFocus"

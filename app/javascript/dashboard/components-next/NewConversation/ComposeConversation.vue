@@ -1,7 +1,8 @@
 <script setup>
-import { reactive, ref, computed, onMounted, watch } from 'vue';
+import { reactive, ref, computed, onMounted, onUnmounted, watch } from 'vue';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useI18n } from 'vue-i18n';
+import { useRouter, useRoute } from 'vue-router';
 import { useWindowSize } from '@vueuse/core';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useInboxSignatures } from 'dashboard/composables/useInboxSignatures';
@@ -19,9 +20,12 @@ import {
   processContactableInboxes,
   mergeInboxDetails,
 } from 'dashboard/components-next/NewConversation/helpers/composeConversationHelper';
+import { frontendURL, conversationUrl } from 'dashboard/helper/URLHelper';
+import { pendingGroupNavigation } from 'dashboard/helper/pendingGroupNavigation';
 import wootConstants from 'dashboard/constants/globals';
 
 import ComposeNewConversationForm from 'dashboard/components-next/NewConversation/components/ComposeNewConversationForm.vue';
+import ComposeNewGroupForm from 'dashboard/components-next/NewConversation/components/ComposeNewGroupForm.vue';
 
 const props = defineProps({
   alignPosition: {
@@ -42,6 +46,8 @@ const emit = defineEmits(['close']);
 
 const store = useStore();
 const { t } = useI18n();
+const router = useRouter();
+const route = useRoute();
 const { width: windowWidth } = useWindowSize();
 
 const { fetchSignatureFlagFromUISettings } = useUISettings();
@@ -59,6 +65,8 @@ const isCreatingContact = ref(false);
 const isFetchingInboxes = ref(false);
 const isSearching = ref(false);
 const showComposeNewConversation = ref(false);
+const composeMode = ref('conversation');
+const groupFormRef = ref(null);
 
 const formState = reactive({
   message: '',
@@ -84,6 +92,66 @@ const globalConfig = useMapGetter('globalConfig/get');
 const uiFlags = useMapGetter('contactConversations/getUIFlags');
 const messageSignature = useMapGetter('getMessageSignature');
 const inboxesList = useMapGetter('inboxes/getInboxes');
+const groupUiFlags = useMapGetter('groupMembers/getUIFlags');
+
+const groupCreationInboxes = computed(() =>
+  inboxesList.value.filter(inbox => inbox.allow_group_creation)
+);
+
+const isGroupMode = computed(() => composeMode.value === 'group');
+const hasGroupInboxes = computed(() => groupCreationInboxes.value.length > 0);
+const isGroupsDisabled = computed(
+  () => !globalConfig.value.baileysWhatsappGroupsEnabled
+);
+
+const resetContacts = () => {
+  contacts.value = [];
+};
+
+const closeCompose = () => {
+  showComposeNewConversation.value = false;
+  composeMode.value = 'conversation';
+  if (!props.contactId) {
+    selectedContact.value = null;
+  }
+  targetInbox.value = null;
+  resetContacts();
+  groupFormRef.value?.resetForm();
+  emit('close');
+};
+
+const discardCompose = () => {
+  clearFormState();
+  formState.message = '';
+  closeCompose();
+};
+
+const switchMode = mode => {
+  if (composeMode.value === mode) return;
+  composeMode.value = mode;
+  selectedContact.value = null;
+  targetInbox.value = null;
+  clearFormState();
+  formState.message = '';
+  resetContacts();
+  groupFormRef.value?.resetForm();
+};
+
+const createGroup = async ({ inboxId, subject, participants }) => {
+  try {
+    const data = await store.dispatch('groupMembers/createGroup', {
+      inbox_id: inboxId,
+      subject,
+      participants,
+    });
+    pendingGroupNavigation.set(data.group_jid);
+    groupFormRef.value?.resetForm();
+    discardCompose();
+    useAlert(t('GROUP.CREATE.SUCCESS_MESSAGE'));
+  } catch {
+    useAlert(t('GROUP.CREATE.ERROR_MESSAGE'));
+  }
+};
 
 const {
   fetchInboxSignatures,
@@ -138,10 +206,6 @@ const onContactSearch = debounce(
   false
 );
 
-const resetContacts = () => {
-  contacts.value = [];
-};
-
 const handleSelectedContact = async ({ value, action, ...rest }) => {
   let contact;
   if (action === 'create') {
@@ -184,24 +248,6 @@ const clearSelectedContact = () => {
   selectedContact.value = null;
   targetInbox.value = null;
   clearFormState();
-};
-
-const closeCompose = () => {
-  showComposeNewConversation.value = false;
-  if (!props.contactId) {
-    // If contactId is passed as prop
-    // Then don't allow to remove the selected contact
-    selectedContact.value = null;
-  }
-  targetInbox.value = null;
-  resetContacts();
-  emit('close');
-};
-
-const discardCompose = () => {
-  clearFormState();
-  formState.message = '';
-  closeCompose();
 };
 
 const createConversation = async ({ payload, isFromWhatsApp }) => {
@@ -269,7 +315,24 @@ const onModalBackdropClick = () => {
   handleClickOutside();
 };
 
-onMounted(() => resetContacts());
+const navigateToGroup = ({ conversationId }) => {
+  const url = frontendURL(
+    conversationUrl({
+      accountId: route.params.accountId,
+      id: conversationId,
+    })
+  );
+  router.push({ path: url });
+};
+
+onMounted(() => {
+  resetContacts();
+  emitter.on(BUS_EVENTS.NAVIGATE_TO_GROUP, navigateToGroup);
+});
+
+onUnmounted(() => {
+  emitter.off(BUS_EVENTS.NAVIGATE_TO_GROUP, navigateToGroup);
+});
 
 const keyboardEvents = {
   Escape: {
@@ -312,31 +375,106 @@ useKeyboardEvents(keyboardEvents);
       }"
       @click.self="onModalBackdropClick"
     >
-      <ComposeNewConversationForm
-        :form-state="formState"
+      <div
+        v-if="!isGroupMode"
         :class="[{ 'mt-2': !viewInModal }, composePopoverClass]"
-        :contacts="contacts"
-        :contact-id="contactId"
-        :is-loading="isSearching"
-        :current-user="currentUser"
-        :selected-contact="selectedContact"
-        :target-inbox="targetInbox"
-        :is-creating-contact="isCreatingContact"
-        :is-fetching-inboxes="isFetchingInboxes"
-        :is-direct-uploads-enabled="directUploadsEnabled"
-        :contact-conversations-ui-flags="uiFlags"
-        :contacts-ui-flags="contactsUiFlags"
-        :message-signature="resolvedMessageSignature"
-        :send-with-signature="sendWithSignature"
-        :signature-settings="resolvedSignatureSettings"
-        @search-contacts="onContactSearch"
-        @reset-contact-search="resetContacts"
-        @update-selected-contact="handleSelectedContact"
-        @update-target-inbox="handleTargetInbox"
-        @clear-selected-contact="clearSelectedContact"
-        @create-conversation="createConversation"
-        @discard="discardCompose"
-      />
+        class="w-[42rem] flex flex-col"
+      >
+        <div
+          v-if="hasGroupInboxes"
+          class="flex gap-1 px-4 pt-3 pb-0 bg-n-alpha-3 border border-b-0 border-n-strong backdrop-blur-[100px] rounded-t-xl"
+        >
+          <button
+            class="px-3 py-1.5 text-sm font-medium rounded-t-lg border-b-2 transition-colors"
+            :class="
+              !isGroupMode
+                ? 'text-n-brand border-n-brand bg-n-alpha-2'
+                : 'text-n-slate-11 border-transparent hover:text-n-slate-12'
+            "
+            @click="switchMode('conversation')"
+          >
+            {{ t('COMPOSE_NEW_CONVERSATION.TAB_CONVERSATION') }}
+          </button>
+          <button
+            class="px-3 py-1.5 text-sm font-medium rounded-t-lg border-b-2 transition-colors"
+            :class="
+              isGroupMode
+                ? 'text-n-brand border-n-brand bg-n-alpha-2'
+                : 'text-n-slate-11 border-transparent hover:text-n-slate-12'
+            "
+            @click="switchMode('group')"
+          >
+            {{ t('COMPOSE_NEW_CONVERSATION.TAB_GROUP') }}
+          </button>
+        </div>
+        <ComposeNewConversationForm
+          :form-state="formState"
+          :class="{ '!rounded-t-none !border-t-0': hasGroupInboxes }"
+          :contacts="contacts"
+          :contact-id="contactId"
+          :is-loading="isSearching"
+          :current-user="currentUser"
+          :selected-contact="selectedContact"
+          :target-inbox="targetInbox"
+          :is-creating-contact="isCreatingContact"
+          :is-fetching-inboxes="isFetchingInboxes"
+          :is-direct-uploads-enabled="directUploadsEnabled"
+          :contact-conversations-ui-flags="uiFlags"
+          :contacts-ui-flags="contactsUiFlags"
+          :message-signature="resolvedMessageSignature"
+          :send-with-signature="sendWithSignature"
+          :signature-settings="resolvedSignatureSettings"
+          @search-contacts="onContactSearch"
+          @reset-contact-search="resetContacts"
+          @update-selected-contact="handleSelectedContact"
+          @update-target-inbox="handleTargetInbox"
+          @clear-selected-contact="clearSelectedContact"
+          @create-conversation="createConversation"
+          @discard="discardCompose"
+        />
+      </div>
+
+      <div
+        v-else
+        :class="[{ 'mt-2': !viewInModal }, composePopoverClass]"
+        class="w-[42rem] flex flex-col"
+      >
+        <div
+          class="flex gap-1 px-4 pt-3 pb-0 bg-n-alpha-3 border border-b-0 border-n-strong backdrop-blur-[100px] rounded-t-xl"
+        >
+          <button
+            class="px-3 py-1.5 text-sm font-medium rounded-t-lg border-b-2 transition-colors"
+            :class="
+              !isGroupMode
+                ? 'text-n-brand border-n-brand bg-n-alpha-2'
+                : 'text-n-slate-11 border-transparent hover:text-n-slate-12'
+            "
+            @click="switchMode('conversation')"
+          >
+            {{ t('COMPOSE_NEW_CONVERSATION.TAB_CONVERSATION') }}
+          </button>
+          <button
+            class="px-3 py-1.5 text-sm font-medium rounded-t-lg border-b-2 transition-colors"
+            :class="
+              isGroupMode
+                ? 'text-n-brand border-n-brand bg-n-alpha-2'
+                : 'text-n-slate-11 border-transparent hover:text-n-slate-12'
+            "
+            @click="switchMode('group')"
+          >
+            {{ t('COMPOSE_NEW_CONVERSATION.TAB_GROUP') }}
+          </button>
+        </div>
+        <ComposeNewGroupForm
+          ref="groupFormRef"
+          class="!rounded-t-none !border-t-0"
+          :inboxes="groupCreationInboxes"
+          :is-creating="groupUiFlags.isCreating"
+          :is-groups-disabled="isGroupsDisabled"
+          @create-group="createGroup"
+          @discard="discardCompose"
+        />
+      </div>
     </div>
   </div>
 </template>

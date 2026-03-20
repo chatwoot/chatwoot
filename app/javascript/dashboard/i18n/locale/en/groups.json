@@ -1,0 +1,126 @@
+{
+  "GROUP": {
+    "SIDEBAR_TITLE": "Group",
+    "INFO": {
+      "HEADER": "Group Info",
+      "MEMBER_COUNT": "{count} members",
+      "MEMBER_LIST_TITLE": "Members",
+      "ADMIN_BADGE": "Admin",
+      "YOU_BADGE": "You",
+      "SYNC_BUTTON": "Sync",
+      "SYNC_SUCCESS": "Group members synced successfully.",
+      "SYNC_ERROR": "Failed to sync group members. Please try again.",
+      "EMPTY_STATE": "No members found."
+    },
+    "FILTER": {
+      "TYPE_LABEL": "Type",
+      "ALL": "All",
+      "INDIVIDUAL": "Individual",
+      "GROUP": "Group"
+    },
+    "CREATE": {
+      "TITLE": "Create New Group",
+      "INBOX_LABEL": "Inbox:",
+      "INBOX_PLACEHOLDER": "Select a inbox",
+      "NAME_LABEL": "Group Name:",
+      "NAME_PLACEHOLDER": "Enter group name",
+      "PARTICIPANTS_LABEL": "Participants:",
+      "PARTICIPANTS_PLACEHOLDER": "Search contacts to add",
+      "NAME_REQUIRED": "Group name is required",
+      "PARTICIPANTS_REQUIRED": "Add at least one participant",
+      "SUBMIT_BUTTON": "Create Group",
+      "SUCCESS_MESSAGE": "Group created successfully.",
+      "ERROR_MESSAGE": "Failed to create group. Please try again.",
+      "GROUPS_DISABLED": "Group creation is disabled. Enable WhatsApp group support (free) to create groups.",
+      "GROUPS_DISABLED_CTA": "Learn how to enable (free)"
+    },
+    "METADATA": {
+      "EDIT_NAME_LABEL": "Group Name",
+      "EDIT_NAME_PLACEHOLDER": "Enter group name",
+      "EDIT_DESCRIPTION_LABEL": "Description",
+      "EDIT_DESCRIPTION_PLACEHOLDER": "Enter group description",
+      "EDIT_AVATAR_LABEL": "Group Photo",
+      "SAVE_SUCCESS": "Group info updated successfully.",
+      "SAVE_ERROR": "Failed to update group info. Please try again."
+    },
+    "INVITE": {
+      "SECTION_TITLE": "Invite Link",
+      "COPY_BUTTON": "Copy Link",
+      "COPY_INVITE_LINK": "Copy Invite Link",
+      "COPY_SUCCESS": "Invite link copied to clipboard.",
+      "FETCH_ERROR": "Failed to load invite link."
+    },
+    "MEMBERS": {
+      "ADD_BUTTON": "Add Member",
+      "ADDING": "Adding member...",
+      "ADD_SUCCESS": "Member added successfully.",
+      "ADD_ERROR": "Failed to add member. Please try again.",
+      "REMOVE_BUTTON": "Remove",
+      "REMOVING": "Removing member...",
+      "REMOVE_SUCCESS": "Member removed successfully.",
+      "REMOVE_ERROR": "Failed to remove member. Please try again.",
+      "PROMOTE_BUTTON": "Promote to Admin",
+      "PROMOTING": "Promoting member...",
+      "PROMOTE_SUCCESS": "Member promoted to admin.",
+      "PROMOTE_ERROR": "Failed to promote member. Please try again.",
+      "DEMOTE_BUTTON": "Demote to Member",
+      "DEMOTING": "Demoting member...",
+      "DEMOTE_SUCCESS": "Member demoted to member.",
+      "DEMOTE_ERROR": "Failed to demote member. Please try again.",
+      "GROUP_CREATOR_NOT_MODIFIABLE": "This member is the group creator and cannot be removed or demoted."
+    },
+    "JOIN_REQUESTS": {
+      "SECTION_TITLE": "Pending Requests",
+      "PENDING_COUNT": "{count} pending",
+      "APPROVE_BUTTON": "Approve",
+      "REJECT_BUTTON": "Reject",
+      "PROCESSING": "Processing request...",
+      "APPROVE_SUCCESS": "Join request approved.",
+      "REJECT_SUCCESS": "Join request rejected.",
+      "ACTION_ERROR": "Failed to process join request. Please try again."
+    },
+    "MENTION": {
+      "DROPDOWN_HEADER": "Group Members",
+      "EVERYONE": "Everyone",
+      "EVERYONE_DESCRIPTION": "Notify all members"
+    },
+    "BAILEYS_OPTIONS": {
+      "MEMBERS_CAN": "Group members can:",
+      "ADMINS_CAN": "Group admins can:",
+      "EDIT_GROUP_SETTINGS": "Edit group settings",
+      "EDIT_GROUP_SETTINGS_DESCRIPTION": "Includes group name, image, description, disappearing messages duration, advanced conversation privacy, and allows pinning and saving messages in the conversation or reverting this action.",
+      "SEND_MESSAGES": "Send new messages",
+      "ADD_MEMBERS": "Add members",
+      "RESET_INVITE_LINK": "Reset invite link",
+      "RESET_INVITE_LINK_SUCCESS": "Invite link has been reset successfully.",
+      "RESET_INVITE_LINK_ERROR": "Failed to reset invite link. Please try again.",
+      "RESETTING_INVITE_LINK": "Resetting...",
+      "DISABLE_ADD_MEMBERS_CONFIRM_TITLE": "Restrict member additions?",
+      "DISABLE_ADD_MEMBERS_CONFIRM_DESCRIPTION": "By disabling this option, only admins will be able to add members and the current invite link will be reset. Do you want to continue?",
+      "DISABLE_ADD_MEMBERS_CONFIRM_YES": "Confirm",
+      "DISABLE_ADD_MEMBERS_CONFIRM_NO": "Cancel",
+      "APPROVE_MEMBERS": "Approve new members",
+      "APPROVE_MEMBERS_DESCRIPTION": "While this option is enabled, admins must approve new members joining the group."
+    },
+    "SETTINGS": {
+      "SECTION_TITLE": "Group Settings",
+      "ANNOUNCEMENT_MODE": "Announcement Mode",
+      "ANNOUNCEMENT_MODE_DESCRIPTION": "Only admins can send messages",
+      "LOCKED_MODE": "Locked Mode",
+      "LOCKED_MODE_DESCRIPTION": "Only admins can edit group info",
+      "JOIN_APPROVAL": "Admin Approval to Join",
+      "JOIN_APPROVAL_DESCRIPTION": "Admins must approve new members",
+      "ADVANCED_OPTIONS": "Advanced Options",
+      "GROUP_LEFT_BANNER": "You are no longer a member of this group",
+      "LEAVE_GROUP": "Leave Group",
+      "LEAVING": "Leaving group...",
+      "LEAVE_CONFIRM": "Are you sure you want to leave this group?",
+      "LEAVE_CONFIRM_YES": "Leave",
+      "LEAVE_CONFIRM_NO": "Cancel",
+      "LEAVE_SUCCESS": "You have left the group.",
+      "LEAVE_ERROR": "Failed to leave the group. Please try again.",
+      "UPDATE_SUCCESS": "Group setting updated successfully.",
+      "UPDATE_ERROR": "Failed to update group setting. Please try again."
+    }
+  }
+}

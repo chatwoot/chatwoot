@@ -159,7 +159,7 @@
           "CONDITION_TWO": "Enviar alertas a cada 30 segundos até que todas as conversas atribuídas sejam lidas"
         },
         "SOUND_PERMISSION_ERROR": "A reprodução automática está desativada no seu navegador. Para ouvir alertas automaticamente, habilite a permissão de som nas configurações do seu navegador ou interaja com a página.",
-        "READ_MORE": "Saiba mais"
+        "READ_MORE": "Ler mais"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Notificações por e-mail",
@@ -408,7 +408,9 @@
       "INFO_SHORT": "Marcar off-line automaticamente quando não estiver usando o aplicativo."
     },
     "DOCS": "Ler documentos",
-    "SECURITY": "Segurança"
+    "SECURITY": "Segurança",
+    "CAPTAIN_AI": "Captain",
+    "CONVERSATION_WORKFLOW": "Fluxo de Conversa"
   },
   "BILLING_SETTINGS": {
     "TITLE": "Cobrança",
@@ -821,6 +823,58 @@
       "DESCRIPTION": "Are you sure you want to delete this policy? This action cannot be undone.",
       "CONFIRM_BUTTON_LABEL": "Excluir",
       "CANCEL_BUTTON_LABEL": "Cancelar"
+    }
+  },
+  "CONVERSATION_WORKFLOW": {
+    "INDEX": {
+      "HEADER": {
+        "TITLE": "Fluxos de Conversa",
+        "DESCRIPTION": "Configure regras e campos obrigatórios para resolução de conversas."
+      }
+    },
+    "REQUIRED_ATTRIBUTES": {
+      "TITLE": "Atributos obrigatórios na resolução",
+      "DESCRIPTION": "Ao resolver uma conversa, os agentes serão solicitados a preencher esses atributos se ainda não o fizeram.",
+      "NO_ATTRIBUTES": "Nenhum atributo adicionado ainda",
+      "ADD": {
+        "TITLE": "Adicionar Atributos",
+        "SEARCH_PLACEHOLDER": "Buscar atributos"
+      },
+      "SAVE": {
+        "SUCCESS": "Atributos obrigatórios atualizados",
+        "ERROR": "Não foi possível atualizar os atributos obrigatórios, tente novamente"
+      },
+      "MODAL": {
+        "TITLE": "Resolver conversa",
+        "DESCRIPTION": "Por favor, preencha os seguintes atributos personalizados antes de resolver esta conversa",
+        "ACTIONS": {
+          "RESOLVE": "Resolver conversa",
+          "CANCEL": "Cancelar"
+        },
+        "PLACEHOLDERS": {
+          "TEXT": "Escreva uma nota...",
+          "NUMBER": "Insira um número",
+          "LINK": "Adicione um link",
+          "DATE": "Escolha uma data",
+          "LIST": "Selecione uma opção"
+        },
+        "CHECKBOX": {
+          "YES": "Sim",
+          "NO": "Não"
+        }
+      },
+      "PAYWALL": {
+        "TITLE": "Faça upgrade para usar atributos obrigatórios",
+        "AVAILABLE_ON": "O recurso de atributos obrigatórios de conversa está disponível nos planos Business e Enterprise.",
+        "UPGRADE_PROMPT": "Faça upgrade do seu plano para solicitar que os agentes preencham atributos obrigatórios antes da resolução da conversa.",
+        "UPGRADE_NOW": "Fazer upgrade agora",
+        "CANCEL_ANYTIME": "Você pode alterar ou cancelar seu plano a qualquer momento"
+      },
+      "ENTERPRISE_PAYWALL": {
+        "AVAILABLE_ON": "O recurso de atributos obrigatórios de conversa está disponível nos planos pagos.",
+        "UPGRADE_PROMPT": "Faça upgrade para um plano pago para exigir atributos obrigatórios antes da resolução da conversa.",
+        "ASK_ADMIN": "Entre em contato com seu administrador para o upgrade."
+      }
     }
   }
 }

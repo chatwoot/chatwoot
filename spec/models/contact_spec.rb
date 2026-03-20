@@ -196,4 +196,14 @@ RSpec.describe Contact do
       end
     end
   end
+
+  describe 'group_type' do
+    it 'provides type check methods' do
+      individual_contact = create(:contact, group_type: :individual)
+      group_contact = create(:contact, group_type: :group)
+
+      expect(individual_contact).to be_group_type_individual
+      expect(group_contact).to be_group_type_group
+    end
+  end
 end

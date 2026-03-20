@@ -110,6 +110,14 @@ const filterTypes = [
     filterOperators: OPERATOR_TYPES_5,
     attributeModel: 'standard',
   },
+  {
+    attributeKey: 'group_type',
+    attributeI18nKey: 'GROUP_TYPE',
+    inputType: 'multi_select',
+    dataType: 'text',
+    filterOperators: OPERATOR_TYPES_1,
+    attributeModel: 'standard',
+  },
 ];
 
 export const filterAttributeGroups = [
@@ -152,6 +160,10 @@ export const filterAttributeGroups = [
       {
         key: 'last_activity_at',
         i18nKey: 'LAST_ACTIVITY',
+      },
+      {
+        key: 'group_type',
+        i18nKey: 'GROUP_TYPE',
       },
     ],
   },

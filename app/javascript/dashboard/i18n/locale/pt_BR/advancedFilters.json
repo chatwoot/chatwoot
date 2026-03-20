@@ -62,7 +62,8 @@
       "CUSTOM_ATTRIBUTE_LINK": "Link",
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
       "CREATED_AT": "Criado em",
-      "LAST_ACTIVITY": "Última atividade"
+      "LAST_ACTIVITY": "Última atividade",
+      "GROUP_TYPE": "Tipo de conversa"
     },
     "ERRORS": {
       "VALUE_REQUIRED": "Valor obrigatório",

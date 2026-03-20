@@ -1046,6 +1046,67 @@ describe Whatsapp::IncomingMessageBaileysService do
         end
       end
     end
+
+    context 'when processing message-receipt.update event' do
+      let(:conversation) do
+        agent = create(:user, account: inbox.account, role: :agent)
+        contact = create(:contact, account: inbox.account)
+        contact_inbox = create(:contact_inbox, inbox: inbox, contact: contact)
+        create(:conversation, inbox: inbox, contact_inbox: contact_inbox, assignee_id: agent.id)
+      end
+      let!(:message) { create(:message, inbox: inbox, conversation: conversation, source_id: '123ABCDE1234567', status: 'sent') }
+      let(:receipt_payload) do
+        {
+          key: { remoteJid: '123456789123456789@g.us', id: '123ABCDE1234567', fromMe: true,
+                 participant: '12345678@lid' },
+          receipt: receipt_data
+        }
+      end
+      let(:receipt_data) { { userJid: '12345678@lid', receiptTimestamp: 1_772_056_268 } }
+      let(:params) do
+        {
+          webhookVerifyToken: webhook_verify_token,
+          event: 'message-receipt.update',
+          data: [receipt_payload]
+        }
+      end
+
+      it 'updates message from sent to delivered on receiptTimestamp' do
+        described_class.new(inbox: inbox, params: params).perform
+
+        expect(message.reload.status).to eq('delivered')
+      end
+
+      it 'ignores readTimestamp and does not update status' do
+        receipt_data.replace(userJid: '12345678@lid', readTimestamp: 1_772_056_497)
+
+        described_class.new(inbox: inbox, params: params).perform
+
+        expect(message.reload.status).to eq('sent')
+      end
+
+      it 'does not downgrade a delivered message on receiptTimestamp' do
+        message.update!(status: 'delivered')
+
+        described_class.new(inbox: inbox, params: params).perform
+
+        expect(message.reload.status).to eq('delivered')
+      end
+
+      it 'does not downgrade a read message on receiptTimestamp' do
+        message.update!(status: 'read')
+
+        described_class.new(inbox: inbox, params: params).perform
+
+        expect(message.reload.status).to eq('read')
+      end
+
+      it 'does not raise error when message is not found' do
+        receipt_payload[:key][:id] = 'NONEXISTENT_MSG_ID'
+
+        expect { described_class.new(inbox: inbox, params: params).perform }.not_to raise_error
+      end
+    end
   end
 
   def format_message_source_key(message_id)

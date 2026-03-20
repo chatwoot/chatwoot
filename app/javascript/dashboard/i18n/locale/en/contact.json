@@ -606,6 +606,8 @@
   },
 
   "COMPOSE_NEW_CONVERSATION": {
+    "TAB_CONVERSATION": "Conversation",
+    "TAB_GROUP": "Group",
     "CONTACT_SEARCH": {
       "ERROR_MESSAGE": "We couldn’t complete the search. Please try again."
     },

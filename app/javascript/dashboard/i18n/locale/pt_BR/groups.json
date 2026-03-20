@@ -1,0 +1,126 @@
+{
+  "GROUP": {
+    "SIDEBAR_TITLE": "Grupo",
+    "INFO": {
+      "HEADER": "Informações do Grupo",
+      "MEMBER_COUNT": "{count} membros",
+      "MEMBER_LIST_TITLE": "Membros",
+      "ADMIN_BADGE": "Admin",
+      "YOU_BADGE": "Você",
+      "SYNC_BUTTON": "Sincronizar",
+      "SYNC_SUCCESS": "Membros do grupo sincronizados com sucesso.",
+      "SYNC_ERROR": "Falha ao sincronizar membros do grupo. Por favor, tente novamente.",
+      "EMPTY_STATE": "Nenhum membro encontrado."
+    },
+    "FILTER": {
+      "TYPE_LABEL": "Tipo",
+      "ALL": "Todos",
+      "INDIVIDUAL": "Individual",
+      "GROUP": "Grupo"
+    },
+    "CREATE": {
+      "TITLE": "Criar Novo Grupo",
+      "INBOX_LABEL": "Caixa de entrada:",
+      "INBOX_PLACEHOLDER": "Selecione uma caixa de entrada",
+      "NAME_LABEL": "Nome do Grupo:",
+      "NAME_PLACEHOLDER": "Digite o nome do grupo",
+      "PARTICIPANTS_LABEL": "Participantes:",
+      "PARTICIPANTS_PLACEHOLDER": "Pesquisar contatos para adicionar",
+      "NAME_REQUIRED": "O nome do grupo é obrigatório",
+      "PARTICIPANTS_REQUIRED": "Adicione pelo menos um participante",
+      "SUBMIT_BUTTON": "Criar Grupo",
+      "SUCCESS_MESSAGE": "Grupo criado com sucesso.",
+      "ERROR_MESSAGE": "Falha ao criar grupo. Por favor, tente novamente.",
+      "GROUPS_DISABLED": "A criação de grupos está desativada. Ative o suporte a grupos do WhatsApp (gratuito) para criar grupos.",
+      "GROUPS_DISABLED_CTA": "Saiba como ativar (gratuito)"
+    },
+    "METADATA": {
+      "EDIT_NAME_LABEL": "Nome do Grupo",
+      "EDIT_NAME_PLACEHOLDER": "Digite o nome do grupo",
+      "EDIT_DESCRIPTION_LABEL": "Descrição",
+      "EDIT_DESCRIPTION_PLACEHOLDER": "Digite a descrição do grupo",
+      "EDIT_AVATAR_LABEL": "Foto do Grupo",
+      "SAVE_SUCCESS": "Informações do grupo atualizadas com sucesso.",
+      "SAVE_ERROR": "Falha ao atualizar informações do grupo. Por favor, tente novamente."
+    },
+    "INVITE": {
+      "SECTION_TITLE": "Link de Convite",
+      "COPY_BUTTON": "Copiar Link",
+      "COPY_INVITE_LINK": "Copiar Link de Convite",
+      "COPY_SUCCESS": "Link de convite copiado para a área de transferência.",
+      "FETCH_ERROR": "Falha ao carregar o link de convite."
+    },
+    "MEMBERS": {
+      "ADD_BUTTON": "Adicionar Membro",
+      "ADDING": "Adicionando membro...",
+      "ADD_SUCCESS": "Membro adicionado com sucesso.",
+      "ADD_ERROR": "Falha ao adicionar membro. Por favor, tente novamente.",
+      "REMOVE_BUTTON": "Remover",
+      "REMOVING": "Removendo membro...",
+      "REMOVE_SUCCESS": "Membro removido com sucesso.",
+      "REMOVE_ERROR": "Falha ao remover membro. Por favor, tente novamente.",
+      "PROMOTE_BUTTON": "Promover a Admin",
+      "PROMOTING": "Promovendo membro...",
+      "PROMOTE_SUCCESS": "Membro promovido a admin.",
+      "PROMOTE_ERROR": "Falha ao promover membro. Por favor, tente novamente.",
+      "DEMOTE_BUTTON": "Rebaixar para Membro",
+      "DEMOTING": "Rebaixando membro...",
+      "DEMOTE_SUCCESS": "Membro rebaixado para membro.",
+      "DEMOTE_ERROR": "Falha ao rebaixar membro. Por favor, tente novamente.",
+      "GROUP_CREATOR_NOT_MODIFIABLE": "Este membro é o criador do grupo e não pode ser removido ou rebaixado."
+    },
+    "JOIN_REQUESTS": {
+      "SECTION_TITLE": "Solicitações Pendentes",
+      "PENDING_COUNT": "{count} pendentes",
+      "APPROVE_BUTTON": "Aprovar",
+      "REJECT_BUTTON": "Rejeitar",
+      "PROCESSING": "Processando solicitação...",
+      "APPROVE_SUCCESS": "Solicitação de entrada aprovada.",
+      "REJECT_SUCCESS": "Solicitação de entrada rejeitada.",
+      "ACTION_ERROR": "Falha ao processar solicitação de entrada. Por favor, tente novamente."
+    },
+    "MENTION": {
+      "DROPDOWN_HEADER": "Membros do Grupo",
+      "EVERYONE": "Todos",
+      "EVERYONE_DESCRIPTION": "Notificar todos os membros"
+    },
+    "BAILEYS_OPTIONS": {
+      "MEMBERS_CAN": "Os membros do grupo podem:",
+      "ADMINS_CAN": "Os admins do grupo podem:",
+      "EDIT_GROUP_SETTINGS": "Editar configurações do grupo",
+      "EDIT_GROUP_SETTINGS_DESCRIPTION": "Inclui o nome do grupo, a imagem, a descrição, a duração das mensagens temporárias, a privacidade avançada da conversa e permite fixar e salvar mensagens na conversa ou reverter essa ação.",
+      "SEND_MESSAGES": "Enviar novas mensagens",
+      "ADD_MEMBERS": "Adicionar membros",
+      "RESET_INVITE_LINK": "Redefinir link de convite",
+      "RESET_INVITE_LINK_SUCCESS": "O link de convite foi redefinido com sucesso.",
+      "RESET_INVITE_LINK_ERROR": "Falha ao redefinir o link de convite. Por favor, tente novamente.",
+      "RESETTING_INVITE_LINK": "Redefinindo...",
+      "DISABLE_ADD_MEMBERS_CONFIRM_TITLE": "Restringir adição de membros?",
+      "DISABLE_ADD_MEMBERS_CONFIRM_DESCRIPTION": "Ao desabilitar esta opção, apenas admins poderão adicionar membros e o link de convite atual será redefinido. Deseja continuar?",
+      "DISABLE_ADD_MEMBERS_CONFIRM_YES": "Confirmar",
+      "DISABLE_ADD_MEMBERS_CONFIRM_NO": "Cancelar",
+      "APPROVE_MEMBERS": "Aprovar novos membros",
+      "APPROVE_MEMBERS_DESCRIPTION": "Enquanto essa opção estiver ativada, os admins deverão aprovar a entrada de membros no grupo."
+    },
+    "SETTINGS": {
+      "SECTION_TITLE": "Configurações do Grupo",
+      "ANNOUNCEMENT_MODE": "Modo Anúncio",
+      "ANNOUNCEMENT_MODE_DESCRIPTION": "Apenas admins podem enviar mensagens",
+      "LOCKED_MODE": "Modo Trancado",
+      "LOCKED_MODE_DESCRIPTION": "Apenas admins podem editar informações do grupo",
+      "JOIN_APPROVAL": "Aprovação do Admin para Entrar",
+      "JOIN_APPROVAL_DESCRIPTION": "Admins devem aprovar novos membros",
+      "ADVANCED_OPTIONS": "Opções Avançadas",
+      "GROUP_LEFT_BANNER": "Você não é mais membro deste grupo",
+      "LEAVE_GROUP": "Sair do Grupo",
+      "LEAVING": "Saindo do grupo...",
+      "LEAVE_CONFIRM": "Tem certeza de que deseja sair deste grupo?",
+      "LEAVE_CONFIRM_YES": "Sair",
+      "LEAVE_CONFIRM_NO": "Cancelar",
+      "LEAVE_SUCCESS": "Você saiu do grupo.",
+      "LEAVE_ERROR": "Falha ao sair do grupo. Por favor, tente novamente.",
+      "UPDATE_SUCCESS": "Configuração do grupo atualizada com sucesso.",
+      "UPDATE_ERROR": "Falha ao atualizar configuração do grupo. Por favor, tente novamente."
+    }
+  }
+}

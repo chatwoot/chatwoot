@@ -20,6 +20,8 @@ tags:
     description: Manage canned responses
   - name: Contacts
     description: Manage contacts
+  - name: Groups
+    description: Manage WhatsApp group settings, members, invites, and join requests
   - name: Contact Labels
     description: Manage contact labels
   - name: Conversation Assignments
@@ -62,4 +64,4 @@ components:
       type: apiKey
       in: header
       name: api_access_token
-      description: This token can be obtained by visiting the profile page or via rails console. Provides access to endpoints based on the user permissions levels. 
+      description: This token can be obtained by visiting the profile page or via rails console. Provides access to endpoints based on the user permissions levels.

@@ -73,7 +73,9 @@ module Whatsapp::BaileysHandlers::Helpers # rubocop:disable Metrics/ModuleLength
     msg = unwrap_ephemeral_message(@raw_message[:message])
     case message_type
     when 'text'
-      msg[:conversation] || msg.dig(:extendedTextMessage, :text)
+      text = msg[:conversation] || msg.dig(:extendedTextMessage, :text)
+      context_info = msg.dig(:extendedTextMessage, :contextInfo)
+      convert_incoming_mentions(text, context_info)
     when 'image'
       msg.dig(:imageMessage, :caption)
     when 'video'
@@ -183,13 +185,14 @@ module Whatsapp::BaileysHandlers::Helpers # rubocop:disable Metrics/ModuleLength
     nil
   end
 
-  def try_update_contact_avatar
+  def try_update_contact_avatar(contact = nil)
     # TODO: Current logic will never update the contact avatar if their profile picture changes on WhatsApp.
-    return if @contact.avatar.attached?
+    target_contact = contact || @contact
+    return if target_contact.avatar.attached?
 
-    phone = extract_from_jid(type: 'pn')
+    phone = contact ? target_contact.phone_number&.delete('+') : extract_from_jid(type: 'pn')
     profile_pic_url = fetch_profile_picture_url(phone) if phone
-    ::Avatar::AvatarFromUrlJob.perform_later(@contact, profile_pic_url) if profile_pic_url
+    ::Avatar::AvatarFromUrlJob.perform_later(target_contact, profile_pic_url) if profile_pic_url
   end
 
   def message_under_process?
@@ -205,5 +208,11 @@ module Whatsapp::BaileysHandlers::Helpers # rubocop:disable Metrics/ModuleLength
   def clear_message_source_id_from_redis
     key = format(Redis::RedisKeys::MESSAGE_SOURCE_KEY, id: "#{inbox.id}_#{raw_message_id}")
     ::Redis::Alfred.delete(key)
+  end
+
+  def convert_incoming_mentions(text, context_info)
+    return text if text.blank? || context_info.blank?
+
+    Whatsapp::MentionConverterService.convert_incoming_mentions(text, context_info, inbox.account, inbox)
   end
 end

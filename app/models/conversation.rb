@@ -10,6 +10,7 @@
 #  contact_last_seen_at   :datetime
 #  custom_attributes      :jsonb
 #  first_reply_created_at :datetime
+#  group_type             :integer          default("individual"), not null
 #  identifier             :string
 #  last_activity_at       :datetime         not null
 #  priority               :integer
@@ -27,6 +28,7 @@
 #  contact_inbox_id       :bigint
 #  display_id             :integer          not null
 #  inbox_id               :integer          not null
+#  kanban_task_id         :bigint
 #  sla_policy_id          :bigint
 #  team_id                :bigint
 #
@@ -35,6 +37,7 @@
 #  conv_acid_inbid_stat_asgnid_idx                    (account_id,inbox_id,status,assignee_id)
 #  index_conversations_on_account_id                  (account_id)
 #  index_conversations_on_account_id_and_display_id   (account_id,display_id) UNIQUE
+#  index_conversations_on_account_id_and_group_type   (account_id,group_type)
 #  index_conversations_on_assignee_id_and_account_id  (assignee_id,account_id)
 #  index_conversations_on_campaign_id                 (campaign_id)
 #  index_conversations_on_contact_id                  (contact_id)
@@ -43,12 +46,18 @@
 #  index_conversations_on_id_and_account_id           (account_id,id)
 #  index_conversations_on_identifier_and_account_id   (identifier,account_id)
 #  index_conversations_on_inbox_id                    (inbox_id)
+#  index_conversations_on_inbox_id_and_group_type     (inbox_id,group_type)
+#  index_conversations_on_kanban_task_id              (kanban_task_id)
 #  index_conversations_on_priority                    (priority)
 #  index_conversations_on_status_and_account_id       (status,account_id)
 #  index_conversations_on_status_and_priority         (status,priority)
 #  index_conversations_on_team_id                     (team_id)
 #  index_conversations_on_uuid                        (uuid) UNIQUE
 #  index_conversations_on_waiting_since               (waiting_since)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (kanban_task_id => kanban_tasks.id)
 #
 
 class Conversation < ApplicationRecord
@@ -74,6 +83,7 @@ class Conversation < ApplicationRecord
 
   enum status: { open: 0, resolved: 1, pending: 2, snoozed: 3 }
   enum priority: { low: 0, medium: 1, high: 2, urgent: 3 }
+  enum group_type: { individual: 0, group: 1 }, _prefix: true
 
   scope :unassigned, -> { where(assignee_id: nil) }
   scope :assigned, -> { where.not(assignee_id: nil) }

@@ -400,14 +400,37 @@ describe Whatsapp::SendOnWhatsappService do
           .to_return(status: 200, body: '', headers: {})
       end
 
-      it 'calls channel.send_message if channel is not locked on outgoing message' do
+      it 'uses phone number as recipient_id for individual contacts' do
         conversation.contact.update!(phone_number: '+123456789')
         message = create(:message, message_type: :outgoing, content: 'test', conversation: conversation)
+
         allow(whatsapp_channel).to receive(:send_message).with('123456789', message).and_return('123456789')
 
         described_class.new(message: message).perform
 
         expect(message.reload.source_id).to eq('123456789')
+      end
+
+      it 'falls back to identifier when contact has no phone_number' do
+        conversation.contact.update!(phone_number: nil, identifier: '99999999@lid')
+        message = create(:message, message_type: :outgoing, content: 'test', conversation: conversation)
+
+        allow(whatsapp_channel).to receive(:send_message).with('99999999@lid', message).and_return('msg_lid')
+
+        described_class.new(message: message).perform
+
+        expect(message.reload.source_id).to eq('msg_lid')
+      end
+
+      it 'uses identifier as recipient_id for group contacts' do
+        conversation.contact.update!(identifier: '123456789123456789@g.us', group_type: :group)
+        message = create(:message, message_type: :outgoing, content: 'test', conversation: conversation)
+
+        allow(whatsapp_channel).to receive(:send_message).with('123456789123456789@g.us', message).and_return('msg_group')
+
+        described_class.new(message: message).perform
+
+        expect(message.reload.source_id).to eq('msg_group')
       end
     end
 
@@ -439,6 +462,16 @@ describe Whatsapp::SendOnWhatsappService do
           message = create(:message, message_type: :outgoing, content: 'test', conversation: conversation)
 
           expect(whatsapp_channel).to receive(:send_message).with('123456789@lid', message).and_return('msg_123')
+
+          described_class.new(message: message).perform
+        end
+
+        it 'uses identifier as recipient_id for group contacts' do
+          conversation.contact.update!(identifier: '120363123456789@g.us', group_type: :group)
+          create(:message, message_type: :incoming, content: 'test', conversation: conversation)
+          message = create(:message, message_type: :outgoing, content: 'test', conversation: conversation)
+
+          expect(whatsapp_channel).to receive(:send_message).with('120363123456789@g.us', message).and_return('msg_group')
 
           described_class.new(message: message).perform
         end

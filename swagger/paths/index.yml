@@ -274,6 +274,33 @@
   $ref: ./application/contact_inboxes/create.yml
 /api/v1/accounts/{account_id}/contacts/{id}/contactable_inboxes:
   $ref: ./application/contactable_inboxes/get.yml
+/api/v1/accounts/{account_id}/contacts/{id}/sync_group:
+  $ref: ./application/contacts/sync_group.yml
+/api/v1/accounts/{account_id}/contacts/{id}/group_members:
+  $ref: ./application/contacts/group_members.yml
+/api/v1/accounts/{account_id}/contacts/{id}/group_members/{member_id}:
+  $ref: ./application/contacts/group_members_member.yml
+/api/v1/accounts/{account_id}/contacts/{id}/group_metadata:
+  $ref: ./application/contacts/group_metadata.yml
+/api/v1/accounts/{account_id}/contacts/{id}/group_invite:
+  $ref: ./application/contacts/group_invite.yml
+/api/v1/accounts/{account_id}/contacts/{id}/group_invite/revoke:
+  $ref: ./application/contacts/group_invite_revoke.yml
+/api/v1/accounts/{account_id}/contacts/{id}/group_join_requests:
+  $ref: ./application/contacts/group_join_requests.yml
+/api/v1/accounts/{account_id}/contacts/{id}/group_join_requests/handle:
+  $ref: ./application/contacts/group_join_requests_handle.yml
+/api/v1/accounts/{account_id}/contacts/{id}/group_admin:
+  $ref: ./application/contacts/group_admin.yml
+/api/v1/accounts/{account_id}/contacts/{id}/group_admin/leave:
+  $ref: ./application/contacts/group_admin_leave.yml
+
+# Groups
+/api/v1/accounts/{account_id}/groups:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+  post:
+    $ref: ./application/groups/create.yml
 
 # Contact Merge
 /api/v1/accounts/{account_id}/actions/contact_merge:

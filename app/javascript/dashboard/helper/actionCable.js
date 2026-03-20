@@ -4,6 +4,7 @@ import DashboardAudioNotificationHelper from './AudioAlerts/DashboardAudioNotifi
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { emitter } from 'shared/helpers/mitt';
 import { useImpersonation } from 'dashboard/composables/useImpersonation';
+import { pendingGroupNavigation } from 'dashboard/helper/pendingGroupNavigation';
 
 const { isImpersonating } = useImpersonation();
 
@@ -26,6 +27,7 @@ class ActionCableConnector extends BaseActionCableConnector {
       'presence.update': this.onPresenceUpdate,
       'contact.deleted': this.onContactDelete,
       'contact.updated': this.onContactUpdate,
+      'contact.group_synced': this.onContactGroupSynced,
       'conversation.mentioned': this.onConversationMentioned,
       'notification.created': this.onNotificationCreated,
       'notification.deleted': this.onNotificationDeleted,
@@ -87,6 +89,13 @@ class ActionCableConnector extends BaseActionCableConnector {
   onConversationCreated = data => {
     this.app.$store.dispatch('addConversation', data);
     this.fetchConversationStats();
+
+    const pendingJid = pendingGroupNavigation.consume();
+    if (pendingJid && data.meta?.sender?.identifier === pendingJid) {
+      emitter.emit(BUS_EVENTS.NAVIGATE_TO_GROUP, { conversationId: data.id });
+    } else if (pendingJid) {
+      pendingGroupNavigation.set(pendingJid);
+    }
   };
 
   onConversationRead = data => {
@@ -190,6 +199,16 @@ class ActionCableConnector extends BaseActionCableConnector {
   };
 
   onContactUpdate = data => {
+    this.app.$store.dispatch('contacts/updateContact', data);
+  };
+
+  onContactGroupSynced = data => {
+    this.app.$store.dispatch('groupMembers/setGroupMembers', {
+      contactId: data.id,
+      members: data.group_members,
+      inboxPhoneNumber: data.inbox_phone_number,
+      isInboxAdmin: data.is_inbox_admin,
+    });
     this.app.$store.dispatch('contacts/updateContact', data);
   };
 

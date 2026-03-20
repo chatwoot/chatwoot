@@ -155,7 +155,11 @@
         "EXPAND": "Expandir",
         "MAKE_FRIENDLY": "Alterar o tom de mensagem para amigável",
         "MAKE_FORMAL": "Usar tom formal",
-        "SIMPLIFY": "Simplificar"
+        "SIMPLIFY": "Simplificar",
+        "CONFIDENT": "Usar tom confiante",
+        "PROFESSIONAL": "Usar tom profissional",
+        "CASUAL": "Usar tom casual",
+        "STRAIGHTFORWARD": "Usar tom direto"
       },
       "ASSISTANCE_MODAL": {
         "DRAFT_TITLE": "Conteúdo do rascunho",
@@ -186,7 +190,10 @@
         "TITLE": "Tom",
         "OPTIONS": {
           "PROFESSIONAL": "Profissional",
-          "FRIENDLY": "Amigável"
+          "FRIENDLY": "Amigável",
+          "CASUAL": "Casual",
+          "STRAIGHTFORWARD": "Direto",
+          "CONFIDENT": "Confiante"
         }
       },
       "BUTTONS": {

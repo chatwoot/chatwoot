@@ -166,7 +166,15 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
     # rubocop:enable Rails/SkipsModelValidations
   end
 
+  def unseen_activity?
+    @conversation.last_activity_at.present? &&
+      (@conversation.agent_last_seen_at.blank? || @conversation.last_activity_at > @conversation.agent_last_seen_at)
+  end
+
   def should_update_last_seen?
+    # Always update when there's unseen activity (e.g. soft-disabled group conversations that don't create messages)
+    return true if unseen_activity?
+
     # Update if at least one relevant timestamp is older than 1 hour or not set
     # This prevents redundant DB writes when agents repeatedly view the same conversation
     agent_needs_update = @conversation.agent_last_seen_at.blank? || @conversation.agent_last_seen_at < 1.hour.ago

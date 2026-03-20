@@ -247,6 +247,37 @@ pt_BR:
         issue_created: 'Problema linear %{issue_id} foi criado por %{user_name}'
         issue_linked: 'Problema linear %{issue_id} foi vinculado por %{user_name}'
         issue_unlinked: 'Problema linear %{issue_id} foi desvinculado por %{user_name}'
+      group_participants:
+        add:
+          single: '%{author_name} adicionou %{contact_name} ao grupo'
+          multiple: '%{author_name} adicionou %{contact_names} e %{last_contact_name} ao grupo'
+        join: '%{contact_name} entrou usando o link do grupo'
+        leave: '%{contact_name} saiu do grupo'
+        remove:
+          single: '%{author_name} removeu %{contact_name} do grupo'
+          multiple: '%{author_name} removeu %{contact_names} e %{last_contact_name} do grupo'
+        promote:
+          single: '%{author_name} promoveu %{contact_name} a admin'
+          multiple: '%{author_name} promoveu %{contact_names} e %{last_contact_name} a admin'
+        demote:
+          single: '%{author_name} rebaixou %{contact_name} a membro'
+          multiple: '%{author_name} rebaixou %{contact_names} e %{last_contact_name} a membro'
+      groups_update:
+        subject_changed: '%{author_name} alterou o nome do grupo para "%{value}"'
+        description_changed: '%{author_name} alterou a descrição do grupo'
+        description_removed: '%{author_name} removeu a descrição do grupo'
+        restrict_enabled: '%{author_name} mudou as configurações para permitir que somente admins editem as configurações do grupo'
+        restrict_disabled: '%{author_name} mudou as configurações para permitir que todos os membros editem as configurações do grupo'
+        announce_enabled: '%{author_name} mudou as configurações desse grupo para permitir que somente admins enviem mensagens ao grupo'
+        announce_disabled: '%{author_name} mudou as configurações do grupo para permitir que todos os membros enviem mensagens'
+        member_add_mode_enabled: '%{author_name} mudou as configurações do grupo para permitir que todos os membros adicionem outras pessoas'
+        member_add_mode_disabled: '%{author_name} mudou as configurações deste grupo para permitir que somente admins adicionem outras pessoas ao grupo'
+        join_approval_mode_enabled: '%{author_name} ativou a autorização de admins para entrar neste grupo'
+        join_approval_mode_disabled: '%{author_name} desativou a autorização de admins para entrar neste grupo'
+        invite_link_reset: '%{author_name} redefiniu o link do grupo para convidar outras pessoas'
+        membership_request_created: '%{contact_name} deseja entrar no grupo'
+        membership_request_revoked: '%{contact_name} não deseja mais fazer parte do grupo'
+        icon_changed: '%{author_name} alterou a imagem do grupo'
       csat:
         not_sent_due_to_messaging_window: 'Pesquisa CSAT não foi enviada devido a restrições de envio de mensagens'
       auto_resolve:
@@ -278,6 +309,11 @@ pt_BR:
   contacts:
     online:
       delete: '%{contact_name} está Online, por favor, tente novamente mais tarde'
+    sync_group:
+      not_a_group: 'O contato não é um grupo'
+      no_identifier: 'O contato não possui um identificador de grupo'
+      no_supported_inbox: 'Nenhuma caixa de entrada com suporte a sincronização de grupo encontrada para este contato'
+      metadata_unavailable: 'Não foi possível obter os metadados do grupo do provedor'
   integration_apps:
     #Note: webhooks and dashboard_apps don't need short_description as they use different modal components
     dashboard_apps:

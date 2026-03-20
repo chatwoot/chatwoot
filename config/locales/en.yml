@@ -273,6 +273,37 @@ en:
         issue_created: 'Linear issue %{issue_id} was created by %{user_name}'
         issue_linked: 'Linear issue %{issue_id} was linked by %{user_name}'
         issue_unlinked: 'Linear issue %{issue_id} was unlinked by %{user_name}'
+      group_participants:
+        add:
+          single: '%{author_name} added %{contact_name} to the group'
+          multiple: '%{author_name} added %{contact_names} and %{last_contact_name} to the group'
+        join: '%{contact_name} joined using the group invite link'
+        leave: '%{contact_name} left the group'
+        remove:
+          single: '%{author_name} removed %{contact_name} from the group'
+          multiple: '%{author_name} removed %{contact_names} and %{last_contact_name} from the group'
+        promote:
+          single: '%{author_name} promoted %{contact_name} to admin'
+          multiple: '%{author_name} promoted %{contact_names} and %{last_contact_name} to admin'
+        demote:
+          single: '%{author_name} demoted %{contact_name} to member'
+          multiple: '%{author_name} demoted %{contact_names} and %{last_contact_name} to member'
+      groups_update:
+        subject_changed: '%{author_name} changed the group name to "%{value}"'
+        description_changed: '%{author_name} changed the group description'
+        description_removed: '%{author_name} removed the group description'
+        restrict_enabled: '%{author_name} changed the settings so only admins can edit the group settings'
+        restrict_disabled: '%{author_name} changed the settings so all members can edit the group settings'
+        announce_enabled: "%{author_name} changed this group's settings to allow only admins to send messages to this group"
+        announce_disabled: "%{author_name} changed this group's settings to allow all members to send messages to this group"
+        member_add_mode_enabled: "%{author_name} changed this group's setting to allow all members to add others to this group"
+        member_add_mode_disabled: "%{author_name} changed this group's setting to allow only admins to add others to this group"
+        join_approval_mode_enabled: '%{author_name} turned on admin approval to join this group'
+        join_approval_mode_disabled: '%{author_name} turned off admin approval to join this group'
+        invite_link_reset: "%{author_name} reset this group's invite link"
+        membership_request_created: '%{contact_name} wants to join the group'
+        membership_request_revoked: '%{contact_name} no longer wants to join the group'
+        icon_changed: '%{author_name} changed the group image'
       csat:
         not_sent_due_to_messaging_window: 'CSAT survey not sent due to outgoing message restrictions'
       auto_resolve:
@@ -304,6 +335,11 @@ en:
   contacts:
     online:
       delete: '%{contact_name} is Online, please try again later'
+    sync_group:
+      not_a_group: 'Contact is not a group'
+      no_identifier: 'Contact does not have a group identifier'
+      no_supported_inbox: 'No inbox with group sync support found for this contact'
+      metadata_unavailable: 'Could not retrieve group metadata from the provider'
   integration_apps:
     # Note: webhooks and dashboard_apps don't need short_description as they use different modal components
     dashboard_apps:

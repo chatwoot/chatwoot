@@ -36,6 +36,8 @@ article:
   $ref: ./resource/article.yml
 contact:
   $ref: ./resource/contact.yml
+group_member:
+  $ref: ./resource/group_member.yml
 conversation:
   $ref: ./resource/conversation.yml
 message:

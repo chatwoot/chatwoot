@@ -51,6 +51,7 @@ module Events::Types
   CONTACT_UPDATED = 'contact.updated'
   CONTACT_MERGED = 'contact.merged'
   CONTACT_DELETED = 'contact.deleted'
+  CONTACT_GROUP_SYNCED = 'contact.group_synced'
 
   # contact events
   INBOX_CREATED = 'inbox.created'

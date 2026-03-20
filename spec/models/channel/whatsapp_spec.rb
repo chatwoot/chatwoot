@@ -551,4 +551,30 @@ RSpec.describe Channel::Whatsapp do
       end
     end
   end
+
+  describe '#sync_group' do
+    it 'delegates to provider_service when it supports sync_group' do
+      channel = create(:channel_whatsapp, provider: 'baileys', validate_provider_config: false, sync_templates: false)
+      conversation = create(:conversation, inbox: channel.inbox, account: channel.account)
+      provider_double = instance_double(Whatsapp::Providers::WhatsappBaileysService, sync_group: nil)
+      allow(Whatsapp::Providers::WhatsappBaileysService).to receive(:new)
+        .with(whatsapp_channel: channel)
+        .and_return(provider_double)
+
+      channel.sync_group(conversation)
+
+      expect(provider_double).to have_received(:sync_group).with(conversation, soft: false)
+    end
+
+    it 'does nothing when provider_service does not support sync_group' do
+      channel = create(:channel_whatsapp, provider: 'whatsapp_cloud', validate_provider_config: false, sync_templates: false)
+      conversation = create(:conversation, inbox: channel.inbox, account: channel.account)
+      provider_double = instance_double(Whatsapp::Providers::WhatsappCloudService)
+      allow(Whatsapp::Providers::WhatsappCloudService).to receive(:new)
+        .with(whatsapp_channel: channel)
+        .and_return(provider_double)
+
+      expect(channel.sync_group(conversation)).to be_nil
+    end
+  end
 end

@@ -14,6 +14,7 @@ const state = {
   listLoadingStatus: true,
   chatStatusFilter: wootConstants.STATUS_TYPE.OPEN,
   chatSortFilter: wootConstants.SORT_BY_TYPE.LATEST,
+  chatGroupTypeFilter: '',
   currentInbox: null,
   selectedChatId: null,
   appliedFilters: [],
@@ -283,6 +284,10 @@ export const mutations = {
 
   [types.CHANGE_CHAT_SORT_FILTER](_state, data) {
     _state.chatSortFilter = data;
+  },
+
+  [types.CHANGE_CHAT_GROUP_TYPE_FILTER](_state, data) {
+    _state.chatGroupTypeFilter = data;
   },
 
   // Update assignee on action cable message

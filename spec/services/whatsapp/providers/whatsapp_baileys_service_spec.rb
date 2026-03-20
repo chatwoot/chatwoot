@@ -100,7 +100,8 @@ describe Whatsapp::Providers::WhatsappBaileysService do
               clientName: 'chatwoot-test',
               webhookUrl: whatsapp_channel.inbox.callback_webhook_url,
               webhookVerifyToken: whatsapp_channel.provider_config['webhook_verify_token'],
-              includeMedia: false
+              includeMedia: false,
+              groupsEnabled: Whatsapp::Providers::WhatsappBaileysService::GROUPS_ENABLED
             }.to_json
           )
           .to_return(status: 200)
@@ -120,7 +121,8 @@ describe Whatsapp::Providers::WhatsappBaileysService do
               clientName: 'chatwoot-test',
               webhookUrl: whatsapp_channel.inbox.callback_webhook_url,
               webhookVerifyToken: whatsapp_channel.provider_config['webhook_verify_token'],
-              includeMedia: false
+              includeMedia: false,
+              groupsEnabled: Whatsapp::Providers::WhatsappBaileysService::GROUPS_ENABLED
             }.to_json
           )
           .to_return(
@@ -577,6 +579,30 @@ describe Whatsapp::Providers::WhatsappBaileysService do
       end
     end
 
+    context 'when recipient is a group' do
+      let(:group_jid) { '123456789123456789@g.us' }
+
+      it 'uses the group JID as-is without transformation' do
+        stub_request(:post, request_path)
+          .with(
+            headers: stub_headers(whatsapp_channel),
+            body: {
+              jid: group_jid,
+              messageContent: { text: message.content }
+            }.to_json
+          )
+          .to_return(
+            status: 200,
+            headers: { 'Content-Type' => 'application/json' },
+            body: result_body.to_json
+          )
+
+        result = service.send_message(group_jid, message)
+
+        expect(result).to eq('msg_123')
+      end
+    end
+
     context 'when request is unsuccessful' do
       it 'raises ProviderUnavailableError' do
         stub_request(:post, request_path)
@@ -897,7 +923,7 @@ describe Whatsapp::Providers::WhatsappBaileysService do
           .to_return(
             status: 200,
             headers: { 'Content-Type' => 'application/json' },
-            body: [{ jid: "#{phone_number.delete('+')}@s.whatsapp.net", exists: true }].to_json
+            body: { data: [{ jid: "#{phone_number.delete('+')}@s.whatsapp.net", exists: true }] }.to_json
           )
 
         response = service.on_whatsapp(phone_number)
@@ -911,7 +937,7 @@ describe Whatsapp::Providers::WhatsappBaileysService do
           .to_return(
             status: 200,
             headers: { 'Content-Type' => 'application/json' },
-            body: [].to_json
+            body: { data: [] }.to_json
           )
 
         response = service.on_whatsapp(phone_number)
@@ -1013,6 +1039,267 @@ describe Whatsapp::Providers::WhatsappBaileysService do
     end
   end
 
+  context 'when managing group messages with participant' do # rubocop:disable RSpec/MultipleMemoizedHelpers
+    let(:inbox) { whatsapp_channel.inbox }
+    let(:account_user) { create(:account_user, account: inbox.account) }
+    let(:group_jid) { '123456789123456789@g.us' }
+    let(:participant_lid) { '1111111@lid' }
+    let(:group_contact) { create(:contact, account: inbox.account, name: 'Test Group', identifier: group_jid, group_type: :group) }
+    let(:sender_contact) do
+      create(:contact, account: inbox.account, name: 'Participant', identifier: participant_lid, phone_number: '+5511999999999')
+    end
+    let(:conversation) do
+      contact_inbox = create(:contact_inbox, inbox: inbox, contact: group_contact, source_id: group_jid.split('@').first)
+      create(:conversation, inbox: inbox, contact_inbox: contact_inbox, contact: group_contact, group_type: :group)
+    end
+    let(:incoming_group_message) do
+      create(:message, inbox: inbox, conversation: conversation, sender: sender_contact,
+                       message_type: 'incoming', source_id: 'group_msg_123', content: 'Hello',
+                       content_attributes: { external_created_at: 123 })
+    end
+    let(:outgoing_group_message) do
+      create(:message, inbox: inbox, conversation: conversation, sender: account_user,
+                       message_type: 'outgoing', source_id: 'group_msg_456', content: 'Reply')
+    end
+    let(:send_message_path) { "#{whatsapp_channel.provider_config['provider_url']}/connections/#{whatsapp_channel.phone_number}/send-message" }
+    let(:result_body) { { 'data' => { 'key' => { 'id' => 'msg_123' } } } }
+
+    describe '#send_message' do # rubocop:disable RSpec/MultipleMemoizedHelpers
+      it 'includes participant in quotedMessage key when replying to incoming message' do
+        original_message = create(:message, inbox: inbox, conversation: conversation, sender: sender_contact,
+                                            message_type: 'incoming', source_id: 'incoming_group_msg', content: 'Hello')
+        reply_message = create(:message, inbox: inbox, conversation: conversation, sender: account_user,
+                                         content: 'World!',
+                                         content_attributes: { in_reply_to_external_id: original_message.source_id })
+        stub_request(:post, send_message_path)
+          .with(
+            headers: stub_headers(whatsapp_channel),
+            body: {
+              jid: group_jid,
+              messageContent: {
+                text: 'World!',
+                quotedMessage: {
+                  key: { id: 'incoming_group_msg', remoteJid: group_jid, fromMe: false, participant: participant_lid },
+                  message: { conversation: 'Hello' }
+                }
+              }
+            }.to_json
+          )
+          .to_return(status: 200, headers: { 'Content-Type' => 'application/json' }, body: result_body.to_json)
+
+        result = service.send_message(group_jid, reply_message)
+
+        expect(result).to eq('msg_123')
+      end
+
+      it 'does not include participant when replying to outgoing message' do
+        original_message = create(:message, inbox: inbox, conversation: conversation, sender: account_user,
+                                            message_type: 'outgoing', source_id: 'outgoing_group_msg', content: 'Hello')
+        reply_message = create(:message, inbox: inbox, conversation: conversation, sender: account_user,
+                                         content: 'World!',
+                                         content_attributes: { in_reply_to_external_id: original_message.source_id })
+        stub_request(:post, send_message_path)
+          .with(
+            headers: stub_headers(whatsapp_channel),
+            body: {
+              jid: group_jid,
+              messageContent: {
+                text: 'World!',
+                quotedMessage: {
+                  key: { id: 'outgoing_group_msg', remoteJid: group_jid, fromMe: true },
+                  message: { conversation: 'Hello' }
+                }
+              }
+            }.to_json
+          )
+          .to_return(status: 200, headers: { 'Content-Type' => 'application/json' }, body: result_body.to_json)
+
+        result = service.send_message(group_jid, reply_message)
+
+        expect(result).to eq('msg_123')
+      end
+
+      it 'includes participant in reaction key when reacting to incoming message' do
+        original_message = create(:message, inbox: inbox, conversation: conversation, sender: sender_contact,
+                                            message_type: 'incoming', source_id: 'react_group_msg', content: 'Nice')
+        reaction = create(:message, inbox: inbox, conversation: conversation, sender: account_user, content: '👍',
+                                    content_attributes: { is_reaction: true, in_reply_to: original_message.id })
+        stub_request(:post, send_message_path)
+          .with(
+            headers: stub_headers(whatsapp_channel),
+            body: {
+              jid: group_jid,
+              messageContent: {
+                react: {
+                  key: { id: original_message.source_id, remoteJid: group_jid, fromMe: false, participant: participant_lid },
+                  text: '👍'
+                }
+              }
+            }.to_json
+          )
+          .to_return(status: 200, headers: { 'Content-Type' => 'application/json' }, body: result_body.to_json)
+
+        result = service.send_message(group_jid, reaction)
+
+        expect(result).to eq('msg_123')
+      end
+
+      it 'does not include participant in reaction key when reacting to outgoing message' do
+        original_message = create(:message, inbox: inbox, conversation: conversation, sender: account_user,
+                                            message_type: 'outgoing', source_id: 'react_out_msg', content: 'Sent')
+        reaction = create(:message, inbox: inbox, conversation: conversation, sender: account_user, content: '❤️',
+                                    content_attributes: { is_reaction: true, in_reply_to: original_message.id })
+        stub_request(:post, send_message_path)
+          .with(
+            headers: stub_headers(whatsapp_channel),
+            body: {
+              jid: group_jid,
+              messageContent: {
+                react: {
+                  key: { id: original_message.source_id, remoteJid: group_jid, fromMe: true },
+                  text: '❤️'
+                }
+              }
+            }.to_json
+          )
+          .to_return(status: 200, headers: { 'Content-Type' => 'application/json' }, body: result_body.to_json)
+
+        result = service.send_message(group_jid, reaction)
+
+        expect(result).to eq('msg_123')
+      end
+    end
+
+    describe '#read_messages' do # rubocop:disable RSpec/MultipleMemoizedHelpers
+      it 'includes participant for incoming group messages' do
+        stub_request(:post, "#{whatsapp_channel.provider_config['provider_url']}/connections/#{whatsapp_channel.phone_number}/read-messages")
+          .with(
+            headers: stub_headers(whatsapp_channel),
+            body: { keys: [{ id: incoming_group_message.source_id, remoteJid: group_jid, fromMe: false, participant: participant_lid }] }.to_json
+          ).to_return(status: 200)
+
+        result = service.read_messages([incoming_group_message], recipient_id: group_jid)
+
+        expect(result).to be(true)
+      end
+
+      it 'does not include participant for outgoing group messages' do
+        stub_request(:post, "#{whatsapp_channel.provider_config['provider_url']}/connections/#{whatsapp_channel.phone_number}/read-messages")
+          .with(
+            headers: stub_headers(whatsapp_channel),
+            body: { keys: [{ id: outgoing_group_message.source_id, remoteJid: group_jid, fromMe: true }] }.to_json
+          ).to_return(status: 200)
+
+        result = service.read_messages([outgoing_group_message], recipient_id: group_jid)
+
+        expect(result).to be(true)
+      end
+    end
+
+    describe '#unread_message' do # rubocop:disable RSpec/MultipleMemoizedHelpers
+      it 'includes participant for incoming group message' do
+        stub_request(:post, "#{whatsapp_channel.provider_config['provider_url']}/connections/#{whatsapp_channel.phone_number}/chat-modify")
+          .with(
+            headers: stub_headers(whatsapp_channel),
+            body: {
+              jid: group_jid,
+              mod: {
+                markRead: false,
+                lastMessages: [{
+                  key: { id: incoming_group_message.source_id, remoteJid: group_jid, fromMe: false, participant: participant_lid },
+                  messageTimestamp: 123
+                }]
+              }
+            }.to_json
+          ).to_return(status: 200)
+
+        result = service.unread_message(group_jid, incoming_group_message)
+
+        expect(result).to be(true)
+      end
+    end
+
+    describe '#received_messages' do # rubocop:disable RSpec/MultipleMemoizedHelpers
+      it 'includes participant for incoming group messages' do
+        stub_request(:post, "#{whatsapp_channel.provider_config['provider_url']}/connections/#{whatsapp_channel.phone_number}/send-receipts")
+          .with(
+            headers: stub_headers(whatsapp_channel),
+            body: { keys: [{ id: incoming_group_message.source_id, remoteJid: group_jid, fromMe: false, participant: participant_lid }] }.to_json
+          ).to_return(status: 200)
+
+        result = service.received_messages(group_jid, [incoming_group_message])
+
+        expect(result).to be(true)
+      end
+    end
+
+    describe '#delete_message' do # rubocop:disable RSpec/MultipleMemoizedHelpers
+      it 'includes participant for incoming group message' do
+        stub_request(:delete, "#{whatsapp_channel.provider_config['provider_url']}/connections/#{whatsapp_channel.phone_number}/messages")
+          .with(
+            headers: stub_headers(whatsapp_channel),
+            body: {
+              jid: group_jid,
+              key: { id: incoming_group_message.source_id, remoteJid: group_jid, fromMe: false, participant: participant_lid }
+            }.to_json
+          ).to_return(status: 200, body: '{}')
+
+        result = service.delete_message(group_jid, incoming_group_message)
+
+        expect(result).to be(true)
+      end
+
+      it 'does not include participant for outgoing group message' do
+        stub_request(:delete, "#{whatsapp_channel.provider_config['provider_url']}/connections/#{whatsapp_channel.phone_number}/messages")
+          .with(
+            headers: stub_headers(whatsapp_channel),
+            body: {
+              jid: group_jid,
+              key: { id: outgoing_group_message.source_id, remoteJid: group_jid, fromMe: true }
+            }.to_json
+          ).to_return(status: 200, body: '{}')
+
+        result = service.delete_message(group_jid, outgoing_group_message)
+
+        expect(result).to be(true)
+      end
+    end
+
+    describe '#edit_message' do # rubocop:disable RSpec/MultipleMemoizedHelpers
+      it 'includes participant for incoming group message' do
+        stub_request(:patch, "#{whatsapp_channel.provider_config['provider_url']}/connections/#{whatsapp_channel.phone_number}/messages")
+          .with(
+            headers: stub_headers(whatsapp_channel),
+            body: {
+              jid: group_jid,
+              key: { id: incoming_group_message.source_id, remoteJid: group_jid, fromMe: false, participant: participant_lid },
+              messageContent: { text: 'Edited text' }
+            }.to_json
+          ).to_return(status: 200, body: '{}')
+
+        result = service.edit_message(group_jid, incoming_group_message, 'Edited text')
+
+        expect(result).to be(true)
+      end
+
+      it 'does not include participant for outgoing group message' do
+        stub_request(:patch, "#{whatsapp_channel.provider_config['provider_url']}/connections/#{whatsapp_channel.phone_number}/messages")
+          .with(
+            headers: stub_headers(whatsapp_channel),
+            body: {
+              jid: group_jid,
+              key: { id: outgoing_group_message.source_id, remoteJid: group_jid, fromMe: true },
+              messageContent: { text: 'Edited text' }
+            }.to_json
+          ).to_return(status: 200, body: '{}')
+
+        result = service.edit_message(group_jid, outgoing_group_message, 'Edited text')
+
+        expect(result).to be(true)
+      end
+    end
+  end
+
   context 'when environment variable BAILEYS_PROVIDER_DEFAULT_URL is set' do
     it 'uses the base url from the environment variable' do
       stub_const('Whatsapp::Providers::WhatsappBaileysService::DEFAULT_URL', 'http://test.com')
@@ -1043,7 +1330,8 @@ describe Whatsapp::Providers::WhatsappBaileysService do
               clientName: 'chatwoot-test',
               webhookUrl: whatsapp_channel.inbox.callback_webhook_url,
               webhookVerifyToken: whatsapp_channel.provider_config['webhook_verify_token'],
-              includeMedia: false
+              includeMedia: false,
+              groupsEnabled: Whatsapp::Providers::WhatsappBaileysService::GROUPS_ENABLED
             }.to_json
           )
           .to_return(status: 200)
@@ -1061,7 +1349,8 @@ describe Whatsapp::Providers::WhatsappBaileysService do
               clientName: 'chatwoot-test',
               webhookUrl: whatsapp_channel.inbox.callback_webhook_url,
               webhookVerifyToken: whatsapp_channel.provider_config['webhook_verify_token'],
-              includeMedia: false
+              includeMedia: false,
+              groupsEnabled: Whatsapp::Providers::WhatsappBaileysService::GROUPS_ENABLED
             }.to_json
           )
           .to_return(status: 200)
@@ -1079,7 +1368,8 @@ describe Whatsapp::Providers::WhatsappBaileysService do
               clientName: 'chatwoot-test',
               webhookUrl: whatsapp_channel.inbox.callback_webhook_url,
               webhookVerifyToken: whatsapp_channel.provider_config['webhook_verify_token'],
-              includeMedia: false
+              includeMedia: false,
+              groupsEnabled: Whatsapp::Providers::WhatsappBaileysService::GROUPS_ENABLED
             }.to_json
           )
           .to_return(status: 400, body: 'reconnection failed')
@@ -1205,6 +1495,273 @@ describe Whatsapp::Providers::WhatsappBaileysService do
 
         expect(result).to be_nil
       end
+    end
+  end
+
+  describe '#group_metadata' do
+    let(:group_jid) { '123456789123456789@g.us' }
+
+    it 'returns symbolized group metadata on success' do
+      stub_request(:get, "#{whatsapp_channel.provider_config['provider_url']}/connections/#{whatsapp_channel.phone_number}/group-metadata")
+        .with(headers: stub_headers(whatsapp_channel), query: { jid: group_jid })
+        .to_return(
+          status: 200,
+          body: {
+            subject: 'Test Group',
+            participants: [
+              { id: '111@lid', phoneNumber: '5511911111111@s.whatsapp.net', admin: 'admin' },
+              { id: '222@lid', phoneNumber: '5511922222222@s.whatsapp.net', admin: nil }
+            ]
+          }.to_json
+        )
+
+      result = service.group_metadata(group_jid)
+
+      expect(result[:subject]).to eq('Test Group')
+      expect(result[:participants].length).to eq(2)
+      expect(result[:participants].first[:admin]).to eq('admin')
+    end
+
+    it 'raises ProviderUnavailableError when the API returns an error' do
+      stub_request(:get, "#{whatsapp_channel.provider_config['provider_url']}/connections/#{whatsapp_channel.phone_number}/group-metadata")
+        .with(headers: stub_headers(whatsapp_channel), query: { jid: group_jid })
+        .to_return(status: 404, body: { error: 'Group not found' }.to_json)
+
+      stub_request(:post, "#{whatsapp_channel.provider_config['provider_url']}/connections/#{whatsapp_channel.phone_number}")
+        .to_return(status: 200)
+
+      expect do
+        service.group_metadata(group_jid)
+      end.to raise_error(Whatsapp::Providers::WhatsappBaileysService::ProviderUnavailableError)
+    end
+  end
+
+  describe '#update_group_participants' do
+    let(:group_jid) { '123456789@g.us' }
+    let(:participant_jid) { '5511999999999@s.whatsapp.net' }
+    let(:request_path) { "#{whatsapp_channel.provider_config['provider_url']}/connections/#{whatsapp_channel.phone_number}/group-participants" }
+
+    it 'sends a POST request per participant with singular participant key' do
+      stub_request(:post, request_path)
+        .with(headers: stub_headers(whatsapp_channel), body: { jid: group_jid, participant: participant_jid, action: 'add' }.to_json)
+        .to_return(status: 200)
+
+      service.update_group_participants(group_jid, [participant_jid], 'add')
+
+      expect(WebMock).to have_requested(:post, request_path)
+        .with(body: { jid: group_jid, participant: participant_jid, action: 'add' }.to_json).once
+    end
+
+    it 'makes one call per participant when given multiple' do
+      jid_a = '111@s.whatsapp.net'
+      jid_b = '222@s.whatsapp.net'
+
+      stub_request(:post, request_path).to_return(status: 200)
+
+      service.update_group_participants(group_jid, [jid_a, jid_b], 'remove')
+
+      expect(WebMock).to have_requested(:post, request_path)
+        .with(body: { jid: group_jid, participant: jid_a, action: 'remove' }.to_json).once
+      expect(WebMock).to have_requested(:post, request_path)
+        .with(body: { jid: group_jid, participant: jid_b, action: 'remove' }.to_json).once
+    end
+
+    it 'raises ProviderUnavailableError on failure' do
+      stub_request(:post, request_path).to_return(status: 400, body: 'error')
+      stub_request(:post, "#{whatsapp_channel.provider_config['provider_url']}/connections/#{whatsapp_channel.phone_number}")
+        .to_return(status: 200)
+      allow(Rails.logger).to receive(:error)
+
+      expect do
+        service.update_group_participants(group_jid, [participant_jid], 'add')
+      end.to raise_error(Whatsapp::Providers::WhatsappBaileysService::ProviderUnavailableError)
+    end
+  end
+
+  describe '#group_invite_code' do
+    let(:group_jid) { '123456789@g.us' }
+    let(:request_path) { "#{whatsapp_channel.provider_config['provider_url']}/connections/#{whatsapp_channel.phone_number}/group-invite-code" }
+
+    it 'returns the inviteCode from response data' do
+      stub_request(:get, request_path)
+        .with(headers: stub_headers(whatsapp_channel), query: { jid: group_jid })
+        .to_return(status: 200, headers: { 'Content-Type' => 'application/json' },
+                   body: { data: { jid: group_jid, inviteCode: 'ABC123' } }.to_json)
+
+      result = service.group_invite_code(group_jid)
+
+      expect(result).to eq('ABC123')
+    end
+
+    it 'raises ProviderUnavailableError on failure' do
+      stub_request(:get, request_path)
+        .with(query: { jid: group_jid })
+        .to_return(status: 400, body: 'error')
+      stub_request(:post, "#{whatsapp_channel.provider_config['provider_url']}/connections/#{whatsapp_channel.phone_number}")
+        .to_return(status: 200)
+      allow(Rails.logger).to receive(:error)
+
+      expect do
+        service.group_invite_code(group_jid)
+      end.to raise_error(Whatsapp::Providers::WhatsappBaileysService::ProviderUnavailableError)
+    end
+  end
+
+  describe '#revoke_group_invite' do
+    let(:group_jid) { '123456789@g.us' }
+    let(:request_path) { "#{whatsapp_channel.provider_config['provider_url']}/connections/#{whatsapp_channel.phone_number}/group-revoke-invite" }
+
+    it 'returns the inviteCode from response data' do
+      stub_request(:post, request_path)
+        .with(headers: stub_headers(whatsapp_channel), body: { jid: group_jid }.to_json)
+        .to_return(status: 200, headers: { 'Content-Type' => 'application/json' },
+                   body: { data: { jid: group_jid, inviteCode: 'NEW456' } }.to_json)
+
+      result = service.revoke_group_invite(group_jid)
+
+      expect(result).to eq('NEW456')
+    end
+  end
+
+  describe '#group_join_requests' do
+    let(:group_jid) { '123456789@g.us' }
+    let(:request_path) do
+      "#{whatsapp_channel.provider_config['provider_url']}/connections/#{whatsapp_channel.phone_number}/group-request-participants-list"
+    end
+
+    it 'sends GET to group-request-participants-list and returns data' do
+      stub_request(:get, request_path)
+        .with(headers: stub_headers(whatsapp_channel), query: { jid: group_jid })
+        .to_return(status: 200, headers: { 'Content-Type' => 'application/json' },
+                   body: { data: [{ jid: '999@s.whatsapp.net' }] }.to_json)
+
+      result = service.group_join_requests(group_jid)
+
+      expect(result).to eq([{ 'jid' => '999@s.whatsapp.net' }])
+    end
+
+    it 'returns empty array when data is nil' do
+      stub_request(:get, request_path)
+        .with(query: { jid: group_jid })
+        .to_return(status: 200, headers: { 'Content-Type' => 'application/json' }, body: {}.to_json)
+
+      result = service.group_join_requests(group_jid)
+
+      expect(result).to eq([])
+    end
+  end
+
+  describe '#handle_group_join_requests' do
+    let(:group_jid) { '123456789@g.us' }
+    let(:participants) { ['999@s.whatsapp.net'] }
+    let(:request_path) do
+      "#{whatsapp_channel.provider_config['provider_url']}/connections/#{whatsapp_channel.phone_number}/group-request-participants-update"
+    end
+
+    it 'sends POST to group-request-participants-update with participants array' do
+      stub_request(:post, request_path)
+        .with(headers: stub_headers(whatsapp_channel),
+              body: { jid: group_jid, participants: participants, action: 'approve' }.to_json)
+        .to_return(status: 200)
+
+      service.handle_group_join_requests(group_jid, participants, 'approve')
+
+      expect(WebMock).to have_requested(:post, request_path)
+        .with(body: { jid: group_jid, participants: participants, action: 'approve' }.to_json).once
+    end
+  end
+
+  describe '#sync_group' do
+    let(:group_contact) { create(:contact, account: whatsapp_channel.account, identifier: '123456789@g.us', name: 'Old Group Name') }
+    let(:conversation) { create(:conversation, inbox: whatsapp_channel.inbox, contact: group_contact) }
+    let(:base_url) { "#{whatsapp_channel.provider_config['provider_url']}/connections/#{whatsapp_channel.phone_number}" }
+    let(:metadata) do
+      {
+        subject: 'Updated Group Name',
+        desc: 'Group description',
+        owner: '111@lid',
+        ownerPn: '5511911111111',
+        participants: [
+          { id: '111@lid', phoneNumber: '5511911111111@s.whatsapp.net', admin: 'admin' },
+          { id: '222@lid', phoneNumber: '5511922222222@s.whatsapp.net', admin: nil }
+        ]
+      }
+    end
+
+    before do
+      stub_request(:get, "#{base_url}/group-invite-code")
+        .with(headers: stub_headers(whatsapp_channel), query: { jid: group_contact.identifier })
+        .to_return(status: 200, body: { code: 'ABC123' }.to_json)
+      stub_request(:get, "#{base_url}/profile-picture-url")
+        .with(headers: stub_headers(whatsapp_channel), query: { jid: group_contact.identifier })
+        .to_return(status: 200, body: { data: { profilePictureUrl: nil } }.to_json)
+      stub_request(:get, "#{base_url}/group-request-participants-list")
+        .with(headers: stub_headers(whatsapp_channel), query: { jid: group_contact.identifier })
+        .to_return(status: 200, body: [].to_json)
+    end
+
+    def stub_group_metadata(body)
+      stub_request(:get, "#{base_url}/group-metadata")
+        .with(headers: stub_headers(whatsapp_channel), query: { jid: group_contact.identifier })
+        .to_return(status: 200, body: body.to_json)
+    end
+
+    def stub_participant_services(*contacts)
+      allow(Whatsapp::ContactInboxConsolidationService).to receive(:new)
+        .and_return(instance_double(Whatsapp::ContactInboxConsolidationService, perform: nil))
+
+      contact_inboxes = contacts.map do |contact|
+        create(:contact_inbox, inbox: whatsapp_channel.inbox, contact: contact)
+      end
+
+      allow(ContactInboxWithContactBuilder).to receive(:new)
+        .and_return(*contact_inboxes.map { |ci| instance_double(ContactInboxWithContactBuilder, perform: ci) })
+
+      stub_request(:get, %r{/profile-picture-url}).to_return(status: 200, body: {}.to_json)
+    end
+
+    it 'raises ProviderUnavailableError when metadata is blank' do
+      stub_group_metadata({})
+      stub_request(:post, base_url).to_return(status: 200)
+
+      expect { service.sync_group(conversation) }.to raise_error(
+        Whatsapp::Providers::WhatsappBaileysService::ProviderUnavailableError
+      )
+    end
+
+    it 'updates group contact name and attributes from metadata' do
+      stub_group_metadata(metadata.merge(participants: []))
+
+      service.sync_group(conversation)
+
+      group_contact.reload
+      expect(group_contact.name).to eq('Updated Group Name')
+      expect(group_contact.additional_attributes).to include('description' => 'Group description', 'owner' => '111@lid')
+    end
+
+    it 'creates group members with correct roles from participants' do
+      admin_contact = create(:contact, account: whatsapp_channel.account)
+      member_contact = create(:contact, account: whatsapp_channel.account)
+      stub_group_metadata(metadata)
+      stub_participant_services(admin_contact, member_contact)
+
+      service.sync_group(conversation)
+
+      expect(GroupMember.find_by(group_contact: group_contact, contact: admin_contact)).to have_attributes(role: 'admin', is_active: true)
+      expect(GroupMember.find_by(group_contact: group_contact, contact: member_contact)).to have_attributes(role: 'member', is_active: true)
+    end
+
+    it 'deactivates members not present in the participant list' do
+      absent_contact = create(:contact, account: whatsapp_channel.account)
+      GroupMember.create!(group_contact: group_contact, contact: absent_contact, is_active: true)
+      remaining_contact = create(:contact, account: whatsapp_channel.account)
+      stub_group_metadata(metadata.merge(participants: [metadata[:participants].last]))
+      stub_participant_services(remaining_contact)
+
+      service.sync_group(conversation)
+
+      expect(GroupMember.find_by(group_contact: group_contact, contact: absent_contact).is_active).to be false
+      expect(GroupMember.find_by(group_contact: group_contact, contact: remaining_contact).is_active).to be true
     end
   end
 

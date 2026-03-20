@@ -42,7 +42,33 @@ class Whatsapp::SendOnWhatsappService < Base::SendOnChannelService
   end
 
   def send_baileys_session_message
+    validate_announcement_mode!
     with_baileys_channel_lock_on_outgoing_message(channel.id) { send_session_message }
+  end
+
+  def validate_announcement_mode!
+    return unless conversation.contact.group_type_group?
+    return unless conversation.contact.additional_attributes&.dig('announce') == true
+    return if inbox_admin_in_group?
+
+    message.update!(status: :failed, external_error: 'Only administrators are allowed to send messages in this group')
+    raise StandardError, 'Only admins can send messages in this group'
+  end
+
+  def inbox_admin_in_group?
+    inbox_phone = channel.phone_number&.gsub(/[^\d]/, '')
+    return false if inbox_phone.blank?
+
+    admin_phones = conversation.contact.group_memberships.active.where(role: :admin)
+                               .includes(:contact).filter_map { |m| m.contact.phone_number&.gsub(/[^\d]/, '') }
+
+    admin_phones.any? { |phone| phones_match?(inbox_phone, phone) }
+  end
+
+  def phones_match?(phone_a, phone_b)
+    return false if phone_a.blank? || phone_b.blank?
+
+    phone_a == phone_b || (phone_a.length >= 8 && phone_b.length >= 8 && phone_a[-8..] == phone_b[-8..])
   end
 
   def send_session_message
