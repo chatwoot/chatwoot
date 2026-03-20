@@ -432,6 +432,7 @@ Rails.application.routes.draw do
               get :trigger_schema
               get :agent_schema
               get :executions_by_conversation
+              get :status
             end
             member do
               get :executions
