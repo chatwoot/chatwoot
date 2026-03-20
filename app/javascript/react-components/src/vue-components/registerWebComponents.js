@@ -1,7 +1,6 @@
 import { defineCustomElement } from 'vue';
 import ChatwootMessageListWebComponent from './ChatwootMessageListWebComponent.vue';
 import chatwootStyles from '../../../dashboard/assets/scss/app.scss?inline';
-import multiselectStyles from 'vue-multiselect/dist/vue-multiselect.css?inline';
 import floatingVueStyles from 'floating-vue/dist/style.css?inline';
 import uploadStyles from '../styles/upload.css?inline';
 import bubbleOverrideStyles from '../styles/bubble-overrides.css?inline';
@@ -38,7 +37,6 @@ const ceOptions = {
   // bubbleOverrideStyles MUST be last to override _next-colors.scss
   styles: [
     chatwootStyles,
-    multiselectStyles,
     floatingVueStyles,
     uploadStyles,
     bubbleOverrideStyles,
