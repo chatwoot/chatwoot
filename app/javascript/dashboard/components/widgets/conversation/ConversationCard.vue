@@ -359,9 +359,11 @@ const deleteConversation = () => {
         class="absolute flex flex-col ltr:right-3 rtl:left-3"
         :class="showMetaSection ? 'top-8' : 'top-4'"
       >
-        <span class="ml-auto font-normal leading-4 text-xxs">
+        <span class="ml-auto font-normal leading-4 text-xs">
           <TimeAgo
-            :last-activity-timestamp="chat.timestamp"
+            :last-activity-timestamp="
+              chat.last_non_activity_message?.created_at
+            "
             :created-at-timestamp="chat.created_at"
             :conversation-id="chat.id"
           />

@@ -219,6 +219,17 @@ export const mutations = {
     } else {
       chat.messages.push(message);
       chat.timestamp = message.created_at;
+
+      const isAgentOrContact =
+        message.message_type === 0 ||
+        message.message_type === 1 ||
+        message.message_type === 'incoming' ||
+        message.message_type === 'outgoing';
+
+      if (isAgentOrContact) {
+        chat.last_non_activity_message = message;
+      }
+
       const { conversation: { unread_count: unreadCount = 0 } = {} } = message;
       chat.unread_count = unreadCount;
       if (selectedChatId === conversationId) {
