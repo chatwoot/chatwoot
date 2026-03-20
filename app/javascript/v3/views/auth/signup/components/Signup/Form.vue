@@ -77,10 +77,7 @@ const performRegistration = async () => {
   isSignupInProgress.value = true;
   try {
     await register(credentials);
-    router.push({
-      name: 'auth_verify_email',
-      query: { email: credentials.email },
-    });
+    router.push({ name: 'auth_verify_email' });
   } catch (error) {
     const errorMessage = error?.message || t('REGISTER.API.ERROR_MESSAGE');
     if (globalConfig.value.hCaptchaSiteKey) {

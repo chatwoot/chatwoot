@@ -31,7 +31,8 @@ class Api::V1::AccountsController < Api::BaseController
       user: current_user
     ).perform
     if @user
-      render json: { email: @user.email }
+      send_auth_headers(@user)
+      render partial: 'devise/auth', formats: [:json], locals: { resource: @user }
     else
       render_error_response(CustomExceptions::Account::SignupFailed.new({}))
     end

@@ -14,9 +14,9 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
 
     user = find_user_for_authentication
     return handle_mfa_required(user) if user&.mfa_enabled?
+    return render_create_error_bad_credentials unless user
 
-    # Only proceed with standard authentication if no MFA is required
-    super
+    sign_in_user(user)
   end
 
   def render_create_success
@@ -31,9 +31,16 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
     normalized_email = params[:email].strip.downcase
     user = User.from_email(normalized_email)
     return nil unless user&.valid_password?(params[:password])
-    return nil unless user.active_for_authentication?
 
     user
+  end
+
+  def sign_in_user(user)
+    @resource = user
+    @token = @resource.create_token
+    @resource.save!
+    sign_in(:user, @resource, store: false, bypass: false)
+    render_create_success
   end
 
   def mfa_verification_request?

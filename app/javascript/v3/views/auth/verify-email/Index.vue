@@ -1,25 +1,43 @@
 <script setup>
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useRouter } from 'vue-router';
+import Cookies from 'js-cookie';
 import { useAlert } from 'dashboard/composables';
 import NextButton from 'dashboard/components-next/button/Button.vue';
-import { resendConfirmationEmail } from '../../../api/auth';
-
-const props = defineProps({
-  email: {
-    type: String,
-    default: '',
-  },
-});
+import wootAPI from '../../../api/apiClient';
 
 const { t } = useI18n();
+const router = useRouter();
 
+const authData = (() => {
+  const cookie = Cookies.get('cw_d_session_info');
+  return cookie ? JSON.parse(cookie) : null;
+})();
+
+if (!authData) {
+  router.push({ name: 'login' });
+}
+
+const email = authData?.uid || '';
 const isResendingEmail = ref(false);
 
 const handleResendEmail = async () => {
   isResendingEmail.value = true;
   try {
-    await resendConfirmationEmail({ email: props.email });
+    await wootAPI.post(
+      '/api/v1/profile/resend_confirmation',
+      {},
+      {
+        headers: {
+          'access-token': authData['access-token'],
+          'token-type': authData['token-type'],
+          client: authData.client,
+          expiry: authData.expiry,
+          uid: authData.uid,
+        },
+      }
+    );
     useAlert(t('REGISTER.VERIFY_EMAIL.RESEND_SUCCESS'));
   } catch (error) {
     const errorMessage =
@@ -43,7 +61,7 @@ const handleResendEmail = async () => {
           {{ $t('REGISTER.VERIFY_EMAIL.TITLE') }}
         </h2>
         <p class="mt-2 text-sm text-n-slate-11">
-          {{ $t('REGISTER.VERIFY_EMAIL.DESCRIPTION', { email: props.email }) }}
+          {{ $t('REGISTER.VERIFY_EMAIL.DESCRIPTION', { email }) }}
         </p>
       </div>
       <div class="space-y-4">

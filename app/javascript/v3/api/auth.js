@@ -28,6 +28,12 @@ export const login = async ({
 
     setAuthCredentials(response);
     clearLocalStorageOnLogout();
+
+    if (!response.data.data.confirmed) {
+      window.location = '/app/auth/verify-email';
+      return null;
+    }
+
     window.location = getLoginRedirectURL({
       ssoAccountId,
       ssoConversationId,
@@ -57,6 +63,7 @@ export const register = async creds => {
       password: creds.password,
       h_captcha_client_response: creds.hCaptchaClientResponse,
     });
+    setAuthCredentials(response);
     return response.data;
   } catch (error) {
     throwErrorMessage(error);
@@ -94,6 +101,3 @@ export const setNewPassword = async ({
 
 export const resetPassword = async ({ email }) =>
   wootAPI.post('auth/password', { email });
-
-export const resendConfirmationEmail = async ({ email }) =>
-  wootAPI.post('auth/resend_confirmation', { email });
