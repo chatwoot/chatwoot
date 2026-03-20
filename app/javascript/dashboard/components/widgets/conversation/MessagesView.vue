@@ -5,7 +5,7 @@ import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import { useLabelSuggestions } from 'dashboard/composables/useLabelSuggestions';
 import { useSnakeCase } from 'dashboard/composables/useTransformKeys';
 import { useAdmin } from 'dashboard/composables/useAdmin';
-import { useAlert } from 'dashboard/composables';
+import { useAlert, usePendingAlert } from 'dashboard/composables';
 
 // components
 import ReplyBox from './ReplyBox.vue';
@@ -425,12 +425,41 @@ export default {
         if (messageElement) {
           this.isProgrammaticScroll = true;
           messageElement.scrollIntoView({ behavior: 'smooth' });
-          this.fetchPreviousMessages();
+          if (messageId) {
+            emitter.emit(BUS_EVENTS.HIGHLIGHT_MESSAGE, { messageId });
+          }
+        } else if (messageId) {
+          this.fetchAndScrollToMessage(messageId);
         } else {
           this.scrollToBottom();
         }
       });
       this.makeMessagesRead();
+    },
+    async fetchAndScrollToMessage(messageId) {
+      const dismissSearch = usePendingAlert(
+        this.$t('SCHEDULED_MESSAGES.ITEM.SEARCHING_MESSAGE')
+      );
+      try {
+        await this.$store.dispatch('fetchPreviousMessages', {
+          conversationId: this.currentChat.id,
+          after: messageId,
+        });
+        this.$nextTick(() => {
+          dismissSearch();
+          const messageElement = document.getElementById('message' + messageId);
+          if (messageElement) {
+            this.isProgrammaticScroll = true;
+            messageElement.scrollIntoView({ behavior: 'smooth' });
+            emitter.emit(BUS_EVENTS.HIGHLIGHT_MESSAGE, { messageId });
+          } else {
+            useAlert(this.$t('SCHEDULED_MESSAGES.ITEM.MESSAGE_NOT_FOUND'));
+          }
+        });
+      } catch {
+        dismissSearch();
+        useAlert(this.$t('SCHEDULED_MESSAGES.ITEM.MESSAGE_NOT_FOUND'));
+      }
     },
     addScrollListener() {
       this.conversationPanel = this.$el.querySelector('.conversation-panel');

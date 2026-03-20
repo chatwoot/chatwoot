@@ -77,6 +77,7 @@ class ScheduledMessage < ApplicationRecord
       template_params: template_params,
       author_id: author_id,
       author_type: author_type,
+      message_id: message_id,
       created_at: created_at.to_i,
       updated_at: updated_at.to_i
     }

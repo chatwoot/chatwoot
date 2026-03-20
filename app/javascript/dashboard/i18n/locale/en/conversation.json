@@ -435,7 +435,10 @@
       "ATTACHMENT_LABEL": "Attachment: {filename}",
       "EMPTY_PREVIEW": "No content",
       "EXPAND": "Expand",
-      "COLLAPSE": "Collapse"
+      "COLLAPSE": "Collapse",
+      "GO_TO_MESSAGE": "Go to message",
+      "SEARCHING_MESSAGE": "Searching for message...",
+      "MESSAGE_NOT_FOUND": "The linked message was not found. It may have been deleted."
     },
     "MODAL": {
       "TITLE_NEW": "Schedule a message",

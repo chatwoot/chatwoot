@@ -8,6 +8,7 @@ json.scheduled_at scheduled_message.scheduled_at&.to_i
 json.template_params scheduled_message.template_params
 json.author_id scheduled_message.author_id
 json.author_type scheduled_message.author_type
+json.message_id scheduled_message.message_id
 json.created_at scheduled_message.created_at.to_i
 json.updated_at scheduled_message.updated_at.to_i
 

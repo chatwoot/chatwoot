@@ -424,7 +424,10 @@
       "ATTACHMENT_LABEL": "Anexo: {filename}",
       "EMPTY_PREVIEW": "Sem conteúdo",
       "EXPAND": "Expandir",
-      "COLLAPSE": "Recolher"
+      "COLLAPSE": "Recolher",
+      "GO_TO_MESSAGE": "Ir para a mensagem",
+      "SEARCHING_MESSAGE": "Buscando mensagem...",
+      "MESSAGE_NOT_FOUND": "A mensagem vinculada não foi encontrada. Ela pode ter sido excluída."
     },
     "MODAL": {
       "TITLE_NEW": "Agendar mensagem",

@@ -2,6 +2,7 @@
 import { mapGetters } from 'vuex';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useAccount } from 'dashboard/composables/useAccount';
+import { usePendingAlert } from 'dashboard/composables';
 import ChatList from '../../../components/ChatList.vue';
 import ConversationBox from '../../../components/widgets/conversation/ConversationBox.vue';
 import wootConstants from 'dashboard/constants/globals';
@@ -165,24 +166,58 @@ export default {
         const selectedConversation = this.findConversation();
         // If conversation doesn't exist or selected conversation is same as the active
         // conversation, don't set active conversation.
-        if (
-          !selectedConversation ||
-          selectedConversation.id === this.currentChat.id
-        ) {
+        if (!selectedConversation) {
           return;
         }
+
         const { messageId } = this.$route.query;
-        this.$store
-          .dispatch('setActiveChat', {
+
+        // Same conversation but new messageId — fetch around that message
+        if (selectedConversation.id === this.currentChat.id) {
+          if (messageId) {
+            this.scrollToMessageById(messageId);
+          }
+          return;
+        }
+
+        if (messageId) {
+          const dismissSearch = usePendingAlert(
+            this.$t('SCHEDULED_MESSAGES.ITEM.SEARCHING_MESSAGE')
+          );
+          this.$store
+            .dispatch('setActiveChat', {
+              data: selectedConversation,
+              after: messageId,
+            })
+            .then(() => {
+              dismissSearch();
+              emitter.emit(BUS_EVENTS.SCROLL_TO_MESSAGE, { messageId });
+            });
+        } else {
+          this.$store.dispatch('setActiveChat', {
             data: selectedConversation,
-            after: messageId,
-          })
-          .then(() => {
-            emitter.emit(BUS_EVENTS.SCROLL_TO_MESSAGE, { messageId });
           });
+        }
       } else {
         this.$store.dispatch('clearSelectedState');
       }
+    },
+    async scrollToMessageById(messageId) {
+      const dismissSearch = usePendingAlert(
+        this.$t('SCHEDULED_MESSAGES.ITEM.SEARCHING_MESSAGE')
+      );
+      this.$store.commit('CLEAR_ALL_MESSAGES_LOADED', this.currentChat.id);
+      try {
+        await this.$store.dispatch('fetchPreviousMessages', {
+          conversationId: this.currentChat.id,
+          after: messageId,
+          before: this.currentChat.messages?.[0]?.id,
+        });
+      } catch {
+        // ignore fetch error — scroll handler will show alert if message not found
+      }
+      dismissSearch();
+      emitter.emit(BUS_EVENTS.SCROLL_TO_MESSAGE, { messageId });
     },
     onSearch() {
       this.showSearchModal = true;

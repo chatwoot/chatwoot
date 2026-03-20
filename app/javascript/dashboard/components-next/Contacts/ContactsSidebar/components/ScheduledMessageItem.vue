@@ -1,6 +1,7 @@
 <script setup>
 import { computed, nextTick, onMounted, ref, useTemplateRef, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useRoute, useRouter } from 'vue-router';
 import { useToggle } from '@vueuse/core';
 import { fromUnixTime } from 'date-fns';
 import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
@@ -38,6 +39,8 @@ const [isExpanded, toggleExpanded] = useToggle();
 const showToggle = ref(false);
 const { t, locale } = useI18n();
 const { formatMessage } = useMessageFormatter();
+const route = useRoute();
+const router = useRouter();
 
 const statusConfig = {
   draft: {
@@ -150,6 +153,21 @@ const checkOverflow = () => {
 const onEdit = () => emit('edit', props.scheduledMessage);
 const onDelete = () => emit('delete', props.scheduledMessage);
 
+const canScrollToMessage = computed(
+  () =>
+    props.scheduledMessage?.status === 'sent' &&
+    Boolean(props.scheduledMessage?.message_id)
+);
+
+const scrollToMessage = () => {
+  if (!canScrollToMessage.value) return;
+  const messageId = props.scheduledMessage.message_id;
+  router.replace({
+    ...route,
+    query: { ...route.query, messageId },
+  });
+};
+
 onMounted(() => {
   checkOverflow();
 });
@@ -161,7 +179,16 @@ watch(previewContent, () => {
 
 <template>
   <div
-    class="flex flex-col gap-3 border-b border-n-strong py-3 group/scheduled"
+    class="flex flex-col gap-3 border-b border-n-strong py-3 group/scheduled rounded-md transition-colors"
+    :class="{
+      'cursor-pointer hover:bg-n-alpha-1': canScrollToMessage,
+    }"
+    :title="
+      canScrollToMessage
+        ? t('SCHEDULED_MESSAGES.ITEM.GO_TO_MESSAGE')
+        : undefined
+    "
+    @click="scrollToMessage"
   >
     <div class="flex items-center gap-3">
       <Avatar

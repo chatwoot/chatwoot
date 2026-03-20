@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, computed, ref, toRefs } from 'vue';
+import { onMounted, onUnmounted, computed, ref, toRefs } from 'vue';
 import { useTimeoutFn } from '@vueuse/core';
 import { provideMessageContext } from './provider.js';
 import { useTrack } from 'dashboard/composables';
@@ -579,7 +579,23 @@ const setupHighlightTimer = () => {
   }, HIGHLIGHT_TIMER);
 };
 
-onMounted(setupHighlightTimer);
+const HIGHLIGHT_DURATION = 1000;
+const onHighlightMessage = ({ messageId } = {}) => {
+  if (Number(messageId) !== Number(props.id)) return;
+  showBackgroundHighlight.value = true;
+  useTimeoutFn(() => {
+    showBackgroundHighlight.value = false;
+  }, HIGHLIGHT_DURATION);
+};
+
+onMounted(() => {
+  setupHighlightTimer();
+  emitter.on(BUS_EVENTS.HIGHLIGHT_MESSAGE, onHighlightMessage);
+});
+
+onUnmounted(() => {
+  emitter.off(BUS_EVENTS.HIGHLIGHT_MESSAGE, onHighlightMessage);
+});
 
 provideMessageContext({
   ...toRefs(props),
