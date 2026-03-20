@@ -106,6 +106,9 @@ importers:
       chart.js:
         specifier: ~4.4.4
         version: 4.4.4
+      chrono-node:
+        specifier: ^2.9.0
+        version: 2.9.0
       color2k:
         specifier: ^2.0.2
         version: 2.0.3
@@ -1853,6 +1856,10 @@ packages:
   chokidar@4.0.3:
     resolution: {integrity: sha512-Qgzu8kfBvo+cA4962jnP1KkS6Dop5NS6g7R5LFYJr4b8Ub94PPQXUksCw9PvXoeXPRRddRNC5C1JQUR2SMGtnA==}
     engines: {node: '>= 14.16.0'}
+
+  chrono-node@2.9.0:
+    resolution: {integrity: sha512-glI4YY2Jy6JII5l3d5FN6rcrIbKSQqKPhWsIRYPK2IK8Mm4Q1ZZFdYIaDqglUNf7gNwG+kWIzTn0omzzE0VkvQ==}
+    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
 
   cli-boxes@3.0.0:
     resolution: {integrity: sha512-/lzGpEWL/8PfI0BmBOPRwp0c/wFNX1RdUML3jK/RcSBA9T8mZDdQpqYBKtCFTOfQbwPqWEOpjqW+Fnayc0969g==}
@@ -6572,6 +6579,8 @@ snapshots:
     dependencies:
       readdirp: 4.1.2
     optional: true
+
+  chrono-node@2.9.0: {}
 
   cli-boxes@3.0.0: {}
 

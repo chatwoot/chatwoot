@@ -435,8 +435,6 @@
       "MESSAGE_LABEL": "Mensagem",
       "MESSAGE_PLACEHOLDER": "Escreva sua mensagem...",
       "DATETIME_LABEL": "Data e hora de envio",
-      "DATETIME_PLACEHOLDER": "Selecione data e hora",
-      "DATETIME_FORMAT": "D [de] MMM, YYYY HH:mm",
       "ATTACHMENT_LABEL": "Anexo",
       "ATTACHMENT_ADD": "Anexar arquivo",
       "ATTACHMENT_CURRENT": "Anexo atual: {filename}",
@@ -445,7 +443,18 @@
       "TEMPLATE_ACTION": "Agendar mensagem",
       "CANCEL": "Cancelar",
       "SAVE_DRAFT": "Salvar como rascunho",
-      "SCHEDULE": "Agendar"
+      "SCHEDULE": "Agendar",
+      "SHORTCUTS": {
+        "TOMORROW_MORNING": "Amanhã de manhã",
+        "TOMORROW_AFTERNOON": "Amanhã à tarde",
+        "MONDAY_MORNING": "Segunda-feira de manhã",
+        "CUSTOM": "Digitar data e hora"
+      },
+      "CUSTOM_INPUT_PLACEHOLDER": "ex: amanhã às 14h, próxima sexta de manhã",
+      "CUSTOM_INPUT_HINT": "Tente: amanhã às 15h, próxima segunda, 20 de março às 10h",
+      "PARSED_DATE_IN_PAST": "Esta data já passou",
+      "DATEPICKER_TOOLTIP": "Escolher no calendário",
+      "SCHEDULE_LABEL": "Programar envio"
     },
     "CONFIRM_CLOSE": {
       "TITLE": "Alterações não salvas",

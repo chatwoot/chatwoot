@@ -446,8 +446,6 @@
       "MESSAGE_LABEL": "Message",
       "MESSAGE_PLACEHOLDER": "Write your message...",
       "DATETIME_LABEL": "Date and time to send",
-      "DATETIME_PLACEHOLDER": "Select date and time",
-      "DATETIME_FORMAT": "MMM D, YYYY h:mm A",
       "ATTACHMENT_LABEL": "Attachment",
       "ATTACHMENT_ADD": "Attach file",
       "ATTACHMENT_CURRENT": "Current attachment: {filename}",
@@ -456,7 +454,18 @@
       "TEMPLATE_ACTION": "Schedule message",
       "CANCEL": "Cancel",
       "SAVE_DRAFT": "Save as draft",
-      "SCHEDULE": "Schedule"
+      "SCHEDULE": "Schedule",
+      "SHORTCUTS": {
+        "TOMORROW_MORNING": "Tomorrow morning",
+        "TOMORROW_AFTERNOON": "Tomorrow afternoon",
+        "MONDAY_MORNING": "Monday morning",
+        "CUSTOM": "Type a date and time"
+      },
+      "CUSTOM_INPUT_PLACEHOLDER": "e.g. tomorrow at 2pm, next friday morning",
+      "CUSTOM_INPUT_HINT": "Try: tomorrow at 3pm, next monday, in 2 hours",
+      "PARSED_DATE_IN_PAST": "This date is in the past",
+      "DATEPICKER_TOOLTIP": "Pick from calendar",
+      "SCHEDULE_LABEL": "Schedule send"
     },
     "CONFIRM_CLOSE": {
       "TITLE": "Unsaved changes",

@@ -1,7 +1,6 @@
 <script setup>
 import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
-import DatePicker from 'vue-datepicker-next';
 import FileUpload from 'vue-upload-component';
 
 import { useAlert } from 'dashboard/composables';
@@ -18,6 +17,7 @@ import DropdownBody from 'next/dropdown-menu/base/DropdownBody.vue';
 import DropdownSection from 'next/dropdown-menu/base/DropdownSection.vue';
 import DropdownItem from 'next/dropdown-menu/base/DropdownItem.vue';
 import WhatsappTemplates from 'dashboard/components/widgets/conversation/WhatsappTemplates/Modal.vue';
+import ScheduleDateShortcuts from './ScheduleDateShortcuts.vue';
 
 const props = defineProps({
   show: {
@@ -75,7 +75,6 @@ const existingAttachment = ref(null);
 const templateParams = ref(null);
 const showConfirmClose = ref(false);
 const showWhatsAppTemplatesModal = ref(false);
-const datePickerOpen = ref(false);
 const contentError = ref(false);
 const contentLengthError = ref(false);
 const dateTimeError = ref('');
@@ -87,26 +86,6 @@ const originalHasAttachment = ref(false);
 
 // NOTE: Local ref to control modal visibility, prevents auto-close when unsaved changes exist
 const localShowModal = ref(false);
-
-const datePickerLang = {
-  days: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-  months: [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December',
-  ],
-  yearFormat: 'YYYY',
-  monthFormat: 'MMMM',
-};
 
 const resetForm = () => {
   messageContent.value = '';
@@ -275,21 +254,6 @@ watch(
   { immediate: true }
 );
 
-const disablePastDates = date => {
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  return date < today;
-};
-
-const onDateTimeChange = value => {
-  scheduledDateTime.value = value;
-  dateTimeError.value = '';
-};
-
-const closeDatePicker = () => {
-  datePickerOpen.value = false;
-};
-
 const onAttachmentsChange = value => {
   attachments.value = value.slice(0, 1);
 };
@@ -315,7 +279,7 @@ const isFutureSchedule = date => {
 const validatePayload = status => {
   contentError.value = false;
   contentLengthError.value = false;
-  dateTimeError.value = null;
+  dateTimeError.value = '';
 
   const hasPayloadContent =
     hasContent.value ||
@@ -478,7 +442,7 @@ watch(
     class="[&_.modal-container]:!w-[45rem] [&_.modal-container]:!max-w-[90%]"
     size="medium"
   >
-    <div class="flex w-full flex-col gap-6 px-6 py-6" @click="closeDatePicker">
+    <div class="flex w-full flex-col gap-6 px-6 py-6">
       <h3 class="text-lg font-semibold text-n-slate-12">
         {{
           isEditing
@@ -523,41 +487,7 @@ watch(
             })
           }}
         </span>
-      </div>
-
-      <div class="flex flex-col gap-2 min-w-0">
-        <span class="text-sm font-medium text-n-slate-12">
-          {{ t('SCHEDULED_MESSAGES.MODAL.DATETIME_LABEL') }}
-        </span>
-        <div class="flex items-center gap-3">
-          <div
-            class="flex-1 min-w-0 [&_.mx-datepicker]:w-full [&_.mx-input-wrapper]:w-full [&_.mx-input]:w-full [&_.mx-input]:!mb-0"
-            :class="
-              dateTimeError
-                ? '[&_.mx-input]:!border-n-ruby-9 [&_.mx-input]:!border-solid'
-                : ''
-            "
-            @click.stop
-          >
-            <DatePicker
-              :value="scheduledDateTime"
-              :open="datePickerOpen"
-              type="datetime"
-              :placeholder="t('SCHEDULED_MESSAGES.MODAL.DATETIME_PLACEHOLDER')"
-              :lang="datePickerLang"
-              :format="t('SCHEDULED_MESSAGES.MODAL.DATETIME_FORMAT')"
-              value-type="date"
-              :disabled-date="disablePastDates"
-              :show-second="false"
-              editable
-              clearable
-              append-to-body
-              popup-class="z-[10000]"
-              @open="datePickerOpen = true"
-              @close="datePickerOpen = false"
-              @change="onDateTimeChange"
-            />
-          </div>
+        <div class="flex items-center gap-2">
           <div v-if="showAttachmentUpload" class="flex items-center gap-2 h-10">
             <FileUpload
               :accept="ALLOWED_FILE_TYPES"
@@ -619,6 +549,17 @@ watch(
             @update:attachments="onAttachmentsChange"
           />
         </div>
+      </div>
+
+      <div class="flex flex-col gap-3 min-w-0">
+        <span class="text-sm font-medium text-n-slate-12">
+          {{ t('SCHEDULED_MESSAGES.MODAL.SCHEDULE_LABEL') }}
+        </span>
+        <ScheduleDateShortcuts
+          v-model="scheduledDateTime"
+          :date-time-error="dateTimeError"
+          @update:model-value="dateTimeError = ''"
+        />
         <span v-if="dateTimeError" class="text-xs text-n-ruby-9">
           {{ dateTimeError }}
         </span>
