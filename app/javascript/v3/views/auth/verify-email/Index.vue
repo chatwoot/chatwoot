@@ -2,8 +2,8 @@
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
-import Cookies from 'js-cookie';
 import { useAlert } from 'dashboard/composables';
+import { getAuthData, getAuthHeaders } from '../../../helpers/AuthHelper';
 import { clearCookiesOnLogout } from 'dashboard/store/utils/api';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import wootAPI from '../../../api/apiClient';
@@ -11,10 +11,7 @@ import wootAPI from '../../../api/apiClient';
 const { t } = useI18n();
 const router = useRouter();
 
-const authData = (() => {
-  const cookie = Cookies.get('cw_d_session_info');
-  return cookie ? JSON.parse(cookie) : null;
-})();
+const authData = getAuthData();
 
 if (!authData) {
   router.push({ name: 'login' });
@@ -23,23 +20,13 @@ if (!authData) {
 const email = authData?.uid || '';
 const isResendingEmail = ref(false);
 
-const authHeaders = authData
-  ? {
-      'access-token': authData['access-token'],
-      'token-type': authData['token-type'],
-      client: authData.client,
-      expiry: authData.expiry,
-      uid: authData.uid,
-    }
-  : {};
-
 const handleResendEmail = async () => {
   isResendingEmail.value = true;
   try {
     await wootAPI.post(
       '/api/v1/profile/resend_confirmation',
       {},
-      { headers: authHeaders }
+      { headers: getAuthHeaders() }
     );
     useAlert(t('REGISTER.VERIFY_EMAIL.RESEND_SUCCESS'));
   } catch (error) {
@@ -53,7 +40,7 @@ const handleResendEmail = async () => {
 
 const handleLogout = async () => {
   try {
-    await wootAPI.delete('auth/sign_out', { headers: authHeaders });
+    await wootAPI.delete('auth/sign_out', { headers: getAuthHeaders() });
   } finally {
     clearCookiesOnLogout();
   }
