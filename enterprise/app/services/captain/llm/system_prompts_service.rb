@@ -304,7 +304,8 @@ class Captain::Llm::SystemPromptsService
       [
         (["- Name: #{sanitize_attr(contact[:name])}"] if contact[:name].present?),
         (["- Email: #{sanitize_attr(contact[:email])}"] if contact[:email].present?),
-        (["- Phone: #{sanitize_attr(contact[:phone_number])}"] if contact[:phone_number].present?)
+        (["- Phone: #{sanitize_attr(contact[:phone_number])}"] if contact[:phone_number].present?),
+        (["- Identifier: #{sanitize_attr(contact[:identifier])}"] if contact[:identifier].present?)
       ].flatten.compact
     end
 
