@@ -395,7 +395,7 @@
         "FINISH_MESSAGE_NO_FORWARDING": "আপনার ইমেইল ইনবক্স সফলভাবে তৈরি হয়েছে! ইমেইল পাঠানো ও গ্রহণ করার জন্য আপনাকে SMTP এবং IMAP শংসাপত্র কনফিগার করতে হবে। এই সেটিংস ছাড়া কোনো ইমেইল প্রক্রিয়াকরণ হবে না।.",
         "FORWARDING_ADDRESS_LABEL": "এই ঠিকানায় ইমেইল ফরওয়ার্ড করুন:",
         "CONFIGURE_SMTP_IMAP_LINK": "এখানে ক্লিক করুন",
-        "CONFIGURE_SMTP_IMAP_TEXT": " IMAP এবং SMTP সেটিংস কনফিগার করুন"
+        "CONFIGURE_SMTP_IMAP_TEXT": " imap এবং smtp সেটিংস কনফিগার করুন"
       },
       "LINE_CHANNEL": {
         "TITLE": "LINE চ্যানেল",
@@ -679,7 +679,7 @@
           "AVAILABLE_WITHOUT_REVIEW": "পর্যালোচনা ছাড়াই উপলব্ধ",
           "REJECTED": "প্রত্যাখ্যাত",
           "DECLINED": "প্রত্যাখ্যাত",
-          "NON_EXISTS": "Non exists"
+          "NON_EXISTS": "বিদ্যমান নয়"
         },
         "MODES": {
           "SANDBOX": "Sandbox",
